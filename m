@@ -2,95 +2,56 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id B73564EA8F3
-	for <lists+dri-devel@lfdr.de>; Tue, 29 Mar 2022 10:05:38 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 23ABC4EA904
+	for <lists+dri-devel@lfdr.de>; Tue, 29 Mar 2022 10:13:37 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 8A85610E77A;
-	Tue, 29 Mar 2022 08:05:36 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 829E410E77C;
+	Tue, 29 Mar 2022 08:13:32 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from NAM11-DM6-obe.outbound.protection.outlook.com
- (mail-dm6nam11on2087.outbound.protection.outlook.com [40.107.223.87])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 6964510E77A
- for <dri-devel@lists.freedesktop.org>; Tue, 29 Mar 2022 08:05:35 +0000 (UTC)
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=P2iSX2Nb3To+rrbtcNX0oeF+Lk6DklJzPrEIPmJfhI7+JXlRmSTiH/KcTlYbeDPNcrFc5LPq9h7sW7xlyhMphkL28cQnFE+zFEV4Jbd1pS3a67Hta68XnZN1hoXbRIK/XCG5k75mtEh2WmS+V764KlR9c5fDNeuMMWR51cr8UOxoywT4ZcferVSKpc/ACju/gnno+ux9wAQfSdWruEz5lxVI2ZZmlOv9EO7uFIfsUo/piAF1+rnhNbrBOXKPTZvyfvRx2K/k+HE/m6AWguFFeKRGj8Mte53iU18k0PNcUfAjY8Cos3ZD28sm/VNglUnKAAyfwHsEc4rZgqQV4sx8cQ==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=4hgb8N6oRwRBi1T4TsmoHD0EbV9Q+BGydRohaHmOTk8=;
- b=PZmqIypA5UGjdPIq24kWDMVSALRBmH5wy1zfiYEKgq/48290r8RLpawkPukblLOldFeWZIURLERpfrtRZp70jeStG168GOvqo2Tw3RTqKDoZwqrV6zlyicfUjzN5TrwtPVEWex6AepdZUWuUhWHC99EKzELNEunAnOHMUhMDtAZj1+qvAvaCI9Mb9UcWbiMlK6d+Ekaxmb/lH+B8yk8e32VM5Hnw+Qr7HuJ5IntaSCvdd24n3+qU23xL/BkWIgiqRcaf8x0k+8jqTJvfOdb5eVawto3nYQP5KasT1UTRFEbWmWrPHCD+zDzG/uS2Xm214nlkdlsRVm0n4khGOni57Q==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass (sender ip is
- 165.204.84.17) smtp.rcpttodomain=lists.freedesktop.org smtp.mailfrom=amd.com; 
- dmarc=pass (p=quarantine sp=quarantine pct=100) action=none
- header.from=amd.com; dkim=none (message not signed); arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1; 
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=4hgb8N6oRwRBi1T4TsmoHD0EbV9Q+BGydRohaHmOTk8=;
- b=BCBEOQ2WmiBautfrITEatFpNWtnaByNiAZ7cMJs30H4uNgRDW2gRhKTV6d9YumR1LtTWJ7vFReXEdSjhapws12h3M5+Y2hO5VnwIYUy5GG+/7N5IJdaL9WOFwGg1pcH7JwkfG2VjsMkVbT95XxJWFtbuSs3AyChDdBw8EfT5of0=
-Received: from MW4PR04CA0376.namprd04.prod.outlook.com (2603:10b6:303:81::21)
- by SA0PR12MB4366.namprd12.prod.outlook.com (2603:10b6:806:72::16)
- with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.5102.16; Tue, 29 Mar
- 2022 08:05:33 +0000
-Received: from CO1NAM11FT017.eop-nam11.prod.protection.outlook.com
- (2603:10b6:303:81:cafe::e5) by MW4PR04CA0376.outlook.office365.com
- (2603:10b6:303:81::21) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.5102.18 via Frontend
- Transport; Tue, 29 Mar 2022 08:05:33 +0000
-X-MS-Exchange-Authentication-Results: spf=pass (sender IP is 165.204.84.17)
- smtp.mailfrom=amd.com; dkim=none (message not signed)
- header.d=none;dmarc=pass action=none header.from=amd.com;
-Received-SPF: Pass (protection.outlook.com: domain of amd.com designates
- 165.204.84.17 as permitted sender) receiver=protection.outlook.com;
- client-ip=165.204.84.17; helo=SATLEXMB04.amd.com;
-Received: from SATLEXMB04.amd.com (165.204.84.17) by
- CO1NAM11FT017.mail.protection.outlook.com (10.13.175.108) with Microsoft SMTP
- Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.20.5102.17 via Frontend Transport; Tue, 29 Mar 2022 08:05:33 +0000
-Received: from SATLEXMB05.amd.com (10.181.40.146) by SATLEXMB04.amd.com
- (10.181.40.145) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2375.24; Tue, 29 Mar
- 2022 03:05:32 -0500
-Received: from SATLEXMB03.amd.com (10.181.40.144) by SATLEXMB05.amd.com
- (10.181.40.146) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2375.24; Tue, 29 Mar
- 2022 03:05:32 -0500
-Received: from wayne-System-Product-Name.amd.com (10.180.168.240) by
- SATLEXMB03.amd.com (10.181.40.144) with Microsoft SMTP Server id 15.1.2375.24
- via Frontend Transport; Tue, 29 Mar 2022 03:05:30 -0500
-From: Wayne Lin <Wayne.Lin@amd.com>
-To: <dri-devel@lists.freedesktop.org>
-Subject: [PATCH] drm/dp_mst: Lower down debug info level when receive NAK
-Date: Tue, 29 Mar 2022 16:05:26 +0800
-Message-ID: <20220329080526.1583458-1-Wayne.Lin@amd.com>
-X-Mailer: git-send-email 2.35.1
+Received: from mga11.intel.com (mga11.intel.com [192.55.52.93])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 307CA10E77C;
+ Tue, 29 Mar 2022 08:13:31 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+ t=1648541611; x=1680077611;
+ h=message-id:date:mime-version:subject:to:cc:references:
+ from:in-reply-to:content-transfer-encoding;
+ bh=6aiyrOCdsXlPQv+WVAm32fYdfjq/eoz0Sj0k1+ZsVmQ=;
+ b=MonER7YVY75nrapJqBMjfByyjh+rmaAlAu1n74ylwTpd4iQVd6qERIkn
+ AQkdGJ3jwAZvXlrQ4XvI2+brJ+yJ/RblwRELefhotjjuGbNWHTQR81mDG
+ MeiA5tRQEye9jYNmGI2vh/QBWeyekTrsuqEVca5YVJBzZpHL2qFiX3e8z
+ 5jzk+PmaVhTZ0iLZXbATc/6YVnXXJtefDXfKRPJYaA6ZfEJckUhYI0527
+ iBcm2Yx/WicZsvS31061ieZLATZziBus80iDOkPmhA7Ix8L0CxkFAT3oe
+ S/tuq44L6JZP74QksLcb4pmLGuk5uyc1ln4pZlkV9HixU4Cam/jtecPPO Q==;
+X-IronPort-AV: E=McAfee;i="6200,9189,10300"; a="256769353"
+X-IronPort-AV: E=Sophos;i="5.90,219,1643702400"; d="scan'208";a="256769353"
+Received: from orsmga004.jf.intel.com ([10.7.209.38])
+ by fmsmga102.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 29 Mar 2022 01:13:30 -0700
+X-IronPort-AV: E=Sophos;i="5.90,219,1643702400"; d="scan'208";a="652765928"
+Received: from ettammin-mobl1.ger.corp.intel.com (HELO [10.249.254.86])
+ ([10.249.254.86])
+ by orsmga004-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 29 Mar 2022 01:13:28 -0700
+Message-ID: <f65a4799-9469-09ff-63dc-8d91392ef356@linux.intel.com>
+Date: Tue, 29 Mar 2022 10:13:26 +0200
 MIME-Version: 1.0
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.7.0
+Subject: Re: [Intel-gfx] [PATCH v7 9/9] drm/i915/migrate: Evict and restore
+ the flatccs capable lmem obj
+Content-Language: en-US
+To: Ramalingam C <ramalingam.c@intel.com>,
+ Hellstrom Thomas <thomas.hellstrom@intel.com>,
+ intel-gfx <intel-gfx@lists.freedesktop.org>,
+ dri-devel <dri-devel@lists.freedesktop.org>
+References: <20220328190736.19697-1-ramalingam.c@intel.com>
+ <20220328190736.19697-10-ramalingam.c@intel.com>
+From: =?UTF-8?Q?Thomas_Hellstr=c3=b6m?= <thomas.hellstrom@linux.intel.com>
+In-Reply-To: <20220328190736.19697-10-ramalingam.c@intel.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 8bit
-Content-Type: text/plain
-X-EOPAttributedMessage: 0
-X-MS-PublicTrafficType: Email
-X-MS-Office365-Filtering-Correlation-Id: c9609eba-f406-46d4-b5dc-08da115ae631
-X-MS-TrafficTypeDiagnostic: SA0PR12MB4366:EE_
-X-Microsoft-Antispam-PRVS: <SA0PR12MB4366B1A0348B6A5EAA3159C6FC1E9@SA0PR12MB4366.namprd12.prod.outlook.com>
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: JX4jl0XcMV/o2I/J/X8BIFTybKV9tn+vk6kA0quqZyBFOcp9E0yAaT4W/I7vDXjd2nqhTe2Jd5NMD+uQrXwFuOQSClwm1qDwuYzMlS1NgSNyeXdD3pRt9uYrz/jDRgfSEE7Jwzd1FZAyOnW1PiBQQ2p69EtJw44QL96GfRMN2+9zeha+4AJR4UAcC9tBzaRyuOFqALk9XtrFpqU4xotDZVcEvMUFeXkob3VgnWLGgjyxrMALPXqVRDINjTMCIJZxE5qqQaEKLWvQks72DeE2A4OyGtpObsWFT9vKw1O2TP7uY0dHsL1NxdpezrqMqGZDHvcHrDc+rJz8LB/mPil6T46hCdlfYRWoU69T9EltFlzspFn6hiZ+n5iy4MI7TG9K3VZ1tMmF5nzhZpWFC3nwTWmfUCNY45Cztbi1Eub9Z276sZXlrAYrOyKNuY90ot717AflTvao5410d759V9xfgGJnZD9FZ88BMG0rzEEBLmaY3OwaBDJNQERt/+fFY+gAq4z8GTBd1dKmhvtrSRzB5ANie1ZWFX7XgYyh378ODiDOKPbqOKVjeuW24RrU9WkoItaTJsBRMnBfrgHSqDsqHFjh2W/ynF2W7iGBEvH18npXEp4hEsbuurqISXLMlb/umktP9R9Aoot0/F8o1aiEo8ezE1sQOsfPY0I0eUthb3pLaimurC40fILijwGSuBDoaC2BT9AefM7wLbb+xZ86bQ==
-X-Forefront-Antispam-Report: CIP:165.204.84.17; CTRY:US; LANG:en; SCL:1; SRV:;
- IPV:CAL; SFV:NSPM; H:SATLEXMB04.amd.com; PTR:InfoDomainNonexistent; CAT:NONE;
- SFS:(13230001)(4636009)(46966006)(40470700004)(36840700001)(336012)(54906003)(186003)(26005)(82310400004)(70206006)(5660300002)(47076005)(508600001)(8936002)(2906002)(2616005)(1076003)(426003)(4326008)(8676002)(70586007)(36756003)(356005)(316002)(86362001)(83380400001)(81166007)(6916009)(40460700003)(36860700001)(6666004)(7696005)(36900700001);
- DIR:OUT; SFP:1101; 
-X-OriginatorOrg: amd.com
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 29 Mar 2022 08:05:33.1217 (UTC)
-X-MS-Exchange-CrossTenant-Network-Message-Id: c9609eba-f406-46d4-b5dc-08da115ae631
-X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
-X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: TenantId=3dd8961f-e488-4e60-8e11-a82d994e183d; Ip=[165.204.84.17];
- Helo=[SATLEXMB04.amd.com]
-X-MS-Exchange-CrossTenant-AuthSource: CO1NAM11FT017.eop-nam11.prod.protection.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Anonymous
-X-MS-Exchange-CrossTenant-FromEntityHeader: HybridOnPrem
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: SA0PR12MB4366
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -103,48 +64,274 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: jerry.zuo@amd.com, Wayne Lin <Wayne.Lin@amd.com>
+Cc: Matthew Auld <matthew.auld@intel.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-[Why]
-It's reasonable that we receive NAK while doing DP_REMOTE_DPCD_READ.
-Downstream device might reply NAK with the reason and source should
-react accordingly.
 
-e.g.
-1. When downstream device can't handle corresponding message in time,
-it then replies NAK as reason been set as DEFER.
-2. When multi-function branch-sink device doesn't enumerate virtual
-DP peer devices for those multi-function down facing ports. Without
-virtual DPCD, branch device might reply NAK with reason as BAD_PARAM
-indicating this port can't do aux DPCD read.
+On 3/28/22 21:07, Ramalingam C wrote:
+> When we are swapping out the local memory obj on flat-ccs capable platform,
+> we need to capture the ccs data too along with main meory and we need to
+> restore it when we are swapping in the content.
+>
+> When lmem object is swapped into a smem obj, smem obj will
+> have the extra pages required to hold the ccs data corresponding to the
+> lmem main memory. So main memory of lmem will be copied into the initial
+> pages of the smem and then ccs data corresponding to the main memory
+> will be copied to the subsequent pages of smem. ccs data is 1/256 of
+> lmem size.
+>
+> Swapin happens exactly in reverse order. First main memory of lmem is
+> restored from the smem's initial pages and the ccs data will be restored
+> from the subsequent pages of smem.
+>
+> Extracting and restoring the CCS data is done through a special cmd called
+> XY_CTRL_SURF_COPY_BLT
+>
+> v2: Fixing the ccs handling
+> v3: Handle the ccs data at same loop as main memory [Thomas]
+> v4: changes for emit_copy_ccs
+> v5: handle non-flat-ccs scenario
+>
+> Signed-off-by: Ramalingam C <ramalingam.c@intel.com>
+> ---
+>   drivers/gpu/drm/i915/gt/intel_migrate.c | 164 +++++++++++++++++++++++-
+>   1 file changed, 160 insertions(+), 4 deletions(-)
+>
+> diff --git a/drivers/gpu/drm/i915/gt/intel_migrate.c b/drivers/gpu/drm/i915/gt/intel_migrate.c
+> index 0657d33fedac..0b44e3785eed 100644
+> --- a/drivers/gpu/drm/i915/gt/intel_migrate.c
+> +++ b/drivers/gpu/drm/i915/gt/intel_migrate.c
+> @@ -633,6 +633,65 @@ static int emit_copy(struct i915_request *rq,
+>   	return 0;
+>   }
+>   
+> +static int scatter_list_length(struct scatterlist *sg)
+> +{
+> +	int len = 0;
+> +
+> +	while (sg && sg_dma_len(sg)) {
+> +		len += sg_dma_len(sg);
+> +		sg = sg_next(sg);
+> +	};
+> +
+> +	return len;
+> +}
+> +
+> +static void
+> +calculate_chunk_sz(struct drm_i915_private *i915, bool src_is_lmem,
+> +		   int *src_sz, int *ccs_sz, u32 bytes_to_cpy,
+> +		   u32 ccs_bytes_to_cpy)
+> +{
+> +	if (ccs_bytes_to_cpy) {
+> +		/*
+> +		 * We can only copy the ccs data corresponding to
+> +		 * the CHUNK_SZ of lmem which is
+> +		 * GET_CCS_BYTES(i915, CHUNK_SZ))
+> +		 */
+> +		*ccs_sz = min_t(int, ccs_bytes_to_cpy, GET_CCS_BYTES(i915, CHUNK_SZ));
+> +
+> +		if (!src_is_lmem)
+> +			/*
+> +			 * When CHUNK_SZ is passed all the pages upto CHUNK_SZ
+> +			 * will be taken for the blt. in Flat-ccs supported
+> +			 * platform Smem obj will have more pages than required
+> +			 * for main meory hence limit it to the required size
+> +			 * for main memory
+> +			 */
+> +			*src_sz = min_t(int, bytes_to_cpy, CHUNK_SZ);
+> +	} else { /* ccs handling is not required */
+> +		*src_sz = CHUNK_SZ;
+> +	}
+> +}
+> +
+> +static void get_ccs_sg_sgt(struct sgt_dma *it, u32 bytes_to_cpy)
+> +{
+> +	u32 len;
+> +
+> +	do {
+> +		GEM_BUG_ON(!it->sg || !sg_dma_len(it->sg));
+> +		len = it->max - it->dma;
+> +		if (len > bytes_to_cpy) {
+> +			it->dma += bytes_to_cpy;
+> +			break;
+> +		}
+> +
+> +		bytes_to_cpy -= len;
+> +
+> +		it->sg = __sg_next(it->sg);
+> +		it->dma = sg_dma_address(it->sg);
+> +		it->max = it->dma + sg_dma_len(it->sg);
+> +	} while (bytes_to_cpy);
+> +}
+> +
 
-It's expected result. Not an error.
+Hmm, we should probably at some point replace the struct sgt_dma to use 
+sg_dma_page_iter, then the above could be replaced with a call to 
+__sg_page_iter_start(), but that's for later.
 
-[How]
-Use drm_dbg_kms() to replace drm_err() when receive NAK.
+>   int
+>   intel_context_migrate_copy(struct intel_context *ce,
+>   			   const struct i915_deps *deps,
+> @@ -644,9 +703,15 @@ intel_context_migrate_copy(struct intel_context *ce,
+>   			   bool dst_is_lmem,
+>   			   struct i915_request **out)
+>   {
+> -	struct sgt_dma it_src = sg_sgt(src), it_dst = sg_sgt(dst);
+> +	struct sgt_dma it_src = sg_sgt(src), it_dst = sg_sgt(dst), it_ccs;
+> +	struct drm_i915_private *i915 = ce->engine->i915;
+> +	u32 ccs_bytes_to_cpy = 0, bytes_to_cpy;
+> +	enum i915_cache_level ccs_cache_level;
+> +	int src_sz, dst_sz, ccs_sz;
+>   	u32 src_offset, dst_offset;
+> +	u8 src_access, dst_access;
+>   	struct i915_request *rq;
+> +	bool ccs_is_src;
+>   	int err;
+>   
+>   	GEM_BUG_ON(ce->vm != ce->engine->gt->migrate.context->vm);
+> @@ -654,6 +719,38 @@ intel_context_migrate_copy(struct intel_context *ce,
+>   
+>   	GEM_BUG_ON(ce->ring->size < SZ_64K);
+>   
+> +	src_sz = scatter_list_length(src);
+> +	bytes_to_cpy = src_sz;
+> +
+> +	if (HAS_FLAT_CCS(i915) && src_is_lmem ^ dst_is_lmem) {
 
-Signed-off-by: Wayne Lin <Wayne.Lin@amd.com>
----
- drivers/gpu/drm/dp/drm_dp_mst_topology.c | 3 +--
- 1 file changed, 1 insertion(+), 2 deletions(-)
+I think we might have a use-case for lmem to lmem migration here as 
+well, if migrating compressed framebuffers to the mappable area on small 
+bar setups, but OTH I don't know compressed framebuffers need to be 
+mappable, and if not, whether we can avoid that.
 
-diff --git a/drivers/gpu/drm/dp/drm_dp_mst_topology.c b/drivers/gpu/drm/dp/drm_dp_mst_topology.c
-index 11300b53d24f..764a6b59bc1e 100644
---- a/drivers/gpu/drm/dp/drm_dp_mst_topology.c
-+++ b/drivers/gpu/drm/dp/drm_dp_mst_topology.c
-@@ -3557,9 +3557,8 @@ static int drm_dp_send_dpcd_read(struct drm_dp_mst_topology_mgr *mgr,
- 	if (ret < 0)
- 		goto fail_free;
- 
--	/* DPCD read should never be NACKed */
- 	if (txmsg->reply.reply_type == 1) {
--		drm_err(mgr->dev, "mstb %p port %d: DPCD read on addr 0x%x for %d bytes NAKed\n",
-+		drm_dbg_kms(mgr->dev, "mstb %p port %d: DPCD read on addr 0x%x for %d bytes NAKed\n",
- 			mstb, port->port_num, offset, size);
- 		ret = -EIO;
- 		goto fail_free;
--- 
-2.35.1
+We should discuss this with Matthew, and  if needed, follow up with a 
+patch for that.
 
+
+> +		src_access = !src_is_lmem && dst_is_lmem;
+> +		dst_access = !src_access;
+> +
+> +		dst_sz = scatter_list_length(dst);
+> +		if (src_is_lmem) {
+> +			it_ccs = it_dst;
+> +			ccs_cache_level = dst_cache_level;
+> +			ccs_is_src = false;
+> +		} else if (dst_is_lmem) {
+> +			bytes_to_cpy = dst_sz;
+> +			it_ccs = it_src;
+> +			ccs_cache_level = src_cache_level;
+> +			ccs_is_src = true;
+> +		}
+> +
+> +		/*
+> +		 * When there is a eviction of ccs needed smem will have the
+> +		 * extra pages for the ccs data
+> +		 *
+> +		 * TO-DO: Want to move the size mismatch check to a WARN_ON,
+> +		 * but still we have some requests of smem->lmem with same size.
+> +		 * Need to fix it.
+> +		 */
+> +		ccs_bytes_to_cpy = src_sz != dst_sz ? GET_CCS_BYTES(i915, bytes_to_cpy) : 0;
+> +		if (ccs_bytes_to_cpy)
+> +			get_ccs_sg_sgt(&it_ccs, bytes_to_cpy);
+> +	}
+> +
+>   	src_offset = 0;
+>   	dst_offset = CHUNK_SZ;
+>   	if (HAS_64K_PAGES(ce->engine->i915)) {
+> @@ -695,8 +792,11 @@ intel_context_migrate_copy(struct intel_context *ce,
+>   		if (err)
+>   			goto out_rq;
+>   
+> +		calculate_chunk_sz(i915, src_is_lmem, &src_sz, &ccs_sz,
+> +				   bytes_to_cpy, ccs_bytes_to_cpy);
+> +
+>   		len = emit_pte(rq, &it_src, src_cache_level, src_is_lmem,
+> -			       src_offset, CHUNK_SZ);
+> +			       src_offset, src_sz);
+>   		if (len <= 0) {
+>   			err = len;
+>   			goto out_rq;
+> @@ -713,7 +813,46 @@ intel_context_migrate_copy(struct intel_context *ce,
+>   		if (err)
+>   			goto out_rq;
+>   
+> -		err = emit_copy(rq, dst_offset, src_offset, len);
+> +		err = emit_copy(rq, dst_offset,	src_offset, len);
+> +		if (err)
+> +			goto out_rq;
+> +
+> +		bytes_to_cpy -= len;
+> +
+> +		if (ccs_bytes_to_cpy) {
+> +			err = rq->engine->emit_flush(rq, EMIT_INVALIDATE);
+> +			if (err)
+> +				goto out_rq;
+> +
+> +			err = emit_pte(rq, &it_ccs, ccs_cache_level, false,
+> +				       ccs_is_src ? src_offset : dst_offset,
+> +				       ccs_sz);
+> +
+> +			err = rq->engine->emit_flush(rq, EMIT_INVALIDATE);
+> +			if (err)
+> +				goto out_rq;
+> +
+> +			/*
+> +			 * Using max of src_sz and dst_sz, as we need to
+> +			 * pass the lmem size corresponding to the ccs
+> +			 * blocks we need to handle.
+> +			 */
+> +			ccs_sz = max_t(int, ccs_is_src ? ccs_sz : src_sz,
+> +				       ccs_is_src ? dst_sz : ccs_sz);
+> +
+> +			err = emit_copy_ccs(rq, dst_offset, dst_access,
+> +					    src_offset, src_access, ccs_sz);
+> +			if (err)
+> +				goto out_rq;
+> +
+> +			err = rq->engine->emit_flush(rq, EMIT_INVALIDATE);
+> +			if (err)
+> +				goto out_rq;
+> +
+> +			/* Converting back to ccs bytes */
+> +			ccs_sz = GET_CCS_BYTES(rq->engine->i915, ccs_sz);
+> +			ccs_bytes_to_cpy -= ccs_sz;
+> +		}
+>   
+>   		/* Arbitration is re-enabled between requests. */
+>   out_rq:
+> @@ -721,9 +860,26 @@ intel_context_migrate_copy(struct intel_context *ce,
+>   			i915_request_put(*out);
+>   		*out = i915_request_get(rq);
+>   		i915_request_add(rq);
+> -		if (err || !it_src.sg || !sg_dma_len(it_src.sg))
+> +
+> +		if (err)
+>   			break;
+>   
+> +		if (!bytes_to_cpy && !ccs_bytes_to_cpy) {
+> +			if (src_is_lmem)
+> +				WARN_ON(it_src.sg && sg_dma_len(it_src.sg));
+> +			else
+> +				WARN_ON(it_dst.sg && sg_dma_len(it_dst.sg));
+> +			break;
+> +		}
+> +
+> +		if (WARN_ON(!it_src.sg || !sg_dma_len(it_src.sg) ||
+> +			    !it_dst.sg || !sg_dma_len(it_dst.sg) ||
+> +			    (ccs_bytes_to_cpy && (!it_ccs.sg ||
+> +						  !sg_dma_len(it_ccs.sg))))) {
+> +			err = -EINVAL;
+> +			break;
+> +		}
+> +
+
+I figure those WARN_ONs() indicate bugs that we should hopefully never 
+see in production? Is there a reason not to use GEM_WARN_ON() here?
+
+Reviewed-by: Thomas Hellström <thomas.hellstrom@linux.intel.com>
+
+
+>   		cond_resched();
+>   	} while (1);
+>   
