@@ -1,56 +1,76 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5BB604EAEFE
-	for <lists+dri-devel@lfdr.de>; Tue, 29 Mar 2022 16:04:04 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 45FC94EAF09
+	for <lists+dri-devel@lfdr.de>; Tue, 29 Mar 2022 16:07:31 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 0692210E8FD;
-	Tue, 29 Mar 2022 14:04:02 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 36EEF10E8F6;
+	Tue, 29 Mar 2022 14:07:28 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-oi1-x231.google.com (mail-oi1-x231.google.com
- [IPv6:2607:f8b0:4864:20::231])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 57C9A10E8FD;
- Tue, 29 Mar 2022 14:04:01 +0000 (UTC)
-Received: by mail-oi1-x231.google.com with SMTP id t21so14231395oie.11;
- Tue, 29 Mar 2022 07:04:01 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=26rvEBCNIFiRO8lw0d4ibLwjH7rNC+2FXHQhaFfFi9E=;
- b=ClXdxEY3sYedDz8iLRgAFKARKUjU5okvKpYyQSsMMD5NzCa+TyiWwwmHtDaV41nHtw
- polqdshnlc02Bto5VshYz3O083Qe3KF89GPEwcRSmrHVbAzP4lbI5029v//MLnRoMbc3
- RufyhpHYcgWkp9OhHvBBICGjkylEXgbpjfXuy0I32eILASBlJe+QjntYbIC1qYBkWmTj
- 4uRxEbeXUB9UNVzapyDtDfVnvTouMlhB2pkCdT0AeFhkwP68tap0/47jP//V2oOvvDd1
- m0VPLqILesImaHeD502rDWoZXaimIdhtfH3AxVHwVxN6xLAuWZq8SN0dPtcobFQ4ZwJh
- XMeg==
+Received: from mail-wm1-x344.google.com (mail-wm1-x344.google.com
+ [IPv6:2a00:1450:4864:20::344])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 9D56D10E8F6
+ for <dri-devel@lists.freedesktop.org>; Tue, 29 Mar 2022 14:07:27 +0000 (UTC)
+Received: by mail-wm1-x344.google.com with SMTP id
+ k124-20020a1ca182000000b0038c9cf6e2a6so1585735wme.0
+ for <dri-devel@lists.freedesktop.org>; Tue, 29 Mar 2022 07:07:27 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ffwll.ch; s=google;
+ h=date:from:to:cc:subject:message-id:mail-followup-to:references
+ :mime-version:content-disposition:content-transfer-encoding
+ :in-reply-to; bh=wO+KuIhwNONjIP1+Omeq6F8wrHiYWSfSBngRsB9GXrY=;
+ b=BrecYWhHjxfGo6Ezo+gQnrlHVZTjI9Wi/uxDbXlwVRz85R5dLoKTzNI2MC2GX5Dv/G
+ mlTmo8D6Fidj7ZmFDBVG2bjgyGa5lR7Ha/V1+AcbwIHpzuS0W560NQS5EwtFqdcsxZfN
+ XvPWJ6QgGZjfSEuSK5+flPHypRYd7ejLLe7rA=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=26rvEBCNIFiRO8lw0d4ibLwjH7rNC+2FXHQhaFfFi9E=;
- b=4n2x+xrNeFmkMVjLFc8uShOMxyY5cB9btS8SAXZ1B11QGhDBgqx+w6PFqnlN2knS/C
- TojwX4Ru47/VTJRzm/lt/c46toGjWHKbjbMg1mhRjjkT3lp+hs54Y+puQd7p//dpU9hN
- CySTaZPuF6A3WW64nSbErUPQ9VPJtGINH/ucsrMNMXOAtMp9l5+EYCAb4cGRhn8xVDYm
- K9+7wKyDZexBfldA5vZCHfgMWy5BEU83eIUsVnSPbgMRO/uFCvdj0NH9tZOpgzUC4xLe
- ozgOceOXfWVjpwMVgipGqj7z+mkeV0/RWoOwknSB1qliXgTOTAnILF/n0cq0Fvmq7Jdb
- feow==
-X-Gm-Message-State: AOAM531I5yYEcBhOSdNr+hN9m5DpkgBQ786Lc4l8dNHmTIkIx1HNergg
- Om76Au4X0IIOMzLbSds01XdOyrVZ9Ft01Br1MyA=
-X-Google-Smtp-Source: ABdhPJwEG8czZRwrZzoQM9EwBge0o+Kn+7s3e3Zig8YFeVV+qnxNWy/SXdPGQPyeOvK2t8Loctb+sokhI4gNCCkQJww=
-X-Received: by 2002:aca:d04:0:b0:2ef:8b45:d235 with SMTP id
- 4-20020aca0d04000000b002ef8b45d235mr1372144oin.253.1648562640275; Tue, 29 Mar
- 2022 07:04:00 -0700 (PDT)
+ h=x-gm-message-state:date:from:to:cc:subject:message-id
+ :mail-followup-to:references:mime-version:content-disposition
+ :content-transfer-encoding:in-reply-to;
+ bh=wO+KuIhwNONjIP1+Omeq6F8wrHiYWSfSBngRsB9GXrY=;
+ b=Dr9NkbrB3ctKcMErg/D4/+suDaJJp/dOfoqkZNHfN6BT6S8DLF8p0ZFtKfDXN+vlIW
+ Fj5HzEqq94uy17ZMRUwlXIDWedq9UBo79B3M7IDf8gMdJA/boLpgsGQD2lGbR4hfxYcG
+ HOalRGdWceFrMUGAUqy4Kw3VfFYf+0lP09N7016eebBV1wV+31S/FXiW/znYBObfd9JO
+ yhQyC3COyzprZSDTt5ApAp2InCmbnjwH5cWNS5SAjUUT64lCgJoh43kdASEi2z6gXonx
+ AS/K9XVqmYCelUuaUYjKAVfHCqtW0Npwu6eybrD6gZkPXp2jg/EYFr0j80aUtXDwCBk/
+ 6KwA==
+X-Gm-Message-State: AOAM530zRRokU26xGssSWY66n89olrG0Fp90ugCc6F7mF5NZcfv0wLGx
+ ijQNPNEEW8Q6DHd8W5T1GcD8fw==
+X-Google-Smtp-Source: ABdhPJyo7ea/nZXrlU3akF3tdf273o2t+KHlhil6iDV+KBGasrEr55RuNkwiRURTypDNaCbBNruEWw==
+X-Received: by 2002:a05:600c:4241:b0:38c:ec66:7c8f with SMTP id
+ r1-20020a05600c424100b0038cec667c8fmr7130162wmm.179.1648562843585; 
+ Tue, 29 Mar 2022 07:07:23 -0700 (PDT)
+Received: from phenom.ffwll.local ([2a02:168:57f4:0:efd0:b9e5:5ae6:c2fa])
+ by smtp.gmail.com with ESMTPSA id
+ v4-20020adfa1c4000000b00205c6dfc41esm6194260wrv.18.2022.03.29.07.07.22
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Tue, 29 Mar 2022 07:07:23 -0700 (PDT)
+Date: Tue, 29 Mar 2022 16:07:21 +0200
+From: Daniel Vetter <daniel@ffwll.ch>
+To: Paul Cercueil <paul@crapouillou.net>
+Subject: Re: [PATCH v2 12/12] Documentation: iio: Document high-speed DMABUF
+ based API
+Message-ID: <YkMSmcQy1sKQJ5rJ@phenom.ffwll.local>
+Mail-Followup-To: Paul Cercueil <paul@crapouillou.net>,
+ Jonathan Cameron <jic23@kernel.org>,
+ Michael Hennerich <Michael.Hennerich@analog.com>,
+ Jonathan Corbet <corbet@lwn.net>, linux-iio@vger.kernel.org,
+ linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
+ dri-devel@lists.freedesktop.org, linaro-mm-sig@lists.linaro.org,
+ Alexandru Ardelean <ardeleanalex@gmail.com>,
+ Christian =?iso-8859-1?Q?K=F6nig?= <christian.koenig@amd.com>
+References: <20220207125933.81634-1-paul@crapouillou.net>
+ <20220207130140.81891-1-paul@crapouillou.net>
+ <20220207130140.81891-2-paul@crapouillou.net>
+ <YkLJU7Pp98CPIHfY@phenom.ffwll.local>
+ <Z63I9R.MKYUKBH4V8L41@crapouillou.net>
 MIME-Version: 1.0
-References: <20220324231000.4072275-1-tsung-hua.lin@amd.com>
- <20220329085239.157527-1-tsung-hua.lin@amd.com>
-In-Reply-To: <20220329085239.157527-1-tsung-hua.lin@amd.com>
-From: Alex Deucher <alexdeucher@gmail.com>
-Date: Tue, 29 Mar 2022 10:03:49 -0400
-Message-ID: <CADnq5_OXPXZ4hHv3Jndifd0kQ=kvJnypB3JcW5mNsjzjQ7JPLg@mail.gmail.com>
-Subject: Re: drm/amdgpu: Disable ABM when AC mode
-To: Ryan Lin <tsung-hua.lin@amd.com>
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: text/plain; charset=iso-8859-1
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <Z63I9R.MKYUKBH4V8L41@crapouillou.net>
+X-Operating-System: Linux phenom 5.10.0-8-amd64 
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -63,185 +83,247 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: "Pan, Xinhui" <Xinhui.Pan@amd.com>, Jake Wang <haonan.wang2@amd.com>,
- David Airlie <airlied@linux.ie>, Leon.Li@amd.com,
- Lijo Lazar <lijo.lazar@amd.com>,
- Maling list - DRI developers <dri-devel@lists.freedesktop.org>,
- Wyatt Wood <wyatt.wood@amd.com>, Anthony Koo <Anthony.Koo@amd.com>,
- Jack Zhang <Jack.Zhang1@amd.com>, amd-gfx list <amd-gfx@lists.freedesktop.org>,
- Leo Li <sunpeng.li@amd.com>, Sean Paul <seanpaul@chromium.org>,
- =?UTF-8?Q?St=C3=A9phane_Marchesin?= <marcheu@chromium.org>,
- Evan Quan <evan.quan@amd.com>, shaoyunl <shaoyun.liu@amd.com>,
- Pratik Vishwakarma <Pratik.Vishwakarma@amd.com>,
- Sathishkumar S <sathishkumar.sundararaju@amd.com>,
- Qingqing Zhuo <qingqing.zhuo@amd.com>, Randy Dunlap <rdunlap@infradead.org>,
- LKML <linux-kernel@vger.kernel.org>, Alex Deucher <alexander.deucher@amd.com>,
- Po-Ting Chen <robin.chen@amd.com>,
- =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>,
- Hawking Zhang <Hawking.Zhang@amd.com>
+Cc: Michael Hennerich <Michael.Hennerich@analog.com>, linux-doc@vger.kernel.org,
+ linux-iio@vger.kernel.org, Jonathan Corbet <corbet@lwn.net>,
+ linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
+ linaro-mm-sig@lists.linaro.org, Alexandru Ardelean <ardeleanalex@gmail.com>,
+ Christian =?iso-8859-1?Q?K=F6nig?= <christian.koenig@amd.com>,
+ Jonathan Cameron <jic23@kernel.org>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Tue, Mar 29, 2022 at 4:56 AM Ryan Lin <tsung-hua.lin@amd.com> wrote:
->
-> Disable ABM feature when the system is running on AC mode to get
-> the more perfect contrast of the display.
->
-> v2: remove "UPSTREAM" from the subject.
->
-> Signed-off-by: Ryan Lin <tsung-hua.lin@amd.com>
->
-> ---
->  drivers/gpu/drm/amd/amdgpu/amdgpu_acpi.c      |  4 ++
->  drivers/gpu/drm/amd/amdgpu/amdgpu_device.c    |  1 +
->  drivers/gpu/drm/amd/display/dc/dce/dmub_abm.c | 58 ++++++++++++-------
->  drivers/gpu/drm/amd/pm/inc/amdgpu_dpm.h       |  1 +
->  4 files changed, 42 insertions(+), 22 deletions(-)
->
-> diff --git a/drivers/gpu/drm/amd/amdgpu/amdgpu_acpi.c b/drivers/gpu/drm/amd/amdgpu/amdgpu_acpi.c
-> index c560c1ab62ecb..bc8bb9aad2e36 100644
-> --- a/drivers/gpu/drm/amd/amdgpu/amdgpu_acpi.c
-> +++ b/drivers/gpu/drm/amd/amdgpu/amdgpu_acpi.c
-> @@ -822,6 +822,10 @@ static int amdgpu_acpi_event(struct notifier_block *nb,
->         struct amdgpu_device *adev = container_of(nb, struct amdgpu_device, acpi_nb);
->         struct acpi_bus_event *entry = (struct acpi_bus_event *)data;
->
-> +       if (strcmp(entry->device_class, "battery") == 0) {
-> +               adev->pm.ac_power = power_supply_is_system_supplied() > 0;
-> +       }
-> +
+On Tue, Mar 29, 2022 at 10:47:23AM +0100, Paul Cercueil wrote:
+> Hi Daniel,
+> 
+> Le mar., mars 29 2022 at 10:54:43 +0200, Daniel Vetter <daniel@ffwll.ch> a
+> écrit :
+> > On Mon, Feb 07, 2022 at 01:01:40PM +0000, Paul Cercueil wrote:
+> > >  Document the new DMABUF based API.
+> > > 
+> > >  v2: - Explicitly state that the new interface is optional and is
+> > >        not implemented by all drivers.
+> > >      - The IOCTLs can now only be called on the buffer FD returned by
+> > >        IIO_BUFFER_GET_FD_IOCTL.
+> > >      - Move the page up a bit in the index since it is core stuff
+> > > and not
+> > >        driver-specific.
+> > > 
+> > >  Signed-off-by: Paul Cercueil <paul@crapouillou.net>
+> > >  ---
+> > >   Documentation/driver-api/dma-buf.rst |  2 +
+> > >   Documentation/iio/dmabuf_api.rst     | 94
+> > > ++++++++++++++++++++++++++++
+> > >   Documentation/iio/index.rst          |  2 +
+> > >   3 files changed, 98 insertions(+)
+> > >   create mode 100644 Documentation/iio/dmabuf_api.rst
+> > > 
+> > >  diff --git a/Documentation/driver-api/dma-buf.rst
+> > > b/Documentation/driver-api/dma-buf.rst
+> > >  index 2cd7db82d9fe..d3c9b58d2706 100644
+> > >  --- a/Documentation/driver-api/dma-buf.rst
+> > >  +++ b/Documentation/driver-api/dma-buf.rst
+> > >  @@ -1,3 +1,5 @@
+> > >  +.. _dma-buf:
+> > >  +
+> > >   Buffer Sharing and Synchronization
+> > >   ==================================
+> > > 
+> > >  diff --git a/Documentation/iio/dmabuf_api.rst
+> > > b/Documentation/iio/dmabuf_api.rst
+> > >  new file mode 100644
+> > >  index 000000000000..43bb2c1b9fdc
+> > >  --- /dev/null
+> > >  +++ b/Documentation/iio/dmabuf_api.rst
+> > >  @@ -0,0 +1,94 @@
+> > >  +===================================
+> > >  +High-speed DMABUF interface for IIO
+> > >  +===================================
+> > >  +
+> > >  +1. Overview
+> > >  +===========
+> > >  +
+> > >  +The Industrial I/O subsystem supports access to buffers through a
+> > > file-based
+> > >  +interface, with read() and write() access calls through the IIO
+> > > device's dev
+> > >  +node.
+> > >  +
+> > >  +It additionally supports a DMABUF based interface, where the
+> > > userspace
+> > >  +application can allocate and append DMABUF objects to the buffer's
+> > > queue.
+> > >  +This interface is however optional and is not available in all
+> > > drivers.
+> > >  +
+> > >  +The advantage of this DMABUF based interface vs. the read()
+> > >  +interface, is that it avoids an extra copy of the data between the
+> > >  +kernel and userspace. This is particularly useful for high-speed
+> > >  +devices which produce several megabytes or even gigabytes of data
+> > > per
+> > >  +second.
+> > >  +
+> > >  +The data in this DMABUF interface is managed at the granularity of
+> > >  +DMABUF objects. Reducing the granularity from byte level to block
+> > > level
+> > >  +is done to reduce the userspace-kernelspace synchronization
+> > > overhead
+> > >  +since performing syscalls for each byte at a few Mbps is just not
+> > >  +feasible.
+> > >  +
+> > >  +This of course leads to a slightly increased latency. For this
+> > > reason an
+> > >  +application can choose the size of the DMABUFs as well as how many
+> > > it
+> > >  +allocates. E.g. two DMABUFs would be a traditional double buffering
+> > >  +scheme. But using a higher number might be necessary to avoid
+> > >  +underflow/overflow situations in the presence of scheduling
+> > > latencies.
+> > 
+> > So this reads a lot like reinventing io-uring with pre-registered
+> > O_DIRECT
+> > memory ranges. Except it's using dma-buf and hand-rolling a lot of
+> > pieces
+> > instead of io-uring and O_DIRECT.
+> 
+> I don't see how io_uring would help us. It's an async I/O framework, does it
+> allow us to access a kernel buffer without copying the data? Does it allow
+> us to zero-copy the data to a network interface?
 
-Is this change necessary?  As I said before, we already update
-adev->pm.ac_power a few lines later in amdgpu_pm_acpi_event_handler().
-If there is something wrong with that code, please adjust as
-necessary.
+With networking, do you mean rdma, or some other kind of networking?
+Anything else than rdma doesn't support dma-buf, and I don't think it will
+likely ever do so. Similar it's really tricky to glue dma-buf support into
+the block layer.
 
-Alex
+Wrt io_uring, yes it's async, but that's not the point. The point is that
+with io_uring you pre-register ranges for reads and writes to target,
+which in combination with O_DIRECT, makes it effectively (and efficient!)
+zero-copy. Plus it has full integration with both networking and normal
+file io, which dma-buf just doesn't have.
 
->         if (strcmp(entry->device_class, ACPI_AC_CLASS) == 0) {
->                 if (power_supply_is_system_supplied() > 0)
->                         DRM_DEBUG_DRIVER("pm: AC\n");
-> diff --git a/drivers/gpu/drm/amd/amdgpu/amdgpu_device.c b/drivers/gpu/drm/amd/amdgpu/amdgpu_device.c
-> index abfcc1304ba0c..3a0afe7602727 100644
-> --- a/drivers/gpu/drm/amd/amdgpu/amdgpu_device.c
-> +++ b/drivers/gpu/drm/amd/amdgpu/amdgpu_device.c
-> @@ -3454,6 +3454,7 @@ int amdgpu_device_init(struct amdgpu_device *adev,
->
->         adev->gfx.gfx_off_req_count = 1;
->         adev->pm.ac_power = power_supply_is_system_supplied() > 0;
-> +       adev->pm.old_ac_power = true;
->
->         atomic_set(&adev->throttling_logging_enabled, 1);
->         /*
-> diff --git a/drivers/gpu/drm/amd/display/dc/dce/dmub_abm.c b/drivers/gpu/drm/amd/display/dc/dce/dmub_abm.c
-> index 54a1408c8015c..478a734b66926 100644
-> --- a/drivers/gpu/drm/amd/display/dc/dce/dmub_abm.c
-> +++ b/drivers/gpu/drm/amd/display/dc/dce/dmub_abm.c
-> @@ -23,6 +23,8 @@
->   *
->   */
->
-> +#include <linux/power_supply.h>
-> +#include "amdgpu.h"
->  #include "dmub_abm.h"
->  #include "dce_abm.h"
->  #include "dc.h"
-> @@ -51,6 +53,7 @@
->  #define DISABLE_ABM_IMMEDIATELY 255
->
->
-> +extern uint amdgpu_dm_abm_level;
->
->  static void dmub_abm_enable_fractional_pwm(struct dc_context *dc)
->  {
-> @@ -117,28 +120,6 @@ static void dmub_abm_init(struct abm *abm, uint32_t backlight)
->         dmub_abm_enable_fractional_pwm(abm->ctx);
->  }
->
-> -static unsigned int dmub_abm_get_current_backlight(struct abm *abm)
-> -{
-> -       struct dce_abm *dce_abm = TO_DMUB_ABM(abm);
-> -       unsigned int backlight = REG_READ(BL1_PWM_CURRENT_ABM_LEVEL);
-> -
-> -       /* return backlight in hardware format which is unsigned 17 bits, with
-> -        * 1 bit integer and 16 bit fractional
-> -        */
-> -       return backlight;
-> -}
-> -
-> -static unsigned int dmub_abm_get_target_backlight(struct abm *abm)
-> -{
-> -       struct dce_abm *dce_abm = TO_DMUB_ABM(abm);
-> -       unsigned int backlight = REG_READ(BL1_PWM_TARGET_ABM_LEVEL);
-> -
-> -       /* return backlight in hardware format which is unsigned 17 bits, with
-> -        * 1 bit integer and 16 bit fractional
-> -        */
-> -       return backlight;
-> -}
-> -
->  static bool dmub_abm_set_level(struct abm *abm, uint32_t level)
->  {
->         union dmub_rb_cmd cmd;
-> @@ -148,6 +129,9 @@ static bool dmub_abm_set_level(struct abm *abm, uint32_t level)
->         int edp_num;
->         uint8_t panel_mask = 0;
->
-> +       if (power_supply_is_system_supplied() > 0)
-> +               level = 0;
-> +
->         get_edp_links(dc->dc, edp_links, &edp_num);
->
->         for (i = 0; i < edp_num; i++) {
-> @@ -170,6 +154,36 @@ static bool dmub_abm_set_level(struct abm *abm, uint32_t level)
->         return true;
->  }
->
-> +static unsigned int dmub_abm_get_current_backlight(struct abm *abm)
-> +{
-> +       struct dce_abm *dce_abm = TO_DMUB_ABM(abm);
-> +       unsigned int backlight = REG_READ(BL1_PWM_CURRENT_ABM_LEVEL);
-> +       struct dc_context *dc = abm->ctx;
-> +       struct amdgpu_device *adev = dc->driver_context;
-> +
-> +       if (adev->pm.ac_power != adev->pm.old_ac_power) {
-> +               dmub_abm_set_level(abm, amdgpu_dm_abm_level);
-> +               adev->pm.ac_power = power_supply_is_system_supplied() > 0;
-> +               adev->pm.old_ac_power = adev->pm.ac_power;
-> +       }
-> +
-> +       /* return backlight in hardware format which is unsigned 17 bits, with
-> +        * 1 bit integer and 16 bit fractional
-> +        */
-> +       return backlight;
-> +}
-> +
-> +static unsigned int dmub_abm_get_target_backlight(struct abm *abm)
-> +{
-> +       struct dce_abm *dce_abm = TO_DMUB_ABM(abm);
-> +       unsigned int backlight = REG_READ(BL1_PWM_TARGET_ABM_LEVEL);
-> +
-> +       /* return backlight in hardware format which is unsigned 17 bits, with
-> +        * 1 bit integer and 16 bit fractional
-> +        */
-> +       return backlight;
-> +}
-> +
->  static bool dmub_abm_init_config(struct abm *abm,
->         const char *src,
->         unsigned int bytes,
-> diff --git a/drivers/gpu/drm/amd/pm/inc/amdgpu_dpm.h b/drivers/gpu/drm/amd/pm/inc/amdgpu_dpm.h
-> index f6e0e7d8a0077..de459411a0e83 100644
-> --- a/drivers/gpu/drm/amd/pm/inc/amdgpu_dpm.h
-> +++ b/drivers/gpu/drm/amd/pm/inc/amdgpu_dpm.h
-> @@ -445,6 +445,7 @@ struct amdgpu_pm {
->         uint32_t                smu_prv_buffer_size;
->         struct amdgpu_bo        *smu_prv_buffer;
->         bool ac_power;
-> +       bool old_ac_power;
->         /* powerplay feature */
->         uint32_t pp_feature;
->
-> --
-> 2.25.1
->
+Like you _cannot_ do zero copy from a dma-buf into a normal file. You
+absolutely can do the same with io_uring.
+
+> > At least if the entire justification for dma-buf support is zero-copy
+> > support between the driver and userspace it's _really_ not the right
+> > tool
+> > for the job. dma-buf is for zero-copy between devices, with cpu access
+> > from userpace (or kernel fwiw) being very much the exception (and often
+> > flat-out not supported at all).
+> 
+> We want both. Using dma-bufs for the driver/userspace interface is a
+> convenience as we then have a unique API instead of two distinct ones.
+> 
+> Why should CPU access from userspace be the exception? It works fine for IIO
+> dma-bufs. You keep warning about this being a terrible design, but I simply
+> don't see it.
+
+It depends really on what you're trying to do, and there's extremely high
+chances it will simply not work.
+
+Unless you want to do zero copy with a gpu, or something which is in that
+ecosystem of accelerators and devices, then dma-buf is probably not what
+you're looking for.
+-Daniel
+
+> 
+> Cheers,
+> -Paul
+> 
+> > >  +
+> > >  +2. User API
+> > >  +===========
+> > >  +
+> > >  +``IIO_BUFFER_DMABUF_ALLOC_IOCTL(struct iio_dmabuf_alloc_req *)``
+> > >  +----------------------------------------------------------------
+> > >  +
+> > >  +Each call will allocate a new DMABUF object. The return value (if
+> > > not
+> > >  +a negative errno value as error) will be the file descriptor of
+> > > the new
+> > >  +DMABUF.
+> > >  +
+> > >  +``IIO_BUFFER_DMABUF_ENQUEUE_IOCTL(struct iio_dmabuf *)``
+> > >  +--------------------------------------------------------
+> > >  +
+> > >  +Place the DMABUF object into the queue pending for hardware
+> > > process.
+> > >  +
+> > >  +These two IOCTLs have to be performed on the IIO buffer's file
+> > >  +descriptor, obtained using the `IIO_BUFFER_GET_FD_IOCTL` ioctl.
+> > >  +
+> > >  +3. Usage
+> > >  +========
+> > >  +
+> > >  +To access the data stored in a block by userspace the block must be
+> > >  +mapped to the process's memory. This is done by calling mmap() on
+> > > the
+> > >  +DMABUF's file descriptor.
+> > >  +
+> > >  +Before accessing the data through the map, you must use the
+> > >  +DMA_BUF_IOCTL_SYNC(struct dma_buf_sync *) ioctl, with the
+> > >  +DMA_BUF_SYNC_START flag, to make sure that the data is available.
+> > >  +This call may block until the hardware is done with this block.
+> > > Once
+> > >  +you are done reading or writing the data, you must use this ioctl
+> > > again
+> > >  +with the DMA_BUF_SYNC_END flag, before enqueueing the DMABUF to the
+> > >  +kernel's queue.
+> > >  +
+> > >  +If you need to know when the hardware is done with a DMABUF, you
+> > > can
+> > >  +poll its file descriptor for the EPOLLOUT event.
+> > >  +
+> > >  +Finally, to destroy a DMABUF object, simply call close() on its
+> > > file
+> > >  +descriptor.
+> > >  +
+> > >  +For more information about manipulating DMABUF objects, see:
+> > > :ref:`dma-buf`.
+> > >  +
+> > >  +A typical workflow for the new interface is:
+> > >  +
+> > >  +    for block in blocks:
+> > >  +      DMABUF_ALLOC block
+> > >  +      mmap block
+> > >  +
+> > >  +    enable buffer
+> > >  +
+> > >  +    while !done
+> > >  +      for block in blocks:
+> > >  +        DMABUF_ENQUEUE block
+> > >  +
+> > >  +        DMABUF_SYNC_START block
+> > >  +        process data
+> > >  +        DMABUF_SYNC_END block
+> > >  +
+> > >  +    disable buffer
+> > >  +
+> > >  +    for block in blocks:
+> > >  +      close block
+> > >  diff --git a/Documentation/iio/index.rst
+> > > b/Documentation/iio/index.rst
+> > >  index 58b7a4ebac51..669deb67ddee 100644
+> > >  --- a/Documentation/iio/index.rst
+> > >  +++ b/Documentation/iio/index.rst
+> > >  @@ -9,4 +9,6 @@ Industrial I/O
+> > > 
+> > >      iio_configfs
+> > > 
+> > >  +   dmabuf_api
+> > >  +
+> > >      ep93xx_adc
+> > >  --
+> > >  2.34.1
+> > > 
+> > 
+> > --
+> > Daniel Vetter
+> > Software Engineer, Intel Corporation
+> > http://blog.ffwll.ch
+> 
+> 
+
+-- 
+Daniel Vetter
+Software Engineer, Intel Corporation
+http://blog.ffwll.ch
