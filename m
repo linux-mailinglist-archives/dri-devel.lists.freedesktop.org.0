@@ -2,123 +2,58 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1C7A74EAC2B
-	for <lists+dri-devel@lfdr.de>; Tue, 29 Mar 2022 13:24:18 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 7EFDD4EAC30
+	for <lists+dri-devel@lfdr.de>; Tue, 29 Mar 2022 13:25:13 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 1A21810EFE9;
-	Tue, 29 Mar 2022 11:24:12 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id DC86B10E87C;
+	Tue, 29 Mar 2022 11:25:10 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from NAM11-CO1-obe.outbound.protection.outlook.com
- (mail-co1nam11on2088.outbound.protection.outlook.com [40.107.220.88])
- by gabe.freedesktop.org (Postfix) with ESMTPS id CCE7C10EFE9;
- Tue, 29 Mar 2022 11:24:10 +0000 (UTC)
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=PAf7FnZCRw2UWUveo3cfP6VAC79zU7TI2m/JrAFEToe9ojIpKXIONbA2pQBpOlnMtFFKDNagEyPAGE5siHpIeQhn+CBW8LeJvzS7p5WelKeJzA05msdHGzStd5E6NkSyv1TazsULqufEkKstwivONhPk4AgxWue3wyvDKDAcOqJ8AK/32PHyl+xIp5R0QuESa2lCHhcNeuu7/8qoPqmnCx78wBKdtlleiOLlE/N2LWlGvFw8BhSnhzPPPG6Iqd0PwJA4Kz7GfH+cBtdF5b+k4nndsdtV9ZfHZUjsMU67VlpgHI/Yi29pWiJ2/rAv+jMWpCMb1VCWQqIPEb7Z3H4zIA==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=rerkMtfINlnfyq0vSJV4d09qsYwo5BYbAcnF8xvxpG8=;
- b=QB+unzYsTj23wlmZpaxXQ0dns28Z0QMsEeNa9j9zZIyccut4jxG8U+/+lljLscUe++QWapHyk6brwgMJVp6d6nEhVBsd0RyouyqGCyit79bRqVn8Tshcmy34UO9kBJZxn/AF62yFihdwaMP6q9SVFgiAfGsPX+V8yCmkAMxCGzu4ujslmYAyOCuDEDnFDdPsv0vqA0o0jzTD3OoBlFhCGXDtdQWZhg5IUeWVYYQQvpQqrvLozVqB9eV58HPsaWHEoBC0k9ItALiTeNnZ+jnJb7cGOawOuSpuVL7wIBucLa7529CAGxRavoFSaiGHhIMbzd1KmljKij64jIiccG2mOQ==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=amd.com; dmarc=pass action=none header.from=amd.com; dkim=pass
- header.d=amd.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1; 
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=rerkMtfINlnfyq0vSJV4d09qsYwo5BYbAcnF8xvxpG8=;
- b=gcXS8aMqOHhE7RgC404ptHCWUIBtdlbprologwIsf8aNarN2d13QAvf92qXcnp0gisR7OC+k8zySuEhFk72Hn8DmYMsnDiPVVsPHcYQ+llRCTwDX0YyAkOQPNm59vxUBo2Ttc7+0/pjHMd15NpghZrw43II/x0kIEZcTMz6k8sc=
-Authentication-Results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=amd.com;
-Received: from BN8PR12MB3587.namprd12.prod.outlook.com (2603:10b6:408:43::13)
- by BN8PR12MB3140.namprd12.prod.outlook.com (2603:10b6:408:67::30)
- with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.5102.21; Tue, 29 Mar
- 2022 11:24:09 +0000
-Received: from BN8PR12MB3587.namprd12.prod.outlook.com
- ([fe80::404f:1fc8:9f4c:f185]) by BN8PR12MB3587.namprd12.prod.outlook.com
- ([fe80::404f:1fc8:9f4c:f185%6]) with mapi id 15.20.5102.023; Tue, 29 Mar 2022
- 11:24:08 +0000
-Message-ID: <417bc262-17db-551f-1334-3cfafe997c60@amd.com>
-Date: Tue, 29 Mar 2022 13:24:02 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.7.0
-Subject: Re: [PATCH v11] drm/amdgpu: add drm buddy support to amdgpu
-Content-Language: en-US
-To: Arunpravin Paneer Selvam <arunpravin.paneerselvam@amd.com>
-References: <20220323062552.228429-1-Arunpravin.PaneerSelvam@amd.com>
- <c255f3ea-a269-1886-f79a-2d8a38b956b1@gmail.com>
- <MN2PR12MB4342B7FD0CC5C480DEEF8A77E41D9@MN2PR12MB4342.namprd12.prod.outlook.com>
- <2b77dca5-df7e-5a65-eb3e-f186e1037e4d@amd.com>
-From: =?UTF-8?Q?Christian_K=c3=b6nig?= <christian.koenig@amd.com>
-In-Reply-To: <2b77dca5-df7e-5a65-eb3e-f186e1037e4d@amd.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
-X-ClientProxiedBy: AM5PR0701CA0054.eurprd07.prod.outlook.com
- (2603:10a6:203:2::16) To BN8PR12MB3587.namprd12.prod.outlook.com
- (2603:10b6:408:43::13)
+Received: from mail-qv1-xf30.google.com (mail-qv1-xf30.google.com
+ [IPv6:2607:f8b0:4864:20::f30])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id D363310E87C;
+ Tue, 29 Mar 2022 11:25:09 +0000 (UTC)
+Received: by mail-qv1-xf30.google.com with SMTP id f3so14061597qvz.10;
+ Tue, 29 Mar 2022 04:25:09 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc:content-transfer-encoding;
+ bh=BsX4IK1m/eTe/5/97NvZLD6cVDlN6y4v/6MdsVBOl+g=;
+ b=KkD2SJHkXgG3CrliSHHZ8sBu9RUUiTccFrTV8VwrxxyrlpF1/HpYg6aUZGXlZfhJrO
+ WXsDetp5nAkHz2q4bP//nW7dXZW+6R+3CgAiFgbygrGqUyte4Zpv9mqGcGz1Ah9JGwWn
+ rRfDGZp4E+fWgsDx1FlJTQpbZR8Vk3uLBjnv18UDy7ZFzm6oGBfar10FqgTRPeQenLeq
+ mMyGzqW2fJLxzKZ9Bk71nUfY+W/fjmXnG3CumpchW6eU8Fm+JmA2ipTV/0N/WM3lc7X0
+ HemFwvuWeQJS0ZmqlfviXUbSEK1kPm/Ayf7oNlDgqbbqGm8rEYsmPMKVmk9cm8Hwrdqd
+ PtHg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc:content-transfer-encoding;
+ bh=BsX4IK1m/eTe/5/97NvZLD6cVDlN6y4v/6MdsVBOl+g=;
+ b=KZQi42WnbDRB0sRtmfpqGLHwSGkr8uyw1ETH3JTI6CdruBq8i5ADZEUAVHKMCLG2hQ
+ qdZhicGMTzSybf53bOT+2cNnv2THicwvDxZGRx2+HqCrH+LKSDddM4y/eEQdl3kCkww6
+ Hf4YXNpzGocGzsDRiaUwaI2MfrapYfzuL9/PF/m/2cHHhc27s/wcNdzuuXIA8F2yZSK/
+ 05veNd1cUoFlN+8+3fr3Z26TiCvDYFNLIXRWknYODAhAVch5QV1HtQp7zy/dUjPjNG/E
+ YhCNHUML7hGYRiH2ypEB5tcYp32UpBvq6CJT1X3aYISmNd8gk3taoPI+75j5Crl9EnXn
+ 59pQ==
+X-Gm-Message-State: AOAM531LtQtyRarLzirKAzLgQ/VEd72bNHki1Obu+87047Lij7wcfcGV
+ pj0wqh5gakTPwiAIjkWuWStdhTzOQOncBEV+seU=
+X-Google-Smtp-Source: ABdhPJwpztAa0BAxYGDaw5M3Fkj69t/LNdJGM1i+4o1dMs06zp5DIKIzjWOL1bv74NUvAWqWoAPyF3eUMNVGxiDjbrg=
+X-Received: by 2002:a05:6214:2344:b0:429:4d92:cec2 with SMTP id
+ hu4-20020a056214234400b004294d92cec2mr24472095qvb.0.1648553109001; Tue, 29
+ Mar 2022 04:25:09 -0700 (PDT)
 MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-Office365-Filtering-Correlation-Id: d91abc33-2260-488e-4eda-08da1176a450
-X-MS-TrafficTypeDiagnostic: BN8PR12MB3140:EE_
-X-Microsoft-Antispam-PRVS: <BN8PR12MB3140972C2437828E6E63463B831E9@BN8PR12MB3140.namprd12.prod.outlook.com>
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: n3TjluDqZk074bjTZwKuMI0sM0m8q1oXi7YVaLIqwetjW+uG+OqVtmYRq3lOtyEzaa2GxjUuxPFstQOWpToecKYuQv8kwspnjq93Uf4TDp2NtpSN7B4maGZghV65Xg+ayBfGNQupuk0Q2TWUx/fvnz+vyK3b7KyzMlmrMsKJkf4sjUzdhbEkhKVefR9iYu4fo0JRuoyK/7Rj6tq5E9uFb8FKP6LtPHPIGO8AnOYh4xJ2mTLpZlVXwVYtslJMDnnHXpuHyrECXCurvQ4RbKSGe+TRxVCYzFb5JOtnkVzkCKE7qcm18Ly5/sPnNGSQgwHVrafeTWmU21nc8Mt32ovrUcYEIwMKkJQo8cHPYSPtA6MrPyqHmA+m29uKYsoDKS2K705LXSl2urzqQuJtoXZVz3veTtRV3g9Nz5ilYlLSuYMmVpHXoH+Dzm9jt75OOCKwZaYHbunSsOyXl9ZpZ2GWPoqsfPOYdeYngqLAr30VlwvSj4ILe4tZCoeNMrP4Lwv9M9hOvLs9+y5PBk+pkPMxLbpw7TkJ5w1HgKHV+ffK3C+6J4nH7tYz1qQpXIR7aZYwzEg2nqtAzNLT3kGOG2+1x+1tbC6LXRfY/tBZ+kaVoETLPW9cdP66FApQwspEafYLRppN17ANBq5dh5Umk1SzDQ1cFVgJtCh2DjdtvXn/BaB4EkR9DrB9GeQ07VJR4r7Yy7jQh9fz5EQdioUEci4WSOaLB9f/2Mw/4qfaDSwYhV3lauj69Szv9fKr8xiy+WQM
-X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
- IPV:NLI; SFV:NSPM; H:BN8PR12MB3587.namprd12.prod.outlook.com; PTR:; CAT:NONE;
- SFS:(13230001)(4636009)(366004)(8676002)(66476007)(6862004)(4326008)(66946007)(6486002)(6666004)(66556008)(38100700002)(6506007)(37006003)(508600001)(316002)(54906003)(31696002)(86362001)(83380400001)(6636002)(6512007)(26005)(186003)(2616005)(36756003)(31686004)(5660300002)(2906002)(8936002)(45980500001)(43740500002);
- DIR:OUT; SFP:1101; 
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: =?utf-8?B?OUgzcEh6bHNWdUorL0J6VXlYNWR1Z09FaWwvb2ZGeS96MlF0eEhZQ05SM1VU?=
- =?utf-8?B?QkRRVlhibWR4RFpVbk5DV1J1dEcyMS85RUlVdDVwSTA2NnZocUhLakEwc3k4?=
- =?utf-8?B?cWppU1N3cENUamU5Y1ptdm9zQ1FGZFBEaU9icklsalFxZjVERUFpNHZzOTYr?=
- =?utf-8?B?THZrRFJ6NzNhbzNCQ2JMUEM4MHVuNnA2KzlSQkRDUzM4RFRUeVc5TUt1VnA0?=
- =?utf-8?B?NkczRjIyYmxJZGozNWZ1czYvQXBCS1BMZnZTdGZkbjh0ZFVDcWVwMFQxUXo1?=
- =?utf-8?B?clVGYmRCUytTRnJSeU9EYlJ3dnBsWFJBZjJGbkRYUisvcUdZeEpvbW1hRmo4?=
- =?utf-8?B?NDRSTmtvUi9IejM4VWxkQjFSL01wSlJYU1F2bUFDeFFpYm9xRU5UY1pSakVr?=
- =?utf-8?B?Vjl1VXVSQU0vYUszMis3UmZZb0w4aVVYWUF3blJKN0huMjF0UGlOU2JIVHk0?=
- =?utf-8?B?N3FOWExkdDcrSzhsOWtmbE4rMjF2OVFMMWpTYW05ZUV6blFjRzBLZ21SU0dT?=
- =?utf-8?B?dngrMzBDT2tLVmk2dkhOdkkwMDI2T01ML0NFaTdlZjBiK3duWGpORTB0cmdM?=
- =?utf-8?B?WGluRzQ4Ykt6UXpnb0NFenFHZElOUlhtdDVsc09QWTBjdE1uVGlmMWhHbmF4?=
- =?utf-8?B?cGl3b3luMURRWjFIR3h5SjBnMm0vSGxJYUtSMHg0L3lqV3I0bkNaQUdRYndi?=
- =?utf-8?B?cVBiWVB5TXdIL0JyS3gwbUNOU3YzUnVzSjhXMEtHd253ZUdvRkFsSjliWm5L?=
- =?utf-8?B?TWtjdzZxc0trQVV3QlEzMyszQzYxM1VabjNmWDgxRC9GbGxhc1hQZ3ZiZkY4?=
- =?utf-8?B?Q05JZ2NtZTVLMkJnSmp0SWlKUjZtMDB4eklZcndDWDBIcS9lSEJ3YzBWd3Ax?=
- =?utf-8?B?eVIxVk9La05EcDk5VHhNblRCT0JsMjdWU0lncjdvaElBQkVOQ2Z3YzF5bUdE?=
- =?utf-8?B?WlZsZENwSndCellWQWZucGdNdHFWZHlQNFExS1k4RXJyQnBIT2NVcHdUaEFW?=
- =?utf-8?B?VTYyZnNJbk0wUDVIUC9CUTVmUFIrdVhYbTdDNERwMjZrQnpkU0UyMkJ0UGs2?=
- =?utf-8?B?Nk9peTFCRjNBcUhDdTlKMVM1ZW5CQVhUQStRblFCckdwRnZaWUl0Y0tJMjhj?=
- =?utf-8?B?SUh1dnlOaUNVd3hlKzBOK2ptQUtTM09DS1JNai9TRUhkaWNVWklSSE9IY3ov?=
- =?utf-8?B?WUl6L1hmbG9nMjY1TWNORmdjZTJoMkJsWDhacFhFQnJPazR5ek5sZlJtcnVr?=
- =?utf-8?B?LzdycysyY0R4cUxqanBpN2hicFRKOHdkZGcyZU1LOW1hVlFGazRsSEVjU1ZB?=
- =?utf-8?B?Y1d2dGpmRzcrWWo1TUNWeUEwbUpaUm5HVTZ2Sjk4WE0raG5xUWhsdEhneUVB?=
- =?utf-8?B?VjVhMGNHWXA1Qmg2VW5YU3lqZGJXa3RuWVV4T3BPNzhEczRsNDEwVTRKVWVx?=
- =?utf-8?B?Q2RSMVFQNnBkWlE4QXNBMEZ1K0tCRUFNZDdFUUVsMFR6UUR4UzF2Rkhta2Nt?=
- =?utf-8?B?ajNLMVUwTUd3MDRyT3VoMytiZEpyelJGTXBjWDVSWnAxeU14MFl5WDU4bmNi?=
- =?utf-8?B?WEtRQ1p0ZVBsWmRLZWNtaDF5azBOQ2I3OTN3NkxzVWFuSm8yRlAwRHJzSDVH?=
- =?utf-8?B?VTZJRE9CMjNFRDRFMko2UWhFYnRzQVNTMlU4aHRVVWtZa1pxY2FscTUvZEFh?=
- =?utf-8?B?TVN6Y2ozbEVCN1JzU0ozUzRjT1QrYlpzL0htUFl2MHdFbWpQZmE2RkV6eG9H?=
- =?utf-8?B?OTh6WWFNeW16MlJJNWFkVVljVTBINlUyRUFxRFdzSEFlQzlPTkVFeHlzclR4?=
- =?utf-8?B?Y01GRGNpUDByckovNmZvRUlDQ0pudlcxdU5BbEhhbDZHanlzVVkrN0VwTmIy?=
- =?utf-8?B?YkdDSURCNi9iU0V3djdZaFNjZXRZQ1BQUXZUQkRuS3h2MjZVaW80NHFnRjND?=
- =?utf-8?B?RzBOekE1RVJBUW1iOUcwYXJFam9QRkpMb1c3RTdpbUJkaUdRcXRybTFGTk05?=
- =?utf-8?B?MGhoSGhqdVpNeVl3VEdnRnlxTGRQVjhQaWgwQVBJUHRQd1hkVWdzOTBTWWt6?=
- =?utf-8?B?aUY0YXY1TkVveXE0QjMvQ1ZxajFWbnZsVDhiYm9JR3FURWRWTDYwc0MvTVhC?=
- =?utf-8?B?bzFQOFdleFBKTkVQWkNPVDBlYVk5dGtSVlhNdC9qMHNYNzEydUVWSXFIY2xx?=
- =?utf-8?B?OEtLUHJQZlNpR2VPdXJac0VQMWFLYzFqR0tuNkxodEIrSU1TRW5RUThQOE5u?=
- =?utf-8?B?SElKVHgxZ2dITzJUUkplTlBIbWtyZFJSd2hLWndFL1RMaGZCTnFQaTNZSnNB?=
- =?utf-8?B?S2hEYy9McnB0azJhNFVBWGZaakpTQXRPcUV6aTFTVHAyVUtLZkJYQT09?=
-X-OriginatorOrg: amd.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: d91abc33-2260-488e-4eda-08da1176a450
-X-MS-Exchange-CrossTenant-AuthSource: BN8PR12MB3587.namprd12.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 29 Mar 2022 11:24:08.8292 (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: 4FWyfRSaRr4Daqvvs5M2OMjik9/HJ8907IxhPvpX/j5/M9BuN5gDFIck0DzvF2ln
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: BN8PR12MB3140
+References: <20220323073426.228866-1-Arunpravin.PaneerSelvam@amd.com>
+ <72e9b499-f31f-41d3-aee2-130f83115fc1@gmail.com>
+ <66f75c1b-41e1-5f96-cad7-aeffb95ce712@amd.com>
+In-Reply-To: <66f75c1b-41e1-5f96-cad7-aeffb95ce712@amd.com>
+From: Matthew Auld <matthew.william.auld@gmail.com>
+Date: Tue, 29 Mar 2022 12:24:44 +0100
+Message-ID: <CAM0jSHMZUUj70JCMDogWdzxxk1sJj7MsVprTkN-bnSUeUg1C6Q@mail.gmail.com>
+Subject: Re: [PATCH v2] drm: add a check to verify the size alignment
+To: Arunpravin Paneer Selvam <arunpravin.paneerselvam@amd.com>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -131,131 +66,80 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: "intel-gfx@lists.freedesktop.org" <intel-gfx@lists.freedesktop.org>,
- "dri-devel@lists.freedesktop.org" <dri-devel@lists.freedesktop.org>,
- "amd-gfx@lists.freedesktop.org" <amd-gfx@lists.freedesktop.org>, "Deucher,
- Alexander" <alexander.deucher@amd.com>, Matthew Auld <matthew.auld@intel.com>
+Cc: =?UTF-8?Q?Christian_K=C3=B6nig?= <ckoenig.leichtzumerken@gmail.com>,
+ Intel Graphics Development <intel-gfx@lists.freedesktop.org>,
+ amd-gfx list <amd-gfx@lists.freedesktop.org>,
+ ML dri-devel <dri-devel@lists.freedesktop.org>, alexander.deucher@amd.com,
+ =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>,
+ Matthew Auld <matthew.auld@intel.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Am 29.03.22 um 13:19 schrieb Arunpravin Paneer Selvam:
-> [SNIP]
->>> +	pages_left = node->base.num_pages;
->>>    
->>>    	i = 0;
->>> -	spin_lock(&mgr->lock);
->>>    	while (pages_left) {
->>> -		uint32_t alignment = tbo->page_alignment;
->>> +		if (tbo->page_alignment)
->>> +			min_page_size = tbo->page_alignment << PAGE_SHIFT;
->>> +		else
->>> +			min_page_size = mgr->default_page_size;
->> The handling here looks extremely awkward to me.
->>
->> min_page_size should be determined outside of the loop, based on default_page_size, alignment and contiguous flag.
-> I kept min_page_size determine logic inside the loop for cases 2GiB+
-> requirements, Since now we are round up the size to the required
-> alignment, I modified the min_page_size determine logic outside of the
-> loop in v12. Please review.
-
-Ah! So do we only have the loop so that each allocation isn't bigger 
-than 2GiB? If yes couldn't we instead add a max_alloc_size or something 
-similar?
-
-BTW: I strongly suggest that you rename min_page_size to min_alloc_size. 
-Otherwise somebody could think that those numbers are in pages and not 
-bytes.
-
->> Then why do you drop the lock and grab it again inside the loop? And what is "i" actually good for?
-> modified the lock/unlock placement in v12.
+On Tue, 29 Mar 2022 at 12:17, Arunpravin Paneer Selvam
+<arunpravin.paneerselvam@amd.com> wrote:
 >
-> "i" is to track when there is 2GiB+ contiguous allocation request, first
-> we allocate 2GiB (due to SG table limit) continuously and the remaining
-> pages in the next iteration, hence this request can't be a continuous.
-> To set the placement flag we make use of "i" value. In our case "i"
-> value becomes 2 and we don't set the below flag.
-> node->base.placement |= TTM_PL_FLAG_CONTIGUOUS;
 >
-> If we don't get such requests, I will remove "i".
+>
+> On 23/03/22 1:15 pm, Christian K=C3=B6nig wrote:
+> > Am 23.03.22 um 08:34 schrieb Arunpravin Paneer Selvam:
+> >> Add a simple check to reject any size not aligned to the
+> >> min_page_size.
+> >>
+> >> handle instances when size is not aligned with the min_page_size.
+> >> Unigine Heaven has allocation requests for example required pages
+> >> are 257 and alignment request is 256. To allocate the left over 1
+> >> page, continues the iteration to find the order value which is 0
+> >> and when it compares with min_order =3D 8, triggers the BUG_ON(order
+> >> < min_order). To avoid this problem, we added a simple check to
+> >> return -EINVAL if size is not aligned to the min_page_size.
+> >>
+> >> v2: Added more details to the commit description
+> >>
+> >> Signed-off-by: Arunpravin Paneer Selvam <Arunpravin.PaneerSelvam@amd.c=
+om>
+> >> Suggested-by: Matthew Auld <matthew.auld@intel.com>
+> >> ---
+> >>   drivers/gpu/drm/drm_buddy.c | 3 +++
+> >>   1 file changed, 3 insertions(+)
+> >>
+> >> diff --git a/drivers/gpu/drm/drm_buddy.c b/drivers/gpu/drm/drm_buddy.c
+> >> index 72f52f293249..b503c88786b0 100644
+> >> --- a/drivers/gpu/drm/drm_buddy.c
+> >> +++ b/drivers/gpu/drm/drm_buddy.c
+> >> @@ -661,6 +661,9 @@ int drm_buddy_alloc_blocks(struct drm_buddy *mm,
+> >>      if (range_overflows(start, size, mm->size))
+> >>              return -EINVAL;
+> >>
+> >> +    if (WARN_ON(!IS_ALIGNED(size, min_page_size)))
+> >> +            return -EINVAL;
+> >> +
+> >
+> > I'm not that happy with the handling here.
+> >
+> > See a minimum page size larger than the requested size is perfectly
+> > valid, it just means that the remaining pages needs to be trimmed.
+> >
+> > In other words when the request is to allocate 1 page with an alignment
+> > of 256 we just need to give the remaining 255 pages back to the allocat=
+or.
+>
+> In one of the previous mail Matthew explained that i915 expects to
+> return -EINVAL error code if size is not aligned to min_page_size.
 
-I'm not sure if that works.
+We could also move the WARN_ON() into i915 as a separate patch, and
+just change the default buddy behaviour to transparently handle the
+rounding + trim, if you prefer. I don't have a strong opinion.
 
-As far as I can see drm_buddy_alloc_blocks() can allocate multiple 
-blocks at the same time, but i is only incremented when we loop.
-
-So what you should do instead is to check if node->blocks just contain 
-exactly one element after the allocation but before the trim.
-
->>> +
->>> +		/* Limit maximum size to 2GB due to SG table limitations */
->>> +		pages = min(pages_left, 2UL << (30 - PAGE_SHIFT));
->>>    
->>>    		if (pages >= pages_per_node)
->>> -			alignment = pages_per_node;
->>> -
->>> -		r = drm_mm_insert_node_in_range(mm, &node->mm_nodes[i], pages,
->>> -						alignment, 0, place->fpfn,
->>> -						lpfn, mode);
->>> -		if (unlikely(r)) {
->>> -			if (pages > pages_per_node) {
->>> -				if (is_power_of_2(pages))
->>> -					pages = pages / 2;
->>> -				else
->>> -					pages = rounddown_pow_of_two(pages);
->>> -				continue;
->>> -			}
->>> -			goto error_free;
->>> +			min_page_size = pages_per_node << PAGE_SHIFT;
->>> +
->>> +		if (!is_contiguous && !IS_ALIGNED(pages, min_page_size >> PAGE_SHIFT))
->>> +			is_contiguous = 1;
->>> +
->>> +		if (is_contiguous) {
->>> +			pages = roundup_pow_of_two(pages);
->>> +			min_page_size = pages << PAGE_SHIFT;
->>> +
->>> +			if (pages > lpfn)
->>> +				lpfn = pages;
->>>    		}
->>>    
->>> -		vis_usage += amdgpu_vram_mgr_vis_size(adev, &node->mm_nodes[i]);
->>> -		amdgpu_vram_mgr_virt_start(&node->base, &node->mm_nodes[i]);
->>> -		pages_left -= pages;
->>> +		BUG_ON(min_page_size < mm->chunk_size);
->>> +
->>> +		mutex_lock(&mgr->lock);
->>> +		r = drm_buddy_alloc_blocks(mm, (u64)place->fpfn << PAGE_SHIFT,
->>> +					   (u64)lpfn << PAGE_SHIFT,
->>> +					   (u64)pages << PAGE_SHIFT,
->>> +					   min_page_size,
->>> +					   &node->blocks,
->>> +					   node->flags);
->>> +		mutex_unlock(&mgr->lock);
->>> +		if (unlikely(r))
->>> +			goto error_free_blocks;
->>> +
->>>    		++i;
->>>    
->>>    		if (pages > pages_left)
->>> -			pages = pages_left;
->>> +			pages_left = 0;
->>> +		else
->>> +			pages_left -= pages;
->>>    	}
->>> -	spin_unlock(&mgr->lock);
->>>    
->>> -	if (i == 1)
->>> +	/* Free unused pages for contiguous allocation */
->>> +	if (is_contiguous) {
->> Well that looks really odd, why is trimming not part of
->> drm_buddy_alloc_blocks() ?
-> we didn't place trim function part of drm_buddy_alloc_blocks since we
-> thought this function can be a generic one and it can be used by any
-> other application as well. For example, now we are using it for trimming
-> the last block in case of size non-alignment with min_page_size.
-
-Good argument. Another thing I just realized is that we probably want to 
-double check if we only allocated one block before the trim.
-
-Thanks,
-Christian.
+>
+> can we just modify in amdgpu code where we round_up the size to the
+> min_page_size value and keep this error handling in drm_buddy.c?
+> >
+> > Regards,
+> > Christian.
+> >
+> >>      /* Actual range allocation */
+> >>      if (start + size =3D=3D end)
+> >>              return __drm_buddy_alloc_range(mm, start, size, blocks);
+> >>
+> >> base-commit: 056d47eaf6ea753fa2e21da31f9cbd8b721bbb7b
+> >
