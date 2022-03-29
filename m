@@ -2,47 +2,63 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6AECA4EB24A
-	for <lists+dri-devel@lfdr.de>; Tue, 29 Mar 2022 18:52:23 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id A55B94EB262
+	for <lists+dri-devel@lfdr.de>; Tue, 29 Mar 2022 18:59:50 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 2CB6410F126;
-	Tue, 29 Mar 2022 16:52:21 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 5E36710E4EC;
+	Tue, 29 Mar 2022 16:59:47 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from metis.ext.pengutronix.de (metis.ext.pengutronix.de
- [IPv6:2001:67c:670:201:290:27ff:fe1d:cc33])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 41D7910F126
- for <dri-devel@lists.freedesktop.org>; Tue, 29 Mar 2022 16:52:20 +0000 (UTC)
-Received: from drehscheibe.grey.stw.pengutronix.de ([2a0a:edc0:0:c01:1d::a2])
- by metis.ext.pengutronix.de with esmtps
- (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256) (Exim 4.92)
- (envelope-from <p.zabel@pengutronix.de>)
- id 1nZF4r-0007Lb-Sp; Tue, 29 Mar 2022 18:52:17 +0200
-Received: from [2a0a:edc0:0:900:1d::4e] (helo=lupine)
- by drehscheibe.grey.stw.pengutronix.de with esmtp (Exim 4.94.2)
- (envelope-from <p.zabel@pengutronix.de>)
- id 1nZF4n-003pBv-MD; Tue, 29 Mar 2022 18:52:16 +0200
-Received: from pza by lupine with local (Exim 4.94.2)
- (envelope-from <p.zabel@pengutronix.de>)
- id 1nZF4p-000Azy-LY; Tue, 29 Mar 2022 18:52:15 +0200
-Message-ID: <de355d97c4a5765e930e15e3392dc0fa97ac814f.camel@pengutronix.de>
-Subject: Re: [PATCH] drm/imx: make static read-only array channel_offsets const
-From: Philipp Zabel <p.zabel@pengutronix.de>
-To: Colin Ian King <colin.i.king@gmail.com>, David Airlie
- <airlied@linux.ie>,  Daniel Vetter <daniel@ffwll.ch>,
- dri-devel@lists.freedesktop.org
-Date: Tue, 29 Mar 2022 18:52:15 +0200
-In-Reply-To: <20220123223417.6244-1-colin.i.king@gmail.com>
-References: <20220123223417.6244-1-colin.i.king@gmail.com>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-User-Agent: Evolution 3.38.3-1 
+Received: from mail-pj1-x1033.google.com (mail-pj1-x1033.google.com
+ [IPv6:2607:f8b0:4864:20::1033])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 4C19410E4EC
+ for <dri-devel@lists.freedesktop.org>; Tue, 29 Mar 2022 16:59:46 +0000 (UTC)
+Received: by mail-pj1-x1033.google.com with SMTP id gb19so18092998pjb.1
+ for <dri-devel@lists.freedesktop.org>; Tue, 29 Mar 2022 09:59:46 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
+ h=sender:date:from:to:cc:subject:message-id:references:mime-version
+ :content-disposition:in-reply-to;
+ bh=67yHXoFmcX0ZazheDKYQVpHoB656ZGpg7LX2oma8XGY=;
+ b=l1oIEc6kFQcKGLgIxGfSwqNZBvaZGfVzYIpmLE5Rh6nGhFdWOqxOLcEiD5UGOeShLo
+ a3iUDj7MTnw1ZVoumywlaRlOqrOguzQaaUg8sl/W8xYELNabR0FkepIhxq53qWfWRHqT
+ ocM2HSkoX6c1ycU+gtCJdRWBI5LQV8B2NcIE2eGHLknFjpgkEJzAV6QEilvZPsFmftqT
+ gEf10uCzq4cyr50t7r+MHukvbyXMswobdfj+UiEjLCGz8uU2kyzlTjXvCPVu1iLyYPLF
+ hpLrTonQaPEFCwIiW4cB09XczJYAql+ov2htCytwylqN1iQbCWxBZsm43uimxjTneIJO
+ mdzg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=x-gm-message-state:sender:date:from:to:cc:subject:message-id
+ :references:mime-version:content-disposition:in-reply-to;
+ bh=67yHXoFmcX0ZazheDKYQVpHoB656ZGpg7LX2oma8XGY=;
+ b=K90JbSGZofhkax1L9pc7fpNhH6I9FX8ctLbopTOkb14Ezn2s6Km0Sa6NtiCF6rOGRh
+ VNYiquHcgoi9GGgzrl76TOCEJMYzN4BCYjBsXpEWwC7zpzEaAirE5ylgL0UGj/QgYkon
+ d2EMecjHF9XtYLbBn186bSp7eETousJxiOClCoVP3NggnBs/RJ9uiaPVzcpLQxsbABLP
+ nbb+gBBulHsv2k3T5Nh5eBDTpo8LaDmO2IWhW1xjuwUBbXM5BhZfwPFBwVctEOtlHRnh
+ IEk/DEP1QvHscS23HGhuzuDnHsokdERswjoPWFYe1IT+B/2FdsHxOvloYpYOnTOzh9DM
+ b6XQ==
+X-Gm-Message-State: AOAM531mF/hYYybuaaWU1u0cvIAB/GVQco+us+vuBmtg0Lz9OKutEzEe
+ BTn/aNjdBygd+JhdHaNKTjo=
+X-Google-Smtp-Source: ABdhPJwzy42BlJVB0bBm4Ge7A7WVOaCsDi/5yGBrI0VAwZfeGFTf8i7B6I5tAtAaOfrhDGFcEZ17Ug==
+X-Received: by 2002:a17:902:f68f:b0:154:759c:c78 with SMTP id
+ l15-20020a170902f68f00b00154759c0c78mr30853829plg.49.1648573185719; 
+ Tue, 29 Mar 2022 09:59:45 -0700 (PDT)
+Received: from localhost ([2620:10d:c090:400::5:7749])
+ by smtp.gmail.com with ESMTPSA id
+ qe15-20020a17090b4f8f00b001c6f4991cd4sm3571258pjb.45.2022.03.29.09.59.44
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Tue, 29 Mar 2022 09:59:45 -0700 (PDT)
+Date: Tue, 29 Mar 2022 06:59:43 -1000
+From: Tejun Heo <tj@kernel.org>
+To: "T.J. Mercier" <tjmercier@google.com>
+Subject: Re: [RFC v4 2/8] cgroup: gpu: Add a cgroup controller for allocator
+ attribution of GPU memory
+Message-ID: <YkM6/57mVxoNfSvm@slm.duckdns.org>
+References: <20220328035951.1817417-1-tjmercier@google.com>
+ <20220328035951.1817417-3-tjmercier@google.com>
 MIME-Version: 1.0
-X-SA-Exim-Connect-IP: 2a0a:edc0:0:c01:1d::a2
-X-SA-Exim-Mail-From: p.zabel@pengutronix.de
-X-SA-Exim-Scanned: No (on metis.ext.pengutronix.de);
- SAEximRunCond expanded to false
-X-PTX-Original-Recipient: dri-devel@lists.freedesktop.org
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20220328035951.1817417-3-tjmercier@google.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -55,47 +71,35 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: kernel-janitors@vger.kernel.org, linux-kernel@vger.kernel.org
+Cc: Zefan Li <lizefan.x@bytedance.com>, linux-doc@vger.kernel.org,
+ David Airlie <airlied@linux.ie>, dri-devel@lists.freedesktop.org,
+ Benjamin Gaignard <benjamin.gaignard@linaro.org>, kaleshsingh@google.com,
+ Joel Fernandes <joel@joelfernandes.org>, Shuah Khan <shuah@kernel.org>,
+ Sumit Semwal <sumit.semwal@linaro.org>, Kenny.Ho@amd.com,
+ Jonathan Corbet <corbet@lwn.net>, Martijn Coenen <maco@android.com>,
+ Laura Abbott <labbott@redhat.com>, linux-media@vger.kernel.org,
+ linux-kselftest@vger.kernel.org, Todd Kjos <tkjos@android.com>,
+ Thomas Zimmermann <tzimmermann@suse.de>, linaro-mm-sig@lists.linaro.org,
+ skhan@linuxfoundation.org, cgroups@vger.kernel.org,
+ Suren Baghdasaryan <surenb@google.com>, Christian Brauner <brauner@kernel.org>,
+ Greg Kroah-Hartman <gregkh@linuxfoundation.org>, linux-kernel@vger.kernel.org,
+ Liam Mark <lmark@codeaurora.org>,
+ Christian =?iso-8859-1?Q?K=F6nig?= <christian.koenig@amd.com>,
+ Arve =?iso-8859-1?B?SGr4bm5lduVn?= <arve@android.com>, mkoutny@suse.com,
+ Johannes Weiner <hannes@cmpxchg.org>, Hridya Valsaraju <hridya@google.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On So, 2022-01-23 at 22:34 +0000, Colin Ian King wrote:
-> The static array channel_offsets is read-only so it make sense to
-> make
-> it const.
->=20
-> Signed-off-by: Colin Ian King <colin.i.king@gmail.com>
-> ---
-> =C2=A0drivers/gpu/ipu-v3/ipu-dc.c | 5 +++--
-> =C2=A01 file changed, 3 insertions(+), 2 deletions(-)
->=20
-> diff --git a/drivers/gpu/ipu-v3/ipu-dc.c b/drivers/gpu/ipu-v3/ipu-
-> dc.c
-> index ca96b235491a..b038a6d7307b 100644
-> --- a/drivers/gpu/ipu-v3/ipu-dc.c
-> +++ b/drivers/gpu/ipu-v3/ipu-dc.c
-> @@ -344,8 +344,9 @@ int ipu_dc_init(struct ipu_soc *ipu, struct
-> device *dev,
-> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
-=C2=A0=C2=A0=C2=A0=C2=A0unsigned long base, unsigned long template_base)
-> =C2=A0{
-> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0struct ipu_dc_priv *priv;
-> -=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0static int channel_offsets[] =
-=3D { 0, 0x1c, 0x38, 0x54, 0x58,
-> 0x5c,
-> -=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
-=C2=A0=C2=A0=C2=A00x78, 0, 0x94, 0xb4};
-> +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0static const int channel_offse=
-ts[] =3D {
-> +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
-=C2=A0=C2=A0=C2=A00, 0x1c, 0x38, 0x54, 0x58, 0x5c, 0x78, 0, 0x94, 0xb4
-> +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0};
-> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0int i;
-> =C2=A0
-> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0priv =3D devm_kzalloc(dev=
-, sizeof(*priv), GFP_KERNEL);
+Hello,
 
-Thank you, applied to imx-drm/next.
+On Mon, Mar 28, 2022 at 03:59:41AM +0000, T.J. Mercier wrote:
+> The API/UAPI can be extended to set per-device/total allocation limits
+> in the future.
 
-regards
-Philipp
+This total thing kinda bothers me. Can you please provide some concrete
+examples of how this and per-device limits would be used?
+
+Thanks.
+
+-- 
+tejun
