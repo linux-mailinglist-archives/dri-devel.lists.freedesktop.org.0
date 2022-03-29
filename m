@@ -2,55 +2,63 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id BE95B4EB4ED
-	for <lists+dri-devel@lfdr.de>; Tue, 29 Mar 2022 22:55:35 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id A4BB94EB4FE
+	for <lists+dri-devel@lfdr.de>; Tue, 29 Mar 2022 23:03:26 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id D058410EE63;
-	Tue, 29 Mar 2022 20:55:31 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id A4E0010E2C0;
+	Tue, 29 Mar 2022 21:03:22 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from alexa-out.qualcomm.com (alexa-out.qualcomm.com [129.46.98.28])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 7162E10EE63;
- Tue, 29 Mar 2022 20:55:30 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=quicinc.com; i=@quicinc.com; q=dns/txt; s=qcdkim;
- t=1648587330; x=1680123330;
- h=message-id:date:mime-version:subject:to:cc:references:
- from:in-reply-to:content-transfer-encoding;
- bh=QOPFOuJOfba4L+FeuEz1NdlNEPoVm4AUyXGmKyFlUQQ=;
- b=M0bYKFcFShHgTdGjKsbYOwuvw/zdQuUZA3SUBCmFCInlew4yMuGMDs/a
- T/dCXC9xaqFrOj+DQHvVKwmYoDYm23yi7Jiq7k0pf4P60IYuJbInAYkCQ
- IbHMUQdlfWpg4IA1peg33VBhyACxe5eaVacU848kwP2Swebbv96oANHRr A=;
-Received: from ironmsg-lv-alpha.qualcomm.com ([10.47.202.13])
- by alexa-out.qualcomm.com with ESMTP; 29 Mar 2022 13:55:30 -0700
-X-QCInternal: smtphost
-Received: from nasanex01c.na.qualcomm.com ([10.47.97.222])
- by ironmsg-lv-alpha.qualcomm.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 29 Mar 2022 13:55:29 -0700
-Received: from nalasex01a.na.qualcomm.com (10.47.209.196) by
- nasanex01c.na.qualcomm.com (10.47.97.222) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.2.986.22; Tue, 29 Mar 2022 13:55:28 -0700
-Received: from [10.110.122.15] (10.80.80.8) by nalasex01a.na.qualcomm.com
- (10.47.209.196) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.986.22; Tue, 29 Mar
- 2022 13:55:27 -0700
-Message-ID: <a10755a4-a2dc-f0f2-7828-e2617c573116@quicinc.com>
-Date: Tue, 29 Mar 2022 13:55:27 -0700
+Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 04A9810E2C0
+ for <dri-devel@lists.freedesktop.org>; Tue, 29 Mar 2022 21:03:22 +0000 (UTC)
+Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
+ (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+ (No client certificate requested)
+ by dfw.source.kernel.org (Postfix) with ESMTPS id 33A6061724
+ for <dri-devel@lists.freedesktop.org>; Tue, 29 Mar 2022 21:03:19 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPS id 94BD3C34110
+ for <dri-devel@lists.freedesktop.org>; Tue, 29 Mar 2022 21:03:18 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+ s=k20201202; t=1648587798;
+ bh=MEaY/etAzXKdhZ0kmFzO7WaBQ0CtiOTAu17uiIdZ6/U=;
+ h=From:To:Subject:Date:In-Reply-To:References:From;
+ b=hXlaQm/4+iwN+Uvi977jY9asy9J33BrCZLboipl43d4LmL/nWfBl/dJ65dYSETH2O
+ YBnR3UQlwQdo367AZDc63zZNn5/PSz5X+qNAsLR92h6DEruJlvdw0K07zmp9G66/Vw
+ 1thJvXzV6EskBJHnR3Z7Y9D5+FH0zx7SQYXupug8HZLC8XOg8NGYKquQPZ4Op6Etev
+ GJRFi7jdiR5GBTJgQl0L01dCarksvMtXCskQPepRZ/6Ea8Dy9i9CIgEI7Lvspr41I5
+ 0ZRa68yYdvAp9z4u2xLCOTKHBLhTvbeF7gg6+c0wQ+N8IGDjXCim/BlE45gco0NjJH
+ rie1QY/wu0BNA==
+Received: by aws-us-west-2-korg-bugzilla-1.web.codeaurora.org (Postfix,
+ from userid 48) id 7CB27CC13AF; Tue, 29 Mar 2022 21:03:18 +0000 (UTC)
+From: bugzilla-daemon@kernel.org
+To: dri-devel@lists.freedesktop.org
+Subject: [Bug 213983] WARNING: CPU: 3 PID: 520 at
+ drivers/gpu/drm/ttm/ttm_bo.c:409 ttm_bo_release+0x7a/0x803 [ttm]
+Date: Tue, 29 Mar 2022 21:03:17 +0000
+X-Bugzilla-Reason: None
+X-Bugzilla-Type: changed
+X-Bugzilla-Watch-Reason: AssignedTo drivers_video-dri@kernel-bugs.osdl.org
+X-Bugzilla-Product: Drivers
+X-Bugzilla-Component: Video(DRI - non Intel)
+X-Bugzilla-Version: 2.5
+X-Bugzilla-Keywords: 
+X-Bugzilla-Severity: normal
+X-Bugzilla-Who: fdc@fcami.net
+X-Bugzilla-Status: NEW
+X-Bugzilla-Resolution: 
+X-Bugzilla-Priority: P1
+X-Bugzilla-Assigned-To: drivers_video-dri@kernel-bugs.osdl.org
+X-Bugzilla-Flags: 
+X-Bugzilla-Changed-Fields: cc
+Message-ID: <bug-213983-2300-6myF4FqZw3@https.bugzilla.kernel.org/>
+In-Reply-To: <bug-213983-2300@https.bugzilla.kernel.org/>
+References: <bug-213983-2300@https.bugzilla.kernel.org/>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+X-Bugzilla-URL: https://bugzilla.kernel.org/
+Auto-Submitted: auto-generated
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:91.0) Gecko/20100101
- Thunderbird/91.6.2
-Subject: Re: [PATCH] drm: msm: add null pointer check
-Content-Language: en-US
-To: <cgel.zte@gmail.com>, <robdclark@gmail.com>
-References: <20220329103416.2376616-1-lv.ruyi@zte.com.cn>
-From: Abhinav Kumar <quic_abhinavk@quicinc.com>
-In-Reply-To: <20220329103416.2376616-1-lv.ruyi@zte.com.cn>
-Content-Type: text/plain; charset="UTF-8"; format=flowed
-Content-Transfer-Encoding: 7bit
-X-Originating-IP: [10.80.80.8]
-X-ClientProxiedBy: nasanex01b.na.qualcomm.com (10.46.141.250) To
- nalasex01a.na.qualcomm.com (10.47.209.196)
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -63,45 +71,24 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: freedreno@lists.freedesktop.org, airlied@linux.ie,
- linux-arm-msm@vger.kernel.org, lv.ruyi@zte.com.cn,
- linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
- bjorn.andersson@linaro.org, dmitry.baryshkov@linaro.org, sean@poorly.run,
- Zeal Robot <zealci@zte.com.cn>, greenfoo@u92.eu
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Seems to be a duplicate of
+https://bugzilla.kernel.org/show_bug.cgi?id=3D213983
 
-https://patchwork.freedesktop.org/patch/479378/
+Fran=C3=A7ois Cami (fdc@fcami.net) changed:
 
-Thanks
+           What    |Removed                     |Added
+----------------------------------------------------------------------------
+                 CC|                            |fdc@fcami.net
 
-Abhinav
+--- Comment #5 from Fran=C3=A7ois Cami (fdc@fcami.net) ---
+I don't see why https://bugzilla.kernel.org/show_bug.cgi?id=3D214621 was re=
+solved
+as it contains a lot more data than this bug.
 
-On 3/29/2022 3:34 AM, cgel.zte@gmail.com wrote:
-> From: Lv Ruyi <lv.ruyi@zte.com.cn>
-> 
-> kzalloc is a memory allocation function which can return NULL when some
-> internal memory errors happen. Add null pointer check to avoid
-> dereferencing null pointer.
-> 
-> Reported-by: Zeal Robot <zealci@zte.com.cn>
-> Signed-off-by: Lv Ruyi <lv.ruyi@zte.com.cn>
-> ---
->   drivers/gpu/drm/msm/disp/msm_disp_snapshot_util.c | 2 ++
->   1 file changed, 2 insertions(+)
-> 
-> diff --git a/drivers/gpu/drm/msm/disp/msm_disp_snapshot_util.c b/drivers/gpu/drm/msm/disp/msm_disp_snapshot_util.c
-> index 5d2ff6791058..acfe1b31e079 100644
-> --- a/drivers/gpu/drm/msm/disp/msm_disp_snapshot_util.c
-> +++ b/drivers/gpu/drm/msm/disp/msm_disp_snapshot_util.c
-> @@ -176,6 +176,8 @@ void msm_disp_snapshot_add_block(struct msm_disp_state *disp_state, u32 len,
->   	va_list va;
->   
->   	new_blk = kzalloc(sizeof(struct msm_disp_state_block), GFP_KERNEL);
-> +	if (!new_blk)
-> +		return;
->   
->   	va_start(va, fmt);
->   
+--=20
+You may reply to this email to add a comment.
+
+You are receiving this mail because:
+You are watching the assignee of the bug.=
