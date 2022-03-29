@@ -2,125 +2,80 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 891934EB3E7
-	for <lists+dri-devel@lfdr.de>; Tue, 29 Mar 2022 21:08:44 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 0D63E4EB416
+	for <lists+dri-devel@lfdr.de>; Tue, 29 Mar 2022 21:26:21 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 474F410E362;
-	Tue, 29 Mar 2022 19:08:41 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id B2CF910F165;
+	Tue, 29 Mar 2022 19:26:16 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from NAM02-SN1-obe.outbound.protection.outlook.com
- (mail-sn1anam02on2078.outbound.protection.outlook.com [40.107.96.78])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 7FA4310E270;
- Tue, 29 Mar 2022 19:08:40 +0000 (UTC)
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=IBKkiCACI+KM5+n4jO1in4n43cIqkcGj54IdpZ65VlaBgov30eHWOqBjoC8Nil79KrbODn0IkiK0oETY4OO/Ge3nc89gVA/fa6WIVmDSp+dkPIJ7g22ydmaMdxeRYVQLwSyaWbeooTERXN33XfqzSXnqdNmBwFgM8kZuH7kI0XBfprlnx94xKxAdoN7ggbHv0JG1HiWFZYyWQvq/e9+T/QfL1003YEJPoiQ5MD87ZEx+0sCNHovpFTsXhjlqnJahK93ouDjRGqlN1usi8E/6GFGYFBp7InIbgP8ouX7kFud8Dj1yhd2fs0ZuaAA4jFrEdDRs1+Rm1HUfSW+OO7VdsQ==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=aHMOPQwpiYIG8pbk2v7MaZy2naPF//E26ZltrKduRQI=;
- b=IjHgS0I/1hu0nJM2i8GjBpg23KZJPVv3Ey8vcZ4tK3hWinPinaE4Bhf9uMMgehM2RHVak6IZuGBbC3anJrC1mLg1VER1L5uZg3FgUKUcjQ1Kl+FSnYiy3LbyDNXv8yeKpnmJLTXaBDYp1TGSd5sqWff7ekv39A82dKQzS5k4o5wPduxGnGHBnesd+uMm5umMRs5EYQnRohxdyr/haDs1pHABy+njvXNDqVgqwiBifY68scj3R9pZeuWMbKxTNEyN4V5NHo3l0LqOw2MaKYaUnUJeSMym3E3e6igZrQ8sU1mRAdE6+lkhqWE8A+XX4zfznVGrZc25VRb/KdAzteK/Mw==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=amd.com; dmarc=pass action=none header.from=amd.com; dkim=pass
- header.d=amd.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1; 
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=aHMOPQwpiYIG8pbk2v7MaZy2naPF//E26ZltrKduRQI=;
- b=VV2p3dvxVikQAcDebDNxm+LlNCrPSyHM4qmEtYQ+akZg44mNwGKIu1FEaxCrzmBNuYtY/6mgG1CReTGJc7LCGAgAeMl6RHZLI7GXygLs6ZtKOUdNQro6qQzgkJ+YkjJxcFhyOAMWOBGxqsLaLzJt2+rkKgtFVrut//1dWZEx9yE=
-Authentication-Results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=amd.com;
-Received: from MN2PR12MB4342.namprd12.prod.outlook.com (2603:10b6:208:264::7)
- by BYAPR12MB2808.namprd12.prod.outlook.com (2603:10b6:a03:69::24)
- with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.5102.22; Tue, 29 Mar
- 2022 19:08:34 +0000
-Received: from MN2PR12MB4342.namprd12.prod.outlook.com
- ([fe80::48e2:1306:25a3:5f14]) by MN2PR12MB4342.namprd12.prod.outlook.com
- ([fe80::48e2:1306:25a3:5f14%6]) with mapi id 15.20.5102.023; Tue, 29 Mar 2022
- 19:08:33 +0000
-Message-ID: <73513866-504a-1289-c9ad-4fef81f80ed6@amd.com>
-Date: Wed, 30 Mar 2022 00:48:51 +0530
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.2.0
-Subject: Re: [PATCH v11] drm/amdgpu: add drm buddy support to amdgpu
-Content-Language: en-US
-From: Arunpravin Paneer Selvam <arunpravin.paneerselvam@amd.com>
-To: =?UTF-8?Q?Christian_K=c3=b6nig?= <christian.koenig@amd.com>
-References: <20220323062552.228429-1-Arunpravin.PaneerSelvam@amd.com>
- <c255f3ea-a269-1886-f79a-2d8a38b956b1@gmail.com>
- <MN2PR12MB4342B7FD0CC5C480DEEF8A77E41D9@MN2PR12MB4342.namprd12.prod.outlook.com>
- <2b77dca5-df7e-5a65-eb3e-f186e1037e4d@amd.com>
- <417bc262-17db-551f-1334-3cfafe997c60@amd.com>
- <1eaf81e5-84c5-dbf2-b0ec-5ca59e872242@amd.com>
-In-Reply-To: <1eaf81e5-84c5-dbf2-b0ec-5ca59e872242@amd.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
-X-ClientProxiedBy: PN0PR01CA0008.INDPRD01.PROD.OUTLOOK.COM
- (2603:1096:c01:4f::13) To MN2PR12MB4342.namprd12.prod.outlook.com
- (2603:10b6:208:264::7)
+Received: from us-smtp-delivery-124.mimecast.com
+ (us-smtp-delivery-124.mimecast.com [170.10.129.124])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 3A91910F164
+ for <dri-devel@lists.freedesktop.org>; Tue, 29 Mar 2022 19:26:15 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1648581974;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=pBV2u/heSWXXlD/wjnQ+msuu6GsJ6RYbAtmYo4rMnF0=;
+ b=Sz8cZXUUrb3dpSJX4qX2yZ9KMx4gBI/DLXtyUmGl2xk7hvaTxtu9YtOBIZ8RdiRvLaklc0
+ yQWjKqqYAeodW1BEzkGG0TO28l4Wn3YDiyEpldQsf9/zSaEVMc0//sEw6KcWiSwgJJdvt4
+ decmGiz92zrSgt71JnHs4DIIplCbF+Y=
+Received: from mail-qk1-f200.google.com (mail-qk1-f200.google.com
+ [209.85.222.200]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ us-mta-665-h-y24i7nPq24aC5P0ytNxw-1; Tue, 29 Mar 2022 15:26:12 -0400
+X-MC-Unique: h-y24i7nPq24aC5P0ytNxw-1
+Received: by mail-qk1-f200.google.com with SMTP id
+ u7-20020ae9d807000000b00680a8111ef6so8601537qkf.17
+ for <dri-devel@lists.freedesktop.org>; Tue, 29 Mar 2022 12:26:12 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=x-gm-message-state:message-id:subject:from:to:cc:date:in-reply-to
+ :references:organization:user-agent:mime-version
+ :content-transfer-encoding;
+ bh=pBV2u/heSWXXlD/wjnQ+msuu6GsJ6RYbAtmYo4rMnF0=;
+ b=dzIHTNAyGjJGOBTQ4wUfrzV9Btw2ONl+Ym5q42vWizIgHrkDSFqoDXB88O6ITFnp7M
+ vJq+UwizcDZkp6mox0a3gZnYqhb6wsu99JE7pY3BGSsKAQnSoMC7JxN4AHEToio5YcB1
+ MxZr+nkR2w9/3V51BNuNpASTcrMRyOxKaSe/Os9YSaZ78eojG+dVO8f3TzfvONlSJizn
+ dL6Y5aqU/PqE/bpY1NQW05VIpM/L8NTnvocPxIbTuR0N9fnOtlCxFBEa+0QxCA6F3XVK
+ dMVpf/lsgsM5tt/a3/s1jxe3Lxwb6/hljL5SCHbnHC7o8QJ4P1LSKcOI1nRCg4U+/YVS
+ AM5g==
+X-Gm-Message-State: AOAM533LBqlRq2hqst2c3VZ0qLhiRhrbn9gK6sdx+zGT9kF5dWEW+2ui
+ QGi/aues9kDbUPGCZ6scW8PIP3WFTeivUEGLscmHxk4PekhXngoeKcFT1jvMBRkAubA124YElRJ
+ GIwTT+ghyyRAHnm+5EP24xT2FikA2
+X-Received: by 2002:ac8:5789:0:b0:2e1:c40e:9be3 with SMTP id
+ v9-20020ac85789000000b002e1c40e9be3mr29178746qta.308.1648581971918; 
+ Tue, 29 Mar 2022 12:26:11 -0700 (PDT)
+X-Google-Smtp-Source: ABdhPJwjPiRTBGaMZYRox18SQ3UQ9NqPuFsu+LUwncbdgHqZZ5QkNA+n0UPyp+ztig68CJxM6qSC7w==
+X-Received: by 2002:ac8:5789:0:b0:2e1:c40e:9be3 with SMTP id
+ v9-20020ac85789000000b002e1c40e9be3mr29178719qta.308.1648581971603; 
+ Tue, 29 Mar 2022 12:26:11 -0700 (PDT)
+Received: from [192.168.8.138] (pool-71-126-244-162.bstnma.fios.verizon.net.
+ [71.126.244.162]) by smtp.gmail.com with ESMTPSA id
+ c27-20020a05620a165b00b0067d32238bc8sm9518459qko.125.2022.03.29.12.26.10
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Tue, 29 Mar 2022 12:26:10 -0700 (PDT)
+Message-ID: <420c66cf3d4bf76d54ad4ee437fec079e82e0e99.camel@redhat.com>
+Subject: Re: [PATCH 0/8] drm: Introduce display-helper library
+From: Lyude Paul <lyude@redhat.com>
+To: Thomas Zimmermann <tzimmermann@suse.de>, daniel@ffwll.ch,
+ airlied@linux.ie,  maarten.lankhorst@linux.intel.com, mripard@kernel.org, 
+ jani.nikula@linux.intel.com
+Date: Tue, 29 Mar 2022 15:26:09 -0400
+In-Reply-To: <20220322192743.14414-1-tzimmermann@suse.de>
+References: <20220322192743.14414-1-tzimmermann@suse.de>
+Organization: Red Hat Inc.
+User-Agent: Evolution 3.42.4 (3.42.4-2.DarkModeFix.fc35)
 MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-Office365-Filtering-Correlation-Id: ff8128ac-15f4-43fb-4321-08da11b784d9
-X-MS-TrafficTypeDiagnostic: BYAPR12MB2808:EE_
-X-Microsoft-Antispam-PRVS: <BYAPR12MB280868D5271E7714205CBE56E41E9@BYAPR12MB2808.namprd12.prod.outlook.com>
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: x/kg9QVO5EGmP60Cx71K6dqcFLoPLrP66gjgt05gXzHHzv7+b4YISzobAm6EYj8JT4bIJuTGRrDHrWPCxmXhCfLnoz22ZZhrHb/phxY2OLDJ81+6wIJAKUuXhx5dSlaiB23LQiIaSplJ2FGLZ5Px9yOHGEaoCmSzimITvXvqObEzferPrbYHjunkT4LIT5+0Tgc/QF/4AdVlCHYZ3/CRVuO04kxv8yRgo7LleWKXcWtOi6mYv0U4k+nhxmv4jWm32mZ/jWzS/fyuFEzQveApbUSyHEIA6DJ6mfr1wHdOkn3dxrT4lH4toyaQbZsrz6yfj9+9i9rko2RxNhouCQPFZzsmivrB3+6zYQnWmfqfYB4pAuCCl+y/jgJEBK7XTnFsvlUbj8cpdugzoFKHcd7+keJWpaN0xUQHwYZehAsn50s8W4kS9ZZ9hmMCRZtmiHXnKkcktATmA5NXC5oUvbApdgSUpLyLPSAJYH0/8V+B8aCkG84mAlCcAuY6PmeBZEFSl3SBENdt+gepMmUKHM7FbJAKKq4sD/f5sBPqivv9U5f+mEGANsXoxr//vnL6cq1E8zegs+QrbgMf0G1dsJevJHtYi/ihcDuNggNElkdaNUuWfobuJstUCuJhp4TjqEryLDYtKN1/3AwRBiAwTjvYSlrM2ERycmNKJ8MklixtWhu0T93rDOhhGJGeEcnzEHpRf/PsHAfUFun7XZjr5MsRbI/OSHYNUVmu9mZOOw6FNCI=
-X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
- IPV:NLI; SFV:NSPM; H:MN2PR12MB4342.namprd12.prod.outlook.com; PTR:; CAT:NONE;
- SFS:(13230001)(4636009)(366004)(53546011)(38100700002)(4326008)(31696002)(6666004)(66946007)(31686004)(6486002)(6506007)(26005)(8936002)(2906002)(8676002)(186003)(86362001)(66574015)(5660300002)(6862004)(66556008)(66476007)(6512007)(36756003)(6636002)(508600001)(2616005)(37006003)(83380400001)(316002)(54906003)(45980500001)(43740500002);
- DIR:OUT; SFP:1101; 
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: =?utf-8?B?RDluOWQ3MTlkZkIwNXFHbTNVWGFYYlg1dW9ZWG9zcmFodTJnaDVxemk5OWU0?=
- =?utf-8?B?bzZPNjJvZ0wwQUwvb0FkM2VBUVRxYjdFNTFMb09aQXdnL2UzNUR5ZGttTzB1?=
- =?utf-8?B?YUl2ZHBZRmNLL2oxYWhMNWVnRURjMzJnTmt2THJSZGlhanU2WVR0UU5vYkQy?=
- =?utf-8?B?emR5eWh1TmZNTzJRZXc0WVFEdGg2ckwvS1ZBZFJncXNCdVJBR2ozQTNiWUJu?=
- =?utf-8?B?S3JSUytoV0NsKzN2UTMvMXpjcmRJMUgvcm9ZaGhURmQzVUV1Q0ttTWdXWjlr?=
- =?utf-8?B?VElZdEgzYm4xRDRlaE9KQ1dxNEpRajRjRm1vVll0WXAwcmVRRXhnKytvS0pz?=
- =?utf-8?B?QjVtUDRpYTZscnRzUjJGR2NPTlpoRHJiTFM1M2QxUFNxR0I0Z1RxR2VWN29Z?=
- =?utf-8?B?a2Q3Nm9rRWpIaXlQYVJkM01UMmxZUis2SXJ2cGI3MUs1NmZqelZkRW14SUpx?=
- =?utf-8?B?SDVvbTZ2SEhrUGNkeDN3UmQ5K2d4ZmQxVm9lNEpzVFdHalM5Z2UybHlzSTNP?=
- =?utf-8?B?RkxqZW0yMGFzUHp1MUZTL3FsSGRPWCs0b2plcVROUVE3TkF1ZCtVYnl6dFRY?=
- =?utf-8?B?cFFZbHRJRjN0NnN1NmRBd3hsQ096dEljTS9JZ0ZyM2hzUm9wY2tJeDJIRnlM?=
- =?utf-8?B?cENVdVZ5UytiQStZSitpTGdxWHU2YTMvRXc0ejB3S04vdjdTaDl1bUFNU0Y2?=
- =?utf-8?B?T1RJOUViems5dVBsVjBQWHhmNXVmbGNwNUV3TEp4cXhHKzVOOHp3b0ltNTNJ?=
- =?utf-8?B?aUtwRVZJeHdDY3gxK3hCdDB6aE5oeGRQNmVtQlYrV2lDVVQ4MUlWVVpPdUZ6?=
- =?utf-8?B?NkdheGJycHBndy9CNWVROWJyZ1NrZUt1UVM2S1FySXRzeG5tRUpyT1F3bXR6?=
- =?utf-8?B?cUY4VGRtQ042V1QzYTh5OTBzRGdWRnd0eWZDbU5TM04yUGJyQVpVYUFzMWJT?=
- =?utf-8?B?aWRNUWhQQVN1NzhZNDNZRkZyckRGdytsd1VnclRyN2lzZnhpbkQwdTV4STBr?=
- =?utf-8?B?eWt4eW5nOEx3QWVhWEt4N3BSaGtRNlRZRE4zYmxlNVF3cVR0VmxybW8veXUr?=
- =?utf-8?B?U3hqVUFiemx3a3d1VkdjRXFIUVBzNGVFSlJUL3RrNHgrVDU0T0tZUTRkYk14?=
- =?utf-8?B?L2xCWHB0NlVORThDd2JFTmtWRVdiQXpyRm1tdkduWjFnaXlRR3lDbm9mVTFO?=
- =?utf-8?B?UWdtcC9FUmlyb0NQK1RsYi84Q3hyTHlFWDJ0MEYrS0VtNFQ4RlpDdklqRWds?=
- =?utf-8?B?WjQxbGVBaTJ4eGdkR05lQVgyajQ0WHJIbEl3Z3R6akQxTE5OWGFFTjh3UzQ4?=
- =?utf-8?B?ZlZIRExxUjF1SDlIcmxPTUNPbmN3VGlVK05raTZuUks4M0hqbVBFSDc4M3R1?=
- =?utf-8?B?aE1nZVZUZHlqSTNQVTM3c3BoVkkxT25RZ056UFNFUXhjMGtKV3BsSEZBYlJC?=
- =?utf-8?B?YjZNUXQ1L0hBeVkrcFR2Wi9nekFsY2FQcFZ3Yjd4U3Y5VHdjNWh1ZkpqQzd2?=
- =?utf-8?B?UEx1WkRYUCs3ckUzaHNOYWRqdlh5OWhMci9OdlJldHdDQVRoaGFVaFptVW5I?=
- =?utf-8?B?WG1JYzhwWnJIMFRZeG40YTh1bGZMVXFySG0zRVliZTJrV1hCVC8wSEk1cU5r?=
- =?utf-8?B?aXNEYjZaSFhSd2kvNFduVEhCS0lldzdVOXJXc3hRUVArU21zTThlaUtiN0h3?=
- =?utf-8?B?NTcxSUVwWXpHck9jZlBnZEt6ZkJubjh2RHovaG9kMnpiRjlvYUlMZHdLdVQz?=
- =?utf-8?B?L3hvNVhXblNjUmxlMlBTOUtyMEtodWV1ZW5CdVhVSWdJOENlUkZQRmxRUHJ2?=
- =?utf-8?B?S2EwNk10ejYyRkFHRHBxcmNnb0E1OHY1Tk4zZTVSK2JOVVFwQ1JrbHJLa0ZH?=
- =?utf-8?B?V3pBTW05RDZBblZGQm8vL0ErVDdpYnVpZy9XSDdaV2E4dVVNOXV3clpteVlU?=
- =?utf-8?B?Mm9aQjJ6SS9JT2hrYmJxNG9uZVNrTnU5VStlRlVqZ2xqWTlBUjVOUFRteUdx?=
- =?utf-8?B?Qk5rMWdtbWJrYkNOTlA1eVordnp0alZyVi83VnVBS0NtRnhUSU5UNVJEYWt6?=
- =?utf-8?B?NTRBZ0d4SnNVMmZMLzEzWk1XcHZOQk5seXhnSWNrcHl4Z2FBRG9qMHB4UnBl?=
- =?utf-8?B?dXJPZi9uZFROZFlrZi9CMHlvcW1MU0E1VEJtdzB6SVlVYXlDRCtMdFRsOHYy?=
- =?utf-8?B?N0JRK082YVA1QzhOalRHR3grS0IwUlo3cTR0TTJSaU9leDhHNmJSQU5QNjYr?=
- =?utf-8?B?c05SQmMxZXRqTlJWWDZNcFlIdXdGOGRlZWRDS3dVUFphekVuSlZLTTFmRTh1?=
- =?utf-8?B?MHJVZiszb0NRaVpXQ21acjBXdHJWZ3lTSzZtQ3N4ZWp0Sk1SOW5LQT09?=
-X-OriginatorOrg: amd.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: ff8128ac-15f4-43fb-4321-08da11b784d9
-X-MS-Exchange-CrossTenant-AuthSource: MN2PR12MB4342.namprd12.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 29 Mar 2022 19:08:33.7488 (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: /w5JOWmMAZtJvyRfAiWMtf9pp17O2viutiXsZmFi9BKO1cPVW74JGdaL5tMQxucP6aGv6SuqBk9niPswuJd5iQ==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: BYAPR12MB2808
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=lyude@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -133,154 +88,225 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: "intel-gfx@lists.freedesktop.org" <intel-gfx@lists.freedesktop.org>,
- "dri-devel@lists.freedesktop.org" <dri-devel@lists.freedesktop.org>,
- "amd-gfx@lists.freedesktop.org" <amd-gfx@lists.freedesktop.org>, "Deucher,
- Alexander" <alexander.deucher@amd.com>, Matthew Auld <matthew.auld@intel.com>
+Cc: dri-devel@lists.freedesktop.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
+For patches 2, 3, and 4: Reviewed-by: Lyude Paul <lyude@redhat.com>
 
-
-On 29/03/22 9:30 pm, Arunpravin Paneer Selvam wrote:
+On Tue, 2022-03-22 at 20:27 +0100, Thomas Zimmermann wrote:
+> Move DisplayPort, HDMI and various other display helpers from KMS
+> helpers into a new module. Adapt all drivers.
+> 
+> This patch is part of an on-going effort to reduce the minimum size
+> of DRM when linked into the kernel binary. The helpers for various
+> display and video-output standards are not required for minimal
+> graphics output and can be moved into a separate module.
+> 
+> The DisplayPort code was already part of the DP module, which now
+> forms the base of the display-helper module. Moving other helpers
+> into the new module reduces KMS helpers by ~14 KiB (from 243 KiB to
+> 229 KiB). More importantly, restructuring the code allows for a more
+> fine-grained selection of helpers and dependencies.
+> 
+> Built on x64-64, i586, aarch64, and arm.
+> 
+> Thomas Zimmermann (8):
+>   drm: Put related statements next to each other in Makefile
+>   drm: Rename dp/ to display/
+>   drm/display: Introduce a DRM display-helper module
+>   drm/display: Split DisplayPort header into core and helper
+>   drm/display: Move DSC header and helpers into display-helper module
+>   drm/display: Move HDCP helpers into display-helper module
+>   drm/display: Move HDMI helpers into display-helper module
+>   drm/display: Move SCDC helpers into display-helper library
+> 
+>  Documentation/gpu/drm-kms-helpers.rst         |  43 +-
+>  drivers/gpu/drm/Kconfig                       |  23 +
+>  drivers/gpu/drm/Makefile                      |  29 +-
+>  .../gpu/drm/amd/amdgpu/amdgpu_connectors.c    |   2 +-
+>  drivers/gpu/drm/amd/amdgpu/amdgpu_mode.h      |   4 +-
+>  drivers/gpu/drm/amd/amdgpu/atombios_dp.c      |   3 +-
+>  drivers/gpu/drm/amd/amdgpu/dce_v10_0.c        |   1 +
+>  drivers/gpu/drm/amd/amdgpu/dce_v11_0.c        |   1 +
+>  drivers/gpu/drm/amd/amdgpu/dce_v6_0.c         |   1 +
+>  drivers/gpu/drm/amd/amdgpu/dce_v8_0.c         |   1 +
+>  drivers/gpu/drm/amd/display/Kconfig           |   1 +
+>  .../gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.c |   5 +-
+>  .../gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.h |   2 +-
+>  .../amd/display/amdgpu_dm/amdgpu_dm_hdcp.c    |   2 +-
+>  .../display/amdgpu_dm/amdgpu_dm_mst_types.c   |   4 +-
+>  .../drm/amd/display/dc/core/dc_link_dpcd.c    |   2 +-
+>  .../gpu/drm/amd/display/dc/dcn20/dcn20_dsc.c  |   2 +
+>  .../gpu/drm/amd/display/dc/dcn20/dcn20_dsc.h  |   2 +-
+>  .../drm/amd/display/dc/dml/dsc/rc_calc_fpu.h  |   2 +-
+>  drivers/gpu/drm/amd/display/dc/dsc/dc_dsc.c   |   4 +-
+>  .../gpu/drm/amd/display/dc/dsc/dscc_types.h   |   2 +-
+>  .../gpu/drm/amd/display/dc/dsc/rc_calc_dpi.c  |   2 +-
+>  drivers/gpu/drm/amd/display/dc/os_types.h     |   2 +-
+>  .../gpu/drm/amd/display/include/dpcd_defs.h   |   2 +-
+>  .../gpu/drm/amd/display/modules/hdcp/hdcp.h   |   4 +-
+>  drivers/gpu/drm/bridge/Kconfig                |   5 +
+>  drivers/gpu/drm/bridge/analogix/Kconfig       |   2 +
+>  .../drm/bridge/analogix/analogix-anx6345.c    |   2 +-
+>  .../drm/bridge/analogix/analogix-anx78xx.c    |   4 +-
+>  .../drm/bridge/analogix/analogix-i2c-dptx.c   |   2 +-
+>  .../drm/bridge/analogix/analogix_dp_core.h    |   2 +-
+>  drivers/gpu/drm/bridge/analogix/anx7625.c     |   6 +-
+>  drivers/gpu/drm/bridge/cadence/Kconfig        |   1 +
+>  .../drm/bridge/cadence/cdns-mhdp8546-core.c   |   4 +-
+>  .../drm/bridge/cadence/cdns-mhdp8546-core.h   |   2 +-
+>  .../drm/bridge/cadence/cdns-mhdp8546-hdcp.c   |   2 +-
+>  drivers/gpu/drm/bridge/ite-it6505.c           |   4 +-
+>  drivers/gpu/drm/bridge/parade-ps8640.c        |   4 +-
+>  drivers/gpu/drm/bridge/sii902x.c              |   2 +-
+>  drivers/gpu/drm/bridge/sil-sii8620.c          |   2 +-
+>  drivers/gpu/drm/bridge/synopsys/Kconfig       |   1 +
+>  drivers/gpu/drm/bridge/synopsys/dw-hdmi.c     |   4 +-
+>  drivers/gpu/drm/bridge/tc358767.c             |   2 +-
+>  drivers/gpu/drm/bridge/tc358775.c             |   2 +-
+>  drivers/gpu/drm/bridge/ti-sn65dsi86.c         |   4 +-
+>  drivers/gpu/drm/display/Makefile              |  13 +
+>  .../drm_display_helper_mod.c}                 |  10 +-
+>  .../gpu/drm/{dp => display}/drm_dp_aux_bus.c  |   4 +-
+>  .../gpu/drm/{dp => display}/drm_dp_aux_dev.c  |   4 +-
+>  drivers/gpu/drm/{dp => display}/drm_dp_cec.c  |   2 +-
+>  .../{dp => display}/drm_dp_dual_mode_helper.c |   2 +-
+>  .../{dp/drm_dp.c => display/drm_dp_helper.c}  |   4 +-
+>  .../{dp => display}/drm_dp_helper_internal.h  |   0
+>  .../drm/{dp => display}/drm_dp_mst_topology.c |   2 +-
+>  .../drm_dp_mst_topology_internal.h            |   2 +-
+>  .../{drm_dsc.c => display/drm_dsc_helper.c}   |   5 +-
+>  .../{drm_hdcp.c => display/drm_hdcp_helper.c} |   4 +-
+>  drivers/gpu/drm/display/drm_hdmi_helper.c     | 463 +++++++++++
+>  .../gpu/drm/{ => display}/drm_scdc_helper.c   |   3 +-
+>  drivers/gpu/drm/dp/Makefile                   |   9 -
+>  drivers/gpu/drm/drm_connector.c               |  34 -
+>  drivers/gpu/drm/drm_edid.c                    | 439 +----------
+>  drivers/gpu/drm/drm_mipi_dsi.c                |   6 +-
+>  drivers/gpu/drm/exynos/Kconfig                |   1 +
+>  drivers/gpu/drm/exynos/exynos_hdmi.c          |   2 +-
+>  drivers/gpu/drm/gma500/cdv_intel_dp.c         |   2 +-
+>  drivers/gpu/drm/gma500/intel_bios.c           |   3 +-
+>  drivers/gpu/drm/hdmi/Makefile                 |   4 +
+>  drivers/gpu/drm/i2c/Kconfig                   |   1 +
+>  drivers/gpu/drm/i2c/tda998x_drv.c             |   2 +-
+>  drivers/gpu/drm/i915/Kconfig                  |   2 +
+>  drivers/gpu/drm/i915/display/icl_dsi.c        |   1 +
+>  drivers/gpu/drm/i915/display/intel_bios.c     |   3 +-
+>  drivers/gpu/drm/i915/display/intel_ddi.c      |   2 +-
+>  drivers/gpu/drm/i915/display/intel_display.c  |   2 +-
+>  .../drm/i915/display/intel_display_types.h    |   6 +-
+>  drivers/gpu/drm/i915/display/intel_dp.c       |   5 +-
+>  drivers/gpu/drm/i915/display/intel_dp_hdcp.c  |   6 +-
+>  .../drm/i915/display/intel_dp_link_training.h |   2 +-
+>  drivers/gpu/drm/i915/display/intel_gmbus.c    |   2 +-
+>  drivers/gpu/drm/i915/display/intel_hdcp.c     |   2 +-
+>  drivers/gpu/drm/i915/display/intel_hdmi.c     |   5 +-
+>  drivers/gpu/drm/i915/display/intel_lspcon.c   |   4 +-
+>  .../gpu/drm/i915/display/intel_qp_tables.c    |   2 +-
+>  drivers/gpu/drm/i915/display/intel_sdvo.c     |   1 +
+>  drivers/gpu/drm/i915/display/intel_vdsc.c     |   2 +
+>  drivers/gpu/drm/mediatek/Kconfig              |   1 +
+>  drivers/gpu/drm/mediatek/mtk_hdmi.c           |   2 +-
+>  drivers/gpu/drm/msm/Kconfig                   |   1 +
+>  drivers/gpu/drm/msm/dp/dp_audio.c             |   2 +-
+>  drivers/gpu/drm/msm/dp/dp_aux.h               |   2 +-
+>  drivers/gpu/drm/msm/dp/dp_catalog.c           |   2 +-
+>  drivers/gpu/drm/msm/dp/dp_ctrl.c              |   3 +-
+>  drivers/gpu/drm/msm/edp/edp.h                 |   3 +-
+>  drivers/gpu/drm/msm/edp/edp_ctrl.c            |   3 +-
+>  drivers/gpu/drm/msm/hdmi/hdmi_bridge.c        |   2 +
+>  drivers/gpu/drm/nouveau/Kconfig               |   1 +
+>  drivers/gpu/drm/nouveau/dispnv50/disp.c       |   5 +-
+>  drivers/gpu/drm/nouveau/nouveau_connector.h   |   2 +-
+>  drivers/gpu/drm/nouveau/nouveau_dp.c          |   2 +-
+>  drivers/gpu/drm/nouveau/nouveau_encoder.h     |   6 +-
+>  drivers/gpu/drm/omapdrm/Kconfig               |   2 +
+>  drivers/gpu/drm/omapdrm/dss/hdmi4.c           |   1 +
+>  drivers/gpu/drm/panel/panel-edp.c             |   4 +-
+>  .../gpu/drm/panel/panel-samsung-atna33xc20.c  |   4 +-
+>  drivers/gpu/drm/radeon/atombios_dp.c          |   2 +-
+>  drivers/gpu/drm/radeon/radeon_audio.c         |   1 +
+>  drivers/gpu/drm/radeon/radeon_connectors.c    |   2 +-
+>  drivers/gpu/drm/radeon/radeon_dp_mst.c        |   2 +-
+>  drivers/gpu/drm/radeon/radeon_mode.h          |   4 +-
+>  drivers/gpu/drm/rockchip/Kconfig              |   2 +
+>  .../gpu/drm/rockchip/analogix_dp-rockchip.c   |   2 +-
+>  drivers/gpu/drm/rockchip/cdn-dp-core.c        |   2 +-
+>  drivers/gpu/drm/rockchip/cdn-dp-core.h        |   2 +-
+>  drivers/gpu/drm/rockchip/inno_hdmi.c          |   2 +-
+>  drivers/gpu/drm/rockchip/rk3066_hdmi.c        |   1 +
+>  drivers/gpu/drm/rockchip/rockchip_lvds.c      |   2 +-
+>  drivers/gpu/drm/rockchip/rockchip_rgb.c       |   2 +-
+>  .../drm/selftests/test-drm_dp_mst_helper.c    |   4 +-
+>  drivers/gpu/drm/sti/Kconfig                   |   1 +
+>  drivers/gpu/drm/sti/sti_hdmi.c                |   2 +-
+>  drivers/gpu/drm/sun4i/Kconfig                 |   1 +
+>  drivers/gpu/drm/sun4i/sun4i_hdmi_enc.c        |   2 +-
+>  drivers/gpu/drm/tegra/Kconfig                 |   1 +
+>  drivers/gpu/drm/tegra/dp.c                    |   2 +-
+>  drivers/gpu/drm/tegra/dpaux.c                 |   4 +-
+>  drivers/gpu/drm/tegra/hdmi.c                  |   1 +
+>  drivers/gpu/drm/tegra/sor.c                   |   5 +-
+>  drivers/gpu/drm/vc4/Kconfig                   |   1 +
+>  drivers/gpu/drm/vc4/vc4_hdmi.c                |   4 +-
+>  drivers/gpu/drm/xlnx/zynqmp_dp.c              |   2 +-
+>  drivers/misc/mei/hdcp/mei_hdcp.h              |   2 +-
+>  .../{dp/drm_dp_helper.h => display/drm_dp.h}  | 695 +----------------
+>  include/drm/{dp => display}/drm_dp_aux_bus.h  |   0
+>  .../{dp => display}/drm_dp_dual_mode_helper.h |   0
+>  include/drm/display/drm_dp_helper.h           | 719 ++++++++++++++++++
+>  .../drm/{dp => display}/drm_dp_mst_helper.h   |   2 +-
+>  include/drm/{ => display}/drm_dsc.h           |   8 +-
+>  include/drm/display/drm_dsc_helper.h          |  20 +
+>  include/drm/{ => display}/drm_hdcp.h          |  14 +-
+>  include/drm/display/drm_hdcp_helper.h         |  22 +
+>  include/drm/display/drm_hdmi_helper.h         |  36 +
+>  .../{drm_scdc_helper.h => display/drm_scdc.h} |  52 +-
+>  include/drm/display/drm_scdc_helper.h         |  79 ++
+>  include/drm/drm_connector.h                   |   2 -
+>  include/drm/drm_edid.h                        |  31 +-
+>  include/drm/i915_mei_hdcp_interface.h         |   2 +-
+>  147 files changed, 1631 insertions(+), 1428 deletions(-)
+>  create mode 100644 drivers/gpu/drm/display/Makefile
+>  rename drivers/gpu/drm/{dp/drm_dp_helper_mod.c =>
+> display/drm_display_helper_mod.c} (51%)
+>  rename drivers/gpu/drm/{dp => display}/drm_dp_aux_bus.c (99%)
+>  rename drivers/gpu/drm/{dp => display}/drm_dp_aux_dev.c (99%)
+>  rename drivers/gpu/drm/{dp => display}/drm_dp_cec.c (99%)
+>  rename drivers/gpu/drm/{dp => display}/drm_dp_dual_mode_helper.c (99%)
+>  rename drivers/gpu/drm/{dp/drm_dp.c => display/drm_dp_helper.c} (99%)
+>  rename drivers/gpu/drm/{dp => display}/drm_dp_helper_internal.h (100%)
+>  rename drivers/gpu/drm/{dp => display}/drm_dp_mst_topology.c (99%)
+>  rename drivers/gpu/drm/{dp => display}/drm_dp_mst_topology_internal.h (94%)
+>  rename drivers/gpu/drm/{drm_dsc.c => display/drm_dsc_helper.c} (99%)
+>  rename drivers/gpu/drm/{drm_hdcp.c => display/drm_hdcp_helper.c} (99%)
+>  create mode 100644 drivers/gpu/drm/display/drm_hdmi_helper.c
+>  rename drivers/gpu/drm/{ => display}/drm_scdc_helper.c (99%)
+>  delete mode 100644 drivers/gpu/drm/dp/Makefile
+>  create mode 100644 drivers/gpu/drm/hdmi/Makefile
+>  rename include/drm/{dp/drm_dp_helper.h => display/drm_dp.h} (74%)
+>  rename include/drm/{dp => display}/drm_dp_aux_bus.h (100%)
+>  rename include/drm/{dp => display}/drm_dp_dual_mode_helper.h (100%)
+>  create mode 100644 include/drm/display/drm_dp_helper.h
+>  rename include/drm/{dp => display}/drm_dp_mst_helper.h (99%)
+>  rename include/drm/{ => display}/drm_dsc.h (97%)
+>  create mode 100644 include/drm/display/drm_dsc_helper.h
+>  rename include/drm/{ => display}/drm_hdcp.h (95%)
+>  create mode 100644 include/drm/display/drm_hdcp_helper.h
+>  create mode 100644 include/drm/display/drm_hdmi_helper.h
+>  rename include/drm/{drm_scdc_helper.h => display/drm_scdc.h} (65%)
+>  create mode 100644 include/drm/display/drm_scdc_helper.h
 > 
 > 
-> On 29/03/22 4:54 pm, Christian König wrote:
->> Am 29.03.22 um 13:19 schrieb Arunpravin Paneer Selvam:
->>> [SNIP]
->>>>> +	pages_left = node->base.num_pages;
->>>>>    
->>>>>    	i = 0;
->>>>> -	spin_lock(&mgr->lock);
->>>>>    	while (pages_left) {
->>>>> -		uint32_t alignment = tbo->page_alignment;
->>>>> +		if (tbo->page_alignment)
->>>>> +			min_page_size = tbo->page_alignment << PAGE_SHIFT;
->>>>> +		else
->>>>> +			min_page_size = mgr->default_page_size;
->>>> The handling here looks extremely awkward to me.
->>>>
->>>> min_page_size should be determined outside of the loop, based on default_page_size, alignment and contiguous flag.
->>> I kept min_page_size determine logic inside the loop for cases 2GiB+
->>> requirements, Since now we are round up the size to the required
->>> alignment, I modified the min_page_size determine logic outside of the
->>> loop in v12. Please review.
->>
->> Ah! So do we only have the loop so that each allocation isn't bigger 
->> than 2GiB? If yes couldn't we instead add a max_alloc_size or something 
->> similar?
-> yes we have the loop to limit the allocation not bigger than 2GiB, I
-> think we cannot avoid the loop since we need to allocate the remaining
-> pages if any, to complete the 2GiB+ size request. In other words, first
-> iteration we limit the max size to 2GiB and in the second iteration we
-> allocate the left over pages if any.
+> base-commit: fe83949cd4316608ea785fc376b6ed444224adad
+> prerequisite-patch-id: c2b2f08f0eccc9f5df0c0da49fa1d36267deb11d
+> prerequisite-patch-id: c67e5d886a47b7d0266d81100837557fda34cb24
+> prerequisite-patch-id: 6e1032c6302461624f33194c8b8f37103a3fa6ef
 
-Hi Christian,
+-- 
+Cheers,
+ Lyude Paul (she/her)
+ Software Engineer at Red Hat
 
-Here my understanding might be incorrect, should we limit the max size =
-2GiB and skip all the remaining pages for a 2GiB+ request?
-
-Thanks,
-Arun
->>
->> BTW: I strongly suggest that you rename min_page_size to min_alloc_size. 
->> Otherwise somebody could think that those numbers are in pages and not 
->> bytes.
-> modified in v12
->>
->>>> Then why do you drop the lock and grab it again inside the loop? And what is "i" actually good for?
->>> modified the lock/unlock placement in v12.
->>>
->>> "i" is to track when there is 2GiB+ contiguous allocation request, first
->>> we allocate 2GiB (due to SG table limit) continuously and the remaining
->>> pages in the next iteration, hence this request can't be a continuous.
->>> To set the placement flag we make use of "i" value. In our case "i"
->>> value becomes 2 and we don't set the below flag.
->>> node->base.placement |= TTM_PL_FLAG_CONTIGUOUS;
->>>
->>> If we don't get such requests, I will remove "i".
->>
->> I'm not sure if that works.
->>
->> As far as I can see drm_buddy_alloc_blocks() can allocate multiple 
->> blocks at the same time, but i is only incremented when we loop.
->>
->> So what you should do instead is to check if node->blocks just contain 
->> exactly one element after the allocation but before the trim.
-> ok
->>
->>>>> +
->>>>> +		/* Limit maximum size to 2GB due to SG table limitations */
->>>>> +		pages = min(pages_left, 2UL << (30 - PAGE_SHIFT));
->>>>>    
->>>>>    		if (pages >= pages_per_node)
->>>>> -			alignment = pages_per_node;
->>>>> -
->>>>> -		r = drm_mm_insert_node_in_range(mm, &node->mm_nodes[i], pages,
->>>>> -						alignment, 0, place->fpfn,
->>>>> -						lpfn, mode);
->>>>> -		if (unlikely(r)) {
->>>>> -			if (pages > pages_per_node) {
->>>>> -				if (is_power_of_2(pages))
->>>>> -					pages = pages / 2;
->>>>> -				else
->>>>> -					pages = rounddown_pow_of_two(pages);
->>>>> -				continue;
->>>>> -			}
->>>>> -			goto error_free;
->>>>> +			min_page_size = pages_per_node << PAGE_SHIFT;
->>>>> +
->>>>> +		if (!is_contiguous && !IS_ALIGNED(pages, min_page_size >> PAGE_SHIFT))
->>>>> +			is_contiguous = 1;
->>>>> +
->>>>> +		if (is_contiguous) {
->>>>> +			pages = roundup_pow_of_two(pages);
->>>>> +			min_page_size = pages << PAGE_SHIFT;
->>>>> +
->>>>> +			if (pages > lpfn)
->>>>> +				lpfn = pages;
->>>>>    		}
->>>>>    
->>>>> -		vis_usage += amdgpu_vram_mgr_vis_size(adev, &node->mm_nodes[i]);
->>>>> -		amdgpu_vram_mgr_virt_start(&node->base, &node->mm_nodes[i]);
->>>>> -		pages_left -= pages;
->>>>> +		BUG_ON(min_page_size < mm->chunk_size);
->>>>> +
->>>>> +		mutex_lock(&mgr->lock);
->>>>> +		r = drm_buddy_alloc_blocks(mm, (u64)place->fpfn << PAGE_SHIFT,
->>>>> +					   (u64)lpfn << PAGE_SHIFT,
->>>>> +					   (u64)pages << PAGE_SHIFT,
->>>>> +					   min_page_size,
->>>>> +					   &node->blocks,
->>>>> +					   node->flags);
->>>>> +		mutex_unlock(&mgr->lock);
->>>>> +		if (unlikely(r))
->>>>> +			goto error_free_blocks;
->>>>> +
->>>>>    		++i;
->>>>>    
->>>>>    		if (pages > pages_left)
->>>>> -			pages = pages_left;
->>>>> +			pages_left = 0;
->>>>> +		else
->>>>> +			pages_left -= pages;
->>>>>    	}
->>>>> -	spin_unlock(&mgr->lock);
->>>>>    
->>>>> -	if (i == 1)
->>>>> +	/* Free unused pages for contiguous allocation */
->>>>> +	if (is_contiguous) {
->>>> Well that looks really odd, why is trimming not part of
->>>> drm_buddy_alloc_blocks() ?
->>> we didn't place trim function part of drm_buddy_alloc_blocks since we
->>> thought this function can be a generic one and it can be used by any
->>> other application as well. For example, now we are using it for trimming
->>> the last block in case of size non-alignment with min_page_size.
->>
->> Good argument. Another thing I just realized is that we probably want to 
->> double check if we only allocated one block before the trim.
-> ok
->>
->> Thanks,
->> Christian.
->>
