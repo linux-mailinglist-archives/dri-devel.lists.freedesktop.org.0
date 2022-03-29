@@ -2,37 +2,37 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id B60484EB1F2
-	for <lists+dri-devel@lfdr.de>; Tue, 29 Mar 2022 18:41:39 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 0DDD04EB1F3
+	for <lists+dri-devel@lfdr.de>; Tue, 29 Mar 2022 18:42:09 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id E5BF210F139;
-	Tue, 29 Mar 2022 16:41:37 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id F163510F13E;
+	Tue, 29 Mar 2022 16:42:06 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from metis.ext.pengutronix.de (metis.ext.pengutronix.de
  [IPv6:2001:67c:670:201:290:27ff:fe1d:cc33])
- by gabe.freedesktop.org (Postfix) with ESMTPS id C21F710F139
- for <dri-devel@lists.freedesktop.org>; Tue, 29 Mar 2022 16:41:36 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 4E32210F13D
+ for <dri-devel@lists.freedesktop.org>; Tue, 29 Mar 2022 16:42:06 +0000 (UTC)
 Received: from drehscheibe.grey.stw.pengutronix.de ([2a0a:edc0:0:c01:1d::a2])
  by metis.ext.pengutronix.de with esmtps
  (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256) (Exim 4.92)
  (envelope-from <p.zabel@pengutronix.de>)
- id 1nZEuV-0005rU-3T; Tue, 29 Mar 2022 18:41:35 +0200
+ id 1nZEux-0005xu-Ri; Tue, 29 Mar 2022 18:42:03 +0200
 Received: from [2a0a:edc0:0:900:1d::4e] (helo=lupine)
  by drehscheibe.grey.stw.pengutronix.de with esmtp (Exim 4.94.2)
  (envelope-from <p.zabel@pengutronix.de>)
- id 1nZEuR-003pAt-Jj; Tue, 29 Mar 2022 18:41:34 +0200
+ id 1nZEuu-003pAy-2v; Tue, 29 Mar 2022 18:42:02 +0200
 Received: from pza by lupine with local (Exim 4.94.2)
  (envelope-from <p.zabel@pengutronix.de>)
- id 1nZEuT-000Ale-Jy; Tue, 29 Mar 2022 18:41:33 +0200
-Message-ID: <933830e163f5f514a24e8b6137c0ff2e4c89e7e5.camel@pengutronix.de>
-Subject: Re: [PATCH] drm/imx: dw_hdmi-imx: Fix bailout in error cases of probe
+ id 1nZEuw-000An1-0m; Tue, 29 Mar 2022 18:42:02 +0200
+Message-ID: <b3a71d55124c0610e247bd133bf97bfeac0e9e8d.camel@pengutronix.de>
+Subject: Re: [PATCH] gpu: ipu-v3: Fix dev_dbg frequency output
 From: Philipp Zabel <p.zabel@pengutronix.de>
-To: Liu Ying <victor.liu@nxp.com>, dri-devel@lists.freedesktop.org, 
- linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org
-Date: Tue, 29 Mar 2022 18:41:33 +0200
-In-Reply-To: <20220128091944.3831256-1-victor.liu@nxp.com>
-References: <20220128091944.3831256-1-victor.liu@nxp.com>
+To: Mark Jonas <mark.jonas@de.bosch.com>, David Airlie <airlied@linux.ie>, 
+ Daniel Vetter <daniel@ffwll.ch>
+Date: Tue, 29 Mar 2022 18:42:01 +0200
+In-Reply-To: <20220207151411.5009-1-mark.jonas@de.bosch.com>
+References: <20220207151411.5009-1-mark.jonas@de.bosch.com>
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 User-Agent: Evolution 3.38.3-1 
@@ -54,76 +54,72 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: David Airlie <airlied@linux.ie>, Shawn Guo <shawnguo@kernel.org>,
- Sascha Hauer <s.hauer@pengutronix.de>, NXP Linux Team <linux-imx@nxp.com>,
- Pengutronix Kernel Team <kernel@pengutronix.de>
+Cc: tingquan.ruan@cn.bosch.com, linux-kernel@vger.kernel.org,
+ dri-devel@lists.freedesktop.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Fr, 2022-01-28 at 17:19 +0800, Liu Ying wrote:
-> In dw_hdmi_imx_probe(), if error happens after dw_hdmi_probe()
-> returns
-> successfully, dw_hdmi_remove() should be called where necessary as
-> bailout.
+On Mo, 2022-02-07 at 16:14 +0100, Mark Jonas wrote:
+> From: Leo Ruan <tingquan.ruan@cn.bosch.com>
 >=20
-> Fixes: c805ec7eb210 ("drm/imx: dw_hdmi-imx: move initialization into
-> probe")
-> Cc: Philipp Zabel <p.zabel@pengutronix.de>
-> Cc: David Airlie <airlied@linux.ie>
-> Cc: Daniel Vetter <daniel@ffwll.ch>
-> Cc: Shawn Guo <shawnguo@kernel.org>
-> Cc: Sascha Hauer <s.hauer@pengutronix.de>
-> Cc: Pengutronix Kernel Team <kernel@pengutronix.de>
-> Cc: Fabio Estevam <festevam@gmail.com>
-> Cc: NXP Linux Team <linux-imx@nxp.com>
-> Signed-off-by: Liu Ying <victor.liu@nxp.com>
+> This commit corrects the printing of the IPU clock error percentage
+> if
+> it is between -0.1% to -0.9%. For example, if the pixel clock
+> requested
+> is 27.2 MHz but only 27.0 MHz can be achieved the deviation is -0.8%.
+> But the fixed point math had a flaw and calculated error of 0.2%.
+>=20
+> Before:
+> =C2=A0 Clocks: IPU 270000000Hz DI 24716667Hz Needed 27200000Hz
+> =C2=A0 IPU clock can give 27000000 with divider 10, error 0.2%
+> =C2=A0 Want 27200000Hz IPU 270000000Hz DI 24716667Hz using IPU, 27000000H=
+z
+>=20
+> After:
+> =C2=A0 Clocks: IPU 270000000Hz DI 24716667Hz Needed 27200000Hz
+> =C2=A0 IPU clock can give 27000000 with divider 10, error -0.8%
+> =C2=A0 Want 27200000Hz IPU 270000000Hz DI 24716667Hz using IPU, 27000000H=
+z
+>=20
+> Signed-off-by: Leo Ruan <tingquan.ruan@cn.bosch.com>
+> Signed-off-by: Mark Jonas <mark.jonas@de.bosch.com>
 > ---
-> =C2=A0drivers/gpu/drm/imx/dw_hdmi-imx.c | 8 +++++++-
-> =C2=A01 file changed, 7 insertions(+), 1 deletion(-)
+> =C2=A0drivers/gpu/ipu-v3/ipu-di.c | 5 +++--
+> =C2=A01 file changed, 3 insertions(+), 2 deletions(-)
 >=20
-> diff --git a/drivers/gpu/drm/imx/dw_hdmi-imx.c
-> b/drivers/gpu/drm/imx/dw_hdmi-imx.c
-> index 87428fb23d9f..a2277a0d6d06 100644
-> --- a/drivers/gpu/drm/imx/dw_hdmi-imx.c
-> +++ b/drivers/gpu/drm/imx/dw_hdmi-imx.c
-> @@ -222,6 +222,7 @@ static int dw_hdmi_imx_probe(struct
-> platform_device *pdev)
-> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0struct device_node *np =
-=3D pdev->dev.of_node;
-> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0const struct of_device_id=
- *match =3D
-> of_match_node(dw_hdmi_imx_dt_ids, np);
-> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0struct imx_hdmi *hdmi;
-> +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0int ret;
+> diff --git a/drivers/gpu/ipu-v3/ipu-di.c b/drivers/gpu/ipu-v3/ipu-
+> di.c
+> index b4a31d506fcc..74eca68891ad 100644
+> --- a/drivers/gpu/ipu-v3/ipu-di.c
+> +++ b/drivers/gpu/ipu-v3/ipu-di.c
+> @@ -451,8 +451,9 @@ static void ipu_di_config_clock(struct ipu_di
+> *di,
 > =C2=A0
-> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0hdmi =3D devm_kzalloc(&pd=
-ev->dev, sizeof(*hdmi), GFP_KERNEL);
-> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0if (!hdmi)
-> @@ -243,10 +244,15 @@ static int dw_hdmi_imx_probe(struct
-> platform_device *pdev)
-> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0hdmi->bridge =3D of_drm_f=
-ind_bridge(np);
-> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0if (!hdmi->bridge) {
 > =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
-=C2=A0=C2=A0=C2=A0=C2=A0dev_err(hdmi->dev, "Unable to find bridge\n");
+=C2=A0=C2=A0=C2=A0=C2=A0error =3D rate / (sig->mode.pixelclock / 1000);
+> =C2=A0
+> -=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
+=C2=A0=C2=A0=C2=A0dev_dbg(di->ipu->dev, "=C2=A0 IPU clock can give %lu with
+> divider %u, error %d.%u%%\n",
+> -=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
+=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0rate, div=
+, (signed)(error - 1000) / 10, error
+> % 10);
 > +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
-=C2=A0=C2=A0=C2=A0dw_hdmi_remove(hdmi->hdmi);
+=C2=A0=C2=A0=C2=A0dev_dbg(di->ipu->dev, "=C2=A0 IPU clock can give %lu with
+> divider %u, error %c%d.%d%%\n",
+> +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
+=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0rate, div=
+, error < 1000 ? '-' : '+',
+> +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
+=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0abs(error=
+ - 1000) / 10, abs(error - 1000) %
+> 10);
+> =C2=A0
 > =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
-=C2=A0=C2=A0=C2=A0=C2=A0return -ENODEV;
-> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0}
-> =C2=A0
-> -=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0return component_add(&pdev->de=
-v, &dw_hdmi_imx_ops);
-> +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0ret =3D component_add(&pdev->d=
-ev, &dw_hdmi_imx_ops);
-> +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0if (ret)
-> +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
-=C2=A0=C2=A0=C2=A0dw_hdmi_remove(hdmi->hdmi);
-> +
-> +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0return ret;
-> =C2=A0}
-> =C2=A0
-> =C2=A0static int dw_hdmi_imx_remove(struct platform_device *pdev)
+=C2=A0=C2=A0=C2=A0=C2=A0/* Allow a 1% error */
+> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
+=C2=A0=C2=A0=C2=A0=C2=A0if (error < 1010 && error >=3D 990) {
 
 Thank you, applied to imx-drm/fixes.
 
