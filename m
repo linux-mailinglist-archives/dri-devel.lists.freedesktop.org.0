@@ -1,69 +1,64 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 173F04EA89B
-	for <lists+dri-devel@lfdr.de>; Tue, 29 Mar 2022 09:38:06 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 79E0F4EA888
+	for <lists+dri-devel@lfdr.de>; Tue, 29 Mar 2022 09:31:13 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id B630A10F071;
-	Tue, 29 Mar 2022 07:38:03 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 485C810EFF4;
+	Tue, 29 Mar 2022 07:31:10 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-qk1-x72e.google.com (mail-qk1-x72e.google.com
- [IPv6:2607:f8b0:4864:20::72e])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 61F2E10E56C
- for <dri-devel@lists.freedesktop.org>; Tue, 29 Mar 2022 07:11:13 +0000 (UTC)
-Received: by mail-qk1-x72e.google.com with SMTP id b189so13367468qkf.11
- for <dri-devel@lists.freedesktop.org>; Tue, 29 Mar 2022 00:11:13 -0700 (PDT)
+Received: from mail-lj1-x233.google.com (mail-lj1-x233.google.com
+ [IPv6:2a00:1450:4864:20::233])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 5937B10EFF3
+ for <dri-devel@lists.freedesktop.org>; Tue, 29 Mar 2022 07:31:09 +0000 (UTC)
+Received: by mail-lj1-x233.google.com with SMTP id a30so14822724ljq.13
+ for <dri-devel@lists.freedesktop.org>; Tue, 29 Mar 2022 00:31:09 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
- h=message-id:subject:from:to:cc:date:in-reply-to:references
- :user-agent:mime-version:content-transfer-encoding;
- bh=2Jpv9X1mRqJBbBsT23UY5br7jZqVXCd74N7s1FPvLr4=;
- b=aalhu3Sn2nCA2dfMtZ5bg8U92vZKzbYYf8SrKTbvgcuwConxVqtEYxu+UbeK/CJKxp
- J2XW8EhweBztEFHH7svb39CtM57BYUnEa7U+pYtiJYBB5XUHBvrnsp+cPrefNgiMcLrZ
- 62Llq4Z4FsR8ZRjtmDyiamTrk9hpftq7UQzCsIhIrvZfUdHmBtdZGK89rhJOfeP85PpH
- eVGG2mAClPGGFETMVpQWYnprmSsUIpJW+u6MwF45N/uNc6ZpXKMiZ3fb5Ov5AVu7FhxV
- Gv1tT+uDa8zgT/Sr4alxIm2XyNmsemas9yiRD5o83DGQuSVhR5K1LYSgo7DCLFccDPw9
- 0LAA==
+ h=mime-version:subject:from:in-reply-to:date:cc
+ :content-transfer-encoding:message-id:references:to;
+ bh=XWnk+pKdZJqmV62/h657OWIHY82bAb8Z3BgjqTiOLz4=;
+ b=ZCavqCdVJwYtGfT81BfsVjv2DbWIBe15YHPAb2is2LlqnbovkJCrWB7jH14nRSJsbc
+ 1PeyPqzQYMIhT03U54XHuSToZmfYPBcMumixdH39LypobqzQ+YGKtqjXV/Hu9zm+Mgcv
+ 6gZyCzkU5ySSErh38hFZ8tOjr54LdLAsmBoW45UOoFqVTMOq0mG2Zq55SaaYQBPI1PIp
+ DQohnuBitjJ7L1+05TsrmaqyziJ5QwMZZFuVe+LAj6hxFW2gv8+ZjVg9zsMGdbV6Hiv5
+ NqQGtElNtHViCHkWeFk28wQyGb41x63um96QvtKx/rq3bXRIszv79P8E2F1rv7X2ODfS
+ +hfQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=x-gm-message-state:message-id:subject:from:to:cc:date:in-reply-to
- :references:user-agent:mime-version:content-transfer-encoding;
- bh=2Jpv9X1mRqJBbBsT23UY5br7jZqVXCd74N7s1FPvLr4=;
- b=vFEm/Z/TaIFuNnWx8OvyU8i0wl2XkEybTGSFutKWWeYhiMglsa4jrrIk0AsssZJpXg
- HCmZTxO9bWkX953qHkcPtDuci6WW/gbxrt4UhAqj/G3WV04JeN0cEApT22LiytUJNtwF
- Qr13JccSKDq1J17a5m4dKasgzUjpJm3AD2KxvpjPJRleoW4++g4e4gpWqETXsjZwPanC
- 2hbkaJ5EtqlKSqbPZf7yLqKRj8xBAQmlvRUz4XVyc9ONuDw/5UWTa0JcBvJabrtpe7vR
- tc3vbvc3QfiLMNzvT5NyhUdDrmONKadTor2zKHbK6uaJwNDh/pS9YWDHjxmw0HxQrna/
- Jppg==
-X-Gm-Message-State: AOAM5337Dp8wz9LbAmco8/a+hsgJIIlvIw4eG/M3D+SaITbapKLZbrrC
- QbRW8LupNLQ8mxXy9xH41aSqib7BOC/xYleo
-X-Google-Smtp-Source: ABdhPJy+jP697xainM6j70Eo1PTqkiP/ca6UtAdVU/oGW4GfmOgL8tApjwuNxpCwyJzVAWUtTBOa6g==
-X-Received: by 2002:a37:9a47:0:b0:680:aeaa:d89c with SMTP id
- c68-20020a379a47000000b00680aeaad89cmr15826074qke.591.1648537872342; 
- Tue, 29 Mar 2022 00:11:12 -0700 (PDT)
-Received: from ?IPv6:2003:f6:ef00:8400:3d36:58a:667a:1da9?
- (p200300f6ef0084003d36058a667a1da9.dip0.t-ipconnect.de.
- [2003:f6:ef00:8400:3d36:58a:667a:1da9])
- by smtp.gmail.com with ESMTPSA id
- j1-20020a05620a288100b0067b1be3201bsm8843300qkp.112.2022.03.29.00.11.09
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 29 Mar 2022 00:11:11 -0700 (PDT)
-Message-ID: <deb2cd86196addbc47908455880000c618b984be.camel@gmail.com>
-Subject: Re: [PATCH v2 02/12] iio: buffer-dma: Enable buffer write support
-From: Nuno =?ISO-8859-1?Q?S=E1?= <noname.nuno@gmail.com>
-To: Paul Cercueil <paul@crapouillou.net>, Jonathan Cameron <jic23@kernel.org>
-Date: Tue, 29 Mar 2022 09:11:48 +0200
-In-Reply-To: <96XG9R.3NOIIEN7IS001@crapouillou.net>
-References: <20220207125933.81634-1-paul@crapouillou.net>
- <20220207125933.81634-3-paul@crapouillou.net>
- <20220328182409.1e959386@jic23-huawei>
- <96XG9R.3NOIIEN7IS001@crapouillou.net>
-Content-Type: text/plain; charset="UTF-8"
-User-Agent: Evolution 3.42.4 
-MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-Mailman-Approved-At: Tue, 29 Mar 2022 07:38:02 +0000
+ h=x-gm-message-state:mime-version:subject:from:in-reply-to:date:cc
+ :content-transfer-encoding:message-id:references:to;
+ bh=XWnk+pKdZJqmV62/h657OWIHY82bAb8Z3BgjqTiOLz4=;
+ b=HaOA/LI2NIqM1VufTzrMAqAK8DULRZZ/XcrUJglLy8vbJivioQAuyhRdI9N+475OgD
+ z+eQTEW4BEm5N93iasrfYmjLTQZ+1KHuDniPseJZyQNrnEXBLEjUUhshJowXUMtjX9wf
+ 9YSCk+OGq1B5TL5YvOreHK8tGOVy+9eKQh0Yj1qOoPaHDMtk/DlPm25ozspp/Y/CDLqI
+ t6FdRrfDENh1X4y0VgvJKWdBRdIIzOTLHiro6d1QEKIbAIljxSrNl3MOq3M6vEZWKnRE
+ zCQMvtg7hsSXz041/G8o4rASu+IvyHjuycTLrnh8aH3xNUQ5/g8nhX+eoPoudEoiuzxf
+ VNTQ==
+X-Gm-Message-State: AOAM530TAW4AV7vs/xjAvrUm3Fs/yCVpcCh+rECfOwVjlKD5lEC0wv11
+ aH3E/tdqrTxdr1T4ZQPZ4wA=
+X-Google-Smtp-Source: ABdhPJyT5tL6mJoGz4sCX2mi3mIH2uu0ICIFJhwPC75SzUetOpN8XKJFv4/ZDm10r94iaB6qmCbJlw==
+X-Received: by 2002:a2e:b179:0:b0:24a:d3da:8691 with SMTP id
+ a25-20020a2eb179000000b0024ad3da8691mr1412035ljm.392.1648539067518; 
+ Tue, 29 Mar 2022 00:31:07 -0700 (PDT)
+Received: from smtpclient.apple (31-178-191-245.dynamic.chello.pl.
+ [31.178.191.245]) by smtp.gmail.com with ESMTPSA id
+ l18-20020a194952000000b00445bf2c3b83sm1898047lfj.58.2022.03.29.00.31.05
+ (version=TLS1_2 cipher=ECDHE-ECDSA-AES128-GCM-SHA256 bits=128/128);
+ Tue, 29 Mar 2022 00:31:07 -0700 (PDT)
+Content-Type: text/plain;
+	charset=utf-8
+Mime-Version: 1.0 (Mac OS X Mail 14.0 \(3654.120.0.1.13\))
+Subject: Re: [PATCH v9 00/23] drm/rockchip: RK356x VOP2 support
+From: Piotr Oniszczuk <piotr.oniszczuk@gmail.com>
+In-Reply-To: <20220328151116.2034635-1-s.hauer@pengutronix.de>
+Date: Tue, 29 Mar 2022 09:31:01 +0200
+Content-Transfer-Encoding: quoted-printable
+Message-Id: <FB201567-AE5A-4242-82F1-7C55D8F111EA@gmail.com>
+References: <20220328151116.2034635-1-s.hauer@pengutronix.de>
+To: Sascha Hauer <s.hauer@pengutronix.de>
+X-Mailer: Apple Mail (2.3654.120.0.1.13)
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -76,92 +71,57 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Michael Hennerich <Michael.Hennerich@analog.com>,
- Jonathan Corbet <corbet@lwn.net>, linux-iio@vger.kernel.org,
- linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
- dri-devel@lists.freedesktop.org, Sumit Semwal <sumit.semwal@linaro.org>,
- linaro-mm-sig@lists.linaro.org, Alexandru Ardelean <ardeleanalex@gmail.com>,
- Christian =?ISO-8859-1?Q?K=F6nig?= <christian.koenig@amd.com>
+Cc: "devicetree@vger.kernel.org" <devicetree@vger.kernel.org>,
+ Benjamin Gaignard <benjamin.gaignard@collabora.com>,
+ Peter Geis <pgwipeout@gmail.com>, Sandy Huang <hjc@rock-chips.com>,
+ dri-devel@lists.freedesktop.org,
+ "open list:ARM/Rockchip SoC..." <linux-rockchip@lists.infradead.org>,
+ Michael Riesch <michael.riesch@wolfvision.net>, kernel@pengutronix.de,
+ Andy Yan <andy.yan@rock-chips.com>,
+ "linux-arm-kernel@lists.infradead.org" <linux-arm-kernel@lists.infradead.org>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Mon, 2022-03-28 at 19:39 +0100, Paul Cercueil wrote:
-> Hi Jonathan,
-> 
-> Le lun., mars 28 2022 at 18:24:09 +0100, Jonathan Cameron 
-> <jic23@kernel.org> a écrit :
-> > On Mon,  7 Feb 2022 12:59:23 +0000
-> > Paul Cercueil <paul@crapouillou.net> wrote:
-> > 
-> > >  Adding write support to the buffer-dma code is easy - the
-> > > write()
-> > >  function basically needs to do the exact same thing as the
-> > > read()
-> > >  function: dequeue a block, read or write the data, enqueue the
-> > > block
-> > >  when entirely processed.
-> > > 
-> > >  Therefore, the iio_buffer_dma_read() and the new 
-> > > iio_buffer_dma_write()
-> > >  now both call a function iio_buffer_dma_io(), which will perform
-> > > this
-> > >  task.
-> > > 
-> > >  The .space_available() callback can return the exact same value
-> > > as 
-> > > the
-> > >  .data_available() callback for input buffers, since in both
-> > > cases we
-> > >  count the exact same thing (the number of bytes in each
-> > > available
-> > >  block).
-> > > 
-> > >  Note that we preemptively reset block->bytes_used to the
-> > > buffer's 
-> > > size
-> > >  in iio_dma_buffer_request_update(), as in the future the
-> > >  iio_dma_buffer_enqueue() function won't reset it.
-> > > 
-> > >  v2: - Fix block->state not being reset in
-> > >        iio_dma_buffer_request_update() for output buffers.
-> > >      - Only update block->bytes_used once and add a comment about
-> > > why we
-> > >        update it.
-> > >      - Add a comment about why we're setting a different state
-> > > for 
-> > > output
-> > >        buffers in iio_dma_buffer_request_update()
-> > >      - Remove useless cast to bool (!!) in iio_dma_buffer_io()
-> > > 
-> > >  Signed-off-by: Paul Cercueil <paul@crapouillou.net>
-> > >  Reviewed-by: Alexandru Ardelean <ardeleanalex@gmail.com>
-> > One comment inline.
-> > 
-> > I'd be tempted to queue this up with that fixed, but do we have
-> > any users?  Even though it's trivial I'm not that keen on code
-> > upstream well in advance of it being used.
-> 
-> There's a userspace user in libiio. On the kernel side we do have 
-> drivers that use it in ADI's downstream kernel, that we plan to 
-> upstream in the long term (but it can take some time, as we need to 
-> upstream other things first, like JESD204B support).
-> 
-> 
 
-You mean, users for DMA output buffers? If so, I have on my queue to
-add the dac counterpart of this one:
 
-https://elixir.bootlin.com/linux/latest/source/drivers/iio/adc/adi-axi-adc.c
+> Wiadomo=C5=9B=C4=87 napisana przez Sascha Hauer =
+<s.hauer@pengutronix.de> w dniu 28.03.2022, o godz. 17:10:
+>=20
+>=20
+> Changes since v8:
+> - make hclk_vo a critical clock instead of enabling it in the hdmi =
+driver
+> - Fix vop2_setup_layer_mixer(), reported by Andy Yan
+> - Limit planes possible_crtcs to actually existing crtcs
+>=20
+>=20
 
-Which is a user of DMA buffers. Though this one does not depend on
-JESD204, I suspect it will also be a tricky process mainly because I
-think there are major issues on how things are done right now (on the
-ADC driver).
+Sascha,
 
-But yeah, not a topic here and I do plan to first start the discussion
-on the mailing list before starting developing (hopefully in the coming
-weeks)...
+FYI:
+I was hoping v9 will fix green screen issue i see when video player =
+wants to draw to nv12 capable drm plane.
+It look issue is still present :-(
 
-- Nuno Sá
+You can easily reproduce with modetest utility:
+
+modetest -P 43@67:1920x1080@NV12=20
+
+gives green screen.
+
+however if you do:
+
+modetest #43 (green screen)
+modetest #49  (ok)
+
+then
+
+modetest #43=20
+
+gives expected result ("rainbow" picture on screen)
+
+let me know if i can do any extra tests helping you to fix issue
+=20
+br
 
 
