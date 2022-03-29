@@ -2,82 +2,54 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 055884EB2F1
-	for <lists+dri-devel@lfdr.de>; Tue, 29 Mar 2022 19:52:37 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 1A4B84EB31F
+	for <lists+dri-devel@lfdr.de>; Tue, 29 Mar 2022 20:08:50 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id B8D3F10E8D3;
-	Tue, 29 Mar 2022 17:52:33 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id C533C10F0F5;
+	Tue, 29 Mar 2022 18:08:46 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-ej1-x62f.google.com (mail-ej1-x62f.google.com
- [IPv6:2a00:1450:4864:20::62f])
- by gabe.freedesktop.org (Postfix) with ESMTPS id A951210E8D3
- for <dri-devel@lists.freedesktop.org>; Tue, 29 Mar 2022 17:52:31 +0000 (UTC)
-Received: by mail-ej1-x62f.google.com with SMTP id p15so36658240ejc.7
- for <dri-devel@lists.freedesktop.org>; Tue, 29 Mar 2022 10:52:31 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=20210112;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc:content-transfer-encoding;
- bh=6WzK0iEK1tA2vwWOojnK+sRWtG13aOccwS9qWJMzFmw=;
- b=eRTnso2DqyGizkbBzNBOPjTRvAPn3ud895nlnWhPZ4UjGAm0OZxfB37FkU+nLvw6Cx
- OjNt45Va6PSjR4jK/bub1G1Q3eTo2GeQB+9pmTpO4CEGMm7rql+cSZ6Fk7LljiP+p10C
- lxPJry/Sh5OS2akJE+Ov36FPSfFSIUMNK+CUkcmjeNbw5ebd8aKUtviSH7NrYxnUal9v
- ZfK1nt8TTht/oGsn1JXKfPS1WbWw3Q7+dKjy0p0lvMt7OfpCHQtlvvmCSVRY3NAuMarF
- eEYs9Y4FfbPI1RoXStyWd/49c6fAbwgFa8ui0Ba0QbKPeSvOkII27LGSKggdYimqvZpK
- U24g==
+Received: from mail-ed1-x530.google.com (mail-ed1-x530.google.com
+ [IPv6:2a00:1450:4864:20::530])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 305C510F0F5
+ for <dri-devel@lists.freedesktop.org>; Tue, 29 Mar 2022 18:08:45 +0000 (UTC)
+Received: by mail-ed1-x530.google.com with SMTP id y10so21604784edv.7
+ for <dri-devel@lists.freedesktop.org>; Tue, 29 Mar 2022 11:08:45 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=amarulasolutions.com; s=google;
+ h=mime-version:from:date:message-id:subject:to:cc;
+ bh=t+UE1KO46QdiRto85BlA8DZfqaRFjxjYaaWy5o877os=;
+ b=lAM111G2+cOU42Dt1751lg4AAN+QAVF/wLyk/+OA9Sm+abTX27s42YlbZ2EIMcmNOI
+ kqy1bxUDeiLR5/QFtPp+79xvHWXQyliKfA2WG4mcEoauhweQyi4dQ/Iy5h6+RsD0t822
+ q4QMoG6SA/SGMTzpLYgccirSpcxlTAspHfWaQ=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc:content-transfer-encoding;
- bh=6WzK0iEK1tA2vwWOojnK+sRWtG13aOccwS9qWJMzFmw=;
- b=byf8Xf0+TKL+WD6f3BWE6MkV+QIHb0Z4A2mo7isRARG5ravJAkcGEpUIcZ9f/Dak3a
- 3TnZzA222UPC7/bKFCrr4oPB8jro1I0kY2XV0LEJ4KGbHgPQAErAEpzipOgwn5356OkT
- aclhKlTZb/XpOdTe4jaI2Qdlg2Vo/fJZdSNsWbqF33TjB0Ln/79sjtr8IekcZLdWJRT9
- hj6r55l9/b7HT4MsgxI7yzq/WBIjcjAk+7pCEwIPvV9WERMsLg5uVGJFe9GNosLSCwWO
- kZzbWxwGqKIwwoR9SKz2hB3GT0NKOS59O2JDDLkarbgpSv2x7TWkMvA62tWbwx9h2Se5
- Ps5w==
-X-Gm-Message-State: AOAM533lsKSchi/dML9Y5raqZjpYLarP+uD6ElfjoZMgjA7CKWVo4oDO
- aLI2PBR5QpHlwXntVhHq8E79vO0HydrmZ1ibDS0l3g==
-X-Google-Smtp-Source: ABdhPJzx0jIB+gd95cXgDa86T7iu7mfLoNBMM7kkuNLnofhq390upFsiPfmT/1TUlLYpMv2RfthsZvb3eTbeyPWrUYk=
-X-Received: by 2002:a17:906:5d08:b0:6da:b4ea:937 with SMTP id
- g8-20020a1709065d0800b006dab4ea0937mr37059399ejt.446.1648576349854; Tue, 29
- Mar 2022 10:52:29 -0700 (PDT)
+ h=x-gm-message-state:mime-version:from:date:message-id:subject:to:cc;
+ bh=t+UE1KO46QdiRto85BlA8DZfqaRFjxjYaaWy5o877os=;
+ b=ErS4T2+Jo82VIdEMNHGaPHpiIN6Nu2Eo9HxtO/BnjmqCmRn/leWGtfeZRA4qEgh4D8
+ +WWjQhv0Tewbd/ZfwRsvYfo0VnOe2ZR6u6hzi73B4DVwiHG56QDw/yZUNbWi/UDuS75V
+ 7tWivTao5EdSDxev5CXSPPT4CNJluC8RDFn6myoaTklO5fRreKi6p030aCH9ql93luov
+ BA/bJQJGK8yb6if3pYBRUQY5+4Ezm15/d1WfuodYtXNW3K0CvdrT+XPAYl8ujiY72bWK
+ t1tZvAOdT/Dgv7oBz72e00PGLWfUtfYPA/MDAgtDUuOHQ3N/2KUMo2OxLcQm9RudObjF
+ Tnvg==
+X-Gm-Message-State: AOAM532dZ7eA7qQHl8vvXww3sx549Eex2ILUfAUX8cSSHRxgcW7sVQJa
+ ofRkWKub5s0kaVOIYPT+zCOEhEA+eZrUReu14ze2nw==
+X-Google-Smtp-Source: ABdhPJwHESM1akHYhSVlGyzf3qR1J2Bc92sUcsTEfHmRwp607wKdRaYTO6wwLPgvxmqbDa65A5LOwjxz6KuLkxDZ180=
+X-Received: by 2002:a05:6402:8d7:b0:419:1162:a507 with SMTP id
+ d23-20020a05640208d700b004191162a507mr6118288edz.157.1648577323473; Tue, 29
+ Mar 2022 11:08:43 -0700 (PDT)
 MIME-Version: 1.0
-References: <20220328035951.1817417-1-tjmercier@google.com>
- <20220328035951.1817417-5-tjmercier@google.com>
- <YkHH/0Use7F30UUE@phenom.ffwll.local>
- <CABdmKX01p6g_iHsB6dd4Wwh=8iLdYiUqdY6_yyA5ax2YNHt6tQ@mail.gmail.com>
- <YkLGbL5Z3HVCyVkK@phenom.ffwll.local>
-In-Reply-To: <YkLGbL5Z3HVCyVkK@phenom.ffwll.local>
-From: "T.J. Mercier" <tjmercier@google.com>
-Date: Tue, 29 Mar 2022 10:52:18 -0700
-Message-ID: <CABdmKX3gTAohaOwkNccGrQyXN9tzT-oEVibO5ZPF+eP+Vq=AOg@mail.gmail.com>
-Subject: Re: [RFC v4 4/8] dmabuf: heaps: export system_heap buffers with GPU
- cgroup charging
-To: "T.J. Mercier" <tjmercier@google.com>, David Airlie <airlied@linux.ie>, 
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Maxime Ripard <mripard@kernel.org>, 
- Thomas Zimmermann <tzimmermann@suse.de>, Jonathan Corbet <corbet@lwn.net>, 
- Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
- =?UTF-8?B?QXJ2ZSBIasO4bm5ldsOlZw==?= <arve@android.com>, 
- Todd Kjos <tkjos@android.com>, Martijn Coenen <maco@android.com>, 
- Joel Fernandes <joel@joelfernandes.org>, Christian Brauner <brauner@kernel.org>,
- Hridya Valsaraju <hridya@google.com>, Suren Baghdasaryan <surenb@google.com>, 
- Sumit Semwal <sumit.semwal@linaro.org>,
- =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>, 
- Benjamin Gaignard <benjamin.gaignard@linaro.org>,
- Liam Mark <lmark@codeaurora.org>, 
- Laura Abbott <labbott@redhat.com>, Brian Starkey <Brian.Starkey@arm.com>, 
- John Stultz <john.stultz@linaro.org>, Tejun Heo <tj@kernel.org>, 
- Zefan Li <lizefan.x@bytedance.com>, Johannes Weiner <hannes@cmpxchg.org>, 
- Shuah Khan <shuah@kernel.org>, Kalesh Singh <kaleshsingh@google.com>,
- Kenny.Ho@amd.com, =?UTF-8?Q?Michal_Koutn=C3=BD?= <mkoutny@suse.com>, 
- Shuah Khan <skhan@linuxfoundation.org>, dri-devel@lists.freedesktop.org, 
- linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org, 
- linux-media@vger.kernel.org, linaro-mm-sig@lists.linaro.org, 
- cgroups@vger.kernel.org, linux-kselftest@vger.kernel.org
+From: Jagan Teki <jagan@amarulasolutions.com>
+Date: Tue, 29 Mar 2022 23:38:32 +0530
+Message-ID: <CAMty3ZBT9WEPbkaoS_8t1O153tckBk0pxiP2cF75ASZb54SPUQ@mail.gmail.com>
+Subject: DRM Master ignoring hotplug event during display switching (QT)
+To: Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>,
+ Laurent Pinchart <laurent.pinchart@ideasonboard.com>, 
+ Neil Armstrong <narmstrong@baylibre.com>,
+ Dave Stevenson <dave.stevenson@raspberrypi.com>, 
+ Andrzej Hajda <a.hajda@samsung.com>, Sam Ravnborg <sam@ravnborg.org>, 
+ Michael Nazzareno Trimarchi <michael@amarulasolutions.com>
 Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -90,264 +62,53 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
+Cc: linux-amarula <linux-amarula@amarulasolutions.com>,
+ dri-devel <dri-devel@lists.freedesktop.org>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Tue, Mar 29, 2022 at 1:42 AM Daniel Vetter <daniel@ffwll.ch> wrote:
->
-> On Mon, Mar 28, 2022 at 11:28:24AM -0700, T.J. Mercier wrote:
-> > On Mon, Mar 28, 2022 at 7:36 AM Daniel Vetter <daniel@ffwll.ch> wrote:
-> > >
-> > > On Mon, Mar 28, 2022 at 03:59:43AM +0000, T.J. Mercier wrote:
-> > > > From: Hridya Valsaraju <hridya@google.com>
-> > > >
-> > > > All DMA heaps now register a new GPU cgroup device upon creation, a=
-nd the
-> > > > system_heap now exports buffers associated with its GPU cgroup devi=
-ce for
-> > > > tracking purposes.
-> > > >
-> > > > Signed-off-by: Hridya Valsaraju <hridya@google.com>
-> > > > Signed-off-by: T.J. Mercier <tjmercier@google.com>
-> > > >
-> > > > ---
-> > > > v3 changes
-> > > > Use more common dual author commit message format per John Stultz.
-> > > >
-> > > > v2 changes
-> > > > Move dma-buf cgroup charge transfer from a dma_buf_op defined by ev=
-ery
-> > > > heap to a single dma-buf function for all heaps per Daniel Vetter a=
-nd
-> > > > Christian K=C3=B6nig.
-> > >
-> > > Apologies for being out of the loop quite a bit. I scrolled through t=
-his
-> > > all and I think it looks good to get going.
-> > >
-> > > The only thing I have is whether we should move the cgroup controller=
-s out
-> > > of dma-buf heaps, since that's rather android centric. E.g.
-> > > - a system gpucg_device which is used by all the various single page
-> > >   allocators (dma-buf heap but also shmem helpers and really anything
-> > >   else)
-> > > - same for cma, again both for dma-buf heaps and also for the gem cma
-> > >   helpers in drm
-> >
-> > Thanks Daniel, in general that makes sense to me as an approach to
-> > making this more universal. However for the Android case I'm not sure
-> > if the part about a single system gpucg_device would be sufficient,
-> > because there are at least 12 different graphics related heaps that
-> > could potentially be accounted/limited differently. [1]  So that
-> > raises the question of how fine grained we want this to be... I tend
-> > towards separating them all, but I haven't formed a strong opinion
-> > about this at the moment. It sounds like you are in favor of a
-> > smaller, more rigidly defined set of them? Either way, we need to add
-> > code for accounting at points where we know memory is specifically for
-> > graphics use and not something else right? (I.E. Whether it is a
-> > dma-buf heap or somewhere like drm_gem_object_init.) So IIUC the only
-> > question is what to use for the gpucg_device(s) at these locations.
->
-> We don't have 12 in upstream, so this is a lot easier here :-)
->
-> I'm not exactly sure why you have such a huge pile of them.
->
-> For gem buffers it would be fairly similar to what you've done for dma-bu=
-f
-> heaps I think, with the various helper libraries (drivers stopped
-> hand-rolling their gem buffer) setting the right accounting group. And
-> yeah for system memory I think we'd need to have standard ones, for drive=
-r
-> specific ones it's kinda different.
->
-> > [1] https://cs.android.com/android/platform/superproject/+/master:hardw=
-are/google/graphics/common/libion/ion.cpp;l=3D39-50
-> >
-> > >
-> > > Otherwise this will only work on non-upstream android where gpu drive=
-rs
-> > > allocate everything from dma-buf heap. If you use something like the =
-x86
-> > > android project with mesa drivers, then driver-internal buffers will =
-be
-> > > allocated through gem and not through dma-buf heaps. Or at least I th=
-ink
-> > > that's how it works.
-> > >
-> > > But also meh, we can fix this fairly easily later on by adding these
-> > > standard gpucg_dev somwehere with a bit of kerneldoc.
-> >
-> > This is what I was thinking would happen next, but IDK if anyone sees
-> > a more central place to do this type of use-specific accounting.
->
-> Hm I just realized ... are the names in the groups abi? If yes then I
-> think we need to fix this before we merge anything.
-> -Daniel
+Hi all,
 
-Do you mean the set of possible names being part of the ABI for GPU
-cgroups? I'm not exactly sure what you mean here.
+I have implemented runtime display switching in the MIPI switch design
+where LVDS and HDMI bridges are selected with the help of runtime
+GPIO.
 
-The name is a settable string inside the gpucg_device struct, and
-right now the docs say it must be from a string literal but this can
-be changed. The only one this patchset adds is "system", which comes
-from the name field in its dma_heap_export_info struct when it's first
-created (and that string is hardcoded). The heap gpucg_devices are all
-registered from one spot in dma-heap.c, so maybe we should append
-"-heap" to the gpucg_device names there so "system" is available for a
-standardized name. Let me make those two changes, and I will also
-rebase this series before resending.
+Initial discussion on the same can be found here,
+https://www.spinics.net/lists/dri-devel/msg318524.html
 
+The implementation has been done by creating each connector at
+runtime. The default boot will create the LVDS connector and based on
+the HDMI plug-in the ISR.
 
+1. forcing the LVDS to disconnect
+2. call drm_kms_helper_hotplug_event
+3. detach the bridge chain
+4. attach the new bridge chain (HDMI)
+5. call drm_kms_helper_hotplug_event
 
->
-> >
-> > >
-> > > Anyway has my all my ack, but don't count this as my in-depth review =
-:-)
-> > > -Daniel
-> >
-> > Thanks again for taking a look!
-> > >
-> > > > ---
-> > > >  drivers/dma-buf/dma-heap.c          | 27 +++++++++++++++++++++++++=
-++
-> > > >  drivers/dma-buf/heaps/system_heap.c |  3 +++
-> > > >  include/linux/dma-heap.h            | 11 +++++++++++
-> > > >  3 files changed, 41 insertions(+)
-> > > >
-> > > > diff --git a/drivers/dma-buf/dma-heap.c b/drivers/dma-buf/dma-heap.=
-c
-> > > > index 8f5848aa144f..885072427775 100644
-> > > > --- a/drivers/dma-buf/dma-heap.c
-> > > > +++ b/drivers/dma-buf/dma-heap.c
-> > > > @@ -7,6 +7,7 @@
-> > > >   */
-> > > >
-> > > >  #include <linux/cdev.h>
-> > > > +#include <linux/cgroup_gpu.h>
-> > > >  #include <linux/debugfs.h>
-> > > >  #include <linux/device.h>
-> > > >  #include <linux/dma-buf.h>
-> > > > @@ -31,6 +32,7 @@
-> > > >   * @heap_devt                heap device node
-> > > >   * @list             list head connecting to list of heaps
-> > > >   * @heap_cdev                heap char device
-> > > > + * @gpucg_dev                gpu cgroup device for memory accounti=
-ng
-> > > >   *
-> > > >   * Represents a heap of memory from which buffers can be made.
-> > > >   */
-> > > > @@ -41,6 +43,9 @@ struct dma_heap {
-> > > >       dev_t heap_devt;
-> > > >       struct list_head list;
-> > > >       struct cdev heap_cdev;
-> > > > +#ifdef CONFIG_CGROUP_GPU
-> > > > +     struct gpucg_device gpucg_dev;
-> > > > +#endif
-> > > >  };
-> > > >
-> > > >  static LIST_HEAD(heap_list);
-> > > > @@ -216,6 +221,26 @@ const char *dma_heap_get_name(struct dma_heap =
-*heap)
-> > > >       return heap->name;
-> > > >  }
-> > > >
-> > > > +#ifdef CONFIG_CGROUP_GPU
-> > > > +/**
-> > > > + * dma_heap_get_gpucg_dev() - get struct gpucg_device for the heap=
-.
-> > > > + * @heap: DMA-Heap to get the gpucg_device struct for.
-> > > > + *
-> > > > + * Returns:
-> > > > + * The gpucg_device struct for the heap. NULL if the GPU cgroup co=
-ntroller is
-> > > > + * not enabled.
-> > > > + */
-> > > > +struct gpucg_device *dma_heap_get_gpucg_dev(struct dma_heap *heap)
-> > > > +{
-> > > > +     return &heap->gpucg_dev;
-> > > > +}
-> > > > +#else /* CONFIG_CGROUP_GPU */
-> > > > +struct gpucg_device *dma_heap_get_gpucg_dev(struct dma_heap *heap)
-> > > > +{
-> > > > +     return NULL;
-> > > > +}
-> > > > +#endif /* CONFIG_CGROUP_GPU */
-> > > > +
-> > > >  struct dma_heap *dma_heap_add(const struct dma_heap_export_info *e=
-xp_info)
-> > > >  {
-> > > >       struct dma_heap *heap, *h, *err_ret;
-> > > > @@ -288,6 +313,8 @@ struct dma_heap *dma_heap_add(const struct dma_=
-heap_export_info *exp_info)
-> > > >       list_add(&heap->list, &heap_list);
-> > > >       mutex_unlock(&heap_list_lock);
-> > > >
-> > > > +     gpucg_register_device(dma_heap_get_gpucg_dev(heap), exp_info-=
->name);
-> > > > +
-> > > >       return heap;
-> > > >
-> > > >  err2:
-> > > > diff --git a/drivers/dma-buf/heaps/system_heap.c b/drivers/dma-buf/=
-heaps/system_heap.c
-> > > > index ab7fd896d2c4..752a05c3cfe2 100644
-> > > > --- a/drivers/dma-buf/heaps/system_heap.c
-> > > > +++ b/drivers/dma-buf/heaps/system_heap.c
-> > > > @@ -395,6 +395,9 @@ static struct dma_buf *system_heap_allocate(str=
-uct dma_heap *heap,
-> > > >       exp_info.ops =3D &system_heap_buf_ops;
-> > > >       exp_info.size =3D buffer->len;
-> > > >       exp_info.flags =3D fd_flags;
-> > > > +#ifdef CONFIG_CGROUP_GPU
-> > > > +     exp_info.gpucg_dev =3D dma_heap_get_gpucg_dev(heap);
-> > > > +#endif
-> > > >       exp_info.priv =3D buffer;
-> > > >       dmabuf =3D dma_buf_export(&exp_info);
-> > > >       if (IS_ERR(dmabuf)) {
-> > > > diff --git a/include/linux/dma-heap.h b/include/linux/dma-heap.h
-> > > > index 0c05561cad6e..e447a61d054e 100644
-> > > > --- a/include/linux/dma-heap.h
-> > > > +++ b/include/linux/dma-heap.h
-> > > > @@ -10,6 +10,7 @@
-> > > >  #define _DMA_HEAPS_H
-> > > >
-> > > >  #include <linux/cdev.h>
-> > > > +#include <linux/cgroup_gpu.h>
-> > > >  #include <linux/types.h>
-> > > >
-> > > >  struct dma_heap;
-> > > > @@ -59,6 +60,16 @@ void *dma_heap_get_drvdata(struct dma_heap *heap=
-);
-> > > >   */
-> > > >  const char *dma_heap_get_name(struct dma_heap *heap);
-> > > >
-> > > > +/**
-> > > > + * dma_heap_get_gpucg_dev() - get a pointer to the struct gpucg_de=
-vice for the
-> > > > + * heap.
-> > > > + * @heap: DMA-Heap to retrieve gpucg_device for.
-> > > > + *
-> > > > + * Returns:
-> > > > + * The gpucg_device struct for the heap.
-> > > > + */
-> > > > +struct gpucg_device *dma_heap_get_gpucg_dev(struct dma_heap *heap)=
-;
-> > > > +
-> > > >  /**
-> > > >   * dma_heap_add - adds a heap to dmabuf heaps
-> > > >   * @exp_info:                information needed to register this h=
-eap
-> > > > --
-> > > > 2.35.1.1021.g381101b075-goog
-> > > >
-> > >
-> > > --
-> > > Daniel Vetter
-> > > Software Engineer, Intel Corporation
-> > > http://blog.ffwll.ch
->
-> --
-> Daniel Vetter
-> Software Engineer, Intel Corporation
-> http://blog.ffwll.ch
+do the reverse when we unplug the HDMI cable.
+
+So, the bridge chains are attached and detached based on GPIO
+Interrupt which is indeed identified based on the physical HDMIA
+connector.
+
+Pipeline for LVDS,
+mxfsb => nwl-dsi => display-switch => sn65dsi83=> panel-bridge
+
+Pipeline for HDMI,
+mxfsb => nwl-dsi => display-switch => adv7511 => display-connector
+
+With this, implementation and I can able switch the displays with
+default DRM (without specific DRM applications) where the LVDS is ON
+by default and when HDMI plug-in the LVDS OFF/HDMI ON, and when HDMI
+unplug the HDMI OFF/LVDS ON.
+
+However, with QT5 I can see the DRM Master ignoring hotplug event by
+returning 0 on drm_master_internal_acquire in
+drm_fb_helper_hotplug_event. With this the hotplug returned early so
+it cannot able to disconnect and connect the new switching connector.
+
+Any help?
+
+Thanks,
+Jagan.
