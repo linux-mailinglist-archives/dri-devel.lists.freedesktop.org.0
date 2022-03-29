@@ -2,38 +2,39 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id F1A4B4EA9AF
-	for <lists+dri-devel@lfdr.de>; Tue, 29 Mar 2022 10:50:58 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 457B74EA9B1
+	for <lists+dri-devel@lfdr.de>; Tue, 29 Mar 2022 10:51:01 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 37C3110E7F0;
+	by gabe.freedesktop.org (Postfix) with ESMTP id 29FC410E7EF;
 	Tue, 29 Mar 2022 08:50:52 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from phobos.denx.de (phobos.denx.de [85.214.62.61])
- by gabe.freedesktop.org (Postfix) with ESMTPS id D0D3510E7EE
- for <dri-devel@lists.freedesktop.org>; Tue, 29 Mar 2022 08:50:40 +0000 (UTC)
+Received: from phobos.denx.de (phobos.denx.de
+ [IPv6:2a01:238:438b:c500:173d:9f52:ddab:ee01])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 495E110E7DF
+ for <dri-devel@lists.freedesktop.org>; Tue, 29 Mar 2022 08:50:41 +0000 (UTC)
 Received: from tr.lan (ip-89-176-112-137.net.upcbroadband.cz [89.176.112.137])
  (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits))
  (No client certificate requested)
  (Authenticated sender: marex@denx.de)
- by phobos.denx.de (Postfix) with ESMTPSA id 306CA83FB9;
+ by phobos.denx.de (Postfix) with ESMTPSA id A2EBB83FBB;
  Tue, 29 Mar 2022 10:50:39 +0200 (CEST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=denx.de;
- s=phobos-20191101; t=1648543839;
- bh=oUuhEEtreQKlJiLKjQS8UrSWZTwYWNFC4temnxED8Y8=;
+ s=phobos-20191101; t=1648543840;
+ bh=IApG7eoUchPFW3V22IPv/cmNk9iRoQZ1MxYVusVaMhI=;
  h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
- b=OGuhvmXGvUt59Hc8gd1g2uXZmGzBV6K3OD7redFyO+jYF7Bd3yhtjpWT1TRc6nijz
- 4Da8jrmVR8dW4tEwtbduKudp5ycYdqzRV3g/LVS1U1C/IP+BFvCPT9/io262jAFM6Z
- gXZ/z95BqAkiu/Fbj9/8FQVnEyTmSWxszc+i2exp/XO4RcaLzjVDRax8SX5D0yihm8
- 77Q/2nfudk2hwteC5gGOEJOaoB7W+ZIHreP7F4k2NUtbNinPvTXft2J7KTgiv1jto0
- Mx3eliA5/6oOf84wmxDAETJdWCzxlh8Yy/bM46FoJFrdG2Xqfv7jjW23fjDiTjLB7F
- ZZrs7PolGcppA==
+ b=HaJ6r2guTBD2kuOhZRQiNqw1youAumZtNiVvVs2qyYOPOJiPG5i4qOYCb9UG+AF8T
+ R+nbRKYFLXnyHtci9s3ChFSWvOD84rRPE8GEr3CymLSp6MUIRt4KzzM10eF7/VIvEA
+ d+9JAHwYmY6xjvSTZfCcZv+AXT7LPzC/+nBAUqig8AYE0TcnPuQvlFVySKm9XU/kYq
+ gryGBXwAOqycZNKzRFOMxk1S7Hy4879Gbscbx7fwjP7MIBQbrctRRPX2zUx8tbX0YB
+ jZplupTIGTal52VsZgn786mMkWxsJJg3mx7+q+U+bAI39lKuhBr+c2o1HoYAB3TT1j
+ dJZZdJd/huSsQ==
 From: Marek Vasut <marex@denx.de>
 To: dri-devel@lists.freedesktop.org
-Subject: [PATCH v5 07/11] drm/bridge: tc358767: Wrap (e)DP aux I2C
- registration into tc_aux_link_setup()
-Date: Tue, 29 Mar 2022 10:50:11 +0200
-Message-Id: <20220329085015.39159-8-marex@denx.de>
+Subject: [PATCH v5 08/11] drm/bridge: tc358767: Move bridge ops setup into
+ tc_probe_edp_bridge_endpoint()
+Date: Tue, 29 Mar 2022 10:50:12 +0200
+Message-Id: <20220329085015.39159-9-marex@denx.de>
 X-Mailer: git-send-email 2.35.1
 In-Reply-To: <20220329085015.39159-1-marex@denx.de>
 References: <20220329085015.39159-1-marex@denx.de>
@@ -60,9 +61,9 @@ Cc: Marek Vasut <marex@denx.de>, Neil Armstrong <narmstrong@baylibre.com>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-This bit of code is (e)DP and aux I2C link specific, move it into
-tc_aux_link_setup() to permit cleaner addition of DSI-to-DPI mode.
-No functional change.
+The bridge ops are specific to the bridge configuration, move them
+into tc_probe_edp_bridge_endpoint() to permit cleaner addition of
+DSI-to-DPI mode. No functional change.
 
 Reviewed-by: Lucas Stach <l.stach@pengutronix.de>
 Tested-by: Lucas Stach <l.stach@pengutronix.de> # In both DPI to eDP and DSI to DPI mode.
@@ -74,43 +75,41 @@ Cc: Neil Armstrong <narmstrong@baylibre.com>
 Cc: Sam Ravnborg <sam@ravnborg.org>
 ---
 V2: - New patch
-V3: - Add RB from Lucas
-V4: - Add TB from Lucas
+V3: - No change
+V4: - Add RB/TB from Lucas
 V5: - No change
 ---
- drivers/gpu/drm/bridge/tc358767.c | 12 ++++++------
- 1 file changed, 6 insertions(+), 6 deletions(-)
+ drivers/gpu/drm/bridge/tc358767.c | 10 +++++-----
+ 1 file changed, 5 insertions(+), 5 deletions(-)
 
 diff --git a/drivers/gpu/drm/bridge/tc358767.c b/drivers/gpu/drm/bridge/tc358767.c
-index 0f24156543bae..8a8b495aa0ad1 100644
+index 8a8b495aa0ad1..8c468f77618d2 100644
 --- a/drivers/gpu/drm/bridge/tc358767.c
 +++ b/drivers/gpu/drm/bridge/tc358767.c
-@@ -656,6 +656,12 @@ static int tc_aux_link_setup(struct tc_data *tc)
- 	if (ret)
- 		goto err;
+@@ -1613,6 +1613,11 @@ static int tc_probe_edp_bridge_endpoint(struct tc_data *tc)
+ 		tc->bridge.type = DRM_MODE_CONNECTOR_DisplayPort;
+ 	}
  
-+	/* Register DP AUX channel */
-+	tc->aux.name = "TC358767 AUX i2c adapter";
-+	tc->aux.dev = tc->dev;
-+	tc->aux.transfer = tc_aux_transfer;
-+	drm_dp_aux_init(&tc->aux);
++	tc->bridge.funcs = &tc_edp_bridge_funcs;
++	if (tc->hpd_pin >= 0)
++		tc->bridge.ops |= DRM_BRIDGE_OP_DETECT;
++	tc->bridge.ops |= DRM_BRIDGE_OP_EDID;
 +
- 	return 0;
- err:
- 	dev_err(tc->dev, "tc_aux_link_setup failed: %d\n", ret);
-@@ -1736,12 +1742,6 @@ static int tc_probe(struct i2c_client *client, const struct i2c_device_id *id)
+ 	return ret;
+ }
+ 
+@@ -1742,11 +1747,6 @@ static int tc_probe(struct i2c_client *client, const struct i2c_device_id *id)
  	if (ret)
  		return ret;
  
--	/* Register DP AUX channel */
--	tc->aux.name = "TC358767 AUX i2c adapter";
--	tc->aux.dev = tc->dev;
--	tc->aux.transfer = tc_aux_transfer;
--	drm_dp_aux_init(&tc->aux);
+-	tc->bridge.funcs = &tc_edp_bridge_funcs;
+-	if (tc->hpd_pin >= 0)
+-		tc->bridge.ops |= DRM_BRIDGE_OP_DETECT;
+-	tc->bridge.ops |= DRM_BRIDGE_OP_EDID;
 -
- 	tc->bridge.funcs = &tc_edp_bridge_funcs;
- 	if (tc->hpd_pin >= 0)
- 		tc->bridge.ops |= DRM_BRIDGE_OP_DETECT;
+ 	tc->bridge.of_node = dev->of_node;
+ 	drm_bridge_add(&tc->bridge);
+ 
 -- 
 2.35.1
 
