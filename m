@@ -1,55 +1,53 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id D662E4EA4E4
-	for <lists+dri-devel@lfdr.de>; Tue, 29 Mar 2022 04:02:24 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id CA7494EA4EC
+	for <lists+dri-devel@lfdr.de>; Tue, 29 Mar 2022 04:05:49 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 25F8B10E322;
-	Tue, 29 Mar 2022 02:02:20 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 4BDEA10E15E;
+	Tue, 29 Mar 2022 02:05:47 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from 189.cn (ptr.189.cn [183.61.185.101])
- by gabe.freedesktop.org (Postfix) with ESMTP id AB49810E322
- for <dri-devel@lists.freedesktop.org>; Tue, 29 Mar 2022 02:02:18 +0000 (UTC)
-HMM_SOURCE_IP: 10.64.8.43:35108.382441773
-HMM_ATTACHE_NUM: 0000
-HMM_SOURCE_TYPE: SMTP
-Received: from clientip-114.242.206.180 (unknown [10.64.8.43])
- by 189.cn (HERMES) with SMTP id 027B61002F1;
- Tue, 29 Mar 2022 10:02:12 +0800 (CST)
-Received: from  ([114.242.206.180])
- by gateway-151646-dep-b7fbf7d79-vjdjk with ESMTP id
- 1c657df391bc415c9b4103b4f7128aa7 for robh@kernel.org; 
- Tue, 29 Mar 2022 10:02:16 CST
-X-Transaction-ID: 1c657df391bc415c9b4103b4f7128aa7
-X-Real-From: 15330273260@189.cn
-X-Receive-IP: 114.242.206.180
-X-MEDUSA-Status: 0
-Message-ID: <cf9132cc-460d-2acc-d751-26452c86a6ba@189.cn>
-Date: Tue, 29 Mar 2022 10:02:11 +0800
+Received: from mga17.intel.com (mga17.intel.com [192.55.52.151])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id E338810E15E
+ for <dri-devel@lists.freedesktop.org>; Tue, 29 Mar 2022 02:05:45 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+ t=1648519545; x=1680055545;
+ h=date:from:to:cc:subject:message-id:references:
+ mime-version:in-reply-to;
+ bh=MWNSes+po7qtmcKL2eyYw8+6EKH/dTSQvuKMYY4CxYQ=;
+ b=K3ZoTezA3GxTjx4yoxPtl2bZxpmzUYS3eIyEiZjRZ0BY8Xxg/s5HM7F+
+ ShFTBOM1tiLm7aWmjzkynH6z5/iM2xGFylVFmo4q38zDnPcJ9eS/kZWyO
+ 3xS5dXLyc8JVK8kOjqQqF/oTyZmiH/fgSRLM7PILJdUpZACK2EpRLiivb
+ TlcDZvwhy0SbRzYTTB95gTpelTbA8gMhGKtnCdP561K109JCsNh4VTttE
+ o+wQUsdGO1QO7FIJ0YrfSh6OoZXPoVsA/xQbf1zD7c1KABTYXueUINwXI
+ sJpkES3es3qYr0hW5HdmuN/osqk9byVI/UGqPusZrtgGqthDi7QVBgmXA w==;
+X-IronPort-AV: E=McAfee;i="6200,9189,10300"; a="239737333"
+X-IronPort-AV: E=Sophos;i="5.90,219,1643702400"; d="scan'208";a="239737333"
+Received: from orsmga006.jf.intel.com ([10.7.209.51])
+ by fmsmga107.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 28 Mar 2022 19:05:45 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.90,219,1643702400"; d="scan'208";a="521248155"
+Received: from lkp-server02.sh.intel.com (HELO 89b41b6ae01c) ([10.239.97.151])
+ by orsmga006.jf.intel.com with ESMTP; 28 Mar 2022 19:05:42 -0700
+Received: from kbuild by 89b41b6ae01c with local (Exim 4.92)
+ (envelope-from <lkp@intel.com>)
+ id 1nZ1Er-0002WM-OE; Tue, 29 Mar 2022 02:05:41 +0000
+Date: Tue, 29 Mar 2022 10:05:14 +0800
+From: kernel test robot <lkp@intel.com>
+To: Marek Vasut <marex@denx.de>, dri-devel@lists.freedesktop.org
+Subject: Re: [PATCH v4 10/11] drm/bridge: tc358767: Split tc_set_video_mode()
+ into common and (e)DP part
+Message-ID: <202203290924.MYL8dU7I-lkp@intel.com>
+References: <20220328214324.252472-11-marex@denx.de>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.7.0
-Subject: Re: [PATCH v11 5/7] dt-bindings: display: Add Loongson display
- controller
-Content-Language: en-US
-To: Rob Herring <robh@kernel.org>
-References: <20220321162916.1116541-1-15330273260@189.cn>
- <20220321162916.1116541-6-15330273260@189.cn>
- <YjkITWpbnCmhKaX+@robh.at.kernel.org>
- <f7eb61bc-6784-c77a-083f-7408c0a17e05@189.cn>
- <Yjo3umi9bJ0xb2Gl@robh.at.kernel.org>
- <199a2869-cd83-d24e-0ad0-25d15d76fc13@189.cn>
- <YjsamuFslv6qlQMZ@robh.at.kernel.org>
- <ac75aeff-1fca-f46f-1043-8437ef845ff9@189.cn>
- <YjxxhNnmqteTIEOa@robh.at.kernel.org>
- <165597c7-3ac3-9d32-a70f-95214b242e0b@189.cn>
- <YkHAgkGvsWQ+2Gbh@robh.at.kernel.org>
-From: Sui Jingfeng <15330273260@189.cn>
-In-Reply-To: <YkHAgkGvsWQ+2Gbh@robh.at.kernel.org>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20220328214324.252472-11-marex@denx.de>
+User-Agent: Mutt/1.10.1 (2018-07-13)
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -62,306 +60,141 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: devicetree@vger.kernel.org, Qing Zhang <zhangqing@loongson.cn>,
- Thomas Bogendoerfer <tsbogend@alpha.franken.de>,
- suijingfeng <suijingfeng@loongson.cn>, David Airlie <airlied@linux.ie>,
- dri-devel@lists.freedesktop.org, Roland Scheidegger <sroland@vmware.com>,
- linux-kernel@vger.kernel.org, Krzysztof Kozlowski <krzk@kernel.org>,
- linux-mips@vger.kernel.org,
- Andrey Zhizhikin <andrey.zhizhikin@leica-geosystems.com>,
- Jiaxun Yang <jiaxun.yang@flygoat.com>, Thomas Zimmermann <tzimmermann@suse.de>,
- Sam Ravnborg <sam@ravnborg.org>, "David S . Miller" <davem@davemloft.net>,
- Dan Carpenter <dan.carpenter@oracle.com>
+Cc: Marek Vasut <marex@denx.de>, kbuild-all@lists.01.org,
+ Jonas Karlman <jonas@kwiboo.se>, llvm@lists.linux.dev,
+ Neil Armstrong <narmstrong@baylibre.com>,
+ Laurent Pinchart <Laurent.pinchart@ideasonboard.com>,
+ Sam Ravnborg <sam@ravnborg.org>, Maxime Ripard <maxime@cerno.tech>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
+Hi Marek,
 
-On 2022/3/28 22:04, Rob Herring wrote:
-> On Sat, Mar 26, 2022 at 06:04:46PM +0800, Sui Jingfeng wrote:
->> On 2022/3/24 21:26, Rob Herring wrote:
->>> On Thu, Mar 24, 2022 at 09:48:19AM +0800, Sui Jingfeng wrote:
->>>> On 2022/3/23 21:03, Rob Herring wrote:
->>>>> On Wed, Mar 23, 2022 at 11:38:55AM +0800, Sui Jingfeng wrote:
->>>>>> On 2022/3/23 04:55, Rob Herring wrote:
->>>>>>> On Tue, Mar 22, 2022 at 10:33:45AM +0800, Sui Jingfeng wrote:
->>>>>>>> On 2022/3/22 07:20, Rob Herring wrote:
->>>>>>>>> On Tue, Mar 22, 2022 at 12:29:14AM +0800, Sui Jingfeng wrote:
->>>>>>>>>> From: suijingfeng <suijingfeng@loongson.cn>
->>>>>>>>>>
->>>>>>>>> Needs a commit message.
->>>>>>>>>
->>>>>>>>>> Signed-off-by: suijingfeng <suijingfeng@loongson.cn>
->>>>>>>>>> Signed-off-by: Sui Jingfeng <15330273260@189.cn>
->>>>>>>>> Same person? Don't need both emails.
->>>>>>>> Yes,  suijingfeng@loongson.cn is my company's email. But it can not be used
->>>>>>>> to send patches to dri-devel,
->>>>>>>>
->>>>>>>> when send patches with this email, the patch will not be shown on patch
->>>>>>>> works.
->>>>>>>>
->>>>>>>> Emails  are either blocked or got  rejected  by loongson's mail server.  It
->>>>>>>> can only receive emails
->>>>>>>>
->>>>>>>> from you and other people, but not dri-devel. so have to use my personal
->>>>>>>> email(15330273260@189.cn) to send patches.
->>>>>>>>
->>>>>>>>>> ---
->>>>>>>>>>       .../loongson/loongson,display-controller.yaml | 230 ++++++++++++++++++
->>>>>>>>>>       1 file changed, 230 insertions(+)
->>>>>>>>>>       create mode 100644 Documentation/devicetree/bindings/display/loongson/loongson,display-controller.yaml
->>>>>>>>>>
->>>>>>>>>> diff --git a/Documentation/devicetree/bindings/display/loongson/loongson,display-controller.yaml b/Documentation/devicetree/bindings/display/loongson/loongson,display-controller.yaml
->>>>>>>>>> new file mode 100644
->>>>>>>>>> index 000000000000..7be63346289e
->>>>>>>>>> --- /dev/null
->>>>>>>>>> +++ b/Documentation/devicetree/bindings/display/loongson/loongson,display-controller.yaml
->>>>>>>>>> @@ -0,0 +1,230 @@
->>>>>>>>>> +# SPDX-License-Identifier: (GPL-2.0-only OR BSD-2-Clause)
->>>>>>>>>> +%YAML 1.2
->>>>>>>>>> +---
->>>>>>>>>> +$id: http://devicetree.org/schemas/display/loongson/loongson,display-controller.yaml#
->>>>>>>>>> +$schema: http://devicetree.org/meta-schemas/core.yaml#
->>>>>>>>>> +
->>>>>>>>>> +title: Loongson LS7A1000/LS2K1000/LS2K0500 Display Controller Device Tree Bindings
->>>>>>>>>> +
->>>>>>>>>> +maintainers:
->>>>>>>>>> +  - Sui Jingfeng <suijingfeng@loongson.cn>
->>>>>>>>>> +
->>>>>>>>>> +description: |+
->>>>>>>>>> +
->>>>>>>>>> +  Loongson display controllers are simple which require scanout buffers
->>>>>>>>>> +  to be physically contiguous. LS2K1000/LS2K0500 is a SOC, only system
->>>>>>>>>> +  memory is available. LS7A1000/LS7A2000 is bridge chip which is equipped
->>>>>>>>>> +  with a dedicated video RAM which is 64MB or more, precise size can be
->>>>>>>>>> +  read from the PCI BAR 2 of the GPU device(0x0014:0x7A15) in the bridge
->>>>>>>>>> +  chip.
->>>>>>>>>> +
->>>>>>>>>> +  LSDC has two display pipes, each way has a DVO interface which provide
->>>>>>>>>> +  RGB888 signals, vertical & horizontal synchronisations, data enable and
->>>>>>>>>> +  the pixel clock. LSDC has two CRTC, each CRTC is able to scanout from
->>>>>>>>>> +  1920x1080 resolution at 60Hz. Each CRTC has two FB address registers.
->>>>>>>>>> +
->>>>>>>>>> +  For LS7A1000, there are 4 dedicated GPIOs whose control register is
->>>>>>>>>> +  located at the DC register space. They are used to emulate two way i2c,
->>>>>>>>>> +  One for DVO0, another for DVO1.
->>>>>>>>>> +
->>>>>>>>>> +  LS2K1000 and LS2K0500 SoC grab i2c adapter from other module, either
->>>>>>>>>> +  general purpose GPIO emulated i2c or hardware i2c in the SoC.
->>>>>>>>>> +
->>>>>>>>>> +  LSDC's display pipeline have several components as below description,
->>>>>>>>>> +
->>>>>>>>>> +  The display controller in LS7A1000:
->>>>>>>>>> +     ___________________                                     _________
->>>>>>>>>> +    |            -------|                                   |         |
->>>>>>>>>> +    |  CRTC0 --> | DVO0 ----> Encoder0 ---> Connector0 ---> | Monitor |
->>>>>>>>>> +    |  _   _     -------|        ^             ^            |_________|
->>>>>>>>>> +    | | | | |    -------|        |             |
->>>>>>>>>> +    | |_| |_|    | i2c0 <--------+-------------+
->>>>>>>>>> +    |            -------|
->>>>>>>>>> +    |   DC IN LS7A1000  |
->>>>>>>>>> +    |  _   _     -------|
->>>>>>>>>> +    | | | | |    | i2c1 <--------+-------------+
->>>>>>>>>> +    | |_| |_|    -------|        |             |             _________
->>>>>>>>>> +    |            -------|        |             |            |         |
->>>>>>>>>> +    |  CRTC1 --> | DVO1 ----> Encoder1 ---> Connector1 ---> |  Panel  |
->>>>>>>>>> +    |            -------|                                   |_________|
->>>>>>>>>> +    |___________________|
->>>>>>>>>> +
->>>>>>>>>> +  Simple usage of LS7A1000 with LS3A4000 CPU:
->>>>>>>>>> +
->>>>>>>>>> +    +------+            +-----------------------------------+
->>>>>>>>>> +    | DDR4 |            |  +-------------------+            |
->>>>>>>>>> +    +------+            |  | PCIe Root complex |   LS7A1000 |
->>>>>>>>>> +       || MC0           |  +--++---------++----+            |
->>>>>>>>>> +  +----------+  HT 3.0  |     ||         ||                 |
->>>>>>>>>> +  | LS3A4000 |<-------->| +---++---+  +--++--+    +---------+   +------+
->>>>>>>>>> +  |   CPU    |<-------->| | GC1000 |  | LSDC |<-->| DDR3 MC |<->| VRAM |
->>>>>>>>>> +  +----------+          | +--------+  +-+--+-+    +---------+   +------+
->>>>>>>>>> +       || MC1           +---------------|--|----------------+
->>>>>>>>>> +    +------+                            |  |
->>>>>>>>>> +    | DDR4 |          +-------+   DVO0  |  |  DVO1   +------+
->>>>>>>>>> +    +------+   VGA <--|ADV7125|<--------+  +-------->|TFP410|--> DVI/HDMI
->>>>>>>>>> +                      +-------+                      +------+
->>>>>>>>>> +
->>>>>>>>>> +  The display controller in LS2K1000/LS2K0500:
->>>>>>>>>> +     ___________________                                     _________
->>>>>>>>>> +    |            -------|                                   |         |
->>>>>>>>>> +    |  CRTC0 --> | DVO0 ----> Encoder0 ---> Connector0 ---> | Monitor |
->>>>>>>>>> +    |  _   _     -------|        ^              ^           |_________|
->>>>>>>>>> +    | | | | |           |        |              |
->>>>>>>>>> +    | |_| |_|           |     +------+          |
->>>>>>>>>> +    |                   <---->| i2c0 |<---------+
->>>>>>>>>> +    |   DC IN LS2K1000  |     +------+
->>>>>>>>>> +    |  _   _            |     +------+
->>>>>>>>>> +    | | | | |           <---->| i2c1 |----------+
->>>>>>>>>> +    | |_| |_|           |     +------+          |            _________
->>>>>>>>>> +    |            -------|        |              |           |         |
->>>>>>>>>> +    |  CRTC1 --> | DVO1 ----> Encoder1 ---> Connector1 ---> |  Panel  |
->>>>>>>>>> +    |            -------|                                   |_________|
->>>>>>>>>> +    |___________________|
->>>>>>>>>> +
->>>>>>>>>> +properties:
->>>>>>>>>> +  $nodename:
->>>>>>>>>> +    pattern: "^display-controller@[0-9a-f],[0-9a-f]$"
->>>>>>>>>> +
->>>>>>>>>> +  compatible:
->>>>>>>>>> +    oneOf:
->>>>>>>>>> +      - items:
->>>>>>>>>> +          - enum:
->>>>>>>>>> +              - loongson,ls7a1000-dc
->>>>>>>>>> +              - loongson,ls2k1000-dc
->>>>>>>>>> +              - loongson,ls2k0500-dc
->>>>>>>>>> +
->>>>>>>>>> +  reg:
->>>>>>>>>> +    maxItems: 1
->>>>>>>>>> +
->>>>>>>>>> +  interrupts:
->>>>>>>>>> +    maxItems: 1
->>>>>>>>>> +
->>>>>>>>>> +  '#address-cells':
->>>>>>>>>> +    const: 1
->>>>>>>>>> +
->>>>>>>>>> +  '#size-cells':
->>>>>>>>>> +    const: 0
->>>>>>>>>> +
->>>>>>>>>> +  i2c-gpio@0:
->>>>>>>>>> +    description: |
->>>>>>>>>> +      Built-in GPIO emulate i2c exported for external display bridge
->>>>>>>>> If you have i2c-gpio, that belongs at the DT top-level, not here.
->>>>>>>>>
->>>>>>>>>> +      configuration, onitor detection and edid read back etc, for ls7a1000
->>>>>>>>>> +      only. Its compatible must be lsdc,i2c-gpio-0. The reg property can be
->>>>>>>>> No, there's a defined i2c-gpio compatible already.
->>>>>>>> This is different from the i2c-gpio already defined under drivers/i2c/busses/i2c-gpio.c,
->>>>>>>> By design, my i2c-gpio is vendor specific properties, lsdc device driver create the i2c
->>>>>>>> adapter at runtime. These are 4 dedicated GPIOs whose control register is located at the
->>>>>>>> LSDC register space, not general purpose GPIOs with separate control register resource.
->>>>>>>> So i think it is the child node of display-controller@6,1, it belongs to LSDC.
->>>>>>>> It seems that put it at the DT top-level break the hierarchy and relationship.
->>>>>>> Okay, I see. Then just 'i2c' for the node names. You need a reference to
->>>>>>> i2c-controller.yaml for these nodes too.
->>>>>>>
->>>>>>> The compatible should not have an index in it.
->>>>>> OK, i will fix this at the next version. thanks.
->>>>>>>>>> +      used to specify a I2c adapter bus number, if you don't specify one
->>>>>>>>>> +      i2c driver core will dynamically assign a bus number. Please specify
->>>>>>>>> Bus numbers are a linux detail not relevant to DT binding.
->>>>>>>>>
->>>>>>>>>> +      it only when its bus number matters. Bus number greater than 6 is safe
->>>>>>>>>> +      because ls7a1000 bridge have 6 hardware I2C controller integrated.
->>>>>>>>>> +
->>>>>>>>>> +  i2c-gpio@1:
->>>>>>>>>> +    description: |
->>>>>>>>>> +      Built-in GPIO emulate i2c exported for external display bridge
->>>>>>>>>> +      configuration, onitor detection and edid read back etc, for ls7a1000
->>>>>>>>>> +      only. Its compatible must be lsdc,i2c-gpio-1.
->>>>>>>>>> +
->>>>>>>>>> +  ports:
->>>>>>>>>> +    $ref: /schemas/graph.yaml#/properties/ports
->>>>>>>>>> +
->>>>>>>>>> +    properties:
->>>>>>>>>> +      port@0:
->>>>>>>>>> +        $ref: /schemas/graph.yaml#/properties/port
->>>>>>>>>> +        description: output port node connected with DPI panels or external encoders, with only one endpoint.
->>>>>>>>>> +
->>>>>>>>>> +      port@1:
->>>>>>>>>> +        $ref: /schemas/graph.yaml#/properties/port
->>>>>>>>>> +        description: output port node connected with DPI panels or external encoders, with only one endpoint.
->>>>>>>>>> +
->>>>>>>>>> +    required:
->>>>>>>>>> +      - port@0
->>>>>>>>>> +      - port@1
->>>>>>>>>> +
->>>>>>>>>> +required:
->>>>>>>>>> +  - compatible
->>>>>>>>>> +  - reg
->>>>>>>>>> +  - interrupts
->>>>>>>>>> +  - ports
->>>>>>>>>> +
->>>>>>>>>> +additionalProperties: false
->>>>>>>>>> +
->>>>>>>>>> +examples:
->>>>>>>>>> +  - |
->>>>>>>>>> +    #include <dt-bindings/interrupt-controller/irq.h>
->>>>>>>>>> +    bus {
->>>>>>>>>> +
->>>>>>>>>> +        #address-cells = <3>;
->>>>>>>>>> +        #size-cells = <2>;
->>>>>>>>>> +        #interrupt-cells = <2>;
->>>>>>>>>> +
->>>>>>>>>> +        display-controller@6,1 {
->>>>>>>>>> +            compatible = "loongson,ls7a1000-dc";
->>>>>>>>>> +            reg = <0x3100 0x0 0x0 0x0 0x0>;
->>>>>>>>>> +            interrupts = <28 IRQ_TYPE_LEVEL_HIGH>;
->>>>>>>>>> +
->>>>>>>>>> +            #address-cells = <1>;
->>>>>>>>>> +            #size-cells = <0>;
->>>>>>>>>> +
->>>>>>>>>> +            i2c-gpio@0 {
->>>>>>>>>> +                compatible = "lsdc,i2c-gpio-0";
->>>>>>>>>> +                reg = <6>;
->>>>>>> 'reg' needs to be documented with some description of what 6 and 7
->>>>>>> represent. If they are the control register offset, then make the
->>>>>>> address translatable (use 'ranges' and define the size).
->>>>>> By design, the reg property is used to specify a I2c adapter bus number,
->>>>>> if we don't specify one, i2c driver core will dynamically assign a bus number.
->>>>>> then the nr of the i2c adapter will started from 0. I want is start from 6
->>>>>> to avoid potential conflict feature hardware I2C driver.
->>>>>>
->>>>>> Because LS7A1000 bridge chip have 6 hardware I2C controller integrated,
->>>>>> but its driver is not up-streamed yet. By default these hardware I2C controller's
->>>>>> nr is started from 0.
->>>>> Linux's numbering doesn't belong in DT. So no, you can't use 'reg' in
->>>>> that way.
->>>> Then,  can i use something like lsdc,nr = <6> ?
->>>>>> Even through i2c driver core can dynamically generate a number, i still want it
->>>>>> to be fixed and keep consistent and explicit. That is, i2c6 is for display pipe 0,
->>>>>> i2c7 is for display pipe 1. This follow the convention and flexible enough.
->>>>> You may want that, but that is not how the kernel works. Specific
->>>>> numbers are not guaranteed. I'm sure you've seen this for disks, network
->>>>> interfaces, etc.
->>>>>
->>>>> Rob
->>>> 2c_bit_add_numbered_bus() will guarantee it for you as long as If no devices
->>>> have pre-been declared for this bus.
->>>>
->>>> you can read the comment of 2c_bit_add_numbered_bus() at
->>>> drivers/i2c/i2c-core-base.c
->>> I didn't say it wasn't possible. It is not best practice. Grep
->>> i2c_bit_add_numbered_bus and see how many users there are.
->> i2c-gpio.c at drivers/i2c/busses/ just do the same thing.
-> No, the id for i2c-gpio nodes (any DT node without 'reg') will be -1
-> which means dynamically assigned.
->
->
->> + nvidia,bpmp-bus-id: + $ref: /schemas/types.yaml#/definitions/uint32 +
->> description: Indicates the I2C bus number this DT node represents, + as
->> defined by the BPMP firmware.
-> The key difference is the numbering is defined by the BPMP firmware.
->
-Bus numbers are a linux detail, I am not sure it is relevant to BPMP firmware.
-and BPMP firmware is not relevant here.
+I love your patch! Perhaps something to improve:
 
-The point is you applied that patch, you are admit the fact that bus numbers
-could be in DT.
+[auto build test WARNING on drm/drm-next]
+[also build test WARNING on drm-intel/for-linux-next drm-tip/drm-tip drm-exynos/exynos-drm-next tegra-drm/drm/tegra/for-next v5.17 next-20220328]
+[cannot apply to airlied/drm-next]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch]
 
->>> Even if the kernel allows specifying bus numbers,your Linux bus numbers don't
->>> belong in DT.
->> Again, Does does devicetree specification prohibit this?
-> No. The spec is not the last word on what's allowed or not. Lots of
-> patterns exist already which we can't change, but that doesn't mean they
-> should be copied by new users.
->
-> Rob
+url:    https://github.com/intel-lab-lkp/linux/commits/Marek-Vasut/drm-bridge-tc358767-Add-DSI-to-DPI-mode-support/20220329-054627
+base:   git://anongit.freedesktop.org/drm/drm drm-next
+config: hexagon-randconfig-r045-20220327 (https://download.01.org/0day-ci/archive/20220329/202203290924.MYL8dU7I-lkp@intel.com/config)
+compiler: clang version 15.0.0 (https://github.com/llvm/llvm-project 0f6d9501cf49ce02937099350d08f20c4af86f3d)
+reproduce (this is a W=1 build):
+        wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbin/make.cross -O ~/bin/make.cross
+        chmod +x ~/bin/make.cross
+        # https://github.com/intel-lab-lkp/linux/commit/294c331d772539772ae87613ae1990860bbbc6ff
+        git remote add linux-review https://github.com/intel-lab-lkp/linux
+        git fetch --no-tags linux-review Marek-Vasut/drm-bridge-tc358767-Add-DSI-to-DPI-mode-support/20220329-054627
+        git checkout 294c331d772539772ae87613ae1990860bbbc6ff
+        # save the config file to linux build tree
+        mkdir build_dir
+        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=clang make.cross W=1 O=build_dir ARCH=hexagon SHELL=/bin/bash drivers/gpu/drm/bridge/
 
-We develop that part by our own, only find that there are someone do the 
-same thing when it got push back.
+If you fix the issue, kindly add following tag as appropriate
+Reported-by: kernel test robot <lkp@intel.com>
 
-We believe that it is very flexible actually, anyway if you still don't 
-change you mind we can rewrite it.
+All warnings (new ones prefixed by >>):
 
-I have resend my patches,  see it at 
-https://patchwork.freedesktop.org/series/101843/
+>> drivers/gpu/drm/bridge/tc358767.c:741:6: warning: variable 'max_tu_symbol' set but not used [-Wunused-but-set-variable]
+           int max_tu_symbol;
+               ^
+   1 warning generated.
 
-Please take spare time to review it if you would like, thanks you.
 
+vim +/max_tu_symbol +741 drivers/gpu/drm/bridge/tc358767.c
+
+7caff0fc4296eb Andrey Gusakov   2016-07-13  736  
+294c331d772539 Marek Vasut      2022-03-28  737  static int tc_set_common_video_mode(struct tc_data *tc,
+63f8f3badf799c Laurent Pinchart 2018-04-06  738  				    const struct drm_display_mode *mode)
+7caff0fc4296eb Andrey Gusakov   2016-07-13  739  {
+7caff0fc4296eb Andrey Gusakov   2016-07-13  740  	int ret;
+7caff0fc4296eb Andrey Gusakov   2016-07-13 @741  	int max_tu_symbol;
+7caff0fc4296eb Andrey Gusakov   2016-07-13  742  
+7caff0fc4296eb Andrey Gusakov   2016-07-13  743  	int left_margin = mode->htotal - mode->hsync_end;
+7caff0fc4296eb Andrey Gusakov   2016-07-13  744  	int right_margin = mode->hsync_start - mode->hdisplay;
+7caff0fc4296eb Andrey Gusakov   2016-07-13  745  	int hsync_len = mode->hsync_end - mode->hsync_start;
+7caff0fc4296eb Andrey Gusakov   2016-07-13  746  	int upper_margin = mode->vtotal - mode->vsync_end;
+7caff0fc4296eb Andrey Gusakov   2016-07-13  747  	int lower_margin = mode->vsync_start - mode->vdisplay;
+7caff0fc4296eb Andrey Gusakov   2016-07-13  748  	int vsync_len = mode->vsync_end - mode->vsync_start;
+fd70c7755bf017 Tomi Valkeinen   2019-09-24  749  	u32 bits_per_pixel = 24;
+fd70c7755bf017 Tomi Valkeinen   2019-09-24  750  	u32 in_bw, out_bw;
+7caff0fc4296eb Andrey Gusakov   2016-07-13  751  
+66d1c3b94d5d59 Andrey Gusakov   2017-11-07  752  	/*
+66d1c3b94d5d59 Andrey Gusakov   2017-11-07  753  	 * Recommended maximum number of symbols transferred in a transfer unit:
+66d1c3b94d5d59 Andrey Gusakov   2017-11-07  754  	 * DIV_ROUND_UP((input active video bandwidth in bytes) * tu_size,
+66d1c3b94d5d59 Andrey Gusakov   2017-11-07  755  	 *              (output active video bandwidth in bytes))
+66d1c3b94d5d59 Andrey Gusakov   2017-11-07  756  	 * Must be less than tu_size.
+66d1c3b94d5d59 Andrey Gusakov   2017-11-07  757  	 */
+fd70c7755bf017 Tomi Valkeinen   2019-09-24  758  
+fd70c7755bf017 Tomi Valkeinen   2019-09-24  759  	in_bw = mode->clock * bits_per_pixel / 8;
+e7dc8d40eea400 Thierry Reding   2019-10-21  760  	out_bw = tc->link.num_lanes * tc->link.rate;
+fd70c7755bf017 Tomi Valkeinen   2019-09-24  761  	max_tu_symbol = DIV_ROUND_UP(in_bw * TU_SIZE_RECOMMENDED, out_bw);
+66d1c3b94d5d59 Andrey Gusakov   2017-11-07  762  
+7caff0fc4296eb Andrey Gusakov   2016-07-13  763  	dev_dbg(tc->dev, "set mode %dx%d\n",
+7caff0fc4296eb Andrey Gusakov   2016-07-13  764  		mode->hdisplay, mode->vdisplay);
+7caff0fc4296eb Andrey Gusakov   2016-07-13  765  	dev_dbg(tc->dev, "H margin %d,%d sync %d\n",
+7caff0fc4296eb Andrey Gusakov   2016-07-13  766  		left_margin, right_margin, hsync_len);
+7caff0fc4296eb Andrey Gusakov   2016-07-13  767  	dev_dbg(tc->dev, "V margin %d,%d sync %d\n",
+7caff0fc4296eb Andrey Gusakov   2016-07-13  768  		upper_margin, lower_margin, vsync_len);
+7caff0fc4296eb Andrey Gusakov   2016-07-13  769  	dev_dbg(tc->dev, "total: %dx%d\n", mode->htotal, mode->vtotal);
+7caff0fc4296eb Andrey Gusakov   2016-07-13  770  
+7caff0fc4296eb Andrey Gusakov   2016-07-13  771  
+66d1c3b94d5d59 Andrey Gusakov   2017-11-07  772  	/*
+66d1c3b94d5d59 Andrey Gusakov   2017-11-07  773  	 * LCD Ctl Frame Size
+66d1c3b94d5d59 Andrey Gusakov   2017-11-07  774  	 * datasheet is not clear of vsdelay in case of DPI
+66d1c3b94d5d59 Andrey Gusakov   2017-11-07  775  	 * assume we do not need any delay when DPI is a source of
+66d1c3b94d5d59 Andrey Gusakov   2017-11-07  776  	 * sync signals
+66d1c3b94d5d59 Andrey Gusakov   2017-11-07  777  	 */
+6d0c38315915d4 Andrey Smirnov   2019-06-18  778  	ret = regmap_write(tc->regmap, VPCTRL0,
+3f072c304c0a7e Andrey Smirnov   2019-06-18  779  			   FIELD_PREP(VSDELAY, 0) |
+7caff0fc4296eb Andrey Gusakov   2016-07-13  780  			   OPXLFMT_RGB888 | FRMSYNC_DISABLED | MSF_DISABLED);
+6d0c38315915d4 Andrey Smirnov   2019-06-18  781  	if (ret)
+6d0c38315915d4 Andrey Smirnov   2019-06-18  782  		return ret;
+6d0c38315915d4 Andrey Smirnov   2019-06-18  783  
+6d0c38315915d4 Andrey Smirnov   2019-06-18  784  	ret = regmap_write(tc->regmap, HTIM01,
+3f072c304c0a7e Andrey Smirnov   2019-06-18  785  			   FIELD_PREP(HBPR, ALIGN(left_margin, 2)) |
+3f072c304c0a7e Andrey Smirnov   2019-06-18  786  			   FIELD_PREP(HPW, ALIGN(hsync_len, 2)));
+6d0c38315915d4 Andrey Smirnov   2019-06-18  787  	if (ret)
+6d0c38315915d4 Andrey Smirnov   2019-06-18  788  		return ret;
+6d0c38315915d4 Andrey Smirnov   2019-06-18  789  
+6d0c38315915d4 Andrey Smirnov   2019-06-18  790  	ret = regmap_write(tc->regmap, HTIM02,
+3f072c304c0a7e Andrey Smirnov   2019-06-18  791  			   FIELD_PREP(HDISPR, ALIGN(mode->hdisplay, 2)) |
+3f072c304c0a7e Andrey Smirnov   2019-06-18  792  			   FIELD_PREP(HFPR, ALIGN(right_margin, 2)));
+6d0c38315915d4 Andrey Smirnov   2019-06-18  793  	if (ret)
+6d0c38315915d4 Andrey Smirnov   2019-06-18  794  		return ret;
+6d0c38315915d4 Andrey Smirnov   2019-06-18  795  
+6d0c38315915d4 Andrey Smirnov   2019-06-18  796  	ret = regmap_write(tc->regmap, VTIM01,
+3f072c304c0a7e Andrey Smirnov   2019-06-18  797  			   FIELD_PREP(VBPR, upper_margin) |
+3f072c304c0a7e Andrey Smirnov   2019-06-18  798  			   FIELD_PREP(VSPR, vsync_len));
+6d0c38315915d4 Andrey Smirnov   2019-06-18  799  	if (ret)
+6d0c38315915d4 Andrey Smirnov   2019-06-18  800  		return ret;
+6d0c38315915d4 Andrey Smirnov   2019-06-18  801  
+6d0c38315915d4 Andrey Smirnov   2019-06-18  802  	ret = regmap_write(tc->regmap, VTIM02,
+3f072c304c0a7e Andrey Smirnov   2019-06-18  803  			   FIELD_PREP(VFPR, lower_margin) |
+3f072c304c0a7e Andrey Smirnov   2019-06-18  804  			   FIELD_PREP(VDISPR, mode->vdisplay));
+6d0c38315915d4 Andrey Smirnov   2019-06-18  805  	if (ret)
+6d0c38315915d4 Andrey Smirnov   2019-06-18  806  		return ret;
+6d0c38315915d4 Andrey Smirnov   2019-06-18  807  
+6d0c38315915d4 Andrey Smirnov   2019-06-18  808  	ret = regmap_write(tc->regmap, VFUEN0, VFUEN); /* update settings */
+6d0c38315915d4 Andrey Smirnov   2019-06-18  809  	if (ret)
+6d0c38315915d4 Andrey Smirnov   2019-06-18  810  		return ret;
+7caff0fc4296eb Andrey Gusakov   2016-07-13  811  
+7caff0fc4296eb Andrey Gusakov   2016-07-13  812  	/* Test pattern settings */
+6d0c38315915d4 Andrey Smirnov   2019-06-18  813  	ret = regmap_write(tc->regmap, TSTCTL,
+3f072c304c0a7e Andrey Smirnov   2019-06-18  814  			   FIELD_PREP(COLOR_R, 120) |
+3f072c304c0a7e Andrey Smirnov   2019-06-18  815  			   FIELD_PREP(COLOR_G, 20) |
+3f072c304c0a7e Andrey Smirnov   2019-06-18  816  			   FIELD_PREP(COLOR_B, 99) |
+3f072c304c0a7e Andrey Smirnov   2019-06-18  817  			   ENI2CFILTER |
+3f072c304c0a7e Andrey Smirnov   2019-06-18  818  			   FIELD_PREP(COLOR_BAR_MODE, COLOR_BAR_MODE_BARS));
+294c331d772539 Marek Vasut      2022-03-28  819  
+6d0c38315915d4 Andrey Smirnov   2019-06-18  820  	return ret;
+294c331d772539 Marek Vasut      2022-03-28  821  }
+294c331d772539 Marek Vasut      2022-03-28  822  
+
+-- 
+0-DAY CI Kernel Test Service
+https://01.org/lkp
