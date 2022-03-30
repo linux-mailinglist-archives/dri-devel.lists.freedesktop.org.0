@@ -2,123 +2,79 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 879944EBD39
-	for <lists+dri-devel@lfdr.de>; Wed, 30 Mar 2022 11:07:38 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 589134EBD77
+	for <lists+dri-devel@lfdr.de>; Wed, 30 Mar 2022 11:19:31 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 26EB910F822;
-	Wed, 30 Mar 2022 09:07:32 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id C495210E1FF;
+	Wed, 30 Mar 2022 09:19:28 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from NAM11-DM6-obe.outbound.protection.outlook.com
- (mail-dm6nam11on2058.outbound.protection.outlook.com [40.107.223.58])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 4DE9710F81D;
- Wed, 30 Mar 2022 09:07:30 +0000 (UTC)
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=DuG+WwUm4ZZQZsOq6oEgug09jheJVcmdeBJZL/zEPJJBqaT9FmqwD5snpQ8PbjQ8iYLc6gUtEkllxHxYu1gW39uXZVtqh1baoP8aWVkm8mFx8+rXayvv9IVv79I5qCJcRd+iJZ916OnfaQfnpv4FpqtSNi09bzBPeTMk1cf5AO4rbh1W107TKDgRhTtZFypUVw7HavhQSDQb7ebKBde3kBtKEYNvRqfSw128qgIFAJpKL/R58/9v5BuzR67ARUV1mjMUAldq46ckLN+PloXSwKnNDp5bk4tnC6KCbHJoTFtzIXeo2hZY4fr25504YzgAG1Qq5JhUf0prMVynLEWvWA==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=EEr87n3X0MWYNN387CER/UKraQZ+vZsu0nI1JiJT6A4=;
- b=YLq9QI/t+qT0+bRT4VGn+VBqSej5MHBXiTRh8wSBZy9b+XbGJdmgiKShNVZcNFNeAwznW3ZT7R0CzuN3MjeVHlzxvVH+u0d35BaHYbv4nsRES8q49smN/xFmHVh77qS9KKe+F0/ZKsxwaxzGpHd4qValiQk+iTQ5LTvw6TbfPAlobizlTD+5++dk3gUaubQZZsNgCyG/6BqQolShwWvNuTOpZ4xtZtzggOpQ+WDrALdFkP4lMpqGQucDTQOqhlMhZXWCpHo6djKgssUj3heZ3CqQthQZ19tumCZ5xF0Tiv6UXkB6JNlQdNMNd6RgMr6cnQZF5ln7qPX5qsDLc8fIAA==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=amd.com; dmarc=pass action=none header.from=amd.com; dkim=pass
- header.d=amd.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1; 
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=EEr87n3X0MWYNN387CER/UKraQZ+vZsu0nI1JiJT6A4=;
- b=WwRGIPGl++oW2n/BV8j7Cemz9UHirVu+VfDoiPZ6OcIQugxPrTvJ5mdUDrglQHs4hYVsho1ASF8JxBf1B9jIlOC09W0yOsOc0ga89bBb/Ql2TmwATPwYBUUb9vjr/huVBQLoPh71KdYWi4uV52m9Vmss+USc/uKnkRWE4nbMhbs=
-Authentication-Results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=amd.com;
-Received: from MN2PR12MB4342.namprd12.prod.outlook.com (2603:10b6:208:264::7)
- by DM5PR12MB1898.namprd12.prod.outlook.com (2603:10b6:3:10d::14) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.5102.18; Wed, 30 Mar
- 2022 09:07:27 +0000
-Received: from MN2PR12MB4342.namprd12.prod.outlook.com
- ([fe80::48e2:1306:25a3:5f14]) by MN2PR12MB4342.namprd12.prod.outlook.com
- ([fe80::48e2:1306:25a3:5f14%6]) with mapi id 15.20.5102.023; Wed, 30 Mar 2022
- 09:07:27 +0000
-Message-ID: <f05553f7-f49d-1803-86bf-1e9de37455de@amd.com>
-Date: Wed, 30 Mar 2022 14:47:47 +0530
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.2.0
-Subject: Re: [PATCH v2] drm: add a check to verify the size alignment
-Content-Language: en-US
-To: Matthew Auld <matthew.william.auld@gmail.com>
-References: <20220323073426.228866-1-Arunpravin.PaneerSelvam@amd.com>
- <72e9b499-f31f-41d3-aee2-130f83115fc1@gmail.com>
- <66f75c1b-41e1-5f96-cad7-aeffb95ce712@amd.com>
- <CAM0jSHMZUUj70JCMDogWdzxxk1sJj7MsVprTkN-bnSUeUg1C6Q@mail.gmail.com>
-From: Arunpravin Paneer Selvam <arunpravin.paneerselvam@amd.com>
-In-Reply-To: <CAM0jSHMZUUj70JCMDogWdzxxk1sJj7MsVprTkN-bnSUeUg1C6Q@mail.gmail.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
-X-ClientProxiedBy: BMXPR01CA0031.INDPRD01.PROD.OUTLOOK.COM
- (2603:1096:b00:c::17) To MN2PR12MB4342.namprd12.prod.outlook.com
- (2603:10b6:208:264::7)
+Received: from mail-wm1-x341.google.com (mail-wm1-x341.google.com
+ [IPv6:2a00:1450:4864:20::341])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 0463310E1FF
+ for <dri-devel@lists.freedesktop.org>; Wed, 30 Mar 2022 09:19:27 +0000 (UTC)
+Received: by mail-wm1-x341.google.com with SMTP id
+ c190-20020a1c35c7000000b0038e37907b5bso462509wma.0
+ for <dri-devel@lists.freedesktop.org>; Wed, 30 Mar 2022 02:19:27 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ffwll.ch; s=google;
+ h=date:from:to:cc:subject:message-id:mail-followup-to:references
+ :mime-version:content-disposition:content-transfer-encoding
+ :in-reply-to; bh=BjvaahtIsng/TZTSS+ZLGH9DkC6uyw+QOr3R4CbvEwA=;
+ b=PvZ2uaOMM804ZV6olrT1ose8FexLJBR86tzLTmt96xq+4DEZIepwKKqPLJGvhXkAk1
+ ODIHx0dQWKaaX2xuMogIgrrOOr+hU9N+hGDuKq0vjvAYtj1+IJ1lOqQLEaShnODcLGPr
+ HZjfBDaJb1ETDaXHPJp7q1z5KLR5oa62e926c=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=x-gm-message-state:date:from:to:cc:subject:message-id
+ :mail-followup-to:references:mime-version:content-disposition
+ :content-transfer-encoding:in-reply-to;
+ bh=BjvaahtIsng/TZTSS+ZLGH9DkC6uyw+QOr3R4CbvEwA=;
+ b=WrSZOJa3imqhdMdXpGSCImItHXDDLDCN0ZZ8CeQsVyF0B3jxJDzKK8kQp9wbuPRPuH
+ fmDH90AjLy4kGHKh1Pk0IIGjHw3muHiXuBY6Od4HupyyH1xkFG10gkasIWJi3HbclEty
+ 1gkATMJojhYS3V5x/VCn/lSP4KbdcMoilZqpj1ngmK8t/F2bOYNo0SmSd8Pb1eGGif2Z
+ nZR5ZfGvcIOfK5o+6pRTVzdu3D3zgy9kZbO4IhpA3JWMewWwYbtB6SsnMa9NOUr0OaoU
+ Ni9rXf7X+pD7TodQIhBY4LxJTz3ZU3sJ7Yy2L2bN+RxPRC/46idcv4ipGtOiW/iTJ59K
+ nZWA==
+X-Gm-Message-State: AOAM532gzQbdCbJohi/aHTLmIhyX9+u2rJoJUMQNhegNnmjp9rzQe8j5
+ ejv6mTXd6Iv7WHw4IbEpDMKB5LF5ApJ6LyUi
+X-Google-Smtp-Source: ABdhPJy+LT8MMat8kRBweRrDpiWhyLK1kwpF4rETyVQeSR73vutuwtBN875Ec14LZ77RQUXeBlbHKw==
+X-Received: by 2002:a05:600c:4ec9:b0:38b:f1fd:b6b9 with SMTP id
+ g9-20020a05600c4ec900b0038bf1fdb6b9mr3412692wmq.7.1648631966316; 
+ Wed, 30 Mar 2022 02:19:26 -0700 (PDT)
+Received: from phenom.ffwll.local ([2a02:168:57f4:0:efd0:b9e5:5ae6:c2fa])
+ by smtp.gmail.com with ESMTPSA id
+ v5-20020adfe4c5000000b001edc1e5053esm16383776wrm.82.2022.03.30.02.19.25
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Wed, 30 Mar 2022 02:19:25 -0700 (PDT)
+Date: Wed, 30 Mar 2022 11:19:23 +0200
+From: Daniel Vetter <daniel@ffwll.ch>
+To: Paul Cercueil <paul@crapouillou.net>
+Subject: Re: [PATCH v2 00/12] iio: buffer-dma: write() and new DMABUF based API
+Message-ID: <YkQgmxlCMCzCWq8c@phenom.ffwll.local>
+Mail-Followup-To: Paul Cercueil <paul@crapouillou.net>,
+ Jonathan Cameron <jic23@kernel.org>,
+ Jonathan Lemon <jonathan.lemon@gmail.com>,
+ Michael Hennerich <Michael.Hennerich@analog.com>,
+ Jonathan Corbet <corbet@lwn.net>, linux-iio@vger.kernel.org,
+ linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
+ dri-devel@lists.freedesktop.org,
+ Sumit Semwal <sumit.semwal@linaro.org>,
+ linaro-mm-sig@lists.linaro.org,
+ Alexandru Ardelean <ardeleanalex@gmail.com>,
+ Christian =?iso-8859-1?Q?K=F6nig?= <christian.koenig@amd.com>
+References: <20220207125933.81634-1-paul@crapouillou.net>
+ <20220213184616.669b490b@jic23-huawei>
+ <N8XC7R.5FP2M8552CGT3@crapouillou.net>
+ <YkLEXJzs8ukrxG8s@phenom.ffwll.local>
+ <QI1I9R.GDPWLM86I45S@crapouillou.net>
+ <YkMTZLea4+X39Fp8@phenom.ffwll.local>
+ <80OI9R.QH1992Y5TBBX1@crapouillou.net>
 MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-Office365-Filtering-Correlation-Id: 1f896d3b-cd35-414d-4a7b-08da122cb61d
-X-MS-TrafficTypeDiagnostic: DM5PR12MB1898:EE_
-X-Microsoft-Antispam-PRVS: <DM5PR12MB18981FE6D84046856F8698E5E41F9@DM5PR12MB1898.namprd12.prod.outlook.com>
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: jLUMvFyamuCLNX71Axxcvo4lnh2rLurq5FQ6/GkmY7bVVj7dU0UNM/z15CgTKyB+8xJZ8roqptn68byyxt1selTUDXtXhW1FcxlSliKnn4rZ2ziY6sIM9Yja5NB84Z3DgiBQlFLoi9S39qVEXSJDwTfjPqzr+9s47+pt0GcshLzTjnSYTETnTPAG3Qmoq0Jf2QugUd+dYibJf/78lBne3Fu34Nj93F64UP0RuxF1OsOxUwuL0fyftdzt387YJfUz/6IBSJmbyOm4TegZR4f+f5iovszZl76zb4d2C4XhIa9leDLAaWCWYFU7MymH+TuhR7vvB54tQXVRmggDbakx6vr9XpDtC7OVbKZu4OVCJJJtjfsnkBKalpf3ZJbAHJ174chYejukBA8MxQ9nWBZRtNaMNIbpcgupcPmoamqUBV9UGcTJJIJxcuRn504Kbj49gr4f5w8oFRmZj+xcIB/Ht3m1Hsr0YuLmwlhbGeTRfpLYCEw/n6+k+DZ6ddzDnTYT9X83M3HpXmUFMh2XQ8m9NzxqZoXqDCPZccSTfJu9zO1uu6s+mknr/5SJeAcGZq11wsJ3YrsHGx84CMtcKB3I0DvX8HyTi6rahG3DwT8rIkUiIBLDMhINKyz2qkIhgZW9jzY4rh2vPXVzeceJL+XkZvx4/rwchgIDkBQlp1N2e2ZuHXyxzRgnCEWTW5s15ZlOUAUD62gBt7E7T0XvQU9kBAYqNeXji2uE/Jw/Yf+ocSs=
-X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
- IPV:NLI; SFV:NSPM; H:MN2PR12MB4342.namprd12.prod.outlook.com; PTR:; CAT:NONE;
- SFS:(13230001)(4636009)(366004)(4326008)(66556008)(26005)(186003)(83380400001)(38100700002)(66574015)(66476007)(5660300002)(8936002)(6512007)(31686004)(316002)(8676002)(54906003)(53546011)(66946007)(6506007)(86362001)(6666004)(2616005)(2906002)(6486002)(6916009)(31696002)(36756003)(508600001)(45980500001)(43740500002);
- DIR:OUT; SFP:1101; 
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: =?utf-8?B?WWdOeXJiVFYvRWRGc2tzc3NHeEhtbmY0R3NYOWxBbm1UcnUyT2hQb2FrRDUr?=
- =?utf-8?B?eVNYRm1iSXRSaXFFOWdHdzIwK0w5SXFLK3pzQlprMmtNT05PbG0xS2RmU2hX?=
- =?utf-8?B?am9OTExSUnZSMTJ3YWxSREVOeHVJSW9iZDk4bFAwME01OEw0bklqdk92VGZj?=
- =?utf-8?B?ai8yaURva0tYWGdhbzZtT1V5UUpnOEhRQkFES205bzRrNVpDU0RrYmcvQTd1?=
- =?utf-8?B?UUxjY3hnRzhmeER3Wm9SSjVKOHA1dmlMMTlVaW5pZ0RQblFWbjM1ak5iM3JB?=
- =?utf-8?B?WDNxWFdaNFRzU3RPZFB4dzdzaUtMVisxR01xQ29BeitDZG9IMUcvMHJTTXVR?=
- =?utf-8?B?WWJrbVczZkZiNVlyOVlaQWI5UXJzSC8yZmxsNEFRcDBaei9Bb3ZDZG8weVRO?=
- =?utf-8?B?bk4yVWJUZ2xCa3huYUJLamZpQjkxc0FtRktyS0FqVG1YaE5XaExoMU04NXo3?=
- =?utf-8?B?VldLd3pQZ2pwc28xSGlXVGVTLytpTzVML081Vkp1Z1A0c3ZaTFFvR21oWHlR?=
- =?utf-8?B?a1k5SnNMMXdvTmNqb2I4WlFyaFkvckFtdG80cGxRV2h2VHhSRXVDbEJOdi9N?=
- =?utf-8?B?Z2kxQi9rUjNTUCtwcVMwM1M5Mmp2MExiRCtoOW9NZDZQU1RVK1dzd3R1Y0Rs?=
- =?utf-8?B?SzFPcHFmSGpoZ2FiQlJRRHBVTFpxcUFoNTZpaklyQVV5SVpUOXAydFpaczRQ?=
- =?utf-8?B?ZVB5Y2RyT2ZHdHJ6STFyQ3RWaTVsVmJOVTJsRDhyeWE4S0xLZDg0OWJqTTN2?=
- =?utf-8?B?RHA4aXFPVUdwelBmSDNzY2lmUlNBRFVDOXJMQUsweVJMKzV1RUlsYzg4Zmpm?=
- =?utf-8?B?MUpzNmpVZFBTK3lvVDlsUWt6aWI5ZXJyMjVnUHh1Q1o2OG92bHJKRmR1V2hq?=
- =?utf-8?B?YzNGajdycjBZQ29XZ2w0TzhwTkErU1hjWTJVdDlFZ0M1VDNyZ0ZhWlpLZi9K?=
- =?utf-8?B?cEpaYmt5SFpkNmV1K1hGSWNRTGtLWDY2VGhReFNjTkk0aTFocHZITzVNeHMv?=
- =?utf-8?B?dHU0aVgzNkV1bm85bURLZW1OVUJlbFBJaUI3T2NnU0R1Y0Fud01jcUs3aCtR?=
- =?utf-8?B?N0pGT2tVWENtYkpuK0VjcmRmUWorS3AwL2lGSUFaeS9DcTlhb3RqN3BxM05N?=
- =?utf-8?B?ZVRqcjU5Wk85dURqSEdUNWRXNUpzeExnTXp1bzVVSzN4MWFJQXpJNmFFQ2dZ?=
- =?utf-8?B?R01VbHhQR2tsWDJGT0lqSEhYTUM5eUk1c3QyVnpnb0svbXgzSFpHNGN5ZmJN?=
- =?utf-8?B?cERXUm0rVFZjeldOZnhUZ1ZlUERHSEUwOEdUN3hNZmc3VlRvQ1lVczR6eTdo?=
- =?utf-8?B?a3pWWjJyUzJLOUxhVEVxZ0Z6OGljVk1DYXU4aVZSQUJRQXJxVWJ3b2tCb0RG?=
- =?utf-8?B?bktMRituY2FDdjhEZ0NmSi9tYm5Yc2NsV0V5UmxLMmp2TlIzMGFyK2o3Yk1x?=
- =?utf-8?B?S1pTeDdvQ0dRRHVBUDcrbE1URG9aSHZERzVvVk1KOVFtcllMSG41OTJrYlJZ?=
- =?utf-8?B?RW5ZdzRsSmdOb0FqNkJxZnMyNzZsbUpBYkh6T2ZaVjhyeWIrdEJ4c2x1Y0tq?=
- =?utf-8?B?Znpxd2t0MmhZRjhibnRVc3k4VVYwUmd6VUV4OVpuUHE4YnlnaU9yVUhVelIv?=
- =?utf-8?B?dVY2a0NOSTV6RGFxL2xVdFhQTHVGWkI1YlRsc3FBcGs3RlZNT0J2dGpGS1ds?=
- =?utf-8?B?aXR4NU1ITnBKblR6MzBiTFRiSnJoWGFHbnlwQmtLekRlaG1MdGtYNWZGbkVX?=
- =?utf-8?B?ZEN3U0hxVkVHQ2dENlBwUG84UnF0VDZtWGVpVUYyRGVqL1E4SU12cmhlNEtp?=
- =?utf-8?B?TXBBT0JwZVRUTUw3VTBzMHZkWHMxdEQzcE44V3Mzbnc3SXFNdENad3g0M3dJ?=
- =?utf-8?B?YTNiZGdvS3czWHBPRHEvQVJyRytEbmJTTElEL2FNQkNtN1FwTi92ZGo0NUdw?=
- =?utf-8?B?THdMY2hZd3ZpVTlaQ29jY2xPWG5qUm5hL2FuWkZkWXZDVFpZbG1kWXRzcWY1?=
- =?utf-8?B?TmtxbkVjTU9Yc0dyRmVvL0tmTEkzRmJrWk1zcjRxM0FQWnExQjYxWTZGUm14?=
- =?utf-8?B?Y21zb1BnT0FIS25xbkF2cWxJVFdqeG1HQitrMmNVTFV4bzZjS2EySWFBOWg1?=
- =?utf-8?B?VVhBcHRXcUsxRUtnS3BXcVc3ZHZJNHVqZG1FSVVsVENFTG8rb0pVY0M1T3pY?=
- =?utf-8?B?T04wLy9oUWpOdm9sVFlkMk5vTUVHbElUNVFNNkh2SHVscHJnU3lOUXhibER3?=
- =?utf-8?B?UDhRTmhyalIweFpjRWNYTUhlcTA4QmtkdE5lL094UlhGWGd5YUNWSnYxUnAz?=
- =?utf-8?B?ZkFiWjJJK0xFNVRCbVJ2cy9YTXhGSm9hTndQcHhmT0FrUi9ZcmE1Zz09?=
-X-OriginatorOrg: amd.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 1f896d3b-cd35-414d-4a7b-08da122cb61d
-X-MS-Exchange-CrossTenant-AuthSource: MN2PR12MB4342.namprd12.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 30 Mar 2022 09:07:27.3641 (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: Al8hjC0S3BmrwWvWKbWC8EkGCHNZdJLAXF5W1AFENUrtkc4nt0KCmGdOZ9/sFizo77ZIsgZc1R+FvNxFUT9T4w==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: DM5PR12MB1898
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <80OI9R.QH1992Y5TBBX1@crapouillou.net>
+X-Operating-System: Linux phenom 5.10.0-8-amd64 
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -131,84 +87,300 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: =?UTF-8?Q?Christian_K=c3=b6nig?= <ckoenig.leichtzumerken@gmail.com>,
- Intel Graphics Development <intel-gfx@lists.freedesktop.org>,
- amd-gfx list <amd-gfx@lists.freedesktop.org>,
- ML dri-devel <dri-devel@lists.freedesktop.org>, alexander.deucher@amd.com,
- =?UTF-8?Q?Christian_K=c3=b6nig?= <christian.koenig@amd.com>,
- Matthew Auld <matthew.auld@intel.com>
+Cc: Michael Hennerich <Michael.Hennerich@analog.com>,
+ Jonathan Corbet <corbet@lwn.net>, linux-iio@vger.kernel.org,
+ linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
+ dri-devel@lists.freedesktop.org,
+ Christian =?iso-8859-1?Q?K=F6nig?= <christian.koenig@amd.com>,
+ linaro-mm-sig@lists.linaro.org, Alexandru Ardelean <ardeleanalex@gmail.com>,
+ Jonathan Lemon <jonathan.lemon@gmail.com>,
+ Sumit Semwal <sumit.semwal@linaro.org>, Jonathan Cameron <jic23@kernel.org>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-
-
-On 29/03/22 4:54 pm, Matthew Auld wrote:
-> On Tue, 29 Mar 2022 at 12:17, Arunpravin Paneer Selvam
-> <arunpravin.paneerselvam@amd.com> wrote:
->>
->>
->>
->> On 23/03/22 1:15 pm, Christian König wrote:
->>> Am 23.03.22 um 08:34 schrieb Arunpravin Paneer Selvam:
->>>> Add a simple check to reject any size not aligned to the
->>>> min_page_size.
->>>>
->>>> handle instances when size is not aligned with the min_page_size.
->>>> Unigine Heaven has allocation requests for example required pages
->>>> are 257 and alignment request is 256. To allocate the left over 1
->>>> page, continues the iteration to find the order value which is 0
->>>> and when it compares with min_order = 8, triggers the BUG_ON(order
->>>> < min_order). To avoid this problem, we added a simple check to
->>>> return -EINVAL if size is not aligned to the min_page_size.
->>>>
->>>> v2: Added more details to the commit description
->>>>
->>>> Signed-off-by: Arunpravin Paneer Selvam <Arunpravin.PaneerSelvam@amd.com>
->>>> Suggested-by: Matthew Auld <matthew.auld@intel.com>
->>>> ---
->>>>   drivers/gpu/drm/drm_buddy.c | 3 +++
->>>>   1 file changed, 3 insertions(+)
->>>>
->>>> diff --git a/drivers/gpu/drm/drm_buddy.c b/drivers/gpu/drm/drm_buddy.c
->>>> index 72f52f293249..b503c88786b0 100644
->>>> --- a/drivers/gpu/drm/drm_buddy.c
->>>> +++ b/drivers/gpu/drm/drm_buddy.c
->>>> @@ -661,6 +661,9 @@ int drm_buddy_alloc_blocks(struct drm_buddy *mm,
->>>>      if (range_overflows(start, size, mm->size))
->>>>              return -EINVAL;
->>>>
->>>> +    if (WARN_ON(!IS_ALIGNED(size, min_page_size)))
->>>> +            return -EINVAL;
->>>> +
->>>
->>> I'm not that happy with the handling here.
->>>
->>> See a minimum page size larger than the requested size is perfectly
->>> valid, it just means that the remaining pages needs to be trimmed.
->>>
->>> In other words when the request is to allocate 1 page with an alignment
->>> of 256 we just need to give the remaining 255 pages back to the allocator.
->>
->> In one of the previous mail Matthew explained that i915 expects to
->> return -EINVAL error code if size is not aligned to min_page_size.
+On Tue, Mar 29, 2022 at 06:16:56PM +0100, Paul Cercueil wrote:
+> Hi Daniel,
 > 
-> We could also move the WARN_ON() into i915 as a separate patch, and
-> just change the default buddy behaviour to transparently handle the
-> rounding + trim, if you prefer. I don't have a strong opinion.
-
-ok, I sent a patch handling rounding + trim in drm_buddy_alloc_blocks()
-function. Please review the patch.
+> Le mar., mars 29 2022 at 16:10:44 +0200, Daniel Vetter <daniel@ffwll.ch> a
+> écrit :
+> > On Tue, Mar 29, 2022 at 10:11:14AM +0100, Paul Cercueil wrote:
+> > >  Hi Daniel,
+> > > 
+> > >  Le mar., mars 29 2022 at 10:33:32 +0200, Daniel Vetter
+> > > <daniel@ffwll.ch> a
+> > >  écrit :
+> > >  > On Tue, Feb 15, 2022 at 05:43:35PM +0000, Paul Cercueil wrote:
+> > >  > >  Hi Jonathan,
+> > >  > >
+> > >  > >  Le dim., févr. 13 2022 at 18:46:16 +0000, Jonathan Cameron
+> > >  > >  <jic23@kernel.org> a écrit :
+> > >  > >  > On Mon,  7 Feb 2022 12:59:21 +0000
+> > >  > >  > Paul Cercueil <paul@crapouillou.net> wrote:
+> > >  > >  >
+> > >  > >  > >  Hi Jonathan,
+> > >  > >  > >
+> > >  > >  > >  This is the V2 of my patchset that introduces a new
+> > > userspace
+> > >  > >  > > interface
+> > >  > >  > >  based on DMABUF objects to complement the fileio API, and
+> > > adds
+> > >  > >  > > write()
+> > >  > >  > >  support to the existing fileio API.
+> > >  > >  >
+> > >  > >  > Hi Paul,
+> > >  > >  >
+> > >  > >  > It's been a little while. Perhaps you could summarize the
+> > > various
+> > >  > > view
+> > >  > >  > points around the appropriateness of using DMABUF for this?
+> > >  > >  > I appreciate it is a tricky topic to distil into a brief
+> > > summary
+> > >  > > but
+> > >  > >  > I know I would find it useful even if no one else does!
+> > >  > >
+> > >  > >  So we want to have a high-speed interface where buffers of
+> > > samples
+> > >  > > are
+> > >  > >  passed around between IIO devices and other devices (e.g. USB
+> > > or
+> > >  > > network),
+> > >  > >  or made available to userspace without copying the data.
+> > >  > >
+> > >  > >  DMABUF is, at least in theory, exactly what we need. Quoting
+> > > the
+> > >  > >  documentation
+> > >  > >
+> > > (https://www.kernel.org/doc/html/v5.15/driver-api/dma-buf.html):
+> > >  > >  "The dma-buf subsystem provides the framework for sharing
+> > > buffers
+> > >  > > for
+> > >  > >  hardware (DMA) access across multiple device drivers and
+> > >  > > subsystems, and for
+> > >  > >  synchronizing asynchronous hardware access. This is used, for
+> > >  > > example, by
+> > >  > >  drm “prime” multi-GPU support, but is of course not limited to
+> > > GPU
+> > >  > > use
+> > >  > >  cases."
+> > >  > >
+> > >  > >  The problem is that right now DMABUF is only really used by
+> > > DRM,
+> > >  > > and to
+> > >  > >  quote Daniel, "dma-buf looks like something super generic and
+> > >  > > useful, until
+> > >  > >  you realize that there's a metric ton of gpu/accelerator bagage
+> > >  > > piled in".
+> > >  > >
+> > >  > >  Still, it seems to be the only viable option. We could add a
+> > > custom
+> > >  > >  buffer-passing interface, but that would mean implementing the
+> > > same
+> > >  > >  buffer-passing interface on the network and USB stacks, and
+> > > before
+> > >  > > we know
+> > >  > >  it we re-invented DMABUFs.
+> > >  >
+> > >  > dma-buf also doesn't support sharing with network and usb stacks,
+> > > so I'm
+> > >  > a
+> > >  > bit confused why exactly this is useful?
+> > > 
+> > >  There is an attempt to get dma-buf support in the network stack,
+> > > called
+> > >  "zctap". Last patchset was sent last november. USB stack does not
+> > > support
+> > >  dma-buf, but we can add it later I guess.
+> > > 
+> > >  > So yeah unless there's some sharing going on with gpu stuff (for
+> > > data
+> > >  > processing maybe) I'm not sure this makes a lot of sense really.
+> > > Or at
+> > >  > least some zero-copy sharing between drivers, but even that would
+> > >  > minimally require a dma-buf import ioctl of some sorts. Which I
+> > > either
+> > >  > missed or doesn't exist.
+> > > 
+> > >  We do want zero-copy between drivers, the network stack, and the
+> > > USB stack.
+> > >  It's not just about having a userspace interface.
+> > 
+> > I think in that case we need these other pieces too. And we need acks
+> > from
+> > relevant subsystems that these other pieces are a) ready for upstream
+> > merging and also that the dma-buf side of things actually makes sense.
 > 
->>
->> can we just modify in amdgpu code where we round_up the size to the
->> min_page_size value and keep this error handling in drm_buddy.c?
->>>
->>> Regards,
->>> Christian.
->>>
->>>>      /* Actual range allocation */
->>>>      if (start + size == end)
->>>>              return __drm_buddy_alloc_range(mm, start, size, blocks);
->>>>
->>>> base-commit: 056d47eaf6ea753fa2e21da31f9cbd8b721bbb7b
->>>
+> Ok...
+> 
+> > >  > If there's none of that then just hand-roll your buffer handling
+> > > code
+> > >  > (xarray is cheap to use in terms of code for this), you can
+> > > always add
+> > >  > dma-buf import/export later on when the need arises.
+> > >  >
+> > >  > Scrolling through patches you only have dma-buf export, but no
+> > >  > importing,
+> > >  > so the use-case that works is with one of the existing subsystems
+> > > that
+> > >  > supporting dma-buf importing.
+> > >  >
+> > >  > I think minimally we need the use-case (in form of code) that
+> > > needs the
+> > >  > buffer sharing here.
+> > > 
+> > >  I'll try with zctap and report back.
+> > 
+> > Do you have a link for this? I just checked dri-devel on lore, and it's
+> > not there. Nor anywhere else.
+> 
+> The code is here: https://github.com/jlemon/zctap_kernel
+> 
+> I know Jonathan Lemon (Cc'd) was working on upstreaming it, I saw a few
+> patchsets.
+
+Yeah if the goal here is to zero-copy from iio to network sockets, then I
+think we really need the full picture first, at least as a prototype.
+
+And also a rough consensus among all involved subsystems that this is the
+right approach and that there's no fundamental issues. I really have no
+clue about network to make a call there.
+
+I'm bringing this up because a few folks wanted to look into zero-copy
+between gpu and nvme, using dma-buf. And after lots of
+head-banging-against-solid-concrete-walls, at least my conclusion is that
+due to locking issues it's really not possible without huge changes to the
+block i/o. And those are not on the table.
+-Daniel
+
+> 
+> Cheers,
+> -Paul
+> 
+> > We really need all the pieces, and if block layer reaction is anything
+> > to
+> > judge by, dma-buf wont happen for networking either. There's some really
+> > nasty and fairly fundamental issues with locking and memory reclaim that
+> > make this utter pain or outright impossible.
+> > -Daniel
+> > 
+> > > 
+> > >  Cheers,
+> > >  -Paul
+> > > 
+> > >  > >  > >
+> > >  > >  > >  Changes since v1:
+> > >  > >  > >
+> > >  > >  > >  - the patches that were merged in v1 have been (obviously)
+> > >  > > dropped
+> > >  > >  > > from
+> > >  > >  > >    this patchset;
+> > >  > >  > >  - the patch that was setting the write-combine cache
+> > > setting
+> > >  > > has
+> > >  > >  > > been
+> > >  > >  > >    dropped as well, as it was simply not useful.
+> > >  > >  > >  - [01/12]:
+> > >  > >  > >      * Only remove the outgoing queue, and keep the
+> > > incoming
+> > >  > > queue,
+> > >  > >  > > as we
+> > >  > >  > >        want the buffer to start streaming data as soon as
+> > > it is
+> > >  > >  > > enabled.
+> > >  > >  > >      * Remove IIO_BLOCK_STATE_DEQUEUED, since it is now
+> > >  > > functionally
+> > >  > >  > > the
+> > >  > >  > >        same as IIO_BLOCK_STATE_DONE.
+> > >  > >  > >  - [02/12]:
+> > >  > >  > >      * Fix block->state not being reset in
+> > >  > >  > >        iio_dma_buffer_request_update() for output buffers.
+> > >  > >  > >      * Only update block->bytes_used once and add a comment
+> > >  > > about
+> > >  > >  > > why we
+> > >  > >  > >        update it.
+> > >  > >  > >      * Add a comment about why we're setting a different
+> > > state
+> > >  > > for
+> > >  > >  > > output
+> > >  > >  > >        buffers in iio_dma_buffer_request_update()
+> > >  > >  > >      * Remove useless cast to bool (!!) in
+> > > iio_dma_buffer_io()
+> > >  > >  > >  - [05/12]:
+> > >  > >  > >      Only allow the new IOCTLs on the buffer FD created
+> > > with
+> > >  > >  > >      IIO_BUFFER_GET_FD_IOCTL().
+> > >  > >  > >  - [12/12]:
+> > >  > >  > >      * Explicitly state that the new interface is optional
+> > > and
+> > >  > > is
+> > >  > >  > >        not implemented by all drivers.
+> > >  > >  > >      * The IOCTLs can now only be called on the buffer FD
+> > >  > > returned by
+> > >  > >  > >        IIO_BUFFER_GET_FD_IOCTL.
+> > >  > >  > >      * Move the page up a bit in the index since it is core
+> > >  > > stuff
+> > >  > >  > > and not
+> > >  > >  > >        driver-specific.
+> > >  > >  > >
+> > >  > >  > >  The patches not listed here have not been modified since
+> > > v1.
+> > >  > >  > >
+> > >  > >  > >  Cheers,
+> > >  > >  > >  -Paul
+> > >  > >  > >
+> > >  > >  > >  Alexandru Ardelean (1):
+> > >  > >  > >    iio: buffer-dma: split iio_dma_buffer_fileio_free()
+> > > function
+> > >  > >  > >
+> > >  > >  > >  Paul Cercueil (11):
+> > >  > >  > >    iio: buffer-dma: Get rid of outgoing queue
+> > >  > >  > >    iio: buffer-dma: Enable buffer write support
+> > >  > >  > >    iio: buffer-dmaengine: Support specifying buffer
+> > > direction
+> > >  > >  > >    iio: buffer-dmaengine: Enable write support
+> > >  > >  > >    iio: core: Add new DMABUF interface infrastructure
+> > >  > >  > >    iio: buffer-dma: Use DMABUFs instead of custom solution
+> > >  > >  > >    iio: buffer-dma: Implement new DMABUF based userspace
+> > > API
+> > >  > >  > >    iio: buffer-dmaengine: Support new DMABUF based
+> > > userspace API
+> > >  > >  > >    iio: core: Add support for cyclic buffers
+> > >  > >  > >    iio: buffer-dmaengine: Add support for cyclic buffers
+> > >  > >  > >    Documentation: iio: Document high-speed DMABUF based API
+> > >  > >  > >
+> > >  > >  > >   Documentation/driver-api/dma-buf.rst          |   2 +
+> > >  > >  > >   Documentation/iio/dmabuf_api.rst              |  94 +++
+> > >  > >  > >   Documentation/iio/index.rst                   |   2 +
+> > >  > >  > >   drivers/iio/adc/adi-axi-adc.c                 |   3 +-
+> > >  > >  > >   drivers/iio/buffer/industrialio-buffer-dma.c  | 610
+> > >  > >  > > ++++++++++++++----
+> > >  > >  > >   .../buffer/industrialio-buffer-dmaengine.c    |  42 +-
+> > >  > >  > >   drivers/iio/industrialio-buffer.c             |  60 ++
+> > >  > >  > >   include/linux/iio/buffer-dma.h                |  38 +-
+> > >  > >  > >   include/linux/iio/buffer-dmaengine.h          |   5 +-
+> > >  > >  > >   include/linux/iio/buffer_impl.h               |   8 +
+> > >  > >  > >   include/uapi/linux/iio/buffer.h               |  30 +
+> > >  > >  > >   11 files changed, 749 insertions(+), 145 deletions(-)
+> > >  > >  > >   create mode 100644 Documentation/iio/dmabuf_api.rst
+> > >  > >  > >
+> > >  > >  >
+> > >  > >
+> > >  > >
+> > >  >
+> > >  > --
+> > >  > Daniel Vetter
+> > >  > Software Engineer, Intel Corporation
+> > >  > http://blog.ffwll.ch
+> > > 
+> > > 
+> > 
+> > --
+> > Daniel Vetter
+> > Software Engineer, Intel Corporation
+> > http://blog.ffwll.ch
+> 
+> 
+
+-- 
+Daniel Vetter
+Software Engineer, Intel Corporation
+http://blog.ffwll.ch
