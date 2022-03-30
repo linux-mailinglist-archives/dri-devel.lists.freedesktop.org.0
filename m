@@ -2,64 +2,49 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7D29A4ECFA8
-	for <lists+dri-devel@lfdr.de>; Thu, 31 Mar 2022 00:30:22 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 3DED34ECFBD
+	for <lists+dri-devel@lfdr.de>; Thu, 31 Mar 2022 00:33:40 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id A771110EB4F;
-	Wed, 30 Mar 2022 22:30:16 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 7DC1E10EB1F;
+	Wed, 30 Mar 2022 22:33:37 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-lf1-x135.google.com (mail-lf1-x135.google.com
- [IPv6:2a00:1450:4864:20::135])
- by gabe.freedesktop.org (Postfix) with ESMTPS id F30D210EB32
- for <dri-devel@lists.freedesktop.org>; Wed, 30 Mar 2022 22:30:14 +0000 (UTC)
-Received: by mail-lf1-x135.google.com with SMTP id p15so38288628lfk.8
- for <dri-devel@lists.freedesktop.org>; Wed, 30 Mar 2022 15:30:14 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=from:to:cc:subject:date:message-id:in-reply-to:references
- :mime-version:content-transfer-encoding;
- bh=rpqBTpUpCdXhEBEq/E7SmvSY4o1PiwCRJgZfj9SmfN0=;
- b=SnVG0EEs4PG1+YDicQuYa216zYMYgevvP/UzMEUO22qY3OOxe0BF1b9XMBa/ecXQMh
- E/Bso4ecic0stommXyZiP+H33QQaVECpIvnEaT7QLZDJDvQn54ZSdQE5Gh44wK+M0+XH
- UhQihI/gx1RI9EQurSJavIsw5TIP1AFVkN8BpB3dp8EwG5V/GhENwNxmb+NUHdefMuGf
- ERgpQcbq/LboeRNj82U0koSs2YM4tPLxo2P8/vbJxeXH7NcCWdKqr5qVjUxIe7ZGLZGi
- EX+s+SwKHwTZsU87YNLBfv4L7mylnhcVIAn6mhX+s8wqMJFstI7V8Ew2vJPPCiXn7CTB
- qSCg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
- :references:mime-version:content-transfer-encoding;
- bh=rpqBTpUpCdXhEBEq/E7SmvSY4o1PiwCRJgZfj9SmfN0=;
- b=NlYiCvSNI1v3XrvnWcEwdnb7u276QdlcmidaYp4QNoMYpQ1d3Uo87VwccQom8nJm1e
- UPdIcKVoEZvpgmeDZ3fDQJYvRLixkhOPGIH7tU+Qtng+uVNuIOvP0vwMrV+H4fMZ58Ic
- IoxgtX2G7JgEWbcQw/tbPv9GgtcCQuqvNqujB2gLNkuPn5V0jfrno6E49+Pg/8ajdfHc
- Vyybbj4MQDY5BmrbgBdwzebBg66cr6sCc8IyLrx0XyPeGK9909kL8knu0PLbytubtq86
- XPgCXwrWFtVsVveCwsyStRvWCHfnoBRNKuAP2TIlhB8UifJNxiECzCH3np9Qgzltv4gG
- LURA==
-X-Gm-Message-State: AOAM5319zGsH6jmeu+XHIHmoOwAl25UVxiXUQBXlNAkgjXOkRPrO15Nl
- XoW0MLcPGfOoaNWuvfZdobBwWg==
-X-Google-Smtp-Source: ABdhPJwGjBpbdhdnjRwao/4Ifr2JOjVvqOmqEQ9SfzzOCa3l5eyKcNUesclMb3AlyoajdCZM8CUH7Q==
-X-Received: by 2002:a05:6512:31cb:b0:44a:1311:60e4 with SMTP id
- j11-20020a05651231cb00b0044a131160e4mr8488470lfe.521.1648679413241; 
- Wed, 30 Mar 2022 15:30:13 -0700 (PDT)
-Received: from eriador.lan ([37.153.55.125]) by smtp.gmail.com with ESMTPSA id
- a4-20020a2eb164000000b0024988e1cfb6sm2521295ljm.94.2022.03.30.15.30.12
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 30 Mar 2022 15:30:12 -0700 (PDT)
-From: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
-To: Bjorn Andersson <bjorn.andersson@linaro.org>,
- Rob Clark <robdclark@gmail.com>, Sean Paul <sean@poorly.run>,
- Abhinav Kumar <quic_abhinavk@quicinc.com>,
- Kuogee Hsieh <quic_khsieh@quicinc.com>,
- Sankeerth Billakanti <quic_sbillaka@quicinc.com>
-Subject: [PATCH v2 4/4] drm/msm/dp: make dp_connector_mode_valid() more precise
-Date: Thu, 31 Mar 2022 01:30:08 +0300
-Message-Id: <20220330223008.649274-5-dmitry.baryshkov@linaro.org>
-X-Mailer: git-send-email 2.35.1
-In-Reply-To: <20220330223008.649274-1-dmitry.baryshkov@linaro.org>
-References: <20220330223008.649274-1-dmitry.baryshkov@linaro.org>
-MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Received: from mga12.intel.com (mga12.intel.com [192.55.52.136])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 6D3C010EB1F;
+ Wed, 30 Mar 2022 22:33:36 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+ t=1648679616; x=1680215616;
+ h=date:message-id:from:to:cc:subject:mime-version:
+ content-transfer-encoding;
+ bh=g933jdjYFb6M7a4IpwZjyi6sOh9BwCoMzVFjVJf6ci8=;
+ b=LEx8nicXvEVHbxOGkHC0z6K1uj8Kj0+KwOem7901oXFJETw4CtQXZBhv
+ GKOYUHDEHXhDOlQ33ySJVbZUgKJ4LIRnJs6tjXSa0EtksjE+qgas/kCw4
+ H0rML8qZrfDiPUP6zIjaonmDcZ2qOn99gXujs44Rx3vS29m0fsK0YHfj8
+ Npb009wvItPP4WLohGPmHK+6jk816hroDXM1NjEeNUBHfuxiEXw5EWCmP
+ 1BHGa3a1XU/Lp3xMbvqzs9Et7lNmjYlvbu2cLYzuhhL8qqUp468sC4kPz
+ 27kONOoZmkMLSBBIHQMmVQcX1j1pMpYAkmHyd+0kWo3173Emx5xBhQEah Q==;
+X-IronPort-AV: E=McAfee;i="6200,9189,10302"; a="239589976"
+X-IronPort-AV: E=Sophos;i="5.90,223,1643702400"; d="scan'208";a="239589976"
+Received: from fmsmga008.fm.intel.com ([10.253.24.58])
+ by fmsmga106.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 30 Mar 2022 15:33:35 -0700
+X-IronPort-AV: E=Sophos;i="5.90,223,1643702400"; d="scan'208";a="605687841"
+Received: from adixit-mobl1.amr.corp.intel.com (HELO adixit-arch.intel.com)
+ ([10.212.220.4])
+ by fmsmga008-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 30 Mar 2022 15:33:35 -0700
+Date: Wed, 30 Mar 2022 15:33:35 -0700
+Message-ID: <87o81n9ikg.wl-ashutosh.dixit@intel.com>
+From: "Dixit, Ashutosh" <ashutosh.dixit@intel.com>
+To: Christian =?ISO-8859-1?Q?K=F6nig?= <christian.koenig@amd.com>
+Subject: drm-tip compile break
+User-Agent: Wanderlust/2.15.9 (Almost Unreal) SEMI-EPG/1.14.7 (Harue)
+ FLIM-LB/1.14.9 (=?ISO-8859-4?Q?Goj=F2?=) APEL-LB/10.8 EasyPG/1.0.0
+ Emacs/27.2 (x86_64-pc-linux-gnu) MULE/6.0 (HANACHIRUSATO)
+MIME-Version: 1.0 (generated by SEMI-EPG 1.14.7 - "Harue")
+Content-Type: text/plain; charset=ISO-8859-7
+Content-Transfer-Encoding: quoted-printable
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -72,34 +57,19 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: David Airlie <airlied@linux.ie>, linux-arm-msm@vger.kernel.org,
- dri-devel@lists.freedesktop.org, Stephen Boyd <swboyd@chromium.org>,
- freedreno@lists.freedesktop.org
+Cc: intel-gfx@lists.freedesktop.org, dri-devel@lists.freedesktop.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Make dp_connector_mode_valid() return precise MODE_CLOCK_HIGH rather
-than generic MODE_BAD in case the mode clock is higher than
-DP_MAX_PIXEL_CLK_KHZ (675 MHz).
+Is anyone looking into fixing this:
 
-Signed-off-by: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
----
- drivers/gpu/drm/msm/dp/dp_drm.c | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+drivers/gpu/drm/amd/amdgpu/amdgpu_gtt_mgr.c: In function =A1amdgpu_gtt_mgr_=
+recover=A2:
+drivers/gpu/drm/amd/amdgpu/amdgpu_gtt_mgr.c:200:31: error: =A1struct ttm_ra=
+nge_mgr_node=A2 has no member named =A1tbo=A2
+   amdgpu_ttm_recover_gart(node->tbo);
+                               ^~
+make[4]: *** [scripts/Makefile.build:288: drivers/gpu/drm/amd/amdgpu/amdgpu=
+_gtt_mgr.o] Error 1
 
-diff --git a/drivers/gpu/drm/msm/dp/dp_drm.c b/drivers/gpu/drm/msm/dp/dp_drm.c
-index a94c9b34f397..3225435fa81b 100644
---- a/drivers/gpu/drm/msm/dp/dp_drm.c
-+++ b/drivers/gpu/drm/msm/dp/dp_drm.c
-@@ -89,7 +89,7 @@ static enum drm_mode_status dp_connector_mode_valid(
- 	dp_disp = to_dp_connector(connector)->dp_display;
- 
- 	if (mode->clock > DP_MAX_PIXEL_CLK_KHZ)
--		return MODE_BAD;
-+		return MODE_CLOCK_HIGH;
- 
- 	return dp_display_validate_mode(dp_disp, mode->clock);
- }
--- 
-2.35.1
-
+Thanks.
