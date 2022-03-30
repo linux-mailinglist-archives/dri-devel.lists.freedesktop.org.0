@@ -2,48 +2,50 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id EA4C04EBB98
-	for <lists+dri-devel@lfdr.de>; Wed, 30 Mar 2022 09:18:15 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 2663C4EBBB6
+	for <lists+dri-devel@lfdr.de>; Wed, 30 Mar 2022 09:28:32 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 7684910F3BE;
-	Wed, 30 Mar 2022 07:18:12 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id AEA8610F530;
+	Wed, 30 Mar 2022 07:28:28 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from relay08.th.seeweb.it (relay08.th.seeweb.it
- [IPv6:2001:4b7a:2000:18::169])
- by gabe.freedesktop.org (Postfix) with ESMTPS id ACD0710F3BE
- for <dri-devel@lists.freedesktop.org>; Wed, 30 Mar 2022 07:18:10 +0000 (UTC)
-Received: from SoMainline.org (94-209-165-62.cable.dynamic.v4.ziggo.nl
- [94.209.165.62])
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
- key-exchange ECDHE (P-256) server-signature RSA-PSS (2048 bits) server-digest
- SHA256) (No client certificate requested)
- by m-r2.th.seeweb.it (Postfix) with ESMTPSA id 772943F744;
- Wed, 30 Mar 2022 09:18:06 +0200 (CEST)
-Date: Wed, 30 Mar 2022 09:17:59 +0200
-From: Marijn Suijten <marijn.suijten@somainline.org>
-To: Joel Selvaraj <jo@jsfamily.in>
-Subject: Re: [PATCH 3/3] arm64: dts: qcom: sdm845-xiaomi-beryllium: enable
- qcom wled backlight and link to panel
-Message-ID: <20220330071759.ftcs2fhr7ehrfsqs@SoMainline.org>
-Mail-Followup-To: Marijn Suijten <marijn.suijten@somainline.org>,
- Joel Selvaraj <jo@jsfamily.in>,
- Sumit Semwal <sumit.semwal@linaro.org>,
- Thierry Reding <thierry.reding@gmail.com>,
- Sam Ravnborg <sam@ravnborg.org>, David Airlie <airlied@linux.ie>,
- Daniel Vetter <daniel@ffwll.ch>, Rob Herring <robh+dt@kernel.org>,
- Andy Gross <agross@kernel.org>,
- Bjorn Andersson <bjorn.andersson@linaro.org>,
- dri-devel@lists.freedesktop.org, devicetree@vger.kernel.org,
- linux-kernel@vger.kernel.org, linux-arm-msm@vger.kernel.org,
- ~postmarketos/upstreaming@lists.sr.ht, phone-devel@vger.kernel.org,
- Amit Pundir <amit.pundir@linaro.org>
-References: <20220330065639.245531-1-jo@jsfamily.in>
- <BY5PR02MB70091CBCF76C99109C72E7C8D91F9@BY5PR02MB7009.namprd02.prod.outlook.com>
+Received: from metis.ext.pengutronix.de (metis.ext.pengutronix.de
+ [IPv6:2001:67c:670:201:290:27ff:fe1d:cc33])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id B041B10F530
+ for <dri-devel@lists.freedesktop.org>; Wed, 30 Mar 2022 07:28:26 +0000 (UTC)
+Received: from ptx.hi.pengutronix.de ([2001:67c:670:100:1d::c0])
+ by metis.ext.pengutronix.de with esmtps
+ (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256) (Exim 4.92)
+ (envelope-from <sha@pengutronix.de>)
+ id 1nZSki-0003G6-Vv; Wed, 30 Mar 2022 09:28:24 +0200
+Received: from sha by ptx.hi.pengutronix.de with local (Exim 4.92)
+ (envelope-from <sha@pengutronix.de>)
+ id 1nZSkg-0001fL-SK; Wed, 30 Mar 2022 09:28:22 +0200
+Date: Wed, 30 Mar 2022 09:28:22 +0200
+From: Sascha Hauer <s.hauer@pengutronix.de>
+To: Piotr Oniszczuk <piotr.oniszczuk@gmail.com>
+Subject: Re: [PATCH v9 00/23] drm/rockchip: RK356x VOP2 support
+Message-ID: <20220330072822.GX12181@pengutronix.de>
+References: <20220328151116.2034635-1-s.hauer@pengutronix.de>
+ <FB201567-AE5A-4242-82F1-7C55D8F111EA@gmail.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
+Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
-In-Reply-To: <BY5PR02MB70091CBCF76C99109C72E7C8D91F9@BY5PR02MB7009.namprd02.prod.outlook.com>
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <FB201567-AE5A-4242-82F1-7C55D8F111EA@gmail.com>
+X-Sent-From: Pengutronix Hildesheim
+X-URL: http://www.pengutronix.de/
+X-IRC: #ptxdist @freenode
+X-Accept-Language: de,en
+X-Accept-Content-Type: text/plain
+X-Uptime: 09:22:59 up 109 days, 16:08, 77 users,  load average: 0.01, 0.07,
+ 0.11
+User-Agent: Mutt/1.10.1 (2018-07-13)
+X-SA-Exim-Connect-IP: 2001:67c:670:100:1d::c0
+X-SA-Exim-Mail-From: sha@pengutronix.de
+X-SA-Exim-Scanned: No (on metis.ext.pengutronix.de);
+ SAEximRunCond expanded to false
+X-PTX-Original-Recipient: dri-devel@lists.freedesktop.org
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -56,67 +58,88 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Amit Pundir <amit.pundir@linaro.org>, devicetree@vger.kernel.org,
- David Airlie <airlied@linux.ie>, linux-kernel@vger.kernel.org,
- Andy Gross <agross@kernel.org>, dri-devel@lists.freedesktop.org,
- Bjorn Andersson <bjorn.andersson@linaro.org>, Rob Herring <robh+dt@kernel.org>,
- Thierry Reding <thierry.reding@gmail.com>,
- ~postmarketos/upstreaming@lists.sr.ht, linux-arm-msm@vger.kernel.org,
- phone-devel@vger.kernel.org, Sam Ravnborg <sam@ravnborg.org>,
- Sumit Semwal <sumit.semwal@linaro.org>
+Cc: "devicetree@vger.kernel.org" <devicetree@vger.kernel.org>,
+ Benjamin Gaignard <benjamin.gaignard@collabora.com>,
+ Peter Geis <pgwipeout@gmail.com>, Sandy Huang <hjc@rock-chips.com>,
+ dri-devel@lists.freedesktop.org,
+ "open list:ARM/Rockchip SoC..." <linux-rockchip@lists.infradead.org>,
+ Michael Riesch <michael.riesch@wolfvision.net>, kernel@pengutronix.de,
+ Andy Yan <andy.yan@rock-chips.com>,
+ "linux-arm-kernel@lists.infradead.org" <linux-arm-kernel@lists.infradead.org>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 2022-03-30 12:26:39, Joel Selvaraj wrote:
-> Xiaomi Poco F1 uses the QCOM WLED driver for backlight control.
-> Enable and link it to the panel to use it.
+Hi Piotr,
+
+On Tue, Mar 29, 2022 at 09:31:01AM +0200, Piotr Oniszczuk wrote:
 > 
-> Signed-off-by: Joel Selvaraj <jo@jsfamily.in>
-> ---
->  .../arm64/boot/dts/qcom/sdm845-xiaomi-beryllium.dts | 13 +++++++++++++
->  1 file changed, 13 insertions(+)
 > 
-> diff --git a/arch/arm64/boot/dts/qcom/sdm845-xiaomi-beryllium.dts b/arch/arm64/boot/dts/qcom/sdm845-xiaomi-beryllium.dts
-> index 798fc72578a7..3ebb0f9905d3 100644
-> --- a/arch/arm64/boot/dts/qcom/sdm845-xiaomi-beryllium.dts
-> +++ b/arch/arm64/boot/dts/qcom/sdm845-xiaomi-beryllium.dts
-> @@ -231,6 +231,7 @@ panel@0 {
->  		#address-cells = <1>;
->  		#size-cells = <0>;
->  
-> +		backlight = <&pmi8998_wled>;
->  		reset-gpios = <&tlmm 6 GPIO_ACTIVE_LOW>;
->  
->  		port {
-> @@ -314,6 +315,18 @@ vol_up_pin_a: vol-up-active {
->  	};
->  };
->  
-> +&pmi8998_wled {
-> +	status = "okay";
-> +	qcom,current-boost-limit = <970>;
-> +	qcom,ovp-millivolt = <29600>;
-> +	qcom,current-limit-microamp = <20000>;
-> +	qcom,enabled-strings = <0 1>;
-> +	qcom,num-strings = <2>;
-
-No need to set both nowadays, the driver will even print a warning in
-this case:
-
-    https://lore.kernel.org/linux-arm-msm/20211115203459.1634079-6-marijn.suijten@somainline.org/
-
-Sticking with qcom,num-strings is probably the right choice here.
-
-- Marijn
-
-> +	qcom,switching-freq = <600>;
-> +	qcom,external-pfet;
-> +	qcom,cabc;
-> +};
-> +
->  &pm8998_pon {
->  	resin {
->  		compatible = "qcom,pm8941-resin";
-> -- 
-> 2.35.1
+> > Wiadomość napisana przez Sascha Hauer <s.hauer@pengutronix.de> w dniu 28.03.2022, o godz. 17:10:
+> > 
+> > 
+> > Changes since v8:
+> > - make hclk_vo a critical clock instead of enabling it in the hdmi driver
+> > - Fix vop2_setup_layer_mixer(), reported by Andy Yan
+> > - Limit planes possible_crtcs to actually existing crtcs
+> > 
+> > 
 > 
+> Sascha,
+> 
+> FYI:
+> I was hoping v9 will fix green screen issue i see when video player wants to draw to nv12 capable drm plane.
+> It look issue is still present :-(
+> 
+> You can easily reproduce with modetest utility:
+> 
+> modetest -P 43@67:1920x1080@NV12
+
+This only sets the overlay, but how did you get something on the screen
+initially?
+
+I did with "modetest -s 69@67:1920x1080 -d" and with this it works as
+expected, I can't reproduce any green screen issue here.
+
+I found another problem though which might or might not be related with
+your issue. I saw that the overlay is not exactly centered as it ought
+to be. This goes down to wrong delay settings for the overlay, the
+following patch fixes this.
+
+Sascha
+
+---------------------------------8<-------------------------------
+
+From f9a92401344e8aa3203fca2236dd4a40cc8690f6 Mon Sep 17 00:00:00 2001
+From: Sascha Hauer <s.hauer@pengutronix.de>
+Date: Wed, 30 Mar 2022 09:22:26 +0200
+Subject: [PATCH] fixup! drm: rockchip: Add VOP2 driver
+
+---
+ drivers/gpu/drm/rockchip/rockchip_drm_vop2.c | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
+
+diff --git a/drivers/gpu/drm/rockchip/rockchip_drm_vop2.c b/drivers/gpu/drm/rockchip/rockchip_drm_vop2.c
+index 69e9870d5f2dc..7dba7b9b63dc6 100644
+--- a/drivers/gpu/drm/rockchip/rockchip_drm_vop2.c
++++ b/drivers/gpu/drm/rockchip/rockchip_drm_vop2.c
+@@ -1979,10 +1979,10 @@ static void vop2_setup_dly_for_windows(struct vop2 *vop2)
+ 			sdly |= FIELD_PREP(RK3568_SMART_DLY_NUM__ESMART1, dly);
+ 			break;
+ 		case ROCKCHIP_VOP2_SMART0:
+-			sdly |= FIELD_PREP(RK3568_SMART_DLY_NUM__SMART1, dly);
++			sdly |= FIELD_PREP(RK3568_SMART_DLY_NUM__SMART0, dly);
+ 			break;
+ 		case ROCKCHIP_VOP2_SMART1:
+-			sdly |= FIELD_PREP(RK3568_SMART_DLY_NUM__SMART0, dly);
++			sdly |= FIELD_PREP(RK3568_SMART_DLY_NUM__SMART1, dly);
+ 			break;
+ 		}
+ 	}
+-- 
+2.30.2
+
+-- 
+Pengutronix e.K.                           |                             |
+Steuerwalder Str. 21                       | http://www.pengutronix.de/  |
+31137 Hildesheim, Germany                  | Phone: +49-5121-206917-0    |
+Amtsgericht Hildesheim, HRA 2686           | Fax:   +49-5121-206917-5555 |
