@@ -1,53 +1,57 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id A10744EC52B
-	for <lists+dri-devel@lfdr.de>; Wed, 30 Mar 2022 15:05:22 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 28A004EC607
+	for <lists+dri-devel@lfdr.de>; Wed, 30 Mar 2022 15:53:05 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 4955810E330;
-	Wed, 30 Mar 2022 13:05:20 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 7003D10E1B1;
+	Wed, 30 Mar 2022 13:53:02 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mga12.intel.com (mga12.intel.com [192.55.52.136])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 3843C10E2BE;
- Wed, 30 Mar 2022 13:05:19 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1648645519; x=1680181519;
- h=date:from:to:cc:subject:message-id:references:
- mime-version:content-transfer-encoding:in-reply-to;
- bh=RwztRpReOG2+Vz2GBTz2y2/hCNNeX1ZdXOYiN/5abzE=;
- b=VthIKgdsi3hVR9nzQcEA4Sq3SBFxG5Pru+WWbZLxwMMMwFLRUnWtIc1G
- /r6JoG1auQtPq5vHDmhSwo51oWgEawMl1BN5sFTyWKtJ4jXp4KDdtu3IV
- fgbu2z6zVxzhpfGa4G6jAkwnZAY87w/MnhXqByYiF8YOrq4yMfTYtXFde
- rcxLhwyRinp4T+3sEkD37rtT/oUo7FSfMu4w/3Tv5SGN7vINmM3eyfy/g
- quqo77K4HBktmmsT1298YAzIzi/SaF0MX62xp3oOwsaxfJa6xERvanUmi
- f5ZdbSU6Pzm7FZ4fiDn/VAi16+qEAA0yZaNEDrmaHcuit+OOlejIhyZRU w==;
-X-IronPort-AV: E=McAfee;i="6200,9189,10301"; a="239466959"
-X-IronPort-AV: E=Sophos;i="5.90,222,1643702400"; d="scan'208";a="239466959"
-Received: from fmsmga003.fm.intel.com ([10.253.24.29])
- by fmsmga106.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 30 Mar 2022 06:05:17 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.90,222,1643702400"; d="scan'208";a="639723725"
-Received: from stinkpipe.fi.intel.com (HELO stinkbox) ([10.237.72.61])
- by FMSMGA003.fm.intel.com with SMTP; 30 Mar 2022 06:05:14 -0700
-Received: by stinkbox (sSMTP sendmail emulation);
- Wed, 30 Mar 2022 16:05:14 +0300
-Date: Wed, 30 Mar 2022 16:05:14 +0300
-From: Ville =?iso-8859-1?Q?Syrj=E4l=E4?= <ville.syrjala@linux.intel.com>
-To: Jani Nikula <jani.nikula@intel.com>
-Subject: Re: [PATCH 01/12] drm/edid: use struct edid * in drm_do_get_edid()
-Message-ID: <YkRViiFfSOJQnsoI@intel.com>
-References: <cover.1648578814.git.jani.nikula@intel.com>
- <380b903fb91b1e20a1a7af61db40b6c7c5617005.1648578814.git.jani.nikula@intel.com>
+Received: from mail-oa1-x2b.google.com (mail-oa1-x2b.google.com
+ [IPv6:2001:4860:4864:20::2b])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id C38A610E1B1
+ for <dri-devel@lists.freedesktop.org>; Wed, 30 Mar 2022 13:53:00 +0000 (UTC)
+Received: by mail-oa1-x2b.google.com with SMTP id
+ 586e51a60fabf-d6e29fb3d7so22131066fac.7
+ for <dri-devel@lists.freedesktop.org>; Wed, 30 Mar 2022 06:53:00 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc; bh=XEDH3Ron47cWidh3u3C0pLHbk/HOKW30GMSsA2rjs+A=;
+ b=oMerYQDRJN3V+D/xHFp+NMo2jbct+fHyq+w9viD+TyFQr29dP+8zT/RLSWljtS/ab6
+ OuX1aKsH/5H07aw88anf1Ng8Pxs27yEXfdCj+jadkXn9GuRtYfs+GCZIIsPOuwNCVf7J
+ mrFvO28960CFSTLQq1PhUzItD43eKLujze+ECs+dz6Ou1cJOwyM7LH5fgDFqSwc8bV1m
+ TI+SHeFTSK7Aansm1z/AyK+LVN4j49nZhPHboa/2VsdI8hcyt+9rEaaqX0DRKyhSV/0o
+ mM5SLU/YVQDvDsztCmNhonDzzaTnTFzhpAkpLoCCUUZje+D+bVx0JE4dN/faBv/ZS2cc
+ UZCA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=XEDH3Ron47cWidh3u3C0pLHbk/HOKW30GMSsA2rjs+A=;
+ b=QRL4HE16yITlYjzezHTgJvK31LxC1IoCCLz/zZEcqxsnS4pARSo3OQoUS7TFR3RMGi
+ AmxRX6iLUxmZOoQK+dJ9cF/hx53pBLOp1UouQYoMPrhyVKm++KvEVhrzSeh6JZ8b76pz
+ SBeugWypkTdEX9+1qdP0PZmvljYtIbV8OBcVoOvR/WSXfgZMS45p01HQ0wNJbVlI71mG
+ VJ1+rK4VFLp929hryYQfirF3NohCBoJdvw2wD8k+u7IoqwLWhayFF3jt/nM3FHuogZu5
+ Y6GH61uhLmm9JGg1aU7aXrqxONGFEbc2i450jOahLRRb1GeUo9w+iPbvtxMmhf5U8vbN
+ P1mw==
+X-Gm-Message-State: AOAM533Wk8QKEfF9pVRXsV1xwfCRRFiKxKpduw6+9UtY9t8jnsWVe+LR
+ 3LAPVJxXSty9cE60XZwomeWt1jEppeAIwu1wCBZyWecIOxU=
+X-Google-Smtp-Source: ABdhPJyrvYU9uXbbPMRhJROwZpCKHTAFiCLNSyv4B5cUM3dmVDIqHcF+S+ePzVcp6jl43RcNrjshKc13dN74rTrWAuM=
+X-Received: by 2002:a05:6870:d683:b0:de:eaa2:3550 with SMTP id
+ z3-20020a056870d68300b000deeaa23550mr2219888oap.253.1648648380057; Wed, 30
+ Mar 2022 06:53:00 -0700 (PDT)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=iso-8859-1
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <380b903fb91b1e20a1a7af61db40b6c7c5617005.1648578814.git.jani.nikula@intel.com>
-X-Patchwork-Hint: comment
+References: <20220322192743.14414-1-tzimmermann@suse.de>
+ <20220322192743.14414-3-tzimmermann@suse.de>
+In-Reply-To: <20220322192743.14414-3-tzimmermann@suse.de>
+From: Alex Deucher <alexdeucher@gmail.com>
+Date: Wed, 30 Mar 2022 09:52:49 -0400
+Message-ID: <CADnq5_MHn70te2yGjF4CQsQb4kD36uQ1_wEeQ=+kLdTQwOT9yA@mail.gmail.com>
+Subject: Re: [PATCH 2/8] drm: Rename dp/ to display/
+To: Thomas Zimmermann <tzimmermann@suse.de>
+Content-Type: text/plain; charset="UTF-8"
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -60,125 +64,21 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: intel-gfx@lists.freedesktop.org, dri-devel@lists.freedesktop.org
+Cc: Dave Airlie <airlied@linux.ie>,
+ Maling list - DRI developers <dri-devel@lists.freedesktop.org>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Tue, Mar 29, 2022 at 09:42:08PM +0300, Jani Nikula wrote:
-> Mixing u8 * and struct edid * is confusing, switch to the latter.
-> 
-> Cc: Ville Syrjälä <ville.syrjala@linux.intel.com>
-> Signed-off-by: Jani Nikula <jani.nikula@intel.com>
-> ---
->  drivers/gpu/drm/drm_edid.c | 31 +++++++++++++++----------------
->  1 file changed, 15 insertions(+), 16 deletions(-)
-> 
-> diff --git a/drivers/gpu/drm/drm_edid.c b/drivers/gpu/drm/drm_edid.c
-> index d79b06f7f34c..0650b9217aa2 100644
-> --- a/drivers/gpu/drm/drm_edid.c
-> +++ b/drivers/gpu/drm/drm_edid.c
-> @@ -1991,29 +1991,28 @@ struct edid *drm_do_get_edid(struct drm_connector *connector,
->  	void *data)
->  {
->  	int i, j = 0, valid_extensions = 0;
-> -	u8 *edid, *new;
-> -	struct edid *override;
-> +	struct edid *edid, *new, *override;
->  
->  	override = drm_get_override_edid(connector);
->  	if (override)
->  		return override;
->  
-> -	edid = (u8 *)drm_do_get_edid_base_block(connector, get_edid_block, data);
-> +	edid = drm_do_get_edid_base_block(connector, get_edid_block, data);
->  	if (!edid)
->  		return NULL;
->  
->  	/* if there's no extensions or no connector, we're done */
-> -	valid_extensions = edid[0x7e];
-> +	valid_extensions = edid->extensions;
->  	if (valid_extensions == 0)
-> -		return (struct edid *)edid;
-> +		return edid;
->  
->  	new = krealloc(edid, (valid_extensions + 1) * EDID_LENGTH, GFP_KERNEL);
->  	if (!new)
->  		goto out;
->  	edid = new;
->  
-> -	for (j = 1; j <= edid[0x7e]; j++) {
-> -		u8 *block = edid + j * EDID_LENGTH;
-> +	for (j = 1; j <= edid->extensions; j++) {
-> +		void *block = edid + j;
->  
->  		for (i = 0; i < 4; i++) {
->  			if (get_edid_block(data, block, j, EDID_LENGTH))
-> @@ -2026,13 +2025,13 @@ struct edid *drm_do_get_edid(struct drm_connector *connector,
->  			valid_extensions--;
->  	}
->  
-> -	if (valid_extensions != edid[0x7e]) {
-> -		u8 *base;
-> +	if (valid_extensions != edid->extensions) {
-> +		struct edid *base;
+On Tue, Mar 22, 2022 at 3:28 PM Thomas Zimmermann <tzimmermann@suse.de> wrote:
+>
+> Rename dp/ to display/ to account for additional display-related
+> helpers, such as HDMI. Update all related include statements. No
+> functional changes.
+>
+> Various drivers, such as i915 and amdgpu, use similar naming scheme
+> by putting code for video-output standards into a local display/
+> directory. The new directory's name is aligned with that policy.
+>
+> Signed-off-by: Thomas Zimmermann <tzimmermann@suse.de>
 
-This one points to extension blocks too so using 
-struct edid doesn't seem entirely appropriate.
-
->  
-> -		connector_bad_edid(connector, edid, edid[0x7e] + 1);
-> +		connector_bad_edid(connector, (u8 *)edid, edid->extensions + 1);
->  
-> -		edid[EDID_LENGTH-1] += edid[0x7e] - valid_extensions;
-> -		edid[0x7e] = valid_extensions;
-> +		edid->checksum += edid->extensions - valid_extensions;
-> +		edid->extensions = valid_extensions;
->  
->  		new = kmalloc_array(valid_extensions + 1, EDID_LENGTH,
->  				    GFP_KERNEL);
-> @@ -2040,21 +2039,21 @@ struct edid *drm_do_get_edid(struct drm_connector *connector,
->  			goto out;
->  
->  		base = new;
-> -		for (i = 0; i <= edid[0x7e]; i++) {
-> -			u8 *block = edid + i * EDID_LENGTH;
-> +		for (i = 0; i <= edid->extensions; i++) {
-> +			void *block = edid + i;
-
-Hmm. This code seems very broken to me. We read each block
-into its expected offset based on the original base block extension
-count, but here we only iterate up to the new ext block count. So
-if we had eg. a 4 block EDID where block 2 is busted, we set 
-the new ext count to 2, copy over blocks 0 and 1, skip block 2,
-and then terminate the loop. So instead of copying block 3 from
-the orignal EDID into block 2 of the new EDID, we leave the
-original garbage block 2 in place.
-
-Also this memcpy() business seems entirely poinless in the sense
-that we could just read each ext block into the final offset
-directly AFAICS.
-
->  
->  			if (!drm_edid_block_valid(block, i, false, NULL))
->  				continue;
->  
->  			memcpy(base, block, EDID_LENGTH);
-> -			base += EDID_LENGTH;
-> +			base++;
->  		}
->  
->  		kfree(edid);
->  		edid = new;
->  	}
->  
-> -	return (struct edid *)edid;
-> +	return edid;
->  
->  out:
->  	kfree(edid);
-> -- 
-> 2.30.2
-
--- 
-Ville Syrjälä
-Intel
+Reviewed-by: Alex Deucher <alexander.deucher@amd.com>
