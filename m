@@ -1,116 +1,45 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id C19CD4EB9A9
-	for <lists+dri-devel@lfdr.de>; Wed, 30 Mar 2022 06:29:49 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 76D3D4EB9E5
+	for <lists+dri-devel@lfdr.de>; Wed, 30 Mar 2022 07:12:18 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 9174C10F19C;
-	Wed, 30 Mar 2022 04:29:44 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 6EBD310F3B7;
+	Wed, 30 Mar 2022 05:12:14 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from NAM11-BN8-obe.outbound.protection.outlook.com
- (mail-bn8nam11on2078.outbound.protection.outlook.com [40.107.236.78])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 61E8A10F193;
- Wed, 30 Mar 2022 04:29:43 +0000 (UTC)
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=gXBr0NwKlfbrBJ/jAzL2Cc+INCkuQa8dQ6GM/EKpRWYGdIANBbKTNUdXzvlzUM7s4W5XMU5vP0p6x04S3eOwTBpOn0wnJ881oznCix+7xb402HXUspkCgf8mMhf0RYidNX157lLQNmEnG7QbeRFLqXYfdEXHULiGycwAbqvjQdD2yplQXe3tLY+Y4+OPxqmjhXT0Ae3JwanCF2YPVl32Fl2E4m1e20vR6oFAy2ChwQkE40jNqxyL8/39yXYMLQrEqhp5bsJe0V8nodbzaiKCGi7+JtJSKAQgiW/ry5P+9YijC/Xub6K+2FVzpF33hl2Pz1rmX6uwXewW1pwiBywCyQ==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=0RruNfurWyES/3W8FL72ZJZYFwmAHkM0FpnqLlgsCEQ=;
- b=Peze90Q/88aUAF7bzOPOpp5DxcAcAhcAGPAgu5/nxMkVnAE1jt3RWE9eP75EZyoOWrO7DbOptFaWdBxecjBw8ddEu5pyGCI/lheF5/vqp3qL+3gR+xtbT2NQk+2W92l6erwR7eT/AWZufDYugC711C9otwNEuQSicvDFfsk6/vJBwuM24imgdyald6rOGOpGDKA71hCg03ktA6VmLmZj/wjGAlPR4UJMC5fJ34yLNq33hjzHM8YHEAwTmHvI0O4fdmzl4wBAJOeBDCnKU8gVa64XD67wkI8L0uWR2KVscph5eNueE+EQm/Ck2Ss0N9oHrDGSr1lx3XP+ESFWmB/2EA==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=amd.com; dmarc=pass action=none header.from=amd.com; dkim=pass
- header.d=amd.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1; 
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=0RruNfurWyES/3W8FL72ZJZYFwmAHkM0FpnqLlgsCEQ=;
- b=RtoQ3EdTetboY1vtkp9BOXUHdaL4MhjqLitoBF9Ogwx7TSnnzFpkT2XNreGS+hl5F0FalnbCoJ2bInCptUoQ8v9KQUoMpsKcyPg7nHMf1hFrnCDydpqywIEDncRjkuKuuygjERQ7e9oAEOGX5S+f97Gej2iHF0Ol+tsPxtl2NJA=
-Received: from MW4PR12MB5668.namprd12.prod.outlook.com (2603:10b6:303:16b::13)
- by BY5PR12MB4323.namprd12.prod.outlook.com (2603:10b6:a03:211::10)
- with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.5123.19; Wed, 30 Mar
- 2022 04:29:38 +0000
-Received: from MW4PR12MB5668.namprd12.prod.outlook.com
- ([fe80::5d27:53d9:5dbe:49fd]) by MW4PR12MB5668.namprd12.prod.outlook.com
- ([fe80::5d27:53d9:5dbe:49fd%3]) with mapi id 15.20.5102.022; Wed, 30 Mar 2022
- 04:29:38 +0000
-From: "VURDIGERENATARAJ, CHANDAN" <CHANDAN.VURDIGERENATARAJ@amd.com>
-To: "Lin, Tsung-hua (Ryan)" <Tsung-hua.Lin@amd.com>
-Subject: RE: [PATCH v2] drm/amdgpu: fix that issue that the number of the crtc
- of the 3250c is not correct
-Thread-Topic: [PATCH v2] drm/amdgpu: fix that issue that the number of the
- crtc of the 3250c is not correct
-Thread-Index: AQHYQ+Hv6rbl9hCEq0aViheFKo1J4qzXTxsA
-Date: Wed, 30 Mar 2022 04:29:38 +0000
-Message-ID: <MW4PR12MB566833076458CCAC433C4187961F9@MW4PR12MB5668.namprd12.prod.outlook.com>
-References: <20220127081237.13903-1-Tsung-Hua.Lin@amd.com>
- <20220330024643.162230-1-tsung-hua.lin@amd.com>
-In-Reply-To: <20220330024643.162230-1-tsung-hua.lin@amd.com>
-Accept-Language: en-US
-Content-Language: en-US
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-authentication-results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=amd.com;
-x-ms-publictraffictype: Email
-x-ms-office365-filtering-correlation-id: 0580cd3b-6e72-4f79-b316-08da1205e712
-x-ms-traffictypediagnostic: BY5PR12MB4323:EE_
-x-microsoft-antispam-prvs: <BY5PR12MB432345471498FEFAE49FCF35961F9@BY5PR12MB4323.namprd12.prod.outlook.com>
-x-ms-exchange-senderadcheck: 1
-x-ms-exchange-antispam-relay: 0
-x-microsoft-antispam: BCL:0;
-x-microsoft-antispam-message-info: BptSHKWzOhzaHNP7v3sMALt9dqrFbeKZ6ZUknvEYGC/srXTpHLjonn+hmEtHENuquwvg+1wDwpfvlWvc6gb6wnqwpIvOfYvdGSPuZRZczOiKHO6YF60CTT0m5uw5R0bC9PsydAb0WbDUBF34ASYKJtFUMtxwWD/P+ZaPQ50RblNairpIOCS3ARGgV5XfrxBIiGZAVRK7UL2iar4ajj55B8N/9STmndk4upYwIVvySeHdGKGWrLQTLq9ulbL9f60hIIAQJLuCce6PwhaRwM7nnnC30RlbPADhAmFewtaxaBfqdU2ww92rVsg0kbuT3Z32+Q84PVj6aR4HfJS2/nEsGWCpVZO4uIAvLk+bydBE/gs10GgDy6XM8t3x5yMZDmoG3qqx4TX1ZtPyVbeueQuQGbBKpzyi6oq7Q7CjjQJxyHja1b16Hrzz7RO16fzwa8FJPX28SMzfngxo/R8Cub9R0eT/8xiq73Ti4F4QyIav/lrkcrW0BPRrQSpM9gK3txtH2P0iGbgNn2JBZ7R4w6H9Uf6qXmcFOIegF+t1tzViN5NAD3k7B3SkwTS5dIvK0Nc/DeuFnyZW5Eakuf0sK5K2O8FRL36CBZwM162z42C6RdleAYrYufkG1XCPLzLNuCuAwgHw3BnbPmbAYbJPjLKTr8LT0kRp0ddCDM9V6MbYN+dyZOlfqzRQnx/3FS7fsIpvxjWIP4NFD+1Eb/rpR99cAQ==
-x-forefront-antispam-report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
- IPV:NLI; SFV:NSPM; H:MW4PR12MB5668.namprd12.prod.outlook.com; PTR:; CAT:NONE;
- SFS:(13230001)(4636009)(366004)(52536014)(508600001)(122000001)(186003)(26005)(38070700005)(71200400001)(8936002)(7416002)(55016003)(2906002)(4326008)(66556008)(6862004)(86362001)(9686003)(33656002)(8676002)(7696005)(38100700002)(54906003)(316002)(76116006)(83380400001)(66946007)(66476007)(64756008)(66446008)(6506007)(6636002)(5660300002);
- DIR:OUT; SFP:1101; 
-x-ms-exchange-antispam-messagedata-chunkcount: 1
-x-ms-exchange-antispam-messagedata-0: =?iso-8859-1?Q?qchmbPmBGeiVeuuPBTdJvcsXCzRYIwxV3jLdIzTheCbVsjvIrillVvgE7u?=
- =?iso-8859-1?Q?jvHoRl6NKEUL1c2tHTS0tgUfwnv+DAdfblNiSCH6FWEWzg+YowdgzP2G4X?=
- =?iso-8859-1?Q?R+ukrV34f+RkMFNSZAoqHgj2R+gsrt1YbiBtNFpI+ytz1gM2YmaQPO0aDK?=
- =?iso-8859-1?Q?FzMRIcXZgERLxAcmnsi4S0Q64nkhlujj2YiZWgQSo3KIskQSFrL+YCQJP2?=
- =?iso-8859-1?Q?wNRI69wbrGd4ovmorL56jNcoOFu5bdMVpA0RhUAO3nvCuA/cjnlw6Qd8bN?=
- =?iso-8859-1?Q?gGBsxrAe2AlOEklR1svUJ4mB7mPAOdvq5e+sAu2L2TtyMeW9tobueMtTNO?=
- =?iso-8859-1?Q?+S3VHA/8gN2bqIC8/OYTvWMF3ZFT8O/w5BSSxEGPhFrTOluOG+MDWb8UVR?=
- =?iso-8859-1?Q?h2atpyhpP11LPQ+6d0hD2A3B2UvXCv5mH5r2RIcJfge5fIc2XfGaVFvXAq?=
- =?iso-8859-1?Q?PQQMrFLUzoFoCmMjOuqiPHqTpx/Xm4Pv2/SKDHZ8zuNbl5gr3w6mm8jMzN?=
- =?iso-8859-1?Q?p2UD/RxgmKhiUliGT6KpBiTeWCSmuywf0HZgE2PjoHgGK3J0g/KSQ63kOi?=
- =?iso-8859-1?Q?TBz7vVBvthipZDW2d349YF9jqtzCGywXFEyZcs/cd7QIeJAKUhgrWCfDFL?=
- =?iso-8859-1?Q?CPBK/31HannxOl2UPM1z0QLlFfsBq8lA4zDmzCv7NYJ1lwdVusuFG7JYKO?=
- =?iso-8859-1?Q?JU6uVbfBEVkDixrj/TTWNogtrB0xvo17wUgzNUIbDg+SwinegcADSNCpkb?=
- =?iso-8859-1?Q?Fg3KccAz9sYDp9VCfhbFPpNKUm9+RXJoJotmUUDLAl++q+wx2GUqN14BEb?=
- =?iso-8859-1?Q?0O/JIN0QJTFi+P0EHOJzMs8JwYRiqUUip+G9xnmHMww5kabpEJyUYSMaqS?=
- =?iso-8859-1?Q?PGeH+nnmQAq5NwtdpMlx2iaLo7pqRVrwXg5jQ7DfIhJcsmbPqBvoTgCSEc?=
- =?iso-8859-1?Q?JZjV70I21DmubAJe5R0ghT2qSPKX8xocB8rDyZgC6zqwvgF8xfjQue5emA?=
- =?iso-8859-1?Q?LNw5lX8sI0F/+URv0OJGSffCWBgg+LP0mJ/8uOG+aSq9Y1AWzziqo1XcUb?=
- =?iso-8859-1?Q?D/rBWFwBNxJL0v17HWC8jx1b7rgknXYoVkpjigRv7YzTElDnunwDLRHb8J?=
- =?iso-8859-1?Q?AxFsQ+Gv3uaV2ek6kZqkqo8N5/iaWjjMFh8eMyOu0Ge0JtnjEneZZ58YE5?=
- =?iso-8859-1?Q?Rytia/HJU3JxrWuuJHi2NORZ21diRjKNX1XrOGcT27lUnT3968Kl4yLJBb?=
- =?iso-8859-1?Q?SbM+Q5KeYWE9hjZH+qMEzNocOJk1KVl0xIOyTMaU2GUBpf944FbpPpw9Ua?=
- =?iso-8859-1?Q?lyXRoq8VypU8tFA4S6IBOHEruJ3W4R+mYK2A/URG6VD4kHYAzs+zZvrNPk?=
- =?iso-8859-1?Q?yh0l07cIaA043uesAGVVawo97yOlR77A64qfneRYzFGbxu7/tJk5QGLtLO?=
- =?iso-8859-1?Q?FSFBx/BdkqTKMexXEfUfPpWlSOy5KVMKdeYVVwUr9DbRjOHAphKBdBaFJz?=
- =?iso-8859-1?Q?EASvIJ2qxdHe9UcORJcz9pEmbiXmkZqdesXFDOQ343qyOsMnH91W/elJbo?=
- =?iso-8859-1?Q?Qv8td9m97+O/wu5k70MVvtTSPXvl0YrDlw8RxUoHxLxZMVLXj2ttWFWn9o?=
- =?iso-8859-1?Q?YmAk9y4FoISc76XN7BsPS4RxNm7WaRLt+z8WiksGalneDRz8gCjagZhxqF?=
- =?iso-8859-1?Q?coj7V9X1TAKr2nahrKyEptUPs6m7Gx/WtAniLBhKLPyA991IzbWHQil+qZ?=
- =?iso-8859-1?Q?jl/0ylEs0BjUTdVHchcdqt6yUKn3/ssSSWpKYw4ik8dP3juWsS7ALlt4+5?=
- =?iso-8859-1?Q?JRSjL6kSaA=3D=3D?=
-Content-Type: text/plain; charset="iso-8859-1"
-Content-Transfer-Encoding: quoted-printable
+Received: from mailgw01.mediatek.com (unknown [60.244.123.138])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 0E64710F3B6
+ for <dri-devel@lists.freedesktop.org>; Wed, 30 Mar 2022 05:12:12 +0000 (UTC)
+X-UUID: 7195f69139614ad9b38bddfa96b19033-20220330
+X-UUID: 7195f69139614ad9b38bddfa96b19033-20220330
+Received: from mtkexhb01.mediatek.inc [(172.21.101.102)] by
+ mailgw01.mediatek.com (envelope-from <miles.chen@mediatek.com>)
+ (Generic MTA with TLSv1.2 ECDHE-RSA-AES256-SHA384 256/256)
+ with ESMTP id 1647154087; Wed, 30 Mar 2022 13:11:40 +0800
+Received: from mtkexhb01.mediatek.inc (172.21.101.102) by
+ mtkmbs10n1.mediatek.inc (172.21.101.34) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_CBC_SHA384) id
+ 15.2.792.15; Wed, 30 Mar 2022 13:11:39 +0800
+Received: from mtkcas10.mediatek.inc (172.21.101.39) by mtkexhb01.mediatek.inc
+ (172.21.101.102) with Microsoft SMTP Server (TLS) id 15.0.1497.2;
+ Wed, 30 Mar 2022 13:11:38 +0800
+Received: from mtksdccf07.mediatek.inc (172.21.84.99) by mtkcas10.mediatek.inc
+ (172.21.101.73) with Microsoft SMTP Server id 15.0.1497.2 via
+ Frontend Transport; Wed, 30 Mar 2022 13:11:38 +0800
+From: Miles Chen <miles.chen@mediatek.com>
+To: <granquet@baylibre.com>
+Subject: Re: [PATCH v9 01/22] dt-bindings: mediatek,
+ dpi: Add DP_INTF compatible
+Date: Wed, 30 Mar 2022 13:11:38 +0800
+Message-ID: <20220330051138.19264-1-miles.chen@mediatek.com>
+X-Mailer: git-send-email 2.18.0
+In-Reply-To: <20220327223927.20848-2-granquet@baylibre.com>
+References: <20220327223927.20848-2-granquet@baylibre.com>
 MIME-Version: 1.0
-X-OriginatorOrg: amd.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-AuthSource: MW4PR12MB5668.namprd12.prod.outlook.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 0580cd3b-6e72-4f79-b316-08da1205e712
-X-MS-Exchange-CrossTenant-originalarrivaltime: 30 Mar 2022 04:29:38.5058 (UTC)
-X-MS-Exchange-CrossTenant-fromentityheader: Hosted
-X-MS-Exchange-CrossTenant-id: 3dd8961f-e488-4e60-8e11-a82d994e183d
-X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
-X-MS-Exchange-CrossTenant-userprincipalname: eXKlIFfHmJ5UoNbv/dIhUaSEe0apWap/WfSg3T6WEHNn2q3PQKiDJMcavDCQLakvuEXIzJJffvODYU0uIvGw9w==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: BY5PR12MB4323
+Content-Type: text/plain
+X-MTK: N
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -123,80 +52,93 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: "David \(ChunMing\) Zhou" <David1.Zhou@amd.com>,
- =?iso-8859-1?Q?St=E9phane_Marchesin?= <marcheu@chromium.org>, "Li,
- Sun peng \(Leo\)" <Sunpeng.Li@amd.com>, "Li, 
- Leon" <Leon.Li@amd.com>, "Siqueira, Rodrigo" <Rodrigo.Siqueira@amd.com>,
- "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
- "dri-devel@lists.freedesktop.org" <dri-devel@lists.freedesktop.org>,
- "Kazlauskas, Nicholas" <Nicholas.Kazlauskas@amd.com>,
- David Airlie <airlied@linux.ie>, Sean Paul <seanpaul@chromium.org>,
- "amd-gfx@lists.freedesktop.org" <amd-gfx@lists.freedesktop.org>,
- Drew Davenport <ddavenport@chromium.org>, "Deucher,
- Alexander" <Alexander.Deucher@amd.com>, Mark Yacoub <markyacoub@google.com>,
- "Koenig, Christian" <Christian.Koenig@amd.com>, "Lin,
- Tsung-hua \(Ryan\)" <Tsung-hua.Lin@amd.com>,
- Louis Li <ching-shih.li@amd.corp-partner.google.com>
+Cc: linux-fbdev@vger.kernel.org, devicetree@vger.kernel.org, airlied@linux.ie,
+ dri-devel@lists.freedesktop.org, linux-phy@lists.infradead.org, deller@gmx.de,
+ kishon@ti.com, chunkuang.hu@kernel.org, jitao.shi@mediatek.com,
+ msp@baylibre.com, chunfeng.yun@mediatek.com, robh+dt@kernel.org,
+ linux-mediatek@lists.infradead.org, matthias.bgg@gmail.com,
+ linux-arm-kernel@lists.infradead.org, angelogioacchino.delregno@collabora.com,
+ tzimmermann@suse.de, linux-kernel@vger.kernel.org, vkoul@kernel.org,
+ krzk+dt@kernel.org, markyacoub@google.com
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
+Hi Guillaume,
 
-Hi Ryan,
-
-Is this change applicable on a specific kernel version?
-On latest I see IP DISCOVERY based impl for CHIP_RAVEN.
-
->[Why]
->External displays take priority over internal display when there are fewer=
- display controllers than displays.
+>DP_INTF is similar to DPI but does not have the exact same feature set
+>or register layouts.
 >
-> [How]
->The root cause is because of that number of the crtc is not correct.
->The number of the crtc on the 3250c is 3, but on the 3500c is 4.
->On the source code, we can see that number of the crtc has been fixed at 4=
-.
->Needs to set the num_crtc to 3 for 3250c platform.
+>DP_INTF is the sink of the display pipeline that is connected to the
+>DisplayPort controller and encoder unit. It takes the same clocks as
+>DPI.
 >
->v2:
->   - remove unnecessary comments and Id
->
->Signed-off-by: Ryan Lin <tsung-hua.lin@amd.com>
->
+>Signed-off-by: Markus Schneider-Pargmann <msp@baylibre.com>
+>Signed-off-by: Guillaume Ranquet <granquet@baylibre.com>
+>Reviewed-by: Rob Herring <robh@kernel.org>
 >---
-> drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.c | 12 +++++++++---
-> 1 file changed, 9 insertions(+), 3 deletions(-)
+> .../bindings/display/mediatek/mediatek,dpi.yaml       | 11 ++++++-----
+> 1 file changed, 6 insertions(+), 5 deletions(-)
 >
->diff --git a/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.c b/drivers/g=
-pu/drm/amd/display/amdgpu_dm/amdgpu_dm.c
->index 40c91b448f7da..455a2c45e8cda 100644
->--- a/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.c
->+++ b/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.c
->@@ -2738,9 +2738,15 @@ static int dm_early_init(void *handle)
-> 		break;
-> #if defined(CONFIG_DRM_AMD_DC_DCN1_0)
-> 	case CHIP_RAVEN:
->-		adev->mode_info.num_crtc =3D 4;
->-		adev->mode_info.num_hpd =3D 4;
->-		adev->mode_info.num_dig =3D 4;
->+		if (adev->rev_id >=3D 8) {
+>diff --git a/Documentation/devicetree/bindings/display/mediatek/mediatek,dpi.yaml b/Documentation/devicetree/bindings/display/mediatek/mediatek,dpi.yaml
+>index dd2896a40ff0..2dba80ad3b18 100644
+>--- a/Documentation/devicetree/bindings/display/mediatek/mediatek,dpi.yaml
+>+++ b/Documentation/devicetree/bindings/display/mediatek/mediatek,dpi.yaml
+>@@ -4,16 +4,16 @@
+> $id: http://devicetree.org/schemas/display/mediatek/mediatek,dpi.yaml#
+> $schema: http://devicetree.org/meta-schemas/core.yaml#
+> 
+>-title: mediatek DPI Controller Device Tree Bindings
+>+title: mediatek DPI/DP_INTF Controller
+         ^^^^^^^^
+Would you mind changing this 'mediatek' to 'MediaTek'?
 
-May I know what this ">=3D8" indicate? Also, should it be external_rev_id i=
-f its based on old version?
-
->+			adev->mode_info.num_crtc =3D 3;
->+			adev->mode_info.num_hpd =3D 3;
->+			adev->mode_info.num_dig =3D 3;
->+		} else {
->+			adev->mode_info.num_crtc =3D 4;
->+			adev->mode_info.num_hpd =3D 4;
->+			adev->mode_info.num_dig =3D 4;
->+		}
-> 		break;
-> #endif
-> #if defined(CONFIG_DRM_AMD_DC_DCN2_0)
->--
->2.25.1
+> 
+> maintainers:
+>   - CK Hu <ck.hu@mediatek.com>
+>   - Jitao shi <jitao.shi@mediatek.com>
+> 
+> description: |
+>-  The Mediatek DPI function block is a sink of the display subsystem and
 >
 
-BR,
-Chandan V N
+s/Mediatek/MediaTek/
+
+Could you replace all 'Mediatek' with 'MediaTek' of this series, please?
+We have set up a chcker inside our organization to capture this case,
+hopefully we will see less 'Mediatek' in the future.
+
+>-  provides 8-bit RGB/YUV444 or 8/10/10-bit YUV422 pixel data on a parallel
+>-  output bus.
+>+  The Mediatek DPI and DP_INTF function blocks are a sink of the display
+
+s/Mediatek/MediaTek/
+
+thanks,
+Miles
+
+>+  subsystem and provides 8-bit RGB/YUV444 or 8/10/10-bit YUV422 pixel data on a
+>+  parallel output bus.
+> 
+> properties:
+>   compatible:
+>@@ -23,6 +23,7 @@ properties:
+>       - mediatek,mt8173-dpi
+>       - mediatek,mt8183-dpi
+>       - mediatek,mt8192-dpi
+>+      - mediatek,mt8195-dpintf
+> 
+>   reg:
+>     maxItems: 1
+>@@ -54,7 +55,7 @@ properties:
+>     $ref: /schemas/graph.yaml#/properties/port
+>     description:
+>       Output port node. This port should be connected to the input port of an
+>-      attached HDMI or LVDS encoder chip.
+>+      attached HDMI, LVDS or DisplayPort encoder chip.
+> 
+> required:
+>   - compatible
+>-- 
+>2.34.1
+>
+>
