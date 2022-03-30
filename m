@@ -2,42 +2,42 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 793704ED00D
-	for <lists+dri-devel@lfdr.de>; Thu, 31 Mar 2022 01:29:37 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id CBE8D4ED00E
+	for <lists+dri-devel@lfdr.de>; Thu, 31 Mar 2022 01:29:39 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 58B3910E2CC;
+	by gabe.freedesktop.org (Postfix) with ESMTP id 83A1A10E303;
 	Wed, 30 Mar 2022 23:29:19 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from mga01.intel.com (mga01.intel.com [192.55.52.88])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 56AE310E1DA;
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 79DBE10E1CF;
  Wed, 30 Mar 2022 23:29:16 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
  t=1648682956; x=1680218956;
  h=from:to:cc:subject:date:message-id:in-reply-to:
  references:mime-version:content-transfer-encoding;
- bh=4CKioz1nIqtT9z/Fnoz9GxI9qHvjE8umaNmIxyK94cI=;
- b=Yeud0zQhexVYCbQdGtiODXnwhqoRn3UGZMzv8VzeNZQmq889AhPONhLN
- wnvMOAHWMRAs2u7N9V8+rHz/9rflDfwEPc/Qeo191dsqXNFpQrnFYFBDF
- 9VgMugQFIZrOTypCg/kd9ekP2YncU2bwqhGpu63ijzO2xRLZPEw2jOLdI
- c1mkdX5tIMcqw2xxqIor/JdWM0Vr4sULIDytx9esbiLNFrNvehQEoK9LJ
- yQSaPu4OwwDzAycika7EtuNabAkbEsn4Og9UcrMzjjrE2HiSheu754MLA
- RQhjdCuFdSZ3GP8rTF+KCUxja0wLI3EGbfO7bHaJ8SV03KhnYQ+/5BV7I Q==;
-X-IronPort-AV: E=McAfee;i="6200,9189,10302"; a="284582506"
-X-IronPort-AV: E=Sophos;i="5.90,223,1643702400"; d="scan'208";a="284582506"
+ bh=gYeoJBwDfKtT6yAFRROHJXdvOLw6HpKJU3BdOIoqvNs=;
+ b=PWy9s/I0iwbnLccR5KFlu7eaKeHGbF2QDRwrNpB/13lHA1pPGWy5URl3
+ ZL2Vq9tKH2O012efzmn2jqU4nvL6eV7fHu00CW5ojeqEO7btHug+G7xhU
+ fNi5ERvN7r46bYNlWTbszTvKP2isO/G3TwR8Plv3dCytVcPp29yWaP+y7
+ sihYW9IouLf+8VVrV4amvPOzVMgdXc2QT9rTujWm4aNQXw/JfP3WGKoRd
+ +Zhq75xWUEEOmg65ujcrCzAtGTzAUudHUF1pTsuqNGt5y+mMU6vxSa9pw
+ lyno1yRiobG7/iAPhgURwzLwzKbuK3u6lz/6R94iOkF0Hr2UPvt66x9LB w==;
+X-IronPort-AV: E=McAfee;i="6200,9189,10302"; a="284582507"
+X-IronPort-AV: E=Sophos;i="5.90,223,1643702400"; d="scan'208";a="284582507"
 Received: from orsmga007.jf.intel.com ([10.7.209.58])
  by fmsmga101.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
  30 Mar 2022 16:29:15 -0700
-X-IronPort-AV: E=Sophos;i="5.90,223,1643702400"; d="scan'208";a="547051994"
+X-IronPort-AV: E=Sophos;i="5.90,223,1643702400"; d="scan'208";a="547051997"
 Received: from mdroper-desk1.fm.intel.com ([10.1.27.134])
  by orsmga007-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
  30 Mar 2022 16:29:15 -0700
 From: Matt Roper <matthew.d.roper@intel.com>
 To: intel-gfx@lists.freedesktop.org
-Subject: [PATCH 03/15] drm/i915/gt: Drop a few unused register definitions
-Date: Wed, 30 Mar 2022 16:28:46 -0700
-Message-Id: <20220330232858.3204283-4-matthew.d.roper@intel.com>
+Subject: [PATCH 04/15] drm/i915/gt: Correct prefix on a few registers
+Date: Wed, 30 Mar 2022 16:28:47 -0700
+Message-Id: <20220330232858.3204283-5-matthew.d.roper@intel.com>
 X-Mailer: git-send-email 2.34.1
 In-Reply-To: <20220330232858.3204283-1-matthew.d.roper@intel.com>
 References: <20220330232858.3204283-1-matthew.d.roper@intel.com>
@@ -59,65 +59,108 @@ Cc: dri-devel@lists.freedesktop.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Let's drop a few register definitions that are unused anywhere in the
-driver today.  Since the referenced offsets are part of what is now
-considered a multicast register region, the current definitions would
-not be correct for use on any future platform.
+We have a few registers that have existed for several hardware
+generations, but are only used by the driver on Xe_HP and beyond.  In
+cases where the Xe_HP version of the register is now replicated and uses
+multicast behavior, but earlier generations were singleton, let's change
+the register prefix to "XEHP_" to help clarify that we're using the
+newer multicast form of the register.
 
 Signed-off-by: Matt Roper <matthew.d.roper@intel.com>
 ---
- drivers/gpu/drm/i915/gt/intel_gt_regs.h | 17 -----------------
- 1 file changed, 17 deletions(-)
+ drivers/gpu/drm/i915/gt/intel_gt_regs.h     |  8 ++++----
+ drivers/gpu/drm/i915/gt/intel_workarounds.c | 10 +++++-----
+ 2 files changed, 9 insertions(+), 9 deletions(-)
 
 diff --git a/drivers/gpu/drm/i915/gt/intel_gt_regs.h b/drivers/gpu/drm/i915/gt/intel_gt_regs.h
-index e98e04b4a7a8..9e236397397f 100644
+index 9e236397397f..0f05bbda773e 100644
 --- a/drivers/gpu/drm/i915/gt/intel_gt_regs.h
 +++ b/drivers/gpu/drm/i915/gt/intel_gt_regs.h
-@@ -434,13 +434,6 @@
- #define   GEN11_BLEND_EMB_FIX_DISABLE_IN_RCC	REG_BIT(11)
- #define   GEN12_DISABLE_CPS_AWARE_COLOR_PIPE	REG_BIT(9)
+@@ -466,7 +466,7 @@
  
--/* GEN9 chicken */
--#define SLICE_ECO_CHICKEN0			_MMIO(0x7308)
--#define   PIXEL_MASK_CAMMING_DISABLE		(1 << 14)
--
--#define GEN9_SLICE_COMMON_ECO_CHICKEN0		_MMIO(0x7308)
--#define   DISABLE_PIXEL_MASK_CAMMING		(1 << 14)
--
- #define GEN9_SLICE_COMMON_ECO_CHICKEN1		_MMIO(0x731c)
- #define XEHP_SLICE_COMMON_ECO_CHICKEN1		_MMIO(0x731c)
- #define   MSC_MSAA_REODER_BUF_BYPASS_DISABLE	REG_BIT(14)
-@@ -912,11 +905,6 @@
- #define GEN7_L3LOG(slice, i)			_MMIO(0xb070 + (slice) * 0x200 + (i) * 4)
- #define   GEN7_L3LOG_SIZE			0x80
+ #define GEN8_RC6_CTX_INFO			_MMIO(0x8504)
  
--#define GEN10_SCRATCH_LNCF2			_MMIO(0xb0a0)
--#define   PMFLUSHDONE_LNICRSDROP		(1 << 20)
--#define   PMFLUSH_GAPL3UNBLOCK			(1 << 21)
--#define   PMFLUSHDONE_LNEBLK			(1 << 22)
--
- #define XEHP_L3NODEARBCFG			_MMIO(0xb0b4)
- #define   XEHP_LNESPARE				REG_BIT(19)
+-#define GEN12_SQCM				_MMIO(0x8724)
++#define XEHP_SQCM				_MMIO(0x8724)
+ #define   EN_32B_ACCESS				REG_BIT(30)
  
-@@ -931,9 +919,6 @@
- #define   L3_HIGH_PRIO_CREDITS(x)		(((x) >> 1) << 14)
- #define   L3_PRIO_CREDITS_MASK			((0x1f << 19) | (0x1f << 14))
+ #define HSW_IDICR				_MMIO(0x9008)
+@@ -934,7 +934,7 @@
+ #define GEN11_SCRATCH2				_MMIO(0xb140)
+ #define   GEN11_COHERENT_PARTIAL_WRITE_MERGE_ENABLE	(1 << 19)
  
--#define GEN10_L3_CHICKEN_MODE_REGISTER		_MMIO(0xb114)
--#define   GEN11_I2M_WRITE_DISABLE		(1 << 28)
--
- #define GEN8_L3SQCREG4				_MMIO(0xb118)
- #define   GEN11_LQSC_CLEAN_EVICT_DISABLE	(1 << 6)
- #define   GEN8_LQSC_RO_PERF_DIS			(1 << 27)
-@@ -1113,8 +1098,6 @@
- #define SARB_CHICKEN1				_MMIO(0xe90c)
- #define   COMP_CKN_IN				REG_GENMASK(30, 29)
+-#define GEN11_L3SQCREG5				_MMIO(0xb158)
++#define XEHP_L3SQCREG5				_MMIO(0xb158)
+ #define   L3_PWM_TIMER_INIT_VAL_MASK		REG_GENMASK(9, 0)
  
--#define GEN7_HALF_SLICE_CHICKEN1_GT2		_MMIO(0xf100)
--
- #define GEN7_ROW_CHICKEN2_GT2			_MMIO(0xf4f4)
- #define   DOP_CLOCK_GATING_DISABLE		(1 << 0)
- #define   PUSH_CONSTANT_DEREF_DISABLE		(1 << 8)
+ #define MLTICTXCTL				_MMIO(0xb170)
+@@ -982,7 +982,7 @@
+ #define GEN12_VE_TLB_INV_CR			_MMIO(0xcee0)
+ #define GEN12_BLT_TLB_INV_CR			_MMIO(0xcee4)
+ 
+-#define GEN12_MERT_MOD_CTRL			_MMIO(0xcf28)
++#define XEHP_MERT_MOD_CTRL			_MMIO(0xcf28)
+ #define RENDER_MOD_CTRL				_MMIO(0xcf2c)
+ #define COMP_MOD_CTRL				_MMIO(0xcf30)
+ #define VDBX_MOD_CTRL				_MMIO(0xcf34)
+@@ -1077,7 +1077,7 @@
+ #define EU_PERF_CNTL1				_MMIO(0xe558)
+ #define EU_PERF_CNTL5				_MMIO(0xe55c)
+ 
+-#define GEN12_HDC_CHICKEN0			_MMIO(0xe5f0)
++#define XEHP_HDC_CHICKEN0			_MMIO(0xe5f0)
+ #define   LSC_L1_FLUSH_CTL_3D_DATAPORT_FLUSH_EVENTS_MASK	REG_GENMASK(13, 11)
+ #define ICL_HDC_MODE				_MMIO(0xe5f4)
+ 
+diff --git a/drivers/gpu/drm/i915/gt/intel_workarounds.c b/drivers/gpu/drm/i915/gt/intel_workarounds.c
+index 27807bc70610..544097c56619 100644
+--- a/drivers/gpu/drm/i915/gt/intel_workarounds.c
++++ b/drivers/gpu/drm/i915/gt/intel_workarounds.c
+@@ -567,7 +567,7 @@ static void icl_ctx_workarounds_init(struct intel_engine_cs *engine,
+ static void dg2_ctx_gt_tuning_init(struct intel_engine_cs *engine,
+ 				   struct i915_wa_list *wal)
+ {
+-	wa_write_clr_set(wal, GEN11_L3SQCREG5, L3_PWM_TIMER_INIT_VAL_MASK,
++	wa_write_clr_set(wal, XEHP_L3SQCREG5, L3_PWM_TIMER_INIT_VAL_MASK,
+ 			 REG_FIELD_PREP(L3_PWM_TIMER_INIT_VAL_MASK, 0x7f));
+ 	wa_add(wal,
+ 	       XEHP_FF_MODE2,
+@@ -1486,7 +1486,7 @@ dg2_gt_workarounds_init(struct intel_gt *gt, struct i915_wa_list *wal)
+ 	 * recommended tuning settings documented in the bspec's
+ 	 * performance guide section.
+ 	 */
+-	wa_write_or(wal, GEN12_SQCM, EN_32B_ACCESS);
++	wa_write_or(wal, XEHP_SQCM, EN_32B_ACCESS);
+ }
+ 
+ static void
+@@ -2095,7 +2095,7 @@ rcs_engine_wa_init(struct intel_engine_cs *engine, struct i915_wa_list *wal)
+ 		 * Wa_22010960976:dg2
+ 		 * Wa_14013347512:dg2
+ 		 */
+-		wa_masked_dis(wal, GEN12_HDC_CHICKEN0,
++		wa_masked_dis(wal, XEHP_HDC_CHICKEN0,
+ 			      LSC_L1_FLUSH_CTL_3D_DATAPORT_FLUSH_EVENTS_MASK);
+ 	}
+ 
+@@ -2157,7 +2157,7 @@ rcs_engine_wa_init(struct intel_engine_cs *engine, struct i915_wa_list *wal)
+ 	if (IS_DG2_GRAPHICS_STEP(engine->i915, G10, STEP_A0, STEP_B0) ||
+ 	    IS_DG2_GRAPHICS_STEP(engine->i915, G11, STEP_A0, STEP_B0)) {
+ 		/* Wa_14012362059:dg2 */
+-		wa_write_or(wal, GEN12_MERT_MOD_CTRL, FORCE_MISS_FTLB);
++		wa_write_or(wal, XEHP_MERT_MOD_CTRL, FORCE_MISS_FTLB);
+ 	}
+ 
+ 	if (IS_DG1_GRAPHICS_STEP(i915, STEP_A0, STEP_B0) ||
+@@ -2618,7 +2618,7 @@ general_render_compute_wa_init(struct intel_engine_cs *engine, struct i915_wa_li
+ 		}
+ 
+ 		/* Wa_14012362059:xehpsdv */
+-		wa_write_or(wal, GEN12_MERT_MOD_CTRL, FORCE_MISS_FTLB);
++		wa_write_or(wal, XEHP_MERT_MOD_CTRL, FORCE_MISS_FTLB);
+ 
+ 		/* Wa_14014368820:xehpsdv */
+ 		wa_write_or(wal, GEN12_GAMCNTRL_CTRL, INVALIDATION_BROADCAST_MODE_DIS |
 -- 
 2.34.1
 
