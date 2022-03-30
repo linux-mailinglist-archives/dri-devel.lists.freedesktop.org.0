@@ -2,40 +2,54 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id CCED94EC9DF
-	for <lists+dri-devel@lfdr.de>; Wed, 30 Mar 2022 18:46:55 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 048D24ECA06
+	for <lists+dri-devel@lfdr.de>; Wed, 30 Mar 2022 18:50:40 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id CA3B410E70C;
-	Wed, 30 Mar 2022 16:46:52 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 988CB10E2B4;
+	Wed, 30 Mar 2022 16:50:34 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mx1.molgen.mpg.de (mx3.molgen.mpg.de [141.14.17.11])
- by gabe.freedesktop.org (Postfix) with ESMTPS id E097E10E70C
- for <dri-devel@lists.freedesktop.org>; Wed, 30 Mar 2022 16:46:50 +0000 (UTC)
-Received: from [192.168.0.4] (ip5f5ae8ee.dynamic.kabel-deutschland.de
- [95.90.232.238])
- (using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
- key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
- (No client certificate requested) (Authenticated sender: pmenzel)
- by mx.molgen.mpg.de (Postfix) with ESMTPSA id 7353D61EA192A;
- Wed, 30 Mar 2022 18:46:48 +0200 (CEST)
-Message-ID: <baebc9c2-a8fc-9b36-6133-7fa8368a93d5@molgen.mpg.de>
-Date: Wed, 30 Mar 2022 18:46:47 +0200
+Received: from mga11.intel.com (mga11.intel.com [192.55.52.93])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 0140610E166;
+ Wed, 30 Mar 2022 16:50:32 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+ t=1648659033; x=1680195033;
+ h=date:from:to:cc:subject:message-id:references:
+ mime-version:content-transfer-encoding:in-reply-to;
+ bh=xS7s/NIAlXDyhPl835+ui0GkLyqCiB6adTCZvhPdMZA=;
+ b=Q+S56zum5XKWDQvRgVMN+f2Lb239j2+nAkfSmwTNWd0OrytFh7ux9EEk
+ sjUvxjn+prZo6CswhacXbFs+fr+ZbqZ0oqLVPpCER6f927z6gCCbCZFAW
+ FVFLo2286tT/4krPxsv+SjvxME+Ar0OSjihe3bs77cQFP1kkG6fpDv8CI
+ +4I7Z6IWjpqa62DMuKXgwK7E0T718b37mNJ4XnAFLmGci1ijqLgAwkUAH
+ O7VnQxOz73eZvVPGT76/16Gg7G2RblJ+VtTy1Bd86Z2ksGHbWc+xac7zx
+ WKGN/CX0QCUuEDL9+jzwO8SClWBgzR/zq9slKwX2V+/Ot17evJNu+TCLU g==;
+X-IronPort-AV: E=McAfee;i="6200,9189,10302"; a="257168646"
+X-IronPort-AV: E=Sophos;i="5.90,223,1643702400"; d="scan'208";a="257168646"
+Received: from orsmga006.jf.intel.com ([10.7.209.51])
+ by fmsmga102.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 30 Mar 2022 09:50:32 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.90,223,1643702400"; d="scan'208";a="521970396"
+Received: from stinkpipe.fi.intel.com (HELO stinkbox) ([10.237.72.61])
+ by orsmga006.jf.intel.com with SMTP; 30 Mar 2022 09:50:29 -0700
+Received: by stinkbox (sSMTP sendmail emulation);
+ Wed, 30 Mar 2022 19:50:29 +0300
+Date: Wed, 30 Mar 2022 19:50:29 +0300
+From: Ville =?iso-8859-1?Q?Syrj=E4l=E4?= <ville.syrjala@linux.intel.com>
+To: Jani Nikula <jani.nikula@intel.com>
+Subject: Re: [PATCH 01/12] drm/edid: use struct edid * in drm_do_get_edid()
+Message-ID: <YkSKVRi8g+jGeeSd@intel.com>
+References: <cover.1648578814.git.jani.nikula@intel.com>
+ <380b903fb91b1e20a1a7af61db40b6c7c5617005.1648578814.git.jani.nikula@intel.com>
+ <YkRViiFfSOJQnsoI@intel.com> <87r16jbhdq.fsf@intel.com>
+ <YkR5pPQViri6nIep@intel.com> <87lewrbe0n.fsf@intel.com>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.7.0
-Subject: Re: [PATCH] fbdev: defio: fix the pagelist corruption
-Content-Language: en-US
-To: Chuansheng Liu <chuansheng.liu@intel.com>
-References: <20220317054602.28846-1-chuansheng.liu@intel.com>
- <c058f18b-3dae-9ceb-57b4-ed62fedef50a@molgen.mpg.de>
- <BL1PR11MB54455684D2A1B4F0A666F861971D9@BL1PR11MB5445.namprd11.prod.outlook.com>
- <502adc88-740f-fd68-d870-4f5577e1254d@molgen.mpg.de>
- <BL1PR11MB544534F78BE2AB3502981AE5971D9@BL1PR11MB5445.namprd11.prod.outlook.com>
-From: Paul Menzel <pmenzel@molgen.mpg.de>
-In-Reply-To: <BL1PR11MB544534F78BE2AB3502981AE5971D9@BL1PR11MB5445.namprd11.prod.outlook.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Type: text/plain; charset=iso-8859-1
+Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
+In-Reply-To: <87lewrbe0n.fsf@intel.com>
+X-Patchwork-Hint: comment
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -48,124 +62,201 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: dri-devel@lists.freedesktop.org, linux-fbdev@vger.kernel.org, deller@gmx.de,
- tzimmermann@suse.de
+Cc: intel-gfx@lists.freedesktop.org, dri-devel@lists.freedesktop.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-[Cc: -jayalk@intworks.biz as it bounces]
+On Wed, Mar 30, 2022 at 07:28:56PM +0300, Jani Nikula wrote:
+> On Wed, 30 Mar 2022, Ville Syrjälä <ville.syrjala@linux.intel.com> wrote:
+> > On Wed, Mar 30, 2022 at 06:16:17PM +0300, Jani Nikula wrote:
+> >> On Wed, 30 Mar 2022, Ville Syrjälä <ville.syrjala@linux.intel.com> wrote:
+> >> > On Tue, Mar 29, 2022 at 09:42:08PM +0300, Jani Nikula wrote:
+> >> >> Mixing u8 * and struct edid * is confusing, switch to the latter.
+> >> >> 
+> >> >> Cc: Ville Syrjälä <ville.syrjala@linux.intel.com>
+> >> >> Signed-off-by: Jani Nikula <jani.nikula@intel.com>
+> >> >> ---
+> >> >>  drivers/gpu/drm/drm_edid.c | 31 +++++++++++++++----------------
+> >> >>  1 file changed, 15 insertions(+), 16 deletions(-)
+> >> >> 
+> >> >> diff --git a/drivers/gpu/drm/drm_edid.c b/drivers/gpu/drm/drm_edid.c
+> >> >> index d79b06f7f34c..0650b9217aa2 100644
+> >> >> --- a/drivers/gpu/drm/drm_edid.c
+> >> >> +++ b/drivers/gpu/drm/drm_edid.c
+> >> >> @@ -1991,29 +1991,28 @@ struct edid *drm_do_get_edid(struct drm_connector *connector,
+> >> >>  	void *data)
+> >> >>  {
+> >> >>  	int i, j = 0, valid_extensions = 0;
+> >> >> -	u8 *edid, *new;
+> >> >> -	struct edid *override;
+> >> >> +	struct edid *edid, *new, *override;
+> >> >>  
+> >> >>  	override = drm_get_override_edid(connector);
+> >> >>  	if (override)
+> >> >>  		return override;
+> >> >>  
+> >> >> -	edid = (u8 *)drm_do_get_edid_base_block(connector, get_edid_block, data);
+> >> >> +	edid = drm_do_get_edid_base_block(connector, get_edid_block, data);
+> >> >>  	if (!edid)
+> >> >>  		return NULL;
+> >> >>  
+> >> >>  	/* if there's no extensions or no connector, we're done */
+> >> >> -	valid_extensions = edid[0x7e];
+> >> >> +	valid_extensions = edid->extensions;
+> >> >>  	if (valid_extensions == 0)
+> >> >> -		return (struct edid *)edid;
+> >> >> +		return edid;
+> >> >>  
+> >> >>  	new = krealloc(edid, (valid_extensions + 1) * EDID_LENGTH, GFP_KERNEL);
+> >> >>  	if (!new)
+> >> >>  		goto out;
+> >> >>  	edid = new;
+> >> >>  
+> >> >> -	for (j = 1; j <= edid[0x7e]; j++) {
+> >> >> -		u8 *block = edid + j * EDID_LENGTH;
+> >> >> +	for (j = 1; j <= edid->extensions; j++) {
+> >> >> +		void *block = edid + j;
+> >> >>  
+> >> >>  		for (i = 0; i < 4; i++) {
+> >> >>  			if (get_edid_block(data, block, j, EDID_LENGTH))
+> >> >> @@ -2026,13 +2025,13 @@ struct edid *drm_do_get_edid(struct drm_connector *connector,
+> >> >>  			valid_extensions--;
+> >> >>  	}
+> >> >>  
+> >> >> -	if (valid_extensions != edid[0x7e]) {
+> >> >> -		u8 *base;
+> >> >> +	if (valid_extensions != edid->extensions) {
+> >> >> +		struct edid *base;
+> >> >
+> >> > This one points to extension blocks too so using 
+> >> > struct edid doesn't seem entirely appropriate.
+> >> 
+> >> So I've gone back and forth with this. I think I want to get rid of u8*
+> >> no matter what, because it always requires casting. I've used void* here
+> >> and there to allow mixed use, internally in drm_edid.c while
+> >> transitioning, and in public interfaces due to usage all over the place.
+> >> 
+> >> OTOH I don't much like arithmetics on void*. It's a gcc extension.
+> >> 
+> >> struct edid * is useful for e.g. ->checksum and arithmetics. In many
+> >> places I've named it struct edid *block to distinguish. We could have a
+> >> struct edid_block too, which could have ->tag and ->checksum members,
+> >> for example, but then it would require casting or a function for "safe"
+> >> typecasting.
+> >> 
+> >> I've also gone back and forth with the helpers for getting a pointer to
+> >> a block. For usage like this, kind of need both const and non-const
+> >> versions. And, with the plans I have for future, I'm not sure I want to
+> >> promote any EDID parsing outside of drm_edid.c, so maybe they should be
+> >> static.
+> >> 
+> >> Undecided. C is a bit clunky here.
+> >> 
+> >> >
+> >> >>  
+> >> >> -		connector_bad_edid(connector, edid, edid[0x7e] + 1);
+> >> >> +		connector_bad_edid(connector, (u8 *)edid, edid->extensions + 1);
+> >> >>  
+> >> >> -		edid[EDID_LENGTH-1] += edid[0x7e] - valid_extensions;
+> >> >> -		edid[0x7e] = valid_extensions;
+> >> >> +		edid->checksum += edid->extensions - valid_extensions;
+> >> >> +		edid->extensions = valid_extensions;
+> >> >>  
+> >> >>  		new = kmalloc_array(valid_extensions + 1, EDID_LENGTH,
+> >> >>  				    GFP_KERNEL);
+> >> >> @@ -2040,21 +2039,21 @@ struct edid *drm_do_get_edid(struct drm_connector *connector,
+> >> >>  			goto out;
+> >> >>  
+> >> >>  		base = new;
+> >> >> -		for (i = 0; i <= edid[0x7e]; i++) {
+> >> >> -			u8 *block = edid + i * EDID_LENGTH;
+> >> >> +		for (i = 0; i <= edid->extensions; i++) {
+> >> >> +			void *block = edid + i;
+> >> >
+> >> > Hmm. This code seems very broken to me. We read each block
+> >> > into its expected offset based on the original base block extension
+> >> > count, but here we only iterate up to the new ext block count. So
+> >> > if we had eg. a 4 block EDID where block 2 is busted, we set 
+> >> > the new ext count to 2, copy over blocks 0 and 1, skip block 2,
+> >> > and then terminate the loop. So instead of copying block 3 from
+> >> > the orignal EDID into block 2 of the new EDID, we leave the
+> >> > original garbage block 2 in place.
+> >> 
+> >> Ugh. I end up fixing this in the series, in "drm/edid: split out invalid
+> >> block filtering to a separate function", but I don't mention it
+> >> anywhere.
+> >> 
+> >> Looks like it's been broken for 5+ years since commit 14544d0937bf
+> >> ("drm/edid: Only print the bad edid when aborting").
+> >> 
+> >> Which really makes you wonder about the usefulness of trying to "fix"
+> >> the EDID by skipping extension blocks. It was added in commit
+> >> 0ea75e23356f ("DRM: ignore invalid EDID extensions").
+> >> 
+> >> > Also this memcpy() business seems entirely poinless in the sense
+> >> > that we could just read each ext block into the final offset
+> >> > directly AFAICS.
+> >> 
+> >> This is how it was before commit 14544d0937bf.
+> >
+> > Hmm. This is actually even a bit worse than I though since it
+> > looks like we can leak uninitialized stuff from kmalloc_array().
+> > I originally thought it was a krealloc()+memmove() but that is
+> > not the case.
+> >
+> >> I guess the point is if
+> >> we decide the EDID is garbage, we want to print the original EDID, once,
+> >> not something we've already changed. I also kind of like the idea of
+> >> hiding the broken EDID path magic in a separate function.
+> >
+> > I'm wondering we should just stop with this bad block filtering
+> > entirely? Just let the block be all zeroes/crap if that is really
+> > what we got from the sink. And we could still skip known broken
+> > blocks during parsing to avoid getting too confused I guess.
+> 
+> I think by far the most common extension count must be 1. Especially
+> with older displays I think anything beyond 256 bytes is virtually
+> non-existent. Agreed?
 
-Dear Chuansheng,
+More than one extension block is certainly pretty rare.
 
+edid-decode has a few with 3 (base + CTA + DispID), and my
+edid.tv dump seems to have two with 4 blocks (one has base +
+CTA + 2 DispID blocks, the other has base + block map +
+2 CTA blocks).
 
-Am 29.03.22 um 01:58 schrieb Liu, Chuansheng:
+> 
+> With that, going from 1 to 0 extensions, it actually works by
+> coincidence, no leaks, no uninitialized stuff. (Looks like maybe any
+> scenario where it's the last N extensions that are invalid works just
+> fine, and it's the broken extensions in the middle that make this go
+> haywire.)
+> 
+> So maybe it's not so scary after all. I could fix that bit first, and
+> then proceed with the rest of the series.
 
->> -----Original Message-----
->> From: Paul Menzel
->> Sent: Monday, March 28, 2022 2:15 PM
+I'd fix this up front so we don't end having to backport the whole
+thing if/when some security scan gizmo stumbles on this.
 
->> Am 28.03.22 um 02:58 schrieb Liu, Chuansheng:
->>
->>>> -----Original Message-----
->>
->>>> Sent: Saturday, March 26, 2022 4:11 PM
->>
->>>> Am 17.03.22 um 06:46 schrieb Chuansheng Liu:
->>>>> Easily hit the below list corruption:
->>>>> ==
->>>>> list_add corruption. prev->next should be next (ffffffffc0ceb090), but
->>>>> was ffffec604507edc8. (prev=ffffec604507edc8).
->>>>> WARNING: CPU: 65 PID: 3959 at lib/list_debug.c:26
->>>>> __list_add_valid+0x53/0x80
->>>>> CPU: 65 PID: 3959 Comm: fbdev Tainted: G     U
->>>>> RIP: 0010:__list_add_valid+0x53/0x80
->>>>> Call Trace:
->>>>>     <TASK>
->>>>>     fb_deferred_io_mkwrite+0xea/0x150
->>>>>     do_page_mkwrite+0x57/0xc0
->>>>>     do_wp_page+0x278/0x2f0
->>>>>     __handle_mm_fault+0xdc2/0x1590
->>>>>     handle_mm_fault+0xdd/0x2c0
->>>>>     do_user_addr_fault+0x1d3/0x650
->>>>>     exc_page_fault+0x77/0x180
->>>>>     ? asm_exc_page_fault+0x8/0x30
->>>>>     asm_exc_page_fault+0x1e/0x30
->>>>> RIP: 0033:0x7fd98fc8fad1
->>>>> ==
->>>>>
->>>>> Figure out the race happens when one process is adding &page->lru into
->>>>> the pagelist tail in fb_deferred_io_mkwrite(), another process is
->>>>> re-initializing the same &page->lru in fb_deferred_io_fault(), which is
->>>>> not protected by the lock.
->>>>>
->>>>> This fix is to init all the page lists one time during initialization,
->>>>> it not only fixes the list corruption, but also avoids INIT_LIST_HEAD()
->>>>> redundantly.
->>>>>
->>>>> Fixes: 105a940416fc ("fbdev/defio: Early-out if page is already enlisted")
->>>>> Cc: Thomas Zimmermann <tzimmermann@suse.de>
->>>>> Signed-off-by: Chuansheng Liu <chuansheng.liu@intel.com>
->>>>> ---
->>>>>     drivers/video/fbdev/core/fb_defio.c | 9 ++++++++-
->>>>>     1 file changed, 8 insertions(+), 1 deletion(-)
->>>>>
->>>>> diff --git a/drivers/video/fbdev/core/fb_defio.c
->> b/drivers/video/fbdev/core/fb_defio.c
->>>>> index 98b0f23bf5e2..eafb66ca4f28 100644
->>>>> --- a/drivers/video/fbdev/core/fb_defio.c
->>>>> +++ b/drivers/video/fbdev/core/fb_defio.c
->>>>> @@ -59,7 +59,6 @@ static vm_fault_t fb_deferred_io_fault(struct vm_fault *vmf)
->>>>>     		printk(KERN_ERR "no mapping available\n");
->>>>>
->>>>>     	BUG_ON(!page->mapping);
->>>>> -	INIT_LIST_HEAD(&page->lru);
->>>>>     	page->index = vmf->pgoff;
->>>>>
->>>>>     	vmf->page = page;
->>>>> @@ -220,6 +219,8 @@ static void fb_deferred_io_work(struct work_struct *work)
->>>>>     void fb_deferred_io_init(struct fb_info *info)
->>>>>     {
->>>>>     	struct fb_deferred_io *fbdefio = info->fbdefio;
->>>>> +	struct page *page;
->>>>> +	int i;
->>>>>
->>>>>     	BUG_ON(!fbdefio);
->>>>>     	mutex_init(&fbdefio->lock);
->>>>> @@ -227,6 +228,12 @@ void fb_deferred_io_init(struct fb_info *info)
->>>>>     	INIT_LIST_HEAD(&fbdefio->pagelist);
->>>>>     	if (fbdefio->delay == 0) /* set a default of 1 s */
->>>>>     		fbdefio->delay = HZ;
->>>>> +
->>>>> +	/* initialize all the page lists one time */
->>>>> +	for (i = 0; i < info->fix.smem_len; i += PAGE_SIZE) {
->>>>> +		page = fb_deferred_io_page(info, i);
->>>>> +		INIT_LIST_HEAD(&page->lru);
->>>>> +	}
->>>>>     }
->>>>>     EXPORT_SYMBOL_GPL(fb_deferred_io_init);
->>>>>
->>>> Applying your patch on top of current Linusâ€™ master branch, tty0 is
->>>> unusable and looks frozen. Sometimes network card still works, sometimes
->>>> not.
->>>
->>> I don't see how the patch would cause below BUG call stack, need some time to
->>> debug. Just few comments:
->>> 1. Will the system work well without this patch?
->>
->> Yes, the framebuffer works well without the patch.
->>
->>> 2. When you are sure the patch causes the regression you saw, please get free
->> to submit one reverted patch, thanks : )
->>
->> I think you for patch wasnâ€™t submitted yet â€“ at least not pulled by Linus.
-> The patch has been in drm-tip, could you have a try with the latest drm-tip to see if the
-> Framebuffer works well, in that case, we could revert it in drm-tip then.
+> I'm a bit hesitant to make big
+> functional changes now, like stopping the filtering entirely, because
+> it's not just drm_edid.c parsing the returned EDIDs, parsing is all over
+> the place.
 
-With drm-tip (drm-tip: 2022y-03m-29d-13h-14m-35s UTC integration 
-manifest) everything works fine. (I had to disable amdgpu driver, as it 
-failed to build.) Is anyone able to explain that?
+Sure. Just threw it out there as a future idea.
 
+> And on that note, my idea (also for HF-EEODB, my end goal) is to move
+> towards an opaque struct drm_edid, which is 1) generated and parsed
+> exclusively within drm_edid.c, nowhere else, 2) always valid to be
+> passed to drm_edid.c (i.e. always be able to handle what we've
+> generated, whatever that is). If you want the benefits of HF-EEODB or
+> new DisplayID 2.0 features or whatever, you switch your driver to struct
+> drm_edid. But you can keep rolling with the legacy struct edid crap ad
+> infinitum.
 
-Kind regards,
+Hopefully we can shame enough people to fix their stuff eventually :P
+But yeah, trying to fix it all right now is a bit much.
 
-Paul
+-- 
+Ville Syrjälä
+Intel
