@@ -2,56 +2,56 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 340284EC2EA
-	for <lists+dri-devel@lfdr.de>; Wed, 30 Mar 2022 14:03:26 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id A3B0E4EC2EC
+	for <lists+dri-devel@lfdr.de>; Wed, 30 Mar 2022 14:03:32 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id E5E5410EA79;
-	Wed, 30 Mar 2022 12:03:23 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 2C7CB10EA9E;
+	Wed, 30 Mar 2022 12:03:30 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-pl1-x633.google.com (mail-pl1-x633.google.com
- [IPv6:2607:f8b0:4864:20::633])
- by gabe.freedesktop.org (Postfix) with ESMTPS id A7F8410EA79
- for <dri-devel@lists.freedesktop.org>; Wed, 30 Mar 2022 12:03:22 +0000 (UTC)
-Received: by mail-pl1-x633.google.com with SMTP id w8so20258891pll.10
- for <dri-devel@lists.freedesktop.org>; Wed, 30 Mar 2022 05:03:22 -0700 (PDT)
+Received: from mail-pf1-x42a.google.com (mail-pf1-x42a.google.com
+ [IPv6:2607:f8b0:4864:20::42a])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id BEBC710EA9E
+ for <dri-devel@lists.freedesktop.org>; Wed, 30 Mar 2022 12:03:27 +0000 (UTC)
+Received: by mail-pf1-x42a.google.com with SMTP id u22so18505395pfg.6
+ for <dri-devel@lists.freedesktop.org>; Wed, 30 Mar 2022 05:03:27 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
  h=from:to:cc:subject:date:message-id:in-reply-to:references;
- bh=AvqwHy5iP7QDYL90jHvlfS06VpNkgs2PdfjMbWdFXfE=;
- b=CUSnOCzxqgVRMtGhfZ4Fy+WyRU2GGqdh5D/k3XFkbJDJPj/P66POAZKY4dNjn2XQkf
- FSlZOHnmvEeO1rwpxooAaYyRSdT+Xdb2zuHBGjfhISLnyARzPggG/rs5cxIlTaxzOzki
- A8HjFhdN0mp0ByA1LrCj6pRVd8XmdIfw4qCmhwju5c9OCFwblO4rU4c2bYCPUhdSrgG3
- iSMgDyu2u2O0bI1bCgtlaeVvd3mT/iQaNvyn3xfH+kFktz4VewiRslZ/lxD2rTIPLgC6
- Fd5DsWOQ6etUz2D6YMpdVyiFPCQIMMduoPTX4tB+mAfH+d5Fa+b+PWAfkmhiWoZBVn1U
- pgog==
+ bh=4gcVpR2FizLJu6RR3F0oPHrwVu4t3M1EAjmgqnVTUXw=;
+ b=jcHoloxMP+C79gc6dBvnkAdVCQRfO2uj4O8uKZkKARqsKyg1ZbGoC4b5O7l/sOAXJA
+ SFHqCodMGi0ble3CbmlXAfQoy3mrD5wWpVxrpAsTgCbnT2ZFXZaor39CwUro9hliLND3
+ pbMsCcEUJIyyQBYVfjXH8Byyfxr5avmvBM/BR+05VfzdWvnVNQglk2vLunPD1Mr+ApCA
+ A5iE9zkrlIYRBUdxE7dirJZDht6JYnL+0rdCPLp1f54HsYXZONrHyPGYPYJtQAgXFpYn
+ h9GogzzMAk0ipItJFIlRnVwrVFHPNEkOvuCLxahKny1fqMnjinQwrYd1P5rWYMc7IAYF
+ 4tRQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references;
- bh=AvqwHy5iP7QDYL90jHvlfS06VpNkgs2PdfjMbWdFXfE=;
- b=EN/Ijp0n2RVd+nrIXdxPmTgSxX/mO/5/H8bG/zr9PK53jUpBRM36U8Qb5QgQ9KnIyl
- sM566MuCKEr6FRk9RsXucg5TRFgge7+YAvAHdCzaykqaPyHkhMIqeP5nz9PKc4LZmJJI
- gIG6XY3WFdOpDjESaz03GtVISFESNncpEY3guBKrKreb0bQBq1U7iw3n3ZO8jEJc9sdU
- GqrbIj7KA+w+6Asj8Sf6XFhMcQZuUxNUHgomeqPsyXVzeroKtoac3PdisceKo9NOl0Y0
- uLCmuGrf+YiDZh3bwLwFjYoRfklBHtm7jUQt3eVY0x04HrlFOgf3BaxXstUH+n116uOU
- CfVw==
-X-Gm-Message-State: AOAM533ZOVeiSC3cL/Jy0ZjzefzhBpeark6KS1kKnsR/FI7lNM6zw/Oj
- bmeN3zMIQcawzun9/4rduOH1XfMjI8dPvA==
-X-Google-Smtp-Source: ABdhPJy0jqMqa9ZIkbR+7qbrpJnbD0474GqIHiQoKDnZ/tH3sXBv6IRUdF4/oiU/ag6EBaHguPWVSQ==
-X-Received: by 2002:a17:903:41cf:b0:154:25bf:7d0f with SMTP id
- u15-20020a17090341cf00b0015425bf7d0fmr34409382ple.41.1648641802229; 
- Wed, 30 Mar 2022 05:03:22 -0700 (PDT)
+ bh=4gcVpR2FizLJu6RR3F0oPHrwVu4t3M1EAjmgqnVTUXw=;
+ b=gJI8ARmgBqtBSwa2AYhEZoyQDTPcWIdKAlCMs+x27LZonYWcHdhb0og+67ARdnypvy
+ CpDTJpObimWf3uzEsKWyhmzqWMXQRtSZ0/v37AXvpl0C6tVBtRlnqp2x+oRKbrgSNe3Z
+ JOvj4i39Bzn++SGy4ksTuI8Ar6c7rzveZwXQcRljYHR8aaVkNpJUSE3XoDyibgIHBJKH
+ vfDfbZqJc/3eLIi1h3mp3GAxVxKszyasDvX2W+9maMSMwx6GE76PaT+cT3X9PNNFQ8Z3
+ 1G65YvbcYCnClm/HLpVc9t+PV8G7khrd3ABby75+YVb/D/06AZ/nmhrpQYegN5i/NaQj
+ WC7g==
+X-Gm-Message-State: AOAM530yZJ7Kvi7ORnT8JPd4bOewHEUtlkG4GcKqFfRbshEsEipqqQGP
+ G7u3R6sQJbSLN4j4H0Pi7l0=
+X-Google-Smtp-Source: ABdhPJzL0rbJ0K2I89qnqiuRPMDNCIkKbUY7vwxf1xIQFLHClFI3u9l3Ln29b5g4dAdJ/hFhzAoqEw==
+X-Received: by 2002:a05:6a00:114b:b0:4f7:915:3ec3 with SMTP id
+ b11-20020a056a00114b00b004f709153ec3mr33199193pfm.8.1648641807349; 
+ Wed, 30 Mar 2022 05:03:27 -0700 (PDT)
 Received: from localhost ([119.3.119.18]) by smtp.gmail.com with ESMTPSA id
- q13-20020aa7982d000000b004fb199b9c7dsm19622304pfl.119.2022.03.30.05.03.20
+ c21-20020a637255000000b003822e80f132sm18965408pgn.12.2022.03.30.05.03.26
  (version=TLS1_2 cipher=ECDHE-ECDSA-CHACHA20-POLY1305 bits=256/256);
- Wed, 30 Mar 2022 05:03:21 -0700 (PDT)
+ Wed, 30 Mar 2022 05:03:26 -0700 (PDT)
 From: Xiaomeng Tong <xiam0nd.tong@gmail.com>
 To: patrik.r.jakobsson@gmail.com,
 	airlied@linux.ie,
 	daniel@ffwll.ch
-Subject: [PATCH 2/5] gma500: fix a missing break in cdv_intel_crtc_mode_set
-Date: Wed, 30 Mar 2022 20:02:43 +0800
-Message-Id: <20220330120246.25580-3-xiam0nd.tong@gmail.com>
+Subject: [PATCH 3/5] gma500: fix a missing break in psb_intel_crtc_mode_set
+Date: Wed, 30 Mar 2022 20:02:44 +0800
+Message-Id: <20220330120246.25580-4-xiam0nd.tong@gmail.com>
 X-Mailer: git-send-email 2.17.1
 In-Reply-To: <20220330120246.25580-1-xiam0nd.tong@gmail.com>
 References: <20220330120246.25580-1-xiam0nd.tong@gmail.com>
@@ -75,33 +75,30 @@ Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 Instead of exiting the loop as expected when an entry is found, the
 list_for_each_entry() continues until the traversal is complete. It
-could lead to a invalid reference to 'ddi_select' after the loop, and
-could lead to multiple 'is_*' flags being set with true mistakely, too.
+could result in multiple 'is_*' flags being set with true mistakely.
 
-The invalid reference to 'ddi_select' is here:
-	cdv_dpll_set_clock_cdv(dev, crtc, &clock, is_lvds, ddi_select);
+To fix this, when found the entry, add a break after the switch
+statement.
 
-To fix this, when found the entry, add a break after the switch statement.
-
-Fixes: d66760962d75 ("gma500: Program the DPLL lane based on the selected digitial port")
+Fixes: 89c78134cc54d (" gma500: Add Poulsbo support")
 Signed-off-by: Xiaomeng Tong <xiam0nd.tong@gmail.com>
 ---
- drivers/gpu/drm/gma500/cdv_intel_display.c | 2 ++
+ drivers/gpu/drm/gma500/psb_intel_display.c | 2 ++
  1 file changed, 2 insertions(+)
 
-diff --git a/drivers/gpu/drm/gma500/cdv_intel_display.c b/drivers/gpu/drm/gma500/cdv_intel_display.c
-index 94ebc48a4349..3e93019b17cb 100644
---- a/drivers/gpu/drm/gma500/cdv_intel_display.c
-+++ b/drivers/gpu/drm/gma500/cdv_intel_display.c
-@@ -616,6 +616,8 @@ static int cdv_intel_crtc_mode_set(struct drm_crtc *crtc,
- 			DRM_ERROR("invalid output type.\n");
- 			return 0;
+diff --git a/drivers/gpu/drm/gma500/psb_intel_display.c b/drivers/gpu/drm/gma500/psb_intel_display.c
+index 42d1a733e124..85fc61bf333a 100644
+--- a/drivers/gpu/drm/gma500/psb_intel_display.c
++++ b/drivers/gpu/drm/gma500/psb_intel_display.c
+@@ -134,6 +134,8 @@ static int psb_intel_crtc_mode_set(struct drm_crtc *crtc,
+ 			is_tv = true;
+ 			break;
  		}
 +
 +		break;
  	}
  
- 	if (dev_priv->dplla_96mhz)
+ 	refclk = 96000;
 -- 
 2.17.1
 
