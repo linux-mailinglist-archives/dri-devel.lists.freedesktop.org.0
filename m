@@ -1,54 +1,48 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id A6D254ECC97
-	for <lists+dri-devel@lfdr.de>; Wed, 30 Mar 2022 20:44:48 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id C7DB94ECCFF
+	for <lists+dri-devel@lfdr.de>; Wed, 30 Mar 2022 21:09:24 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 8B86910E26B;
-	Wed, 30 Mar 2022 18:44:44 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 6059710EEF5;
+	Wed, 30 Mar 2022 19:09:18 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-ej1-x633.google.com (mail-ej1-x633.google.com
- [IPv6:2a00:1450:4864:20::633])
- by gabe.freedesktop.org (Postfix) with ESMTPS id C5C1010E26B
- for <dri-devel@lists.freedesktop.org>; Wed, 30 Mar 2022 18:44:43 +0000 (UTC)
-Received: by mail-ej1-x633.google.com with SMTP id bg10so43329548ejb.4
- for <dri-devel@lists.freedesktop.org>; Wed, 30 Mar 2022 11:44:43 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=amarulasolutions.com; s=google;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=YCEjgjQrKhmp2naSdONc8OY51qC2tsW/g6kN64NpZus=;
- b=C7y0vGdLJ/FgYdjo9dqDXx7HG+rj51r6c4XjUkNca/vzy9ZM136s6ayxOIAimy70gV
- 6Rj2fSOd4J7zLBVMUa4FCSS8sEmpSccNXXFlzm0bm1p3yhfGz9ncfPetpd31RQPr3Qpp
- BOI2IBtG8aJa7A4BscMSEmD4S6OEUOGOkaU2M=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=YCEjgjQrKhmp2naSdONc8OY51qC2tsW/g6kN64NpZus=;
- b=NrAHt+lF4mSoJ8yOSvV53Myd7RWUixP3orGW2SvJWBdmfcBt5nszAuYb9salaojcCM
- 2FcONHlt4vM6diWSHA5Ac1T+XIDiNIvp8oyXl91Z9xIJL87JOcKIgWRYC1sgNfANVUDX
- 6PghYQgIpisWHfgvguzFr+KSFfECy7pbM/tSCK6gmOzigqxavoNFWX0JSHZX6wTS8ScG
- UuGthFtMQ8e9aNnAjBlWNYiQJyhjj5JHAIP/fBXxNXOCJ5Xj8KaWhETbnP9l2iIKhrA6
- +q+1FIr7VC6/A1FxBP5usCXQ/d15uMRQyglXXNgldzbqDf3skh8+MLypHYs3JBJZymqi
- KdgQ==
-X-Gm-Message-State: AOAM531ALzWXcygbInDV8xNFq9YFvffHqY2CV7tlswPCtCtSvSJbV1PW
- uKfkRWflJAQzT6FX7GIz/KMgCCUJwHq4bpAJ0ANKVw==
-X-Google-Smtp-Source: ABdhPJzBxNd2mC+lFa0uRRXmPMG6ccAh28N/4VGE2TOoO/KegX38/NIHuTRrTwdFFRW0c5HYzXUqyizF9emDLd/28sU=
-X-Received: by 2002:a17:907:2053:b0:6e0:2ad8:e10e with SMTP id
- pg19-20020a170907205300b006e02ad8e10emr991153ejb.167.1648665882201; Wed, 30
- Mar 2022 11:44:42 -0700 (PDT)
+Received: from dfw.source.kernel.org (dfw.source.kernel.org
+ [IPv6:2604:1380:4641:c500::1])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id C798B10EE83
+ for <dri-devel@lists.freedesktop.org>; Wed, 30 Mar 2022 19:09:06 +0000 (UTC)
+Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
+ (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+ (No client certificate requested)
+ by dfw.source.kernel.org (Postfix) with ESMTPS id 2A6126146A;
+ Wed, 30 Mar 2022 19:09:06 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 16870C340EC;
+ Wed, 30 Mar 2022 19:09:05 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+ s=k20201202; t=1648667345;
+ bh=lcGIyaw5NkAgpr0QaCaz8WI5Mz33Xt/psg7AbDL8EG8=;
+ h=From:To:Cc:Subject:Date:From;
+ b=b2tlqYIyn9YlqauB8Rxm28WhT9le8mqRzBGIJbm0kdnQiM2lRb9trVMCL7iGf0lhq
+ Z+S+zd8RmJEys5jYU9QHKjGpSi4IK9bzRc8zRMz4dqaBcxQdmaKww9DIww/qd9QuMg
+ kvoY/d2QxLV+h/V1TAZfXbnG/xK11hxfLXdaP8vsPluW5IgJpamwLdAPSy3R2Svq6J
+ xgeexh0C4glAYrU/T1oCHjbrSKq8PcyLQJlIe8xvOLx+532csHzoo06REn3BYFktTR
+ fNLza88sJrMRwndPtkNCBD86sezGElb7HZdCndS/y9nUQgIl3Mx9AyRTHnCVG16bCk
+ JGZo1u0LMi50Q==
+Received: by wens.tw (Postfix, from userid 1000)
+ id 08E765FD07; Thu, 31 Mar 2022 03:09:01 +0800 (CST)
+From: Chen-Yu Tsai <wens@kernel.org>
+To: Javier Martinez Canillas <javierm@redhat.com>,
+ Maxime Ripard <mripard@kernel.org>, Rob Herring <robh+dt@kernel.org>,
+ Krzysztof Kozlowski <krzk+dt@kernel.org>, David Airlie <airlied@linux.ie>,
+ Daniel Vetter <daniel@ffwll.ch>
+Subject: [PATCH 0/4] drm: ssd130x: Add support for SINO WEALTH SH1106
+Date: Thu, 31 Mar 2022 03:08:42 +0800
+Message-Id: <20220330190846.13997-1-wens@kernel.org>
+X-Mailer: git-send-email 2.34.1
 MIME-Version: 1.0
-References: <CAMty3ZBT9WEPbkaoS_8t1O153tckBk0pxiP2cF75ASZb54SPUQ@mail.gmail.com>
- <20220330085254.yow3w4frr56wllou@houat> <YkQpo1JgGkE8FqK3@phenom.ffwll.local>
-In-Reply-To: <YkQpo1JgGkE8FqK3@phenom.ffwll.local>
-From: Jagan Teki <jagan@amarulasolutions.com>
-Date: Thu, 31 Mar 2022 00:14:31 +0530
-Message-ID: <CAMty3ZDsZHFPmkSVdgcHCbmSb8N27nwesA_NDdMrPYhQn-D1tg@mail.gmail.com>
-Subject: Re: DRM Master ignoring hotplug event during display switching (QT)
-To: Daniel Vetter <daniel@ffwll.ch>
-Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -61,134 +55,57 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Neil Armstrong <narmstrong@baylibre.com>, Sam Ravnborg <sam@ravnborg.org>,
- Dave Stevenson <dave.stevenson@raspberrypi.com>,
- dri-devel <dri-devel@lists.freedesktop.org>,
- Andrzej Hajda <a.hajda@samsung.com>, Maxime Ripard <maxime@cerno.tech>,
- Thomas Zimmermann <tzimmermann@suse.de>,
- Michael Nazzareno Trimarchi <michael@amarulasolutions.com>,
- linux-amarula <linux-amarula@amarulasolutions.com>,
- Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+Cc: devicetree@vger.kernel.org, Chen-Yu Tsai <wens@csie.org>,
+ linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Wed, Mar 30, 2022 at 3:27 PM Daniel Vetter <daniel@ffwll.ch> wrote:
->
-> On Wed, Mar 30, 2022 at 10:52:54AM +0200, Maxime Ripard wrote:
-> > On Tue, Mar 29, 2022 at 11:38:32PM +0530, Jagan Teki wrote:
-> > > Hi all,
-> > >
-> > > I have implemented runtime display switching in the MIPI switch design
-> > > where LVDS and HDMI bridges are selected with the help of runtime
-> > > GPIO.
-> > >
-> > > Initial discussion on the same can be found here,
-> > > https://www.spinics.net/lists/dri-devel/msg318524.html
-> > >
-> > > The implementation has been done by creating each connector at
-> > > runtime. The default boot will create the LVDS connector and based on
-> > > the HDMI plug-in the ISR.
-> > >
-> > > 1. forcing the LVDS to disconnect
-> > > 2. call drm_kms_helper_hotplug_event
-> > > 3. detach the bridge chain
-> > > 4. attach the new bridge chain (HDMI)
-> > > 5. call drm_kms_helper_hotplug_event
-> > >
-> > > do the reverse when we unplug the HDMI cable.
-> > >
-> > > So, the bridge chains are attached and detached based on GPIO
-> > > Interrupt which is indeed identified based on the physical HDMIA
-> > > connector.
-> > >
-> > > Pipeline for LVDS,
-> > > mxfsb => nwl-dsi => display-switch => sn65dsi83=> panel-bridge
-> > >
-> > > Pipeline for HDMI,
-> > > mxfsb => nwl-dsi => display-switch => adv7511 => display-connector
-> > >
-> > > With this, implementation and I can able switch the displays with
-> > > default DRM (without specific DRM applications) where the LVDS is ON
-> > > by default and when HDMI plug-in the LVDS OFF/HDMI ON, and when HDMI
-> > > unplug the HDMI OFF/LVDS ON.
-> > >
-> > > However, with QT5 I can see the DRM Master ignoring hotplug event by
-> > > returning 0 on drm_master_internal_acquire in
-> > > drm_fb_helper_hotplug_event. With this the hotplug returned early so
-> > > it cannot able to disconnect and connect the new switching connector.
-> > >
-> > > Any help?
-> >
-> > I'm not sure why you started another discussion with pretty much the
-> > same content, but you can't rely on userspace handling the hotplug
-> > event. You'll have to deal with the case where it just doesn't.
->
-> Well I missed the old thread, so I'm replying here.
->
-> You should not handle this at all from a hotplug.
+From: Chen-Yu Tsai <wens@csie.org>
 
-Just to be clear. ISR is handling bridge detach and attach management
-and call hotplug not the hotplug don't know anything about bridges
-here.
+Hi everyone,
 
->
-> The way kms works is roughly as follows:
->
-> 1. hw output state changes
-> 2. driver detects this (either through hpd interrupt or polling)
-> 3. driver sends out hotplug uevent
->
-> That's it. Nothing else, no bridge rebinding, no link retaining is
-> required.
->
-> Then either userspace or fbcon emulation reacts to this hotplug event by
-> doing an atomic modeset, where it hopefully disables the old output and
-> re-enables the new output. Your atomic_check needs to validate that
-> everything is all right (i.e. not enabling both at the same time).
+This series adds support for SH1106 to the ssd130x OLED display
+driver.
 
-Does it mean the userspace knows when to disconnect and connect the
-LVDS or HDMI? What if display-switch ISR will disconnect LVDS and
-connect HDMI when HPD is On and connect LVDS and disconnect HDMI when
-HDP is Off of-course it makes only one enable at a time.
+The SINO WEALTH SH1106 is an OLED display driver that is somewhat
+compatible with the SSD1306. It supports a slightly wider display,
+at 132 instead of 128 pixels. The basic commands are the same, but
+the SH1106 doesn't support the horizontal or vertical address modes.
 
->
-> Note that if you change stuff underneath, then that tends to seriously
-> upset atomic users. Also you should try to continue supporting at least
-> page flips with the wrong config, compositors otherwise tend to crash.
->
-> This also means that if userspace doesn't handle hotplug events, then you
-> might end up with a black screen. That's ok. We try to avoid that when
-> it's practical (e.g. dp sst link retraining), but not when it's too hard
-> (dp mst hot-replug relies on userspace restoring everything).
+This driver chip is found in some cheap 1.3" OLED panel modules. It
+acts as a substitute for the SSD1306.
 
-This is what I'm not sure about it as normal FB testing without any
-specific applications like QT - I can still see the switching works
-well without any issues. However, QT applications seem to control the
-hotplug by acquiring DRM master. is there any way from kernel side to
-ignore those application control over hotplug so that I can switch
-even the QT application as normal FB does? just to understand my
-testing and flow?
+Patch 1 adds an entry to the vendor prefixes for SINO WEALTH
+Eletronics Ltd.
 
->
-> Finally exchanging the bridge chain isn't supported, there's no locking
-> for that since it's assumed to be invariant over the lifetim of the
-> drm_device instance. The simplest way to make that happen right now is to
-> have 2 drm_encoder instances, one with the lvds bridge chain, the other
-> with the hdmi bridge chain, and select the right encoder/bridge chain
-> depending upon which output userspace picks.
+Patch 2 adds an entry for SH1106 to the ssd1307fb binding.
 
-Does it mean to initialize to encoder instances and start attaching
-those to respective bridge pipelines?
+Patch 3 adds support for the base "page addressing mode" to the ssd130x
+driver.
 
->
-> Also ofc your atomic_check needs to make sure that they're not both
-> enabled at the same time :-)
->
-> I wouldn't try to make bridge chains exchangeable instead, that's
-> headaches - e.g. with dp mst we've also opted for a bunch of fake
-> drm_encoders to model that kind of switching.
+Patch 4 adds support for the SH1106 to the ssd130x driver.
 
-Can you link some references in the source tree for it to make a quick check?
+Please have a look.
 
-Thanks,
-Jagan.
+
+Thanks
+ChenYu
+
+
+Chen-Yu Tsai (4):
+  dt-bindings: vendor-prefixes: Add prefix for SINO WEALTH Eletronics
+    Ltd.
+  dt-bindings: display: ssd1307fb: Add entry for SINO WEALTH SH1106
+  drm: ssd130x: Support page addressing mode
+  drm: ssd130x: Add support for SINO WEALTH SH1106
+
+ .../bindings/display/solomon,ssd1307fb.yaml   |  1 +
+ .../devicetree/bindings/vendor-prefixes.yaml  |  2 +
+ drivers/gpu/drm/solomon/ssd130x-i2c.c         | 11 +++
+ drivers/gpu/drm/solomon/ssd130x.c             | 72 +++++++++++++++++--
+ drivers/gpu/drm/solomon/ssd130x.h             |  2 +
+ 5 files changed, 81 insertions(+), 7 deletions(-)
+
+-- 
+2.34.1
+
