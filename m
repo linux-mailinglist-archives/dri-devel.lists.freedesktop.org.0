@@ -1,50 +1,56 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 171E84ECCF6
-	for <lists+dri-devel@lfdr.de>; Wed, 30 Mar 2022 21:09:16 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 8DB4A4ECD29
+	for <lists+dri-devel@lfdr.de>; Wed, 30 Mar 2022 21:21:06 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 2055710EE8A;
-	Wed, 30 Mar 2022 19:09:13 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id CC54810EB4C;
+	Wed, 30 Mar 2022 19:21:02 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from ams.source.kernel.org (ams.source.kernel.org
- [IPv6:2604:1380:4601:e00::1])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 02D5510EE8D
- for <dri-devel@lists.freedesktop.org>; Wed, 30 Mar 2022 19:09:08 +0000 (UTC)
-Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
- (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
- (No client certificate requested)
- by ams.source.kernel.org (Postfix) with ESMTPS id 3C478B81E2A;
- Wed, 30 Mar 2022 19:09:07 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 2419DC34115;
- Wed, 30 Mar 2022 19:09:05 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1648667345;
- bh=aBj7vr8bHTtNxb7+1bJTixHNBVug0LavLYi8m0fmKZg=;
- h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
- b=IXO513sxXiSOPY3Ln6Kuo2udw34ocaGJuKoiFX6Voh61t/6oF9UpY+7GB/7wNOApT
- x8ElOEeHmQ4jJSJ8b/Oy2Thxnx3lNN8sk/gOo3UVdSsUgnbNnmPffv+bzkIR0lMUs7
- ILjcq6cHYwB0GmYTorb+YIqOq+FBNXVVFOm4uTeL/cauWffMJCKX5UhI3tOb5rdLNC
- /dzpzt7CWMgrYCrD/h+qS7WgdmPlk8qForPL1XC8OzZnkkoGqKsMGBlzn5Lsmjxyt/
- 5jM8HEp14miHZi0M+utd/Tw7FBMFdatRoFpkUUGHriifeLQNg7aXxo057s9iwUrY8F
- HXzhcyGjFaizg==
-Received: by wens.tw (Postfix, from userid 1000)
- id 62BD75FD20; Thu, 31 Mar 2022 03:09:02 +0800 (CST)
-From: Chen-Yu Tsai <wens@kernel.org>
-To: Javier Martinez Canillas <javierm@redhat.com>,
- Maxime Ripard <mripard@kernel.org>, Rob Herring <robh+dt@kernel.org>,
- Krzysztof Kozlowski <krzk+dt@kernel.org>, David Airlie <airlied@linux.ie>,
- Daniel Vetter <daniel@ffwll.ch>
-Subject: [PATCH 4/4] drm: ssd130x: Add support for SINO WEALTH SH1106
-Date: Thu, 31 Mar 2022 03:08:46 +0800
-Message-Id: <20220330190846.13997-5-wens@kernel.org>
-X-Mailer: git-send-email 2.34.1
-In-Reply-To: <20220330190846.13997-1-wens@kernel.org>
-References: <20220330190846.13997-1-wens@kernel.org>
+Received: from metis.ext.pengutronix.de (metis.ext.pengutronix.de
+ [IPv6:2001:67c:670:201:290:27ff:fe1d:cc33])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 875C610EB4C
+ for <dri-devel@lists.freedesktop.org>; Wed, 30 Mar 2022 19:21:01 +0000 (UTC)
+Received: from ptx.hi.pengutronix.de ([2001:67c:670:100:1d::c0])
+ by metis.ext.pengutronix.de with esmtps
+ (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256) (Exim 4.92)
+ (envelope-from <sha@pengutronix.de>)
+ id 1nZdsH-0000qq-Hs; Wed, 30 Mar 2022 21:20:57 +0200
+Received: from sha by ptx.hi.pengutronix.de with local (Exim 4.92)
+ (envelope-from <sha@pengutronix.de>)
+ id 1nZdsE-0004wl-U1; Wed, 30 Mar 2022 21:20:54 +0200
+Date: Wed, 30 Mar 2022 21:20:54 +0200
+From: Sascha Hauer <s.hauer@pengutronix.de>
+To: Piotr Oniszczuk <piotr.oniszczuk@gmail.com>
+Subject: Re: [PATCH v9 00/23] drm/rockchip: RK356x VOP2 support
+Message-ID: <20220330192054.GA4012@pengutronix.de>
+References: <20220328151116.2034635-1-s.hauer@pengutronix.de>
+ <FB201567-AE5A-4242-82F1-7C55D8F111EA@gmail.com>
+ <20220330072822.GX12181@pengutronix.de>
+ <0D8F5951-5375-46B5-BFF0-7ED410371EB7@gmail.com>
+ <20220330094556.GZ12181@pengutronix.de>
+ <D3DA14F9-C9C6-4927-B015-5B7D25689DAA@gmail.com>
+ <20220330102046.GA12181@pengutronix.de>
+ <60601619-EF07-457B-91F2-64FEB598FEBE@gmail.com>
 MIME-Version: 1.0
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
+In-Reply-To: <60601619-EF07-457B-91F2-64FEB598FEBE@gmail.com>
+X-Sent-From: Pengutronix Hildesheim
+X-URL: http://www.pengutronix.de/
+X-IRC: #ptxdist @freenode
+X-Accept-Language: de,en
+X-Accept-Content-Type: text/plain
+X-Uptime: 21:07:09 up  7:36, 35 users,  load average: 0.21, 0.24, 0.18
+User-Agent: Mutt/1.10.1 (2018-07-13)
+X-SA-Exim-Connect-IP: 2001:67c:670:100:1d::c0
+X-SA-Exim-Mail-From: sha@pengutronix.de
+X-SA-Exim-Scanned: No (on metis.ext.pengutronix.de);
+ SAEximRunCond expanded to false
+X-PTX-Original-Recipient: dri-devel@lists.freedesktop.org
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -57,55 +63,40 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: devicetree@vger.kernel.org, Chen-Yu Tsai <wens@csie.org>,
- linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org
+Cc: "devicetree@vger.kernel.org" <devicetree@vger.kernel.org>,
+ Benjamin Gaignard <benjamin.gaignard@collabora.com>,
+ Sandy Huang <hjc@rock-chips.com>, dri-devel@lists.freedesktop.org,
+ "open list:ARM/Rockchip SoC..." <linux-rockchip@lists.infradead.org>,
+ Michael Riesch <michael.riesch@wolfvision.net>,
+ Peter Geis <pgwipeout@gmail.com>, Andy Yan <andy.yan@rock-chips.com>,
+ kernel@pengutronix.de,
+ "linux-arm-kernel@lists.infradead.org" <linux-arm-kernel@lists.infradead.org>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-From: Chen-Yu Tsai <wens@csie.org>
+On Wed, Mar 30, 2022 at 04:52:22PM +0200, Piotr Oniszczuk wrote:
+> 
+> 
+> > Wiadomość napisana przez Sascha Hauer <s.hauer@pengutronix.de> w dniu 30.03.2022, o godz. 12:20:
+> > 
+> > Does it change anything if you do a "modetest -s 69@67:1920x1080" before
+> > starting the app? Or if you run "modetest -P 43@67:1920x1080@NV12"
+> > before starting the app? Or other combinations thereof?
+> 
+> So i tried following combinations
+> 
+> -boot
+> -modetest -s 69@67:1920x1080 -> ok
+> -modetest -P 43@67:1920x1080@NV12 -> green screen
 
-The SINO WEALTH SH1106 is an OLED display driver that is somewhat
-compatible with the SSD1306. It supports a slightly wider display,
-at 132 instead of 128 pixels. The basic commands are the same, but
-the SH1106 doesn't support the horizontal or vertical address modes.
+I have no idea what is going on here. There same commands work for me.
+You could provide me your kernel config and upstream commitish you are
+working on, maybe that gets me closer to your setup.
 
-Add support for this display driver. The default values for some of
-the hardware settings are taken from the datasheet.
+Sascha
 
-Signed-off-by: Chen-Yu Tsai <wens@csie.org>
----
- drivers/gpu/drm/solomon/ssd130x-i2c.c | 11 +++++++++++
- 1 file changed, 11 insertions(+)
-
-diff --git a/drivers/gpu/drm/solomon/ssd130x-i2c.c b/drivers/gpu/drm/solomon/ssd130x-i2c.c
-index 3126aeda4ced..d099b241dd3f 100644
---- a/drivers/gpu/drm/solomon/ssd130x-i2c.c
-+++ b/drivers/gpu/drm/solomon/ssd130x-i2c.c
-@@ -53,6 +53,13 @@ static void ssd130x_i2c_shutdown(struct i2c_client *client)
- 	ssd130x_shutdown(ssd130x);
- }
- 
-+static struct ssd130x_deviceinfo ssd130x_sh1106_deviceinfo = {
-+	.default_vcomh = 0x40,
-+	.default_dclk_div = 1,
-+	.default_dclk_frq = 5,
-+	.page_mode_only = 1,
-+};
-+
- static struct ssd130x_deviceinfo ssd130x_ssd1305_deviceinfo = {
- 	.default_vcomh = 0x34,
- 	.default_dclk_div = 1,
-@@ -80,6 +87,10 @@ static struct ssd130x_deviceinfo ssd130x_ssd1309_deviceinfo = {
- };
- 
- static const struct of_device_id ssd130x_of_match[] = {
-+	{
-+		.compatible = "sinowealth,sh1106-i2c",
-+		.data = &ssd130x_sh1106_deviceinfo,
-+	},
- 	{
- 		.compatible = "solomon,ssd1305fb-i2c",
- 		.data = &ssd130x_ssd1305_deviceinfo,
 -- 
-2.34.1
-
+Pengutronix e.K.                           |                             |
+Steuerwalder Str. 21                       | http://www.pengutronix.de/  |
+31137 Hildesheim, Germany                  | Phone: +49-5121-206917-0    |
+Amtsgericht Hildesheim, HRA 2686           | Fax:   +49-5121-206917-5555 |
