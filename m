@@ -1,48 +1,47 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id ECEC14EC91C
-	for <lists+dri-devel@lfdr.de>; Wed, 30 Mar 2022 18:03:57 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id E6CE44EC920
+	for <lists+dri-devel@lfdr.de>; Wed, 30 Mar 2022 18:04:03 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id CABCD10E715;
-	Wed, 30 Mar 2022 16:03:55 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id C71A210E6F6;
+	Wed, 30 Mar 2022 16:04:01 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from alexa-out-sd-01.qualcomm.com (alexa-out-sd-01.qualcomm.com
- [199.106.114.38])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 8713110E70B;
- Wed, 30 Mar 2022 16:03:54 +0000 (UTC)
+Received: from alexa-out.qualcomm.com (alexa-out.qualcomm.com [129.46.98.28])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id A502C10E72A;
+ Wed, 30 Mar 2022 16:04:00 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=quicinc.com; i=@quicinc.com; q=dns/txt; s=qcdkim;
- t=1648656234; x=1680192234;
+ t=1648656241; x=1680192241;
  h=from:to:cc:subject:date:message-id:in-reply-to:
  references:mime-version;
- bh=X+Cl7u1SBVJXjSMYZZRuR5RgjkzeGEszUEYzMiLGRMc=;
- b=PUyieQqQioDHnqN2BGfqyZnTwljZ46jT6/VyhleTuBdpTUhrU0EfzYCo
- 7P/UikGhTOKa/P75G9fDB+7lJEhZQ4jtinf0KaEhIeqdDmAeFl+wGQD61
- BjY4Smy6P13Udt909xhVopvbFryM8DsFSdfych1qNEysWbY1GCoYXs4f5 0=;
-Received: from unknown (HELO ironmsg05-sd.qualcomm.com) ([10.53.140.145])
- by alexa-out-sd-01.qualcomm.com with ESMTP; 30 Mar 2022 09:03:54 -0700
+ bh=wYn3i+1DuaIb43cnC9DkhPfFjvRX0YDM/P2GH7Htw70=;
+ b=UqpBbXVAdulU5iqLdvamKicP5mN8irE2mPmiyAW1n0JHT2VCz02Hw9UF
+ jRd1zgUWcyHI4iY5ufgn1gbRFRjzP2jLg/aQQ7B9IkR0au5VHWxE0O2Om
+ OaQJrfRjTs7HtdNe0YDQWIRtVrNlyH0ydUdTg+UuaEt5uYLdD2sncgKmJ c=;
+Received: from ironmsg-lv-alpha.qualcomm.com ([10.47.202.13])
+ by alexa-out.qualcomm.com with ESMTP; 30 Mar 2022 09:04:00 -0700
 X-QCInternal: smtphost
 Received: from nasanex01c.na.qualcomm.com ([10.47.97.222])
- by ironmsg05-sd.qualcomm.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 30 Mar 2022 09:03:53 -0700
+ by ironmsg-lv-alpha.qualcomm.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 30 Mar 2022 09:04:00 -0700
 Received: from nalasex01a.na.qualcomm.com (10.47.209.196) by
  nasanex01c.na.qualcomm.com (10.47.97.222) with Microsoft SMTP Server
  (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.2.986.22; Wed, 30 Mar 2022 09:03:52 -0700
+ 15.2.986.22; Wed, 30 Mar 2022 09:03:59 -0700
 Received: from sbillaka-linux.qualcomm.com (10.80.80.8) by
  nalasex01a.na.qualcomm.com (10.47.209.196) with Microsoft SMTP Server
  (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.2.986.22; Wed, 30 Mar 2022 09:03:46 -0700
+ 15.2.986.22; Wed, 30 Mar 2022 09:03:53 -0700
 From: Sankeerth Billakanti <quic_sbillaka@quicinc.com>
 To: <dri-devel@lists.freedesktop.org>, <linux-arm-msm@vger.kernel.org>,
  <freedreno@lists.freedesktop.org>, <linux-kernel@vger.kernel.org>,
  <devicetree@vger.kernel.org>
-Subject: [PATCH v6 4/8] drm/msm/dp: avoid handling masked interrupts
-Date: Wed, 30 Mar 2022 21:32:55 +0530
-Message-ID: <1648656179-10347-5-git-send-email-quic_sbillaka@quicinc.com>
+Subject: [PATCH v6 5/8] drm/msm/dp: prevent multiple votes for dp resources
+Date: Wed, 30 Mar 2022 21:32:56 +0530
+Message-ID: <1648656179-10347-6-git-send-email-quic_sbillaka@quicinc.com>
 X-Mailer: git-send-email 2.7.4
 In-Reply-To: <1648656179-10347-1-git-send-email-quic_sbillaka@quicinc.com>
 References: <1648656179-10347-1-git-send-email-quic_sbillaka@quicinc.com>
@@ -71,36 +70,44 @@ Cc: quic_kalyant@quicinc.com, Sankeerth Billakanti <quic_sbillaka@quicinc.com>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-The interrupt register will still reflect the connect and disconnect
-interrupt status without generating an actual HW interrupt.
-The controller driver should not handle those masked interrupts.
+The aux_bus support with the dp_display driver will enable the dp
+resources during msm_dp_modeset_init. The host_init has to return early
+if the core is already initialized to prevent putting an additional vote
+for the dp controller resources.
 
 Signed-off-by: Sankeerth Billakanti <quic_sbillaka@quicinc.com>
 ---
- drivers/gpu/drm/msm/dp/dp_catalog.c | 5 +++--
- 1 file changed, 3 insertions(+), 2 deletions(-)
+ drivers/gpu/drm/msm/dp/dp_display.c | 10 ++++++++++
+ 1 file changed, 10 insertions(+)
 
-diff --git a/drivers/gpu/drm/msm/dp/dp_catalog.c b/drivers/gpu/drm/msm/dp/dp_catalog.c
-index 3c16f95..1809ce2 100644
---- a/drivers/gpu/drm/msm/dp/dp_catalog.c
-+++ b/drivers/gpu/drm/msm/dp/dp_catalog.c
-@@ -608,13 +608,14 @@ u32 dp_catalog_hpd_get_intr_status(struct dp_catalog *dp_catalog)
- {
- 	struct dp_catalog_private *catalog = container_of(dp_catalog,
- 				struct dp_catalog_private, dp_catalog);
--	int isr = 0;
-+	int isr, mask;
+diff --git a/drivers/gpu/drm/msm/dp/dp_display.c b/drivers/gpu/drm/msm/dp/dp_display.c
+index 888ff03..798b30b 100644
+--- a/drivers/gpu/drm/msm/dp/dp_display.c
++++ b/drivers/gpu/drm/msm/dp/dp_display.c
+@@ -420,6 +420,11 @@ static void dp_display_host_init(struct dp_display_private *dp)
+ 		dp->dp_display.connector_type, dp->core_initialized,
+ 		dp->phy_initialized);
  
- 	isr = dp_read_aux(catalog, REG_DP_DP_HPD_INT_STATUS);
- 	dp_write_aux(catalog, REG_DP_DP_HPD_INT_ACK,
- 				 (isr & DP_DP_HPD_INT_MASK));
-+	mask = dp_read_aux(catalog, REG_DP_DP_HPD_INT_MASK);
++	if (dp->core_initialized) {
++		DRM_DEBUG_DP("DP core already initialized\n");
++		return;
++	}
++
+ 	dp_power_init(dp->power, false);
+ 	dp_ctrl_reset_irq_ctrl(dp->ctrl, true);
+ 	dp_aux_init(dp->aux);
+@@ -432,6 +437,11 @@ static void dp_display_host_deinit(struct dp_display_private *dp)
+ 		dp->dp_display.connector_type, dp->core_initialized,
+ 		dp->phy_initialized);
  
--	return isr;
-+	return isr & (DP_DP_HPD_STATE_STATUS_MASK | mask);
- }
- 
- int dp_catalog_ctrl_get_interrupt(struct dp_catalog *dp_catalog)
++	if (!dp->core_initialized) {
++		DRM_DEBUG_DP("DP core not initialized\n");
++		return;
++	}
++
+ 	dp_ctrl_reset_irq_ctrl(dp->ctrl, false);
+ 	dp_aux_deinit(dp->aux);
+ 	dp_power_deinit(dp->power);
 -- 
 2.7.4
 
