@@ -1,61 +1,79 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8040D4EBE24
-	for <lists+dri-devel@lfdr.de>; Wed, 30 Mar 2022 11:58:04 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 0AF8D4EBE2F
+	for <lists+dri-devel@lfdr.de>; Wed, 30 Mar 2022 12:00:46 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 52A2510E230;
-	Wed, 30 Mar 2022 09:58:00 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 191F110E055;
+	Wed, 30 Mar 2022 10:00:44 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-wm1-x341.google.com (mail-wm1-x341.google.com
- [IPv6:2a00:1450:4864:20::341])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 87A1710E230
- for <dri-devel@lists.freedesktop.org>; Wed, 30 Mar 2022 09:57:59 +0000 (UTC)
-Received: by mail-wm1-x341.google.com with SMTP id p189so11890345wmp.3
- for <dri-devel@lists.freedesktop.org>; Wed, 30 Mar 2022 02:57:59 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ffwll.ch; s=google;
- h=date:from:to:cc:subject:message-id:references:mime-version
- :content-disposition:in-reply-to;
- bh=7DUe4hqQ/ZOWiO9HsQikTjRRXDhJs0KAhJS/tAggyWs=;
- b=IevHs22er5Nxpniku2eUky/r5c0SpnNC2yvvq/yHKE53qvBCQ+4kNuQc/WiX4cQQ0/
- JS2o7RRuSlNjNNCiQzlDXe5+tcdtuPx6pLX0xVOcfjnobtqJhpsJ1s5zENEoKgDhtK4d
- yFxtA3GrFWyEGH9h9EBP/KTW5q46ioZNP5V8s=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=x-gm-message-state:date:from:to:cc:subject:message-id:references
- :mime-version:content-disposition:in-reply-to;
- bh=7DUe4hqQ/ZOWiO9HsQikTjRRXDhJs0KAhJS/tAggyWs=;
- b=N+/16gO9Im2T3uIQTraVvZWRCvFm8ABYVLvzQOQc3KR2HJDn31nI0tP45nXuSHGbyE
- 6sv3b+T3BD4vCsLmKwA3zmurtjMPO5sIpdNkscDbWgMvXzj7e+swxvWm12KsxDPzI1gN
- /cUCci+BAYMGbvP8JbWmlut3mcloGBKnWP9oVW4zK0Btd8uVrEYRLcBQOqIFIb7qQgVO
- dnunYvJ9dZW9I4nUq3WRKK/Ilxe81c7eKenseNnBg6WdmcAWi34BbwFeVbLZImINYqZm
- WF41YaYLLaWAnWnIENJ6d0w5IiVlr/KAd0FxiLK2MLa5nh8OSpfgc+QXkkRQggIgRxxj
- 2K8A==
-X-Gm-Message-State: AOAM5301dPWPKPQPIbL8W1Oqe5ud7LAOopgae3AzYuNiXJsDjPjmpFgz
- affqeqwwMEQRTRTeY1YoPzmnSw==
-X-Google-Smtp-Source: ABdhPJyBAI1CRqFXwruywzOIdEBDVF8cIHYiMJYEt5aagj0KkLjOcLEzj0+m9w7K2f7JO8GvsYQBdQ==
-X-Received: by 2002:a7b:c94e:0:b0:38c:96ac:7e50 with SMTP id
- i14-20020a7bc94e000000b0038c96ac7e50mr3578817wml.21.1648634278091; 
- Wed, 30 Mar 2022 02:57:58 -0700 (PDT)
-Received: from phenom.ffwll.local ([2a02:168:57f4:0:efd0:b9e5:5ae6:c2fa])
- by smtp.gmail.com with ESMTPSA id
- b5-20020adfde05000000b00205bdc6bd57sm8341316wrm.95.2022.03.30.02.57.57
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 30 Mar 2022 02:57:57 -0700 (PDT)
-Date: Wed, 30 Mar 2022 11:57:55 +0200
-From: Daniel Vetter <daniel@ffwll.ch>
-To: Maxime Ripard <maxime@cerno.tech>
-Subject: Re: DRM Master ignoring hotplug event during display switching (QT)
-Message-ID: <YkQpo1JgGkE8FqK3@phenom.ffwll.local>
-References: <CAMty3ZBT9WEPbkaoS_8t1O153tckBk0pxiP2cF75ASZb54SPUQ@mail.gmail.com>
- <20220330085254.yow3w4frr56wllou@houat>
+Received: from wnew2-smtp.messagingengine.com (wnew2-smtp.messagingengine.com
+ [64.147.123.27])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 54C2F10E055
+ for <dri-devel@lists.freedesktop.org>; Wed, 30 Mar 2022 10:00:43 +0000 (UTC)
+Received: from compute5.internal (compute5.nyi.internal [10.202.2.45])
+ by mailnew.west.internal (Postfix) with ESMTP id 4DE352B00523;
+ Wed, 30 Mar 2022 06:00:39 -0400 (EDT)
+Received: from mailfrontend1 ([10.202.2.162])
+ by compute5.internal (MEProxy); Wed, 30 Mar 2022 06:00:40 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=cerno.tech; h=cc
+ :cc:content-type:date:date:from:from:in-reply-to:in-reply-to
+ :message-id:mime-version:references:reply-to:sender:subject
+ :subject:to:to; s=fm3; bh=1KmhQgVl702bz7WKmxwLlTLMWnPicP+2nqjgwT
+ gzZF4=; b=VW1Qzavcm01D3J6LtMbZdXaSqqyHdPblV2ZuaO87MhLElB/sapZrc6
+ 9byGkoLSsfUcfEhqC70JHJIhzAOg+gUcTRqCJ/+f5FVopcURKjeuJXj4+wsCevtm
+ j78gbQ6Zd3EoOVbqsmPY8XSsWDzxGH4z4+88UGWZV0gRdtoHfwIWNvjN3hNfavI1
+ sMc404t3FtzZ2+7QSi8u4v935U3vaUsMRpMDP1yoe3pH9/Q/9fGSEyAHRh+e5OF1
+ qDcumxrHo5UhnzVs1iqpvGiTPWs0s/g+g/bmzXtwHnVzd2Hzy48WmzRbd6dQHow2
+ sTLTc89jriQTcFMfHTOum5hGamgXS8iQ==
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
+ messagingengine.com; h=cc:cc:content-type:date:date:from:from
+ :in-reply-to:in-reply-to:message-id:mime-version:references
+ :reply-to:sender:subject:subject:to:to:x-me-proxy:x-me-proxy
+ :x-me-sender:x-me-sender:x-sasl-enc; s=fm3; bh=1KmhQgVl702bz7WKm
+ xwLlTLMWnPicP+2nqjgwTgzZF4=; b=VlV39ZzXrY4AySMwPhKTKpkJ9sElDYcIO
+ qnRjiomcGJFsr+aYXdSyy6i0O0gHqgwSIYaVaNoKe+NXNUt8jxZD4zo4MgaVMtqQ
+ fPy05FGjmpOcQrOFj4/ArwNMOCcQORd0zXE56ymmYdFIYIWPdCXzPFNPuR/2i73r
+ aY5igMwGQE2HY3A3Omji+pBgr3KouMGktn+MhygHaGq1UUkwFprtasE7+gYhsGn8
+ 0pz0Iq5jI70bXqoXPP7FEuFTEogmAYGr1m6HYrTNRsqdT6FfjKbTpkg7eyzmiiv+
+ DfnX5ZfN7UWzTQAZjJQJoHuTtHr3LLFHTBdNHtkF/Yxr8pSZjeYlQ==
+X-ME-Sender: <xms:RipEYkQe9BF4ZtGJELmcQddgXgV11KyGfHivYIwyCddBvGMBq8NGMg>
+ <xme:RipEYhwXyB6JVVv23NwiQZ3iwJiH8nl3usrIjAu5jM37jUTB_QE59rsvl4ISg9fGG
+ NeEBsXgNrDlhI87XSA>
+X-ME-Received: <xmr:RipEYh1XJW0r928OcVm3lrIk7brZHakagwYReVOnEJVjIc7-L0UF0bEqwqTEy5jrmsqWI_cw75WK7t8CAUVjBXL3B1W7enwBTYwRWEc>
+X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvvddrudeivddgvddvucetufdoteggodetrfdotf
+ fvucfrrhhofhhilhgvmecuhfgrshhtofgrihhlpdfqfgfvpdfurfetoffkrfgpnffqhgen
+ uceurghilhhouhhtmecufedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmne
+ cujfgurhepfffhvffukfhfgggtuggjsehgtderredttddvnecuhfhrohhmpeforgigihhm
+ vgcutfhiphgrrhguuceomhgrgihimhgvsegtvghrnhhordhtvggthheqnecuggftrfgrth
+ htvghrnhepleekgeehhfdutdeljefgleejffehfffgieejhffgueefhfdtveetgeehieeh
+ gedunecuvehluhhsthgvrhfuihiivgeptdenucfrrghrrghmpehmrghilhhfrhhomhepmh
+ grgihimhgvsegtvghrnhhordhtvggthh
+X-ME-Proxy: <xmx:RipEYoCRyb5yo-qHNc42EYfiXNG2Rvcf4oIsI06Nlj8emYYzZ36UvQ>
+ <xmx:RipEYti3z7KlO-1VPCMbndu7-e6zB2-lXuPsnKQdBhts8y0fTvbxiA>
+ <xmx:RipEYkrzow3N7s5dbhFan0cre3YfZq55HXUURO8U0D4Nlt9H1iFyLg>
+ <xmx:RipEYt6vi_wVw-tbbdGtK6C1a8F0zl7jvVjfXlIagCw1TnIl3nr4NcqeRhA>
+Received: by mail.messagingengine.com (Postfix) with ESMTPA; Wed,
+ 30 Mar 2022 06:00:37 -0400 (EDT)
+Date: Wed, 30 Mar 2022 12:00:36 +0200
+From: Maxime Ripard <maxime@cerno.tech>
+To: Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>
+Subject: Re: [PATCH] dt-bindings: display: bridge: Drop requirement on input
+ port for DSI devices
+Message-ID: <20220330100036.k6qinnh2ktukua7r@houat>
+References: <20220323154823.839469-1-maxime@cerno.tech>
+ <YjuFO45Gr1vmKxWG@pendragon.ideasonboard.com>
+ <20220324081819.niz4pdqu3j7n2ivh@houat>
+ <Yjx1jjB2hWqOPGsi@pendragon.ideasonboard.com>
+ <20220324142324.monalktzzpypu74x@houat>
+ <f30fe2d7-488a-d599-7631-a991042ecdea@ideasonboard.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
+Content-Type: multipart/signed; micalg=pgp-sha512;
+ protocol="application/pgp-signature"; boundary="4ufozvpqqiapt37k"
 Content-Disposition: inline
-In-Reply-To: <20220330085254.yow3w4frr56wllou@houat>
-X-Operating-System: Linux phenom 5.10.0-8-amd64 
+In-Reply-To: <f30fe2d7-488a-d599-7631-a991042ecdea@ideasonboard.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -68,108 +86,217 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Neil Armstrong <narmstrong@baylibre.com>, Sam Ravnborg <sam@ravnborg.org>,
- Dave Stevenson <dave.stevenson@raspberrypi.com>,
- dri-devel <dri-devel@lists.freedesktop.org>,
- Andrzej Hajda <a.hajda@samsung.com>, Jagan Teki <jagan@amarulasolutions.com>,
- Thomas Zimmermann <tzimmermann@suse.de>,
- Michael Nazzareno Trimarchi <michael@amarulasolutions.com>,
- linux-amarula <linux-amarula@amarulasolutions.com>,
- Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+Cc: Marek Vasut <marex@denx.de>, devicetree@vger.kernel.org,
+ Neil Armstrong <narmstrong@baylibre.com>, David Airlie <airlied@linux.ie>,
+ Robert Foss <robert.foss@linaro.org>, dri-devel@lists.freedesktop.org,
+ Jonas Karlman <jonas@kwiboo.se>, Jernej Skrabec <jernej.skrabec@gmail.com>,
+ Rob Herring <robh+dt@kernel.org>, Sakari Ailus <sakari.ailus@iki.fi>,
+ Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
+ Andrzej Hajda <andrzej.hajda@intel.com>,
+ Daniel Vetter <daniel.vetter@intel.com>, Frank Rowand <frowand.list@gmail.com>,
+ Jagan Teki <jagan@amarulasolutions.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Wed, Mar 30, 2022 at 10:52:54AM +0200, Maxime Ripard wrote:
-> On Tue, Mar 29, 2022 at 11:38:32PM +0530, Jagan Teki wrote:
-> > Hi all,
-> > 
-> > I have implemented runtime display switching in the MIPI switch design
-> > where LVDS and HDMI bridges are selected with the help of runtime
-> > GPIO.
-> > 
-> > Initial discussion on the same can be found here,
-> > https://www.spinics.net/lists/dri-devel/msg318524.html
-> > 
-> > The implementation has been done by creating each connector at
-> > runtime. The default boot will create the LVDS connector and based on
-> > the HDMI plug-in the ISR.
-> > 
-> > 1. forcing the LVDS to disconnect
-> > 2. call drm_kms_helper_hotplug_event
-> > 3. detach the bridge chain
-> > 4. attach the new bridge chain (HDMI)
-> > 5. call drm_kms_helper_hotplug_event
-> > 
-> > do the reverse when we unplug the HDMI cable.
-> > 
-> > So, the bridge chains are attached and detached based on GPIO
-> > Interrupt which is indeed identified based on the physical HDMIA
-> > connector.
-> > 
-> > Pipeline for LVDS,
-> > mxfsb => nwl-dsi => display-switch => sn65dsi83=> panel-bridge
-> > 
-> > Pipeline for HDMI,
-> > mxfsb => nwl-dsi => display-switch => adv7511 => display-connector
-> > 
-> > With this, implementation and I can able switch the displays with
-> > default DRM (without specific DRM applications) where the LVDS is ON
-> > by default and when HDMI plug-in the LVDS OFF/HDMI ON, and when HDMI
-> > unplug the HDMI OFF/LVDS ON.
-> > 
-> > However, with QT5 I can see the DRM Master ignoring hotplug event by
-> > returning 0 on drm_master_internal_acquire in
-> > drm_fb_helper_hotplug_event. With this the hotplug returned early so
-> > it cannot able to disconnect and connect the new switching connector.
-> > 
-> > Any help?
-> 
-> I'm not sure why you started another discussion with pretty much the
-> same content, but you can't rely on userspace handling the hotplug
-> event. You'll have to deal with the case where it just doesn't.
 
-Well I missed the old thread, so I'm replying here.
+--4ufozvpqqiapt37k
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
-You should not handle this at all from a hotplug.
+Hi Tomi,
 
-The way kms works is roughly as follows:
+On Fri, Mar 25, 2022 at 12:42:15PM +0200, Tomi Valkeinen wrote:
+> On 24/03/2022 16:23, Maxime Ripard wrote:
+> > On Thu, Mar 24, 2022 at 03:43:42PM +0200, Laurent Pinchart wrote:
+> > > On Thu, Mar 24, 2022 at 09:18:19AM +0100, Maxime Ripard wrote:
+> > > > On Wed, Mar 23, 2022 at 10:38:19PM +0200, Laurent Pinchart wrote:
+> > > > > Hi Maxime,
+> > > > >=20
+> > > > > (CC'ing Sakari)
+> > > > >=20
+> > > > > Thank you for the patch.
+> > > > >=20
+> > > > > On Wed, Mar 23, 2022 at 04:48:23PM +0100, Maxime Ripard wrote:
+> > > > > > MIPI-DSI devices, if they are controlled through the bus itself=
+, have to
+> > > > > > be described as a child node of the controller they are attache=
+d to.
+> > > > > >=20
+> > > > > > Thus, there's no requirement on the controller having an OF-Gra=
+ph output
+> > > > > > port to model the data stream: it's assumed that it would go fr=
+om the
+> > > > > > parent to the child.
+> > > > > >=20
+> > > > > > However, some bridges controlled through the DSI bus still requ=
+ire an
+> > > > > > input OF-Graph port, thus requiring a controller with an OF-Gra=
+ph output
+> > > > > > port. This prevents those bridges from being used with the cont=
+rollers
+> > > > > > that do not have one without any particular reason to.
+> > > > > >=20
+> > > > > > Let's drop that requirement.
+> > > > >=20
+> > > > > I'm sure this won't come as a surprise, I'm very much opposed to =
+this
+> > > > > change, for two reasons.
+> > > > >=20
+> > > > > First, ports are part of the hardware, even if they're not connec=
+ted. It
+> > > > > thus simplifies handling in drivers if they're always present.
+> > > > >=20
+> > > > > Then, and that's the most important reason, I think it's a mistak=
+e not
+> > > > > to model the DSI data connection using OF graph unconditionally, =
+even
+> > > > > when the DSI sink device is also controlled through the DSI bus (=
+using
+> > > > > DCS) and is in that case a child of the DSI source device in the =
+DT
+> > > > > hierarchy.
+> > > >=20
+> > > > That's the way we do for any other device though. You never address=
+ed
+> > > > that comment, but it's very much the same that occurs for i2c or spi
+> > > > controllers and their device. They all get their data from the pare=
+nt
+> > > > bus. I don't see you advocate for using OF-Graph for those devices.
+> > >=20
+> > > Those are different, there's no data stream independent of the control
+> > > communications.
+> >=20
+> > Fine, then you have Ethernet PHYs, or any MMIO device that does DMA.
+>=20
+> Have those devices had the need for OF graphs?
 
-1. hw output state changes
-2. driver detects this (either through hpd interrupt or polling)
-3. driver sends out hotplug uevent
+No, they don't. It's kind of my point actually :)
 
-That's it. Nothing else, no bridge rebinding, no link retaining is
-required.
+> For display and capture we have a clear need. I don't think we should
+> sometimes use OF graphs and sometimes not, but rather use them
+> consistently at least in any new driver.
 
-Then either userspace or fbcon emulation reacts to this hotplug event by
-doing an atomic modeset, where it hopefully disables the old output and
-re-enables the new output. Your atomic_check needs to validate that
-everything is all right (i.e. not enabling both at the same time).
+There's a clear need when the data don't follow the obvious path, ie
+when there's a direct FIFO between a CRTC and its connector. If it was
+going through that obvious path, like an Ethernet PHY, then we wouldn't
+need it.
 
-Note that if you change stuff underneath, then that tends to seriously
-upset atomic users. Also you should try to continue supporting at least
-page flips with the wrong config, compositors otherwise tend to crash.
+A device being controlled through the DSI bus has that obvious path. If
+it's taking its data through the DSI bus, but is being controlled by an
+i2c bus, then it needs an OF-graph node...
 
-This also means that if userspace doesn't handle hotplug events, then you
-might end up with a black screen. That's ok. We try to avoid that when
-it's practical (e.g. dp sst link retraining), but not when it's too hard
-(dp mst hot-replug relies on userspace restoring everything).
+> > > > > The device tree describes a control hierarchy between devices. OF=
+ graph
+> > > > > overlays on top of that a data transfer graph. The two are differ=
+ent
+> > > > > concepts, and the fact that DSI can sometimes be used as a contro=
+l bus
+> > > > > doesn't change the concept. Using OF graph unconditionally to des=
+cribe
+> > > > > the data connections for DSI leads to less variation in the devic=
+e tree
+> > > > > structure, and thus less complexity in the implementation. We're
+> > > > > suffering from the fact we haven't made it a requirement in the f=
+irst
+> > > > > place, which can't be fixed due to ABI breakage constraints, but =
+let's
+> > > > > not acknowledge it as a good idea.
+> > > >=20
+> > > > Honestly, it doesn't matter one bit.
+> > > >=20
+> > > > We have a huge discrepancy here today, and only a couple of bridges=
+ have
+> > > > that arbitrary restriction. The situation you don't want to acknowl=
+edge
+> > > > is the de-facto standard, by the generic binding and by what all the
+> > > > bridges and panels are implementing. Even panel-simple-dsi is doing=
+ it.
+> > > > So it's very much there already.
+> > >=20
+> > > It's here, and I think we should move away from it for new DSI sinks.
+> > > I'd like OF graph to be used consistently for new drivers. We can't
+> > > change existing DT bindings and drivers to drop support for the
+> > > non-OF-graph description due to ABI stability, but we can avoid
+> > > repeating the mistake going forward.
+> > >=20
+> > > > What I'm trying to address here is that some controllers that do
+> > > > everything right can't be used because that restriction is complete=
+ly
+> > > > arbitrary and in opposition to the consensus. And they can't be used
+> > > > *today*.
+> > > >=20
+> > > > If we want to change that consensus, fine, but we should still have=
+ one.
+> > > > Having some bridges enforcing custom rules for no reason is very mu=
+ch
+> > > > unacceptable.
+> > > >=20
+> > > > And changing that consensus won't happen overtime, we'll have to ta=
+ke
+> > > > care of the backward compatibility, etc. So it won't fix the issue =
+that
+> > > > we can't use any bridge with any controller any time soon.
+> > >=20
+> > > I don't think that's the issue at hand here. You can still use a
+> > > non-OF-graph DT event if the nodes for the two bridges affected by th=
+is
+> > > patch define a port@0. It can just be left unconnected.
+> > >=20
+> > > I do agree it will cause some DT bindings for DCS-based DSI sinks to
+> > > have ports will others won't. If your concern is that all DT bindings
+> > > should be coherent, would you be OK with a patch that makes the sink
+> > > port mandatory in all DT bindings for DSI bridges and panels (and fix=
+es
+> > > the mainline DT sources accordingly to make sure they validate) ? The
+> > > port would not be connected of course (at least when used with DSI
+> > > source drivers that don't use OF graph today). That would make DT
+> > > bindings coherent, and would be a first step towards using OF graph
+> > > everywhere.
+> >=20
+> > I'm trying to fix a (recent) mistake/cargo-cult in new bindings. That
+> > discussion is not going to be fairly controversial and I don't see how
+> > that can be solved quickly. So, as a second step, why not. But this one
+> > needs to come first.
+>=20
+> I feel like I don't quite understand the problem and the discussion.
+>=20
+> What's the problem this fixes? DT validation? Why not just fix the dts fi=
+les
+> which use these devices (although I didn't see any in mainline), by adding
+> the port nodes?
+>=20
+> Or is the argument that we should also support "implicit ports" when the
+> control and data busses are the same?
 
-Finally exchanging the bridge chain isn't supported, there's no locking
-for that since it's assumed to be invariant over the lifetim of the
-drm_device instance. The simplest way to make that happen right now is to
-have 2 drm_encoder instances, one with the lvds bridge chain, the other
-with the hdmi bridge chain, and select the right encoder/bridge chain
-depending upon which output userspace picks.
+=2E.. But the discussion really is two-fold.
 
-Also ofc your atomic_check needs to make sure that they're not both
-enabled at the same time :-)
+The problem this patch addresses is that there's two odd bridges that
+have an inconsistent binding with how the rest of the similar devices
+now. It was a mistake that slipped through review, we should address it.
 
-I wouldn't try to make bridge chains exchangeable instead, that's
-headaches - e.g. with dp mst we've also opted for a bunch of fake
-drm_encoders to model that kind of switching.
--Daniel
--- 
-Daniel Vetter
-Software Engineer, Intel Corporation
-http://blog.ffwll.ch
+Then, there's the larger discussion of whether or not we want to push
+the OF-graph for everyone. But that will require some kind of consensus,
+some work on the MIPI-DSI encoders that don't have that kind of support,
+in a backward compatible manner, etc. It's not going to happen
+over-night, especially since it seems like it's something that would be
+nice to have, but no-one is really interested in actually making it
+happen.
+
+And we shouldn't wait for that to happen to fix the inconsistency
+mentioned above.
+
+Maxime
+
+--4ufozvpqqiapt37k
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iHUEABYKAB0WIQRcEzekXsqa64kGDp7j7w1vZxhRxQUCYkQqRAAKCRDj7w1vZxhR
+xSFVAQCHCtSvm++O8wElexDC+AExYe9RkXj94lMBHWj0tFWTuwD/ScpaEM8Y8bOR
+F8n2pU8YBk82qMDhNkKWU4fwqnk4kgQ=
+=G6ys
+-----END PGP SIGNATURE-----
+
+--4ufozvpqqiapt37k--
