@@ -2,46 +2,48 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1EE3B4ED015
-	for <lists+dri-devel@lfdr.de>; Thu, 31 Mar 2022 01:29:54 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id D67CE4ED016
+	for <lists+dri-devel@lfdr.de>; Thu, 31 Mar 2022 01:29:55 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 57ADB10EB50;
-	Wed, 30 Mar 2022 23:29:21 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 5AEE110EB5F;
+	Wed, 30 Mar 2022 23:29:22 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from mga01.intel.com (mga01.intel.com [192.55.52.88])
- by gabe.freedesktop.org (Postfix) with ESMTPS id CE2D810E245;
+ by gabe.freedesktop.org (Postfix) with ESMTPS id F27CD10E1CF;
  Wed, 30 Mar 2022 23:29:16 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
  t=1648682956; x=1680218956;
  h=from:to:cc:subject:date:message-id:in-reply-to:
  references:mime-version:content-transfer-encoding;
- bh=j8H0jtNQ8307REFcbspUPvNWytfzAIlccjf4gMir7Pg=;
- b=jzsYU/UILLwgrm2lEUHfkFvUmlu9QvQ3fxGQ+nDMbVixP5ueIjhrMIYz
- R4tNCnOs9+MyEtbCMXtuoKWo1pdK3DR4+4gynSozHVC6r/Dklfvt05Mac
- /eG/EhIsR6Y3bE/6e0+5bqr3y9YZhROfeth7uLsl7fOmoDgVPjtk96UiX
- JacMSfz3dqxxx5cs5VsvKQIrvWhcbuXSRoq0CKX2NlImD7JQ9hJ7hHFeb
- LzfJOf+ozt7iiunY/Up6WwJUjCL2z7709iPVR5/D1+I+lB8kvDEb7QQoV
- uOY6VUsIp/kqHQr6NXATjCd89zCSADQSBkhAmR682+D1R25mGNH1qlUCD A==;
-X-IronPort-AV: E=McAfee;i="6200,9189,10302"; a="284582511"
-X-IronPort-AV: E=Sophos;i="5.90,223,1643702400"; d="scan'208";a="284582511"
+ bh=N7+HERdmjAdftJrbHmCWpS7nDPDROPbLDWAgB/2DA8E=;
+ b=NVhYr4MRVZLyRliitWFBPsN8YJI78rVgIYn0f8EGtmpOMgfSOkQuK1/k
+ TKgh7+BJXCZYUaxaWrFADcHbd41mElEU2TSC5LQLobl1IBD0jU0pWdqU6
+ 6K06xnT3fROH2Jbc5QCDKWg0mCuVrpLEPG1DhwzXa5UDjKz/F1tySJHDF
+ Rz5a8IqebY92p+qvwMH9kmy1HZdiT1zCIQo8QefAWwTrBJUebGYEy6nre
+ b17mgEkVaBMIkRPBBQQfnroCplZ1DYvrCAiPuD2rm5x5gPV48MWIE3ny0
+ OY6a8PuHjZzKehIgjWCSEQUWv1Uel1+o+z7f1YkM7Unh5XjeSshLH8pxU w==;
+X-IronPort-AV: E=McAfee;i="6200,9189,10302"; a="284582512"
+X-IronPort-AV: E=Sophos;i="5.90,223,1643702400"; d="scan'208";a="284582512"
 Received: from orsmga007.jf.intel.com ([10.7.209.58])
  by fmsmga101.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
  30 Mar 2022 16:29:16 -0700
-X-IronPort-AV: E=Sophos;i="5.90,223,1643702400"; d="scan'208";a="547052010"
+X-IronPort-AV: E=Sophos;i="5.90,223,1643702400"; d="scan'208";a="547052014"
 Received: from mdroper-desk1.fm.intel.com ([10.1.27.134])
  by orsmga007-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
  30 Mar 2022 16:29:16 -0700
 From: Matt Roper <matthew.d.roper@intel.com>
 To: intel-gfx@lists.freedesktop.org
-Subject: [PATCH 08/15] drm/i915: Define MCR registers explicitly
-Date: Wed, 30 Mar 2022 16:28:51 -0700
-Message-Id: <20220330232858.3204283-9-matthew.d.roper@intel.com>
+Subject: [PATCH 09/15] drm/i915/gt: Move multicast register handling to a
+ dedicated file
+Date: Wed, 30 Mar 2022 16:28:52 -0700
+Message-Id: <20220330232858.3204283-10-matthew.d.roper@intel.com>
 X-Mailer: git-send-email 2.34.1
 In-Reply-To: <20220330232858.3204283-1-matthew.d.roper@intel.com>
 References: <20220330232858.3204283-1-matthew.d.roper@intel.com>
 MIME-Version: 1.0
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -59,365 +61,1040 @@ Cc: dri-devel@lists.freedesktop.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Rather than using the same _MMIO() macro to define MCR registers as
-singleton registers, let's use a new MCR_REG() macro to make it clear
-that these registers are special and should be handled accordingly.  For
-now MCR_REG() will still generate an i915_reg_t with the given offset,
-but we'll change that in future patches.
+Handling of multicast/replicated registers is spread across intel_gt.c
+and intel_uncore.c today.  As multicast handling and the related
+steering logic gets more complicated with the addition of new platforms
+and new rules it makes sense to centralize it all in one place.
 
-Bspec: 66673, 66696, 66534, 67609
+For now the existing functions have been moved to the new .c/.h as-is.
+Function renames and updates to operate in a more consistent manner will
+be done in subsequent patches.
+
 Signed-off-by: Matt Roper <matthew.d.roper@intel.com>
 ---
- drivers/gpu/drm/i915/gt/intel_gt_regs.h | 124 ++++++++++++------------
- 1 file changed, 63 insertions(+), 61 deletions(-)
+ drivers/gpu/drm/i915/Makefile               |   1 +
+ drivers/gpu/drm/i915/gem/i915_gem_stolen.c  |   1 +
+ drivers/gpu/drm/i915/gt/intel_engine_cs.c   |   1 +
+ drivers/gpu/drm/i915/gt/intel_gt.c          | 262 +------------
+ drivers/gpu/drm/i915/gt/intel_gt.h          |  15 -
+ drivers/gpu/drm/i915/gt/intel_gt_debugfs.c  |   1 +
+ drivers/gpu/drm/i915/gt/intel_gt_mcr.c      | 412 ++++++++++++++++++++
+ drivers/gpu/drm/i915/gt/intel_gt_mcr.h      |  37 ++
+ drivers/gpu/drm/i915/gt/intel_region_lmem.c |   1 +
+ drivers/gpu/drm/i915/gt/intel_workarounds.c |   1 +
+ drivers/gpu/drm/i915/gt/uc/intel_guc_ads.c  |   1 +
+ drivers/gpu/drm/i915/intel_uncore.c         | 112 ------
+ drivers/gpu/drm/i915/intel_uncore.h         |   8 -
+ 13 files changed, 458 insertions(+), 395 deletions(-)
+ create mode 100644 drivers/gpu/drm/i915/gt/intel_gt_mcr.c
+ create mode 100644 drivers/gpu/drm/i915/gt/intel_gt_mcr.h
 
-diff --git a/drivers/gpu/drm/i915/gt/intel_gt_regs.h b/drivers/gpu/drm/i915/gt/intel_gt_regs.h
-index 5ea4e2fb8eb4..3f5e01a48a17 100644
---- a/drivers/gpu/drm/i915/gt/intel_gt_regs.h
-+++ b/drivers/gpu/drm/i915/gt/intel_gt_regs.h
-@@ -8,6 +8,8 @@
+diff --git a/drivers/gpu/drm/i915/Makefile b/drivers/gpu/drm/i915/Makefile
+index c1d5540f6052..b2df1ad6729e 100644
+--- a/drivers/gpu/drm/i915/Makefile
++++ b/drivers/gpu/drm/i915/Makefile
+@@ -101,6 +101,7 @@ gt-y += \
+ 	gt/intel_gt_debugfs.o \
+ 	gt/intel_gt_engines_debugfs.o \
+ 	gt/intel_gt_irq.o \
++	gt/intel_gt_mcr.o \
+ 	gt/intel_gt_pm.o \
+ 	gt/intel_gt_pm_debugfs.o \
+ 	gt/intel_gt_pm_irq.o \
+diff --git a/drivers/gpu/drm/i915/gem/i915_gem_stolen.c b/drivers/gpu/drm/i915/gem/i915_gem_stolen.c
+index a10d857dfd9b..81604af8b2c2 100644
+--- a/drivers/gpu/drm/i915/gem/i915_gem_stolen.c
++++ b/drivers/gpu/drm/i915/gem/i915_gem_stolen.c
+@@ -13,6 +13,7 @@
+ #include "gem/i915_gem_lmem.h"
+ #include "gem/i915_gem_region.h"
+ #include "gt/intel_gt.h"
++#include "gt/intel_gt_mcr.h"
+ #include "gt/intel_gt_regs.h"
+ #include "gt/intel_region_lmem.h"
+ #include "i915_drv.h"
+diff --git a/drivers/gpu/drm/i915/gt/intel_engine_cs.c b/drivers/gpu/drm/i915/gt/intel_engine_cs.c
+index ad9e7e55ce17..7e6bd8465ed6 100644
+--- a/drivers/gpu/drm/i915/gt/intel_engine_cs.c
++++ b/drivers/gpu/drm/i915/gt/intel_engine_cs.c
+@@ -21,6 +21,7 @@
+ #include "intel_engine_user.h"
+ #include "intel_execlists_submission.h"
+ #include "intel_gt.h"
++#include "intel_gt_mcr.h"
+ #include "intel_gt_requests.h"
+ #include "intel_gt_pm.h"
+ #include "intel_lrc.h"
+diff --git a/drivers/gpu/drm/i915/gt/intel_gt.c b/drivers/gpu/drm/i915/gt/intel_gt.c
+index 1992325c2895..59c1ab591b86 100644
+--- a/drivers/gpu/drm/i915/gt/intel_gt.c
++++ b/drivers/gpu/drm/i915/gt/intel_gt.c
+@@ -17,6 +17,7 @@
+ #include "intel_gt_buffer_pool.h"
+ #include "intel_gt_clock_utils.h"
+ #include "intel_gt_debugfs.h"
++#include "intel_gt_mcr.h"
+ #include "intel_gt_pm.h"
+ #include "intel_gt_regs.h"
+ #include "intel_gt_requests.h"
+@@ -102,78 +103,13 @@ int intel_gt_assign_ggtt(struct intel_gt *gt)
+ 	return gt->ggtt ? 0 : -ENOMEM;
+ }
  
- #include "i915_reg_defs.h"
+-static const char * const intel_steering_types[] = {
+-	"L3BANK",
+-	"MSLICE",
+-	"LNCF",
+-};
+-
+-static const struct intel_mmio_range icl_l3bank_steering_table[] = {
+-	{ 0x00B100, 0x00B3FF },
+-	{},
+-};
+-
+-static const struct intel_mmio_range xehpsdv_mslice_steering_table[] = {
+-	{ 0x004000, 0x004AFF },
+-	{ 0x00C800, 0x00CFFF },
+-	{ 0x00DD00, 0x00DDFF },
+-	{ 0x00E900, 0x00FFFF }, /* 0xEA00 - OxEFFF is unused */
+-	{},
+-};
+-
+-static const struct intel_mmio_range xehpsdv_lncf_steering_table[] = {
+-	{ 0x00B000, 0x00B0FF },
+-	{ 0x00D800, 0x00D8FF },
+-	{},
+-};
+-
+-static const struct intel_mmio_range dg2_lncf_steering_table[] = {
+-	{ 0x00B000, 0x00B0FF },
+-	{ 0x00D880, 0x00D8FF },
+-	{},
+-};
+-
+-static u16 slicemask(struct intel_gt *gt, int count)
+-{
+-	u64 dss_mask = intel_sseu_get_subslices(&gt->info.sseu, 0);
+-
+-	return intel_slicemask_from_dssmask(dss_mask, count);
+-}
+-
+ int intel_gt_init_mmio(struct intel_gt *gt)
+ {
+-	struct drm_i915_private *i915 = gt->i915;
+-
+ 	intel_gt_init_clock_frequency(gt);
  
-+#define MCR_REG(offset)	_MMIO(offset)
+ 	intel_uc_init_mmio(&gt->uc);
+ 	intel_sseu_info_init(gt);
+-
+-	/*
+-	 * An mslice is unavailable only if both the meml3 for the slice is
+-	 * disabled *and* all of the DSS in the slice (quadrant) are disabled.
+-	 */
+-	if (HAS_MSLICES(i915))
+-		gt->info.mslice_mask =
+-			slicemask(gt, GEN_DSS_PER_MSLICE) |
+-			(intel_uncore_read(gt->uncore, GEN10_MIRROR_FUSE3) &
+-			 GEN12_MEML3_EN_MASK);
+-
+-	if (IS_DG2(i915)) {
+-		gt->steering_table[MSLICE] = xehpsdv_mslice_steering_table;
+-		gt->steering_table[LNCF] = dg2_lncf_steering_table;
+-	} else if (IS_XEHPSDV(i915)) {
+-		gt->steering_table[MSLICE] = xehpsdv_mslice_steering_table;
+-		gt->steering_table[LNCF] = xehpsdv_lncf_steering_table;
+-	} else if (GRAPHICS_VER(i915) >= 11 &&
+-		   GRAPHICS_VER_FULL(i915) < IP_VER(12, 50)) {
+-		gt->steering_table[L3BANK] = icl_l3bank_steering_table;
+-		gt->info.l3bank_mask =
+-			~intel_uncore_read(gt->uncore, GEN10_MIRROR_FUSE3) &
+-			GEN10_L3BANK_MASK;
+-	} else if (HAS_MSLICES(i915)) {
+-		MISSING_CASE(INTEL_INFO(i915)->platform);
+-	}
++	intel_gt_mcr_init(gt);
+ 
+ 	return intel_engines_init_mmio(gt);
+ }
+@@ -873,200 +809,6 @@ void intel_gt_driver_late_release_all(struct drm_i915_private *i915)
+ 	}
+ }
+ 
+-/**
+- * intel_gt_reg_needs_read_steering - determine whether a register read
+- *     requires explicit steering
+- * @gt: GT structure
+- * @reg: the register to check steering requirements for
+- * @type: type of multicast steering to check
+- *
+- * Determines whether @reg needs explicit steering of a specific type for
+- * reads.
+- *
+- * Returns false if @reg does not belong to a register range of the given
+- * steering type, or if the default (subslice-based) steering IDs are suitable
+- * for @type steering too.
+- */
+-static bool intel_gt_reg_needs_read_steering(struct intel_gt *gt,
+-					     i915_reg_t reg,
+-					     enum intel_steering_type type)
+-{
+-	const u32 offset = i915_mmio_reg_offset(reg);
+-	const struct intel_mmio_range *entry;
+-
+-	if (likely(!intel_gt_needs_read_steering(gt, type)))
+-		return false;
+-
+-	for (entry = gt->steering_table[type]; entry->end; entry++) {
+-		if (offset >= entry->start && offset <= entry->end)
+-			return true;
+-	}
+-
+-	return false;
+-}
+-
+-/**
+- * intel_gt_get_valid_steering - determines valid IDs for a class of MCR steering
+- * @gt: GT structure
+- * @type: multicast register type
+- * @sliceid: Slice ID returned
+- * @subsliceid: Subslice ID returned
+- *
+- * Determines sliceid and subsliceid values that will steer reads
+- * of a specific multicast register class to a valid value.
+- */
+-static void intel_gt_get_valid_steering(struct intel_gt *gt,
+-					enum intel_steering_type type,
+-					u8 *sliceid, u8 *subsliceid)
+-{
+-	switch (type) {
+-	case L3BANK:
+-		GEM_DEBUG_WARN_ON(!gt->info.l3bank_mask); /* should be impossible! */
+-
+-		*sliceid = 0;		/* unused */
+-		*subsliceid = __ffs(gt->info.l3bank_mask);
+-		break;
+-	case MSLICE:
+-		GEM_DEBUG_WARN_ON(!gt->info.mslice_mask); /* should be impossible! */
+-
+-		*sliceid = __ffs(gt->info.mslice_mask);
+-		*subsliceid = 0;	/* unused */
+-		break;
+-	case LNCF:
+-		GEM_DEBUG_WARN_ON(!gt->info.mslice_mask); /* should be impossible! */
+-
+-		/*
+-		 * An LNCF is always present if its mslice is present, so we
+-		 * can safely just steer to LNCF 0 in all cases.
+-		 */
+-		*sliceid = __ffs(gt->info.mslice_mask) << 1;
+-		*subsliceid = 0;	/* unused */
+-		break;
+-	default:
+-		MISSING_CASE(type);
+-		*sliceid = 0;
+-		*subsliceid = 0;
+-	}
+-}
+-
+-/**
+- * intel_gt_read_register_fw - reads a GT register with support for multicast
+- * @gt: GT structure
+- * @reg: register to read
+- *
+- * This function will read a GT register.  If the register is a multicast
+- * register, the read will be steered to a valid instance (i.e., one that
+- * isn't fused off or powered down by power gating).
+- *
+- * Returns the value from a valid instance of @reg.
+- */
+-u32 intel_gt_read_register_fw(struct intel_gt *gt, i915_reg_t reg)
+-{
+-	int type;
+-	u8 sliceid, subsliceid;
+-
+-	for (type = 0; type < NUM_STEERING_TYPES; type++) {
+-		if (intel_gt_reg_needs_read_steering(gt, reg, type)) {
+-			intel_gt_get_valid_steering(gt, type, &sliceid,
+-						    &subsliceid);
+-			return intel_uncore_read_with_mcr_steering_fw(gt->uncore,
+-								      reg,
+-								      sliceid,
+-								      subsliceid);
+-		}
+-	}
+-
+-	return intel_uncore_read_fw(gt->uncore, reg);
+-}
+-
+-/**
+- * intel_gt_get_valid_steering_for_reg - get a valid steering for a register
+- * @gt: GT structure
+- * @reg: register for which the steering is required
+- * @sliceid: return variable for slice steering
+- * @subsliceid: return variable for subslice steering
+- *
+- * This function returns a slice/subslice pair that is guaranteed to work for
+- * read steering of the given register. Note that a value will be returned even
+- * if the register is not replicated and therefore does not actually require
+- * steering.
+- */
+-void intel_gt_get_valid_steering_for_reg(struct intel_gt *gt, i915_reg_t reg,
+-					 u8 *sliceid, u8 *subsliceid)
+-{
+-	int type;
+-
+-	for (type = 0; type < NUM_STEERING_TYPES; type++) {
+-		if (intel_gt_reg_needs_read_steering(gt, reg, type)) {
+-			intel_gt_get_valid_steering(gt, type, sliceid,
+-						    subsliceid);
+-			return;
+-		}
+-	}
+-
+-	*sliceid = gt->default_steering.groupid;
+-	*subsliceid = gt->default_steering.instanceid;
+-}
+-
+-u32 intel_gt_read_register(struct intel_gt *gt, i915_reg_t reg)
+-{
+-	int type;
+-	u8 sliceid, subsliceid;
+-
+-	for (type = 0; type < NUM_STEERING_TYPES; type++) {
+-		if (intel_gt_reg_needs_read_steering(gt, reg, type)) {
+-			intel_gt_get_valid_steering(gt, type, &sliceid,
+-						    &subsliceid);
+-			return intel_uncore_read_with_mcr_steering(gt->uncore,
+-								   reg,
+-								   sliceid,
+-								   subsliceid);
+-		}
+-	}
+-
+-	return intel_uncore_read(gt->uncore, reg);
+-}
+-
+-static void report_steering_type(struct drm_printer *p,
+-				 struct intel_gt *gt,
+-				 enum intel_steering_type type,
+-				 bool dump_table)
+-{
+-	const struct intel_mmio_range *entry;
+-	u8 slice, subslice;
+-
+-	BUILD_BUG_ON(ARRAY_SIZE(intel_steering_types) != NUM_STEERING_TYPES);
+-
+-	if (!gt->steering_table[type]) {
+-		drm_printf(p, "%s steering: uses default steering\n",
+-			   intel_steering_types[type]);
+-		return;
+-	}
+-
+-	intel_gt_get_valid_steering(gt, type, &slice, &subslice);
+-	drm_printf(p, "%s steering: sliceid=0x%x, subsliceid=0x%x\n",
+-		   intel_steering_types[type], slice, subslice);
+-
+-	if (!dump_table)
+-		return;
+-
+-	for (entry = gt->steering_table[type]; entry->end; entry++)
+-		drm_printf(p, "\t0x%06x - 0x%06x\n", entry->start, entry->end);
+-}
+-
+-void intel_gt_report_steering(struct drm_printer *p, struct intel_gt *gt,
+-			      bool dump_table)
+-{
+-	drm_printf(p, "Default steering: sliceid=0x%x, subsliceid=0x%x\n",
+-		   gt->default_steering.groupid,
+-		   gt->default_steering.instanceid);
+-
+-	if (HAS_MSLICES(gt->i915)) {
+-		report_steering_type(p, gt, MSLICE, dump_table);
+-		report_steering_type(p, gt, LNCF, dump_table);
+-	}
+-}
+-
+ static int intel_gt_tile_setup(struct intel_gt *gt, phys_addr_t phys_addr)
+ {
+ 	int ret;
+diff --git a/drivers/gpu/drm/i915/gt/intel_gt.h b/drivers/gpu/drm/i915/gt/intel_gt.h
+index e76168e10a21..0c47d85256d9 100644
+--- a/drivers/gpu/drm/i915/gt/intel_gt.h
++++ b/drivers/gpu/drm/i915/gt/intel_gt.h
+@@ -81,21 +81,6 @@ static inline bool intel_gt_is_wedged(const struct intel_gt *gt)
+ 	return unlikely(test_bit(I915_WEDGED, &gt->reset.flags));
+ }
+ 
+-static inline bool intel_gt_needs_read_steering(struct intel_gt *gt,
+-						enum intel_steering_type type)
+-{
+-	return gt->steering_table[type];
+-}
+-
+-void intel_gt_get_valid_steering_for_reg(struct intel_gt *gt, i915_reg_t reg,
+-					 u8 *sliceid, u8 *subsliceid);
+-
+-u32 intel_gt_read_register_fw(struct intel_gt *gt, i915_reg_t reg);
+-u32 intel_gt_read_register(struct intel_gt *gt, i915_reg_t reg);
+-
+-void intel_gt_report_steering(struct drm_printer *p, struct intel_gt *gt,
+-			      bool dump_table);
+-
+ int intel_gt_probe_all(struct drm_i915_private *i915);
+ int intel_gt_tiles_init(struct drm_i915_private *i915);
+ void intel_gt_release_all(struct drm_i915_private *i915);
+diff --git a/drivers/gpu/drm/i915/gt/intel_gt_debugfs.c b/drivers/gpu/drm/i915/gt/intel_gt_debugfs.c
+index d886fdc2c694..ea07f2bb846f 100644
+--- a/drivers/gpu/drm/i915/gt/intel_gt_debugfs.c
++++ b/drivers/gpu/drm/i915/gt/intel_gt_debugfs.c
+@@ -9,6 +9,7 @@
+ #include "intel_gt.h"
+ #include "intel_gt_debugfs.h"
+ #include "intel_gt_engines_debugfs.h"
++#include "intel_gt_mcr.h"
+ #include "intel_gt_pm_debugfs.h"
+ #include "intel_sseu_debugfs.h"
+ #include "pxp/intel_pxp_debugfs.h"
+diff --git a/drivers/gpu/drm/i915/gt/intel_gt_mcr.c b/drivers/gpu/drm/i915/gt/intel_gt_mcr.c
+new file mode 100644
+index 000000000000..21edee03ce0f
+--- /dev/null
++++ b/drivers/gpu/drm/i915/gt/intel_gt_mcr.c
+@@ -0,0 +1,412 @@
++// SPDX-License-Identifier: MIT
++/*
++ * Copyright © 2022 Intel Corporation
++ */
 +
- /* RPM unit config (Gen8+) */
- #define RPM_CONFIG0				_MMIO(0xd00)
- #define   GEN9_RPM_CONFIG0_CRYSTAL_CLOCK_FREQ_SHIFT	3
-@@ -322,12 +324,12 @@
- #define GEN7_TLB_RD_ADDR			_MMIO(0x4700)
++#include "i915_drv.h"
++
++#include "intel_gt_mcr.h"
++#include "intel_gt_regs.h"
++
++/**
++ * DOC: GT Multicast/Replicated (MCR) Register Support
++ *
++ * Some GT registers are designed as "multicast" or "replicated" registers:
++ * multiple instances of the same register share a single MMIO offset.  MCR
++ * registers are generally used when the hardware needs to potentially track
++ * independent values of a register per hardware unit (e.g., per-subslice,
++ * per-L3bank, etc.).  The specific types of replication that exist vary
++ * per-platform.
++ *
++ * MMIO accesses to MCR registers are controlled according to the settings
++ * programmed in the platform's MCR_SELECTOR register(s).  MMIO writes to MCR
++ * registers can be done in either a (i.e., a single write updates all
++ * instances of the register to the same value) or unicast (a write updates only
++ * one specific instance).  Reads of MCR registers always operate in a unicast
++ * manner regardless of how the multicast/unicast bit is set in MCR_SELECTOR.
++ * Selection of a specific MCR instance for unicast operations is referred to
++ * as "steering."
++ *
++ * If MCR register operations are steered toward a hardware unit that is
++ * fused off or currently powered down due to power gating, the MMIO operation
++ * is "terminated" by the hardware.  Terminated read operations will return a
++ * value of zero and terminated unicast write operations will be silently
++ * ignored.
++ */
++
++static const char * const intel_steering_types[] = {
++	"L3BANK",
++	"MSLICE",
++	"LNCF",
++};
++
++static const struct intel_mmio_range icl_l3bank_steering_table[] = {
++	{ 0x00B100, 0x00B3FF },
++	{},
++};
++
++static const struct intel_mmio_range xehpsdv_mslice_steering_table[] = {
++	{ 0x004000, 0x004AFF },
++	{ 0x00C800, 0x00CFFF },
++	{ 0x00DD00, 0x00DDFF },
++	{ 0x00E900, 0x00FFFF }, /* 0xEA00 - OxEFFF is unused */
++	{},
++};
++
++static const struct intel_mmio_range xehpsdv_lncf_steering_table[] = {
++	{ 0x00B000, 0x00B0FF },
++	{ 0x00D800, 0x00D8FF },
++	{},
++};
++
++static const struct intel_mmio_range dg2_lncf_steering_table[] = {
++	{ 0x00B000, 0x00B0FF },
++	{ 0x00D880, 0x00D8FF },
++	{},
++};
++
++static u16 slicemask(struct intel_gt *gt, int count)
++{
++	u64 dss_mask = intel_sseu_get_subslices(&gt->info.sseu, 0);
++
++	return intel_slicemask_from_dssmask(dss_mask, count);
++}
++
++void intel_gt_mcr_init(struct intel_gt *gt)
++{
++	struct drm_i915_private *i915 = gt->i915;
++
++	/*
++	 * An mslice is unavailable only if both the meml3 for the slice is
++	 * disabled *and* all of the DSS in the slice (quadrant) are disabled.
++	 */
++	if (HAS_MSLICES(i915))
++		gt->info.mslice_mask =
++			slicemask(gt, GEN_DSS_PER_MSLICE) |
++			(intel_uncore_read(gt->uncore, GEN10_MIRROR_FUSE3) &
++			 GEN12_MEML3_EN_MASK);
++
++	if (IS_DG2(i915)) {
++		gt->steering_table[MSLICE] = xehpsdv_mslice_steering_table;
++		gt->steering_table[LNCF] = dg2_lncf_steering_table;
++	} else if (IS_XEHPSDV(i915)) {
++		gt->steering_table[MSLICE] = xehpsdv_mslice_steering_table;
++		gt->steering_table[LNCF] = xehpsdv_lncf_steering_table;
++	} else if (GRAPHICS_VER(i915) >= 11 &&
++		   GRAPHICS_VER_FULL(i915) < IP_VER(12, 50)) {
++		gt->steering_table[L3BANK] = icl_l3bank_steering_table;
++		gt->info.l3bank_mask =
++			~intel_uncore_read(gt->uncore, GEN10_MIRROR_FUSE3) &
++			GEN10_L3BANK_MASK;
++	} else if (HAS_MSLICES(i915)) {
++		MISSING_CASE(INTEL_INFO(i915)->platform);
++	}
++}
++
++/**
++ * uncore_rw_with_mcr_steering_fw - Access a register after programming
++ *				    the MCR selector register.
++ * @uncore: pointer to struct intel_uncore
++ * @reg: register being accessed
++ * @rw_flag: FW_REG_READ for read access or FW_REG_WRITE for write access
++ * @slice: slice number (ignored for multi-cast write)
++ * @subslice: sub-slice number (ignored for multi-cast write)
++ * @value: register value to be written (ignored for read)
++ *
++ * Return: 0 for write access. register value for read access.
++ *
++ * Caller needs to make sure the relevant forcewake wells are up.
++ */
++static u32 uncore_rw_with_mcr_steering_fw(struct intel_uncore *uncore,
++					  i915_reg_t reg, u8 rw_flag,
++					  int slice, int subslice, u32 value)
++{
++	u32 mcr_mask, mcr_ss, mcr, old_mcr, val = 0;
++
++	lockdep_assert_held(&uncore->lock);
++
++	if (GRAPHICS_VER(uncore->i915) >= 11) {
++		mcr_mask = GEN11_MCR_SLICE_MASK | GEN11_MCR_SUBSLICE_MASK;
++		mcr_ss = GEN11_MCR_SLICE(slice) | GEN11_MCR_SUBSLICE(subslice);
++
++		/*
++		 * Wa_22013088509
++		 *
++		 * The setting of the multicast/unicast bit usually wouldn't
++		 * matter for read operations (which always return the value
++		 * from a single register instance regardless of how that bit
++		 * is set), but some platforms have a workaround requiring us
++		 * to remain in multicast mode for reads.  There's no real
++		 * downside to this, so we'll just go ahead and do so on all
++		 * platforms; we'll only clear the multicast bit from the mask
++		 * when exlicitly doing a write operation.
++		 */
++		if (rw_flag == FW_REG_WRITE)
++			mcr_mask |= GEN11_MCR_MULTICAST;
++	} else {
++		mcr_mask = GEN8_MCR_SLICE_MASK | GEN8_MCR_SUBSLICE_MASK;
++		mcr_ss = GEN8_MCR_SLICE(slice) | GEN8_MCR_SUBSLICE(subslice);
++	}
++
++	old_mcr = mcr = intel_uncore_read_fw(uncore, GEN8_MCR_SELECTOR);
++
++	mcr &= ~mcr_mask;
++	mcr |= mcr_ss;
++	intel_uncore_write_fw(uncore, GEN8_MCR_SELECTOR, mcr);
++
++	if (rw_flag == FW_REG_READ)
++		val = intel_uncore_read_fw(uncore, reg);
++	else
++		intel_uncore_write_fw(uncore, reg, value);
++
++	mcr &= ~mcr_mask;
++	mcr |= old_mcr & mcr_mask;
++
++	intel_uncore_write_fw(uncore, GEN8_MCR_SELECTOR, mcr);
++
++	return val;
++}
++
++static u32 uncore_rw_with_mcr_steering(struct intel_uncore *uncore,
++				       i915_reg_t reg, u8 rw_flag,
++				       int slice, int subslice,
++				       u32 value)
++{
++	enum forcewake_domains fw_domains;
++	u32 val;
++
++	fw_domains = intel_uncore_forcewake_for_reg(uncore, reg,
++						    rw_flag);
++	fw_domains |= intel_uncore_forcewake_for_reg(uncore,
++						     GEN8_MCR_SELECTOR,
++						     FW_REG_READ | FW_REG_WRITE);
++
++	spin_lock_irq(&uncore->lock);
++	intel_uncore_forcewake_get__locked(uncore, fw_domains);
++
++	val = uncore_rw_with_mcr_steering_fw(uncore, reg, rw_flag,
++					     slice, subslice, value);
++
++	intel_uncore_forcewake_put__locked(uncore, fw_domains);
++	spin_unlock_irq(&uncore->lock);
++
++	return val;
++}
++
++u32 intel_uncore_read_with_mcr_steering_fw(struct intel_uncore *uncore,
++					   i915_reg_t reg, int slice, int subslice)
++{
++	return uncore_rw_with_mcr_steering_fw(uncore, reg, FW_REG_READ,
++					      slice, subslice, 0);
++}
++
++u32 intel_uncore_read_with_mcr_steering(struct intel_uncore *uncore,
++					i915_reg_t reg, int slice, int subslice)
++{
++	return uncore_rw_with_mcr_steering(uncore, reg, FW_REG_READ,
++					   slice, subslice, 0);
++}
++
++void intel_uncore_write_with_mcr_steering(struct intel_uncore *uncore,
++					  i915_reg_t reg, u32 value,
++					  int slice, int subslice)
++{
++	uncore_rw_with_mcr_steering(uncore, reg, FW_REG_WRITE,
++				    slice, subslice, value);
++}
++
++
++/**
++ * intel_gt_reg_needs_read_steering - determine whether a register read
++ *     requires explicit steering
++ * @gt: GT structure
++ * @reg: the register to check steering requirements for
++ * @type: type of multicast steering to check
++ *
++ * Determines whether @reg needs explicit steering of a specific type for
++ * reads.
++ *
++ * Returns false if @reg does not belong to a register range of the given
++ * steering type, or if the default (subslice-based) steering IDs are suitable
++ * for @type steering too.
++ */
++static bool intel_gt_reg_needs_read_steering(struct intel_gt *gt,
++					     i915_reg_t reg,
++					     enum intel_steering_type type)
++{
++	const u32 offset = i915_mmio_reg_offset(reg);
++	const struct intel_mmio_range *entry;
++
++	if (likely(!intel_gt_needs_read_steering(gt, type)))
++		return false;
++
++	for (entry = gt->steering_table[type]; entry->end; entry++) {
++		if (offset >= entry->start && offset <= entry->end)
++			return true;
++	}
++
++	return false;
++}
++
++/**
++ * intel_gt_get_valid_steering - determines valid IDs for a class of MCR steering
++ * @gt: GT structure
++ * @type: multicast register type
++ * @sliceid: Slice ID returned
++ * @subsliceid: Subslice ID returned
++ *
++ * Determines sliceid and subsliceid values that will steer reads
++ * of a specific multicast register class to a valid value.
++ */
++static void intel_gt_get_valid_steering(struct intel_gt *gt,
++					enum intel_steering_type type,
++					u8 *sliceid, u8 *subsliceid)
++{
++	switch (type) {
++	case L3BANK:
++		GEM_DEBUG_WARN_ON(!gt->info.l3bank_mask); /* should be impossible! */
++
++		*sliceid = 0;		/* unused */
++		*subsliceid = __ffs(gt->info.l3bank_mask);
++		break;
++	case MSLICE:
++		GEM_DEBUG_WARN_ON(!gt->info.mslice_mask); /* should be impossible! */
++
++		*sliceid = __ffs(gt->info.mslice_mask);
++		*subsliceid = 0;	/* unused */
++		break;
++	case LNCF:
++		GEM_DEBUG_WARN_ON(!gt->info.mslice_mask); /* should be impossible! */
++
++		/*
++		 * An LNCF is always present if its mslice is present, so we
++		 * can safely just steer to LNCF 0 in all cases.
++		 */
++		*sliceid = __ffs(gt->info.mslice_mask) << 1;
++		*subsliceid = 0;	/* unused */
++		break;
++	default:
++		MISSING_CASE(type);
++		*sliceid = 0;
++		*subsliceid = 0;
++	}
++}
++
++/**
++ * intel_gt_get_valid_steering_for_reg - get a valid steering for a register
++ * @gt: GT structure
++ * @reg: register for which the steering is required
++ * @sliceid: return variable for slice steering
++ * @subsliceid: return variable for subslice steering
++ *
++ * This function returns a slice/subslice pair that is guaranteed to work for
++ * read steering of the given register. Note that a value will be returned even
++ * if the register is not replicated and therefore does not actually require
++ * steering.
++ */
++void intel_gt_get_valid_steering_for_reg(struct intel_gt *gt, i915_reg_t reg,
++					 u8 *sliceid, u8 *subsliceid)
++{
++	int type;
++
++	for (type = 0; type < NUM_STEERING_TYPES; type++) {
++		if (intel_gt_reg_needs_read_steering(gt, reg, type)) {
++			intel_gt_get_valid_steering(gt, type, sliceid,
++						    subsliceid);
++			return;
++		}
++	}
++
++	*sliceid = gt->default_steering.groupid;
++	*subsliceid = gt->default_steering.instanceid;
++}
++
++/**
++ * intel_gt_read_register_fw - reads a GT register with support for multicast
++ * @gt: GT structure
++ * @reg: register to read
++ *
++ * This function will read a GT register.  If the register is a multicast
++ * register, the read will be steered to a valid instance (i.e., one that
++ * isn't fused off or powered down by power gating).
++ *
++ * Returns the value from a valid instance of @reg.
++ */
++u32 intel_gt_read_register_fw(struct intel_gt *gt, i915_reg_t reg)
++{
++	int type;
++	u8 sliceid, subsliceid;
++
++	for (type = 0; type < NUM_STEERING_TYPES; type++) {
++		if (intel_gt_reg_needs_read_steering(gt, reg, type)) {
++			intel_gt_get_valid_steering(gt, type, &sliceid,
++						    &subsliceid);
++			return intel_uncore_read_with_mcr_steering_fw(gt->uncore,
++								      reg,
++								      sliceid,
++								      subsliceid);
++		}
++	}
++
++	return intel_uncore_read_fw(gt->uncore, reg);
++}
++
++u32 intel_gt_read_register(struct intel_gt *gt, i915_reg_t reg)
++{
++	int type;
++	u8 sliceid, subsliceid;
++
++	for (type = 0; type < NUM_STEERING_TYPES; type++) {
++		if (intel_gt_reg_needs_read_steering(gt, reg, type)) {
++			intel_gt_get_valid_steering(gt, type, &sliceid,
++						    &subsliceid);
++			return intel_uncore_read_with_mcr_steering(gt->uncore,
++								   reg,
++								   sliceid,
++								   subsliceid);
++		}
++	}
++
++	return intel_uncore_read(gt->uncore, reg);
++}
++
++static void report_steering_type(struct drm_printer *p,
++				 struct intel_gt *gt,
++				 enum intel_steering_type type,
++				 bool dump_table)
++{
++	const struct intel_mmio_range *entry;
++	u8 slice, subslice;
++
++	BUILD_BUG_ON(ARRAY_SIZE(intel_steering_types) != NUM_STEERING_TYPES);
++
++	if (!gt->steering_table[type]) {
++		drm_printf(p, "%s steering: uses default steering\n",
++			   intel_steering_types[type]);
++		return;
++	}
++
++	intel_gt_get_valid_steering(gt, type, &slice, &subslice);
++	drm_printf(p, "%s steering: sliceid=0x%x, subsliceid=0x%x\n",
++		   intel_steering_types[type], slice, subslice);
++
++	if (!dump_table)
++		return;
++
++	for (entry = gt->steering_table[type]; entry->end; entry++)
++		drm_printf(p, "\t0x%06x - 0x%06x\n", entry->start, entry->end);
++}
++
++void intel_gt_report_steering(struct drm_printer *p, struct intel_gt *gt,
++			      bool dump_table)
++{
++	drm_printf(p, "Default steering: sliceid=0x%x, subsliceid=0x%x\n",
++		   gt->default_steering.groupid,
++		   gt->default_steering.instanceid);
++
++	if (HAS_MSLICES(gt->i915)) {
++		report_steering_type(p, gt, MSLICE, dump_table);
++		report_steering_type(p, gt, LNCF, dump_table);
++	}
++}
++
+diff --git a/drivers/gpu/drm/i915/gt/intel_gt_mcr.h b/drivers/gpu/drm/i915/gt/intel_gt_mcr.h
+new file mode 100644
+index 000000000000..b570c1571243
+--- /dev/null
++++ b/drivers/gpu/drm/i915/gt/intel_gt_mcr.h
+@@ -0,0 +1,37 @@
++/* SPDX-License-Identifier: MIT */
++/*
++ * Copyright © 2022 Intel Corporation
++ */
++
++#ifndef __INTEL_GT_MCR__
++#define __INTEL_GT_MCR__
++
++#include "intel_gt_types.h"
++
++void intel_gt_mcr_init(struct intel_gt *gt);
++
++u32 intel_uncore_read_with_mcr_steering_fw(struct intel_uncore *uncore,
++					   i915_reg_t reg,
++					   int slice, int subslice);
++u32 intel_uncore_read_with_mcr_steering(struct intel_uncore *uncore,
++					i915_reg_t reg,	int slice, int subslice);
++void intel_uncore_write_with_mcr_steering(struct intel_uncore *uncore,
++					  i915_reg_t reg, u32 value,
++					  int slice, int subslice);
++
++u32 intel_gt_read_register_fw(struct intel_gt *gt, i915_reg_t reg);
++u32 intel_gt_read_register(struct intel_gt *gt, i915_reg_t reg);
++
++static inline bool intel_gt_needs_read_steering(struct intel_gt *gt,
++						enum intel_steering_type type)
++{
++	return gt->steering_table[type];
++}
++
++void intel_gt_get_valid_steering_for_reg(struct intel_gt *gt, i915_reg_t reg,
++					 u8 *sliceid, u8 *subsliceid);
++
++void intel_gt_report_steering(struct drm_printer *p, struct intel_gt *gt,
++			      bool dump_table);
++
++#endif /* __INTEL_GT_MCR__ */
+diff --git a/drivers/gpu/drm/i915/gt/intel_region_lmem.c b/drivers/gpu/drm/i915/gt/intel_region_lmem.c
+index f5111c0a0060..6e788a5fc85a 100644
+--- a/drivers/gpu/drm/i915/gt/intel_region_lmem.c
++++ b/drivers/gpu/drm/i915/gt/intel_region_lmem.c
+@@ -12,6 +12,7 @@
+ #include "gem/i915_gem_region.h"
+ #include "gem/i915_gem_ttm.h"
+ #include "gt/intel_gt.h"
++#include "gt/intel_gt_mcr.h"
+ #include "gt/intel_gt_regs.h"
  
- #define GEN12_PAT_INDEX(index)			_MMIO(0x4800 + (index) * 4)
--#define XEHP_PAT_INDEX(index)			_MMIO(0x4800 + (index) * 4)
-+#define XEHP_PAT_INDEX(index)			MCR_REG(0x4800 + (index) * 4)
+ static int
+diff --git a/drivers/gpu/drm/i915/gt/intel_workarounds.c b/drivers/gpu/drm/i915/gt/intel_workarounds.c
+index 544097c56619..e9bf0d9f50d8 100644
+--- a/drivers/gpu/drm/i915/gt/intel_workarounds.c
++++ b/drivers/gpu/drm/i915/gt/intel_workarounds.c
+@@ -9,6 +9,7 @@
+ #include "intel_engine_regs.h"
+ #include "intel_gpu_commands.h"
+ #include "intel_gt.h"
++#include "intel_gt_mcr.h"
+ #include "intel_gt_regs.h"
+ #include "intel_ring.h"
+ #include "intel_workarounds.h"
+diff --git a/drivers/gpu/drm/i915/gt/uc/intel_guc_ads.c b/drivers/gpu/drm/i915/gt/uc/intel_guc_ads.c
+index e8a42d719f96..c63a6bf9e853 100644
+--- a/drivers/gpu/drm/i915/gt/uc/intel_guc_ads.c
++++ b/drivers/gpu/drm/i915/gt/uc/intel_guc_ads.c
+@@ -7,6 +7,7 @@
  
--#define XEHPSDV_TILE0_ADDR_RANGE		_MMIO(0x4900)
-+#define XEHPSDV_TILE0_ADDR_RANGE		MCR_REG(0x4900)
- #define   XEHPSDV_TILE_LMEM_RANGE_SHIFT		8
+ #include "gt/intel_engine_regs.h"
+ #include "gt/intel_gt.h"
++#include "gt/intel_gt_mcr.h"
+ #include "gt/intel_gt_regs.h"
+ #include "gt/intel_lrc.h"
+ #include "gt/shmem_utils.h"
+diff --git a/drivers/gpu/drm/i915/intel_uncore.c b/drivers/gpu/drm/i915/intel_uncore.c
+index 8b9caaaacc21..8069671d73d6 100644
+--- a/drivers/gpu/drm/i915/intel_uncore.c
++++ b/drivers/gpu/drm/i915/intel_uncore.c
+@@ -2459,118 +2459,6 @@ intel_uncore_forcewake_for_reg(struct intel_uncore *uncore,
+ 	return fw_domains;
+ }
  
--#define XEHPSDV_FLAT_CCS_BASE_ADDR		_MMIO(0x4910)
-+#define XEHPSDV_FLAT_CCS_BASE_ADDR		MCR_REG(0x4910)
- #define   XEHPSDV_CCS_BASE_SHIFT		8
+-/**
+- * uncore_rw_with_mcr_steering_fw - Access a register after programming
+- *				    the MCR selector register.
+- * @uncore: pointer to struct intel_uncore
+- * @reg: register being accessed
+- * @rw_flag: FW_REG_READ for read access or FW_REG_WRITE for write access
+- * @slice: slice number (ignored for multi-cast write)
+- * @subslice: sub-slice number (ignored for multi-cast write)
+- * @value: register value to be written (ignored for read)
+- *
+- * Return: 0 for write access. register value for read access.
+- *
+- * Caller needs to make sure the relevant forcewake wells are up.
+- */
+-static u32 uncore_rw_with_mcr_steering_fw(struct intel_uncore *uncore,
+-					  i915_reg_t reg, u8 rw_flag,
+-					  int slice, int subslice, u32 value)
+-{
+-	u32 mcr_mask, mcr_ss, mcr, old_mcr, val = 0;
+-
+-	lockdep_assert_held(&uncore->lock);
+-
+-	if (GRAPHICS_VER(uncore->i915) >= 11) {
+-		mcr_mask = GEN11_MCR_SLICE_MASK | GEN11_MCR_SUBSLICE_MASK;
+-		mcr_ss = GEN11_MCR_SLICE(slice) | GEN11_MCR_SUBSLICE(subslice);
+-
+-		/*
+-		 * Wa_22013088509
+-		 *
+-		 * The setting of the multicast/unicast bit usually wouldn't
+-		 * matter for read operations (which always return the value
+-		 * from a single register instance regardless of how that bit
+-		 * is set), but some platforms have a workaround requiring us
+-		 * to remain in multicast mode for reads.  There's no real
+-		 * downside to this, so we'll just go ahead and do so on all
+-		 * platforms; we'll only clear the multicast bit from the mask
+-		 * when exlicitly doing a write operation.
+-		 */
+-		if (rw_flag == FW_REG_WRITE)
+-			mcr_mask |= GEN11_MCR_MULTICAST;
+-	} else {
+-		mcr_mask = GEN8_MCR_SLICE_MASK | GEN8_MCR_SUBSLICE_MASK;
+-		mcr_ss = GEN8_MCR_SLICE(slice) | GEN8_MCR_SUBSLICE(subslice);
+-	}
+-
+-	old_mcr = mcr = intel_uncore_read_fw(uncore, GEN8_MCR_SELECTOR);
+-
+-	mcr &= ~mcr_mask;
+-	mcr |= mcr_ss;
+-	intel_uncore_write_fw(uncore, GEN8_MCR_SELECTOR, mcr);
+-
+-	if (rw_flag == FW_REG_READ)
+-		val = intel_uncore_read_fw(uncore, reg);
+-	else
+-		intel_uncore_write_fw(uncore, reg, value);
+-
+-	mcr &= ~mcr_mask;
+-	mcr |= old_mcr & mcr_mask;
+-
+-	intel_uncore_write_fw(uncore, GEN8_MCR_SELECTOR, mcr);
+-
+-	return val;
+-}
+-
+-static u32 uncore_rw_with_mcr_steering(struct intel_uncore *uncore,
+-				       i915_reg_t reg, u8 rw_flag,
+-				       int slice, int subslice,
+-				       u32 value)
+-{
+-	enum forcewake_domains fw_domains;
+-	u32 val;
+-
+-	fw_domains = intel_uncore_forcewake_for_reg(uncore, reg,
+-						    rw_flag);
+-	fw_domains |= intel_uncore_forcewake_for_reg(uncore,
+-						     GEN8_MCR_SELECTOR,
+-						     FW_REG_READ | FW_REG_WRITE);
+-
+-	spin_lock_irq(&uncore->lock);
+-	intel_uncore_forcewake_get__locked(uncore, fw_domains);
+-
+-	val = uncore_rw_with_mcr_steering_fw(uncore, reg, rw_flag,
+-					     slice, subslice, value);
+-
+-	intel_uncore_forcewake_put__locked(uncore, fw_domains);
+-	spin_unlock_irq(&uncore->lock);
+-
+-	return val;
+-}
+-
+-u32 intel_uncore_read_with_mcr_steering_fw(struct intel_uncore *uncore,
+-					   i915_reg_t reg, int slice, int subslice)
+-{
+-	return uncore_rw_with_mcr_steering_fw(uncore, reg, FW_REG_READ,
+-					      slice, subslice, 0);
+-}
+-
+-u32 intel_uncore_read_with_mcr_steering(struct intel_uncore *uncore,
+-					i915_reg_t reg, int slice, int subslice)
+-{
+-	return uncore_rw_with_mcr_steering(uncore, reg, FW_REG_READ,
+-					   slice, subslice, 0);
+-}
+-
+-void intel_uncore_write_with_mcr_steering(struct intel_uncore *uncore,
+-					  i915_reg_t reg, u32 value,
+-					  int slice, int subslice)
+-{
+-	uncore_rw_with_mcr_steering(uncore, reg, FW_REG_WRITE,
+-				    slice, subslice, value);
+-}
+-
+ #if IS_ENABLED(CONFIG_DRM_I915_SELFTEST)
+ #include "selftests/mock_uncore.c"
+ #include "selftests/intel_uncore.c"
+diff --git a/drivers/gpu/drm/i915/intel_uncore.h b/drivers/gpu/drm/i915/intel_uncore.h
+index 52fe3d89dd2b..b1fa912a65e7 100644
+--- a/drivers/gpu/drm/i915/intel_uncore.h
++++ b/drivers/gpu/drm/i915/intel_uncore.h
+@@ -210,14 +210,6 @@ intel_uncore_has_fifo(const struct intel_uncore *uncore)
+ 	return uncore->flags & UNCORE_HAS_FIFO;
+ }
  
- #define GAMTARBMODE				_MMIO(0x4a08)
-@@ -371,18 +373,18 @@
- #define GEN9_WM_CHICKEN3			_MMIO(0x5588)
- #define   GEN9_FACTOR_IN_CLR_VAL_HIZ		(1 << 9)
- 
--#define VFLSKPD					_MMIO(0x62a8)
-+#define VFLSKPD					MCR_REG(0x62a8)
- #define   DIS_OVER_FETCH_CACHE			REG_BIT(1)
- #define   DIS_MULT_MISS_RD_SQUASH		REG_BIT(0)
- 
- #define GEN12_FF_MODE2				_MMIO(0x6604)
--#define XEHP_FF_MODE2				_MMIO(0x6604)
-+#define XEHP_FF_MODE2				MCR_REG(0x6604)
- #define   FF_MODE2_GS_TIMER_MASK		REG_GENMASK(31, 24)
- #define   FF_MODE2_GS_TIMER_224			REG_FIELD_PREP(FF_MODE2_GS_TIMER_MASK, 224)
- #define   FF_MODE2_TDS_TIMER_MASK		REG_GENMASK(23, 16)
- #define   FF_MODE2_TDS_TIMER_128		REG_FIELD_PREP(FF_MODE2_TDS_TIMER_MASK, 4)
- 
--#define XEHPG_INSTDONE_GEOM_SVG			_MMIO(0x666c)
-+#define XEHPG_INSTDONE_GEOM_SVG			MCR_REG(0x666c)
- 
- #define CACHE_MODE_0_GEN7			_MMIO(0x7000) /* IVB+ */
- #define   RC_OP_FLUSH_ENABLE			(1 << 0)
-@@ -431,14 +433,14 @@
- #define GEN8_HDC_CHICKEN1			_MMIO(0x7304)
- 
- #define GEN11_COMMON_SLICE_CHICKEN3		_MMIO(0x7304)
--#define XEHP_COMMON_SLICE_CHICKEN3		_MMIO(0x7304)
-+#define XEHP_COMMON_SLICE_CHICKEN3		MCR_REG(0x7304)
- #define   DG1_FLOAT_POINT_BLEND_OPT_STRICT_MODE_EN	REG_BIT(12)
- #define   XEHP_DUAL_SIMD8_SEQ_MERGE_DISABLE	REG_BIT(12)
- #define   GEN11_BLEND_EMB_FIX_DISABLE_IN_RCC	REG_BIT(11)
- #define   GEN12_DISABLE_CPS_AWARE_COLOR_PIPE	REG_BIT(9)
- 
- #define GEN9_SLICE_COMMON_ECO_CHICKEN1		_MMIO(0x731c)
--#define XEHP_SLICE_COMMON_ECO_CHICKEN1		_MMIO(0x731c)
-+#define XEHP_SLICE_COMMON_ECO_CHICKEN1		MCR_REG(0x731c)
- #define   MSC_MSAA_REODER_BUF_BYPASS_DISABLE	REG_BIT(14)
- #define   GEN11_STATE_CACHE_REDIRECT_TO_CS	(1 << 11)
- 
-@@ -469,7 +471,7 @@
- 
- #define GEN8_RC6_CTX_INFO			_MMIO(0x8504)
- 
--#define XEHP_SQCM				_MMIO(0x8724)
-+#define XEHP_SQCM				MCR_REG(0x8724)
- #define   EN_32B_ACCESS				REG_BIT(30)
- 
- #define HSW_IDICR				_MMIO(0x9008)
-@@ -621,7 +623,7 @@
- #define GEN7_MISCCPCTL				_MMIO(0x9424)
- #define   GEN7_DOP_CLOCK_GATE_ENABLE		(1 << 0)
- 
--#define GEN8_MISCCPCTL				_MMIO(0x9424)
-+#define GEN8_MISCCPCTL				MCR_REG(0x9424)
- #define   GEN8_DOP_CLOCK_GATE_ENABLE		(1 << 0)
- #define   GEN8_DOP_CLOCK_GATE_CFCLK_ENABLE	(1 << 2)
- #define   GEN8_DOP_CLOCK_GATE_GUC_ENABLE	(1 << 4)
-@@ -676,7 +678,7 @@
- #define   LTCDD_CLKGATE_DIS			REG_BIT(10)
- 
- #define GEN11_SLICE_UNIT_LEVEL_CLKGATE		_MMIO(0x94d4)
--#define XEHP_SLICE_UNIT_LEVEL_CLKGATE		_MMIO(0x94d4)
-+#define XEHP_SLICE_UNIT_LEVEL_CLKGATE		MCR_REG(0x94d4)
- #define   SARBUNIT_CLKGATE_DIS			(1 << 5)
- #define   RCCUNIT_CLKGATE_DIS			(1 << 7)
- #define   MSCUNIT_CLKGATE_DIS			(1 << 10)
-@@ -684,27 +686,27 @@
- #define   L3_CLKGATE_DIS			REG_BIT(16)
- #define   L3_CR2X_CLKGATE_DIS			REG_BIT(17)
- 
--#define SCCGCTL94DC				_MMIO(0x94dc)
-+#define SCCGCTL94DC				MCR_REG(0x94dc)
- #define   CG3DDISURB				REG_BIT(14)
- 
- #define UNSLICE_UNIT_LEVEL_CLKGATE2		_MMIO(0x94e4)
- #define   VSUNIT_CLKGATE_DIS_TGL		REG_BIT(19)
- #define   PSDUNIT_CLKGATE_DIS			REG_BIT(5)
- 
--#define GEN11_SUBSLICE_UNIT_LEVEL_CLKGATE	_MMIO(0x9524)
-+#define GEN11_SUBSLICE_UNIT_LEVEL_CLKGATE	MCR_REG(0x9524)
- #define   DSS_ROUTER_CLKGATE_DIS		REG_BIT(28)
- #define   GWUNIT_CLKGATE_DIS			REG_BIT(16)
- 
--#define SUBSLICE_UNIT_LEVEL_CLKGATE2		_MMIO(0x9528)
-+#define SUBSLICE_UNIT_LEVEL_CLKGATE2		MCR_REG(0x9528)
- #define   CPSSUNIT_CLKGATE_DIS			REG_BIT(9)
- 
--#define SSMCGCTL9530				_MMIO(0x9530)
-+#define SSMCGCTL9530				MCR_REG(0x9530)
- #define   RTFUNIT_CLKGATE_DIS			REG_BIT(18)
- 
--#define GEN10_DFR_RATIO_EN_AND_CHICKEN		_MMIO(0x9550)
-+#define GEN10_DFR_RATIO_EN_AND_CHICKEN		MCR_REG(0x9550)
- #define   DFR_DISABLE				(1 << 9)
- 
--#define INF_UNIT_LEVEL_CLKGATE			_MMIO(0x9560)
-+#define INF_UNIT_LEVEL_CLKGATE			MCR_REG(0x9560)
- #define   CGPSF_CLKGATE_DIS			(1 << 3)
- 
- #define MICRO_BP0_0				_MMIO(0x9800)
-@@ -891,7 +893,7 @@
- 
- /* MOCS (Memory Object Control State) registers */
- #define GEN9_LNCFCMOCS(i)			_MMIO(0xb020 + (i) * 4)	/* L3 Cache Control */
--#define XEHP_LNCFCMOCS(i)			_MMIO(0xb020 + (i) * 4)	/* L3 Cache Control */
-+#define XEHP_LNCFCMOCS(i)			MCR_REG(0xb020 + (i) * 4)	/* L3 Cache Control */
- #define LNCFCMOCS_REG_COUNT			32
- 
- #define GEN7_L3CNTLREG3				_MMIO(0xb024)
-@@ -908,10 +910,10 @@
- #define GEN7_L3LOG(slice, i)			_MMIO(0xb070 + (slice) * 0x200 + (i) * 4)
- #define   GEN7_L3LOG_SIZE			0x80
- 
--#define XEHP_L3NODEARBCFG			_MMIO(0xb0b4)
-+#define XEHP_L3NODEARBCFG			MCR_REG(0xb0b4)
- #define   XEHP_LNESPARE				REG_BIT(19)
- 
--#define GEN8_L3SQCREG1				_MMIO(0xb100)
-+#define GEN8_L3SQCREG1				MCR_REG(0xb100)
- /*
-  * Note that on CHV the following has an off-by-one error wrt. to BSpec.
-  * Using the formula in BSpec leads to a hang, while the formula here works
-@@ -922,31 +924,31 @@
- #define   L3_HIGH_PRIO_CREDITS(x)		(((x) >> 1) << 14)
- #define   L3_PRIO_CREDITS_MASK			((0x1f << 19) | (0x1f << 14))
- 
--#define GEN8_L3SQCREG4				_MMIO(0xb118)
-+#define GEN8_L3SQCREG4				MCR_REG(0xb118)
- #define   GEN11_LQSC_CLEAN_EVICT_DISABLE	(1 << 6)
- #define   GEN8_LQSC_RO_PERF_DIS			(1 << 27)
- #define   GEN8_LQSC_FLUSH_COHERENT_LINES	(1 << 21)
- #define   GEN8_LQSQ_NONIA_COHERENT_ATOMICS_ENABLE	REG_BIT(22)
- 
--#define GEN9_SCRATCH1				_MMIO(0xb11c)
-+#define GEN9_SCRATCH1				MCR_REG(0xb11c)
- #define   EVICTION_PERF_FIX_ENABLE		REG_BIT(8)
- 
--#define BDW_SCRATCH1				_MMIO(0xb11c)
-+#define BDW_SCRATCH1				MCR_REG(0xb11c)
- #define   GEN9_LBS_SLA_RETRY_TIMER_DECREMENT_ENABLE	(1 << 2)
- 
--#define GEN11_SCRATCH2				_MMIO(0xb140)
-+#define GEN11_SCRATCH2				MCR_REG(0xb140)
- #define   GEN11_COHERENT_PARTIAL_WRITE_MERGE_ENABLE	(1 << 19)
- 
--#define XEHP_L3SQCREG5				_MMIO(0xb158)
-+#define XEHP_L3SQCREG5				MCR_REG(0xb158)
- #define   L3_PWM_TIMER_INIT_VAL_MASK		REG_GENMASK(9, 0)
- 
--#define MLTICTXCTL				_MMIO(0xb170)
-+#define MLTICTXCTL				MCR_REG(0xb170)
- #define   TDONRENDER				REG_BIT(2)
- 
--#define XEHP_L3SCQREG7				_MMIO(0xb188)
-+#define XEHP_L3SCQREG7				MCR_REG(0xb188)
- #define   BLEND_FILL_CACHING_OPT_DIS		REG_BIT(3)
- 
--#define L3SQCREG1_CCS0				_MMIO(0xb200)
-+#define L3SQCREG1_CCS0				MCR_REG(0xb200)
- #define   FLUSHALLNONCOH			REG_BIT(5)
- 
- #define GEN11_GLBLINVL				_MMIO(0xb404)
-@@ -969,14 +971,14 @@
- #define GEN9_BLT_MOCS(i)			_MMIO(__GEN9_BCS0_MOCS0 + (i) * 4)
- 
- #define GEN12_FAULT_TLB_DATA0			_MMIO(0xceb8)
--#define XEHP_FAULT_TLB_DATA0			_MMIO(0xceb8)
-+#define XEHP_FAULT_TLB_DATA0			MCR_REG(0xceb8)
- #define GEN12_FAULT_TLB_DATA1			_MMIO(0xcebc)
--#define XEHP_FAULT_TLB_DATA1			_MMIO(0xcebc)
-+#define XEHP_FAULT_TLB_DATA1			MCR_REG(0xcebc)
- #define   FAULT_VA_HIGH_BITS			(0xf << 0)
- #define   FAULT_GTT_SEL				(1 << 4)
- 
- #define GEN12_RING_FAULT_REG			_MMIO(0xcec4)
--#define XEHP_RING_FAULT_REG			_MMIO(0xcec4)
-+#define XEHP_RING_FAULT_REG			MCR_REG(0xcec4)
- #define   GEN8_RING_FAULT_ENGINE_ID(x)		(((x) >> 12) & 0x7)
- #define   RING_FAULT_GTTSEL_MASK		(1 << 11)
- #define   RING_FAULT_SRCID(x)			(((x) >> 3) & 0xff)
-@@ -988,11 +990,11 @@
- #define GEN12_VE_TLB_INV_CR			_MMIO(0xcee0)
- #define GEN12_BLT_TLB_INV_CR			_MMIO(0xcee4)
- 
--#define XEHP_MERT_MOD_CTRL			_MMIO(0xcf28)
--#define RENDER_MOD_CTRL				_MMIO(0xcf2c)
--#define COMP_MOD_CTRL				_MMIO(0xcf30)
--#define VDBX_MOD_CTRL				_MMIO(0xcf34)
--#define VEBX_MOD_CTRL				_MMIO(0xcf38)
-+#define XEHP_MERT_MOD_CTRL			MCR_REG(0xcf28)
-+#define RENDER_MOD_CTRL				MCR_REG(0xcf2c)
-+#define COMP_MOD_CTRL				MCR_REG(0xcf30)
-+#define VDBX_MOD_CTRL				MCR_REG(0xcf34)
-+#define VEBX_MOD_CTRL				MCR_REG(0xcf38)
- #define   FORCE_MISS_FTLB			REG_BIT(3)
- 
- #define GEN12_GAMSTLB_CTRL			_MMIO(0xcf4c)
-@@ -1007,49 +1009,49 @@
- #define GEN12_GAM_DONE				_MMIO(0xcf68)
- 
- #define GEN7_HALF_SLICE_CHICKEN1		_MMIO(0xe100) /* IVB GT1 + VLV */
--#define GEN8_HALF_SLICE_CHICKEN1		_MMIO(0xe100)
-+#define GEN8_HALF_SLICE_CHICKEN1		MCR_REG(0xe100)
- #define   GEN7_MAX_PS_THREAD_DEP		(8 << 12)
- #define   GEN7_SINGLE_SUBSCAN_DISPATCH_ENABLE	(1 << 10)
- #define   GEN7_SBE_SS_CACHE_DISPATCH_PORT_SHARING_DISABLE	(1 << 4)
- #define   GEN7_PSD_SINGLE_PORT_DISPATCH_ENABLE	(1 << 3)
- 
- #define GEN7_SAMPLER_INSTDONE			_MMIO(0xe160)
--#define GEN8_SAMPLER_INSTDONE			_MMIO(0xe160)
-+#define GEN8_SAMPLER_INSTDONE			MCR_REG(0xe160)
- #define GEN7_ROW_INSTDONE			_MMIO(0xe164)
--#define GEN8_ROW_INSTDONE			_MMIO(0xe164)
-+#define GEN8_ROW_INSTDONE			MCR_REG(0xe164)
- 
--#define HALF_SLICE_CHICKEN2			_MMIO(0xe180)
-+#define HALF_SLICE_CHICKEN2			MCR_REG(0xe180)
- #define   GEN8_ST_PO_DISABLE			(1 << 13)
- 
- #define HSW_HALF_SLICE_CHICKEN3			_MMIO(0xe184)
--#define GEN8_HALF_SLICE_CHICKEN3		_MMIO(0xe184)
-+#define GEN8_HALF_SLICE_CHICKEN3		MCR_REG(0xe184)
- #define   HSW_SAMPLE_C_PERFORMANCE		(1 << 9)
- #define   GEN8_CENTROID_PIXEL_OPT_DIS		(1 << 8)
- #define   GEN9_DISABLE_OCL_OOB_SUPPRESS_LOGIC	(1 << 5)
- #define   GEN8_SAMPLER_POWER_BYPASS_DIS		(1 << 1)
- 
--#define GEN9_HALF_SLICE_CHICKEN5		_MMIO(0xe188)
-+#define GEN9_HALF_SLICE_CHICKEN5		MCR_REG(0xe188)
- #define   GEN9_DG_MIRROR_FIX_ENABLE		(1 << 5)
- #define   GEN9_CCS_TLB_PREFETCH_ENABLE		(1 << 3)
- 
--#define GEN10_SAMPLER_MODE			_MMIO(0xe18c)
-+#define GEN10_SAMPLER_MODE			MCR_REG(0xe18c)
- #define   ENABLE_SMALLPL			REG_BIT(15)
- #define   GEN11_SAMPLER_ENABLE_HEADLESS_MSG	REG_BIT(5)
- 
--#define GEN9_HALF_SLICE_CHICKEN7		_MMIO(0xe194)
-+#define GEN9_HALF_SLICE_CHICKEN7		MCR_REG(0xe194)
- #define   DG2_DISABLE_ROUND_ENABLE_ALLOW_FOR_SSLA	REG_BIT(15)
- #define   GEN9_SAMPLER_HASH_COMPRESSED_READ_ADDR	REG_BIT(8)
- #define   GEN9_ENABLE_YV12_BUGFIX		REG_BIT(4)
- #define   GEN9_ENABLE_GPGPU_PREEMPTION		REG_BIT(2)
- 
--#define GEN10_CACHE_MODE_SS			_MMIO(0xe420)
-+#define GEN10_CACHE_MODE_SS			MCR_REG(0xe420)
- #define   ENABLE_PREFETCH_INTO_IC		REG_BIT(3)
- #define   FLOAT_BLEND_OPTIMIZATION_ENABLE	REG_BIT(4)
- 
--#define EU_PERF_CNTL0				_MMIO(0xe458)
--#define EU_PERF_CNTL4				_MMIO(0xe45c)
-+#define EU_PERF_CNTL0				MCR_REG(0xe458)
-+#define EU_PERF_CNTL4				MCR_REG(0xe45c)
- 
--#define GEN9_ROW_CHICKEN4			_MMIO(0xe48c)
-+#define GEN9_ROW_CHICKEN4			MCR_REG(0xe48c)
- #define   GEN12_DISABLE_GRF_CLEAR		REG_BIT(13)
- #define   XEHP_DIS_BBL_SYSPIPE			REG_BIT(11)
- #define   GEN12_DISABLE_TDL_PUSH		REG_BIT(9)
-@@ -1059,7 +1061,7 @@
- #define HSW_ROW_CHICKEN3			_MMIO(0xe49c)
- #define   HSW_ROW_CHICKEN3_L3_GLOBAL_ATOMICS_DISABLE	(1 << 6)
- 
--#define GEN8_ROW_CHICKEN			_MMIO(0xe4f0)
-+#define GEN8_ROW_CHICKEN			MCR_REG(0xe4f0)
- #define   FLOW_CONTROL_ENABLE			REG_BIT(15)
- #define   UGM_BACKUP_MODE			REG_BIT(13)
- #define   MDQ_ARBITRATION_MODE			REG_BIT(12)
-@@ -1071,37 +1073,37 @@
- 
- #define GEN7_ROW_CHICKEN2			_MMIO(0xe4f4)
- 
--#define GEN8_ROW_CHICKEN2			_MMIO(0xe4f4)
-+#define GEN8_ROW_CHICKEN2			MCR_REG(0xe4f4)
- #define   GEN12_DISABLE_READ_SUPPRESSION	REG_BIT(15)
- #define   GEN12_DISABLE_EARLY_READ		REG_BIT(14)
- #define   GEN12_ENABLE_LARGE_GRF_MODE		REG_BIT(12)
- #define   GEN12_PUSH_CONST_DEREF_HOLD_DIS	REG_BIT(8)
- 
--#define RT_CTRL					_MMIO(0xe530)
-+#define RT_CTRL					MCR_REG(0xe530)
- #define   DIS_NULL_QUERY			REG_BIT(10)
- 
--#define EU_PERF_CNTL1				_MMIO(0xe558)
--#define EU_PERF_CNTL5				_MMIO(0xe55c)
-+#define EU_PERF_CNTL1				MCR_REG(0xe558)
-+#define EU_PERF_CNTL5				MCR_REG(0xe55c)
- 
--#define XEHP_HDC_CHICKEN0			_MMIO(0xe5f0)
-+#define XEHP_HDC_CHICKEN0			MCR_REG(0xe5f0)
- #define   LSC_L1_FLUSH_CTL_3D_DATAPORT_FLUSH_EVENTS_MASK	REG_GENMASK(13, 11)
--#define ICL_HDC_MODE				_MMIO(0xe5f4)
-+#define ICL_HDC_MODE				MCR_REG(0xe5f4)
- 
--#define EU_PERF_CNTL2				_MMIO(0xe658)
--#define EU_PERF_CNTL6				_MMIO(0xe65c)
--#define EU_PERF_CNTL3				_MMIO(0xe758)
-+#define EU_PERF_CNTL2				MCR_REG(0xe658)
-+#define EU_PERF_CNTL6				MCR_REG(0xe65c)
-+#define EU_PERF_CNTL3				MCR_REG(0xe758)
- 
--#define LSC_CHICKEN_BIT_0			_MMIO(0xe7c8)
-+#define LSC_CHICKEN_BIT_0			MCR_REG(0xe7c8)
- #define   DISABLE_D8_D16_COASLESCE		REG_BIT(30)
- #define   FORCE_1_SUB_MESSAGE_PER_FRAGMENT	REG_BIT(15)
--#define LSC_CHICKEN_BIT_0_UDW			_MMIO(0xe7c8 + 4)
-+#define LSC_CHICKEN_BIT_0_UDW			MCR_REG(0xe7c8 + 4)
- #define   DIS_CHAIN_2XSIMD8			REG_BIT(55 - 32)
- #define   FORCE_SLM_FENCE_SCOPE_TO_TILE		REG_BIT(42 - 32)
- #define   FORCE_UGM_FENCE_SCOPE_TO_TILE		REG_BIT(41 - 32)
- #define   MAXREQS_PER_BANK			REG_GENMASK(39 - 32, 37 - 32)
- #define   DISABLE_128B_EVICTION_COMMAND_UDW	REG_BIT(36 - 32)
- 
--#define SARB_CHICKEN1				_MMIO(0xe90c)
-+#define SARB_CHICKEN1				MCR_REG(0xe90c)
- #define   COMP_CKN_IN				REG_GENMASK(30, 29)
- 
- #define GEN7_ROW_CHICKEN2_GT2			_MMIO(0xf4f4)
+-u32 intel_uncore_read_with_mcr_steering_fw(struct intel_uncore *uncore,
+-					   i915_reg_t reg,
+-					   int slice, int subslice);
+-u32 intel_uncore_read_with_mcr_steering(struct intel_uncore *uncore,
+-					i915_reg_t reg,	int slice, int subslice);
+-void intel_uncore_write_with_mcr_steering(struct intel_uncore *uncore,
+-					  i915_reg_t reg, u32 value,
+-					  int slice, int subslice);
+ void
+ intel_uncore_mmio_debug_init_early(struct intel_uncore_mmio_debug *mmio_debug);
+ void intel_uncore_init_early(struct intel_uncore *uncore,
 -- 
 2.34.1
 
