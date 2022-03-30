@@ -1,44 +1,47 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4C5D84ED007
-	for <lists+dri-devel@lfdr.de>; Thu, 31 Mar 2022 01:29:26 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 4815D4ED010
+	for <lists+dri-devel@lfdr.de>; Thu, 31 Mar 2022 01:29:44 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id C1AB610E1CC;
-	Wed, 30 Mar 2022 23:29:15 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 5093D10E8EF;
+	Wed, 30 Mar 2022 23:29:20 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from mga01.intel.com (mga01.intel.com [192.55.52.88])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 2285610E14A;
- Wed, 30 Mar 2022 23:29:14 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id E426810E1CF;
+ Wed, 30 Mar 2022 23:29:15 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1648682954; x=1680218954;
- h=from:to:cc:subject:date:message-id:mime-version:
- content-transfer-encoding;
- bh=D5C2wrNKdrz0yW6ijewQ07r3qcVcW8xqnZCN/cvQZLM=;
- b=GeYLqRoKcUeAv/iSfgWPrqyqq4QOG/h7HREoSPbR4N1fhNHEAG15ayRg
- v0s93ZS+tLIZyktfwYssIyC0fTS+aCTVx7WKNY6hfKj5BY43eY1Rk404U
- bGvXS54RUB3Ud69k97veDxz8ZE9LkKyEUM83q3rhLE9ZOqL89+4VhfYGy
- xB9M+WP3z9WrxVTeA+RsR/meTzFuIuJylxgDbsc3pzV/7/JNrrOeUDtL9
- IHD3TV/eNJ1Z8okJ9DaPFSLPery5ZOeRE4I2vnxIPGAIy3pm3SoyE8flY
- /uW/iSVaJvuqF70F+2ggZeJtGWYmtBeT8qReowtyVxkGnyLHPecAE+R6p g==;
-X-IronPort-AV: E=McAfee;i="6200,9189,10302"; a="284582499"
-X-IronPort-AV: E=Sophos;i="5.90,223,1643702400"; d="scan'208";a="284582499"
+ t=1648682955; x=1680218955;
+ h=from:to:cc:subject:date:message-id:in-reply-to:
+ references:mime-version:content-transfer-encoding;
+ bh=4WUFV2oAhg27UYK3r/zL8EIBu+Syf3HyEu0evmQFJms=;
+ b=HScHKm0yC9dTOZSHHR2e2salxZ80WYRpWHSgjOk2n8ppGhukKsWPpZcL
+ whIhZysFqSPH1PFwvt9A2CO9w01mWundfA+F5o41sdqvP+/X4IWDfMXXa
+ SoH0nAxqjPPAfMzR8oGI7210sxpQHeWpUKwVLna1577005x9LUqxL1yfw
+ EaI0ZqXhXvY06XSDkmOZQiDCezOVTNWOdAFxtbPMXxBE1d6JYd6J4W1Dv
+ PeylHug/t3js/Pwbm+zez91bF5vutDGfGpm+2CoqdrXGaQ4ij3vT/kvZg
+ eK7ci4BCFPvGgz6eUNanXA4x8a6XycbKcYQ5MbNn18zb0ugdzIT9wIo2p Q==;
+X-IronPort-AV: E=McAfee;i="6200,9189,10302"; a="284582503"
+X-IronPort-AV: E=Sophos;i="5.90,223,1643702400"; d="scan'208";a="284582503"
 Received: from orsmga007.jf.intel.com ([10.7.209.58])
  by fmsmga101.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 30 Mar 2022 16:29:13 -0700
-X-IronPort-AV: E=Sophos;i="5.90,223,1643702400"; d="scan'208";a="547051970"
+ 30 Mar 2022 16:29:15 -0700
+X-IronPort-AV: E=Sophos;i="5.90,223,1643702400"; d="scan'208";a="547051983"
 Received: from mdroper-desk1.fm.intel.com ([10.1.27.134])
  by orsmga007-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 30 Mar 2022 16:29:13 -0700
+ 30 Mar 2022 16:29:15 -0700
 From: Matt Roper <matthew.d.roper@intel.com>
 To: intel-gfx@lists.freedesktop.org
-Subject: [PATCH 00/15] i915: Explicit handling of multicast registers
-Date: Wed, 30 Mar 2022 16:28:43 -0700
-Message-Id: <20220330232858.3204283-1-matthew.d.roper@intel.com>
+Subject: [PATCH 01/15] drm/i915/gen8: Create separate reg definitions for new
+ MCR registers
+Date: Wed, 30 Mar 2022 16:28:44 -0700
+Message-Id: <20220330232858.3204283-2-matthew.d.roper@intel.com>
 X-Mailer: git-send-email 2.34.1
+In-Reply-To: <20220330232858.3204283-1-matthew.d.roper@intel.com>
+References: <20220330232858.3204283-1-matthew.d.roper@intel.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
@@ -53,110 +56,300 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Lucas De Marchi <lucas.demarchi@intel.com>,
- Daniele Ceraolo Spurio <daniele.ceraolospurio@intel.com>,
- dri-devel@lists.freedesktop.org,
- Tvrtko Ursulin <tvrtko.ursulin@linux.intel.com>
+Cc: dri-devel@lists.freedesktop.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Multicast/replicated (MCR) registers on Intel hardware are a purely
-GT-specific concept.  Rather than leaving MCR register handling spread
-across several places throughout the driver (intel_uncore.c, intel_gt.c,
-etc.) with confusing combinations of handler functions living in
-different namespaces, let's consolidate it all into a single place
-(intel_gt_mcr.c) and provide a more consistent and clearly-documented
-interface for the rest of the driver to access such registers:
+Gen8 was the first time our hardware had multicast registers (or at
+least the first time the multicast nature was exposed and MMIO accesses
+could be steered).  There are some registers that transitioned from
+singleton behavior to multicast during the gen7 -> gen8 transition;
+let's duplicate the register definitions for those registers in
+preparation for upcoming patches that will handle MCR registers in a
+special manner.
 
- * intel_gt_mcr_read -- unicast read from specific instance
- * intel_gt_mcr_read_any[_fw] -- unicast read from any non-terminated
-   instance
- * intel_gt_mcr_unicast_write -- unicast write to specific instance
- * intel_gt_mcr_multicast_write[_fw] -- multicast write to all instances
+The registers adjusted are:
+ * MISCCPCTL
+ * SAMPLER_INSTDONE
+ * ROW_INSTDONE
+ * ROW_CHICKEN2
+ * HALF_SLICE_CHICKEN1
+ * HALF_SLICE_CHICKEN3
 
-To ensure these new interfaces are used for all accesses to MCR
-registers (rather than relying on the implicit and possibly incorrect
-semantics of our regular mmio accessors), we'll also promote multicast
-registers to a unique type within the driver (i915_mcr_reg_t rather than
-the traditional i915_reg_t).  This will let the compiler help us catch
-places where the code is trying to perform a non-MCR-aware MMIO
-operation on an MCR register.
+Signed-off-by: Matt Roper <matthew.d.roper@intel.com>
+---
+ drivers/gpu/drm/i915/gt/intel_engine_cs.c     |  8 +++----
+ drivers/gpu/drm/i915/gt/intel_gt_regs.h       | 11 +++++++++-
+ drivers/gpu/drm/i915/gt/intel_workarounds.c   | 22 +++++++++----------
+ .../gpu/drm/i915/gt/uc/intel_guc_capture.c    |  4 ++--
+ drivers/gpu/drm/i915/gt/uc/intel_guc_fw.c     |  2 +-
+ drivers/gpu/drm/i915/gvt/handlers.c           |  2 +-
+ drivers/gpu/drm/i915/gvt/mmio_context.c       |  2 +-
+ drivers/gpu/drm/i915/intel_pm.c               | 10 ++++-----
+ 8 files changed, 35 insertions(+), 26 deletions(-)
 
-Finally, we'll implement new guidance from our hardware architects that
-we should steer every undirected access to MCR registers (including
-registers in GSLICE/DSS MCR ranges) at the time of access on Xe_HP,
-rather than relying on a default steering target programmed at driver
-initialization time.
-
-One aspect of this series that I'm not super happy with is the handling
-of mixed lists MCR and non-MCR registers that we have in a few places
-(e.g., the various whitelists used by perf, GVT, etc.).  Since we're not
-actually accessing the registers in those spots, just listing them out
-so their MMIO offsets can be used for comparison, for now I've
-effectively cast the MCR registers on those lists back to i915_reg_t
-type so that the compiler doesn't complain about seeing incompatible
-i915_mcr_reg_t elements in a list that's supposed to be i915_reg_t.  We
-may want to think about better ways to handle heterogeneous lists of MCR
-and non-MCR registers, or possibly just convert those to lists of u32
-offsets since we're not actually using them to perform MMIO accesses.
-
-
-Cc: Daniele Ceraolo Spurio <daniele.ceraolospurio@intel.com>
-Cc: Lucas De Marchi <lucas.demarchi@intel.com>
-Cc: Tvrtko Ursulin <tvrtko.ursulin@linux.intel.com>
-
-
-Matt Roper (15):
-  drm/i915/gen8: Create separate reg definitions for new MCR registers
-  drm/i915/xehp: Create separate reg definitions for new MCR registers
-  drm/i915/gt: Drop a few unused register definitions
-  drm/i915/gt: Correct prefix on a few registers
-  drm/i915/xehp: Check for faults on all mslices
-  drm/i915: Drop duplicated definition of XEHPSDV_FLAT_CCS_BASE_ADDR
-  drm/i915: Move XEHPSDV_TILE0_ADDR_RANGE to GT register header
-  drm/i915: Define MCR registers explicitly
-  drm/i915/gt: Move multicast register handling to a dedicated file
-  drm/i915/gt: Cleanup interface for MCR operations
-  drm/i915/gt: Always use MCR functions on multicast registers
-  drm/i915/guc: Handle save/restore of MCR registers explicitly
-  drm/i915/gt: Add MCR-specific workaround initializers
-  drm/i915: Define multicast registers as a new type
-  drm/i915/xehp: Eliminate shared/implicit steering
-
- drivers/gpu/drm/i915/Makefile                 |   1 +
- drivers/gpu/drm/i915/gem/i915_gem_stolen.c    |   4 +-
- drivers/gpu/drm/i915/gt/intel_engine_cs.c     |  34 +-
- drivers/gpu/drm/i915/gt/intel_ggtt.c          |   4 +-
- drivers/gpu/drm/i915/gt/intel_gt.c            | 303 ++---------
- drivers/gpu/drm/i915/gt/intel_gt.h            |  15 -
- drivers/gpu/drm/i915/gt/intel_gt_debugfs.c    |   3 +-
- drivers/gpu/drm/i915/gt/intel_gt_mcr.c        | 506 ++++++++++++++++++
- drivers/gpu/drm/i915/gt/intel_gt_mcr.h        |  34 ++
- drivers/gpu/drm/i915/gt/intel_gt_regs.h       | 153 +++---
- drivers/gpu/drm/i915/gt/intel_gt_types.h      |   1 +
- drivers/gpu/drm/i915/gt/intel_gtt.c           |  44 +-
- drivers/gpu/drm/i915/gt/intel_gtt.h           |   2 +-
- drivers/gpu/drm/i915/gt/intel_lrc.c           |   6 +-
- drivers/gpu/drm/i915/gt/intel_mocs.c          |  12 +-
- drivers/gpu/drm/i915/gt/intel_region_lmem.c   |   3 +-
- drivers/gpu/drm/i915/gt/intel_workarounds.c   | 473 ++++++++--------
- .../gpu/drm/i915/gt/selftest_workarounds.c    |   2 +-
- drivers/gpu/drm/i915/gt/uc/intel_guc_ads.c    |  61 ++-
- .../gpu/drm/i915/gt/uc/intel_guc_capture.c    |   8 +-
- drivers/gpu/drm/i915/gt/uc/intel_guc_fw.c     |  12 +-
- drivers/gpu/drm/i915/gvt/cmd_parser.c         |   2 +-
- drivers/gpu/drm/i915/gvt/handlers.c           |  19 +-
- drivers/gpu/drm/i915/gvt/mmio_context.c       |  16 +-
- drivers/gpu/drm/i915/i915_perf.c              |   2 +-
- drivers/gpu/drm/i915/i915_reg.h               |   6 -
- drivers/gpu/drm/i915/i915_reg_defs.h          |   9 +
- drivers/gpu/drm/i915/intel_pm.c               |  20 +-
- drivers/gpu/drm/i915/intel_uncore.c           | 112 ----
- drivers/gpu/drm/i915/intel_uncore.h           |   8 -
- 30 files changed, 1059 insertions(+), 816 deletions(-)
- create mode 100644 drivers/gpu/drm/i915/gt/intel_gt_mcr.c
- create mode 100644 drivers/gpu/drm/i915/gt/intel_gt_mcr.h
-
+diff --git a/drivers/gpu/drm/i915/gt/intel_engine_cs.c b/drivers/gpu/drm/i915/gt/intel_engine_cs.c
+index 98b61ff13c95..ad9e7e55ce17 100644
+--- a/drivers/gpu/drm/i915/gt/intel_engine_cs.c
++++ b/drivers/gpu/drm/i915/gt/intel_engine_cs.c
+@@ -1367,19 +1367,19 @@ void intel_engine_get_instdone(const struct intel_engine_cs *engine,
+ 			for_each_instdone_gslice_dss_xehp(i915, sseu, iter, slice, subslice) {
+ 				instdone->sampler[slice][subslice] =
+ 					read_subslice_reg(engine, slice, subslice,
+-							  GEN7_SAMPLER_INSTDONE);
++							  GEN8_SAMPLER_INSTDONE);
+ 				instdone->row[slice][subslice] =
+ 					read_subslice_reg(engine, slice, subslice,
+-							  GEN7_ROW_INSTDONE);
++							  GEN8_ROW_INSTDONE);
+ 			}
+ 		} else {
+ 			for_each_instdone_slice_subslice(i915, sseu, slice, subslice) {
+ 				instdone->sampler[slice][subslice] =
+ 					read_subslice_reg(engine, slice, subslice,
+-							  GEN7_SAMPLER_INSTDONE);
++							  GEN8_SAMPLER_INSTDONE);
+ 				instdone->row[slice][subslice] =
+ 					read_subslice_reg(engine, slice, subslice,
+-							  GEN7_ROW_INSTDONE);
++							  GEN8_ROW_INSTDONE);
+ 			}
+ 		}
+ 
+diff --git a/drivers/gpu/drm/i915/gt/intel_gt_regs.h b/drivers/gpu/drm/i915/gt/intel_gt_regs.h
+index 17432b075d97..08309745d461 100644
+--- a/drivers/gpu/drm/i915/gt/intel_gt_regs.h
++++ b/drivers/gpu/drm/i915/gt/intel_gt_regs.h
+@@ -622,6 +622,9 @@
+ 
+ #define GEN7_MISCCPCTL				_MMIO(0x9424)
+ #define   GEN7_DOP_CLOCK_GATE_ENABLE		(1 << 0)
++
++#define GEN8_MISCCPCTL				_MMIO(0x9424)
++#define   GEN8_DOP_CLOCK_GATE_ENABLE		(1 << 0)
+ #define   GEN8_DOP_CLOCK_GATE_CFCLK_ENABLE	(1 << 2)
+ #define   GEN8_DOP_CLOCK_GATE_GUC_ENABLE	(1 << 4)
+ #define   GEN8_DOP_CLOCK_GATE_MEDIA_ENABLE	(1 << 6)
+@@ -1009,18 +1012,22 @@
+ #define GEN12_GAM_DONE				_MMIO(0xcf68)
+ 
+ #define GEN7_HALF_SLICE_CHICKEN1		_MMIO(0xe100) /* IVB GT1 + VLV */
++#define GEN8_HALF_SLICE_CHICKEN1		_MMIO(0xe100)
+ #define   GEN7_MAX_PS_THREAD_DEP		(8 << 12)
+ #define   GEN7_SINGLE_SUBSCAN_DISPATCH_ENABLE	(1 << 10)
+ #define   GEN7_SBE_SS_CACHE_DISPATCH_PORT_SHARING_DISABLE	(1 << 4)
+ #define   GEN7_PSD_SINGLE_PORT_DISPATCH_ENABLE	(1 << 3)
+ 
+ #define GEN7_SAMPLER_INSTDONE			_MMIO(0xe160)
++#define GEN8_SAMPLER_INSTDONE			_MMIO(0xe160)
+ #define GEN7_ROW_INSTDONE			_MMIO(0xe164)
++#define GEN8_ROW_INSTDONE			_MMIO(0xe164)
+ 
+ #define HALF_SLICE_CHICKEN2			_MMIO(0xe180)
+ #define   GEN8_ST_PO_DISABLE			(1 << 13)
+ 
+-#define HALF_SLICE_CHICKEN3			_MMIO(0xe184)
++#define HSW_HALF_SLICE_CHICKEN3			_MMIO(0xe184)
++#define GEN8_HALF_SLICE_CHICKEN3		_MMIO(0xe184)
+ #define   HSW_SAMPLE_C_PERFORMANCE		(1 << 9)
+ #define   GEN8_CENTROID_PIXEL_OPT_DIS		(1 << 8)
+ #define   GEN9_DISABLE_OCL_OOB_SUPPRESS_LOGIC	(1 << 5)
+@@ -1068,6 +1075,8 @@
+ #define   DISABLE_EARLY_EOT			REG_BIT(1)
+ 
+ #define GEN7_ROW_CHICKEN2			_MMIO(0xe4f4)
++
++#define GEN8_ROW_CHICKEN2			_MMIO(0xe4f4)
+ #define   GEN12_DISABLE_READ_SUPPRESSION	REG_BIT(15)
+ #define   GEN12_DISABLE_EARLY_READ		REG_BIT(14)
+ #define   GEN12_ENABLE_LARGE_GRF_MODE		REG_BIT(12)
+diff --git a/drivers/gpu/drm/i915/gt/intel_workarounds.c b/drivers/gpu/drm/i915/gt/intel_workarounds.c
+index 29c8cd0a81b6..608ed833307f 100644
+--- a/drivers/gpu/drm/i915/gt/intel_workarounds.c
++++ b/drivers/gpu/drm/i915/gt/intel_workarounds.c
+@@ -294,10 +294,10 @@ static void bdw_ctx_workarounds_init(struct intel_engine_cs *engine,
+ 	 * Also see the related UCGTCL1 write in bdw_init_clock_gating()
+ 	 * to disable EUTC clock gating.
+ 	 */
+-	wa_masked_en(wal, GEN7_ROW_CHICKEN2,
++	wa_masked_en(wal, GEN8_ROW_CHICKEN2,
+ 		     DOP_CLOCK_GATING_DISABLE);
+ 
+-	wa_masked_en(wal, HALF_SLICE_CHICKEN3,
++	wa_masked_en(wal, GEN8_HALF_SLICE_CHICKEN3,
+ 		     GEN8_SAMPLER_POWER_BYPASS_DIS);
+ 
+ 	wa_masked_en(wal, HDC_CHICKEN0,
+@@ -385,7 +385,7 @@ static void gen9_ctx_workarounds_init(struct intel_engine_cs *engine,
+ 	    IS_KABYLAKE(i915) ||
+ 	    IS_COFFEELAKE(i915) ||
+ 	    IS_COMETLAKE(i915))
+-		wa_masked_en(wal, HALF_SLICE_CHICKEN3,
++		wa_masked_en(wal, GEN8_HALF_SLICE_CHICKEN3,
+ 			     GEN8_SAMPLER_POWER_BYPASS_DIS);
+ 
+ 	/* WaDisableSTUnitPowerOptimization:skl,bxt,kbl,glk,cfl */
+@@ -489,7 +489,7 @@ static void kbl_ctx_workarounds_init(struct intel_engine_cs *engine,
+ 			     GEN8_SBE_DISABLE_REPLAY_BUF_OPTIMIZATION);
+ 
+ 	/* WaDisableSbeCacheDispatchPortSharing:kbl */
+-	wa_masked_en(wal, GEN7_HALF_SLICE_CHICKEN1,
++	wa_masked_en(wal, GEN8_HALF_SLICE_CHICKEN1,
+ 		     GEN7_SBE_SS_CACHE_DISPATCH_PORT_SHARING_DISABLE);
+ }
+ 
+@@ -513,7 +513,7 @@ static void cfl_ctx_workarounds_init(struct intel_engine_cs *engine,
+ 		     GEN8_SBE_DISABLE_REPLAY_BUF_OPTIMIZATION);
+ 
+ 	/* WaDisableSbeCacheDispatchPortSharing:cfl */
+-	wa_masked_en(wal, GEN7_HALF_SLICE_CHICKEN1,
++	wa_masked_en(wal, GEN8_HALF_SLICE_CHICKEN1,
+ 		     GEN7_SBE_SS_CACHE_DISPATCH_PORT_SHARING_DISABLE);
+ }
+ 
+@@ -2046,7 +2046,7 @@ rcs_engine_wa_init(struct intel_engine_cs *engine, struct i915_wa_list *wal)
+ 
+ 	if (IS_DG2_GRAPHICS_STEP(i915, G11, STEP_A0, STEP_B0)) {
+ 		/* Wa_14013392000:dg2_g11 */
+-		wa_masked_en(wal, GEN7_ROW_CHICKEN2, GEN12_ENABLE_LARGE_GRF_MODE);
++		wa_masked_en(wal, GEN8_ROW_CHICKEN2, GEN12_ENABLE_LARGE_GRF_MODE);
+ 
+ 		/* Wa_16011620976:dg2_g11 */
+ 		wa_write_or(wal, LSC_CHICKEN_BIT_0_UDW, DIS_CHAIN_2XSIMD8);
+@@ -2088,7 +2088,7 @@ rcs_engine_wa_init(struct intel_engine_cs *engine, struct i915_wa_list *wal)
+ 			    DISABLE_128B_EVICTION_COMMAND_UDW);
+ 
+ 		/* Wa_22012856258:dg2 */
+-		wa_masked_en(wal, GEN7_ROW_CHICKEN2,
++		wa_masked_en(wal, GEN8_ROW_CHICKEN2,
+ 			     GEN12_DISABLE_READ_SUPPRESSION);
+ 
+ 		/*
+@@ -2184,7 +2184,7 @@ rcs_engine_wa_init(struct intel_engine_cs *engine, struct i915_wa_list *wal)
+ 	if (IS_ALDERLAKE_P(i915) || IS_ALDERLAKE_S(i915) || IS_DG1(i915) ||
+ 	    IS_ROCKETLAKE(i915) || IS_TIGERLAKE(i915)) {
+ 		/* Wa_1606931601:tgl,rkl,dg1,adl-s,adl-p */
+-		wa_masked_en(wal, GEN7_ROW_CHICKEN2, GEN12_DISABLE_EARLY_READ);
++		wa_masked_en(wal, GEN8_ROW_CHICKEN2, GEN12_DISABLE_EARLY_READ);
+ 
+ 		/*
+ 		 * Wa_1407928979:tgl A*
+@@ -2209,7 +2209,7 @@ rcs_engine_wa_init(struct intel_engine_cs *engine, struct i915_wa_list *wal)
+ 	    IS_DG1_GRAPHICS_STEP(i915, STEP_A0, STEP_B0) ||
+ 	    IS_ROCKETLAKE(i915) || IS_TIGERLAKE(i915)) {
+ 		/* Wa_1409804808:tgl,rkl,dg1[a0],adl-s,adl-p */
+-		wa_masked_en(wal, GEN7_ROW_CHICKEN2,
++		wa_masked_en(wal, GEN8_ROW_CHICKEN2,
+ 			     GEN12_PUSH_CONST_DEREF_HOLD_DIS);
+ 
+ 		/*
+@@ -2376,7 +2376,7 @@ rcs_engine_wa_init(struct intel_engine_cs *engine, struct i915_wa_list *wal)
+ 	if (IS_HASWELL(i915)) {
+ 		/* WaSampleCChickenBitEnable:hsw */
+ 		wa_masked_en(wal,
+-			     HALF_SLICE_CHICKEN3, HSW_SAMPLE_C_PERFORMANCE);
++			     HSW_HALF_SLICE_CHICKEN3, HSW_SAMPLE_C_PERFORMANCE);
+ 
+ 		wa_masked_dis(wal,
+ 			      CACHE_MODE_0_GEN7,
+@@ -2608,7 +2608,7 @@ general_render_compute_wa_init(struct intel_engine_cs *engine, struct i915_wa_li
+ 		wa_write_or(wal, XEHP_L3NODEARBCFG, XEHP_LNESPARE);
+ 
+ 		/* Wa_14010449647:xehpsdv */
+-		wa_masked_en(wal, GEN7_HALF_SLICE_CHICKEN1,
++		wa_masked_en(wal, GEN8_HALF_SLICE_CHICKEN1,
+ 			     GEN7_PSD_SINGLE_PORT_DISPATCH_ENABLE);
+ 
+ 		/* Wa_18011725039:xehpsdv */
+diff --git a/drivers/gpu/drm/i915/gt/uc/intel_guc_capture.c b/drivers/gpu/drm/i915/gt/uc/intel_guc_capture.c
+index c4e25966d3e9..7f77e9cdaba4 100644
+--- a/drivers/gpu/drm/i915/gt/uc/intel_guc_capture.c
++++ b/drivers/gpu/drm/i915/gt/uc/intel_guc_capture.c
+@@ -243,8 +243,8 @@ struct __ext_steer_reg {
+ };
+ 
+ static const struct __ext_steer_reg xe_extregs[] = {
+-	{"GEN7_SAMPLER_INSTDONE", GEN7_SAMPLER_INSTDONE},
+-	{"GEN7_ROW_INSTDONE", GEN7_ROW_INSTDONE}
++	{"GEN8_SAMPLER_INSTDONE", GEN8_SAMPLER_INSTDONE},
++	{"GEN8_ROW_INSTDONE", GEN8_ROW_INSTDONE}
+ };
+ 
+ static void __fill_ext_reg(struct __guc_mmio_reg_descr *ext,
+diff --git a/drivers/gpu/drm/i915/gt/uc/intel_guc_fw.c b/drivers/gpu/drm/i915/gt/uc/intel_guc_fw.c
+index a0372735cddb..9229243992c2 100644
+--- a/drivers/gpu/drm/i915/gt/uc/intel_guc_fw.c
++++ b/drivers/gpu/drm/i915/gt/uc/intel_guc_fw.c
+@@ -35,7 +35,7 @@ static void guc_prepare_xfer(struct intel_uncore *uncore)
+ 
+ 	if (GRAPHICS_VER(uncore->i915) == 9) {
+ 		/* DOP Clock Gating Enable for GuC clocks */
+-		intel_uncore_rmw(uncore, GEN7_MISCCPCTL,
++		intel_uncore_rmw(uncore, GEN8_MISCCPCTL,
+ 				 0, GEN8_DOP_CLOCK_GATE_GUC_ENABLE);
+ 
+ 		/* allows for 5us (in 10ns units) before GT can go to RC6 */
+diff --git a/drivers/gpu/drm/i915/gvt/handlers.c b/drivers/gpu/drm/i915/gvt/handlers.c
+index 0ee3ecc83234..bad1065a99a7 100644
+--- a/drivers/gpu/drm/i915/gvt/handlers.c
++++ b/drivers/gpu/drm/i915/gvt/handlers.c
+@@ -2279,7 +2279,7 @@ static int init_generic_mmio_info(struct intel_gvt *gvt)
+ 	MMIO_DFH(_MMIO(0x2438), D_ALL, F_CMD_ACCESS, NULL, NULL);
+ 	MMIO_DFH(_MMIO(0x243c), D_ALL, F_CMD_ACCESS, NULL, NULL);
+ 	MMIO_DFH(_MMIO(0x7018), D_ALL, F_MODE_MASK | F_CMD_ACCESS, NULL, NULL);
+-	MMIO_DFH(HALF_SLICE_CHICKEN3, D_ALL, F_MODE_MASK | F_CMD_ACCESS, NULL, NULL);
++	MMIO_DFH(HSW_HALF_SLICE_CHICKEN3, D_ALL, F_MODE_MASK | F_CMD_ACCESS, NULL, NULL);
+ 	MMIO_DFH(GEN7_HALF_SLICE_CHICKEN1, D_ALL, F_MODE_MASK | F_CMD_ACCESS, NULL, NULL);
+ 
+ 	/* display */
+diff --git a/drivers/gpu/drm/i915/gvt/mmio_context.c b/drivers/gpu/drm/i915/gvt/mmio_context.c
+index c85bafe7539e..4be07d627941 100644
+--- a/drivers/gpu/drm/i915/gvt/mmio_context.c
++++ b/drivers/gpu/drm/i915/gvt/mmio_context.c
+@@ -111,7 +111,7 @@ static struct engine_mmio gen9_engine_mmio_list[] __cacheline_aligned = {
+ 	{RCS0, GEN9_SCRATCH_LNCF1, 0, false}, /* 0xb008 */
+ 	{RCS0, GEN7_HALF_SLICE_CHICKEN1, 0xffff, true}, /* 0xe100 */
+ 	{RCS0, HALF_SLICE_CHICKEN2, 0xffff, true}, /* 0xe180 */
+-	{RCS0, HALF_SLICE_CHICKEN3, 0xffff, true}, /* 0xe184 */
++	{RCS0, HSW_HALF_SLICE_CHICKEN3, 0xffff, true}, /* 0xe184 */
+ 	{RCS0, GEN9_HALF_SLICE_CHICKEN5, 0xffff, true}, /* 0xe188 */
+ 	{RCS0, GEN9_HALF_SLICE_CHICKEN7, 0xffff, true}, /* 0xe194 */
+ 	{RCS0, GEN8_ROW_CHICKEN, 0xffff, true}, /* 0xe4f0 */
+diff --git a/drivers/gpu/drm/i915/intel_pm.c b/drivers/gpu/drm/i915/intel_pm.c
+index 641616135955..43a2c95602c0 100644
+--- a/drivers/gpu/drm/i915/intel_pm.c
++++ b/drivers/gpu/drm/i915/intel_pm.c
+@@ -7416,8 +7416,8 @@ static void gen8_set_l3sqc_credits(struct drm_i915_private *dev_priv,
+ 	u32 val;
+ 
+ 	/* WaTempDisableDOPClkGating:bdw */
+-	misccpctl = intel_uncore_read(&dev_priv->uncore, GEN7_MISCCPCTL);
+-	intel_uncore_write(&dev_priv->uncore, GEN7_MISCCPCTL, misccpctl & ~GEN7_DOP_CLOCK_GATE_ENABLE);
++	misccpctl = intel_uncore_read(&dev_priv->uncore, GEN8_MISCCPCTL);
++	intel_uncore_write(&dev_priv->uncore, GEN8_MISCCPCTL, misccpctl & ~GEN8_DOP_CLOCK_GATE_ENABLE);
+ 
+ 	val = intel_uncore_read(&dev_priv->uncore, GEN8_L3SQCREG1);
+ 	val &= ~L3_PRIO_CREDITS_MASK;
+@@ -7431,7 +7431,7 @@ static void gen8_set_l3sqc_credits(struct drm_i915_private *dev_priv,
+ 	 */
+ 	intel_uncore_posting_read(&dev_priv->uncore, GEN8_L3SQCREG1);
+ 	udelay(1);
+-	intel_uncore_write(&dev_priv->uncore, GEN7_MISCCPCTL, misccpctl);
++	intel_uncore_write(&dev_priv->uncore, GEN8_MISCCPCTL, misccpctl);
+ }
+ 
+ static void icl_init_clock_gating(struct drm_i915_private *dev_priv)
+@@ -7579,8 +7579,8 @@ static void skl_init_clock_gating(struct drm_i915_private *dev_priv)
+ 	gen9_init_clock_gating(dev_priv);
+ 
+ 	/* WaDisableDopClockGating:skl */
+-	intel_uncore_write(&dev_priv->uncore, GEN7_MISCCPCTL, intel_uncore_read(&dev_priv->uncore, GEN7_MISCCPCTL) &
+-		   ~GEN7_DOP_CLOCK_GATE_ENABLE);
++	intel_uncore_write(&dev_priv->uncore, GEN8_MISCCPCTL, intel_uncore_read(&dev_priv->uncore, GEN8_MISCCPCTL) &
++		   ~GEN8_DOP_CLOCK_GATE_ENABLE);
+ 
+ 	/* WAC6entrylatency:skl */
+ 	intel_uncore_write(&dev_priv->uncore, FBC_LLC_READ_CTRL, intel_uncore_read(&dev_priv->uncore, FBC_LLC_READ_CTRL) |
 -- 
 2.34.1
 
