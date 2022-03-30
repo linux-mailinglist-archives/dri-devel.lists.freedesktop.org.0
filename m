@@ -2,46 +2,41 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id F05554EC0C8
-	for <lists+dri-devel@lfdr.de>; Wed, 30 Mar 2022 13:52:38 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 4B0794EC0CC
+	for <lists+dri-devel@lfdr.de>; Wed, 30 Mar 2022 13:53:15 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 0D4DF10E943;
-	Wed, 30 Mar 2022 11:52:36 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id E2D6A10EAE3;
+	Wed, 30 Mar 2022 11:53:12 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-X-Greylist: delayed 321 seconds by postgrey-1.36 at gabe;
- Wed, 30 Mar 2022 11:52:34 UTC
-Received: from sin.source.kernel.org (sin.source.kernel.org
- [IPv6:2604:1380:40e1:4800::1])
- by gabe.freedesktop.org (Postfix) with ESMTPS id B750910E943
- for <dri-devel@lists.freedesktop.org>; Wed, 30 Mar 2022 11:52:34 +0000 (UTC)
+Received: from ams.source.kernel.org (ams.source.kernel.org [145.40.68.75])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 0755610EAE3
+ for <dri-devel@lists.freedesktop.org>; Wed, 30 Mar 2022 11:53:11 +0000 (UTC)
 Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
  (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
  (No client certificate requested)
- by sin.source.kernel.org (Postfix) with ESMTPS id 7A78ACE1A57;
- Wed, 30 Mar 2022 11:52:31 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 08924C3410F;
- Wed, 30 Mar 2022 11:52:28 +0000 (UTC)
+ by ams.source.kernel.org (Postfix) with ESMTPS id D2314B81C25;
+ Wed, 30 Mar 2022 11:53:07 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 9AC90C340EE;
+ Wed, 30 Mar 2022 11:53:05 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1648641149;
+ s=k20201202; t=1648641186;
  bh=qW1x31HnZxqlWv9yLK7leVGiHSRFHxjgpFRqN+3ePM4=;
- h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
- b=X1mkHVBxG9sfps1+ttRkiXiQ68Pdlq7SAZogzie/jNxGLNNhAJak+Ym2+SlPkwCr/
- xtKItEO6C3SQlYpegztsQc5SY9vCYKDdHDknYVCrCn2xgYsSGE+jrQ9s6KWWwWRaaq
- VDE1KsndUDzcUPc0tw46pMuzPc9oj8E3jKwOnesl5718DO58xGmFpDhEISkJz3EWOy
- m11KoFh4jAA+5GCdg4LmV8w5b8IhzJ6IOl+Y47uMGnJZ0mraDRem0zT36HJVUq0VYX
- V+NszdR6Ldhs4I+q4NaQc0IlzZbOgrF+w9vRJKHSsotREFdUkMqsOQq662QCSfsl8I
- Ex3wjBDS7DAhQ==
+ h=From:To:Cc:Subject:Date:From;
+ b=W4CPcDGsBYpYWlko8pj3hn89Ct669WcC+u4xXKXp9jUUkZPBRB/q7EAn4e418XgVG
+ YKodxE8PBo5yYf8Ye4APktYygiG/6t4OW+U3r5UIzmeoloycnyyizoxbWQWnI8ydUE
+ swdA52iYWg4aq9P4+49RJx4vxWXIZF6+ivMYMep8zR4D8bqc4l+yAP/CMRrin3gGwH
+ g8ut4S/A2nldglLxGzaZQ8a8aTUIXuZ4loFlmVrYsiLN8goIVrV7FH4pshXK5NBL9H
+ HDIh+ScZejK9m0U2m52ccBquinZsfQegjCj0BI4zvLJbVFyLP6R+a04zc76DUpl+8C
+ cDfbUiaOGk4oQ==
 From: Sasha Levin <sashal@kernel.org>
 To: linux-kernel@vger.kernel.org,
 	stable@vger.kernel.org
-Subject: [PATCH AUTOSEL 5.4 02/25] video: fbdev: nvidiafb: Use strscpy() to
+Subject: [PATCH AUTOSEL 4.19 01/22] video: fbdev: nvidiafb: Use strscpy() to
  prevent buffer overflow
-Date: Wed, 30 Mar 2022 07:52:02 -0400
-Message-Id: <20220330115225.1672278-2-sashal@kernel.org>
+Date: Wed, 30 Mar 2022 07:52:42 -0400
+Message-Id: <20220330115303.1672616-1-sashal@kernel.org>
 X-Mailer: git-send-email 2.34.1
-In-Reply-To: <20220330115225.1672278-1-sashal@kernel.org>
-References: <20220330115225.1672278-1-sashal@kernel.org>
 MIME-Version: 1.0
 X-stable: review
 X-Patchwork-Hint: Ignore
