@@ -2,56 +2,46 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 19D7F4EB89D
-	for <lists+dri-devel@lfdr.de>; Wed, 30 Mar 2022 05:02:09 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 7D0684EB902
+	for <lists+dri-devel@lfdr.de>; Wed, 30 Mar 2022 05:46:35 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id DBBB710EEE4;
-	Wed, 30 Mar 2022 03:02:04 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id CFCB610EE79;
+	Wed, 30 Mar 2022 03:46:31 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-oi1-x22c.google.com (mail-oi1-x22c.google.com
- [IPv6:2607:f8b0:4864:20::22c])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 7D0AB10EE55;
- Wed, 30 Mar 2022 03:02:04 +0000 (UTC)
-Received: by mail-oi1-x22c.google.com with SMTP id j83so20881365oih.6;
- Tue, 29 Mar 2022 20:02:04 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=ur1fEP3S2LvaWAlvGKw+OsWwCUfBsA0hA7I29tDVbH0=;
- b=XEJLTGvbNYlW1w/0qqsdA8xWWbqsGgetz7yWkk8Xfqn+0r56mCFq3cY/t1djsGQEjd
- u11tsX1TImjiuFekbn50D+H5/67OefnF02KpgnfsVZEQJvQGqX57NKMkG9iuEjLfy9pk
- QSsXGbYN+IpicA0ENNQFRH3uc1rVNVen5KSkt0Ig6P1y7fVo547VwIHeHHU3HoVOxxLy
- O6Q/kPuzvjeK2pynlMHaLz+uBxhfjqvQeEMpnTKnldPPaLisMTu3+zp3+ER6T8/dnbVk
- owcW+Egr0yV+wxcbkf7B3WdJSrUVY842OyU4WS98pFjbZYR4IuSrjsk1RO2wfk/i2hri
- pL3Q==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=ur1fEP3S2LvaWAlvGKw+OsWwCUfBsA0hA7I29tDVbH0=;
- b=xrkrLwAX1SU62nf7zdInEaXE3zbF+UmFA4xbWTIooRirqXyVgNdKnO2WVZNkABXQT9
- wLjo0GyGhHqoUgLe0puTKamF+wKA53EMjOvxUrKHn9Svqn3GKhipx5kdkp+qfdllaZgn
- w3AcQNvm8Ydvqh2xEGfzVii4E4vqeB7SqE9QgLlLoA9+sQivDRJBuRXWVpLp3jp0K64p
- hvzyN1flL/WZH2uQKJGbauo6MSK7ToG/NJ4chKZsnK6X/RksjE2svBienHrR4wE/LM0h
- +ixcaiXpaAQkfC90waPxNX3uEikhRWFIMIP9SFCwTiN+cL/uhru/s+0WNVmluAbYE0tK
- P6Ng==
-X-Gm-Message-State: AOAM532kPXsylRh82ETuOJaMVffbWPpZMF/D/iVaPWiVgFQexh/Dd3gg
- GMoO059bZWozdQsGZjakonrSntbOlT9kRfx/4Ss=
-X-Google-Smtp-Source: ABdhPJzkB9w/7Dh3ntidVedaTQyZjbL6+tpV1HB5APfyAdQjTC4sUhKGfrB7FhdaIO3zE63Y7Hl0XGb4Kt8995j2G3k=
-X-Received: by 2002:aca:d04:0:b0:2ef:8b45:d235 with SMTP id
- 4-20020aca0d04000000b002ef8b45d235mr956733oin.253.1648609323691; Tue, 29 Mar
- 2022 20:02:03 -0700 (PDT)
+Received: from 189.cn (ptr.189.cn [183.61.185.102])
+ by gabe.freedesktop.org (Postfix) with ESMTP id F210B10EE79
+ for <dri-devel@lists.freedesktop.org>; Wed, 30 Mar 2022 03:46:30 +0000 (UTC)
+HMM_SOURCE_IP: 10.64.8.43:43204.462545494
+HMM_ATTACHE_NUM: 0000
+HMM_SOURCE_TYPE: SMTP
+Received: from clientip-114.242.206.180 (unknown [10.64.8.43])
+ by 189.cn (HERMES) with SMTP id 951841002BF;
+ Wed, 30 Mar 2022 11:46:24 +0800 (CST)
+Received: from  ([172.27.8.53])
+ by gateway-151646-dep-b7fbf7d79-vjdjk with ESMTP id
+ 61ccf52ab94342e7af9cd1074e7c91b9 for robh+dt@kernel.org; 
+ Wed, 30 Mar 2022 11:46:28 CST
+X-Transaction-ID: 61ccf52ab94342e7af9cd1074e7c91b9
+X-Real-From: 15330273260@189.cn
+X-Receive-IP: 172.27.8.53
+X-MEDUSA-Status: 0
+Message-ID: <0a3a29af-ad2f-9ccc-3a56-3e5b7e4c7c83@189.cn>
+Date: Wed, 30 Mar 2022 11:46:22 +0800
 MIME-Version: 1.0
-References: <20220127081237.13903-1-Tsung-Hua.Lin@amd.com>
- <20220330024643.162230-1-tsung-hua.lin@amd.com>
-In-Reply-To: <20220330024643.162230-1-tsung-hua.lin@amd.com>
-From: Alex Deucher <alexdeucher@gmail.com>
-Date: Tue, 29 Mar 2022 23:01:52 -0400
-Message-ID: <CADnq5_O6S+7Kk34fGCjqmmJAf5JtZP35+MBpCDQnH5Sh6ZosFA@mail.gmail.com>
-Subject: Re: [PATCH v2] drm/amdgpu: fix that issue that the number of the crtc
- of the 3250c is not correct
-To: Ryan Lin <tsung-hua.lin@amd.com>
-Content-Type: text/plain; charset="UTF-8"
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.7.0
+Subject: Re: [PATCH v13 3/6] dt-bindings: display: Add Loongson display
+ controller
+Content-Language: en-US
+To: Rob Herring <robh+dt@kernel.org>
+References: <20220328022835.2508587-1-15330273260@189.cn>
+ <20220328022835.2508587-3-15330273260@189.cn>
+ <CAL_Jsq+zO7RXzQLoPXR7Zm0mcsKCydK=8EFaNFGu-_THgJuh7Q@mail.gmail.com>
+From: Sui Jingfeng <15330273260@189.cn>
+In-Reply-To: <CAL_Jsq+zO7RXzQLoPXR7Zm0mcsKCydK=8EFaNFGu-_THgJuh7Q@mail.gmail.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -64,69 +54,168 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: "David \(ChunMing\) Zhou" <David1.Zhou@amd.com>,
- =?UTF-8?Q?St=C3=A9phane_Marchesin?= <marcheu@chromium.org>,
- Leo Li <sunpeng.li@amd.com>, leon.li@amd.com,
- Rodrigo Siqueira <Rodrigo.Siqueira@amd.com>,
- LKML <linux-kernel@vger.kernel.org>,
- Maling list - DRI developers <dri-devel@lists.freedesktop.org>,
- Nicholas Kazlauskas <nicholas.kazlauskas@amd.com>,
- David Airlie <airlied@linux.ie>, Sean Paul <seanpaul@chromium.org>,
- amd-gfx list <amd-gfx@lists.freedesktop.org>,
- Drew Davenport <ddavenport@chromium.org>,
- Alex Deucher <alexander.deucher@amd.com>, Mark Yacoub <markyacoub@google.com>,
- =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>,
- Louis Li <ching-shih.li@amd.corp-partner.google.com>
+Cc: Qing Zhang <zhangqing@loongson.cn>, David Airlie <airlied@linux.ie>,
+ Jiaxun Yang <jiaxun.yang@flygoat.com>,
+ "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
+ Sam Ravnborg <sam@ravnborg.org>, Krzysztof Kozlowski <krzk@kernel.org>,
+ Dan Carpenter <dan.carpenter@oracle.com>, devicetree@vger.kernel.org,
+ suijingfeng <suijingfeng@loongson.cn>, Thomas Zimmermann <tzimmermann@suse.de>,
+ Roland Scheidegger <sroland@vmware.com>,
+ Andrey Zhizhikin <andrey.zhizhikin@leica-geosystems.com>,
+ dri-devel <dri-devel@lists.freedesktop.org>,
+ Thomas Bogendoerfer <tsbogend@alpha.franken.de>,
+ "open list:MIPS" <linux-mips@vger.kernel.org>,
+ "David S . Miller" <davem@davemloft.net>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Tue, Mar 29, 2022 at 10:57 PM Ryan Lin <tsung-hua.lin@amd.com> wrote:
->
-> [Why]
-> External displays take priority over internal display when there are fewer
-> display controllers than displays.
->
-> [How]
-> The root cause is because of that number of the crtc is not correct.
-> The number of the crtc on the 3250c is 3, but on the 3500c is 4.
-> On the source code, we can see that number of the crtc has been fixed at 4.
-> Needs to set the num_crtc to 3 for 3250c platform.
->
-> v2:
->    - remove unnecessary comments and Id
->
-> Signed-off-by: Ryan Lin <tsung-hua.lin@amd.com>
 
-Reviewed-by: Alex Deucher <alexander.deucher@amd.com>
+On 2022/3/29 21:27, Rob Herring wrote:
+> On Sun, Mar 27, 2022 at 9:29 PM Sui Jingfeng <15330273260@189.cn> wrote:
+>> Add DT bindings and simple usages for Loongson display controller
+>> found in LS7A1000 bridge chip and LS2k1000 SoC.
+>>
+>> Signed-off-by: Sui Jingfeng <15330273260@189.cn>
+>> ---
+>>   .../loongson/loongson,display-controller.yaml | 321 ++++++++++++++++++
+>>   1 file changed, 321 insertions(+)
+>>   create mode 100644 Documentation/devicetree/bindings/display/loongson/loongson,display-controller.yaml
+>>
+>> diff --git a/Documentation/devicetree/bindings/display/loongson/loongson,display-controller.yaml b/Documentation/devicetree/bindings/display/loongson/loongson,display-controller.yaml
+>> new file mode 100644
+>> index 000000000000..34060ed55a25
+>> --- /dev/null
+>> +++ b/Documentation/devicetree/bindings/display/loongson/loongson,display-controller.yaml
+>> @@ -0,0 +1,321 @@
+>> +# SPDX-License-Identifier: (GPL-2.0-only OR BSD-2-Clause)
+>> +%YAML 1.2
+>> +---
+>> +$id: http://devicetree.org/schemas/display/loongson/loongson,display-controller.yaml#
+>> +$schema: http://devicetree.org/meta-schemas/core.yaml#
+>> +
+>> +title: Loongson LS7A1000/LS2K1000/LS2K0500 Display Controller Device Tree Bindings
+>> +
+>> +maintainers:
+>> +  - Sui Jingfeng <suijingfeng@loongson.cn>
+>> +
+>> +description: |+
+>> +
+>> +  Loongson display controllers are simple which require scanout buffers
+>> +  to be physically contiguous. LS2K1000/LS2K0500 is a SOC, only system
+>> +  memory is available. LS7A1000/LS7A2000 is bridge chip which is equipped
+>> +  with a dedicated video RAM which is 64MB or more, precise size can be
+>> +  read from the PCI BAR 2 of the GPU device(0x0014:0x7A15) in the bridge
+>> +  chip.
+>> +
+>> +  LSDC has two display pipes, each way has a DVO interface which provide
+>> +  RGB888 signals, vertical & horizontal synchronisations, data enable and
+>> +  the pixel clock. LSDC has two CRTC, each CRTC is able to scanout from
+>> +  1920x1080 resolution at 60Hz. Each CRTC has two FB address registers.
+>> +
+>> +  For LS7A1000, there are 4 dedicated GPIOs whose control register is
+>> +  located at the DC register space. They are used to emulate two way i2c,
+>> +  One for DVO0, another for DVO1.
+>> +
+>> +  LS2K1000 and LS2K0500 SoC grab i2c adapter from other module, either
+>> +  general purpose GPIO emulated i2c or hardware i2c in the SoC.
+>> +
+>> +  LSDC's display pipeline have several components as below description,
+>> +
+>> +  The display controller in LS7A1000:
+>> +     ___________________                                     _________
+>> +    |            -------|                                   |         |
+>> +    |  CRTC0 --> | DVO0 ----> Encoder0 ---> Connector0 ---> | Monitor |
+>> +    |  _   _     -------|        ^             ^            |_________|
+>> +    | | | | |    -------|        |             |
+>> +    | |_| |_|    | i2c0 <--------+-------------+
+>> +    |            -------|
+>> +    |   DC IN LS7A1000  |
+>> +    |  _   _     -------|
+>> +    | | | | |    | i2c1 <--------+-------------+
+>> +    | |_| |_|    -------|        |             |             _________
+>> +    |            -------|        |             |            |         |
+>> +    |  CRTC1 --> | DVO1 ----> Encoder1 ---> Connector1 ---> |  Panel  |
+>> +    |            -------|                                   |_________|
+>> +    |___________________|
+>> +
+>> +  Simple usage of LS7A1000 with LS3A4000 CPU:
+>> +
+>> +    +------+            +------------------------------------+
+>> +    | DDR4 |            |  +-------------------+             |
+>> +    +------+            |  | PCIe Root complex |   LS7A1000  |
+>> +       || MC0           |  +--++---------++----+             |
+>> +  +----------+  HT 3.0  |     ||         ||                  |
+>> +  | LS3A4000 |<-------->| +---++---+  +--++--+     +---------+   +------+
+>> +  |   CPU    |<-------->| | GC1000 |  | LSDC |<--->| DDR3 MC |<->| VRAM |
+>> +  +----------+          | +--------+  +-+--+-+     +---------+   +------+
+>> +       || MC1           +---------------|--|-----------------+
+>> +    +------+                            |  |
+>> +    | DDR4 |          +-------+   DVO0  |  |  DVO1   +------+
+>> +    +------+   VGA <--|ADV7125|<--------+  +-------->|TFP410|--> DVI/HDMI
+>> +                      +-------+                      +------+
+>> +
+>> +  The display controller in LS2K1000/LS2K0500:
+>> +     ___________________                                     _________
+>> +    |            -------|                                   |         |
+>> +    |  CRTC0 --> | DVO0 ----> Encoder0 ---> Connector0 ---> | Monitor |
+>> +    |  _   _     -------|        ^              ^           |_________|
+>> +    | | | | |           |        |              |
+>> +    | |_| |_|           |     +------+          |
+>> +    |                   <---->| i2c0 |<---------+
+>> +    |   DC IN LS2K1000  |     +------+
+>> +    |  _   _            |     +------+
+>> +    | | | | |           <---->| i2c1 |----------+
+>> +    | |_| |_|           |     +------+          |            _________
+>> +    |            -------|        |              |           |         |
+>> +    |  CRTC1 --> | DVO1 ----> Encoder1 ---> Connector1 ---> |  Panel  |
+>> +    |            -------|                                   |_________|
+>> +    |___________________|
+>> +
+>> +properties:
+>> +  $nodename:
+>> +    pattern: "^display-controller@[0-9a-f],[0-9a-f]$"
+>> +
+>> +  compatible:
+>> +    oneOf:
+>> +      - items:
+>> +          - enum:
+>> +              - loongson,ls7a1000-dc
+>> +              - loongson,ls2k1000-dc
+>> +              - loongson,ls2k0500-dc
+>> +
+>> +  reg:
+>> +    maxItems: 1
+>> +
+>> +  interrupts:
+>> +    maxItems: 1
+>> +
+>> +  '#address-cells':
+>> +    const: 1
+>> +
+>> +  '#size-cells':
+>> +    const: 0
+>> +
+>> +  i2c@6:
+> NAK on made-up bus numbers. See v11 discussion for details.
+>
+> Rob
 
->
-> ---
->  drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.c | 12 +++++++++---
->  1 file changed, 9 insertions(+), 3 deletions(-)
->
-> diff --git a/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.c b/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.c
-> index 40c91b448f7da..455a2c45e8cda 100644
-> --- a/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.c
-> +++ b/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.c
-> @@ -2738,9 +2738,15 @@ static int dm_early_init(void *handle)
->                 break;
->  #if defined(CONFIG_DRM_AMD_DC_DCN1_0)
->         case CHIP_RAVEN:
-> -               adev->mode_info.num_crtc = 4;
-> -               adev->mode_info.num_hpd = 4;
-> -               adev->mode_info.num_dig = 4;
-> +               if (adev->rev_id >= 8) {
-> +                       adev->mode_info.num_crtc = 3;
-> +                       adev->mode_info.num_hpd = 3;
-> +                       adev->mode_info.num_dig = 3;
-> +               } else {
-> +                       adev->mode_info.num_crtc = 4;
-> +                       adev->mode_info.num_hpd = 4;
-> +                       adev->mode_info.num_dig = 4;
-> +               }
->                 break;
->  #endif
->  #if defined(CONFIG_DRM_AMD_DC_DCN2_0)
-> --
-> 2.25.1
->
+I am worry about when this driver is loaded before the hardware i2c(on 
+the ls7a1000 bridge) driver,
+
+and when there is no DT support. in such a case, if i2c bus number is 
+dynamically assigned,
+
+it may incurring troubles.  Made the bus number fixed is benefit to the 
+whole system.
+
+DT  serve as a purpose to passing parameters to the kernel.  bus numbers 
+just a kind of parameters.
+
+this is my understanding toward DT. why you are so disagree about this?  
+what's the benefits of
+
+disallow put bus numbers it DT? to the whole world of developers who is 
+using DT?
+
+
