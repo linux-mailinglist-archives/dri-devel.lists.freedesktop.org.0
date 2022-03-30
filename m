@@ -1,41 +1,126 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 80A4C4EC43F
-	for <lists+dri-devel@lfdr.de>; Wed, 30 Mar 2022 14:37:02 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 1E0D14EC4A1
+	for <lists+dri-devel@lfdr.de>; Wed, 30 Mar 2022 14:41:41 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 1522710E1E0;
-	Wed, 30 Mar 2022 12:36:59 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 8207B10E46B;
+	Wed, 30 Mar 2022 12:41:37 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from wp530.webpack.hosteurope.de (wp530.webpack.hosteurope.de
- [IPv6:2a01:488:42:1000:50ed:8234::])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 5F50E10E1E0
- for <dri-devel@lists.freedesktop.org>; Wed, 30 Mar 2022 12:36:58 +0000 (UTC)
-Received: from ip4d144895.dynamic.kabel-deutschland.de ([77.20.72.149]
- helo=[192.168.66.200]); authenticated
- by wp530.webpack.hosteurope.de running ExIM with esmtpsa
- (TLS1.3:ECDHE_RSA_AES_128_GCM_SHA256:128)
- id 1nZXZF-0001zU-FY; Wed, 30 Mar 2022 14:36:53 +0200
-Message-ID: <0a09ee9a-23fc-ca6a-fcff-ae78b90b39ed@leemhuis.info>
-Date: Wed, 30 Mar 2022 14:36:48 +0200
-MIME-Version: 1.0
+Received: from NAM12-DM6-obe.outbound.protection.outlook.com
+ (mail-dm6nam12on2070.outbound.protection.outlook.com [40.107.243.70])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id E73C010E42B;
+ Wed, 30 Mar 2022 12:41:35 +0000 (UTC)
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=jF/EcriJwmokhNoNvm7djuBQWKCctUkt0DnaOfpERv3B9hpY8QXqdd1iXry5aJ+RfYrxFzKiyh+Rj1+7l65YhU3haDRlixfcsMvvtKheZmhyAV47N9yARaiAynlHv/z9zEdL64twH4ou9FLQo2/gMCzmL6jsklA7i6RUkOCq3Xs0llkth2WsxGUx6nJX34M+Vm7wIeQqKA0jWmnA97TastPRDwmcl5d5Zpd+TKct0j5/iPlta+cwEd0sS7fS0MWfHFLiqB/gb3WbjGU6rgRaZcKD+fKWyAR6oXQDIrS0x5972c9LgmojCrx9nTidSzvTQQl9lH2f+J4qt/xLQeBhUw==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=IuHE/jQ5KYbXtgnBzaeatm7IF6rJJY3imhuJY2HUU5s=;
+ b=AXsoeR4p6BrvkOV+YtlOOLNO32xIrC2HxlbCSvSobYSIct7hYbaSIVJSqVjUuDkya+qNn8N8P2rHelKObgSTuPFhVJQYEJ7dzqB5+gaBNJs3HBonwa7IL9j84bnxF1RY9clISgvtbgBYP6D9w2s3zG8ZdmmafzwGr7mLzh3ouZVgg7j37HEstVFTnaTFALXwUCroAxkRbbBxv9teccZJ9+6/Z7Sohi/z4J1mx0oix53XZ2KtTSBz0+zf61weLNym4GMIb6dC9t6tgMFl93Qj7XD72bK4KcQpVHlLjl5pRwT7FwXduZKg2JylyjhxkrLlIrC5cYatb7u8kk2mmcqIVQ==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=amd.com; dmarc=pass action=none header.from=amd.com; dkim=pass
+ header.d=amd.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1; 
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=IuHE/jQ5KYbXtgnBzaeatm7IF6rJJY3imhuJY2HUU5s=;
+ b=y6weZuuoL1WSrcqATyzwUa4WokULiou7y+sFAovRV8U3NiZdUAAQfHTnzsjPdIEnSWT5O2ZFVH601u+yQxaa+Bjruv+oXqNEOi36QuYleNk1aQ820pbd9M/52S7dE5Z3UQnUwOCul3CCqZlb1kOwpCDZjYZjOYbYTSc41YECTBE=
+Authentication-Results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=amd.com;
+Received: from MN2PR12MB2896.namprd12.prod.outlook.com (2603:10b6:208:ab::22)
+ by CH2PR12MB4295.namprd12.prod.outlook.com (2603:10b6:610:a7::20)
+ with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.5123.19; Wed, 30 Mar
+ 2022 12:41:33 +0000
+Received: from MN2PR12MB2896.namprd12.prod.outlook.com
+ ([fe80::84a2:64f8:f2ec:fc08]) by MN2PR12MB2896.namprd12.prod.outlook.com
+ ([fe80::84a2:64f8:f2ec:fc08%4]) with mapi id 15.20.5102.022; Wed, 30 Mar 2022
+ 12:41:33 +0000
+Message-ID: <1721b4cb-adab-4e5b-070f-c26d0e2c6bbf@amd.com>
+Date: Wed, 30 Mar 2022 08:41:30 -0400
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
  Thunderbird/91.7.0
-Subject: Re: regression: NULL pointer dereference due to 27599aacbaef ("fbdev:
- Hot-unplug firmware fb devices on forced removal")
+Subject: Re: [PATCH 0/2] remove DC_FP_* wrappers in dml files
 Content-Language: en-US
-To: Sudip Mukherjee <sudipm.mukherjee@gmail.com>,
- Thomas Zimmermann <tzimmermann@suse.de>
-References: <YkHXO6LGHAN0p1pq@debian>
-From: Thorsten Leemhuis <regressions@leemhuis.info>
-In-Reply-To: <YkHXO6LGHAN0p1pq@debian>
-Content-Type: text/plain; charset=UTF-8
+To: Melissa Wen <mwen@igalia.com>, amd-gfx@lists.freedesktop.org,
+ airlied@linux.ie, alexander.deucher@amd.com, christian.koenig@amd.com,
+ daniel@ffwll.ch, harry.wentland@amd.com, Rodrigo.Siqueira@amd.com,
+ sunpeng.li@amd.com, Xinhui.Pan@amd.com
+References: <20220326202448.2046077-1-mwen@igalia.com>
+From: Rodrigo Siqueira Jordao <rjordrigo@amd.com>
+In-Reply-To: <20220326202448.2046077-1-mwen@igalia.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 7bit
-X-bounce-key: webpack.hosteurope.de; regressions@leemhuis.info; 1648643818;
- 3b2d7f3c; 
-X-HE-SMSGID: 1nZXZF-0001zU-FY
+X-ClientProxiedBy: BL0PR0102CA0043.prod.exchangelabs.com
+ (2603:10b6:208:25::20) To MN2PR12MB2896.namprd12.prod.outlook.com
+ (2603:10b6:208:ab::22)
+MIME-Version: 1.0
+X-MS-PublicTrafficType: Email
+X-MS-Office365-Filtering-Correlation-Id: a0874440-2785-4e6d-f08c-08da124a9ecc
+X-MS-TrafficTypeDiagnostic: CH2PR12MB4295:EE_
+X-Microsoft-Antispam-PRVS: <CH2PR12MB4295CE97744050252E4AE24C981F9@CH2PR12MB4295.namprd12.prod.outlook.com>
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: BCL:0;
+X-Microsoft-Antispam-Message-Info: SSp04O2wvZMCR5mG5UiflbcP5xpjpAqyXWRpaGNbWMzt5ZQ9A85gaYBPfjjWZy7fZJ4XVU8TBUQfxIVkIlXPCaKs6YdlGWo9BA0ASWFnH63RA4mXnCkfsS3dkUoxP3D33nzUwct0Sas/ITLGe6PIHhVCA6qS/oDbvL9J4rURv2RsxH5dnyq2N1mYQ5kaxjQbzWzauiGsfgiQgnbuokcGRvsioxWSH/8/RfEnjtKT1z7u6gD243U30FoYJu6dQsHj6/4ntl7ceZRl3WrBG2lc6hwPROVHDCyoUsibR2ToVgycm9cI0nvIftxValPdPtwH8QCpzxaJKs/rgNaPlkbm+HAKrEUiO7Hp6+ZL6X4DpovX+TEN0l3JEy34zliDSDmhFuiRLvmdXzvmPEUsnnPA0UrEVT5FV3lxL3q3UQ/xj8kD5TtqnGOD+eh3JijqJL+mT/XMQmxHT/n+AoCQiHbmGbZvu0KwnHHwhjxL1AFhJxmMf32/nuehtHSuj0q90s4JPAuot0CXmSBsp6uMMT/ohWecV+sXqSi+EtfcEWwOur46WY5OITSEze1XUlgNdGSoan/g9zRLZCNvGONGOxWoFsoSXNWswLIZ1sL5u78RkJiFEfH2DE+teJy2hgvRXv3l+jdFq3nH5bHrJy7H37kdrCWFohzCq6fX6u3TH6pEEDJDvel4FZunMw4HcXVcLo0y9az5s9+cGEcNyWNB+sxXfV5lWHsVsuepqnmoE9POWToUTeSNCqrkhKRR7f4m7+f38+E7nWzDmVGvvOynwdTq4g==
+X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
+ IPV:NLI; SFV:NSPM; H:MN2PR12MB2896.namprd12.prod.outlook.com; PTR:; CAT:NONE;
+ SFS:(13230001)(4636009)(366004)(921005)(8936002)(38100700002)(5660300002)(2616005)(186003)(316002)(6512007)(508600001)(6486002)(6636002)(54906003)(53546011)(4326008)(8676002)(83380400001)(6506007)(66556008)(66946007)(66476007)(31686004)(2906002)(36756003)(31696002)(43740500002)(45980500001);
+ DIR:OUT; SFP:1101; 
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 2
+X-MS-Exchange-AntiSpam-MessageData-0: =?utf-8?B?VGovTC80Tlk4QlZLeHVRNnQ4TEFYcUczekFlUm1xTGd3YVRFTnc5dmlyU3F1?=
+ =?utf-8?B?YU1BQVBXdzVwck9MQmtuTHhHZ0dxeGp3bE05RHhjUkpjS1JOZE1jVzYrcXdx?=
+ =?utf-8?B?b0o5UDNxaFAvcGVLbXhQaXlIYWlpcDJzMk1qYWRCbnVGYndWR0V3SlZHZVhJ?=
+ =?utf-8?B?c0QxSDZSMjd3blNqbDJLRk1CVEw1dmtQT1Z1YkMzamtBaldYVzdUUjlrVlhk?=
+ =?utf-8?B?QzRUczhQTHdkemZVYnE5RlVsdW1XZWU4am84TDBuMkYydUc0WnlYOWZ0aE0w?=
+ =?utf-8?B?djZFNGJPeFFkMCticksrWWU3cFhTQmNDM1RUejErSzJCc25ad3Y2V2k2MXlE?=
+ =?utf-8?B?eXZtTDI3OVRManRCUHJERndRRFVaUFpCL0pBdTBmRmZzV0Nlc2lxQWpLa0xL?=
+ =?utf-8?B?L1ZuYVFPekdWQnBJMW52OUpUSmowYWd1RXlPdis1MFN3WWlGM3hYbHVhcDdz?=
+ =?utf-8?B?QzRmeDZQVTF2QVVNUmo1Z1pFUW04VC9NODZHODB6QjR0b050YjBIc2RUUTBK?=
+ =?utf-8?B?ajFzTXRaMGMrQ0dVVWZFSHZlZEI4RGc2MkR0THc4MW1ES084SmtGa3g3clZX?=
+ =?utf-8?B?MGV0MjJoZkhBelE1SDhxY0RVNTBpb0xxRzVMVnNKb256LytzclNoWUJSbGNm?=
+ =?utf-8?B?WDc0RUEyQVBWTHVGRWxHMWxHLzdDdXFsWlFMTi9hbThOaDRHQVh1dWFSaEdl?=
+ =?utf-8?B?L09yZWJmRFpRdjNsT1F4L3JiaS9OUWVRRWtiaW5reVREa3FGRjFISzRqR1ho?=
+ =?utf-8?B?WFVXbjhxdFJ1Y1J2RFFmbmRhT0dDTXBuMTZBN1ArS2JzbnVBTHNjQmQvd0pu?=
+ =?utf-8?B?L3hQNWlqK1c0alZYUE9JV1kzYUFKMWl1MnJpUlIrOThxc05ueVRQSFB3L09x?=
+ =?utf-8?B?V0pFdHN5aEZxZU8zQlVPczZFcWhNYVRCU1hDTDlubmlwUnNjOGVCUTZhTElF?=
+ =?utf-8?B?dWo0Tit5ZzVHVFNxREhUQXRjTUg4TTYrNG9sTDlFSFZ4UGtzUzg0MFFHSEdK?=
+ =?utf-8?B?azJGUFArWlVRS1VBVHg0bElDZDVVR0NtUFdWVkU0V29YQ09lQnp1cHhrMElT?=
+ =?utf-8?B?VVo5cU85WGowQ1lWemRPYzBPK00xYzZiTU1EejBQL3FHWnYxSmgyQ04wRUJY?=
+ =?utf-8?B?NVd5a1lNcXYzb2NEb1ZEN3VvNHNiaDNvWHBnMWt5dzk0Z21rZVVwQWRHN0Rv?=
+ =?utf-8?B?L28rOCs4MTg2Sk9nTGJWTHBuWSs5emNJcFFHQWJDRUlVT1VFMDZYbHBmaVZR?=
+ =?utf-8?B?R21uK2s1T1UyaHMrdDV3RmFrL2FRSVMyNXV6QlVieWJzYVpObTNrSXc3c0dM?=
+ =?utf-8?B?RnM3cWdNTi9xUEFyYkM5d1B5TENEajd3TUZFdFR2N1I3R1crbWE3bGpkWHdF?=
+ =?utf-8?B?S0J6ZTdoU3ZMeHVjSEZnTXZYMzAyTEF4N3BlbDdMQlczQ3J1d2owNkdERC95?=
+ =?utf-8?B?WTdvUmZmbTlwekRlZ3NxTGYzZmZXa3gvMHBvaHNESDI5TlFmODRQd3BEa2U5?=
+ =?utf-8?B?SkRzZEpJdDV3bmJWWVVoWTUvL1VxcmtiVGx3R1BBakFtdENHR1ZDLytoL2ln?=
+ =?utf-8?B?U0c5bFBxam5kTFBEd2pyaVNpbjAzOXhPaDBxcW95OWhqMDJTdGRvSlh1RWto?=
+ =?utf-8?B?WlR5Y2E5a3pVaXQ5YzloUG4zZFRtcXBxVDF3Y3NaYk4vbVRteExlQ0VQOWJD?=
+ =?utf-8?B?Nzc0VDBTNXdyT0pwMEs5c21kY0xuY0luRjBUS0JTcUkxNm00OWY0bWpJRmV0?=
+ =?utf-8?B?cDF6a05kNlhUOG5xRkt4SENBTnQyVFo2UUJaQkRVd0tNM09oaXlaQkpPTzJl?=
+ =?utf-8?B?T2dCTEdIVGJvVFg1Z0Y1bEVDalhPRnVGM2FmQWNaQ2g0UlB3SVdLUVJ5UXJY?=
+ =?utf-8?B?VUNaVysxVGkxMGRUUzFscis0b0E0Sy9QMTdGY2Iyb05DQXdQVmlRRUZpOXc1?=
+ =?utf-8?B?Ukl1OEdHK1RTNTQrQjVyOEdieHBRS2o4OEJ2MVBGL1ZnRlZWa1QzOWlrUGMv?=
+ =?utf-8?B?dFJLdDI0K3hYWVVld3JqY2xZMjJ3TktnYS9hVDlFcGNjWkxncER6WU9od3Bz?=
+ =?utf-8?B?ZEk4Uzh4aERTL2Zidkl0dFZ5MTlpYnZBczRFTXVGbnJGR2hkY2NLNGdQakQy?=
+ =?utf-8?B?TEpFaFNnTWZKN1o4TmNQMUFBclNCVTF6TVY1TWVDOFNOSnREQytMMmJQa1Mv?=
+ =?utf-8?B?VDZnZEd4b3l0RTJjRXNXTUY1ZkJsU09XRnhzUUV6Tmcvc3kzWEw0ZHhuMm03?=
+ =?utf-8?B?cS80Q0ljYTRSQlYyaFhkSURDQWdtTUR2VU5uUTA3QVZ6U0tFUHc2T2ZaVUVs?=
+ =?utf-8?B?RUZ0MlRHMTcwRzcyU0wvRXZkRHpRUHNaOUhVN2VLdXJ0alNkU3BiMXRGUkVT?=
+ =?utf-8?Q?RCzYV2XW0nTFkdnqSeivk28p2ilq23u6gIgY+Hr8Msvbt?=
+X-MS-Exchange-AntiSpam-MessageData-1: s9Q+llemLqZKPw==
+X-OriginatorOrg: amd.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: a0874440-2785-4e6d-f08c-08da124a9ecc
+X-MS-Exchange-CrossTenant-AuthSource: MN2PR12MB2896.namprd12.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 30 Mar 2022 12:41:32.8863 (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: ksTA+OsywiJjjJxzNS6EFtcIqjSPUwTageuWwkPrArkqg0gzB9qv2TVR5h3LCwvePs7gIdFIj+dZcUwNgL0CLw==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: CH2PR12MB4295
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -48,177 +133,49 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: linux-fbdev@vger.kernel.org, Javier Martinez Canillas <javierm@redhat.com>,
- ML dri-devel <dri-devel@lists.freedesktop.org>,
- LKML <linux-kernel@vger.kernel.org>, Hans de Goede <hdegoede@redhat.com>,
- torvalds@linux-foundation.org
+Cc: Qingqing Zhuo <qingqing.zhuo@amd.com>,
+ Dmytro Laktyushkin <Dmytro.Laktyushkin@amd.com>, linux-kernel@vger.kernel.org,
+ dri-devel@lists.freedesktop.org, Jasdeep Dhillon <jdhillon@amd.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-[TLDR: I'm adding the regression report below to regzbot, the Linux
-kernel regression tracking bot; all text you find below is compiled from
-a few templates paragraphs you might have encountered already already
-from similar mails.]
-
-[adding fbdev and dri-devel lists, and the egression mailing list, as it
-should be in the loop for all regressions]
-
-Hi, this is your Linux kernel regression tracker. Top-posting for once,
-to make this easily accessible to everyone.
-
-Thanks for the report. Thomas, Zack, do you know what's up here?
-
-Note to everyone: the culprit of this regression is marked for backporting.
-
-Anyway: To be sure below issue doesn't fall through the cracks
-unnoticed, I'm adding it to regzbot, my Linux kernel regression tracking
-bot:
-
-#regzbot ^introduced 27599aacbaef
-#regzbot title drm: fbdev: NULL pointer dereference due to 27599aacbaef
-("fbdev: Hot-unplug firmware fb devices on forced removal")
-#regzbot ignore-activity
-
-If it turns out this isn't a regression, free free to remove it from the
-tracking by sending a reply to this thread containing a paragraph like
-"#regzbot invalid: reason why this is invalid" (without the quotes).
-
-Reminder for developers: when fixing the issue, please add a 'Link:'
-tags pointing to the report (the mail quoted above) using
-lore.kernel.org/r/, as explained in
-'Documentation/process/submitting-patches.rst' and
-'Documentation/process/5.Posting.rst'. Regzbot needs them to
-automatically connect reports with fixes, but they are useful in
-general, too.
-
-I'm sending this to everyone that got the initial report, to make
-everyone aware of the tracking. I also hope that messages like this
-motivate people to directly get at least the regression mailing list and
-ideally even regzbot involved when dealing with regressions, as messages
-like this wouldn't be needed then. And don't worry, if I need to send
-other mails regarding this regression only relevant for regzbot I'll
-send them to the regressions lists only (with a tag in the subject so
-people can filter them away). With a bit of luck no such messages will
-be needed anyway.
-
-Ciao, Thorsten (wearing his 'the Linux kernel's regression tracker' hat)
-
-P.S.: As the Linux kernel's regression tracker I'm getting a lot of
-reports on my table. I can only look briefly into most of them and lack
-knowledge about most of the areas they concern. I thus unfortunately
-will sometimes get things wrong or miss something important. I hope
-that's not the case here; if you think it is, don't hesitate to tell me
-in a public reply, it's in everyone's interest to set the public record
-straight.
 
 
-
-On 28.03.22 17:41, Sudip Mukherjee wrote:
-> Hi Thomas,
+On 2022-03-26 16:24, Melissa Wen wrote:
+>  From FPU documentation, developers must not use DC_FP_START/END in dml
+> files, but invoke it when calling FPU-associated functions (isolated in
+> dml folder). Therefore, the first patch renames dcn10_validate_bandwidth
+> in dml/calcs to dcn_ for generalization, declares dcn10_validate_bandwidth
+> in dcn10 - that calls dcn_validate_bandwidth and wraps with DC_FP_*
+> accordingly. The second patch removes invocations of DC_FP_* from dml
+> files and properly wraps FPU functions in dc code outside dml folder.
 > 
-> We usually run boot tests with linux mainline HEAD commit almost every
-> night on ppc64 qemu. And my tests had been failing for last few days.
-> Testing locally gave me:
+> Melissa Wen (2):
+>    drm/amd/display: detach fpu operations from dcn10_validate_bandwidth
+>      in calcs
+>    drm/amd/display: remove DC_FP_* wrapper from dml folder
 > 
-> Mar 28 13:16:36 debian-ppc64 kernel: [   11.038791] BUG: Kernel NULL pointer dereference on read at 0x00000060
-> Mar 28 13:16:36 debian-ppc64 kernel: [   11.038995] Faulting instruction address: 0xc00000000080dfa4
-> Mar 28 13:16:36 debian-ppc64 kernel: [   11.039572] Oops: Kernel access of bad area, sig: 11 [#1]
-> Mar 28 13:16:36 debian-ppc64 kernel: [   11.039723] LE PAGE_SIZE=64K MMU=Hash SMP NR_CPUS=2048 NUMA pSeries
-> Mar 28 13:16:36 debian-ppc64 kernel: [   11.040012] Modules linked in: bochs(+) drm_vram_helper xhci_pci drm_kms_helper syscopyarea sysfillrect sysimgblt fb_sys_fops drm_ttm_helper sr_mod ttm cdrom xhci_hcd virtio_net virtio_console net_failover virtio_blk virtio_scsi failover ibmvscsi scsi_transport_srp virtio_pci virtio virtio_pci_legacy_dev virtio_pci_modern_dev usbcore drm drm_panel_orientation_quirks virtio_ring usb_common
-> Mar 28 13:16:36 debian-ppc64 kernel: [   11.040918] CPU: 2 PID: 139 Comm: systemd-udevd Not tainted 5.17.0-ae085d7f9365 #1
-> Mar 28 13:16:36 debian-ppc64 kernel: [   11.041245] NIP:  c00000000080dfa4 LR: c00000000080df9c CTR: c000000000797430
-> Mar 28 13:16:36 debian-ppc64 kernel: [   11.041376] REGS: c000000004132fe0 TRAP: 0300   Not tainted  (5.17.0-ae085d7f9365)
-> Mar 28 13:16:36 debian-ppc64 kernel: [   11.041528] MSR:  8000000002009033 <SF,VEC,EE,ME,IR,DR,RI,LE>  CR: 28228282  XER: 20000000
-> Mar 28 13:16:36 debian-ppc64 kernel: [   11.042017] CFAR: c00000000000c80c DAR: 0000000000000060 DSISR: 40000000 IRQMASK: 0 
-> Mar 28 13:16:36 debian-ppc64 kernel: [   11.042017] GPR00: c00000000080df9c c000000004133280 c00000000169d200 0000000000000029 
-> Mar 28 13:16:36 debian-ppc64 kernel: [   11.042017] GPR04: 00000000ffffefff c000000004132f90 c000000004132f88 0000000000000000 
-> Mar 28 13:16:36 debian-ppc64 kernel: [   11.042017] GPR08: c0000000015658f8 c0000000015cd200 c0000000014f57d0 0000000048228283 
-> Mar 28 13:16:36 debian-ppc64 kernel: [   11.042017] GPR12: 0000000000000000 c00000003fffe300 0000000020000000 0000000000000000 
-> Mar 28 13:16:36 debian-ppc64 kernel: [   11.042017] GPR16: 0000000000000000 0000000113fc4a40 0000000000000005 0000000113fcfb80 
-> Mar 28 13:16:36 debian-ppc64 kernel: [   11.042017] GPR20: 000001000f7283b0 0000000000000000 c000000000e4a588 c000000000e4a5b0 
-> Mar 28 13:16:36 debian-ppc64 kernel: [   11.042017] GPR24: 0000000000000001 00000000000a0000 c008000000db0168 c0000000021f6ec0 
-> Mar 28 13:16:36 debian-ppc64 kernel: [   11.042017] GPR28: c0000000016d65a8 c000000004b36460 0000000000000000 c0000000016d64b0 
-> Mar 28 13:16:36 debian-ppc64 kernel: [   11.043184] NIP [c00000000080dfa4] do_remove_conflicting_framebuffers+0x184/0x1d0
-> Mar 28 13:16:36 debian-ppc64 kernel: [   11.043748] LR [c00000000080df9c] do_remove_conflicting_framebuffers+0x17c/0x1d0
-> Mar 28 13:16:36 debian-ppc64 kernel: [   11.043982] Call Trace:
-> Mar 28 13:16:36 debian-ppc64 kernel: [   11.044108] [c000000004133280] [c00000000080df9c] do_remove_conflicting_framebuffers+0x17c/0x1d0 (unreliable)
-> Mar 28 13:16:36 debian-ppc64 kernel: [   11.044335] [c000000004133350] [c00000000080e4d0] remove_conflicting_framebuffers+0x60/0x150
-> Mar 28 13:16:36 debian-ppc64 kernel: [   11.044468] [c0000000041333a0] [c00000000080e6f4] remove_conflicting_pci_framebuffers+0x134/0x1b0
-> Mar 28 13:16:36 debian-ppc64 kernel: [   11.044588] [c000000004133450] [c008000000e70438] drm_aperture_remove_conflicting_pci_framebuffers+0x90/0x100 [drm]
-> Mar 28 13:16:36 debian-ppc64 kernel: [   11.045443] [c000000004133490] [c008000000da0ce4] bochs_pci_probe+0x6c/0xa64 [bochs]
-> Mar 28 13:16:36 debian-ppc64 kernel: [   11.045624] [c000000004133570] [c0000000007ca518] local_pci_probe+0x68/0x110
-> Mar 28 13:16:36 debian-ppc64 kernel: [   11.045730] [c0000000041335f0] [c0000000007cb438] pci_call_probe+0x88/0x1a0
-> Mar 28 13:16:36 debian-ppc64 kernel: [   11.045830] [c000000004133750] [c0000000007cc6ac] pci_device_probe+0xbc/0x1a0
-> Mar 28 13:16:36 debian-ppc64 kernel: [   11.045928] [c000000004133790] [c0000000008969e0] really_probe+0x100/0x5e0
-> Mar 28 13:16:36 debian-ppc64 kernel: [   11.046025] [c000000004133810] [c00000000089704c] __driver_probe_device+0x18c/0x250
-> Mar 28 13:16:36 debian-ppc64 kernel: [   11.046125] [c000000004133890] [c00000000089716c] driver_probe_device+0x5c/0x140
-> Mar 28 13:16:36 debian-ppc64 kernel: [   11.046225] [c0000000041338d0] [c000000000897cf8] __driver_attach+0x118/0x290
-> Mar 28 13:16:36 debian-ppc64 kernel: [   11.046322] [c000000004133950] [c000000000892d38] bus_for_each_dev+0xa8/0x130
-> Mar 28 13:16:36 debian-ppc64 kernel: [   11.046425] [c0000000041339b0] [c000000000895c24] driver_attach+0x34/0x50
-> Mar 28 13:16:36 debian-ppc64 kernel: [   11.046521] [c0000000041339d0] [c000000000895308] bus_add_driver+0x1b8/0x2e0
-> Mar 28 13:16:36 debian-ppc64 kernel: [   11.046618] [c000000004133a60] [c000000000898ea4] driver_register+0xb4/0x1c0
-> Mar 28 13:16:36 debian-ppc64 kernel: [   11.046714] [c000000004133ad0] [c0000000007c9d28] __pci_register_driver+0x68/0x80
-> Mar 28 13:16:36 debian-ppc64 kernel: [   11.046815] [c000000004133af0] [c008000000da174c] bochs_pci_driver_init+0x70/0x98 [bochs]
-> Mar 28 13:16:36 debian-ppc64 kernel: [   11.046931] [c000000004133b20] [c000000000011fd0] do_one_initcall+0x60/0x2d0
-> Mar 28 13:16:36 debian-ppc64 kernel: [   11.047033] [c000000004133c00] [c000000000229d38] do_init_module+0x68/0x360
-> Mar 28 13:16:36 debian-ppc64 kernel: [   11.047136] [c000000004133c90] [c00000000022dc3c] __do_sys_finit_module+0xdc/0x180
-> Mar 28 13:16:36 debian-ppc64 kernel: [   11.047239] [c000000004133db0] [c00000000002aaa0] system_call_exception+0x170/0x2d0
-> Mar 28 13:16:36 debian-ppc64 kernel: [   11.050839] [c000000004133e10] [c00000000000c3cc] system_call_common+0xec/0x250
-> Mar 28 13:16:36 debian-ppc64 kernel: [   11.053127] --- interrupt: c00 at 0x7fffa43100c4
-> Mar 28 13:16:36 debian-ppc64 kernel: [   11.055616] NIP:  00007fffa43100c4 LR: 00007fffa457fe2c CTR: 0000000000000000
-> Mar 28 13:16:36 debian-ppc64 kernel: [   11.058073] REGS: c000000004133e80 TRAP: 0c00   Not tainted  (5.17.0-ae085d7f9365)
-> Mar 28 13:16:36 debian-ppc64 kernel: [   11.060563] MSR:  800000000000f033 <SF,EE,PR,FP,ME,IR,DR,RI,LE>  CR: 24222824  XER: 00000000
-> Mar 28 13:16:36 debian-ppc64 kernel: [   11.063048] IRQMASK: 0 
-> Mar 28 13:16:36 debian-ppc64 kernel: [   11.063048] GPR00: 0000000000000161 00007fffe8930710 00007fffa43f7100 0000000000000015 
-> Mar 28 13:16:36 debian-ppc64 kernel: [   11.063048] GPR04: 00007fffa458b448 0000000000000000 0000000000000000 0000000000000000 
-> Mar 28 13:16:36 debian-ppc64 kernel: [   11.063048] GPR08: 0000000000000000 0000000000000000 0000000000000000 0000000000000000 
-> Mar 28 13:16:36 debian-ppc64 kernel: [   11.063048] GPR12: 0000000000000000 00007fffa465ddd0 0000000020000000 0000000000000000 
-> Mar 28 13:16:36 debian-ppc64 kernel: [   11.063048] GPR16: 0000000000000000 0000000113fc4a40 0000000000000005 0000000113fcfb80 
-> Mar 28 13:16:36 debian-ppc64 kernel: [   11.063048] GPR20: 000001000f7283b0 0000000000000000 0000000113fcfb68 000001000f729570 
-> Mar 28 13:16:36 debian-ppc64 kernel: [   11.063048] GPR24: 0000000000000000 000001000f7283b0 0000000000020000 000001000f7282f0 
-> Mar 28 13:16:36 debian-ppc64 kernel: [   11.063048] GPR28: 00007fffa458b448 0000000000020000 0000000000000000 000001000f7283b0 
-> Mar 28 13:16:36 debian-ppc64 kernel: [   11.086658] NIP [00007fffa43100c4] 0x7fffa43100c4
-> Mar 28 13:16:36 debian-ppc64 kernel: [   11.091853] LR [00007fffa457fe2c] 0x7fffa457fe2c
-> Mar 28 13:16:36 debian-ppc64 kernel: [   11.097294] --- interrupt: c00
-> Mar 28 13:16:36 debian-ppc64 kernel: [   11.103124] Instruction dump:
-> Mar 28 13:16:36 debian-ppc64 kernel: [   11.112912] 7d710120 7d708120 4e800020 e8df0000 7fc407b4 7f45d378 7ec3b378 f8810068 
-> Mar 28 13:16:36 debian-ppc64 kernel: [   11.119165] 38c600f0 4b9b9c7d 60000000 3d22fff3 <e9550060> 392979e8 e8810068 7c2a4800 
-> Mar 28 13:16:36 debian-ppc64 kernel: [   11.123573] ---[ end trace 0000000000000000 ]---
+>   .../amd/display/dc/dcn10/dcn10_hw_sequencer.c | 10 ++++++++--
+>   .../drm/amd/display/dc/dcn10/dcn10_resource.c | 16 ++++++++++++++++
+>   .../drm/amd/display/dc/dml/calcs/dcn_calcs.c  | 19 +------------------
+>   .../drm/amd/display/dc/dml/dcn20/dcn20_fpu.c  |  2 --
+>   .../gpu/drm/amd/display/dc/inc/dcn_calcs.h    |  2 +-
+>   5 files changed, 26 insertions(+), 23 deletions(-)
 > 
-> My last good test was with 5.17.0-3bf03b9a0839 and can be seen at:
-> https://openqa.qa.codethink.co.uk/tests/932
-> 
-> A failure test with 5.17.0-52d543b5497c can be seen at: https://openqa.qa.codethink.co.uk/tests/937
-> 
-> After reverting 27599aacbaef ("fbdev: Hot-unplug firmware fb devices on
-> forced removal") on top of latest Linux mainline HEAD fixes the problem
-> and I can see qemu booting again.
-> 
-> I will be happy to test any patch fixing the problem.
 
--- 
-Additional information about regzbot:
 
-If you want to know more about regzbot, check out its web-interface, the
-getting start guide, and the references documentation:
+Hi,
 
-https://linux-regtracking.leemhuis.info/regzbot/
-https://gitlab.com/knurd42/regzbot/-/blob/main/docs/getting_started.md
-https://gitlab.com/knurd42/regzbot/-/blob/main/docs/reference.md
+Thanks a lot for your patch!
 
-The last two documents will explain how you can interact with regzbot
-yourself if your want to.
+I reviewed and tested this series and lgtm. Applied to amd-staging-drm-next.
 
-Hint for reporters: when reporting a regression it's in your interest to
-CC the regression list and tell regzbot about the issue, as that ensures
-the regression makes it onto the radar of the Linux kernel's regression
-tracker -- that's in your interest, as it ensures your report won't fall
-through the cracks unnoticed.
+Btw, I agree with Christian. Can you try to find a way to add a 
+compilation error or warning if the developer tries to add DC_FP_* 
+inside DML?
 
-Hint for developers: you normally don't need to care about regzbot once
-it's involved. Fix the issue as you normally would, just remember to
-include 'Link:' tag in the patch descriptions pointing to all reports
-about the issue. This has been expected from developers even before
-regzbot showed up for reasons explained in
-'Documentation/process/submitting-patches.rst' and
-'Documentation/process/5.Posting.rst'.
+Also, about the question of recursive calling to DC_FP_*, it should be 
+safe if using DC_FP_*.
+
+Thanks
+Siqueira
