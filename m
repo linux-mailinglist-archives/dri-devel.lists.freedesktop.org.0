@@ -1,47 +1,57 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9917F4EC0D6
-	for <lists+dri-devel@lfdr.de>; Wed, 30 Mar 2022 13:54:16 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 4C5A24EC2E7
+	for <lists+dri-devel@lfdr.de>; Wed, 30 Mar 2022 14:03:15 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 3486C10EB19;
-	Wed, 30 Mar 2022 11:54:14 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 6111710E995;
+	Wed, 30 Mar 2022 12:03:11 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from ams.source.kernel.org (ams.source.kernel.org
- [IPv6:2604:1380:4601:e00::1])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 19DB010EB19
- for <dri-devel@lists.freedesktop.org>; Wed, 30 Mar 2022 11:54:13 +0000 (UTC)
-Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
- (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
- (No client certificate requested)
- by ams.source.kernel.org (Postfix) with ESMTPS id 9417FB81BBA;
- Wed, 30 Mar 2022 11:54:11 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 1F912C36AE2;
- Wed, 30 Mar 2022 11:54:09 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1648641250;
- bh=qW1x31HnZxqlWv9yLK7leVGiHSRFHxjgpFRqN+3ePM4=;
- h=From:To:Cc:Subject:Date:From;
- b=ZMhLSoXvvmeQyKAkBfTMexIxngZAyjQgD6/WueJLI0D9WZxL+UlqDOjE2R/NqTnnu
- S2PAiP/9VJQcFZpw7HYRZdjwgLWELj0MNBvnYG1v2NMV4fzDquvHldIT591q3HUgrN
- DBMSOb4C2n1IbirOQtEzKN2x+tDlBoM756sua2mugNwaAe8Dz9tGC3JAmEW41kHrSH
- OWY6raRLSWA4ngPcKP0KQAp1Ib4l6rx6aWDfLWyHk0/mJVmv5uuFk92xV6RldJorVR
- CY1TxE3iVx6kQKpFTZIrEHEXGSWmVUxXiOyLNyCH5RDU/3gy7O99jpIiHkNuleB+3v
- zX+xuWRhKZg8g==
-From: Sasha Levin <sashal@kernel.org>
-To: linux-kernel@vger.kernel.org,
-	stable@vger.kernel.org
-Subject: [PATCH AUTOSEL 4.9 01/17] video: fbdev: nvidiafb: Use strscpy() to
- prevent buffer overflow
-Date: Wed, 30 Mar 2022 07:53:50 -0400
-Message-Id: <20220330115407.1673214-1-sashal@kernel.org>
-X-Mailer: git-send-email 2.34.1
-MIME-Version: 1.0
-X-stable: review
-X-Patchwork-Hint: Ignore
-Content-Transfer-Encoding: 8bit
+Received: from mail-pf1-x42a.google.com (mail-pf1-x42a.google.com
+ [IPv6:2607:f8b0:4864:20::42a])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id EB59710E995
+ for <dri-devel@lists.freedesktop.org>; Wed, 30 Mar 2022 12:03:09 +0000 (UTC)
+Received: by mail-pf1-x42a.google.com with SMTP id t5so18514181pfg.4
+ for <dri-devel@lists.freedesktop.org>; Wed, 30 Mar 2022 05:03:09 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
+ h=from:to:cc:subject:date:message-id;
+ bh=RTflF79o5OP29Yqh4bp0dgbknlfdt+57gJKaSZ3FARI=;
+ b=VL0bzsmtcSUPzVyWP7mi0xQ+4ls81NJ7RtCQgXi2DxlyIwGPzKC06587rD0lq+YntF
+ J85c0GMPkJOvT91ylfX/r1/DkdKq7NGD2dP9Zv6Mqa7ptY9zk4PB9nSJUZ0a6ZPFtot8
+ Hla7FGOpLSQuDnHq41TpQjuLilt47tTDdeu/zQwgQH+7Sc5jUHVmr5C3D03yfbAFww1p
+ PAnMBhUhd5AH5PPQstg/rnla/t9CJm4C5KH+DRU6sfALCPn2UvqctWysc2paQnH1tnqK
+ M+9MFUXjLGRsywHbqZYXorXp6EQ2va7Y/8AfCYtTaFxAQa8o4oSlDEKniIc8LNkv9es+
+ b4tg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=x-gm-message-state:from:to:cc:subject:date:message-id;
+ bh=RTflF79o5OP29Yqh4bp0dgbknlfdt+57gJKaSZ3FARI=;
+ b=YZwLHSG8aFOKhaN55oI4VIGId13U1G/ALbSmwCXxySqKfxTfyvHeeNJ6HFI5nLVhEX
+ xRwvdxitH6j/dWj6jE5ZEWPjcKHmuJdlGzkx53GcNItn54v8jk7GaYcq9p45+382uIYX
+ n3TYVH8xUUzFmOzYxovWQUJr8khKLN43Layj5ZG+5br+jbN2zQDhnogenhw/JbppqqUT
+ W+c7mhiGZKy4AnFWFm+SCDwUMTRz0FxuhHG4DmW1AvIvw/NjutzUDr0WXt7oPfxI+7ES
+ lhSJPUNBo5Fg1RBjDkuZqFCW5oKZY8+o9UxmqjWv9f7tT2d3b21YOF+CXJzIQz+7ul5T
+ NYgg==
+X-Gm-Message-State: AOAM531XtunOSMS8gvi/Z+avx6fNzwXaVRYgGMseIwpj4MLaaN7WVp8/
+ 8w+BO895HJtyqygYJx2es73KtTmlTrE=
+X-Google-Smtp-Source: ABdhPJy/PTS8tLtmbm8he2KZ/1O5Av4iSQIycqWogq9rw09/AWC/lro3H8I7WnDkdQ9eq5Y4Svij+A==
+X-Received: by 2002:a63:4e:0:b0:37f:f3f0:2d24 with SMTP id
+ 75-20020a63004e000000b0037ff3f02d24mr5812726pga.526.1648641789354; 
+ Wed, 30 Mar 2022 05:03:09 -0700 (PDT)
+Received: from localhost ([119.3.119.18]) by smtp.gmail.com with ESMTPSA id
+ d80-20020a621d53000000b004fae1119955sm23364301pfd.213.2022.03.30.05.03.07
+ (version=TLS1_2 cipher=ECDHE-ECDSA-CHACHA20-POLY1305 bits=256/256);
+ Wed, 30 Mar 2022 05:03:08 -0700 (PDT)
+From: Xiaomeng Tong <xiam0nd.tong@gmail.com>
+To: patrik.r.jakobsson@gmail.com,
+	airlied@linux.ie,
+	daniel@ffwll.ch
+Subject: [PATCH 0/5] fix missing break in list_or_each_entry
+Date: Wed, 30 Mar 2022 20:02:41 +0800
+Message-Id: <20220330120246.25580-1-xiam0nd.tong@gmail.com>
+X-Mailer: git-send-email 2.17.1
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -54,56 +64,32 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Sasha Levin <sashal@kernel.org>, linux-fbdev@vger.kernel.org,
- Antonino Daplas <adaplas@gmail.com>, Helge Deller <deller@gmx.de>,
- dri-devel@lists.freedesktop.org, tomi.valkeinen@ti.com,
- Tim Gardner <tim.gardner@canonical.com>
+Cc: linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
+ yakui.zhao@intel.com, Xiaomeng Tong <xiam0nd.tong@gmail.com>,
+ airlied@redhat.com, rob@ti.com, alan@linux.intel.com
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-From: Tim Gardner <tim.gardner@canonical.com>
+Instead of exiting the loop as expected when an entry is found, the
+list_for_each_entry() continues until the traversal is complete. It
+could lead to invalid reference or set 'is_*' flags mistakely.
 
-[ Upstream commit 37a1a2e6eeeb101285cd34e12e48a881524701aa ]
+To fix this, when an entry is found, add a break to exit the loop.
 
-Coverity complains of a possible buffer overflow. However,
-given the 'static' scope of nvidia_setup_i2c_bus() it looks
-like that can't happen after examiniing the call sites.
+Xiaomeng Tong (5):
+  gma500: fix a missing break in oaktrail_crtc_mode_set
+  gma500: fix a missing break in cdv_intel_crtc_mode_set
+  gma500: fix a missing break in psb_intel_crtc_mode_set
+  gma500: fix a missing break in cdv_intel_dp_set_m_n
+  gma500: fix a missing break in psb_driver_load
 
-CID 19036 (#1 of 1): Copy into fixed size buffer (STRING_OVERFLOW)
-1. fixed_size_dest: You might overrun the 48-character fixed-size string
-  chan->adapter.name by copying name without checking the length.
-2. parameter_as_source: Note: This defect has an elevated risk because the
-  source argument is a parameter of the current function.
- 89        strcpy(chan->adapter.name, name);
+ drivers/gpu/drm/gma500/cdv_intel_display.c | 2 ++
+ drivers/gpu/drm/gma500/cdv_intel_dp.c      | 2 ++
+ drivers/gpu/drm/gma500/oaktrail_crtc.c     | 2 ++
+ drivers/gpu/drm/gma500/psb_drv.c           | 2 ++
+ drivers/gpu/drm/gma500/psb_intel_display.c | 2 ++
+ 5 files changed, 10 insertions(+)
 
-Fix this warning by using strscpy() which will silence the warning and
-prevent any future buffer overflows should the names used to identify the
-channel become much longer.
-
-Cc: Antonino Daplas <adaplas@gmail.com>
-Cc: linux-fbdev@vger.kernel.org
-Cc: dri-devel@lists.freedesktop.org
-Cc: linux-kernel@vger.kernel.org
-Signed-off-by: Tim Gardner <tim.gardner@canonical.com>
-Signed-off-by: Helge Deller <deller@gmx.de>
-Signed-off-by: Sasha Levin <sashal@kernel.org>
----
- drivers/video/fbdev/nvidia/nv_i2c.c | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
-
-diff --git a/drivers/video/fbdev/nvidia/nv_i2c.c b/drivers/video/fbdev/nvidia/nv_i2c.c
-index d7994a173245..0b48965a6420 100644
---- a/drivers/video/fbdev/nvidia/nv_i2c.c
-+++ b/drivers/video/fbdev/nvidia/nv_i2c.c
-@@ -86,7 +86,7 @@ static int nvidia_setup_i2c_bus(struct nvidia_i2c_chan *chan, const char *name,
- {
- 	int rc;
- 
--	strcpy(chan->adapter.name, name);
-+	strscpy(chan->adapter.name, name, sizeof(chan->adapter.name));
- 	chan->adapter.owner = THIS_MODULE;
- 	chan->adapter.class = i2c_class;
- 	chan->adapter.algo_data = &chan->algo;
 -- 
-2.34.1
+2.17.1
 
