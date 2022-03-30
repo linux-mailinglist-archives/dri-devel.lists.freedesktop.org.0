@@ -1,43 +1,43 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3C1984ED017
-	for <lists+dri-devel@lfdr.de>; Thu, 31 Mar 2022 01:29:58 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id B36854ED024
+	for <lists+dri-devel@lfdr.de>; Thu, 31 Mar 2022 01:30:09 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 5C3D088E53;
-	Wed, 30 Mar 2022 23:29:23 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 85D3B89A08;
+	Wed, 30 Mar 2022 23:29:35 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from mga01.intel.com (mga01.intel.com [192.55.52.88])
- by gabe.freedesktop.org (Postfix) with ESMTPS id BB81210E1D4;
+ by gabe.freedesktop.org (Postfix) with ESMTPS id E981110E20F;
  Wed, 30 Mar 2022 23:29:17 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
  t=1648682957; x=1680218957;
  h=from:to:cc:subject:date:message-id:in-reply-to:
  references:mime-version:content-transfer-encoding;
- bh=7dyrwPgq6s7jyDQ70B46WyoWI4MvKe02NXt+jqdRXg4=;
- b=Y4R1uUghmgHHLXb0RIGyyLtLMLQntJ0ZYPQs01iA5ZvQ3noMh0UrVglx
- LUru5jL3tCgKPUM1k/aeofO3rhYOD3yczEPbTf7zthmsUEMigUP+rahfF
- GEPrUQ+AZxOUtKnOkWVdTs1brfDn+bU+ShCwFDsJXHRpUy919yOKHWtJR
- aUHs058N6iogPP2n+9KUi2kRBu3HbYtXDcuKsofFD0vfewCzAYK4pOiKz
- 36DxDBNHMqKJiazHJXfO78b/k/MaLjWaevoi80Cy4RB/y5kVoLaz2uyHp
- NZSVP0wkCOm+mrjbMSJlgUABVUuxZD9MQ4PaKuoVVMpHNePmrqyxpjiOu w==;
-X-IronPort-AV: E=McAfee;i="6200,9189,10302"; a="284582516"
-X-IronPort-AV: E=Sophos;i="5.90,223,1643702400"; d="scan'208";a="284582516"
+ bh=EeT9nLMUruDD79FQZIhceVF2pcPEzcP6V2Gcqjv+eTE=;
+ b=Y/zG6xM4010qQo/TpxSusWyvakYlEnuiPJKb8Pu3jnkFn8RM4LfzzwdS
+ 2awXLY/Q0ifAHkhslb8zvL+JaIaGyyveOcPia6JAhLuH5Ft36QzuAjkQW
+ by6wBO1yB2PxM+r0tjKadmzdt2kV87UI9fMj9xwRyHauyFAHjWLSQimd4
+ YDG5SwGhPBE3UIGHKwDvpwSUHSzhrf3vsbUigOgJfzXtro7/feg+QUP6l
+ geWyJ0gLdMFV+/UYYHUV7o43Qn1X4nldaIlGWTtsh8A+YXnNANylGJKj9
+ SQlU5SatXaSdMSccUUcSL/P9RH38ZlkCSC6+of2Po2y5gQeYmxIlRS5mW w==;
+X-IronPort-AV: E=McAfee;i="6200,9189,10302"; a="284582518"
+X-IronPort-AV: E=Sophos;i="5.90,223,1643702400"; d="scan'208";a="284582518"
 Received: from orsmga007.jf.intel.com ([10.7.209.58])
  by fmsmga101.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
  30 Mar 2022 16:29:17 -0700
-X-IronPort-AV: E=Sophos;i="5.90,223,1643702400"; d="scan'208";a="547052027"
+X-IronPort-AV: E=Sophos;i="5.90,223,1643702400"; d="scan'208";a="547052031"
 Received: from mdroper-desk1.fm.intel.com ([10.1.27.134])
  by orsmga007-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
  30 Mar 2022 16:29:17 -0700
 From: Matt Roper <matthew.d.roper@intel.com>
 To: intel-gfx@lists.freedesktop.org
-Subject: [PATCH 13/15] drm/i915/gt: Add MCR-specific workaround initializers
-Date: Wed, 30 Mar 2022 16:28:56 -0700
-Message-Id: <20220330232858.3204283-14-matthew.d.roper@intel.com>
+Subject: [PATCH 14/15] drm/i915: Define multicast registers as a new type
+Date: Wed, 30 Mar 2022 16:28:57 -0700
+Message-Id: <20220330232858.3204283-15-matthew.d.roper@intel.com>
 X-Mailer: git-send-email 2.34.1
 In-Reply-To: <20220330232858.3204283-1-matthew.d.roper@intel.com>
 References: <20220330232858.3204283-1-matthew.d.roper@intel.com>
@@ -59,808 +59,639 @@ Cc: dri-devel@lists.freedesktop.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Let's be more explicit about which of our workarounds are updating MCR
+Rather than treating multicast registers as 'i915_reg_t' let's define
+them as a completely new type.  This will allow the compiler to help us
+make sure we're using multicast-aware functions to operate on multicast
 registers.
+
+This plan does break down a bit in places where we're just maintaining
+heterogeneous lists of registers (e.g., various MMIO whitelists used by
+perf, GVT, etc.) rather than performing reads/writes.  We only really
+care about the offset in those cases, so for now we can "cast" the
+registers as non-MCR, leaving us with a list of i915_reg_t's, but we may
+want to look for better ways to store mixed collections of i915_reg_t
+and i915_mcr_reg_t in the future.
 
 Signed-off-by: Matt Roper <matthew.d.roper@intel.com>
 ---
- drivers/gpu/drm/i915/gt/intel_workarounds.c | 346 +++++++++++---------
- 1 file changed, 198 insertions(+), 148 deletions(-)
+ drivers/gpu/drm/i915/gt/intel_gt_mcr.c        | 49 ++++++++++++-------
+ drivers/gpu/drm/i915/gt/intel_gt_mcr.h        | 14 +++---
+ drivers/gpu/drm/i915/gt/intel_gt_regs.h       | 27 +++++++---
+ drivers/gpu/drm/i915/gt/intel_lrc.c           |  6 +--
+ drivers/gpu/drm/i915/gt/intel_workarounds.c   | 32 +++++++-----
+ .../gpu/drm/i915/gt/selftest_workarounds.c    |  2 +-
+ drivers/gpu/drm/i915/gt/uc/intel_guc_ads.c    |  4 +-
+ .../gpu/drm/i915/gt/uc/intel_guc_capture.c    |  4 +-
+ drivers/gpu/drm/i915/gvt/cmd_parser.c         |  2 +-
+ drivers/gpu/drm/i915/gvt/handlers.c           | 17 ++++---
+ drivers/gpu/drm/i915/gvt/mmio_context.c       | 14 +++---
+ drivers/gpu/drm/i915/i915_perf.c              |  2 +-
+ drivers/gpu/drm/i915/i915_reg_defs.h          |  9 ++++
+ 13 files changed, 113 insertions(+), 69 deletions(-)
 
+diff --git a/drivers/gpu/drm/i915/gt/intel_gt_mcr.c b/drivers/gpu/drm/i915/gt/intel_gt_mcr.c
+index c8e52d625f18..a9a9fa6881f2 100644
+--- a/drivers/gpu/drm/i915/gt/intel_gt_mcr.c
++++ b/drivers/gpu/drm/i915/gt/intel_gt_mcr.c
+@@ -103,6 +103,19 @@ void intel_gt_mcr_init(struct intel_gt *gt)
+ 	}
+ }
+ 
++/*
++ * Although the rest of the driver should use MCR-specific functions to
++ * read/write MCR registers, we still use the regular intel_uncore_* functions
++ * internally to implement those, so we need a way for the functions in this
++ * file to "cast" an i915_mcr_reg_t into an i915_reg_t.
++ */
++static i915_reg_t mcr_reg_cast(const i915_mcr_reg_t mcr)
++{
++	i915_reg_t r = { .reg = mcr.mmio };
++
++	return r;
++}
++
+ /*
+  * rw_with_mcr_steering_fw - Access a register with specific MCR steering
+  * @uncore: pointer to struct intel_uncore
+@@ -117,7 +130,7 @@ void intel_gt_mcr_init(struct intel_gt *gt)
+  * Caller needs to make sure the relevant forcewake wells are up.
+  */
+ static u32 rw_with_mcr_steering_fw(struct intel_uncore *uncore,
+-				   i915_reg_t reg, u8 rw_flag,
++				   i915_mcr_reg_t reg, u8 rw_flag,
+ 				   int group, int instance, u32 value)
+ {
+ 	u32 mcr_mask, mcr_ss, mcr, old_mcr, val = 0;
+@@ -154,9 +167,9 @@ static u32 rw_with_mcr_steering_fw(struct intel_uncore *uncore,
+ 	intel_uncore_write_fw(uncore, GEN8_MCR_SELECTOR, mcr);
+ 
+ 	if (rw_flag == FW_REG_READ)
+-		val = intel_uncore_read_fw(uncore, reg);
++		val = intel_uncore_read_fw(uncore, mcr_reg_cast(reg));
+ 	else
+-		intel_uncore_write_fw(uncore, reg, value);
++		intel_uncore_write_fw(uncore, mcr_reg_cast(reg), value);
+ 
+ 	mcr &= ~mcr_mask;
+ 	mcr |= old_mcr & mcr_mask;
+@@ -167,14 +180,14 @@ static u32 rw_with_mcr_steering_fw(struct intel_uncore *uncore,
+ }
+ 
+ static u32 rw_with_mcr_steering(struct intel_uncore *uncore,
+-				i915_reg_t reg, u8 rw_flag,
++				i915_mcr_reg_t reg, u8 rw_flag,
+ 				int group, int instance,
+ 				u32 value)
+ {
+ 	enum forcewake_domains fw_domains;
+ 	u32 val;
+ 
+-	fw_domains = intel_uncore_forcewake_for_reg(uncore, reg,
++	fw_domains = intel_uncore_forcewake_for_reg(uncore, mcr_reg_cast(reg),
+ 						    rw_flag);
+ 	fw_domains |= intel_uncore_forcewake_for_reg(uncore,
+ 						     GEN8_MCR_SELECTOR,
+@@ -203,7 +216,7 @@ static u32 rw_with_mcr_steering(struct intel_uncore *uncore,
+  * group/instance.
+  */
+ u32 intel_gt_mcr_read(struct intel_gt *gt,
+-		      i915_reg_t reg,
++		      i915_mcr_reg_t reg,
+ 		      int group, int instance)
+ {
+ 	return rw_with_mcr_steering(gt->uncore, reg, FW_REG_READ,
+@@ -222,7 +235,7 @@ u32 intel_gt_mcr_read(struct intel_gt *gt,
+  * group/instance.
+  */
+ void intel_gt_mcr_unicast_write(struct intel_gt *gt,
+-				i915_reg_t reg, u32 value,
++				i915_mcr_reg_t reg, u32 value,
+ 				int group, int instance)
+ {
+ 	rw_with_mcr_steering(gt->uncore, reg, FW_REG_WRITE,
+@@ -238,9 +251,9 @@ void intel_gt_mcr_unicast_write(struct intel_gt *gt,
+  * Write an MCR register in multicast mode to update all instances.
+  */
+ void intel_gt_mcr_multicast_write(struct intel_gt *gt,
+-				i915_reg_t reg, u32 value)
++				i915_mcr_reg_t reg, u32 value)
+ {
+-	intel_uncore_write(gt->uncore, reg, value);
++	intel_uncore_write(gt->uncore, mcr_reg_cast(reg), value);
+ }
+ 
+ /**
+@@ -253,9 +266,9 @@ void intel_gt_mcr_multicast_write(struct intel_gt *gt,
+  * must already be holding any required forcewake.
+  */
+ void intel_gt_mcr_multicast_write_fw(struct intel_gt *gt,
+-				i915_reg_t reg, u32 value)
++				     i915_mcr_reg_t reg, u32 value)
+ {
+-	intel_uncore_write_fw(gt->uncore, reg, value);
++	intel_uncore_write_fw(gt->uncore, mcr_reg_cast(reg), value);
+ }
+ 
+ /*
+@@ -273,10 +286,10 @@ void intel_gt_mcr_multicast_write_fw(struct intel_gt *gt,
+  * for @type steering too.
+  */
+ static bool reg_needs_read_steering(struct intel_gt *gt,
+-				    i915_reg_t reg,
++				    i915_mcr_reg_t reg,
+ 				    enum intel_steering_type type)
+ {
+-	const u32 offset = i915_mmio_reg_offset(reg);
++	const u32 offset = i915_mmio_reg_offset(mcr_reg_cast(reg));
+ 	const struct intel_mmio_range *entry;
+ 
+ 	if (likely(!gt->steering_table[type]))
+@@ -348,7 +361,7 @@ static void get_valid_steering(struct intel_gt *gt,
+  * steering.
+  */
+ void intel_gt_mcr_get_nonterminated_steering(struct intel_gt *gt,
+-					     i915_reg_t reg,
++					     i915_mcr_reg_t reg,
+ 					     u8 *group, u8 *instance)
+ {
+ 	int type;
+@@ -377,7 +390,7 @@ void intel_gt_mcr_get_nonterminated_steering(struct intel_gt *gt,
+  *
+  * Returns the value from a valid instance of @reg.
+  */
+-u32 intel_gt_mcr_read_any_fw(struct intel_gt *gt, i915_reg_t reg)
++u32 intel_gt_mcr_read_any_fw(struct intel_gt *gt, i915_mcr_reg_t reg)
+ {
+ 	int type;
+ 	u8 group, instance;
+@@ -391,10 +404,10 @@ u32 intel_gt_mcr_read_any_fw(struct intel_gt *gt, i915_reg_t reg)
+ 		}
+ 	}
+ 
+-	return intel_uncore_read_fw(gt->uncore, reg);
++	return intel_uncore_read_fw(gt->uncore, mcr_reg_cast(reg));
+ }
+ 
+-u32 intel_gt_mcr_read_any(struct intel_gt *gt, i915_reg_t reg)
++u32 intel_gt_mcr_read_any(struct intel_gt *gt, i915_mcr_reg_t reg)
+ {
+ 	int type;
+ 	u8 group, instance;
+@@ -408,7 +421,7 @@ u32 intel_gt_mcr_read_any(struct intel_gt *gt, i915_reg_t reg)
+ 		}
+ 	}
+ 
+-	return intel_uncore_read(gt->uncore, reg);
++	return intel_uncore_read(gt->uncore, mcr_reg_cast(reg));
+ }
+ 
+ static void report_steering_type(struct drm_printer *p,
+diff --git a/drivers/gpu/drm/i915/gt/intel_gt_mcr.h b/drivers/gpu/drm/i915/gt/intel_gt_mcr.h
+index 506b0cbc8db3..176501ea5926 100644
+--- a/drivers/gpu/drm/i915/gt/intel_gt_mcr.h
++++ b/drivers/gpu/drm/i915/gt/intel_gt_mcr.h
+@@ -11,21 +11,21 @@
+ void intel_gt_mcr_init(struct intel_gt *gt);
+ 
+ u32 intel_gt_mcr_read(struct intel_gt *gt,
+-		      i915_reg_t reg,
++		      i915_mcr_reg_t reg,
+ 		      int group, int instance);
+-u32 intel_gt_mcr_read_any_fw(struct intel_gt *gt, i915_reg_t reg);
+-u32 intel_gt_mcr_read_any(struct intel_gt *gt, i915_reg_t reg);
++u32 intel_gt_mcr_read_any_fw(struct intel_gt *gt, i915_mcr_reg_t reg);
++u32 intel_gt_mcr_read_any(struct intel_gt *gt, i915_mcr_reg_t reg);
+ 
+ void intel_gt_mcr_unicast_write(struct intel_gt *gt,
+-				i915_reg_t reg, u32 value,
++				i915_mcr_reg_t reg, u32 value,
+ 				int group, int instance);
+ void intel_gt_mcr_multicast_write(struct intel_gt *gt,
+-				  i915_reg_t reg, u32 value);
++				  i915_mcr_reg_t reg, u32 value);
+ void intel_gt_mcr_multicast_write_fw(struct intel_gt *gt,
+-				     i915_reg_t reg, u32 value);
++				     i915_mcr_reg_t reg, u32 value);
+ 
+ void intel_gt_mcr_get_nonterminated_steering(struct intel_gt *gt,
+-					     i915_reg_t reg,
++					     i915_mcr_reg_t reg,
+ 					     u8 *group, u8 *instance);
+ 
+ void intel_gt_mcr_report_steering(struct drm_printer *p, struct intel_gt *gt,
+diff --git a/drivers/gpu/drm/i915/gt/intel_gt_regs.h b/drivers/gpu/drm/i915/gt/intel_gt_regs.h
+index 3f5e01a48a17..926fb6a8558d 100644
+--- a/drivers/gpu/drm/i915/gt/intel_gt_regs.h
++++ b/drivers/gpu/drm/i915/gt/intel_gt_regs.h
+@@ -8,7 +8,18 @@
+ 
+ #include "i915_reg_defs.h"
+ 
+-#define MCR_REG(offset)	_MMIO(offset)
++#define MCR_REG(offset)	((const i915_mcr_reg_t){ .mmio = (offset) })
++
++/*
++ * The perf control registers are technically multicast registers, but the
++ * driver never needs to read/write them directly; we only use them to build
++ * lists of registers (where they're mixed in with other non-MCR registers)
++ * and then operate on the offset directly.  For now we'll just define them
++ * as non-multicast so we can place them on the same list, but we may want
++ * to try to come up with a better way to handle heterogeneous lists of
++ * registers in the future.
++ */
++#define PERF_REG(offset)			_MMIO(offset)
+ 
+ /* RPM unit config (Gen8+) */
+ #define RPM_CONFIG0				_MMIO(0xd00)
+@@ -1048,8 +1059,8 @@
+ #define   ENABLE_PREFETCH_INTO_IC		REG_BIT(3)
+ #define   FLOAT_BLEND_OPTIMIZATION_ENABLE	REG_BIT(4)
+ 
+-#define EU_PERF_CNTL0				MCR_REG(0xe458)
+-#define EU_PERF_CNTL4				MCR_REG(0xe45c)
++#define EU_PERF_CNTL0				PERF_REG(0xe458)
++#define EU_PERF_CNTL4				PERF_REG(0xe45c)
+ 
+ #define GEN9_ROW_CHICKEN4			MCR_REG(0xe48c)
+ #define   GEN12_DISABLE_GRF_CLEAR		REG_BIT(13)
+@@ -1082,16 +1093,16 @@
+ #define RT_CTRL					MCR_REG(0xe530)
+ #define   DIS_NULL_QUERY			REG_BIT(10)
+ 
+-#define EU_PERF_CNTL1				MCR_REG(0xe558)
+-#define EU_PERF_CNTL5				MCR_REG(0xe55c)
++#define EU_PERF_CNTL1				PERF_REG(0xe558)
++#define EU_PERF_CNTL5				PERF_REG(0xe55c)
+ 
+ #define XEHP_HDC_CHICKEN0			MCR_REG(0xe5f0)
+ #define   LSC_L1_FLUSH_CTL_3D_DATAPORT_FLUSH_EVENTS_MASK	REG_GENMASK(13, 11)
+ #define ICL_HDC_MODE				MCR_REG(0xe5f4)
+ 
+-#define EU_PERF_CNTL2				MCR_REG(0xe658)
+-#define EU_PERF_CNTL6				MCR_REG(0xe65c)
+-#define EU_PERF_CNTL3				MCR_REG(0xe758)
++#define EU_PERF_CNTL2				PERF_REG(0xe658)
++#define EU_PERF_CNTL6				PERF_REG(0xe65c)
++#define EU_PERF_CNTL3				PERF_REG(0xe758)
+ 
+ #define LSC_CHICKEN_BIT_0			MCR_REG(0xe7c8)
+ #define   DISABLE_D8_D16_COASLESCE		REG_BIT(30)
+diff --git a/drivers/gpu/drm/i915/gt/intel_lrc.c b/drivers/gpu/drm/i915/gt/intel_lrc.c
+index dffef6ab4baf..c5fd17b6cf96 100644
+--- a/drivers/gpu/drm/i915/gt/intel_lrc.c
++++ b/drivers/gpu/drm/i915/gt/intel_lrc.c
+@@ -1432,13 +1432,13 @@ gen8_emit_flush_coherentl3_wa(struct intel_engine_cs *engine, u32 *batch)
+ {
+ 	/* NB no one else is allowed to scribble over scratch + 256! */
+ 	*batch++ = MI_STORE_REGISTER_MEM_GEN8 | MI_SRM_LRM_GLOBAL_GTT;
+-	*batch++ = i915_mmio_reg_offset(GEN8_L3SQCREG4);
++	*batch++ = i915_mcr_reg_offset(GEN8_L3SQCREG4);
+ 	*batch++ = intel_gt_scratch_offset(engine->gt,
+ 					   INTEL_GT_SCRATCH_FIELD_COHERENTL3_WA);
+ 	*batch++ = 0;
+ 
+ 	*batch++ = MI_LOAD_REGISTER_IMM(1);
+-	*batch++ = i915_mmio_reg_offset(GEN8_L3SQCREG4);
++	*batch++ = i915_mcr_reg_offset(GEN8_L3SQCREG4);
+ 	*batch++ = 0x40400000 | GEN8_LQSC_FLUSH_COHERENT_LINES;
+ 
+ 	batch = gen8_emit_pipe_control(batch,
+@@ -1447,7 +1447,7 @@ gen8_emit_flush_coherentl3_wa(struct intel_engine_cs *engine, u32 *batch)
+ 				       0);
+ 
+ 	*batch++ = MI_LOAD_REGISTER_MEM_GEN8 | MI_SRM_LRM_GLOBAL_GTT;
+-	*batch++ = i915_mmio_reg_offset(GEN8_L3SQCREG4);
++	*batch++ = i915_mcr_reg_offset(GEN8_L3SQCREG4);
+ 	*batch++ = intel_gt_scratch_offset(engine->gt,
+ 					   INTEL_GT_SCRATCH_FIELD_COHERENTL3_WA);
+ 	*batch++ = 0;
 diff --git a/drivers/gpu/drm/i915/gt/intel_workarounds.c b/drivers/gpu/drm/i915/gt/intel_workarounds.c
-index 1864e1fe1e87..d7e61c8a8c04 100644
+index d7e61c8a8c04..818ba71f4909 100644
 --- a/drivers/gpu/drm/i915/gt/intel_workarounds.c
 +++ b/drivers/gpu/drm/i915/gt/intel_workarounds.c
-@@ -166,12 +166,32 @@ static void wa_add(struct i915_wa_list *wal, i915_reg_t reg,
+@@ -166,11 +166,11 @@ static void wa_add(struct i915_wa_list *wal, i915_reg_t reg,
  	_wa_add(wal, &wa);
  }
  
-+static void wa_mcr_add(struct i915_wa_list *wal, i915_reg_t reg,
-+		       u32 clear, u32 set, u32 read_mask, bool masked_reg)
-+{
-+	struct i915_wa wa = {
-+		.reg  = reg,
-+		.clr  = clear,
-+		.set  = set,
-+		.read = read_mask,
-+		.masked_reg = masked_reg,
-+	};
-+
-+	_wa_add(wal, &wa);
-+}
-+
- static void
- wa_write_clr_set(struct i915_wa_list *wal, i915_reg_t reg, u32 clear, u32 set)
+-static void wa_mcr_add(struct i915_wa_list *wal, i915_reg_t reg,
++static void wa_mcr_add(struct i915_wa_list *wal, i915_mcr_reg_t reg,
+ 		       u32 clear, u32 set, u32 read_mask, bool masked_reg)
  {
- 	wa_add(wal, reg, clear, set, clear, false);
+ 	struct i915_wa wa = {
+-		.reg  = reg,
++		.reg  = _MMIO(i915_mcr_reg_offset(reg)),
+ 		.clr  = clear,
+ 		.set  = set,
+ 		.read = read_mask,
+@@ -187,7 +187,7 @@ wa_write_clr_set(struct i915_wa_list *wal, i915_reg_t reg, u32 clear, u32 set)
  }
  
-+static void
-+wa_mcr_write_clr_set(struct i915_wa_list *wal, i915_reg_t reg, u32 clear, u32 set)
-+{
-+	wa_mcr_add(wal, reg, clear, set, clear, false);
-+}
-+
  static void
- wa_write(struct i915_wa_list *wal, i915_reg_t reg, u32 set)
+-wa_mcr_write_clr_set(struct i915_wa_list *wal, i915_reg_t reg, u32 clear, u32 set)
++wa_mcr_write_clr_set(struct i915_wa_list *wal, i915_mcr_reg_t reg, u32 clear, u32 set)
  {
-@@ -184,12 +204,24 @@ wa_write_or(struct i915_wa_list *wal, i915_reg_t reg, u32 set)
- 	wa_write_clr_set(wal, reg, set, set);
+ 	wa_mcr_add(wal, reg, clear, set, clear, false);
+ }
+@@ -205,7 +205,7 @@ wa_write_or(struct i915_wa_list *wal, i915_reg_t reg, u32 set)
  }
  
-+static void
-+wa_mcr_write_or(struct i915_wa_list *wal, i915_reg_t reg, u32 set)
-+{
-+	wa_mcr_write_clr_set(wal, reg, set, set);
-+}
-+
  static void
- wa_write_clr(struct i915_wa_list *wal, i915_reg_t reg, u32 clr)
+-wa_mcr_write_or(struct i915_wa_list *wal, i915_reg_t reg, u32 set)
++wa_mcr_write_or(struct i915_wa_list *wal, i915_mcr_reg_t reg, u32 set)
  {
- 	wa_write_clr_set(wal, reg, clr, 0);
+ 	wa_mcr_write_clr_set(wal, reg, set, set);
+ }
+@@ -217,7 +217,7 @@ wa_write_clr(struct i915_wa_list *wal, i915_reg_t reg, u32 clr)
  }
  
-+static void
-+wa_mcr_write_clr(struct i915_wa_list *wal, i915_reg_t reg, u32 clr)
-+{
-+	wa_mcr_write_clr_set(wal, reg, clr, 0);
-+}
-+
- /*
-  * WA operations on "masked register". A masked register has the upper 16 bits
-  * documented as "masked" in b-spec. Its purpose is to allow writing to just a
-@@ -207,12 +239,24 @@ wa_masked_en(struct i915_wa_list *wal, i915_reg_t reg, u32 val)
- 	wa_add(wal, reg, 0, _MASKED_BIT_ENABLE(val), val, true);
- }
- 
-+static void
-+wa_mcr_masked_en(struct i915_wa_list *wal, i915_reg_t reg, u32 val)
-+{
-+	wa_mcr_add(wal, reg, 0, _MASKED_BIT_ENABLE(val), val, true);
-+}
-+
  static void
- wa_masked_dis(struct i915_wa_list *wal, i915_reg_t reg, u32 val)
+-wa_mcr_write_clr(struct i915_wa_list *wal, i915_reg_t reg, u32 clr)
++wa_mcr_write_clr(struct i915_wa_list *wal, i915_mcr_reg_t reg, u32 clr)
  {
- 	wa_add(wal, reg, 0, _MASKED_BIT_DISABLE(val), val, true);
+ 	wa_mcr_write_clr_set(wal, reg, clr, 0);
+ }
+@@ -240,7 +240,7 @@ wa_masked_en(struct i915_wa_list *wal, i915_reg_t reg, u32 val)
  }
  
-+static void
-+wa_mcr_masked_dis(struct i915_wa_list *wal, i915_reg_t reg, u32 val)
-+{
-+	wa_mcr_add(wal, reg, 0, _MASKED_BIT_DISABLE(val), val, true);
-+}
-+
  static void
- wa_masked_field_set(struct i915_wa_list *wal, i915_reg_t reg,
- 		    u32 mask, u32 val)
-@@ -241,7 +285,7 @@ static void gen8_ctx_workarounds_init(struct intel_engine_cs *engine,
- 	wa_masked_en(wal, RING_MI_MODE(RENDER_RING_BASE), ASYNC_FLIP_PERF_DISABLE);
+-wa_mcr_masked_en(struct i915_wa_list *wal, i915_reg_t reg, u32 val)
++wa_mcr_masked_en(struct i915_wa_list *wal, i915_mcr_reg_t reg, u32 val)
+ {
+ 	wa_mcr_add(wal, reg, 0, _MASKED_BIT_ENABLE(val), val, true);
+ }
+@@ -252,7 +252,7 @@ wa_masked_dis(struct i915_wa_list *wal, i915_reg_t reg, u32 val)
+ }
  
- 	/* WaDisablePartialInstShootdown:bdw,chv */
--	wa_masked_en(wal, GEN8_ROW_CHICKEN,
-+	wa_mcr_masked_en(wal, GEN8_ROW_CHICKEN,
- 		     PARTIAL_INSTRUCTION_SHOOTDOWN_DISABLE);
+ static void
+-wa_mcr_masked_dis(struct i915_wa_list *wal, i915_reg_t reg, u32 val)
++wa_mcr_masked_dis(struct i915_wa_list *wal, i915_mcr_reg_t reg, u32 val)
+ {
+ 	wa_mcr_add(wal, reg, 0, _MASKED_BIT_DISABLE(val), val, true);
+ }
+@@ -1638,16 +1638,18 @@ wa_list_apply(struct intel_gt *gt, const struct i915_wa_list *wal)
+ 	intel_uncore_forcewake_get__locked(uncore, fw);
  
- 	/* Use Force Non-Coherent whenever executing a 3D context. This is a
-@@ -288,18 +332,18 @@ static void bdw_ctx_workarounds_init(struct intel_engine_cs *engine,
- 	gen8_ctx_workarounds_init(engine, wal);
+ 	for (i = 0, wa = wal->list; i < wal->count; i++, wa++) {
++		/* To be safe, just assume all registers are MCR */
++		i915_mcr_reg_t mcr_reg = MCR_REG(i915_mmio_reg_offset(wa->reg));
+ 		u32 val, old = 0;
  
- 	/* WaDisableThreadStallDopClockGating:bdw (pre-production) */
--	wa_masked_en(wal, GEN8_ROW_CHICKEN, STALL_DOP_GATING_DISABLE);
-+	wa_mcr_masked_en(wal, GEN8_ROW_CHICKEN, STALL_DOP_GATING_DISABLE);
+ 		/* open-coded rmw due to steering */
+-		old = wa->clr ? intel_gt_mcr_read_any_fw(gt, wa->reg) : 0;
++		old = wa->clr ? intel_gt_mcr_read_any_fw(gt, mcr_reg) : 0;
+ 		val = (old & ~wa->clr) | wa->set;
+ 		if (val != old || !wa->clr)
+ 			intel_uncore_write_fw(uncore, wa->reg, val);
  
- 	/* WaDisableDopClockGating:bdw
- 	 *
- 	 * Also see the related UCGTCL1 write in bdw_init_clock_gating()
- 	 * to disable EUTC clock gating.
- 	 */
--	wa_masked_en(wal, GEN8_ROW_CHICKEN2,
--		     DOP_CLOCK_GATING_DISABLE);
-+	wa_mcr_masked_en(wal, GEN8_ROW_CHICKEN2,
-+			 DOP_CLOCK_GATING_DISABLE);
- 
--	wa_masked_en(wal, GEN8_HALF_SLICE_CHICKEN3,
--		     GEN8_SAMPLER_POWER_BYPASS_DIS);
-+	wa_mcr_masked_en(wal, GEN8_HALF_SLICE_CHICKEN3,
-+			 GEN8_SAMPLER_POWER_BYPASS_DIS);
- 
- 	wa_masked_en(wal, HDC_CHICKEN0,
- 		     /* WaForceContextSaveRestoreNonCoherent:bdw */
-@@ -314,7 +358,7 @@ static void chv_ctx_workarounds_init(struct intel_engine_cs *engine,
- 	gen8_ctx_workarounds_init(engine, wal);
- 
- 	/* WaDisableThreadStallDopClockGating:chv */
--	wa_masked_en(wal, GEN8_ROW_CHICKEN, STALL_DOP_GATING_DISABLE);
-+	wa_mcr_masked_en(wal, GEN8_ROW_CHICKEN, STALL_DOP_GATING_DISABLE);
- 
- 	/* Improve HiZ throughput on CHV. */
- 	wa_masked_en(wal, HIZ_CHICKEN, CHV_HZ_8X8_MODE_IN_1X);
-@@ -333,21 +377,21 @@ static void gen9_ctx_workarounds_init(struct intel_engine_cs *engine,
- 		 */
- 		wa_masked_en(wal, COMMON_SLICE_CHICKEN2,
- 			     GEN9_PBE_COMPRESSED_HASH_SELECTION);
--		wa_masked_en(wal, GEN9_HALF_SLICE_CHICKEN7,
--			     GEN9_SAMPLER_HASH_COMPRESSED_READ_ADDR);
-+		wa_mcr_masked_en(wal, GEN9_HALF_SLICE_CHICKEN7,
-+				 GEN9_SAMPLER_HASH_COMPRESSED_READ_ADDR);
+ 		if (IS_ENABLED(CONFIG_DRM_I915_DEBUG_GEM))
+-			wa_verify(wa, intel_gt_mcr_read_any_fw(gt, wa->reg),
++			wa_verify(wa, intel_gt_mcr_read_any_fw(gt, mcr_reg),
+ 				  wal->name, "application");
  	}
  
- 	/* WaClearFlowControlGpgpuContextSave:skl,bxt,kbl,glk,cfl */
- 	/* WaDisablePartialInstShootdown:skl,bxt,kbl,glk,cfl */
--	wa_masked_en(wal, GEN8_ROW_CHICKEN,
--		     FLOW_CONTROL_ENABLE |
--		     PARTIAL_INSTRUCTION_SHOOTDOWN_DISABLE);
-+	wa_mcr_masked_en(wal, GEN8_ROW_CHICKEN,
-+			 FLOW_CONTROL_ENABLE |
-+			 PARTIAL_INSTRUCTION_SHOOTDOWN_DISABLE);
+@@ -1676,10 +1678,13 @@ static bool wa_list_verify(struct intel_gt *gt,
+ 	spin_lock_irqsave(&uncore->lock, flags);
+ 	intel_uncore_forcewake_get__locked(uncore, fw);
  
- 	/* WaEnableYV12BugFixInHalfSliceChicken7:skl,bxt,kbl,glk,cfl */
- 	/* WaEnableSamplerGPGPUPreemptionSupport:skl,bxt,kbl,cfl */
--	wa_masked_en(wal, GEN9_HALF_SLICE_CHICKEN7,
--		     GEN9_ENABLE_YV12_BUGFIX |
--		     GEN9_ENABLE_GPGPU_PREEMPTION);
-+	wa_mcr_masked_en(wal, GEN9_HALF_SLICE_CHICKEN7,
-+			 GEN9_ENABLE_YV12_BUGFIX |
-+			 GEN9_ENABLE_GPGPU_PREEMPTION);
- 
- 	/* Wa4x4STCOptimizationDisable:skl,bxt,kbl,glk,cfl */
- 	/* WaDisablePartialResolveInVc:skl,bxt,kbl,cfl */
-@@ -356,8 +400,8 @@ static void gen9_ctx_workarounds_init(struct intel_engine_cs *engine,
- 		     GEN9_PARTIAL_RESOLVE_IN_VC_DISABLE);
- 
- 	/* WaCcsTlbPrefetchDisable:skl,bxt,kbl,glk,cfl */
--	wa_masked_dis(wal, GEN9_HALF_SLICE_CHICKEN5,
--		      GEN9_CCS_TLB_PREFETCH_ENABLE);
-+	wa_mcr_masked_dis(wal, GEN9_HALF_SLICE_CHICKEN5,
-+			  GEN9_CCS_TLB_PREFETCH_ENABLE);
- 
- 	/* WaForceContextSaveRestoreNonCoherent:skl,bxt,kbl,cfl */
- 	wa_masked_en(wal, HDC_CHICKEN0,
-@@ -386,11 +430,11 @@ static void gen9_ctx_workarounds_init(struct intel_engine_cs *engine,
- 	    IS_KABYLAKE(i915) ||
- 	    IS_COFFEELAKE(i915) ||
- 	    IS_COMETLAKE(i915))
--		wa_masked_en(wal, GEN8_HALF_SLICE_CHICKEN3,
--			     GEN8_SAMPLER_POWER_BYPASS_DIS);
-+		wa_mcr_masked_en(wal, GEN8_HALF_SLICE_CHICKEN3,
-+				 GEN8_SAMPLER_POWER_BYPASS_DIS);
- 
- 	/* WaDisableSTUnitPowerOptimization:skl,bxt,kbl,glk,cfl */
--	wa_masked_en(wal, HALF_SLICE_CHICKEN2, GEN8_ST_PO_DISABLE);
-+	wa_mcr_masked_en(wal, HALF_SLICE_CHICKEN2, GEN8_ST_PO_DISABLE);
- 
- 	/*
- 	 * Supporting preemption with fine-granularity requires changes in the
-@@ -469,8 +513,8 @@ static void bxt_ctx_workarounds_init(struct intel_engine_cs *engine,
- 	gen9_ctx_workarounds_init(engine, wal);
- 
- 	/* WaDisableThreadStallDopClockGating:bxt */
--	wa_masked_en(wal, GEN8_ROW_CHICKEN,
--		     STALL_DOP_GATING_DISABLE);
-+	wa_mcr_masked_en(wal, GEN8_ROW_CHICKEN,
-+			 STALL_DOP_GATING_DISABLE);
- 
- 	/* WaToEnableHwFixForPushConstHWBug:bxt */
- 	wa_masked_en(wal, COMMON_SLICE_CHICKEN2,
-@@ -490,8 +534,8 @@ static void kbl_ctx_workarounds_init(struct intel_engine_cs *engine,
- 			     GEN8_SBE_DISABLE_REPLAY_BUF_OPTIMIZATION);
- 
- 	/* WaDisableSbeCacheDispatchPortSharing:kbl */
--	wa_masked_en(wal, GEN8_HALF_SLICE_CHICKEN1,
--		     GEN7_SBE_SS_CACHE_DISPATCH_PORT_SHARING_DISABLE);
-+	wa_mcr_masked_en(wal, GEN8_HALF_SLICE_CHICKEN1,
-+			 GEN7_SBE_SS_CACHE_DISPATCH_PORT_SHARING_DISABLE);
- }
- 
- static void glk_ctx_workarounds_init(struct intel_engine_cs *engine,
-@@ -514,8 +558,8 @@ static void cfl_ctx_workarounds_init(struct intel_engine_cs *engine,
- 		     GEN8_SBE_DISABLE_REPLAY_BUF_OPTIMIZATION);
- 
- 	/* WaDisableSbeCacheDispatchPortSharing:cfl */
--	wa_masked_en(wal, GEN8_HALF_SLICE_CHICKEN1,
--		     GEN7_SBE_SS_CACHE_DISPATCH_PORT_SHARING_DISABLE);
-+	wa_mcr_masked_en(wal, GEN8_HALF_SLICE_CHICKEN1,
-+			 GEN7_SBE_SS_CACHE_DISPATCH_PORT_SHARING_DISABLE);
- }
- 
- static void icl_ctx_workarounds_init(struct intel_engine_cs *engine,
-@@ -534,13 +578,13 @@ static void icl_ctx_workarounds_init(struct intel_engine_cs *engine,
- 	 * (the register is whitelisted in hardware now, so UMDs can opt in
- 	 * for coherency if they have a good reason).
- 	 */
--	wa_masked_en(wal, ICL_HDC_MODE, HDC_FORCE_NON_COHERENT);
-+	wa_mcr_masked_en(wal, ICL_HDC_MODE, HDC_FORCE_NON_COHERENT);
- 
- 	/* WaEnableFloatBlendOptimization:icl */
--	wa_add(wal, GEN10_CACHE_MODE_SS, 0,
--	       _MASKED_BIT_ENABLE(FLOAT_BLEND_OPTIMIZATION_ENABLE),
--	       0 /* write-only, so skip validation */,
--	       true);
-+	wa_mcr_add(wal, GEN10_CACHE_MODE_SS, 0,
-+		   _MASKED_BIT_ENABLE(FLOAT_BLEND_OPTIMIZATION_ENABLE),
-+		   0 /* write-only, so skip validation */,
-+		   true);
- 
- 	/* WaDisableGPGPUMidThreadPreemption:icl */
- 	wa_masked_field_set(wal, GEN8_CS_CHICKEN1,
-@@ -548,8 +592,8 @@ static void icl_ctx_workarounds_init(struct intel_engine_cs *engine,
- 			    GEN9_PREEMPT_GPGPU_THREAD_GROUP_LEVEL);
- 
- 	/* allow headerless messages for preemptible GPGPU context */
--	wa_masked_en(wal, GEN10_SAMPLER_MODE,
--		     GEN11_SAMPLER_ENABLE_HEADLESS_MSG);
-+	wa_mcr_masked_en(wal, GEN10_SAMPLER_MODE,
-+			 GEN11_SAMPLER_ENABLE_HEADLESS_MSG);
- 
- 	/* Wa_1604278689:icl,ehl */
- 	wa_write(wal, IVB_FBC_RT_BASE, 0xFFFFFFFF & ~ILK_FBC_RT_VALID);
-@@ -558,7 +602,7 @@ static void icl_ctx_workarounds_init(struct intel_engine_cs *engine,
- 			 0xFFFFFFFF);
- 
- 	/* Wa_1406306137:icl,ehl */
--	wa_masked_en(wal, GEN9_ROW_CHICKEN4, GEN11_DIS_PICK_2ND_EU);
-+	wa_mcr_masked_en(wal, GEN9_ROW_CHICKEN4, GEN11_DIS_PICK_2ND_EU);
- }
- 
- /*
-@@ -568,13 +612,13 @@ static void icl_ctx_workarounds_init(struct intel_engine_cs *engine,
- static void dg2_ctx_gt_tuning_init(struct intel_engine_cs *engine,
- 				   struct i915_wa_list *wal)
- {
--	wa_write_clr_set(wal, XEHP_L3SQCREG5, L3_PWM_TIMER_INIT_VAL_MASK,
--			 REG_FIELD_PREP(L3_PWM_TIMER_INIT_VAL_MASK, 0x7f));
--	wa_add(wal,
--	       XEHP_FF_MODE2,
--	       FF_MODE2_TDS_TIMER_MASK,
--	       FF_MODE2_TDS_TIMER_128,
--	       0, false);
-+	wa_mcr_write_clr_set(wal, XEHP_L3SQCREG5, L3_PWM_TIMER_INIT_VAL_MASK,
-+			     REG_FIELD_PREP(L3_PWM_TIMER_INIT_VAL_MASK, 0x7f));
-+	wa_mcr_add(wal,
-+		   XEHP_FF_MODE2,
-+		   FF_MODE2_TDS_TIMER_MASK,
-+		   FF_MODE2_TDS_TIMER_128,
-+		   0, false);
- }
- 
- /*
-@@ -663,27 +707,27 @@ static void dg2_ctx_workarounds_init(struct intel_engine_cs *engine,
- 
- 	/* Wa_16011186671:dg2_g11 */
- 	if (IS_DG2_GRAPHICS_STEP(engine->i915, G11, STEP_A0, STEP_B0)) {
--		wa_masked_dis(wal, VFLSKPD, DIS_MULT_MISS_RD_SQUASH);
--		wa_masked_en(wal, VFLSKPD, DIS_OVER_FETCH_CACHE);
-+		wa_mcr_masked_dis(wal, VFLSKPD, DIS_MULT_MISS_RD_SQUASH);
-+		wa_mcr_masked_en(wal, VFLSKPD, DIS_OVER_FETCH_CACHE);
- 	}
- 
- 	if (IS_DG2_GRAPHICS_STEP(engine->i915, G10, STEP_A0, STEP_B0)) {
- 		/* Wa_14010469329:dg2_g10 */
--		wa_masked_en(wal, XEHP_COMMON_SLICE_CHICKEN3,
--			     XEHP_DUAL_SIMD8_SEQ_MERGE_DISABLE);
-+		wa_mcr_masked_en(wal, XEHP_COMMON_SLICE_CHICKEN3,
-+				 XEHP_DUAL_SIMD8_SEQ_MERGE_DISABLE);
- 
- 		/*
- 		 * Wa_22010465075:dg2_g10
- 		 * Wa_22010613112:dg2_g10
- 		 * Wa_14010698770:dg2_g10
- 		 */
--		wa_masked_en(wal, XEHP_COMMON_SLICE_CHICKEN3,
--			     GEN12_DISABLE_CPS_AWARE_COLOR_PIPE);
-+		wa_mcr_masked_en(wal, XEHP_COMMON_SLICE_CHICKEN3,
-+				 GEN12_DISABLE_CPS_AWARE_COLOR_PIPE);
- 	}
- 
- 	/* Wa_16013271637:dg2 */
--	wa_masked_en(wal, XEHP_SLICE_COMMON_ECO_CHICKEN1,
--		     MSC_MSAA_REODER_BUF_BYPASS_DISABLE);
-+	wa_mcr_masked_en(wal, XEHP_SLICE_COMMON_ECO_CHICKEN1,
-+			 MSC_MSAA_REODER_BUF_BYPASS_DISABLE);
- 
- 	/* Wa_14014947963:dg2 */
- 	if (IS_DG2_GRAPHICS_STEP(engine->i915, G10, STEP_B0, STEP_FOREVER) ||
-@@ -1237,9 +1281,9 @@ icl_gt_workarounds_init(struct intel_gt *gt, struct i915_wa_list *wal)
- 		    PSDUNIT_CLKGATE_DIS);
- 
- 	/* Wa_1406680159:icl,ehl */
--	wa_write_or(wal,
--		    GEN11_SUBSLICE_UNIT_LEVEL_CLKGATE,
--		    GWUNIT_CLKGATE_DIS);
-+	wa_mcr_write_or(wal,
-+			GEN11_SUBSLICE_UNIT_LEVEL_CLKGATE,
-+			GWUNIT_CLKGATE_DIS);
- 
- 	/* Wa_1607087056:icl,ehl,jsl */
- 	if (IS_ICELAKE(i915) ||
-@@ -1252,7 +1296,7 @@ icl_gt_workarounds_init(struct intel_gt *gt, struct i915_wa_list *wal)
- 	 * This is not a documented workaround, but rather an optimization
- 	 * to reduce sampler power.
- 	 */
--	wa_write_clr(wal, GEN10_DFR_RATIO_EN_AND_CHICKEN, DFR_DISABLE);
-+	wa_mcr_write_clr(wal, GEN10_DFR_RATIO_EN_AND_CHICKEN, DFR_DISABLE);
- }
- 
- /*
-@@ -1286,7 +1330,7 @@ gen12_gt_workarounds_init(struct intel_gt *gt, struct i915_wa_list *wal)
- 	wa_14011060649(gt, wal);
- 
- 	/* Wa_14011059788:tgl,rkl,adl-s,dg1,adl-p */
--	wa_write_or(wal, GEN10_DFR_RATIO_EN_AND_CHICKEN, DFR_DISABLE);
-+	wa_mcr_write_or(wal, GEN10_DFR_RATIO_EN_AND_CHICKEN, DFR_DISABLE);
- }
- 
- static void
-@@ -1298,9 +1342,9 @@ tgl_gt_workarounds_init(struct intel_gt *gt, struct i915_wa_list *wal)
- 
- 	/* Wa_1409420604:tgl */
- 	if (IS_TGL_UY_GRAPHICS_STEP(i915, STEP_A0, STEP_B0))
--		wa_write_or(wal,
--			    SUBSLICE_UNIT_LEVEL_CLKGATE2,
--			    CPSSUNIT_CLKGATE_DIS);
-+		wa_mcr_write_or(wal,
-+				SUBSLICE_UNIT_LEVEL_CLKGATE2,
-+				CPSSUNIT_CLKGATE_DIS);
- 
- 	/* Wa_1607087056:tgl also know as BUG:1409180338 */
- 	if (IS_TGL_UY_GRAPHICS_STEP(i915, STEP_A0, STEP_B0))
-@@ -1329,9 +1373,9 @@ dg1_gt_workarounds_init(struct intel_gt *gt, struct i915_wa_list *wal)
- 
- 	/* Wa_1409420604:dg1 */
- 	if (IS_DG1(i915))
--		wa_write_or(wal,
--			    SUBSLICE_UNIT_LEVEL_CLKGATE2,
--			    CPSSUNIT_CLKGATE_DIS);
-+		wa_mcr_write_or(wal,
-+				SUBSLICE_UNIT_LEVEL_CLKGATE2,
-+				CPSSUNIT_CLKGATE_DIS);
- 
- 	/* Wa_1408615072:dg1 */
- 	/* Empirical testing shows this register is unaffected by engine reset. */
-@@ -1348,7 +1392,7 @@ xehpsdv_gt_workarounds_init(struct intel_gt *gt, struct i915_wa_list *wal)
- 	xehp_init_mcr(gt, wal);
- 
- 	/* Wa_1409757795:xehpsdv */
--	wa_write_or(wal, SCCGCTL94DC, CG3DDISURB);
-+	wa_mcr_write_or(wal, SCCGCTL94DC, CG3DDISURB);
- 
- 	/* Wa_16011155590:xehpsdv */
- 	if (IS_XEHPSDV_GRAPHICS_STEP(i915, STEP_A0, STEP_B0))
-@@ -1428,8 +1472,8 @@ dg2_gt_workarounds_init(struct intel_gt *gt, struct i915_wa_list *wal)
- 			    CG3DDISCFEG_CLKGATE_DIS);
- 
- 		/* Wa_14011006942:dg2 */
--		wa_write_or(wal, GEN11_SUBSLICE_UNIT_LEVEL_CLKGATE,
--			    DSS_ROUTER_CLKGATE_DIS);
-+		wa_mcr_write_or(wal, GEN11_SUBSLICE_UNIT_LEVEL_CLKGATE,
-+				DSS_ROUTER_CLKGATE_DIS);
- 	}
- 
- 	if (IS_DG2_GRAPHICS_STEP(gt->i915, G10, STEP_A0, STEP_B0)) {
-@@ -1440,7 +1484,7 @@ dg2_gt_workarounds_init(struct intel_gt *gt, struct i915_wa_list *wal)
- 		wa_write_or(wal, UNSLCGCTL9444, LTCDD_CLKGATE_DIS);
- 
- 		/* Wa_14011371254:dg2_g10 */
--		wa_write_or(wal, XEHP_SLICE_UNIT_LEVEL_CLKGATE, NODEDSS_CLKGATE_DIS);
-+		wa_mcr_write_or(wal, XEHP_SLICE_UNIT_LEVEL_CLKGATE, NODEDSS_CLKGATE_DIS);
- 
- 		/* Wa_14011431319:dg2_g10 */
- 		wa_write_or(wal, UNSLCGCTL9440, GAMTLBOACS_CLKGATE_DIS |
-@@ -1476,18 +1520,18 @@ dg2_gt_workarounds_init(struct intel_gt *gt, struct i915_wa_list *wal)
- 			    GAMEDIA_CLKGATE_DIS);
- 
- 		/* Wa_14011028019:dg2_g10 */
--		wa_write_or(wal, SSMCGCTL9530, RTFUNIT_CLKGATE_DIS);
-+		wa_mcr_write_or(wal, SSMCGCTL9530, RTFUNIT_CLKGATE_DIS);
- 	}
- 
- 	/* Wa_14014830051:dg2 */
--	wa_write_clr(wal, SARB_CHICKEN1, COMP_CKN_IN);
-+	wa_mcr_write_clr(wal, SARB_CHICKEN1, COMP_CKN_IN);
- 
- 	/*
- 	 * The following are not actually "workarounds" but rather
- 	 * recommended tuning settings documented in the bspec's
- 	 * performance guide section.
- 	 */
--	wa_write_or(wal, XEHP_SQCM, EN_32B_ACCESS);
-+	wa_mcr_write_or(wal, XEHP_SQCM, EN_32B_ACCESS);
- }
- 
- static void
-@@ -1686,6 +1730,12 @@ whitelist_reg(struct i915_wa_list *wal, i915_reg_t reg)
- 	whitelist_reg_ext(wal, reg, RING_FORCE_TO_NONPRIV_ACCESS_RW);
- }
- 
-+static void
-+whitelist_mcr_reg(struct i915_wa_list *wal, i915_reg_t reg)
-+{
-+	whitelist_reg_ext(wal, reg, RING_FORCE_TO_NONPRIV_ACCESS_RW);
-+}
+-	for (i = 0, wa = wal->list; i < wal->count; i++, wa++)
++	for (i = 0, wa = wal->list; i < wal->count; i++, wa++) {
++		i915_mcr_reg_t mcr_reg = MCR_REG(i915_mmio_reg_offset(wa->reg));
 +
+ 		ok &= wa_verify(wa,
+-				intel_gt_mcr_read_any_fw(gt, wa->reg),
++				intel_gt_mcr_read_any_fw(gt, mcr_reg),
+ 				wal->name, from);
++	}
+ 
+ 	intel_uncore_forcewake_put__locked(uncore, fw);
+ 	spin_unlock_irqrestore(&uncore->lock, flags);
+@@ -1731,9 +1736,10 @@ whitelist_reg(struct i915_wa_list *wal, i915_reg_t reg)
+ }
+ 
+ static void
+-whitelist_mcr_reg(struct i915_wa_list *wal, i915_reg_t reg)
++whitelist_mcr_reg(struct i915_wa_list *wal, i915_mcr_reg_t reg)
+ {
+-	whitelist_reg_ext(wal, reg, RING_FORCE_TO_NONPRIV_ACCESS_RW);
++	whitelist_reg_ext(wal, _MMIO(i915_mcr_reg_offset(reg)),
++			  RING_FORCE_TO_NONPRIV_ACCESS_RW);
+ }
+ 
  static void gen9_whitelist_build(struct i915_wa_list *w)
+diff --git a/drivers/gpu/drm/i915/gt/selftest_workarounds.c b/drivers/gpu/drm/i915/gt/selftest_workarounds.c
+index 67a9aab801dd..21b1edc052f8 100644
+--- a/drivers/gpu/drm/i915/gt/selftest_workarounds.c
++++ b/drivers/gpu/drm/i915/gt/selftest_workarounds.c
+@@ -991,7 +991,7 @@ static bool pardon_reg(struct drm_i915_private *i915, i915_reg_t reg)
+ 	/* Alas, we must pardon some whitelists. Mistakes already made */
+ 	static const struct regmask pardon[] = {
+ 		{ GEN9_CTX_PREEMPT_REG, 9 },
+-		{ GEN8_L3SQCREG4, 9 },
++		{ _MMIO(0xb118), 9 }, /* GEN8_L3SQCREG4 */
+ 	};
+ 
+ 	return find_reg(i915, reg, pardon, ARRAY_SIZE(pardon));
+diff --git a/drivers/gpu/drm/i915/gt/uc/intel_guc_ads.c b/drivers/gpu/drm/i915/gt/uc/intel_guc_ads.c
+index 389c5c0aad7a..0a2d50dbfe4b 100644
+--- a/drivers/gpu/drm/i915/gt/uc/intel_guc_ads.c
++++ b/drivers/gpu/drm/i915/gt/uc/intel_guc_ads.c
+@@ -327,7 +327,7 @@ static long __must_check guc_mmio_reg_add(struct intel_gt *gt,
+ 
+ static long __must_check guc_mcr_reg_add(struct intel_gt *gt,
+ 					 struct temp_regset *regset,
+-					 i915_reg_t reg, u32 flags)
++					 i915_mcr_reg_t reg, u32 flags)
  {
- 	/* WaVFEStateAfterPipeControlwithMediaStateClear:skl,bxt,glk,cfl */
-@@ -1711,7 +1761,7 @@ static void skl_whitelist_build(struct intel_engine_cs *engine)
- 	gen9_whitelist_build(w);
+ 	u8 group, inst;
  
- 	/* WaDisableLSQCROPERFforOCL:skl */
--	whitelist_reg(w, GEN8_L3SQCREG4);
-+	whitelist_mcr_reg(w, GEN8_L3SQCREG4);
+@@ -342,7 +342,7 @@ static long __must_check guc_mcr_reg_add(struct intel_gt *gt,
+ 	intel_gt_mcr_get_nonterminated_steering(gt, reg, &group, &inst);
+ 	flags |= GUC_REGSET_STEERING(group, inst);
+ 
+-	return guc_mmio_reg_add(gt, regset, i915_mmio_reg_offset(reg), flags);
++	return guc_mmio_reg_add(gt, regset, i915_mcr_reg_offset(reg), flags);
  }
  
- static void bxt_whitelist_build(struct intel_engine_cs *engine)
-@@ -1732,7 +1782,7 @@ static void kbl_whitelist_build(struct intel_engine_cs *engine)
- 	gen9_whitelist_build(w);
+ #define GUC_MCR_REG_ADD(gt, regset, reg, masked) \
+diff --git a/drivers/gpu/drm/i915/gt/uc/intel_guc_capture.c b/drivers/gpu/drm/i915/gt/uc/intel_guc_capture.c
+index 7f77e9cdaba4..8d1a85b06ff4 100644
+--- a/drivers/gpu/drm/i915/gt/uc/intel_guc_capture.c
++++ b/drivers/gpu/drm/i915/gt/uc/intel_guc_capture.c
+@@ -239,7 +239,7 @@ static void guc_capture_free_extlists(struct __guc_mmio_reg_descr_group *reglist
  
- 	/* WaDisableLSQCROPERFforOCL:kbl */
--	whitelist_reg(w, GEN8_L3SQCREG4);
-+	whitelist_mcr_reg(w, GEN8_L3SQCREG4);
+ struct __ext_steer_reg {
+ 	const char *name;
+-	i915_reg_t reg;
++	i915_mcr_reg_t reg;
+ };
+ 
+ static const struct __ext_steer_reg xe_extregs[] = {
+@@ -251,7 +251,7 @@ static void __fill_ext_reg(struct __guc_mmio_reg_descr *ext,
+ 			   const struct __ext_steer_reg *extlist,
+ 			   int slice_id, int subslice_id)
+ {
+-	ext->reg = extlist->reg;
++	ext->reg = _MMIO(i915_mcr_reg_offset(extlist->reg));
+ 	ext->flags = FIELD_PREP(GUC_REGSET_STEERING_GROUP, slice_id);
+ 	ext->flags |= FIELD_PREP(GUC_REGSET_STEERING_INSTANCE, subslice_id);
+ 	ext->regname = extlist->name;
+diff --git a/drivers/gpu/drm/i915/gvt/cmd_parser.c b/drivers/gpu/drm/i915/gvt/cmd_parser.c
+index 2459213b6c87..8432f1fe25e6 100644
+--- a/drivers/gpu/drm/i915/gvt/cmd_parser.c
++++ b/drivers/gpu/drm/i915/gvt/cmd_parser.c
+@@ -918,7 +918,7 @@ static int cmd_reg_handler(struct parser_exec_state *s,
+ 
+ 	if (!strncmp(cmd, "srm", 3) ||
+ 			!strncmp(cmd, "lrm", 3)) {
+-		if (offset == i915_mmio_reg_offset(GEN8_L3SQCREG4) ||
++		if (offset == i915_mcr_reg_offset(GEN8_L3SQCREG4) ||
+ 		    offset == 0x21f0 ||
+ 		    (IS_BROADWELL(gvt->gt->i915) &&
+ 		     offset == i915_mmio_reg_offset(INSTPM)))
+diff --git a/drivers/gpu/drm/i915/gvt/handlers.c b/drivers/gpu/drm/i915/gvt/handlers.c
+index bad1065a99a7..84af773c5ebb 100644
+--- a/drivers/gpu/drm/i915/gvt/handlers.c
++++ b/drivers/gpu/drm/i915/gvt/handlers.c
+@@ -748,7 +748,7 @@ static i915_reg_t force_nonpriv_white_list[] = {
+ 	_MMIO(0x770c),
+ 	_MMIO(0x83a8),
+ 	_MMIO(0xb110),
+-	GEN8_L3SQCREG4,//_MMIO(0xb118)
++	_MMIO(0xb118),
+ 	_MMIO(0xe100),
+ 	_MMIO(0xe18c),
+ 	_MMIO(0xe48c),
+@@ -2157,6 +2157,9 @@ static int csfe_chicken1_mmio_write(struct intel_vgpu *vgpu,
+ #define MMIO_DFH(reg, d, f, r, w) \
+ 	MMIO_F(reg, 4, f, 0, 0, d, r, w)
+ 
++#define MMIO_DFH_MCR(reg, d, f, r, w) \
++	MMIO_F(_MMIO(i915_mcr_reg_offset(reg)), 4, f, 0, 0, d, r, w)
++
+ #define MMIO_GM(reg, d, r, w) \
+ 	MMIO_F(reg, 4, F_GMADR, 0xFFFFF000, 0, d, r, w)
+ 
+@@ -3147,15 +3150,15 @@ static int init_bdw_mmio_info(struct intel_gvt *gvt)
+ 	MMIO_D(GEN8_EU_DISABLE2, D_BDW_PLUS);
+ 
+ 	MMIO_D(_MMIO(0xfdc), D_BDW_PLUS);
+-	MMIO_DFH(GEN8_ROW_CHICKEN, D_BDW_PLUS, F_MODE_MASK | F_CMD_ACCESS,
+-		NULL, NULL);
++	MMIO_DFH_MCR(GEN8_ROW_CHICKEN, D_BDW_PLUS, F_MODE_MASK | F_CMD_ACCESS,
++		     NULL, NULL);
+ 	MMIO_DFH(GEN7_ROW_CHICKEN2, D_BDW_PLUS, F_MODE_MASK | F_CMD_ACCESS,
+ 		NULL, NULL);
+ 	MMIO_DFH(GEN8_UCGCTL6, D_BDW_PLUS, F_CMD_ACCESS, NULL, NULL);
+ 
+ 	MMIO_DFH(_MMIO(0xb1f0), D_BDW, F_CMD_ACCESS, NULL, NULL);
+ 	MMIO_DFH(_MMIO(0xb1c0), D_BDW, F_CMD_ACCESS, NULL, NULL);
+-	MMIO_DFH(GEN8_L3SQCREG4, D_BDW_PLUS, F_CMD_ACCESS, NULL, NULL);
++	MMIO_DFH_MCR(GEN8_L3SQCREG4, D_BDW_PLUS, F_CMD_ACCESS, NULL, NULL);
+ 	MMIO_DFH(_MMIO(0xb100), D_BDW, F_CMD_ACCESS, NULL, NULL);
+ 	MMIO_DFH(_MMIO(0xb10c), D_BDW, F_CMD_ACCESS, NULL, NULL);
+ 	MMIO_D(_MMIO(0xb110), D_BDW);
+@@ -3181,7 +3184,7 @@ static int init_bdw_mmio_info(struct intel_gvt *gvt)
+ 
+ 	MMIO_DFH(_MMIO(0xe194), D_BDW_PLUS, F_MODE_MASK | F_CMD_ACCESS, NULL, NULL);
+ 	MMIO_DFH(_MMIO(0xe188), D_BDW_PLUS, F_MODE_MASK | F_CMD_ACCESS, NULL, NULL);
+-	MMIO_DFH(HALF_SLICE_CHICKEN2, D_BDW_PLUS, F_MODE_MASK | F_CMD_ACCESS, NULL, NULL);
++	MMIO_DFH_MCR(HALF_SLICE_CHICKEN2, D_BDW_PLUS, F_MODE_MASK | F_CMD_ACCESS, NULL, NULL);
+ 	MMIO_DFH(_MMIO(0x2580), D_BDW_PLUS, F_MODE_MASK | F_CMD_ACCESS, NULL, NULL);
+ 
+ 	MMIO_DFH(_MMIO(0x2248), D_BDW, F_CMD_ACCESS, NULL, NULL);
+@@ -3372,7 +3375,7 @@ static int init_skl_mmio_info(struct intel_gvt *gvt)
+ 	MMIO_D(DMC_HTP_SKL, D_SKL_PLUS);
+ 	MMIO_D(DMC_LAST_WRITE, D_SKL_PLUS);
+ 
+-	MMIO_DFH(BDW_SCRATCH1, D_SKL_PLUS, F_CMD_ACCESS, NULL, NULL);
++	MMIO_DFH_MCR(BDW_SCRATCH1, D_SKL_PLUS, F_CMD_ACCESS, NULL, NULL);
+ 
+ 	MMIO_D(SKL_DFSM, D_SKL_PLUS);
+ 	MMIO_D(DISPIO_CR_TX_BMU_CR0, D_SKL_PLUS);
+@@ -3619,7 +3622,7 @@ static int init_bxt_mmio_info(struct intel_gvt *gvt)
+ 	MMIO_D(GEN8_PUSHBUS_ENABLE, D_BXT);
+ 	MMIO_D(GEN8_PUSHBUS_SHIFT, D_BXT);
+ 	MMIO_D(GEN6_GFXPAUSE, D_BXT);
+-	MMIO_DFH(GEN8_L3SQCREG1, D_BXT, F_CMD_ACCESS, NULL, NULL);
++	MMIO_DFH_MCR(GEN8_L3SQCREG1, D_BXT, F_CMD_ACCESS, NULL, NULL);
+ 	MMIO_DFH(GEN8_L3CNTLREG, D_BXT, F_CMD_ACCESS, NULL, NULL);
+ 	MMIO_DFH(_MMIO(0x20D8), D_BXT, F_CMD_ACCESS, NULL, NULL);
+ 	MMIO_F(GEN8_RING_CS_GPR(RENDER_RING_BASE, 0), 0x40, F_CMD_ACCESS,
+diff --git a/drivers/gpu/drm/i915/gvt/mmio_context.c b/drivers/gpu/drm/i915/gvt/mmio_context.c
+index 4be07d627941..bf10c3bf6ad8 100644
+--- a/drivers/gpu/drm/i915/gvt/mmio_context.c
++++ b/drivers/gpu/drm/i915/gvt/mmio_context.c
+@@ -44,6 +44,8 @@
+ 
+ #define GEN9_MOCS_SIZE		64
+ 
++#define MCR_CAST(mcr)	_MMIO(i915_mcr_reg_offset(mcr))
++
+ /* Raw offset is appened to each line for convenience. */
+ static struct engine_mmio gen8_engine_mmio_list[] __cacheline_aligned = {
+ 	{RCS0, RING_MODE_GEN7(RENDER_RING_BASE), 0xffff, false}, /* 0x229c */
+@@ -106,15 +108,15 @@ static struct engine_mmio gen9_engine_mmio_list[] __cacheline_aligned = {
+ 	{RCS0, GEN8_CS_CHICKEN1, 0xffff, true}, /* 0x2580 */
+ 	{RCS0, COMMON_SLICE_CHICKEN2, 0xffff, true}, /* 0x7014 */
+ 	{RCS0, GEN9_CS_DEBUG_MODE1, 0xffff, false}, /* 0x20ec */
+-	{RCS0, GEN8_L3SQCREG4, 0, false}, /* 0xb118 */
+-	{RCS0, GEN9_SCRATCH1, 0, false}, /* 0xb11c */
++	{RCS0, _MMIO(0xb118), 0, false}, /* GEN8_L3SQCREG4 */
++	{RCS0, _MMIO(0xb11c), 0, false}, /* GEN9_SCRATCH1 */
+ 	{RCS0, GEN9_SCRATCH_LNCF1, 0, false}, /* 0xb008 */
+ 	{RCS0, GEN7_HALF_SLICE_CHICKEN1, 0xffff, true}, /* 0xe100 */
+-	{RCS0, HALF_SLICE_CHICKEN2, 0xffff, true}, /* 0xe180 */
++	{RCS0, _MMIO(0xe180), 0xffff, true}, /* HALF_SLICE_CHICKEN2 */
+ 	{RCS0, HSW_HALF_SLICE_CHICKEN3, 0xffff, true}, /* 0xe184 */
+-	{RCS0, GEN9_HALF_SLICE_CHICKEN5, 0xffff, true}, /* 0xe188 */
+-	{RCS0, GEN9_HALF_SLICE_CHICKEN7, 0xffff, true}, /* 0xe194 */
+-	{RCS0, GEN8_ROW_CHICKEN, 0xffff, true}, /* 0xe4f0 */
++	{RCS0, _MMIO(0xe188), 0xffff, true}, /* GEN9_HALF_SLICE_CHICKEN5 */
++	{RCS0, _MMIO(0xe194), 0xffff, true}, /* GEN9_HALF_SLICE_CHICKEN7 */
++	{RCS0, _MMIO(0xe4f0), 0xffff, true}, /* GEN8_ROW_CHICKEN */
+ 	{RCS0, TRVATTL3PTRDW(0), 0, true}, /* 0x4de0 */
+ 	{RCS0, TRVATTL3PTRDW(1), 0, true}, /* 0x4de4 */
+ 	{RCS0, TRNULLDETCT, 0, true}, /* 0x4de8 */
+diff --git a/drivers/gpu/drm/i915/i915_perf.c b/drivers/gpu/drm/i915/i915_perf.c
+index 0a9c3fcc09b1..22c10c4a1cbb 100644
+--- a/drivers/gpu/drm/i915/i915_perf.c
++++ b/drivers/gpu/drm/i915/i915_perf.c
+@@ -3986,7 +3986,7 @@ static u32 mask_reg_value(u32 reg, u32 val)
+ 	 * WaDisableSTUnitPowerOptimization workaround. Make sure the value
+ 	 * programmed by userspace doesn't change this.
+ 	 */
+-	if (REG_EQUAL(reg, HALF_SLICE_CHICKEN2))
++	if (reg == i915_mcr_reg_offset(HALF_SLICE_CHICKEN2))
+ 		val = val & ~_MASKED_BIT_ENABLE(GEN8_ST_PO_DISABLE);
+ 
+ 	/* WAIT_FOR_RC6_EXIT has only one bit fullfilling the function
+diff --git a/drivers/gpu/drm/i915/i915_reg_defs.h b/drivers/gpu/drm/i915/i915_reg_defs.h
+index 8f486f77609f..34eca053fab9 100644
+--- a/drivers/gpu/drm/i915/i915_reg_defs.h
++++ b/drivers/gpu/drm/i915/i915_reg_defs.h
+@@ -104,6 +104,10 @@ typedef struct {
+ 
+ #define _MMIO(r) ((const i915_reg_t){ .reg = (r) })
+ 
++typedef struct {
++	u32 mmio;
++} i915_mcr_reg_t;
++
+ #define INVALID_MMIO_REG _MMIO(0)
+ 
+ static __always_inline u32 i915_mmio_reg_offset(i915_reg_t reg)
+@@ -111,6 +115,11 @@ static __always_inline u32 i915_mmio_reg_offset(i915_reg_t reg)
+ 	return reg.reg;
  }
  
- static void glk_whitelist_build(struct intel_engine_cs *engine)
-@@ -1797,10 +1847,10 @@ static void icl_whitelist_build(struct intel_engine_cs *engine)
- 	switch (engine->class) {
- 	case RENDER_CLASS:
- 		/* WaAllowUMDToModifyHalfSliceChicken7:icl */
--		whitelist_reg(w, GEN9_HALF_SLICE_CHICKEN7);
-+		whitelist_mcr_reg(w, GEN9_HALF_SLICE_CHICKEN7);
- 
- 		/* WaAllowUMDToModifySamplerMode:icl */
--		whitelist_reg(w, GEN10_SAMPLER_MODE);
-+		whitelist_mcr_reg(w, GEN10_SAMPLER_MODE);
- 
- 		/* WaEnableStateCacheRedirectToCS:icl */
- 		whitelist_reg(w, GEN9_SLICE_COMMON_ECO_CHICKEN1);
-@@ -2025,7 +2075,7 @@ rcs_engine_wa_init(struct intel_engine_cs *engine, struct i915_wa_list *wal)
- 
- 	if (IS_DG2(i915)) {
- 		/* Wa_14015227452:dg2 */
--		wa_masked_en(wal, GEN9_ROW_CHICKEN4, XEHP_DIS_BBL_SYSPIPE);
-+		wa_mcr_masked_en(wal, GEN9_ROW_CHICKEN4, XEHP_DIS_BBL_SYSPIPE);
- 
- 		/* Wa_1509235366:dg2 */
- 		wa_write_or(wal, GEN12_GAMCNTRL_CTRL, INVALIDATION_BROADCAST_MODE_DIS |
-@@ -2036,27 +2086,27 @@ rcs_engine_wa_init(struct intel_engine_cs *engine, struct i915_wa_list *wal)
- 		 * recommended tuning settings documented in the bspec's
- 		 * performance guide section.
- 		 */
--		wa_write_or(wal, XEHP_L3SCQREG7, BLEND_FILL_CACHING_OPT_DIS);
-+		wa_mcr_write_or(wal, XEHP_L3SCQREG7, BLEND_FILL_CACHING_OPT_DIS);
- 
- 		/* Wa_18018781329:dg2 */
--		wa_write_or(wal, RENDER_MOD_CTRL, FORCE_MISS_FTLB);
--		wa_write_or(wal, COMP_MOD_CTRL, FORCE_MISS_FTLB);
--		wa_write_or(wal, VDBX_MOD_CTRL, FORCE_MISS_FTLB);
--		wa_write_or(wal, VEBX_MOD_CTRL, FORCE_MISS_FTLB);
-+		wa_mcr_write_or(wal, RENDER_MOD_CTRL, FORCE_MISS_FTLB);
-+		wa_mcr_write_or(wal, COMP_MOD_CTRL, FORCE_MISS_FTLB);
-+		wa_mcr_write_or(wal, VDBX_MOD_CTRL, FORCE_MISS_FTLB);
-+		wa_mcr_write_or(wal, VEBX_MOD_CTRL, FORCE_MISS_FTLB);
- 	}
- 
- 	if (IS_DG2_GRAPHICS_STEP(i915, G11, STEP_A0, STEP_B0)) {
- 		/* Wa_14013392000:dg2_g11 */
--		wa_masked_en(wal, GEN8_ROW_CHICKEN2, GEN12_ENABLE_LARGE_GRF_MODE);
-+		wa_mcr_masked_en(wal, GEN8_ROW_CHICKEN2, GEN12_ENABLE_LARGE_GRF_MODE);
- 
- 		/* Wa_16011620976:dg2_g11 */
--		wa_write_or(wal, LSC_CHICKEN_BIT_0_UDW, DIS_CHAIN_2XSIMD8);
-+		wa_mcr_write_or(wal, LSC_CHICKEN_BIT_0_UDW, DIS_CHAIN_2XSIMD8);
- 	}
- 
- 	if (IS_DG2_GRAPHICS_STEP(i915, G10, STEP_A0, STEP_B0) ||
- 	    IS_DG2_GRAPHICS_STEP(i915, G11, STEP_A0, STEP_B0)) {
- 		/* Wa_14012419201:dg2 */
--		wa_masked_en(wal, GEN9_ROW_CHICKEN4,
-+		wa_mcr_masked_en(wal, GEN9_ROW_CHICKEN4,
- 			     GEN12_DISABLE_HDR_PAST_PAYLOAD_HOLD_FIX);
- 	}
- 
-@@ -2066,13 +2116,13 @@ rcs_engine_wa_init(struct intel_engine_cs *engine, struct i915_wa_list *wal)
- 		 * Wa_22012826095:dg2
- 		 * Wa_22013059131:dg2
- 		 */
--		wa_write_clr_set(wal, LSC_CHICKEN_BIT_0_UDW,
--				 MAXREQS_PER_BANK,
--				 REG_FIELD_PREP(MAXREQS_PER_BANK, 2));
-+		wa_mcr_write_clr_set(wal, LSC_CHICKEN_BIT_0_UDW,
-+				     MAXREQS_PER_BANK,
-+				     REG_FIELD_PREP(MAXREQS_PER_BANK, 2));
- 
- 		/* Wa_22013059131:dg2 */
--		wa_write_or(wal, LSC_CHICKEN_BIT_0,
--			    FORCE_1_SUB_MESSAGE_PER_FRAGMENT);
-+		wa_mcr_write_or(wal, LSC_CHICKEN_BIT_0,
-+				FORCE_1_SUB_MESSAGE_PER_FRAGMENT);
- 	}
- 
- 	/* Wa_1308578152:dg2_g10 when first gslice is fused off */
-@@ -2085,19 +2135,19 @@ rcs_engine_wa_init(struct intel_engine_cs *engine, struct i915_wa_list *wal)
- 	if (IS_DG2_GRAPHICS_STEP(i915, G10, STEP_B0, STEP_FOREVER) ||
- 	    IS_DG2_G11(i915) || IS_DG2_G12(i915)) {
- 		/* Wa_22013037850:dg2 */
--		wa_write_or(wal, LSC_CHICKEN_BIT_0_UDW,
--			    DISABLE_128B_EVICTION_COMMAND_UDW);
-+		wa_mcr_write_or(wal, LSC_CHICKEN_BIT_0_UDW,
-+				DISABLE_128B_EVICTION_COMMAND_UDW);
- 
- 		/* Wa_22012856258:dg2 */
--		wa_masked_en(wal, GEN8_ROW_CHICKEN2,
-+		wa_mcr_masked_en(wal, GEN8_ROW_CHICKEN2,
- 			     GEN12_DISABLE_READ_SUPPRESSION);
- 
- 		/*
- 		 * Wa_22010960976:dg2
- 		 * Wa_14013347512:dg2
- 		 */
--		wa_masked_dis(wal, XEHP_HDC_CHICKEN0,
--			      LSC_L1_FLUSH_CTL_3D_DATAPORT_FLUSH_EVENTS_MASK);
-+		wa_mcr_masked_dis(wal, XEHP_HDC_CHICKEN0,
-+				  LSC_L1_FLUSH_CTL_3D_DATAPORT_FLUSH_EVENTS_MASK);
- 	}
- 
- 	if (IS_DG2_GRAPHICS_STEP(i915, G10, STEP_A0, STEP_B0)) {
-@@ -2105,7 +2155,7 @@ rcs_engine_wa_init(struct intel_engine_cs *engine, struct i915_wa_list *wal)
- 		 * Wa_1608949956:dg2_g10
- 		 * Wa_14010198302:dg2_g10
- 		 */
--		wa_masked_en(wal, GEN8_ROW_CHICKEN,
-+		wa_mcr_masked_en(wal, GEN8_ROW_CHICKEN,
- 			     MDQ_ARBITRATION_MODE | UGM_BACKUP_MODE);
- 
- 		/*
-@@ -2114,40 +2164,40 @@ rcs_engine_wa_init(struct intel_engine_cs *engine, struct i915_wa_list *wal)
- 		 * LSC_CHICKEN_BIT_0 always reads back as 0 is this stepping,
- 		 * so ignoring verification.
- 		 */
--		wa_add(wal, LSC_CHICKEN_BIT_0_UDW, 0,
--		       FORCE_SLM_FENCE_SCOPE_TO_TILE | FORCE_UGM_FENCE_SCOPE_TO_TILE,
--		       0, false);
-+		wa_mcr_add(wal, LSC_CHICKEN_BIT_0_UDW, 0,
-+			   FORCE_SLM_FENCE_SCOPE_TO_TILE | FORCE_UGM_FENCE_SCOPE_TO_TILE,
-+			   0, false);
- 	}
- 
- 	if (IS_DG2_GRAPHICS_STEP(i915, G10, STEP_A0, STEP_B0)) {
- 		/* Wa_22010430635:dg2 */
--		wa_masked_en(wal,
--			     GEN9_ROW_CHICKEN4,
--			     GEN12_DISABLE_GRF_CLEAR);
-+		wa_mcr_masked_en(wal,
-+				 GEN9_ROW_CHICKEN4,
-+				 GEN12_DISABLE_GRF_CLEAR);
- 
- 		/* Wa_14010648519:dg2 */
--		wa_write_or(wal, XEHP_L3NODEARBCFG, XEHP_LNESPARE);
-+		wa_mcr_write_or(wal, XEHP_L3NODEARBCFG, XEHP_LNESPARE);
- 	}
- 
- 	if (IS_DG2_GRAPHICS_STEP(i915, G10, STEP_A0, STEP_C0) ||
- 	    IS_DG2_G11(i915)) {
- 		/* Wa_22012654132:dg2 */
--		wa_add(wal, GEN10_CACHE_MODE_SS, 0,
--		       _MASKED_BIT_ENABLE(ENABLE_PREFETCH_INTO_IC),
--		       0 /* write-only, so skip validation */,
--		       true);
-+		wa_mcr_add(wal, GEN10_CACHE_MODE_SS, 0,
-+			   _MASKED_BIT_ENABLE(ENABLE_PREFETCH_INTO_IC),
-+			   0 /* write-only, so skip validation */,
-+			   true);
- 	}
- 
- 	/* Wa_14013202645:dg2 */
- 	if (IS_DG2_GRAPHICS_STEP(i915, G10, STEP_B0, STEP_C0) ||
- 	    IS_DG2_GRAPHICS_STEP(i915, G11, STEP_A0, STEP_B0))
--		wa_write_or(wal, RT_CTRL, DIS_NULL_QUERY);
-+		wa_mcr_write_or(wal, RT_CTRL, DIS_NULL_QUERY);
- 
- 	/* Wa_22012532006:dg2 */
- 	if (IS_DG2_GRAPHICS_STEP(engine->i915, G10, STEP_A0, STEP_C0) ||
- 	    IS_DG2_GRAPHICS_STEP(engine->i915, G11, STEP_A0, STEP_B0))
--		wa_masked_en(wal, GEN9_HALF_SLICE_CHICKEN7,
--			     DG2_DISABLE_ROUND_ENABLE_ALLOW_FOR_SSLA);
-+		wa_mcr_masked_en(wal, GEN9_HALF_SLICE_CHICKEN7,
-+				 DG2_DISABLE_ROUND_ENABLE_ALLOW_FOR_SSLA);
- 
- 	if (IS_DG2_GRAPHICS_STEP(engine->i915, G10, STEP_A0, STEP_B0)) {
- 		/* Wa_14010680813:dg2_g10 */
-@@ -2158,7 +2208,7 @@ rcs_engine_wa_init(struct intel_engine_cs *engine, struct i915_wa_list *wal)
- 	if (IS_DG2_GRAPHICS_STEP(engine->i915, G10, STEP_A0, STEP_B0) ||
- 	    IS_DG2_GRAPHICS_STEP(engine->i915, G11, STEP_A0, STEP_B0)) {
- 		/* Wa_14012362059:dg2 */
--		wa_write_or(wal, XEHP_MERT_MOD_CTRL, FORCE_MISS_FTLB);
-+		wa_mcr_write_or(wal, XEHP_MERT_MOD_CTRL, FORCE_MISS_FTLB);
- 	}
- 
- 	if (IS_DG1_GRAPHICS_STEP(i915, STEP_A0, STEP_B0) ||
-@@ -2185,7 +2235,7 @@ rcs_engine_wa_init(struct intel_engine_cs *engine, struct i915_wa_list *wal)
- 	if (IS_ALDERLAKE_P(i915) || IS_ALDERLAKE_S(i915) || IS_DG1(i915) ||
- 	    IS_ROCKETLAKE(i915) || IS_TIGERLAKE(i915)) {
- 		/* Wa_1606931601:tgl,rkl,dg1,adl-s,adl-p */
--		wa_masked_en(wal, GEN8_ROW_CHICKEN2, GEN12_DISABLE_EARLY_READ);
-+		wa_mcr_masked_en(wal, GEN8_ROW_CHICKEN2, GEN12_DISABLE_EARLY_READ);
- 
- 		/*
- 		 * Wa_1407928979:tgl A*
-@@ -2210,14 +2260,14 @@ rcs_engine_wa_init(struct intel_engine_cs *engine, struct i915_wa_list *wal)
- 	    IS_DG1_GRAPHICS_STEP(i915, STEP_A0, STEP_B0) ||
- 	    IS_ROCKETLAKE(i915) || IS_TIGERLAKE(i915)) {
- 		/* Wa_1409804808:tgl,rkl,dg1[a0],adl-s,adl-p */
--		wa_masked_en(wal, GEN8_ROW_CHICKEN2,
--			     GEN12_PUSH_CONST_DEREF_HOLD_DIS);
-+		wa_mcr_masked_en(wal, GEN8_ROW_CHICKEN2,
-+				 GEN12_PUSH_CONST_DEREF_HOLD_DIS);
- 
- 		/*
- 		 * Wa_1409085225:tgl
- 		 * Wa_14010229206:tgl,rkl,dg1[a0],adl-s,adl-p
- 		 */
--		wa_masked_en(wal, GEN9_ROW_CHICKEN4, GEN12_DISABLE_TDL_PUSH);
-+		wa_mcr_masked_en(wal, GEN9_ROW_CHICKEN4, GEN12_DISABLE_TDL_PUSH);
- 	}
- 
- 	if (IS_DG1_GRAPHICS_STEP(i915, STEP_A0, STEP_B0) ||
-@@ -2241,9 +2291,9 @@ rcs_engine_wa_init(struct intel_engine_cs *engine, struct i915_wa_list *wal)
- 	if (IS_DG1(i915) || IS_ROCKETLAKE(i915) || IS_TIGERLAKE(i915) ||
- 	    IS_ALDERLAKE_S(i915) || IS_ALDERLAKE_P(i915)) {
- 		/* Wa_1406941453:tgl,rkl,dg1,adl-s,adl-p */
--		wa_masked_en(wal,
--			     GEN10_SAMPLER_MODE,
--			     ENABLE_SMALLPL);
-+		wa_mcr_masked_en(wal,
-+				 GEN10_SAMPLER_MODE,
-+				 ENABLE_SMALLPL);
- 	}
- 
- 	if (GRAPHICS_VER(i915) == 11) {
-@@ -2277,9 +2327,9 @@ rcs_engine_wa_init(struct intel_engine_cs *engine, struct i915_wa_list *wal)
- 		 * Wa_1405733216:icl
- 		 * Formerly known as WaDisableCleanEvicts
- 		 */
--		wa_write_or(wal,
--			    GEN8_L3SQCREG4,
--			    GEN11_LQSC_CLEAN_EVICT_DISABLE);
-+		wa_mcr_write_or(wal,
-+				GEN8_L3SQCREG4,
-+				GEN11_LQSC_CLEAN_EVICT_DISABLE);
- 
- 		/* Wa_1606682166:icl */
- 		wa_write_or(wal,
-@@ -2287,10 +2337,10 @@ rcs_engine_wa_init(struct intel_engine_cs *engine, struct i915_wa_list *wal)
- 			    GEN7_DISABLE_SAMPLER_PREFETCH);
- 
- 		/* Wa_1409178092:icl */
--		wa_write_clr_set(wal,
--				 GEN11_SCRATCH2,
--				 GEN11_COHERENT_PARTIAL_WRITE_MERGE_ENABLE,
--				 0);
-+		wa_mcr_write_clr_set(wal,
-+				     GEN11_SCRATCH2,
-+				     GEN11_COHERENT_PARTIAL_WRITE_MERGE_ENABLE,
-+				     0);
- 
- 		/* WaEnable32PlaneMode:icl */
- 		wa_masked_en(wal, GEN9_CSFE_CHICKEN1_RCS,
-@@ -2348,30 +2398,30 @@ rcs_engine_wa_init(struct intel_engine_cs *engine, struct i915_wa_list *wal)
- 			     GEN9_PREEMPT_GPGPU_SYNC_SWITCH_DISABLE);
- 
- 		/* WaEnableLbsSlaRetryTimerDecrement:skl,bxt,kbl,glk,cfl */
--		wa_write_or(wal,
--			    BDW_SCRATCH1,
--			    GEN9_LBS_SLA_RETRY_TIMER_DECREMENT_ENABLE);
-+		wa_mcr_write_or(wal,
-+				BDW_SCRATCH1,
-+				GEN9_LBS_SLA_RETRY_TIMER_DECREMENT_ENABLE);
- 
- 		/* WaProgramL3SqcReg1DefaultForPerf:bxt,glk */
- 		if (IS_GEN9_LP(i915))
--			wa_write_clr_set(wal,
--					 GEN8_L3SQCREG1,
--					 L3_PRIO_CREDITS_MASK,
--					 L3_GENERAL_PRIO_CREDITS(62) |
--					 L3_HIGH_PRIO_CREDITS(2));
-+			wa_mcr_write_clr_set(wal,
-+					     GEN8_L3SQCREG1,
-+					     L3_PRIO_CREDITS_MASK,
-+					     L3_GENERAL_PRIO_CREDITS(62) |
-+					     L3_HIGH_PRIO_CREDITS(2));
- 
- 		/* WaOCLCoherentLineFlush:skl,bxt,kbl,cfl */
--		wa_write_or(wal,
--			    GEN8_L3SQCREG4,
--			    GEN8_LQSC_FLUSH_COHERENT_LINES);
-+		wa_mcr_write_or(wal,
-+				GEN8_L3SQCREG4,
-+				GEN8_LQSC_FLUSH_COHERENT_LINES);
- 
- 		/* Disable atomics in L3 to prevent unrecoverable hangs */
- 		wa_write_clr_set(wal, GEN9_SCRATCH_LNCF1,
- 				 GEN9_LNCF_NONIA_COHERENT_ATOMICS_ENABLE, 0);
--		wa_write_clr_set(wal, GEN8_L3SQCREG4,
--				 GEN8_LQSQ_NONIA_COHERENT_ATOMICS_ENABLE, 0);
--		wa_write_clr_set(wal, GEN9_SCRATCH1,
--				 EVICTION_PERF_FIX_ENABLE, 0);
-+		wa_mcr_write_clr_set(wal, GEN8_L3SQCREG4,
-+				     GEN8_LQSQ_NONIA_COHERENT_ATOMICS_ENABLE, 0);
-+		wa_mcr_write_clr_set(wal, GEN9_SCRATCH1,
-+				     EVICTION_PERF_FIX_ENABLE, 0);
- 	}
- 
- 	if (IS_HASWELL(i915)) {
-@@ -2596,30 +2646,30 @@ general_render_compute_wa_init(struct intel_engine_cs *engine, struct i915_wa_li
- 
- 	if (IS_XEHPSDV(i915)) {
- 		/* Wa_1409954639 */
--		wa_masked_en(wal,
--			     GEN8_ROW_CHICKEN,
--			     SYSTOLIC_DOP_CLOCK_GATING_DIS);
-+		wa_mcr_masked_en(wal,
-+				 GEN8_ROW_CHICKEN,
-+				 SYSTOLIC_DOP_CLOCK_GATING_DIS);
- 
- 		/* Wa_1607196519 */
--		wa_masked_en(wal,
--			     GEN9_ROW_CHICKEN4,
--			     GEN12_DISABLE_GRF_CLEAR);
-+		wa_mcr_masked_en(wal,
-+				 GEN9_ROW_CHICKEN4,
-+				 GEN12_DISABLE_GRF_CLEAR);
- 
- 		/* Wa_14010670810:xehpsdv */
--		wa_write_or(wal, XEHP_L3NODEARBCFG, XEHP_LNESPARE);
-+		wa_mcr_write_or(wal, XEHP_L3NODEARBCFG, XEHP_LNESPARE);
- 
- 		/* Wa_14010449647:xehpsdv */
--		wa_masked_en(wal, GEN8_HALF_SLICE_CHICKEN1,
--			     GEN7_PSD_SINGLE_PORT_DISPATCH_ENABLE);
-+		wa_mcr_masked_en(wal, GEN8_HALF_SLICE_CHICKEN1,
-+				 GEN7_PSD_SINGLE_PORT_DISPATCH_ENABLE);
- 
- 		/* Wa_18011725039:xehpsdv */
- 		if (IS_XEHPSDV_GRAPHICS_STEP(i915, STEP_A1, STEP_B0)) {
--			wa_masked_dis(wal, MLTICTXCTL, TDONRENDER);
--			wa_write_or(wal, L3SQCREG1_CCS0, FLUSHALLNONCOH);
-+			wa_mcr_masked_dis(wal, MLTICTXCTL, TDONRENDER);
-+			wa_mcr_write_or(wal, L3SQCREG1_CCS0, FLUSHALLNONCOH);
- 		}
- 
- 		/* Wa_14012362059:xehpsdv */
--		wa_write_or(wal, XEHP_MERT_MOD_CTRL, FORCE_MISS_FTLB);
-+		wa_mcr_write_or(wal, XEHP_MERT_MOD_CTRL, FORCE_MISS_FTLB);
- 
- 		/* Wa_14014368820:xehpsdv */
- 		wa_write_or(wal, GEN12_GAMCNTRL_CTRL, INVALIDATION_BROADCAST_MODE_DIS |
-@@ -2628,7 +2678,7 @@ general_render_compute_wa_init(struct intel_engine_cs *engine, struct i915_wa_li
- 
- 	if (IS_DG2(i915)) {
- 		/* Wa_22014226127:dg2 */
--		wa_write_or(wal, LSC_CHICKEN_BIT_0, DISABLE_D8_D16_COASLESCE);
-+		wa_mcr_write_or(wal, LSC_CHICKEN_BIT_0, DISABLE_D8_D16_COASLESCE);
- 	}
- }
- 
++static __always_inline u32 i915_mcr_reg_offset(const i915_mcr_reg_t reg)
++{
++	return reg.mmio;
++}
++
+ static inline bool i915_mmio_reg_equal(i915_reg_t a, i915_reg_t b)
+ {
+ 	return i915_mmio_reg_offset(a) == i915_mmio_reg_offset(b);
 -- 
 2.34.1
 
