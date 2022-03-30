@@ -1,57 +1,60 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4C5A24EC2E7
-	for <lists+dri-devel@lfdr.de>; Wed, 30 Mar 2022 14:03:15 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 5F3074EC2E9
+	for <lists+dri-devel@lfdr.de>; Wed, 30 Mar 2022 14:03:21 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 6111710E995;
-	Wed, 30 Mar 2022 12:03:11 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id DA35D10E9BC;
+	Wed, 30 Mar 2022 12:03:18 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-pf1-x42a.google.com (mail-pf1-x42a.google.com
- [IPv6:2607:f8b0:4864:20::42a])
- by gabe.freedesktop.org (Postfix) with ESMTPS id EB59710E995
- for <dri-devel@lists.freedesktop.org>; Wed, 30 Mar 2022 12:03:09 +0000 (UTC)
-Received: by mail-pf1-x42a.google.com with SMTP id t5so18514181pfg.4
- for <dri-devel@lists.freedesktop.org>; Wed, 30 Mar 2022 05:03:09 -0700 (PDT)
+Received: from mail-pf1-x432.google.com (mail-pf1-x432.google.com
+ [IPv6:2607:f8b0:4864:20::432])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id D23E310E9BC
+ for <dri-devel@lists.freedesktop.org>; Wed, 30 Mar 2022 12:03:16 +0000 (UTC)
+Received: by mail-pf1-x432.google.com with SMTP id p8so18506746pfh.8
+ for <dri-devel@lists.freedesktop.org>; Wed, 30 Mar 2022 05:03:16 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
- h=from:to:cc:subject:date:message-id;
- bh=RTflF79o5OP29Yqh4bp0dgbknlfdt+57gJKaSZ3FARI=;
- b=VL0bzsmtcSUPzVyWP7mi0xQ+4ls81NJ7RtCQgXi2DxlyIwGPzKC06587rD0lq+YntF
- J85c0GMPkJOvT91ylfX/r1/DkdKq7NGD2dP9Zv6Mqa7ptY9zk4PB9nSJUZ0a6ZPFtot8
- Hla7FGOpLSQuDnHq41TpQjuLilt47tTDdeu/zQwgQH+7Sc5jUHVmr5C3D03yfbAFww1p
- PAnMBhUhd5AH5PPQstg/rnla/t9CJm4C5KH+DRU6sfALCPn2UvqctWysc2paQnH1tnqK
- M+9MFUXjLGRsywHbqZYXorXp6EQ2va7Y/8AfCYtTaFxAQa8o4oSlDEKniIc8LNkv9es+
- b4tg==
+ h=from:to:cc:subject:date:message-id:in-reply-to:references;
+ bh=v0/H3G2XFiR4LVmAPedHiWgw4TnVBjO8kBG30Rx6UL8=;
+ b=mL8TYadv8FwnRuRKoTITRg23I+zj3YpjUkS/HxsO1mXhazrpiNa/gQ9ZhqpLDQUrqI
+ Y4H2jEfLUG4ejF2Bhyey9dkFvUs/W7aQIxqRp7nhurrbYn5LEk8qic5kstmJh4wXg7BW
+ Vdk2mKx1nPOwuwOvdqhVdNM5wUN1AsyMVOeIItxhTubGPYT2Q8biMXZkuzyQGVRcL8TD
+ vLAWHCkbUHL5ygmf5oFmiadYdSKWECmwoPmeze/QJEwdiUr0+MG7BhrV7gvPojJCLQft
+ q9izu8XueDRFAoQOtCX/qStvq7xqphJMDjzgUjUwfkywmVU/2xgyEbSfGahUW3czat4F
+ z9Yg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=x-gm-message-state:from:to:cc:subject:date:message-id;
- bh=RTflF79o5OP29Yqh4bp0dgbknlfdt+57gJKaSZ3FARI=;
- b=YZwLHSG8aFOKhaN55oI4VIGId13U1G/ALbSmwCXxySqKfxTfyvHeeNJ6HFI5nLVhEX
- xRwvdxitH6j/dWj6jE5ZEWPjcKHmuJdlGzkx53GcNItn54v8jk7GaYcq9p45+382uIYX
- n3TYVH8xUUzFmOzYxovWQUJr8khKLN43Layj5ZG+5br+jbN2zQDhnogenhw/JbppqqUT
- W+c7mhiGZKy4AnFWFm+SCDwUMTRz0FxuhHG4DmW1AvIvw/NjutzUDr0WXt7oPfxI+7ES
- lhSJPUNBo5Fg1RBjDkuZqFCW5oKZY8+o9UxmqjWv9f7tT2d3b21YOF+CXJzIQz+7ul5T
- NYgg==
-X-Gm-Message-State: AOAM531XtunOSMS8gvi/Z+avx6fNzwXaVRYgGMseIwpj4MLaaN7WVp8/
- 8w+BO895HJtyqygYJx2es73KtTmlTrE=
-X-Google-Smtp-Source: ABdhPJy/PTS8tLtmbm8he2KZ/1O5Av4iSQIycqWogq9rw09/AWC/lro3H8I7WnDkdQ9eq5Y4Svij+A==
-X-Received: by 2002:a63:4e:0:b0:37f:f3f0:2d24 with SMTP id
- 75-20020a63004e000000b0037ff3f02d24mr5812726pga.526.1648641789354; 
- Wed, 30 Mar 2022 05:03:09 -0700 (PDT)
+ h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
+ :references;
+ bh=v0/H3G2XFiR4LVmAPedHiWgw4TnVBjO8kBG30Rx6UL8=;
+ b=yUCxb4vSB5SQyo5vAUVmpyIRmBC7c+/J+VclyBs9eNPNVLcB+T6hsDmsPDw5QCwMh9
+ nUyOrCHIY3hJeg+m3Ws0IJ7rglpQwEuGzq4HgvrK0Q+S/3o72u3xiSwfKA5J9RQLYLAG
+ rr8drZw3QKcCTA3TP+FUybdv6vyy6ImaZaUbm6s9jdxYmQWBRU28CuqZ/HykSAHowHF3
+ PcoHybjR4Sp5p73M7FYbIDs9mSHDcJ0+q01SvyteWrdAoeorwXQwYAhi45rW5VyRGEtf
+ Sxyq7pJUwGPosDAOkPoM+4oJV2jVOIZcfHZ/pJQlwxEJrethx3s3ZQce2HOTQNa5pBtj
+ MQGQ==
+X-Gm-Message-State: AOAM530hdrw01aRMwve6bpdWBLmY7sTnmRqw1Qn2/+hWevwoihkh1cgy
+ Ly0OLO9WmV78YvxiBpibCOU=
+X-Google-Smtp-Source: ABdhPJyR8BQ3qxaZE8/z/Z4rWYLqKvWludsfxnyPd4gxVs9v0cM5heIjKQAvYMUgNX8NERHX+rcSSw==
+X-Received: by 2002:a05:6a00:194e:b0:4fb:32b9:dfd2 with SMTP id
+ s14-20020a056a00194e00b004fb32b9dfd2mr19805610pfk.10.1648641796180; 
+ Wed, 30 Mar 2022 05:03:16 -0700 (PDT)
 Received: from localhost ([119.3.119.18]) by smtp.gmail.com with ESMTPSA id
- d80-20020a621d53000000b004fae1119955sm23364301pfd.213.2022.03.30.05.03.07
+ j9-20020a056a00130900b004f73df40914sm23142978pfu.82.2022.03.30.05.03.14
  (version=TLS1_2 cipher=ECDHE-ECDSA-CHACHA20-POLY1305 bits=256/256);
- Wed, 30 Mar 2022 05:03:08 -0700 (PDT)
+ Wed, 30 Mar 2022 05:03:15 -0700 (PDT)
 From: Xiaomeng Tong <xiam0nd.tong@gmail.com>
 To: patrik.r.jakobsson@gmail.com,
 	airlied@linux.ie,
 	daniel@ffwll.ch
-Subject: [PATCH 0/5] fix missing break in list_or_each_entry
-Date: Wed, 30 Mar 2022 20:02:41 +0800
-Message-Id: <20220330120246.25580-1-xiam0nd.tong@gmail.com>
+Subject: [PATCH 1/5] gma500: fix a missing break in oaktrail_crtc_mode_set
+Date: Wed, 30 Mar 2022 20:02:42 +0800
+Message-Id: <20220330120246.25580-2-xiam0nd.tong@gmail.com>
 X-Mailer: git-send-email 2.17.1
+In-Reply-To: <20220330120246.25580-1-xiam0nd.tong@gmail.com>
+References: <20220330120246.25580-1-xiam0nd.tong@gmail.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -72,24 +75,36 @@ Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 Instead of exiting the loop as expected when an entry is found, the
 list_for_each_entry() continues until the traversal is complete. It
-could lead to invalid reference or set 'is_*' flags mistakely.
+will certainly lead to a invalid reference to list itereator variable
+'connector' after the loop pointing an bogus address at an offset
+from the list head, and could lead to multiple 'is_*' flags being set
+with true mistakely too.
 
-To fix this, when an entry is found, add a break to exit the loop.
+The invalid reference to list itereator is here:
+	drm_object_property_get_value(&connector->base,
 
-Xiaomeng Tong (5):
-  gma500: fix a missing break in oaktrail_crtc_mode_set
-  gma500: fix a missing break in cdv_intel_crtc_mode_set
-  gma500: fix a missing break in psb_intel_crtc_mode_set
-  gma500: fix a missing break in cdv_intel_dp_set_m_n
-  gma500: fix a missing break in psb_driver_load
+To fix this, when found the entry, add a break after the switch
+statement.
 
- drivers/gpu/drm/gma500/cdv_intel_display.c | 2 ++
- drivers/gpu/drm/gma500/cdv_intel_dp.c      | 2 ++
- drivers/gpu/drm/gma500/oaktrail_crtc.c     | 2 ++
- drivers/gpu/drm/gma500/psb_drv.c           | 2 ++
- drivers/gpu/drm/gma500/psb_intel_display.c | 2 ++
- 5 files changed, 10 insertions(+)
+Fixes: a69ac9ea85d87 ("drm/gma500: drm_connector_property -> drm_object_property")
+Signed-off-by: Xiaomeng Tong <xiam0nd.tong@gmail.com>
+---
+ drivers/gpu/drm/gma500/oaktrail_crtc.c | 2 ++
+ 1 file changed, 2 insertions(+)
 
+diff --git a/drivers/gpu/drm/gma500/oaktrail_crtc.c b/drivers/gpu/drm/gma500/oaktrail_crtc.c
+index 36c7c2686c90..eb2d79872bd5 100644
+--- a/drivers/gpu/drm/gma500/oaktrail_crtc.c
++++ b/drivers/gpu/drm/gma500/oaktrail_crtc.c
+@@ -409,6 +409,8 @@ static int oaktrail_crtc_mode_set(struct drm_crtc *crtc,
+ 			is_mipi = true;
+ 			break;
+ 		}
++
++		break;
+ 	}
+ 
+ 	/* Disable the VGA plane that we never use */
 -- 
 2.17.1
 
