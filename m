@@ -2,57 +2,59 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 287CC4ECE2F
-	for <lists+dri-devel@lfdr.de>; Wed, 30 Mar 2022 22:47:55 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id DEA114ECE31
+	for <lists+dri-devel@lfdr.de>; Wed, 30 Mar 2022 22:47:59 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id D2E8F10E76F;
-	Wed, 30 Mar 2022 20:47:52 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id B008910E8D5;
+	Wed, 30 Mar 2022 20:47:57 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-pg1-x536.google.com (mail-pg1-x536.google.com
- [IPv6:2607:f8b0:4864:20::536])
- by gabe.freedesktop.org (Postfix) with ESMTPS id BF47A10E904;
- Wed, 30 Mar 2022 20:47:50 +0000 (UTC)
-Received: by mail-pg1-x536.google.com with SMTP id z128so18417499pgz.2;
- Wed, 30 Mar 2022 13:47:50 -0700 (PDT)
+Received: from mail-pj1-x1035.google.com (mail-pj1-x1035.google.com
+ [IPv6:2607:f8b0:4864:20::1035])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 4E21910E93E;
+ Wed, 30 Mar 2022 20:47:53 +0000 (UTC)
+Received: by mail-pj1-x1035.google.com with SMTP id y16so9142010pju.4;
+ Wed, 30 Mar 2022 13:47:53 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
- h=from:to:cc:subject:date:message-id:mime-version
- :content-transfer-encoding;
- bh=yfjnQPsWSYFHa6/IEHWm+/2wuddS77YFSoX6K2k8WAs=;
- b=qC4uOR8IOWShCZwjgvJri6DARkuzz2I9SZJDZ4AvTXi1tq3hxOQJsE5l+kifQk5SWn
- u40vr1x2VFiEtk3vBCqTVqmO0p/2YSgtbYUP2g3+DyGI7yF6Pcv9GYZ8TPiMjcwBL90B
- gPHyEtrZstP5e410DG2KyJ4MSyFaYsXCQy676NuLB9m2dsG5YKSI0+UkCp2tPFMgv0n7
- u65aV4R7tkt+uRyuMygRTiS54EViRC/Fn2lir4czlzavyzwfI4JPjdtUI7Q+j8BDpEl1
- Xb2spl5hCkconGmuduSGN3E2H08Az6ON3hZPlRGUwWJaMcao369mKCR4msi7uWgQ03KN
- OovQ==
+ h=from:to:cc:subject:date:message-id:in-reply-to:references
+ :mime-version:content-transfer-encoding;
+ bh=ldA9Mhj+0mZCxGshcEo9t/60BKvUL5CRDf8xGkXfdGo=;
+ b=lPIT/WDBI7h0jSYCTMxfH2uW+XNKl+dSPF9A6KLgXLvPui73Swrq3Q1Q3AZg/DX0q3
+ +ILslReszOaZipmEUbTHMLnsqVfTJ9yEiM8hbPd/AXsL6lLCbhjBxI5szwGsTeuz4PXN
+ JGTd7r9ax2P4rnbV+gzD6ftAIBm8grCaA0+C+YWplgI/cEU+729K+Dw2xjeRsRAbs1Mj
+ jEUx5VvmE6Y75RXC5s8Yl+rJMHsTz5FZLydGXMPv0N/0XWKtiEHKeM3tOd+nxuDuUrng
+ 6Guam7SiAaXysw5rNN8ugEYxVvLXAd/7Y4pidtUZj8kdg/fJ6Djy34tH5qFwpyI1LWBK
+ y/eg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
- :content-transfer-encoding;
- bh=yfjnQPsWSYFHa6/IEHWm+/2wuddS77YFSoX6K2k8WAs=;
- b=ZYblziYzW+qx7DUUMsuwpc5fDGzSc7F0WnLiYfSx6A+YTSS8TnxGTplrcRUm4Dw2ov
- 7Qqdc/KjsxTecTUnWkv/fzfzSmVkzwPFPcsVZekm/TdYJr0HTyg8rpc2wYwl2ediVv7x
- 7iVgeEAaIVAng68aoP65TN9+8Luk6yvEVg+B9PfBzr+IxOYWcdSgvhb/1YcxukGNKMq3
- Q21kdEufu987bkNfdyTpkcx0g2VUOTVYUOItFipD0niYDdw3dnFAVSQi6IWJpzIq99sP
- h50UwfSU4zdKiiXoBScTAsgp+lPR8bFFZqc4VQbSK4Vl04UxYZ3OIkX2OcvwuOWar4DH
- ZwEA==
-X-Gm-Message-State: AOAM533JAwsTCM/WVAe1620c/dbzXbSmkKPLi8bgjDNSGBOO+R2QLYyW
- C0hqRV5QFtxKvPcVh86GiLycvgmoTu8=
-X-Google-Smtp-Source: ABdhPJxdLzVjn+t+OSFNxjZRQ67GvD+fwncEqPMil8nBUspK/F9AqvVDwI9XWwz2gknTpciSuqo5oQ==
-X-Received: by 2002:a63:ea0e:0:b0:37d:f227:ec57 with SMTP id
- c14-20020a63ea0e000000b0037df227ec57mr7536833pgi.441.1648673269692; 
- Wed, 30 Mar 2022 13:47:49 -0700 (PDT)
+ h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
+ :references:mime-version:content-transfer-encoding;
+ bh=ldA9Mhj+0mZCxGshcEo9t/60BKvUL5CRDf8xGkXfdGo=;
+ b=Wp/wmBjM74PB13zT/6TSf7FcdCWJYGrPiGquCLGsxZYFn6TwJyngXeEmELIGtVpjIq
+ q9z/Peu8ipwkoIRbttDDVagEmPNissKP3mftNpmYhbZ1Tm74HIGZHAv5ozixq2IyLQZ4
+ 31hHKdWU4FiE5ja62HrjuvUjc8rwULD7JM6n98DeUhFpriIPXtgBcD0oYe4E+hlxcBye
+ W8EiDTpSA9zd4ZGuru5+cvz82s9s+pP0A2f2ofxdv+GSI+cnZfhWtr7MZS5cFyEKL6fu
+ IWA4V3J2FohuoxiCfeJsBD0rxHgdYzo8K7kqJ+23pWRqMOlloTb+0FO2pZNF+/yM7QSe
+ uJAg==
+X-Gm-Message-State: AOAM533isC5AfFvqOKGDt+CWYai+3jWgbTkURc32JxlsEFA6h2nHPMKV
+ AOyyxKQizFa7xNdUHWdL2RJ/yOdGk3c=
+X-Google-Smtp-Source: ABdhPJysfQC0ENwfzI6jQB6u/35Gy9KhZqGh43AyIEW8pA1f1g9B+MQW/gPexaDjtmrxvOJnE1wXDA==
+X-Received: by 2002:a17:902:ab59:b0:156:17a5:5de7 with SMTP id
+ ij25-20020a170902ab5900b0015617a55de7mr1592725plb.6.1648673272187; 
+ Wed, 30 Mar 2022 13:47:52 -0700 (PDT)
 Received: from localhost ([2a00:79e1:abd:4a00:2703:3c72:eb1a:cffd])
  by smtp.gmail.com with ESMTPSA id
- a7-20020aa79707000000b004fb17ad3aefsm19836938pfg.108.2022.03.30.13.47.48
+ l2-20020a17090a150200b001c9f1a7aafesm3448919pja.29.2022.03.30.13.47.50
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 30 Mar 2022 13:47:48 -0700 (PDT)
+ Wed, 30 Mar 2022 13:47:51 -0700 (PDT)
 From: Rob Clark <robdclark@gmail.com>
 To: dri-devel@lists.freedesktop.org
-Subject: [PATCH v2 00/10] drm/msm: Userspace allocated GPU addresses
-Date: Wed, 30 Mar 2022 13:47:45 -0700
-Message-Id: <20220330204804.660819-1-robdclark@gmail.com>
+Subject: [PATCH v2 01/10] drm/msm/gem: Move prototypes
+Date: Wed, 30 Mar 2022 13:47:46 -0700
+Message-Id: <20220330204804.660819-2-robdclark@gmail.com>
 X-Mailer: git-send-email 2.35.1
+In-Reply-To: <20220330204804.660819-1-robdclark@gmail.com>
+References: <20220330204804.660819-1-robdclark@gmail.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
@@ -67,68 +69,100 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Rob Clark <robdclark@chromium.org>,
- open list <linux-kernel@vger.kernel.org>, Jonathan Marek <jonathan@marek.ca>,
- Akhil P Oommen <quic_akhilpo@quicinc.com>, linux-arm-msm@vger.kernel.org,
- Vladimir Lypak <vladimir.lypak@gmail.com>,
- Abhinav Kumar <quic_abhinavk@quicinc.com>,
- Bjorn Andersson <bjorn.andersson@linaro.org>,
- Yangtao Li <tiny.windzz@gmail.com>,
+Cc: Rob Clark <robdclark@chromium.org>, David Airlie <airlied@linux.ie>,
+ linux-arm-msm@vger.kernel.org, Abhinav Kumar <quic_abhinavk@quicinc.com>,
+ open list <linux-kernel@vger.kernel.org>, Sean Paul <sean@poorly.run>,
  Dmitry Osipenko <dmitry.osipenko@collabora.com>,
  Dmitry Baryshkov <dmitry.baryshkov@linaro.org>,
- Jordan Crouse <jordan@cosmicpenguin.net>, freedreno@lists.freedesktop.org,
- =?UTF-8?q?Christian=20K=C3=B6nig?= <christian.koenig@amd.com>,
- Dan Carpenter <dan.carpenter@oracle.com>
+ freedreno@lists.freedesktop.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 From: Rob Clark <robdclark@chromium.org>
 
-The first six paches are various cleanups and simplifications.  The
-next two get rid of redundant vma lookups in the submit and retire
-paths.  Following that, fenced vma lets us indicate a fence value
-following which the vma is no longer used, which is needed because
-otherwise userspace could observe the signaled fence prior to
-retire_submits() finishing.  (With userspace allocated GPU addresses
-userspace is tracking when a buffer is no longer used and it's vma can
-be deleted.)  And finally the last patch adds the new uabi for user-
-space allocated iova.
+These belong more cleanly in the gem header.
 
-v2: Fix inuse check in last patch, split GEM_WARN_ON() conversion to
-    separate patch, and nits
+Signed-off-by: Rob Clark <robdclark@chromium.org>
+Reviewed-by: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
+---
+ drivers/gpu/drm/msm/msm_drv.h | 23 -----------------------
+ drivers/gpu/drm/msm/msm_gem.h | 22 ++++++++++++++++++++++
+ 2 files changed, 22 insertions(+), 23 deletions(-)
 
-Rob Clark (10):
-  drm/msm/gem: Move prototypes
-  drm/msm/gpu: Drop duplicate fence counter
-  drm/msm/gem: Convert some missed GEM_WARN_ON()s
-  drm/msm/gem: Split out inuse helper
-  drm/msm/gem: Drop PAGE_SHIFT for address space mm
-  drm/msm: Drop msm_gem_iova()
-  drm/msm/gem: Rework vma lookup and pin
-  drm/msm/gem: Split vma lookup and pin
-  drm/msm/gem: Add fenced vma unpin
-  drm/msm: Add a way for userspace to allocate GPU iova
-
- drivers/gpu/drm/msm/adreno/a5xx_gpu.c   |   2 +-
- drivers/gpu/drm/msm/adreno/a6xx_gmu.c   |   2 +-
- drivers/gpu/drm/msm/adreno/a6xx_gpu.c   |   2 +-
- drivers/gpu/drm/msm/adreno/adreno_gpu.c |  14 ++-
- drivers/gpu/drm/msm/msm_drv.c           |  21 ++++
- drivers/gpu/drm/msm/msm_drv.h           |  23 ----
- drivers/gpu/drm/msm/msm_fb.c            |  16 ++-
- drivers/gpu/drm/msm/msm_fence.c         |   6 +-
- drivers/gpu/drm/msm/msm_fence.h         |   3 +
- drivers/gpu/drm/msm/msm_gem.c           | 151 ++++++++++++++----------
- drivers/gpu/drm/msm/msm_gem.h           |  47 +++++++-
- drivers/gpu/drm/msm/msm_gem_submit.c    |  17 ++-
- drivers/gpu/drm/msm/msm_gem_vma.c       |  59 ++++++---
- drivers/gpu/drm/msm/msm_gpu.c           |   8 +-
- drivers/gpu/drm/msm/msm_gpu.h           |   2 +-
- drivers/gpu/drm/msm/msm_ringbuffer.c    |  12 +-
- drivers/gpu/drm/msm/msm_ringbuffer.h    |   1 -
- include/uapi/drm/msm_drm.h              |   3 +
- 18 files changed, 258 insertions(+), 131 deletions(-)
-
+diff --git a/drivers/gpu/drm/msm/msm_drv.h b/drivers/gpu/drm/msm/msm_drv.h
+index 9f68aa685ed7..daf60d219463 100644
+--- a/drivers/gpu/drm/msm/msm_drv.h
++++ b/drivers/gpu/drm/msm/msm_drv.h
+@@ -250,29 +250,6 @@ void msm_atomic_state_free(struct drm_atomic_state *state);
+ int msm_crtc_enable_vblank(struct drm_crtc *crtc);
+ void msm_crtc_disable_vblank(struct drm_crtc *crtc);
+ 
+-int msm_gem_init_vma(struct msm_gem_address_space *aspace,
+-		struct msm_gem_vma *vma, int npages,
+-		u64 range_start, u64 range_end);
+-void msm_gem_purge_vma(struct msm_gem_address_space *aspace,
+-		struct msm_gem_vma *vma);
+-void msm_gem_unmap_vma(struct msm_gem_address_space *aspace,
+-		struct msm_gem_vma *vma);
+-int msm_gem_map_vma(struct msm_gem_address_space *aspace,
+-		struct msm_gem_vma *vma, int prot,
+-		struct sg_table *sgt, int npages);
+-void msm_gem_close_vma(struct msm_gem_address_space *aspace,
+-		struct msm_gem_vma *vma);
+-
+-
+-struct msm_gem_address_space *
+-msm_gem_address_space_get(struct msm_gem_address_space *aspace);
+-
+-void msm_gem_address_space_put(struct msm_gem_address_space *aspace);
+-
+-struct msm_gem_address_space *
+-msm_gem_address_space_create(struct msm_mmu *mmu, const char *name,
+-		u64 va_start, u64 size);
+-
+ int msm_register_mmu(struct drm_device *dev, struct msm_mmu *mmu);
+ void msm_unregister_mmu(struct drm_device *dev, struct msm_mmu *mmu);
+ 
+diff --git a/drivers/gpu/drm/msm/msm_gem.h b/drivers/gpu/drm/msm/msm_gem.h
+index 58e11c282928..947ff7d9b471 100644
+--- a/drivers/gpu/drm/msm/msm_gem.h
++++ b/drivers/gpu/drm/msm/msm_gem.h
+@@ -40,6 +40,15 @@ struct msm_gem_address_space {
+ 	int faults;
+ };
+ 
++struct msm_gem_address_space *
++msm_gem_address_space_get(struct msm_gem_address_space *aspace);
++
++void msm_gem_address_space_put(struct msm_gem_address_space *aspace);
++
++struct msm_gem_address_space *
++msm_gem_address_space_create(struct msm_mmu *mmu, const char *name,
++		u64 va_start, u64 size);
++
+ struct msm_gem_vma {
+ 	struct drm_mm_node node;
+ 	uint64_t iova;
+@@ -49,6 +58,19 @@ struct msm_gem_vma {
+ 	int inuse;
+ };
+ 
++int msm_gem_init_vma(struct msm_gem_address_space *aspace,
++		struct msm_gem_vma *vma, int npages,
++		u64 range_start, u64 range_end);
++void msm_gem_purge_vma(struct msm_gem_address_space *aspace,
++		struct msm_gem_vma *vma);
++void msm_gem_unmap_vma(struct msm_gem_address_space *aspace,
++		struct msm_gem_vma *vma);
++int msm_gem_map_vma(struct msm_gem_address_space *aspace,
++		struct msm_gem_vma *vma, int prot,
++		struct sg_table *sgt, int npages);
++void msm_gem_close_vma(struct msm_gem_address_space *aspace,
++		struct msm_gem_vma *vma);
++
+ struct msm_gem_object {
+ 	struct drm_gem_object base;
+ 
 -- 
 2.35.1
 
