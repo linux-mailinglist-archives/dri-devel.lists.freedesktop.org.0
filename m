@@ -2,78 +2,82 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 54ADA4EBD8E
-	for <lists+dri-devel@lfdr.de>; Wed, 30 Mar 2022 11:22:32 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 92B714EBD99
+	for <lists+dri-devel@lfdr.de>; Wed, 30 Mar 2022 11:23:42 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 90A3210F876;
-	Wed, 30 Mar 2022 09:22:27 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 811EC10F8C5;
+	Wed, 30 Mar 2022 09:23:40 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-wm1-x344.google.com (mail-wm1-x344.google.com
- [IPv6:2a00:1450:4864:20::344])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 5616A10F877
- for <dri-devel@lists.freedesktop.org>; Wed, 30 Mar 2022 09:22:26 +0000 (UTC)
-Received: by mail-wm1-x344.google.com with SMTP id
- v64-20020a1cac43000000b0038cfd1b3a6dso804588wme.5
- for <dri-devel@lists.freedesktop.org>; Wed, 30 Mar 2022 02:22:26 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ffwll.ch; s=google;
- h=date:from:to:cc:subject:message-id:mail-followup-to:references
- :mime-version:content-disposition:content-transfer-encoding
- :in-reply-to; bh=6nD/I4kMAKrtqDEqRY0M5yAOEN5U7/IDEqc6nl8dsQE=;
- b=WhmUMZcJlNyvp9GaS3eS2dmZlgPvM0A8M829EOkDwvb1RZq4PRuBuvwhdLJK6Yt3Uz
- cQfrMCTDEcybEbu1sVI+uFEVpW96hau4zUCF599xAzPy9QdHMD+7resniasNMwkg4I01
- qjUXS6h7HB6LqwkJ53mESZHi0wRbdpEGpaFAE=
+Received: from us-smtp-delivery-124.mimecast.com
+ (us-smtp-delivery-124.mimecast.com [170.10.129.124])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id D66AB10F8C5
+ for <dri-devel@lists.freedesktop.org>; Wed, 30 Mar 2022 09:23:39 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1648632218;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=J0Wc6ae9oM8FGTkdZNH+owW4zJbWXxLWuqI+PmdQQAE=;
+ b=hI/L4KQEabdQUp3RLPndA3YODDoMnS3py4Dpfz964HV2igNDTeTE5ERueyMy8nOL4EkIz1
+ ckZ8VcnUXY/U+xz6rcmwYDKp/LN7YwO2m4wn3nQakcBrpYTD8362tb0f7IMU3+1J6F+B/e
+ GIN8n+8h6w2wdjqfzSHRb/Kler73IHw=
+Received: from mail-wr1-f72.google.com (mail-wr1-f72.google.com
+ [209.85.221.72]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ us-mta-97-DwRnC23ZOd-IqmRqIp7UEA-1; Wed, 30 Mar 2022 05:23:37 -0400
+X-MC-Unique: DwRnC23ZOd-IqmRqIp7UEA-1
+Received: by mail-wr1-f72.google.com with SMTP id
+ j11-20020adfb30b000000b00205a3f19489so3668646wrd.16
+ for <dri-devel@lists.freedesktop.org>; Wed, 30 Mar 2022 02:23:37 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=x-gm-message-state:date:from:to:cc:subject:message-id
- :mail-followup-to:references:mime-version:content-disposition
- :content-transfer-encoding:in-reply-to;
- bh=6nD/I4kMAKrtqDEqRY0M5yAOEN5U7/IDEqc6nl8dsQE=;
- b=yV29oY8QZsBuni8UmAt3Ob+ayX/t9CBIJmMbROI+HtKqYkBGNqZysoCLVRZjzAqIom
- 2FrXwCB18Oj5j2pBxSbdhpaf5tFaxnHVBpHrb4CSqC/nClrKfhKW5AzKpX+NgAuz4AtH
- JI3SUk7+xdUXoJXp2Qb/8Tn/erls+FW5OwB/MtbHbEBEsbyffKr9onrbLF9zpuAMUshj
- JWisDUoVSjz3NSuQbuQLlB9nVTa33a4xxToB52T2dq2/Votcum4r0frKui++/VgsQDC/
- D7jDwwt5BVj4+MMFdJUVLcwiSfQoFHVRzvCq77SCRWQ1ADXKafygJ2iU2GxPtSN3srNi
- y2FA==
-X-Gm-Message-State: AOAM532eZch3jvqgUdBFINlpyrARq/WzHKPQ0aBxmFocsmYxAXThVf+U
- ztSfVYK7e9u6eo4i0+1NpC3udmoCQ8HLBGRh
-X-Google-Smtp-Source: ABdhPJzGWB1LDAO/Hz2gcmh/frjW/+Is2Xz8GPTL1nfINGJb8XtPCpcE3mAtT5+0Y3SgFxlFYgkyXg==
-X-Received: by 2002:a05:600c:1ca7:b0:38e:27a6:5546 with SMTP id
- k39-20020a05600c1ca700b0038e27a65546mr3463771wms.188.1648632144805; 
- Wed, 30 Mar 2022 02:22:24 -0700 (PDT)
-Received: from phenom.ffwll.local ([2a02:168:57f4:0:efd0:b9e5:5ae6:c2fa])
+ h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
+ :content-language:to:cc:references:from:in-reply-to
+ :content-transfer-encoding;
+ bh=J0Wc6ae9oM8FGTkdZNH+owW4zJbWXxLWuqI+PmdQQAE=;
+ b=LRmb6kMctRSGMgrFg2G1f7zXd6QTA192/F7Lk8ZXp1gou2xpSnpGOwahesMhJc3UvT
+ VEOxibheQoUr4bLg5qqAmcP6RhI69Gvs5ZNkyvBStyd2QgSDJelZoaXaUxjF2WkWZN4S
+ g893tH0QxrkJJZHuKmFizYFkzhEf5lSZfPJ8Qj2qABYM5xaeFvh8e16I068GWi4Asxme
+ /Jda017+Hcqs63n01Y3AebKKpr0/C4hiA9AlGfQsRyhC6yhsR+Tkrulcy+UIVh0sBaQS
+ XXhPV7C4OkwBALWBn7oyInKnAVBKLB2PmOtRqC7sWPzyNijaw1UxQ3ElXETQEOm+9gMl
+ wSqg==
+X-Gm-Message-State: AOAM533T7Dl8IlcLtzgZ7x6ILpAsCiYBvU4Xrs2Lb4j3xutD8XUzQMFK
+ 9JtFIxYM8eHh0fno6PHXACvQNagEr6LWirspw9GbvESVqKjW6wBUbVU4vB5ftXPCAFs4GNLsBLv
+ vHgywg1558evlp+BiVIEJkCM0I1Ll
+X-Received: by 2002:a05:600c:35d0:b0:38c:e6fa:44eb with SMTP id
+ r16-20020a05600c35d000b0038ce6fa44ebmr3538730wmq.102.1648632216475; 
+ Wed, 30 Mar 2022 02:23:36 -0700 (PDT)
+X-Google-Smtp-Source: ABdhPJy1099w3d1zjjsYwPghOx3hJnfySmr1rXfa2kY/fN753nYFo58WOYLBhz3A7JAvnEh5eNnE2A==
+X-Received: by 2002:a05:600c:35d0:b0:38c:e6fa:44eb with SMTP id
+ r16-20020a05600c35d000b0038ce6fa44ebmr3538715wmq.102.1648632216220; 
+ Wed, 30 Mar 2022 02:23:36 -0700 (PDT)
+Received: from [192.168.1.102] ([92.176.231.205])
  by smtp.gmail.com with ESMTPSA id
- h10-20020a05600c144a00b0038ccc75a6adsm4263403wmi.37.2022.03.30.02.22.23
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 30 Mar 2022 02:22:24 -0700 (PDT)
-Date: Wed, 30 Mar 2022 11:22:22 +0200
-From: Daniel Vetter <daniel@ffwll.ch>
-To: Paul Cercueil <paul@crapouillou.net>
-Subject: Re: [PATCH v2 12/12] Documentation: iio: Document high-speed DMABUF
- based API
-Message-ID: <YkQhTvwJOh0+ooQp@phenom.ffwll.local>
-Mail-Followup-To: Paul Cercueil <paul@crapouillou.net>,
- Jonathan Cameron <jic23@kernel.org>,
- Jonathan Lemon <jonathan.lemon@gmail.com>,
- Michael Hennerich <Michael.Hennerich@analog.com>,
- Jonathan Corbet <corbet@lwn.net>, linux-iio@vger.kernel.org,
- linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
- dri-devel@lists.freedesktop.org, linaro-mm-sig@lists.linaro.org,
- Alexandru Ardelean <ardeleanalex@gmail.com>,
- Christian =?iso-8859-1?Q?K=F6nig?= <christian.koenig@amd.com>
-References: <20220207125933.81634-1-paul@crapouillou.net>
- <20220207130140.81891-1-paul@crapouillou.net>
- <20220207130140.81891-2-paul@crapouillou.net>
- <YkLJU7Pp98CPIHfY@phenom.ffwll.local>
- <Z63I9R.MKYUKBH4V8L41@crapouillou.net>
- <YkMSmcQy1sKQJ5rJ@phenom.ffwll.local>
- <AUOI9R.I8SSZ2CC5S2W2@crapouillou.net>
+ p23-20020a1c5457000000b0038c98c12ea9sm4267303wmi.1.2022.03.30.02.23.35
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Wed, 30 Mar 2022 02:23:35 -0700 (PDT)
+Message-ID: <e02eceb6-4bf5-3641-502e-9e5a246ae5fd@redhat.com>
+Date: Wed, 30 Mar 2022 11:23:34 +0200
 MIME-Version: 1.0
-Content-Type: text/plain; charset=iso-8859-1
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <AUOI9R.I8SSZ2CC5S2W2@crapouillou.net>
-X-Operating-System: Linux phenom 5.10.0-8-amd64 
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.7.0
+Subject: Re: [PATCH 3/8] drm/display: Introduce a DRM display-helper module
+To: Thomas Zimmermann <tzimmermann@suse.de>, daniel@ffwll.ch,
+ airlied@linux.ie, maarten.lankhorst@linux.intel.com, mripard@kernel.org,
+ jani.nikula@linux.intel.com, lyude@redhat.com
+References: <20220322192743.14414-1-tzimmermann@suse.de>
+ <20220322192743.14414-4-tzimmermann@suse.de>
+From: Javier Martinez Canillas <javierm@redhat.com>
+In-Reply-To: <20220322192743.14414-4-tzimmermann@suse.de>
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=javierm@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Language: en-US
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -86,337 +90,80 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Michael Hennerich <Michael.Hennerich@analog.com>,
- Jonathan Corbet <corbet@lwn.net>, linux-iio@vger.kernel.org,
- linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
- dri-devel@lists.freedesktop.org, linaro-mm-sig@lists.linaro.org,
- Alexandru Ardelean <ardeleanalex@gmail.com>,
- Jonathan Lemon <jonathan.lemon@gmail.com>,
- Christian =?iso-8859-1?Q?K=F6nig?= <christian.koenig@amd.com>,
- Jonathan Cameron <jic23@kernel.org>
+Cc: dri-devel@lists.freedesktop.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Tue, Mar 29, 2022 at 06:34:58PM +0100, Paul Cercueil wrote:
+On 3/22/22 20:27, Thomas Zimmermann wrote:
+> Replace the DP-helper module with a display-helper module. Update
+> all related Kconfig and Makefile rules.
 > 
+> Besides the existing code for DisplayPort, the new module will
+> contain helpers for other video-output standards, such as HDMI.
+> Drivers will still be able to select the required video-output
+> helpers. Linking all such code into a single module avoids the
+> proliferation of small kernel modules.
 > 
-> Le mar., mars 29 2022 at 16:07:21 +0200, Daniel Vetter <daniel@ffwll.ch> a
-> écrit :
-> > On Tue, Mar 29, 2022 at 10:47:23AM +0100, Paul Cercueil wrote:
-> > >  Hi Daniel,
-> > > 
-> > >  Le mar., mars 29 2022 at 10:54:43 +0200, Daniel Vetter
-> > > <daniel@ffwll.ch> a
-> > >  écrit :
-> > >  > On Mon, Feb 07, 2022 at 01:01:40PM +0000, Paul Cercueil wrote:
-> > >  > >  Document the new DMABUF based API.
-> > >  > >
-> > >  > >  v2: - Explicitly state that the new interface is optional and
-> > > is
-> > >  > >        not implemented by all drivers.
-> > >  > >      - The IOCTLs can now only be called on the buffer FD
-> > > returned by
-> > >  > >        IIO_BUFFER_GET_FD_IOCTL.
-> > >  > >      - Move the page up a bit in the index since it is core
-> > > stuff
-> > >  > > and not
-> > >  > >        driver-specific.
-> > >  > >
-> > >  > >  Signed-off-by: Paul Cercueil <paul@crapouillou.net>
-> > >  > >  ---
-> > >  > >   Documentation/driver-api/dma-buf.rst |  2 +
-> > >  > >   Documentation/iio/dmabuf_api.rst     | 94
-> > >  > > ++++++++++++++++++++++++++++
-> > >  > >   Documentation/iio/index.rst          |  2 +
-> > >  > >   3 files changed, 98 insertions(+)
-> > >  > >   create mode 100644 Documentation/iio/dmabuf_api.rst
-> > >  > >
-> > >  > >  diff --git a/Documentation/driver-api/dma-buf.rst
-> > >  > > b/Documentation/driver-api/dma-buf.rst
-> > >  > >  index 2cd7db82d9fe..d3c9b58d2706 100644
-> > >  > >  --- a/Documentation/driver-api/dma-buf.rst
-> > >  > >  +++ b/Documentation/driver-api/dma-buf.rst
-> > >  > >  @@ -1,3 +1,5 @@
-> > >  > >  +.. _dma-buf:
-> > >  > >  +
-> > >  > >   Buffer Sharing and Synchronization
-> > >  > >   ==================================
-> > >  > >
-> > >  > >  diff --git a/Documentation/iio/dmabuf_api.rst
-> > >  > > b/Documentation/iio/dmabuf_api.rst
-> > >  > >  new file mode 100644
-> > >  > >  index 000000000000..43bb2c1b9fdc
-> > >  > >  --- /dev/null
-> > >  > >  +++ b/Documentation/iio/dmabuf_api.rst
-> > >  > >  @@ -0,0 +1,94 @@
-> > >  > >  +===================================
-> > >  > >  +High-speed DMABUF interface for IIO
-> > >  > >  +===================================
-> > >  > >  +
-> > >  > >  +1. Overview
-> > >  > >  +===========
-> > >  > >  +
-> > >  > >  +The Industrial I/O subsystem supports access to buffers
-> > > through a
-> > >  > > file-based
-> > >  > >  +interface, with read() and write() access calls through the
-> > > IIO
-> > >  > > device's dev
-> > >  > >  +node.
-> > >  > >  +
-> > >  > >  +It additionally supports a DMABUF based interface, where the
-> > >  > > userspace
-> > >  > >  +application can allocate and append DMABUF objects to the
-> > > buffer's
-> > >  > > queue.
-> > >  > >  +This interface is however optional and is not available in all
-> > >  > > drivers.
-> > >  > >  +
-> > >  > >  +The advantage of this DMABUF based interface vs. the read()
-> > >  > >  +interface, is that it avoids an extra copy of the data
-> > > between the
-> > >  > >  +kernel and userspace. This is particularly useful for
-> > > high-speed
-> > >  > >  +devices which produce several megabytes or even gigabytes of
-> > > data
-> > >  > > per
-> > >  > >  +second.
-> > >  > >  +
-> > >  > >  +The data in this DMABUF interface is managed at the
-> > > granularity of
-> > >  > >  +DMABUF objects. Reducing the granularity from byte level to
-> > > block
-> > >  > > level
-> > >  > >  +is done to reduce the userspace-kernelspace synchronization
-> > >  > > overhead
-> > >  > >  +since performing syscalls for each byte at a few Mbps is just
-> > > not
-> > >  > >  +feasible.
-> > >  > >  +
-> > >  > >  +This of course leads to a slightly increased latency. For this
-> > >  > > reason an
-> > >  > >  +application can choose the size of the DMABUFs as well as how
-> > > many
-> > >  > > it
-> > >  > >  +allocates. E.g. two DMABUFs would be a traditional double
-> > > buffering
-> > >  > >  +scheme. But using a higher number might be necessary to avoid
-> > >  > >  +underflow/overflow situations in the presence of scheduling
-> > >  > > latencies.
-> > >  >
-> > >  > So this reads a lot like reinventing io-uring with pre-registered
-> > >  > O_DIRECT
-> > >  > memory ranges. Except it's using dma-buf and hand-rolling a lot of
-> > >  > pieces
-> > >  > instead of io-uring and O_DIRECT.
-> > > 
-> > >  I don't see how io_uring would help us. It's an async I/O
-> > > framework, does it
-> > >  allow us to access a kernel buffer without copying the data? Does
-> > > it allow
-> > >  us to zero-copy the data to a network interface?
-> > 
-> > With networking, do you mean rdma, or some other kind of networking?
-> > Anything else than rdma doesn't support dma-buf, and I don't think it
-> > will
-> > likely ever do so. Similar it's really tricky to glue dma-buf support
-> > into
-> > the block layer.
-> 
-> By networking I mean standard sockets. If I'm not mistaken, Jonathan Lemon's
-> work on zctap was to add dma-buf import/export support to standard sockets.
-> 
-> > Wrt io_uring, yes it's async, but that's not the point. The point is
-> > that
-> > with io_uring you pre-register ranges for reads and writes to target,
-> > which in combination with O_DIRECT, makes it effectively (and
-> > efficient!)
-> > zero-copy. Plus it has full integration with both networking and normal
-> > file io, which dma-buf just doesn't have.
-> > 
-> > Like you _cannot_ do zero copy from a dma-buf into a normal file. You
-> > absolutely can do the same with io_uring.
-> 
-> I believe io_uring does zero-copy the same way as splice(), by
-> duplicating/moving pages? Because that wouldn't work with DMA coherent
-> memory, which is contiguous and not backed by pages.
+> Signed-off-by: Thomas Zimmermann <tzimmermann@suse.de>
+> ---
 
-Yeah if your memory has to be contig and/or write-combined/uncached for
-dma reasons, then we're much more firmly into dma-buf territory. But also
-that means we really need dma-buf support in the networking stack, and
-that might be a supreme challenge.
+[snip]
 
-E.g. dma-buf is all about pre-registering memory (dma_buf_attach is
-potentilly very expensive) for a specific device. With full generality
-networking, none of this is possible since until you make the dynamic
-decision to send stuff out, you might not even know the device the packets
-go out on.
+> +config DRM_DISPLAY_HELPER
+> +	tristate
+> +	depends on DRM
+> +	help
+> +	  DRM helpers for display adapters.
+> +
+>  config DRM_DP_HELPER
+>  	tristate
+>  	depends on DRM
+> +	select DRM_DISPLAY_HELPER
+>  	help
+>  	  DRM helpers for DisplayPort.
+> 
 
-Also with filtering and everything cpu access is pretty much assumed, and
-doing that with dma-buf is a bit a challenge.
--Daniel
+I was about to ask why this would still be needed but then re-read the
+commit message that says drivers will still be able to select required
+video-output helpers.
 
-> 
-> > >  > At least if the entire justification for dma-buf support is
-> > > zero-copy
-> > >  > support between the driver and userspace it's _really_ not the
-> > > right
-> > >  > tool
-> > >  > for the job. dma-buf is for zero-copy between devices, with cpu
-> > > access
-> > >  > from userpace (or kernel fwiw) being very much the exception (and
-> > > often
-> > >  > flat-out not supported at all).
-> > > 
-> > >  We want both. Using dma-bufs for the driver/userspace interface is a
-> > >  convenience as we then have a unique API instead of two distinct
-> > > ones.
-> > > 
-> > >  Why should CPU access from userspace be the exception? It works
-> > > fine for IIO
-> > >  dma-bufs. You keep warning about this being a terrible design, but
-> > > I simply
-> > >  don't see it.
-> > 
-> > It depends really on what you're trying to do, and there's extremely
-> > high
-> > chances it will simply not work.
-> 
-> Well it does work though. The userspace interface is stupidly simple here -
-> one dma-buf, backed by DMA coherent memory, is enqueued for processing by
-> the DMA. The userspace calling the "sync" ioctl on the dma-buf will block
-> until the transfer is complete, and then userspace can access it again.
-> 
-> 
-> > Unless you want to do zero copy with a gpu, or something which is in
-> > that
-> > ecosystem of accelerators and devices, then dma-buf is probably not what
-> > you're looking for.
-> > -Daniel
-> 
-> I want to do zero-copy between a IIO device and the network/USB, and right
-> now there is absolutely nothing in place that allows me to do that. So I
-> have to get creative.
-> 
-> Cheers,
-> -Paul
-> 
-> > > 
-> > >  > >  +
-> > >  > >  +2. User API
-> > >  > >  +===========
-> > >  > >  +
-> > >  > >  +``IIO_BUFFER_DMABUF_ALLOC_IOCTL(struct iio_dmabuf_alloc_req
-> > > *)``
-> > >  > >
-> > > +----------------------------------------------------------------
-> > >  > >  +
-> > >  > >  +Each call will allocate a new DMABUF object. The return value
-> > > (if
-> > >  > > not
-> > >  > >  +a negative errno value as error) will be the file descriptor
-> > > of
-> > >  > > the new
-> > >  > >  +DMABUF.
-> > >  > >  +
-> > >  > >  +``IIO_BUFFER_DMABUF_ENQUEUE_IOCTL(struct iio_dmabuf *)``
-> > >  > >  +--------------------------------------------------------
-> > >  > >  +
-> > >  > >  +Place the DMABUF object into the queue pending for hardware
-> > >  > > process.
-> > >  > >  +
-> > >  > >  +These two IOCTLs have to be performed on the IIO buffer's file
-> > >  > >  +descriptor, obtained using the `IIO_BUFFER_GET_FD_IOCTL`
-> > > ioctl.
-> > >  > >  +
-> > >  > >  +3. Usage
-> > >  > >  +========
-> > >  > >  +
-> > >  > >  +To access the data stored in a block by userspace the block
-> > > must be
-> > >  > >  +mapped to the process's memory. This is done by calling
-> > > mmap() on
-> > >  > > the
-> > >  > >  +DMABUF's file descriptor.
-> > >  > >  +
-> > >  > >  +Before accessing the data through the map, you must use the
-> > >  > >  +DMA_BUF_IOCTL_SYNC(struct dma_buf_sync *) ioctl, with the
-> > >  > >  +DMA_BUF_SYNC_START flag, to make sure that the data is
-> > > available.
-> > >  > >  +This call may block until the hardware is done with this
-> > > block.
-> > >  > > Once
-> > >  > >  +you are done reading or writing the data, you must use this
-> > > ioctl
-> > >  > > again
-> > >  > >  +with the DMA_BUF_SYNC_END flag, before enqueueing the DMABUF
-> > > to the
-> > >  > >  +kernel's queue.
-> > >  > >  +
-> > >  > >  +If you need to know when the hardware is done with a DMABUF,
-> > > you
-> > >  > > can
-> > >  > >  +poll its file descriptor for the EPOLLOUT event.
-> > >  > >  +
-> > >  > >  +Finally, to destroy a DMABUF object, simply call close() on
-> > > its
-> > >  > > file
-> > >  > >  +descriptor.
-> > >  > >  +
-> > >  > >  +For more information about manipulating DMABUF objects, see:
-> > >  > > :ref:`dma-buf`.
-> > >  > >  +
-> > >  > >  +A typical workflow for the new interface is:
-> > >  > >  +
-> > >  > >  +    for block in blocks:
-> > >  > >  +      DMABUF_ALLOC block
-> > >  > >  +      mmap block
-> > >  > >  +
-> > >  > >  +    enable buffer
-> > >  > >  +
-> > >  > >  +    while !done
-> > >  > >  +      for block in blocks:
-> > >  > >  +        DMABUF_ENQUEUE block
-> > >  > >  +
-> > >  > >  +        DMABUF_SYNC_START block
-> > >  > >  +        process data
-> > >  > >  +        DMABUF_SYNC_END block
-> > >  > >  +
-> > >  > >  +    disable buffer
-> > >  > >  +
-> > >  > >  +    for block in blocks:
-> > >  > >  +      close block
-> > >  > >  diff --git a/Documentation/iio/index.rst
-> > >  > > b/Documentation/iio/index.rst
-> > >  > >  index 58b7a4ebac51..669deb67ddee 100644
-> > >  > >  --- a/Documentation/iio/index.rst
-> > >  > >  +++ b/Documentation/iio/index.rst
-> > >  > >  @@ -9,4 +9,6 @@ Industrial I/O
-> > >  > >
-> > >  > >      iio_configfs
-> > >  > >
-> > >  > >  +   dmabuf_api
-> > >  > >  +
-> > >  > >      ep93xx_adc
-> > >  > >  --
-> > >  > >  2.34.1
-> > >  > >
-> > >  >
-> > >  > --
-> > >  > Daniel Vetter
-> > >  > Software Engineer, Intel Corporation
-> > >  > http://blog.ffwll.ch
-> > > 
-> > > 
-> > 
-> > --
-> > Daniel Vetter
-> > Software Engineer, Intel Corporation
-> > http://blog.ffwll.ch
-> 
-> 
+That makes sense since the fact that all helpers will be in the same module
+would be transparent to drivers.
+
+> diff --git a/drivers/gpu/drm/display/Makefile b/drivers/gpu/drm/display/Makefile
+> index 75faffc706b1..90f12e9b4735 100644
+> --- a/drivers/gpu/drm/display/Makefile
+> +++ b/drivers/gpu/drm/display/Makefile
+> @@ -2,8 +2,9 @@
+>  
+>  obj-$(CONFIG_DRM_DP_AUX_BUS) += drm_dp_aux_bus.o
+>  
+> -drm_dp_helper-y := drm_dp.o drm_dp_dual_mode_helper.o drm_dp_helper_mod.o drm_dp_mst_topology.o
+> -drm_dp_helper-$(CONFIG_DRM_DP_AUX_CHARDEV) += drm_dp_aux_dev.o
+> -drm_dp_helper-$(CONFIG_DRM_DP_CEC) += drm_dp_cec.o
+> +drm_display_helper-y := drm_display_helper_mod.o
+> +drm_display_helper-$(CONFIG_DRM_DP_HELPER) := drm_dp_helper.o drm_dp_dual_mode_helper.o drm_dp_mst_topology.o
+> +drm_display_helper-$(CONFIG_DRM_DP_AUX_CHARDEV) += drm_dp_aux_dev.o
+> +drm_display_helper-$(CONFIG_DRM_DP_CEC) += drm_dp_cec.o
+>  
+> -obj-$(CONFIG_DRM_DP_HELPER) += drm_dp_helper.o
+> +obj-$(CONFIG_DRM_DISPLAY_HELPER) += drm_display_helper.o
+
+The drm_dp_helper.ko module has some parameters and this change will break
+existing kernel cmdline that are using it:
+
+$ modinfo drivers/gpu/drm/dp/drm_dp_helper.ko | grep parm | cut -d : -f2
+           drm_dp_cec_unregister_delay
+           dp_aux_i2c_speed_khz
+           dp_aux_i2c_transfer_size
+
+I don't know whether those are considered a kernel ABI or not though, and
+some already changed when the DP helpers were moved from drm_kms_helper.ko
 
 -- 
-Daniel Vetter
-Software Engineer, Intel Corporation
-http://blog.ffwll.ch
+Best regards,
+
+Javier Martinez Canillas
+Linux Engineering
+Red Hat
+
