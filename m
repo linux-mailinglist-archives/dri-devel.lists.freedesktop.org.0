@@ -1,58 +1,52 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id DDD484ECE47
-	for <lists+dri-devel@lfdr.de>; Wed, 30 Mar 2022 22:56:27 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id E72774ECE50
+	for <lists+dri-devel@lfdr.de>; Wed, 30 Mar 2022 23:02:06 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 972ED10E425;
-	Wed, 30 Mar 2022 20:56:23 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 3107A10E98C;
+	Wed, 30 Mar 2022 21:02:03 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-ed1-x52c.google.com (mail-ed1-x52c.google.com
- [IPv6:2a00:1450:4864:20::52c])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 1DD8010E425
- for <dri-devel@lists.freedesktop.org>; Wed, 30 Mar 2022 20:56:22 +0000 (UTC)
-Received: by mail-ed1-x52c.google.com with SMTP id r23so25921738edb.0
- for <dri-devel@lists.freedesktop.org>; Wed, 30 Mar 2022 13:56:22 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=20210112;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=nrCvj7Yq7SSib6FwgrmdzFU7UXWII5P9ju8EtUscCW0=;
- b=boNOk7s9MFWRe9Q5TIHyCBcLZAL3UIEBNmLOOWFhXw6emE+CwKKHdvhC0KffHeh0nF
- M6pQueP4aCRuJFI7dDzsd8w7oMHmH5zQ1LRTPvQqJiDWbX35wE19ft4HqpfvXL9C1Got
- NCX+Q7kxCou/I+IrAEJ9Str9SLE8Vpfu1F+nizveKZzqZBmp0ZbLt4163c8iNRc9oq8L
- +OvcysVAV7F4grrtlsY0RpODotiBIJhRyklfusZBaq0zNt0ADmOlhrzyjpVkba5kg+sN
- XtIoUFtjlMDxb5pCPzyxnwJLsJ9yaQfPKTqYXEV4ifVXSG43LsveuoFab9UFC5oCyEkr
- VAUA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=nrCvj7Yq7SSib6FwgrmdzFU7UXWII5P9ju8EtUscCW0=;
- b=7VZKEwj/rovarIO43BUEu5ul4GGYbZ5TLHWiT9jDJLucbbY4yF8jWG5/Pubbcz9o2s
- wrVcRkyxhWzxwvdRL4sWhOymn2KVH0Bx0yFhosMcSS9XFw+SC+/+CEsMGIRh7ywHFtQ2
- XmgjD6KY1PQdzUwv9k2wUIhRkokB83M2wOMYxjnHUJYQXdjgOHxG3Czs9M6XngXa/v4r
- IssuS9gpSU/nW5uGs4O6uE4E41xx3ujkmYqu1dffUrqt1CzwPkzZDRdfNabYbTPx71mx
- AKSLQt0EqFpXwClv3qj4W0IyNx5G3X8s734AejpIIwhnEuCUKti7c+yM2leOyvSIZ2TJ
- UtjQ==
-X-Gm-Message-State: AOAM531w3vhPnRQZryBSSf/henB+KkXyJmPPrdUElyL3qrFoBqopk4B8
- aNevN7kNJPmIDJc9neZMnlH/drrQgBwTWntYelz0Rw==
-X-Google-Smtp-Source: ABdhPJxrjw92bYCs2jMACCLJM4/KOh2wxHOU9997F7UwcQsMWyUFgKpYWFcmr9tg4GWCYtbl/45JU/IvvXHerOIfRxk=
-X-Received: by 2002:a05:6402:3452:b0:418:f963:42a3 with SMTP id
- l18-20020a056402345200b00418f96342a3mr13302952edc.12.1648673780493; Wed, 30
- Mar 2022 13:56:20 -0700 (PDT)
+Received: from mga01.intel.com (mga01.intel.com [192.55.52.88])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 56D7610E95F;
+ Wed, 30 Mar 2022 21:02:01 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+ t=1648674121; x=1680210121;
+ h=from:to:cc:subject:in-reply-to:references:date:
+ message-id:mime-version:content-transfer-encoding;
+ bh=VKsl5l0X5qZnjhCGV/8i/8Hg2/JrMfYqoAv9nloXixY=;
+ b=J8lIvZFufNEaC4AnVNGeTBf8394IOzTNPPmrRG6YB6Qi1Ms+O+H4k8Ya
+ 6ygv634UU4Lz02Z1/E98hS4CFeqKKRsSNQaxQTUKvsl+v7w8iu6hDzwfW
+ eDRRTe8wqk7BjDYcEwgXeo+xM8imuEF30w1LnLsJ176ygoOmliYL+9oC7
+ SrcTnUTuwmpYjrmlQpEuQRseAegS7ku5o4fg68FI6V66mM6h/bYV6HsPT
+ U2gtlYxdy0YwlY/F9/tZ0Bs7EKwm9DKCzTInyFHFGGKlEb2txvdhZwxFl
+ Rvt7jviMh7fTy1i1WLNE/UipYu1ZvGjYHq8IoD7e0qkSlVVUDbUUi119K g==;
+X-IronPort-AV: E=McAfee;i="6200,9189,10302"; a="284557741"
+X-IronPort-AV: E=Sophos;i="5.90,223,1643702400"; d="scan'208";a="284557741"
+Received: from orsmga008.jf.intel.com ([10.7.209.65])
+ by fmsmga101.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 30 Mar 2022 14:02:00 -0700
+X-IronPort-AV: E=Sophos;i="5.90,223,1643702400"; d="scan'208";a="565817165"
+Received: from nhanus-mobl.ger.corp.intel.com (HELO localhost)
+ ([10.252.62.116])
+ by orsmga008-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 30 Mar 2022 14:01:59 -0700
+From: Jani Nikula <jani.nikula@intel.com>
+To: Ville =?utf-8?B?U3lyasOkbMOk?= <ville.syrjala@linux.intel.com>
+Subject: Re: [PATCH 01/12] drm/edid: use struct edid * in drm_do_get_edid()
+In-Reply-To: <87r16jbhdq.fsf@intel.com>
+Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
+References: <cover.1648578814.git.jani.nikula@intel.com>
+ <380b903fb91b1e20a1a7af61db40b6c7c5617005.1648578814.git.jani.nikula@intel.com>
+ <YkRViiFfSOJQnsoI@intel.com> <87r16jbhdq.fsf@intel.com>
+Date: Thu, 31 Mar 2022 00:01:56 +0300
+Message-ID: <874k3fb1dn.fsf@intel.com>
 MIME-Version: 1.0
-References: <20220328035951.1817417-1-tjmercier@google.com>
- <20220328035951.1817417-3-tjmercier@google.com>
- <YkM6/57mVxoNfSvm@slm.duckdns.org>
-In-Reply-To: <YkM6/57mVxoNfSvm@slm.duckdns.org>
-From: "T.J. Mercier" <tjmercier@google.com>
-Date: Wed, 30 Mar 2022 13:56:09 -0700
-Message-ID: <CABdmKX2Gxg35k7QiL2Vn4zWhmQ4UnM-Z8cnOXR0fwBWyJnZ+Ng@mail.gmail.com>
-Subject: Re: [RFC v4 2/8] cgroup: gpu: Add a cgroup controller for allocator
- attribution of GPU memory
-To: Tejun Heo <tj@kernel.org>
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: quoted-printable
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -65,58 +59,54 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Zefan Li <lizefan.x@bytedance.com>, linux-doc@vger.kernel.org,
- David Airlie <airlied@linux.ie>, dri-devel@lists.freedesktop.org,
- Benjamin Gaignard <benjamin.gaignard@linaro.org>,
- Kalesh Singh <kaleshsingh@google.com>, Joel Fernandes <joel@joelfernandes.org>,
- Shuah Khan <shuah@kernel.org>, Sumit Semwal <sumit.semwal@linaro.org>,
- Kenny.Ho@amd.com, Jonathan Corbet <corbet@lwn.net>,
- Martijn Coenen <maco@android.com>, Laura Abbott <labbott@redhat.com>,
- linux-media@vger.kernel.org, linux-kselftest@vger.kernel.org,
- Todd Kjos <tkjos@android.com>, Thomas Zimmermann <tzimmermann@suse.de>,
- linaro-mm-sig@lists.linaro.org, Shuah Khan <skhan@linuxfoundation.org>,
- cgroups@vger.kernel.org, Suren Baghdasaryan <surenb@google.com>,
- Christian Brauner <brauner@kernel.org>,
- Greg Kroah-Hartman <gregkh@linuxfoundation.org>, linux-kernel@vger.kernel.org,
- Liam Mark <lmark@codeaurora.org>,
- =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>,
- =?UTF-8?B?QXJ2ZSBIasO4bm5ldsOlZw==?= <arve@android.com>,
- =?UTF-8?Q?Michal_Koutn=C3=BD?= <mkoutny@suse.com>,
- Johannes Weiner <hannes@cmpxchg.org>, Hridya Valsaraju <hridya@google.com>
+Cc: intel-gfx@lists.freedesktop.org, dri-devel@lists.freedesktop.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Tue, Mar 29, 2022 at 9:59 AM Tejun Heo <tj@kernel.org> wrote:
+On Wed, 30 Mar 2022, Jani Nikula <jani.nikula@intel.com> wrote:
+> On Wed, 30 Mar 2022, Ville Syrj=C3=A4l=C3=A4 <ville.syrjala@linux.intel.c=
+om> wrote:
+>> This one points to extension blocks too so using=20
+>> struct edid doesn't seem entirely appropriate.
 >
-> Hello,
-
-I'm sorry for the delay Tejun, my test device stopped working and my
-attention has been occupied with that.
-
+> So I've gone back and forth with this. I think I want to get rid of u8*
+> no matter what, because it always requires casting. I've used void* here
+> and there to allow mixed use, internally in drm_edid.c while
+> transitioning, and in public interfaces due to usage all over the place.
 >
-> On Mon, Mar 28, 2022 at 03:59:41AM +0000, T.J. Mercier wrote:
-> > The API/UAPI can be extended to set per-device/total allocation limits
-> > in the future.
+> OTOH I don't much like arithmetics on void*. It's a gcc extension.
 >
-> This total thing kinda bothers me. Can you please provide some concrete
-> examples of how this and per-device limits would be used?
-
-The use case we have for accounting the total (separate from the
-individual devices) is to include the value as part of bugreports, for
-understanding the system-wide amount of dmabuf allocations. I'm not
-aware of an existing need to limit the total. Admittedly this is just
-the sum over the devices, but we currently maintain out of tree code
-to do this sort of thing today. [1]
-
-The per-device limits would be used to restrict the amount of each
-type of allocation charged to an individual application to prevent
-hogging or to completely prevent access. This limitation is not
-something we have implemented today, but it is on our roadmap.
-
-[1] https://android-review.googlesource.com/c/kernel/common/+/1566704/3/drivers/dma-buf/dma-heap.c
-
+> struct edid * is useful for e.g. ->checksum and arithmetics. In many
+> places I've named it struct edid *block to distinguish. We could have a
+> struct edid_block too, which could have ->tag and ->checksum members,
+> for example, but then it would require casting or a function for "safe"
+> typecasting.
 >
-> Thanks.
+> I've also gone back and forth with the helpers for getting a pointer to
+> a block. For usage like this, kind of need both const and non-const
+> versions. And, with the plans I have for future, I'm not sure I want to
+> promote any EDID parsing outside of drm_edid.c, so maybe they should be
+> static.
 >
-> --
-> tejun
+> Undecided. C is a bit clunky here.
+
+Hmm. I wonder how a flexible array member would pan out.
+
+struct edid_extension {
+	u8 tag;
+        u8 revision;
+        u8 data[EDID_LENGTH - 3];
+        u8 checksum;
+} __packed;
+
+struct edid {
+	/* existing stuff*/
+        struct edid_extension extensions[];
+} __packed;
+
+
+BR,
+Jani.
+
+--=20
+Jani Nikula, Intel Open Source Graphics Center
