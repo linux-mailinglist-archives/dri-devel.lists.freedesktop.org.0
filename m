@@ -2,73 +2,74 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id EE8B64EBCFB
-	for <lists+dri-devel@lfdr.de>; Wed, 30 Mar 2022 10:53:02 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 92A2A4EBD04
+	for <lists+dri-devel@lfdr.de>; Wed, 30 Mar 2022 10:56:23 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id B0D4510F79C;
-	Wed, 30 Mar 2022 08:52:59 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 04F0210F7B9;
+	Wed, 30 Mar 2022 08:56:21 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from wout4-smtp.messagingengine.com (wout4-smtp.messagingengine.com
  [64.147.123.20])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 53EE110F79C
- for <dri-devel@lists.freedesktop.org>; Wed, 30 Mar 2022 08:52:58 +0000 (UTC)
-Received: from compute4.internal (compute4.nyi.internal [10.202.2.44])
- by mailout.west.internal (Postfix) with ESMTP id 1CC673200B8B;
- Wed, 30 Mar 2022 04:52:57 -0400 (EDT)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 677D710F7B9
+ for <dri-devel@lists.freedesktop.org>; Wed, 30 Mar 2022 08:56:20 +0000 (UTC)
+Received: from compute2.internal (compute2.nyi.internal [10.202.2.46])
+ by mailout.west.internal (Postfix) with ESMTP id 74D6A3201DCC;
+ Wed, 30 Mar 2022 04:56:19 -0400 (EDT)
 Received: from mailfrontend2 ([10.202.2.163])
- by compute4.internal (MEProxy); Wed, 30 Mar 2022 04:52:57 -0400
+ by compute2.internal (MEProxy); Wed, 30 Mar 2022 04:56:19 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=cerno.tech; h=cc
  :cc:content-type:date:date:from:from:in-reply-to:in-reply-to
  :message-id:mime-version:references:reply-to:sender:subject
- :subject:to:to; s=fm3; bh=F8KSgEQNL+X50ByDDnGxgTrZ3Mz9Aoki5wmYSW
- h4Xqk=; b=P2WkXJp+djj8QUq0QslAAESzhg2UdpL4wwlTeneTfkYdtxkSIRQzHB
- ZaboqWgbFsv/17SafgrMLKUyrbHz1vGBTOJeqQ9ZvBhMAP49hTBWIfB7tA9OwteN
- nLZ4ofxL9Q86yaS+OchdjQnz5OWuQ2bT6sylOC/S1BOi1TbSMzd068B2G5qLTU69
- gCrzkO8lmUDLCIdSpRRUmXD8PEjec7c7Xh0ccKypXcpt6kSwKG0dLybT5XdaKWcT
- I+mgFdgAqUgks1YJB8q2EPL9gM5wHfC+yIaoA2izM7gku4Kx8t06TVtVZz/eIVmN
- 9KVD18TotUNGp39rktKMI8MZ+tIEuImw==
+ :subject:to:to; s=fm3; bh=+S4oLc/xqK8ZDPJSacDNcX6qLUyxS1u8t8e9kf
+ OxLMg=; b=nuzFLxmKFWr4Yf9LeDELglsPHsrwep7eaYbmejbi8YYxFb81vVrs/f
+ i6anwmAGyx2TI0H3DPuXyJZOrVFt5K9nbMtyRaWFH0LOmScwfKVH6ZTIahMWavch
+ JyKl5DnrC3qc2hHR3SUAfOtmHAOgbWntznz/3sESWEXWpxw2Li8Oagbv1IuQ/+bk
+ WChllTSWAkXV6fAud+6Gor9hfwv1jMJ2jp/FumXrn7EwGp1f+D1wBLg3Z2c2hMsR
+ nLW2JPWEiIIqbM9EDG6eD5B2LJFBVMKm603MtzplNM0XnBr/3IdtX2KN9dxPazJJ
+ kw/eTBBSv0a7pJOAUUjOzsz9vZy3XoMg==
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
  messagingengine.com; h=cc:cc:content-type:date:date:from:from
  :in-reply-to:in-reply-to:message-id:mime-version:references
  :reply-to:sender:subject:subject:to:to:x-me-proxy:x-me-proxy
- :x-me-sender:x-me-sender:x-sasl-enc; s=fm3; bh=F8KSgEQNL+X50ByDD
- nGxgTrZ3Mz9Aoki5wmYSWh4Xqk=; b=XCMiS5K4p847brFr95QcWQ4nj1ewPvOL1
- RD4vHsUegn+GAoX3WQ20tSqa0TO1QAolnN7uMSYCwMZ5enPy7G/YXPlcZynAlVkI
- KCp6rxkkGIYaBdivfUPUwC4pAW2Euu3o3ThTKmYp7xUV3OWoEvpBl1T3L9yfvv13
- oPwDr4pW9Tfxd+Jo2tLM0KUOQQab8qwnCcOPtUk+I+HoxhWIz3WgTBLFL44BKqSH
- EkrwtskjpLM7l/dfnVBS4RHQ0WBBNcc6zJApcAIfrOsKN4UO1+cLX3QATthx6bB5
- QKmYlyeUo8wSUhFpao2pYpcvaOlZwd21JPSxezG0wvXKfFWO1eu+A==
-X-ME-Sender: <xms:ZxpEYlveE360BwNDjnRGHn1zhaoApt0WeSmhoVeVV2ax-EBlABeVgQ>
- <xme:ZxpEYueKFbbDOnuCiop6xqdCCp8gdg1rEhEUhfHPKLpxUhySvWeNZ0LXVOBYQzZGv
- TBbeK_OhtL2NUxhYDE>
-X-ME-Received: <xmr:ZxpEYowGTDjs_gfXzXH-x_nRt3v-09B27P1mJK5islSXBaGiB37Z8mSovv250ddpPsNWjzbZh2OKcypcpBZOJJmh26pSEGl5bQSUPAo>
-X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvvddrudeivddgtdelucetufdoteggodetrfdotf
+ :x-me-sender:x-me-sender:x-sasl-enc; s=fm3; bh=+S4oLc/xqK8ZDPJSa
+ cDNcX6qLUyxS1u8t8e9kfOxLMg=; b=jHPCygPBhWA2tGSmmhgggVdY31aHNYwtc
+ Jn2fjITPiFmxPFZgIXCdaRFBHIGABTnaIp5/mpadyLEeLPfxEnPPl8pODeAMloBW
+ F+NAZLZKaaXYsP+sGYV9FihtRyBCpfdN/qUca+mTbju8CpqFgY81GbR+XfneyQ7W
+ 2NgunyRDVNe28UxfWpTgqhZtD1bScba8n2Rt+DOl1uae1H32Gb3d9n4UCWMi2rVY
+ 0InGsOWc9NNYicmDbZ7jpWEWXCc2ZoEJwckr2JAp//C1IDDMD2yYlhSauymogkja
+ cop+tcBaZO8zRGRZ8wEUxaAb5BR9ceUre2O5Cp/7tF1KTgRxrbkEg==
+X-ME-Sender: <xms:MhtEYjhsNPoEti2ma_pfKbxIs5gHfPcNka9iSwrls1n8SPMMLU1PfA>
+ <xme:MhtEYgCAIj2YMI-48wN9Mkd-S7tLclxo9g-e9kzVgdl17CyeHTKcWt9_WIPoCAA0a
+ HXWOykqa3enNPd6jNA>
+X-ME-Received: <xmr:MhtEYjHYEP5mZgZQWJV6PM7UFwZkvy_XbM9emdPT4k0gaD2OfL7YTzRbC0iAyVD6NvwdkAAtBO_xd9LWOgLOcPzp_-E4FVxPYax3Mu8>
+X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvvddrudeivddguddtucetufdoteggodetrfdotf
  fvucfrrhhofhhilhgvmecuhfgrshhtofgrihhlpdfqfgfvpdfurfetoffkrfgpnffqhgen
  uceurghilhhouhhtmecufedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmne
  cujfgurhepfffhvffukfhfgggtuggjsehgtderredttddvnecuhfhrohhmpeforgigihhm
  vgcutfhiphgrrhguuceomhgrgihimhgvsegtvghrnhhordhtvggthheqnecuggftrfgrth
- htvghrnhepuedutdeuteefleekvdeileduteeuhfekueffveelieetgfdvhffhffelueeh
- teffnecuffhomhgrihhnpehsphhinhhitghsrdhnvghtnecuvehluhhsthgvrhfuihiivg
- eptdenucfrrghrrghmpehmrghilhhfrhhomhepmhgrgihimhgvsegtvghrnhhordhtvggt
- hh
-X-ME-Proxy: <xmx:aBpEYsP9M_xZAobaH_8ZhskQl45Z8Rt0xZTEOn7UmjxednnDvoO8mw>
- <xmx:aBpEYl8CKF75PNBBoAQuN1lJucpKvxTz_C3To5nP-I1BNRY0zNabfw>
- <xmx:aBpEYsX4pBu3VoEMsW0RG7i9L7qCcXII_xqquKNPkOoPL_MO_lW6Aw>
- <xmx:aBpEYhSqeZL31UxExwOgnUOZXnqw7DFcaaFVnojTUEo-3dCasxp8ZA>
+ htvghrnhepleekgeehhfdutdeljefgleejffehfffgieejhffgueefhfdtveetgeehieeh
+ gedunecuvehluhhsthgvrhfuihiivgeptdenucfrrghrrghmpehmrghilhhfrhhomhepmh
+ grgihimhgvsegtvghrnhhordhtvggthh
+X-ME-Proxy: <xmx:MhtEYgR_d1-M71t6t_DzdQheTTh5KUgumZIC8zaBtiAHeM2HeAsUlw>
+ <xmx:MhtEYgxx8s2hV0-0L2qPNM8FTFpRHtBB78-sGi0c4JlSUW_Bog1aZg>
+ <xmx:MhtEYm6GwaFwXsSSKrho4FfOjkBVXA5JYWPRZeaC8lPNZOVbm70thw>
+ <xmx:MxtEYqugmyvxGDKlo1QqxMytbh0xdVeKhWGtWraxqNoJukF3zc1QpQ>
 Received: by mail.messagingengine.com (Postfix) with ESMTPA; Wed,
- 30 Mar 2022 04:52:55 -0400 (EDT)
-Date: Wed, 30 Mar 2022 10:52:54 +0200
+ 30 Mar 2022 04:56:18 -0400 (EDT)
+Date: Wed, 30 Mar 2022 10:56:17 +0200
 From: Maxime Ripard <maxime@cerno.tech>
-To: Jagan Teki <jagan@amarulasolutions.com>
-Subject: Re: DRM Master ignoring hotplug event during display switching (QT)
-Message-ID: <20220330085254.yow3w4frr56wllou@houat>
-References: <CAMty3ZBT9WEPbkaoS_8t1O153tckBk0pxiP2cF75ASZb54SPUQ@mail.gmail.com>
+To: Dmitry Osipenko <dmitry.osipenko@collabora.com>
+Subject: Re: BUG: KASAN: use-after-free in drm_atomic_helper_wait_for_vblanks()
+Message-ID: <20220330085617.pyutwxtymnt4jjka@houat>
+References: <4438d667-1be2-24f1-c987-1a8e3fb85bcc@collabora.com>
+ <20220311142205.ztg6njrubmnjud7c@houat>
+ <32a34a20-f9b5-3b7b-95f5-a6a34ad225c4@collabora.com>
 MIME-Version: 1.0
 Content-Type: multipart/signed; micalg=pgp-sha512;
- protocol="application/pgp-signature"; boundary="o3ciwnmwduqh3zah"
+ protocol="application/pgp-signature"; boundary="q6cdt3wjoh6lx34o"
 Content-Disposition: inline
-In-Reply-To: <CAMty3ZBT9WEPbkaoS_8t1O153tckBk0pxiP2cF75ASZb54SPUQ@mail.gmail.com>
+In-Reply-To: <32a34a20-f9b5-3b7b-95f5-a6a34ad225c4@collabora.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -81,83 +82,73 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Dave Stevenson <dave.stevenson@raspberrypi.com>,
- linux-amarula <linux-amarula@amarulasolutions.com>,
- Neil Armstrong <narmstrong@baylibre.com>,
+Cc: David Airlie <airlied@linux.ie>,
  dri-devel <dri-devel@lists.freedesktop.org>,
- Andrzej Hajda <a.hajda@samsung.com>,
- Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
- Thomas Zimmermann <tzimmermann@suse.de>,
- Michael Nazzareno Trimarchi <michael@amarulasolutions.com>,
- Sam Ravnborg <sam@ravnborg.org>
+ Thomas Zimmermann <tzimmermann@suse.de>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 
---o3ciwnmwduqh3zah
+--q6cdt3wjoh6lx34o
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 Content-Transfer-Encoding: quoted-printable
 
-On Tue, Mar 29, 2022 at 11:38:32PM +0530, Jagan Teki wrote:
-> Hi all,
+On Tue, Mar 15, 2022 at 12:53:30AM +0300, Dmitry Osipenko wrote:
+> On 3/11/22 17:22, Maxime Ripard wrote:
+> > On Thu, Mar 10, 2022 at 03:33:07AM +0300, Dmitry Osipenko wrote:
+> >> I was playing/testing SuperTuxKart using VirtIO-GPU driver and spotted=
+ a
+> >> UAF bug in drm_atomic_helper_wait_for_vblanks().
+> >>
+> >> SuperTuxKart can use DRM directly, i.e. you can run game in VT without
+> >> Xorg or Wayland, this is where bugs happens. SuperTuxKart uses a
+> >> non-blocking atomic page flips and UAF happens when a new atomic state
+> >> is committed while there is a previous page flip still in-fly.
+> >>
+> >> What happens is that the new and old atomic states refer to the same
+> >> CRTC state somehow. Once the older atomic state is destroyed, the CRTC
+> >> state is freed and the newer atomic state continues to use the freed
+> >> CRTC state.
+> >=20
+> > I'm not sure what you mean by "the new and old atomic states refer to
+> > the same CRTC state", are those the same pointers?
 >=20
-> I have implemented runtime display switching in the MIPI switch design
-> where LVDS and HDMI bridges are selected with the help of runtime
-> GPIO.
->=20
-> Initial discussion on the same can be found here,
-> https://www.spinics.net/lists/dri-devel/msg318524.html
->=20
-> The implementation has been done by creating each connector at
-> runtime. The default boot will create the LVDS connector and based on
-> the HDMI plug-in the ISR.
->=20
-> 1. forcing the LVDS to disconnect
-> 2. call drm_kms_helper_hotplug_event
-> 3. detach the bridge chain
-> 4. attach the new bridge chain (HDMI)
-> 5. call drm_kms_helper_hotplug_event
->=20
-> do the reverse when we unplug the HDMI cable.
->=20
-> So, the bridge chains are attached and detached based on GPIO
-> Interrupt which is indeed identified based on the physical HDMIA
-> connector.
->=20
-> Pipeline for LVDS,
-> mxfsb =3D> nwl-dsi =3D> display-switch =3D> sn65dsi83=3D> panel-bridge
->=20
-> Pipeline for HDMI,
-> mxfsb =3D> nwl-dsi =3D> display-switch =3D> adv7511 =3D> display-connector
->=20
-> With this, implementation and I can able switch the displays with
-> default DRM (without specific DRM applications) where the LVDS is ON
-> by default and when HDMI plug-in the LVDS OFF/HDMI ON, and when HDMI
-> unplug the HDMI OFF/LVDS ON.
->=20
-> However, with QT5 I can see the DRM Master ignoring hotplug event by
-> returning 0 on drm_master_internal_acquire in
-> drm_fb_helper_hotplug_event. With this the hotplug returned early so
-> it cannot able to disconnect and connect the new switching connector.
->=20
-> Any help?
+> Yes, the pointers are the same. I'd assume that the newer atomic state
+> should duplicate CRTC state, but apparently it doesn't happen.
 
-I'm not sure why you started another discussion with pretty much the
-same content, but you can't rely on userspace handling the hotplug
-event. You'll have to deal with the case where it just doesn't.
+Yeah, I don't think this is right either
+
+> >> The bug is easily reproducible (at least by me) by playing SuperTuxKart
+> >> for a minute. It presents on latest -next and 5.17-rc7, I haven't
+> >> checked older kernel versions.
+> >>
+> >> I'm not an expert of the non-blocking code paths in DRM, so asking for
+> >> suggestions about where the root of the problem could be.
+> >=20
+> > Does it occur with other platforms? Can you easily test on something el=
+se?
+>=20
+> Shouldn't be easy to replicate this on other platforms, but I'll try.
+
+By replicating I meant running SuperTuxKart on a platform with a
+different KMS driver than virtio-gpu. So any ARM SBC with a GPU will do
+for example.
+
+That will allow us to see if it's a bug in virtio-gpu or in the
+helpers/core.
 
 Maxime
 
---o3ciwnmwduqh3zah
+--q6cdt3wjoh6lx34o
 Content-Type: application/pgp-signature; name="signature.asc"
 
 -----BEGIN PGP SIGNATURE-----
 
-iHUEABYKAB0WIQRcEzekXsqa64kGDp7j7w1vZxhRxQUCYkQaZgAKCRDj7w1vZxhR
-xQUkAP0e+D5ajXkkGGFzaSJdzEt6V5GAZV7aVR2vkj4yyJEAiwD+I0dLBrl2jXOp
-Muad9g78Dm8MHyytpC+VmkjCw3Nakg0=
-=dLpa
+iHUEABYKAB0WIQRcEzekXsqa64kGDp7j7w1vZxhRxQUCYkQbMAAKCRDj7w1vZxhR
+xb3EAQDCvLA30k7H3FBc1xEyHqbvLYH/od4oeqCxzmGQOVFnPAEAh5J2PhnuYMTM
+OacO//TdOBvsAcBmJY+L+/8A3labzwk=
+=galK
 -----END PGP SIGNATURE-----
 
---o3ciwnmwduqh3zah--
+--q6cdt3wjoh6lx34o--
