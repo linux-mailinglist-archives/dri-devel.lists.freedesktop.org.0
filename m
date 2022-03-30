@@ -1,39 +1,38 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id A5D344EB9E6
-	for <lists+dri-devel@lfdr.de>; Wed, 30 Mar 2022 07:12:24 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 076C94EB9E9
+	for <lists+dri-devel@lfdr.de>; Wed, 30 Mar 2022 07:12:34 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id A1DF610F3BD;
-	Wed, 30 Mar 2022 05:12:22 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id BD7DC10F3BF;
+	Wed, 30 Mar 2022 05:12:31 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from mailgw01.mediatek.com (unknown [60.244.123.138])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 3C51C10F3BC
- for <dri-devel@lists.freedesktop.org>; Wed, 30 Mar 2022 05:12:20 +0000 (UTC)
-X-UUID: d0f022349abf4372afe2f72ada015375-20220330
-X-UUID: d0f022349abf4372afe2f72ada015375-20220330
-Received: from mtkmbs10n2.mediatek.inc [(172.21.101.183)] by
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 40C9010F3BF
+ for <dri-devel@lists.freedesktop.org>; Wed, 30 Mar 2022 05:12:30 +0000 (UTC)
+X-UUID: c788adcedbfb4701b48689ef8bb3e588-20220330
+X-UUID: c788adcedbfb4701b48689ef8bb3e588-20220330
+Received: from mtkexhb01.mediatek.inc [(172.21.101.102)] by
  mailgw01.mediatek.com (envelope-from <miles.chen@mediatek.com>)
- (Generic MTA with TLSv1.2 ECDHE-RSA-AES256-GCM-SHA384 256/256)
- with ESMTP id 565690540; Wed, 30 Mar 2022 13:12:03 +0800
+ (Generic MTA with TLSv1.2 ECDHE-RSA-AES256-SHA384 256/256)
+ with ESMTP id 838381258; Wed, 30 Mar 2022 13:12:19 +0800
 Received: from mtkcas10.mediatek.inc (172.21.101.39) by
- mtkmbs10n2.mediatek.inc (172.21.101.183) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_CBC_SHA384) id 15.2.792.3; 
- Wed, 30 Mar 2022 13:12:02 +0800
+ mtkmbs07n2.mediatek.inc (172.21.101.141) with Microsoft SMTP Server (TLS) id
+ 15.0.1497.2; Wed, 30 Mar 2022 13:12:17 +0800
 Received: from mtksdccf07.mediatek.inc (172.21.84.99) by mtkcas10.mediatek.inc
  (172.21.101.73) with Microsoft SMTP Server id 15.0.1497.2 via
- Frontend Transport; Wed, 30 Mar 2022 13:12:02 +0800
+ Frontend Transport; Wed, 30 Mar 2022 13:12:17 +0800
 From: Miles Chen <miles.chen@mediatek.com>
 To: <granquet@baylibre.com>
-Subject: Re: [PATCH v9 02/22] dt-bindings: mediatek,
- dp: Add Display Port binding
-Date: Wed, 30 Mar 2022 13:12:02 +0800
-Message-ID: <20220330051202.19594-1-miles.chen@mediatek.com>
+Subject: Re: [PATCH v9 03/22] dt-bindings: mediatek,
+ dp_phy: Add Display Port PHY binding
+Date: Wed, 30 Mar 2022 13:12:17 +0800
+Message-ID: <20220330051217.19789-1-miles.chen@mediatek.com>
 X-Mailer: git-send-email 2.18.0
-In-Reply-To: <20220327223927.20848-3-granquet@baylibre.com>
-References: <20220327223927.20848-3-granquet@baylibre.com>
+In-Reply-To: <20220327223927.20848-4-granquet@baylibre.com>
+References: <20220327223927.20848-4-granquet@baylibre.com>
 MIME-Version: 1.0
 Content-Type: text/plain
 X-MTK: N
@@ -52,7 +51,7 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Cc: linux-fbdev@vger.kernel.org, devicetree@vger.kernel.org, airlied@linux.ie,
  dri-devel@lists.freedesktop.org, linux-phy@lists.infradead.org, deller@gmx.de,
  kishon@ti.com, chunkuang.hu@kernel.org, jitao.shi@mediatek.com,
- msp@baylibre.com, chunfeng.yun@mediatek.com, robh+dt@kernel.org,
+ chunfeng.yun@mediatek.com, robh+dt@kernel.org,
  linux-mediatek@lists.infradead.org, matthias.bgg@gmail.com,
  linux-arm-kernel@lists.infradead.org, angelogioacchino.delregno@collabora.com,
  tzimmermann@suse.de, linux-kernel@vger.kernel.org, vkoul@kernel.org,
@@ -60,43 +59,35 @@ Cc: linux-fbdev@vger.kernel.org, devicetree@vger.kernel.org, airlied@linux.ie,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
->This controller is present on several mediatek hardware. Currently
->mt8195 and mt8395 have this controller without a functional difference,
->so only one compatible field is added.
+>This phy controller is embedded in the Display Port Controller on mt8195 SoCs.
 >
->The controller can have two forms, as a normal display port and as an
->embedded display port.
->
->Signed-off-by: Markus Schneider-Pargmann <msp@baylibre.com>
 >Signed-off-by: Guillaume Ranquet <granquet@baylibre.com>
 >---
-> .../display/mediatek/mediatek,dp.yaml         | 100 ++++++++++++++++++
-> 1 file changed, 100 insertions(+)
-> create mode 100644 Documentation/devicetree/bindings/display/mediatek/mediatek,dp.yaml
+> .../bindings/phy/mediatek,dp-phy.yaml         | 43 +++++++++++++++++++
+> 1 file changed, 43 insertions(+)
+> create mode 100644 Documentation/devicetree/bindings/phy/mediatek,dp-phy.yaml
 >
->diff --git a/Documentation/devicetree/bindings/display/mediatek/mediatek,dp.yaml b/Documentation/devicetree/bindings/display/mediatek/mediatek,dp.yaml
+>diff --git a/Documentation/devicetree/bindings/phy/mediatek,dp-phy.yaml b/Documentation/devicetree/bindings/phy/mediatek,dp-phy.yaml
 >new file mode 100644
->index 000000000000..802cc406c72b
+>index 000000000000..1f5ffca4e140
 >--- /dev/null
->+++ b/Documentation/devicetree/bindings/display/mediatek/mediatek,dp.yaml
->@@ -0,0 +1,100 @@
+>+++ b/Documentation/devicetree/bindings/phy/mediatek,dp-phy.yaml
+>@@ -0,0 +1,43 @@
 >+# SPDX-License-Identifier: (GPL-2.0-only OR BSD-2-Clause)
+>+# Copyright (c) 2022 MediaTek
 >+%YAML 1.2
 >+---
->+$id: http://devicetree.org/schemas/display/mediatek/mediatek,dp.yaml#
+>+$id: http://devicetree.org/schemas/phy/mediatek,dp-phy.yaml#
 >+$schema: http://devicetree.org/meta-schemas/core.yaml#
 >+
->+title: Mediatek Display Port Controller
-
-s/Mediatek/MediaTek/
-
+>+title: MediaTek Display Port PHY
 >+
 >+maintainers:
 >+  - CK Hu <ck.hu@mediatek.com>
 >+  - Jitao shi <jitao.shi@mediatek.com>
 >+
 >+description: |
->+  Device tree bindings for the Mediatek (embedded) Display Port controller
+>+  Device tree bindings for the Mediatek (embedded) Display Port PHY
 
 s/Mediatek/MediaTek/
 
@@ -107,87 +98,29 @@ s/Mediatek/MediaTek/
 >+
 >+properties:
 >+  compatible:
->+    items:
->+      - const: mediatek,mt8195-dp-tx
->+      - const: syscon
+>+    enum:
+>+      - mediatek,mt8195-dp-phy
 >+
->+  reg:
->+    maxItems: 1
+>+  mediatek,dp-syscon:
+>+    $ref: /schemas/types.yaml#/definitions/phandle
+>+    description: Phandle to the Display Port node.
 >+
->+  interrupts:
->+    maxItems: 1
->+
->+  clocks:
->+    items:
->+      - description: faxi clock
->+
->+  clock-names:
->+    items:
->+      - const: faxi
->+
->+  phys:
->+    maxItems: 1
->+
->+  phy-names:
->+    items:
->+      - const: dp
->+
->+  power-domains:
->+    maxItems: 1
->+
->+  ports:
->+    $ref: /schemas/graph.yaml#/properties/ports
->+    properties:
->+      port@0:
->+        $ref: /schemas/graph.yaml#/properties/port
->+        description: Input endpoint of the controller, usually dp_intf
->+
->+      port@1:
->+        $ref: /schemas/graph.yaml#/properties/port
->+        description: Output endpoint of the controller
->+
->+    required:
->+      - port@0
+>+  "#phy-cells":
+>+    const: 0
 >+
 >+required:
 >+  - compatible
->+  - reg
->+  - interrupts
->+  - ports
+>+  - mediatek,dp-syscon
+>+  - "#phy-cells"
 >+
 >+additionalProperties: false
 >+
 >+examples:
 >+  - |
->+    #include <dt-bindings/interrupt-controller/arm-gic.h>
->+    #include <dt-bindings/power/mt8195-power.h>
->+    edp_tx: edisplay-port-tx@1c500000 {
->+        compatible = "mediatek,mt8195-dp-tx","syscon";
->+        reg = <0 0x1c500000 0 0x8000>;
->+        interrupts = <GIC_SPI 676 IRQ_TYPE_LEVEL_HIGH 0>;
->+        power-domains = <&spm MT8195_POWER_DOMAIN_EPD_TX>;
->+        pinctrl-names = "default";
->+        pinctrl-0 = <&edp_pin>;
->+        phys = <&dp_phy>;
->+        phy-names = "dp";
->+
->+        ports {
->+            #address-cells = <1>;
->+            #size-cells = <0>;
->+
->+            port@0 {
->+                reg = <0>;
->+                edp_in: endpoint {
->+                    remote-endpoint = <&dp_intf0_out>;
->+                };
->+            };
->+            port@1 {
->+                reg = <1>;
->+                edp_out: endpoint {
->+                    remote-endpoint = <&panel_in>;
->+                };
->+            };
->+        };
+>+    dp_phy: dp-phy {
+>+      compatible = "mediatek,mt8195-dp-phy";
+>+      mediatek,dp-syscon = <&dp_tx>;
+>+      #phy-cells = <0>;
 >+    };
 >-- 
 >2.34.1
