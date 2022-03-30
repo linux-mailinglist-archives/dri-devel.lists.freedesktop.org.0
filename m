@@ -2,56 +2,56 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id A3B0E4EC2EC
-	for <lists+dri-devel@lfdr.de>; Wed, 30 Mar 2022 14:03:32 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 288CD4EC2ED
+	for <lists+dri-devel@lfdr.de>; Wed, 30 Mar 2022 14:03:38 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 2C7CB10EA9E;
-	Wed, 30 Mar 2022 12:03:30 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id B530110EAC1;
+	Wed, 30 Mar 2022 12:03:35 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-pf1-x42a.google.com (mail-pf1-x42a.google.com
- [IPv6:2607:f8b0:4864:20::42a])
- by gabe.freedesktop.org (Postfix) with ESMTPS id BEBC710EA9E
- for <dri-devel@lists.freedesktop.org>; Wed, 30 Mar 2022 12:03:27 +0000 (UTC)
-Received: by mail-pf1-x42a.google.com with SMTP id u22so18505395pfg.6
- for <dri-devel@lists.freedesktop.org>; Wed, 30 Mar 2022 05:03:27 -0700 (PDT)
+Received: from mail-pf1-x432.google.com (mail-pf1-x432.google.com
+ [IPv6:2607:f8b0:4864:20::432])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 10E2410EAC1
+ for <dri-devel@lists.freedesktop.org>; Wed, 30 Mar 2022 12:03:32 +0000 (UTC)
+Received: by mail-pf1-x432.google.com with SMTP id u22so18505577pfg.6
+ for <dri-devel@lists.freedesktop.org>; Wed, 30 Mar 2022 05:03:31 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
  h=from:to:cc:subject:date:message-id:in-reply-to:references;
- bh=4gcVpR2FizLJu6RR3F0oPHrwVu4t3M1EAjmgqnVTUXw=;
- b=jcHoloxMP+C79gc6dBvnkAdVCQRfO2uj4O8uKZkKARqsKyg1ZbGoC4b5O7l/sOAXJA
- SFHqCodMGi0ble3CbmlXAfQoy3mrD5wWpVxrpAsTgCbnT2ZFXZaor39CwUro9hliLND3
- pbMsCcEUJIyyQBYVfjXH8Byyfxr5avmvBM/BR+05VfzdWvnVNQglk2vLunPD1Mr+ApCA
- A5iE9zkrlIYRBUdxE7dirJZDht6JYnL+0rdCPLp1f54HsYXZONrHyPGYPYJtQAgXFpYn
- h9GogzzMAk0ipItJFIlRnVwrVFHPNEkOvuCLxahKny1fqMnjinQwrYd1P5rWYMc7IAYF
- 4tRQ==
+ bh=Mw0Xb3acT/jJngaoGEDh96qavNQRf5DbODEg2Ia3G20=;
+ b=j6tRbHGh4PwL7QVNwVCLvVVrcrP+486cq3+/B0xQQu2bAJsOtuKDqRaidYYvWi8QiJ
+ 9EBrPA+wjyOnufhmgXp/tCoEIh6VuWtCqEFwoSgY1CBncvyGFo9i+MZjB3+4aGb0rGGO
+ g/6gkLtPfHVx/nmbA1pOqMUqcXQ/XnRC6opt0Y6pe3t+W/SBvFPGxGPWP1xXk1kcUjJm
+ cRGYrS8ElkYE0UHThjswLXBZLSQQhtflN0tCC5ZbPDWpKOgvbfieOitc+xecRpvTo9QK
+ 8RRWp9rlO2FSN+AoX9nuBUIwGA+flgagxlgF12DgERG2eEJtR/zbLyUS2hZ1ei1CPreK
+ SuVA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references;
- bh=4gcVpR2FizLJu6RR3F0oPHrwVu4t3M1EAjmgqnVTUXw=;
- b=gJI8ARmgBqtBSwa2AYhEZoyQDTPcWIdKAlCMs+x27LZonYWcHdhb0og+67ARdnypvy
- CpDTJpObimWf3uzEsKWyhmzqWMXQRtSZ0/v37AXvpl0C6tVBtRlnqp2x+oRKbrgSNe3Z
- JOvj4i39Bzn++SGy4ksTuI8Ar6c7rzveZwXQcRljYHR8aaVkNpJUSE3XoDyibgIHBJKH
- vfDfbZqJc/3eLIi1h3mp3GAxVxKszyasDvX2W+9maMSMwx6GE76PaT+cT3X9PNNFQ8Z3
- 1G65YvbcYCnClm/HLpVc9t+PV8G7khrd3ABby75+YVb/D/06AZ/nmhrpQYegN5i/NaQj
- WC7g==
-X-Gm-Message-State: AOAM530yZJ7Kvi7ORnT8JPd4bOewHEUtlkG4GcKqFfRbshEsEipqqQGP
- G7u3R6sQJbSLN4j4H0Pi7l0=
-X-Google-Smtp-Source: ABdhPJzL0rbJ0K2I89qnqiuRPMDNCIkKbUY7vwxf1xIQFLHClFI3u9l3Ln29b5g4dAdJ/hFhzAoqEw==
-X-Received: by 2002:a05:6a00:114b:b0:4f7:915:3ec3 with SMTP id
- b11-20020a056a00114b00b004f709153ec3mr33199193pfm.8.1648641807349; 
- Wed, 30 Mar 2022 05:03:27 -0700 (PDT)
+ bh=Mw0Xb3acT/jJngaoGEDh96qavNQRf5DbODEg2Ia3G20=;
+ b=VzuIptx8yPYHgjA3wacvDsF3PJkrJTORMZhLnk9nSoQp+BgDKT/2F9OozYcWvrh/uY
+ paqOUdI8YhN7rGzoiBrt2oTma2ZIWmB05bseV4Dr57zxI/55VI71F2a1eMJwtqteCRAQ
+ 9jdOTYg4OKJ+aPWU8JBrnS/N8AzNMZZSAyIQn6b4gz6HRJQ7X1dwBFGuTM1fZQUSqguZ
+ S3ncag8kGXvJc7anvThn8phTZXw04Twt5smvWQ+TwfoLOkwdBX+zDtueRUD7G5hYcIQT
+ PtKrzzqZ8x42EZ4zZomPiLkY5DJLLnepmCjrFWAymSt8IcdYYrbo98OqJUPIgZufiWd7
+ 4Qdg==
+X-Gm-Message-State: AOAM5305PzHhnNzUN1PFpCQr5K3qKI4+0z/vLMrP9mZbJZTcOXbImyNf
+ iBdUeVYjl42P789vqbAI/xw=
+X-Google-Smtp-Source: ABdhPJwEBM261hXljDs2qeFIV354BPd5l2EbtG6IRonEl0apDdH4VGgubhpJfsdQJ9mYtScoLWW0BA==
+X-Received: by 2002:aa7:8211:0:b0:4f7:8b7:239b with SMTP id
+ k17-20020aa78211000000b004f708b7239bmr32372071pfi.64.1648641811381; 
+ Wed, 30 Mar 2022 05:03:31 -0700 (PDT)
 Received: from localhost ([119.3.119.18]) by smtp.gmail.com with ESMTPSA id
- c21-20020a637255000000b003822e80f132sm18965408pgn.12.2022.03.30.05.03.26
+ oo17-20020a17090b1c9100b001bf0ccc59c2sm6446120pjb.16.2022.03.30.05.03.30
  (version=TLS1_2 cipher=ECDHE-ECDSA-CHACHA20-POLY1305 bits=256/256);
- Wed, 30 Mar 2022 05:03:26 -0700 (PDT)
+ Wed, 30 Mar 2022 05:03:30 -0700 (PDT)
 From: Xiaomeng Tong <xiam0nd.tong@gmail.com>
 To: patrik.r.jakobsson@gmail.com,
 	airlied@linux.ie,
 	daniel@ffwll.ch
-Subject: [PATCH 3/5] gma500: fix a missing break in psb_intel_crtc_mode_set
-Date: Wed, 30 Mar 2022 20:02:44 +0800
-Message-Id: <20220330120246.25580-4-xiam0nd.tong@gmail.com>
+Subject: [PATCH 4/5] gma500: fix a missing break in cdv_intel_dp_set_m_n
+Date: Wed, 30 Mar 2022 20:02:45 +0800
+Message-Id: <20220330120246.25580-5-xiam0nd.tong@gmail.com>
 X-Mailer: git-send-email 2.17.1
 In-Reply-To: <20220330120246.25580-1-xiam0nd.tong@gmail.com>
 References: <20220330120246.25580-1-xiam0nd.tong@gmail.com>
@@ -75,30 +75,32 @@ Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 Instead of exiting the loop as expected when an entry is found, the
 list_for_each_entry() continues until the traversal is complete. It
-could result in multiple 'is_*' flags being set with true mistakely.
+could lead to a invalid reference to 'lane_count/bpp' after the loop.
 
-To fix this, when found the entry, add a break after the switch
-statement.
+The invalid reference to 'lane_count/bpp' is here:
+	cdv_intel_dp_compute_m_n(bpp, lane_count,
 
-Fixes: 89c78134cc54d (" gma500: Add Poulsbo support")
+To fix this, when found the entry, add a break after the switch statement.
+
+Fixes: 8695b61294356 ("gma500: Add the support of display port on CDV")
 Signed-off-by: Xiaomeng Tong <xiam0nd.tong@gmail.com>
 ---
- drivers/gpu/drm/gma500/psb_intel_display.c | 2 ++
+ drivers/gpu/drm/gma500/cdv_intel_dp.c | 2 ++
  1 file changed, 2 insertions(+)
 
-diff --git a/drivers/gpu/drm/gma500/psb_intel_display.c b/drivers/gpu/drm/gma500/psb_intel_display.c
-index 42d1a733e124..85fc61bf333a 100644
---- a/drivers/gpu/drm/gma500/psb_intel_display.c
-+++ b/drivers/gpu/drm/gma500/psb_intel_display.c
-@@ -134,6 +134,8 @@ static int psb_intel_crtc_mode_set(struct drm_crtc *crtc,
- 			is_tv = true;
+diff --git a/drivers/gpu/drm/gma500/cdv_intel_dp.c b/drivers/gpu/drm/gma500/cdv_intel_dp.c
+index ba6ad1466374..e6473b8da296 100644
+--- a/drivers/gpu/drm/gma500/cdv_intel_dp.c
++++ b/drivers/gpu/drm/gma500/cdv_intel_dp.c
+@@ -1016,6 +1016,8 @@ cdv_intel_dp_set_m_n(struct drm_crtc *crtc, struct drm_display_mode *mode,
+ 			bpp = dev_priv->edp.bpp;
  			break;
  		}
 +
 +		break;
  	}
  
- 	refclk = 96000;
+ 	/*
 -- 
 2.17.1
 
