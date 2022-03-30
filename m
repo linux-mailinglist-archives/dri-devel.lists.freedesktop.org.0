@@ -2,30 +2,60 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8DB4A4ECD29
-	for <lists+dri-devel@lfdr.de>; Wed, 30 Mar 2022 21:21:06 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 0F3314ECD51
+	for <lists+dri-devel@lfdr.de>; Wed, 30 Mar 2022 21:35:28 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id CC54810EB4C;
-	Wed, 30 Mar 2022 19:21:02 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 9974510E182;
+	Wed, 30 Mar 2022 19:35:24 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from metis.ext.pengutronix.de (metis.ext.pengutronix.de
- [IPv6:2001:67c:670:201:290:27ff:fe1d:cc33])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 875C610EB4C
- for <dri-devel@lists.freedesktop.org>; Wed, 30 Mar 2022 19:21:01 +0000 (UTC)
-Received: from ptx.hi.pengutronix.de ([2001:67c:670:100:1d::c0])
- by metis.ext.pengutronix.de with esmtps
- (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256) (Exim 4.92)
- (envelope-from <sha@pengutronix.de>)
- id 1nZdsH-0000qq-Hs; Wed, 30 Mar 2022 21:20:57 +0200
-Received: from sha by ptx.hi.pengutronix.de with local (Exim 4.92)
- (envelope-from <sha@pengutronix.de>)
- id 1nZdsE-0004wl-U1; Wed, 30 Mar 2022 21:20:54 +0200
-Date: Wed, 30 Mar 2022 21:20:54 +0200
-From: Sascha Hauer <s.hauer@pengutronix.de>
-To: Piotr Oniszczuk <piotr.oniszczuk@gmail.com>
+Received: from mail-lf1-x12f.google.com (mail-lf1-x12f.google.com
+ [IPv6:2a00:1450:4864:20::12f])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id DED0110E182
+ for <dri-devel@lists.freedesktop.org>; Wed, 30 Mar 2022 19:35:22 +0000 (UTC)
+Received: by mail-lf1-x12f.google.com with SMTP id m3so37605318lfj.11
+ for <dri-devel@lists.freedesktop.org>; Wed, 30 Mar 2022 12:35:22 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
+ h=mime-version:subject:from:in-reply-to:date:cc
+ :content-transfer-encoding:message-id:references:to;
+ bh=+hFS9yiWXU5Tm3A7GxdPXoa2m44Y5zzRQ3RHb2S5heA=;
+ b=lbfzE5JFB87L0Z8EWEHyM+kuNGb+OvmW8NCsV3/EVi8u1qjjiLXRq7oqKajqRZ7ZSl
+ nnu1RObxvYQbZVLYJ1tkczqhTD+lqdj4SMmgpWHqqBtCO/nATFK3NhicR38BMgFj3Mn4
+ lUo+3NeimaiebVbTXd0NzshKT69ZbSPfcF8FvsU/Sm93VXN7iC3h73K5gm/v+ToxP9BX
+ 8JESl+XrimPd+fNrEK0hGZc2KsJ8SZimPetuLJ1wL3fWb6r8XzK8vBroyS4l4NhP1Vy1
+ iT5tA+HSp+fVeOfGm1CkFLuMvILcwaMALnr02RBY1tfitUFDIkrqDmbCGksMcUXMf9am
+ L+Lw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=x-gm-message-state:mime-version:subject:from:in-reply-to:date:cc
+ :content-transfer-encoding:message-id:references:to;
+ bh=+hFS9yiWXU5Tm3A7GxdPXoa2m44Y5zzRQ3RHb2S5heA=;
+ b=TlO1yRvt8V6Z6BPnpwCdRNcKojB48/0gbnmu3MrC0oT10mEqe186mCaurrww8oO2mq
+ rhwfGWn8WUkfT1Z0J3H/oPmho1VaPkTxPwWSo81X/DuGuqbADcpumN/fMs/kw7AJTMEL
+ sYCc0yd8YNUpwsobEp0tuVGY5HyWBjY2zdp+BwwrSS3ND8EM1/63XREDHcZh0PesxE7v
+ u93v+pcyTuJRj8NqlsjZZn/W1uv5sdoI18Kc7lIE8b85KLVObe0LXiNY7SHb0kcWIipO
+ FbjUaR9dZ3bpREhKaROihMq+HU/3yPgCPKiPn/VLhVGlDurhNi6zUbwqTGzqr+7zvHv/
+ K6+g==
+X-Gm-Message-State: AOAM531/JYC1fX6w54J+VB8R5MO+YG2u5RYkLzMvLH0T37aBKDdQn4t4
+ kyJ+FZBP+zL7Z+B5P46TIEA=
+X-Google-Smtp-Source: ABdhPJybiNtzm3A19YbhP1IZApDmGW72t2M57isGlDBtcyv1zNdYWTmgJc38kheIaiBAJl3rSRXXIg==
+X-Received: by 2002:a05:6512:3e10:b0:44a:4443:76a9 with SMTP id
+ i16-20020a0565123e1000b0044a444376a9mr7831211lfv.630.1648668921051; 
+ Wed, 30 Mar 2022 12:35:21 -0700 (PDT)
+Received: from smtpclient.apple (31-178-191-245.dynamic.chello.pl.
+ [31.178.191.245]) by smtp.gmail.com with ESMTPSA id
+ 194-20020a2e05cb000000b00247eb0e1b15sm2502598ljf.97.2022.03.30.12.35.20
+ (version=TLS1_2 cipher=ECDHE-ECDSA-AES128-GCM-SHA256 bits=128/128);
+ Wed, 30 Mar 2022 12:35:20 -0700 (PDT)
+Content-Type: text/plain;
+	charset=utf-8
+Mime-Version: 1.0 (Mac OS X Mail 14.0 \(3654.120.0.1.13\))
 Subject: Re: [PATCH v9 00/23] drm/rockchip: RK356x VOP2 support
-Message-ID: <20220330192054.GA4012@pengutronix.de>
+From: Piotr Oniszczuk <piotr.oniszczuk@gmail.com>
+In-Reply-To: <20220330192054.GA4012@pengutronix.de>
+Date: Wed, 30 Mar 2022 21:35:17 +0200
+Content-Transfer-Encoding: quoted-printable
+Message-Id: <4B10A821-DB1E-41EA-B5C2-364F2DE53F93@gmail.com>
 References: <20220328151116.2034635-1-s.hauer@pengutronix.de>
  <FB201567-AE5A-4242-82F1-7C55D8F111EA@gmail.com>
  <20220330072822.GX12181@pengutronix.de>
@@ -34,23 +64,9 @@ References: <20220328151116.2034635-1-s.hauer@pengutronix.de>
  <D3DA14F9-C9C6-4927-B015-5B7D25689DAA@gmail.com>
  <20220330102046.GA12181@pengutronix.de>
  <60601619-EF07-457B-91F2-64FEB598FEBE@gmail.com>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <60601619-EF07-457B-91F2-64FEB598FEBE@gmail.com>
-X-Sent-From: Pengutronix Hildesheim
-X-URL: http://www.pengutronix.de/
-X-IRC: #ptxdist @freenode
-X-Accept-Language: de,en
-X-Accept-Content-Type: text/plain
-X-Uptime: 21:07:09 up  7:36, 35 users,  load average: 0.21, 0.24, 0.18
-User-Agent: Mutt/1.10.1 (2018-07-13)
-X-SA-Exim-Connect-IP: 2001:67c:670:100:1d::c0
-X-SA-Exim-Mail-From: sha@pengutronix.de
-X-SA-Exim-Scanned: No (on metis.ext.pengutronix.de);
- SAEximRunCond expanded to false
-X-PTX-Original-Recipient: dri-devel@lists.freedesktop.org
+ <20220330192054.GA4012@pengutronix.de>
+To: Sascha Hauer <s.hauer@pengutronix.de>
+X-Mailer: Apple Mail (2.3654.120.0.1.13)
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -74,29 +90,35 @@ Cc: "devicetree@vger.kernel.org" <devicetree@vger.kernel.org>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Wed, Mar 30, 2022 at 04:52:22PM +0200, Piotr Oniszczuk wrote:
-> 
-> 
-> > Wiadomość napisana przez Sascha Hauer <s.hauer@pengutronix.de> w dniu 30.03.2022, o godz. 12:20:
-> > 
-> > Does it change anything if you do a "modetest -s 69@67:1920x1080" before
-> > starting the app? Or if you run "modetest -P 43@67:1920x1080@NV12"
-> > before starting the app? Or other combinations thereof?
-> 
-> So i tried following combinations
-> 
-> -boot
-> -modetest -s 69@67:1920x1080 -> ok
-> -modetest -P 43@67:1920x1080@NV12 -> green screen
 
-I have no idea what is going on here. There same commands work for me.
-You could provide me your kernel config and upstream commitish you are
-working on, maybe that gets me closer to your setup.
+
+> Wiadomo=C5=9B=C4=87 napisana przez Sascha Hauer =
+<s.hauer@pengutronix.de> w dniu 30.03.2022, o godz. 21:20:
+>=20
+>> So i tried following combinations
+>>=20
+>> -boot
+>> -modetest -s 69@67:1920x1080 -> ok
+>> -modetest -P 43@67:1920x1080@NV12 -> green screen
+>=20
+> I have no idea what is going on here. There same commands work for me.
+> You could provide me your kernel config and upstream commitish you are
+> working on, maybe that gets me closer to your setup.
 
 Sascha
 
--- 
-Pengutronix e.K.                           |                             |
-Steuerwalder Str. 21                       | http://www.pengutronix.de/  |
-31137 Hildesheim, Germany                  | Phone: +49-5121-206917-0    |
-Amtsgericht Hildesheim, HRA 2686           | Fax:   +49-5121-206917-5555 |
+May you try with my kernel config?
+=
+https://github.com/warpme/minimyth2/blob/master/script/kernel/linux-5.17/f=
+iles/linux-5.17-arm64-armv8.config
+
+If this config will work for you then:
+
+i'll try to build vanilla 5.17 + minimal possible set of patches =
+allowing me to get video decoder working on rk3566.
+This may help us to find why:
+-you have it working
+-I have it not working
+
+
+
