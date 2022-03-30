@@ -2,52 +2,61 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3DE654ECD8B
-	for <lists+dri-devel@lfdr.de>; Wed, 30 Mar 2022 21:52:34 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 2B9CB4ECD8F
+	for <lists+dri-devel@lfdr.de>; Wed, 30 Mar 2022 21:56:32 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id DD10610E91A;
-	Wed, 30 Mar 2022 19:52:31 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 7ED6110E763;
+	Wed, 30 Mar 2022 19:56:27 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mga17.intel.com (mga17.intel.com [192.55.52.151])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 3764610E91A;
- Wed, 30 Mar 2022 19:52:31 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1648669951; x=1680205951;
- h=date:from:to:cc:subject:message-id:references:
- mime-version:content-transfer-encoding:in-reply-to;
- bh=44ev8YyikYH+yD4WMp2jmkyjlzKO2+ROnBLZ3GuBOG0=;
- b=ZsEGi4jL/jKoTGiKKDxjQ1QGKb43EH44K1SR8XpRSFa5e9ZiM5A/Yl3K
- dbRei5CB3bdCEDRlnpk5oLixFRwnCN6AmZFpJCZGA2ozHPhHHPkmnhp3C
- 1zcia+QBWF/LC9UzPuMLQ5zBqPtkA35nrnBK2bxv5V2L4FuWoA6V13EqJ
- kzeoc22vESLJetQC1Sk52pQ1iDl3WyHDqV6dzlK+7jVc2ZpPHJVa2OU+A
- +ZgX1Wm1Awra4wBqY8S/7go105BYUpCTcWQIGbs0gZKRnHCJgXYQdAI/b
- nARZxG6vdlEvLYjwgyX8gOER4vO6YEC5NCyZ1lE2byEEliPdZdmL+fsIF A==;
-X-IronPort-AV: E=McAfee;i="6200,9189,10302"; a="240227028"
-X-IronPort-AV: E=Sophos;i="5.90,223,1643702400"; d="scan'208";a="240227028"
-Received: from fmsmga007.fm.intel.com ([10.253.24.52])
- by fmsmga107.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 30 Mar 2022 12:52:30 -0700
-X-IronPort-AV: E=Sophos;i="5.90,223,1643702400"; d="scan'208";a="554791600"
-Received: from orsosgc001.jf.intel.com (HELO unerlige-ril-10.165.21.154)
- ([10.165.21.154])
- by fmsmga007-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 30 Mar 2022 12:52:30 -0700
-Date: Wed, 30 Mar 2022 12:52:29 -0700
-From: Umesh Nerlige Ramappa <umesh.nerlige.ramappa@intel.com>
-To: Tvrtko Ursulin <tvrtko.ursulin@linux.intel.com>
-Subject: Re: [Intel-gfx] [PATCH i-g-t 01/11] lib: Helper library for parsing
- i915 fdinfo output
-Message-ID: <20220330195229.GD59408@unerlige-ril-10.165.21.154>
-References: <20220222135605.1120767-1-tvrtko.ursulin@linux.intel.com>
- <20220222135605.1120767-2-tvrtko.ursulin@linux.intel.com>
+Received: from mail-ed1-x544.google.com (mail-ed1-x544.google.com
+ [IPv6:2a00:1450:4864:20::544])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id F1FB010E763
+ for <dri-devel@lists.freedesktop.org>; Wed, 30 Mar 2022 19:56:26 +0000 (UTC)
+Received: by mail-ed1-x544.google.com with SMTP id r23so25749489edb.0
+ for <dri-devel@lists.freedesktop.org>; Wed, 30 Mar 2022 12:56:26 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ffwll.ch; s=google;
+ h=date:from:to:cc:subject:message-id:references:mime-version
+ :content-disposition:in-reply-to;
+ bh=D+YccJmqrA00EDEKyxHzoA4sj1LHauTMTpQomMr5w3A=;
+ b=e/IQLNyeAvr06A7JWTeahGjvkE4A6VaYNSs7MyBWH0g0TjETW7qUOINwEbjsRi3u5/
+ xH+l9eznOiRNWLCOfBPnvR6MVgUPEMLcdNm/qXKp2Zxwgz9QBy4TDjDxse1+YurQ5Zy9
+ efOkcgvgSI8/V71L9fvydhJ7qywgGupZoA9k0=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+ :mime-version:content-disposition:in-reply-to;
+ bh=D+YccJmqrA00EDEKyxHzoA4sj1LHauTMTpQomMr5w3A=;
+ b=opPFiPdHTrs4eI07KU71AnKeXeX7vDaP5xRZcj4gz7DwrxfCW4x/skBsiL4QZxYQ+J
+ Ri+RLwbFECmSaD19Ii0M32/c89/JOjOQQjDYSGlfjJUKa+GBVwDWwxOhwkE7e4igcLfO
+ B6fWCWCJuASozz8DXGJm77+eQdaQ4A5GAyHUzEeRblDF/OYIyT+QTV30l/B2ImCHJqWr
+ 7LlVpa+3zw6EZKOMb+WWog7V0SQrfo6haXaYgmZ2HQE3huZuZZikep/wSom8HgoQ3ZxR
+ wjLadf5JHVq8zSfPtIomyg9AUFndYCPc1fz8u9FOiX4nu1C7NtBY5nbbuZfkEK5e5FJt
+ 8UNw==
+X-Gm-Message-State: AOAM531fDrg34gUGl5PpxlmiB5/KWNbsCq9HiB9n9Nk6Y9dnCC9NPXgH
+ fGGMPkqpHjwuZV9Ija174cIg9A==
+X-Google-Smtp-Source: ABdhPJxtI57G00fxeMc9pewbICbR9JGUNUTQaAeRPdymBadR7hVMIpY+IHLtOrWsjOrXFnwxK9taIw==
+X-Received: by 2002:a50:da8b:0:b0:415:a122:d7ad with SMTP id
+ q11-20020a50da8b000000b00415a122d7admr12726664edj.123.1648670185532; 
+ Wed, 30 Mar 2022 12:56:25 -0700 (PDT)
+Received: from phenom.ffwll.local ([2a02:168:57f4:0:efd0:b9e5:5ae6:c2fa])
+ by smtp.gmail.com with ESMTPSA id
+ c12-20020a05640227cc00b004192114e521sm10377566ede.60.2022.03.30.12.56.24
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Wed, 30 Mar 2022 12:56:25 -0700 (PDT)
+Date: Wed, 30 Mar 2022 21:56:23 +0200
+From: Daniel Vetter <daniel@ffwll.ch>
+To: John Harrison <john.c.harrison@intel.com>
+Subject: Re: [Intel-gfx] [PATCH] drm/i915/guc: Use iosys_map interface to
+ update lrc_desc
+Message-ID: <YkS159oDXxduNUTs@phenom.ffwll.local>
+References: <20220308164742.692540-1-balasubramani.vivekanandan@intel.com>
+ <8115ca91-6fb7-d495-e50e-024a18f3b7f8@intel.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <20220222135605.1120767-2-tvrtko.ursulin@linux.intel.com>
-User-Agent: Mutt/1.12.1 (2019-06-15)
+In-Reply-To: <8115ca91-6fb7-d495-e50e-024a18f3b7f8@intel.com>
+X-Operating-System: Linux phenom 5.10.0-8-amd64 
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -60,309 +69,208 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: igt-dev@lists.freedesktop.org, Intel-gfx@lists.freedesktop.org,
- dri-devel@lists.freedesktop.org
+Cc: michael.cheng@intel.com,
+ Balasubramani Vivekanandan <balasubramani.vivekanandan@intel.com>,
+ intel-gfx@lists.freedesktop.org, lucas.demarchi@intel.com,
+ dri-devel@lists.freedesktop.org, siva.mullati@intel.com
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Tue, Feb 22, 2022 at 01:55:55PM +0000, Tvrtko Ursulin wrote:
->From: Tvrtko Ursulin <tvrtko.ursulin@intel.com>
->
->Tests and intel_gpu_top will share common code for parsing this file.
->
->Signed-off-by: Tvrtko Ursulin <tvrtko.ursulin@intel.com>
->---
-> lib/igt_drm_fdinfo.c | 183 +++++++++++++++++++++++++++++++++++++++++++
-> lib/igt_drm_fdinfo.h |  48 ++++++++++++
-> lib/meson.build      |   7 ++
-> 3 files changed, 238 insertions(+)
-> create mode 100644 lib/igt_drm_fdinfo.c
-> create mode 100644 lib/igt_drm_fdinfo.h
->
->diff --git a/lib/igt_drm_fdinfo.c b/lib/igt_drm_fdinfo.c
->new file mode 100644
->index 000000000000..28c1bdbda08e
->--- /dev/null
->+++ b/lib/igt_drm_fdinfo.c
->@@ -0,0 +1,183 @@
->+/*
->+ * Copyright © 2022 Intel Corporation
->+ *
->+ * Permission is hereby granted, free of charge, to any person obtaining a
->+ * copy of this software and associated documentation files (the "Software"),
->+ * to deal in the Software without restriction, including without limitation
->+ * the rights to use, copy, modify, merge, publish, distribute, sublicense,
->+ * and/or sell copies of the Software, and to permit persons to whom the
->+ * Software is furnished to do so, subject to the following conditions:
->+ *
->+ * The above copyright notice and this permission notice (including the next
->+ * paragraph) shall be included in all copies or substantial portions of the
->+ * Software.
->+ *
->+ * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
->+ * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
->+ * FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT.  IN NO EVENT SHALL
->+ * THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
->+ * LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING
->+ * FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS
->+ * IN THE SOFTWARE.
->+ *
->+ */
->+
->+#include <ctype.h>
->+#include <sys/types.h>
->+#include <sys/stat.h>
->+#include <fcntl.h>
->+#include <stdio.h>
->+#include <string.h>
->+#include <stdlib.h>
->+#include <unistd.h>
->+
->+#include "drmtest.h"
->+
->+#include "igt_drm_fdinfo.h"
->+
->+static size_t read_fdinfo(char *buf, const size_t sz, int at, const char *name)
->+{
->+	size_t count;
->+	int fd;
->+
->+	fd = openat(at, name, O_RDONLY);
->+	if (fd < 0)
->+		return 0;
->+
->+	buf[sz - 1] = 0;
+On Wed, Mar 30, 2022 at 08:53:11AM -0700, John Harrison wrote:
+> Sorry, only just seen this patch.
+> 
+> Please do not do this!
+> 
+> The entire lrc_desc_pool entity is being dropped as part of the update to
+> GuC v70. That's why there was a recent patch set to significantly
+> re-organise how/where it is used. That patch set explicitly said - this is
+> all in preparation for removing the desc pool entirely.
+> 
+> Merging this change would just cause unnecessary churn and rebase conflicts
+> with the v70 update patches that I am working on. Please wait until that
+> lands and then see if there is anything left that you think still needs to
+> be updated.
 
-Wondering if this ^ should be after the read() in case 4096 bytes are read.
+We're shiping guc now (on dg1, and also some of the integrated already
+too), which means upgrading guc versions will break users and cause
+regressions, and that's a no-go.
 
->+	count = read(fd, buf, sz);
->+	close(fd);
->+
->+	return count;
->+}
->+
->+static int parse_engine(char *line, struct drm_client_fdinfo *info,
->+			size_t prefix_len, uint64_t *val)
->+{
->+	static const char *e2class[] = {
->+		"render",
->+		"copy",
->+		"video",
->+		"video-enhance",
->+	};
->+	ssize_t name_len;
->+	char *name, *p;
->+	int found = -1;
->+	unsigned int i;
->+
->+	p = index(line, ':');
->+	if (!p || p == line)
->+		return -1;
->+
->+	name_len = p - line - prefix_len;
->+	if (name_len < 1)
->+		return -1;
->+
->+	name = line + prefix_len;
->+
->+	for (i = 0; i < ARRAY_SIZE(e2class); i++) {
->+		if (!strncmp(name, e2class[i], name_len)) {
->+			found = i;
->+			break;
->+		}
->+	}
->+
->+	if (found >= 0) {
->+		while (*++p && isspace(*p));
->+		*val = strtoull(p, NULL, 10);
->+	}
->+
->+	return found;
->+}
->+
->+static const char *find_kv(const char *buf, const char *key, size_t keylen)
->+{
->+	const char *p = buf;
->+
->+	p = index(buf, ':');
->+	if (!p || p == buf)
->+		return NULL;
->+
->+	if ((p - buf) != keylen)
->+		return NULL;
->+
->+	while (*++p && isspace(*p));
->+	if (*p && !strncmp(buf, key, keylen))
+So unless that v70 upgrade is exclusively for dg2 or another platform
+where enabling is still in the very early stages (i.e. the driver is
+unusable for booting to desktop) ... how does this work?
 
-nit: why not just do the strncmp early in this function since buf, key, 
-keylen have not changed?
+Or do I misunderstand something here?
+-Daniel
 
->+		return p;
->+
->+	return NULL;
->+}
->+
->+bool
->+__igt_parse_drm_fdinfo(int dir, const char *fd, struct drm_client_fdinfo *info)
->+{
->+	char buf[4096], *_buf = buf;
->+	char *l, *ctx = NULL;
->+	unsigned int good = 0;
->+	size_t count;
->+
+> 
+> John.
+> 
+> 
+> On 3/8/2022 08:47, Balasubramani Vivekanandan wrote:
+> > This patch is continuation of the effort to move all pointers in i915,
+> > which at any point may be pointing to device memory or system memory, to
+> > iosys_map interface.
+> > More details about the need of this change is explained in the patch
+> > series which initiated this task
+> > https://patchwork.freedesktop.org/series/99711/
+> > 
+> > This patch converts all access to the lrc_desc through iosys_map
+> > interfaces.
+> > 
+> > Cc: Lucas De Marchi <lucas.demarchi@intel.com>
+> > Cc: John Harrison <John.C.Harrison@Intel.com>
+> > Cc: Matthew Brost <matthew.brost@intel.com>
+> > Cc: Umesh Nerlige Ramappa <umesh.nerlige.ramappa@intel.com>
+> > Signed-off-by: Balasubramani Vivekanandan <balasubramani.vivekanandan@intel.com>
+> > ---
+> >   drivers/gpu/drm/i915/gt/uc/intel_guc.h        |  2 +-
+> >   .../gpu/drm/i915/gt/uc/intel_guc_submission.c | 68 ++++++++++++-------
+> >   2 files changed, 43 insertions(+), 27 deletions(-)
+> > 
+> > diff --git a/drivers/gpu/drm/i915/gt/uc/intel_guc.h b/drivers/gpu/drm/i915/gt/uc/intel_guc.h
+> > index e439e6c1ac8b..cbbc24dbaf0f 100644
+> > --- a/drivers/gpu/drm/i915/gt/uc/intel_guc.h
+> > +++ b/drivers/gpu/drm/i915/gt/uc/intel_guc.h
+> > @@ -168,7 +168,7 @@ struct intel_guc {
+> >   	/** @lrc_desc_pool: object allocated to hold the GuC LRC descriptor pool */
+> >   	struct i915_vma *lrc_desc_pool;
+> >   	/** @lrc_desc_pool_vaddr: contents of the GuC LRC descriptor pool */
+> > -	void *lrc_desc_pool_vaddr;
+> > +	struct iosys_map lrc_desc_pool_vaddr;
+> >   	/**
+> >   	 * @context_lookup: used to resolve intel_context from guc_id, if a
+> > diff --git a/drivers/gpu/drm/i915/gt/uc/intel_guc_submission.c b/drivers/gpu/drm/i915/gt/uc/intel_guc_submission.c
+> > index 9ec03234d2c2..84b17ded886a 100644
+> > --- a/drivers/gpu/drm/i915/gt/uc/intel_guc_submission.c
+> > +++ b/drivers/gpu/drm/i915/gt/uc/intel_guc_submission.c
+> > @@ -467,13 +467,14 @@ static u32 *get_wq_pointer(struct guc_process_desc *desc,
+> >   	return &__get_parent_scratch(ce)->wq[ce->parallel.guc.wqi_tail / sizeof(u32)];
+> >   }
+> > -static struct guc_lrc_desc *__get_lrc_desc(struct intel_guc *guc, u32 index)
+> > +static void __write_lrc_desc(struct intel_guc *guc, u32 index,
+> > +			     struct guc_lrc_desc *desc)
+> >   {
+> > -	struct guc_lrc_desc *base = guc->lrc_desc_pool_vaddr;
+> > +	unsigned int size = sizeof(struct guc_lrc_desc);
+> >   	GEM_BUG_ON(index >= GUC_MAX_CONTEXT_ID);
+> > -	return &base[index];
+> > +	iosys_map_memcpy_to(&guc->lrc_desc_pool_vaddr, index * size, desc, size);
+> >   }
+> >   static inline struct intel_context *__get_context(struct intel_guc *guc, u32 id)
+> > @@ -489,20 +490,28 @@ static int guc_lrc_desc_pool_create(struct intel_guc *guc)
+> >   {
+> >   	u32 size;
+> >   	int ret;
+> > +	void *addr;
+> >   	size = PAGE_ALIGN(sizeof(struct guc_lrc_desc) *
+> >   			  GUC_MAX_CONTEXT_ID);
+> >   	ret = intel_guc_allocate_and_map_vma(guc, size, &guc->lrc_desc_pool,
+> > -					     (void **)&guc->lrc_desc_pool_vaddr);
+> > +					     &addr);
+> > +
+> >   	if (ret)
+> >   		return ret;
+> > +	if (i915_gem_object_is_lmem(guc->lrc_desc_pool->obj))
+> > +		iosys_map_set_vaddr_iomem(&guc->lrc_desc_pool_vaddr,
+> > +					  (void __iomem *)addr);
+> > +	else
+> > +		iosys_map_set_vaddr(&guc->lrc_desc_pool_vaddr, addr);
+> > +
+> >   	return 0;
+> >   }
+> >   static void guc_lrc_desc_pool_destroy(struct intel_guc *guc)
+> >   {
+> > -	guc->lrc_desc_pool_vaddr = NULL;
+> > +	iosys_map_clear(&guc->lrc_desc_pool_vaddr);
+> >   	i915_vma_unpin_and_release(&guc->lrc_desc_pool, I915_VMA_RELEASE_MAP);
+> >   }
+> > @@ -513,9 +522,11 @@ static inline bool guc_submission_initialized(struct intel_guc *guc)
+> >   static inline void _reset_lrc_desc(struct intel_guc *guc, u32 id)
+> >   {
+> > -	struct guc_lrc_desc *desc = __get_lrc_desc(guc, id);
+> > +	unsigned int size = sizeof(struct guc_lrc_desc);
+> > -	memset(desc, 0, sizeof(*desc));
+> > +	GEM_BUG_ON(id >= GUC_MAX_CONTEXT_ID);
+> > +
+> > +	iosys_map_memset(&guc->lrc_desc_pool_vaddr, id * size, 0, size);
+> >   }
+> >   static inline bool ctx_id_mapped(struct intel_guc *guc, u32 id)
+> > @@ -2233,7 +2244,7 @@ static void prepare_context_registration_info(struct intel_context *ce)
+> >   	struct intel_engine_cs *engine = ce->engine;
+> >   	struct intel_guc *guc = &engine->gt->uc.guc;
+> >   	u32 ctx_id = ce->guc_id.id;
+> > -	struct guc_lrc_desc *desc;
+> > +	struct guc_lrc_desc desc;
+> >   	struct intel_context *child;
+> >   	GEM_BUG_ON(!engine->mask);
+> > @@ -2245,13 +2256,13 @@ static void prepare_context_registration_info(struct intel_context *ce)
+> >   	GEM_BUG_ON(i915_gem_object_is_lmem(guc->ct.vma->obj) !=
+> >   		   i915_gem_object_is_lmem(ce->ring->vma->obj));
+> > -	desc = __get_lrc_desc(guc, ctx_id);
+> > -	desc->engine_class = engine_class_to_guc_class(engine->class);
+> > -	desc->engine_submit_mask = engine->logical_mask;
+> > -	desc->hw_context_desc = ce->lrc.lrca;
+> > -	desc->priority = ce->guc_state.prio;
+> > -	desc->context_flags = CONTEXT_REGISTRATION_FLAG_KMD;
+> > -	guc_context_policy_init(engine, desc);
+> > +	memset(&desc, 0, sizeof(desc));
+> > +	desc.engine_class = engine_class_to_guc_class(engine->class);
+> > +	desc.engine_submit_mask = engine->logical_mask;
+> > +	desc.hw_context_desc = ce->lrc.lrca;
+> > +	desc.priority = ce->guc_state.prio;
+> > +	desc.context_flags = CONTEXT_REGISTRATION_FLAG_KMD;
+> > +	guc_context_policy_init(engine, &desc);
+> >   	/*
+> >   	 * If context is a parent, we need to register a process descriptor
+> > @@ -2259,36 +2270,41 @@ static void prepare_context_registration_info(struct intel_context *ce)
+> >   	 */
+> >   	if (intel_context_is_parent(ce)) {
+> >   		struct guc_process_desc *pdesc;
+> > +		struct guc_lrc_desc child_desc;
+> >   		ce->parallel.guc.wqi_tail = 0;
+> >   		ce->parallel.guc.wqi_head = 0;
+> > -		desc->process_desc = i915_ggtt_offset(ce->state) +
+> > +		desc.process_desc = i915_ggtt_offset(ce->state) +
+> >   			__get_parent_scratch_offset(ce);
+> > -		desc->wq_addr = i915_ggtt_offset(ce->state) +
+> > +		desc.wq_addr = i915_ggtt_offset(ce->state) +
+> >   			__get_wq_offset(ce);
+> > -		desc->wq_size = WQ_SIZE;
+> > +		desc.wq_size = WQ_SIZE;
+> >   		pdesc = __get_process_desc(ce);
+> >   		memset(pdesc, 0, sizeof(*(pdesc)));
+> >   		pdesc->stage_id = ce->guc_id.id;
+> > -		pdesc->wq_base_addr = desc->wq_addr;
+> > -		pdesc->wq_size_bytes = desc->wq_size;
+> > +		pdesc->wq_base_addr = desc.wq_addr;
+> > +		pdesc->wq_size_bytes = desc.wq_size;
+> >   		pdesc->wq_status = WQ_STATUS_ACTIVE;
+> >   		for_each_child(ce, child) {
+> > -			desc = __get_lrc_desc(guc, child->guc_id.id);
+> > +			memset(&child_desc, 0, sizeof(child_desc));
+> > -			desc->engine_class =
+> > +			child_desc.engine_class =
+> >   				engine_class_to_guc_class(engine->class);
+> > -			desc->hw_context_desc = child->lrc.lrca;
+> > -			desc->priority = ce->guc_state.prio;
+> > -			desc->context_flags = CONTEXT_REGISTRATION_FLAG_KMD;
+> > -			guc_context_policy_init(engine, desc);
+> > +			child_desc.hw_context_desc = child->lrc.lrca;
+> > +			child_desc.priority = ce->guc_state.prio;
+> > +			child_desc.context_flags = CONTEXT_REGISTRATION_FLAG_KMD;
+> > +			guc_context_policy_init(engine, &child_desc);
+> > +
+> > +			__write_lrc_desc(guc, child->guc_id.id, &child_desc);
+> >   		}
+> >   		clear_children_join_go_memory(ce);
+> >   	}
+> > +
+> > +	__write_lrc_desc(guc, ctx_id, &desc);
+> >   }
+> >   static int try_context_registration(struct intel_context *ce, bool loop)
+> 
 
-Should buf be zeroed out here?
-
->+	count = read_fdinfo(buf, sizeof(buf), dir, fd);
->+	if (!count)
->+		return false;
->+
->+	while ((l = strtok_r(_buf, "\n", &ctx))) {
->+		uint64_t val = 0;
->+		const char *v;
->+		int idx;
->+
->+		_buf = NULL;
->+
->+		if ((v = find_kv(l, "drm-driver", strlen("drm-driver")))) {
->+			strncpy(info->driver, v, sizeof(info->driver) - 1);
->+			good++;
->+		} else if ((v = find_kv(l, "drm-pdev", strlen("drm-pdev")))) {
->+			strncpy(info->pdev, v, sizeof(info->pdev) - 1);
->+		}  else if ((v = find_kv(l, "drm-client-id",
->+					 strlen("drm-client-id")))) {
->+			info->id = atol(v);
->+			good++;
->+		} else if (!strncmp(l, "drm-engine-", 11) &&
->+			   strncmp(l, "drm-engine-capacity-", 20)) {
->+			idx = parse_engine(l, info, strlen("drm-engine-"),
->+					   &val);
->+			if (idx >= 0) {
->+				if (!info->capacity[idx])
->+					info->capacity[idx] = 1;
->+				info->busy[idx] = val;
->+				info->num_engines++;
->+			}
->+		} else if (!strncmp(l, "drm-engine-capacity-", 20)) {
->+			idx = parse_engine(l, info,
->+					   strlen("drm-engine-capacity-"),
->+					   &val);
->+			if (idx >= 0)
->+				info->capacity[idx] = val;
->+		}
->+	}
->+
->+	if (good < 2 || !info->num_engines)
->+		return false; /* fdinfo format not as expected */
->+
->+	return true;
->+}
->+
->+bool igt_parse_drm_fdinfo(int drm_fd, struct drm_client_fdinfo *info)
->+{
->+	char fd[64];
->+	int dir, ret;
->+	bool res;
->+
->+	ret = snprintf(fd, sizeof(fd), "%u", drm_fd);
->+	if (ret < 0 || ret == sizeof(fd))
->+		return false;
->+
->+	dir = open("/proc/self/fdinfo", O_DIRECTORY | O_RDONLY);
->+	if (dir < 0)
->+		return false;
->+
->+	res = __igt_parse_drm_fdinfo(dir, fd, info);
->+
->+	close(dir);
->+
->+	return res;
->+}
->diff --git a/lib/igt_drm_fdinfo.h b/lib/igt_drm_fdinfo.h
->new file mode 100644
->index 000000000000..c527bab9a204
->--- /dev/null
->+++ b/lib/igt_drm_fdinfo.h
->@@ -0,0 +1,48 @@
->+/*
->+ * Copyright © 2022 Intel Corporation
->+ *
->+ * Permission is hereby granted, free of charge, to any person obtaining a
->+ * copy of this software and associated documentation files (the "Software"),
->+ * to deal in the Software without restriction, including without limitation
->+ * the rights to use, copy, modify, merge, publish, distribute, sublicense,
->+ * and/or sell copies of the Software, and to permit persons to whom the
->+ * Software is furnished to do so, subject to the following conditions:
->+ *
->+ * The above copyright notice and this permission notice (including the next
->+ * paragraph) shall be included in all copies or substantial portions of the
->+ * Software.
->+ *
->+ * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
->+ * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
->+ * FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT.  IN NO EVENT SHALL
->+ * THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
->+ * LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING
->+ * FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS
->+ * IN THE SOFTWARE.
->+ *
->+ */
->+
->+#ifndef IGT_DRM_FDINFO_H
->+#define IGT_DRM_FDINFO_H
->+
->+#include <sys/types.h>
->+#include <dirent.h>
->+#include <stdint.h>
->+#include <stdbool.h>
->+
->+struct drm_client_fdinfo {
->+	char driver[128];
->+	char pdev[128];
->+	unsigned long id;
->+
->+	unsigned int num_engines;
->+	unsigned int capacity[16];
->+	uint64_t busy[16];
-
-I see 16 in a lot of places, wondering if it could use a #define?
-
-Thanks,
-Umesh
-
->+};
->+
->+bool igt_parse_drm_fdinfo(int drm_fd, struct drm_client_fdinfo *info);
->+
->+bool __igt_parse_drm_fdinfo(int dir, const char *fd,
->+			    struct drm_client_fdinfo *info);
->+
->+#endif /* IGT_DRM_FDINFO_H */
->diff --git a/lib/meson.build b/lib/meson.build
->index 3e43316d1e36..d00817dc58bc 100644
->--- a/lib/meson.build
->+++ b/lib/meson.build
->@@ -16,6 +16,7 @@ lib_sources = [
-> 	'igt_debugfs.c',
-> 	'igt_device.c',
-> 	'igt_device_scan.c',
->+	'igt_drm_fdinfo.c',
-> 	'igt_aux.c',
-> 	'igt_gt.c',
-> 	'igt_halffloat.c',
->@@ -216,6 +217,12 @@ lib_igt_device_scan_build = static_library('igt_device_scan',
-> lib_igt_device_scan = declare_dependency(link_with : lib_igt_device_scan_build,
-> 				  include_directories : inc)
->
->+lib_igt_drm_fdinfo_build = static_library('igt_drm_fdinfo',
->+	['igt_drm_fdinfo.c'],
->+	include_directories : inc)
->+
->+lib_igt_drm_fdinfo = declare_dependency(link_with : lib_igt_drm_fdinfo_build,
->+				  include_directories : inc)
-> i915_perf_files = [
->   'igt_list.c',
->   'i915/perf.c',
->-- 
->2.32.0
->
+-- 
+Daniel Vetter
+Software Engineer, Intel Corporation
+http://blog.ffwll.ch
