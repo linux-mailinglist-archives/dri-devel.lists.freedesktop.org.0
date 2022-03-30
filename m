@@ -1,47 +1,49 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 910A14EC915
-	for <lists+dri-devel@lfdr.de>; Wed, 30 Mar 2022 18:03:42 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id B863D4EC917
+	for <lists+dri-devel@lfdr.de>; Wed, 30 Mar 2022 18:03:50 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 58BA410E593;
-	Wed, 30 Mar 2022 16:03:40 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 7A69B10E706;
+	Wed, 30 Mar 2022 16:03:48 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from alexa-out.qualcomm.com (alexa-out.qualcomm.com [129.46.98.28])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 9DD6010E327;
- Wed, 30 Mar 2022 16:03:38 +0000 (UTC)
+Received: from alexa-out-sd-02.qualcomm.com (alexa-out-sd-02.qualcomm.com
+ [199.106.114.39])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 193DC10E72F;
+ Wed, 30 Mar 2022 16:03:47 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=quicinc.com; i=@quicinc.com; q=dns/txt; s=qcdkim;
- t=1648656219; x=1680192219;
+ t=1648656227; x=1680192227;
  h=from:to:cc:subject:date:message-id:in-reply-to:
  references:mime-version;
- bh=BRoLLmUJ2sv06HEf2+XRTygGI1oHSJ3f2Xrm+cdWU0w=;
- b=EK2x0N6ILOEXlheC+UzXfUetFOpn0RBpJH5KZLLQrlVkDpH7dN0XpBOa
- 6qpjaNErChy4IsGNNqPdAa6kI+GGDom355ZILNvXOTmYLd3lBLLfBaS3s
- pyXBUJ2hAigf/+kICfB0kdNFx2QSaLThwwVcrCZ1H+pOZb5Uqy5crbJ8p E=;
-Received: from ironmsg-lv-alpha.qualcomm.com ([10.47.202.13])
- by alexa-out.qualcomm.com with ESMTP; 30 Mar 2022 09:03:38 -0700
+ bh=PiJDSl8SBukDHO9rTI0k/QJEjJYJjWVM7ntaTuel/Vk=;
+ b=vYFoLWKbHCU6rcX/ixt1fo07w/O7LthMqyw1J3d7/hO5Kvl9N8Lwz4ui
+ BoyozFuGKtPN7hRirisT84CLx6YUVfZEqCUAx49QXHwc+1aVFzXViqteX
+ sIzZpcFlSLKKN1TnYMoC4SiwaesdMRFWGkf2eNZ0oGxSi3vmz2sHoFdrh 4=;
+Received: from unknown (HELO ironmsg-SD-alpha.qualcomm.com) ([10.53.140.30])
+ by alexa-out-sd-02.qualcomm.com with ESMTP; 30 Mar 2022 09:03:46 -0700
 X-QCInternal: smtphost
 Received: from nasanex01c.na.qualcomm.com ([10.47.97.222])
- by ironmsg-lv-alpha.qualcomm.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 30 Mar 2022 09:03:37 -0700
+ by ironmsg-SD-alpha.qualcomm.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 30 Mar 2022 09:03:46 -0700
 Received: from nalasex01a.na.qualcomm.com (10.47.209.196) by
  nasanex01c.na.qualcomm.com (10.47.97.222) with Microsoft SMTP Server
  (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.2.986.22; Wed, 30 Mar 2022 09:03:37 -0700
+ 15.2.986.22; Wed, 30 Mar 2022 09:03:45 -0700
 Received: from sbillaka-linux.qualcomm.com (10.80.80.8) by
  nalasex01a.na.qualcomm.com (10.47.209.196) with Microsoft SMTP Server
  (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.2.986.22; Wed, 30 Mar 2022 09:03:31 -0700
+ 15.2.986.22; Wed, 30 Mar 2022 09:03:39 -0700
 From: Sankeerth Billakanti <quic_sbillaka@quicinc.com>
 To: <dri-devel@lists.freedesktop.org>, <linux-arm-msm@vger.kernel.org>,
  <freedreno@lists.freedesktop.org>, <linux-kernel@vger.kernel.org>,
  <devicetree@vger.kernel.org>
-Subject: [PATCH v6 2/8] drm/msm/dp: wait for hpd high before aux transaction
-Date: Wed, 30 Mar 2022 21:32:53 +0530
-Message-ID: <1648656179-10347-3-git-send-email-quic_sbillaka@quicinc.com>
+Subject: [PATCH v6 3/8] drm/msm/dp: Support only IRQ_HPD and REPLUG interrupts
+ for eDP
+Date: Wed, 30 Mar 2022 21:32:54 +0530
+Message-ID: <1648656179-10347-4-git-send-email-quic_sbillaka@quicinc.com>
 X-Mailer: git-send-email 2.7.4
 In-Reply-To: <1648656179-10347-1-git-send-email-quic_sbillaka@quicinc.com>
 References: <1648656179-10347-1-git-send-email-quic_sbillaka@quicinc.com>
@@ -70,151 +72,104 @@ Cc: quic_kalyant@quicinc.com, Sankeerth Billakanti <quic_sbillaka@quicinc.com>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-The source device should ensure the sink is ready before proceeding to
-read the sink capability or performing any aux transactions. The sink
-will indicate its readiness by asserting the HPD line. The controller
-driver needs to wait for the hpd line to be asserted by the sink before
-performing any aux transactions.
+The panel-edp enables the eDP panel power during probe, get_modes
+and enable. The eDP connect and disconnect interrupts for the eDP/DP
+controller are directly dependent on panel power. As eDP display can be
+assumed as always connected, the controller driver can skip the eDP
+connect and disconnect interrupts. Any disruption in the link status
+will be indicated via the IRQ_HPD interrupts.
 
-The eDP sink is assumed to be always connected. It needs power from the
-source and its HPD line will be asserted only after the panel is powered
-on. The panel power will be enabled from the panel-edp driver and only
-after that, the hpd line will be asserted.
-
-Whereas for DP, the sink can be hotplugged and unplugged anytime. The hpd
-line gets asserted to indicate the sink is connected and ready. Hence
-there is no need to wait for the hpd line to be asserted for a DP sink.
+So, the eDP controller driver can just enable the IRQ_HPD and replug
+interrupts. The DP controller driver still needs to enable all the
+interrupts.
 
 Signed-off-by: Sankeerth Billakanti <quic_sbillaka@quicinc.com>
 ---
+ drivers/gpu/drm/msm/dp/dp_catalog.c |  4 ----
+ drivers/gpu/drm/msm/dp/dp_display.c | 24 ++++++++++++++++++++++--
+ 2 files changed, 22 insertions(+), 6 deletions(-)
 
-Changes in v6:
-  - Wait for hpd high only for eDP
-  - Split into smaller patches
-
- drivers/gpu/drm/msm/dp/dp_aux.c     | 13 ++++++++++++-
- drivers/gpu/drm/msm/dp/dp_aux.h     |  3 ++-
- drivers/gpu/drm/msm/dp/dp_catalog.c | 13 +++++++++++++
- drivers/gpu/drm/msm/dp/dp_catalog.h |  1 +
- drivers/gpu/drm/msm/dp/dp_display.c |  3 ++-
- 5 files changed, 30 insertions(+), 3 deletions(-)
-
-diff --git a/drivers/gpu/drm/msm/dp/dp_aux.c b/drivers/gpu/drm/msm/dp/dp_aux.c
-index 6d36f63..a217c80 100644
---- a/drivers/gpu/drm/msm/dp/dp_aux.c
-+++ b/drivers/gpu/drm/msm/dp/dp_aux.c
-@@ -36,6 +36,7 @@ struct dp_aux_private {
- 	bool initted;
- 	u32 offset;
- 	u32 segment;
-+	bool is_edp;
- 
- 	struct drm_dp_aux dp_aux;
- };
-@@ -337,6 +338,14 @@ static ssize_t dp_aux_transfer(struct drm_dp_aux *dp_aux,
- 		goto exit;
- 	}
- 
-+	if (aux->is_edp) {
-+		ret = dp_catalog_aux_wait_for_hpd_connect_state(aux->catalog);
-+		if (ret) {
-+			DRM_DEBUG_DP("Panel not ready for aux transactions\n");
-+			goto exit;
-+		}
-+	}
-+
- 	dp_aux_update_offset_and_segment(aux, msg);
- 	dp_aux_transfer_helper(aux, msg, true);
- 
-@@ -491,7 +500,8 @@ void dp_aux_unregister(struct drm_dp_aux *dp_aux)
- 	drm_dp_aux_unregister(dp_aux);
- }
- 
--struct drm_dp_aux *dp_aux_get(struct device *dev, struct dp_catalog *catalog)
-+struct drm_dp_aux *dp_aux_get(struct device *dev, struct dp_catalog *catalog,
-+				bool is_edp)
- {
- 	struct dp_aux_private *aux;
- 
-@@ -506,6 +516,7 @@ struct drm_dp_aux *dp_aux_get(struct device *dev, struct dp_catalog *catalog)
- 
- 	init_completion(&aux->comp);
- 	aux->cmd_busy = false;
-+	aux->is_edp = is_edp;
- 	mutex_init(&aux->mutex);
- 
- 	aux->dev = dev;
-diff --git a/drivers/gpu/drm/msm/dp/dp_aux.h b/drivers/gpu/drm/msm/dp/dp_aux.h
-index 82afc8d..c99aeec 100644
---- a/drivers/gpu/drm/msm/dp/dp_aux.h
-+++ b/drivers/gpu/drm/msm/dp/dp_aux.h
-@@ -16,7 +16,8 @@ void dp_aux_init(struct drm_dp_aux *dp_aux);
- void dp_aux_deinit(struct drm_dp_aux *dp_aux);
- void dp_aux_reconfig(struct drm_dp_aux *dp_aux);
- 
--struct drm_dp_aux *dp_aux_get(struct device *dev, struct dp_catalog *catalog);
-+struct drm_dp_aux *dp_aux_get(struct device *dev, struct dp_catalog *catalog,
-+				bool is_edp);
- void dp_aux_put(struct drm_dp_aux *aux);
- 
- #endif /*__DP_AUX_H_*/
 diff --git a/drivers/gpu/drm/msm/dp/dp_catalog.c b/drivers/gpu/drm/msm/dp/dp_catalog.c
-index fac815f..b6add4e 100644
+index b6add4e..3c16f95 100644
 --- a/drivers/gpu/drm/msm/dp/dp_catalog.c
 +++ b/drivers/gpu/drm/msm/dp/dp_catalog.c
-@@ -242,6 +242,19 @@ void dp_catalog_aux_update_cfg(struct dp_catalog *dp_catalog)
- 	phy_calibrate(phy);
- }
+@@ -582,10 +582,6 @@ void dp_catalog_ctrl_hpd_config(struct dp_catalog *dp_catalog)
  
-+int dp_catalog_aux_wait_for_hpd_connect_state(struct dp_catalog *dp_catalog)
-+{
-+	u32 state;
-+	struct dp_catalog_private *catalog = container_of(dp_catalog,
-+				struct dp_catalog_private, dp_catalog);
-+
-+	/* poll for hpd connected status every 2ms and timeout after 500ms */
-+	return readl_poll_timeout(catalog->io->dp_controller.aux.base +
-+				REG_DP_DP_HPD_INT_STATUS,
-+				state, state & DP_DP_HPD_STATE_STATUS_CONNECTED,
-+				2000, 500000);
-+}
-+
- static void dump_regs(void __iomem *base, int len)
- {
- 	int i;
-diff --git a/drivers/gpu/drm/msm/dp/dp_catalog.h b/drivers/gpu/drm/msm/dp/dp_catalog.h
-index 7dea101..45140a3 100644
---- a/drivers/gpu/drm/msm/dp/dp_catalog.h
-+++ b/drivers/gpu/drm/msm/dp/dp_catalog.h
-@@ -84,6 +84,7 @@ int dp_catalog_aux_clear_hw_interrupts(struct dp_catalog *dp_catalog);
- void dp_catalog_aux_reset(struct dp_catalog *dp_catalog);
- void dp_catalog_aux_enable(struct dp_catalog *dp_catalog, bool enable);
- void dp_catalog_aux_update_cfg(struct dp_catalog *dp_catalog);
-+int dp_catalog_aux_wait_for_hpd_connect_state(struct dp_catalog *dp_catalog);
- u32 dp_catalog_aux_get_irq(struct dp_catalog *dp_catalog);
+ 	u32 reftimer = dp_read_aux(catalog, REG_DP_DP_HPD_REFTIMER);
  
- /* DP Controller APIs */
+-	/* enable HPD plug and unplug interrupts */
+-	dp_catalog_hpd_config_intr(dp_catalog,
+-		DP_DP_HPD_PLUG_INT_MASK | DP_DP_HPD_UNPLUG_INT_MASK, true);
+-
+ 	/* Configure REFTIMER and enable it */
+ 	reftimer |= DP_DP_HPD_REFTIMER_ENABLE;
+ 	dp_write_aux(catalog, REG_DP_DP_HPD_REFTIMER, reftimer);
 diff --git a/drivers/gpu/drm/msm/dp/dp_display.c b/drivers/gpu/drm/msm/dp/dp_display.c
-index e082d02..274bbcf 100644
+index 274bbcf..888ff03 100644
 --- a/drivers/gpu/drm/msm/dp/dp_display.c
 +++ b/drivers/gpu/drm/msm/dp/dp_display.c
-@@ -755,6 +755,7 @@ static void dp_display_deinit_sub_modules(struct dp_display_private *dp)
- static int dp_init_sub_modules(struct dp_display_private *dp)
+@@ -677,7 +677,8 @@ static int dp_hpd_unplug_handle(struct dp_display_private *dp, u32 data)
+ 	dp_display_handle_plugged_change(&dp->dp_display, false);
+ 
+ 	/* enable HDP plug interrupt to prepare for next plugin */
+-	dp_catalog_hpd_config_intr(dp->catalog, DP_DP_HPD_PLUG_INT_MASK, true);
++	if (dp->dp_display.connector_type == DRM_MODE_CONNECTOR_DisplayPort)
++		dp_catalog_hpd_config_intr(dp->catalog, DP_DP_HPD_PLUG_INT_MASK, true);
+ 
+ 	DRM_DEBUG_DP("After, type=%d hpd_state=%d\n",
+ 			dp->dp_display.connector_type, state);
+@@ -1087,10 +1088,17 @@ void msm_dp_snapshot(struct msm_disp_state *disp_state, struct msm_dp *dp)
+ 
+ static void dp_display_config_hpd(struct dp_display_private *dp)
  {
- 	int rc = 0;
-+	bool is_edp = (dp->dp_display.connector_type == DRM_MODE_CONNECTOR_eDP);
- 	struct device *dev = &dp->pdev->dev;
- 	struct dp_usbpd_cb *cb = &dp->usbpd_cb;
- 	struct dp_panel_in panel_in = {
-@@ -798,7 +799,7 @@ static int dp_init_sub_modules(struct dp_display_private *dp)
- 		goto error;
+-
+ 	dp_display_host_init(dp);
++
+ 	dp_catalog_ctrl_hpd_config(dp->catalog);
+ 
++	/* Enable plug and unplug interrupts only for external DisplayPort */
++	if (dp->dp_display.connector_type == DRM_MODE_CONNECTOR_DisplayPort)
++		dp_catalog_hpd_config_intr(dp->catalog,
++				DP_DP_HPD_PLUG_INT_MASK |
++				DP_DP_HPD_UNPLUG_INT_MASK,
++				true);
++
+ 	/* Enable interrupt first time
+ 	 * we are leaving dp clocks on during disconnect
+ 	 * and never disable interrupt
+@@ -1374,6 +1382,12 @@ static int dp_pm_resume(struct device *dev)
+ 	dp_catalog_ctrl_hpd_config(dp->catalog);
+ 
+ 
++	if (dp->dp_display.connector_type == DRM_MODE_CONNECTOR_DisplayPort)
++		dp_catalog_hpd_config_intr(dp->catalog,
++				DP_DP_HPD_PLUG_INT_MASK |
++				DP_DP_HPD_UNPLUG_INT_MASK,
++				true);
++
+ 	if (dp_catalog_link_is_connected(dp->catalog)) {
+ 		/*
+ 		 * set sink to normal operation mode -- D0
+@@ -1639,6 +1653,9 @@ void dp_bridge_enable(struct drm_bridge *drm_bridge)
+ 		return;
  	}
  
--	dp->aux = dp_aux_get(dev, dp->catalog);
-+	dp->aux = dp_aux_get(dev, dp->catalog, is_edp);
- 	if (IS_ERR(dp->aux)) {
- 		rc = PTR_ERR(dp->aux);
- 		DRM_ERROR("failed to initialize aux, rc = %d\n", rc);
++	if (dp->connector_type == DRM_MODE_CONNECTOR_eDP)
++		dp_hpd_plug_handle(dp_display, 0);
++
+ 	mutex_lock(&dp_display->event_mutex);
+ 
+ 	/* stop sentinel checking */
+@@ -1703,6 +1720,9 @@ void dp_bridge_post_disable(struct drm_bridge *drm_bridge)
+ 
+ 	dp_display = container_of(dp, struct dp_display_private, dp_display);
+ 
++	if (dp->connector_type == DRM_MODE_CONNECTOR_eDP)
++		dp_hpd_unplug_handle(dp_display, 0);
++
+ 	mutex_lock(&dp_display->event_mutex);
+ 
+ 	/* stop sentinel checking */
 -- 
 2.7.4
 
