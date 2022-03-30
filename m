@@ -1,63 +1,53 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3C4E34ECD7C
-	for <lists+dri-devel@lfdr.de>; Wed, 30 Mar 2022 21:47:05 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 3DE654ECD8B
+	for <lists+dri-devel@lfdr.de>; Wed, 30 Mar 2022 21:52:34 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 40EBB10E3AF;
-	Wed, 30 Mar 2022 19:47:00 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id DD10610E91A;
+	Wed, 30 Mar 2022 19:52:31 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-ed1-x541.google.com (mail-ed1-x541.google.com
- [IPv6:2a00:1450:4864:20::541])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 19DA110E3AF
- for <dri-devel@lists.freedesktop.org>; Wed, 30 Mar 2022 19:46:58 +0000 (UTC)
-Received: by mail-ed1-x541.google.com with SMTP id c62so25691894edf.5
- for <dri-devel@lists.freedesktop.org>; Wed, 30 Mar 2022 12:46:58 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ffwll.ch; s=google;
- h=date:from:to:cc:subject:message-id:references:mime-version
- :content-disposition:in-reply-to;
- bh=zJF8mD53lrjRz/ThQh+14xEx/58j4+rUNw8d+UP5mWg=;
- b=SeWcuI2AjTWYRhbHeXS7wSUwo+dxg1vIpAllkF8tu8GdRa8HRll5GiPHFuQHJpz832
- JN9n9VoKz71VirHZ/P7b9ilN39E0izJw7d76YP6dMGjbM31HykrTS2vQiIcPr6pfA9GV
- XORe4MT/SJFOSabYF1oNuUQKRFqAXb66urpGQ=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=x-gm-message-state:date:from:to:cc:subject:message-id:references
- :mime-version:content-disposition:in-reply-to;
- bh=zJF8mD53lrjRz/ThQh+14xEx/58j4+rUNw8d+UP5mWg=;
- b=EP8cN0q8aa4iZQPqNZ7iNk4J2dDm1BexnYHT98AdiGm/3Gpk7jY3wKL3DJFtde8ZKu
- SzIXpmIJ0xoGIh6M/nTw9bWqso4pBPV7Tqk4UU7he/DjmnFZ16S9zsH7i1DGOAetmrhE
- DWzlj0x61tO4WoAAqgua2+HlFJ2IDtScjecpNIRqAJRNgb42jCA4xcCe6P/yU+21QKxy
- BaHxJZUX8pabYLkl3rwMCZj9x1TKYsVh8Kzt/uYWlK50IhF6ts7GmyljbSpowvtKP9mE
- IzGvZiFM1/cZ2FhouGjUXxsUPhfBe4TO1pyDF6C91nWLv46L1YKaRXYmaTPtasxB+glN
- 6xxA==
-X-Gm-Message-State: AOAM531mHjhc6qkNx61uumXLXDZv6zM7Ipsw8Xqjd/1A9VB2kHbl3rrV
- Yp2A0zDjHFq/4JTqu3Hep1lOBw==
-X-Google-Smtp-Source: ABdhPJzQIhhdM2VNyugX9zvlI6ejlDe6sMmQDvVXdj8uYPP6xqlE0OcZtcXMQhwpPoZ+ulpOLU4T7g==
-X-Received: by 2002:a05:6402:5211:b0:419:583d:bb58 with SMTP id
- s17-20020a056402521100b00419583dbb58mr12538939edd.198.1648669616595; 
- Wed, 30 Mar 2022 12:46:56 -0700 (PDT)
-Received: from phenom.ffwll.local ([2a02:168:57f4:0:efd0:b9e5:5ae6:c2fa])
- by smtp.gmail.com with ESMTPSA id
- k26-20020a056402049a00b004197b0867e0sm10134725edv.42.2022.03.30.12.46.55
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 30 Mar 2022 12:46:56 -0700 (PDT)
-Date: Wed, 30 Mar 2022 21:46:54 +0200
-From: Daniel Vetter <daniel@ffwll.ch>
-To: Jagan Teki <jagan@amarulasolutions.com>
-Subject: Re: DRM Master ignoring hotplug event during display switching (QT)
-Message-ID: <YkSzrvnto3WEJr04@phenom.ffwll.local>
-References: <CAMty3ZBT9WEPbkaoS_8t1O153tckBk0pxiP2cF75ASZb54SPUQ@mail.gmail.com>
- <20220330085254.yow3w4frr56wllou@houat>
- <YkQpo1JgGkE8FqK3@phenom.ffwll.local>
- <CAMty3ZDsZHFPmkSVdgcHCbmSb8N27nwesA_NDdMrPYhQn-D1tg@mail.gmail.com>
+Received: from mga17.intel.com (mga17.intel.com [192.55.52.151])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 3764610E91A;
+ Wed, 30 Mar 2022 19:52:31 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+ t=1648669951; x=1680205951;
+ h=date:from:to:cc:subject:message-id:references:
+ mime-version:content-transfer-encoding:in-reply-to;
+ bh=44ev8YyikYH+yD4WMp2jmkyjlzKO2+ROnBLZ3GuBOG0=;
+ b=ZsEGi4jL/jKoTGiKKDxjQ1QGKb43EH44K1SR8XpRSFa5e9ZiM5A/Yl3K
+ dbRei5CB3bdCEDRlnpk5oLixFRwnCN6AmZFpJCZGA2ozHPhHHPkmnhp3C
+ 1zcia+QBWF/LC9UzPuMLQ5zBqPtkA35nrnBK2bxv5V2L4FuWoA6V13EqJ
+ kzeoc22vESLJetQC1Sk52pQ1iDl3WyHDqV6dzlK+7jVc2ZpPHJVa2OU+A
+ +ZgX1Wm1Awra4wBqY8S/7go105BYUpCTcWQIGbs0gZKRnHCJgXYQdAI/b
+ nARZxG6vdlEvLYjwgyX8gOER4vO6YEC5NCyZ1lE2byEEliPdZdmL+fsIF A==;
+X-IronPort-AV: E=McAfee;i="6200,9189,10302"; a="240227028"
+X-IronPort-AV: E=Sophos;i="5.90,223,1643702400"; d="scan'208";a="240227028"
+Received: from fmsmga007.fm.intel.com ([10.253.24.52])
+ by fmsmga107.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 30 Mar 2022 12:52:30 -0700
+X-IronPort-AV: E=Sophos;i="5.90,223,1643702400"; d="scan'208";a="554791600"
+Received: from orsosgc001.jf.intel.com (HELO unerlige-ril-10.165.21.154)
+ ([10.165.21.154])
+ by fmsmga007-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 30 Mar 2022 12:52:30 -0700
+Date: Wed, 30 Mar 2022 12:52:29 -0700
+From: Umesh Nerlige Ramappa <umesh.nerlige.ramappa@intel.com>
+To: Tvrtko Ursulin <tvrtko.ursulin@linux.intel.com>
+Subject: Re: [Intel-gfx] [PATCH i-g-t 01/11] lib: Helper library for parsing
+ i915 fdinfo output
+Message-ID: <20220330195229.GD59408@unerlige-ril-10.165.21.154>
+References: <20220222135605.1120767-1-tvrtko.ursulin@linux.intel.com>
+ <20220222135605.1120767-2-tvrtko.ursulin@linux.intel.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
+Content-Type: text/plain; charset=utf-8; format=flowed
 Content-Disposition: inline
-In-Reply-To: <CAMty3ZDsZHFPmkSVdgcHCbmSb8N27nwesA_NDdMrPYhQn-D1tg@mail.gmail.com>
-X-Operating-System: Linux phenom 5.10.0-8-amd64 
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <20220222135605.1120767-2-tvrtko.ursulin@linux.intel.com>
+User-Agent: Mutt/1.12.1 (2019-06-15)
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -70,175 +60,309 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Thomas Zimmermann <tzimmermann@suse.de>,
- Neil Armstrong <narmstrong@baylibre.com>, Sam Ravnborg <sam@ravnborg.org>,
- Dave Stevenson <dave.stevenson@raspberrypi.com>,
- dri-devel <dri-devel@lists.freedesktop.org>,
- Andrzej Hajda <a.hajda@samsung.com>, Maxime Ripard <maxime@cerno.tech>,
- Michael Nazzareno Trimarchi <michael@amarulasolutions.com>,
- linux-amarula <linux-amarula@amarulasolutions.com>,
- Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+Cc: igt-dev@lists.freedesktop.org, Intel-gfx@lists.freedesktop.org,
+ dri-devel@lists.freedesktop.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Thu, Mar 31, 2022 at 12:14:31AM +0530, Jagan Teki wrote:
-> On Wed, Mar 30, 2022 at 3:27 PM Daniel Vetter <daniel@ffwll.ch> wrote:
-> >
-> > On Wed, Mar 30, 2022 at 10:52:54AM +0200, Maxime Ripard wrote:
-> > > On Tue, Mar 29, 2022 at 11:38:32PM +0530, Jagan Teki wrote:
-> > > > Hi all,
-> > > >
-> > > > I have implemented runtime display switching in the MIPI switch design
-> > > > where LVDS and HDMI bridges are selected with the help of runtime
-> > > > GPIO.
-> > > >
-> > > > Initial discussion on the same can be found here,
-> > > > https://www.spinics.net/lists/dri-devel/msg318524.html
-> > > >
-> > > > The implementation has been done by creating each connector at
-> > > > runtime. The default boot will create the LVDS connector and based on
-> > > > the HDMI plug-in the ISR.
-> > > >
-> > > > 1. forcing the LVDS to disconnect
-> > > > 2. call drm_kms_helper_hotplug_event
-> > > > 3. detach the bridge chain
-> > > > 4. attach the new bridge chain (HDMI)
-> > > > 5. call drm_kms_helper_hotplug_event
-> > > >
-> > > > do the reverse when we unplug the HDMI cable.
-> > > >
-> > > > So, the bridge chains are attached and detached based on GPIO
-> > > > Interrupt which is indeed identified based on the physical HDMIA
-> > > > connector.
-> > > >
-> > > > Pipeline for LVDS,
-> > > > mxfsb => nwl-dsi => display-switch => sn65dsi83=> panel-bridge
-> > > >
-> > > > Pipeline for HDMI,
-> > > > mxfsb => nwl-dsi => display-switch => adv7511 => display-connector
-> > > >
-> > > > With this, implementation and I can able switch the displays with
-> > > > default DRM (without specific DRM applications) where the LVDS is ON
-> > > > by default and when HDMI plug-in the LVDS OFF/HDMI ON, and when HDMI
-> > > > unplug the HDMI OFF/LVDS ON.
-> > > >
-> > > > However, with QT5 I can see the DRM Master ignoring hotplug event by
-> > > > returning 0 on drm_master_internal_acquire in
-> > > > drm_fb_helper_hotplug_event. With this the hotplug returned early so
-> > > > it cannot able to disconnect and connect the new switching connector.
-> > > >
-> > > > Any help?
-> > >
-> > > I'm not sure why you started another discussion with pretty much the
-> > > same content, but you can't rely on userspace handling the hotplug
-> > > event. You'll have to deal with the case where it just doesn't.
-> >
-> > Well I missed the old thread, so I'm replying here.
-> >
-> > You should not handle this at all from a hotplug.
-> 
-> Just to be clear. ISR is handling bridge detach and attach management
-> and call hotplug not the hotplug don't know anything about bridges
-> here.
-> 
-> >
-> > The way kms works is roughly as follows:
-> >
-> > 1. hw output state changes
-> > 2. driver detects this (either through hpd interrupt or polling)
-> > 3. driver sends out hotplug uevent
-> >
-> > That's it. Nothing else, no bridge rebinding, no link retaining is
-> > required.
-> >
-> > Then either userspace or fbcon emulation reacts to this hotplug event by
-> > doing an atomic modeset, where it hopefully disables the old output and
-> > re-enables the new output. Your atomic_check needs to validate that
-> > everything is all right (i.e. not enabling both at the same time).
-> 
-> Does it mean the userspace knows when to disconnect and connect the
-> LVDS or HDMI? What if display-switch ISR will disconnect LVDS and
-> connect HDMI when HPD is On and connect LVDS and disconnect HDMI when
-> HDP is Off of-course it makes only one enable at a time.
-> 
-> >
-> > Note that if you change stuff underneath, then that tends to seriously
-> > upset atomic users. Also you should try to continue supporting at least
-> > page flips with the wrong config, compositors otherwise tend to crash.
-> >
-> > This also means that if userspace doesn't handle hotplug events, then you
-> > might end up with a black screen. That's ok. We try to avoid that when
-> > it's practical (e.g. dp sst link retraining), but not when it's too hard
-> > (dp mst hot-replug relies on userspace restoring everything).
-> 
-> This is what I'm not sure about it as normal FB testing without any
-> specific applications like QT - I can still see the switching works
-> well without any issues. However, QT applications seem to control the
-> hotplug by acquiring DRM master. is there any way from kernel side to
-> ignore those application control over hotplug so that I can switch
-> even the QT application as normal FB does? just to understand my
-> testing and flow?
+On Tue, Feb 22, 2022 at 01:55:55PM +0000, Tvrtko Ursulin wrote:
+>From: Tvrtko Ursulin <tvrtko.ursulin@intel.com>
+>
+>Tests and intel_gpu_top will share common code for parsing this file.
+>
+>Signed-off-by: Tvrtko Ursulin <tvrtko.ursulin@intel.com>
+>---
+> lib/igt_drm_fdinfo.c | 183 +++++++++++++++++++++++++++++++++++++++++++
+> lib/igt_drm_fdinfo.h |  48 ++++++++++++
+> lib/meson.build      |   7 ++
+> 3 files changed, 238 insertions(+)
+> create mode 100644 lib/igt_drm_fdinfo.c
+> create mode 100644 lib/igt_drm_fdinfo.h
+>
+>diff --git a/lib/igt_drm_fdinfo.c b/lib/igt_drm_fdinfo.c
+>new file mode 100644
+>index 000000000000..28c1bdbda08e
+>--- /dev/null
+>+++ b/lib/igt_drm_fdinfo.c
+>@@ -0,0 +1,183 @@
+>+/*
+>+ * Copyright © 2022 Intel Corporation
+>+ *
+>+ * Permission is hereby granted, free of charge, to any person obtaining a
+>+ * copy of this software and associated documentation files (the "Software"),
+>+ * to deal in the Software without restriction, including without limitation
+>+ * the rights to use, copy, modify, merge, publish, distribute, sublicense,
+>+ * and/or sell copies of the Software, and to permit persons to whom the
+>+ * Software is furnished to do so, subject to the following conditions:
+>+ *
+>+ * The above copyright notice and this permission notice (including the next
+>+ * paragraph) shall be included in all copies or substantial portions of the
+>+ * Software.
+>+ *
+>+ * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+>+ * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+>+ * FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT.  IN NO EVENT SHALL
+>+ * THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+>+ * LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING
+>+ * FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS
+>+ * IN THE SOFTWARE.
+>+ *
+>+ */
+>+
+>+#include <ctype.h>
+>+#include <sys/types.h>
+>+#include <sys/stat.h>
+>+#include <fcntl.h>
+>+#include <stdio.h>
+>+#include <string.h>
+>+#include <stdlib.h>
+>+#include <unistd.h>
+>+
+>+#include "drmtest.h"
+>+
+>+#include "igt_drm_fdinfo.h"
+>+
+>+static size_t read_fdinfo(char *buf, const size_t sz, int at, const char *name)
+>+{
+>+	size_t count;
+>+	int fd;
+>+
+>+	fd = openat(at, name, O_RDONLY);
+>+	if (fd < 0)
+>+		return 0;
+>+
+>+	buf[sz - 1] = 0;
 
-No, that's not how kms works.
+Wondering if this ^ should be after the read() in case 4096 bytes are read.
 
-When fbcon is active, then fbcon takes over all responsibilities of a drm
-master. Including reacting to hotplug events.
+>+	count = read(fd, buf, sz);
+>+	close(fd);
+>+
+>+	return count;
+>+}
+>+
+>+static int parse_engine(char *line, struct drm_client_fdinfo *info,
+>+			size_t prefix_len, uint64_t *val)
+>+{
+>+	static const char *e2class[] = {
+>+		"render",
+>+		"copy",
+>+		"video",
+>+		"video-enhance",
+>+	};
+>+	ssize_t name_len;
+>+	char *name, *p;
+>+	int found = -1;
+>+	unsigned int i;
+>+
+>+	p = index(line, ':');
+>+	if (!p || p == line)
+>+		return -1;
+>+
+>+	name_len = p - line - prefix_len;
+>+	if (name_len < 1)
+>+		return -1;
+>+
+>+	name = line + prefix_len;
+>+
+>+	for (i = 0; i < ARRAY_SIZE(e2class); i++) {
+>+		if (!strncmp(name, e2class[i], name_len)) {
+>+			found = i;
+>+			break;
+>+		}
+>+	}
+>+
+>+	if (found >= 0) {
+>+		while (*++p && isspace(*p));
+>+		*val = strtoull(p, NULL, 10);
+>+	}
+>+
+>+	return found;
+>+}
+>+
+>+static const char *find_kv(const char *buf, const char *key, size_t keylen)
+>+{
+>+	const char *p = buf;
+>+
+>+	p = index(buf, ':');
+>+	if (!p || p == buf)
+>+		return NULL;
+>+
+>+	if ((p - buf) != keylen)
+>+		return NULL;
+>+
+>+	while (*++p && isspace(*p));
+>+	if (*p && !strncmp(buf, key, keylen))
 
-If your QT app directly uses kms, but doesn't handle hotplugs, then yes
-nothing at all happens. But that's just a userspace bug, not a kernel bug,
-and we really should _not_ work around random userspace issues like this
-in the kernel.
+nit: why not just do the strncmp early in this function since buf, key, 
+keylen have not changed?
 
-Actually we cannot, because doing so would upset real kms compositors,
-since the kernel doing funny stuff underneath it will at best confuse it.
-And it some cases it resulted in crashes.
+>+		return p;
+>+
+>+	return NULL;
+>+}
+>+
+>+bool
+>+__igt_parse_drm_fdinfo(int dir, const char *fd, struct drm_client_fdinfo *info)
+>+{
+>+	char buf[4096], *_buf = buf;
+>+	char *l, *ctx = NULL;
+>+	unsigned int good = 0;
+>+	size_t count;
+>+
 
-> 
-> >
-> > Finally exchanging the bridge chain isn't supported, there's no locking
-> > for that since it's assumed to be invariant over the lifetim of the
-> > drm_device instance. The simplest way to make that happen right now is to
-> > have 2 drm_encoder instances, one with the lvds bridge chain, the other
-> > with the hdmi bridge chain, and select the right encoder/bridge chain
-> > depending upon which output userspace picks.
-> 
-> Does it mean to initialize to encoder instances and start attaching
-> those to respective bridge pipelines?
+Should buf be zeroed out here?
 
-I haven't checked, but I think it's not possible to change the bridge
-chaining after drm_dev_register is called due to locking.
+>+	count = read_fdinfo(buf, sizeof(buf), dir, fd);
+>+	if (!count)
+>+		return false;
+>+
+>+	while ((l = strtok_r(_buf, "\n", &ctx))) {
+>+		uint64_t val = 0;
+>+		const char *v;
+>+		int idx;
+>+
+>+		_buf = NULL;
+>+
+>+		if ((v = find_kv(l, "drm-driver", strlen("drm-driver")))) {
+>+			strncpy(info->driver, v, sizeof(info->driver) - 1);
+>+			good++;
+>+		} else if ((v = find_kv(l, "drm-pdev", strlen("drm-pdev")))) {
+>+			strncpy(info->pdev, v, sizeof(info->pdev) - 1);
+>+		}  else if ((v = find_kv(l, "drm-client-id",
+>+					 strlen("drm-client-id")))) {
+>+			info->id = atol(v);
+>+			good++;
+>+		} else if (!strncmp(l, "drm-engine-", 11) &&
+>+			   strncmp(l, "drm-engine-capacity-", 20)) {
+>+			idx = parse_engine(l, info, strlen("drm-engine-"),
+>+					   &val);
+>+			if (idx >= 0) {
+>+				if (!info->capacity[idx])
+>+					info->capacity[idx] = 1;
+>+				info->busy[idx] = val;
+>+				info->num_engines++;
+>+			}
+>+		} else if (!strncmp(l, "drm-engine-capacity-", 20)) {
+>+			idx = parse_engine(l, info,
+>+					   strlen("drm-engine-capacity-"),
+>+					   &val);
+>+			if (idx >= 0)
+>+				info->capacity[idx] = val;
+>+		}
+>+	}
+>+
+>+	if (good < 2 || !info->num_engines)
+>+		return false; /* fdinfo format not as expected */
+>+
+>+	return true;
+>+}
+>+
+>+bool igt_parse_drm_fdinfo(int drm_fd, struct drm_client_fdinfo *info)
+>+{
+>+	char fd[64];
+>+	int dir, ret;
+>+	bool res;
+>+
+>+	ret = snprintf(fd, sizeof(fd), "%u", drm_fd);
+>+	if (ret < 0 || ret == sizeof(fd))
+>+		return false;
+>+
+>+	dir = open("/proc/self/fdinfo", O_DIRECTORY | O_RDONLY);
+>+	if (dir < 0)
+>+		return false;
+>+
+>+	res = __igt_parse_drm_fdinfo(dir, fd, info);
+>+
+>+	close(dir);
+>+
+>+	return res;
+>+}
+>diff --git a/lib/igt_drm_fdinfo.h b/lib/igt_drm_fdinfo.h
+>new file mode 100644
+>index 000000000000..c527bab9a204
+>--- /dev/null
+>+++ b/lib/igt_drm_fdinfo.h
+>@@ -0,0 +1,48 @@
+>+/*
+>+ * Copyright © 2022 Intel Corporation
+>+ *
+>+ * Permission is hereby granted, free of charge, to any person obtaining a
+>+ * copy of this software and associated documentation files (the "Software"),
+>+ * to deal in the Software without restriction, including without limitation
+>+ * the rights to use, copy, modify, merge, publish, distribute, sublicense,
+>+ * and/or sell copies of the Software, and to permit persons to whom the
+>+ * Software is furnished to do so, subject to the following conditions:
+>+ *
+>+ * The above copyright notice and this permission notice (including the next
+>+ * paragraph) shall be included in all copies or substantial portions of the
+>+ * Software.
+>+ *
+>+ * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+>+ * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+>+ * FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT.  IN NO EVENT SHALL
+>+ * THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+>+ * LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING
+>+ * FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS
+>+ * IN THE SOFTWARE.
+>+ *
+>+ */
+>+
+>+#ifndef IGT_DRM_FDINFO_H
+>+#define IGT_DRM_FDINFO_H
+>+
+>+#include <sys/types.h>
+>+#include <dirent.h>
+>+#include <stdint.h>
+>+#include <stdbool.h>
+>+
+>+struct drm_client_fdinfo {
+>+	char driver[128];
+>+	char pdev[128];
+>+	unsigned long id;
+>+
+>+	unsigned int num_engines;
+>+	unsigned int capacity[16];
+>+	uint64_t busy[16];
 
-So doing bridge attach/detach from the hotplug handler is a no-go. The
-bridges need to be set up at driver load.
+I see 16 in a lot of places, wondering if it could use a #define?
 
-Also with this design each bridge chain has its own drm_connector (HDMI
-and LVDS, if I got you right). But that's just how bridges work.
+Thanks,
+Umesh
 
-> > Also ofc your atomic_check needs to make sure that they're not both
-> > enabled at the same time :-)
-> >
-> > I wouldn't try to make bridge chains exchangeable instead, that's
-> > headaches - e.g. with dp mst we've also opted for a bunch of fake
-> > drm_encoders to model that kind of switching.
-> 
-> Can you link some references in the source tree for it to make a quick check?
-
-See the atomic_best_encoder callback, doc link here:
-
-https://dri.freedesktop.org/docs/drm/gpu/drm-kms-helpers.html?highlight=atomic_best_encoder#c.drm_connector_helper_funcs
-
-Although thinking about this you should have only 1 encoder for each
-drm_connector (if you go with separate connector for hdmi and lvds), and
-in that case the atomic helpers will take care of everything for you. Well
-except making sure that only one encoder of the two is enabled at the same
-time.
--Daniel
-
-> 
-> Thanks,
-> Jagan.
-
--- 
-Daniel Vetter
-Software Engineer, Intel Corporation
-http://blog.ffwll.ch
+>+};
+>+
+>+bool igt_parse_drm_fdinfo(int drm_fd, struct drm_client_fdinfo *info);
+>+
+>+bool __igt_parse_drm_fdinfo(int dir, const char *fd,
+>+			    struct drm_client_fdinfo *info);
+>+
+>+#endif /* IGT_DRM_FDINFO_H */
+>diff --git a/lib/meson.build b/lib/meson.build
+>index 3e43316d1e36..d00817dc58bc 100644
+>--- a/lib/meson.build
+>+++ b/lib/meson.build
+>@@ -16,6 +16,7 @@ lib_sources = [
+> 	'igt_debugfs.c',
+> 	'igt_device.c',
+> 	'igt_device_scan.c',
+>+	'igt_drm_fdinfo.c',
+> 	'igt_aux.c',
+> 	'igt_gt.c',
+> 	'igt_halffloat.c',
+>@@ -216,6 +217,12 @@ lib_igt_device_scan_build = static_library('igt_device_scan',
+> lib_igt_device_scan = declare_dependency(link_with : lib_igt_device_scan_build,
+> 				  include_directories : inc)
+>
+>+lib_igt_drm_fdinfo_build = static_library('igt_drm_fdinfo',
+>+	['igt_drm_fdinfo.c'],
+>+	include_directories : inc)
+>+
+>+lib_igt_drm_fdinfo = declare_dependency(link_with : lib_igt_drm_fdinfo_build,
+>+				  include_directories : inc)
+> i915_perf_files = [
+>   'igt_list.c',
+>   'i915/perf.c',
+>-- 
+>2.32.0
+>
