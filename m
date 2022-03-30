@@ -2,59 +2,60 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3BB434ECFA9
-	for <lists+dri-devel@lfdr.de>; Thu, 31 Mar 2022 00:30:24 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id CE5954ECFAA
+	for <lists+dri-devel@lfdr.de>; Thu, 31 Mar 2022 00:30:25 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 8AF1F10EB62;
-	Wed, 30 Mar 2022 22:30:19 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 03E0710EB6F;
+	Wed, 30 Mar 2022 22:30:20 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-lf1-x134.google.com (mail-lf1-x134.google.com
- [IPv6:2a00:1450:4864:20::134])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 21FE310EB1F
- for <dri-devel@lists.freedesktop.org>; Wed, 30 Mar 2022 22:30:13 +0000 (UTC)
-Received: by mail-lf1-x134.google.com with SMTP id bt26so38270181lfb.3
+Received: from mail-lf1-x12c.google.com (mail-lf1-x12c.google.com
+ [IPv6:2a00:1450:4864:20::12c])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 11A3310EB1F
+ for <dri-devel@lists.freedesktop.org>; Wed, 30 Mar 2022 22:30:14 +0000 (UTC)
+Received: by mail-lf1-x12c.google.com with SMTP id e16so38244138lfc.13
  for <dri-devel@lists.freedesktop.org>; Wed, 30 Mar 2022 15:30:13 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=xqfEw4UqTCnx51jjs0rgqmjBtEaHi5KxWmkQyvq+0UI=;
- b=Fp8vb9sL3gbHXRVVg0GfGLJTnC7lAtdsgh9yjYXvnLHd+tuE91nd379l3kyO0ZWHp5
- ArGtPZ+7vAg2p9biYCYKIQWh1yl8hBhMqE9QDagljgveD5jR+xb27HFuUkWpKryCWdgM
- OXfSW/QYnfK2uU4bSPWDGh9ZBCsce+3qZGY/XngQFrj78Kq6nr85JGqSEYiZ6rGaBaNc
- memhjQIYTOBTqgYK9q0tSaaRYWSaWP9m4feks8HQb8WrMu5C6dx9OLnNX3/LxY+3YBva
- tpjQp6Ix3cDO4hY0A/4huk2ExHm7TgMtMfXL7dO7yIdtsOfBAHvbXNNLYzkymjjeobRl
- I0kQ==
+ bh=G2hk/9qDM82KvHuI4eFXE9v1so9dGAMWYy4S2wfnB8k=;
+ b=kQIlmYwddD3WvCElql9vEZxabKNyckDBrjeAN9R5X5t37qlbMwCPf1tE1W8qm8JOOn
+ CEU3b7dVPB2lVgEz3h3yAXeEUjNEI8HqsbSjXNEVr8qIOvxFmbTZIHa+Hc9dZi5Xq30k
+ FYLP/PPH92c6K+uCApPWZuIpVvQr+o0FR/S7JmJm/6AKA6C83HdqejxJpW0NWl1PFx47
+ Q3OVNU5RzsL0Rn8TXu+efgGGGSM25OWcdrOYeix/Jf0fs1zfncGb3YKGJesMTDBU1QEG
+ oThsUmGv41Pobi+Zr5R7gtcf5tdGdMhyTHzsOzm+cuuJhspW0g8RoCmDBrvX0IyKlBP9
+ jckQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=xqfEw4UqTCnx51jjs0rgqmjBtEaHi5KxWmkQyvq+0UI=;
- b=szak9qxoR2PFx4Sk1AguNFRwnhO/+skTF5FNPY6+biTleuyVsiCDRYCN/cUC0dxaxj
- X+S98C158wR+AfqZXySWwo5gybJg+44HsA4yPcLtlCvsFMauRTSbI9A00czXu2DvyHWg
- rpXoNKbSdPnORZ7eXwjNPhSq+JYzBgLcA30bR/Oy0tMHrC6L/OjHHfO1cUs4wR8+5ppz
- TIRU+PfZRr/7CkmxaWHO0ThxdOD1zQFHc/Vy8ZRF5odqgaXDI15Q9giM4N1X78PqNyE1
- v8GFkyvM1BYnwIhXk30w12EkOTAMFwmEL2LS5VSDQCZKsZ/ftuEj/eN1uShtRJKuJGav
- bN/A==
-X-Gm-Message-State: AOAM531ZyMc/4muwMxmzCFnJd+SInlEng6gLLg2yxT0h0vMoV7t4k5es
- okR7LNvMCKVO4h8oBOlZ1AGctA==
-X-Google-Smtp-Source: ABdhPJxCu2GlcJuX2nxX8bCqtGn2nIFNzbSm/5H2yFUYt8PEWzpIkA0t76lNSNR7FWc/DDx0UeG7Pg==
-X-Received: by 2002:a05:6512:3c9a:b0:44a:27db:632b with SMTP id
- h26-20020a0565123c9a00b0044a27db632bmr8325427lfv.625.1648679411397; 
- Wed, 30 Mar 2022 15:30:11 -0700 (PDT)
+ bh=G2hk/9qDM82KvHuI4eFXE9v1so9dGAMWYy4S2wfnB8k=;
+ b=Rh4vbbuOMJI803VTCA+KrT7x+iMvq36rwjZNQqIrfEBBswwqKx1cVykkKiEgI5vBDK
+ 4cdW8+7Ve4OJx3zswiMfoqZVE4NA6QP128WZUM2Zxb6i+lhbjq0iwRQthP4BlfSlQlyj
+ wSiC7Lw47sr8K+IFCglcZyYJE4APcr+lFjjpu0WO/k2XMzDDmjk+FTEvC1CMKeolNjL6
+ +RH7UUhbr3hiksieLE8+vt9gaRgVEo6NegJbfsFEsomwlOlZ4/hwvduLhCE1W7RVpL6X
+ yBHTa7yh2Lb1BxYxf9l7fCnQhcl5MBNso2zfP2ru94kdy1+/HWq2Xr0p2aqPSKk3pWWI
+ /cJg==
+X-Gm-Message-State: AOAM531Uq3bqtgVdrnMOqzIFMW1lIOnyNyzJytHhm9PIz+4Qw34YfUh8
+ F77CWSIy52EnGT4eu6zyW+ty8w==
+X-Google-Smtp-Source: ABdhPJwUK0xnWY1kVVPKAkgbzvh7LLrv7chF8tKzWPeso0tHOSwbWmh4aPqlTjx0QAfojLjHP7VkfA==
+X-Received: by 2002:a19:4f1a:0:b0:44a:22fa:704 with SMTP id
+ d26-20020a194f1a000000b0044a22fa0704mr8712252lfb.59.1648679412352; 
+ Wed, 30 Mar 2022 15:30:12 -0700 (PDT)
 Received: from eriador.lan ([37.153.55.125]) by smtp.gmail.com with ESMTPSA id
- a4-20020a2eb164000000b0024988e1cfb6sm2521295ljm.94.2022.03.30.15.30.10
+ a4-20020a2eb164000000b0024988e1cfb6sm2521295ljm.94.2022.03.30.15.30.11
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 30 Mar 2022 15:30:10 -0700 (PDT)
+ Wed, 30 Mar 2022 15:30:11 -0700 (PDT)
 From: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
 To: Bjorn Andersson <bjorn.andersson@linaro.org>,
  Rob Clark <robdclark@gmail.com>, Sean Paul <sean@poorly.run>,
  Abhinav Kumar <quic_abhinavk@quicinc.com>,
  Kuogee Hsieh <quic_khsieh@quicinc.com>,
  Sankeerth Billakanti <quic_sbillaka@quicinc.com>
-Subject: [PATCH v2 2/4] drm/msm/dp: simplify dp_connector_get_modes()
-Date: Thu, 31 Mar 2022 01:30:06 +0300
-Message-Id: <20220330223008.649274-3-dmitry.baryshkov@linaro.org>
+Subject: [PATCH v2 3/4] drm/msm/dp: remove max_pclk_khz field from
+ dp_panel/dp_display
+Date: Thu, 31 Mar 2022 01:30:07 +0300
+Message-Id: <20220330223008.649274-4-dmitry.baryshkov@linaro.org>
 X-Mailer: git-send-email 2.35.1
 In-Reply-To: <20220330223008.649274-1-dmitry.baryshkov@linaro.org>
 References: <20220330223008.649274-1-dmitry.baryshkov@linaro.org>
@@ -78,118 +79,86 @@ Cc: David Airlie <airlied@linux.ie>, linux-arm-msm@vger.kernel.org,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Since dp_panel_get_modes() handling for dp_mode was removed,
-dp_display_get_modes also doesn't change the passed dp_mode, drop the
-unused dp_mode variable being allocated unused and then freed.
+Since the last commit, the max_pclk_khz became constant, it's set to
+DP_MAX_PIXEL_CLK_KHZ and never changed afterwards. Remove it completely
+and use DP_MAX_PIXEL_CLK_KHZ directly.
 
 Reviewed-by: Kuogee Hsieh <quic_khsieh@quicinc.com>
 Reviewed-by: Stephen Boyd <swboyd@chromium.org>
 Signed-off-by: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
 ---
- drivers/gpu/drm/msm/dp/dp_display.c |  9 ++-------
- drivers/gpu/drm/msm/dp/dp_display.h |  3 +--
- drivers/gpu/drm/msm/dp/dp_drm.c     | 29 +----------------------------
- 3 files changed, 4 insertions(+), 37 deletions(-)
+ drivers/gpu/drm/msm/dp/dp_debug.c   | 2 --
+ drivers/gpu/drm/msm/dp/dp_display.c | 1 -
+ drivers/gpu/drm/msm/dp/dp_display.h | 2 --
+ drivers/gpu/drm/msm/dp/dp_drm.c     | 4 +---
+ drivers/gpu/drm/msm/dp/dp_panel.h   | 1 -
+ 5 files changed, 1 insertion(+), 9 deletions(-)
 
+diff --git a/drivers/gpu/drm/msm/dp/dp_debug.c b/drivers/gpu/drm/msm/dp/dp_debug.c
+index 2f9c943f12d5..5e35033ba3e4 100644
+--- a/drivers/gpu/drm/msm/dp/dp_debug.c
++++ b/drivers/gpu/drm/msm/dp/dp_debug.c
+@@ -44,8 +44,6 @@ static int dp_debug_show(struct seq_file *seq, void *p)
+ 	drm_mode = &debug->panel->dp_mode.drm_mode;
+ 
+ 	seq_printf(seq, "\tname = %s\n", DEBUG_NAME);
+-	seq_printf(seq, "\tdp_panel\n\t\tmax_pclk_khz = %d\n",
+-			debug->panel->max_pclk_khz);
+ 	seq_printf(seq, "\tdrm_dp_link\n\t\trate = %u\n",
+ 			debug->panel->link_info.rate);
+ 	seq_printf(seq, "\t\tnum_lanes = %u\n",
 diff --git a/drivers/gpu/drm/msm/dp/dp_display.c b/drivers/gpu/drm/msm/dp/dp_display.c
-index 3dd790083cf7..93cdc4ebcf43 100644
+index 93cdc4ebcf43..72deef8f1ecb 100644
 --- a/drivers/gpu/drm/msm/dp/dp_display.c
 +++ b/drivers/gpu/drm/msm/dp/dp_display.c
-@@ -999,11 +999,9 @@ int dp_display_validate_mode(struct msm_dp *dp, u32 mode_pclk_khz)
- 	return MODE_OK;
- }
+@@ -370,7 +370,6 @@ static int dp_display_process_hpd_high(struct dp_display_private *dp)
+ 	dp->audio_supported = drm_detect_monitor_audio(edid);
+ 	dp_panel_handle_sink_request(dp->panel);
  
--int dp_display_get_modes(struct msm_dp *dp,
--				struct dp_display_mode *dp_mode)
-+int dp_display_get_modes(struct msm_dp *dp)
- {
- 	struct dp_display_private *dp_display;
--	int ret = 0;
+-	dp->dp_display.max_pclk_khz = DP_MAX_PIXEL_CLK_KHZ;
+ 	dp->dp_display.max_dp_lanes = dp->parser->max_dp_lanes;
  
- 	if (!dp) {
- 		DRM_ERROR("invalid params\n");
-@@ -1012,11 +1010,8 @@ int dp_display_get_modes(struct msm_dp *dp,
- 
- 	dp_display = container_of(dp, struct dp_display_private, dp_display);
- 
--	ret = dp_panel_get_modes(dp_display->panel,
-+	return dp_panel_get_modes(dp_display->panel,
- 		dp->connector);
--	if (dp_mode->drm_mode.clock)
--		dp->max_pclk_khz = dp_mode->drm_mode.clock;
--	return ret;
- }
- 
- bool dp_display_check_video_test(struct msm_dp *dp)
+ 	/*
 diff --git a/drivers/gpu/drm/msm/dp/dp_display.h b/drivers/gpu/drm/msm/dp/dp_display.h
-index 7af2b186d2d9..6efb5c853c89 100644
+index 6efb5c853c89..f3a9d7449a1c 100644
 --- a/drivers/gpu/drm/msm/dp/dp_display.h
 +++ b/drivers/gpu/drm/msm/dp/dp_display.h
-@@ -33,8 +33,7 @@ struct msm_dp {
- int dp_display_set_plugged_cb(struct msm_dp *dp_display,
- 		hdmi_codec_plugged_cb fn, struct device *codec_dev);
- int dp_display_validate_mode(struct msm_dp *dp_display, u32 mode_pclk_khz);
--int dp_display_get_modes(struct msm_dp *dp_display,
--		struct dp_display_mode *dp_mode);
-+int dp_display_get_modes(struct msm_dp *dp_display);
- int dp_display_request_irq(struct msm_dp *dp_display);
- bool dp_display_check_video_test(struct msm_dp *dp_display);
- int dp_display_get_test_bpp(struct msm_dp *dp_display);
+@@ -24,8 +24,6 @@ struct msm_dp {
+ 
+ 	hdmi_codec_plugged_cb plugged_cb;
+ 
+-	u32 max_pclk_khz;
+-
+ 	u32 max_dp_lanes;
+ 	struct dp_audio *dp_audio;
+ };
 diff --git a/drivers/gpu/drm/msm/dp/dp_drm.c b/drivers/gpu/drm/msm/dp/dp_drm.c
-index 80f59cf99089..af5f1b001192 100644
+index af5f1b001192..a94c9b34f397 100644
 --- a/drivers/gpu/drm/msm/dp/dp_drm.c
 +++ b/drivers/gpu/drm/msm/dp/dp_drm.c
-@@ -55,49 +55,22 @@ static int dp_connector_get_modes(struct drm_connector *connector)
- {
- 	int rc = 0;
- 	struct msm_dp *dp;
--	struct dp_display_mode *dp_mode = NULL;
--	struct drm_display_mode *m, drm_mode;
+@@ -88,9 +88,7 @@ static enum drm_mode_status dp_connector_mode_valid(
  
- 	if (!connector)
- 		return 0;
+ 	dp_disp = to_dp_connector(connector)->dp_display;
  
- 	dp = to_dp_connector(connector)->dp_display;
+-	if ((dp_disp->max_pclk_khz <= 0) ||
+-			(dp_disp->max_pclk_khz > DP_MAX_PIXEL_CLK_KHZ) ||
+-			(mode->clock > dp_disp->max_pclk_khz))
++	if (mode->clock > DP_MAX_PIXEL_CLK_KHZ)
+ 		return MODE_BAD;
  
--	dp_mode = kzalloc(sizeof(*dp_mode),  GFP_KERNEL);
--	if (!dp_mode)
--		return 0;
--
- 	/* pluggable case assumes EDID is read when HPD */
- 	if (dp->is_connected) {
--		/*
--		 *The get_modes() function might return one mode that is stored
--		 * in dp_mode when compliance test is in progress. If not, the
--		 * return value is equal to the total number of modes supported
--		 * by the sink
--		 */
--		rc = dp_display_get_modes(dp, dp_mode);
-+		rc = dp_display_get_modes(dp);
- 		if (rc <= 0) {
- 			DRM_ERROR("failed to get DP sink modes, rc=%d\n", rc);
--			kfree(dp_mode);
- 			return rc;
- 		}
--		if (dp_mode->drm_mode.clock) { /* valid DP mode */
--			memset(&drm_mode, 0x0, sizeof(drm_mode));
--			drm_mode_copy(&drm_mode, &dp_mode->drm_mode);
--			m = drm_mode_duplicate(connector->dev, &drm_mode);
--			if (!m) {
--				DRM_ERROR("failed to add mode %ux%u\n",
--				       drm_mode.hdisplay,
--				       drm_mode.vdisplay);
--				kfree(dp_mode);
--				return 0;
--			}
--			drm_mode_probed_add(connector, m);
--		}
- 	} else {
- 		DRM_DEBUG_DP("No sink connected\n");
- 	}
--	kfree(dp_mode);
- 	return rc;
- }
+ 	return dp_display_validate_mode(dp_disp, mode->clock);
+diff --git a/drivers/gpu/drm/msm/dp/dp_panel.h b/drivers/gpu/drm/msm/dp/dp_panel.h
+index 9fa6e524832c..d861197ac1c8 100644
+--- a/drivers/gpu/drm/msm/dp/dp_panel.h
++++ b/drivers/gpu/drm/msm/dp/dp_panel.h
+@@ -49,7 +49,6 @@ struct dp_panel {
+ 	bool video_test;
  
+ 	u32 vic;
+-	u32 max_pclk_khz;
+ 	u32 max_dp_lanes;
+ 
+ 	u32 max_bw_code;
 -- 
 2.35.1
 
