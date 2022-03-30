@@ -2,54 +2,57 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id E39A44EC92D
-	for <lists+dri-devel@lfdr.de>; Wed, 30 Mar 2022 18:04:26 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 1B1754EC938
+	for <lists+dri-devel@lfdr.de>; Wed, 30 Mar 2022 18:04:55 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id E027F10E327;
-	Wed, 30 Mar 2022 16:04:24 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 30CFF89FC0;
+	Wed, 30 Mar 2022 16:04:53 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from alexa-out.qualcomm.com (alexa-out.qualcomm.com [129.46.98.28])
- by gabe.freedesktop.org (Postfix) with ESMTPS id E2C0D89F82;
- Wed, 30 Mar 2022 16:04:22 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=quicinc.com; i=@quicinc.com; q=dns/txt; s=qcdkim;
- t=1648656263; x=1680192263;
- h=from:to:cc:subject:date:message-id:in-reply-to:
- references:mime-version;
- bh=7veokiquAVpHpjsy/ez/QdJmUJA8oXSsaunhV32sDhI=;
- b=lbUe/Ek+TA72my1Al3jL4n+UgjOWmUEWukNXBaFK+2otS7XalHwsIzQp
- eRpYsT7K6KpApLQJzvFxLjLiX5cVWKAzMGPSoSKiMPzFCNEM+wWp0XKSN
- d2mY4T9/IS0OqUD40DTJASLNKxpx9KvdTMYzT+2zGSLqfiCJ7OKbWDsqA c=;
-Received: from ironmsg-lv-alpha.qualcomm.com ([10.47.202.13])
- by alexa-out.qualcomm.com with ESMTP; 30 Mar 2022 09:04:22 -0700
-X-QCInternal: smtphost
-Received: from nasanex01c.na.qualcomm.com ([10.47.97.222])
- by ironmsg-lv-alpha.qualcomm.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 30 Mar 2022 09:04:22 -0700
-Received: from nalasex01a.na.qualcomm.com (10.47.209.196) by
- nasanex01c.na.qualcomm.com (10.47.97.222) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.2.986.22; Wed, 30 Mar 2022 09:04:22 -0700
-Received: from sbillaka-linux.qualcomm.com (10.80.80.8) by
- nalasex01a.na.qualcomm.com (10.47.209.196) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.2.986.22; Wed, 30 Mar 2022 09:04:16 -0700
-From: Sankeerth Billakanti <quic_sbillaka@quicinc.com>
-To: <dri-devel@lists.freedesktop.org>, <linux-arm-msm@vger.kernel.org>,
- <freedreno@lists.freedesktop.org>, <linux-kernel@vger.kernel.org>,
- <devicetree@vger.kernel.org>
-Subject: [PATCH v6 8/8] drm/msm/dp: Handle eDP mode_valid differently from dp
-Date: Wed, 30 Mar 2022 21:32:59 +0530
-Message-ID: <1648656179-10347-9-git-send-email-quic_sbillaka@quicinc.com>
-X-Mailer: git-send-email 2.7.4
-In-Reply-To: <1648656179-10347-1-git-send-email-quic_sbillaka@quicinc.com>
-References: <1648656179-10347-1-git-send-email-quic_sbillaka@quicinc.com>
+Received: from mail-pl1-x62c.google.com (mail-pl1-x62c.google.com
+ [IPv6:2607:f8b0:4864:20::62c])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 73C9310E570
+ for <dri-devel@lists.freedesktop.org>; Wed, 30 Mar 2022 16:04:51 +0000 (UTC)
+Received: by mail-pl1-x62c.google.com with SMTP id c23so20854958plo.0
+ for <dri-devel@lists.freedesktop.org>; Wed, 30 Mar 2022 09:04:51 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=chromium.org; s=google;
+ h=from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=4szRwWNDvZ7XOU+Kmwti8vyES5EGiVgA3+mW2sFThKE=;
+ b=eLsot/bdo/qciErnhmm6+zfsN+rYVH36ltRx5tiW0+4htGYOYqrzreVAzgh0AWBGYQ
+ IKGw1YxmkNOWs67XoLHeuAK/Sd4CtWKwgkUqFCP28l/OeoYZ2Cw58owdUH61o9P86FmB
+ PruF+h7PwadsIiKJ1ro1vak+3ThGapcfw5xrk=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=4szRwWNDvZ7XOU+Kmwti8vyES5EGiVgA3+mW2sFThKE=;
+ b=US2Bpkvj+Zw938HUURdZyG3FR1e8c9VY2mJbrLwD6pWMK78Sgok54CDe51zIV7gwTW
+ nljXwPUisgvzx9KPDlNiDMmw8h8p0RpBW0J+q8223qn/EArjqfL21euXxCoE7ng7/ZUT
+ i6TJFnEWf3ipRIWS7/5FZXHvJIt434BApYwEfGGLdt54N9qswSjPhv8vjxsb1GLrdy8T
+ //HJYRPtzAVl5BXGfbJphJL8V17qKPQ2qUnuVHRJaPx5a0D7cJLb6dvGVoSISWyQKK/i
+ Z6keYjsWR6K4pQKBy1Bl6ZgGMRhjgSsg8w1KCCFfAYY3umEwN4AwNhrBB6pgkFwmPIxo
+ MJBA==
+X-Gm-Message-State: AOAM532TLzrDgBhy+2gql5NhCQ6883mHz8F633eStPTjHlbIc2typqKc
+ +J2OOaz36YrwFQo3NAD5QHxS3w==
+X-Google-Smtp-Source: ABdhPJz4XIzGXVOi8Xi15BEXtGOe7kw6pLeyZ+J75o/J6LblAlRFeoE/gg5n6XnfmlWXYKi/vsKYkQ==
+X-Received: by 2002:a17:903:41d0:b0:154:de5:a240 with SMTP id
+ u16-20020a17090341d000b001540de5a240mr350568ple.32.1648656291021; 
+ Wed, 30 Mar 2022 09:04:51 -0700 (PDT)
+Received: from localhost ([2620:15c:202:201:d50d:daac:acf3:cda6])
+ by smtp.gmail.com with UTF8SMTPSA id
+ f16-20020a056a00229000b004fabe756ba6sm26268854pfe.54.2022.03.30.09.04.50
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Wed, 30 Mar 2022 09:04:50 -0700 (PDT)
+From: Matthias Kaehlcke <mka@chromium.org>
+To: Thierry Reding <thierry.reding@gmail.com>, Sam Ravnborg <sam@ravnborg.org>,
+ David Airlie <airlied@linux.ie>, Daniel Vetter <daniel@ffwll.ch>
+Subject: [PATCH] drm/panel-edp: Fix AUO B133UAN01 panel id
+Date: Wed, 30 Mar 2022 09:04:44 -0700
+Message-Id: <20220330090435.1.Id1522250dd07a6b574c1cc7826023fc6acd141b4@changeid>
+X-Mailer: git-send-email 2.35.1.1094.g7c7d902a7c-goog
 MIME-Version: 1.0
-Content-Type: text/plain
-X-Originating-IP: [10.80.80.8]
-X-ClientProxiedBy: nasanex01a.na.qualcomm.com (10.52.223.231) To
- nalasex01a.na.qualcomm.com (10.47.209.196)
+Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -62,39 +65,37 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: quic_kalyant@quicinc.com, Sankeerth Billakanti <quic_sbillaka@quicinc.com>,
- dianders@chromium.org, bjorn.andersson@linaro.org, quic_vproddut@quicinc.com,
- airlied@linux.ie, quic_abhinavk@quicinc.com, swboyd@chromium.org,
- seanpaul@chromium.org, dmitry.baryshkov@linaro.org, quic_aravindh@quicinc.com,
- quic_khsieh@quicinc.com, sean@poorly.run
+Cc: Matthias Kaehlcke <mka@chromium.org>,
+ Douglas Anderson <dianders@chromium.org>, dri-devel@lists.freedesktop.org,
+ linux-kernel@vger.kernel.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-The panel-edp driver modes needs to be validated differently from DP
-because the link capabilities are not available for EDP by that time.
+Two digits are swapped in the AUO B133UAN01 panel id (0x8495 instead
+of 0x8594). This went initially unnoticed because the panel is still
+detected, though it is set up with a conservative default timing. Fix
+the digit swap.
 
-Signed-off-by: Sankeerth Billakanti <quic_sbillaka@quicinc.com>
+Fixes: ec57376fba5a ("drm/panel-edp: Add AUO B133UAN01")
+Signed-off-by: Matthias Kaehlcke <mka@chromium.org>
 ---
- drivers/gpu/drm/msm/dp/dp_display.c | 6 ++++++
- 1 file changed, 6 insertions(+)
 
-diff --git a/drivers/gpu/drm/msm/dp/dp_display.c b/drivers/gpu/drm/msm/dp/dp_display.c
-index 8bafdd0..f9c7d9a 100644
---- a/drivers/gpu/drm/msm/dp/dp_display.c
-+++ b/drivers/gpu/drm/msm/dp/dp_display.c
-@@ -1003,6 +1003,12 @@ enum drm_mode_status dp_bridge_mode_valid(struct drm_bridge *bridge,
- 		return -EINVAL;
- 	}
+ drivers/gpu/drm/panel/panel-edp.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+
+diff --git a/drivers/gpu/drm/panel/panel-edp.c b/drivers/gpu/drm/panel/panel-edp.c
+index db4eea1d7f67..1732b4f56e38 100644
+--- a/drivers/gpu/drm/panel/panel-edp.c
++++ b/drivers/gpu/drm/panel/panel-edp.c
+@@ -1847,7 +1847,7 @@ static const struct panel_delay delay_100_500_e200 = {
+ static const struct edp_panel_entry edp_panels[] = {
+ 	EDP_PANEL_ENTRY('A', 'U', 'O', 0x405c, &auo_b116xak01.delay, "B116XAK01"),
+ 	EDP_PANEL_ENTRY('A', 'U', 'O', 0x615c, &delay_200_500_e50, "B116XAN06.1"),
+-	EDP_PANEL_ENTRY('A', 'U', 'O', 0x8495, &delay_200_500_e50, "B133UAN01.0"),
++	EDP_PANEL_ENTRY('A', 'U', 'O', 0x8594, &delay_200_500_e50, "B133UAN01.0"),
  
-+	if (dp->connector_type == DRM_MODE_CONNECTOR_eDP) {
-+		if (mode_pclk_khz > DP_MAX_PIXEL_CLK_KHZ)
-+			return MODE_CLOCK_HIGH;
-+		return MODE_OK;
-+	}
-+
- 	if ((dp->max_pclk_khz <= 0) ||
- 			(dp->max_pclk_khz > DP_MAX_PIXEL_CLK_KHZ) ||
- 			(mode->clock > dp->max_pclk_khz))
+ 	EDP_PANEL_ENTRY('B', 'O', 'E', 0x0786, &delay_200_500_p2e80, "NV116WHM-T01"),
+ 	EDP_PANEL_ENTRY('B', 'O', 'E', 0x07d1, &boe_nv133fhm_n61.delay, "NV133FHM-N61"),
 -- 
-2.7.4
+2.35.1.1094.g7c7d902a7c-goog
 
