@@ -2,74 +2,78 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 92A2A4EBD04
-	for <lists+dri-devel@lfdr.de>; Wed, 30 Mar 2022 10:56:23 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id CD55A4EBD1F
+	for <lists+dri-devel@lfdr.de>; Wed, 30 Mar 2022 11:02:29 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 04F0210F7B9;
-	Wed, 30 Mar 2022 08:56:21 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 881B910F7F3;
+	Wed, 30 Mar 2022 09:02:26 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from wout4-smtp.messagingengine.com (wout4-smtp.messagingengine.com
- [64.147.123.20])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 677D710F7B9
- for <dri-devel@lists.freedesktop.org>; Wed, 30 Mar 2022 08:56:20 +0000 (UTC)
-Received: from compute2.internal (compute2.nyi.internal [10.202.2.46])
- by mailout.west.internal (Postfix) with ESMTP id 74D6A3201DCC;
- Wed, 30 Mar 2022 04:56:19 -0400 (EDT)
-Received: from mailfrontend2 ([10.202.2.163])
- by compute2.internal (MEProxy); Wed, 30 Mar 2022 04:56:19 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=cerno.tech; h=cc
- :cc:content-type:date:date:from:from:in-reply-to:in-reply-to
- :message-id:mime-version:references:reply-to:sender:subject
- :subject:to:to; s=fm3; bh=+S4oLc/xqK8ZDPJSacDNcX6qLUyxS1u8t8e9kf
- OxLMg=; b=nuzFLxmKFWr4Yf9LeDELglsPHsrwep7eaYbmejbi8YYxFb81vVrs/f
- i6anwmAGyx2TI0H3DPuXyJZOrVFt5K9nbMtyRaWFH0LOmScwfKVH6ZTIahMWavch
- JyKl5DnrC3qc2hHR3SUAfOtmHAOgbWntznz/3sESWEXWpxw2Li8Oagbv1IuQ/+bk
- WChllTSWAkXV6fAud+6Gor9hfwv1jMJ2jp/FumXrn7EwGp1f+D1wBLg3Z2c2hMsR
- nLW2JPWEiIIqbM9EDG6eD5B2LJFBVMKm603MtzplNM0XnBr/3IdtX2KN9dxPazJJ
- kw/eTBBSv0a7pJOAUUjOzsz9vZy3XoMg==
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
- messagingengine.com; h=cc:cc:content-type:date:date:from:from
+Received: from out2-smtp.messagingengine.com (out2-smtp.messagingengine.com
+ [66.111.4.26])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 5863310F7F3
+ for <dri-devel@lists.freedesktop.org>; Wed, 30 Mar 2022 09:02:25 +0000 (UTC)
+Received: from compute1.internal (compute1.nyi.internal [10.202.2.41])
+ by mailout.nyi.internal (Postfix) with ESMTP id 7BE285C0190;
+ Wed, 30 Mar 2022 05:02:24 -0400 (EDT)
+Received: from imap44 ([10.202.2.94])
+ by compute1.internal (MEProxy); Wed, 30 Mar 2022 05:02:24 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=flygoat.com; h=
+ cc:cc:content-transfer-encoding:content-type:date:date:from:from
  :in-reply-to:in-reply-to:message-id:mime-version:references
- :reply-to:sender:subject:subject:to:to:x-me-proxy:x-me-proxy
- :x-me-sender:x-me-sender:x-sasl-enc; s=fm3; bh=+S4oLc/xqK8ZDPJSa
- cDNcX6qLUyxS1u8t8e9kfOxLMg=; b=jHPCygPBhWA2tGSmmhgggVdY31aHNYwtc
- Jn2fjITPiFmxPFZgIXCdaRFBHIGABTnaIp5/mpadyLEeLPfxEnPPl8pODeAMloBW
- F+NAZLZKaaXYsP+sGYV9FihtRyBCpfdN/qUca+mTbju8CpqFgY81GbR+XfneyQ7W
- 2NgunyRDVNe28UxfWpTgqhZtD1bScba8n2Rt+DOl1uae1H32Gb3d9n4UCWMi2rVY
- 0InGsOWc9NNYicmDbZ7jpWEWXCc2ZoEJwckr2JAp//C1IDDMD2yYlhSauymogkja
- cop+tcBaZO8zRGRZ8wEUxaAb5BR9ceUre2O5Cp/7tF1KTgRxrbkEg==
-X-ME-Sender: <xms:MhtEYjhsNPoEti2ma_pfKbxIs5gHfPcNka9iSwrls1n8SPMMLU1PfA>
- <xme:MhtEYgCAIj2YMI-48wN9Mkd-S7tLclxo9g-e9kzVgdl17CyeHTKcWt9_WIPoCAA0a
- HXWOykqa3enNPd6jNA>
-X-ME-Received: <xmr:MhtEYjHYEP5mZgZQWJV6PM7UFwZkvy_XbM9emdPT4k0gaD2OfL7YTzRbC0iAyVD6NvwdkAAtBO_xd9LWOgLOcPzp_-E4FVxPYax3Mu8>
-X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvvddrudeivddguddtucetufdoteggodetrfdotf
+ :reply-to:sender:subject:subject:to:to; s=fm2; bh=tuz6s6EWNZ0Esh
+ nRWti89Elty7LEZNweVZZiB9p+PU8=; b=Ays+hhe7LU/RWsUh7Jq3ipCyb6QZDv
+ QWtwS5zW8ob/gZx0ANtxxJgT3yGE+7p/4wMOlfV5oDYGy6fKWMqkXum6YSK6NEax
+ KQM+tT1CMsx36Hlqlqy39xX88YuRaQsOZsz2oDrNnJkoyqnggghgx4/bNYRwwsnD
+ /pkRDJW9h8QTWJOTs+6WPifJqRaPlNkWPuqkt5jVa3vG7extFFeqk1DvltMiGCLt
+ KUZuBf/Wo6ZNBqHlKqNUd+vnoNfUeO7TkNcmJ4FPFb2qkfPFD7BlJNS1Zw32jRM8
+ /N5YVVq+YDkuVX4/V2NzCyYeX1s55+Uk7cLPMRoaYLX1F/+cJjkNUKFQ==
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
+ messagingengine.com; h=cc:cc:content-transfer-encoding
+ :content-type:date:date:from:from:in-reply-to:in-reply-to
+ :message-id:mime-version:references:reply-to:sender:subject
+ :subject:to:to:x-me-proxy:x-me-proxy:x-me-sender:x-me-sender
+ :x-sasl-enc; s=fm3; bh=tuz6s6EWNZ0EshnRWti89Elty7LEZNweVZZiB9p+P
+ U8=; b=jbKyovw/syyihbCeFXLJA6UtNM+SezgJS4+LoIdhD78+gktuUHoPYr95T
+ 0n3oYLLHHd/o4XGgP1kjXzVVMdC4jdnfotnfvwsuFFb1OT7irwtYXzOVhUv2wddO
+ iVaqZ1SHT8AZTlLjyzDV1B42ydWnZCfHq8XDHyAkW8VtRjBLrBk4///X9mCZqq67
+ hExfBIxPYF0cVtQhO2k4pNTk8neocVEk47i1J+OH8xMQh6hEfYYv4oPjfh5NQn7n
+ V/MOtiJ4UBnKT4k8etOe94AHM9G11Q3PRq8dM1S/0op/Fh+yAtgIiq+wyZhfEoei
+ THTS3VBboNWNW6LyQC0ck2LwcMV7A==
+X-ME-Sender: <xms:nRxEYgh6LdPrCa7m3JG_HI0DR7bJP47S2GutXYOyXUtiQjmXGR37Pg>
+ <xme:nRxEYpBBVn1Dy7CmwHGlWdyDunLV2_Hng8HR2qZlvtL8gVFwAT_eIixoesmOgNFpT
+ 8Zt_rMoNM_FYU7UusY>
+X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvvddrudeivddgudduucetufdoteggodetrfdotf
  fvucfrrhhofhhilhgvmecuhfgrshhtofgrihhlpdfqfgfvpdfurfetoffkrfgpnffqhgen
  uceurghilhhouhhtmecufedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmne
- cujfgurhepfffhvffukfhfgggtuggjsehgtderredttddvnecuhfhrohhmpeforgigihhm
- vgcutfhiphgrrhguuceomhgrgihimhgvsegtvghrnhhordhtvggthheqnecuggftrfgrth
- htvghrnhepleekgeehhfdutdeljefgleejffehfffgieejhffgueefhfdtveetgeehieeh
- gedunecuvehluhhsthgvrhfuihiivgeptdenucfrrghrrghmpehmrghilhhfrhhomhepmh
- grgihimhgvsegtvghrnhhordhtvggthh
-X-ME-Proxy: <xmx:MhtEYgR_d1-M71t6t_DzdQheTTh5KUgumZIC8zaBtiAHeM2HeAsUlw>
- <xmx:MhtEYgxx8s2hV0-0L2qPNM8FTFpRHtBB78-sGi0c4JlSUW_Bog1aZg>
- <xmx:MhtEYm6GwaFwXsSSKrho4FfOjkBVXA5JYWPRZeaC8lPNZOVbm70thw>
- <xmx:MxtEYqugmyvxGDKlo1QqxMytbh0xdVeKhWGtWraxqNoJukF3zc1QpQ>
-Received: by mail.messagingengine.com (Postfix) with ESMTPA; Wed,
- 30 Mar 2022 04:56:18 -0400 (EDT)
-Date: Wed, 30 Mar 2022 10:56:17 +0200
-From: Maxime Ripard <maxime@cerno.tech>
-To: Dmitry Osipenko <dmitry.osipenko@collabora.com>
-Subject: Re: BUG: KASAN: use-after-free in drm_atomic_helper_wait_for_vblanks()
-Message-ID: <20220330085617.pyutwxtymnt4jjka@houat>
-References: <4438d667-1be2-24f1-c987-1a8e3fb85bcc@collabora.com>
- <20220311142205.ztg6njrubmnjud7c@houat>
- <32a34a20-f9b5-3b7b-95f5-a6a34ad225c4@collabora.com>
-MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha512;
- protocol="application/pgp-signature"; boundary="q6cdt3wjoh6lx34o"
-Content-Disposition: inline
-In-Reply-To: <32a34a20-f9b5-3b7b-95f5-a6a34ad225c4@collabora.com>
+ cujfgurhepofgfggfkjghffffhvffutgfgsehtqhertderreejnecuhfhrohhmpedflfhi
+ rgiguhhnucgjrghnghdfuceojhhirgiguhhnrdihrghnghesfhhlhihgohgrthdrtghomh
+ eqnecuggftrfgrthhtvghrnhepgeehgfehgeffffehtefffeevjeeifefhheejledtfeel
+ fffggedvfeekteekteevnecuffhomhgrihhnpeguvghvihgtvghtrhgvvgdrohhrghenuc
+ evlhhushhtvghrufhiiigvpedtnecurfgrrhgrmhepmhgrihhlfhhrohhmpehjihgrgihu
+ nhdrhigrnhhgsehflhihghhorghtrdgtohhm
+X-ME-Proxy: <xmx:nRxEYoGiwSRhKaE89IDQ2q4BWTWceBGWRUg4oR0g6TdSqaIJAvR9bA>
+ <xmx:nRxEYhSDQZAVg8gAVTHnhdq8aJ_v9EOZSwNyX4jDmkF11T9Twv1EbQ>
+ <xmx:nRxEYtyLXLI7mk0pw6WpFjP9NcQss3I88XpJm3t1hcNzS7-SWsTavQ>
+ <xmx:oBxEYjpxpULllUwb1F0o7W7TAv8jWaikJvTFNQ_z0Ehn9_iZWDgEdA>
+Received: by mailuser.nyi.internal (Postfix, from userid 501)
+ id 41CDBFA0AA5; Wed, 30 Mar 2022 05:02:21 -0400 (EDT)
+X-Mailer: MessagingEngine.com Webmail Interface
+User-Agent: Cyrus-JMAP/3.5.0-alpha0-4911-g925b585eab-fm-20220323.003-g925b585e
+Mime-Version: 1.0
+Message-Id: <a777b827-32a2-46f8-9074-3f43c0bd87ba@www.fastmail.com>
+In-Reply-To: <0a3a29af-ad2f-9ccc-3a56-3e5b7e4c7c83@189.cn>
+References: <20220328022835.2508587-1-15330273260@189.cn>
+ <20220328022835.2508587-3-15330273260@189.cn>
+ <CAL_Jsq+zO7RXzQLoPXR7Zm0mcsKCydK=8EFaNFGu-_THgJuh7Q@mail.gmail.com>
+ <0a3a29af-ad2f-9ccc-3a56-3e5b7e4c7c83@189.cn>
+Date: Wed, 30 Mar 2022 10:01:51 +0100
+From: "Jiaxun Yang" <jiaxun.yang@flygoat.com>
+To: "Sui Jingfeng" <15330273260@189.cn>, "Rob Herring" <robh+dt@kernel.org>
+Subject: Re: [PATCH v13 3/6] dt-bindings: display: Add Loongson display
+ controller
+Content-Type: text/plain;charset=utf-8
+Content-Transfer-Encoding: quoted-printable
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -82,73 +86,227 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: David Airlie <airlied@linux.ie>,
+Cc: Qing Zhang <zhangqing@loongson.cn>, David Airlie <airlied@linux.ie>,
  dri-devel <dri-devel@lists.freedesktop.org>,
- Thomas Zimmermann <tzimmermann@suse.de>
+ "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
+ Sam Ravnborg <sam@ravnborg.org>, Krzysztof Kozlowski <krzk@kernel.org>,
+ Dan Carpenter <dan.carpenter@oracle.com>, devicetree@vger.kernel.org,
+ suijingfeng <suijingfeng@loongson.cn>, Thomas Zimmermann <tzimmermann@suse.de>,
+ Roland Scheidegger <sroland@vmware.com>,
+ Andrey Zhizhikin <andrey.zhizhikin@leica-geosystems.com>,
+ Thomas Bogendoerfer <tsbogend@alpha.franken.de>,
+ "linux-mips@vger.kernel.org" <linux-mips@vger.kernel.org>,
+ "David S . Miller" <davem@davemloft.net>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 
---q6cdt3wjoh6lx34o
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
 
-On Tue, Mar 15, 2022 at 12:53:30AM +0300, Dmitry Osipenko wrote:
-> On 3/11/22 17:22, Maxime Ripard wrote:
-> > On Thu, Mar 10, 2022 at 03:33:07AM +0300, Dmitry Osipenko wrote:
-> >> I was playing/testing SuperTuxKart using VirtIO-GPU driver and spotted=
- a
-> >> UAF bug in drm_atomic_helper_wait_for_vblanks().
-> >>
-> >> SuperTuxKart can use DRM directly, i.e. you can run game in VT without
-> >> Xorg or Wayland, this is where bugs happens. SuperTuxKart uses a
-> >> non-blocking atomic page flips and UAF happens when a new atomic state
-> >> is committed while there is a previous page flip still in-fly.
-> >>
-> >> What happens is that the new and old atomic states refer to the same
-> >> CRTC state somehow. Once the older atomic state is destroyed, the CRTC
-> >> state is freed and the newer atomic state continues to use the freed
-> >> CRTC state.
-> >=20
-> > I'm not sure what you mean by "the new and old atomic states refer to
-> > the same CRTC state", are those the same pointers?
->=20
-> Yes, the pointers are the same. I'd assume that the newer atomic state
-> should duplicate CRTC state, but apparently it doesn't happen.
+=E5=9C=A82022=E5=B9=B43=E6=9C=8830=E6=97=A5=E4=B8=89=E6=9C=88 =E4=B8=8A=E5=
+=8D=884:46=EF=BC=8CSui Jingfeng=E5=86=99=E9=81=93=EF=BC=9A
+> On 2022/3/29 21:27, Rob Herring wrote:
+>> On Sun, Mar 27, 2022 at 9:29 PM Sui Jingfeng <15330273260@189.cn> wro=
+te:
+>>> Add DT bindings and simple usages for Loongson display controller
+>>> found in LS7A1000 bridge chip and LS2k1000 SoC.
+>>>
+>>> Signed-off-by: Sui Jingfeng <15330273260@189.cn>
+>>> ---
+>>>   .../loongson/loongson,display-controller.yaml | 321 ++++++++++++++=
+++++
+>>>   1 file changed, 321 insertions(+)
+>>>   create mode 100644 Documentation/devicetree/bindings/display/loong=
+son/loongson,display-controller.yaml
+>>>
+>>> diff --git a/Documentation/devicetree/bindings/display/loongson/loon=
+gson,display-controller.yaml b/Documentation/devicetree/bindings/display=
+/loongson/loongson,display-controller.yaml
+>>> new file mode 100644
+>>> index 000000000000..34060ed55a25
+>>> --- /dev/null
+>>> +++ b/Documentation/devicetree/bindings/display/loongson/loongson,di=
+splay-controller.yaml
+>>> @@ -0,0 +1,321 @@
+>>> +# SPDX-License-Identifier: (GPL-2.0-only OR BSD-2-Clause)
+>>> +%YAML 1.2
+>>> +---
+>>> +$id: http://devicetree.org/schemas/display/loongson/loongson,displa=
+y-controller.yaml#
+>>> +$schema: http://devicetree.org/meta-schemas/core.yaml#
+>>> +
+>>> +title: Loongson LS7A1000/LS2K1000/LS2K0500 Display Controller Devic=
+e Tree Bindings
+>>> +
+>>> +maintainers:
+>>> +  - Sui Jingfeng <suijingfeng@loongson.cn>
+>>> +
+>>> +description: |+
+>>> +
+>>> +  Loongson display controllers are simple which require scanout buf=
+fers
+>>> +  to be physically contiguous. LS2K1000/LS2K0500 is a SOC, only sys=
+tem
+>>> +  memory is available. LS7A1000/LS7A2000 is bridge chip which is eq=
+uipped
+>>> +  with a dedicated video RAM which is 64MB or more, precise size ca=
+n be
+>>> +  read from the PCI BAR 2 of the GPU device(0x0014:0x7A15) in the b=
+ridge
+>>> +  chip.
+>>> +
+>>> +  LSDC has two display pipes, each way has a DVO interface which pr=
+ovide
+>>> +  RGB888 signals, vertical & horizontal synchronisations, data enab=
+le and
+>>> +  the pixel clock. LSDC has two CRTC, each CRTC is able to scanout =
+from
+>>> +  1920x1080 resolution at 60Hz. Each CRTC has two FB address regist=
+ers.
+>>> +
+>>> +  For LS7A1000, there are 4 dedicated GPIOs whose control register =
+is
+>>> +  located at the DC register space. They are used to emulate two wa=
+y i2c,
+>>> +  One for DVO0, another for DVO1.
+>>> +
+>>> +  LS2K1000 and LS2K0500 SoC grab i2c adapter from other module, eit=
+her
+>>> +  general purpose GPIO emulated i2c or hardware i2c in the SoC.
+>>> +
+>>> +  LSDC's display pipeline have several components as below descript=
+ion,
+>>> +
+>>> +  The display controller in LS7A1000:
+>>> +     ___________________                                     ______=
+___
+>>> +    |            -------|                                   |      =
+   |
+>>> +    |  CRTC0 --> | DVO0 ----> Encoder0 ---> Connector0 ---> | Monit=
+or |
+>>> +    |  _   _     -------|        ^             ^            |______=
+___|
+>>> +    | | | | |    -------|        |             |
+>>> +    | |_| |_|    | i2c0 <--------+-------------+
+>>> +    |            -------|
+>>> +    |   DC IN LS7A1000  |
+>>> +    |  _   _     -------|
+>>> +    | | | | |    | i2c1 <--------+-------------+
+>>> +    | |_| |_|    -------|        |             |             ______=
+___
+>>> +    |            -------|        |             |            |      =
+   |
+>>> +    |  CRTC1 --> | DVO1 ----> Encoder1 ---> Connector1 ---> |  Pane=
+l  |
+>>> +    |            -------|                                   |______=
+___|
+>>> +    |___________________|
+>>> +
+>>> +  Simple usage of LS7A1000 with LS3A4000 CPU:
+>>> +
+>>> +    +------+            +------------------------------------+
+>>> +    | DDR4 |            |  +-------------------+             |
+>>> +    +------+            |  | PCIe Root complex |   LS7A1000  |
+>>> +       || MC0           |  +--++---------++----+             |
+>>> +  +----------+  HT 3.0  |     ||         ||                  |
+>>> +  | LS3A4000 |<-------->| +---++---+  +--++--+     +---------+   +-=
+-----+
+>>> +  |   CPU    |<-------->| | GC1000 |  | LSDC |<--->| DDR3 MC |<->| =
+VRAM |
+>>> +  +----------+          | +--------+  +-+--+-+     +---------+   +-=
+-----+
+>>> +       || MC1           +---------------|--|-----------------+
+>>> +    +------+                            |  |
+>>> +    | DDR4 |          +-------+   DVO0  |  |  DVO1   +------+
+>>> +    +------+   VGA <--|ADV7125|<--------+  +-------->|TFP410|--> DV=
+I/HDMI
+>>> +                      +-------+                      +------+
+>>> +
+>>> +  The display controller in LS2K1000/LS2K0500:
+>>> +     ___________________                                     ______=
+___
+>>> +    |            -------|                                   |      =
+   |
+>>> +    |  CRTC0 --> | DVO0 ----> Encoder0 ---> Connector0 ---> | Monit=
+or |
+>>> +    |  _   _     -------|        ^              ^           |______=
+___|
+>>> +    | | | | |           |        |              |
+>>> +    | |_| |_|           |     +------+          |
+>>> +    |                   <---->| i2c0 |<---------+
+>>> +    |   DC IN LS2K1000  |     +------+
+>>> +    |  _   _            |     +------+
+>>> +    | | | | |           <---->| i2c1 |----------+
+>>> +    | |_| |_|           |     +------+          |            ______=
+___
+>>> +    |            -------|        |              |           |      =
+   |
+>>> +    |  CRTC1 --> | DVO1 ----> Encoder1 ---> Connector1 ---> |  Pane=
+l  |
+>>> +    |            -------|                                   |______=
+___|
+>>> +    |___________________|
+>>> +
+>>> +properties:
+>>> +  $nodename:
+>>> +    pattern: "^display-controller@[0-9a-f],[0-9a-f]$"
+>>> +
+>>> +  compatible:
+>>> +    oneOf:
+>>> +      - items:
+>>> +          - enum:
+>>> +              - loongson,ls7a1000-dc
+>>> +              - loongson,ls2k1000-dc
+>>> +              - loongson,ls2k0500-dc
+>>> +
+>>> +  reg:
+>>> +    maxItems: 1
+>>> +
+>>> +  interrupts:
+>>> +    maxItems: 1
+>>> +
+>>> +  '#address-cells':
+>>> +    const: 1
+>>> +
+>>> +  '#size-cells':
+>>> +    const: 0
+>>> +
+>>> +  i2c@6:
+>> NAK on made-up bus numbers. See v11 discussion for details.
+>>
+>> Rob
+>
+> I am worry about when this driver is loaded before the hardware i2c(on=20
+> the ls7a1000 bridge) driver,
 
-Yeah, I don't think this is right either
+That=E2=80=99s the problem that EPROBE_DEFER addressed.
 
-> >> The bug is easily reproducible (at least by me) by playing SuperTuxKart
-> >> for a minute. It presents on latest -next and 5.17-rc7, I haven't
-> >> checked older kernel versions.
-> >>
-> >> I'm not an expert of the non-blocking code paths in DRM, so asking for
-> >> suggestions about where the root of the problem could be.
-> >=20
-> > Does it occur with other platforms? Can you easily test on something el=
-se?
->=20
-> Shouldn't be easy to replicate this on other platforms, but I'll try.
+>
+> and when there is no DT support. in such a case, if i2c bus number is=20
+> dynamically assigned,
+>
+> it may incurring troubles.=C2=A0 Made the bus number fixed is benefit =
+to the=20
+> whole system.
+>
+> DT=C2=A0 serve as a purpose to passing parameters to the kernel.=C2=A0=
+ bus numbers=20
+> just a kind of parameters.
+>
+> this is my understanding toward DT. why you are so disagree about this=
+?=C2=A0=20
+> what's the benefits of
+>
+> disallow put bus numbers it DT? to the whole world of developers who i=
+s=20
+> using DT?
 
-By replicating I meant running SuperTuxKart on a platform with a
-different KMS driver than virtio-gpu. So any ARM SBC with a GPU will do
-for example.
+There is nothing more to discuss.
+You lack understanding to the fundamentals of the DT because you didn=E2=
+=80=99t work
+on thousands of platforms and being trapped by previous design failures.
 
-That will allow us to see if it's a bug in virtio-gpu or in the
-helpers/core.
+Just follow the instructions from Rob, he is the expert. Is it that hard?
 
-Maxime
-
---q6cdt3wjoh6lx34o
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iHUEABYKAB0WIQRcEzekXsqa64kGDp7j7w1vZxhRxQUCYkQbMAAKCRDj7w1vZxhR
-xb3EAQDCvLA30k7H3FBc1xEyHqbvLYH/od4oeqCxzmGQOVFnPAEAh5J2PhnuYMTM
-OacO//TdOBvsAcBmJY+L+/8A3labzwk=
-=galK
------END PGP SIGNATURE-----
-
---q6cdt3wjoh6lx34o--
+Thanks
+--=20
+- Jiaxun
