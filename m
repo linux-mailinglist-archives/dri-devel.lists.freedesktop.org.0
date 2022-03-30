@@ -2,63 +2,43 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id EB1D84ECE8F
-	for <lists+dri-devel@lfdr.de>; Wed, 30 Mar 2022 23:09:28 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 6BCAC4ECEA7
+	for <lists+dri-devel@lfdr.de>; Wed, 30 Mar 2022 23:23:16 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 295E810E2CB;
-	Wed, 30 Mar 2022 21:09:25 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 243FB10EB08;
+	Wed, 30 Mar 2022 21:23:07 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-ed1-x52e.google.com (mail-ed1-x52e.google.com
- [IPv6:2a00:1450:4864:20::52e])
- by gabe.freedesktop.org (Postfix) with ESMTPS id B02B810E2CB
- for <dri-devel@lists.freedesktop.org>; Wed, 30 Mar 2022 21:09:23 +0000 (UTC)
-Received: by mail-ed1-x52e.google.com with SMTP id g22so14844132edz.2
- for <dri-devel@lists.freedesktop.org>; Wed, 30 Mar 2022 14:09:23 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=chromium.org; s=google;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=AIWUmlaDC6yTdkOws5vD5QTYsCbCyE6p7xDvHws/iio=;
- b=I1RLXU6q/tBCEt2oknEeNRaPbNXZjphrUkxnrg8fmmotMEKyRIkyjUdi87mFJntny8
- L0rFNrc1dIUelM7aed1PvlC7mO8H7z+jz5ULiY97z/g53LtVRw1KrL1Ba+NFKBQhm2Gw
- nxBZREsYkwdn8ah8iCdmgXvB+XkWHsn2mumxQ=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=AIWUmlaDC6yTdkOws5vD5QTYsCbCyE6p7xDvHws/iio=;
- b=3bRzA8p7KuHL3AYED9DJPJcJgBiZnvvSqBIuJYoYgfG58jMpkj/g50LNficL5wyuJh
- Mf6T0NFttAnxiDFMU+lzv/hr9E3SgAQlZ0/3Cp3+8BHessIAjT95kgWYZjuAH9rp09J1
- ppyZHXUH7Hb4qIait8+X1nm2TL3D1wgFece/ysNXMGDfha4QqJIrkMhBOzZi9rWGyN/8
- DM1q7cEouGtht1srsiwFVAPIm0mbHgvv3b3H+DsPJ4nNfgCLafdJwZ/lKC7f7HGN1e6o
- Rl8VSOXjTpPQDEOss5fgY6/Hi9llohMn4rRpLj/PgCsBDcRCcDX3cWZ6I/IRW6Tr+fYg
- OTZg==
-X-Gm-Message-State: AOAM533HGbhNWTyK9PCtbSipfAdzEgVFX4fwpCijF4e1h3y7jsHjsGBu
- TshMPtx3EnmCkxOx5sXbAfwK9cQKVa9ZgQ==
-X-Google-Smtp-Source: ABdhPJx/D+4yD3vLEpUBJ50t4a6uXd6li0KFryAxU3PyduVg3hx9zXoeCFJvOaLgVrJQjXw4hnTu+Q==
-X-Received: by 2002:a05:6402:3496:b0:419:82d5:f1d9 with SMTP id
- v22-20020a056402349600b0041982d5f1d9mr13445729edc.36.1648674561938; 
- Wed, 30 Mar 2022 14:09:21 -0700 (PDT)
-Received: from mail-wr1-f50.google.com (mail-wr1-f50.google.com.
- [209.85.221.50]) by smtp.gmail.com with ESMTPSA id
- h7-20020a1709066d8700b006d4b4d137fbsm8644805ejt.50.2022.03.30.14.09.20
- for <dri-devel@lists.freedesktop.org>
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Wed, 30 Mar 2022 14:09:20 -0700 (PDT)
-Received: by mail-wr1-f50.google.com with SMTP id i4so12179101wrb.5
- for <dri-devel@lists.freedesktop.org>; Wed, 30 Mar 2022 14:09:20 -0700 (PDT)
-X-Received: by 2002:a05:6000:1704:b0:203:d857:aa7a with SMTP id
- n4-20020a056000170400b00203d857aa7amr1279796wrc.513.1648674559933; Wed, 30
- Mar 2022 14:09:19 -0700 (PDT)
+Received: from phobos.denx.de (phobos.denx.de [85.214.62.61])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 7080910E1AD
+ for <dri-devel@lists.freedesktop.org>; Wed, 30 Mar 2022 21:23:05 +0000 (UTC)
+Received: from tr.lan (ip-89-176-112-137.net.upcbroadband.cz [89.176.112.137])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits))
+ (No client certificate requested)
+ (Authenticated sender: marex@denx.de)
+ by phobos.denx.de (Postfix) with ESMTPSA id 04C2D80A3C;
+ Wed, 30 Mar 2022 23:23:02 +0200 (CEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=denx.de;
+ s=phobos-20191101; t=1648675383;
+ bh=L2N0iU9PPIr8U0O2qeFDCVbcEVvCTOpy/Ku/ZQTBQDM=;
+ h=From:To:Cc:Subject:Date:From;
+ b=FN22m77SnQI6h9j1dM1SvCYgf2mAjzY7l6QeRr9o9Pdq6sq8qsgl85TmoD1EXVGMv
+ s9lStmRHq4P4lfWh8/oXXC0TSJvt+I6/PwNRcJwh+W4qVOC1JxPJneUlgLEMaOlBQP
+ 4oIE+NDjBciVqzYaXlDBAi/LEmTUTXrBsOY1YA7PCxspwLr56kJeyYAU23qkovsgFA
+ 8Ktf0eGRcC/tiO6H9XfNT6RPMRF6C41Sq+R5YOhCIuR5m3hikykwyMWG+CTgTbeAlr
+ AZ3DdirB4RGuNBaEl2olDuukYLk0tc2u5ucJpjChsxZdHuv04XjKyfpmbHxrTQP7Ld
+ AghZWB01ZdTIA==
+From: Marek Vasut <marex@denx.de>
+To: dri-devel@lists.freedesktop.org
+Subject: [PATCH 1/2] dt-bindings: display: bridge: lt9211: Add Lontium LT9211
+ bridge driver
+Date: Wed, 30 Mar 2022 23:22:30 +0200
+Message-Id: <20220330212231.90904-1-marex@denx.de>
+X-Mailer: git-send-email 2.35.1
 MIME-Version: 1.0
-References: <20220330090435.1.Id1522250dd07a6b574c1cc7826023fc6acd141b4@changeid>
-In-Reply-To: <20220330090435.1.Id1522250dd07a6b574c1cc7826023fc6acd141b4@changeid>
-From: Doug Anderson <dianders@chromium.org>
-Date: Wed, 30 Mar 2022 14:09:07 -0700
-X-Gmail-Original-Message-ID: <CAD=FV=VK-gsp1mqU14ks9ocP3-LTvpa=fVNR_RaUBO83e1usuw@mail.gmail.com>
-Message-ID: <CAD=FV=VK-gsp1mqU14ks9ocP3-LTvpa=fVNR_RaUBO83e1usuw@mail.gmail.com>
-Subject: Re: [PATCH] drm/panel-edp: Fix AUO B133UAN01 panel id
-To: Matthias Kaehlcke <mka@chromium.org>
-Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 8bit
+X-Virus-Scanned: clamav-milter 0.103.5 at phobos.denx.de
+X-Virus-Status: Clean
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -71,30 +51,156 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: David Airlie <airlied@linux.ie>, LKML <linux-kernel@vger.kernel.org>,
- dri-devel <dri-devel@lists.freedesktop.org>,
- Thierry Reding <thierry.reding@gmail.com>, Sam Ravnborg <sam@ravnborg.org>
+Cc: Marek Vasut <marex@denx.de>, devicetree@vger.kernel.org,
+ Robert Foss <robert.foss@linaro.org>, Rob Herring <robh+dt@kernel.org>,
+ Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
+ Thomas Zimmermann <tzimmermann@suse.de>, Sam Ravnborg <sam@ravnborg.org>,
+ Maxime Ripard <maxime@cerno.tech>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi,
+Add bindings for Lontium LT9211 Single/Dual-Link DSI/LVDS or Single DPI to
+Single-link/Dual-Link DSI/LVDS or Single DPI bridge. This chip is highly
+capable at converting formats, but sadly it is also highly undocumented.
 
-On Wed, Mar 30, 2022 at 9:04 AM Matthias Kaehlcke <mka@chromium.org> wrote:
->
-> Two digits are swapped in the AUO B133UAN01 panel id (0x8495 instead
-> of 0x8594). This went initially unnoticed because the panel is still
-> detected, though it is set up with a conservative default timing. Fix
-> the digit swap.
->
-> Fixes: ec57376fba5a ("drm/panel-edp: Add AUO B133UAN01")
-> Signed-off-by: Matthias Kaehlcke <mka@chromium.org>
-> ---
->
->  drivers/gpu/drm/panel/panel-edp.c | 2 +-
->  1 file changed, 1 insertion(+), 1 deletion(-)
+Signed-off-by: Marek Vasut <marex@denx.de>
+Cc: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+Cc: Lucas Stach <l.stach@pengutronix.de>
+Cc: Maxime Ripard <maxime@cerno.tech>
+Cc: Rob Herring <robh+dt@kernel.org>
+Cc: Robert Foss <robert.foss@linaro.org>
+Cc: Sam Ravnborg <sam@ravnborg.org>
+Cc: Thomas Zimmermann <tzimmermann@suse.de>
+Cc: devicetree@vger.kernel.org
+To: dri-devel@lists.freedesktop.org
+---
+ .../display/bridge/lontium,lt9211.yaml        | 117 ++++++++++++++++++
+ 1 file changed, 117 insertions(+)
+ create mode 100644 Documentation/devicetree/bindings/display/bridge/lontium,lt9211.yaml
 
-Doh! OK, pushed the fix to drm-misc-next w/ my Reviewed-by tag.
+diff --git a/Documentation/devicetree/bindings/display/bridge/lontium,lt9211.yaml b/Documentation/devicetree/bindings/display/bridge/lontium,lt9211.yaml
+new file mode 100644
+index 000000000000..2faa855b3824
+--- /dev/null
++++ b/Documentation/devicetree/bindings/display/bridge/lontium,lt9211.yaml
+@@ -0,0 +1,117 @@
++# SPDX-License-Identifier: (GPL-2.0-only OR BSD-2-Clause)
++%YAML 1.2
++---
++$id: http://devicetree.org/schemas/display/bridge/lontium,lt9211.yaml#
++$schema: http://devicetree.org/meta-schemas/core.yaml#
++
++title: Lontium LT9211 DSI/LVDS/DPI to DSI/LVDS/DPI bridge.
++
++maintainers:
++  - Marek Vasut <marex@denx.de>
++
++description: |
++  The LT9211 are bridge devices which convert Single/Dual-Link DSI/LVDS
++  or Single DPI to Single/Dual-Link DSI/LVDS or Single DPI.
++
++properties:
++  compatible:
++    enum:
++      - lontium,lt9211
++
++  reg:
++    maxItems: 1
++
++  interrupts:
++    maxItems: 1
++
++  reset-gpios:
++    maxItems: 1
++    description: GPIO connected to active high RESET pin.
++
++  vccio-supply:
++    description: Regulator for 1.8V IO power.
++
++  ports:
++    $ref: /schemas/graph.yaml#/properties/ports
++
++    properties:
++      port@0:
++        $ref: /schemas/graph.yaml#/properties/port
++        description:
++          Primary MIPI DSI port-1 for MIPI input or
++          LVDS port-1 for LVDS input or DPI input.
++
++      port@1:
++        $ref: /schemas/graph.yaml#/properties/port
++        description:
++          Additional MIPI port-2 for MIPI input or LVDS port-2
++          for LVDS input. Used in combination with primary
++          port-1 to drive higher resolution displays
++
++      port@2:
++        $ref: /schemas/graph.yaml#/properties/port
++        description:
++          Primary MIPI DSI port-1 for MIPI output or
++          LVDS port-1 for LVDS output or DPI output.
++
++      port@3:
++        $ref: /schemas/graph.yaml#/properties/port
++        description:
++          Additional MIPI port-2 for MIPI output or LVDS port-2
++          for LVDS output. Used in combination with primary
++          port-1 to drive higher resolution displays.
++
++    required:
++      - port@0
++      - port@2
++
++required:
++  - compatible
++  - reg
++  - vccio-supply
++  - ports
++
++additionalProperties: false
++
++examples:
++  - |
++    #include <dt-bindings/gpio/gpio.h>
++    #include <dt-bindings/interrupt-controller/irq.h>
++
++    i2c10 {
++      #address-cells = <1>;
++      #size-cells = <0>;
++
++      hdmi-bridge@3b {
++        compatible = "lontium,lt9211";
++        reg = <0x3b>;
++
++        reset-gpios = <&tlmm 128 GPIO_ACTIVE_HIGH>;
++        interrupts-extended = <&tlmm 84 IRQ_TYPE_EDGE_FALLING>;
++
++        vccio-supply = <&lt9211_1v8>;
++
++        ports {
++          #address-cells = <1>;
++          #size-cells = <0>;
++
++          port@0 {
++            reg = <0>;
++
++            endpoint {
++              remote-endpoint = <&dsi0_out>;
++            };
++          };
++
++          port@2 {
++            reg = <2>;
++
++            endpoint {
++              remote-endpoint = <&panel_in_lvds>;
++            };
++          };
++        };
++      };
++    };
++
++...
+-- 
+2.35.1
 
-d049a24b15d8 drm/panel-edp: Fix AUO B133UAN01 panel id
-
--Doug
