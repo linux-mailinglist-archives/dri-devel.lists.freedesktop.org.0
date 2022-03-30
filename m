@@ -1,56 +1,64 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id EEFCA4ECF76
-	for <lists+dri-devel@lfdr.de>; Thu, 31 Mar 2022 00:16:38 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 4D40B4ECFA3
+	for <lists+dri-devel@lfdr.de>; Thu, 31 Mar 2022 00:30:16 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 05F2710E2CD;
-	Wed, 30 Mar 2022 22:16:36 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 7584310E1AE;
+	Wed, 30 Mar 2022 22:30:12 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-qt1-x832.google.com (mail-qt1-x832.google.com
- [IPv6:2607:f8b0:4864:20::832])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 18F1C10E8EF
- for <dri-devel@lists.freedesktop.org>; Wed, 30 Mar 2022 22:16:35 +0000 (UTC)
-Received: by mail-qt1-x832.google.com with SMTP id s11so19702651qtc.3
- for <dri-devel@lists.freedesktop.org>; Wed, 30 Mar 2022 15:16:35 -0700 (PDT)
+Received: from mail-lf1-x131.google.com (mail-lf1-x131.google.com
+ [IPv6:2a00:1450:4864:20::131])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 8895410E1AE
+ for <dri-devel@lists.freedesktop.org>; Wed, 30 Mar 2022 22:30:11 +0000 (UTC)
+Received: by mail-lf1-x131.google.com with SMTP id 5so38290499lfp.1
+ for <dri-devel@lists.freedesktop.org>; Wed, 30 Mar 2022 15:30:11 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=v5V3kvEJbyi9F3MHeceyPdx3c1Bu5E1z1aG7KQioCtA=;
- b=Rn4E6fpfodZzBNI9CHionnRmbtXxDFsoLCGl9rf4OHI2zq0q0y9+g6jo5yJe7jn4Xo
- K3XwMD4lfvd2o/Oag+klWSmmknJdJpYjbPccWmsbEbxdhbKRfqy84do86ezAT8PQCBhE
- FZcg4szpZtfucxmQaFZ8Z/jX+Yx6AWg/E253ow4IFaxbxHTEuh2EGe8TUKp9kMrj+dSC
- jTnAAVmVp27czFaUnlMNh8WNEYLAr55F4wj0CcO0Sh3aj3nHpFVXZlQY+ICacfQHKwb3
- IifLZ+eSWVzv9kZ9ilrXlkgtn5UYCP03Li2p4l3d3UoQ394uqnTb6oqWHTG/y+zD0vrh
- 52dA==
+ h=from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=JtbqvUsqEzE2g6uW/TT035ax0kBfyahmOob6FsqwcPY=;
+ b=hQPWu/OIb+Zegy4kT+8Em3QCWjiXaFxFPWp5W2WJaaPEXiGblSSVNAXq8q7uOJtC47
+ eJ06zbMxbNw0E/hPe5Yjp02P12DRRSmUDfhM+CttqoHsY2JzvzAmyf3wiHVPDeIoKpGw
+ Gq66rgG3yK108wL0ib2j/2l2m9zypCghXh1zONv+9wNSCcx7a7214v2XygnOF3Qhh53D
+ muKngZCaFu3fTimsAwa7EJL10OzYpzB9Et5MUbfTxCCjOrxUViMBWYblP13jvhXdzrc5
+ a6uFuEzBRgypjI7nBMWTbFx2vY2sel6pPBIfROrWd0A1tkHllnzpARSS2BurI8UK71sO
+ iNsg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=v5V3kvEJbyi9F3MHeceyPdx3c1Bu5E1z1aG7KQioCtA=;
- b=QsqRXu+2akRdjc8UciDTfwcHKZbgz1v9NaQ0M++hV4R09JDqtOXge30kRYaGngjSsC
- nqSTIgOpZw7Tot3kO1RXLhNeYvDFUD9Tq79iGVS5aB2JmqurHxlGWWMSdX9MlfVsYpgF
- LFiti5f96UB/3l94Wc+i1EWtfy/v0R81iUN3+wi2g5kALMPn9GyDIJrwcpOkQOTbLx24
- hhAzCtL+JMAc7riWjnvsx/taM9Sxsyj+GPdK/+wet/VATMGLoFBN5R2HZ8ASX7BmCGL6
- ubSwAcI90QZdGjnX6n9wLdg6aH7iIhQ161OhkW9ZDpVza9neC/wQfqC31H83TvbwOqIs
- QugA==
-X-Gm-Message-State: AOAM533Y3s5wep9uVYclWw9LraDHrl/DtsV57IYFpymVFrXzj93c5RfS
- H5OSjiUJHwE5z8f9eMEbV3cmzQgu1NzXwFHkGE4YoA==
-X-Google-Smtp-Source: ABdhPJxsJX49xZHbqWv8eB9xiCa1Z1dl/Fp1c1dn4pZmztEffRMsi66po2a6wqsBsf6w2fFECLcqbpU0iwxo+/WO3MI=
-X-Received: by 2002:a05:622a:1314:b0:2e1:d943:c25b with SMTP id
- v20-20020a05622a131400b002e1d943c25bmr1756051qtk.370.1648678594189; Wed, 30
- Mar 2022 15:16:34 -0700 (PDT)
-MIME-Version: 1.0
-References: <1648656179-10347-1-git-send-email-quic_sbillaka@quicinc.com>
- <1648656179-10347-5-git-send-email-quic_sbillaka@quicinc.com>
-In-Reply-To: <1648656179-10347-5-git-send-email-quic_sbillaka@quicinc.com>
+ h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=JtbqvUsqEzE2g6uW/TT035ax0kBfyahmOob6FsqwcPY=;
+ b=kUg6xeKspjNfRM4NtT5oxmha6rSmBsG/eIvGq275RoOSLE2u6qz0Lakpn7BufvHuJ5
+ oI93qUFMTKk5cvKwSWWNUdBWDvMpJLV5idJGv8kar4hwc/ew/RXlylDWnD6ks+riX2Cn
+ ZMagEMayDBQAueeqzlo+BvLgvOgVAH98Goz0kc2ClEVcBUGHT5Z+iFwk1KujmVSquzyo
+ pdpAFJ0R5qlLO/5A8kdC1aJ9cENUvzHKi2PkK3Qy8XSpqO8TPg6J3fdZ7ARAtf6UwhSo
+ syt7w0j5SZ3Etb3yKRe1W8LIQ7W9dS9H0DiogP7o/wejjepMM1giaF9Fhuuo/L+YF6zc
+ V+mA==
+X-Gm-Message-State: AOAM530M5ZvDjc5epH0tGtLdjxvRsd0a63T+xezB/EwpmQLZz5E3S3Tf
+ TRLnvODwZ9QxZ67qlEdv2MhhiA==
+X-Google-Smtp-Source: ABdhPJzG/f64ACIg2eEZE7Cx4oJHdTia/6Z35v5jnReSD+gy9dIQgwNO9KoopCVhR+hFwGsgSOzuRA==
+X-Received: by 2002:a05:6512:32c2:b0:44a:700c:4e97 with SMTP id
+ f2-20020a05651232c200b0044a700c4e97mr8590964lfg.224.1648679409820; 
+ Wed, 30 Mar 2022 15:30:09 -0700 (PDT)
+Received: from eriador.lan ([37.153.55.125]) by smtp.gmail.com with ESMTPSA id
+ a4-20020a2eb164000000b0024988e1cfb6sm2521295ljm.94.2022.03.30.15.30.08
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Wed, 30 Mar 2022 15:30:09 -0700 (PDT)
 From: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
-Date: Thu, 31 Mar 2022 01:16:23 +0300
-Message-ID: <CAA8EJprMvik_6xmGt2oZGpDG9FoMtC_ojuw+oTjPLTck4Hu3WA@mail.gmail.com>
-Subject: Re: [PATCH v6 4/8] drm/msm/dp: avoid handling masked interrupts
-To: Sankeerth Billakanti <quic_sbillaka@quicinc.com>
-Content-Type: text/plain; charset="UTF-8"
+To: Bjorn Andersson <bjorn.andersson@linaro.org>,
+ Rob Clark <robdclark@gmail.com>, Sean Paul <sean@poorly.run>,
+ Abhinav Kumar <quic_abhinavk@quicinc.com>,
+ Kuogee Hsieh <quic_khsieh@quicinc.com>,
+ Sankeerth Billakanti <quic_sbillaka@quicinc.com>
+Subject: [PATCH v2 0/4] drm/msm/dp: simplify dp_connector_get_modes()
+Date: Thu, 31 Mar 2022 01:30:04 +0300
+Message-Id: <20220330223008.649274-1-dmitry.baryshkov@linaro.org>
+X-Mailer: git-send-email 2.35.1
+MIME-Version: 1.0
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -63,61 +71,39 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: quic_kalyant@quicinc.com, devicetree@vger.kernel.org,
- bjorn.andersson@linaro.org, dianders@chromium.org, quic_abhinavk@quicinc.com,
- quic_vproddut@quicinc.com, airlied@linux.ie, linux-arm-msm@vger.kernel.org,
- linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
- swboyd@chromium.org, sean@poorly.run, seanpaul@chromium.org,
- quic_aravindh@quicinc.com, quic_khsieh@quicinc.com,
+Cc: David Airlie <airlied@linux.ie>, linux-arm-msm@vger.kernel.org,
+ dri-devel@lists.freedesktop.org, Stephen Boyd <swboyd@chromium.org>,
  freedreno@lists.freedesktop.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Wed, 30 Mar 2022 at 19:03, Sankeerth Billakanti
-<quic_sbillaka@quicinc.com> wrote:
->
-> The interrupt register will still reflect the connect and disconnect
-> interrupt status without generating an actual HW interrupt.
-> The controller driver should not handle those masked interrupts.
->
-> Signed-off-by: Sankeerth Billakanti <quic_sbillaka@quicinc.com>
-> ---
->  drivers/gpu/drm/msm/dp/dp_catalog.c | 5 +++--
->  1 file changed, 3 insertions(+), 2 deletions(-)
->
-> diff --git a/drivers/gpu/drm/msm/dp/dp_catalog.c b/drivers/gpu/drm/msm/dp/dp_catalog.c
-> index 3c16f95..1809ce2 100644
-> --- a/drivers/gpu/drm/msm/dp/dp_catalog.c
-> +++ b/drivers/gpu/drm/msm/dp/dp_catalog.c
-> @@ -608,13 +608,14 @@ u32 dp_catalog_hpd_get_intr_status(struct dp_catalog *dp_catalog)
->  {
->         struct dp_catalog_private *catalog = container_of(dp_catalog,
->                                 struct dp_catalog_private, dp_catalog);
-> -       int isr = 0;
-> +       int isr, mask;
->
->         isr = dp_read_aux(catalog, REG_DP_DP_HPD_INT_STATUS);
->         dp_write_aux(catalog, REG_DP_DP_HPD_INT_ACK,
->                                  (isr & DP_DP_HPD_INT_MASK));
-> +       mask = dp_read_aux(catalog, REG_DP_DP_HPD_INT_MASK);
->
-> -       return isr;
-> +       return isr & (DP_DP_HPD_STATE_STATUS_MASK | mask);
+As noted by Ville Syrjälä [1] the dp_connector_get_modes() has weird
+on-stack interim copy of the mode. When reviewing the mentioned patch I
+noticed that the rest of the code in dp_connector_get_modes() is weird,
+unused since September of 2020 and can be removed. This series removes
+dead weird code leaving dp_connector_get_modes() simple enough.
 
-I suspect that the logic is inverted here. Shouldn't it be:
+[1] https://lore.kernel.org/linux-arm-msm/20220218100403.7028-11-ville.syrjala@linux.intel.com/
 
-return isr & DP_DP_HPD_STATE_STATUS_MASK & mask;
+Changes since v1:
+- Remove unsued ret variable from dp_display_get_modes()
+- Add a patch making dp_connector_mode_valid() return MODE_CLOCK_HIGH
+  (suggested by Stephen)
 
-?
+Dmitry Baryshkov (4):
+  drm/msm/dp: drop dp_mode argument from dp_panel_get_modes()
+  drm/msm/dp: simplify dp_connector_get_modes()
+  drm/msm/dp: remove max_pclk_khz field from dp_panel/dp_display
+  drm/msm/dp: make dp_connector_mode_valid() more precise
 
->  }
->
->  int dp_catalog_ctrl_get_interrupt(struct dp_catalog *dp_catalog)
-> --
-> 2.7.4
->
-
+ drivers/gpu/drm/msm/dp/dp_debug.c   |  2 --
+ drivers/gpu/drm/msm/dp/dp_display.c | 12 +++-------
+ drivers/gpu/drm/msm/dp/dp_display.h |  5 +----
+ drivers/gpu/drm/msm/dp/dp_drm.c     | 35 +++--------------------------
+ drivers/gpu/drm/msm/dp/dp_panel.c   |  2 +-
+ drivers/gpu/drm/msm/dp/dp_panel.h   |  3 +--
+ 6 files changed, 9 insertions(+), 50 deletions(-)
 
 -- 
-With best wishes
-Dmitry
+2.35.1
+
