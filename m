@@ -1,54 +1,58 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 88AB84EDC3C
-	for <lists+dri-devel@lfdr.de>; Thu, 31 Mar 2022 16:59:56 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id A62E04EDC44
+	for <lists+dri-devel@lfdr.de>; Thu, 31 Mar 2022 17:01:14 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 8619510F1EF;
-	Thu, 31 Mar 2022 14:59:52 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 7E6D310E58F;
+	Thu, 31 Mar 2022 15:01:12 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mga17.intel.com (mga17.intel.com [192.55.52.151])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 8A3E810F1EF;
- Thu, 31 Mar 2022 14:59:51 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1648738791; x=1680274791;
- h=date:from:to:cc:subject:message-id:references:
- mime-version:content-transfer-encoding:in-reply-to;
- bh=d012AU019HL64eGAi1+VsQPxYRiIhAjCpnZvaLC5gvs=;
- b=Z5keR11gkwSvtlmEKOMqpQ0LWPgWr/4+04wLv+pZwXlCWGby/hvDNX5Z
- jVU40VHFZr+q39JTItDUTkkkusNn3oPnGwbucRlmkTLqE6g7K7UzjwHJ3
- cry+27Li7M8RepRgstcQJl+I7LxTtLzqTq9LlGwuZlgBi0/rwFwae8HbU
- lVmjtsTnKJ+DJ6d8hj2tk49WcKSHzzAl14aAcLZ0ja8KhpJivPwGR7PVx
- 6wTvJkkC5w1Pmx5kJi73DbrIH5K91z2cRNNEIde9VAIg6rPOGisJC7gHx
- bpEh+KooPfnCFBy+Pv1L1WFA7I3mOo6XjA1AnI1B21HaTqBdklz8HqrAo g==;
-X-IronPort-AV: E=McAfee;i="6200,9189,10302"; a="240449821"
-X-IronPort-AV: E=Sophos;i="5.90,225,1643702400"; d="scan'208";a="240449821"
-Received: from fmsmga008.fm.intel.com ([10.253.24.58])
- by fmsmga107.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 31 Mar 2022 07:59:51 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.90,225,1643702400"; d="scan'208";a="606135726"
-Received: from stinkpipe.fi.intel.com (HELO stinkbox) ([10.237.72.61])
- by fmsmga008.fm.intel.com with SMTP; 31 Mar 2022 07:59:48 -0700
-Received: by stinkbox (sSMTP sendmail emulation);
- Thu, 31 Mar 2022 17:59:48 +0300
-Date: Thu, 31 Mar 2022 17:59:48 +0300
-From: Ville =?iso-8859-1?Q?Syrj=E4l=E4?= <ville.syrjala@linux.intel.com>
-To: Jani Nikula <jani.nikula@intel.com>
-Subject: Re: [PATCH 12/12] drm/edid: reduce magic when updating the EDID
- block checksum
-Message-ID: <YkXB5ASH8F7KLANc@intel.com>
-References: <cover.1648578814.git.jani.nikula@intel.com>
- <0ec68aa82b4be2d46e442e74e341419d10c4c41b.1648578814.git.jani.nikula@intel.com>
+Received: from metis.ext.pengutronix.de (metis.ext.pengutronix.de
+ [IPv6:2001:67c:670:201:290:27ff:fe1d:cc33])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id E438C10E58F
+ for <dri-devel@lists.freedesktop.org>; Thu, 31 Mar 2022 15:01:10 +0000 (UTC)
+Received: from ptx.hi.pengutronix.de ([2001:67c:670:100:1d::c0])
+ by metis.ext.pengutronix.de with esmtps
+ (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256) (Exim 4.92)
+ (envelope-from <sha@pengutronix.de>)
+ id 1nZwIH-0003rZ-OK; Thu, 31 Mar 2022 17:01:01 +0200
+Received: from sha by ptx.hi.pengutronix.de with local (Exim 4.92)
+ (envelope-from <sha@pengutronix.de>)
+ id 1nZwIC-0001Hb-97; Thu, 31 Mar 2022 17:00:56 +0200
+Date: Thu, 31 Mar 2022 17:00:56 +0200
+From: Sascha Hauer <s.hauer@pengutronix.de>
+To: Piotr Oniszczuk <piotr.oniszczuk@gmail.com>
+Subject: Re: [PATCH v9 00/23] drm/rockchip: RK356x VOP2 support
+Message-ID: <20220331150056.GH4012@pengutronix.de>
+References: <FB201567-AE5A-4242-82F1-7C55D8F111EA@gmail.com>
+ <20220330072822.GX12181@pengutronix.de>
+ <0D8F5951-5375-46B5-BFF0-7ED410371EB7@gmail.com>
+ <20220330094556.GZ12181@pengutronix.de>
+ <D3DA14F9-C9C6-4927-B015-5B7D25689DAA@gmail.com>
+ <20220330102046.GA12181@pengutronix.de>
+ <60601619-EF07-457B-91F2-64FEB598FEBE@gmail.com>
+ <20220330192054.GA4012@pengutronix.de>
+ <af8445e0-f4af-721b-709e-2eb7c488a8a4@rock-chips.com>
+ <B7CD9D55-9F2D-42F4-9D04-17C6A5FEBB08@gmail.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=iso-8859-1
+Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
-In-Reply-To: <0ec68aa82b4be2d46e442e74e341419d10c4c41b.1648578814.git.jani.nikula@intel.com>
-X-Patchwork-Hint: comment
+In-Reply-To: <B7CD9D55-9F2D-42F4-9D04-17C6A5FEBB08@gmail.com>
+X-Sent-From: Pengutronix Hildesheim
+X-URL: http://www.pengutronix.de/
+X-IRC: #ptxdist @freenode
+X-Accept-Language: de,en
+X-Accept-Content-Type: text/plain
+X-Uptime: 17:00:25 up 1 day,  3:30, 52 users,  load average: 0.42, 0.22, 0.20
+User-Agent: Mutt/1.10.1 (2018-07-13)
+X-SA-Exim-Connect-IP: 2001:67c:670:100:1d::c0
+X-SA-Exim-Mail-From: sha@pengutronix.de
+X-SA-Exim-Scanned: No (on metis.ext.pengutronix.de);
+ SAEximRunCond expanded to false
+X-PTX-Original-Recipient: dri-devel@lists.freedesktop.org
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -61,43 +65,64 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: intel-gfx@lists.freedesktop.org, dri-devel@lists.freedesktop.org
+Cc: "devicetree@vger.kernel.org" <devicetree@vger.kernel.org>,
+ Benjamin Gaignard <benjamin.gaignard@collabora.com>,
+ Sandy Huang <hjc@rock-chips.com>, dri-devel@lists.freedesktop.org,
+ "open list:ARM/Rockchip SoC..." <linux-rockchip@lists.infradead.org>,
+ Michael Riesch <michael.riesch@wolfvision.net>,
+ Peter Geis <pgwipeout@gmail.com>, Andy Yan <andy.yan@rock-chips.com>,
+ kernel@pengutronix.de,
+ "linux-arm-kernel@lists.infradead.org" <linux-arm-kernel@lists.infradead.org>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Tue, Mar 29, 2022 at 09:42:19PM +0300, Jani Nikula wrote:
-> The code modifying the EDID block should not need to do tricks to fix
-> the checksum. We have a function for computing the checksum, use it.
+On Thu, Mar 31, 2022 at 04:53:05PM +0200, Piotr Oniszczuk wrote:
 > 
-> Cc: Ville Syrjälä <ville.syrjala@linux.intel.com>
-> Signed-off-by: Jani Nikula <jani.nikula@intel.com>
-> ---
->  drivers/gpu/drm/drm_edid.c | 2 +-
->  1 file changed, 1 insertion(+), 1 deletion(-)
 > 
-> diff --git a/drivers/gpu/drm/drm_edid.c b/drivers/gpu/drm/drm_edid.c
-> index d0a76781ed19..d2dfab28b5b7 100644
-> --- a/drivers/gpu/drm/drm_edid.c
-> +++ b/drivers/gpu/drm/drm_edid.c
-> @@ -1840,8 +1840,8 @@ static struct edid *edid_filter_invalid_blocks(const struct edid *edid,
->  			memcpy(base++, block, EDID_LENGTH);
->  	}
->  
-> -	new->checksum += new->extensions - valid_extensions;
->  	new->extensions = valid_extensions;
-> +	new->checksum = edid_block_compute_checksum(new);
+> > WiadomoÅ›Ä‡ napisana przez Andy Yan <andy.yan@rock-chips.com> w dniu 31.03.2022, o godz. 14:13:
+> > 
+> > 
+> > Piotr:
+> > 
+> > What soc is on you board? rk3566 or rk3568?
+> 
+> it is rk3566 in x96-x6 tvbox
+> 
+> 
+> > 
+> > I have a scripts[0]  use io[1] command to dump the VOP2 register you can use it dump the register configuration when you meet a display failure,
+> > 
+> > then send the dump to me, maybe I can figure out something.
+> > 
+> > [0]https://github.com/andyshrk/buildroot/blob/2022/board/andyshrk/rootfs_overlay/usr/bin/vop2_dump.sh
+> > 
+> > [1] https://github.com/andyshrk/io
+> 
+> Andy
+> 
+> Pls see https://pastebin.com/CHmu9s22
+> 
+> I put dumps for following scenarios:
+> 
+> 1.
+> -boot
+> -modetest -s 69@67:1920x1080 -> ok
+> -modetest -P 43@67:1920x1080@NV12 -> green screen
+> 
+> 
+> 2.
+> -boot
+> -modetest -s 69@67:1920x1080 -> ok
+> -modetest -P 49@67:1920x1080@NV12 -> ok (but shifted horizontally by about 5% of screen width)
 
-Seems to happen after we've validated the base block so this won't
-accidentally fix up an already bad checksum.
+Have you applied the bugfix I shared with you here:
 
-Reviewed-by: Ville Syrjälä <ville.syrjala@linux.intel.com>
+https://lore.kernel.org/linux-arm-kernel/20220330072822.GX12181@pengutronix.de/
 
->
->  out:
->  	kfree(edid);
-> -- 
-> 2.30.2
+Sascha
 
 -- 
-Ville Syrjälä
-Intel
+Pengutronix e.K.                           |                             |
+Steuerwalder Str. 21                       | http://www.pengutronix.de/  |
+31137 Hildesheim, Germany                  | Phone: +49-5121-206917-0    |
+Amtsgericht Hildesheim, HRA 2686           | Fax:   +49-5121-206917-5555 |
