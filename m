@@ -1,53 +1,53 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 89CEE4EDCDE
-	for <lists+dri-devel@lfdr.de>; Thu, 31 Mar 2022 17:32:41 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id F0C414EDCFA
+	for <lists+dri-devel@lfdr.de>; Thu, 31 Mar 2022 17:32:54 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 54D9510E28A;
-	Thu, 31 Mar 2022 15:32:37 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id B227810F3D5;
+	Thu, 31 Mar 2022 15:32:52 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-pj1-x102e.google.com (mail-pj1-x102e.google.com
- [IPv6:2607:f8b0:4864:20::102e])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 352B110E28A
- for <dri-devel@lists.freedesktop.org>; Thu, 31 Mar 2022 15:32:36 +0000 (UTC)
-Received: by mail-pj1-x102e.google.com with SMTP id
- l4-20020a17090a49c400b001c6840df4a3so4019023pjm.0
- for <dri-devel@lists.freedesktop.org>; Thu, 31 Mar 2022 08:32:36 -0700 (PDT)
+Received: from mail-pj1-x1036.google.com (mail-pj1-x1036.google.com
+ [IPv6:2607:f8b0:4864:20::1036])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 7236B10E5BE
+ for <dri-devel@lists.freedesktop.org>; Thu, 31 Mar 2022 15:32:51 +0000 (UTC)
+Received: by mail-pj1-x1036.google.com with SMTP id d30so7293920pjk.0
+ for <dri-devel@lists.freedesktop.org>; Thu, 31 Mar 2022 08:32:51 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=HMnSntbehaMLduLgRRBR3axAz7D3Z3iT+Ij/aDbCqvU=;
- b=P/Zwb7Rd7hXbbSLopJFX00jusS6zysJlGI8kK9u4tBaOIgT1waRttgaxFcJCiKKYd5
- Dw9K/wk7YQhdL5ObaADLm7fQTEBtYKlUbQh568jIHMe0xNXrJaMZAmpEUiy5f70rtJkX
- JAC0giP0HdoOljFkenM0WTmeFFMOBEUWpazb7mOpLUaHsoEsIbHOqv0PL8soAIaLW0XK
- xqXckL6hsoCIgfEpVoAKJ0MZ6i2sMs+B8DnS25BbTIUOhyH6akWGu2Btt7kzOJ2fA0K/
- FV5WkscfkuuWBmZM4FW5DqL8CGvadLZaFKpiKSCIcKMdarTTscfAkwNvGzbdJk+JH0V2
- fxoA==
+ :cc; bh=X+GiopADefA1BaJrzW9es7QuBGeiI8EEqu490H7xG4c=;
+ b=CldvduOqPPcI2vdCC7IWVnGyT3KROxQKSz/tTQsNTBqn0X2dc5oXD6D9hGSwHH1WKU
+ G18IJmR639fAF82xy/UeQ9HpUoC1ruwfWbHdiFbxtiKc+jNuD8C5a6sSH43krUczsyq2
+ wm738vTZpgwtltofg2UxCiFo7MxZrZrB9SKYpMIpGBfemmvCoi0Mr8ZYGU7ahOOER4Sc
+ 6FBixz1RUx6ZQP9izsfsVDZ2mHe/2DQSN7WmjBh2fyRbSroF7B6Q9eZdxg5oFVTkb545
+ f8OmYZ3+3mu8WG9psZ/DbIahVRNztesplniu44HHFmWkhgNHaFXAza9NSECMe5MK8rHJ
+ EshQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:mime-version:references:in-reply-to:from:date
  :message-id:subject:to:cc;
- bh=HMnSntbehaMLduLgRRBR3axAz7D3Z3iT+Ij/aDbCqvU=;
- b=JGm0CkaHPHgPn8p+1UPJwMUonxzi3P7h9M+rcEJgDl2RdN8fPGaV2rHyAh4kg9RvCX
- uXbigSF8djCefaLiaTw7660l0ITmab66pMbUsWOgRCb/o0+ZvUFjJUIUKIoK/jPrkzzt
- Yx0SJbOEvsFCXXK8+gfMlP/g7jbhJ8mp3EKPr96wqVulLGKU4hqtGv3klFzOHTZmjQRz
- rhcjEFDXljcO/AiDglZLX2FJrAhvMxHyPd2juxQ3wwPd9edqP8NDqp9QyZCt3Q2XFmSq
- fDkwJ1FPqICUJ0SsOGa+9l9vwUx2t2YA25NlWScjUDMPV4H2m7ID8QhcxSsLc4F07tAr
- gjqw==
-X-Gm-Message-State: AOAM532oCP5aWf54zEY9aUGZZ6uYlJYXBQfoH5XxZtgx+uSKsNZg4NjH
- BWShdJP0gkUQKOrIXNjwZfjGVR9H8CYtYdqHbkkRcA==
-X-Google-Smtp-Source: ABdhPJwAkQJMtcKSPNXLhhSqVlNkqPwolTYegpPdwHVRUmLqD4SBAnm3jRQVW0i/XZwqDQE2L4HzdFmehS5NR/Pd2nk=
+ bh=X+GiopADefA1BaJrzW9es7QuBGeiI8EEqu490H7xG4c=;
+ b=mhFUkW7kmOO9at3dT/jGfzABkhNgQc+P5ud9zOZJoUqZY84G/KhDckuh6g9bqyvf2u
+ 5ZfqpupXl0tBR3qCKFBcwGPEBn9v1VF1gd6cwr49tUyzj72ecXb3vYi8MWaUOPt9WSVr
+ pn446Qh/rY4vWrdWng9m+x9xtok0TN9ymPSdwGcs59VQcxwBbbSgOq5Da0WYhw15kyDh
+ D+N1WN/gyq4COv3nG492axvtC4mU2+ln9AbRyhEiGZ5q9RM1SRUbY1afHUWEe/cCTqJW
+ tVOwXyChscZC8s3IGnIVdnhK5OZKxNh5PG4wMAISqxJZ7mmd1Q+RO8E2WyKEg4z05Y4Q
+ plZg==
+X-Gm-Message-State: AOAM5323IqRv0aMjScJ4WFuhMZxN5ZhFE1VVKug2EMa0+saL5QEH69+M
+ chlDwL6V24r+EuZKGtqEF29IAPxXXK/FUud0UyVSIhRLHy0=
+X-Google-Smtp-Source: ABdhPJxjV8h7+CSqnsxGZEfU7wWE4l6F95HSGlanpIcE1wyRoZWfZyKED+Lefu3A3uyNeU16DDvyw2/Rc3lzl+ypKlE=
 X-Received: by 2002:a17:90b:3e85:b0:1c7:7eab:2649 with SMTP id
- rj5-20020a17090b3e8500b001c77eab2649mr6771193pjb.232.1648740755792; Thu, 31
- Mar 2022 08:32:35 -0700 (PDT)
+ rj5-20020a17090b3e8500b001c77eab2649mr6772372pjb.232.1648740771080; Thu, 31
+ Mar 2022 08:32:51 -0700 (PDT)
 MIME-Version: 1.0
 References: <20220213022648.495895-1-marex@denx.de>
-In-Reply-To: <20220213022648.495895-1-marex@denx.de>
+ <CAG3jFyvvM4hah-bqYZdD9zOM2bB04ioD_67TJGgcnZf33=zX-w@mail.gmail.com>
+In-Reply-To: <CAG3jFyvvM4hah-bqYZdD9zOM2bB04ioD_67TJGgcnZf33=zX-w@mail.gmail.com>
 From: Robert Foss <robert.foss@linaro.org>
-Date: Thu, 31 Mar 2022 17:32:24 +0200
-Message-ID: <CAG3jFyvvM4hah-bqYZdD9zOM2bB04ioD_67TJGgcnZf33=zX-w@mail.gmail.com>
+Date: Thu, 31 Mar 2022 17:32:40 +0200
+Message-ID: <CAG3jFytO-t+JcTJVxvOOLDZrwuuh4W69vQOaTC-AO-BHtyxOEQ@mail.gmail.com>
 Subject: Re: [PATCH][RESEND] drm/bridge: ti-sn65dsi83: Check link status
  register after enabling the bridge
 To: Marek Vasut <marex@denx.de>
@@ -70,41 +70,45 @@ Cc: Sam Ravnborg <sam@ravnborg.org>, Jagan Teki <jagan@amarulasolutions.com>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Sun, 13 Feb 2022 at 03:27, Marek Vasut <marex@denx.de> wrote:
+On Thu, 31 Mar 2022 at 17:32, Robert Foss <robert.foss@linaro.org> wrote:
 >
-> In rare cases, the bridge may not start up correctly, which usually
-> leads to no display output. In case this happens, warn about it in
-> the kernel log.
+> On Sun, 13 Feb 2022 at 03:27, Marek Vasut <marex@denx.de> wrote:
+> >
+> > In rare cases, the bridge may not start up correctly, which usually
+> > leads to no display output. In case this happens, warn about it in
+> > the kernel log.
+> >
+> > Signed-off-by: Marek Vasut <marex@denx.de>
+> > Cc: Jagan Teki <jagan@amarulasolutions.com>
+> > Cc: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+> > Cc: Linus Walleij <linus.walleij@linaro.org>
+> > Cc: Robert Foss <robert.foss@linaro.org>
+> > Cc: Sam Ravnborg <sam@ravnborg.org>
+> > Cc: dri-devel@lists.freedesktop.org
+> > ---
+> >  drivers/gpu/drm/bridge/ti-sn65dsi83.c | 5 +++++
+> >  1 file changed, 5 insertions(+)
+> >
+> > diff --git a/drivers/gpu/drm/bridge/ti-sn65dsi83.c b/drivers/gpu/drm/bridge/ti-sn65dsi83.c
+> > index 19daaddd29a41..1d7c154ea1d79 100644
+> > --- a/drivers/gpu/drm/bridge/ti-sn65dsi83.c
+> > +++ b/drivers/gpu/drm/bridge/ti-sn65dsi83.c
+> > @@ -488,6 +488,11 @@ static void sn65dsi83_atomic_enable(struct drm_bridge *bridge,
+> >         /* Clear all errors that got asserted during initialization. */
+> >         regmap_read(ctx->regmap, REG_IRQ_STAT, &pval);
+> >         regmap_write(ctx->regmap, REG_IRQ_STAT, pval);
+> > +
+> > +       usleep_range(10000, 12000);
+> > +       regmap_read(ctx->regmap, REG_IRQ_STAT, &pval);
+> > +       if (pval)
+> > +               dev_err(ctx->dev, "Unexpected link status 0x%02x\n", pval);
+> >  }
+> >
+> >  static void sn65dsi83_atomic_disable(struct drm_bridge *bridge,
+> > --
+> > 2.34.1
+> >
 >
-> Signed-off-by: Marek Vasut <marex@denx.de>
-> Cc: Jagan Teki <jagan@amarulasolutions.com>
-> Cc: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-> Cc: Linus Walleij <linus.walleij@linaro.org>
-> Cc: Robert Foss <robert.foss@linaro.org>
-> Cc: Sam Ravnborg <sam@ravnborg.org>
-> Cc: dri-devel@lists.freedesktop.org
-> ---
->  drivers/gpu/drm/bridge/ti-sn65dsi83.c | 5 +++++
->  1 file changed, 5 insertions(+)
->
-> diff --git a/drivers/gpu/drm/bridge/ti-sn65dsi83.c b/drivers/gpu/drm/bridge/ti-sn65dsi83.c
-> index 19daaddd29a41..1d7c154ea1d79 100644
-> --- a/drivers/gpu/drm/bridge/ti-sn65dsi83.c
-> +++ b/drivers/gpu/drm/bridge/ti-sn65dsi83.c
-> @@ -488,6 +488,11 @@ static void sn65dsi83_atomic_enable(struct drm_bridge *bridge,
->         /* Clear all errors that got asserted during initialization. */
->         regmap_read(ctx->regmap, REG_IRQ_STAT, &pval);
->         regmap_write(ctx->regmap, REG_IRQ_STAT, pval);
-> +
-> +       usleep_range(10000, 12000);
-> +       regmap_read(ctx->regmap, REG_IRQ_STAT, &pval);
-> +       if (pval)
-> +               dev_err(ctx->dev, "Unexpected link status 0x%02x\n", pval);
->  }
->
->  static void sn65dsi83_atomic_disable(struct drm_bridge *bridge,
-> --
-> 2.34.1
->
+> Reviewed-by: Robert Foss <robert.foss@linaro.org>
 
-Reviewed-by: Robert Foss <robert.foss@linaro.org>
+Applied to drm-misc-next.
