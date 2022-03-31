@@ -2,67 +2,67 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id D6F2F4EDBD1
-	for <lists+dri-devel@lfdr.de>; Thu, 31 Mar 2022 16:38:19 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 55C0F4EDBCD
+	for <lists+dri-devel@lfdr.de>; Thu, 31 Mar 2022 16:38:05 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id C8E5D10F038;
-	Thu, 31 Mar 2022 14:38:15 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 9E83710EF39;
+	Thu, 31 Mar 2022 14:38:00 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from out2-smtp.messagingengine.com (out2-smtp.messagingengine.com
  [66.111.4.26])
- by gabe.freedesktop.org (Postfix) with ESMTPS id A6C5210EF0F
- for <dri-devel@lists.freedesktop.org>; Thu, 31 Mar 2022 14:37:53 +0000 (UTC)
-Received: from compute1.internal (compute1.nyi.internal [10.202.2.41])
- by mailout.nyi.internal (Postfix) with ESMTP id 053195C01DE;
- Thu, 31 Mar 2022 10:37:53 -0400 (EDT)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 9C62E10EF0F
+ for <dri-devel@lists.freedesktop.org>; Thu, 31 Mar 2022 14:37:55 +0000 (UTC)
+Received: from compute5.internal (compute5.nyi.internal [10.202.2.45])
+ by mailout.nyi.internal (Postfix) with ESMTP id EBA2A5C020D;
+ Thu, 31 Mar 2022 10:37:54 -0400 (EDT)
 Received: from mailfrontend2 ([10.202.2.163])
- by compute1.internal (MEProxy); Thu, 31 Mar 2022 10:37:53 -0400
+ by compute5.internal (MEProxy); Thu, 31 Mar 2022 10:37:54 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=cerno.tech; h=cc
  :cc:content-transfer-encoding:date:date:from:from:in-reply-to
  :in-reply-to:message-id:mime-version:references:reply-to:sender
- :subject:subject:to:to; s=fm3; bh=EwCp/DR+rW/qEY57wYmp8SO8XM0oma
- p1E8ZRNb6qI4w=; b=XidymD/T0iGhgBUu4DycoGXgSlfA+z+mu1an9q9/2qiOng
- UHi+pIuIELATqzgcIvQC0tzioljaCtJTXJBvgV7GH5tJNKEjmZVrYrI+uym5lVEz
- 8SlY/bWEXQHPuOgNZVe2el36xOeGGuAOT74S3ntHilHsLvefznLcmcwCiNhbto2Z
- tOIzakJql1eyBE9zuEDCvwJYN1aRcdA+ZBiQq+Bz8pPRMxk+btCsuKWRHkq27x2K
- ODbilkbtTbnHeaOO0ngXoOFikJn2pr/TBOUwePNYFgO5PFDN99pagvPtQVkqjaJE
- NRlqAeKpEMIwKI3tr3czJRJsXYvK2MfkzmqDsVGQ==
+ :subject:subject:to:to; s=fm3; bh=uifjtJK1IaaXaQlZMDyIEDSa9Pn0JH
+ L+z/u3hqJx6T4=; b=IhFZfFN080eoMi7gDK6qVwQjWTznZq8iJlrEdXEd1z9pXQ
+ 49hvTYNHSo4wU2D041ANYL68JpHJx22bbgr++ikInYQWkTlz6AHKmvohlvWbuhu9
+ 9cQUM1RVGx85UFcIc2YB8baaUvK35/17EIiHGy2WlASJIpt0vAEpH/Zee3NdXf15
+ Xwuq2eDnvLfuNUxhB7bKvyrequawDSPBXqsU6D0UKpbFjo1iRiB4KZFF3xndwL7y
+ eDSjCLI+gMQnqlPYF0OsV5a/G+OU95/G5Td982Xv9SMYoVFSvGVc52VFgTYzvJ7Z
+ 4kDyqw8ErHevXDsUopNK35noYmJP5IpsbPMjaA+Q==
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
  messagingengine.com; h=cc:cc:content-transfer-encoding:date:date
  :from:from:in-reply-to:in-reply-to:message-id:mime-version
  :references:reply-to:sender:subject:subject:to:to:x-me-proxy
- :x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=fm3; bh=EwCp/D
- R+rW/qEY57wYmp8SO8XM0omap1E8ZRNb6qI4w=; b=n2MBw+ihtuoxt5iKV7grSr
- m8VP/ib/GX7eB3GWpNTNGWnKBUTxbsj8X7XoZK/Yl/NxghRzZI7R5xyWlIVp0XYY
- 0/4LQy1iir7hXwE/djCf2co6u5jhYoBteRjZR7dH5Lrb8w6iIjL1XyjPv12vGYV+
- tSb0htKslrWKDvbFHQmJQKo9eUbeGzLYvkbydamKYnRUnVMVgrHSVxE6+mtZW1u5
- cqthhLn2Ar3SJpI/XDmStiuiK3aRclXLI1orrFE0umcQ2qGpxGOL5wYftIajnpfi
- 1tq+aY0pY1wTyxmKXN0q2K8YDPpVIyb1cTsw47zW7XcYOmB8nQClT0oG/LPWFp8Q
+ :x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=fm3; bh=uifjtJ
+ K1IaaXaQlZMDyIEDSa9Pn0JHL+z/u3hqJx6T4=; b=cN6xahVFXWCNKOlfrENFxt
+ maDUJU0mKoFmfCRNnIRo2zPlfJYgNqc3V8aiNZaXDrVlfbVffUaffEUDmJrRQS4B
+ VpQdrZ7n5o4LE61SSoh6WXdxCeNUxIiPP5XFRdXdHcLfhbFIRWyfsum2i3x8p40m
+ 3ciZH7HpoUfBCzLWiODzYFjSE5NBgy7CmECk25sHe7uMWWpGNTbbEyagzyB+mAOz
+ qtxNmTdwtHX6YUAONW6Yu7Q/OjCWKwY7JtWpRjfzYyACqfjW7MRQJluYqyM9yGUb
+ yRCI7ooggxT/rk79kiNO7UJ/5kXHxxKJHvU7mCAecPEdRcMHPNb6dIA7wppU7d2Q
  ==
-X-ME-Sender: <xms:wLxFYp9zp6Em9qoES2b4s90ONICNOP8oB1IJlnIMStlpMeNb_rHEpg>
- <xme:wLxFYtswtwZuJ1HdJc26EEm6XUH7EQ5QW6q9O2dzdPYD_JLTs7elnmq7hSiSZFUmW
- UGNqp5cwLvW0eM4Gr8>
-X-ME-Received: <xmr:wLxFYnDnKF2DMsnjKFPUitLogUW1VTKnRcAFO1Qxj-rtxf5MnuT9qSFsx2VTc4C8sggP1Vg57STR9WHYAj-W8Kn1hrBZqzqyT-mPPDo>
+X-ME-Sender: <xms:wrxFYutrE5-DKWVX7WEX0vbKolQrmndDoc3d0XslwuL1jIfflJYQ7w>
+ <xme:wrxFYjcx1Lzkt2pMbbcdYHOh62SKnKSVlEtb_BxNA0vmlu6VgwWBOI-INxn4ZWjyu
+ ZnJ_PyYuRwzwd9Kq1U>
+X-ME-Received: <xmr:wrxFYpy2pBLkWneyMSuzxWhNQeWkzsn2pifMlaJOc2ovzMpxAzWTB5FSN2ogGM8x9vVwXlcedTgw9-fN-waZ8yiJZ0wxii0Aq-cF7_k>
 X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvvddrudeigedgjeelucetufdoteggodetrfdotf
  fvucfrrhhofhhilhgvmecuhfgrshhtofgrihhlpdfqfgfvpdfurfetoffkrfgpnffqhgen
  uceurghilhhouhhtmecufedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmne
  cujfgurhephffvufffkffojghfggfgsedtkeertdertddtnecuhfhrohhmpeforgigihhm
  vgcutfhiphgrrhguuceomhgrgihimhgvsegtvghrnhhordhtvggthheqnecuggftrfgrth
  htvghrnhepvdekleevfeffkeejhfffueelteelfeduieefheduudfggffhhfffheevveeh
- hedvnecuvehluhhsthgvrhfuihiivgeptdenucfrrghrrghmpehmrghilhhfrhhomhepmh
+ hedvnecuvehluhhsthgvrhfuihiivgepudenucfrrghrrghmpehmrghilhhfrhhomhepmh
  grgihimhgvsegtvghrnhhordhtvggthh
-X-ME-Proxy: <xmx:wLxFYteWfCqUR91VNo5KWE1G6oaUtJiKlViIaT2Jz-ghvmyC9An12A>
- <xmx:wLxFYuMnCcMmMrAD-70jW5iF675_kJA52m97qM8zIM_W6K1vt7cbrA>
- <xmx:wLxFYvmJ5mQLum1YQjXVPfUVDQh64gU3S5eoVQbM7CiXvx2JZfscUw>
- <xmx:wLxFYrq7YQk-t2TkhFZj5CFkFr4AVQzNSkK7rjb7HoU1zSgIcBsTkQ>
+X-ME-Proxy: <xmx:wrxFYpNU5dDIoajT-YxmKRlb9bPUshnyqfKCQRNbYbhJcX-i1muwlw>
+ <xmx:wrxFYu_YaKm1bHx_02xWWVkeHCzH_QWne-xkVMgYnJF-3nyExhpjVA>
+ <xmx:wrxFYhW0xROmU0wM0vn0dnL1s3D3yP86y_MTk7Mvpxnnt-Za1nTU7A>
+ <xmx:wrxFYiYjCFBQ-7BuoCayobared0PJ5CP6b4a1F9wvd4Q2Cc2Dy6YfQ>
 Received: by mail.messagingengine.com (Postfix) with ESMTPA; Thu,
- 31 Mar 2022 10:37:52 -0400 (EDT)
+ 31 Mar 2022 10:37:54 -0400 (EDT)
 From: Maxime Ripard <maxime@cerno.tech>
 To: dri-devel@lists.freedesktop.org
-Subject: [PATCH v2 2/7] drm/vc4: hvs: Fix frame count register readout
-Date: Thu, 31 Mar 2022 16:37:39 +0200
-Message-Id: <20220331143744.777652-3-maxime@cerno.tech>
+Subject: [PATCH v2 3/7] drm/vc4: hvs: Store channel in variable
+Date: Thu, 31 Mar 2022 16:37:40 +0200
+Message-Id: <20220331143744.777652-4-maxime@cerno.tech>
 X-Mailer: git-send-email 2.35.1
 In-Reply-To: <20220331143744.777652-1-maxime@cerno.tech>
 References: <20220331143744.777652-1-maxime@cerno.tech>
@@ -85,123 +85,56 @@ Cc: David Airlie <airlied@linux.ie>, Daniel Vetter <daniel.vetter@intel.com>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-In order to get the field currently being output, the driver has been
-using the display FIFO frame count in the HVS, reading a 6-bit field at
-the offset 12 in the DISPSTATx register.
+The assigned_channel field of our vc4_crtc_state structure is accessed
+multiple times in vc4_hvs_atomic_flush, so let's move it to a variable
+that can be used in all those places.
 
-While that field is indeed at that location for the FIFO 1 and 2, the
-one for the FIFO0 is actually in the DISPSTAT1 register, at the offset
-18.
-
-Fixes: e538092cb15c ("drm/vc4: Enable precise vblank timestamping for interlaced modes.")
 Signed-off-by: Maxime Ripard <maxime@cerno.tech>
 ---
- drivers/gpu/drm/vc4/vc4_crtc.c |  2 +-
- drivers/gpu/drm/vc4/vc4_drv.h  |  1 +
- drivers/gpu/drm/vc4/vc4_hvs.c  | 23 +++++++++++++++++++++++
- drivers/gpu/drm/vc4/vc4_regs.h | 12 ++++++++++--
- 4 files changed, 35 insertions(+), 3 deletions(-)
+ drivers/gpu/drm/vc4/vc4_hvs.c | 9 +++++----
+ 1 file changed, 5 insertions(+), 4 deletions(-)
 
-diff --git a/drivers/gpu/drm/vc4/vc4_crtc.c b/drivers/gpu/drm/vc4/vc4_crtc.c
-index e6cc47470e03..72fadce38d32 100644
---- a/drivers/gpu/drm/vc4/vc4_crtc.c
-+++ b/drivers/gpu/drm/vc4/vc4_crtc.c
-@@ -123,7 +123,7 @@ static bool vc4_crtc_get_scanout_position(struct drm_crtc *crtc,
- 		*vpos /= 2;
- 
- 		/* Use hpos to correct for field offset in interlaced mode. */
--		if (VC4_GET_FIELD(val, SCALER_DISPSTATX_FRAME_COUNT) % 2)
-+		if (vc4_hvs_get_fifo_frame_count(dev, vc4_crtc_state->assigned_channel) % 2)
- 			*hpos += mode->crtc_htotal / 2;
- 	}
- 
-diff --git a/drivers/gpu/drm/vc4/vc4_drv.h b/drivers/gpu/drm/vc4/vc4_drv.h
-index 4329e09d357c..801da3e8ebdb 100644
---- a/drivers/gpu/drm/vc4/vc4_drv.h
-+++ b/drivers/gpu/drm/vc4/vc4_drv.h
-@@ -935,6 +935,7 @@ void vc4_irq_reset(struct drm_device *dev);
- extern struct platform_driver vc4_hvs_driver;
- void vc4_hvs_stop_channel(struct drm_device *dev, unsigned int output);
- int vc4_hvs_get_fifo_from_output(struct drm_device *dev, unsigned int output);
-+u8 vc4_hvs_get_fifo_frame_count(struct drm_device *dev, unsigned int fifo);
- int vc4_hvs_atomic_check(struct drm_crtc *crtc, struct drm_atomic_state *state);
- void vc4_hvs_atomic_begin(struct drm_crtc *crtc, struct drm_atomic_state *state);
- void vc4_hvs_atomic_enable(struct drm_crtc *crtc, struct drm_atomic_state *state);
 diff --git a/drivers/gpu/drm/vc4/vc4_hvs.c b/drivers/gpu/drm/vc4/vc4_hvs.c
-index 604933e20e6a..c8cae10500b9 100644
+index c8cae10500b9..d225eea6e640 100644
 --- a/drivers/gpu/drm/vc4/vc4_hvs.c
 +++ b/drivers/gpu/drm/vc4/vc4_hvs.c
-@@ -197,6 +197,29 @@ static void vc4_hvs_update_gamma_lut(struct drm_crtc *crtc)
- 	vc4_hvs_lut_load(crtc);
- }
- 
-+u8 vc4_hvs_get_fifo_frame_count(struct drm_device *dev, unsigned int fifo)
-+{
-+	struct vc4_dev *vc4 = to_vc4_dev(dev);
-+	u8 field = 0;
-+
-+	switch (fifo) {
-+	case 0:
-+		field = VC4_GET_FIELD(HVS_READ(SCALER_DISPSTAT1),
-+				      SCALER_DISPSTAT1_FRCNT0);
-+		break;
-+	case 1:
-+		field = VC4_GET_FIELD(HVS_READ(SCALER_DISPSTAT1),
-+				      SCALER_DISPSTAT1_FRCNT1);
-+		break;
-+	case 2:
-+		field = VC4_GET_FIELD(HVS_READ(SCALER_DISPSTAT2),
-+				      SCALER_DISPSTAT2_FRCNT2);
-+		break;
-+	}
-+
-+	return field;
-+}
-+
- int vc4_hvs_get_fifo_from_output(struct drm_device *dev, unsigned int output)
- {
+@@ -460,6 +460,7 @@ void vc4_hvs_atomic_flush(struct drm_crtc *crtc,
+ 	struct drm_device *dev = crtc->dev;
  	struct vc4_dev *vc4 = to_vc4_dev(dev);
-diff --git a/drivers/gpu/drm/vc4/vc4_regs.h b/drivers/gpu/drm/vc4/vc4_regs.h
-index 33410718089e..bae8c9cd6f7c 100644
---- a/drivers/gpu/drm/vc4/vc4_regs.h
-+++ b/drivers/gpu/drm/vc4/vc4_regs.h
-@@ -379,8 +379,6 @@
- # define SCALER_DISPSTATX_MODE_EOF		3
- # define SCALER_DISPSTATX_FULL			BIT(29)
- # define SCALER_DISPSTATX_EMPTY			BIT(28)
--# define SCALER_DISPSTATX_FRAME_COUNT_MASK	VC4_MASK(17, 12)
--# define SCALER_DISPSTATX_FRAME_COUNT_SHIFT	12
- # define SCALER_DISPSTATX_LINE_MASK		VC4_MASK(11, 0)
- # define SCALER_DISPSTATX_LINE_SHIFT		0
+ 	struct vc4_crtc_state *vc4_state = to_vc4_crtc_state(crtc->state);
++	unsigned int channel = vc4_state->assigned_channel;
+ 	struct drm_plane *plane;
+ 	struct vc4_plane_state *vc4_plane_state;
+ 	bool debug_dump_regs = false;
+@@ -500,8 +501,8 @@ void vc4_hvs_atomic_flush(struct drm_crtc *crtc,
+ 		/* This sets a black background color fill, as is the case
+ 		 * with other DRM drivers.
+ 		 */
+-		HVS_WRITE(SCALER_DISPBKGNDX(vc4_state->assigned_channel),
+-			  HVS_READ(SCALER_DISPBKGNDX(vc4_state->assigned_channel)) |
++		HVS_WRITE(SCALER_DISPBKGNDX(channel),
++			  HVS_READ(SCALER_DISPBKGNDX(channel)) |
+ 			  SCALER_DISPBKGND_FILL);
  
-@@ -403,9 +401,15 @@
- 						 (x) * (SCALER_DISPBKGND1 - \
- 							SCALER_DISPBKGND0))
- #define SCALER_DISPSTAT1                        0x00000058
-+# define SCALER_DISPSTAT1_FRCNT0_MASK		VC4_MASK(23, 18)
-+# define SCALER_DISPSTAT1_FRCNT0_SHIFT		18
-+# define SCALER_DISPSTAT1_FRCNT1_MASK		VC4_MASK(17, 12)
-+# define SCALER_DISPSTAT1_FRCNT1_SHIFT		12
-+
- #define SCALER_DISPSTATX(x)			(SCALER_DISPSTAT0 +        \
- 						 (x) * (SCALER_DISPSTAT1 - \
- 							SCALER_DISPSTAT0))
-+
- #define SCALER_DISPBASE1                        0x0000005c
- #define SCALER_DISPBASEX(x)			(SCALER_DISPBASE0 +        \
- 						 (x) * (SCALER_DISPBASE1 - \
-@@ -415,7 +419,11 @@
- 						 (x) * (SCALER_DISPCTRL1 - \
- 							SCALER_DISPCTRL0))
- #define SCALER_DISPBKGND2                       0x00000064
-+
- #define SCALER_DISPSTAT2                        0x00000068
-+# define SCALER_DISPSTAT2_FRCNT2_MASK		VC4_MASK(17, 12)
-+# define SCALER_DISPSTAT2_FRCNT2_SHIFT		12
-+
- #define SCALER_DISPBASE2                        0x0000006c
- #define SCALER_DISPALPHA2                       0x00000070
- #define SCALER_GAMADDR                          0x00000078
+ 	/* Only update DISPLIST if the CRTC was already running and is not
+@@ -515,7 +516,7 @@ void vc4_hvs_atomic_flush(struct drm_crtc *crtc,
+ 		vc4_hvs_update_dlist(crtc);
+ 
+ 	if (crtc->state->color_mgmt_changed) {
+-		u32 dispbkgndx = HVS_READ(SCALER_DISPBKGNDX(vc4_state->assigned_channel));
++		u32 dispbkgndx = HVS_READ(SCALER_DISPBKGNDX(channel));
+ 
+ 		if (crtc->state->gamma_lut) {
+ 			vc4_hvs_update_gamma_lut(crtc);
+@@ -527,7 +528,7 @@ void vc4_hvs_atomic_flush(struct drm_crtc *crtc,
+ 			 */
+ 			dispbkgndx &= ~SCALER_DISPBKGND_GAMMA;
+ 		}
+-		HVS_WRITE(SCALER_DISPBKGNDX(vc4_state->assigned_channel), dispbkgndx);
++		HVS_WRITE(SCALER_DISPBKGNDX(channel), dispbkgndx);
+ 	}
+ 
+ 	if (debug_dump_regs) {
 -- 
 2.35.1
 
