@@ -2,39 +2,39 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 513234EDCAF
-	for <lists+dri-devel@lfdr.de>; Thu, 31 Mar 2022 17:21:26 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 37D7F4EDCAE
+	for <lists+dri-devel@lfdr.de>; Thu, 31 Mar 2022 17:21:25 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id C449D10F3E3;
+	by gabe.freedesktop.org (Postfix) with ESMTP id 783BB10F3E6;
 	Thu, 31 Mar 2022 15:21:22 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from phobos.denx.de (phobos.denx.de
  [IPv6:2a01:238:438b:c500:173d:9f52:ddab:ee01])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 6813710F397
- for <dri-devel@lists.freedesktop.org>; Thu, 31 Mar 2022 15:20:37 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id C0FA110F397
+ for <dri-devel@lists.freedesktop.org>; Thu, 31 Mar 2022 15:20:42 +0000 (UTC)
 Received: from tr.lan (ip-89-176-112-137.net.upcbroadband.cz [89.176.112.137])
  (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits))
  (No client certificate requested)
  (Authenticated sender: marex@denx.de)
- by phobos.denx.de (Postfix) with ESMTPSA id D468884235;
- Thu, 31 Mar 2022 17:20:35 +0200 (CEST)
+ by phobos.denx.de (Postfix) with ESMTPSA id 3859684237;
+ Thu, 31 Mar 2022 17:20:36 +0200 (CEST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=denx.de;
- s=phobos-20191101; t=1648740036;
- bh=yj9NRJFNBNGJOtwQTl6YELsxRxBA9+LukN8cqT46n6I=;
+ s=phobos-20191101; t=1648740041;
+ bh=4YU0kSP+j6/O52H5Ddms+/4ceoqvkoN2k7R1D53Fg3E=;
  h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
- b=j1C8X/xhUb0gqi0fKg4KXpgbJ9SOxra+WY15yzVX1VzzNJQgNr22/pKuI7dvvah6E
- gJ6itpfxi9LgMEI5D1hvsO3KqhNi5heUbJC+kJLvkSqF4UQHXyLMsrlX6kJ/Ex7IMb
- uVQRT+M44mk5yFVgLJeuB6MdiPiAybCdHOQj171RBDQs/kn3vIhQxS9uxuTOk/kYZB
- bGetHPyX3ogotyxofQp2iU7FLVv3u6+OncSAlWJYSqImNI+ZTN2hb30vL5QUfi8+of
- WxAfHFxwFKxYIoxjd51dq3jrjrjaaGli1JIl+qALV2sorhkoB+MHw8d3lBzy8IkzF2
- q+6jNXqUdNB/g==
+ b=tAGKqedDf1jRP6dsmpGPp+pbdYgeo3Y4oL8BL/7nvPlIk9kYBgKtfXiQuLEsaX8q2
+ dnI3cLKJGxT/cuQvADeqWuAE3Sdl2si1LtdAeESGtIIXRRm2+7Uv0O13piXqdS56ZK
+ SEUBGZtN/Ku7Bqjxya3pp75O4xarcYPeFwtxftzFpBMmS02UK+bU1e/X+YGP7Rxy97
+ lKmugOpcXF3K8l6qcye7Y4h+FV+tbhCnAD3tDHL1B5Z5Cm+sC/DJtIYq9q8hHarbWI
+ gvZtVVWeYZz30U+mANi7A0ofhRM24lzOKMxmfN9HnRVUa9FZW7dY99KZs9nTDjn/C0
+ hvK/FDwoSTgiA==
 From: Marek Vasut <marex@denx.de>
 To: dri-devel@lists.freedesktop.org
-Subject: [PATCH v6 06/11] drm/bridge: tc358767: Move (e)DP bridge endpoint
- parsing into dedicated function
-Date: Thu, 31 Mar 2022 17:19:47 +0200
-Message-Id: <20220331151952.13221-7-marex@denx.de>
+Subject: [PATCH v6 07/11] drm/bridge: tc358767: Wrap (e)DP aux I2C
+ registration into tc_aux_link_setup()
+Date: Thu, 31 Mar 2022 17:19:48 +0200
+Message-Id: <20220331151952.13221-8-marex@denx.de>
 X-Mailer: git-send-email 2.35.1
 In-Reply-To: <20220331151952.13221-1-marex@denx.de>
 References: <20220331151952.13221-1-marex@denx.de>
@@ -61,12 +61,9 @@ Cc: Marek Vasut <marex@denx.de>, Jonas Karlman <jonas@kwiboo.se>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-The TC358767/TC358867/TC9595 are all capable of operating in multiple
-modes, DPI-to-(e)DP, DSI-to-(e)DP, DSI-to-DPI. Only the first mode is
-currently supported. In order to support the rest of the modes without
-making the tc_probe() overly long, split the bridge endpoint parsing
-into dedicated function, where the necessary logic to detect the bridge
-mode based on which endpoints are connected, can be implemented.
+This bit of code is (e)DP and aux I2C link specific, move it into
+tc_aux_link_setup() to permit cleaner addition of DSI-to-DPI mode.
+No functional change.
 
 Reviewed-by: Lucas Stach <l.stach@pengutronix.de>
 Tested-by: Lucas Stach <l.stach@pengutronix.de> # In both DPI to eDP and DSI to DPI mode.
@@ -77,68 +74,45 @@ Cc: Maxime Ripard <maxime@cerno.tech>
 Cc: Neil Armstrong <narmstrong@baylibre.com>
 Cc: Sam Ravnborg <sam@ravnborg.org>
 ---
-V2: - Rename tc_probe_bridge_mode() to tc_probe_edp_bridge_endpoint()
-      to better reflect that it parses the (e)DP output endpoint
+V2: - New patch
 V3: - Add RB from Lucas
 V4: - Add TB from Lucas
 V5: - No change
 V6: - No change
 ---
- drivers/gpu/drm/bridge/tc358767.c | 30 +++++++++++++++++++++---------
- 1 file changed, 21 insertions(+), 9 deletions(-)
+ drivers/gpu/drm/bridge/tc358767.c | 12 ++++++------
+ 1 file changed, 6 insertions(+), 6 deletions(-)
 
 diff --git a/drivers/gpu/drm/bridge/tc358767.c b/drivers/gpu/drm/bridge/tc358767.c
-index e95153d9c149..0f24156543ba 100644
+index 0f24156543ba..8a8b495aa0ad 100644
 --- a/drivers/gpu/drm/bridge/tc358767.c
 +++ b/drivers/gpu/drm/bridge/tc358767.c
-@@ -1583,19 +1583,12 @@ static irqreturn_t tc_irq_handler(int irq, void *arg)
- 	return IRQ_HANDLED;
- }
+@@ -656,6 +656,12 @@ static int tc_aux_link_setup(struct tc_data *tc)
+ 	if (ret)
+ 		goto err;
  
--static int tc_probe(struct i2c_client *client, const struct i2c_device_id *id)
-+static int tc_probe_edp_bridge_endpoint(struct tc_data *tc)
- {
--	struct device *dev = &client->dev;
-+	struct device *dev = tc->dev;
- 	struct drm_panel *panel;
--	struct tc_data *tc;
- 	int ret;
++	/* Register DP AUX channel */
++	tc->aux.name = "TC358767 AUX i2c adapter";
++	tc->aux.dev = tc->dev;
++	tc->aux.transfer = tc_aux_transfer;
++	drm_dp_aux_init(&tc->aux);
++
+ 	return 0;
+ err:
+ 	dev_err(tc->dev, "tc_aux_link_setup failed: %d\n", ret);
+@@ -1736,12 +1742,6 @@ static int tc_probe(struct i2c_client *client, const struct i2c_device_id *id)
+ 	if (ret)
+ 		return ret;
  
--	tc = devm_kzalloc(dev, sizeof(*tc), GFP_KERNEL);
--	if (!tc)
--		return -ENOMEM;
+-	/* Register DP AUX channel */
+-	tc->aux.name = "TC358767 AUX i2c adapter";
+-	tc->aux.dev = tc->dev;
+-	tc->aux.transfer = tc_aux_transfer;
+-	drm_dp_aux_init(&tc->aux);
 -
--	tc->dev = dev;
--
- 	/* port@2 is the output port */
- 	ret = drm_of_find_panel_or_bridge(dev->of_node, 2, 0, &panel, NULL);
- 	if (ret && ret != -ENODEV)
-@@ -1614,6 +1607,25 @@ static int tc_probe(struct i2c_client *client, const struct i2c_device_id *id)
- 		tc->bridge.type = DRM_MODE_CONNECTOR_DisplayPort;
- 	}
- 
-+	return ret;
-+}
-+
-+static int tc_probe(struct i2c_client *client, const struct i2c_device_id *id)
-+{
-+	struct device *dev = &client->dev;
-+	struct tc_data *tc;
-+	int ret;
-+
-+	tc = devm_kzalloc(dev, sizeof(*tc), GFP_KERNEL);
-+	if (!tc)
-+		return -ENOMEM;
-+
-+	tc->dev = dev;
-+
-+	ret = tc_probe_edp_bridge_endpoint(tc);
-+	if (ret)
-+		return ret;
-+
- 	/* Shut down GPIO is optional */
- 	tc->sd_gpio = devm_gpiod_get_optional(dev, "shutdown", GPIOD_OUT_HIGH);
- 	if (IS_ERR(tc->sd_gpio))
+ 	tc->bridge.funcs = &tc_edp_bridge_funcs;
+ 	if (tc->hpd_pin >= 0)
+ 		tc->bridge.ops |= DRM_BRIDGE_OP_DETECT;
 -- 
 2.35.1
 
