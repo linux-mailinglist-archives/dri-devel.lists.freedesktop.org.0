@@ -1,56 +1,55 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4E1604EDDAE
-	for <lists+dri-devel@lfdr.de>; Thu, 31 Mar 2022 17:45:27 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id BE39A4EDDB4
+	for <lists+dri-devel@lfdr.de>; Thu, 31 Mar 2022 17:45:53 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id BD5A910F14D;
-	Thu, 31 Mar 2022 15:45:24 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 9B24910F3F0;
+	Thu, 31 Mar 2022 15:45:51 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-pj1-x1031.google.com (mail-pj1-x1031.google.com
- [IPv6:2607:f8b0:4864:20::1031])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 7203810E29E
- for <dri-devel@lists.freedesktop.org>; Thu, 31 Mar 2022 15:45:22 +0000 (UTC)
-Received: by mail-pj1-x1031.google.com with SMTP id
- o3-20020a17090a3d4300b001c6bc749227so4020735pjf.1
- for <dri-devel@lists.freedesktop.org>; Thu, 31 Mar 2022 08:45:22 -0700 (PDT)
+Received: from mail-pg1-x534.google.com (mail-pg1-x534.google.com
+ [IPv6:2607:f8b0:4864:20::534])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 90E9310F3F6
+ for <dri-devel@lists.freedesktop.org>; Thu, 31 Mar 2022 15:45:49 +0000 (UTC)
+Received: by mail-pg1-x534.google.com with SMTP id l129so146670pga.3
+ for <dri-devel@lists.freedesktop.org>; Thu, 31 Mar 2022 08:45:49 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=X7BYAwtNz1ujzU9vAA1t7++BamUguBLgzMylVVOW+AE=;
- b=b3ox7VFMmr5ZlKjrzkBVQz+HJNkdbPy1zCFXDq+YGSM3SnlF+uAddjPYRNiAt8ta4l
- Hx0OJX0VDROTxOhuDNpESYoOTAtiEwjjjF+lXB2xAgMZwQSJ0BM2Ujj9Kdvi2tlQtGAW
- HQvA0nedMIMSM247Pzyx4LbR6XctXrLoSAm0KKLHFFJWr2asQ+KV4BJ4uRab6Eoa6VNH
- 6pXr6mhfsG6jqZiqR79EYcg9iW4tclVPj/vJcC8kfgIxyi4CG8cXs0+yuFcH1G9JFfvo
- 0EUwnnE2lHeGia1x8WbPJSeYC4jZYV6CqZdYTeaj1lHUnSOuV3QTUUTHQ0TClJnm7ueP
- WkjA==
+ :cc; bh=fz5Ympz/RfsgfAZDBSdU8815ep6xTkidtcgqlrWxd/A=;
+ b=RrSWXZT4XRELFzCxSCqzOPKgjWjAtuoYW+xmFvY2zv6mduFby3SbFqgKPNRysUzS9b
+ mxl70JRtkXj+EFIh1RDAOKm0jIOKnRKT/ROmnu1OP4hyq6rPBSjQF9Pa2penosMODd0J
+ /96XtFVFenOYLPXw+6vcVo7RuY1HfCjnj4Ep0z8D9pMi2wDhrnD1M/c4HUDitLJ8ZvU1
+ 468hRISV5lQbh+ETz8kF+8ZclIRQ8Zz4qM4kPGTp+Mq7Ta2JGWatooyRzH8uk6JhxYU+
+ 9ghVPTHond73yyB8IPRK1BYxi+goye+uJvwXLzUDhRI5wnjCuaAbbmPn+P5NFnIM7frN
+ seDQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:mime-version:references:in-reply-to:from:date
  :message-id:subject:to:cc;
- bh=X7BYAwtNz1ujzU9vAA1t7++BamUguBLgzMylVVOW+AE=;
- b=k2eIvypdl70TwkHuBIfJEkkSiwhavZyZrtsMIisMqd73j4FDxR9hZo0HN4pgQ3bp9M
- bzbEglDf3mTtgR2+vt296iOL3vpoWEFj1ARhTYkfZJ5LLj9f7gIogrx3NaOP+MKy4A2H
- buAV8QmAsEWq3BP/hspYfCJCDOUWvQLCtRkRKaHP6FLrEveph3tBAlfAE/SN9zo2GENr
- w5/uz6KD9Wnc+4/1i26S/7pv+FLeq6aA+5vVl7Zg3Xq1QbMmFHzf/tvCfRjYmVXj/UZN
- zl7cqjomS1dgH2Q1fk+/8jf6wTFJqdAXCbCJEwB6krAHUeI+ATN/druXgJbf2klx3k8o
- xC6g==
-X-Gm-Message-State: AOAM532LlLuzG0zoU0Lg5yJ41BSShamnfLIcDqSJo9GdrtVfezeo8quU
- PtJDTcMPyKXqXyroKlY7im6lmMTeT0FYUC0VkF/KeA==
-X-Google-Smtp-Source: ABdhPJx3M8/zdIa6TYawPX2CsQYLFLyhkU2ryirYbgJaH83c3AJOX8EYnwmFWi1k4/2FgTFP5KJhsdlCQ2hzkEdXoD0=
-X-Received: by 2002:a17:903:30c4:b0:153:c102:8b9a with SMTP id
- s4-20020a17090330c400b00153c1028b9amr41811511plc.21.1648741521999; Thu, 31
- Mar 2022 08:45:21 -0700 (PDT)
+ bh=fz5Ympz/RfsgfAZDBSdU8815ep6xTkidtcgqlrWxd/A=;
+ b=h19OnBx/WLQOldY1i9PTTnLsPxFaaaQabrxD/CAHWCGIxP1TmjvE3dm2jP/Um/qElZ
+ LGoexHZS3Am/m/1esuMtae7+8H48rsoAd3u6kv3tLtxlLIVUk6GZwdxQXbDkgHt/E4Gb
+ Al32wfP2RRqzdFyPTuiCfGNHE5zhq1p2sVBZeGO8HJlPnM3toDA0u2Fkh1/B/n5fInPn
+ 21HW5DSM31W+uvv1T78B5/DdSlPD/0LRv06hPOyyFx7CCVYx8jJM1c7gPi4u5WW/mtkK
+ LHOWxE74PVQjJ2aHQklMWXiIJMeKg6NzsKR+M54MFQNp/Tm83O8jZb1kYNASf1AGSR/o
+ V04A==
+X-Gm-Message-State: AOAM532gWp+TRxMHdndYHIN3HwkpOeBTa+Qt5Wdl5819Kw8qmqTmhmS7
+ 5KTqOZvfApsS06aiAHDhBfippuOBBZKv0IFhyWFzpQ==
+X-Google-Smtp-Source: ABdhPJyS3KJAgxihsu7K12IeePWnIDoH5J7a/e4aQ7npTPVAUmyNPfg/1F+wZVNjd5AgXLQTKkayI+R1WvoNmeITYMI=
+X-Received: by 2002:a63:574d:0:b0:386:c67:b383 with SMTP id
+ h13-20020a63574d000000b003860c67b383mr11248309pgm.324.1648741549189; Thu, 31
+ Mar 2022 08:45:49 -0700 (PDT)
 MIME-Version: 1.0
 References: <20220331153923.14314-1-marex@denx.de>
- <20220331153923.14314-2-marex@denx.de>
-In-Reply-To: <20220331153923.14314-2-marex@denx.de>
+ <CAG3jFyu=_Ep3GjrBJeZ0f1ii_PG=ZdeXC-RBCvama9XxnQ5L+A@mail.gmail.com>
+In-Reply-To: <CAG3jFyu=_Ep3GjrBJeZ0f1ii_PG=ZdeXC-RBCvama9XxnQ5L+A@mail.gmail.com>
 From: Robert Foss <robert.foss@linaro.org>
-Date: Thu, 31 Mar 2022 17:45:11 +0200
-Message-ID: <CAG3jFyvbY+Z_KnG39HqR6YQm_FHXy0_tNuoxnfCQcWtpK9SGtw@mail.gmail.com>
-Subject: Re: [RESEND][PATCH 2/2] drm/bridge: lt9611: Add
- atomic_get_input_bus_fmts
+Date: Thu, 31 Mar 2022 17:45:38 +0200
+Message-ID: <CAG3jFyveDwJFSRgQjm1Vqns-hv4ogjBK2ZVqEWnfOpDYScJ4og@mail.gmail.com>
+Subject: Re: [RESEND][PATCH 1/2] drm/bridge: lt9611: Switch to atomic
+ operations
 To: Marek Vasut <marex@denx.de>
 Content-Type: text/plain; charset="UTF-8"
 X-BeenThere: dri-devel@lists.freedesktop.org
@@ -71,70 +70,87 @@ Cc: dri-devel@lists.freedesktop.org, Maxime Ripard <maxime@cerno.tech>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Thu, 31 Mar 2022 at 17:39, Marek Vasut <marex@denx.de> wrote:
+On Thu, 31 Mar 2022 at 17:43, Robert Foss <robert.foss@linaro.org> wrote:
 >
-> Implement .atomic_get_input_bus_fmts callback, which sets up
-> the input (scanout-engine-end) formats, so that those formats
-> can then be used in pipeline format negotiation between this
-> bridge and the scanout engine.
+> On Thu, 31 Mar 2022 at 17:39, Marek Vasut <marex@denx.de> wrote:
+> >
+> > Use the atomic version of the enable/disable operations to continue the
+> > transition to the atomic API. This will be needed to access the mode
+> > from the atomic state.
+> >
+> > Signed-off-by: Marek Vasut <marex@denx.de>
+> > Cc: Dave Airlie <airlied@redhat.com>
+> > Cc: John Stultz <john.stultz@linaro.org>
+> > Cc: Maxime Ripard <maxime@cerno.tech>
+> > Cc: Sam Ravnborg <sam@ravnborg.org>
+> > Cc: Thomas Zimmermann <tzimmermann@suse.de>
+> > ---
+> >  drivers/gpu/drm/bridge/lontium-lt9611.c | 22 ++++++++++++++++------
+> >  1 file changed, 16 insertions(+), 6 deletions(-)
+> >
+> > diff --git a/drivers/gpu/drm/bridge/lontium-lt9611.c b/drivers/gpu/drm/bridge/lontium-lt9611.c
+> > index 63df2e8a8abc..9b3ac3794a2c 100644
+> > --- a/drivers/gpu/drm/bridge/lontium-lt9611.c
+> > +++ b/drivers/gpu/drm/bridge/lontium-lt9611.c
+> > @@ -700,7 +700,9 @@ lt9611_connector_mode_valid(struct drm_connector *connector,
+> >  }
+> >
+> >  /* bridge funcs */
+> > -static void lt9611_bridge_enable(struct drm_bridge *bridge)
+> > +static void
+> > +lt9611_bridge_atomic_enable(struct drm_bridge *bridge,
+> > +                           struct drm_bridge_state *old_bridge_state)
+> >  {
+> >         struct lt9611 *lt9611 = bridge_to_lt9611(bridge);
+> >
+> > @@ -721,7 +723,9 @@ static void lt9611_bridge_enable(struct drm_bridge *bridge)
+> >         regmap_write(lt9611->regmap, 0x8130, 0xea);
+> >  }
+> >
+> > -static void lt9611_bridge_disable(struct drm_bridge *bridge)
+> > +static void
+> > +lt9611_bridge_atomic_disable(struct drm_bridge *bridge,
+> > +                            struct drm_bridge_state *old_bridge_state)
+> >  {
+> >         struct lt9611 *lt9611 = bridge_to_lt9611(bridge);
+> >         int ret;
+> > @@ -856,7 +860,9 @@ static void lt9611_bridge_pre_enable(struct drm_bridge *bridge)
+> >         lt9611->sleep = false;
+> >  }
+> >
+> > -static void lt9611_bridge_post_disable(struct drm_bridge *bridge)
+> > +static void
+> > +lt9611_bridge_atomic_post_disable(struct drm_bridge *bridge,
+> > +                                 struct drm_bridge_state *old_bridge_state)
+> >  {
+> >         struct lt9611 *lt9611 = bridge_to_lt9611(bridge);
+> >
+> > @@ -919,13 +925,17 @@ static void lt9611_bridge_hpd_enable(struct drm_bridge *bridge)
+> >  static const struct drm_bridge_funcs lt9611_bridge_funcs = {
+> >         .attach = lt9611_bridge_attach,
+> >         .mode_valid = lt9611_bridge_mode_valid,
+> > -       .enable = lt9611_bridge_enable,
+> > -       .disable = lt9611_bridge_disable,
+> > -       .post_disable = lt9611_bridge_post_disable,
+> >         .mode_set = lt9611_bridge_mode_set,
+> >         .detect = lt9611_bridge_detect,
+> >         .get_edid = lt9611_bridge_get_edid,
+> >         .hpd_enable = lt9611_bridge_hpd_enable,
+> > +
+> > +       .atomic_enable = lt9611_bridge_atomic_enable,
+> > +       .atomic_disable = lt9611_bridge_atomic_disable,
+> > +       .atomic_post_disable = lt9611_bridge_atomic_post_disable,
+> > +       .atomic_duplicate_state = drm_atomic_helper_bridge_duplicate_state,
+> > +       .atomic_destroy_state = drm_atomic_helper_bridge_destroy_state,
+> > +       .atomic_reset = drm_atomic_helper_bridge_reset,
+> >  };
+> >
+> >  static int lt9611_parse_dt(struct device *dev,
+> > --
+> > 2.35.1
+> >
 >
-> Signed-off-by: Marek Vasut <marex@denx.de>
-> Cc: Dave Airlie <airlied@redhat.com>
-> Cc: John Stultz <john.stultz@linaro.org>
-> Cc: Maxime Ripard <maxime@cerno.tech>
-> Cc: Sam Ravnborg <sam@ravnborg.org>
-> Cc: Thomas Zimmermann <tzimmermann@suse.de>
-> ---
->  drivers/gpu/drm/bridge/lontium-lt9611.c | 27 +++++++++++++++++++++++++
->  1 file changed, 27 insertions(+)
->
-> diff --git a/drivers/gpu/drm/bridge/lontium-lt9611.c b/drivers/gpu/drm/bridge/lontium-lt9611.c
-> index 9b3ac3794a2c..7ef8fe5abc12 100644
-> --- a/drivers/gpu/drm/bridge/lontium-lt9611.c
-> +++ b/drivers/gpu/drm/bridge/lontium-lt9611.c
-> @@ -922,6 +922,32 @@ static void lt9611_bridge_hpd_enable(struct drm_bridge *bridge)
->         lt9611_enable_hpd_interrupts(lt9611);
->  }
->
-> +#define MAX_INPUT_SEL_FORMATS  1
-> +
-> +static u32 *
-> +lt9611_atomic_get_input_bus_fmts(struct drm_bridge *bridge,
-> +                                struct drm_bridge_state *bridge_state,
-> +                                struct drm_crtc_state *crtc_state,
-> +                                struct drm_connector_state *conn_state,
-> +                                u32 output_fmt,
-> +                                unsigned int *num_input_fmts)
-> +{
-> +       u32 *input_fmts;
-> +
-> +       *num_input_fmts = 0;
-> +
-> +       input_fmts = kcalloc(MAX_INPUT_SEL_FORMATS, sizeof(*input_fmts),
-> +                            GFP_KERNEL);
-> +       if (!input_fmts)
-> +               return NULL;
-> +
-> +       /* This is the DSI-end bus format */
-> +       input_fmts[0] = MEDIA_BUS_FMT_RGB888_1X24;
-> +       *num_input_fmts = 1;
-> +
-> +       return input_fmts;
-> +}
-> +
->  static const struct drm_bridge_funcs lt9611_bridge_funcs = {
->         .attach = lt9611_bridge_attach,
->         .mode_valid = lt9611_bridge_mode_valid,
-> @@ -936,6 +962,7 @@ static const struct drm_bridge_funcs lt9611_bridge_funcs = {
->         .atomic_duplicate_state = drm_atomic_helper_bridge_duplicate_state,
->         .atomic_destroy_state = drm_atomic_helper_bridge_destroy_state,
->         .atomic_reset = drm_atomic_helper_bridge_reset,
-> +       .atomic_get_input_bus_fmts = lt9611_atomic_get_input_bus_fmts,
->  };
->
->  static int lt9611_parse_dt(struct device *dev,
-> --
-> 2.35.1
->
+> Reviewed-by: Robert Foss <robert.foss@linaro.org>
 
-Reviewed-by: Robert Foss <robert.foss@linaro.org>
+
+Applied to drm-misc-next.
