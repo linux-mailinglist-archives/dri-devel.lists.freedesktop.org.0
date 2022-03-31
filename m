@@ -2,39 +2,38 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 37D7F4EDCAE
-	for <lists+dri-devel@lfdr.de>; Thu, 31 Mar 2022 17:21:25 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id D2C834EDCA9
+	for <lists+dri-devel@lfdr.de>; Thu, 31 Mar 2022 17:21:10 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 783BB10F3E6;
-	Thu, 31 Mar 2022 15:21:22 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 0839610F3AC;
+	Thu, 31 Mar 2022 15:21:08 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from phobos.denx.de (phobos.denx.de
- [IPv6:2a01:238:438b:c500:173d:9f52:ddab:ee01])
- by gabe.freedesktop.org (Postfix) with ESMTPS id C0FA110F397
- for <dri-devel@lists.freedesktop.org>; Thu, 31 Mar 2022 15:20:42 +0000 (UTC)
+Received: from phobos.denx.de (phobos.denx.de [85.214.62.61])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 450FA10F397
+ for <dri-devel@lists.freedesktop.org>; Thu, 31 Mar 2022 15:20:43 +0000 (UTC)
 Received: from tr.lan (ip-89-176-112-137.net.upcbroadband.cz [89.176.112.137])
  (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits))
  (No client certificate requested)
  (Authenticated sender: marex@denx.de)
- by phobos.denx.de (Postfix) with ESMTPSA id 3859684237;
- Thu, 31 Mar 2022 17:20:36 +0200 (CEST)
+ by phobos.denx.de (Postfix) with ESMTPSA id 9878184217;
+ Thu, 31 Mar 2022 17:20:41 +0200 (CEST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=denx.de;
  s=phobos-20191101; t=1648740041;
- bh=4YU0kSP+j6/O52H5Ddms+/4ceoqvkoN2k7R1D53Fg3E=;
+ bh=oDiZrPKc407V19YyY9IHD9ryLgp1qqSxDm2GfnPIUT8=;
  h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
- b=tAGKqedDf1jRP6dsmpGPp+pbdYgeo3Y4oL8BL/7nvPlIk9kYBgKtfXiQuLEsaX8q2
- dnI3cLKJGxT/cuQvADeqWuAE3Sdl2si1LtdAeESGtIIXRRm2+7Uv0O13piXqdS56ZK
- SEUBGZtN/Ku7Bqjxya3pp75O4xarcYPeFwtxftzFpBMmS02UK+bU1e/X+YGP7Rxy97
- lKmugOpcXF3K8l6qcye7Y4h+FV+tbhCnAD3tDHL1B5Z5Cm+sC/DJtIYq9q8hHarbWI
- gvZtVVWeYZz30U+mANi7A0ofhRM24lzOKMxmfN9HnRVUa9FZW7dY99KZs9nTDjn/C0
- hvK/FDwoSTgiA==
+ b=lFG+0rcHYeJKLwC0quiPhlyEW3R7KGBVueFHi5kYKZGV6hk3R8YQhD0fgquDMtPPA
+ PWCvuU3uWwpOtLwS/VyD5todbZerhZqnSNT85LMoGLWz5l/6cvGxDbSiv3/w62oGAL
+ v4+6LuMu9T/FwSh9FyQ9oJLZfQmujl/w36jastwxLhn2nDmr4sc6V7mM65BC1oK7Vf
+ jGbFCBHHWVZqG0VdxKFFcgzXC0OsaK9XW6MBlBXebKlfWxgwx+fCdvAIUwKUvssY2l
+ gKMaWUjO/pMf7jV4oGrhT+KPAnddE4J9/h8EWG1fiCqNSmiH54n2F8my5/2KWzdBQV
+ b/+E22BgGiy7w==
 From: Marek Vasut <marex@denx.de>
 To: dri-devel@lists.freedesktop.org
-Subject: [PATCH v6 07/11] drm/bridge: tc358767: Wrap (e)DP aux I2C
- registration into tc_aux_link_setup()
-Date: Thu, 31 Mar 2022 17:19:48 +0200
-Message-Id: <20220331151952.13221-8-marex@denx.de>
+Subject: [PATCH v6 08/11] drm/bridge: tc358767: Move bridge ops setup into
+ tc_probe_edp_bridge_endpoint()
+Date: Thu, 31 Mar 2022 17:19:49 +0200
+Message-Id: <20220331151952.13221-9-marex@denx.de>
 X-Mailer: git-send-email 2.35.1
 In-Reply-To: <20220331151952.13221-1-marex@denx.de>
 References: <20220331151952.13221-1-marex@denx.de>
@@ -61,9 +60,9 @@ Cc: Marek Vasut <marex@denx.de>, Jonas Karlman <jonas@kwiboo.se>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-This bit of code is (e)DP and aux I2C link specific, move it into
-tc_aux_link_setup() to permit cleaner addition of DSI-to-DPI mode.
-No functional change.
+The bridge ops are specific to the bridge configuration, move them
+into tc_probe_edp_bridge_endpoint() to permit cleaner addition of
+DSI-to-DPI mode. No functional change.
 
 Reviewed-by: Lucas Stach <l.stach@pengutronix.de>
 Tested-by: Lucas Stach <l.stach@pengutronix.de> # In both DPI to eDP and DSI to DPI mode.
@@ -75,44 +74,42 @@ Cc: Neil Armstrong <narmstrong@baylibre.com>
 Cc: Sam Ravnborg <sam@ravnborg.org>
 ---
 V2: - New patch
-V3: - Add RB from Lucas
-V4: - Add TB from Lucas
+V3: - No change
+V4: - Add RB/TB from Lucas
 V5: - No change
 V6: - No change
 ---
- drivers/gpu/drm/bridge/tc358767.c | 12 ++++++------
- 1 file changed, 6 insertions(+), 6 deletions(-)
+ drivers/gpu/drm/bridge/tc358767.c | 10 +++++-----
+ 1 file changed, 5 insertions(+), 5 deletions(-)
 
 diff --git a/drivers/gpu/drm/bridge/tc358767.c b/drivers/gpu/drm/bridge/tc358767.c
-index 0f24156543ba..8a8b495aa0ad 100644
+index 8a8b495aa0ad..8c468f77618d 100644
 --- a/drivers/gpu/drm/bridge/tc358767.c
 +++ b/drivers/gpu/drm/bridge/tc358767.c
-@@ -656,6 +656,12 @@ static int tc_aux_link_setup(struct tc_data *tc)
- 	if (ret)
- 		goto err;
+@@ -1613,6 +1613,11 @@ static int tc_probe_edp_bridge_endpoint(struct tc_data *tc)
+ 		tc->bridge.type = DRM_MODE_CONNECTOR_DisplayPort;
+ 	}
  
-+	/* Register DP AUX channel */
-+	tc->aux.name = "TC358767 AUX i2c adapter";
-+	tc->aux.dev = tc->dev;
-+	tc->aux.transfer = tc_aux_transfer;
-+	drm_dp_aux_init(&tc->aux);
++	tc->bridge.funcs = &tc_edp_bridge_funcs;
++	if (tc->hpd_pin >= 0)
++		tc->bridge.ops |= DRM_BRIDGE_OP_DETECT;
++	tc->bridge.ops |= DRM_BRIDGE_OP_EDID;
 +
- 	return 0;
- err:
- 	dev_err(tc->dev, "tc_aux_link_setup failed: %d\n", ret);
-@@ -1736,12 +1742,6 @@ static int tc_probe(struct i2c_client *client, const struct i2c_device_id *id)
+ 	return ret;
+ }
+ 
+@@ -1742,11 +1747,6 @@ static int tc_probe(struct i2c_client *client, const struct i2c_device_id *id)
  	if (ret)
  		return ret;
  
--	/* Register DP AUX channel */
--	tc->aux.name = "TC358767 AUX i2c adapter";
--	tc->aux.dev = tc->dev;
--	tc->aux.transfer = tc_aux_transfer;
--	drm_dp_aux_init(&tc->aux);
+-	tc->bridge.funcs = &tc_edp_bridge_funcs;
+-	if (tc->hpd_pin >= 0)
+-		tc->bridge.ops |= DRM_BRIDGE_OP_DETECT;
+-	tc->bridge.ops |= DRM_BRIDGE_OP_EDID;
 -
- 	tc->bridge.funcs = &tc_edp_bridge_funcs;
- 	if (tc->hpd_pin >= 0)
- 		tc->bridge.ops |= DRM_BRIDGE_OP_DETECT;
+ 	tc->bridge.of_node = dev->of_node;
+ 	drm_bridge_add(&tc->bridge);
+ 
 -- 
 2.35.1
 
