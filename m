@@ -1,38 +1,40 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2DECA4EDC58
-	for <lists+dri-devel@lfdr.de>; Thu, 31 Mar 2022 17:05:55 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 1CA104EDC5A
+	for <lists+dri-devel@lfdr.de>; Thu, 31 Mar 2022 17:05:59 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id B95DB10F239;
-	Thu, 31 Mar 2022 15:05:49 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 8BC2910F245;
+	Thu, 31 Mar 2022 15:05:50 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from phobos.denx.de (phobos.denx.de [85.214.62.61])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 26A0310E2D4
+Received: from phobos.denx.de (phobos.denx.de
+ [IPv6:2a01:238:438b:c500:173d:9f52:ddab:ee01])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id D8A1B10F239
  for <dri-devel@lists.freedesktop.org>; Thu, 31 Mar 2022 15:05:42 +0000 (UTC)
 Received: from tr.lan (ip-89-176-112-137.net.upcbroadband.cz [89.176.112.137])
  (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits))
  (No client certificate requested)
  (Authenticated sender: marex@denx.de)
- by phobos.denx.de (Postfix) with ESMTPSA id 2FB9384217;
+ by phobos.denx.de (Postfix) with ESMTPSA id 813BD84220;
  Thu, 31 Mar 2022 17:05:40 +0200 (CEST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=denx.de;
  s=phobos-20191101; t=1648739140;
- bh=+Qk8P+CleVBqz0ksMohbFEMzdd3p3MirqkE/OKN361o=;
+ bh=wbF+gdUeYlxvFgz504UcPTV+C9nMwZI7eShB2vcGD7k=;
  h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
- b=M754md3eaKvqSQNqh6ZbirY+WNQjtKT3oA7FECPALErQ+/L4xnt1XZo7COSDgWdQ9
- VFZDzWut6rGFwRtkHmF57guSpcIdmx0wPe44Ty5B/gL4jUGHfzdl0qCM51IrYRRCI9
- /QRmDgH5N1hNU9GRXjjgMjb0f8gmiq4GAQIrWX16zOtufb8ptAQ1QiCRIPHc87a01c
- Abmiu2JzeQEOai5C0PaWoRiPJgEe30Ag+JmkAZEqXFAa6xpJXOIjRmOUN2wPXKfcpG
- /qQanA4Z9ushp2dPIsZPhoRdK24gTh8E0Doz9xQUH7lYjx0j24MlO8gKSLbypDXTUs
- NFN+PRCtpwG4A==
+ b=d8/xEI/ll9mfaqCGWkyDX+xdvqsbcL9o4HZw9PiALBUdc724OepjCVYZESLaLqHI6
+ Fi54+TAVz/KQMszAP+Z76BvvyrHG0bvQqfgLNZY96RB0HJSvDK7OnfQ2CXn0UkzgVx
+ lU/TTYWe46H1kgsl2WTkloY+MvYLdW3M2Dps8WN4MaeyZB4hVO4nuXtBDxzo5S0QB4
+ hlxoLP5H9xprQXOzOAMMbAtaYGnyc/nttpTVxm12gK9OWgwKIYkqJCJtPRUmYMaQEK
+ m9qps+cYYXcXOYtr84W1Q6+Uk+63BAYf9grc7BjCJ2v67DS8PIzGVUXY9jyJzHjwam
+ /k/lgehnA3YAg==
 From: Marek Vasut <marex@denx.de>
 To: dri-devel@lists.freedesktop.org
-Subject: [PATCH v6 03/11] drm: bridge: icn6211: Add HS/VS/DE polarity handling
-Date: Thu, 31 Mar 2022 17:05:01 +0200
-Message-Id: <20220331150509.9838-4-marex@denx.de>
+Subject: [PATCH v6 04/11] drm: bridge: icn6211: Add generic DSI-to-DPI PLL
+ configuration
+Date: Thu, 31 Mar 2022 17:05:02 +0200
+Message-Id: <20220331150509.9838-5-marex@denx.de>
 X-Mailer: git-send-email 2.35.1
 In-Reply-To: <20220331150509.9838-1-marex@denx.de>
 References: <20220331150509.9838-1-marex@denx.de>
@@ -58,9 +60,18 @@ Cc: Marek Vasut <marex@denx.de>, Robert Foss <robert.foss@linaro.org>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-The driver currently hard-codes HS/VS polarity to active-low and DE to
-active-high, which is not correct for a lot of supported DPI panels.
-Add the missing mode flag handling for HS/VS/DE polarity.
+The chip contains fractional PLL, however the driver currently hard-codes
+one specific PLL setting. Implement generic PLL parameter calculation code,
+so any DPI panel with arbitrary pixel clock can be attached to this bridge.
+
+The datasheet for this bridge is not available, the PLL behavior has been
+inferred from [1] and [2] and by analyzing the DPI pixel clock with scope.
+The PLL limits might be wrong, but at least the calculated values match all
+the example code available. This is better than one hard-coded pixel clock
+value anyway.
+
+[1] https://github.com/rockchip-linux/kernel/blob/develop-4.19/drivers/gpu/drm/bridge/icn6211.c
+[2] https://github.com/tdjastrzebski/ICN6211-Configurator
 
 Acked-by: Maxime Ripard <maxime@cerno.tech>
 Signed-off-by: Marek Vasut <marex@denx.de>
@@ -72,50 +83,136 @@ Cc: Thomas Zimmermann <tzimmermann@suse.de>
 To: dri-devel@lists.freedesktop.org
 ---
 V2: Rebase on next-20220214
-V3: No change
-V4: Add AB from Maxime
-V5: No change
+V3: Add AB from Maxime
+V4: - Cache mipi_dsi_device pointer in struct chipone {}, this is moved
+      here from drm: "bridge: icn6211: Add I2C configuration support"
+V5: Use dsi lane count from struct mipi_dsi_device .
 V6: No change
 ---
- drivers/gpu/drm/bridge/chipone-icn6211.c | 16 +++++++++++++++-
- 1 file changed, 15 insertions(+), 1 deletion(-)
+ drivers/gpu/drm/bridge/chipone-icn6211.c | 89 +++++++++++++++++++++++-
+ 1 file changed, 86 insertions(+), 3 deletions(-)
 
 diff --git a/drivers/gpu/drm/bridge/chipone-icn6211.c b/drivers/gpu/drm/bridge/chipone-icn6211.c
-index c871a90c0b8f..30db8d1783ce 100644
+index 30db8d1783ce..d4a52176814c 100644
 --- a/drivers/gpu/drm/bridge/chipone-icn6211.c
 +++ b/drivers/gpu/drm/bridge/chipone-icn6211.c
-@@ -165,8 +165,16 @@ static void chipone_atomic_enable(struct drm_bridge *bridge,
+@@ -136,6 +136,7 @@ struct chipone {
+ 	struct drm_bridge bridge;
+ 	struct drm_display_mode mode;
+ 	struct drm_bridge *panel_bridge;
++	struct mipi_dsi_device *dsi;
+ 	struct gpio_desc *enable_gpio;
+ 	struct regulator *vdd1;
+ 	struct regulator *vdd2;
+@@ -161,6 +162,87 @@ static inline int chipone_dsi_write(struct chipone *icn,  const void *seq,
+ 		chipone_dsi_write(icn, d, ARRAY_SIZE(d));	\
+ 	}
+ 
++static void chipone_configure_pll(struct chipone *icn,
++				  const struct drm_display_mode *mode)
++{
++	unsigned int best_p = 0, best_m = 0, best_s = 0;
++	unsigned int delta, min_delta = 0xffffffff;
++	unsigned int freq_p, freq_s, freq_out;
++	unsigned int p_min, p_max;
++	unsigned int p, m, s;
++	unsigned int fin;
++
++	/*
++	 * DSI clock lane frequency (input into PLL) is calculated as:
++	 *  DSI_CLK = mode clock * bpp / dsi_data_lanes / 2
++	 * the 2 is there because the bus is DDR.
++	 *
++	 * DPI pixel clock frequency (output from PLL) is mode clock.
++	 *
++	 * The chip contains fractional PLL which works as follows:
++	 *  DPI_CLK = ((DSI_CLK / P) * M) / S
++	 * P is pre-divider, register PLL_REF_DIV[3:0] is 2^(n+1) divider
++	 *                   register PLL_REF_DIV[4] is extra 1:2 divider
++	 * M is integer multiplier, register PLL_INT(0) is multiplier
++	 * S is post-divider, register PLL_REF_DIV[7:5] is 2^(n+1) divider
++	 *
++	 * It seems the PLL input clock after applying P pre-divider have
++	 * to be lower than 20 MHz.
++	 */
++	fin = mode->clock * mipi_dsi_pixel_format_to_bpp(icn->dsi->format) /
++	      icn->dsi->lanes / 2; /* in kHz */
++
++	/* Minimum value of P predivider for PLL input in 5..20 MHz */
++	p_min = ffs(fin / 20000);
++	p_max = (fls(fin / 5000) - 1) & 0x1f;
++
++	for (p = p_min; p < p_max; p++) {	/* PLL_REF_DIV[4,3:0] */
++		freq_p = fin / BIT(p + 1);
++		if (freq_p == 0)		/* Divider too high */
++			break;
++
++		for (s = 0; s < 0x7; s++) {	/* PLL_REF_DIV[7:5] */
++			freq_s = freq_p / BIT(s + 1);
++			if (freq_s == 0)	/* Divider too high */
++				break;
++
++			m = mode->clock / freq_s;
++
++			/* Multiplier is 8 bit */
++			if (m > 0xff)
++				continue;
++
++			/* Limit PLL VCO frequency to 1 GHz */
++			freq_out = (fin * m) / BIT(p + 1);
++			if (freq_out > 1000000)
++				continue;
++
++			/* Apply post-divider */
++			freq_out /= BIT(s + 1);
++
++			delta = abs(mode->clock - freq_out);
++			if (delta < min_delta) {
++				best_p = p;
++				best_m = m;
++				best_s = s;
++				min_delta = delta;
++			}
++		}
++	}
++
++	dev_dbg(icn->dev,
++		"PLL: P[3:0]=2^%d P[4]=2*%d M=%d S[7:5]=2^%d delta=%d => DSI f_in=%d kHz ; DPI f_out=%ld kHz\n",
++		best_p, !!best_p, best_m, best_s + 1, min_delta, fin,
++		(fin * best_m) / BIT(best_p + best_s + 2));
++
++	/* Clock source selection fixed to MIPI DSI clock lane */
++	ICN6211_DSI(icn, PLL_CTRL(6), PLL_CTRL_6_MIPI_CLK);
++	ICN6211_DSI(icn, PLL_REF_DIV,
++		    (best_p ? PLL_REF_DIV_Pe : 0) | /* Prefer /2 pre-divider */
++		    PLL_REF_DIV_P(best_p) | PLL_REF_DIV_S(best_s));
++	ICN6211_DSI(icn, PLL_INT(0), best_m);
++}
++
+ static void chipone_atomic_enable(struct drm_bridge *bridge,
  				  struct drm_bridge_state *old_bridge_state)
  {
- 	struct chipone *icn = bridge_to_chipone(bridge);
-+	struct drm_atomic_state *state = old_bridge_state->base.state;
- 	struct drm_display_mode *mode = &icn->mode;
-+	const struct drm_bridge_state *bridge_state;
- 	u16 hfp, hbp, hsync;
-+	u32 bus_flags;
-+	u8 pol;
-+
-+	/* Get the DPI flags from the bridge state. */
-+	bridge_state = drm_atomic_get_new_bridge_state(state, bridge);
-+	bus_flags = bridge_state->output_bus_cfg.flags;
+@@ -221,9 +303,9 @@ static void chipone_atomic_enable(struct drm_bridge *bridge,
+ 	      ((bus_flags & DRM_BUS_FLAG_DE_HIGH) ? BIST_POL_DE_POL : 0);
+ 	ICN6211_DSI(icn, BIST_POL, pol);
  
- 	ICN6211_DSI(icn, MIPI_CFG_PW, MIPI_CFG_PW_CONFIG_DSI);
+-	ICN6211_DSI(icn, PLL_CTRL(6), PLL_CTRL_6_MIPI_CLK);
+-	ICN6211_DSI(icn, PLL_REF_DIV, 0x71);
+-	ICN6211_DSI(icn, PLL_INT(0), 0x2b);
++	/* Configure PLL settings */
++	chipone_configure_pll(icn, mode);
++
+ 	ICN6211_DSI(icn, SYS_CTRL(0), 0x40);
+ 	ICN6211_DSI(icn, SYS_CTRL(1), 0x98);
  
-@@ -206,7 +214,13 @@ static void chipone_atomic_enable(struct drm_bridge *bridge,
- 	ICN6211_DSI(icn, HFP_MIN, hfp & 0xff);
- 	ICN6211_DSI(icn, MIPI_PD_CK_LANE, 0xa0);
- 	ICN6211_DSI(icn, PLL_CTRL(12), 0xff);
--	ICN6211_DSI(icn, BIST_POL, BIST_POL_DE_POL);
-+
-+	/* DPI HS/VS/DE polarity */
-+	pol = ((mode->flags & DRM_MODE_FLAG_PHSYNC) ? BIST_POL_HSYNC_POL : 0) |
-+	      ((mode->flags & DRM_MODE_FLAG_PVSYNC) ? BIST_POL_VSYNC_POL : 0) |
-+	      ((bus_flags & DRM_BUS_FLAG_DE_HIGH) ? BIST_POL_DE_POL : 0);
-+	ICN6211_DSI(icn, BIST_POL, pol);
-+
- 	ICN6211_DSI(icn, PLL_CTRL(6), PLL_CTRL_6_MIPI_CLK);
- 	ICN6211_DSI(icn, PLL_REF_DIV, 0x71);
- 	ICN6211_DSI(icn, PLL_INT(0), 0x2b);
+@@ -376,6 +458,7 @@ static int chipone_probe(struct mipi_dsi_device *dsi)
+ 	icn->bridge.funcs = &chipone_bridge_funcs;
+ 	icn->bridge.type = DRM_MODE_CONNECTOR_DPI;
+ 	icn->bridge.of_node = dev->of_node;
++	icn->dsi = dsi;
+ 
+ 	drm_bridge_add(&icn->bridge);
+ 
 -- 
 2.35.1
 
