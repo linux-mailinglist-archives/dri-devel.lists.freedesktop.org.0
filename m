@@ -2,64 +2,43 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 36C414EE172
-	for <lists+dri-devel@lfdr.de>; Thu, 31 Mar 2022 21:11:38 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 58BB54EE199
+	for <lists+dri-devel@lfdr.de>; Thu, 31 Mar 2022 21:24:17 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 1BF8910EC1A;
-	Thu, 31 Mar 2022 19:11:35 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 13EDC10E0CE;
+	Thu, 31 Mar 2022 19:24:13 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-wm1-x342.google.com (mail-wm1-x342.google.com
- [IPv6:2a00:1450:4864:20::342])
- by gabe.freedesktop.org (Postfix) with ESMTPS id C637810EC1A
- for <dri-devel@lists.freedesktop.org>; Thu, 31 Mar 2022 19:11:33 +0000 (UTC)
-Received: by mail-wm1-x342.google.com with SMTP id
- bi13-20020a05600c3d8d00b0038c2c33d8f3so2226056wmb.4
- for <dri-devel@lists.freedesktop.org>; Thu, 31 Mar 2022 12:11:33 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ffwll.ch; s=google;
- h=date:from:to:cc:subject:message-id:references:mime-version
- :content-disposition:content-transfer-encoding:in-reply-to;
- bh=RYIGJmB33fF+/pgFvO9mxz22cWndqAj0H0/t408XR54=;
- b=P982/t+9cFEzEXcNEGG5uEW2hYSl+z2KjjZi3atzzMtuTQW2uw3NXipQGlr7miTzAe
- ql6h+Jz6baMykbxiAwaUgEBzeaB+49EaOfMsT5ddEGKKgY/Y5Q9nHcGLdPkervWcARdX
- AKNgJmX29VeHHYfwW41FaRbOrbVMjgHBLXqtE=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=x-gm-message-state:date:from:to:cc:subject:message-id:references
- :mime-version:content-disposition:content-transfer-encoding
- :in-reply-to;
- bh=RYIGJmB33fF+/pgFvO9mxz22cWndqAj0H0/t408XR54=;
- b=ftcJi5SpFdJflsxgDTleNr3b2bHFHvHA8DmpRsbjCFHAidVFFl5CLC9xGDuJVWhuLh
- xkkWecq4tB8ecr8oCBs++/I6jt5ca+VHmVaxpwN8cyNxE8+DjlSPX2Vkadvn2VYPBZ1U
- By9RegioJKlN+7y0mJYq/9L56FbdsZx2+rebbvcOoYUkQ1kPhMiOvLnCh/1wSPhxpaEI
- d80wypzsxgemMOPerR7czI5G4wq1UB6B4TYQm8Xp1Kbb6u2EzgJk+GGX9Gh7SrgRtehi
- 9rQJCS9dTEloBBElHGBX7Twbb394/KygLx9e/leLQWhc7OjoHpzjLR67/qXTjqGIC3vn
- O8Bg==
-X-Gm-Message-State: AOAM533afVbTAz7pS2/AX7zoBn3RczuMVlPmLsB9EFq5cujEl/h97XyH
- Z6t9rMbSkI5QNkdDSc6Qqih/AA==
-X-Google-Smtp-Source: ABdhPJwjpCdJJGJ5L1W7v/23fuJuNb9eO/ZsPvhLM6kJHb5m/7AKtlviGneMJQJC15SeDjgGxclF0Q==
-X-Received: by 2002:a7b:cc12:0:b0:37c:1ae:100a with SMTP id
- f18-20020a7bcc12000000b0037c01ae100amr5743177wmh.54.1648753892300; 
- Thu, 31 Mar 2022 12:11:32 -0700 (PDT)
-Received: from phenom.ffwll.local ([2a02:168:57f4:0:efd0:b9e5:5ae6:c2fa])
- by smtp.gmail.com with ESMTPSA id
- v14-20020a7bcb4e000000b0034492fa24c6sm97647wmj.34.2022.03.31.12.11.31
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 31 Mar 2022 12:11:31 -0700 (PDT)
-Date: Thu, 31 Mar 2022 21:11:29 +0200
-From: Daniel Vetter <daniel@ffwll.ch>
-To: Ville =?iso-8859-1?Q?Syrj=E4l=E4?= <ville.syrjala@linux.intel.com>
-Subject: Re: [PATCH v4] drm/atomic-helpers: remove legacy_cursor_update hacks
-Message-ID: <YkX84QXOXwF0BbI8@phenom.ffwll.local>
-References: <20220331130545.625721-1-maxime@cerno.tech>
- <YkWruSRsrKv+cQIB@intel.com> <YkXFVdjlPQKZumLp@phenom.ffwll.local>
- <YkXNWxjbAd5ymfcn@intel.com>
+Received: from phobos.denx.de (phobos.denx.de
+ [IPv6:2a01:238:438b:c500:173d:9f52:ddab:ee01])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id F1FB210E0CE
+ for <dri-devel@lists.freedesktop.org>; Thu, 31 Mar 2022 19:24:11 +0000 (UTC)
+Received: from tr.lan (ip-89-176-112-137.net.upcbroadband.cz [89.176.112.137])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits))
+ (No client certificate requested)
+ (Authenticated sender: marex@denx.de)
+ by phobos.denx.de (Postfix) with ESMTPSA id 4D18683A9D;
+ Thu, 31 Mar 2022 21:24:04 +0200 (CEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=denx.de;
+ s=phobos-20191101; t=1648754644;
+ bh=+dBsLQ6ceAaaR+/w7shJNChFMepPMmf7sQl9h8mBkqs=;
+ h=From:To:Cc:Subject:Date:From;
+ b=ddrboFGS2R4+4DWm5oV9HChFdNZcrK2++XWNr22G0plGKk0mcHebc9fvbaDheL9bO
+ LDM94Bfp+uI8URoarIWBmqDekmNkF/7dzxdLTFmMZJfFf3DKOse+kI2ZD7FtjJYqaM
+ b2gVyMmdYfBFhJ3t17opRH2MsZzKWEo5WrOyh0OPTp+yFLUHsBnbnUjSBQaN6D8wZn
+ oYCz9sargvpmiTBYW2F78xrVbe3L7CYKGatt25rDhGhc0ZGxoUG7oAxQMX322bWEia
+ +1NT+CU8Avf5dDH6EFN+RcM9JYSCsrJdrCWJp2NdR/dvVSFAbzQzOcvit+611+UCXL
+ NK9vIZf/pJ6Xw==
+From: Marek Vasut <marex@denx.de>
+To: dri-devel@lists.freedesktop.org
+Subject: [PATCH 1/2] drm/panel: lvds: Simplify mode parsing
+Date: Thu, 31 Mar 2022 21:23:46 +0200
+Message-Id: <20220331192347.103299-1-marex@denx.de>
+X-Mailer: git-send-email 2.35.1
 MIME-Version: 1.0
-Content-Type: text/plain; charset=iso-8859-1
-Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
-In-Reply-To: <YkXNWxjbAd5ymfcn@intel.com>
-X-Operating-System: Linux phenom 5.10.0-8-amd64 
+X-Virus-Scanned: clamav-milter 0.103.5 at phobos.denx.de
+X-Virus-Status: Clean
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -72,134 +51,114 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Dom Cobley <dom@raspberrypi.com>, Tim Gover <tim.gover@raspberrypi.com>,
- Dave Stevenson <dave.stevenson@raspberrypi.com>,
- Daniel Vetter <daniel.vetter@ffwll.ch>,
- Michel =?iso-8859-1?Q?D=E4nzer?= <michel@daenzer.net>,
- dri-devel@lists.freedesktop.org, "Kazlauskas,
- Nicholas" <nicholas.kazlauskas@amd.com>, Maxime Ripard <maxime@cerno.tech>,
- Daniel Vetter <daniel.vetter@intel.com>, mikita.lipski@amd.com,
- Phil Elwell <phil@raspberrypi.com>
+Cc: Marek Vasut <marex@denx.de>,
+ Christoph Niedermaier <cniedermaier@dh-electronics.com>,
+ Daniel Vetter <daniel.vetter@ffwll.ch>, robert.foss@linaro.org,
+ Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
+ Thomas Zimmermann <tzimmermann@suse.de>, Dmitry Osipenko <digetx@gmail.com>,
+ Sam Ravnborg <sam@ravnborg.org>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Thu, Mar 31, 2022 at 06:48:43PM +0300, Ville Syrjälä wrote:
-> On Thu, Mar 31, 2022 at 05:14:29PM +0200, Daniel Vetter wrote:
-> > On Thu, Mar 31, 2022 at 04:25:13PM +0300, Ville Syrjälä wrote:
-> > > On Thu, Mar 31, 2022 at 03:05:45PM +0200, Maxime Ripard wrote:
-> > > > From: Daniel Vetter <daniel.vetter@ffwll.ch>
-> > > > 
-> > > > The stuff never really worked, and leads to lots of fun because it
-> > > > out-of-order frees atomic states. Which upsets KASAN, among other
-> > > > things.
-> > > > 
-> > > > For async updates we now have a more solid solution with the
-> > > > ->atomic_async_check and ->atomic_async_commit hooks. Support for that
-> > > > for msm and vc4 landed. nouveau and i915 have their own commit
-> > > > routines, doing something similar.
-> > > > 
-> > > > For everyone else it's probably better to remove the use-after-free
-> > > > bug, and encourage folks to use the async support instead. The
-> > > > affected drivers which register a legacy cursor plane and don't either
-> > > > use the new async stuff or their own commit routine are: amdgpu,
-> > > > atmel, mediatek, qxl, rockchip, sti, sun4i, tegra, virtio, and vmwgfx.
-> > > > 
-> > > > Inspired by an amdgpu bug report.
-> > > > 
-> > > > v2: Drop RFC, I think with amdgpu converted over to use
-> > > > atomic_async_check/commit done in
-> > > > 
-> > > > commit 674e78acae0dfb4beb56132e41cbae5b60f7d662
-> > > > Author: Nicholas Kazlauskas <nicholas.kazlauskas@amd.com>
-> > > > Date:   Wed Dec 5 14:59:07 2018 -0500
-> > > > 
-> > > >     drm/amd/display: Add fast path for cursor plane updates
-> > > > 
-> > > > we don't have any driver anymore where we have userspace expecting
-> > > > solid legacy cursor support _and_ they are using the atomic helpers in
-> > > > their fully glory. So we can retire this.
-> > > > 
-> > > > v3: Paper over msm and i915 regression. The complete_all is the only
-> > > > thing missing afaict.
-> > > > 
-> > > > v4: Rebased on recent kernel, added extra link for vc4 bug.
-> > > > 
-> > > > Link: https://bugzilla.kernel.org/show_bug.cgi?id=199425
-> > > > Link: https://lore.kernel.org/all/20220221134155.125447-9-maxime@cerno.tech/
-> > > > Cc: mikita.lipski@amd.com
-> > > > Cc: Michel Dänzer <michel@daenzer.net>
-> > > > Cc: harry.wentland@amd.com
-> > > > Cc: Rob Clark <robdclark@gmail.com>
-> > > > Cc: "Kazlauskas, Nicholas" <nicholas.kazlauskas@amd.com>
-> > > > Tested-by: Maxime Ripard <maxime@cerno.tech>
-> > > > Signed-off-by: Daniel Vetter <daniel.vetter@intel.com>
-> > > > Signed-off-by: Maxime Ripard <maxime@cerno.tech>
-> > > > ---
-> > > >  drivers/gpu/drm/drm_atomic_helper.c          | 13 -------------
-> > > >  drivers/gpu/drm/i915/display/intel_display.c | 13 +++++++++++++
-> > > >  drivers/gpu/drm/msm/msm_atomic.c             |  2 ++
-> > > >  3 files changed, 15 insertions(+), 13 deletions(-)
-> > > > 
-> > > > diff --git a/drivers/gpu/drm/drm_atomic_helper.c b/drivers/gpu/drm/drm_atomic_helper.c
-> > > > index 9603193d2fa1..a2899af82b4a 100644
-> > > > --- a/drivers/gpu/drm/drm_atomic_helper.c
-> > > > +++ b/drivers/gpu/drm/drm_atomic_helper.c
-> > > > @@ -1498,13 +1498,6 @@ drm_atomic_helper_wait_for_vblanks(struct drm_device *dev,
-> > > >  	int i, ret;
-> > > >  	unsigned int crtc_mask = 0;
-> > > >  
-> > > > -	 /*
-> > > > -	  * Legacy cursor ioctls are completely unsynced, and userspace
-> > > > -	  * relies on that (by doing tons of cursor updates).
-> > > > -	  */
-> > > > -	if (old_state->legacy_cursor_update)
-> > > > -		return;
-> > > > -
-> > > >  	for_each_oldnew_crtc_in_state(old_state, crtc, old_crtc_state, new_crtc_state, i) {
-> > > >  		if (!new_crtc_state->active)
-> > > >  			continue;
-> > > > @@ -2135,12 +2128,6 @@ int drm_atomic_helper_setup_commit(struct drm_atomic_state *state,
-> > > >  			continue;
-> > > >  		}
-> > > >  
-> > > > -		/* Legacy cursor updates are fully unsynced. */
-> > > > -		if (state->legacy_cursor_update) {
-> > > > -			complete_all(&commit->flip_done);
-> > > > -			continue;
-> > > > -		}
-> > > > -
-> > > >  		if (!new_crtc_state->event) {
-> > > >  			commit->event = kzalloc(sizeof(*commit->event),
-> > > >  						GFP_KERNEL);
-> > > > diff --git a/drivers/gpu/drm/i915/display/intel_display.c b/drivers/gpu/drm/i915/display/intel_display.c
-> > > > index bf7ce684dd8e..bde32f5a33cb 100644
-> > > > --- a/drivers/gpu/drm/i915/display/intel_display.c
-> > > > +++ b/drivers/gpu/drm/i915/display/intel_display.c
-> > > > @@ -8855,6 +8855,19 @@ static int intel_atomic_commit(struct drm_device *dev,
-> > > >  				state->base.legacy_cursor_update = false;
-> > > >  	}
-> > > >  
-> > > > +	/*
-> > > > +	 * FIXME: Cut over to (async) commit helpers instead of hand-rolling
-> > > > +	 * everything.
-> > > > +	 */
-> > > 
-> > > Intel cursors can't even do async updates so this is rather
-> > > nonsensical. What we need is some kind of reasonable mailbox
-> > > support.
-> > 
-> > This is not the async plane update you're thinking of. i915 really should
-> > switch over more to atomic helpers.
-> 
-> The comment should be clarified then. As is I have no real idea
-> what it's trying to say.
+The mode parsing is currently implemented in three steps:
+of_get_display_timing() - DT panel-timing to struct display_timing
+videomode_from_timing() - struct display_timing to struct videomode
+drm_display_mode_from_videomode() - struct videomode to struct drm_display_mode
 
-Use drm_atomic_commit and only overwrite atomic_commit_tail. But I'm not
-really clear why the comment isn't clear - i915 is the only driver not
-using them, maybe should start to take a look when they're so unfamiliar
-:-P
--Daniel
+Replace all that with simple of_get_drm_panel_display_mode() call,
+which already populates struct drm_display_mode and then duplicate
+that mode in panel_lvds_get_modes() each time, since the mode does
+not change.
+
+Nice bonus is the bus_flags parsed by of_get_drm_panel_display_mode()
+out of panel-timing DT node, which is used in subsequent patch to fix
+handling of 'de-active' DT property.
+
+Signed-off-by: Marek Vasut <marex@denx.de>
+Cc: Christoph Niedermaier <cniedermaier@dh-electronics.com>
+Cc: Daniel Vetter <daniel.vetter@ffwll.ch>
+Cc: Dmitry Osipenko <digetx@gmail.com>
+Cc: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+Cc: Robert Foss <robert.foss@linaro.org>
+Cc: Sam Ravnborg <sam@ravnborg.org>
+Cc: Thomas Zimmermann <tzimmermann@suse.de>
+To: dri-devel@lists.freedesktop.org
+---
+ drivers/gpu/drm/panel/panel-lvds.c | 28 ++++++----------------------
+ 1 file changed, 6 insertions(+), 22 deletions(-)
+
+diff --git a/drivers/gpu/drm/panel/panel-lvds.c b/drivers/gpu/drm/panel/panel-lvds.c
+index 27a1c9923b09..65c6a6e9e223 100644
+--- a/drivers/gpu/drm/panel/panel-lvds.c
++++ b/drivers/gpu/drm/panel/panel-lvds.c
+@@ -30,7 +30,8 @@ struct panel_lvds {
+ 	const char *label;
+ 	unsigned int width;
+ 	unsigned int height;
+-	struct videomode video_mode;
++	struct drm_display_mode dmode;
++	u32 bus_flags;
+ 	unsigned int bus_format;
+ 	bool data_mirror;
+ 
+@@ -87,16 +88,15 @@ static int panel_lvds_get_modes(struct drm_panel *panel,
+ 	struct panel_lvds *lvds = to_panel_lvds(panel);
+ 	struct drm_display_mode *mode;
+ 
+-	mode = drm_mode_create(connector->dev);
++	mode = drm_mode_duplicate(connector->dev, &lvds->dmode);
+ 	if (!mode)
+ 		return 0;
+ 
+-	drm_display_mode_from_videomode(&lvds->video_mode, mode);
+ 	mode->type |= DRM_MODE_TYPE_DRIVER | DRM_MODE_TYPE_PREFERRED;
+ 	drm_mode_probed_add(connector, mode);
+ 
+-	connector->display_info.width_mm = lvds->width;
+-	connector->display_info.height_mm = lvds->height;
++	connector->display_info.width_mm = lvds->dmode.width_mm;
++	connector->display_info.height_mm = lvds->dmode.height_mm;
+ 	drm_display_info_set_bus_formats(&connector->display_info,
+ 					 &lvds->bus_format, 1);
+ 	connector->display_info.bus_flags = lvds->data_mirror
+@@ -116,7 +116,6 @@ static const struct drm_panel_funcs panel_lvds_funcs = {
+ static int panel_lvds_parse_dt(struct panel_lvds *lvds)
+ {
+ 	struct device_node *np = lvds->dev->of_node;
+-	struct display_timing timing;
+ 	int ret;
+ 
+ 	ret = of_drm_get_panel_orientation(np, &lvds->orientation);
+@@ -125,28 +124,13 @@ static int panel_lvds_parse_dt(struct panel_lvds *lvds)
+ 		return ret;
+ 	}
+ 
+-	ret = of_get_display_timing(np, "panel-timing", &timing);
++	ret = of_get_drm_panel_display_mode(np, &lvds->dmode, &lvds->bus_flags);
+ 	if (ret < 0) {
+ 		dev_err(lvds->dev, "%pOF: problems parsing panel-timing (%d)\n",
+ 			np, ret);
+ 		return ret;
+ 	}
+ 
+-	videomode_from_timing(&timing, &lvds->video_mode);
+-
+-	ret = of_property_read_u32(np, "width-mm", &lvds->width);
+-	if (ret < 0) {
+-		dev_err(lvds->dev, "%pOF: invalid or missing %s DT property\n",
+-			np, "width-mm");
+-		return -ENODEV;
+-	}
+-	ret = of_property_read_u32(np, "height-mm", &lvds->height);
+-	if (ret < 0) {
+-		dev_err(lvds->dev, "%pOF: invalid or missing %s DT property\n",
+-			np, "height-mm");
+-		return -ENODEV;
+-	}
+-
+ 	of_property_read_string(np, "label", &lvds->label);
+ 
+ 	ret = drm_of_lvds_get_data_mapping(np);
 -- 
-Daniel Vetter
-Software Engineer, Intel Corporation
-http://blog.ffwll.ch
+2.35.1
+
