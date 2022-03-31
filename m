@@ -1,58 +1,57 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id AF3F84EDC0B
-	for <lists+dri-devel@lfdr.de>; Thu, 31 Mar 2022 16:48:23 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 2ACAF4EDC15
+	for <lists+dri-devel@lfdr.de>; Thu, 31 Mar 2022 16:50:30 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 7A7BE10F1C4;
-	Thu, 31 Mar 2022 14:48:21 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 28F0F10E031;
+	Thu, 31 Mar 2022 14:50:28 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-pj1-x102b.google.com (mail-pj1-x102b.google.com
- [IPv6:2607:f8b0:4864:20::102b])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 4802A10F1C7
- for <dri-devel@lists.freedesktop.org>; Thu, 31 Mar 2022 14:48:20 +0000 (UTC)
-Received: by mail-pj1-x102b.google.com with SMTP id
- bx24-20020a17090af49800b001c6872a9e4eso3834437pjb.5
- for <dri-devel@lists.freedesktop.org>; Thu, 31 Mar 2022 07:48:20 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+Received: from mail-ed1-x535.google.com (mail-ed1-x535.google.com
+ [IPv6:2a00:1450:4864:20::535])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 35B1A10E031
+ for <dri-devel@lists.freedesktop.org>; Thu, 31 Mar 2022 14:50:26 +0000 (UTC)
+Received: by mail-ed1-x535.google.com with SMTP id u26so28430746eda.12
+ for <dri-devel@lists.freedesktop.org>; Thu, 31 Mar 2022 07:50:26 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=amarulasolutions.com; s=google;
  h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=c4xxm0qNOPOdgTRGpawZSVDAaUINKa/Fa4+C6wrVXik=;
- b=tTkVnQEqds7XMVQaX+/qmVvq8H8la+2aA08jH9UstbBYARwv2qW2ln3p7kQeJ2F5Wb
- aBClkiMreh3OrBYnkGvrE5bOyHPx7JLntHg2ve2wYxC8vc+sAwRhHtFZTwHKlQPL0wiZ
- 4yi/guWNhIVo6V6YLVQHU8CPAOfmwrv2lVDf826TCg+doiwA4GFbVE7AMOKM93ZMAX35
- scktUAz7/p0ol5eT4QuIJTMxB3MfWTCh+guyfcc+cWlkjRkinT2G86NGOfd8cA0DbNUW
- GE8yv831bjRGe4hJI2gkOInKklvRM0GB9gUB+BNQBxw+JTdUMhwUJmgERtcLOsFNnqRQ
- IJsg==
+ :cc; bh=7pmuAuLQzdn+XVtK6xVU7zKlZLZJZMIBp6b0gMjok/o=;
+ b=VSPdvVtKMMWAb1J9nTBAhlgeqoufx9bMtmsO0K+d8klXJDnQhIQwqFHW5UJPtXfCdz
+ edkBmF2Wf0wMfXd1l80dHDrIgIAu6TkIXnH3C/VD4Oi8/FJywIHxYVc4185dNAdrsQlq
+ 2lpvsCvlPzaxZN4wJaqvEtwQFdSOfVmQcTieQ=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:mime-version:references:in-reply-to:from:date
  :message-id:subject:to:cc;
- bh=c4xxm0qNOPOdgTRGpawZSVDAaUINKa/Fa4+C6wrVXik=;
- b=6paZ9Om8/fXp2mGPIXFtyDwgxkryllatExers9Ps35jUiul/ygjC1HPc3xw3z/NzFD
- QWfglJo4AH889yDTVwgp7KrMbBNZJiAZ6N/1Y0UUMdruKz8HryR+5mMRhqgGBxsTjqq2
- ikLTlrjopPsNWMwGjs5NG9oJFJco2CaLQuYEkpk+Ul64+x2+oQQDzlU4ziwvbBrCyhr9
- YryzsPGAy8Uqv45UFaqdwlMxhKE4Td0gYPOChNztQzh016VPt3CJbZAVKzG6IMs1aD6q
- cDcPymImtRhxcyST7TbQC+yWE6qwIFT6VIH1Cvh7uh/zgaRWSvaZNiUOTJUJxSzgA6M+
- j5NQ==
-X-Gm-Message-State: AOAM532UI2FThq4zk4Nhn3iTs0DUotSD8hkgfB6CbwKO3kRG7hY0fkIc
- dzNWb42oifw0UQxdGh/8nsMXQx4WbDzHCF325CTyx7zNEBc=
-X-Google-Smtp-Source: ABdhPJyfuiUx5Dlhh6U4cazKR1L1VViE9E/bN+WNOcl513NmaPS66XLaS3tcUyp0OYe3e9+jooKdXdOXy3lUkdy3W8Y=
-X-Received: by 2002:a17:90b:124c:b0:1bc:369b:7db5 with SMTP id
- gx12-20020a17090b124c00b001bc369b7db5mr6493543pjb.179.1648738099799; Thu, 31
- Mar 2022 07:48:19 -0700 (PDT)
+ bh=7pmuAuLQzdn+XVtK6xVU7zKlZLZJZMIBp6b0gMjok/o=;
+ b=zVgCJ86K1OnnOjY0E2bVYN/Iq8ucgedZjqhOjzTJdmBM9gg/fkD51HtbJuNlZ/hPY1
+ OX2qE1yX0ptGZO6XOkDSbP0iezb3RRs1PxulEv3Ehs736T3BWHoI0iItoDMI9VWr+Qwg
+ Y1oGBzW1l0eg60APG/D7mdPq2WUU4KYR41nu4jGECo8mC2QQjM14C0hl0BazWc4G14g5
+ tkUby4q1Abz9a/m63RXKdrNS6LWVoyZQ0U/qwqpa3wiCByLE+S0BLwq3CpcqIOlc3K9p
+ LXfkix8UvaySRBduRDmCO/YCOOzquFnn3HcavzugMvh9FxDt2GLdLWmjJ1LBpGpcAB9V
+ JsqQ==
+X-Gm-Message-State: AOAM532xNZ6xGf+DqSAIw/14wQH+WaDyEnLyaa4k8PL0G2XuDekuyOUA
+ teZFiKakZ0qRLVyedvAk7hD2tlbzznTA+iU4Iz7oTQ==
+X-Google-Smtp-Source: ABdhPJx75pCf5RMlAD/tCrw4kF/ucZic5jgpAiBvPSDoRw1qYMCOVUEWjcVSQISBJw9ar47w/VKLFT8qTloNWXCFIc0=
+X-Received: by 2002:a05:6402:4407:b0:419:3859:697e with SMTP id
+ y7-20020a056402440700b004193859697emr16940493eda.400.1648738224663; Thu, 31
+ Mar 2022 07:50:24 -0700 (PDT)
 MIME-Version: 1.0
-References: <20220318184755.113152-1-marex@denx.de>
- <CAG3jFyt1S3Rwx1t9BRvzy9zoPAwRr98_O-ovjHWHH+nN6b97qw@mail.gmail.com>
- <0e684035-50ad-fedd-bd4b-682b7716b5fe@denx.de>
-In-Reply-To: <0e684035-50ad-fedd-bd4b-682b7716b5fe@denx.de>
-From: Robert Foss <robert.foss@linaro.org>
-Date: Thu, 31 Mar 2022 16:48:08 +0200
-Message-ID: <CAG3jFyvbqhyo=VtY+bHLM_5uNBOXHGhxL32nG9zjFaMy9TSfCw@mail.gmail.com>
-Subject: Re: [PATCH v5 00/11] drm: bridge: icn6211: Fix hard-coded panel
- settings and add I2C support
-To: Marek Vasut <marex@denx.de>
+References: <20211111094103.494831-1-jagan@amarulasolutions.com>
+ <CAMty3ZD1B1P5t3CxUMUDQdfJu8Q=oQWqJ+AE1Ka0AQ7+f2yNMA@mail.gmail.com>
+ <YcA7u3S6y63rHeua@ravnborg.org>
+ <CAMty3ZCWH=mBi0Uak74ztdB=j81urRZaa=Xse+hVYCbHoJidNA@mail.gmail.com>
+ <CAMty3ZC1O9Se+cMbYkVhAKDdv6VG_JEizP_Wht3sBg9QuV=NWA@mail.gmail.com>
+In-Reply-To: <CAMty3ZC1O9Se+cMbYkVhAKDdv6VG_JEizP_Wht3sBg9QuV=NWA@mail.gmail.com>
+From: Jagan Teki <jagan@amarulasolutions.com>
+Date: Thu, 31 Mar 2022 20:20:13 +0530
+Message-ID: <CAMty3ZDZunQ6J4cwHSDT3uEKEdR3QDEbve6ec=EGG2iYirWGtg@mail.gmail.com>
+Subject: Re: [PATCH] drm/panel: panel-simple: Fix proper bpc for
+ AM-1280800N3TZQW-T00H
+To: Sam Ravnborg <sam@ravnborg.org>, Robert Foss <robert.foss@linaro.org>
 Content-Type: text/plain; charset="UTF-8"
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -66,133 +65,55 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Thomas Zimmermann <tzimmermann@suse.de>, Sam Ravnborg <sam@ravnborg.org>,
- Jagan Teki <jagan@amarulasolutions.com>, dri-devel@lists.freedesktop.org,
- Maxime Ripard <maxime@cerno.tech>
+Cc: Thierry Reding <thierry.reding@gmail.com>,
+ linux-amarula@amarulasolutions.com, dri-devel@lists.freedesktop.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Thu, 31 Mar 2022 at 15:42, Marek Vasut <marex@denx.de> wrote:
++ Robert
+
+On Tue, Feb 22, 2022 at 12:17 PM Jagan Teki <jagan@amarulasolutions.com> wrote:
 >
-> On 3/31/22 14:02, Robert Foss wrote:
-> > Hey Marek,
->
-> Hi,
->
-> > On Fri, 18 Mar 2022 at 19:48, Marek Vasut <marex@denx.de> wrote:
-> >>
-> >> This series fixes multiple problems with the ICN6211 driver and adds
-> >> support for configuration of the chip via I2C bus.
-> >>
-> >> First, in the current state, the ICN6211 driver hard-codes DPI timing
-> >> and clock settings specific to some unknown panel. The settings provided
-> >> by panel driver are ignored. Using any other panel than the one for which
-> >> this driver is currently hard-coded can lead to permanent damage of the
-> >> panel (per display supplier warning, and it sure did in my case. The
-> >> damage looks like multiple rows of dead pixels at the bottom of the
-> >> panel, and this is not going away even after long power off time).
-> >>
-> >> Much of this series thus fixes incorrect register layout, DPI timing
-> >> programming, clock generation by adding actual PLL configuration code.
-> >> This series no longer adds lane count decoding and retains current
-> >> hard-coded lane count 4 due to disagreement over lane count parsing
-> >> from DT. The lane count support will come later. The series also fills
-> >> in a couple of registers with likely correct default values.
-> >>
-> >> Second, this series adds support for I2C configuration of the ICN6211.
-> >> The device can be configured either via DSI command mode or via I2C,
-> >> the register layout is the same in both cases.
-> >>
-> >> Since the datasheet for this device is very hard to come by, a lot of
-> >> information has been salvaged from [1] and [2].
-> >>
-> >> [1] https://github.com/rockchip-linux/kernel/blob/develop-4.19/drivers/gpu/drm/bridge/icn6211.c
-> >> [2] https://github.com/tdjastrzebski/ICN6211-Configurator
-> >>
-> >> Cc: Jagan Teki <jagan@amarulasolutions.com>
-> >> Cc: Maxime Ripard <maxime@cerno.tech>
-> >> Cc: Robert Foss <robert.foss@linaro.org>
-> >> Cc: Sam Ravnborg <sam@ravnborg.org>
-> >> Cc: Thomas Zimmermann <tzimmermann@suse.de>
-> >> To: dri-devel@lists.freedesktop.org
-> >>
-> >> Marek Vasut (11):
-> >>    drm: bridge: icn6211: Fix register layout
-> >>    drm: bridge: icn6211: Fix HFP_HSW_HBP_HI and HFP_MIN handling
-> >>    drm: bridge: icn6211: Add HS/VS/DE polarity handling
-> >>    drm: bridge: icn6211: Add generic DSI-to-DPI PLL configuration
-> >>    drm: bridge: icn6211: Use DSI burst mode without EoT and with LP
-> >>      command mode
-> >>    drm: bridge: icn6211: Disable DPI color swap
-> >>    drm: bridge: icn6211: Set SYS_CTRL_1 to value used in examples
-> >>    drm: bridge: icn6211: Implement atomic_get_input_bus_fmts
-> >>    drm: bridge: icn6211: Add I2C configuration support
-> >>    drm: bridge: icn6211: Rework ICN6211_DSI to chipone_writeb()
-> >>    drm: bridge: icn6211: Read and validate chip IDs before configuration
-> >>
-> >>   drivers/gpu/drm/bridge/chipone-icn6211.c | 486 ++++++++++++++++++++---
-> >>   1 file changed, 434 insertions(+), 52 deletions(-)
-> >>
-> >> --
-> >> 2.35.1
-> >>
+> On Mon, Feb 7, 2022 at 6:34 PM Jagan Teki <jagan@amarulasolutions.com> wrote:
 > >
-> > This series looks ready to be merged
+> > Hi Sam,
+> >
+> > On Mon, Dec 20, 2021 at 1:45 PM Sam Ravnborg <sam@ravnborg.org> wrote:
+> > >
+> > > Hi Jagan,
+> > >
+> > > On Sun, Dec 19, 2021 at 10:10:10PM +0530, Jagan Teki wrote:
+> > > > Hi Sam,
+> > > >
+> > > > On Thu, Nov 11, 2021 at 3:11 PM Jagan Teki <jagan@amarulasolutions.com> wrote:
+> > > > >
+> > > > > AM-1280800N3TZQW-T00H panel support 8 bpc not 6 bpc as per
+> > > > > recent testing in i.MX8MM platform.
+> > > > >
+> > > > > Fix it.
+> > > > >
+> > > > > Fixes: bca684e69c4c ("drm/panel: simple: Add AM-1280800N3TZQW-T00H")
+> > > > > Signed-off-by: Jagan Teki <jagan@amarulasolutions.com>
+> > > > > ---
+> > > > >  drivers/gpu/drm/panel/panel-simple.c | 2 +-
+> > > > >  1 file changed, 1 insertion(+), 1 deletion(-)
+> > > > >
+> > > > > diff --git a/drivers/gpu/drm/panel/panel-simple.c b/drivers/gpu/drm/panel/panel-simple.c
+> > > > > index eb475a3a774b..cf3f21f649cb 100644
+> > > > > --- a/drivers/gpu/drm/panel/panel-simple.c
+> > > > > +++ b/drivers/gpu/drm/panel/panel-simple.c
+> > > > > @@ -719,7 +719,7 @@ static const struct drm_display_mode ampire_am_1280800n3tzqw_t00h_mode = {
+> > > > >  static const struct panel_desc ampire_am_1280800n3tzqw_t00h = {
+> > > > >         .modes = &ampire_am_1280800n3tzqw_t00h_mode,
+> > > > >         .num_modes = 1,
+> > > > > -       .bpc = 6,
+> > > > > +       .bpc = 8,
+> > > >
+> > > > Any response on this?
+> > >
+> > > I am too busy with other stuff at the moment to spend time on Linux
+> > > stuff, but expect to re-surface sometime after xmas.
+> >
+> > Any further comments?
 >
-> I was waiting for 5.18-rc1 to be out and MW closed before picking it
-> into drm-misc-next . Maybe I can pick it up now already ?
->
-> > , could you fix the remaining
-> > 'checkpatch --strict' warnings that are applicable?
->
-> There are only these left, which I think is OK:
-> WARNING: Possible unwrapped commit description (prefer a maximum 75
-> chars per line)
->
-> And then this one strict CHECK, but if I change that the formatting
-> looks even uglier:
-> 0010-drm-bridge-icn6211-Rework-ICN6211_DSI-to-chipone_wri.patch
->
-> CHECK: Alignment should match open parenthesis
-> #68: FILE: drivers/gpu/drm/bridge/chipone-icn6211.c:238:
-> +       chipone_writeb(icn, PLL_REF_DIV,
->                      (best_p ? PLL_REF_DIV_Pe : 0) | /* Prefer /2
-> pre-divider */
->
-> CHECK: Alignment should match open parenthesis
-> #97: FILE: drivers/gpu/drm/bridge/chipone-icn6211.c:272:
-> +       chipone_writeb(icn, VACTIVE_HACTIVE_HI,
->                      ((mode->hdisplay >> 8) & 0xf) |
->
-> CHECK: Alignment should match open parenthesis
-> #113: FILE: drivers/gpu/drm/bridge/chipone-icn6211.c:284:
-> +       chipone_writeb(icn, HFP_HSW_HBP_HI,
->                      HFP_HSW_HBP_HI_HFP(hfp) |
->
-
-I'd like to at least strive for uniformity, so checkpatch is king, and
-whatever formatting it preferes is what should be used.
-
-> > Ideally the line
-> > removal suggested by Maxime would be included too.
->
-> This line removal comment has nothing to do with changes in this series,
-> it is about the following patch, which is no longer part of this series
-> because there is ongoing disagreement about that part and OF graph, so
-> that patch will be resubmitted separately later:
-
-Ack, thanks for explaining.
-
->
-> [PATCH v4 05/13] drm: bridge: icn6211: Add DSI lane count DT property
-> parsing
->
-> The continuation of that discussion is already in:
->
-> [PATCH] dt-bindings: display: bridge: Drop requirement on input port for
-> DSI devices
->
-> So this series itself has no outstanding changes pending, unless you
-> really want the uglier formatting above.
-
-Yes, please resend with this fixed, and I'll merge it.
+> Gentle Ping.
