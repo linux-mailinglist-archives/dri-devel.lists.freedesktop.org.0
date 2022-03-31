@@ -2,39 +2,39 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8CC924EDCA2
-	for <lists+dri-devel@lfdr.de>; Thu, 31 Mar 2022 17:20:40 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id A56FA4EDCA4
+	for <lists+dri-devel@lfdr.de>; Thu, 31 Mar 2022 17:20:42 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id EFC1910F210;
-	Thu, 31 Mar 2022 15:20:31 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 6304B10EF2D;
+	Thu, 31 Mar 2022 15:20:33 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from phobos.denx.de (phobos.denx.de
  [IPv6:2a01:238:438b:c500:173d:9f52:ddab:ee01])
- by gabe.freedesktop.org (Postfix) with ESMTPS id C458110E37F
- for <dri-devel@lists.freedesktop.org>; Thu, 31 Mar 2022 15:20:29 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 5442310E37F
+ for <dri-devel@lists.freedesktop.org>; Thu, 31 Mar 2022 15:20:30 +0000 (UTC)
 Received: from tr.lan (ip-89-176-112-137.net.upcbroadband.cz [89.176.112.137])
  (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits))
  (No client certificate requested)
  (Authenticated sender: marex@denx.de)
- by phobos.denx.de (Postfix) with ESMTPSA id 9A46B84217;
- Thu, 31 Mar 2022 17:20:27 +0200 (CEST)
+ by phobos.denx.de (Postfix) with ESMTPSA id 3287B84209;
+ Thu, 31 Mar 2022 17:20:28 +0200 (CEST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=denx.de;
  s=phobos-20191101; t=1648740028;
- bh=ZIkR9SkRv0ul7ayt+CWTjtEITiUhjfkJtOrGuaZXy3Y=;
+ bh=XymdZgX3emEDbPcK4wVbbrzz9EvWDkqbUXRJyyvTkGQ=;
  h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
- b=C49n/T//rc3C5s1yD0GW5EPxehLUFpYzL+yG61lXlTe2eOTSN8mn0FtaiSbnMQZmw
- ujfcC6twhVWzGM78SQG0gCGaQNOZulyfICxxGqGpa2haJcaEAK039wJDWWTYaHCVYq
- ETTPgQn3y+RDDJjHB4Y9vLn/jDPtiJWbyUaEJSzHrfZA25IGCVJyGunn7l+R7GIUJ5
- 0X6wbx3RohvkpTeY83gBskAAW7dfp9QtofqdaGq2xxl841ZBV1AAVvnx+6Wr48GxLW
- RQ/EOclFYJibKXvhTYt31V0AhlsCzo5kyspUmSWIruuoQtUybVdYq4pzNt9CzMEQHh
- R+Uu9TKTxY7hw==
+ b=IHglLxJm9FpK/NIYG8hJsSjtglDEzc32ZGB4szoSs5cDyLOGHi9SQcqJavjvsjbql
+ teR9GPRqL94gbA3NuMS8xP0Kgr/ayeb43Exf+WZoyOVo1GHKEAf1s4m6pElR0EQDFK
+ l93LA+PsTYTGdna/5+zYm/iBDbiDOhEKL8mL1mQXILuuqL/5lR8wy+grZucA8WkHN9
+ oQH4vCXS8pMKizDL+We+HB6rFJyRPax3OEoonwpGUpWlm60QMFGExRb1DqtmqyUaJJ
+ KveL8VQKkFobnHhJA+5saeH3NhoYwnZLyuk3xH53gtThp2IgpzLLi/FKPf0sMpjh0j
+ MObeEbIQKzx+Q==
 From: Marek Vasut <marex@denx.de>
 To: dri-devel@lists.freedesktop.org
-Subject: [PATCH v6 01/11] dt-bindings: display: bridge: tc358867: Document DPI
- output support
-Date: Thu, 31 Mar 2022 17:19:42 +0200
-Message-Id: <20220331151952.13221-2-marex@denx.de>
+Subject: [PATCH v6 02/11] dt-bindings: display: bridge: tc358867: Document DSI
+ data-lanes property
+Date: Thu, 31 Mar 2022 17:19:43 +0200
+Message-Id: <20220331151952.13221-3-marex@denx.de>
 X-Mailer: git-send-email 2.35.1
 In-Reply-To: <20220331151952.13221-1-marex@denx.de>
 References: <20220331151952.13221-1-marex@denx.de>
@@ -63,12 +63,12 @@ Cc: Marek Vasut <marex@denx.de>, Maxime Ripard <maxime@cerno.tech>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-The TC358767/TC358867/TC9595 are all capable of operating in multiple
-modes, DPI-to-(e)DP, DSI-to-(e)DP, DSI-to-DPI. Document support for the
-DPI output port, which can now be connected both as input and output.
+It is necessary to specify the number of connected/used DSI data lanes when
+using the DSI input port of this bridge. Document the 'data-lanes' property
+of the DSI input port.
 
-Acked-by: Rob Herring <robh@kernel.org>
-Reviewed-by: Lucas Stach <l.stach@pengutronix.de>
+Reviewed-by: Rob Herring <robh@kernel.org>
+Acked-by: Lucas Stach <l.stach@pengutronix.de>
 Tested-by: Lucas Stach <l.stach@pengutronix.de> # In both DPI to eDP and DSI to DPI mode.
 Signed-off-by: Marek Vasut <marex@denx.de>
 Cc: Jonas Karlman <jonas@kwiboo.se>
@@ -80,30 +80,47 @@ Cc: Sam Ravnborg <sam@ravnborg.org>
 Cc: devicetree@vger.kernel.org
 To: dri-devel@lists.freedesktop.org
 ---
-V2: - Rebase on next-20220217
-V3: - No change
-V4: - Add AB by Rob, RB/TB by Lucas
+V3: - New patch
+V4: - Add RB by Rob, AB/TB by Lucas
 V5: - No change
 V6: - No change
 ---
- .../devicetree/bindings/display/bridge/toshiba,tc358767.yaml  | 4 ++--
- 1 file changed, 2 insertions(+), 2 deletions(-)
+ .../display/bridge/toshiba,tc358767.yaml       | 18 +++++++++++++++++-
+ 1 file changed, 17 insertions(+), 1 deletion(-)
 
 diff --git a/Documentation/devicetree/bindings/display/bridge/toshiba,tc358767.yaml b/Documentation/devicetree/bindings/display/bridge/toshiba,tc358767.yaml
-index f1541cc05297..5cfda6f2ba69 100644
+index 5cfda6f2ba69..ed280053ec62 100644
 --- a/Documentation/devicetree/bindings/display/bridge/toshiba,tc358767.yaml
 +++ b/Documentation/devicetree/bindings/display/bridge/toshiba,tc358767.yaml
-@@ -61,8 +61,8 @@ properties:
+@@ -53,11 +53,27 @@ properties:
+ 
+     properties:
+       port@0:
+-        $ref: /schemas/graph.yaml#/properties/port
++        $ref: /schemas/graph.yaml#/$defs/port-base
++        unevaluatedProperties: false
+         description: |
+             DSI input port. The remote endpoint phandle should be a
+             reference to a valid DSI output endpoint node
+ 
++        properties:
++          endpoint:
++            $ref: /schemas/media/video-interfaces.yaml#
++            unevaluatedProperties: false
++
++            properties:
++              data-lanes:
++                description: array of physical DSI data lane indexes.
++                minItems: 1
++                items:
++                  - const: 1
++                  - const: 2
++                  - const: 3
++                  - const: 4
++
        port@1:
          $ref: /schemas/graph.yaml#/properties/port
          description: |
--            DPI input port. The remote endpoint phandle should be a
--            reference to a valid DPI output endpoint node
-+            DPI input/output port. The remote endpoint phandle should be a
-+            reference to a valid DPI output or input endpoint node.
- 
-       port@2:
-         $ref: /schemas/graph.yaml#/properties/port
 -- 
 2.35.1
 
