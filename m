@@ -1,85 +1,53 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 921354ED446
-	for <lists+dri-devel@lfdr.de>; Thu, 31 Mar 2022 08:57:33 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 368904ED45C
+	for <lists+dri-devel@lfdr.de>; Thu, 31 Mar 2022 09:06:22 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 3995510FBBB;
-	Thu, 31 Mar 2022 06:57:29 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id BD72E10F560;
+	Thu, 31 Mar 2022 07:06:19 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from us-smtp-delivery-124.mimecast.com
- (us-smtp-delivery-124.mimecast.com [170.10.133.124])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 84C4910FBBB
- for <dri-devel@lists.freedesktop.org>; Thu, 31 Mar 2022 06:57:27 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1648709846;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=z9PIynONmhibmMUqDB+lyC0sJ1jQrUoUs0UH+lulyj0=;
- b=ELUw1BgVnH8SkKnauEDtNXlkqFlo1jJw3GShz58dtEoOpYnZUVJMDWRTS4OQo4oT6TZjJs
- 2RpyWpRm8Hqjx+KnY7yfAxv9K3+Zw2X7vlgdcvXTNmgW+iZQu/VxjKRglCBAqFtsEI5OqU
- ZTrXogyBhQToVXTy4NTMy8ItiiM7+qA=
-Received: from mail-wm1-f71.google.com (mail-wm1-f71.google.com
- [209.85.128.71]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-552-p6ukx3XiPIWwIO-XtUsd9g-1; Thu, 31 Mar 2022 02:57:23 -0400
-X-MC-Unique: p6ukx3XiPIWwIO-XtUsd9g-1
-Received: by mail-wm1-f71.google.com with SMTP id
- 9-20020a05600c240900b0038c99b98f6fso817930wmp.0
- for <dri-devel@lists.freedesktop.org>; Wed, 30 Mar 2022 23:57:23 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
- :content-language:to:cc:references:from:in-reply-to
- :content-transfer-encoding;
- bh=z9PIynONmhibmMUqDB+lyC0sJ1jQrUoUs0UH+lulyj0=;
- b=hgSO5BhQkQh0vhaEi7bo0yhhykqQUt5dC7cgLQ5CWPdFaMCqpyWCXkfBz4cwQ3murs
- 5YEcHQb38wZWzFa6dX7GAvYXC+dDb9brICK+j5qOwmJWU+ASiZL8bi7RRgtkO+78K4sz
- asUTslUYebtPKI1YsR9huJgO1Fvk6taktiq+48/aKseu6aXd8UxQt7ez8KvHt4k6aEU+
- L5DjS6hWuNT6FtSwuKkIFNazD++joyi+onFOcunowJNIxxQJCaiwqoByiuR29bnDah2X
- mzyIrvDqEqGA3Tjba6DHiPUTbYo3Dd+BDrdAfvrdZAJg0tDgFyouwJzVfbZ0iClvZ5Yn
- Kn3w==
-X-Gm-Message-State: AOAM5315gfESEfZQeh8IsWm4Aa1LbFyYAIN2QqJAHB9EG9SUxSJk9YOW
- xLNsLJc9fkeajkoa5yP6uiZ8LvVaY+JIKkQjNiJgkjetlxAilWuHinahl6RlbeJJNEvbnJfEcZb
- Y/vp5ahDlfJDAoyhQQbD9nNQpCCY6
-X-Received: by 2002:adf:d1cf:0:b0:204:12b6:9f5 with SMTP id
- b15-20020adfd1cf000000b0020412b609f5mr2903624wrd.249.1648709842273; 
- Wed, 30 Mar 2022 23:57:22 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJxy7rSwVd1FKfhLKAbCvGLnW7B5dWLo+Sqa6uGFqRv35Htih2JQuY+kM8jKiTRZ/ssAZqN/Zw==
-X-Received: by 2002:adf:d1cf:0:b0:204:12b6:9f5 with SMTP id
- b15-20020adfd1cf000000b0020412b609f5mr2903606wrd.249.1648709841987; 
- Wed, 30 Mar 2022 23:57:21 -0700 (PDT)
-Received: from [192.168.1.102] ([92.176.231.205])
- by smtp.gmail.com with ESMTPSA id
- l3-20020a1ced03000000b0038ce57d28a1sm6399833wmh.26.2022.03.30.23.57.21
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Wed, 30 Mar 2022 23:57:21 -0700 (PDT)
-Message-ID: <5ec4c23a-a326-23f8-b496-3e75b39ba951@redhat.com>
-Date: Thu, 31 Mar 2022 08:57:20 +0200
+Received: from metis.ext.pengutronix.de (metis.ext.pengutronix.de
+ [IPv6:2001:67c:670:201:290:27ff:fe1d:cc33])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 0BA0210F560
+ for <dri-devel@lists.freedesktop.org>; Thu, 31 Mar 2022 07:06:18 +0000 (UTC)
+Received: from ptx.hi.pengutronix.de ([2001:67c:670:100:1d::c0])
+ by metis.ext.pengutronix.de with esmtps
+ (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256) (Exim 4.92)
+ (envelope-from <sha@pengutronix.de>)
+ id 1nZosr-0003a1-8a; Thu, 31 Mar 2022 09:06:17 +0200
+Received: from sha by ptx.hi.pengutronix.de with local (Exim 4.92)
+ (envelope-from <sha@pengutronix.de>)
+ id 1nZoso-0002cC-OG; Thu, 31 Mar 2022 09:06:14 +0200
+Date: Thu, 31 Mar 2022 09:06:14 +0200
+From: Sascha Hauer <s.hauer@pengutronix.de>
+To: Andy Yan <andy.yan@rock-chips.com>
+Subject: Re: [PATCH v9 20/23] drm/rockchip: Make VOP driver optional
+Message-ID: <20220331070614.GD4012@pengutronix.de>
+References: <20220328151116.2034635-1-s.hauer@pengutronix.de>
+ <20220328151116.2034635-21-s.hauer@pengutronix.de>
+ <274a12a9-61f1-7d6a-e89c-52237621930b@rock-chips.com>
+ <20220330063913.GW12181@pengutronix.de>
+ <9619ce71-db59-d6cd-c254-2b67122fa245@rock-chips.com>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.7.0
-Subject: Re: [PATCH 3/8] drm/display: Introduce a DRM display-helper module
-To: Thomas Zimmermann <tzimmermann@suse.de>, daniel@ffwll.ch,
- airlied@linux.ie, maarten.lankhorst@linux.intel.com, mripard@kernel.org,
- jani.nikula@linux.intel.com, lyude@redhat.com
-References: <20220322192743.14414-1-tzimmermann@suse.de>
- <20220322192743.14414-4-tzimmermann@suse.de>
- <e02eceb6-4bf5-3641-502e-9e5a246ae5fd@redhat.com>
- <729dbf70-885f-bbe4-98ea-48e6e1b7304d@suse.de>
-From: Javier Martinez Canillas <javierm@redhat.com>
-In-Reply-To: <729dbf70-885f-bbe4-98ea-48e6e1b7304d@suse.de>
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=javierm@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Language: en-US
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=iso-8859-15
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <9619ce71-db59-d6cd-c254-2b67122fa245@rock-chips.com>
+X-Sent-From: Pengutronix Hildesheim
+X-URL: http://www.pengutronix.de/
+X-IRC: #ptxdist @freenode
+X-Accept-Language: de,en
+X-Accept-Content-Type: text/plain
+X-Uptime: 08:59:10 up 19:28, 39 users,  load average: 0.07, 0.09, 0.15
+User-Agent: Mutt/1.10.1 (2018-07-13)
+X-SA-Exim-Connect-IP: 2001:67c:670:100:1d::c0
+X-SA-Exim-Mail-From: sha@pengutronix.de
+X-SA-Exim-Scanned: No (on metis.ext.pengutronix.de);
+ SAEximRunCond expanded to false
+X-PTX-Original-Recipient: dri-devel@lists.freedesktop.org
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -92,77 +60,83 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: dri-devel@lists.freedesktop.org
+Cc: devicetree@vger.kernel.org,
+ Benjamin Gaignard <benjamin.gaignard@collabora.com>,
+ Sandy Huang <hjc@rock-chips.com>, dri-devel@lists.freedesktop.org,
+ Kever Yang <Kever.yang@rock-chips.com>, linux-rockchip@lists.infradead.org,
+ Michael Riesch <michael.riesch@wolfvision.net>, kernel@pengutronix.de,
+ Peter Geis <pgwipeout@gmail.com>, linux-arm-kernel@lists.infradead.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hello Thomas,
-
-On 3/30/22 12:32, Thomas Zimmermann wrote:
-> Hi
+On Wed, Mar 30, 2022 at 08:50:09PM +0800, Andy Yan wrote:
+> Hi Sascha:
 > 
+> On 3/30/22 14:39, Sascha Hauer wrote:
+> > Hi Andy,
+> > 
+> > On Tue, Mar 29, 2022 at 07:56:27PM +0800, Andy Yan wrote:
+> > > Hi Sascha:
+> > > 
+> > > On 3/28/22 23:11, Sascha Hauer wrote:
+> > > > With upcoming VOP2 support VOP won't be the only choice anymore, so make
+> > > > the VOP driver optional.
+> > > > 
+> > > > Signed-off-by: Sascha Hauer <s.hauer@pengutronix.de>
+> > > > ---
+> > > >    drivers/gpu/drm/rockchip/Kconfig            | 8 ++++++++
+> > > >    drivers/gpu/drm/rockchip/Makefile           | 3 ++-
+> > > >    drivers/gpu/drm/rockchip/rockchip_drm_drv.c | 2 +-
+> > > >    3 files changed, 11 insertions(+), 2 deletions(-)
+> > > > 
+> > > > diff --git a/drivers/gpu/drm/rockchip/Kconfig b/drivers/gpu/drm/rockchip/Kconfig
+> > > > index fa5cfda4e90e3..7d22e2997a571 100644
+> > > > --- a/drivers/gpu/drm/rockchip/Kconfig
+> > > > +++ b/drivers/gpu/drm/rockchip/Kconfig
+> > > > @@ -23,8 +23,16 @@ config DRM_ROCKCHIP
+> > > >    if DRM_ROCKCHIP
+> > > > +config ROCKCHIP_VOP
+> > > > +	bool "Rockchip VOP driver"
+> > > > +	default y
+> > > > +	help
+> > > > +	  This selects support for the VOP driver. You should enable it
+> > > > +	  on all older SoCs up to RK3399.
+> > That reminds me that I wanted to rephrase this. Will change in next
+> > round.
+> > 
+> > > > +
+> > > >    config ROCKCHIP_ANALOGIX_DP
+> > > >    	bool "Rockchip specific extensions for Analogix DP driver"
+> > > > +	depends on ROCKCHIP_VOP
+> > > 
+> > > Aanlogix dp is also on vop2 base soc such as  rk356x and rk3588.
 
-[snip]
+BTW I just looked at the downstream driver. Here we have the same
+situation that the analogix dp driver calls rockchip_drm_wait_vact_end()
+which is implemented in the VOP driver, so when the analogix dp driver
+is actually used on a VOP2 SoC then it is either used in a way that
+rockchip_drm_wait_vact_end() will never be called or it explodes in all
+colours.
 
->>>   
->>> -obj-$(CONFIG_DRM_DP_HELPER) += drm_dp_helper.o
->>> +obj-$(CONFIG_DRM_DISPLAY_HELPER) += drm_display_helper.o
->>
->> The drm_dp_helper.ko module has some parameters and this change will break
->> existing kernel cmdline that are using it:
->>
->> $ modinfo drivers/gpu/drm/dp/drm_dp_helper.ko | grep parm | cut -d : -f2
->>             drm_dp_cec_unregister_delay
->>             dp_aux_i2c_speed_khz
->>             dp_aux_i2c_transfer_size
->>
->> I don't know whether those are considered a kernel ABI or not though, and
->> some already changed when the DP helpers were moved from drm_kms_helper.ko
+> > I added the dependency because analogix_dp-rockchip.c calls
+> > rockchip_drm_wait_vact_end() which is implemented in the VOP driver,
+> > so this driver currenty can't work with the VOP2 driver and can't
+> > be linked without the VOP driver being present.
+> > I'll add a few words to the commit message.
 > 
-> Good point. I'll mention it in the commit message andcheck the 
-> documentation as well.
 > 
-> At least, no one complained when these functions moved from kms helpers 
-> into dp helpers. Moving them again is unfortunate, but I hope that the 
-> new library will stick.
->
+> Maybe a better direction is move rockchip_drm_wait_vact_end from the VOP
+> driver to rockchip_drm_drv.c
 
-I was just pointing out because honestly I didn't know what was the kernel
-policy around changing kernel command line parameters. It seems that isn't
-documented anywhere.
+I am not sure if that's really worth it. Yes, the direction might be the
+right one, but I would really prefer when somebody does the change who
+can test and confirm that the analogix dp really works with VOP2 in the
+end.
 
-But since no one complained when these were moved from drm_kms_helper.ko
-and the current drm_dp_helper.ko is so recent, I would say that's fine.
-
-If you re-spin feel free to add,
-
-Reviewed-by: Javier Martinez Canillas <javierm@redhat.com>
- 
-> I somehow expected that HDMI, HDCP et al would require their own 
-> libraries.  But introducing several new and tiny kernel modules for such 
-> small helpers wasn't worth it. Hence, there's the display library that 
-> can collect all such helpers in a single place.
->
-
-Yes, I agree with your approach to have all helpers into a single module.
- 
-> It looks like MIPI DSI could be another candidate to be moved into the 
-> display library; at least partially. I have go through the codebase to 
-> see if there are drivers that would benefit from such a change.
-> 
-
-Great.
-
-> Best regards
-> Thomas
-> 
->>
-> 
+Sascha
 
 -- 
-Best regards,
-
-Javier Martinez Canillas
-Linux Engineering
-Red Hat
-
+Pengutronix e.K.                           |                             |
+Steuerwalder Str. 21                       | http://www.pengutronix.de/  |
+31137 Hildesheim, Germany                  | Phone: +49-5121-206917-0    |
+Amtsgericht Hildesheim, HRA 2686           | Fax:   +49-5121-206917-5555 |
