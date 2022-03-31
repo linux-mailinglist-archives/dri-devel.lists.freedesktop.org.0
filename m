@@ -1,58 +1,53 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 95F7E4EDDF5
-	for <lists+dri-devel@lfdr.de>; Thu, 31 Mar 2022 17:52:16 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id D39394EDE09
+	for <lists+dri-devel@lfdr.de>; Thu, 31 Mar 2022 17:54:46 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 72FEA10F400;
-	Thu, 31 Mar 2022 15:52:14 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 7E7FB10E319;
+	Thu, 31 Mar 2022 15:54:41 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-pj1-x1030.google.com (mail-pj1-x1030.google.com
- [IPv6:2607:f8b0:4864:20::1030])
- by gabe.freedesktop.org (Postfix) with ESMTPS id E58C410F400
- for <dri-devel@lists.freedesktop.org>; Thu, 31 Mar 2022 15:52:12 +0000 (UTC)
-Received: by mail-pj1-x1030.google.com with SMTP id
- c15-20020a17090a8d0f00b001c9c81d9648so4031915pjo.2
- for <dri-devel@lists.freedesktop.org>; Thu, 31 Mar 2022 08:52:12 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=sx4w7Ly1ifRX/iEBNixOiCMpxM0l3zOWr1dP3UPbXTU=;
- b=YoMEh9DZ2+eJSsKdBeqh8v4Q5+JpN2AZg2EHyZXP+x/lCYgiK9XCODVzXLCVoSYAs7
- 7Vw8+qXuWAPBfB4k06ziXjEva3VEJSJ2/wUjyoBwsLyDn9jTn4oUEblIhiOQbEsAs/ly
- gzjzXIKLTpAWcz642D17+ZNuiXJx+6nl3rxOCEIcJhm9T/UYcSDMy3MmjnNzKZxlAyyx
- BqmISK9HeuL7TDsHMoo5ziwRdASg6Wi8idHT2KtIRmvcAlwafc/Z9+6RqTPMUPCGWbTX
- xmb2FBLkkPO4AGcVU7+rxh8a97oxcyjp8eyUhzqrX8+xuow1wp3Ag7nIFZYOikLRKZou
- 8YEw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=sx4w7Ly1ifRX/iEBNixOiCMpxM0l3zOWr1dP3UPbXTU=;
- b=WDNBIi+Lw/OknmqFt+qEoVzxSQJ1qhlnJ0ZiofuR/iZOX8WtQ4+8gJ1Oz9imd2YMIH
- NOlvlUDVZf6Ev2tUaTEx5PYkhnBR8xhOyGT8z8mOVFy36eD0mqiEtVHvuXxERUqJ2rR4
- m7RyQTfr69/bydBFmDLie6G2RJeXa7gWbD2tx9BCJiSdXjnUa3B949KsNA41kS+OofDb
- tTkxsSbDBSsgb2ACFUZN3JUADaSZCbFI/8Z/6LqbmY+Lbv55pZ/3EBN9XG6ODbKmeR9T
- zeetmp3hH0t5N/kbAJKKQ5rdV28ryO8A4/cMwSVDOtRRH4uNY/hyIM7Q72ENFXkRpI0l
- FfgQ==
-X-Gm-Message-State: AOAM532WsAro7EAFrpAnCiFOOwFrd+Vg4fs+1czltlXsCI07ZjBzkfgs
- mmPXpdVLbsA/xObuQqO/5VB69SkyZKtRQiMLwPW83w==
-X-Google-Smtp-Source: ABdhPJzjF7x+oA5lt7XIbdhtzlu26poc+zlh4wy+TTLzY+Sq50QQk6F60KxsQdmTHjNqEUpuCSgDWPJESC4VRGgmAtY=
-X-Received: by 2002:a17:90b:124c:b0:1bc:369b:7db5 with SMTP id
- gx12-20020a17090b124c00b001bc369b7db5mr6793485pjb.179.1648741932463; Thu, 31
- Mar 2022 08:52:12 -0700 (PDT)
+Received: from mga09.intel.com (mga09.intel.com [134.134.136.24])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 381B010E319;
+ Thu, 31 Mar 2022 15:54:40 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+ t=1648742080; x=1680278080;
+ h=from:to:cc:subject:in-reply-to:references:date:
+ message-id:mime-version:content-transfer-encoding;
+ bh=jeBEjokyYyOb/sPB0w8+LIxAGzVK5eKSgo4RN3Y+zWU=;
+ b=WNZCCBjQ8YB8E18a4uXH8Gno2wFgISZRAZsDyQISyyZZ/hU48f8XKXOQ
+ w5EJJ5Mv0GfleGkVpoudTFJ9dcMoBvBBgDacB9GKxOE84Bh+8Yieud4p9
+ g7VFhSBUL1zHt4pc2fSnUnvHZzdrzbacPwzGsKgF9gOntiAIGkFQPgdr5
+ oTa+FlBysKvGQ2HuZjqI0EvZaUDhFSAW1Ani35vz+Ac2ZlMdEsmq20jKw
+ iO9Fya2cTGHqMkJQ6wGl0QaxrFhe/0q/dkz0w2nb2turlLpqX5EllWFb2
+ 9/cn19547A0rCz8BcBdb0ffK7+bsnY81FfUIICklaWSUFtMuM/OPshK9L w==;
+X-IronPort-AV: E=McAfee;i="6200,9189,10302"; a="259585690"
+X-IronPort-AV: E=Sophos;i="5.90,225,1643702400"; d="scan'208";a="259585690"
+Received: from orsmga008.jf.intel.com ([10.7.209.65])
+ by orsmga102.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 31 Mar 2022 08:54:39 -0700
+X-IronPort-AV: E=Sophos;i="5.90,225,1643702400"; d="scan'208";a="566592796"
+Received: from gluca-mobl1.ger.corp.intel.com (HELO localhost)
+ ([10.252.48.194])
+ by orsmga008-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 31 Mar 2022 08:54:37 -0700
+From: Jani Nikula <jani.nikula@intel.com>
+To: Ville =?utf-8?B?U3lyasOkbMOk?= <ville.syrjala@linux.intel.com>
+Subject: Re: [PATCH 07/12] drm/edid: split drm_edid_block_valid() to check
+ and act parts
+In-Reply-To: <YkXAo2NceBUlGbE1@intel.com>
+Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
+References: <cover.1648578814.git.jani.nikula@intel.com>
+ <296443a99ce907b11d08ddc88407aa35d9bdc5a3.1648578814.git.jani.nikula@intel.com>
+ <YkXAo2NceBUlGbE1@intel.com>
+Date: Thu, 31 Mar 2022 18:54:34 +0300
+Message-ID: <87mth686dh.fsf@intel.com>
 MIME-Version: 1.0
-References: <20220331154503.66054-1-jagan@amarulasolutions.com>
- <20220331154503.66054-4-jagan@amarulasolutions.com>
-In-Reply-To: <20220331154503.66054-4-jagan@amarulasolutions.com>
-From: Robert Foss <robert.foss@linaro.org>
-Date: Thu, 31 Mar 2022 17:52:01 +0200
-Message-ID: <CAG3jFyu5y7REsUmJUrfWo4GLM_1_fhwPK=1EKoRbGkq6OmbXsQ@mail.gmail.com>
-Subject: Re: [PATCH v4 4/5] drm: bridge: dw-mipi-dsi: Switch to
- devm_drm_of_get_bridge
-To: Jagan Teki <jagan@amarulasolutions.com>
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: quoted-printable
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -65,66 +60,255 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Neil Armstrong <narmstrong@baylibre.com>, Sam Ravnborg <sam@ravnborg.org>,
- dri-devel@lists.freedesktop.org,
- Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
- Andrzej Hajda <andrzej.hajda@intel.com>, linux-amarula@amarulasolutions.com
+Cc: intel-gfx@lists.freedesktop.org, dri-devel@lists.freedesktop.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Thu, 31 Mar 2022 at 17:45, Jagan Teki <jagan@amarulasolutions.com> wrote:
+On Thu, 31 Mar 2022, Ville Syrj=C3=A4l=C3=A4 <ville.syrjala@linux.intel.com=
+> wrote:
+> On Tue, Mar 29, 2022 at 09:42:14PM +0300, Jani Nikula wrote:
+>> Add edid_block_check() that only checks the EDID block validity, without
+>> any actions. Turns out it's simple and crystal clear.
+>>=20
+>> Rewrite drm_edid_block_valid() around it, keeping all the functionality
+>> fairly closely the same, warts and all. Turns out it's incredibly
+>> complicated for a function you'd expect to be simple, with all the
+>> fixing and printing and special casing. (Maybe we'll want to simplify it
+>> in the future.)
+>>=20
+>> Cc: Ville Syrj=C3=A4l=C3=A4 <ville.syrjala@linux.intel.com>
+>> Signed-off-by: Jani Nikula <jani.nikula@intel.com>
+>> ---
+>>  drivers/gpu/drm/drm_edid.c | 150 ++++++++++++++++++++++---------------
+>>  1 file changed, 88 insertions(+), 62 deletions(-)
+>>=20
+>> diff --git a/drivers/gpu/drm/drm_edid.c b/drivers/gpu/drm/drm_edid.c
+>> index 481643751d10..04eb6949c9c8 100644
+>> --- a/drivers/gpu/drm/drm_edid.c
+>> +++ b/drivers/gpu/drm/drm_edid.c
+>> @@ -1668,10 +1668,55 @@ bool drm_edid_are_equal(const struct edid *edid1=
+, const struct edid *edid2)
+>>  }
+>>  EXPORT_SYMBOL(drm_edid_are_equal);
+>>=20=20
+>> +enum edid_block_status {
+>> +	EDID_BLOCK_OK =3D 0,
+>> +	EDID_BLOCK_NULL,
+>> +	EDID_BLOCK_HEADER_CORRUPT,
+>> +	EDID_BLOCK_HEADER_REPAIR,
+>> +	EDID_BLOCK_HEADER_FIXED,
+>> +	EDID_BLOCK_CHECKSUM,
+>> +	EDID_BLOCK_VERSION,
+>> +};
+>> +
+>> +static enum edid_block_status edid_block_check(const void *_block, bool=
+ base)
 >
-> devm_drm_of_get_bridge is capable of looking up the downstream
-> bridge and panel and trying to add a panel bridge if the panel
-> is found.
->
-> Replace explicit finding calls with devm_drm_of_get_bridge.
->
-> Signed-off-by: Jagan Teki <jagan@amarulasolutions.com>
-> ---
-> Changes for v4, v3:
-> - none
-> Changes for v2:
-> - split the patch
->
->  drivers/gpu/drm/bridge/synopsys/dw-mipi-dsi.c | 15 +++------------
->  1 file changed, 3 insertions(+), 12 deletions(-)
->
-> diff --git a/drivers/gpu/drm/bridge/synopsys/dw-mipi-dsi.c b/drivers/gpu/drm/bridge/synopsys/dw-mipi-dsi.c
-> index 1cc912b6e1f8..b2efecf7d160 100644
-> --- a/drivers/gpu/drm/bridge/synopsys/dw-mipi-dsi.c
-> +++ b/drivers/gpu/drm/bridge/synopsys/dw-mipi-dsi.c
-> @@ -315,7 +315,6 @@ static int dw_mipi_dsi_host_attach(struct mipi_dsi_host *host,
->         struct dw_mipi_dsi *dsi = host_to_dsi(host);
->         const struct dw_mipi_dsi_plat_data *pdata = dsi->plat_data;
->         struct drm_bridge *bridge;
-> -       struct drm_panel *panel;
->         int ret;
->
->         if (device->lanes > dsi->plat_data->max_data_lanes) {
-> @@ -329,17 +328,9 @@ static int dw_mipi_dsi_host_attach(struct mipi_dsi_host *host,
->         dsi->format = device->format;
->         dsi->mode_flags = device->mode_flags;
->
-> -       ret = drm_of_find_panel_or_bridge(host->dev->of_node, 1, 0,
-> -                                         &panel, &bridge);
-> -       if (ret)
-> -               return ret;
-> -
-> -       if (panel) {
-> -               bridge = drm_panel_bridge_add_typed(panel,
-> -                                                   DRM_MODE_CONNECTOR_DSI);
-> -               if (IS_ERR(bridge))
-> -                       return PTR_ERR(bridge);
-> -       }
-> +       bridge = devm_drm_of_get_bridge(dsi->dev, dsi->dev->of_node, 1, 0);
-> +       if (IS_ERR(bridge))
-> +               return PTR_ERR(bridge);
->
->         dsi->panel_bridge = bridge;
->
-> --
-> 2.25.1
->
+> s/base/is_base_block/ or something?
 
-Reviewed-by: Robert Foss <robert.foss@linaro.org>
+Okay.
+
+>
+>> +{
+>> +	const struct edid *block =3D _block;
+>> +
+>> +	if (!block)
+>> +		return EDID_BLOCK_NULL;
+>> +
+>> +	if (base) {
+>> +		int score =3D drm_edid_header_is_valid(block);
+>> +
+>> +		if (score < clamp(edid_fixup, 6, 8))
+>
+> That should clamp to 0-8?
+
+Indeed, thanks!
+
+> Might be nicer to just define a .set() op for the modparam
+> and check it there, but that's clearly material for a separate patch.
+
+Yes.
+
+BR,
+Jani.
+
+>
+>> +			return EDID_BLOCK_HEADER_CORRUPT;
+>> +
+>> +		if (score < 8)
+>> +			return EDID_BLOCK_HEADER_REPAIR;
+>> +	}
+>> +
+>> +	if (edid_block_compute_checksum(block) !=3D edid_block_get_checksum(bl=
+ock))
+>> +		return EDID_BLOCK_CHECKSUM;
+>> +
+>> +	if (base) {
+>> +		if (block->version !=3D 1)
+>> +			return EDID_BLOCK_VERSION;
+>> +	}
+>> +
+>> +	return EDID_BLOCK_OK;
+>> +}
+>> +
+>> +static bool edid_block_status_valid(enum edid_block_status status, int =
+tag)
+>> +{
+>> +	return status =3D=3D EDID_BLOCK_OK ||
+>> +		status =3D=3D EDID_BLOCK_HEADER_FIXED ||
+>> +		(status =3D=3D EDID_BLOCK_CHECKSUM && tag =3D=3D CEA_EXT);
+>> +}
+>> +
+>>  /**
+>>   * drm_edid_block_valid - Sanity check the EDID block (base or extensio=
+n)
+>>   * @raw_edid: pointer to raw EDID block
+>> - * @block: type of block to validate (0 for base, extension otherwise)
+>> + * @block_num: type of block to validate (0 for base, extension otherwi=
+se)
+>>   * @print_bad_edid: if true, dump bad EDID blocks to the console
+>>   * @edid_corrupt: if true, the header or checksum is invalid
+>>   *
+>> @@ -1680,88 +1725,69 @@ EXPORT_SYMBOL(drm_edid_are_equal);
+>>   *
+>>   * Return: True if the block is valid, false otherwise.
+>>   */
+>> -bool drm_edid_block_valid(u8 *raw_edid, int block, bool print_bad_edid,
+>> +bool drm_edid_block_valid(u8 *_block, int block_num, bool print_bad_edi=
+d,
+>>  			  bool *edid_corrupt)
+>>  {
+>> -	u8 csum;
+>> -	struct edid *edid =3D (struct edid *)raw_edid;
+>> +	struct edid *block =3D (struct edid *)_block;
+>> +	enum edid_block_status status;
+>> +	bool base =3D block_num =3D=3D 0;
+>> +	bool valid;
+>>=20=20
+>> -	if (WARN_ON(!raw_edid))
+>> +	if (WARN_ON(!block))
+>>  		return false;
+>>=20=20
+>> -	if (edid_fixup > 8 || edid_fixup < 0)
+>> -		edid_fixup =3D 6;
+>> -
+>> -	if (block =3D=3D 0) {
+>> -		int score =3D drm_edid_header_is_valid(raw_edid);
+>> +	status =3D edid_block_check(block, base);
+>> +	if (status =3D=3D EDID_BLOCK_HEADER_REPAIR) {
+>> +		DRM_DEBUG("Fixing EDID header, your hardware may be failing\n");
+>> +		edid_header_fix(block);
+>>=20=20
+>> -		if (score =3D=3D 8) {
+>> -			if (edid_corrupt)
+>> -				*edid_corrupt =3D false;
+>> -		} else if (score >=3D edid_fixup) {
+>> -			/* Displayport Link CTS Core 1.2 rev1.1 test 4.2.2.6
+>> -			 * The corrupt flag needs to be set here otherwise, the
+>> -			 * fix-up code here will correct the problem, the
+>> -			 * checksum is correct and the test fails
+>> -			 */
+>> -			if (edid_corrupt)
+>> -				*edid_corrupt =3D true;
+>> -			DRM_DEBUG("Fixing EDID header, your hardware may be failing\n");
+>> -			edid_header_fix(raw_edid);
+>> -		} else {
+>> -			if (edid_corrupt)
+>> -				*edid_corrupt =3D true;
+>> -			goto bad;
+>> -		}
+>> +		/* Retry with fixed header, update status if that worked. */
+>> +		status =3D edid_block_check(block, base);
+>> +		if (status =3D=3D EDID_BLOCK_OK)
+>> +			status =3D EDID_BLOCK_HEADER_FIXED;
+>>  	}
+>>=20=20
+>> -	csum =3D edid_block_compute_checksum(raw_edid);
+>> -	if (csum !=3D edid_block_get_checksum(raw_edid)) {
+>> -		if (edid_corrupt)
+>> +	if (edid_corrupt) {
+>> +		/*
+>> +		 * Unknown major version isn't corrupt but we can't use it. Only
+>> +		 * the base block can reset edid_corrupt to false.
+>> +		 */
+>> +		if (base && (status =3D=3D EDID_BLOCK_OK || status =3D=3D EDID_BLOCK_=
+VERSION))
+>> +			*edid_corrupt =3D false;
+>> +		else if (status !=3D EDID_BLOCK_OK)
+>>  			*edid_corrupt =3D true;
+>> -
+>> -		/* allow CEA to slide through, switches mangle this */
+>> -		if (edid_block_tag(raw_edid) =3D=3D CEA_EXT) {
+>> -			DRM_DEBUG("EDID checksum is invalid, remainder is %d\n", csum);
+>> -			DRM_DEBUG("Assuming a KVM switch modified the CEA block but left the=
+ original checksum\n");
+>> -		} else {
+>> -			if (print_bad_edid)
+>> -				DRM_NOTE("EDID checksum is invalid, remainder is %d\n", csum);
+>> -
+>> -			goto bad;
+>> -		}
+>>  	}
+>>=20=20
+>> -	/* per-block-type checks */
+>> -	switch (edid_block_tag(raw_edid)) {
+>> -	case 0: /* base */
+>> -		if (edid->version !=3D 1) {
+>> -			DRM_NOTE("EDID has major version %d, instead of 1\n", edid->version);
+>> -			goto bad;
+>> +	/* Determine whether we can use this block with this status. */
+>> +	valid =3D edid_block_status_valid(status, edid_block_tag(block));
+>> +
+>> +	/* Some fairly random status printouts. */
+>> +	if (status =3D=3D EDID_BLOCK_CHECKSUM) {
+>> +		if (valid) {
+>> +			DRM_DEBUG("EDID block checksum is invalid, remainder is %d\n",
+>> +				  edid_block_compute_checksum(block));
+>> +			DRM_DEBUG("Assuming a KVM switch modified the block but left the ori=
+ginal checksum\n");
+>> +		} else if (print_bad_edid) {
+>> +			DRM_NOTE("EDID block checksum is invalid, remainder is %d\n",
+>> +				 edid_block_compute_checksum(block));
+>>  		}
+>> -
+>> -		if (edid->revision > 4)
+>> -			DRM_DEBUG("EDID minor > 4, assuming backward compatibility\n");
+>
+> This debug message seems to disappear. Intentional?
+>
+>> -		break;
+>> -
+>> -	default:
+>> -		break;
+>> +	} else if (status =3D=3D EDID_BLOCK_VERSION) {
+>> +		DRM_NOTE("EDID has major version %d, instead of 1\n",
+>> +			 block->version);
+>>  	}
+>>=20=20
+>> -	return true;
+>> -
+>> -bad:
+>> -	if (print_bad_edid) {
+>> -		if (edid_is_zero(raw_edid, EDID_LENGTH)) {
+>> +	if (!valid && print_bad_edid) {
+>> +		if (edid_is_zero(block, EDID_LENGTH)) {
+>>  			pr_notice("EDID block is all zeroes\n");
+>>  		} else {
+>>  			pr_notice("Raw EDID:\n");
+>>  			print_hex_dump(KERN_NOTICE,
+>>  				       " \t", DUMP_PREFIX_NONE, 16, 1,
+>> -				       raw_edid, EDID_LENGTH, false);
+>> +				       block, EDID_LENGTH, false);
+>>  		}
+>>  	}
+>> -	return false;
+>> +
+>> +	return valid;
+>>  }
+>>  EXPORT_SYMBOL(drm_edid_block_valid);
+>>=20=20
+>> --=20
+>> 2.30.2
+
+--=20
+Jani Nikula, Intel Open Source Graphics Center
