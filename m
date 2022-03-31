@@ -1,64 +1,63 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id AFE514EE4C2
-	for <lists+dri-devel@lfdr.de>; Fri,  1 Apr 2022 01:29:18 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id EA8524EE4A6
+	for <lists+dri-devel@lfdr.de>; Fri,  1 Apr 2022 01:23:24 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id E59EE10E31C;
-	Thu, 31 Mar 2022 23:29:14 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id DF49910E32B;
+	Thu, 31 Mar 2022 23:23:22 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-lf1-x12f.google.com (mail-lf1-x12f.google.com
- [IPv6:2a00:1450:4864:20::12f])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 760D510E31C
- for <dri-devel@lists.freedesktop.org>; Thu, 31 Mar 2022 23:29:13 +0000 (UTC)
-Received: by mail-lf1-x12f.google.com with SMTP id p10so1797710lfa.12
- for <dri-devel@lists.freedesktop.org>; Thu, 31 Mar 2022 16:29:13 -0700 (PDT)
+Received: from mail-ej1-x62f.google.com (mail-ej1-x62f.google.com
+ [IPv6:2a00:1450:4864:20::62f])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id DBF8110E32B
+ for <dri-devel@lists.freedesktop.org>; Thu, 31 Mar 2022 23:23:21 +0000 (UTC)
+Received: by mail-ej1-x62f.google.com with SMTP id j15so2346441eje.9
+ for <dri-devel@lists.freedesktop.org>; Thu, 31 Mar 2022 16:23:21 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=chromium.org; s=google;
  h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=VA4OmUlBn+h032QaRrbwfz0ENP/lgrthHNuo2cDc9zs=;
- b=nYjHIf8uflbZHObYpxif9B5oD9Wtb4t5AI1eCWohJX41q9UAn/abH6xMu9omxNFwsr
- 7qUSDGsPXh0wIhNznI1YcZUJupDndJZzHhIHEE8hHppvHxSa6v170I7xv/CDtTfwhCpF
- kzEWwkEZCviEfCOEDQ+sa6YJGh6+XAWttUpDc=
+ :cc; bh=7juVurgjLt3GvUzI9U9c+xp5sahJ/Uk+aOlgugxy0EM=;
+ b=RtJix/BsoQj0ELH2OMFl7dwsORWQLL0UBqSXWJr5KoYLICZZbVFRb/zdCkHwWWysN5
+ 3b5vtLz0FaF+JGho0PKGYaYoz18U0Fy53xtgtIwoMITco5McP4KTTF/FQkbhfbr91SR4
+ pxJraAJYBLjynqhNcmQ0n9QTPBRiLktURUGCg=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:mime-version:references:in-reply-to:from:date
  :message-id:subject:to:cc;
- bh=VA4OmUlBn+h032QaRrbwfz0ENP/lgrthHNuo2cDc9zs=;
- b=ukZGd9ly64g7cmuev7to+FsZDEwNRFD4ZPcW3k9fhzEGXBlFio7aId3Sk4flP+IPWb
- cNxNGgJXzeLd5B8QDcwkkfQ5TA8gF9sk7iC5JODt+adW15J2Qz1Dj1YiWttK8sYakDDC
- vwZzH1zSmU9/p4+tajX8sotlH/Soiiq3St2TH9ZNoCgqUXICCMegNUj2xcZUUUDIczFK
- 2eTjARsCzxAU8HOndXFsQfka/KvvzWJZWcmctuq6uM9ZRroMryavIGskpLy0wu3f58PN
- WisvKLQH65/WaAL065W6jy7afd1N8eRNbfxQOZaX1ac8KJFtxOm7opBwstUDdg6hKPYU
- WA9w==
-X-Gm-Message-State: AOAM532fWARhwX4LJSppnAPvrsSlya/Hsq8KTb5I8BkAEvvPMcA3yzsL
- Hdbe2ZXL9jC5SlTWjjZhjxzTcpUNiw437nCC5GU=
-X-Google-Smtp-Source: ABdhPJwm8mm5eygVT0rqlVebQRZ2FVvA9yzTbkmslzk+L29R7YdX1AmKSPhXqJc39DOGxje3Ym6Oww==
-X-Received: by 2002:a05:6512:230a:b0:44a:7699:a2a with SMTP id
- o10-20020a056512230a00b0044a76990a2amr12063413lfu.277.1648769351274; 
- Thu, 31 Mar 2022 16:29:11 -0700 (PDT)
-Received: from mail-lj1-f181.google.com (mail-lj1-f181.google.com.
- [209.85.208.181]) by smtp.gmail.com with ESMTPSA id
- x11-20020a19e00b000000b004488bf4137esm69011lfg.245.2022.03.31.16.29.10
+ bh=7juVurgjLt3GvUzI9U9c+xp5sahJ/Uk+aOlgugxy0EM=;
+ b=DeVOoZZQMRRaxhVBKcL7uCFv8OXirhm70AHMhl2tRTxMpX9AcGCZlCJRaVVk6MpjlV
+ Z0qS7RXDNEU7bO+2a10dqPOjmNezoioFvv4FziGobIDQI9yBXCbgRqSpJLfBBz0n8fXT
+ wTvpnD5oQYW+Sv9teoRa6w2qcHdm0vsBZxzaGrPtP3tZNsIojoqh/06pB40WtIap+FWn
+ 8DhAmPofALyu5vJCv1Ro1iY1AN6G/INfKC73LR9vHeo/AaTZNGNx/is6YDWsexD5iMzq
+ EnRXPVYUhsBI5eytpemND2HKdvbPay1q8RKoz4yVRFwK0PgGYZr2GM9uy0QfPmAMGU4m
+ iiSQ==
+X-Gm-Message-State: AOAM533NQPOX3y5/bv1J8vZUboALbqukISX1rhk9oddVvIdqATRelzJw
+ 46q4+8yWksS2DHZQmToHk7JguYXlZyLljyX3
+X-Google-Smtp-Source: ABdhPJzxgNr+hBe8aNCbKkzBDuhP7uB/iYWICh7leO8JsEiIM2IISQAFrNxU6dAwGAmR/nrKRHaOpg==
+X-Received: by 2002:a17:907:7214:b0:6dd:e8fe:3e9 with SMTP id
+ dr20-20020a170907721400b006dde8fe03e9mr7077656ejc.51.1648769000021; 
+ Thu, 31 Mar 2022 16:23:20 -0700 (PDT)
+Received: from mail-wr1-f49.google.com (mail-wr1-f49.google.com.
+ [209.85.221.49]) by smtp.gmail.com with ESMTPSA id
+ ky5-20020a170907778500b006d1b2dd8d4csm320242ejc.99.2022.03.31.16.23.18
  for <dri-devel@lists.freedesktop.org>
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Thu, 31 Mar 2022 16:29:10 -0700 (PDT)
-Received: by mail-lj1-f181.google.com with SMTP id bn33so1766978ljb.6
- for <dri-devel@lists.freedesktop.org>; Thu, 31 Mar 2022 16:29:10 -0700 (PDT)
-X-Received: by 2002:adf:fc47:0:b0:203:dda1:4311 with SMTP id
- e7-20020adffc47000000b00203dda14311mr5685367wrs.301.1648768978217; Thu, 31
- Mar 2022 16:22:58 -0700 (PDT)
+ Thu, 31 Mar 2022 16:23:19 -0700 (PDT)
+Received: by mail-wr1-f49.google.com with SMTP id h23so1796571wrb.8
+ for <dri-devel@lists.freedesktop.org>; Thu, 31 Mar 2022 16:23:18 -0700 (PDT)
+X-Received: by 2002:adf:e7cd:0:b0:204:ba2:b106 with SMTP id
+ e13-20020adfe7cd000000b002040ba2b106mr5551021wrn.679.1648768998053; Thu, 31
+ Mar 2022 16:23:18 -0700 (PDT)
 MIME-Version: 1.0
 References: <1648656179-10347-1-git-send-email-quic_sbillaka@quicinc.com>
- <1648656179-10347-4-git-send-email-quic_sbillaka@quicinc.com>
-In-Reply-To: <1648656179-10347-4-git-send-email-quic_sbillaka@quicinc.com>
+ <1648656179-10347-6-git-send-email-quic_sbillaka@quicinc.com>
+In-Reply-To: <1648656179-10347-6-git-send-email-quic_sbillaka@quicinc.com>
 From: Doug Anderson <dianders@chromium.org>
-Date: Thu, 31 Mar 2022 16:22:46 -0700
-X-Gmail-Original-Message-ID: <CAD=FV=X_ULva3J-Y7EF+0VPRRoFXSmtuKcXG9H=041Kmwa=W4A@mail.gmail.com>
-Message-ID: <CAD=FV=X_ULva3J-Y7EF+0VPRRoFXSmtuKcXG9H=041Kmwa=W4A@mail.gmail.com>
-Subject: Re: [PATCH v6 3/8] drm/msm/dp: Support only IRQ_HPD and REPLUG
- interrupts for eDP
+Date: Thu, 31 Mar 2022 16:23:05 -0700
+X-Gmail-Original-Message-ID: <CAD=FV=Wn-XypjRcw-D0VtBHZbuTz=RHiMq6RCHCa=CWmZM42nQ@mail.gmail.com>
+Message-ID: <CAD=FV=Wn-XypjRcw-D0VtBHZbuTz=RHiMq6RCHCa=CWmZM42nQ@mail.gmail.com>
+Subject: Re: [PATCH v6 5/8] drm/msm/dp: prevent multiple votes for dp resources
 To: Sankeerth Billakanti <quic_sbillaka@quicinc.com>
 Content-Type: text/plain; charset="UTF-8"
 X-BeenThere: dri-devel@lists.freedesktop.org
@@ -91,38 +90,29 @@ Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 Hi,
 
-On Wed, Mar 30, 2022 at 9:03 AM Sankeerth Billakanti
+On Wed, Mar 30, 2022 at 9:04 AM Sankeerth Billakanti
 <quic_sbillaka@quicinc.com> wrote:
 >
-> @@ -1374,6 +1382,12 @@ static int dp_pm_resume(struct device *dev)
->         dp_catalog_ctrl_hpd_config(dp->catalog);
+> The aux_bus support with the dp_display driver will enable the dp
+> resources during msm_dp_modeset_init. The host_init has to return early
+> if the core is already initialized to prevent putting an additional vote
+> for the dp controller resources.
 >
->
-> +       if (dp->dp_display.connector_type == DRM_MODE_CONNECTOR_DisplayPort)
-> +               dp_catalog_hpd_config_intr(dp->catalog,
-> +                               DP_DP_HPD_PLUG_INT_MASK |
-> +                               DP_DP_HPD_UNPLUG_INT_MASK,
-> +                               true);
-> +
+> Signed-off-by: Sankeerth Billakanti <quic_sbillaka@quicinc.com>
+> ---
+>  drivers/gpu/drm/msm/dp/dp_display.c | 10 ++++++++++
+>  1 file changed, 10 insertions(+)
 
-nit: why are there two blank lines above?
+I'm not a huge fan of this but I'll leave it up to Dmitry. In general
+it feels like there should be _a_ place that enables these resources.
+Checks like this make it feel like we just scattershot enabling
+resources in a bunch of random places instead of coming up with the
+design for enabling them in the right place.
 
-
-> @@ -1639,6 +1653,9 @@ void dp_bridge_enable(struct drm_bridge *drm_bridge)
->                 return;
->         }
->
-> +       if (dp->connector_type == DRM_MODE_CONNECTOR_eDP)
-> +               dp_hpd_plug_handle(dp_display, 0);
-> +
-
-Should you add a "pre_enable" and do it there? That would make it more
-symmetric with the fact that you have the countertpart in
-"post_disable".
-
-
-Overall: I'm probably not familiar enough with this code to give it a
-full review. I'm hoping that Dmitry knows it well enough... ;-)
-
+In any case, if we do end up landing this patch, it sure feels like it
+needs to move earlier in the patch series, right? This patch shouldn't
+hurt even without the other patches in the series but if you apply the
+earlier patches in the series without this one then you'll have a bug,
+right? That means this needs to come earlier.
 
 -Doug
