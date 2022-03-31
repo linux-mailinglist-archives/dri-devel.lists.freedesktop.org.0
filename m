@@ -1,74 +1,122 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 011654EDBD2
-	for <lists+dri-devel@lfdr.de>; Thu, 31 Mar 2022 16:38:26 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 392EC4EDBF3
+	for <lists+dri-devel@lfdr.de>; Thu, 31 Mar 2022 16:44:49 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id B19E210F173;
-	Thu, 31 Mar 2022 14:38:23 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 7B97C10F1AC;
+	Thu, 31 Mar 2022 14:44:45 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from out2-smtp.messagingengine.com (out2-smtp.messagingengine.com
- [66.111.4.26])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 7820010EFB7
- for <dri-devel@lists.freedesktop.org>; Thu, 31 Mar 2022 14:38:03 +0000 (UTC)
-Received: from compute1.internal (compute1.nyi.internal [10.202.2.41])
- by mailout.nyi.internal (Postfix) with ESMTP id C8FCA5C0065;
- Thu, 31 Mar 2022 10:38:02 -0400 (EDT)
-Received: from mailfrontend2 ([10.202.2.163])
- by compute1.internal (MEProxy); Thu, 31 Mar 2022 10:38:02 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=cerno.tech; h=cc
- :cc:content-transfer-encoding:date:date:from:from:in-reply-to
- :in-reply-to:message-id:mime-version:references:reply-to:sender
- :subject:subject:to:to; s=fm3; bh=o3ByKoFhIgSg+5IAPM7wGANITFYAbM
- lp6KYCdiUEJGE=; b=KyXJacDhYMzuZfEAlDtj3D+Ezf909Oe3+G2LF9fa77ulCO
- g7GmMhgOQq16R4PkY+MwHQLsa8R0iOiak2WnhFPEfTokEeCkhh+sFud0ihC/wvD2
- HubCioxMpfw75iQ6+QZNG/KXyEr1BEVdRFbRHl/Lk06iLKtG4Q3Fk1Khos9AJUtM
- fWN6yJObLr3c9brTYZW68sOAb6X5gmNxwsyLO/lVM65zhlRHJyNaBoZVNjNb3PUl
- 0n0Jxpz9bTJ3DwGz++KlYo3Te2sThDi8salliOmLCVMvH678G7K2thcL++NO2L7B
- qjZilzVub5LJS/ZNn/47xB8+Gpmr+Zvq+m+goNAw==
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
- messagingengine.com; h=cc:cc:content-transfer-encoding:date:date
- :from:from:in-reply-to:in-reply-to:message-id:mime-version
- :references:reply-to:sender:subject:subject:to:to:x-me-proxy
- :x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=fm3; bh=o3ByKo
- FhIgSg+5IAPM7wGANITFYAbMlp6KYCdiUEJGE=; b=Lu4WyGikTwDCue/0xTszKR
- eN8RiAPoxpaf8hzBaZXdPsfd7OvzKLd7ihqhWD/+cRa9wsEIWfrc5WlkS1HFmd1d
- 22jDepFJF20u8dYpeOlbuzMraxL5OTxV3MgVCNuQQsvaFh2X66GG3mXNRSn1Kg8t
- rdx17OvH1IR9qYCwhk40GeyiwFadgwtVG1QLKAeNgX/eVh1TOTbqAmqOYgM/ReHj
- 6QXfifXIPeoePMAEGph4NV8C9d7fPU80vaW0Aoozo6GCuEh5cO2Yc6NM5r2Qn3zX
- fIM2NxzRyZVhzSw2FCEtKpkioLoWT3T0bQNdSkRMpWsknTUadQPe0GlNknAK32ow
- ==
-X-ME-Sender: <xms:yrxFYgEqeogQ6Y8RJrZ07SvkyuEQyGjaIfy8fhvxxj19EvqutT2udQ>
- <xme:yrxFYpXkorzaTZfULi1LLYKbetiI65aXtTpoR_mzCWNCiHaqRjga_i24O_1rHW6MV
- F2xg0RLGW0Pvx1bg-g>
-X-ME-Received: <xmr:yrxFYqKJdZE9EtGhw2A861NJnElm8nMYQyqgMUKU9SA6Jl-lZhx3rXQ397-_Z4cRpBxO62OxUfkoiP69ES5WB_U8v7HdYUHbCGJAoUI>
-X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvvddrudeigedgjeelucetufdoteggodetrfdotf
- fvucfrrhhofhhilhgvmecuhfgrshhtofgrihhlpdfqfgfvpdfurfetoffkrfgpnffqhgen
- uceurghilhhouhhtmecufedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmne
- cujfgurhephffvufffkffojghfggfgsedtkeertdertddtnecuhfhrohhmpeforgigihhm
- vgcutfhiphgrrhguuceomhgrgihimhgvsegtvghrnhhordhtvggthheqnecuggftrfgrth
- htvghrnhepvdekleevfeffkeejhfffueelteelfeduieefheduudfggffhhfffheevveeh
- hedvnecuvehluhhsthgvrhfuihiivgepvdenucfrrghrrghmpehmrghilhhfrhhomhepmh
- grgihimhgvsegtvghrnhhordhtvggthh
-X-ME-Proxy: <xmx:yrxFYiGS7ipiMR21K3MG7nGv-_VXvN-f_yleF8dCriK0c4gMlmczEw>
- <xmx:yrxFYmWijS9gJBzlMx0FC18rvVxcQ8EQ27cNuW95LRI_NLk27GgPAA>
- <xmx:yrxFYlN_N0sNj92SXfXPieYB6mtTHYm_FlyGV_Aw3IR9jcHNSXdSwA>
- <xmx:yrxFYkxnxbplpWGbdVNDLXXKXT1fm-0pdi9Vl9iErri85en50YkBqw>
-Received: by mail.messagingengine.com (Postfix) with ESMTPA; Thu,
- 31 Mar 2022 10:38:02 -0400 (EDT)
-From: Maxime Ripard <maxime@cerno.tech>
-To: dri-devel@lists.freedesktop.org
-Subject: [PATCH v2 7/7] drm/vc4: hvs: Use pointer to HVS in HVS_READ and
- HVS_WRITE macros
-Date: Thu, 31 Mar 2022 16:37:44 +0200
-Message-Id: <20220331143744.777652-8-maxime@cerno.tech>
-X-Mailer: git-send-email 2.35.1
-In-Reply-To: <20220331143744.777652-1-maxime@cerno.tech>
-References: <20220331143744.777652-1-maxime@cerno.tech>
-MIME-Version: 1.0
+Received: from NAM11-DM6-obe.outbound.protection.outlook.com
+ (mail-dm6nam11on2083.outbound.protection.outlook.com [40.107.223.83])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 3EF3910F1AC;
+ Thu, 31 Mar 2022 14:44:44 +0000 (UTC)
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=TWKDV/APZG7vumt3n+Ob6bB08EcMVrBfejphB7vCDDA0FtJgp2FjQpoVEIet9KTvSh9ZJ1c5pnWkF1kRrmNTG0u1ZUlFFfnvSJdJ8T1JHsulKSLemBbt28NtQmJI9EIigGRbc5OvshMECT5yiGhj6osngaGN1fTgr8IGGYUSJFyvrx1fqC/bPw1mf96hDNkSIEYvdlfHmNWPfD/qDM5Y/rAGVd8nnJ6hkJdjW13m/heK+9NSEWG98yYcrZh3bNtsKhn1u2Jhglwu7fvpT96IvEaPr20qS3K5GHFkQs+AIdPBuZtFSlqIau0SV+TfPNpsuf9jcqKfS4a9pocqRqnVvA==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=8EpTsG4L4+E2azzagf/+J69eNkAMRiJYQSTgdOPAtj8=;
+ b=bHUi2rbzTaakSt5Qr79m3oxdMWXkQGdFnMVGmVEBIM6lzpCb+4wN3UZ9sEijK6t5945Q00baCkl13dTb906JWzta/zS3lDJxaLl83LD9T2g0IINRd8uQoERoyENbwczO5FUP2wRJKTOP94oh/HP9SVuhZMHT2LbrrW4mbih+DdnXfsfzhh8kJXvkOxHvyLjAKmx70LiOBeLa8Yhqkd3zLJdL5RZBa/sAx+krbbA9FTRcQLcO05JPYeoII0qDOXue/3DM5kIst8MJV4M56xRclFkCxF/avvQhH8I4PWCUGxxbba2mbV6btJmWSVRISQ7DP+/y1B0U5pFHQ3M8vmJH5A==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=amd.com; dmarc=pass action=none header.from=amd.com; dkim=pass
+ header.d=amd.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1; 
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=8EpTsG4L4+E2azzagf/+J69eNkAMRiJYQSTgdOPAtj8=;
+ b=OE6jntdtilYq0XrS6Dlhh4wZmYruK7DCEd3KyxB2sFV6YJR+wgfYIhYB0ohkWGSyW8nYNNj4yqWS8IzHuvUQlBptVLX4PFgv1dJGCUzRRd2LqSFIx1C/C6Mm+KqXTnqlXh5OSqokm9OubffB96dE34q2Cki78ATbBMvq0RgzYmk=
+Authentication-Results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=amd.com;
+Received: from BN9PR12MB5115.namprd12.prod.outlook.com (2603:10b6:408:118::14)
+ by BL0PR12MB4881.namprd12.prod.outlook.com (2603:10b6:208:1c7::7)
+ with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.5123.21; Thu, 31 Mar
+ 2022 14:44:42 +0000
+Received: from BN9PR12MB5115.namprd12.prod.outlook.com
+ ([fe80::4839:9431:1040:5cd5]) by BN9PR12MB5115.namprd12.prod.outlook.com
+ ([fe80::4839:9431:1040:5cd5%3]) with mapi id 15.20.5123.021; Thu, 31 Mar 2022
+ 14:44:42 +0000
+Message-ID: <f38e4782-1959-d1f3-e8d7-f60e199514e3@amd.com>
+Date: Thu, 31 Mar 2022 10:44:40 -0400
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.7.0
+Subject: Re: [PATCH v2 1/1] drm/amdkfd: Create file descriptor after client is
+ added to smi_clients list
+Content-Language: en-US
+To: Lee Jones <lee.jones@linaro.org>
+References: <20220331122117.1538913-1-lee.jones@linaro.org>
+From: Felix Kuehling <felix.kuehling@amd.com>
+In-Reply-To: <20220331122117.1538913-1-lee.jones@linaro.org>
+Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 8bit
+X-ClientProxiedBy: YT2PR01CA0007.CANPRD01.PROD.OUTLOOK.COM
+ (2603:10b6:b01:38::12) To BN9PR12MB5115.namprd12.prod.outlook.com
+ (2603:10b6:408:118::14)
+MIME-Version: 1.0
+X-MS-PublicTrafficType: Email
+X-MS-Office365-Filtering-Correlation-Id: ef748709-d63b-4fb1-8e97-08da1324fdc5
+X-MS-TrafficTypeDiagnostic: BL0PR12MB4881:EE_
+X-Microsoft-Antispam-PRVS: <BL0PR12MB4881C505956DF35542DB88F192E19@BL0PR12MB4881.namprd12.prod.outlook.com>
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: BCL:0;
+X-Microsoft-Antispam-Message-Info: OI+2crcrUdfT2V5by1iCFJ+eml77Ps3fbZ8Qaf9kkTFogcvlQ8u9N23THBn9iRALF6/J+3qbWTacZp7+hdCf9K+Nl2hygms5A95+6e3kv0XAabfqCeM+Ch3dWDL2k3FwCZ4UKBkpqHuwavhdoC0CpTCU3w9tvgEWk54BqHQdZFavojd5GhQEA3U3b7jNdNMdDlaMo7HCjJxztK6ZBr+wuf//nbSy9CASC86ex/iZFyP36fgOtzfLmRjchqZriTejIh+SfgDttvrVslnpIkVaYSBDH0E31Dftjgmw2SwIsQzNMeVe8aNbzQGkXQeZCDooJGSw79BSHJ4kHjG0gFGmqO1qcfQwACA04qF9S5+iCxxOGUpIDjxtcSD+iCedIq7GoNbLWwvJbHSTQW8YlR46Gkd9ZjrwSqllJBs9fAzZnGheexu6XMLzGGRaBAGyI7VMONuQT2srocc+Lmu5dNMRH3pBHREaK63Fr3H1C7Dzm7aoD95/j8PVRse8iGXugre/RJ0/TDvvciEwAEADM5pUvS3wJgV+atnQehgknrshnReT//7bf44/zbXIwMB1hSpOxnJzmlZzJhXejoPG2Npes19xidVck1cwrjUHIJnB8G8IqNO0zFX4w/tDuEWLGNZBofOrcTZZ6phBpADcrhTDe512ma8Ig7lV2/0r0NS9yMLmKIWxZC+jFv3bOcM1A4kyz3v+lOty1tFNyV9JM016GkjaSnlLVIH8aQyKhA3yrak=
+X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
+ IPV:NLI; SFV:NSPM; H:BN9PR12MB5115.namprd12.prod.outlook.com; PTR:; CAT:NONE;
+ SFS:(13230001)(4636009)(366004)(6506007)(6512007)(2616005)(5660300002)(2906002)(4326008)(66574015)(6486002)(66556008)(83380400001)(66476007)(508600001)(8676002)(66946007)(44832011)(8936002)(26005)(6916009)(186003)(54906003)(31686004)(316002)(36756003)(38100700002)(31696002)(86362001)(45980500001)(43740500002);
+ DIR:OUT; SFP:1101; 
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0: =?utf-8?B?ZUsrU0w0QzlNMnpSdDF5NC9WTWZMaUJhVzBvUDFWbjQ4QXJxbHNVTlBUZ1p5?=
+ =?utf-8?B?cVo5NWV5RHNVR3JLVFN6c2NiTHZCUnlsb1hCNVVmUlRVMGFhL3BQYmljS0xR?=
+ =?utf-8?B?VHJ3WkhOdGhYbFNkbjR4YUltR2tBdFlZbWVhY2lweFdMVEJvWllOWUx2RnY4?=
+ =?utf-8?B?c3VieUM2ZWRvOE5JZ1NGZFhvUTIzMjhLVm1Ld0xuTTIzQmwwTmFROW1VcEJO?=
+ =?utf-8?B?VE9sUEM2UUtzNitScVJhNmh1eU9ieGI4eTJqbE1ha1pqNnJydy8wOTQvMi9k?=
+ =?utf-8?B?dTRBc01FMi9kb2FGakd3eGw4YlFzb3cyNTFPajkyNG1ENHhLSzdObHN1U3d0?=
+ =?utf-8?B?OHd1RURDcU1BTnpweGpHNmpHWEFBOStIQ3lPZkxqVGljNlB4SkF5U0NKYmJQ?=
+ =?utf-8?B?Y3F2UEVrcVZPeFVLTE5NdS9rcTVLQzBhSnFWVlE3QkFwWDFKdTYybStVeEhx?=
+ =?utf-8?B?NVE3aDE4Qmk0KzFtQUV3a0JzYjV5OTVsZ0xjdkNna2RiUDMzU1lDanpWYTZG?=
+ =?utf-8?B?RzBXVzNIMFVsZ00zdStnak1idjBzTEg2T2FpNHlVRWxPZzcwSmJoQ1V6amdo?=
+ =?utf-8?B?TmJYcDFsZkN0L1Zab2dvTjRhWmozU0ZybktqaDVKTlc3QWVkMXRvZVNqY0N2?=
+ =?utf-8?B?QWlSRXdWSTBQSk9IWXgzTXphNFU3cExZSG1YcmtvdzNuQUtpaktlYitQdjhP?=
+ =?utf-8?B?dEU3OHJHeEEwTVo4RC8zQSs2ZzlaaEhxNldENTEwVWdXZ29KVTdHLzk4NzRu?=
+ =?utf-8?B?SlhQVHV1SGJlUHJTaFlBbnVHb1MrbUZRenRibGxRV1dNblJ1WEt2SmZHWkZ1?=
+ =?utf-8?B?REYveDN0NGRCQjl5M2hzL1BMYW41NDJGVjVpOU52UUZkZ05KbHA5bE9GUE44?=
+ =?utf-8?B?djBvWGpWNHBDUHdQQ3hCOThQdFBMeVlJR0wxTGdlcm1kem9ueGFZWElmUE85?=
+ =?utf-8?B?ekR6dFFZTUJ3Qy85VnZKRTZPOS9BQjM3Qld2OVJIb0RnK3hJa2hNcGtqVVhQ?=
+ =?utf-8?B?Wit3VVB1TFRLYm9qakVGWnhSclBoUHI2YmhpcnpTNTJXZVlZeThmUmlPanZU?=
+ =?utf-8?B?T1ByOEI1SW5kODJBNldEN1pXdU4vbVFyR1NHaktZeU1CbWFBSGFrREo3U1BW?=
+ =?utf-8?B?OTNwemJVZ2NwakxsQVgrVXB3WXdlU0g3ZEgrZml6aVpVQXFnU0YzQjlVamM3?=
+ =?utf-8?B?WFlqYlJjNWRwYkNlZmhxSE9sSTF2aW9aaUZ3eUlTODUvR1Y2OXd6MnJTWEI3?=
+ =?utf-8?B?OVpkSHl5aEowMjZTb1VtNmM3TUdZNnp4R3BYVkpTUWlUZGxDUk5NY2x4OXNS?=
+ =?utf-8?B?a0pCVGM0T0h6M1lObmQ5b0VHRE04YVE4Vm5iS3RuajA2dG5RL3hmenVzWUZZ?=
+ =?utf-8?B?ZFBBTWJMY1FQdVplc2UwcFRQajBoRnI4dVdMQVZ0RmxySkZqL1kwMU1Ed2hj?=
+ =?utf-8?B?LzdaUWVzbmFoSlRZRXZ1bXU5cGVNbFNWSW1Jd2RPb2thbzNzbmU3Y3NGeGlx?=
+ =?utf-8?B?OFlUaVgvK1RwVmRCR1g4WHBnUXdyZkhiaU55LzU2eThpVCtCZnBrcTVhR2dF?=
+ =?utf-8?B?Z3ZSeUNYKyt6Yy9zTWtiZkNudjlaSmRRYVAxSmN0VlVZM3RGeXIzNGpBZ21m?=
+ =?utf-8?B?b1BYVVFOdkxjdjkrME9qR0E3N2J1OHpKZnpnL2ltcHFjbllrUlY0NUg5ODJa?=
+ =?utf-8?B?aGNPNEQ4TFBiRU9aeTVISGR3bk1DSURHelVIeE1yNGtvNWcyR3dFTzNIaFpN?=
+ =?utf-8?B?YVdXbmd5bTdzYkV6SENXVXFMN0M1QmZGSlg4eVVCWXNhQUVLSTlSZG1YRjNU?=
+ =?utf-8?B?ZUhjOE5XeEcxSTROTVQwWjMxYjJOWXNWVXA4K29VMnFwK25qdzVSdW5Mdmd4?=
+ =?utf-8?B?a2N2VHNLQlFISVlyT3NBY2ZqbXA2dmZqNFhMQWRWc0xwZmdXMGhGc1pnaTdM?=
+ =?utf-8?B?eWUveU9nNmVXb01HN25FRWNBRFc4MnVZQVo5WWZQZVkreGVOanUyc3ByU21C?=
+ =?utf-8?B?OTEvRG5tVHlQWk5CQjJVdGo4Y1lrcnkrZGJaVlVoU0NwZWhnd3h2cmVFSzFs?=
+ =?utf-8?B?VmJmUGpnMVBMZHhzRFdRWUVqOUpMajQ2UWg3VUFOUlpMQXFkbzJ5emFqTnEz?=
+ =?utf-8?B?MFlGUFN6Q2NHRlBYZmtnQXhiN0crdWdHVXJKMDV0SldCM1dFTlJmUEorOVdH?=
+ =?utf-8?B?aHYwQnNUWVdHU3VndnVXMVI1dDRNcThYS0JJV2dNa0hVRkJEUDgyWW1weWRu?=
+ =?utf-8?B?bkg4MnhhZEZHTEMreHhnQVFibE5IaXN1c1BGWkIvL2N3UG1wMVViWVEybEE0?=
+ =?utf-8?B?OEpIMmw3emdXNnRYZzBleTJ2UGFKNkZ2TVlraXVCMlJUcGo4Skdvdz09?=
+X-OriginatorOrg: amd.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: ef748709-d63b-4fb1-8e97-08da1324fdc5
+X-MS-Exchange-CrossTenant-AuthSource: BN9PR12MB5115.namprd12.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 31 Mar 2022 14:44:42.4616 (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: RpAn1LZ6k2jZHZVa4hnBppJDNPjZs/qqnQel3tIrZybUkZiI7UGAUDy3ZGa8O7YkK2hKmt56W42FzuSeskCFqw==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: BL0PR12MB4881
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -81,433 +129,90 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: David Airlie <airlied@linux.ie>, Daniel Vetter <daniel.vetter@intel.com>,
- Maxime Ripard <maxime@cerno.tech>, Thomas Zimmermann <tzimmermann@suse.de>
+Cc: David Airlie <airlied@linux.ie>, "Pan, Xinhui" <Xinhui.Pan@amd.com>,
+ linux-kernel@vger.kernel.org, amd-gfx@lists.freedesktop.org,
+ dri-devel@lists.freedesktop.org, Alex Deucher <alexander.deucher@amd.com>,
+ =?UTF-8?Q?Christian_K=c3=b6nig?= <christian.koenig@amd.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Those macros are really about the HVS itself, and thus its associated
-structure vc4_hvs, rather than the entire (virtual) vc4 device.
 
-Let's change those macros to use the hvs pointer directly, and change
-the calling sites accordingly.
+Am 2022-03-31 um 08:21 schrieb Lee Jones:
+> This ensures userspace cannot prematurely clean-up the client before
+> it is fully initialised which has been proven to cause issues in the
+> past.
+>
+> Cc: Felix Kuehling <Felix.Kuehling@amd.com>
+> Cc: Alex Deucher <alexander.deucher@amd.com>
+> Cc: "Christian König" <christian.koenig@amd.com>
+> Cc: "Pan, Xinhui" <Xinhui.Pan@amd.com>
+> Cc: David Airlie <airlied@linux.ie>
+> Cc: Daniel Vetter <daniel@ffwll.ch>
+> Cc: amd-gfx@lists.freedesktop.org
+> Cc: dri-devel@lists.freedesktop.org
+> Signed-off-by: Lee Jones <lee.jones@linaro.org>
 
-Signed-off-by: Maxime Ripard <maxime@cerno.tech>
----
- drivers/gpu/drm/vc4/vc4_crtc.c | 14 +++++--
- drivers/gpu/drm/vc4/vc4_drv.h  | 16 +++----
- drivers/gpu/drm/vc4/vc4_hvs.c  | 77 +++++++++++++++++-----------------
- drivers/gpu/drm/vc4/vc4_kms.c  |  5 ++-
- 4 files changed, 60 insertions(+), 52 deletions(-)
+Reviewed-by: Felix Kuehling <Felix.Kuehling@amd.com>
 
-diff --git a/drivers/gpu/drm/vc4/vc4_crtc.c b/drivers/gpu/drm/vc4/vc4_crtc.c
-index 72fadce38d32..5bb4027e479e 100644
---- a/drivers/gpu/drm/vc4/vc4_crtc.c
-+++ b/drivers/gpu/drm/vc4/vc4_crtc.c
-@@ -70,6 +70,7 @@ static const struct debugfs_reg32 crtc_regs[] = {
- static unsigned int
- vc4_crtc_get_cob_allocation(struct vc4_dev *vc4, unsigned int channel)
- {
-+	struct vc4_hvs *hvs = vc4->hvs;
- 	u32 dispbase = HVS_READ(SCALER_DISPBASEX(channel));
- 	/* Top/base are supposed to be 4-pixel aligned, but the
- 	 * Raspberry Pi firmware fills the low bits (which are
-@@ -89,6 +90,7 @@ static bool vc4_crtc_get_scanout_position(struct drm_crtc *crtc,
- {
- 	struct drm_device *dev = crtc->dev;
- 	struct vc4_dev *vc4 = to_vc4_dev(dev);
-+	struct vc4_hvs *hvs = vc4->hvs;
- 	struct vc4_crtc *vc4_crtc = to_vc4_crtc(crtc);
- 	struct vc4_crtc_state *vc4_crtc_state = to_vc4_crtc_state(crtc->state);
- 	unsigned int cob_size;
-@@ -123,7 +125,7 @@ static bool vc4_crtc_get_scanout_position(struct drm_crtc *crtc,
- 		*vpos /= 2;
- 
- 		/* Use hpos to correct for field offset in interlaced mode. */
--		if (vc4_hvs_get_fifo_frame_count(dev, vc4_crtc_state->assigned_channel) % 2)
-+		if (vc4_hvs_get_fifo_frame_count(hvs, vc4_crtc_state->assigned_channel) % 2)
- 			*hpos += mode->crtc_htotal / 2;
- 	}
- 
-@@ -413,6 +415,7 @@ static void vc4_crtc_config_pv(struct drm_crtc *crtc, struct drm_encoder *encode
- static void require_hvs_enabled(struct drm_device *dev)
- {
- 	struct vc4_dev *vc4 = to_vc4_dev(dev);
-+	struct vc4_hvs *hvs = vc4->hvs;
- 
- 	WARN_ON_ONCE((HVS_READ(SCALER_DISPCTRL) & SCALER_DISPCTRL_ENABLE) !=
- 		     SCALER_DISPCTRL_ENABLE);
-@@ -426,6 +429,7 @@ static int vc4_crtc_disable(struct drm_crtc *crtc,
- 	struct vc4_encoder *vc4_encoder = to_vc4_encoder(encoder);
- 	struct vc4_crtc *vc4_crtc = to_vc4_crtc(crtc);
- 	struct drm_device *dev = crtc->dev;
-+	struct vc4_dev *vc4 = to_vc4_dev(dev);
- 	int ret;
- 
- 	CRTC_WRITE(PV_V_CONTROL,
-@@ -455,7 +459,7 @@ static int vc4_crtc_disable(struct drm_crtc *crtc,
- 		vc4_encoder->post_crtc_disable(encoder, state);
- 
- 	vc4_crtc_pixelvalve_reset(crtc);
--	vc4_hvs_stop_channel(dev, channel);
-+	vc4_hvs_stop_channel(vc4->hvs, channel);
- 
- 	if (vc4_encoder && vc4_encoder->post_crtc_powerdown)
- 		vc4_encoder->post_crtc_powerdown(encoder, state);
-@@ -481,6 +485,7 @@ static struct drm_encoder *vc4_crtc_get_encoder_by_type(struct drm_crtc *crtc,
- int vc4_crtc_disable_at_boot(struct drm_crtc *crtc)
- {
- 	struct drm_device *drm = crtc->dev;
-+	struct vc4_dev *vc4 = to_vc4_dev(drm);
- 	struct vc4_crtc *vc4_crtc = to_vc4_crtc(crtc);
- 	enum vc4_encoder_type encoder_type;
- 	const struct vc4_pv_data *pv_data;
-@@ -502,7 +507,7 @@ int vc4_crtc_disable_at_boot(struct drm_crtc *crtc)
- 	if (!(CRTC_READ(PV_V_CONTROL) & PV_VCONTROL_VIDEN))
- 		return 0;
- 
--	channel = vc4_hvs_get_fifo_from_output(drm, vc4_crtc->data->hvs_output);
-+	channel = vc4_hvs_get_fifo_from_output(vc4->hvs, vc4_crtc->data->hvs_output);
- 	if (channel < 0)
- 		return 0;
- 
-@@ -715,6 +720,7 @@ static void vc4_crtc_handle_page_flip(struct vc4_crtc *vc4_crtc)
- 	struct drm_crtc *crtc = &vc4_crtc->base;
- 	struct drm_device *dev = crtc->dev;
- 	struct vc4_dev *vc4 = to_vc4_dev(dev);
-+	struct vc4_hvs *hvs = vc4->hvs;
- 	u32 chan = vc4_crtc->current_hvs_channel;
- 	unsigned long flags;
- 
-@@ -733,7 +739,7 @@ static void vc4_crtc_handle_page_flip(struct vc4_crtc *vc4_crtc)
- 		 * the CRTC and encoder already reconfigured, leading to
- 		 * underruns. This can be seen when reconfiguring the CRTC.
- 		 */
--		vc4_hvs_unmask_underrun(dev, chan);
-+		vc4_hvs_unmask_underrun(hvs, chan);
- 	}
- 	spin_unlock(&vc4_crtc->irq_lock);
- 	spin_unlock_irqrestore(&dev->event_lock, flags);
-diff --git a/drivers/gpu/drm/vc4/vc4_drv.h b/drivers/gpu/drm/vc4/vc4_drv.h
-index 801da3e8ebdb..15e0c2ac3940 100644
---- a/drivers/gpu/drm/vc4/vc4_drv.h
-+++ b/drivers/gpu/drm/vc4/vc4_drv.h
-@@ -574,8 +574,8 @@ to_vc4_crtc_state(struct drm_crtc_state *crtc_state)
- 
- #define V3D_READ(offset) readl(vc4->v3d->regs + offset)
- #define V3D_WRITE(offset, val) writel(val, vc4->v3d->regs + offset)
--#define HVS_READ(offset) readl(vc4->hvs->regs + offset)
--#define HVS_WRITE(offset, val) writel(val, vc4->hvs->regs + offset)
-+#define HVS_READ(offset) readl(hvs->regs + offset)
-+#define HVS_WRITE(offset, val) writel(val, hvs->regs + offset)
- 
- #define VC4_REG32(reg) { .name = #reg, .offset = reg }
- 
-@@ -933,17 +933,17 @@ void vc4_irq_reset(struct drm_device *dev);
- 
- /* vc4_hvs.c */
- extern struct platform_driver vc4_hvs_driver;
--void vc4_hvs_stop_channel(struct drm_device *dev, unsigned int output);
--int vc4_hvs_get_fifo_from_output(struct drm_device *dev, unsigned int output);
--u8 vc4_hvs_get_fifo_frame_count(struct drm_device *dev, unsigned int fifo);
-+void vc4_hvs_stop_channel(struct vc4_hvs *hvs, unsigned int output);
-+int vc4_hvs_get_fifo_from_output(struct vc4_hvs *hvs, unsigned int output);
-+u8 vc4_hvs_get_fifo_frame_count(struct vc4_hvs *hvs, unsigned int fifo);
- int vc4_hvs_atomic_check(struct drm_crtc *crtc, struct drm_atomic_state *state);
- void vc4_hvs_atomic_begin(struct drm_crtc *crtc, struct drm_atomic_state *state);
- void vc4_hvs_atomic_enable(struct drm_crtc *crtc, struct drm_atomic_state *state);
- void vc4_hvs_atomic_disable(struct drm_crtc *crtc, struct drm_atomic_state *state);
- void vc4_hvs_atomic_flush(struct drm_crtc *crtc, struct drm_atomic_state *state);
--void vc4_hvs_dump_state(struct drm_device *dev);
--void vc4_hvs_unmask_underrun(struct drm_device *dev, int channel);
--void vc4_hvs_mask_underrun(struct drm_device *dev, int channel);
-+void vc4_hvs_dump_state(struct vc4_hvs *hvs);
-+void vc4_hvs_unmask_underrun(struct vc4_hvs *hvs, int channel);
-+void vc4_hvs_mask_underrun(struct vc4_hvs *hvs, int channel);
- 
- /* vc4_kms.c */
- int vc4_kms_load(struct drm_device *dev);
-diff --git a/drivers/gpu/drm/vc4/vc4_hvs.c b/drivers/gpu/drm/vc4/vc4_hvs.c
-index 2d540fc11357..9194cb52e706 100644
---- a/drivers/gpu/drm/vc4/vc4_hvs.c
-+++ b/drivers/gpu/drm/vc4/vc4_hvs.c
-@@ -64,22 +64,21 @@ static const struct debugfs_reg32 hvs_regs[] = {
- 	VC4_REG32(SCALER_OLEDCOEF2),
- };
- 
--void vc4_hvs_dump_state(struct drm_device *dev)
-+void vc4_hvs_dump_state(struct vc4_hvs *hvs)
- {
--	struct vc4_dev *vc4 = to_vc4_dev(dev);
--	struct drm_printer p = drm_info_printer(&vc4->hvs->pdev->dev);
-+	struct drm_printer p = drm_info_printer(&hvs->pdev->dev);
- 	int i;
- 
--	drm_print_regset32(&p, &vc4->hvs->regset);
-+	drm_print_regset32(&p, &hvs->regset);
- 
- 	DRM_INFO("HVS ctx:\n");
- 	for (i = 0; i < 64; i += 4) {
- 		DRM_INFO("0x%08x (%s): 0x%08x 0x%08x 0x%08x 0x%08x\n",
- 			 i * 4, i < HVS_BOOTLOADER_DLIST_END ? "B" : "D",
--			 readl((u32 __iomem *)vc4->hvs->dlist + i + 0),
--			 readl((u32 __iomem *)vc4->hvs->dlist + i + 1),
--			 readl((u32 __iomem *)vc4->hvs->dlist + i + 2),
--			 readl((u32 __iomem *)vc4->hvs->dlist + i + 3));
-+			 readl((u32 __iomem *)hvs->dlist + i + 0),
-+			 readl((u32 __iomem *)hvs->dlist + i + 1),
-+			 readl((u32 __iomem *)hvs->dlist + i + 2),
-+			 readl((u32 __iomem *)hvs->dlist + i + 3));
- 	}
- }
- 
-@@ -157,11 +156,10 @@ static int vc4_hvs_upload_linear_kernel(struct vc4_hvs *hvs,
- 	return 0;
- }
- 
--static void vc4_hvs_lut_load(struct drm_crtc *crtc)
-+static void vc4_hvs_lut_load(struct vc4_hvs *hvs,
-+			     struct vc4_crtc *vc4_crtc)
- {
--	struct drm_device *dev = crtc->dev;
--	struct vc4_dev *vc4 = to_vc4_dev(dev);
--	struct vc4_crtc *vc4_crtc = to_vc4_crtc(crtc);
-+	struct drm_crtc *crtc = &vc4_crtc->base;
- 	struct vc4_crtc_state *vc4_state = to_vc4_crtc_state(crtc->state);
- 	u32 i;
- 
-@@ -181,11 +179,12 @@ static void vc4_hvs_lut_load(struct drm_crtc *crtc)
- 		HVS_WRITE(SCALER_GAMDATA, vc4_crtc->lut_b[i]);
- }
- 
--static void vc4_hvs_update_gamma_lut(struct drm_crtc *crtc)
-+static void vc4_hvs_update_gamma_lut(struct vc4_hvs *hvs,
-+				     struct vc4_crtc *vc4_crtc)
- {
--	struct vc4_crtc *vc4_crtc = to_vc4_crtc(crtc);
--	struct drm_color_lut *lut = crtc->state->gamma_lut->data;
--	u32 length = drm_color_lut_size(crtc->state->gamma_lut);
-+	struct drm_crtc_state *crtc_state = vc4_crtc->base.state;
-+	struct drm_color_lut *lut = crtc_state->gamma_lut->data;
-+	u32 length = drm_color_lut_size(crtc_state->gamma_lut);
- 	u32 i;
- 
- 	for (i = 0; i < length; i++) {
-@@ -194,12 +193,11 @@ static void vc4_hvs_update_gamma_lut(struct drm_crtc *crtc)
- 		vc4_crtc->lut_b[i] = drm_color_lut_extract(lut[i].blue, 8);
- 	}
- 
--	vc4_hvs_lut_load(crtc);
-+	vc4_hvs_lut_load(hvs, vc4_crtc);
- }
- 
--u8 vc4_hvs_get_fifo_frame_count(struct drm_device *dev, unsigned int fifo)
-+u8 vc4_hvs_get_fifo_frame_count(struct vc4_hvs *hvs, unsigned int fifo)
- {
--	struct vc4_dev *vc4 = to_vc4_dev(dev);
- 	u8 field = 0;
- 
- 	switch (fifo) {
-@@ -220,13 +218,12 @@ u8 vc4_hvs_get_fifo_frame_count(struct drm_device *dev, unsigned int fifo)
- 	return field;
- }
- 
--int vc4_hvs_get_fifo_from_output(struct drm_device *dev, unsigned int output)
-+int vc4_hvs_get_fifo_from_output(struct vc4_hvs *hvs, unsigned int output)
- {
--	struct vc4_dev *vc4 = to_vc4_dev(dev);
- 	u32 reg;
- 	int ret;
- 
--	if (!vc4->hvs->hvs5)
-+	if (!hvs->hvs5)
- 		return output;
- 
- 	switch (output) {
-@@ -273,9 +270,10 @@ int vc4_hvs_get_fifo_from_output(struct drm_device *dev, unsigned int output)
- 	}
- }
- 
--static int vc4_hvs_init_channel(struct vc4_dev *vc4, struct drm_crtc *crtc,
-+static int vc4_hvs_init_channel(struct vc4_hvs *hvs, struct drm_crtc *crtc,
- 				struct drm_display_mode *mode, bool oneshot)
- {
-+	struct vc4_crtc *vc4_crtc = to_vc4_crtc(crtc);
- 	struct vc4_crtc_state *vc4_crtc_state = to_vc4_crtc_state(crtc->state);
- 	unsigned int chan = vc4_crtc_state->assigned_channel;
- 	bool interlace = mode->flags & DRM_MODE_FLAG_INTERLACE;
-@@ -293,7 +291,7 @@ static int vc4_hvs_init_channel(struct vc4_dev *vc4, struct drm_crtc *crtc,
- 	 */
- 	dispctrl = SCALER_DISPCTRLX_ENABLE;
- 
--	if (!vc4->hvs->hvs5)
-+	if (!hvs->hvs5)
- 		dispctrl |= VC4_SET_FIELD(mode->hdisplay,
- 					  SCALER_DISPCTRLX_WIDTH) |
- 			    VC4_SET_FIELD(mode->vdisplay,
-@@ -314,21 +312,19 @@ static int vc4_hvs_init_channel(struct vc4_dev *vc4, struct drm_crtc *crtc,
- 
- 	HVS_WRITE(SCALER_DISPBKGNDX(chan), dispbkgndx |
- 		  SCALER_DISPBKGND_AUTOHS |
--		  ((!vc4->hvs->hvs5) ? SCALER_DISPBKGND_GAMMA : 0) |
-+		  ((!hvs->hvs5) ? SCALER_DISPBKGND_GAMMA : 0) |
- 		  (interlace ? SCALER_DISPBKGND_INTERLACE : 0));
- 
- 	/* Reload the LUT, since the SRAMs would have been disabled if
- 	 * all CRTCs had SCALER_DISPBKGND_GAMMA unset at once.
- 	 */
--	vc4_hvs_lut_load(crtc);
-+	vc4_hvs_lut_load(hvs, vc4_crtc);
- 
- 	return 0;
- }
- 
--void vc4_hvs_stop_channel(struct drm_device *dev, unsigned int chan)
-+void vc4_hvs_stop_channel(struct vc4_hvs *hvs, unsigned int chan)
- {
--	struct vc4_dev *vc4 = to_vc4_dev(dev);
--
- 	if (HVS_READ(SCALER_DISPCTRLX(chan)) & SCALER_DISPCTRLX_ENABLE)
- 		return;
- 
-@@ -386,6 +382,7 @@ static void vc4_hvs_install_dlist(struct drm_crtc *crtc)
- {
- 	struct drm_device *dev = crtc->dev;
- 	struct vc4_dev *vc4 = to_vc4_dev(dev);
-+	struct vc4_hvs *hvs = vc4->hvs;
- 	struct vc4_crtc_state *vc4_state = to_vc4_crtc_state(crtc->state);
- 
- 	HVS_WRITE(SCALER_DISPLISTX(vc4_state->assigned_channel),
-@@ -442,18 +439,19 @@ void vc4_hvs_atomic_enable(struct drm_crtc *crtc,
- 
- 	vc4_hvs_install_dlist(crtc);
- 	vc4_hvs_update_dlist(crtc);
--	vc4_hvs_init_channel(vc4, crtc, mode, oneshot);
-+	vc4_hvs_init_channel(vc4->hvs, crtc, mode, oneshot);
- }
- 
- void vc4_hvs_atomic_disable(struct drm_crtc *crtc,
- 			    struct drm_atomic_state *state)
- {
- 	struct drm_device *dev = crtc->dev;
-+	struct vc4_dev *vc4 = to_vc4_dev(dev);
- 	struct drm_crtc_state *old_state = drm_atomic_get_old_crtc_state(state, crtc);
- 	struct vc4_crtc_state *vc4_state = to_vc4_crtc_state(old_state);
- 	unsigned int chan = vc4_state->assigned_channel;
- 
--	vc4_hvs_stop_channel(dev, chan);
-+	vc4_hvs_stop_channel(vc4->hvs, chan);
- }
- 
- void vc4_hvs_atomic_flush(struct drm_crtc *crtc,
-@@ -463,6 +461,8 @@ void vc4_hvs_atomic_flush(struct drm_crtc *crtc,
- 									 crtc);
- 	struct drm_device *dev = crtc->dev;
- 	struct vc4_dev *vc4 = to_vc4_dev(dev);
-+	struct vc4_hvs *hvs = vc4->hvs;
-+	struct vc4_crtc *vc4_crtc = to_vc4_crtc(crtc);
- 	struct vc4_crtc_state *vc4_state = to_vc4_crtc_state(crtc->state);
- 	unsigned int channel = vc4_state->assigned_channel;
- 	struct drm_plane *plane;
-@@ -474,7 +474,7 @@ void vc4_hvs_atomic_flush(struct drm_crtc *crtc,
- 
- 	if (debug_dump_regs) {
- 		DRM_INFO("CRTC %d HVS before:\n", drm_crtc_index(crtc));
--		vc4_hvs_dump_state(dev);
-+		vc4_hvs_dump_state(hvs);
- 	}
- 
- 	/* Copy all the active planes' dlist contents to the hardware dlist. */
-@@ -525,7 +525,7 @@ void vc4_hvs_atomic_flush(struct drm_crtc *crtc,
- 		u32 dispbkgndx = HVS_READ(SCALER_DISPBKGNDX(channel));
- 
- 		if (crtc->state->gamma_lut) {
--			vc4_hvs_update_gamma_lut(crtc);
-+			vc4_hvs_update_gamma_lut(hvs, vc4_crtc);
- 			dispbkgndx |= SCALER_DISPBKGND_GAMMA;
- 		} else {
- 			/* Unsetting DISPBKGND_GAMMA skips the gamma lut step
-@@ -539,13 +539,12 @@ void vc4_hvs_atomic_flush(struct drm_crtc *crtc,
- 
- 	if (debug_dump_regs) {
- 		DRM_INFO("CRTC %d HVS after:\n", drm_crtc_index(crtc));
--		vc4_hvs_dump_state(dev);
-+		vc4_hvs_dump_state(hvs);
- 	}
- }
- 
--void vc4_hvs_mask_underrun(struct drm_device *dev, int channel)
-+void vc4_hvs_mask_underrun(struct vc4_hvs *hvs, int channel)
- {
--	struct vc4_dev *vc4 = to_vc4_dev(dev);
- 	u32 dispctrl = HVS_READ(SCALER_DISPCTRL);
- 
- 	dispctrl &= ~SCALER_DISPCTRL_DSPEISLUR(channel);
-@@ -553,9 +552,8 @@ void vc4_hvs_mask_underrun(struct drm_device *dev, int channel)
- 	HVS_WRITE(SCALER_DISPCTRL, dispctrl);
- }
- 
--void vc4_hvs_unmask_underrun(struct drm_device *dev, int channel)
-+void vc4_hvs_unmask_underrun(struct vc4_hvs *hvs, int channel)
- {
--	struct vc4_dev *vc4 = to_vc4_dev(dev);
- 	u32 dispctrl = HVS_READ(SCALER_DISPCTRL);
- 
- 	dispctrl |= SCALER_DISPCTRL_DSPEISLUR(channel);
-@@ -577,6 +575,7 @@ static irqreturn_t vc4_hvs_irq_handler(int irq, void *data)
- {
- 	struct drm_device *dev = data;
- 	struct vc4_dev *vc4 = to_vc4_dev(dev);
-+	struct vc4_hvs *hvs = vc4->hvs;
- 	irqreturn_t irqret = IRQ_NONE;
- 	int channel;
- 	u32 control;
-@@ -589,7 +588,7 @@ static irqreturn_t vc4_hvs_irq_handler(int irq, void *data)
- 		/* Interrupt masking is not always honored, so check it here. */
- 		if (status & SCALER_DISPSTAT_EUFLOW(channel) &&
- 		    control & SCALER_DISPCTRL_DSPEISLUR(channel)) {
--			vc4_hvs_mask_underrun(dev, channel);
-+			vc4_hvs_mask_underrun(hvs, channel);
- 			vc4_hvs_report_underrun(dev);
- 
- 			irqret = IRQ_HANDLED;
-diff --git a/drivers/gpu/drm/vc4/vc4_kms.c b/drivers/gpu/drm/vc4/vc4_kms.c
-index 928657c736b7..98a9d6183105 100644
---- a/drivers/gpu/drm/vc4/vc4_kms.c
-+++ b/drivers/gpu/drm/vc4/vc4_kms.c
-@@ -157,6 +157,7 @@ static u16 vc4_ctm_s31_32_to_s0_9(u64 in)
- static void
- vc4_ctm_commit(struct vc4_dev *vc4, struct drm_atomic_state *state)
- {
-+	struct vc4_hvs *hvs = vc4->hvs;
- 	struct vc4_ctm_state *ctm_state = to_vc4_ctm_state(vc4->ctm_manager.state);
- 	struct drm_color_ctm *ctm = ctm_state->ctm;
- 
-@@ -230,6 +231,7 @@ vc4_hvs_get_global_state(struct drm_atomic_state *state)
- static void vc4_hvs_pv_muxing_commit(struct vc4_dev *vc4,
- 				     struct drm_atomic_state *state)
- {
-+	struct vc4_hvs *hvs = vc4->hvs;
- 	struct drm_crtc_state *crtc_state;
- 	struct drm_crtc *crtc;
- 	unsigned int i;
-@@ -270,6 +272,7 @@ static void vc4_hvs_pv_muxing_commit(struct vc4_dev *vc4,
- static void vc5_hvs_pv_muxing_commit(struct vc4_dev *vc4,
- 				     struct drm_atomic_state *state)
- {
-+	struct vc4_hvs *hvs = vc4->hvs;
- 	struct drm_crtc_state *crtc_state;
- 	struct drm_crtc *crtc;
- 	unsigned char mux;
-@@ -362,7 +365,7 @@ static void vc4_atomic_commit_tail(struct drm_atomic_state *state)
- 			continue;
- 
- 		vc4_crtc_state = to_vc4_crtc_state(new_crtc_state);
--		vc4_hvs_mask_underrun(dev, vc4_crtc_state->assigned_channel);
-+		vc4_hvs_mask_underrun(hvs, vc4_crtc_state->assigned_channel);
- 	}
- 
- 	for (channel = 0; channel < HVS_NUM_CHANNELS; channel++) {
--- 
-2.35.1
+I will apply to patch to amd-staging-drm-next.
 
+> ---
+>
+> CAVEAT: This patch is completely untested
+>          I can't seem to find a configuration strategy to compile test this
+>          allyesconfig and allmodconfig do not appear sufficient
+
+That's very strange. It should get compiled if CONFIG_HSA_AMD is 
+enabled. I will at least compile-test it before I submit.
+
+Regards,
+   Felix
+
+
+>
+> v2: Also remove Client from RCU list in error path
+>
+>   drivers/gpu/drm/amd/amdkfd/kfd_smi_events.c | 24 +++++++++++++--------
+>   1 file changed, 15 insertions(+), 9 deletions(-)
+>
+> diff --git a/drivers/gpu/drm/amd/amdkfd/kfd_smi_events.c b/drivers/gpu/drm/amd/amdkfd/kfd_smi_events.c
+> index e4beebb1c80a2..f2e1d506ba211 100644
+> --- a/drivers/gpu/drm/amd/amdkfd/kfd_smi_events.c
+> +++ b/drivers/gpu/drm/amd/amdkfd/kfd_smi_events.c
+> @@ -247,15 +247,6 @@ int kfd_smi_event_open(struct kfd_dev *dev, uint32_t *fd)
+>   		return ret;
+>   	}
+>   
+> -	ret = anon_inode_getfd(kfd_smi_name, &kfd_smi_ev_fops, (void *)client,
+> -			       O_RDWR);
+> -	if (ret < 0) {
+> -		kfifo_free(&client->fifo);
+> -		kfree(client);
+> -		return ret;
+> -	}
+> -	*fd = ret;
+> -
+>   	init_waitqueue_head(&client->wait_queue);
+>   	spin_lock_init(&client->lock);
+>   	client->events = 0;
+> @@ -265,5 +256,20 @@ int kfd_smi_event_open(struct kfd_dev *dev, uint32_t *fd)
+>   	list_add_rcu(&client->list, &dev->smi_clients);
+>   	spin_unlock(&dev->smi_lock);
+>   
+> +	ret = anon_inode_getfd(kfd_smi_name, &kfd_smi_ev_fops, (void *)client,
+> +			       O_RDWR);
+> +	if (ret < 0) {
+> +		spin_lock(&dev->smi_lock);
+> +		list_del_rcu(&client->list);
+> +		spin_unlock(&dev->smi_lock);
+> +
+> +		synchronize_rcu();
+> +
+> +		kfifo_free(&client->fifo);
+> +		kfree(client);
+> +		return ret;
+> +	}
+> +	*fd = ret;
+> +
+>   	return 0;
+>   }
