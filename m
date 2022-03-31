@@ -2,38 +2,38 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id D2C834EDCA9
-	for <lists+dri-devel@lfdr.de>; Thu, 31 Mar 2022 17:21:10 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 3FF974EDCA8
+	for <lists+dri-devel@lfdr.de>; Thu, 31 Mar 2022 17:20:58 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 0839610F3AC;
-	Thu, 31 Mar 2022 15:21:08 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id D911E10F3CF;
+	Thu, 31 Mar 2022 15:20:51 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from phobos.denx.de (phobos.denx.de [85.214.62.61])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 450FA10F397
+ by gabe.freedesktop.org (Postfix) with ESMTPS id A71ED10F397
  for <dri-devel@lists.freedesktop.org>; Thu, 31 Mar 2022 15:20:43 +0000 (UTC)
 Received: from tr.lan (ip-89-176-112-137.net.upcbroadband.cz [89.176.112.137])
  (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits))
  (No client certificate requested)
  (Authenticated sender: marex@denx.de)
- by phobos.denx.de (Postfix) with ESMTPSA id 9878184217;
- Thu, 31 Mar 2022 17:20:41 +0200 (CEST)
+ by phobos.denx.de (Postfix) with ESMTPSA id 08E92841F3;
+ Thu, 31 Mar 2022 17:20:42 +0200 (CEST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=denx.de;
- s=phobos-20191101; t=1648740041;
- bh=oDiZrPKc407V19YyY9IHD9ryLgp1qqSxDm2GfnPIUT8=;
+ s=phobos-20191101; t=1648740042;
+ bh=V3TN3Ues3mM6tHWyS0JVp0eLOWtPmyB6/Lr4TYKHo10=;
  h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
- b=lFG+0rcHYeJKLwC0quiPhlyEW3R7KGBVueFHi5kYKZGV6hk3R8YQhD0fgquDMtPPA
- PWCvuU3uWwpOtLwS/VyD5todbZerhZqnSNT85LMoGLWz5l/6cvGxDbSiv3/w62oGAL
- v4+6LuMu9T/FwSh9FyQ9oJLZfQmujl/w36jastwxLhn2nDmr4sc6V7mM65BC1oK7Vf
- jGbFCBHHWVZqG0VdxKFFcgzXC0OsaK9XW6MBlBXebKlfWxgwx+fCdvAIUwKUvssY2l
- gKMaWUjO/pMf7jV4oGrhT+KPAnddE4J9/h8EWG1fiCqNSmiH54n2F8my5/2KWzdBQV
- b/+E22BgGiy7w==
+ b=pHkIMWKrPB8UWLyZWKGsC81oNWFO906lVSrgzxvHjvgKqQBFFMldK2duqlkLWMWMc
+ 6QDG7r4hVx7Z4HVvFsV1P8BGB0KmVxzJgBCPZMj1n/2LKTHnzqBiLeHxsj5xkSc7Jg
+ TKq8HYZJd74NEOS0fgYFdjtg6Toam23NeKHQOUYafcHt3daSRnSY0GFL/PT5vcNar3
+ 1WlB1dVziEMQZjmq+E4e9pINEi/gbfLygRq/AEfL9lO7kFAf6b8AdtnybaTu6L085D
+ lRzQTTCuY+x9xbKuG7q/Mb7aXyW4fN+lOSmokfLku4TSUVoGlFualedhhicMwqENB7
+ nfQEhxmBWDRrQ==
 From: Marek Vasut <marex@denx.de>
 To: dri-devel@lists.freedesktop.org
-Subject: [PATCH v6 08/11] drm/bridge: tc358767: Move bridge ops setup into
- tc_probe_edp_bridge_endpoint()
-Date: Thu, 31 Mar 2022 17:19:49 +0200
-Message-Id: <20220331151952.13221-9-marex@denx.de>
+Subject: [PATCH v6 09/11] drm/bridge: tc358767: Detect bridge mode from
+ connected endpoints in DT
+Date: Thu, 31 Mar 2022 17:19:50 +0200
+Message-Id: <20220331151952.13221-10-marex@denx.de>
 X-Mailer: git-send-email 2.35.1
 In-Reply-To: <20220331151952.13221-1-marex@denx.de>
 References: <20220331151952.13221-1-marex@denx.de>
@@ -60,9 +60,22 @@ Cc: Marek Vasut <marex@denx.de>, Jonas Karlman <jonas@kwiboo.se>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-The bridge ops are specific to the bridge configuration, move them
-into tc_probe_edp_bridge_endpoint() to permit cleaner addition of
-DSI-to-DPI mode. No functional change.
+The TC358767/TC358867/TC9595 are all capable of operating in multiple
+modes, DPI-to-(e)DP, DSI-to-(e)DP, DSI-to-DPI. Only the first mode is
+currently supported. It is possible to find out the mode in which the
+bridge should be operated by testing connected endpoints in DT.
+
+Port allocation:
+port@0 - DSI input
+port@1 - DPI input/output
+port@2 - eDP output
+
+Possible connections:
+DPI -> port@1 -> port@2 -> eDP :: [port@0 is not connected]
+DSI -> port@0 -> port@2 -> eDP :: [port@1 is not connected]
+DSI -> port@0 -> port@1 -> DPI :: [port@2 is not connected]
+
+Add function to determine the bridge mode based on connected endpoints.
 
 Reviewed-by: Lucas Stach <l.stach@pengutronix.de>
 Tested-by: Lucas Stach <l.stach@pengutronix.de> # In both DPI to eDP and DSI to DPI mode.
@@ -74,41 +87,77 @@ Cc: Neil Armstrong <narmstrong@baylibre.com>
 Cc: Sam Ravnborg <sam@ravnborg.org>
 ---
 V2: - New patch
-V3: - No change
-V4: - Add RB/TB from Lucas
+V3: - Add RB from Lucas
+V4: - Add TB from Lucas
 V5: - No change
 V6: - No change
 ---
- drivers/gpu/drm/bridge/tc358767.c | 10 +++++-----
- 1 file changed, 5 insertions(+), 5 deletions(-)
+ drivers/gpu/drm/bridge/tc358767.c | 46 ++++++++++++++++++++++++++++++-
+ 1 file changed, 45 insertions(+), 1 deletion(-)
 
 diff --git a/drivers/gpu/drm/bridge/tc358767.c b/drivers/gpu/drm/bridge/tc358767.c
-index 8a8b495aa0ad..8c468f77618d 100644
+index 8c468f77618d..dd324cf16e4d 100644
 --- a/drivers/gpu/drm/bridge/tc358767.c
 +++ b/drivers/gpu/drm/bridge/tc358767.c
-@@ -1613,6 +1613,11 @@ static int tc_probe_edp_bridge_endpoint(struct tc_data *tc)
- 		tc->bridge.type = DRM_MODE_CONNECTOR_DisplayPort;
- 	}
- 
-+	tc->bridge.funcs = &tc_edp_bridge_funcs;
-+	if (tc->hpd_pin >= 0)
-+		tc->bridge.ops |= DRM_BRIDGE_OP_DETECT;
-+	tc->bridge.ops |= DRM_BRIDGE_OP_EDID;
-+
+@@ -1621,6 +1621,50 @@ static int tc_probe_edp_bridge_endpoint(struct tc_data *tc)
  	return ret;
  }
  
-@@ -1742,11 +1747,6 @@ static int tc_probe(struct i2c_client *client, const struct i2c_device_id *id)
++static int tc_probe_bridge_endpoint(struct tc_data *tc)
++{
++	struct device *dev = tc->dev;
++	struct of_endpoint endpoint;
++	struct device_node *node = NULL;
++	const u8 mode_dpi_to_edp = BIT(1) | BIT(2);
++	const u8 mode_dsi_to_edp = BIT(0) | BIT(2);
++	const u8 mode_dsi_to_dpi = BIT(0) | BIT(1);
++	u8 mode = 0;
++
++	/*
++	 * Determine bridge configuration.
++	 *
++	 * Port allocation:
++	 * port@0 - DSI input
++	 * port@1 - DPI input/output
++	 * port@2 - eDP output
++	 *
++	 * Possible connections:
++	 * DPI -> port@1 -> port@2 -> eDP :: [port@0 is not connected]
++	 * DSI -> port@0 -> port@2 -> eDP :: [port@1 is not connected]
++	 * DSI -> port@0 -> port@1 -> DPI :: [port@2 is not connected]
++	 */
++
++	for_each_endpoint_of_node(dev->of_node, node) {
++		of_graph_parse_endpoint(node, &endpoint);
++		if (endpoint.port > 2)
++			return -EINVAL;
++
++		mode |= BIT(endpoint.port);
++	}
++
++	if (mode == mode_dpi_to_edp)
++		return tc_probe_edp_bridge_endpoint(tc);
++	else if (mode == mode_dsi_to_dpi)
++		dev_warn(dev, "The mode DSI-to-DPI is not supported!\n");
++	else if (mode == mode_dsi_to_edp)
++		dev_warn(dev, "The mode DSI-to-(e)DP is not supported!\n");
++	else
++		dev_warn(dev, "Invalid mode (0x%x) is not supported!\n", mode);
++
++	return -EINVAL;
++}
++
+ static int tc_probe(struct i2c_client *client, const struct i2c_device_id *id)
+ {
+ 	struct device *dev = &client->dev;
+@@ -1633,7 +1677,7 @@ static int tc_probe(struct i2c_client *client, const struct i2c_device_id *id)
+ 
+ 	tc->dev = dev;
+ 
+-	ret = tc_probe_edp_bridge_endpoint(tc);
++	ret = tc_probe_bridge_endpoint(tc);
  	if (ret)
  		return ret;
- 
--	tc->bridge.funcs = &tc_edp_bridge_funcs;
--	if (tc->hpd_pin >= 0)
--		tc->bridge.ops |= DRM_BRIDGE_OP_DETECT;
--	tc->bridge.ops |= DRM_BRIDGE_OP_EDID;
--
- 	tc->bridge.of_node = dev->of_node;
- 	drm_bridge_add(&tc->bridge);
  
 -- 
 2.35.1
