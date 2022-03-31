@@ -2,50 +2,68 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id E354F4ED786
-	for <lists+dri-devel@lfdr.de>; Thu, 31 Mar 2022 12:06:11 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 132064ED798
+	for <lists+dri-devel@lfdr.de>; Thu, 31 Mar 2022 12:10:36 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 8C9AA10E2E2;
-	Thu, 31 Mar 2022 10:06:09 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id D375710E74F;
+	Thu, 31 Mar 2022 10:10:31 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mga07.intel.com (mga07.intel.com [134.134.136.100])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 5039610E2E2;
- Thu, 31 Mar 2022 10:06:08 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1648721168; x=1680257168;
- h=from:to:cc:subject:in-reply-to:references:date:
- message-id:mime-version:content-transfer-encoding;
- bh=aZH18WlKteagod8GE5IzIYHI6n60sWnHWRzTrCt7cSM=;
- b=G0+e6BVHgTga/mxjaiF0zdaSSaD0b1/3AmWtd08GYoBGpnQo+04sipPs
- fY8FHdzVwDooO+5gxaewMQ/zWeKDp50kaU1RT3/KqY9Z69wycvN5r3LEM
- 4HVeDKu5IuvW1Ri1S+aj8OPlDJr84rNGp47WtpnjgR8HQKShS8/yXjREL
- QxB83wxkWZmIXLKArOGnOvFixd0Xqh8fmAseL8o5/i+y7YoJ7+9ThGyUg
- PUlwDZICABY+EV5051cuoAP+3vTNY3ktSNeQ9JaZbdp18j+PO+qHYvj8A
- hdfB3XWCQMXWIrOz4fRmGE8y4esWTzRH8kL16oCeu/IDOpa6tDILok3pO A==;
-X-IronPort-AV: E=McAfee;i="6200,9189,10302"; a="322964364"
-X-IronPort-AV: E=Sophos;i="5.90,225,1643702400"; d="scan'208";a="322964364"
-Received: from orsmga008.jf.intel.com ([10.7.209.65])
- by orsmga105.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 31 Mar 2022 03:06:07 -0700
-X-IronPort-AV: E=Sophos;i="5.90,225,1643702400"; d="scan'208";a="566337395"
-Received: from cgarnier-mobl1.ger.corp.intel.com (HELO localhost)
- ([10.252.62.224])
- by orsmga008-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 31 Mar 2022 03:06:06 -0700
-From: Jani Nikula <jani.nikula@intel.com>
-To: Ville =?utf-8?B?U3lyasOkbMOk?= <ville.syrjala@linux.intel.com>
-Subject: Re: [PATCH] drm/edid: fix invalid EDID extension block filtering
-In-Reply-To: <YkSQBaW8swA7LY9M@intel.com>
-Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
-References: <20220330170426.349248-1-jani.nikula@intel.com>
- <YkSQBaW8swA7LY9M@intel.com>
-Date: Thu, 31 Mar 2022 13:06:03 +0300
-Message-ID: <87r16ia12s.fsf@intel.com>
+Received: from mail-lf1-x12f.google.com (mail-lf1-x12f.google.com
+ [IPv6:2a00:1450:4864:20::12f])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id EA87D10E9F3
+ for <dri-devel@lists.freedesktop.org>; Thu, 31 Mar 2022 10:10:30 +0000 (UTC)
+Received: by mail-lf1-x12f.google.com with SMTP id 5so40591462lfp.1
+ for <dri-devel@lists.freedesktop.org>; Thu, 31 Mar 2022 03:10:30 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=message-id:date:mime-version:user-agent:subject:content-language:to
+ :cc:references:from:in-reply-to:content-transfer-encoding;
+ bh=DkPFTvrQEeskfvBTqfSOajTcre8fVDqFYzIN3B6dTsI=;
+ b=KItC8IMn5rncXU6DjNFWlsw2ttC3GaaAEUbxCnBOR7T/9Tfj6lRHHFcT2drBRA225/
+ dk71o9m/4VllMnJRSsHw7LpJ9ASmXszD3qY5Zz+5TfhYdsRg38C3XtGxx2w1jGsQWBY8
+ ih5uzDcudKl79At3nt5SsfB64kDTfNMDqHWXP07DhGCY1vsGKCPn+LukasFPljTlUHJI
+ fP10i7MwzuQBxdQAzpmwtCsOshjAuwnIOjprbAKbJ1Yy6ciMxquv4ewcAaNOedjPDwYA
+ nOxsNYnOLJ6pOXJnjlR2ncJeheVQ923O6vmgq2BTKrYI1rCvcolTwFfgDgtF5Fn0MUui
+ Bdyg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
+ :content-language:to:cc:references:from:in-reply-to
+ :content-transfer-encoding;
+ bh=DkPFTvrQEeskfvBTqfSOajTcre8fVDqFYzIN3B6dTsI=;
+ b=PNShR3qX5o0yWR93oOnAFOjoB7dya/AGY8+fAmrvuIKRfDl47BJKCHQfkuhVWb42gg
+ GNmMIIdXyxr0/75e9bOD4dUDtaC2e9Y7QO4dMlE83C8oy2bUFeItNw3pxoJtc+CRWKU0
+ d5PyEJfBf5n8FGRNumygWk2d9/wZ2naTnF/eGB3KJMXWAt0UisN/v5ml6Gnoh2OSYLTK
+ AAeErNqEQm74s+GcRTx1kntTTiJOKeaHSpt9i0DCLVhGR/xC7VVgeWDPyziJe5SZQb42
+ lS4IBbkYLY0kiiAmpFBE1pYZCalIqv+YVgEOkAx3tntxN/zUuPEoHjvkeRrhfEFRYUXQ
+ X5QQ==
+X-Gm-Message-State: AOAM530a55QxPn3IYZtzQ/EQ2O+1FRo91uuS6+GxsYWNYz/PWFDUFyRG
+ r7sb7j6qaHSJW1Zrv6Ci8TicOA==
+X-Google-Smtp-Source: ABdhPJwtAJyMy0EoY+rrG6bKX7082NXgD8paVU/49U2dxYES7x6TI8M54x7s0LTqdnwet5PnHMXT9w==
+X-Received: by 2002:ac2:485b:0:b0:44a:23d5:d4bd with SMTP id
+ 27-20020ac2485b000000b0044a23d5d4bdmr10216994lfy.214.1648721428984; 
+ Thu, 31 Mar 2022 03:10:28 -0700 (PDT)
+Received: from [192.168.1.211] ([37.153.55.125])
+ by smtp.gmail.com with ESMTPSA id
+ a26-20020a19fc1a000000b0044ab4920887sm805769lfi.57.2022.03.31.03.10.28
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Thu, 31 Mar 2022 03:10:28 -0700 (PDT)
+Message-ID: <d9ac1cee-d4fc-09ae-b2df-82ae2ecd57fb@linaro.org>
+Date: Thu, 31 Mar 2022 13:10:27 +0300
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: quoted-printable
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.7.0
+Subject: Re: [PATCH v6 4/8] drm/msm/dp: avoid handling masked interrupts
+Content-Language: en-GB
+To: "Sankeerth Billakanti (QUIC)" <quic_sbillaka@quicinc.com>
+References: <1648656179-10347-1-git-send-email-quic_sbillaka@quicinc.com>
+ <1648656179-10347-5-git-send-email-quic_sbillaka@quicinc.com>
+ <CAA8EJprMvik_6xmGt2oZGpDG9FoMtC_ojuw+oTjPLTck4Hu3WA@mail.gmail.com>
+ <MW4PR02MB7186669BA1B19FA4F184B558E1E19@MW4PR02MB7186.namprd02.prod.outlook.com>
+From: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
+In-Reply-To: <MW4PR02MB7186669BA1B19FA4F184B558E1E19@MW4PR02MB7186.namprd02.prod.outlook.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -58,67 +76,96 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: intel-gfx@lists.freedesktop.org, dri-devel@lists.freedesktop.org
+Cc: quic_kalyant <quic_kalyant@quicinc.com>,
+ "devicetree@vger.kernel.org" <devicetree@vger.kernel.org>,
+ "bjorn.andersson@linaro.org" <bjorn.andersson@linaro.org>,
+ "dianders@chromium.org" <dianders@chromium.org>,
+ "Abhinav Kumar \(QUIC\)" <quic_abhinavk@quicinc.com>,
+ quic_vproddut <quic_vproddut@quicinc.com>,
+ "airlied@linux.ie" <airlied@linux.ie>,
+ "linux-arm-msm@vger.kernel.org" <linux-arm-msm@vger.kernel.org>,
+ "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
+ "dri-devel@lists.freedesktop.org" <dri-devel@lists.freedesktop.org>,
+ "swboyd@chromium.org" <swboyd@chromium.org>,
+ "sean@poorly.run" <sean@poorly.run>,
+ "seanpaul@chromium.org" <seanpaul@chromium.org>,
+ "Aravind Venkateswaran \(QUIC\)" <quic_aravindh@quicinc.com>,
+ "Kuogee Hsieh \(QUIC\)" <quic_khsieh@quicinc.com>,
+ "freedreno@lists.freedesktop.org" <freedreno@lists.freedesktop.org>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Wed, 30 Mar 2022, Ville Syrj=C3=A4l=C3=A4 <ville.syrjala@linux.intel.com=
-> wrote:
-> On Wed, Mar 30, 2022 at 08:04:26PM +0300, Jani Nikula wrote:
->> The invalid EDID block filtering uses the number of valid EDID
->> extensions instead of all EDID extensions for looping the extensions in
->> the copy. This is fine, by coincidence, if all the invalid blocks are at
->> the end of the EDID. However, it's completely broken if there are
->> invalid extensions in the middle; the invalid blocks are included and
->> valid blocks are excluded.
->>=20
->> Fix it by modifying the base block after, not before, the copy.
->>=20
->> Fixes: 14544d0937bf ("drm/edid: Only print the bad edid when aborting")
->> Reported-by: Ville Syrj=C3=A4l=C3=A4 <ville.syrjala@linux.intel.com>
->> Signed-off-by: Jani Nikula <jani.nikula@intel.com>
->
-> Reviewed-by: Ville Syrj=C3=A4l=C3=A4 <ville.syrjala@linux.intel.com>
+On 31/03/2022 08:53, Sankeerth Billakanti (QUIC) wrote:
+> Hi Dmitry,
+> 
+>> On Wed, 30 Mar 2022 at 19:03, Sankeerth Billakanti
+>> <quic_sbillaka@quicinc.com> wrote:
+>>>
+>>> The interrupt register will still reflect the connect and disconnect
+>>> interrupt status without generating an actual HW interrupt.
+>>> The controller driver should not handle those masked interrupts.
+>>>
+>>> Signed-off-by: Sankeerth Billakanti <quic_sbillaka@quicinc.com>
+>>> ---
+>>>   drivers/gpu/drm/msm/dp/dp_catalog.c | 5 +++--
+>>>   1 file changed, 3 insertions(+), 2 deletions(-)
+>>>
+>>> diff --git a/drivers/gpu/drm/msm/dp/dp_catalog.c
+>>> b/drivers/gpu/drm/msm/dp/dp_catalog.c
+>>> index 3c16f95..1809ce2 100644
+>>> --- a/drivers/gpu/drm/msm/dp/dp_catalog.c
+>>> +++ b/drivers/gpu/drm/msm/dp/dp_catalog.c
+>>> @@ -608,13 +608,14 @@ u32 dp_catalog_hpd_get_intr_status(struct
+>>> dp_catalog *dp_catalog)  {
+>>>          struct dp_catalog_private *catalog = container_of(dp_catalog,
+>>>                                  struct dp_catalog_private, dp_catalog);
+>>> -       int isr = 0;
+>>> +       int isr, mask;
+>>>
+>>>          isr = dp_read_aux(catalog, REG_DP_DP_HPD_INT_STATUS);
+>>>          dp_write_aux(catalog, REG_DP_DP_HPD_INT_ACK,
+>>>                                   (isr & DP_DP_HPD_INT_MASK));
+>>> +       mask = dp_read_aux(catalog, REG_DP_DP_HPD_INT_MASK);
+>>>
+>>> -       return isr;
+>>> +       return isr & (DP_DP_HPD_STATE_STATUS_MASK | mask);
+>>
+>> I suspect that the logic is inverted here. Shouldn't it be:
+>>
+>> return isr & DP_DP_HPD_STATE_STATUS_MASK & mask;
+>>
+>> ?
+>>
+>   
+> The value of DP_DP_HPD_STATE_STATUS_MASK is 0xE0000000 and the value of the read
+> interrupt mask variable could be is 0xF.
+> 
+> The mask value is indicated via the register, REG_DP_DP_HPD_INT_MASK, bits 3:0.
+> The HPD status is indicated via a different read-only register REG_DP_DP_HPD_INT_STATUS, bits 31:29.
 
-Thanks, pushed to drm-misc-next. I didn't bother with -fixes, because
-the bug is ancient and rare, and that would only cause conflicts for me.
+I see. Maybe the following expression would be better?
 
-BR,
-Jani.
+return isr & (mask & ~DP_DP_HPD_INT_MASK);
 
->
->> ---
->>  drivers/gpu/drm/drm_edid.c | 6 +++---
->>  1 file changed, 3 insertions(+), 3 deletions(-)
->>=20
->> diff --git a/drivers/gpu/drm/drm_edid.c b/drivers/gpu/drm/drm_edid.c
->> index d79b06f7f34c..8829120470ab 100644
->> --- a/drivers/gpu/drm/drm_edid.c
->> +++ b/drivers/gpu/drm/drm_edid.c
->> @@ -2031,9 +2031,6 @@ struct edid *drm_do_get_edid(struct drm_connector =
-*connector,
->>=20=20
->>  		connector_bad_edid(connector, edid, edid[0x7e] + 1);
->>=20=20
->> -		edid[EDID_LENGTH-1] +=3D edid[0x7e] - valid_extensions;
->> -		edid[0x7e] =3D valid_extensions;
->> -
->>  		new =3D kmalloc_array(valid_extensions + 1, EDID_LENGTH,
->>  				    GFP_KERNEL);
->>  		if (!new)
->> @@ -2050,6 +2047,9 @@ struct edid *drm_do_get_edid(struct drm_connector =
-*connector,
->>  			base +=3D EDID_LENGTH;
->>  		}
->>=20=20
->> +		new[EDID_LENGTH - 1] +=3D new[0x7e] - valid_extensions;
->> +		new[0x7e] =3D valid_extensions;
->> +
->>  		kfree(edid);
->>  		edid =3D new;
->>  	}
->> --=20
->> 2.30.2
+> 
+> isr & DP_DP_HPD_STATE_STATUS_MASK & mask, will return 0 always.
+> 
+>>>   }
+>>>
+>>>   int dp_catalog_ctrl_get_interrupt(struct dp_catalog *dp_catalog)
+>>> --
+>>> 2.7.4
+>>>
+>>
+>>
+>> --
+>> With best wishes
+>> Dmitry
+> 
+> Thank you,
+> Sankeerth
 
---=20
-Jani Nikula, Intel Open Source Graphics Center
+
+-- 
+With best wishes
+Dmitry
