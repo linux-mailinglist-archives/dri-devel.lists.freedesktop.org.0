@@ -2,53 +2,52 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 775E14EDCBA
-	for <lists+dri-devel@lfdr.de>; Thu, 31 Mar 2022 17:24:21 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 424224EDCC1
+	for <lists+dri-devel@lfdr.de>; Thu, 31 Mar 2022 17:25:59 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 28B1E10E55F;
-	Thu, 31 Mar 2022 15:24:19 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id A7F4610F3EF;
+	Thu, 31 Mar 2022 15:25:56 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-pl1-x629.google.com (mail-pl1-x629.google.com
- [IPv6:2607:f8b0:4864:20::629])
- by gabe.freedesktop.org (Postfix) with ESMTPS id E648310E55F
- for <dri-devel@lists.freedesktop.org>; Thu, 31 Mar 2022 15:24:17 +0000 (UTC)
-Received: by mail-pl1-x629.google.com with SMTP id i11so12432501plg.12
- for <dri-devel@lists.freedesktop.org>; Thu, 31 Mar 2022 08:24:17 -0700 (PDT)
+Received: from mail-pf1-x435.google.com (mail-pf1-x435.google.com
+ [IPv6:2607:f8b0:4864:20::435])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id E670C10F3D5
+ for <dri-devel@lists.freedesktop.org>; Thu, 31 Mar 2022 15:25:54 +0000 (UTC)
+Received: by mail-pf1-x435.google.com with SMTP id y10so19049394pfa.7
+ for <dri-devel@lists.freedesktop.org>; Thu, 31 Mar 2022 08:25:54 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=xhxKgwP76Far9n81s98I79Y1uLVWi5gCu+TA3PoQE2c=;
- b=UK8LbTZT4WDc2JMzABSElX0v6C3idiwMpT22cdNqYguik4LzmVpnbDK2cPqNGQe2Mm
- kCuSIANQaJQBQKkrmDAoCvKasNzsMFVOf1NA9CCecFBVkQ3xVcEsmA1Ui5hJ0Dpf1uhP
- hE+U9Wo21nmpsF06b8bHSopE4bUAedXCOwRFDFwaRY94F1+3HdFJVHgWnANqETPTwiJs
- tU2F5ih+orZ/cidcq9wQ89gD6octhbQrMplmLVaMhQgfhfzEYFm2FJ3QRssdl0icFEe7
- sVQpFwdt33jPHMJZ6JOYsIkLV4SXGj221vTzzfHXF+zdBPr0guTM3UzIwnrDTYwOmoA2
- AbvA==
+ :cc; bh=Edurs2ybl3pjHq9Rj4aJF4VI4m7AdS23TQwX/ATEuMs=;
+ b=XFoAoyoPNZuVbjrTjOAU4kLFdvbGS8ePJbm+ncbclHtaoaWu+abqy05w+JLZ9MEbH4
+ 0S4Gxj+t8Kcx9bXIS8hisiVEAgx8AxbS0s5Ap46gNeZY/niFj46ozs6eePYolAFc7DkZ
+ rqHvOShJZpzpMVVXgQTOFz5YGC4n+7rOA/9iO/2tsiG9uFOwGAJDIYMGaZg4VuozCCzj
+ AL3rmCi5reF1P1PUcL9kn3NHKbrsmFXKxNFhNeLFQyCjM9XtaZ5j28MiGLKZ7d4lyVHk
+ GAh7hrtshivp1aX34w2B/ViKwX9bBF08vvs2vmajzoFhQFtU5YTgMo4BIzODsGxWxR1v
+ 3jmA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:mime-version:references:in-reply-to:from:date
  :message-id:subject:to:cc;
- bh=xhxKgwP76Far9n81s98I79Y1uLVWi5gCu+TA3PoQE2c=;
- b=kSAMvsFbiJqCsJnDltz3EgReqKo/ojexyET1PsWl7nmWw33rVGNWD7q/v1r/od9E9a
- +b95glpjBAL2wgy2t6CYI3x69mp+1GE62YDjeHMtoEXLYRk2wUm0dVbrLbGwWh+7DqVJ
- L/rnHgBFXKCjzsiuZ1M1gv2I03tzAp2eRrDplt1fXJusUyYqHAPBVj3jChKVufKOjSHv
- e9+fFf+WqM/8Zuxx1419hw8iyCy5mh66B3vfuAY0tUa5n17D33KYr2UgC1FXkp6PcWwr
- 0dTMRrm4ymCca/A5Aa5af+IzcEvp7haV7C+skguLfFV3GdQsEhMherHxVZeKsPkvtJFe
- 7+Ag==
-X-Gm-Message-State: AOAM531D5bRSBnBCttVgsnqsZlKJQI/utyQVJAi8vo7w5R2MfbZMcxV0
- decyJX9gIB+JChB3amvGyH9KHp1QYSbHvfT0+Iuk7w==
-X-Google-Smtp-Source: ABdhPJzpdBeHS+vOPMn0WSYM+dGMeqZoahdg2u5AVYTYLzaW0WE4kG/q/KaRdJrDDnHv2Y6MJqL8vILnePR3wZcfawg=
-X-Received: by 2002:a17:902:bb8d:b0:156:51a1:3f5a with SMTP id
- m13-20020a170902bb8d00b0015651a13f5amr5299425pls.65.1648740257488; Thu, 31
- Mar 2022 08:24:17 -0700 (PDT)
+ bh=Edurs2ybl3pjHq9Rj4aJF4VI4m7AdS23TQwX/ATEuMs=;
+ b=sLTQPmLLf/6De4SlbVvnWFZNhFUohijaEcNdw3mu3Y7PrlCbX/x2QZTDajaMAvhF00
+ 6UVGiTk42Ui7XGf/CHhvtAVoB0992Mme7XFZxhzV4StrkS6fCdi79Kj6GafgYrA3yvhc
+ Vp94tGCajLvb99P0DKzJYd1BjL7JhYRIMfF4c5Mmb7JeKqRgjJ1yxBOwZU4CyB7/aaLW
+ uAGTdrpA9Z2JXSoDw+Ai3mduFanVsUBbVeHBL7kSKkuX0xMAA2QNq/cs97ziDI26pNoR
+ QVjxS0/B1tPKk0cnrlbJ5ArSO7lKr3J5rRUfMHgmEcS4UvmuhiEoYaYF5dPaF2Vefz6p
+ alGg==
+X-Gm-Message-State: AOAM531Ly9vur+sGcoAJdugrZYMuzmS8g1g+lcyfCZfhlu+HK/sbnsz7
+ wqTEA2Fmo5x1N7Ccd0XEH5GE3E4t/hlBujO/rgYyUg==
+X-Google-Smtp-Source: ABdhPJwmVo3ZX2tZvaUOyRcmzXdZp5u0HNnfXUWfi85PtCdhVKUpMC75GgxyKLybaBy33rh9B6yS95asXWZwuUF8tX8=
+X-Received: by 2002:aa7:9110:0:b0:4fa:e388:af57 with SMTP id
+ 16-20020aa79110000000b004fae388af57mr6017640pfh.1.1648740354503; Thu, 31 Mar
+ 2022 08:25:54 -0700 (PDT)
 MIME-Version: 1.0
-References: <20220331150509.9838-1-marex@denx.de>
-In-Reply-To: <20220331150509.9838-1-marex@denx.de>
+References: <20220331151952.13221-1-marex@denx.de>
+In-Reply-To: <20220331151952.13221-1-marex@denx.de>
 From: Robert Foss <robert.foss@linaro.org>
-Date: Thu, 31 Mar 2022 17:24:06 +0200
-Message-ID: <CAG3jFyu6d2hGxJLv=yGAvb06m2-RQLw-aXu0uJKd+zqsJZOt2w@mail.gmail.com>
-Subject: Re: [PATCH v6 00/11] drm: bridge: icn6211: Fix hard-coded panel
- settings and add I2C support
+Date: Thu, 31 Mar 2022 17:25:42 +0200
+Message-ID: <CAG3jFysW7kaCYE7QjdHB-7vqU-8LPZr708BGahNZ3qUV_bvZww@mail.gmail.com>
+Subject: Re: [PATCH v6 00/11] drm/bridge: tc358767: Add DSI-to-DPI mode support
 To: Marek Vasut <marex@denx.de>
 Content-Type: text/plain; charset="UTF-8"
 X-BeenThere: dri-devel@lists.freedesktop.org
@@ -63,65 +62,51 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Thomas Zimmermann <tzimmermann@suse.de>, Sam Ravnborg <sam@ravnborg.org>,
- Jagan Teki <jagan@amarulasolutions.com>, dri-devel@lists.freedesktop.org,
- Maxime Ripard <maxime@cerno.tech>
+Cc: Neil Armstrong <narmstrong@baylibre.com>, Jonas Karlman <jonas@kwiboo.se>,
+ dri-devel@lists.freedesktop.org, Maxime Ripard <maxime@cerno.tech>,
+ Sam Ravnborg <sam@ravnborg.org>,
+ Laurent Pinchart <laurent.pinchart@ideasonboard.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Thu, 31 Mar 2022 at 17:05, Marek Vasut <marex@denx.de> wrote:
+On Thu, 31 Mar 2022 at 17:20, Marek Vasut <marex@denx.de> wrote:
 >
-> This series fixes multiple problems with the ICN6211 driver and adds
-> support for configuration of the chip via I2C bus.
+> The TC358767/TC358867/TC9595 are all capable of operating in multiple
+> modes, DPI-to-(e)DP, DSI-to-(e)DP, DSI-to-DPI. Clean up the driver,
+> switch to atomic ops, and add support for the DSI-to-DPI mode in
+> addition to already supported DPI-to-(e)DP mode.
 >
-> First, in the current state, the ICN6211 driver hard-codes DPI timing
-> and clock settings specific to some unknown panel. The settings provided
-> by panel driver are ignored. Using any other panel than the one for which
-> this driver is currently hard-coded can lead to permanent damage of the
-> panel (per display supplier warning, and it sure did in my case. The
-> damage looks like multiple rows of dead pixels at the bottom of the
-> panel, and this is not going away even after long power off time).
->
-> Much of this series thus fixes incorrect register layout, DPI timing
-> programming, clock generation by adding actual PLL configuration code.
-> This series no longer adds lane count decoding and retains current
-> hard-coded lane count 4 due to disagreement over lane count parsing
-> from DT. The lane count support will come later. The series also fills
-> in a couple of registers with likely correct default values.
->
-> Second, this series adds support for I2C configuration of the ICN6211.
-> The device can be configured either via DSI command mode or via I2C,
-> the register layout is the same in both cases.
->
-> Since the datasheet for this device is very hard to come by, a lot of
-> information has been salvaged from [1] and [2].
->
-> [1] https://github.com/rockchip-linux/kernel/blob/develop-4.19/drivers/gpu/drm/bridge/icn6211.c
-> [2] https://github.com/tdjastrzebski/ICN6211-Configurator
->
-> Cc: Jagan Teki <jagan@amarulasolutions.com>
+> Cc: Jonas Karlman <jonas@kwiboo.se>
+> Cc: Laurent Pinchart <Laurent.pinchart@ideasonboard.com>
 > Cc: Maxime Ripard <maxime@cerno.tech>
-> Cc: Robert Foss <robert.foss@linaro.org>
+> Cc: Neil Armstrong <narmstrong@baylibre.com>
 > Cc: Sam Ravnborg <sam@ravnborg.org>
-> Cc: Thomas Zimmermann <tzimmermann@suse.de>
 > To: dri-devel@lists.freedesktop.org
 >
 > Marek Vasut (11):
->   drm: bridge: icn6211: Fix register layout
->   drm: bridge: icn6211: Fix HFP_HSW_HBP_HI and HFP_MIN handling
->   drm: bridge: icn6211: Add HS/VS/DE polarity handling
->   drm: bridge: icn6211: Add generic DSI-to-DPI PLL configuration
->   drm: bridge: icn6211: Use DSI burst mode without EoT and with LP
->     command mode
->   drm: bridge: icn6211: Disable DPI color swap
->   drm: bridge: icn6211: Set SYS_CTRL_1 to value used in examples
->   drm: bridge: icn6211: Implement atomic_get_input_bus_fmts
->   drm: bridge: icn6211: Add I2C configuration support
->   drm: bridge: icn6211: Rework ICN6211_DSI to chipone_writeb()
->   drm: bridge: icn6211: Read and validate chip IDs before configuration
+>   dt-bindings: display: bridge: tc358867: Document DPI output support
+>   dt-bindings: display: bridge: tc358867: Document DSI data-lanes
+>     property
+>   drm/bridge: tc358767: Change tc_ prefix to tc_edp_ for (e)DP specific
+>     functions
+>   drm/bridge: tc358767: Convert to atomic ops
+>   drm/bridge: tc358767: Implement atomic_check callback
+>   drm/bridge: tc358767: Move (e)DP bridge endpoint parsing into
+>     dedicated function
+>   drm/bridge: tc358767: Wrap (e)DP aux I2C registration into
+>     tc_aux_link_setup()
+>   drm/bridge: tc358767: Move bridge ops setup into
+>     tc_probe_edp_bridge_endpoint()
+>   drm/bridge: tc358767: Detect bridge mode from connected endpoints in
+>     DT
+>   drm/bridge: tc358767: Split tc_set_video_mode() into common and (e)DP
+>     part
+>   drm/bridge: tc358767: Add DSI-to-DPI mode support
 >
->  drivers/gpu/drm/bridge/chipone-icn6211.c | 491 ++++++++++++++++++++---
->  1 file changed, 437 insertions(+), 54 deletions(-)
+>  .../display/bridge/toshiba,tc358767.yaml      |  22 +-
+>  drivers/gpu/drm/bridge/Kconfig                |   1 +
+>  drivers/gpu/drm/bridge/tc358767.c             | 583 +++++++++++++++---
+>  3 files changed, 530 insertions(+), 76 deletions(-)
 >
 > --
 > 2.35.1
