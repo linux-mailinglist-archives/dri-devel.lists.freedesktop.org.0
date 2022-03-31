@@ -1,76 +1,53 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2DDD94ED541
-	for <lists+dri-devel@lfdr.de>; Thu, 31 Mar 2022 10:13:38 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 7182F4ED54A
+	for <lists+dri-devel@lfdr.de>; Thu, 31 Mar 2022 10:15:35 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 6613510F5DD;
-	Thu, 31 Mar 2022 08:13:33 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id DB0A710F5F0;
+	Thu, 31 Mar 2022 08:15:31 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from out3-smtp.messagingengine.com (out3-smtp.messagingengine.com
- [66.111.4.27])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 1B99110F5DD
- for <dri-devel@lists.freedesktop.org>; Thu, 31 Mar 2022 08:13:31 +0000 (UTC)
-Received: from compute3.internal (compute3.nyi.internal [10.202.2.43])
- by mailout.nyi.internal (Postfix) with ESMTP id A54405C0164;
- Thu, 31 Mar 2022 04:13:28 -0400 (EDT)
-Received: from mailfrontend2 ([10.202.2.163])
- by compute3.internal (MEProxy); Thu, 31 Mar 2022 04:13:28 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=cerno.tech; h=cc
- :cc:content-type:date:date:from:from:in-reply-to:in-reply-to
- :message-id:mime-version:references:reply-to:sender:subject
- :subject:to:to; s=fm3; bh=GvBKgqGMcUPI6REoKQHVzfllHu/AhOoJJshk2Q
- aByGg=; b=PXwxGZmU2/dPKahygmFjWH0i35DTafPoqwsfgCnqWYiVx8AclOsJVV
- VlTGI98xgML+6314oYMH1xue81o63YzQFmuAUi9xINYDWkjM8WUOZ4Mlrqzh53V9
- BB39fqU+KiTpytKlzvdsXzGITylFJ2nTTGh9bG1eT4ocWu6JImu1K7ozLERYwH+l
- x65NZvDVFs7co7h1GrI/GZcU+iwJXJxW708R88fMveBElq4oAjoiAHM61yxOxC2P
- hjajWgSwsBREkcrvTo+J823GV3K9N9r//WX9O0wSTC2xw/jRHwtGnjIdl7vXCviz
- qoKFWsrwDTGzuHgfRlfMCq1KcKonZKAg==
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
- messagingengine.com; h=cc:cc:content-type:date:date:from:from
- :in-reply-to:in-reply-to:message-id:mime-version:references
- :reply-to:sender:subject:subject:to:to:x-me-proxy:x-me-proxy
- :x-me-sender:x-me-sender:x-sasl-enc; s=fm3; bh=GvBKgqGMcUPI6REoK
- QHVzfllHu/AhOoJJshk2QaByGg=; b=gyS8YG7mkUAhpn4UVMFWlPVMEO46jfTTe
- TrwsxNJzr7Wr3BCYiJHYiKxcI/6/1J4lGWKb/MVfUeeLhJrhVvodQFQxB49RsrJC
- aPOPZCZAn23d+v94mcHU5RQJFs4tPJNhGMt2VYgTzDwcyBH9VVUvTaiXYhk3OmTx
- sgvzsCKt9ND6NTDcedm5gD/abLbUOt7ptEzsp9FeCfrmbji0zys11aWW4Av1UE99
- odWyn38aLWenzjiX2o1hqI82GlO9Vgenq9rpRn0VdWKIsvEcHLKby/yAeykkXpaV
- 4keZJORjf8hkdp8V1Q4NsdtAvyPzT5kVDWm4RZJWPM7WV8fV30lmg==
-X-ME-Sender: <xms:qGJFYj9wmie2diVO-y9SL_G1xF4sN4yTHbcpvOUX0FbAIqEWZpEVqQ>
- <xme:qGJFYvuApAFDPAnROqio6S2R1xKU0Xtq92HW5uzkBA7sdSqoAil6MJqORU__UWpK7
- IsXe9Zw96GKoPnIVRo>
-X-ME-Received: <xmr:qGJFYhDFsAfznQtXS7qE9Yxhu9bNHYmQUUhMJqFQicW2u7-IVWHgD4XOLJVYOlFvk8Wvy8e8FbueODj1HXVqivNd_-rNWnE4HSoyUzs>
-X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvvddrudeigecutefuodetggdotefrodftvfcurf
- hrohhfihhlvgemucfhrghsthforghilhdpqfgfvfdpuffrtefokffrpgfnqfghnecuuegr
- ihhlohhuthemuceftddtnecusecvtfgvtghiphhivghnthhsucdlqddutddtmdenucfjug
- hrpeffhffvuffkfhggtggujgesghdtreertddtvdenucfhrhhomhepofgrgihimhgvucft
- ihhprghrugcuoehmrgigihhmvgestggvrhhnohdrthgvtghhqeenucggtffrrghtthgvrh
- hnpeevveefffduveeitdegtefhhfetueffteefffdvheevvdehteethedvleffgfejvden
- ucffohhmrghinhepkhgvrhhnvghlrdhorhhgnecuvehluhhsthgvrhfuihiivgeptdenuc
- frrghrrghmpehmrghilhhfrhhomhepmhgrgihimhgvsegtvghrnhhordhtvggthh
-X-ME-Proxy: <xmx:qGJFYvez8-YNBE4xbvpueisek1l-7W3zSO3iqS5Eo_ueOQ90a8xiKg>
- <xmx:qGJFYoNOa58176oPWiud2uWXFC8b7IO8AnblSGwRnFpo-6ss96BuoQ>
- <xmx:qGJFYhm85MR6pgpkfS2MBGy_hWeuxSNRuQi7X1XthtfjDfl3_MZY_Q>
- <xmx:qGJFYlondYyE4fkMBMfHLPbhZ2bxMJR_8GNpSyk9-T2ZCeOducxlqQ>
-Received: by mail.messagingengine.com (Postfix) with ESMTPA; Thu,
- 31 Mar 2022 04:13:27 -0400 (EDT)
-Date: Thu, 31 Mar 2022 10:13:24 +0200
-From: Maxime Ripard <maxime@cerno.tech>
-To: Daniel Vetter <daniel@ffwll.ch>
-Subject: KMS Legacy Cursor Support
-Message-ID: <20220331081324.l6jdellj7rk5pzew@houat>
-References: <4438d667-1be2-24f1-c987-1a8e3fb85bcc@collabora.com>
- <20220311142205.ztg6njrubmnjud7c@houat>
- <32a34a20-f9b5-3b7b-95f5-a6a34ad225c4@collabora.com>
- <YkQmrQCt5IPOMxj8@phenom.ffwll.local>
+Received: from mga03.intel.com (mga03.intel.com [134.134.136.65])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id A283910EE54;
+ Thu, 31 Mar 2022 08:15:30 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+ t=1648714530; x=1680250530;
+ h=date:from:to:cc:subject:message-id:references:
+ mime-version:content-transfer-encoding:in-reply-to;
+ bh=mMZCj5AcWureUxhwf6dtEqTJa8BwCyQIOHoujBCAYIs=;
+ b=N7DlitQiUSElbKMmAni5AbpihqaaRyjJRS4KRDdt/kv9PlJF3Zu6JgP/
+ U2hLbIle+raN03GdUCVV0O659doq0DKI5tEY/ntOf87YyS/yQor2+RiWK
+ Vv4HKeqGASvLfcEWBKHqF3UI6TC7tm4iK6CUSYZoEBODLr4Zqki6HJG6L
+ MSSPuhXLJzBmyJF+v+fT5HVhh1d7TCYh9+aH8fRrIW2d6TI4863kkhI08
+ J0RaHf04YzxKOP87XcYzrEUfCIdQ4pTqjx7PFUEwCz+in7J1u0CePvDvm
+ F+R2a+YyqwL2OSeZ6D1ocI/VjbyjhuFETKGlfWtjgLNLiYwMbjOAxeKcL Q==;
+X-IronPort-AV: E=McAfee;i="6200,9189,10302"; a="259729770"
+X-IronPort-AV: E=Sophos;i="5.90,224,1643702400"; d="scan'208";a="259729770"
+Received: from orsmga006.jf.intel.com ([10.7.209.51])
+ by orsmga103.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 31 Mar 2022 01:15:30 -0700
+X-IronPort-AV: E=Sophos;i="5.90,224,1643702400"; d="scan'208";a="522239448"
+Received: from vvendra-mobl.amr.corp.intel.com (HELO ldmartin-desk2)
+ ([10.255.230.104])
+ by orsmga006-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 31 Mar 2022 01:15:29 -0700
+Date: Thu, 31 Mar 2022 01:15:29 -0700
+From: Lucas De Marchi <lucas.demarchi@intel.com>
+To: Christian =?utf-8?B?S8O2bmln?= <christian.koenig@amd.com>
+Subject: Re: drm-tip compile break
+Message-ID: <20220331081529.4gsfd6diznsjzfay@ldmartin-desk2>
+X-Patchwork-Hint: comment
+References: <87o81n9ikg.wl-ashutosh.dixit@intel.com>
+ <d3d90c7f-b3a9-e81c-c97e-b40ee3ee5baf@amd.com>
+ <40ccaa09-42d3-37c0-65cb-5b5eabe8d706@amd.com>
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha512;
- protocol="application/pgp-signature"; boundary="rkbjliba5c6w7ed4"
+Content-Type: text/plain; charset=utf-8; format=flowed
 Content-Disposition: inline
-In-Reply-To: <YkQmrQCt5IPOMxj8@phenom.ffwll.local>
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <40ccaa09-42d3-37c0-65cb-5b5eabe8d706@amd.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -83,88 +60,118 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: David Airlie <airlied@linux.ie>,
- dri-devel <dri-devel@lists.freedesktop.org>,
- Thomas Zimmermann <tzimmermann@suse.de>,
- Dmitry Osipenko <dmitry.osipenko@collabora.com>
+Cc: "Dixit, Ashutosh" <ashutosh.dixit@intel.com>,
+ intel-gfx@lists.freedesktop.org, dri-devel@lists.freedesktop.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
+On Thu, Mar 31, 2022 at 09:35:50AM +0200, Christian König wrote:
+>Well the fix is trivial, but somehow rebuilding drm-tip always fails 
+>for me while merging drm-intel-next.
+>
+>I probably have somehow messed up reverting the conflict resolution. Ideas?
 
---rkbjliba5c6w7ed4
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+It looks like the error is in the wrong conflict resolution in
+629041de3a0c M─┐ Merge remote-tracking branch 'drm-misc/drm-misc-next' into drm-tip 
 
-Hi Daniel,
+you'd need to redo the merge (-i) after telling git
+rerere to forget the previous conflict resolution.
 
-I'm using this thread as the occasion to discuss the legacy cursor stuff
-a bit further.
+https://drm.pages.freedesktop.org/maintainer-tools/drm-tip.html#removing-a-wrong-conflict-resolution
 
-I've been trying to address the issue detailed here:
-https://lore.kernel.org/all/20220221134155.125447-1-maxime@cerno.tech/
+it's also useful to use dim -i, to make sure we can build on each merge
+afterwards.
 
-And the last patch in particular:
-https://lore.kernel.org/all/20220221134155.125447-9-maxime@cerno.tech/
+AFAICS the revert would be on 141577c6d0bd ("2022y-03m-29d-09h-01m-04s UTC: drm-tip rerere cache update")
 
-On Wed, Mar 30, 2022 at 11:45:17AM +0200, Daniel Vetter wrote:
-> On Tue, Mar 15, 2022 at 12:53:30AM +0300, Dmitry Osipenko wrote:
-> > On 3/11/22 17:22, Maxime Ripard wrote:
-> > > Hi Dmitry,
-> > >=20
-> > > On Thu, Mar 10, 2022 at 03:33:07AM +0300, Dmitry Osipenko wrote:
-> > >> I was playing/testing SuperTuxKart using VirtIO-GPU driver and spott=
-ed a
-> > >> UAF bug in drm_atomic_helper_wait_for_vblanks().
-> > >>
-> > >> SuperTuxKart can use DRM directly, i.e. you can run game in VT witho=
-ut
-> > >> Xorg or Wayland, this is where bugs happens. SuperTuxKart uses a
-> > >> non-blocking atomic page flips and UAF happens when a new atomic sta=
-te
-> > >> is committed while there is a previous page flip still in-fly.
-> > >>
-> > >> What happens is that the new and old atomic states refer to the same
-> > >> CRTC state somehow. Once the older atomic state is destroyed, the CR=
-TC
-> > >> state is freed and the newer atomic state continues to use the freed
-> > >> CRTC state.
-> > >=20
-> > > I'm not sure what you mean by "the new and old atomic states refer to
-> > > the same CRTC state", are those the same pointers?
-> >=20
-> > Yes, the pointers are the same. I'd assume that the newer atomic state
-> > should duplicate CRTC state, but apparently it doesn't happen.
->=20
-> The legacy cursor hack stuff does this, and it pretty fundamentally breaks
-> everything. Might be good to retest with that disabled:
->=20
-> https://lore.kernel.org/dri-devel/20201023123925.2374863-1-daniel.vetter@=
-ffwll.ch/
->=20
-> The problem is a bit that this might cause some regressions, for drivers
-> which don't yet have the fancy new cursor fastpath for plane updates.
+taking a stab on it, should be like below. It even builds,
+but I have no confidence to commit it.
 
-I've been trying to force it to be disabled in either atomic_check or
-atomic_setup, and it was either slow (check), or ineffective (setup).
+Lucas De Marchi
 
-It's not really clear to me what this hack is about, and what we could
-do to make sure the cursor plane gets updated without waiting for
-vblank. vc4 has async plane update support, so I'm sure it's just some
-plumbing to do but I'm not sure where and why
+-------
+diff --cc drivers/gpu/drm/amd/amdgpu/amdgpu_gtt_mgr.c
+index dd78402e3cb0,68494b959116..000000000000
+--- a/drivers/gpu/drm/amd/amdgpu/amdgpu_gtt_mgr.c
++++ b/drivers/gpu/drm/amd/amdgpu/amdgpu_gtt_mgr.c
+@@@ -200,17 -187,20 +187,17 @@@ static void amdgpu_gtt_mgr_del(struct t
+    *
+    * Re-init the gart for each known BO in the GTT.
+    */
+  -int amdgpu_gtt_mgr_recover(struct amdgpu_gtt_mgr *mgr)
+  +void amdgpu_gtt_mgr_recover(struct amdgpu_gtt_mgr *mgr)
+   {
+- 	struct amdgpu_gtt_node *node;
++ 	struct ttm_range_mgr_node *node;
+   	struct drm_mm_node *mm_node;
+   	struct amdgpu_device *adev;
+  -	int r = 0;
+   
+   	adev = container_of(mgr, typeof(*adev), mman.gtt_mgr);
+   	spin_lock(&mgr->lock);
+   	drm_mm_for_each_node(mm_node, &mgr->mm) {
+- 		node = container_of(mm_node, typeof(*node), base.mm_nodes[0]);
+- 		amdgpu_ttm_recover_gart(node->tbo);
++ 		node = container_of(mm_node, typeof(*node), mm_nodes[0]);
+  -		r = amdgpu_ttm_recover_gart(node->base.bo);
+  -		if (r)
+  -			break;
+++		amdgpu_ttm_recover_gart(node->base.bo);
+   	}
+   	spin_unlock(&mgr->lock);
+   
+diff --cc drivers/gpu/drm/amd/amdgpu/amdgpu_vm.c
+index fc4563cf2828,28f5e8b21a99..000000000000
+--- a/drivers/gpu/drm/amd/amdgpu/amdgpu_vm.c
++++ b/drivers/gpu/drm/amd/amdgpu/amdgpu_vm.c
+@@@ -375,9 -375,7 +375,9 @@@ static void amdgpu_vm_bo_base_init(stru
+   	if (bo->tbo.base.resv != vm->root.bo->tbo.base.resv)
+   		return;
+   
+  +	dma_resv_assert_held(vm->root.bo->tbo.base.resv);
+  +
+- 	vm->bulk_moveable = false;
++ 	ttm_bo_set_bulk_move(&bo->tbo, &vm->lru_bulk_move);
+   	if (bo->tbo.type == ttm_bo_type_kernel && bo->parent)
+   		amdgpu_vm_bo_relocated(base);
+   	else
+@@@ -2660,12 -2597,9 +2606,12 @@@ void amdgpu_vm_bo_del(struct amdgpu_dev
+   	struct amdgpu_vm *vm = bo_va->base.vm;
+   	struct amdgpu_vm_bo_base **base;
+   
+  +	dma_resv_assert_held(vm->root.bo->tbo.base.resv);
+  +
+   	if (bo) {
+  +		dma_resv_assert_held(bo->tbo.base.resv);
+   		if (bo->tbo.base.resv == vm->root.bo->tbo.base.resv)
+- 			vm->bulk_moveable = false;
++ 			ttm_bo_set_bulk_move(&bo->tbo, NULL);
+   
+   		for (base = &bo_va->base.bo->vm_bo; *base;
+   		     base = &(*base)->next) {
 
-Thanks!
-Maxime
 
---rkbjliba5c6w7ed4
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iHUEABYKAB0WIQRcEzekXsqa64kGDp7j7w1vZxhRxQUCYkVipAAKCRDj7w1vZxhR
-xQuxAQChh7jhvovIUKA8qPLEixVCmRiSKPIEzc5koHDGus44JAEAi0qjq02fjNXW
-tJmrgisBnsJGIcb4ooZ+z4oa1epxNAU=
-=bopo
------END PGP SIGNATURE-----
-
---rkbjliba5c6w7ed4--
+>
+>Christian.
+>
+>Am 31.03.22 um 08:28 schrieb Christian König:
+>>I'm going to take a look, but need to figure out how to find the 
+>>broken merge
+>>
+>>Christian.
+>>
+>>Am 31.03.22 um 00:33 schrieb Dixit, Ashutosh:
+>>>Is anyone looking into fixing this:
+>>>
+>>>drivers/gpu/drm/amd/amdgpu/amdgpu_gtt_mgr.c: In function 
+>>>‘amdgpu_gtt_mgr_recover’:
+>>>drivers/gpu/drm/amd/amdgpu/amdgpu_gtt_mgr.c:200:31: error: ‘struct 
+>>>ttm_range_mgr_node’ has no member named ‘tbo’
+>>>    amdgpu_ttm_recover_gart(node->tbo);
+>>>                                ^~
+>>>make[4]: *** [scripts/Makefile.build:288: 
+>>>drivers/gpu/drm/amd/amdgpu/amdgpu_gtt_mgr.o] Error 1
+>>>
+>>>Thanks.
+>>
+>
