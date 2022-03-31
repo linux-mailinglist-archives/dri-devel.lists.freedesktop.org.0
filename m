@@ -2,43 +2,43 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 808244EE0DC
-	for <lists+dri-devel@lfdr.de>; Thu, 31 Mar 2022 20:45:23 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 7A5FA4EE0E5
+	for <lists+dri-devel@lfdr.de>; Thu, 31 Mar 2022 20:45:43 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 6B64E10F459;
-	Thu, 31 Mar 2022 18:45:21 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id B401810F46A;
+	Thu, 31 Mar 2022 18:45:40 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mga12.intel.com (mga12.intel.com [192.55.52.136])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 7944F10F459;
- Thu, 31 Mar 2022 18:45:19 +0000 (UTC)
+Received: from mga01.intel.com (mga01.intel.com [192.55.52.88])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 49F6810F468;
+ Thu, 31 Mar 2022 18:45:34 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1648752319; x=1680288319;
+ t=1648752334; x=1680288334;
  h=from:to:cc:subject:date:message-id:in-reply-to:
  references:mime-version:content-transfer-encoding;
- bh=qxnV0KoqtLLqbpNFSzQsn2wPalVagmirZ25nNYl3gbU=;
- b=D7GYa2inm/cTYRJPghKYZhgNBmQ5K9CIL/Rn5SKpNRNoBwTa8lHt7WfZ
- bTT3+v7Y5WXDE82Y2nHdXRKiIdKF+o08zAUwcJwXY03utlWnpzyNFtGPy
- X3rIHD24H1TgOQV5HB3UrtWDON2HU555YQrBWLv5X+Emo5J+kEpKfk4Hm
- hKhVeymvOt3gatsn45X/LKAh2AyPUrpAXUOgXU6H/37JK7CiHf0gzGHRe
- Tm9jd+djy0MkCvaC9+KLj1stHQ9xCvu9xG1ww8nimq0PlLFuvrx/egHke
- jqM/Nogz5iWP7Pt4Ue0eahvkMio3mkZfT8UX2KI91KbJ9IY80oK57nQNk g==;
-X-IronPort-AV: E=McAfee;i="6200,9189,10302"; a="239847784"
-X-IronPort-AV: E=Sophos;i="5.90,225,1643702400"; d="scan'208";a="239847784"
-Received: from orsmga008.jf.intel.com ([10.7.209.65])
- by fmsmga106.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 31 Mar 2022 11:45:18 -0700
-X-IronPort-AV: E=Sophos;i="5.90,225,1643702400"; d="scan'208";a="566724921"
+ bh=thJY/9WcRjrK/MbaJPNaDU4CAUOw2XR84H9CWbT0JPo=;
+ b=fdqyAeYeV2P9I4U2sjhCZy3yde/1gVcWSuKoU62NzWMFq1jPqUpwrV20
+ 2ipflfJs6Aydn51eD1o/nYy0hZHRA8i5en+10gu9UfPqZf6CPC6PDy7iJ
+ o3Ilz6CLD1SXm+hRy2Wprn46wHFEhHjOtkyqYEGmpcnLldU096kjvCWDO
+ 1fy9BLaNd0cuTWRdYbI9zBXHgihL6ppWgxqOvAnXoj1PpQrIsAoMIX5GW
+ 0tBl/hVEkiFPmwmxaI1JlGp3mIZKk1idf+UoYfflwzPzXzIQ47JhUrnIp
+ QIy1rHzjqjAitDV2IEhMh7WTimbaBsN7a3WqOM5gAkVRdkFcwa5aWQyX5 g==;
+X-IronPort-AV: E=McAfee;i="6200,9189,10302"; a="284846217"
+X-IronPort-AV: E=Sophos;i="5.90,225,1643702400"; d="scan'208";a="284846217"
+Received: from orsmga007.jf.intel.com ([10.7.209.58])
+ by fmsmga101.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 31 Mar 2022 11:45:23 -0700
+X-IronPort-AV: E=Sophos;i="5.90,225,1643702400"; d="scan'208";a="547458000"
 Received: from gluca-mobl1.ger.corp.intel.com (HELO localhost)
  ([10.252.48.194])
- by orsmga008-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 31 Mar 2022 11:45:17 -0700
+ by orsmga007-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 31 Mar 2022 11:45:21 -0700
 From: Jani Nikula <jani.nikula@intel.com>
 To: dri-devel@lists.freedesktop.org
-Subject: [PATCH v2 01/12] drm/edid: use struct edid * in drm_do_get_edid()
-Date: Thu, 31 Mar 2022 21:44:58 +0300
-Message-Id: <18bf820c1d20e616076b3275627e7ebf01bce7a3.1648752228.git.jani.nikula@intel.com>
+Subject: [PATCH v2 02/12] drm/edid: clean up EDID block checksum functions
+Date: Thu, 31 Mar 2022 21:44:59 +0300
+Message-Id: <36641401c8eb0e403c0e33365ff4ad9a28f9fd4a.1648752228.git.jani.nikula@intel.com>
 X-Mailer: git-send-email 2.30.2
 In-Reply-To: <cover.1648752228.git.jani.nikula@intel.com>
 References: <cover.1648752228.git.jani.nikula@intel.com>
@@ -62,105 +62,76 @@ Cc: jani.nikula@intel.com, intel-gfx@lists.freedesktop.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Mixing u8 * and struct edid * is confusing, switch to the latter.
+Have two clear functions, one to compute the checksum over the EDID, and
+another to get the checksum from the EDID. Throw away the diff function.
 
-v2:
-- Rebase on the invalid block filtering fix
-- Rename struct edid *base to *dest_block for clarity (Ville)
+Ditch the drm_ prefix for static functions, and accept const void * to
+help transition to struct edid * usage.
 
 Cc: Ville Syrjälä <ville.syrjala@linux.intel.com>
 Signed-off-by: Jani Nikula <jani.nikula@intel.com>
+Reviewed-by: Ville Syrjälä <ville.syrjala@linux.intel.com>
 ---
- drivers/gpu/drm/drm_edid.c | 35 +++++++++++++++++------------------
- 1 file changed, 17 insertions(+), 18 deletions(-)
+ drivers/gpu/drm/drm_edid.c | 20 ++++++++++----------
+ 1 file changed, 10 insertions(+), 10 deletions(-)
 
 diff --git a/drivers/gpu/drm/drm_edid.c b/drivers/gpu/drm/drm_edid.c
-index 8829120470ab..5c7065561d4c 100644
+index 5c7065561d4c..82e00650af14 100644
 --- a/drivers/gpu/drm/drm_edid.c
 +++ b/drivers/gpu/drm/drm_edid.c
-@@ -1991,29 +1991,28 @@ struct edid *drm_do_get_edid(struct drm_connector *connector,
- 	void *data)
+@@ -1597,25 +1597,25 @@ module_param_named(edid_fixup, edid_fixup, int, 0400);
+ MODULE_PARM_DESC(edid_fixup,
+ 		 "Minimum number of valid EDID header bytes (0-8, default 6)");
+ 
+-static int drm_edid_block_checksum(const u8 *raw_edid)
++static int edid_block_compute_checksum(const void *_block)
  {
- 	int i, j = 0, valid_extensions = 0;
--	u8 *edid, *new;
--	struct edid *override;
-+	struct edid *edid, *new, *override;
++	const u8 *block = _block;
+ 	int i;
+ 	u8 csum = 0, crc = 0;
  
- 	override = drm_get_override_edid(connector);
- 	if (override)
- 		return override;
+ 	for (i = 0; i < EDID_LENGTH - 1; i++)
+-		csum += raw_edid[i];
++		csum += block[i];
  
--	edid = (u8 *)drm_do_get_edid_base_block(connector, get_edid_block, data);
-+	edid = drm_do_get_edid_base_block(connector, get_edid_block, data);
- 	if (!edid)
- 		return NULL;
+ 	crc = 0x100 - csum;
  
- 	/* if there's no extensions or no connector, we're done */
--	valid_extensions = edid[0x7e];
-+	valid_extensions = edid->extensions;
- 	if (valid_extensions == 0)
--		return (struct edid *)edid;
-+		return edid;
+ 	return crc;
+ }
  
- 	new = krealloc(edid, (valid_extensions + 1) * EDID_LENGTH, GFP_KERNEL);
- 	if (!new)
- 		goto out;
- 	edid = new;
+-static bool drm_edid_block_checksum_diff(const u8 *raw_edid, u8 real_checksum)
++static int edid_block_get_checksum(const void *_block)
+ {
+-	if (raw_edid[EDID_LENGTH - 1] != real_checksum)
+-		return true;
+-	else
+-		return false;
++	const struct edid *block = _block;
++
++	return block->checksum;
+ }
  
--	for (j = 1; j <= edid[0x7e]; j++) {
--		u8 *block = edid + j * EDID_LENGTH;
-+	for (j = 1; j <= edid->extensions; j++) {
-+		void *block = edid + j;
- 
- 		for (i = 0; i < 4; i++) {
- 			if (get_edid_block(data, block, j, EDID_LENGTH))
-@@ -2026,35 +2025,35 @@ struct edid *drm_do_get_edid(struct drm_connector *connector,
- 			valid_extensions--;
- 	}
- 
--	if (valid_extensions != edid[0x7e]) {
--		u8 *base;
-+	if (valid_extensions != edid->extensions) {
-+		struct edid *dest_block;
- 
--		connector_bad_edid(connector, edid, edid[0x7e] + 1);
-+		connector_bad_edid(connector, (u8 *)edid, edid->extensions + 1);
- 
- 		new = kmalloc_array(valid_extensions + 1, EDID_LENGTH,
- 				    GFP_KERNEL);
- 		if (!new)
- 			goto out;
- 
--		base = new;
--		for (i = 0; i <= edid[0x7e]; i++) {
--			u8 *block = edid + i * EDID_LENGTH;
-+		dest_block = new;
-+		for (i = 0; i <= edid->extensions; i++) {
-+			void *block = edid + i;
- 
- 			if (!drm_edid_block_valid(block, i, false, NULL))
- 				continue;
- 
--			memcpy(base, block, EDID_LENGTH);
--			base += EDID_LENGTH;
-+			memcpy(dest_block, block, EDID_LENGTH);
-+			dest_block++;
+ static bool drm_edid_is_zero(const u8 *in_edid, int length)
+@@ -1704,8 +1704,8 @@ bool drm_edid_block_valid(u8 *raw_edid, int block, bool print_bad_edid,
  		}
- 
--		new[EDID_LENGTH - 1] += new[0x7e] - valid_extensions;
--		new[0x7e] = valid_extensions;
-+		new->checksum += new->extensions - valid_extensions;
-+		new->extensions = valid_extensions;
- 
- 		kfree(edid);
- 		edid = new;
  	}
  
--	return (struct edid *)edid;
-+	return edid;
+-	csum = drm_edid_block_checksum(raw_edid);
+-	if (drm_edid_block_checksum_diff(raw_edid, csum)) {
++	csum = edid_block_compute_checksum(raw_edid);
++	if (csum != edid_block_get_checksum(raw_edid)) {
+ 		if (edid_corrupt)
+ 			*edid_corrupt = true;
  
- out:
- 	kfree(edid);
+@@ -1859,7 +1859,7 @@ static void connector_bad_edid(struct drm_connector *connector,
+ 	/* Calculate real checksum for the last edid extension block data */
+ 	if (last_block < num_blocks)
+ 		connector->real_edid_checksum =
+-			drm_edid_block_checksum(edid + last_block * EDID_LENGTH);
++			edid_block_compute_checksum(edid + last_block * EDID_LENGTH);
+ 
+ 	if (connector->bad_edid_counter++ && !drm_debug_enabled(DRM_UT_KMS))
+ 		return;
 -- 
 2.30.2
 
