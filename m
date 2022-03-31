@@ -1,56 +1,52 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0B71E4EDA6F
-	for <lists+dri-devel@lfdr.de>; Thu, 31 Mar 2022 15:23:38 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 244834EDA77
+	for <lists+dri-devel@lfdr.de>; Thu, 31 Mar 2022 15:25:22 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 935C110F39B;
-	Thu, 31 Mar 2022 13:23:35 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id F1DEE10F3A9;
+	Thu, 31 Mar 2022 13:25:19 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mga12.intel.com (mga12.intel.com [192.55.52.136])
- by gabe.freedesktop.org (Postfix) with ESMTPS id A25BB10F39B;
- Thu, 31 Mar 2022 13:23:34 +0000 (UTC)
+Received: from mga14.intel.com (mga14.intel.com [192.55.52.115])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 069BF10F3A9
+ for <dri-devel@lists.freedesktop.org>; Thu, 31 Mar 2022 13:25:18 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1648733014; x=1680269014;
- h=message-id:date:mime-version:subject:to:cc:references:
- from:in-reply-to:content-transfer-encoding;
- bh=f+0deVlrhG6tFVpx84UDD/k6usmkAHCQcnZWCerHob8=;
- b=YL9S5mrDjSvPb6xZy+ewGBISykupM8hHPVYp3jugtb2UQGrs7r1fYr19
- 7K9kM4/IyZNphA+05Dex4A5/B41jnY+abACuU2SoMdX1faFJgo3XYM4Hg
- Q/dXA3O20eg7e3Q2GEWMvqTJB9TAL8nLztVhRVBcJy7YIeIfVrThSuOsd
- CMGMOCy75+OIfSfrvmU9cKiUJblEiwXY57QXbZxKrc/AQd4Tw9Sm2z4X+
- On9DBJcPTremhxWAUYrtRkZVYELR5geQ5Usn/8bEGdbbQZn1zyQV+qa2q
- V1eICbsBqSDDEit/jKRf8+j360yUgPHE3ptlNrzTuw6RTKFXnZorK5Yp9 Q==;
-X-IronPort-AV: E=McAfee;i="6200,9189,10302"; a="239762544"
-X-IronPort-AV: E=Sophos;i="5.90,225,1643702400"; d="scan'208";a="239762544"
-Received: from orsmga004.jf.intel.com ([10.7.209.38])
- by fmsmga106.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 31 Mar 2022 06:23:33 -0700
-X-IronPort-AV: E=Sophos;i="5.90,225,1643702400"; d="scan'208";a="654744263"
-Received: from juanniex-mobl.ger.corp.intel.com (HELO [10.213.215.247])
- ([10.213.215.247])
- by orsmga004-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 31 Mar 2022 06:23:32 -0700
-Message-ID: <c6af06bc-7d13-7f69-2acb-baf8d8c1b3ea@linux.intel.com>
-Date: Thu, 31 Mar 2022 14:23:27 +0100
+ t=1648733119; x=1680269119;
+ h=date:from:to:cc:subject:message-id:references:
+ mime-version:content-transfer-encoding:in-reply-to;
+ bh=z4pLCQsH+80qQirLuIUXveWvUfDqsKvoJigaY7UedNs=;
+ b=M2AR1Q3JDq60gBXS/iqC7cIgecw12OZon80nVPsgqGGO2QDrFn2jaE7J
+ fLTfU3Nr19sFjAWbe8ZIUgfz/sEEGpfFUCB1JzVoVB3pVrWqXw66dhKSi
+ oR8T5kC83MIqFFZcFe6qUFuUcilAGWVk31dSjNi32pnKO53YwqkFSJAcu
+ zz5iMJYxwuLLe8VNA24TcX2h+EyuimUttGgnXCUtDPVyMjXEDDpoQDEr/
+ e+KzADAn2Hd/h5x0kwpqwPRFR+X3wJaJMQF68BKU2k4xAtvEAoL4ZrVEa
+ 55sLYb3MkFcz4vGb15JbVbFAY0CuAjeBjubt2RT2UZ/2cSSd/wdNDSkNQ w==;
+X-IronPort-AV: E=McAfee;i="6200,9189,10302"; a="260019507"
+X-IronPort-AV: E=Sophos;i="5.90,225,1643702400"; d="scan'208";a="260019507"
+Received: from fmsmga002.fm.intel.com ([10.253.24.26])
+ by fmsmga103.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 31 Mar 2022 06:25:18 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.90,225,1643702400"; d="scan'208";a="650295287"
+Received: from stinkpipe.fi.intel.com (HELO stinkbox) ([10.237.72.61])
+ by fmsmga002.fm.intel.com with SMTP; 31 Mar 2022 06:25:14 -0700
+Received: by stinkbox (sSMTP sendmail emulation);
+ Thu, 31 Mar 2022 16:25:13 +0300
+Date: Thu, 31 Mar 2022 16:25:13 +0300
+From: Ville =?iso-8859-1?Q?Syrj=E4l=E4?= <ville.syrjala@linux.intel.com>
+To: Maxime Ripard <maxime@cerno.tech>
+Subject: Re: [PATCH v4] drm/atomic-helpers: remove legacy_cursor_update hacks
+Message-ID: <YkWruSRsrKv+cQIB@intel.com>
+References: <20220331130545.625721-1-maxime@cerno.tech>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.7.0
-Subject: Re: [igt-dev] [PATCH i-g-t 02/11] tests/i915/drm_fdinfo: Basic and
- functional tests for GPU busyness exported via fdinfo
-Content-Language: en-US
-To: Umesh Nerlige Ramappa <umesh.nerlige.ramappa@intel.com>
-References: <20220222135605.1120767-1-tvrtko.ursulin@linux.intel.com>
- <20220222135605.1120767-3-tvrtko.ursulin@linux.intel.com>
- <20220330201109.GE59408@unerlige-ril-10.165.21.154>
-From: Tvrtko Ursulin <tvrtko.ursulin@linux.intel.com>
-Organization: Intel Corporation UK Plc
-In-Reply-To: <20220330201109.GE59408@unerlige-ril-10.165.21.154>
-Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Type: text/plain; charset=iso-8859-1
+Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
+In-Reply-To: <20220331130545.625721-1-maxime@cerno.tech>
+X-Patchwork-Hint: comment
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -63,639 +59,149 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: igt-dev@lists.freedesktop.org, Intel-gfx@lists.freedesktop.org,
- dri-devel@lists.freedesktop.org, Tvrtko Ursulin <tvrtko.ursulin@intel.com>
+Cc: Dom Cobley <dom@raspberrypi.com>, Tim Gover <tim.gover@raspberrypi.com>,
+ Dave Stevenson <dave.stevenson@raspberrypi.com>,
+ Daniel Vetter <daniel.vetter@ffwll.ch>,
+ Michel =?iso-8859-1?Q?D=E4nzer?= <michel@daenzer.net>,
+ dri-devel@lists.freedesktop.org, Phil Elwell <phil@raspberrypi.com>,
+ Daniel Vetter <daniel.vetter@intel.com>, mikita.lipski@amd.com, "Kazlauskas,
+ Nicholas" <nicholas.kazlauskas@amd.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-
-On 30/03/2022 21:11, Umesh Nerlige Ramappa wrote:
-> This looks very similar to existing perf_pmu tests with the slight 
-> change that the busyness is now captured from the fdinfo.
-
-Yep, much copy-and-paste was involved. :)
-> lgtm,
-> Reviewed-by: Umesh Nerlige Ramappa <umesh.nerlige.ramappa@intel.com>
-
-Thanks!
-
-Regards,
-
-Tvrtko
-
+On Thu, Mar 31, 2022 at 03:05:45PM +0200, Maxime Ripard wrote:
+> From: Daniel Vetter <daniel.vetter@ffwll.ch>
 > 
-> Umesh
+> The stuff never really worked, and leads to lots of fun because it
+> out-of-order frees atomic states. Which upsets KASAN, among other
+> things.
 > 
-> On Tue, Feb 22, 2022 at 01:55:56PM +0000, Tvrtko Ursulin wrote:
->> From: Tvrtko Ursulin <tvrtko.ursulin@intel.com>
->>
->> Mostly inherited from the perf_pmu, some basic tests, and some tests to
->> verify exported GPU busyness is as expected.
->>
->> Signed-off-by: Tvrtko Ursulin <tvrtko.ursulin@intel.com>
->> ---
->> tests/i915/drm_fdinfo.c | 555 ++++++++++++++++++++++++++++++++++++++++
->> tests/meson.build       |   8 +
->> 2 files changed, 563 insertions(+)
->> create mode 100644 tests/i915/drm_fdinfo.c
->>
->> diff --git a/tests/i915/drm_fdinfo.c b/tests/i915/drm_fdinfo.c
->> new file mode 100644
->> index 000000000000..e3b1ebb0f454
->> --- /dev/null
->> +++ b/tests/i915/drm_fdinfo.c
->> @@ -0,0 +1,555 @@
->> +/*
->> + * Copyright © 2022 Intel Corporation
->> + *
->> + * Permission is hereby granted, free of charge, to any person 
->> obtaining a
->> + * copy of this software and associated documentation files (the 
->> "Software"),
->> + * to deal in the Software without restriction, including without 
->> limitation
->> + * the rights to use, copy, modify, merge, publish, distribute, 
->> sublicense,
->> + * and/or sell copies of the Software, and to permit persons to whom the
->> + * Software is furnished to do so, subject to the following conditions:
->> + *
->> + * The above copyright notice and this permission notice (including 
->> the next
->> + * paragraph) shall be included in all copies or substantial portions 
->> of the
->> + * Software.
->> + *
->> + * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, 
->> EXPRESS OR
->> + * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF 
->> MERCHANTABILITY,
->> + * FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT.  IN NO EVENT 
->> SHALL
->> + * THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES 
->> OR OTHER
->> + * LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, 
->> ARISING
->> + * FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR 
->> OTHER DEALINGS
->> + * IN THE SOFTWARE.
->> + *
->> + */
->> +
->> +#include "igt.h"
->> +#include "igt_core.h"
->> +#include "igt_device.h"
->> +#include "igt_drm_fdinfo.h"
->> +#include "i915/gem.h"
->> +#include "intel_ctx.h"
->> +
->> +IGT_TEST_DESCRIPTION("Test the i915 drm fdinfo data");
->> +
->> +const double tolerance = 0.05f;
->> +const unsigned long batch_duration_ns = 500e6;
->> +
->> +#define __assert_within_epsilon(x, ref, tol_up, tol_down) \
->> +    igt_assert_f((double)(x) <= (1.0 + (tol_up)) * (double)(ref) && \
->> +             (double)(x) >= (1.0 - (tol_down)) * (double)(ref), \
->> +             "'%s' != '%s' (%f not within +%.1f%%/-%.1f%% tolerance 
->> of %f)\n",\
->> +             #x, #ref, (double)(x), \
->> +             (tol_up) * 100.0, (tol_down) * 100.0, \
->> +             (double)(ref))
->> +
->> +#define assert_within_epsilon(x, ref, tolerance) \
->> +    __assert_within_epsilon(x, ref, tolerance, tolerance)
->> +
->> +static void basics(int i915, unsigned int num_classes)
->> +{
->> +    struct drm_client_fdinfo info = { };
->> +    bool ret;
->> +
->> +    ret = igt_parse_drm_fdinfo(i915, &info);
->> +    igt_assert(ret);
->> +
->> +    igt_assert(!strcmp(info.driver, "i915"));
->> +
->> +    igt_assert_eq(info.num_engines, num_classes);
->> +}
->> +
->> +/*
->> + * Helper for cases where we assert on time spent sleeping (directly or
->> + * indirectly), so make it more robust by ensuring the system sleep time
->> + * is within test tolerance to start with.
->> + */
->> +static unsigned int measured_usleep(unsigned int usec)
->> +{
->> +    struct timespec ts = { };
->> +    unsigned int slept;
->> +
->> +    slept = igt_nsec_elapsed(&ts);
->> +    igt_assert(slept == 0);
->> +    do {
->> +        usleep(usec - slept);
->> +        slept = igt_nsec_elapsed(&ts) / 1000;
->> +    } while (slept < usec);
->> +
->> +    return igt_nsec_elapsed(&ts);
->> +}
->> +
->> +#define TEST_BUSY (1)
->> +#define FLAG_SYNC (2)
->> +#define TEST_TRAILING_IDLE (4)
->> +#define FLAG_HANG (8)
->> +#define TEST_ISOLATION (16)
->> +
->> +static igt_spin_t *__spin_poll(int fd, uint64_t ahnd, const 
->> intel_ctx_t *ctx,
->> +                   const struct intel_execution_engine2 *e)
->> +{
->> +    struct igt_spin_factory opts = {
->> +        .ahnd = ahnd,
->> +        .ctx = ctx,
->> +        .engine = e->flags,
->> +    };
->> +
->> +    if (gem_class_can_store_dword(fd, e->class))
->> +        opts.flags |= IGT_SPIN_POLL_RUN;
->> +
->> +    return __igt_spin_factory(fd, &opts);
->> +}
->> +
->> +static unsigned long __spin_wait(int fd, igt_spin_t *spin)
->> +{
->> +    struct timespec start = { };
->> +
->> +    igt_nsec_elapsed(&start);
->> +
->> +    if (igt_spin_has_poll(spin)) {
->> +        unsigned long timeout = 0;
->> +
->> +        while (!igt_spin_has_started(spin)) {
->> +            unsigned long t = igt_nsec_elapsed(&start);
->> +
->> +            igt_assert(gem_bo_busy(fd, spin->handle));
->> +            if ((t - timeout) > 250e6) {
->> +                timeout = t;
->> +                igt_warn("Spinner not running after %.2fms\n",
->> +                     (double)t / 1e6);
->> +                igt_assert(t < 2e9);
->> +            }
->> +        }
->> +    } else {
->> +        igt_debug("__spin_wait - usleep mode\n");
->> +        usleep(500e3); /* Better than nothing! */
->> +    }
->> +
->> +    igt_assert(gem_bo_busy(fd, spin->handle));
->> +    return igt_nsec_elapsed(&start);
->> +}
->> +
->> +static igt_spin_t *__spin_sync(int fd, uint64_t ahnd, const 
->> intel_ctx_t *ctx,
->> +                   const struct intel_execution_engine2 *e)
->> +{
->> +    igt_spin_t *spin = __spin_poll(fd, ahnd, ctx, e);
->> +
->> +    __spin_wait(fd, spin);
->> +
->> +    return spin;
->> +}
->> +
->> +static igt_spin_t *spin_sync(int fd, uint64_t ahnd, const intel_ctx_t 
->> *ctx,
->> +                 const struct intel_execution_engine2 *e)
->> +{
->> +    igt_require_gem(fd);
->> +
->> +    return __spin_sync(fd, ahnd, ctx, e);
->> +}
->> +
->> +static void end_spin(int fd, igt_spin_t *spin, unsigned int flags)
->> +{
->> +    if (!spin)
->> +        return;
->> +
->> +    igt_spin_end(spin);
->> +
->> +    if (flags & FLAG_SYNC)
->> +        gem_sync(fd, spin->handle);
->> +
->> +    if (flags & TEST_TRAILING_IDLE) {
->> +        unsigned long t, timeout = 0;
->> +        struct timespec start = { };
->> +
->> +        igt_nsec_elapsed(&start);
->> +
->> +        do {
->> +            t = igt_nsec_elapsed(&start);
->> +
->> +            if (gem_bo_busy(fd, spin->handle) &&
->> +                (t - timeout) > 10e6) {
->> +                timeout = t;
->> +                igt_warn("Spinner not idle after %.2fms\n",
->> +                     (double)t / 1e6);
->> +            }
->> +
->> +            usleep(1e3);
->> +        } while (t < batch_duration_ns / 5);
->> +    }
->> +}
->> +
->> +static uint64_t read_busy(int i915, unsigned int class)
->> +{
->> +    struct drm_client_fdinfo info = { };
->> +
->> +    igt_assert(igt_parse_drm_fdinfo(i915, &info));
->> +
->> +    return info.busy[class];
->> +}
->> +
->> +static void
->> +single(int gem_fd, const intel_ctx_t *ctx,
->> +       const struct intel_execution_engine2 *e, unsigned int flags)
->> +{
->> +    unsigned long slept;
->> +    igt_spin_t *spin;
->> +    uint64_t val;
->> +    int spin_fd;
->> +    uint64_t ahnd;
->> +
->> +    if (flags & TEST_ISOLATION) {
->> +        spin_fd = gem_reopen_driver(gem_fd);
->> +        ctx = intel_ctx_create_all_physical(spin_fd);
->> +    } else {
->> +        spin_fd = gem_fd;
->> +    }
->> +
->> +    ahnd = get_reloc_ahnd(spin_fd, ctx->id);
->> +
->> +    if (flags & TEST_BUSY)
->> +        spin = spin_sync(spin_fd, ahnd, ctx, e);
->> +    else
->> +        spin = NULL;
->> +
->> +    val = read_busy(gem_fd, e->class);
->> +    slept = measured_usleep(batch_duration_ns / 1000);
->> +    if (flags & TEST_TRAILING_IDLE)
->> +        end_spin(spin_fd, spin, flags);
->> +    val = read_busy(gem_fd, e->class) - val;
->> +
->> +    if (flags & FLAG_HANG)
->> +        igt_force_gpu_reset(spin_fd);
->> +    else
->> +        end_spin(spin_fd, spin, FLAG_SYNC);
->> +
->> +    assert_within_epsilon(val,
->> +                  (flags & TEST_BUSY) && !(flags & TEST_ISOLATION) ?
->> +                  slept : 0.0f,
->> +                  tolerance);
->> +
->> +    /* Check for idle after hang. */
->> +    if (flags & FLAG_HANG) {
->> +        gem_quiescent_gpu(spin_fd);
->> +        igt_assert(!gem_bo_busy(spin_fd, spin->handle));
->> +
->> +        val = read_busy(gem_fd, e->class);
->> +        slept = measured_usleep(batch_duration_ns / 1000);
->> +        val = read_busy(gem_fd, e->class) - val;
->> +
->> +        assert_within_epsilon(val, 0, tolerance);
->> +    }
->> +
->> +    igt_spin_free(spin_fd, spin);
->> +    put_ahnd(ahnd);
->> +
->> +    gem_quiescent_gpu(spin_fd);
->> +}
->> +
->> +static void log_busy(unsigned int num_engines, uint64_t *val)
->> +{
->> +    char buf[1024];
->> +    int rem = sizeof(buf);
->> +    unsigned int i;
->> +    char *p = buf;
->> +
->> +    for (i = 0; i < num_engines; i++) {
->> +        int len;
->> +
->> +        len = snprintf(p, rem, "%u=%" PRIu64 "\n",  i, val[i]);
->> +        igt_assert(len > 0);
->> +        rem -= len;
->> +        p += len;
->> +    }
->> +
->> +    igt_info("%s", buf);
->> +}
->> +
->> +static void read_busy_all(int i915, uint64_t *val)
->> +{
->> +    struct drm_client_fdinfo info = { };
->> +
->> +    igt_assert(igt_parse_drm_fdinfo(i915, &info));
->> +
->> +    memcpy(val, info.busy, sizeof(info.busy));
->> +}
->> +
->> +static void
->> +busy_check_all(int gem_fd, const intel_ctx_t *ctx,
->> +           const struct intel_execution_engine2 *e,
->> +           const unsigned int num_engines,
->> +           const unsigned int classes[16], const unsigned int 
->> num_classes,
->> +           unsigned int flags)
->> +{
->> +    uint64_t ahnd = get_reloc_ahnd(gem_fd, ctx->id);
->> +    uint64_t tval[2][16];
->> +    unsigned long slept;
->> +    uint64_t val[16];
->> +    igt_spin_t *spin;
->> +    unsigned int i;
->> +
->> +    memset(tval, 0, sizeof(tval));
->> +
->> +    spin = spin_sync(gem_fd, ahnd, ctx, e);
->> +
->> +    read_busy_all(gem_fd, tval[0]);
->> +    slept = measured_usleep(batch_duration_ns / 1000);
->> +    if (flags & TEST_TRAILING_IDLE)
->> +        end_spin(gem_fd, spin, flags);
->> +    read_busy_all(gem_fd, tval[1]);
->> +
->> +    end_spin(gem_fd, spin, FLAG_SYNC);
->> +    igt_spin_free(gem_fd, spin);
->> +    put_ahnd(ahnd);
->> +
->> +    for (i = 0; i < num_classes; i++)
->> +        val[i] = tval[1][i] - tval[0][i];
->> +
->> +    log_busy(num_classes, val);
->> +
->> +    for (i = 0; i < num_classes; i++) {
->> +        double target = i == e->class ? slept : 0.0f;
->> +
->> +        assert_within_epsilon(val[i], target, tolerance);
->> +    }
->> +
->> +    gem_quiescent_gpu(gem_fd);
->> +}
->> +
->> +static void
->> +__submit_spin(int gem_fd, igt_spin_t *spin,
->> +          const struct intel_execution_engine2 *e,
->> +          int offset)
->> +{
->> +    struct drm_i915_gem_execbuffer2 eb = spin->execbuf;
->> +
->> +    eb.flags &= ~(0x3f | I915_EXEC_BSD_MASK);
->> +    eb.flags |= e->flags | I915_EXEC_NO_RELOC;
->> +    eb.batch_start_offset += offset;
->> +
->> +    gem_execbuf(gem_fd, &eb);
->> +}
->> +
->> +static void
->> +most_busy_check_all(int gem_fd, const intel_ctx_t *ctx,
->> +            const struct intel_execution_engine2 *e,
->> +            const unsigned int num_engines,
->> +            const unsigned int classes[16],
->> +            const unsigned int num_classes,
->> +            unsigned int flags)
->> +{
->> +    uint64_t ahnd = get_reloc_ahnd(gem_fd, ctx->id);
->> +    unsigned int busy_class[num_classes];
->> +    struct intel_execution_engine2 *e_;
->> +    igt_spin_t *spin = NULL;
->> +    uint64_t tval[2][16];
->> +    unsigned long slept;
->> +    uint64_t val[16];
->> +    unsigned int i;
->> +
->> +    memset(busy_class, 0, sizeof(busy_class));
->> +    memset(tval, 0, sizeof(tval));
->> +
->> +    for_each_ctx_engine(gem_fd, ctx, e_) {
->> +        if (e->class == e_->class && e->instance == e_->instance) {
->> +            continue;
->> +        } else if (spin) {
->> +            __submit_spin(gem_fd, spin, e_, 64);
->> +            busy_class[e_->class]++;
->> +        } else {
->> +            spin = __spin_poll(gem_fd, ahnd, ctx, e_);
->> +            busy_class[e_->class]++;
->> +        }
->> +    }
->> +    igt_require(spin); /* at least one busy engine */
->> +
->> +    /* Small delay to allow engines to start. */
->> +    usleep(__spin_wait(gem_fd, spin) * num_engines / 1e3);
->> +
->> +    read_busy_all(gem_fd, tval[0]);
->> +    slept = measured_usleep(batch_duration_ns / 1000);
->> +    if (flags & TEST_TRAILING_IDLE)
->> +        end_spin(gem_fd, spin, flags);
->> +    read_busy_all(gem_fd, tval[1]);
->> +
->> +    end_spin(gem_fd, spin, FLAG_SYNC);
->> +    igt_spin_free(gem_fd, spin);
->> +    put_ahnd(ahnd);
->> +
->> +    for (i = 0; i < num_classes; i++)
->> +        val[i] = tval[1][i] - tval[0][i];
->> +
->> +    log_busy(num_classes, val);
->> +
->> +    for (i = 0; i < num_classes; i++) {
->> +        double target = slept * busy_class[i];
->> +
->> +        assert_within_epsilon(val[i], target, tolerance);
->> +    }
->> +    gem_quiescent_gpu(gem_fd);
->> +}
->> +
->> +static void
->> +all_busy_check_all(int gem_fd, const intel_ctx_t *ctx,
->> +           const unsigned int num_engines,
->> +           const unsigned int classes[16],
->> +           const unsigned int num_classes,
->> +           unsigned int flags)
->> +{
->> +    uint64_t ahnd = get_reloc_ahnd(gem_fd, ctx->id);
->> +    unsigned int busy_class[num_classes];
->> +    struct intel_execution_engine2 *e;
->> +    igt_spin_t *spin = NULL;
->> +    uint64_t tval[2][16];
->> +    unsigned long slept;
->> +    uint64_t val[16];
->> +    unsigned int i;
->> +
->> +    memset(busy_class, 0, sizeof(busy_class));
->> +    memset(tval, 0, sizeof(tval));
->> +
->> +    for_each_ctx_engine(gem_fd, ctx, e) {
->> +        if (spin)
->> +            __submit_spin(gem_fd, spin, e, 64);
->> +        else
->> +            spin = __spin_poll(gem_fd, ahnd, ctx, e);
->> +        busy_class[e->class]++;
->> +    }
->> +
->> +    /* Small delay to allow engines to start. */
->> +    usleep(__spin_wait(gem_fd, spin) * num_engines / 1e3);
->> +
->> +    read_busy_all(gem_fd, tval[0]);
->> +    slept = measured_usleep(batch_duration_ns / 1000);
->> +    if (flags & TEST_TRAILING_IDLE)
->> +        end_spin(gem_fd, spin, flags);
->> +    read_busy_all(gem_fd, tval[1]);
->> +
->> +    end_spin(gem_fd, spin, FLAG_SYNC);
->> +    igt_spin_free(gem_fd, spin);
->> +    put_ahnd(ahnd);
->> +
->> +    for (i = 0; i < num_classes; i++)
->> +        val[i] = tval[1][i] - tval[0][i];
->> +
->> +    log_busy(num_classes, val);
->> +
->> +    for (i = 0; i < num_classes; i++) {
->> +        double target = slept * busy_class[i];
->> +
->> +        assert_within_epsilon(val[i], target, tolerance);
->> +    }
->> +    gem_quiescent_gpu(gem_fd);
->> +}
->> +
->> +#define test_each_engine(T, i915, ctx, e) \
->> +    igt_subtest_with_dynamic(T) for_each_ctx_engine(i915, ctx, e) \
->> +        igt_dynamic_f("%s", e->name)
->> +
->> +igt_main
->> +{
->> +    unsigned int num_engines = 0, num_classes = 0;
->> +    const struct intel_execution_engine2 *e;
->> +    unsigned int classes[16] = { };
->> +    const intel_ctx_t *ctx = NULL;
->> +    int i915 = -1;
->> +
->> +    igt_fixture {
->> +        unsigned int i;
->> +
->> +        i915 = __drm_open_driver(DRIVER_INTEL);
->> +
->> +        igt_require_gem(i915);
->> +
->> +        ctx = intel_ctx_create_all_physical(i915);
->> +
->> +        for_each_ctx_engine(i915, ctx, e) {
->> +            num_engines++;
->> +            igt_assert(e->class < ARRAY_SIZE(classes));
->> +            classes[e->class]++;
->> +        }
->> +        igt_require(num_engines);
->> +
->> +        for (i = 0; i < ARRAY_SIZE(classes); i++) {
->> +            if (classes[i])
->> +                num_classes++;
->> +        }
->> +        igt_assert(num_classes);
->> +    }
->> +
->> +    /**
->> +     * Test basic fdinfo content.
->> +     */
->> +    igt_subtest("basics")
->> +        basics(i915, num_classes);
->> +
->> +    /**
->> +     * Test that engines show no load when idle.
->> +     */
->> +    test_each_engine("idle", i915, ctx, e)
->> +        single(i915, ctx, e, 0);
->> +
->> +    /**
->> +     * Test that a single engine reports load correctly.
->> +     */
->> +    test_each_engine("busy", i915, ctx, e)
->> +        single(i915, ctx, e, TEST_BUSY);
->> +
->> +    test_each_engine("busy-idle", i915, ctx, e)
->> +        single(i915, ctx, e, TEST_BUSY | TEST_TRAILING_IDLE);
->> +
->> +    test_each_engine("busy-hang", i915, ctx, e) {
->> +        igt_hang_t hang = igt_allow_hang(i915, ctx->id, 0);
->> +
->> +        single(i915, ctx, e, TEST_BUSY | FLAG_HANG);
->> +
->> +        igt_disallow_hang(i915, hang);
->> +    }
->> +
->> +    /**
->> +     * Test that when one engine is loaded other report no
->> +     * load.
->> +     */
->> +    test_each_engine("busy-check-all", i915, ctx, e)
->> +        busy_check_all(i915, ctx, e, num_engines, classes, num_classes,
->> +                   TEST_BUSY);
->> +
->> +    test_each_engine("busy-idle-check-all", i915, ctx, e)
->> +        busy_check_all(i915, ctx, e, num_engines, classes, num_classes,
->> +                   TEST_BUSY | TEST_TRAILING_IDLE);
->> +
->> +    /**
->> +     * Test that when all except one engine are loaded all
->> +     * loads are correctly reported.
->> +     */
->> +    test_each_engine("most-busy-check-all", i915, ctx, e)
->> +        most_busy_check_all(i915, ctx, e, num_engines,
->> +                    classes, num_classes,
->> +                    TEST_BUSY);
->> +
->> +    test_each_engine("most-busy-idle-check-all", i915, ctx, e)
->> +        most_busy_check_all(i915, ctx, e, num_engines,
->> +                    classes, num_classes,
->> +                    TEST_BUSY | TEST_TRAILING_IDLE);
->> +
->> +    /**
->> +     * Test that when all engines are loaded all loads are
->> +     * correctly reported.
->> +     */
->> +    igt_subtest("all-busy-check-all")
->> +        all_busy_check_all(i915, ctx, num_engines, classes, num_classes,
->> +                   TEST_BUSY);
->> +
->> +    igt_subtest("all-busy-idle-check-all")
->> +        all_busy_check_all(i915, ctx, num_engines, classes, num_classes,
->> +                   TEST_BUSY | TEST_TRAILING_IDLE);
->> +
->> +    /**
->> +     * Test for no cross-client contamination.
->> +     */
->> +    test_each_engine("isolation", i915, ctx, e)
->> +        single(i915, ctx, e, TEST_BUSY | TEST_ISOLATION);
->> +
->> +    igt_fixture {
->> +        intel_ctx_destroy(i915, ctx);
->> +        close(i915);
->> +    }
->> +}
->> diff --git a/tests/meson.build b/tests/meson.build
->> index 7003d0641d1d..0a87755d5433 100644
->> --- a/tests/meson.build
->> +++ b/tests/meson.build
->> @@ -290,6 +290,14 @@ foreach prog : i915_progs
->>     test_list += prog
->> endforeach
->>
->> +test_executables += executable('drm_fdinfo',
->> +       join_paths('i915', 'drm_fdinfo.c'),
->> +       dependencies : test_deps + [ lib_igt_drm_fdinfo ],
->> +       install_dir : libexecdir,
->> +       install_rpath : libexecdir_rpathdir,
->> +       install : true)
->> +test_list += 'drm_fdinfo'
->> +
->> test_executables += executable('dumb_buffer', 'dumb_buffer.c',
->>        dependencies : test_deps + [ libatomic ],
->>        install_dir : libexecdir,
->> -- 
->> 2.32.0
->>
+> For async updates we now have a more solid solution with the
+> ->atomic_async_check and ->atomic_async_commit hooks. Support for that
+> for msm and vc4 landed. nouveau and i915 have their own commit
+> routines, doing something similar.
+> 
+> For everyone else it's probably better to remove the use-after-free
+> bug, and encourage folks to use the async support instead. The
+> affected drivers which register a legacy cursor plane and don't either
+> use the new async stuff or their own commit routine are: amdgpu,
+> atmel, mediatek, qxl, rockchip, sti, sun4i, tegra, virtio, and vmwgfx.
+> 
+> Inspired by an amdgpu bug report.
+> 
+> v2: Drop RFC, I think with amdgpu converted over to use
+> atomic_async_check/commit done in
+> 
+> commit 674e78acae0dfb4beb56132e41cbae5b60f7d662
+> Author: Nicholas Kazlauskas <nicholas.kazlauskas@amd.com>
+> Date:   Wed Dec 5 14:59:07 2018 -0500
+> 
+>     drm/amd/display: Add fast path for cursor plane updates
+> 
+> we don't have any driver anymore where we have userspace expecting
+> solid legacy cursor support _and_ they are using the atomic helpers in
+> their fully glory. So we can retire this.
+> 
+> v3: Paper over msm and i915 regression. The complete_all is the only
+> thing missing afaict.
+> 
+> v4: Rebased on recent kernel, added extra link for vc4 bug.
+> 
+> Link: https://bugzilla.kernel.org/show_bug.cgi?id=199425
+> Link: https://lore.kernel.org/all/20220221134155.125447-9-maxime@cerno.tech/
+> Cc: mikita.lipski@amd.com
+> Cc: Michel D�nzer <michel@daenzer.net>
+> Cc: harry.wentland@amd.com
+> Cc: Rob Clark <robdclark@gmail.com>
+> Cc: "Kazlauskas, Nicholas" <nicholas.kazlauskas@amd.com>
+> Tested-by: Maxime Ripard <maxime@cerno.tech>
+> Signed-off-by: Daniel Vetter <daniel.vetter@intel.com>
+> Signed-off-by: Maxime Ripard <maxime@cerno.tech>
+> ---
+>  drivers/gpu/drm/drm_atomic_helper.c          | 13 -------------
+>  drivers/gpu/drm/i915/display/intel_display.c | 13 +++++++++++++
+>  drivers/gpu/drm/msm/msm_atomic.c             |  2 ++
+>  3 files changed, 15 insertions(+), 13 deletions(-)
+> 
+> diff --git a/drivers/gpu/drm/drm_atomic_helper.c b/drivers/gpu/drm/drm_atomic_helper.c
+> index 9603193d2fa1..a2899af82b4a 100644
+> --- a/drivers/gpu/drm/drm_atomic_helper.c
+> +++ b/drivers/gpu/drm/drm_atomic_helper.c
+> @@ -1498,13 +1498,6 @@ drm_atomic_helper_wait_for_vblanks(struct drm_device *dev,
+>  	int i, ret;
+>  	unsigned int crtc_mask = 0;
+>  
+> -	 /*
+> -	  * Legacy cursor ioctls are completely unsynced, and userspace
+> -	  * relies on that (by doing tons of cursor updates).
+> -	  */
+> -	if (old_state->legacy_cursor_update)
+> -		return;
+> -
+>  	for_each_oldnew_crtc_in_state(old_state, crtc, old_crtc_state, new_crtc_state, i) {
+>  		if (!new_crtc_state->active)
+>  			continue;
+> @@ -2135,12 +2128,6 @@ int drm_atomic_helper_setup_commit(struct drm_atomic_state *state,
+>  			continue;
+>  		}
+>  
+> -		/* Legacy cursor updates are fully unsynced. */
+> -		if (state->legacy_cursor_update) {
+> -			complete_all(&commit->flip_done);
+> -			continue;
+> -		}
+> -
+>  		if (!new_crtc_state->event) {
+>  			commit->event = kzalloc(sizeof(*commit->event),
+>  						GFP_KERNEL);
+> diff --git a/drivers/gpu/drm/i915/display/intel_display.c b/drivers/gpu/drm/i915/display/intel_display.c
+> index bf7ce684dd8e..bde32f5a33cb 100644
+> --- a/drivers/gpu/drm/i915/display/intel_display.c
+> +++ b/drivers/gpu/drm/i915/display/intel_display.c
+> @@ -8855,6 +8855,19 @@ static int intel_atomic_commit(struct drm_device *dev,
+>  				state->base.legacy_cursor_update = false;
+>  	}
+>  
+> +	/*
+> +	 * FIXME: Cut over to (async) commit helpers instead of hand-rolling
+> +	 * everything.
+> +	 */
+
+Intel cursors can't even do async updates so this is rather
+nonsensical. What we need is some kind of reasonable mailbox
+support.
+
+> +	if (state->base.legacy_cursor_update) {
+> +		struct intel_crtc_state *new_crtc_state;
+> +		struct intel_crtc *crtc;
+> +		int i;
+> +
+> +		for_each_new_intel_crtc_in_state(state, crtc, new_crtc_state, i)
+> +			complete_all(&new_crtc_state->uapi.commit->flip_done);
+> +	}
+
+You can complete what doesn't yet exist. Missing cc: intel-gfx for fireworks.
+
+> +
+>  	ret = intel_atomic_prepare_commit(state);
+>  	if (ret) {
+>  		drm_dbg_atomic(&dev_priv->drm,
+> diff --git a/drivers/gpu/drm/msm/msm_atomic.c b/drivers/gpu/drm/msm/msm_atomic.c
+> index 27c9ae563f2f..6ed14fafa40c 100644
+> --- a/drivers/gpu/drm/msm/msm_atomic.c
+> +++ b/drivers/gpu/drm/msm/msm_atomic.c
+> @@ -237,6 +237,8 @@ void msm_atomic_commit_tail(struct drm_atomic_state *state)
+>  		/* async updates are limited to single-crtc updates: */
+>  		WARN_ON(crtc_mask != drm_crtc_mask(async_crtc));
+>  
+> +		complete_all(&async_crtc->state->commit->flip_done);
+> +
+>  		/*
+>  		 * Start timer if we don't already have an update pending
+>  		 * on this crtc:
+> -- 
+> 2.35.1
+
+-- 
+Ville Syrj�l�
+Intel
