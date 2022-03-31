@@ -1,55 +1,72 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id A369D4ED5A1
-	for <lists+dri-devel@lfdr.de>; Thu, 31 Mar 2022 10:30:17 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id EEF9B4ED5B7
+	for <lists+dri-devel@lfdr.de>; Thu, 31 Mar 2022 10:35:19 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 492F110EB0A;
-	Thu, 31 Mar 2022 08:30:15 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id A765F10F6CA;
+	Thu, 31 Mar 2022 08:35:15 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mga05.intel.com (mga05.intel.com [192.55.52.43])
- by gabe.freedesktop.org (Postfix) with ESMTPS id AB84E10EB0A;
- Thu, 31 Mar 2022 08:30:13 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1648715413; x=1680251413;
- h=date:from:to:cc:subject:message-id:references:
- mime-version:content-transfer-encoding:in-reply-to;
- bh=RMI8gL5DpCkh677IYtc7xyxQns8lB1Jpx9AA/OdNb9Y=;
- b=a+mHLAFfwJppBnAewDcvrt277ehj+yPV1HIxQdJ0zAYn23DTViKRyiHA
- c5MCLy7UhTDsz78mWmjjgJbPD6wYDUMUUIyIq9goC3hunJ82ofYHS9NBw
- YTivGAmPUkkUh9MibbdnLMzmQ0jSywKR7HMRgKr5syc4SkBLJVLvctTDR
- otTKBxHMx7TzW3eFEWHXq9G3/dijY4/PRG1DrJ14rMOQqG6ef1P4jiCWI
- NlmHqLfguIBgNdDlC4qrG9nBWZl1AcipspGn0rIWn5iRH5Xn+IO3R8BGC
- d3topzhxNgx6fJCtv4JIba/3LVxUNLhBNTp/hJQegH3botmkTOEcMgyN4 A==;
-X-IronPort-AV: E=McAfee;i="6200,9189,10302"; a="346195888"
-X-IronPort-AV: E=Sophos;i="5.90,224,1643702400"; d="scan'208";a="346195888"
-Received: from fmsmga005.fm.intel.com ([10.253.24.32])
- by fmsmga105.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 31 Mar 2022 01:30:13 -0700
-X-IronPort-AV: E=Sophos;i="5.90,224,1643702400"; d="scan'208";a="839628045"
-Received: from vvendra-mobl.amr.corp.intel.com (HELO ldmartin-desk2)
- ([10.255.230.104])
- by fmsmga005-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 31 Mar 2022 01:30:13 -0700
-Date: Thu, 31 Mar 2022 01:30:12 -0700
-From: Lucas De Marchi <lucas.demarchi@intel.com>
-To: Christian =?utf-8?B?S8O2bmln?= <christian.koenig@amd.com>
-Subject: Re: [Intel-gfx] drm-tip compile break
-Message-ID: <20220331083012.teu6v3c45gkgdicf@ldmartin-desk2>
-X-Patchwork-Hint: comment
-References: <87o81n9ikg.wl-ashutosh.dixit@intel.com>
- <d3d90c7f-b3a9-e81c-c97e-b40ee3ee5baf@amd.com>
- <40ccaa09-42d3-37c0-65cb-5b5eabe8d706@amd.com>
- <20220331081529.4gsfd6diznsjzfay@ldmartin-desk2>
- <afa8f35b-88a0-236d-6740-e36ce12c851b@amd.com>
+Received: from mail-lj1-x22a.google.com (mail-lj1-x22a.google.com
+ [IPv6:2a00:1450:4864:20::22a])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id A96B210F6C9;
+ Thu, 31 Mar 2022 08:35:14 +0000 (UTC)
+Received: by mail-lj1-x22a.google.com with SMTP id a30so23554334ljq.13;
+ Thu, 31 Mar 2022 01:35:14 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
+ h=message-id:date:mime-version:user-agent:subject:content-language:to
+ :cc:references:from:in-reply-to:content-transfer-encoding;
+ bh=iyYwE56IOCfsoIynCGUIyOIgYS/m65/1JJzirGl6Moc=;
+ b=DjWx0UrwGkXW20Ke+2/4bPmxzusvSSv9PUD4tRGgO++2Uk2IgeH8GgVmtAWLRk9fYC
+ VwFwQlHsAzquzRY1s2VIsE5TM2DaTpSdVklsFVJJGrNHY8bsSjtPM3hpokC9js4YqIOI
+ mC1DeetrLfEghVplimkCPdngN8eCbxLMOxnHr4eIXRp2zrJmvhN0DJDdVCy101loacvJ
+ vsn0MepgbNfWhc66CEtxZEYI5y21EC0HvDF8kSlhHMjPDsj30BIcDAF+49ghrj6vJpTC
+ sHv8e1ouNZd+hpS0fFYyeK8rnX8WqpJl8QI6uetBftJ48+5A0fz5eVYO9oGtUnFFlgI8
+ h/qA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
+ :content-language:to:cc:references:from:in-reply-to
+ :content-transfer-encoding;
+ bh=iyYwE56IOCfsoIynCGUIyOIgYS/m65/1JJzirGl6Moc=;
+ b=nsNrtergyHD0Si9GNQ8RtnLCs7t5fIDTqWfEFHKibwnLfVh6RBAhvmwi4bGTI1fIrP
+ VMrAnks7kjjyRympbtOa8RTz62LQbXYudmT2td1UtVrrtVWGm0RUHQHcJst3n62hVEKH
+ 1H1RFUdpHrhVIp6MftaHUKzZNrwu1+R02rSgaZDj0DLpP8xJmajDoyIYG0hWYcMeptTk
+ +NR3CgC/De/hXckojg8GWyMDdVUW+OXwbWpK8z7crX6i+TK8EYfLjieJP1R48AngUt3d
+ +S7RLuQ4iPafxcF7SRuwwPjKWvmDkQzsi2Df6Vf4cUFA0h6idLEZNzSNRqqm5ASOSLMI
+ /GpA==
+X-Gm-Message-State: AOAM532Hv87XmiybFpSMh3T3Xun9om95U4y7FUBbKdptK9t/cJrCqFch
+ GTHssNHe4DqyDT7MQhgm3Cc=
+X-Google-Smtp-Source: ABdhPJxUylBOPeTZxaTRIm78ASkypR54rtmj3AHsifEANi8t/PsgequFTZYf+OETx00KSrSSWuezzA==
+X-Received: by 2002:a05:651c:887:b0:247:f630:d069 with SMTP id
+ d7-20020a05651c088700b00247f630d069mr9823327ljq.514.1648715712681; 
+ Thu, 31 Mar 2022 01:35:12 -0700 (PDT)
+Received: from [10.10.10.122] (88-115-161-74.elisa-laajakaista.fi.
+ [88.115.161.74]) by smtp.gmail.com with ESMTPSA id
+ g27-20020a2eb5db000000b002498222c8dasm2551442ljn.65.2022.03.31.01.35.11
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Thu, 31 Mar 2022 01:35:12 -0700 (PDT)
+Message-ID: <b8be8547-1aa9-4894-877b-91855439d9fd@gmail.com>
+Date: Thu, 31 Mar 2022 04:35:11 -0400
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <afa8f35b-88a0-236d-6740-e36ce12c851b@amd.com>
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.7.0
+Subject: Re: [PATCH v7 1/3] i915/gvt: Separate the MMIO tracking table from
+ GVT-g
+Content-Language: en-US
+To: Christoph Hellwig <hch@lst.de>, "Wang, Zhi A" <zhi.a.wang@intel.com>
+References: <20220325175251.167164-1-zhi.a.wang@intel.com>
+ <20220328065008.GA29798@lst.de>
+ <4af59d97-b583-4022-3ec3-360e7df43689@intel.com>
+ <20220331074225.GA21004@lst.de>
+ <d6345ebf-ccb1-9cb7-c154-a5e011c62cbe@intel.com>
+ <20220331083355.GA21928@lst.de>
+From: Zhi Wang <zhi.wang.linux@gmail.com>
+In-Reply-To: <20220331083355.GA21928@lst.de>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: base64
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -62,157 +79,130 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: intel-gfx@lists.freedesktop.org, dri-devel@lists.freedesktop.org
+Cc: Zhi Wang <zhi.a.wang@gmail.com>,
+ "intel-gfx@lists.freedesktop.org" <intel-gfx@lists.freedesktop.org>,
+ "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
+ "dri-devel@lists.freedesktop.org" <dri-devel@lists.freedesktop.org>,
+ Jason Gunthorpe <jgg@nvidia.com>, "Vivi, Rodrigo" <rodrigo.vivi@intel.com>,
+ "intel-gvt-dev@lists.freedesktop.org" <intel-gvt-dev@lists.freedesktop.org>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Thu, Mar 31, 2022 at 10:20:58AM +0200, Christian König wrote:
->Am 31.03.22 um 10:15 schrieb Lucas De Marchi:
->>On Thu, Mar 31, 2022 at 09:35:50AM +0200, Christian König wrote:
->>>Well the fix is trivial, but somehow rebuilding drm-tip always 
->>>fails for me while merging drm-intel-next.
->>>
->>>I probably have somehow messed up reverting the conflict 
->>>resolution. Ideas?
->>
->>It looks like the error is in the wrong conflict resolution in
->>629041de3a0c M─┐ Merge remote-tracking branch 
->>'drm-misc/drm-misc-next' into drm-tip
->>you'd need to redo the merge (-i) after telling git
->>rerere to forget the previous conflict resolution.
->>
->>https://nam11.safelinks.protection.outlook.com/?url=https%3A%2F%2Fdrm.pages.freedesktop.org%2Fmaintainer-tools%2Fdrm-tip.html%23removing-a-wrong-conflict-resolution&amp;data=04%7C01%7Cchristian.koenig%40amd.com%7C7b9d9727a7314f7a9a8d08da12ee9ee2%7C3dd8961fe4884e608e11a82d994e183d%7C0%7C0%7C637843113330258383%7CUnknown%7CTWFpbGZsb3d8eyJWIjoiMC4wLjAwMDAiLCJQIjoiV2luMzIiLCJBTiI6Ik1haWwiLCJXVCI6Mn0%3D%7C3000&amp;sdata=y5KjOfpLsu%2B42zDUZmKlkOFNHiAsjHfNPNMEVeZ9wLI%3D&amp;reserved=0
->>
->>
->>it's also useful to use dim -i, to make sure we can build on each merge
->>afterwards.
->>
->>AFAICS the revert would be on 141577c6d0bd 
->>("2022y-03m-29d-09h-01m-04s UTC: drm-tip rerere cache update")
->>
->>taking a stab on it, should be like below. It even builds,
->>but I have no confidence to commit it.
->
->Please go ahead with that, it looks correct to me.
-
-done
-
-
->
->I somehow messed up my installation so badly that even a "drm 
->rebuild-tip" doesn't work any more and fails to merge drm-intel-next 
->with a conflict which seems to already be resolved.
->
->And when I try to resolve it once more drm-tip says only "Preimage für 
->'drivers/gpu/drm/i915/intel_pm.c' aufgezeichnet." and doesn't seem to 
->remember the conflict resolution.
->
->Any advise how I can fix this?
-
-probably: 
-
-	dim ub
-	git clean -fxd
-	git reset --hard drm-tip/rerere-cache
-
-
-To try without pushing, you can do:
-
-	dim -d rebuild-tip
-
-it would also be good to get a review on 
-https://gitlab.freedesktop.org/drm/maintainer-tools/-/merge_requests/16
-that has some improvements on dry-run and other things.
-
-Lucas De Marchi
-
-
->
->Thanks,
->Christian.
->
->>
->>Lucas De Marchi
->>
->>-------
->>diff --cc drivers/gpu/drm/amd/amdgpu/amdgpu_gtt_mgr.c
->>index dd78402e3cb0,68494b959116..000000000000
->>--- a/drivers/gpu/drm/amd/amdgpu/amdgpu_gtt_mgr.c
->>+++ b/drivers/gpu/drm/amd/amdgpu/amdgpu_gtt_mgr.c
->>@@@ -200,17 -187,20 +187,17 @@@ static void amdgpu_gtt_mgr_del(struct t
->>   *
->>   * Re-init the gart for each known BO in the GTT.
->>   */
->> -int amdgpu_gtt_mgr_recover(struct amdgpu_gtt_mgr *mgr)
->> +void amdgpu_gtt_mgr_recover(struct amdgpu_gtt_mgr *mgr)
->>  {
->>-     struct amdgpu_gtt_node *node;
->>+     struct ttm_range_mgr_node *node;
->>      struct drm_mm_node *mm_node;
->>      struct amdgpu_device *adev;
->> -    int r = 0;
->>        adev = container_of(mgr, typeof(*adev), mman.gtt_mgr);
->>      spin_lock(&mgr->lock);
->>      drm_mm_for_each_node(mm_node, &mgr->mm) {
->>-         node = container_of(mm_node, typeof(*node), base.mm_nodes[0]);
->>-         amdgpu_ttm_recover_gart(node->tbo);
->>+         node = container_of(mm_node, typeof(*node), mm_nodes[0]);
->> -        r = amdgpu_ttm_recover_gart(node->base.bo);
->> -        if (r)
->> -            break;
->>++        amdgpu_ttm_recover_gart(node->base.bo);
->>      }
->>      spin_unlock(&mgr->lock);
->>  diff --cc drivers/gpu/drm/amd/amdgpu/amdgpu_vm.c
->>index fc4563cf2828,28f5e8b21a99..000000000000
->>--- a/drivers/gpu/drm/amd/amdgpu/amdgpu_vm.c
->>+++ b/drivers/gpu/drm/amd/amdgpu/amdgpu_vm.c
->>@@@ -375,9 -375,7 +375,9 @@@ static void amdgpu_vm_bo_base_init(stru
->>      if (bo->tbo.base.resv != vm->root.bo->tbo.base.resv)
->>          return;
->>   +    dma_resv_assert_held(vm->root.bo->tbo.base.resv);
->> +
->>-     vm->bulk_moveable = false;
->>+     ttm_bo_set_bulk_move(&bo->tbo, &vm->lru_bulk_move);
->>      if (bo->tbo.type == ttm_bo_type_kernel && bo->parent)
->>          amdgpu_vm_bo_relocated(base);
->>      else
->>@@@ -2660,12 -2597,9 +2606,12 @@@ void amdgpu_vm_bo_del(struct amdgpu_dev
->>      struct amdgpu_vm *vm = bo_va->base.vm;
->>      struct amdgpu_vm_bo_base **base;
->>   +    dma_resv_assert_held(vm->root.bo->tbo.base.resv);
->> +
->>      if (bo) {
->> +        dma_resv_assert_held(bo->tbo.base.resv);
->>          if (bo->tbo.base.resv == vm->root.bo->tbo.base.resv)
->>-             vm->bulk_moveable = false;
->>+             ttm_bo_set_bulk_move(&bo->tbo, NULL);
->>            for (base = &bo_va->base.bo->vm_bo; *base;
->>               base = &(*base)->next) {
->>
->>
->>>
->>>Christian.
->>>
->>>Am 31.03.22 um 08:28 schrieb Christian König:
->>>>I'm going to take a look, but need to figure out how to find the 
->>>>broken merge
->>>>
->>>>Christian.
->>>>
->>>>Am 31.03.22 um 00:33 schrieb Dixit, Ashutosh:
->>>>>Is anyone looking into fixing this:
->>>>>
->>>>>drivers/gpu/drm/amd/amdgpu/amdgpu_gtt_mgr.c: In function 
->>>>>‘amdgpu_gtt_mgr_recover’:
->>>>>drivers/gpu/drm/amd/amdgpu/amdgpu_gtt_mgr.c:200:31: error: 
->>>>>‘struct ttm_range_mgr_node’ has no member named ‘tbo’
->>>>>    amdgpu_ttm_recover_gart(node->tbo);
->>>>>                                ^~
->>>>>make[4]: *** [scripts/Makefile.build:288: 
->>>>>drivers/gpu/drm/amd/amdgpu/amdgpu_gtt_mgr.o] Error 1
->>>>>
->>>>>Thanks.
->>>>
->>>
->
+VGhhbmtzLiBMZXQgbWUgZml4IHRoYXQuIDopDQoNCk9uIDMvMzEvMjIgMDQ6MzMsIENocmlz
+dG9waCBIZWxsd2lnIHdyb3RlOg0KPiBPbiBUaHUsIE1hciAzMSwgMjAyMiBhdCAwODowNDow
+NEFNICswMDAwLCBXYW5nLCBaaGkgQSB3cm90ZToNCj4+IEhpIENocmlzOg0KPj4NCj4+IFRo
+YW5rcyBmb3IgdGhlIHRlc3RpbmcuIENhbiB5b3UgYXR0YWNoIHRoZSBkbWVzZz8gSSB0ZXN0
+ZWQgbW9zdGx5IG9uIG15IHNreWxha2UgZGVza3RvcCB3aXRoIHNvbWUgM0Qgd29ya2xvYWQu
+DQo+IFN1cmUsIEkgc2hvdWxkIGhhdmUgZG9uZSB0aGF0IGZyb20gdGhlIGJlZ2lubmluZzoN
+Cj4NCj4gWyAgIDI1LjM1NDU4N10gdmZpb19tZGV2IDY4MTRmMzkyLTUwYWMtNDIzNi1hZTNk
+LTI2ZDQ3MmZkOGFhZTogQWRkaW5nIHRvIGlvbW11IGdyb3VwIDANCj4gWyAgIDI1LjU4MzAx
+NV0gTDFURiBDUFUgYnVnIHByZXNlbnQgYW5kIFNNVCBvbiwgZGF0YSBsZWFrIHBvc3NpYmxl
+LiBTZWUgQ1ZFLTIwMTgtMzY0NiBhbmQgaHR0cHM6Ly93d3cua2VybmVsLm9yZy9kb2MvaHRt
+bC9sYXRlc3QvYWRtaW4tZ3VpZGUvaHctdnVsbi9sMXRmLmh0bWwgZm9yIGRldGFpbHMuDQo+
+IFsgICAyNi40Mjk0OTJdIGt2bSBbMjU1NV06IHZjcHUwLCBndWVzdCBySVA6IDB4ZmZmZmZm
+ZmY4MTAwM2U2ZSBkaXNhYmxlZCBwZXJmY3RyIHdybXNyOiAweGMyIGRhdGEgMHhmZmZmDQo+
+IFsgICAzMC4yMDYyMDJdIEJVRzoga2VybmVsIE5VTEwgcG9pbnRlciBkZXJlZmVyZW5jZSwg
+YWRkcmVzczogMDAwMDAwMDAwMDAwMDAwMA0KPiBbICAgMzAuMjA2MjA2XSAjUEY6IHN1cGVy
+dmlzb3IgaW5zdHJ1Y3Rpb24gZmV0Y2ggaW4ga2VybmVsIG1vZGUNCj4gWyAgIDMwLjIwNjIw
+OF0gI1BGOiBlcnJvcl9jb2RlKDB4MDAxMCkgLSBub3QtcHJlc2VudCBwYWdlDQo+IFsgICAz
+MC4yMDYyMDldIFBHRCAwIFA0RCAwDQo+IFsgICAzMC4yMDYyMTFdIE9vcHM6IDAwMTAgWyMx
+XSBQUkVFTVBUIFNNUCBQVEkNCj4gWyAgIDMwLjIwNjIxNF0gQ1BVOiA2IFBJRDogMjU2NSBD
+b21tOiBxZW11LXN5c3RlbS14ODYgVGFpbnRlZDogRyAgICAgICAgICAgIEUgICAgIDUuMTcu
+MCsgIzEyOTINCj4gWyAgIDMwLjIwNjIxNl0gSGFyZHdhcmUgbmFtZTogTEVOT1ZPIDIwS0gw
+MDZKR0UvMjBLSDAwNkpHRSwgQklPUyBOMjNFVDYyVyAoMS4zNyApIDAyLzE5LzIwMTkNCj4g
+WyAgIDMwLjIwNjIxN10gUklQOiAwMDEwOjB4MA0KPiBbICAgMzAuMjA2MjIzXSBDb2RlOiBV
+bmFibGUgdG8gYWNjZXNzIG9wY29kZSBieXRlcyBhdCBSSVAgMHhmZmZmZmZmZmZmZmZmZmQ2
+Lg0KPiBbICAgMzAuMjA2MjI0XSBSU1A6IDAwMTg6ZmZmZmE3NzVjM2ZiM2UxOCBFRkxBR1M6
+IDAwMDEwMjg2DQo+IFsgICAzMC4yMDYyMjZdIFJBWDogMDAwMDAwMDAwMDAwMDAwMCBSQlg6
+IGZmZmY5MGE4MDhiYzAwMDAgUkNYOiAwMDAwMDAwMDAwMDAwMDA0DQo+IFsgICAzMC4yMDYy
+MjddIFJEWDogZmZmZmE3NzVjM2ZiM2U4MCBSU0k6IDAwMDAwMDAwMDAwNDIzMDAgUkRJOiBm
+ZmZmYTc3NWM0MGFkMDAwDQo+IFsgICAzMC4yMDYyMjhdIFJCUDogZmZmZmE3NzVjNDBhZDAw
+MCBSMDg6IDAwMDAwMDAwMDAwMDAwMDEgUjA5OiAwMDAwMDAwMDAwMDIxMTgwDQo+IFsgICAz
+MC4yMDYyMzBdIFIxMDogZmZmZmE3NzVjM2ZiM2U4MCBSMTE6IGZmZmZhNzc1YzNmYjNlODAg
+UjEyOiAwMDAwMDAwMDAwMDAwMDA0DQo+IFsgICAzMC4yMDYyMzFdIFIxMzogMDAwMDAwMDBm
+ZDA0MjMwMCBSMTQ6IDAwMDAwMDAwMDAwNDIzMDAgUjE1OiBmZmZmYTc3NWM0MGFkMDA4DQo+
+IFsgICAzMC4yMDYyMzJdIEZTOiAgMDAwMDdmZGQ5Y2JmYzcwMCgwMDAwKSBHUzpmZmZmOTBh
+YjkyNzgwMDAwKDAwMDApIGtubEdTOjAwMDAwMDAwMDAwMDAwMDANCj4gWyAgIDMwLjIwNjIz
+M10gQ1M6ICAwMDEwIERTOiAwMDAwIEVTOiAwMDAwIENSMDogMDAwMDAwMDA4MDA1MDAzMw0K
+PiBbICAgMzAuMjA2MjM1XSBDUjI6IGZmZmZmZmZmZmZmZmZmZDYgQ1IzOiAwMDAwMDAwMWMx
+MTdjMDAyIENSNDogMDAwMDAwMDAwMDM3MjZlMA0KPiBbICAgMzAuMjA2MjM2XSBDYWxsIFRy
+YWNlOg0KPiBbICAgMzAuMjA2MjM4XSAgPFRBU0s+DQo+IFsgICAzMC4yMDYyMzldICBpbnRl
+bF92Z3B1X2VtdWxhdGVfbW1pb19yZWFkKzB4ZTkvMHgzOTANCj4gWyAgIDMwLjIwNjI0N10g
+IGludGVsX3ZncHVfcncuaXNyYS4wKzB4MWE3LzB4MWUwDQo+IFsgICAzMC4yMDYyNDldICBp
+bnRlbF92Z3B1X3JlYWQrMHgxNWMvMHgyMDANCj4gWyAgIDMwLjIwNjI1Ml0gIHZmc19yZWFk
+KzB4OWIvMHgxOTANCj4gWyAgIDMwLjIwNjI1N10gIF9feDY0X3N5c19wcmVhZDY0KzB4OGQv
+MHhjMA0KPiBbICAgMzAuMjA2MjU5XSAgZG9fc3lzY2FsbF82NCsweDNiLzB4OTANCj4gWyAg
+IDMwLjIwNjI2M10gIGVudHJ5X1NZU0NBTExfNjRfYWZ0ZXJfaHdmcmFtZSsweDQ0LzB4YWUN
+Cj4gWyAgIDMwLjIwNjI2Nl0gUklQOiAwMDMzOjB4N2ZkZGIxN2U0MWE3DQo+IFsgICAzMC4y
+MDYyNjhdIENvZGU6IDA4IDg5IDNjIDI0IDQ4IDg5IDRjIDI0IDE4IGU4IGY1IDdiIGY5IGZm
+IDRjIDhiIDU0IDI0IDE4IDQ4IDhiIDU0IDI0IDEwIDQxIDg5IGMwIDQ4IDhiIDc0IDI0IDA4
+IDhiIDNjIDI0IGI4IDExIDAwIDAwIDAwIDBmIDA1IDw0OD4gM2QgMDAgZjAgZmYgZmYgNzcg
+MzEgNDQgODkgYzcgNDggODkgMDQgMjQgZTggMjUgN2MgZjkgZmYgNDggOGINCj4gWyAgIDMw
+LjIwNjI3MF0gUlNQOiAwMDJiOjAwMDA3ZmRkOWNiZmIyZjAgRUZMQUdTOiAwMDAwMDI5MyBP
+UklHX1JBWDogMDAwMDAwMDAwMDAwMDAxMQ0KPiBbICAgMzAuMjA2MjcyXSBSQVg6IGZmZmZm
+ZmZmZmZmZmZmZGEgUkJYOiAwMDAwNTVlZTMwZDIwZWQ4IFJDWDogMDAwMDdmZGRiMTdlNDFh
+Nw0KPiBbICAgMzAuMjA2MjczXSBSRFg6IDAwMDAwMDAwMDAwMDAwMDQgUlNJOiAwMDAwN2Zk
+ZDljYmZiMzM4IFJESTogMDAwMDAwMDAwMDAwMDAxYg0KPiBbICAgMzAuMjA2Mjc0XSBSQlA6
+IDAwMDAwMDAwMDAwMDAwMDQgUjA4OiAwMDAwMDAwMDAwMDAwMDAwIFIwOTogMDAwMDAwMDBm
+ZmZmZmZmZg0KPiBbICAgMzAuMjA2Mjc1XSBSMTA6IDAwMDAwMDAwMDAwNDIzMDAgUjExOiAw
+MDAwMDAwMDAwMDAwMjkzIFIxMjogMDAwMDAwMDAwMDA0MjMwMA0KPiBbICAgMzAuMjA2Mjc2
+XSBSMTM6IDAwMDA1NWVlMzBkMjBkZjAgUjE0OiAwMDAwMDAwMDAwMDAwMDA0IFIxNTogMDAw
+MDAwMDAwMDA0MjMwMA0KPiBbICAgMzAuMjA2Mjc4XSAgPC9UQVNLPg0KPiBbICAgMzAuMjA2
+Mjc5XSBNb2R1bGVzIGxpbmtlZCBpbjogY21hYyhFKSBjdHIoRSkgY2NtKEUpIHJmY29tbShF
+KSBzZF9tb2QoRSkgc2coRSkgdXZjdmlkZW8oRSkgdmlkZW9idWYyX3ZtYWxsb2MoRSkgdmlk
+ZW9idWYyX21lbW9wcyhFKSB2aWRlb2J1ZjJfdjRsMihFKSB2aWRlb2J1ZjJfY29tbW9uKEUp
+IHZpZGVvZGV2KEUpIG1jKEUpIGJ0dXNiKEUpIGJ0cnRsKEUpIGJ0YmNtKEUpIGJ0aW50ZWwo
+RSkgdWFzKEUpIHVzYl9zdG9yYWdlKEUpIHNjc2lfbW9kKEUpIHNjc2lfY29tbW9uKEUpIGJu
+ZXAoRSkgc25kX2hkYV9jb2RlY19oZG1pKEUpIHdtaV9ibW9mKEUpIGludGVsX3dtaV90aHVu
+ZGVyYm9sdChFKSBqb3lkZXYoRSkgYmx1ZXRvb3RoKEUpIGludGVsX3JhcGxfbXNyKEUpIGNy
+YzE2KEUpIHg4Nl9wa2dfdGVtcF90aGVybWFsKEUpIGppdHRlcmVudHJvcHlfcm5nKEUpIGlu
+dGVsX3Bvd2VyY2xhbXAoRSkgc2hhNTEyX2dlbmVyaWMoRSkgZHJiZyhFKSBjb3JldGVtcChF
+KSBhbnNpX2Nwcm5nKEUpIGNyYzMyX3BjbG11bChFKSBlY2RoX2dlbmVyaWMoRSkgZ2hhc2hf
+Y2xtdWxuaV9pbnRlbChFKSBlY2MoRSkgYWVzbmlfaW50ZWwoRSkgbGliYWVzKEUpIGNyeXB0
+b19zaW1kKEUpIGl3bG12bShFKSBzbmRfc29jX3NrbChFKSBjcnlwdGQoRSkgc25kX3NvY19o
+ZGFjX2hkYShFKSBtYWM4MDIxMShFKSBzbmRfY3RsX2xlZChFKSBzbmRfaGRhX2V4dF9jb3Jl
+KEUpIHNuZF9oZGFfY29kZWNfcmVhbHRlayhFKSBsaWJhcmM0KEUpIHNuZF9zb2NfY29yZShF
+KSBzbmRfaGRhX2NvZGVjX2dlbmVyaWMoRSkgc25kX3NvY19hY3BpX2ludGVsX21hdGNoKEUp
+IGt2bV9pbnRlbChFKSBzbmRfc29jX2FjcGkoRSkgc25kX3NvY19zc3RfaXBjKEUpIGl3bHdp
+ZmkoRSkgc25kX3NvY19zc3RfZHNwKEUpIGludGVsX2NzdGF0ZShFKSBpbnRlbF91bmNvcmUo
+RSkgc25kX2hkYV9pbnRlbChFKSBzZXJpb19yYXcoRSkgc25kX2ludGVsX2RzcGNmZyhFKSBw
+Y3Nwa3IoRSkNCj4gWyAgIDMwLjIwNjMxNF0gIHNuZF9oZGFfY29kZWMoRSkgZWZpX3BzdG9y
+ZShFKSBzbmRfaHdkZXAoRSkgdHBtX2NyYihFKSBwcm9jZXNzb3JfdGhlcm1hbF9kZXZpY2Vf
+cGNpX2xlZ2FjeShFKSBzbmRfaGRhX2NvcmUoRSkgaW50ZWxfc29jX2R0c19pb3NmKEUpIGlU
+Q09fd2R0KEUpIGlUQ09fdmVuZG9yX3N1cHBvcnQoRSkgY2ZnODAyMTEoRSkgcHJvY2Vzc29y
+X3RoZXJtYWxfZGV2aWNlKEUpIHNuZF9wY20oRSkgdHBtX3RpcyhFKSBwcm9jZXNzb3JfdGhl
+cm1hbF9yZmltKEUpIHRoaW5rcGFkX2FjcGkoRSkgd2F0Y2hkb2coRSkgcHJvY2Vzc29yX3Ro
+ZXJtYWxfbWJveChFKSB0cG1fdGlzX2NvcmUoRSkgdWNzaV9hY3BpKEUpIG52cmFtKEUpIG1l
+aV9tZShFKSBzbmRfdGltZXIoRSkgcHJvY2Vzc29yX3RoZXJtYWxfcmFwbChFKSBsZWR0cmln
+X2F1ZGlvKEUpIGludGVsX3BjaF90aGVybWFsKEUpIHRwbShFKSBpbnRlbF9yYXBsX2NvbW1v
+bihFKSBtZWkoRSkgcGxhdGZvcm1fcHJvZmlsZShFKSB0eXBlY191Y3NpKEUpIHR5cGVjKEUp
+IHJuZ19jb3JlKEUpIHdtaShFKSBzbmQoRSkgYmF0dGVyeShFKSBhYyhFKSBzb3VuZGNvcmUo
+RSkgaW50MzQwM190aGVybWFsKEUpIHJma2lsbChFKSBpbnQzNDB4X3RoZXJtYWxfem9uZShF
+KSBpbnQzNDAwX3RoZXJtYWwoRSkgZXZkZXYoRSkgYWNwaV9wYWQoRSkgYWNwaV90aGVybWFs
+X3JlbChFKSBwYXJwb3J0X3BjKEUpIHBwZGV2KEUpIGxwKEUpIHBhcnBvcnQoRSkgZWZpdmFy
+ZnMoRSkgaXBfdGFibGVzKEUpIHhfdGFibGVzKEUpIGF1dG9mczQoRSkgaTJjX2Rlc2lnbndh
+cmVfcGxhdGZvcm0oRSkgaTJjX2Rlc2lnbndhcmVfY29yZShFKSBudm1lKEUpIG52bWVfY29y
+ZShFKSB0MTBfcGkoRSkgeGhjaV9wY2koRSkgZTEwMDBlKEUpIGNyYzMyY19pbnRlbChFKSBj
+cmM2NF9yb2Nrc29mdChFKSBwc21vdXNlKEUpIHhoY2lfaGNkKEUpIHB0cChFKSBpMmNfaTgw
+MShFKSBjcmM2NChFKSBwcHNfY29yZShFKSB0aHVuZGVyYm9sdChFKQ0KPiBbICAgMzAuMjA2
+MzQ3XSAgaTJjX3NtYnVzKEUpIGNyY190MTBkaWYoRSkgdXNiY29yZShFKSBjcmN0MTBkaWZf
+Z2VuZXJpYyhFKSBpbnRlbF9scHNzX3BjaShFKSBjcmN0MTBkaWZfcGNsbXVsKEUpIGludGVs
+X2xwc3MoRSkgY3JjdDEwZGlmX2NvbW1vbihFKSBpZG1hNjQoRSkgbWZkX2NvcmUoRSkgdXNi
+X2NvbW1vbihFKQ0KPiBbICAgMzAuMjA2MzU1XSBDUjI6IDAwMDAwMDAwMDAwMDAwMDANCj4g
+WyAgIDMwLjIwNjM1Nl0gLS0tWyBlbmQgdHJhY2UgMDAwMDAwMDAwMDAwMDAwMCBdLS0tDQo+
+IFsgICAzMC4zNDg4MjVdIFJJUDogMDAxMDoweDANCj4gWyAgIDMwLjM0ODgzOV0gQ29kZTog
+VW5hYmxlIHRvIGFjY2VzcyBvcGNvZGUgYnl0ZXMgYXQgUklQIDB4ZmZmZmZmZmZmZmZmZmZk
+Ni4NCj4gWyAgIDMwLjM0ODg0MF0gUlNQOiAwMDE4OmZmZmZhNzc1YzNmYjNlMTggRUZMQUdT
+OiAwMDAxMDI4Ng0KPiBbICAgMzAuMzQ4ODQyXSBSQVg6IDAwMDAwMDAwMDAwMDAwMDAgUkJY
+OiBmZmZmOTBhODA4YmMwMDAwIFJDWDogMDAwMDAwMDAwMDAwMDAwNA0KPiBbICAgMzAuMzQ4
+ODQ0XSBSRFg6IGZmZmZhNzc1YzNmYjNlODAgUlNJOiAwMDAwMDAwMDAwMDQyMzAwIFJESTog
+ZmZmZmE3NzVjNDBhZDAwMA0KPiBbICAgMzAuMzQ4ODQ1XSBSQlA6IGZmZmZhNzc1YzQwYWQw
+MDAgUjA4OiAwMDAwMDAwMDAwMDAwMDAxIFIwOTogMDAwMDAwMDAwMDAyMTE4MA0KPiBbICAg
+MzAuMzQ4ODQ2XSBSMTA6IGZmZmZhNzc1YzNmYjNlODAgUjExOiBmZmZmYTc3NWMzZmIzZTgw
+IFIxMjogMDAwMDAwMDAwMDAwMDAwNA0KPiBbICAgMzAuMzQ4ODQ3XSBSMTM6IDAwMDAwMDAw
+ZmQwNDIzMDAgUjE0OiAwMDAwMDAwMDAwMDQyMzAwIFIxNTogZmZmZmE3NzVjNDBhZDAwOA0K
+PiBbICAgMzAuMzQ4ODQ5XSBGUzogIDAwMDA3ZmRkOWNiZmM3MDAoMDAwMCkgR1M6ZmZmZjkw
+YWI5Mjc4MDAwMCgwMDAwKSBrbmxHUzowMDAwMDAwMDAwMDAwMDAwDQo+IFsgICAzMC4zNDg4
+NTBdIENTOiAgMDAxMCBEUzogMDAwMCBFUzogMDAwMCBDUjA6IDAwMDAwMDAwODAwNTAwMzMN
+Cj4gWyAgIDMwLjM0ODg1MV0gQ1IyOiBmZmZmZmZmZmZmZmZmZmQ2IENSMzogMDAwMDAwMDFj
+MTE3YzAwMiBDUjQ6IDAwMDAwMDAwMDAzNzI2ZTANCg==
