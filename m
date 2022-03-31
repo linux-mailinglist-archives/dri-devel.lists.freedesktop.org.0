@@ -2,74 +2,52 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6E9554ED56A
-	for <lists+dri-devel@lfdr.de>; Thu, 31 Mar 2022 10:23:34 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 9C93A4ED581
+	for <lists+dri-devel@lfdr.de>; Thu, 31 Mar 2022 10:25:34 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id DB15110F63E;
-	Thu, 31 Mar 2022 08:23:31 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 7A10B10F672;
+	Thu, 31 Mar 2022 08:25:32 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from out3-smtp.messagingengine.com (out3-smtp.messagingengine.com
- [66.111.4.27])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 7888210F63E
- for <dri-devel@lists.freedesktop.org>; Thu, 31 Mar 2022 08:23:30 +0000 (UTC)
-Received: from compute2.internal (compute2.nyi.internal [10.202.2.46])
- by mailout.nyi.internal (Postfix) with ESMTP id B9E4E5C010F;
- Thu, 31 Mar 2022 04:23:29 -0400 (EDT)
-Received: from mailfrontend1 ([10.202.2.162])
- by compute2.internal (MEProxy); Thu, 31 Mar 2022 04:23:29 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=cerno.tech; h=cc
- :cc:content-transfer-encoding:content-type:date:date:from:from
- :in-reply-to:in-reply-to:message-id:mime-version:references
- :reply-to:sender:subject:subject:to:to; s=fm3; bh=V0SmOvILPJupRa
- jtGf+KPfhu5gygOGNoKyTNawFdv/s=; b=p+zK1WBJOr1YHME5TaUqrZcLIzvnlr
- 0ktrthxQ4X8WuI4iBJ4hA5wvrpcPly4xG9OsRHDwr1ZWaJW7e2WeVf3RID6gGGUA
- GSiAlZdVaHe3LiS0dv2Lod7cjNztQFbWwIsWNIlbyWSLKgp1E7mPVoRO9a1OmvoR
- tEHKKFZYi3NZ8KWY3FBBL/b3kU7ycVbOSAF2Lzn9gBXwKIzvGiLTqeJ4kFUmTkJK
- 9bHg7haucBV93p9UGtvlHwu8axMO7HHvyEtWcZ3pqx4/DPGKqgMnTBtT2RcWCLaI
- vb4OW6Ro+KsvkdSCJpIR9eDmoj4i9/uX21jYrm6FN9WOK1ZQ5CLUlkAg==
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
- messagingengine.com; h=cc:cc:content-transfer-encoding
- :content-type:date:date:from:from:in-reply-to:in-reply-to
- :message-id:mime-version:references:reply-to:sender:subject
- :subject:to:to:x-me-proxy:x-me-proxy:x-me-sender:x-me-sender
- :x-sasl-enc; s=fm3; bh=V0SmOvILPJupRajtGf+KPfhu5gygOGNoKyTNawFdv
- /s=; b=Q5h8WQyoMAJ59NGsS+fK6JfWRi7YcsWTaRIn8VN8/DBUiGcBQpQSLSQIs
- HJS+UyvVfoumEYxmDsYzUjfJvCsEnKtA5l7B4uJX/c5GUtSg9m8SBUhf7iwU5UA5
- TONNUWbudL/CSO887cXE6wej0KFkheia/NktJNP9gj/f3H7ZtgGUvM95fL/NfX5I
- ayJrkp5bSwR4k2c+n/a06RRjNVcvbbhuq4t8tCJTcKNZm7nTQEQ8xpxYaZ7td5i+
- 91mWOj4i4sXgMJjVWdWE9yiO9qIW5lg0P4BfRqAWWYoP1UAo83/aDrIt5j9VMGnN
- k9PbZJ8YsTCkLHrznWtZtVMB958KA==
-X-ME-Sender: <xms:AWVFYv3iUacPDtscYE8jrnu7arb_dUVrV0sz6JKhwLZ6BVci1A3YlA>
- <xme:AWVFYuEP_763dnNG1PSMsigxZr8aQjyAUlhHh8xLbmZmhDeJYYVokfqczoPVz3XJA
- Rqbb2kZx1AzW5VC4xc>
-X-ME-Received: <xmr:AWVFYv5AqjPvTzcNvDVdY32_yBVt7vADGFY2f7YbVe93b_PMpIdhkoXzf1Zo7REAAaffKY3UI298N2Fj5YJ2S2Wc9g4CN8_exmwgN-0>
-X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvvddrudeigedgtdefucetufdoteggodetrfdotf
- fvucfrrhhofhhilhgvmecuhfgrshhtofgrihhlpdfqfgfvpdfurfetoffkrfgpnffqhgen
- uceurghilhhouhhtmecufedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmne
- cujfgurhephffvufffkffojghfgggtgfesthekredtredtjeenucfhrhhomhepofgrgihi
- mhgvucftihhprghrugcuoehmrgigihhmvgestggvrhhnohdrthgvtghhqeenucggtffrrg
- htthgvrhhnpeejuefggeekfffgueevtddvudffhfejffejjedvvdduudethefhfefhfeeg
- ieekkeenucevlhhushhtvghrufhiiigvpedtnecurfgrrhgrmhepmhgrihhlfhhrohhmpe
- hmrgigihhmvgestggvrhhnohdrthgvtghh
-X-ME-Proxy: <xmx:AWVFYk1M7WhwHEMCiWk-keAte1x7Xpy_uAeSUIdfww0ZXzA37ZSW2Q>
- <xmx:AWVFYiFv1jid1T3SDdk7ojckpfqfjzat1xdSStrNAaN8JYqwJlrxNw>
- <xmx:AWVFYl-Td2xvIbla0WIWasI3Ik1F_QygW5DGPRgCyhlh2OpBrUHfDQ>
- <xmx:AWVFYug_99eyJaak7urz8-WWrTe49OCJcOkhtclYDfXAKztV9mEhmA>
-Received: by mail.messagingengine.com (Postfix) with ESMTPA; Thu,
- 31 Mar 2022 04:23:28 -0400 (EDT)
-From: Maxime Ripard <maxime@cerno.tech>
-To: Maxime Ripard <maxime@cerno.tech>,
-	dri-devel@lists.freedesktop.org
-Subject: Re: [PATCH v3 0/4] drm/atomic: Atomic Private State debugging
-Date: Thu, 31 Mar 2022 10:23:26 +0200
-Message-Id: <164871500195.436210.4718712043939110694.b4-ty@cerno.tech>
-X-Mailer: git-send-email 2.35.1
-In-Reply-To: <20220328124304.2309418-1-maxime@cerno.tech>
-References: <20220328124304.2309418-1-maxime@cerno.tech>
+Received: from mga14.intel.com (mga14.intel.com [192.55.52.115])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id D017B10F670;
+ Thu, 31 Mar 2022 08:25:31 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+ t=1648715131; x=1680251131;
+ h=from:to:cc:subject:in-reply-to:references:date:
+ message-id:mime-version;
+ bh=KCSXDm3RC4aQp01a11FrJWqsx450JrWrRKmLFEH0CtQ=;
+ b=OPE5H/W3jyGGQFvUYE0lUohQH8EaZ6qrW5N25yY39rAc52KqJBP8gicr
+ jYcaooiMsI/729GrD46flnM5F5zXU4SGcLmQCeB1MyI2mEZia4VEBDrJl
+ X30rk9bZm/vdUbmqvT/y8SmWcZAx9f6xQu2fkrvlSVog5OAyyFt4fnmD7
+ dZC6SZBcaSRmHc2dm8mz+K4oN1Q7/AXtQ3t/3X/yr4FkG3E2zaK6LnmBI
+ OXegOScptBOFYhGvDm/tRsCRuvtMxwWjUtglAx5SIvksEcyzqYfIFnSTn
+ 4ouaVI3J/sINl99DR1W12kXh6gKVF/b0hd6GLvxWxPBoP5wHK6wvRZZBe g==;
+X-IronPort-AV: E=McAfee;i="6200,9189,10302"; a="259937577"
+X-IronPort-AV: E=Sophos;i="5.90,224,1643702400"; d="scan'208";a="259937577"
+Received: from orsmga008.jf.intel.com ([10.7.209.65])
+ by fmsmga103.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 31 Mar 2022 01:25:31 -0700
+X-IronPort-AV: E=Sophos;i="5.90,224,1643702400"; d="scan'208";a="566269025"
+Received: from cgarnier-mobl1.ger.corp.intel.com (HELO localhost)
+ ([10.252.62.224])
+ by orsmga008-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 31 Mar 2022 01:25:27 -0700
+From: Jani Nikula <jani.nikula@linux.intel.com>
+To: "Wang, Zhi A" <zhi.a.wang@intel.com>, Christoph Hellwig <hch@lst.de>,
+ Zhi Wang <zhi.wang.linux@gmail.com>
+Subject: Re: [PATCH v7 1/3] i915/gvt: Separate the MMIO tracking table from
+ GVT-g
+In-Reply-To: <4af59d97-b583-4022-3ec3-360e7df43689@intel.com>
+Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
+References: <20220325175251.167164-1-zhi.a.wang@intel.com>
+ <20220328065008.GA29798@lst.de>
+ <4af59d97-b583-4022-3ec3-360e7df43689@intel.com>
+Date: Thu, 31 Mar 2022 11:25:25 +0300
+Message-ID: <871qyibkay.fsf@intel.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -82,24 +60,67 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: David Airlie <airlied@linux.ie>, Daniel Vetter <daniel.vetter@intel.com>,
- Sean Paul <seanpaul@chromium.org>, Thomas Zimmermann <tzimmermann@suse.de>
+Cc: Zhi Wang <zhi.a.wang@gmail.com>,
+ "intel-gfx@lists.freedesktop.org" <intel-gfx@lists.freedesktop.org>,
+ "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
+ "dri-devel@lists.freedesktop.org" <dri-devel@lists.freedesktop.org>,
+ Jason Gunthorpe <jgg@nvidia.com>, "Vivi, Rodrigo" <rodrigo.vivi@intel.com>,
+ "intel-gvt-dev@lists.freedesktop.org" <intel-gvt-dev@lists.freedesktop.org>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Mon, 28 Mar 2022 14:43:00 +0200, Maxime Ripard wrote:
-> This series adds an atomic_print_state hook for drm_private_obj to ease the
-> debugging of driver-specific sub-classes, and adds one for vc4.
-> 
-> It also changes the call site of drm_atomic_print_new_state to make it more
-> consistent.
-> 
-> Let me know what you think,
-> Maxime
-> 
-> [...]
+On Thu, 31 Mar 2022, "Wang, Zhi A" <zhi.a.wang@intel.com> wrote:
+> Hi Jani and Joonas:
+>
+> Are you OK with these patches? I noticed I need to change the license
+> of the new file. Will do that when check-in if you are OK with these.
 
-Applied to drm/drm-misc (drm-misc-next).
+Use SPDX license header instead of the full text?
 
-Thanks!
-Maxime
+I don't know much about the actual contents, I'll leave that part to
+others.
+
+Seems that you are dropping const in a number of places where I thought
+you could perhaps retain it.
+
+Also in drivers/gpu/drm/i915/intel_gvt_mmio_table.c:
+
+#include "gvt.h" 
+
+looks bad. It should be "gvt/gvt.h". I realize you can do that because
+gvt/Makefile has:
+
+ccflags-y += -I $(srctree)/$(src) -I $(srctree)/$(src)/$(GVT_DIR)/
+
+which I think should be removed.
+
+I sent patches fixing this to give you an idea. No need to queue them
+first, I can rebase them later. But please make sure this builds without
+the ccflags.
+
+
+BR,
+Jani.
+
+
+>
+> Thanks,
+> Zhi.
+>
+> On 3/28/22 6:50 AM, Christoph Hellwig wrote:
+>> On Fri, Mar 25, 2022 at 01:52:49PM -0400, Zhi Wang wrote:
+>>>
+>>> v7:
+>>>
+>>> - Keep the marcos of device generation in GVT-g. (Christoph, Jani)
+>> 
+>> The changelog go under the "---" line (also for the other patches).
+>> 
+>> Otherwise looks good:
+>> 
+>> Reviewed-by: Christoph Hellwig <hch@lst.de>
+>> 
+>
+
+-- 
+Jani Nikula, Intel Open Source Graphics Center
