@@ -1,30 +1,30 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6D9F64ED1E5
-	for <lists+dri-devel@lfdr.de>; Thu, 31 Mar 2022 04:49:02 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id CBA714ED1E1
+	for <lists+dri-devel@lfdr.de>; Thu, 31 Mar 2022 04:48:46 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 6620910F3B5;
-	Thu, 31 Mar 2022 02:48:59 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 0D81A10F3AB;
+	Thu, 31 Mar 2022 02:48:40 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mailgw01.mediatek.com (unknown [60.244.123.138])
- by gabe.freedesktop.org (Postfix) with ESMTPS id A817B10F3A7
- for <dri-devel@lists.freedesktop.org>; Thu, 31 Mar 2022 02:48:34 +0000 (UTC)
-X-UUID: ab6b40d81fab4882b60baf0e03f4c385-20220331
-X-UUID: ab6b40d81fab4882b60baf0e03f4c385-20220331
-Received: from mtkmbs10n2.mediatek.inc [(172.21.101.183)] by
- mailgw01.mediatek.com (envelope-from <yunfei.dong@mediatek.com>)
- (Generic MTA with TLSv1.2 ECDHE-RSA-AES256-GCM-SHA384 256/256)
- with ESMTP id 1392566888; Thu, 31 Mar 2022 10:48:27 +0800
+Received: from mailgw02.mediatek.com (unknown [210.61.82.184])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 310D310F3A4
+ for <dri-devel@lists.freedesktop.org>; Thu, 31 Mar 2022 02:48:33 +0000 (UTC)
+X-UUID: ea111c8417764c9a9aed44a51d1a317f-20220331
+X-UUID: ea111c8417764c9a9aed44a51d1a317f-20220331
+Received: from mtkcas11.mediatek.inc [(172.21.101.40)] by mailgw02.mediatek.com
+ (envelope-from <yunfei.dong@mediatek.com>)
+ (Generic MTA with TLSv1.2 ECDHE-RSA-AES256-SHA384 256/256)
+ with ESMTP id 2018659626; Thu, 31 Mar 2022 10:48:29 +0800
 Received: from mtkcas11.mediatek.inc (172.21.101.40) by
- mtkmbs10n2.mediatek.inc (172.21.101.183) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_CBC_SHA384) id 15.2.792.3; 
- Thu, 31 Mar 2022 10:48:26 +0800
+ mtkmbs10n1.mediatek.inc (172.21.101.34) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_CBC_SHA384) id
+ 15.2.792.15; Thu, 31 Mar 2022 10:48:27 +0800
 Received: from localhost.localdomain (10.17.3.154) by mtkcas11.mediatek.inc
  (172.21.101.73) with Microsoft SMTP Server id 15.0.1497.2 via Frontend
- Transport; Thu, 31 Mar 2022 10:48:24 +0800
+ Transport; Thu, 31 Mar 2022 10:48:26 +0800
 From: Yunfei Dong <yunfei.dong@mediatek.com>
 To: Yunfei Dong <yunfei.dong@mediatek.com>, Alexandre Courbot
  <acourbot@chromium.org>, Nicolas Dufresne <nicolas@ndufresne.ca>, "Hans
@@ -34,10 +34,10 @@ To: Yunfei Dong <yunfei.dong@mediatek.com>, Alexandre Courbot
  Andrew-CT Chen <andrew-ct.chen@mediatek.com>, Mauro Carvalho Chehab
  <mchehab@kernel.org>, Rob Herring <robh+dt@kernel.org>, Matthias Brugger
  <matthias.bgg@gmail.com>, Tomasz Figa <tfiga@google.com>
-Subject: [PATCH v8,
- 03/17] media: mediatek: vcodec: get capture queue buffer size from scp
-Date: Thu, 31 Mar 2022 10:47:47 +0800
-Message-ID: <20220331024801.29229-4-yunfei.dong@mediatek.com>
+Subject: [PATCH v8, 04/17] media: mediatek: vcodec: Read max resolution from
+ dec_capability
+Date: Thu, 31 Mar 2022 10:47:48 +0800
+Message-ID: <20220331024801.29229-5-yunfei.dong@mediatek.com>
 X-Mailer: git-send-email 2.25.1
 In-Reply-To: <20220331024801.29229-1-yunfei.dong@mediatek.com>
 References: <20220331024801.29229-1-yunfei.dong@mediatek.com>
@@ -68,192 +68,163 @@ Cc: Irui Wang <irui.wang@mediatek.com>, George Sun <george.sun@mediatek.com>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Different capture buffer format has different buffer size, need to get
-real buffer size according to buffer type from scp.
+Supported max resolution for different platforms are not the same: 2K
+or 4K, getting it according to dec_capability.
 
 Signed-off-by: Yunfei Dong <yunfei.dong@mediatek.com>
+Reviewed-by: Tzung-Bi Shih<tzungbi@google.com>
+Reviewed-by: AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>
 ---
- .../platform/mediatek/vcodec/vdec_ipi_msg.h   | 36 ++++++++++++++
- .../platform/mediatek/vcodec/vdec_vpu_if.c    | 49 +++++++++++++++++++
- .../platform/mediatek/vcodec/vdec_vpu_if.h    | 13 +++++
- 3 files changed, 98 insertions(+)
+ .../platform/mediatek/vcodec/mtk_vcodec_dec.c | 44 ++++++++++---------
+ .../platform/mediatek/vcodec/mtk_vcodec_drv.h |  4 ++
+ 2 files changed, 28 insertions(+), 20 deletions(-)
 
-diff --git a/drivers/media/platform/mediatek/vcodec/vdec_ipi_msg.h b/drivers/media/platform/mediatek/vcodec/vdec_ipi_msg.h
-index bf54d6d9a857..47070be2a991 100644
---- a/drivers/media/platform/mediatek/vcodec/vdec_ipi_msg.h
-+++ b/drivers/media/platform/mediatek/vcodec/vdec_ipi_msg.h
-@@ -20,6 +20,7 @@ enum vdec_ipi_msgid {
- 	AP_IPIMSG_DEC_RESET = 0xA004,
- 	AP_IPIMSG_DEC_CORE = 0xA005,
- 	AP_IPIMSG_DEC_CORE_END = 0xA006,
-+	AP_IPIMSG_DEC_GET_PARAM = 0xA007,
+diff --git a/drivers/media/platform/mediatek/vcodec/mtk_vcodec_dec.c b/drivers/media/platform/mediatek/vcodec/mtk_vcodec_dec.c
+index 130ecef2e766..e42d5c17d90e 100644
+--- a/drivers/media/platform/mediatek/vcodec/mtk_vcodec_dec.c
++++ b/drivers/media/platform/mediatek/vcodec/mtk_vcodec_dec.c
+@@ -152,13 +152,15 @@ void mtk_vcodec_dec_set_default_params(struct mtk_vcodec_ctx *ctx)
+ 	q_data->coded_height = DFT_CFG_HEIGHT;
+ 	q_data->fmt = ctx->dev->vdec_pdata->default_cap_fmt;
+ 	q_data->field = V4L2_FIELD_NONE;
++	ctx->max_width = MTK_VDEC_MAX_W;
++	ctx->max_height = MTK_VDEC_MAX_H;
  
- 	VPU_IPIMSG_DEC_INIT_ACK = 0xB000,
- 	VPU_IPIMSG_DEC_START_ACK = 0xB001,
-@@ -28,6 +29,7 @@ enum vdec_ipi_msgid {
- 	VPU_IPIMSG_DEC_RESET_ACK = 0xB004,
- 	VPU_IPIMSG_DEC_CORE_ACK = 0xB005,
- 	VPU_IPIMSG_DEC_CORE_END_ACK = 0xB006,
-+	VPU_IPIMSG_DEC_GET_PARAM_ACK = 0xB007,
- };
+ 	v4l_bound_align_image(&q_data->coded_width,
+ 				MTK_VDEC_MIN_W,
+-				MTK_VDEC_MAX_W, 4,
++				ctx->max_width, 4,
+ 				&q_data->coded_height,
+ 				MTK_VDEC_MIN_H,
+-				MTK_VDEC_MAX_H, 5, 6);
++				ctx->max_height, 5, 6);
  
- /**
-@@ -114,4 +116,38 @@ struct vdec_vpu_ipi_init_ack {
- 	uint32_t inst_id;
- };
- 
-+/**
-+ * struct vdec_ap_ipi_get_param - for AP_IPIMSG_DEC_GET_PARAM
-+ * @msg_id	: AP_IPIMSG_DEC_GET_PARAM
-+ * @inst_id     : instance ID. Used if the ABI version >= 2.
-+ * @data	: picture information
-+ * @param_type	: get param type
-+ * @codec_type	: Codec fourcc
-+ */
-+struct vdec_ap_ipi_get_param {
-+	u32 msg_id;
-+	u32 inst_id;
-+	u32 data[4];
-+	u32 param_type;
-+	u32 codec_type;
-+};
-+
-+/**
-+ * struct vdec_vpu_ipi_get_param_ack - for VPU_IPIMSG_DEC_GET_PARAM_ACK
-+ * @msg_id	: VPU_IPIMSG_DEC_GET_PARAM_ACK
-+ * @status	: VPU execution result
-+ * @ap_inst_addr	: AP vcodec_vpu_inst instance address
-+ * @data     : picture information from SCP.
-+ * @param_type	: get param type
-+ * @reserved : reserved param
-+ */
-+struct vdec_vpu_ipi_get_param_ack {
-+	u32 msg_id;
-+	s32 status;
-+	u64 ap_inst_addr;
-+	u32 data[4];
-+	u32 param_type;
-+	u32 reserved;
-+};
-+
- #endif
-diff --git a/drivers/media/platform/mediatek/vcodec/vdec_vpu_if.c b/drivers/media/platform/mediatek/vcodec/vdec_vpu_if.c
-index 7210061c772f..35f4d5583084 100644
---- a/drivers/media/platform/mediatek/vcodec/vdec_vpu_if.c
-+++ b/drivers/media/platform/mediatek/vcodec/vdec_vpu_if.c
-@@ -6,6 +6,7 @@
- 
- #include "mtk_vcodec_drv.h"
- #include "mtk_vcodec_util.h"
-+#include "vdec_drv_if.h"
- #include "vdec_ipi_msg.h"
- #include "vdec_vpu_if.h"
- #include "mtk_vcodec_fw.h"
-@@ -54,6 +55,26 @@ static void handle_init_ack_msg(const struct vdec_vpu_ipi_init_ack *msg)
+ 	q_data->sizeimage[0] = q_data->coded_width * q_data->coded_height;
+ 	q_data->bytesperline[0] = q_data->coded_width;
+@@ -217,7 +219,7 @@ static int vidioc_vdec_subscribe_evt(struct v4l2_fh *fh,
  	}
  }
  
-+static void handle_get_param_msg_ack(const struct vdec_vpu_ipi_get_param_ack *msg)
-+{
-+	struct vdec_vpu_inst *vpu = (struct vdec_vpu_inst *)
-+					(unsigned long)msg->ap_inst_addr;
-+
-+	mtk_vcodec_debug(vpu, "+ ap_inst_addr = 0x%llx", msg->ap_inst_addr);
-+
-+	/* param_type is enum vdec_get_param_type */
-+	switch (msg->param_type) {
-+	case GET_PARAM_PIC_INFO:
-+		vpu->fb_sz[0] = msg->data[0];
-+		vpu->fb_sz[1] = msg->data[1];
-+		break;
-+	default:
-+		mtk_vcodec_err(vpu, "invalid get param type=%d", msg->param_type);
-+		vpu->failure = 1;
-+		break;
-+	}
-+}
-+
- /*
-  * vpu_dec_ipi_handler - Handler for VPU ipi message.
-  *
-@@ -89,6 +110,9 @@ static void vpu_dec_ipi_handler(void *data, unsigned int len, void *priv)
- 		case VPU_IPIMSG_DEC_CORE_END_ACK:
- 			break;
+-static int vidioc_try_fmt(struct v4l2_format *f,
++static int vidioc_try_fmt(struct mtk_vcodec_ctx *ctx, struct v4l2_format *f,
+ 			  const struct mtk_video_fmt *fmt)
+ {
+ 	struct v4l2_pix_format_mplane *pix_fmt_mp = &f->fmt.pix_mp;
+@@ -225,9 +227,9 @@ static int vidioc_try_fmt(struct v4l2_format *f,
+ 	pix_fmt_mp->field = V4L2_FIELD_NONE;
  
-+		case VPU_IPIMSG_DEC_GET_PARAM_ACK:
-+			handle_get_param_msg_ack(data);
-+			break;
- 		default:
- 			mtk_vcodec_err(vpu, "invalid msg=%X", msg->msg_id);
- 			break;
-@@ -217,6 +241,31 @@ int vpu_dec_start(struct vdec_vpu_inst *vpu, uint32_t *data, unsigned int len)
- 	return err;
+ 	pix_fmt_mp->width =
+-		clamp(pix_fmt_mp->width, MTK_VDEC_MIN_W, MTK_VDEC_MAX_W);
++		clamp(pix_fmt_mp->width, MTK_VDEC_MIN_W, ctx->max_width);
+ 	pix_fmt_mp->height =
+-		clamp(pix_fmt_mp->height, MTK_VDEC_MIN_H, MTK_VDEC_MAX_H);
++		clamp(pix_fmt_mp->height, MTK_VDEC_MIN_H, ctx->max_height);
+ 
+ 	if (f->type == V4L2_BUF_TYPE_VIDEO_OUTPUT_MPLANE) {
+ 		pix_fmt_mp->num_planes = 1;
+@@ -245,16 +247,16 @@ static int vidioc_try_fmt(struct v4l2_format *f,
+ 		tmp_h = pix_fmt_mp->height;
+ 		v4l_bound_align_image(&pix_fmt_mp->width,
+ 					MTK_VDEC_MIN_W,
+-					MTK_VDEC_MAX_W, 6,
++					ctx->max_width, 6,
+ 					&pix_fmt_mp->height,
+ 					MTK_VDEC_MIN_H,
+-					MTK_VDEC_MAX_H, 6, 9);
++					ctx->max_height, 6, 9);
+ 
+ 		if (pix_fmt_mp->width < tmp_w &&
+-			(pix_fmt_mp->width + 64) <= MTK_VDEC_MAX_W)
++			(pix_fmt_mp->width + 64) <= ctx->max_width)
+ 			pix_fmt_mp->width += 64;
+ 		if (pix_fmt_mp->height < tmp_h &&
+-			(pix_fmt_mp->height + 64) <= MTK_VDEC_MAX_H)
++			(pix_fmt_mp->height + 64) <= ctx->max_height)
+ 			pix_fmt_mp->height += 64;
+ 
+ 		mtk_v4l2_debug(0,
+@@ -294,7 +296,7 @@ static int vidioc_try_fmt_vid_cap_mplane(struct file *file, void *priv,
+ 		fmt = mtk_vdec_find_format(f, dec_pdata);
+ 	}
+ 
+-	return vidioc_try_fmt(f, fmt);
++	return vidioc_try_fmt(ctx, f, fmt);
  }
  
-+int vpu_dec_get_param(struct vdec_vpu_inst *vpu, uint32_t *data,
-+		      unsigned int len, unsigned int param_type)
-+{
-+	struct vdec_ap_ipi_get_param msg;
-+	int err;
-+
-+	mtk_vcodec_debug_enter(vpu);
-+
-+	if (len > ARRAY_SIZE(msg.data)) {
-+		mtk_vcodec_err(vpu, "invalid len = %d\n", len);
-+		return -EINVAL;
+ static int vidioc_try_fmt_vid_out_mplane(struct file *file, void *priv,
+@@ -317,7 +319,7 @@ static int vidioc_try_fmt_vid_out_mplane(struct file *file, void *priv,
+ 		return -EINVAL;
+ 	}
+ 
+-	return vidioc_try_fmt(f, fmt);
++	return vidioc_try_fmt(ctx, f, fmt);
+ }
+ 
+ static int vidioc_vdec_g_selection(struct file *file, void *priv,
+@@ -444,8 +446,14 @@ static int vidioc_vdec_s_fmt(struct file *file, void *priv,
+ 	if (fmt == NULL)
+ 		return -EINVAL;
+ 
++	if (!(ctx->dev->dec_capability & VCODEC_CAPABILITY_4K_DISABLED)) {
++		mtk_v4l2_debug(3, "4K is enabled");
++		ctx->max_width = VCODEC_DEC_4K_CODED_WIDTH;
++		ctx->max_height = VCODEC_DEC_4K_CODED_HEIGHT;
 +	}
 +
-+	memset(&msg, 0, sizeof(msg));
-+	msg.msg_id = AP_IPIMSG_DEC_GET_PARAM;
-+	msg.inst_id = vpu->inst_id;
-+	memcpy(msg.data, data, sizeof(unsigned int) * len);
-+	msg.param_type = param_type;
-+	msg.codec_type = vpu->codec_type;
+ 	q_data->fmt = fmt;
+-	vidioc_try_fmt(f, q_data->fmt);
++	vidioc_try_fmt(ctx, f, q_data->fmt);
+ 	if (f->type == V4L2_BUF_TYPE_VIDEO_OUTPUT_MPLANE) {
+ 		q_data->sizeimage[0] = pix_mp->plane_fmt[0].sizeimage;
+ 		q_data->coded_width = pix_mp->width;
+@@ -529,14 +537,9 @@ static int vidioc_enum_framesizes(struct file *file, void *priv,
+ 
+ 		fsize->type = V4L2_FRMSIZE_TYPE_STEPWISE;
+ 		fsize->stepwise = dec_pdata->vdec_framesizes[i].stepwise;
+-		if (!(ctx->dev->dec_capability &
+-				VCODEC_CAPABILITY_4K_DISABLED)) {
+-			mtk_v4l2_debug(3, "4K is enabled");
+-			fsize->stepwise.max_width =
+-					VCODEC_DEC_4K_CODED_WIDTH;
+-			fsize->stepwise.max_height =
+-					VCODEC_DEC_4K_CODED_HEIGHT;
+-		}
 +
-+	err = vcodec_vpu_send_msg(vpu, (void *)&msg, sizeof(msg));
-+	mtk_vcodec_debug(vpu, "- ret=%d", err);
-+	return err;
-+}
++		fsize->stepwise.max_width = ctx->max_width;
++		fsize->stepwise.max_height = ctx->max_height;
+ 		mtk_v4l2_debug(1, "%x, %d %d %d %d %d %d",
+ 				ctx->dev->dec_capability,
+ 				fsize->stepwise.min_width,
+@@ -545,6 +548,7 @@ static int vidioc_enum_framesizes(struct file *file, void *priv,
+ 				fsize->stepwise.min_height,
+ 				fsize->stepwise.max_height,
+ 				fsize->stepwise.step_height);
 +
- int vpu_dec_core(struct vdec_vpu_inst *vpu)
- {
- 	return vcodec_send_ap_ipi(vpu, AP_IPIMSG_DEC_CORE);
-diff --git a/drivers/media/platform/mediatek/vcodec/vdec_vpu_if.h b/drivers/media/platform/mediatek/vcodec/vdec_vpu_if.h
-index 4cb3c7f5a3ad..fe6815d31e50 100644
---- a/drivers/media/platform/mediatek/vcodec/vdec_vpu_if.h
-+++ b/drivers/media/platform/mediatek/vcodec/vdec_vpu_if.h
-@@ -28,6 +28,7 @@ struct mtk_vcodec_ctx;
-  * @wq          : wait queue to wait VPU message ack
-  * @handler     : ipi handler for each decoder
-  * @codec_type     : use codec type to separate different codecs
-+ * @fb_sz  : frame buffer size of each plane
+ 		return 0;
+ 	}
+ 
+diff --git a/drivers/media/platform/mediatek/vcodec/mtk_vcodec_drv.h b/drivers/media/platform/mediatek/vcodec/mtk_vcodec_drv.h
+index bb7b8e914d24..6d27e4d41ede 100644
+--- a/drivers/media/platform/mediatek/vcodec/mtk_vcodec_drv.h
++++ b/drivers/media/platform/mediatek/vcodec/mtk_vcodec_drv.h
+@@ -284,6 +284,8 @@ struct vdec_pic_info {
+  *	  mtk_video_dec_buf.
+  * @hw_id: hardware index used to identify different hardware.
+  *
++ * @max_width: hardware supported max width
++ * @max_height: hardware supported max height
+  * @msg_queue: msg queue used to store lat buffer information.
   */
- struct vdec_vpu_inst {
- 	int id;
-@@ -42,6 +43,7 @@ struct vdec_vpu_inst {
- 	wait_queue_head_t wq;
- 	mtk_vcodec_ipi_handler handler;
- 	unsigned int codec_type;
-+	unsigned int fb_sz[2];
+ struct mtk_vcodec_ctx {
+@@ -329,6 +331,8 @@ struct mtk_vcodec_ctx {
+ 	struct mutex lock;
+ 	int hw_id;
+ 
++	unsigned int max_width;
++	unsigned int max_height;
+ 	struct vdec_msg_queue msg_queue;
  };
  
- /**
-@@ -104,4 +106,15 @@ int vpu_dec_core(struct vdec_vpu_inst *vpu);
-  */
- int vpu_dec_core_end(struct vdec_vpu_inst *vpu);
- 
-+/**
-+ * vpu_dec_get_param - get param from scp
-+ *
-+ * @vpu : instance for vdec_vpu_inst
-+ * @data: meta data to pass bitstream info to VPU decoder
-+ * @len : meta data length
-+ * @param_type : get param type
-+ */
-+int vpu_dec_get_param(struct vdec_vpu_inst *vpu, uint32_t *data,
-+		      unsigned int len, unsigned int param_type);
-+
- #endif
 -- 
 2.18.0
 
