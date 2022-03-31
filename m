@@ -1,53 +1,55 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7182F4ED54A
-	for <lists+dri-devel@lfdr.de>; Thu, 31 Mar 2022 10:15:35 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 29B2C4ED552
+	for <lists+dri-devel@lfdr.de>; Thu, 31 Mar 2022 10:18:25 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id DB0A710F5F0;
-	Thu, 31 Mar 2022 08:15:31 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 4319B10EE54;
+	Thu, 31 Mar 2022 08:18:21 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mga03.intel.com (mga03.intel.com [134.134.136.65])
- by gabe.freedesktop.org (Postfix) with ESMTPS id A283910EE54;
- Thu, 31 Mar 2022 08:15:30 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1648714530; x=1680250530;
- h=date:from:to:cc:subject:message-id:references:
- mime-version:content-transfer-encoding:in-reply-to;
- bh=mMZCj5AcWureUxhwf6dtEqTJa8BwCyQIOHoujBCAYIs=;
- b=N7DlitQiUSElbKMmAni5AbpihqaaRyjJRS4KRDdt/kv9PlJF3Zu6JgP/
- U2hLbIle+raN03GdUCVV0O659doq0DKI5tEY/ntOf87YyS/yQor2+RiWK
- Vv4HKeqGASvLfcEWBKHqF3UI6TC7tm4iK6CUSYZoEBODLr4Zqki6HJG6L
- MSSPuhXLJzBmyJF+v+fT5HVhh1d7TCYh9+aH8fRrIW2d6TI4863kkhI08
- J0RaHf04YzxKOP87XcYzrEUfCIdQ4pTqjx7PFUEwCz+in7J1u0CePvDvm
- F+R2a+YyqwL2OSeZ6D1ocI/VjbyjhuFETKGlfWtjgLNLiYwMbjOAxeKcL Q==;
-X-IronPort-AV: E=McAfee;i="6200,9189,10302"; a="259729770"
-X-IronPort-AV: E=Sophos;i="5.90,224,1643702400"; d="scan'208";a="259729770"
-Received: from orsmga006.jf.intel.com ([10.7.209.51])
- by orsmga103.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 31 Mar 2022 01:15:30 -0700
-X-IronPort-AV: E=Sophos;i="5.90,224,1643702400"; d="scan'208";a="522239448"
-Received: from vvendra-mobl.amr.corp.intel.com (HELO ldmartin-desk2)
- ([10.255.230.104])
- by orsmga006-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 31 Mar 2022 01:15:29 -0700
-Date: Thu, 31 Mar 2022 01:15:29 -0700
-From: Lucas De Marchi <lucas.demarchi@intel.com>
-To: Christian =?utf-8?B?S8O2bmln?= <christian.koenig@amd.com>
-Subject: Re: drm-tip compile break
-Message-ID: <20220331081529.4gsfd6diznsjzfay@ldmartin-desk2>
-X-Patchwork-Hint: comment
-References: <87o81n9ikg.wl-ashutosh.dixit@intel.com>
- <d3d90c7f-b3a9-e81c-c97e-b40ee3ee5baf@amd.com>
- <40ccaa09-42d3-37c0-65cb-5b5eabe8d706@amd.com>
+Received: from metis.ext.pengutronix.de (metis.ext.pengutronix.de
+ [IPv6:2001:67c:670:201:290:27ff:fe1d:cc33])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 1332A10EE54
+ for <dri-devel@lists.freedesktop.org>; Thu, 31 Mar 2022 08:18:20 +0000 (UTC)
+Received: from ptx.hi.pengutronix.de ([2001:67c:670:100:1d::c0])
+ by metis.ext.pengutronix.de with esmtps
+ (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256) (Exim 4.92)
+ (envelope-from <sha@pengutronix.de>)
+ id 1nZq0Y-0004iA-3i; Thu, 31 Mar 2022 10:18:18 +0200
+Received: from sha by ptx.hi.pengutronix.de with local (Exim 4.92)
+ (envelope-from <sha@pengutronix.de>)
+ id 1nZq0V-0008Bi-59; Thu, 31 Mar 2022 10:18:15 +0200
+Date: Thu, 31 Mar 2022 10:18:15 +0200
+From: Sascha Hauer <s.hauer@pengutronix.de>
+To: Andy Yan <andy.yan@rock-chips.com>
+Subject: Re: [PATCH v9 20/23] drm/rockchip: Make VOP driver optional
+Message-ID: <20220331081815.GF4012@pengutronix.de>
+References: <20220328151116.2034635-1-s.hauer@pengutronix.de>
+ <20220328151116.2034635-21-s.hauer@pengutronix.de>
+ <274a12a9-61f1-7d6a-e89c-52237621930b@rock-chips.com>
+ <20220330063913.GW12181@pengutronix.de>
+ <9619ce71-db59-d6cd-c254-2b67122fa245@rock-chips.com>
+ <20220331070614.GD4012@pengutronix.de>
+ <eebd2731-f18b-af1c-b0b9-09df669f5a3c@rock-chips.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Type: text/plain; charset=iso-8859-15
 Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
-In-Reply-To: <40ccaa09-42d3-37c0-65cb-5b5eabe8d706@amd.com>
+In-Reply-To: <eebd2731-f18b-af1c-b0b9-09df669f5a3c@rock-chips.com>
+X-Sent-From: Pengutronix Hildesheim
+X-URL: http://www.pengutronix.de/
+X-IRC: #ptxdist @freenode
+X-Accept-Language: de,en
+X-Accept-Content-Type: text/plain
+X-Uptime: 10:11:42 up 20:41, 46 users,  load average: 0.12, 0.17, 0.21
+User-Agent: Mutt/1.10.1 (2018-07-13)
+X-SA-Exim-Connect-IP: 2001:67c:670:100:1d::c0
+X-SA-Exim-Mail-From: sha@pengutronix.de
+X-SA-Exim-Scanned: No (on metis.ext.pengutronix.de);
+ SAEximRunCond expanded to false
+X-PTX-Original-Recipient: dri-devel@lists.freedesktop.org
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -60,118 +62,104 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: "Dixit, Ashutosh" <ashutosh.dixit@intel.com>,
- intel-gfx@lists.freedesktop.org, dri-devel@lists.freedesktop.org
+Cc: devicetree@vger.kernel.org,
+ Benjamin Gaignard <benjamin.gaignard@collabora.com>,
+ Sandy Huang <hjc@rock-chips.com>, dri-devel@lists.freedesktop.org,
+ Kever Yang <Kever.yang@rock-chips.com>, linux-rockchip@lists.infradead.org,
+ Michael Riesch <michael.riesch@wolfvision.net>, kernel@pengutronix.de,
+ Peter Geis <pgwipeout@gmail.com>, linux-arm-kernel@lists.infradead.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Thu, Mar 31, 2022 at 09:35:50AM +0200, Christian König wrote:
->Well the fix is trivial, but somehow rebuilding drm-tip always fails 
->for me while merging drm-intel-next.
->
->I probably have somehow messed up reverting the conflict resolution. Ideas?
+On Thu, Mar 31, 2022 at 03:20:37PM +0800, Andy Yan wrote:
+> Hi Sascha:
+> 
+> On 3/31/22 15:06, Sascha Hauer wrote:
+> > On Wed, Mar 30, 2022 at 08:50:09PM +0800, Andy Yan wrote:
+> > > Hi Sascha:
+> > > 
+> > > On 3/30/22 14:39, Sascha Hauer wrote:
+> > > > Hi Andy,
+> > > > 
+> > > > On Tue, Mar 29, 2022 at 07:56:27PM +0800, Andy Yan wrote:
+> > > > > Hi Sascha:
+> > > > > 
+> > > > > On 3/28/22 23:11, Sascha Hauer wrote:
+> > > > > > With upcoming VOP2 support VOP won't be the only choice anymore, so make
+> > > > > > the VOP driver optional.
+> > > > > > 
+> > > > > > Signed-off-by: Sascha Hauer <s.hauer@pengutronix.de>
+> > > > > > ---
+> > > > > >     drivers/gpu/drm/rockchip/Kconfig            | 8 ++++++++
+> > > > > >     drivers/gpu/drm/rockchip/Makefile           | 3 ++-
+> > > > > >     drivers/gpu/drm/rockchip/rockchip_drm_drv.c | 2 +-
+> > > > > >     3 files changed, 11 insertions(+), 2 deletions(-)
+> > > > > > 
+> > > > > > diff --git a/drivers/gpu/drm/rockchip/Kconfig b/drivers/gpu/drm/rockchip/Kconfig
+> > > > > > index fa5cfda4e90e3..7d22e2997a571 100644
+> > > > > > --- a/drivers/gpu/drm/rockchip/Kconfig
+> > > > > > +++ b/drivers/gpu/drm/rockchip/Kconfig
+> > > > > > @@ -23,8 +23,16 @@ config DRM_ROCKCHIP
+> > > > > >     if DRM_ROCKCHIP
+> > > > > > +config ROCKCHIP_VOP
+> > > > > > +	bool "Rockchip VOP driver"
+> > > > > > +	default y
+> > > > > > +	help
+> > > > > > +	  This selects support for the VOP driver. You should enable it
+> > > > > > +	  on all older SoCs up to RK3399.
+> > > > That reminds me that I wanted to rephrase this. Will change in next
+> > > > round.
+> > > > 
+> > > > > > +
+> > > > > >     config ROCKCHIP_ANALOGIX_DP
+> > > > > >     	bool "Rockchip specific extensions for Analogix DP driver"
+> > > > > > +	depends on ROCKCHIP_VOP
+> > > > > Aanlogix dp is also on vop2 base soc such as� rk356x and rk3588.
+> > BTW I just looked at the downstream driver. Here we have the same
+> > situation that the analogix dp driver calls rockchip_drm_wait_vact_end()
+> > which is implemented in the VOP driver, so when the analogix dp driver
+> > is actually used on a VOP2 SoC then it is either used in a way that
+> > rockchip_drm_wait_vact_end() will never be called or it explodes in all
+> > colours.
+> > 
+> > > > I added the dependency because analogix_dp-rockchip.c calls
+> > > > rockchip_drm_wait_vact_end() which is implemented in the VOP driver,
+> > > > so this driver currenty can't work with the VOP2 driver and can't
+> > > > be linked without the VOP driver being present.
+> > > > I'll add a few words to the commit message.
+> > > 
+> > > Maybe a better direction is move rockchip_drm_wait_vact_end from the VOP
+> > > driver to rockchip_drm_drv.c
+> > I am not sure if that's really worth it. Yes, the direction might be the
+> > right one, but I would really prefer when somebody does the change who
+> > can test and confirm that the analogix dp really works with VOP2 in the
+> > end.
+> 
+> If follow this point, the current DW_MIPI also has not been tested for
+> confirm that it
+> 
+> can really work with VOP2, so you should also make it depends on
+> ROCKCHIP_VOP.
 
-It looks like the error is in the wrong conflict resolution in
-629041de3a0c M─┐ Merge remote-tracking branch 'drm-misc/drm-misc-next' into drm-tip 
+Well at least I have patches here which make DW_MIPI work with VOP2 ;)
 
-you'd need to redo the merge (-i) after telling git
-rerere to forget the previous conflict resolution.
+What about the others, like LVDS and RGB?
+> 
+> I think the current solution is just a workaround to make your patch pass
+> the kernel compile
 
-https://drm.pages.freedesktop.org/maintainer-tools/drm-tip.html#removing-a-wrong-conflict-resolution
+Indeed.
 
-it's also useful to use dim -i, to make sure we can build on each merge
-afterwards.
+I agree that it would be good to add a note somewhere which outputs
+work with the VOP2 driver (currently only HDMI), but I wonder if Kconfig
+dependencies is the right place for it, because only people who deliberately
+disable VOP support will see this information.
+Maybe we should rather add it to the Kconfig help text?
 
-AFAICS the revert would be on 141577c6d0bd ("2022y-03m-29d-09h-01m-04s UTC: drm-tip rerere cache update")
+Sascha
 
-taking a stab on it, should be like below. It even builds,
-but I have no confidence to commit it.
-
-Lucas De Marchi
-
--------
-diff --cc drivers/gpu/drm/amd/amdgpu/amdgpu_gtt_mgr.c
-index dd78402e3cb0,68494b959116..000000000000
---- a/drivers/gpu/drm/amd/amdgpu/amdgpu_gtt_mgr.c
-+++ b/drivers/gpu/drm/amd/amdgpu/amdgpu_gtt_mgr.c
-@@@ -200,17 -187,20 +187,17 @@@ static void amdgpu_gtt_mgr_del(struct t
-    *
-    * Re-init the gart for each known BO in the GTT.
-    */
-  -int amdgpu_gtt_mgr_recover(struct amdgpu_gtt_mgr *mgr)
-  +void amdgpu_gtt_mgr_recover(struct amdgpu_gtt_mgr *mgr)
-   {
-- 	struct amdgpu_gtt_node *node;
-+ 	struct ttm_range_mgr_node *node;
-   	struct drm_mm_node *mm_node;
-   	struct amdgpu_device *adev;
-  -	int r = 0;
-   
-   	adev = container_of(mgr, typeof(*adev), mman.gtt_mgr);
-   	spin_lock(&mgr->lock);
-   	drm_mm_for_each_node(mm_node, &mgr->mm) {
-- 		node = container_of(mm_node, typeof(*node), base.mm_nodes[0]);
-- 		amdgpu_ttm_recover_gart(node->tbo);
-+ 		node = container_of(mm_node, typeof(*node), mm_nodes[0]);
-  -		r = amdgpu_ttm_recover_gart(node->base.bo);
-  -		if (r)
-  -			break;
-++		amdgpu_ttm_recover_gart(node->base.bo);
-   	}
-   	spin_unlock(&mgr->lock);
-   
-diff --cc drivers/gpu/drm/amd/amdgpu/amdgpu_vm.c
-index fc4563cf2828,28f5e8b21a99..000000000000
---- a/drivers/gpu/drm/amd/amdgpu/amdgpu_vm.c
-+++ b/drivers/gpu/drm/amd/amdgpu/amdgpu_vm.c
-@@@ -375,9 -375,7 +375,9 @@@ static void amdgpu_vm_bo_base_init(stru
-   	if (bo->tbo.base.resv != vm->root.bo->tbo.base.resv)
-   		return;
-   
-  +	dma_resv_assert_held(vm->root.bo->tbo.base.resv);
-  +
-- 	vm->bulk_moveable = false;
-+ 	ttm_bo_set_bulk_move(&bo->tbo, &vm->lru_bulk_move);
-   	if (bo->tbo.type == ttm_bo_type_kernel && bo->parent)
-   		amdgpu_vm_bo_relocated(base);
-   	else
-@@@ -2660,12 -2597,9 +2606,12 @@@ void amdgpu_vm_bo_del(struct amdgpu_dev
-   	struct amdgpu_vm *vm = bo_va->base.vm;
-   	struct amdgpu_vm_bo_base **base;
-   
-  +	dma_resv_assert_held(vm->root.bo->tbo.base.resv);
-  +
-   	if (bo) {
-  +		dma_resv_assert_held(bo->tbo.base.resv);
-   		if (bo->tbo.base.resv == vm->root.bo->tbo.base.resv)
-- 			vm->bulk_moveable = false;
-+ 			ttm_bo_set_bulk_move(&bo->tbo, NULL);
-   
-   		for (base = &bo_va->base.bo->vm_bo; *base;
-   		     base = &(*base)->next) {
-
-
->
->Christian.
->
->Am 31.03.22 um 08:28 schrieb Christian König:
->>I'm going to take a look, but need to figure out how to find the 
->>broken merge
->>
->>Christian.
->>
->>Am 31.03.22 um 00:33 schrieb Dixit, Ashutosh:
->>>Is anyone looking into fixing this:
->>>
->>>drivers/gpu/drm/amd/amdgpu/amdgpu_gtt_mgr.c: In function 
->>>‘amdgpu_gtt_mgr_recover’:
->>>drivers/gpu/drm/amd/amdgpu/amdgpu_gtt_mgr.c:200:31: error: ‘struct 
->>>ttm_range_mgr_node’ has no member named ‘tbo’
->>>    amdgpu_ttm_recover_gart(node->tbo);
->>>                                ^~
->>>make[4]: *** [scripts/Makefile.build:288: 
->>>drivers/gpu/drm/amd/amdgpu/amdgpu_gtt_mgr.o] Error 1
->>>
->>>Thanks.
->>
->
+-- 
+Pengutronix e.K.                           |                             |
+Steuerwalder Str. 21                       | http://www.pengutronix.de/  |
+31137 Hildesheim, Germany                  | Phone: +49-5121-206917-0    |
+Amtsgericht Hildesheim, HRA 2686           | Fax:   +49-5121-206917-5555 |
