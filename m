@@ -1,42 +1,74 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id B96364ED55C
-	for <lists+dri-devel@lfdr.de>; Thu, 31 Mar 2022 10:21:44 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 6E9554ED56A
+	for <lists+dri-devel@lfdr.de>; Thu, 31 Mar 2022 10:23:34 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 3595210F608;
-	Thu, 31 Mar 2022 08:21:42 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id DB15110F63E;
+	Thu, 31 Mar 2022 08:23:31 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mx1.molgen.mpg.de (mx3.molgen.mpg.de [141.14.17.11])
- by gabe.freedesktop.org (Postfix) with ESMTPS id E319110F606
- for <dri-devel@lists.freedesktop.org>; Thu, 31 Mar 2022 08:21:40 +0000 (UTC)
-Received: from [192.168.0.4] (ip5f5ae900.dynamic.kabel-deutschland.de
- [95.90.233.0])
- (using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
- key-exchange X25519 server-signature RSA-PSS (2048 bits))
- (No client certificate requested) (Authenticated sender: pmenzel)
- by mx.molgen.mpg.de (Postfix) with ESMTPSA id 3F8B861E64846;
- Thu, 31 Mar 2022 10:21:37 +0200 (CEST)
-Message-ID: <208cb9f0-09e1-094f-5bca-9a9effbf1da8@molgen.mpg.de>
-Date: Thu, 31 Mar 2022 10:21:36 +0200
+Received: from out3-smtp.messagingengine.com (out3-smtp.messagingengine.com
+ [66.111.4.27])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 7888210F63E
+ for <dri-devel@lists.freedesktop.org>; Thu, 31 Mar 2022 08:23:30 +0000 (UTC)
+Received: from compute2.internal (compute2.nyi.internal [10.202.2.46])
+ by mailout.nyi.internal (Postfix) with ESMTP id B9E4E5C010F;
+ Thu, 31 Mar 2022 04:23:29 -0400 (EDT)
+Received: from mailfrontend1 ([10.202.2.162])
+ by compute2.internal (MEProxy); Thu, 31 Mar 2022 04:23:29 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=cerno.tech; h=cc
+ :cc:content-transfer-encoding:content-type:date:date:from:from
+ :in-reply-to:in-reply-to:message-id:mime-version:references
+ :reply-to:sender:subject:subject:to:to; s=fm3; bh=V0SmOvILPJupRa
+ jtGf+KPfhu5gygOGNoKyTNawFdv/s=; b=p+zK1WBJOr1YHME5TaUqrZcLIzvnlr
+ 0ktrthxQ4X8WuI4iBJ4hA5wvrpcPly4xG9OsRHDwr1ZWaJW7e2WeVf3RID6gGGUA
+ GSiAlZdVaHe3LiS0dv2Lod7cjNztQFbWwIsWNIlbyWSLKgp1E7mPVoRO9a1OmvoR
+ tEHKKFZYi3NZ8KWY3FBBL/b3kU7ycVbOSAF2Lzn9gBXwKIzvGiLTqeJ4kFUmTkJK
+ 9bHg7haucBV93p9UGtvlHwu8axMO7HHvyEtWcZ3pqx4/DPGKqgMnTBtT2RcWCLaI
+ vb4OW6Ro+KsvkdSCJpIR9eDmoj4i9/uX21jYrm6FN9WOK1ZQ5CLUlkAg==
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
+ messagingengine.com; h=cc:cc:content-transfer-encoding
+ :content-type:date:date:from:from:in-reply-to:in-reply-to
+ :message-id:mime-version:references:reply-to:sender:subject
+ :subject:to:to:x-me-proxy:x-me-proxy:x-me-sender:x-me-sender
+ :x-sasl-enc; s=fm3; bh=V0SmOvILPJupRajtGf+KPfhu5gygOGNoKyTNawFdv
+ /s=; b=Q5h8WQyoMAJ59NGsS+fK6JfWRi7YcsWTaRIn8VN8/DBUiGcBQpQSLSQIs
+ HJS+UyvVfoumEYxmDsYzUjfJvCsEnKtA5l7B4uJX/c5GUtSg9m8SBUhf7iwU5UA5
+ TONNUWbudL/CSO887cXE6wej0KFkheia/NktJNP9gj/f3H7ZtgGUvM95fL/NfX5I
+ ayJrkp5bSwR4k2c+n/a06RRjNVcvbbhuq4t8tCJTcKNZm7nTQEQ8xpxYaZ7td5i+
+ 91mWOj4i4sXgMJjVWdWE9yiO9qIW5lg0P4BfRqAWWYoP1UAo83/aDrIt5j9VMGnN
+ k9PbZJ8YsTCkLHrznWtZtVMB958KA==
+X-ME-Sender: <xms:AWVFYv3iUacPDtscYE8jrnu7arb_dUVrV0sz6JKhwLZ6BVci1A3YlA>
+ <xme:AWVFYuEP_763dnNG1PSMsigxZr8aQjyAUlhHh8xLbmZmhDeJYYVokfqczoPVz3XJA
+ Rqbb2kZx1AzW5VC4xc>
+X-ME-Received: <xmr:AWVFYv5AqjPvTzcNvDVdY32_yBVt7vADGFY2f7YbVe93b_PMpIdhkoXzf1Zo7REAAaffKY3UI298N2Fj5YJ2S2Wc9g4CN8_exmwgN-0>
+X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvvddrudeigedgtdefucetufdoteggodetrfdotf
+ fvucfrrhhofhhilhgvmecuhfgrshhtofgrihhlpdfqfgfvpdfurfetoffkrfgpnffqhgen
+ uceurghilhhouhhtmecufedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmne
+ cujfgurhephffvufffkffojghfgggtgfesthekredtredtjeenucfhrhhomhepofgrgihi
+ mhgvucftihhprghrugcuoehmrgigihhmvgestggvrhhnohdrthgvtghhqeenucggtffrrg
+ htthgvrhhnpeejuefggeekfffgueevtddvudffhfejffejjedvvdduudethefhfefhfeeg
+ ieekkeenucevlhhushhtvghrufhiiigvpedtnecurfgrrhgrmhepmhgrihhlfhhrohhmpe
+ hmrgigihhmvgestggvrhhnohdrthgvtghh
+X-ME-Proxy: <xmx:AWVFYk1M7WhwHEMCiWk-keAte1x7Xpy_uAeSUIdfww0ZXzA37ZSW2Q>
+ <xmx:AWVFYiFv1jid1T3SDdk7ojckpfqfjzat1xdSStrNAaN8JYqwJlrxNw>
+ <xmx:AWVFYl-Td2xvIbla0WIWasI3Ik1F_QygW5DGPRgCyhlh2OpBrUHfDQ>
+ <xmx:AWVFYug_99eyJaak7urz8-WWrTe49OCJcOkhtclYDfXAKztV9mEhmA>
+Received: by mail.messagingengine.com (Postfix) with ESMTPA; Thu,
+ 31 Mar 2022 04:23:28 -0400 (EDT)
+From: Maxime Ripard <maxime@cerno.tech>
+To: Maxime Ripard <maxime@cerno.tech>,
+	dri-devel@lists.freedesktop.org
+Subject: Re: [PATCH v3 0/4] drm/atomic: Atomic Private State debugging
+Date: Thu, 31 Mar 2022 10:23:26 +0200
+Message-Id: <164871500195.436210.4718712043939110694.b4-ty@cerno.tech>
+X-Mailer: git-send-email 2.35.1
+In-Reply-To: <20220328124304.2309418-1-maxime@cerno.tech>
+References: <20220328124304.2309418-1-maxime@cerno.tech>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.7.0
-Subject: Re: [PATCH] fbdev: defio: fix the pagelist corruption
-Content-Language: en-US
-To: Chuansheng Liu <chuansheng.liu@intel.com>
-References: <20220317054602.28846-1-chuansheng.liu@intel.com>
- <c058f18b-3dae-9ceb-57b4-ed62fedef50a@molgen.mpg.de>
- <BL1PR11MB54455684D2A1B4F0A666F861971D9@BL1PR11MB5445.namprd11.prod.outlook.com>
- <502adc88-740f-fd68-d870-4f5577e1254d@molgen.mpg.de>
- <BL1PR11MB544534F78BE2AB3502981AE5971D9@BL1PR11MB5445.namprd11.prod.outlook.com>
- <baebc9c2-a8fc-9b36-6133-7fa8368a93d5@molgen.mpg.de>
- <BL1PR11MB5445633C68B3039320FE780E97E19@BL1PR11MB5445.namprd11.prod.outlook.com>
-From: Paul Menzel <pmenzel@molgen.mpg.de>
-In-Reply-To: <BL1PR11MB5445633C68B3039320FE780E97E19@BL1PR11MB5445.namprd11.prod.outlook.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -50,163 +82,24 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: linux-fbdev@vger.kernel.org, Dave Hansen <dave.hansen@linux.intel.com>,
- akpm@linux-foundation.org, daniel@iogearbox.net, linux-mm@kvack.org,
- netdev@vger.kernel.org, deller@gmx.de, x86@kernel.org, ast@kernel.org,
- dri-devel@lists.freedesktop.org, andrii@kernel.org, Song Liu <song@kernel.org>,
- Ingo Molnar <mingo@redhat.com>, Thomas Gleixner <tglx@linutronix.de>,
- tzimmermann@suse.de, Borislav Petkov <bp@alien8.de>, bpf@vger.kernel.org,
- rick.p.edgecombe@intel.com, kernel-team@fb.com
+Cc: David Airlie <airlied@linux.ie>, Daniel Vetter <daniel.vetter@intel.com>,
+ Sean Paul <seanpaul@chromium.org>, Thomas Zimmermann <tzimmermann@suse.de>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Dear Chuansheng,
-
-
-Am 31.03.22 um 02:06 schrieb Liu, Chuansheng:
-
->> -----Original Message-----
->> From: Paul Menzel <pmenzel@molgen.mpg.de>
->> Sent: Thursday, March 31, 2022 12:47 AM
-
-[…]
-
->> Am 29.03.22 um 01:58 schrieb Liu, Chuansheng:
->>
->>>> -----Original Message-----
->>>> From: Paul Menzel
->>>> Sent: Monday, March 28, 2022 2:15 PM
->>
->>>> Am 28.03.22 um 02:58 schrieb Liu, Chuansheng:
->>>>
->>>>>> -----Original Message-----
->>>>
->>>>>> Sent: Saturday, March 26, 2022 4:11 PM
->>>>
->>>>>> Am 17.03.22 um 06:46 schrieb Chuansheng Liu:
->>>>>>> Easily hit the below list corruption:
->>>>>>> ==
->>>>>>> list_add corruption. prev->next should be next (ffffffffc0ceb090), but
->>>>>>> was ffffec604507edc8. (prev=ffffec604507edc8).
->>>>>>> WARNING: CPU: 65 PID: 3959 at lib/list_debug.c:26
->>>>>>> __list_add_valid+0x53/0x80
->>>>>>> CPU: 65 PID: 3959 Comm: fbdev Tainted: G     U
->>>>>>> RIP: 0010:__list_add_valid+0x53/0x80
->>>>>>> Call Trace:
->>>>>>>      <TASK>
->>>>>>>      fb_deferred_io_mkwrite+0xea/0x150
->>>>>>>      do_page_mkwrite+0x57/0xc0
->>>>>>>      do_wp_page+0x278/0x2f0
->>>>>>>      __handle_mm_fault+0xdc2/0x1590
->>>>>>>      handle_mm_fault+0xdd/0x2c0
->>>>>>>      do_user_addr_fault+0x1d3/0x650
->>>>>>>      exc_page_fault+0x77/0x180
->>>>>>>      ? asm_exc_page_fault+0x8/0x30
->>>>>>>      asm_exc_page_fault+0x1e/0x30
->>>>>>> RIP: 0033:0x7fd98fc8fad1
->>>>>>> ==
->>>>>>>
->>>>>>> Figure out the race happens when one process is adding &page->lru into
->>>>>>> the pagelist tail in fb_deferred_io_mkwrite(), another process is
->>>>>>> re-initializing the same &page->lru in fb_deferred_io_fault(), which is
->>>>>>> not protected by the lock.
->>>>>>>
->>>>>>> This fix is to init all the page lists one time during initialization,
->>>>>>> it not only fixes the list corruption, but also avoids INIT_LIST_HEAD()
->>>>>>> redundantly.
->>>>>>>
->>>>>>> Fixes: 105a940416fc ("fbdev/defio: Early-out if page is already enlisted")
->>>>>>> Cc: Thomas Zimmermann <tzimmermann@suse.de>
->>>>>>> Signed-off-by: Chuansheng Liu <chuansheng.liu@intel.com>
->>>>>>> ---
->>>>>>>      drivers/video/fbdev/core/fb_defio.c | 9 ++++++++-
->>>>>>>      1 file changed, 8 insertions(+), 1 deletion(-)
->>>>>>>
->>>>>>> diff --git a/drivers/video/fbdev/core/fb_defio.c b/drivers/video/fbdev/core/fb_defio.c
->>>>>>> index 98b0f23bf5e2..eafb66ca4f28 100644
->>>>>>> --- a/drivers/video/fbdev/core/fb_defio.c
->>>>>>> +++ b/drivers/video/fbdev/core/fb_defio.c
->>>>>>> @@ -59,7 +59,6 @@ static vm_fault_t fb_deferred_io_fault(struct vm_fault *vmf)
->>>>>>>      		printk(KERN_ERR "no mapping available\n");
->>>>>>>
->>>>>>>      	BUG_ON(!page->mapping);
->>>>>>> -	INIT_LIST_HEAD(&page->lru);
->>>>>>>      	page->index = vmf->pgoff;
->>>>>>>
->>>>>>>      	vmf->page = page;
->>>>>>> @@ -220,6 +219,8 @@ static void fb_deferred_io_work(struct work_struct *work)
->>>>>>>      void fb_deferred_io_init(struct fb_info *info)
->>>>>>>      {
->>>>>>>      	struct fb_deferred_io *fbdefio = info->fbdefio;
->>>>>>> +	struct page *page;
->>>>>>> +	int i;
->>>>>>>
->>>>>>>      	BUG_ON(!fbdefio);
->>>>>>>      	mutex_init(&fbdefio->lock);
->>>>>>> @@ -227,6 +228,12 @@ void fb_deferred_io_init(struct fb_info *info)
->>>>>>>      	INIT_LIST_HEAD(&fbdefio->pagelist);
->>>>>>>      	if (fbdefio->delay == 0) /* set a default of 1 s */
->>>>>>>      		fbdefio->delay = HZ;
->>>>>>> +
->>>>>>> +	/* initialize all the page lists one time */
->>>>>>> +	for (i = 0; i < info->fix.smem_len; i += PAGE_SIZE) {
->>>>>>> +		page = fb_deferred_io_page(info, i);
->>>>>>> +		INIT_LIST_HEAD(&page->lru);
->>>>>>> +	}
->>>>>>>      }
->>>>>>>      EXPORT_SYMBOL_GPL(fb_deferred_io_init);
->>>>>>>
->>>>>> Applying your patch on top of current Linus’ master branch, tty0 is
->>>>>> unusable and looks frozen. Sometimes network card still works, sometimes
->>>>>> not.
->>>>>
->>>>> I don't see how the patch would cause below BUG call stack, need some time to
->>>>> debug. Just few comments:
->>>>> 1. Will the system work well without this patch?
->>>>
->>>> Yes, the framebuffer works well without the patch.
->>>>
->>>>> 2. When you are sure the patch causes the regression you saw, please get free
->>>> to submit one reverted patch, thanks : )
->>>>
->>>> I think you for patch wasn’t submitted yet – at least not pulled by Linus.
->>> The patch has been in drm-tip, could you have a try with the latest drm-tip to see
->>> if the Framebuffer works well, in that case, we could revert it in drm-tip then.
->>
->> With drm-tip (drm-tip: 2022y-03m-29d-13h-14m-35s UTC integration
->> manifest) everything works fine. (I had to disable amdgpu driver, as it
->> failed to build.) Is anyone able to explain that?
+On Mon, 28 Mar 2022 14:43:00 +0200, Maxime Ripard wrote:
+> This series adds an atomic_print_state hook for drm_private_obj to ease the
+> debugging of driver-specific sub-classes, and adds one for vc4.
 > 
-> My patch is for fixing another patch which is in the drm-tip at least,
+> It also changes the call site of drm_atomic_print_new_state to make it more
+> consistent.
+> 
+> Let me know what you think,
+> Maxime
+> 
+> [...]
 
-The referenced commit 105a940416fc in the Fixes tag is also in Linus’ 
-master branch.
+Applied to drm/drm-misc (drm-misc-next).
 
-> so I assume applying my patch into Linus tree directly is not
-> completely proper. That's my intention of asking your help for
-> retesting drm-tip.
-If there were such a relation, that would need to be documented in the 
-commit message.
-
-> You mean everything working fine means another issue you hit is also
-> gone?
-No, I just mean the hang when applying your patch.
-
-Anyway, after figuring out, that drm-tip, is actually not behind Linus’ 
-master branch, I tried to figure out the differences, and it turns out 
-it’s also related to commit fac54e2bfb5b (x86/Kconfig: Select 
-HAVE_ARCH_HUGE_VMALLOC with HAVE_ARCH_HUGE_VMAP) [1], which is in Linus’ 
-master branch, but not drm-tip. Note, I am using a 32-bit user space and 
-a 64-bit Linux kernel. Reverting commit fac54e2bfb5b, and having your 
-patch a applied, the hang is gone.
-
-I am adding the people involved in the other discussion to make them 
-aware of this failure case.
-
-
-Kind regards,
-
-Paul
-
-
-[1]: https://linux-regtracking.leemhuis.info/regzbot/mainline/
+Thanks!
+Maxime
