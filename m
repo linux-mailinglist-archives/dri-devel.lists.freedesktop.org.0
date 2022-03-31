@@ -1,45 +1,45 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id D30A94EE0EB
-	for <lists+dri-devel@lfdr.de>; Thu, 31 Mar 2022 20:45:52 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 8665D4EE0EC
+	for <lists+dri-devel@lfdr.de>; Thu, 31 Mar 2022 20:45:55 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 6A8D710F475;
-	Thu, 31 Mar 2022 18:45:48 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 5556210F46E;
+	Thu, 31 Mar 2022 18:45:53 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from mga06.intel.com (mga06.intel.com [134.134.136.31])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 6E16F10E3E7;
- Thu, 31 Mar 2022 18:45:46 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id A70A910F47A;
+ Thu, 31 Mar 2022 18:45:50 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1648752346; x=1680288346;
+ t=1648752350; x=1680288350;
  h=from:to:cc:subject:date:message-id:in-reply-to:
  references:mime-version:content-transfer-encoding;
- bh=9VMBOCqRJNTUmY5Itn90oukSYzehiU2zfPKhOcWotyQ=;
- b=GAwgzboKJGSz/OWfBpMuRhATr9Zg45qjChZP+gQRsnzCoMAJW82+k7T8
- pafD6GFE29WBeFw8wAMb3RPE+bmJUfJG8EFO4VsM22ZMzlMrE7yWxGRDt
- tPmOwXb7FcvpaCSjdSIjXrGgA5eQapDtcHqPFN7Gv0s3vdNb7rntx1D6i
- 0kXj3iFSGV+XOkGbxOymXkW/wMrpdtjXRtA0O5Q6MhM1JCKvGu/dUi+dJ
- YA0fHTx2u+teFH/WqB8GV7hcYgFSAgqV0jmWKrniWceHGms36DdpVbZHT
- 3zr4cL8CJtgfo3gHUofR1QdgwEgtChrKjX+We9huATPnzUj3MK4MjKIYv A==;
-X-IronPort-AV: E=McAfee;i="6200,9189,10302"; a="320615377"
-X-IronPort-AV: E=Sophos;i="5.90,225,1643702400"; d="scan'208";a="320615377"
-Received: from orsmga006.jf.intel.com ([10.7.209.51])
+ bh=isZl+MR3o3zWmhn2UYTRYJk2sRXlfqYc7qnVRKbzN1k=;
+ b=kyZsU4hG427Mm40s5W+nlDNGwkDiGBKG5knB2bwWd/wRnQzgvXHqOs7/
+ 8Ueilt6qW6D9rC0AxN6SFPe4eszJVudhDMkb8rnAvhSZqCTDT+U3pz5YQ
+ snTx++h91K/CmDdAY7Mdg75ZJAYjGnGEENrL0VUooOEZyVbQU3mitmSIY
+ sWDiQfaZwYoVyIhyPDm9VxiLIZi8djjyxtMniK5KM1upflmLD6xgKTAGy
+ buZU19cclz/7k/BbVttZwBgcbK23BRm6qeY5c2hBYV3BceEGaWfX2cAb0
+ +iY9RTpEIjposiaDISdqP1eBrdP+dbt9XpsY2uIkil2kl1SzsFl8B4v3m Q==;
+X-IronPort-AV: E=McAfee;i="6200,9189,10302"; a="320615404"
+X-IronPort-AV: E=Sophos;i="5.90,225,1643702400"; d="scan'208";a="320615404"
+Received: from orsmga003.jf.intel.com ([10.7.209.27])
  by orsmga104.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 31 Mar 2022 11:45:46 -0700
-X-IronPort-AV: E=Sophos;i="5.90,225,1643702400"; d="scan'208";a="522460128"
+ 31 Mar 2022 11:45:50 -0700
+X-IronPort-AV: E=Sophos;i="5.90,225,1643702400"; d="scan'208";a="503865286"
 Received: from gluca-mobl1.ger.corp.intel.com (HELO localhost)
  ([10.252.48.194])
- by orsmga006-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 31 Mar 2022 11:45:44 -0700
+ by orsmga003-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 31 Mar 2022 11:45:48 -0700
 From: Jani Nikula <jani.nikula@intel.com>
 To: dri-devel@lists.freedesktop.org
-Subject: [PATCH v2 07/12] drm/edid: split drm_edid_block_valid() to check and
- act parts
-Date: Thu, 31 Mar 2022 21:45:04 +0300
-Message-Id: <b7d108b69acccb7dccbdecc0ca06c2b3ca2e33ca.1648752228.git.jani.nikula@intel.com>
+Subject: [PATCH v2 08/12] drm/edid: use a better variable name for EDID block
+ read retries
+Date: Thu, 31 Mar 2022 21:45:05 +0300
+Message-Id: <9c95c01445f5735332cbbd9eae6cd078e152050f.1648752228.git.jani.nikula@intel.com>
 X-Mailer: git-send-email 2.30.2
 In-Reply-To: <cover.1648752228.git.jani.nikula@intel.com>
 References: <cover.1648752228.git.jani.nikula@intel.com>
@@ -63,220 +63,82 @@ Cc: jani.nikula@intel.com, intel-gfx@lists.freedesktop.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Add edid_block_check() that only checks the EDID block validity, without
-any actions. Turns out it's simple and crystal clear.
-
-Rewrite drm_edid_block_valid() around it, keeping all the functionality
-fairly closely the same, warts and all. Turns out it's incredibly
-complicated for a function you'd expect to be simple, with all the
-fixing and printing and special casing. (Maybe we'll want to simplify it
-in the future.)
-
-To slightly simplify, drop the warning for EDID minor revisions > 4.
-
-v2:
-- Fix edid_fixup clamp (Ville)
-- s/base/is_base_block/ (Ville)
+Just i is a bit terse, clarify what it's about.
 
 Cc: Ville Syrjälä <ville.syrjala@linux.intel.com>
 Signed-off-by: Jani Nikula <jani.nikula@intel.com>
+Reviewed-by: Ville Syrjälä <ville.syrjala@linux.intel.com>
 ---
- drivers/gpu/drm/drm_edid.c | 152 ++++++++++++++++++++++---------------
- 1 file changed, 90 insertions(+), 62 deletions(-)
+ drivers/gpu/drm/drm_edid.c | 16 +++++++++-------
+ 1 file changed, 9 insertions(+), 7 deletions(-)
 
 diff --git a/drivers/gpu/drm/drm_edid.c b/drivers/gpu/drm/drm_edid.c
-index f8169ffd062d..9e747145938b 100644
+index 9e747145938b..a967e6e65ab5 100644
 --- a/drivers/gpu/drm/drm_edid.c
 +++ b/drivers/gpu/drm/drm_edid.c
-@@ -1668,10 +1668,56 @@ bool drm_edid_are_equal(const struct edid *edid1, const struct edid *edid2)
- }
- EXPORT_SYMBOL(drm_edid_are_equal);
+@@ -1973,25 +1973,25 @@ static struct edid *drm_do_get_edid_base_block(struct drm_connector *connector,
+ 	int *null_edid_counter = connector ? &connector->null_edid_counter : NULL;
+ 	bool *edid_corrupt = connector ? &connector->edid_corrupt : NULL;
+ 	void *edid;
+-	int i;
++	int try;
  
-+enum edid_block_status {
-+	EDID_BLOCK_OK = 0,
-+	EDID_BLOCK_NULL,
-+	EDID_BLOCK_HEADER_CORRUPT,
-+	EDID_BLOCK_HEADER_REPAIR,
-+	EDID_BLOCK_HEADER_FIXED,
-+	EDID_BLOCK_CHECKSUM,
-+	EDID_BLOCK_VERSION,
-+};
-+
-+static enum edid_block_status edid_block_check(const void *_block,
-+					       bool is_base_block)
-+{
-+	const struct edid *block = _block;
-+
-+	if (!block)
-+		return EDID_BLOCK_NULL;
-+
-+	if (is_base_block) {
-+		int score = drm_edid_header_is_valid(block);
-+
-+		if (score < clamp(edid_fixup, 0, 8))
-+			return EDID_BLOCK_HEADER_CORRUPT;
-+
-+		if (score < 8)
-+			return EDID_BLOCK_HEADER_REPAIR;
-+	}
-+
-+	if (edid_block_compute_checksum(block) != edid_block_get_checksum(block))
-+		return EDID_BLOCK_CHECKSUM;
-+
-+	if (is_base_block) {
-+		if (block->version != 1)
-+			return EDID_BLOCK_VERSION;
-+	}
-+
-+	return EDID_BLOCK_OK;
-+}
-+
-+static bool edid_block_status_valid(enum edid_block_status status, int tag)
-+{
-+	return status == EDID_BLOCK_OK ||
-+		status == EDID_BLOCK_HEADER_FIXED ||
-+		(status == EDID_BLOCK_CHECKSUM && tag == CEA_EXT);
-+}
-+
- /**
-  * drm_edid_block_valid - Sanity check the EDID block (base or extension)
-  * @raw_edid: pointer to raw EDID block
-- * @block: type of block to validate (0 for base, extension otherwise)
-+ * @block_num: type of block to validate (0 for base, extension otherwise)
-  * @print_bad_edid: if true, dump bad EDID blocks to the console
-  * @edid_corrupt: if true, the header or checksum is invalid
-  *
-@@ -1680,88 +1726,70 @@ EXPORT_SYMBOL(drm_edid_are_equal);
-  *
-  * Return: True if the block is valid, false otherwise.
-  */
--bool drm_edid_block_valid(u8 *raw_edid, int block, bool print_bad_edid,
-+bool drm_edid_block_valid(u8 *_block, int block_num, bool print_bad_edid,
- 			  bool *edid_corrupt)
+ 	edid = kmalloc(EDID_LENGTH, GFP_KERNEL);
+ 	if (edid == NULL)
+ 		return NULL;
+ 
+ 	/* base block fetch */
+-	for (i = 0; i < 4; i++) {
++	for (try = 0; try < 4; try++) {
+ 		if (get_edid_block(data, edid, 0, EDID_LENGTH))
+ 			goto out;
+ 		if (drm_edid_block_valid(edid, 0, false, edid_corrupt))
+ 			break;
+-		if (i == 0 && edid_is_zero(edid, EDID_LENGTH)) {
++		if (try == 0 && edid_is_zero(edid, EDID_LENGTH)) {
+ 			if (null_edid_counter)
+ 				(*null_edid_counter)++;
+ 			goto carp;
+ 		}
+ 	}
+-	if (i == 4)
++	if (try == 4)
+ 		goto carp;
+ 
+ 	return edid;
+@@ -2029,7 +2029,7 @@ struct edid *drm_do_get_edid(struct drm_connector *connector,
+ 			      size_t len),
+ 	void *data)
  {
--	u8 csum;
--	struct edid *edid = (struct edid *)raw_edid;
-+	struct edid *block = (struct edid *)_block;
-+	enum edid_block_status status;
-+	bool is_base_block = block_num == 0;
-+	bool valid;
+-	int i, j = 0, valid_extensions = 0;
++	int j, valid_extensions = 0;
+ 	struct edid *edid, *new, *override;
  
--	if (WARN_ON(!raw_edid))
-+	if (WARN_ON(!block))
- 		return false;
+ 	override = drm_get_override_edid(connector);
+@@ -2052,20 +2052,22 @@ struct edid *drm_do_get_edid(struct drm_connector *connector,
  
--	if (edid_fixup > 8 || edid_fixup < 0)
--		edid_fixup = 6;
--
--	if (block == 0) {
--		int score = drm_edid_header_is_valid(raw_edid);
-+	status = edid_block_check(block, is_base_block);
-+	if (status == EDID_BLOCK_HEADER_REPAIR) {
-+		DRM_DEBUG("Fixing EDID header, your hardware may be failing\n");
-+		edid_header_fix(block);
+ 	for (j = 1; j <= edid->extensions; j++) {
+ 		void *block = edid + j;
++		int try;
  
--		if (score == 8) {
--			if (edid_corrupt)
--				*edid_corrupt = false;
--		} else if (score >= edid_fixup) {
--			/* Displayport Link CTS Core 1.2 rev1.1 test 4.2.2.6
--			 * The corrupt flag needs to be set here otherwise, the
--			 * fix-up code here will correct the problem, the
--			 * checksum is correct and the test fails
--			 */
--			if (edid_corrupt)
--				*edid_corrupt = true;
--			DRM_DEBUG("Fixing EDID header, your hardware may be failing\n");
--			edid_header_fix(raw_edid);
--		} else {
--			if (edid_corrupt)
--				*edid_corrupt = true;
--			goto bad;
--		}
-+		/* Retry with fixed header, update status if that worked. */
-+		status = edid_block_check(block, is_base_block);
-+		if (status == EDID_BLOCK_OK)
-+			status = EDID_BLOCK_HEADER_FIXED;
- 	}
- 
--	csum = edid_block_compute_checksum(raw_edid);
--	if (csum != edid_block_get_checksum(raw_edid)) {
--		if (edid_corrupt)
-+	if (edid_corrupt) {
-+		/*
-+		 * Unknown major version isn't corrupt but we can't use it. Only
-+		 * the base block can reset edid_corrupt to false.
-+		 */
-+		if (is_base_block &&
-+		    (status == EDID_BLOCK_OK || status == EDID_BLOCK_VERSION))
-+			*edid_corrupt = false;
-+		else if (status != EDID_BLOCK_OK)
- 			*edid_corrupt = true;
--
--		/* allow CEA to slide through, switches mangle this */
--		if (edid_block_tag(raw_edid) == CEA_EXT) {
--			DRM_DEBUG("EDID checksum is invalid, remainder is %d\n", csum);
--			DRM_DEBUG("Assuming a KVM switch modified the CEA block but left the original checksum\n");
--		} else {
--			if (print_bad_edid)
--				DRM_NOTE("EDID checksum is invalid, remainder is %d\n", csum);
--
--			goto bad;
--		}
- 	}
- 
--	/* per-block-type checks */
--	switch (edid_block_tag(raw_edid)) {
--	case 0: /* base */
--		if (edid->version != 1) {
--			DRM_NOTE("EDID has major version %d, instead of 1\n", edid->version);
--			goto bad;
-+	/* Determine whether we can use this block with this status. */
-+	valid = edid_block_status_valid(status, edid_block_tag(block));
-+
-+	/* Some fairly random status printouts. */
-+	if (status == EDID_BLOCK_CHECKSUM) {
-+		if (valid) {
-+			DRM_DEBUG("EDID block checksum is invalid, remainder is %d\n",
-+				  edid_block_compute_checksum(block));
-+			DRM_DEBUG("Assuming a KVM switch modified the block but left the original checksum\n");
-+		} else if (print_bad_edid) {
-+			DRM_NOTE("EDID block checksum is invalid, remainder is %d\n",
-+				 edid_block_compute_checksum(block));
+-		for (i = 0; i < 4; i++) {
++		for (try = 0; try < 4; try++) {
+ 			if (get_edid_block(data, block, j, EDID_LENGTH))
+ 				goto out;
+ 			if (drm_edid_block_valid(block, j, false, NULL))
+ 				break;
  		}
--
--		if (edid->revision > 4)
--			DRM_DEBUG("EDID minor > 4, assuming backward compatibility\n");
--		break;
--
--	default:
--		break;
-+	} else if (status == EDID_BLOCK_VERSION) {
-+		DRM_NOTE("EDID has major version %d, instead of 1\n",
-+			 block->version);
+ 
+-		if (i == 4)
++		if (try == 4)
+ 			valid_extensions--;
  	}
  
--	return true;
--
--bad:
--	if (print_bad_edid) {
--		if (edid_is_zero(raw_edid, EDID_LENGTH)) {
-+	if (!valid && print_bad_edid) {
-+		if (edid_is_zero(block, EDID_LENGTH)) {
- 			pr_notice("EDID block is all zeroes\n");
- 		} else {
- 			pr_notice("Raw EDID:\n");
- 			print_hex_dump(KERN_NOTICE,
- 				       " \t", DUMP_PREFIX_NONE, 16, 1,
--				       raw_edid, EDID_LENGTH, false);
-+				       block, EDID_LENGTH, false);
- 		}
- 	}
--	return false;
-+
-+	return valid;
- }
- EXPORT_SYMBOL(drm_edid_block_valid);
+ 	if (valid_extensions != edid->extensions) {
+ 		struct edid *dest_block;
++		int i;
+ 
+ 		connector_bad_edid(connector, (u8 *)edid, edid->extensions + 1);
  
 -- 
 2.30.2
