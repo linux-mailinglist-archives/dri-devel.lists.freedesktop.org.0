@@ -1,69 +1,36 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 132064ED798
-	for <lists+dri-devel@lfdr.de>; Thu, 31 Mar 2022 12:10:36 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 68D764ED7FB
+	for <lists+dri-devel@lfdr.de>; Thu, 31 Mar 2022 12:51:05 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id D375710E74F;
-	Thu, 31 Mar 2022 10:10:31 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id C478710E1ED;
+	Thu, 31 Mar 2022 10:51:01 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-lf1-x12f.google.com (mail-lf1-x12f.google.com
- [IPv6:2a00:1450:4864:20::12f])
- by gabe.freedesktop.org (Postfix) with ESMTPS id EA87D10E9F3
- for <dri-devel@lists.freedesktop.org>; Thu, 31 Mar 2022 10:10:30 +0000 (UTC)
-Received: by mail-lf1-x12f.google.com with SMTP id 5so40591462lfp.1
- for <dri-devel@lists.freedesktop.org>; Thu, 31 Mar 2022 03:10:30 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=message-id:date:mime-version:user-agent:subject:content-language:to
- :cc:references:from:in-reply-to:content-transfer-encoding;
- bh=DkPFTvrQEeskfvBTqfSOajTcre8fVDqFYzIN3B6dTsI=;
- b=KItC8IMn5rncXU6DjNFWlsw2ttC3GaaAEUbxCnBOR7T/9Tfj6lRHHFcT2drBRA225/
- dk71o9m/4VllMnJRSsHw7LpJ9ASmXszD3qY5Zz+5TfhYdsRg38C3XtGxx2w1jGsQWBY8
- ih5uzDcudKl79At3nt5SsfB64kDTfNMDqHWXP07DhGCY1vsGKCPn+LukasFPljTlUHJI
- fP10i7MwzuQBxdQAzpmwtCsOshjAuwnIOjprbAKbJ1Yy6ciMxquv4ewcAaNOedjPDwYA
- nOxsNYnOLJ6pOXJnjlR2ncJeheVQ923O6vmgq2BTKrYI1rCvcolTwFfgDgtF5Fn0MUui
- Bdyg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
- :content-language:to:cc:references:from:in-reply-to
- :content-transfer-encoding;
- bh=DkPFTvrQEeskfvBTqfSOajTcre8fVDqFYzIN3B6dTsI=;
- b=PNShR3qX5o0yWR93oOnAFOjoB7dya/AGY8+fAmrvuIKRfDl47BJKCHQfkuhVWb42gg
- GNmMIIdXyxr0/75e9bOD4dUDtaC2e9Y7QO4dMlE83C8oy2bUFeItNw3pxoJtc+CRWKU0
- d5PyEJfBf5n8FGRNumygWk2d9/wZ2naTnF/eGB3KJMXWAt0UisN/v5ml6Gnoh2OSYLTK
- AAeErNqEQm74s+GcRTx1kntTTiJOKeaHSpt9i0DCLVhGR/xC7VVgeWDPyziJe5SZQb42
- lS4IBbkYLY0kiiAmpFBE1pYZCalIqv+YVgEOkAx3tntxN/zUuPEoHjvkeRrhfEFRYUXQ
- X5QQ==
-X-Gm-Message-State: AOAM530a55QxPn3IYZtzQ/EQ2O+1FRo91uuS6+GxsYWNYz/PWFDUFyRG
- r7sb7j6qaHSJW1Zrv6Ci8TicOA==
-X-Google-Smtp-Source: ABdhPJwtAJyMy0EoY+rrG6bKX7082NXgD8paVU/49U2dxYES7x6TI8M54x7s0LTqdnwet5PnHMXT9w==
-X-Received: by 2002:ac2:485b:0:b0:44a:23d5:d4bd with SMTP id
- 27-20020ac2485b000000b0044a23d5d4bdmr10216994lfy.214.1648721428984; 
- Thu, 31 Mar 2022 03:10:28 -0700 (PDT)
-Received: from [192.168.1.211] ([37.153.55.125])
- by smtp.gmail.com with ESMTPSA id
- a26-20020a19fc1a000000b0044ab4920887sm805769lfi.57.2022.03.31.03.10.28
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Thu, 31 Mar 2022 03:10:28 -0700 (PDT)
-Message-ID: <d9ac1cee-d4fc-09ae-b2df-82ae2ecd57fb@linaro.org>
-Date: Thu, 31 Mar 2022 13:10:27 +0300
+Received: from honk.sigxcpu.org (honk.sigxcpu.org [24.134.29.49])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 043F310E2D8;
+ Thu, 31 Mar 2022 10:50:59 +0000 (UTC)
+Received: from localhost (localhost [127.0.0.1])
+ by honk.sigxcpu.org (Postfix) with ESMTP id 58EEDFB03;
+ Thu, 31 Mar 2022 12:50:57 +0200 (CEST)
+X-Virus-Scanned: Debian amavisd-new at honk.sigxcpu.org
+Received: from honk.sigxcpu.org ([127.0.0.1])
+ by localhost (honk.sigxcpu.org [127.0.0.1]) (amavisd-new, port 10024)
+ with ESMTP id qB6e2mIjWzBq; Thu, 31 Mar 2022 12:50:55 +0200 (CEST)
+Date: Thu, 31 Mar 2022 12:50:54 +0200
+From: Guido =?iso-8859-1?Q?G=FCnther?= <agx@sigxcpu.org>
+To: Lucas Stach <l.stach@pengutronix.de>
+Subject: Re: [PATCH 1/4] drm/etnaviv: check for reaped mapping in
+ etnaviv_iommu_unmap_gem
+Message-ID: <YkWHjsMFAu/lWFUU@qwark.sigxcpu.org>
+References: <20220323160825.3858619-1-l.stach@pengutronix.de>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.7.0
-Subject: Re: [PATCH v6 4/8] drm/msm/dp: avoid handling masked interrupts
-Content-Language: en-GB
-To: "Sankeerth Billakanti (QUIC)" <quic_sbillaka@quicinc.com>
-References: <1648656179-10347-1-git-send-email-quic_sbillaka@quicinc.com>
- <1648656179-10347-5-git-send-email-quic_sbillaka@quicinc.com>
- <CAA8EJprMvik_6xmGt2oZGpDG9FoMtC_ojuw+oTjPLTck4Hu3WA@mail.gmail.com>
- <MW4PR02MB7186669BA1B19FA4F184B558E1E19@MW4PR02MB7186.namprd02.prod.outlook.com>
-From: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
-In-Reply-To: <MW4PR02MB7186669BA1B19FA4F184B558E1E19@MW4PR02MB7186.namprd02.prod.outlook.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=iso-8859-1
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <20220323160825.3858619-1-l.stach@pengutronix.de>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -76,96 +43,53 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: quic_kalyant <quic_kalyant@quicinc.com>,
- "devicetree@vger.kernel.org" <devicetree@vger.kernel.org>,
- "bjorn.andersson@linaro.org" <bjorn.andersson@linaro.org>,
- "dianders@chromium.org" <dianders@chromium.org>,
- "Abhinav Kumar \(QUIC\)" <quic_abhinavk@quicinc.com>,
- quic_vproddut <quic_vproddut@quicinc.com>,
- "airlied@linux.ie" <airlied@linux.ie>,
- "linux-arm-msm@vger.kernel.org" <linux-arm-msm@vger.kernel.org>,
- "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
- "dri-devel@lists.freedesktop.org" <dri-devel@lists.freedesktop.org>,
- "swboyd@chromium.org" <swboyd@chromium.org>,
- "sean@poorly.run" <sean@poorly.run>,
- "seanpaul@chromium.org" <seanpaul@chromium.org>,
- "Aravind Venkateswaran \(QUIC\)" <quic_aravindh@quicinc.com>,
- "Kuogee Hsieh \(QUIC\)" <quic_khsieh@quicinc.com>,
- "freedreno@lists.freedesktop.org" <freedreno@lists.freedesktop.org>
+Cc: etnaviv@lists.freedesktop.org, dri-devel@lists.freedesktop.org,
+ patchwork-lst@pengutronix.de, kernel@pengutronix.de,
+ Russell King <linux+etnaviv@armlinux.org.uk>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 31/03/2022 08:53, Sankeerth Billakanti (QUIC) wrote:
-> Hi Dmitry,
+Hi Lucas,
+On Wed, Mar 23, 2022 at 05:08:22PM +0100, Lucas Stach wrote:
+> When the mapping is already reaped the unmap must be a no-op, as we
+> would otherwise try to remove the mapping twice, corrupting the involved
+> data structures.
 > 
->> On Wed, 30 Mar 2022 at 19:03, Sankeerth Billakanti
->> <quic_sbillaka@quicinc.com> wrote:
->>>
->>> The interrupt register will still reflect the connect and disconnect
->>> interrupt status without generating an actual HW interrupt.
->>> The controller driver should not handle those masked interrupts.
->>>
->>> Signed-off-by: Sankeerth Billakanti <quic_sbillaka@quicinc.com>
->>> ---
->>>   drivers/gpu/drm/msm/dp/dp_catalog.c | 5 +++--
->>>   1 file changed, 3 insertions(+), 2 deletions(-)
->>>
->>> diff --git a/drivers/gpu/drm/msm/dp/dp_catalog.c
->>> b/drivers/gpu/drm/msm/dp/dp_catalog.c
->>> index 3c16f95..1809ce2 100644
->>> --- a/drivers/gpu/drm/msm/dp/dp_catalog.c
->>> +++ b/drivers/gpu/drm/msm/dp/dp_catalog.c
->>> @@ -608,13 +608,14 @@ u32 dp_catalog_hpd_get_intr_status(struct
->>> dp_catalog *dp_catalog)  {
->>>          struct dp_catalog_private *catalog = container_of(dp_catalog,
->>>                                  struct dp_catalog_private, dp_catalog);
->>> -       int isr = 0;
->>> +       int isr, mask;
->>>
->>>          isr = dp_read_aux(catalog, REG_DP_DP_HPD_INT_STATUS);
->>>          dp_write_aux(catalog, REG_DP_DP_HPD_INT_ACK,
->>>                                   (isr & DP_DP_HPD_INT_MASK));
->>> +       mask = dp_read_aux(catalog, REG_DP_DP_HPD_INT_MASK);
->>>
->>> -       return isr;
->>> +       return isr & (DP_DP_HPD_STATE_STATUS_MASK | mask);
->>
->> I suspect that the logic is inverted here. Shouldn't it be:
->>
->> return isr & DP_DP_HPD_STATE_STATUS_MASK & mask;
->>
->> ?
->>
->   
-> The value of DP_DP_HPD_STATE_STATUS_MASK is 0xE0000000 and the value of the read
-> interrupt mask variable could be is 0xF.
+> Cc: stable@vger.kernel.org # 5.4
+> Signed-off-by: Lucas Stach <l.stach@pengutronix.de>
+
+Whole series
+
+Tested-by: Guido Günther <agx@sigxcpu.org>
+Acked-by: Guido Günther <agx@sigxcpu.org>
+
+The code changes look good to me too but I got some details wrong too many times
+for a `Reviewed-by:`
+
+Cheers,
+ -- Guido
+
+> ---
+>  drivers/gpu/drm/etnaviv/etnaviv_mmu.c | 6 ++++++
+>  1 file changed, 6 insertions(+)
 > 
-> The mask value is indicated via the register, REG_DP_DP_HPD_INT_MASK, bits 3:0.
-> The HPD status is indicated via a different read-only register REG_DP_DP_HPD_INT_STATUS, bits 31:29.
-
-I see. Maybe the following expression would be better?
-
-return isr & (mask & ~DP_DP_HPD_INT_MASK);
-
+> diff --git a/drivers/gpu/drm/etnaviv/etnaviv_mmu.c b/drivers/gpu/drm/etnaviv/etnaviv_mmu.c
+> index 9fb1a2aadbcb..aabb997a74eb 100644
+> --- a/drivers/gpu/drm/etnaviv/etnaviv_mmu.c
+> +++ b/drivers/gpu/drm/etnaviv/etnaviv_mmu.c
+> @@ -286,6 +286,12 @@ void etnaviv_iommu_unmap_gem(struct etnaviv_iommu_context *context,
+>  
+>  	mutex_lock(&context->lock);
+>  
+> +	/* Bail if the mapping has been reaped by another thread */
+> +	if (!mapping->context) {
+> +		mutex_unlock(&context->lock);
+> +		return;
+> +	}
+> +
+>  	/* If the vram node is on the mm, unmap and remove the node */
+>  	if (mapping->vram_node.mm == &context->mm)
+>  		etnaviv_iommu_remove_mapping(context, mapping);
+> -- 
+> 2.30.2
 > 
-> isr & DP_DP_HPD_STATE_STATUS_MASK & mask, will return 0 always.
-> 
->>>   }
->>>
->>>   int dp_catalog_ctrl_get_interrupt(struct dp_catalog *dp_catalog)
->>> --
->>> 2.7.4
->>>
->>
->>
->> --
->> With best wishes
->> Dmitry
-> 
-> Thank you,
-> Sankeerth
-
-
--- 
-With best wishes
-Dmitry
