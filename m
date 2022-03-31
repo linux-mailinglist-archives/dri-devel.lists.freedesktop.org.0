@@ -2,60 +2,48 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 49FC24EDFEE
-	for <lists+dri-devel@lfdr.de>; Thu, 31 Mar 2022 19:54:41 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 9EBE54EE065
+	for <lists+dri-devel@lfdr.de>; Thu, 31 Mar 2022 20:27:36 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 50EF910E46F;
-	Thu, 31 Mar 2022 17:54:37 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 224A510F454;
+	Thu, 31 Mar 2022 18:27:33 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-pj1-x102a.google.com (mail-pj1-x102a.google.com
- [IPv6:2607:f8b0:4864:20::102a])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 807E110E46F
- for <dri-devel@lists.freedesktop.org>; Thu, 31 Mar 2022 17:54:36 +0000 (UTC)
-Received: by mail-pj1-x102a.google.com with SMTP id
- mp6-20020a17090b190600b001c6841b8a52so3011553pjb.5
- for <dri-devel@lists.freedesktop.org>; Thu, 31 Mar 2022 10:54:36 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=7J9AhjvqrCb/ODOda+p37kJ9lCqTYxXbCZFAQ6nE7Oo=;
- b=onGGeky9iNo+5QwUaBpZjwqxEfsoW7BXbfm2pdMdHy+94u/9VNL4MlkJf9QpfshuNe
- Ba9mnRmG0ododviz4+HJf7IhJPubWL7DQ9YmBnijS448If+o7h/tRlrswIJ5oFqYA9vy
- mPBYo+BwxafbifQ4Iebnq3aWw+EItAXt6XZM0A31Ovy4ujT6H63W22SuXzYtuqrDDif0
- cqBTXWhFQmxdERFYkdArqy2K8mRoMxMtYKrMFUbUKfH6b0kPoqhGHTGzDhyR+j27SFpv
- sr3L+z0iTBM2mS/QqI/YETgVOqNeqzMMw+pr878gLaBJVs8ZniZwIQFf3ymUEq2uUhLx
- 0tNw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=7J9AhjvqrCb/ODOda+p37kJ9lCqTYxXbCZFAQ6nE7Oo=;
- b=1G2c0H/RaxpoMen/ngeFTqDYXS9b3Opg+9Wl0mdOwTzca4N5USldLVCgOXjXEaDdIo
- Uh1kfq0AeDW4ikzBmMHeF5n7eid7SXJvwXZwPEjv1Ahkx5Sm/4Nd2OmrlopGwLJ7QEh5
- MjEPk+vN1a7yPfVYl5VezSPvBM0afWTqeXWeX9HRx0xUrHA7ieuN2kgzi/qdl0jGjS5s
- xA5cD1BLZGOxjfIi/s2dv379NTYTMYv6yFnJthbEBNzV2BIbQj16nsMu90RBXfUJjSBo
- iOIw3dc73XhEq1Dxds5xfOaznFnfcvwP/YSSXcOZQcgcl7gR7JYcxMwoFjpOMN3qQcuz
- q/ZQ==
-X-Gm-Message-State: AOAM531uEce9N+ljjdSMPAv6Lvejg2Mo0EzAZVl4Ap1P70fIGyQBe8Cp
- ttBsrEClSseKh4PONSJO2KJ7oXxL8g84z9o5cLcJzQ==
-X-Google-Smtp-Source: ABdhPJy824YST011jP+2/ha/Y0M0WLOF47Rnzawtzhz+XtpAtoAQ6cUB9KAwmzaTz7eubfQ89pV8Z9oxHog6ZO1lQCk=
-X-Received: by 2002:a17:90b:1247:b0:1c6:932a:2605 with SMTP id
- gx7-20020a17090b124700b001c6932a2605mr7415159pjb.152.1648749276093; Thu, 31
- Mar 2022 10:54:36 -0700 (PDT)
+Received: from bhuna.collabora.co.uk (bhuna.collabora.co.uk
+ [IPv6:2a00:1098:0:82:1000:25:2eeb:e3e3])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 1B2C810E433;
+ Thu, 31 Mar 2022 18:27:31 +0000 (UTC)
+Received: from [IPV6:2a00:5f00:102:0:10b3:10ff:fe5d:4ec1] (unknown
+ [IPv6:2a00:5f00:102:0:10b3:10ff:fe5d:4ec1])
+ (using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+ (No client certificate requested)
+ (Authenticated sender: dmitry.osipenko)
+ by bhuna.collabora.co.uk (Postfix) with ESMTPSA id DB2721F470F3;
+ Thu, 31 Mar 2022 19:27:28 +0100 (BST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
+ s=mail; t=1648751249;
+ bh=uP7q/xYsT32zx3bzbweG0t9nZq+UAL3kQqtb4RqJLm8=;
+ h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
+ b=Pvdo9fWIRW4W+gzpHQiwinvhXLCRyAC1ZPTm5yM2woYZMseQ7vo4JNJmwR796bUjh
+ HSAJcrJ5+PpFcwE83BAgE5NctvFxx6okVEh6E4tiA8jlbE4O/nUCc3sgMw61Iu/lHE
+ q0L+/W2EOOCjdle1t11TZzFYqp0mx8QRfe2npCwt6C7pymmtTF/CHPxZVWqBF/7cP1
+ 5BSPqivxVGrip5/vffd9looqQiB4Bfllg/+HMmXLfv7ERgJYtxArrZmgY/D7ynIw+e
+ cpNEXdAcygH+288NqW5YJFa3i3fKyVvWGz657DWYO7IrAUFA8iK0y3SLdkkkhttXz2
+ 0ahKTKkrU/YOQ==
+Message-ID: <83979c7b-8a8a-5006-6af3-f3ca8b0d8ced@collabora.com>
+Date: Thu, 31 Mar 2022 21:27:25 +0300
 MIME-Version: 1.0
-References: <20220331154503.66054-1-jagan@amarulasolutions.com>
- <20220331154503.66054-3-jagan@amarulasolutions.com>
- <CAG3jFystEb+QysYVY=qjUp9cOZDg9rRVuM7mi-PJwpF1cr612w@mail.gmail.com>
-In-Reply-To: <CAG3jFystEb+QysYVY=qjUp9cOZDg9rRVuM7mi-PJwpF1cr612w@mail.gmail.com>
-From: Robert Foss <robert.foss@linaro.org>
-Date: Thu, 31 Mar 2022 19:54:24 +0200
-Message-ID: <CAG3jFytXo_THOhffLzQ_GJ-mZ2jJnEmk0xbEArcH8NF6B0dYdw@mail.gmail.com>
-Subject: Re: [PATCH v4 3/5] drm: bridge: mtk_dsi: Switch to
- devm_drm_of_get_bridge
-To: Jagan Teki <jagan@amarulasolutions.com>,
- Chun-Kuang Hu <chunkuang.hu@kernel.org>, 
- Philipp Zabel <p.zabel@pengutronix.de>
-Content-Type: text/plain; charset="UTF-8"
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.7.0
+Subject: Re: [PATCH v2 07/10] drm/msm/gem: Rework vma lookup and pin
+Content-Language: en-US
+To: Rob Clark <robdclark@gmail.com>, dri-devel@lists.freedesktop.org
+References: <20220330204804.660819-1-robdclark@gmail.com>
+ <20220330204804.660819-8-robdclark@gmail.com>
+From: Dmitry Osipenko <dmitry.osipenko@collabora.com>
+In-Reply-To: <20220330204804.660819-8-robdclark@gmail.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -68,18 +56,83 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Neil Armstrong <narmstrong@baylibre.com>, Sam Ravnborg <sam@ravnborg.org>,
- dri-devel@lists.freedesktop.org,
- Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
- Andrzej Hajda <andrzej.hajda@intel.com>, linux-amarula@amarulasolutions.com
+Cc: Rob Clark <robdclark@chromium.org>, freedreno@lists.freedesktop.org,
+ David Airlie <airlied@linux.ie>, linux-arm-msm@vger.kernel.org,
+ Abhinav Kumar <quic_abhinavk@quicinc.com>,
+ open list <linux-kernel@vger.kernel.org>,
+ Dmitry Baryshkov <dmitry.baryshkov@linaro.org>, Sean Paul <sean@poorly.run>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Philippe, Chun-Kuang,
+On 3/30/22 23:47, Rob Clark wrote:
+> From: Rob Clark <robdclark@chromium.org>
+> 
+> Combines duplicate vma lookup in the get_and_pin path.
+> 
+> Signed-off-by: Rob Clark <robdclark@chromium.org>
+> ---
+>  drivers/gpu/drm/msm/msm_gem.c | 50 ++++++++++++++++++-----------------
+>  1 file changed, 26 insertions(+), 24 deletions(-)
+> 
+> diff --git a/drivers/gpu/drm/msm/msm_gem.c b/drivers/gpu/drm/msm/msm_gem.c
+> index deafae6feaa8..218744a490a4 100644
+> --- a/drivers/gpu/drm/msm/msm_gem.c
+> +++ b/drivers/gpu/drm/msm/msm_gem.c
+> @@ -376,39 +376,40 @@ put_iova_vmas(struct drm_gem_object *obj)
+>  	}
+>  }
+>  
+> -static int get_iova_locked(struct drm_gem_object *obj,
+> -		struct msm_gem_address_space *aspace, uint64_t *iova,
+> +static struct msm_gem_vma *get_vma_locked(struct drm_gem_object *obj,
+> +		struct msm_gem_address_space *aspace,
+>  		u64 range_start, u64 range_end)
+>  {
+>  	struct msm_gem_vma *vma;
+> -	int ret = 0;
+>  
+>  	GEM_WARN_ON(!msm_gem_is_locked(obj));
+>  
+>  	vma = lookup_vma(obj, aspace);
+>  
+>  	if (!vma) {
+> +		int ret;
+> +
+>  		vma = add_vma(obj, aspace);
+>  		if (IS_ERR(vma))
+> -			return PTR_ERR(vma);
+> +			return vma;
+>  
+>  		ret = msm_gem_init_vma(aspace, vma, obj->size,
+>  			range_start, range_end);
+>  		if (ret) {
+You're allocation range_start -> range_end
 
-I applied this patch without realizing it is outside of my maintainer
-domain, and caused conflict in dim-tip, which I've resolved.
-Even with the conflict resolved, I think getting an AB after the fact
-would be good.
 
-Sorry about the inconvenience.
+>  			del_vma(vma);
+> -			return ret;
+> +			return ERR_PTR(ret);
+>  		}
+> +	} else {
+> +		GEM_WARN_ON(vma->iova < range_start);
+> +		GEM_WARN_ON((vma->iova + obj->size) > range_end);
+
+and then comparing range_start -> range_start + obj->size, hence you're
+assuming that range_end always equals to obj->size during the allocation.
+
+I'm not sure what is the idea here.. this looks inconsistent. I think
+you wanted to write:
+
+		GEM_WARN_ON(vma->iova < range_start);
+		GEM_WARN_ON(vma->iova + (vma->node.size << PAGE_SHIFT) > range_end);
+
+But is it really useful to check whether the new range is inside of the
+old range? Shouldn't it be always a error to change the IOVA range
+without reallocating vma?
+
+I'd expect to see:
+
+		GEM_WARN_ON(vma->iova != range_start);
+		GEM_WARN_ON(vma->iova + (vma->node.size << PAGE_SHIFT) != range_end);
+
+and then error out if range mismatches.
