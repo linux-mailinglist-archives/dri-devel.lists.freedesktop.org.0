@@ -1,42 +1,47 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id E7E234ED1DE
-	for <lists+dri-devel@lfdr.de>; Thu, 31 Mar 2022 04:48:36 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 6255E4ED1DF
+	for <lists+dri-devel@lfdr.de>; Thu, 31 Mar 2022 04:48:41 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id EB7C710F3A1;
-	Thu, 31 Mar 2022 02:48:30 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id AD5ED10F3A7;
+	Thu, 31 Mar 2022 02:48:35 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from mailgw02.mediatek.com (unknown [210.61.82.184])
- by gabe.freedesktop.org (Postfix) with ESMTPS id A1A4A10F3A1
- for <dri-devel@lists.freedesktop.org>; Thu, 31 Mar 2022 02:48:28 +0000 (UTC)
-X-UUID: 027bd015df1f47d291d4670cabe41c47-20220331
-X-UUID: 027bd015df1f47d291d4670cabe41c47-20220331
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 2DB1D10F3A1
+ for <dri-devel@lists.freedesktop.org>; Thu, 31 Mar 2022 02:48:30 +0000 (UTC)
+X-UUID: 8af0e84afa224808981e1b95d4e081a5-20220331
+X-UUID: 8af0e84afa224808981e1b95d4e081a5-20220331
 Received: from mtkcas11.mediatek.inc [(172.21.101.40)] by mailgw02.mediatek.com
  (envelope-from <yunfei.dong@mediatek.com>)
  (Generic MTA with TLSv1.2 ECDHE-RSA-AES256-SHA384 256/256)
- with ESMTP id 1724600006; Thu, 31 Mar 2022 10:48:24 +0800
+ with ESMTP id 690848553; Thu, 31 Mar 2022 10:48:24 +0800
 Received: from mtkcas11.mediatek.inc (172.21.101.40) by
- mtkmbs07n1.mediatek.inc (172.21.101.16) with Microsoft SMTP Server (TLS) id
- 15.0.1497.2; Thu, 31 Mar 2022 10:48:21 +0800
+ mtkmbs10n2.mediatek.inc (172.21.101.183) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_CBC_SHA384) id 15.2.792.3; 
+ Thu, 31 Mar 2022 10:48:23 +0800
 Received: from localhost.localdomain (10.17.3.154) by mtkcas11.mediatek.inc
  (172.21.101.73) with Microsoft SMTP Server id 15.0.1497.2 via Frontend
- Transport; Thu, 31 Mar 2022 10:48:20 +0800
+ Transport; Thu, 31 Mar 2022 10:48:21 +0800
 From: Yunfei Dong <yunfei.dong@mediatek.com>
 To: Yunfei Dong <yunfei.dong@mediatek.com>, Alexandre Courbot
- <acourbot@chromium.org>, Nicolas Dufresne <nicolas@ndufresne.ca>, Hans
- Verkuil <hverkuil-cisco@xs4all.nl>, AngeloGioacchino Del Regno
+ <acourbot@chromium.org>, Nicolas Dufresne <nicolas@ndufresne.ca>, "Hans
+ Verkuil" <hverkuil-cisco@xs4all.nl>, AngeloGioacchino Del Regno
  <angelogioacchino.delregno@collabora.com>, Benjamin Gaignard
  <benjamin.gaignard@collabora.com>, Tiffany Lin <tiffany.lin@mediatek.com>,
  Andrew-CT Chen <andrew-ct.chen@mediatek.com>, Mauro Carvalho Chehab
  <mchehab@kernel.org>, Rob Herring <robh+dt@kernel.org>, Matthias Brugger
  <matthias.bgg@gmail.com>, Tomasz Figa <tfiga@google.com>
-Subject: [PATCH v8, 00/15] media: mtk-vcodec: support for M8192 decoder
-Date: Thu, 31 Mar 2022 10:47:44 +0800
-Message-ID: <20220331024801.29229-1-yunfei.dong@mediatek.com>
+Subject: [PATCH v8,
+ 01/17] media: mediatek: vcodec: Add vdec enable/disable hardware
+ helpers
+Date: Thu, 31 Mar 2022 10:47:45 +0800
+Message-ID: <20220331024801.29229-2-yunfei.dong@mediatek.com>
 X-Mailer: git-send-email 2.25.1
+In-Reply-To: <20220331024801.29229-1-yunfei.dong@mediatek.com>
+References: <20220331024801.29229-1-yunfei.dong@mediatek.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 Content-Type: text/plain
@@ -64,118 +69,343 @@ Cc: Irui Wang <irui.wang@mediatek.com>, George Sun <george.sun@mediatek.com>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-This series adds support for mt8192 h264/vp8/vp9 decoder drivers. Firstly, refactor
-power/clock/interrupt interfaces for mt8192 is lat and core architecture.
+Lock, power and clock are highly coupled operations. Adds vdec
+enable/disable hardware helpers and uses them.
 
-Secondly, add new functions to get frame buffer size and resolution according
-to decoder capability from scp side. Then add callback function to get/put
-capture buffer in order to enable lat and core decoder in parallel, need to
-adjust GStreamer at the same time. 
-
-Then add to support MT21C compressed mode and fix v4l2-compliance fail.
-
-Next, extract H264 request api driver to let mt8183 and mt8192 use the same
-code, and adds mt8192 frame based h264 driver for stateless decoder.
-
-Lastly, add vp8 and vp9 stateless decoder drivers.
-
-Patches 1 refactor power/clock/interrupt interface.
-Patches 2~4 get frame buffer size and resolution according to decoder capability.
-Patches 5 set capture queue bytesused.
-Patches 6 adjust GStreamer.
-Patch 7~11 add to support MT21C compressed mode and fix v4l2-compliance fail.
-patch 12 record capture queue format type.
-Patch 13~14 extract h264 driver and add mt8192 frame based driver for h264 decoder.
-Patch 15~16 add vp8 and vp9 stateless decoder drivers.
-Patch 17 prevent kernel crash when rmmod mtk-vcodec-dec.ko
+Signed-off-by: Yunfei Dong <yunfei.dong@mediatek.com>
+Reviewed-by: Tzung-Bi Shih<tzungbi@google.com>
+Reviewed-by: AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>
 ---
-changes compared with v6:
-- adjust GStreamer, separate src buffer done with v4l2_ctrl_request_complete for patch 6.
-- remove v4l2_m2m_set_dst_buffered.
-- add new patch to set each plane bytesused in buf prepare for patch 5.
-- using upstream interface to update vp9 prob tables for patch 16.
-- fix maintainer comments.
-- test the driver with chrome VD and GStreamer(H264/VP9/VP8/AV1).
-changes compared with v6:
-- rebase to the latest media stage and fix conficts
-- fix memcpy to memcpy_fromio or memcpy_toio
-- fix h264 crash when test field bitstream
-changes compared with v5:
-- fix vp9 comments for patch 15
-- fix vp8 comments for patch 14.
-- fix comments for patch 12.
-- fix build errors.
-changes compared with v4:
-- fix checkpatch.pl fail.
-- fix kernel-doc fail.
-- rebase to the latest media codec driver.
-changes compared with v3:
-- remove enum mtk_chip for patch 2.
-- add vp8 stateless decoder drivers for patch 14.
-- add vp9 stateless decoder drivers for patch 15.
-changes compared with v2:
-- add new patch 11 to record capture queue format type.
-- separate patch 4 according to tzung-bi's suggestion.
-- re-write commit message for patch 5 according to tzung-bi's suggestion.
-changes compared with v1:
-- rewrite commit message for patch 12.
-- rewrite cover-letter message.
----
-Yunfei Dong (17):
-  media: mediatek: vcodec: Add vdec enable/disable hardware helpers
-  media: mediatek: vcodec: Using firmware type to separate different
-    firmware architecture
-  media: mediatek: vcodec: get capture queue buffer size from scp
-  media: mediatek: vcodec: Read max resolution from dec_capability
-  media: mediatek: vcodec: set each plane bytesused in buf prepare
-  media: mediatek: vcodec: Refactor get and put capture buffer flow
-  media: mediatek: vcodec: Refactor supported vdec formats and
-    framesizes
-  media: mediatek: vcodec: Getting supported decoder format types
-  media: mediatek: vcodec: Add format to support MT21C
-  media: mediatek: vcodec: disable vp8 4K capability
-  media: mediatek: vcodec: Fix v4l2-compliance fail
-  media: mediatek: vcodec: record capture queue format type
-  media: mediatek: vcodec: Extract H264 common code
-  media: mediatek: vcodec: support stateless H.264 decoding for mt8192
-  media: mediatek: vcodec: support stateless VP8 decoding
-  media: mediatek: vcodec: support stateless VP9 decoding
-  media: mediatek: vcodec: prevent kernel crash when rmmod
-    mtk-vcodec-dec.ko
+ .../mediatek/vcodec/mtk_vcodec_dec_drv.c      |   5 -
+ .../mediatek/vcodec/mtk_vcodec_dec_pm.c       | 166 +++++++++++-------
+ .../mediatek/vcodec/mtk_vcodec_dec_pm.h       |   6 +-
+ .../platform/mediatek/vcodec/vdec_drv_if.c    |  20 +--
+ .../platform/mediatek/vcodec/vdec_msg_queue.c |   2 +
+ 5 files changed, 116 insertions(+), 83 deletions(-)
 
- .../media/platform/mediatek/vcodec/Makefile   |    4 +
- .../platform/mediatek/vcodec/mtk_vcodec_dec.c |   62 +-
- .../mediatek/vcodec/mtk_vcodec_dec_drv.c      |    8 +-
- .../mediatek/vcodec/mtk_vcodec_dec_pm.c       |  166 +-
- .../mediatek/vcodec/mtk_vcodec_dec_pm.h       |    6 +-
- .../mediatek/vcodec/mtk_vcodec_dec_stateful.c |   19 +-
- .../vcodec/mtk_vcodec_dec_stateless.c         |  257 +-
- .../platform/mediatek/vcodec/mtk_vcodec_drv.h |   41 +-
- .../mediatek/vcodec/mtk_vcodec_enc_drv.c      |    5 -
- .../platform/mediatek/vcodec/mtk_vcodec_fw.c  |    6 +
- .../platform/mediatek/vcodec/mtk_vcodec_fw.h  |    1 +
- .../vcodec/vdec/vdec_h264_req_common.c        |  310 +++
- .../vcodec/vdec/vdec_h264_req_common.h        |  272 +++
- .../mediatek/vcodec/vdec/vdec_h264_req_if.c   |  438 +---
- .../vcodec/vdec/vdec_h264_req_multi_if.c      |  619 +++++
- .../mediatek/vcodec/vdec/vdec_vp8_req_if.c    |  437 ++++
- .../vcodec/vdec/vdec_vp9_req_lat_if.c         | 2072 +++++++++++++++++
- .../platform/mediatek/vcodec/vdec_drv_if.c    |   37 +-
- .../platform/mediatek/vcodec/vdec_drv_if.h    |    3 +
- .../platform/mediatek/vcodec/vdec_ipi_msg.h   |   36 +
- .../platform/mediatek/vcodec/vdec_msg_queue.c |    2 +
- .../platform/mediatek/vcodec/vdec_msg_queue.h |    2 +
- .../platform/mediatek/vcodec/vdec_vpu_if.c    |   53 +-
- .../platform/mediatek/vcodec/vdec_vpu_if.h    |   15 +
- .../platform/mediatek/vcodec/venc_vpu_if.c    |    2 +-
- include/linux/remoteproc/mtk_scp.h            |    2 +
- 26 files changed, 4274 insertions(+), 601 deletions(-)
- create mode 100644 drivers/media/platform/mediatek/vcodec/vdec/vdec_h264_req_common.c
- create mode 100644 drivers/media/platform/mediatek/vcodec/vdec/vdec_h264_req_common.h
- create mode 100644 drivers/media/platform/mediatek/vcodec/vdec/vdec_h264_req_multi_if.c
- create mode 100644 drivers/media/platform/mediatek/vcodec/vdec/vdec_vp8_req_if.c
- create mode 100644 drivers/media/platform/mediatek/vcodec/vdec/vdec_vp9_req_lat_if.c
-
+diff --git a/drivers/media/platform/mediatek/vcodec/mtk_vcodec_dec_drv.c b/drivers/media/platform/mediatek/vcodec/mtk_vcodec_dec_drv.c
+index df7b25e9cbc8..a84df6596aaa 100644
+--- a/drivers/media/platform/mediatek/vcodec/mtk_vcodec_dec_drv.c
++++ b/drivers/media/platform/mediatek/vcodec/mtk_vcodec_dec_drv.c
+@@ -193,9 +193,6 @@ static int fops_vcodec_open(struct file *file)
+ 	mtk_vcodec_dec_set_default_params(ctx);
+ 
+ 	if (v4l2_fh_is_singular(&ctx->fh)) {
+-		ret = mtk_vcodec_dec_pw_on(dev, MTK_VDEC_LAT0);
+-		if (ret < 0)
+-			goto err_load_fw;
+ 		/*
+ 		 * Does nothing if firmware was already loaded.
+ 		 */
+@@ -252,8 +249,6 @@ static int fops_vcodec_release(struct file *file)
+ 	v4l2_m2m_ctx_release(ctx->m2m_ctx);
+ 	mtk_vcodec_dec_release(ctx);
+ 
+-	if (v4l2_fh_is_singular(&ctx->fh))
+-		mtk_vcodec_dec_pw_off(dev, MTK_VDEC_LAT0);
+ 	v4l2_fh_del(&ctx->fh);
+ 	v4l2_fh_exit(&ctx->fh);
+ 	v4l2_ctrl_handler_free(&ctx->ctrl_hdl);
+diff --git a/drivers/media/platform/mediatek/vcodec/mtk_vcodec_dec_pm.c b/drivers/media/platform/mediatek/vcodec/mtk_vcodec_dec_pm.c
+index 7e0c2644bf7b..0fb7e5ba635b 100644
+--- a/drivers/media/platform/mediatek/vcodec/mtk_vcodec_dec_pm.c
++++ b/drivers/media/platform/mediatek/vcodec/mtk_vcodec_dec_pm.c
+@@ -57,74 +57,31 @@ int mtk_vcodec_init_dec_clk(struct platform_device *pdev, struct mtk_vcodec_pm *
+ }
+ EXPORT_SYMBOL_GPL(mtk_vcodec_init_dec_clk);
+ 
+-int mtk_vcodec_dec_pw_on(struct mtk_vcodec_dev *vdec_dev, int hw_idx)
++static int mtk_vcodec_dec_pw_on(struct mtk_vcodec_pm *pm)
+ {
+-	struct mtk_vdec_hw_dev *subdev_dev;
+-	struct mtk_vcodec_pm *pm;
+ 	int ret;
+ 
+-	if (vdec_dev->vdec_pdata->is_subdev_supported) {
+-		subdev_dev = mtk_vcodec_get_hw_dev(vdec_dev, hw_idx);
+-		if (!subdev_dev) {
+-			mtk_v4l2_err("Failed to get hw dev\n");
+-			return -EINVAL;
+-		}
+-		pm = &subdev_dev->pm;
+-	} else {
+-		pm = &vdec_dev->pm;
+-	}
+-
+ 	ret = pm_runtime_resume_and_get(pm->dev);
+ 	if (ret)
+ 		mtk_v4l2_err("pm_runtime_resume_and_get fail %d", ret);
+ 
+ 	return ret;
+ }
+-EXPORT_SYMBOL_GPL(mtk_vcodec_dec_pw_on);
+ 
+-void mtk_vcodec_dec_pw_off(struct mtk_vcodec_dev *vdec_dev, int hw_idx)
++static void mtk_vcodec_dec_pw_off(struct mtk_vcodec_pm *pm)
+ {
+-	struct mtk_vdec_hw_dev *subdev_dev;
+-	struct mtk_vcodec_pm *pm;
+ 	int ret;
+ 
+-	if (vdec_dev->vdec_pdata->is_subdev_supported) {
+-		subdev_dev = mtk_vcodec_get_hw_dev(vdec_dev, hw_idx);
+-		if (!subdev_dev) {
+-			mtk_v4l2_err("Failed to get hw dev\n");
+-			return;
+-		}
+-		pm = &subdev_dev->pm;
+-	} else {
+-		pm = &vdec_dev->pm;
+-	}
+-
+ 	ret = pm_runtime_put_sync(pm->dev);
+ 	if (ret)
+ 		mtk_v4l2_err("pm_runtime_put_sync fail %d", ret);
+ }
+-EXPORT_SYMBOL_GPL(mtk_vcodec_dec_pw_off);
+ 
+-void mtk_vcodec_dec_clock_on(struct mtk_vcodec_dev *vdec_dev, int hw_idx)
++static void mtk_vcodec_dec_clock_on(struct mtk_vcodec_pm *pm)
+ {
+-	struct mtk_vdec_hw_dev *subdev_dev;
+-	struct mtk_vcodec_pm *pm;
+ 	struct mtk_vcodec_clk *dec_clk;
+ 	int ret, i;
+ 
+-	if (vdec_dev->vdec_pdata->is_subdev_supported) {
+-		subdev_dev = mtk_vcodec_get_hw_dev(vdec_dev, hw_idx);
+-		if (!subdev_dev) {
+-			mtk_v4l2_err("Failed to get hw dev\n");
+-			return;
+-		}
+-		pm = &subdev_dev->pm;
+-		enable_irq(subdev_dev->dec_irq);
+-	} else {
+-		pm = &vdec_dev->pm;
+-		enable_irq(vdec_dev->dec_irq);
+-	}
+-
+ 	dec_clk = &pm->vdec_clk;
+ 	for (i = 0; i < dec_clk->clk_num; i++) {
+ 		ret = clk_prepare_enable(dec_clk->clk_info[i].vcodec_clk);
+@@ -140,30 +97,119 @@ void mtk_vcodec_dec_clock_on(struct mtk_vcodec_dev *vdec_dev, int hw_idx)
+ 	for (i -= 1; i >= 0; i--)
+ 		clk_disable_unprepare(dec_clk->clk_info[i].vcodec_clk);
+ }
+-EXPORT_SYMBOL_GPL(mtk_vcodec_dec_clock_on);
+ 
+-void mtk_vcodec_dec_clock_off(struct mtk_vcodec_dev *vdec_dev, int hw_idx)
++static void mtk_vcodec_dec_clock_off(struct mtk_vcodec_pm *pm)
+ {
+-	struct mtk_vdec_hw_dev *subdev_dev;
+-	struct mtk_vcodec_pm *pm;
+ 	struct mtk_vcodec_clk *dec_clk;
+ 	int i;
+ 
++	dec_clk = &pm->vdec_clk;
++	for (i = dec_clk->clk_num - 1; i >= 0; i--)
++		clk_disable_unprepare(dec_clk->clk_info[i].vcodec_clk);
++}
++
++static void mtk_vcodec_dec_enable_irq(struct mtk_vcodec_dev *vdec_dev, int hw_idx)
++{
++	struct mtk_vdec_hw_dev *subdev_dev;
++
++	if (!test_bit(hw_idx, vdec_dev->subdev_bitmap))
++		return;
++
+ 	if (vdec_dev->vdec_pdata->is_subdev_supported) {
+ 		subdev_dev = mtk_vcodec_get_hw_dev(vdec_dev, hw_idx);
+-		if (!subdev_dev) {
++		if (subdev_dev)
++			enable_irq(subdev_dev->dec_irq);
++		else
++			mtk_v4l2_err("Failed to get hw dev\n");
++	} else {
++		enable_irq(vdec_dev->dec_irq);
++	}
++}
++
++static void mtk_vcodec_dec_disable_irq(struct mtk_vcodec_dev *vdec_dev, int hw_idx)
++{
++	struct mtk_vdec_hw_dev *subdev_dev;
++
++	if (!test_bit(hw_idx, vdec_dev->subdev_bitmap))
++		return;
++
++	if (vdec_dev->vdec_pdata->is_subdev_supported) {
++		subdev_dev = mtk_vcodec_get_hw_dev(vdec_dev, hw_idx);
++		if (subdev_dev)
++			disable_irq(subdev_dev->dec_irq);
++		else
+ 			mtk_v4l2_err("Failed to get hw dev\n");
+-			return;
+-		}
+-		pm = &subdev_dev->pm;
+-		disable_irq(subdev_dev->dec_irq);
+ 	} else {
+-		pm = &vdec_dev->pm;
+ 		disable_irq(vdec_dev->dec_irq);
+ 	}
++}
+ 
+-	dec_clk = &pm->vdec_clk;
+-	for (i = dec_clk->clk_num - 1; i >= 0; i--)
+-		clk_disable_unprepare(dec_clk->clk_info[i].vcodec_clk);
++static struct mtk_vcodec_pm *mtk_vcodec_dec_get_pm(struct mtk_vcodec_dev *vdec_dev,
++						   int hw_idx)
++{
++	struct mtk_vdec_hw_dev *subdev_dev;
++
++	if (!test_bit(hw_idx, vdec_dev->subdev_bitmap))
++		return NULL;
++
++	if (vdec_dev->vdec_pdata->is_subdev_supported) {
++		subdev_dev = mtk_vcodec_get_hw_dev(vdec_dev, hw_idx);
++		if (subdev_dev)
++			return &subdev_dev->pm;
++
++		mtk_v4l2_err("Failed to get hw dev\n");
++		return NULL;
++	}
++
++	return &vdec_dev->pm;
++}
++
++static void mtk_vcodec_dec_child_dev_on(struct mtk_vcodec_dev *vdec_dev,
++					int hw_idx)
++{
++	struct mtk_vcodec_pm *pm;
++
++	pm = mtk_vcodec_dec_get_pm(vdec_dev, hw_idx);
++	if (pm) {
++		mtk_vcodec_dec_pw_on(pm);
++		mtk_vcodec_dec_clock_on(pm);
++	}
++}
++
++static void mtk_vcodec_dec_child_dev_off(struct mtk_vcodec_dev *vdec_dev,
++					 int hw_idx)
++{
++	struct mtk_vcodec_pm *pm;
++
++	pm = mtk_vcodec_dec_get_pm(vdec_dev, hw_idx);
++	if (pm) {
++		mtk_vcodec_dec_clock_off(pm);
++		mtk_vcodec_dec_pw_off(pm);
++	}
++}
++
++void mtk_vcodec_dec_enable_hardware(struct mtk_vcodec_ctx *ctx, int hw_idx)
++{
++	mutex_lock(&ctx->dev->dec_mutex[hw_idx]);
++
++	if (IS_VDEC_LAT_ARCH(ctx->dev->vdec_pdata->hw_arch) &&
++	    hw_idx == MTK_VDEC_CORE)
++		mtk_vcodec_dec_child_dev_on(ctx->dev, MTK_VDEC_LAT0);
++	mtk_vcodec_dec_child_dev_on(ctx->dev, hw_idx);
++
++	mtk_vcodec_dec_enable_irq(ctx->dev, hw_idx);
++}
++EXPORT_SYMBOL_GPL(mtk_vcodec_dec_enable_hardware);
++
++void mtk_vcodec_dec_disable_hardware(struct mtk_vcodec_ctx *ctx, int hw_idx)
++{
++	mtk_vcodec_dec_disable_irq(ctx->dev, hw_idx);
++
++	mtk_vcodec_dec_child_dev_off(ctx->dev, hw_idx);
++	if (IS_VDEC_LAT_ARCH(ctx->dev->vdec_pdata->hw_arch) &&
++	    hw_idx == MTK_VDEC_CORE)
++		mtk_vcodec_dec_child_dev_off(ctx->dev, MTK_VDEC_LAT0);
++
++	mutex_unlock(&ctx->dev->dec_mutex[hw_idx]);
+ }
+-EXPORT_SYMBOL_GPL(mtk_vcodec_dec_clock_off);
++EXPORT_SYMBOL_GPL(mtk_vcodec_dec_disable_hardware);
+diff --git a/drivers/media/platform/mediatek/vcodec/mtk_vcodec_dec_pm.h b/drivers/media/platform/mediatek/vcodec/mtk_vcodec_dec_pm.h
+index 3cc721bbfaf6..dbcf3cabe6f3 100644
+--- a/drivers/media/platform/mediatek/vcodec/mtk_vcodec_dec_pm.h
++++ b/drivers/media/platform/mediatek/vcodec/mtk_vcodec_dec_pm.h
+@@ -11,9 +11,7 @@
+ 
+ int mtk_vcodec_init_dec_clk(struct platform_device *pdev, struct mtk_vcodec_pm *pm);
+ 
+-int mtk_vcodec_dec_pw_on(struct mtk_vcodec_dev *vdec_dev, int hw_idx);
+-void mtk_vcodec_dec_pw_off(struct mtk_vcodec_dev *vdec_dev, int hw_idx);
+-void mtk_vcodec_dec_clock_on(struct mtk_vcodec_dev *vdec_dev, int hw_idx);
+-void mtk_vcodec_dec_clock_off(struct mtk_vcodec_dev *vdec_dev, int hw_idx);
++void mtk_vcodec_dec_enable_hardware(struct mtk_vcodec_ctx *ctx, int hw_idx);
++void mtk_vcodec_dec_disable_hardware(struct mtk_vcodec_ctx *ctx, int hw_idx);
+ 
+ #endif /* _MTK_VCODEC_DEC_PM_H_ */
+diff --git a/drivers/media/platform/mediatek/vcodec/vdec_drv_if.c b/drivers/media/platform/mediatek/vcodec/vdec_drv_if.c
+index 05a5b240e906..c93dd0ea3537 100644
+--- a/drivers/media/platform/mediatek/vcodec/vdec_drv_if.c
++++ b/drivers/media/platform/mediatek/vcodec/vdec_drv_if.c
+@@ -38,11 +38,9 @@ int vdec_if_init(struct mtk_vcodec_ctx *ctx, unsigned int fourcc)
+ 		return -EINVAL;
+ 	}
+ 
+-	mtk_vdec_lock(ctx);
+-	mtk_vcodec_dec_clock_on(ctx->dev, ctx->hw_id);
++	mtk_vcodec_dec_enable_hardware(ctx, ctx->hw_id);
+ 	ret = ctx->dec_if->init(ctx);
+-	mtk_vcodec_dec_clock_off(ctx->dev, ctx->hw_id);
+-	mtk_vdec_unlock(ctx);
++	mtk_vcodec_dec_disable_hardware(ctx, ctx->hw_id);
+ 
+ 	return ret;
+ }
+@@ -70,15 +68,11 @@ int vdec_if_decode(struct mtk_vcodec_ctx *ctx, struct mtk_vcodec_mem *bs,
+ 	if (!ctx->drv_handle)
+ 		return -EIO;
+ 
+-	mtk_vdec_lock(ctx);
+-
++	mtk_vcodec_dec_enable_hardware(ctx, ctx->hw_id);
+ 	mtk_vcodec_set_curr_ctx(ctx->dev, ctx, ctx->hw_id);
+-	mtk_vcodec_dec_clock_on(ctx->dev, ctx->hw_id);
+ 	ret = ctx->dec_if->decode(ctx->drv_handle, bs, fb, res_chg);
+-	mtk_vcodec_dec_clock_off(ctx->dev, ctx->hw_id);
+ 	mtk_vcodec_set_curr_ctx(ctx->dev, NULL, ctx->hw_id);
+-
+-	mtk_vdec_unlock(ctx);
++	mtk_vcodec_dec_disable_hardware(ctx, ctx->hw_id);
+ 
+ 	return ret;
+ }
+@@ -103,11 +97,9 @@ void vdec_if_deinit(struct mtk_vcodec_ctx *ctx)
+ 	if (!ctx->drv_handle)
+ 		return;
+ 
+-	mtk_vdec_lock(ctx);
+-	mtk_vcodec_dec_clock_on(ctx->dev, ctx->hw_id);
++	mtk_vcodec_dec_enable_hardware(ctx, ctx->hw_id);
+ 	ctx->dec_if->deinit(ctx->drv_handle);
+-	mtk_vcodec_dec_clock_off(ctx->dev, ctx->hw_id);
+-	mtk_vdec_unlock(ctx);
++	mtk_vcodec_dec_disable_hardware(ctx, ctx->hw_id);
+ 
+ 	ctx->drv_handle = NULL;
+ }
+diff --git a/drivers/media/platform/mediatek/vcodec/vdec_msg_queue.c b/drivers/media/platform/mediatek/vcodec/vdec_msg_queue.c
+index 4b062a8128b4..ae500980ad45 100644
+--- a/drivers/media/platform/mediatek/vcodec/vdec_msg_queue.c
++++ b/drivers/media/platform/mediatek/vcodec/vdec_msg_queue.c
+@@ -212,11 +212,13 @@ static void vdec_msg_queue_core_work(struct work_struct *work)
+ 		return;
+ 
+ 	ctx = lat_buf->ctx;
++	mtk_vcodec_dec_enable_hardware(ctx, MTK_VDEC_CORE);
+ 	mtk_vcodec_set_curr_ctx(dev, ctx, MTK_VDEC_CORE);
+ 
+ 	lat_buf->core_decode(lat_buf);
+ 
+ 	mtk_vcodec_set_curr_ctx(dev, NULL, MTK_VDEC_CORE);
++	mtk_vcodec_dec_disable_hardware(ctx, MTK_VDEC_CORE);
+ 	vdec_msg_queue_qbuf(&ctx->msg_queue.lat_ctx, lat_buf);
+ 
+ 	if (!list_empty(&ctx->msg_queue.lat_ctx.ready_queue)) {
 -- 
 2.18.0
 
