@@ -2,62 +2,61 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3B1564EDDB0
-	for <lists+dri-devel@lfdr.de>; Thu, 31 Mar 2022 17:45:32 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id C126C4EDDB1
+	for <lists+dri-devel@lfdr.de>; Thu, 31 Mar 2022 17:45:34 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id EEFB810E29E;
-	Thu, 31 Mar 2022 15:45:29 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 3EA3E10F3EE;
+	Thu, 31 Mar 2022 15:45:30 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-pf1-x433.google.com (mail-pf1-x433.google.com
- [IPv6:2607:f8b0:4864:20::433])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 8C42C10E29E
- for <dri-devel@lists.freedesktop.org>; Thu, 31 Mar 2022 15:45:24 +0000 (UTC)
-Received: by mail-pf1-x433.google.com with SMTP id b13so5071pfv.0
- for <dri-devel@lists.freedesktop.org>; Thu, 31 Mar 2022 08:45:24 -0700 (PDT)
+Received: from mail-pf1-x431.google.com (mail-pf1-x431.google.com
+ [IPv6:2607:f8b0:4864:20::431])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id CFED310E29E
+ for <dri-devel@lists.freedesktop.org>; Thu, 31 Mar 2022 15:45:28 +0000 (UTC)
+Received: by mail-pf1-x431.google.com with SMTP id z16so22438029pfh.3
+ for <dri-devel@lists.freedesktop.org>; Thu, 31 Mar 2022 08:45:28 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=amarulasolutions.com; s=google;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=WMNo4jcJRuN6F5QK69tzr2gZgbW3m/XsCs0EXVccMtM=;
- b=kLrfcWHX9mzfYx2OhQTP31+MVb6kDLMKncRJHjWJ+EHFGC5oIaxPQaS4x9p/+50sqi
- UL18ywB1XCcTPWy4qkYiFn8ggJ0oOSUUAYd/zKSGZam85F7uewGWasvMiKTFlyrISRvt
- fpf35e2hTh+aOdxK7Y/WpED6gVHdKCqBNNBPY=
+ bh=LV2sNThwuYoQaoZh1ko9r4mFVB8GTIqFM4DuqiJ9lj0=;
+ b=pQu671AKJIEck0bgN5zMJ3lCKtHNjgprj4ZBOhmJEgpohC2m9ZE3FRsqe4vgrcXsY9
+ NiGwNvQTY45k+fQEnccUZ3o6klskGYeWe89tUhga8DXEsvKGjOLny9z0fLnXiABv50Qe
+ a6OndR21LweIt0hxP3rSfKc+8h/8mrv6JEMm0=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=WMNo4jcJRuN6F5QK69tzr2gZgbW3m/XsCs0EXVccMtM=;
- b=I7d6INNnPDPxq8RS64lC7bJRnyfS4x114n73s4UnYz/9DQ9p2xcZtY5CoH7k29x5D6
- va2rerFU0rMk5/x/VJPIgJcNA5s2rkbo6LedBCvv3aTeKDfoPhiBtLH9jzasdfSM8LEz
- KPajnJmd4c4nBeskrY/LlqA/V8fucSoM1+6MxyUVo8YHMRJyeC/qvNeVOPI57VoVzTXX
- Bq+Ttk1JrTugyNSfJOZpqlbLQHGRa9CvkJAd6826/i+20TVIb1XCuki+voqVIdvsmYiZ
- wSx1ImM3THKmRcXUMS9sYIvqa2iv45AhDjihqoL5rA1VrMwE46EPzOppU4hQrKT9W715
- UhYw==
-X-Gm-Message-State: AOAM532rF6ugsn5cBXjECe+7nOfUK2XP4TlFLVM3BaXv/OfKxtzy/v8E
- l0uuXOwuyEUT69AaNoT+PeoxGw==
-X-Google-Smtp-Source: ABdhPJwgnwYjLb/3SAzwtBYFjQqD9W338UHdZ99IVuNBFZi9B8BYzKLw6gfSADmbP48Rf7p4jnJbrQ==
-X-Received: by 2002:a05:6a00:1903:b0:4fa:fa9e:42e6 with SMTP id
- y3-20020a056a00190300b004fafa9e42e6mr6210035pfi.1.1648741524152; 
- Thu, 31 Mar 2022 08:45:24 -0700 (PDT)
+ bh=LV2sNThwuYoQaoZh1ko9r4mFVB8GTIqFM4DuqiJ9lj0=;
+ b=r1N+W1DqdKc79eNp9rQ8O12X4GlJNle6HQ/6LyCgJ8cWywdOy0fLbzIeoAJ401LMBK
+ Gk4VfjV8mu8lLLvel9hngx5dtlDx8QTLoINpIF2IBZKEyLm2//pW5Ac3dRAMIlfNYD96
+ /z4BCvOqsp8lCP1e8uGuJ/16RAqhw03zTD92U51zqVMhqRCFbEPAzoXzLIhP2rnTrfwH
+ du+slRgFbv6mJLuMFHYtyfdtT0ADdssooOUv++skX7yMDMXLn0h2jHyZI+veK3f5kaWX
+ T5rN2as3Zfn5y3ZntkiY5vefr8auAjNCSIxpxDauceQsAcT0e11p2n45lIhkSAnRofgg
+ PsNw==
+X-Gm-Message-State: AOAM533M5cJNPVH3c7YbisEmnINXFbiOeNO0qhmm5eMD8j7Qz+Rm8w6S
+ ynmfgcJ/CCT8Xpl1xbVw/M3MMQqi2glWmg==
+X-Google-Smtp-Source: ABdhPJxCi4j778KuhjE2/mBgbA0LTXQd7ujV5gsCoQHIt11nDv0wW7iag8WjgT79eK5roQ3I4aMLqQ==
+X-Received: by 2002:a62:cd83:0:b0:4fa:7410:6d86 with SMTP id
+ o125-20020a62cd83000000b004fa74106d86mr40405669pfg.52.1648741528412; 
+ Thu, 31 Mar 2022 08:45:28 -0700 (PDT)
 Received: from localhost.localdomain ([183.83.137.38])
  by smtp.gmail.com with ESMTPSA id
- g1-20020a17090adac100b001c67cedd84esm10205684pjx.42.2022.03.31.08.45.19
+ g1-20020a17090adac100b001c67cedd84esm10205684pjx.42.2022.03.31.08.45.24
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 31 Mar 2022 08:45:23 -0700 (PDT)
+ Thu, 31 Mar 2022 08:45:27 -0700 (PDT)
 From: Jagan Teki <jagan@amarulasolutions.com>
 To: Andrzej Hajda <andrzej.hajda@intel.com>,
  Neil Armstrong <narmstrong@baylibre.com>,
  Robert Foss <robert.foss@linaro.org>,
  Laurent Pinchart <Laurent.pinchart@ideasonboard.com>
-Subject: [PATCH v4 2/5] drm: bridge: nwl-dsi: Switch to devm_drm_of_get_bridge
-Date: Thu, 31 Mar 2022 21:15:00 +0530
-Message-Id: <20220331154503.66054-2-jagan@amarulasolutions.com>
+Subject: [PATCH v4 3/5] drm: bridge: mtk_dsi: Switch to devm_drm_of_get_bridge
+Date: Thu, 31 Mar 2022 21:15:01 +0530
+Message-Id: <20220331154503.66054-3-jagan@amarulasolutions.com>
 X-Mailer: git-send-email 2.25.1
 In-Reply-To: <20220331154503.66054-1-jagan@amarulasolutions.com>
 References: <20220331154503.66054-1-jagan@amarulasolutions.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -71,10 +70,9 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: linux-amarula@amarulasolutions.com,
- =?UTF-8?q?Guido=20G=C3=BCnther?= <agx@sigxcpu.org>,
- Sam Ravnborg <sam@ravnborg.org>, Jagan Teki <jagan@amarulasolutions.com>,
- dri-devel@lists.freedesktop.org
+Cc: Chun-Kuang Hu <chunkuang.hu@kernel.org>, Sam Ravnborg <sam@ravnborg.org>,
+ dri-devel@lists.freedesktop.org, Jagan Teki <jagan@amarulasolutions.com>,
+ linux-amarula@amarulasolutions.com
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
@@ -84,58 +82,51 @@ is found.
 
 Replace explicit finding calls with devm_drm_of_get_bridge.
 
-Reviewed-by: Guido Günther <agx@sigxcpu.org>
+Cc: Chun-Kuang Hu <chunkuang.hu@kernel.org>
+Cc: Philipp Zabel <p.zabel@pengutronix.de>
 Signed-off-by: Jagan Teki <jagan@amarulasolutions.com>
 ---
-Changes for v4:
-- none
-Changes for v3:
-- drop panel.h
-- collect Guido r-b
+Changes for v4, v3:
+- none 
 Changes for v2:
 - split the patch
 
- drivers/gpu/drm/bridge/nwl-dsi.c | 19 +++----------------
- 1 file changed, 3 insertions(+), 16 deletions(-)
+ drivers/gpu/drm/mediatek/mtk_dsi.c | 14 +++-----------
+ 1 file changed, 3 insertions(+), 11 deletions(-)
 
-diff --git a/drivers/gpu/drm/bridge/nwl-dsi.c b/drivers/gpu/drm/bridge/nwl-dsi.c
-index e34fb09b90b9..a549da5b3f93 100644
---- a/drivers/gpu/drm/bridge/nwl-dsi.c
-+++ b/drivers/gpu/drm/bridge/nwl-dsi.c
-@@ -25,7 +25,6 @@
- #include <drm/drm_bridge.h>
- #include <drm/drm_mipi_dsi.h>
- #include <drm/drm_of.h>
--#include <drm/drm_panel.h>
- #include <drm/drm_print.h>
- 
- #include <video/mipi_display.h>
-@@ -912,22 +911,10 @@ static int nwl_dsi_bridge_attach(struct drm_bridge *bridge,
+diff --git a/drivers/gpu/drm/mediatek/mtk_dsi.c b/drivers/gpu/drm/mediatek/mtk_dsi.c
+index e91b3fff4342..1487cc308c5d 100644
+--- a/drivers/gpu/drm/mediatek/mtk_dsi.c
++++ b/drivers/gpu/drm/mediatek/mtk_dsi.c
+@@ -1016,7 +1016,6 @@ static int mtk_dsi_probe(struct platform_device *pdev)
  {
- 	struct nwl_dsi *dsi = bridge_to_dsi(bridge);
- 	struct drm_bridge *panel_bridge;
+ 	struct mtk_dsi *dsi;
+ 	struct device *dev = &pdev->dev;
 -	struct drm_panel *panel;
--	int ret;
--
--	ret = drm_of_find_panel_or_bridge(dsi->dev->of_node, 1, 0, &panel,
--					  &panel_bridge);
+ 	struct resource *regs;
+ 	int irq_num;
+ 	int ret;
+@@ -1033,17 +1032,10 @@ static int mtk_dsi_probe(struct platform_device *pdev)
+ 		return ret;
+ 	}
+ 
+-	ret = drm_of_find_panel_or_bridge(dev->of_node, 0, 0,
+-					  &panel, &dsi->next_bridge);
 -	if (ret)
--		return ret;
++	dsi->next_bridge = devm_drm_of_get_bridge(dev, dev->of_node, 0, 0);
++	if (IS_ERR(dsi->next_bridge)) {
++		ret = PTR_ERR(dsi->next_bridge);
+ 		goto err_unregister_host;
 -
 -	if (panel) {
--		panel_bridge = drm_panel_bridge_add(panel);
--		if (IS_ERR(panel_bridge))
--			return PTR_ERR(panel_bridge);
--	}
+-		dsi->next_bridge = devm_drm_panel_bridge_add(dev, panel);
+-		if (IS_ERR(dsi->next_bridge)) {
+-			ret = PTR_ERR(dsi->next_bridge);
+-			goto err_unregister_host;
+-		}
+ 	}
  
--	if (!panel_bridge)
--		return -EPROBE_DEFER;
-+	panel_bridge = devm_drm_of_get_bridge(dsi->dev, dsi->dev->of_node, 1, 0);
-+	if (IS_ERR(panel_bridge))
-+		return PTR_ERR(panel_bridge);
- 
- 	return drm_bridge_attach(bridge->encoder, panel_bridge, bridge, flags);
- }
+ 	dsi->driver_data = of_device_get_match_data(dev);
 -- 
 2.25.1
 
