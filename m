@@ -2,46 +2,73 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id DA7F34EDC60
-	for <lists+dri-devel@lfdr.de>; Thu, 31 Mar 2022 17:06:25 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 44E5F4EDC62
+	for <lists+dri-devel@lfdr.de>; Thu, 31 Mar 2022 17:06:43 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 0C0B710F38B;
-	Thu, 31 Mar 2022 15:06:24 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 1E7A310F392;
+	Thu, 31 Mar 2022 15:06:41 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from phobos.denx.de (phobos.denx.de
- [IPv6:2a01:238:438b:c500:173d:9f52:ddab:ee01])
- by gabe.freedesktop.org (Postfix) with ESMTPS id D146810F33B
- for <dri-devel@lists.freedesktop.org>; Thu, 31 Mar 2022 15:05:54 +0000 (UTC)
-Received: from tr.lan (ip-89-176-112-137.net.upcbroadband.cz [89.176.112.137])
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits))
- (No client certificate requested)
- (Authenticated sender: marex@denx.de)
- by phobos.denx.de (Postfix) with ESMTPSA id 3C7A684220;
- Thu, 31 Mar 2022 17:05:53 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=denx.de;
- s=phobos-20191101; t=1648739153;
- bh=xNzxO+zg7ESrCp4Ajzh1ZsGKxjqULvXpM0YuwgxojoU=;
- h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
- b=Lpqj+T0fR1o2tGF/wdPpgnVP/TaBDx2zzNOhPono74QGA80BXOw0GoHU62k6WpgC/
- JwGJ3o3pYNGNuzXzxtuc05tk3EQIYe0PWN35xAJnJWN19u0UY8qRFVMz8kKUA5v3lG
- H5V2OXKDL+nqZwFaDiwygktfPVPLB4ejRReEsXjkgwUqV/s6kcmbZwoFizhS/EGm4C
- loa53thx/nkrbhxeUwpkCSR7FfXBiGP29XzO1c4un4w/sm/IUlLOm9q/EAE4BXEj3y
- wHyln5jHFLklAEewXaQoagEwGWUyisnuQ1sg9MICtIrTnkz2mR2WjktjdDtFcVShtY
- 3bfRaiSs1i3fg==
-From: Marek Vasut <marex@denx.de>
-To: dri-devel@lists.freedesktop.org
-Subject: [PATCH v6 11/11] drm: bridge: icn6211: Read and validate chip IDs
- before configuration
-Date: Thu, 31 Mar 2022 17:05:09 +0200
-Message-Id: <20220331150509.9838-12-marex@denx.de>
-X-Mailer: git-send-email 2.35.1
-In-Reply-To: <20220331150509.9838-1-marex@denx.de>
-References: <20220331150509.9838-1-marex@denx.de>
-MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-Virus-Scanned: clamav-milter 0.103.5 at phobos.denx.de
-X-Virus-Status: Clean
+Received: from mail-lf1-x12f.google.com (mail-lf1-x12f.google.com
+ [IPv6:2a00:1450:4864:20::12f])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 4CB8510F392
+ for <dri-devel@lists.freedesktop.org>; Thu, 31 Mar 2022 15:06:40 +0000 (UTC)
+Received: by mail-lf1-x12f.google.com with SMTP id bu29so42157165lfb.0
+ for <dri-devel@lists.freedesktop.org>; Thu, 31 Mar 2022 08:06:40 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
+ h=mime-version:subject:from:in-reply-to:date:cc
+ :content-transfer-encoding:message-id:references:to;
+ bh=iEeqXgqN7qNwmQ7SU0adYJu3zAo5+AxJKS/k66U7Uuw=;
+ b=cSdCZGdJoMjReN01pR3Q7RjqXLfM/ds+zF+IGB5HU994zhdMp0MUwm7zC4myMiGEIC
+ 8R5ssSK40FIlevjSNoHjC8kXgJFSILuT/JItQh4qmwXwKnutMvBXuiRdQBnp1jv0iemr
+ kYZR0Vrlwu9rj6pF+2LiP+biOfQkfK+kamY1vle2Ye0KNJpORClIuM25P/G9ndQMo3ka
+ Evb7/Q2iWADK9ySutmkfanI748dH8qelFdtI4CcrD8H4HJt4lWpqRuif896AdevqTW+B
+ ZCS+6ITiFb7poKmgiSIoEX9A+zj6J0QeufKFHyLIf563VeF3Kt0tf9WxGuhXAAS4zobe
+ F+vw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=x-gm-message-state:mime-version:subject:from:in-reply-to:date:cc
+ :content-transfer-encoding:message-id:references:to;
+ bh=iEeqXgqN7qNwmQ7SU0adYJu3zAo5+AxJKS/k66U7Uuw=;
+ b=6qqbOKrKDyJuc7nmJP7PDZmtNCmsM7F/EnvnwoH8yam2kEYAI6CBikWlVM1qw6Yu7R
+ 6lLr3liejGrzsQ3Dky9PnDMPtSZYDVSKMlW9IlaDcJAHlxE4tbta05ze40wIgI+CAzZ0
+ quf2NEa2OBVRWHUEgiyjuYlsLsrZbGhtqn84VT/qBCtdbVgg2FDf9N8tDEt11tViPki0
+ 7inJH67zdA8Z0oBFtf5A8r+44Y8qQSS9E+tRvXc7nGi22f6VCPMx7tnweq+JdozwR29p
+ L1orS4IIfUxnYmxvf1+lNTUyt0f3WYMlD5K5kr+551+uo0uTKknuvJ0FWIjWoZTy+YAN
+ LOEw==
+X-Gm-Message-State: AOAM530HXKiU/hBUBWkhB5/x/OsmXK36R/dlKssUuLb0ssgInozjk8mh
+ dwdt0k6I39D8nYUecMCgHiA=
+X-Google-Smtp-Source: ABdhPJwqfhKwVkGEAlyRMgBOZAf1wO/XCh9gwyq4jSKNAmK7zbJ0HROyx7wXfMKYpLhCy8ArHZKcZg==
+X-Received: by 2002:a05:6512:3f86:b0:448:9448:5561 with SMTP id
+ x6-20020a0565123f8600b0044894485561mr10757975lfa.489.1648739198577; 
+ Thu, 31 Mar 2022 08:06:38 -0700 (PDT)
+Received: from smtpclient.apple (31-178-191-245.dynamic.chello.pl.
+ [31.178.191.245]) by smtp.gmail.com with ESMTPSA id
+ e3-20020a196743000000b0044311216c42sm2694691lfj.307.2022.03.31.08.06.36
+ (version=TLS1_2 cipher=ECDHE-ECDSA-AES128-GCM-SHA256 bits=128/128);
+ Thu, 31 Mar 2022 08:06:37 -0700 (PDT)
+Content-Type: text/plain;
+	charset=utf-8
+Mime-Version: 1.0 (Mac OS X Mail 14.0 \(3654.120.0.1.13\))
+Subject: Re: [PATCH v9 00/23] drm/rockchip: RK356x VOP2 support
+From: Piotr Oniszczuk <piotr.oniszczuk@gmail.com>
+In-Reply-To: <20220331150056.GH4012@pengutronix.de>
+Date: Thu, 31 Mar 2022 17:06:35 +0200
+Content-Transfer-Encoding: quoted-printable
+Message-Id: <3A5C5A71-0CE0-4072-9502-75385C1C43F7@gmail.com>
+References: <FB201567-AE5A-4242-82F1-7C55D8F111EA@gmail.com>
+ <20220330072822.GX12181@pengutronix.de>
+ <0D8F5951-5375-46B5-BFF0-7ED410371EB7@gmail.com>
+ <20220330094556.GZ12181@pengutronix.de>
+ <D3DA14F9-C9C6-4927-B015-5B7D25689DAA@gmail.com>
+ <20220330102046.GA12181@pengutronix.de>
+ <60601619-EF07-457B-91F2-64FEB598FEBE@gmail.com>
+ <20220330192054.GA4012@pengutronix.de>
+ <af8445e0-f4af-721b-709e-2eb7c488a8a4@rock-chips.com>
+ <B7CD9D55-9F2D-42F4-9D04-17C6A5FEBB08@gmail.com>
+ <20220331150056.GH4012@pengutronix.de>
+To: Sascha Hauer <s.hauer@pengutronix.de>
+X-Mailer: Apple Mail (2.3654.120.0.1.13)
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -54,77 +81,34 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Marek Vasut <marex@denx.de>, Robert Foss <robert.foss@linaro.org>,
- Maxime Ripard <maxime@cerno.tech>, Thomas Zimmermann <tzimmermann@suse.de>,
- Sam Ravnborg <sam@ravnborg.org>, Jagan Teki <jagan@amarulasolutions.com>
+Cc: "devicetree@vger.kernel.org" <devicetree@vger.kernel.org>,
+ Benjamin Gaignard <benjamin.gaignard@collabora.com>,
+ Sandy Huang <hjc@rock-chips.com>, dri-devel@lists.freedesktop.org,
+ "open list:ARM/Rockchip SoC..." <linux-rockchip@lists.infradead.org>,
+ Michael Riesch <michael.riesch@wolfvision.net>,
+ Peter Geis <pgwipeout@gmail.com>, Andy Yan <andy.yan@rock-chips.com>,
+ kernel@pengutronix.de,
+ "linux-arm-kernel@lists.infradead.org" <linux-arm-kernel@lists.infradead.org>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Read out the Vendor/Chip/Version ID registers from the chip before
-performing any configuration, and validate that the registers have
-correct values. This is mostly a simple test whether DSI register
-access does work, since that tends to be broken on various bridges.
 
-Acked-by: Maxime Ripard <maxime@cerno.tech>
-Signed-off-by: Marek Vasut <marex@denx.de>
-Cc: Jagan Teki <jagan@amarulasolutions.com>
-Cc: Maxime Ripard <maxime@cerno.tech>
-Cc: Robert Foss <robert.foss@linaro.org>
-Cc: Sam Ravnborg <sam@ravnborg.org>
-Cc: Thomas Zimmermann <tzimmermann@suse.de>
-To: dri-devel@lists.freedesktop.org
----
-V2: Rebase on next-20220214
-V3: Add AB from Maxime
-V4: No change
-V5: No change
-V6: No change
----
- drivers/gpu/drm/bridge/chipone-icn6211.c | 24 +++++++++++++++++++++++-
- 1 file changed, 23 insertions(+), 1 deletion(-)
 
-diff --git a/drivers/gpu/drm/bridge/chipone-icn6211.c b/drivers/gpu/drm/bridge/chipone-icn6211.c
-index f4dfb2297c71..a1bdb9be1927 100644
---- a/drivers/gpu/drm/bridge/chipone-icn6211.c
-+++ b/drivers/gpu/drm/bridge/chipone-icn6211.c
-@@ -151,6 +151,14 @@ static inline struct chipone *bridge_to_chipone(struct drm_bridge *bridge)
- 	return container_of(bridge, struct chipone, bridge);
- }
- 
-+static void chipone_readb(struct chipone *icn, u8 reg, u8 *val)
-+{
-+	if (icn->interface_i2c)
-+		*val = i2c_smbus_read_byte_data(icn->client, reg);
-+	else
-+		mipi_dsi_generic_read(icn->dsi, (u8[]){reg, 1}, 2, val, 1);
-+}
-+
- static int chipone_writeb(struct chipone *icn, u8 reg, u8 val)
- {
- 	if (icn->interface_i2c)
-@@ -250,7 +258,21 @@ static void chipone_atomic_enable(struct drm_bridge *bridge,
- 	const struct drm_bridge_state *bridge_state;
- 	u16 hfp, hbp, hsync;
- 	u32 bus_flags;
--	u8 pol;
-+	u8 pol, id[4];
-+
-+	chipone_readb(icn, VENDOR_ID, id);
-+	chipone_readb(icn, DEVICE_ID_H, id + 1);
-+	chipone_readb(icn, DEVICE_ID_L, id + 2);
-+	chipone_readb(icn, VERSION_ID, id + 3);
-+
-+	dev_dbg(icn->dev,
-+		"Chip IDs: Vendor=0x%02x Device=0x%02x:0x%02x Version=0x%02x\n",
-+		id[0], id[1], id[2], id[3]);
-+
-+	if (id[0] != 0xc1 || id[1] != 0x62 || id[2] != 0x11) {
-+		dev_dbg(icn->dev, "Invalid Chip IDs, aborting configuration\n");
-+		return;
-+	}
- 
- 	/* Get the DPI flags from the bridge state. */
- 	bridge_state = drm_atomic_get_new_bridge_state(state, bridge);
--- 
-2.35.1
+> Wiadomo=C5=9B=C4=87 napisana przez Sascha Hauer =
+<s.hauer@pengutronix.de> w dniu 31.03.2022, o godz. 17:00:
+>=20
+>=20
+> Have you applied the bugfix I shared with you here:
+>=20
+> =
+https://lore.kernel.org/linux-arm-kernel/20220330072822.GX12181@pengutroni=
+x.de/
+>=20
+
+oooops
+
+noooooo
+didn't noticed :-(
+
+let me try with it!
 
