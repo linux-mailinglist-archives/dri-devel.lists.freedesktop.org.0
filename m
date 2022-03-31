@@ -1,50 +1,70 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3DAFD4ED3B7
-	for <lists+dri-devel@lfdr.de>; Thu, 31 Mar 2022 08:05:52 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 2F4274ED3DC
+	for <lists+dri-devel@lfdr.de>; Thu, 31 Mar 2022 08:23:40 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id D947210FA1C;
-	Thu, 31 Mar 2022 06:05:49 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 1A28F10F7C5;
+	Thu, 31 Mar 2022 06:23:37 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from dfw.source.kernel.org (dfw.source.kernel.org
- [IPv6:2604:1380:4641:c500::1])
- by gabe.freedesktop.org (Postfix) with ESMTPS id B94A210FA1B;
- Thu, 31 Mar 2022 06:05:47 +0000 (UTC)
-Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
- (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
- (No client certificate requested)
- by dfw.source.kernel.org (Postfix) with ESMTPS id C9A4861656;
- Thu, 31 Mar 2022 06:05:43 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id A2AFDC340ED;
- Thu, 31 Mar 2022 06:05:42 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1648706743;
- bh=QQKn+Kv4FLipNOaxDBLqAUQ//ylLu2B/5Kt8RPNpRr4=;
- h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
- b=fbInko8+mnPe6uxn0w7FVcGvtXjG+NE7LfwKIopJqKNt8OPhQaDArQMOt0qc8ge/t
- SLJoRK0tMmLrcbeSgGx6LtbRXc8qtzM/Be2+YkRBVmStrHi/VT2RMl8o14WGcwx1J1
- zIDZcTJU56GTnvNNDIk5SSzqqRj2OoHAvFlc+Ikjj0lNDPH349iGDORgJ2OWtMJ6Xp
- P4kxh8gOv+wANKWvGjqEzWIMsPOvxgiIapuvkjPBGGBJhdwDPwJpTiPXotmDdOjYKa
- QG96BQbQl0Ih7K5swrwEPWAXi7Kv402R/xuxng8j/zVMCxB4oigcKrQP4ENgLueBlf
- IUWluFcNjF4HQ==
-Date: Thu, 31 Mar 2022 11:35:38 +0530
-From: Vinod Koul <vkoul@kernel.org>
-To: Rob Herring <robh@kernel.org>
-Subject: Re: [PATCH] dt-bindings: display: msm: dsi: remove address/size cells
-Message-ID: <YkVEsqiRamfTmNi0@matsya>
-References: <20220328152923.90623-1-krzysztof.kozlowski@linaro.org>
- <CAA8EJprWoxWwk5EWEfWdLquPR+2=u6V0-v1-+wHMHOk8HiEyNw@mail.gmail.com>
- <YkHtY9absUjmqmW7@matsya>
- <12b0056b-8032-452b-f325-6f36037b5a80@linaro.org>
- <CAL_Jsq+6rx0UU6ryH+z_8KLQqKKuhTCnh=Oft2F03bcze+EV0Q@mail.gmail.com>
- <YkKmPSesQfS6RLCD@matsya> <YkMrPnRbsl3FBig8@robh.at.kernel.org>
+Received: from mail-ej1-x62a.google.com (mail-ej1-x62a.google.com
+ [IPv6:2a00:1450:4864:20::62a])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id EE70510F7C5
+ for <dri-devel@lists.freedesktop.org>; Thu, 31 Mar 2022 06:23:35 +0000 (UTC)
+Received: by mail-ej1-x62a.google.com with SMTP id o10so45947269ejd.1
+ for <dri-devel@lists.freedesktop.org>; Wed, 30 Mar 2022 23:23:35 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
+ h=message-id:date:mime-version:user-agent:subject:content-language:to
+ :cc:references:from:in-reply-to:content-transfer-encoding;
+ bh=w5BXLzExPvLy27DAJ3ZamzJyzqTGo81JxFpaPVP/VLA=;
+ b=olJo5YdOtfqTBQM9Ub3iNkh8oeIA86UqihpWIbCdVSf2biR8yB7EzT3Td1z6nidWJl
+ hXbVwamwSal2W0CcQVDh8JHBHRDUU7cHYk4yX2/2JI9dLA7MfY95oe03qAGgTjF5H783
+ LLQ2VH/g9H9OPMOGog4thFk3jzupi0V2On9pTBSKgDXK+P9tHSIMfSKbiKI3T5iFi5XT
+ U3vyA7lQoBnpsbW+cPWChWWwHVMD5+9MgEBqJ6mZI0p1GBuadVl1qaDG8M6spVZH48gw
+ GTvKV+t+yMt0x8QwdmRvP4U1WaDBAsnwGQCpdIs6VBlGHwcCCbw0KKo2AbKsx0nm8mQ1
+ Tk6w==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
+ :content-language:to:cc:references:from:in-reply-to
+ :content-transfer-encoding;
+ bh=w5BXLzExPvLy27DAJ3ZamzJyzqTGo81JxFpaPVP/VLA=;
+ b=GdlaDLBKfYfbzXdt+PmOg08BbiTcpvwKmdpGNBowiCM7wT26IVRKdCGAcyym73GXjz
+ EOUYKrGBlzGhPxtq5cf7YV8VlsG2X2zk3qToWUprWzMAUC0M/h2UXGaUg52J68RkLpSA
+ pujwMEblk8JFYpVAc1vbrazFG765WysJiLspPll1PcSW7i1DScdlvgSqR8dD746rqOac
+ rGMNwv7mr2URZfdkORTgmSmHmovxcYuOJKDx4S+gg5f3X0OU7EYdVgj8NawHUb39rLUD
+ W5nh2bM1vWODpgEh7oxcfKwdGvOBieNKD3EYRuNTe+3cFcZNGccCmWJ9yy2W2Uuy8BxL
+ dpNA==
+X-Gm-Message-State: AOAM532kBw4wfQyVGEn0qeNmzhlEvibpy5wExftJvwgJb/SGUJ1wSfuJ
+ 6w0FLXIsqD/SQeEEApKcXHM=
+X-Google-Smtp-Source: ABdhPJxO80/M/f7BqS/olgn8Kzmn3xXrn20lQSM53d9a1FvcAf1W9tQ77sqsf7hkTpHjWEUDxo1xCA==
+X-Received: by 2002:a17:907:1614:b0:6df:678a:a7d5 with SMTP id
+ hb20-20020a170907161400b006df678aa7d5mr3507506ejc.719.1648707814453; 
+ Wed, 30 Mar 2022 23:23:34 -0700 (PDT)
+Received: from [192.168.178.21] (p5b0eab60.dip0.t-ipconnect.de. [91.14.171.96])
+ by smtp.gmail.com with ESMTPSA id
+ hp11-20020a1709073e0b00b006dfd53a0e39sm9004473ejc.135.2022.03.30.23.23.32
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Wed, 30 Mar 2022 23:23:33 -0700 (PDT)
+Message-ID: <2d1f9ba9-ea2a-e41c-eae6-0ba348cdf202@gmail.com>
+Date: Thu, 31 Mar 2022 08:23:32 +0200
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <YkMrPnRbsl3FBig8@robh.at.kernel.org>
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.7.0
+Subject: Re: [Linaro-mm-sig] [PATCH next] dma-buf/sync-file: do not allow zero
+ size allocations
+Content-Language: en-US
+To: Pavel Skripkin <paskripkin@gmail.com>, sumit.semwal@linaro.org,
+ gustavo@padovan.org, christian.koenig@amd.com, daniel.vetter@ffwll.ch
+References: <20220329221425.22691-1-paskripkin@gmail.com>
+ <8af3d213-6cb7-a021-c198-e1bd37c47e7c@gmail.com>
+ <ecf7ccdd-0d6f-9407-6778-ae7f0a6bf538@gmail.com>
+From: =?UTF-8?Q?Christian_K=c3=b6nig?= <ckoenig.leichtzumerken@gmail.com>
+In-Reply-To: <ecf7ccdd-0d6f-9407-6778-ae7f0a6bf538@gmail.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -57,68 +77,64 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: freedreno <freedreno@lists.freedesktop.org>, devicetree@vger.kernel.org,
- David Airlie <airlied@linux.ie>, linux-arm-msm <linux-arm-msm@vger.kernel.org>,
- dri-devel <dri-devel@lists.freedesktop.org>,
- Abhinav Kumar <quic_abhinavk@quicinc.com>,
- Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>,
- Dmitry Baryshkov <dmitry.baryshkov@linaro.org>,
- Krzysztof Kozlowski <krzk+dt@kernel.org>, Sean Paul <sean@poorly.run>,
- "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>
+Cc: linaro-mm-sig@lists.linaro.org,
+ syzbot+5c943fe38e86d615cac2@syzkaller.appspotmail.com,
+ linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
+ linux-media@vger.kernel.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 29-03-22, 10:52, Rob Herring wrote:
-> On Tue, Mar 29, 2022 at 12:01:52PM +0530, Vinod Koul wrote:
-> > On 28-03-22, 13:21, Rob Herring wrote:
-> > > On Mon, Mar 28, 2022 at 12:18 PM Krzysztof Kozlowski
-> > > <krzysztof.kozlowski@linaro.org> wrote:
-> > > >
-> > > > On 28/03/2022 19:16, Vinod Koul wrote:
-> > > > > On 28-03-22, 19:43, Dmitry Baryshkov wrote:
-> > > > >> On Mon, 28 Mar 2022 at 18:30, Krzysztof Kozlowski
-> > > > >> <krzysztof.kozlowski@linaro.org> wrote:
-> > > > >>>
-> > > > >>> The DSI node is not a bus and the children do not have unit addresses.
-> > > > >>>
-> > > > >>> Reported-by: Vinod Koul <vkoul@kernel.org>
-> > > > >>> Signed-off-by: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
-> > > > >>
-> > > > >> NAK.
-> > > > >> DSI panels are children of the DSI device tree node with the reg = <0>; address.
-> > > > >> This is the convention used by other platforms too (see e.g.
-> > > > >> arch/arm64/boot/dts/freescale/imx8mq-evk.dts).
-> > > > >
-> > > > > So we should add reg = 0, i will update my dtsi fix
-> > > > >
-> > > >
-> > > > To "ports" node? No. The reg=0 is for children of the bus, so the
-> > > > panels. How to combine both without warnings - ports and panel@0 - I
-> > > > don't know yet...
-> > > 
-> > > I don't think that should case a warning. Or at least it's one we turn off.
-> > 
-> > Well in this case I think we might need a fix:
-> > Here is the example quoted in the binding. We have ports{} and then the
-> > two port@0 and port@1 underneath.
-> 
-> It's the #address-cells/#size-cells under 'ports' that applies to 'port' 
-> nodes. As 'ports' has no address (reg) itself, it doesn't need 
-> #address-cells/#size-cells in its parent node.
-> 
-> > 
-> > So it should be okay to drop #address-cells/#size-cells from dsi node
-> > but keep in ports node...
-> 
-> Yes.
-> 
-> > Thoughts...?
-> 
-> But I thought a panel@0 node was being added? If so then you need to add 
-> them back.
 
-I guess we should make this optional, keep it when adding panel@0 node
-and skip for rest where not applicable..? Dmitry is that fine with you?
 
--- 
-~Vinod
+Am 30.03.22 um 20:24 schrieb Pavel Skripkin:
+> Hi Christian,
+>
+> On 3/30/22 10:09, Christian König wrote:
+>> That problem is already fixed with patch 21d139d73f77 dma-buf/sync-file:
+>> fix logic error in new fence merge code.
+>>
+>> Am 30.03.22 um 00:14 schrieb Pavel Skripkin:
+>>> syzbot reported GPF in dma_fence_array_first(), which is caused by
+>>> dereferencing ZERO_PTR in dma-buf internals.
+>>>
+>>> ZERO_PTR was generated in sync_file_merge(). This functuion tries to
+>>> reduce allocation size, but does not check if it reducing to 0.
+>>
+>> This is actually perfectly ok. The code above should have prevented the
+>> size to become 0.
+>>
+>> Regards,
+>> Christian.
+>>
+>
+> Thanks for your reply! I see that 21d139d73f77 fixes GPF in 
+> dma_fence_array_first(), but what about this part:
+>
+>>>   -    if (num_fences > INT_MAX)
+>>> +    if (num_fences > INT_MAX || !num_fences)
+>>>           goto err_free_sync_file;
+>>>         fences = kcalloc(num_fences, sizeof(*fences), GFP_KERNEL);
+>>> @@ -264,7 +264,7 @@ static struct sync_file *sync_file_merge(const 
+>>> char *name, struct sync_file *a,
+>>>       if (index == 0)
+>
+> If num_fences is equal to zero then fences dereference will cause an 
+> oops. Or this one is also fixed in your tree?
+
+Well it is illegal for sync_file->fence to be NULL or we would run into 
+NULL pointer dereference much more often, so num_fences can't be zero 
+here either.
+
+Regards,
+Christian.
+
+>
+>
+> Thanks!
+>
+>
+>
+>
+> With regards,
+> Pavel Skripkin
+
