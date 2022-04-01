@@ -2,54 +2,56 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id E29724EEA67
-	for <lists+dri-devel@lfdr.de>; Fri,  1 Apr 2022 11:28:36 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 2C3854EEA6E
+	for <lists+dri-devel@lfdr.de>; Fri,  1 Apr 2022 11:29:52 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 4FCA410E34D;
-	Fri,  1 Apr 2022 09:28:32 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 644AE10E26E;
+	Fri,  1 Apr 2022 09:29:50 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-pf1-x42c.google.com (mail-pf1-x42c.google.com
- [IPv6:2607:f8b0:4864:20::42c])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 96D2410E34D
- for <dri-devel@lists.freedesktop.org>; Fri,  1 Apr 2022 09:28:31 +0000 (UTC)
-Received: by mail-pf1-x42c.google.com with SMTP id w7so2090433pfu.11
- for <dri-devel@lists.freedesktop.org>; Fri, 01 Apr 2022 02:28:31 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
+Received: from mail-qv1-xf30.google.com (mail-qv1-xf30.google.com
+ [IPv6:2607:f8b0:4864:20::f30])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 139F010E26E
+ for <dri-devel@lists.freedesktop.org>; Fri,  1 Apr 2022 09:29:49 +0000 (UTC)
+Received: by mail-qv1-xf30.google.com with SMTP id ke15so1564109qvb.11
+ for <dri-devel@lists.freedesktop.org>; Fri, 01 Apr 2022 02:29:49 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=dowhile0-org.20210112.gappssmtp.com; s=20210112;
  h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=8RKpTKiU1sA+7C2AXK6LSzJS1T3BxhshmU+w3cvHKQE=;
- b=hbGgPbq6pQGw/A55t8ZmzRWISJG+M6aJtIcqQtKX5min6lmTgeuXmjBJeqe9nF+MEe
- h7ItB0pjbqm/2Pa6/vx2ng7HguhrxxwdVqa/GLFFWZzwSWKP/KzfL5nIFqWBXXPP2qOq
- 430aI6WerwZw7bEE3lBbQF5gQrnlzS/iGSnXcT4qE04dvslp1d3fAQ30vKWQ58r4EVm7
- BnzU5/b2L7nBnkG59Iv7scs7dsfqZGvVWGr3tNJoqKHWjj5SMKwA5DHMpyTFo92pcWHw
- t8G5QzTZSvYl5GjxTQ6WeodkZbfbvit+lui3HXSFbD1g7WPKkHqgnl2sgrbpvWHGzWZz
- txGw==
+ :cc; bh=mbn8b1Y80pAlAHrT4xLFWR4kpzjIAzXFAHvkgLMTl5k=;
+ b=FKp67qcp7ziPvP93i2jFmH8Z8tyYaMtb3DTskFWFsbILCFFdFIeI+kqOBDcp0IqXhq
+ Uu1n4VQhxH1Cxo1nLzqGsdcjweQLy1xuwIjj0OVXUAwByWfdIGZFvfKgX24SWiwhRGYF
+ /0WuSSis5I/w1lxF0zFOMr9bc3eR4hWOQoOByFMh7qGhD1AujWnPPVHuSqcsCokKa1G5
+ RU53gP1iKeW5HIAF8XdLSNzSnKqb8ZJ6d51IVvNbpG1R2FTZT5ahzx1JNBz4yBuIRfBq
+ 5MJXKz05BfgcNjzyxuYWNCQB8GeXyzxOrGQZ4mp3YqBdXlq4/KEGRf8BnbhxappT/cfX
+ VqTQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:mime-version:references:in-reply-to:from:date
  :message-id:subject:to:cc;
- bh=8RKpTKiU1sA+7C2AXK6LSzJS1T3BxhshmU+w3cvHKQE=;
- b=sTP1KxMe3MVann5872aGiQafGhhrdal01Xpgeoht19mP93Oj1PzgWFLiVJCGyi3TkD
- 0oiPt7QoPT+VAT33E7Df6ksdyPzbYMkbt4yy/34mGBT0SAfDdmiqiuHkTEgDyGUaE2FL
- m9kCy7CiXVDvDqgjRxSvJjP23xUDr21EYxuUcqFci15GMOjvgRQDzPWl6Yzi+C1iocri
- 4xys0yB34mg9INyoWRA/GHNOTMzX9Op/g/aU7u89xatKbcV5x5yN6Gy1dX6QTshQfCzW
- jorKrOMy+cpsJvVnfNH3XkEAWnMLu16B68arvXOTGHFXIZ8SrtJzBL6p0JIXpcueSUzO
- mI8w==
-X-Gm-Message-State: AOAM530arYUoA+ILGf3b/U7Aapo+VCff/KVqvB6rMYPAZTa/Bi1929Su
- s7oHIhC59GwpL4nDl7QIZ4tGZ1IG2qP5lkytHTo=
-X-Google-Smtp-Source: ABdhPJyHPYoEK2lUGZ2g9xEATWdlsalFZ6pHObcpGc3pFWALJ9ZXzC91NvqVV80Rlfcz4xqlRvdwzmoB+xhHjMov5WE=
-X-Received: by 2002:a05:6a00:c85:b0:4fa:f806:10f5 with SMTP id
- a5-20020a056a000c8500b004faf80610f5mr9890996pfv.43.1648805311158; Fri, 01 Apr
- 2022 02:28:31 -0700 (PDT)
+ bh=mbn8b1Y80pAlAHrT4xLFWR4kpzjIAzXFAHvkgLMTl5k=;
+ b=3YoIkVK/0lqNvYKV2Rqt4cTB2D6rv1Jr6x5VdcBDC08fWysCtjfhY0sAKHSaVOUWv1
+ Z7d82JEX0CcVzxJQk7qZvtTpOZEo2fQa7A5kzRmSxq97ua0Gljx1/IospH9DIK7QZmNE
+ 1SrjtyhGt0SxwajUq5+t9AROYdXI0fcmkE3Gc3ZCcTaLfRAYK3q5iH1VwXmW3cmHnWcK
+ Sc+cMs6ejmwBMGUcfmZpdDJhwnNnecjI+QdaxLGQeewt/64jbpUah/KZB/oihNWfvoJc
+ pbGpQ9v3nXHeplfKI0HGutvKpReY5UkTAvRB6Bpj5vcy8sMHydN/m6Z2X1ew+ujYLJLz
+ dp0w==
+X-Gm-Message-State: AOAM532GIO9ttEj//Sev2+sLToXzjkZQFh14rM6PFPf/uTq/zXxtsMnT
+ fMQmG7hf7fY3feavqqIYFhKynlbSDCuInvXo5okUEw==
+X-Google-Smtp-Source: ABdhPJyX0SuUj89u/sz5RsjvJfjF14dXw4PXUljF/o1zjASCFOWMvq4ztJN6DGCU+uI8uCxbH9PsJWQuMBWNtSqCL4s=
+X-Received: by 2002:ad4:4eaf:0:b0:441:7ff6:f639 with SMTP id
+ ed15-20020ad44eaf000000b004417ff6f639mr7092394qvb.73.1648805388087; Fri, 01
+ Apr 2022 02:29:48 -0700 (PDT)
 MIME-Version: 1.0
-References: <20220330120246.25580-1-xiam0nd.tong@gmail.com>
- <20220330120246.25580-3-xiam0nd.tong@gmail.com>
-In-Reply-To: <20220330120246.25580-3-xiam0nd.tong@gmail.com>
-From: Patrik Jakobsson <patrik.r.jakobsson@gmail.com>
-Date: Fri, 1 Apr 2022 11:28:19 +0200
-Message-ID: <CAMeQTsbZ4u=3pzu5p-4tt+kAiwmL2m+ZrCfzzv1vCMFeDAbDhQ@mail.gmail.com>
-Subject: Re: [PATCH 2/5] gma500: fix a missing break in cdv_intel_crtc_mode_set
-To: Xiaomeng Tong <xiam0nd.tong@gmail.com>
+References: <20220330190846.13997-1-wens@kernel.org>
+ <20220330190846.13997-2-wens@kernel.org>
+In-Reply-To: <20220330190846.13997-2-wens@kernel.org>
+From: Javier Martinez Canillas <javier@dowhile0.org>
+Date: Fri, 1 Apr 2022 11:29:37 +0200
+Message-ID: <CABxcv==6imu7Vc3p9ji=_+RFQZm2O65JCY7LLERsbAsgaRaUag@mail.gmail.com>
+Subject: Re: [PATCH 1/4] dt-bindings: vendor-prefixes: Add prefix for SINO
+ WEALTH Eletronics Ltd.
+To: Chen-Yu Tsai <wens@kernel.org>
 Content-Type: text/plain; charset="UTF-8"
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -63,53 +65,27 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: David Airlie <airlied@linux.ie>,
- linux-kernel <linux-kernel@vger.kernel.org>,
- dri-devel <dri-devel@lists.freedesktop.org>, Zhao Yakui <yakui.zhao@intel.com>,
- Dave Airlie <airlied@redhat.com>
+Cc: devicetree@vger.kernel.org, David Airlie <airlied@linux.ie>,
+ Javier Martinez Canillas <javierm@redhat.com>,
+ Linux Kernel <linux-kernel@vger.kernel.org>, Chen-Yu Tsai <wens@csie.org>,
+ Rob Herring <robh+dt@kernel.org>, dri-devel <dri-devel@lists.freedesktop.org>,
+ Krzysztof Kozlowski <krzk+dt@kernel.org>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Wed, Mar 30, 2022 at 2:03 PM Xiaomeng Tong <xiam0nd.tong@gmail.com> wrote:
->
-> Instead of exiting the loop as expected when an entry is found, the
-> list_for_each_entry() continues until the traversal is complete. It
-> could lead to a invalid reference to 'ddi_select' after the loop, and
-> could lead to multiple 'is_*' flags being set with true mistakely, too.
->
-> The invalid reference to 'ddi_select' is here:
->         cdv_dpll_set_clock_cdv(dev, crtc, &clock, is_lvds, ddi_select);
->
-> To fix this, when found the entry, add a break after the switch statement.
->
-> Fixes: d66760962d75 ("gma500: Program the DPLL lane based on the selected digitial port")
-> Signed-off-by: Xiaomeng Tong <xiam0nd.tong@gmail.com>
+Hello Chen-Yu,
 
-Hi, this one is also already fixed in:
-
-commit b1a7d0ddb169774c3db5afe9e64124daea7fdd9f
-Author: Patrik Jakobsson <patrik.r.jakobsson@gmail.com>
-Date:   Tue Mar 22 14:17:38 2022 +0100
-
-    drm/gma500: Make use of the drm connector iterator
-
+On Wed, Mar 30, 2022 at 9:09 PM Chen-Yu Tsai <wens@kernel.org> wrote:
+>
+> From: Chen-Yu Tsai <wens@csie.org>
+>
+> Add a vendor prefix entry for SINO WEALTH Eletronics Ltd.
+> (http://www.sinowealth.com).
+>
+> Signed-off-by: Chen-Yu Tsai <wens@csie.org>
 > ---
->  drivers/gpu/drm/gma500/cdv_intel_display.c | 2 ++
->  1 file changed, 2 insertions(+)
->
-> diff --git a/drivers/gpu/drm/gma500/cdv_intel_display.c b/drivers/gpu/drm/gma500/cdv_intel_display.c
-> index 94ebc48a4349..3e93019b17cb 100644
-> --- a/drivers/gpu/drm/gma500/cdv_intel_display.c
-> +++ b/drivers/gpu/drm/gma500/cdv_intel_display.c
-> @@ -616,6 +616,8 @@ static int cdv_intel_crtc_mode_set(struct drm_crtc *crtc,
->                         DRM_ERROR("invalid output type.\n");
->                         return 0;
->                 }
-> +
-> +               break;
->         }
->
->         if (dev_priv->dplla_96mhz)
-> --
-> 2.17.1
->
+
+Reviewed-by: Javier Martinez Canillas <javierm@redhat.com>
+
+Best regards,
+Javier
