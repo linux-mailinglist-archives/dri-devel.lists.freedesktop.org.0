@@ -2,55 +2,52 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id A41A14EF220
-	for <lists+dri-devel@lfdr.de>; Fri,  1 Apr 2022 16:52:48 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id F33A74EF223
+	for <lists+dri-devel@lfdr.de>; Fri,  1 Apr 2022 16:53:23 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 2A1F210E3DA;
-	Fri,  1 Apr 2022 14:52:46 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 0BE9D10E427;
+	Fri,  1 Apr 2022 14:53:22 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-ed1-x52f.google.com (mail-ed1-x52f.google.com
- [IPv6:2a00:1450:4864:20::52f])
- by gabe.freedesktop.org (Postfix) with ESMTPS id F3F6410E3DA
- for <dri-devel@lists.freedesktop.org>; Fri,  1 Apr 2022 14:52:44 +0000 (UTC)
-Received: by mail-ed1-x52f.google.com with SMTP id b24so3231939edu.10
- for <dri-devel@lists.freedesktop.org>; Fri, 01 Apr 2022 07:52:44 -0700 (PDT)
+Received: from mail-ej1-x62d.google.com (mail-ej1-x62d.google.com
+ [IPv6:2a00:1450:4864:20::62d])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 52ED210E427
+ for <dri-devel@lists.freedesktop.org>; Fri,  1 Apr 2022 14:53:20 +0000 (UTC)
+Received: by mail-ej1-x62d.google.com with SMTP id r13so6394319ejd.5
+ for <dri-devel@lists.freedesktop.org>; Fri, 01 Apr 2022 07:53:20 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=amarulasolutions.com; s=google;
  h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc:content-transfer-encoding;
- bh=CDTGg7xmd02lguFcPgMwbnDRM6tHMxG1F9pAwbPQoHo=;
- b=T7W8CN+jz5+aiumWrrsmaS77T+E5scb+pwhmUc7sQ00YF6qeVlR/iuX7nMux/sXgZi
- aoXbT2oN81ea9wAj+fdmjo3mi8803aMoqN5bRP+HmiPDTOHrxU4/qO8cTYWxf3yOu74k
- 3YTMVUWBBT6ijr8xnLFMnkty+UNhHPWXYJ4yw=
+ :cc; bh=Da7KJynBHqeOsfV7PF4dRVYQJiDDKv6l/8mUJ+3zlj4=;
+ b=AFe3JxnY/m4Pgc9Z+14UgMCNooesh1wSpyQGHjyHOpb7VDmSVqKxwyNE9PRglzUvga
+ Op0KXsftBx5NXNgmjjz8c/ePRRVzwx7kINO8ebFydSCDiWXKUwXaS7PyoLRWsFyttgZu
+ fuWzUVDxy2agBVlhFu0VOZydIx5owpizaNxFI=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc:content-transfer-encoding;
- bh=CDTGg7xmd02lguFcPgMwbnDRM6tHMxG1F9pAwbPQoHo=;
- b=uxhkcfceGDhjPIDOnDZFVD75GHbtphhmEQk5GFModQqY9RHoCClO3eH96VTT++Ve2q
- Boi5u6z7vg3lngU76v6uc8ndlbNpFrY4jml3YFKGqGrebPMu1qqlhpLUm6m5kPUQjrFW
- fK85e930Lp+e1jRDbkEjByBXvuBNEgV9xj5Rby37/2xMqMWvJkYC0pI6i7v7E/MBsRlE
- JeB8fKf2aWLjCdSI28Q86nYxeS6SDl+TmYTEQnsmA+0GDpNX243A0rX6qasw1bTBdFmu
- 4y5PP1E9Qj2eqY4B/Hd/isv0rsQAyvzAS93ZLTWBEz/6nlpWlyWTuAVgaRtQi7iYGW8f
- xvhQ==
-X-Gm-Message-State: AOAM533ppUqQM6bkxzWElVvxY5hWFE+2T3m2FZVc1dC95f1dbmldBmBJ
- L+LJtNdDtGJ2lSYDepmrzDiUDkpzkkuZJBiR+pfemQ==
-X-Google-Smtp-Source: ABdhPJwiHgIV7HJawa3rB+bvMNReOkRYBuvb2rbFfBdUHW6q0LcxoVGrpPWP1JWfHYg+Rjf+M7hRjLo0TYW/6FnZzJo=
-X-Received: by 2002:a05:6402:1941:b0:413:2822:9c8 with SMTP id
- f1-20020a056402194100b00413282209c8mr21428644edz.13.1648824763403; Fri, 01
- Apr 2022 07:52:43 -0700 (PDT)
+ :message-id:subject:to:cc;
+ bh=Da7KJynBHqeOsfV7PF4dRVYQJiDDKv6l/8mUJ+3zlj4=;
+ b=oOn0r14rr0Q6LvElR0kxLAQnXYZAMJheyrhnf/RhRSg2a8TRdHZthQ+W6pWOANJRtj
+ qGGbXk3d2jBEcgcrj5VFFqmdnI1QUj6zAlb4qSBjylJBBCI5YsBbfso4uYxoRSXdP0fE
+ 42ieLADyx/jjzNfilsFSUZQ1mEn866cU4pD26CSaweOtkuqLkJ9XyJTS4Pv5zH8kPs5p
+ qRadxnFXUQ8bwqxTVdkW2klqmk9RB18fT9O43v589JwZ18oMWlZJfHFS07FeHE4NPBuI
+ BhZwKt9BaJikI5nckHvvOzx7gUZog43xqqmre+TeR08lHjjiqhVxlMcGSMu+Q0aTwE9N
+ Fucg==
+X-Gm-Message-State: AOAM530uOpEfUuILUuFehXtKfiDdK02Klr2xddUV2HT4PZ5E3pyZiFFF
+ 2ZJdMeWhlOu52mWydXM+j8tk1tS5OrUU3IZoknKaQQ==
+X-Google-Smtp-Source: ABdhPJysrN5kQe7nGYTe0lt5Knhw4K9GqGpcmQ0vs06/hnboEO8fdefvSFWcHQ4xVSJac37D8ZltxxaJaz7p8jJYuwc=
+X-Received: by 2002:a17:907:6ea1:b0:6d6:f910:5141 with SMTP id
+ sh33-20020a1709076ea100b006d6f9105141mr146961ejc.123.1648824798860; Fri, 01
+ Apr 2022 07:53:18 -0700 (PDT)
 MIME-Version: 1.0
-References: <20220401015828.2959505-1-victor.liu@nxp.com>
-In-Reply-To: <20220401015828.2959505-1-victor.liu@nxp.com>
+References: <20220401113317.7033-1-marex@denx.de>
+In-Reply-To: <20220401113317.7033-1-marex@denx.de>
 From: Jagan Teki <jagan@amarulasolutions.com>
-Date: Fri, 1 Apr 2022 20:22:32 +0530
-Message-ID: <CAMty3ZC6pLJXP=kxwFeZj6CF87ASvoxz9+8Z-7O+DCNwtcLHcQ@mail.gmail.com>
-Subject: Re: [PATCH] drm/bridge: nwl-dsi: Drop the drm_of_panel_bridge_remove()
- function call
-To: Liu Ying <victor.liu@nxp.com>
+Date: Fri, 1 Apr 2022 20:23:08 +0530
+Message-ID: <CAMty3ZDw_GBxdFB45_e7rCRwn0HmP8xyrQ_h2JO0xpYNF2CrCw@mail.gmail.com>
+Subject: Re: [PATCH] drm: bridge: icn6211: Drop I2C module owner assignment
+To: Marek Vasut <marex@denx.de>
 Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -63,26 +60,24 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Robert Foss <robert.foss@linaro.org>,
- =?UTF-8?Q?Guido_G=C3=BCnther?= <agx@sigxcpu.org>, linux-kernel@vger.kernel.org,
- dri-devel@lists.freedesktop.org, NXP Linux Team <linux-imx@nxp.com>
+Cc: Thomas Zimmermann <tzimmermann@suse.de>, Sam Ravnborg <sam@ravnborg.org>,
+ robert.foss@linaro.org, dri-devel@lists.freedesktop.org,
+ Maxime Ripard <maxime@cerno.tech>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Fri, Apr 1, 2022 at 7:26 AM Liu Ying <victor.liu@nxp.com> wrote:
+On Fri, Apr 1, 2022 at 5:03 PM Marek Vasut <marex@denx.de> wrote:
 >
-> Since this driver has been changed to use the resource managed
-> devm_drm_of_get_bridge() to get bridge from ->attach(), it's
-> unnecessary to call drm_of_panel_bridge_remove() to remove the
-> bridge from ->detach().  So, let's drop the drm_of_panel_bridge_remove()
-> function call.  As nwl_dsi_bridge_detach() only calls
-> drm_of_panel_bridge_remove(), it can also be dropped.
+> The module owner = THIS_MODULE is set by I2C core, drop duplicate assignment.
 >
-> Cc: Robert Foss <robert.foss@linaro.org>
-> Cc: Guido G=C3=BCnther <agx@sigxcpu.org>
+> Fixes: 8dde6f7452a1 ("drm: bridge: icn6211: Add I2C configuration support")
+> Signed-off-by: Marek Vasut <marex@denx.de>
 > Cc: Jagan Teki <jagan@amarulasolutions.com>
-> Cc: NXP Linux Team <linux-imx@nxp.com>
-> Signed-off-by: Liu Ying <victor.liu@nxp.com>
+> Cc: Maxime Ripard <maxime@cerno.tech>
+> Cc: Robert Foss <robert.foss@linaro.org>
+> Cc: Sam Ravnborg <sam@ravnborg.org>
+> Cc: Thomas Zimmermann <tzimmermann@suse.de>
+> To: dri-devel@lists.freedesktop.org
 > ---
 
 Reviewed-by: Jagan Teki <jagan@amarulasolutions.com>
