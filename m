@@ -1,41 +1,39 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id F01B34EF4BA
-	for <lists+dri-devel@lfdr.de>; Fri,  1 Apr 2022 17:38:23 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 353324EF5D4
+	for <lists+dri-devel@lfdr.de>; Fri,  1 Apr 2022 17:48:45 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id D212110F61A;
-	Fri,  1 Apr 2022 15:38:19 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id DAD2810E3D3;
+	Fri,  1 Apr 2022 15:48:39 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from perceval.ideasonboard.com (perceval.ideasonboard.com
  [213.167.242.64])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 562B110F613;
- Fri,  1 Apr 2022 15:38:18 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id D12A010E3D3
+ for <dri-devel@lists.freedesktop.org>; Fri,  1 Apr 2022 15:48:38 +0000 (UTC)
 Received: from pendragon.ideasonboard.com (62-78-145-57.bb.dnainternet.fi
  [62.78.145.57])
- by perceval.ideasonboard.com (Postfix) with ESMTPSA id D03992F7;
- Fri,  1 Apr 2022 17:38:16 +0200 (CEST)
+ by perceval.ideasonboard.com (Postfix) with ESMTPSA id 3CF672F7;
+ Fri,  1 Apr 2022 17:48:37 +0200 (CEST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
- s=mail; t=1648827497;
- bh=ZbZHyqptx4zXfVnh3lLtRGmNFbGpDjNpeXKOZRDK7xQ=;
+ s=mail; t=1648828117;
+ bh=gDmbK3UGcsfZqStx2dq0iu9VSshZKfonWLlEL0MhQe0=;
  h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
- b=FgXAj35YFOVTO+gtKi9wT82VEfAdnvgBLHI4m/79rxJRdT1+QVmu6diwQdNuoHybS
- O2/rDE2rercPR7iTauzJ7Tl7VkiSMV3+3HJYOMrX5OvXAv9wDKytSCoKByyeCHOk03
- hX8jampeZHXuz50KNPhQDDbJKOYHum9KQJszLAto=
-Date: Fri, 1 Apr 2022 18:38:14 +0300
+ b=LMOCYhQBLxnH7ozIcbNevFJ8n3d+BVpgXEx1Btl6o7x7iLpr2fJwOWNnwf1vADXfs
+ L5GO8c0HZOBhTjL86Ddevgj0kackIisFtQdjWdW+TqFMkIfAlM+7xSWUiYNtEAadG8
+ F4izN1OLV/ARhtRG89nPLh5YoSX0XokpEzbPklTU=
+Date: Fri, 1 Apr 2022 18:48:34 +0300
 From: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-To: Abhinav Kumar <quic_abhinavk@quicinc.com>
-Subject: Re: [PATCH v6 4/4] drm: allow real encoder to be passed for
- drm_writeback_connector
-Message-ID: <YkccZgD+f0enx2aV@pendragon.ideasonboard.com>
-References: <1648771933-18512-1-git-send-email-quic_abhinavk@quicinc.com>
- <1648771933-18512-5-git-send-email-quic_abhinavk@quicinc.com>
+To: Marek Vasut <marex@denx.de>
+Subject: Re: [PATCH 1/2] drm/panel: lvds: Simplify mode parsing
+Message-ID: <Ykce0oywZTR5NnsF@pendragon.ideasonboard.com>
+References: <20220331192347.103299-1-marex@denx.de>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
-In-Reply-To: <1648771933-18512-5-git-send-email-quic_abhinavk@quicinc.com>
+In-Reply-To: <20220331192347.103299-1-marex@denx.de>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -48,194 +46,126 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: hamohammed.sa@gmail.com, suraj.kandpal@intel.com, emma@anholt.net,
- rodrigosiqueiramelo@gmail.com, jani.nikula@intel.com, liviu.dudau@arm.com,
- dri-devel@lists.freedesktop.org, swboyd@chromium.org, melissa.srw@gmail.com,
- nganji@codeaurora.org, seanpaul@chromium.org, dmitry.baryshkov@linaro.org,
- james.qian.wang@arm.com, quic_aravindh@quicinc.com, mihail.atanassov@arm.com,
- freedreno@lists.freedesktop.org
+Cc: Christoph Niedermaier <cniedermaier@dh-electronics.com>,
+ Daniel Vetter <daniel.vetter@ffwll.ch>, robert.foss@linaro.org,
+ dri-devel@lists.freedesktop.org, Thomas Zimmermann <tzimmermann@suse.de>,
+ Dmitry Osipenko <digetx@gmail.com>, Sam Ravnborg <sam@ravnborg.org>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi Abhinav,
+Hi Marek,
 
 Thank you for the patch.
 
-On Thu, Mar 31, 2022 at 05:12:13PM -0700, Abhinav Kumar wrote:
-> For some vendor driver implementations, display hardware can
-> be shared between the encoder used for writeback and the physical
-> display.
+On Thu, Mar 31, 2022 at 09:23:46PM +0200, Marek Vasut wrote:
+> The mode parsing is currently implemented in three steps:
+> of_get_display_timing() - DT panel-timing to struct display_timing
+> videomode_from_timing() - struct display_timing to struct videomode
+> drm_display_mode_from_videomode() - struct videomode to struct drm_display_mode
 > 
-> In addition resources such as clocks and interrupts can
-> also be shared between writeback and the real encoder.
+> Replace all that with simple of_get_drm_panel_display_mode() call,
+> which already populates struct drm_display_mode and then duplicate
+> that mode in panel_lvds_get_modes() each time, since the mode does
+> not change.
 > 
-> To accommodate such vendor drivers and hardware, allow
-> real encoder to be passed for drm_writeback_connector.
+> Nice bonus is the bus_flags parsed by of_get_drm_panel_display_mode()
+> out of panel-timing DT node, which is used in subsequent patch to fix
+> handling of 'de-active' DT property.
 > 
-> changes in v6:
-> 	- assign the encoder inside
-> 	  drm_writeback_connector_init_with_encoder() for
-> 	  better readability
-> 	- improve some documentation for internal encoder
-> 
-> Co-developed-by: Kandpal Suraj <suraj.kandpal@intel.com>
-> Signed-off-by: Kandpal Suraj <suraj.kandpal@intel.com>
-> Signed-off-by: Abhinav Kumar <quic_abhinavk@quicinc.com>
+> Signed-off-by: Marek Vasut <marex@denx.de>
+> Cc: Christoph Niedermaier <cniedermaier@dh-electronics.com>
+> Cc: Daniel Vetter <daniel.vetter@ffwll.ch>
+> Cc: Dmitry Osipenko <digetx@gmail.com>
+> Cc: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+> Cc: Robert Foss <robert.foss@linaro.org>
+> Cc: Sam Ravnborg <sam@ravnborg.org>
+> Cc: Thomas Zimmermann <tzimmermann@suse.de>
+> To: dri-devel@lists.freedesktop.org
 > ---
->  drivers/gpu/drm/drm_writeback.c | 18 ++++++++++++------
->  drivers/gpu/drm/vc4/vc4_txp.c   | 14 ++++++++------
->  include/drm/drm_writeback.h     | 21 +++++++++++++++++++--
-
-Please split this in two patches, one for the DRM core and one for the
-VC4 driver. This applies to most patches as a general rule, with the
-main exception being API refactoring that requires changing the
-implementation and all its users in a single patch.
-
->  3 files changed, 39 insertions(+), 14 deletions(-)
+>  drivers/gpu/drm/panel/panel-lvds.c | 28 ++++++----------------------
+>  1 file changed, 6 insertions(+), 22 deletions(-)
 > 
-> diff --git a/drivers/gpu/drm/drm_writeback.c b/drivers/gpu/drm/drm_writeback.c
-> index 797223c..7f72109 100644
-> --- a/drivers/gpu/drm/drm_writeback.c
-> +++ b/drivers/gpu/drm/drm_writeback.c
-> @@ -179,21 +179,21 @@ int drm_writeback_connector_init(struct drm_device *dev,
+> diff --git a/drivers/gpu/drm/panel/panel-lvds.c b/drivers/gpu/drm/panel/panel-lvds.c
+> index 27a1c9923b09..65c6a6e9e223 100644
+> --- a/drivers/gpu/drm/panel/panel-lvds.c
+> +++ b/drivers/gpu/drm/panel/panel-lvds.c
+> @@ -30,7 +30,8 @@ struct panel_lvds {
+>  	const char *label;
+>  	unsigned int width;
+>  	unsigned int height;
+> -	struct videomode video_mode;
+> +	struct drm_display_mode dmode;
+
+"dmode" sounds a bit weird, I would have gone for just "mode", or
+"display_mode", but I don't mind much.
+
+> +	u32 bus_flags;
+>  	unsigned int bus_format;
+>  	bool data_mirror;
+>  
+> @@ -87,16 +88,15 @@ static int panel_lvds_get_modes(struct drm_panel *panel,
+>  	struct panel_lvds *lvds = to_panel_lvds(panel);
+>  	struct drm_display_mode *mode;
+>  
+> -	mode = drm_mode_create(connector->dev);
+> +	mode = drm_mode_duplicate(connector->dev, &lvds->dmode);
+>  	if (!mode)
+>  		return 0;
+>  
+> -	drm_display_mode_from_videomode(&lvds->video_mode, mode);
+>  	mode->type |= DRM_MODE_TYPE_DRIVER | DRM_MODE_TYPE_PREFERRED;
+>  	drm_mode_probed_add(connector, mode);
+>  
+> -	connector->display_info.width_mm = lvds->width;
+> -	connector->display_info.height_mm = lvds->height;
+> +	connector->display_info.width_mm = lvds->dmode.width_mm;
+> +	connector->display_info.height_mm = lvds->dmode.height_mm;
+>  	drm_display_info_set_bus_formats(&connector->display_info,
+>  					 &lvds->bus_format, 1);
+>  	connector->display_info.bus_flags = lvds->data_mirror
+> @@ -116,7 +116,6 @@ static const struct drm_panel_funcs panel_lvds_funcs = {
+>  static int panel_lvds_parse_dt(struct panel_lvds *lvds)
 >  {
->  	int ret = 0;
+>  	struct device_node *np = lvds->dev->of_node;
+> -	struct display_timing timing;
+>  	int ret;
 >  
-> -	drm_encoder_helper_add(&wb_connector->encoder, enc_helper_funcs);
-> +	drm_encoder_helper_add(&wb_connector->internal_encoder, enc_helper_funcs);
->  
-> -	wb_connector->encoder.possible_crtcs = possible_crtcs;
-> +	wb_connector->internal_encoder.possible_crtcs = possible_crtcs;
->  
-> -	ret = drm_encoder_init(dev, &wb_connector->encoder,
-> +	ret = drm_encoder_init(dev, &wb_connector->internal_encoder,
->  			       &drm_writeback_encoder_funcs,
->  			       DRM_MODE_ENCODER_VIRTUAL, NULL);
->  	if (ret)
->  		return ret;
->  
-> -	ret = drm_writeback_connector_init_with_encoder(dev, wb_connector, &wb_connector->encoder,
-> -			con_funcs, formats, n_formats);
-> +	ret = drm_writeback_connector_init_with_encoder(dev, wb_connector,
-> +			&wb_connector->internal_encoder, con_funcs, formats, n_formats);
->  
->  	if (ret)
-> -		drm_encoder_cleanup(&wb_connector->encoder);
-> +		drm_encoder_cleanup(&wb_connector->internal_encoder);
->  
->  	return ret;
->  }
-> @@ -238,6 +238,12 @@ int drm_writeback_connector_init_with_encoder(struct drm_device *dev,
->  	struct drm_mode_config *config = &dev->mode_config;
->  	int ret = create_writeback_properties(dev);
->  
-> +	/*
-> +	 * Assign the encoder passed to this API to the wb_connector's encoder.
-> +	 * For drm_writeback_connector_init(), this shall be the internal_encoder
-> +	 */
-> +	wb_connector->encoder = enc;
-> +
->  	if (ret != 0)
->  		return ret;
->  
-> diff --git a/drivers/gpu/drm/vc4/vc4_txp.c b/drivers/gpu/drm/vc4/vc4_txp.c
-> index 5e53f02..a9b4f83 100644
-> --- a/drivers/gpu/drm/vc4/vc4_txp.c
-> +++ b/drivers/gpu/drm/vc4/vc4_txp.c
-> @@ -151,6 +151,8 @@ struct vc4_txp {
->  
->  	struct platform_device *pdev;
->  
-> +	struct drm_encoder drm_enc;
-> +
->  	struct drm_writeback_connector connector;
->  
->  	void __iomem *regs;
-> @@ -159,7 +161,7 @@ struct vc4_txp {
->  
->  static inline struct vc4_txp *encoder_to_vc4_txp(struct drm_encoder *encoder)
->  {
-> -	return container_of(encoder, struct vc4_txp, connector.encoder);
-> +	return container_of(encoder, struct vc4_txp, drm_enc);
->  }
->  
->  static inline struct vc4_txp *connector_to_vc4_txp(struct drm_connector *conn)
-> @@ -499,9 +501,9 @@ static int vc4_txp_bind(struct device *dev, struct device *master, void *data)
->  
->  	wb_conn = &txp->connector;
->  
-> -	drm_encoder_helper_add(&wb_conn->encoder, &vc4_txp_encoder_helper_funcs);
-> +	drm_encoder_helper_add(&txp->drm_enc, &vc4_txp_encoder_helper_funcs);
->  
-> -	ret = drm_encoder_init(drm, &wb_conn->encoder,
-> +	ret = drm_encoder_init(drm, &txp->drm_enc,
->  			&vc4_txp_encoder_funcs,
->  			DRM_MODE_ENCODER_VIRTUAL, NULL);
->  
-> @@ -511,10 +513,10 @@ static int vc4_txp_bind(struct device *dev, struct device *master, void *data)
->  	drm_connector_helper_add(&wb_conn->base,
->  				 &vc4_txp_connector_helper_funcs);
->  
-> -	ret = drm_writeback_connector_init_with_encoder(drm, wb_conn, &wb_conn->encoder,
-> +	ret = drm_writeback_connector_init_with_encoder(drm, wb_conn, &txp->drm_enc,
->  			&vc4_txp_connector_funcs, drm_fmts, ARRAY_SIZE(drm_fmts));
->  	if (ret) {
-> -		drm_encoder_cleanup(&wb_conn->encoder);
-> +		drm_encoder_cleanup(&txp->drm_enc);
+>  	ret = of_drm_get_panel_orientation(np, &lvds->orientation);
+> @@ -125,28 +124,13 @@ static int panel_lvds_parse_dt(struct panel_lvds *lvds)
 >  		return ret;
 >  	}
 >  
-> @@ -523,7 +525,7 @@ static int vc4_txp_bind(struct device *dev, struct device *master, void *data)
->  	if (ret)
+> -	ret = of_get_display_timing(np, "panel-timing", &timing);
+> +	ret = of_get_drm_panel_display_mode(np, &lvds->dmode, &lvds->bus_flags);
+>  	if (ret < 0) {
+>  		dev_err(lvds->dev, "%pOF: problems parsing panel-timing (%d)\n",
+>  			np, ret);
 >  		return ret;
+>  	}
 >  
-> -	encoder = &txp->connector.encoder;
-> +	encoder = txp->connector.encoder;
->  	encoder->possible_crtcs = drm_crtc_mask(crtc);
+> -	videomode_from_timing(&timing, &lvds->video_mode);
+> -
+> -	ret = of_property_read_u32(np, "width-mm", &lvds->width);
+> -	if (ret < 0) {
+> -		dev_err(lvds->dev, "%pOF: invalid or missing %s DT property\n",
+> -			np, "width-mm");
+> -		return -ENODEV;
+> -	}
+> -	ret = of_property_read_u32(np, "height-mm", &lvds->height);
+> -	if (ret < 0) {
+> -		dev_err(lvds->dev, "%pOF: invalid or missing %s DT property\n",
+> -			np, "height-mm");
+> -		return -ENODEV;
+> -	}
+
+of_get_drm_panel_display_mode() doesn't consider missing width-mm or
+height-mm properties as an error. Should we check here that ->width_mm
+and ->height_mm are not 0 ?
+
+> -
+>  	of_property_read_string(np, "label", &lvds->label);
 >  
->  	ret = devm_request_irq(dev, irq, vc4_txp_interrupt, 0,
-> diff --git a/include/drm/drm_writeback.h b/include/drm/drm_writeback.h
-> index 4795024..3f5c330 100644
-> --- a/include/drm/drm_writeback.h
-> +++ b/include/drm/drm_writeback.h
-> @@ -25,15 +25,32 @@ struct drm_writeback_connector {
->  	struct drm_connector base;
->  
->  	/**
-> -	 * @encoder: Internal encoder used by the connector to fulfill
-> +	 * @encoder: handle to drm_encoder used by the connector to fulfill
->  	 * the DRM framework requirements. The users of the
->  	 * @drm_writeback_connector control the behaviour of the @encoder
->  	 * by passing the @enc_funcs parameter to drm_writeback_connector_init()
->  	 * function.
-> +	 *
-> +	 * For some vendor drivers, the hardware resources are shared between
-> +	 * writeback encoder and rest of the display pipeline.
-> +	 * To accommodate such cases, encoder is a handle to the real encoder
-> +	 * hardware.
-> +	 *
-> +	 * For current existing writeback users, this shall continue to be the
-> +	 * embedded encoder for the writeback connector.
->  	 */
-> -	struct drm_encoder encoder;
-> +	struct drm_encoder *encoder;
->  
->  	/**
-> +	 * @internal_encoder: internal encoder used by writeback when
-> +	 * drm_writeback_connector_init() is used.
-> +	 * @encoder will be assigned to this for those cases
-> +	 *
-> +	 * This will be unused when drm_writeback_connector_init_with_encoder()
-> +	 * is used.
-> +	 */
-> +	struct drm_encoder internal_encoder;
-> +	/**
->  	 * @pixel_formats_blob_ptr:
->  	 *
->  	 * DRM blob property data for the pixel formats list on writeback
-> -- 
-> 2.7.4
-> 
+>  	ret = drm_of_lvds_get_data_mapping(np);
 
 -- 
 Regards,
