@@ -1,41 +1,41 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 55F2F4EEF56
-	for <lists+dri-devel@lfdr.de>; Fri,  1 Apr 2022 16:26:00 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 4B09F4EEF59
+	for <lists+dri-devel@lfdr.de>; Fri,  1 Apr 2022 16:26:03 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id F21F710E3C1;
-	Fri,  1 Apr 2022 14:25:57 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id B6DC610E3E3;
+	Fri,  1 Apr 2022 14:25:59 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from ams.source.kernel.org (ams.source.kernel.org [145.40.68.75])
- by gabe.freedesktop.org (Postfix) with ESMTPS id D413410E3C1;
- Fri,  1 Apr 2022 14:25:56 +0000 (UTC)
+Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 8BDA210E3D0;
+ Fri,  1 Apr 2022 14:25:58 +0000 (UTC)
 Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
  (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
  (No client certificate requested)
- by ams.source.kernel.org (Postfix) with ESMTPS id 51FF9B824AF;
- Fri,  1 Apr 2022 14:25:55 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id E0D10C2BBE4;
- Fri,  1 Apr 2022 14:25:50 +0000 (UTC)
+ by dfw.source.kernel.org (Postfix) with ESMTPS id 3246261C2E;
+ Fri,  1 Apr 2022 14:25:56 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 8FD80C340EE;
+ Fri,  1 Apr 2022 14:25:54 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1648823154;
- bh=G849KKjTIoPjmi1Mg986OziEyFIWyoiWM20WA5zBffo=;
+ s=k20201202; t=1648823156;
+ bh=aZW18FXpZ2MSrqkywvoIoTsrpp1F3Gh4D/xGzne3JdE=;
  h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
- b=raIYTcwJsOglg1Jio/Xx5r54IirgunGzrihUKXIFMxEZJYgGbPZ4BG6ZjLLn8XvKu
- IH621V9UU5Ww2vqujeAWdcNNcTmMeo869tL1reYKbKYVSQzcpPQEjvpR+D2cRmeV5f
- /jfLVw+yh5XqxXIfD2xBCgPeDQaKfvWDnA71YYtbhGgoAgr+cuVQ66zXEsY55QkVhN
- NgnLa/yTeUb+AO2Npzk4u1zU5Sm/nY6Z6sbJPmJ1jDOzZY7VpZsCtr6sECOU6JOpK5
- /S76ni2wKGwtpe7leqG3bAOkcl8dzk7RFpBH0XATjyCiRSItRVP8r86bpMYHqNu30U
- l3dbk0SXhzG1w==
+ b=kXWWWUFVYAvNWmunYv5r5Q1QGb5U0UUv8Mj+3UPpcYGIj5v4jhPQHmPKaUktswmzx
+ jk5XthEK4GBWHuJHicVBExJXwEnxNmA01LJdMp1x4LzLNshkTH7HLP6FLVYjlJYXWa
+ C6GdJMZMCDoTlRuGEyNrVbwYyuqzrq+cKfg60IB4f66md8FvlkvNQBP9gI2SEYkv0i
+ BslzjuSxg3dET7lFqyW3/ud5ey13mOvGm/9ShlKDMpe5v4eezlts5gFlt9VkRBKqi5
+ VwSkzppgjGLTc0SxKLz0pSIi0MUGFD/BjoyAoKmv8v+jX+NMSPxU6S2B/9JpSqIWPz
+ rgP869gvL6gHg==
 From: Sasha Levin <sashal@kernel.org>
 To: linux-kernel@vger.kernel.org,
 	stable@vger.kernel.org
-Subject: [PATCH AUTOSEL 5.17 005/149] drm/amd/display: Add signal type check
- when verify stream backends same
-Date: Fri,  1 Apr 2022 10:23:12 -0400
-Message-Id: <20220401142536.1948161-5-sashal@kernel.org>
+Subject: [PATCH AUTOSEL 5.17 006/149] drm/amdkfd: enable heavy-weight TLB
+ flush on Arcturus
+Date: Fri,  1 Apr 2022 10:23:13 -0400
+Message-Id: <20220401142536.1948161-6-sashal@kernel.org>
 X-Mailer: git-send-email 2.34.1
 In-Reply-To: <20220401142536.1948161-1-sashal@kernel.org>
 References: <20220401142536.1948161-1-sashal@kernel.org>
@@ -55,56 +55,83 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: airlied@linux.ie, Rodrigo.Siqueira@amd.com, Dale Zhao <dale.zhao@amd.com>,
- dri-devel@lists.freedesktop.org, meenakshikumar.somasundaram@amd.com,
- Jun.Lei@amd.com, Jimmy.Kizito@amd.com, Sasha Levin <sashal@kernel.org>,
- wenjing.liu@amd.com, amd-gfx@lists.freedesktop.org, Jerry.Zuo@amd.com,
- eric.bernstein@amd.com, sunpeng.li@amd.com,
- Daniel Wheeler <daniel.wheeler@amd.com>, Martin.Leung@amd.com,
- Xinhui.Pan@amd.com, christian.koenig@amd.com, Dmytro.Laktyushkin@amd.com,
- Wayne Lin <wayne.lin@amd.com>, Alex Deucher <alexander.deucher@amd.com>,
- nicholas.kazlauskas@amd.com
+Cc: Sasha Levin <sashal@kernel.org>, airlied@linux.ie,
+ Felix Kuehling <Felix.Kuehling@amd.com>, Xinhui.Pan@amd.com,
+ amd-gfx@lists.freedesktop.org, Alex Deucher <alexander.deucher@amd.com>,
+ dri-devel@lists.freedesktop.org, Eric Huang <jinhuieric.huang@amd.com>,
+ christian.koenig@amd.com
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-From: Dale Zhao <dale.zhao@amd.com>
+From: Eric Huang <jinhuieric.huang@amd.com>
 
-[ Upstream commit 047db281c026de5971cedb5bb486aa29bd16a39d ]
+[ Upstream commit f61c40c0757a79bcf744314df606c2bc8ae6a729 ]
 
-[Why]
-For allow eDP hot-plug feature, the stream signal may change to VIRTUAL
-when plug-out and back to eDP when plug-in. OS will still setPathMode
-with same timing for each plugging, but eDP gets no stream update as we
-don't check signal type changing back as keeping it VIRTUAL. It's also
-unsafe for future cases that stream signal is switched with same timing.
+SDMA FW fixes the hang issue for adding heavy-weight TLB
+flush on Arcturus, so we can enable it.
 
-[How]
-Check stream signal type change include previous HDMI signal case.
-
-Reviewed-by: Aric Cyr <Aric.Cyr@amd.com>
-Acked-by: Wayne Lin <wayne.lin@amd.com>
-Signed-off-by: Dale Zhao <dale.zhao@amd.com>
-Tested-by: Daniel Wheeler <daniel.wheeler@amd.com>
+Signed-off-by: Eric Huang <jinhuieric.huang@amd.com>
+Acked-by: Alex Deucher <alexander.deucher@amd.com>
+Reviewed-by: Felix Kuehling <Felix.Kuehling@amd.com>
 Signed-off-by: Alex Deucher <alexander.deucher@amd.com>
 Signed-off-by: Sasha Levin <sashal@kernel.org>
 ---
- drivers/gpu/drm/amd/display/dc/core/dc_resource.c | 3 +++
- 1 file changed, 3 insertions(+)
+ drivers/gpu/drm/amd/amdgpu/amdgpu_amdkfd_gpuvm.c |  6 ------
+ drivers/gpu/drm/amd/amdkfd/kfd_chardev.c         | 10 ++++++++--
+ 2 files changed, 8 insertions(+), 8 deletions(-)
 
-diff --git a/drivers/gpu/drm/amd/display/dc/core/dc_resource.c b/drivers/gpu/drm/amd/display/dc/core/dc_resource.c
-index 18757c158523..ac3071e38e4a 100644
---- a/drivers/gpu/drm/amd/display/dc/core/dc_resource.c
-+++ b/drivers/gpu/drm/amd/display/dc/core/dc_resource.c
-@@ -1640,6 +1640,9 @@ static bool are_stream_backends_same(
- 	if (is_timing_changed(stream_a, stream_b))
- 		return false;
+diff --git a/drivers/gpu/drm/amd/amdgpu/amdgpu_amdkfd_gpuvm.c b/drivers/gpu/drm/amd/amdgpu/amdgpu_amdkfd_gpuvm.c
+index f9bab963a948..5df387c4d7fb 100644
+--- a/drivers/gpu/drm/amd/amdgpu/amdgpu_amdkfd_gpuvm.c
++++ b/drivers/gpu/drm/amd/amdgpu/amdgpu_amdkfd_gpuvm.c
+@@ -1813,12 +1813,6 @@ int amdgpu_amdkfd_gpuvm_map_memory_to_gpu(
+ 				true);
+ 	ret = unreserve_bo_and_vms(&ctx, false, false);
  
-+	if (stream_a->signal != stream_b->signal)
-+		return false;
+-	/* Only apply no TLB flush on Aldebaran to
+-	 * workaround regressions on other Asics.
+-	 */
+-	if (table_freed && (adev->asic_type != CHIP_ALDEBARAN))
+-		*table_freed = true;
+-
+ 	goto out;
+ 
+ out_unreserve:
+diff --git a/drivers/gpu/drm/amd/amdkfd/kfd_chardev.c b/drivers/gpu/drm/amd/amdkfd/kfd_chardev.c
+index 4bfc0c8ab764..337953af7c2f 100644
+--- a/drivers/gpu/drm/amd/amdkfd/kfd_chardev.c
++++ b/drivers/gpu/drm/amd/amdkfd/kfd_chardev.c
+@@ -1416,6 +1416,12 @@ static int kfd_ioctl_free_memory_of_gpu(struct file *filep,
+ 	return ret;
+ }
+ 
++static bool kfd_flush_tlb_after_unmap(struct kfd_dev *dev) {
++	return KFD_GC_VERSION(dev) == IP_VERSION(9, 4, 2) ||
++	       (KFD_GC_VERSION(dev) == IP_VERSION(9, 4, 1) &&
++	        dev->adev->sdma.instance[0].fw_version >= 18);
++}
 +
- 	if (stream_a->dpms_off != stream_b->dpms_off)
- 		return false;
+ static int kfd_ioctl_map_memory_to_gpu(struct file *filep,
+ 					struct kfd_process *p, void *data)
+ {
+@@ -1503,7 +1509,7 @@ static int kfd_ioctl_map_memory_to_gpu(struct file *filep,
+ 	}
  
+ 	/* Flush TLBs after waiting for the page table updates to complete */
+-	if (table_freed) {
++	if (table_freed || !kfd_flush_tlb_after_unmap(dev)) {
+ 		for (i = 0; i < args->n_devices; i++) {
+ 			peer = kfd_device_by_id(devices_arr[i]);
+ 			if (WARN_ON_ONCE(!peer))
+@@ -1603,7 +1609,7 @@ static int kfd_ioctl_unmap_memory_from_gpu(struct file *filep,
+ 	}
+ 	mutex_unlock(&p->mutex);
+ 
+-	if (KFD_GC_VERSION(dev) == IP_VERSION(9, 4, 2)) {
++	if (kfd_flush_tlb_after_unmap(dev)) {
+ 		err = amdgpu_amdkfd_gpuvm_sync_memory(dev->adev,
+ 				(struct kgd_mem *) mem, true);
+ 		if (err) {
 -- 
 2.34.1
 
