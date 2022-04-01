@@ -2,55 +2,51 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 34C134EE4EE
-	for <lists+dri-devel@lfdr.de>; Fri,  1 Apr 2022 01:52:58 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id CD3C44EE50F
+	for <lists+dri-devel@lfdr.de>; Fri,  1 Apr 2022 02:12:42 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 61DAB10E2DA;
-	Thu, 31 Mar 2022 23:52:55 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 3581110E03E;
+	Fri,  1 Apr 2022 00:12:38 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-ot1-f54.google.com (mail-ot1-f54.google.com
- [209.85.210.54])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 2EFBD10E2DA
- for <dri-devel@lists.freedesktop.org>; Thu, 31 Mar 2022 23:52:54 +0000 (UTC)
-Received: by mail-ot1-f54.google.com with SMTP id
- w17-20020a056830111100b005b22c584b93so991353otq.11
- for <dri-devel@lists.freedesktop.org>; Thu, 31 Mar 2022 16:52:54 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=x-gm-message-state:date:from:to:cc:subject:message-id:references
- :mime-version:content-disposition:in-reply-to;
- bh=QtLleTaHCucGPsRaBTO86s6P+Sr59PZKXVV2CO1MOzI=;
- b=yrZKqvtbEyS8r6bQxHjKQE2DQsP0JAI/Lfcu+F+2ld5Yy493vblUr4a1uOkUGvaZBM
- wUtqIvMIct3G1ZOz9BgT+WWb4MzlhS0UE0D1S42REcY4GThk2jfP3lafhjIVozR9tZIG
- EICXVgpQOGPW2vHcgSOCzcsgUGJDYKva909hzFvI7T7P/jyXo05qTpLcjSKsm98CAA76
- o0ZgfQd4XatUheipdo+PZU0CNKYGO+bHEpcFEAzZCC5k0rP7kopMx9b2NcGYjRuQOjcy
- LXcqNiFFXErixkUntSYPZUqueMiYL/K//H2G5JSwlMSYnXNgGrNz8L/3pA/H7tJwfRhw
- +4/g==
-X-Gm-Message-State: AOAM5334GMNThA8sg/xv0hMULYuLD766MW4iIvC8vMRarslmOV8QTOms
- qfiEXSFP4wLA4exEmeFssw==
-X-Google-Smtp-Source: ABdhPJyX8xvZxfDgWuF9nXNoW7PdIaVk5mK36vc6rmjM3if5pWl4svyYXlRWWFyKrZa+wn8F80OdFg==
-X-Received: by 2002:a9d:75cd:0:b0:5c9:61fa:3a42 with SMTP id
- c13-20020a9d75cd000000b005c961fa3a42mr6614511otl.15.1648770773424; 
- Thu, 31 Mar 2022 16:52:53 -0700 (PDT)
-Received: from robh.at.kernel.org (66-90-144-107.dyn.grandenetworks.net.
- [66.90.144.107]) by smtp.gmail.com with ESMTPSA id
- e22-20020a9d5616000000b005ceb68be2f6sm280208oti.63.2022.03.31.16.52.52
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 31 Mar 2022 16:52:52 -0700 (PDT)
-Received: (nullmailer pid 1730141 invoked by uid 1000);
- Thu, 31 Mar 2022 23:52:52 -0000
-Date: Thu, 31 Mar 2022 18:52:52 -0500
-From: Rob Herring <robh@kernel.org>
-To: Maxime Ripard <maxime@cerno.tech>
-Subject: Re: [PATCH] dt-bindings: display: bridge: Drop requirement on input
- port for DSI devices
-Message-ID: <YkY+1IZtQ8oSi7wR@robh.at.kernel.org>
-References: <20220323154823.839469-1-maxime@cerno.tech>
+Received: from alexa-out-sd-01.qualcomm.com (alexa-out-sd-01.qualcomm.com
+ [199.106.114.38])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id EF69A10E04F;
+ Fri,  1 Apr 2022 00:12:36 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=quicinc.com; i=@quicinc.com; q=dns/txt; s=qcdkim;
+ t=1648771957; x=1680307957;
+ h=from:to:cc:subject:date:message-id:mime-version;
+ bh=5K3x5kqZaOZFmoDfuYmWCoCrYgv4UF//eXq7EPdNyGo=;
+ b=oQpSySe9lTrXv6k/BmlIkMiSXmTV4Bq8iQ6VodiluxkaWXewpOA1vMl3
+ Ou7HcVM6E9AhuGz3eSUzfBlEbnTfN639wW9piCS1FabAOglmU1yPw5T6y
+ 0Pd18Pc1Dd6ILGw6T/Py0t4BzPZr+oGlZU/fD++JwJPMlvMMZJJT6Hbj5 Y=;
+Received: from unknown (HELO ironmsg02-sd.qualcomm.com) ([10.53.140.142])
+ by alexa-out-sd-01.qualcomm.com with ESMTP; 31 Mar 2022 17:12:36 -0700
+X-QCInternal: smtphost
+Received: from nasanex01c.na.qualcomm.com ([10.47.97.222])
+ by ironmsg02-sd.qualcomm.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 31 Mar 2022 17:12:35 -0700
+Received: from nalasex01a.na.qualcomm.com (10.47.209.196) by
+ nasanex01c.na.qualcomm.com (10.47.97.222) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.2.986.22; Thu, 31 Mar 2022 17:12:35 -0700
+Received: from abhinavk-linux.qualcomm.com (10.80.80.8) by
+ nalasex01a.na.qualcomm.com (10.47.209.196) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.2.986.22; Thu, 31 Mar 2022 17:12:34 -0700
+From: Abhinav Kumar <quic_abhinavk@quicinc.com>
+To: <dri-devel@lists.freedesktop.org>
+Subject: [PATCH v6 0/4] Allow drm_writeback_connector to accept pointer to
+ drm_encoder
+Date: Thu, 31 Mar 2022 17:12:09 -0700
+Message-ID: <1648771933-18512-1-git-send-email-quic_abhinavk@quicinc.com>
+X-Mailer: git-send-email 2.7.4
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20220323154823.839469-1-maxime@cerno.tech>
+Content-Type: text/plain
+X-Originating-IP: [10.80.80.8]
+X-ClientProxiedBy: nasanex01b.na.qualcomm.com (10.46.141.250) To
+ nalasex01a.na.qualcomm.com (10.47.209.196)
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -63,40 +59,65 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Marek Vasut <marex@denx.de>, devicetree@vger.kernel.org,
- Neil Armstrong <narmstrong@baylibre.com>, David Airlie <airlied@linux.ie>,
- Robert Foss <robert.foss@linaro.org>, dri-devel@lists.freedesktop.org,
- Jonas Karlman <jonas@kwiboo.se>, Jernej Skrabec <jernej.skrabec@gmail.com>,
- Rob Herring <robh+dt@kernel.org>, Jagan Teki <jagan@amarulasolutions.com>,
- Andrzej Hajda <andrzej.hajda@intel.com>,
- Daniel Vetter <daniel.vetter@intel.com>, Frank Rowand <frowand.list@gmail.com>,
- Laurent Pinchart <Laurent.pinchart@ideasonboard.com>
+Cc: hamohammed.sa@gmail.com, suraj.kandpal@intel.com, emma@anholt.net,
+ rodrigosiqueiramelo@gmail.com, jani.nikula@intel.com, liviu.dudau@arm.com,
+ Abhinav Kumar <quic_abhinavk@quicinc.com>, swboyd@chromium.org,
+ melissa.srw@gmail.com, nganji@codeaurora.org, seanpaul@chromium.org,
+ laurent.pinchart@ideasonboard.com, dmitry.baryshkov@linaro.org,
+ james.qian.wang@arm.com, quic_aravindh@quicinc.com, mihail.atanassov@arm.com,
+ freedreno@lists.freedesktop.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Wed, 23 Mar 2022 16:48:23 +0100, Maxime Ripard wrote:
-> MIPI-DSI devices, if they are controlled through the bus itself, have to
-> be described as a child node of the controller they are attached to.
-> 
-> Thus, there's no requirement on the controller having an OF-Graph output
-> port to model the data stream: it's assumed that it would go from the
-> parent to the child.
-> 
-> However, some bridges controlled through the DSI bus still require an
-> input OF-Graph port, thus requiring a controller with an OF-Graph output
-> port. This prevents those bridges from being used with the controllers
-> that do not have one without any particular reason to.
-> 
-> Let's drop that requirement.
-> 
-> Signed-off-by: Maxime Ripard <maxime@cerno.tech>
-> ---
->  .../devicetree/bindings/display/bridge/chipone,icn6211.yaml      | 1 -
->  .../devicetree/bindings/display/bridge/toshiba,tc358762.yaml     | 1 -
->  2 files changed, 2 deletions(-)
-> 
+There are some vendor drivers for which the writeback encoder shares
+hardware resources such as clocks and interrupts with the rest of the
+display pipeline. In addition, there can be use-cases where the
+writeback encoder could be a shared encoder between the physical display
+path and the writeback path.
 
-I tend to agree with port@0 not being needed and really like 
-consistency.
+To accommodate for such cases, change the drm_writeback_connector to
+accept a pointer to drm_encoder.
 
-Reviewed-by: Rob Herring <robh@kernel.org>
+For existing users of drm_writeback_connector there will not be any
+change in functionality due to this change.
+
+This approach was first posted by Suraj Kandpal here [1] for both
+encoder and connector. But after discussions [2], the consensus was
+reached to split this change for the drm_encoder first and the
+drm_connector part can be reworked in a subsequent change later.
+
+Validation of this change was done using igt_writeback tests on
+MSM based RB5 board using the changes posted here [3].
+
+For all other chipsets, these changes were compile-tested.
+
+[1] https://patchwork.kernel.org/project/dri-devel/patch/20220202081702.22119-1-suraj.kandpal@intel.com/
+[2] https://patchwork.kernel.org/project/dri-devel/patch/20220202085429.22261-6-suraj.kandpal@intel.com/
+[3] https://patchwork.freedesktop.org/series/99724/
+
+changes in v6:
+	- remove drm_writeback_connector_setup() and instead
+      directly call drm_writeback_connector_init_with_encoder()
+	- pass encoder as a parameter explicitly to the new API
+      for better readability  
+
+
+Abhinav Kumar (4):
+  drm: allow passing possible_crtcs to drm_writeback_connector_init()
+  drm: introduce drm_writeback_connector_init_with_encoder() API
+  drm/vc4: change vc4 driver to use
+    drm_writeback_connector_init_with_encoder()
+  drm: allow real encoder to be passed for drm_writeback_connector
+
+ .../drm/arm/display/komeda/komeda_wb_connector.c   |  3 +-
+ drivers/gpu/drm/arm/malidp_mw.c                    |  4 +-
+ drivers/gpu/drm/drm_writeback.c                    | 78 ++++++++++++++++++----
+ drivers/gpu/drm/rcar-du/rcar_du_writeback.c        |  4 +-
+ drivers/gpu/drm/vc4/vc4_txp.c                      | 35 +++++++---
+ drivers/gpu/drm/vkms/vkms_writeback.c              |  4 +-
+ include/drm/drm_writeback.h                        | 29 +++++++-
+ 7 files changed, 126 insertions(+), 31 deletions(-)
+
+-- 
+2.7.4
+
