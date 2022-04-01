@@ -2,56 +2,50 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7B0804EE56C
-	for <lists+dri-devel@lfdr.de>; Fri,  1 Apr 2022 02:38:55 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id DDEA54EE5A5
+	for <lists+dri-devel@lfdr.de>; Fri,  1 Apr 2022 03:22:34 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id CCF6A10F487;
-	Fri,  1 Apr 2022 00:38:50 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 6A06310E3D5;
+	Fri,  1 Apr 2022 01:22:29 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-ot1-f46.google.com (mail-ot1-f46.google.com
- [209.85.210.46])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 581C110F487
- for <dri-devel@lists.freedesktop.org>; Fri,  1 Apr 2022 00:38:50 +0000 (UTC)
-Received: by mail-ot1-f46.google.com with SMTP id
- e25-20020a0568301e5900b005b236d5d74fso1115505otj.0
- for <dri-devel@lists.freedesktop.org>; Thu, 31 Mar 2022 17:38:50 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=x-gm-message-state:date:from:to:cc:subject:message-id:references
- :mime-version:content-disposition:in-reply-to;
- bh=Md3cCefLMSray2j1VFcGmjcxpcWEMbLoOD2HKB0PTXI=;
- b=U8DM55C3eVwKG6PkSMQZH6/RkQx5p/xvPcrY0zLnb3/yqLE0WwkQj1/archvghNmc3
- Ugy0Yiu6Do3JVIzdwHJpN/aILwNKnEv3q3hvtAX1BVQsAgwlTGL0JRTA8ajjIqiBaUbH
- Pj9IuaOjXzkOR3MsrvcQOU2mTbOIvyBB5L5MhNNfb9K08iIE+rqfVZwGPfBtj6LjAMhZ
- qVDRixAGBfAbIbrG8b+9tbzfXCDXMfOue4PcRAXMTSm3r8TrrGipmZWHz20fVKcbH4HW
- uM3Evpzzp7CJw4iwQCvcCf+B/O7S7LHgB4lFGTTecCg7ZYQGMYr9hh5CXlPdrhu/w0BV
- u+xA==
-X-Gm-Message-State: AOAM532VIfEJrUDIdYXNptmj24wF4Xf7FyuIGIQNZwr3XaPsTWk6BLYK
- 6NN7jEHWrg3KGLpYWEHWpg4/8H50OQ==
-X-Google-Smtp-Source: ABdhPJxrSAu+8NUOgpFf3GPF5vnUKQ/glmdpSADcfPd0K+ga9g1rCslA/mzTPaQNCT8WkVeCO+SorQ==
-X-Received: by 2002:a05:6830:22ea:b0:5b2:35c1:de3c with SMTP id
- t10-20020a05683022ea00b005b235c1de3cmr6718277otc.282.1648773529526; 
- Thu, 31 Mar 2022 17:38:49 -0700 (PDT)
-Received: from robh.at.kernel.org (66-90-144-107.dyn.grandenetworks.net.
- [66.90.144.107]) by smtp.gmail.com with ESMTPSA id
- h83-20020aca3a56000000b002ece47dce52sm410301oia.26.2022.03.31.17.38.47
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 31 Mar 2022 17:38:48 -0700 (PDT)
-Received: (nullmailer pid 1796244 invoked by uid 1000);
- Fri, 01 Apr 2022 00:38:47 -0000
-Date: Thu, 31 Mar 2022 19:38:47 -0500
-From: Rob Herring <robh@kernel.org>
-To: Biju Das <biju.das.jz@bp.renesas.com>
-Subject: Re: [PATCH v2 1/2] dt-bindings: display: bridge: Document RZ/G2L
- MIPI DSI TX bindings
-Message-ID: <YkZJl+z3OL32pCKU@robh.at.kernel.org>
-References: <20220328064931.11612-1-biju.das.jz@bp.renesas.com>
- <20220328064931.11612-2-biju.das.jz@bp.renesas.com>
+Received: from phobos.denx.de (phobos.denx.de
+ [IPv6:2a01:238:438b:c500:173d:9f52:ddab:ee01])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 7AF8110E3D2
+ for <dri-devel@lists.freedesktop.org>; Fri,  1 Apr 2022 01:22:28 +0000 (UTC)
+Received: from [127.0.0.1] (p578adb1c.dip0.t-ipconnect.de [87.138.219.28])
+ (using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits))
+ (No client certificate requested)
+ (Authenticated sender: marex@denx.de)
+ by phobos.denx.de (Postfix) with ESMTPSA id A3ECE83ACE;
+ Fri,  1 Apr 2022 03:22:24 +0200 (CEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=denx.de;
+ s=phobos-20191101; t=1648776146;
+ bh=yaml4ahKYPk02MuOU5kh0YRFPUUGjF77bT2P/r7MAd8=;
+ h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
+ b=dc0k9FsQ/lNOsCGjbQZ6Hz17+ZnsO8n4sC187GzhfUgc+ZyJ3mWNTgBBoV/5zg+D4
+ IT3rknMP+DWH5b0pBuX+VWE2Gkw7X+Z8w9+GqfbEpCKTbU1EPCPTP9Mo32dieQes+C
+ BGBMvKydQaOhhyVr+9sCVExObSGQJOi9HyTOR35JCTXN9pn8hETsLvRSk8EzHJiSy6
+ ysPucWWQyRzH5tpK7b26fIS9WFyAUatpGXgsmg7Vu+F8U2jUoqwpsFaUZv3Uj9tKPg
+ xE+bIU0b6E6f0ziHjRDC/s+3Q68HSakvzfJ8EDwAyg50FkPH6dnKsYxm1LowJCeqgp
+ fkXEWoM2X4N5Q==
+Message-ID: <b3dcf3fe-63a0-fbef-a3c4-f42e8cd395fe@denx.de>
+Date: Fri, 1 Apr 2022 03:22:19 +0200
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20220328064931.11612-2-biju.das.jz@bp.renesas.com>
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.7.0
+Subject: Re: [PATCH] dt-bindings: display: bridge: Drop requirement on input
+ port for DSI devices
+Content-Language: en-US
+To: Rob Herring <robh@kernel.org>, Maxime Ripard <maxime@cerno.tech>
+References: <20220323154823.839469-1-maxime@cerno.tech>
+ <YkY+1IZtQ8oSi7wR@robh.at.kernel.org>
+From: Marek Vasut <marex@denx.de>
+In-Reply-To: <YkY+1IZtQ8oSi7wR@robh.at.kernel.org>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
+X-Virus-Scanned: clamav-milter 0.103.5 at phobos.denx.de
+X-Virus-Status: Clean
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -64,34 +58,41 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: devicetree@vger.kernel.org, Chris Paterson <Chris.Paterson2@renesas.com>,
- Geert Uytterhoeven <geert+renesas@glider.be>, David Airlie <airlied@linux.ie>,
- Prabhakar Mahadev Lad <prabhakar.mahadev-lad.rj@bp.renesas.com>,
- dri-devel@lists.freedesktop.org, Biju Das <biju.das@bp.renesas.com>,
- linux-renesas-soc@vger.kernel.org, Rob Herring <robh+dt@kernel.org>
+Cc: devicetree@vger.kernel.org, Neil Armstrong <narmstrong@baylibre.com>,
+ David Airlie <airlied@linux.ie>, Robert Foss <robert.foss@linaro.org>,
+ dri-devel@lists.freedesktop.org, Jonas Karlman <jonas@kwiboo.se>,
+ Jernej Skrabec <jernej.skrabec@gmail.com>, Rob Herring <robh+dt@kernel.org>,
+ Jagan Teki <jagan@amarulasolutions.com>,
+ Andrzej Hajda <andrzej.hajda@intel.com>,
+ Daniel Vetter <daniel.vetter@intel.com>, Frank Rowand <frowand.list@gmail.com>,
+ Laurent Pinchart <Laurent.pinchart@ideasonboard.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Mon, 28 Mar 2022 07:49:30 +0100, Biju Das wrote:
-> The RZ/G2L MIPI DSI TX is embedded in the Renesas RZ/G2L family SoC's. It
-> can operate in DSI mode, with up to four data lanes.
+On 4/1/22 01:52, Rob Herring wrote:
+> On Wed, 23 Mar 2022 16:48:23 +0100, Maxime Ripard wrote:
+>> MIPI-DSI devices, if they are controlled through the bus itself, have to
+>> be described as a child node of the controller they are attached to.
+>>
+>> Thus, there's no requirement on the controller having an OF-Graph output
+>> port to model the data stream: it's assumed that it would go from the
+>> parent to the child.
+>>
+>> However, some bridges controlled through the DSI bus still require an
+>> input OF-Graph port, thus requiring a controller with an OF-Graph output
+>> port. This prevents those bridges from being used with the controllers
+>> that do not have one without any particular reason to.
+>>
+>> Let's drop that requirement.
+>>
+>> Signed-off-by: Maxime Ripard <maxime@cerno.tech>
+>> ---
+>>   .../devicetree/bindings/display/bridge/chipone,icn6211.yaml      | 1 -
+>>   .../devicetree/bindings/display/bridge/toshiba,tc358762.yaml     | 1 -
+>>   2 files changed, 2 deletions(-)
+>>
 > 
-> Signed-off-by: Biju Das <biju.das.jz@bp.renesas.com>
-> ---
-> v1->v2:
->  * Added full path for dsi-controller.yaml
->  * Modeled DSI + D-PHY as single block and updated reg property
->  * Fixed typo D_PHY->D-PHY
->  * Updated description
->  * Added interrupts and interrupt-names and updated the example
-> RFC->v1:
->  * Added a ref to dsi-controller.yaml.
-> RFC:-
->  * https://patchwork.kernel.org/project/linux-renesas-soc/patch/20220112174612.10773-22-biju.das.jz@bp.renesas.com/
-> ---
->  .../bindings/display/bridge/renesas,dsi.yaml  | 175 ++++++++++++++++++
->  1 file changed, 175 insertions(+)
->  create mode 100644 Documentation/devicetree/bindings/display/bridge/renesas,dsi.yaml
-> 
+> I tend to agree with port@0 not being needed and really like
+> consistency.
 
-Reviewed-by: Rob Herring <robh@kernel.org>
+The consistent thing to do would be to always use port@0 and OF graph, no ?
