@@ -1,41 +1,51 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2DFEC4EF88A
-	for <lists+dri-devel@lfdr.de>; Fri,  1 Apr 2022 19:02:18 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id B9C8D4EF898
+	for <lists+dri-devel@lfdr.de>; Fri,  1 Apr 2022 19:04:06 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id C6B3D10E02B;
-	Fri,  1 Apr 2022 17:02:13 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id C084110E194;
+	Fri,  1 Apr 2022 17:04:03 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from perceval.ideasonboard.com (perceval.ideasonboard.com
- [213.167.242.64])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 9F33510E02B
- for <dri-devel@lists.freedesktop.org>; Fri,  1 Apr 2022 17:02:12 +0000 (UTC)
-Received: from pendragon.ideasonboard.com (62-78-145-57.bb.dnainternet.fi
- [62.78.145.57])
- by perceval.ideasonboard.com (Postfix) with ESMTPSA id 908902F7;
- Fri,  1 Apr 2022 19:02:10 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
- s=mail; t=1648832530;
- bh=LGWLodHx28jd9verpae7ChrJT1fbqIVgWRUqV/RT+Qk=;
- h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
- b=fUUIXowVKX915u/uLCBJ327EQZZ1fA5lOohKKjX/l6QLzicaioQ3B7Y9Zo6YqXDdL
- bYKeOZy7murJnzPMXtg7zk//Ft7s1mWdKr+xytGEzkeVjkVsfk6db9LkFBBE0TRaxY
- +Daqw8iOeODDZ2y7NJFmtQu4kqvHZIceit/ut2tA=
-Date: Fri, 1 Apr 2022 20:02:08 +0300
-From: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-To: Marek Vasut <marex@denx.de>
+Received: from phobos.denx.de (phobos.denx.de [85.214.62.61])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id E667C10E194
+ for <dri-devel@lists.freedesktop.org>; Fri,  1 Apr 2022 17:04:01 +0000 (UTC)
+Received: from [127.0.0.1] (p578adb1c.dip0.t-ipconnect.de [87.138.219.28])
+ (using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits))
+ (No client certificate requested)
+ (Authenticated sender: marex@denx.de)
+ by phobos.denx.de (Postfix) with ESMTPSA id 6995C842CA;
+ Fri,  1 Apr 2022 19:03:59 +0200 (CEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=denx.de;
+ s=phobos-20191101; t=1648832639;
+ bh=J44x8h7ENC0qybgZmaxjoNAZToAtDYdUPiWA+vWzIAQ=;
+ h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
+ b=TmGJwZLwEmwSEvas5Ihk4PXNmG4rivZcmHPSqYFG9UPWcL65h1jM6IrKYRUa9wuKC
+ UzNgRFHR9F74YMoYR6wmY5QMwzeSfqKmbrw7VOYdBv1fEP50YupMxB6HjYVpRHQxNv
+ CKQChIWuMQr0IUYG0dclBMGBoq4qQEiycEiHo/ALdge/+o2HHTncbYMgMkm82IicJz
+ XY3/gXAj8BIiwLl13VjsZrjBUYFfKW+uRecm9VmGhAwh75qPgE27MT+Tkhb7PJAzKo
+ g5QzhQ74DhfVFy23w4rb65lchMdFp2quqYN7TArlwU1e8qW6a/nRQGCfYHEawrIu8/
+ drxiWSQ6cYFtg==
+Message-ID: <8984262c-5e33-9dbd-fd41-9205fd6bfa57@denx.de>
+Date: Fri, 1 Apr 2022 19:03:58 +0200
+MIME-Version: 1.0
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.7.0
 Subject: Re: [PATCH 1/2] drm/panel: lvds: Simplify mode parsing
-Message-ID: <YkcvJwW5/pC8wjRn@pendragon.ideasonboard.com>
+Content-Language: en-US
+To: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
 References: <20220331192347.103299-1-marex@denx.de>
  <Ykce0oywZTR5NnsF@pendragon.ideasonboard.com>
  <66182d46-9270-1096-97b1-1cd635e0795e@denx.de>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-In-Reply-To: <66182d46-9270-1096-97b1-1cd635e0795e@denx.de>
+ <YkcvJwW5/pC8wjRn@pendragon.ideasonboard.com>
+From: Marek Vasut <marex@denx.de>
+In-Reply-To: <YkcvJwW5/pC8wjRn@pendragon.ideasonboard.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
+X-Virus-Scanned: clamav-milter 0.103.5 at phobos.denx.de
+X-Virus-Status: Clean
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -55,60 +65,56 @@ Cc: Christoph Niedermaier <cniedermaier@dh-electronics.com>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Fri, Apr 01, 2022 at 06:11:22PM +0200, Marek Vasut wrote:
-> On 4/1/22 17:48, Laurent Pinchart wrote:
+On 4/1/22 19:02, Laurent Pinchart wrote:
+> On Fri, Apr 01, 2022 at 06:11:22PM +0200, Marek Vasut wrote:
+>> On 4/1/22 17:48, Laurent Pinchart wrote:
+>>
+>> Hi,
+>>
+>> [...]
+>>
+>>>> diff --git a/drivers/gpu/drm/panel/panel-lvds.c b/drivers/gpu/drm/panel/panel-lvds.c
+>>>> index 27a1c9923b09..65c6a6e9e223 100644
+>>>> --- a/drivers/gpu/drm/panel/panel-lvds.c
+>>>> +++ b/drivers/gpu/drm/panel/panel-lvds.c
+>>>> @@ -30,7 +30,8 @@ struct panel_lvds {
+>>>>    	const char *label;
+>>>>    	unsigned int width;
+>>>>    	unsigned int height;
+>>>> -	struct videomode video_mode;
+>>>> +	struct drm_display_mode dmode;
+>>>
+>>> "dmode" sounds a bit weird, I would have gone for just "mode", or
+>>> "display_mode", but I don't mind much.
+>>
+>> That's how the of_get_drm_panel_display_mode() parameter is called in
+>> drivers/gpu/drm/drm_modes.c , so I'll just keep it for consistency.
+>>
+>> [...]
+>>
+>>>> -	videomode_from_timing(&timing, &lvds->video_mode);
+>>>> -
+>>>> -	ret = of_property_read_u32(np, "width-mm", &lvds->width);
+>>>> -	if (ret < 0) {
+>>>> -		dev_err(lvds->dev, "%pOF: invalid or missing %s DT property\n",
+>>>> -			np, "width-mm");
+>>>> -		return -ENODEV;
+>>>> -	}
+>>>> -	ret = of_property_read_u32(np, "height-mm", &lvds->height);
+>>>> -	if (ret < 0) {
+>>>> -		dev_err(lvds->dev, "%pOF: invalid or missing %s DT property\n",
+>>>> -			np, "height-mm");
+>>>> -		return -ENODEV;
+>>>> -	}
+>>>
+>>> of_get_drm_panel_display_mode() doesn't consider missing width-mm or
+>>> height-mm properties as an error. Should we check here that ->width_mm
+>>> and ->height_mm are not 0 ?
+>>
+>> I wonder whether we should always require valid width-mm and height-mm
+>> DT property in of_get_drm_panel_display_mode() instead.
 > 
-> Hi,
-> 
-> [...]
-> 
-> >> diff --git a/drivers/gpu/drm/panel/panel-lvds.c b/drivers/gpu/drm/panel/panel-lvds.c
-> >> index 27a1c9923b09..65c6a6e9e223 100644
-> >> --- a/drivers/gpu/drm/panel/panel-lvds.c
-> >> +++ b/drivers/gpu/drm/panel/panel-lvds.c
-> >> @@ -30,7 +30,8 @@ struct panel_lvds {
-> >>   	const char *label;
-> >>   	unsigned int width;
-> >>   	unsigned int height;
-> >> -	struct videomode video_mode;
-> >> +	struct drm_display_mode dmode;
-> > 
-> > "dmode" sounds a bit weird, I would have gone for just "mode", or
-> > "display_mode", but I don't mind much.
-> 
-> That's how the of_get_drm_panel_display_mode() parameter is called in 
-> drivers/gpu/drm/drm_modes.c , so I'll just keep it for consistency.
-> 
-> [...]
-> 
-> >> -	videomode_from_timing(&timing, &lvds->video_mode);
-> >> -
-> >> -	ret = of_property_read_u32(np, "width-mm", &lvds->width);
-> >> -	if (ret < 0) {
-> >> -		dev_err(lvds->dev, "%pOF: invalid or missing %s DT property\n",
-> >> -			np, "width-mm");
-> >> -		return -ENODEV;
-> >> -	}
-> >> -	ret = of_property_read_u32(np, "height-mm", &lvds->height);
-> >> -	if (ret < 0) {
-> >> -		dev_err(lvds->dev, "%pOF: invalid or missing %s DT property\n",
-> >> -			np, "height-mm");
-> >> -		return -ENODEV;
-> >> -	}
-> > 
-> > of_get_drm_panel_display_mode() doesn't consider missing width-mm or
-> > height-mm properties as an error. Should we check here that ->width_mm
-> > and ->height_mm are not 0 ?
-> 
-> I wonder whether we should always require valid width-mm and height-mm 
-> DT property in of_get_drm_panel_display_mode() instead.
+> If that doesn't introduce any regression, that would be my preference
+> too.
 
-If that doesn't introduce any regression, that would be my preference
-too.
-
-> [...]
-
--- 
-Regards,
-
-Laurent Pinchart
+I sent out an RFC series, so let's see.
