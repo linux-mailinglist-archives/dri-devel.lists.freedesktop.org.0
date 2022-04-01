@@ -1,65 +1,39 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 331764EFBDD
-	for <lists+dri-devel@lfdr.de>; Fri,  1 Apr 2022 22:53:19 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 12CE94EFBE8
+	for <lists+dri-devel@lfdr.de>; Fri,  1 Apr 2022 22:56:15 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id A728010E0F3;
-	Fri,  1 Apr 2022 20:53:15 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id E112A10E0FD;
+	Fri,  1 Apr 2022 20:56:09 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mout.gmx.net (mout.gmx.net [212.227.15.19])
- by gabe.freedesktop.org (Postfix) with ESMTPS id A7FC110E0F3
- for <dri-devel@lists.freedesktop.org>; Fri,  1 Apr 2022 20:53:13 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=gmx.net;
- s=badeba3b8450; t=1648846385;
- bh=XBQN4Y8cY6863locdXVbzi2Vq6V+H1v2SxPMFzNkCPo=;
- h=X-UI-Sender-Class:Date:Subject:To:Cc:References:From:In-Reply-To;
- b=OYTqi2prkndGI/ORGpjS+vnKtXl+OmGYiTqwelq0yTAS7/Jjgk+SIjpx0vY3eX+9Y
- Cpen5R+JveUaI3t44wRlqs9rF/FH7IYYmVz6t8wgx6jcmUYu6Szv5crjYh3cWyJ0hM
- M6arbyu7Bz3DghRqe/joNvt2qfAYXTtuqBFjO6yo=
-X-UI-Sender-Class: 01bb95c1-4bf8-414a-932a-4f6e2808ef9c
-Received: from [192.168.20.60] ([92.116.191.12]) by mail.gmx.net (mrgmx004
- [212.227.17.190]) with ESMTPSA (Nemesis) id 1MtOGa-1nsbwV1DuI-00uupR; Fri, 01
- Apr 2022 22:53:05 +0200
-Message-ID: <f6802e83-0fc6-ffe6-cea1-d2a39d768514@gmx.de>
-Date: Fri, 1 Apr 2022 22:53:02 +0200
+Received: from letterbox.kde.org (letterbox.kde.org
+ [IPv6:2001:41c9:1:41e::242])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id C0DE210E0F4
+ for <dri-devel@lists.freedesktop.org>; Fri,  1 Apr 2022 20:56:07 +0000 (UTC)
+Received: from vertex.vmware.com (pool-108-36-85-85.phlapa.fios.verizon.net
+ [108.36.85.85]) (Authenticated sender: zack)
+ by letterbox.kde.org (Postfix) with ESMTPSA id 5512A28A546;
+ Fri,  1 Apr 2022 21:56:05 +0100 (BST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kde.org; s=users;
+ t=1648846565; bh=klNZi8K4qy22qgGHhlckTAOQ2hPHpUShIBvUo1JJcCI=;
+ h=From:To:Cc:Subject:Date:From;
+ b=WTyY+O5q9fEutlpPumiqwtaasBhIihYwH1GcsyXVdOdJxVvwK1ZVUXeK5yR0XRO3O
+ Dd8/UvRhGjnZuhAY44cBH0jcBuUDq2GakkFYteuQtlE2qcZIFDxo02j0H85FdNOxD3
+ KAodcu+OqILfNnkvKodBifbWzrYjt7S/+/p+ChHLyFDxzAeezvhabNXD1JMEuMZ1S/
+ Wec2X+15nmtpzG8GUzMqAASLa1/pCIpQOJ+/qqP1gLTK5BpTqqIF08ObLHS3oHVIZK
+ fpDMamVSn1BzZ/Gp8QR9Z+E6iInevDjzEd1muG6QDPyy9oFWZU55FRzpLQNEFCRkn1
+ Dbk7JAFakdNMg==
+From: Zack Rusin <zack@kde.org>
+To: dri-devel@lists.freedesktop.org
+Subject: [PATCH 1/3] drm/vmwgfx: Add debugfs entries for ttm placements
+Date: Fri,  1 Apr 2022 16:56:00 -0400
+Message-Id: <20220401205602.1172975-1-zack@kde.org>
+X-Mailer: git-send-email 2.32.0
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.7.0
-Subject: Re: [PATCH] video: fbdev: sis: fix potential NULL dereference in
- sisfb_post_sis300()
-Content-Language: en-US
-To: Haowen Bai <baihaowen@meizu.com>,
- Thomas Winischhofer <thomas@winischhofer.net>
-References: <1648784476-20803-1-git-send-email-baihaowen@meizu.com>
-From: Helge Deller <deller@gmx.de>
-In-Reply-To: <1648784476-20803-1-git-send-email-baihaowen@meizu.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: quoted-printable
-X-Provags-ID: V03:K1:jqSUrZEkWBRjiAbZGSBMpExq4v+hgcH4biJGJErpd8gmlIXCNtj
- HSBeMgO224TpGgAVQdXvF2pmAs9LVA+J89TQNBpsezoHFqUgLMPEPevYjjkn8JlDQbPZ36b
- lQ8n0RY3EDclGiYEIetK31BqjjXu6e82as1P3vma4VwQb8B3MAsqxOWmPaC47ilbSCyrwYL
- RGFONn2o0MSQv+kZTN1Cg==
-X-Spam-Flag: NO
-X-UI-Out-Filterresults: notjunk:1;V03:K0:8KFcAgyHg6o=:11aIfxQ0Zlsyeanjppqz0z
- OLNfjn00nnTIgmKHvnUhJ8klyMyGa7czYWsXDdBhiUv2dMESFbBa+ll/lAv4kMnfaXxLzoDxP
- DSaMrtArtBVxzE9vFHMzopDwDrYxEiqXkGU4me+SEnCmI//LZKBeRoBSTnW3rlj4vyK5d06P6
- EVyvtQcRuQEGRR2erhzUoGzg02RHdBz34oMC3zHJ0Nvod/3iL3t6pztdgM4zg+02TQv7K6tKt
- LXXmVS+0RYDMWo0/fx54WcxjboICJCT4al+Rh13ieDpmC5SVSbYo9t3B+kFg2e1ZSbc08mEWK
- isJ9ZoArTrwabqfz8zjazBwtECiHkwb1VW9eUm+AQCbQYOAIlDcAcrtyvzNvVUiMUQRX3vLIs
- 0gIdEcX3IXY4S1HPo0Gp94qhq0Z5XTsHK3yncfLIP4j2N3j/yu7S2ZbtCXS7xMvgRlZdmGCxK
- 0Vpwf4coxclXBqM7O1tRdPFwBc7ucZH1RHymZO0aP7vRnv53IqO5tlRIPMO5C5jmpcWvWejzr
- TwWFZNKsp+jq6yNkPxMK2q4DB0I7IEFcDl4N6/AyDV8zPF3Krjob+6pXtUUIOEKrc09BNx+kY
- feTd7dZMlO9VWDNw9lk01o69ss0PxuDK4X5CztukKXpsaJ33XPD1xdpt8MdeJNnJmtGbsNVGs
- DAiIfGDxB+LzLkCue+oids+pGAKEA5CoMkzHbReqGd8PZLLrl+NZzVdJOQrIQ2tDjIFkMiwPM
- CyvmIPQBZyFvvRckE0qGS1ELL0jzhIcohc/h6PJjCKVNsCCdJWZoQltfy/9gyZKKIeQwwdT2W
- /PydMo6n/qsr/crSmzyRdMAymNOt6qV6G1RSF5eNq2zThoKuGWP78FPNZRZh3OhJHmIT6YGvA
- BT6zcofyzQyisXI3VR1Znh2OposN+zUqRVYwzBytr6rY6y3dbURQ/jB4n1q7819ii8+O1DG+m
- 22QgFmNy5/gpqCo1B38asxfFlBLd5eTg1J/UtuIUFMPEBRCdkBcmzGdbt2WcYynIiFGu6VD5s
- ablP2n2qanFtPOKQpleUWMT6CDFeB4i0H96Q6D9qozBQ4eewJOFr57PC/V2A9OiOq8QIY9BAh
- i3RPaaAulys7Rw=
+Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -72,38 +46,161 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: linux-fbdev@vger.kernel.org, linux-kernel@vger.kernel.org,
- dri-devel@lists.freedesktop.org
+Reply-To: Zack Rusin <zackr@vmware.com>
+Cc: krastevm@vmware.com, mombasawalam@vmware.com
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 4/1/22 05:41, Haowen Bai wrote:
-> bios could be null without checking null and return in this function,
-> but still dereference bios[0xf5].
->
-> Signed-off-by: Haowen Bai <baihaowen@meizu.com>
+From: Zack Rusin <zackr@vmware.com>
 
-applied.
-Thanks!
-Helge
+Add a few debugfs entries for every used TTM placement that vmwgfx is
+using. This allows basic tracking of memory usage inside vmwgfx, e.g.
+'cat /sys/kernel/debug/dri/0/mob_ttm' will display mob memory usage.
 
-> ---
->  drivers/video/fbdev/sis/sis_main.c | 2 +-
->  1 file changed, 1 insertion(+), 1 deletion(-)
->
-> diff --git a/drivers/video/fbdev/sis/sis_main.c b/drivers/video/fbdev/si=
-s/sis_main.c
-> index 742f629..24a0299 100644
-> --- a/drivers/video/fbdev/sis/sis_main.c
-> +++ b/drivers/video/fbdev/sis/sis_main.c
-> @@ -4463,7 +4463,7 @@ static void sisfb_post_sis300(struct pci_dev *pdev=
-)
->  		SiS_SetReg(SISCR, 0x37, 0x02);
->  		SiS_SetReg(SISPART2, 0x00, 0x1c);
->  		v4 =3D 0x00; v5 =3D 0x00; v6 =3D 0x10;
-> -		if(ivideo->SiS_Pr.UseROM) {
-> +		if (ivideo->SiS_Pr.UseROM && bios) {
->  			v4 =3D bios[0xf5];
->  			v5 =3D bios[0xf6];
->  			v6 =3D bios[0xf7];
+Signed-off-by: Zack Rusin <zackr@vmware.com>
+Reviewed-by: Martin Krastev <krastevm@vmware.com>
+---
+ drivers/gpu/drm/vmwgfx/vmwgfx_drv.c        |  1 +
+ drivers/gpu/drm/vmwgfx/vmwgfx_drv.h        |  1 +
+ drivers/gpu/drm/vmwgfx/vmwgfx_ttm_buffer.c | 97 +++++++++++++++++++++-
+ 3 files changed, 98 insertions(+), 1 deletion(-)
+
+diff --git a/drivers/gpu/drm/vmwgfx/vmwgfx_drv.c b/drivers/gpu/drm/vmwgfx/vmwgfx_drv.c
+index 791f9a5f3868..6d675855f065 100644
+--- a/drivers/gpu/drm/vmwgfx/vmwgfx_drv.c
++++ b/drivers/gpu/drm/vmwgfx/vmwgfx_drv.c
+@@ -1632,6 +1632,7 @@ static int vmw_probe(struct pci_dev *pdev, const struct pci_device_id *ent)
+ 		goto out_unload;
+ 
+ 	vmw_debugfs_gem_init(vmw);
++	vmw_ttm_debugfs_init(vmw);
+ 
+ 	return 0;
+ out_unload:
+diff --git a/drivers/gpu/drm/vmwgfx/vmwgfx_drv.h b/drivers/gpu/drm/vmwgfx/vmwgfx_drv.h
+index be19aa6e1f13..eabe3e8e9cf9 100644
+--- a/drivers/gpu/drm/vmwgfx/vmwgfx_drv.h
++++ b/drivers/gpu/drm/vmwgfx/vmwgfx_drv.h
+@@ -1085,6 +1085,7 @@ vmw_bo_sg_table(struct ttm_buffer_object *bo);
+ extern int vmw_bo_create_and_populate(struct vmw_private *dev_priv,
+ 				      unsigned long bo_size,
+ 				      struct ttm_buffer_object **bo_p);
++void vmw_ttm_debugfs_init(struct vmw_private *vdev);
+ 
+ extern void vmw_piter_start(struct vmw_piter *viter,
+ 			    const struct vmw_sg_table *vsgt,
+diff --git a/drivers/gpu/drm/vmwgfx/vmwgfx_ttm_buffer.c b/drivers/gpu/drm/vmwgfx/vmwgfx_ttm_buffer.c
+index b84ecc6d6611..355414595e52 100644
+--- a/drivers/gpu/drm/vmwgfx/vmwgfx_ttm_buffer.c
++++ b/drivers/gpu/drm/vmwgfx/vmwgfx_ttm_buffer.c
+@@ -1,7 +1,7 @@
+ // SPDX-License-Identifier: GPL-2.0 OR MIT
+ /**************************************************************************
+  *
+- * Copyright 2009-2015 VMware, Inc., Palo Alto, CA., USA
++ * Copyright 2009-2022 VMware, Inc., Palo Alto, CA., USA
+  *
+  * Permission is hereby granted, free of charge, to any person obtaining a
+  * copy of this software and associated documentation files (the
+@@ -677,3 +677,98 @@ int vmw_bo_create_and_populate(struct vmw_private *dev_priv,
+ 		*bo_p = bo;
+ 	return ret;
+ }
++
++#if defined(CONFIG_DEBUG_FS)
++
++static int vmw_ttm_vram_table_show(struct seq_file *m, void *unused)
++{
++	struct vmw_private *vdev = (struct vmw_private *)m->private;
++	struct ttm_resource_manager *man = ttm_manager_type(&vdev->bdev,
++							    TTM_PL_VRAM);
++	struct drm_printer p = drm_seq_file_printer(m);
++
++	ttm_resource_manager_debug(man, &p);
++	return 0;
++}
++
++static int vmw_ttm_page_pool_show(struct seq_file *m, void *unused)
++{
++	struct vmw_private *vdev = (struct vmw_private *)m->private;
++
++	return ttm_pool_debugfs(&vdev->bdev.pool, m);
++}
++
++static int vmw_ttm_mob_table_show(struct seq_file *m, void *unused)
++{
++	struct vmw_private *vdev = (struct vmw_private *)m->private;
++	struct ttm_resource_manager *man = ttm_manager_type(&vdev->bdev,
++							    VMW_PL_MOB);
++	struct drm_printer p = drm_seq_file_printer(m);
++
++	ttm_resource_manager_debug(man, &p);
++	return 0;
++}
++
++static int vmw_ttm_gmr_table_show(struct seq_file *m, void *unused)
++{
++	struct vmw_private *vdev = (struct vmw_private *)m->private;
++	struct ttm_resource_manager *man = ttm_manager_type(&vdev->bdev,
++							    VMW_PL_GMR);
++	struct drm_printer p = drm_seq_file_printer(m);
++
++	ttm_resource_manager_debug(man, &p);
++	return 0;
++}
++
++static int vmw_ttm_system_table_show(struct seq_file *m, void *unused)
++{
++	struct vmw_private *vdev = (struct vmw_private *)m->private;
++	struct ttm_resource_manager *man = ttm_manager_type(&vdev->bdev,
++							    TTM_PL_SYSTEM);
++	struct drm_printer p = drm_seq_file_printer(m);
++
++	ttm_resource_manager_debug(man, &p);
++	return 0;
++}
++
++static int vmw_ttm_system_mob_table_show(struct seq_file *m, void *unused)
++{
++	struct vmw_private *vdev = (struct vmw_private *)m->private;
++	struct ttm_resource_manager *man = ttm_manager_type(&vdev->bdev,
++							    VMW_PL_SYSTEM);
++	struct drm_printer p = drm_seq_file_printer(m);
++
++	ttm_resource_manager_debug(man, &p);
++	return 0;
++}
++
++DEFINE_SHOW_ATTRIBUTE(vmw_ttm_vram_table);
++DEFINE_SHOW_ATTRIBUTE(vmw_ttm_mob_table);
++DEFINE_SHOW_ATTRIBUTE(vmw_ttm_gmr_table);
++DEFINE_SHOW_ATTRIBUTE(vmw_ttm_system_table);
++DEFINE_SHOW_ATTRIBUTE(vmw_ttm_system_mob_table);
++DEFINE_SHOW_ATTRIBUTE(vmw_ttm_page_pool);
++
++#endif
++
++void vmw_ttm_debugfs_init(struct vmw_private *vdev)
++{
++#if defined(CONFIG_DEBUG_FS)
++	struct drm_device *drm = &vdev->drm;
++	struct drm_minor *minor = drm->primary;
++	struct dentry *root = minor->debugfs_root;
++
++	debugfs_create_file("vram_ttm", 0444, root, vdev,
++			    &vmw_ttm_vram_table_fops);
++	debugfs_create_file("mob_ttm", 0444, root, vdev,
++			    &vmw_ttm_mob_table_fops);
++	debugfs_create_file("gmr_ttm", 0444, root, vdev,
++			    &vmw_ttm_gmr_table_fops);
++	debugfs_create_file("system_ttm", 0444, root, vdev,
++			    &vmw_ttm_system_table_fops);
++	debugfs_create_file("system_mob_ttm", 0444, root, vdev,
++			    &vmw_ttm_system_mob_table_fops);
++	debugfs_create_file("ttm_page_pool", 0444, root, vdev,
++			    &vmw_ttm_page_pool_fops);
++#endif
++}
+-- 
+2.32.0
 
