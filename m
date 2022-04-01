@@ -2,48 +2,55 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id C5FA24EF20B
-	for <lists+dri-devel@lfdr.de>; Fri,  1 Apr 2022 16:47:02 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id A41A14EF220
+	for <lists+dri-devel@lfdr.de>; Fri,  1 Apr 2022 16:52:48 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id B1D2610F4DB;
-	Fri,  1 Apr 2022 14:47:00 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 2A1F210E3DA;
+	Fri,  1 Apr 2022 14:52:46 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from dfw.source.kernel.org (dfw.source.kernel.org
- [IPv6:2604:1380:4641:c500::1])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 76C2310F4D9;
- Fri,  1 Apr 2022 14:46:58 +0000 (UTC)
-Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
- (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
- (No client certificate requested)
- by dfw.source.kernel.org (Postfix) with ESMTPS id 048B860BC2;
- Fri,  1 Apr 2022 14:46:58 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 39229C340EE;
- Fri,  1 Apr 2022 14:46:56 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1648824417;
- bh=pU/H+u9rFtp4ENuB1Hm1S3gmfaCJ6UJyWiYaxiMbYOg=;
- h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
- b=mM01b3VenxyNrvwoTtMVfDtXS53HE/vZEGmLJmsh2KiHKk2ln136Q+dNbY8OrNYZc
- ILukTjIJsFYCS7CISEoCcqC9ayV41b0WLyeVNP652rgBlHaD+Ii6R7j6NQ/It82RWh
- Zw8w/AURoccR9UA1P7WQwBWRVHrfTPBId60eN+KDEF/IgKAfoaPDUXYGe7cLjSeShU
- dJD6drFL043+Ews8+bZeHvUVtEuioI1lA2lOh3tykey3hYL+1aLGobXjCF7fZNXXWK
- iZLgkAEO3w+15klE4VhbcIlzA8NhpqoDWz7Qzyc3wWdGIxDoM+xxFrMYdLVNvOIdmL
- w0poPKKZ5J8fg==
-From: Sasha Levin <sashal@kernel.org>
-To: linux-kernel@vger.kernel.org,
-	stable@vger.kernel.org
-Subject: [PATCH AUTOSEL 4.19 16/29] drm/amdkfd: make CRAT table missing
- message informational only
-Date: Fri,  1 Apr 2022 10:45:59 -0400
-Message-Id: <20220401144612.1955177-16-sashal@kernel.org>
-X-Mailer: git-send-email 2.34.1
-In-Reply-To: <20220401144612.1955177-1-sashal@kernel.org>
-References: <20220401144612.1955177-1-sashal@kernel.org>
+Received: from mail-ed1-x52f.google.com (mail-ed1-x52f.google.com
+ [IPv6:2a00:1450:4864:20::52f])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id F3F6410E3DA
+ for <dri-devel@lists.freedesktop.org>; Fri,  1 Apr 2022 14:52:44 +0000 (UTC)
+Received: by mail-ed1-x52f.google.com with SMTP id b24so3231939edu.10
+ for <dri-devel@lists.freedesktop.org>; Fri, 01 Apr 2022 07:52:44 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=amarulasolutions.com; s=google;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc:content-transfer-encoding;
+ bh=CDTGg7xmd02lguFcPgMwbnDRM6tHMxG1F9pAwbPQoHo=;
+ b=T7W8CN+jz5+aiumWrrsmaS77T+E5scb+pwhmUc7sQ00YF6qeVlR/iuX7nMux/sXgZi
+ aoXbT2oN81ea9wAj+fdmjo3mi8803aMoqN5bRP+HmiPDTOHrxU4/qO8cTYWxf3yOu74k
+ 3YTMVUWBBT6ijr8xnLFMnkty+UNhHPWXYJ4yw=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc:content-transfer-encoding;
+ bh=CDTGg7xmd02lguFcPgMwbnDRM6tHMxG1F9pAwbPQoHo=;
+ b=uxhkcfceGDhjPIDOnDZFVD75GHbtphhmEQk5GFModQqY9RHoCClO3eH96VTT++Ve2q
+ Boi5u6z7vg3lngU76v6uc8ndlbNpFrY4jml3YFKGqGrebPMu1qqlhpLUm6m5kPUQjrFW
+ fK85e930Lp+e1jRDbkEjByBXvuBNEgV9xj5Rby37/2xMqMWvJkYC0pI6i7v7E/MBsRlE
+ JeB8fKf2aWLjCdSI28Q86nYxeS6SDl+TmYTEQnsmA+0GDpNX243A0rX6qasw1bTBdFmu
+ 4y5PP1E9Qj2eqY4B/Hd/isv0rsQAyvzAS93ZLTWBEz/6nlpWlyWTuAVgaRtQi7iYGW8f
+ xvhQ==
+X-Gm-Message-State: AOAM533ppUqQM6bkxzWElVvxY5hWFE+2T3m2FZVc1dC95f1dbmldBmBJ
+ L+LJtNdDtGJ2lSYDepmrzDiUDkpzkkuZJBiR+pfemQ==
+X-Google-Smtp-Source: ABdhPJwiHgIV7HJawa3rB+bvMNReOkRYBuvb2rbFfBdUHW6q0LcxoVGrpPWP1JWfHYg+Rjf+M7hRjLo0TYW/6FnZzJo=
+X-Received: by 2002:a05:6402:1941:b0:413:2822:9c8 with SMTP id
+ f1-20020a056402194100b00413282209c8mr21428644edz.13.1648824763403; Fri, 01
+ Apr 2022 07:52:43 -0700 (PDT)
 MIME-Version: 1.0
-X-stable: review
-X-Patchwork-Hint: Ignore
-Content-Transfer-Encoding: 8bit
+References: <20220401015828.2959505-1-victor.liu@nxp.com>
+In-Reply-To: <20220401015828.2959505-1-victor.liu@nxp.com>
+From: Jagan Teki <jagan@amarulasolutions.com>
+Date: Fri, 1 Apr 2022 20:22:32 +0530
+Message-ID: <CAMty3ZC6pLJXP=kxwFeZj6CF87ASvoxz9+8Z-7O+DCNwtcLHcQ@mail.gmail.com>
+Subject: Re: [PATCH] drm/bridge: nwl-dsi: Drop the drm_of_panel_bridge_remove()
+ function call
+To: Liu Ying <victor.liu@nxp.com>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -56,43 +63,26 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Sasha Levin <sashal@kernel.org>, airlied@linux.ie,
- Felix Kuehling <Felix.Kuehling@amd.com>, Xinhui.Pan@amd.com,
- amd-gfx@lists.freedesktop.org, dri-devel@lists.freedesktop.org,
- Alex Deucher <alexander.deucher@amd.com>, christian.koenig@amd.com
+Cc: Robert Foss <robert.foss@linaro.org>,
+ =?UTF-8?Q?Guido_G=C3=BCnther?= <agx@sigxcpu.org>, linux-kernel@vger.kernel.org,
+ dri-devel@lists.freedesktop.org, NXP Linux Team <linux-imx@nxp.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-From: Alex Deucher <alexander.deucher@amd.com>
+On Fri, Apr 1, 2022 at 7:26 AM Liu Ying <victor.liu@nxp.com> wrote:
+>
+> Since this driver has been changed to use the resource managed
+> devm_drm_of_get_bridge() to get bridge from ->attach(), it's
+> unnecessary to call drm_of_panel_bridge_remove() to remove the
+> bridge from ->detach().  So, let's drop the drm_of_panel_bridge_remove()
+> function call.  As nwl_dsi_bridge_detach() only calls
+> drm_of_panel_bridge_remove(), it can also be dropped.
+>
+> Cc: Robert Foss <robert.foss@linaro.org>
+> Cc: Guido G=C3=BCnther <agx@sigxcpu.org>
+> Cc: Jagan Teki <jagan@amarulasolutions.com>
+> Cc: NXP Linux Team <linux-imx@nxp.com>
+> Signed-off-by: Liu Ying <victor.liu@nxp.com>
+> ---
 
-[ Upstream commit 9dff13f9edf755a15f6507874185a3290c1ae8bb ]
-
-The driver has a fallback so make the message informational
-rather than a warning. The driver has a fallback if the
-Component Resource Association Table (CRAT) is missing, so
-make this informational now.
-
-Bug: https://gitlab.freedesktop.org/drm/amd/-/issues/1906
-Reviewed-by: Felix Kuehling <Felix.Kuehling@amd.com>
-Signed-off-by: Alex Deucher <alexander.deucher@amd.com>
-Signed-off-by: Sasha Levin <sashal@kernel.org>
----
- drivers/gpu/drm/amd/amdkfd/kfd_crat.c | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
-
-diff --git a/drivers/gpu/drm/amd/amdkfd/kfd_crat.c b/drivers/gpu/drm/amd/amdkfd/kfd_crat.c
-index ee4996029a86..e2780643f4c3 100644
---- a/drivers/gpu/drm/amd/amdkfd/kfd_crat.c
-+++ b/drivers/gpu/drm/amd/amdkfd/kfd_crat.c
-@@ -733,7 +733,7 @@ int kfd_create_crat_image_acpi(void **crat_image, size_t *size)
- 	/* Fetch the CRAT table from ACPI */
- 	status = acpi_get_table(CRAT_SIGNATURE, 0, &crat_table);
- 	if (status == AE_NOT_FOUND) {
--		pr_warn("CRAT table not found\n");
-+		pr_info("CRAT table not found\n");
- 		return -ENODATA;
- 	} else if (ACPI_FAILURE(status)) {
- 		const char *err = acpi_format_exception(status);
--- 
-2.34.1
-
+Reviewed-by: Jagan Teki <jagan@amarulasolutions.com>
