@@ -1,41 +1,41 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 266FE4EEFCC
-	for <lists+dri-devel@lfdr.de>; Fri,  1 Apr 2022 16:29:43 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id BC8544EEFCE
+	for <lists+dri-devel@lfdr.de>; Fri,  1 Apr 2022 16:29:50 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 4753310E9E2;
-	Fri,  1 Apr 2022 14:29:41 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 4EEBE10EBB0;
+	Fri,  1 Apr 2022 14:29:48 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 89E4310EB0E
- for <dri-devel@lists.freedesktop.org>; Fri,  1 Apr 2022 14:29:40 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 2931C10EB0E;
+ Fri,  1 Apr 2022 14:29:46 +0000 (UTC)
 Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
  (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
  (No client certificate requested)
- by dfw.source.kernel.org (Postfix) with ESMTPS id EE75D61C43;
- Fri,  1 Apr 2022 14:29:39 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 9540EC2BBE4;
- Fri,  1 Apr 2022 14:29:37 +0000 (UTC)
+ by dfw.source.kernel.org (Postfix) with ESMTPS id 9EDD061CA5;
+ Fri,  1 Apr 2022 14:29:45 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 75528C340F2;
+ Fri,  1 Apr 2022 14:29:42 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1648823379;
- bh=eTiovVUCen7xNYJkwiLrMjheRNdT5H42VgeNdAbVmjY=;
+ s=k20201202; t=1648823385;
+ bh=cqrUv7O8vSE9JaxNbS3Vy/vKIXdKbT3eUmQ0SnuZxIs=;
  h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
- b=iY0HzFuPYi+s0imDltpHRMocEkETTYKm61R7TfU9XFe15ev2tKsadFIjBfhl02lFb
- 23Zuo9dtQXdKg2SKm4hEkFbkAkGGY9G0VYyf47ZzNoUnSElMYsUk9RE5Q7HERRH4ZW
- YTxKYiAJMgDnmwbkGH5JxnSajZcke2nAzp/n4lnJ3CUijcxBISuDYSUFKn3LAuhmml
- /J4LHvSbXLRPQZuUHesQDza/22Wo6Zqtl4a0ARA8Zxb0VtfVa9EKWUWIdzRsiUIazw
- vToQivUPl2eEwt3uE159IXhUMAd/kZ3K8dpM5JaEt/A/xJspaRvmH9T4MfgQ+dEUg+
- /yiJY+DNBxAFA==
+ b=GLjSQttXcPk59ovQdKFtmFaZIRarqp6HpQnR1XCVTDURudQJJJRAJcMugrmtihQ3z
+ nl1jVj8pw7du8Uu7uiwego3pct72h+r3eXWFtGzPaBBkY1LdHNKQp67eEXCJy7Xc3P
+ sYYpDSqNBifDyzYVUle8v6m8icRpYfIU9FmjSbarjfRugeP84FgHpuTuncmipXrhDm
+ mL2oxHNOVyWLWXotNHxzfWMRuFCbAyBa6Q4ac5vJVfeev/LtP29Bj6asQazyZWN5B+
+ hI3zDkpNtkLM17O0nyEdiinBCYcVBcNa0es8XmCO70bjkzt3L9wxEVzDM0zpLtsJdP
+ 57NFAvnKgWoTg==
 From: Sasha Levin <sashal@kernel.org>
 To: linux-kernel@vger.kernel.org,
 	stable@vger.kernel.org
-Subject: [PATCH AUTOSEL 5.17 072/149] drm/sprd: check the
- platform_get_resource() return value
-Date: Fri,  1 Apr 2022 10:24:19 -0400
-Message-Id: <20220401142536.1948161-72-sashal@kernel.org>
+Subject: [PATCH AUTOSEL 5.17 073/149] drm/amd/display: reset lane settings
+ after each PHY repeater LT
+Date: Fri,  1 Apr 2022 10:24:20 -0400
+Message-Id: <20220401142536.1948161-73-sashal@kernel.org>
 X-Mailer: git-send-email 2.34.1
 In-Reply-To: <20220401142536.1948161-1-sashal@kernel.org>
 References: <20220401142536.1948161-1-sashal@kernel.org>
@@ -55,68 +55,84 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Sasha Levin <sashal@kernel.org>, Kevin Tang <kevin3.tang@gmail.com>,
- airlied@linux.ie, zhang.lyra@gmail.com,
- Javier Martinez Canillas <javierm@redhat.com>, dri-devel@lists.freedesktop.org,
- maxime@cerno.tech, Thomas Zimmermann <tzimmermann@suse.de>,
- baolin.wang7@gmail.com, orsonzhai@gmail.com, Zou Wei <zou_wei@huawei.com>
+Cc: Sasha Levin <sashal@kernel.org>, george.shen@amd.com,
+ Wesley.Chalmers@amd.com, sunpeng.li@amd.com, wenjing.liu@amd.com,
+ Sung Joon Kim <sungkim@amd.com>, Xinhui.Pan@amd.com, Rodrigo.Siqueira@amd.com,
+ Jerry.Zuo@amd.com, amd-gfx@lists.freedesktop.org,
+ Meenakshikumar Somasundaram <Meenakshikumar.Somasundaram@amd.com>,
+ airlied@linux.ie, Daniel Wheeler <daniel.wheeler@amd.com>,
+ dri-devel@lists.freedesktop.org, Jasdeep Dhillon <jdhillon@amd.com>,
+ Alex Deucher <alexander.deucher@amd.com>, Jun Lei <Jun.Lei@amd.com>,
+ christian.koenig@amd.com, Jimmy.Kizito@amd.com
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-From: Kevin Tang <kevin3.tang@gmail.com>
+From: Sung Joon Kim <sungkim@amd.com>
 
-[ Upstream commit 73792e6e66be1225837cc1a40f1e39b1d077751c ]
+[ Upstream commit 3b853c316c9321e195414a6fb121d1c2d45b1e87 ]
 
-platform_get_resource() may fail and return NULL, so check it's value
-before using it.
+[why]
+In LTTPR non-transparent mode, we need
+to reset the cached lane settings before performing
+link training on the next PHY repeater. Otherwise,
+the cached lane settings will be used for the next
+clock recovery e.g. VS = MAX (3) which should not be
+the case according to the DP specs. We expect to use
+minimum lane settings on each clock recovery sequence.
 
-Reported-by: Zou Wei <zou_wei@huawei.com>
-Signed-off-by: Kevin Tang <kevin3.tang@gmail.com>
-Reviewed-by: Javier Martinez Canillas <javierm@redhat.com>
-Acked-by: Thomas Zimmermann <tzimmermann@suse.de>
-Link: https://lore.kernel.org/all/20220117084156.9338-1-kevin3.tang@gmail.com
+[how]
+Reset DPCD and HW lane settings on each repeater LT.
+Set training pattern to 0 for the repeater that failed LT
+at the proper place.
 
-v1 -> v2:
-- new patch
-
+Reviewed-by: Meenakshikumar Somasundaram <Meenakshikumar.Somasundaram@amd.com>
+Reviewed-by: Jun Lei <Jun.Lei@amd.com>
+Acked-by: Jasdeep Dhillon <jdhillon@amd.com>
+Signed-off-by: Sung Joon Kim <sungkim@amd.com>
+Tested-by: Daniel Wheeler <daniel.wheeler@amd.com>
+Signed-off-by: Alex Deucher <alexander.deucher@amd.com>
 Signed-off-by: Sasha Levin <sashal@kernel.org>
 ---
- drivers/gpu/drm/sprd/sprd_dpu.c | 5 +++++
- drivers/gpu/drm/sprd/sprd_dsi.c | 5 +++++
- 2 files changed, 10 insertions(+)
+ drivers/gpu/drm/amd/display/dc/core/dc_link_dp.c | 15 ++++++++++-----
+ 1 file changed, 10 insertions(+), 5 deletions(-)
 
-diff --git a/drivers/gpu/drm/sprd/sprd_dpu.c b/drivers/gpu/drm/sprd/sprd_dpu.c
-index 06a3414ee43a..1637203ea103 100644
---- a/drivers/gpu/drm/sprd/sprd_dpu.c
-+++ b/drivers/gpu/drm/sprd/sprd_dpu.c
-@@ -790,6 +790,11 @@ static int sprd_dpu_context_init(struct sprd_dpu *dpu,
- 	int ret;
+diff --git a/drivers/gpu/drm/amd/display/dc/core/dc_link_dp.c b/drivers/gpu/drm/amd/display/dc/core/dc_link_dp.c
+index 61b8f29a0c30..49d5271dcfdc 100644
+--- a/drivers/gpu/drm/amd/display/dc/core/dc_link_dp.c
++++ b/drivers/gpu/drm/amd/display/dc/core/dc_link_dp.c
+@@ -2378,22 +2378,27 @@ static enum link_training_result dp_perform_8b_10b_link_training(
+ 				repeater_id--) {
+ 			status = perform_clock_recovery_sequence(link, link_res, lt_settings, repeater_id);
  
- 	res = platform_get_resource(pdev, IORESOURCE_MEM, 0);
-+	if (!res) {
-+		dev_err(dev, "failed to get I/O resource\n");
-+		return -EINVAL;
-+	}
-+
- 	ctx->base = devm_ioremap(dev, res->start, resource_size(res));
- 	if (!ctx->base) {
- 		dev_err(dev, "failed to map dpu registers\n");
-diff --git a/drivers/gpu/drm/sprd/sprd_dsi.c b/drivers/gpu/drm/sprd/sprd_dsi.c
-index 911b3cddc264..12b67a5d5923 100644
---- a/drivers/gpu/drm/sprd/sprd_dsi.c
-+++ b/drivers/gpu/drm/sprd/sprd_dsi.c
-@@ -907,6 +907,11 @@ static int sprd_dsi_context_init(struct sprd_dsi *dsi,
- 	struct resource *res;
+-			if (status != LINK_TRAINING_SUCCESS)
++			if (status != LINK_TRAINING_SUCCESS) {
++				repeater_training_done(link, repeater_id);
+ 				break;
++			}
  
- 	res = platform_get_resource(pdev, IORESOURCE_MEM, 0);
-+	if (!res) {
-+		dev_err(dev, "failed to get I/O resource\n");
-+		return -EINVAL;
-+	}
+ 			status = perform_channel_equalization_sequence(link,
+ 					link_res,
+ 					lt_settings,
+ 					repeater_id);
+ 
++			repeater_training_done(link, repeater_id);
 +
- 	ctx->base = devm_ioremap(dev, res->start, resource_size(res));
- 	if (!ctx->base) {
- 		drm_err(dsi->drm, "failed to map dsi host registers\n");
+ 			if (status != LINK_TRAINING_SUCCESS)
+ 				break;
+ 
+-			repeater_training_done(link, repeater_id);
++			for (lane = 0; lane < LANE_COUNT_DP_MAX; lane++) {
++				lt_settings->dpcd_lane_settings[lane].raw = 0;
++				lt_settings->hw_lane_settings[lane].VOLTAGE_SWING = 0;
++				lt_settings->hw_lane_settings[lane].PRE_EMPHASIS = 0;
++			}
+ 		}
+-
+-		for (lane = 0; lane < (uint8_t)lt_settings->link_settings.lane_count; lane++)
+-			lt_settings->dpcd_lane_settings[lane].raw = 0;
+ 	}
+ 
+ 	if (status == LINK_TRAINING_SUCCESS) {
 -- 
 2.34.1
 
