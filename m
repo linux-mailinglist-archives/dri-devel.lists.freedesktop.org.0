@@ -1,42 +1,41 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2C6A94EEF88
-	for <lists+dri-devel@lfdr.de>; Fri,  1 Apr 2022 16:27:09 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id CDEC94EEF99
+	for <lists+dri-devel@lfdr.de>; Fri,  1 Apr 2022 16:27:14 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id E3E3F10E78B;
-	Fri,  1 Apr 2022 14:27:04 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 7931C10E87A;
+	Fri,  1 Apr 2022 14:27:12 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from dfw.source.kernel.org (dfw.source.kernel.org
- [IPv6:2604:1380:4641:c500::1])
- by gabe.freedesktop.org (Postfix) with ESMTPS id E4E8D10E412;
- Fri,  1 Apr 2022 14:27:02 +0000 (UTC)
+Received: from ams.source.kernel.org (ams.source.kernel.org
+ [IPv6:2604:1380:4601:e00::1])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id BFACC10E7BB;
+ Fri,  1 Apr 2022 14:27:10 +0000 (UTC)
 Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
  (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
  (No client certificate requested)
- by dfw.source.kernel.org (Postfix) with ESMTPS id 57F2961C3F;
- Fri,  1 Apr 2022 14:27:02 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 42D5DC3410F;
- Fri,  1 Apr 2022 14:27:00 +0000 (UTC)
+ by ams.source.kernel.org (Postfix) with ESMTPS id 35BF3B8240E;
+ Fri,  1 Apr 2022 14:27:09 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 109F3C2BBE4;
+ Fri,  1 Apr 2022 14:27:05 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1648823221;
- bh=t4WJYu2EYorGiiXvwwsDIcmps/wfJUrrmdVAezFncSA=;
+ s=k20201202; t=1648823228;
+ bh=mOr3lNQXdbCJKrjBLq76MigGAjQCXtmASAMKe4k0eGs=;
  h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
- b=IQ4/x0jkAyvDkz0S77j4D5Ddz8jxB/A5ChRsCvV/s6rSWjhpUVc/Y5p5kpswnSQH/
- eZe4wO/QFooIUDTjBdAWsx4Z8kv3+jE58S2hGXTGfBVbovQaPcJgc+lAGFP5rDVedG
- hC6II9h+D+AZSs01jGfvVOo71kVQsaPZHd8dydMWyhU4+6daeO+Vvdaj6yZbRQGvq7
- S1Bt3CNQHdMaxMraAvY/dbcvwbmtDhAxokZY62P/A+AVCnHEp5j5e4h59mdQUkoEuN
- ohp1C5KJNx5J3qE5Ks/s5yLBVsH9rmzElwKRRGPtIs/KaJHW4OuIulqNV6OLBi7B0i
- RQMEzGqzYJd2Q==
+ b=dgqYvqFlugiMbIb63Z7ypu21gjUojGLk7a87MS7hc8qoKoJehw55qjbKXldIePGMU
+ fC9IYBVOc5aQunoz8RV/nr/M+0GlRXnhB56rZYy91zXAWaUTNkAbt5xZ51WTMrGpjV
+ hWI4ZyaF3mwVP+8tKqjwayLi7iT+G/ZNDNO3/EIr9k7zW2MNymL0vQH48aFDs9PP3g
+ 7Rt5YHByKGJCf3HpcIuUTj+DW8n1nJoGnvYd7nO2/OUb6VLYmcEOiEYcpY10R9D/CU
+ 2zGB9hS9dP+mxsAFctduMQdOkyXplVybF+NnoXfJTPHSAERxl8d4jxCUZF2q3IDeEM
+ A5oVTYRwu8jWw==
 From: Sasha Levin <sashal@kernel.org>
 To: linux-kernel@vger.kernel.org,
 	stable@vger.kernel.org
-Subject: [PATCH AUTOSEL 5.17 023/149] drm/amdkfd: svm range restore work
- deadlock when process exit
-Date: Fri,  1 Apr 2022 10:23:30 -0400
-Message-Id: <20220401142536.1948161-23-sashal@kernel.org>
+Subject: [PATCH AUTOSEL 5.17 024/149] drm/amdgpu: Fix an error message in rmmod
+Date: Fri,  1 Apr 2022 10:23:31 -0400
+Message-Id: <20220401142536.1948161-24-sashal@kernel.org>
 X-Mailer: git-send-email 2.34.1
 In-Reply-To: <20220401142536.1948161-1-sashal@kernel.org>
 References: <20220401142536.1948161-1-sashal@kernel.org>
@@ -56,112 +55,55 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Sasha Levin <sashal@kernel.org>, Philip Yang <Philip.Yang@amd.com>,
- Ruili Ji <ruili.ji@amd.com>, airlied@linux.ie,
- Felix Kuehling <Felix.Kuehling@amd.com>, Xinhui.Pan@amd.com,
- amd-gfx@lists.freedesktop.org, dri-devel@lists.freedesktop.org,
- Alex Deucher <alexander.deucher@amd.com>, christian.koenig@amd.com
+Cc: Sasha Levin <sashal@kernel.org>, Jack.Zhang1@amd.com, Xinhui.Pan@amd.com,
+ Yang Wang <kevinyang.wang@amd.com>, airlied@linux.ie,
+ Felix Kuehling <Felix.Kuehling@amd.com>, "Tianci.Yin" <tianci.yin@amd.com>,
+ amd-gfx@lists.freedesktop.org, lijo.lazar@amd.com,
+ dri-devel@lists.freedesktop.org, kevin1.wang@amd.com,
+ Alex Deucher <alexander.deucher@amd.com>, evan.quan@amd.com,
+ christian.koenig@amd.com
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-From: Philip Yang <Philip.Yang@amd.com>
+From: "Tianci.Yin" <tianci.yin@amd.com>
 
-[ Upstream commit 6225bb3a88d22594aacea2485dc28ca12d596721 ]
+[ Upstream commit 7270e8957eb9aacf5914605d04865f3829a14bce ]
 
-kfd_process_notifier_release flush svm_range_restore_work
-which calls svm_range_list_lock_and_flush_work to flush deferred_list
-work, but if deferred_list work mmput release the last user, it will
-call exit_mmap -> notifier_release, it is deadlock with below backtrace.
+[why]
+In rmmod procedure, kfd sends cp a dequeue request, but the
+request does not get response, then an error message "cp
+queue pipe 4 queue 0 preemption failed" printed.
 
-Move flush svm_range_restore_work to kfd_process_wq_release to avoid
-deadlock. Then svm_range_restore_work take task->mm ref to avoid mm is
-gone while validating and mapping ranges to GPU.
+[how]
+Performing kfd suspending after disabling gfxoff can fix it.
 
-Workqueue: events svm_range_deferred_list_work [amdgpu]
-Call Trace:
- wait_for_completion+0x94/0x100
- __flush_work+0x12a/0x1e0
- __cancel_work_timer+0x10e/0x190
- cancel_delayed_work_sync+0x13/0x20
- kfd_process_notifier_release+0x98/0x2a0 [amdgpu]
- __mmu_notifier_release+0x74/0x1f0
- exit_mmap+0x170/0x200
- mmput+0x5d/0x130
- svm_range_deferred_list_work+0x104/0x230 [amdgpu]
- process_one_work+0x220/0x3c0
-
-Signed-off-by: Philip Yang <Philip.Yang@amd.com>
-Reported-by: Ruili Ji <ruili.ji@amd.com>
-Tested-by: Ruili Ji <ruili.ji@amd.com>
-Reviewed-by: Felix Kuehling <Felix.Kuehling@amd.com>
+Acked-by: Felix Kuehling <Felix.Kuehling@amd.com>
+Reviewed-by: Yang Wang <kevinyang.wang@amd.com>
+Signed-off-by: Tianci.Yin <tianci.yin@amd.com>
 Signed-off-by: Alex Deucher <alexander.deucher@amd.com>
 Signed-off-by: Sasha Levin <sashal@kernel.org>
 ---
- drivers/gpu/drm/amd/amdkfd/kfd_process.c |  1 -
- drivers/gpu/drm/amd/amdkfd/kfd_svm.c     | 15 +++++++++------
- 2 files changed, 9 insertions(+), 7 deletions(-)
+ drivers/gpu/drm/amd/amdgpu/amdgpu_device.c | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
 
-diff --git a/drivers/gpu/drm/amd/amdkfd/kfd_process.c b/drivers/gpu/drm/amd/amdkfd/kfd_process.c
-index d1145da5348f..74f162887d3b 100644
---- a/drivers/gpu/drm/amd/amdkfd/kfd_process.c
-+++ b/drivers/gpu/drm/amd/amdkfd/kfd_process.c
-@@ -1150,7 +1150,6 @@ static void kfd_process_notifier_release(struct mmu_notifier *mn,
+diff --git a/drivers/gpu/drm/amd/amdgpu/amdgpu_device.c b/drivers/gpu/drm/amd/amdgpu/amdgpu_device.c
+index ed077de426d9..b793682071b2 100644
+--- a/drivers/gpu/drm/amd/amdgpu/amdgpu_device.c
++++ b/drivers/gpu/drm/amd/amdgpu/amdgpu_device.c
+@@ -2708,11 +2708,11 @@ static int amdgpu_device_ip_fini_early(struct amdgpu_device *adev)
+ 		}
+ 	}
  
- 	cancel_delayed_work_sync(&p->eviction_work);
- 	cancel_delayed_work_sync(&p->restore_work);
--	cancel_delayed_work_sync(&p->svms.restore_work);
- 
- 	mutex_lock(&p->mutex);
- 
-diff --git a/drivers/gpu/drm/amd/amdkfd/kfd_svm.c b/drivers/gpu/drm/amd/amdkfd/kfd_svm.c
-index 225affcddbc1..1cf9041c9727 100644
---- a/drivers/gpu/drm/amd/amdkfd/kfd_svm.c
-+++ b/drivers/gpu/drm/amd/amdkfd/kfd_svm.c
-@@ -1643,13 +1643,14 @@ static void svm_range_restore_work(struct work_struct *work)
- 
- 	pr_debug("restore svm ranges\n");
- 
--	/* kfd_process_notifier_release destroys this worker thread. So during
--	 * the lifetime of this thread, kfd_process and mm will be valid.
--	 */
- 	p = container_of(svms, struct kfd_process, svms);
--	mm = p->mm;
--	if (!mm)
-+
-+	/* Keep mm reference when svm_range_validate_and_map ranges */
-+	mm = get_task_mm(p->lead_thread);
-+	if (!mm) {
-+		pr_debug("svms 0x%p process mm gone\n", svms);
- 		return;
-+	}
- 
- 	svm_range_list_lock_and_flush_work(svms, mm);
- 	mutex_lock(&svms->lock);
-@@ -1703,6 +1704,7 @@ static void svm_range_restore_work(struct work_struct *work)
- out_reschedule:
- 	mutex_unlock(&svms->lock);
- 	mmap_write_unlock(mm);
-+	mmput(mm);
- 
- 	/* If validation failed, reschedule another attempt */
- 	if (evicted_ranges) {
-@@ -2840,6 +2842,8 @@ void svm_range_list_fini(struct kfd_process *p)
- 
- 	pr_debug("pasid 0x%x svms 0x%p\n", p->pasid, &p->svms);
- 
-+	cancel_delayed_work_sync(&p->svms.restore_work);
-+
- 	/* Ensure list work is finished before process is destroyed */
- 	flush_work(&p->svms.deferred_list_work);
- 
-@@ -2850,7 +2854,6 @@ void svm_range_list_fini(struct kfd_process *p)
- 	atomic_inc(&p->svms.drain_pagefaults);
- 	svm_range_drain_retry_fault(&p->svms);
- 
+-	amdgpu_amdkfd_suspend(adev, false);
 -
- 	list_for_each_entry_safe(prange, next, &p->svms.list, list) {
- 		svm_range_unlink(prange);
- 		svm_range_remove_notifier(prange);
+ 	amdgpu_device_set_pg_state(adev, AMD_PG_STATE_UNGATE);
+ 	amdgpu_device_set_cg_state(adev, AMD_CG_STATE_UNGATE);
+ 
++	amdgpu_amdkfd_suspend(adev, false);
++
+ 	/* Workaroud for ASICs need to disable SMC first */
+ 	amdgpu_device_smu_fini_early(adev);
+ 
 -- 
 2.34.1
 
