@@ -2,63 +2,48 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7FA5F4EF6FE
-	for <lists+dri-devel@lfdr.de>; Fri,  1 Apr 2022 17:58:04 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 2860D4EF78F
+	for <lists+dri-devel@lfdr.de>; Fri,  1 Apr 2022 18:11:41 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 39EB210F4EE;
-	Fri,  1 Apr 2022 15:58:02 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 737F110F5EB;
+	Fri,  1 Apr 2022 16:11:37 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-wr1-x444.google.com (mail-wr1-x444.google.com
- [IPv6:2a00:1450:4864:20::444])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 40E1F10F4EE
- for <dri-devel@lists.freedesktop.org>; Fri,  1 Apr 2022 15:58:01 +0000 (UTC)
-Received: by mail-wr1-x444.google.com with SMTP id b19so4858123wrh.11
- for <dri-devel@lists.freedesktop.org>; Fri, 01 Apr 2022 08:58:01 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ffwll.ch; s=google;
- h=date:from:to:cc:subject:message-id:references:mime-version
- :content-disposition:content-transfer-encoding:in-reply-to;
- bh=YUqzSu4G7NFSiRDS6FAcC1tRBY3HYqQQ5UXS+6cj2Zo=;
- b=OHaeOEmCT/1YG78RCCbmux5pqc7NZ89/zLkohSynygjLDzlXrY6XbWQUzfjxP0I08e
- qr8tzDBnUuVditvFFGXqK6Rj8K1TSWwqsMo6Urb6UA1aeWBMfxZZ52TTX67D5BZCMCfY
- 0vPR6BUCpFG0PCg4LviZBAEuqaYzLgxTBWbeU=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=x-gm-message-state:date:from:to:cc:subject:message-id:references
- :mime-version:content-disposition:content-transfer-encoding
- :in-reply-to;
- bh=YUqzSu4G7NFSiRDS6FAcC1tRBY3HYqQQ5UXS+6cj2Zo=;
- b=GImXsb8Kb66ud/Uk44KHl7vQIHkak0RMd3J2IG2rN6FUB1rWGg0WnQnW/vll5cQ+0t
- YEQp8IsslHLNMM2ynz2XrLK+DcCigvcBOru6a5YYvjZ9U9vxmlLrKtC6xW5cUguCwXqL
- mMBE4kiPmYBV88a5YDTTX7rafDz7AOg9DSBMT0/3aDvrJ8bIsKwei7SbnHI2Gx+UgPNv
- AIQyQP/r65F0hv5cokEMJ/P8CRJPTyF6TUinlqJdPyRGsa+hK9R55veKohsZlkmrrsfK
- 8xntkbrKbNRXaNRgOkjYJRw2dla10Aad1vWYxOBuqz/F9p5XwSNntrCWEf7rEfSdja8r
- 5vwg==
-X-Gm-Message-State: AOAM532t9RTVx7kgiNknyfaULFpEcw1Uo7tB37DrbY+BLB3XkjBgoMEW
- HBEC9dUVCBmMepZkLhbEPanRSvk2kprVRAhq
-X-Google-Smtp-Source: ABdhPJxA3cSn4145pjBRQs2KCxQDoT+sRNMGK1NTdD+TTxdzDb9ykM0Dfgs5M+G0Cs656u8wuJym8g==
-X-Received: by 2002:a5d:6208:0:b0:203:dde4:c76e with SMTP id
- y8-20020a5d6208000000b00203dde4c76emr8170252wru.273.1648828679704; 
- Fri, 01 Apr 2022 08:57:59 -0700 (PDT)
-Received: from phenom.ffwll.local ([2a02:168:57f4:0:efd0:b9e5:5ae6:c2fa])
- by smtp.gmail.com with ESMTPSA id
- k11-20020a5d6d4b000000b0020599079f68sm2373757wri.106.2022.04.01.08.57.58
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Fri, 01 Apr 2022 08:57:59 -0700 (PDT)
-Date: Fri, 1 Apr 2022 17:57:57 +0200
-From: Daniel Vetter <daniel@ffwll.ch>
-To: Christian =?iso-8859-1?Q?K=F6nig?= <christian.koenig@amd.com>
-Subject: Re: [PATCH 03/23] dma-buf: add dma_resv_get_singleton v2
-Message-ID: <YkchBXGnOvrD+jFw@phenom.ffwll.local>
-References: <20220321135856.1331-1-christian.koenig@amd.com>
- <20220321135856.1331-3-christian.koenig@amd.com>
- <8e12de76-5206-81f8-0b8e-1c31865a7633@amd.com>
+Received: from phobos.denx.de (phobos.denx.de [85.214.62.61])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 1833710F5EB
+ for <dri-devel@lists.freedesktop.org>; Fri,  1 Apr 2022 16:11:35 +0000 (UTC)
+Received: from [127.0.0.1] (p578adb1c.dip0.t-ipconnect.de [87.138.219.28])
+ (using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits))
+ (No client certificate requested)
+ (Authenticated sender: marex@denx.de)
+ by phobos.denx.de (Postfix) with ESMTPSA id 733A4842E3;
+ Fri,  1 Apr 2022 18:11:23 +0200 (CEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=denx.de;
+ s=phobos-20191101; t=1648829489;
+ bh=XJDj+LTWI9jRlvZ1Dyqva3EIKyzR9BjFxd0vmUVG0+8=;
+ h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
+ b=lKxT/VR/R83U+SouzX0I34uwC8ss2u9DBcf5FhX16AvINYaXLjAbuEbL6cAHaPlHH
+ m55Lhc16hVYDoOL6Bd2vNBSpNvITuNxdTujnS6Hzq9LRoLMY7tHj27RcMjxWQ2JSK5
+ 2cbMulOrubQ3m2KrAiihd30mNni+w67aV40pw0ZwSogMFiuAWCpDOVFySdv1AFFPon
+ DI9XtpFCemaAS2nHhHQtz5ZugQuzlLc8shj+9jpmrY4Kr61ENUX2JUrbalcOlhLr5W
+ ewZ+D2WMNNMOBRJchZM4Dwr/G/WTss9uYY1zTHghTxK+2acgfKV2A1Zqy04AJeRfEn
+ OziChvFN12/LA==
+Message-ID: <66182d46-9270-1096-97b1-1cd635e0795e@denx.de>
+Date: Fri, 1 Apr 2022 18:11:22 +0200
 MIME-Version: 1.0
-Content-Type: text/plain; charset=iso-8859-1
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <8e12de76-5206-81f8-0b8e-1c31865a7633@amd.com>
-X-Operating-System: Linux phenom 5.10.0-8-amd64 
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.7.0
+Subject: Re: [PATCH 1/2] drm/panel: lvds: Simplify mode parsing
+Content-Language: en-US
+To: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+References: <20220331192347.103299-1-marex@denx.de>
+ <Ykce0oywZTR5NnsF@pendragon.ideasonboard.com>
+From: Marek Vasut <marex@denx.de>
+In-Reply-To: <Ykce0oywZTR5NnsF@pendragon.ideasonboard.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
+X-Virus-Scanned: clamav-milter 0.103.5 at phobos.denx.de
+X-Virus-Status: Clean
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -71,129 +56,58 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Christian =?iso-8859-1?Q?K=F6nig?= <ckoenig.leichtzumerken@gmail.com>,
- dri-devel@lists.freedesktop.org, daniel.vetter@ffwll.ch
+Cc: Christoph Niedermaier <cniedermaier@dh-electronics.com>,
+ Daniel Vetter <daniel.vetter@ffwll.ch>, robert.foss@linaro.org,
+ dri-devel@lists.freedesktop.org, Thomas Zimmermann <tzimmermann@suse.de>,
+ Dmitry Osipenko <digetx@gmail.com>, Sam Ravnborg <sam@ravnborg.org>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Fri, Apr 01, 2022 at 10:21:22AM +0200, Christian König wrote:
-> Daniel any more comments on this one here?
+On 4/1/22 17:48, Laurent Pinchart wrote:
+
+Hi,
+
+[...]
+
+>> diff --git a/drivers/gpu/drm/panel/panel-lvds.c b/drivers/gpu/drm/panel/panel-lvds.c
+>> index 27a1c9923b09..65c6a6e9e223 100644
+>> --- a/drivers/gpu/drm/panel/panel-lvds.c
+>> +++ b/drivers/gpu/drm/panel/panel-lvds.c
+>> @@ -30,7 +30,8 @@ struct panel_lvds {
+>>   	const char *label;
+>>   	unsigned int width;
+>>   	unsigned int height;
+>> -	struct videomode video_mode;
+>> +	struct drm_display_mode dmode;
 > 
-> It's the prerequisite to a bunch of other patches and I would like to get it
-> out of my feet.
+> "dmode" sounds a bit weird, I would have gone for just "mode", or
+> "display_mode", but I don't mind much.
 
-Apologies for the miss, I thought I've r-b stamped this one already.
+That's how the of_get_drm_panel_display_mode() parameter is called in 
+drivers/gpu/drm/drm_modes.c , so I'll just keep it for consistency.
 
+[...]
+
+>> -	videomode_from_timing(&timing, &lvds->video_mode);
+>> -
+>> -	ret = of_property_read_u32(np, "width-mm", &lvds->width);
+>> -	if (ret < 0) {
+>> -		dev_err(lvds->dev, "%pOF: invalid or missing %s DT property\n",
+>> -			np, "width-mm");
+>> -		return -ENODEV;
+>> -	}
+>> -	ret = of_property_read_u32(np, "height-mm", &lvds->height);
+>> -	if (ret < 0) {
+>> -		dev_err(lvds->dev, "%pOF: invalid or missing %s DT property\n",
+>> -			np, "height-mm");
+>> -		return -ENODEV;
+>> -	}
 > 
-> Thanks,
-> Christian.
-> 
-> Am 21.03.22 um 14:58 schrieb Christian König:
-> > Add a function to simplify getting a single fence for all the fences in
-> > the dma_resv object.
-> > 
-> > v2: fix ref leak in error handling
-> > 
-> > Signed-off-by: Christian König <christian.koenig@amd.com>
-> > ---
-> >   drivers/dma-buf/dma-resv.c | 52 ++++++++++++++++++++++++++++++++++++++
-> >   include/linux/dma-resv.h   |  2 ++
-> >   2 files changed, 54 insertions(+)
-> > 
-> > diff --git a/drivers/dma-buf/dma-resv.c b/drivers/dma-buf/dma-resv.c
-> > index 5001e9b4420a..c09fd8da0c85 100644
-> > --- a/drivers/dma-buf/dma-resv.c
-> > +++ b/drivers/dma-buf/dma-resv.c
-> > @@ -34,6 +34,7 @@
-> >    */
-> >   #include <linux/dma-resv.h>
-> > +#include <linux/dma-fence-array.h>
-> >   #include <linux/export.h>
-> >   #include <linux/mm.h>
-> >   #include <linux/sched/mm.h>
-> > @@ -650,6 +651,57 @@ int dma_resv_get_fences(struct dma_resv *obj, bool write,
-> >   }
-> >   EXPORT_SYMBOL_GPL(dma_resv_get_fences);
-> > +/**
-> > + * dma_resv_get_singleton - Get a single fence for all the fences
-> > + * @obj: the reservation object
-> > + * @write: true if we should return all fences
-> > + * @fence: the resulting fence
-> > + *
-> > + * Get a single fence representing all the fences inside the resv object.
-> > + * Returns either 0 for success or -ENOMEM.
-> > + *
-> > + * Warning: This can't be used like this when adding the fence back to the resv
-> > + * object since that can lead to stack corruption when finalizing the
-> > + * dma_fence_array.
+> of_get_drm_panel_display_mode() doesn't consider missing width-mm or
+> height-mm properties as an error. Should we check here that ->width_mm
+> and ->height_mm are not 0 ?
 
-Please add the standard boilerplate here:
+I wonder whether we should always require valid width-mm and height-mm 
+DT property in of_get_drm_panel_display_mode() instead.
 
-Returns 0 on success and negative error values on failure.
-
-> > + */
-> > +int dma_resv_get_singleton(struct dma_resv *obj, bool write,
-> > +			   struct dma_fence **fence)
-> > +{
-> > +	struct dma_fence_array *array;
-> > +	struct dma_fence **fences;
-> > +	unsigned count;
-> > +	int r;
-> > +
-> > +	r = dma_resv_get_fences(obj, write, &count, &fences);
-
-Deep down in here we already have the dma_resv_assert_held, so I'm happy.
-
-Reviewed-by: Daniel Vetter <daniel.vetter@ffwll.ch>
-
-> > +        if (r)
-> > +		return r;
-> > +
-> > +	if (count == 0) {
-> > +		*fence = NULL;
-> > +		return 0;
-> > +	}
-> > +
-> > +	if (count == 1) {
-> > +		*fence = fences[0];
-> > +		kfree(fences);
-> > +		return 0;
-> > +	}
-> > +
-> > +	array = dma_fence_array_create(count, fences,
-> > +				       dma_fence_context_alloc(1),
-> > +				       1, false);
-> > +	if (!array) {
-> > +		while (count--)
-> > +			dma_fence_put(fences[count]);
-> > +		kfree(fences);
-> > +		return -ENOMEM;
-> > +	}
-> > +
-> > +	*fence = &array->base;
-> > +	return 0;
-> > +}
-> > +EXPORT_SYMBOL_GPL(dma_resv_get_singleton);
-> > +
-> >   /**
-> >    * dma_resv_wait_timeout - Wait on reservation's objects
-> >    * shared and/or exclusive fences.
-> > diff --git a/include/linux/dma-resv.h b/include/linux/dma-resv.h
-> > index 202cc65d0621..08512c1e215d 100644
-> > --- a/include/linux/dma-resv.h
-> > +++ b/include/linux/dma-resv.h
-> > @@ -449,6 +449,8 @@ void dma_resv_replace_fences(struct dma_resv *obj, uint64_t context,
-> >   void dma_resv_add_excl_fence(struct dma_resv *obj, struct dma_fence *fence);
-> >   int dma_resv_get_fences(struct dma_resv *obj, bool write,
-> >   			unsigned int *num_fences, struct dma_fence ***fences);
-> > +int dma_resv_get_singleton(struct dma_resv *obj, bool write,
-> > +			   struct dma_fence **fence);
-> >   int dma_resv_copy_fences(struct dma_resv *dst, struct dma_resv *src);
-> >   long dma_resv_wait_timeout(struct dma_resv *obj, bool wait_all, bool intr,
-> >   			   unsigned long timeout);
-> 
-
--- 
-Daniel Vetter
-Software Engineer, Intel Corporation
-http://blog.ffwll.ch
+[...]
