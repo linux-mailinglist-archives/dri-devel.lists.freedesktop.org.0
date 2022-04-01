@@ -1,65 +1,66 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 906274EEDAB
-	for <lists+dri-devel@lfdr.de>; Fri,  1 Apr 2022 15:02:29 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 88A024EEDCB
+	for <lists+dri-devel@lfdr.de>; Fri,  1 Apr 2022 15:05:25 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 5F74B10E323;
-	Fri,  1 Apr 2022 13:02:17 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 7952510E31B;
+	Fri,  1 Apr 2022 13:05:23 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-lf1-x12a.google.com (mail-lf1-x12a.google.com
- [IPv6:2a00:1450:4864:20::12a])
- by gabe.freedesktop.org (Postfix) with ESMTPS id CA6A610E2ED;
- Fri,  1 Apr 2022 13:02:15 +0000 (UTC)
-Received: by mail-lf1-x12a.google.com with SMTP id p15so4776071lfk.8;
- Fri, 01 Apr 2022 06:02:15 -0700 (PDT)
+Received: from mail-lf1-x135.google.com (mail-lf1-x135.google.com
+ [IPv6:2a00:1450:4864:20::135])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 4AA7510E31B
+ for <dri-devel@lists.freedesktop.org>; Fri,  1 Apr 2022 13:05:22 +0000 (UTC)
+Received: by mail-lf1-x135.google.com with SMTP id p10so4756645lfa.12
+ for <dri-devel@lists.freedesktop.org>; Fri, 01 Apr 2022 06:05:22 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
- h=from:to:cc:subject:date:message-id:in-reply-to:references
- :mime-version:content-transfer-encoding;
- bh=g3YdE7NZj+L8Dg/chDHlwxEN35uclyYb0VXoHTgKIhw=;
- b=nfVXaACmCvFErHHLmNFXvYLypWAxntbQhOofhVv7ZNsll0iXH7oC2baijOofqH55tl
- ocaVjxe21bM+Po4QV0VsMrwJBUEd08ytEQRibXrlPAg4QTN6ioVivclEaDWT1LnyEWEx
- 8jAlXp8JIhhCPXZavsM4YpGUxzJJMDxUJvZQQuXujz+Db+429L0Gp8YXugIIseHVbtcP
- O/APz+MB2/JCJ/erH8dsKo4GwrOtcW5hoK4y48UOly6cL7/KwsV5n+5QVPftBNnqUaNE
- NBzltQ3wWRi7k0Mn50dLAFjZzLkurSmhPYdviABfBO4NDKlNUBYtE+wsBToRBTwX8Jv0
- 7yHA==
+ h=mime-version:subject:from:in-reply-to:date:cc
+ :content-transfer-encoding:message-id:references:to;
+ bh=0ucnjFKd28Tf+W0k0cKJLPb/VcjJsSWQNUvFfYSvuec=;
+ b=lwjqcDZowyUU8SuD8z2KZvDAD1mucsBt5qUOqYI/eoVYbRsRNjll6kgXkuvojbg5MI
+ UYk0eutBGy0i3pSAcp0GidT4aybG37Fqt86TTJVUeFDo7dr4eTrqnj7wZwSGCiMcMP7w
+ caFA/JAaHsx/PKVdUIx2D214DPjOaf0vmTYieL/8CJnG/GjRImDjedGWKlfL+XVtBgHi
+ R4zRaKmy04yuGg4XzDiM0Q5GBGqS7VUrrK6ysSTd9QcYnaHuLct+9KUkwQUswkYwJ+4h
+ rqOZD5pRnVJ3z2cUnsUVmJaFRUM1zShFtulA0SJXcb68tA72iU7cOqd2W+3iP1GbhqhR
+ gw3Q==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
- :references:mime-version:content-transfer-encoding;
- bh=g3YdE7NZj+L8Dg/chDHlwxEN35uclyYb0VXoHTgKIhw=;
- b=jjWTaJ63Ew+F/XwOICZnw6XTVn+s83poZCs/QCFPuX+hJPrisPOjcNclL7/HTVZUX9
- om1OLp+jRuJOEpVNo2o6PuvcMnqQl0xh7OR277mD32P+WOS9WjYYDuyBXPz/H7pURs/m
- 5UF9xchJioJ8azIEWfuyYjdVxHN4fECk3gfCh/Xo7Q3yLMLrF0dbg/hE8Fu4rUFWPAfE
- 5RWOyAoy2Er1p89E+BV1alSdiHbG1l3Ml1TMUwOv2BfWwD8+QPuVngKnG0gLFtP0yCM/
- y8z7MJGhTOozX/FccQX5poLvMiEWM7JlM0RZmNjO+gswIkwtdTA0L2LdcWBnqFSXoTVH
- IGBw==
-X-Gm-Message-State: AOAM532R4pJ7i0z6LjoLdyu9sWTZcsagVXqRcN5tuLbue5y+GKwkHo8v
- 6azbpBlpsOm/TLV8iv8sEOYfdop8oBc=
-X-Google-Smtp-Source: ABdhPJzk84w1oS7F4Lq6lobVV06BlLC92rk92/31hnu9QaUGvz0sy6uwPZ81oOHeM5CsMNbd2NlRug==
-X-Received: by 2002:a05:6512:908:b0:44a:e242:2876 with SMTP id
- e8-20020a056512090800b0044ae2422876mr960482lft.511.1648818133696; 
- Fri, 01 Apr 2022 06:02:13 -0700 (PDT)
-Received: from inno-pc.lan (88-115-161-74.elisa-laajakaista.fi.
- [88.115.161.74]) by smtp.gmail.com with ESMTPSA id
- y22-20020a056512045600b0044a997dea9esm235574lfk.283.2022.04.01.06.02.12
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Fri, 01 Apr 2022 06:02:13 -0700 (PDT)
-From: Zhi Wang <zhi.wang.linux@gmail.com>
-X-Google-Original-From: Zhi Wang <zhi.a.wang@intel.com>
-To: dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org,
- intel-gfx@lists.freedesktop.org, intel-gvt-dev@lists.freedesktop.org
-Subject: [PATCH v8 3/3] i915/gvt: Use the initial HW state snapshot saved in
- i915
-Date: Fri,  1 Apr 2022 09:02:07 -0400
-Message-Id: <20220401130207.33944-4-zhi.a.wang@intel.com>
-X-Mailer: git-send-email 2.25.1
-In-Reply-To: <20220401130207.33944-1-zhi.a.wang@intel.com>
-References: <20220401130207.33944-1-zhi.a.wang@intel.com>
-MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+ h=x-gm-message-state:mime-version:subject:from:in-reply-to:date:cc
+ :content-transfer-encoding:message-id:references:to;
+ bh=0ucnjFKd28Tf+W0k0cKJLPb/VcjJsSWQNUvFfYSvuec=;
+ b=p5WZxCOiW8V5DNU8wJeUI6xR/lUMCUuTm6lbezjKiThyJjEfO3diZ3Xq4qEWSUS7mb
+ ELAlngjtuorqBc86UEK9K3LzRqGCj/H73xUu0ahwnp+JGO4XV9nVhzBFyzecYtgvH6Ip
+ fJbQYV+LQ6xzVVeZdySWs2E9WsFk1yrduAewC4pCvHXv9UT3PKQB0YXbUVLIko2H8/cr
+ A0TQ2mLdGpnvYPTxRafJVBsT79ba3pZOFlWmvxzw7Aade5TK/vVv+LHwZU2fLMldXMYF
+ VZgCMZk38XUO0WlFTdgzEpHq/RWng8u4H+R9PZZTZAqXPTKNPgzrPJjVsEHHxby/x3I2
+ UhIg==
+X-Gm-Message-State: AOAM533BNP6eON8F6EUOM17snZgbFgm0NJwOCFeTHp71XCkAcaPjWwvq
+ Lx1wCMHjT955czM2mm3VMoc=
+X-Google-Smtp-Source: ABdhPJyZ5PdSzE8MpJHh+wukQwEggZ85lWeSn46EcyF/aB7nRi7vu866Il+NdtIoeNpkflbb91DjMg==
+X-Received: by 2002:a19:5f16:0:b0:44a:2507:5e90 with SMTP id
+ t22-20020a195f16000000b0044a25075e90mr14520906lfb.24.1648818320442; 
+ Fri, 01 Apr 2022 06:05:20 -0700 (PDT)
+Received: from smtpclient.apple (31-178-191-245.dynamic.chello.pl.
+ [31.178.191.245]) by smtp.gmail.com with ESMTPSA id
+ i8-20020a0565123e0800b0044a74e0954dsm238724lfv.66.2022.04.01.06.05.19
+ (version=TLS1_2 cipher=ECDHE-ECDSA-AES128-GCM-SHA256 bits=128/128);
+ Fri, 01 Apr 2022 06:05:19 -0700 (PDT)
+Content-Type: text/plain;
+	charset=utf-8
+Mime-Version: 1.0 (Mac OS X Mail 14.0 \(3654.120.0.1.13\))
+Subject: Re: [PATCH v9 00/23] drm/rockchip: RK356x VOP2 support
+From: Piotr Oniszczuk <piotr.oniszczuk@gmail.com>
+In-Reply-To: <20220401125205.GL4012@pengutronix.de>
+Date: Fri, 1 Apr 2022 15:05:16 +0200
+Content-Transfer-Encoding: quoted-printable
+Message-Id: <5420D26D-34FD-4637-B602-F6271E38BB8D@gmail.com>
+References: <20220328151116.2034635-1-s.hauer@pengutronix.de>
+ <FB201567-AE5A-4242-82F1-7C55D8F111EA@gmail.com>
+ <20220401125205.GL4012@pengutronix.de>
+To: Sascha Hauer <s.hauer@pengutronix.de>
+X-Mailer: Apple Mail (2.3654.120.0.1.13)
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -72,80 +73,87 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Jason Gunthorpe <jgg@nvidia.com>, Vivi Rodrigo <rodrigo.vivi@intel.com>,
- Christoph Hellwig <hch@lst.de>, Zhi Wang <zhi.a.wang@intel.com>
+Cc: "devicetree@vger.kernel.org" <devicetree@vger.kernel.org>,
+ Benjamin Gaignard <benjamin.gaignard@collabora.com>,
+ Peter Geis <pgwipeout@gmail.com>, Sandy Huang <hjc@rock-chips.com>,
+ dri-devel@lists.freedesktop.org,
+ "open list:ARM/Rockchip SoC..." <linux-rockchip@lists.infradead.org>,
+ Michael Riesch <michael.riesch@wolfvision.net>, kernel@pengutronix.de,
+ Andy Yan <andy.yan@rock-chips.com>,
+ "linux-arm-kernel@lists.infradead.org" <linux-arm-kernel@lists.infradead.org>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-The code of saving initial HW state snapshot has been moved into i915.
-Let the GVT-g core logic use that snapshot.
 
-Cc: Christoph Hellwig <hch@lst.de>
-Cc: Jason Gunthorpe <jgg@nvidia.com>
-Cc: Jani Nikula <jani.nikula@linux.intel.com>
-Cc: Joonas Lahtinen <joonas.lahtinen@linux.intel.com>
-Cc: Vivi Rodrigo <rodrigo.vivi@intel.com>
-Cc: Zhenyu Wang <zhenyuw@linux.intel.com>
-Cc: Zhi Wang <zhi.a.wang@intel.com>
-Signed-off-by: Zhi Wang <zhi.a.wang@intel.com>
----
- drivers/gpu/drm/i915/gvt/firmware.c | 25 +++++++++----------------
- 1 file changed, 9 insertions(+), 16 deletions(-)
 
-diff --git a/drivers/gpu/drm/i915/gvt/firmware.c b/drivers/gpu/drm/i915/gvt/firmware.c
-index 1a8274a3f4b1..54fe442238c6 100644
---- a/drivers/gpu/drm/i915/gvt/firmware.c
-+++ b/drivers/gpu/drm/i915/gvt/firmware.c
-@@ -66,22 +66,16 @@ static struct bin_attribute firmware_attr = {
- 	.mmap = NULL,
- };
- 
--static int mmio_snapshot_handler(struct intel_gvt *gvt, u32 offset, void *data)
--{
--	*(u32 *)(data + offset) = intel_uncore_read_notrace(gvt->gt->uncore,
--							    _MMIO(offset));
--	return 0;
--}
--
- static int expose_firmware_sysfs(struct intel_gvt *gvt)
- {
- 	struct intel_gvt_device_info *info = &gvt->device_info;
--	struct pci_dev *pdev = to_pci_dev(gvt->gt->i915->drm.dev);
-+	struct drm_i915_private *i915 = gvt->gt->i915;
-+	struct pci_dev *pdev = to_pci_dev(i915->drm.dev);
- 	struct gvt_firmware_header *h;
- 	void *firmware;
- 	void *p;
- 	unsigned long size, crc32_start;
--	int i, ret;
-+	int ret;
- 
- 	size = sizeof(*h) + info->mmio_size + info->cfg_space_size;
- 	firmware = vzalloc(size);
-@@ -99,17 +93,16 @@ static int expose_firmware_sysfs(struct intel_gvt *gvt)
- 
- 	p = firmware + h->cfg_space_offset;
- 
--	for (i = 0; i < h->cfg_space_size; i += 4)
--		pci_read_config_dword(pdev, i, p + i);
--
--	memcpy(gvt->firmware.cfg_space, p, info->cfg_space_size);
-+	memcpy(gvt->firmware.cfg_space, i915->vgpu.initial_cfg_space,
-+	       info->cfg_space_size);
-+	memcpy(p, gvt->firmware.cfg_space, info->cfg_space_size);
- 
- 	p = firmware + h->mmio_offset;
- 
--	/* Take a snapshot of hw mmio registers. */
--	intel_gvt_for_each_tracked_mmio(gvt, mmio_snapshot_handler, p);
-+	memcpy(gvt->firmware.mmio, i915->vgpu.initial_mmio,
-+	       info->mmio_size);
- 
--	memcpy(gvt->firmware.mmio, p, info->mmio_size);
-+	memcpy(p, gvt->firmware.mmio, info->mmio_size);
- 
- 	crc32_start = offsetof(struct gvt_firmware_header, crc32) + 4;
- 	h->crc32 = crc32_le(0, firmware + crc32_start, size - crc32_start);
--- 
-2.25.1
+> Wiadomo=C5=9B=C4=87 napisana przez Sascha Hauer =
+<s.hauer@pengutronix.de> w dniu 01.04.2022, o godz. 14:52:
+>=20
+> Based on the discussion with Andy please try the following patch, it
+> should fix your green screen issue. Note that with this patch the
+> CRTC and plane ids will change, so the modetest commands need to be
+> adjusted accordingly.
+>=20
+> Sascha
+>=20
+> -------------------------8<---------------------------
+>=20
+> --=20
+> =46rom cbc03073623a7180243331ac24c3afaf9dec7522 Mon Sep 17 00:00:00 =
+2001
+> From: Sascha Hauer <s.hauer@pengutronix.de>
+> Date: Fri, 1 Apr 2022 14:48:49 +0200
+> Subject: [PATCH] fixup! drm: rockchip: Add VOP2 driver
+>=20
+> ---
+> drivers/gpu/drm/rockchip/rockchip_drm_vop2.c | 14 ++++++++++++++
+> 1 file changed, 14 insertions(+)
+>=20
+> diff --git a/drivers/gpu/drm/rockchip/rockchip_drm_vop2.c =
+b/drivers/gpu/drm/rockchip/rockchip_drm_vop2.c
+> index 7dba7b9b63dc6..1421bf2f133f1 100644
+> --- a/drivers/gpu/drm/rockchip/rockchip_drm_vop2.c
+> +++ b/drivers/gpu/drm/rockchip/rockchip_drm_vop2.c
+> @@ -2287,6 +2287,20 @@ static int vop2_create_crtc(struct vop2 *vop2)
+> 			}
+> 		}
+>=20
+> +		if (vop2->data->soc_id =3D=3D 3566) {
+> +			/*
+> +			 * On RK3566 these windows don't have an =
+independent
+> +			 * framebuffer. They share the framebuffer with =
+smart0,
+> +			 * esmart0 and cluster0 respectively.
+> +			 */
+> +			switch (win->data->phys_id) {
+> +			case ROCKCHIP_VOP2_SMART1:
+> +			case ROCKCHIP_VOP2_ESMART1:
+> +			case ROCKCHIP_VOP2_CLUSTER1:
+> +				continue;
+> +			}
+> +		}
+> +
+> 		if (win->type =3D=3D DRM_PLANE_TYPE_OVERLAY)
+> 			possible_crtcs =3D (1 << nvps) - 1;
+>=20
+> --=20
+> 2.30.2
+>=20
+> Pengutronix e.K.                           |                           =
+  |
+> Steuerwalder Str. 21                       | =
+http://www.pengutronix.de/  |
+> 31137 Hildesheim, Germany                  | Phone: +49-5121-206917-0  =
+  |
+> Amtsgericht Hildesheim, HRA 2686           | Fax:   =
++49-5121-206917-5555 |
+
+Sascha
+
+Now works perfectly!
+(hd playback with 3.5...5.5% cpu while rendering to drm plane)
+
+Fantastic work of You!
+
 
