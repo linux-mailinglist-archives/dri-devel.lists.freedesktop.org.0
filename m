@@ -1,50 +1,50 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6973A4EED54
-	for <lists+dri-devel@lfdr.de>; Fri,  1 Apr 2022 14:37:41 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 1E7704EED77
+	for <lists+dri-devel@lfdr.de>; Fri,  1 Apr 2022 14:52:16 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 782A810E300;
-	Fri,  1 Apr 2022 12:37:25 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 49FE010E1A2;
+	Fri,  1 Apr 2022 12:52:12 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mga11.intel.com (mga11.intel.com [192.55.52.93])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 221B910E2E3;
- Fri,  1 Apr 2022 12:37:22 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1648816642; x=1680352642;
- h=from:to:subject:date:message-id:in-reply-to:references:
- mime-version:content-transfer-encoding;
- bh=uyZUMJ+wrhVwLV1VFV+N8lspdFwCTt0L/WuJeJCB92M=;
- b=KR9pzcXknCk6rxl6oGy4UdUsm4qMrSgxurBLlz5GpfIXUkhrnqIGewm3
- EocUTs1PqJQuIGoH6PpXd8CieewVXfEiWMQox5+ODfGeOQw8BIFX0cqye
- B2mDk0FvxRNKngZ9OnlNg6yWJg78gk78NC3e9g1ptKYugN/hsS+tun4Hp
- Px5HvuMx3nDGU5Aa6Sh9QnmwW6voXXLHLc4Bjkdv0oboiAFGFTH/8JJnW
- wW4KhZsOTKIVWqYiti/rcMHIKXjTXPw593WBZa7V9Qqzw+Pu+kdBwWscB
- Nl8V+p+fBDQkNDUAznZ1JOs+AZlqpDYLFi6zfurqh3bVH3AGYKWpg2Q0v Q==;
-X-IronPort-AV: E=McAfee;i="6200,9189,10303"; a="257708078"
-X-IronPort-AV: E=Sophos;i="5.90,227,1643702400"; d="scan'208";a="257708078"
-Received: from fmsmga008.fm.intel.com ([10.253.24.58])
- by fmsmga102.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 01 Apr 2022 05:37:22 -0700
-X-IronPort-AV: E=Sophos;i="5.90,227,1643702400"; d="scan'208";a="606725240"
-Received: from ramaling-i9x.iind.intel.com ([10.203.144.108])
- by fmsmga008-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 01 Apr 2022 05:37:20 -0700
-From: Ramalingam C <ramalingam.c@intel.com>
-To: intel-gfx <intel-gfx@lists.freedesktop.org>,
- dri-devel <dri-devel@lists.freedesktop.org>
-Subject: [PATCH v7 9/9] drm/i915/migrate: Evict and restore the flatccs
- capable lmem obj
-Date: Fri,  1 Apr 2022 18:07:51 +0530
-Message-Id: <20220401123751.27771-10-ramalingam.c@intel.com>
-X-Mailer: git-send-email 2.20.1
-In-Reply-To: <20220401123751.27771-1-ramalingam.c@intel.com>
-References: <20220401123751.27771-1-ramalingam.c@intel.com>
+Received: from metis.ext.pengutronix.de (metis.ext.pengutronix.de
+ [IPv6:2001:67c:670:201:290:27ff:fe1d:cc33])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 8D67F10E1A2
+ for <dri-devel@lists.freedesktop.org>; Fri,  1 Apr 2022 12:52:11 +0000 (UTC)
+Received: from ptx.hi.pengutronix.de ([2001:67c:670:100:1d::c0])
+ by metis.ext.pengutronix.de with esmtps
+ (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256) (Exim 4.92)
+ (envelope-from <sha@pengutronix.de>)
+ id 1naGl7-0006gJ-RW; Fri, 01 Apr 2022 14:52:09 +0200
+Received: from sha by ptx.hi.pengutronix.de with local (Exim 4.92)
+ (envelope-from <sha@pengutronix.de>)
+ id 1naGl3-0002Tr-Fq; Fri, 01 Apr 2022 14:52:05 +0200
+Date: Fri, 1 Apr 2022 14:52:05 +0200
+From: Sascha Hauer <s.hauer@pengutronix.de>
+To: Piotr Oniszczuk <piotr.oniszczuk@gmail.com>
+Subject: Re: [PATCH v9 00/23] drm/rockchip: RK356x VOP2 support
+Message-ID: <20220401125205.GL4012@pengutronix.de>
+References: <20220328151116.2034635-1-s.hauer@pengutronix.de>
+ <FB201567-AE5A-4242-82F1-7C55D8F111EA@gmail.com>
 MIME-Version: 1.0
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
+In-Reply-To: <FB201567-AE5A-4242-82F1-7C55D8F111EA@gmail.com>
+X-Sent-From: Pengutronix Hildesheim
+X-URL: http://www.pengutronix.de/
+X-IRC: #ptxdist @freenode
+X-Accept-Language: de,en
+X-Accept-Content-Type: text/plain
+X-Uptime: 14:49:29 up 2 days, 1:19, 55 users, load average: 0.37, 0.36, 0.19
+User-Agent: Mutt/1.10.1 (2018-07-13)
+X-SA-Exim-Connect-IP: 2001:67c:670:100:1d::c0
+X-SA-Exim-Mail-From: sha@pengutronix.de
+X-SA-Exim-Scanned: No (on metis.ext.pengutronix.de);
+ SAEximRunCond expanded to false
+X-PTX-Original-Recipient: dri-devel@lists.freedesktop.org
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -57,253 +57,86 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
+Cc: "devicetree@vger.kernel.org" <devicetree@vger.kernel.org>,
+ Benjamin Gaignard <benjamin.gaignard@collabora.com>,
+ Peter Geis <pgwipeout@gmail.com>, Sandy Huang <hjc@rock-chips.com>,
+ dri-devel@lists.freedesktop.org,
+ "open list:ARM/Rockchip SoC..." <linux-rockchip@lists.infradead.org>,
+ Michael Riesch <michael.riesch@wolfvision.net>, kernel@pengutronix.de,
+ Andy Yan <andy.yan@rock-chips.com>,
+ "linux-arm-kernel@lists.infradead.org" <linux-arm-kernel@lists.infradead.org>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-When we are swapping out the local memory obj on flat-ccs capable platform,
-we need to capture the ccs data too along with main meory and we need to
-restore it when we are swapping in the content.
+Hi Piotr,
 
-When lmem object is swapped into a smem obj, smem obj will
-have the extra pages required to hold the ccs data corresponding to the
-lmem main memory. So main memory of lmem will be copied into the initial
-pages of the smem and then ccs data corresponding to the main memory
-will be copied to the subsequent pages of smem. ccs data is 1/256 of
-lmem size.
+On Tue, Mar 29, 2022 at 09:31:01AM +0200, Piotr Oniszczuk wrote:
+> 
+> 
+> > Wiadomość napisana przez Sascha Hauer <s.hauer@pengutronix.de> w dniu 28.03.2022, o godz. 17:10:
+> > 
+> > 
+> > Changes since v8:
+> > - make hclk_vo a critical clock instead of enabling it in the hdmi driver
+> > - Fix vop2_setup_layer_mixer(), reported by Andy Yan
+> > - Limit planes possible_crtcs to actually existing crtcs
+> > 
+> > 
+> 
+> Sascha,
+> 
+> FYI:
+> I was hoping v9 will fix green screen issue i see when video player wants to draw to nv12 capable drm plane.
+> It look issue is still present :-(
 
-Swapin happens exactly in reverse order. First main memory of lmem is
-restored from the smem's initial pages and the ccs data will be restored
-from the subsequent pages of smem.
+Based on the discussion with Andy please try the following patch, it
+should fix your green screen issue. Note that with this patch the
+CRTC and plane ids will change, so the modetest commands need to be
+adjusted accordingly.
 
-Extracting and restoring the CCS data is done through a special cmd called
-XY_CTRL_SURF_COPY_BLT
+Sascha
 
-v2: Fixing the ccs handling
-v3: Handle the ccs data at same loop as main memory [Thomas]
-v4: changes for emit_copy_ccs
-v5: handle non-flat-ccs scenario
+-------------------------8<---------------------------
 
-Signed-off-by: Ramalingam C <ramalingam.c@intel.com>
-Reviewed-by: Thomas Hellstrom <thomas.hellstrom@linux.intel.com>
+-- 
+From cbc03073623a7180243331ac24c3afaf9dec7522 Mon Sep 17 00:00:00 2001
+From: Sascha Hauer <s.hauer@pengutronix.de>
+Date: Fri, 1 Apr 2022 14:48:49 +0200
+Subject: [PATCH] fixup! drm: rockchip: Add VOP2 driver
+
 ---
- drivers/gpu/drm/i915/gt/intel_migrate.c | 164 +++++++++++++++++++++++-
- 1 file changed, 160 insertions(+), 4 deletions(-)
+ drivers/gpu/drm/rockchip/rockchip_drm_vop2.c | 14 ++++++++++++++
+ 1 file changed, 14 insertions(+)
 
-diff --git a/drivers/gpu/drm/i915/gt/intel_migrate.c b/drivers/gpu/drm/i915/gt/intel_migrate.c
-index a44f2d29da4e..ec417c84600b 100644
---- a/drivers/gpu/drm/i915/gt/intel_migrate.c
-+++ b/drivers/gpu/drm/i915/gt/intel_migrate.c
-@@ -633,6 +633,65 @@ static int emit_copy(struct i915_request *rq,
- 	return 0;
- }
+diff --git a/drivers/gpu/drm/rockchip/rockchip_drm_vop2.c b/drivers/gpu/drm/rockchip/rockchip_drm_vop2.c
+index 7dba7b9b63dc6..1421bf2f133f1 100644
+--- a/drivers/gpu/drm/rockchip/rockchip_drm_vop2.c
++++ b/drivers/gpu/drm/rockchip/rockchip_drm_vop2.c
+@@ -2287,6 +2287,20 @@ static int vop2_create_crtc(struct vop2 *vop2)
+ 			}
+ 		}
  
-+static int scatter_list_length(struct scatterlist *sg)
-+{
-+	int len = 0;
-+
-+	while (sg && sg_dma_len(sg)) {
-+		len += sg_dma_len(sg);
-+		sg = sg_next(sg);
-+	};
-+
-+	return len;
-+}
-+
-+static void
-+calculate_chunk_sz(struct drm_i915_private *i915, bool src_is_lmem,
-+		   int *src_sz, int *ccs_sz, u32 bytes_to_cpy,
-+		   u32 ccs_bytes_to_cpy)
-+{
-+	if (ccs_bytes_to_cpy) {
-+		/*
-+		 * We can only copy the ccs data corresponding to
-+		 * the CHUNK_SZ of lmem which is
-+		 * GET_CCS_BYTES(i915, CHUNK_SZ))
-+		 */
-+		*ccs_sz = min_t(int, ccs_bytes_to_cpy, GET_CCS_BYTES(i915, CHUNK_SZ));
-+
-+		if (!src_is_lmem)
++		if (vop2->data->soc_id == 3566) {
 +			/*
-+			 * When CHUNK_SZ is passed all the pages upto CHUNK_SZ
-+			 * will be taken for the blt. in Flat-ccs supported
-+			 * platform Smem obj will have more pages than required
-+			 * for main meory hence limit it to the required size
-+			 * for main memory
++			 * On RK3566 these windows don't have an independent
++			 * framebuffer. They share the framebuffer with smart0,
++			 * esmart0 and cluster0 respectively.
 +			 */
-+			*src_sz = min_t(int, bytes_to_cpy, CHUNK_SZ);
-+	} else { /* ccs handling is not required */
-+		*src_sz = CHUNK_SZ;
-+	}
-+}
-+
-+static void get_ccs_sg_sgt(struct sgt_dma *it, u32 bytes_to_cpy)
-+{
-+	u32 len;
-+
-+	do {
-+		GEM_BUG_ON(!it->sg || !sg_dma_len(it->sg));
-+		len = it->max - it->dma;
-+		if (len > bytes_to_cpy) {
-+			it->dma += bytes_to_cpy;
-+			break;
++			switch (win->data->phys_id) {
++			case ROCKCHIP_VOP2_SMART1:
++			case ROCKCHIP_VOP2_ESMART1:
++			case ROCKCHIP_VOP2_CLUSTER1:
++				continue;
++			}
 +		}
 +
-+		bytes_to_cpy -= len;
-+
-+		it->sg = __sg_next(it->sg);
-+		it->dma = sg_dma_address(it->sg);
-+		it->max = it->dma + sg_dma_len(it->sg);
-+	} while (bytes_to_cpy);
-+}
-+
- int
- intel_context_migrate_copy(struct intel_context *ce,
- 			   const struct i915_deps *deps,
-@@ -644,9 +703,15 @@ intel_context_migrate_copy(struct intel_context *ce,
- 			   bool dst_is_lmem,
- 			   struct i915_request **out)
- {
--	struct sgt_dma it_src = sg_sgt(src), it_dst = sg_sgt(dst);
-+	struct sgt_dma it_src = sg_sgt(src), it_dst = sg_sgt(dst), it_ccs;
-+	struct drm_i915_private *i915 = ce->engine->i915;
-+	u32 ccs_bytes_to_cpy = 0, bytes_to_cpy;
-+	enum i915_cache_level ccs_cache_level;
-+	int src_sz, dst_sz, ccs_sz;
- 	u32 src_offset, dst_offset;
-+	u8 src_access, dst_access;
- 	struct i915_request *rq;
-+	bool ccs_is_src;
- 	int err;
- 
- 	GEM_BUG_ON(ce->vm != ce->engine->gt->migrate.context->vm);
-@@ -655,6 +720,38 @@ intel_context_migrate_copy(struct intel_context *ce,
- 
- 	GEM_BUG_ON(ce->ring->size < SZ_64K);
- 
-+	src_sz = scatter_list_length(src);
-+	bytes_to_cpy = src_sz;
-+
-+	if (HAS_FLAT_CCS(i915) && src_is_lmem ^ dst_is_lmem) {
-+		src_access = !src_is_lmem && dst_is_lmem;
-+		dst_access = !src_access;
-+
-+		dst_sz = scatter_list_length(dst);
-+		if (src_is_lmem) {
-+			it_ccs = it_dst;
-+			ccs_cache_level = dst_cache_level;
-+			ccs_is_src = false;
-+		} else if (dst_is_lmem) {
-+			bytes_to_cpy = dst_sz;
-+			it_ccs = it_src;
-+			ccs_cache_level = src_cache_level;
-+			ccs_is_src = true;
-+		}
-+
-+		/*
-+		 * When there is a eviction of ccs needed smem will have the
-+		 * extra pages for the ccs data
-+		 *
-+		 * TO-DO: Want to move the size mismatch check to a WARN_ON,
-+		 * but still we have some requests of smem->lmem with same size.
-+		 * Need to fix it.
-+		 */
-+		ccs_bytes_to_cpy = src_sz != dst_sz ? GET_CCS_BYTES(i915, bytes_to_cpy) : 0;
-+		if (ccs_bytes_to_cpy)
-+			get_ccs_sg_sgt(&it_ccs, bytes_to_cpy);
-+	}
-+
- 	src_offset = 0;
- 	dst_offset = CHUNK_SZ;
- 	if (HAS_64K_PAGES(ce->engine->i915)) {
-@@ -694,8 +791,11 @@ intel_context_migrate_copy(struct intel_context *ce,
- 		if (err)
- 			goto out_rq;
- 
-+		calculate_chunk_sz(i915, src_is_lmem, &src_sz, &ccs_sz,
-+				   bytes_to_cpy, ccs_bytes_to_cpy);
-+
- 		len = emit_pte(rq, &it_src, src_cache_level, src_is_lmem,
--			       src_offset, CHUNK_SZ);
-+			       src_offset, src_sz);
- 		if (len <= 0) {
- 			err = len;
- 			goto out_rq;
-@@ -712,7 +812,46 @@ intel_context_migrate_copy(struct intel_context *ce,
- 		if (err)
- 			goto out_rq;
- 
--		err = emit_copy(rq, dst_offset, src_offset, len);
-+		err = emit_copy(rq, dst_offset,	src_offset, len);
-+		if (err)
-+			goto out_rq;
-+
-+		bytes_to_cpy -= len;
-+
-+		if (ccs_bytes_to_cpy) {
-+			err = rq->engine->emit_flush(rq, EMIT_INVALIDATE);
-+			if (err)
-+				goto out_rq;
-+
-+			err = emit_pte(rq, &it_ccs, ccs_cache_level, false,
-+				       ccs_is_src ? src_offset : dst_offset,
-+				       ccs_sz);
-+
-+			err = rq->engine->emit_flush(rq, EMIT_INVALIDATE);
-+			if (err)
-+				goto out_rq;
-+
-+			/*
-+			 * Using max of src_sz and dst_sz, as we need to
-+			 * pass the lmem size corresponding to the ccs
-+			 * blocks we need to handle.
-+			 */
-+			ccs_sz = max_t(int, ccs_is_src ? ccs_sz : src_sz,
-+				       ccs_is_src ? dst_sz : ccs_sz);
-+
-+			err = emit_copy_ccs(rq, dst_offset, dst_access,
-+					    src_offset, src_access, ccs_sz);
-+			if (err)
-+				goto out_rq;
-+
-+			err = rq->engine->emit_flush(rq, EMIT_INVALIDATE);
-+			if (err)
-+				goto out_rq;
-+
-+			/* Converting back to ccs bytes */
-+			ccs_sz = GET_CCS_BYTES(rq->engine->i915, ccs_sz);
-+			ccs_bytes_to_cpy -= ccs_sz;
-+		}
- 
- 		/* Arbitration is re-enabled between requests. */
- out_rq:
-@@ -720,9 +859,26 @@ intel_context_migrate_copy(struct intel_context *ce,
- 			i915_request_put(*out);
- 		*out = i915_request_get(rq);
- 		i915_request_add(rq);
--		if (err || !it_src.sg || !sg_dma_len(it_src.sg))
-+
-+		if (err)
- 			break;
- 
-+		if (!bytes_to_cpy && !ccs_bytes_to_cpy) {
-+			if (src_is_lmem)
-+				WARN_ON(it_src.sg && sg_dma_len(it_src.sg));
-+			else
-+				WARN_ON(it_dst.sg && sg_dma_len(it_dst.sg));
-+			break;
-+		}
-+
-+		if (WARN_ON(!it_src.sg || !sg_dma_len(it_src.sg) ||
-+			    !it_dst.sg || !sg_dma_len(it_dst.sg) ||
-+			    (ccs_bytes_to_cpy && (!it_ccs.sg ||
-+						  !sg_dma_len(it_ccs.sg))))) {
-+			err = -EINVAL;
-+			break;
-+		}
-+
- 		cond_resched();
- 	} while (1);
+ 		if (win->type == DRM_PLANE_TYPE_OVERLAY)
+ 			possible_crtcs = (1 << nvps) - 1;
  
 -- 
-2.20.1
+2.30.2
 
+Pengutronix e.K.                           |                             |
+Steuerwalder Str. 21                       | http://www.pengutronix.de/  |
+31137 Hildesheim, Germany                  | Phone: +49-5121-206917-0    |
+Amtsgericht Hildesheim, HRA 2686           | Fax:   +49-5121-206917-5555 |
