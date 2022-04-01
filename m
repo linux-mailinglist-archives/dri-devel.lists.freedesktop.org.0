@@ -2,41 +2,40 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id EE4A24EEF75
-	for <lists+dri-devel@lfdr.de>; Fri,  1 Apr 2022 16:26:29 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 24EA34EEF85
+	for <lists+dri-devel@lfdr.de>; Fri,  1 Apr 2022 16:27:08 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id C801810E403;
-	Fri,  1 Apr 2022 14:26:27 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id EF63710E56A;
+	Fri,  1 Apr 2022 14:27:03 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from ams.source.kernel.org (ams.source.kernel.org
- [IPv6:2604:1380:4601:e00::1])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 8057310E3EB;
- Fri,  1 Apr 2022 14:26:25 +0000 (UTC)
+Received: from ams.source.kernel.org (ams.source.kernel.org [145.40.68.75])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id DA87F10E412;
+ Fri,  1 Apr 2022 14:27:01 +0000 (UTC)
 Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
  (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
  (No client certificate requested)
- by ams.source.kernel.org (Postfix) with ESMTPS id 209A5B82402;
- Fri,  1 Apr 2022 14:26:24 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 66420C340EE;
- Fri,  1 Apr 2022 14:26:20 +0000 (UTC)
+ by ams.source.kernel.org (Postfix) with ESMTPS id CBC40B8240F;
+ Fri,  1 Apr 2022 14:26:58 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 2C095C34111;
+ Fri,  1 Apr 2022 14:26:56 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1648823182;
- bh=4cQFOGC321tZUM5kmqe8vJLMcu83UtVRJLbTIIHfQT0=;
+ s=k20201202; t=1648823217;
+ bh=uVJybuwMMjAuLG0veQH6EbgpQcHFBtsWmbao4qzmi0U=;
  h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
- b=KP3AbLeiW4jACv7S6UfA2h0GhbyBx1V4GX1sKkxzhQcaV+yq3Mz52mK4jLu1+5wOC
- v7ICr0wWoN2f2NSn4ingDdDwnCmtUzu3euOE7TFL0EWUvEsTrxa74xAY40UBI6v46w
- I1Y3CgGdODbPrA/UECdyMaHUW620XgD8NlcHcCyDFZaOF0lXloC4X3cPidBWkmd2B3
- QX5GqfhIkzU+P9CK9kG0XCzTLk5lNy76w3386PyDvd3yVuCKSDhAjl20pyPpJZO25B
- n834j/Hq1JvPzMMA1eQitVZkcH1i1QpQINh4ZIKvNrOUDreJdvDCpfzYc3go12Q7St
- aaH/vqd9HK7sQ==
+ b=X7rZuHsBYFK06ByVnIS4eGFoyyyGYExzZIuCSlqQFsKPU/fRmh5GXELURM+TS0ji0
+ VTe5YqWd6kDwzAfUt3wBLwAjXlMHepc0KUrzE29igsU/nGcobDmlIuI6Kn4dhl9tfM
+ 5R9cWheL4cEQDOvNKb9rQVPy0PdDWRkbcT5gOuBTxTOkljYxqCTEqxv+TZQr+Hcysl
+ O75cClaZCve9GQUYoEtvu6EPdRcyrmD/4TBY/+SqG7x1RTvkdeV3Vh3u4LIKHkTWSJ
+ E4Z+/xVKGB3V8IzLzbbG7iUQIvj+wmy/mnZWGYlIaTbCDwRsq7FQAdaYKor6OhjzcY
+ Lbz0eluupSL2Q==
 From: Sasha Levin <sashal@kernel.org>
 To: linux-kernel@vger.kernel.org,
 	stable@vger.kernel.org
-Subject: [PATCH AUTOSEL 5.17 013/149] drm/amd/display: Use PSR version
- selected during set_psr_caps
-Date: Fri,  1 Apr 2022 10:23:20 -0400
-Message-Id: <20220401142536.1948161-13-sashal@kernel.org>
+Subject: [PATCH AUTOSEL 5.17 021/149] drm/amdkfd: Don't take process mutex for
+ svm ioctls
+Date: Fri,  1 Apr 2022 10:23:28 -0400
+Message-Id: <20220401142536.1948161-21-sashal@kernel.org>
 X-Mailer: git-send-email 2.34.1
 In-Reply-To: <20220401142536.1948161-1-sashal@kernel.org>
 References: <20220401142536.1948161-1-sashal@kernel.org>
@@ -56,60 +55,60 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Sasha Levin <sashal@kernel.org>, robin.chen@amd.com, pulehui@huawei.com,
- sunpeng.li@amd.com, Xinhui.Pan@amd.com,
- Rodrigo Siqueira <Rodrigo.Siqueira@amd.com>, roman.li@amd.com,
- amd-gfx@lists.freedesktop.org, christian.koenig@amd.com, airlied@linux.ie,
- Daniel Wheeler <daniel.wheeler@amd.com>, dri-devel@lists.freedesktop.org,
- Alex Deucher <alexander.deucher@amd.com>, mikita.lipski@amd.com,
- Anthony Koo <Anthony.Koo@amd.com>,
- Nicholas Kazlauskas <nicholas.kazlauskas@amd.com>
+Cc: Sasha Levin <sashal@kernel.org>, Philip Yang <Philip.Yang@amd.com>,
+ airlied@linux.ie, Felix Kuehling <Felix.Kuehling@amd.com>, Xinhui.Pan@amd.com,
+ amd-gfx@lists.freedesktop.org, dri-devel@lists.freedesktop.org,
+ Alex Deucher <alexander.deucher@amd.com>, christian.koenig@amd.com
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-From: Nicholas Kazlauskas <nicholas.kazlauskas@amd.com>
+From: Philip Yang <Philip.Yang@amd.com>
 
-[ Upstream commit b80ddeb29d9df449f875f0b6f5de08d7537c02b8 ]
+[ Upstream commit ac7c48c0cce00d03b3c95fddcccb0a45257e33e3 ]
 
-[Why]
-If the DPCD caps specifies a PSR version newer than PSR_VERSION_1 then
-we fallback to using PSR_VERSION_1 in amdgpu_dm_set_psr_caps.
+SVM ioctls take proper svms->lock to handle race conditions, don't need
+take process mutex to serialize ioctls. This also fixes circular locking
+warning:
 
-This gets overriden with the raw DPCD value in amdgpu_dm_link_setup_psr,
-which can result in DMCUB hanging if we pass in an unsupported PSR
-version number.
+WARNING: possible circular locking dependency detected
 
-[How]
-Fix the hang by using link->psr_settings.psr_version directly during
-amdgpu_dm_link_setup_psr.
+  Possible unsafe locking scenario:
 
-Tested-by: Daniel Wheeler <daniel.wheeler@amd.com>
-Reviewed-by: Anthony Koo <Anthony.Koo@amd.com>
-Acked-by: Rodrigo Siqueira <Rodrigo.Siqueira@amd.com>
-Signed-off-by: Nicholas Kazlauskas <nicholas.kazlauskas@amd.com>
+        CPU0                    CPU1
+        ----                    ----
+   lock((work_completion)(&svms->deferred_list_work));
+                                lock(&process->mutex);
+                     lock((work_completion)(&svms->deferred_list_work));
+   lock(&process->mutex);
+
+   *** DEADLOCK ***
+
+Signed-off-by: Philip Yang <Philip.Yang@amd.com>
+Reviewed-by: Felix Kuehling <Felix.Kuehling@amd.com>
 Signed-off-by: Alex Deucher <alexander.deucher@amd.com>
 Signed-off-by: Sasha Levin <sashal@kernel.org>
 ---
- drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm_psr.c | 6 ++----
- 1 file changed, 2 insertions(+), 4 deletions(-)
+ drivers/gpu/drm/amd/amdkfd/kfd_chardev.c | 4 ----
+ 1 file changed, 4 deletions(-)
 
-diff --git a/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm_psr.c b/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm_psr.c
-index c510638b4f99..a009fc654ac9 100644
---- a/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm_psr.c
-+++ b/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm_psr.c
-@@ -149,10 +149,8 @@ bool amdgpu_dm_link_setup_psr(struct dc_stream_state *stream)
+diff --git a/drivers/gpu/drm/amd/amdkfd/kfd_chardev.c b/drivers/gpu/drm/amd/amdkfd/kfd_chardev.c
+index 337953af7c2f..70122978bdd0 100644
+--- a/drivers/gpu/drm/amd/amdkfd/kfd_chardev.c
++++ b/drivers/gpu/drm/amd/amdkfd/kfd_chardev.c
+@@ -1846,13 +1846,9 @@ static int kfd_ioctl_svm(struct file *filep, struct kfd_process *p, void *data)
+ 	if (!args->start_addr || !args->size)
+ 		return -EINVAL;
  
- 	link = stream->link;
- 
--	psr_config.psr_version = link->dpcd_caps.psr_caps.psr_version;
+-	mutex_lock(&p->mutex);
 -
--	if (psr_config.psr_version > 0) {
--		psr_config.psr_exit_link_training_required = 0x1;
-+	if (link->psr_settings.psr_version != DC_PSR_VERSION_UNSUPPORTED) {
-+		psr_config.psr_version = link->psr_settings.psr_version;
- 		psr_config.psr_frame_capture_indication_req = 0;
- 		psr_config.psr_rfb_setup_time = 0x37;
- 		psr_config.psr_sdp_transmit_line_num_deadline = 0x20;
+ 	r = svm_ioctl(p, args->op, args->start_addr, args->size, args->nattr,
+ 		      args->attrs);
+ 
+-	mutex_unlock(&p->mutex);
+-
+ 	return r;
+ }
+ #else
 -- 
 2.34.1
 
