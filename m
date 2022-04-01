@@ -1,65 +1,63 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 47A304EFBF4
-	for <lists+dri-devel@lfdr.de>; Fri,  1 Apr 2022 23:00:41 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id B20754EFC29
+	for <lists+dri-devel@lfdr.de>; Fri,  1 Apr 2022 23:31:23 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 3C23E10E11C;
-	Fri,  1 Apr 2022 21:00:39 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 2267910E110;
+	Fri,  1 Apr 2022 21:31:19 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mout.gmx.net (mout.gmx.net [212.227.15.19])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 78DA510E11C
- for <dri-devel@lists.freedesktop.org>; Fri,  1 Apr 2022 21:00:37 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=gmx.net;
- s=badeba3b8450; t=1648846833;
- bh=KxQVQRlES8bcskm+/UtXbePk3PpsbxaqgbcLCeXKq2c=;
- h=X-UI-Sender-Class:Date:Subject:To:Cc:References:From:In-Reply-To;
- b=ZqqCdvSX6L8ljZsrFMlFAL+N+BihGWF875QDQhN9es9x9fyiK/ojG5NK+9M50Xusi
- s65TlbMMl3OTPdGYFPbmR5xhFO8gIm0WZyTjHizYxkXxIcZKs5laVzCPZr7JTWTzEX
- mZANM1Jxa/wKF9eoyadmEhE4eN8p596/ofz0hHY0=
-X-UI-Sender-Class: 01bb95c1-4bf8-414a-932a-4f6e2808ef9c
-Received: from [192.168.20.60] ([92.116.191.12]) by mail.gmx.net (mrgmx005
- [212.227.17.190]) with ESMTPSA (Nemesis) id 1Mf0BM-1oFnfn38Is-00gW8L; Fri, 01
- Apr 2022 23:00:33 +0200
-Message-ID: <d590df41-f508-94a3-77da-654bcb13f1c5@gmx.de>
-Date: Fri, 1 Apr 2022 23:00:31 +0200
+Received: from mail-lj1-x230.google.com (mail-lj1-x230.google.com
+ [IPv6:2a00:1450:4864:20::230])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 23D0E10E110
+ for <dri-devel@lists.freedesktop.org>; Fri,  1 Apr 2022 21:31:18 +0000 (UTC)
+Received: by mail-lj1-x230.google.com with SMTP id q14so5490915ljc.12
+ for <dri-devel@lists.freedesktop.org>; Fri, 01 Apr 2022 14:31:18 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
+ h=from:to:cc:subject:date:message-id:in-reply-to:references
+ :mime-version:content-transfer-encoding;
+ bh=X0JK5ihT1MOGfyrbF7/pj0RowTruIVoP8e8CBBTi+S4=;
+ b=C3Kf9Jm7U1BjEQwktj6mm0YSGdJta5gC611qurF0ij+1RP2Nw6zIG8ZqJlQeUPFlSR
+ 4raoXNZ0GZM2xMqM+JWbTCIJOOITuhrDYmCMsyuA540wopq7D/I4dCPHjnz1L1AuC+Ed
+ fSVIkEpV+m5VcxY6+rZb96Oyp9TyTWfOOH/32rIrgph10FCwftAH2n/JjYxdXaSqv5ba
+ wRchlZZNVv2YkBrwuydSSuEW/BcDn/BkHwRj6Yqk05OS3Qo9R1p28mK9m/JTNJzoCu6N
+ I86TdUsZRQ6dD0J6GYUoSB0mZ5zPDkz8CE1W6SIxIVouoS9AipGBIMPgO+P9wu86uIro
+ jhKw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
+ :references:mime-version:content-transfer-encoding;
+ bh=X0JK5ihT1MOGfyrbF7/pj0RowTruIVoP8e8CBBTi+S4=;
+ b=fpAMhO67nsT9T7jf1egrYSeeA7R0jdD/7TEcqXGK6iYsWIUMzfxqCEpkdYCG13jlmq
+ wBQ0LFjuUuZ4iq3V4FZ1uBkJ5LvKgphtmOfLA95/ZwsgqyUOBh1YtZn8QUsfGITHU0qi
+ rKSMHh7R/aAJcKUQd4r77ptz2TFU2a8wsM+Qn51utTj3gucN8HVlRv7R1WRVgQ76dy4d
+ uzuyUG1b5yzfTGmXUTLwdfy3VtoemMEJvfsjqOWc87toGRuJZy8om2fMIvABa1Wm43h3
+ 0VAiX4OASa8jjqhg7HkDU1V1PsphJFKFp+O88u75evmwbSlzui7vEBMmrJF9QpKbkENC
+ Y6rg==
+X-Gm-Message-State: AOAM530rzkgOzKTIdUQp6/ZeZxPSsO4x28XhzVa4qknh0XJgoMSwhBVA
+ Ngp6VKpKGnt5qyokWBXh8Zw=
+X-Google-Smtp-Source: ABdhPJwbmAj/TNXsyVzHxHQSIygbytu2JvhBQgA5HutAlambTIknHU9BwVfiI2XSNvpyitKPuCrnDw==
+X-Received: by 2002:a2e:a80e:0:b0:248:5819:b94a with SMTP id
+ l14-20020a2ea80e000000b002485819b94amr14660509ljq.141.1648848676369; 
+ Fri, 01 Apr 2022 14:31:16 -0700 (PDT)
+Received: from localhost.localdomain ([46.235.67.247])
+ by smtp.gmail.com with ESMTPSA id
+ m8-20020a194348000000b0044a2ce63ef4sm349523lfj.10.2022.04.01.14.31.15
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Fri, 01 Apr 2022 14:31:15 -0700 (PDT)
+From: Pavel Skripkin <paskripkin@gmail.com>
+To: sumit.semwal@linaro.org, gustavo@padovan.org, christian.koenig@amd.com,
+ daniel.vetter@ffwll.ch
+Subject: [PATCH next v2] dma-buf/sync-file: do not allow zero size allocation
+Date: Sat,  2 Apr 2022 00:31:14 +0300
+Message-Id: <20220401213114.11956-1-paskripkin@gmail.com>
+X-Mailer: git-send-email 2.35.1
+In-Reply-To: <2d1f9ba9-ea2a-e41c-eae6-0ba348cdf202@gmail.com>
+References: <2d1f9ba9-ea2a-e41c-eae6-0ba348cdf202@gmail.com>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.7.0
-Subject: Re: [PATCH] linux/fb.h: Spelling s/palette/palette/
-Content-Language: en-US
-To: Pekka Paalanen <ppaalanen@gmail.com>,
- Geert Uytterhoeven <geert@linux-m68k.org>
-References: <20220216083922.2913515-1-geert@linux-m68k.org>
- <20220217121612.66011b8c@eldfell>
-From: Helge Deller <deller@gmx.de>
-In-Reply-To: <20220217121612.66011b8c@eldfell>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: quoted-printable
-X-Provags-ID: V03:K1:XFiQDAkufSIyEv+HLNyk/7j1HhPOmGz0LPnrVijS5ORbjKwJ3hK
- WKxTXD3mwD5iiF4jNMsz8BoVtDEU+V2tLlb0f3DiH8TVibBiqFH99UXdhCMAuT686fILEdi
- TRRK6N3YsfnIH8SOYySzPo3JHRZp46i6HPTZFPzVrRwIrw0Q2aMSxMUc081UXAAYwRfJ59X
- /OpUGAERyVHlOu2NuyLZQ==
-X-Spam-Flag: NO
-X-UI-Out-Filterresults: notjunk:1;V03:K0:HXWYYamFfCc=:8WuzlFC7cW11ZIgGzNWSOL
- DxTFjRqSpbZRINRbHOH1X1XscZxD7XwPbwepttRKr9pqJhjOF/oCXZdSDOtbWNfLReotV2wuy
- wQt/GQIzLIFsF71uGbirD0H6DFZ+oSAEK0RVVbjBL+GKD4FArMaS9FTepwnlL0deliz0XJk/F
- O/W9QgeFUQuKMiv/31CnpytMvYe/3RuwdgojdFx95RRLsB/lLqHCa3MEksyaq7y9zk0oZcfOZ
- 7X5PH/R+2mYdMp1vBVRd7L8KEhv89hxekFti160Ir4LmFmG1lRgwS3+On+0sUqUnJ1yN3uxrE
- 1kZMb5+h8wOl6Hoy1DFI0Mob0l6hy8/5ooiBNh0kVZeOP+NOqIdeXomqPvqyAzaCLDNxFTEOS
- FpIFyBDFctUN4fAreg55+cKVjixXWRtHolQQ8ZTiQXyytJ7wTkJ9YItGSlcYJj25IpGHiNpaI
- aiSv89eNWiQ2QyQHtTOhkQt19f+kcIzc/95gt3al12DMKpYMS+mnaRLMgxafD6t9v8Tflgeyr
- hH4DTD9bZS3U3CW3sBZCdusLZrsIEnTxCRTRNjFDXbQPSHWtrMPWIf7eYGkfKDxavBT8hrRMc
- vGQ/OF8XMI9+mD9osLkghgt79dp2UMRUXAijpFtK5L/wUyqT7OdmEaQG++g+GiGqzRlrd6SPK
- Fkv1hXPVwR/bSsnbVTfvIWIswUaha1iDgWwrIDugB+hly68Vx2efgioVpq4UYdDyOFOwlajn7
- LEiwmbDR5Gdm7zXoB/MZRNjIZACBEqiMyeXBGXuf7PIfgfTMe8JNrJ2a6o0vsT4Y+x9u/9GGB
- yCS6EZ+pkZv/PUWi3cMpKeaOtODHTI1uVeKuVUABvuTtIHQ8sfnHgpoYRTL+KofRnovD+rm8O
- SO58j3ClwTJfKpvBtAQkNoBbfx1vdx8/kpKyN4mlOAvwsK+XqxPpao2teUlSMw3VugXj72lRC
- q9LSn93ouG+1rKJ06pVnu3Bak+HmrpBSL9O+H0ZjzMkDJBhZeEHFSQrGpPzU6rUvuMiL05SBR
- 1mUQLOwIknhYdRgovecZoobzEwizlclPt4fwRCyCYZbo9MXA+YeL33coBEM3W9TPFlDBQNvRi
- myw1Tsew4waUIM=
+Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -72,39 +70,44 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: linux-fbdev@vger.kernel.org, dri-devel@lists.freedesktop.org
+Cc: linaro-mm-sig@lists.linaro.org, Pavel Skripkin <paskripkin@gmail.com>,
+ linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
+ linux-media@vger.kernel.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 2/17/22 11:16, Pekka Paalanen wrote:
-> On Wed, 16 Feb 2022 09:39:22 +0100
-> Geert Uytterhoeven <geert@linux-m68k.org> wrote:
->
->> Fix a misspelling of "palette" in a comment.
->>
->> Signed-off-by: Geert Uytterhoeven <geert@linux-m68k.org>
->> ---
->>  include/uapi/linux/fb.h | 2 +-
->>  1 file changed, 1 insertion(+), 1 deletion(-)
->>
->> diff --git a/include/uapi/linux/fb.h b/include/uapi/linux/fb.h
->> index 4c14e8be7267761b..3a49913d006c9bf6 100644
->> --- a/include/uapi/linux/fb.h
->> +++ b/include/uapi/linux/fb.h
->> @@ -182,7 +182,7 @@ struct fb_fix_screeninfo {
->>   *
->>   * For pseudocolor: offset and length should be the same for all color
->>   * components. Offset specifies the position of the least significant =
-bit
->> - * of the pallette index in a pixel value. Length indicates the number
->> + * of the palette index in a pixel value. Length indicates the number
->>   * of available palette entries (i.e. # of entries =3D 1 << length).
->>   */
->>  struct fb_bitfield {
->
-> Reviewed-by: Pekka Paalanen <pekka.paalanen@collabora.com>
+num_fences is user-controlled value and it can be equal to 0. Code
+should not pass 0 to kcalloc(), since it will cause kcalloc() to return
+ZERO_PTR. ZERO_PTR will pass `!fences` check and kernel will panic
+because of dereferencing ZERO_PTR in add_fence()
 
-applied.
-Thanks!
+Fix it by validating num_fences and bail out early if it is equal to 0
 
-Helge
+Fixes: 519f490db07e ("dma-buf/sync-file: fix warning about fence containers")
+Signed-off-by: Pavel Skripkin <paskripkin@gmail.com>
+---
+
+Changes since v1:
+	- Dropped already merged part
+	- Removed syzkaller's tag
+
+---
+ drivers/dma-buf/sync_file.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+
+diff --git a/drivers/dma-buf/sync_file.c b/drivers/dma-buf/sync_file.c
+index b8dea4ec123b..024f22193e0c 100644
+--- a/drivers/dma-buf/sync_file.c
++++ b/drivers/dma-buf/sync_file.c
+@@ -212,7 +212,7 @@ static struct sync_file *sync_file_merge(const char *name, struct sync_file *a,
+ 	dma_fence_unwrap_for_each(b_fence, &b_iter, b->fence)
+ 		++num_fences;
+ 
+-	if (num_fences > INT_MAX)
++	if (num_fences > INT_MAX || !num_fences)
+ 		goto err_free_sync_file;
+ 
+ 	fences = kcalloc(num_fences, sizeof(*fences), GFP_KERNEL);
+-- 
+2.35.1
+
