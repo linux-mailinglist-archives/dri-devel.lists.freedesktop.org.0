@@ -2,54 +2,94 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 700324EE515
-	for <lists+dri-devel@lfdr.de>; Fri,  1 Apr 2022 02:12:52 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 19D5C4EE526
+	for <lists+dri-devel@lfdr.de>; Fri,  1 Apr 2022 02:18:56 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 4912310E35D;
-	Fri,  1 Apr 2022 00:12:43 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 4F3F510E41F;
+	Fri,  1 Apr 2022 00:18:53 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from alexa-out-sd-01.qualcomm.com (alexa-out-sd-01.qualcomm.com
- [199.106.114.38])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 4299910E31E;
- Fri,  1 Apr 2022 00:12:42 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=quicinc.com; i=@quicinc.com; q=dns/txt; s=qcdkim;
- t=1648771962; x=1680307962;
- h=from:to:cc:subject:date:message-id:in-reply-to:
- references:mime-version;
- bh=BIYrhDeKcy0YqaEI5VVwM0DmGU9yDLvi9oS6+9p3iPo=;
- b=juhm8erA2aafyVRr0bso18Utyck+iy/MaC61GsE5CqmUTcnKCvglfWWU
- jLqH9hiircP5kms397OIlkxlmPrV28uhwF9CoiZCwdmmsD5LPNkNt1qZr
- feHSaTwBKqS4Ts4uWeUkzCtBX2VHW1K1lPhJd0SGEbmLoLip0DVDg9X78 U=;
-Received: from unknown (HELO ironmsg-SD-alpha.qualcomm.com) ([10.53.140.30])
- by alexa-out-sd-01.qualcomm.com with ESMTP; 31 Mar 2022 17:12:41 -0700
-X-QCInternal: smtphost
-Received: from nasanex01c.na.qualcomm.com ([10.47.97.222])
- by ironmsg-SD-alpha.qualcomm.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 31 Mar 2022 17:12:41 -0700
-Received: from nalasex01a.na.qualcomm.com (10.47.209.196) by
- nasanex01c.na.qualcomm.com (10.47.97.222) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.2.986.22; Thu, 31 Mar 2022 17:12:40 -0700
-Received: from abhinavk-linux.qualcomm.com (10.80.80.8) by
- nalasex01a.na.qualcomm.com (10.47.209.196) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.2.986.22; Thu, 31 Mar 2022 17:12:40 -0700
-From: Abhinav Kumar <quic_abhinavk@quicinc.com>
-To: <dri-devel@lists.freedesktop.org>
-Subject: [PATCH v6 4/4] drm: allow real encoder to be passed for
- drm_writeback_connector
-Date: Thu, 31 Mar 2022 17:12:13 -0700
-Message-ID: <1648771933-18512-5-git-send-email-quic_abhinavk@quicinc.com>
-X-Mailer: git-send-email 2.7.4
-In-Reply-To: <1648771933-18512-1-git-send-email-quic_abhinavk@quicinc.com>
-References: <1648771933-18512-1-git-send-email-quic_abhinavk@quicinc.com>
-MIME-Version: 1.0
+Received: from NAM04-MW2-obe.outbound.protection.outlook.com
+ (mail-mw2nam08olkn2020.outbound.protection.outlook.com [40.92.46.20])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id DC9C310E41F
+ for <dri-devel@lists.freedesktop.org>; Fri,  1 Apr 2022 00:18:51 +0000 (UTC)
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=JmeSs/fjoElj+5sRCzN8cCZCU3TtjG8xeVZM9tSQ9XRLyS0/UD0R1oyqrSWabA1Vm3suEWnBJDtpTBd7f7ZF7Isb2t2j9eKpb6KL1NYlZr6IcTWh2J7eZW4szRh5oLV4ht630b829mJ9UrIyQaysK9d/Bi+3dkxy5uiF8Civ/w5Dq3Dh4Ftg7kAksqR2fxPgSt1vqml/l1c2ADFkPTSlnFseDvtdLYXbzDUNMvGW+Ovo81pluuKdAhMjR3c6KiJsZSfQ2tujZS6vAaUg+ZACfMAAzX5lKcv9YNJNE+p2ce/7EerVTVRSc/SJC2e3h/GJLDz6LZyxlypRBSn9XACQuA==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=HzQXKBfYcDy7r5ggQhgb6FY5CoUf+8zmG22PyzGZa3s=;
+ b=JMMJGXoP/CoMqYIRvdr4QGgZLceN4B9XApMQ/x3NPUwsvl4Sq2BP+OkFrcMwlqKVl1vxVuXktfup1Opvjf3CLz9FzTVQyWdw/eT7jKYpvH79I9G2yKK1DEJUUXpLZoiH1bQ5SIUDl9qDhbnqRco9E6uw8oJcDwfJ5oR/3cnGxDMB5ZWspzrmHVJ/+/Gi0M/QxVaiEcIKzghhMdlShTueQhrtZGl1Cib0rSr3ejifZXH221Zyl2I9C4lLE10oOLrvby1cpe79evihHk3ZgMPXFXB1Smfp8NQAvPi+g9VIn8e3a1XACNYXyey2NnNXtgvr6N+K+iCKqvlwySogcANJuQ==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=none; dmarc=none;
+ dkim=none; arc=none
+Received: from BY5PR02MB7009.namprd02.prod.outlook.com (2603:10b6:a03:236::13)
+ by DM6PR02MB4892.namprd02.prod.outlook.com (2603:10b6:5:12::19) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.5123.16; Fri, 1 Apr
+ 2022 00:18:50 +0000
+Received: from BY5PR02MB7009.namprd02.prod.outlook.com
+ ([fe80::413f:bae6:4e5e:5ae6]) by BY5PR02MB7009.namprd02.prod.outlook.com
+ ([fe80::413f:bae6:4e5e:5ae6%6]) with mapi id 15.20.5123.025; Fri, 1 Apr 2022
+ 00:18:50 +0000
+From: Joel Selvaraj <jo@jsfamily.in>
+To: Sumit Semwal <sumit.semwal@linaro.org>,
+ Thierry Reding <thierry.reding@gmail.com>, Sam Ravnborg <sam@ravnborg.org>,
+ David Airlie <airlied@linux.ie>, Daniel Vetter <daniel@ffwll.ch>,
+ Rob Herring <robh+dt@kernel.org>, Andy Gross <agross@kernel.org>,
+ Bjorn Andersson <bjorn.andersson@linaro.org>
+Subject: [PATCH v2 0/3] drm/panel: nt36672a: add backlight support
+Date: Fri,  1 Apr 2022 05:48:07 +0530
+Message-ID: <BY5PR02MB7009FBF8DC8BD5C055DB41AED9E09@BY5PR02MB7009.namprd02.prod.outlook.com>
+X-Mailer: git-send-email 2.35.1
+Content-Transfer-Encoding: 8bit
 Content-Type: text/plain
-X-Originating-IP: [10.80.80.8]
-X-ClientProxiedBy: nasanex01b.na.qualcomm.com (10.46.141.250) To
- nalasex01a.na.qualcomm.com (10.47.209.196)
+X-TMN: [TUKS7Jx8SlI5uNSfe57+hAIfLWI0zDo6epeBAJhio5vH3MzcV6N6EpNQ/mYdgULk]
+X-ClientProxiedBy: BM1PR0101CA0055.INDPRD01.PROD.OUTLOOK.COM
+ (2603:1096:b00:19::17) To BY5PR02MB7009.namprd02.prod.outlook.com
+ (2603:10b6:a03:236::13)
+X-Microsoft-Original-Message-ID: <20220401001810.81507-1-jo@jsfamily.in>
+MIME-Version: 1.0
+X-MS-Exchange-MessageSentRepresentingType: 1
+X-MS-PublicTrafficType: Email
+X-MS-Office365-Filtering-Correlation-Id: 3d4a71c6-3681-4e54-e084-08da137531e4
+X-MS-TrafficTypeDiagnostic: DM6PR02MB4892:EE_
+X-Microsoft-Antispam: BCL:0;
+X-Microsoft-Antispam-Message-Info: 7k6h+/Ft+XKAoZeKvzeNKB5kae2X+Q8vfNUM0G6tyAVBZg9eJKGarYuLQ/px0Opc50W2f4YS4GGEvFu6/uo097EeexYwvi37a73lm78kEf5Tpm8hTrfkXvDLfOuIFA/5MWc7Dcp3x0KDaeI4eTVy2jURLdGoSQ59SJKBpcUtDAwpIQwYVKwt+fd4i8bPbnOVq4Oz3Z5Bn67avH7TcSefxTUCJ2+bp0xlw9iZU5euJl177SBCRhIvsb2Q1QgruMEnUyKmSJlT6oVEpHK/diMfttE4rBOZ7+G+MMZK3Q4buyZ44U+usacuy8v+i1tYYYRM2cFXSLoqXQg2rdOBwilmXYmVHj2cGg6E+bYtfe8ALdJ9qhK3FQfeb/y1lxXCxXRwzIDbPts9NynG75ALy9AbeQ0DsvrJQtNXOxFHbFglekkJQQwbV5XZ5RU3Imgyuqm+sQnIYzm2i53HapghtKeTiDYUgEtGJvEjgw0O+ga/Gl0s69n+FVlhb2RErS1HODC5x4Pq7VuQ3XvJ8zqGAt8XaK19MtQN+v2WH53okaoyat0XeLVh+jiChXoq+lo8pkORmdoFFvvkqvWKbhj9kjc3aA==
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0: =?us-ascii?Q?bc9sBfIpFHct7vGj2lDKqJoSjDcGE2m1Bc4HDBtH5w86HrOGtIcOSHANF8fV?=
+ =?us-ascii?Q?CFSUS22y+FY4W/u5MFnctAl5tpB+ZEAHSdBoQbN9ij9zfXPOh8xd04U9ZE2D?=
+ =?us-ascii?Q?YNnAO8ejOluJc7qA+qVqhPTNzZXcNiVBpivi+Z2z6cIdZNN/2RcwkoZmSm/t?=
+ =?us-ascii?Q?i51z1GSAjMMa+BTaaX7omPLnIhg9DlGIZxW6nX+Abmaombyoif2iogkJY6eq?=
+ =?us-ascii?Q?/AHIcXl/KdmUfPEg6zQsbZYsEr64RkuIMt53YMlxs9jimpHKGNjL/g/AS+Yg?=
+ =?us-ascii?Q?2Gn7kRf/5IzmfUgoRYT/DKS1tV3klmCMcRgr/pYoqIXsOh31tyAOtP1Xqv3r?=
+ =?us-ascii?Q?mr+epFhIQ6dXk4+pdpoe0W46vldOAnQ+yDBYerB6wnOqsc41hsuZLma6kyaJ?=
+ =?us-ascii?Q?7lJ2xZNVACJ7hP2snnqhMiN/GZjKzc0OEMR8h2Wt2NA89/X2Z9WIg5eh/IID?=
+ =?us-ascii?Q?ePdwrPH0qHWJzlGZ9wNOXoxAzVoWOsCM8rxJu7iCZD6ymWulyzL8XkPCGA86?=
+ =?us-ascii?Q?nIo2oWITAytctR3X0vbWj4bSrs1zxFsHPNSIx7ryy5c2uTdTEJxMKIP0alIn?=
+ =?us-ascii?Q?DpIiySq/OMMN0+BkuUYk/wDvyLGnWVsejKxEbatnOSh15k899SFyg8iFD2ZZ?=
+ =?us-ascii?Q?dmIZRBdJJAindAtJVSz4JIJK28jgM/3h+SP15EaWZrhDW/PR/lp7ebfZh4tW?=
+ =?us-ascii?Q?HeZkQGfYCgz7OnNRaItPiYYx2ekTtXvmxOd5hO1+4NxywDiJsH5shhnmj67N?=
+ =?us-ascii?Q?5wWZ7i7ofQ931Fr3hdMYEjq3+P353ZjBc05VIv/EpgR8koyPX6qiD9/Qhfqf?=
+ =?us-ascii?Q?TpZOY4g7LPcZWNgm0Z7t3rV2JXN5v/RT7e8513jtczBuGPmDC/gfa7jpHsAZ?=
+ =?us-ascii?Q?wTTA7FULIQsqsSmWPgMSf+VfHxsgmXwIzsdikbvLx4c9GylR/ekx+O8aaclu?=
+ =?us-ascii?Q?CkofAyPgXwzLK4wzcgsl0YipxairRkwhCm8QspiUQVPGQhU2HT1f+aQ7NnER?=
+ =?us-ascii?Q?K9dBpBt+R925Q+v1pFW45THslqk3+4s/OK5zISR6et+WF56z43vP4MGmorMz?=
+ =?us-ascii?Q?+o9jpdM+78zugLWONzXpgfmMJZ8LfbH+z1dIQGDxUhTMiJYhooBAwJuG7o6S?=
+ =?us-ascii?Q?BlbXhCd7KXwbk0yl4akQpOnkKJuCpv3m8ZttNtVwzINDYqzZUf7Lg5Ktxm5O?=
+ =?us-ascii?Q?ltnRwQBIcIge02VAYq/R1lK0Kf27P1novGyTsvO2sRfLaRLwyuQKYj000vk4?=
+ =?us-ascii?Q?ty0adt3xo9wAiGzV/IVcHKVonQ9KmDaXLWa/saIw0WsJbpiM8BRInzjkHH35?=
+ =?us-ascii?Q?qcXmS+heA6P3HU2ViJSL8yYv1hLNsu7fM2mgX7nAjKh5N4Z3iTRYjD6vDvMI?=
+ =?us-ascii?Q?DqzwG6m0vTJuLM0bgwcmWwghLBNCYqPKXHLUN4zWXiWeB9mjNqffLiA4fPS4?=
+ =?us-ascii?Q?9ueqFvFMVXKD93KtIRogpnVN0oTza3mUc4ZbHTFYpKtforXc7xpaRg=3D=3D?=
+X-OriginatorOrg: sct-15-20-4755-11-msonline-outlook-99c3d.templateTenant
+X-MS-Exchange-CrossTenant-Network-Message-Id: 3d4a71c6-3681-4e54-e084-08da137531e4
+X-MS-Exchange-CrossTenant-AuthSource: BY5PR02MB7009.namprd02.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 01 Apr 2022 00:18:50.3654 (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 84df9e7f-e9f6-40af-b435-aaaaaaaaaaaa
+X-MS-Exchange-CrossTenant-RMS-PersistedConsumerOrg: 00000000-0000-0000-0000-000000000000
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: DM6PR02MB4892
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -62,181 +102,30 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: hamohammed.sa@gmail.com, suraj.kandpal@intel.com, emma@anholt.net,
- rodrigosiqueiramelo@gmail.com, jani.nikula@intel.com, liviu.dudau@arm.com,
- Abhinav Kumar <quic_abhinavk@quicinc.com>, swboyd@chromium.org,
- melissa.srw@gmail.com, nganji@codeaurora.org, seanpaul@chromium.org,
- laurent.pinchart@ideasonboard.com, dmitry.baryshkov@linaro.org,
- james.qian.wang@arm.com, quic_aravindh@quicinc.com, mihail.atanassov@arm.com,
- freedreno@lists.freedesktop.org
+Cc: Amit Pundir <amit.pundir@linaro.org>, devicetree@vger.kernel.org,
+ linux-arm-msm@vger.kernel.org, linux-kernel@vger.kernel.org,
+ dri-devel@lists.freedesktop.org, ~postmarketos/upstreaming@lists.sr.ht,
+ Marijn Suijten <marijn.suijten@somainline.org>, phone-devel@vger.kernel.org,
+ Joel Selvaraj <jo@jsfamily.in>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-For some vendor driver implementations, display hardware can
-be shared between the encoder used for writeback and the physical
-display.
+Changes in v2:
+ - Remove qcom,enabled-strings property as either it or qcom,num-strings
+   should be present. qcom,num-strings is specified and sufficient.
+   (Marijn Suijten's Suggestion)
 
-In addition resources such as clocks and interrupts can
-also be shared between writeback and the real encoder.
+Joel Selvaraj (3):
+  drm/panel: nt36672a: add backlight support
+  dt-bindings: display: novatek,nt36672a: add backlight property
+  arm64: dts: qcom: sdm845-xiaomi-beryllium: enable qcom wled backlight
+    and link to panel
 
-To accommodate such vendor drivers and hardware, allow
-real encoder to be passed for drm_writeback_connector.
+ .../bindings/display/panel/novatek,nt36672a.yaml     |  2 ++
+ arch/arm64/boot/dts/qcom/sdm845-xiaomi-beryllium.dts | 12 ++++++++++++
+ drivers/gpu/drm/panel/panel-novatek-nt36672a.c       |  4 ++++
+ 3 files changed, 18 insertions(+)
 
-changes in v6:
-	- assign the encoder inside
-	  drm_writeback_connector_init_with_encoder() for
-	  better readability
-	- improve some documentation for internal encoder
-
-Co-developed-by: Kandpal Suraj <suraj.kandpal@intel.com>
-Signed-off-by: Kandpal Suraj <suraj.kandpal@intel.com>
-Signed-off-by: Abhinav Kumar <quic_abhinavk@quicinc.com>
----
- drivers/gpu/drm/drm_writeback.c | 18 ++++++++++++------
- drivers/gpu/drm/vc4/vc4_txp.c   | 14 ++++++++------
- include/drm/drm_writeback.h     | 21 +++++++++++++++++++--
- 3 files changed, 39 insertions(+), 14 deletions(-)
-
-diff --git a/drivers/gpu/drm/drm_writeback.c b/drivers/gpu/drm/drm_writeback.c
-index 797223c..7f72109 100644
---- a/drivers/gpu/drm/drm_writeback.c
-+++ b/drivers/gpu/drm/drm_writeback.c
-@@ -179,21 +179,21 @@ int drm_writeback_connector_init(struct drm_device *dev,
- {
- 	int ret = 0;
- 
--	drm_encoder_helper_add(&wb_connector->encoder, enc_helper_funcs);
-+	drm_encoder_helper_add(&wb_connector->internal_encoder, enc_helper_funcs);
- 
--	wb_connector->encoder.possible_crtcs = possible_crtcs;
-+	wb_connector->internal_encoder.possible_crtcs = possible_crtcs;
- 
--	ret = drm_encoder_init(dev, &wb_connector->encoder,
-+	ret = drm_encoder_init(dev, &wb_connector->internal_encoder,
- 			       &drm_writeback_encoder_funcs,
- 			       DRM_MODE_ENCODER_VIRTUAL, NULL);
- 	if (ret)
- 		return ret;
- 
--	ret = drm_writeback_connector_init_with_encoder(dev, wb_connector, &wb_connector->encoder,
--			con_funcs, formats, n_formats);
-+	ret = drm_writeback_connector_init_with_encoder(dev, wb_connector,
-+			&wb_connector->internal_encoder, con_funcs, formats, n_formats);
- 
- 	if (ret)
--		drm_encoder_cleanup(&wb_connector->encoder);
-+		drm_encoder_cleanup(&wb_connector->internal_encoder);
- 
- 	return ret;
- }
-@@ -238,6 +238,12 @@ int drm_writeback_connector_init_with_encoder(struct drm_device *dev,
- 	struct drm_mode_config *config = &dev->mode_config;
- 	int ret = create_writeback_properties(dev);
- 
-+	/*
-+	 * Assign the encoder passed to this API to the wb_connector's encoder.
-+	 * For drm_writeback_connector_init(), this shall be the internal_encoder
-+	 */
-+	wb_connector->encoder = enc;
-+
- 	if (ret != 0)
- 		return ret;
- 
-diff --git a/drivers/gpu/drm/vc4/vc4_txp.c b/drivers/gpu/drm/vc4/vc4_txp.c
-index 5e53f02..a9b4f83 100644
---- a/drivers/gpu/drm/vc4/vc4_txp.c
-+++ b/drivers/gpu/drm/vc4/vc4_txp.c
-@@ -151,6 +151,8 @@ struct vc4_txp {
- 
- 	struct platform_device *pdev;
- 
-+	struct drm_encoder drm_enc;
-+
- 	struct drm_writeback_connector connector;
- 
- 	void __iomem *regs;
-@@ -159,7 +161,7 @@ struct vc4_txp {
- 
- static inline struct vc4_txp *encoder_to_vc4_txp(struct drm_encoder *encoder)
- {
--	return container_of(encoder, struct vc4_txp, connector.encoder);
-+	return container_of(encoder, struct vc4_txp, drm_enc);
- }
- 
- static inline struct vc4_txp *connector_to_vc4_txp(struct drm_connector *conn)
-@@ -499,9 +501,9 @@ static int vc4_txp_bind(struct device *dev, struct device *master, void *data)
- 
- 	wb_conn = &txp->connector;
- 
--	drm_encoder_helper_add(&wb_conn->encoder, &vc4_txp_encoder_helper_funcs);
-+	drm_encoder_helper_add(&txp->drm_enc, &vc4_txp_encoder_helper_funcs);
- 
--	ret = drm_encoder_init(drm, &wb_conn->encoder,
-+	ret = drm_encoder_init(drm, &txp->drm_enc,
- 			&vc4_txp_encoder_funcs,
- 			DRM_MODE_ENCODER_VIRTUAL, NULL);
- 
-@@ -511,10 +513,10 @@ static int vc4_txp_bind(struct device *dev, struct device *master, void *data)
- 	drm_connector_helper_add(&wb_conn->base,
- 				 &vc4_txp_connector_helper_funcs);
- 
--	ret = drm_writeback_connector_init_with_encoder(drm, wb_conn, &wb_conn->encoder,
-+	ret = drm_writeback_connector_init_with_encoder(drm, wb_conn, &txp->drm_enc,
- 			&vc4_txp_connector_funcs, drm_fmts, ARRAY_SIZE(drm_fmts));
- 	if (ret) {
--		drm_encoder_cleanup(&wb_conn->encoder);
-+		drm_encoder_cleanup(&txp->drm_enc);
- 		return ret;
- 	}
- 
-@@ -523,7 +525,7 @@ static int vc4_txp_bind(struct device *dev, struct device *master, void *data)
- 	if (ret)
- 		return ret;
- 
--	encoder = &txp->connector.encoder;
-+	encoder = txp->connector.encoder;
- 	encoder->possible_crtcs = drm_crtc_mask(crtc);
- 
- 	ret = devm_request_irq(dev, irq, vc4_txp_interrupt, 0,
-diff --git a/include/drm/drm_writeback.h b/include/drm/drm_writeback.h
-index 4795024..3f5c330 100644
---- a/include/drm/drm_writeback.h
-+++ b/include/drm/drm_writeback.h
-@@ -25,15 +25,32 @@ struct drm_writeback_connector {
- 	struct drm_connector base;
- 
- 	/**
--	 * @encoder: Internal encoder used by the connector to fulfill
-+	 * @encoder: handle to drm_encoder used by the connector to fulfill
- 	 * the DRM framework requirements. The users of the
- 	 * @drm_writeback_connector control the behaviour of the @encoder
- 	 * by passing the @enc_funcs parameter to drm_writeback_connector_init()
- 	 * function.
-+	 *
-+	 * For some vendor drivers, the hardware resources are shared between
-+	 * writeback encoder and rest of the display pipeline.
-+	 * To accommodate such cases, encoder is a handle to the real encoder
-+	 * hardware.
-+	 *
-+	 * For current existing writeback users, this shall continue to be the
-+	 * embedded encoder for the writeback connector.
- 	 */
--	struct drm_encoder encoder;
-+	struct drm_encoder *encoder;
- 
- 	/**
-+	 * @internal_encoder: internal encoder used by writeback when
-+	 * drm_writeback_connector_init() is used.
-+	 * @encoder will be assigned to this for those cases
-+	 *
-+	 * This will be unused when drm_writeback_connector_init_with_encoder()
-+	 * is used.
-+	 */
-+	struct drm_encoder internal_encoder;
-+	/**
- 	 * @pixel_formats_blob_ptr:
- 	 *
- 	 * DRM blob property data for the pixel formats list on writeback
 -- 
-2.7.4
+2.35.1
 
