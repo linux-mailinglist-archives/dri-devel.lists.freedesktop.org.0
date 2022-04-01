@@ -1,56 +1,45 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 811E14EF7D8
-	for <lists+dri-devel@lfdr.de>; Fri,  1 Apr 2022 18:24:30 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 4D6D74EF81A
+	for <lists+dri-devel@lfdr.de>; Fri,  1 Apr 2022 18:38:30 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 7A27A10E38D;
-	Fri,  1 Apr 2022 16:24:28 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 814F010E1A4;
+	Fri,  1 Apr 2022 16:38:23 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from 189.cn (ptr.189.cn [183.61.185.102])
- by gabe.freedesktop.org (Postfix) with ESMTP id 6244310E38D
- for <dri-devel@lists.freedesktop.org>; Fri,  1 Apr 2022 16:24:26 +0000 (UTC)
-HMM_SOURCE_IP: 10.64.8.43:38814.38631177
-HMM_ATTACHE_NUM: 0000
-HMM_SOURCE_TYPE: SMTP
-Received: from clientip-114.242.206.180 (unknown [10.64.8.43])
- by 189.cn (HERMES) with SMTP id AE3C71002C5;
- Sat,  2 Apr 2022 00:24:13 +0800 (CST)
-Received: from  ([172.27.8.53])
- by gateway-151646-dep-b7fbf7d79-vjdjk with ESMTP id
- c0936e5f532040c988fa50bee58868c7 for mripard@kernel.org; 
- Sat, 02 Apr 2022 00:24:25 CST
-X-Transaction-ID: c0936e5f532040c988fa50bee58868c7
-X-Real-From: 15330273260@189.cn
-X-Receive-IP: 172.27.8.53
-X-MEDUSA-Status: 0
-From: Sui Jingfeng <15330273260@189.cn>
-To: Maxime Ripard <mripard@kernel.org>,
- Thomas Zimmermann <tzimmermann@suse.de>,
- Roland Scheidegger <sroland@vmware.com>, Zack Rusin <zackr@vmware.com>,
- Christian Gmeiner <christian.gmeiner@gmail.com>,
- David Airlie <airlied@linux.ie>, Daniel Vetter <daniel@ffwll.ch>,
- Rob Herring <robh+dt@kernel.org>,
- Thomas Bogendoerfer <tsbogend@alpha.franken.de>,
- Dan Carpenter <dan.carpenter@oracle.com>,
- Krzysztof Kozlowski <krzk@kernel.org>,
- Andrey Zhizhikin <andrey.zhizhikin@leica-geosystems.com>,
- Sam Ravnborg <sam@ravnborg.org>, "David S . Miller" <davem@davemloft.net>,
- Jiaxun Yang <jiaxun.yang@flygoat.com>,
- Lucas Stach <l.stach@pengutronix.de>,
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Ilia Mirkin <imirkin@alum.mit.edu>, Qing Zhang <zhangqing@loongson.cn>,
- suijingfeng <suijingfeng@loongson.cn>
-Subject: [PATCH v14 6/6] MAINTAINERS: add maintainers for DRM LOONGSON driver
-Date: Sat,  2 Apr 2022 00:22:51 +0800
-Message-Id: <20220401162251.1665081-7-15330273260@189.cn>
-X-Mailer: git-send-email 2.25.1
-In-Reply-To: <20220401162251.1665081-1-15330273260@189.cn>
-References: <20220401162251.1665081-1-15330273260@189.cn>
+Received: from phobos.denx.de (phobos.denx.de [85.214.62.61])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id C571A10E152
+ for <dri-devel@lists.freedesktop.org>; Fri,  1 Apr 2022 16:38:19 +0000 (UTC)
+Received: from tr.lan (ip-89-176-112-137.net.upcbroadband.cz [89.176.112.137])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits))
+ (No client certificate requested)
+ (Authenticated sender: marex@denx.de)
+ by phobos.denx.de (Postfix) with ESMTPSA id 28DC384042;
+ Fri,  1 Apr 2022 18:38:18 +0200 (CEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=denx.de;
+ s=phobos-20191101; t=1648831098;
+ bh=681/ecAfuGyug/aKomT5gTVBLC3jqCPuH5Xv9vjRARY=;
+ h=From:To:Cc:Subject:Date:From;
+ b=ajUimAb5nrq0PXOK+abU7Q0HPvmGiJfxe5v5zjUTIKJnaW6daJq5zbDrBoPwEKAaR
+ Eyt9H0Xm/9i3z/QDIIMDuqIH5L+gCCFoctXWJ4OdPgv+HKa/5Gc8F5rkG6vi9zVo8A
+ +v46Cq+YE0fTT/SemFmnR2zOiYc4Xo66lmlrlrJCd0PgLb48TfdvdzFmBrfYHLpTZr
+ pFLUikor/GouKzqdhS715+I+YemFAscsSn0k3f4lgzMd5kZX8us0DbV4cdBzNAKFPq
+ TmCa0Eki2kcAaV+bGSJclTNFljNXdHngeeT3qiKzeg2nIIVnFoLv02oRVCr/7xt+/k
+ hpbF9RtbrTqkw==
+From: Marek Vasut <marex@denx.de>
+To: dri-devel@lists.freedesktop.org
+Subject: [RFC][PATCH 1/3] dt-bindings: display: panel: mipi-dbi-spi: Make
+ width-mm/height-mm mandatory
+Date: Fri,  1 Apr 2022 18:37:53 +0200
+Message-Id: <20220401163755.302548-1-marex@denx.de>
+X-Mailer: git-send-email 2.35.1
 MIME-Version: 1.0
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
+X-Virus-Scanned: clamav-milter 0.103.5 at phobos.denx.de
+X-Virus-Status: Clean
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -63,38 +52,49 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: devicetree@vger.kernel.org, linux-mips@vger.kernel.org,
- dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org
+Cc: Marek Vasut <marex@denx.de>,
+ Christoph Niedermaier <cniedermaier@dh-electronics.com>,
+ devicetree@vger.kernel.org, Daniel Vetter <daniel.vetter@ffwll.ch>,
+ robert.foss@linaro.org, Rob Herring <robh+dt@kernel.org>,
+ =?UTF-8?q?Noralf=20Tr=C3=B8nnes?= <noralf@tronnes.org>,
+ Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
+ Thomas Zimmermann <tzimmermann@suse.de>, Dmitry Osipenko <digetx@gmail.com>,
+ Sam Ravnborg <sam@ravnborg.org>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
- This patch add myself as maintainer
+Make the width-mm/height-mm panel properties mandatory
+to correctly report the panel dimensions to the OS.
 
-Signed-off-by: Sui Jingfeng <15330273260@189.cn>
+Signed-off-by: Marek Vasut <marex@denx.de>
+Cc: Christoph Niedermaier <cniedermaier@dh-electronics.com>
+Cc: Daniel Vetter <daniel.vetter@ffwll.ch>
+Cc: Dmitry Osipenko <digetx@gmail.com>
+Cc: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+Cc: Noralf Trønnes <noralf@tronnes.org>
+Cc: Rob Herring <robh+dt@kernel.org>
+Cc: Robert Foss <robert.foss@linaro.org>
+Cc: Sam Ravnborg <sam@ravnborg.org>
+Cc: Thomas Zimmermann <tzimmermann@suse.de>
+Cc: devicetree@vger.kernel.org
+To: dri-devel@lists.freedesktop.org
 ---
- MAINTAINERS | 9 +++++++++
- 1 file changed, 9 insertions(+)
+ .../devicetree/bindings/display/panel/panel-mipi-dbi-spi.yaml   | 2 ++
+ 1 file changed, 2 insertions(+)
 
-diff --git a/MAINTAINERS b/MAINTAINERS
-index 10476280acb8..21184d8577f4 100644
---- a/MAINTAINERS
-+++ b/MAINTAINERS
-@@ -6487,6 +6487,15 @@ T:	git git://anongit.freedesktop.org/drm/drm-misc
- F:	drivers/gpu/drm/lima/
- F:	include/uapi/drm/lima_drm.h
+diff --git a/Documentation/devicetree/bindings/display/panel/panel-mipi-dbi-spi.yaml b/Documentation/devicetree/bindings/display/panel/panel-mipi-dbi-spi.yaml
+index f29789994b18..c2df8d28aaf5 100644
+--- a/Documentation/devicetree/bindings/display/panel/panel-mipi-dbi-spi.yaml
++++ b/Documentation/devicetree/bindings/display/panel/panel-mipi-dbi-spi.yaml
+@@ -83,6 +83,8 @@ properties:
+ required:
+   - compatible
+   - reg
++  - width-mm
++  - height-mm
+   - panel-timing
  
-+DRM DRIVERS FOR LOONGSON
-+M:	suijingfeng <suijingfeng@loongson.cn>
-+L:	dri-devel@lists.freedesktop.org
-+S:	Maintained
-+W:	https://www.loongson.cn/
-+T:	git git://anongit.freedesktop.org/drm/drm-misc
-+F:	Documentation/devicetree/bindings/display/loongson/
-+F:	drivers/gpu/drm/loongson/
-+
- DRM DRIVERS FOR MEDIATEK
- M:	Chun-Kuang Hu <chunkuang.hu@kernel.org>
- M:	Philipp Zabel <p.zabel@pengutronix.de>
+ unevaluatedProperties: false
 -- 
-2.25.1
+2.35.1
 
