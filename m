@@ -1,56 +1,41 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 992584EF424
-	for <lists+dri-devel@lfdr.de>; Fri,  1 Apr 2022 17:29:53 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id F01B34EF4BA
+	for <lists+dri-devel@lfdr.de>; Fri,  1 Apr 2022 17:38:23 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 07CF210F60E;
-	Fri,  1 Apr 2022 15:29:50 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id D212110F61A;
+	Fri,  1 Apr 2022 15:38:19 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-oi1-x230.google.com (mail-oi1-x230.google.com
- [IPv6:2607:f8b0:4864:20::230])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 7841A10E421;
- Fri,  1 Apr 2022 15:29:48 +0000 (UTC)
-Received: by mail-oi1-x230.google.com with SMTP id v75so3183082oie.1;
- Fri, 01 Apr 2022 08:29:48 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=Gyt7OhDDJG/Jjk7Y/BmbMpmUgwu226u2PaT2lDpwvxc=;
- b=j0CYlUEivF/RCALCdJ2Z4wBED5Vbr8IWDxV7p4iIFjdEPkXzwTWODhj30CjLvZmhe7
- 2UFCyytz3MgGot99GXMHJIHAVUXsGifPAMzVoAGEz6haXmV9xVL4H6iEFgRz73A/vW/b
- 29CVR98yCdyUfqh0UAPAjP3ZbeD46Sh1qT+yaQ1UN1jsn3QMZoCYa8ERKMjHfHjidTF9
- lFwKqatt6pTzk/OJxda5PyWzuYt9NX8ZI/j8WUd1wXS1/sEINWSM1JxS60XJ0msC3Y14
- 8opdr8vTS0FJnpA3d+EwYGG8S8YqmX/+EluBLGit5cQrhQrEr84rf6ar3uqf/I5BA2Qj
- o2cA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=Gyt7OhDDJG/Jjk7Y/BmbMpmUgwu226u2PaT2lDpwvxc=;
- b=p4RVPc/sdj4WXBbI0qH2ftQJ8abmpcJBddNlT70Zl7GF690fN2R0t4yw+Pjle76PWe
- GLGsxZqax0QsRMKw2e1YflhsS9qJbuya8nuDChp9EorCtn2vwAL5sDhi1BBTR4BQUTlY
- /YLi7ClsZKM2pWbm5cZrAPjTIy/DGaJ9CShXC2H2fqXc5c0yf9W2IRPkH4wWghuSvK8Q
- LqaZNpy0kNxxFBUEPabFOPTygi4GliGV8yhFZTkLN2xX8XuYats0K6OnDLpQTYtkfabn
- HpHJEuetRsPGYfspSHa5gZyFp7oRqdJ0gkfTToq0lfwGu5Hf5sf0v0ZVIMy0iFUAtx5k
- t8Ew==
-X-Gm-Message-State: AOAM5307nLJHimIp4xf0xVbrZ5sy9qKsJXHvMwFqSB8kX7tbWtIPpDvD
- uNATicEdN2pVgeNNYesWqunSv8ZJTURHAZU1WEE=
-X-Google-Smtp-Source: ABdhPJwyrU8W6jyhWPl9Bn2XENn1UJZ4nH2sM7UDccpjUlXDCe8pBNG9QRtRKHuBY2hCPZOYMIk9gwEPzLWS1mVKl+0=
-X-Received: by 2002:a05:6808:df1:b0:2ec:b193:ad6c with SMTP id
- g49-20020a0568080df100b002ecb193ad6cmr4719251oic.200.1648826987831; Fri, 01
- Apr 2022 08:29:47 -0700 (PDT)
+Received: from perceval.ideasonboard.com (perceval.ideasonboard.com
+ [213.167.242.64])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 562B110F613;
+ Fri,  1 Apr 2022 15:38:18 +0000 (UTC)
+Received: from pendragon.ideasonboard.com (62-78-145-57.bb.dnainternet.fi
+ [62.78.145.57])
+ by perceval.ideasonboard.com (Postfix) with ESMTPSA id D03992F7;
+ Fri,  1 Apr 2022 17:38:16 +0200 (CEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
+ s=mail; t=1648827497;
+ bh=ZbZHyqptx4zXfVnh3lLtRGmNFbGpDjNpeXKOZRDK7xQ=;
+ h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+ b=FgXAj35YFOVTO+gtKi9wT82VEfAdnvgBLHI4m/79rxJRdT1+QVmu6diwQdNuoHybS
+ O2/rDE2rercPR7iTauzJ7Tl7VkiSMV3+3HJYOMrX5OvXAv9wDKytSCoKByyeCHOk03
+ hX8jampeZHXuz50KNPhQDDbJKOYHum9KQJszLAto=
+Date: Fri, 1 Apr 2022 18:38:14 +0300
+From: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+To: Abhinav Kumar <quic_abhinavk@quicinc.com>
+Subject: Re: [PATCH v6 4/4] drm: allow real encoder to be passed for
+ drm_writeback_connector
+Message-ID: <YkccZgD+f0enx2aV@pendragon.ideasonboard.com>
+References: <1648771933-18512-1-git-send-email-quic_abhinavk@quicinc.com>
+ <1648771933-18512-5-git-send-email-quic_abhinavk@quicinc.com>
 MIME-Version: 1.0
-References: <2a2b1f76-7e9b-9561-e190-16d808eb5399@molgen.mpg.de>
- <1648794486-23302-1-git-send-email-baihaowen@meizu.com>
-In-Reply-To: <1648794486-23302-1-git-send-email-baihaowen@meizu.com>
-From: Alex Deucher <alexdeucher@gmail.com>
-Date: Fri, 1 Apr 2022 11:29:36 -0400
-Message-ID: <CADnq5_MyjrUus0BZpzRKLei-asBepNGjZanLgHiFVUFWSmggcQ@mail.gmail.com>
-Subject: Re: [PATCH V2] drm/amdgpu/vcn: Remove unneeded semicolon
-To: Haowen Bai <baihaowen@meizu.com>
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+In-Reply-To: <1648771933-18512-5-git-send-email-quic_abhinavk@quicinc.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -63,48 +48,196 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Tao Zhou <tao.zhou1@amd.com>, David Airlie <airlied@linux.ie>, "Pan,
- Xinhui" <Xinhui.Pan@amd.com>, LKML <linux-kernel@vger.kernel.org>,
- Maling list - DRI developers <dri-devel@lists.freedesktop.org>,
- Mohammad Zafar Ziya <Mohammadzafar.ziya@amd.com>,
- amd-gfx list <amd-gfx@lists.freedesktop.org>,
- Alex Deucher <alexander.deucher@amd.com>,
- =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>,
- Hawking Zhang <Hawking.Zhang@amd.com>
+Cc: hamohammed.sa@gmail.com, suraj.kandpal@intel.com, emma@anholt.net,
+ rodrigosiqueiramelo@gmail.com, jani.nikula@intel.com, liviu.dudau@arm.com,
+ dri-devel@lists.freedesktop.org, swboyd@chromium.org, melissa.srw@gmail.com,
+ nganji@codeaurora.org, seanpaul@chromium.org, dmitry.baryshkov@linaro.org,
+ james.qian.wang@arm.com, quic_aravindh@quicinc.com, mihail.atanassov@arm.com,
+ freedreno@lists.freedesktop.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Applied.  Thanks!
+Hi Abhinav,
 
-Alex
+Thank you for the patch.
 
-On Fri, Apr 1, 2022 at 3:23 AM Haowen Bai <baihaowen@meizu.com> wrote:
->
-> report by coccicheck:
-> drivers/gpu/drm/amd/amdgpu/vcn_v2_5.c:1951:2-3: Unneeded semicolon
->
-> Fixes: c543dcbe4237 ("drm/amdgpu/vcn: Add VCN ras error query support")
->
-> Signed-off-by: Haowen Bai <baihaowen@meizu.com>
+On Thu, Mar 31, 2022 at 05:12:13PM -0700, Abhinav Kumar wrote:
+> For some vendor driver implementations, display hardware can
+> be shared between the encoder used for writeback and the physical
+> display.
+> 
+> In addition resources such as clocks and interrupts can
+> also be shared between writeback and the real encoder.
+> 
+> To accommodate such vendor drivers and hardware, allow
+> real encoder to be passed for drm_writeback_connector.
+> 
+> changes in v6:
+> 	- assign the encoder inside
+> 	  drm_writeback_connector_init_with_encoder() for
+> 	  better readability
+> 	- improve some documentation for internal encoder
+> 
+> Co-developed-by: Kandpal Suraj <suraj.kandpal@intel.com>
+> Signed-off-by: Kandpal Suraj <suraj.kandpal@intel.com>
+> Signed-off-by: Abhinav Kumar <quic_abhinavk@quicinc.com>
 > ---
-> V1->V2: change title; change Fixed info;
->
->  drivers/gpu/drm/amd/amdgpu/vcn_v2_5.c | 2 +-
->  1 file changed, 1 insertion(+), 1 deletion(-)
->
-> diff --git a/drivers/gpu/drm/amd/amdgpu/vcn_v2_5.c b/drivers/gpu/drm/amd/amdgpu/vcn_v2_5.c
-> index 3e1de8c..17d44be 100644
-> --- a/drivers/gpu/drm/amd/amdgpu/vcn_v2_5.c
-> +++ b/drivers/gpu/drm/amd/amdgpu/vcn_v2_5.c
-> @@ -1948,7 +1948,7 @@ static uint32_t vcn_v2_6_query_poison_by_instance(struct amdgpu_device *adev,
->                 break;
->         default:
->                 break;
-> -       };
-> +       }
->
->         if (poison_stat)
->                 dev_info(adev->dev, "Poison detected in VCN%d, sub_block%d\n",
-> --
+>  drivers/gpu/drm/drm_writeback.c | 18 ++++++++++++------
+>  drivers/gpu/drm/vc4/vc4_txp.c   | 14 ++++++++------
+>  include/drm/drm_writeback.h     | 21 +++++++++++++++++++--
+
+Please split this in two patches, one for the DRM core and one for the
+VC4 driver. This applies to most patches as a general rule, with the
+main exception being API refactoring that requires changing the
+implementation and all its users in a single patch.
+
+>  3 files changed, 39 insertions(+), 14 deletions(-)
+> 
+> diff --git a/drivers/gpu/drm/drm_writeback.c b/drivers/gpu/drm/drm_writeback.c
+> index 797223c..7f72109 100644
+> --- a/drivers/gpu/drm/drm_writeback.c
+> +++ b/drivers/gpu/drm/drm_writeback.c
+> @@ -179,21 +179,21 @@ int drm_writeback_connector_init(struct drm_device *dev,
+>  {
+>  	int ret = 0;
+>  
+> -	drm_encoder_helper_add(&wb_connector->encoder, enc_helper_funcs);
+> +	drm_encoder_helper_add(&wb_connector->internal_encoder, enc_helper_funcs);
+>  
+> -	wb_connector->encoder.possible_crtcs = possible_crtcs;
+> +	wb_connector->internal_encoder.possible_crtcs = possible_crtcs;
+>  
+> -	ret = drm_encoder_init(dev, &wb_connector->encoder,
+> +	ret = drm_encoder_init(dev, &wb_connector->internal_encoder,
+>  			       &drm_writeback_encoder_funcs,
+>  			       DRM_MODE_ENCODER_VIRTUAL, NULL);
+>  	if (ret)
+>  		return ret;
+>  
+> -	ret = drm_writeback_connector_init_with_encoder(dev, wb_connector, &wb_connector->encoder,
+> -			con_funcs, formats, n_formats);
+> +	ret = drm_writeback_connector_init_with_encoder(dev, wb_connector,
+> +			&wb_connector->internal_encoder, con_funcs, formats, n_formats);
+>  
+>  	if (ret)
+> -		drm_encoder_cleanup(&wb_connector->encoder);
+> +		drm_encoder_cleanup(&wb_connector->internal_encoder);
+>  
+>  	return ret;
+>  }
+> @@ -238,6 +238,12 @@ int drm_writeback_connector_init_with_encoder(struct drm_device *dev,
+>  	struct drm_mode_config *config = &dev->mode_config;
+>  	int ret = create_writeback_properties(dev);
+>  
+> +	/*
+> +	 * Assign the encoder passed to this API to the wb_connector's encoder.
+> +	 * For drm_writeback_connector_init(), this shall be the internal_encoder
+> +	 */
+> +	wb_connector->encoder = enc;
+> +
+>  	if (ret != 0)
+>  		return ret;
+>  
+> diff --git a/drivers/gpu/drm/vc4/vc4_txp.c b/drivers/gpu/drm/vc4/vc4_txp.c
+> index 5e53f02..a9b4f83 100644
+> --- a/drivers/gpu/drm/vc4/vc4_txp.c
+> +++ b/drivers/gpu/drm/vc4/vc4_txp.c
+> @@ -151,6 +151,8 @@ struct vc4_txp {
+>  
+>  	struct platform_device *pdev;
+>  
+> +	struct drm_encoder drm_enc;
+> +
+>  	struct drm_writeback_connector connector;
+>  
+>  	void __iomem *regs;
+> @@ -159,7 +161,7 @@ struct vc4_txp {
+>  
+>  static inline struct vc4_txp *encoder_to_vc4_txp(struct drm_encoder *encoder)
+>  {
+> -	return container_of(encoder, struct vc4_txp, connector.encoder);
+> +	return container_of(encoder, struct vc4_txp, drm_enc);
+>  }
+>  
+>  static inline struct vc4_txp *connector_to_vc4_txp(struct drm_connector *conn)
+> @@ -499,9 +501,9 @@ static int vc4_txp_bind(struct device *dev, struct device *master, void *data)
+>  
+>  	wb_conn = &txp->connector;
+>  
+> -	drm_encoder_helper_add(&wb_conn->encoder, &vc4_txp_encoder_helper_funcs);
+> +	drm_encoder_helper_add(&txp->drm_enc, &vc4_txp_encoder_helper_funcs);
+>  
+> -	ret = drm_encoder_init(drm, &wb_conn->encoder,
+> +	ret = drm_encoder_init(drm, &txp->drm_enc,
+>  			&vc4_txp_encoder_funcs,
+>  			DRM_MODE_ENCODER_VIRTUAL, NULL);
+>  
+> @@ -511,10 +513,10 @@ static int vc4_txp_bind(struct device *dev, struct device *master, void *data)
+>  	drm_connector_helper_add(&wb_conn->base,
+>  				 &vc4_txp_connector_helper_funcs);
+>  
+> -	ret = drm_writeback_connector_init_with_encoder(drm, wb_conn, &wb_conn->encoder,
+> +	ret = drm_writeback_connector_init_with_encoder(drm, wb_conn, &txp->drm_enc,
+>  			&vc4_txp_connector_funcs, drm_fmts, ARRAY_SIZE(drm_fmts));
+>  	if (ret) {
+> -		drm_encoder_cleanup(&wb_conn->encoder);
+> +		drm_encoder_cleanup(&txp->drm_enc);
+>  		return ret;
+>  	}
+>  
+> @@ -523,7 +525,7 @@ static int vc4_txp_bind(struct device *dev, struct device *master, void *data)
+>  	if (ret)
+>  		return ret;
+>  
+> -	encoder = &txp->connector.encoder;
+> +	encoder = txp->connector.encoder;
+>  	encoder->possible_crtcs = drm_crtc_mask(crtc);
+>  
+>  	ret = devm_request_irq(dev, irq, vc4_txp_interrupt, 0,
+> diff --git a/include/drm/drm_writeback.h b/include/drm/drm_writeback.h
+> index 4795024..3f5c330 100644
+> --- a/include/drm/drm_writeback.h
+> +++ b/include/drm/drm_writeback.h
+> @@ -25,15 +25,32 @@ struct drm_writeback_connector {
+>  	struct drm_connector base;
+>  
+>  	/**
+> -	 * @encoder: Internal encoder used by the connector to fulfill
+> +	 * @encoder: handle to drm_encoder used by the connector to fulfill
+>  	 * the DRM framework requirements. The users of the
+>  	 * @drm_writeback_connector control the behaviour of the @encoder
+>  	 * by passing the @enc_funcs parameter to drm_writeback_connector_init()
+>  	 * function.
+> +	 *
+> +	 * For some vendor drivers, the hardware resources are shared between
+> +	 * writeback encoder and rest of the display pipeline.
+> +	 * To accommodate such cases, encoder is a handle to the real encoder
+> +	 * hardware.
+> +	 *
+> +	 * For current existing writeback users, this shall continue to be the
+> +	 * embedded encoder for the writeback connector.
+>  	 */
+> -	struct drm_encoder encoder;
+> +	struct drm_encoder *encoder;
+>  
+>  	/**
+> +	 * @internal_encoder: internal encoder used by writeback when
+> +	 * drm_writeback_connector_init() is used.
+> +	 * @encoder will be assigned to this for those cases
+> +	 *
+> +	 * This will be unused when drm_writeback_connector_init_with_encoder()
+> +	 * is used.
+> +	 */
+> +	struct drm_encoder internal_encoder;
+> +	/**
+>  	 * @pixel_formats_blob_ptr:
+>  	 *
+>  	 * DRM blob property data for the pixel formats list on writeback
+> -- 
 > 2.7.4
->
+> 
+
+-- 
+Regards,
+
+Laurent Pinchart
