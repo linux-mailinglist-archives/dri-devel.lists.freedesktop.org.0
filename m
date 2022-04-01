@@ -2,51 +2,42 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 008B64EF7FE
-	for <lists+dri-devel@lfdr.de>; Fri,  1 Apr 2022 18:32:45 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 8CB2A4EF7C3
+	for <lists+dri-devel@lfdr.de>; Fri,  1 Apr 2022 18:22:23 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 3BD1810E0FF;
-	Fri,  1 Apr 2022 16:32:40 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id D3DA310E2E7;
+	Fri,  1 Apr 2022 16:22:19 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mga07.intel.com (mga07.intel.com [134.134.136.100])
- by gabe.freedesktop.org (Postfix) with ESMTPS id E66AB10F5E6;
- Fri,  1 Apr 2022 16:32:38 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1648830758; x=1680366758;
- h=from:to:cc:subject:in-reply-to:references:date:
- message-id:mime-version:content-transfer-encoding;
- bh=BZ84mCdW2h1uvx5/kzFjGZ6MXCsrMN01GTYbXdxxPkw=;
- b=U30HV+dPdvwhHqh9IEWRDX1egd9ofdOF/SixKecMVNrdsszeHMZOgTPC
- OHhjkDdzMjMQGowUZv9a6PV6CgopOEn6+PImb31mEavwlBmlN7iWWKbpR
- g9jm5u3lVdF91rGD4MadTbqiS1EUUsswOOYNHegR/Xc1qyj2hMUR+RsKP
- 6tts0sTRBoz0Jbv2s+r2vsk24QApbutLrNHpHZaRhxIQpI5z5om0FgLJQ
- BrrytLqpGDjpl5Sjze3p3Qbam9Zi6p6hanfGqQCbsUkyRf4uXmCiqNDWH
- eMMEGiotgnUoF7tvuX7jbF4NXeFbjl6ETjvoJSSm4PLJ3+Xhtx+G2vvZ0 Q==;
-X-IronPort-AV: E=McAfee;i="6200,9189,10304"; a="323348597"
-X-IronPort-AV: E=Sophos;i="5.90,228,1643702400"; d="scan'208";a="323348597"
-Received: from orsmga007.jf.intel.com ([10.7.209.58])
- by orsmga105.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 01 Apr 2022 09:18:51 -0700
-X-IronPort-AV: E=Sophos;i="5.90,228,1643702400"; d="scan'208";a="547854802"
-Received: from anikolov-mobl.ger.corp.intel.com (HELO localhost)
- ([10.252.62.217])
- by orsmga007-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 01 Apr 2022 09:18:49 -0700
-From: Jani Nikula <jani.nikula@intel.com>
-To: Ville =?utf-8?B?U3lyasOkbMOk?= <ville.syrjala@linux.intel.com>
-Subject: Re: [PATCH v2 00/12] drm/edid: cleanup and refactoring around
- validity checks
-In-Reply-To: <YkcH+OO+lVBejjn4@intel.com>
-Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
-References: <cover.1648752228.git.jani.nikula@intel.com>
- <877d8989om.fsf@intel.com> <YkcH+OO+lVBejjn4@intel.com>
-Date: Fri, 01 Apr 2022 19:18:45 +0300
-Message-ID: <87sfqw7p5m.fsf@intel.com>
+Received: from phobos.denx.de (phobos.denx.de [85.214.62.61])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 42DD910E2E7
+ for <dri-devel@lists.freedesktop.org>; Fri,  1 Apr 2022 16:22:18 +0000 (UTC)
+Received: from tr.lan (ip-89-176-112-137.net.upcbroadband.cz [89.176.112.137])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits))
+ (No client certificate requested)
+ (Authenticated sender: marex@denx.de)
+ by phobos.denx.de (Postfix) with ESMTPSA id 7F90C83B06;
+ Fri,  1 Apr 2022 18:22:16 +0200 (CEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=denx.de;
+ s=phobos-20191101; t=1648830136;
+ bh=SvLv1hoF4X4/Qv0A4qHRi+g3E4Wd9TLQiv+s+PnsWI0=;
+ h=From:To:Cc:Subject:Date:From;
+ b=Dz/hd9vAxCxYSF9v01iIFiB9yQ99t9KgdaDzwrjOstZMWRaVFP0ub3Pt1VL8PwFhV
+ 2eyNdNbf4Jd6vuYDNdiWKUZEYo9mjXXzEqnjtCQ5mtL6+EfolUJwQDY7SVUciMT5iF
+ ypF4oPk2ZxdIdrQ7gjrhq0mkJm/72k+DloZN2gQFDtNnLh0aeYqFhhC95y8j36hPAV
+ 5rexx46tYIwnUb3NTY1UK+vOAATk0l1NUEdsiqPhQYN/nn+KRSpaQzWxbMMF3rqF1N
+ 1A0S8uUGSQlNl5yZpxkiw6VsI8h1kMOeDRUCOLpyvdDRbKw5afd4TY+gcfKc122+m9
+ BYcyqi3+zeeBA==
+From: Marek Vasut <marex@denx.de>
+To: dri-devel@lists.freedesktop.org
+Subject: [PATCH v2 1/2] drm/panel: lvds: Simplify mode parsing
+Date: Fri,  1 Apr 2022 18:21:53 +0200
+Message-Id: <20220401162154.295152-1-marex@denx.de>
+X-Mailer: git-send-email 2.35.1
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: quoted-printable
+Content-Transfer-Encoding: 8bit
+X-Virus-Scanned: clamav-milter 0.103.5 at phobos.denx.de
+X-Virus-Status: Clean
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -59,60 +50,116 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: intel-gfx@lists.freedesktop.org, dri-devel@lists.freedesktop.org
+Cc: Marek Vasut <marex@denx.de>,
+ Christoph Niedermaier <cniedermaier@dh-electronics.com>,
+ Daniel Vetter <daniel.vetter@ffwll.ch>, robert.foss@linaro.org,
+ Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
+ Thomas Zimmermann <tzimmermann@suse.de>, Dmitry Osipenko <digetx@gmail.com>,
+ Sam Ravnborg <sam@ravnborg.org>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Fri, 01 Apr 2022, Ville Syrj=C3=A4l=C3=A4 <ville.syrjala@linux.intel.com=
-> wrote:
-> On Fri, Apr 01, 2022 at 11:55:21AM +0300, Jani Nikula wrote:
->> On Thu, 31 Mar 2022, Jani Nikula <jani.nikula@intel.com> wrote:
->> > v2 of https://patchwork.freedesktop.org/series/101931/
->> >
->> > Rebased, review comments addressed.
->>=20
->> Ville, care to double check patches 1 & 7 please?
->
-> Looks fine by me
-> Reviewed-by: Ville Syrj=C3=A4l=C3=A4 <ville.syrjala@linux.intel.com>
+The mode parsing is currently implemented in three steps:
+of_get_display_timing() - DT panel-timing to struct display_timing
+videomode_from_timing() - struct display_timing to struct videomode
+drm_display_mode_from_videomode() - struct videomode to struct drm_display_mode
 
-Thanks, pushed the lot to drm-misc-next.
+Replace all that with simple of_get_drm_panel_display_mode() call,
+which already populates struct drm_display_mode and then duplicate
+that mode in panel_lvds_get_modes() each time, since the mode does
+not change.
 
-BR,
-Jani.
+Nice bonus is the bus_flags parsed by of_get_drm_panel_display_mode()
+out of panel-timing DT node, which is used in subsequent patch to fix
+handling of 'de-active' DT property.
 
->
->>=20
->> Thanks,
->> Jani.
->>=20
->>=20
->> >
->> > BR,
->> > Jani.
->> >
->> >
->> >
->> > Jani Nikula (12):
->> >   drm/edid: use struct edid * in drm_do_get_edid()
->> >   drm/edid: clean up EDID block checksum functions
->> >   drm/edid: add edid_block_tag() helper to get the EDID extension tag
->> >   drm/edid: make drm_edid_header_is_valid() accept void pointer
->> >   drm/edid: clean up edid_is_zero()
->> >   drm/edid: split out edid_header_fix()
->> >   drm/edid: split drm_edid_block_valid() to check and act parts
->> >   drm/edid: use a better variable name for EDID block read retries
->> >   drm/edid: simplify block check when filtering invalid blocks
->> >   drm/edid: split out invalid block filtering to a separate function
->> >   drm/edid: track invalid blocks in drm_do_get_edid()
->> >   drm/edid: reduce magic when updating the EDID block checksum
->> >
->> >  drivers/gpu/drm/drm_edid.c | 295 +++++++++++++++++++++----------------
->> >  include/drm/drm_edid.h     |   2 +-
->> >  2 files changed, 173 insertions(+), 124 deletions(-)
->>=20
->> --=20
->> Jani Nikula, Intel Open Source Graphics Center
+Tested-by: Christoph Niedermaier <cniedermaier@dh-electronics.com>
+Signed-off-by: Marek Vasut <marex@denx.de>
+Cc: Christoph Niedermaier <cniedermaier@dh-electronics.com>
+Cc: Daniel Vetter <daniel.vetter@ffwll.ch>
+Cc: Dmitry Osipenko <digetx@gmail.com>
+Cc: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+Cc: Robert Foss <robert.foss@linaro.org>
+Cc: Sam Ravnborg <sam@ravnborg.org>
+Cc: Thomas Zimmermann <tzimmermann@suse.de>
+To: dri-devel@lists.freedesktop.org
+---
+V2: - Reinstate mandatory width-mm/height-mm DT property check
+    - Collect TB from Christoph
+---
+ drivers/gpu/drm/panel/panel-lvds.c | 22 +++++++++-------------
+ 1 file changed, 9 insertions(+), 13 deletions(-)
 
---=20
-Jani Nikula, Intel Open Source Graphics Center
+diff --git a/drivers/gpu/drm/panel/panel-lvds.c b/drivers/gpu/drm/panel/panel-lvds.c
+index 27a1c9923b09..6422868c1089 100644
+--- a/drivers/gpu/drm/panel/panel-lvds.c
++++ b/drivers/gpu/drm/panel/panel-lvds.c
+@@ -30,7 +30,8 @@ struct panel_lvds {
+ 	const char *label;
+ 	unsigned int width;
+ 	unsigned int height;
+-	struct videomode video_mode;
++	struct drm_display_mode dmode;
++	u32 bus_flags;
+ 	unsigned int bus_format;
+ 	bool data_mirror;
+ 
+@@ -87,16 +88,15 @@ static int panel_lvds_get_modes(struct drm_panel *panel,
+ 	struct panel_lvds *lvds = to_panel_lvds(panel);
+ 	struct drm_display_mode *mode;
+ 
+-	mode = drm_mode_create(connector->dev);
++	mode = drm_mode_duplicate(connector->dev, &lvds->dmode);
+ 	if (!mode)
+ 		return 0;
+ 
+-	drm_display_mode_from_videomode(&lvds->video_mode, mode);
+ 	mode->type |= DRM_MODE_TYPE_DRIVER | DRM_MODE_TYPE_PREFERRED;
+ 	drm_mode_probed_add(connector, mode);
+ 
+-	connector->display_info.width_mm = lvds->width;
+-	connector->display_info.height_mm = lvds->height;
++	connector->display_info.width_mm = lvds->dmode.width_mm;
++	connector->display_info.height_mm = lvds->dmode.height_mm;
+ 	drm_display_info_set_bus_formats(&connector->display_info,
+ 					 &lvds->bus_format, 1);
+ 	connector->display_info.bus_flags = lvds->data_mirror
+@@ -116,7 +116,6 @@ static const struct drm_panel_funcs panel_lvds_funcs = {
+ static int panel_lvds_parse_dt(struct panel_lvds *lvds)
+ {
+ 	struct device_node *np = lvds->dev->of_node;
+-	struct display_timing timing;
+ 	int ret;
+ 
+ 	ret = of_drm_get_panel_orientation(np, &lvds->orientation);
+@@ -125,23 +124,20 @@ static int panel_lvds_parse_dt(struct panel_lvds *lvds)
+ 		return ret;
+ 	}
+ 
+-	ret = of_get_display_timing(np, "panel-timing", &timing);
++	ret = of_get_drm_panel_display_mode(np, &lvds->dmode, &lvds->bus_flags);
+ 	if (ret < 0) {
+ 		dev_err(lvds->dev, "%pOF: problems parsing panel-timing (%d)\n",
+ 			np, ret);
+ 		return ret;
+ 	}
+ 
+-	videomode_from_timing(&timing, &lvds->video_mode);
+-
+-	ret = of_property_read_u32(np, "width-mm", &lvds->width);
+-	if (ret < 0) {
++	if (lvds->dmode.width_mm == 0) {
+ 		dev_err(lvds->dev, "%pOF: invalid or missing %s DT property\n",
+ 			np, "width-mm");
+ 		return -ENODEV;
+ 	}
+-	ret = of_property_read_u32(np, "height-mm", &lvds->height);
+-	if (ret < 0) {
++
++	if (lvds->dmode.height_mm == 0) {
+ 		dev_err(lvds->dev, "%pOF: invalid or missing %s DT property\n",
+ 			np, "height-mm");
+ 		return -ENODEV;
+-- 
+2.35.1
+
