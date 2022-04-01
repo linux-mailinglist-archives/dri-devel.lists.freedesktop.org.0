@@ -1,47 +1,47 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 37F8D4EE513
-	for <lists+dri-devel@lfdr.de>; Fri,  1 Apr 2022 02:12:50 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 700324EE515
+	for <lists+dri-devel@lfdr.de>; Fri,  1 Apr 2022 02:12:52 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 539A810E370;
-	Fri,  1 Apr 2022 00:12:42 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 4912310E35D;
+	Fri,  1 Apr 2022 00:12:43 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from alexa-out-sd-01.qualcomm.com (alexa-out-sd-01.qualcomm.com
  [199.106.114.38])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 26BA510E31E;
- Fri,  1 Apr 2022 00:12:41 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 4299910E31E;
+ Fri,  1 Apr 2022 00:12:42 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=quicinc.com; i=@quicinc.com; q=dns/txt; s=qcdkim;
- t=1648771961; x=1680307961;
+ t=1648771962; x=1680307962;
  h=from:to:cc:subject:date:message-id:in-reply-to:
  references:mime-version;
- bh=dyTYIAQmoNWiwrecT1uDVQMiGGS1WzQ5Y1tI7GI7b/Y=;
- b=r/HDdkIyYbuqAPemGno9NfbTg9mekdu3LtNkpecd20Fv7N3wG7OlMNOb
- ionKN1CMHZjtWAw3kNGjPZBwgXO7HYKYLTGV4d3BHS4ah2/QJSUFqyqQx
- yddGZpQLV3kL2mPtoFD83X7ZmT6kl+TkgpGDFks2AqJb33Ll/tdE4zNmd k=;
-Received: from unknown (HELO ironmsg04-sd.qualcomm.com) ([10.53.140.144])
+ bh=BIYrhDeKcy0YqaEI5VVwM0DmGU9yDLvi9oS6+9p3iPo=;
+ b=juhm8erA2aafyVRr0bso18Utyck+iy/MaC61GsE5CqmUTcnKCvglfWWU
+ jLqH9hiircP5kms397OIlkxlmPrV28uhwF9CoiZCwdmmsD5LPNkNt1qZr
+ feHSaTwBKqS4Ts4uWeUkzCtBX2VHW1K1lPhJd0SGEbmLoLip0DVDg9X78 U=;
+Received: from unknown (HELO ironmsg-SD-alpha.qualcomm.com) ([10.53.140.30])
  by alexa-out-sd-01.qualcomm.com with ESMTP; 31 Mar 2022 17:12:41 -0700
 X-QCInternal: smtphost
 Received: from nasanex01c.na.qualcomm.com ([10.47.97.222])
- by ironmsg04-sd.qualcomm.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 31 Mar 2022 17:12:40 -0700
+ by ironmsg-SD-alpha.qualcomm.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 31 Mar 2022 17:12:41 -0700
 Received: from nalasex01a.na.qualcomm.com (10.47.209.196) by
  nasanex01c.na.qualcomm.com (10.47.97.222) with Microsoft SMTP Server
  (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.2.986.22; Thu, 31 Mar 2022 17:12:39 -0700
+ 15.2.986.22; Thu, 31 Mar 2022 17:12:40 -0700
 Received: from abhinavk-linux.qualcomm.com (10.80.80.8) by
  nalasex01a.na.qualcomm.com (10.47.209.196) with Microsoft SMTP Server
  (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.2.986.22; Thu, 31 Mar 2022 17:12:39 -0700
+ 15.2.986.22; Thu, 31 Mar 2022 17:12:40 -0700
 From: Abhinav Kumar <quic_abhinavk@quicinc.com>
 To: <dri-devel@lists.freedesktop.org>
-Subject: [PATCH v6 3/4] drm/vc4: change vc4 driver to use
- drm_writeback_connector_init_with_encoder()
-Date: Thu, 31 Mar 2022 17:12:12 -0700
-Message-ID: <1648771933-18512-4-git-send-email-quic_abhinavk@quicinc.com>
+Subject: [PATCH v6 4/4] drm: allow real encoder to be passed for
+ drm_writeback_connector
+Date: Thu, 31 Mar 2022 17:12:13 -0700
+Message-ID: <1648771933-18512-5-git-send-email-quic_abhinavk@quicinc.com>
 X-Mailer: git-send-email 2.7.4
 In-Reply-To: <1648771933-18512-1-git-send-email-quic_abhinavk@quicinc.com>
 References: <1648771933-18512-1-git-send-email-quic_abhinavk@quicinc.com>
@@ -72,80 +72,171 @@ Cc: hamohammed.sa@gmail.com, suraj.kandpal@intel.com, emma@anholt.net,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-vc4 driver currently embeds the drm_encoder into struct vc4_txp
-and later on uses container_of to retrieve the vc4_txp from
-the drm_encoder.
+For some vendor driver implementations, display hardware can
+be shared between the encoder used for writeback and the physical
+display.
 
-Make vc4 driver use the new API so that the embedded encoder model
-can be retained in the driver and there is no change in
-functionality.
+In addition resources such as clocks and interrupts can
+also be shared between writeback and the real encoder.
+
+To accommodate such vendor drivers and hardware, allow
+real encoder to be passed for drm_writeback_connector.
 
 changes in v6:
-	- pass the encoder to drm_writeback_connector_init_with_encoder()
+	- assign the encoder inside
+	  drm_writeback_connector_init_with_encoder() for
+	  better readability
+	- improve some documentation for internal encoder
 
+Co-developed-by: Kandpal Suraj <suraj.kandpal@intel.com>
+Signed-off-by: Kandpal Suraj <suraj.kandpal@intel.com>
 Signed-off-by: Abhinav Kumar <quic_abhinavk@quicinc.com>
 ---
- drivers/gpu/drm/vc4/vc4_txp.c | 30 +++++++++++++++++++++++-------
- 1 file changed, 23 insertions(+), 7 deletions(-)
+ drivers/gpu/drm/drm_writeback.c | 18 ++++++++++++------
+ drivers/gpu/drm/vc4/vc4_txp.c   | 14 ++++++++------
+ include/drm/drm_writeback.h     | 21 +++++++++++++++++++--
+ 3 files changed, 39 insertions(+), 14 deletions(-)
 
-diff --git a/drivers/gpu/drm/vc4/vc4_txp.c b/drivers/gpu/drm/vc4/vc4_txp.c
-index 3447eb6..5e53f02 100644
---- a/drivers/gpu/drm/vc4/vc4_txp.c
-+++ b/drivers/gpu/drm/vc4/vc4_txp.c
-@@ -368,6 +368,10 @@ static const struct drm_encoder_helper_funcs vc4_txp_encoder_helper_funcs = {
- 	.disable = vc4_txp_encoder_disable,
- };
- 
-+static const struct drm_encoder_funcs vc4_txp_encoder_funcs = {
-+	.destroy = drm_encoder_cleanup,
-+};
-+
- static int vc4_txp_enable_vblank(struct drm_crtc *crtc)
+diff --git a/drivers/gpu/drm/drm_writeback.c b/drivers/gpu/drm/drm_writeback.c
+index 797223c..7f72109 100644
+--- a/drivers/gpu/drm/drm_writeback.c
++++ b/drivers/gpu/drm/drm_writeback.c
+@@ -179,21 +179,21 @@ int drm_writeback_connector_init(struct drm_device *dev,
  {
- 	return 0;
-@@ -467,6 +471,7 @@ static int vc4_txp_bind(struct device *dev, struct device *master, void *data)
- 	struct vc4_txp *txp;
- 	struct drm_crtc *crtc;
- 	struct drm_encoder *encoder;
-+	struct drm_writeback_connector *wb_conn;
- 	int ret, irq;
+ 	int ret = 0;
  
- 	irq = platform_get_irq(pdev, 0);
-@@ -492,16 +497,27 @@ static int vc4_txp_bind(struct device *dev, struct device *master, void *data)
- 	txp->regset.regs = txp_regs;
- 	txp->regset.nregs = ARRAY_SIZE(txp_regs);
+-	drm_encoder_helper_add(&wb_connector->encoder, enc_helper_funcs);
++	drm_encoder_helper_add(&wb_connector->internal_encoder, enc_helper_funcs);
  
--	drm_connector_helper_add(&txp->connector.base,
--				 &vc4_txp_connector_helper_funcs);
--	ret = drm_writeback_connector_init(drm, &txp->connector,
--					   &vc4_txp_connector_funcs,
--					   &vc4_txp_encoder_helper_funcs,
--					   drm_fmts, ARRAY_SIZE(drm_fmts),
--					   0);
-+	wb_conn = &txp->connector;
-+
-+	drm_encoder_helper_add(&wb_conn->encoder, &vc4_txp_encoder_helper_funcs);
-+
-+	ret = drm_encoder_init(drm, &wb_conn->encoder,
-+			&vc4_txp_encoder_funcs,
-+			DRM_MODE_ENCODER_VIRTUAL, NULL);
-+
+-	wb_connector->encoder.possible_crtcs = possible_crtcs;
++	wb_connector->internal_encoder.possible_crtcs = possible_crtcs;
+ 
+-	ret = drm_encoder_init(dev, &wb_connector->encoder,
++	ret = drm_encoder_init(dev, &wb_connector->internal_encoder,
+ 			       &drm_writeback_encoder_funcs,
+ 			       DRM_MODE_ENCODER_VIRTUAL, NULL);
  	if (ret)
  		return ret;
  
-+	drm_connector_helper_add(&wb_conn->base,
-+				 &vc4_txp_connector_helper_funcs);
-+
-+	ret = drm_writeback_connector_init_with_encoder(drm, wb_conn, &wb_conn->encoder,
-+			&vc4_txp_connector_funcs, drm_fmts, ARRAY_SIZE(drm_fmts));
-+	if (ret) {
-+		drm_encoder_cleanup(&wb_conn->encoder);
-+		return ret;
-+	}
-+
- 	ret = vc4_crtc_init(drm, vc4_crtc,
- 			    &vc4_txp_crtc_funcs, &vc4_txp_crtc_helper_funcs);
+-	ret = drm_writeback_connector_init_with_encoder(dev, wb_connector, &wb_connector->encoder,
+-			con_funcs, formats, n_formats);
++	ret = drm_writeback_connector_init_with_encoder(dev, wb_connector,
++			&wb_connector->internal_encoder, con_funcs, formats, n_formats);
+ 
  	if (ret)
+-		drm_encoder_cleanup(&wb_connector->encoder);
++		drm_encoder_cleanup(&wb_connector->internal_encoder);
+ 
+ 	return ret;
+ }
+@@ -238,6 +238,12 @@ int drm_writeback_connector_init_with_encoder(struct drm_device *dev,
+ 	struct drm_mode_config *config = &dev->mode_config;
+ 	int ret = create_writeback_properties(dev);
+ 
++	/*
++	 * Assign the encoder passed to this API to the wb_connector's encoder.
++	 * For drm_writeback_connector_init(), this shall be the internal_encoder
++	 */
++	wb_connector->encoder = enc;
++
+ 	if (ret != 0)
+ 		return ret;
+ 
+diff --git a/drivers/gpu/drm/vc4/vc4_txp.c b/drivers/gpu/drm/vc4/vc4_txp.c
+index 5e53f02..a9b4f83 100644
+--- a/drivers/gpu/drm/vc4/vc4_txp.c
++++ b/drivers/gpu/drm/vc4/vc4_txp.c
+@@ -151,6 +151,8 @@ struct vc4_txp {
+ 
+ 	struct platform_device *pdev;
+ 
++	struct drm_encoder drm_enc;
++
+ 	struct drm_writeback_connector connector;
+ 
+ 	void __iomem *regs;
+@@ -159,7 +161,7 @@ struct vc4_txp {
+ 
+ static inline struct vc4_txp *encoder_to_vc4_txp(struct drm_encoder *encoder)
+ {
+-	return container_of(encoder, struct vc4_txp, connector.encoder);
++	return container_of(encoder, struct vc4_txp, drm_enc);
+ }
+ 
+ static inline struct vc4_txp *connector_to_vc4_txp(struct drm_connector *conn)
+@@ -499,9 +501,9 @@ static int vc4_txp_bind(struct device *dev, struct device *master, void *data)
+ 
+ 	wb_conn = &txp->connector;
+ 
+-	drm_encoder_helper_add(&wb_conn->encoder, &vc4_txp_encoder_helper_funcs);
++	drm_encoder_helper_add(&txp->drm_enc, &vc4_txp_encoder_helper_funcs);
+ 
+-	ret = drm_encoder_init(drm, &wb_conn->encoder,
++	ret = drm_encoder_init(drm, &txp->drm_enc,
+ 			&vc4_txp_encoder_funcs,
+ 			DRM_MODE_ENCODER_VIRTUAL, NULL);
+ 
+@@ -511,10 +513,10 @@ static int vc4_txp_bind(struct device *dev, struct device *master, void *data)
+ 	drm_connector_helper_add(&wb_conn->base,
+ 				 &vc4_txp_connector_helper_funcs);
+ 
+-	ret = drm_writeback_connector_init_with_encoder(drm, wb_conn, &wb_conn->encoder,
++	ret = drm_writeback_connector_init_with_encoder(drm, wb_conn, &txp->drm_enc,
+ 			&vc4_txp_connector_funcs, drm_fmts, ARRAY_SIZE(drm_fmts));
+ 	if (ret) {
+-		drm_encoder_cleanup(&wb_conn->encoder);
++		drm_encoder_cleanup(&txp->drm_enc);
+ 		return ret;
+ 	}
+ 
+@@ -523,7 +525,7 @@ static int vc4_txp_bind(struct device *dev, struct device *master, void *data)
+ 	if (ret)
+ 		return ret;
+ 
+-	encoder = &txp->connector.encoder;
++	encoder = txp->connector.encoder;
+ 	encoder->possible_crtcs = drm_crtc_mask(crtc);
+ 
+ 	ret = devm_request_irq(dev, irq, vc4_txp_interrupt, 0,
+diff --git a/include/drm/drm_writeback.h b/include/drm/drm_writeback.h
+index 4795024..3f5c330 100644
+--- a/include/drm/drm_writeback.h
++++ b/include/drm/drm_writeback.h
+@@ -25,15 +25,32 @@ struct drm_writeback_connector {
+ 	struct drm_connector base;
+ 
+ 	/**
+-	 * @encoder: Internal encoder used by the connector to fulfill
++	 * @encoder: handle to drm_encoder used by the connector to fulfill
+ 	 * the DRM framework requirements. The users of the
+ 	 * @drm_writeback_connector control the behaviour of the @encoder
+ 	 * by passing the @enc_funcs parameter to drm_writeback_connector_init()
+ 	 * function.
++	 *
++	 * For some vendor drivers, the hardware resources are shared between
++	 * writeback encoder and rest of the display pipeline.
++	 * To accommodate such cases, encoder is a handle to the real encoder
++	 * hardware.
++	 *
++	 * For current existing writeback users, this shall continue to be the
++	 * embedded encoder for the writeback connector.
+ 	 */
+-	struct drm_encoder encoder;
++	struct drm_encoder *encoder;
+ 
+ 	/**
++	 * @internal_encoder: internal encoder used by writeback when
++	 * drm_writeback_connector_init() is used.
++	 * @encoder will be assigned to this for those cases
++	 *
++	 * This will be unused when drm_writeback_connector_init_with_encoder()
++	 * is used.
++	 */
++	struct drm_encoder internal_encoder;
++	/**
+ 	 * @pixel_formats_blob_ptr:
+ 	 *
+ 	 * DRM blob property data for the pixel formats list on writeback
 -- 
 2.7.4
 
