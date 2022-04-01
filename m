@@ -2,40 +2,40 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 12DFB4EF08A
-	for <lists+dri-devel@lfdr.de>; Fri,  1 Apr 2022 16:35:55 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id B3E634EF08B
+	for <lists+dri-devel@lfdr.de>; Fri,  1 Apr 2022 16:36:14 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id ABBA010EFE4;
-	Fri,  1 Apr 2022 14:35:52 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 641EF10F32A;
+	Fri,  1 Apr 2022 14:36:12 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 45E2310EFE4;
- Fri,  1 Apr 2022 14:35:51 +0000 (UTC)
+Received: from ams.source.kernel.org (ams.source.kernel.org [145.40.68.75])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 394FA10EFEB
+ for <dri-devel@lists.freedesktop.org>; Fri,  1 Apr 2022 14:36:10 +0000 (UTC)
 Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
  (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
  (No client certificate requested)
- by dfw.source.kernel.org (Postfix) with ESMTPS id ACA3F60BAC;
- Fri,  1 Apr 2022 14:35:50 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 73BF4C36AE9;
- Fri,  1 Apr 2022 14:35:49 +0000 (UTC)
+ by ams.source.kernel.org (Postfix) with ESMTPS id D8F09B8251E;
+ Fri,  1 Apr 2022 14:36:08 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id A3178C340F2;
+ Fri,  1 Apr 2022 14:36:06 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1648823750;
- bh=AM4Arlzi1uMQcuMz63HSz5AFP4b2LLZXu13ilcUheqs=;
+ s=k20201202; t=1648823767;
+ bh=aTDvfyBb6ZFwQUDdatUy1W5KmV+kCGUwHFAYnOu3iOA=;
  h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
- b=ktDllcx1YjGHNBfBO7lSkle6yacz9iKQJCZzsMJgoBBE/g+WX3njXFrlZIjNjKG0Z
- f/brejViNlWpY6DZ76M/c2Cjk0JYkGotRzzWIYirN/8ml9CKEYdSWmH9YIaPd9ZpF8
- El0+m2W7mm+1CebK1JPn8n0hGw8fR1pIjw2iIzJbpJcOuQ2BbfSw22jcd0p3MGvmNH
- H/ImMO2NPn+HPn7kWp8W2u7EEcWtYkctVs3P3miv61cus6k75QrC+LK2Wi0AMlqkRh
- 5ozQWBnLvTAn2i+6qpZv0jo4jhmWkMgLjrZTshcIbV+Cp0CKPxxACRM3Hk/P/Lg0ta
- B9+5nnXsjlyJA==
+ b=t/DJqzU3J8GMTr+9Fissfr3gsnc0/vOp+a9Uk7h0h/EJ0ftU2Bb3dkISjjoIl8hOv
+ 6t5/UvvG6MIFcu/L7ejBercTn4TCL5K1oON/5ngCDDI2Aj0NctEkh84VSvjhY1cl55
+ xWk0d0QvGK/ASyiCFnebjyZDpPC6ufkEIcBPzGyMUlJZUYk0MlYSIG7cJD3/FaKGrq
+ eKmIwDiJFiQjKHhCSlGSPTZs+g5mBb4Ua8Wug72apKBoLAQkXhymEFnFEw/jvwjnTH
+ 0v13aKaT03uiQ2ABxXMCgzlr4C5P636LzDkkD+SsRB7hjA5LRoto8sy47gVDNXiij8
+ 64A//kJS80jFQ==
 From: Sasha Levin <sashal@kernel.org>
 To: linux-kernel@vger.kernel.org,
 	stable@vger.kernel.org
-Subject: [PATCH AUTOSEL 5.16 062/109] drm/amdkfd: make CRAT table missing
- message informational only
-Date: Fri,  1 Apr 2022 10:32:09 -0400
-Message-Id: <20220401143256.1950537-62-sashal@kernel.org>
+Subject: [PATCH AUTOSEL 5.16 070/109] drm/simpledrm: Add "panel orientation"
+ property on non-upright mounted LCD panels
+Date: Fri,  1 Apr 2022 10:32:17 -0400
+Message-Id: <20220401143256.1950537-70-sashal@kernel.org>
 X-Mailer: git-send-email 2.34.1
 In-Reply-To: <20220401143256.1950537-1-sashal@kernel.org>
 References: <20220401143256.1950537-1-sashal@kernel.org>
@@ -56,42 +56,50 @@ List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
 Cc: Sasha Levin <sashal@kernel.org>, airlied@linux.ie,
- Felix Kuehling <Felix.Kuehling@amd.com>, Xinhui.Pan@amd.com,
- amd-gfx@lists.freedesktop.org, dri-devel@lists.freedesktop.org,
- Alex Deucher <alexander.deucher@amd.com>, christian.koenig@amd.com
+ Javier Martinez Canillas <javierm@redhat.com>, dri-devel@lists.freedesktop.org,
+ Hans de Goede <hdegoede@redhat.com>, Thomas Zimmermann <tzimmermann@suse.de>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-From: Alex Deucher <alexander.deucher@amd.com>
+From: Hans de Goede <hdegoede@redhat.com>
 
-[ Upstream commit 9dff13f9edf755a15f6507874185a3290c1ae8bb ]
+[ Upstream commit 94fa115f7b28a3f02611499175e134f0a823b686 ]
 
-The driver has a fallback so make the message informational
-rather than a warning. The driver has a fallback if the
-Component Resource Association Table (CRAT) is missing, so
-make this informational now.
+Some devices use e.g. a portrait panel in a standard laptop casing made
+for landscape panels. efifb calls drm_get_panel_orientation_quirk() and
+sets fb_info.fbcon_rotate_hint to make fbcon rotate the console so that
+it shows up-right instead of on its side.
 
-Bug: https://gitlab.freedesktop.org/drm/amd/-/issues/1906
-Reviewed-by: Felix Kuehling <Felix.Kuehling@amd.com>
-Signed-off-by: Alex Deucher <alexander.deucher@amd.com>
+When switching to simpledrm the fbcon renders on its side. Call the
+drm_connector_set_panel_orientation_with_quirk() helper to add
+a "panel orientation" property on devices listed in the quirk table,
+to make the fbcon (and aware userspace apps) rotate the image to
+display properly.
+
+Cc: Javier Martinez Canillas <javierm@redhat.com>
+Signed-off-by: Hans de Goede <hdegoede@redhat.com>
+Reviewed-by: Javier Martinez Canillas <javierm@redhat.com>
+Acked-by: Thomas Zimmermann <tzimmermann@suse.de>
+Link: https://patchwork.freedesktop.org/patch/msgid/20220221220045.11958-1-hdegoede@redhat.com
 Signed-off-by: Sasha Levin <sashal@kernel.org>
 ---
- drivers/gpu/drm/amd/amdkfd/kfd_crat.c | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+ drivers/gpu/drm/tiny/simpledrm.c | 3 +++
+ 1 file changed, 3 insertions(+)
 
-diff --git a/drivers/gpu/drm/amd/amdkfd/kfd_crat.c b/drivers/gpu/drm/amd/amdkfd/kfd_crat.c
-index c33d689f29e8..e574aa32a111 100644
---- a/drivers/gpu/drm/amd/amdkfd/kfd_crat.c
-+++ b/drivers/gpu/drm/amd/amdkfd/kfd_crat.c
-@@ -1563,7 +1563,7 @@ int kfd_create_crat_image_acpi(void **crat_image, size_t *size)
- 	/* Fetch the CRAT table from ACPI */
- 	status = acpi_get_table(CRAT_SIGNATURE, 0, &crat_table);
- 	if (status == AE_NOT_FOUND) {
--		pr_warn("CRAT table not found\n");
-+		pr_info("CRAT table not found\n");
- 		return -ENODATA;
- 	} else if (ACPI_FAILURE(status)) {
- 		const char *err = acpi_format_exception(status);
+diff --git a/drivers/gpu/drm/tiny/simpledrm.c b/drivers/gpu/drm/tiny/simpledrm.c
+index 5a6e89825bc2..3e3f9ba1e885 100644
+--- a/drivers/gpu/drm/tiny/simpledrm.c
++++ b/drivers/gpu/drm/tiny/simpledrm.c
+@@ -779,6 +779,9 @@ static int simpledrm_device_init_modeset(struct simpledrm_device *sdev)
+ 	if (ret)
+ 		return ret;
+ 	drm_connector_helper_add(connector, &simpledrm_connector_helper_funcs);
++	drm_connector_set_panel_orientation_with_quirk(connector,
++						       DRM_MODE_PANEL_ORIENTATION_UNKNOWN,
++						       mode->hdisplay, mode->vdisplay);
+ 
+ 	formats = simpledrm_device_formats(sdev, &nformats);
+ 
 -- 
 2.34.1
 
