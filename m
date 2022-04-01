@@ -1,55 +1,75 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 876534EE9CD
-	for <lists+dri-devel@lfdr.de>; Fri,  1 Apr 2022 10:34:16 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id A201D4EE9DD
+	for <lists+dri-devel@lfdr.de>; Fri,  1 Apr 2022 10:40:11 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 8CDD7112116;
-	Fri,  1 Apr 2022 08:34:11 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 9F1F610F679;
+	Fri,  1 Apr 2022 08:40:09 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mga12.intel.com (mga12.intel.com [192.55.52.136])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 5464410FE4B;
- Fri,  1 Apr 2022 08:34:10 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1648802050; x=1680338050;
- h=message-id:date:mime-version:subject:to:cc:references:
- from:in-reply-to:content-transfer-encoding;
- bh=rvah85BnFrSr3LbjDIHttIFFhvamH2FTPvSx8SQE5yg=;
- b=cqsl50pCCOR8n4c6w1xL6absdn4+tFKWGTBJENq6Aw2Fm1tfTC1kCzME
- WWl/gTsWxQ+85hP3Q4tBR5sszswzI4b2Uv/+1XKRL5gyCmhGf6GcNLM2a
- 6YDoMBey+udXq+7QVtsQiY5FvR0AF4soEeM8mUyZ7JnXvevvPsZkCe26y
- QwkAe7gMWcr3GldyN0dt8sxjsx2iPRb+duNbAbHTkrkCRDk9m30O61Ova
- qtLRjAbQqmnlcpXBVd6zfa901YxOxiyLcDPWA9gY/5j7/ybEYqmtmK993
- AnWhSTy3BGxbOCMjwQ5HjSncxCX8BOrJWmxuNd9BVEqeu8VyRUiWayp9O g==;
-X-IronPort-AV: E=McAfee;i="6200,9189,10303"; a="240018319"
-X-IronPort-AV: E=Sophos;i="5.90,226,1643702400"; d="scan'208";a="240018319"
-Received: from orsmga006.jf.intel.com ([10.7.209.51])
- by fmsmga106.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 01 Apr 2022 01:34:09 -0700
-X-IronPort-AV: E=Sophos;i="5.90,226,1643702400"; d="scan'208";a="522694661"
-Received: from ewanhaye-mobl.ger.corp.intel.com (HELO [10.213.217.32])
- ([10.213.217.32])
- by orsmga006-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 01 Apr 2022 01:34:08 -0700
-Message-ID: <2cb72460-e86b-e212-766a-7dc79739d078@linux.intel.com>
-Date: Fri, 1 Apr 2022 09:34:04 +0100
+Received: from wout4-smtp.messagingengine.com (wout4-smtp.messagingengine.com
+ [64.147.123.20])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 9343A10F679
+ for <dri-devel@lists.freedesktop.org>; Fri,  1 Apr 2022 08:40:07 +0000 (UTC)
+Received: from compute3.internal (compute3.nyi.internal [10.202.2.43])
+ by mailout.west.internal (Postfix) with ESMTP id 39A3C320024A;
+ Fri,  1 Apr 2022 04:40:03 -0400 (EDT)
+Received: from mailfrontend2 ([10.202.2.163])
+ by compute3.internal (MEProxy); Fri, 01 Apr 2022 04:40:03 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=cerno.tech; h=cc
+ :cc:content-transfer-encoding:content-type:date:date:from:from
+ :in-reply-to:in-reply-to:message-id:mime-version:references
+ :reply-to:sender:subject:subject:to:to; s=fm3; bh=4hgOCngQqHDjj9
+ pWYwdzG8I1O7qUuHsyoq2nwxiJ+F4=; b=kRm+VauIDL4fg+5kFsaDt+A9Lh/g+r
+ CUHBDxnaFtMwuHp6tiItGmCchVIPq/vHvbDc/sg3BxC1U22GXgSYKiGZCd00wtty
+ EiZSXgKTWVLmRWh4YQ+9tuQDB0NXsyOeIZdJWV5wcsdy5QnnkP1ywjdX5Y+0ypb6
+ BdFLac9I3uz0+UnKvHcFJPBBC5WCkoDi/p1Qc5EgWR4rXxqrEyS0Gn9vmLzCw3zj
+ f3giqtfj0iRVhE/n8lS6k2aDLsqMRlEoWxA+CfhFm+Cm/7ONVxNEWAOwx/RXdFRr
+ kMRMHyenmYrZWwh4ES5LY56sadlYYB6vLfETaBtMg673q1i8HhRqTB7w==
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
+ messagingengine.com; h=cc:cc:content-transfer-encoding
+ :content-type:date:date:from:from:in-reply-to:in-reply-to
+ :message-id:mime-version:references:reply-to:sender:subject
+ :subject:to:to:x-me-proxy:x-me-proxy:x-me-sender:x-me-sender
+ :x-sasl-enc; s=fm3; bh=4hgOCngQqHDjj9pWYwdzG8I1O7qUuHsyoq2nwxiJ+
+ F4=; b=FQHXgwZgWK6veql3MTjWvWXboTyPBeSK2tV0FzgrbxVnYRJiQQ2WnOcpD
+ UPD735gLtVSkxDbySUjUeVbkfeg4aFVv1xhxst/i5aBxXWEHj/Tf1wFcsYEO5091
+ VpHl9T1LrE6ZbIuetk7QVFEfF7uAxFWiHDKQEri+doZ88aVyBYcQ6sXqa9DG3yJS
+ C+oL3tkfD9QteMCB+oGnbHV9/VhKsn2DnvkbwO773/72XcZJyJzyTaWXMi65aHDR
+ yxcFlePZD99SpgzjRrjAnNBhu7kpSx7UBF8bLGJNjf1kgzf0oRkKNoCioE2bWGzS
+ I+fPEfHr9lmGTa/l32qhFHtHdPfnA==
+X-ME-Sender: <xms:YrpGYuxZtPkGHTdr0qnprwhArI9hjQMxlgjabdcR7E0BxrUk5Qt22A>
+ <xme:YrpGYqRtGjDDBDqnASXaiNOvxSIQ9uZQ_HbugEpoK7p8MTx7fCd4LljWPAUlac-IB
+ AFCLJOOKtM0BY0u-Dw>
+X-ME-Received: <xmr:YrpGYgVfUnx1CcFGYlUE5iInIBaYbwZjnx90fMm-W51tXzZaVwetRimeeBjyuS4qMH0v1MwzgFGCPjJj5qsOlkGCF7BtMKJNETwotWo>
+X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvvddrudeiiedgtdeiucetufdoteggodetrfdotf
+ fvucfrrhhofhhilhgvmecuhfgrshhtofgrihhlpdfqfgfvpdfurfetoffkrfgpnffqhgen
+ uceurghilhhouhhtmecufedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmne
+ cujfgurhepfffhvffukfhfgggtugfgjgesthhqredttddtudenucfhrhhomhepofgrgihi
+ mhgvucftihhprghrugcuoehmrgigihhmvgestggvrhhnohdrthgvtghhqeenucggtffrrg
+ htthgvrhhnpedugffgtddtveeigefgfeejhfettefhgeelgefftddtuedvvdevveeljeff
+ hefhudenucffohhmrghinhepkhgvrhhnvghlrdhorhhgnecuvehluhhsthgvrhfuihiivg
+ eptdenucfrrghrrghmpehmrghilhhfrhhomhepmhgrgihimhgvsegtvghrnhhordhtvggt
+ hh
+X-ME-Proxy: <xmx:YrpGYkhf8CMEUFKBpMb2o39aFNy9iQpX0DZrAnJ5W5wQfVv1Tj8STQ>
+ <xmx:YrpGYgAGl8Wd9EJqA52GE03N7KiRhzy3phZRiPcw4zTCdGbHDPU2Qg>
+ <xmx:YrpGYlIqmNnCC5XR6n9tLcZAin5OU1kyczWrI4G6fFxJHwsPuEi7AQ>
+ <xmx:YrpGYs0Sm1sl6Z6R1esk3Wcit3AF5fj3bc-pGA7kjFq9PrP31ssS3A>
+Received: by mail.messagingengine.com (Postfix) with ESMTPA; Fri,
+ 1 Apr 2022 04:40:01 -0400 (EDT)
+Date: Fri, 1 Apr 2022 10:39:59 +0200
+From: Maxime Ripard <maxime@cerno.tech>
+To: Daniel Vetter <daniel.vetter@ffwll.ch>
+Subject: Re: [PATCH] drm/atomic-helpers: remove legacy_cursor_update hacks
+Message-ID: <20220401083959.4trlcyuoffax3e7x@houat>
+References: <20220331152021.2671937-1-daniel.vetter@ffwll.ch>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.7.0
-Subject: Re: [Intel-gfx] [PATCH 15/15] drm/i915/xehp: Eliminate
- shared/implicit steering
-Content-Language: en-US
-To: Matt Roper <matthew.d.roper@intel.com>, intel-gfx@lists.freedesktop.org
-References: <20220330232858.3204283-1-matthew.d.roper@intel.com>
- <20220330232858.3204283-16-matthew.d.roper@intel.com>
-From: Tvrtko Ursulin <tvrtko.ursulin@linux.intel.com>
-Organization: Intel Corporation UK Plc
-In-Reply-To: <20220330232858.3204283-16-matthew.d.roper@intel.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=iso-8859-1
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
+In-Reply-To: <20220331152021.2671937-1-daniel.vetter@ffwll.ch>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -62,265 +82,65 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: dri-devel@lists.freedesktop.org
+Cc: Intel Graphics Development <intel-gfx@lists.freedesktop.org>,
+ DRI Development <dri-devel@lists.freedesktop.org>, "Kazlauskas,
+ Nicholas" <nicholas.kazlauskas@amd.com>,
+ Dmitry Osipenko <dmitry.osipenko@collabora.com>,
+ Daniel Vetter <daniel.vetter@intel.com>, mikita.lipski@amd.com,
+ Michel =?utf-8?Q?D=C3=A4nzer?= <michel@daenzer.net>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
+On Thu, Mar 31, 2022 at 05:20:21PM +0200, Daniel Vetter wrote:
+> The stuff never really worked, and leads to lots of fun because it
+> out-of-order frees atomic states. Which upsets KASAN, among other
+> things.
+>=20
+> For async updates we now have a more solid solution with the
+> ->atomic_async_check and ->atomic_async_commit hooks. Support for that
+> for msm and vc4 landed. nouveau and i915 have their own commit
+> routines, doing something similar.
+>=20
+> For everyone else it's probably better to remove the use-after-free
+> bug, and encourage folks to use the async support instead. The
+> affected drivers which register a legacy cursor plane and don't either
+> use the new async stuff or their own commit routine are: amdgpu,
+> atmel, mediatek, qxl, rockchip, sti, sun4i, tegra, virtio, and vmwgfx.
+>=20
+> Inspired by an amdgpu bug report.
+>=20
+> v2: Drop RFC, I think with amdgpu converted over to use
+> atomic_async_check/commit done in
+>=20
+> commit 674e78acae0dfb4beb56132e41cbae5b60f7d662
+> Author: Nicholas Kazlauskas <nicholas.kazlauskas@amd.com>
+> Date:   Wed Dec 5 14:59:07 2018 -0500
+>=20
+>     drm/amd/display: Add fast path for cursor plane updates
+>=20
+> we don't have any driver anymore where we have userspace expecting
+> solid legacy cursor support _and_ they are using the atomic helpers in
+> their fully glory. So we can retire this.
+>=20
+> v3: Paper over msm and i915 regression. The complete_all is the only
+> thing missing afaict.
+>=20
+> v4: Fixup i915 fixup ...
+>=20
+> References: https://bugzilla.kernel.org/show_bug.cgi?id=3D199425
+> References: https://lore.kernel.org/all/20220221134155.125447-9-maxime@ce=
+rno.tech/
+> References: https://bugzilla.kernel.org/show_bug.cgi?id=3D199425
+> Cc: Maxime Ripard <maxime@cerno.tech>
+> Tested-by: Maxime Ripard <maxime@cerno.tech>
+> Cc: mikita.lipski@amd.com
+> Cc: Michel D=E4nzer <michel@daenzer.net>
+> Cc: harry.wentland@amd.com
+> Cc: Rob Clark <robdclark@gmail.com>
+> Cc: "Kazlauskas, Nicholas" <nicholas.kazlauskas@amd.com>
+> Cc: Dmitry Osipenko <dmitry.osipenko@collabora.com>
+> Signed-off-by: Daniel Vetter <daniel.vetter@intel.com>
 
-On 31/03/2022 00:28, Matt Roper wrote:
-> Historically we've selected and programmed a single MCR group/instance
-> ID at driver startup that will steer register accesses for GSLICE/DSS
-> ranges to a non-terminated instance.  Any reads of these register ranges
-> that don't need a specific unicast access won't bother explicitly
-> resteering because the control register should already be set to a
-> suitable value to receive a non-terminated response.  Any accesses to
-> other types of MCR ranges (MSLICE, LNCF, etc.) that are also satisfied
-> by the default steering target will also skip explicit re-steering at
-> runtime.
-> 
-> This approach has worked well for many years and many platforms, but our
-> hardware teams have recently advised us that they're not 100%
-> comfortable with our strategy going forward.  They now suggest
-> explicitly steering reads of any multicast register at the time the
-> register access happens rather than relying on previously-programmed
-> steering values.  In debug settings there could be external agents that
-> have adjusted the default steering without the driver's knowledge (e.g.,
-> we could do this manually with IGT's intel_reg today, although the
-> hardware teams also have other tools they use for debug and analysis).
-> In theory it would also be possible for bad firmware and/or incorrect
-> handling of power management events to clobber/wipe the steering
-> value we had previously initialized because they assume we'll be
-> re-programming it anyway.
-> 
-> Signed-off-by: Matt Roper <matthew.d.roper@intel.com>
-> ---
->   drivers/gpu/drm/i915/gt/intel_gt_mcr.c      | 40 +++++++++
->   drivers/gpu/drm/i915/gt/intel_gt_types.h    |  1 +
->   drivers/gpu/drm/i915/gt/intel_workarounds.c | 98 ++++-----------------
->   3 files changed, 56 insertions(+), 83 deletions(-)
-> 
-> diff --git a/drivers/gpu/drm/i915/gt/intel_gt_mcr.c b/drivers/gpu/drm/i915/gt/intel_gt_mcr.c
-> index a9a9fa6881f2..787752367337 100644
-> --- a/drivers/gpu/drm/i915/gt/intel_gt_mcr.c
-> +++ b/drivers/gpu/drm/i915/gt/intel_gt_mcr.c
-> @@ -35,6 +35,7 @@
->    */
->   
->   static const char * const intel_steering_types[] = {
-> +	"GSLICE/DSS",
->   	"L3BANK",
->   	"MSLICE",
->   	"LNCF",
-> @@ -45,6 +46,35 @@ static const struct intel_mmio_range icl_l3bank_steering_table[] = {
->   	{},
->   };
->   
-> +static const struct intel_mmio_range xehpsdv_dss_steering_table[] = {
-> +	{ 0x005200, 0x0052FF },
-> +	{ 0x005400, 0x007FFF },
-> +	{ 0x008140, 0x00815F },
-> +	{ 0x008D00, 0x008DFF },
-> +	{ 0x0094D0, 0x00955F },
-> +	{ 0x009680, 0x0096FF },
-> +	{ 0x00DC00, 0x00DCFF },
-> +	{ 0x00DE80, 0x00E8FF },
-> +	{ 0x017000, 0x017FFF },
-> +	{ 0x024A00, 0x024A7F },
-> +	{},
-> +};
-> +
-> +static const struct intel_mmio_range dg2_dss_steering_table[] = {
-> +	{ 0x005200, 0x0052FF },
-> +	{ 0x005400, 0x007FFF },
-> +	{ 0x008140, 0x00815F },
-> +	{ 0x008D00, 0x008DFF },
-> +	{ 0x0094D0, 0x00955F },
-> +	{ 0x009680, 0x0096FF },
-> +	{ 0x00D800, 0x00D87F },
-> +	{ 0x00DC00, 0x00DCFF },
-> +	{ 0x00DE80, 0x00E8FF },
-> +	{ 0x017000, 0x017FFF },
-> +	{ 0x024A00, 0x024A7F },
-> +	{},
-> +};
-> +
->   static const struct intel_mmio_range xehpsdv_mslice_steering_table[] = {
->   	{ 0x004000, 0x004AFF },
->   	{ 0x00C800, 0x00CFFF },
-> @@ -87,9 +117,11 @@ void intel_gt_mcr_init(struct intel_gt *gt)
->   			 GEN12_MEML3_EN_MASK);
->   
->   	if (IS_DG2(i915)) {
-> +		gt->steering_table[DSS] = dg2_dss_steering_table;
->   		gt->steering_table[MSLICE] = xehpsdv_mslice_steering_table;
->   		gt->steering_table[LNCF] = dg2_lncf_steering_table;
->   	} else if (IS_XEHPSDV(i915)) {
-> +		gt->steering_table[DSS] = xehpsdv_dss_steering_table;
->   		gt->steering_table[MSLICE] = xehpsdv_mslice_steering_table;
->   		gt->steering_table[LNCF] = xehpsdv_lncf_steering_table;
->   	} else if (GRAPHICS_VER(i915) >= 11 &&
-> @@ -317,7 +349,15 @@ static void get_valid_steering(struct intel_gt *gt,
->   			       enum intel_steering_type type,
->   			       u8 *group, u8 *instance)
->   {
-> +	u32 dssmask = intel_sseu_get_subslices(&gt->info.sseu, 0);
-> +
->   	switch (type) {
-> +	case DSS:
-> +		drm_WARN_ON(&gt->i915->drm, dssmask == 0);
-> +
-> +		*group = __ffs(dssmask) / GEN_DSS_PER_GSLICE;
-> +		*instance = __ffs(dssmask) % GEN_DSS_PER_GSLICE;
-> +		break;
->   	case L3BANK:
->   		GEM_DEBUG_WARN_ON(!gt->info.l3bank_mask); /* should be impossible! */
->   
-> diff --git a/drivers/gpu/drm/i915/gt/intel_gt_types.h b/drivers/gpu/drm/i915/gt/intel_gt_types.h
-> index 937b2e1a305e..b77bbaac7622 100644
-> --- a/drivers/gpu/drm/i915/gt/intel_gt_types.h
-> +++ b/drivers/gpu/drm/i915/gt/intel_gt_types.h
-> @@ -54,6 +54,7 @@ struct intel_mmio_range {
->    * are listed here.
->    */
->   enum intel_steering_type {
-> +	DSS,
->   	L3BANK,
->   	MSLICE,
->   	LNCF,
-> diff --git a/drivers/gpu/drm/i915/gt/intel_workarounds.c b/drivers/gpu/drm/i915/gt/intel_workarounds.c
-> index 818ba71f4909..2486c6aa9d9d 100644
-> --- a/drivers/gpu/drm/i915/gt/intel_workarounds.c
-> +++ b/drivers/gpu/drm/i915/gt/intel_workarounds.c
-> @@ -1160,87 +1160,6 @@ icl_wa_init_mcr(struct intel_gt *gt, struct i915_wa_list *wal)
->   	__add_mcr_wa(gt, wal, slice, subslice);
->   }
->   
-> -static void
-> -xehp_init_mcr(struct intel_gt *gt, struct i915_wa_list *wal)
-> -{
-> -	const struct sseu_dev_info *sseu = &gt->info.sseu;
-> -	unsigned long slice, subslice = 0, slice_mask = 0;
-> -	u64 dss_mask = 0;
-> -	u32 lncf_mask = 0;
-> -	int i;
-> -
-> -	/*
-> -	 * On Xe_HP the steering increases in complexity. There are now several
-> -	 * more units that require steering and we're not guaranteed to be able
-> -	 * to find a common setting for all of them. These are:
-> -	 * - GSLICE (fusable)
-> -	 * - DSS (sub-unit within gslice; fusable)
-> -	 * - L3 Bank (fusable)
-> -	 * - MSLICE (fusable)
-> -	 * - LNCF (sub-unit within mslice; always present if mslice is present)
-> -	 *
-> -	 * We'll do our default/implicit steering based on GSLICE (in the
-> -	 * sliceid field) and DSS (in the subsliceid field).  If we can
-> -	 * find overlap between the valid MSLICE and/or LNCF values with
-> -	 * a suitable GSLICE, then we can just re-use the default value and
-> -	 * skip and explicit steering at runtime.
-> -	 *
-> -	 * We only need to look for overlap between GSLICE/MSLICE/LNCF to find
-> -	 * a valid sliceid value.  DSS steering is the only type of steering
-> -	 * that utilizes the 'subsliceid' bits.
-> -	 *
-> -	 * Also note that, even though the steering domain is called "GSlice"
-> -	 * and it is encoded in the register using the gslice format, the spec
-> -	 * says that the combined (geometry | compute) fuse should be used to
-> -	 * select the steering.
-> -	 */
-> -
-> -	/* Find the potential gslice candidates */
-> -	dss_mask = intel_sseu_get_subslices(sseu, 0);
-> -	slice_mask = intel_slicemask_from_dssmask(dss_mask, GEN_DSS_PER_GSLICE);
-> -
-> -	/*
-> -	 * Find the potential LNCF candidates.  Either LNCF within a valid
-> -	 * mslice is fine.
-> -	 */
-> -	for_each_set_bit(i, &gt->info.mslice_mask, GEN12_MAX_MSLICES)
-> -		lncf_mask |= (0x3 << (i * 2));
-> -
-> -	/*
-> -	 * Are there any sliceid values that work for both GSLICE and LNCF
-> -	 * steering?
-> -	 */
-> -	if (slice_mask & lncf_mask) {
-> -		slice_mask &= lncf_mask;
-> -		gt->steering_table[LNCF] = NULL;
-> -	}
-> -
-> -	/* How about sliceid values that also work for MSLICE steering? */
-> -	if (slice_mask & gt->info.mslice_mask) {
-> -		slice_mask &= gt->info.mslice_mask;
-> -		gt->steering_table[MSLICE] = NULL;
-> -	}
-> -
-> -	slice = __ffs(slice_mask);
-> -	subslice = __ffs(dss_mask >> (slice * GEN_DSS_PER_GSLICE));
-> -	WARN_ON(subslice > GEN_DSS_PER_GSLICE);
-> -	WARN_ON(dss_mask >> (slice * GEN_DSS_PER_GSLICE) == 0);
-> -
-> -	__add_mcr_wa(gt, wal, slice, subslice);
-> -
-> -	/*
-> -	 * SQIDI ranges are special because they use different steering
-> -	 * registers than everything else we work with.  On XeHP SDV and
-> -	 * DG2-G10, any value in the steering registers will work fine since
-> -	 * all instances are present, but DG2-G11 only has SQIDI instances at
-> -	 * ID's 2 and 3, so we need to steer to one of those.  For simplicity
-> -	 * we'll just steer to a hardcoded "2" since that value will work
-> -	 * everywhere.
-> -	 */
-> -	__set_mcr_steering(wal, MCFG_MCR_SELECTOR, 0, 2);
-> -	__set_mcr_steering(wal, SF_MCR_SELECTOR, 0, 2);
-> -}
-> -
->   static void
->   icl_gt_workarounds_init(struct intel_gt *gt, struct i915_wa_list *wal)
->   {
-> @@ -1388,8 +1307,9 @@ static void
->   xehpsdv_gt_workarounds_init(struct intel_gt *gt, struct i915_wa_list *wal)
->   {
->   	struct drm_i915_private *i915 = gt->i915;
-> +	struct drm_printer p = drm_debug_printer("MCR Steering:");
->   
-> -	xehp_init_mcr(gt, wal);
-> +	intel_gt_mcr_report_steering(&p, gt, false);
->   
->   	/* Wa_1409757795:xehpsdv */
->   	wa_mcr_write_or(wal, SCCGCTL94DC, CG3DDISURB);
-> @@ -1441,10 +1361,22 @@ xehpsdv_gt_workarounds_init(struct intel_gt *gt, struct i915_wa_list *wal)
->   static void
->   dg2_gt_workarounds_init(struct intel_gt *gt, struct i915_wa_list *wal)
->   {
-> +	struct drm_printer p = drm_debug_printer("MCR Steering:");
->   	struct intel_engine_cs *engine;
->   	int id;
->   
-> -	xehp_init_mcr(gt, wal);
-> +	intel_gt_mcr_report_steering(&p, gt, false);
+Acked-by: Maxime Ripard <maxime@cerno.tech>
 
-Are these platforms immune to system hangs caused by incorrect/missing 
-default MCR configuration such was fixed with c7d561cfcf86 ("drm/i915: 
-Enable WaProgramMgsrForCorrectSliceSpecificMmioReads for Gen9") ? That 
-was triggerable from userspace to be clear.
-
-Regards,
-
-Tvrtko
-
-> +
-> +	/*
-> +	 * SQIDI ranges are special because they use different steering
-> +	 * registers than everything else we work with.  On DG2-G10, any value
-> +	 * in the steering registers will work fine since all instances are
-> +	 * present, but DG2-G11 only has SQIDI instances at ID's 2 and 3, so we
-> +	 * need to steer to one of those.  For simplicity we'll just steer to a
-> +	 * hardcoded "2" since that value will work everywhere.
-> +	 */
-> +	__set_mcr_steering(wal, MCFG_MCR_SELECTOR, 0, 2);
-> +	__set_mcr_steering(wal, SF_MCR_SELECTOR, 0, 2);
->   
->   	/* Wa_14011060649:dg2 */
->   	wa_14011060649(gt, wal);
+Maxime
