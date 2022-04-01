@@ -1,44 +1,45 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2AA2B4EED40
-	for <lists+dri-devel@lfdr.de>; Fri,  1 Apr 2022 14:37:19 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 41B3C4EED41
+	for <lists+dri-devel@lfdr.de>; Fri,  1 Apr 2022 14:37:22 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 7867110E14F;
-	Fri,  1 Apr 2022 12:37:12 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id B4C7E10E224;
+	Fri,  1 Apr 2022 12:37:13 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from mga11.intel.com (mga11.intel.com [192.55.52.93])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 65D2A10E139;
- Fri,  1 Apr 2022 12:37:11 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id B9E5F10E263;
+ Fri,  1 Apr 2022 12:37:12 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1648816631; x=1680352631;
+ t=1648816632; x=1680352632;
  h=from:to:subject:date:message-id:in-reply-to:references:
  mime-version:content-transfer-encoding;
- bh=FH1vn4P3u+/zwqyrOOmlegQIVQF8V8aUPfEigCgaNUY=;
- b=UZbNudcPMjT1Mrd9tH+MHTN8bkshLv6xAizaVGP1+kvQrguZRcWOHcqI
- 6suYwtMWF+yyzehvgvNNEwiVS+9YDAuql2ehG3imE3GQz6JRApziuf9Hj
- zaSEbxDFT2L8d7gh8nJP2AGivP0rj6KzRg8iGCF+5+PXjftPdcqC3rJfM
- VQQecGqHNdNGadejPsGnuI1tHeFJEJKG5q6vloS6NGI7+XRgAs9kyKQT6
- 7j6NBwPEs1QWVe4lVQAbBuptrcGbGnBSxMTlDXYf8LbwdGietnIZidG9t
- J08DjwpVdytRCIVjalOSsWGZPL/M9EEaRuH3Aj+0c/o7WuUpY5AUrLkB8 Q==;
-X-IronPort-AV: E=McAfee;i="6200,9189,10303"; a="257708055"
-X-IronPort-AV: E=Sophos;i="5.90,227,1643702400"; d="scan'208";a="257708055"
+ bh=b0JQ8nwkBzNoQ8uotPUYMhFyJhn8jMd8eYx0G5tzSRA=;
+ b=SBE9i1pOaKNWbyqqycZ3rhcb+bCcyvooWbu2FQI53YEvcfWZ7YTO0twF
+ 4Flss6bBVxGDl8ugY6wGen1OGlvCjnXhKJL9J+DrUNZVG4f15nAoPgOJq
+ jMBg8HOq2ARyd5ANWykYLJm5vrjDAztZW+hmxkdcbE53aMD/4mW6KFYUe
+ WHKJE1zfGhYt7qNvfm80ersA2WekL+Fy0djZIBrbSxP9X3W33WkVq7b5s
+ mclyVT6gruSAR8iG5GPFiNSfhLnRMkOCBYGQGPjkScmrvFo60DiKW6qfC
+ 7/UdTlxhWHBdjpXr90G+vbM91ghSA4+JUv09ETTTDMPjhFCh/W9tBdVoO Q==;
+X-IronPort-AV: E=McAfee;i="6200,9189,10303"; a="257708060"
+X-IronPort-AV: E=Sophos;i="5.90,227,1643702400"; d="scan'208";a="257708060"
 Received: from fmsmga008.fm.intel.com ([10.253.24.58])
  by fmsmga102.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 01 Apr 2022 05:37:11 -0700
-X-IronPort-AV: E=Sophos;i="5.90,227,1643702400"; d="scan'208";a="606725174"
+ 01 Apr 2022 05:37:12 -0700
+X-IronPort-AV: E=Sophos;i="5.90,227,1643702400"; d="scan'208";a="606725180"
 Received: from ramaling-i9x.iind.intel.com ([10.203.144.108])
  by fmsmga008-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 01 Apr 2022 05:37:10 -0700
+ 01 Apr 2022 05:37:11 -0700
 From: Ramalingam C <ramalingam.c@intel.com>
 To: intel-gfx <intel-gfx@lists.freedesktop.org>,
  dri-devel <dri-devel@lists.freedesktop.org>
-Subject: [PATCH v7 1/9] drm/i915/gt: use engine instance directly for offset
-Date: Fri,  1 Apr 2022 18:07:43 +0530
-Message-Id: <20220401123751.27771-2-ramalingam.c@intel.com>
+Subject: [PATCH v7 2/9] drm/i915/gt: Use XY_FAST_COLOR_BLT to clear obj on
+ graphics ver 12+
+Date: Fri,  1 Apr 2022 18:07:44 +0530
+Message-Id: <20220401123751.27771-3-ramalingam.c@intel.com>
 X-Mailer: git-send-email 2.20.1
 In-Reply-To: <20220401123751.27771-1-ramalingam.c@intel.com>
 References: <20220401123751.27771-1-ramalingam.c@intel.com>
@@ -59,57 +60,109 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-To make it uniform across copy and clear, use the engine offset directly
-to calculate the offset in the cmd forming for emit_clear.
+Use faster XY_FAST_COLOR_BLT cmd on graphics version of 12 and more,
+for clearing (Zero out) the pages of the newly allocated object.
+
+XY_FAST_COLOR_BLT is faster than the older XY_COLOR_BLT.
+
+v2:
+  Typo fix at title [Thomas]
+v3:
+  XY_FAST_COLOR_BLT is used only for FLAT_CCS capable gen12+
 
 Signed-off-by: Ramalingam C <ramalingam.c@intel.com>
+Signed-off-by: Chris Wilson <chris@chris-wilson.co.uk>
 Reviewed-by: Thomas Hellstrom <thomas.hellstrom@linux.intel.com>
 ---
- drivers/gpu/drm/i915/gt/intel_migrate.c | 11 ++++-------
- 1 file changed, 4 insertions(+), 7 deletions(-)
+ drivers/gpu/drm/i915/gt/intel_gpu_commands.h |  5 +++
+ drivers/gpu/drm/i915/gt/intel_migrate.c      | 43 +++++++++++++++++---
+ 2 files changed, 43 insertions(+), 5 deletions(-)
 
+diff --git a/drivers/gpu/drm/i915/gt/intel_gpu_commands.h b/drivers/gpu/drm/i915/gt/intel_gpu_commands.h
+index 4243be030bc1..d1b8c23f7a9e 100644
+--- a/drivers/gpu/drm/i915/gt/intel_gpu_commands.h
++++ b/drivers/gpu/drm/i915/gt/intel_gpu_commands.h
+@@ -206,6 +206,11 @@
+ 
+ #define COLOR_BLT_CMD			(2 << 29 | 0x40 << 22 | (5 - 2))
+ #define XY_COLOR_BLT_CMD		(2 << 29 | 0x50 << 22)
++#define XY_FAST_COLOR_BLT_CMD		(2 << 29 | 0x44 << 22)
++#define   XY_FAST_COLOR_BLT_DEPTH_32	(2 << 19)
++#define   XY_FAST_COLOR_BLT_DW		16
++#define   XY_FAST_COLOR_BLT_MOCS_MASK	GENMASK(27, 21)
++#define   XY_FAST_COLOR_BLT_MEM_TYPE_SHIFT 31
+ #define SRC_COPY_BLT_CMD		(2 << 29 | 0x43 << 22)
+ #define GEN9_XY_FAST_COPY_BLT_CMD	(2 << 29 | 0x42 << 22)
+ #define XY_SRC_COPY_BLT_CMD		(2 << 29 | 0x53 << 22)
 diff --git a/drivers/gpu/drm/i915/gt/intel_migrate.c b/drivers/gpu/drm/i915/gt/intel_migrate.c
-index 950fd6da146c..9d852a570400 100644
+index 9d852a570400..e81f20266f62 100644
 --- a/drivers/gpu/drm/i915/gt/intel_migrate.c
 +++ b/drivers/gpu/drm/i915/gt/intel_migrate.c
-@@ -613,15 +613,13 @@ intel_context_migrate_copy(struct intel_context *ce,
+@@ -613,18 +613,51 @@ intel_context_migrate_copy(struct intel_context *ce,
  	return err;
  }
  
--static int emit_clear(struct i915_request *rq, u64 offset, int size, u32 value)
-+static int emit_clear(struct i915_request *rq, u32 offset, int size, u32 value)
+-static int emit_clear(struct i915_request *rq, u32 offset, int size, u32 value)
++static int emit_clear(struct i915_request *rq, u32 offset, int size,
++		      u32 value, bool is_lmem)
  {
- 	const int ver = GRAPHICS_VER(rq->engine->i915);
+-	const int ver = GRAPHICS_VER(rq->engine->i915);
++	struct drm_i915_private *i915 = rq->engine->i915;
++	int mocs = rq->engine->gt->mocs.uc_index << 1;
++	const int ver = GRAPHICS_VER(i915);
++	int ring_sz;
  	u32 *cs;
  
  	GEM_BUG_ON(size >> PAGE_SHIFT > S16_MAX);
  
--	offset += (u64)rq->engine->instance << 32;
--
- 	cs = intel_ring_begin(rq, ver >= 8 ? 8 : 6);
+-	cs = intel_ring_begin(rq, ver >= 8 ? 8 : 6);
++	if (HAS_FLAT_CCS(i915) && ver >= 12)
++		ring_sz = XY_FAST_COLOR_BLT_DW;
++	else if (ver >= 8)
++		ring_sz = 8;
++	else
++		ring_sz = 6;
++
++	cs = intel_ring_begin(rq, ring_sz);
  	if (IS_ERR(cs))
  		return PTR_ERR(cs);
-@@ -631,17 +629,16 @@ static int emit_clear(struct i915_request *rq, u64 offset, int size, u32 value)
- 		*cs++ = BLT_DEPTH_32 | BLT_ROP_COLOR_COPY | PAGE_SIZE;
- 		*cs++ = 0;
- 		*cs++ = size >> PAGE_SHIFT << 16 | PAGE_SIZE / 4;
--		*cs++ = lower_32_bits(offset);
--		*cs++ = upper_32_bits(offset);
+ 
+-	if (ver >= 8) {
++	if (HAS_FLAT_CCS(i915) && ver >= 12) {
++		*cs++ = XY_FAST_COLOR_BLT_CMD | XY_FAST_COLOR_BLT_DEPTH_32 |
++			(XY_FAST_COLOR_BLT_DW - 2);
++		*cs++ = FIELD_PREP(XY_FAST_COLOR_BLT_MOCS_MASK, mocs) |
++			(PAGE_SIZE - 1);
++		*cs++ = 0;
++		*cs++ = size >> PAGE_SHIFT << 16 | PAGE_SIZE / 4;
 +		*cs++ = offset;
 +		*cs++ = rq->engine->instance;
- 		*cs++ = value;
- 		*cs++ = MI_NOOP;
- 	} else {
--		GEM_BUG_ON(upper_32_bits(offset));
- 		*cs++ = XY_COLOR_BLT_CMD | BLT_WRITE_RGBA | (6 - 2);
++		*cs++ = !is_lmem << XY_FAST_COLOR_BLT_MEM_TYPE_SHIFT;
++		/* BG7 */
++		*cs++ = value;
++		*cs++ = 0;
++		*cs++ = 0;
++		*cs++ = 0;
++		/* BG11 */
++		*cs++ = 0;
++		*cs++ = 0;
++		/* BG13 */
++		*cs++ = 0;
++		*cs++ = 0;
++		*cs++ = 0;
++	} else if (ver >= 8) {
+ 		*cs++ = XY_COLOR_BLT_CMD | BLT_WRITE_RGBA | (7 - 2);
  		*cs++ = BLT_DEPTH_32 | BLT_ROP_COLOR_COPY | PAGE_SIZE;
  		*cs++ = 0;
- 		*cs++ = size >> PAGE_SHIFT << 16 | PAGE_SIZE / 4;
--		*cs++ = lower_32_bits(offset);
-+		*cs++ = offset;
- 		*cs++ = value;
- 	}
+@@ -707,7 +740,7 @@ intel_context_migrate_clear(struct intel_context *ce,
+ 		if (err)
+ 			goto out_rq;
  
+-		err = emit_clear(rq, offset, len, value);
++		err = emit_clear(rq, offset, len, value, is_lmem);
+ 
+ 		/* Arbitration is re-enabled between requests. */
+ out_rq:
 -- 
 2.20.1
 
