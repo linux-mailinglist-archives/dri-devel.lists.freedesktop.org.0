@@ -2,30 +2,35 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id EF2364EE905
-	for <lists+dri-devel@lfdr.de>; Fri,  1 Apr 2022 09:23:30 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 423684EE906
+	for <lists+dri-devel@lfdr.de>; Fri,  1 Apr 2022 09:23:33 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 5684F10FE3E;
-	Fri,  1 Apr 2022 07:23:25 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id AF58B10FE6F;
+	Fri,  1 Apr 2022 07:23:26 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail.meizu.com (edge05.meizu.com [157.122.146.251])
- by gabe.freedesktop.org (Postfix) with ESMTP id 42F1A10F50D
- for <dri-devel@lists.freedesktop.org>; Fri,  1 Apr 2022 05:45:39 +0000 (UTC)
-Received: from IT-EXMB-1-125.meizu.com (172.16.1.125) by mz-mail12.meizu.com
- (172.16.1.108) with Microsoft SMTP Server (TLS) id 14.3.487.0; Fri, 1 Apr
- 2022 11:41:26 +0800
+Received: from mail.meizu.com (edge07.meizu.com [112.91.151.210])
+ by gabe.freedesktop.org (Postfix) with ESMTP id A955110F846;
+ Fri,  1 Apr 2022 06:28:16 +0000 (UTC)
+Received: from IT-EXMB-1-125.meizu.com (172.16.1.125) by mz-mail11.meizu.com
+ (172.16.1.15) with Microsoft SMTP Server (TLS) id 14.3.487.0; Fri, 1 Apr 2022
+ 14:28:09 +0800
 Received: from meizu.meizu.com (172.16.137.70) by IT-EXMB-1-125.meizu.com
  (172.16.1.125) with Microsoft SMTP Server (version=TLS1_2,
  cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2308.14; Fri, 1 Apr
- 2022 11:41:23 +0800
+ 2022 14:28:07 +0800
 From: Haowen Bai <baihaowen@meizu.com>
-To: Thomas Winischhofer <thomas@winischhofer.net>, Helge Deller <deller@gmx.de>
-Subject: [PATCH] video: fbdev: sis: fix potential NULL dereference in
- sisfb_post_sis300()
-Date: Fri, 1 Apr 2022 11:41:16 +0800
-Message-ID: <1648784476-20803-1-git-send-email-baihaowen@meizu.com>
+To: Alex Deucher <alexander.deucher@amd.com>,
+ =?UTF-8?q?Christian=20K=C3=B6nig?= <christian.koenig@amd.com>, "Pan, Xinhui"
+ <Xinhui.Pan@amd.com>, David Airlie <airlied@linux.ie>, Daniel Vetter
+ <daniel@ffwll.ch>, Mohammad Zafar Ziya <Mohammadzafar.ziya@amd.com>, Tao Zhou
+ <tao.zhou1@amd.com>, Hawking Zhang <Hawking.Zhang@amd.com>
+Subject: [PATCH V2] drm/amdgpu/vcn: Remove unneeded semicolon
+Date: Fri, 1 Apr 2022 14:28:05 +0800
+Message-ID: <1648794486-23302-1-git-send-email-baihaowen@meizu.com>
 X-Mailer: git-send-email 2.7.4
+In-Reply-To: <2a2b1f76-7e9b-9561-e190-16d808eb5399@molgen.mpg.de>
+References: <2a2b1f76-7e9b-9561-e190-16d808eb5399@molgen.mpg.de>
 MIME-Version: 1.0
 Content-Type: text/plain
 X-Originating-IP: [172.16.137.70]
@@ -44,32 +49,36 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: linux-fbdev@vger.kernel.org, Haowen Bai <baihaowen@meizu.com>,
- linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org
+Cc: Haowen Bai <baihaowen@meizu.com>, dri-devel@lists.freedesktop.org,
+ amd-gfx@lists.freedesktop.org, linux-kernel@vger.kernel.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-bios could be null without checking null and return in this function,
-but still dereference bios[0xf5].
+report by coccicheck:
+drivers/gpu/drm/amd/amdgpu/vcn_v2_5.c:1951:2-3: Unneeded semicolon
+
+Fixes: c543dcbe4237 ("drm/amdgpu/vcn: Add VCN ras error query support")
 
 Signed-off-by: Haowen Bai <baihaowen@meizu.com>
 ---
- drivers/video/fbdev/sis/sis_main.c | 2 +-
+V1->V2: change title; change Fixed info;
+
+ drivers/gpu/drm/amd/amdgpu/vcn_v2_5.c | 2 +-
  1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/drivers/video/fbdev/sis/sis_main.c b/drivers/video/fbdev/sis/sis_main.c
-index 742f629..24a0299 100644
---- a/drivers/video/fbdev/sis/sis_main.c
-+++ b/drivers/video/fbdev/sis/sis_main.c
-@@ -4463,7 +4463,7 @@ static void sisfb_post_sis300(struct pci_dev *pdev)
- 		SiS_SetReg(SISCR, 0x37, 0x02);
- 		SiS_SetReg(SISPART2, 0x00, 0x1c);
- 		v4 = 0x00; v5 = 0x00; v6 = 0x10;
--		if(ivideo->SiS_Pr.UseROM) {
-+		if (ivideo->SiS_Pr.UseROM && bios) {
- 			v4 = bios[0xf5];
- 			v5 = bios[0xf6];
- 			v6 = bios[0xf7];
+diff --git a/drivers/gpu/drm/amd/amdgpu/vcn_v2_5.c b/drivers/gpu/drm/amd/amdgpu/vcn_v2_5.c
+index 3e1de8c..17d44be 100644
+--- a/drivers/gpu/drm/amd/amdgpu/vcn_v2_5.c
++++ b/drivers/gpu/drm/amd/amdgpu/vcn_v2_5.c
+@@ -1948,7 +1948,7 @@ static uint32_t vcn_v2_6_query_poison_by_instance(struct amdgpu_device *adev,
+ 		break;
+ 	default:
+ 		break;
+-	};
++	}
+ 
+ 	if (poison_stat)
+ 		dev_info(adev->dev, "Poison detected in VCN%d, sub_block%d\n",
 -- 
 2.7.4
 
