@@ -1,95 +1,97 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 19D5C4EE526
-	for <lists+dri-devel@lfdr.de>; Fri,  1 Apr 2022 02:18:56 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id BBF274EE52A
+	for <lists+dri-devel@lfdr.de>; Fri,  1 Apr 2022 02:19:03 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 4F3F510E41F;
-	Fri,  1 Apr 2022 00:18:53 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id CD8BE10E45A;
+	Fri,  1 Apr 2022 00:19:01 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from NAM04-MW2-obe.outbound.protection.outlook.com
- (mail-mw2nam08olkn2020.outbound.protection.outlook.com [40.92.46.20])
- by gabe.freedesktop.org (Postfix) with ESMTPS id DC9C310E41F
- for <dri-devel@lists.freedesktop.org>; Fri,  1 Apr 2022 00:18:51 +0000 (UTC)
+Received: from NAM04-DM6-obe.outbound.protection.outlook.com
+ (mail-dm6nam08olkn2028.outbound.protection.outlook.com [40.92.45.28])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 6D17E10E45A
+ for <dri-devel@lists.freedesktop.org>; Fri,  1 Apr 2022 00:19:00 +0000 (UTC)
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=JmeSs/fjoElj+5sRCzN8cCZCU3TtjG8xeVZM9tSQ9XRLyS0/UD0R1oyqrSWabA1Vm3suEWnBJDtpTBd7f7ZF7Isb2t2j9eKpb6KL1NYlZr6IcTWh2J7eZW4szRh5oLV4ht630b829mJ9UrIyQaysK9d/Bi+3dkxy5uiF8Civ/w5Dq3Dh4Ftg7kAksqR2fxPgSt1vqml/l1c2ADFkPTSlnFseDvtdLYXbzDUNMvGW+Ovo81pluuKdAhMjR3c6KiJsZSfQ2tujZS6vAaUg+ZACfMAAzX5lKcv9YNJNE+p2ce/7EerVTVRSc/SJC2e3h/GJLDz6LZyxlypRBSn9XACQuA==
+ b=M6yvuWIP1agDaEtQXvXUHMl2ax83LDB5kLSQBx0LGnYS1FDDbgsQFI6bSNHu5JMvqECPx200yvy3vy4R1vPJ6VcPZ/sFbaaLHK1kdTL0+vb6kBCG9QmXH0B0opq63Xa97MbG3nP0WcXLeItxewEdVEaxDvIPz6v6WpNb3Xsbai19pfKHcSNFYW9DFv4C1vsXcE9DScHWi8qsEH65qsXVqTqUu/m26LmsYgUWPic1H/ylfNxm5OE7pwXX4K9rCJzo744hCPdUizouA0LZklJqfTrFFiKkxsKNswGzIqQqLM2OYMfngkKbejFAeDng55dJNa0LyZwVc4y3NWrEcmYcTg==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
  s=arcselector9901;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=HzQXKBfYcDy7r5ggQhgb6FY5CoUf+8zmG22PyzGZa3s=;
- b=JMMJGXoP/CoMqYIRvdr4QGgZLceN4B9XApMQ/x3NPUwsvl4Sq2BP+OkFrcMwlqKVl1vxVuXktfup1Opvjf3CLz9FzTVQyWdw/eT7jKYpvH79I9G2yKK1DEJUUXpLZoiH1bQ5SIUDl9qDhbnqRco9E6uw8oJcDwfJ5oR/3cnGxDMB5ZWspzrmHVJ/+/Gi0M/QxVaiEcIKzghhMdlShTueQhrtZGl1Cib0rSr3ejifZXH221Zyl2I9C4lLE10oOLrvby1cpe79evihHk3ZgMPXFXB1Smfp8NQAvPi+g9VIn8e3a1XACNYXyey2NnNXtgvr6N+K+iCKqvlwySogcANJuQ==
+ bh=kbPsUtwrZMl0rRdrnl1F5pmp8TVBbs0jz14nBenYCRE=;
+ b=ItSCn+1CfiSaes8btNfqcPKuJ2P5COactVAGxfQrvyAHXEN1qaWJ6yiWzYVCwHaIjAN4mxDsZtAVYvx3jPfS/uK96yL/r1AY6pDioiU1GWiDwYgeNTPefh7EStXRN9DSMmD1w21YjXlFyBuwUdcDTJIlCdOxpb7iaWnfsB8MC/cacqAMg7o0ucV2Qx80LDr1wbEMY12NPEndUPnoGkpp1qM011g/OiBTfB8OQCSaXnmu44EJPtU1UCdrpdugZcHNP+dp2x+FLA/BalWuTFf5SGL8MSZsSWRnBG4SO9Hqbr69gPHY3IKmuBAKJWNZ4kE9VL35jNmyI74rKGwplVqK7g==
 ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=none; dmarc=none;
  dkim=none; arc=none
 Received: from BY5PR02MB7009.namprd02.prod.outlook.com (2603:10b6:a03:236::13)
- by DM6PR02MB4892.namprd02.prod.outlook.com (2603:10b6:5:12::19) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.5123.16; Fri, 1 Apr
- 2022 00:18:50 +0000
+ by MWHPR02MB2253.namprd02.prod.outlook.com (2603:10b6:300:5c::21)
+ with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.5123.23; Fri, 1 Apr
+ 2022 00:18:57 +0000
 Received: from BY5PR02MB7009.namprd02.prod.outlook.com
  ([fe80::413f:bae6:4e5e:5ae6]) by BY5PR02MB7009.namprd02.prod.outlook.com
  ([fe80::413f:bae6:4e5e:5ae6%6]) with mapi id 15.20.5123.025; Fri, 1 Apr 2022
- 00:18:50 +0000
+ 00:18:56 +0000
 From: Joel Selvaraj <jo@jsfamily.in>
 To: Sumit Semwal <sumit.semwal@linaro.org>,
  Thierry Reding <thierry.reding@gmail.com>, Sam Ravnborg <sam@ravnborg.org>,
  David Airlie <airlied@linux.ie>, Daniel Vetter <daniel@ffwll.ch>,
  Rob Herring <robh+dt@kernel.org>, Andy Gross <agross@kernel.org>,
  Bjorn Andersson <bjorn.andersson@linaro.org>
-Subject: [PATCH v2 0/3] drm/panel: nt36672a: add backlight support
-Date: Fri,  1 Apr 2022 05:48:07 +0530
-Message-ID: <BY5PR02MB7009FBF8DC8BD5C055DB41AED9E09@BY5PR02MB7009.namprd02.prod.outlook.com>
+Subject: [PATCH v2 1/3] drm/panel: nt36672a: add backlight support
+Date: Fri,  1 Apr 2022 05:48:08 +0530
+Message-ID: <BY5PR02MB700935F5817128CB7C3991CDD9E09@BY5PR02MB7009.namprd02.prod.outlook.com>
 X-Mailer: git-send-email 2.35.1
+In-Reply-To: <20220401001810.81507-1-jo@jsfamily.in>
+References: <20220401001810.81507-1-jo@jsfamily.in>
 Content-Transfer-Encoding: 8bit
 Content-Type: text/plain
-X-TMN: [TUKS7Jx8SlI5uNSfe57+hAIfLWI0zDo6epeBAJhio5vH3MzcV6N6EpNQ/mYdgULk]
+X-TMN: [wh7uWdrksSEkIY+IhK8YRBdE5C+nuyZuRVklmeyWoNUWmNG4RBSXNeNHu+l03yZk]
 X-ClientProxiedBy: BM1PR0101CA0055.INDPRD01.PROD.OUTLOOK.COM
  (2603:1096:b00:19::17) To BY5PR02MB7009.namprd02.prod.outlook.com
  (2603:10b6:a03:236::13)
-X-Microsoft-Original-Message-ID: <20220401001810.81507-1-jo@jsfamily.in>
+X-Microsoft-Original-Message-ID: <20220401001810.81507-2-jo@jsfamily.in>
 MIME-Version: 1.0
 X-MS-Exchange-MessageSentRepresentingType: 1
 X-MS-PublicTrafficType: Email
-X-MS-Office365-Filtering-Correlation-Id: 3d4a71c6-3681-4e54-e084-08da137531e4
-X-MS-TrafficTypeDiagnostic: DM6PR02MB4892:EE_
+X-MS-Office365-Filtering-Correlation-Id: 3b2299e3-76a1-4ab3-07e3-08da137535d9
+X-MS-TrafficTypeDiagnostic: MWHPR02MB2253:EE_
 X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: 7k6h+/Ft+XKAoZeKvzeNKB5kae2X+Q8vfNUM0G6tyAVBZg9eJKGarYuLQ/px0Opc50W2f4YS4GGEvFu6/uo097EeexYwvi37a73lm78kEf5Tpm8hTrfkXvDLfOuIFA/5MWc7Dcp3x0KDaeI4eTVy2jURLdGoSQ59SJKBpcUtDAwpIQwYVKwt+fd4i8bPbnOVq4Oz3Z5Bn67avH7TcSefxTUCJ2+bp0xlw9iZU5euJl177SBCRhIvsb2Q1QgruMEnUyKmSJlT6oVEpHK/diMfttE4rBOZ7+G+MMZK3Q4buyZ44U+usacuy8v+i1tYYYRM2cFXSLoqXQg2rdOBwilmXYmVHj2cGg6E+bYtfe8ALdJ9qhK3FQfeb/y1lxXCxXRwzIDbPts9NynG75ALy9AbeQ0DsvrJQtNXOxFHbFglekkJQQwbV5XZ5RU3Imgyuqm+sQnIYzm2i53HapghtKeTiDYUgEtGJvEjgw0O+ga/Gl0s69n+FVlhb2RErS1HODC5x4Pq7VuQ3XvJ8zqGAt8XaK19MtQN+v2WH53okaoyat0XeLVh+jiChXoq+lo8pkORmdoFFvvkqvWKbhj9kjc3aA==
+X-Microsoft-Antispam-Message-Info: 45CAGSnRHLjx5zKyEw0xLDCFGLEB7NvUFtSKpxncxF0k78XwAjmKj5bpTRkgNKX3YGk9g87QVm+qUwxeURaS/NXuP/9SQ4YG6k2BslSBXH2HyHmM4i7TsmV3PO2dNydqiglFfj8dC8cel95FKfoN20OlUsabtQp7rhfp7aNCFhPRmIdL0+PQk+qfmzTYyNqhCqSnqSriPHki3OgoXnxTOMOfEmfKt3oH566MmFyPJOaR3GzjfHuV63KwB1MUl5pXKyrNxB9a6TcdwrFgbAIcVCDgwK0ZU0EEKa+oblNUIflarkQkQFJHNU+jVt1Q3s1XwyHQhCupa/FKB+TYYzdZTHOiXR/RpO1vJIDBthaB7kVTzyndjOEI1o2SZmqiYK9jRBOCP5npUtNfRjpgKyerBbKVsTpCC5f8AMHqDqYkHDa9gY/2eXZfNWtJsjh1zeGcgkF13AhXEzV1nPBmdOm++7Jvq6/jvy8B+KdI4zwTHxmX0529zCUxLF4X3lPleqojEF5sVZiUxOnQy/E1aqs2JD2egPR//GH6fNFXbpGUCRgF2wC/g+3evFaCxx66Airs
 X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: =?us-ascii?Q?bc9sBfIpFHct7vGj2lDKqJoSjDcGE2m1Bc4HDBtH5w86HrOGtIcOSHANF8fV?=
- =?us-ascii?Q?CFSUS22y+FY4W/u5MFnctAl5tpB+ZEAHSdBoQbN9ij9zfXPOh8xd04U9ZE2D?=
- =?us-ascii?Q?YNnAO8ejOluJc7qA+qVqhPTNzZXcNiVBpivi+Z2z6cIdZNN/2RcwkoZmSm/t?=
- =?us-ascii?Q?i51z1GSAjMMa+BTaaX7omPLnIhg9DlGIZxW6nX+Abmaombyoif2iogkJY6eq?=
- =?us-ascii?Q?/AHIcXl/KdmUfPEg6zQsbZYsEr64RkuIMt53YMlxs9jimpHKGNjL/g/AS+Yg?=
- =?us-ascii?Q?2Gn7kRf/5IzmfUgoRYT/DKS1tV3klmCMcRgr/pYoqIXsOh31tyAOtP1Xqv3r?=
- =?us-ascii?Q?mr+epFhIQ6dXk4+pdpoe0W46vldOAnQ+yDBYerB6wnOqsc41hsuZLma6kyaJ?=
- =?us-ascii?Q?7lJ2xZNVACJ7hP2snnqhMiN/GZjKzc0OEMR8h2Wt2NA89/X2Z9WIg5eh/IID?=
- =?us-ascii?Q?ePdwrPH0qHWJzlGZ9wNOXoxAzVoWOsCM8rxJu7iCZD6ymWulyzL8XkPCGA86?=
- =?us-ascii?Q?nIo2oWITAytctR3X0vbWj4bSrs1zxFsHPNSIx7ryy5c2uTdTEJxMKIP0alIn?=
- =?us-ascii?Q?DpIiySq/OMMN0+BkuUYk/wDvyLGnWVsejKxEbatnOSh15k899SFyg8iFD2ZZ?=
- =?us-ascii?Q?dmIZRBdJJAindAtJVSz4JIJK28jgM/3h+SP15EaWZrhDW/PR/lp7ebfZh4tW?=
- =?us-ascii?Q?HeZkQGfYCgz7OnNRaItPiYYx2ekTtXvmxOd5hO1+4NxywDiJsH5shhnmj67N?=
- =?us-ascii?Q?5wWZ7i7ofQ931Fr3hdMYEjq3+P353ZjBc05VIv/EpgR8koyPX6qiD9/Qhfqf?=
- =?us-ascii?Q?TpZOY4g7LPcZWNgm0Z7t3rV2JXN5v/RT7e8513jtczBuGPmDC/gfa7jpHsAZ?=
- =?us-ascii?Q?wTTA7FULIQsqsSmWPgMSf+VfHxsgmXwIzsdikbvLx4c9GylR/ekx+O8aaclu?=
- =?us-ascii?Q?CkofAyPgXwzLK4wzcgsl0YipxairRkwhCm8QspiUQVPGQhU2HT1f+aQ7NnER?=
- =?us-ascii?Q?K9dBpBt+R925Q+v1pFW45THslqk3+4s/OK5zISR6et+WF56z43vP4MGmorMz?=
- =?us-ascii?Q?+o9jpdM+78zugLWONzXpgfmMJZ8LfbH+z1dIQGDxUhTMiJYhooBAwJuG7o6S?=
- =?us-ascii?Q?BlbXhCd7KXwbk0yl4akQpOnkKJuCpv3m8ZttNtVwzINDYqzZUf7Lg5Ktxm5O?=
- =?us-ascii?Q?ltnRwQBIcIge02VAYq/R1lK0Kf27P1novGyTsvO2sRfLaRLwyuQKYj000vk4?=
- =?us-ascii?Q?ty0adt3xo9wAiGzV/IVcHKVonQ9KmDaXLWa/saIw0WsJbpiM8BRInzjkHH35?=
- =?us-ascii?Q?qcXmS+heA6P3HU2ViJSL8yYv1hLNsu7fM2mgX7nAjKh5N4Z3iTRYjD6vDvMI?=
- =?us-ascii?Q?DqzwG6m0vTJuLM0bgwcmWwghLBNCYqPKXHLUN4zWXiWeB9mjNqffLiA4fPS4?=
- =?us-ascii?Q?9ueqFvFMVXKD93KtIRogpnVN0oTza3mUc4ZbHTFYpKtforXc7xpaRg=3D=3D?=
+X-MS-Exchange-AntiSpam-MessageData-0: =?us-ascii?Q?NdJliEdRPT4UvmSYwzED8djYPTOuP09oDY5irFQGrAgP/ZtkVANo+43EuQ38?=
+ =?us-ascii?Q?LZX65UbhaON/Jt+8ubsK6QF4Snxgp9DTHbAgcqiUcVeLBPlgjtb9IDMiL5ug?=
+ =?us-ascii?Q?pJD7hXV2LyFR6gbXwxPiWegeyCcCin7hhK3O0X2Ee431f/BGzT/TBxlCtSFI?=
+ =?us-ascii?Q?lUAEfGf6ELbqiUsrlBBAAMcodvznyv4SSC4xG+mZ+pntdZgmNfktaiG7WeVS?=
+ =?us-ascii?Q?lYp9R7nWrMvhh6vvFFyOaYfrQtrAeWamYGFSVn8+IViZ+w9PRNrDyVex7F/X?=
+ =?us-ascii?Q?Spa65dgqEQlB93/X6LY35YJ0mlZP0Wt5J9HktmyZWojqK4Si3HnK6S98mKkN?=
+ =?us-ascii?Q?F+oIX3GNN6fahTnXUuw2wgdzzWwtgDovfrd5JUjSKP6kkc5Dcfre4+dHZT/8?=
+ =?us-ascii?Q?JqcqmYAsvOK7lz7sZ3Yy7/hPLdTByv995XJDy5iq2S6Ztq7ESVz9tzUI1gKD?=
+ =?us-ascii?Q?icgCt9IlmCVz7yoFWLPNjLjqcJQLSMmUteng3OJhdDQsE2HyzPBOlO15KWkX?=
+ =?us-ascii?Q?ai7fqn8vx0A/zZk6O+e8QAGqyQVxDxcwsGtOD9Dm3lWZN+oJcRIMqwwXPwcb?=
+ =?us-ascii?Q?iU6wHj1CfCJsyRG7eafF7sPmpf8DxzIAtHowbKq+ihJN0Zo6Sw0Ns2uyCleT?=
+ =?us-ascii?Q?uZQV3dM/WQIIf3lWLdJo+K+OllTTDY4tEoksPqYGlQmfwbXSfg2I2Qg2wqV2?=
+ =?us-ascii?Q?O2oFkTaHm1DDdeJSGrYi/Lxa1pYD6QFE+UNKyUWwD9es4T57DWyy933XvGhq?=
+ =?us-ascii?Q?0yu9l2PBjk5PdxNpRuWsvd10cwUV7DBCuYx4BnqsJi9ZqSccILu9qWkWq2jn?=
+ =?us-ascii?Q?Tv6Nh6Pl0zV8XeX5GxcqR1tVmYM3pLI6oiEIzkEZAzO39zJpQnvuz2jLATWX?=
+ =?us-ascii?Q?NamXYDWUSxIgXGsjNvM8pZoG749a9A7J2lXxF4hhJXYLcmn0F9saye0UeTdS?=
+ =?us-ascii?Q?70E5bnxPMAEbG/YnfRLz2AFlDDSoTx4AnrazWfmqU281DjvBPqktzz3H+QtQ?=
+ =?us-ascii?Q?/j3wJHGYK/uth2mz92W/CSshxGHFrrjVy4cQiyiJDrTIwbsMejwHRifNS5lL?=
+ =?us-ascii?Q?hyegBi5wapTuaZvkvbSalTiSHHMexDFYgUL1XA6Zz6AaFZqw9RNtnw3GQAaf?=
+ =?us-ascii?Q?qv+wpngwlVoj2c4nkgFVu0CI4glL3Fuz6QsR6Lqv8gKaZuX8azQKvsKAwdL9?=
+ =?us-ascii?Q?wGsXlkMrMy+KpVVU3O+DXWrooxJjvZOci3aT4iNDi2GfoK9xBO/eHmzDKYl/?=
+ =?us-ascii?Q?N+biPBvS8alM7uBvSg/SFuLRVMvAZT/UgYdpMBacFkz29rJWgYI2Mq3l6tEc?=
+ =?us-ascii?Q?cHEgmfJPzEoaLCMWwOtlBr7cCwPYPqpoxjXp62mO4DUWn8k4sPqR4HcUaJZY?=
+ =?us-ascii?Q?saqv5+VQHPC0CdraBo4v5l4cdwfj0yjKrKnyUWBHzzA/GoZ9cOiiqI4jdtOE?=
+ =?us-ascii?Q?5E7K6h6mP+oCNgoIeC4yip6fcCkQ3odGzTo6/ttrrW/CzKxqH4KkaQ=3D=3D?=
 X-OriginatorOrg: sct-15-20-4755-11-msonline-outlook-99c3d.templateTenant
-X-MS-Exchange-CrossTenant-Network-Message-Id: 3d4a71c6-3681-4e54-e084-08da137531e4
+X-MS-Exchange-CrossTenant-Network-Message-Id: 3b2299e3-76a1-4ab3-07e3-08da137535d9
 X-MS-Exchange-CrossTenant-AuthSource: BY5PR02MB7009.namprd02.prod.outlook.com
 X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 01 Apr 2022 00:18:50.3654 (UTC)
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 01 Apr 2022 00:18:56.8893 (UTC)
 X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
 X-MS-Exchange-CrossTenant-Id: 84df9e7f-e9f6-40af-b435-aaaaaaaaaaaa
 X-MS-Exchange-CrossTenant-RMS-PersistedConsumerOrg: 00000000-0000-0000-0000-000000000000
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: DM6PR02MB4892
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: MWHPR02MB2253
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -110,22 +112,29 @@ Cc: Amit Pundir <amit.pundir@linaro.org>, devicetree@vger.kernel.org,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Changes in v2:
- - Remove qcom,enabled-strings property as either it or qcom,num-strings
-   should be present. qcom,num-strings is specified and sufficient.
-   (Marijn Suijten's Suggestion)
+Add support for backlight. This panel supports backlight control
+through the QCOM WLED driver in Xiaomi Poco F1 device.
 
-Joel Selvaraj (3):
-  drm/panel: nt36672a: add backlight support
-  dt-bindings: display: novatek,nt36672a: add backlight property
-  arm64: dts: qcom: sdm845-xiaomi-beryllium: enable qcom wled backlight
-    and link to panel
+Signed-off-by: Joel Selvaraj <jo@jsfamily.in>
+---
+ drivers/gpu/drm/panel/panel-novatek-nt36672a.c | 4 ++++
+ 1 file changed, 4 insertions(+)
 
- .../bindings/display/panel/novatek,nt36672a.yaml     |  2 ++
- arch/arm64/boot/dts/qcom/sdm845-xiaomi-beryllium.dts | 12 ++++++++++++
- drivers/gpu/drm/panel/panel-novatek-nt36672a.c       |  4 ++++
- 3 files changed, 18 insertions(+)
-
+diff --git a/drivers/gpu/drm/panel/panel-novatek-nt36672a.c b/drivers/gpu/drm/panel/panel-novatek-nt36672a.c
+index 231f371901e8..6d6ce42787e2 100644
+--- a/drivers/gpu/drm/panel/panel-novatek-nt36672a.c
++++ b/drivers/gpu/drm/panel/panel-novatek-nt36672a.c
+@@ -628,6 +628,10 @@ static int nt36672a_panel_add(struct nt36672a_panel *pinfo)
+ 
+ 	drm_panel_init(&pinfo->base, dev, &panel_funcs, DRM_MODE_CONNECTOR_DSI);
+ 
++	ret = drm_panel_of_backlight(&pinfo->base);
++	if (ret)
++		return dev_err_probe(dev, ret, "Failed to get backlight\n");
++
+ 	drm_panel_add(&pinfo->base);
+ 
+ 	return 0;
 -- 
 2.35.1
 
