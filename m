@@ -2,83 +2,44 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 889A54EE90C
-	for <lists+dri-devel@lfdr.de>; Fri,  1 Apr 2022 09:24:10 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 9DC934EE932
+	for <lists+dri-devel@lfdr.de>; Fri,  1 Apr 2022 09:44:55 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 72C7010FE73;
-	Fri,  1 Apr 2022 07:24:08 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 0AE7910FF73;
+	Fri,  1 Apr 2022 07:44:53 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from us-smtp-delivery-124.mimecast.com
- (us-smtp-delivery-124.mimecast.com [170.10.133.124])
- by gabe.freedesktop.org (Postfix) with ESMTPS id C40A810FE76
- for <dri-devel@lists.freedesktop.org>; Fri,  1 Apr 2022 07:24:06 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1648797845;
+Received: from relay8-d.mail.gandi.net (relay8-d.mail.gandi.net
+ [IPv6:2001:4b98:dc4:8::228])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 6C5BD10FF72
+ for <dri-devel@lists.freedesktop.org>; Fri,  1 Apr 2022 07:44:51 +0000 (UTC)
+Received: (Authenticated sender: paul.kocialkowski@bootlin.com)
+ by mail.gandi.net (Postfix) with ESMTPSA id 34E7D1BF206;
+ Fri,  1 Apr 2022 07:44:47 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bootlin.com; s=gm1;
+ t=1648799089;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=2oSGclBy438u/RoBzl9gqWnQIOvh0fU3X6NhgXoZwww=;
- b=IeZJZCOp5Qvsmsvu02F7R5Jjf/N0Ixf+R4xtaYh8kEHMAGP8KbvFwyojpxsq6x0CvFm4gs
- INJ/nzp1aVaLA3s/OfGAEwnJdtjn7wjInuS667Z5uqbtpBmwBatZL1NH7m1nd5oe+m+MrR
- lNjeKGB5svW1Mc6++FT7P0Eyc9HW4kk=
-Received: from mail-wm1-f70.google.com (mail-wm1-f70.google.com
- [209.85.128.70]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-116-oe2pPdbFN5m279kttuYMbA-1; Fri, 01 Apr 2022 03:24:02 -0400
-X-MC-Unique: oe2pPdbFN5m279kttuYMbA-1
-Received: by mail-wm1-f70.google.com with SMTP id
- r64-20020a1c2b43000000b0038b59eb1940so2337415wmr.0
- for <dri-devel@lists.freedesktop.org>; Fri, 01 Apr 2022 00:24:02 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
- :content-language:to:cc:references:from:in-reply-to
- :content-transfer-encoding;
- bh=2oSGclBy438u/RoBzl9gqWnQIOvh0fU3X6NhgXoZwww=;
- b=y0qTFWXgKVBoze2nJjCqCvYkycV6eoHN1fomMgV4Pr72IaeUpw4DdfRdjnadrAPwkQ
- G9Ng0lXtUbwMPQBMEzqelrotixXnKKwMlvjUeffFuTFE7c32YjJXf1Petj9tiKgVmtJX
- TvKDotlTs5eGGvrUxA7x04Nd/1WCKCXMu1IsyJz+fVzSUW2qv6c1y7PHCXVj2lFnrCMv
- BSH/1uHiqM/uPJeCZhf5Z7hg/WJlVzszyam+JWWiZ4MdpV/VqwuJBuwJYfakotZEhZDg
- SnE1h7vJq9cW5h0LKPzzQkCp3lih0MiRXObOQLVUqzNyUyf8tDlnzXWOgsHNJ8US5vyd
- ZpKw==
-X-Gm-Message-State: AOAM532m1DoeUYdn3gbwWSwpnpKlt2ERoPyHHK5peERvp96jrb41fvcg
- 6YtC4Yv578Lc/tSmfImhvCboie8sNo0J5gDXHCZnyFt6MTMN/p9b4+C06pU2DbBy0pEGMQj4WSA
- w2jBXYVioINJfSWm1ZcdE8xG728RH
-X-Received: by 2002:a05:6000:2ca:b0:205:9e2d:ae37 with SMTP id
- o10-20020a05600002ca00b002059e2dae37mr6461452wry.128.1648797841111; 
- Fri, 01 Apr 2022 00:24:01 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJxsPWO0aP63w7RCr7r6in94LHC4KzeXquHlPh7x9xxo5foJfxVj+34G8/cjbyzXv325ypFulQ==
-X-Received: by 2002:a05:6000:2ca:b0:205:9e2d:ae37 with SMTP id
- o10-20020a05600002ca00b002059e2dae37mr6461436wry.128.1648797840914; 
- Fri, 01 Apr 2022 00:24:00 -0700 (PDT)
-Received: from [192.168.1.102] ([92.176.231.205])
- by smtp.gmail.com with ESMTPSA id
- l9-20020a5d6d89000000b00203d62072c4sm1423984wrs.43.2022.04.01.00.24.00
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Fri, 01 Apr 2022 00:24:00 -0700 (PDT)
-Message-ID: <98e71b4a-43b4-820b-cf2a-a680ca48abe4@redhat.com>
-Date: Fri, 1 Apr 2022 09:23:59 +0200
+ bh=P2d3No4EDXkEh3l7L1vhz/J82XaNZW1KUTwfTQprtMI=;
+ b=ixhmXyxrKfJTOBUFTFjmcF1pqZICgVBc7T7yeYk0J3ogOABA+iOg5R9Jv5kc1CuUJ6JiPE
+ b9RhyzNa81/eHrJFxaUlsc0+xh/NwDYvAT80C2P3vAf9yK9C0zf9w5bfJPVMNwKmHtIXRS
+ O53OcFtIr8A5HMH+XR8F78LIJXZvgHeHBtq8pYR8zfWI/GsfNxykxZ/BkhwJU+15tqvPKD
+ PIXZGUFV+/bTurtZpxs/G/bHoutebuGKyqOvy9e8S5Qbu8XfW6vGmBQ5KsoD03G1L7qRc9
+ MwCHcYwCGXqpQwUMms27g1bXV+p+KJn6SS6Hko315OpYMr8A3/uQXe2yPh6Wuw==
+Date: Fri, 1 Apr 2022 09:44:46 +0200
+From: Paul Kocialkowski <paul.kocialkowski@bootlin.com>
+To: Bjorn Andersson <bjorn.andersson@linaro.org>
+Subject: Re: [PATCH v3] drm: of: Properly try all possible cases for
+ bridge/panel detection
+Message-ID: <YkatbpubQjwBWOiK@aptenodytes>
+References: <20220329132732.628474-1-paul.kocialkowski@bootlin.com>
+ <YkZulslrzeurp43U@ripper>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.7.0
-Subject: Re: [PATCH 5/8] drm/display: Move DSC header and helpers into
- display-helper module
-To: Thomas Zimmermann <tzimmermann@suse.de>, daniel@ffwll.ch,
- airlied@linux.ie, maarten.lankhorst@linux.intel.com, mripard@kernel.org,
- jani.nikula@linux.intel.com, lyude@redhat.com
-References: <20220322192743.14414-1-tzimmermann@suse.de>
- <20220322192743.14414-6-tzimmermann@suse.de>
-From: Javier Martinez Canillas <javierm@redhat.com>
-In-Reply-To: <20220322192743.14414-6-tzimmermann@suse.de>
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=javierm@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Language: en-US
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+Content-Type: multipart/signed; micalg=pgp-sha256;
+ protocol="application/pgp-signature"; boundary="RmzJoGyI2gCKxmMX"
+Content-Disposition: inline
+In-Reply-To: <YkZulslrzeurp43U@ripper>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -91,29 +52,306 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: dri-devel@lists.freedesktop.org
+Cc: Thomas Petazzoni <thomas.petazzoni@bootlin.com>,
+ David Airlie <airlied@linux.ie>, linux-kernel@vger.kernel.org,
+ Kuogee Hsieh <quic_khsieh@quicinc.com>, dri-devel@lists.freedesktop.org,
+ Thomas Zimmermann <tzimmermann@suse.de>,
+ Dmitry Baryshkov <dmitry.baryshkov@linaro.org>,
+ Jagan Teki <jagan@amarulasolutions.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 3/22/22 20:27, Thomas Zimmermann wrote:
-> DSC is the Display Stream Compression standard for DisplayPort. Move
-> the DSC code into display/ and split the header into files for protocol
-> core and DRM helpers. Adapt all users of the code. No functional
-> changes.
-> 
-> To avoid the proliferation of Kconfig options, DSC is part of DRM's
-> support for DisplayPort. If necessary, a new option could make DSC an
-> independent feature.
-> 
-> Signed-off-by: Thomas Zimmermann <tzimmermann@suse.de>
-> ---
 
-Reviewed-by: Javier Martinez Canillas <javierm@redhat.com>
+--RmzJoGyI2gCKxmMX
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
--- 
-Best regards,
+Hi Bjorn,
 
-Javier Martinez Canillas
-Linux Engineering
-Red Hat
+On Thu 31 Mar 22, 20:16, Bjorn Andersson wrote:
+> On Tue 29 Mar 06:27 PDT 2022, Paul Kocialkowski wrote:
+>=20
+> > While bridge/panel detection was initially relying on the usual
+> > port/ports-based of graph detection, it was recently changed to
+> > perform the lookup on any child node that is not port/ports
+> > instead when such a node is available, with no fallback on the
+> > usual way.
+> >=20
+> > This results in breaking detection when a child node is present
+> > but does not contain any panel or bridge node, even when the
+> > usual port/ports-based of graph is there.
+> >=20
+> > In order to support both situations properly, this commit reworks
+> > the logic to try both options and not just one of the two: it will
+> > only return -EPROBE_DEFER when both have failed.
+> >=20
+>=20
+> Thanks for your patch Paul, it fixed a regression on a device where I
+> have a eDP bridge with an of_graph and a aux-bus defined.
+>=20
+> But unfortunately it does not resolve the regression I have for the
+> USB based DisplayPort setup described below.
+>=20
+>=20
+> In the Qualcomm DisplayPort driver We're calling:
+>=20
+> 	devm_drm_of_get_bridge(dev, dev->of_node, 1, 0);
+>=20
+> and with the following DT snippet the behavior changed:
+>=20
+> displayport-controller@ae90000 {
+> 	compatible =3D "qcom,sc8180x-dp";
+> 	...
+>=20
+> 	operating-points-v2 =3D <&dp0_opp_table>;
+>=20
+> 	ports {
+> 		#address-cells =3D <1>;
+> 		#size-cells =3D <0>;
+>=20
+> 		port@0 {
+> 			reg =3D <0>;
+> 			dp0_in: endpoint {
+> 				remote-endpoint =3D <&display_driver>;
+> 			};
+> 		};
+> 	};
+>=20
+> 	dp0_opp_table: opp-table {
+> 		...;
+> 	};
+> };
+>=20
+> Prior to the introduction of 80253168dbfd ("drm: of: Lookup if child
+> node has panel or bridge") this would return -ENODEV, so we could
+> differentiate the case when we have a statically defined eDP panel from
+> that of a dynamically attached (over USB) DP panel.
+>=20
+> Prior to your change, above case without the opp-table node would have
+> still returned -ENODEV.
+>=20
+> But now this will just return -EPROBE_DEFER in both cases.
 
+Oh that's right, the -ENODEV case was just completely removed by my change.
+Initially this would happen if !of_graph_is_present or if the remote node
+doesn't exist.
+
+Now that we are also checking for child nodes, we can't just return -ENODEV
+when the graph or remote node is missing: we must also check that there is =
+no
+child node that is a panel/bridge.
+
+For the graph remote case, we can reliabily return -EPROBE_DEFER when
+of_graph_is_present and the remote exists and of_device_is_available.
+Otherwise we can go for -ENODEV. I think getting -EPROBE_DEFER at this point
+should stop the drm_of_find_panel_or_bridge process.
+
+On the other hand for the child panel/bridge node case, I don't see how we
+can reliably distinguish between -EPROBE_DEFER and -ENODEV, because
+of_drm_find_panel and of_drm_find_bridge will behave the same if the child
+node is a not-yet-probed panel/bridge or a totally unrelated node.
+So I think we should always return -EPROBE_DEFER in that case.
+
+As a result you can't get -ENODEV if using the of graph while having any
+(unrelated) child node there, so your issue remains.
+
+Do you see any way we could make this work?
+
+> I thought the appropriate method of referencing the dsi panel was to
+> actually reference that using the of_graph, even though it's a child of
+> the dsi controller - that's at least how we've done it in e.g. [1].
+> I find this to be much nicer than to just blindly define that all
+> children of any sort of display controller must be a bridge or a panel.
+
+Yes I totally agree. Given that using the child node directly apparently
+can't allow us to distinguish between -EPROBE_DEFER/-ENODEV I would be in
+favor of dropping this mechanism and going with explicit of graph in any ca=
+se
+(even if it's a child node). I don't see any downside to this approach.
+
+What do yout think?
+
+Paul
+
+> [1] https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git/tr=
+ee/arch/arm64/boot/dts/qcom/sdm845-mtp.dts#n436
+>=20
+> Regards,
+> Bjorn
+>=20
+> > Signed-off-by: Paul Kocialkowski <paul.kocialkowski@bootlin.com>
+> > Fixes: 80253168dbfd ("drm: of: Lookup if child node has panel or bridge=
+")
+> > ---
+> >=20
+> > Changes since v2:
+> > - Removed unnecessary else statement and added a comment about
+> >   clearing the panel pointer on error.
+> >=20
+> > Changes since v1:
+> > - Renamed remote to node;
+> > - Renamed helper to find_panel_or_bridge;
+> > - Cleared bridge pointer early;
+> > - Returned early to make the code more concise;
+> >=20
+> > ---
+> >  drivers/gpu/drm/drm_of.c | 99 ++++++++++++++++++++--------------------
+> >  1 file changed, 50 insertions(+), 49 deletions(-)
+> >=20
+> > diff --git a/drivers/gpu/drm/drm_of.c b/drivers/gpu/drm/drm_of.c
+> > index 9d90cd75c457..8716da6369a6 100644
+> > --- a/drivers/gpu/drm/drm_of.c
+> > +++ b/drivers/gpu/drm/drm_of.c
+> > @@ -219,6 +219,29 @@ int drm_of_encoder_active_endpoint(struct device_n=
+ode *node,
+> >  }
+> >  EXPORT_SYMBOL_GPL(drm_of_encoder_active_endpoint);
+> > =20
+> > +static int find_panel_or_bridge(struct device_node *node,
+> > +				struct drm_panel **panel,
+> > +				struct drm_bridge **bridge)
+> > +{
+> > +	if (panel) {
+> > +		*panel =3D of_drm_find_panel(node);
+> > +		if (!IS_ERR(*panel))
+> > +			return 0;
+> > +
+> > +		/* Clear the panel pointer in case of error. */
+> > +		*panel =3D NULL;
+> > +	}
+> > +
+> > +	/* No panel found yet, check for a bridge next. */
+> > +	if (bridge) {
+> > +		*bridge =3D of_drm_find_bridge(node);
+> > +		if (*bridge)
+> > +			return 0;
+> > +	}
+> > +
+> > +	return -EPROBE_DEFER;
+> > +}
+> > +
+> >  /**
+> >   * drm_of_find_panel_or_bridge - return connected panel or bridge devi=
+ce
+> >   * @np: device tree node containing encoder output ports
+> > @@ -241,66 +264,44 @@ int drm_of_find_panel_or_bridge(const struct devi=
+ce_node *np,
+> >  				struct drm_panel **panel,
+> >  				struct drm_bridge **bridge)
+> >  {
+> > -	int ret =3D -EPROBE_DEFER;
+> > -	struct device_node *remote;
+> > +	struct device_node *node;
+> > +	int ret;
+> > =20
+> >  	if (!panel && !bridge)
+> >  		return -EINVAL;
+> > +
+> >  	if (panel)
+> >  		*panel =3D NULL;
+> > -
+> > -	/**
+> > -	 * Devices can also be child nodes when we also control that device
+> > -	 * through the upstream device (ie, MIPI-DCS for a MIPI-DSI device).
+> > -	 *
+> > -	 * Lookup for a child node of the given parent that isn't either port
+> > -	 * or ports.
+> > -	 */
+> > -	for_each_available_child_of_node(np, remote) {
+> > -		if (of_node_name_eq(remote, "port") ||
+> > -		    of_node_name_eq(remote, "ports"))
+> > -			continue;
+> > -
+> > -		goto of_find_panel_or_bridge;
+> > +	if (bridge)
+> > +		*bridge =3D NULL;
+> > +
+> > +	/* Check for a graph on the device node first. */
+> > +	if (of_graph_is_present(np)) {
+> > +		node =3D of_graph_get_remote_node(np, port, endpoint);
+> > +		if (node) {
+> > +			ret =3D find_panel_or_bridge(node, panel, bridge);
+> > +			of_node_put(node);
+> > +
+> > +			if (!ret)
+> > +				return 0;
+> > +		}
+> >  	}
+> > =20
+> > -	/*
+> > -	 * of_graph_get_remote_node() produces a noisy error message if port
+> > -	 * node isn't found and the absence of the port is a legit case here,
+> > -	 * so at first we silently check whether graph presents in the
+> > -	 * device-tree node.
+> > -	 */
+> > -	if (!of_graph_is_present(np))
+> > -		return -ENODEV;
+> > -
+> > -	remote =3D of_graph_get_remote_node(np, port, endpoint);
+> > -
+> > -of_find_panel_or_bridge:
+> > -	if (!remote)
+> > -		return -ENODEV;
+> > +	/* Otherwise check for any child node other than port/ports. */
+> > +	for_each_available_child_of_node(np, node) {
+> > +		if (of_node_name_eq(node, "port") ||
+> > +		    of_node_name_eq(node, "ports"))
+> > +			continue;
+> > =20
+> > -	if (panel) {
+> > -		*panel =3D of_drm_find_panel(remote);
+> > -		if (!IS_ERR(*panel))
+> > -			ret =3D 0;
+> > -		else
+> > -			*panel =3D NULL;
+> > -	}
+> > -
+> > -	/* No panel found yet, check for a bridge next. */
+> > -	if (bridge) {
+> > -		if (ret) {
+> > -			*bridge =3D of_drm_find_bridge(remote);
+> > -			if (*bridge)
+> > -				ret =3D 0;
+> > -		} else {
+> > -			*bridge =3D NULL;
+> > -		}
+> > +		ret =3D find_panel_or_bridge(node, panel, bridge);
+> > +		of_node_put(node);
+> > =20
+> > +		/* Stop at the first found occurrence. */
+> > +		if (!ret)
+> > +			return 0;
+> >  	}
+> > =20
+> > -	of_node_put(remote);
+> > -	return ret;
+> > +	return -EPROBE_DEFER;
+> >  }
+> >  EXPORT_SYMBOL_GPL(drm_of_find_panel_or_bridge);
+> > =20
+> > --=20
+> > 2.35.1
+> >=20
+
+--=20
+Paul Kocialkowski, Bootlin
+Embedded Linux and kernel engineering
+https://bootlin.com
+
+--RmzJoGyI2gCKxmMX
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iQEzBAEBCAAdFiEEJZpWjZeIetVBefti3cLmz3+fv9EFAmJGrW4ACgkQ3cLmz3+f
+v9E0GAf/TTQSoT8Uptk97ABofCuAwM4f1FkNEk95OXicipadFTC7w9N1dfqBni6f
+pOaAg2X6rotvMUKzFbgLAP6zyyEaGkqhlq0J/K3Wa56Zygi4zlv3DmGhjOuEHliH
+FHbEdOJFEn5DzlGLy3IUjGCO+lsURqB4RE5AOZSYqR2fhIrHzNdbB9yQ7FPydLbJ
+nmH9o0qkrX37bXLgTz4YYT0fuZ8rEHJYZsqfAFw6wakP54IqLx4DEe+IHjqzUo5t
+4zSX/n45GZsJ5BLoelmFeVhewG2/MfRWHQ9PmYo+vYgZ2sG+gTo9wuR1WMstdwba
+utI3/aj0CuyAPUsOOCrBQeRgsYdzpw==
+=Dhbj
+-----END PGP SIGNATURE-----
+
+--RmzJoGyI2gCKxmMX--
