@@ -2,63 +2,62 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0559E4EFA7F
-	for <lists+dri-devel@lfdr.de>; Fri,  1 Apr 2022 21:43:13 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id BF5C14EFA9C
+	for <lists+dri-devel@lfdr.de>; Fri,  1 Apr 2022 21:52:05 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id EDD6610E03D;
-	Fri,  1 Apr 2022 19:43:09 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 161C610E043;
+	Fri,  1 Apr 2022 19:52:01 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-oa1-f52.google.com (mail-oa1-f52.google.com
- [209.85.160.52])
- by gabe.freedesktop.org (Postfix) with ESMTPS id AB75A10E03D
- for <dri-devel@lists.freedesktop.org>; Fri,  1 Apr 2022 19:43:08 +0000 (UTC)
-Received: by mail-oa1-f52.google.com with SMTP id
- 586e51a60fabf-df0940c4eeso3802547fac.8
- for <dri-devel@lists.freedesktop.org>; Fri, 01 Apr 2022 12:43:08 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=x-gm-message-state:date:from:to:cc:subject:message-id:references
- :mime-version:content-disposition:in-reply-to;
- bh=5EMvc8OMfcvWm0DkRik5060Bt4PsjTeEW6GxMTHgrYg=;
- b=TbNlP132SxPV1AAegcHBHGovMCD/2GhOAj3H9hX23TCXa9M6BiweLl/wu5Jyt9my/2
- GegZLJA3xRX+zGc26Hcetw8Dd/LfMnYj++ICOoh5i/SHDliAxE5xU3HB7QgVlGZHe8Tm
- sU6TOWBv0X970Tpkcf0Jr3Fsv+ZW7joXAO+/EB3BQErHN4vJ2gErEI8CzZA6cHPyvqRS
- PHYTTc97j0aw+25UkPD/jbUnNyDoShTSSMKbpdJ0/sn1LndApSg02qMb+5hxKo60zRLr
- ZyxC75VteiFW33FmYgQoGAH5sYkewD3kjyLTdgnMBrZ++F9yeEUlaM5lH3ZKlEEg/nLJ
- 585Q==
-X-Gm-Message-State: AOAM530+iu5ArGdbFpocW29575xnCRmpj/ZYUbCHU7u9itPufZvEU43f
- gkyeyyjBm0IfGg3fJ0EHWQ==
-X-Google-Smtp-Source: ABdhPJwDikib+rjr4bUJEsoOnQNnfd3LSECjy79yCaRP4ZlEotdYkoelCmbPcVNwW8RfvDW1bn5rcQ==
-X-Received: by 2002:a05:6870:f624:b0:e1:c071:121b with SMTP id
- ek36-20020a056870f62400b000e1c071121bmr1630993oab.182.1648842187923; 
- Fri, 01 Apr 2022 12:43:07 -0700 (PDT)
-Received: from robh.at.kernel.org (66-90-144-107.dyn.grandenetworks.net.
- [66.90.144.107]) by smtp.gmail.com with ESMTPSA id
- x1-20020a4ae781000000b00320d5d238efsm1399126oov.3.2022.04.01.12.43.06
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Fri, 01 Apr 2022 12:43:07 -0700 (PDT)
-Received: (nullmailer pid 3465306 invoked by uid 1000);
- Fri, 01 Apr 2022 19:43:06 -0000
-Date: Fri, 1 Apr 2022 14:43:06 -0500
-From: Rob Herring <robh@kernel.org>
-To: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-Subject: Re: [PATCH] dt-bindings: display: bridge: Drop requirement on input
- port for DSI devices
-Message-ID: <YkdVynGv49eUDuaS@robh.at.kernel.org>
-References: <20220323154823.839469-1-maxime@cerno.tech>
- <YkY+1IZtQ8oSi7wR@robh.at.kernel.org>
- <b3dcf3fe-63a0-fbef-a3c4-f42e8cd395fe@denx.de>
- <Ykc3wm5pqJIA1jCn@robh.at.kernel.org>
- <1fddec5f-5fb3-4ea0-a1e5-9d1b9e54de81@denx.de>
- <CAL_JsqLmin2qXdeNrvraAf=fGzttOAYxwFCUSbC5TeHYaN+LhQ@mail.gmail.com>
- <30ea889f-f65e-e887-e230-935d6207c919@denx.de>
- <CAL_JsqLHsZW0DJNDxKNApk1AKo=91JYnTNVvemF4iCkyYq88bQ@mail.gmail.com>
- <YkdI/BSp/lvKYRjO@pendragon.ideasonboard.com>
+Received: from alexa-out-sd-02.qualcomm.com (alexa-out-sd-02.qualcomm.com
+ [199.106.114.39])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 1B4CB10E043;
+ Fri,  1 Apr 2022 19:52:00 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=quicinc.com; i=@quicinc.com; q=dns/txt; s=qcdkim;
+ t=1648842720; x=1680378720;
+ h=message-id:date:mime-version:subject:to:cc:references:
+ from:in-reply-to:content-transfer-encoding;
+ bh=mzQwyM79i2VPG1OyvzFuki0I0QTOLGm5moKyhLq7OwU=;
+ b=bEgKcXNc2RAWPiL6hz0f3gdbQ6ufcaImCfy+64q4k+W15Oc070Mg2YEn
+ 3z/kGFf1nahLbL0ohxrrp3TzFQbLeb3/9bxz63w/fb85K4mZPqJfKQu8P
+ Wugb3sOIzBwb9L0mqsWOuZnC1paIF9cqZxfN7AzN5BuOwHZp6o70W0Dpw g=;
+Received: from unknown (HELO ironmsg04-sd.qualcomm.com) ([10.53.140.144])
+ by alexa-out-sd-02.qualcomm.com with ESMTP; 01 Apr 2022 12:51:59 -0700
+X-QCInternal: smtphost
+Received: from nasanex01c.na.qualcomm.com ([10.47.97.222])
+ by ironmsg04-sd.qualcomm.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 01 Apr 2022 12:51:59 -0700
+Received: from nalasex01a.na.qualcomm.com (10.47.209.196) by
+ nasanex01c.na.qualcomm.com (10.47.97.222) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.2.986.22; Fri, 1 Apr 2022 12:51:58 -0700
+Received: from [10.110.60.126] (10.80.80.8) by nalasex01a.na.qualcomm.com
+ (10.47.209.196) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.986.22; Fri, 1 Apr 2022
+ 12:51:57 -0700
+Message-ID: <b5717861-c3f6-960c-f5be-013db8c4fa68@quicinc.com>
+Date: Fri, 1 Apr 2022 12:51:56 -0700
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <YkdI/BSp/lvKYRjO@pendragon.ideasonboard.com>
+User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:91.0) Gecko/20100101
+ Thunderbird/91.7.0
+Subject: Re: [PATCH v4 3/3] drm/msm/dp: replace DRM_DEBUG_DP marco with
+ drm_dbg_dp
+Content-Language: en-US
+To: Stephen Boyd <swboyd@chromium.org>, <agross@kernel.org>,
+ <airlied@linux.ie>, <bjorn.andersson@linaro.org>, <daniel@ffwll.ch>,
+ <dmitry.baryshkov@linaro.org>, <dri-devel@lists.freedesktop.org>,
+ <robdclark@gmail.com>, <sean@poorly.run>, <vkoul@kernel.org>
+References: <1645122930-23863-1-git-send-email-quic_khsieh@quicinc.com>
+ <1645122930-23863-4-git-send-email-quic_khsieh@quicinc.com>
+ <CAE-0n50nMVEG5ccU=m0hNoyPnWvyugjRSXL9hoW=VOxm6+w2uw@mail.gmail.com>
+From: Kuogee Hsieh <quic_khsieh@quicinc.com>
+In-Reply-To: <CAE-0n50nMVEG5ccU=m0hNoyPnWvyugjRSXL9hoW=VOxm6+w2uw@mail.gmail.com>
+Content-Type: text/plain; charset="UTF-8"; format=flowed
+Content-Transfer-Encoding: 7bit
+X-Originating-IP: [10.80.80.8]
+X-ClientProxiedBy: nasanex01b.na.qualcomm.com (10.46.141.250) To
+ nalasex01a.na.qualcomm.com (10.47.209.196)
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -71,90 +70,27 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Marek Vasut <marex@denx.de>, devicetree@vger.kernel.org,
- Neil Armstrong <narmstrong@baylibre.com>, David Airlie <airlied@linux.ie>,
- Robert Foss <robert.foss@linaro.org>,
- dri-devel <dri-devel@lists.freedesktop.org>, Jonas Karlman <jonas@kwiboo.se>,
- Jernej Skrabec <jernej.skrabec@gmail.com>, Maxime Ripard <maxime@cerno.tech>,
- Andrzej Hajda <andrzej.hajda@intel.com>,
- Daniel Vetter <daniel.vetter@intel.com>, Frank Rowand <frowand.list@gmail.com>,
- Jagan Teki <jagan@amarulasolutions.com>
+Cc: quic_sbillaka@quicinc.com, linux-arm-msm@vger.kernel.org,
+ quic_abhinavk@quicinc.com, linux-kernel@vger.kernel.org,
+ quic_aravindh@quicinc.com, freedreno@lists.freedesktop.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Fri, Apr 01, 2022 at 09:48:28PM +0300, Laurent Pinchart wrote:
-> On Fri, Apr 01, 2022 at 01:33:15PM -0500, Rob Herring wrote:
-> > On Fri, Apr 1, 2022 at 1:25 PM Marek Vasut wrote:
-> > > On 4/1/22 20:21, Rob Herring wrote:
-> > > > On Fri, Apr 1, 2022 at 1:06 PM Marek Vasut wrote:
-> > > >> On 4/1/22 19:34, Rob Herring wrote:
-> > > >>> On Fri, Apr 01, 2022 at 03:22:19AM +0200, Marek Vasut wrote:
-> > > >>>> On 4/1/22 01:52, Rob Herring wrote:
-> > > >>>>> On Wed, 23 Mar 2022 16:48:23 +0100, Maxime Ripard wrote:
-> > > >>>>>> MIPI-DSI devices, if they are controlled through the bus itself, have to
-> > > >>>>>> be described as a child node of the controller they are attached to.
-> > > >>>>>>
-> > > >>>>>> Thus, there's no requirement on the controller having an OF-Graph output
-> > > >>>>>> port to model the data stream: it's assumed that it would go from the
-> > > >>>>>> parent to the child.
-> > > >>>>>>
-> > > >>>>>> However, some bridges controlled through the DSI bus still require an
-> > > >>>>>> input OF-Graph port, thus requiring a controller with an OF-Graph output
-> > > >>>>>> port. This prevents those bridges from being used with the controllers
-> > > >>>>>> that do not have one without any particular reason to.
-> > > >>>>>>
-> > > >>>>>> Let's drop that requirement.
-> > > >>>>>>
-> > > >>>>>> Signed-off-by: Maxime Ripard <maxime@cerno.tech>
-> > > >>>>>> ---
-> > > >>>>>>     .../devicetree/bindings/display/bridge/chipone,icn6211.yaml      | 1 -
-> > > >>>>>>     .../devicetree/bindings/display/bridge/toshiba,tc358762.yaml     | 1 -
-> > > >>>>>>     2 files changed, 2 deletions(-)
-> > > >>>>>>
-> > > >>>>>
-> > > >>>>> I tend to agree with port@0 not being needed and really like
-> > > >>>>> consistency.
-> > > >>>>
-> > > >>>> The consistent thing to do would be to always use port@0 and OF graph, no ?
-> > > >>>
-> > > >>> I guess it depends how wide our scope for consistency is. Just DSI bus
-> > > >>> controlled bridges? DSI panels? All bridges and panels? Any panel
-> > > >>> without a control interface has the same dilemma as those can be a child
-> > > >>> of the display controller (or bridge) and not even use OF graph.
-> > > >>
-> > > >> I would likely opt for the OF graph in all cases, panels, bridges,
-> > > >> controllers. Then it would be consistent.
-> > > >>
-> > > >>> All simple panels don't require 'port' either. That's presumably only
-> > > >>> consistent because we made a single schema. I'd assume 'non-simple'
-> > > >>> panels with their own schema are not consistent.
-> > > >>
-> > > >> Maybe we would start requiring that port even for simple panels ?
-> > > >> The port is physically there on that panel after all.
-> > > >
-> > > > Fix this in all the dts files and then I'll agree. Though I think this
-> > > > ship has already sailed. I'd like to someday get to platforms without
-> > > > warnings and not just keep adding new warnings.
-> > >
-> > > I doubt we can fix existing DTs, but can we at least require it for new
-> > > DTs ?
-> > 
-> > We don't have any way to do that currently and get to warning free for
-> > all DTs. We'd need to be able to disable specific checks for specific
-> > DTs. I've thought about it, but haven't come up with a way to do it.
-> 
-> I think Marek may have meant new bindings. While I do agree that
-> inconsistencies in sources can cause new submissions to blindly copy
-> mistakes, it shouldn't be a reason in itself to carry historical binding
-> design mistakes in new bindings.
+Hi Stephen,
 
-This patch and the whole thread is about consistency of existing 
-bindings. 
 
-The only way to get some consistency reliably (beyond depending on 
-reviews which doesn't achieve it) is either have a meta-schema to check 
-something or make it a common schema. If we have new and old bindings, 
-then we'd need panel-simple-old.yaml and panel-simple-new.yaml. There's 
-other options probably, but not without more work on the tools.
+Would you please help to pick this patch up to msm-next?
 
-Rob
+Thanks,
+
+On 2/24/2022 10:40 AM, Stephen Boyd wrote:
+> Quoting Kuogee Hsieh (2022-02-17 10:35:30)
+>> Since DRM_DEBUG_DP is deprecated in favor of drm_dbg_dp(NULL, ...),
+>> this patch replace all DRM_DEBUG_DP with drm_dbg_dp().
+>>
+>> Changes in v4:
+>> -- replace (strucr drm_dev *)NULL with drm_dev
+>>
+>> Signed-off-by: Kuogee Hsieh <quic_khsieh@quicinc.com>
+>> ---
+> Reviewed-by: Stephen Boyd <swboyd@chromium.org>
