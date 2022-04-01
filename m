@@ -1,45 +1,46 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id BAC684EEF5B
-	for <lists+dri-devel@lfdr.de>; Fri,  1 Apr 2022 16:26:06 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 0FC1E4EEF6B
+	for <lists+dri-devel@lfdr.de>; Fri,  1 Apr 2022 16:26:13 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 9283310E3F4;
-	Fri,  1 Apr 2022 14:26:04 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id B7B9610E406;
+	Fri,  1 Apr 2022 14:26:10 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 8874510E3F4
- for <dri-devel@lists.freedesktop.org>; Fri,  1 Apr 2022 14:26:00 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 9782810E3EB;
+ Fri,  1 Apr 2022 14:26:09 +0000 (UTC)
 Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
  (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
  (No client certificate requested)
- by dfw.source.kernel.org (Postfix) with ESMTPS id D297661C4A;
- Fri,  1 Apr 2022 14:25:59 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 553BFC34113;
- Fri,  1 Apr 2022 14:25:58 +0000 (UTC)
+ by dfw.source.kernel.org (Postfix) with ESMTPS id D545761C43;
+ Fri,  1 Apr 2022 14:26:08 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 2A3CFC340EE;
+ Fri,  1 Apr 2022 14:26:06 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1648823159;
- bh=vwcMnsD7Ok9YwEwegpDLQI4p1s8O9QrAaan6MHoLLos=;
+ s=k20201202; t=1648823168;
+ bh=La4Vy9liKzyGA8wVYgzCzfHjBUk/e1nXmMqsKwIY7Pw=;
  h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
- b=OR1LQUfVSkCRPU+93E05uFbJ41AXDH3mKidd44P+A+cRCohHDdqwZWKZjbPyAncax
- IC7pqZbZbziY/1PG6xFKg0X7+kqwY85/TQRl6s5o0Rh+3krG0u8K5dh/jilpkiwXNI
- RgNGHPfGNTF9XkdqqW/ADAF0SeumDYuFF2sGJUsrRS8iUEOJOMkYcrcKSBiMNKzd+F
- CRRrl5UBSacdr5jbBXqW04unBBW6JBabQoNUgQi+owQn76ySJqlow7M7i8KBtHmBsZ
- aw3LlWfqll+6z9gwwJ31iBv1SmEiaaudRIM/MlPZbmq2wmYbin4/v2Kwtxzkawymnu
- WyLF4HGuGD3qg==
+ b=hIaqaDjJRmOncK7NLTxxVgiHu7MqckvkuH9dxmIxxIhx9eIaNbs3tmUg89JQpjQMF
+ V+OAIirLtz3azukWfCmd9NU9TISL2Ylpg0LKvFismE7O9bK5baY11GpgUz1I4954zI
+ 9BYoSEP/49yOo7sj+VjkvbTAJwlHuHraT0NM/FnzdZuF0kXV2+gyCrfZnQil2IPcUM
+ AvgUeNewqY6UTGRPr/4bbsltTQJL1S8sT9OJaeOTVcFBBut9OxOIezHiTE2osl6nmo
+ kL++vaDmLXkuFkSNAqDEQp1F0REDNgf96UgkiUnecsmNe7BODOIGd7OG1ZVBBjnOUg
+ Tc+SOWK5JVVjQ==
 From: Sasha Levin <sashal@kernel.org>
 To: linux-kernel@vger.kernel.org,
 	stable@vger.kernel.org
-Subject: [PATCH AUTOSEL 5.17 008/149] drm/edid: improve non-desktop quirk
- logging
-Date: Fri,  1 Apr 2022 10:23:15 -0400
-Message-Id: <20220401142536.1948161-8-sashal@kernel.org>
+Subject: [PATCH AUTOSEL 5.17 011/149] drm/amd/amdgpu/amdgpu_cs: fix refcount
+ leak of a dma_fence obj
+Date: Fri,  1 Apr 2022 10:23:18 -0400
+Message-Id: <20220401142536.1948161-11-sashal@kernel.org>
 X-Mailer: git-send-email 2.34.1
 In-Reply-To: <20220401142536.1948161-1-sashal@kernel.org>
 References: <20220401142536.1948161-1-sashal@kernel.org>
 MIME-Version: 1.0
+Content-Type: text/plain; charset=UTF-8
 X-stable: review
 X-Patchwork-Hint: Ignore
 Content-Transfer-Encoding: 8bit
@@ -55,77 +56,51 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Sasha Levin <sashal@kernel.org>, tzimmermann@suse.de,
- Jani Nikula <jani.nikula@intel.com>, airlied@linux.ie,
- dri-devel@lists.freedesktop.org
+Cc: Sasha Levin <sashal@kernel.org>, Xin Tan <tanxin.ctf@gmail.com>,
+ airlied@linux.ie, dri-devel@lists.freedesktop.org, Xinhui.Pan@amd.com,
+ Xin Xiong <xiongx18@fudan.edu.cn>, sumit.semwal@linaro.org,
+ linaro-mm-sig@lists.linaro.org, JinhuiEric.Huang@amd.com, nirmoy.das@amd.com,
+ amd-gfx@lists.freedesktop.org, Alex Deucher <alexander.deucher@amd.com>,
+ Lang.Yu@amd.com, =?UTF-8?q?Christian=20K=C3=B6nig?= <christian.koenig@amd.com>,
+ Ken.Xue@amd.com, linux-media@vger.kernel.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-From: Jani Nikula <jani.nikula@intel.com>
+From: Xin Xiong <xiongx18@fudan.edu.cn>
 
-[ Upstream commit ce99534e978d4a36787dbe5e5c57749d12e6bf4a ]
+[ Upstream commit dfced44f122c500004a48ecc8db516bb6a295a1b ]
 
-Improve non-desktop quirk logging if the EDID indicates non-desktop. If
-both are set, note about redundant quirk. If there's no quirk but the
-EDID indicates non-desktop, don't log non-desktop is set to 0.
+This issue takes place in an error path in
+amdgpu_cs_fence_to_handle_ioctl(). When `info->in.what` falls into
+default case, the function simply returns -EINVAL, forgetting to
+decrement the reference count of a dma_fence obj, which is bumped
+earlier by amdgpu_cs_get_fence(). This may result in reference count
+leaks.
 
-Cc: Philipp Zabel <philipp.zabel@gmail.com>
-Signed-off-by: Jani Nikula <jani.nikula@intel.com>
-Reviewed-by: Philipp Zabel <philipp.zabel@gmail.com>
-Tested-by: Philipp Zabel <philipp.zabel@gmail.com>
-Link: https://patchwork.freedesktop.org/patch/msgid/20211228101051.317989-1-jani.nikula@intel.com
+Fix it by decreasing the refcount of specific object before returning
+the error code.
+
+Reviewed-by: Christian König <christian.koenig@amd.com>
+Signed-off-by: Xin Xiong <xiongx18@fudan.edu.cn>
+Signed-off-by: Xin Tan <tanxin.ctf@gmail.com>
+Signed-off-by: Alex Deucher <alexander.deucher@amd.com>
 Signed-off-by: Sasha Levin <sashal@kernel.org>
 ---
- drivers/gpu/drm/drm_edid.c | 17 ++++++++++-------
- 1 file changed, 10 insertions(+), 7 deletions(-)
+ drivers/gpu/drm/amd/amdgpu/amdgpu_cs.c | 1 +
+ 1 file changed, 1 insertion(+)
 
-diff --git a/drivers/gpu/drm/drm_edid.c b/drivers/gpu/drm/drm_edid.c
-index e8adfa90807c..e42a15e3f2ab 100644
---- a/drivers/gpu/drm/drm_edid.c
-+++ b/drivers/gpu/drm/drm_edid.c
-@@ -5331,17 +5331,13 @@ u32 drm_add_display_info(struct drm_connector *connector, const struct edid *edi
- 	info->width_mm = edid->width_cm * 10;
- 	info->height_mm = edid->height_cm * 10;
+diff --git a/drivers/gpu/drm/amd/amdgpu/amdgpu_cs.c b/drivers/gpu/drm/amd/amdgpu/amdgpu_cs.c
+index 06d07502a1f6..a34be65c9eaa 100644
+--- a/drivers/gpu/drm/amd/amdgpu/amdgpu_cs.c
++++ b/drivers/gpu/drm/amd/amdgpu/amdgpu_cs.c
+@@ -1509,6 +1509,7 @@ int amdgpu_cs_fence_to_handle_ioctl(struct drm_device *dev, void *data,
+ 		return 0;
  
--	info->non_desktop = !!(quirks & EDID_QUIRK_NON_DESKTOP);
--
- 	drm_get_monitor_range(connector, edid);
- 
--	DRM_DEBUG_KMS("non_desktop set to %d\n", info->non_desktop);
--
- 	if (edid->revision < 3)
--		return quirks;
-+		goto out;
- 
- 	if (!(edid->input & DRM_EDID_INPUT_DIGITAL))
--		return quirks;
-+		goto out;
- 
- 	info->color_formats |= DRM_COLOR_FORMAT_RGB444;
- 	drm_parse_cea_ext(connector, edid);
-@@ -5362,7 +5358,7 @@ u32 drm_add_display_info(struct drm_connector *connector, const struct edid *edi
- 
- 	/* Only defined for 1.4 with digital displays */
- 	if (edid->revision < 4)
--		return quirks;
-+		goto out;
- 
- 	switch (edid->input & DRM_EDID_DIGITAL_DEPTH_MASK) {
- 	case DRM_EDID_DIGITAL_DEPTH_6:
-@@ -5399,6 +5395,13 @@ u32 drm_add_display_info(struct drm_connector *connector, const struct edid *edi
- 
- 	drm_update_mso(connector, edid);
- 
-+out:
-+	if (quirks & EDID_QUIRK_NON_DESKTOP) {
-+		drm_dbg_kms(connector->dev, "Non-desktop display%s\n",
-+			    info->non_desktop ? " (redundant quirk)" : "");
-+		info->non_desktop = true;
-+	}
-+
- 	return quirks;
+ 	default:
++		dma_fence_put(fence);
+ 		return -EINVAL;
+ 	}
  }
- 
 -- 
 2.34.1
 
