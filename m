@@ -2,44 +2,43 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4CA304EEEFF
-	for <lists+dri-devel@lfdr.de>; Fri,  1 Apr 2022 16:12:21 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id B18FC4EEF00
+	for <lists+dri-devel@lfdr.de>; Fri,  1 Apr 2022 16:12:23 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 3028A10E379;
-	Fri,  1 Apr 2022 14:12:15 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 8D09A10E3AD;
+	Fri,  1 Apr 2022 14:12:17 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from mga06.intel.com (mga06.intel.com [134.134.136.31])
- by gabe.freedesktop.org (Postfix) with ESMTPS id C94AC10E379;
- Fri,  1 Apr 2022 14:12:12 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id A7DDF10E3A7;
+ Fri,  1 Apr 2022 14:12:14 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1648822332; x=1680358332;
+ t=1648822334; x=1680358334;
  h=from:to:cc:subject:date:message-id:in-reply-to:
  references:mime-version:content-transfer-encoding;
- bh=3zqa5jGLP2nwtQRGL19AzWAlhdtJ8RtOBeOuTbFq3I0=;
- b=AJkv6vVzogkpy0ePbU7RS+Awqu7BwziVFGNEFSRuDs6yloAXigurs9cy
- UrH9QUBkcpKSyiI3XD6fOG+TFjlbkhT6cei2RRpij3L8IjYslpWzLnceb
- CImFtdZTNCzWPMltxqCsC+dzpxMmYPmgBr764dzPJqE35+8g+WzEY/wgr
- bdinZsH60nXTUQ0Pa+eZwLWXboWVYTEqTwkiYg9hxU8WUf7GigGEmglfT
- X1DbQHECA9xSEYbpUQfk5cWLA0FADLMCztXeFn70Mkj3fCPldNoAyY3FW
- ykXNytAj0szihmg5t6pMRaP1Fp+qSjcIql+HqrxUNuub8HuwgVOzfpPnG A==;
-X-IronPort-AV: E=McAfee;i="6200,9189,10304"; a="320832829"
-X-IronPort-AV: E=Sophos;i="5.90,227,1643702400"; d="scan'208";a="320832829"
+ bh=q/+fIAQOiwc0Bqr8+b4gJozIra0BIGmeG35HWMBiQSE=;
+ b=FcJUSDedtNgaFw9GdDwZmlwJO3AJMLPYWKp1obDCUmyVJJxW/E01qCAo
+ 6IDhsIDt9jV07Q34pCPwyb9+sq8/rmKFNCWVt4BqqVjZgnHhvab7wj/9I
+ 44rXH01ysyqQ85IF7Q2CoO61P/Tx+8++wxt4CuG+603WsWjJ6b7Sqj3gJ
+ doK0M3rR0J9P5tCmGIme1RamqqC6QEbA7fmYrKysFDxGDx9hI3rebZx62
+ ZlkQYouPRytS3pNcLJjDg9p6HzSuaqHpVRNMw7KhIIA8eyPAvG+lHDP3y
+ nj/SwxqX0/qUtu+OHJAzEsyZ4ICvpFhjcGgCP+ER+V/Wn6kBynG3KzXGg g==;
+X-IronPort-AV: E=McAfee;i="6200,9189,10304"; a="320832836"
+X-IronPort-AV: E=Sophos;i="5.90,227,1643702400"; d="scan'208";a="320832836"
 Received: from orsmga001.jf.intel.com ([10.7.209.18])
  by orsmga104.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 01 Apr 2022 07:12:12 -0700
-X-IronPort-AV: E=Sophos;i="5.90,227,1643702400"; d="scan'208";a="586864894"
+ 01 Apr 2022 07:12:14 -0700
+X-IronPort-AV: E=Sophos;i="5.90,227,1643702400"; d="scan'208";a="586864901"
 Received: from ewanhaye-mobl.ger.corp.intel.com (HELO tursulin-mobl2.home)
  ([10.213.217.32])
  by orsmga001-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 01 Apr 2022 07:12:10 -0700
+ 01 Apr 2022 07:12:12 -0700
 From: Tvrtko Ursulin <tvrtko.ursulin@linux.intel.com>
 To: igt-dev@lists.freedesktop.org
-Subject: [PATCH i-g-t 2/3] tests/i915/drm_fdinfo: Basic and functional tests
- for GPU busyness exported via fdinfo
-Date: Fri,  1 Apr 2022 15:11:54 +0100
-Message-Id: <20220401141155.3122817-3-tvrtko.ursulin@linux.intel.com>
+Subject: [PATCH i-g-t 3/3] intel-gpu-top: Add support for per client stats
+Date: Fri,  1 Apr 2022 15:11:55 +0100
+Message-Id: <20220401141155.3122817-4-tvrtko.ursulin@linux.intel.com>
 X-Mailer: git-send-email 2.32.0
 In-Reply-To: <20220401141155.3122817-1-tvrtko.ursulin@linux.intel.com>
 References: <20220401141155.3122817-1-tvrtko.ursulin@linux.intel.com>
@@ -66,602 +65,980 @@ Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 From: Tvrtko Ursulin <tvrtko.ursulin@intel.com>
 
-Mostly inherited from the perf_pmu, some basic tests, and some tests to
-verify exported GPU busyness is as expected.
+Use the i915 exported data in /proc/<pid>/fdinfo to show GPU utilization
+per DRM client.
+
+Example of the output:
+
+intel-gpu-top: Intel Tigerlake (Gen12) @ /dev/dri/card0 -  220/ 221 MHz
+    70% RC6;  0.62/ 7.08 W;      760 irqs/s
+
+         ENGINES     BUSY                                 MI_SEMA MI_WAIT
+       Render/3D   23.06% |██████▊                      |      0%      0%
+         Blitter    0.00% |                             |      0%      0%
+           Video    5.40% |█▋                           |      0%      0%
+    VideoEnhance   20.67% |██████                       |      0%      0%
+
+   PID              NAME  Render/3D    Blitter      Video    VideoEnhance
+  3082               mpv |          ||          ||▌         ||██        |
+  3117         neverball |█▉        ||          ||          ||          |
+     1           systemd |▍         ||          ||          ||          |
+  2338       gnome-shell |          ||          ||          ||          |
 
 v2:
- * Skip when kernel does not export drm keys in fdinfo.
+ * Removed hardcoded array size from client add/update by passing in
+   drm_fd_info directly.
+ * Added some asserts and simplified a couple expressions. (Umesh)
 
 Signed-off-by: Tvrtko Ursulin <tvrtko.ursulin@intel.com>
 Reviewed-by: Umesh Nerlige Ramappa <umesh.nerlige.ramappa@intel.com>
 ---
- tests/i915/drm_fdinfo.c | 557 ++++++++++++++++++++++++++++++++++++++++
- tests/meson.build       |   8 +
- 2 files changed, 565 insertions(+)
- create mode 100644 tests/i915/drm_fdinfo.c
+ man/intel_gpu_top.rst |   4 +
+ tools/intel_gpu_top.c | 806 +++++++++++++++++++++++++++++++++++++++++-
+ tools/meson.build     |   2 +-
+ 3 files changed, 809 insertions(+), 3 deletions(-)
 
-diff --git a/tests/i915/drm_fdinfo.c b/tests/i915/drm_fdinfo.c
-new file mode 100644
-index 000000000000..3475d35b23b9
---- /dev/null
-+++ b/tests/i915/drm_fdinfo.c
-@@ -0,0 +1,557 @@
-+/*
-+ * Copyright © 2022 Intel Corporation
-+ *
-+ * Permission is hereby granted, free of charge, to any person obtaining a
-+ * copy of this software and associated documentation files (the "Software"),
-+ * to deal in the Software without restriction, including without limitation
-+ * the rights to use, copy, modify, merge, publish, distribute, sublicense,
-+ * and/or sell copies of the Software, and to permit persons to whom the
-+ * Software is furnished to do so, subject to the following conditions:
-+ *
-+ * The above copyright notice and this permission notice (including the next
-+ * paragraph) shall be included in all copies or substantial portions of the
-+ * Software.
-+ *
-+ * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
-+ * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
-+ * FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT.  IN NO EVENT SHALL
-+ * THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
-+ * LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING
-+ * FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS
-+ * IN THE SOFTWARE.
-+ *
-+ */
-+
-+#include "igt.h"
-+#include "igt_core.h"
-+#include "igt_device.h"
+diff --git a/man/intel_gpu_top.rst b/man/intel_gpu_top.rst
+index b3b765b05feb..f4dbfc5b44d9 100644
+--- a/man/intel_gpu_top.rst
++++ b/man/intel_gpu_top.rst
+@@ -56,6 +56,10 @@ Supported keys:
+     'q'    Exit from the tool.
+     'h'    Show interactive help.
+     '1'    Toggle between aggregated engine class and physical engine mode.
++    'n'    Toggle display of numeric client busyness overlay.
++    's'    Toggle between sort modes (runtime, total runtime, pid, client id).
++    'i'    Toggle display of clients which used no GPU time.
++    'H'    Toggle between per PID aggregation and individual clients.
+ 
+ DEVICE SELECTION
+ ================
+diff --git a/tools/intel_gpu_top.c b/tools/intel_gpu_top.c
+index bc11fce2bb1e..1984c10dca29 100644
+--- a/tools/intel_gpu_top.c
++++ b/tools/intel_gpu_top.c
+@@ -43,8 +43,10 @@
+ #include <sys/types.h>
+ #include <unistd.h>
+ #include <termios.h>
++#include <sys/sysmacros.h>
+ 
+ #include "igt_perf.h"
 +#include "igt_drm_fdinfo.h"
-+#include "i915/gem.h"
-+#include "intel_ctx.h"
+ 
+ #define ARRAY_SIZE(arr) (sizeof(arr)/sizeof(arr[0]))
+ 
+@@ -311,7 +313,8 @@ static int engine_cmp(const void *__a, const void *__b)
+ 		return a->instance - b->instance;
+ }
+ 
+-#define is_igpu_pci(x) (strcmp(x, "0000:00:02.0") == 0)
++#define IGPU_PCI "0000:00:02.0"
++#define is_igpu_pci(x) (strcmp(x, IGPU_PCI) == 0)
+ #define is_igpu(x) (strcmp(x, "i915") == 0)
+ 
+ static struct engines *discover_engines(char *device)
+@@ -635,6 +638,552 @@ static void pmu_sample(struct engines *engines)
+ 	}
+ }
+ 
++enum client_status {
++	FREE = 0, /* mbz */
++	ALIVE,
++	PROBE
++};
 +
-+IGT_TEST_DESCRIPTION("Test the i915 drm fdinfo data");
++struct clients;
 +
-+const double tolerance = 0.05f;
-+const unsigned long batch_duration_ns = 500e6;
++struct client {
++	struct clients *clients;
 +
-+#define __assert_within_epsilon(x, ref, tol_up, tol_down) \
-+	igt_assert_f((double)(x) <= (1.0 + (tol_up)) * (double)(ref) && \
-+		     (double)(x) >= (1.0 - (tol_down)) * (double)(ref), \
-+		     "'%s' != '%s' (%f not within +%.1f%%/-%.1f%% tolerance of %f)\n",\
-+		     #x, #ref, (double)(x), \
-+		     (tol_up) * 100.0, (tol_down) * 100.0, \
-+		     (double)(ref))
++	enum client_status status;
++	unsigned int id;
++	unsigned int pid;
++	char name[24];
++	char print_name[24];
++	unsigned int samples;
++	unsigned long total_runtime;
++	unsigned long last_runtime;
++	unsigned long *val;
++	uint64_t *last;
++};
 +
-+#define assert_within_epsilon(x, ref, tolerance) \
-+	__assert_within_epsilon(x, ref, tolerance, tolerance)
++struct clients {
++	unsigned int num_clients;
++	unsigned int active_clients;
 +
-+static void basics(int i915, unsigned int num_classes)
++	unsigned int num_classes;
++	struct engine_class *class;
++
++	char pci_slot[64];
++
++	struct client *client;
++};
++
++#define for_each_client(clients, c, tmp) \
++	for ((tmp) = (clients)->num_clients, c = (clients)->client; \
++	     (tmp > 0); (tmp)--, (c)++)
++
++static struct clients *init_clients(const char *pci_slot)
 +{
-+	struct drm_client_fdinfo info = { };
-+	unsigned int ret;
++	struct clients *clients;
 +
-+	ret = igt_parse_drm_fdinfo(i915, &info);
-+	igt_assert(ret);
++	clients = malloc(sizeof(*clients));
++	if (!clients)
++		return NULL;
 +
-+	igt_assert(!strcmp(info.driver, "i915"));
++	memset(clients, 0, sizeof(*clients));
 +
-+	igt_assert_eq(info.num_engines, num_classes);
++	strncpy(clients->pci_slot, pci_slot, sizeof(clients->pci_slot));
++
++	return clients;
 +}
 +
-+/*
-+ * Helper for cases where we assert on time spent sleeping (directly or
-+ * indirectly), so make it more robust by ensuring the system sleep time
-+ * is within test tolerance to start with.
-+ */
-+static unsigned int measured_usleep(unsigned int usec)
++static struct client *
++find_client(struct clients *clients, enum client_status status, unsigned int id)
 +{
-+	struct timespec ts = { };
-+	unsigned int slept;
++	unsigned int start, num;
++	struct client *c;
 +
-+	slept = igt_nsec_elapsed(&ts);
-+	igt_assert(slept == 0);
-+	do {
-+		usleep(usec - slept);
-+		slept = igt_nsec_elapsed(&ts) / 1000;
-+	} while (slept < usec);
++	start = status == FREE ? clients->active_clients : 0; /* Free block at the end. */
++	num = clients->num_clients - start;
 +
-+	return igt_nsec_elapsed(&ts);
-+}
-+
-+#define TEST_BUSY (1)
-+#define FLAG_SYNC (2)
-+#define TEST_TRAILING_IDLE (4)
-+#define FLAG_HANG (8)
-+#define TEST_ISOLATION (16)
-+
-+static igt_spin_t *__spin_poll(int fd, uint64_t ahnd, const intel_ctx_t *ctx,
-+			       const struct intel_execution_engine2 *e)
-+{
-+	struct igt_spin_factory opts = {
-+		.ahnd = ahnd,
-+		.ctx = ctx,
-+		.engine = e->flags,
-+	};
-+
-+	if (gem_class_can_store_dword(fd, e->class))
-+		opts.flags |= IGT_SPIN_POLL_RUN;
-+
-+	return __igt_spin_factory(fd, &opts);
-+}
-+
-+static unsigned long __spin_wait(int fd, igt_spin_t *spin)
-+{
-+	struct timespec start = { };
-+
-+	igt_nsec_elapsed(&start);
-+
-+	if (igt_spin_has_poll(spin)) {
-+		unsigned long timeout = 0;
-+
-+		while (!igt_spin_has_started(spin)) {
-+			unsigned long t = igt_nsec_elapsed(&start);
-+
-+			igt_assert(gem_bo_busy(fd, spin->handle));
-+			if ((t - timeout) > 250e6) {
-+				timeout = t;
-+				igt_warn("Spinner not running after %.2fms\n",
-+					 (double)t / 1e6);
-+				igt_assert(t < 2e9);
-+			}
-+		}
-+	} else {
-+		igt_debug("__spin_wait - usleep mode\n");
-+		usleep(500e3); /* Better than nothing! */
-+	}
-+
-+	igt_assert(gem_bo_busy(fd, spin->handle));
-+	return igt_nsec_elapsed(&start);
-+}
-+
-+static igt_spin_t *__spin_sync(int fd, uint64_t ahnd, const intel_ctx_t *ctx,
-+			       const struct intel_execution_engine2 *e)
-+{
-+	igt_spin_t *spin = __spin_poll(fd, ahnd, ctx, e);
-+
-+	__spin_wait(fd, spin);
-+
-+	return spin;
-+}
-+
-+static igt_spin_t *spin_sync(int fd, uint64_t ahnd, const intel_ctx_t *ctx,
-+			     const struct intel_execution_engine2 *e)
-+{
-+	igt_require_gem(fd);
-+
-+	return __spin_sync(fd, ahnd, ctx, e);
-+}
-+
-+static void end_spin(int fd, igt_spin_t *spin, unsigned int flags)
-+{
-+	if (!spin)
-+		return;
-+
-+	igt_spin_end(spin);
-+
-+	if (flags & FLAG_SYNC)
-+		gem_sync(fd, spin->handle);
-+
-+	if (flags & TEST_TRAILING_IDLE) {
-+		unsigned long t, timeout = 0;
-+		struct timespec start = { };
-+
-+		igt_nsec_elapsed(&start);
-+
-+		do {
-+			t = igt_nsec_elapsed(&start);
-+
-+			if (gem_bo_busy(fd, spin->handle) &&
-+			    (t - timeout) > 10e6) {
-+				timeout = t;
-+				igt_warn("Spinner not idle after %.2fms\n",
-+					 (double)t / 1e6);
-+			}
-+
-+			usleep(1e3);
-+		} while (t < batch_duration_ns / 5);
-+	}
-+}
-+
-+static uint64_t read_busy(int i915, unsigned int class)
-+{
-+	struct drm_client_fdinfo info = { };
-+
-+	igt_assert(igt_parse_drm_fdinfo(i915, &info));
-+
-+	return info.busy[class];
-+}
-+
-+static void
-+single(int gem_fd, const intel_ctx_t *ctx,
-+       const struct intel_execution_engine2 *e, unsigned int flags)
-+{
-+	unsigned long slept;
-+	igt_spin_t *spin;
-+	uint64_t val;
-+	int spin_fd;
-+	uint64_t ahnd;
-+
-+	if (flags & TEST_ISOLATION) {
-+		spin_fd = gem_reopen_driver(gem_fd);
-+		ctx = intel_ctx_create_all_physical(spin_fd);
-+	} else {
-+		spin_fd = gem_fd;
-+	}
-+
-+	ahnd = get_reloc_ahnd(spin_fd, ctx->id);
-+
-+	if (flags & TEST_BUSY)
-+		spin = spin_sync(spin_fd, ahnd, ctx, e);
-+	else
-+		spin = NULL;
-+
-+	val = read_busy(gem_fd, e->class);
-+	slept = measured_usleep(batch_duration_ns / 1000);
-+	if (flags & TEST_TRAILING_IDLE)
-+		end_spin(spin_fd, spin, flags);
-+	val = read_busy(gem_fd, e->class) - val;
-+
-+	if (flags & FLAG_HANG)
-+		igt_force_gpu_reset(spin_fd);
-+	else
-+		end_spin(spin_fd, spin, FLAG_SYNC);
-+
-+	assert_within_epsilon(val,
-+			      (flags & TEST_BUSY) && !(flags & TEST_ISOLATION) ?
-+			      slept : 0.0f,
-+			      tolerance);
-+
-+	/* Check for idle after hang. */
-+	if (flags & FLAG_HANG) {
-+		gem_quiescent_gpu(spin_fd);
-+		igt_assert(!gem_bo_busy(spin_fd, spin->handle));
-+
-+		val = read_busy(gem_fd, e->class);
-+		slept = measured_usleep(batch_duration_ns / 1000);
-+		val = read_busy(gem_fd, e->class) - val;
-+
-+		assert_within_epsilon(val, 0, tolerance);
-+	}
-+
-+	igt_spin_free(spin_fd, spin);
-+	put_ahnd(ahnd);
-+
-+	gem_quiescent_gpu(spin_fd);
-+}
-+
-+static void log_busy(unsigned int num_engines, uint64_t *val)
-+{
-+	char buf[1024];
-+	int rem = sizeof(buf);
-+	unsigned int i;
-+	char *p = buf;
-+
-+	for (i = 0; i < num_engines; i++) {
-+		int len;
-+
-+		len = snprintf(p, rem, "%u=%" PRIu64 "\n",  i, val[i]);
-+		igt_assert(len > 0);
-+		rem -= len;
-+		p += len;
-+	}
-+
-+	igt_info("%s", buf);
-+}
-+
-+static void read_busy_all(int i915, uint64_t *val)
-+{
-+	struct drm_client_fdinfo info = { };
-+
-+	igt_assert(igt_parse_drm_fdinfo(i915, &info));
-+
-+	memcpy(val, info.busy, sizeof(info.busy));
-+}
-+
-+static void
-+busy_check_all(int gem_fd, const intel_ctx_t *ctx,
-+	       const struct intel_execution_engine2 *e,
-+	       const unsigned int num_engines,
-+	       const unsigned int classes[16], const unsigned int num_classes,
-+	       unsigned int flags)
-+{
-+	uint64_t ahnd = get_reloc_ahnd(gem_fd, ctx->id);
-+	uint64_t tval[2][16];
-+	unsigned long slept;
-+	uint64_t val[16];
-+	igt_spin_t *spin;
-+	unsigned int i;
-+
-+	memset(tval, 0, sizeof(tval));
-+
-+	spin = spin_sync(gem_fd, ahnd, ctx, e);
-+
-+	read_busy_all(gem_fd, tval[0]);
-+	slept = measured_usleep(batch_duration_ns / 1000);
-+	if (flags & TEST_TRAILING_IDLE)
-+		end_spin(gem_fd, spin, flags);
-+	read_busy_all(gem_fd, tval[1]);
-+
-+	end_spin(gem_fd, spin, FLAG_SYNC);
-+	igt_spin_free(gem_fd, spin);
-+	put_ahnd(ahnd);
-+
-+	for (i = 0; i < num_classes; i++)
-+		val[i] = tval[1][i] - tval[0][i];
-+
-+	log_busy(num_classes, val);
-+
-+	for (i = 0; i < num_classes; i++) {
-+		double target = i == e->class ? slept : 0.0f;
-+
-+		assert_within_epsilon(val[i], target, tolerance);
-+	}
-+
-+	gem_quiescent_gpu(gem_fd);
-+}
-+
-+static void
-+__submit_spin(int gem_fd, igt_spin_t *spin,
-+	      const struct intel_execution_engine2 *e,
-+	      int offset)
-+{
-+	struct drm_i915_gem_execbuffer2 eb = spin->execbuf;
-+
-+	eb.flags &= ~(0x3f | I915_EXEC_BSD_MASK);
-+	eb.flags |= e->flags | I915_EXEC_NO_RELOC;
-+	eb.batch_start_offset += offset;
-+
-+	gem_execbuf(gem_fd, &eb);
-+}
-+
-+static void
-+most_busy_check_all(int gem_fd, const intel_ctx_t *ctx,
-+		    const struct intel_execution_engine2 *e,
-+		    const unsigned int num_engines,
-+		    const unsigned int classes[16],
-+		    const unsigned int num_classes,
-+		    unsigned int flags)
-+{
-+	uint64_t ahnd = get_reloc_ahnd(gem_fd, ctx->id);
-+	unsigned int busy_class[num_classes];
-+	struct intel_execution_engine2 *e_;
-+	igt_spin_t *spin = NULL;
-+	uint64_t tval[2][16];
-+	unsigned long slept;
-+	uint64_t val[16];
-+	unsigned int i;
-+
-+	memset(busy_class, 0, sizeof(busy_class));
-+	memset(tval, 0, sizeof(tval));
-+
-+	for_each_ctx_engine(gem_fd, ctx, e_) {
-+		if (e->class == e_->class && e->instance == e_->instance) {
++	for (c = &clients->client[start]; num; c++, num--) {
++		if (status != c->status)
 +			continue;
-+		} else if (spin) {
-+			__submit_spin(gem_fd, spin, e_, 64);
-+			busy_class[e_->class]++;
-+		} else {
-+			spin = __spin_poll(gem_fd, ahnd, ctx, e_);
-+			busy_class[e_->class]++;
-+		}
++
++		if (status == FREE || c->id == id)
++			return c;
 +	}
-+	igt_require(spin); /* at least one busy engine */
 +
-+	/* Small delay to allow engines to start. */
-+	usleep(__spin_wait(gem_fd, spin) * num_engines / 1e3);
-+
-+	read_busy_all(gem_fd, tval[0]);
-+	slept = measured_usleep(batch_duration_ns / 1000);
-+	if (flags & TEST_TRAILING_IDLE)
-+		end_spin(gem_fd, spin, flags);
-+	read_busy_all(gem_fd, tval[1]);
-+
-+	end_spin(gem_fd, spin, FLAG_SYNC);
-+	igt_spin_free(gem_fd, spin);
-+	put_ahnd(ahnd);
-+
-+	for (i = 0; i < num_classes; i++)
-+		val[i] = tval[1][i] - tval[0][i];
-+
-+	log_busy(num_classes, val);
-+
-+	for (i = 0; i < num_classes; i++) {
-+		double target = slept * busy_class[i];
-+
-+		assert_within_epsilon(val[i], target, tolerance);
-+	}
-+	gem_quiescent_gpu(gem_fd);
++	return NULL;
 +}
 +
 +static void
-+all_busy_check_all(int gem_fd, const intel_ctx_t *ctx,
-+		   const unsigned int num_engines,
-+		   const unsigned int classes[16],
-+		   const unsigned int num_classes,
-+		   unsigned int flags)
++update_client(struct client *c, unsigned int pid, char *name,
++	      const struct drm_client_fdinfo *info)
 +{
-+	uint64_t ahnd = get_reloc_ahnd(gem_fd, ctx->id);
-+	unsigned int busy_class[num_classes];
-+	struct intel_execution_engine2 *e;
-+	igt_spin_t *spin = NULL;
-+	uint64_t tval[2][16];
-+	unsigned long slept;
-+	uint64_t val[16];
 +	unsigned int i;
 +
-+	memset(busy_class, 0, sizeof(busy_class));
-+	memset(tval, 0, sizeof(tval));
++	if (c->pid != pid)
++		c->pid = pid;
 +
-+	for_each_ctx_engine(gem_fd, ctx, e) {
-+		if (spin)
-+			__submit_spin(gem_fd, spin, e, 64);
-+		else
-+			spin = __spin_poll(gem_fd, ahnd, ctx, e);
-+		busy_class[e->class]++;
++	if (strcmp(c->name, name)) {
++		char *p;
++
++		strncpy(c->name, name, sizeof(c->name) - 1);
++		strncpy(c->print_name, name, sizeof(c->print_name) - 1);
++
++		p = c->print_name;
++		while (*p) {
++			if (!isprint(*p))
++				*p = '*';
++			p++;
++		}
 +	}
 +
-+	/* Small delay to allow engines to start. */
-+	usleep(__spin_wait(gem_fd, spin) * num_engines / 1e3);
++	c->last_runtime = 0;
++	c->total_runtime = 0;
 +
-+	read_busy_all(gem_fd, tval[0]);
-+	slept = measured_usleep(batch_duration_ns / 1000);
-+	if (flags & TEST_TRAILING_IDLE)
-+		end_spin(gem_fd, spin, flags);
-+	read_busy_all(gem_fd, tval[1]);
++	for (i = 0; i < c->clients->num_classes; i++) {
++		assert(i < ARRAY_SIZE(info->busy));
 +
-+	end_spin(gem_fd, spin, FLAG_SYNC);
-+	igt_spin_free(gem_fd, spin);
-+	put_ahnd(ahnd);
++		if (info->busy[i] < c->last[i])
++			continue; /* It will catch up soon. */
 +
-+	for (i = 0; i < num_classes; i++)
-+		val[i] = tval[1][i] - tval[0][i];
-+
-+	log_busy(num_classes, val);
-+
-+	for (i = 0; i < num_classes; i++) {
-+		double target = slept * busy_class[i];
-+
-+		assert_within_epsilon(val[i], target, tolerance);
++		c->total_runtime += info->busy[i];
++		c->val[i] = info->busy[i] - c->last[i];
++		c->last_runtime += c->val[i];
++		c->last[i] = info->busy[i];
 +	}
-+	gem_quiescent_gpu(gem_fd);
++
++	c->samples++;
++	c->status = ALIVE;
 +}
 +
-+#define test_each_engine(T, i915, ctx, e) \
-+	igt_subtest_with_dynamic(T) for_each_ctx_engine(i915, ctx, e) \
-+		igt_dynamic_f("%s", e->name)
-+
-+igt_main
++static void
++add_client(struct clients *clients, const struct drm_client_fdinfo *info,
++	   unsigned int pid, char *name)
 +{
-+	unsigned int num_engines = 0, num_classes = 0;
-+	const struct intel_execution_engine2 *e;
-+	unsigned int classes[16] = { };
-+	const intel_ctx_t *ctx = NULL;
-+	int i915 = -1;
++	struct client *c;
 +
-+	igt_fixture {
-+		struct drm_client_fdinfo info = { };
++	assert(!find_client(clients, ALIVE, info->id));
++
++	c = find_client(clients, FREE, 0);
++	if (!c) {
++		unsigned int idx = clients->num_clients;
++
++		clients->num_clients += (clients->num_clients + 2) / 2;
++		clients->client = realloc(clients->client,
++					  clients->num_clients * sizeof(*c));
++		assert(clients->client);
++
++		c = &clients->client[idx];
++		memset(c, 0, (clients->num_clients - idx) * sizeof(*c));
++	}
++
++	c->id = info->id;
++	c->clients = clients;
++	c->val = calloc(clients->num_classes, sizeof(c->val));
++	c->last = calloc(clients->num_classes, sizeof(c->last));
++	assert(c->val && c->last);
++
++	update_client(c, pid, name, info);
++}
++
++static void free_client(struct client *c)
++{
++	free(c->val);
++	free(c->last);
++	memset(c, 0, sizeof(*c));
++}
++
++static int client_last_cmp(const void *_a, const void *_b)
++{
++	const struct client *a = _a;
++	const struct client *b = _b;
++	long tot_a, tot_b;
++
++	/*
++	 * Sort clients in descending order of runtime in the previous sampling
++	 * period for active ones, followed by inactive. Tie-breaker is client
++	 * id.
++	 */
++
++	tot_a = a->status == ALIVE ? a->last_runtime : -1;
++	tot_b = b->status == ALIVE ? b->last_runtime : -1;
++
++	tot_b -= tot_a;
++	if (tot_b > 0)
++		return 1;
++	if (tot_b < 0)
++		return -1;
++
++	return (int)b->id - a->id;
++}
++
++static int client_total_cmp(const void *_a, const void *_b)
++{
++	const struct client *a = _a;
++	const struct client *b = _b;
++	long tot_a, tot_b;
++
++	tot_a = a->status == ALIVE ? a->total_runtime : -1;
++	tot_b = b->status == ALIVE ? b->total_runtime : -1;
++
++	tot_b -= tot_a;
++	if (tot_b > 0)
++		return 1;
++	if (tot_b < 0)
++		return -1;
++
++	return (int)b->id - a->id;
++}
++
++static int client_id_cmp(const void *_a, const void *_b)
++{
++	const struct client *a = _a;
++	const struct client *b = _b;
++	int id_a, id_b;
++
++	id_a = a->status == ALIVE ? a->id : -1;
++	id_b = b->status == ALIVE ? b->id : -1;
++
++	id_b -= id_a;
++	if (id_b > 0)
++		return 1;
++	if (id_b < 0)
++		return -1;
++
++	return (int)b->id - a->id;
++}
++
++static int client_pid_cmp(const void *_a, const void *_b)
++{
++	const struct client *a = _a;
++	const struct client *b = _b;
++	int pid_a, pid_b;
++
++	pid_a = a->status == ALIVE ? a->pid : INT_MAX;
++	pid_b = b->status == ALIVE ? b->pid : INT_MAX;
++
++	pid_b -= pid_a;
++	if (pid_b > 0)
++		return -1;
++	if (pid_b < 0)
++		return 1;
++
++	return (int)a->id - b->id;
++}
++
++static int (*client_cmp)(const void *, const void *) = client_last_cmp;
++
++static struct clients *sort_clients(struct clients *clients,
++				    int (*cmp)(const void *, const void *))
++{
++	unsigned int active, free;
++	struct client *c;
++	int tmp;
++
++	if (!clients)
++		return clients;
++
++	qsort(clients->client, clients->num_clients, sizeof(*clients->client),
++	      cmp);
++
++	/* Trim excessive array space. */
++	active = 0;
++	for_each_client(clients, c, tmp) {
++		if (c->status != ALIVE)
++			break; /* Active clients are first in the array. */
++		active++;
++	}
++
++	clients->active_clients = active;
++
++	free = clients->num_clients - active;
++	if (free > clients->num_clients / 2) {
++		active = clients->num_clients - free / 2;
++		if (active != clients->num_clients) {
++			clients->num_clients = active;
++			clients->client = realloc(clients->client,
++						  clients->num_clients *
++						  sizeof(*c));
++		}
++	}
++
++	return clients;
++}
++
++static bool aggregate_pids = true;
++
++static struct clients *display_clients(struct clients *clients)
++{
++	struct client *ac, *c, *cp = NULL;
++	struct clients *aggregated;
++	int tmp, num = 0;
++
++	if (!aggregate_pids)
++		goto out;
++
++	/* Sort by pid first to make it easy to aggregate while walking. */
++	sort_clients(clients, client_pid_cmp);
++
++	aggregated = calloc(1, sizeof(*clients));
++	assert(aggregated);
++
++	ac = calloc(clients->num_clients, sizeof(*c));
++	assert(ac);
++
++	aggregated->num_classes = clients->num_classes;
++	aggregated->class = clients->class;
++	aggregated->client = ac;
++
++	for_each_client(clients, c, tmp) {
 +		unsigned int i;
 +
-+		i915 = __drm_open_driver(DRIVER_INTEL);
++		if (c->status == FREE)
++			break;
 +
-+		igt_require_gem(i915);
-+		igt_require(igt_parse_drm_fdinfo(i915, &info));
++		assert(c->status == ALIVE);
 +
-+		ctx = intel_ctx_create_all_physical(i915);
++		if (!cp || c->pid != cp->pid) {
++			ac = &aggregated->client[num++];
 +
-+		for_each_ctx_engine(i915, ctx, e) {
-+			num_engines++;
-+			igt_assert(e->class < ARRAY_SIZE(classes));
-+			classes[e->class]++;
++			/* New pid. */
++			ac->clients = aggregated;
++			ac->status = ALIVE;
++			ac->id = -c->pid;
++			ac->pid = c->pid;
++			strcpy(ac->name, c->name);
++			strcpy(ac->print_name, c->print_name);
++			ac->val = calloc(clients->num_classes,
++					 sizeof(ac->val[0]));
++			assert(ac->val);
++			ac->samples = 1;
 +		}
-+		igt_require(num_engines);
 +
-+		for (i = 0; i < ARRAY_SIZE(classes); i++) {
-+			if (classes[i])
-+				num_classes++;
-+		}
-+		igt_assert(num_classes);
++		cp = c;
++
++		if (c->samples < 2)
++			continue;
++
++		ac->samples = 2; /* All what matters for display. */
++		ac->total_runtime += c->total_runtime;
++		ac->last_runtime += c->last_runtime;
++
++		for (i = 0; i < clients->num_classes; i++)
++			ac->val[i] += c->val[i];
 +	}
 +
-+	/**
-+	 * Test basic fdinfo content.
-+	 */
-+	igt_subtest("basics")
-+		basics(i915, num_classes);
++	aggregated->num_clients = num;
++	aggregated->active_clients = num;
 +
-+	/**
-+	 * Test that engines show no load when idle.
-+	 */
-+	test_each_engine("idle", i915, ctx, e)
-+		single(i915, ctx, e, 0);
++	clients = aggregated;
 +
-+	/**
-+	 * Test that a single engine reports load correctly.
-+	 */
-+	test_each_engine("busy", i915, ctx, e)
-+		single(i915, ctx, e, TEST_BUSY);
-+
-+	test_each_engine("busy-idle", i915, ctx, e)
-+		single(i915, ctx, e, TEST_BUSY | TEST_TRAILING_IDLE);
-+
-+	test_each_engine("busy-hang", i915, ctx, e) {
-+		igt_hang_t hang = igt_allow_hang(i915, ctx->id, 0);
-+
-+		single(i915, ctx, e, TEST_BUSY | FLAG_HANG);
-+
-+		igt_disallow_hang(i915, hang);
-+	}
-+
-+	/**
-+	 * Test that when one engine is loaded other report no
-+	 * load.
-+	 */
-+	test_each_engine("busy-check-all", i915, ctx, e)
-+		busy_check_all(i915, ctx, e, num_engines, classes, num_classes,
-+			       TEST_BUSY);
-+
-+	test_each_engine("busy-idle-check-all", i915, ctx, e)
-+		busy_check_all(i915, ctx, e, num_engines, classes, num_classes,
-+			       TEST_BUSY | TEST_TRAILING_IDLE);
-+
-+	/**
-+	 * Test that when all except one engine are loaded all
-+	 * loads are correctly reported.
-+	 */
-+	test_each_engine("most-busy-check-all", i915, ctx, e)
-+		most_busy_check_all(i915, ctx, e, num_engines,
-+				    classes, num_classes,
-+				    TEST_BUSY);
-+
-+	test_each_engine("most-busy-idle-check-all", i915, ctx, e)
-+		most_busy_check_all(i915, ctx, e, num_engines,
-+				    classes, num_classes,
-+				    TEST_BUSY | TEST_TRAILING_IDLE);
-+
-+	/**
-+	 * Test that when all engines are loaded all loads are
-+	 * correctly reported.
-+	 */
-+	igt_subtest("all-busy-check-all")
-+		all_busy_check_all(i915, ctx, num_engines, classes, num_classes,
-+				   TEST_BUSY);
-+
-+	igt_subtest("all-busy-idle-check-all")
-+		all_busy_check_all(i915, ctx, num_engines, classes, num_classes,
-+				   TEST_BUSY | TEST_TRAILING_IDLE);
-+
-+	/**
-+	 * Test for no cross-client contamination.
-+	 */
-+	test_each_engine("isolation", i915, ctx, e)
-+		single(i915, ctx, e, TEST_BUSY | TEST_ISOLATION);
-+
-+	igt_fixture {
-+		intel_ctx_destroy(i915, ctx);
-+		close(i915);
-+	}
++out:
++	return sort_clients(clients, client_cmp);
 +}
-diff --git a/tests/meson.build b/tests/meson.build
-index a152d2a05291..b0eab3d6c8e3 100644
---- a/tests/meson.build
-+++ b/tests/meson.build
-@@ -293,6 +293,14 @@ foreach prog : i915_progs
- 	test_list += prog
- endforeach
- 
-+test_executables += executable('drm_fdinfo',
-+	   join_paths('i915', 'drm_fdinfo.c'),
-+	   dependencies : test_deps + [ lib_igt_drm_fdinfo ],
-+	   install_dir : libexecdir,
-+	   install_rpath : libexecdir_rpathdir,
-+	   install : true)
-+test_list += 'drm_fdinfo'
 +
- test_executables += executable('dumb_buffer', 'dumb_buffer.c',
- 	   dependencies : test_deps + [ libatomic ],
- 	   install_dir : libexecdir,
++static void free_clients(struct clients *clients)
++{
++	struct client *c;
++	unsigned int tmp;
++
++	for_each_client(clients, c, tmp) {
++		free(c->val);
++		free(c->last);
++	}
++
++	free(clients->client);
++	free(clients);
++}
++
++static bool is_drm_fd(DIR *fd_dir, const char *name)
++{
++	struct stat stat;
++	int ret;
++
++	ret = fstatat(dirfd(fd_dir), name, &stat, 0);
++
++	return ret == 0 &&
++	       (stat.st_mode & S_IFMT) == S_IFCHR &&
++	       major(stat.st_rdev) == 226;
++}
++
++static bool get_task_name(const char *buffer, char *out, unsigned long sz)
++{
++	char *s = index(buffer, '(');
++	char *e = rindex(buffer, ')');
++	unsigned int len;
++
++	if (!s || !e)
++		return false;
++	assert(e >= s);
++
++	len = e - ++s;
++	if(!len || (len + 1) >= sz)
++		return false;
++
++	strncpy(out, s, len);
++	out[len] = 0;
++
++	return true;
++}
++
++static DIR *opendirat(DIR *at, const char *name)
++{
++	DIR *dir;
++	int fd;
++
++	fd = openat(dirfd(at), name, O_DIRECTORY);
++	if (fd < 0)
++		return NULL;
++
++	dir = fdopendir(fd);
++	if (!dir)
++		close(fd);
++
++	return dir;
++}
++
++static FILE *fropenat(DIR *at, const char *name)
++{
++	FILE *f;
++	int fd;
++
++	fd = openat(dirfd(at), name, O_RDONLY);
++	if (fd < 0)
++		return NULL;
++
++	f = fdopen(fd, "r");
++	if (!f)
++		close(fd);
++
++	return f;
++}
++
++static size_t freadat2buf(char *buf, const size_t sz, DIR *at, const char *name)
++{
++	size_t count;
++	FILE *f;
++
++	f = fropenat(at, name);
++	if (!f)
++		return 0;
++
++	buf[sz - 1] = 0;
++	count = fread(buf, 1, sz, f);
++	buf[count - 1] = 0;
++	fclose(f);
++
++	return count;
++}
++
++static struct clients *scan_clients(struct clients *clients)
++{
++	struct dirent *proc_dent;
++	struct client *c;
++	DIR *proc_dir;
++	int tmp;
++
++	if (!clients)
++		return clients;
++
++	for_each_client(clients, c, tmp) {
++		assert(c->status != PROBE);
++		if (c->status == ALIVE)
++			c->status = PROBE;
++		else
++			break; /* Free block at the end of array. */
++	}
++
++	proc_dir = opendir("/proc");
++	if (!proc_dir)
++		return clients;
++
++	while ((proc_dent = readdir(proc_dir)) != NULL) {
++		DIR *pid_dir = NULL, *fd_dir = NULL, *fdinfo_dir = NULL;
++		struct dirent *fdinfo_dent;
++		char client_name[64] = { };
++		unsigned int client_pid;
++		char buf[4096];
++		size_t count;
++
++		if (proc_dent->d_type != DT_DIR)
++			continue;
++		if (!isdigit(proc_dent->d_name[0]))
++			continue;
++
++		pid_dir = opendirat(proc_dir, proc_dent->d_name);
++		if (!pid_dir)
++			continue;
++
++		count = freadat2buf(buf, sizeof(buf), pid_dir, "stat");
++		if (!count)
++			goto next;
++
++		client_pid = atoi(buf);
++		if (!client_pid)
++			goto next;
++
++		if (!get_task_name(buf, client_name, sizeof(client_name)))
++			goto next;
++
++		fd_dir = opendirat(pid_dir, "fd");
++		if (!fd_dir)
++			goto next;
++
++		fdinfo_dir = opendirat(pid_dir, "fdinfo");
++		if (!fdinfo_dir)
++			goto next;
++
++		while ((fdinfo_dent = readdir(fdinfo_dir)) != NULL) {
++			struct drm_client_fdinfo info = { };
++
++			if (fdinfo_dent->d_type != DT_REG)
++				continue;
++			if (!isdigit(fdinfo_dent->d_name[0]))
++				continue;
++
++			if (!is_drm_fd(fd_dir, fdinfo_dent->d_name))
++				continue;
++
++			if (!__igt_parse_drm_fdinfo(dirfd(fdinfo_dir),
++						    fdinfo_dent->d_name,
++						    &info))
++				continue;
++
++			if (strcmp(info.driver, "i915"))
++				continue;
++			if (strcmp(info.pdev, clients->pci_slot))
++				continue;
++			if (find_client(clients, ALIVE, info.id))
++				continue; /* Skip duplicate fds. */
++
++			c = find_client(clients, PROBE, info.id);
++			if (!c)
++				add_client(clients, &info, client_pid,
++					   client_name);
++			else
++				update_client(c, client_pid, client_name,
++					      &info);
++		}
++
++next:
++		if (fdinfo_dir)
++			closedir(fdinfo_dir);
++		if (fd_dir)
++			closedir(fd_dir);
++		if (pid_dir)
++			closedir(pid_dir);
++	}
++
++	closedir(proc_dir);
++
++	for_each_client(clients, c, tmp) {
++		if (c->status == PROBE)
++			free_client(c);
++		else if (c->status == FREE)
++			break;
++	}
++
++	return display_clients(clients);
++}
++
+ static const char *bars[] = { " ", "▏", "▎", "▍", "▌", "▋", "▊", "▉", "█" };
+ 
+ static void n_spaces(const unsigned int n)
+@@ -776,6 +1325,18 @@ json_close_struct(void)
+ 		fflush(stdout);
+ }
+ 
++static void
++__json_add_member(const char *key, const char *val)
++{
++	assert(json_indent_level < ARRAY_SIZE(json_indent));
++
++	fprintf(out, "%s%s\"%s\": \"%s\"",
++		json_struct_members ? ",\n" : "",
++		json_indent[json_indent_level], key, val);
++
++	json_struct_members++;
++}
++
+ static unsigned int
+ json_add_member(const struct cnt_group *parent, struct cnt_item *item,
+ 		unsigned int headers)
+@@ -1501,6 +2062,157 @@ print_engines(struct engines *engines, double t, int lines, int w, int h)
+ 	return lines;
+ }
+ 
++static int
++print_clients_header(struct clients *clients, int lines,
++		     int con_w, int con_h, int *class_w)
++{
++	if (output_mode == INTERACTIVE) {
++		const char *pidname = "   PID              NAME ";
++		unsigned int num_active = 0;
++		int len = strlen(pidname);
++
++		if (lines++ >= con_h)
++			return lines;
++
++		printf("\033[7m");
++		printf("%s", pidname);
++
++		if (lines++ >= con_h || len >= con_w)
++			return lines;
++
++		if (clients->num_classes) {
++			unsigned int i;
++			int width;
++
++			for (i = 0; i < clients->num_classes; i++) {
++				if (clients->class[i].num_engines)
++					num_active++;
++			}
++
++			*class_w = width = (con_w - len) / num_active;
++
++			for (i = 0; i < clients->num_classes; i++) {
++				const char *name = clients->class[i].name;
++				int name_len = strlen(name);
++				int pad = (width - name_len) / 2;
++				int spaces = width - pad - name_len;
++
++				if (!clients->class[i].num_engines)
++					continue; /* Assert in the ideal world. */
++
++				if (pad < 0 || spaces < 0)
++					continue;
++
++				n_spaces(pad);
++				printf("%s", name);
++				n_spaces(spaces);
++				len += pad + name_len + spaces;
++			}
++		}
++
++		n_spaces(con_w - len);
++		printf("\033[0m\n");
++	} else {
++		if (clients->num_classes)
++			pops->open_struct("clients");
++	}
++
++	return lines;
++}
++
++static bool numeric_clients;
++static bool filter_idle;
++
++static int
++print_client(struct client *c, struct engines *engines, double t, int lines,
++	     int con_w, int con_h, unsigned int period_us, int *class_w)
++{
++	struct clients *clients = c->clients;
++	unsigned int i;
++
++	if (output_mode == INTERACTIVE) {
++		if (filter_idle && (!c->total_runtime || c->samples < 2))
++			return lines;
++
++		lines++;
++
++		printf("%6u %17s ", c->pid, c->print_name);
++
++		for (i = 0; c->samples > 1 && i < clients->num_classes; i++) {
++			double pct;
++
++			if (!clients->class[i].num_engines)
++				continue; /* Assert in the ideal world. */
++
++			pct = (double)c->val[i] / period_us / 1e3 * 100 /
++			      clients->class[i].num_engines;
++
++			/*
++			 * Guard against possible time-drift between sampling
++			 * client data and time we obtained our time-delta from
++			 * PMU.
++			 */
++			if (pct > 100.0)
++				pct = 100.0;
++
++			print_percentage_bar(pct, *class_w, numeric_clients);
++		}
++
++		putchar('\n');
++	} else if (output_mode == JSON) {
++		char buf[64];
++
++		snprintf(buf, sizeof(buf), "%u", c->id);
++		pops->open_struct(buf);
++
++		__json_add_member("name", c->print_name);
++
++		snprintf(buf, sizeof(buf), "%u", c->pid);
++		__json_add_member("pid", buf);
++
++		if (c->samples > 1) {
++			pops->open_struct("engine-classes");
++
++			for (i = 0; i < clients->num_classes; i++) {
++				double pct;
++
++				snprintf(buf, sizeof(buf), "%s",
++					clients->class[i].name);
++				pops->open_struct(buf);
++
++				pct = (double)c->val[i] / period_us / 1e3 * 100;
++				snprintf(buf, sizeof(buf), "%f", pct);
++				__json_add_member("busy", buf);
++
++				__json_add_member("unit", "%");
++
++				pops->close_struct();
++			}
++
++			pops->close_struct();
++		}
++
++		pops->close_struct();
++	}
++
++	return lines;
++}
++
++static int
++print_clients_footer(struct clients *clients, double t,
++		     int lines, int con_w, int con_h)
++{
++	if (output_mode == INTERACTIVE) {
++		if (lines++ < con_h)
++			printf("\n");
++	} else {
++		if (clients->num_classes)
++			pops->close_struct();
++	}
++
++	return lines;
++}
++
+ static void restore_term(void)
+ {
+ 	tcsetattr(STDIN_FILENO, TCSANOW, &termios_orig);
+@@ -1565,6 +2277,31 @@ static void interactive_stdin(void)
+ 	assert(ret == 0);
+ }
+ 
++static void select_client_sort(void)
++{
++	struct {
++		int (*cmp)(const void *, const void *);
++		const char *msg;
++	} cmp[] = {
++		{ client_last_cmp, "Sorting clients by current GPU usage." },
++		{ client_total_cmp, "Sorting clients by accummulated GPU usage." },
++		{ client_pid_cmp, "Sorting clients by pid." },
++		{ client_id_cmp, "Sorting clients by DRM id." },
++	};
++	static unsigned int client_sort;
++
++bump:
++	if (++client_sort >= ARRAY_SIZE(cmp))
++		client_sort = 0;
++
++	client_cmp = cmp[client_sort].cmp;
++	header_msg = cmp[client_sort].msg;
++
++	/* Sort by client id makes no sense with pid aggregation. */
++	if (aggregate_pids && client_cmp == client_id_cmp)
++		goto bump;
++}
++
+ static bool in_help;
+ 
+ static void process_help_stdin(void)
+@@ -1607,9 +2344,29 @@ static void process_normal_stdin(void)
+ 			else
+ 				header_msg = "Showing physical engines.";
+ 			break;
++		case 'i':
++			filter_idle ^= true;
++			if (filter_idle)
++				header_msg = "Hiding inactive clients.";
++			else
++				header_msg = "Showing inactive clients.";
++			break;
++		case 'n':
++			numeric_clients ^= true;
++			break;
++		case 's':
++			select_client_sort();
++			break;
+ 		case 'h':
+ 			in_help = true;
+ 			break;
++		case 'H':
++			aggregate_pids ^= true;
++			if (aggregate_pids)
++				header_msg = "Aggregating clients.";
++			else
++				header_msg = "Showing individual clients.";
++			break;
+ 		};
+ 	}
+ }
+@@ -1637,6 +2394,10 @@ static void show_help_screen(void)
+ 	printf(
+ "Help for interactive commands:\n\n"
+ "    '1'    Toggle between aggregated engine class and physical engine mode.\n"
++"    'n'    Toggle display of numeric client busyness overlay.\n"
++"    's'    Toggle between sort modes (runtime, total runtime, pid, client id).\n"
++"    'i'    Toggle display of clients which used no GPU time.\n"
++"    'H'    Toggle between per PID aggregation and individual clients.\n"
+ "\n"
+ "    'h' or 'q'    Exit interactive help.\n"
+ "\n");
+@@ -1645,6 +2406,7 @@ static void show_help_screen(void)
+ int main(int argc, char **argv)
+ {
+ 	unsigned int period_us = DEFAULT_PERIOD_MS * 1000;
++	struct clients *clients = NULL;
+ 	int con_w = -1, con_h = -1;
+ 	char *output_path = NULL;
+ 	struct engines *engines;
+@@ -1783,15 +2545,24 @@ int main(int argc, char **argv)
+ 
+ 	ret = EXIT_SUCCESS;
+ 
++	clients = init_clients(card.pci_slot_name[0] ?
++			       card.pci_slot_name : IGPU_PCI);
+ 	init_engine_classes(engines);
++	if (clients) {
++		clients->num_classes = engines->num_classes;
++		clients->class = engines->class;
++	}
+ 
+ 	pmu_sample(engines);
++	scan_clients(clients);
+ 	codename = igt_device_get_pretty_name(&card, false);
+ 
+ 	while (!stop_top) {
++		struct clients *disp_clients;
+ 		bool consumed = false;
++		int j, lines = 0;
+ 		struct winsize ws;
+-		int lines = 0;
++		struct client *c;
+ 		double t;
+ 
+ 		/* Update terminal size. */
+@@ -1810,6 +2581,8 @@ int main(int argc, char **argv)
+ 		pmu_sample(engines);
+ 		t = (double)(engines->ts.cur - engines->ts.prev) / 1e9;
+ 
++		disp_clients = scan_clients(clients);
++
+ 		if (stop_top)
+ 			break;
+ 
+@@ -1829,12 +2602,41 @@ int main(int argc, char **argv)
+ 
+ 			lines = print_engines(engines, t, lines, con_w, con_h);
+ 
++			if (disp_clients) {
++				int class_w;
++
++				lines = print_clients_header(disp_clients, lines,
++							     con_w, con_h,
++							     &class_w);
++
++				for_each_client(disp_clients, c, j) {
++					assert(c->status != PROBE);
++					if (c->status != ALIVE)
++						break; /* Active clients are first in the array. */
++
++					if (lines >= con_h)
++						break;
++
++					lines = print_client(c, engines, t,
++							     lines, con_w,
++							     con_h, period_us,
++							     &class_w);
++				}
++
++				lines = print_clients_footer(disp_clients, t,
++							     lines, con_w,
++							     con_h);
++			}
++
+ 			pops->close_struct();
+ 		}
+ 
+ 		if (stop_top)
+ 			break;
+ 
++		if (disp_clients != clients)
++			free_clients(disp_clients);
++
+ 		if (output_mode == INTERACTIVE)
+ 			process_stdin(period_us);
+ 		else
+diff --git a/tools/meson.build b/tools/meson.build
+index b6b9753463a9..771d0b9e3d5d 100644
+--- a/tools/meson.build
++++ b/tools/meson.build
+@@ -91,7 +91,7 @@ install_subdir('registers', install_dir : datadir)
+ executable('intel_gpu_top', 'intel_gpu_top.c',
+ 	   install : true,
+ 	   install_rpath : bindir_rpathdir,
+-	   dependencies : [lib_igt_perf,lib_igt_device_scan,math])
++	   dependencies : [lib_igt_perf,lib_igt_device_scan,lib_igt_drm_fdinfo,math])
+ 
+ executable('amd_hdmi_compliance', 'amd_hdmi_compliance.c',
+ 	   dependencies : [tool_deps],
 -- 
 2.32.0
 
