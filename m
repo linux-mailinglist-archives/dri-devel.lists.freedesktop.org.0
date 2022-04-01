@@ -2,57 +2,83 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 83C794EE8CE
-	for <lists+dri-devel@lfdr.de>; Fri,  1 Apr 2022 09:06:55 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 9916B4EE8F8
+	for <lists+dri-devel@lfdr.de>; Fri,  1 Apr 2022 09:18:46 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 68C2D10FDE1;
-	Fri,  1 Apr 2022 07:06:53 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 233CE10FE6C;
+	Fri,  1 Apr 2022 07:18:43 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from metis.ext.pengutronix.de (metis.ext.pengutronix.de
- [IPv6:2001:67c:670:201:290:27ff:fe1d:cc33])
- by gabe.freedesktop.org (Postfix) with ESMTPS id E364A10FDE1
- for <dri-devel@lists.freedesktop.org>; Fri,  1 Apr 2022 07:06:51 +0000 (UTC)
-Received: from ptx.hi.pengutronix.de ([2001:67c:670:100:1d::c0])
- by metis.ext.pengutronix.de with esmtps
- (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256) (Exim 4.92)
- (envelope-from <sha@pengutronix.de>)
- id 1naBMr-0003Ic-Rk; Fri, 01 Apr 2022 09:06:45 +0200
-Received: from sha by ptx.hi.pengutronix.de with local (Exim 4.92)
- (envelope-from <sha@pengutronix.de>)
- id 1naBMn-0006zI-VN; Fri, 01 Apr 2022 09:06:41 +0200
-Date: Fri, 1 Apr 2022 09:06:41 +0200
-From: Sascha Hauer <s.hauer@pengutronix.de>
-To: Andy Yan <andy.yan@rock-chips.com>
-Subject: Re: [PATCH v9 00/23] drm/rockchip: RK356x VOP2 support
-Message-ID: <20220401070641.GJ4012@pengutronix.de>
-References: <20220330072822.GX12181@pengutronix.de>
- <0D8F5951-5375-46B5-BFF0-7ED410371EB7@gmail.com>
- <20220330094556.GZ12181@pengutronix.de>
- <D3DA14F9-C9C6-4927-B015-5B7D25689DAA@gmail.com>
- <20220330102046.GA12181@pengutronix.de>
- <60601619-EF07-457B-91F2-64FEB598FEBE@gmail.com>
- <20220330192054.GA4012@pengutronix.de>
- <af8445e0-f4af-721b-709e-2eb7c488a8a4@rock-chips.com>
- <B7CD9D55-9F2D-42F4-9D04-17C6A5FEBB08@gmail.com>
- <622c8786-2c3f-13ff-66b7-ad9c8cb9425e@rock-chips.com>
+Received: from us-smtp-delivery-124.mimecast.com
+ (us-smtp-delivery-124.mimecast.com [170.10.129.124])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 753EE10FE6C
+ for <dri-devel@lists.freedesktop.org>; Fri,  1 Apr 2022 07:18:41 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1648797520;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=3qV9at4Z/fho+LeSVZbNbi3zsn5vXJyaQLS1hFvXpTk=;
+ b=g6LxH8//gjupl+uf3shVeQFblI1JZhVcXvmz6KNfgrEvhGnD1PYejRrNeEOBJQFvSFXmP2
+ 3kO4kBMR6jfV05Dj/MqMwlvdu2Wv6gT7SKdUzosIlsZY0mAyh6PB6tkWYCZ5zwFZxVZout
+ jXc4F09cgRSzSPSU9maaQB32pfa/CNo=
+Received: from mail-wm1-f69.google.com (mail-wm1-f69.google.com
+ [209.85.128.69]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ us-mta-511-k0C6VEIdNFaxygT-tAknCw-1; Fri, 01 Apr 2022 03:18:38 -0400
+X-MC-Unique: k0C6VEIdNFaxygT-tAknCw-1
+Received: by mail-wm1-f69.google.com with SMTP id
+ o10-20020a1c4d0a000000b0038c6e5fcbaeso798467wmh.9
+ for <dri-devel@lists.freedesktop.org>; Fri, 01 Apr 2022 00:18:38 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
+ :content-language:to:cc:references:from:in-reply-to
+ :content-transfer-encoding;
+ bh=3qV9at4Z/fho+LeSVZbNbi3zsn5vXJyaQLS1hFvXpTk=;
+ b=i8sUx7bNgqAINnb/kP87gf+4MUlT+ihFyqYZTT7oko5y2NlcWE0nu0BcwBwaHEmp8I
+ D4iqPwfgetduUQ0lyzIvCBFFFIDFDuCqf79rHv24wwycSymtTyBomkc+E9DilBh1dbCd
+ 69iXINOoLOQ3BOj8r1gKGhwVirKqr0+6U549bh4o1OTgpyd9uTi+KeuCoK429/Cnxk2Q
+ 3OLfpQ0N5KzqAD8v6iHMljnI/QLBdlHVOcVc2XCLQfXqin1K65gLSHdrpYbMU3IDn6uh
+ s9THCeBmR6d9gBHc7r7w2mqh9tb+gHyNezuC5OcYkYqGhZ22OtulDYx08AUt3i99onlO
+ hYMg==
+X-Gm-Message-State: AOAM533Ge8f/htSMjYlVGNIrcVniUJqK56IqGYae398gAAbkZojoXehi
+ ttoeyuZp/DZ5mfTbMldFS5TAE5SXC0O9lSSRGh/kaF1IEVv0RA654Sgf2gevbrarmMmSBGJ/cUF
+ WcSaHr7ZoHyH7vhI8uvYfimTJry0x
+X-Received: by 2002:a5d:64aa:0:b0:204:1c8a:51e9 with SMTP id
+ m10-20020a5d64aa000000b002041c8a51e9mr6710488wrp.314.1648797517583; 
+ Fri, 01 Apr 2022 00:18:37 -0700 (PDT)
+X-Google-Smtp-Source: ABdhPJwy+xX4gWuIMxLTo2IeJdGK+VkGay/MP/PyayLdQhzpIApEuMKJQjTi4un0ucCCkIvoVs9d4A==
+X-Received: by 2002:a5d:64aa:0:b0:204:1c8a:51e9 with SMTP id
+ m10-20020a5d64aa000000b002041c8a51e9mr6710467wrp.314.1648797517310; 
+ Fri, 01 Apr 2022 00:18:37 -0700 (PDT)
+Received: from [192.168.1.102] ([92.176.231.205])
+ by smtp.gmail.com with ESMTPSA id
+ b1-20020adfd1c1000000b002058537af75sm1376962wrd.104.2022.04.01.00.18.36
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Fri, 01 Apr 2022 00:18:36 -0700 (PDT)
+Message-ID: <2144ac86-cf84-88d2-3b05-117dc9470cc6@redhat.com>
+Date: Fri, 1 Apr 2022 09:18:35 +0200
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <622c8786-2c3f-13ff-66b7-ad9c8cb9425e@rock-chips.com>
-X-Sent-From: Pengutronix Hildesheim
-X-URL: http://www.pengutronix.de/
-X-IRC: #ptxdist @freenode
-X-Accept-Language: de,en
-X-Accept-Content-Type: text/plain
-X-Uptime: 09:02:52 up 1 day, 19:32, 45 users,  load average: 0.80, 0.40, 0.20
-User-Agent: Mutt/1.10.1 (2018-07-13)
-X-SA-Exim-Connect-IP: 2001:67c:670:100:1d::c0
-X-SA-Exim-Mail-From: sha@pengutronix.de
-X-SA-Exim-Scanned: No (on metis.ext.pengutronix.de);
- SAEximRunCond expanded to false
-X-PTX-Original-Recipient: dri-devel@lists.freedesktop.org
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.7.0
+Subject: Re: [PATCH 4/8] drm/display: Split DisplayPort header into core and
+ helper
+To: Thomas Zimmermann <tzimmermann@suse.de>, daniel@ffwll.ch,
+ airlied@linux.ie, maarten.lankhorst@linux.intel.com, mripard@kernel.org,
+ jani.nikula@linux.intel.com, lyude@redhat.com
+References: <20220322192743.14414-1-tzimmermann@suse.de>
+ <20220322192743.14414-5-tzimmermann@suse.de>
+From: Javier Martinez Canillas <javierm@redhat.com>
+In-Reply-To: <20220322192743.14414-5-tzimmermann@suse.de>
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=javierm@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Language: en-US
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -65,97 +91,25 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: "devicetree@vger.kernel.org" <devicetree@vger.kernel.org>,
- Benjamin Gaignard <benjamin.gaignard@collabora.com>,
- Piotr Oniszczuk <piotr.oniszczuk@gmail.com>, Sandy Huang <hjc@rock-chips.com>,
- dri-devel@lists.freedesktop.org,
- "open list:ARM/Rockchip SoC..." <linux-rockchip@lists.infradead.org>,
- Michael Riesch <michael.riesch@wolfvision.net>,
- Peter Geis <pgwipeout@gmail.com>, kernel@pengutronix.de,
- "linux-arm-kernel@lists.infradead.org" <linux-arm-kernel@lists.infradead.org>
+Cc: dri-devel@lists.freedesktop.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Fri, Apr 01, 2022 at 09:52:01AM +0800, Andy Yan wrote:
->    Hi Piotr:
+On 3/22/22 20:27, Thomas Zimmermann wrote:
+> Move DisplayPort protocol constants and structures into the new
+> header drm_dp.h, which can be used by DRM core components. The
+> existing header drm_dp_helper.h now only contains helper code for
+> graphics drivers. No functional changes.
 > 
->    On 3/31/22 22:53, Piotr Oniszczuk wrote:
-> 
-> 
-> 
->  Wiadomość napisana przez Andy Yan [1]<andy.yan@rock-chips.com> w dniu 31.03.2022, o godz. 14:13:
-> 
-> 
->  Piotr:
-> 
->  What soc is on you board? rk3566 or rk3568?
-> 
->  it is rk3566 in x96-x6 tvbox
-> 
->    RK3566?  Maybe that is the problem.
+> Signed-off-by: Thomas Zimmermann <tzimmermann@suse.de>
+> ---
 
-Likely, yes.
-
-> 
->    plane[43]: Esmart1-win0
->    crtc=(null)
->    fb=0
->    crtc-pos=0x0+0+0
->    src-pos=0.000000x0.000000+0.000000+0.000000
->    rotation=1
->    normalized-zpos=1
->    color-encoding=ITU-R BT.601 YCbCr
->    color-range=YCbCr limited range
-> 
->    From your dri/state dump, Plane 43 is Esmart1.
-> 
->    Cluster1, Esmart1, Smart1 are special on rk3566, they are
-> 
->    mirror window of Cluster0, Esmart0, Esmart0. That means
-> 
->    the software can't program  a independent framebuffer for
-> 
->    these three windows. They can only share the fb address set
-> 
->    in Cluster0, Esmart0, Smart0.
-
-Downstream Kernel has this:
-
-static bool vop2_is_mirror_win(struct vop2_win *win)
-{
-        return soc_is_rk3566() && (win->feature & WIN_FEATURE_MIRROR);
-}
-
-static int vop2_create_crtc(struct vop2 *vop2)
-{
-	...
-
-        for (j = 0; j < vop2->registered_num_wins; j++) {
-                win = &vop2->win[j];
-
-                if (win->type != DRM_PLANE_TYPE_OVERLAY)
-                        continue;
-                /*
-                 * Only dual display on rk3568(which need two crtcs) need mirror win
-                 */
-                if (registered_num_crtcs < 2 && vop2_is_mirror_win(win))
-                        continue;
-
-		...
-
-                ret = vop2_plane_init(vop2, win, possible_crtcs);
-	}
-
-	...
-}
-
-"Smart1-win0" and "Esmart1-win0" have this WIN_FEATURE_MIRROR bit set. It
-seems we just should just don't register these windows for rk3566.
-
-Sascha
+Reviewed-by: Javier Martinez Canillas <javierm@redhat.com>
 
 -- 
-Pengutronix e.K.                           |                             |
-Steuerwalder Str. 21                       | http://www.pengutronix.de/  |
-31137 Hildesheim, Germany                  | Phone: +49-5121-206917-0    |
-Amtsgericht Hildesheim, HRA 2686           | Fax:   +49-5121-206917-5555 |
+Best regards,
+
+Javier Martinez Canillas
+Linux Engineering
+Red Hat
+
