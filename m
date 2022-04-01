@@ -1,37 +1,39 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 12CE94EFBE8
-	for <lists+dri-devel@lfdr.de>; Fri,  1 Apr 2022 22:56:15 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 906024EFBE7
+	for <lists+dri-devel@lfdr.de>; Fri,  1 Apr 2022 22:56:11 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id E112A10E0FD;
-	Fri,  1 Apr 2022 20:56:09 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id E1A0510E0F4;
+	Fri,  1 Apr 2022 20:56:08 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from letterbox.kde.org (letterbox.kde.org
  [IPv6:2001:41c9:1:41e::242])
- by gabe.freedesktop.org (Postfix) with ESMTPS id C0DE210E0F4
+ by gabe.freedesktop.org (Postfix) with ESMTPS id F418010E0F9
  for <dri-devel@lists.freedesktop.org>; Fri,  1 Apr 2022 20:56:07 +0000 (UTC)
 Received: from vertex.vmware.com (pool-108-36-85-85.phlapa.fios.verizon.net
  [108.36.85.85]) (Authenticated sender: zack)
- by letterbox.kde.org (Postfix) with ESMTPSA id 5512A28A546;
- Fri,  1 Apr 2022 21:56:05 +0100 (BST)
+ by letterbox.kde.org (Postfix) with ESMTPSA id 2F83028A54B;
+ Fri,  1 Apr 2022 21:56:06 +0100 (BST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kde.org; s=users;
- t=1648846565; bh=klNZi8K4qy22qgGHhlckTAOQ2hPHpUShIBvUo1JJcCI=;
- h=From:To:Cc:Subject:Date:From;
- b=WTyY+O5q9fEutlpPumiqwtaasBhIihYwH1GcsyXVdOdJxVvwK1ZVUXeK5yR0XRO3O
- Dd8/UvRhGjnZuhAY44cBH0jcBuUDq2GakkFYteuQtlE2qcZIFDxo02j0H85FdNOxD3
- KAodcu+OqILfNnkvKodBifbWzrYjt7S/+/p+ChHLyFDxzAeezvhabNXD1JMEuMZ1S/
- Wec2X+15nmtpzG8GUzMqAASLa1/pCIpQOJ+/qqP1gLTK5BpTqqIF08ObLHS3oHVIZK
- fpDMamVSn1BzZ/Gp8QR9Z+E6iInevDjzEd1muG6QDPyy9oFWZU55FRzpLQNEFCRkn1
- Dbk7JAFakdNMg==
+ t=1648846566; bh=eEh++Bp5KnRY3dkxKwL4uFC2SlErQdh0ERiEKx3Dq50=;
+ h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
+ b=Bi+eX4s6Ol1/R5b19yV6GBA5A4GyjRT1HFdx5pbUC6jGQyNX26k9g1vhjosNhn3jZ
+ nBhm3Q7Oe+VjUwACDf4Xr0UpWCriwtN/ntjxENkGGW8JDnQLmOvd0FSkVk6Ytm/EVV
+ K1t7M0M5cDRy8GpXQiHoG40KPTFUODVLY5KbyJI62OIoM43oYGIrKoLdXMiKdCpKCn
+ sDLioMYJ1uPxwYr9hUE1d4tDm0VLDHIHJgsTgpXEnHO975n04HDt5NFAcxZFr3Id0U
+ Qx4Ibn/GHzR4AKl/DMQtAPFVfKSx5/1nHbkm/JNvefaFGx7KN4sXHzCalu/JnPB90I
+ xiW9PUsf2YW0g==
 From: Zack Rusin <zack@kde.org>
 To: dri-devel@lists.freedesktop.org
-Subject: [PATCH 1/3] drm/vmwgfx: Add debugfs entries for ttm placements
-Date: Fri,  1 Apr 2022 16:56:00 -0400
-Message-Id: <20220401205602.1172975-1-zack@kde.org>
+Subject: [PATCH 2/3] drm/vmwgfx: Write the driver id registers
+Date: Fri,  1 Apr 2022 16:56:01 -0400
+Message-Id: <20220401205602.1172975-2-zack@kde.org>
 X-Mailer: git-send-email 2.32.0
+In-Reply-To: <20220401205602.1172975-1-zack@kde.org>
+References: <20220401205602.1172975-1-zack@kde.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
@@ -53,154 +55,93 @@ Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 From: Zack Rusin <zackr@vmware.com>
 
-Add a few debugfs entries for every used TTM placement that vmwgfx is
-using. This allows basic tracking of memory usage inside vmwgfx, e.g.
-'cat /sys/kernel/debug/dri/0/mob_ttm' will display mob memory usage.
+Driver id registers are a new mechanism in the svga device to hint to the
+device which driver is running. This should not change device behavior
+in any way, but might be convenient to work-around specific bugs
+in guest drivers.
 
 Signed-off-by: Zack Rusin <zackr@vmware.com>
 Reviewed-by: Martin Krastev <krastevm@vmware.com>
+Reviewed-by: Maaz Mombasawala <mombasawalam@vmware.com>
 ---
- drivers/gpu/drm/vmwgfx/vmwgfx_drv.c        |  1 +
- drivers/gpu/drm/vmwgfx/vmwgfx_drv.h        |  1 +
- drivers/gpu/drm/vmwgfx/vmwgfx_ttm_buffer.c | 97 +++++++++++++++++++++-
- 3 files changed, 98 insertions(+), 1 deletion(-)
+ drivers/gpu/drm/vmwgfx/vmwgfx_drv.c | 43 +++++++++++++++++++++++------
+ 1 file changed, 34 insertions(+), 9 deletions(-)
 
 diff --git a/drivers/gpu/drm/vmwgfx/vmwgfx_drv.c b/drivers/gpu/drm/vmwgfx/vmwgfx_drv.c
-index 791f9a5f3868..6d675855f065 100644
+index 6d675855f065..72a17618ba0a 100644
 --- a/drivers/gpu/drm/vmwgfx/vmwgfx_drv.c
 +++ b/drivers/gpu/drm/vmwgfx/vmwgfx_drv.c
-@@ -1632,6 +1632,7 @@ static int vmw_probe(struct pci_dev *pdev, const struct pci_device_id *ent)
- 		goto out_unload;
+@@ -25,10 +25,13 @@
+  *
+  **************************************************************************/
  
- 	vmw_debugfs_gem_init(vmw);
-+	vmw_ttm_debugfs_init(vmw);
+-#include <linux/dma-mapping.h>
+-#include <linux/module.h>
+-#include <linux/pci.h>
+-#include <linux/cc_platform.h>
++
++#include "vmwgfx_drv.h"
++
++#include "vmwgfx_devcaps.h"
++#include "vmwgfx_mksstat.h"
++#include "vmwgfx_binding.h"
++#include "ttm_object.h"
  
+ #include <drm/drm_aperture.h>
+ #include <drm/drm_drv.h>
+@@ -41,11 +44,11 @@
+ #include <drm/ttm/ttm_placement.h>
+ #include <generated/utsrelease.h>
+ 
+-#include "ttm_object.h"
+-#include "vmwgfx_binding.h"
+-#include "vmwgfx_devcaps.h"
+-#include "vmwgfx_drv.h"
+-#include "vmwgfx_mksstat.h"
++#include <linux/cc_platform.h>
++#include <linux/dma-mapping.h>
++#include <linux/module.h>
++#include <linux/pci.h>
++#include <linux/version.h>
+ 
+ #define VMWGFX_DRIVER_DESC "Linux drm driver for VMware graphics devices"
+ 
+@@ -806,6 +809,27 @@ static int vmw_detect_version(struct vmw_private *dev)
  	return 0;
- out_unload:
-diff --git a/drivers/gpu/drm/vmwgfx/vmwgfx_drv.h b/drivers/gpu/drm/vmwgfx/vmwgfx_drv.h
-index be19aa6e1f13..eabe3e8e9cf9 100644
---- a/drivers/gpu/drm/vmwgfx/vmwgfx_drv.h
-+++ b/drivers/gpu/drm/vmwgfx/vmwgfx_drv.h
-@@ -1085,6 +1085,7 @@ vmw_bo_sg_table(struct ttm_buffer_object *bo);
- extern int vmw_bo_create_and_populate(struct vmw_private *dev_priv,
- 				      unsigned long bo_size,
- 				      struct ttm_buffer_object **bo_p);
-+void vmw_ttm_debugfs_init(struct vmw_private *vdev);
- 
- extern void vmw_piter_start(struct vmw_piter *viter,
- 			    const struct vmw_sg_table *vsgt,
-diff --git a/drivers/gpu/drm/vmwgfx/vmwgfx_ttm_buffer.c b/drivers/gpu/drm/vmwgfx/vmwgfx_ttm_buffer.c
-index b84ecc6d6611..355414595e52 100644
---- a/drivers/gpu/drm/vmwgfx/vmwgfx_ttm_buffer.c
-+++ b/drivers/gpu/drm/vmwgfx/vmwgfx_ttm_buffer.c
-@@ -1,7 +1,7 @@
- // SPDX-License-Identifier: GPL-2.0 OR MIT
- /**************************************************************************
-  *
-- * Copyright 2009-2015 VMware, Inc., Palo Alto, CA., USA
-+ * Copyright 2009-2022 VMware, Inc., Palo Alto, CA., USA
-  *
-  * Permission is hereby granted, free of charge, to any person obtaining a
-  * copy of this software and associated documentation files (the
-@@ -677,3 +677,98 @@ int vmw_bo_create_and_populate(struct vmw_private *dev_priv,
- 		*bo_p = bo;
- 	return ret;
  }
-+
-+#if defined(CONFIG_DEBUG_FS)
-+
-+static int vmw_ttm_vram_table_show(struct seq_file *m, void *unused)
+ 
++static void vmw_write_driver_id(struct vmw_private *dev)
 +{
-+	struct vmw_private *vdev = (struct vmw_private *)m->private;
-+	struct ttm_resource_manager *man = ttm_manager_type(&vdev->bdev,
-+							    TTM_PL_VRAM);
-+	struct drm_printer p = drm_seq_file_printer(m);
++	if ((dev->capabilities2 & SVGA_CAP2_DX2) != 0) {
++		vmw_write(dev,  SVGA_REG_GUEST_DRIVER_ID,
++			  SVGA_REG_GUEST_DRIVER_ID_LINUX);
 +
-+	ttm_resource_manager_debug(man, &p);
-+	return 0;
++		vmw_write(dev, SVGA_REG_GUEST_DRIVER_VERSION1,
++			  LINUX_VERSION_MAJOR << 24 |
++			  LINUX_VERSION_PATCHLEVEL << 16 |
++			  LINUX_VERSION_SUBLEVEL);
++		vmw_write(dev, SVGA_REG_GUEST_DRIVER_VERSION2,
++			  VMWGFX_DRIVER_MAJOR << 24 |
++			  VMWGFX_DRIVER_MINOR << 16 |
++			  VMWGFX_DRIVER_PATCHLEVEL);
++		vmw_write(dev, SVGA_REG_GUEST_DRIVER_VERSION3, 0);
++
++		vmw_write(dev, SVGA_REG_GUEST_DRIVER_ID,
++			  SVGA_REG_GUEST_DRIVER_ID_SUBMIT);
++	}
 +}
 +
-+static int vmw_ttm_page_pool_show(struct seq_file *m, void *unused)
-+{
-+	struct vmw_private *vdev = (struct vmw_private *)m->private;
-+
-+	return ttm_pool_debugfs(&vdev->bdev.pool, m);
-+}
-+
-+static int vmw_ttm_mob_table_show(struct seq_file *m, void *unused)
-+{
-+	struct vmw_private *vdev = (struct vmw_private *)m->private;
-+	struct ttm_resource_manager *man = ttm_manager_type(&vdev->bdev,
-+							    VMW_PL_MOB);
-+	struct drm_printer p = drm_seq_file_printer(m);
-+
-+	ttm_resource_manager_debug(man, &p);
-+	return 0;
-+}
-+
-+static int vmw_ttm_gmr_table_show(struct seq_file *m, void *unused)
-+{
-+	struct vmw_private *vdev = (struct vmw_private *)m->private;
-+	struct ttm_resource_manager *man = ttm_manager_type(&vdev->bdev,
-+							    VMW_PL_GMR);
-+	struct drm_printer p = drm_seq_file_printer(m);
-+
-+	ttm_resource_manager_debug(man, &p);
-+	return 0;
-+}
-+
-+static int vmw_ttm_system_table_show(struct seq_file *m, void *unused)
-+{
-+	struct vmw_private *vdev = (struct vmw_private *)m->private;
-+	struct ttm_resource_manager *man = ttm_manager_type(&vdev->bdev,
-+							    TTM_PL_SYSTEM);
-+	struct drm_printer p = drm_seq_file_printer(m);
-+
-+	ttm_resource_manager_debug(man, &p);
-+	return 0;
-+}
-+
-+static int vmw_ttm_system_mob_table_show(struct seq_file *m, void *unused)
-+{
-+	struct vmw_private *vdev = (struct vmw_private *)m->private;
-+	struct ttm_resource_manager *man = ttm_manager_type(&vdev->bdev,
-+							    VMW_PL_SYSTEM);
-+	struct drm_printer p = drm_seq_file_printer(m);
-+
-+	ttm_resource_manager_debug(man, &p);
-+	return 0;
-+}
-+
-+DEFINE_SHOW_ATTRIBUTE(vmw_ttm_vram_table);
-+DEFINE_SHOW_ATTRIBUTE(vmw_ttm_mob_table);
-+DEFINE_SHOW_ATTRIBUTE(vmw_ttm_gmr_table);
-+DEFINE_SHOW_ATTRIBUTE(vmw_ttm_system_table);
-+DEFINE_SHOW_ATTRIBUTE(vmw_ttm_system_mob_table);
-+DEFINE_SHOW_ATTRIBUTE(vmw_ttm_page_pool);
-+
-+#endif
-+
-+void vmw_ttm_debugfs_init(struct vmw_private *vdev)
-+{
-+#if defined(CONFIG_DEBUG_FS)
-+	struct drm_device *drm = &vdev->drm;
-+	struct drm_minor *minor = drm->primary;
-+	struct dentry *root = minor->debugfs_root;
-+
-+	debugfs_create_file("vram_ttm", 0444, root, vdev,
-+			    &vmw_ttm_vram_table_fops);
-+	debugfs_create_file("mob_ttm", 0444, root, vdev,
-+			    &vmw_ttm_mob_table_fops);
-+	debugfs_create_file("gmr_ttm", 0444, root, vdev,
-+			    &vmw_ttm_gmr_table_fops);
-+	debugfs_create_file("system_ttm", 0444, root, vdev,
-+			    &vmw_ttm_system_table_fops);
-+	debugfs_create_file("system_mob_ttm", 0444, root, vdev,
-+			    &vmw_ttm_system_mob_table_fops);
-+	debugfs_create_file("ttm_page_pool", 0444, root, vdev,
-+			    &vmw_ttm_page_pool_fops);
-+#endif
-+}
+ static int vmw_driver_load(struct vmw_private *dev_priv, u32 pci_id)
+ {
+ 	int ret;
+@@ -1094,6 +1118,7 @@ static int vmw_driver_load(struct vmw_private *dev_priv, u32 pci_id)
+ 	vmw_host_printf("vmwgfx: Module Version: %d.%d.%d (kernel: %s)",
+ 			VMWGFX_DRIVER_MAJOR, VMWGFX_DRIVER_MINOR,
+ 			VMWGFX_DRIVER_PATCHLEVEL, UTS_RELEASE);
++	vmw_write_driver_id(dev_priv);
+ 
+ 	if (dev_priv->enable_fb) {
+ 		vmw_fifo_resource_inc(dev_priv);
 -- 
 2.32.0
 
