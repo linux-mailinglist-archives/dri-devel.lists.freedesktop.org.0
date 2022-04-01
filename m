@@ -1,35 +1,49 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id B91B34F001D
-	for <lists+dri-devel@lfdr.de>; Sat,  2 Apr 2022 11:25:01 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 32C004F0016
+	for <lists+dri-devel@lfdr.de>; Sat,  2 Apr 2022 11:24:53 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 05BE110F75F;
-	Sat,  2 Apr 2022 09:24:50 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 6F41510F6C9;
+	Sat,  2 Apr 2022 09:24:49 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail.meizu.com (edge07.meizu.com [112.91.151.210])
- by gabe.freedesktop.org (Postfix) with ESMTP id 4602411212D
- for <dri-devel@lists.freedesktop.org>; Fri,  1 Apr 2022 08:42:07 +0000 (UTC)
-Received: from IT-EXMB-1-125.meizu.com (172.16.1.125) by mz-mail11.meizu.com
- (172.16.1.15) with Microsoft SMTP Server (TLS) id 14.3.487.0; Fri, 1 Apr 2022
- 16:42:01 +0800
-Received: from meizu.meizu.com (172.16.137.70) by IT-EXMB-1-125.meizu.com
- (172.16.1.125) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2308.14; Fri, 1 Apr
- 2022 16:42:00 +0800
-From: Haowen Bai <baihaowen@meizu.com>
-To: Helge Deller <deller@gmx.de>
-Subject: [PATCH] Hvideo: fbdev: pm2fb: Fix a kernel-doc formatting issue
-Date: Fri, 1 Apr 2022 16:41:57 +0800
-Message-ID: <1648802518-10571-1-git-send-email-baihaowen@meizu.com>
-X-Mailer: git-send-email 2.7.4
+X-Greylist: delayed 401 seconds by postgrey-1.36 at gabe;
+ Fri, 01 Apr 2022 15:11:37 UTC
+Received: from mx3.securetransport.de (mx3.securetransport.de
+ [IPv6:2a01:4f8:c0c:92be::1])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 6A2DC10F600
+ for <dri-devel@lists.freedesktop.org>; Fri,  1 Apr 2022 15:11:37 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=dh-electronics.com;
+ s=dhelectronicscom; t=1648825468;
+ bh=VImI+Zkrd2Tm7ugfLkuD1PuO5ErnCdOi+tXMDawYshI=;
+ h=From:To:CC:Subject:Date:References:In-Reply-To:From;
+ b=laEBipVoy7eNojWcEVJW9kZZhGd/zUyIZ3lPIovSbpj2kh+qne7BnbNIQo1R5piyh
+ RCSwwWxTcAUqaj5cluPBgkrfGtevXVuyOD8HUtL668rfsGQXZ1+BlWgjjVZIKygqgJ
+ St+ZMNOiX2jdH49cyevEGM87a0TJuL7tCWW+taWyxnggfdPcbA/KotU9W38q4EUSu+
+ eZrk7Coo5f3J603IQFBlC3S4eeTtwQfhHG8EP0IkP5LZfQMwjiMcXHUYBQ07bOx3zD
+ yemzQtpKA2+Suy45BAPpQaGQ0kzzJL989wxf6Vmz9D3BMAKd7s3EaWFRYRIX8QJppz
+ x8j5xQtyF+NvA==
+X-secureTransport-forwarded: yes
+From: Christoph Niedermaier <cniedermaier@dh-electronics.com>
+Complaints-To: abuse@cubewerk.de
+To: "Marek MV. Vasut" <marex@denx.de>, "dri-devel@lists.freedesktop.org"
+ <dri-devel@lists.freedesktop.org>
+Subject: RE: [PATCH 1/2] drm/panel: lvds: Simplify mode parsing
+Thread-Topic: [PATCH 1/2] drm/panel: lvds: Simplify mode parsing
+Thread-Index: AQHYRTTjjneZ6fatLUybuMq/qZlPqqzbJ2rA
+Date: Fri, 1 Apr 2022 15:04:16 +0000
+Message-ID: <c6090648d1cf4cb2b6f57c28adb4ea40@dh-electronics.com>
+References: <20220331192347.103299-1-marex@denx.de>
+In-Reply-To: <20220331192347.103299-1-marex@denx.de>
+Accept-Language: de-DE, en-US
+Content-Language: de-DE
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: base64
 MIME-Version: 1.0
-Content-Type: text/plain
-X-Originating-IP: [172.16.137.70]
-X-ClientProxiedBy: IT-EXMB-1-124.meizu.com (172.16.1.124) To
- IT-EXMB-1-125.meizu.com (172.16.1.125)
 X-Mailman-Approved-At: Sat, 02 Apr 2022 09:24:49 +0000
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -43,56 +57,91 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: linux-fbdev@vger.kernel.org, Haowen Bai <baihaowen@meizu.com>,
- linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org
+Cc: "Marek MV. Vasut" <marex@denx.de>, Daniel Vetter <daniel.vetter@ffwll.ch>,
+ "robert.foss@linaro.org" <robert.foss@linaro.org>,
+ Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
+ Thomas Zimmermann <tzimmermann@suse.de>, Dmitry Osipenko <digetx@gmail.com>,
+ Sam Ravnborg <sam@ravnborg.org>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-This function had kernel-doc that not used a hash to separate
-the function name from the one line description.
-
-The warning was found by running scripts/kernel-doc, which is
-caused by using 'make W=1'.
-
-drivers/video/fbdev/pm2fb.c:1507: warning: This comment starts with '/**', 
-but isn't a kernel-doc comment. Refer Documentation/doc-guide/kernel-doc.rst
- * Device initialisation
-drivers/video/fbdev/pm2fb.c:1714: warning: This comment starts with '/**', 
-but isn't a kernel-doc comment. Refer Documentation/doc-guide/kernel-doc.rst
- * Device removal.
-
-
-Signed-off-by: Haowen Bai <baihaowen@meizu.com>
----
- drivers/video/fbdev/pm2fb.c | 8 ++------
- 1 file changed, 2 insertions(+), 6 deletions(-)
-
-diff --git a/drivers/video/fbdev/pm2fb.c b/drivers/video/fbdev/pm2fb.c
-index c68725eebee3..d3be2c64f1c0 100644
---- a/drivers/video/fbdev/pm2fb.c
-+++ b/drivers/video/fbdev/pm2fb.c
-@@ -1504,9 +1504,7 @@ static const struct fb_ops pm2fb_ops = {
- 
- 
- /**
-- * Device initialisation
-- *
-- * Initialise and allocate resource for PCI device.
-+ * pm2fb_probe - Initialise and allocate resource for PCI device.
-  *
-  * @pdev:	PCI device.
-  * @id:		PCI device ID.
-@@ -1711,9 +1709,7 @@ static int pm2fb_probe(struct pci_dev *pdev, const struct pci_device_id *id)
- }
- 
- /**
-- * Device removal.
-- *
-- * Release all device resources.
-+ * pm2fb_remove - Release all device resources.
-  *
-  * @pdev:	PCI device to clean up.
-  */
--- 
-2.7.4
-
+RnJvbTogTWFyZWsgVmFzdXQgW21haWx0bzptYXJleEBkZW54LmRlXQ0KU2VudDogVGh1cnNkYXks
+IE1hcmNoIDMxLCAyMDIyIDk6MjQgUE0NCj4gVGhlIG1vZGUgcGFyc2luZyBpcyBjdXJyZW50bHkg
+aW1wbGVtZW50ZWQgaW4gdGhyZWUgc3RlcHM6DQo+IG9mX2dldF9kaXNwbGF5X3RpbWluZygpIC0g
+RFQgcGFuZWwtdGltaW5nIHRvIHN0cnVjdCBkaXNwbGF5X3RpbWluZw0KPiB2aWRlb21vZGVfZnJv
+bV90aW1pbmcoKSAtIHN0cnVjdCBkaXNwbGF5X3RpbWluZyB0byBzdHJ1Y3QgdmlkZW9tb2RlDQo+
+IGRybV9kaXNwbGF5X21vZGVfZnJvbV92aWRlb21vZGUoKSAtIHN0cnVjdCB2aWRlb21vZGUgdG8g
+c3RydWN0DQo+IGRybV9kaXNwbGF5X21vZGUNCj4gDQo+IFJlcGxhY2UgYWxsIHRoYXQgd2l0aCBz
+aW1wbGUgb2ZfZ2V0X2RybV9wYW5lbF9kaXNwbGF5X21vZGUoKSBjYWxsLA0KPiB3aGljaCBhbHJl
+YWR5IHBvcHVsYXRlcyBzdHJ1Y3QgZHJtX2Rpc3BsYXlfbW9kZSBhbmQgdGhlbiBkdXBsaWNhdGUN
+Cj4gdGhhdCBtb2RlIGluIHBhbmVsX2x2ZHNfZ2V0X21vZGVzKCkgZWFjaCB0aW1lLCBzaW5jZSB0
+aGUgbW9kZSBkb2VzDQo+IG5vdCBjaGFuZ2UuDQo+IA0KPiBOaWNlIGJvbnVzIGlzIHRoZSBidXNf
+ZmxhZ3MgcGFyc2VkIGJ5IG9mX2dldF9kcm1fcGFuZWxfZGlzcGxheV9tb2RlKCkNCj4gb3V0IG9m
+IHBhbmVsLXRpbWluZyBEVCBub2RlLCB3aGljaCBpcyB1c2VkIGluIHN1YnNlcXVlbnQgcGF0Y2gg
+dG8gZml4DQo+IGhhbmRsaW5nIG9mICdkZS1hY3RpdmUnIERUIHByb3BlcnR5Lg0KPiANCj4gU2ln
+bmVkLW9mZi1ieTogTWFyZWsgVmFzdXQgPG1hcmV4QGRlbnguZGU+DQo+IENjOiBDaHJpc3RvcGgg
+TmllZGVybWFpZXIgPGNuaWVkZXJtYWllckBkaC1lbGVjdHJvbmljcy5jb20+DQo+IENjOiBEYW5p
+ZWwgVmV0dGVyIDxkYW5pZWwudmV0dGVyQGZmd2xsLmNoPg0KPiBDYzogRG1pdHJ5IE9zaXBlbmtv
+IDxkaWdldHhAZ21haWwuY29tPg0KPiBDYzogTGF1cmVudCBQaW5jaGFydCA8bGF1cmVudC5waW5j
+aGFydEBpZGVhc29uYm9hcmQuY29tPg0KPiBDYzogUm9iZXJ0IEZvc3MgPHJvYmVydC5mb3NzQGxp
+bmFyby5vcmc+DQo+IENjOiBTYW0gUmF2bmJvcmcgPHNhbUByYXZuYm9yZy5vcmc+DQo+IENjOiBU
+aG9tYXMgWmltbWVybWFubiA8dHppbW1lcm1hbm5Ac3VzZS5kZT4NCj4gVG86IGRyaS1kZXZlbEBs
+aXN0cy5mcmVlZGVza3RvcC5vcmcNCj4gLS0tDQo+ICBkcml2ZXJzL2dwdS9kcm0vcGFuZWwvcGFu
+ZWwtbHZkcy5jIHwgMjggKysrKysrLS0tLS0tLS0tLS0tLS0tLS0tLS0tLQ0KPiAgMSBmaWxlIGNo
+YW5nZWQsIDYgaW5zZXJ0aW9ucygrKSwgMjIgZGVsZXRpb25zKC0pDQo+IA0KPiBkaWZmIC0tZ2l0
+IGEvZHJpdmVycy9ncHUvZHJtL3BhbmVsL3BhbmVsLWx2ZHMuYw0KPiBiL2RyaXZlcnMvZ3B1L2Ry
+bS9wYW5lbC9wYW5lbC1sdmRzLmMNCj4gaW5kZXggMjdhMWM5OTIzYjA5Li42NWM2YTZlOWUyMjMg
+MTAwNjQ0DQo+IC0tLSBhL2RyaXZlcnMvZ3B1L2RybS9wYW5lbC9wYW5lbC1sdmRzLmMNCj4gKysr
+IGIvZHJpdmVycy9ncHUvZHJtL3BhbmVsL3BhbmVsLWx2ZHMuYw0KPiBAQCAtMzAsNyArMzAsOCBA
+QCBzdHJ1Y3QgcGFuZWxfbHZkcyB7DQo+ICAgICAgICAgY29uc3QgY2hhciAqbGFiZWw7DQo+ICAg
+ICAgICAgdW5zaWduZWQgaW50IHdpZHRoOw0KPiAgICAgICAgIHVuc2lnbmVkIGludCBoZWlnaHQ7
+DQo+IC0gICAgICAgc3RydWN0IHZpZGVvbW9kZSB2aWRlb19tb2RlOw0KPiArICAgICAgIHN0cnVj
+dCBkcm1fZGlzcGxheV9tb2RlIGRtb2RlOw0KPiArICAgICAgIHUzMiBidXNfZmxhZ3M7DQo+ICAg
+ICAgICAgdW5zaWduZWQgaW50IGJ1c19mb3JtYXQ7DQo+ICAgICAgICAgYm9vbCBkYXRhX21pcnJv
+cjsNCj4gDQo+IEBAIC04NywxNiArODgsMTUgQEAgc3RhdGljIGludCBwYW5lbF9sdmRzX2dldF9t
+b2RlcyhzdHJ1Y3QgZHJtX3BhbmVsICpwYW5lbCwNCj4gICAgICAgICBzdHJ1Y3QgcGFuZWxfbHZk
+cyAqbHZkcyA9IHRvX3BhbmVsX2x2ZHMocGFuZWwpOw0KPiAgICAgICAgIHN0cnVjdCBkcm1fZGlz
+cGxheV9tb2RlICptb2RlOw0KPiANCj4gLSAgICAgICBtb2RlID0gZHJtX21vZGVfY3JlYXRlKGNv
+bm5lY3Rvci0+ZGV2KTsNCj4gKyAgICAgICBtb2RlID0gZHJtX21vZGVfZHVwbGljYXRlKGNvbm5l
+Y3Rvci0+ZGV2LCAmbHZkcy0+ZG1vZGUpOw0KPiAgICAgICAgIGlmICghbW9kZSkNCj4gICAgICAg
+ICAgICAgICAgIHJldHVybiAwOw0KPiANCj4gLSAgICAgICBkcm1fZGlzcGxheV9tb2RlX2Zyb21f
+dmlkZW9tb2RlKCZsdmRzLT52aWRlb19tb2RlLCBtb2RlKTsNCj4gICAgICAgICBtb2RlLT50eXBl
+IHw9IERSTV9NT0RFX1RZUEVfRFJJVkVSIHwgRFJNX01PREVfVFlQRV9QUkVGRVJSRUQ7DQo+ICAg
+ICAgICAgZHJtX21vZGVfcHJvYmVkX2FkZChjb25uZWN0b3IsIG1vZGUpOw0KPiANCj4gLSAgICAg
+ICBjb25uZWN0b3ItPmRpc3BsYXlfaW5mby53aWR0aF9tbSA9IGx2ZHMtPndpZHRoOw0KPiAtICAg
+ICAgIGNvbm5lY3Rvci0+ZGlzcGxheV9pbmZvLmhlaWdodF9tbSA9IGx2ZHMtPmhlaWdodDsNCj4g
+KyAgICAgICBjb25uZWN0b3ItPmRpc3BsYXlfaW5mby53aWR0aF9tbSA9IGx2ZHMtPmRtb2RlLndp
+ZHRoX21tOw0KPiArICAgICAgIGNvbm5lY3Rvci0+ZGlzcGxheV9pbmZvLmhlaWdodF9tbSA9IGx2
+ZHMtPmRtb2RlLmhlaWdodF9tbTsNCj4gICAgICAgICBkcm1fZGlzcGxheV9pbmZvX3NldF9idXNf
+Zm9ybWF0cygmY29ubmVjdG9yLT5kaXNwbGF5X2luZm8sDQo+ICAgICAgICAgICAgICAgICAgICAg
+ICAgICAgICAgICAgICAgICAgICAgJmx2ZHMtPmJ1c19mb3JtYXQsIDEpOw0KPiAgICAgICAgIGNv
+bm5lY3Rvci0+ZGlzcGxheV9pbmZvLmJ1c19mbGFncyA9IGx2ZHMtPmRhdGFfbWlycm9yDQo+IEBA
+IC0xMTYsNyArMTE2LDYgQEAgc3RhdGljIGNvbnN0IHN0cnVjdCBkcm1fcGFuZWxfZnVuY3MgcGFu
+ZWxfbHZkc19mdW5jcyA9IHsNCj4gIHN0YXRpYyBpbnQgcGFuZWxfbHZkc19wYXJzZV9kdChzdHJ1
+Y3QgcGFuZWxfbHZkcyAqbHZkcykNCj4gIHsNCj4gICAgICAgICBzdHJ1Y3QgZGV2aWNlX25vZGUg
+Km5wID0gbHZkcy0+ZGV2LT5vZl9ub2RlOw0KPiAtICAgICAgIHN0cnVjdCBkaXNwbGF5X3RpbWlu
+ZyB0aW1pbmc7DQo+ICAgICAgICAgaW50IHJldDsNCj4gDQo+ICAgICAgICAgcmV0ID0gb2ZfZHJt
+X2dldF9wYW5lbF9vcmllbnRhdGlvbihucCwgJmx2ZHMtPm9yaWVudGF0aW9uKTsNCj4gQEAgLTEy
+NSwyOCArMTI0LDEzIEBAIHN0YXRpYyBpbnQgcGFuZWxfbHZkc19wYXJzZV9kdChzdHJ1Y3QgcGFu
+ZWxfbHZkcyAqbHZkcykNCj4gICAgICAgICAgICAgICAgIHJldHVybiByZXQ7DQo+ICAgICAgICAg
+fQ0KPiANCj4gLSAgICAgICByZXQgPSBvZl9nZXRfZGlzcGxheV90aW1pbmcobnAsICJwYW5lbC10
+aW1pbmciLCAmdGltaW5nKTsNCj4gKyAgICAgICByZXQgPSBvZl9nZXRfZHJtX3BhbmVsX2Rpc3Bs
+YXlfbW9kZShucCwgJmx2ZHMtPmRtb2RlLCAmbHZkcy0+YnVzX2ZsYWdzKTsNCj4gICAgICAgICBp
+ZiAocmV0IDwgMCkgew0KPiAgICAgICAgICAgICAgICAgZGV2X2VycihsdmRzLT5kZXYsICIlcE9G
+OiBwcm9ibGVtcyBwYXJzaW5nIHBhbmVsLXRpbWluZyAoJWQpXG4iLA0KPiAgICAgICAgICAgICAg
+ICAgICAgICAgICBucCwgcmV0KTsNCj4gICAgICAgICAgICAgICAgIHJldHVybiByZXQ7DQo+ICAg
+ICAgICAgfQ0KPiANCj4gLSAgICAgICB2aWRlb21vZGVfZnJvbV90aW1pbmcoJnRpbWluZywgJmx2
+ZHMtPnZpZGVvX21vZGUpOw0KPiAtDQo+IC0gICAgICAgcmV0ID0gb2ZfcHJvcGVydHlfcmVhZF91
+MzIobnAsICJ3aWR0aC1tbSIsICZsdmRzLT53aWR0aCk7DQo+IC0gICAgICAgaWYgKHJldCA8IDAp
+IHsNCj4gLSAgICAgICAgICAgICAgIGRldl9lcnIobHZkcy0+ZGV2LCAiJXBPRjogaW52YWxpZCBv
+ciBtaXNzaW5nICVzIERUIHByb3BlcnR5XG4iLA0KPiAtICAgICAgICAgICAgICAgICAgICAgICBu
+cCwgIndpZHRoLW1tIik7DQo+IC0gICAgICAgICAgICAgICByZXR1cm4gLUVOT0RFVjsNCj4gLSAg
+ICAgICB9DQo+IC0gICAgICAgcmV0ID0gb2ZfcHJvcGVydHlfcmVhZF91MzIobnAsICJoZWlnaHQt
+bW0iLCAmbHZkcy0+aGVpZ2h0KTsNCj4gLSAgICAgICBpZiAocmV0IDwgMCkgew0KPiAtICAgICAg
+ICAgICAgICAgZGV2X2VycihsdmRzLT5kZXYsICIlcE9GOiBpbnZhbGlkIG9yIG1pc3NpbmcgJXMg
+RFQgcHJvcGVydHlcbiIsDQo+IC0gICAgICAgICAgICAgICAgICAgICAgIG5wLCAiaGVpZ2h0LW1t
+Iik7DQo+IC0gICAgICAgICAgICAgICByZXR1cm4gLUVOT0RFVjsNCj4gLSAgICAgICB9DQo+IC0N
+Cj4gICAgICAgICBvZl9wcm9wZXJ0eV9yZWFkX3N0cmluZyhucCwgImxhYmVsIiwgJmx2ZHMtPmxh
+YmVsKTsNCj4gDQo+ICAgICAgICAgcmV0ID0gZHJtX29mX2x2ZHNfZ2V0X2RhdGFfbWFwcGluZyhu
+cCk7DQoNClRlc3RlZC1ieTogQ2hyaXN0b3BoIE5pZWRlcm1haWVyIDxjbmllZGVybWFpZXJAZGgt
+ZWxlY3Ryb25pY3MuY29tPg0KDQpSZWdhcmRzDQpDaHJpc3RvcGgNCg==
