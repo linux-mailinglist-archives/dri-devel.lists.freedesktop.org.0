@@ -2,52 +2,40 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 67AB44EF289
-	for <lists+dri-devel@lfdr.de>; Fri,  1 Apr 2022 17:14:22 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id C024E4EF2D3
+	for <lists+dri-devel@lfdr.de>; Fri,  1 Apr 2022 17:15:30 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 76F7810E42D;
-	Fri,  1 Apr 2022 15:14:17 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id E56C610F603;
+	Fri,  1 Apr 2022 15:15:28 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mga09.intel.com (mga09.intel.com [134.134.136.24])
- by gabe.freedesktop.org (Postfix) with ESMTPS id CA7B510E40C;
- Fri,  1 Apr 2022 15:14:15 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1648826055; x=1680362055;
- h=date:from:to:cc:subject:message-id:references:
- mime-version:content-transfer-encoding:in-reply-to;
- bh=dX0S/wIcv92sOVUbwU1IHtBqyyBGvhIlNFkdz9xxBfw=;
- b=QIchIX7h3Yz8gg6/cMANJmbk8sIaGmB+AsTuQ2Bp2zbHoluzlZNrWpTW
- Imn0osvgWHvSjlXZcZCDqGNQfbenPJdwMYxUhm+5/ptcy+2vf4klAcyLF
- GoM161ZrzTeD3ShlVSrDnFSysrJQJhhznAe3q7WZfRvxTB6Pb2lH/BmSu
- heR336Jrsfnpemijpxh6aUFasPjjG+LG04jLIodGBfeCJ1GsIMNLSSjXp
- VgG0L83Ax4FRfM4I0jq/lSTPGyH2Sn+odusXRng1ZSoPLlz9Qa/UToGLN
- ED3s2YnKByBqK4saaqKzt+ETCrFo4u5g6ZutMZuq/rI5cuRAaCIyRxWRA g==;
-X-IronPort-AV: E=McAfee;i="6200,9189,10304"; a="259861275"
-X-IronPort-AV: E=Sophos;i="5.90,228,1643702400"; d="scan'208";a="259861275"
-Received: from fmsmga003.fm.intel.com ([10.253.24.29])
- by orsmga102.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 01 Apr 2022 08:14:15 -0700
-X-IronPort-AV: E=Sophos;i="5.90,228,1643702400"; d="scan'208";a="640564633"
-Received: from orsosgc001.jf.intel.com (HELO unerlige-ril-10.165.21.154)
- ([10.165.21.154])
- by fmsmga003-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 01 Apr 2022 08:14:14 -0700
-Date: Fri, 1 Apr 2022 08:14:14 -0700
-From: Umesh Nerlige Ramappa <umesh.nerlige.ramappa@intel.com>
-To: Tvrtko Ursulin <tvrtko.ursulin@linux.intel.com>
-Subject: Re: [Intel-gfx] [PATCH i-g-t 1/3] lib: Helper library for parsing
- i915 fdinfo output
-Message-ID: <20220401151414.GG59408@unerlige-ril-10.165.21.154>
-References: <20220401141155.3122817-1-tvrtko.ursulin@linux.intel.com>
- <20220401141155.3122817-2-tvrtko.ursulin@linux.intel.com>
+Received: from perceval.ideasonboard.com (perceval.ideasonboard.com
+ [213.167.242.64])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 3A37110E04A;
+ Fri,  1 Apr 2022 15:15:27 +0000 (UTC)
+Received: from pendragon.ideasonboard.com (62-78-145-57.bb.dnainternet.fi
+ [62.78.145.57])
+ by perceval.ideasonboard.com (Postfix) with ESMTPSA id 230442F7;
+ Fri,  1 Apr 2022 17:15:25 +0200 (CEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
+ s=mail; t=1648826125;
+ bh=5yOPoIsawn0sA3ukSdsTOx+4JwMsrO7KbVzQYk0IMW0=;
+ h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+ b=E40YRWBJC8q1rnfWjf6RAa5znLaTq25i66I7at9xrprq8wL9LbMew/dvr8srs1MCQ
+ msoXNIsFJYoEKFB9uzWZ/dRHaXAkvY2k+NP8xONy/lSLHHZ5kHDvRJI+1y2QCtJXmY
+ sk50Rb9x0XuoGIk+ldVcyYWx7XtKarci1BskfVa8=
+Date: Fri, 1 Apr 2022 18:15:22 +0300
+From: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+To: Abhinav Kumar <quic_abhinavk@quicinc.com>
+Subject: Re: [PATCH v6 1/4] drm: allow passing possible_crtcs to
+ drm_writeback_connector_init()
+Message-ID: <YkcXCj9TEZBo5si/@pendragon.ideasonboard.com>
+References: <1648771933-18512-1-git-send-email-quic_abhinavk@quicinc.com>
+ <1648771933-18512-2-git-send-email-quic_abhinavk@quicinc.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <20220401141155.3122817-2-tvrtko.ursulin@linux.intel.com>
-User-Agent: Mutt/1.12.1 (2019-06-15)
+In-Reply-To: <1648771933-18512-2-git-send-email-quic_abhinavk@quicinc.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -60,331 +48,201 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: igt-dev@lists.freedesktop.org, Intel-gfx@lists.freedesktop.org,
- dri-devel@lists.freedesktop.org
+Cc: hamohammed.sa@gmail.com, suraj.kandpal@intel.com, emma@anholt.net,
+ rodrigosiqueiramelo@gmail.com, jani.nikula@intel.com, liviu.dudau@arm.com,
+ dri-devel@lists.freedesktop.org, swboyd@chromium.org, melissa.srw@gmail.com,
+ nganji@codeaurora.org, seanpaul@chromium.org, dmitry.baryshkov@linaro.org,
+ james.qian.wang@arm.com, quic_aravindh@quicinc.com, mihail.atanassov@arm.com,
+ freedreno@lists.freedesktop.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-lgtm, thanks for clarifications on the other patch.
+Hello Abhinav,
 
-Reviewed-by: Umesh Nerlige Ramappa <umesh.nerlige.ramappa@intel.com>
+Thank you for the patch.
 
-Umesh
+On Thu, Mar 31, 2022 at 05:12:10PM -0700, Abhinav Kumar wrote:
+> Clients of drm_writeback_connector_init() initialize the
+> possible_crtcs and then invoke the call to this API.
+> 
+> To simplify things, allow passing possible_crtcs as a parameter
+> to drm_writeback_connector_init() and make changes to the
+> other drm drivers to make them compatible with this change.
+> 
+> changes in v6:
+>      - None
+> 
+> Signed-off-by: Abhinav Kumar <quic_abhinavk@quicinc.com>
+> Acked-by: Liviu Dudau <liviu.dudau@arm.com>
+> ---
+>  drivers/gpu/drm/arm/display/komeda/komeda_wb_connector.c | 3 +--
+>  drivers/gpu/drm/arm/malidp_mw.c                          | 4 ++--
+>  drivers/gpu/drm/drm_writeback.c                          | 6 +++++-
+>  drivers/gpu/drm/rcar-du/rcar_du_writeback.c              | 4 ++--
+>  drivers/gpu/drm/vc4/vc4_txp.c                            | 3 ++-
+>  drivers/gpu/drm/vkms/vkms_writeback.c                    | 4 ++--
+>  include/drm/drm_writeback.h                              | 2 +-
+>  7 files changed, 15 insertions(+), 11 deletions(-)
+> 
+> diff --git a/drivers/gpu/drm/arm/display/komeda/komeda_wb_connector.c b/drivers/gpu/drm/arm/display/komeda/komeda_wb_connector.c
+> index e465cc4..40774e6 100644
+> --- a/drivers/gpu/drm/arm/display/komeda/komeda_wb_connector.c
+> +++ b/drivers/gpu/drm/arm/display/komeda/komeda_wb_connector.c
+> @@ -155,7 +155,6 @@ static int komeda_wb_connector_add(struct komeda_kms_dev *kms,
+>  	kwb_conn->wb_layer = kcrtc->master->wb_layer;
+>  
+>  	wb_conn = &kwb_conn->base;
+> -	wb_conn->encoder.possible_crtcs = BIT(drm_crtc_index(&kcrtc->base));
+>  
+>  	formats = komeda_get_layer_fourcc_list(&mdev->fmt_tbl,
+>  					       kwb_conn->wb_layer->layer_type,
+> @@ -164,7 +163,7 @@ static int komeda_wb_connector_add(struct komeda_kms_dev *kms,
+>  	err = drm_writeback_connector_init(&kms->base, wb_conn,
+>  					   &komeda_wb_connector_funcs,
+>  					   &komeda_wb_encoder_helper_funcs,
+> -					   formats, n_formats);
+> +					   formats, n_formats, BIT(drm_crtc_index(&kcrtc->base)));
 
-On Fri, Apr 01, 2022 at 03:11:53PM +0100, Tvrtko Ursulin wrote:
->From: Tvrtko Ursulin <tvrtko.ursulin@intel.com>
->
->Tests and intel_gpu_top will share common code for parsing this file.
->
->v2:
-> * Fix key-value parsing if valid key line ends with ':'.
-> * Return number of drm keys found.
-> * Add DRM_CLIENT_FDINFO_MAX_ENGINES. (Umesh)
-> * Always zero terminate read buffer. (Umesh)
->
->Signed-off-by: Tvrtko Ursulin <tvrtko.ursulin@intel.com>
->---
-> lib/igt_drm_fdinfo.c | 188 +++++++++++++++++++++++++++++++++++++++++++
-> lib/igt_drm_fdinfo.h |  69 ++++++++++++++++
-> lib/meson.build      |   7 ++
-> 3 files changed, 264 insertions(+)
-> create mode 100644 lib/igt_drm_fdinfo.c
-> create mode 100644 lib/igt_drm_fdinfo.h
->
->diff --git a/lib/igt_drm_fdinfo.c b/lib/igt_drm_fdinfo.c
->new file mode 100644
->index 000000000000..b422f67a4ace
->--- /dev/null
->+++ b/lib/igt_drm_fdinfo.c
->@@ -0,0 +1,188 @@
->+/*
->+ * Copyright © 2022 Intel Corporation
->+ *
->+ * Permission is hereby granted, free of charge, to any person obtaining a
->+ * copy of this software and associated documentation files (the "Software"),
->+ * to deal in the Software without restriction, including without limitation
->+ * the rights to use, copy, modify, merge, publish, distribute, sublicense,
->+ * and/or sell copies of the Software, and to permit persons to whom the
->+ * Software is furnished to do so, subject to the following conditions:
->+ *
->+ * The above copyright notice and this permission notice (including the next
->+ * paragraph) shall be included in all copies or substantial portions of the
->+ * Software.
->+ *
->+ * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
->+ * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
->+ * FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT.  IN NO EVENT SHALL
->+ * THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
->+ * LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING
->+ * FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS
->+ * IN THE SOFTWARE.
->+ *
->+ */
->+
->+#include <ctype.h>
->+#include <sys/types.h>
->+#include <sys/stat.h>
->+#include <fcntl.h>
->+#include <stdio.h>
->+#include <string.h>
->+#include <stdlib.h>
->+#include <unistd.h>
->+
->+#include "drmtest.h"
->+
->+#include "igt_drm_fdinfo.h"
->+
->+static size_t read_fdinfo(char *buf, const size_t sz, int at, const char *name)
->+{
->+	size_t count;
->+	int fd;
->+
->+	fd = openat(at, name, O_RDONLY);
->+	if (fd < 0)
->+		return 0;
->+
->+	buf[sz - 1] = 0;
->+	count = read(fd, buf, sz);
->+	buf[sz - 1] = 0;
->+	close(fd);
->+
->+	return count;
->+}
->+
->+static int parse_engine(char *line, struct drm_client_fdinfo *info,
->+			size_t prefix_len, uint64_t *val)
->+{
->+	static const char *e2class[] = {
->+		"render",
->+		"copy",
->+		"video",
->+		"video-enhance",
->+	};
->+	ssize_t name_len;
->+	char *name, *p;
->+	int found = -1;
->+	unsigned int i;
->+
->+	p = index(line, ':');
->+	if (!p || p == line)
->+		return -1;
->+
->+	name_len = p - line - prefix_len;
->+	if (name_len < 1)
->+		return -1;
->+
->+	name = line + prefix_len;
->+
->+	for (i = 0; i < ARRAY_SIZE(e2class); i++) {
->+		if (!strncmp(name, e2class[i], name_len)) {
->+			found = i;
->+			break;
->+		}
->+	}
->+
->+	if (found >= 0) {
->+		while (*++p && isspace(*p));
->+		*val = strtoull(p, NULL, 10);
->+	}
->+
->+	return found;
->+}
->+
->+static const char *find_kv(const char *buf, const char *key, size_t keylen)
->+{
->+	const char *p = buf;
->+
->+	if (strncmp(buf, key, keylen))
->+		return NULL;
->+
->+	p = index(buf, ':');
->+	if (!p || p == buf)
->+		return NULL;
->+	if ((p - buf) != keylen)
->+		return NULL;
->+
->+	p++;
->+	while (*p && isspace(*p))
->+		p++;
->+
->+	return *p ? p : NULL;
->+}
->+
->+unsigned int
->+__igt_parse_drm_fdinfo(int dir, const char *fd, struct drm_client_fdinfo *info)
->+{
->+	char buf[4096], *_buf = buf;
->+	char *l, *ctx = NULL;
->+	unsigned int good = 0, num_capacity = 0;
->+	size_t count;
->+
->+	count = read_fdinfo(buf, sizeof(buf), dir, fd);
->+	if (!count)
->+		return 0;
->+
->+	while ((l = strtok_r(_buf, "\n", &ctx))) {
->+		uint64_t val = 0;
->+		const char *v;
->+		int idx;
->+
->+		_buf = NULL;
->+
->+		if ((v = find_kv(l, "drm-driver", strlen("drm-driver")))) {
->+			strncpy(info->driver, v, sizeof(info->driver) - 1);
->+			good++;
->+		} else if ((v = find_kv(l, "drm-pdev", strlen("drm-pdev")))) {
->+			strncpy(info->pdev, v, sizeof(info->pdev) - 1);
->+		}  else if ((v = find_kv(l, "drm-client-id",
->+					 strlen("drm-client-id")))) {
->+			info->id = atol(v);
->+			good++;
->+		} else if (!strncmp(l, "drm-engine-", 11) &&
->+			   strncmp(l, "drm-engine-capacity-", 20)) {
->+			idx = parse_engine(l, info, strlen("drm-engine-"),
->+					   &val);
->+			if (idx >= 0) {
->+				if (!info->capacity[idx])
->+					info->capacity[idx] = 1;
->+				info->busy[idx] = val;
->+				info->num_engines++;
->+			}
->+		} else if (!strncmp(l, "drm-engine-capacity-", 20)) {
->+			idx = parse_engine(l, info,
->+					   strlen("drm-engine-capacity-"),
->+					   &val);
->+			if (idx >= 0) {
->+				info->capacity[idx] = val;
->+				num_capacity++;
->+			}
->+		}
->+	}
->+
->+	if (good < 2 || !info->num_engines)
->+		return 0; /* fdinfo format not as expected */
->+
->+	return good + info->num_engines + num_capacity;
->+}
->+
->+unsigned int igt_parse_drm_fdinfo(int drm_fd, struct drm_client_fdinfo *info)
->+{
->+	unsigned int res;
->+	char fd[64];
->+	int dir, ret;
->+
->+	ret = snprintf(fd, sizeof(fd), "%u", drm_fd);
->+	if (ret < 0 || ret == sizeof(fd))
->+		return false;
->+
->+	dir = open("/proc/self/fdinfo", O_DIRECTORY | O_RDONLY);
->+	if (dir < 0)
->+		return false;
->+
->+	res = __igt_parse_drm_fdinfo(dir, fd, info);
->+
->+	close(dir);
->+
->+	return res;
->+}
->diff --git a/lib/igt_drm_fdinfo.h b/lib/igt_drm_fdinfo.h
->new file mode 100644
->index 000000000000..5db63e28b07e
->--- /dev/null
->+++ b/lib/igt_drm_fdinfo.h
->@@ -0,0 +1,69 @@
->+/*
->+ * Copyright © 2022 Intel Corporation
->+ *
->+ * Permission is hereby granted, free of charge, to any person obtaining a
->+ * copy of this software and associated documentation files (the "Software"),
->+ * to deal in the Software without restriction, including without limitation
->+ * the rights to use, copy, modify, merge, publish, distribute, sublicense,
->+ * and/or sell copies of the Software, and to permit persons to whom the
->+ * Software is furnished to do so, subject to the following conditions:
->+ *
->+ * The above copyright notice and this permission notice (including the next
->+ * paragraph) shall be included in all copies or substantial portions of the
->+ * Software.
->+ *
->+ * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
->+ * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
->+ * FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT.  IN NO EVENT SHALL
->+ * THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
->+ * LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING
->+ * FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS
->+ * IN THE SOFTWARE.
->+ *
->+ */
->+
->+#ifndef IGT_DRM_FDINFO_H
->+#define IGT_DRM_FDINFO_H
->+
->+#include <sys/types.h>
->+#include <dirent.h>
->+#include <stdint.h>
->+#include <stdbool.h>
->+
->+#define DRM_CLIENT_FDINFO_MAX_ENGINES 16
->+
->+struct drm_client_fdinfo {
->+	char driver[128];
->+	char pdev[128];
->+	unsigned long id;
->+
->+	unsigned int num_engines;
->+	unsigned int capacity[DRM_CLIENT_FDINFO_MAX_ENGINES];
->+	uint64_t busy[DRM_CLIENT_FDINFO_MAX_ENGINES];
->+};
->+
->+/**
->+ * igt_parse_drm_fdinfo: Parses the drm fdinfo file
->+ *
->+ * @drm_fd: DRM file descriptor
->+ * @info: Structure to populate with read data
->+ *
->+ * Returns the number of valid drm fdinfo keys found or zero if not all
->+ * mandatory keys were present or no engines found.
->+ */
->+unsigned int igt_parse_drm_fdinfo(int drm_fd, struct drm_client_fdinfo *info);
->+
->+/**
->+ * __igt_parse_drm_fdinfo: Parses the drm fdinfo file
->+ *
->+ * @dir: File descriptor pointing to /proc/pid/fdinfo directory
->+ * @fd: String representation of the file descriptor number to parse.
->+ * @info: Structure to populate with read data
->+ *
->+ * Returns the number of valid drm fdinfo keys found or zero if not all
->+ * mandatory keys were present or no engines found.
->+ */
->+unsigned int __igt_parse_drm_fdinfo(int dir, const char *fd,
->+				    struct drm_client_fdinfo *info);
->+
->+#endif /* IGT_DRM_FDINFO_H */
->diff --git a/lib/meson.build b/lib/meson.build
->index 6fc1958604b3..ccee7a596561 100644
->--- a/lib/meson.build
->+++ b/lib/meson.build
->@@ -18,6 +18,7 @@ lib_sources = [
-> 	'igt_debugfs.c',
-> 	'igt_device.c',
-> 	'igt_device_scan.c',
->+	'igt_drm_fdinfo.c',
-> 	'igt_aux.c',
-> 	'igt_gt.c',
-> 	'igt_halffloat.c',
->@@ -218,6 +219,12 @@ lib_igt_device_scan_build = static_library('igt_device_scan',
-> lib_igt_device_scan = declare_dependency(link_with : lib_igt_device_scan_build,
-> 				  include_directories : inc)
->
->+lib_igt_drm_fdinfo_build = static_library('igt_drm_fdinfo',
->+	['igt_drm_fdinfo.c'],
->+	include_directories : inc)
->+
->+lib_igt_drm_fdinfo = declare_dependency(link_with : lib_igt_drm_fdinfo_build,
->+				  include_directories : inc)
-> i915_perf_files = [
->   'igt_list.c',
->   'i915/perf.c',
->-- 
->2.32.0
->
+Please wrap long lines to match the coding style of existing drivers.
+
+>  	komeda_put_fourcc_list(formats);
+>  	if (err) {
+>  		kfree(kwb_conn);
+> diff --git a/drivers/gpu/drm/arm/malidp_mw.c b/drivers/gpu/drm/arm/malidp_mw.c
+> index f5847a7..e54921d 100644
+> --- a/drivers/gpu/drm/arm/malidp_mw.c
+> +++ b/drivers/gpu/drm/arm/malidp_mw.c
+> @@ -212,7 +212,6 @@ int malidp_mw_connector_init(struct drm_device *drm)
+>  	if (!malidp->dev->hw->enable_memwrite)
+>  		return 0;
+>  
+> -	malidp->mw_connector.encoder.possible_crtcs = 1 << drm_crtc_index(&malidp->crtc);
+>  	drm_connector_helper_add(&malidp->mw_connector.base,
+>  				 &malidp_mw_connector_helper_funcs);
+>  
+> @@ -223,7 +222,8 @@ int malidp_mw_connector_init(struct drm_device *drm)
+>  	ret = drm_writeback_connector_init(drm, &malidp->mw_connector,
+>  					   &malidp_mw_connector_funcs,
+>  					   &malidp_mw_encoder_helper_funcs,
+> -					   formats, n_formats);
+> +					   formats, n_formats,
+> +					  (1 << drm_crtc_index(&malidp->crtc)));
+
+Wrong indentation, and outer parentheses are not needed.
+
+>  	kfree(formats);
+>  	if (ret)
+>  		return ret;
+> diff --git a/drivers/gpu/drm/drm_writeback.c b/drivers/gpu/drm/drm_writeback.c
+> index dccf4504..dc2ef12 100644
+> --- a/drivers/gpu/drm/drm_writeback.c
+> +++ b/drivers/gpu/drm/drm_writeback.c
+> @@ -157,6 +157,7 @@ static const struct drm_encoder_funcs drm_writeback_encoder_funcs = {
+>   * @enc_helper_funcs: Encoder helper funcs vtable to be used by the internal encoder
+>   * @formats: Array of supported pixel formats for the writeback engine
+>   * @n_formats: Length of the formats array
+> + * @possible_crtcs: possible crtcs for the internal writeback encoder
+>   *
+>   * This function creates the writeback-connector-specific properties if they
+>   * have not been already created, initializes the connector as
+> @@ -174,7 +175,7 @@ int drm_writeback_connector_init(struct drm_device *dev,
+>  				 struct drm_writeback_connector *wb_connector,
+>  				 const struct drm_connector_funcs *con_funcs,
+>  				 const struct drm_encoder_helper_funcs *enc_helper_funcs,
+> -				 const u32 *formats, int n_formats)
+> +				 const u32 *formats, int n_formats, uint32_t possible_crtcs)
+
+For in-kernel code, you can use u32 instead of uint32_t.
+
+>  {
+>  	struct drm_property_blob *blob;
+>  	struct drm_connector *connector = &wb_connector->base;
+> @@ -190,6 +191,9 @@ int drm_writeback_connector_init(struct drm_device *dev,
+>  		return PTR_ERR(blob);
+>  
+>  	drm_encoder_helper_add(&wb_connector->encoder, enc_helper_funcs);
+> +
+> +	wb_connector->encoder.possible_crtcs = possible_crtcs;
+> +
+>  	ret = drm_encoder_init(dev, &wb_connector->encoder,
+>  			       &drm_writeback_encoder_funcs,
+>  			       DRM_MODE_ENCODER_VIRTUAL, NULL);
+> diff --git a/drivers/gpu/drm/rcar-du/rcar_du_writeback.c b/drivers/gpu/drm/rcar-du/rcar_du_writeback.c
+> index c79d125..fcfb0b3 100644
+> --- a/drivers/gpu/drm/rcar-du/rcar_du_writeback.c
+> +++ b/drivers/gpu/drm/rcar-du/rcar_du_writeback.c
+> @@ -200,7 +200,6 @@ int rcar_du_writeback_init(struct rcar_du_device *rcdu,
+>  {
+>  	struct drm_writeback_connector *wb_conn = &rcrtc->writeback;
+>  
+> -	wb_conn->encoder.possible_crtcs = 1 << drm_crtc_index(&rcrtc->crtc);
+>  	drm_connector_helper_add(&wb_conn->base,
+>  				 &rcar_du_wb_conn_helper_funcs);
+>  
+> @@ -208,7 +207,8 @@ int rcar_du_writeback_init(struct rcar_du_device *rcdu,
+>  					    &rcar_du_wb_conn_funcs,
+>  					    &rcar_du_wb_enc_helper_funcs,
+>  					    writeback_formats,
+> -					    ARRAY_SIZE(writeback_formats));
+> +					    ARRAY_SIZE(writeback_formats),
+> +					   (1 << drm_crtc_index(&rcrtc->crtc)));
+
+Wrong indentation, and outer parentheses are not needed.
+
+>  }
+>  
+>  void rcar_du_writeback_setup(struct rcar_du_crtc *rcrtc,
+> diff --git a/drivers/gpu/drm/vc4/vc4_txp.c b/drivers/gpu/drm/vc4/vc4_txp.c
+> index 9809ca3..3447eb6 100644
+> --- a/drivers/gpu/drm/vc4/vc4_txp.c
+> +++ b/drivers/gpu/drm/vc4/vc4_txp.c
+> @@ -497,7 +497,8 @@ static int vc4_txp_bind(struct device *dev, struct device *master, void *data)
+>  	ret = drm_writeback_connector_init(drm, &txp->connector,
+>  					   &vc4_txp_connector_funcs,
+>  					   &vc4_txp_encoder_helper_funcs,
+> -					   drm_fmts, ARRAY_SIZE(drm_fmts));
+> +					   drm_fmts, ARRAY_SIZE(drm_fmts),
+> +					   0);
+>  	if (ret)
+>  		return ret;
+>  
+> diff --git a/drivers/gpu/drm/vkms/vkms_writeback.c b/drivers/gpu/drm/vkms/vkms_writeback.c
+> index 8694227..6d01e55 100644
+> --- a/drivers/gpu/drm/vkms/vkms_writeback.c
+> +++ b/drivers/gpu/drm/vkms/vkms_writeback.c
+> @@ -140,12 +140,12 @@ int vkms_enable_writeback_connector(struct vkms_device *vkmsdev)
+>  {
+>  	struct drm_writeback_connector *wb = &vkmsdev->output.wb_connector;
+>  
+> -	vkmsdev->output.wb_connector.encoder.possible_crtcs = 1;
+>  	drm_connector_helper_add(&wb->base, &vkms_wb_conn_helper_funcs);
+>  
+>  	return drm_writeback_connector_init(&vkmsdev->drm, wb,
+>  					    &vkms_wb_connector_funcs,
+>  					    &vkms_wb_encoder_helper_funcs,
+>  					    vkms_wb_formats,
+> -					    ARRAY_SIZE(vkms_wb_formats));
+> +					    ARRAY_SIZE(vkms_wb_formats),
+> +					    1);
+>  }
+> diff --git a/include/drm/drm_writeback.h b/include/drm/drm_writeback.h
+> index 9697d27..db6214f 100644
+> --- a/include/drm/drm_writeback.h
+> +++ b/include/drm/drm_writeback.h
+> @@ -150,7 +150,7 @@ int drm_writeback_connector_init(struct drm_device *dev,
+>  				 struct drm_writeback_connector *wb_connector,
+>  				 const struct drm_connector_funcs *con_funcs,
+>  				 const struct drm_encoder_helper_funcs *enc_helper_funcs,
+> -				 const u32 *formats, int n_formats);
+> +				 const u32 *formats, int n_formats, uint32_t possible_crtcs);
+
+Line wrap here too.
+
+>  
+>  int drm_writeback_set_fb(struct drm_connector_state *conn_state,
+>  			 struct drm_framebuffer *fb);
+
+-- 
+Regards,
+
+Laurent Pinchart
