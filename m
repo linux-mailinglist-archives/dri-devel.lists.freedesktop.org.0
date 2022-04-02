@@ -1,39 +1,38 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 13D6E4F020E
-	for <lists+dri-devel@lfdr.de>; Sat,  2 Apr 2022 15:17:22 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 059F34F0210
+	for <lists+dri-devel@lfdr.de>; Sat,  2 Apr 2022 15:20:18 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 8327310E2D9;
-	Sat,  2 Apr 2022 13:17:19 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id ACC2A10E087;
+	Sat,  2 Apr 2022 13:20:16 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from ams.source.kernel.org (ams.source.kernel.org
- [IPv6:2604:1380:4601:e00::1])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 9B9C710E2D9
- for <dri-devel@lists.freedesktop.org>; Sat,  2 Apr 2022 13:17:17 +0000 (UTC)
+Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 77E6C10E087
+ for <dri-devel@lists.freedesktop.org>; Sat,  2 Apr 2022 13:20:15 +0000 (UTC)
 Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
  (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
  (No client certificate requested)
- by ams.source.kernel.org (Postfix) with ESMTPS id 18FADB808C9;
- Sat,  2 Apr 2022 13:17:16 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 561A5C34110;
- Sat,  2 Apr 2022 13:17:14 +0000 (UTC)
+ by dfw.source.kernel.org (Postfix) with ESMTPS id EA5B3614CF;
+ Sat,  2 Apr 2022 13:20:14 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 0D619C340EC;
+ Sat,  2 Apr 2022 13:20:13 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linuxfoundation.org;
- s=korg; t=1648905434;
- bh=t6dXvcj4ZDtOEocZs+4Svo4tgGUJ2VAHVF1QoVPHJsc=;
+ s=korg; t=1648905614;
+ bh=d7xEhHGaM6RZ5J1GxacT6l7W4AM0+2DswZtXo8mYH8I=;
  h=Subject:To:Cc:From:Date:From;
- b=ZhEpGH7AmxeNmA5wW/oUGcdN6do0zyY4joTWZEDoKuEu+3ojQSAiXTcQ2SzPkAoJI
- 3nbhPvf1E2Y1OflXKSc2J5oBRe261EEc2iOOS4Ydx5RadMYTSdx4dSMDD97cAJj/q+
- ZBY7e8/HKl+xsESnGdkTGbzxYmd9koEIRIiTirr4=
+ b=D2tmbg53Z+Is+BlvTobmVASDPgEiI9qiRcxQnHG4xey37HbqxXDCEtm4vUL7lAql6
+ 5yiac40WHM8D27Xo9JibtnTnOrnrW05eV2O5MvPqj0D8kce+Hpw3SGRkvIHx0mNGSf
+ QihyStQYVZZV2Ayxbs3Y52Py1jsxkJL0/W/sXyM0=
 Subject: Patch "drm/fb-helper: Mark screen buffers in system memory with
- FBINFO_VIRTFB" has been added to the 5.15-stable tree
+ FBINFO_VIRTFB" has been added to the 5.16-stable tree
 To: daniel.vetter@ffwll.ch, dri-devel@lists.freedesktop.org,
  gregkh@linuxfoundation.org, tzimmermann@suse.de
 From: <gregkh@linuxfoundation.org>
-Date: Sat, 02 Apr 2022 15:10:55 +0200
-Message-ID: <1648905055207134@kroah.com>
+Date: Sat, 02 Apr 2022 15:11:05 +0200
+Message-ID: <16489050651912@kroah.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=ANSI_X3.4-1968
 Content-Transfer-Encoding: 8bit
@@ -60,12 +59,12 @@ This is a note to let you know that I've just added the patch titled
 
     drm/fb-helper: Mark screen buffers in system memory with FBINFO_VIRTFB
 
-to the 5.15-stable tree which can be found at:
+to the 5.16-stable tree which can be found at:
     http://www.kernel.org/git/?p=linux/kernel/git/stable/stable-queue.git;a=summary
 
 The filename of the patch is:
      drm-fb-helper-mark-screen-buffers-in-system-memory-with-fbinfo_virtfb.patch
-and it can be found in the queue-5.15 subdirectory.
+and it can be found in the queue-5.16 subdirectory.
 
 If you, or anyone else, feels it should not be added to the stable tree,
 please let <stable@vger.kernel.org> know about it.
@@ -142,7 +141,7 @@ Signed-off-by: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
 
 Patches currently in stable-queue which might be from tzimmermann@suse.de are
 
-queue-5.15/fbdev-hot-unplug-firmware-fb-devices-on-forced-removal.patch
-queue-5.15/drm-fb-helper-mark-screen-buffers-in-system-memory-with-fbinfo_virtfb.patch
-queue-5.15/drm-simpledrm-add-panel-orientation-property-on-non-upright-mounted-lcd-panels.patch
-queue-5.15/mgag200-fix-memmapsl-configuration-in-gctl6-register.patch
+queue-5.16/fbdev-hot-unplug-firmware-fb-devices-on-forced-removal.patch
+queue-5.16/drm-fb-helper-mark-screen-buffers-in-system-memory-with-fbinfo_virtfb.patch
+queue-5.16/drm-simpledrm-add-panel-orientation-property-on-non-upright-mounted-lcd-panels.patch
+queue-5.16/mgag200-fix-memmapsl-configuration-in-gctl6-register.patch
