@@ -1,55 +1,55 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0661A4EFF8C
-	for <lists+dri-devel@lfdr.de>; Sat,  2 Apr 2022 10:12:59 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 721454EFFDC
+	for <lists+dri-devel@lfdr.de>; Sat,  2 Apr 2022 11:03:23 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 113DB10E5B8;
-	Sat,  2 Apr 2022 08:12:54 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 4AE6B10E1DE;
+	Sat,  2 Apr 2022 09:03:18 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mga02.intel.com (mga02.intel.com [134.134.136.20])
- by gabe.freedesktop.org (Postfix) with ESMTPS id B4D1810E282;
- Sat,  2 Apr 2022 08:12:52 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1648887172; x=1680423172;
- h=date:from:to:cc:subject:message-id:references:
- mime-version:in-reply-to;
- bh=9nakgVIZsBk8MoVNmlFRigUOZ3RgRXBKut7mIr/t7TY=;
- b=UmdBlHSXLywanxXZGhndjREEbUeh44fuifCGuWGnNeIbzCC8WBlE/s7B
- yiE1ttg0WaMScngGXKCKzSm6lJbWw38+MXTTqVr5f2jvoJeyxLF097hkf
- NKOpoG4liaI81IoXJGN0fXu3b+M/Oxo+1lX18MybYfo6hMJOo/59XKTBX
- Mky1ygwyiH7X8pb8I2kHfENK2J7tY3xiZay6CSWoUNq6gMzveQg7xWxe5
- UuPJwSsa3B0yRiYrfxTaZfUcaXDxg5pdSjmbH6JtMZ47KXu6BdOq4ZBBl
- FWahyfUVVc5GBqk1m/uTb0y+e4lpfFSURkYI7vbwHpE3dwCqL7oEoF7Mm w==;
-X-IronPort-AV: E=McAfee;i="6200,9189,10304"; a="247795758"
-X-IronPort-AV: E=Sophos;i="5.90,229,1643702400"; d="scan'208";a="247795758"
-Received: from orsmga003.jf.intel.com ([10.7.209.27])
- by orsmga101.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 02 Apr 2022 01:12:51 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.90,229,1643702400"; d="scan'208";a="504416562"
-Received: from lkp-server02.sh.intel.com (HELO 3231c491b0e2) ([10.239.97.151])
- by orsmga003.jf.intel.com with ESMTP; 02 Apr 2022 01:12:49 -0700
-Received: from kbuild by 3231c491b0e2 with local (Exim 4.95)
- (envelope-from <lkp@intel.com>) id 1naYsK-00024e-A7;
- Sat, 02 Apr 2022 08:12:48 +0000
-Date: Sat, 2 Apr 2022 16:12:36 +0800
-From: kernel test robot <lkp@intel.com>
-To: Zhi Wang <zhi.wang.linux@gmail.com>, dri-devel@lists.freedesktop.org,
- linux-kernel@vger.kernel.org, intel-gfx@lists.freedesktop.org,
- intel-gvt-dev@lists.freedesktop.org
-Subject: Re: [PATCH v8 1/3] i915/gvt: Separate the MMIO tracking table from
- GVT-g
-Message-ID: <202204021603.W9Au0C65-lkp@intel.com>
-References: <20220401130207.33944-2-zhi.a.wang@intel.com>
+Received: from 189.cn (ptr.189.cn [183.61.185.103])
+ by gabe.freedesktop.org (Postfix) with ESMTP id DC82210E1DE
+ for <dri-devel@lists.freedesktop.org>; Sat,  2 Apr 2022 09:03:16 +0000 (UTC)
+HMM_SOURCE_IP: 10.64.8.41:50516.2041797902
+HMM_ATTACHE_NUM: 0000
+HMM_SOURCE_TYPE: SMTP
+Received: from clientip-114.242.206.180 (unknown [10.64.8.41])
+ by 189.cn (HERMES) with SMTP id DB04C100277;
+ Sat,  2 Apr 2022 17:02:54 +0800 (CST)
+Received: from  ([172.27.8.53])
+ by gateway-151646-dep-b7fbf7d79-9vctg with ESMTP id
+ e85ed5efb2a74dd7ad033a2856bea132 for mripard@kernel.org; 
+ Sat, 02 Apr 2022 17:03:14 CST
+X-Transaction-ID: e85ed5efb2a74dd7ad033a2856bea132
+X-Real-From: 15330273260@189.cn
+X-Receive-IP: 172.27.8.53
+X-MEDUSA-Status: 0
+From: Sui Jingfeng <15330273260@189.cn>
+To: Maxime Ripard <mripard@kernel.org>,
+ Thomas Zimmermann <tzimmermann@suse.de>,
+ Roland Scheidegger <sroland@vmware.com>, Zack Rusin <zackr@vmware.com>,
+ Christian Gmeiner <christian.gmeiner@gmail.com>,
+ David Airlie <airlied@linux.ie>, Daniel Vetter <daniel@ffwll.ch>,
+ Rob Herring <robh+dt@kernel.org>,
+ Thomas Bogendoerfer <tsbogend@alpha.franken.de>,
+ Dan Carpenter <dan.carpenter@oracle.com>,
+ Krzysztof Kozlowski <krzk@kernel.org>,
+ Andrey Zhizhikin <andrey.zhizhikin@leica-geosystems.com>,
+ Sam Ravnborg <sam@ravnborg.org>, "David S . Miller" <davem@davemloft.net>,
+ Jiaxun Yang <jiaxun.yang@flygoat.com>,
+ Lucas Stach <l.stach@pengutronix.de>,
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+ Ilia Mirkin <imirkin@alum.mit.edu>, Qing Zhang <zhangqing@loongson.cn>,
+ suijingfeng <suijingfeng@loongson.cn>
+Subject: [PATCH v15 0/6] drm/loongson: add drm driver for loongson display
+ controller
+Date: Sat,  2 Apr 2022 17:02:46 +0800
+Message-Id: <20220402090252.1700974-1-15330273260@189.cn>
+X-Mailer: git-send-email 2.25.1
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20220401130207.33944-2-zhi.a.wang@intel.com>
-User-Agent: Mutt/1.10.1 (2018-07-13)
+Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -62,76 +62,137 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Zhi Wang <zhi.a.wang@gmail.com>, kbuild-all@lists.01.org,
- Christoph Hellwig <hch@lst.de>, Jason Gunthorpe <jgg@nvidia.com>,
- Vivi Rodrigo <rodrigo.vivi@intel.com>
+Cc: devicetree@vger.kernel.org, linux-mips@vger.kernel.org,
+ dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi Zhi,
+There is a display controller in loongson's LS2K1000 SoC and LS7A1000
+bridge chip, the display controller is a PCI device. It have two display
+pipes but with only one hardware cursor. Each way has a DVO interface
+which provide RGB888 signals, vertical & horizontal synchronisations,
+data enable and the pixel clock.
 
-I love your patch! Yet something to improve:
+Each CRTC is able to drive a 1920x1080@60Hz monitor, the maxmium
+resolution is 2048x2048. Loongson display controllers are simple which
+require scanout buffers to be physically contiguous.
 
-[auto build test ERROR on drm-intel/for-linux-next]
-[also build test ERROR on drm-tip/drm-tip drm/drm-next next-20220401]
-[cannot apply to tegra-drm/drm/tegra/for-next airlied/drm-next v5.17]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch]
+For LS7A1000 bridge chip, the DC is equipped with a dedicated video RAM
+which is typically 64MB or more. In this case, VRAM helper based driver
+is intended to be used even through the DC can scanout form system memory.
 
-url:    https://github.com/intel-lab-lkp/linux/commits/Zhi-Wang/Refactor-GVT-g-MMIO-tracking-table-and-handlers/20220401-210319
-base:   git://anongit.freedesktop.org/drm-intel for-linux-next
-config: x86_64-randconfig-c002 (https://download.01.org/0day-ci/archive/20220402/202204021603.W9Au0C65-lkp@intel.com/config)
-compiler: gcc-11 (Debian 11.2.0-19) 11.2.0
-reproduce (this is a W=1 build):
-        # https://github.com/intel-lab-lkp/linux/commit/eeae6480610a35a271461e864f84540d6849d8d6
-        git remote add linux-review https://github.com/intel-lab-lkp/linux
-        git fetch --no-tags linux-review Zhi-Wang/Refactor-GVT-g-MMIO-tracking-table-and-handlers/20220401-210319
-        git checkout eeae6480610a35a271461e864f84540d6849d8d6
-        # save the config file to linux build tree
-        mkdir build_dir
-        make W=1 O=build_dir ARCH=x86_64 SHELL=/bin/bash drivers/gpu/
+While LS2K1000 is a SoC which is a typically UMA device, only system
+memory is available. Therefore CMA helper based driver is intended to be
+used. It is possible to use VRAM helper based driver on LS2K1000 by
+carving out part of system memory as VRAM though.
 
-If you fix the issue, kindly add following tag as appropriate
-Reported-by: kernel test robot <lkp@intel.com>
+For LS7A1000, there are 4 dedicated GPIOs whose control registers is
+located at the DC register space, They are used to emulate two way i2c.
+One for DVO0, another for DVO1. LS2K1000 and LS2K0500 SoC don't have such
+GPIO hardwared, they grab i2c adapter from other module, either general
+purpose GPIO emulated i2c or hardware i2c adapter.
 
-All errors (new ones prefixed by >>):
+    +------+            +-----------------------------------+
+    | DDR4 |            |  +-------------------+            |
+    +------+            |  | PCIe Root complex |   LS7A1000 |
+       || MC0           |  +--++---------++----+            |
+  +----------+  HT 3.0  |     ||         ||                 |
+  | LS3A4000 |<-------->| +---++---+  +--++--+    +---------+   +------+
+  |   CPU    |<-------->| | GC1000 |  | LSDC |<-->| DDR3 MC |<->| VRAM |
+  +----------+          | +--------+  +-+--+-+    +---------+   +------+
+       || MC1           +---------------|--|----------------+
+    +------+                            |  |
+    | DDR4 |          +-------+   DVO0  |  |  DVO1   +------+
+    +------+   VGA <--|ADV7125|<--------+  +-------->|TFP410|--> DVI/HDMI
+                      +-------+                      +------+
 
-   In file included from drivers/gpu/drm/i915/gvt/gvt.h:39,
-                    from drivers/gpu/drm/i915/gvt/mpt.h:36,
-                    from <command-line>:
-   drivers/gpu/drm/i915/intel_gvt.h:66:15: error: no previous prototype for 'intel_gvt_get_device_type' [-Werror=missing-prototypes]
-      66 | unsigned long intel_gvt_get_device_type(struct drm_i915_private *i915)
-         |               ^~~~~~~~~~~~~~~~~~~~~~~~~
-   drivers/gpu/drm/i915/intel_gvt.h:71:41: error: 'struct intel_gvt_mmio_table_iter' declared inside parameter list will not be visible outside of this definition or declaration [-Werror]
-      71 | int intel_gvt_iterate_mmio_table(struct intel_gvt_mmio_table_iter *iter)
-         |                                         ^~~~~~~~~~~~~~~~~~~~~~~~~
-   drivers/gpu/drm/i915/intel_gvt.h:71:5: error: no previous prototype for 'intel_gvt_iterate_mmio_table' [-Werror=missing-prototypes]
-      71 | int intel_gvt_iterate_mmio_table(struct intel_gvt_mmio_table_iter *iter)
-         |     ^~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   In file included from drivers/gpu/drm/i915/gvt/gvt.h:43,
-                    from drivers/gpu/drm/i915/gvt/mpt.h:36,
-                    from <command-line>:
->> drivers/gpu/drm/i915/gvt/mmio.h:74:15: error: conflicting types for 'intel_gvt_get_device_type'; have 'long unsigned int(struct intel_gvt *)'
-      74 | unsigned long intel_gvt_get_device_type(struct intel_gvt *gvt);
-         |               ^~~~~~~~~~~~~~~~~~~~~~~~~
-   In file included from drivers/gpu/drm/i915/gvt/gvt.h:39,
-                    from drivers/gpu/drm/i915/gvt/mpt.h:36,
-                    from <command-line>:
-   drivers/gpu/drm/i915/intel_gvt.h:66:15: note: previous definition of 'intel_gvt_get_device_type' with type 'long unsigned int(struct drm_i915_private *)'
-      66 | unsigned long intel_gvt_get_device_type(struct drm_i915_private *i915)
-         |               ^~~~~~~~~~~~~~~~~~~~~~~~~
-   cc1: all warnings being treated as errors
+The above picture give a simple usage of LS7A1000, note that the encoder
+is not necessary adv7125 or tfp410, other candicates can be ch7034b,
+sil9022, ite66121 and lt8618 etc.
 
+Below is a brief introduction of loongson's CPU, bridge chip and SoC.
+LS2K1000 is a double core 1.0Ghz mips64r2 compatible SoC[1]. LS7A1000 is
+a bridge chip made by Loongson corporation which act as north and/or south
+bridge of loongson's desktop and server level processor. It is equivalent
+to AMD RS780E+SB710 or something like that. More details can be read from
+its user manual[2].
 
-vim +74 drivers/gpu/drm/i915/gvt/mmio.h
+This bridge chip is typically use with LS3A3000, LS3A4000 and LS3A5000 cpu.
+LS3A3000 is 4 core 1.45gHz mips64r2 compatible cpu.
+LS3A4000 is 4 core 1.8gHz mips64r5 compatible cpu[3].
+LS3A5000 is 4 core 2.5gHz loongarch cpu[4].
 
-12d14cc43b34706 Zhi Wang     2016-08-30  71  
-8fde41076f6df53 Chris Wilson 2020-03-04  72  const struct intel_engine_cs *
-8fde41076f6df53 Chris Wilson 2020-03-04  73  intel_gvt_render_mmio_to_engine(struct intel_gvt *gvt, unsigned int reg);
-12d14cc43b34706 Zhi Wang     2016-08-30 @74  unsigned long intel_gvt_get_device_type(struct intel_gvt *gvt);
-12d14cc43b34706 Zhi Wang     2016-08-30  75  
+Nearly all loongson cpu has the hardware maintain the cache coherency,
+this is the most distinct feature from other Mips cpu.
+
+[1] https://wiki.debian.org/InstallingDebianOn/Lemote/Loongson2K1000
+[2] https://loongson.github.io/LoongArch-Documentation/Loongson-7A1000-usermanual-EN.html
+[3] https://ee-paper.com/loongson-3a4000-3b4000-motherboard-products-are-compatible-with-uos-system/
+[4] https://loongson.github.io/LoongArch-Documentation/Loongson-3A5000-usermanual-EN.html
+[5] https://github.com/loongson-community/pmon
+
+Sui Jingfeng (6):
+  MIPS: Loongson64: dts: update the display controller device node
+  MIPS: Loongson64: introduce board specific dts and add model property
+  dt-bindings: display: Add Loongson display controller
+  MIPS: Loongson64: defconfig: enable display bridge drivers
+  drm/loongson: add drm driver for loongson display controller
+  MAINTAINERS: add maintainers for DRM LOONGSON driver
+
+ .../loongson/loongson,display-controller.yaml | 289 +++++++++
+ MAINTAINERS                                   |   9 +
+ arch/mips/boot/dts/loongson/Makefile          |   4 +
+ arch/mips/boot/dts/loongson/lemote_a1901.dts  |  96 +++
+ .../boot/dts/loongson/loongson64-2k1000.dtsi  |   8 +
+ .../boot/dts/loongson/ls2k1000_pai_udb.dts    | 107 ++++
+ .../boot/dts/loongson/ls3a4000_7a1000_evb.dts | 138 +++++
+ arch/mips/boot/dts/loongson/ls7a-pch.dtsi     |  22 +-
+ arch/mips/configs/loongson2k_defconfig        |   5 +
+ arch/mips/configs/loongson3_defconfig         |   5 +
+ drivers/gpu/drm/Kconfig                       |   2 +
+ drivers/gpu/drm/Makefile                      |   1 +
+ drivers/gpu/drm/loongson/Kconfig              |  25 +
+ drivers/gpu/drm/loongson/Makefile             |  16 +
+ drivers/gpu/drm/loongson/lsdc_crtc.c          | 400 ++++++++++++
+ drivers/gpu/drm/loongson/lsdc_debugfs.c       | 176 ++++++
+ drivers/gpu/drm/loongson/lsdc_debugfs.h       |  17 +
+ drivers/gpu/drm/loongson/lsdc_drv.c           | 413 +++++++++++++
+ drivers/gpu/drm/loongson/lsdc_drv.h           | 186 ++++++
+ drivers/gpu/drm/loongson/lsdc_i2c.c           | 268 ++++++++
+ drivers/gpu/drm/loongson/lsdc_i2c.h           |  38 ++
+ drivers/gpu/drm/loongson/lsdc_irq.c           |  57 ++
+ drivers/gpu/drm/loongson/lsdc_irq.h           |  17 +
+ drivers/gpu/drm/loongson/lsdc_output.c        | 261 ++++++++
+ drivers/gpu/drm/loongson/lsdc_output.h        |  21 +
+ drivers/gpu/drm/loongson/lsdc_pci_drv.c       | 342 +++++++++++
+ drivers/gpu/drm/loongson/lsdc_plane.c         | 436 +++++++++++++
+ drivers/gpu/drm/loongson/lsdc_pll.c           | 573 ++++++++++++++++++
+ drivers/gpu/drm/loongson/lsdc_pll.h           |  87 +++
+ drivers/gpu/drm/loongson/lsdc_regs.h          | 219 +++++++
+ 30 files changed, 4233 insertions(+), 5 deletions(-)
+ create mode 100644 Documentation/devicetree/bindings/display/loongson/loongson,display-controller.yaml
+ create mode 100644 arch/mips/boot/dts/loongson/lemote_a1901.dts
+ create mode 100644 arch/mips/boot/dts/loongson/ls2k1000_pai_udb.dts
+ create mode 100644 arch/mips/boot/dts/loongson/ls3a4000_7a1000_evb.dts
+ create mode 100644 drivers/gpu/drm/loongson/Kconfig
+ create mode 100644 drivers/gpu/drm/loongson/Makefile
+ create mode 100644 drivers/gpu/drm/loongson/lsdc_crtc.c
+ create mode 100644 drivers/gpu/drm/loongson/lsdc_debugfs.c
+ create mode 100644 drivers/gpu/drm/loongson/lsdc_debugfs.h
+ create mode 100644 drivers/gpu/drm/loongson/lsdc_drv.c
+ create mode 100644 drivers/gpu/drm/loongson/lsdc_drv.h
+ create mode 100644 drivers/gpu/drm/loongson/lsdc_i2c.c
+ create mode 100644 drivers/gpu/drm/loongson/lsdc_i2c.h
+ create mode 100644 drivers/gpu/drm/loongson/lsdc_irq.c
+ create mode 100644 drivers/gpu/drm/loongson/lsdc_irq.h
+ create mode 100644 drivers/gpu/drm/loongson/lsdc_output.c
+ create mode 100644 drivers/gpu/drm/loongson/lsdc_output.h
+ create mode 100644 drivers/gpu/drm/loongson/lsdc_pci_drv.c
+ create mode 100644 drivers/gpu/drm/loongson/lsdc_plane.c
+ create mode 100644 drivers/gpu/drm/loongson/lsdc_pll.c
+ create mode 100644 drivers/gpu/drm/loongson/lsdc_pll.h
+ create mode 100644 drivers/gpu/drm/loongson/lsdc_regs.h
 
 -- 
-0-DAY CI Kernel Test Service
-https://01.org/lkp
+2.25.1
+
