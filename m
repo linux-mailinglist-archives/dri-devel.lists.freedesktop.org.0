@@ -2,39 +2,40 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 32F154F03EA
-	for <lists+dri-devel@lfdr.de>; Sat,  2 Apr 2022 16:25:26 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 347454F03EF
+	for <lists+dri-devel@lfdr.de>; Sat,  2 Apr 2022 16:26:57 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id DF1C410E13D;
-	Sat,  2 Apr 2022 14:25:22 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 55A3410E37F;
+	Sat,  2 Apr 2022 14:26:55 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from sin.source.kernel.org (sin.source.kernel.org [145.40.73.55])
- by gabe.freedesktop.org (Postfix) with ESMTPS id C0F7B10E13D
- for <dri-devel@lists.freedesktop.org>; Sat,  2 Apr 2022 14:25:21 +0000 (UTC)
+Received: from ams.source.kernel.org (ams.source.kernel.org
+ [IPv6:2604:1380:4601:e00::1])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 8C3A110E37F
+ for <dri-devel@lists.freedesktop.org>; Sat,  2 Apr 2022 14:26:53 +0000 (UTC)
 Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
  (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
  (No client certificate requested)
- by sin.source.kernel.org (Postfix) with ESMTPS id 362FACE09CF;
- Sat,  2 Apr 2022 14:25:18 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 1C765C340EC;
- Sat,  2 Apr 2022 14:25:15 +0000 (UTC)
+ by ams.source.kernel.org (Postfix) with ESMTPS id 44C15B80159;
+ Sat,  2 Apr 2022 14:26:52 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id A74BDC340EE;
+ Sat,  2 Apr 2022 14:26:50 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linuxfoundation.org;
- s=korg; t=1648909516;
- bh=TW2BmUxWsqV9iauo5cJ7Ef3GsEmIt9N+oPHkkfUNXTI=;
+ s=korg; t=1648909611;
+ bh=JlkAuNlrRtEy6ma464lQD5W+zPae/owTRMiRuB37T1M=;
  h=Subject:To:Cc:From:Date:From;
- b=tks42PdbKcbGXL2Rr3fd53RcPwOw5Fiq2k3ELxbqAkPWA/rcnWICuclceNOPsGR1w
- qszFxntXd5UDU581ZEKBdO0gOqLthajectb+gYWPwK83RKBRQbfJouMk9wXggDVeug
- dMzRpfrQmHNmu0Tp0Hq0Sa/OZsfX/4WCB3jdSaWw=
+ b=NfrexYzL+oNT+iBwiCoQ/WO8ags1swnxXmMAluPc+JYRFJP7g1zIuNA5NZeVvQH2Y
+ IcGx2gzPhMHrlSLEX7RH09CUyPh3IYr1CbGEREOlcUEe6sAMFgdH+ItxG4JqsRwn6P
+ pAcyooAzSC4bAs7krsNeuSIuXKocYKojRvwsUSIY=
 Subject: Patch "drm/dp: Fix off-by-one in register cache size" has been added
- to the 5.15-stable tree
+ to the 5.16-stable tree
 To: airlied@linux.ie, daniel@ffwll.ch, dri-devel@lists.freedesktop.org,
  gregkh@linuxfoundation.org, gustavoars@kernel.org, keescook@chromium.org,
  maarten.lankhorst@linux.intel.com, mripard@kernel.org, treding@nvidia.com,
  tzimmermann@suse.de
 From: <gregkh@linuxfoundation.org>
-Date: Sat, 02 Apr 2022 16:23:20 +0200
-Message-ID: <164890940053122@kroah.com>
+Date: Sat, 02 Apr 2022 16:23:30 +0200
+Message-ID: <1648909410239218@kroah.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=ANSI_X3.4-1968
 Content-Transfer-Encoding: 8bit
@@ -61,12 +62,12 @@ This is a note to let you know that I've just added the patch titled
 
     drm/dp: Fix off-by-one in register cache size
 
-to the 5.15-stable tree which can be found at:
+to the 5.16-stable tree which can be found at:
     http://www.kernel.org/git/?p=linux/kernel/git/stable/stable-queue.git;a=summary
 
 The filename of the patch is:
      drm-dp-fix-off-by-one-in-register-cache-size.patch
-and it can be found in the queue-5.15 subdirectory.
+and it can be found in the queue-5.16 subdirectory.
 
 If you, or anyone else, feels it should not be added to the stable tree,
 please let <stable@vger.kernel.org> know about it.
@@ -113,8 +114,8 @@ Signed-off-by: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
 
 --- a/include/drm/drm_dp_helper.h
 +++ b/include/drm/drm_dp_helper.h
-@@ -455,7 +455,7 @@ struct drm_panel;
- # define DP_FEC_BIT_ERROR_COUNT_CAP	    (1 << 3)
+@@ -456,7 +456,7 @@ struct drm_panel;
+ #define DP_FEC_CAPABILITY_1			0x091   /* 2.0 */
  
  /* DP-HDMI2.1 PCON DSC ENCODER SUPPORT */
 -#define DP_PCON_DSC_ENCODER_CAP_SIZE        0xC	/* 0x9E - 0x92 */
@@ -126,11 +127,12 @@ Signed-off-by: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
 
 Patches currently in stable-queue which might be from keescook@chromium.org are
 
-queue-5.15/stack-constrain-and-fix-stack-offset-randomization-w.patch
-queue-5.15/coredump-also-dump-first-pages-of-non-executable-elf-libraries.patch
-queue-5.15/selftests-lkdtm-add-ubsan-config.patch
-queue-5.15/fs-binfmt_elf-fix-at_phdr-for-unusual-elf-files.patch
-queue-5.15/gcc-plugins-stackleak-exactly-match-strings-instead-.patch
-queue-5.15/exec-force-single-empty-string-when-argv-is-empty.patch
-queue-5.15/drm-dp-fix-off-by-one-in-register-cache-size.patch
-queue-5.15/pstore-don-t-use-semaphores-in-always-atomic-context-code.patch
+queue-5.16/stack-constrain-and-fix-stack-offset-randomization-w.patch
+queue-5.16/coredump-also-dump-first-pages-of-non-executable-elf-libraries.patch
+queue-5.16/selftests-lkdtm-add-ubsan-config.patch
+queue-5.16/fs-binfmt_elf-fix-at_phdr-for-unusual-elf-files.patch
+queue-5.16/media-omap3isp-use-struct_group-for-memcpy-region.patch
+queue-5.16/gcc-plugins-stackleak-exactly-match-strings-instead-.patch
+queue-5.16/exec-force-single-empty-string-when-argv-is-empty.patch
+queue-5.16/drm-dp-fix-off-by-one-in-register-cache-size.patch
+queue-5.16/pstore-don-t-use-semaphores-in-always-atomic-context-code.patch
