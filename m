@@ -2,61 +2,42 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id CDED14EFD00
-	for <lists+dri-devel@lfdr.de>; Sat,  2 Apr 2022 01:11:14 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id AEFD94EFD7E
+	for <lists+dri-devel@lfdr.de>; Sat,  2 Apr 2022 02:41:45 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 4837010E0D7;
-	Fri,  1 Apr 2022 23:11:11 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id D799D10E105;
+	Sat,  2 Apr 2022 00:41:42 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-lf1-x12e.google.com (mail-lf1-x12e.google.com
- [IPv6:2a00:1450:4864:20::12e])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 611DF10E100
- for <dri-devel@lists.freedesktop.org>; Fri,  1 Apr 2022 23:11:09 +0000 (UTC)
-Received: by mail-lf1-x12e.google.com with SMTP id bu29so7603961lfb.0
- for <dri-devel@lists.freedesktop.org>; Fri, 01 Apr 2022 16:11:09 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=from:to:cc:subject:date:message-id:mime-version
- :content-transfer-encoding;
- bh=aBelTolXdBHgrs8x4WhdW94lmNOFNROJVduSORgOB7o=;
- b=cSJO5Y0WHrvicOzagTdzW8mxEYjtLoEonod/QPZAJ1+rnNH7WrPhfIyLEsUz1LTn1U
- HMYu15v74gwcy/bppNWOwlyIbkowizviinW4I7zNp2IYoAcdxCxiuQhw4tHQ/tJn1Jab
- 9vJysKhMOmHn8o54gaTBFtnWb1HuCILeL7NgmD3AM1pcAWMkvCz88wFcIc0nhXylhgH/
- gLfqvMJ6bVTAsHmw1hUIDrF46Gd0efzHu0HrTc85YrIvJk4qBlEty8gg3zQJyF7HhLpq
- 8iZCB57UBD4kYrYVVw6xplOJw+M6QEPzIbquGrLocHK40680EXYR7S49ScyVbGZUNTYN
- tDtA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
- :content-transfer-encoding;
- bh=aBelTolXdBHgrs8x4WhdW94lmNOFNROJVduSORgOB7o=;
- b=0p9KjqLap7/kr3FP3uaiGTsWbYtT+1M8YRuGy/ESUFsROBLr+6eYaB3h3KauV95v0g
- AqeFCWG8Ldi7yO9xm83pkzetikshG0VtOY0fGKRbx42CEig21I0WwkCcKBaC+GIzKSi8
- F+eNZ62GqYyfYkZYuw9UA9xWFPh+pRyobSqz51MYy8a6W1NVsjOw2H372G6NVum6SSSu
- DB7sAk57Ku60DuG8S+bfvAA/+6Bh9R9MjnZ0pTqvm+CDnfqYXbRy0uS/YHJTMfXFVPf/
- 2DcDZLdsncLl/EeUyamTwaiQxFDTONefwHm9Odg3Bhf6pvBy1ciXU8lFtD0ouTIlri/5
- HRbQ==
-X-Gm-Message-State: AOAM5321jBHdViP5Wt+6tH6gkgGY74a/N5D1JRtxiCs78BC7MMMon7Fq
- sa+njybn16PmGWLoxlCrOJOWXQ==
-X-Google-Smtp-Source: ABdhPJyP1ntsUFhZ7UVRnsIPgItCfAmAVAJQ1H5AqQQMbem7zgObeIf3ZPKJlaJJdwrfnNaEdQ112g==
-X-Received: by 2002:a05:6512:1306:b0:448:5689:2be0 with SMTP id
- x6-20020a056512130600b0044856892be0mr15309047lfu.57.1648854667651; 
- Fri, 01 Apr 2022 16:11:07 -0700 (PDT)
-Received: from eriador.lan ([37.153.55.125]) by smtp.gmail.com with ESMTPSA id
- x23-20020a19e017000000b0044a4820f882sm367413lfg.84.2022.04.01.16.11.06
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Fri, 01 Apr 2022 16:11:06 -0700 (PDT)
-From: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
-To: Bjorn Andersson <bjorn.andersson@linaro.org>,
- Rob Clark <robdclark@gmail.com>, Sean Paul <sean@poorly.run>,
- Abhinav Kumar <quic_abhinavk@quicinc.com>
-Subject: [PATCH] drm/msm/dsi: fix error checks and return values for DSI xmit
- functions
-Date: Sat,  2 Apr 2022 02:11:04 +0300
-Message-Id: <20220401231104.967193-1-dmitry.baryshkov@linaro.org>
+Received: from phobos.denx.de (phobos.denx.de [85.214.62.61])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id CEFA110E105
+ for <dri-devel@lists.freedesktop.org>; Sat,  2 Apr 2022 00:41:40 +0000 (UTC)
+Received: from tr.lan (ip-89-176-112-137.net.upcbroadband.cz [89.176.112.137])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits))
+ (No client certificate requested)
+ (Authenticated sender: marex@denx.de)
+ by phobos.denx.de (Postfix) with ESMTPSA id 775C4805EB;
+ Sat,  2 Apr 2022 02:41:32 +0200 (CEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=denx.de;
+ s=phobos-20191101; t=1648860098;
+ bh=F38w9oe74g8LpG4yXDFeWuiLAwoG7St19FQz+elXdQc=;
+ h=From:To:Cc:Subject:Date:From;
+ b=ugPH1cwUE0Yp7oniDU/1vtxxor1CfYWwkfJj8BwPdDZXIuAGLspA0/AGTOdrb0gSi
+ luQCu79hzihh5mP63xt0DK2Bu8yF5K/xorJjay+aLxXmhlHswQFERFDQMyjGYm1bWt
+ Do6y0ZivY/Gm6eCdXO3NEU9YPP+toDlQFM3XZF9NzD67z0e1zZHa3xwD4Bf8QoOYoB
+ lr4WN5+v5DAV1ymocBHKRdf36035RXsEtOQhCLgJtSIZjxAT12x0v1TaRr/6GygjBA
+ CnERMn9u13TiMNblkybKvF4ZkjdyNJJIpcSd4k48r9tdRJovaEnqHymxNm0iM01K6D
+ UmvsJdk4oukPw==
+From: Marek Vasut <marex@denx.de>
+To: dri-devel@lists.freedesktop.org
+Subject: [PATCH] drm: bridge: icn6211: Fix DSI-to-DPI PLL configuration
+Date: Sat,  2 Apr 2022 02:41:18 +0200
+Message-Id: <20220402004118.897014-1-marex@denx.de>
 X-Mailer: git-send-email 2.35.1
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
+X-Virus-Scanned: clamav-milter 0.103.5 at phobos.denx.de
+X-Virus-Status: Clean
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -69,78 +50,152 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: David Airlie <airlied@linux.ie>, linux-arm-msm@vger.kernel.org,
- dri-devel@lists.freedesktop.org, Stephen Boyd <swboyd@chromium.org>,
- freedreno@lists.freedesktop.org, Dan Carpenter <dan.carpenter@oracle.com>
+Cc: Marek Vasut <marex@denx.de>, robert.foss@linaro.org,
+ Jagan Teki <jagan@amarulasolutions.com>,
+ Thomas Zimmermann <tzimmermann@suse.de>, Sam Ravnborg <sam@ravnborg.org>,
+ Maxime Ripard <maxime@cerno.tech>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-As noticed by Dan ([1] an the followup thread) there are multiple issues
-with the return values for MSM DSI command transmission callback. In
-the error case it can easily return a positive value when it should
-have returned a proper error code.
+The datasheet for this bridge is not available, the PLL behavior has been
+inferred from [1] and [2] and by analyzing the DPI pixel clock with scope.
+After further testing with other displays and different DSI data lane count,
+it turns out the P-factor is not 1/2^N divider, but rather only 1/N divider.
+It also turns out the input into the PLL seem to be ByteClock instead of DSI
+HS clock.
 
-This commits attempts to fix these issues both in TX and in RX paths.
+Rework the P-factor calculation such that the PLL calculation code handles
+P-factor from 1..32 with P-factors above 16 must be even. In case P-factor
+is even, enable built-in 1:2 divider and program P-factor/2 to PLL_REF_DIV,
+otherwise configure only the P-factor into PLL_REF_DIV register.
 
-[1]: https://lore.kernel.org/linux-arm-msm/20211001123617.GH2283@kili/
+Switch the PLL factor calculation from kHz to Hz to maintain precision.
 
-Fixes: a689554ba6ed ("drm/msm: Initial add DSI connector support")
-Reported-by: Dan Carpenter <dan.carpenter@oracle.com>
-Signed-off-by: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
+[1] https://github.com/rockchip-linux/kernel/blob/develop-4.19/drivers/gpu/drm/bridge/icn6211.c
+[2] https://github.com/tdjastrzebski/ICN6211-Configurator
+
+Fixes: f30cf0ece691 ("drm: bridge: icn6211: Add generic DSI-to-DPI PLL configuration")
+Signed-off-by: Marek Vasut <marex@denx.de>
+Cc: Jagan Teki <jagan@amarulasolutions.com>
+Cc: Maxime Ripard <maxime@cerno.tech>
+Cc: Robert Foss <robert.foss@linaro.org>
+Cc: Sam Ravnborg <sam@ravnborg.org>
+Cc: Thomas Zimmermann <tzimmermann@suse.de>
+To: dri-devel@lists.freedesktop.org
 ---
- drivers/gpu/drm/msm/dsi/dsi_host.c | 21 ++++++++++++++-------
- 1 file changed, 14 insertions(+), 7 deletions(-)
+ drivers/gpu/drm/bridge/chipone-icn6211.c | 47 ++++++++++++++----------
+ 1 file changed, 27 insertions(+), 20 deletions(-)
 
-diff --git a/drivers/gpu/drm/msm/dsi/dsi_host.c b/drivers/gpu/drm/msm/dsi/dsi_host.c
-index d51e70fab93d..8925f60fd9ec 100644
---- a/drivers/gpu/drm/msm/dsi/dsi_host.c
-+++ b/drivers/gpu/drm/msm/dsi/dsi_host.c
-@@ -1341,10 +1341,10 @@ static int dsi_cmds2buf_tx(struct msm_dsi_host *msm_host,
- 			dsi_get_bpp(msm_host->format) / 8;
+diff --git a/drivers/gpu/drm/bridge/chipone-icn6211.c b/drivers/gpu/drm/bridge/chipone-icn6211.c
+index b7728dffbdc1..f4b152901d0e 100644
+--- a/drivers/gpu/drm/bridge/chipone-icn6211.c
++++ b/drivers/gpu/drm/bridge/chipone-icn6211.c
+@@ -171,22 +171,24 @@ static void chipone_configure_pll(struct chipone *icn,
+ 				  const struct drm_display_mode *mode)
+ {
+ 	unsigned int best_p = 0, best_m = 0, best_s = 0;
++	unsigned int mode_clock = mode->clock * 1000;
+ 	unsigned int delta, min_delta = 0xffffffff;
+ 	unsigned int freq_p, freq_s, freq_out;
+ 	unsigned int p_min, p_max;
+ 	unsigned int p, m, s;
+ 	unsigned int fin;
++	bool best_p_pot;
++	u8 ref_div;
  
- 	len = dsi_cmd_dma_add(msm_host, msg);
--	if (!len) {
-+	if (len < 0) {
- 		pr_err("%s: failed to add cmd type = 0x%x\n",
- 			__func__,  msg->type);
--		return -EINVAL;
-+		return len;
- 	}
+ 	/*
+-	 * DSI clock lane frequency (input into PLL) is calculated as:
+-	 *  DSI_CLK = mode clock * bpp / dsi_data_lanes / 2
+-	 * the 2 is there because the bus is DDR.
++	 * DSI byte clock frequency (input into PLL) is calculated as:
++	 *  DSI_CLK = mode clock * bpp / dsi_data_lanes / 8
+ 	 *
+ 	 * DPI pixel clock frequency (output from PLL) is mode clock.
+ 	 *
+ 	 * The chip contains fractional PLL which works as follows:
+ 	 *  DPI_CLK = ((DSI_CLK / P) * M) / S
+-	 * P is pre-divider, register PLL_REF_DIV[3:0] is 2^(n+1) divider
++	 * P is pre-divider, register PLL_REF_DIV[3:0] is 1:n divider
+ 	 *                   register PLL_REF_DIV[4] is extra 1:2 divider
+ 	 * M is integer multiplier, register PLL_INT(0) is multiplier
+ 	 * S is post-divider, register PLL_REF_DIV[7:5] is 2^(n+1) divider
+@@ -194,15 +196,17 @@ static void chipone_configure_pll(struct chipone *icn,
+ 	 * It seems the PLL input clock after applying P pre-divider have
+ 	 * to be lower than 20 MHz.
+ 	 */
+-	fin = mode->clock * mipi_dsi_pixel_format_to_bpp(icn->dsi->format) /
+-	      icn->dsi->lanes / 2; /* in kHz */
++	fin = mode_clock * mipi_dsi_pixel_format_to_bpp(icn->dsi->format) /
++	      icn->dsi->lanes / 8; /* in Hz */
  
- 	/* for video mode, do not send cmds more than
-@@ -1363,10 +1363,14 @@ static int dsi_cmds2buf_tx(struct msm_dsi_host *msm_host,
- 	}
+ 	/* Minimum value of P predivider for PLL input in 5..20 MHz */
+-	p_min = ffs(fin / 20000);
+-	p_max = (fls(fin / 5000) - 1) & 0x1f;
++	p_min = clamp(DIV_ROUND_UP(fin, 20000000), 1U, 31U);
++	p_max = clamp(fin / 5000000, 1U, 31U);
  
- 	ret = dsi_cmd_dma_tx(msm_host, len);
--	if (ret < len) {
--		pr_err("%s: cmd dma tx failed, type=0x%x, data0=0x%x, len=%d\n",
--			__func__, msg->type, (*(u8 *)(msg->tx_buf)), len);
--		return -ECOMM;
-+	if (ret < 0) {
-+		pr_err("%s: cmd dma tx failed, type=0x%x, data0=0x%x, len=%d, ret=%d\n",
-+			__func__, msg->type, (*(u8 *)(msg->tx_buf)), len, ret);
-+		return ret;
-+	} else if (ret < len) {
-+		pr_err("%s: cmd dma tx failed, type=0x%x, data0=0x%x, ret=%d len=%d\n",
-+			__func__, msg->type, (*(u8 *)(msg->tx_buf)), ret, len);
-+		return -EIO;
- 	}
+ 	for (p = p_min; p < p_max; p++) {	/* PLL_REF_DIV[4,3:0] */
+-		freq_p = fin / BIT(p + 1);
++		if (p > 16 && p & 1)		/* P > 16 uses extra /2 */
++			continue;
++		freq_p = fin / p;
+ 		if (freq_p == 0)		/* Divider too high */
+ 			break;
  
- 	return len;
-@@ -2092,9 +2096,12 @@ int msm_dsi_host_cmd_rx(struct mipi_dsi_host *host,
+@@ -211,21 +215,21 @@ static void chipone_configure_pll(struct chipone *icn,
+ 			if (freq_s == 0)	/* Divider too high */
+ 				break;
+ 
+-			m = mode->clock / freq_s;
++			m = mode_clock / freq_s;
+ 
+ 			/* Multiplier is 8 bit */
+ 			if (m > 0xff)
+ 				continue;
+ 
+ 			/* Limit PLL VCO frequency to 1 GHz */
+-			freq_out = (fin * m) / BIT(p + 1);
+-			if (freq_out > 1000000)
++			freq_out = (fin * m) / p;
++			if (freq_out > 1000000000)
+ 				continue;
+ 
+ 			/* Apply post-divider */
+ 			freq_out /= BIT(s + 1);
+ 
+-			delta = abs(mode->clock - freq_out);
++			delta = abs(mode_clock - freq_out);
+ 			if (delta < min_delta) {
+ 				best_p = p;
+ 				best_m = m;
+@@ -235,17 +239,20 @@ static void chipone_configure_pll(struct chipone *icn,
  		}
+ 	}
  
- 		ret = dsi_cmds2buf_tx(msm_host, msg);
--		if (ret < msg->tx_len) {
-+		if (ret < 0) {
- 			pr_err("%s: Read cmd Tx failed, %d\n", __func__, ret);
- 			return ret;
-+		} else if (ret < msg->tx_len) {
-+			pr_err("%s: Read cmd Tx failed, too short: %d\n", __func__, ret);
-+			return -ECOMM;
- 		}
++	best_p_pot = !(best_p & 1);
++
+ 	dev_dbg(icn->dev,
+-		"PLL: P[3:0]=2^%d P[4]=2*%d M=%d S[7:5]=2^%d delta=%d => DSI f_in=%d kHz ; DPI f_out=%ld kHz\n",
+-		best_p, !!best_p, best_m, best_s + 1, min_delta, fin,
+-		(fin * best_m) / BIT(best_p + best_s + 2));
++		"PLL: P[3:0]=%d P[4]=2*%d M=%d S[7:5]=2^%d delta=%d => DSI f_in=%d Hz ; DPI f_out=%d Hz\n",
++		best_p >> best_p_pot, best_p_pot, best_m, best_s + 1,
++		min_delta, fin, (fin * best_m) / (best_p << (best_s + 1)));
++
++	ref_div = PLL_REF_DIV_P(best_p >> best_p_pot) | PLL_REF_DIV_S(best_s);
++	if (best_p_pot)	/* Prefer /2 pre-divider */
++		ref_div |= PLL_REF_DIV_Pe;
  
- 		/*
+ 	/* Clock source selection fixed to MIPI DSI clock lane */
+ 	chipone_writeb(icn, PLL_CTRL(6), PLL_CTRL_6_MIPI_CLK);
+-	chipone_writeb(icn, PLL_REF_DIV,
+-		       /* Prefer /2 pre-divider */
+-		       (best_p ? PLL_REF_DIV_Pe : 0) |
+-		       PLL_REF_DIV_P(best_p) | PLL_REF_DIV_S(best_s));
++	chipone_writeb(icn, PLL_REF_DIV, ref_div);
+ 	chipone_writeb(icn, PLL_INT(0), best_m);
+ }
+ 
 -- 
 2.35.1
 
