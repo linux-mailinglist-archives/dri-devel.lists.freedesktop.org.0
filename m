@@ -2,44 +2,42 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2FAFA4F03F1
-	for <lists+dri-devel@lfdr.de>; Sat,  2 Apr 2022 16:29:02 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 42ECB4F0484
+	for <lists+dri-devel@lfdr.de>; Sat,  2 Apr 2022 17:44:10 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 7E44710E439;
-	Sat,  2 Apr 2022 14:28:57 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 3AC2F10E1B9;
+	Sat,  2 Apr 2022 15:44:05 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
- by gabe.freedesktop.org (Postfix) with ESMTPS id EEB1910E439
- for <dri-devel@lists.freedesktop.org>; Sat,  2 Apr 2022 14:28:55 +0000 (UTC)
-Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
- (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
- (No client certificate requested)
- by dfw.source.kernel.org (Postfix) with ESMTPS id DA5746158A;
- Sat,  2 Apr 2022 14:28:54 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id E88D9C340F3;
- Sat,  2 Apr 2022 14:28:53 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linuxfoundation.org;
- s=korg; t=1648909734;
- bh=o51SI2NeyR/b4QMZTrIU743vRNdiT47JolG498xnVr0=;
- h=Subject:To:Cc:From:Date:From;
- b=aAALCKKJXNWLuny4s6ecbrH0jTl6a98x+wE0bHDQm9tJPQ0WPa2fz4THM9Jt0xlgy
- DQIlZp4/HO+ntCSADJboa3PnAaakpt6TQKAwwI42cshNL0MlHkLNp29XYX77VVmuwp
- 1eg7qsTueriUbe90XB6Mo18lKsWvExSpqwQn3+Wk=
-Subject: Patch "drm/dp: Fix off-by-one in register cache size" has been added
- to the 5.17-stable tree
-To: airlied@linux.ie, daniel@ffwll.ch, dri-devel@lists.freedesktop.org,
- gregkh@linuxfoundation.org, gustavoars@kernel.org, keescook@chromium.org,
- maarten.lankhorst@linux.intel.com, mripard@kernel.org, treding@nvidia.com,
- tzimmermann@suse.de
-From: <gregkh@linuxfoundation.org>
-Date: Sat, 02 Apr 2022 16:23:41 +0200
-Message-ID: <1648909421120146@kroah.com>
+Received: from 189.cn (ptr.189.cn [183.61.185.102])
+ by gabe.freedesktop.org (Postfix) with ESMTP id EBF2A10E1B9
+ for <dri-devel@lists.freedesktop.org>; Sat,  2 Apr 2022 15:44:02 +0000 (UTC)
+HMM_SOURCE_IP: 10.64.8.41:52718.1890659392
+HMM_ATTACHE_NUM: 0000
+HMM_SOURCE_TYPE: SMTP
+Received: from clientip-114.242.206.180 (unknown [10.64.8.41])
+ by 189.cn (HERMES) with SMTP id 2FF30100207;
+ Sat,  2 Apr 2022 23:43:59 +0800 (CST)
+Received: from  ([172.27.8.53])
+ by gateway-151646-dep-b7fbf7d79-9vctg with ESMTP id
+ 2c45fadbd282437a80b064d873909b86 for l.stach@pengutronix.de; 
+ Sat, 02 Apr 2022 23:44:01 CST
+X-Transaction-ID: 2c45fadbd282437a80b064d873909b86
+X-Real-From: 15330273260@189.cn
+X-Receive-IP: 172.27.8.53
+X-MEDUSA-Status: 0
+From: Sui Jingfeng <15330273260@189.cn>
+To: Lucas Stach <l.stach@pengutronix.de>,
+ Russell King <linux+etnaviv@armlinux.org.uk>,
+ Christian Gmeiner <christian.gmeiner@gmail.com>,
+ David Airlie <airlied@linux.ie>, Daniel Vetter <daniel@ffwll.ch>
+Subject: [PATCH] drm/etnaviv: introduce a function to create etnaviv platform
+ device
+Date: Sat,  2 Apr 2022 23:43:58 +0800
+Message-Id: <20220402154358.1708299-1-15330273260@189.cn>
+X-Mailer: git-send-email 2.25.1
 MIME-Version: 1.0
-Content-Type: text/plain; charset=ANSI_X3.4-1968
 Content-Transfer-Encoding: 8bit
-X-stable: commit
-X-Patchwork-Hint: ignore 
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -52,87 +50,77 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: stable-commits@vger.kernel.org
+Cc: etnaviv@lists.freedesktop.org, dri-devel@lists.freedesktop.org,
+ linux-kernel@vger.kernel.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
+ This patch make the code more clear, call of_node_put(np) only once
+ in for_each_compatible_node(np, NULL, "vivante,gc") loop instead of
+ three.
 
-This is a note to let you know that I've just added the patch titled
-
-    drm/dp: Fix off-by-one in register cache size
-
-to the 5.17-stable tree which can be found at:
-    http://www.kernel.org/git/?p=linux/kernel/git/stable/stable-queue.git;a=summary
-
-The filename of the patch is:
-     drm-dp-fix-off-by-one-in-register-cache-size.patch
-and it can be found in the queue-5.17 subdirectory.
-
-If you, or anyone else, feels it should not be added to the stable tree,
-please let <stable@vger.kernel.org> know about it.
-
-
-From d4da1f27396fb1dde079447a3612f4f512caed07 Mon Sep 17 00:00:00 2001
-From: Kees Cook <keescook@chromium.org>
-Date: Thu, 24 Feb 2022 19:56:09 -0800
-Subject: drm/dp: Fix off-by-one in register cache size
-
-From: Kees Cook <keescook@chromium.org>
-
-commit d4da1f27396fb1dde079447a3612f4f512caed07 upstream.
-
-The pcon_dsc_dpcd array holds 13 registers (0x92 through 0x9E). Fix the
-math to calculate the max size. Found from a -Warray-bounds build:
-
-drivers/gpu/drm/drm_dp_helper.c: In function 'drm_dp_pcon_dsc_bpp_incr':
-drivers/gpu/drm/drm_dp_helper.c:3130:28: error: array subscript 12 is outside array bounds of 'const u8[12]' {aka 'const unsigned char[12]'} [-Werror=array-bounds]
- 3130 |         buf = pcon_dsc_dpcd[DP_PCON_DSC_BPP_INCR - DP_PCON_DSC_ENCODER];
-      |               ~~~~~~~~~~~~~^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-drivers/gpu/drm/drm_dp_helper.c:3126:39: note: while referencing 'pcon_dsc_dpcd'
- 3126 | int drm_dp_pcon_dsc_bpp_incr(const u8 pcon_dsc_dpcd[DP_PCON_DSC_ENCODER_CAP_SIZE])
-      |                              ~~~~~~~~~^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-
-Cc: Daniel Vetter <daniel@ffwll.ch>
-Cc: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>
-Cc: Maxime Ripard <mripard@kernel.org>
-Cc: Thomas Zimmermann <tzimmermann@suse.de>
-Cc: David Airlie <airlied@linux.ie>
-Cc: dri-devel@lists.freedesktop.org
-Fixes: e2e16da398d9 ("drm/dp_helper: Add support for Configuring DSC for HDMI2.1 Pcon")
-Cc: stable@vger.kernel.org
-Reviewed-by: Gustavo A. R. Silva <gustavoars@kernel.org>
-Link: https://lore.kernel.org/lkml/20211214001849.GA62559@embeddedor/
-Signed-off-by: Kees Cook <keescook@chromium.org>
-Link: https://lore.kernel.org/r/20220105173310.2420598-1-keescook@chromium.org
-Signed-off-by: Thierry Reding <treding@nvidia.com>
-Link: https://patchwork.freedesktop.org/patch/msgid/20220225035610.2552144-2-keescook@chromium.org
-Signed-off-by: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+Signed-off-by: Sui Jingfeng <15330273260@189.cn>
 ---
- include/drm/drm_dp_helper.h |    2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+ drivers/gpu/drm/etnaviv/etnaviv_drv.c | 36 +++++++++++++++++----------
+ 1 file changed, 23 insertions(+), 13 deletions(-)
 
---- a/include/drm/drm_dp_helper.h
-+++ b/include/drm/drm_dp_helper.h
-@@ -456,7 +456,7 @@ struct drm_panel;
- #define DP_FEC_CAPABILITY_1			0x091   /* 2.0 */
+diff --git a/drivers/gpu/drm/etnaviv/etnaviv_drv.c b/drivers/gpu/drm/etnaviv/etnaviv_drv.c
+index 0b756ecb1bc2..42cb624cf1ae 100644
+--- a/drivers/gpu/drm/etnaviv/etnaviv_drv.c
++++ b/drivers/gpu/drm/etnaviv/etnaviv_drv.c
+@@ -659,6 +659,26 @@ static struct platform_driver etnaviv_platform_driver = {
  
- /* DP-HDMI2.1 PCON DSC ENCODER SUPPORT */
--#define DP_PCON_DSC_ENCODER_CAP_SIZE        0xC	/* 0x9E - 0x92 */
-+#define DP_PCON_DSC_ENCODER_CAP_SIZE        0xD	/* 0x92 through 0x9E */
- #define DP_PCON_DSC_ENCODER                 0x092
- # define DP_PCON_DSC_ENCODER_SUPPORTED      (1 << 0)
- # define DP_PCON_DSC_PPS_ENC_OVERRIDE       (1 << 1)
+ static struct platform_device *etnaviv_drm;
+ 
++static int etnaviv_create_platform_device(const char *name)
++{
++	struct platform_device *pdev;
++	int ret;
++
++	pdev = platform_device_alloc(name, PLATFORM_DEVID_NONE);
++	if (!pdev)
++		return -ENOMEM;
++
++	ret = platform_device_add(pdev);
++	if (ret) {
++		platform_device_put(pdev);
++		return ret;
++	}
++
++	etnaviv_drm = pdev;
++
++	return 0;
++}
++
+ static int __init etnaviv_init(void)
+ {
+ 	struct platform_device *pdev;
+@@ -683,22 +703,12 @@ static int __init etnaviv_init(void)
+ 		if (!of_device_is_available(np))
+ 			continue;
+ 
+-		pdev = platform_device_alloc("etnaviv", PLATFORM_DEVID_NONE);
+-		if (!pdev) {
+-			ret = -ENOMEM;
+-			of_node_put(np);
+-			goto unregister_platform_driver;
+-		}
++		of_node_put(np);
+ 
+-		ret = platform_device_add(pdev);
+-		if (ret) {
+-			platform_device_put(pdev);
+-			of_node_put(np);
++		ret = etnaviv_create_platform_device("etnaviv");
++		if (ret)
+ 			goto unregister_platform_driver;
+-		}
+ 
+-		etnaviv_drm = pdev;
+-		of_node_put(np);
+ 		break;
+ 	}
+ 
+-- 
+2.25.1
 
-
-Patches currently in stable-queue which might be from keescook@chromium.org are
-
-queue-5.17/stack-constrain-and-fix-stack-offset-randomization-w.patch
-queue-5.17/coredump-also-dump-first-pages-of-non-executable-elf-libraries.patch
-queue-5.17/selftests-lkdtm-add-ubsan-config.patch
-queue-5.17/fs-binfmt_elf-fix-at_phdr-for-unusual-elf-files.patch
-queue-5.17/media-omap3isp-use-struct_group-for-memcpy-region.patch
-queue-5.17/gcc-plugins-stackleak-exactly-match-strings-instead-.patch
-queue-5.17/exec-force-single-empty-string-when-argv-is-empty.patch
-queue-5.17/drm-dp-fix-off-by-one-in-register-cache-size.patch
-queue-5.17/pstore-don-t-use-semaphores-in-always-atomic-context-code.patch
-queue-5.17/drm-dp-fix-oob-read-when-handling-post-cursor2-regis.patch
