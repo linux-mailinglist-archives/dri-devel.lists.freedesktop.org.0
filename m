@@ -2,60 +2,68 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8936D4F0076
-	for <lists+dri-devel@lfdr.de>; Sat,  2 Apr 2022 12:23:18 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 8B1A74F00B8
+	for <lists+dri-devel@lfdr.de>; Sat,  2 Apr 2022 12:37:54 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 1BF5A10F80B;
-	Sat,  2 Apr 2022 10:23:14 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 9586F10F81F;
+	Sat,  2 Apr 2022 10:37:49 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from pegase2.c-s.fr (pegase2.c-s.fr [93.17.235.10])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 14F3F10F80B
- for <dri-devel@lists.freedesktop.org>; Sat,  2 Apr 2022 10:23:12 +0000 (UTC)
-Received: from localhost (mailhub3.si.c-s.fr [172.26.127.67])
- by localhost (Postfix) with ESMTP id 4KVtR21LGgz9sSZ;
- Sat,  2 Apr 2022 12:23:10 +0200 (CEST)
-X-Virus-Scanned: amavisd-new at c-s.fr
-Received: from pegase2.c-s.fr ([172.26.127.65])
- by localhost (pegase2.c-s.fr [127.0.0.1]) (amavisd-new, port 10024)
- with ESMTP id hZquyIJd4SRe; Sat,  2 Apr 2022 12:23:10 +0200 (CEST)
-Received: from messagerie.si.c-s.fr (messagerie.si.c-s.fr [192.168.25.192])
- by pegase2.c-s.fr (Postfix) with ESMTP id 4KVtR20SFlz9sSQ;
- Sat,  2 Apr 2022 12:23:10 +0200 (CEST)
-Received: from localhost (localhost [127.0.0.1])
- by messagerie.si.c-s.fr (Postfix) with ESMTP id E92E08B76D;
- Sat,  2 Apr 2022 12:23:09 +0200 (CEST)
-X-Virus-Scanned: amavisd-new at c-s.fr
-Received: from messagerie.si.c-s.fr ([127.0.0.1])
- by localhost (messagerie.si.c-s.fr [127.0.0.1]) (amavisd-new, port 10023)
- with ESMTP id C6PcTIWmTHoD; Sat,  2 Apr 2022 12:23:09 +0200 (CEST)
-Received: from PO20335.IDSI0.si.c-s.fr (unknown [192.168.202.136])
- by messagerie.si.c-s.fr (Postfix) with ESMTP id A012F8B768;
- Sat,  2 Apr 2022 12:23:09 +0200 (CEST)
-Received: from PO20335.IDSI0.si.c-s.fr (localhost [127.0.0.1])
- by PO20335.IDSI0.si.c-s.fr (8.17.1/8.16.1) with ESMTPS id 232AMwHq685346
- (version=TLSv1.3 cipher=TLS_AES_256_GCM_SHA384 bits=256 verify=NOT);
- Sat, 2 Apr 2022 12:22:58 +0200
-Received: (from chleroy@localhost)
- by PO20335.IDSI0.si.c-s.fr (8.17.1/8.17.1/Submit) id 232AMuYv685345;
- Sat, 2 Apr 2022 12:22:56 +0200
-X-Authentication-Warning: PO20335.IDSI0.si.c-s.fr: chleroy set sender to
- christophe.leroy@csgroup.eu using -f
-From: Christophe Leroy <christophe.leroy@csgroup.eu>
-To: Paul Mackerras <paulus@samba.org>, Helge Deller <deller@gmx.de>,
- Benjamin Herrenschmidt <benh@kernel.crashing.org>
-Subject: [PATCH] video: fbdev: Prepare cleanup of powerpc's asm/prom.h
-Date: Sat,  2 Apr 2022 12:22:56 +0200
-Message-Id: <68d44009feb802c58b855ade3ac9109496b9d0e5.1648833426.git.christophe.leroy@csgroup.eu>
-X-Mailer: git-send-email 2.35.1
+Received: from mail-lf1-x130.google.com (mail-lf1-x130.google.com
+ [IPv6:2a00:1450:4864:20::130])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 9CD0D10F81F
+ for <dri-devel@lists.freedesktop.org>; Sat,  2 Apr 2022 10:37:47 +0000 (UTC)
+Received: by mail-lf1-x130.google.com with SMTP id p15so9035104lfk.8
+ for <dri-devel@lists.freedesktop.org>; Sat, 02 Apr 2022 03:37:47 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=message-id:date:mime-version:user-agent:subject:content-language:to
+ :cc:references:from:in-reply-to:content-transfer-encoding;
+ bh=Jx8e761MNPFyJ2/BAtkY0nyoED7Z8+xj5f0GT++V4DU=;
+ b=CM5tAEao5vQ2577zZq46eGT5uUdK6gdVlWEARVuyxYeNLnYiT8lvo5OCG2ZcKhDGfb
+ wy6RzILMGSWya1H7UCQr8Y4fjgCHbD+N0bIgO8rFWOwSygD60R87YX12LQBKXes0rNPR
+ FQOBFpPb/5zrL2nQxvW2rumRZWeKgIx/p9Ila06gACmYl8sawMjF2PLwS8QtgZb8I5qx
+ QyOD88AioP5g/0oCKIYAfuqniXGLgVHDyp5CkITXTV/3iv2MJ1nPjOiTehzvNKJJvomc
+ Oa3oNbA/WgWKKW3dNoiI/IVu3xfKKUao07GPXs4EzJA+/sVfrm6CUbZRq58SKFwbCDRs
+ CVjQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
+ :content-language:to:cc:references:from:in-reply-to
+ :content-transfer-encoding;
+ bh=Jx8e761MNPFyJ2/BAtkY0nyoED7Z8+xj5f0GT++V4DU=;
+ b=3WAItZPnWm4kkWPgNICKX+XaFPMYI+gJImENVea6eYnlKetfwlf7wMcP0SmlGQb2Po
+ jzoHBE8ts9zie5Vg3g6P8LnFHQNaZJPi49MM7DcnDxbdT78RelF8HbVYdgeA4OhHErWz
+ +VVzmknrUuN9bGSNDxMu7P1X5U/QWAfD/0F5MysGp/feOmOKmEZN0U0FOdVxAKpWfJ+8
+ 1rn3tUn3L8Cx6StKTadcUNs0MdL7pjx/d9LZ7m7i2A+TGJ2yn48FjHc1eLl20aeDJ9ym
+ 2VP8BWSZB3jacXCSilD+q6ZqVjqHdVXMATyMdmLSqVviqBC6nGpONUUBmdOM3QZax4lK
+ G+2Q==
+X-Gm-Message-State: AOAM531EJuUZ1jNP3AVuAwwDK9rlhnDTVLUAaJyx6xy66M5j1+HqnI77
+ 7095cwO9rrGUF7R/s9GrEqyyFw==
+X-Google-Smtp-Source: ABdhPJwCW+uY9rOuoWmKzwTgEAQFjN4YRpp4A7QPyITSlGphPJj0f1ExJfTaWODEaAXo0GmLCCHjuw==
+X-Received: by 2002:a05:6512:3c90:b0:44a:dc25:ab44 with SMTP id
+ h16-20020a0565123c9000b0044adc25ab44mr4502073lfv.407.1648895865799; 
+ Sat, 02 Apr 2022 03:37:45 -0700 (PDT)
+Received: from [192.168.1.211] ([37.153.55.125])
+ by smtp.gmail.com with ESMTPSA id
+ i16-20020a056512319000b0044ae52c6365sm264006lfe.88.2022.04.02.03.37.44
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Sat, 02 Apr 2022 03:37:45 -0700 (PDT)
+Message-ID: <392b933f-760c-3c81-1040-c514045df3da@linaro.org>
+Date: Sat, 2 Apr 2022 13:37:44 +0300
 MIME-Version: 1.0
-X-Developer-Signature: v=1; a=ed25519-sha256; t=1648894975; l=4417; s=20211009;
- h=from:subject:message-id; bh=NUrHFSycOvagcdRTsZ0KQOWwYFUWWBtR8hlzOrV8ib0=;
- b=l7Qb3dp99ynwky4d0UQJ3JdMGk7zv+x3ehiGgnBVDG2PjZuA50gzwIi53OWyRGw1RuqAMkcs8uEU
- cRMaGK1HBJCKKH6tnhTx9ElNNLaV+eAdiyo10o+t4GX49Rs5SX8P
-X-Developer-Key: i=christophe.leroy@csgroup.eu; a=ed25519;
- pk=HIzTzUj91asvincQGOFx6+ZF5AoUuP9GdOtQChs7Mm0=
-Content-Transfer-Encoding: 8bit
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.7.0
+Subject: Re: [PATCH v6 1/8] drm/msm/dp: Add eDP support via aux_bus
+Content-Language: en-GB
+To: Doug Anderson <dianders@chromium.org>,
+ Sankeerth Billakanti <quic_sbillaka@quicinc.com>
+References: <1648656179-10347-1-git-send-email-quic_sbillaka@quicinc.com>
+ <1648656179-10347-2-git-send-email-quic_sbillaka@quicinc.com>
+ <CAD=FV=X+QvjwoT2zGP82KW4kD0oMUY6ZgCizSikNX_Uj8dNDqA@mail.gmail.com>
+From: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
+In-Reply-To: <CAD=FV=X+QvjwoT2zGP82KW4kD0oMUY6ZgCizSikNX_Uj8dNDqA@mail.gmail.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -68,149 +76,79 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: dri-devel@lists.freedesktop.org, linux-fbdev@vger.kernel.org,
- linux-kernel@vger.kernel.org, Christophe Leroy <christophe.leroy@csgroup.eu>
+Cc: quic_kalyant <quic_kalyant@quicinc.com>,
+ "open list:OPEN FIRMWARE AND FLATTENED DEVICE TREE BINDINGS"
+ <devicetree@vger.kernel.org>, Bjorn Andersson <bjorn.andersson@linaro.org>,
+ "Abhinav Kumar \(QUIC\)" <quic_abhinavk@quicinc.com>,
+ quic_vproddut <quic_vproddut@quicinc.com>, David Airlie <airlied@linux.ie>,
+ linux-arm-msm <linux-arm-msm@vger.kernel.org>,
+ LKML <linux-kernel@vger.kernel.org>,
+ dri-devel <dri-devel@lists.freedesktop.org>,
+ Stephen Boyd <swboyd@chromium.org>, Sean Paul <sean@poorly.run>,
+ Sean Paul <seanpaul@chromium.org>, quic_aravindh@quicinc.com,
+ "Kuogee Hsieh \(QUIC\)" <quic_khsieh@quicinc.com>,
+ freedreno <freedreno@lists.freedesktop.org>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-powerpc's asm/prom.h brings some headers that it doesn't
-need itself.
+On 01/04/2022 02:22, Doug Anderson wrote:
+> Hi,
+> 
+> On Wed, Mar 30, 2022 at 9:03 AM Sankeerth Billakanti
+> <quic_sbillaka@quicinc.com> wrote:
+>>
+>> @@ -1547,6 +1593,10 @@ int msm_dp_modeset_init(struct msm_dp *dp_display, struct drm_device *dev,
+>>
+>>          dp_display->encoder = encoder;
+>>
+>> +       ret = dp_display_get_next_bridge(dp_display);
+>> +       if (ret)
+>> +               return ret;
+> 
+> It feels weird to me that this is in a function called "modeset_init",
+> though I certainly don't know the structure of the MSM display code
+> well enough to fully comment.
 
-In order to clean it up, first add missing headers in
-users of asm/prom.h
+It's called modeset_init() as it initializes KMS objects used by DP 
+driver. We have similar functions for dsi and hdmi
 
-Signed-off-by: Christophe Leroy <christophe.leroy@csgroup.eu>
----
- drivers/video/fbdev/aty/aty128fb.c         | 1 -
- drivers/video/fbdev/aty/atyfb_base.c       | 1 -
- drivers/video/fbdev/aty/radeon_pm.c        | 1 -
- drivers/video/fbdev/aty/radeonfb.h         | 2 +-
- drivers/video/fbdev/controlfb.c            | 3 ---
- drivers/video/fbdev/matrox/matroxfb_base.h | 1 -
- drivers/video/fbdev/mb862xx/mb862xxfbdrv.c | 2 ++
- drivers/video/fbdev/platinumfb.c           | 2 +-
- drivers/video/fbdev/valkyriefb.c           | 3 +--
- 9 files changed, 5 insertions(+), 11 deletions(-)
+> My expectation would have been that
+> devm_of_dp_aux_populate_ep_devices() would have been called from your
+> probe routine and then you would have returned -EPROBE_DEFER from your
+> probe if you were unable to find the panel afterwards.
 
-diff --git a/drivers/video/fbdev/aty/aty128fb.c b/drivers/video/fbdev/aty/aty128fb.c
-index 6ff16d3132e5..b26c81233b6b 100644
---- a/drivers/video/fbdev/aty/aty128fb.c
-+++ b/drivers/video/fbdev/aty/aty128fb.c
-@@ -68,7 +68,6 @@
- #ifdef CONFIG_PPC_PMAC
- #include <asm/machdep.h>
- #include <asm/pmac_feature.h>
--#include <asm/prom.h>
- #include "../macmodes.h"
- #endif
- 
-diff --git a/drivers/video/fbdev/aty/atyfb_base.c b/drivers/video/fbdev/aty/atyfb_base.c
-index 1aef3d6ebd88..a3e6faed7745 100644
---- a/drivers/video/fbdev/aty/atyfb_base.c
-+++ b/drivers/video/fbdev/aty/atyfb_base.c
-@@ -79,7 +79,6 @@
- 
- #ifdef __powerpc__
- #include <asm/machdep.h>
--#include <asm/prom.h>
- #include "../macmodes.h"
- #endif
- #ifdef __sparc__
-diff --git a/drivers/video/fbdev/aty/radeon_pm.c b/drivers/video/fbdev/aty/radeon_pm.c
-index b5fbd5329652..97a5972f5b1f 100644
---- a/drivers/video/fbdev/aty/radeon_pm.c
-+++ b/drivers/video/fbdev/aty/radeon_pm.c
-@@ -22,7 +22,6 @@
- 
- #ifdef CONFIG_PPC_PMAC
- #include <asm/machdep.h>
--#include <asm/prom.h>
- #include <asm/pmac_feature.h>
- #endif
- 
-diff --git a/drivers/video/fbdev/aty/radeonfb.h b/drivers/video/fbdev/aty/radeonfb.h
-index 93f403cbb415..91d81b576231 100644
---- a/drivers/video/fbdev/aty/radeonfb.h
-+++ b/drivers/video/fbdev/aty/radeonfb.h
-@@ -21,7 +21,7 @@
- 
- #include <asm/io.h>
- 
--#if defined(CONFIG_PPC) || defined(CONFIG_SPARC)
-+#ifdef CONFIG_SPARC
- #include <asm/prom.h>
- #endif
- 
-diff --git a/drivers/video/fbdev/controlfb.c b/drivers/video/fbdev/controlfb.c
-index bd59e7b11ed5..aba46118b208 100644
---- a/drivers/video/fbdev/controlfb.c
-+++ b/drivers/video/fbdev/controlfb.c
-@@ -47,9 +47,6 @@
- #include <linux/nvram.h>
- #include <linux/adb.h>
- #include <linux/cuda.h>
--#ifdef CONFIG_PPC_PMAC
--#include <asm/prom.h>
--#endif
- #ifdef CONFIG_BOOTX_TEXT
- #include <asm/btext.h>
- #endif
-diff --git a/drivers/video/fbdev/matrox/matroxfb_base.h b/drivers/video/fbdev/matrox/matroxfb_base.h
-index 759dee996af1..958be6805f87 100644
---- a/drivers/video/fbdev/matrox/matroxfb_base.h
-+++ b/drivers/video/fbdev/matrox/matroxfb_base.h
-@@ -47,7 +47,6 @@
- #include <asm/unaligned.h>
- 
- #if defined(CONFIG_PPC_PMAC)
--#include <asm/prom.h>
- #include "../macmodes.h"
- #endif
- 
-diff --git a/drivers/video/fbdev/mb862xx/mb862xxfbdrv.c b/drivers/video/fbdev/mb862xx/mb862xxfbdrv.c
-index 63721337a377..a7508f5be343 100644
---- a/drivers/video/fbdev/mb862xx/mb862xxfbdrv.c
-+++ b/drivers/video/fbdev/mb862xx/mb862xxfbdrv.c
-@@ -18,6 +18,8 @@
- #include <linux/interrupt.h>
- #include <linux/pci.h>
- #if defined(CONFIG_OF)
-+#include <linux/of_address.h>
-+#include <linux/of_irq.h>
- #include <linux/of_platform.h>
- #endif
- #include "mb862xxfb.h"
-diff --git a/drivers/video/fbdev/platinumfb.c b/drivers/video/fbdev/platinumfb.c
-index ce413a9df06e..5b9e26ea6449 100644
---- a/drivers/video/fbdev/platinumfb.c
-+++ b/drivers/video/fbdev/platinumfb.c
-@@ -30,9 +30,9 @@
- #include <linux/fb.h>
- #include <linux/init.h>
- #include <linux/nvram.h>
-+#include <linux/of_address.h>
- #include <linux/of_device.h>
- #include <linux/of_platform.h>
--#include <asm/prom.h>
- 
- #include "macmodes.h"
- #include "platinumfb.h"
-diff --git a/drivers/video/fbdev/valkyriefb.c b/drivers/video/fbdev/valkyriefb.c
-index 8425afe37d7c..a6c9d4f26669 100644
---- a/drivers/video/fbdev/valkyriefb.c
-+++ b/drivers/video/fbdev/valkyriefb.c
-@@ -54,10 +54,9 @@
- #include <linux/nvram.h>
- #include <linux/adb.h>
- #include <linux/cuda.h>
-+#include <linux/of_address.h>
- #ifdef CONFIG_MAC
- #include <asm/macintosh.h>
--#else
--#include <asm/prom.h>
- #endif
- 
- #include "macmodes.h"
+I don't think it's possible to call it from probe() since 
+drm_dp_aux_register() is called only from dp_display_bind().
+The PHY also isn't initialized at that moment, so we can not probe AUX 
+devices.
+
+The overall semantics of the AUX bus is not clear to me.
+Typically the bus is populated (and probed) when devices are accessible. 
+But for the display related buses this might not be the case.
+For example for the DSI bus we clearly define that DSI transfer are not 
+possible before the corresponding bridge's (or panel's) enable call.
+
+Maybe the same approach should be adopted for the AUX bus. This would 
+allow us to populate the AUX bus before hardware access is actually 
+possible, thus creating all the DRM bridges before the hardware is 
+actually up and running.
+
+> Huh, but I guess you _are_ getting called (indirectly) from
+> dpu_kms_hw_init() and I can't imagine AUX transfers working before
+> that function is called, so maybe I should just accept that it's
+> complicated and let those who understand this driver better confirm
+> that it's OK. ;-)
+> 
+> 
+>> @@ -140,5 +140,6 @@ struct dp_parser {
+>>    * can be parsed using this module.
+>>    */
+>>   struct dp_parser *dp_parser_get(struct platform_device *pdev);
+>> +int dp_parser_find_next_bridge(struct dp_parser *parser);
+> 
+> Everything else in this file is described w/ kerneldoc. Shouldn't your
+> function also have a kerneldoc comment?
+
 -- 
-2.35.1
-
+With best wishes
+Dmitry
