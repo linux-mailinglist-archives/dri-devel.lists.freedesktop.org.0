@@ -1,59 +1,65 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id D00DD4F0625
-	for <lists+dri-devel@lfdr.de>; Sat,  2 Apr 2022 22:26:39 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id DFF9B4F063F
+	for <lists+dri-devel@lfdr.de>; Sat,  2 Apr 2022 22:47:22 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 5793410E11F;
-	Sat,  2 Apr 2022 20:26:36 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 4303410E00F;
+	Sat,  2 Apr 2022 20:47:20 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-qv1-xf35.google.com (mail-qv1-xf35.google.com
- [IPv6:2607:f8b0:4864:20::f35])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 3405710E11F
- for <dri-devel@lists.freedesktop.org>; Sat,  2 Apr 2022 20:26:35 +0000 (UTC)
-Received: by mail-qv1-xf35.google.com with SMTP id f3so4573034qvz.10
- for <dri-devel@lists.freedesktop.org>; Sat, 02 Apr 2022 13:26:35 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=QB0eo72y6FVZ0oU4JIps4fOnMAO+oClDWy1YjIZjL/c=;
- b=WsjkuDwwoa3g9mvKJsL+Y+5IhFD3xsQFVDkNUAS3Mzmr/ZWiDeLtX6UdpE5KCpPAkU
- 4DYT/K9KCCotzJ6zlWueDyGuQXB68VflTcz212Ml55fDJYI+Jn7XFwfnxiXCrUr5xZ2B
- yVwU+edqQJ1OkNakKYD+55rEMoNOl15O0DluBw7AgLSZ3ABcDzs48xYfRVTTeHIqPOhb
- S9pl6SmynSKzB4zo3/xu9Puf6lk6lja5bR9vMXBQQKYyqiBJAFInLhgZLZXEnaDFxXr+
- ZtpdliCY5R9nlEndcV3coBblNz9gs7fbixEw9JuNVFMHtHxipiW40TTbzpcGXCOr+BRr
- dBAQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=QB0eo72y6FVZ0oU4JIps4fOnMAO+oClDWy1YjIZjL/c=;
- b=FdJDRrim5LGmScU+wPkoyJSy6kVYi0uByKOcxoA6/GvoZjtIRS5Tl4dWiX4rEQi+1V
- iM+MLNOXJoIgxqxtex1Lss7+qveAZRuJ577pC65+nnkJyQPib+0hOhZzcdjdZZmqwjYz
- DKyF41/QZHA+jtqfFcaNQzR6hc/H45cLOkxpza0jnOaeLMq/QmdW9Xlff+/MPP6VDTU7
- NowebHqSc4g/HDlxiC248BiZt70Qkhp8HyAT6z1LqPSpJTT5zCZse7iabIxMGApTRPaL
- qJtBw8HRVX0hdz7K1GPJ9plkuJzesLQa0fPNyBwHjql6KYyWJ2Rm5NeKcQgsycK9bG7B
- Vq+w==
-X-Gm-Message-State: AOAM530/Ov7FuF446MDPRzTjj0eTbGgh73ESMAh2O94GLRBDjtzqRKbn
- tHgTgbriEEaW95LcYBLAl7LHsLNu0WNIfqvR+fDY+Q==
-X-Google-Smtp-Source: ABdhPJyOclbx6ZxnfFkNqKq1SFZp9RuXDLSvl9rQ8srJRugzrvyKznh3ayrfvwqMdnFoa8uizhMrAJf2kev/oVHQDZs=
-X-Received: by 2002:a05:6214:921:b0:443:ce3d:577b with SMTP id
- dk1-20020a056214092100b00443ce3d577bmr1502390qvb.122.1648931194181; Sat, 02
- Apr 2022 13:26:34 -0700 (PDT)
+Received: from mout.gmx.net (mout.gmx.net [212.227.17.21])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 4FF0510E00F
+ for <dri-devel@lists.freedesktop.org>; Sat,  2 Apr 2022 20:47:18 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=gmx.net;
+ s=badeba3b8450; t=1648932432;
+ bh=33Yw4Gr8uTso9ZT+73CinX5k3Nib7sctQo71Bc/koLo=;
+ h=X-UI-Sender-Class:Date:Subject:To:Cc:References:From:In-Reply-To;
+ b=MRdU13rdbITSO4LQXr7A996BmBDdkHUSqHtikDYKy7nEidt9/Oq3zB3He/ctUo75Q
+ jZ9O6hU6hWhhxOEihKdkQjBRY0VkFdhV1w9OkQP1ArnbOb1TtRc7CGBJZ9tSwsyP40
+ 4aLWwHzVgQcaf7Tp8U5ne0CJnEMJjqhzmL3CjCHM=
+X-UI-Sender-Class: 01bb95c1-4bf8-414a-932a-4f6e2808ef9c
+Received: from [192.168.20.60] ([92.116.149.42]) by mail.gmx.net (mrgmx104
+ [212.227.17.168]) with ESMTPSA (Nemesis) id 1MQvD5-1nPWUR0OOd-00O05l; Sat, 02
+ Apr 2022 22:47:12 +0200
+Message-ID: <5f75fa65-e3ac-1e34-c0a0-f8bb67fe0c0f@gmx.de>
+Date: Sat, 2 Apr 2022 22:47:09 +0200
 MIME-Version: 1.0
-References: <1648656179-10347-1-git-send-email-quic_sbillaka@quicinc.com>
- <1648656179-10347-2-git-send-email-quic_sbillaka@quicinc.com>
- <CAD=FV=X+QvjwoT2zGP82KW4kD0oMUY6ZgCizSikNX_Uj8dNDqA@mail.gmail.com>
- <392b933f-760c-3c81-1040-c514045df3da@linaro.org>
- <CAD=FV=W4PYK-t607yjRbfjDjjEZX0KdgHDRukw_vSH8E8EDH6w@mail.gmail.com>
-In-Reply-To: <CAD=FV=W4PYK-t607yjRbfjDjjEZX0KdgHDRukw_vSH8E8EDH6w@mail.gmail.com>
-From: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
-Date: Sat, 2 Apr 2022 23:26:22 +0300
-Message-ID: <CAA8EJppt9XONbgtKfmHmN+==QNqiVJeb8GKJFdZm=yyY-tgmHQ@mail.gmail.com>
-Subject: Re: [PATCH v6 1/8] drm/msm/dp: Add eDP support via aux_bus
-To: Doug Anderson <dianders@chromium.org>
-Content-Type: text/plain; charset="UTF-8"
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.7.0
+Subject: Re: [PATCH] video: fbdev: Prepare cleanup of powerpc's asm/prom.h
+Content-Language: en-US
+To: Christophe Leroy <christophe.leroy@csgroup.eu>,
+ Paul Mackerras <paulus@samba.org>,
+ Benjamin Herrenschmidt <benh@kernel.crashing.org>
+References: <68d44009feb802c58b855ade3ac9109496b9d0e5.1648833426.git.christophe.leroy@csgroup.eu>
+From: Helge Deller <deller@gmx.de>
+In-Reply-To: <68d44009feb802c58b855ade3ac9109496b9d0e5.1648833426.git.christophe.leroy@csgroup.eu>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: quoted-printable
+X-Provags-ID: V03:K1:S7rwhg9Q78UruNB9u5sQHP7UAQw4aCUv1pohR3rhZlQTS9k5SQP
+ D2l49Plnlc5GDSqNO+ZMx/V5jA6H7OPB0ycCOBT7V0wHOQP+hVoxeQ5D+XV7tkPBcTyyhIg
+ 85FX2VyYr5HLvC3fNKhThZNQTWMIT93axKb7sjmordKPq2X3Y+czb6TE6l9KUDmVSIceQFC
+ eDTKU5UAOq97LZ4u4hssA==
+X-Spam-Flag: NO
+X-UI-Out-Filterresults: notjunk:1;V03:K0:2ivjbFhQd8s=:2IpmC61fm+26zzF5o9FqAS
+ ZXcJ/GQW6/8FxmYYQbujOBosPepHs4JVnRYlOBtwvbKOs8Xq/3t5nR9sFaWFPvPsDMennTAzi
+ XYc1LTuvA6UHNqQgtPao4hWUPcUk6l0BEWaLya5y9yubJYenIa3sVqQWXKdslpzYra0Hz6sI6
+ ndvi+6CZsJPSKghLYomzSH3i5+qggNIhWWRpvuiwpY6ock2c8kjKcyu0rU2sRr2MMVGOBD7H3
+ BoLVO3of8D5Q9Ys4BU443rRBv7FsfxcMlOMC4B1quU61PJJJfif/pEIb/xxt9JDqII3EzTinn
+ j5829mZKHw1/bK/XSKr5vj7lrGoTg7YHiZDZOjwt8cLNedQJ7Wrx2iksHRf4ahQKcmIXZ7HhI
+ +dVG3+cF9L3H3vjStHaHtKFsinwt1aN1tWCK/4jYrCTxLvFffgGE64ltFfcCxzwyBvXodaaCy
+ s2jqvtHe2TeSYVl9FzKD9WtEryOlr2HvBCCiKFTobIJfNE67zl+kZSNJxpTk612rZVfSpw8yN
+ o4+vfLCHbOKTWxauWuoqiBqm1lNIxKsxPNqFjcV+JdqjxK0YSekPfi/5i9JukCgeKFJ9EH+h6
+ ZT0JTVXWQDtbaz7MBtoFuRCtoNXZO8CXjVMmOej1LHiUyntIDc+c5XRZ/jflSo5/QJGrbBNQk
+ +74ROC3bt884DnyeMmTxnszKmynmB5wZqGxAUneTznCuhaad9JTrDEuJH8fRsPmVrCyKe/4FM
+ 7tLc2agcPdpAmNO1N09EWmWVIVSWbLU4WJr2Z3aRF5wyPX1vcZe1bsDfLdoYMzdQcXPAANeTU
+ s1MF5Af7zjoCRpdBQcrBMDWnSO1U/dm/ZEkMo12yagMfLwB9EOVRJBuqsNY6cSv1juX2GgWZE
+ gnvtdqd+9SKFUxXKW70MYrcJmsA+8QGmMH2fe0jCNJgp7RR3MRM31Rzz1UbrQal6WIKMLa/u8
+ aNNytOw5wUAIqORCiu70AObv6Yc3dsLU32VXZ7IuaU/Yn6kfgSzj5mkmTs1PkN3+F0ccM2rSA
+ iPwxFu6Re5euRDUKOfj1OsZ48V0VySc4gvnYVroVHGUeAfMBSx5u68THaKEZWkUVbpCnxT31H
+ t3087aQ3cAu4rY=
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -66,150 +72,163 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: quic_kalyant <quic_kalyant@quicinc.com>,
- "open list:OPEN FIRMWARE AND FLATTENED DEVICE TREE BINDINGS"
- <devicetree@vger.kernel.org>, Sankeerth Billakanti <quic_sbillaka@quicinc.com>,
- "Abhinav Kumar \(QUIC\)" <quic_abhinavk@quicinc.com>,
- quic_vproddut <quic_vproddut@quicinc.com>, David Airlie <airlied@linux.ie>,
- linux-arm-msm <linux-arm-msm@vger.kernel.org>,
- Bjorn Andersson <bjorn.andersson@linaro.org>,
- LKML <linux-kernel@vger.kernel.org>,
- dri-devel <dri-devel@lists.freedesktop.org>,
- Stephen Boyd <swboyd@chromium.org>, Sean Paul <sean@poorly.run>,
- Sean Paul <seanpaul@chromium.org>, quic_aravindh@quicinc.com,
- "Kuogee Hsieh \(QUIC\)" <quic_khsieh@quicinc.com>,
- freedreno <freedreno@lists.freedesktop.org>
+Cc: linux-fbdev@vger.kernel.org, linux-kernel@vger.kernel.org,
+ dri-devel@lists.freedesktop.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Sat, 2 Apr 2022 at 20:06, Doug Anderson <dianders@chromium.org> wrote:
+On 4/2/22 12:22, Christophe Leroy wrote:
+> powerpc's asm/prom.h brings some headers that it doesn't
+> need itself.
 >
-> Hi,
+> In order to clean it up, first add missing headers in
+> users of asm/prom.h
 >
-> On Sat, Apr 2, 2022 at 3:37 AM Dmitry Baryshkov
-> <dmitry.baryshkov@linaro.org> wrote:
-> >
-> > On 01/04/2022 02:22, Doug Anderson wrote:
-> > > Hi,
-> > >
-> > > On Wed, Mar 30, 2022 at 9:03 AM Sankeerth Billakanti
-> > > <quic_sbillaka@quicinc.com> wrote:
-> > >>
-> > >> @@ -1547,6 +1593,10 @@ int msm_dp_modeset_init(struct msm_dp *dp_display, struct drm_device *dev,
-> > >>
-> > >>          dp_display->encoder = encoder;
-> > >>
-> > >> +       ret = dp_display_get_next_bridge(dp_display);
-> > >> +       if (ret)
-> > >> +               return ret;
-> > >
-> > > It feels weird to me that this is in a function called "modeset_init",
-> > > though I certainly don't know the structure of the MSM display code
-> > > well enough to fully comment.
-> >
-> > It's called modeset_init() as it initializes KMS objects used by DP
-> > driver. We have similar functions for dsi and hdmi
+> Signed-off-by: Christophe Leroy <christophe.leroy@csgroup.eu>
+
+applied to fbdev tree.
+Thanks!
+
+Helge
+
+> ---
+>  drivers/video/fbdev/aty/aty128fb.c         | 1 -
+>  drivers/video/fbdev/aty/atyfb_base.c       | 1 -
+>  drivers/video/fbdev/aty/radeon_pm.c        | 1 -
+>  drivers/video/fbdev/aty/radeonfb.h         | 2 +-
+>  drivers/video/fbdev/controlfb.c            | 3 ---
+>  drivers/video/fbdev/matrox/matroxfb_base.h | 1 -
+>  drivers/video/fbdev/mb862xx/mb862xxfbdrv.c | 2 ++
+>  drivers/video/fbdev/platinumfb.c           | 2 +-
+>  drivers/video/fbdev/valkyriefb.c           | 3 +--
+>  9 files changed, 5 insertions(+), 11 deletions(-)
 >
-> Sorry, I wasn't meaning to imply that modeset_init() was a bad name or
-> anything. Mostly saying that I wasn't sure that modeset init was the
-> proper time to populate the aux bus. ...but then again, perhaps it is
-> given the current structure of this driver?
+> diff --git a/drivers/video/fbdev/aty/aty128fb.c b/drivers/video/fbdev/at=
+y/aty128fb.c
+> index 6ff16d3132e5..b26c81233b6b 100644
+> --- a/drivers/video/fbdev/aty/aty128fb.c
+> +++ b/drivers/video/fbdev/aty/aty128fb.c
+> @@ -68,7 +68,6 @@
+>  #ifdef CONFIG_PPC_PMAC
+>  #include <asm/machdep.h>
+>  #include <asm/pmac_feature.h>
+> -#include <asm/prom.h>
+>  #include "../macmodes.h"
+>  #endif
 >
+> diff --git a/drivers/video/fbdev/aty/atyfb_base.c b/drivers/video/fbdev/=
+aty/atyfb_base.c
+> index 1aef3d6ebd88..a3e6faed7745 100644
+> --- a/drivers/video/fbdev/aty/atyfb_base.c
+> +++ b/drivers/video/fbdev/aty/atyfb_base.c
+> @@ -79,7 +79,6 @@
 >
-> > > My expectation would have been that
-> > > devm_of_dp_aux_populate_ep_devices() would have been called from your
-> > > probe routine and then you would have returned -EPROBE_DEFER from your
-> > > probe if you were unable to find the panel afterwards.
-> >
-> > I don't think it's possible to call it from probe() since
-> > drm_dp_aux_register() is called only from dp_display_bind().
-> > The PHY also isn't initialized at that moment, so we can not probe AUX
-> > devices.
-> >
-> > The overall semantics of the AUX bus is not clear to me.
-> > Typically the bus is populated (and probed) when devices are accessible.
-> > But for the display related buses this might not be the case.
+>  #ifdef __powerpc__
+>  #include <asm/machdep.h>
+> -#include <asm/prom.h>
+>  #include "../macmodes.h"
+>  #endif
+>  #ifdef __sparc__
+> diff --git a/drivers/video/fbdev/aty/radeon_pm.c b/drivers/video/fbdev/a=
+ty/radeon_pm.c
+> index b5fbd5329652..97a5972f5b1f 100644
+> --- a/drivers/video/fbdev/aty/radeon_pm.c
+> +++ b/drivers/video/fbdev/aty/radeon_pm.c
+> @@ -22,7 +22,6 @@
 >
-> In general the AUX bus is modeled much like the i2c bus. You probe the
-> sub-device when you're able to transfer. Then you can confirm that the
-> device is actually there and init the device.
+>  #ifdef CONFIG_PPC_PMAC
+>  #include <asm/machdep.h>
+> -#include <asm/prom.h>
+>  #include <asm/pmac_feature.h>
+>  #endif
 >
+> diff --git a/drivers/video/fbdev/aty/radeonfb.h b/drivers/video/fbdev/at=
+y/radeonfb.h
+> index 93f403cbb415..91d81b576231 100644
+> --- a/drivers/video/fbdev/aty/radeonfb.h
+> +++ b/drivers/video/fbdev/aty/radeonfb.h
+> @@ -21,7 +21,7 @@
 >
-> > For example for the DSI bus we clearly define that DSI transfer are not
-> > possible before the corresponding bridge's (or panel's) enable call.
-> >
-> > Maybe the same approach should be adopted for the AUX bus. This would
-> > allow us to populate the AUX bus before hardware access is actually
-> > possible, thus creating all the DRM bridges before the hardware is
-> > actually up and running.
+>  #include <asm/io.h>
 >
-> So I guess what you're proposing is that you could probe the devices
-> under the AUX bus and they could acquire resources (and possibly
-> return EPROBE_DEFER) at a point in time _before_ it's actually
-> possible to transfer. Then I guess you'd later do the transfer?
-
-Exactly.
-
+> -#if defined(CONFIG_PPC) || defined(CONFIG_SPARC)
+> +#ifdef CONFIG_SPARC
+>  #include <asm/prom.h>
+>  #endif
 >
-> I guess conceivably one could re-design the DRM subsystem like that,
-> but I don't think it's trivial.
+> diff --git a/drivers/video/fbdev/controlfb.c b/drivers/video/fbdev/contr=
+olfb.c
+> index bd59e7b11ed5..aba46118b208 100644
+> --- a/drivers/video/fbdev/controlfb.c
+> +++ b/drivers/video/fbdev/controlfb.c
+> @@ -47,9 +47,6 @@
+>  #include <linux/nvram.h>
+>  #include <linux/adb.h>
+>  #include <linux/cuda.h>
+> -#ifdef CONFIG_PPC_PMAC
+> -#include <asm/prom.h>
+> -#endif
+>  #ifdef CONFIG_BOOTX_TEXT
+>  #include <asm/btext.h>
+>  #endif
+> diff --git a/drivers/video/fbdev/matrox/matroxfb_base.h b/drivers/video/=
+fbdev/matrox/matroxfb_base.h
+> index 759dee996af1..958be6805f87 100644
+> --- a/drivers/video/fbdev/matrox/matroxfb_base.h
+> +++ b/drivers/video/fbdev/matrox/matroxfb_base.h
+> @@ -47,7 +47,6 @@
+>  #include <asm/unaligned.h>
+>
+>  #if defined(CONFIG_PPC_PMAC)
+> -#include <asm/prom.h>
+>  #include "../macmodes.h"
+>  #endif
+>
+> diff --git a/drivers/video/fbdev/mb862xx/mb862xxfbdrv.c b/drivers/video/=
+fbdev/mb862xx/mb862xxfbdrv.c
+> index 63721337a377..a7508f5be343 100644
+> --- a/drivers/video/fbdev/mb862xx/mb862xxfbdrv.c
+> +++ b/drivers/video/fbdev/mb862xx/mb862xxfbdrv.c
+> @@ -18,6 +18,8 @@
+>  #include <linux/interrupt.h>
+>  #include <linux/pci.h>
+>  #if defined(CONFIG_OF)
+> +#include <linux/of_address.h>
+> +#include <linux/of_irq.h>
+>  #include <linux/of_platform.h>
+>  #endif
+>  #include "mb862xxfb.h"
+> diff --git a/drivers/video/fbdev/platinumfb.c b/drivers/video/fbdev/plat=
+inumfb.c
+> index ce413a9df06e..5b9e26ea6449 100644
+> --- a/drivers/video/fbdev/platinumfb.c
+> +++ b/drivers/video/fbdev/platinumfb.c
+> @@ -30,9 +30,9 @@
+>  #include <linux/fb.h>
+>  #include <linux/init.h>
+>  #include <linux/nvram.h>
+> +#include <linux/of_address.h>
+>  #include <linux/of_device.h>
+>  #include <linux/of_platform.h>
+> -#include <asm/prom.h>
+>
+>  #include "macmodes.h"
+>  #include "platinumfb.h"
+> diff --git a/drivers/video/fbdev/valkyriefb.c b/drivers/video/fbdev/valk=
+yriefb.c
+> index 8425afe37d7c..a6c9d4f26669 100644
+> --- a/drivers/video/fbdev/valkyriefb.c
+> +++ b/drivers/video/fbdev/valkyriefb.c
+> @@ -54,10 +54,9 @@
+>  #include <linux/nvram.h>
+>  #include <linux/adb.h>
+>  #include <linux/cuda.h>
+> +#include <linux/of_address.h>
+>  #ifdef CONFIG_MAC
+>  #include <asm/macintosh.h>
+> -#else
+> -#include <asm/prom.h>
+>  #endif
+>
+>  #include "macmodes.h"
 
-The problem is that the DRM subsystem is already designed like that.
-All the bridge chains are static. They are created during the device
-probe. And the modes are populated later (via the get_modes()
-callback), after the HPD signal is delivered.
-For the encoder/bridge chains it is explicitly stated that the display
-pipe (clocks and timing signals) are not running before bridge's
-enable() callback or after the disable() callback being called.
-
-> Why? I believe that we need to know
-> things about the panel at probe time. For instance, we need to be able
-> to populate the panel's modes.
-
-As I said, panel modes are not needed at the probe time. The fact that
-most (if not all) of the panel drivers provide them in the platform
-data (and thus modes are typically populated at the probe time) comes
-from the fact that the panel is usually a known static piece of
-hardware. With the generic edp-panel this is no longer the case. A
-single device handles a (probed) variety of panels.
-
-Compare it with the generic monitor:
-We have a known bridge (display-connector.c), so the driver can build
-the display chain. However a set of modes is not known till the actual
-monitor is plugged into the device.
-
-> To get this information we need the
-> EDID which means we need to be able to do a transfer. If we're using
-> an AUX backlight we also need to add info about the backlight at probe
-> time and that also needs the transfer to work.
-
-Yes, the backlight is the problem in the suggested design. I'm not
-sure when panel->backlight has to  be populated for things to work.
-If we can set it after the probe but before calling into
-mode_set/drm_bridge_chain_enable(), then it should be fine.
-
-> So I guess the net result is maybe we should just keep it where it is.
-> Long term I'd be interested in knowing if there's a reason why we
-> can't structure the driver so that AUX transfers can happen with less
-> intertwining with the rest of the code, but that can happen later. I
-> would expect that you'd basically just need clocks and regulators on
-> and maybe your PHY on. Ideally with some pm_runtime fun we should be
-> able to do that independently with anything else the driver needs to
-> do?
-
-Not really. The driver is shared between the DP and eDP. And the DP
-(well, combo DP+USB-C) part has quite logical expectations that e.g.
-AUX channel is not up until all negotiations about the USB-C altmodes
-are done and the HPD event is delivered. This is the source for my
-suggestion regarding AUX bus rework/redesign. For non-eDP cases the
-connected device becomes known much later than the dp_parser code runs
-(and much later than all the bridges are to be instantiated).
-
-Another option would be to keep common drm/msm/dp core code and split
-the actual driver code into two distinct code paths: one supporting
-DP, another one supporting eDP. I think, up to now we were trying hard
-to stay away from such a split.
-
--- 
-With best wishes
-Dmitry
