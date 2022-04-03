@@ -1,126 +1,53 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id D65744F0BA6
-	for <lists+dri-devel@lfdr.de>; Sun,  3 Apr 2022 19:49:04 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 70FBD4F0C3C
+	for <lists+dri-devel@lfdr.de>; Sun,  3 Apr 2022 20:54:17 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 0EC8510E129;
-	Sun,  3 Apr 2022 17:48:59 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 845E510E17C;
+	Sun,  3 Apr 2022 18:54:15 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from NAM04-BN8-obe.outbound.protection.outlook.com
- (mail-bn8nam08on2088.outbound.protection.outlook.com [40.107.100.88])
- by gabe.freedesktop.org (Postfix) with ESMTPS id C1D8E10E129
- for <dri-devel@lists.freedesktop.org>; Sun,  3 Apr 2022 17:48:57 +0000 (UTC)
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=daXLR2aKRfPoPo61NQaeypyKX/j4GYnCMyHWOzt2V//a2GO7Jd+l3dYTe8UgfvgCB44DyvtHW2gg2VjCWpZGI+yEgySSnl5HogwoPM4QfScszG9Bxyx8QW32+fcqDxnUaUftQ489D3yNLx6TrmVraJWR/BHdQp6krQhgyTDirQGjpPfiOhHKw/B2O+5MX06V7dqXAGZtwDh5FOl4jifSCsuOWv6i4f9I94H3mXHbVsARq/eU/tdFC5xoIM85iU0toNY0OLVbMledFHQVTXdIzsnQPY3pWUnu251g69rgxoZZ0GFbjO0tLSs6mUO1GGWAlDWO4ZijHj9dgFDCGecvAw==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=nfzfpbz4vGriKLRQYSauanyP8UfwUKhdfO87IiI/LYc=;
- b=QqI1LvhvzoRnN42FjXCNCV+46V7b4OLARakKefNVPSuDoxg/VNyFxw97oDcfHTrQnJXRcLnNUW0tDthOFgHhd1xHOM5o2yYsadmpAoCf7wSi6jMPLWDoUU48cKmYvzgG55hXuM6Labk8+8h0BC9bWjkD84IbKF6wcxRqDfX5e1bczYnELWMURcGzv3/T3fdDTk8ruxPg2wOOkqvKOISalEKV0Q97RpReGKcl4b5nNUmA0J4/bdkUtoEIQ7I4IGSTuBcQmHJKnoiI/CsSia9FhWm/EsHrVRbw7BrvYCsMQY7I/D6hOzflvOJk35oVkOhSXMcMNYrBUVxcHY/ekp+pmg==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=amd.com; dmarc=pass action=none header.from=amd.com; dkim=pass
- header.d=amd.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1; 
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=nfzfpbz4vGriKLRQYSauanyP8UfwUKhdfO87IiI/LYc=;
- b=yzvVX57K2XTpT+4bze5wjqNFOJRsr6l7P8VFWw6BRYte4F7l76psnKPyDukbldCFygPW4r80XfypauzAtTEmkm1klRNqrxVw9TAKs+Sy+dzi4NsyJtFQWvk0vB+vG97xozwYjovff4xSk7RDxhZD+tMeCOOTFBQfe8UGpUXXfkM=
-Authentication-Results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=amd.com;
-Received: from BN8PR12MB3587.namprd12.prod.outlook.com (2603:10b6:408:43::13)
- by BN6PR12MB1361.namprd12.prod.outlook.com (2603:10b6:404:18::7) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.5123.31; Sun, 3 Apr
- 2022 17:48:54 +0000
-Received: from BN8PR12MB3587.namprd12.prod.outlook.com
- ([fe80::404f:1fc8:9f4c:f185]) by BN8PR12MB3587.namprd12.prod.outlook.com
- ([fe80::404f:1fc8:9f4c:f185%6]) with mapi id 15.20.5123.031; Sun, 3 Apr 2022
- 17:48:54 +0000
-Message-ID: <0021afec-1167-dd1c-5efa-d3a6fdb6e756@amd.com>
-Date: Sun, 3 Apr 2022 19:48:48 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.7.0
-Subject: Re: [PATCH 17/23] dma-buf: specify usage while adding fences to
- dma_resv obj v5
-Content-Language: en-US
-To: Bas Nieuwenhuizen <bas@basnieuwenhuizen.nl>
-References: <20220321135856.1331-1-christian.koenig@amd.com>
- <20220321135856.1331-17-christian.koenig@amd.com>
- <CAP+8YyFtE6r3S8d=4QBH41M7zKYr97_keM3B=swdtvxeuFwz+g@mail.gmail.com>
-From: =?UTF-8?Q?Christian_K=c3=b6nig?= <christian.koenig@amd.com>
-In-Reply-To: <CAP+8YyFtE6r3S8d=4QBH41M7zKYr97_keM3B=swdtvxeuFwz+g@mail.gmail.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
-X-ClientProxiedBy: AM5P194CA0005.EURP194.PROD.OUTLOOK.COM
- (2603:10a6:203:8f::15) To BN8PR12MB3587.namprd12.prod.outlook.com
- (2603:10b6:408:43::13)
+Received: from mail-il1-x134.google.com (mail-il1-x134.google.com
+ [IPv6:2607:f8b0:4864:20::134])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 956F410E17C
+ for <dri-devel@lists.freedesktop.org>; Sun,  3 Apr 2022 18:54:13 +0000 (UTC)
+Received: by mail-il1-x134.google.com with SMTP id k15so767682ils.0
+ for <dri-devel@lists.freedesktop.org>; Sun, 03 Apr 2022 11:54:13 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
+ h=mime-version:from:date:message-id:subject:to;
+ bh=0tyOst0Xb8yCpPce9JraB8zLncAUG3RYUT1BHLUotzY=;
+ b=llDHghUEvq4enh/oOtTMjoKuZmI8sK1CzVBKb3WRQOApkGBH24pZTIHlXx7xwmbO+R
+ kydeoVVoH116tNsoZ1FSlS8nuQDepFzp/rjTWIN8V0v2TyoH6BLl7ItP6mSPVIeyscz/
+ bcTcQSV9g7AQ4Eq56o2BrpEznBnYFePBkCwD+TDnFvr2+LoapYl4fDsdmcARJ9WBbFEd
+ xmZt36U13n16RqxrCSm/iyxZBAlhHGTvrMvk7Cm9EioOdnchJBr7jgeWFB0lZkLBqOn3
+ icrNJerXqgzlgRM9LKoEPOiU32jMIhHOQphSrGjvOauFzbipY0dYH5tvDU04Gfkc9vwJ
+ 7yXA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=x-gm-message-state:mime-version:from:date:message-id:subject:to;
+ bh=0tyOst0Xb8yCpPce9JraB8zLncAUG3RYUT1BHLUotzY=;
+ b=y77C/CEBpr/Ksz9PMDHtI0JvWzUrppCnAfndqFe+RGlh8m1ew4IDZlOWtRYDBPbkl/
+ O8ytRShBFW3yrbqlMrGeU1Txm9so/kdZnPW+BiQ9gxk8L5iIXe+LxoGkpGgLKU12YNbp
+ NUd6eq7b4ZfpMwY+6kWUAP3xWwr2EsvZ6q7srTz2shIkYM7Xxs/LSq3QGszH+eUbmKzx
+ 62Awnzi1FqzeF4ZmjQaq4WXuhwPF5ZHJrblCa+T6KoE/K+k9kdGjA0f/MbvZwB0Z8JGa
+ vqTPkGSvZg3K1FBQiGF1pxX1pZ8pIVb7W6ium/bGlbv4j+RKxrA0xixf1ZPpmTT2RbuD
+ YwSQ==
+X-Gm-Message-State: AOAM532BVQR5ZDq3DAs4nZDBm2V8NKyObaYWLabdKsglifK8dFl8kzda
+ cZrwwEJoaVha8nGVRtUvqrVvTg7GdtzIdAbZobD17wPLP34=
+X-Google-Smtp-Source: ABdhPJx7ka+XmgtgQ5rnyVELpfx1L4GPeDA7YZMYykFWRy0+jNq5bbpB6Y4TIb0/2e3C8qoz0PL6LeFgzYKFMQdBAu0=
+X-Received: by 2002:a92:cbc3:0:b0:2c6:78fa:41e9 with SMTP id
+ s3-20020a92cbc3000000b002c678fa41e9mr3844532ilq.112.1649012052418; Sun, 03
+ Apr 2022 11:54:12 -0700 (PDT)
 MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-Office365-Filtering-Correlation-Id: b0cfa134-7fa8-48ea-9fd5-08da159a3845
-X-MS-TrafficTypeDiagnostic: BN6PR12MB1361:EE_
-X-Microsoft-Antispam-PRVS: <BN6PR12MB13610C1F645492DDF812A44883E29@BN6PR12MB1361.namprd12.prod.outlook.com>
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: PWA0bymd0+9XTy/2nLtj6Lsg6E5sxkmwaH5qiGU8VxxdePxkhxndEMUEZk71q3WVjQVoEzCtwUxh6eLtmGmD7We+Lk4McNYVJO3KKuNgN3YGCXJdlfBN5Hos2yxcGz/6gUICu88vDFUFNWnDwdbREJxENJsF78JU06KRgic4xd2iF9DH9cZPRpgIVTOdheYzzG8412/lsshRNuX6DBxXxEsxtWMVa1S/UAJNFef/UGh/Jj0AaMgV6E289sjmmRB9s1H4PrOMPUz84xVuEXOv2T3pUBjPGySCzXBphhuME7xpPALQyw3hPSDfzoC0GGv7OgppfFBH02UR3dX/RfqGJ2RA3CxP9med4iK/VGbGjkFIOFdJh2Rvudjn0zXJ+oUZ10LfLWqISfNa5VNF7JniI78D80JCjMRnHwhdeSV54y2Ns7lbUQyAAutGaITJBU0qWmJD0/BvvpyO80R8enABDhURhd4z2zLgS9h5ZLMkGBTdmD2rOpi6SyOYA40Ues9vNTLu3q5JZpmbLGp0SRC1yvv8OUEZfApGn+O+sPXuxfkZtkwtHBIvWOFLpxAPsE9EZp/bX6wbsYJ84FyUxpKHE918xPf2T4opVLmpDSjqywGX9tkrY6eyJ5kgKjI7NH5NGnhfM/pDQP5+vCVH1hvatZJIsUiTvhExxHhVRhLtQoGQPB7zI6xF1AeZOt+AgXi8Dpump4c/LhPkpHYsn8Mq5L+MN8T83NfbWLrLT0/dOE8=
-X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
- IPV:NLI; SFV:NSPM; H:BN8PR12MB3587.namprd12.prod.outlook.com; PTR:; CAT:NONE;
- SFS:(13230001)(4636009)(366004)(31696002)(31686004)(66476007)(66556008)(38100700002)(6506007)(54906003)(6916009)(86362001)(66946007)(36756003)(4326008)(186003)(8936002)(53546011)(8676002)(6512007)(2906002)(5660300002)(508600001)(6666004)(83380400001)(66574015)(6486002)(316002)(2616005)(43740500002)(45980500001);
- DIR:OUT; SFP:1101; 
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 2
-X-MS-Exchange-AntiSpam-MessageData-0: =?utf-8?B?UDlVaTJBS1B5bG5GeGNSZjd5R1J5Qit5TVBGR1BETlN6RFliQXhwTmxtZXZG?=
- =?utf-8?B?ZkxzYUoxM1laNVQ5NDlINzhwUVdieUx1UytFR2x0SVRpZ0hTUVFWTzNBZXN4?=
- =?utf-8?B?blptc3p3alBMVjNqam5BWVpjVHBTU1VsWTE5U3I2LzVtYkd6Vi9LRThhQ3M1?=
- =?utf-8?B?bE8rbzNCMjJZakpzdzlKWkxzc3hXWEQ2NDVqVUx5Y3cyb1JiTmRtMW1FYW1V?=
- =?utf-8?B?ZkQ3aTR5Y25kNytWUU9kZ25hdWJuRG1IYy9EL0ZoT0VsZlZIUEJNN0tPR1lY?=
- =?utf-8?B?QWdrRnRoNTAwMVVZZHVlbXZnZnhsbjhDTW8vWm5Cc3ptaDhMOWVWWDFRWXA0?=
- =?utf-8?B?MW81b1FsR2g3UTFtT2JIR0dOK09DeVFURENZOE5JWHBVYmdtRzZIb2VrYk9k?=
- =?utf-8?B?bnFtWXA0TGJ6WFpnbEVhaUxLQURMZEZiQTBBT21icEVXS2M3eWs0QVFVWFV6?=
- =?utf-8?B?WHpxNUF0dW8wcHRJaHBNSUw1ZHdEQnJzM3dKR0NFcDJVRGs5RXMybnJjTDI3?=
- =?utf-8?B?NzViODF3WGVNTjMzVjhXWjA0dEtEaWJ4anhVYk5xaVB1M2d6enJwSm1aM0tt?=
- =?utf-8?B?em9DVXo3ZFBWdjhxRGlaNnY4eFM2Z2JFWXpEeGxUTDdKdDMvRGh4U3BMa2Nh?=
- =?utf-8?B?OFVUM2lxcTlrY0NtRE93dzJPUjhOOGNhWjlEV1k1VEhSTitHamN4UG0zTVBT?=
- =?utf-8?B?SXpUck5LWW1pK2N4SXp4cisxWmdkZmF6N0hRdnZTZXdycUdLNDJZU1lseWlY?=
- =?utf-8?B?Z09RM2FxOWZqb1NJUTVhWkdtV3p0b1kxZ1hlSjEvZElHakk4NGpFeFU5RXFl?=
- =?utf-8?B?RWJKMUMvcm9TUDFqb2ZkSFl0OG8wYURZNENua25TeEZ3M01jZDY2dTJ2N0F3?=
- =?utf-8?B?ZWkvQzdxdGJLVzlsS1V3Ri94UTFjT1Ruak1HYkx2YXNPa1l0blB4ZWpYbEsw?=
- =?utf-8?B?cW1qcmZ5d3k0NHNLR0FPUDJUWWpOeFJkekk2aXdWdExwOVJ2OGRzTXcwWEd4?=
- =?utf-8?B?Nys2ZWliUGp1cUd6WS85YWJDR0dTVTVLVTFyK2NyNU1kRk1EQ0ZLQS8xeUZY?=
- =?utf-8?B?U2JVdWQ3Q0lFTjRNSmNnTXMyV0JmcGg0ZGd2bmJuWW05YTZXRWtSWVlFWjVx?=
- =?utf-8?B?bXdTVXpJdFI1TThhNDNuZDBjK0YxNVprMmVtdys4djN6eDl6ZEhlKzJBdkdn?=
- =?utf-8?B?cXJrMHEzLzJjU0pmMjdYcnVuWCtVRW1hWE12aGFQVWErYmZMM09JcVFSaE5V?=
- =?utf-8?B?OFBXcHVXb2tOenFYbXRYS0Z0R3VpNHMvUFBRRml3enRSWmNhZ2JxcXVzUDkz?=
- =?utf-8?B?QnkxQXlWSDVSSzJDWEZyM0hNMkpPNnkxdEpVRGcrMllTQ3pHVEVjT3VsSXpu?=
- =?utf-8?B?aCtRMFRxRkx1Q1Y3M3lPVEFjNEVPNnI5WjhiTVI4cEpOVWdhSC9yV1Q3djJB?=
- =?utf-8?B?YWpseHhhd2RoN2YwSTlwdjhrUjFPZWlENGEwZFVoQ3M4SFRZdnRMN2l6Umdj?=
- =?utf-8?B?VXBqcGJCdENFd0hiNDJmU2h6d09KM0JYUGxmK2RNNk84aitxTXozZVlXVk9r?=
- =?utf-8?B?b3VVV1p6cExVeGVERmNZSjBaWElBSXpaYXl4YVlFekFlK05SSFdQYnphNDlt?=
- =?utf-8?B?MThEdUFsZmZ2eEpwYlBab2F3eUs3V1hwaHFUVFhmUXNTb2RmWmpqRmFzMkU5?=
- =?utf-8?B?VWZLd2dadUZoS0YrSkpMNWpCQVRneGpZY2JpdGRaK3NqTUhDNWZldXhHMjVS?=
- =?utf-8?B?aWNqQmxCbE9iSTVCbmc2b00yS3VEVUl4UVR0dmZDc3g0eWxhU1lRcnhQRnFP?=
- =?utf-8?B?Ly9SSXA0emRjancwRFNoSSt5L2htenlYWFRSOFRCL0FyREROKzZaZkQ0TW5p?=
- =?utf-8?B?ZU1FL0p6MFRqOU9xT1c1NTRPWisyYzVaaSs5emZnODFmOXVhNGhPUVR5U21L?=
- =?utf-8?B?RUttK0ZnMy9nL0hQbXErNy9uVFhzbjZZN05ONUN6QS9POUZ0U2tHZjY5VURX?=
- =?utf-8?B?SUJSK3BNNFgybG14aDVEd1lNaWo3UW95UnFpcmcvR1p1QkJOVFU4cldaek5N?=
- =?utf-8?B?WGJBOWFwUER3cE5JWDRSQVBhb2I2Qnc3bVNRSkdNenoxaXNaK1pHaFozQjRN?=
- =?utf-8?B?azNZME0yNzhQY0NQK0pISTVCUlY3SXhxdG1RcFo0bm9ER3hTNllmQmhtUzdV?=
- =?utf-8?B?TGxsR0RxajlzOGY0M2x6MG91MVU0M3dwYmlObXhzVnhBcEk2MmJSRkMwTHE1?=
- =?utf-8?B?Y0lJY0liTXNlb3JLSjEzR1JQZ1ZmbnNEbUd6U3VwY05PZFFmVmczQXltSWNw?=
- =?utf-8?B?bHJYeVRSRklKYmxIU3QvMjhDQVRiTUFiYy9DenE3NmVNdzNJUlFyY3ZmQlBG?=
- =?utf-8?Q?7rm1CGaS6/rfOS4vwBsl3epto1mvJGXxIV0X+TedPoJYy?=
-X-MS-Exchange-AntiSpam-MessageData-1: sQEAY1deVGalxQ==
-X-OriginatorOrg: amd.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: b0cfa134-7fa8-48ea-9fd5-08da159a3845
-X-MS-Exchange-CrossTenant-AuthSource: BN8PR12MB3587.namprd12.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 03 Apr 2022 17:48:54.4267 (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: 174BjpRabjkp/BZcbJUDZdS03qRF3WlvB6j3RAlihuTMxdQn8UlwceKonykiDKtE
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: BN6PR12MB1361
+From: Chris Rankin <rankincj@gmail.com>
+Date: Sun, 3 Apr 2022 19:54:01 +0100
+Message-ID: <CAK2bqVJ+doVhoWRN9KKW2JfX-jG7GQ_-a4gzZ8V5SGE901OfXQ@mail.gmail.com>
+Subject: [WARNING] [AMDGPU] Linux 5.16.18 warning about ttm_bo_release with R7
+ 360
+To: Maling list - DRI developers <dri-devel@lists.freedesktop.org>
+Content-Type: text/plain; charset="UTF-8"
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -133,40 +60,94 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Daniel Vetter <daniel.vetter@ffwll.ch>,
- =?UTF-8?Q?Christian_K=c3=b6nig?= <christian.koenig@amd.com>,
- ML dri-devel <dri-devel@lists.freedesktop.org>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Am 03.04.22 um 00:16 schrieb Bas Nieuwenhuizen:
-> On Mon, Mar 21, 2022 at 2:59 PM Christian König
-> <ckoenig.leichtzumerken@gmail.com> wrote:
->> [SNIP]
->> @@ -519,17 +513,17 @@ EXPORT_SYMBOL_GPL(dma_resv_iter_first);
->>    */
->>   struct dma_fence *dma_resv_iter_next(struct dma_resv_iter *cursor)
->>   {
->> -       unsigned int idx;
->> +       struct dma_fence *fence;
->>
->>          dma_resv_assert_held(cursor->obj);
->>
->>          cursor->is_restarted = false;
->> -       if (!cursor->fences || cursor->index >= cursor->fences->shared_count)
->> +       if (!cursor->fences || cursor->index >= cursor->fences->num_fences)
->>                  return NULL;
->>
->> -       idx = cursor->index++;
->> -       return rcu_dereference_protected(cursor->fences->shared[idx],
->> -                                        dma_resv_held(cursor->obj));
->> +       dma_resv_list_entry(cursor->fences, cursor->index++,
->> +                           cursor->obj, &fence, &cursor->fence_usage);
-> Shouldn't we skip the current fence if cursor->fence_usage doesn't
-> match cursor->usage ? (similar to what is done wrt the unlocked
-> variant)
+Hi,
 
-Oh, good point. Totally missed that.
+I have resurrected my old AMD R7 360 card (Bonnaire?) for a machine
+that needed an upgrade, and now notice this warning in the dmesg log,
+soon after logging into X. (In fact, this warning looks rather
+familiar. I suspect I was already reporting it up until I removed this
+R7 360 from my own machine.)
 
-Thanks,
-Christian.
+This is with a Fedora 5.16.18-200.fc35.x86_64 kernel. Kernel trace follows.
+
+Cheers,
+Chris
+
+[  568.881348] ------------[ cut here ]------------
+[  568.881354] WARNING: CPU: 0 PID: 1 at
+drivers/gpu/drm/ttm/ttm_bo.c:411 ttm_bo_release+0x34c/0x370 [ttm]
+[  568.881365] Modules linked in: rfcomm hid_logitech_hidpp joydev
+hid_logitech_dj nft_fib_inet nft_fib_ipv4 nft_fib_ipv6 nft_fib
+nft_reject_inet nf_reject_ipv4 nf_reject_ipv6 nft_reject nft_ct
+nft_chain_nat nf_tables ebtable_nat ebtable_broute ip6table_nat
+ip6table_mangle ip6table_raw ip6table_security iptable_nat nf_nat
+nf_conntrack nf_defrag_ipv6 nf_defrag_ipv4 iptable_mangle iptable_raw
+iptable_security ip_set nfnetlink ebtable_filter ebtables
+ip6table_filter ip6_tables iptable_filter bnep sunrpc binfmt_misc
+btusb btrtl uvcvideo intel_rapl_msr btbcm intel_rapl_common btintel
+videobuf2_vmalloc videobuf2_memops videobuf2_v4l2 videobuf2_common
+bluetooth x86_pkg_temp_thermal intel_powerclamp snd_usb_audio
+snd_hda_codec_realtek videodev snd_hda_codec_hdmi
+snd_hda_codec_generic coretemp snd_usbmidi_lib snd_rawmidi mc
+ledtrig_audio snd_hda_intel ecdh_generic snd_intel_dspcfg
+snd_intel_sdw_acpi kvm_intel snd_hda_codec kvm snd_hda_core mei_pxp
+irqbypass snd_hwdep mei_hdcp snd_seq snd_seq_device
+[  568.881405]  rapl snd_pcm eeepc_wmi intel_cstate iTCO_wdt
+intel_pmc_bxt snd_timer mei_me iTCO_vendor_support intel_uncore snd
+soundcore asus_wmi sparse_keymap platform_profile rfkill at24 ppdev
+mei i2c_i801 i2c_smbus lpc_ich parport_pc parport wmi_bmof fuse
+ip_tables amdgpu iommu_v2 gpu_sched radeon crct10dif_pclmul
+crc32_pclmul crc32c_intel ghash_clmulni_intel i2c_algo_bit
+drm_ttm_helper ttm drm_kms_helper cec drm r8169 wmi video ipmi_devintf
+ipmi_msghandler
+[  568.881431] CPU: 0 PID: 1 Comm: systemd Not tainted
+5.16.18-200.fc35.x86_64 #1
+[  568.881433] Hardware name: System manufacturer System Product
+Name/P8H61-M LE/USB3, BIOS 0803 10/21/2011
+[  568.881435] RIP: 0010:ttm_bo_release+0x34c/0x370 [ttm]
+[  568.881441] Code: 00 e8 88 64 42 e3 48 8b 43 e8 eb a8 be 03 00 00
+00 e8 a8 d2 1f e3 e9 97 fd ff ff e8 4e 42 42 e3 e9 8d fd ff ff 48 89
+e8 eb 8a <0f> 0b e9 d7 fc ff ff e8 38 42 42 e3 e9 de fe ff ff be 03 00
+00 00
+[  568.881443] RSP: 0018:ffffc1e64001fe00 EFLAGS: 00010202
+[  568.881446] RAX: 0000000000000001 RBX: ffff9fbcf26cb5b8 RCX: 000000000ce9e000
+[  568.881448] RDX: 0000000000000001 RSI: f8c959798f8a2452 RDI: ffff9fbcf26cb5b8
+[  568.881449] RBP: ffff9fbdca725280 R08: ffff9fbcf26cb5b8 R09: 00000000802a0028
+[  568.881451] R10: ffff9fbdc6386cc8 R11: ffff9fbcf4da3600 R12: ffff9fbcf26cb458
+[  568.881452] R13: ffff9fbdc01e3920 R14: ffff9fbcf4c06e40 R15: 0000000000000000
+[  568.881454] FS:  00007f869ebe8b40(0000) GS:ffff9fbdfb400000(0000)
+knlGS:0000000000000000
+[  568.881456] CS:  0010 DS: 0000 ES: 0000 CR0: 0000000080050033
+[  568.881458] CR2: 000055a016daa830 CR3: 0000000101c9c004 CR4: 00000000000606f0
+[  568.881460] Call Trace:
+[  568.881463]  <TASK>
+[  568.881465]  ? kfree+0xaa/0x3e0
+[  568.881471]  ? kernfs_put.part.0+0xd9/0x1a0
+[  568.881476]  amdgpu_bo_unref+0x1a/0x30 [amdgpu]
+[  568.881725]  amdgpu_gem_object_free+0x20/0x30 [amdgpu]
+[  568.881886]  drm_gem_dmabuf_release+0x36/0x50 [drm]
+[  568.881930]  dma_buf_release+0x42/0x90
+[  568.881936]  __dentry_kill+0x101/0x180
+[  568.881942]  __fput+0xe3/0x250
+[  568.881947]  task_work_run+0x5c/0x90
+[  568.881952]  exit_to_user_mode_prepare+0x229/0x230
+[  568.881958]  syscall_exit_to_user_mode+0x18/0x40
+[  568.881963]  do_syscall_64+0x48/0x90
+[  568.881968]  entry_SYSCALL_64_after_hwframe+0x44/0xae
+[  568.881973] RIP: 0033:0x7f869f6d7f1b
+[  568.881978] Code: 03 00 00 00 0f 05 48 3d 00 f0 ff ff 77 41 c3 48
+83 ec 18 89 7c 24 0c e8 b3 81 f8 ff 8b 7c 24 0c 41 89 c0 b8 03 00 00
+00 0f 05 <48> 3d 00 f0 ff ff 77 35 44 89 c7 89 44 24 0c e8 01 82 f8 ff
+8b 44
+[  568.881981] RSP: 002b:00007fff4d1a6c00 EFLAGS: 00000293 ORIG_RAX:
+0000000000000003
+[  568.881985] RAX: 0000000000000000 RBX: 00007f869ebe88f0 RCX: 00007f869f6d7f1b
+[  568.881988] RDX: 0000000000000000 RSI: 000000055a016ea7 RDI: 0000000000000071
+[  568.881990] RBP: 0000000000000071 R08: 0000000000000000 R09: 000000000000007f
+[  568.881992] R10: 0000000000000000 R11: 0000000000000293 R12: 0000000000000000
+[  568.881995] R13: 000055a015029680 R14: 000055a014fe2719 R15: 000055a016dd7910
+[  568.881999]  </TASK>
+[  568.882001] ---[ end trace bf1924c74ac9a389 ]-
