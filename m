@@ -1,127 +1,43 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id E6C814F0AFF
-	for <lists+dri-devel@lfdr.de>; Sun,  3 Apr 2022 17:59:23 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id D69A84F0B7C
+	for <lists+dri-devel@lfdr.de>; Sun,  3 Apr 2022 19:10:34 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 8EAC710E5A9;
-	Sun,  3 Apr 2022 15:59:16 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 2AA9B10E8B7;
+	Sun,  3 Apr 2022 17:10:31 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from NAM10-DM6-obe.outbound.protection.outlook.com
- (mail-dm6nam10on2075.outbound.protection.outlook.com [40.107.93.75])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 89A3310E5A9;
- Sun,  3 Apr 2022 15:59:15 +0000 (UTC)
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=S6/fSjJf3LEEl4Q6flTcdEiUjQceMC0X0m83+hvA2yhTyUXZ3rzRbfzpdB343RvGgd93kmcXiEt982lIBcHEj/qm6fWHM1Pa5WSMkgaQ6DeTYLK2qESnGDliu5JKWOdIwVeLyOH3ipXGB9wiv5ASHI/Lz1tPLU9TBiJbd9UEMRC/VHuFZ/xM1PhUgUYlczstuRA7W0gIGrF9fl+8krZuDM3B5nS7nNntMTAX4DXHqXtXadXBMM7nGrJhfq7d98fzpdEq9IeIKrsLFsAa6PxLv2NxmKZ5g238oTr1xx6/pvA36bIDMKNJ99ocfXsVWJCrgOKDc5G3T4lwfH657lBwYA==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=G2leFqeutSb8xbljt64lq04w6YVWiV+BFJrbscPlvmk=;
- b=FdPEkf5qcuSl2d4oY6lOACpOPxZOx+voJ28PkAY5iEjqOqPXrIchNBmTkbXeNYT96zjELVzEGYr3XPRZPNjq+cVdYUpdMg8yLIHJ5WYdVkHCY4InK/voMXb9xrsnfNBgpEp/Bx5MMU1BzcFHEn5tZXXowag8LxwdwRZtnz/WfA+gQv9sv/UV00GDvoKPwFLwulnG5VJdODkhed7BHfKW2412Pw9gQgtlnY6d1lnB9uqP+YUCT+CS+VSXrZ1AXzJYxBwFl33l8zGgcKL/mvYmJh0xPNYObe7qtYYWSYF9luKaLdMhiA8DYkIp9R65VokzyPYTFG+49v7Xue8P6Am9Cw==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=amd.com; dmarc=pass action=none header.from=amd.com; dkim=pass
- header.d=amd.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1; 
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=G2leFqeutSb8xbljt64lq04w6YVWiV+BFJrbscPlvmk=;
- b=OPbguAJ+twLNppWH/MkdOmtHD5RdkTdsX19kgmJYOPqpJps9/60YphJzWz4RBxUhSk3v7PDAu2hreZXkcbQIp7GgYWR2+nE8PuGrxIIU1JXkXzKMAkzWsMpTzdTxZTijxS7GNWg88gbmlrK8UgQ/V57CnnTBkKi+Wk2cC48+l6Y=
-Authentication-Results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=amd.com;
-Received: from BYAPR12MB3589.namprd12.prod.outlook.com (2603:10b6:a03:df::29)
- by DM5PR12MB1276.namprd12.prod.outlook.com (2603:10b6:3:79::18) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.5123.31; Sun, 3 Apr
- 2022 15:59:12 +0000
-Received: from BYAPR12MB3589.namprd12.prod.outlook.com
- ([fe80::2c60:fd3:43ac:cfe1]) by BYAPR12MB3589.namprd12.prod.outlook.com
- ([fe80::2c60:fd3:43ac:cfe1%7]) with mapi id 15.20.5123.031; Sun, 3 Apr 2022
- 15:59:12 +0000
-Message-ID: <b9eb079c-3ec3-6095-92ab-5dbfab88d327@amd.com>
-Date: Sun, 3 Apr 2022 17:59:05 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.7.0
-Subject: Re: [PATCH 06/23] drm/nouveau: stop using dma_resv_excl_fence
-Content-Language: en-US
-To: =?UTF-8?Q?Christian_K=c3=b6nig?= <ckoenig.leichtzumerken@gmail.com>,
- Ben Skeggs <bskeggs@redhat.com>, Karol Herbst <kherbst@redhat.com>,
- dri-devel@lists.freedesktop.org, Lyude Paul <lyude@redhat.com>,
- nouveau@lists.freedesktop.org
-References: <20220321135856.1331-1-christian.koenig@amd.com>
- <20220321135856.1331-6-christian.koenig@amd.com>
-From: =?UTF-8?Q?Christian_K=c3=b6nig?= <christian.koenig@amd.com>
-In-Reply-To: <20220321135856.1331-6-christian.koenig@amd.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
-X-ClientProxiedBy: AM5PR0402CA0015.eurprd04.prod.outlook.com
- (2603:10a6:203:90::25) To BYAPR12MB3589.namprd12.prod.outlook.com
- (2603:10b6:a03:df::29)
+Received: from phobos.denx.de (phobos.denx.de [85.214.62.61])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 630B310E8B7
+ for <dri-devel@lists.freedesktop.org>; Sun,  3 Apr 2022 17:10:29 +0000 (UTC)
+Received: from tr.lan (ip-89-176-112-137.net.upcbroadband.cz [89.176.112.137])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits))
+ (No client certificate requested)
+ (Authenticated sender: marex@denx.de)
+ by phobos.denx.de (Postfix) with ESMTPSA id 4C1EB83AEF;
+ Sun,  3 Apr 2022 19:10:21 +0200 (CEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=denx.de;
+ s=phobos-20191101; t=1649005827;
+ bh=EzaHtqlqnl6v/BpajGKZha1dEh+6XCtBSWIDbAuEjAI=;
+ h=From:To:Cc:Subject:Date:From;
+ b=h86ez168JBAM+Iq0XZmLaQ9sHM6Bz+Eq4bcg5YhjkQdAXieZbRGCJ8gzPPoHfA17a
+ K7wwR0voJtXauT1hfRWwLTecto/jxbve7oT6mRWykbNvysOA/e4RqpOYTIiqlvP07N
+ YTR0TANqQH7SRuL0+38mjJUeexXK1lm55wKePADR8Kc6ZT4uDlSg13YnCJSb/IgXYV
+ WITnoewiiqIup9Y9W5Jm/9AsJxOxUtbxEAlReIUKOmCvyaRkksbNsbRDDD3xVZ7AOJ
+ prk0pe0eoARWfUNMDYMXAcBRozrKADpZliOD2tiAGhiiRvtVk1miW7B1LPPYFF75RW
+ fuuATCm2fagIw==
+From: Marek Vasut <marex@denx.de>
+To: dri-devel@lists.freedesktop.org
+Subject: [PATCH] drm: bridge: icn6211: Convert to regmap
+Date: Sun,  3 Apr 2022 19:10:04 +0200
+Message-Id: <20220403171004.368464-1-marex@denx.de>
+X-Mailer: git-send-email 2.35.1
 MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-Office365-Filtering-Correlation-Id: c440c0a4-0339-4a61-b352-08da158ae4f2
-X-MS-TrafficTypeDiagnostic: DM5PR12MB1276:EE_
-X-Microsoft-Antispam-PRVS: <DM5PR12MB1276489BDFE96791AD99A34383E29@DM5PR12MB1276.namprd12.prod.outlook.com>
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: bJXfJ4edCuAd3plj8zo9+weL62NKKEzwd+U45YNE0+9FnloPvLEpcjiCyvtujPYDvxthkAL1tPWfLC13aGoaG4Z54qCbsZ3TG2+lpz7NWaAk/KDEmm5mVR4dfe6wr4/xowr11uXdpCVinEY6g+BI/N5EWv9DcRdGEoyqWjcrMZz34IOq7z4FGhKDqrDhWk7p5muqDosth+azyTD8nW27c0J/uS7oo9pAZxcjq6BdLz0wxUBz9LMaC8yxPam65pevq1u3MpCLKaYC/le1mXQ6LrPsr2Ys18Z18+vDk2wxoSEiMXNiCgtJOmIziw3CrjaSkeQRkaUrsaxTmuIgHI3dr2ied8LVBHENLFjCkzx5pOvo0eUahiikv/RszSKWGftwIys0NAKgfkrRLNaAhA09AWE1YTc820fCvdYP/1FUXBJRfm5oBUNygqwq/o4vANh7uIiHbfOaJaFb5bML+6D1eAt7SoP5UGpffA+i974RrN5aQUMvhkLiYD03HFpRqI7JJFvwU6EHrbqcc/0x1HBUuo+9pCzeN5wgOJf1EK7JBp+663be7iKU0Wmix7YUsPl76Yu+mafA2MvssVAucVMt0wwBlTTq29+vr4zCXwCxFqYHqqMH47fEamurAry6vAxRSFbCeUpcVWahkBBRPuS1xPawKiu3sqUGEGcJ9V1s58uwze+qdq6/onqRVq4tmjj0p6cTO5COVgT5Y+nW/m0U2074OeV3tZlIy+fZZ4EzpNcmdIymTKYQvE7ZpxPgPiWd
-X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
- IPV:NLI; SFV:NSPM; H:BYAPR12MB3589.namprd12.prod.outlook.com; PTR:; CAT:NONE;
- SFS:(13230001)(4636009)(366004)(6506007)(6512007)(66946007)(8676002)(66476007)(8936002)(66556008)(4326008)(86362001)(2616005)(31696002)(2906002)(186003)(5660300002)(66574015)(110136005)(6666004)(36756003)(6486002)(31686004)(508600001)(316002)(38100700002)(83380400001)(45980500001)(43740500002);
- DIR:OUT; SFP:1101; 
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 2
-X-MS-Exchange-AntiSpam-MessageData-0: =?utf-8?B?ZG5TRHJVUW4rUnVOc0FxcnlqZStYRnlFcFd4dGcyQXoySnQrZ0pzRlpwNlRU?=
- =?utf-8?B?ZDAwUkZiMlFOMS8vTGpDV0QweituSVZZdy92aVVMek9URS9lRC9vRUd2TGk5?=
- =?utf-8?B?bzBtL2hOYWRVWDhHNVo1RG14ejZPa1U1bW9XVlhETDY1N0dQNFA3cm0wc0pU?=
- =?utf-8?B?TlZJU3VRMWUxTUxQY09CK1pKRzZsWGlWblNjNXoyT3ozUWsxaHNrb1BKQ1BT?=
- =?utf-8?B?T2tnbCtvV2tGek9ZaUUycFFSaHIvSm12Rit4bW1MUnZad1JyR1BxUmp4Tnhr?=
- =?utf-8?B?TzhaWCt4TWd1amxPc2dLT3dHY0JFWjJrU3I1U1FsS3VQRGNTNmFDTnVobzZi?=
- =?utf-8?B?NDFFcDVUL3FoWjFkK0FrT2RjM01XWFc5azcyRmFTek54VW43eURaNnFwbml5?=
- =?utf-8?B?QnFQR0pZWXp2REZOMmtNRUROOU93VjMzZlhFRFEvMWRObmVaemFncHM0MS83?=
- =?utf-8?B?NEI5eDJ2UFNON3cxR0R3WGhLM2tlM3ptRm9ITXJSSEgybmFydzkweG4ya2ox?=
- =?utf-8?B?NTRQYU93b1FvcFBLZlZtN1ZHUjlaNGFpR1dyeWdGbXFyaG1NTlV1NVcrMzg2?=
- =?utf-8?B?UUdNbXB0VDlpZm4vcFdSYzRnWkFEd2QyeWI5SGpjckIyZktMMzdDaG95dE5M?=
- =?utf-8?B?UnUxQzVjVkh0L2dKL25aNXZwWDBjalRNdkF3SVlmZ0t3QzZmR2dURDRGcHhi?=
- =?utf-8?B?enNIMnNGN0JlQVprbTJ0RUl3T2Q2Q3VFVHd3ZFl2OTROaWJ6dzRCeVdiM3lq?=
- =?utf-8?B?bjdjVnVveUo5QVJpTFlhWEQrTGE5ZXJ4STY2bTN5aUxWQXlzeUVWajRqSklu?=
- =?utf-8?B?bkpOUnBUV2twNWZNYXJyMTNzZlhsQkQ2RTlROFF2ZW91SEpLUGh3Q1I0Z2I5?=
- =?utf-8?B?NkdEWTkxSEtnelRJS29vQlRPVXFGRVRrYXlXQkE1SnREVldEYk0xV0JHZmhv?=
- =?utf-8?B?aUVzU3dwbmlVblg0M2FkMGVQU2Q0R3BYUURIUjgxdEhiOTR0N1hjNE9GVG03?=
- =?utf-8?B?enZ3VkZBdHp1R1JSWnluZ2pLTmRCcXEzSDdpUy9vZTEzMGVpOEdQZDZKbGt4?=
- =?utf-8?B?RW10dXArUU8xbTBsNFpMN3l6MlJmc2txaWp4YzJKYUZzZnpCSnh3V2ppYk1K?=
- =?utf-8?B?dGg1ZHoxYWc3cC9kbkw3eTVNaTczVXN6Z1hRcDJiMUk0ME1WU3NOOVNkRHAx?=
- =?utf-8?B?YzNQWXpVVThReDFyaGVvd0hEZkordUdpdW04blV3ZnpXaWNjRFdsai91eEJR?=
- =?utf-8?B?a2JqMy9Qem54TGNUcEhjbzdtS0RNN2xwTldmWlNqbEJFMFN5TDdrbVJlNllI?=
- =?utf-8?B?L0s3VTlPb2J1aGoxSWN3ZzE4V0hLcUd3ZVlPWGgrM0lpMXJjNHpFcWVkZ2xO?=
- =?utf-8?B?YUUySzRlcVU3dkRCUERlektzQXROd2FOZHhTVm4ya09GWm43dllRWXY1ZkVN?=
- =?utf-8?B?RnloMGhCSVN4QlJsbmlFMzNVb0M2WjFEMllJMFgva3lIcGQ3SGZFRmpxbDFW?=
- =?utf-8?B?dGxQZDNLSHJ6VndBM1FpL0RDUGgzb29MQ1Q2VFVMNkFoM0tPWXU1cG1tRUNX?=
- =?utf-8?B?ajdMdGFFNEk5WHMvdGdhVUt3bWVXSHBud3M1bVlqeFRYOXNYbHdFZU5Dd290?=
- =?utf-8?B?V3F0cTltUTZJREdidWczOStLWFlHR0w1cDc3ZDNpdldtNzVyWGJDS0Q4Q0tI?=
- =?utf-8?B?M2VCN2xvemExVkJmTEJQWVNKVGFmMGxGVkliUWRtc0Q5SFp0VHc4eEVwcStN?=
- =?utf-8?B?OGJHcFBPWlppQjVRdlZyTldzNnNtdkltS1BOYVZ1OXdlaWx4NFpsdy9VUG5J?=
- =?utf-8?B?ODluOUdvV1NVSFlzcjBIRlNmTlBmcFBvaHRTWHZiK1V3UmF2Q21NNGY5RW1r?=
- =?utf-8?B?VkozRnE4bmtVVE9PdENsNmljWHE4N0UzTTBJTElRSjU2V3ZrZnV6NlY5V2p0?=
- =?utf-8?B?bTJTNFdsQk9aOFlsNVdXSE14bXNWWDU3dHdFeTlsOW5jem1DbWUxb0JycFdM?=
- =?utf-8?B?aktKOXlsVFlpQXlvUXpXd09iVDh4TzUzQTRxL0pMUUxJRUFQQU5aRk9Rb29C?=
- =?utf-8?B?Y2p2bFhBcUNQdXdTdUVXQmNyNE00WFJOZUZ2Y0NZNjlwWTZENUwvaFNtcGww?=
- =?utf-8?B?MDcyMW00ajFJamYwWkg1ZTVBOE94Tk5YTjB2aHByOU9UM3hVYkx1TFpPZGNr?=
- =?utf-8?B?VmFpM2ZWUFdpa1FhTmdRVTFsZjJON2ZHa2JNNmV1c1VPODlZRUNlUXJTS3Zv?=
- =?utf-8?B?dFI4RU12MUp6YlhIQkFqVU94ZllEeVYwc1ZvVXdta3lZVlA5enZVUU1ob3lt?=
- =?utf-8?B?MHZjZ09ITXdidU0yd0M2aXJaU3RqQ0lrNGlPeURqTzFpVXlwSmxoSlBmUnV6?=
- =?utf-8?Q?GuFRPaKErGnUmms5g/JNqWRlFZgFkkMwusu5hXv6SOvUo?=
-X-MS-Exchange-AntiSpam-MessageData-1: aWvhP0ZRlb2Qnw==
-X-OriginatorOrg: amd.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: c440c0a4-0339-4a61-b352-08da158ae4f2
-X-MS-Exchange-CrossTenant-AuthSource: BYAPR12MB3589.namprd12.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 03 Apr 2022 15:59:12.5564 (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: sigDnFbHE0FxzHPvwvRQzbAxFh3qE8l/qw8O7+fBT6yZwy0LGMpd+ISlutz8Xnl+
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: DM5PR12MB1276
+Content-Transfer-Encoding: 8bit
+X-Virus-Scanned: clamav-milter 0.103.5 at phobos.denx.de
+X-Virus-Status: Clean
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -134,48 +50,192 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: daniel.vetter@ffwll.ch
+Cc: Marek Vasut <marex@denx.de>, robert.foss@linaro.org,
+ Mark Brown <broonie@kernel.org>, Jagan Teki <jagan@amarulasolutions.com>,
+ Thomas Zimmermann <tzimmermann@suse.de>, Sam Ravnborg <sam@ravnborg.org>,
+ Maxime Ripard <maxime@cerno.tech>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Just a gentle ping to the nouveau guys.
+To make debugging easier, convert driver to regmap. Implement read and write
+regmap tables for known registers, keep all known register readable and mark
+those which are obviously read-only as not writeable.
 
-Any more comments on this? Otherwise I'm pushing that with Daniels rb.
+Use common I2C regmap for the I2C configuration, implement custom regmap bus
+for DSI configuration. The later is mandatory as this chip requires one extra
+byte set to read access length between register address and data.
 
-Thanks,
-Christian.
+Signed-off-by: Marek Vasut <marex@denx.de>
+Cc: Jagan Teki <jagan@amarulasolutions.com>
+Cc: Mark Brown <broonie@kernel.org>
+Cc: Maxime Ripard <maxime@cerno.tech>
+Cc: Robert Foss <robert.foss@linaro.org>
+Cc: Sam Ravnborg <sam@ravnborg.org>
+Cc: Thomas Zimmermann <tzimmermann@suse.de>
+To: dri-devel@lists.freedesktop.org
+---
+ drivers/gpu/drm/bridge/Kconfig           |  1 +
+ drivers/gpu/drm/bridge/chipone-icn6211.c | 96 ++++++++++++++++++++++--
+ 2 files changed, 89 insertions(+), 8 deletions(-)
 
-Am 21.03.22 um 14:58 schrieb Christian König:
-> Instead use the new dma_resv_get_singleton function.
->
-> Signed-off-by: Christian König <christian.koenig@amd.com>
-> Reviewed-by: Daniel Vetter <daniel.vetter@ffwll.ch>
-> Cc: Ben Skeggs <bskeggs@redhat.com>
-> Cc: Karol Herbst <kherbst@redhat.com>
-> Cc: Lyude Paul <lyude@redhat.com>
-> Cc: nouveau@lists.freedesktop.org
-> ---
->   drivers/gpu/drm/nouveau/nouveau_bo.c | 9 ++++++++-
->   1 file changed, 8 insertions(+), 1 deletion(-)
->
-> diff --git a/drivers/gpu/drm/nouveau/nouveau_bo.c b/drivers/gpu/drm/nouveau/nouveau_bo.c
-> index fa73fe57f97b..74f8652d2bd3 100644
-> --- a/drivers/gpu/drm/nouveau/nouveau_bo.c
-> +++ b/drivers/gpu/drm/nouveau/nouveau_bo.c
-> @@ -959,7 +959,14 @@ nouveau_bo_vm_cleanup(struct ttm_buffer_object *bo,
->   {
->   	struct nouveau_drm *drm = nouveau_bdev(bo->bdev);
->   	struct drm_device *dev = drm->dev;
-> -	struct dma_fence *fence = dma_resv_excl_fence(bo->base.resv);
-> +	struct dma_fence *fence;
-> +	int ret;
-> +
-> +	/* TODO: This is actually a memory management dependency */
-> +	ret = dma_resv_get_singleton(bo->base.resv, false, &fence);
-> +	if (ret)
-> +		dma_resv_wait_timeout(bo->base.resv, false, false,
-> +				      MAX_SCHEDULE_TIMEOUT);
->   
->   	nv10_bo_put_tile_region(dev, *old_tile, fence);
->   	*old_tile = new_tile;
+diff --git a/drivers/gpu/drm/bridge/Kconfig b/drivers/gpu/drm/bridge/Kconfig
+index ee7610c2c1a4d..9d22826dc8545 100644
+--- a/drivers/gpu/drm/bridge/Kconfig
++++ b/drivers/gpu/drm/bridge/Kconfig
+@@ -32,6 +32,7 @@ config DRM_CHIPONE_ICN6211
+ 	select DRM_KMS_HELPER
+ 	select DRM_MIPI_DSI
+ 	select DRM_PANEL_BRIDGE
++	select REGMAP_I2C
+ 	help
+ 	  ICN6211 is MIPI-DSI/RGB Converter bridge from chipone.
+ 
+diff --git a/drivers/gpu/drm/bridge/chipone-icn6211.c b/drivers/gpu/drm/bridge/chipone-icn6211.c
+index f4b152901d0e8..981ff93155824 100644
+--- a/drivers/gpu/drm/bridge/chipone-icn6211.c
++++ b/drivers/gpu/drm/bridge/chipone-icn6211.c
+@@ -14,6 +14,7 @@
+ #include <linux/i2c.h>
+ #include <linux/module.h>
+ #include <linux/of_device.h>
++#include <linux/regmap.h>
+ #include <linux/regulator/consumer.h>
+ 
+ #define VENDOR_ID		0x00
+@@ -134,6 +135,7 @@
+ 
+ struct chipone {
+ 	struct device *dev;
++	struct regmap *regmap;
+ 	struct i2c_client *client;
+ 	struct drm_bridge bridge;
+ 	struct drm_display_mode mode;
+@@ -146,6 +148,77 @@ struct chipone {
+ 	bool interface_i2c;
+ };
+ 
++static const struct regmap_range chipone_dsi_readable_ranges[] = {
++	regmap_reg_range(VENDOR_ID, VERSION_ID),
++	regmap_reg_range(FIRMWARE_VERSION, PLL_SSC_OFFSET(3)),
++	regmap_reg_range(GPIO_OEN, MIPI_ULPS_CTRL),
++	regmap_reg_range(MIPI_CLK_CHK_VAR, MIPI_T_TA_SURE_PRE),
++	regmap_reg_range(MIPI_T_LPX_SET, MIPI_INIT_TIME_H),
++	regmap_reg_range(MIPI_T_CLK_TERM_EN, MIPI_T_CLK_SETTLE),
++	regmap_reg_range(MIPI_TO_HS_RX_L, MIPI_PHY_(5)),
++	regmap_reg_range(MIPI_PD_RX, MIPI_RST_NUM),
++	regmap_reg_range(MIPI_DBG_SET_(0), MIPI_DBG_SET_(9)),
++	regmap_reg_range(MIPI_DBG_SEL, MIPI_ATE_STATUS_(1)),
++};
++
++static const struct regmap_access_table chipone_dsi_readable_table = {
++	.yes_ranges = chipone_dsi_readable_ranges,
++	.n_yes_ranges = ARRAY_SIZE(chipone_dsi_readable_ranges),
++};
++
++static const struct regmap_range chipone_dsi_writeable_ranges[] = {
++	regmap_reg_range(CONFIG_FINISH, PLL_SSC_OFFSET(3)),
++	regmap_reg_range(GPIO_OEN, MIPI_ULPS_CTRL),
++	regmap_reg_range(MIPI_CLK_CHK_VAR, MIPI_T_TA_SURE_PRE),
++	regmap_reg_range(MIPI_T_LPX_SET, MIPI_INIT_TIME_H),
++	regmap_reg_range(MIPI_T_CLK_TERM_EN, MIPI_T_CLK_SETTLE),
++	regmap_reg_range(MIPI_TO_HS_RX_L, MIPI_PHY_(5)),
++	regmap_reg_range(MIPI_PD_RX, MIPI_RST_NUM),
++	regmap_reg_range(MIPI_DBG_SET_(0), MIPI_DBG_SET_(9)),
++	regmap_reg_range(MIPI_DBG_SEL, MIPI_ATE_STATUS_(1)),
++};
++
++static const struct regmap_access_table chipone_dsi_writeable_table = {
++	.yes_ranges = chipone_dsi_writeable_ranges,
++	.n_yes_ranges = ARRAY_SIZE(chipone_dsi_writeable_ranges),
++};
++
++static const struct regmap_config chipone_regmap_config = {
++	.reg_bits = 8,
++	.val_bits = 8,
++	.rd_table = &chipone_dsi_readable_table,
++	.wr_table = &chipone_dsi_writeable_table,
++	.cache_type = REGCACHE_RBTREE,
++	.max_register = MIPI_ATE_STATUS_(1),
++};
++
++static int chipone_dsi_read(void *context,
++			    const void *reg, size_t reg_size,
++			    void *val, size_t val_size)
++{
++	struct mipi_dsi_device *dsi = context;
++	const u16 reg16 = (val_size << 8) | *(u8 *)reg;
++	int ret;
++
++	ret = mipi_dsi_generic_read(dsi, &reg16, 2, val, val_size);
++
++	return ret == val_size ? 0 : -EINVAL;
++}
++
++static int chipone_dsi_write(void *context, const void *data, size_t count)
++{
++	struct mipi_dsi_device *dsi = context;
++
++	return mipi_dsi_generic_write(dsi, data, 2);
++}
++
++static const struct regmap_bus chipone_dsi_regmap_bus = {
++	.read				= chipone_dsi_read,
++	.write				= chipone_dsi_write,
++	.reg_format_endian_default	= REGMAP_ENDIAN_NATIVE,
++	.val_format_endian_default	= REGMAP_ENDIAN_NATIVE,
++};
++
+ static inline struct chipone *bridge_to_chipone(struct drm_bridge *bridge)
+ {
+ 	return container_of(bridge, struct chipone, bridge);
+@@ -153,18 +226,16 @@ static inline struct chipone *bridge_to_chipone(struct drm_bridge *bridge)
+ 
+ static void chipone_readb(struct chipone *icn, u8 reg, u8 *val)
+ {
+-	if (icn->interface_i2c)
+-		*val = i2c_smbus_read_byte_data(icn->client, reg);
+-	else
+-		mipi_dsi_generic_read(icn->dsi, (u8[]){reg, 1}, 2, val, 1);
++	int ret, pval;
++
++	ret = regmap_read(icn->regmap, reg, &pval);
++
++	*val = ret ? 0 : pval & 0xff;
+ }
+ 
+ static int chipone_writeb(struct chipone *icn, u8 reg, u8 val)
+ {
+-	if (icn->interface_i2c)
+-		return i2c_smbus_write_byte_data(icn->client, reg, val);
+-	else
+-		return mipi_dsi_generic_write(icn->dsi, (u8[]){reg, val}, 2);
++	return regmap_write(icn->regmap, reg, val);
+ }
+ 
+ static void chipone_configure_pll(struct chipone *icn,
+@@ -591,6 +662,11 @@ static int chipone_dsi_probe(struct mipi_dsi_device *dsi)
+ 	if (ret)
+ 		return ret;
+ 
++	icn->regmap = devm_regmap_init(dev, &chipone_dsi_regmap_bus,
++				       dsi, &chipone_regmap_config);
++	if (IS_ERR(icn->regmap))
++		return PTR_ERR(icn->regmap);
++
+ 	icn->interface_i2c = false;
+ 	icn->dsi = dsi;
+ 
+@@ -616,6 +692,10 @@ static int chipone_i2c_probe(struct i2c_client *client,
+ 	if (ret)
+ 		return ret;
+ 
++	icn->regmap = devm_regmap_init_i2c(client, &chipone_regmap_config);
++	if (IS_ERR(icn->regmap))
++		return PTR_ERR(icn->regmap);
++
+ 	icn->interface_i2c = true;
+ 	icn->client = client;
+ 	dev_set_drvdata(dev, icn);
+-- 
+2.35.1
 
