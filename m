@@ -1,60 +1,59 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 16E6B4F13FF
-	for <lists+dri-devel@lfdr.de>; Mon,  4 Apr 2022 13:46:34 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 535504F1404
+	for <lists+dri-devel@lfdr.de>; Mon,  4 Apr 2022 13:47:41 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id C247B10F070;
-	Mon,  4 Apr 2022 11:46:31 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 1551A10F091;
+	Mon,  4 Apr 2022 11:47:39 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-qt1-f182.google.com (mail-qt1-f182.google.com
- [209.85.160.182])
- by gabe.freedesktop.org (Postfix) with ESMTPS id DFFD010F06E
- for <dri-devel@lists.freedesktop.org>; Mon,  4 Apr 2022 11:46:29 +0000 (UTC)
-Received: by mail-qt1-f182.google.com with SMTP id t19so7413824qtc.4
- for <dri-devel@lists.freedesktop.org>; Mon, 04 Apr 2022 04:46:29 -0700 (PDT)
+Received: from mail-qt1-f179.google.com (mail-qt1-f179.google.com
+ [209.85.160.179])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 3BEF910F091
+ for <dri-devel@lists.freedesktop.org>; Mon,  4 Apr 2022 11:47:38 +0000 (UTC)
+Received: by mail-qt1-f179.google.com with SMTP id z19so7426538qtw.2
+ for <dri-devel@lists.freedesktop.org>; Mon, 04 Apr 2022 04:47:38 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:mime-version:references:in-reply-to:from:date
  :message-id:subject:to:cc;
- bh=0vrtxx97wpbMiIv6dqlYr09ni3VUiuon0GQZYjngD7U=;
- b=PzNjHZDNTJ0DNBO0nKoXdOYSWHzkg8paRdqTPpSYi67LX6R0q2OLGbXIoBO2SYA0zP
- Rq7sUbYDN+jup5DkmVToilcAks+RsykHtSdPG7VFq4kFttoWthZs0qWODbXEsooQyFfN
- +M4tmCKmIMap/q1n2mqPi+ILEcuotF0A/tUlctiF4CNev1c+jiQqdo2O7Hilge8uI6kZ
- qNbSjz17NMqGV0EMTql5uuVRwZhm8howT3ziIthimhH+f6hRAn8xEmr5sGiFTqLsTHHK
- EbgBX8QF+sss6S10s9SumD8zHUKxZMf7Q/jE3ryZ0C2reYbNKMjmHE39K/faGnrcIRbf
- iDgQ==
-X-Gm-Message-State: AOAM531yWIXiYjpDitW/EGI3k7k7jQ37mH/PO28TY/nLrVyB/jzncEVt
- HQqeSDRo6+Y6IQeQ0E9VNJlQpct6VYAA2w==
-X-Google-Smtp-Source: ABdhPJxU19Gtpa6xDwXSMj7EphylsP+tXzD2H4PqpLxw8vrpu8sLhF0si8v0ncT2KD7Ze4IYlYra4g==
-X-Received: by 2002:a05:622a:64b:b0:2e1:cbc3:c9ff with SMTP id
- a11-20020a05622a064b00b002e1cbc3c9ffmr16987808qtb.226.1649072788205; 
- Mon, 04 Apr 2022 04:46:28 -0700 (PDT)
-Received: from mail-yw1-f172.google.com (mail-yw1-f172.google.com.
- [209.85.128.172]) by smtp.gmail.com with ESMTPSA id
- d21-20020a05622a101500b002e07151139fsm8740165qte.17.2022.04.04.04.46.27
+ bh=pkI30un2e+aw5iEZT5SxMrRKH4N5lxurp/14o6OWyKM=;
+ b=ooDmXOw+wJNZ7cpZkScTGvHuWGWyxA17fPOocnTdnyVAVjh2WPPKbHVuaQJBkQGB6m
+ HYN3ZK6utAyIR+6bAvNI6ZZXDFdg0RX8EbCqKyK/ragAP5RSzEG4xjmEJdR6vgcUpQof
+ VKBTBzzC5no7neLLEkK/j3w+6yj8qfGpJKPQiOE4CepZokSQNF6sBmwFII0OnmLZz+AO
+ 3N79dPfn+cCvtwTPKfR7Dz/ngJRxmFl+p8u4m7SR/QwjpAIy99ZsBRvXxfydoHpWSMWK
+ scESMEqyFGO3D+UrIz4ReLewGtqiRq4w3SMniRmantdds0K5oWlHe3KXcxrZiUKLI+x0
+ wrFA==
+X-Gm-Message-State: AOAM532NGqXZWEemZy+8kEuAbbob2xx1Qhu+kEdpdoppJKFOIKQ0fXU7
+ 28P3YbAPDYezzpppBt7iKDabJlsE5CknRg==
+X-Google-Smtp-Source: ABdhPJzQdr4Y778OO0DCgUtMeemMjXwDy+Z3BYCnQsawui1wi4Pe3UPKsX+rQQSVJLyMvT9Q6xjKCg==
+X-Received: by 2002:ac8:5a16:0:b0:2e1:ea00:b4e1 with SMTP id
+ n22-20020ac85a16000000b002e1ea00b4e1mr16941194qta.329.1649072856638; 
+ Mon, 04 Apr 2022 04:47:36 -0700 (PDT)
+Received: from mail-yb1-f176.google.com (mail-yb1-f176.google.com.
+ [209.85.219.176]) by smtp.gmail.com with ESMTPSA id
+ j8-20020a05622a038800b002e236535929sm8340851qtx.32.2022.04.04.04.47.36
  for <dri-devel@lists.freedesktop.org>
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Mon, 04 Apr 2022 04:46:28 -0700 (PDT)
-Received: by mail-yw1-f172.google.com with SMTP id
- 00721157ae682-2e68c95e0f9so96480697b3.0
- for <dri-devel@lists.freedesktop.org>; Mon, 04 Apr 2022 04:46:27 -0700 (PDT)
-X-Received: by 2002:a81:5c2:0:b0:2e5:e4eb:c3e7 with SMTP id
- 185-20020a8105c2000000b002e5e4ebc3e7mr22191370ywf.62.1649072787360; Mon, 04
- Apr 2022 04:46:27 -0700 (PDT)
+ Mon, 04 Apr 2022 04:47:36 -0700 (PDT)
+Received: by mail-yb1-f176.google.com with SMTP id x21so10878269ybd.6
+ for <dri-devel@lists.freedesktop.org>; Mon, 04 Apr 2022 04:47:36 -0700 (PDT)
+X-Received: by 2002:a25:45:0:b0:633:96e2:2179 with SMTP id
+ 66-20020a250045000000b0063396e22179mr20536043yba.393.1649072855895; 
+ Mon, 04 Apr 2022 04:47:35 -0700 (PDT)
 MIME-Version: 1.0
-References: <CAMhUBjmFhqTLBscHHVZ1VTSqrJBT1VEevA+KkjY+y9_ZtdRkMg@mail.gmail.com>
- <631f03bd-0fdf-9cc8-bf37-89235fb84162@gmx.de>
-In-Reply-To: <631f03bd-0fdf-9cc8-bf37-89235fb84162@gmx.de>
+References: <20220404084723.79089-1-zheyuma97@gmail.com>
+ <20220404084723.79089-5-zheyuma97@gmail.com>
+In-Reply-To: <20220404084723.79089-5-zheyuma97@gmail.com>
 From: Geert Uytterhoeven <geert@linux-m68k.org>
-Date: Mon, 4 Apr 2022 13:46:16 +0200
-X-Gmail-Original-Message-ID: <CAMuHMdUiEo8q9x0C0x5zOM=ax1=S06=s0JjcJvZYD4aMGLmEaQ@mail.gmail.com>
-Message-ID: <CAMuHMdUiEo8q9x0C0x5zOM=ax1=S06=s0JjcJvZYD4aMGLmEaQ@mail.gmail.com>
-Subject: =?UTF-8?B?UmU6IFtCVUddIGZiZGV2OiBpNzQwZmI6IERpdmlkZSBlcnJvciB3aGVuIOKAmHZhci0+cA==?=
- =?UTF-8?B?aXhjbG9ja+KAmSBpcyB6ZXJv?=
-To: Helge Deller <deller@gmx.de>
+Date: Mon, 4 Apr 2022 13:47:24 +0200
+X-Gmail-Original-Message-ID: <CAMuHMdWs6DwoKmEBFiwwMWDNLFS4Ow6V0YWWSU-jy3mvK2M4bw@mail.gmail.com>
+Message-ID: <CAMuHMdWs6DwoKmEBFiwwMWDNLFS4Ow6V0YWWSU-jy3mvK2M4bw@mail.gmail.com>
+Subject: Re: [PATCH 4/7] video: fbdev: vt8623fb: Error out if 'pixclock'
+ equals zero
+To: Zheyu Ma <zheyuma97@gmail.com>
 Content-Type: text/plain; charset="UTF-8"
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -68,55 +67,54 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Linux Fbdev development list <linux-fbdev@vger.kernel.org>,
- Zheyu Ma <zheyuma97@gmail.com>,
- Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
- DRI Development <dri-devel@lists.freedesktop.org>
+Cc: Helge Deller <deller@gmx.de>,
+ Linux Fbdev development list <linux-fbdev@vger.kernel.org>,
+ DRI Development <dri-devel@lists.freedesktop.org>,
+ Linux Kernel Mailing List <linux-kernel@vger.kernel.org>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi Helge,
+Hi Zheyu,
 
-On Sun, Apr 3, 2022 at 5:41 PM Helge Deller <deller@gmx.de> wrote:
-> On 4/3/22 13:26, Zheyu Ma wrote:
-> > I found a bug in the function i740fb_set_par().
+On Mon, Apr 4, 2022 at 1:07 PM Zheyu Ma <zheyuma97@gmail.com> wrote:
+> The userspace program could pass any values to the driver through
+> ioctl() interface. If the driver doesn't check the value of 'pixclock',
+> it may cause divide error.
 >
-> Nice catch!
+> Fix this by checking whether 'pixclock' is zero in the function
+> vt8623fb_check_var().
 >
-> > When the user calls the ioctl system call without setting the value to
-> > 'var->pixclock', the driver will throw a divide error.
-> >
-> > This bug occurs because the driver uses the value of 'var->pixclock'
-> > without checking it, as the following code snippet show:
-> >
-> > if ((1000000 / var->pixclock) > DACSPEED8) {
-> >      dev_err(info->device, "requested pixclock %i MHz out of range
-> > (max. %i MHz at 8bpp)\n",
-> >          1000000 / var->pixclock, DACSPEED8);
-> >     return -EINVAL;x
-> > }
-> >
-> > We can fix this by checking the value of 'var->pixclock' in the
-> > function i740fb_check_var() similar to commit
-> > b36b242d4b8ea178f7fd038965e3cac7f30c3f09, or we should set the lowest
-> > supported value when this field is zero.
-> > I have no idea about which solution is better.
+> The following log reveals it:
 >
-> Me neither.
-> I think a solution like commit b36b242d4b8ea178f7fd038965e3cac7f30c3f09
-> is sufficient.
+> [   47.778727] divide error: 0000 [#1] PREEMPT SMP KASAN PTI
+> [   47.778803] RIP: 0010:vt8623fb_set_par+0xecd/0x2210
+> [   47.778870] Call Trace:
+> [   47.778872]  <TASK>
+> [   47.778909]  fb_set_var+0x604/0xeb0
+> [   47.778995]  do_fb_ioctl+0x234/0x670
+> [   47.779041]  fb_ioctl+0xdd/0x130
+> [   47.779048]  do_syscall_64+0x3b/0x90
 >
-> Note that i740fb_set_par() is called in i740fb_resume() as well.
-> Since this doesn't comes form userspace I think adding a check for
-> the return value there isn't necessary.
+> Signed-off-by: Zheyu Ma <zheyuma97@gmail.com>
+
+Thanks for your patch!
+
+> --- a/drivers/video/fbdev/vt8623fb.c
+> +++ b/drivers/video/fbdev/vt8623fb.c
+> @@ -321,6 +321,9 @@ static int vt8623fb_check_var(struct fb_var_screeninfo *var, struct fb_info *inf
+>  {
+>         int rv, mem, step;
 >
-> Would you mind sending a patch like b36b242d4b8ea178f7fd038965e3cac7f30c3f09 ?
+> +       if (!var->pixclock)
+> +               return -EINVAL;
+> +
 
 When passed an invalid value, .check_var() is supposed to
 round up the invalid to a valid value, if possible.
 
-Commit b36b242d4b8ea178 ("video: fbdev: asiliantfb: Error out if
-'pixclock' equals zero") does not do that.
+>         /* Find appropriate format */
+>         rv = svga_match_format (vt8623fb_formats, var, NULL);
+>         if (rv < 0)
 
 Gr{oetje,eeting}s,
 
