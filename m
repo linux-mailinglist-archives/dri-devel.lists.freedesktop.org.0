@@ -2,56 +2,42 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9375C4F1931
-	for <lists+dri-devel@lfdr.de>; Mon,  4 Apr 2022 18:11:23 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id C68944F1943
+	for <lists+dri-devel@lfdr.de>; Mon,  4 Apr 2022 18:35:00 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id B930810E561;
-	Mon,  4 Apr 2022 16:11:19 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 75B5010E320;
+	Mon,  4 Apr 2022 16:34:58 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 1312510E561
- for <dri-devel@lists.freedesktop.org>; Mon,  4 Apr 2022 16:11:18 +0000 (UTC)
+Received: from ams.source.kernel.org (ams.source.kernel.org
+ [IPv6:2604:1380:4601:e00::1])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 7FAB710E238;
+ Mon,  4 Apr 2022 16:34:56 +0000 (UTC)
 Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
  (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
  (No client certificate requested)
- by dfw.source.kernel.org (Postfix) with ESMTPS id 2E43160BC3
- for <dri-devel@lists.freedesktop.org>; Mon,  4 Apr 2022 16:11:17 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 91CFBC2BBE4
- for <dri-devel@lists.freedesktop.org>; Mon,  4 Apr 2022 16:11:16 +0000 (UTC)
+ by ams.source.kernel.org (Postfix) with ESMTPS id D52ECB8185C;
+ Mon,  4 Apr 2022 16:34:54 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 1511BC2BBE4;
+ Mon,  4 Apr 2022 16:34:49 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1649088676;
- bh=g1nATVvrfRA9UAWKcn8TEmGbzT1FkE4IRDRHu7qz7aY=;
- h=References:In-Reply-To:Reply-To:From:Date:Subject:To:Cc:From;
- b=VSwR8cvth3rhQoDHXpPFJOTOxqEMHXQlSUTLUXb6RU4wYcgV0/JdJTLvfUj+2GHvt
- DH9Z/OFmu4v3KNmFPlfRokAjww5feArkOCxkKzSAtIlwEdW/MPKcdUhxU5pC4f0WMR
- oDYrDEEzr6HfdW8z9VvnabvqiUuTBQqNyblE/ngmsW27V/1IfZPTW6V8gV5nNyY3vn
- 2jl4u5TdOtN8U3UnSPCjJBl+8KZJ/izn2Yg6xTdxx7vorsB8uoS9taApuSBSjWpMHa
- kTxb3m+TgOLzQXTk7xka6axCXQRtEXwjdnxPtAHSfOB4c9S6rjWOKQeDZodyzVz9ys
- qiCFE3gOxbjNw==
-Received: by mail-vk1-f171.google.com with SMTP id j204so5071146vkj.8
- for <dri-devel@lists.freedesktop.org>; Mon, 04 Apr 2022 09:11:16 -0700 (PDT)
-X-Gm-Message-State: AOAM532jjRh0FsNrn4H/arFGE9tY4qzecZijfbtsvc9IEcAFFWm586Gr
- tyBk9kFNMYNhZEobI/iWBqtThEJfoub7ZP9CH/Q=
-X-Google-Smtp-Source: ABdhPJw9D7xPURqCUzoTlu6KIHOEiOsweC/UpZ/sYIxrlCQYGzUkCyEMyxVMLWLuRCg1LkZf9inwiirxn0cn5uiwIiU=
-X-Received: by 2002:a1f:6a82:0:b0:33f:7eeb:5989 with SMTP id
- f124-20020a1f6a82000000b0033f7eeb5989mr276390vkc.29.1649088675514; Mon, 04
- Apr 2022 09:11:15 -0700 (PDT)
+ s=k20201202; t=1649090093;
+ bh=zqvOSmf2B4i7qQFd0n2rGukukRvs9ru4yZtTb76jHoI=;
+ h=From:To:Cc:Subject:Date:From;
+ b=hReHbtTflgJZIbYkTQEkjyNYvGIZ8KF43WVTn2tVSSGPlFCGWjKv7PJlcgTeH4YSl
+ ApzgeM01lmLP231mGhP2IpEW435F5drPWxxBtFi4bwddn1ls7+mWyH6uzxQFB0dRwY
+ vjfLnhetjbOPaD096+1xU11pw4SbuCJQDnLgMNHC6GHzAdmy9JW/KIrmVjX4LQR8WW
+ tqFyGjEwWprjGqRkChONGOo2XId9hyHdtK/Eybyr5smmMW2FGKg2OBOvl3PzcLaGEO
+ idqHSU66Hu7TdX7HrLhmzwrkZ9nOAKUCdb0LK8nHl84mr021FlSM7pwDNqHv8gM8Mj
+ wpMKKbB9gZk8w==
+From: Vinod Koul <vkoul@kernel.org>
+To: Rob Clark <robdclark@gmail.com>
+Subject: [PATCH v6 00/14] drm/msm: Add Display Stream Compression Support
+Date: Mon,  4 Apr 2022 22:04:22 +0530
+Message-Id: <20220404163436.956875-1-vkoul@kernel.org>
+X-Mailer: git-send-email 2.34.1
 MIME-Version: 1.0
-References: <20220330190846.13997-1-wens@kernel.org>
- <20220330190846.13997-3-wens@kernel.org>
- <CABxcv==csvqsxM46ce2LecDh4E-UxxD2DG+3E-hCFoyrdtRv7A@mail.gmail.com>
- <CAGb2v64VQPjan=EUkd8UhRZfV0g1GqBwPqhxQakS=7YhgvVDQA@mail.gmail.com>
- <92a46ea2-e23e-b7c8-ea5f-35d458ee1b76@redhat.com>
-In-Reply-To: <92a46ea2-e23e-b7c8-ea5f-35d458ee1b76@redhat.com>
-From: Chen-Yu Tsai <wens@kernel.org>
-Date: Tue, 5 Apr 2022 00:11:05 +0800
-X-Gmail-Original-Message-ID: <CAGb2v66zj4x7zx4ht+6ojjKRxEe+M4bTc_mKRgf8wd_TK+Wf4g@mail.gmail.com>
-Message-ID: <CAGb2v66zj4x7zx4ht+6ojjKRxEe+M4bTc_mKRgf8wd_TK+Wf4g@mail.gmail.com>
-Subject: Re: [PATCH 2/4] dt-bindings: display: ssd1307fb: Add entry for SINO
- WEALTH SH1106
-To: Javier Martinez Canillas <javierm@redhat.com>
-Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -64,78 +50,129 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Reply-To: wens@kernel.org
-Cc: devicetree <devicetree@vger.kernel.org>, David Airlie <airlied@linux.ie>,
- Linux Kernel <linux-kernel@vger.kernel.org>, Rob Herring <robh+dt@kernel.org>,
- dri-devel <dri-devel@lists.freedesktop.org>,
- Javier Martinez Canillas <javier@dowhile0.org>,
- Krzysztof Kozlowski <krzk+dt@kernel.org>
+Cc: Jonathan Marek <jonathan@marek.ca>, David Airlie <airlied@linux.ie>,
+ linux-arm-msm@vger.kernel.org, Abhinav Kumar <quic_abhinavk@quicinc.com>,
+ dri-devel@lists.freedesktop.org, Bjorn Andersson <bjorn.andersson@linaro.org>,
+ Vinod Koul <vkoul@kernel.org>, Dmitry Baryshkov <dmitry.baryshkov@linaro.org>,
+ freedreno@lists.freedesktop.org, linux-kernel@vger.kernel.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Mon, Apr 4, 2022 at 11:48 PM Javier Martinez Canillas
-<javierm@redhat.com> wrote:
->
-> Hello Chen-Yu,
->
-> On 4/4/22 17:06, Chen-Yu Tsai wrote:
->
-> [snip]
->
-> >>>      enum:
-> >>> +      - sinowealth,sh1106-i2c
-> >>
-> >> I like that you didn't include a "fb" suffix for this, the existing
-> >> ones are cargo culting from the previous fbdev driver to make existing
-> >> DTBs compatible with the DRM driver.
-> >>
-> >> I've been thinking if I should post a patch to compatible strings
-> >> without the "fb" and mark the current ones as deprecated...
-> >>
-> >> Reviewed-by: Javier Martinez Canillas <javierm@redhat.com>
-> >
-> > I also thought about dropping the "-i2c" suffix, but then thought
-> > there might be a case where someone wanted to search the device
-> > tree specifically for an I2C connected node using said compatible
-> > string.
-> >
-> > What do you think?
-> >
-> >
->
-> tl; dr: unfortunately we can't do it due how SPI and I2C report module
-> aliases. Otherwise module auto loading will not work. I wrote a much
-> longer explanation with some details not so long ago:
->
-> https://patchwork.kernel.org/project/dri-devel/patch/20220209091204.2513437-1-javierm@redhat.com/#24730793
+Display Stream Compression (DSC) compresses the display stream in host which
+is later decoded by panel. This series enables this for Qualcomm msm driver.
+This was tested on Google Pixel3 phone which use LGE SW43408 panel.
+ 
+The changes include DSC data and hardware block enabling for DPU1 then
+support in encoder. We also add support in DSI and introduce required
+topology changes.
+ 
+In order for panel to set the DSC parameters we add dsc in drm_panel and
+pass the dsc configuration from the panel driver
 
-Right. I think that crossed my mind at some point, but didn't stick.
-Thanks for raising it again. :)
+Complete changes which enable this for Pixel3 along with panel driver (not
+part of this series) and DT changes can be found at:
+git.linaro.org/people/vinod.koul/kernel.git pixel/dsc_v6
+ 
+Comments welcome!
 
-> BTW, I bought a SSD1306 SPI controller and go it working this weekend.
->
-> I plan to post the patches once yours land, to avoid in-flight series
-> that may conflict. And what I did is mark the -fb as deprecated, then
-> added "ssd130x-i2c" and "ssd130x-spi" compatibles strings.
->
-> The WIP patches can be found here in case you are interested:
->
-> https://github.com/martinezjavier/linux/tree/drm-ssd130x-spi
+Changes since v5:
+ - rebase on msm-next
+ - use generated header patch from mesa for dsc registers
+ - use generated header macros for dsc register calculation
+ - remove msm dsc struct (Dmitry)
 
-I took a quick look and a couple things stood out:
+Changes since v4:
+ - Use new apprach based on Abhinav suggestion for dsc with 3d-merge
+ - Make common function for dsc timing caln and call that from video and cmd
+   mode
+ - update description for patch "Pass DSC params to drm_panel"
+ - update couple of typos as pointed by Marijn
+ - drop dpu_encoder_dsc_pclk_param_calc() as that was duplicating the caln
+   done in dsi timing
+ - Update copyright to 2022 to new files
+ - Update Abhinav's email to new quic one
 
-1. Would 3-wire SPI ever be considered? If so, might want to
-   rename some of variables/functions as *_spi_4wire_* to
-   begin with.
+Changes since v3:
+ - Merge changes from Dmitry to have dsc per encoder instance
+ - add warning for dsc and mode3d enabled together
+ - set dsc in dpu_encoder_phys_vid as well
+ - remove dsc hardcoded mask
+ - use devm_kzalloc for memory allocation for dsc
 
-2. Maybe we should move the ssd130x_deviceinfo stuff into the
-   core module, and define an enum to use for matching compatible
-   strings across the modules to their respective device info
-   entries? FYI we are doing this in drivers/mfd/axp20x* .
+Changes since v2:
+ - Fix comments by Dimitry except the dsc being global.
+ - Move RM patch later for dependency on topology now
+ - Add patch for mode valid callback for dsi_mgr
+ - Add missing structure documentation patch
+ - Fix errors in mode_3d changes
+ - Rebase on v5.16-rc1 and test
 
-I think a friend of mine has a SPI based SH1106 module that I
-could borrow and test/work on, but that's a big if.
+Changes since v1:
+ - Fix various issues spotted by kbuildbot
+ - Rebase to v5.15-rc3
+ - Remove unused fields and duplicate defines
+ - Enable DSC blocks only when DSC is enabled
+ - remove sdm845 feature mask, use 0
+ - Check for DSC in hw_ctl
+
+Changes since RFC:
+ - Drop the DT binding patch as we derive the configuration from panel
+ - Drop the drm api patch as we no longer need it (use pps drm api)
+ - Fix comments raised by Dimitry
+ - Add dsc parameters calculation from downstream
+
+*** SUBJECT HERE ***
+
+*** BLURB HERE ***
+
+Dmitry Baryshkov (1):
+  drm/msm/dpu: don't use merge_3d if DSC merge topology is used
+
+Vinod Koul (13):
+  drm/msm/dsi: add support for dsc data
+  drm/msm/dsi: Pass DSC params to drm_panel
+  drm/msm/disp/dpu1: Add support for DSC
+  drm/msm/disp/dpu1: Add support for DSC in pingpong block
+  drm/msm/disp/dpu1: Add DSC for SDM845 to hw_catalog
+  drm/msm/disp/dpu1: Add DSC support in hw_ctl
+  drm/msm/disp/dpu1: Add support for DSC in encoder
+  drm/msm: Add missing num_dspp field documentation
+  drm/msm/disp/dpu1: Add support for DSC in topology
+  drm/msm/disp/dpu1: Add DSC support in RM
+  drm/msm/dsi: add mode valid callback for dsi_mgr
+  drm/msm: Update generated headers
+  drm/msm/dsi: Add support for DSC configuration
+
+ drivers/gpu/drm/msm/Makefile                  |   1 +
+ drivers/gpu/drm/msm/disp/dpu1/dpu_encoder.c   | 157 +++++++++-
+ drivers/gpu/drm/msm/disp/dpu1/dpu_encoder.h   |   8 +
+ .../gpu/drm/msm/disp/dpu1/dpu_encoder_phys.h  |  12 +-
+ .../gpu/drm/msm/disp/dpu1/dpu_hw_catalog.c    |  20 ++
+ .../gpu/drm/msm/disp/dpu1/dpu_hw_catalog.h    |  13 +
+ drivers/gpu/drm/msm/disp/dpu1/dpu_hw_ctl.c    |  11 +-
+ drivers/gpu/drm/msm/disp/dpu1/dpu_hw_ctl.h    |   2 +
+ drivers/gpu/drm/msm/disp/dpu1/dpu_hw_dsc.c    | 215 ++++++++++++++
+ drivers/gpu/drm/msm/disp/dpu1/dpu_hw_dsc.h    |  80 +++++
+ drivers/gpu/drm/msm/disp/dpu1/dpu_hw_mdss.h   |  13 +
+ .../gpu/drm/msm/disp/dpu1/dpu_hw_pingpong.c   |  32 ++
+ .../gpu/drm/msm/disp/dpu1/dpu_hw_pingpong.h   |  14 +
+ drivers/gpu/drm/msm/disp/dpu1/dpu_kms.c       |   2 +
+ drivers/gpu/drm/msm/disp/dpu1/dpu_kms.h       |   1 +
+ drivers/gpu/drm/msm/disp/dpu1/dpu_rm.c        |  56 ++++
+ drivers/gpu/drm/msm/disp/dpu1/dpu_rm.h        |   1 +
+ drivers/gpu/drm/msm/dsi/dsi.c                 |   5 +
+ drivers/gpu/drm/msm/dsi/dsi.h                 |   3 +
+ drivers/gpu/drm/msm/dsi/dsi.xml.h             |  80 +++++
+ drivers/gpu/drm/msm/dsi/dsi_host.c            | 276 +++++++++++++++++-
+ drivers/gpu/drm/msm/dsi/dsi_manager.c         |  12 +
+ drivers/gpu/drm/msm/msm_drv.h                 |  15 +
+ include/drm/drm_panel.h                       |   7 +
+ 24 files changed, 1032 insertions(+), 4 deletions(-)
+ create mode 100644 drivers/gpu/drm/msm/disp/dpu1/dpu_hw_dsc.c
+ create mode 100644 drivers/gpu/drm/msm/disp/dpu1/dpu_hw_dsc.h
 
 
-Regards
-ChenYu
+base-commit: 05241de1f69eb7f56b0a5e0bec96a7752fad1b2f
+-- 
+2.34.1
+
