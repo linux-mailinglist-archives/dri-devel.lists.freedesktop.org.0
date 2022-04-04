@@ -1,39 +1,40 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4ACA44F1959
-	for <lists+dri-devel@lfdr.de>; Mon,  4 Apr 2022 18:35:44 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 45B7F4F195B
+	for <lists+dri-devel@lfdr.de>; Mon,  4 Apr 2022 18:35:50 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 67BB510E89E;
-	Mon,  4 Apr 2022 16:35:42 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 3B05610EB14;
+	Mon,  4 Apr 2022 16:35:48 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from ams.source.kernel.org (ams.source.kernel.org [145.40.68.75])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 0989310E89E;
- Mon,  4 Apr 2022 16:35:41 +0000 (UTC)
+Received: from dfw.source.kernel.org (dfw.source.kernel.org
+ [IPv6:2604:1380:4641:c500::1])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 6B3C510E8E6;
+ Mon,  4 Apr 2022 16:35:46 +0000 (UTC)
 Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
  (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
  (No client certificate requested)
- by ams.source.kernel.org (Postfix) with ESMTPS id 9BE56B81837;
+ by dfw.source.kernel.org (Postfix) with ESMTPS id 0BD7C60C96;
+ Mon,  4 Apr 2022 16:35:44 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id DBDA4C34110;
  Mon,  4 Apr 2022 16:35:39 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id B8359C2BBE4;
- Mon,  4 Apr 2022 16:35:35 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1649090139;
- bh=U5Bqi3NaVVv4LuUNQNUHVGlc3p2darzi8Idayz0D3lY=;
+ s=k20201202; t=1649090143;
+ bh=rzOQqeQjTPMlc735N7xJrYNzCHkjJGD3CLA4kWFFXVc=;
  h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
- b=d+wTIb4+5TuoS0UAmf4GBoCJ8uIIRF3vC8PTZmos7ZakD/x2NYAr2ouHWz6eNbx8n
- 35qm+31uih7L4aSbP602leDorL7r/loYiTXsU4t8ZQj6NdrCClw+LeZONXp4WquI/X
- TC9F9xDEVURKgVUUx3U9NZUSjoHyVh6iyOHLUupQqApqfea5IIsVSSJqKmxIPNJgDn
- etpYk8nKR6BlaOwBEEro8r8a0LW94ggonu4fosJxfTmN87Dgf5cguFHmG28gSA/iyf
- yYF+Llsz+dNCCQHqeBV5ixYWd3qAjmYw4zdeA6JOKpZDgt2UsjkShwpUkt0nuOEDYZ
- XGYv2IIXDLlhg==
+ b=sNNk1iPR8zGcjUZ3rPovnqCsMdigf9WY0l+h+xt4j4UbX6MAglAahjh4LT69jBUqw
+ 5P7vYrqGuPTlyZR54nmgJU9Ab8z5ZNJ8B8pRPQhuxiKAAhfgkNq8QeYG8dX3xK3I1Y
+ ZnANlWBv2WB8AXvtIJqGpXo/7BpMpUg6GKtQkJr4fM+NScEyDbDzbNjcGHbsHayMCR
+ D1Rqi9bILbEYn4ibgj4pVYnvQ4z511fjqbJhMinsObDneDhmoXPiD/+VF89DwI15JG
+ CPUtymsCr9xT71hd+6WgrCkRaood8o4DMc+GeuQzejYPVUonvA3Z8vsGu/MJ4qqZuc
+ hgPPFeVDFg2eQ==
 From: Vinod Koul <vkoul@kernel.org>
 To: Rob Clark <robdclark@gmail.com>
-Subject: [PATCH v6 11/14] drm/msm/disp/dpu1: Add DSC support in RM
-Date: Mon,  4 Apr 2022 22:04:33 +0530
-Message-Id: <20220404163436.956875-12-vkoul@kernel.org>
+Subject: [PATCH v6 12/14] drm/msm/dsi: add mode valid callback for dsi_mgr
+Date: Mon,  4 Apr 2022 22:04:34 +0530
+Message-Id: <20220404163436.956875-13-vkoul@kernel.org>
 X-Mailer: git-send-email 2.34.1
 In-Reply-To: <20220404163436.956875-1-vkoul@kernel.org>
 References: <20220404163436.956875-1-vkoul@kernel.org>
@@ -59,150 +60,99 @@ Cc: Jonathan Marek <jonathan@marek.ca>, David Airlie <airlied@linux.ie>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-This add the bits in RM to enable the DSC blocks
+Add a mode valid callback for dsi_mgr for checking mode being valid in
+case of DSC. For DSC the height and width needs to be multiple of slice,
+so we check that here
 
 Reviewed-by: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
 Reviewed-by: Abhinav Kumar <quic_abhinavk@quicinc.com>
 Signed-off-by: Vinod Koul <vkoul@kernel.org>
 ---
- drivers/gpu/drm/msm/disp/dpu1/dpu_kms.h |  1 +
- drivers/gpu/drm/msm/disp/dpu1/dpu_rm.c  | 56 +++++++++++++++++++++++++
- drivers/gpu/drm/msm/disp/dpu1/dpu_rm.h  |  1 +
- 3 files changed, 58 insertions(+)
+ drivers/gpu/drm/msm/dsi/dsi.h         |  2 ++
+ drivers/gpu/drm/msm/dsi/dsi_host.c    | 26 ++++++++++++++++++++++++++
+ drivers/gpu/drm/msm/dsi/dsi_manager.c | 12 ++++++++++++
+ 3 files changed, 40 insertions(+)
 
-diff --git a/drivers/gpu/drm/msm/disp/dpu1/dpu_kms.h b/drivers/gpu/drm/msm/disp/dpu1/dpu_kms.h
-index 779e7bd01efd..a41f0eb2761b 100644
---- a/drivers/gpu/drm/msm/disp/dpu1/dpu_kms.h
-+++ b/drivers/gpu/drm/msm/disp/dpu1/dpu_kms.h
-@@ -145,6 +145,7 @@ struct dpu_global_state {
- 	uint32_t mixer_to_enc_id[LM_MAX - LM_0];
- 	uint32_t ctl_to_enc_id[CTL_MAX - CTL_0];
- 	uint32_t dspp_to_enc_id[DSPP_MAX - DSPP_0];
-+	uint32_t dsc_to_enc_id[DSC_MAX - DSC_0];
- };
- 
- struct dpu_global_state
-diff --git a/drivers/gpu/drm/msm/disp/dpu1/dpu_rm.c b/drivers/gpu/drm/msm/disp/dpu1/dpu_rm.c
-index 7497538adae1..0e6634b217aa 100644
---- a/drivers/gpu/drm/msm/disp/dpu1/dpu_rm.c
-+++ b/drivers/gpu/drm/msm/disp/dpu1/dpu_rm.c
-@@ -11,6 +11,7 @@
- #include "dpu_hw_intf.h"
- #include "dpu_hw_dspp.h"
- #include "dpu_hw_merge3d.h"
-+#include "dpu_hw_dsc.h"
- #include "dpu_encoder.h"
- #include "dpu_trace.h"
- 
-@@ -77,6 +78,15 @@ int dpu_rm_destroy(struct dpu_rm *rm)
- 	for (i = 0; i < ARRAY_SIZE(rm->hw_intf); i++)
- 		dpu_hw_intf_destroy(rm->hw_intf[i]);
- 
-+	for (i = 0; i < ARRAY_SIZE(rm->dsc_blks); i++) {
-+		struct dpu_hw_dsc *hw;
-+
-+		if (rm->dsc_blks[i]) {
-+			hw = to_dpu_hw_dsc(rm->dsc_blks[i]);
-+			dpu_hw_dsc_destroy(hw);
-+		}
-+	}
-+
+diff --git a/drivers/gpu/drm/msm/dsi/dsi.h b/drivers/gpu/drm/msm/dsi/dsi.h
+index 16cd9b2fce86..580a1e6358bf 100644
+--- a/drivers/gpu/drm/msm/dsi/dsi.h
++++ b/drivers/gpu/drm/msm/dsi/dsi.h
+@@ -114,6 +114,8 @@ int msm_dsi_host_power_on(struct mipi_dsi_host *host,
+ int msm_dsi_host_power_off(struct mipi_dsi_host *host);
+ int msm_dsi_host_set_display_mode(struct mipi_dsi_host *host,
+ 				  const struct drm_display_mode *mode);
++enum drm_mode_status msm_dsi_host_check_dsc(struct mipi_dsi_host *host,
++					    const struct drm_display_mode *mode);
+ struct drm_panel *msm_dsi_host_get_panel(struct mipi_dsi_host *host);
+ unsigned long msm_dsi_host_get_mode_flags(struct mipi_dsi_host *host);
+ struct drm_bridge *msm_dsi_host_get_bridge(struct mipi_dsi_host *host);
+diff --git a/drivers/gpu/drm/msm/dsi/dsi_host.c b/drivers/gpu/drm/msm/dsi/dsi_host.c
+index cb2e179127ea..eb0be34add45 100644
+--- a/drivers/gpu/drm/msm/dsi/dsi_host.c
++++ b/drivers/gpu/drm/msm/dsi/dsi_host.c
+@@ -2554,6 +2554,32 @@ int msm_dsi_host_set_display_mode(struct mipi_dsi_host *host,
  	return 0;
  }
  
-@@ -210,6 +220,19 @@ int dpu_rm_init(struct dpu_rm *rm,
- 		rm->dspp_blks[dspp->id - DSPP_0] = &hw->base;
- 	}
- 
-+	for (i = 0; i < cat->dsc_count; i++) {
-+		struct dpu_hw_dsc *hw;
-+		const struct dpu_dsc_cfg *dsc = &cat->dsc[i];
-+
-+		hw = dpu_hw_dsc_init(dsc->id, mmio, cat);
-+		if (IS_ERR_OR_NULL(hw)) {
-+			rc = PTR_ERR(hw);
-+			DPU_ERROR("failed dsc object creation: err %d\n", rc);
-+			goto fail;
-+		}
-+		rm->dsc_blks[dsc->id - DSC_0] = &hw->base;
-+	}
-+
- 	return 0;
- 
- fail:
-@@ -441,6 +464,28 @@ static int _dpu_rm_reserve_ctls(
- 	return 0;
- }
- 
-+static int _dpu_rm_reserve_dsc(struct dpu_rm *rm,
-+			       struct dpu_global_state *global_state,
-+			       struct drm_encoder *enc,
-+			       const struct msm_display_topology *top)
++enum drm_mode_status msm_dsi_host_check_dsc(struct mipi_dsi_host *host,
++					    const struct drm_display_mode *mode)
 +{
-+	int num_dsc = top->num_dsc;
-+	int i;
++	struct msm_dsi_host *msm_host = to_msm_dsi_host(host);
++	struct msm_display_dsc_config *dsc = msm_host->dsc;
++	int pic_width = mode->hdisplay;
++	int pic_height = mode->vdisplay;
 +
-+	/* check if DSC required are allocated or not */
-+	for (i = 0; i < num_dsc; i++) {
-+		if (global_state->dsc_to_enc_id[i]) {
-+			DPU_ERROR("DSC %d is already allocated\n", i);
-+			return -EIO;
-+		}
++	if (!msm_host->dsc)
++		return MODE_OK;
++
++	if (pic_width % dsc->drm->slice_width) {
++		pr_err("DSI: pic_width %d has to be multiple of slice %d\n",
++		       pic_width, dsc->drm->slice_width);
++		return MODE_H_ILLEGAL;
 +	}
 +
-+	for (i = 0; i < num_dsc; i++)
-+		global_state->dsc_to_enc_id[i] = enc->base.id;
++	if (pic_height % dsc->drm->slice_height) {
++		pr_err("DSI: pic_height %d has to be multiple of slice %d\n",
++		       pic_height, dsc->drm->slice_height);
++		return MODE_V_ILLEGAL;
++	}
 +
-+	return 0;
++	return MODE_OK;
 +}
 +
- static int _dpu_rm_make_reservation(
- 		struct dpu_rm *rm,
- 		struct dpu_global_state *global_state,
-@@ -462,6 +507,10 @@ static int _dpu_rm_make_reservation(
- 		return ret;
- 	}
+ struct drm_panel *msm_dsi_host_get_panel(struct mipi_dsi_host *host)
+ {
+ 	return of_drm_find_panel(to_msm_dsi_host(host)->device_node);
+diff --git a/drivers/gpu/drm/msm/dsi/dsi_manager.c b/drivers/gpu/drm/msm/dsi/dsi_manager.c
+index 0c1b7dde377c..100a8fcbddee 100644
+--- a/drivers/gpu/drm/msm/dsi/dsi_manager.c
++++ b/drivers/gpu/drm/msm/dsi/dsi_manager.c
+@@ -573,6 +573,17 @@ static void dsi_mgr_bridge_mode_set(struct drm_bridge *bridge,
+ 	dsi_mgr_bridge_power_on(bridge);
+ }
  
-+	ret  = _dpu_rm_reserve_dsc(rm, global_state, enc, &reqs->topology);
-+	if (ret)
-+		return ret;
++static enum drm_mode_status dsi_mgr_bridge_mode_valid(struct drm_bridge *bridge,
++						      const struct drm_display_info *info,
++						      const struct drm_display_mode *mode)
++{
++	int id = dsi_mgr_bridge_get_id(bridge);
++	struct msm_dsi *msm_dsi = dsi_mgr_get_dsi(id);
++	struct mipi_dsi_host *host = msm_dsi->host;
 +
- 	return ret;
- }
- 
-@@ -499,6 +548,8 @@ void dpu_rm_release(struct dpu_global_state *global_state,
- 		ARRAY_SIZE(global_state->mixer_to_enc_id), enc->base.id);
- 	_dpu_rm_clear_mapping(global_state->ctl_to_enc_id,
- 		ARRAY_SIZE(global_state->ctl_to_enc_id), enc->base.id);
-+	_dpu_rm_clear_mapping(global_state->dsc_to_enc_id,
-+		ARRAY_SIZE(global_state->dsc_to_enc_id), enc->base.id);
- }
- 
- int dpu_rm_reserve(
-@@ -567,6 +618,11 @@ int dpu_rm_get_assigned_resources(struct dpu_rm *rm,
- 		hw_to_enc_id = global_state->dspp_to_enc_id;
- 		max_blks = ARRAY_SIZE(rm->dspp_blks);
- 		break;
-+	case DPU_HW_BLK_DSC:
-+		hw_blks = rm->dsc_blks;
-+		hw_to_enc_id = global_state->dsc_to_enc_id;
-+		max_blks = ARRAY_SIZE(rm->dsc_blks);
-+		break;
- 	default:
- 		DPU_ERROR("blk type %d not managed by rm\n", type);
- 		return 0;
-diff --git a/drivers/gpu/drm/msm/disp/dpu1/dpu_rm.h b/drivers/gpu/drm/msm/disp/dpu1/dpu_rm.h
-index 9b13200a050a..32e0d8aa65ab 100644
---- a/drivers/gpu/drm/msm/disp/dpu1/dpu_rm.h
-+++ b/drivers/gpu/drm/msm/disp/dpu1/dpu_rm.h
-@@ -28,6 +28,7 @@ struct dpu_rm {
- 	struct dpu_hw_intf *hw_intf[INTF_MAX - INTF_0];
- 	struct dpu_hw_blk *dspp_blks[DSPP_MAX - DSPP_0];
- 	struct dpu_hw_blk *merge_3d_blks[MERGE_3D_MAX - MERGE_3D_0];
-+	struct dpu_hw_blk *dsc_blks[DSC_MAX - DSC_0];
++	return msm_dsi_host_check_dsc(host, mode);
++}
++
+ static const struct drm_connector_funcs dsi_mgr_connector_funcs = {
+ 	.detect = dsi_mgr_connector_detect,
+ 	.fill_modes = drm_helper_probe_single_connector_modes,
+@@ -593,6 +604,7 @@ static const struct drm_bridge_funcs dsi_mgr_bridge_funcs = {
+ 	.disable = dsi_mgr_bridge_disable,
+ 	.post_disable = dsi_mgr_bridge_post_disable,
+ 	.mode_set = dsi_mgr_bridge_mode_set,
++	.mode_valid = dsi_mgr_bridge_mode_valid,
  };
  
- /**
+ /* initialize connector when we're connected to a drm_panel */
 -- 
 2.34.1
 
