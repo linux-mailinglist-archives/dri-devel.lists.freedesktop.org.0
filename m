@@ -1,87 +1,55 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3CE364F1557
-	for <lists+dri-devel@lfdr.de>; Mon,  4 Apr 2022 15:01:14 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id C2C794F159F
+	for <lists+dri-devel@lfdr.de>; Mon,  4 Apr 2022 15:15:14 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 9D4E510E46B;
-	Mon,  4 Apr 2022 13:01:11 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 0F1D210ED11;
+	Mon,  4 Apr 2022 13:15:11 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from us-smtp-delivery-124.mimecast.com
- (us-smtp-delivery-124.mimecast.com [170.10.133.124])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 75A9310E42B
- for <dri-devel@lists.freedesktop.org>; Mon,  4 Apr 2022 13:01:10 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1649077269;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=UqIxV9OvELN5d4OAqru5TvQ2/Ys6tqvk1mbfXumP/PI=;
- b=HsHkavwCsKdmtnKVY3dI7y7u486U0GeOGeOmYLxJvs0R702g9b6FBRVuFa4lr5xk7Nx5+m
- N4RaSdsHyTVZ5cQV48n95oUph0btnoA46B0ypITWT6eDc3PzDOH3pgrmgOBsuBNze7tYkS
- 2o1QdtDnCJHuBtDyuT4gm2RpUZUsgxc=
-Received: from mail-qt1-f199.google.com (mail-qt1-f199.google.com
- [209.85.160.199]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-528-N4qwCQdwOiKBhuKgsX7CQg-1; Mon, 04 Apr 2022 09:01:08 -0400
-X-MC-Unique: N4qwCQdwOiKBhuKgsX7CQg-1
-Received: by mail-qt1-f199.google.com with SMTP id
- u8-20020ac858c8000000b002e1b3ceb167so6229356qta.10
- for <dri-devel@lists.freedesktop.org>; Mon, 04 Apr 2022 06:01:08 -0700 (PDT)
+Received: from mail-ot1-x329.google.com (mail-ot1-x329.google.com
+ [IPv6:2607:f8b0:4864:20::329])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 229EF10EBEC
+ for <dri-devel@lists.freedesktop.org>; Mon,  4 Apr 2022 13:15:10 +0000 (UTC)
+Received: by mail-ot1-x329.google.com with SMTP id
+ e25-20020a0568301e5900b005b236d5d74fso7246331otj.0
+ for <dri-devel@lists.freedesktop.org>; Mon, 04 Apr 2022 06:15:10 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ffwll.ch; s=google;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc; bh=1ltcBLZnS9V4e6M8X4B3SVyTJJYiEdsgwwMNRIIm4eM=;
+ b=GT6ZVdnvwXWRynNVO2HsvEKzZ2iY7+vZP/hsKupcWJ2lyXbTaC8Rqwx3WEMutndi4/
+ NazFg1P/AeOLEVVqMWZtK85Hdjfj9t+398s8ZV8ojB0MoI1ZTf1rbaDZTO9uzxH30T5O
+ pKYliaLO2NGjwMtqiQu6A9+TIqORO/KCicgzY=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=x-gm-message-state:subject:to:cc:references:from:message-id:date
- :user-agent:mime-version:in-reply-to:content-transfer-encoding
- :content-language;
- bh=UqIxV9OvELN5d4OAqru5TvQ2/Ys6tqvk1mbfXumP/PI=;
- b=HdYItlAF52cSuGC9dIrEHc07gd44Jn+/4QgBKeAzg0U1NeiIWBBBlszKXtxGEg8yzI
- TQOWE5UEuDDwwVKaHc8+16/MwCWOfimRafmIYgfGhzngLhftseqkGhib9lfE68qTukEz
- 7/sGa2p7UNCyco0I58ATXtkTOfArxaCJA3JzCiE0EcBzoSWY8QnzrIAP0Tggsqn+DrDJ
- YE2znGsbL39q6jAnM1IxUbJ3AzuvB6svygz+Mb1CVSQDqG50Hw93AoIGpWhcZ/6Rh1Zf
- SQT40oMqJNSo6gH7Edn+Pw4t8s7h+CwoXJmf/IGH1qLdlQTihbZKP6OQMtpAH+PbIT70
- s2SQ==
-X-Gm-Message-State: AOAM530qcodLgIugIlHpI5jERVdVbihND9azxHn1Ft70GeZlWwfRCEz+
- x2HUuB7AnQA7HD/4D3iucPg9ZFcqh/UorO63ynolVOstoJChrDEJEu3V60jA/p0+K15HyrC4Xos
- vbX6Wh5F34aop7TQqOKBzH16p7WX9CzLwIomvlaVO96dXdWIIyYLR0uz/Km8U+0ahUnp+XGBHW6
- Y=
-X-Received: by 2002:a05:622a:164e:b0:2e1:e204:44c6 with SMTP id
- y14-20020a05622a164e00b002e1e20444c6mr17173824qtj.193.1649077267104; 
- Mon, 04 Apr 2022 06:01:07 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJzUkFabJc93gULaayWDThXWodGm0luCP3BX7hWlKBYL5mvGbkO99DCFxjHqS5KpG1YvQ8yE1g==
-X-Received: by 2002:a05:622a:164e:b0:2e1:e204:44c6 with SMTP id
- y14-20020a05622a164e00b002e1e20444c6mr17173722qtj.193.1649077266397; 
- Mon, 04 Apr 2022 06:01:06 -0700 (PDT)
-Received: from localhost.localdomain (024-205-208-113.res.spectrum.com.
- [24.205.208.113]) by smtp.gmail.com with ESMTPSA id
- g14-20020ae9e10e000000b0067b520a01afsm6022598qkm.108.2022.04.04.06.01.04
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Mon, 04 Apr 2022 06:01:05 -0700 (PDT)
-Subject: Re: [PATCH] drm/radeon: change si_default_state table from global to
- static
-To: =?UTF-8?Q?Christian_K=c3=b6nig?= <christian.koenig@amd.com>,
- alexander.deucher@amd.com, Xinhui.Pan@amd.com, airlied@linux.ie,
- daniel@ffwll.ch
-References: <20220402162750.2805433-1-trix@redhat.com>
- <9e407616-47b5-ad16-bd16-cde23684fc69@amd.com>
- <12b2fd82-174a-6f05-0de6-02b6f0d2a1d6@redhat.com>
- <5cd17edb-cf60-cc6e-acd3-6a5cadc038e6@amd.com>
-From: Tom Rix <trix@redhat.com>
-Message-ID: <efb06a31-bc1a-1136-fe75-2d4911fea190@redhat.com>
-Date: Mon, 4 Apr 2022 06:01:02 -0700
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.10.1
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=1ltcBLZnS9V4e6M8X4B3SVyTJJYiEdsgwwMNRIIm4eM=;
+ b=zb6lHTxdj3v+skSkqfwFVP12FxhxbPqOlcreOge0z9AzuA2g7mpJ21OqzzGFA9RCtI
+ XP4rVgTx7XoZaGgWDcp3UIu99MPmKYzo7lLz0WfHkmyN3rRWGOo/26RlQYrc6AzfbWcr
+ YLOW9y7WNsHFRZaoQLg5W7F6nwJ1GLYIs9Tw3sAkS6h78BBG/d+plbpoLov+ekQL6BYP
+ B3ZRHN/nBQuXVka335/2ZwzWLzdv2s+yVZRI+5oCUcaM3m7In6Za80QgzaBPprzdVHMV
+ rbwQ8N37+1XDWnFMhKXJAEhzlMu+2CUMH3n5vU0vGycNy2o+tWfzXc0lam5dYGwksb/7
+ 0uWA==
+X-Gm-Message-State: AOAM532wPAmm4j9NAFiISM0OrkUD1zezqDdX+WRvKR3JIa+SW9Pzgh7a
+ 7xj1L+VMFxF3ockLw3UkKTLp/OFZYOadf1uze7E3uETfD+1hnA==
+X-Google-Smtp-Source: ABdhPJzwc/6JKSurwuA08HmIO4hxb9rsacdoy6E3cMORuJfaHspgC781BzB4vt6dnB6l9i1wOUTXN7lBvXrsmtVPodU=
+X-Received: by 2002:a05:6830:14d3:b0:5b2:49d9:17b6 with SMTP id
+ t19-20020a05683014d300b005b249d917b6mr11585718otq.321.1649078108986; Mon, 04
+ Apr 2022 06:15:08 -0700 (PDT)
 MIME-Version: 1.0
-In-Reply-To: <5cd17edb-cf60-cc6e-acd3-6a5cadc038e6@amd.com>
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=trix@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Transfer-Encoding: 8bit
-Content-Language: en-US
+References: <20220331204651.2699107-1-daniel.vetter@ffwll.ch>
+ <20220331204651.2699107-5-daniel.vetter@ffwll.ch>
+In-Reply-To: <20220331204651.2699107-5-daniel.vetter@ffwll.ch>
+From: Daniel Vetter <daniel.vetter@ffwll.ch>
+Date: Mon, 4 Apr 2022 15:14:57 +0200
+Message-ID: <CAKMK7uHfq1GSfG60KHEQmYi2DtJwGA+1UL+2F-jrVoQx1zas5Q@mail.gmail.com>
+Subject: Re: [PATCH 4/4] drm/etnaviv: Don't break exclusive fence ordering
+To: DRI Development <dri-devel@lists.freedesktop.org>, 
+ =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>
+Content-Type: text/plain; charset="UTF-8"
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -94,677 +62,82 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org,
- amd-gfx@lists.freedesktop.org
+Cc: Daniel Vetter <daniel.vetter@intel.com>,
+ Russell King <linux+etnaviv@armlinux.org.uk>, etnaviv@lists.freedesktop.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-
-On 4/4/22 5:34 AM, Christian König wrote:
-> Am 04.04.22 um 14:32 schrieb Tom Rix:
->>
->> On 4/3/22 8:23 AM, Christian König wrote:
->>> Am 02.04.22 um 18:27 schrieb Tom Rix:
->>>> Smatch reports these issues
->>>> si_blit_shaders.c:31:11: warning: symbol 'si_default_state'
->>>>    was not declared. Should it be static?
->>>> si_blit_shaders.c:253:11: warning: symbol 'si_default_size'
->>>>    was not declared. Should it be static?
->>>>
->>>> Both symbols are only used in si.c.  Single file symbols
->>>> should be static.  So move the si_default_state and
->>>> si_default_size to si.c and change their
->>>> storage-class-specifier to static.
->>>>
->>>> Remove unneeded si_blit_shaders.[c|h]
->>>
->>> Uff, well NAK.
->>>
->>> IIRC this was intentionally moved into a separate file because it is 
->>> rather large and not related to anything in si.c.
->>>
->>> It's unlikely that we are ever going to update it, but I would still 
->>> rather want to keep it separated.
->>>
->>> You should rather just include si_blit_shaders.h in si_blit_shaders.c.
->>
->> Do you mean #include "si_blit_shaders.c" in si.c or similar ?
+On Thu, 31 Mar 2022 at 22:46, Daniel Vetter <daniel.vetter@ffwll.ch> wrote:
 >
-> No, as far as I can see you are getting this warning because of a 
-> missing previous prototype for the exported array.
+> There's only one exclusive slot, and we must not break the ordering.
+> Adding a new exclusive fence drops all previous fences from the
+> dma_resv. To avoid violating the signalling order we err on the side of
+> over-synchronizing by waiting for the existing fences, even if
+> userspace asked us to ignore them.
 >
-> This can be avoided if you add si_blit_shaders.h as an include to 
-> si_blit_shaders.c.
-
-The warning is a symptom.
-
-There are about 5-6 similar big, global tables in radeon/ with similar 
-one file uses.
-
-These global tables should become static.
-
-Moving the table to si_blit_shader.h would keep it separated, adding the 
-'static' would remove it from the globals.
-
-*.c removed, Makefile updated.
-
-Tom
-
+> A better fix would be to us a dma_fence_chain or _array like e.g.
+> amdgpu now uses, but it probably makes sense to lift this into
+> dma-resv.c code as a proper concept, so that drivers don't have to
+> hack up their own solution each on their own. Hence go with the simple
+> fix for now.
 >
-> Regards,
-> Christian.
+> Another option is the fence import ioctl from Jason:
 >
->>
->> This could have the same effect of while keeping these separate failes
->>
->> Tom
->>
->>>
->>> Regards,
->>> Christian.
->>>
->>>>
->>>> Signed-off-by: Tom Rix <trix@redhat.com>
->>>> ---
->>>>   drivers/gpu/drm/radeon/Makefile          |   2 +-
->>>>   drivers/gpu/drm/radeon/si.c              | 224 +++++++++++++++++++-
->>>>   drivers/gpu/drm/radeon/si_blit_shaders.c | 253 
->>>> -----------------------
->>>>   drivers/gpu/drm/radeon/si_blit_shaders.h |  32 ---
->>>>   4 files changed, 224 insertions(+), 287 deletions(-)
->>>>   delete mode 100644 drivers/gpu/drm/radeon/si_blit_shaders.c
->>>>   delete mode 100644 drivers/gpu/drm/radeon/si_blit_shaders.h
->>>>
->>>> diff --git a/drivers/gpu/drm/radeon/Makefile 
->>>> b/drivers/gpu/drm/radeon/Makefile
->>>> index 11c97edde54d..664381f4eb07 100644
->>>> --- a/drivers/gpu/drm/radeon/Makefile
->>>> +++ b/drivers/gpu/drm/radeon/Makefile
->>>> @@ -44,7 +44,7 @@ radeon-y += radeon_device.o radeon_asic.o 
->>>> radeon_kms.o \
->>>>       evergreen.o evergreen_cs.o evergreen_blit_shaders.o \
->>>>       evergreen_hdmi.o radeon_trace_points.o ni.o 
->>>> cayman_blit_shaders.o \
->>>>       atombios_encoders.o radeon_semaphore.o radeon_sa.o 
->>>> atombios_i2c.o si.o \
->>>> -    si_blit_shaders.o radeon_prime.o cik.o cik_blit_shaders.o \
->>>> +    radeon_prime.o cik.o cik_blit_shaders.o \
->>>>       r600_dpm.o rs780_dpm.o rv6xx_dpm.o rv770_dpm.o rv730_dpm.o 
->>>> rv740_dpm.o \
->>>>       rv770_smc.o cypress_dpm.o btc_dpm.o sumo_dpm.o sumo_smc.o 
->>>> trinity_dpm.o \
->>>>       trinity_smc.o ni_dpm.o si_smc.o si_dpm.o kv_smc.o kv_dpm.o 
->>>> ci_smc.o \
->>>> diff --git a/drivers/gpu/drm/radeon/si.c b/drivers/gpu/drm/radeon/si.c
->>>> index 8d5e4b25609d..a4032702e302 100644
->>>> --- a/drivers/gpu/drm/radeon/si.c
->>>> +++ b/drivers/gpu/drm/radeon/si.c
->>>> @@ -38,7 +38,6 @@
->>>>   #include "radeon_asic.h"
->>>>   #include "radeon_audio.h"
->>>>   #include "radeon_ucode.h"
->>>> -#include "si_blit_shaders.h"
->>>>   #include "si.h"
->>>>   #include "sid.h"
->>>>   @@ -3553,6 +3552,229 @@ static int si_cp_load_microcode(struct 
->>>> radeon_device *rdev)
->>>>       return 0;
->>>>   }
->>>>   +static const u32 si_default_state[] = {
->>>> +    0xc0066900,
->>>> +    0x00000000,
->>>> +    0x00000060, /* DB_RENDER_CONTROL */
->>>> +    0x00000000, /* DB_COUNT_CONTROL */
->>>> +    0x00000000, /* DB_DEPTH_VIEW */
->>>> +    0x0000002a, /* DB_RENDER_OVERRIDE */
->>>> +    0x00000000, /* DB_RENDER_OVERRIDE2 */
->>>> +    0x00000000, /* DB_HTILE_DATA_BASE */
->>>> +
->>>> +    0xc0046900,
->>>> +    0x00000008,
->>>> +    0x00000000, /* DB_DEPTH_BOUNDS_MIN */
->>>> +    0x00000000, /* DB_DEPTH_BOUNDS_MAX */
->>>> +    0x00000000, /* DB_STENCIL_CLEAR */
->>>> +    0x00000000, /* DB_DEPTH_CLEAR */
->>>> +
->>>> +    0xc0036900,
->>>> +    0x0000000f,
->>>> +    0x00000000, /* DB_DEPTH_INFO */
->>>> +    0x00000000, /* DB_Z_INFO */
->>>> +    0x00000000, /* DB_STENCIL_INFO */
->>>> +
->>>> +    0xc0016900,
->>>> +    0x00000080,
->>>> +    0x00000000, /* PA_SC_WINDOW_OFFSET */
->>>> +
->>>> +    0xc00d6900,
->>>> +    0x00000083,
->>>> +    0x0000ffff, /* PA_SC_CLIPRECT_RULE */
->>>> +    0x00000000, /* PA_SC_CLIPRECT_0_TL */
->>>> +    0x20002000, /* PA_SC_CLIPRECT_0_BR */
->>>> +    0x00000000,
->>>> +    0x20002000,
->>>> +    0x00000000,
->>>> +    0x20002000,
->>>> +    0x00000000,
->>>> +    0x20002000,
->>>> +    0xaaaaaaaa, /* PA_SC_EDGERULE */
->>>> +    0x00000000, /* PA_SU_HARDWARE_SCREEN_OFFSET */
->>>> +    0x0000000f, /* CB_TARGET_MASK */
->>>> +    0x0000000f, /* CB_SHADER_MASK */
->>>> +
->>>> +    0xc0226900,
->>>> +    0x00000094,
->>>> +    0x80000000, /* PA_SC_VPORT_SCISSOR_0_TL */
->>>> +    0x20002000, /* PA_SC_VPORT_SCISSOR_0_BR */
->>>> +    0x80000000,
->>>> +    0x20002000,
->>>> +    0x80000000,
->>>> +    0x20002000,
->>>> +    0x80000000,
->>>> +    0x20002000,
->>>> +    0x80000000,
->>>> +    0x20002000,
->>>> +    0x80000000,
->>>> +    0x20002000,
->>>> +    0x80000000,
->>>> +    0x20002000,
->>>> +    0x80000000,
->>>> +    0x20002000,
->>>> +    0x80000000,
->>>> +    0x20002000,
->>>> +    0x80000000,
->>>> +    0x20002000,
->>>> +    0x80000000,
->>>> +    0x20002000,
->>>> +    0x80000000,
->>>> +    0x20002000,
->>>> +    0x80000000,
->>>> +    0x20002000,
->>>> +    0x80000000,
->>>> +    0x20002000,
->>>> +    0x80000000,
->>>> +    0x20002000,
->>>> +    0x80000000,
->>>> +    0x20002000,
->>>> +    0x00000000, /* PA_SC_VPORT_ZMIN_0 */
->>>> +    0x3f800000, /* PA_SC_VPORT_ZMAX_0 */
->>>> +
->>>> +    0xc0026900,
->>>> +    0x000000d9,
->>>> +    0x00000000, /* CP_RINGID */
->>>> +    0x00000000, /* CP_VMID */
->>>> +
->>>> +    0xc0046900,
->>>> +    0x00000100,
->>>> +    0xffffffff, /* VGT_MAX_VTX_INDX */
->>>> +    0x00000000, /* VGT_MIN_VTX_INDX */
->>>> +    0x00000000, /* VGT_INDX_OFFSET */
->>>> +    0x00000000, /* VGT_MULTI_PRIM_IB_RESET_INDX */
->>>> +
->>>> +    0xc0046900,
->>>> +    0x00000105,
->>>> +    0x00000000, /* CB_BLEND_RED */
->>>> +    0x00000000, /* CB_BLEND_GREEN */
->>>> +    0x00000000, /* CB_BLEND_BLUE */
->>>> +    0x00000000, /* CB_BLEND_ALPHA */
->>>> +
->>>> +    0xc0016900,
->>>> +    0x000001e0,
->>>> +    0x00000000, /* CB_BLEND0_CONTROL */
->>>> +
->>>> +    0xc00e6900,
->>>> +    0x00000200,
->>>> +    0x00000000, /* DB_DEPTH_CONTROL */
->>>> +    0x00000000, /* DB_EQAA */
->>>> +    0x00cc0010, /* CB_COLOR_CONTROL */
->>>> +    0x00000210, /* DB_SHADER_CONTROL */
->>>> +    0x00010000, /* PA_CL_CLIP_CNTL */
->>>> +    0x00000004, /* PA_SU_SC_MODE_CNTL */
->>>> +    0x00000100, /* PA_CL_VTE_CNTL */
->>>> +    0x00000000, /* PA_CL_VS_OUT_CNTL */
->>>> +    0x00000000, /* PA_CL_NANINF_CNTL */
->>>> +    0x00000000, /* PA_SU_LINE_STIPPLE_CNTL */
->>>> +    0x00000000, /* PA_SU_LINE_STIPPLE_SCALE */
->>>> +    0x00000000, /* PA_SU_PRIM_FILTER_CNTL */
->>>> +    0x00000000, /*  */
->>>> +    0x00000000, /*  */
->>>> +
->>>> +    0xc0116900,
->>>> +    0x00000280,
->>>> +    0x00000000, /* PA_SU_POINT_SIZE */
->>>> +    0x00000000, /* PA_SU_POINT_MINMAX */
->>>> +    0x00000008, /* PA_SU_LINE_CNTL */
->>>> +    0x00000000, /* PA_SC_LINE_STIPPLE */
->>>> +    0x00000000, /* VGT_OUTPUT_PATH_CNTL */
->>>> +    0x00000000, /* VGT_HOS_CNTL */
->>>> +    0x00000000,
->>>> +    0x00000000,
->>>> +    0x00000000,
->>>> +    0x00000000,
->>>> +    0x00000000,
->>>> +    0x00000000,
->>>> +    0x00000000,
->>>> +    0x00000000,
->>>> +    0x00000000,
->>>> +    0x00000000,
->>>> +    0x00000000, /* VGT_GS_MODE */
->>>> +
->>>> +    0xc0026900,
->>>> +    0x00000292,
->>>> +    0x00000000, /* PA_SC_MODE_CNTL_0 */
->>>> +    0x00000000, /* PA_SC_MODE_CNTL_1 */
->>>> +
->>>> +    0xc0016900,
->>>> +    0x000002a1,
->>>> +    0x00000000, /* VGT_PRIMITIVEID_EN */
->>>> +
->>>> +    0xc0016900,
->>>> +    0x000002a5,
->>>> +    0x00000000, /* VGT_MULTI_PRIM_IB_RESET_EN */
->>>> +
->>>> +    0xc0026900,
->>>> +    0x000002a8,
->>>> +    0x00000000, /* VGT_INSTANCE_STEP_RATE_0 */
->>>> +    0x00000000,
->>>> +
->>>> +    0xc0026900,
->>>> +    0x000002ad,
->>>> +    0x00000000, /* VGT_REUSE_OFF */
->>>> +    0x00000000,
->>>> +
->>>> +    0xc0016900,
->>>> +    0x000002d5,
->>>> +    0x00000000, /* VGT_SHADER_STAGES_EN */
->>>> +
->>>> +    0xc0016900,
->>>> +    0x000002dc,
->>>> +    0x0000aa00, /* DB_ALPHA_TO_MASK */
->>>> +
->>>> +    0xc0066900,
->>>> +    0x000002de,
->>>> +    0x00000000, /* PA_SU_POLY_OFFSET_DB_FMT_CNTL */
->>>> +    0x00000000,
->>>> +    0x00000000,
->>>> +    0x00000000,
->>>> +    0x00000000,
->>>> +    0x00000000,
->>>> +
->>>> +    0xc0026900,
->>>> +    0x000002e5,
->>>> +    0x00000000, /* VGT_STRMOUT_CONFIG */
->>>> +    0x00000000,
->>>> +
->>>> +    0xc01b6900,
->>>> +    0x000002f5,
->>>> +    0x76543210, /* PA_SC_CENTROID_PRIORITY_0 */
->>>> +    0xfedcba98, /* PA_SC_CENTROID_PRIORITY_1 */
->>>> +    0x00000000, /* PA_SC_LINE_CNTL */
->>>> +    0x00000000, /* PA_SC_AA_CONFIG */
->>>> +    0x00000005, /* PA_SU_VTX_CNTL */
->>>> +    0x3f800000, /* PA_CL_GB_VERT_CLIP_ADJ */
->>>> +    0x3f800000, /* PA_CL_GB_VERT_DISC_ADJ */
->>>> +    0x3f800000, /* PA_CL_GB_HORZ_CLIP_ADJ */
->>>> +    0x3f800000, /* PA_CL_GB_HORZ_DISC_ADJ */
->>>> +    0x00000000, /* PA_SC_AA_SAMPLE_LOCS_PIXEL_X0Y0_0 */
->>>> +    0x00000000,
->>>> +    0x00000000,
->>>> +    0x00000000,
->>>> +    0x00000000,
->>>> +    0x00000000,
->>>> +    0x00000000,
->>>> +    0x00000000,
->>>> +    0x00000000,
->>>> +    0x00000000,
->>>> +    0x00000000,
->>>> +    0x00000000,
->>>> +    0x00000000,
->>>> +    0x00000000,
->>>> +    0x00000000,
->>>> +    0x00000000,
->>>> +    0xffffffff, /* PA_SC_AA_MASK_X0Y0_X1Y0 */
->>>> +    0xffffffff,
->>>> +
->>>> +    0xc0026900,
->>>> +    0x00000316,
->>>> +    0x0000000e, /* VGT_VERTEX_REUSE_BLOCK_CNTL */
->>>> +    0x00000010, /*  */
->>>> +};
->>>> +
->>>> +static const u32 si_default_size = ARRAY_SIZE(si_default_state);
->>>> +
->>>>   static int si_cp_start(struct radeon_device *rdev)
->>>>   {
->>>>       struct radeon_ring *ring = 
->>>> &rdev->ring[RADEON_RING_TYPE_GFX_INDEX];
->>>> diff --git a/drivers/gpu/drm/radeon/si_blit_shaders.c 
->>>> b/drivers/gpu/drm/radeon/si_blit_shaders.c
->>>> deleted file mode 100644
->>>> index ec415e7dfa4b..000000000000
->>>> --- a/drivers/gpu/drm/radeon/si_blit_shaders.c
->>>> +++ /dev/null
->>>> @@ -1,253 +0,0 @@
->>>> -/*
->>>> - * Copyright 2011 Advanced Micro Devices, Inc.
->>>> - *
->>>> - * Permission is hereby granted, free of charge, to any person 
->>>> obtaining a
->>>> - * copy of this software and associated documentation files (the 
->>>> "Software"),
->>>> - * to deal in the Software without restriction, including without 
->>>> limitation
->>>> - * the rights to use, copy, modify, merge, publish, distribute, 
->>>> sublicense,
->>>> - * and/or sell copies of the Software, and to permit persons to 
->>>> whom the
->>>> - * Software is furnished to do so, subject to the following 
->>>> conditions:
->>>> - *
->>>> - * The above copyright notice and this permission notice 
->>>> (including the next
->>>> - * paragraph) shall be included in all copies or substantial 
->>>> portions of the
->>>> - * Software.
->>>> - *
->>>> - * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, 
->>>> EXPRESS OR
->>>> - * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF 
->>>> MERCHANTABILITY,
->>>> - * FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO 
->>>> EVENT SHALL
->>>> - * THE COPYRIGHT HOLDER(S) AND/OR ITS SUPPLIERS BE LIABLE FOR ANY 
->>>> CLAIM, DAMAGES OR
->>>> - * OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR 
->>>> OTHERWISE,
->>>> - * ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE 
->>>> USE OR OTHER
->>>> - * DEALINGS IN THE SOFTWARE.
->>>> - *
->>>> - * Authors:
->>>> - *     Alex Deucher <alexander.deucher@amd.com>
->>>> - */
->>>> -
->>>> -#include <linux/types.h>
->>>> -#include <linux/bug.h>
->>>> -#include <linux/kernel.h>
->>>> -
->>>> -const u32 si_default_state[] =
->>>> -{
->>>> -    0xc0066900,
->>>> -    0x00000000,
->>>> -    0x00000060, /* DB_RENDER_CONTROL */
->>>> -    0x00000000, /* DB_COUNT_CONTROL */
->>>> -    0x00000000, /* DB_DEPTH_VIEW */
->>>> -    0x0000002a, /* DB_RENDER_OVERRIDE */
->>>> -    0x00000000, /* DB_RENDER_OVERRIDE2 */
->>>> -    0x00000000, /* DB_HTILE_DATA_BASE */
->>>> -
->>>> -    0xc0046900,
->>>> -    0x00000008,
->>>> -    0x00000000, /* DB_DEPTH_BOUNDS_MIN */
->>>> -    0x00000000, /* DB_DEPTH_BOUNDS_MAX */
->>>> -    0x00000000, /* DB_STENCIL_CLEAR */
->>>> -    0x00000000, /* DB_DEPTH_CLEAR */
->>>> -
->>>> -    0xc0036900,
->>>> -    0x0000000f,
->>>> -    0x00000000, /* DB_DEPTH_INFO */
->>>> -    0x00000000, /* DB_Z_INFO */
->>>> -    0x00000000, /* DB_STENCIL_INFO */
->>>> -
->>>> -    0xc0016900,
->>>> -    0x00000080,
->>>> -    0x00000000, /* PA_SC_WINDOW_OFFSET */
->>>> -
->>>> -    0xc00d6900,
->>>> -    0x00000083,
->>>> -    0x0000ffff, /* PA_SC_CLIPRECT_RULE */
->>>> -    0x00000000, /* PA_SC_CLIPRECT_0_TL */
->>>> -    0x20002000, /* PA_SC_CLIPRECT_0_BR */
->>>> -    0x00000000,
->>>> -    0x20002000,
->>>> -    0x00000000,
->>>> -    0x20002000,
->>>> -    0x00000000,
->>>> -    0x20002000,
->>>> -    0xaaaaaaaa, /* PA_SC_EDGERULE */
->>>> -    0x00000000, /* PA_SU_HARDWARE_SCREEN_OFFSET */
->>>> -    0x0000000f, /* CB_TARGET_MASK */
->>>> -    0x0000000f, /* CB_SHADER_MASK */
->>>> -
->>>> -    0xc0226900,
->>>> -    0x00000094,
->>>> -    0x80000000, /* PA_SC_VPORT_SCISSOR_0_TL */
->>>> -    0x20002000, /* PA_SC_VPORT_SCISSOR_0_BR */
->>>> -    0x80000000,
->>>> -    0x20002000,
->>>> -    0x80000000,
->>>> -    0x20002000,
->>>> -    0x80000000,
->>>> -    0x20002000,
->>>> -    0x80000000,
->>>> -    0x20002000,
->>>> -    0x80000000,
->>>> -    0x20002000,
->>>> -    0x80000000,
->>>> -    0x20002000,
->>>> -    0x80000000,
->>>> -    0x20002000,
->>>> -    0x80000000,
->>>> -    0x20002000,
->>>> -    0x80000000,
->>>> -    0x20002000,
->>>> -    0x80000000,
->>>> -    0x20002000,
->>>> -    0x80000000,
->>>> -    0x20002000,
->>>> -    0x80000000,
->>>> -    0x20002000,
->>>> -    0x80000000,
->>>> -    0x20002000,
->>>> -    0x80000000,
->>>> -    0x20002000,
->>>> -    0x80000000,
->>>> -    0x20002000,
->>>> -    0x00000000, /* PA_SC_VPORT_ZMIN_0 */
->>>> -    0x3f800000, /* PA_SC_VPORT_ZMAX_0 */
->>>> -
->>>> -    0xc0026900,
->>>> -    0x000000d9,
->>>> -    0x00000000, /* CP_RINGID */
->>>> -    0x00000000, /* CP_VMID */
->>>> -
->>>> -    0xc0046900,
->>>> -    0x00000100,
->>>> -    0xffffffff, /* VGT_MAX_VTX_INDX */
->>>> -    0x00000000, /* VGT_MIN_VTX_INDX */
->>>> -    0x00000000, /* VGT_INDX_OFFSET */
->>>> -    0x00000000, /* VGT_MULTI_PRIM_IB_RESET_INDX */
->>>> -
->>>> -    0xc0046900,
->>>> -    0x00000105,
->>>> -    0x00000000, /* CB_BLEND_RED */
->>>> -    0x00000000, /* CB_BLEND_GREEN */
->>>> -    0x00000000, /* CB_BLEND_BLUE */
->>>> -    0x00000000, /* CB_BLEND_ALPHA */
->>>> -
->>>> -    0xc0016900,
->>>> -    0x000001e0,
->>>> -    0x00000000, /* CB_BLEND0_CONTROL */
->>>> -
->>>> -    0xc00e6900,
->>>> -    0x00000200,
->>>> -    0x00000000, /* DB_DEPTH_CONTROL */
->>>> -    0x00000000, /* DB_EQAA */
->>>> -    0x00cc0010, /* CB_COLOR_CONTROL */
->>>> -    0x00000210, /* DB_SHADER_CONTROL */
->>>> -    0x00010000, /* PA_CL_CLIP_CNTL */
->>>> -    0x00000004, /* PA_SU_SC_MODE_CNTL */
->>>> -    0x00000100, /* PA_CL_VTE_CNTL */
->>>> -    0x00000000, /* PA_CL_VS_OUT_CNTL */
->>>> -    0x00000000, /* PA_CL_NANINF_CNTL */
->>>> -    0x00000000, /* PA_SU_LINE_STIPPLE_CNTL */
->>>> -    0x00000000, /* PA_SU_LINE_STIPPLE_SCALE */
->>>> -    0x00000000, /* PA_SU_PRIM_FILTER_CNTL */
->>>> -    0x00000000, /*  */
->>>> -    0x00000000, /*  */
->>>> -
->>>> -    0xc0116900,
->>>> -    0x00000280,
->>>> -    0x00000000, /* PA_SU_POINT_SIZE */
->>>> -    0x00000000, /* PA_SU_POINT_MINMAX */
->>>> -    0x00000008, /* PA_SU_LINE_CNTL */
->>>> -    0x00000000, /* PA_SC_LINE_STIPPLE */
->>>> -    0x00000000, /* VGT_OUTPUT_PATH_CNTL */
->>>> -    0x00000000, /* VGT_HOS_CNTL */
->>>> -    0x00000000,
->>>> -    0x00000000,
->>>> -    0x00000000,
->>>> -    0x00000000,
->>>> -    0x00000000,
->>>> -    0x00000000,
->>>> -    0x00000000,
->>>> -    0x00000000,
->>>> -    0x00000000,
->>>> -    0x00000000,
->>>> -    0x00000000, /* VGT_GS_MODE */
->>>> -
->>>> -    0xc0026900,
->>>> -    0x00000292,
->>>> -    0x00000000, /* PA_SC_MODE_CNTL_0 */
->>>> -    0x00000000, /* PA_SC_MODE_CNTL_1 */
->>>> -
->>>> -    0xc0016900,
->>>> -    0x000002a1,
->>>> -    0x00000000, /* VGT_PRIMITIVEID_EN */
->>>> -
->>>> -    0xc0016900,
->>>> -    0x000002a5,
->>>> -    0x00000000, /* VGT_MULTI_PRIM_IB_RESET_EN */
->>>> -
->>>> -    0xc0026900,
->>>> -    0x000002a8,
->>>> -    0x00000000, /* VGT_INSTANCE_STEP_RATE_0 */
->>>> -    0x00000000,
->>>> -
->>>> -    0xc0026900,
->>>> -    0x000002ad,
->>>> -    0x00000000, /* VGT_REUSE_OFF */
->>>> -    0x00000000,
->>>> -
->>>> -    0xc0016900,
->>>> -    0x000002d5,
->>>> -    0x00000000, /* VGT_SHADER_STAGES_EN */
->>>> -
->>>> -    0xc0016900,
->>>> -    0x000002dc,
->>>> -    0x0000aa00, /* DB_ALPHA_TO_MASK */
->>>> -
->>>> -    0xc0066900,
->>>> -    0x000002de,
->>>> -    0x00000000, /* PA_SU_POLY_OFFSET_DB_FMT_CNTL */
->>>> -    0x00000000,
->>>> -    0x00000000,
->>>> -    0x00000000,
->>>> -    0x00000000,
->>>> -    0x00000000,
->>>> -
->>>> -    0xc0026900,
->>>> -    0x000002e5,
->>>> -    0x00000000, /* VGT_STRMOUT_CONFIG */
->>>> -    0x00000000,
->>>> -
->>>> -    0xc01b6900,
->>>> -    0x000002f5,
->>>> -    0x76543210, /* PA_SC_CENTROID_PRIORITY_0 */
->>>> -    0xfedcba98, /* PA_SC_CENTROID_PRIORITY_1 */
->>>> -    0x00000000, /* PA_SC_LINE_CNTL */
->>>> -    0x00000000, /* PA_SC_AA_CONFIG */
->>>> -    0x00000005, /* PA_SU_VTX_CNTL */
->>>> -    0x3f800000, /* PA_CL_GB_VERT_CLIP_ADJ */
->>>> -    0x3f800000, /* PA_CL_GB_VERT_DISC_ADJ */
->>>> -    0x3f800000, /* PA_CL_GB_HORZ_CLIP_ADJ */
->>>> -    0x3f800000, /* PA_CL_GB_HORZ_DISC_ADJ */
->>>> -    0x00000000, /* PA_SC_AA_SAMPLE_LOCS_PIXEL_X0Y0_0 */
->>>> -    0x00000000,
->>>> -    0x00000000,
->>>> -    0x00000000,
->>>> -    0x00000000,
->>>> -    0x00000000,
->>>> -    0x00000000,
->>>> -    0x00000000,
->>>> -    0x00000000,
->>>> -    0x00000000,
->>>> -    0x00000000,
->>>> -    0x00000000,
->>>> -    0x00000000,
->>>> -    0x00000000,
->>>> -    0x00000000,
->>>> -    0x00000000,
->>>> -    0xffffffff, /* PA_SC_AA_MASK_X0Y0_X1Y0 */
->>>> -    0xffffffff,
->>>> -
->>>> -    0xc0026900,
->>>> -    0x00000316,
->>>> -    0x0000000e, /* VGT_VERTEX_REUSE_BLOCK_CNTL */
->>>> -    0x00000010, /*  */
->>>> -};
->>>> -
->>>> -const u32 si_default_size = ARRAY_SIZE(si_default_state);
->>>> diff --git a/drivers/gpu/drm/radeon/si_blit_shaders.h 
->>>> b/drivers/gpu/drm/radeon/si_blit_shaders.h
->>>> deleted file mode 100644
->>>> index c739e51e3961..000000000000
->>>> --- a/drivers/gpu/drm/radeon/si_blit_shaders.h
->>>> +++ /dev/null
->>>> @@ -1,32 +0,0 @@
->>>> -/*
->>>> - * Copyright 2011 Advanced Micro Devices, Inc.
->>>> - *
->>>> - * Permission is hereby granted, free of charge, to any person 
->>>> obtaining a
->>>> - * copy of this software and associated documentation files (the 
->>>> "Software"),
->>>> - * to deal in the Software without restriction, including without 
->>>> limitation
->>>> - * the rights to use, copy, modify, merge, publish, distribute, 
->>>> sublicense,
->>>> - * and/or sell copies of the Software, and to permit persons to 
->>>> whom the
->>>> - * Software is furnished to do so, subject to the following 
->>>> conditions:
->>>> - *
->>>> - * The above copyright notice and this permission notice 
->>>> (including the next
->>>> - * paragraph) shall be included in all copies or substantial 
->>>> portions of the
->>>> - * Software.
->>>> - *
->>>> - * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, 
->>>> EXPRESS OR
->>>> - * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF 
->>>> MERCHANTABILITY,
->>>> - * FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO 
->>>> EVENT SHALL
->>>> - * THE COPYRIGHT HOLDER(S) AND/OR ITS SUPPLIERS BE LIABLE FOR ANY 
->>>> CLAIM, DAMAGES OR
->>>> - * OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR 
->>>> OTHERWISE,
->>>> - * ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE 
->>>> USE OR OTHER
->>>> - * DEALINGS IN THE SOFTWARE.
->>>> - *
->>>> - */
->>>> -
->>>> -#ifndef SI_BLIT_SHADERS_H
->>>> -#define SI_BLIT_SHADERS_H
->>>> -
->>>> -extern const u32 si_default_state[];
->>>> -
->>>> -extern const u32 si_default_size;
->>>> -
->>>> -#endif
->>>
->>
+> https://lore.kernel.org/dri-devel/20210610210925.642582-7-jason@jlekstrand.net/
+>
+> v2: Improve commit message per Lucas' suggestion.
+>
+> Signed-off-by: Daniel Vetter <daniel.vetter@intel.com>
+> Cc: Lucas Stach <l.stach@pengutronix.de>
+> Cc: Russell King <linux+etnaviv@armlinux.org.uk>
+> Cc: Christian Gmeiner <christian.gmeiner@gmail.com>
+> Cc: etnaviv@lists.freedesktop.org
+
+Hm thinking about this some more, with Christian's dma_resv_usage work
+this shouldn't be needed anymore.
+
+Christian, do you want me to drop this?
+-Daniel
+
+> ---
+>  drivers/gpu/drm/etnaviv/etnaviv_gem_submit.c | 8 +++++---
+>  1 file changed, 5 insertions(+), 3 deletions(-)
+>
+> diff --git a/drivers/gpu/drm/etnaviv/etnaviv_gem_submit.c b/drivers/gpu/drm/etnaviv/etnaviv_gem_submit.c
+> index 5f502c49aec2..14c5ff155336 100644
+> --- a/drivers/gpu/drm/etnaviv/etnaviv_gem_submit.c
+> +++ b/drivers/gpu/drm/etnaviv/etnaviv_gem_submit.c
+> @@ -178,19 +178,21 @@ static int submit_fence_sync(struct etnaviv_gem_submit *submit)
+>         for (i = 0; i < submit->nr_bos; i++) {
+>                 struct etnaviv_gem_submit_bo *bo = &submit->bos[i];
+>                 struct dma_resv *robj = bo->obj->base.resv;
+> +               bool write = bo->flags & ETNA_SUBMIT_BO_WRITE;
+>
+> -               if (!(bo->flags & ETNA_SUBMIT_BO_WRITE)) {
+> +               if (!(write)) {
+>                         ret = dma_resv_reserve_shared(robj, 1);
+>                         if (ret)
+>                                 return ret;
+>                 }
+>
+> -               if (submit->flags & ETNA_SUBMIT_NO_IMPLICIT)
+> +               /* exclusive fences must be ordered */
+> +               if (submit->flags & ETNA_SUBMIT_NO_IMPLICIT && !write)
+>                         continue;
+>
+>                 ret = drm_sched_job_add_implicit_dependencies(&submit->sched_job,
+>                                                               &bo->obj->base,
+> -                                                             bo->flags & ETNA_SUBMIT_BO_WRITE);
+> +                                                             write);
+>                 if (ret)
+>                         return ret;
+>         }
+> --
+> 2.34.1
 >
 
+
+-- 
+Daniel Vetter
+Software Engineer, Intel Corporation
+http://blog.ffwll.ch
