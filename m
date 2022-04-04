@@ -1,161 +1,41 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 751EA4F145C
-	for <lists+dri-devel@lfdr.de>; Mon,  4 Apr 2022 14:06:42 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 7EB834F14B2
+	for <lists+dri-devel@lfdr.de>; Mon,  4 Apr 2022 14:23:31 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id D67B710F24C;
-	Mon,  4 Apr 2022 12:06:39 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 65E8410E47A;
+	Mon,  4 Apr 2022 12:23:26 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mga09.intel.com (mga09.intel.com [134.134.136.24])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 537C510F24C;
- Mon,  4 Apr 2022 12:06:38 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1649073998; x=1680609998;
- h=message-id:date:subject:to:cc:references:from:
- in-reply-to:content-transfer-encoding:mime-version;
- bh=9NZUu8AxQGVI0zeJb46wuw7X/+C9TkhxSRO5m8EczmQ=;
- b=mLKQqzAiVM/wjuEhycBp7Lb5UJq+UG28PkCSYITZPt/x5GntUk3weBQ2
- N8C6FgbigkQpPu1Odr05dDpTX8yRQDkBi2OGp26h9y0L6Uk76lt2cE19U
- gxAAK/6TYTtiVeX01DswnhTfhtY1jHgZZuNpd5Euivas9lhZXHshdUAz0
- VfPMMaBVzgUbZsULe4qCnZRTs2jA59QKtGTc0asgGmeMPwAZE47Q27N8A
- FuMGE0XAjkOTCUmvu2QK4RGqK1UEZVc1Cmcgg6cgEC4xW/dN3dX4qtIim
- UDLdsfw7vh7i0r0M1O7DO81mZBbuobNUhSYUVbz86oPgb+8z7tdVfDKOa Q==;
-X-IronPort-AV: E=McAfee;i="6200,9189,10306"; a="260196535"
-X-IronPort-AV: E=Sophos;i="5.90,234,1643702400"; d="scan'208";a="260196535"
-Received: from orsmga005.jf.intel.com ([10.7.209.41])
- by orsmga102.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 04 Apr 2022 05:06:37 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.90,234,1643702400"; d="scan'208";a="721623639"
-Received: from fmsmsx604.amr.corp.intel.com ([10.18.126.84])
- by orsmga005.jf.intel.com with ESMTP; 04 Apr 2022 05:06:37 -0700
-Received: from fmsmsx609.amr.corp.intel.com (10.18.126.89) by
- fmsmsx604.amr.corp.intel.com (10.18.126.84) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2308.27; Mon, 4 Apr 2022 05:06:37 -0700
-Received: from fmsmsx608.amr.corp.intel.com (10.18.126.88) by
- fmsmsx609.amr.corp.intel.com (10.18.126.89) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2308.27; Mon, 4 Apr 2022 05:06:36 -0700
-Received: from FMSEDG603.ED.cps.intel.com (10.1.192.133) by
- fmsmsx608.amr.corp.intel.com (10.18.126.88) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2308.27 via Frontend Transport; Mon, 4 Apr 2022 05:06:36 -0700
-Received: from NAM11-BN8-obe.outbound.protection.outlook.com (104.47.58.176)
- by edgegateway.intel.com (192.55.55.68) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.1.2308.27; Mon, 4 Apr 2022 05:06:36 -0700
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=B3kWRKiVtNc/4pbscNA5MTnDvP0QE9G0+iYoi4JVyp2D7RyhPclF6ZY/ksYEyzvTTkezrOK39Bw7O9wJxCK2t0TCH+XZ7b9OG2fIKrv7fO77LkFOudHk24rDIMitpMvr0nuhXD9T3/NYdVxoONUW0Ns96ELEXaBfEA6LjuqZAKDz/Gxgyeg4/wgzKSdh00GfG0j41mSm2R7Lv1V1CLgaNJPNbWEKEOQl5yYHmyK7+ryeCe/3J1z16its9xQU9r38fcuVMPhLmT2tnqukjzpdIqsBk612OoZxdWDiUY3aNRyJynpbbEJs+lufHAL3LCYeRHqyrBWy/ImcfrKO1vLBWQ==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=MGfAR/H/tyXmhNjazs1K4GNIjxvJrPIb0SK/pkz/N3w=;
- b=UVWYxCXU+q+ZPO66Oehr80voWhuUsp/s3yan2cSP/LTamhwG/51/mdWui+edrld2OSA0iCDLPY64Tx6tcepz3dCFKfh83954yd6TuVXECmfgnxLnhLXBWdJ4pJ17MORiK6MLtCWPUl8HHBbA14qBBFOLgJtcsL1JEcYd+9tszGppRQt5dTxY4JHUqg0bvdoRfA/N8W5v6uWAqdUAKwQBnAcPOsJVlvZiJAqe2iDTD7l/bwDrerViRRUx+0+xkDBQMMB++BiKBb6GHFiO9mNhmJ9FXxZG0XSQd50deQ3Lkp61jpRk5pVItsLzUQmGCXShflVDQVoD/D8mTcIfm1r/Zg==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=intel.com; dmarc=pass action=none header.from=intel.com;
- dkim=pass header.d=intel.com; arc=none
-Authentication-Results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=intel.com;
-Received: from DM8PR11MB5719.namprd11.prod.outlook.com (2603:10b6:8:10::6) by
- BY5PR11MB3911.namprd11.prod.outlook.com (2603:10b6:a03:18d::29) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.5123.31; Mon, 4 Apr
- 2022 12:06:33 +0000
-Received: from DM8PR11MB5719.namprd11.prod.outlook.com
- ([fe80::bcfb:902b:c181:8c72]) by DM8PR11MB5719.namprd11.prod.outlook.com
- ([fe80::bcfb:902b:c181:8c72%4]) with mapi id 15.20.5123.031; Mon, 4 Apr 2022
- 12:06:33 +0000
-Message-ID: <57c8fd1b-1441-1731-8b53-c2d08577fe16@intel.com>
-Date: Mon, 4 Apr 2022 17:36:23 +0530
-User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:91.0) Gecko/20100101
- Thunderbird/91.7.0
-Subject: Re: [Intel-gfx] [PATCH] drm/i915/display/debugfs: Add connector
- debugfs for "output_bpc"
-Content-Language: en-US
-To: Jani Nikula <jani.nikula@linux.intel.com>,
- <intel-gfx@lists.freedesktop.org>, <dri-devel@lists.freedesktop.org>
-References: <20220328075020.708022-1-bhanuprakash.modem@intel.com>
- <20220329060731.785476-1-bhanuprakash.modem@intel.com>
- <877d897z90.fsf@intel.com> <b5041da6-9a2b-c687-5dc9-c587eb6230b4@intel.com>
- <87fsmt6s8w.fsf@intel.com>
-From: "Modem, Bhanuprakash" <bhanuprakash.modem@intel.com>
-Organization: Intel
-In-Reply-To: <87fsmt6s8w.fsf@intel.com>
-Content-Type: text/plain; charset="UTF-8"; format=flowed
-Content-Transfer-Encoding: 8bit
-X-ClientProxiedBy: PN3PR01CA0009.INDPRD01.PROD.OUTLOOK.COM
- (2603:1096:c01:95::17) To DM8PR11MB5719.namprd11.prod.outlook.com
- (2603:10b6:8:10::6)
+Received: from metis.ext.pengutronix.de (metis.ext.pengutronix.de
+ [IPv6:2001:67c:670:201:290:27ff:fe1d:cc33])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 0F3BE10E47A
+ for <dri-devel@lists.freedesktop.org>; Mon,  4 Apr 2022 12:23:25 +0000 (UTC)
+Received: from gallifrey.ext.pengutronix.de
+ ([2001:67c:670:201:5054:ff:fe8d:eefb] helo=[IPv6:::1])
+ by metis.ext.pengutronix.de with esmtps
+ (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256) (Exim 4.92)
+ (envelope-from <l.stach@pengutronix.de>)
+ id 1nbLjv-00063Q-E0; Mon, 04 Apr 2022 14:23:23 +0200
+Message-ID: <97d0ed7496a65d70a79afed174a777d7d7abb4ae.camel@pengutronix.de>
+Subject: Re: [PATCH 2/2] drm: lcdif: Add support for i.MX8MP LCDIF variant
+From: Lucas Stach <l.stach@pengutronix.de>
+To: Marek Vasut <marex@denx.de>, dri-devel@lists.freedesktop.org
+Date: Mon, 04 Apr 2022 14:23:20 +0200
+In-Reply-To: <20220322142853.125880-2-marex@denx.de>
+References: <20220322142853.125880-1-marex@denx.de>
+ <20220322142853.125880-2-marex@denx.de>
+Content-Type: text/plain; charset="UTF-8"
+User-Agent: Evolution 3.40.4 (3.40.4-1.fc34) 
 MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-Office365-Filtering-Correlation-Id: c8df93be-1919-40d9-ec3a-08da16338f60
-X-MS-TrafficTypeDiagnostic: BY5PR11MB3911:EE_
-X-LD-Processed: 46c98d88-e344-4ed4-8496-4ed7712e255d,ExtAddr
-X-Microsoft-Antispam-PRVS: <BY5PR11MB3911A02C1C3A5B46F0D23CBB8DE59@BY5PR11MB3911.namprd11.prod.outlook.com>
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: OREJSh7be4bArE1kahNrUEBZBMgcx5p7b85NmYKRwTDIH/+M0Q8MMYLEZ/3wA9CmoV3/QYJaZEzwqr/91fuLeYbszKqt2B2JTY9bWY45neE+j5Wag8gnwoB4kPygF4mnS5tfa6Pvi1ZegCXzi9iz6FApXa3kJ8ncARBMRsfHcatkGgw+TJviwDYYkUovcdMEO2Ky4/4sUJFV0o8mLVJO7BqAUiEc6RWmlesdsagv9W1Uo3pkYcztE9MLbtfVeScVW/dKnMy7ja0IFJZhUL1WYv3tNJZMbKtg3MM65n2kE25WMR/RhSkT3l/twqKvwhxLKkNjTrePGF8mq484RTRFQlZ99Yjc5PxoZ5UyShGgDJH4W0kGIy5xZiBT2vK86oRhHvjpNS6TYnPJiS+o8hlL/3ciD5Sc9kRjfCgJDwQ9wIEIg/rK+Ni/4xsLGKdN16UZ18a3dmXyANndIql8aodMmzpppOTxwQ+DM86zmvknpP7F1vCQv53q6/QAw7kDDTCmXjv4XK3CebgMeHfQOn5Bx5PKMdJ8mZUB3JFwFgMB/3k1Lc7LxF86sZFh+47ChJF9jF8YArwW0dtbI35RmlXFwMKAzPCOpYEmwTe91VVLhvLlfTRihSM7osXIY84tai7TXinHMW6sGmcgKFX4Tvykkwo0XYv+dLX2LN9HDfydRmtyJlJ+iS21jMVoc8v/bZvpDIB+mZ8GOjc4cujPGgslSYFfbWLTC6ByLTjTcEY311YU9uO3il7Dk0cVmn7Rceqn
-X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
- IPV:NLI; SFV:NSPM; H:DM8PR11MB5719.namprd11.prod.outlook.com; PTR:; CAT:NONE;
- SFS:(13230001)(366004)(86362001)(6486002)(31696002)(26005)(316002)(6666004)(186003)(508600001)(83380400001)(82960400001)(5660300002)(66476007)(66556008)(8676002)(966005)(38100700002)(66946007)(36756003)(8936002)(6506007)(31686004)(4326008)(66574015)(2906002)(2616005)(54906003)(36916002)(6512007)(43740500002)(45980500001);
- DIR:OUT; SFP:1102; 
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: =?utf-8?B?RXRDYnFxM2c3Q0taclN2Q0F6Qk1UbWV4Nk9NOHRGai9TSTZONWU3YkZzRTI2?=
- =?utf-8?B?WDdlWFpjdnBKSGRxcWNZWFRFQ0x1TXdKdFEzTjNPU2VRajBSczFQNU1YOXRS?=
- =?utf-8?B?NUxsT2pWMGZqQVJrVUNTQ0xpS0xXTDB1aEFlc0h4SFhGZkJnZGxpcjBVNXpp?=
- =?utf-8?B?RVVHL2RLbnRFRWwrKzRqU0JubG5jM3g2YTFVWm5nOW5yVXhidzF3MFZqeWQr?=
- =?utf-8?B?dXFGbSt1VkN3aGVPL3l2Snppa2pqYkdZQ2o1NkthcFBjZzRKTHZGRUFPdmNj?=
- =?utf-8?B?OEQ4QVNTMFBPRU41MDd1UTBwUS80bTFIalNpdW85RlE2SC9TUjZzeGpyVDRq?=
- =?utf-8?B?UURBWUR0aVdEaC8xREJJWXBiZDkxVDBqSlNBd3ErTDhiZVhxUDZKRE9MaW8r?=
- =?utf-8?B?alZ0K2RpcWlOS2xETS90TDdzd2VJKy9GT1FDRkxJS0lQM3BlaCtqRGJZclFN?=
- =?utf-8?B?UnI1ZjNsVW1pc0VBWi9FdEt0K1NyVU5VdDRabGhXMFZyT1BQU2ZpbFFuWS90?=
- =?utf-8?B?Q0owb1YxMmdxbzFPNExjMUxtTHkxL0xtQWd0QW12NzVpVlNDNUdlUTk4a29y?=
- =?utf-8?B?bnFBYWxzS0ZZeDVBTFV3NmtSUzdiRDF1QlJzNFRKS01UU1g4UGxTM3Q4bmo5?=
- =?utf-8?B?emNKajBiYW82cGZ0eVl0Rm1nWnBTNEFZc3BiVFJFTlQ5MlhjaW5UNGUrWS9q?=
- =?utf-8?B?L3JiRkxRVXpXNUNMaFp5MWZWSk9nSStQNEhMbk44UFlsTHpQTloxc3JMdnd2?=
- =?utf-8?B?ekR3c0hkbno0bkxQVmtFK0JsZ1hkckVFeWhWWEd1VXJrZVZsV2tsQ0tLQmRV?=
- =?utf-8?B?SkpIR3pjZnZzczUyYjV6UHIrUzBtMVQxOE5JYlFDQzRrTy9BcGR6R2VkLzBV?=
- =?utf-8?B?MTNBNEwrQTcra3RUaEJBZHJrVklkR3ZzZ2JJWHNNWjQ4YktPV0xZMmsveUNC?=
- =?utf-8?B?SmNJZWtZeWs1eVBqV1U2WXFXWFlKeGNxTk51czNmb0duRW5Ua1NNMFdIVzJx?=
- =?utf-8?B?K2ZjVFVsbkpadFBLV0NhbjZkUjJqQnBzUnAyS0pVeU5yYktSSFBHaWJ1Zkg2?=
- =?utf-8?B?b2tPa2VKN3FlOUxCUEJnVmdPNmgrMC8xVVkrc3A3SHlZMUxnVTB3UmphVG5W?=
- =?utf-8?B?ODZxbm1FclZHSVJpUW9PTjRQMEVMSG1DeUFWRG5TVnNVN21pM3V5V1lwS09K?=
- =?utf-8?B?U0ZuWnRmRE9DTmZLSFNsY1BPT3BINFZwVnlCbEYwUWJlOCsya3NKSmJCNlpM?=
- =?utf-8?B?OWphUEg1R0QzeHAwZDJua0Q1KzU3THRFWkY2V0ZDdXYyOWt2UmJnTThMdDVt?=
- =?utf-8?B?MFZHblJGOTgwRzF0UUpsUGFLWjJQYm1xQ1pMeUJ3MnlHcFJqbWxqclFBVmNh?=
- =?utf-8?B?L3IxMlRVSm5xTkViMnRJZHpyNFpneHg1UTZuQlE4UUF6K2tPbUJnbm9kTWFi?=
- =?utf-8?B?aHFsVzNmRWRJQzlabDN3RGlCNStWeW9jaTlGTHNoMytQUWorQlJTanhZWGZZ?=
- =?utf-8?B?cGZ5NXFqYUJ4Ky93TEtOdE5EZFIrREdvdGp0bW45eWowbjd4OFFhY3ZPZjJj?=
- =?utf-8?B?d1FodW1YQjVBMTN4UjlIVVcvTUlmdjVOZ0dUaytqamtpY3U2bFNZSkRVRVI2?=
- =?utf-8?B?YXpvaFo4dGtqWGlLalNJWDhXQ1U0K0R4UWdJanlWV0haMTNDbGJNU1ZNY3lE?=
- =?utf-8?B?UUxId3dSV0lRenhJZ2l3UWdqVndhUnc1TWR2ZjRjWDZNSjRxSW9nQndIN0da?=
- =?utf-8?B?UE5oQ2N0SkkzNmxTbXBUaTkwQXJYY2IwWmoxeXl0dkRqSStWOGVmL1JKdURm?=
- =?utf-8?B?eDBNelpFb2hQN2hISlVLVHF4YkMxMHV2ZkdyUFNmalNqM1lCTHdUaFRKSFBq?=
- =?utf-8?B?S1RyNzhiRGNWajNqamhWWWVvTXRWYVRyT0wvWU01d1dEazN0dEEyeXB4aVVD?=
- =?utf-8?B?LzJtMFBXc0lTaURDNFBKT1NkNWFCYytVc3JVMTNFRFdPemh2TVlvOTVmUVR1?=
- =?utf-8?B?TjNvcm1wRzVlbXczZzFJU1h1RUJtZFEreUpEU2xIbldmOXZ1YXZMQnJ6UmNT?=
- =?utf-8?B?WEVISDA4ZUNrc3dzbmM5N0FGQTRnKzVEN3V1YXhyaHQ5Z3BTNVN0S01oWFo2?=
- =?utf-8?B?TFJJY1NuNjlMa0dCKzhKOUdnRmRJeXkrbEcveVNtbWF1akZhWmZZOUM5azBv?=
- =?utf-8?B?RTNxemxMTno2dkJBaU5QdzNUdURKQS9jSmxqQ1d4SlA4bDBTZGZLUUZsOHky?=
- =?utf-8?B?ZjNFeXpqM0xhQldWcFRLSVVpYVpUZVI1TVd1aVRnRzFWVnVDb1FVb1Ivcmo3?=
- =?utf-8?B?RHhJenY0THdPUzk0bldBRGU4SWVxdDg5Z1ZFanY4TTl5M3ZQNVJqS1BlbnNX?=
- =?utf-8?Q?JXZ7htvjmgcWe8O4Z/I8CLniKsLKdZwGca4bq?=
-X-MS-Exchange-CrossTenant-Network-Message-Id: c8df93be-1919-40d9-ec3a-08da16338f60
-X-MS-Exchange-CrossTenant-AuthSource: DM8PR11MB5719.namprd11.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 04 Apr 2022 12:06:33.4420 (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 46c98d88-e344-4ed4-8496-4ed7712e255d
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: fz5HEkXDudcxZs1MI9xlfbNCZT0405v5cigdcJVHdfMfS723goaRsUuxay4sDoIfaBlVTvf1BqwIV0PLJWOf/dg8PAnUGs3vX15qonyJezU=
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: BY5PR11MB3911
-X-OriginatorOrg: intel.com
+Content-Transfer-Encoding: 7bit
+X-SA-Exim-Connect-IP: 2001:67c:670:201:5054:ff:fe8d:eefb
+X-SA-Exim-Mail-From: l.stach@pengutronix.de
+X-SA-Exim-Scanned: No (on metis.ext.pengutronix.de);
+ SAEximRunCond expanded to false
+X-PTX-Original-Recipient: dri-devel@lists.freedesktop.org
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -168,174 +48,1314 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Alex Deucher <alexander.deucher@amd.com>,
- Daniel Vetter <daniel.vetter@ffwll.ch>, Arkadiusz
- Hiler <arek@hiler.eu>, airlied@linux.ie,
- Petri Latvala <petri.latvala@intel.com>
+Cc: Peng Fan <peng.fan@nxp.com>,
+ Alexander Stein <alexander.stein@ew.tq-group.com>,
+ Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
+ Sam Ravnborg <sam@ravnborg.org>, Robby Cai <robby.cai@nxp.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Mon-04-04-2022 04:16 pm, Jani Nikula wrote:
-> On Mon, 04 Apr 2022, "Modem, Bhanuprakash" <bhanuprakash.modem@intel.com> wrote:
->> On Fri-01-04-2022 06:10 pm, Jani Nikula wrote:
->>> On Tue, 29 Mar 2022, Bhanuprakash Modem <bhanuprakash.modem@intel.com> wrote:
->>>> This new debugfs will expose the connector's max supported bpc
->>>> and the bpc currently using. It is very useful for verifying
->>>> whether we enter the correct output color depth from IGT.
->>>>
->>>> Example:
->>>> cat /sys/kernel/debug/dri/0/DP-1/output_bpc
->>>> Current: 8
->>>> Maximum: 10
->>>>
->>>> V2: Add connector's max bpc to i915_display_info
->>>>
->>>> Cc: Ville Syrjälä <ville.syrjala@linux.intel.com>
->>>> Cc: Uma Shankar <uma.shankar@intel.com>
->>>> Cc: Swati Sharma <swati2.sharma@intel.com>
->>>> Signed-off-by: Bhanuprakash Modem <bhanuprakash.modem@intel.com>
->>>> ---
->>>>    .../drm/i915/display/intel_display_debugfs.c  | 46 +++++++++++++++++++
->>>>    1 file changed, 46 insertions(+)
->>>>
->>>> diff --git a/drivers/gpu/drm/i915/display/intel_display_debugfs.c b/drivers/gpu/drm/i915/display/intel_display_debugfs.c
->>>> index c1e74a13a0828..694d27f3b109c 100644
->>>> --- a/drivers/gpu/drm/i915/display/intel_display_debugfs.c
->>>> +++ b/drivers/gpu/drm/i915/display/intel_display_debugfs.c
->>>> @@ -663,6 +663,8 @@ static void intel_connector_info(struct seq_file *m,
->>>>    	seq_puts(m, "\tHDCP version: ");
->>>>    	intel_hdcp_info(m, intel_connector);
->>>>    
->>>> +	seq_printf(m, "\tmax bpc: %u\n", connector->display_info.bpc);
->>>> +
->>>>    	intel_panel_info(m, intel_connector);
->>>>    
->>>>    	seq_printf(m, "\tmodes:\n");
->>>> @@ -2275,6 +2277,47 @@ static const struct file_operations i915_dsc_bpp_fops = {
->>>>    	.write = i915_dsc_bpp_write
->>>>    };
->>>>    
->>>> +/*
->>>> + * Returns the maximum output bpc for the connector.
->>>> + * Example usage: cat /sys/kernel/debug/dri/0/DP-1/output_bpc
->>>> + */
->>>> +static int output_bpc_show(struct seq_file *m, void *data)
->>>> +{
->>>> +	struct drm_connector *connector = m->private;
->>>> +	struct drm_device *dev = connector->dev;
->>>> +	struct drm_crtc *crtc;
->>>> +	struct intel_crtc_state *crtc_state;
->>>> +	struct intel_encoder *encoder = intel_attached_encoder(to_intel_connector(connector));
->>>> +	int res;
->>>> +
->>>> +	if (!encoder)
->>>> +		return -ENODEV;
->>>> +
->>>> +	res = drm_modeset_lock_single_interruptible(&dev->mode_config.connection_mutex);
->>>> +	if (res)
->>>> +		return res;
->>>> +
->>>> +	crtc = connector->state->crtc;
->>>> +	if (connector->status != connector_status_connected || !crtc) {
->>>> +		res = -ENODEV;
->>>> +		goto unlock;
->>>> +	}
->>>> +
->>>> +	crtc_state = to_intel_crtc_state(crtc->state);
->>>> +	if (!crtc_state->hw.active)
->>>> +		goto unlock;
->>>> +
->>>> +	seq_printf(m, "Current: %u\n", crtc_state->pipe_bpp / 3);
->>>> +	seq_printf(m, "Maximum: %u\n", connector->display_info.bpc);
->>>> +	res = 0;
->>>> +
->>>> +unlock:
->>>> +	drm_modeset_unlock(&dev->mode_config.connection_mutex);
->>>> +
->>>> +	return res;
->>>> +}
->>>> +DEFINE_SHOW_ATTRIBUTE(output_bpc);
->>>
->>> Looks like an excessive amount of code for a single value.
->>
->> Yeah, but these values are very helpful in many IGT tests like
->> kms_color, kms_hdr, kms_dither, kms_dsc etc..
->>
->> Otherwise IGT needs to request the kernel to get the EDID, and parse
->> that EDID to get the "Maximum" value which is redundant (Kernel is
->> already doing the same) and not recommended in IGT.
->>
->> And there is no way to get the "Current" value except reading it from
->> i915_display_info which is again not recommended in IGT (As
->> i915_display_info is Intel specific).
-> 
-> Note how we have intel_connector_debugfs_add() for connector debugfs and
-> intel_crtc_debugfs_add() for crtc debugfs, and how this patch just mixes
-> up the two by looking up crtc and state from the connector debugfs.
+Hi Marek,
 
-I just tried to adopt from existing AMD's implementation, and it may be 
-reduce the number of debugfs nodes.
+not a full review right now, just the first things that I noticed while
+playing around with this.
 
-"Maximum" is from connector's display_info (Needs connector debugfs)
-"Current" is from crtc state (Needs crtc debugfs)
+Am Dienstag, dem 22.03.2022 um 15:28 +0100 schrieb Marek Vasut:
+> Add support for i.MX8MP LCDIF variant. This is called LCDIFv3 and is
+> completely different from the LCDIFv3 found in i.MX23 in that it has
+> a completely scrambled register layout compared to all previous LCDIF
+> variants. The new LCDIFv3 also supports 36bit address space.
+> 
+> Add a separate driver which is really a fork of MXSFB driver with the
+> i.MX8MP LCDIF variant handling filled in.
+> 
+> Signed-off-by: Marek Vasut <marex@denx.de>
+> Cc: Alexander Stein <alexander.stein@ew.tq-group.com>
+> Cc: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+> Cc: Lucas Stach <l.stach@pengutronix.de>
+> Cc: Peng Fan <peng.fan@nxp.com>
+> Cc: Robby Cai <robby.cai@nxp.com>
+> Cc: Sam Ravnborg <sam@ravnborg.org>
+> Cc: Stefan Agner <stefan@agner.ch>
+> ---
+>  drivers/gpu/drm/mxsfb/Kconfig      |  16 +
+>  drivers/gpu/drm/mxsfb/Makefile     |   2 +
+>  drivers/gpu/drm/mxsfb/lcdif_drv.c  | 367 +++++++++++++++++++++
+>  drivers/gpu/drm/mxsfb/lcdif_drv.h  |  48 +++
+>  drivers/gpu/drm/mxsfb/lcdif_kms.c  | 492 +++++++++++++++++++++++++++++
+>  drivers/gpu/drm/mxsfb/lcdif_regs.h | 243 ++++++++++++++
 
-> 
->> This debugfs is already introduced & using by AMD:
->> https://patchwork.freedesktop.org/patch/308586
-> 
-> Wait, what?
-> 
-> Both amd and i915 adding the name "output_bpc" is *not* the way to
-> roll. We only add i915_ prefixed debugfs files from i915.ko.
-> 
-> If you need this to be a standard interface across drivers, IMO it
-> should be added in common drm code, not sprinkled around in drivers.
+Not sure about this placement. I know you hope to share some code with
+the other mxsfb driver, but I would prefer to add this into
+drivers/gpu/drm/imx, same as the DCSS. Another driver for the imx21-
+lcdif will also be added there and we'll move the ipuv3 driver into its
+own subdirectory to make it clear that there are multiple separate
+drivers.
 
-As display_info is the member of drm_connector, perhaps we can move 
-"Maximum" value to drm layer and can use common name.
-Example: /sys/kernel/debug/dri/0/DP-1/max_bpc
+>  6 files changed, 1168 insertions(+)
+>  create mode 100644 drivers/gpu/drm/mxsfb/lcdif_drv.c
+>  create mode 100644 drivers/gpu/drm/mxsfb/lcdif_drv.h
+>  create mode 100644 drivers/gpu/drm/mxsfb/lcdif_kms.c
+>  create mode 100644 drivers/gpu/drm/mxsfb/lcdif_regs.h
+> 
+> diff --git a/drivers/gpu/drm/mxsfb/Kconfig b/drivers/gpu/drm/mxsfb/Kconfig
+> index 987170e16ebd6..deb84f99d2fca 100644
+> --- a/drivers/gpu/drm/mxsfb/Kconfig
+> +++ b/drivers/gpu/drm/mxsfb/Kconfig
+> @@ -19,3 +19,19 @@ config DRM_MXSFB
+>  	  i.MX28, i.MX6SX, i.MX7 and i.MX8M).
+>  
+>  	  If M is selected the module will be called mxsfb.
+> +
+> +config DRM_LCDIF
 
-And each hardware specific driver could create a crtc debugfs node for 
-"Current" value in their name space.
-Example: /sys/kernel/debug/dri/0/crtc-0/i915_current_bpc
+The config option name and also the DRM driver name are way too
+generic. Every 3rd SoC out there has a block called lcdif to drive a
+panel...
 
-Please suggest.
+Maybe something like CONFIG_FSL_LCDIF_V3 and fsl-lcdif-v3 for the name?
 
-- Bhanu
-> 
-> I see that amd is already using this in what is basically drm core
-> debugfs namespace, and there's amd specific IGT built on top.
-> 
-> Adding a bunch of Cc's to get some clarity on drm debugfs naming and
-> usage.
-> 
-> 
-> BR,
-> Jani.
-> 
-> 
->>
->> - Bhanu
->>
->>>
->>> BR,
->>> Jani.
->>>
->>>> +
->>>>    /**
->>>>     * intel_connector_debugfs_add - add i915 specific connector debugfs files
->>>>     * @connector: pointer to a registered drm_connector
->>>> @@ -2330,6 +2373,9 @@ void intel_connector_debugfs_add(struct intel_connector *intel_connector)
->>>>    	    connector->connector_type == DRM_MODE_CONNECTOR_HDMIB)
->>>>    		debugfs_create_file("i915_lpsp_capability", 0444, root,
->>>>    				    connector, &i915_lpsp_capability_fops);
->>>> +
->>>> +	debugfs_create_file("output_bpc", 0444, root,
->>>> +			    connector, &output_bpc_fops);
->>>>    }
->>>>    
->>>>    /**
->>>
->>
-> 
+> +	tristate "i.MX LCDIFv3 LCD controller"
+> +	depends on DRM && OF
+> +	depends on COMMON_CLK
+> +	select DRM_MXS
+> +	select DRM_KMS_HELPER
+> +	select DRM_GEM_CMA_HELPER
+> +	select DRM_PANEL
+> +	select DRM_PANEL_BRIDGE
+> +	help
+> +	  Choose this option if you have an LCDIFv3 LCD controller.
+> +	  Those devices are found in various i.MX SoC (i.MX8MP,
+> +	  i.MXRT).
+> +
+> +	  If M is selected the module will be called lcdif.
+> diff --git a/drivers/gpu/drm/mxsfb/Makefile b/drivers/gpu/drm/mxsfb/Makefile
+> index 26d153896d720..e57e807d14857 100644
+> --- a/drivers/gpu/drm/mxsfb/Makefile
+> +++ b/drivers/gpu/drm/mxsfb/Makefile
+> @@ -1,3 +1,5 @@
+>  # SPDX-License-Identifier: GPL-2.0-only
+>  mxsfb-y := mxsfb_drv.o mxsfb_kms.o
+>  obj-$(CONFIG_DRM_MXSFB)	+= mxsfb.o
+> +lcdif-y := lcdif_drv.o lcdif_kms.o
+> +obj-$(CONFIG_DRM_LCDIF)	+= lcdif.o
+> diff --git a/drivers/gpu/drm/mxsfb/lcdif_drv.c b/drivers/gpu/drm/mxsfb/lcdif_drv.c
+> new file mode 100644
+> index 0000000000000..00131fd12bdaa
+> --- /dev/null
+> +++ b/drivers/gpu/drm/mxsfb/lcdif_drv.c
+> @@ -0,0 +1,367 @@
+> +// SPDX-License-Identifier: GPL-2.0-or-later
+> +/*
+> + * Copyright (C) 2022 Marek Vasut <marex@denx.de>
+> + *
+> + * This code is based on drivers/gpu/drm/mxsfb/mxsfb*
+> + */
+> +
+> +#include <linux/clk.h>
+> +#include <linux/dma-mapping.h>
+> +#include <linux/io.h>
+> +#include <linux/module.h>
+> +#include <linux/of_device.h>
+> +#include <linux/platform_device.h>
+> +#include <linux/pm_runtime.h>
+> +
+> +#include <drm/drm_atomic_helper.h>
+> +#include <drm/drm_bridge.h>
+> +#include <drm/drm_connector.h>
+> +#include <drm/drm_drv.h>
+> +#include <drm/drm_fb_helper.h>
+> +#include <drm/drm_fourcc.h>
+> +#include <drm/drm_gem_cma_helper.h>
+> +#include <drm/drm_gem_framebuffer_helper.h>
+> +#include <drm/drm_mode_config.h>
+> +#include <drm/drm_module.h>
+> +#include <drm/drm_of.h>
+> +#include <drm/drm_probe_helper.h>
+> +#include <drm/drm_vblank.h>
+> +
+> +#include "lcdif_drv.h"
+> +#include "lcdif_regs.h"
+> +
+> +static struct drm_framebuffer *
+> +lcdif_fb_create(struct drm_device *dev, struct drm_file *file_priv,
+> +		const struct drm_mode_fb_cmd2 *mode_cmd)
+> +{
+> +	const struct drm_format_info *info;
+> +
+> +	info = drm_get_format_info(dev, mode_cmd);
+> +	if (!info)
+> +		return ERR_PTR(-EINVAL);
+> +
+> +	if (mode_cmd->width * info->cpp[0] != mode_cmd->pitches[0]) {
+> +		dev_dbg(dev->dev, "Invalid pitch: fb width must match pitch\n");
+> +		return ERR_PTR(-EINVAL);
+> +	}
+
+That's not true. One of the major advantages of the LCDIFv3 vs. the
+other controllers supported by mxsfb is that it actually has a
+configurable pitch (CTRLDESCL0_3) separate from the display width.
+
+> +
+> +	return drm_gem_fb_create(dev, file_priv, mode_cmd);
+> +}
+> +
+> +static const struct drm_mode_config_funcs lcdif_mode_config_funcs = {
+> +	.fb_create		= lcdif_fb_create,
+> +	.atomic_check		= drm_atomic_helper_check,
+> +	.atomic_commit		= drm_atomic_helper_commit,
+> +};
+> +
+> +static const struct drm_mode_config_helper_funcs lcdif_mode_config_helpers = {
+> +	.atomic_commit_tail = drm_atomic_helper_commit_tail_rpm,
+> +};
+> +
+> +static int lcdif_attach_bridge(struct lcdif_drm_private *lcdif)
+> +{
+> +	struct drm_device *drm = lcdif->drm;
+> +	struct drm_connector_list_iter iter;
+> +	struct drm_panel *panel;
+> +	struct drm_bridge *bridge;
+> +	int ret;
+> +
+> +	ret = drm_of_find_panel_or_bridge(drm->dev->of_node, 0, 0, &panel,
+> +					  &bridge);
+> +	if (ret)
+> +		return ret;
+> +
+> +	if (panel) {
+> +		bridge = devm_drm_panel_bridge_add_typed(drm->dev, panel,
+> +							 DRM_MODE_CONNECTOR_DPI);
+> +		if (IS_ERR(bridge))
+> +			return PTR_ERR(bridge);
+> +	}
+> +
+> +	if (!bridge)
+> +		return -ENODEV;
+> +
+> +	ret = drm_bridge_attach(&lcdif->encoder, bridge, NULL, 0);
+> +	if (ret)
+> +		return dev_err_probe(drm->dev, ret, "Failed to attach bridge\n");
+> +
+> +	lcdif->bridge = bridge;
+> +
+> +	/*
+> +	 * Get hold of the connector. This is a bit of a hack, until the bridge
+> +	 * API gives us bus flags and formats.
+> +	 */
+> +	drm_connector_list_iter_begin(drm, &iter);
+> +	lcdif->connector = drm_connector_list_iter_next(&iter);
+> +	drm_connector_list_iter_end(&iter);
+
+Do we need this? For a new driver we don't need to keep backward
+compat, so we could just rely on the bridges supplying the adjusted
+mode and bus fags.
+
+> +
+> +	return 0;
+> +}
+> +
+> +static irqreturn_t lcdif_irq_handler(int irq, void *data)
+> +{
+> +	struct drm_device *drm = data;
+> +	struct lcdif_drm_private *lcdif = drm->dev_private;
+> +	u32 reg;
+> +
+> +	reg = readl(lcdif->base + LCDC_V8_INT_STATUS_D0);
+> +
+> +	if (reg & INT_STATUS_D0_VS_BLANK)
+> +		drm_crtc_handle_vblank(&lcdif->crtc);
+
+This should also check that the shadow load bit is cleared. If the HW
+races with the modeset you could otherwise send the vblank event before
+the hardware actually applied the new state.
+
+> +
+> +	writel(INT_STATUS_D0_VS_BLANK, lcdif->base + LCDC_V8_INT_STATUS_D0);
+> +
+> +	return IRQ_HANDLED;
+> +}
+> +
+> +static int lcdif_load(struct drm_device *drm)
+> +{
+> +	struct platform_device *pdev = to_platform_device(drm->dev);
+> +	struct lcdif_drm_private *lcdif;
+> +	struct resource *res;
+> +	int ret;
+> +
+> +	lcdif = devm_kzalloc(&pdev->dev, sizeof(*lcdif), GFP_KERNEL);
+> +	if (!lcdif)
+> +		return -ENOMEM;
+> +
+> +	lcdif->drm = drm;
+> +	drm->dev_private = lcdif;
+> +
+> +	res = platform_get_resource(pdev, IORESOURCE_MEM, 0);
+> +	lcdif->base = devm_ioremap_resource(drm->dev, res);
+> +	if (IS_ERR(lcdif->base))
+> +		return PTR_ERR(lcdif->base);
+> +
+> +	lcdif->clk = devm_clk_get(drm->dev, NULL);
+> +	if (IS_ERR(lcdif->clk))
+> +		return PTR_ERR(lcdif->clk);
+
+Please grab the clock by it's name. No need for backward compat.
+> +
+> +	lcdif->clk_axi = devm_clk_get_optional(drm->dev, "axi");
+> +	if (IS_ERR(lcdif->clk_axi))
+> +		return PTR_ERR(lcdif->clk_axi);
+> +
+> +	lcdif->clk_disp_axi = devm_clk_get_optional(drm->dev, "disp_axi");
+> +	if (IS_ERR(lcdif->clk_disp_axi))
+> +		return PTR_ERR(lcdif->clk_disp_axi);
+
+Again, this being a new driver, there is no need to make those clocks
+optional. The core has those clock inputs, so we can just make them
+mandatory.
+
+> +
+> +	platform_set_drvdata(pdev, drm);
+> +
+> +	ret = dma_set_mask_and_coherent(drm->dev, DMA_BIT_MASK(36));
+> +	if (ret)
+> +		return ret;
+> +
+> +	/* Modeset init */
+> +	drm_mode_config_init(drm);
+> +
+> +	ret = lcdif_kms_init(lcdif);
+> +	if (ret < 0) {
+> +		dev_err(drm->dev, "Failed to initialize KMS pipeline\n");
+> +		return ret;
+> +	}
+> +
+> +	ret = drm_vblank_init(drm, drm->mode_config.num_crtc);
+> +	if (ret < 0) {
+> +		dev_err(drm->dev, "Failed to initialise vblank\n");
+> +		return ret;
+> +	}
+> +
+> +	/* Start with vertical blanking interrupt reporting disabled. */
+> +	drm_crtc_vblank_off(&lcdif->crtc);
+> +
+> +	ret = lcdif_attach_bridge(lcdif);
+> +	if (ret)
+> +		return dev_err_probe(drm->dev, ret, "Cannot connect bridge\n");
+> +
+> +	drm->mode_config.min_width	= LCDIF_MIN_XRES;
+> +	drm->mode_config.min_height	= LCDIF_MIN_YRES;
+> +	drm->mode_config.max_width	= LCDIF_MAX_XRES;
+> +	drm->mode_config.max_height	= LCDIF_MAX_YRES;
+> +	drm->mode_config.funcs		= &lcdif_mode_config_funcs;
+> +	drm->mode_config.helper_private	= &lcdif_mode_config_helpers;
+> +
+> +	drm_mode_config_reset(drm);
+> +
+> +	ret = platform_get_irq(pdev, 0);
+> +	if (ret < 0)
+> +		return ret;
+> +	lcdif->irq = ret;
+> +
+> +	ret = request_irq(lcdif->irq, lcdif_irq_handler, 0,
+> +			  drm->driver->name, drm);
+> +	if (ret < 0) {
+> +		dev_err(drm->dev, "Failed to install IRQ handler\n");
+> +		return ret;
+> +	}
+> +
+> +	drm_kms_helper_poll_init(drm);
+> +
+> +	drm_helper_hpd_irq_event(drm);
+> +
+> +	pm_runtime_enable(drm->dev);
+> +
+> +	return 0;
+> +}
+> +
+> +static void lcdif_unload(struct drm_device *drm)
+> +{
+> +	struct lcdif_drm_private *lcdif = drm->dev_private;
+> +
+> +	pm_runtime_get_sync(drm->dev);
+> +
+> +	drm_crtc_vblank_off(&lcdif->crtc);
+> +
+> +	drm_kms_helper_poll_fini(drm);
+> +	drm_mode_config_cleanup(drm);
+> +
+> +	pm_runtime_put_sync(drm->dev);
+> +	pm_runtime_disable(drm->dev);
+> +
+> +	free_irq(lcdif->irq, drm->dev);
+> +
+> +	drm->dev_private = NULL;
+> +}
+> +
+> +DEFINE_DRM_GEM_CMA_FOPS(fops);
+> +
+> +static const struct drm_driver lcdif_driver = {
+> +	.driver_features	= DRIVER_GEM | DRIVER_MODESET | DRIVER_ATOMIC,
+> +	DRM_GEM_CMA_DRIVER_OPS,
+> +	.fops	= &fops,
+> +	.name	= "lcdif",
+> +	.desc	= "LCDIF Controller DRM",
+> +	.date	= "20220322",
+> +	.major	= 1,
+> +	.minor	= 0,
+> +};
+> +
+> +static const struct of_device_id lcdif_dt_ids[] = {
+> +	{ .compatible = "fsl,imx8mp-lcdif" },
+> +	{ /* sentinel */ }
+> +};
+> +MODULE_DEVICE_TABLE(of, lcdif_dt_ids);
+> +
+> +static int lcdif_probe(struct platform_device *pdev)
+> +{
+> +	struct drm_device *drm;
+> +	int ret;
+> +
+> +	if (!pdev->dev.of_node)
+> +		return -ENODEV;
+> +
+> +	drm = drm_dev_alloc(&lcdif_driver, &pdev->dev);
+> +	if (IS_ERR(drm))
+> +		return PTR_ERR(drm);
+> +
+> +	ret = lcdif_load(drm);
+> +	if (ret)
+> +		goto err_free;
+> +
+> +	ret = drm_dev_register(drm, 0);
+> +	if (ret)
+> +		goto err_unload;
+> +
+> +	drm_fbdev_generic_setup(drm, 32);
+> +
+> +	return 0;
+> +
+> +err_unload:
+> +	lcdif_unload(drm);
+> +err_free:
+> +	drm_dev_put(drm);
+> +
+> +	return ret;
+> +}
+> +
+> +static int lcdif_remove(struct platform_device *pdev)
+> +{
+> +	struct drm_device *drm = platform_get_drvdata(pdev);
+> +
+> +	drm_dev_unregister(drm);
+> +	drm_atomic_helper_shutdown(drm);
+> +	lcdif_unload(drm);
+> +	drm_dev_put(drm);
+> +
+> +	return 0;
+> +}
+> +
+> +static void lcdif_shutdown(struct platform_device *pdev)
+> +{
+> +	struct drm_device *drm = platform_get_drvdata(pdev);
+> +
+> +	drm_atomic_helper_shutdown(drm);
+> +}
+> +
+> +static int lcdif_rpm_suspend(struct device *dev)
+> +{
+> +	struct drm_device *drm = dev_get_drvdata(dev);
+> +	struct lcdif_drm_private *lcdif = drm->dev_private;
+> +
+> +	/* These clock supply the DISPLAY CLOCK Domain */
+> +	clk_disable_unprepare(lcdif->clk);
+
+The pixel clock is really only needed when the display is active, so I
+think it would be better to keep this in the modeset path.
+
+> +	/* These clock supply the System Bus, AXI, Write Path, LFIFO */
+> +	clk_disable_unprepare(lcdif->clk_disp_axi);
+> +	/* These clock supply the Control Bus, APB, APBH Ctrl Registers */
+> +	clk_disable_unprepare(lcdif->clk_axi);
+> +
+> +	return 0;
+> +}
+> +
+> +static int lcdif_rpm_resume(struct device *dev)
+> +{
+> +	struct drm_device *drm = dev_get_drvdata(dev);
+> +	struct lcdif_drm_private *lcdif = drm->dev_private;
+> +
+> +	/* These clock supply the Control Bus, APB, APBH Ctrl Registers */
+> +	clk_prepare_enable(lcdif->clk_axi);
+> +	/* These clock supply the System Bus, AXI, Write Path, LFIFO */
+> +	clk_prepare_enable(lcdif->clk_disp_axi);
+> +	/* These clock supply the DISPLAY CLOCK Domain */
+> +	clk_prepare_enable(lcdif->clk);
+> +
+> +	return 0;
+> +}
+> +
+> +static int lcdif_suspend(struct device *dev)
+> +{
+> +	struct drm_device *drm = dev_get_drvdata(dev);
+> +	int ret;
+> +
+> +	ret = drm_mode_config_helper_suspend(drm);
+> +	if (ret)
+> +		return ret;
+> +
+> +	return lcdif_rpm_suspend(dev);
+> +}
+> +
+> +static int lcdif_resume(struct device *dev)
+> +{
+> +	struct drm_device *drm = dev_get_drvdata(dev);
+> +
+> +	lcdif_rpm_resume(dev);
+> +
+> +	return drm_mode_config_helper_resume(drm);
+> +}
+> +
+> +static const struct dev_pm_ops lcdif_pm_ops = {
+> +	.runtime_suspend = lcdif_rpm_suspend,
+> +	.runtime_resume = lcdif_rpm_resume,
+> +	SET_SYSTEM_SLEEP_PM_OPS(lcdif_suspend, lcdif_resume)
+> +};
+> +
+> +static struct platform_driver lcdif_platform_driver = {
+> +	.probe		= lcdif_probe,
+> +	.remove		= lcdif_remove,
+> +	.shutdown	= lcdif_shutdown,
+> +	.driver	= {
+> +		.name		= "lcdif",
+> +		.of_match_table	= lcdif_dt_ids,
+> +		.pm		= &lcdif_pm_ops,
+> +	},
+> +};
+> +
+> +drm_module_platform_driver(lcdif_platform_driver);
+> +
+> +MODULE_AUTHOR("Marek Vasut <marex@denx.de>");
+> +MODULE_DESCRIPTION("Freescale LCDIF DRM/KMS driver");
+> +MODULE_LICENSE("GPL");
+> diff --git a/drivers/gpu/drm/mxsfb/lcdif_drv.h b/drivers/gpu/drm/mxsfb/lcdif_drv.h
+> new file mode 100644
+> index 0000000000000..865cf5169ca81
+> --- /dev/null
+> +++ b/drivers/gpu/drm/mxsfb/lcdif_drv.h
+> @@ -0,0 +1,48 @@
+> +/* SPDX-License-Identifier: GPL-2.0-or-later */
+> +/*
+> + * Copyright (C) 2022 Marek Vasut <marex@denx.de>
+> + *
+> + * i.MX8MP/i.MXRT LCDIFv3 LCD controller driver.
+> + */
+> +
+> +#ifndef __LCDIF_DRV_H__
+> +#define __LCDIF_DRV_H__
+> +
+> +#include <drm/drm_crtc.h>
+> +#include <drm/drm_device.h>
+> +#include <drm/drm_encoder.h>
+> +#include <drm/drm_plane.h>
+> +
+> +struct clk;
+> +
+> +struct lcdif_drm_private {
+> +	void __iomem			*base;	/* registers */
+> +	struct clk			*clk;
+> +	struct clk			*clk_axi;
+> +	struct clk			*clk_disp_axi;
+> +
+> +	unsigned int			irq;
+> +
+> +	struct drm_device		*drm;
+> +	struct {
+> +		struct drm_plane	primary;
+> +		/* i.MXRT does support overlay planes, add them here. */
+> +	} planes;
+> +	struct drm_crtc			crtc;
+> +	struct drm_encoder		encoder;
+> +	struct drm_connector		*connector;
+> +	struct drm_bridge		*bridge;
+> +};
+> +
+> +static inline struct lcdif_drm_private *
+> +to_lcdif_drm_private(struct drm_device *drm)
+> +{
+> +	return drm->dev_private;
+> +}
+> +
+> +void lcdif_enable_axi_clk(struct lcdif_drm_private *lcdif);
+> +void lcdif_disable_axi_clk(struct lcdif_drm_private *lcdif);
+> +
+> +int lcdif_kms_init(struct lcdif_drm_private *lcdif);
+> +
+> +#endif /* __LCDIF_DRV_H__ */
+> diff --git a/drivers/gpu/drm/mxsfb/lcdif_kms.c b/drivers/gpu/drm/mxsfb/lcdif_kms.c
+> new file mode 100644
+> index 0000000000000..9afd3a73dc099
+> --- /dev/null
+> +++ b/drivers/gpu/drm/mxsfb/lcdif_kms.c
+> @@ -0,0 +1,492 @@
+> +// SPDX-License-Identifier: GPL-2.0-or-later
+> +/*
+> + * Copyright (C) 2022 Marek Vasut <marex@denx.de>
+> + *
+> + * This code is based on drivers/gpu/drm/mxsfb/mxsfb*
+> + */
+> +
+> +#include <linux/clk.h>
+> +#include <linux/io.h>
+> +#include <linux/iopoll.h>
+> +#include <linux/pm_runtime.h>
+> +#include <linux/spinlock.h>
+> +
+> +#include <drm/drm_atomic.h>
+> +#include <drm/drm_atomic_helper.h>
+> +#include <drm/drm_bridge.h>
+> +#include <drm/drm_crtc.h>
+> +#include <drm/drm_encoder.h>
+> +#include <drm/drm_fb_cma_helper.h>
+> +#include <drm/drm_fourcc.h>
+> +#include <drm/drm_gem_atomic_helper.h>
+> +#include <drm/drm_gem_cma_helper.h>
+> +#include <drm/drm_plane.h>
+> +#include <drm/drm_plane_helper.h>
+> +#include <drm/drm_vblank.h>
+> +
+> +#include "lcdif_drv.h"
+> +#include "lcdif_regs.h"
+> +
+> +/* 1 second delay should be plenty of time for block reset */
+> +#define RESET_TIMEOUT		1000000
+> +
+> +/* -----------------------------------------------------------------------------
+> + * CRTC
+> + */
+> +static dma_addr_t lcdif_get_fb_paddr(struct drm_plane *plane)
+> +{
+> +	struct drm_framebuffer *fb = plane->state->fb;
+> +	struct drm_gem_cma_object *gem;
+> +
+> +	if (!fb)
+> +		return 0;
+> +
+> +	gem = drm_fb_cma_get_gem_obj(fb, 0);
+> +	if (!gem)
+> +		return 0;
+> +
+> +	return gem->paddr;
+> +}
+> +
+> +static void
+> +lcdif_update_buffer(struct lcdif_drm_private *lcdif, struct drm_plane *plane)
+> +{
+> +	dma_addr_t paddr;
+> +	u32 reg;
+> +
+> +	paddr = lcdif_get_fb_paddr(plane);
+> +	if (!paddr)
+> +		return;
+> +
+> +	writel(lower_32_bits(paddr),
+> +	       lcdif->base + LCDC_V8_CTRLDESCL_LOW0_4);
+> +	writel(CTRLDESCL_HIGH0_4_ADDR_HIGH(upper_32_bits(paddr)),
+> +	       lcdif->base + LCDC_V8_CTRLDESCL_HIGH0_4);
+> +
+> +	reg = readl(lcdif->base + LCDC_V8_CTRLDESCL0_5);
+> +	reg |= CTRLDESCL0_5_SHADOW_LOAD_EN;
+> +	writel(reg, lcdif->base + LCDC_V8_CTRLDESCL0_5);
+
+The shadow load enable should typically go into the atomic_flush
+function, together with drm_crtc_arm_vblank_event to avoid races.
+
+> +}
+> +
+> +static void lcdif_set_formats(struct lcdif_drm_private *lcdif,
+> +			      const u32 bus_format)
+> +{
+> +	struct drm_device *drm = lcdif->drm;
+> +	const u32 format = lcdif->crtc.primary->state->fb->format->format;
+> +
+> +	switch (bus_format) {
+> +	case MEDIA_BUS_FMT_RGB565_1X16:
+> +		writel(DISP_PARA_LINE_PATTERN_RGB565,
+> +		       lcdif->base + LCDC_V8_DISP_PARA);
+> +		break;
+> +	case MEDIA_BUS_FMT_RGB888_1X24:
+> +		writel(DISP_PARA_LINE_PATTERN_RGB888,
+> +		       lcdif->base + LCDC_V8_DISP_PARA);
+> +		break;
+> +	default:
+> +		dev_err(drm->dev, "Unknown media bus format 0x%x\n", bus_format);
+> +		break;
+> +	}
+> +
+> +	switch (format) {
+> +	case DRM_FORMAT_RGB565:
+> +		writel(CTRLDESCL0_5_BPP_16_RGB565,
+> +		       lcdif->base + LCDC_V8_CTRLDESCL0_5);
+> +		break;
+> +	case DRM_FORMAT_RGB888:
+> +		writel(CTRLDESCL0_5_BPP_24_RGB888,
+> +		       lcdif->base + LCDC_V8_CTRLDESCL0_5);
+> +		break;
+> +	case DRM_FORMAT_XRGB1555:
+> +		writel(CTRLDESCL0_5_BPP_16_ARGB1555,
+> +		       lcdif->base + LCDC_V8_CTRLDESCL0_5);
+> +		break;
+> +	case DRM_FORMAT_XRGB4444:
+> +		writel(CTRLDESCL0_5_BPP_16_ARGB4444,
+> +		       lcdif->base + LCDC_V8_CTRLDESCL0_5);
+> +		break;
+> +	case DRM_FORMAT_XBGR8888:
+> +		writel(CTRLDESCL0_5_BPP_32_ABGR8888,
+> +		       lcdif->base + LCDC_V8_CTRLDESCL0_5);
+> +		break;
+> +	case DRM_FORMAT_XRGB8888:
+> +		writel(CTRLDESCL0_5_BPP_32_ARGB8888,
+> +		       lcdif->base + LCDC_V8_CTRLDESCL0_5);
+> +		break;
+> +	default:
+> +		dev_err(drm->dev, "Unknown pixel format 0x%x\n", format);
+> +		break;
+> +	}
+> +}
+> +
+> +static void lcdif_set_mode(struct lcdif_drm_private *lcdif, u32 bus_flags)
+> +{
+> +	struct drm_display_mode *m = &lcdif->crtc.state->adjusted_mode;
+> +	u32 ctrl = 0;
+> +
+> +	if (m->flags & DRM_MODE_FLAG_PHSYNC)
+> +		ctrl |= CTRL_INV_HS;
+> +	if (m->flags & DRM_MODE_FLAG_PVSYNC)
+> +		ctrl |= CTRL_INV_VS;
+> +	/* Make sure Data Enable is high active by default */
+> +	if (!(bus_flags & DRM_BUS_FLAG_DE_LOW))
+> +		ctrl |= CTRL_INV_DE;
+
+The above three controls seems to have the wrong polarity. Bit set
+means low active according to the register documentation and the PVI in
+the HDMI path, which has configurable input signal polarity, seems to
+agree with that.
+
+> +	if (bus_flags & DRM_BUS_FLAG_PIXDATA_DRIVE_NEGEDGE)
+> +		ctrl |= CTRL_INV_PXCK;
+> +
+> +	writel(ctrl, lcdif->base + LCDC_V8_CTRL);
+> +
+> +	writel(DISP_SIZE_DELTA_Y(m->crtc_vdisplay) |
+> +	       DISP_SIZE_DELTA_X(m->crtc_hdisplay),
+> +	       lcdif->base + LCDC_V8_DISP_SIZE);
+> +
+> +	writel(HSYN_PARA_BP_H(m->htotal - m->hsync_end) |
+> +	       HSYN_PARA_FP_H(m->hsync_start - m->hdisplay),
+> +	       lcdif->base + LCDC_V8_HSYN_PARA);
+> +
+> +	writel(VSYN_PARA_BP_V(m->vtotal - m->vsync_end) |
+> +	       VSYN_PARA_FP_V(m->vsync_start - m->vdisplay),
+> +	       lcdif->base + LCDC_V8_VSYN_PARA);
+> +
+> +	writel(VSYN_HSYN_WIDTH_PW_V(m->vsync_end - m->vsync_start) |
+> +	       VSYN_HSYN_WIDTH_PW_H(m->hsync_end - m->hsync_start),
+> +	       lcdif->base + LCDC_V8_VSYN_HSYN_WIDTH);
+> +
+> +	writel(CTRLDESCL0_1_HEIGHT(m->crtc_vdisplay) |
+> +	       CTRLDESCL0_1_WIDTH(m->crtc_hdisplay),
+> +	       lcdif->base + LCDC_V8_CTRLDESCL0_1);
+> +
+> +	writel(CTRLDESCL0_3_PITCH(lcdif->crtc.primary->state->fb->pitches[0]),
+> +	       lcdif->base + LCDC_V8_CTRLDESCL0_3);
+> +}
+> +
+> +static void lcdif_enable_controller(struct lcdif_drm_private *lcdif)
+> +{
+> +	u32 reg;
+> +
+> +	reg = readl(lcdif->base + LCDC_V8_DISP_PARA);
+> +	reg |= DISP_PARA_DISP_ON;
+> +	writel(reg, lcdif->base + LCDC_V8_DISP_PARA);
+> +
+> +	reg = readl(lcdif->base + LCDC_V8_CTRLDESCL0_5);
+> +	reg |= CTRLDESCL0_5_EN;
+> +	writel(reg, lcdif->base + LCDC_V8_CTRLDESCL0_5);
+> +}
+> +
+> +static void lcdif_disable_controller(struct lcdif_drm_private *lcdif)
+> +{
+> +	u32 reg;
+> +
+> +	reg = readl(lcdif->base + LCDC_V8_CTRLDESCL0_5);
+> +	reg &= ~CTRLDESCL0_5_EN;
+> +	writel(reg, lcdif->base + LCDC_V8_CTRLDESCL0_5);
+
+The downstream driver claims that this bit only takes effect on the end
+of frame, so we should wait here to make sure that DMA is really
+stopped.
+
+Regards,
+Lucas
+
+> +
+> +	reg = readl(lcdif->base + LCDC_V8_DISP_PARA);
+> +	reg &= ~DISP_PARA_DISP_ON;
+> +	writel(reg, lcdif->base + LCDC_V8_DISP_PARA);
+> +}
+> +
+> +static int lcdif_reset_block(struct lcdif_drm_private *lcdif)
+> +{
+> +	u32 reg;
+> +	int ret;
+> +
+> +	writel(CTRL_SW_RESET, lcdif->base + LCDC_V8_CTRL + REG_SET);
+> +
+> +	ret = readl_poll_timeout(lcdif->base + LCDC_V8_CTRL, reg,
+> +				 (reg & CTRL_SW_RESET), 0,
+> +				 RESET_TIMEOUT);
+> +	if (ret)
+> +		return ret;
+> +
+> +	writel(CTRL_SW_RESET, lcdif->base + LCDC_V8_CTRL + REG_CLR);
+> +
+> +	return readl_poll_timeout(lcdif->base + LCDC_V8_CTRL, reg,
+> +				  !(reg & CTRL_SW_RESET), 0,
+> +				  RESET_TIMEOUT);
+> +}
+> +
+> +static void lcdif_crtc_mode_set_nofb(struct lcdif_drm_private *lcdif,
+> +				     struct drm_bridge_state *bridge_state,
+> +				     const u32 bus_format)
+> +{
+> +	struct drm_device *drm = lcdif->crtc.dev;
+> +	struct drm_display_mode *m = &lcdif->crtc.state->adjusted_mode;
+> +	u32 bus_flags = lcdif->connector->display_info.bus_flags;
+> +	int err;
+> +
+> +	if (lcdif->bridge && lcdif->bridge->timings)
+> +		bus_flags = lcdif->bridge->timings->input_bus_flags;
+> +	else if (bridge_state)
+> +		bus_flags = bridge_state->input_bus_cfg.flags;
+> +
+> +	DRM_DEV_DEBUG_DRIVER(drm->dev, "Pixel clock: %dkHz (actual: %dkHz)\n",
+> +			     m->crtc_clock,
+> +			     (int)(clk_get_rate(lcdif->clk) / 1000));
+> +	DRM_DEV_DEBUG_DRIVER(drm->dev, "Connector bus_flags: 0x%08X\n",
+> +			     bus_flags);
+> +	DRM_DEV_DEBUG_DRIVER(drm->dev, "Mode flags: 0x%08X\n", m->flags);
+> +
+> +	/* Mandatory eLCDIF reset as per the Reference Manual */
+> +	err = lcdif_reset_block(lcdif);
+> +	if (err)
+> +		return;
+> +
+> +	lcdif_set_formats(lcdif, bus_format);
+> +
+> +	lcdif_set_mode(lcdif, bus_flags);
+> +}
+> +
+> +static int lcdif_crtc_atomic_check(struct drm_crtc *crtc,
+> +				   struct drm_atomic_state *state)
+> +{
+> +	struct drm_crtc_state *crtc_state = drm_atomic_get_new_crtc_state(state,
+> +									  crtc);
+> +	bool has_primary = crtc_state->plane_mask &
+> +			   drm_plane_mask(crtc->primary);
+> +
+> +	/* The primary plane has to be enabled when the CRTC is active. */
+> +	if (crtc_state->active && !has_primary)
+> +		return -EINVAL;
+> +
+> +	return drm_atomic_add_affected_planes(state, crtc);
+> +}
+> +
+> +static void lcdif_crtc_atomic_flush(struct drm_crtc *crtc,
+> +				    struct drm_atomic_state *state)
+> +{
+> +	struct drm_pending_vblank_event *event;
+> +
+> +	event = crtc->state->event;
+> +	crtc->state->event = NULL;
+> +
+> +	if (!event)
+> +		return;
+> +
+> +	spin_lock_irq(&crtc->dev->event_lock);
+> +	if (drm_crtc_vblank_get(crtc) == 0)
+> +		drm_crtc_arm_vblank_event(crtc, event);
+> +	else
+> +		drm_crtc_send_vblank_event(crtc, event);
+> +	spin_unlock_irq(&crtc->dev->event_lock);
+> +}
+> +
+> +static void lcdif_crtc_atomic_enable(struct drm_crtc *crtc,
+> +				     struct drm_atomic_state *state)
+> +{
+> +	struct lcdif_drm_private *lcdif = to_lcdif_drm_private(crtc->dev);
+> +	struct drm_display_mode *m = &lcdif->crtc.state->adjusted_mode;
+> +	struct drm_bridge_state *bridge_state = NULL;
+> +	struct drm_device *drm = lcdif->drm;
+> +	u32 bus_format = 0;
+> +
+> +	/* If there is a bridge attached to the LCDIF, use its bus format */
+> +	if (lcdif->bridge) {
+> +		bridge_state =
+> +			drm_atomic_get_new_bridge_state(state,
+> +							lcdif->bridge);
+> +		if (!bridge_state)
+> +			bus_format = MEDIA_BUS_FMT_FIXED;
+> +		else
+> +			bus_format = bridge_state->input_bus_cfg.format;
+> +
+> +		if (bus_format == MEDIA_BUS_FMT_FIXED) {
+> +			dev_warn_once(drm->dev,
+> +				      "Bridge does not provide bus format, assuming MEDIA_BUS_FMT_RGB888_1X24.\n"
+> +				      "Please fix bridge driver by handling atomic_get_input_bus_fmts.\n");
+> +			bus_format = MEDIA_BUS_FMT_RGB888_1X24;
+> +		}
+> +	}
+> +
+> +	/* If there is no bridge, use bus format from connector */
+> +	if (!bus_format && lcdif->connector->display_info.num_bus_formats)
+> +		bus_format = lcdif->connector->display_info.bus_formats[0];
+> +
+> +	/* If all else fails, default to RGB888_1X24 */
+> +	if (!bus_format)
+> +		bus_format = MEDIA_BUS_FMT_RGB888_1X24;
+> +
+> +	clk_set_rate(lcdif->clk, m->crtc_clock * 1000);
+> +
+> +	pm_runtime_get_sync(drm->dev);
+> +
+> +	lcdif_crtc_mode_set_nofb(lcdif, bridge_state, bus_format);
+> +
+> +	/* Write cur_buf as well to avoid an initial corrupt frame */
+> +	lcdif_update_buffer(lcdif, crtc->primary);
+> +	lcdif_enable_controller(lcdif);
+> +
+> +	drm_crtc_vblank_on(crtc);
+> +}
+> +
+> +static void lcdif_crtc_atomic_disable(struct drm_crtc *crtc,
+> +				      struct drm_atomic_state *state)
+> +{
+> +	struct lcdif_drm_private *lcdif = to_lcdif_drm_private(crtc->dev);
+> +	struct drm_device *drm = lcdif->drm;
+> +	struct drm_pending_vblank_event *event;
+> +
+> +	drm_crtc_vblank_off(crtc);
+> +
+> +	lcdif_disable_controller(lcdif);
+> +
+> +	spin_lock_irq(&drm->event_lock);
+> +	event = crtc->state->event;
+> +	if (event) {
+> +		crtc->state->event = NULL;
+> +		drm_crtc_send_vblank_event(crtc, event);
+> +	}
+> +	spin_unlock_irq(&drm->event_lock);
+> +
+> +	pm_runtime_put_sync(drm->dev);
+> +}
+> +
+> +static int lcdif_crtc_enable_vblank(struct drm_crtc *crtc)
+> +{
+> +	struct lcdif_drm_private *lcdif = to_lcdif_drm_private(crtc->dev);
+> +
+> +	/* Clear and enable VBLANK IRQ */
+> +	writel(INT_STATUS_D0_VS_BLANK, lcdif->base + LCDC_V8_INT_STATUS_D0);
+> +	writel(INT_ENABLE_D0_VS_BLANK_EN, lcdif->base + LCDC_V8_INT_ENABLE_D0);
+> +
+> +	return 0;
+> +}
+> +
+> +static void lcdif_crtc_disable_vblank(struct drm_crtc *crtc)
+> +{
+> +	struct lcdif_drm_private *lcdif = to_lcdif_drm_private(crtc->dev);
+> +
+> +	/* Disable and clear VBLANK IRQ */
+> +	writel(0, lcdif->base + LCDC_V8_INT_ENABLE_D0);
+> +	writel(INT_STATUS_D0_VS_BLANK, lcdif->base + LCDC_V8_INT_STATUS_D0);
+> +}
+> +
+> +static const struct drm_crtc_helper_funcs lcdif_crtc_helper_funcs = {
+> +	.atomic_check = lcdif_crtc_atomic_check,
+> +	.atomic_flush = lcdif_crtc_atomic_flush,
+> +	.atomic_enable = lcdif_crtc_atomic_enable,
+> +	.atomic_disable = lcdif_crtc_atomic_disable,
+> +};
+> +
+> +static const struct drm_crtc_funcs lcdif_crtc_funcs = {
+> +	.reset = drm_atomic_helper_crtc_reset,
+> +	.destroy = drm_crtc_cleanup,
+> +	.set_config = drm_atomic_helper_set_config,
+> +	.page_flip = drm_atomic_helper_page_flip,
+> +	.atomic_duplicate_state = drm_atomic_helper_crtc_duplicate_state,
+> +	.atomic_destroy_state = drm_atomic_helper_crtc_destroy_state,
+> +	.enable_vblank = lcdif_crtc_enable_vblank,
+> +	.disable_vblank = lcdif_crtc_disable_vblank,
+> +};
+> +
+> +/* -----------------------------------------------------------------------------
+> + * Encoder
+> + */
+> +
+> +static const struct drm_encoder_funcs lcdif_encoder_funcs = {
+> +	.destroy = drm_encoder_cleanup,
+> +};
+> +
+> +/* -----------------------------------------------------------------------------
+> + * Planes
+> + */
+> +
+> +static int lcdif_plane_atomic_check(struct drm_plane *plane,
+> +				    struct drm_atomic_state *state)
+> +{
+> +	struct drm_plane_state *plane_state = drm_atomic_get_new_plane_state(state,
+> +									     plane);
+> +	struct lcdif_drm_private *lcdif = to_lcdif_drm_private(plane->dev);
+> +	struct drm_crtc_state *crtc_state;
+> +
+> +	crtc_state = drm_atomic_get_new_crtc_state(state,
+> +						   &lcdif->crtc);
+> +
+> +	return drm_atomic_helper_check_plane_state(plane_state, crtc_state,
+> +						   DRM_PLANE_HELPER_NO_SCALING,
+> +						   DRM_PLANE_HELPER_NO_SCALING,
+> +						   false, true);
+> +}
+> +
+> +static void lcdif_plane_primary_atomic_update(struct drm_plane *plane,
+> +					      struct drm_atomic_state *state)
+> +{
+> +	struct lcdif_drm_private *lcdif = to_lcdif_drm_private(plane->dev);
+> +
+> +	lcdif_update_buffer(lcdif, plane);
+> +}
+> +
+> +static bool lcdif_format_mod_supported(struct drm_plane *plane,
+> +				       uint32_t format,
+> +				       uint64_t modifier)
+> +{
+> +	return modifier == DRM_FORMAT_MOD_LINEAR;
+> +}
+> +
+> +static const struct drm_plane_helper_funcs lcdif_plane_primary_helper_funcs = {
+> +	.atomic_check = lcdif_plane_atomic_check,
+> +	.atomic_update = lcdif_plane_primary_atomic_update,
+> +};
+> +
+> +static const struct drm_plane_funcs lcdif_plane_funcs = {
+> +	.format_mod_supported	= lcdif_format_mod_supported,
+> +	.update_plane		= drm_atomic_helper_update_plane,
+> +	.disable_plane		= drm_atomic_helper_disable_plane,
+> +	.destroy		= drm_plane_cleanup,
+> +	.reset			= drm_atomic_helper_plane_reset,
+> +	.atomic_duplicate_state	= drm_atomic_helper_plane_duplicate_state,
+> +	.atomic_destroy_state	= drm_atomic_helper_plane_destroy_state,
+> +};
+> +
+> +static const uint32_t lcdif_primary_plane_formats[] = {
+> +	DRM_FORMAT_RGB565,
+> +	DRM_FORMAT_XRGB8888,
+> +};
+> +
+> +static const uint32_t lcdif_overlay_plane_formats[] = {
+> +	DRM_FORMAT_XRGB4444,
+> +	DRM_FORMAT_ARGB4444,
+> +	DRM_FORMAT_XRGB1555,
+> +	DRM_FORMAT_ARGB1555,
+> +	DRM_FORMAT_RGB565,
+> +	DRM_FORMAT_XRGB8888,
+> +	DRM_FORMAT_ARGB8888,
+> +};
+> +
+> +static const uint64_t lcdif_modifiers[] = {
+> +	DRM_FORMAT_MOD_LINEAR,
+> +	DRM_FORMAT_MOD_INVALID
+> +};
+> +
+> +/* -----------------------------------------------------------------------------
+> + * Initialization
+> + */
+> +
+> +int lcdif_kms_init(struct lcdif_drm_private *lcdif)
+> +{
+> +	struct drm_encoder *encoder = &lcdif->encoder;
+> +	struct drm_crtc *crtc = &lcdif->crtc;
+> +	int ret;
+> +
+> +	drm_plane_helper_add(&lcdif->planes.primary,
+> +			     &lcdif_plane_primary_helper_funcs);
+> +	ret = drm_universal_plane_init(lcdif->drm, &lcdif->planes.primary, 1,
+> +				       &lcdif_plane_funcs,
+> +				       lcdif_primary_plane_formats,
+> +				       ARRAY_SIZE(lcdif_primary_plane_formats),
+> +				       lcdif_modifiers, DRM_PLANE_TYPE_PRIMARY,
+> +				       NULL);
+> +	if (ret)
+> +		return ret;
+> +
+> +	drm_crtc_helper_add(crtc, &lcdif_crtc_helper_funcs);
+> +	ret = drm_crtc_init_with_planes(lcdif->drm, crtc,
+> +					&lcdif->planes.primary, NULL,
+> +					&lcdif_crtc_funcs, NULL);
+> +	if (ret)
+> +		return ret;
+> +
+> +	encoder->possible_crtcs = drm_crtc_mask(crtc);
+> +	return drm_encoder_init(lcdif->drm, encoder, &lcdif_encoder_funcs,
+> +				DRM_MODE_ENCODER_NONE, NULL);
+> +}
+> diff --git a/drivers/gpu/drm/mxsfb/lcdif_regs.h b/drivers/gpu/drm/mxsfb/lcdif_regs.h
+> new file mode 100644
+> index 0000000000000..2b8c4d0684836
+> --- /dev/null
+> +++ b/drivers/gpu/drm/mxsfb/lcdif_regs.h
+> @@ -0,0 +1,243 @@
+> +/* SPDX-License-Identifier: GPL-2.0-or-later */
+> +/*
+> + * Copyright (C) 2022 Marek Vasut <marex@denx.de>
+> + *
+> + * i.MX8MP/i.MXRT LCDIF LCD controller driver.
+> + */
+> +
+> +#ifndef __LCDIF_REGS_H__
+> +#define __LCDIF_REGS_H__
+> +
+> +#define REG_SET	4
+> +#define REG_CLR	8
+> +
+> +/* V8 register set */
+> +#define LCDC_V8_CTRL			0x00
+> +#define LCDC_V8_DISP_PARA		0x10
+> +#define LCDC_V8_DISP_SIZE		0x14
+> +#define LCDC_V8_HSYN_PARA		0x18
+> +#define LCDC_V8_VSYN_PARA		0x1c
+> +#define LCDC_V8_VSYN_HSYN_WIDTH		0x20
+> +#define LCDC_V8_INT_STATUS_D0		0x24
+> +#define LCDC_V8_INT_ENABLE_D0		0x28
+> +#define LCDC_V8_INT_STATUS_D1		0x30
+> +#define LCDC_V8_INT_ENABLE_D1		0x34
+> +#define LCDC_V8_CTRLDESCL0_1		0x200
+> +#define LCDC_V8_CTRLDESCL0_3		0x208
+> +#define LCDC_V8_CTRLDESCL_LOW0_4	0x20c
+> +#define LCDC_V8_CTRLDESCL_HIGH0_4	0x210
+> +#define LCDC_V8_CTRLDESCL0_5		0x214
+> +#define LCDC_V8_CSC0_CTRL		0x21c
+> +#define LCDC_V8_CSC0_COEF0		0x220
+> +#define LCDC_V8_CSC0_COEF1		0x224
+> +#define LCDC_V8_CSC0_COEF2		0x228
+> +#define LCDC_V8_CSC0_COEF3		0x22c
+> +#define LCDC_V8_CSC0_COEF4		0x230
+> +#define LCDC_V8_CSC0_COEF5		0x234
+> +#define LCDC_V8_PANIC0_THRES		0x238
+> +
+> +#define CTRL_SFTRST			BIT(31)
+> +#define CTRL_CLKGATE			BIT(30)
+> +#define CTRL_BYPASS_COUNT		BIT(19)
+> +#define CTRL_VSYNC_MODE			BIT(18)
+> +#define CTRL_DOTCLK_MODE		BIT(17)
+> +#define CTRL_DATA_SELECT		BIT(16)
+> +#define CTRL_BUS_WIDTH_16		(0 << 10)
+> +#define CTRL_BUS_WIDTH_8		(1 << 10)
+> +#define CTRL_BUS_WIDTH_18		(2 << 10)
+> +#define CTRL_BUS_WIDTH_24		(3 << 10)
+> +#define CTRL_BUS_WIDTH_MASK		(0x3 << 10)
+> +#define CTRL_WORD_LENGTH_16		(0 << 8)
+> +#define CTRL_WORD_LENGTH_8		(1 << 8)
+> +#define CTRL_WORD_LENGTH_18		(2 << 8)
+> +#define CTRL_WORD_LENGTH_24		(3 << 8)
+> +#define CTRL_MASTER			BIT(5)
+> +#define CTRL_DF16			BIT(3)
+> +#define CTRL_DF18			BIT(2)
+> +#define CTRL_DF24			BIT(1)
+> +#define CTRL_RUN			BIT(0)
+> +
+> +#define CTRL1_RECOVER_ON_UNDERFLOW	BIT(24)
+> +#define CTRL1_FIFO_CLEAR		BIT(21)
+> +#define CTRL1_SET_BYTE_PACKAGING(x)	(((x) & 0xf) << 16)
+> +#define CTRL1_GET_BYTE_PACKAGING(x)	(((x) >> 16) & 0xf)
+> +#define CTRL1_CUR_FRAME_DONE_IRQ_EN	BIT(13)
+> +#define CTRL1_CUR_FRAME_DONE_IRQ	BIT(9)
+> +
+> +#define CTRL2_SET_OUTSTANDING_REQS_1	0
+> +#define CTRL2_SET_OUTSTANDING_REQS_2	(0x1 << 21)
+> +#define CTRL2_SET_OUTSTANDING_REQS_4	(0x2 << 21)
+> +#define CTRL2_SET_OUTSTANDING_REQS_8	(0x3 << 21)
+> +#define CTRL2_SET_OUTSTANDING_REQS_16	(0x4 << 21)
+> +#define CTRL2_SET_OUTSTANDING_REQS_MASK	(0x7 << 21)
+> +
+> +#define TRANSFER_COUNT_SET_VCOUNT(x)	(((x) & 0xffff) << 16)
+> +#define TRANSFER_COUNT_GET_VCOUNT(x)	(((x) >> 16) & 0xffff)
+> +#define TRANSFER_COUNT_SET_HCOUNT(x)	((x) & 0xffff)
+> +#define TRANSFER_COUNT_GET_HCOUNT(x)	((x) & 0xffff)
+> +
+> +#define VDCTRL0_ENABLE_PRESENT		BIT(28)
+> +#define VDCTRL0_VSYNC_ACT_HIGH		BIT(27)
+> +#define VDCTRL0_HSYNC_ACT_HIGH		BIT(26)
+> +#define VDCTRL0_DOTCLK_ACT_FALLING	BIT(25)
+> +#define VDCTRL0_ENABLE_ACT_HIGH		BIT(24)
+> +#define VDCTRL0_VSYNC_PERIOD_UNIT	BIT(21)
+> +#define VDCTRL0_VSYNC_PULSE_WIDTH_UNIT	BIT(20)
+> +#define VDCTRL0_HALF_LINE		BIT(19)
+> +#define VDCTRL0_HALF_LINE_MODE		BIT(18)
+> +#define VDCTRL0_SET_VSYNC_PULSE_WIDTH(x) ((x) & 0x3ffff)
+> +#define VDCTRL0_GET_VSYNC_PULSE_WIDTH(x) ((x) & 0x3ffff)
+> +
+> +#define VDCTRL2_SET_HSYNC_PERIOD(x)	((x) & 0x3ffff)
+> +#define VDCTRL2_GET_HSYNC_PERIOD(x)	((x) & 0x3ffff)
+> +
+> +#define VDCTRL3_MUX_SYNC_SIGNALS	BIT(29)
+> +#define VDCTRL3_VSYNC_ONLY		BIT(28)
+> +#define SET_HOR_WAIT_CNT(x)		(((x) & 0xfff) << 16)
+> +#define GET_HOR_WAIT_CNT(x)		(((x) >> 16) & 0xfff)
+> +#define SET_VERT_WAIT_CNT(x)		((x) & 0xffff)
+> +#define GET_VERT_WAIT_CNT(x)		((x) & 0xffff)
+> +
+> +#define VDCTRL4_SET_DOTCLK_DLY(x)	(((x) & 0x7) << 29) /* v4 only */
+> +#define VDCTRL4_GET_DOTCLK_DLY(x)	(((x) >> 29) & 0x7) /* v4 only */
+> +#define VDCTRL4_SYNC_SIGNALS_ON		BIT(18)
+> +#define SET_DOTCLK_H_VALID_DATA_CNT(x)	((x) & 0x3ffff)
+> +
+> +#define DEBUG0_HSYNC			BIT(26)
+> +#define DEBUG0_VSYNC			BIT(25)
+> +
+> +#define AS_CTRL_PS_DISABLE		BIT(23)
+> +#define AS_CTRL_ALPHA_INVERT		BIT(20)
+> +#define AS_CTRL_ALPHA(a)		(((a) & 0xff) << 8)
+> +#define AS_CTRL_FORMAT_RGB565		(0xe << 4)
+> +#define AS_CTRL_FORMAT_RGB444		(0xd << 4)
+> +#define AS_CTRL_FORMAT_RGB555		(0xc << 4)
+> +#define AS_CTRL_FORMAT_ARGB4444		(0x9 << 4)
+> +#define AS_CTRL_FORMAT_ARGB1555		(0x8 << 4)
+> +#define AS_CTRL_FORMAT_RGB888		(0x4 << 4)
+> +#define AS_CTRL_FORMAT_ARGB8888		(0x0 << 4)
+> +#define AS_CTRL_ENABLE_COLORKEY		BIT(3)
+> +#define AS_CTRL_ALPHA_CTRL_ROP		(3 << 1)
+> +#define AS_CTRL_ALPHA_CTRL_MULTIPLY	(2 << 1)
+> +#define AS_CTRL_ALPHA_CTRL_OVERRIDE	(1 << 1)
+> +#define AS_CTRL_ALPHA_CTRL_EMBEDDED	(0 << 1)
+> +#define AS_CTRL_AS_ENABLE		BIT(0)
+> +
+> +/* V8 register set */
+> +#define CTRL_SW_RESET			BIT(31)
+> +#define CTRL_FETCH_START_OPTION_FPV	0
+> +#define CTRL_FETCH_START_OPTION_PWV	BIT(8)
+> +#define CTRL_FETCH_START_OPTION_BPV	BIT(9)
+> +#define CTRL_FETCH_START_OPTION_RESV	GENMASK(9, 8)
+> +#define CTRL_FETCH_START_OPTION_MASK	GENMASK(9, 8)
+> +#define CTRL_NEG				BIT(4)
+> +#define CTRL_INV_PXCK			BIT(3)
+> +#define CTRL_INV_DE			BIT(2)
+> +#define CTRL_INV_VS			BIT(1)
+> +#define CTRL_INV_HS			BIT(0)
+> +
+> +#define DISP_PARA_DISP_ON		BIT(31)
+> +#define DISP_PARA_SWAP_EN		BIT(30)
+> +#define DISP_PARA_LINE_PATTERN_RGB565	GENMASK(28, 26)
+> +#define DISP_PARA_LINE_PATTERN_RGB888	0
+> +#define DISP_PARA_LINE_PATTERN_MASK	GENMASK(29, 26)
+> +#define DISP_PARA_DISP_MODE_MASK	GENMASK(25, 24)
+> +#define DISP_PARA_BGND_R_MASK		GENMASK(23, 16)
+> +#define DISP_PARA_BGND_G_MASK		GENMASK(15, 8)
+> +#define DISP_PARA_BGND_B_MASK		GENMASK(7, 0)
+> +
+> +#define DISP_SIZE_DELTA_Y(n)		(((n) & 0xffff) << 16)
+> +#define DISP_SIZE_DELTA_Y_MASK		GENMASK(31, 16)
+> +#define DISP_SIZE_DELTA_X(n)		((n) & 0xffff)
+> +#define DISP_SIZE_DELTA_X_MASK		GENMASK(15, 0)
+> +
+> +#define HSYN_PARA_BP_H(n)		(((n) & 0xffff) << 16)
+> +#define HSYN_PARA_BP_H_MASK		GENMASK(31, 16)
+> +#define HSYN_PARA_FP_H(n)		((n) & 0xffff)
+> +#define HSYN_PARA_FP_H_MASK		GENMASK(15, 0)
+> +
+> +#define VSYN_PARA_BP_V(n)		(((n) & 0xffff) << 16)
+> +#define VSYN_PARA_BP_V_MASK		GENMASK(31, 16)
+> +#define VSYN_PARA_FP_V(n)		((n) & 0xffff)
+> +#define VSYN_PARA_FP_V_MASK		GENMASK(15, 0)
+> +
+> +#define VSYN_HSYN_WIDTH_PW_V(n)		(((n) & 0xffff) << 16)
+> +#define VSYN_HSYN_WIDTH_PW_V_MASK	GENMASK(31, 16)
+> +#define VSYN_HSYN_WIDTH_PW_H(n)		((n) & 0xffff)
+> +#define VSYN_HSYN_WIDTH_PW_H_MASK	GENMASK(15, 0)
+> +
+> +#define INT_STATUS_D0_FIFO_EMPTY	BIT(24)
+> +#define INT_STATUS_D0_DMA_DONE		BIT(16)
+> +#define INT_STATUS_D0_DMA_ERR		BIT(8)
+> +#define INT_STATUS_D0_VS_BLANK		BIT(2)
+> +#define INT_STATUS_D0_UNDERRUN		BIT(1)
+> +#define INT_STATUS_D0_VSYNC		BIT(0)
+> +
+> +#define INT_ENABLE_D0_FIFO_EMPTY_EN	BIT(24)
+> +#define INT_ENABLE_D0_DMA_DONE_EN	BIT(16)
+> +#define INT_ENABLE_D0_DMA_ERR_EN	BIT(8)
+> +#define INT_ENABLE_D0_VS_BLANK_EN	BIT(2)
+> +#define INT_ENABLE_D0_UNDERRUN_EN	BIT(1)
+> +#define INT_ENABLE_D0_VSYNC_EN		BIT(0)
+> +
+> +#define INT_STATUS_D1_PLANE_PANIC	BIT(0)
+> +
+> +#define INT_ENABLE_D1_PLANE_PANIC_EN	BIT(0)
+> +
+> +#define CTRLDESCL0_1_HEIGHT(n)		(((n) & 0xffff) << 16)
+> +#define CTRLDESCL0_1_HEIGHT_MASK		GENMASK(31, 16)
+> +#define CTRLDESCL0_1_WIDTH(n)		((n) & 0xffff)
+> +#define CTRLDESCL0_1_WIDTH_MASK		GENMASK(15, 0)
+> +
+> +#define CTRLDESCL0_3_PITCH(n)		((n) & 0xffff)
+> +#define CTRLDESCL0_3_PITCH_MASK		GENMASK(15, 0)
+> +
+> +#define CTRLDESCL_HIGH0_4_ADDR_HIGH(n)	((n) & 0xf)
+> +#define CTRLDESCL_HIGH0_4_ADDR_HIGH_MASK	GENMASK(3, 0)
+> +
+> +#define CTRLDESCL0_5_EN			BIT(31)
+> +#define CTRLDESCL0_5_SHADOW_LOAD_EN	BIT(30)
+> +#define CTRLDESCL0_5_BPP_16_RGB565	BIT(26)
+> +#define CTRLDESCL0_5_BPP_16_ARGB1555	(BIT(26) | BIT(24))
+> +#define CTRLDESCL0_5_BPP_16_ARGB4444	(BIT(26) | BIT(25))
+> +#define CTRLDESCL0_5_BPP_YCbCr422	(BIT(26) | BIT(25) | BIT(24))
+> +#define CTRLDESCL0_5_BPP_24_RGB888	BIT(27)
+> +#define CTRLDESCL0_5_BPP_32_ARGB8888	(BIT(27) | BIT(24))
+> +#define CTRLDESCL0_5_BPP_32_ABGR8888	(BIT(27) | BIT(25))
+> +#define CTRLDESCL0_5_BPP_MASK		GENMASK(27, 24)
+> +#define CTRLDESCL0_5_YUV_FORMAT_Y2VY1U	0
+> +#define CTRLDESCL0_5_YUV_FORMAT_Y2UY1V	BIT(14)
+> +#define CTRLDESCL0_5_YUV_FORMAT_VY2UY1	BIT(15)
+> +#define CTRLDESCL0_5_YUV_FORMAT_UY2VY1	(BIT(15) | BIT(14))
+> +#define CTRLDESCL0_5_YUV_FORMAT_MASK	GENMASK(15, 14)
+> +
+> +#define CSC0_CTRL_CSC_MODE_MASK		GENMASK(2, 1)
+> +#define CSC0_CTRL_BYPASS		BIT(0)
+> +
+> +#define CSC0_COEF0_A2_MASK		GENMASK(26, 16)
+> +#define CSC0_COEF0_A1_MASK		GENMASK(10, 0)
+> +
+> +#define CSC0_COEF1_B1_MASK		GENMASK(26, 16)
+> +#define CSC0_COEF1_A3_MASK		GENMASK(10, 0)
+> +
+> +#define CSC0_COEF2_B3_MASK		GENMASK(26, 16)
+> +#define CSC0_COEF2_B2_MASK		GENMASK(10, 0)
+> +
+> +#define CSC0_COEF3_C2_MASK		GENMASK(26, 16)
+> +#define CSC0_COEF3_C1_MASK		GENMASK(10, 0)
+> +
+> +#define CSC0_COEF4_D1_MASK		GENMASK(24, 16)
+> +#define CSC0_COEF4_C3_MASK		GENMASK(10, 0)
+> +
+> +#define CSC0_COEF5_D3_MASK		GENMASK(24, 16)
+> +#define CSC0_COEF5_D2_MASK		GENMASK(8, 0)
+> +
+> +#define PANIC0_THRES_LOW_MASK		GENMASK(24, 16)
+> +#define PANIC0_THRES_HIGH_MASK		GENMASK(8, 0)
+> +
+> +#define LCDIF_MIN_XRES			120
+> +#define LCDIF_MIN_YRES			120
+> +#define LCDIF_MAX_XRES			0xffff
+> +#define LCDIF_MAX_YRES			0xffff
+> +
+> +#endif /* __LCDIF_REGS_H__ */
+
 
