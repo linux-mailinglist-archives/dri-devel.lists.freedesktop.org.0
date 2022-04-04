@@ -2,41 +2,54 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 627A74F11BB
-	for <lists+dri-devel@lfdr.de>; Mon,  4 Apr 2022 11:12:55 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id E93884F11BE
+	for <lists+dri-devel@lfdr.de>; Mon,  4 Apr 2022 11:13:08 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id AFE9D10EBED;
-	Mon,  4 Apr 2022 09:12:51 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id AE60410EC00;
+	Mon,  4 Apr 2022 09:13:06 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from metis.ext.pengutronix.de (metis.ext.pengutronix.de
- [IPv6:2001:67c:670:201:290:27ff:fe1d:cc33])
- by gabe.freedesktop.org (Postfix) with ESMTPS id AD39310EBE1
- for <dri-devel@lists.freedesktop.org>; Mon,  4 Apr 2022 09:12:49 +0000 (UTC)
-Received: from gallifrey.ext.pengutronix.de
- ([2001:67c:670:201:5054:ff:fe8d:eefb] helo=[IPv6:::1])
- by metis.ext.pengutronix.de with esmtps
- (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256) (Exim 4.92)
- (envelope-from <l.stach@pengutronix.de>)
- id 1nbIlT-00034E-OG; Mon, 04 Apr 2022 11:12:47 +0200
-Message-ID: <0caef672cc44515edd7ead5dfacae09866816524.camel@pengutronix.de>
-Subject: Re: [PATCH 1/4] drm/etnaviv: Use scheduler dependency handling
-From: Lucas Stach <l.stach@pengutronix.de>
-To: Daniel Vetter <daniel.vetter@ffwll.ch>, DRI Development
- <dri-devel@lists.freedesktop.org>
-Date: Mon, 04 Apr 2022 11:12:41 +0200
-In-Reply-To: <20220331204651.2699107-2-daniel.vetter@ffwll.ch>
-References: <20220331204651.2699107-1-daniel.vetter@ffwll.ch>
- <20220331204651.2699107-2-daniel.vetter@ffwll.ch>
-Content-Type: text/plain; charset="UTF-8"
-User-Agent: Evolution 3.40.4 (3.40.4-1.fc34) 
+Received: from mga03.intel.com (mga03.intel.com [134.134.136.65])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 6248010EC04;
+ Mon,  4 Apr 2022 09:13:05 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+ t=1649063585; x=1680599585;
+ h=message-id:date:mime-version:subject:from:to:cc:
+ references:in-reply-to:content-transfer-encoding;
+ bh=cWVa//dXmWbB8C4BAJ+z2jgTbZqcWX/1ZfzFFcL8928=;
+ b=nwV2uZgZFmFl27K35Nwo9VhVhqCD3ZFqFI8w/Ybd45K5Sx6muN9tBW5+
+ qnsMYFu8Kk2To/DiKSb3gbT8XPHmQleN536N9h/G1sOqUUfpoeeljIQY4
+ pVvUPZYpXOuSA+xG7GQMnS5GKp69XYqA9X3mD3np2Tsa6UnfSa22ZgbNG
+ cu9vBuv6pyC5peSpcLf+fvgLm57I2UI6siGRMPfWnGm5oWYcqTCzrzBrb
+ 6chsZXq5BYWBBmn/vWTtx6EM4C3UpFp9UN5i+Ui1WPGT0bx4pUHyMWvLC
+ KWGG49q3VCWjWE618v63Xsd8HBla9EW5dHUvE2pQiAni5qfALAnVpWQ7O Q==;
+X-IronPort-AV: E=McAfee;i="6200,9189,10306"; a="260460880"
+X-IronPort-AV: E=Sophos;i="5.90,233,1643702400"; d="scan'208";a="260460880"
+Received: from orsmga003.jf.intel.com ([10.7.209.27])
+ by orsmga103.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 04 Apr 2022 02:13:04 -0700
+X-IronPort-AV: E=Sophos;i="5.90,233,1643702400"; d="scan'208";a="504840067"
+Received: from mosinski-mobl3.ger.corp.intel.com (HELO [10.213.193.174])
+ ([10.213.193.174])
+ by orsmga003-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 04 Apr 2022 02:13:03 -0700
+Message-ID: <5a6d725f-02a3-bbdf-4585-5e0b491f2721@linux.intel.com>
+Date: Mon, 4 Apr 2022 10:12:57 +0100
 MIME-Version: 1.0
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.7.0
+Subject: Re: [Intel-gfx] [CI 8/8] drm/i915: Expose client engine utilisation
+ via fdinfo
+Content-Language: en-US
+From: Tvrtko Ursulin <tvrtko.ursulin@linux.intel.com>
+To: Intel-gfx@lists.freedesktop.org
+References: <20220401142205.3123159-1-tvrtko.ursulin@linux.intel.com>
+ <20220401142205.3123159-9-tvrtko.ursulin@linux.intel.com>
+Organization: Intel Corporation UK Plc
+In-Reply-To: <20220401142205.3123159-9-tvrtko.ursulin@linux.intel.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 8bit
-X-SA-Exim-Connect-IP: 2001:67c:670:201:5054:ff:fe8d:eefb
-X-SA-Exim-Mail-From: l.stach@pengutronix.de
-X-SA-Exim-Scanned: No (on metis.ext.pengutronix.de);
- SAEximRunCond expanded to false
-X-PTX-Original-Recipient: dri-devel@lists.freedesktop.org
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -49,295 +62,245 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: etnaviv@lists.freedesktop.org, Sumit Semwal <sumit.semwal@linaro.org>,
- linaro-mm-sig@lists.linaro.org, Russell King <linux+etnaviv@armlinux.org.uk>,
- Daniel Vetter <daniel.vetter@intel.com>,
- Christian =?ISO-8859-1?Q?K=F6nig?= <christian.koenig@amd.com>,
- linux-media@vger.kernel.org
+Cc: dri-devel@lists.freedesktop.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Am Donnerstag, dem 31.03.2022 um 22:46 +0200 schrieb Daniel Vetter:
-> We need to pull the drm_sched_job_init much earlier, but that's very
-> minor surgery.
-> 
-> v2: Actually fix up cleanup paths by calling drm_sched_job_init, which
-> I wanted to to in the previous round (and did, for all other drivers).
-> Spotted by Lucas.
-> 
-> v3: Rebase over renamed functions to add dependencies.
-> 
-> v4: Rebase over patches from Christian.
-> 
-> v5: More rebasing over work from Christian.
-> 
-> Signed-off-by: Daniel Vetter <daniel.vetter@intel.com>
-> Cc: Lucas Stach <l.stach@pengutronix.de>
-> Cc: Russell King <linux+etnaviv@armlinux.org.uk>
-> Cc: Christian Gmeiner <christian.gmeiner@gmail.com>
-> Cc: Sumit Semwal <sumit.semwal@linaro.org>
-> Cc: "Christian König" <christian.koenig@amd.com>
-> Cc: etnaviv@lists.freedesktop.org
-> Cc: linux-media@vger.kernel.org
-> Cc: linaro-mm-sig@lists.linaro.org
 
-Acked-by: Lucas Stach <l.stach@pengutronix.de>
+On 01/04/2022 15:22, Tvrtko Ursulin wrote:
+> From: Tvrtko Ursulin <tvrtko.ursulin@intel.com>
+> 
+> Similar to AMD commit
+> 874442541133 ("drm/amdgpu: Add show_fdinfo() interface"), using the
+> infrastructure added in previous patches, we add basic client info
+> and GPU engine utilisation for i915.
+> 
+> Example of the output:
+> 
+>    pos:    0
+>    flags:  0100002
+>    mnt_id: 21
+>    drm-driver: i915
+>    drm-pdev:   0000:00:02.0
+>    drm-client-id:      7
+>    drm-engine-render:  9288864723 ns
+>    drm-engine-copy:    2035071108 ns
+>    drm-engine-video:   0 ns
+>    drm-engine-video-enhance:   0 ns
+> 
+> v2:
+>   * Update for removal of name and pid.
+> 
+> v3:
+>   * Use drm_driver.name.
+> 
+> v4:
+>   * Added drm-engine-capacity- tag.
+>   * Fix typo. (Umesh)
+> 
+> v5:
+>   * Don't output engine data before Gen8.
+> 
+> Signed-off-by: Tvrtko Ursulin <tvrtko.ursulin@intel.com>
+> Cc: David M Nieto <David.Nieto@amd.com>
+> Cc: Christian König <christian.koenig@amd.com>
+> Cc: Daniel Vetter <daniel@ffwll.ch>
+> Cc: Chris Healy <cphealy@gmail.com>
+> Acked-by: Christian König <christian.koenig@amd.com>
+> Reviewed-by: Umesh Nerlige Ramappa <umesh.nerlige.ramappa@intel.com>
+
+Forgot to apply an earlier:
+
+Acked-by: Rob Clark <robdclark@gmail.com>
+
+Regards,
+
+Tvrtko
 
 > ---
->  drivers/gpu/drm/etnaviv/etnaviv_gem.h        |  4 +-
->  drivers/gpu/drm/etnaviv/etnaviv_gem_submit.c | 51 +++++++++++--------
->  drivers/gpu/drm/etnaviv/etnaviv_sched.c      | 53 +-------------------
->  drivers/gpu/drm/etnaviv/etnaviv_sched.h      |  3 +-
->  4 files changed, 35 insertions(+), 76 deletions(-)
+>   Documentation/gpu/drm-usage-stats.rst  |  6 ++
+>   Documentation/gpu/i915.rst             | 28 +++++++++
+>   drivers/gpu/drm/i915/i915_driver.c     |  3 +
+>   drivers/gpu/drm/i915/i915_drm_client.c | 84 ++++++++++++++++++++++++++
+>   drivers/gpu/drm/i915/i915_drm_client.h |  4 ++
+>   5 files changed, 125 insertions(+)
 > 
-> diff --git a/drivers/gpu/drm/etnaviv/etnaviv_gem.h b/drivers/gpu/drm/etnaviv/etnaviv_gem.h
-> index 8983a0ef383e..63688e6e4580 100644
-> --- a/drivers/gpu/drm/etnaviv/etnaviv_gem.h
-> +++ b/drivers/gpu/drm/etnaviv/etnaviv_gem.h
-> @@ -80,8 +80,6 @@ struct etnaviv_gem_submit_bo {
->  	u64 va;
->  	struct etnaviv_gem_object *obj;
->  	struct etnaviv_vram_mapping *mapping;
-> -	unsigned int nr_fences;
-> -	struct dma_fence **fences;
->  };
->  
->  /* Created per submit-ioctl, to track bo's and cmdstream bufs, etc,
-> @@ -94,7 +92,7 @@ struct etnaviv_gem_submit {
->  	struct etnaviv_file_private *ctx;
->  	struct etnaviv_gpu *gpu;
->  	struct etnaviv_iommu_context *mmu_context, *prev_mmu_context;
-> -	struct dma_fence *out_fence, *in_fence;
-> +	struct dma_fence *out_fence;
->  	int out_fence_id;
->  	struct list_head node; /* GPU active submit list */
->  	struct etnaviv_cmdbuf cmdbuf;
-> diff --git a/drivers/gpu/drm/etnaviv/etnaviv_gem_submit.c b/drivers/gpu/drm/etnaviv/etnaviv_gem_submit.c
-> index 592cbb38609a..5f502c49aec2 100644
-> --- a/drivers/gpu/drm/etnaviv/etnaviv_gem_submit.c
-> +++ b/drivers/gpu/drm/etnaviv/etnaviv_gem_submit.c
-> @@ -188,9 +188,9 @@ static int submit_fence_sync(struct etnaviv_gem_submit *submit)
->  		if (submit->flags & ETNA_SUBMIT_NO_IMPLICIT)
->  			continue;
->  
-> -		ret = dma_resv_get_fences(robj,
-> -					  bo->flags & ETNA_SUBMIT_BO_WRITE,
-> -					  &bo->nr_fences, &bo->fences);
-> +		ret = drm_sched_job_add_implicit_dependencies(&submit->sched_job,
-> +							      &bo->obj->base,
-> +							      bo->flags & ETNA_SUBMIT_BO_WRITE);
->  		if (ret)
->  			return ret;
->  	}
-> @@ -398,8 +398,6 @@ static void submit_cleanup(struct kref *kref)
->  
->  	wake_up_all(&submit->gpu->fence_event);
->  
-> -	if (submit->in_fence)
-> -		dma_fence_put(submit->in_fence);
->  	if (submit->out_fence) {
->  		/* first remove from IDR, so fence can not be found anymore */
->  		mutex_lock(&submit->gpu->fence_lock);
-> @@ -530,58 +528,69 @@ int etnaviv_ioctl_gem_submit(struct drm_device *dev, void *data,
->  	ret = etnaviv_cmdbuf_init(priv->cmdbuf_suballoc, &submit->cmdbuf,
->  				  ALIGN(args->stream_size, 8) + 8);
->  	if (ret)
-> -		goto err_submit_objects;
-> +		goto err_submit_put;
->  
->  	submit->ctx = file->driver_priv;
->  	submit->mmu_context = etnaviv_iommu_context_get(submit->ctx->mmu);
->  	submit->exec_state = args->exec_state;
->  	submit->flags = args->flags;
->  
-> +	ret = drm_sched_job_init(&submit->sched_job,
-> +				 &ctx->sched_entity[args->pipe],
-> +				 submit->ctx);
-> +	if (ret)
-> +		goto err_submit_put;
+> diff --git a/Documentation/gpu/drm-usage-stats.rst b/Documentation/gpu/drm-usage-stats.rst
+> index b8cc28f4da6f..6c9f166a8d6f 100644
+> --- a/Documentation/gpu/drm-usage-stats.rst
+> +++ b/Documentation/gpu/drm-usage-stats.rst
+> @@ -104,3 +104,9 @@ object belong to this client, in the respective memory region.
+>   
+>   Default unit shall be bytes with optional unit specifiers of 'KiB' or 'MiB'
+>   indicating kibi- or mebi-bytes.
 > +
->  	ret = submit_lookup_objects(submit, file, bos, args->nr_bos);
->  	if (ret)
-> -		goto err_submit_objects;
-> +		goto err_submit_job;
->  
->  	if ((priv->mmu_global->version != ETNAVIV_IOMMU_V2) &&
->  	    !etnaviv_cmd_validate_one(gpu, stream, args->stream_size / 4,
->  				      relocs, args->nr_relocs)) {
->  		ret = -EINVAL;
-> -		goto err_submit_objects;
-> +		goto err_submit_job;
->  	}
->  
->  	if (args->flags & ETNA_SUBMIT_FENCE_FD_IN) {
-> -		submit->in_fence = sync_file_get_fence(args->fence_fd);
-> -		if (!submit->in_fence) {
-> +		struct dma_fence *in_fence = sync_file_get_fence(args->fence_fd);
-> +		if (!in_fence) {
->  			ret = -EINVAL;
-> -			goto err_submit_objects;
-> +			goto err_submit_job;
->  		}
+> +===============================
+> +Driver specific implementations
+> +===============================
 > +
-> +		ret = drm_sched_job_add_dependency(&submit->sched_job,
-> +						   in_fence);
-> +		if (ret)
-> +			goto err_submit_job;
->  	}
->  
->  	ret = submit_pin_objects(submit);
->  	if (ret)
-> -		goto err_submit_objects;
-> +		goto err_submit_job;
->  
->  	ret = submit_reloc(submit, stream, args->stream_size / 4,
->  			   relocs, args->nr_relocs);
->  	if (ret)
-> -		goto err_submit_objects;
-> +		goto err_submit_job;
->  
->  	ret = submit_perfmon_validate(submit, args->exec_state, pmrs);
->  	if (ret)
-> -		goto err_submit_objects;
-> +		goto err_submit_job;
->  
->  	memcpy(submit->cmdbuf.vaddr, stream, args->stream_size);
->  
->  	ret = submit_lock_objects(submit, &ticket);
->  	if (ret)
-> -		goto err_submit_objects;
-> +		goto err_submit_job;
->  
->  	ret = submit_fence_sync(submit);
->  	if (ret)
-> -		goto err_submit_objects;
-> +		goto err_submit_job;
->  
-> -	ret = etnaviv_sched_push_job(&ctx->sched_entity[args->pipe], submit);
-> +	ret = etnaviv_sched_push_job(submit);
->  	if (ret)
-> -		goto err_submit_objects;
-> +		goto err_submit_job;
->  
->  	submit_attach_object_fences(submit);
->  
-> @@ -595,7 +604,7 @@ int etnaviv_ioctl_gem_submit(struct drm_device *dev, void *data,
->  		sync_file = sync_file_create(submit->out_fence);
->  		if (!sync_file) {
->  			ret = -ENOMEM;
-> -			goto err_submit_objects;
-> +			goto err_submit_job;
->  		}
->  		fd_install(out_fence_fd, sync_file->file);
->  	}
-> @@ -603,7 +612,9 @@ int etnaviv_ioctl_gem_submit(struct drm_device *dev, void *data,
->  	args->fence_fd = out_fence_fd;
->  	args->fence = submit->out_fence_id;
->  
-> -err_submit_objects:
-> +err_submit_job:
-> +	drm_sched_job_cleanup(&submit->sched_job);
-> +err_submit_put:
->  	etnaviv_submit_put(submit);
->  
->  err_submit_ww_acquire:
-> diff --git a/drivers/gpu/drm/etnaviv/etnaviv_sched.c b/drivers/gpu/drm/etnaviv/etnaviv_sched.c
-> index a8452ce10e3a..72e2553fbc98 100644
-> --- a/drivers/gpu/drm/etnaviv/etnaviv_sched.c
-> +++ b/drivers/gpu/drm/etnaviv/etnaviv_sched.c
-> @@ -17,48 +17,6 @@ module_param_named(job_hang_limit, etnaviv_job_hang_limit, int , 0444);
->  static int etnaviv_hw_jobs_limit = 4;
->  module_param_named(hw_job_limit, etnaviv_hw_jobs_limit, int , 0444);
->  
-> -static struct dma_fence *
-> -etnaviv_sched_dependency(struct drm_sched_job *sched_job,
-> -			 struct drm_sched_entity *entity)
-> -{
-> -	struct etnaviv_gem_submit *submit = to_etnaviv_submit(sched_job);
-> -	struct dma_fence *fence;
-> -	int i;
-> -
-> -	if (unlikely(submit->in_fence)) {
-> -		fence = submit->in_fence;
-> -		submit->in_fence = NULL;
-> -
-> -		if (!dma_fence_is_signaled(fence))
-> -			return fence;
-> -
-> -		dma_fence_put(fence);
-> -	}
-> -
-> -	for (i = 0; i < submit->nr_bos; i++) {
-> -		struct etnaviv_gem_submit_bo *bo = &submit->bos[i];
-> -		int j;
-> -
-> -		for (j = 0; j < bo->nr_fences; j++) {
-> -			if (!bo->fences[j])
-> -				continue;
-> -
-> -			fence = bo->fences[j];
-> -			bo->fences[j] = NULL;
-> -
-> -			if (!dma_fence_is_signaled(fence))
-> -				return fence;
-> -
-> -			dma_fence_put(fence);
-> -		}
-> -		kfree(bo->fences);
-> -		bo->nr_fences = 0;
-> -		bo->fences = NULL;
-> -	}
-> -
-> -	return NULL;
-> -}
-> -
->  static struct dma_fence *etnaviv_sched_run_job(struct drm_sched_job *sched_job)
->  {
->  	struct etnaviv_gem_submit *submit = to_etnaviv_submit(sched_job);
-> @@ -132,29 +90,22 @@ static void etnaviv_sched_free_job(struct drm_sched_job *sched_job)
->  }
->  
->  static const struct drm_sched_backend_ops etnaviv_sched_ops = {
-> -	.dependency = etnaviv_sched_dependency,
->  	.run_job = etnaviv_sched_run_job,
->  	.timedout_job = etnaviv_sched_timedout_job,
->  	.free_job = etnaviv_sched_free_job,
->  };
->  
-> -int etnaviv_sched_push_job(struct drm_sched_entity *sched_entity,
-> -			   struct etnaviv_gem_submit *submit)
-> +int etnaviv_sched_push_job(struct etnaviv_gem_submit *submit)
->  {
->  	int ret = 0;
->  
->  	/*
->  	 * Hold the fence lock across the whole operation to avoid jobs being
->  	 * pushed out of order with regard to their sched fence seqnos as
-> -	 * allocated in drm_sched_job_init.
-> +	 * allocated in drm_sched_job_arm.
->  	 */
->  	mutex_lock(&submit->gpu->fence_lock);
->  
-> -	ret = drm_sched_job_init(&submit->sched_job, sched_entity,
-> -				 submit->ctx);
-> -	if (ret)
-> -		goto out_unlock;
-> -
->  	drm_sched_job_arm(&submit->sched_job);
->  
->  	submit->out_fence = dma_fence_get(&submit->sched_job.s_fence->finished);
-> diff --git a/drivers/gpu/drm/etnaviv/etnaviv_sched.h b/drivers/gpu/drm/etnaviv/etnaviv_sched.h
-> index c0a6796e22c9..baebfa069afc 100644
-> --- a/drivers/gpu/drm/etnaviv/etnaviv_sched.h
-> +++ b/drivers/gpu/drm/etnaviv/etnaviv_sched.h
-> @@ -18,7 +18,6 @@ struct etnaviv_gem_submit *to_etnaviv_submit(struct drm_sched_job *sched_job)
->  
->  int etnaviv_sched_init(struct etnaviv_gpu *gpu);
->  void etnaviv_sched_fini(struct etnaviv_gpu *gpu);
-> -int etnaviv_sched_push_job(struct drm_sched_entity *sched_entity,
-> -			   struct etnaviv_gem_submit *submit);
-> +int etnaviv_sched_push_job(struct etnaviv_gem_submit *submit);
->  
->  #endif /* __ETNAVIV_SCHED_H__ */
-
-
+> +:ref:`i915-usage-stats`
+> diff --git a/Documentation/gpu/i915.rst b/Documentation/gpu/i915.rst
+> index 0f08693d05cd..54060cd6c419 100644
+> --- a/Documentation/gpu/i915.rst
+> +++ b/Documentation/gpu/i915.rst
+> @@ -697,3 +697,31 @@ The style guide for ``i915_reg.h``.
+>   
+>   .. kernel-doc:: drivers/gpu/drm/i915/i915_reg.h
+>      :doc: The i915 register macro definition style guide
+> +
+> +.. _i915-usage-stats:
+> +
+> +i915 DRM client usage stats implementation
+> +==========================================
+> +
+> +The drm/i915 driver implements the DRM client usage stats specification as
+> +documented in :ref:`drm-client-usage-stats`.
+> +
+> +Example of the output showing the implemented key value pairs and entirety of
+> +the currently possible format options:
+> +
+> +::
+> +
+> +      pos:    0
+> +      flags:  0100002
+> +      mnt_id: 21
+> +      drm-driver: i915
+> +      drm-pdev:   0000:00:02.0
+> +      drm-client-id:      7
+> +      drm-engine-render:  9288864723 ns
+> +      drm-engine-copy:    2035071108 ns
+> +      drm-engine-video:   0 ns
+> +      drm-engine-capacity-video:   2
+> +      drm-engine-video-enhance:   0 ns
+> +
+> +Possible `drm-engine-` key names are: `render`, `copy`, `video` and
+> +`video-enhance`.
+> diff --git a/drivers/gpu/drm/i915/i915_driver.c b/drivers/gpu/drm/i915/i915_driver.c
+> index b2df273e6d7b..3ffb617d75c9 100644
+> --- a/drivers/gpu/drm/i915/i915_driver.c
+> +++ b/drivers/gpu/drm/i915/i915_driver.c
+> @@ -1745,6 +1745,9 @@ static const struct file_operations i915_driver_fops = {
+>   	.read = drm_read,
+>   	.compat_ioctl = i915_ioc32_compat_ioctl,
+>   	.llseek = noop_llseek,
+> +#ifdef CONFIG_PROC_FS
+> +	.show_fdinfo = i915_drm_client_fdinfo,
+> +#endif
+>   };
+>   
+>   static int
+> diff --git a/drivers/gpu/drm/i915/i915_drm_client.c b/drivers/gpu/drm/i915/i915_drm_client.c
+> index 91a8559bebf7..e539f6b23060 100644
+> --- a/drivers/gpu/drm/i915/i915_drm_client.c
+> +++ b/drivers/gpu/drm/i915/i915_drm_client.c
+> @@ -7,7 +7,13 @@
+>   #include <linux/slab.h>
+>   #include <linux/types.h>
+>   
+> +#include <uapi/drm/i915_drm.h>
+> +
+> +#include <drm/drm_print.h>
+> +
+> +#include "gem/i915_gem_context.h"
+>   #include "i915_drm_client.h"
+> +#include "i915_file_private.h"
+>   #include "i915_gem.h"
+>   #include "i915_utils.h"
+>   
+> @@ -68,3 +74,81 @@ void i915_drm_clients_fini(struct i915_drm_clients *clients)
+>   	GEM_BUG_ON(!xa_empty(&clients->xarray));
+>   	xa_destroy(&clients->xarray);
+>   }
+> +
+> +#ifdef CONFIG_PROC_FS
+> +static const char * const uabi_class_names[] = {
+> +	[I915_ENGINE_CLASS_RENDER] = "render",
+> +	[I915_ENGINE_CLASS_COPY] = "copy",
+> +	[I915_ENGINE_CLASS_VIDEO] = "video",
+> +	[I915_ENGINE_CLASS_VIDEO_ENHANCE] = "video-enhance",
+> +};
+> +
+> +static u64 busy_add(struct i915_gem_context *ctx, unsigned int class)
+> +{
+> +	struct i915_gem_engines_iter it;
+> +	struct intel_context *ce;
+> +	u64 total = 0;
+> +
+> +	for_each_gem_engine(ce, rcu_dereference(ctx->engines), it) {
+> +		if (ce->engine->uabi_class != class)
+> +			continue;
+> +
+> +		total += intel_context_get_total_runtime_ns(ce);
+> +	}
+> +
+> +	return total;
+> +}
+> +
+> +static void
+> +show_client_class(struct seq_file *m,
+> +		  struct i915_drm_client *client,
+> +		  unsigned int class)
+> +{
+> +	const struct list_head *list = &client->ctx_list;
+> +	u64 total = atomic64_read(&client->past_runtime[class]);
+> +	const unsigned int capacity =
+> +		client->clients->i915->engine_uabi_class_count[class];
+> +	struct i915_gem_context *ctx;
+> +
+> +	rcu_read_lock();
+> +	list_for_each_entry_rcu(ctx, list, client_link)
+> +		total += busy_add(ctx, class);
+> +	rcu_read_unlock();
+> +
+> +	seq_printf(m, "drm-engine-%s:\t%llu ns\n",
+> +		   uabi_class_names[class], total);
+> +
+> +	if (capacity > 1)
+> +		seq_printf(m, "drm-engine-capacity-%s:\t%u\n",
+> +			   uabi_class_names[class],
+> +			   capacity);
+> +}
+> +
+> +void i915_drm_client_fdinfo(struct seq_file *m, struct file *f)
+> +{
+> +	struct drm_file *file = f->private_data;
+> +	struct drm_i915_file_private *file_priv = file->driver_priv;
+> +	struct drm_i915_private *i915 = file_priv->dev_priv;
+> +	struct i915_drm_client *client = file_priv->client;
+> +	struct pci_dev *pdev = to_pci_dev(i915->drm.dev);
+> +	unsigned int i;
+> +
+> +	/*
+> +	 * ******************************************************************
+> +	 * For text output format description please see drm-usage-stats.rst!
+> +	 * ******************************************************************
+> +	 */
+> +
+> +	seq_printf(m, "drm-driver:\t%s\n", i915->drm.driver->name);
+> +	seq_printf(m, "drm-pdev:\t%04x:%02x:%02x.%d\n",
+> +		   pci_domain_nr(pdev->bus), pdev->bus->number,
+> +		   PCI_SLOT(pdev->devfn), PCI_FUNC(pdev->devfn));
+> +	seq_printf(m, "drm-client-id:\t%u\n", client->id);
+> +
+> +	if (GRAPHICS_VER(i915) < 8)
+> +		return;
+> +
+> +	for (i = 0; i < ARRAY_SIZE(uabi_class_names); i++)
+> +		show_client_class(m, client, i);
+> +}
+> +#endif
+> diff --git a/drivers/gpu/drm/i915/i915_drm_client.h b/drivers/gpu/drm/i915/i915_drm_client.h
+> index 191368386ace..5f5b02b01ba0 100644
+> --- a/drivers/gpu/drm/i915/i915_drm_client.h
+> +++ b/drivers/gpu/drm/i915/i915_drm_client.h
+> @@ -59,6 +59,10 @@ static inline void i915_drm_client_put(struct i915_drm_client *client)
+>   
+>   struct i915_drm_client *i915_drm_client_add(struct i915_drm_clients *clients);
+>   
+> +#ifdef CONFIG_PROC_FS
+> +void i915_drm_client_fdinfo(struct seq_file *m, struct file *f);
+> +#endif
+> +
+>   void i915_drm_clients_fini(struct i915_drm_clients *clients);
+>   
+>   #endif /* !__I915_DRM_CLIENT_H__ */
