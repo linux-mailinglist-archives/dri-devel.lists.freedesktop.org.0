@@ -2,76 +2,72 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9BDCB4F18D1
-	for <lists+dri-devel@lfdr.de>; Mon,  4 Apr 2022 17:48:24 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id B34F84F18DB
+	for <lists+dri-devel@lfdr.de>; Mon,  4 Apr 2022 17:51:24 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id E952510E021;
-	Mon,  4 Apr 2022 15:48:20 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 0A3B510E0A6;
+	Mon,  4 Apr 2022 15:51:22 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from us-smtp-delivery-124.mimecast.com
- (us-smtp-delivery-124.mimecast.com [170.10.133.124])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 786EB10E021
- for <dri-devel@lists.freedesktop.org>; Mon,  4 Apr 2022 15:48:19 +0000 (UTC)
+ (us-smtp-delivery-124.mimecast.com [170.10.129.124])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 4ED2110E0A6
+ for <dri-devel@lists.freedesktop.org>; Mon,  4 Apr 2022 15:51:20 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1649087298;
+ s=mimecast20190719; t=1649087479;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=ACaAB1t0vMWb3pX2ELgBqL+jg9CnsBzljXi5Wr6J60o=;
- b=ahQIZJveoaR+Y6dsDE5k2DBuix4glwxgmWuUbkU0t6K4znyfEdZbQU0DnSa5F71Xd5sait
- JYdGNQBlf25YwkWQPb2M6fY5lX/sqaQucXMv7nxKHSdttWiCSza4IweLIWkf7wOz7rCqeN
- W5yW13uy+n5yMyAAHFYJZPiq4Sals0o=
-Received: from mail-wm1-f72.google.com (mail-wm1-f72.google.com
- [209.85.128.72]) by relay.mimecast.com with ESMTP with STARTTLS
+ bh=ztkMzR6AFKFUbWj3TFBCPhwIkZT9lK3mwv6qAxrBqJQ=;
+ b=JBDUJ1GxCHT9QCr1f/s65/VverP7Qll7hY9l5L2xvyGPwopde+Bx/0mU720r9AKap2Yay3
+ 5MJbEwLxhZny7LkwBR6otjVP6GFO4j5oB0IdvqAkIgqdK4wWY9wVYykMW9WljiQvEWq3R8
+ z34xRJK+pMmEfKqkzfXjE54R2Zx4L/g=
+Received: from mail-wm1-f69.google.com (mail-wm1-f69.google.com
+ [209.85.128.69]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-300-310k7deENWWewKJHLA3v3w-1; Mon, 04 Apr 2022 11:48:17 -0400
-X-MC-Unique: 310k7deENWWewKJHLA3v3w-1
-Received: by mail-wm1-f72.google.com with SMTP id
- m35-20020a05600c3b2300b0038c90ef2dceso7091632wms.4
- for <dri-devel@lists.freedesktop.org>; Mon, 04 Apr 2022 08:48:17 -0700 (PDT)
+ us-mta-511-87qo77jROkmt6osAk0yvYg-1; Mon, 04 Apr 2022 11:51:18 -0400
+X-MC-Unique: 87qo77jROkmt6osAk0yvYg-1
+Received: by mail-wm1-f69.google.com with SMTP id
+ 189-20020a1c02c6000000b0038e6c4c6472so2896734wmc.1
+ for <dri-devel@lists.freedesktop.org>; Mon, 04 Apr 2022 08:51:18 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
  :content-language:to:cc:references:from:in-reply-to
  :content-transfer-encoding;
- bh=ACaAB1t0vMWb3pX2ELgBqL+jg9CnsBzljXi5Wr6J60o=;
- b=kgpNGKMcYIZKBl0FF0Xt89GqjRUl68M0MN4cZNz25ixWp8RzBksCVfPCLJWEj67bON
- NqoKknAyv0RCswJa50JAgO3wjXd51mnAqhC53EYVbrrGIVcMQT2L2MWPn1fAeqRg7Obb
- tYQ5PeebSpjF5kw7+GsaBbMqhzJUQ6v5mfg9fqvJm9AH9oaK2uRsRryZGmyyKqSAVhbp
- BjxDSk+jT5UzTClyONrRUWh91AvMtQw+R/bq2USPlUHQF1hQ9biX9QQJpkMY8mUxKjYD
- xyU9EInsVfhzL2rzu8aWJTCaR9/Z+qM1GR8qGtfTEdn0ZSJiS9LhU9XIKfGpzPZg777j
- 8nHQ==
-X-Gm-Message-State: AOAM533YMZrlZp6yNeb2L84MJgBPCfoHuzAIye0c7AESwo9Jn4D9gJK2
- F0aXI92LIfRNQfv7UlJ2OT4x8f4BWbfmHfrkh4A3Br/U8QQRrlKB9mCMEfC1kNKmYOweBe87RRO
- sZTz5vDFuy+Y87wIx24ydqV0Ju/x+
-X-Received: by 2002:adf:f188:0:b0:206:e20:1b65 with SMTP id
- h8-20020adff188000000b002060e201b65mr259496wro.363.1649087296378; 
- Mon, 04 Apr 2022 08:48:16 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJz+jBXSnytEUbHzPD7PrJYBhDtVRIkCeBYl9hIqrrHNXMn+EkEqSV4Kzkt4zlwuYyU9ugLZaA==
-X-Received: by 2002:adf:f188:0:b0:206:e20:1b65 with SMTP id
- h8-20020adff188000000b002060e201b65mr259479wro.363.1649087296112; 
- Mon, 04 Apr 2022 08:48:16 -0700 (PDT)
+ bh=ztkMzR6AFKFUbWj3TFBCPhwIkZT9lK3mwv6qAxrBqJQ=;
+ b=NE3lN4bClL5ToCvpILLqsuSLBqRnFN7c7w32TWOI+p/WHQ3f2NC00iCBt0tIBMs2mc
+ eQNeqKEkToP2QYui0aNX9LNXSPUgEymZXhlsSkY4vfj0GtixYzlIbZcUkfDIc514592w
+ b8nCXJIVFf9hNbTyGrgdW5wMu9VFBR2LPLwmT1eqxYn9Vl7KA1yTE6gfTIAEi3IPObcL
+ barcKY2bEacndGW1WocK7ahdgNkvQDaapWyavmsMLxr/Db4D+KTk5vhEIswDRlv+d2uf
+ WwMwYrjlE6pvhGvZIfGXXcKqkCGeb1oSR72dDnoIZNODB7X4SfAfvDHJ1+oRP7NDVGLX
+ TKbQ==
+X-Gm-Message-State: AOAM5310jWxUIuvdSamJM/PljykeYcl38NGHVakN7HzfLV4w5SXtGYZU
+ 9/aqmrfdws1VZ84/LNKucnF2Bsp25f91payAZGPf+8DcL2FXNjnYgPdV8rrnBbvjAYxkQL8Sqdg
+ fmIANRVl4migGfyHeCU409rjqwbnO
+X-Received: by 2002:a1c:7204:0:b0:38e:70f4:edf1 with SMTP id
+ n4-20020a1c7204000000b0038e70f4edf1mr171676wmc.18.1649087476771; 
+ Mon, 04 Apr 2022 08:51:16 -0700 (PDT)
+X-Google-Smtp-Source: ABdhPJwqPFQoBH+n99pHf4G9kdT6j9HVXw0NXVS9LNUOgzNhNzUFeYqWv2Xi/awInhum+eCt95wBfA==
+X-Received: by 2002:a1c:7204:0:b0:38e:70f4:edf1 with SMTP id
+ n4-20020a1c7204000000b0038e70f4edf1mr171657wmc.18.1649087476512; 
+ Mon, 04 Apr 2022 08:51:16 -0700 (PDT)
 Received: from [192.168.1.102] ([92.176.231.205])
  by smtp.gmail.com with ESMTPSA id
- v14-20020a7bcb4e000000b0034492fa24c6sm9737099wmj.34.2022.04.04.08.48.15
+ w12-20020adf8bcc000000b002060e3da33fsm4500411wra.66.2022.04.04.08.51.15
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Mon, 04 Apr 2022 08:48:15 -0700 (PDT)
-Message-ID: <92a46ea2-e23e-b7c8-ea5f-35d458ee1b76@redhat.com>
-Date: Mon, 4 Apr 2022 17:48:14 +0200
+ Mon, 04 Apr 2022 08:51:15 -0700 (PDT)
+Message-ID: <bf917bf0-a380-6689-95cd-77ff0317f578@redhat.com>
+Date: Mon, 4 Apr 2022 17:51:15 +0200
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
  Thunderbird/91.4.0
-Subject: Re: [PATCH 2/4] dt-bindings: display: ssd1307fb: Add entry for SINO
- WEALTH SH1106
-To: wens@kernel.org, Javier Martinez Canillas <javier@dowhile0.org>
-References: <20220330190846.13997-1-wens@kernel.org>
- <20220330190846.13997-3-wens@kernel.org>
- <CABxcv==csvqsxM46ce2LecDh4E-UxxD2DG+3E-hCFoyrdtRv7A@mail.gmail.com>
- <CAGb2v64VQPjan=EUkd8UhRZfV0g1GqBwPqhxQakS=7YhgvVDQA@mail.gmail.com>
+Subject: Re: [PATCH] drm/format_helper: fix a kernel-doc typo
+To: Randy Dunlap <rdunlap@infradead.org>, linux-kernel@vger.kernel.org
+References: <20220403232902.1753-1-rdunlap@infradead.org>
 From: Javier Martinez Canillas <javierm@redhat.com>
-In-Reply-To: <CAGb2v64VQPjan=EUkd8UhRZfV0g1GqBwPqhxQakS=7YhgvVDQA@mail.gmail.com>
+In-Reply-To: <20220403232902.1753-1-rdunlap@infradead.org>
 Authentication-Results: relay.mimecast.com;
  auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=javierm@redhat.com
 X-Mimecast-Spam-Score: 0
@@ -91,58 +87,38 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: devicetree <devicetree@vger.kernel.org>, David Airlie <airlied@linux.ie>,
- Linux Kernel <linux-kernel@vger.kernel.org>, Rob Herring <robh+dt@kernel.org>,
- dri-devel <dri-devel@lists.freedesktop.org>,
- Krzysztof Kozlowski <krzk+dt@kernel.org>
+Cc: David Airlie <airlied@linux.ie>, dri-devel@lists.freedesktop.org,
+ Thomas Zimmermann <tzimmermann@suse.de>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hello Chen-Yu,
+Hello Randy,
 
-On 4/4/22 17:06, Chen-Yu Tsai wrote:
-
-[snip]
-
->>>      enum:
->>> +      - sinowealth,sh1106-i2c
->>
->> I like that you didn't include a "fb" suffix for this, the existing
->> ones are cargo culting from the previous fbdev driver to make existing
->> DTBs compatible with the DRM driver.
->>
->> I've been thinking if I should post a patch to compatible strings
->> without the "fb" and mark the current ones as deprecated...
->>
->> Reviewed-by: Javier Martinez Canillas <javierm@redhat.com>
+On 4/4/22 01:29, Randy Dunlap wrote:
+> It looks like the incorrect name of a function parameter was used
+> in the kernel-doc notation, so just change it to the function's
+> parameter name to quell the kernel-doc warning.
 > 
-> I also thought about dropping the "-i2c" suffix, but then thought
-> there might be a case where someone wanted to search the device
-> tree specifically for an I2C connected node using said compatible
-> string.
+> drivers/gpu/drm/drm_format_helper.c:640: warning: Function parameter or member 'vaddr' not described in 'drm_fb_xrgb8888_to_mono_reversed'
+> drivers/gpu/drm/drm_format_helper.c:640: warning: Excess function parameter 'src' description in 'drm_fb_xrgb8888_to_mono_reversed'
 > 
-> What do you think?
-> 
+> Fixes: bcf8b616deb8 ("drm/format-helper: Add drm_fb_xrgb8888_to_mono_reversed()")
+> Signed-off-by: Randy Dunlap <rdunlap@infradead.org>
+> Cc: David Airlie <airlied@linux.ie>
+> Cc: Daniel Vetter <daniel@ffwll.ch>
+> Cc: dri-devel@lists.freedesktop.org
+> Cc: Javier Martinez Canillas <javierm@redhat.com>
+> Cc: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>
+> CC: Maxime Ripard <mripard@kernel.org>
+> CC: Thomas Zimmermann <tzimmermann@suse.de>
+> ---
+>  drivers/gpu/drm/drm_format_helper.c |    2 +-
+>  1 file changed, 1 insertion(+), 1 deletion(-)
 >
 
-tl; dr: unfortunately we can't do it due how SPI and I2C report module
-aliases. Otherwise module auto loading will not work. I wrote a much
-longer explanation with some details not so long ago:
+Thanks for the patch.
 
-https://patchwork.kernel.org/project/dri-devel/patch/20220209091204.2513437-1-javierm@redhat.com/#24730793
-
-BTW, I bought a SSD1306 SPI controller and go it working this weekend.
-
-I plan to post the patches once yours land, to avoid in-flight series
-that may conflict. And what I did is mark the -fb as deprecated, then
-added "ssd130x-i2c" and "ssd130x-spi" compatibles strings.
-
-The WIP patches can be found here in case you are interested:
-
-https://github.com/martinezjavier/linux/tree/drm-ssd130x-spi
-
-> ChenYu
-> 
+Reviewed-by: Javier Martinez Canillas <javierm@redhat.com>
 
 -- 
 Best regards,
