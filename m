@@ -1,85 +1,123 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id E2B3A4F14E8
-	for <lists+dri-devel@lfdr.de>; Mon,  4 Apr 2022 14:32:37 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id C06284F14ED
+	for <lists+dri-devel@lfdr.de>; Mon,  4 Apr 2022 14:33:56 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id E754810E601;
-	Mon,  4 Apr 2022 12:32:33 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id B582110E8BD;
+	Mon,  4 Apr 2022 12:33:54 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from us-smtp-delivery-124.mimecast.com
- (us-smtp-delivery-124.mimecast.com [170.10.133.124])
- by gabe.freedesktop.org (Postfix) with ESMTPS id F104110E774
- for <dri-devel@lists.freedesktop.org>; Mon,  4 Apr 2022 12:32:32 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1649075552;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=Bfu/mStPYG5d1Vz4TNDHt4/dv4CJ9ungTZX6DsULc/o=;
- b=D3sLGxOFLXERSmfVwkrvF3LE2+tbLd5JY2KkSoM8FnOuQzLrbnbI7B/zqanZvZ09oI0K+7
- 6D8hq02FT1MvYbcAd2aZDi8YnL4UMofEyOQfkv+8KO0D88lxqlPoNWCUUu9qlyqxPXGf5J
- sdH1ZlQxyJj7Euz1Gq1+bK2xAnOl8DQ=
-Received: from mail-qv1-f69.google.com (mail-qv1-f69.google.com
- [209.85.219.69]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-356-NkuCmwKAMBCtD-0nRm8MnQ-1; Mon, 04 Apr 2022 08:32:31 -0400
-X-MC-Unique: NkuCmwKAMBCtD-0nRm8MnQ-1
-Received: by mail-qv1-f69.google.com with SMTP id
- m15-20020a0562141bcf00b00443ddcd8a0fso1110262qvc.12
- for <dri-devel@lists.freedesktop.org>; Mon, 04 Apr 2022 05:32:30 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=x-gm-message-state:subject:to:cc:references:from:message-id:date
- :user-agent:mime-version:in-reply-to:content-transfer-encoding
- :content-language;
- bh=Bfu/mStPYG5d1Vz4TNDHt4/dv4CJ9ungTZX6DsULc/o=;
- b=2ukjbS0uGgS/7mn1dMR0fYUVj9lGK4oVbsDqaXRrjEBnlXM70obzZpVIY86OLNeazx
- HM1n/3E1M6iVOvS84gyvffqvE8ilwMEmYS/QYg9VhO/dbfKkollQ5b8HGLnXQvrHRMn/
- foeiwTUcsn6OLXu4iMXtMmzyqWkGnuAx/h9o7Fez3iOjWIwG8n7KX22ioA4/ZP+iT1C0
- ctUaHBtGdpGYBNGE78oZQj54J25R/fE+oZYm7OspGyGD1isc3sWdq2i2dNNlYq8Hl9rq
- c895D/ofYxwtM9zYggre1QS8lx7Xu/a5INmgmnCcXBaRJJY9giTsWoDrf3SflLT6+GJ0
- F5WQ==
-X-Gm-Message-State: AOAM532/NmOkSZ7yvO264B8F731QgPUmESophs9hWAmbdE3j5ZGCa1dY
- VGSswIRmuaReuehP9tH753IkVg1IZV89/1BDCUIW0nH/v3hFBuAQWc9nqu+CZI46pTIf7fA+zVG
- Ygn3dgPiPuaz6T4IvWcYivr4SouOp6O5/BturS1mc3xViuEzxXypoHBU3FELQDCZkKv9VsCmm7F
- c=
-X-Received: by 2002:a37:a608:0:b0:67b:27c5:3251 with SMTP id
- p8-20020a37a608000000b0067b27c53251mr13162601qke.516.1649075549976; 
- Mon, 04 Apr 2022 05:32:29 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJyENZ0sDO3KgVpl+tt/qGUZXRXuC+4jtLgV16tEmVvwC9divMIrV3uGThF2bTlpVJqJjicbzg==
-X-Received: by 2002:a37:a608:0:b0:67b:27c5:3251 with SMTP id
- p8-20020a37a608000000b0067b27c53251mr13162565qke.516.1649075549473; 
- Mon, 04 Apr 2022 05:32:29 -0700 (PDT)
-Received: from localhost.localdomain (024-205-208-113.res.spectrum.com.
- [24.205.208.113]) by smtp.gmail.com with ESMTPSA id
- a7-20020a05622a064700b002e238d6db02sm8597932qtb.54.2022.04.04.05.32.27
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Mon, 04 Apr 2022 05:32:29 -0700 (PDT)
-Subject: Re: [PATCH] drm/radeon: change si_default_state table from global to
- static
-To: =?UTF-8?Q?Christian_K=c3=b6nig?= <christian.koenig@amd.com>,
- alexander.deucher@amd.com, Xinhui.Pan@amd.com, airlied@linux.ie,
- daniel@ffwll.ch
-References: <20220402162750.2805433-1-trix@redhat.com>
- <9e407616-47b5-ad16-bd16-cde23684fc69@amd.com>
-From: Tom Rix <trix@redhat.com>
-Message-ID: <12b2fd82-174a-6f05-0de6-02b6f0d2a1d6@redhat.com>
-Date: Mon, 4 Apr 2022 05:32:26 -0700
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.10.1
-MIME-Version: 1.0
-In-Reply-To: <9e407616-47b5-ad16-bd16-cde23684fc69@amd.com>
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=trix@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Transfer-Encoding: 8bit
+Received: from NAM11-BN8-obe.outbound.protection.outlook.com
+ (mail-bn8nam11on2070.outbound.protection.outlook.com [40.107.236.70])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 49ECD10E8BD
+ for <dri-devel@lists.freedesktop.org>; Mon,  4 Apr 2022 12:33:53 +0000 (UTC)
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=C44NoCQNjl7gFV7OkFDWJvnxjYDGdMiSza78l5ZExOpevQhPXR7L500FmTkirB4Ou54dOsSflCsRh3aD0LAZ6ukq9/iiss6cfyeB4Ip8ZP8/rHxLT1iBKSKHBc3KvQETB3e0s5L8NmJI0cX6zzHJYZU1MaG4bPkxhbBOANb9pvlOAAwrup3v2aiSBqsANHhnHANHTjf895HMJ4tZ6yNpys5xlI/lE8FpKaaeKRlaXRNfrZNUC3JNDXwfYCr0Nxjpq/XozNpNwOeyAzlusS5U5ZW+4awS5XBGbEvfvHad5CIQjFz4QmrAfwUsbFEPapp4oYXaWVz3kKinr3YaCYORLA==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=lCTKbJiEurIi9X3FKKn+rKWjGiI8VcMNseJtVKWN5Xk=;
+ b=jkVI8Z8Iggl6RtVv3N7M2WxIWMi4BqgXKklj6szURWrO7dfHNKQNB9wNYgRox/Tx6Xr7/en9eiJai7m0x0AMJs3TZcyNFNxOJISv6v7dM4cD4OHzZAgdkP36Y6HEd6Ag9Ch77m2vBv77I1cAg5k8BygzDq6IBINV1nBFqf4uhi/jpeChTpCd3DpoC3HjdwDu4qI782WSc05I3TaZqazZovYKxOxr+Tb8We4HpvqZtv46/phFU03rCbPqPtBeTNXuzaIckFNX4sxSEg4Yk+yo1TfS3BNj18Vv0jlaFdrKkpwgoTXwnCutJJpZtnuySMmpK541Z1TCL0lcw5t8wamg5Q==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=nvidia.com; dmarc=pass action=none header.from=nvidia.com;
+ dkim=pass header.d=nvidia.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=Nvidia.com;
+ s=selector2;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=lCTKbJiEurIi9X3FKKn+rKWjGiI8VcMNseJtVKWN5Xk=;
+ b=NJnIklQFdgS0s3JlfaKI4+2mOCMu9IaEOQm+hJTtsRewFfpVT+Mr/SbdUge7dAdADAkloZC15L7QNdOr730EeqtAAU0sksWEy0iBxh2MHNYbj8MNY0VMBjw20MDLwO5Yv0WBQciRppcvIgIUwUCnrKYrrKVAis1wWhYqFNwYfcTLfAkglCxE3ACyVJm1MAfrBQFxQDuSv6+KXVScOKiUzOeNs/MyfAJhnS+eelGyUwJWYV+QklDzbI9JIcjPA9p67DoyzvlN1PA+iGqS5rYtlgEH6v1vsQ6nvhT71rg0ms6U260bvj764spuquDBMzEV2YzabCUhff7kfCcyBZpInQ==
+Authentication-Results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=nvidia.com;
+Received: from CO6PR12MB5444.namprd12.prod.outlook.com (2603:10b6:5:35e::8) by
+ BN8PR12MB3235.namprd12.prod.outlook.com (2603:10b6:408:6e::19) with
+ Microsoft
+ SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.20.5123.31; Mon, 4 Apr 2022 12:33:50 +0000
+Received: from CO6PR12MB5444.namprd12.prod.outlook.com
+ ([fe80::10ef:dc56:bb21:76f6]) by CO6PR12MB5444.namprd12.prod.outlook.com
+ ([fe80::10ef:dc56:bb21:76f6%4]) with mapi id 15.20.5123.031; Mon, 4 Apr 2022
+ 12:33:50 +0000
+Message-ID: <3781875f-dfb0-a00c-0ee3-6ae70c3220e5@nvidia.com>
+Date: Mon, 4 Apr 2022 13:33:42 +0100
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.7.0
+Subject: Re: [PATCH] gpu: host1x: Do not use mapping cache for job submissions
 Content-Language: en-US
+To: Thierry Reding <thierry.reding@gmail.com>
+References: <20220324103025.2660775-1-thierry.reding@gmail.com>
+From: Jon Hunter <jonathanh@nvidia.com>
+In-Reply-To: <20220324103025.2660775-1-thierry.reding@gmail.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
+X-ClientProxiedBy: AS9PR06CA0396.eurprd06.prod.outlook.com
+ (2603:10a6:20b:461::9) To CO6PR12MB5444.namprd12.prod.outlook.com
+ (2603:10b6:5:35e::8)
+MIME-Version: 1.0
+X-MS-PublicTrafficType: Email
+X-MS-Office365-Filtering-Correlation-Id: 2e410955-84c1-43a6-13b8-08da16375efe
+X-MS-TrafficTypeDiagnostic: BN8PR12MB3235:EE_
+X-Microsoft-Antispam-PRVS: <BN8PR12MB323522E69C2802E4184E903BD9E59@BN8PR12MB3235.namprd12.prod.outlook.com>
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: BCL:0;
+X-Microsoft-Antispam-Message-Info: DkCypCgzh+EUReRLzOS0bW3oStXK7CWqhkjZcgMM8tgpIHJhC4RUehlQJGnMpJhfDqXZPc9m+OCc0ja6JF1HGrEVWB4l37KGf+qV1loXt9YBYN9E7GzD2mvehF+NDql8GaiRC5p6GV20x322xWvXtDlNF0IH3mtYX+9jeaAo69pepUlxeG2chRj6OWp9gmKdEFuxlLAejrdFXdHjpBqDMYisG1/Bg9pvTr81uSvF3dHo/nQkVu/wmfkhc6/utzS4PPQ5ylCytnt2oMUXDcUJsBq9bLzj6dd2MOp//qTeQpekAkgb/OF8xmUUvph5NUy3R/1m7YCxAnnIaWd1P30c4UylidCyqVEig6eMXNnLKvcEHAoX5GmmtGAgChuLOZNqlSsQymnO5UWwBqy3l5bZXEAP8H43fQiipTrAz5FD4ceNRHIueODn4xB/k/xX1la/aB+j3B8iQSzw0gSwRh0aExbakfDX/dlwdSFo727SFnQkJBw5H+rZB3MDDWK9NIHJR5OKIASbAaMJyqxREDhKUxqczqrUC4H8lC2kcUbS+x6RkFmKq8H7J8zRWXvC/4M7W+hYae3bWHh9pShmVT5qhoEtGgItU3D+hZle5CIg93f4u5cNlbpulp0bF5btO/ArYoavS1205V+cFv8gS3vugJ742aGktAsLeUl1rBi6JOhUyQVYqwR+LkOMASOKopUt9dL5aI/vZt4Fm/vz1SJ+DTPBIK2f0UvQNEnIIgnCRz3T4eJYDA3WqJhFew2MQyG0sfRYFuYfy7BldCe12obQPA==
+X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
+ IPV:NLI; SFV:NSPM; H:CO6PR12MB5444.namprd12.prod.outlook.com; PTR:; CAT:NONE;
+ SFS:(13230001)(4636009)(366004)(38100700002)(4744005)(2616005)(5660300002)(508600001)(6486002)(53546011)(6506007)(6666004)(6916009)(2906002)(6512007)(31696002)(316002)(55236004)(83380400001)(66556008)(8676002)(86362001)(66946007)(4326008)(31686004)(186003)(36756003)(8936002)(26005)(66476007)(32563001)(43740500002)(45980500001);
+ DIR:OUT; SFP:1101; 
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0: =?utf-8?B?cEc5YUswL1JYMjVmOVdCY3JScTZVMjk2TFc0U0J4am1ETDNYOUR3SnF5blUx?=
+ =?utf-8?B?L3NxZlpvUjllNW8zTjlhZUNScTRucjhXQ0NkS0I2VmlDd1RPZjMxemwzKzd0?=
+ =?utf-8?B?d05pbWIzTDBtbCtCeXBRS243T1hEcjh3ZTB3WG4rdytyOHQrQitneXZmcDNa?=
+ =?utf-8?B?ckdBblVQT2oxS3dNMmZGUk85R0hPQi9GcTM4d1VML2xuY1Q5YzdFbU1ucDlo?=
+ =?utf-8?B?YjF0T0RpbTlsS2JKWVdGN2JRM0pCUmRtcVVvZXFWR3h0Y01ucHVSMURUNkNB?=
+ =?utf-8?B?ZVJDNitoblFmdEpQVXV3K3ZKbnU5b3k1SzE3ejg3WUFndWQ1TXVqVGRIMlI0?=
+ =?utf-8?B?OUF2TzJ6Mk1RVUJMZk02bW53VkZOMnVRcnhaMW92Z2NJUTVUVm5HT3liYW9V?=
+ =?utf-8?B?M1BBVGtFOWhZRzNPNjVlZ1JFTUk2YW81emdyVGsyeHNyczhIYnRoWlFYaWEv?=
+ =?utf-8?B?b3VBT25JM0xLeXdqTnVIenpRTWxteEYyYnVraElYUkRSRlRpS01WTDFBdy9W?=
+ =?utf-8?B?Qlk0K0JKZG5MV1JDeFVRanNTcWZ2S1FHUGt2WTQ1SjhVcEJCMWR2b3Q1R1NU?=
+ =?utf-8?B?dlpPUXRJTWdiRXFmMENPdStOb1BJQ04xQSthdElSTFhBbS9TNDcyNm92MStS?=
+ =?utf-8?B?SGYyV3QwdUladTN6eTdSYWUwVkUxY0kyaFBydU9zUUpjYlBmUVJlSjdFNXZw?=
+ =?utf-8?B?MkNkVnNCQmFTMjVtTTNTOW9pVWtrZENMMERyUEhOT1FldDEzN0F3anZ6ejRU?=
+ =?utf-8?B?ZnErVXJ5eUx5RmZrUkpQRGZUQXVPV001dzJUZlFqc2xHb2dsYmgydllPQ1E2?=
+ =?utf-8?B?cmdHckZxeFo3R2Z4b05yU29zZmw2NHJSQ1VXeWdzeUFwU1NUUC9nOVNlbTln?=
+ =?utf-8?B?TzJWTlFCYXI3TDVhdi8zamczNEJQRVdhakZncDBiMC9aLzBBQWdzU1VnTW1Z?=
+ =?utf-8?B?Yk1aUFM3SVhmY25tOG5kWGhBMitKSEN3eHllYWN5M1FiVlJZK2dHVkRmR0xQ?=
+ =?utf-8?B?aUJkRFgvcEUwZDlpRENDd2UxS1BnV3dmZmMvbThnU2NneUdUZ2hYdEFtenV2?=
+ =?utf-8?B?SVBQR1QyOXdKeUE1S3dmMG5pa20rZzJ0THRwUGtUbnhlaU1NNnZZMDh3dnVr?=
+ =?utf-8?B?cWtTU01vcTRCaHVZUzJnb0xSN3dyZTVlRUQvV0pCbS9lTk5JS3MzZEpsTTNu?=
+ =?utf-8?B?UzVGR1Rtd3ducnY2cWcrZWN0ZmlUeVpTZERPUDZQMUlkU0IvRHVJcWxTaWZO?=
+ =?utf-8?B?N01HZ3ZwNWtOOGhvS3k3dGNsU1Jyam51eHM0V1ZaK0VwWWxaTnRXVEhTWURi?=
+ =?utf-8?B?VnFjR0VtSm1uamZZdWJyQ1V5ODFaakRPU2JOZWtqclRqSHRETWdwclNaN0lB?=
+ =?utf-8?B?SVFEMkZvZUhhQVg1cktiNUlsUHZ3RDJOa0xFb2pVL1FaZlIyY1hEaGh4S0dO?=
+ =?utf-8?B?OEtDZTNlbk9Fd1NkTFduUjVpVjdGSTd4cUdBSWc2ZmpQdGpENGxWdGFod2Ri?=
+ =?utf-8?B?ektPcmIyU3RNakxTMDBsWlQwWUdyWGU0THppSlErMS9qbmREK2FMQzlFRmlz?=
+ =?utf-8?B?dmxsL2ZtVEZOSHVwak94TFVHb2RCMkxvRVNnQmdtbXEwdFNlaGxpOTBOUWVy?=
+ =?utf-8?B?cmdtQmFZek1tcHR5MWgwWlVNUE9KRWhSYStpNzFReFJ6cndRY0ZjUENQdFlF?=
+ =?utf-8?B?MElDOUhGa09MQXcxL3cranhCYWtTZG02dDhjMkRZSVlwdEFVZHlKcHZ2Rlp1?=
+ =?utf-8?B?RXljM3NYWVEyOUJScTJGaitKTmRXYjd2WTI1UUhJNjZGZmlHTE41UWUzM1lZ?=
+ =?utf-8?B?TGdWb0FkSzM5a2xwbktMR1VRbUt6UTE4YTI2Q0VXaXlRUVBiN0xnNGJQLzlZ?=
+ =?utf-8?B?Yk1rZUhtNlpPLzRHVVRhUE85YUczamxYY3RQMmhGZGxiaUU4NnBoUWNMSW1V?=
+ =?utf-8?B?OUFib1h2VllhcFAra2M1MUM0ZG94bEptZEphbkN1NXNmTjVjelJZYm9OU1JV?=
+ =?utf-8?B?TFdtMk1SZnZjQy9QV1ovK3dqbk5CYnorKzZjMDY4cFJYZmw3Q1pBVHQ4Tmhh?=
+ =?utf-8?B?eE1nZkpzdGxUcENuWHlOMDk3K0tYY0xIUVpnc2ZXRlAxc0FLc1B1MkFyektQ?=
+ =?utf-8?B?a1lrdldTV1pmTG0rV3Z6Y3h5RHNFNEIyRmNqVVZLVmlwSmcyY0VidWk2cTV5?=
+ =?utf-8?B?SHNTZEV3TmJKc0c5eWFVbFdtMWYybWw0c1RpM3hYRWJ3eGVxOFZVR3dHNDAy?=
+ =?utf-8?B?Si8xOTFwSGFSaW8vcy9IQzZmVkw5VGpFalF5bG5YQ050clByT0ROcFBxcWww?=
+ =?utf-8?B?a2czQjFORWJqMUFJbWttRE9TYkhiRDFjNDZDUHhTMGN2YVVrczRFRHpWRFpt?=
+ =?utf-8?Q?kxl2EyWXYRjbM8bA=3D?=
+X-OriginatorOrg: Nvidia.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 2e410955-84c1-43a6-13b8-08da16375efe
+X-MS-Exchange-CrossTenant-AuthSource: CO6PR12MB5444.namprd12.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 04 Apr 2022 12:33:50.1568 (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 43083d15-7273-40c1-b7db-39efd9ccc17a
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: l4yAmYwrxvb5yJnF0x4JkKRxAkSIkPtX5HC5AxF0HslN8EjjMYu1kFGM6vwVdyv0xPUMQXmAOFkdsamXfoJ6yQ==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: BN8PR12MB3235
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -92,644 +130,37 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org,
- amd-gfx@lists.freedesktop.org
+Cc: linux-tegra@vger.kernel.org, dri-devel@lists.freedesktop.org,
+ Mikko Perttunen <mperttunen@nvidia.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 
-On 4/3/22 8:23 AM, Christian König wrote:
-> Am 02.04.22 um 18:27 schrieb Tom Rix:
->> Smatch reports these issues
->> si_blit_shaders.c:31:11: warning: symbol 'si_default_state'
->>    was not declared. Should it be static?
->> si_blit_shaders.c:253:11: warning: symbol 'si_default_size'
->>    was not declared. Should it be static?
->>
->> Both symbols are only used in si.c.  Single file symbols
->> should be static.  So move the si_default_state and
->> si_default_size to si.c and change their
->> storage-class-specifier to static.
->>
->> Remove unneeded si_blit_shaders.[c|h]
->
-> Uff, well NAK.
->
-> IIRC this was intentionally moved into a separate file because it is 
-> rather large and not related to anything in si.c.
->
-> It's unlikely that we are ever going to update it, but I would still 
-> rather want to keep it separated.
->
-> You should rather just include si_blit_shaders.h in si_blit_shaders.c.
+On 24/03/2022 10:30, Thierry Reding wrote:
+> From: Thierry Reding <treding@nvidia.com>
+> 
+> Buffer mappings used in job submissions are usually small and not
+> rapidly reused as opposed to framebuffers (which are usually large and
+> rapidly reused, for example when page-flipping between double-buffered
+> framebuffers). Avoid going through the mapping cache for these buffers
+> since the cache would also lead to leaks if nobody is ever releasing
+> the cache's last reference. For DRM/KMS these last references are
+> dropped when the framebuffers are removed and therefore no longer
+> needed.
+> 
+> While at it, also add a note about the need to explicitly remove the
+> final reference to the mapping in the cache.
+> 
+> Signed-off-by: Thierry Reding <treding@nvidia.com>
 
-Do you mean #include "si_blit_shaders.c" in si.c or similar ?
 
-This could have the same effect of while keeping these separate failes
+I have tested this and verified that it is working well.
 
-Tom
+Reviewed-by: Jon Hunter <jonathanh@nvidia.com>
+Tested-by: Jon Hunter <jonathanh@nvidia.com>
 
->
-> Regards,
-> Christian.
->
->>
->> Signed-off-by: Tom Rix <trix@redhat.com>
->> ---
->>   drivers/gpu/drm/radeon/Makefile          |   2 +-
->>   drivers/gpu/drm/radeon/si.c              | 224 +++++++++++++++++++-
->>   drivers/gpu/drm/radeon/si_blit_shaders.c | 253 -----------------------
->>   drivers/gpu/drm/radeon/si_blit_shaders.h |  32 ---
->>   4 files changed, 224 insertions(+), 287 deletions(-)
->>   delete mode 100644 drivers/gpu/drm/radeon/si_blit_shaders.c
->>   delete mode 100644 drivers/gpu/drm/radeon/si_blit_shaders.h
->>
->> diff --git a/drivers/gpu/drm/radeon/Makefile 
->> b/drivers/gpu/drm/radeon/Makefile
->> index 11c97edde54d..664381f4eb07 100644
->> --- a/drivers/gpu/drm/radeon/Makefile
->> +++ b/drivers/gpu/drm/radeon/Makefile
->> @@ -44,7 +44,7 @@ radeon-y += radeon_device.o radeon_asic.o 
->> radeon_kms.o \
->>       evergreen.o evergreen_cs.o evergreen_blit_shaders.o \
->>       evergreen_hdmi.o radeon_trace_points.o ni.o 
->> cayman_blit_shaders.o \
->>       atombios_encoders.o radeon_semaphore.o radeon_sa.o 
->> atombios_i2c.o si.o \
->> -    si_blit_shaders.o radeon_prime.o cik.o cik_blit_shaders.o \
->> +    radeon_prime.o cik.o cik_blit_shaders.o \
->>       r600_dpm.o rs780_dpm.o rv6xx_dpm.o rv770_dpm.o rv730_dpm.o 
->> rv740_dpm.o \
->>       rv770_smc.o cypress_dpm.o btc_dpm.o sumo_dpm.o sumo_smc.o 
->> trinity_dpm.o \
->>       trinity_smc.o ni_dpm.o si_smc.o si_dpm.o kv_smc.o kv_dpm.o 
->> ci_smc.o \
->> diff --git a/drivers/gpu/drm/radeon/si.c b/drivers/gpu/drm/radeon/si.c
->> index 8d5e4b25609d..a4032702e302 100644
->> --- a/drivers/gpu/drm/radeon/si.c
->> +++ b/drivers/gpu/drm/radeon/si.c
->> @@ -38,7 +38,6 @@
->>   #include "radeon_asic.h"
->>   #include "radeon_audio.h"
->>   #include "radeon_ucode.h"
->> -#include "si_blit_shaders.h"
->>   #include "si.h"
->>   #include "sid.h"
->>   @@ -3553,6 +3552,229 @@ static int si_cp_load_microcode(struct 
->> radeon_device *rdev)
->>       return 0;
->>   }
->>   +static const u32 si_default_state[] = {
->> +    0xc0066900,
->> +    0x00000000,
->> +    0x00000060, /* DB_RENDER_CONTROL */
->> +    0x00000000, /* DB_COUNT_CONTROL */
->> +    0x00000000, /* DB_DEPTH_VIEW */
->> +    0x0000002a, /* DB_RENDER_OVERRIDE */
->> +    0x00000000, /* DB_RENDER_OVERRIDE2 */
->> +    0x00000000, /* DB_HTILE_DATA_BASE */
->> +
->> +    0xc0046900,
->> +    0x00000008,
->> +    0x00000000, /* DB_DEPTH_BOUNDS_MIN */
->> +    0x00000000, /* DB_DEPTH_BOUNDS_MAX */
->> +    0x00000000, /* DB_STENCIL_CLEAR */
->> +    0x00000000, /* DB_DEPTH_CLEAR */
->> +
->> +    0xc0036900,
->> +    0x0000000f,
->> +    0x00000000, /* DB_DEPTH_INFO */
->> +    0x00000000, /* DB_Z_INFO */
->> +    0x00000000, /* DB_STENCIL_INFO */
->> +
->> +    0xc0016900,
->> +    0x00000080,
->> +    0x00000000, /* PA_SC_WINDOW_OFFSET */
->> +
->> +    0xc00d6900,
->> +    0x00000083,
->> +    0x0000ffff, /* PA_SC_CLIPRECT_RULE */
->> +    0x00000000, /* PA_SC_CLIPRECT_0_TL */
->> +    0x20002000, /* PA_SC_CLIPRECT_0_BR */
->> +    0x00000000,
->> +    0x20002000,
->> +    0x00000000,
->> +    0x20002000,
->> +    0x00000000,
->> +    0x20002000,
->> +    0xaaaaaaaa, /* PA_SC_EDGERULE */
->> +    0x00000000, /* PA_SU_HARDWARE_SCREEN_OFFSET */
->> +    0x0000000f, /* CB_TARGET_MASK */
->> +    0x0000000f, /* CB_SHADER_MASK */
->> +
->> +    0xc0226900,
->> +    0x00000094,
->> +    0x80000000, /* PA_SC_VPORT_SCISSOR_0_TL */
->> +    0x20002000, /* PA_SC_VPORT_SCISSOR_0_BR */
->> +    0x80000000,
->> +    0x20002000,
->> +    0x80000000,
->> +    0x20002000,
->> +    0x80000000,
->> +    0x20002000,
->> +    0x80000000,
->> +    0x20002000,
->> +    0x80000000,
->> +    0x20002000,
->> +    0x80000000,
->> +    0x20002000,
->> +    0x80000000,
->> +    0x20002000,
->> +    0x80000000,
->> +    0x20002000,
->> +    0x80000000,
->> +    0x20002000,
->> +    0x80000000,
->> +    0x20002000,
->> +    0x80000000,
->> +    0x20002000,
->> +    0x80000000,
->> +    0x20002000,
->> +    0x80000000,
->> +    0x20002000,
->> +    0x80000000,
->> +    0x20002000,
->> +    0x80000000,
->> +    0x20002000,
->> +    0x00000000, /* PA_SC_VPORT_ZMIN_0 */
->> +    0x3f800000, /* PA_SC_VPORT_ZMAX_0 */
->> +
->> +    0xc0026900,
->> +    0x000000d9,
->> +    0x00000000, /* CP_RINGID */
->> +    0x00000000, /* CP_VMID */
->> +
->> +    0xc0046900,
->> +    0x00000100,
->> +    0xffffffff, /* VGT_MAX_VTX_INDX */
->> +    0x00000000, /* VGT_MIN_VTX_INDX */
->> +    0x00000000, /* VGT_INDX_OFFSET */
->> +    0x00000000, /* VGT_MULTI_PRIM_IB_RESET_INDX */
->> +
->> +    0xc0046900,
->> +    0x00000105,
->> +    0x00000000, /* CB_BLEND_RED */
->> +    0x00000000, /* CB_BLEND_GREEN */
->> +    0x00000000, /* CB_BLEND_BLUE */
->> +    0x00000000, /* CB_BLEND_ALPHA */
->> +
->> +    0xc0016900,
->> +    0x000001e0,
->> +    0x00000000, /* CB_BLEND0_CONTROL */
->> +
->> +    0xc00e6900,
->> +    0x00000200,
->> +    0x00000000, /* DB_DEPTH_CONTROL */
->> +    0x00000000, /* DB_EQAA */
->> +    0x00cc0010, /* CB_COLOR_CONTROL */
->> +    0x00000210, /* DB_SHADER_CONTROL */
->> +    0x00010000, /* PA_CL_CLIP_CNTL */
->> +    0x00000004, /* PA_SU_SC_MODE_CNTL */
->> +    0x00000100, /* PA_CL_VTE_CNTL */
->> +    0x00000000, /* PA_CL_VS_OUT_CNTL */
->> +    0x00000000, /* PA_CL_NANINF_CNTL */
->> +    0x00000000, /* PA_SU_LINE_STIPPLE_CNTL */
->> +    0x00000000, /* PA_SU_LINE_STIPPLE_SCALE */
->> +    0x00000000, /* PA_SU_PRIM_FILTER_CNTL */
->> +    0x00000000, /*  */
->> +    0x00000000, /*  */
->> +
->> +    0xc0116900,
->> +    0x00000280,
->> +    0x00000000, /* PA_SU_POINT_SIZE */
->> +    0x00000000, /* PA_SU_POINT_MINMAX */
->> +    0x00000008, /* PA_SU_LINE_CNTL */
->> +    0x00000000, /* PA_SC_LINE_STIPPLE */
->> +    0x00000000, /* VGT_OUTPUT_PATH_CNTL */
->> +    0x00000000, /* VGT_HOS_CNTL */
->> +    0x00000000,
->> +    0x00000000,
->> +    0x00000000,
->> +    0x00000000,
->> +    0x00000000,
->> +    0x00000000,
->> +    0x00000000,
->> +    0x00000000,
->> +    0x00000000,
->> +    0x00000000,
->> +    0x00000000, /* VGT_GS_MODE */
->> +
->> +    0xc0026900,
->> +    0x00000292,
->> +    0x00000000, /* PA_SC_MODE_CNTL_0 */
->> +    0x00000000, /* PA_SC_MODE_CNTL_1 */
->> +
->> +    0xc0016900,
->> +    0x000002a1,
->> +    0x00000000, /* VGT_PRIMITIVEID_EN */
->> +
->> +    0xc0016900,
->> +    0x000002a5,
->> +    0x00000000, /* VGT_MULTI_PRIM_IB_RESET_EN */
->> +
->> +    0xc0026900,
->> +    0x000002a8,
->> +    0x00000000, /* VGT_INSTANCE_STEP_RATE_0 */
->> +    0x00000000,
->> +
->> +    0xc0026900,
->> +    0x000002ad,
->> +    0x00000000, /* VGT_REUSE_OFF */
->> +    0x00000000,
->> +
->> +    0xc0016900,
->> +    0x000002d5,
->> +    0x00000000, /* VGT_SHADER_STAGES_EN */
->> +
->> +    0xc0016900,
->> +    0x000002dc,
->> +    0x0000aa00, /* DB_ALPHA_TO_MASK */
->> +
->> +    0xc0066900,
->> +    0x000002de,
->> +    0x00000000, /* PA_SU_POLY_OFFSET_DB_FMT_CNTL */
->> +    0x00000000,
->> +    0x00000000,
->> +    0x00000000,
->> +    0x00000000,
->> +    0x00000000,
->> +
->> +    0xc0026900,
->> +    0x000002e5,
->> +    0x00000000, /* VGT_STRMOUT_CONFIG */
->> +    0x00000000,
->> +
->> +    0xc01b6900,
->> +    0x000002f5,
->> +    0x76543210, /* PA_SC_CENTROID_PRIORITY_0 */
->> +    0xfedcba98, /* PA_SC_CENTROID_PRIORITY_1 */
->> +    0x00000000, /* PA_SC_LINE_CNTL */
->> +    0x00000000, /* PA_SC_AA_CONFIG */
->> +    0x00000005, /* PA_SU_VTX_CNTL */
->> +    0x3f800000, /* PA_CL_GB_VERT_CLIP_ADJ */
->> +    0x3f800000, /* PA_CL_GB_VERT_DISC_ADJ */
->> +    0x3f800000, /* PA_CL_GB_HORZ_CLIP_ADJ */
->> +    0x3f800000, /* PA_CL_GB_HORZ_DISC_ADJ */
->> +    0x00000000, /* PA_SC_AA_SAMPLE_LOCS_PIXEL_X0Y0_0 */
->> +    0x00000000,
->> +    0x00000000,
->> +    0x00000000,
->> +    0x00000000,
->> +    0x00000000,
->> +    0x00000000,
->> +    0x00000000,
->> +    0x00000000,
->> +    0x00000000,
->> +    0x00000000,
->> +    0x00000000,
->> +    0x00000000,
->> +    0x00000000,
->> +    0x00000000,
->> +    0x00000000,
->> +    0xffffffff, /* PA_SC_AA_MASK_X0Y0_X1Y0 */
->> +    0xffffffff,
->> +
->> +    0xc0026900,
->> +    0x00000316,
->> +    0x0000000e, /* VGT_VERTEX_REUSE_BLOCK_CNTL */
->> +    0x00000010, /*  */
->> +};
->> +
->> +static const u32 si_default_size = ARRAY_SIZE(si_default_state);
->> +
->>   static int si_cp_start(struct radeon_device *rdev)
->>   {
->>       struct radeon_ring *ring = 
->> &rdev->ring[RADEON_RING_TYPE_GFX_INDEX];
->> diff --git a/drivers/gpu/drm/radeon/si_blit_shaders.c 
->> b/drivers/gpu/drm/radeon/si_blit_shaders.c
->> deleted file mode 100644
->> index ec415e7dfa4b..000000000000
->> --- a/drivers/gpu/drm/radeon/si_blit_shaders.c
->> +++ /dev/null
->> @@ -1,253 +0,0 @@
->> -/*
->> - * Copyright 2011 Advanced Micro Devices, Inc.
->> - *
->> - * Permission is hereby granted, free of charge, to any person 
->> obtaining a
->> - * copy of this software and associated documentation files (the 
->> "Software"),
->> - * to deal in the Software without restriction, including without 
->> limitation
->> - * the rights to use, copy, modify, merge, publish, distribute, 
->> sublicense,
->> - * and/or sell copies of the Software, and to permit persons to whom 
->> the
->> - * Software is furnished to do so, subject to the following conditions:
->> - *
->> - * The above copyright notice and this permission notice (including 
->> the next
->> - * paragraph) shall be included in all copies or substantial 
->> portions of the
->> - * Software.
->> - *
->> - * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, 
->> EXPRESS OR
->> - * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF 
->> MERCHANTABILITY,
->> - * FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT.  IN NO 
->> EVENT SHALL
->> - * THE COPYRIGHT HOLDER(S) AND/OR ITS SUPPLIERS BE LIABLE FOR ANY 
->> CLAIM, DAMAGES OR
->> - * OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR 
->> OTHERWISE,
->> - * ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE 
->> USE OR OTHER
->> - * DEALINGS IN THE SOFTWARE.
->> - *
->> - * Authors:
->> - *     Alex Deucher <alexander.deucher@amd.com>
->> - */
->> -
->> -#include <linux/types.h>
->> -#include <linux/bug.h>
->> -#include <linux/kernel.h>
->> -
->> -const u32 si_default_state[] =
->> -{
->> -    0xc0066900,
->> -    0x00000000,
->> -    0x00000060, /* DB_RENDER_CONTROL */
->> -    0x00000000, /* DB_COUNT_CONTROL */
->> -    0x00000000, /* DB_DEPTH_VIEW */
->> -    0x0000002a, /* DB_RENDER_OVERRIDE */
->> -    0x00000000, /* DB_RENDER_OVERRIDE2 */
->> -    0x00000000, /* DB_HTILE_DATA_BASE */
->> -
->> -    0xc0046900,
->> -    0x00000008,
->> -    0x00000000, /* DB_DEPTH_BOUNDS_MIN */
->> -    0x00000000, /* DB_DEPTH_BOUNDS_MAX */
->> -    0x00000000, /* DB_STENCIL_CLEAR */
->> -    0x00000000, /* DB_DEPTH_CLEAR */
->> -
->> -    0xc0036900,
->> -    0x0000000f,
->> -    0x00000000, /* DB_DEPTH_INFO */
->> -    0x00000000, /* DB_Z_INFO */
->> -    0x00000000, /* DB_STENCIL_INFO */
->> -
->> -    0xc0016900,
->> -    0x00000080,
->> -    0x00000000, /* PA_SC_WINDOW_OFFSET */
->> -
->> -    0xc00d6900,
->> -    0x00000083,
->> -    0x0000ffff, /* PA_SC_CLIPRECT_RULE */
->> -    0x00000000, /* PA_SC_CLIPRECT_0_TL */
->> -    0x20002000, /* PA_SC_CLIPRECT_0_BR */
->> -    0x00000000,
->> -    0x20002000,
->> -    0x00000000,
->> -    0x20002000,
->> -    0x00000000,
->> -    0x20002000,
->> -    0xaaaaaaaa, /* PA_SC_EDGERULE */
->> -    0x00000000, /* PA_SU_HARDWARE_SCREEN_OFFSET */
->> -    0x0000000f, /* CB_TARGET_MASK */
->> -    0x0000000f, /* CB_SHADER_MASK */
->> -
->> -    0xc0226900,
->> -    0x00000094,
->> -    0x80000000, /* PA_SC_VPORT_SCISSOR_0_TL */
->> -    0x20002000, /* PA_SC_VPORT_SCISSOR_0_BR */
->> -    0x80000000,
->> -    0x20002000,
->> -    0x80000000,
->> -    0x20002000,
->> -    0x80000000,
->> -    0x20002000,
->> -    0x80000000,
->> -    0x20002000,
->> -    0x80000000,
->> -    0x20002000,
->> -    0x80000000,
->> -    0x20002000,
->> -    0x80000000,
->> -    0x20002000,
->> -    0x80000000,
->> -    0x20002000,
->> -    0x80000000,
->> -    0x20002000,
->> -    0x80000000,
->> -    0x20002000,
->> -    0x80000000,
->> -    0x20002000,
->> -    0x80000000,
->> -    0x20002000,
->> -    0x80000000,
->> -    0x20002000,
->> -    0x80000000,
->> -    0x20002000,
->> -    0x80000000,
->> -    0x20002000,
->> -    0x00000000, /* PA_SC_VPORT_ZMIN_0 */
->> -    0x3f800000, /* PA_SC_VPORT_ZMAX_0 */
->> -
->> -    0xc0026900,
->> -    0x000000d9,
->> -    0x00000000, /* CP_RINGID */
->> -    0x00000000, /* CP_VMID */
->> -
->> -    0xc0046900,
->> -    0x00000100,
->> -    0xffffffff, /* VGT_MAX_VTX_INDX */
->> -    0x00000000, /* VGT_MIN_VTX_INDX */
->> -    0x00000000, /* VGT_INDX_OFFSET */
->> -    0x00000000, /* VGT_MULTI_PRIM_IB_RESET_INDX */
->> -
->> -    0xc0046900,
->> -    0x00000105,
->> -    0x00000000, /* CB_BLEND_RED */
->> -    0x00000000, /* CB_BLEND_GREEN */
->> -    0x00000000, /* CB_BLEND_BLUE */
->> -    0x00000000, /* CB_BLEND_ALPHA */
->> -
->> -    0xc0016900,
->> -    0x000001e0,
->> -    0x00000000, /* CB_BLEND0_CONTROL */
->> -
->> -    0xc00e6900,
->> -    0x00000200,
->> -    0x00000000, /* DB_DEPTH_CONTROL */
->> -    0x00000000, /* DB_EQAA */
->> -    0x00cc0010, /* CB_COLOR_CONTROL */
->> -    0x00000210, /* DB_SHADER_CONTROL */
->> -    0x00010000, /* PA_CL_CLIP_CNTL */
->> -    0x00000004, /* PA_SU_SC_MODE_CNTL */
->> -    0x00000100, /* PA_CL_VTE_CNTL */
->> -    0x00000000, /* PA_CL_VS_OUT_CNTL */
->> -    0x00000000, /* PA_CL_NANINF_CNTL */
->> -    0x00000000, /* PA_SU_LINE_STIPPLE_CNTL */
->> -    0x00000000, /* PA_SU_LINE_STIPPLE_SCALE */
->> -    0x00000000, /* PA_SU_PRIM_FILTER_CNTL */
->> -    0x00000000, /*  */
->> -    0x00000000, /*  */
->> -
->> -    0xc0116900,
->> -    0x00000280,
->> -    0x00000000, /* PA_SU_POINT_SIZE */
->> -    0x00000000, /* PA_SU_POINT_MINMAX */
->> -    0x00000008, /* PA_SU_LINE_CNTL */
->> -    0x00000000, /* PA_SC_LINE_STIPPLE */
->> -    0x00000000, /* VGT_OUTPUT_PATH_CNTL */
->> -    0x00000000, /* VGT_HOS_CNTL */
->> -    0x00000000,
->> -    0x00000000,
->> -    0x00000000,
->> -    0x00000000,
->> -    0x00000000,
->> -    0x00000000,
->> -    0x00000000,
->> -    0x00000000,
->> -    0x00000000,
->> -    0x00000000,
->> -    0x00000000, /* VGT_GS_MODE */
->> -
->> -    0xc0026900,
->> -    0x00000292,
->> -    0x00000000, /* PA_SC_MODE_CNTL_0 */
->> -    0x00000000, /* PA_SC_MODE_CNTL_1 */
->> -
->> -    0xc0016900,
->> -    0x000002a1,
->> -    0x00000000, /* VGT_PRIMITIVEID_EN */
->> -
->> -    0xc0016900,
->> -    0x000002a5,
->> -    0x00000000, /* VGT_MULTI_PRIM_IB_RESET_EN */
->> -
->> -    0xc0026900,
->> -    0x000002a8,
->> -    0x00000000, /* VGT_INSTANCE_STEP_RATE_0 */
->> -    0x00000000,
->> -
->> -    0xc0026900,
->> -    0x000002ad,
->> -    0x00000000, /* VGT_REUSE_OFF */
->> -    0x00000000,
->> -
->> -    0xc0016900,
->> -    0x000002d5,
->> -    0x00000000, /* VGT_SHADER_STAGES_EN */
->> -
->> -    0xc0016900,
->> -    0x000002dc,
->> -    0x0000aa00, /* DB_ALPHA_TO_MASK */
->> -
->> -    0xc0066900,
->> -    0x000002de,
->> -    0x00000000, /* PA_SU_POLY_OFFSET_DB_FMT_CNTL */
->> -    0x00000000,
->> -    0x00000000,
->> -    0x00000000,
->> -    0x00000000,
->> -    0x00000000,
->> -
->> -    0xc0026900,
->> -    0x000002e5,
->> -    0x00000000, /* VGT_STRMOUT_CONFIG */
->> -    0x00000000,
->> -
->> -    0xc01b6900,
->> -    0x000002f5,
->> -    0x76543210, /* PA_SC_CENTROID_PRIORITY_0 */
->> -    0xfedcba98, /* PA_SC_CENTROID_PRIORITY_1 */
->> -    0x00000000, /* PA_SC_LINE_CNTL */
->> -    0x00000000, /* PA_SC_AA_CONFIG */
->> -    0x00000005, /* PA_SU_VTX_CNTL */
->> -    0x3f800000, /* PA_CL_GB_VERT_CLIP_ADJ */
->> -    0x3f800000, /* PA_CL_GB_VERT_DISC_ADJ */
->> -    0x3f800000, /* PA_CL_GB_HORZ_CLIP_ADJ */
->> -    0x3f800000, /* PA_CL_GB_HORZ_DISC_ADJ */
->> -    0x00000000, /* PA_SC_AA_SAMPLE_LOCS_PIXEL_X0Y0_0 */
->> -    0x00000000,
->> -    0x00000000,
->> -    0x00000000,
->> -    0x00000000,
->> -    0x00000000,
->> -    0x00000000,
->> -    0x00000000,
->> -    0x00000000,
->> -    0x00000000,
->> -    0x00000000,
->> -    0x00000000,
->> -    0x00000000,
->> -    0x00000000,
->> -    0x00000000,
->> -    0x00000000,
->> -    0xffffffff, /* PA_SC_AA_MASK_X0Y0_X1Y0 */
->> -    0xffffffff,
->> -
->> -    0xc0026900,
->> -    0x00000316,
->> -    0x0000000e, /* VGT_VERTEX_REUSE_BLOCK_CNTL */
->> -    0x00000010, /*  */
->> -};
->> -
->> -const u32 si_default_size = ARRAY_SIZE(si_default_state);
->> diff --git a/drivers/gpu/drm/radeon/si_blit_shaders.h 
->> b/drivers/gpu/drm/radeon/si_blit_shaders.h
->> deleted file mode 100644
->> index c739e51e3961..000000000000
->> --- a/drivers/gpu/drm/radeon/si_blit_shaders.h
->> +++ /dev/null
->> @@ -1,32 +0,0 @@
->> -/*
->> - * Copyright 2011 Advanced Micro Devices, Inc.
->> - *
->> - * Permission is hereby granted, free of charge, to any person 
->> obtaining a
->> - * copy of this software and associated documentation files (the 
->> "Software"),
->> - * to deal in the Software without restriction, including without 
->> limitation
->> - * the rights to use, copy, modify, merge, publish, distribute, 
->> sublicense,
->> - * and/or sell copies of the Software, and to permit persons to whom 
->> the
->> - * Software is furnished to do so, subject to the following conditions:
->> - *
->> - * The above copyright notice and this permission notice (including 
->> the next
->> - * paragraph) shall be included in all copies or substantial 
->> portions of the
->> - * Software.
->> - *
->> - * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, 
->> EXPRESS OR
->> - * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF 
->> MERCHANTABILITY,
->> - * FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT.  IN NO 
->> EVENT SHALL
->> - * THE COPYRIGHT HOLDER(S) AND/OR ITS SUPPLIERS BE LIABLE FOR ANY 
->> CLAIM, DAMAGES OR
->> - * OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR 
->> OTHERWISE,
->> - * ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE 
->> USE OR OTHER
->> - * DEALINGS IN THE SOFTWARE.
->> - *
->> - */
->> -
->> -#ifndef SI_BLIT_SHADERS_H
->> -#define SI_BLIT_SHADERS_H
->> -
->> -extern const u32 si_default_state[];
->> -
->> -extern const u32 si_default_size;
->> -
->> -#endif
->
+Thanks
+Jon
 
+-- 
+nvpublic
