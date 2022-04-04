@@ -2,59 +2,56 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id C80B94F199D
-	for <lists+dri-devel@lfdr.de>; Mon,  4 Apr 2022 19:49:33 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id E7D2F4F199F
+	for <lists+dri-devel@lfdr.de>; Mon,  4 Apr 2022 19:52:21 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 4661C89CE2;
-	Mon,  4 Apr 2022 17:49:27 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 141F810E392;
+	Mon,  4 Apr 2022 17:52:18 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-ej1-x633.google.com (mail-ej1-x633.google.com
- [IPv6:2a00:1450:4864:20::633])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 4743B88843
- for <dri-devel@lists.freedesktop.org>; Mon,  4 Apr 2022 17:49:25 +0000 (UTC)
-Received: by mail-ej1-x633.google.com with SMTP id ot30so11621245ejb.12
- for <dri-devel@lists.freedesktop.org>; Mon, 04 Apr 2022 10:49:25 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=20210112;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=vABpGBhTQYtFSOzIwpkJiQp51DmO237fnb6hvRyBNdc=;
- b=kq6Yz32DSK9zOJ7bPFvcjQc80bzG6ufNST/PLxnAZDgUll2EsHl/7DOBySFQGPGQBO
- KMODRAMzGVkg4wqeYXpIEQMsuSa51JzFJkHYQV/My/8bthoa0wEAwWm7JnYdhKy4f0IT
- IYKHfXxzGnqGNhFnMBgVhoIPXAaka/SXRk3ohySgOUIybytsG3xyO6h2D7l0K9voeYoc
- FYu5KchV6tYEpdQHe9DyEGR2HYvvOlDHDoh49SMaDGfn3ZJuDuFq+z31146fxq/I3vjU
- 3Dn3Z+2p5l8tnkxwc2V2sRlJAeC27tWtZrvSRD17I4uVRkSVjpL8J+bR+U9LjYMfhu8d
- puPg==
+Received: from mail-oa1-f45.google.com (mail-oa1-f45.google.com
+ [209.85.160.45])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 4914210E392
+ for <dri-devel@lists.freedesktop.org>; Mon,  4 Apr 2022 17:52:17 +0000 (UTC)
+Received: by mail-oa1-f45.google.com with SMTP id
+ 586e51a60fabf-de3ca1efbaso11565189fac.9
+ for <dri-devel@lists.freedesktop.org>; Mon, 04 Apr 2022 10:52:17 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=vABpGBhTQYtFSOzIwpkJiQp51DmO237fnb6hvRyBNdc=;
- b=oYZ4Fq9uPcdobixHINFuDqOVZJUegFyWfR+tl9e4mGcUlqAMElwY/VdL+Rgl1YditR
- fAmqwqjC/bnuJ4NABnK8l30eRdM6wVLBv+HEktAtb25ijFsGYRKS9LWnbvYS2Jx0+pcu
- wSxZgCdW4qw613KgCMMZr3ZsmKj1NlNjPhJiIbfVwH0+49L4dJVd1BnXS+rBiNUd8Zbm
- vJnmJB8BLAXWlhmBVI2VMRimDyzjPAqvCog6VWK+3w4dyLGMNs5vQh5yuGGe/Yu4cQ3o
- RLl4N45iXv7XYKSxXdcqORtWr1GuCRhG1tnhLU1Fboe5kIIc112jeyh2fkK8GCfRG81e
- O3Zw==
-X-Gm-Message-State: AOAM533QFX7eSPGXZJLGiqIeXiKldxsbBe4B+Jq794v5oC26ALfSLXok
- g/ZT7iZGkBsQxHblSZFbrx0LU1kiDZZY2SeYI09z/Q==
-X-Google-Smtp-Source: ABdhPJxeKG3vf8CXWCkQRoUM6NvTL32UYsKMz1d5IhptaAJYwGgG3KUfWseo+ekkT3O/3+91ErXB7keFFH7bAAKG860=
-X-Received: by 2002:a17:906:7304:b0:6da:9243:865 with SMTP id
- di4-20020a170906730400b006da92430865mr1195561ejc.665.1649094563498; Mon, 04
- Apr 2022 10:49:23 -0700 (PDT)
+ h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+ :mime-version:content-disposition:in-reply-to;
+ bh=FaqwoOuFdp3mYFpYfAC7s77bL5XItpmi/AKqa1/L498=;
+ b=mb6BTWaSOhc58nvJ5sW8OX7o8W1L8CgyksOOhjxTfCNAb70jmwaxnSZtiEJOrThyBQ
+ APxefi1qiJX79VKT4NpaObX2RbleITOuwRoRPKWxQ5qd1Y9bFeHp6En6xFy2juKGSWj8
+ SGYn39GFHVpPFiPeTNaPVfna7/0YMBekbPzmoYsp0x++A3xthJF/Enxyn8ULWcHjB7gQ
+ nLrteJDbPSB8pQs75euLAkdfSE5YpB44XvbCet1EmWDc71kgSiV6H1d4zNjrmQLxSbiB
+ zH7Db9zyZZe6HuwjpJIAJvaXpmHxXDYboYu3lLwzyb8BFZWPAscpm2TNglYj9/AuIAMI
+ ZffA==
+X-Gm-Message-State: AOAM53179Q7VcspdnEsnTN8EtVkkQ4QY2o0YDVP2MBayqwctwTgaxvTm
+ Balnfdl5CDm5vVHxr7Qb3Q==
+X-Google-Smtp-Source: ABdhPJyJ/DcWKiZZQ7wjgJ2leztwWA9q+1hZSIYfCI7fzuMeDtYG0jTryrPTAl4WfoKgFuZA7Rc+1Q==
+X-Received: by 2002:a05:6870:a688:b0:e1:e71b:c385 with SMTP id
+ i8-20020a056870a68800b000e1e71bc385mr183324oam.173.1649094736527; 
+ Mon, 04 Apr 2022 10:52:16 -0700 (PDT)
+Received: from robh.at.kernel.org (66-90-144-107.dyn.grandenetworks.net.
+ [66.90.144.107]) by smtp.gmail.com with ESMTPSA id
+ a17-20020a4ae931000000b0032933be7230sm3212352ooe.4.2022.04.04.10.52.15
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Mon, 04 Apr 2022 10:52:15 -0700 (PDT)
+Received: (nullmailer pid 1615596 invoked by uid 1000);
+ Mon, 04 Apr 2022 17:52:14 -0000
+Date: Mon, 4 Apr 2022 12:52:14 -0500
+From: Rob Herring <robh@kernel.org>
+To: Xin Ji <xji@analogixsemi.com>
+Subject: Re: [PATCH 3/4] dt-bindings: drm/bridge: anx7625: Change bus-type to
+ 7 (DPI)
+Message-ID: <YkswTpDiPYfdIFtE@robh.at.kernel.org>
+References: <20220328120956.1848795-1-xji@analogixsemi.com>
+ <20220328120956.1848795-3-xji@analogixsemi.com>
 MIME-Version: 1.0
-References: <20220328035951.1817417-1-tjmercier@google.com>
- <20220328035951.1817417-3-tjmercier@google.com>
- <YkM6/57mVxoNfSvm@slm.duckdns.org>
- <CABdmKX2Gxg35k7QiL2Vn4zWhmQ4UnM-Z8cnOXR0fwBWyJnZ+Ng@mail.gmail.com>
- <Ykst5K/cI+DUVc94@slm.duckdns.org>
-In-Reply-To: <Ykst5K/cI+DUVc94@slm.duckdns.org>
-From: "T.J. Mercier" <tjmercier@google.com>
-Date: Mon, 4 Apr 2022 10:49:12 -0700
-Message-ID: <CABdmKX3LR1h_tac+UCCXf57hhDQ9CmmmYe2ymS8ZFiDA9Mcv4w@mail.gmail.com>
-Subject: Re: [RFC v4 2/8] cgroup: gpu: Add a cgroup controller for allocator
- attribution of GPU memory
-To: Tejun Heo <tj@kernel.org>
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20220328120956.1848795-3-xji@analogixsemi.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -67,44 +64,52 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Zefan Li <lizefan.x@bytedance.com>, linux-doc@vger.kernel.org,
- David Airlie <airlied@linux.ie>, dri-devel@lists.freedesktop.org,
- Benjamin Gaignard <benjamin.gaignard@linaro.org>,
- Kalesh Singh <kaleshsingh@google.com>, Joel Fernandes <joel@joelfernandes.org>,
- Shuah Khan <shuah@kernel.org>, Sumit Semwal <sumit.semwal@linaro.org>,
- Kenny.Ho@amd.com, Jonathan Corbet <corbet@lwn.net>,
- Martijn Coenen <maco@android.com>, Laura Abbott <labbott@redhat.com>,
- linux-media@vger.kernel.org, linux-kselftest@vger.kernel.org,
- Todd Kjos <tkjos@android.com>, Thomas Zimmermann <tzimmermann@suse.de>,
- linaro-mm-sig@lists.linaro.org, Shuah Khan <skhan@linuxfoundation.org>,
- cgroups@vger.kernel.org, Suren Baghdasaryan <surenb@google.com>,
- Christian Brauner <brauner@kernel.org>,
- Greg Kroah-Hartman <gregkh@linuxfoundation.org>, linux-kernel@vger.kernel.org,
- Liam Mark <lmark@codeaurora.org>,
- =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>,
- =?UTF-8?B?QXJ2ZSBIasO4bm5ldsOlZw==?= <arve@android.com>,
- =?UTF-8?Q?Michal_Koutn=C3=BD?= <mkoutny@suse.com>,
- Johannes Weiner <hannes@cmpxchg.org>, Hridya Valsaraju <hridya@google.com>
+Cc: dri-devel@lists.freedesktop.org, devicetree@vger.kernel.org,
+ Jonas Karlman <jonas@kwiboo.se>, David Airlie <airlied@linux.ie>,
+ Robert Foss <robert.foss@linaro.org>, qwen@analogixsemi.com,
+ Neil Armstrong <narmstrong@baylibre.com>, linux-kernel@vger.kernel.org,
+ Jernej Skrabec <jernej.skrabec@gmail.com>,
+ Laurent Pinchart <Laurent.pinchart@ideasonboard.com>,
+ Andrzej Hajda <andrzej.hajda@intel.com>, bliang@analogixsemi.com
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Mon, Apr 4, 2022 at 10:42 AM Tejun Heo <tj@kernel.org> wrote:
->
-> Hello,
->
-> On Wed, Mar 30, 2022 at 01:56:09PM -0700, T.J. Mercier wrote:
-> > The use case we have for accounting the total (separate from the
-> > individual devices) is to include the value as part of bugreports, for
-> > understanding the system-wide amount of dmabuf allocations. I'm not
-> > aware of an existing need to limit the total. Admittedly this is just
-> > the sum over the devices, but we currently maintain out of tree code
-> > to do this sort of thing today. [1]
->
-> So, drop this part?
+On Mon, Mar 28, 2022 at 08:09:54PM +0800, Xin Ji wrote:
+> Change bus-type define for DPI.
+> 
+> Fixes: a43661e7e819 ("dt-bindings:drm/bridge:anx7625:add vendor define")
+> 
+> Signed-off-by: Xin Ji <xji@analogixsemi.com>
+> ---
+>  .../devicetree/bindings/display/bridge/analogix,anx7625.yaml  | 4 ++--
+>  1 file changed, 2 insertions(+), 2 deletions(-)
+> 
+> diff --git a/Documentation/devicetree/bindings/display/bridge/analogix,anx7625.yaml b/Documentation/devicetree/bindings/display/bridge/analogix,anx7625.yaml
+> index 0d38d6fe3983..4590186c4a0b 100644
+> --- a/Documentation/devicetree/bindings/display/bridge/analogix,anx7625.yaml
+> +++ b/Documentation/devicetree/bindings/display/bridge/analogix,anx7625.yaml
+> @@ -106,7 +106,7 @@ properties:
+>                remote-endpoint: true
+>  
+>                bus-type:
+> -                enum: [1, 5]
+> +                enum: [7]
 
-Ok, will do - I'll drop the "total" limitation text from the series.
->
-> Thanks.
->
-> --
-> tejun
+Changing is an ABI break, but didn't we revert adding this?
+
+>                  default: 1
+>  
+>                data-lanes: true
+> @@ -158,7 +158,7 @@ examples:
+>                      reg = <0>;
+>                      anx7625_in: endpoint {
+>                          remote-endpoint = <&mipi_dsi>;
+> -                        bus-type = <5>;
+> +                        bus-type = <7>;
+>                          data-lanes = <0 1 2 3>;
+>                      };
+>                  };
+> -- 
+> 2.25.1
+> 
+> 
