@@ -2,124 +2,66 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id B7CC84F18A0
-	for <lists+dri-devel@lfdr.de>; Mon,  4 Apr 2022 17:40:41 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id BD93D4F18A8
+	for <lists+dri-devel@lfdr.de>; Mon,  4 Apr 2022 17:42:03 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 812F510E069;
-	Mon,  4 Apr 2022 15:40:39 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id EA73010E409;
+	Mon,  4 Apr 2022 15:42:00 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from NAM10-MW2-obe.outbound.protection.outlook.com
- (mail-mw2nam10on2064.outbound.protection.outlook.com [40.107.94.64])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 5898310E069
- for <dri-devel@lists.freedesktop.org>; Mon,  4 Apr 2022 15:40:38 +0000 (UTC)
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=C6E/KW6VL7wX0oqqvsu8QaecVCjCSqp3V2CHX++5VkuXGnsmHVqBmRTo88umyLOH7esnWjXoGvN/eDp4sUNvF6kQLIZ30tCOB1qQHprvyW/el2KbB32oGOKGnitE4Cr5DUGZ66tCz8gzxwOhECsshFcdKkBuCH6V5WqWz7mOZvAoYMN3jJR4mn7SvgWvkhDy2rhlUbeJknr34bdBsAUriigbVUUZQXcRj3lbSKp5EnufegCWtI0BYQO8Tkf5km7ikWQQpTPrlE0wSVZA2gBxhjlCI2JH9V282JWcLtlWfliroBAVYztLSY9SP7UkUW666+Fsuw2Qc47A1ejdYHe52A==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=1Xx22756VHh6036CISxjRUHhiv6nhkGwHk6xSPJ44/k=;
- b=jJXIBV9KHUfrK7DFeCyr0kT0Kvl9q0rKE2323gziYa495EJ0U9EpsOSCiA5ykG3zun0BFghBHvCSTxq+wpSq1ZJ3+Rxk4Fmhyy10k+rnWUcSswynT2fzuufxjGwBznLvJUSFcraHF5of3Xf0wwx6a30xpoCvdCILHaxJ6GXhZ0W6k/Dzz2evzvRx93zWMOimndNwwBCKtmYg3Mm0GzjdC5s4u3Pclokaw5DEeDFlpD/xQu/qfu5Odtc1jTyVycNwATskQbVSql6iUIyHg6VXiiXRvOwjvEbOs4+THABQa1PpotWIDeHTlZRQpvThajrLYtDcrM76gN3CYHg0ElzV2Q==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=amd.com; dmarc=pass action=none header.from=amd.com; dkim=pass
- header.d=amd.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1; 
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=1Xx22756VHh6036CISxjRUHhiv6nhkGwHk6xSPJ44/k=;
- b=O5UljscAQZmJm9kHSnxLhY6HT/CGluG5dyWkUQQwOLlFXOvfnInAPNdyANtVXWCfV1oAXOweg2Dj7RloG1p8s0MunkU2yEzU9PoaL3WEqo9qZQC2SYdfsGYU7mtIIb2qpYAEGvlEa6eh+0sXNJSgb3X/51zLZiIx2Jlb9CEw0ZI=
-Authentication-Results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=amd.com;
-Received: from DM5PR12MB1947.namprd12.prod.outlook.com (2603:10b6:3:111::23)
- by BN8PR12MB3571.namprd12.prod.outlook.com (2603:10b6:408:62::31) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.5123.31; Mon, 4 Apr
- 2022 15:40:36 +0000
-Received: from DM5PR12MB1947.namprd12.prod.outlook.com
- ([fe80::90bd:5b12:918d:5703]) by DM5PR12MB1947.namprd12.prod.outlook.com
- ([fe80::90bd:5b12:918d:5703%6]) with mapi id 15.20.5123.031; Mon, 4 Apr 2022
- 15:40:36 +0000
-Message-ID: <15abd5c4-a92c-9ef7-32f3-a39ee3a9844b@amd.com>
-Date: Mon, 4 Apr 2022 11:40:33 -0400
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.7.0
-Subject: Re: [PATCH] drm/scheduler: quieten kernel-doc warnings
-Content-Language: en-US
-To: Randy Dunlap <rdunlap@infradead.org>, linux-kernel@vger.kernel.org
-References: <20220404042509.13455-1-rdunlap@infradead.org>
- <6f89be90-50fe-729c-028c-978044e6840a@amd.com>
- <db007d26-95d0-ff59-788a-0339d119224e@infradead.org>
-From: Andrey Grodzovsky <andrey.grodzovsky@amd.com>
-In-Reply-To: <db007d26-95d0-ff59-788a-0339d119224e@infradead.org>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
-X-ClientProxiedBy: BL1PR13CA0103.namprd13.prod.outlook.com
- (2603:10b6:208:2b9::18) To DM5PR12MB1947.namprd12.prod.outlook.com
- (2603:10b6:3:111::23)
+Received: from mail-wm1-x344.google.com (mail-wm1-x344.google.com
+ [IPv6:2a00:1450:4864:20::344])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id D076710E1E3
+ for <dri-devel@lists.freedesktop.org>; Mon,  4 Apr 2022 15:41:59 +0000 (UTC)
+Received: by mail-wm1-x344.google.com with SMTP id h16so6221369wmd.0
+ for <dri-devel@lists.freedesktop.org>; Mon, 04 Apr 2022 08:41:59 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ffwll.ch; s=google;
+ h=date:from:to:cc:subject:message-id:references:mime-version
+ :content-disposition:content-transfer-encoding:in-reply-to;
+ bh=w/8gSEP4Y+eg37m25uJQz5khDGVPC4yhdT96CaWdyw0=;
+ b=N4+YgRJe42fB1eU5chTRyIrJsJEZk6Ohiq8wOaDzS3zQoXpNMU61NytJCd3mGxk5NB
+ RUcUsKm6dj0xPIPd9herf3yvjUUjlyMVRjGVA/BvvmqBWBdMr6hSaEYdgP4QjjQ+Bdin
+ LgbjQTU6AMYdtUAukCD9uYirxEUcgpV97u0MA=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+ :mime-version:content-disposition:content-transfer-encoding
+ :in-reply-to;
+ bh=w/8gSEP4Y+eg37m25uJQz5khDGVPC4yhdT96CaWdyw0=;
+ b=tmzkwaz5etuOSBroSbof8SnFcbei1AkuzvY4XHJr99xv817iC7l8CM6uQy+hLE6Syq
+ 9TxzIuniTIpyNcSoIYRdNydRoFp2C7/J7jcqHP4Pzudimb0cya3YqA6EvSGR9X2s+/Yz
+ GyoOsB0MkHNs2zg8BA0wdu8ltosxdjaut4el1e5o4mX2/5LihTVS0gW84hAAOH0RqNnE
+ iG//iWqFc0XO1obToOtXaWxkgJvP2QCHu4ZyKZHMx48YCDW5ccOphq9I5K9413WlcDai
+ yfgkyW9caBR5XWTtqQcSTeibm6zTwIOMYJiCyGKStGOrjJqKYmkXvT1iMSCfCTryi2AB
+ 8XBw==
+X-Gm-Message-State: AOAM531kbQNNa4UdapVeR9GoRawVJCAsqJszifN1dkzLnhk7zTlMHlBh
+ TB8n7izayGurQlrl4dtJERl/bQ==
+X-Google-Smtp-Source: ABdhPJxvSAN9N+oXgWgJAgqJGpVN8hxCSh5GJvn81nGq8M6C/b1tKa2Ujp1uKzGkDLow5XLzpEbAqg==
+X-Received: by 2002:a05:600c:5023:b0:38d:1261:aac6 with SMTP id
+ n35-20020a05600c502300b0038d1261aac6mr104459wmr.180.1649086918325; 
+ Mon, 04 Apr 2022 08:41:58 -0700 (PDT)
+Received: from phenom.ffwll.local ([2a02:168:57f4:0:efd0:b9e5:5ae6:c2fa])
+ by smtp.gmail.com with ESMTPSA id
+ c11-20020a05600c0a4b00b0037c91e085ddsm20983676wmq.40.2022.04.04.08.41.57
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Mon, 04 Apr 2022 08:41:57 -0700 (PDT)
+Date: Mon, 4 Apr 2022 17:41:56 +0200
+From: Daniel Vetter <daniel@ffwll.ch>
+To: Jani Nikula <jani.nikula@linux.intel.com>
+Subject: Re: [Intel-gfx] [PATCH] drm/i915/display/debugfs: Add connector
+ debugfs for "output_bpc"
+Message-ID: <YksRxORJDvfigbZG@phenom.ffwll.local>
+References: <20220328075020.708022-1-bhanuprakash.modem@intel.com>
+ <20220329060731.785476-1-bhanuprakash.modem@intel.com>
+ <877d897z90.fsf@intel.com>
+ <b5041da6-9a2b-c687-5dc9-c587eb6230b4@intel.com>
+ <87fsmt6s8w.fsf@intel.com>
 MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-Office365-Filtering-Correlation-Id: 80887a12-8e9e-4e76-a665-08da1651762a
-X-MS-TrafficTypeDiagnostic: BN8PR12MB3571:EE_
-X-Microsoft-Antispam-PRVS: <BN8PR12MB3571F5DB86271A6EC47C150CEAE59@BN8PR12MB3571.namprd12.prod.outlook.com>
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: Y3CXxKxvTNUX/NoE3+KPTct58Fi9yGsDZH8TpE3ps81T/IXFUvG3DyMpy8fw458gGTBP6HqYDiLDsXkAsnKQQIHw0zMRy2rtwIlXTFNuESaHZKJ5ilZYaf7GQ6AzQ4QNRQa4WA0zblvj7XTiIHV/yME6Twi5xQhq63SzR+Kqb7ZO1F9Fch2uxgJa65mefwy63D6UlCyIGooQGd+xM1eGrCJdjuqgAUdlxX12WufORAJ/hOs5P/n1hTyoXZFSPx00GaMVkDtvyKy+sllCLe5pWnsZ5b3PLGq8nxjo0PnwJ+0TzbWNYBKTf1PLEotNyScmiKGGSGWrJQTmKaGAUWBXZWrabKw9kEf87fxhbUVA7Mtv6R7pDLBMlqkwIL9UF0F57zfwlhLusBGV6URBEz8GF5Pp1e+Gd+QB7Cg+DS1hIJ0M5XwiiwU6ad2JHmPGivC7+GVwro/LcBgCrPklDSi3LiRl+Du6hl4PoefU2/P6cD+m7kE4nT1IijIz+FWV28uG1bmOnNOjgVnL3kwJKCIOaQ1VC+ppG+q87lE7UP8Hq09swpjv972dCalo20EN/LhGwWTF4mL8j8S4Qh5KFd9YlF98WTPnmdpmWhXJJPF/jx5lYNx9SiJBssGMN67JK1jWLuD5PToNJHPRPrFL+NHk3yyLJS4LUtOckAHt+Th/lrf4bQRay6XrhFNoFsLmU9l8kLGkW/kdUT0ui60nGw44Eev+kri/wIKlAiFUaJUSbmU=
-X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
- IPV:NLI; SFV:NSPM; H:DM5PR12MB1947.namprd12.prod.outlook.com; PTR:; CAT:NONE;
- SFS:(13230001)(4636009)(366004)(186003)(6506007)(6512007)(316002)(54906003)(2616005)(53546011)(36756003)(31686004)(6486002)(508600001)(2906002)(38100700002)(44832011)(4326008)(8676002)(66946007)(66556008)(31696002)(84970400001)(86362001)(66476007)(66574015)(6666004)(83380400001)(5660300002)(8936002)(45980500001)(43740500002);
- DIR:OUT; SFP:1101; 
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 2
-X-MS-Exchange-AntiSpam-MessageData-0: =?utf-8?B?VjV0a2p3NkpTRGk0ZDRueXpqcnpTcUNNdmc5M1VMU29qdjBHV3ZWa1hYbVBL?=
- =?utf-8?B?eHVlNmdiMi9QVnpqL00xc2J3RS9hNCtGRUFQazd2cUhnWGx2c0U1SExGZ1hT?=
- =?utf-8?B?MFBzanhuc05NRVhqYS9UVzhBUW4yZWhkckRDVWYvdHB0dWhyUmdEUjFDK2Q4?=
- =?utf-8?B?TGhEdFJKUFVrZjB0VWVnbjZoMFFmckxvTnkvOGkrc0NSUHA1cTdnV2lLeE53?=
- =?utf-8?B?TTJsbnBPUWVpWXpQQTNOcndKZC8wQnVSaitxeHVjNzFUazYxcVNRUktPdmpH?=
- =?utf-8?B?UnFnQzFNc09wNFFreFN2cXNYR1V1OUxLZTd2R2NmOFF1TnhQMlZZd0g3aGxa?=
- =?utf-8?B?cEdpUW54a1FDbU4yRktBVEVWazM3RXQ4eHp1RUx4NW1qbUx3UkdxcGRVTms1?=
- =?utf-8?B?VFptTTQrdVJFclRQRVZQOUhFYWc3bXNyYUdSdW1CRDQvOGR0TGwwYVo0VEpR?=
- =?utf-8?B?bExvUFBHZ2hPbng4UWRWb1lWWUx4eURRcmczVWhZUmVlRDNHcjVvdWF2STdt?=
- =?utf-8?B?S2VuU2N5RFRPd0VRNHc1bEZGNTZIMGEyTnJTVmQ2b3pqRzAwYkYySjNPY1Bt?=
- =?utf-8?B?SkYvR0FBbzRvRTFBTHNHdVZtMGhiaTREeHBWOUI3b09RcERnWFptejBTeTF2?=
- =?utf-8?B?UzdpRkRMaVE4SE1DK0FOUmVnQmJvREdTY1R2aHpucWJtb1NZd3VjTXJvQ0NR?=
- =?utf-8?B?UkgrcFM5b2dDWUFzcjN5emNqKzlMSWwyd3RGVUkzdXdlMkJGdkhzR1h2alQx?=
- =?utf-8?B?N0JJZnJGUW1GL25SNHVHNzVQUWYwUWV1MlFJNVo2TUI0cXZRNTdrT0NnWWdJ?=
- =?utf-8?B?K3ArK2xqWG9ZZmlFWW4vaFNNSmVvMU93Ty9Wa1ZMYkw2RExPMDBZYnprTHNP?=
- =?utf-8?B?U2xHWE10VjB5RU9XSlJLVC9mQlBXM21naDFQNkJSUHRFVUpzYTVHYW9kWFh3?=
- =?utf-8?B?Umg0cFhHZWZCK05NRUxORk9wYkRXZHF3ZkFmaERQSlpDeCtwWGs1NlNITkQz?=
- =?utf-8?B?OGg0aCtEYXVQcWdxemhUeVRUNnF1dlBzQXlVNXg5VmRnN085TC9ORnpCMkFD?=
- =?utf-8?B?cUlVZ05xaWZIVVZWRTNabGd1cnh5UUpZSXM5cXpNekVJUGtMd0VpYXZNbXM3?=
- =?utf-8?B?b0h0NlNHUGx4Ry9hSFQrdnVhRzdxOVlLSjllMmNmUExlNmhXSVNVS01na1BN?=
- =?utf-8?B?VHN2TmJqeUg4cko3NEVvd0dzZGNOQXJZaWJsNVJsWHlxN3FzYWV5QlFseExF?=
- =?utf-8?B?bjhIZ2FFR3ZoSHFiQXNRdDk4TGhzODQxTUNuVHlHRUN6ZnZGTEZsK0F5Qm9v?=
- =?utf-8?B?Wi9UY0lxNm9IZ2JaOGhob1pzYjFreWZXQTlrMkl3YUNrbWc2NThqU3I4Qllr?=
- =?utf-8?B?SjZyWU0ySmJYblJVbjQwbHBwNC9nRTB0bUtEQ3FqL1c0Zk16MlFGalExakFG?=
- =?utf-8?B?VURqSGZadzZVZk5oRkk3NnpXZHg2MTRUZlh2SzBGVEJMNkx1WHhIK0hGa1VB?=
- =?utf-8?B?QmhSWEdXZFFnNS96SFdkNWQ5cXJJTExENjMxV0NhVWdJNVBJTmp1Y01nWTd5?=
- =?utf-8?B?c0JabzQ0REJuVGg1a0lnSEs0NWNsbzNKSVArRW0xdW9BWTJuZDJiYytCVXlM?=
- =?utf-8?B?S3B3VGFjTE8xTHp5VnBhRFhjMmtqZE1vMEtnZytySWZLcHpGYXhvZWdEMTc5?=
- =?utf-8?B?ZkdOeVpIVzFoVHJWeUl2b0pjZWxGa29salRxclFNOHBMb3EwM2RCRi8yYXF6?=
- =?utf-8?B?NVNXcG1LMGhoaGxGczZaWmk5TkRqTEsvM0tJeWgzYkR1aUNRU0NCbkxkdlh0?=
- =?utf-8?B?M2M5c0VyOVlpTGRXRUV1eTI1T2orTDdsNGRRQ1dQUlVHNFJjcEZVVXhZRHY1?=
- =?utf-8?B?TmRnZjNybE54bUF3ZVpxclArc2h5SmN0bG00Q3kxL0VHQnlRWWxaUUpWQ09a?=
- =?utf-8?B?bElyemlCalhkUmxNUHgxN01RWEwyUm45U2tCenBuY2pWTG9UcWhKWnh2Z1J6?=
- =?utf-8?B?c29KUnhqQ1J6MG5YbU9HTEI0WDhoSUQrb2tqWUhJOU1XOUl2ajlJTk93V0d3?=
- =?utf-8?B?ejd4bkJ0eG1uaUtZZ3FQcDhZZHdiczlBN1ZzdFRnVFhXbTVJeXk0NEVERDNT?=
- =?utf-8?B?NFI2SVk0ZkdEYVBxemwwalB6blgra2dTOHkvcDZmUVJtVERQK2UwZ3U5Rm1P?=
- =?utf-8?B?bU1hRVhYTEp4a09maFBhUmcwSk5VNkJzZ0cyOUJReWVmVkZmMlFWaUFwNWZM?=
- =?utf-8?B?RC9IZXdFWFJZTzdmalVtTWZIRldSd2MyMFZDN05zZTlVNVA5dUNqaG0yWk1o?=
- =?utf-8?B?M0QzS1Boa1duUkZwNTdyVW8rL2oxYXZIR01CMkJWaVVBV1JQSEpSTGFsUUJV?=
- =?utf-8?Q?YDX6e7loAkZKunlGPRWG5Sg0TNVF8sO1lpQ9vQc60juqh?=
-X-MS-Exchange-AntiSpam-MessageData-1: HIVCzeW3DAYNNw==
-X-OriginatorOrg: amd.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 80887a12-8e9e-4e76-a665-08da1651762a
-X-MS-Exchange-CrossTenant-AuthSource: DM5PR12MB1947.namprd12.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 04 Apr 2022 15:40:35.9202 (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: LcX2xaX6NxvIpQdkuAw8if6wbtGHtUVHntNpULL+lL6bUEveY4R56iBLsVyObqp4PrPLSNxjSJfVUVavU8Xi6w==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: BN8PR12MB3571
+Content-Type: text/plain; charset=iso-8859-1
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <87fsmt6s8w.fsf@intel.com>
+X-Operating-System: Linux phenom 5.10.0-8-amd64 
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -132,120 +74,172 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: David Airlie <airlied@linux.ie>, Jiawei Gu <Jiawei.Gu@amd.com>,
- dri-devel@lists.freedesktop.org, Alex Deucher <alexander.deucher@amd.com>,
- Nayan Deshmukh <nayan26deshmukh@gmail.com>,
- =?UTF-8?Q?Christian_K=c3=b6nig?= <christian.koenig@amd.com>
+Cc: Petri Latvala <petri.latvala@intel.com>, Arkadiusz Hiler <arek@hiler.eu>,
+ Daniel Vetter <daniel.vetter@ffwll.ch>, intel-gfx@lists.freedesktop.org,
+ dri-devel@lists.freedesktop.org, airlied@linux.ie, "Modem,
+ Bhanuprakash" <bhanuprakash.modem@intel.com>,
+ Alex Deucher <alexander.deucher@amd.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Seems to me better this way to avoid merge conflicts ?
+On Mon, Apr 04, 2022 at 01:46:23PM +0300, Jani Nikula wrote:
+> On Mon, 04 Apr 2022, "Modem, Bhanuprakash" <bhanuprakash.modem@intel.com> wrote:
+> > On Fri-01-04-2022 06:10 pm, Jani Nikula wrote:
+> >> On Tue, 29 Mar 2022, Bhanuprakash Modem <bhanuprakash.modem@intel.com> wrote:
+> >>> This new debugfs will expose the connector's max supported bpc
+> >>> and the bpc currently using. It is very useful for verifying
+> >>> whether we enter the correct output color depth from IGT.
+> >>>
+> >>> Example:
+> >>> cat /sys/kernel/debug/dri/0/DP-1/output_bpc
+> >>> Current: 8
+> >>> Maximum: 10
+> >>>
+> >>> V2: Add connector's max bpc to i915_display_info
+> >>>
+> >>> Cc: Ville Syrj�l� <ville.syrjala@linux.intel.com>
+> >>> Cc: Uma Shankar <uma.shankar@intel.com>
+> >>> Cc: Swati Sharma <swati2.sharma@intel.com>
+> >>> Signed-off-by: Bhanuprakash Modem <bhanuprakash.modem@intel.com>
+> >>> ---
+> >>>   .../drm/i915/display/intel_display_debugfs.c  | 46 +++++++++++++++++++
+> >>>   1 file changed, 46 insertions(+)
+> >>>
+> >>> diff --git a/drivers/gpu/drm/i915/display/intel_display_debugfs.c b/drivers/gpu/drm/i915/display/intel_display_debugfs.c
+> >>> index c1e74a13a0828..694d27f3b109c 100644
+> >>> --- a/drivers/gpu/drm/i915/display/intel_display_debugfs.c
+> >>> +++ b/drivers/gpu/drm/i915/display/intel_display_debugfs.c
+> >>> @@ -663,6 +663,8 @@ static void intel_connector_info(struct seq_file *m,
+> >>>   	seq_puts(m, "\tHDCP version: ");
+> >>>   	intel_hdcp_info(m, intel_connector);
+> >>>   
+> >>> +	seq_printf(m, "\tmax bpc: %u\n", connector->display_info.bpc);
+> >>> +
+> >>>   	intel_panel_info(m, intel_connector);
+> >>>   
+> >>>   	seq_printf(m, "\tmodes:\n");
+> >>> @@ -2275,6 +2277,47 @@ static const struct file_operations i915_dsc_bpp_fops = {
+> >>>   	.write = i915_dsc_bpp_write
+> >>>   };
+> >>>   
+> >>> +/*
+> >>> + * Returns the maximum output bpc for the connector.
+> >>> + * Example usage: cat /sys/kernel/debug/dri/0/DP-1/output_bpc
+> >>> + */
+> >>> +static int output_bpc_show(struct seq_file *m, void *data)
+> >>> +{
+> >>> +	struct drm_connector *connector = m->private;
+> >>> +	struct drm_device *dev = connector->dev;
+> >>> +	struct drm_crtc *crtc;
+> >>> +	struct intel_crtc_state *crtc_state;
+> >>> +	struct intel_encoder *encoder = intel_attached_encoder(to_intel_connector(connector));
+> >>> +	int res;
+> >>> +
+> >>> +	if (!encoder)
+> >>> +		return -ENODEV;
+> >>> +
+> >>> +	res = drm_modeset_lock_single_interruptible(&dev->mode_config.connection_mutex);
+> >>> +	if (res)
+> >>> +		return res;
+> >>> +
+> >>> +	crtc = connector->state->crtc;
+> >>> +	if (connector->status != connector_status_connected || !crtc) {
+> >>> +		res = -ENODEV;
+> >>> +		goto unlock;
+> >>> +	}
+> >>> +
+> >>> +	crtc_state = to_intel_crtc_state(crtc->state);
+> >>> +	if (!crtc_state->hw.active)
+> >>> +		goto unlock;
+> >>> +
+> >>> +	seq_printf(m, "Current: %u\n", crtc_state->pipe_bpp / 3);
+> >>> +	seq_printf(m, "Maximum: %u\n", connector->display_info.bpc);
+> >>> +	res = 0;
+> >>> +
+> >>> +unlock:
+> >>> +	drm_modeset_unlock(&dev->mode_config.connection_mutex);
+> >>> +
+> >>> +	return res;
+> >>> +}
+> >>> +DEFINE_SHOW_ATTRIBUTE(output_bpc);
+> >> 
+> >> Looks like an excessive amount of code for a single value.
+> >
+> > Yeah, but these values are very helpful in many IGT tests like 
+> > kms_color, kms_hdr, kms_dither, kms_dsc etc..
+> >
+> > Otherwise IGT needs to request the kernel to get the EDID, and parse 
+> > that EDID to get the "Maximum" value which is redundant (Kernel is 
+> > already doing the same) and not recommended in IGT.
+> >
+> > And there is no way to get the "Current" value except reading it from 
+> > i915_display_info which is again not recommended in IGT (As 
+> > i915_display_info is Intel specific).
+> 
+> Note how we have intel_connector_debugfs_add() for connector debugfs and
+> intel_crtc_debugfs_add() for crtc debugfs, and how this patch just mixes
+> up the two by looking up crtc and state from the connector debugfs.
+> 
+> > This debugfs is already introduced & using by AMD: 
+> > https://patchwork.freedesktop.org/patch/308586
+> 
+> Wait, what?
+> 
+> Both amd and i915 adding the name "output_bpc" is *not* the way to
+> roll. We only add i915_ prefixed debugfs files from i915.ko.
 
-Andrey
+Yeah vendor prefix would be nice, but it's debugfs so we can always fix
+it.
 
-On 2022-04-04 11:33, Randy Dunlap wrote:
+Also would be really good to pull that output_bpc into drm core if it's
+something standard that igts need in general, so ideally we don't just
+standardize the drm side, but also the testcases that need this and make
+them generic to run on any kms driver.
+-Daniel
+
+> 
+> If you need this to be a standard interface across drivers, IMO it
+> should be added in common drm code, not sprinkled around in drivers.
+> 
+> I see that amd is already using this in what is basically drm core
+> debugfs namespace, and there's amd specific IGT built on top.
+> 
+> Adding a bunch of Cc's to get some clarity on drm debugfs naming and
+> usage.
 > 
 > 
-> On 4/4/22 07:34, Andrey Grodzovsky wrote:
->> On 2022-04-04 00:25, Randy Dunlap wrote:
->>> Fix kernel-doc warnings in gpu_scheduler.h and sched_main.c.
->>>
->>> Quashes these warnings:
->>>
->>> include/drm/gpu_scheduler.h:316: warning: Function parameter or member 'work' not described in 'drm_sched_job'
->>
->> Looks good to me except one point is that I already commited a fix for the above warning to drm-misc-next.
->>
+> BR,
+> Jani.
 > 
-> OK. Do I need to send a v2 without the header file fix?
 > 
-> thanks.
+> >
+> > - Bhanu
+> >
+> >> 
+> >> BR,
+> >> Jani.
+> >> 
+> >>> +
+> >>>   /**
+> >>>    * intel_connector_debugfs_add - add i915 specific connector debugfs files
+> >>>    * @connector: pointer to a registered drm_connector
+> >>> @@ -2330,6 +2373,9 @@ void intel_connector_debugfs_add(struct intel_connector *intel_connector)
+> >>>   	    connector->connector_type == DRM_MODE_CONNECTOR_HDMIB)
+> >>>   		debugfs_create_file("i915_lpsp_capability", 0444, root,
+> >>>   				    connector, &i915_lpsp_capability_fops);
+> >>> +
+> >>> +	debugfs_create_file("output_bpc", 0444, root,
+> >>> +			    connector, &output_bpc_fops);
+> >>>   }
+> >>>   
+> >>>   /**
+> >> 
+> >
 > 
->>
->>> include/drm/gpu_scheduler.h:332: warning: missing initial short description on line:
->>>    * struct drm_sched_backend_ops
->>> include/drm/gpu_scheduler.h:412: warning: missing initial short description on line:
->>>    * struct drm_gpu_scheduler
->>>
->>> include/drm/gpu_scheduler.h:461: warning: Function parameter or member 'dev' not described in 'drm_gpu_scheduler'
->>> drivers/gpu/drm/scheduler/sched_main.c:201: warning: missing initial short description on line:
->>>    * drm_sched_dependency_optimized
->>> drivers/gpu/drm/scheduler/sched_main.c:995: warning: Function parameter or member 'dev' not described in 'drm_sched_init'
->>>
->>> Fixes: 2d33948e4e00 ("drm/scheduler: add documentation")
->>> Fixes: 8ab62eda177b ("drm/sched: Add device pointer to drm_gpu_scheduler")
->>> Fixes: 542cff7893a3 ("drm/sched: Avoid lockdep spalt on killing a processes")
->>> Signed-off-by: Randy Dunlap <rdunlap@infradead.org>
->>> Cc: David Airlie <airlied@linux.ie>
->>> Cc: Daniel Vetter <daniel@ffwll.ch>
->>> Cc: Andrey Grodzovsky <andrey.grodzovsky@amd.com>
->>> Cc: Nayan Deshmukh <nayan26deshmukh@gmail.com>
->>> Cc: Alex Deucher <alexander.deucher@amd.com>
->>> Cc: Christian König <christian.koenig@amd.com>
->>> Cc: Jiawei Gu <Jiawei.Gu@amd.com>
->>> Cc: dri-devel@lists.freedesktop.org
->>> ---
->>> Feel free to make changes or suggest changes...
->>>
->>>    drivers/gpu/drm/scheduler/sched_main.c |    3 ++-
->>>    include/drm/gpu_scheduler.h            |   10 ++++++----
->>>    2 files changed, 8 insertions(+), 5 deletions(-)
->>>
->>> --- linux-next-20220401.orig/drivers/gpu/drm/scheduler/sched_main.c
->>> +++ linux-next-20220401/drivers/gpu/drm/scheduler/sched_main.c
->>> @@ -198,7 +198,7 @@ static void drm_sched_job_done_cb(struct
->>>    }
->>>      /**
->>> - * drm_sched_dependency_optimized
->>> + * drm_sched_dependency_optimized - test if the dependency can be optimized
->>>     *
->>>     * @fence: the dependency fence
->>>     * @entity: the entity which depends on the above fence
->>> @@ -984,6 +984,7 @@ static int drm_sched_main(void *param)
->>>     *        used
->>>     * @score: optional score atomic shared with other schedulers
->>>     * @name: name used for debugging
->>> + * @dev: target &struct device
->>>     *
->>>     * Return 0 on success, otherwise error code.
->>>     */
->>> --- linux-next-20220401.orig/include/drm/gpu_scheduler.h
->>> +++ linux-next-20220401/include/drm/gpu_scheduler.h
->>> @@ -270,6 +270,7 @@ struct drm_sched_fence *to_drm_sched_fen
->>>     * @sched: the scheduler instance on which this job is scheduled.
->>>     * @s_fence: contains the fences for the scheduling of job.
->>>     * @finish_cb: the callback for the finished fence.
->>> + * @work: scheduler work queue
->>>     * @id: a unique id assigned to each job scheduled on the scheduler.
->>>     * @karma: increment on every hang caused by this job. If this exceeds the hang
->>>     *         limit of the scheduler then the job is marked guilty and will not
->>> @@ -328,10 +329,10 @@ enum drm_gpu_sched_stat {
->>>    };
->>>      /**
->>> - * struct drm_sched_backend_ops
->>> + * struct drm_sched_backend_ops - Define the backend operations
->>> + *    called by the scheduler
->>>     *
->>> - * Define the backend operations called by the scheduler,
->>> - * these functions should be implemented in driver side.
->>> + * These functions should be implemented in the driver side.
->>>     */
->>>    struct drm_sched_backend_ops {
->>>        /**
->>> @@ -408,7 +409,7 @@ struct drm_sched_backend_ops {
->>>    };
->>>      /**
->>> - * struct drm_gpu_scheduler
->>> + * struct drm_gpu_scheduler - scheduler instance-specific data
->>>     *
->>>     * @ops: backend operations provided by the driver.
->>>     * @hw_submission_limit: the max size of the hardware queue.
->>> @@ -434,6 +435,7 @@ struct drm_sched_backend_ops {
->>>     * @_score: score used when the driver doesn't provide one
->>>     * @ready: marks if the underlying HW is ready to work
->>>     * @free_guilty: A hit to time out handler to free the guilty job.
->>> + * @dev: system &struct device
->>>     *
->>>     * One scheduler is implemented for each hardware ring.
->>>     */
-> 
+> -- 
+> Jani Nikula, Intel Open Source Graphics Center
+
+-- 
+Daniel Vetter
+Software Engineer, Intel Corporation
+http://blog.ffwll.ch
