@@ -1,61 +1,40 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 65A184F1CE4
-	for <lists+dri-devel@lfdr.de>; Mon,  4 Apr 2022 23:29:48 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 715F84F1CE6
+	for <lists+dri-devel@lfdr.de>; Mon,  4 Apr 2022 23:30:49 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 4A80510E515;
-	Mon,  4 Apr 2022 21:29:44 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 5F0E910E517;
+	Mon,  4 Apr 2022 21:30:47 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-qk1-x72c.google.com (mail-qk1-x72c.google.com
- [IPv6:2607:f8b0:4864:20::72c])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 9777310E515
- for <dri-devel@lists.freedesktop.org>; Mon,  4 Apr 2022 21:29:43 +0000 (UTC)
-Received: by mail-qk1-x72c.google.com with SMTP id g8so8844818qke.2
- for <dri-devel@lists.freedesktop.org>; Mon, 04 Apr 2022 14:29:43 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=IxUdjcC4It/JwdPOTj9qf8Z2Z9qsMxlLajpUd7Bfk/o=;
- b=POnOfkKB5D3FdXZ3FUx89riusD8I3RIEffDsh+KNc9BBUacT82hSW46tJsWf5CUr4Z
- 9tCpUVA2vzJ6RNSV/hyhPsGW4fXWyimM+aqGrXtvHqFWENOgXa0eSohh92R0UixG7UKr
- 1bjSfBJUFUZn1kS8Ji0hY0DtdpXo4oXUVxihn5JotQ+VNqNImvdCWoCrPC97P5Sn1i66
- EM927H4AOz07RCNVWrzp6LqIsP/DQjPaOUctdkXuIL4EbpcA1zIiGPByFm/qCWWMZg3F
- ImgWoGm+3GVLuS8Nr1Bt8asoBnKLtm3VyUMwZrECsO5hKNb4WDBZrLmIQDDHYNzG+3fS
- VnTg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=IxUdjcC4It/JwdPOTj9qf8Z2Z9qsMxlLajpUd7Bfk/o=;
- b=CZQgK7XgNeGMl4ow5WulvIRGNp1jcnJt/TVEoW+d+FSLRvyCWiHV7rbXSDBzVIrx+G
- 4IUq30IbFGIbuToGzGjeAiRULNsibZPq48V03JyfHleNB3DaXTBuw4MLp/GWa2XhPGz6
- Ov6k68axh+TZsYjqHl6VZq7TVyskJxmKacuITF2D8Q61r7rFZZwrI0iiPY/iuD4x940d
- 2AWZMSjahtK4N7rP30FHuzKrak4TEE13WKGu3KMh78qVMKzVmtUnG8AQFZLo3WJGNhp0
- eBmG8uEiTMASLdJMt1ojaeiT4T+EkdLf3k468LzaEULwmMheJRLFXadap4v02UZC24kX
- qqhQ==
-X-Gm-Message-State: AOAM530Qi1stfssdYaUqN1ZXetGtRVsHVgZOfAwvciw9ZaIk9wIdNeBP
- mntL2Cofi/k5cjVnNpFbGakuN24DfJZNRTBcv+8iow==
-X-Google-Smtp-Source: ABdhPJyyRMlOkHW8q1Mhm5p13Qfm1ifyp2XYVK5SyJAhakAFTtHNbQGpzkKzG2wqiZ5LZOfnuNwc68wkA3oO+hVOi0A=
-X-Received: by 2002:a05:620a:2453:b0:67d:9539:495c with SMTP id
- h19-20020a05620a245300b0067d9539495cmr215335qkn.30.1649107782604; Mon, 04 Apr
- 2022 14:29:42 -0700 (PDT)
+Received: from bombadil.infradead.org (bombadil.infradead.org
+ [IPv6:2607:7c80:54:e::133])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 9BC1E10E517
+ for <dri-devel@lists.freedesktop.org>; Mon,  4 Apr 2022 21:30:46 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+ d=infradead.org; s=bombadil.20210309; h=Content-Transfer-Encoding:
+ Content-Type:MIME-Version:Message-Id:Date:Subject:Cc:To:From:Sender:Reply-To:
+ Content-ID:Content-Description:In-Reply-To:References;
+ bh=1hcHq3+jtoL5KI3F2TXnvjIRLzfezUI/ZzvP2fdXzK8=; b=eOATVfRMpJ/59wHBVZdU1fcZGi
+ bu9a2mhF+aplohuk+fjg4G27QNxVjFJ4KiPunSIa8K9qqxtySfOIxoLX8iWyqbVbQztoqxca8VfrH
+ ZikJBe50X02hySLGJG27bymW34LnGZWUSPjlRMAhq8G7oPhq5s5lGX2oui1ZGfKSky1Fn+zCnR8zj
+ oJBjm6lCRbPI6j72s/nbf+Kc4NObJefjyV/wPa0M0Q2cbNIiATKh7wlUpeTEA7aWAGzsNrzjmkYnN
+ VnADdg0lBY6B/FDR8Fs0eviZL/hibJkM3JuIJXceRym7zGwscM4hNThWa5tBg7/Ngp2TJrMynFQD7
+ oYnAO3Xw==;
+Received: from [2601:1c0:6280:3f0::aa0b] (helo=bombadil.infradead.org)
+ by bombadil.infradead.org with esmtpsa (Exim 4.94.2 #2 (Red Hat Linux))
+ id 1nbUHZ-00GSRY-Ai; Mon, 04 Apr 2022 21:30:41 +0000
+From: Randy Dunlap <rdunlap@infradead.org>
+To: linux-kernel@vger.kernel.org
+Subject: [PATCH v2] drm/scheduler: quieten kernel-doc warnings
+Date: Mon,  4 Apr 2022 14:30:40 -0700
+Message-Id: <20220404213040.12912-1-rdunlap@infradead.org>
+X-Mailer: git-send-email 2.34.1
 MIME-Version: 1.0
-References: <1648656179-10347-1-git-send-email-quic_sbillaka@quicinc.com>
- <1648656179-10347-9-git-send-email-quic_sbillaka@quicinc.com>
- <CAA8EJprvE31ex3fCQHZ-=x+EWHK4UZ0qqHRh+rH4dk5TPhmVyw@mail.gmail.com>
- <MW4PR02MB71867220A90FCFED295830D0E1E19@MW4PR02MB7186.namprd02.prod.outlook.com>
- <CAD=FV=VK0D_GzYBv+u+o6-ks-UAsw97__0mWsSn9OycX72LJFg@mail.gmail.com>
- <MW4PR02MB71865B8E17F3D194B05013EDE1E59@MW4PR02MB7186.namprd02.prod.outlook.com>
-In-Reply-To: <MW4PR02MB71865B8E17F3D194B05013EDE1E59@MW4PR02MB7186.namprd02.prod.outlook.com>
-From: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
-Date: Tue, 5 Apr 2022 00:29:31 +0300
-Message-ID: <CAA8EJpqFh7c9ohDbR_0kG5t106-djE7TYfaoAbiT-W4-294jTw@mail.gmail.com>
-Subject: Re: [PATCH v6 8/8] drm/msm/dp: Handle eDP mode_valid differently from
- dp
-To: "Sankeerth Billakanti (QUIC)" <quic_sbillaka@quicinc.com>
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -68,93 +47,99 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: quic_kalyant <quic_kalyant@quicinc.com>,
- "devicetree@vger.kernel.org" <devicetree@vger.kernel.org>,
- "bjorn.andersson@linaro.org" <bjorn.andersson@linaro.org>,
- "Abhinav Kumar \(QUIC\)" <quic_abhinavk@quicinc.com>,
- quic_vproddut <quic_vproddut@quicinc.com>,
- "airlied@linux.ie" <airlied@linux.ie>,
- "linux-arm-msm@vger.kernel.org" <linux-arm-msm@vger.kernel.org>,
- "Kuogee Hsieh \(QUIC\)" <quic_khsieh@quicinc.com>,
- Doug Anderson <dianders@chromium.org>,
- "dri-devel@lists.freedesktop.org" <dri-devel@lists.freedesktop.org>,
- "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
- "sean@poorly.run" <sean@poorly.run>,
- "seanpaul@chromium.org" <seanpaul@chromium.org>,
- "Aravind Venkateswaran \(QUIC\)" <quic_aravindh@quicinc.com>,
- "swboyd@chromium.org" <swboyd@chromium.org>,
- "freedreno@lists.freedesktop.org" <freedreno@lists.freedesktop.org>
+Cc: Jiawei Gu <Jiawei.Gu@amd.com>, David Airlie <airlied@linux.ie>,
+ Randy Dunlap <rdunlap@infradead.org>, dri-devel@lists.freedesktop.org,
+ Nayan Deshmukh <nayan26deshmukh@gmail.com>,
+ Alex Deucher <alexander.deucher@amd.com>,
+ =?UTF-8?q?Christian=20K=C3=B6nig?= <christian.koenig@amd.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Mon, 4 Apr 2022 at 21:21, Sankeerth Billakanti (QUIC)
-<quic_sbillaka@quicinc.com> wrote:
->
-> Hi Doug,
->
-> > On Wed, Mar 30, 2022 at 11:02 PM Sankeerth Billakanti (QUIC)
-> > <quic_sbillaka@quicinc.com> wrote:
-> > >
-> > > Hi Dmitry,
-> > >
-> > > > On Wed, 30 Mar 2022 at 19:04, Sankeerth Billakanti
-> > > > <quic_sbillaka@quicinc.com> wrote:
-> > > > >
-> > > > > The panel-edp driver modes needs to be validated differently from
-> > > > > DP because the link capabilities are not available for EDP by that time.
-> > > > >
-> > > > > Signed-off-by: Sankeerth Billakanti <quic_sbillaka@quicinc.com>
-> > > >
-> > > > This should not be necessary after
-> > > >
-> > https://patchwork.freedesktop.org/patch/479261/?series=101682&rev=1.
-> > > > Could you please check?
-> > > >
-> > >
-> > > The check for DP_MAX_PIXEL_CLK_KHZ is not necessary anymore but we
-> > > need to return early for eDP because unlike DP, eDP context will not
-> > > have the information about the number of lanes and link clock.
-> > >
-> > > So, I will modify the patch to return after the DP_MAX_PIXEL_CLK_KHZ
-> > check if is_eDP is set.
-> >
-> > I haven't walked through all the relevant code but something you said above
-> > sounds strange. You say that for eDP we don't have info about the number
-> > of lanes? We _should_.
-> >
-> > It's certainly possible to have a panel that supports _either_ 1 or 2 lanes but
-> > then only physically connect 1 lane to it. ...or you could have a panel that
-> > supports 2 or 4 lanes and you only connect 1 lane.
-> > See, for instance, ti_sn_bridge_parse_lanes. There we assume 4 lanes but if
-> > a "data-lanes" property is present then we can use that to know that fewer
-> > lanes are physically connected.
-> >
-> > It's also possible to connect more lanes to a panel than it supports.
-> > You could connect 2 lanes to it but then it only supports 1. This case needs to
-> > be handled as well...
-> >
->
-> I was referring to the checks we do for DP in dp_bridge_mode_valid. We check if the
-> Link bandwidth can support the pixel bandwidth. For an external DP connection, the
-> Initial DPCD/EDID read after cable connection will return the sink capabilities like link
-> rate, lane count and bpp information that are used to we filter out the unsupported
-> modes from the list of modes from EDID.
->
-> For eDP case, the dp driver performs the first dpcd read during bridge_enable. The
-> dp_bridge_mode_valid function is executed before bridge_enable and hence does
-> not have the full link or the sink capabilities information like external DP connection,
-> by then.
+Fix kernel-doc warnings in gpu_scheduler.h and sched_main.c.
 
-It sounds to me like we should emulate the HPD event for eDP to be
-handled earlier than the get_modes()/prepare() calls are attempted.
-However this might open another can of worms.
+Quashes these warnings:
 
-> So, we need to proceed with the reported mode for eDP.
+include/drm/gpu_scheduler.h:332: warning: missing initial short description on line:
+ * struct drm_sched_backend_ops
+include/drm/gpu_scheduler.h:412: warning: missing initial short description on line:
+ * struct drm_gpu_scheduler
+include/drm/gpu_scheduler.h:461: warning: Function parameter or member 'dev' not described in 'drm_gpu_scheduler'
 
-Well... Even if during the first call to get_modes() the DPCD is not
-read, during subsequent calls the driver has necessary information, so
-it can proceed with all the checks, can't it?
+drivers/gpu/drm/scheduler/sched_main.c:201: warning: missing initial short description on line:
+ * drm_sched_dependency_optimized
+drivers/gpu/drm/scheduler/sched_main.c:995: warning: Function parameter or member 'dev' not described in 'drm_sched_init'
 
--- 
-With best wishes
-Dmitry
+Fixes: 2d33948e4e00 ("drm/scheduler: add documentation")
+Fixes: 8ab62eda177b ("drm/sched: Add device pointer to drm_gpu_scheduler")
+Fixes: 542cff7893a3 ("drm/sched: Avoid lockdep spalt on killing a processes")
+Signed-off-by: Randy Dunlap <rdunlap@infradead.org>
+Cc: David Airlie <airlied@linux.ie>
+Cc: Daniel Vetter <daniel@ffwll.ch>
+Cc: Andrey Grodzovsky <andrey.grodzovsky@amd.com>
+Cc: Nayan Deshmukh <nayan26deshmukh@gmail.com>
+Cc: Alex Deucher <alexander.deucher@amd.com>
+Cc: Christian König <christian.koenig@amd.com>
+Cc: Jiawei Gu <Jiawei.Gu@amd.com>
+Cc: dri-devel@lists.freedesktop.org
+Acked-by: Christian König <christian.koenig@amd.com>
+---
+Feel free to make changes or suggest changes...
+
+v2: drop @work description (already done by Andrey)
+
+ drivers/gpu/drm/scheduler/sched_main.c |    3 ++-
+ include/drm/gpu_scheduler.h            |    9 +++++----
+ 2 files changed, 7 insertions(+), 5 deletions(-)
+
+--- linux-next-20220404.orig/drivers/gpu/drm/scheduler/sched_main.c
++++ linux-next-20220404/drivers/gpu/drm/scheduler/sched_main.c
+@@ -198,7 +198,7 @@ static void drm_sched_job_done_cb(struct
+ }
+ 
+ /**
+- * drm_sched_dependency_optimized
++ * drm_sched_dependency_optimized - test if the dependency can be optimized
+  *
+  * @fence: the dependency fence
+  * @entity: the entity which depends on the above fence
+@@ -984,6 +984,7 @@ static int drm_sched_main(void *param)
+  *		used
+  * @score: optional score atomic shared with other schedulers
+  * @name: name used for debugging
++ * @dev: target &struct device
+  *
+  * Return 0 on success, otherwise error code.
+  */
+--- linux-next-20220404.orig/include/drm/gpu_scheduler.h
++++ linux-next-20220404/include/drm/gpu_scheduler.h
+@@ -328,10 +328,10 @@ enum drm_gpu_sched_stat {
+ };
+ 
+ /**
+- * struct drm_sched_backend_ops
++ * struct drm_sched_backend_ops - Define the backend operations
++ *	called by the scheduler
+  *
+- * Define the backend operations called by the scheduler,
+- * these functions should be implemented in driver side.
++ * These functions should be implemented in the driver side.
+  */
+ struct drm_sched_backend_ops {
+ 	/**
+@@ -408,7 +408,7 @@ struct drm_sched_backend_ops {
+ };
+ 
+ /**
+- * struct drm_gpu_scheduler
++ * struct drm_gpu_scheduler - scheduler instance-specific data
+  *
+  * @ops: backend operations provided by the driver.
+  * @hw_submission_limit: the max size of the hardware queue.
+@@ -434,6 +434,7 @@ struct drm_sched_backend_ops {
+  * @_score: score used when the driver doesn't provide one
+  * @ready: marks if the underlying HW is ready to work
+  * @free_guilty: A hit to time out handler to free the guilty job.
++ * @dev: system &struct device
+  *
+  * One scheduler is implemented for each hardware ring.
+  */
