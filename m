@@ -2,60 +2,41 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 873FE4F11A1
-	for <lists+dri-devel@lfdr.de>; Mon,  4 Apr 2022 11:04:27 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 627A74F11BB
+	for <lists+dri-devel@lfdr.de>; Mon,  4 Apr 2022 11:12:55 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 10FFD10EC01;
-	Mon,  4 Apr 2022 09:04:21 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id AFE9D10EBED;
+	Mon,  4 Apr 2022 09:12:51 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mga17.intel.com (mga17.intel.com [192.55.52.151])
- by gabe.freedesktop.org (Postfix) with ESMTPS id D1EEF10EBFC;
- Mon,  4 Apr 2022 09:04:19 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1649063059; x=1680599059;
- h=message-id:subject:from:to:cc:date:in-reply-to:
- references:mime-version:content-transfer-encoding;
- bh=v9w+C2GgX86M8seswjaCKYzc2jfz72wfTwg0xZ6r42c=;
- b=hJMwxentbHYi7w6FxVTvNqUndpI0HH1M7RBbXY7NOAnNHt/qJPwuzAKa
- VSpeqiqO6w7309tWcyCL+Xo8kncIx7/dpZ7eVBEH2+ZUePRhmWTC5ocvg
- uKOYVX9zB0Ww78sNxOq3FyNA3ss/3v1a3i+SByCRetj4vS1yuEBwcjaA+
- QJC3nZTGgzTh1EI9kuhV5OiIEKamAVHh1+D47sU4b2vdHgc/Q8LdaMoUZ
- CYG9IWYISQu105kI09A2AquTSZBtY4TxQAUUXhp76GL0lZC3ozfhs1xVP
- /0+gWwcAmppkvdLtLSo1lF4r6hBNTy21Wc0pL45I0k/yF69Z3NL49JMMw Q==;
-X-IronPort-AV: E=McAfee;i="6200,9189,10306"; a="241058261"
-X-IronPort-AV: E=Sophos;i="5.90,233,1643702400"; d="scan'208";a="241058261"
-Received: from orsmga001.jf.intel.com ([10.7.209.18])
- by fmsmga107.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 04 Apr 2022 02:04:18 -0700
-X-IronPort-AV: E=Sophos;i="5.90,233,1643702400"; d="scan'208";a="587508047"
-Received: from skahiryx-mobl.ger.corp.intel.com (HELO [10.249.254.108])
- ([10.249.254.108])
- by orsmga001-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 04 Apr 2022 02:04:15 -0700
-Message-ID: <94a68571ed19fb27bf7fb0b1e6f652f8cfed219c.camel@linux.intel.com>
-Subject: Re: [Intel-gfx] Small bar recovery vs compressed content on DG2
-From: Thomas =?ISO-8859-1?Q?Hellstr=F6m?= <thomas.hellstrom@linux.intel.com>
-To: Matthew Auld <matthew.auld@intel.com>, Daniel Vetter <daniel@ffwll.ch>, 
- "Bloomfield, Jon" <jon.bloomfield@intel.com>, Kenneth W Graunke
- <kenneth.w.graunke@intel.com>, Lionel Landwerlin
- <lionel.g.landwerlin@linux.intel.com>
-Date: Mon, 04 Apr 2022 11:04:13 +0200
-In-Reply-To: <00378547-2a1f-a288-fd2e-12fca172e3ba@intel.com>
-References: <162c1566-87c6-072f-d340-1693f6a71aea@linux.intel.com>
- <164750662822.7267.9355161518284202141@jlahtine-mobl.ger.corp.intel.com>
- <9eb06b576948707f9a0527b07b58b9640821bf19.camel@linux.intel.com>
- <d874ba08a65e4468baae737d826a85a5@intel.com>
- <ddd7af8f57320a7e2a84b3fdb94e3050eae81857.camel@linux.intel.com>
- <f80dc6ccf38343beb819e1584a9017f7@intel.com>
- <CAKMK7uGsCFJR2d-m0TsVjEy36bN1Z38fuoME6gezA9xY_MkSeA@mail.gmail.com>
- <00378547-2a1f-a288-fd2e-12fca172e3ba@intel.com>
-Organization: Intel Sweden AB, Registration Number: 556189-6027
+Received: from metis.ext.pengutronix.de (metis.ext.pengutronix.de
+ [IPv6:2001:67c:670:201:290:27ff:fe1d:cc33])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id AD39310EBE1
+ for <dri-devel@lists.freedesktop.org>; Mon,  4 Apr 2022 09:12:49 +0000 (UTC)
+Received: from gallifrey.ext.pengutronix.de
+ ([2001:67c:670:201:5054:ff:fe8d:eefb] helo=[IPv6:::1])
+ by metis.ext.pengutronix.de with esmtps
+ (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256) (Exim 4.92)
+ (envelope-from <l.stach@pengutronix.de>)
+ id 1nbIlT-00034E-OG; Mon, 04 Apr 2022 11:12:47 +0200
+Message-ID: <0caef672cc44515edd7ead5dfacae09866816524.camel@pengutronix.de>
+Subject: Re: [PATCH 1/4] drm/etnaviv: Use scheduler dependency handling
+From: Lucas Stach <l.stach@pengutronix.de>
+To: Daniel Vetter <daniel.vetter@ffwll.ch>, DRI Development
+ <dri-devel@lists.freedesktop.org>
+Date: Mon, 04 Apr 2022 11:12:41 +0200
+In-Reply-To: <20220331204651.2699107-2-daniel.vetter@ffwll.ch>
+References: <20220331204651.2699107-1-daniel.vetter@ffwll.ch>
+ <20220331204651.2699107-2-daniel.vetter@ffwll.ch>
 Content-Type: text/plain; charset="UTF-8"
-User-Agent: Evolution 3.40.4 (3.40.4-3.fc34) 
+User-Agent: Evolution 3.40.4 (3.40.4-1.fc34) 
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
+X-SA-Exim-Connect-IP: 2001:67c:670:201:5054:ff:fe8d:eefb
+X-SA-Exim-Mail-From: l.stach@pengutronix.de
+X-SA-Exim-Scanned: No (on metis.ext.pengutronix.de);
+ SAEximRunCond expanded to false
+X-PTX-Original-Recipient: dri-devel@lists.freedesktop.org
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -68,268 +49,295 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Intel Graphics Development <intel-gfx@lists.freedesktop.org>,
- dri-devel <dri-devel@lists.freedesktop.org>,
- Kenneth Graunke <kenneth@whitecape.org>, "Vetter,
- Daniel" <daniel.vetter@intel.com>
+Cc: etnaviv@lists.freedesktop.org, Sumit Semwal <sumit.semwal@linaro.org>,
+ linaro-mm-sig@lists.linaro.org, Russell King <linux+etnaviv@armlinux.org.uk>,
+ Daniel Vetter <daniel.vetter@intel.com>,
+ Christian =?ISO-8859-1?Q?K=F6nig?= <christian.koenig@amd.com>,
+ linux-media@vger.kernel.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Thu, 2022-03-31 at 10:25 +0100, Matthew Auld wrote:
-> On 18/03/2022 18:12, Daniel Vetter wrote:
-> > Maybe also good to add dri-devel to these discussions.
-> > 
-> > I'm not sure where exactly we landed with dgpu error capture (maybe
-> > I
-> > should check the code but it's really w/e here), but I think we can
-> > also toss in "you need a non-recoverable context for error capture
-> > to
-> > work on dgpu". Since that simplifies things even more. Maybe Thomas
-> > forgot to add that to the list of restrictions.
-
-Not sure whether we reached a conclusion here, but after discussing
-with Daniel in another thread, What about:
-
-1) Reject error capture on recoverable contexts. That means we are free
-to implement reasonable error capture from outside the fence signalling
-critical path moving forward. Makes it easier to blit buffer content.
-
-2) No additional restrictions on capture buffers, They are best effort
-anyway. If they are not mappable, they don't end up in the error log
-for now (affects only small BAR systems). Moving forward we can blit
-the content to system or mappable LMEM for capture once the gpu reset
-has completed.
-
-/Thomas
-
-> > 
-> > Anyway on the "we can't capture lmem-only compressed buffers", I
-> > think
-> > that's totally fine. Those are for render targets, and we don't
-> > capture those. Adding Lionel and Ken to confirm.
+Am Donnerstag, dem 31.03.2022 um 22:46 +0200 schrieb Daniel Vetter:
+> We need to pull the drm_sched_job_init much earlier, but that's very
+> minor surgery.
 > 
-> Ken, Lionel: gentle ping on this?
+> v2: Actually fix up cleanup paths by calling drm_sched_job_init, which
+> I wanted to to in the previous round (and did, for all other drivers).
+> Spotted by Lucas.
 > 
-> > -Daniel
-> > 
-> > On Fri, 18 Mar 2022 at 17:26, Bloomfield, Jon
-> > <jon.bloomfield@intel.com> wrote:
-> > > 
-> > > @Thomas Hellström - I agree :-)
-> > > 
-> > > My question was really to @Joonas Lahtinen, who was saying we
-> > > could always migrate in the CPU fault handler. I am pushing back
-> > > on that unless we have no choice. It's the very complication we
-> > > were trying to avoid with the current SAS. If that's what's
-> > > needed, then so be it. But I'm asking whether we can instead
-> > > handle this specially, instead of adding generic complexity to
-> > > the primary code paths.
-> > > 
-> > > Jon
-> > > 
-> > > > -----Original Message-----
-> > > > From: Thomas Hellström <thomas.hellstrom@linux.intel.com>
-> > > > Sent: Friday, March 18, 2022 2:48 AM
-> > > > To: Bloomfield, Jon <jon.bloomfield@intel.com>; Joonas Lahtinen
-> > > > <joonas.lahtinen@linux.intel.com>; Intel Graphics Development
-> > > > <intel-
-> > > > gfx@lists.freedesktop.org>; Auld, Matthew
-> > > > <matthew.auld@intel.com>; C,
-> > > > Ramalingam <ramalingam.c@intel.com>; Vetter, Daniel
-> > > > <daniel.vetter@intel.com>
-> > > > Subject: Re: Small bar recovery vs compressed content on DG2
-> > > > 
-> > > > Hi,
-> > > > 
-> > > > On Thu, 2022-03-17 at 18:21 +0000, Bloomfield, Jon wrote:
-> > > > > +@Vetter, Daniel
-> > > > > 
-> > > > > Let's not start re-inventing this on the fly again. That's
-> > > > > how we got
-> > > > > into trouble in the past. The SAS/Whitepaper does currently
-> > > > > require
-> > > > > the SMEM+LMEM placement for mappable, for good reasons.
-> > > > 
-> > > > Just to avoid any misunderstandings here:
-> > > > 
-> > > > We have two hard requirements from Arch that clash, main
-> > > > problem is
-> > > > compressed bos can't be captured on error with current designs.
-> > > > 
-> > > >  From an engineering point of view we can do little more than
-> > > > list
-> > > > options available to resolve this and whether they are hard or
-> > > > not so
-> > > > hard to implemement. But IMHO Arch needs to agree on what's got
-> > > > to
-> > > > give.
-> > > > 
-> > > > Thanks,
-> > > > Thomas
-> > > > 
-> > > > 
-> > > > > 
-> > > > > We cannot 'always migrate to mappable in the fault handler'.
-> > > > > Or at
-> > > > > least, this is not as trivial as it is to write in a sentence
-> > > > > due to
-> > > > > the need to spill out other active objects, and all the usual
-> > > > > challenges with context synchronization etc. It is possible,
-> > > > > perhaps
-> > > > > with a lot of care, but it is challenging to guarantee, easy
-> > > > > to
-> > > > > break, and not needed for 99.9% of software. We are trying to
-> > > > > simplify our driver stack.
-> > > > > 
-> > > > > If we need a special mechanism for debug, we should devise a
-> > > > > special
-> > > > > mechanism, not throw out the general LMEM+SMEM requirement.
-> > > > > Are
-> > > > there
-> > > > > any identified first-class clients that require such access,
-> > > > > or is it
-> > > > > only debugging tools?
-> > > > > 
-> > > > > If only debug, then why can't the tool use a copy engine
-> > > > > submission
-> > > > > to access the data in place? Or perhaps a bespoke ioctl to
-> > > > > access
-> > > > > this via the KMD (and kmd submitted copy-engine BB)?
-> > > > > 
-> > > > > Thanks,
-> > > > > 
-> > > > > Jon
-> > > > > 
-> > > > > > -----Original Message-----
-> > > > > > From: Thomas Hellström <thomas.hellstrom@linux.intel.com>
-> > > > > > Sent: Thursday, March 17, 2022 2:35 AM
-> > > > > > To: Joonas Lahtinen <joonas.lahtinen@linux.intel.com>;
-> > > > > > Bloomfield,
-> > > > > > Jon
-> > > > > > <jon.bloomfield@intel.com>; Intel Graphics Development
-> > > > > > <intel-
-> > > > > > gfx@lists.freedesktop.org>; Auld, Matthew
-> > > > > > <matthew.auld@intel.com>;
-> > > > > > C,
-> > > > > > Ramalingam <ramalingam.c@intel.com>
-> > > > > > Subject: Re: Small bar recovery vs compressed content on
-> > > > > > DG2
-> > > > > > 
-> > > > > > On Thu, 2022-03-17 at 10:43 +0200, Joonas Lahtinen wrote:
-> > > > > > > Quoting Thomas Hellström (2022-03-16 09:25:16)
-> > > > > > > > Hi!
-> > > > > > > > 
-> > > > > > > > Do we somehow need to clarify in the headers the
-> > > > > > > > semantics for
-> > > > > > > > this?
-> > > > > > > > 
-> > > > > > > >   From my understanding when discussing the CCS
-> > > > > > > > migration series
-> > > > > > > > with
-> > > > > > > > Ram, the kernel will never do any resolving
-> > > > > > > > (compressing /
-> > > > > > > > decompressing) migrations or evictions which basically
-> > > > > > > > implies
-> > > > > > > > the
-> > > > > > > > following:
-> > > > > > > > 
-> > > > > > > > *) Compressed data must have LMEM only placement,
-> > > > > > > > otherwise the
-> > > > > > GPU
-> > > > > > > > would read garbage if accessing from SMEM.
-> > > > > > > 
-> > > > > > > This has always been the case, so it should be documented
-> > > > > > > in the
-> > > > > > > uAPI
-> > > > > > > headers and kerneldocs.
-> > > > > > > 
-> > > > > > > > *) Compressed data can't be assumed to be mappable by
-> > > > > > > > the CPU,
-> > > > > > > > because
-> > > > > > > > in order to ensure that on small BAR, the placement
-> > > > > > > > needs to be
-> > > > > > > > LMEM+SMEM.
-> > > > > > > 
-> > > > > > > Not strictly true, as we could always migrate to the
-> > > > > > > mappable
-> > > > > > > region
-> > > > > > > in
-> > > > > > > the CPU fault handler. Will need the same set of tricks
-> > > > > > > as with
-> > > > > > > limited
-> > > > > > > mappable GGTT in past.
-> > > > > > 
-> > > > > > In addition to Matt's reply:
-> > > > > > 
-> > > > > > Yes, if there is sufficient space. I'm not sure we want to
-> > > > > > complicate
-> > > > > > this to migrate only part of the buffer to mappable on a
-> > > > > > fault
-> > > > > > basis?
-> > > > > > Otherwise this is likely to fail.
-> > > > > > 
-> > > > > > One option is to allow cpu-mapping from SYSTEM like TTM is
-> > > > > > doing
-> > > > > > for
-> > > > > > evicted buffers, even if SYSTEM is not in the placement
-> > > > > > list, and
-> > > > > > then
-> > > > > > migrate back to LMEM for gpu access.
-> > > > > > 
-> > > > > > But can user-space even interpret the compressed data when
-> > > > > > CPU-
-> > > > > > mapping?
-> > > > > > without access to the CCS metadata?
-> > > > > > 
-> > > > > > > 
-> > > > > > > > *) Neither can compressed data be part of a CAPTURE
-> > > > > > > > buffer,
-> > > > > > > > because
-> > > > > > > > that
-> > > > > > > > requires the data to be CPU-mappable.
-> > > > > > > 
-> > > > > > > Especially this will be too big of a limitation which we
-> > > > > > > can't
-> > > > > > > really
-> > > > > > > afford
-> > > > > > > when it comes to debugging.
-> > > > > > 
-> > > > > > Same here WRT user-space interpretation.
-> > > > > > 
-> > > > > > This will become especially tricky on small BAR, because
-> > > > > > either we
-> > > > > > need
-> > > > > > to fit all compressed buffers in the mappable portion, or
-> > > > > > be able
-> > > > > > to
-> > > > > > blit the contents of the capture buffers from within the
-> > > > > > fence
-> > > > > > signalling critical section, which will require a lot of
-> > > > > > work I
-> > > > > > guess.
-> > > > > > 
-> > > > > > /Thomas
-> > > > > > 
-> > > > > > 
-> > > > > > > 
-> > > > > > > Regards, Joonas
-> > > > > > > 
-> > > > > > > > Are we (and user-mode drivers) OK with these
-> > > > > > > > restrictions, or
-> > > > > > > > do we
-> > > > > > > > need
-> > > > > > > > to rethink?
-> > > > > > > > 
-> > > > > > > > Thanks,
-> > > > > > > > 
-> > > > > > > > Thomas
-> > > > > > > > 
-> > > > > > > > 
-> > > > > > 
-> > > > > 
-> > > > 
-> > > 
-> > 
-> > 
+> v3: Rebase over renamed functions to add dependencies.
+> 
+> v4: Rebase over patches from Christian.
+> 
+> v5: More rebasing over work from Christian.
+> 
+> Signed-off-by: Daniel Vetter <daniel.vetter@intel.com>
+> Cc: Lucas Stach <l.stach@pengutronix.de>
+> Cc: Russell King <linux+etnaviv@armlinux.org.uk>
+> Cc: Christian Gmeiner <christian.gmeiner@gmail.com>
+> Cc: Sumit Semwal <sumit.semwal@linaro.org>
+> Cc: "Christian König" <christian.koenig@amd.com>
+> Cc: etnaviv@lists.freedesktop.org
+> Cc: linux-media@vger.kernel.org
+> Cc: linaro-mm-sig@lists.linaro.org
+
+Acked-by: Lucas Stach <l.stach@pengutronix.de>
+
+> ---
+>  drivers/gpu/drm/etnaviv/etnaviv_gem.h        |  4 +-
+>  drivers/gpu/drm/etnaviv/etnaviv_gem_submit.c | 51 +++++++++++--------
+>  drivers/gpu/drm/etnaviv/etnaviv_sched.c      | 53 +-------------------
+>  drivers/gpu/drm/etnaviv/etnaviv_sched.h      |  3 +-
+>  4 files changed, 35 insertions(+), 76 deletions(-)
+> 
+> diff --git a/drivers/gpu/drm/etnaviv/etnaviv_gem.h b/drivers/gpu/drm/etnaviv/etnaviv_gem.h
+> index 8983a0ef383e..63688e6e4580 100644
+> --- a/drivers/gpu/drm/etnaviv/etnaviv_gem.h
+> +++ b/drivers/gpu/drm/etnaviv/etnaviv_gem.h
+> @@ -80,8 +80,6 @@ struct etnaviv_gem_submit_bo {
+>  	u64 va;
+>  	struct etnaviv_gem_object *obj;
+>  	struct etnaviv_vram_mapping *mapping;
+> -	unsigned int nr_fences;
+> -	struct dma_fence **fences;
+>  };
+>  
+>  /* Created per submit-ioctl, to track bo's and cmdstream bufs, etc,
+> @@ -94,7 +92,7 @@ struct etnaviv_gem_submit {
+>  	struct etnaviv_file_private *ctx;
+>  	struct etnaviv_gpu *gpu;
+>  	struct etnaviv_iommu_context *mmu_context, *prev_mmu_context;
+> -	struct dma_fence *out_fence, *in_fence;
+> +	struct dma_fence *out_fence;
+>  	int out_fence_id;
+>  	struct list_head node; /* GPU active submit list */
+>  	struct etnaviv_cmdbuf cmdbuf;
+> diff --git a/drivers/gpu/drm/etnaviv/etnaviv_gem_submit.c b/drivers/gpu/drm/etnaviv/etnaviv_gem_submit.c
+> index 592cbb38609a..5f502c49aec2 100644
+> --- a/drivers/gpu/drm/etnaviv/etnaviv_gem_submit.c
+> +++ b/drivers/gpu/drm/etnaviv/etnaviv_gem_submit.c
+> @@ -188,9 +188,9 @@ static int submit_fence_sync(struct etnaviv_gem_submit *submit)
+>  		if (submit->flags & ETNA_SUBMIT_NO_IMPLICIT)
+>  			continue;
+>  
+> -		ret = dma_resv_get_fences(robj,
+> -					  bo->flags & ETNA_SUBMIT_BO_WRITE,
+> -					  &bo->nr_fences, &bo->fences);
+> +		ret = drm_sched_job_add_implicit_dependencies(&submit->sched_job,
+> +							      &bo->obj->base,
+> +							      bo->flags & ETNA_SUBMIT_BO_WRITE);
+>  		if (ret)
+>  			return ret;
+>  	}
+> @@ -398,8 +398,6 @@ static void submit_cleanup(struct kref *kref)
+>  
+>  	wake_up_all(&submit->gpu->fence_event);
+>  
+> -	if (submit->in_fence)
+> -		dma_fence_put(submit->in_fence);
+>  	if (submit->out_fence) {
+>  		/* first remove from IDR, so fence can not be found anymore */
+>  		mutex_lock(&submit->gpu->fence_lock);
+> @@ -530,58 +528,69 @@ int etnaviv_ioctl_gem_submit(struct drm_device *dev, void *data,
+>  	ret = etnaviv_cmdbuf_init(priv->cmdbuf_suballoc, &submit->cmdbuf,
+>  				  ALIGN(args->stream_size, 8) + 8);
+>  	if (ret)
+> -		goto err_submit_objects;
+> +		goto err_submit_put;
+>  
+>  	submit->ctx = file->driver_priv;
+>  	submit->mmu_context = etnaviv_iommu_context_get(submit->ctx->mmu);
+>  	submit->exec_state = args->exec_state;
+>  	submit->flags = args->flags;
+>  
+> +	ret = drm_sched_job_init(&submit->sched_job,
+> +				 &ctx->sched_entity[args->pipe],
+> +				 submit->ctx);
+> +	if (ret)
+> +		goto err_submit_put;
+> +
+>  	ret = submit_lookup_objects(submit, file, bos, args->nr_bos);
+>  	if (ret)
+> -		goto err_submit_objects;
+> +		goto err_submit_job;
+>  
+>  	if ((priv->mmu_global->version != ETNAVIV_IOMMU_V2) &&
+>  	    !etnaviv_cmd_validate_one(gpu, stream, args->stream_size / 4,
+>  				      relocs, args->nr_relocs)) {
+>  		ret = -EINVAL;
+> -		goto err_submit_objects;
+> +		goto err_submit_job;
+>  	}
+>  
+>  	if (args->flags & ETNA_SUBMIT_FENCE_FD_IN) {
+> -		submit->in_fence = sync_file_get_fence(args->fence_fd);
+> -		if (!submit->in_fence) {
+> +		struct dma_fence *in_fence = sync_file_get_fence(args->fence_fd);
+> +		if (!in_fence) {
+>  			ret = -EINVAL;
+> -			goto err_submit_objects;
+> +			goto err_submit_job;
+>  		}
+> +
+> +		ret = drm_sched_job_add_dependency(&submit->sched_job,
+> +						   in_fence);
+> +		if (ret)
+> +			goto err_submit_job;
+>  	}
+>  
+>  	ret = submit_pin_objects(submit);
+>  	if (ret)
+> -		goto err_submit_objects;
+> +		goto err_submit_job;
+>  
+>  	ret = submit_reloc(submit, stream, args->stream_size / 4,
+>  			   relocs, args->nr_relocs);
+>  	if (ret)
+> -		goto err_submit_objects;
+> +		goto err_submit_job;
+>  
+>  	ret = submit_perfmon_validate(submit, args->exec_state, pmrs);
+>  	if (ret)
+> -		goto err_submit_objects;
+> +		goto err_submit_job;
+>  
+>  	memcpy(submit->cmdbuf.vaddr, stream, args->stream_size);
+>  
+>  	ret = submit_lock_objects(submit, &ticket);
+>  	if (ret)
+> -		goto err_submit_objects;
+> +		goto err_submit_job;
+>  
+>  	ret = submit_fence_sync(submit);
+>  	if (ret)
+> -		goto err_submit_objects;
+> +		goto err_submit_job;
+>  
+> -	ret = etnaviv_sched_push_job(&ctx->sched_entity[args->pipe], submit);
+> +	ret = etnaviv_sched_push_job(submit);
+>  	if (ret)
+> -		goto err_submit_objects;
+> +		goto err_submit_job;
+>  
+>  	submit_attach_object_fences(submit);
+>  
+> @@ -595,7 +604,7 @@ int etnaviv_ioctl_gem_submit(struct drm_device *dev, void *data,
+>  		sync_file = sync_file_create(submit->out_fence);
+>  		if (!sync_file) {
+>  			ret = -ENOMEM;
+> -			goto err_submit_objects;
+> +			goto err_submit_job;
+>  		}
+>  		fd_install(out_fence_fd, sync_file->file);
+>  	}
+> @@ -603,7 +612,9 @@ int etnaviv_ioctl_gem_submit(struct drm_device *dev, void *data,
+>  	args->fence_fd = out_fence_fd;
+>  	args->fence = submit->out_fence_id;
+>  
+> -err_submit_objects:
+> +err_submit_job:
+> +	drm_sched_job_cleanup(&submit->sched_job);
+> +err_submit_put:
+>  	etnaviv_submit_put(submit);
+>  
+>  err_submit_ww_acquire:
+> diff --git a/drivers/gpu/drm/etnaviv/etnaviv_sched.c b/drivers/gpu/drm/etnaviv/etnaviv_sched.c
+> index a8452ce10e3a..72e2553fbc98 100644
+> --- a/drivers/gpu/drm/etnaviv/etnaviv_sched.c
+> +++ b/drivers/gpu/drm/etnaviv/etnaviv_sched.c
+> @@ -17,48 +17,6 @@ module_param_named(job_hang_limit, etnaviv_job_hang_limit, int , 0444);
+>  static int etnaviv_hw_jobs_limit = 4;
+>  module_param_named(hw_job_limit, etnaviv_hw_jobs_limit, int , 0444);
+>  
+> -static struct dma_fence *
+> -etnaviv_sched_dependency(struct drm_sched_job *sched_job,
+> -			 struct drm_sched_entity *entity)
+> -{
+> -	struct etnaviv_gem_submit *submit = to_etnaviv_submit(sched_job);
+> -	struct dma_fence *fence;
+> -	int i;
+> -
+> -	if (unlikely(submit->in_fence)) {
+> -		fence = submit->in_fence;
+> -		submit->in_fence = NULL;
+> -
+> -		if (!dma_fence_is_signaled(fence))
+> -			return fence;
+> -
+> -		dma_fence_put(fence);
+> -	}
+> -
+> -	for (i = 0; i < submit->nr_bos; i++) {
+> -		struct etnaviv_gem_submit_bo *bo = &submit->bos[i];
+> -		int j;
+> -
+> -		for (j = 0; j < bo->nr_fences; j++) {
+> -			if (!bo->fences[j])
+> -				continue;
+> -
+> -			fence = bo->fences[j];
+> -			bo->fences[j] = NULL;
+> -
+> -			if (!dma_fence_is_signaled(fence))
+> -				return fence;
+> -
+> -			dma_fence_put(fence);
+> -		}
+> -		kfree(bo->fences);
+> -		bo->nr_fences = 0;
+> -		bo->fences = NULL;
+> -	}
+> -
+> -	return NULL;
+> -}
+> -
+>  static struct dma_fence *etnaviv_sched_run_job(struct drm_sched_job *sched_job)
+>  {
+>  	struct etnaviv_gem_submit *submit = to_etnaviv_submit(sched_job);
+> @@ -132,29 +90,22 @@ static void etnaviv_sched_free_job(struct drm_sched_job *sched_job)
+>  }
+>  
+>  static const struct drm_sched_backend_ops etnaviv_sched_ops = {
+> -	.dependency = etnaviv_sched_dependency,
+>  	.run_job = etnaviv_sched_run_job,
+>  	.timedout_job = etnaviv_sched_timedout_job,
+>  	.free_job = etnaviv_sched_free_job,
+>  };
+>  
+> -int etnaviv_sched_push_job(struct drm_sched_entity *sched_entity,
+> -			   struct etnaviv_gem_submit *submit)
+> +int etnaviv_sched_push_job(struct etnaviv_gem_submit *submit)
+>  {
+>  	int ret = 0;
+>  
+>  	/*
+>  	 * Hold the fence lock across the whole operation to avoid jobs being
+>  	 * pushed out of order with regard to their sched fence seqnos as
+> -	 * allocated in drm_sched_job_init.
+> +	 * allocated in drm_sched_job_arm.
+>  	 */
+>  	mutex_lock(&submit->gpu->fence_lock);
+>  
+> -	ret = drm_sched_job_init(&submit->sched_job, sched_entity,
+> -				 submit->ctx);
+> -	if (ret)
+> -		goto out_unlock;
+> -
+>  	drm_sched_job_arm(&submit->sched_job);
+>  
+>  	submit->out_fence = dma_fence_get(&submit->sched_job.s_fence->finished);
+> diff --git a/drivers/gpu/drm/etnaviv/etnaviv_sched.h b/drivers/gpu/drm/etnaviv/etnaviv_sched.h
+> index c0a6796e22c9..baebfa069afc 100644
+> --- a/drivers/gpu/drm/etnaviv/etnaviv_sched.h
+> +++ b/drivers/gpu/drm/etnaviv/etnaviv_sched.h
+> @@ -18,7 +18,6 @@ struct etnaviv_gem_submit *to_etnaviv_submit(struct drm_sched_job *sched_job)
+>  
+>  int etnaviv_sched_init(struct etnaviv_gpu *gpu);
+>  void etnaviv_sched_fini(struct etnaviv_gpu *gpu);
+> -int etnaviv_sched_push_job(struct drm_sched_entity *sched_entity,
+> -			   struct etnaviv_gem_submit *submit);
+> +int etnaviv_sched_push_job(struct etnaviv_gem_submit *submit);
+>  
+>  #endif /* __ETNAVIV_SCHED_H__ */
 
 
