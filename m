@@ -2,55 +2,55 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 68AF24F19EC
-	for <lists+dri-devel@lfdr.de>; Mon,  4 Apr 2022 21:30:05 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 03BBE4F19F1
+	for <lists+dri-devel@lfdr.de>; Mon,  4 Apr 2022 21:39:54 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 3500A10E745;
-	Mon,  4 Apr 2022 19:30:03 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 55D5010E486;
+	Mon,  4 Apr 2022 19:39:47 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-ot1-f45.google.com (mail-ot1-f45.google.com
- [209.85.210.45])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 38C7B10E745
- for <dri-devel@lists.freedesktop.org>; Mon,  4 Apr 2022 19:30:02 +0000 (UTC)
-Received: by mail-ot1-f45.google.com with SMTP id
- w17-20020a056830111100b005b22c584b93so7908321otq.11
- for <dri-devel@lists.freedesktop.org>; Mon, 04 Apr 2022 12:30:02 -0700 (PDT)
+Received: from mail-oa1-x30.google.com (mail-oa1-x30.google.com
+ [IPv6:2001:4860:4864:20::30])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 647C810E22B;
+ Mon,  4 Apr 2022 19:39:45 +0000 (UTC)
+Received: by mail-oa1-x30.google.com with SMTP id
+ 586e51a60fabf-d6ca46da48so11923302fac.12; 
+ Mon, 04 Apr 2022 12:39:45 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc; bh=zkVEbfkxX05xCwUZXO/SQQzd2kJ7hNn32HXYsFWqSEI=;
+ b=oyv5uVj+S1FsJjrhnv+aIzBK4dqk9IDVtRlLhEuSbDR4jpzj6yvfT6ijBQorSJHAVT
+ crGWZdHGGeU7psFbqu9hdoTbnGtesEEqU3M15jR3FMAFdB4gRnliEKkrxFr/OO7kcTQ+
+ wqzG1SN8/9TGW6RDIrGBJDzKUtRHHPeTX0PZ8sKwfc5eZmj1QOwB566Z7sqXYLbwSP13
+ p2HAxnVe8Uk8kEkWDoigeataoI9tehMsu3fcqY5+BOZfRxoD+T8wGkEGO+qt0PKpmqAP
+ zngNsZmsPPlO5UkH0zJOpKa8E32xoojudyRWtVIi4b8su8xRcUR2PIYs0frSHIRE0oO3
+ 53+Q==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=x-gm-message-state:date:from:to:cc:subject:message-id:references
- :mime-version:content-disposition:in-reply-to;
- bh=Pw9/rx3OWyNgJmgrxMJHiM9XNdAuSk1x7PxfxleOVHo=;
- b=qfHBZjWwKwCbEHcrSV+XHyozQCmPbJ4bwGw3cDZ2BJUkhaJb1KuorUYxRPiWoUe7yH
- jTtB5SLTovGf6CctyjrZTR5AsOrAs6fS4Kwxp+AIo//TpzGsgaSbMTxBcLjEWH7JbAg0
- 1NKRNOzFnnIIO7XVhH947Qki/IiCNHymYLS6Dw/gc9B40xJS71K/vDqzR21T3icfdhRC
- c155yNuNdtEhXDp/6Qm+KIjryJtBMpSjEP1QKppMPuHYzlg3HeXc0YHxN6ZZp7qIT6ey
- sakWKs0rOPGiMtuKKbtLjxa2VOSKDwuQBTpD2jchT0+crU3J20jrwZfGPhII9Aepq7Mu
- pGVw==
-X-Gm-Message-State: AOAM533rmzhuuQNcP82W3SuFLU0jX8uRyu7Pxs3B3ISASqMctzZKTfdn
- Hd5Y1lj/2WuD1/F3TF6fVQ==
-X-Google-Smtp-Source: ABdhPJwpJgxnagGtsX/4G1femKCs6URgtvhIa+HnkzdqIgagKjjdNd7aX3OMcDtkEZWJvTE80AJhKg==
-X-Received: by 2002:a05:6830:201a:b0:5e6:8de6:9922 with SMTP id
- e26-20020a056830201a00b005e68de69922mr417505otp.3.1649100601406; 
- Mon, 04 Apr 2022 12:30:01 -0700 (PDT)
-Received: from robh.at.kernel.org (66-90-144-107.dyn.grandenetworks.net.
- [66.90.144.107]) by smtp.gmail.com with ESMTPSA id
- l9-20020a4a4349000000b00328fae52bcasm4210372ooj.16.2022.04.04.12.30.00
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 04 Apr 2022 12:30:01 -0700 (PDT)
-Received: (nullmailer pid 1815025 invoked by uid 1000);
- Mon, 04 Apr 2022 19:30:00 -0000
-Date: Mon, 4 Apr 2022 14:30:00 -0500
-From: Rob Herring <robh@kernel.org>
-To: Marek Vasut <marex@denx.de>
-Subject: Re: [PATCH 1/2] dt-bindings: display: bridge: lt9211: Add Lontium
- LT9211 bridge driver
-Message-ID: <YktHOBXZvMPWbrgk@robh.at.kernel.org>
-References: <20220330212231.90904-1-marex@denx.de>
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=zkVEbfkxX05xCwUZXO/SQQzd2kJ7hNn32HXYsFWqSEI=;
+ b=LIkhqOoPyjY4KcILGZiiNXX5RHr1mQDBSyZzNnzry7vm2CaXPHELU4NSsOZDdd2fU/
+ LJOthT6/CQQGzNS92RTcH8csOWj07swCOJTFyEGQ1zgfuah4YMFTm8BEoRJBn+tukaf/
+ 0OzBIbBWF4BPacvFblvseNn4gxT5J5doaqPPEH9J0AzXi78Q8mO2CxNcojJgvQIm5GNs
+ wyXkKIDXldajWWGkyJmGB6Qab4MabMpQ6L4VkaRhTuAW1Rz37f9d/v2ZAecuHEsFZtpM
+ giVNZ0qdPt41SXmg9bIpJOoMplqWDHpMo0ppLAhSSX67XHVURIgEB+7yAbHvsCWLwbXR
+ HX1w==
+X-Gm-Message-State: AOAM532gNZHSKcjJR+LEDXgMrmgxI3CMEu6ZkHoWckYyEqflBny0snIe
+ P4yQRhKegcp2jWjKSMMDMATtKOUKnAH9w0774m0=
+X-Google-Smtp-Source: ABdhPJwfewx3SGpZEwPEn5/EelIjTEF0hbR3Fxu6Q1AziiyUqglWVol3ejAh+FQziWS6cEMJevGQ0kFN9UBS3dBSDRo=
+X-Received: by 2002:a05:6870:311d:b0:de:9b6c:362b with SMTP id
+ v29-20020a056870311d00b000de9b6c362bmr421149oaa.200.1649101184614; Mon, 04
+ Apr 2022 12:39:44 -0700 (PDT)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20220330212231.90904-1-marex@denx.de>
+References: <20220325183602.5718-1-alexander.deucher@amd.com>
+In-Reply-To: <20220325183602.5718-1-alexander.deucher@amd.com>
+From: Alex Deucher <alexdeucher@gmail.com>
+Date: Mon, 4 Apr 2022 15:39:33 -0400
+Message-ID: <CADnq5_Ptix0oQavCE_Qs=oc8oPyjBBaG56=mM-Q9SXLf9yUvKg@mail.gmail.com>
+Subject: Re: [pull] amdgpu, amdkfd drm-next-5.18
+To: Alex Deucher <alexander.deucher@amd.com>
+Content-Type: text/plain; charset="UTF-8"
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -63,164 +63,159 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: devicetree@vger.kernel.org, dri-devel@lists.freedesktop.org,
- Robert Foss <robert.foss@linaro.org>, Maxime Ripard <maxime@cerno.tech>,
- Thomas Zimmermann <tzimmermann@suse.de>, Sam Ravnborg <sam@ravnborg.org>,
- Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+Cc: Daniel Vetter <daniel.vetter@ffwll.ch>,
+ Maling list - DRI developers <dri-devel@lists.freedesktop.org>,
+ amd-gfx list <amd-gfx@lists.freedesktop.org>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Wed, Mar 30, 2022 at 11:22:30PM +0200, Marek Vasut wrote:
-> Add bindings for Lontium LT9211 Single/Dual-Link DSI/LVDS or Single DPI to
-> Single-link/Dual-Link DSI/LVDS or Single DPI bridge. This chip is highly
-> capable at converting formats, but sadly it is also highly undocumented.
-> 
-> Signed-off-by: Marek Vasut <marex@denx.de>
-> Cc: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-> Cc: Lucas Stach <l.stach@pengutronix.de>
-> Cc: Maxime Ripard <maxime@cerno.tech>
-> Cc: Rob Herring <robh+dt@kernel.org>
-> Cc: Robert Foss <robert.foss@linaro.org>
-> Cc: Sam Ravnborg <sam@ravnborg.org>
-> Cc: Thomas Zimmermann <tzimmermann@suse.de>
-> Cc: devicetree@vger.kernel.org
-> To: dri-devel@lists.freedesktop.org
-> ---
->  .../display/bridge/lontium,lt9211.yaml        | 117 ++++++++++++++++++
->  1 file changed, 117 insertions(+)
->  create mode 100644 Documentation/devicetree/bindings/display/bridge/lontium,lt9211.yaml
-> 
-> diff --git a/Documentation/devicetree/bindings/display/bridge/lontium,lt9211.yaml b/Documentation/devicetree/bindings/display/bridge/lontium,lt9211.yaml
-> new file mode 100644
-> index 000000000000..2faa855b3824
-> --- /dev/null
-> +++ b/Documentation/devicetree/bindings/display/bridge/lontium,lt9211.yaml
-> @@ -0,0 +1,117 @@
-> +# SPDX-License-Identifier: (GPL-2.0-only OR BSD-2-Clause)
-> +%YAML 1.2
-> +---
-> +$id: http://devicetree.org/schemas/display/bridge/lontium,lt9211.yaml#
-> +$schema: http://devicetree.org/meta-schemas/core.yaml#
-> +
-> +title: Lontium LT9211 DSI/LVDS/DPI to DSI/LVDS/DPI bridge.
-> +
-> +maintainers:
-> +  - Marek Vasut <marex@denx.de>
-> +
-> +description: |
-> +  The LT9211 are bridge devices which convert Single/Dual-Link DSI/LVDS
-> +  or Single DPI to Single/Dual-Link DSI/LVDS or Single DPI.
-> +
-> +properties:
-> +  compatible:
-> +    enum:
-> +      - lontium,lt9211
-> +
-> +  reg:
-> +    maxItems: 1
-> +
-> +  interrupts:
-> +    maxItems: 1
-> +
-> +  reset-gpios:
-> +    maxItems: 1
-> +    description: GPIO connected to active high RESET pin.
-> +
-> +  vccio-supply:
-> +    description: Regulator for 1.8V IO power.
-> +
-> +  ports:
-> +    $ref: /schemas/graph.yaml#/properties/ports
-> +
-> +    properties:
-> +      port@0:
-> +        $ref: /schemas/graph.yaml#/properties/port
-> +        description:
-> +          Primary MIPI DSI port-1 for MIPI input or
-> +          LVDS port-1 for LVDS input or DPI input.
-> +
-> +      port@1:
-> +        $ref: /schemas/graph.yaml#/properties/port
-> +        description:
-> +          Additional MIPI port-2 for MIPI input or LVDS port-2
-> +          for LVDS input. Used in combination with primary
-> +          port-1 to drive higher resolution displays
-> +
-> +      port@2:
-> +        $ref: /schemas/graph.yaml#/properties/port
-> +        description:
-> +          Primary MIPI DSI port-1 for MIPI output or
-> +          LVDS port-1 for LVDS output or DPI output.
-> +
-> +      port@3:
-> +        $ref: /schemas/graph.yaml#/properties/port
-> +        description:
-> +          Additional MIPI port-2 for MIPI output or LVDS port-2
-> +          for LVDS output. Used in combination with primary
-> +          port-1 to drive higher resolution displays.
-> +
-> +    required:
-> +      - port@0
-> +      - port@2
-> +
-> +required:
-> +  - compatible
-> +  - reg
-> +  - vccio-supply
-> +  - ports
-> +
-> +additionalProperties: false
-> +
-> +examples:
-> +  - |
-> +    #include <dt-bindings/gpio/gpio.h>
-> +    #include <dt-bindings/interrupt-controller/irq.h>
-> +
-> +    i2c10 {
+On Fri, Mar 25, 2022 at 2:36 PM Alex Deucher <alexander.deucher@amd.com> wrote:
+>
+> Hi Dave, Daniel,
+>
+> Fixes for 5.18.
 
-i2c {
+Just wanted to make sure this didn't get missed.  This fixes some
+warning splat reported by Linus, et al.
 
-With that,
+Alex
 
-Reviewed-by: Rob Herring <robh@kernel.org>
-
-> +      #address-cells = <1>;
-> +      #size-cells = <0>;
-> +
-> +      hdmi-bridge@3b {
-> +        compatible = "lontium,lt9211";
-> +        reg = <0x3b>;
-> +
-> +        reset-gpios = <&tlmm 128 GPIO_ACTIVE_HIGH>;
-> +        interrupts-extended = <&tlmm 84 IRQ_TYPE_EDGE_FALLING>;
-> +
-> +        vccio-supply = <&lt9211_1v8>;
-> +
-> +        ports {
-> +          #address-cells = <1>;
-> +          #size-cells = <0>;
-> +
-> +          port@0 {
-> +            reg = <0>;
-> +
-> +            endpoint {
-> +              remote-endpoint = <&dsi0_out>;
-> +            };
-> +          };
-> +
-> +          port@2 {
-> +            reg = <2>;
-> +
-> +            endpoint {
-> +              remote-endpoint = <&panel_in_lvds>;
-> +            };
-> +          };
-> +        };
-> +      };
-> +    };
-> +
-> +...
-> -- 
-> 2.35.1
-> 
-> 
+>
+> The following changes since commit c6e90a1c660874736bd09c1fec6312b4b4c2ff7b:
+>
+>   Merge tag 'amd-drm-next-5.18-2022-03-18' of https://gitlab.freedesktop.org/agd5f/linux into drm-next (2022-03-21 13:48:20 +1000)
+>
+> are available in the Git repository at:
+>
+>   https://gitlab.freedesktop.org/agd5f/linux.git tags/amd-drm-next-5.18-2022-03-25
+>
+> for you to fetch changes up to 15f9cd4334c83716fa32647652a609e3ba6c998d:
+>
+>   drm/amdgpu/gfx10: enable gfx1037 clock counter retrieval function (2022-03-25 12:40:25 -0400)
+>
+> ----------------------------------------------------------------
+> amd-drm-next-5.18-2022-03-25:
+>
+> amdgpu:
+> - GFX 10.3.7 fixes
+> - noretry updates
+> - VCN fixes
+> - TMDS fix
+> - zstate fix for freesync video
+> - DCN 3.1.5 fix
+> - Display stack size fix
+> - Audio fix
+> - DCN 3.1 pstate fix
+> - TMZ VCN fix
+> - APU passthrough fix
+> - Misc other fixes
+>
+> amdkfd:
+> - Error handling fix
+> - xgmi p2p fix
+> - HWS VMIDs fix
+>
+> ----------------------------------------------------------------
+> Alex Deucher (2):
+>       drm/amdgpu/gmc: use PCI BARs for APUs in passthrough
+>       drm/amdgpu: add more cases to noretry=1
+>
+> Aurabindo Pillai (1):
+>       drm/amd: Add USBC connector ID
+>
+> Charlene Liu (2):
+>       drm/amd/display: fix audio format not updated after edid updated
+>       drm/amd/display: remove destructive verify link for TMDS
+>
+> Chiawen Huang (1):
+>       drm/amd/display: FEC check in timing validation
+>
+> Dan Carpenter (1):
+>       drm/amdgpu: fix off by one in amdgpu_gfx_kiq_acquire()
+>
+> Divya Shikre (1):
+>       drm/amdkfd: Check use_xgmi_p2p before reporting hive_id
+>
+> Emily Deng (1):
+>       drm/amdgpu/vcn: Fix the register setting for vcn1
+>
+> Felix Kuehling (1):
+>       drm/amdgpu: set noretry=1 for GFX 10.3.4
+>
+> Gabe Teeger (1):
+>       drm/amd/display: Add support for zstate during extended vblank
+>
+> Guchun Chen (2):
+>       drm/amdgpu: prevent memory wipe in suspend/shutdown stage
+>       drm/amdgpu: conduct a proper cleanup of PDB bo
+>
+> Lang Yu (1):
+>       drm/amdgpu: add workarounds for VCN TMZ issue on CHIP_RAVEN
+>
+> Leo (Hanghong) Ma (1):
+>       drm/amd/display: Update VTEM Infopacket definition
+>
+> Nicholas Kazlauskas (1):
+>       drm/amd/display: Fix p-state allow debug index on dcn31
+>
+> Oliver Logush (1):
+>       drm/amd/display: Add fSMC_MSG_SetDtbClk support
+>
+> Prike Liang (2):
+>       drm/amdgpu: set noretry for gfx 10.3.7
+>       drm/amdgpu/gfx10: enable gfx1037 clock counter retrieval function
+>
+> QintaoShen (1):
+>       drm/amdkfd: Check for potential null return of kmalloc_array()
+>
+> Rodrigo Siqueira (1):
+>       drm/amd/display: Reduce stack size
+>
+> Stanley.Yang (1):
+>       drm/amdgpu/pm: add asic smu support check
+>
+> Tianci Yin (1):
+>       drm/amdgpu/vcn: improve vcn dpg stop procedure
+>
+> Tushar Patel (1):
+>       drm/amdkfd: Fix Incorrect VMIDs passed to HWS
+>
+> Yifan Zhang (2):
+>       drm/amdgpu/pm: fix the Stable pstate Test in amdgpu_test
+>       drm/amdgpu: set noretry=1 for gc 10.3.6
+>
+>  drivers/gpu/drm/amd/amdgpu/ObjectID.h              |  1 +
+>  drivers/gpu/drm/amd/amdgpu/amdgpu_device.c         |  4 +-
+>  drivers/gpu/drm/amd/amdgpu/amdgpu_drv.c            |  2 +-
+>  drivers/gpu/drm/amd/amdgpu/amdgpu_gfx.c            |  2 +-
+>  drivers/gpu/drm/amd/amdgpu/amdgpu_gmc.c            |  6 ++
+>  drivers/gpu/drm/amd/amdgpu/amdgpu_object.c         |  4 +-
+>  drivers/gpu/drm/amd/amdgpu/gfx_v10_0.c             |  1 +
+>  drivers/gpu/drm/amd/amdgpu/gmc_v10_0.c             |  2 +-
+>  drivers/gpu/drm/amd/amdgpu/gmc_v7_0.c              |  5 +-
+>  drivers/gpu/drm/amd/amdgpu/gmc_v8_0.c              |  2 +-
+>  drivers/gpu/drm/amd/amdgpu/gmc_v9_0.c              |  4 +-
+>  drivers/gpu/drm/amd/amdgpu/vcn_v1_0.c              | 71 ++++++++++++++++++++++
+>  drivers/gpu/drm/amd/amdgpu/vcn_v3_0.c              |  7 ++-
+>  drivers/gpu/drm/amd/amdkfd/kfd_device.c            | 14 ++---
+>  drivers/gpu/drm/amd/amdkfd/kfd_events.c            |  2 +
+>  .../drm/amd/display/dc/clk_mgr/dcn315/dcn315_smu.c | 19 ++++--
+>  .../drm/amd/display/dc/clk_mgr/dcn315/dcn315_smu.h |  4 +-
+>  drivers/gpu/drm/amd/display/dc/core/dc.c           | 23 +++++++
+>  drivers/gpu/drm/amd/display/dc/core/dc_link.c      |  3 +-
+>  drivers/gpu/drm/amd/display/dc/core/dc_resource.c  |  4 +-
+>  drivers/gpu/drm/amd/display/dc/dc.h                |  6 +-
+>  drivers/gpu/drm/amd/display/dc/dc_stream.h         |  2 +
+>  .../drm/amd/display/dc/dcn10/dcn10_hw_sequencer.c  |  8 ++-
+>  drivers/gpu/drm/amd/display/dc/dcn20/dcn20_hwseq.c | 12 ++++
+>  .../gpu/drm/amd/display/dc/dcn31/dcn31_hubbub.c    |  2 +
+>  drivers/gpu/drm/amd/display/dc/dcn31/dcn31_hubp.c  |  8 +++
+>  .../gpu/drm/amd/display/dc/dcn31/dcn31_resource.c  |  1 +
+>  .../gpu/drm/amd/display/dc/dml/dcn20/dcn20_fpu.c   | 18 +++++-
+>  .../display/dc/dml/dcn31/display_rq_dlg_calc_31.c  | 13 ++++
+>  .../drm/amd/display/dc/dml/display_mode_structs.h  |  2 +
+>  drivers/gpu/drm/amd/display/dc/inc/hw/hubp.h       |  3 +
+>  .../amd/display/modules/info_packet/info_packet.c  |  5 +-
+>  drivers/gpu/drm/amd/pm/amdgpu_dpm.c                |  6 ++
+>  .../gpu/drm/amd/pm/swsmu/smu13/smu_v13_0_5_ppt.c   |  2 +-
+>  34 files changed, 229 insertions(+), 39 deletions(-)
