@@ -2,44 +2,42 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id A39544F126B
-	for <lists+dri-devel@lfdr.de>; Mon,  4 Apr 2022 11:55:05 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id D015D4F1325
+	for <lists+dri-devel@lfdr.de>; Mon,  4 Apr 2022 12:31:21 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 0072910EC45;
-	Mon,  4 Apr 2022 09:55:03 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id CF0FA10EDF5;
+	Mon,  4 Apr 2022 10:31:14 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-X-Greylist: delayed 1678 seconds by postgrey-1.36 at gabe;
- Mon, 04 Apr 2022 09:55:01 UTC
-Received: from mail105.syd.optusnet.com.au (mail105.syd.optusnet.com.au
- [211.29.132.249])
- by gabe.freedesktop.org (Postfix) with ESMTP id B150010EBF6
- for <dri-devel@lists.freedesktop.org>; Mon,  4 Apr 2022 09:55:01 +0000 (UTC)
-Received: from dread.disaster.area (pa49-180-43-123.pa.nsw.optusnet.com.au
- [49.180.43.123])
- by mail105.syd.optusnet.com.au (Postfix) with ESMTPS id 29B8410E55FB;
- Mon,  4 Apr 2022 19:26:57 +1000 (AEST)
-Received: from dave by dread.disaster.area with local (Exim 4.92.3)
- (envelope-from <david@fromorbit.com>)
- id 1nbIz9-00Dc5C-Sq; Mon, 04 Apr 2022 19:26:55 +1000
-Date: Mon, 4 Apr 2022 19:26:55 +1000
-From: Dave Chinner <david@fromorbit.com>
-To: Geert Uytterhoeven <geert@linux-m68k.org>
-Subject: Re: Build regressions/improvements in v5.18-rc1
-Message-ID: <20220404092655.GR1544202@dread.disaster.area>
-References: <CAHk-=wg6FWL1xjVyHx7DdjD2dHZETA5_=FqqW17Z19X-WTfWSg@mail.gmail.com>
- <20220404074734.1092959-1-geert@linux-m68k.org>
- <alpine.DEB.2.22.394.2204041006230.1941618@ramsan.of.borg>
+Received: from 189.cn (ptr.189.cn [183.61.185.101])
+ by gabe.freedesktop.org (Postfix) with ESMTP id C1F5710EDF5;
+ Mon,  4 Apr 2022 10:31:12 +0000 (UTC)
+HMM_SOURCE_IP: 10.64.8.31:33812.235363298
+HMM_ATTACHE_NUM: 0000
+HMM_SOURCE_TYPE: SMTP
+Received: from clientip-114.242.206.180 (unknown [10.64.8.31])
+ by 189.cn (HERMES) with SMTP id B11F6100214;
+ Mon,  4 Apr 2022 18:31:07 +0800 (CST)
+Received: from  ([114.242.206.180])
+ by gateway-151646-dep-b7fbf7d79-bwdqx with ESMTP id
+ 27abb62f3e924871848e2b959bd4c426 for l.stach@pengutronix.de; 
+ Mon, 04 Apr 2022 18:31:09 CST
+X-Transaction-ID: 27abb62f3e924871848e2b959bd4c426
+X-Real-From: 15330273260@189.cn
+X-Receive-IP: 114.242.206.180
+X-MEDUSA-Status: 0
+From: Sui Jingfeng <15330273260@189.cn>
+To: Lucas Stach <l.stach@pengutronix.de>,
+ Russell King <linux+etnaviv@armlinux.org.uk>,
+ Christian Gmeiner <christian.gmeiner@gmail.com>,
+ David Airlie <airlied@linux.ie>, Daniel Vetter <daniel@ffwll.ch>
+Subject: [PATCH 1/3] drm/etnaviv: add function to create etnaviv platform
+ device
+Date: Mon,  4 Apr 2022 18:31:04 +0800
+Message-Id: <20220404103106.1970456-1-15330273260@189.cn>
+X-Mailer: git-send-email 2.25.1
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <alpine.DEB.2.22.394.2204041006230.1941618@ramsan.of.borg>
-X-Optus-CM-Score: 0
-X-Optus-CM-Analysis: v=2.4 cv=VuxAv86n c=1 sm=1 tr=0 ts=624ab9e5
- a=MV6E7+DvwtTitA3W+3A2Lw==:117 a=MV6E7+DvwtTitA3W+3A2Lw==:17
- a=kj9zAlcOel0A:10 a=z0gMJWrwH1QA:10 a=6Fu7hv2xAAAA:8 a=7-415B0cAAAA:8
- a=L05BbbQJD6-TbP0LrSsA:9 a=CjuIK1q_8ugA:10 a=OCr_TKDY-yBPQKLGgHr3:22
- a=biEYGPWJfzWAr4FL6Ov7:22
+Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -52,67 +50,110 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: linux-wireless@vger.kernel.org, alsa-devel@alsa-project.org,
- linux-usb@vger.kernel.org, linux-scsi@vger.kernel.org,
- linux-parisc@vger.kernel.org,
- Dennis Dalessandro <dennis.dalessandro@cornelisnetworks.com>,
- linux-rdma@vger.kernel.org, netdev@vger.kernel.org,
- Mike Marciniszyn <mike.marciniszyn@cornelisnetworks.com>,
- linux-um@lists.infradead.org, linux-kernel@vger.kernel.org,
- dri-devel@lists.freedesktop.org, linux-xfs@vger.kernel.org,
- linux-m68k@lists.linux-m68k.org, linux-serial@vger.kernel.org,
- sparclinux@vger.kernel.org, linux-s390@vger.kernel.org,
- linux-media@vger.kernel.org
+Cc: etnaviv@lists.freedesktop.org, dri-devel@lists.freedesktop.org,
+ linux-kernel@vger.kernel.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Mon, Apr 04, 2022 at 10:16:08AM +0200, Geert Uytterhoeven wrote:
-> On Mon, 4 Apr 2022, Geert Uytterhoeven wrote:
-> > Below is the list of build error/warning regressions/improvements in
-> > v5.18-rc1[1] compared to v5.17[2].
-> > 
-> > Summarized:
-> >  - build errors: +36/-15
-> >  - build warnings: +5/-38
-> > 
-> > Happy fixing! ;-)
+ This patch separate the code related to the platform device creation
+ so that it can be reuse by other function.
 
-Well....
+ An immediate benefit is we need call of_node_put() only once in the
+ for_each_compatible_node(np, NULL, "vivante,gc") loop instead of
+ three.
 
-> >  + /kisskb/src/fs/xfs/xfs_buf.h: error: initializer element is not constant:  => 46:23
+Signed-off-by: Sui Jingfeng <15330273260@189.cn>
+---
+ drivers/gpu/drm/etnaviv/etnaviv_drv.c | 47 +++++++++++++++++++--------
+ drivers/gpu/drm/etnaviv/etnaviv_drv.h |  4 +++
+ 2 files changed, 37 insertions(+), 14 deletions(-)
 
-Looking at:
-
-http://kisskb.ellerman.id.au/kisskb/buildresult/14714961/
-
-The build error is:
-
-/kisskb/src/fs/xfs/./xfs_trace.h:432:2: note: in expansion of macro 'TP_printk'
-  TP_printk("dev %d:%d daddr 0x%llx bbcount 0x%x hold %d pincount %d "
-  ^
-/kisskb/src/fs/xfs/./xfs_trace.h:440:5: note: in expansion of macro '__print_flags'
-     __print_flags(__entry->flags, "|", XFS_BUF_FLAGS),
-     ^
-/kisskb/src/fs/xfs/xfs_buf.h:67:4: note: in expansion of macro 'XBF_UNMAPPED'
-  { XBF_UNMAPPED,  "UNMAPPED" }
-    ^
-/kisskb/src/fs/xfs/./xfs_trace.h:440:40: note: in expansion of macro 'XFS_BUF_FLAGS'
-     __print_flags(__entry->flags, "|", XFS_BUF_FLAGS),
-                                        ^
-/kisskb/src/fs/xfs/./xfs_trace.h: In function 'trace_raw_output_xfs_buf_flags_class':
-/kisskb/src/fs/xfs/xfs_buf.h:46:23: error: initializer element is not constant
- #define XBF_UNMAPPED  (1 << 31)/* do not map the buffer */
-
-This doesn't make a whole lotta sense to me. It's blown up in a
-tracepoint macro in XFS that was not changed at all in 5.18-rc1, nor
-was any of the surrounding XFS code or contexts.  Perhaps something
-outside XFS changed to cause this on these platforms?
-
-Can you bisect this, please?
-
-Cheers,
-
-Dave.
+diff --git a/drivers/gpu/drm/etnaviv/etnaviv_drv.c b/drivers/gpu/drm/etnaviv/etnaviv_drv.c
+index 0b756ecb1bc2..69d879e623b8 100644
+--- a/drivers/gpu/drm/etnaviv/etnaviv_drv.c
++++ b/drivers/gpu/drm/etnaviv/etnaviv_drv.c
+@@ -659,10 +659,39 @@ static struct platform_driver etnaviv_platform_driver = {
+ 
+ static struct platform_device *etnaviv_drm;
+ 
+-static int __init etnaviv_init(void)
++int etnaviv_create_platform_device(const char *name,
++				   const char *data[],
++				   unsigned int num)
+ {
+ 	struct platform_device *pdev;
+ 	int ret;
++
++	pdev = platform_device_alloc(name, PLATFORM_DEVID_NONE);
++	if (!pdev)
++		return -ENOMEM;
++
++	if (data && num) {
++		ret = platform_device_add_data(pdev, data, num * sizeof(char *));
++		if (ret) {
++			platform_device_put(pdev);
++			return ret;
++		}
++	}
++
++	ret = platform_device_add(pdev);
++	if (ret) {
++		platform_device_put(pdev);
++		return ret;
++	}
++
++	etnaviv_drm = pdev;
++
++	return 0;
++}
++
++static int __init etnaviv_init(void)
++{
++	int ret;
+ 	struct device_node *np;
+ 
+ 	etnaviv_validate_init();
+@@ -683,22 +712,12 @@ static int __init etnaviv_init(void)
+ 		if (!of_device_is_available(np))
+ 			continue;
+ 
+-		pdev = platform_device_alloc("etnaviv", PLATFORM_DEVID_NONE);
+-		if (!pdev) {
+-			ret = -ENOMEM;
+-			of_node_put(np);
+-			goto unregister_platform_driver;
+-		}
++		of_node_put(np);
+ 
+-		ret = platform_device_add(pdev);
+-		if (ret) {
+-			platform_device_put(pdev);
+-			of_node_put(np);
++		ret = etnaviv_create_platform_device("etnaviv", NULL, 0);
++		if (ret)
+ 			goto unregister_platform_driver;
+-		}
+ 
+-		etnaviv_drm = pdev;
+-		of_node_put(np);
+ 		break;
+ 	}
+ 
+diff --git a/drivers/gpu/drm/etnaviv/etnaviv_drv.h b/drivers/gpu/drm/etnaviv/etnaviv_drv.h
+index f32f4771dada..944001a21ca2 100644
+--- a/drivers/gpu/drm/etnaviv/etnaviv_drv.h
++++ b/drivers/gpu/drm/etnaviv/etnaviv_drv.h
+@@ -81,6 +81,10 @@ void etnaviv_gem_describe_objects(struct etnaviv_drm_private *priv,
+ 	struct seq_file *m);
+ #endif
+ 
++int etnaviv_create_platform_device(const char *name,
++				   const char *data[],
++				   unsigned int num);
++
+ #define DBG(fmt, ...) DRM_DEBUG(fmt"\n", ##__VA_ARGS__)
+ #define VERB(fmt, ...) if (0) DRM_DEBUG(fmt"\n", ##__VA_ARGS__)
+ 
 -- 
-Dave Chinner
-david@fromorbit.com
+2.25.1
+
