@@ -1,40 +1,40 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 107224F1951
-	for <lists+dri-devel@lfdr.de>; Mon,  4 Apr 2022 18:35:29 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 862304F1953
+	for <lists+dri-devel@lfdr.de>; Mon,  4 Apr 2022 18:35:32 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 437ED10E5BC;
-	Mon,  4 Apr 2022 16:35:27 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 96EB110E5CF;
+	Mon,  4 Apr 2022 16:35:30 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from ams.source.kernel.org (ams.source.kernel.org
- [IPv6:2604:1380:4601:e00::1])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 8116510E5A3;
- Mon,  4 Apr 2022 16:35:25 +0000 (UTC)
+Received: from ams.source.kernel.org (ams.source.kernel.org [145.40.68.75])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 6AF6210E5CF;
+ Mon,  4 Apr 2022 16:35:29 +0000 (UTC)
 Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
  (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
  (No client certificate requested)
- by ams.source.kernel.org (Postfix) with ESMTPS id 0378AB81857;
- Mon,  4 Apr 2022 16:35:24 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 25E7DC34110;
- Mon,  4 Apr 2022 16:35:18 +0000 (UTC)
+ by ams.source.kernel.org (Postfix) with ESMTPS id 0A604B816F4;
+ Mon,  4 Apr 2022 16:35:28 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 49A89C34111;
+ Mon,  4 Apr 2022 16:35:23 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1649090122;
- bh=gLzhooWZnfiX9aZwYUtYUD+UyWXX0qoGyyOQreTJlLE=;
+ s=k20201202; t=1649090126;
+ bh=97AuxegGoUll1qcITUP5BRc/wzaj9s6TR3mxBS6KHjs=;
  h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
- b=makqLdiZicWedxSS/CKA5FcX3f7pvX/0pAjc7+F+vwAxwBYEHygblSF9psunT8eSW
- GOPW3Ci6umaP7QB81HRT7/bD3SZ4xXTzcJV+WNJO9PbOX+o1J/Ksg0p7wumZswHfNw
- Q9pIV0W+zy9K5Fldu30zMrG4C1y+8l69LOiSgEbZoUtwChWlpboglFtErdoyn/zHc0
- tIZy0fm6sHa2XVA177a2A17gEHQI4LwQoI5hpybmxjNQslRccBx2IBP/BCCO8KZpU0
- 7E0gooykInTS/S1Xaw+quA+uY38gWqk7AMbyrAlnDuZkMzea+8XiXNBuTNQd/M5R2g
- rTp8qXtzuj53g==
+ b=dt4ZAHDziKrl6lZcmy9oeTCD8kMvxquz43HyPNvGKwBDaod/CTG6eWy2DNpfVCpV1
+ WILnlVJWtbzOhY9pfZMMXVfElbPStzWuQoquGrm4OhKgoGqVzaaT3Hyoib0IasTPl3
+ OncG1pGznzYyxpJiQDwoqyTBStMODBsNmzwijPsngjE1qtHy+KIitnT2f/NilJ+R6X
+ 4fffYBXxZWOgwIotfHbIYu8iMPbEwjtf/Q6TzGDvwklvzGyFModzIRtQzGueIhP2NO
+ 7jkAGh1cMYGCWkgmSs27B398o8L4kH9qejkey8h6+5oZB9ZXXz945x6dCSD81ZzDkN
+ id2iFhRwgM9Pw==
 From: Vinod Koul <vkoul@kernel.org>
 To: Rob Clark <robdclark@gmail.com>
-Subject: [PATCH v6 07/14] drm/msm/disp/dpu1: Add support for DSC in encoder
-Date: Mon,  4 Apr 2022 22:04:29 +0530
-Message-Id: <20220404163436.956875-8-vkoul@kernel.org>
+Subject: [PATCH v6 08/14] drm/msm/dpu: don't use merge_3d if DSC merge
+ topology is used
+Date: Mon,  4 Apr 2022 22:04:30 +0530
+Message-Id: <20220404163436.956875-9-vkoul@kernel.org>
 X-Mailer: git-send-email 2.34.1
 In-Reply-To: <20220404163436.956875-1-vkoul@kernel.org>
 References: <20220404163436.956875-1-vkoul@kernel.org>
@@ -60,243 +60,79 @@ Cc: Jonathan Marek <jonathan@marek.ca>, David Airlie <airlied@linux.ie>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-We need to configure the encoder for DSC configuration and calculate DSC
-parameters for the given timing so this patch adds that support by
-adding dpu_encoder_prep_dsc() which is invoked when DSC is enabled.
+From: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
 
-Reviewed-by: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
-Reviewed-by: Abhinav Kumar <quic_abhinavk@quicinc.com>
+DPU supports different topologies for the case when multiple INTFs are
+being driven by the single phys_enc. The driver defaults to using 3DMux
+in such cases. Don't use it if DSC merge is used instead.
+
+Suggested-by: Abhinav Kumar <quic_abhinavk@quicinc.com>
+Signed-off-by: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
 Signed-off-by: Vinod Koul <vkoul@kernel.org>
 ---
- drivers/gpu/drm/msm/disp/dpu1/dpu_encoder.c   | 128 +++++++++++++++++-
- .../gpu/drm/msm/disp/dpu1/dpu_encoder_phys.h  |   8 ++
- 2 files changed, 135 insertions(+), 1 deletion(-)
+ drivers/gpu/drm/msm/disp/dpu1/dpu_encoder.c      | 16 ++++++++++++++++
+ drivers/gpu/drm/msm/disp/dpu1/dpu_encoder.h      |  6 ++++++
+ drivers/gpu/drm/msm/disp/dpu1/dpu_encoder_phys.h |  4 +++-
+ 3 files changed, 25 insertions(+), 1 deletion(-)
 
 diff --git a/drivers/gpu/drm/msm/disp/dpu1/dpu_encoder.c b/drivers/gpu/drm/msm/disp/dpu1/dpu_encoder.c
-index 3940b9c6323b..4052486f19d8 100644
+index 4052486f19d8..95d1588f3bb6 100644
 --- a/drivers/gpu/drm/msm/disp/dpu1/dpu_encoder.c
 +++ b/drivers/gpu/drm/msm/disp/dpu1/dpu_encoder.c
-@@ -21,6 +21,7 @@
- #include "dpu_hw_intf.h"
- #include "dpu_hw_ctl.h"
- #include "dpu_hw_dspp.h"
-+#include "dpu_hw_dsc.h"
- #include "dpu_formats.h"
- #include "dpu_encoder_phys.h"
- #include "dpu_crtc.h"
-@@ -135,6 +136,8 @@ enum dpu_enc_rc_states {
-  * @cur_slave:		As above but for the slave encoder.
-  * @hw_pp:		Handle to the pingpong blocks used for the display. No.
-  *			pingpong blocks can be different than num_phys_encs.
-+ * @hw_dsc:		Handle to the DSC blocks used for the display.
-+ * @dsc_mask:		Bitmask of used DSC blocks.
-  * @intfs_swapped:	Whether or not the phys_enc interfaces have been swapped
-  *			for partial update right-only cases, such as pingpong
-  *			split where virtual pingpong does not generate IRQs
-@@ -168,6 +171,7 @@ enum dpu_enc_rc_states {
-  * @vsync_event_work:		worker to handle vsync event for autorefresh
-  * @topology:                   topology of the display
-  * @idle_timeout:		idle timeout duration in milliseconds
-+ * @dsc:			msm_display_dsc_config pointer, for DSC-enabled encoders
-  */
- struct dpu_encoder_virt {
- 	struct drm_encoder base;
-@@ -180,6 +184,9 @@ struct dpu_encoder_virt {
- 	struct dpu_encoder_phys *cur_master;
- 	struct dpu_encoder_phys *cur_slave;
- 	struct dpu_hw_pingpong *hw_pp[MAX_CHANNELS_PER_ENC];
-+	struct dpu_hw_dsc *hw_dsc[MAX_CHANNELS_PER_ENC];
-+
-+	unsigned int dsc_mask;
- 
- 	bool intfs_swapped;
- 
-@@ -206,6 +213,9 @@ struct dpu_encoder_virt {
- 	struct msm_display_topology topology;
- 
- 	u32 idle_timeout;
-+
-+	/* DSC configuration */
-+	struct msm_display_dsc_config *dsc;
- };
- 
- #define to_dpu_encoder_virt(x) container_of(x, struct dpu_encoder_virt, base)
-@@ -942,7 +952,9 @@ static void dpu_encoder_virt_atomic_mode_set(struct drm_encoder *drm_enc,
- 	struct dpu_hw_blk *hw_ctl[MAX_CHANNELS_PER_ENC];
- 	struct dpu_hw_blk *hw_lm[MAX_CHANNELS_PER_ENC];
- 	struct dpu_hw_blk *hw_dspp[MAX_CHANNELS_PER_ENC] = { NULL };
--	int num_lm, num_ctl, num_pp;
-+	struct dpu_hw_blk *hw_dsc[MAX_CHANNELS_PER_ENC];
-+	int num_lm, num_ctl, num_pp, num_dsc;
-+	unsigned int dsc_mask = 0;
- 	int i;
- 
- 	if (!drm_enc) {
-@@ -980,6 +992,18 @@ static void dpu_encoder_virt_atomic_mode_set(struct drm_encoder *drm_enc,
- 		dpu_enc->hw_pp[i] = i < num_pp ? to_dpu_hw_pingpong(hw_pp[i])
- 						: NULL;
- 
-+	if (dpu_enc->dsc) {
-+		num_dsc = dpu_rm_get_assigned_resources(&dpu_kms->rm, global_state,
-+							drm_enc->base.id, DPU_HW_BLK_DSC,
-+							hw_dsc, ARRAY_SIZE(hw_dsc));
-+		for (i = 0; i < num_dsc; i++) {
-+			dpu_enc->hw_dsc[i] = to_dpu_hw_dsc(hw_dsc[i]);
-+			dsc_mask |= BIT(dpu_enc->hw_dsc[i]->idx - DSC_0);
-+		}
-+	}
-+
-+	dpu_enc->dsc_mask = dsc_mask;
-+
- 	cstate = to_dpu_crtc_state(crtc_state);
- 
- 	for (i = 0; i < num_lm; i++) {
-@@ -1677,6 +1701,95 @@ static void dpu_encoder_vsync_event_work_handler(struct kthread_work *work)
- 			nsecs_to_jiffies(ktime_to_ns(wakeup_time)));
- }
- 
-+static u32
-+dpu_encoder_dsc_initial_line_calc(struct msm_display_dsc_config *dsc,
-+				  u32 enc_ip_width)
-+{
-+	int ssm_delay, total_pixels, soft_slice_per_enc;
-+
-+	soft_slice_per_enc = enc_ip_width / dsc->drm->slice_width;
-+
-+	/*
-+	 * minimum number of initial line pixels is a sum of:
-+	 * 1. sub-stream multiplexer delay (83 groups for 8bpc,
-+	 *    91 for 10 bpc) * 3
-+	 * 2. for two soft slice cases, add extra sub-stream multiplexer * 3
-+	 * 3. the initial xmit delay
-+	 * 4. total pipeline delay through the "lock step" of encoder (47)
-+	 * 5. 6 additional pixels as the output of the rate buffer is
-+	 *    48 bits wide
-+	 */
-+	ssm_delay = ((dsc->drm->bits_per_component < 10) ? 84 : 92);
-+	total_pixels = ssm_delay * 3 + dsc->drm->initial_xmit_delay + 47;
-+	if (soft_slice_per_enc > 1)
-+		total_pixels += (ssm_delay * 3);
-+	return DIV_ROUND_UP(total_pixels, dsc->drm->slice_width);
-+}
-+
-+static void dpu_encoder_dsc_pipe_cfg(struct dpu_hw_dsc *hw_dsc,
-+				     struct dpu_hw_pingpong *hw_pp,
-+				     struct msm_display_dsc_config *dsc,
-+				     u32 common_mode,
-+				     u32 initial_lines)
-+{
-+	if (hw_dsc->ops.dsc_config)
-+		hw_dsc->ops.dsc_config(hw_dsc, dsc, common_mode, initial_lines);
-+
-+	if (hw_dsc->ops.dsc_config_thresh)
-+		hw_dsc->ops.dsc_config_thresh(hw_dsc, dsc);
-+
-+	if (hw_pp->ops.setup_dsc)
-+		hw_pp->ops.setup_dsc(hw_pp);
-+
-+	if (hw_pp->ops.enable_dsc)
-+		hw_pp->ops.enable_dsc(hw_pp);
-+}
-+
-+static void dpu_encoder_prep_dsc(struct dpu_encoder_virt *dpu_enc,
-+				 struct msm_display_dsc_config *dsc)
-+{
-+	/* coding only for 2LM, 2enc, 1 dsc config */
-+	struct dpu_encoder_phys *enc_master = dpu_enc->cur_master;
-+	struct dpu_hw_dsc *hw_dsc[MAX_CHANNELS_PER_ENC];
-+	struct dpu_hw_pingpong *hw_pp[MAX_CHANNELS_PER_ENC];
-+	int this_frame_slices;
-+	int intf_ip_w, enc_ip_w;
-+	int dsc_common_mode;
-+	int pic_width;
-+	u32 initial_lines;
-+	int i;
-+
-+	for (i = 0; i < MAX_CHANNELS_PER_ENC; i++) {
-+		hw_pp[i] = dpu_enc->hw_pp[i];
-+		hw_dsc[i] = dpu_enc->hw_dsc[i];
-+
-+		if (!hw_pp[i] || !hw_dsc[i]) {
-+			DPU_ERROR_ENC(dpu_enc, "invalid params for DSC\n");
-+			return;
-+		}
-+	}
-+
-+	dsc_common_mode = 0;
-+	pic_width = dsc->drm->pic_width;
-+
-+	dsc_common_mode = DSC_MODE_MULTIPLEX | DSC_MODE_SPLIT_PANEL;
-+	if (enc_master->intf_mode == INTF_MODE_VIDEO)
-+		dsc_common_mode |= DSC_MODE_VIDEO;
-+
-+	this_frame_slices = pic_width / dsc->drm->slice_width;
-+	intf_ip_w = this_frame_slices * dsc->drm->slice_width;
-+
-+	/*
-+	 * dsc merge case: when using 2 encoders for the same stream,
-+	 * no. of slices need to be same on both the encoders.
-+	 */
-+	enc_ip_w = intf_ip_w / 2;
-+	initial_lines = dpu_encoder_dsc_initial_line_calc(dsc, enc_ip_w);
-+
-+	for (i = 0; i < MAX_CHANNELS_PER_ENC; i++)
-+		dpu_encoder_dsc_pipe_cfg(hw_dsc[i], hw_pp[i], dsc, dsc_common_mode, initial_lines);
-+}
-+
- void dpu_encoder_prepare_for_kickoff(struct drm_encoder *drm_enc)
- {
- 	struct dpu_encoder_virt *dpu_enc;
-@@ -1708,6 +1821,9 @@ void dpu_encoder_prepare_for_kickoff(struct drm_encoder *drm_enc)
- 			dpu_encoder_helper_hw_reset(dpu_enc->phys_encs[i]);
- 		}
+@@ -511,6 +511,22 @@ void dpu_encoder_helper_split_config(
  	}
-+
-+	if (dpu_enc->dsc)
-+		dpu_encoder_prep_dsc(dpu_enc, dpu_enc->dsc);
  }
  
- void dpu_encoder_kickoff(struct drm_encoder *drm_enc)
-@@ -1953,6 +2069,8 @@ static int dpu_encoder_setup_display(struct dpu_encoder_virt *dpu_enc,
- 		dpu_enc->idle_pc_supported =
- 				dpu_kms->catalog->caps->has_idle_pc;
- 
-+	dpu_enc->dsc = disp_info->dsc;
-+
- 	mutex_lock(&dpu_enc->enc_lock);
- 	for (i = 0; i < disp_info->num_of_h_tiles && !ret; i++) {
- 		/*
-@@ -2180,3 +2298,11 @@ enum dpu_intf_mode dpu_encoder_get_intf_mode(struct drm_encoder *encoder)
- 
- 	return INTF_MODE_NONE;
- }
-+
-+unsigned int dpu_encoder_helper_get_dsc(struct dpu_encoder_phys *phys_enc)
++bool dpu_encoder_use_dsc_merge(struct drm_encoder *drm_enc)
 +{
-+	struct drm_encoder *encoder = phys_enc->parent;
-+	struct dpu_encoder_virt *dpu_enc = to_dpu_encoder_virt(encoder);
++	struct dpu_encoder_virt *dpu_enc = to_dpu_encoder_virt(drm_enc);
++	int i, intf_count = 0, num_dsc = 0;
 +
-+	return dpu_enc->dsc_mask;
++	for (i = 0; i < MAX_PHYS_ENCODERS_PER_VIRTUAL; i++)
++		if (dpu_enc->phys_encs[i])
++			intf_count++;
++
++	/* See dpu_encoder_get_topology, we only support 2:2:1 topology */
++	if (dpu_enc->dsc)
++		num_dsc = 2;
++
++	return (num_dsc > 0) && (num_dsc > intf_count);
 +}
-diff --git a/drivers/gpu/drm/msm/disp/dpu1/dpu_encoder_phys.h b/drivers/gpu/drm/msm/disp/dpu1/dpu_encoder_phys.h
-index fa8493ac0340..4842070fdfa8 100644
---- a/drivers/gpu/drm/msm/disp/dpu1/dpu_encoder_phys.h
-+++ b/drivers/gpu/drm/msm/disp/dpu1/dpu_encoder_phys.h
-@@ -321,6 +321,14 @@ static inline enum dpu_3d_blend_mode dpu_encoder_helper_get_3d_blend_mode(
- 	return BLEND_3D_NONE;
- }
++
+ static struct msm_display_topology dpu_encoder_get_topology(
+ 			struct dpu_encoder_virt *dpu_enc,
+ 			struct dpu_kms *dpu_kms,
+diff --git a/drivers/gpu/drm/msm/disp/dpu1/dpu_encoder.h b/drivers/gpu/drm/msm/disp/dpu1/dpu_encoder.h
+index ef873e5285a0..084c5265d7e5 100644
+--- a/drivers/gpu/drm/msm/disp/dpu1/dpu_encoder.h
++++ b/drivers/gpu/drm/msm/disp/dpu1/dpu_encoder.h
+@@ -172,4 +172,10 @@ int dpu_encoder_get_linecount(struct drm_encoder *drm_enc);
+  */
+ int dpu_encoder_get_vsync_count(struct drm_encoder *drm_enc);
  
 +/**
-+ * dpu_encoder_helper_get_dsc - get DSC blocks mask for the DPU encoder
-+ *   This helper function is used by physical encoder to get DSC blocks mask
-+ *   used for this encoder.
-+ * @phys_enc: Pointer to physical encoder structure
++ * dpu_encoder_use_dsc_merge - returns true if the encoder uses DSC merge topology.
++ * @drm_enc:    Pointer to previously created drm encoder structure
 + */
-+unsigned int dpu_encoder_helper_get_dsc(struct dpu_encoder_phys *phys_enc);
++bool dpu_encoder_use_dsc_merge(struct drm_encoder *drm_enc);
 +
- /**
-  * dpu_encoder_helper_split_config - split display configuration helper function
-  *	This helper function may be used by physical encoders to configure
+ #endif /* __DPU_ENCODER_H__ */
+diff --git a/drivers/gpu/drm/msm/disp/dpu1/dpu_encoder_phys.h b/drivers/gpu/drm/msm/disp/dpu1/dpu_encoder_phys.h
+index 4842070fdfa8..b5ad43b8a19b 100644
+--- a/drivers/gpu/drm/msm/disp/dpu1/dpu_encoder_phys.h
++++ b/drivers/gpu/drm/msm/disp/dpu1/dpu_encoder_phys.h
+@@ -314,8 +314,10 @@ static inline enum dpu_3d_blend_mode dpu_encoder_helper_get_3d_blend_mode(
+ 
+ 	dpu_cstate = to_dpu_crtc_state(phys_enc->parent->crtc->state);
+ 
++	/* Use merge_3d unless DSC MERGE topology is used */
+ 	if (phys_enc->split_role == ENC_ROLE_SOLO &&
+-	    dpu_cstate->num_mixers == CRTC_DUAL_MIXERS)
++	    dpu_cstate->num_mixers == CRTC_DUAL_MIXERS &&
++	    !dpu_encoder_use_dsc_merge(phys_enc->parent))
+ 		return BLEND_3D_H_ROW_INT;
+ 
+ 	return BLEND_3D_NONE;
 -- 
 2.34.1
 
