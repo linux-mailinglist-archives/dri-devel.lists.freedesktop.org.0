@@ -2,58 +2,55 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id AAA024F19EB
-	for <lists+dri-devel@lfdr.de>; Mon,  4 Apr 2022 21:23:26 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 68AF24F19EC
+	for <lists+dri-devel@lfdr.de>; Mon,  4 Apr 2022 21:30:05 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id D449710E5A5;
-	Mon,  4 Apr 2022 19:23:24 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 3500A10E745;
+	Mon,  4 Apr 2022 19:30:03 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from phobos.denx.de (phobos.denx.de [85.214.62.61])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 8FA7C10E5A5
- for <dri-devel@lists.freedesktop.org>; Mon,  4 Apr 2022 19:23:23 +0000 (UTC)
-Received: from [127.0.0.1] (p578adb1c.dip0.t-ipconnect.de [87.138.219.28])
- (using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits))
- (No client certificate requested)
- (Authenticated sender: marex@denx.de)
- by phobos.denx.de (Postfix) with ESMTPSA id 9B04083982;
- Mon,  4 Apr 2022 21:23:21 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=denx.de;
- s=phobos-20191101; t=1649100202;
- bh=mMKYrei9pXix9LC9TPFNhCTigf2OWVCOY3+upceWb3o=;
- h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
- b=Cl7J7pyqoMdlBy6umrtD42Eylr//5Q1+g6Km95PMqDex3oHvnyB1+8xFvH0clPMmO
- 31bZn+NIA6j0/ws9hSDKmu/IPsGeDL6ab29v/htBRRWo0+BH6280aG152PDb3AB1lE
- rhGUP+hawP6mc5/+wnxVgYdTUgrs3W2cTHvQE9e0/ilL3f5mzfmmke9nRfiOK8wB4w
- Qakxs/y44H73Zh10jaMfqWn6gmWWRBMeNSk3YN3w/0NfWS9YS7ysD/GqsyWcIyu5Q7
- LbVi9cyH3O95rtolff+D9UCsjgpILBk1+ijOJb/fE+0iii/yZQ0OUUEcy/yVk+wRnR
- XS8Tn9gDLtt3g==
-Message-ID: <755d1696-1984-b6d1-cdd1-d29621cb6238@denx.de>
-Date: Mon, 4 Apr 2022 21:23:21 +0200
+Received: from mail-ot1-f45.google.com (mail-ot1-f45.google.com
+ [209.85.210.45])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 38C7B10E745
+ for <dri-devel@lists.freedesktop.org>; Mon,  4 Apr 2022 19:30:02 +0000 (UTC)
+Received: by mail-ot1-f45.google.com with SMTP id
+ w17-20020a056830111100b005b22c584b93so7908321otq.11
+ for <dri-devel@lists.freedesktop.org>; Mon, 04 Apr 2022 12:30:02 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+ :mime-version:content-disposition:in-reply-to;
+ bh=Pw9/rx3OWyNgJmgrxMJHiM9XNdAuSk1x7PxfxleOVHo=;
+ b=qfHBZjWwKwCbEHcrSV+XHyozQCmPbJ4bwGw3cDZ2BJUkhaJb1KuorUYxRPiWoUe7yH
+ jTtB5SLTovGf6CctyjrZTR5AsOrAs6fS4Kwxp+AIo//TpzGsgaSbMTxBcLjEWH7JbAg0
+ 1NKRNOzFnnIIO7XVhH947Qki/IiCNHymYLS6Dw/gc9B40xJS71K/vDqzR21T3icfdhRC
+ c155yNuNdtEhXDp/6Qm+KIjryJtBMpSjEP1QKppMPuHYzlg3HeXc0YHxN6ZZp7qIT6ey
+ sakWKs0rOPGiMtuKKbtLjxa2VOSKDwuQBTpD2jchT0+crU3J20jrwZfGPhII9Aepq7Mu
+ pGVw==
+X-Gm-Message-State: AOAM533rmzhuuQNcP82W3SuFLU0jX8uRyu7Pxs3B3ISASqMctzZKTfdn
+ Hd5Y1lj/2WuD1/F3TF6fVQ==
+X-Google-Smtp-Source: ABdhPJwpJgxnagGtsX/4G1femKCs6URgtvhIa+HnkzdqIgagKjjdNd7aX3OMcDtkEZWJvTE80AJhKg==
+X-Received: by 2002:a05:6830:201a:b0:5e6:8de6:9922 with SMTP id
+ e26-20020a056830201a00b005e68de69922mr417505otp.3.1649100601406; 
+ Mon, 04 Apr 2022 12:30:01 -0700 (PDT)
+Received: from robh.at.kernel.org (66-90-144-107.dyn.grandenetworks.net.
+ [66.90.144.107]) by smtp.gmail.com with ESMTPSA id
+ l9-20020a4a4349000000b00328fae52bcasm4210372ooj.16.2022.04.04.12.30.00
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Mon, 04 Apr 2022 12:30:01 -0700 (PDT)
+Received: (nullmailer pid 1815025 invoked by uid 1000);
+ Mon, 04 Apr 2022 19:30:00 -0000
+Date: Mon, 4 Apr 2022 14:30:00 -0500
+From: Rob Herring <robh@kernel.org>
+To: Marek Vasut <marex@denx.de>
+Subject: Re: [PATCH 1/2] dt-bindings: display: bridge: lt9211: Add Lontium
+ LT9211 bridge driver
+Message-ID: <YktHOBXZvMPWbrgk@robh.at.kernel.org>
+References: <20220330212231.90904-1-marex@denx.de>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.7.0
-Subject: Re: [RFC][PATCH 2/3] drm/modes: Make width-mm/height-mm mandatory in
- of_get_drm_panel_display_mode()
-Content-Language: en-US
-To: Rob Herring <robh@kernel.org>
-References: <20220401163755.302548-1-marex@denx.de>
- <20220401163755.302548-2-marex@denx.de>
- <YkdImJRIRkaqeGDl@pendragon.ideasonboard.com>
- <efaa195a-bbdc-ca24-eccc-271995dfd27f@denx.de>
- <YkfAtkOtaWksnrlH@pendragon.ideasonboard.com>
- <a8b45b0a-b458-f9dd-c983-6ef4ec175432@denx.de>
- <d16332a6-63cc-8fa6-91f2-59064ce333f1@tronnes.org>
- <d230da1b-2649-2f8d-680b-015e9044540e@denx.de>
- <35a66df7-5619-cb10-620e-008adb64f2d7@tronnes.org>
- <92a5854f-0dc0-8bb9-0607-549d52822af1@denx.de>
- <YksWPK6ukLGAUTUo@robh.at.kernel.org>
-From: Marek Vasut <marex@denx.de>
-In-Reply-To: <YksWPK6ukLGAUTUo@robh.at.kernel.org>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
-X-Virus-Scanned: clamav-milter 0.103.5 at phobos.denx.de
-X-Virus-Status: Clean
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20220330212231.90904-1-marex@denx.de>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -66,70 +63,164 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Christoph Niedermaier <cniedermaier@dh-electronics.com>,
- devicetree@vger.kernel.org, Daniel Vetter <daniel.vetter@ffwll.ch>,
- dri-devel@lists.freedesktop.org, robert.foss@linaro.org,
- =?UTF-8?Q?Noralf_Tr=c3=b8nnes?= <noralf@tronnes.org>,
- Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
- Thomas Zimmermann <tzimmermann@suse.de>, Dmitry Osipenko <digetx@gmail.com>,
- Sam Ravnborg <sam@ravnborg.org>
+Cc: devicetree@vger.kernel.org, dri-devel@lists.freedesktop.org,
+ Robert Foss <robert.foss@linaro.org>, Maxime Ripard <maxime@cerno.tech>,
+ Thomas Zimmermann <tzimmermann@suse.de>, Sam Ravnborg <sam@ravnborg.org>,
+ Laurent Pinchart <laurent.pinchart@ideasonboard.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 4/4/22 18:01, Rob Herring wrote:
-> On Sat, Apr 02, 2022 at 07:55:59PM +0200, Marek Vasut wrote:
->> On 4/2/22 19:08, Noralf Trønnes wrote:
->>>
->>>
->>> Den 02.04.2022 18.39, skrev Marek Vasut:
->>>> On 4/2/22 09:45, Noralf Trønnes wrote:
->>>>>
->>>>>
->>>>> Den 02.04.2022 06.28, skrev Marek Vasut:
->>>>>> On 4/2/22 05:19, Laurent Pinchart wrote:
->>>>>>> On Fri, Apr 01, 2022 at 10:36:24PM +0200, Marek Vasut wrote:
->>>>>>>> On 4/1/22 20:46, Laurent Pinchart wrote:
->>>>>>>>> On Fri, Apr 01, 2022 at 06:37:54PM +0200, Marek Vasut wrote:
->>>>>>>>>> Make the width-mm/height-mm panel properties mandatory in
->>>>>>>>>> of_get_drm_panel_display_mode(), print error message and
->>>>>>>>>> return -ve in case these DT properties are not present.
->>>>>>>>>> This is needed to correctly report panel dimensions.
->>>>>>>>>
->>>>>>>>> Can we guarantee this won't cause a regression ?
->>>>>>>>
->>>>>>>> For the upstream DTs, I think we can.
->>>>>>>> For downstream DTs, we cannot know.
->>>>>>>
->>>>>>> Are there users of this function whose DT bindings don't require the
->>>>>>> width-mm and height-mm properties ?
->>>>>>
->>>>>> There is literally one user of this function upstream:
->>>>>> drivers/gpu/drm/tiny/panel-mipi-dbi.c
->>>>>
->>>>> Yes, the function was added for that driver since it was so generic in
->>>>> nature. What about adding an argument to of_get_drm_panel_display_mode()
->>>>> that tells if the properties are mandatory or not?
->>>>
->>>> Sure, we can do that, but maybe the question here is even bigger than
->>>> this series.
->>>>
->>>> Should every panel set mandatory width_mm/height_mm so e.g. the user
->>>> space can infer DPI from it and set up scaling accordingly, or should
->>>> width_mm/height_mm be optional ?
->>>>
->>>> I think width_mm/height_mm should be mandatory for all panels.
->>>>
->>>> Thoughts ?
->>>
->>> If this had come up during the review of the driver I would have no
->>> problem making it mandatory. It makes sense for DPI. Maybe it's possible
->>> to get around the ABI break by getting in a change through -fixes before
->>> 5.18 is released? I'm fine with that.
->>
->> Well that's awesome, the dbi-spi.yaml didn't land in any kernel release yet,
->> so we still have a chance to fix it ? Rob ?
+On Wed, Mar 30, 2022 at 11:22:30PM +0200, Marek Vasut wrote:
+> Add bindings for Lontium LT9211 Single/Dual-Link DSI/LVDS or Single DPI to
+> Single-link/Dual-Link DSI/LVDS or Single DPI bridge. This chip is highly
+> capable at converting formats, but sadly it is also highly undocumented.
 > 
-> Yes, it can be fixed. And the binding, not the kernel, is the place to
-> enforce it being mandatory IMO.
+> Signed-off-by: Marek Vasut <marex@denx.de>
+> Cc: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+> Cc: Lucas Stach <l.stach@pengutronix.de>
+> Cc: Maxime Ripard <maxime@cerno.tech>
+> Cc: Rob Herring <robh+dt@kernel.org>
+> Cc: Robert Foss <robert.foss@linaro.org>
+> Cc: Sam Ravnborg <sam@ravnborg.org>
+> Cc: Thomas Zimmermann <tzimmermann@suse.de>
+> Cc: devicetree@vger.kernel.org
+> To: dri-devel@lists.freedesktop.org
+> ---
+>  .../display/bridge/lontium,lt9211.yaml        | 117 ++++++++++++++++++
+>  1 file changed, 117 insertions(+)
+>  create mode 100644 Documentation/devicetree/bindings/display/bridge/lontium,lt9211.yaml
+> 
+> diff --git a/Documentation/devicetree/bindings/display/bridge/lontium,lt9211.yaml b/Documentation/devicetree/bindings/display/bridge/lontium,lt9211.yaml
+> new file mode 100644
+> index 000000000000..2faa855b3824
+> --- /dev/null
+> +++ b/Documentation/devicetree/bindings/display/bridge/lontium,lt9211.yaml
+> @@ -0,0 +1,117 @@
+> +# SPDX-License-Identifier: (GPL-2.0-only OR BSD-2-Clause)
+> +%YAML 1.2
+> +---
+> +$id: http://devicetree.org/schemas/display/bridge/lontium,lt9211.yaml#
+> +$schema: http://devicetree.org/meta-schemas/core.yaml#
+> +
+> +title: Lontium LT9211 DSI/LVDS/DPI to DSI/LVDS/DPI bridge.
+> +
+> +maintainers:
+> +  - Marek Vasut <marex@denx.de>
+> +
+> +description: |
+> +  The LT9211 are bridge devices which convert Single/Dual-Link DSI/LVDS
+> +  or Single DPI to Single/Dual-Link DSI/LVDS or Single DPI.
+> +
+> +properties:
+> +  compatible:
+> +    enum:
+> +      - lontium,lt9211
+> +
+> +  reg:
+> +    maxItems: 1
+> +
+> +  interrupts:
+> +    maxItems: 1
+> +
+> +  reset-gpios:
+> +    maxItems: 1
+> +    description: GPIO connected to active high RESET pin.
+> +
+> +  vccio-supply:
+> +    description: Regulator for 1.8V IO power.
+> +
+> +  ports:
+> +    $ref: /schemas/graph.yaml#/properties/ports
+> +
+> +    properties:
+> +      port@0:
+> +        $ref: /schemas/graph.yaml#/properties/port
+> +        description:
+> +          Primary MIPI DSI port-1 for MIPI input or
+> +          LVDS port-1 for LVDS input or DPI input.
+> +
+> +      port@1:
+> +        $ref: /schemas/graph.yaml#/properties/port
+> +        description:
+> +          Additional MIPI port-2 for MIPI input or LVDS port-2
+> +          for LVDS input. Used in combination with primary
+> +          port-1 to drive higher resolution displays
+> +
+> +      port@2:
+> +        $ref: /schemas/graph.yaml#/properties/port
+> +        description:
+> +          Primary MIPI DSI port-1 for MIPI output or
+> +          LVDS port-1 for LVDS output or DPI output.
+> +
+> +      port@3:
+> +        $ref: /schemas/graph.yaml#/properties/port
+> +        description:
+> +          Additional MIPI port-2 for MIPI output or LVDS port-2
+> +          for LVDS output. Used in combination with primary
+> +          port-1 to drive higher resolution displays.
+> +
+> +    required:
+> +      - port@0
+> +      - port@2
+> +
+> +required:
+> +  - compatible
+> +  - reg
+> +  - vccio-supply
+> +  - ports
+> +
+> +additionalProperties: false
+> +
+> +examples:
+> +  - |
+> +    #include <dt-bindings/gpio/gpio.h>
+> +    #include <dt-bindings/interrupt-controller/irq.h>
+> +
+> +    i2c10 {
 
-All right, I sent 1/3 separately with Fixes: tag, so it can be applied .
+i2c {
+
+With that,
+
+Reviewed-by: Rob Herring <robh@kernel.org>
+
+> +      #address-cells = <1>;
+> +      #size-cells = <0>;
+> +
+> +      hdmi-bridge@3b {
+> +        compatible = "lontium,lt9211";
+> +        reg = <0x3b>;
+> +
+> +        reset-gpios = <&tlmm 128 GPIO_ACTIVE_HIGH>;
+> +        interrupts-extended = <&tlmm 84 IRQ_TYPE_EDGE_FALLING>;
+> +
+> +        vccio-supply = <&lt9211_1v8>;
+> +
+> +        ports {
+> +          #address-cells = <1>;
+> +          #size-cells = <0>;
+> +
+> +          port@0 {
+> +            reg = <0>;
+> +
+> +            endpoint {
+> +              remote-endpoint = <&dsi0_out>;
+> +            };
+> +          };
+> +
+> +          port@2 {
+> +            reg = <2>;
+> +
+> +            endpoint {
+> +              remote-endpoint = <&panel_in_lvds>;
+> +            };
+> +          };
+> +        };
+> +      };
+> +    };
+> +
+> +...
+> -- 
+> 2.35.1
+> 
+> 
