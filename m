@@ -1,55 +1,63 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id C2C794F159F
-	for <lists+dri-devel@lfdr.de>; Mon,  4 Apr 2022 15:15:14 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id DF0A94F15A2
+	for <lists+dri-devel@lfdr.de>; Mon,  4 Apr 2022 15:15:54 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 0F1D210ED11;
-	Mon,  4 Apr 2022 13:15:11 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 1AD0510EBEC;
+	Mon,  4 Apr 2022 13:15:53 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-ot1-x329.google.com (mail-ot1-x329.google.com
- [IPv6:2607:f8b0:4864:20::329])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 229EF10EBEC
- for <dri-devel@lists.freedesktop.org>; Mon,  4 Apr 2022 13:15:10 +0000 (UTC)
-Received: by mail-ot1-x329.google.com with SMTP id
- e25-20020a0568301e5900b005b236d5d74fso7246331otj.0
- for <dri-devel@lists.freedesktop.org>; Mon, 04 Apr 2022 06:15:10 -0700 (PDT)
+Received: from mail-ed1-x542.google.com (mail-ed1-x542.google.com
+ [IPv6:2a00:1450:4864:20::542])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 1049510F0B9
+ for <dri-devel@lists.freedesktop.org>; Mon,  4 Apr 2022 13:15:52 +0000 (UTC)
+Received: by mail-ed1-x542.google.com with SMTP id u9so5921906edd.11
+ for <dri-devel@lists.freedesktop.org>; Mon, 04 Apr 2022 06:15:51 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ffwll.ch; s=google;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=1ltcBLZnS9V4e6M8X4B3SVyTJJYiEdsgwwMNRIIm4eM=;
- b=GT6ZVdnvwXWRynNVO2HsvEKzZ2iY7+vZP/hsKupcWJ2lyXbTaC8Rqwx3WEMutndi4/
- NazFg1P/AeOLEVVqMWZtK85Hdjfj9t+398s8ZV8ojB0MoI1ZTf1rbaDZTO9uzxH30T5O
- pKYliaLO2NGjwMtqiQu6A9+TIqORO/KCicgzY=
+ h=date:from:to:cc:subject:message-id:references:mime-version
+ :content-disposition:content-transfer-encoding:in-reply-to;
+ bh=e61u/Rj10PyAVoeSur3oRsXcVJaSV8AdUmE92CJGoKQ=;
+ b=HKBE8gVWICPF7qNRCEmA43fR0NRltdik4eQVwFrxJxBprutGVsO+fM5N9XyArxcPEy
+ PuBEUQyeEfncKFJwUQe+0GIx2gI6vB3ZSXMfAIrA+2fBDc7QHHCb7PA0UKC2ws/Bkyc/
+ 1spnSjrrdDpvpBJGXhuokkVOWNlt5tDyN237k=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=1ltcBLZnS9V4e6M8X4B3SVyTJJYiEdsgwwMNRIIm4eM=;
- b=zb6lHTxdj3v+skSkqfwFVP12FxhxbPqOlcreOge0z9AzuA2g7mpJ21OqzzGFA9RCtI
- XP4rVgTx7XoZaGgWDcp3UIu99MPmKYzo7lLz0WfHkmyN3rRWGOo/26RlQYrc6AzfbWcr
- YLOW9y7WNsHFRZaoQLg5W7F6nwJ1GLYIs9Tw3sAkS6h78BBG/d+plbpoLov+ekQL6BYP
- B3ZRHN/nBQuXVka335/2ZwzWLzdv2s+yVZRI+5oCUcaM3m7In6Za80QgzaBPprzdVHMV
- rbwQ8N37+1XDWnFMhKXJAEhzlMu+2CUMH3n5vU0vGycNy2o+tWfzXc0lam5dYGwksb/7
- 0uWA==
-X-Gm-Message-State: AOAM532wPAmm4j9NAFiISM0OrkUD1zezqDdX+WRvKR3JIa+SW9Pzgh7a
- 7xj1L+VMFxF3ockLw3UkKTLp/OFZYOadf1uze7E3uETfD+1hnA==
-X-Google-Smtp-Source: ABdhPJzwc/6JKSurwuA08HmIO4hxb9rsacdoy6E3cMORuJfaHspgC781BzB4vt6dnB6l9i1wOUTXN7lBvXrsmtVPodU=
-X-Received: by 2002:a05:6830:14d3:b0:5b2:49d9:17b6 with SMTP id
- t19-20020a05683014d300b005b249d917b6mr11585718otq.321.1649078108986; Mon, 04
- Apr 2022 06:15:08 -0700 (PDT)
-MIME-Version: 1.0
+ h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+ :mime-version:content-disposition:content-transfer-encoding
+ :in-reply-to;
+ bh=e61u/Rj10PyAVoeSur3oRsXcVJaSV8AdUmE92CJGoKQ=;
+ b=Ev7ujlghctQdHlh0dQV9EuTt40CPuIyPb+4Mosh/IM6uFHBFK6fpYZ12r8QG8XZ0Pw
+ H5x+XpSvAOg/bGJzh4/wy+DgOdrVJ0Oleia3TVjKkSenr44vzwYtmFk1jKDBzqEXr5LQ
+ JvRnJEncMXMsEKW3q/iHiAZCpjbFNaV4DjLZHo6b9DzBuPvVd4wTZDg72K4YoLt43aWF
+ ocmyjPW5W6/sPYRwOuqj9YDTOzfr+WAJjFSNQdihhd56SGlHLXekRQHZSQFzGA5RpWta
+ aNkGe4cH+rGALq7okA5771TmSFGi+24DZk44L6W2iP1Y0iMpv4hbuLcgd0PlJI1EFk75
+ 1uig==
+X-Gm-Message-State: AOAM530ik2PTcwOQKRiRiGhN1kQ/Shqta18+KkFavB1dmm4/7IM+cX0J
+ 2k3Thy/OF3ynLvTCoTHjIrDfgwqap8nIs+0iV7s=
+X-Google-Smtp-Source: ABdhPJwetqXSOPzrs5uLpbEKMUuPL/AWkbxb9URzD/9fEBDPmvIgfQeHiIK5eM9V3hD1COpE/EBqLw==
+X-Received: by 2002:a05:6402:3693:b0:41c:dd5a:e8ca with SMTP id
+ ej19-20020a056402369300b0041cdd5ae8camr662958edb.225.1649078150565; 
+ Mon, 04 Apr 2022 06:15:50 -0700 (PDT)
+Received: from phenom.ffwll.local ([2a02:168:57f4:0:efd0:b9e5:5ae6:c2fa])
+ by smtp.gmail.com with ESMTPSA id
+ b12-20020a170906038c00b006e4e48969d2sm3665065eja.88.2022.04.04.06.15.49
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Mon, 04 Apr 2022 06:15:50 -0700 (PDT)
+Date: Mon, 4 Apr 2022 15:15:48 +0200
+From: Daniel Vetter <daniel@ffwll.ch>
+To: DRI Development <dri-devel@lists.freedesktop.org>
+Subject: Re: [PATCH 2/4] drm/gem: Delete gem array fencing helpers
+Message-ID: <YkrvhG/ODfshvX+y@phenom.ffwll.local>
 References: <20220331204651.2699107-1-daniel.vetter@ffwll.ch>
- <20220331204651.2699107-5-daniel.vetter@ffwll.ch>
-In-Reply-To: <20220331204651.2699107-5-daniel.vetter@ffwll.ch>
-From: Daniel Vetter <daniel.vetter@ffwll.ch>
-Date: Mon, 4 Apr 2022 15:14:57 +0200
-Message-ID: <CAKMK7uHfq1GSfG60KHEQmYi2DtJwGA+1UL+2F-jrVoQx1zas5Q@mail.gmail.com>
-Subject: Re: [PATCH 4/4] drm/etnaviv: Don't break exclusive fence ordering
-To: DRI Development <dri-devel@lists.freedesktop.org>, 
- =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>
-Content-Type: text/plain; charset="UTF-8"
+ <20220331204651.2699107-3-daniel.vetter@ffwll.ch>
+MIME-Version: 1.0
+Content-Type: text/plain; charset=iso-8859-1
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <20220331204651.2699107-3-daniel.vetter@ffwll.ch>
+X-Operating-System: Linux phenom 5.10.0-8-amd64 
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -62,80 +70,146 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Daniel Vetter <daniel.vetter@intel.com>,
- Russell King <linux+etnaviv@armlinux.org.uk>, etnaviv@lists.freedesktop.org
+Cc: David Airlie <airlied@linux.ie>, Daniel Vetter <daniel.vetter@ffwll.ch>,
+ Christian =?iso-8859-1?Q?K=F6nig?= <christian.koenig@amd.com>,
+ linaro-mm-sig@lists.linaro.org, Thomas Zimmermann <tzimmermann@suse.de>,
+ Daniel Vetter <daniel.vetter@intel.com>,
+ Sumit Semwal <sumit.semwal@linaro.org>, linux-media@vger.kernel.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Thu, 31 Mar 2022 at 22:46, Daniel Vetter <daniel.vetter@ffwll.ch> wrote:
->
-> There's only one exclusive slot, and we must not break the ordering.
-> Adding a new exclusive fence drops all previous fences from the
-> dma_resv. To avoid violating the signalling order we err on the side of
-> over-synchronizing by waiting for the existing fences, even if
-> userspace asked us to ignore them.
->
-> A better fix would be to us a dma_fence_chain or _array like e.g.
-> amdgpu now uses, but it probably makes sense to lift this into
-> dma-resv.c code as a proper concept, so that drivers don't have to
-> hack up their own solution each on their own. Hence go with the simple
-> fix for now.
->
-> Another option is the fence import ioctl from Jason:
->
-> https://lore.kernel.org/dri-devel/20210610210925.642582-7-jason@jlekstrand.net/
->
-> v2: Improve commit message per Lucas' suggestion.
->
+On Thu, Mar 31, 2022 at 10:46:49PM +0200, Daniel Vetter wrote:
+> Integrated into the scheduler now and all users converted over.
+> 
+> v2: Rebased over changes from König.
+> 
 > Signed-off-by: Daniel Vetter <daniel.vetter@intel.com>
-> Cc: Lucas Stach <l.stach@pengutronix.de>
-> Cc: Russell King <linux+etnaviv@armlinux.org.uk>
-> Cc: Christian Gmeiner <christian.gmeiner@gmail.com>
-> Cc: etnaviv@lists.freedesktop.org
+> Cc: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>
+> Cc: Maxime Ripard <mripard@kernel.org>
+> Cc: Thomas Zimmermann <tzimmermann@suse.de>
+> Cc: David Airlie <airlied@linux.ie>
+> Cc: Daniel Vetter <daniel@ffwll.ch>
+> Cc: Sumit Semwal <sumit.semwal@linaro.org>
+> Cc: "Christian König" <christian.koenig@amd.com>
+> Cc: linux-media@vger.kernel.org
+> Cc: linaro-mm-sig@lists.linaro.org
 
-Hm thinking about this some more, with Christian's dma_resv_usage work
-this shouldn't be needed anymore.
+Anyone up for an ack for this one here?
 
-Christian, do you want me to drop this?
--Daniel
+Thanks, Daniel
 
 > ---
->  drivers/gpu/drm/etnaviv/etnaviv_gem_submit.c | 8 +++++---
->  1 file changed, 5 insertions(+), 3 deletions(-)
->
-> diff --git a/drivers/gpu/drm/etnaviv/etnaviv_gem_submit.c b/drivers/gpu/drm/etnaviv/etnaviv_gem_submit.c
-> index 5f502c49aec2..14c5ff155336 100644
-> --- a/drivers/gpu/drm/etnaviv/etnaviv_gem_submit.c
-> +++ b/drivers/gpu/drm/etnaviv/etnaviv_gem_submit.c
-> @@ -178,19 +178,21 @@ static int submit_fence_sync(struct etnaviv_gem_submit *submit)
->         for (i = 0; i < submit->nr_bos; i++) {
->                 struct etnaviv_gem_submit_bo *bo = &submit->bos[i];
->                 struct dma_resv *robj = bo->obj->base.resv;
-> +               bool write = bo->flags & ETNA_SUBMIT_BO_WRITE;
->
-> -               if (!(bo->flags & ETNA_SUBMIT_BO_WRITE)) {
-> +               if (!(write)) {
->                         ret = dma_resv_reserve_shared(robj, 1);
->                         if (ret)
->                                 return ret;
->                 }
->
-> -               if (submit->flags & ETNA_SUBMIT_NO_IMPLICIT)
-> +               /* exclusive fences must be ordered */
-> +               if (submit->flags & ETNA_SUBMIT_NO_IMPLICIT && !write)
->                         continue;
->
->                 ret = drm_sched_job_add_implicit_dependencies(&submit->sched_job,
->                                                               &bo->obj->base,
-> -                                                             bo->flags & ETNA_SUBMIT_BO_WRITE);
-> +                                                             write);
->                 if (ret)
->                         return ret;
->         }
-> --
+>  drivers/gpu/drm/drm_gem.c | 80 ---------------------------------------
+>  include/drm/drm_gem.h     |  5 ---
+>  2 files changed, 85 deletions(-)
+> 
+> diff --git a/drivers/gpu/drm/drm_gem.c b/drivers/gpu/drm/drm_gem.c
+> index 56fb87885146..133dfae06fab 100644
+> --- a/drivers/gpu/drm/drm_gem.c
+> +++ b/drivers/gpu/drm/drm_gem.c
+> @@ -1273,83 +1273,3 @@ drm_gem_unlock_reservations(struct drm_gem_object **objs, int count,
+>  	ww_acquire_fini(acquire_ctx);
+>  }
+>  EXPORT_SYMBOL(drm_gem_unlock_reservations);
+> -
+> -/**
+> - * drm_gem_fence_array_add - Adds the fence to an array of fences to be
+> - * waited on, deduplicating fences from the same context.
+> - *
+> - * @fence_array: array of dma_fence * for the job to block on.
+> - * @fence: the dma_fence to add to the list of dependencies.
+> - *
+> - * This functions consumes the reference for @fence both on success and error
+> - * cases.
+> - *
+> - * Returns:
+> - * 0 on success, or an error on failing to expand the array.
+> - */
+> -int drm_gem_fence_array_add(struct xarray *fence_array,
+> -			    struct dma_fence *fence)
+> -{
+> -	struct dma_fence *entry;
+> -	unsigned long index;
+> -	u32 id = 0;
+> -	int ret;
+> -
+> -	if (!fence)
+> -		return 0;
+> -
+> -	/* Deduplicate if we already depend on a fence from the same context.
+> -	 * This lets the size of the array of deps scale with the number of
+> -	 * engines involved, rather than the number of BOs.
+> -	 */
+> -	xa_for_each(fence_array, index, entry) {
+> -		if (entry->context != fence->context)
+> -			continue;
+> -
+> -		if (dma_fence_is_later(fence, entry)) {
+> -			dma_fence_put(entry);
+> -			xa_store(fence_array, index, fence, GFP_KERNEL);
+> -		} else {
+> -			dma_fence_put(fence);
+> -		}
+> -		return 0;
+> -	}
+> -
+> -	ret = xa_alloc(fence_array, &id, fence, xa_limit_32b, GFP_KERNEL);
+> -	if (ret != 0)
+> -		dma_fence_put(fence);
+> -
+> -	return ret;
+> -}
+> -EXPORT_SYMBOL(drm_gem_fence_array_add);
+> -
+> -/**
+> - * drm_gem_fence_array_add_implicit - Adds the implicit dependencies tracked
+> - * in the GEM object's reservation object to an array of dma_fences for use in
+> - * scheduling a rendering job.
+> - *
+> - * This should be called after drm_gem_lock_reservations() on your array of
+> - * GEM objects used in the job but before updating the reservations with your
+> - * own fences.
+> - *
+> - * @fence_array: array of dma_fence * for the job to block on.
+> - * @obj: the gem object to add new dependencies from.
+> - * @write: whether the job might write the object (so we need to depend on
+> - * shared fences in the reservation object).
+> - */
+> -int drm_gem_fence_array_add_implicit(struct xarray *fence_array,
+> -				     struct drm_gem_object *obj,
+> -				     bool write)
+> -{
+> -	struct dma_resv_iter cursor;
+> -	struct dma_fence *fence;
+> -	int ret = 0;
+> -
+> -	dma_resv_for_each_fence(&cursor, obj->resv, write, fence) {
+> -		ret = drm_gem_fence_array_add(fence_array, fence);
+> -		if (ret)
+> -			break;
+> -	}
+> -	return ret;
+> -}
+> -EXPORT_SYMBOL(drm_gem_fence_array_add_implicit);
+> diff --git a/include/drm/drm_gem.h b/include/drm/drm_gem.h
+> index e2941cee14b6..9d7c61a122dc 100644
+> --- a/include/drm/drm_gem.h
+> +++ b/include/drm/drm_gem.h
+> @@ -407,11 +407,6 @@ int drm_gem_lock_reservations(struct drm_gem_object **objs, int count,
+>  			      struct ww_acquire_ctx *acquire_ctx);
+>  void drm_gem_unlock_reservations(struct drm_gem_object **objs, int count,
+>  				 struct ww_acquire_ctx *acquire_ctx);
+> -int drm_gem_fence_array_add(struct xarray *fence_array,
+> -			    struct dma_fence *fence);
+> -int drm_gem_fence_array_add_implicit(struct xarray *fence_array,
+> -				     struct drm_gem_object *obj,
+> -				     bool write);
+>  int drm_gem_dumb_map_offset(struct drm_file *file, struct drm_device *dev,
+>  			    u32 handle, u64 *offset);
+>  
+> -- 
 > 2.34.1
->
-
+> 
 
 -- 
 Daniel Vetter
