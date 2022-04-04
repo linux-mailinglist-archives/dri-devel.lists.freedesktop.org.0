@@ -2,54 +2,82 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id EBD664F1346
-	for <lists+dri-devel@lfdr.de>; Mon,  4 Apr 2022 12:46:36 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 183034F139F
+	for <lists+dri-devel@lfdr.de>; Mon,  4 Apr 2022 13:10:29 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 67A9B10EEEB;
-	Mon,  4 Apr 2022 10:46:33 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 977EF10EF2C;
+	Mon,  4 Apr 2022 11:10:26 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mga17.intel.com (mga17.intel.com [192.55.52.151])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 6C6B810EEB0;
- Mon,  4 Apr 2022 10:46:31 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1649069191; x=1680605191;
- h=from:to:cc:subject:in-reply-to:references:date:
- message-id:mime-version:content-transfer-encoding;
- bh=IAWZ6QL3SqaCdeA4GnM8wFmdjMcm0DfPeYPVHyxzJTk=;
- b=TeCjsKvk3nRrp759z+V6fxoTRs5gy76ROIb+8vc/WSValoSwRGuBQ1Hs
- fx29/C+0UHvyVP88YncvivNga6lTrt3PMbom1srrKLoCmYg0U/bypvEbq
- +5F3PPpzT1EzTU0AehtXgJFCOlrYlioRtDOSy0lK+eaQ47dFLgrkHXrhI
- NLHjGo7tG1bd6eQd8f/LdRp35Ih6mrt2MIJhM3lKrjpUFIfULbgOi2hfX
- cMPA1pAGu7cxK14zvryD3wYCP4IeFEwBG8WuBh56ZaG/TG+sQf45ue4q1
- N6ofqjAt9aA9jdPK6YOXZijr0XmvgWTXL1GOSnlM6upwez3HphnxaZptE g==;
-X-IronPort-AV: E=McAfee;i="6200,9189,10306"; a="241073987"
-X-IronPort-AV: E=Sophos;i="5.90,234,1643702400"; d="scan'208";a="241073987"
-Received: from orsmga007.jf.intel.com ([10.7.209.58])
- by fmsmga107.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 04 Apr 2022 03:46:30 -0700
-X-IronPort-AV: E=Sophos;i="5.90,234,1643702400"; d="scan'208";a="548605937"
-Received: from tszumski-mobl1.ger.corp.intel.com (HELO localhost)
- ([10.249.141.89])
- by orsmga007-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 04 Apr 2022 03:46:26 -0700
-From: Jani Nikula <jani.nikula@linux.intel.com>
-To: "Modem, Bhanuprakash" <bhanuprakash.modem@intel.com>,
- intel-gfx@lists.freedesktop.org, dri-devel@lists.freedesktop.org
-Subject: Re: [Intel-gfx] [PATCH] drm/i915/display/debugfs: Add connector
- debugfs for "output_bpc"
-In-Reply-To: <b5041da6-9a2b-c687-5dc9-c587eb6230b4@intel.com>
-Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
-References: <20220328075020.708022-1-bhanuprakash.modem@intel.com>
- <20220329060731.785476-1-bhanuprakash.modem@intel.com>
- <877d897z90.fsf@intel.com>
- <b5041da6-9a2b-c687-5dc9-c587eb6230b4@intel.com>
-Date: Mon, 04 Apr 2022 13:46:23 +0300
-Message-ID: <87fsmt6s8w.fsf@intel.com>
+Received: from us-smtp-delivery-124.mimecast.com
+ (us-smtp-delivery-124.mimecast.com [170.10.129.124])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 239C210EF2C
+ for <dri-devel@lists.freedesktop.org>; Mon,  4 Apr 2022 11:10:25 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1649070623;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=6A01dDxN4AhfWeci3IfqR+D+i/Vo38DEq8zB5JTGSTo=;
+ b=VXPpsvSRCt1fXTaeHAk5xZCB3LG3fBed1jKZT65ClN2hHhKXdBgwgnd5UGJKEHjoENUTxl
+ in6iGbsgCXWs9D9z1MQFhL1z+m3OZkhj2J34kmud+IIyR/G/UhaN4dDWLHaKcCVGCE8p2Y
+ L89WQIIr0LMXFWgikrwKRnhwu0LTQpA=
+Received: from mail-ed1-f70.google.com (mail-ed1-f70.google.com
+ [209.85.208.70]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ us-mta-255--WSC_fgtOV-EmrL1I9bjTw-1; Mon, 04 Apr 2022 07:10:22 -0400
+X-MC-Unique: -WSC_fgtOV-EmrL1I9bjTw-1
+Received: by mail-ed1-f70.google.com with SMTP id
+ d19-20020aa7d5d3000000b0041cd772fb03so1161705eds.9
+ for <dri-devel@lists.freedesktop.org>; Mon, 04 Apr 2022 04:10:22 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
+ :content-language:to:cc:references:from:in-reply-to
+ :content-transfer-encoding;
+ bh=6A01dDxN4AhfWeci3IfqR+D+i/Vo38DEq8zB5JTGSTo=;
+ b=k2xVsVIMCr+QGsAyGWwpxsk4jlU5/TF+okHTppMkHGDGb/apJ/haQilydmruTyudTW
+ gBlJ3FvwhnldWb5pFwTJHc6rKMJgvBTPKt561gSJVXb3nr0KcOJhfieO0wMcg2xrCkks
+ TSdOZb/g1TCk8dakk6XQ+Vyap60ev61w4VKhoGC6JmROU55Kmm836ZUjFltnbYZdZ4QU
+ Aw+qQN51TfvcATcDDTg4E5lmr8pCJGoHvQfg8tSQ1vEFZy0fLSSbTrGWHhlYk3FSHvsO
+ bKsebdt4sVQkR5nbYB4zbYV3PN2l7NwsU2JynRi8bROxwkOMx4L5xXqPCqAtTDh+TtUX
+ 3Opw==
+X-Gm-Message-State: AOAM532oOSYYgcv2RWeHjNsPjf/QGSLv8w6z2V+L+3xD98BMtpULlLuh
+ +KN3n0RlNIo/px4Pw2W/kmtp+vOHYbuGfHIHJs5tpPe2kM8c0ktlY8pdrV3cV6EVbD98T/7HE/F
+ fiEUycspJS2RNKYKhp1JaYTWNaOaN
+X-Received: by 2002:a17:907:7252:b0:6df:75cc:615e with SMTP id
+ ds18-20020a170907725200b006df75cc615emr10348705ejc.683.1649070621329; 
+ Mon, 04 Apr 2022 04:10:21 -0700 (PDT)
+X-Google-Smtp-Source: ABdhPJwfPjSGUTP7GT/ripRbE1qttsE5IB0zwM5i7Vj4d6y9queZLJfj6nGefOPOpRNW0SE0YoMpWg==
+X-Received: by 2002:a17:907:7252:b0:6df:75cc:615e with SMTP id
+ ds18-20020a170907725200b006df75cc615emr10348669ejc.683.1649070620966; 
+ Mon, 04 Apr 2022 04:10:20 -0700 (PDT)
+Received: from [10.40.98.142] ([78.108.130.194])
+ by smtp.gmail.com with ESMTPSA id
+ n21-20020a170906725500b006e10a7d6d03sm4160148ejk.219.2022.04.04.04.10.20
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Mon, 04 Apr 2022 04:10:20 -0700 (PDT)
+Message-ID: <7f2d88de-60c5-e2ff-9b22-acba35cfdfb6@redhat.com>
+Date: Mon, 4 Apr 2022 13:10:19 +0200
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: quoted-printable
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.4.0
+Subject: Re: [PATCH v10 0/3] drivers: ddcci: add drivers for DDCCI
+To: Yusuf Khan <yusisamerican@gmail.com>, linux-kernel@vger.kernel.org,
+ Sebastian Wick <sebastian.wick@redhat.com>,
+ "dri-devel@lists.freedesktop.org" <dri-devel@lists.freedesktop.org>,
+ Martin Peres <martin.peres@linux.intel.com>
+References: <20220403230850.2986-1-yusisamerican@gmail.com>
+From: Hans de Goede <hdegoede@redhat.com>
+In-Reply-To: <20220403230850.2986-1-yusisamerican@gmail.com>
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=hdegoede@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Language: en-US
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -62,162 +90,150 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Alex Deucher <alexander.deucher@amd.com>,
- Daniel Vetter <daniel.vetter@ffwll.ch>, Arkadiusz Hiler <arek@hiler.eu>,
- airlied@linux.ie, Petri Latvala <petri.latvala@intel.com>
+Cc: axboe@kernel.dk, javier@javigon.com, kernel test robot <lkp@intel.com>,
+ arnd@arndb.de, mst@redhat.com, gregkh@linuxfoundation.org, jasowang@redhat.com,
+ Christoph Grenz <christophg+lkml@grenz-bonn.de>, mikelley@microsoft.com,
+ will@kernel.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Mon, 04 Apr 2022, "Modem, Bhanuprakash" <bhanuprakash.modem@intel.com> w=
-rote:
-> On Fri-01-04-2022 06:10 pm, Jani Nikula wrote:
->> On Tue, 29 Mar 2022, Bhanuprakash Modem <bhanuprakash.modem@intel.com> w=
-rote:
->>> This new debugfs will expose the connector's max supported bpc
->>> and the bpc currently using. It is very useful for verifying
->>> whether we enter the correct output color depth from IGT.
->>>
->>> Example:
->>> cat /sys/kernel/debug/dri/0/DP-1/output_bpc
->>> Current: 8
->>> Maximum: 10
->>>
->>> V2: Add connector's max bpc to i915_display_info
->>>
->>> Cc: Ville Syrj=C3=A4l=C3=A4 <ville.syrjala@linux.intel.com>
->>> Cc: Uma Shankar <uma.shankar@intel.com>
->>> Cc: Swati Sharma <swati2.sharma@intel.com>
->>> Signed-off-by: Bhanuprakash Modem <bhanuprakash.modem@intel.com>
->>> ---
->>>   .../drm/i915/display/intel_display_debugfs.c  | 46 +++++++++++++++++++
->>>   1 file changed, 46 insertions(+)
->>>
->>> diff --git a/drivers/gpu/drm/i915/display/intel_display_debugfs.c b/dri=
-vers/gpu/drm/i915/display/intel_display_debugfs.c
->>> index c1e74a13a0828..694d27f3b109c 100644
->>> --- a/drivers/gpu/drm/i915/display/intel_display_debugfs.c
->>> +++ b/drivers/gpu/drm/i915/display/intel_display_debugfs.c
->>> @@ -663,6 +663,8 @@ static void intel_connector_info(struct seq_file *m,
->>>   	seq_puts(m, "\tHDCP version: ");
->>>   	intel_hdcp_info(m, intel_connector);
->>>=20=20=20
->>> +	seq_printf(m, "\tmax bpc: %u\n", connector->display_info.bpc);
->>> +
->>>   	intel_panel_info(m, intel_connector);
->>>=20=20=20
->>>   	seq_printf(m, "\tmodes:\n");
->>> @@ -2275,6 +2277,47 @@ static const struct file_operations i915_dsc_bpp=
-_fops =3D {
->>>   	.write =3D i915_dsc_bpp_write
->>>   };
->>>=20=20=20
->>> +/*
->>> + * Returns the maximum output bpc for the connector.
->>> + * Example usage: cat /sys/kernel/debug/dri/0/DP-1/output_bpc
->>> + */
->>> +static int output_bpc_show(struct seq_file *m, void *data)
->>> +{
->>> +	struct drm_connector *connector =3D m->private;
->>> +	struct drm_device *dev =3D connector->dev;
->>> +	struct drm_crtc *crtc;
->>> +	struct intel_crtc_state *crtc_state;
->>> +	struct intel_encoder *encoder =3D intel_attached_encoder(to_intel_con=
-nector(connector));
->>> +	int res;
->>> +
->>> +	if (!encoder)
->>> +		return -ENODEV;
->>> +
->>> +	res =3D drm_modeset_lock_single_interruptible(&dev->mode_config.conne=
-ction_mutex);
->>> +	if (res)
->>> +		return res;
->>> +
->>> +	crtc =3D connector->state->crtc;
->>> +	if (connector->status !=3D connector_status_connected || !crtc) {
->>> +		res =3D -ENODEV;
->>> +		goto unlock;
->>> +	}
->>> +
->>> +	crtc_state =3D to_intel_crtc_state(crtc->state);
->>> +	if (!crtc_state->hw.active)
->>> +		goto unlock;
->>> +
->>> +	seq_printf(m, "Current: %u\n", crtc_state->pipe_bpp / 3);
->>> +	seq_printf(m, "Maximum: %u\n", connector->display_info.bpc);
->>> +	res =3D 0;
->>> +
->>> +unlock:
->>> +	drm_modeset_unlock(&dev->mode_config.connection_mutex);
->>> +
->>> +	return res;
->>> +}
->>> +DEFINE_SHOW_ATTRIBUTE(output_bpc);
->>=20
->> Looks like an excessive amount of code for a single value.
->
-> Yeah, but these values are very helpful in many IGT tests like=20
-> kms_color, kms_hdr, kms_dither, kms_dsc etc..
->
-> Otherwise IGT needs to request the kernel to get the EDID, and parse=20
-> that EDID to get the "Maximum" value which is redundant (Kernel is=20
-> already doing the same) and not recommended in IGT.
->
-> And there is no way to get the "Current" value except reading it from=20
-> i915_display_info which is again not recommended in IGT (As=20
-> i915_display_info is Intel specific).
+Hi Yusuf,
 
-Note how we have intel_connector_debugfs_add() for connector debugfs and
-intel_crtc_debugfs_add() for crtc debugfs, and how this patch just mixes
-up the two by looking up crtc and state from the connector debugfs.
+On 4/4/22 01:08, Yusuf Khan wrote:
+> This patch adds the DDCCI driver by Christoph Grenz into the kernel.
+> The original gitlab page is loacted at https://gitlab.com/ddcci-driv
+> er-linux/ddcci-driver-linux/-/tree/master.
+> 
+> DDC/CI is a control protocol for monitor settings supported by most
+> monitors since about 2005. A chardev and sysfs interface is provided.
+> A backlight driver using DDCCI is also provided in the seccond patch.
+> 
+> Signed-off-by: Yusuf Khan <yusisamerican@gmail.com>
+> Signed-off-by: Christoph Grenz <christophg+lkml@grenz-bonn.de>
 
-> This debugfs is already introduced & using by AMD:=20
-> https://patchwork.freedesktop.org/patch/308586
+Thank you for your submission of this patch series.
 
-Wait, what?
+I must say that I'm a bit surprised that this series was NOT
+also send to the drm/kms subsystem maintainers and mailinglists
+since this deals with monitors and thus is highly relevant for
+those folks. Luckily I saw an article about this at Phoronix
+(you write in the changelog that you believe that there is
+no interaction with the DRM/KMS subsystems but that is wrong).
 
-Both amd and i915 adding the name "output_bpc" is *not* the way to
-roll. We only add i915_ prefixed debugfs files from i915.ko.
+One very important thing which I'm missing in this cover-letter
+is why you want to have this in the kernel at all? There are
+already various tools which do DDCCI from userspace just fine.
 
-If you need this to be a standard interface across drivers, IMO it
-should be added in common drm code, not sprinkled around in drivers.
+I guess you may be interested in offering /sys/class/backlight
+functionality for external monitors. That is actually something
+which I'm interested in too, but it is not that simple.
 
-I see that amd is already using this in what is basically drm core
-debugfs namespace, and there's amd specific IGT built on top.
+The current /sys/class/backlight interface does not offer a
+way for userspace to map a /sys/class/backlight device to
+a specific display-output / monitor. So userspace currently
+assumes that there is only 1 (1 valid) /sys/class/backlight
+device and that that *always* belongs to the internal LCD
+panel of a laptop.
 
-Adding a bunch of Cc's to get some clarity on drm debugfs naming and
-usage.
+So just adding /sys/class/backlight device(s) for internal
+monitors without addressing the short-comings of the existing
+userspace interface is simply not possible because it would
+break existing userspace which is something which is not
+allowed.
+
+So NACK from me for the backlight part at least and without
+that, I really see no reason to do this in the kernel rather
+then userspace.
+
+I've recently been discussing this with a colleague of mine,
+Sebastian Wick and as a result of that I'm giving a talk
+with a proposal for a better userspace API for this at
+kernel-recipes:
+https://kernel-recipes.org/en/2022/talks/new-userspace-api-for-display-panel-brightness-control/
+
+I hope to start working on a RFC patch series for this soon.
+
+IMHO merging this series should be put on hold until we
+have a better idea of how we want to solve the userspace
+API challenges, esp. the monitor <-> /sys/class/backlight
+mapping problem.
+
+Regards,
+
+Hans
 
 
-BR,
-Jani.
+
+p.s.
+
+This is not the first time this has come up:
+
+https://lore.kernel.org/all/4b17ba08-39f3-57dd-5aad-d37d844b02c6@linux.intel.com/
+https://www.x.org/wiki/Events/XDC2014/XDC2014GoedeBacklight/
 
 
->
-> - Bhanu
->
->>=20
->> BR,
->> Jani.
->>=20
->>> +
->>>   /**
->>>    * intel_connector_debugfs_add - add i915 specific connector debugfs =
-files
->>>    * @connector: pointer to a registered drm_connector
->>> @@ -2330,6 +2373,9 @@ void intel_connector_debugfs_add(struct intel_con=
-nector *intel_connector)
->>>   	    connector->connector_type =3D=3D DRM_MODE_CONNECTOR_HDMIB)
->>>   		debugfs_create_file("i915_lpsp_capability", 0444, root,
->>>   				    connector, &i915_lpsp_capability_fops);
->>> +
->>> +	debugfs_create_file("output_bpc", 0444, root,
->>> +			    connector, &output_bpc_fops);
->>>   }
->>>=20=20=20
->>>   /**
->>=20
->
 
---=20
-Jani Nikula, Intel Open Source Graphics Center
+> ---
+> v2: Fix typos.
+> 
+> v3: Add documentation, move files around, replace semaphores with
+> mutexes, and replaced <asm-generic/fcntl.h> with <linux/fcntl.h>.
+> "imirkin"(which due to his involvement in the dri-devel irc channel
+> I cant help but assume to be a DRM developer) said that the DDC/CI
+> bus does not intefere with the buses that DRM is involved with.
+> 
+> v4: Move some documentation, fix grammer mistakes, remove usages of
+> likely(), and clarify some documentation.
+> 
+> v5: Fix grammer mistakes, remove usages of likely(), and clarify
+> some documentation.
+> 
+> v6: Change contact information to reference Christoph Grenz.
+> 
+> v7: Remove all instances of the unlikely() macro.
+> 
+> v8: Modify documentation to provide updated date and kernel
+> documentation, fix SPDX lines, use isalpha instead of redefining
+> logic, change maximum amount of bytes that can be written to be
+> conformant with DDC/CI specification, prevent userspace from holding
+> locks with the open file descriptor, remove ddcci_cdev_seek, dont
+> refine sysfs_emit() logic, use EXPORT_SYMBOL_GPL instead of
+> EXPORT_SYMBOL, remove ddcci_device_remove_void, remove module
+> paramaters and version, and split into 2 patches.
+> 
+> v9: Fix IS_ANY_ID matching for compilers and archs where char is
+> unsigned char and use the cannonical patch format.
+> Reported-by: kernel test robot <lkp@intel.com>
+> 
+> v10: Change patch title to "drivers: ddcci: add drivers for DDCCI
+> and change" and change patch descriptions to add more detailed
+> explanations of function.
+> 
+> Patch 1: Add the main DDCCI component.
+> 
+> Patch 2: Add the backlight driver that utilizes the DDCCI driver.
+> 
+> Patch 3: Add documentation for the DDCCI drivers.
+> 
+> Yusuf Khan (3):
+>   drivers: ddcci: add drivers for DDCCI
+>   drivers: ddcci: add drivers for DDCCI
+>   drivers: ddcci: add drivers for DDCCI
+> 
+>  Documentation/ABI/testing/sysfs-driver-ddcci |   57 +
+>  Documentation/driver-api/ddcci.rst           |  122 ++
+>  drivers/char/Kconfig                         |   11 +
+>  drivers/char/Makefile                        |    1 +
+>  drivers/char/ddcci.c                         | 1805 ++++++++++++++++++
+>  drivers/video/backlight/Kconfig              |   11 +
+>  drivers/video/backlight/Makefile             |    1 +
+>  drivers/video/backlight/ddcci-backlight.c    |  411 ++++
+>  include/linux/ddcci.h                        |  163 ++
+>  9 files changed, 2582 insertions(+)
+>  create mode 100644 Documentation/ABI/testing/sysfs-driver-ddcci
+>  create mode 100644 Documentation/driver-api/ddcci.rst
+>  create mode 100644 drivers/char/ddcci.c
+>  create mode 100644 drivers/video/backlight/ddcci-backlight.c
+>  create mode 100644 include/linux/ddcci.h
+> 
+
