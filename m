@@ -2,58 +2,42 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5ECDB4F3CA5
-	for <lists+dri-devel@lfdr.de>; Tue,  5 Apr 2022 18:45:04 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id B28CA4F3CA9
+	for <lists+dri-devel@lfdr.de>; Tue,  5 Apr 2022 18:47:29 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 0B69610EB84;
-	Tue,  5 Apr 2022 16:45:01 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 5C80610EB9D;
+	Tue,  5 Apr 2022 16:47:27 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 05AE010EB84;
- Tue,  5 Apr 2022 16:44:59 +0000 (UTC)
-Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
- (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
- (No client certificate requested)
- by dfw.source.kernel.org (Postfix) with ESMTPS id D0BF16187A;
- Tue,  5 Apr 2022 16:44:57 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id B1500C385A0;
- Tue,  5 Apr 2022 16:44:56 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linuxfoundation.org;
- s=korg; t=1649177097;
- bh=61W5tdtwR51stSR81iRAWsuqYDjP2UpQYgTajUtPAOI=;
- h=Date:From:To:Subject:References:In-Reply-To:From;
- b=MMWz1zh6ko5iZ3bVvpvZEfGA+rV8cpA+oe8eW8R149O9v7x2JD521DyTjWa80ynqD
- 4qKOble5ee77T2al2BUqrRv5RnAs2ohORmTook9oLHh4/6qkdEZD2zlxDA605e7tqH
- oSWlKAf9yaMh6tjJdZA3/t6Tx6PpKTZXh1s9UXQk=
-Date: Tue, 5 Apr 2022 18:44:54 +0200
-From: Greg KH <gregkh@linuxfoundation.org>
-To: Geert Uytterhoeven <geert@linux-m68k.org>,
- Javier Martinez Canillas <javierm@redhat.com>,
- DRI Development <dri-devel@lists.freedesktop.org>,
- Intel Graphics Development <intel-gfx@lists.freedesktop.org>,
- Linux Fbdev development list <linux-fbdev@vger.kernel.org>,
- LKML <linux-kernel@vger.kernel.org>,
- Thomas Zimmermann <tzimmermann@suse.de>,
- Zack Rusin <zackr@vmware.com>, Hans de Goede <hdegoede@redhat.com>,
- Ilya Trukhanov <lahvuun@gmail.com>,
- Daniel Vetter <daniel.vetter@intel.com>, Peter Jones <pjones@redhat.com>
-Subject: Re: [PATCH v2 18/19] Revert "fbdev: Prevent probing generic drivers
- if a FB is already registered"
-Message-ID: <YkxyBt8Zee8qrEbT@kroah.com>
-References: <4ae20b63-f452-fdb4-ced6-d4968a8d69f0@redhat.com>
- <Ykv/k/WoVemoCJJA@phenom.ffwll.local>
- <YkwAhSt9HlbxcuZo@phenom.ffwll.local>
- <408ffe9b-f09f-dc7e-7f5e-a93b311a06fa@redhat.com>
- <CAKMK7uHf6H8mhSm6eDHUruWK5Xc2cSPkJUX6v-jpeQfjS19dKw@mail.gmail.com>
- <e124af06-4f24-277a-543a-82b383f48cea@redhat.com>
- <CAKMK7uH4GgDQJZguT-k0QmgEAHYHuDEbBtjYje51_Rtqzud0yw@mail.gmail.com>
- <CAMuHMdWr0L0r+MVU-=+_yeHKwK8BjF7_EJQxiJT5jMqS9FJUeQ@mail.gmail.com>
- <YkxFHUdm/YeiVY+D@kroah.com> <Ykxqi82sOEd2Zg1K@phenom.ffwll.local>
+Received: from perceval.ideasonboard.com (perceval.ideasonboard.com
+ [213.167.242.64])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id DEFDD10EB9D;
+ Tue,  5 Apr 2022 16:47:25 +0000 (UTC)
+Received: from pendragon.ideasonboard.com
+ (117.145-247-81.adsl-dyn.isp.belgacom.be [81.247.145.117])
+ by perceval.ideasonboard.com (Postfix) with ESMTPSA id C7C185D;
+ Tue,  5 Apr 2022 18:47:23 +0200 (CEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
+ s=mail; t=1649177243;
+ bh=q8KwhnPgzqqxcVxTRn5VSY8yOuZnB8NfwhI3gpXqfpA=;
+ h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+ b=CaDS+hETUYB1Y1Mlq9H4h97Gh9SLz5B0iib8Vi9NQpvuZ6ETkmac5YNoynb4B2fM7
+ xzBWGS1p3grpQTpTFOeNz7ahpenHYQtkKMaF3HxWvgbbv+xFd3a0/FPnTW90zfjGuL
+ w54tx4cJl97h3oIRGdGzpzhLWvCKY1JzlGIkl584=
+Date: Tue, 5 Apr 2022 19:47:20 +0300
+From: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+To: Rob Clark <robdclark@gmail.com>
+Subject: Re: [PATCH v6 4/4] drm: allow real encoder to be passed for
+ drm_writeback_connector
+Message-ID: <YkxymKepTBq1MsWG@pendragon.ideasonboard.com>
+References: <1648771933-18512-1-git-send-email-quic_abhinavk@quicinc.com>
+ <1648771933-18512-5-git-send-email-quic_abhinavk@quicinc.com>
+ <YkccZgD+f0enx2aV@pendragon.ideasonboard.com>
+ <CAF6AEGu6dE_47DZm9ZcF54mkHpAXGY30WuSP3LCRjtf5bNvjtw@mail.gmail.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
+Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
-In-Reply-To: <Ykxqi82sOEd2Zg1K@phenom.ffwll.local>
+In-Reply-To: <CAF6AEGu6dE_47DZm9ZcF54mkHpAXGY30WuSP3LCRjtf5bNvjtw@mail.gmail.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -66,129 +50,203 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
+Cc: hamohammed.sa@gmail.com, Kandpal Suraj <suraj.kandpal@intel.com>,
+ Emma Anholt <emma@anholt.net>,
+ Rodrigo Siqueira <rodrigosiqueiramelo@gmail.com>,
+ Jani Nikula <jani.nikula@intel.com>, Liviu Dudau <liviu.dudau@arm.com>,
+ Abhinav Kumar <quic_abhinavk@quicinc.com>,
+ dri-devel <dri-devel@lists.freedesktop.org>,
+ Stephen Boyd <swboyd@chromium.org>, melissa.srw@gmail.com,
+ nganji@codeaurora.org, Sean Paul <seanpaul@chromium.org>,
+ Dmitry Baryshkov <dmitry.baryshkov@linaro.org>, james.qian.wang@arm.com,
+ quic_aravindh@quicinc.com, Mihail Atanassov <mihail.atanassov@arm.com>,
+ freedreno <freedreno@lists.freedesktop.org>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Tue, Apr 05, 2022 at 06:12:59PM +0200, Daniel Vetter wrote:
-> On Tue, Apr 05, 2022 at 03:33:17PM +0200, Greg KH wrote:
-> > On Tue, Apr 05, 2022 at 03:24:40PM +0200, Geert Uytterhoeven wrote:
-> > > Hi Daniel,
-> > > 
-> > > On Tue, Apr 5, 2022 at 1:48 PM Daniel Vetter <daniel@ffwll.ch> wrote:
-> > > > On Tue, 5 Apr 2022 at 11:52, Javier Martinez Canillas
-> > > > <javierm@redhat.com> wrote:
-> > > > > On 4/5/22 11:24, Daniel Vetter wrote:
-> > > > > > On Tue, 5 Apr 2022 at 11:19, Javier Martinez Canillas
-> > > > > >> This is how I think that work, please let me know if you see something
-> > > > > >> wrong in my logic:
-> > > > > >>
-> > > > > >> 1) A PCI device of OF device is registered for the GPU, this attempt to
-> > > > > >>    match a registered driver but no driver was registered that match yet.
-> > > > > >>
-> > > > > >> 2) The efifb driver is built-in, will be initialized according to the link
-> > > > > >>    order of the objects under drivers/video and the fbdev driver is registered.
-> > > > > >>
-> > > > > >>    There is no platform device or PCI/OF device registered that matches.
-> > > > > >>
-> > > > > >> 3) The DRM driver is built-in, will be initialized according to the link
-> > > > > >>    order of the objects under drivers/gpu and the DRM driver is registered.
-> > > > > >>
-> > > > > >>    This matches the device registered in (1) and the DRM driver probes.
-> > > > > >>
-> > > > > >> 4) The DRM driver .probe kicks out any conflicting DRM drivers and pdev
-> > > > > >>    before registering the DRM device.
-> > > > > >>
-> > > > > >>    There are no conflicting drivers or platform device at this point.
-> > > > > >>
-> > > > > >> 5) Latter at some point the drivers/firmware/sysfb.c init function is
-> > > > > >>    executed, and this registers a platform device for the generic fb.
-> > > > > >>
-> > > > > >>    This device matches the efifb driver registered in (2) and the fbdev
-> > > > > >>    driver probes.
-> > > > > >>
-> > > > > >>    Since that happens *after* the DRM driver already matched, probed
-> > > > > >>    and registered the DRM device, that is a bug and what the reverted
-> > > > > >>    patch worked around.
-> > > > > >>
-> > > > > >> So we need to prevent (5) if (1) and (3) already happened. Having a flag
-> > > > > >> set in the fbdev core somewhere when remove_conflicting_framebuffers()
-> > > > > >> is called could be a solution indeed.
-> > > > > >>
-> > > > > >> That is, the fbdev core needs to know that a DRM driver already probed
-> > > > > >> and make register_framebuffer() fail if info->flag & FBINFO_MISC_FIRMWARE
-> > > > > >>
-> > > > > >> I can attempt to write a patch for that.
-> > > > > >
-> > > > > > Ah yeah that could be an issue. I think the right fix is to replace
-> > > > > > the platform dev unregister with a sysfb_unregister() function in
-> > > > > > sysfb.c, which is synced with a common lock with the sysfb_init
-> > > > > > function and a small boolean. I think I can type that up quickly for
-> > > > > > v3.
-> > > > >
-> > > > > It's more complicated than that since sysfb is just *one* of the several
-> > > > > places where platform devices can be registered for video devices.
-> > > > >
-> > > > > For instance, the vga16fb driver registers its own platform device in
-> > > > > its module_init() function so that can also happen after the conflicting
-> > > > > framebuffers (and associated devices) were removed by a DRM driver probe.
-> > > > >
-> > > > > I tried to minimize the issue for that particular driver with commit:
-> > > > >
-> > > > > https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git/commit/?id=0499f419b76f
-> > > > >
-> > > > > But the point stands, it all boils down to the fact that you have two
-> > > > > different subsystems registering video drivers and they don't know all
-> > > > > about each other to take a proper decision.
-> > > > >
-> > > > > Right now the drm_aperture_remove_conflicting_framebuffers() call signals
-> > > > > in one direction from DRM to fbdev but there isn't a communication in the
-> > > > > other direction, from fbdev to DRM.
-> > > > >
-> > > > > I believe the correct fix would be for the fbdev core to keep a list of
-> > > > > the apertures struct that are passed to remove_conflicting_framebuffers(),
-> > > > > that way it will know what apertures are not available anymore and prevent
-> > > > > to register any fbdev framebuffer that conflicts with one already present.
-> > > >
-> > > > Hm that still feels like reinventing a driver model, badly.
-> > > >
-> > > > I think there's two cleaner solutions:
-> > > > - move all the firmware driver platform_dev into sysfb.c, and then
-> > > > just bind the special cases against that (e.g. offb, vga16fb and all
-> > > > these). Then we'd have one sysfb_try_unregister(struct device *dev)
-> > > > interface that fbmem.c uses.
-> > > > - let fbmem.c call into each of these firmware device providers, which
-> > > > means some loops most likely (like we can't call into vga16fb), so
-> > > > probably need to move that into fbmem.c and it all gets a bit messy.
-> > > >
-> > > > > Let me know if you think that makes sense and I can attempt to write a fix.
-> > > >
-> > > > I still think unregistering the platform_dev properly makes the most
-> > > 
-> > > That doesn't sound very driver-model-aware to me. The device is what
-> > > the driver binds to; it does not cease to exist.
-> > 
-> > I agree, that sounds odd.
-> > 
-> > The device should always stick around (as the bus creates it), it's up
-> > to the driver to bind to the device as needed.
-> 
-> The device actually disappears when the real driver takes over.
-> 
-> The firmware fb is a special thing which only really exists as long as the
-> firmware is in charge of the display hardware. As soon as a real driver
-> takes over, it stops being a thing.
-> 
-> And since a driver without a device is a bit a funny thing, we have been
-> pushing towards a model where the firmware code sets up a platform_device
-> for this fw interface, and the fw driver (efifb, simplefb and others like
-> that) bind against it. And then we started to throw out that
-> platform_device (which unbinds the fw driver and prevents it from ever
-> rebinding), except in the wrong layer so there's a few races.
-> 
-> Should we throw out all that code and replace it with something else? What
-> would that be like?
+Hi Rob and Abhinav,
 
-Ah, no, sorry, I didn't know that at all.
+On Mon, Apr 04, 2022 at 11:43:37AM -0700, Rob Clark wrote:
+> On Fri, Apr 1, 2022 at 8:38 AM Laurent Pinchart wrote:
+> > On Thu, Mar 31, 2022 at 05:12:13PM -0700, Abhinav Kumar wrote:
+> > > For some vendor driver implementations, display hardware can
+> > > be shared between the encoder used for writeback and the physical
+> > > display.
+> > >
+> > > In addition resources such as clocks and interrupts can
+> > > also be shared between writeback and the real encoder.
+> > >
+> > > To accommodate such vendor drivers and hardware, allow
+> > > real encoder to be passed for drm_writeback_connector.
+> > >
+> > > changes in v6:
+> > >       - assign the encoder inside
+> > >         drm_writeback_connector_init_with_encoder() for
+> > >         better readability
+> > >       - improve some documentation for internal encoder
+> > >
+> > > Co-developed-by: Kandpal Suraj <suraj.kandpal@intel.com>
+> > > Signed-off-by: Kandpal Suraj <suraj.kandpal@intel.com>
+> > > Signed-off-by: Abhinav Kumar <quic_abhinavk@quicinc.com>
+> > > ---
+> > >  drivers/gpu/drm/drm_writeback.c | 18 ++++++++++++------
+> > >  drivers/gpu/drm/vc4/vc4_txp.c   | 14 ++++++++------
+> > >  include/drm/drm_writeback.h     | 21 +++++++++++++++++++--
+> >
+> > Please split this in two patches, one for the DRM core and one for the
+> > VC4 driver. This applies to most patches as a general rule, with the
+> > main exception being API refactoring that requires changing the
+> > implementation and all its users in a single patch.
+> 
+> But this *is* API refactoring ;-)
 
-That sounds semi-sane, just fix the races by moving the layer elsewhere?
+Partly at least :-) Looking at the API change itself, wouldn't we
+minimize the extra changes to vc4 if we moved this patch before 3/4 ?
 
+> > >  3 files changed, 39 insertions(+), 14 deletions(-)
+> > >
+> > > diff --git a/drivers/gpu/drm/drm_writeback.c b/drivers/gpu/drm/drm_writeback.c
+> > > index 797223c..7f72109 100644
+> > > --- a/drivers/gpu/drm/drm_writeback.c
+> > > +++ b/drivers/gpu/drm/drm_writeback.c
+> > > @@ -179,21 +179,21 @@ int drm_writeback_connector_init(struct drm_device *dev,
+> > >  {
+> > >       int ret = 0;
+> > >
+> > > -     drm_encoder_helper_add(&wb_connector->encoder, enc_helper_funcs);
+> > > +     drm_encoder_helper_add(&wb_connector->internal_encoder, enc_helper_funcs);
+> > >
+> > > -     wb_connector->encoder.possible_crtcs = possible_crtcs;
+> > > +     wb_connector->internal_encoder.possible_crtcs = possible_crtcs;
+> > >
+> > > -     ret = drm_encoder_init(dev, &wb_connector->encoder,
+> > > +     ret = drm_encoder_init(dev, &wb_connector->internal_encoder,
+> > >                              &drm_writeback_encoder_funcs,
+> > >                              DRM_MODE_ENCODER_VIRTUAL, NULL);
+> > >       if (ret)
+> > >               return ret;
+> > >
+> > > -     ret = drm_writeback_connector_init_with_encoder(dev, wb_connector, &wb_connector->encoder,
+> > > -                     con_funcs, formats, n_formats);
+> > > +     ret = drm_writeback_connector_init_with_encoder(dev, wb_connector,
+> > > +                     &wb_connector->internal_encoder, con_funcs, formats, n_formats);
+> > >
+> > >       if (ret)
+> > > -             drm_encoder_cleanup(&wb_connector->encoder);
+> > > +             drm_encoder_cleanup(&wb_connector->internal_encoder);
+> > >
+> > >       return ret;
+> > >  }
+> > > @@ -238,6 +238,12 @@ int drm_writeback_connector_init_with_encoder(struct drm_device *dev,
+> > >       struct drm_mode_config *config = &dev->mode_config;
+> > >       int ret = create_writeback_properties(dev);
+> > >
+> > > +     /*
+> > > +      * Assign the encoder passed to this API to the wb_connector's encoder.
+> > > +      * For drm_writeback_connector_init(), this shall be the internal_encoder
+> > > +      */
+> > > +     wb_connector->encoder = enc;
+> > > +
+> > >       if (ret != 0)
+> > >               return ret;
+> > >
+> > > diff --git a/drivers/gpu/drm/vc4/vc4_txp.c b/drivers/gpu/drm/vc4/vc4_txp.c
+> > > index 5e53f02..a9b4f83 100644
+> > > --- a/drivers/gpu/drm/vc4/vc4_txp.c
+> > > +++ b/drivers/gpu/drm/vc4/vc4_txp.c
+> > > @@ -151,6 +151,8 @@ struct vc4_txp {
+> > >
+> > >       struct platform_device *pdev;
+> > >
+> > > +     struct drm_encoder drm_enc;
+> > > +
+> > >       struct drm_writeback_connector connector;
+> > >
+> > >       void __iomem *regs;
+> > > @@ -159,7 +161,7 @@ struct vc4_txp {
+> > >
+> > >  static inline struct vc4_txp *encoder_to_vc4_txp(struct drm_encoder *encoder)
+> > >  {
+> > > -     return container_of(encoder, struct vc4_txp, connector.encoder);
+> > > +     return container_of(encoder, struct vc4_txp, drm_enc);
+> > >  }
+> > >
+> > >  static inline struct vc4_txp *connector_to_vc4_txp(struct drm_connector *conn)
+> > > @@ -499,9 +501,9 @@ static int vc4_txp_bind(struct device *dev, struct device *master, void *data)
+> > >
+> > >       wb_conn = &txp->connector;
+> > >
+> > > -     drm_encoder_helper_add(&wb_conn->encoder, &vc4_txp_encoder_helper_funcs);
+> > > +     drm_encoder_helper_add(&txp->drm_enc, &vc4_txp_encoder_helper_funcs);
+> > >
+> > > -     ret = drm_encoder_init(drm, &wb_conn->encoder,
+> > > +     ret = drm_encoder_init(drm, &txp->drm_enc,
+> > >                       &vc4_txp_encoder_funcs,
+> > >                       DRM_MODE_ENCODER_VIRTUAL, NULL);
+> > >
+> > > @@ -511,10 +513,10 @@ static int vc4_txp_bind(struct device *dev, struct device *master, void *data)
+> > >       drm_connector_helper_add(&wb_conn->base,
+> > >                                &vc4_txp_connector_helper_funcs);
+> > >
+> > > -     ret = drm_writeback_connector_init_with_encoder(drm, wb_conn, &wb_conn->encoder,
+> > > +     ret = drm_writeback_connector_init_with_encoder(drm, wb_conn, &txp->drm_enc,
+> > >                       &vc4_txp_connector_funcs, drm_fmts, ARRAY_SIZE(drm_fmts));
+> > >       if (ret) {
+> > > -             drm_encoder_cleanup(&wb_conn->encoder);
+> > > +             drm_encoder_cleanup(&txp->drm_enc);
+> > >               return ret;
+> > >       }
+> > >
+> > > @@ -523,7 +525,7 @@ static int vc4_txp_bind(struct device *dev, struct device *master, void *data)
+> > >       if (ret)
+> > >               return ret;
+> > >
+> > > -     encoder = &txp->connector.encoder;
+> > > +     encoder = txp->connector.encoder;
+> > >       encoder->possible_crtcs = drm_crtc_mask(crtc);
+> > >
+> > >       ret = devm_request_irq(dev, irq, vc4_txp_interrupt, 0,
+> > > diff --git a/include/drm/drm_writeback.h b/include/drm/drm_writeback.h
+> > > index 4795024..3f5c330 100644
+> > > --- a/include/drm/drm_writeback.h
+> > > +++ b/include/drm/drm_writeback.h
+> > > @@ -25,15 +25,32 @@ struct drm_writeback_connector {
+> > >       struct drm_connector base;
+> > >
+> > >       /**
+> > > -      * @encoder: Internal encoder used by the connector to fulfill
+> > > +      * @encoder: handle to drm_encoder used by the connector to fulfill
+> > >        * the DRM framework requirements. The users of the
+> > >        * @drm_writeback_connector control the behaviour of the @encoder
+> > >        * by passing the @enc_funcs parameter to drm_writeback_connector_init()
+> > >        * function.
+> > > +      *
+> > > +      * For some vendor drivers, the hardware resources are shared between
+> > > +      * writeback encoder and rest of the display pipeline.
+> > > +      * To accommodate such cases, encoder is a handle to the real encoder
+> > > +      * hardware.
+> > > +      *
+> > > +      * For current existing writeback users, this shall continue to be the
+> > > +      * embedded encoder for the writeback connector.
+> > >        */
+> > > -     struct drm_encoder encoder;
+> > > +     struct drm_encoder *encoder;
+> > >
+> > >       /**
+> > > +      * @internal_encoder: internal encoder used by writeback when
+> > > +      * drm_writeback_connector_init() is used.
+> > > +      * @encoder will be assigned to this for those cases
+> > > +      *
+> > > +      * This will be unused when drm_writeback_connector_init_with_encoder()
+> > > +      * is used.
+> > > +      */
+> > > +     struct drm_encoder internal_encoder;
+> > > +     /**
+> > >        * @pixel_formats_blob_ptr:
+> > >        *
+> > >        * DRM blob property data for the pixel formats list on writeback
+
+-- 
+Regards,
+
+Laurent Pinchart
