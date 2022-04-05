@@ -1,65 +1,59 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id C1DBE4F340A
-	for <lists+dri-devel@lfdr.de>; Tue,  5 Apr 2022 15:24:59 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 2B1FA4F3438
+	for <lists+dri-devel@lfdr.de>; Tue,  5 Apr 2022 15:25:55 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id C0CC910E902;
-	Tue,  5 Apr 2022 13:24:56 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 0EA9010E90A;
+	Tue,  5 Apr 2022 13:25:53 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-qt1-f170.google.com (mail-qt1-f170.google.com
- [209.85.160.170])
- by gabe.freedesktop.org (Postfix) with ESMTPS id AF65710E905;
- Tue,  5 Apr 2022 13:24:55 +0000 (UTC)
-Received: by mail-qt1-f170.google.com with SMTP id b18so10894182qtk.13;
- Tue, 05 Apr 2022 06:24:55 -0700 (PDT)
+Received: from mail-ej1-x630.google.com (mail-ej1-x630.google.com
+ [IPv6:2a00:1450:4864:20::630])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 428DD10E911
+ for <dri-devel@lists.freedesktop.org>; Tue,  5 Apr 2022 13:25:52 +0000 (UTC)
+Received: by mail-ej1-x630.google.com with SMTP id bh17so26698790ejb.8
+ for <dri-devel@lists.freedesktop.org>; Tue, 05 Apr 2022 06:25:52 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=raspberrypi.com; s=google;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc; bh=hlvhRtrbYAkZ4RW6N8x4lHYBrbADIlZPAmoHdYXBywQ=;
+ b=MptVvcEQ2l85hd8VSHtZiQH8ZT9YB/PxebeLp5/xLuquEmopZaZsewmHKYAxhhbB9Q
+ JRgPJP0ncab5QujkP0zn07Bzzb9Ca+WMiWaLONEU2i8cgi/hjAlLHfFUGdsFnHyk79Qf
+ rv69eWfZLVGgdQ6ifL1P0AeKL+ap43oWr2PikE1e1ojtBdp2jajA/bkVB6nVHEZ5wz0S
+ cSAmav0qtSJ0ecYQqZt0mJF/F7mJVPLHB6GOkZu3u9I48BU/RGVQfdkjfyBK7ykeYl/d
+ ZyjkYOkbZqy/uIyqgQNZJ1SU6xnY35Ivvqg2C7ZXcE5hjekdzvlsVlseBhCJ1jfeSrSo
+ /c2w==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:mime-version:references:in-reply-to:from:date
  :message-id:subject:to:cc;
- bh=hBCPhJo5YyS6XSPC6qSR2NczndtrlVmfcRjGORmxI/A=;
- b=DQ0ovByA1YEDF2Qxk3uOjxB06EnbFTDJRFD3IITrbG6YX9SGT3A68IdJr2fx1f8G6a
- lR/pWm9IdxYcycEV83K/WHomgeVSpKUoAGtrDssfBQVVkHVyZC3VHe7uGOhT+bRzfYvo
- 0WMLFoDoy7Nr+ky5cwkvjYgKp/vo+I65GQbXmhtp5PERoEdqJngJBKNbZLpn7gbOrk1p
- BMoM7NQM4Kq5bS1Iyk8v3X4dc6l19S6+spNIyppVwbvY2QPR8EXCPu8CHc4M2vpFZ/3b
- ebzhgDwT1UspTfGGdfFbw31nR0KidZeuaYYi8QxtumX14Uy/nT4fcrHGfnhPvDqypEwc
- uZJw==
-X-Gm-Message-State: AOAM531AnawFKkfVbt19OrlPVLCAijMtLNj21mg7tJ+EeT9IJXqgcJ7y
- 5m17ss2WUPPzAFvvNWKGwWqIe9KsVLHQQw==
-X-Google-Smtp-Source: ABdhPJyVlxjAHfAcWHZ6udh/swia7X/HPDbpZYnCiTmAUhp4opkb7saHxZskWQ5CwgJjwl5qbPmH2A==
-X-Received: by 2002:a05:620a:2585:b0:680:f1f5:23ac with SMTP id
- x5-20020a05620a258500b00680f1f523acmr2126899qko.656.1649165093847; 
- Tue, 05 Apr 2022 06:24:53 -0700 (PDT)
-Received: from mail-yw1-f180.google.com (mail-yw1-f180.google.com.
- [209.85.128.180]) by smtp.gmail.com with ESMTPSA id
- l8-20020a05622a174800b002e1e3f7d4easm11459454qtk.86.2022.04.05.06.24.52
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Tue, 05 Apr 2022 06:24:52 -0700 (PDT)
-Received: by mail-yw1-f180.google.com with SMTP id
- 00721157ae682-2db2add4516so135941807b3.1; 
- Tue, 05 Apr 2022 06:24:52 -0700 (PDT)
-X-Received: by 2002:a81:618b:0:b0:2db:d952:8a39 with SMTP id
- v133-20020a81618b000000b002dbd9528a39mr2679880ywb.132.1649165091759; Tue, 05
- Apr 2022 06:24:51 -0700 (PDT)
+ bh=hlvhRtrbYAkZ4RW6N8x4lHYBrbADIlZPAmoHdYXBywQ=;
+ b=C7Ew4YRVkWHxTNzVcRDWJYpRS8yoDd0F9MjBdcvPake8NzScLc9Oeu4FqIkSjTa9tb
+ 6vyoXL4VJBtC3XjpwPOwbr+K3seO07iKvRde/aYpMUjUtDWFrRmYHdLxepMa6MD737Rp
+ VyfKRKmEaO2T6xPLgQ22Zp7AiCQEGtRdKW4ppND0XPd7SWRg21IvGUcpXF+39/dTu9Ke
+ /kH6at1sS4YU6h5IXV5ib8hvadHQ33Oz/DySr2AtwRMYLKTInlQ85PZl/bq0qcZXaHfP
+ GOeWo4dxgwdEp7NoUaufTX/ghUXacu41K/WetmHJjeCorq6rwsLDlu0UuxY1M/QBKiFB
+ vgLA==
+X-Gm-Message-State: AOAM532mB6AaScGX48kRO4WklAUckSPU5akGc+zNbm2Uy6i4rvSiwjwu
+ gGuXLZMsO/atiqatFj/9dsXwa41LRCmm88W0+l04cg==
+X-Google-Smtp-Source: ABdhPJwjzTydAfcHpcX0EwKn8vsrAwHeo+2mpUAWwGsrSALt5An0jZV7ti9GjnsOxkxp8IGG5cOGeO05r7r9SMaQGbI=
+X-Received: by 2002:a17:907:1624:b0:6db:8caa:d71 with SMTP id
+ hb36-20020a170907162400b006db8caa0d71mr3612137ejc.723.1649165150641; Tue, 05
+ Apr 2022 06:25:50 -0700 (PDT)
 MIME-Version: 1.0
-References: <20220208210824.2238981-1-daniel.vetter@ffwll.ch>
- <20220208210824.2238981-19-daniel.vetter@ffwll.ch>
- <4ae20b63-f452-fdb4-ced6-d4968a8d69f0@redhat.com>
- <Ykv/k/WoVemoCJJA@phenom.ffwll.local> <YkwAhSt9HlbxcuZo@phenom.ffwll.local>
- <408ffe9b-f09f-dc7e-7f5e-a93b311a06fa@redhat.com>
- <CAKMK7uHf6H8mhSm6eDHUruWK5Xc2cSPkJUX6v-jpeQfjS19dKw@mail.gmail.com>
- <e124af06-4f24-277a-543a-82b383f48cea@redhat.com>
- <CAKMK7uH4GgDQJZguT-k0QmgEAHYHuDEbBtjYje51_Rtqzud0yw@mail.gmail.com>
-In-Reply-To: <CAKMK7uH4GgDQJZguT-k0QmgEAHYHuDEbBtjYje51_Rtqzud0yw@mail.gmail.com>
-From: Geert Uytterhoeven <geert@linux-m68k.org>
-Date: Tue, 5 Apr 2022 15:24:40 +0200
-X-Gmail-Original-Message-ID: <CAMuHMdWr0L0r+MVU-=+_yeHKwK8BjF7_EJQxiJT5jMqS9FJUeQ@mail.gmail.com>
-Message-ID: <CAMuHMdWr0L0r+MVU-=+_yeHKwK8BjF7_EJQxiJT5jMqS9FJUeQ@mail.gmail.com>
-Subject: Re: [PATCH v2 18/19] Revert "fbdev: Prevent probing generic drivers
- if a FB is already registered"
-To: Daniel Vetter <daniel@ffwll.ch>
+References: <20220213022648.495895-1-marex@denx.de>
+ <YkwrDtqhY+Ru2bxG@pendragon.ideasonboard.com>
+ <CAPY8ntA+GpJ6WFwJbDcKjD5N2TdKAqv2kQPjrFbcJW=OoFL_Yg@mail.gmail.com>
+ <Ykw/NEI03rXJ+C9Y@pendragon.ideasonboard.com>
+In-Reply-To: <Ykw/NEI03rXJ+C9Y@pendragon.ideasonboard.com>
+From: Dave Stevenson <dave.stevenson@raspberrypi.com>
+Date: Tue, 5 Apr 2022 14:25:34 +0100
+Message-ID: <CAPY8ntC5RQ4pq=Bf5Z+Vi-NhD6boGnEixjporJSKgR=AaUrEpw@mail.gmail.com>
+Subject: Re: [PATCH][RESEND] drm/bridge: ti-sn65dsi83: Check link status
+ register after enabling the bridge
+To: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
 Content-Type: text/plain; charset="UTF-8"
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -73,134 +67,95 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Linux Fbdev development list <linux-fbdev@vger.kernel.org>,
- Greg KH <gregkh@linuxfoundation.org>,
- Intel Graphics Development <intel-gfx@lists.freedesktop.org>,
- LKML <linux-kernel@vger.kernel.org>,
+Cc: Marek Vasut <marex@denx.de>,
  DRI Development <dri-devel@lists.freedesktop.org>,
- Javier Martinez Canillas <javierm@redhat.com>,
- Hans de Goede <hdegoede@redhat.com>, Peter Jones <pjones@redhat.com>,
- Thomas Zimmermann <tzimmermann@suse.de>, Ilya Trukhanov <lahvuun@gmail.com>,
- Daniel Vetter <daniel.vetter@intel.com>
+ Sam Ravnborg <sam@ravnborg.org>, Jagan Teki <jagan@amarulasolutions.com>,
+ Robert Foss <robert.foss@linaro.org>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi Daniel,
-
-On Tue, Apr 5, 2022 at 1:48 PM Daniel Vetter <daniel@ffwll.ch> wrote:
-> On Tue, 5 Apr 2022 at 11:52, Javier Martinez Canillas
-> <javierm@redhat.com> wrote:
-> > On 4/5/22 11:24, Daniel Vetter wrote:
-> > > On Tue, 5 Apr 2022 at 11:19, Javier Martinez Canillas
-> > >> This is how I think that work, please let me know if you see something
-> > >> wrong in my logic:
-> > >>
-> > >> 1) A PCI device of OF device is registered for the GPU, this attempt to
-> > >>    match a registered driver but no driver was registered that match yet.
-> > >>
-> > >> 2) The efifb driver is built-in, will be initialized according to the link
-> > >>    order of the objects under drivers/video and the fbdev driver is registered.
-> > >>
-> > >>    There is no platform device or PCI/OF device registered that matches.
-> > >>
-> > >> 3) The DRM driver is built-in, will be initialized according to the link
-> > >>    order of the objects under drivers/gpu and the DRM driver is registered.
-> > >>
-> > >>    This matches the device registered in (1) and the DRM driver probes.
-> > >>
-> > >> 4) The DRM driver .probe kicks out any conflicting DRM drivers and pdev
-> > >>    before registering the DRM device.
-> > >>
-> > >>    There are no conflicting drivers or platform device at this point.
-> > >>
-> > >> 5) Latter at some point the drivers/firmware/sysfb.c init function is
-> > >>    executed, and this registers a platform device for the generic fb.
-> > >>
-> > >>    This device matches the efifb driver registered in (2) and the fbdev
-> > >>    driver probes.
-> > >>
-> > >>    Since that happens *after* the DRM driver already matched, probed
-> > >>    and registered the DRM device, that is a bug and what the reverted
-> > >>    patch worked around.
-> > >>
-> > >> So we need to prevent (5) if (1) and (3) already happened. Having a flag
-> > >> set in the fbdev core somewhere when remove_conflicting_framebuffers()
-> > >> is called could be a solution indeed.
-> > >>
-> > >> That is, the fbdev core needs to know that a DRM driver already probed
-> > >> and make register_framebuffer() fail if info->flag & FBINFO_MISC_FIRMWARE
-> > >>
-> > >> I can attempt to write a patch for that.
+On Tue, 5 Apr 2022 at 14:08, Laurent Pinchart
+<laurent.pinchart@ideasonboard.com> wrote:
+>
+> Hi Dave,
+>
+> On Tue, Apr 05, 2022 at 01:00:28PM +0100, Dave Stevenson wrote:
+> > On Tue, 5 Apr 2022 at 12:42, Laurent Pinchart wrote:
+> > > On Sun, Feb 13, 2022 at 03:26:48AM +0100, Marek Vasut wrote:
+> > > > In rare cases, the bridge may not start up correctly, which usually
+> > > > leads to no display output. In case this happens, warn about it in
+> > > > the kernel log.
 > > >
-> > > Ah yeah that could be an issue. I think the right fix is to replace
-> > > the platform dev unregister with a sysfb_unregister() function in
-> > > sysfb.c, which is synced with a common lock with the sysfb_init
-> > > function and a small boolean. I think I can type that up quickly for
-> > > v3.
+> > > Do you know what this is caused by ? It's a bit annoying to add a 10+ms
+> > > delay at start time just to be notified of rare cases.
 > >
-> > It's more complicated than that since sysfb is just *one* of the several
-> > places where platform devices can be registered for video devices.
+> > The datasheet [1] section 7.4.2 Initialization Sequence states in step 2
+> > "After power is applied and stable, the DSI CLK lanes MUST be in HS
+> > state and the DSI data lanes MUST be driven
+> > to LP11 state"
+> > Data lanes shouldn't go to HS until step 8 after the DSI83 has been configured.
 > >
-> > For instance, the vga16fb driver registers its own platform device in
-> > its module_init() function so that can also happen after the conflicting
-> > framebuffers (and associated devices) were removed by a DRM driver probe.
+> > Configuration from the driver is being done from atomic_enable,
+> > therefore the data lanes are likely in HS mode and sending video, not
+> > LP11.
 > >
-> > I tried to minimize the issue for that particular driver with commit:
+> > Deviate from the specified initialisation sequence at your peril!
 > >
-> > https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git/commit/?id=0499f419b76f
-> >
-> > But the point stands, it all boils down to the fact that you have two
-> > different subsystems registering video drivers and they don't know all
-> > about each other to take a proper decision.
-> >
-> > Right now the drm_aperture_remove_conflicting_framebuffers() call signals
-> > in one direction from DRM to fbdev but there isn't a communication in the
-> > other direction, from fbdev to DRM.
-> >
-> > I believe the correct fix would be for the fbdev core to keep a list of
-> > the apertures struct that are passed to remove_conflicting_framebuffers(),
-> > that way it will know what apertures are not available anymore and prevent
-> > to register any fbdev framebuffer that conflicts with one already present.
+> > The SN65DSI8[3|4|5] is one of the DSI devices that I'd been looking at
+> > with the DSI ordering patches [2] so that we could initialise it in
+> > the way specified in the datasheet. I've had no responses to v2 of
+> > those patches though.
 >
-> Hm that still feels like reinventing a driver model, badly.
+> Sounds like I need to review that :-) It's still in my queue, I'll try
+> to push it to the top.
 >
-> I think there's two cleaner solutions:
-> - move all the firmware driver platform_dev into sysfb.c, and then
-> just bind the special cases against that (e.g. offb, vga16fb and all
-> these). Then we'd have one sysfb_try_unregister(struct device *dev)
-> interface that fbmem.c uses.
-> - let fbmem.c call into each of these firmware device providers, which
-> means some loops most likely (like we can't call into vga16fb), so
-> probably need to move that into fbmem.c and it all gets a bit messy.
+> Do you think this patch could then be reverted ?
+
+If we can initialise the DSI host before the bridge for the
+pre_enable, then all the configuration moves to the atomic_pre_enable
+and there should be no need to have the delay.
+
+I can't 100% guarantee that, but one of the folks on the Pi forums is
+using [1] which does that, and is reporting it working well. (He's
+also using the DSI85 to take 2 DSI links and drive 2 LVDS single link
+panels)
+
+  Dave
+
+[1] https://github.com/6by9/linux/commits/rpi-5.15.y-sn65dsi8x
+
+> > [1] https://www.ti.com/lit/ds/symlink/sn65dsi83.pdf
+> > [2] https://patchwork.freedesktop.org/series/100252/#rev2
+> >
+> > > > Signed-off-by: Marek Vasut <marex@denx.de>
+> > > > Cc: Jagan Teki <jagan@amarulasolutions.com>
+> > > > Cc: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+> > > > Cc: Linus Walleij <linus.walleij@linaro.org>
+> > > > Cc: Robert Foss <robert.foss@linaro.org>
+> > > > Cc: Sam Ravnborg <sam@ravnborg.org>
+> > > > Cc: dri-devel@lists.freedesktop.org
+> > > > ---
+> > > >  drivers/gpu/drm/bridge/ti-sn65dsi83.c | 5 +++++
+> > > >  1 file changed, 5 insertions(+)
+> > > >
+> > > > diff --git a/drivers/gpu/drm/bridge/ti-sn65dsi83.c b/drivers/gpu/drm/bridge/ti-sn65dsi83.c
+> > > > index 19daaddd29a41..1d7c154ea1d79 100644
+> > > > --- a/drivers/gpu/drm/bridge/ti-sn65dsi83.c
+> > > > +++ b/drivers/gpu/drm/bridge/ti-sn65dsi83.c
+> > > > @@ -488,6 +488,11 @@ static void sn65dsi83_atomic_enable(struct drm_bridge *bridge,
+> > > >       /* Clear all errors that got asserted during initialization. */
+> > > >       regmap_read(ctx->regmap, REG_IRQ_STAT, &pval);
+> > > >       regmap_write(ctx->regmap, REG_IRQ_STAT, pval);
+> > > > +
+> > > > +     usleep_range(10000, 12000);
+> > > > +     regmap_read(ctx->regmap, REG_IRQ_STAT, &pval);
+> > > > +     if (pval)
+> > > > +             dev_err(ctx->dev, "Unexpected link status 0x%02x\n", pval);
+> > > >  }
+> > > >
+> > > >  static void sn65dsi83_atomic_disable(struct drm_bridge *bridge,
 >
-> > Let me know if you think that makes sense and I can attempt to write a fix.
+> --
+> Regards,
 >
-> I still think unregistering the platform_dev properly makes the most
-
-That doesn't sound very driver-model-aware to me. The device is what
-the driver binds to; it does not cease to exist.
-
-> sense, and feels like the most proper linux device model solution
-> instead of hacks on top - if the firmware fb is unuseable because a
-> native driver has taken over, we should nuke that. And also the
-> firmware fb driver would then just bind to that platform_dev if it
-> exists, and only if it exists. Also I think it should be the
-> responsibility of whichever piece of code that registers these
-> platform devices to ensure that platform_dev actually still exists.
-> That's why I think pushing all that code into sysfb.c is probably the
-> cleanest solution.
-
-Can't you unbind the generic driver first, and bind the specific driver
-afterwards? Alike writing to sysfs unbind/driver_override/bind,
-but from code?
-
-Gr{oetje,eeting}s,
-
-                        Geert
-
---
-Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k.org
-
-In personal conversations with technical people, I call myself a hacker. But
-when I'm talking to journalists I just say "programmer" or something like that.
-                                -- Linus Torvalds
+> Laurent Pinchart
