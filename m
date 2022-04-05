@@ -2,56 +2,56 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id B87E24F5725
-	for <lists+dri-devel@lfdr.de>; Wed,  6 Apr 2022 10:00:43 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 1D72E4F5729
+	for <lists+dri-devel@lfdr.de>; Wed,  6 Apr 2022 10:00:54 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 730E910E46C;
-	Wed,  6 Apr 2022 08:00:39 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 371B310ED45;
+	Wed,  6 Apr 2022 08:00:40 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-lj1-x231.google.com (mail-lj1-x231.google.com
- [IPv6:2a00:1450:4864:20::231])
- by gabe.freedesktop.org (Postfix) with ESMTPS id C25C510ED94;
- Tue,  5 Apr 2022 17:36:29 +0000 (UTC)
-Received: by mail-lj1-x231.google.com with SMTP id b43so18015076ljr.10;
- Tue, 05 Apr 2022 10:36:29 -0700 (PDT)
+Received: from mail-lf1-x12e.google.com (mail-lf1-x12e.google.com
+ [IPv6:2a00:1450:4864:20::12e])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 186BA10E05F;
+ Tue,  5 Apr 2022 18:24:56 +0000 (UTC)
+Received: by mail-lf1-x12e.google.com with SMTP id d5so24723534lfj.9;
+ Tue, 05 Apr 2022 11:24:56 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
  h=from:to:cc:subject:date:message-id:mime-version
  :content-transfer-encoding;
- bh=hKOYgRsFR0laaLuRCNcCw4kzlI2NLR4gbF3cCQ5uqJo=;
- b=BVr2YLDF7/GGyceZtEIm5ngSV0ZtewWefzWQMZJrDgToXi9Raa7zKK44DLjRVzPSqP
- rsZLh6unBOu9b8DWnbG/ulO/wlcI8YZUN880shObyr6Um/tVfTBF3cpDo2m1IIKVXFXc
- zuEn6HEaMmx6K8GTOTGE4Mblhp0TiZE2FitQh5Rr8gfwTotRoebmdrpUBkbSJQqBH8oj
- W1xHElC1X+BR49CMwpETUiRpdxyPiM6vQ59CHEktyrUKPaIaztu332GBp/js3CB90ZAn
- r78X3f+ujP//edJmpYijII+/KADwpeHvELEGDupRr4+0b1KDmJ35cLhgmUM4MdeHvqp9
- rfDw==
+ bh=yax7P8EHkvsWnyvnaOpe3ZP8r2G7HKN+i3pXtBsfClM=;
+ b=ahjOaaJmEvTMuw04XfKy8Q/jCeHjGJeiKqvnNpxDiZbgbug2iTCIFR8Le7QuzbJ0sA
+ woMR7Bdoa2OJ21AmrWpJ9wf5UeYzp2npgxgZT+buKF6ZPXRPo7D1odBGOr2gDXJBnEo1
+ dkWcurhuvdFNP8Dk650l2JhDA0fOvj008COWZUoCNgTJfeq4MP8RN6j7rsMKr8OLgz/g
+ +REZDqGSM3Il7wPm+eIG3XRLQMRqOgjGT9K2/gEEyEEZPbgRlOUmBBozA2zAXYVf2nhK
+ G8VsNSrxXA6MnMp6WQTrLd05UsiB5sx51uWWPhPAVm2lr97Bkt0pI2fpK8iXvhS5wgCO
+ +jfw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
  :content-transfer-encoding;
- bh=hKOYgRsFR0laaLuRCNcCw4kzlI2NLR4gbF3cCQ5uqJo=;
- b=2S5QDRXMqVOtg/SXYzs8aa6E28w7J4ngqzmz9/8GOx5sw582u7dTzzL/AytZmZXy/e
- 7i8Y+Uv3L5rrshJ6r31ZnVOPyYh2roH4ItY/ppx0HmpeOhWWn68SvLWhCw3MKrX0zWWM
- seOxAvuN9ybVxMBDqo9OSPULrBBFhvh9Xa6wcakOBchC7oPrpQtW5bMMcc8SyGk3MMvs
- 175ejgw23cUVI0McvjofGvcyiSWvqhjF87U4LXBURm2H4fpx+mrTZUDnqn6n3m74xOfR
- gIjskO3UFZBQkoqXyL8YnVtcH53DZbB89Tes6PC6XY6SHSb/7wgmVDbrc9EgFeJyP1RG
- tDwQ==
-X-Gm-Message-State: AOAM5336PlTLsNGZkvahB9VOaXBsE4mMsgH/upHPhhxBZvlBGMglUebp
- gmX9Om27ToVgWFn1El2j8Xw=
-X-Google-Smtp-Source: ABdhPJx9gURcfFhpkbU9G9qwJXgvTRqcQU7EZfhQn5YZ/YhwpA3vtsYFCnXigwEL5XUSIkyEiMsvQQ==
-X-Received: by 2002:a2e:a490:0:b0:249:894b:ce20 with SMTP id
- h16-20020a2ea490000000b00249894bce20mr2753320lji.301.1649180187930; 
- Tue, 05 Apr 2022 10:36:27 -0700 (PDT)
+ bh=yax7P8EHkvsWnyvnaOpe3ZP8r2G7HKN+i3pXtBsfClM=;
+ b=xUGDpQwdPnpnMGKK1KtWu/4HXDc+yoAbBtVifOoZ08K9SKf+O1aJG51NeW5CFrLhBF
+ BRx8cpASRsn1+rYmla1elJtUjF/VkpgS5/yTDfoMGE6f6/fGN5YTHfeU/E3nCr0fZrii
+ nwtnaq+CzZvMzPRB3Rbz8WHG/07S/A9eM80WPjmvAp0BWc4oc0W3cq9mAKrSbZFp4aAb
+ NNMDzZsqzkehtlYvXfax9ds6sBrbX+I182ci/eWIPves3aplFjbailrAivvIffMJXk3X
+ uEOLzNH8S9gSnKkl4x0l5WtGhcZI1DWfzHYCMsW8l59iWM1aQnFqvcjsG7I+KQrvTkOc
+ orXQ==
+X-Gm-Message-State: AOAM530cD/pzDg11zFeh3bXw+0acH5T14CpGO8NC9+6G2TrS3XRj9DG7
+ 6zUcaxq4886aEwQ0bmU8uHs=
+X-Google-Smtp-Source: ABdhPJxOhepnKOoKA4RqwLPJjMXDoxl/v8mx8vWmtqquCH1q7VX7Pr+WalSB0nHIR8npx8CG+gkjhw==
+X-Received: by 2002:a05:6512:3988:b0:44a:f02e:f28e with SMTP id
+ j8-20020a056512398800b0044af02ef28emr3627503lfu.458.1649183094333; 
+ Tue, 05 Apr 2022 11:24:54 -0700 (PDT)
 Received: from noname.. ([2a02:2698:8c2a:226e:6d9:f5ff:fecb:a8ab])
  by smtp.googlemail.com with ESMTPSA id
- j11-20020a196e0b000000b0044a3f007893sm1563825lfc.286.2022.04.05.10.36.26
+ bg19-20020a05651c0b9300b002497beec608sm1422452ljb.87.2022.04.05.11.24.53
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 05 Apr 2022 10:36:27 -0700 (PDT)
+ Tue, 05 Apr 2022 11:24:53 -0700 (PDT)
 From: Grigory Vasilyev <h0tc0d3@gmail.com>
 To: Rodrigo Siqueira <Rodrigo.Siqueira@amd.com>, Melissa Wen <mwen@igalia.com>
-Subject: [PATCH] drm/amdgpu: Senseless code and unnecessary memset
-Date: Tue,  5 Apr 2022 20:36:31 +0300
-Message-Id: <20220405173632.2663-1-h0tc0d3@gmail.com>
+Subject: [PATCH] drm/amdgpu: Accessing to a null pointer
+Date: Tue,  5 Apr 2022 21:24:55 +0300
+Message-Id: <20220405182456.8798-1-h0tc0d3@gmail.com>
 X-Mailer: git-send-email 2.35.1
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
@@ -77,44 +77,27 @@ Cc: Jani Nikula <jani.nikula@intel.com>, Jiawei Gu <Jiawei.Gu@amd.com>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Using memset on local arrays before exiting the function is pointless.
-Compilator will remove this code. Also for local arrays is preferable to
-use {0} instead of memset. Mistakes are often made when working with
-memset.
+A typo in the code. It was assumed that it was
+possible to shift the pointer to sizeof(BIOS_ATOM_PREFIX) - 1.
 
 Signed-off-by: Grigory Vasilyev <h0tc0d3@gmail.com>
 ---
- drivers/gpu/drm/amd/amdgpu/atom.c | 8 +-------
- 1 file changed, 1 insertion(+), 7 deletions(-)
+ drivers/gpu/drm/amd/amdgpu/atom.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
 diff --git a/drivers/gpu/drm/amd/amdgpu/atom.c b/drivers/gpu/drm/amd/amdgpu/atom.c
-index be9d61bcb8ae..537e48fbbe6b 100644
+index e729973af3c9..be9d61bcb8ae 100644
 --- a/drivers/gpu/drm/amd/amdgpu/atom.c
 +++ b/drivers/gpu/drm/amd/amdgpu/atom.c
-@@ -1538,11 +1538,9 @@ struct atom_context *amdgpu_atom_parse(struct card_info *card, void *bios)
- int amdgpu_atom_asic_init(struct atom_context *ctx)
- {
- 	int hwi = CU16(ctx->data_table + ATOM_DATA_FWI_PTR);
--	uint32_t ps[16];
-+	uint32_t ps[16] = {0};
- 	int ret;
+@@ -1426,7 +1426,7 @@ static void atom_get_vbios_pn(struct atom_context *ctx)
  
--	memset(ps, 0, 64);
--
- 	ps[0] = cpu_to_le32(CU32(hwi + ATOM_FWI_DEFSCLK_PTR));
- 	ps[1] = cpu_to_le32(CU32(hwi + ATOM_FWI_DEFMCLK_PTR));
- 	if (!ps[0] || !ps[1])
-@@ -1551,10 +1549,6 @@ int amdgpu_atom_asic_init(struct atom_context *ctx)
- 	if (!CU16(ctx->cmd_table + 4 + 2 * ATOM_CMD_INIT))
- 		return 1;
- 	ret = amdgpu_atom_execute_table(ctx, ATOM_CMD_INIT, ps);
--	if (ret)
--		return ret;
--
--	memset(ps, 0, 64);
- 
- 	return ret;
- }
+ 	if (*vbios_str == 0) {
+ 		vbios_str = atom_find_str_in_rom(ctx, BIOS_ATOM_PREFIX, 3, 1024, 64);
+-		if (vbios_str == NULL)
++		if (vbios_str != NULL)
+ 			vbios_str += sizeof(BIOS_ATOM_PREFIX) - 1;
+ 	}
+ 	if (vbios_str != NULL && *vbios_str == 0)
 -- 
 2.35.1
 
