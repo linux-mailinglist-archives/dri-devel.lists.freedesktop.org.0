@@ -1,58 +1,33 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 922BA4F37B9
-	for <lists+dri-devel@lfdr.de>; Tue,  5 Apr 2022 16:23:32 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 759364F3858
+	for <lists+dri-devel@lfdr.de>; Tue,  5 Apr 2022 16:33:02 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 1395B10E8F5;
-	Tue,  5 Apr 2022 14:23:30 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 6CA7C10E34F;
+	Tue,  5 Apr 2022 14:32:58 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-oa1-x2f.google.com (mail-oa1-x2f.google.com
- [IPv6:2001:4860:4864:20::2f])
- by gabe.freedesktop.org (Postfix) with ESMTPS id B44BD10E5AA;
- Tue,  5 Apr 2022 14:23:28 +0000 (UTC)
-Received: by mail-oa1-x2f.google.com with SMTP id
- 586e51a60fabf-df02f7e2c9so14515388fac.10; 
- Tue, 05 Apr 2022 07:23:28 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=3viWxA/JBHdP0TQbOykdsaxa+Gs7txej/lLx0GIvIYg=;
- b=G9QnFQmPtVjj4tVobX1LMic5zPY274r2vdLPAoUHBKEo99rnSV8OgrXJiFUo/7/jTF
- HjRanar2kAcinOYdoYvDGcnYJCuDuEuq0Zai+Uq0v6oNYRccBrMVRMdFmiEV85NERQ9C
- 7vO48nBrMzEKZEJVJ8XZajlPZLIjcsxvASt5VlRRUCL1kA3K18vbkH8swg9+yzJ9rGMP
- bFCRoCQAY3/a8STCLM+PzA5oegHvKvG3gC1g6iDc6bi30ZQD9wkIiGfKM1QRvaqcYdSM
- rfBcCGGpw/3xxa0Vz8+ryEQQNncgOdCH6noH47HWTgOvqSb3hQ57Qsfk/RiWmJ24PVYC
- lHBw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=3viWxA/JBHdP0TQbOykdsaxa+Gs7txej/lLx0GIvIYg=;
- b=wfKydNibFQjpn8ifQw7n1EgqJdp5qvdgvNdrgewc7UDOjTwgr6/1yPu2tl9EKTEib9
- fyODvGAb1yHMf29Y8eRMqEIDl59ldwt7n0wWJurdXsENi+rGI66RbwQ6RyP+HgE879pz
- 9Ei0ykuOSw2Hd358vyfg/GdiwqcrOYlOy37g/wXA3NJ5eRxIA9jxdhYlA97AgZXVekxl
- cXjwJ2xcTmybRXSiIG5LcM3i0Acs5TJPAa0n56Pq4L+9ueKiDFI6kARJzZyYQIhOuskk
- fO/qzSpXKPyIFROdE22hFDhCMuax+UViwv4OhjnOvgyzMsIZr5aAFNfUnKFteacw4BlG
- rNBQ==
-X-Gm-Message-State: AOAM530S7tQqESj6/txaJ4LJ0HuxMeAaD3hHO4z3oALcZMA1cHtAn6F7
- W5bl+oq6ZLAVPof3zxvLGn/cU1oB9IQXIIuQGWc=
-X-Google-Smtp-Source: ABdhPJwwvFJ/nErrBLzLGpycHCVzIhCmGoPUp6o1bgcidxfVOxHS2sTwvSWskrCQURlhd5hQ2zrWnsbBLhhhsqySV8U=
-X-Received: by 2002:a05:6870:311d:b0:de:9b6c:362b with SMTP id
- v29-20020a056870311d00b000de9b6c362bmr1567641oaa.200.1649168608008; Tue, 05
- Apr 2022 07:23:28 -0700 (PDT)
+Received: from foss.arm.com (foss.arm.com [217.140.110.172])
+ by gabe.freedesktop.org (Postfix) with ESMTP id BE30610E34F
+ for <dri-devel@lists.freedesktop.org>; Tue,  5 Apr 2022 14:32:56 +0000 (UTC)
+Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
+ by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 5E0A623A;
+ Tue,  5 Apr 2022 07:32:56 -0700 (PDT)
+Received: from e121345-lin.cambridge.arm.com (e121345-lin.cambridge.arm.com
+ [10.1.196.40])
+ by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPA id 7AB513F5A1;
+ Tue,  5 Apr 2022 07:32:55 -0700 (PDT)
+From: Robin Murphy <robin.murphy@arm.com>
+To: hjc@rock-chips.com,
+	heiko@sntech.de
+Subject: [PATCH] drm/rockchip: Refactor IOMMU initialisation
+Date: Tue,  5 Apr 2022 15:32:50 +0100
+Message-Id: <94eee7ab434fe11eb0787f691e9f1ab03a2e91be.1649168685.git.robin.murphy@arm.com>
+X-Mailer: git-send-email 2.28.0.dirty
 MIME-Version: 1.0
-References: <20220403132322.51c90903@darkstar.example.org>
- <CADnq5_M+M_iykM0Ag6RF+kxzgpEopUBtp82h7tRM3G+B3AWZ2w@mail.gmail.com>
- <20220404213940.09a56d15@darkstar.example.org>
-In-Reply-To: <20220404213940.09a56d15@darkstar.example.org>
-From: Alex Deucher <alexdeucher@gmail.com>
-Date: Tue, 5 Apr 2022 10:23:16 -0400
-Message-ID: <CADnq5_PhaFbVCb=-AUCx4L-sCyPCPOsY3tNpiAg=gfCN7hFcJA@mail.gmail.com>
-Subject: Re: AMDGPU: regression on 5.17.1
-To: Michele Ballabio <ballabio.m@gmail.com>
-Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -65,53 +40,222 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: amd-gfx list <amd-gfx@lists.freedesktop.org>,
- LKML <linux-kernel@vger.kernel.org>,
- Maling list - DRI developers <dri-devel@lists.freedesktop.org>,
- regressions@lists.linux.dev
+Cc: linux-rockchip@lists.infradead.org, iommu@lists.linux-foundation.org,
+ s.hauer@pengutronix.de, dri-devel@lists.freedesktop.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Mon, Apr 4, 2022 at 3:39 PM Michele Ballabio <ballabio.m@gmail.com> wrote:
->
-> On Mon, 4 Apr 2022 13:03:41 -0400
-> Alex Deucher <alexdeucher@gmail.com> wrote:
->
-> > On Sun, Apr 3, 2022 at 10:19 AM Michele Ballabio
-> > <ballabio.m@gmail.com> wrote:
-> > >
-> > > Hi,
-> > >         I've hit a regression on 5.17.1 (haven't tested 5.17.0, but
-> > > 5.16-stable didn't have this problem).
-> > >
-> > > The machine is a Ryzen 5 1600 with AMD graphics (RX 560).
-> > >
-> > > The regression I hit seems to trigger when the machine is left
-> > > idle at boot (I don't boot straight to X, I boot to a tty, login
-> > > and then start X). The machine after a while blanks the screen.
-> > > Usually, the screen unblanks as the keyboard is hit or the mouse
-> > > moves, but with kernel 5.17.1 the screen does not wake up. The
-> > > machine seems to run mostly fine: I can login from ssh, but I
-> > > cannot reboot or halt it: a sysrq sequence is needed for that. Note
-> > > that if the screen goes blank under X, it wakes up fine.
-> > >
-> > > Below a dmesg and two traces from syslog (they're quite similar).
-> >
-> > Can you bisect?  Does setting amdgpu.runpm=0 help?
->
-> I can try to bisect, should I narrow the search to drivers/gpu/drm/ ?
+Defer the IOMMU domain setup until after successfully binding
+components, so we can figure out IOMMU support directly from the VOP
+devices themselves, rather than manually inferring it from the DT (which
+also fails to account for whether the IOMMU driver is actually loaded).
+Although this is somewhat of a logical cleanup, the main motivation is
+to prepare for a change in the iommu_domain_alloc() interface.
 
-I would just do a full bisect if possible in case the change happens
-to be outside of drm.
+Signed-off-by: Robin Murphy <robin.murphy@arm.com>
+---
 
->
-> Setting amdgpu.runpm=0 works, the display now unblanks without problems.
+Lightly tested on RK3288. This does stand to collide with the in-flight
+VOP2 driver a little, if only that that will want an equivalent
+rockchip_drm_dma_init_device() call too be able to use its IOMMU. I'm
+happy to help sort that out either way, it just depends on what we want
+to merge first.
 
 Thanks,
+Robin.
 
-Alex
+ drivers/gpu/drm/rockchip/rockchip_drm_drv.c | 60 +++++++++------------
+ drivers/gpu/drm/rockchip/rockchip_drm_drv.h |  3 ++
+ drivers/gpu/drm/rockchip/rockchip_drm_vop.c |  2 +
+ 3 files changed, 31 insertions(+), 34 deletions(-)
 
+diff --git a/drivers/gpu/drm/rockchip/rockchip_drm_drv.c b/drivers/gpu/drm/rockchip/rockchip_drm_drv.c
+index 4eaeb430c83a..7efd12312354 100644
+--- a/drivers/gpu/drm/rockchip/rockchip_drm_drv.c
++++ b/drivers/gpu/drm/rockchip/rockchip_drm_drv.c
+@@ -7,7 +7,6 @@
+  */
+ 
+ #include <linux/dma-mapping.h>
+-#include <linux/dma-iommu.h>
+ #include <linux/pm_runtime.h>
+ #include <linux/module.h>
+ #include <linux/of_graph.h>
+@@ -34,7 +33,6 @@
+ #define DRIVER_MAJOR	1
+ #define DRIVER_MINOR	0
+ 
+-static bool is_support_iommu = true;
+ static const struct drm_driver rockchip_drm_driver;
+ 
+ /*
+@@ -48,7 +46,7 @@ int rockchip_drm_dma_attach_device(struct drm_device *drm_dev,
+ 	struct rockchip_drm_private *private = drm_dev->dev_private;
+ 	int ret;
+ 
+-	if (!is_support_iommu)
++	if (!private->domain)
+ 		return 0;
+ 
+ 	ret = iommu_attach_device(private->domain, dev);
+@@ -64,12 +62,22 @@ void rockchip_drm_dma_detach_device(struct drm_device *drm_dev,
+ 				    struct device *dev)
+ {
+ 	struct rockchip_drm_private *private = drm_dev->dev_private;
+-	struct iommu_domain *domain = private->domain;
+ 
+-	if (!is_support_iommu)
++	if (!private->domain)
+ 		return;
+ 
+-	iommu_detach_device(domain, dev);
++	iommu_detach_device(private->domain, dev);
++}
++
++void rockchip_drm_dma_init_device(struct drm_device *drm_dev,
++				  struct device *dev)
++{
++	struct rockchip_drm_private *private = drm_dev->dev_private;
++
++	if (!device_iommu_mapped(dev))
++		private->iommu_dev = ERR_PTR(-ENODEV);
++	else if (!private->iommu_dev)
++		private->iommu_dev = dev;
+ }
+ 
+ static int rockchip_drm_init_iommu(struct drm_device *drm_dev)
+@@ -78,10 +86,10 @@ static int rockchip_drm_init_iommu(struct drm_device *drm_dev)
+ 	struct iommu_domain_geometry *geometry;
+ 	u64 start, end;
+ 
+-	if (!is_support_iommu)
++	if (IS_ERR_OR_NULL(private->iommu_dev))
+ 		return 0;
+ 
+-	private->domain = iommu_domain_alloc(&platform_bus_type);
++	private->domain = iommu_domain_alloc(private->iommu_dev->bus);
+ 	if (!private->domain)
+ 		return -ENOMEM;
+ 
+@@ -101,7 +109,7 @@ static void rockchip_iommu_cleanup(struct drm_device *drm_dev)
+ {
+ 	struct rockchip_drm_private *private = drm_dev->dev_private;
+ 
+-	if (!is_support_iommu)
++	if (!private->domain)
+ 		return;
+ 
+ 	drm_mm_takedown(&private->mm);
+@@ -137,24 +145,24 @@ static int rockchip_drm_bind(struct device *dev)
+ 
+ 	drm_dev->dev_private = private;
+ 
+-	ret = rockchip_drm_init_iommu(drm_dev);
+-	if (ret)
+-		goto err_free;
+-
+ 	ret = drmm_mode_config_init(drm_dev);
+ 	if (ret)
+-		goto err_iommu_cleanup;
++		goto err_free;
+ 
+ 	rockchip_drm_mode_config_init(drm_dev);
+ 
+ 	/* Try to bind all sub drivers. */
+ 	ret = component_bind_all(dev, drm_dev);
+ 	if (ret)
+-		goto err_iommu_cleanup;
++		goto err_free;
++
++	ret = rockchip_drm_init_iommu(drm_dev);
++	if (ret)
++		goto err_unbind_all;
+ 
+ 	ret = drm_vblank_init(drm_dev, drm_dev->mode_config.num_crtc);
+ 	if (ret)
+-		goto err_unbind_all;
++		goto err_iommu_cleanup;
+ 
+ 	drm_mode_config_reset(drm_dev);
+ 
+@@ -170,10 +178,10 @@ static int rockchip_drm_bind(struct device *dev)
+ 	return 0;
+ err_kms_helper_poll_fini:
+ 	drm_kms_helper_poll_fini(drm_dev);
+-err_unbind_all:
+-	component_unbind_all(dev, drm_dev);
+ err_iommu_cleanup:
+ 	rockchip_iommu_cleanup(drm_dev);
++err_unbind_all:
++	component_unbind_all(dev, drm_dev);
+ err_free:
+ 	drm_dev_put(drm_dev);
+ 	return ret;
+@@ -342,8 +350,6 @@ static int rockchip_drm_platform_of_probe(struct device *dev)
+ 		return -ENODEV;
+ 
+ 	for (i = 0;; i++) {
+-		struct device_node *iommu;
+-
+ 		port = of_parse_phandle(np, "ports", i);
+ 		if (!port)
+ 			break;
+@@ -353,21 +359,7 @@ static int rockchip_drm_platform_of_probe(struct device *dev)
+ 			continue;
+ 		}
+ 
+-		iommu = of_parse_phandle(port->parent, "iommus", 0);
+-		if (!iommu || !of_device_is_available(iommu)) {
+-			DRM_DEV_DEBUG(dev,
+-				      "no iommu attached for %pOF, using non-iommu buffers\n",
+-				      port->parent);
+-			/*
+-			 * if there is a crtc not support iommu, force set all
+-			 * crtc use non-iommu buffer.
+-			 */
+-			is_support_iommu = false;
+-		}
+-
+ 		found = true;
+-
+-		of_node_put(iommu);
+ 		of_node_put(port);
+ 	}
+ 
+diff --git a/drivers/gpu/drm/rockchip/rockchip_drm_drv.h b/drivers/gpu/drm/rockchip/rockchip_drm_drv.h
+index 143a48330f84..008c44aef400 100644
+--- a/drivers/gpu/drm/rockchip/rockchip_drm_drv.h
++++ b/drivers/gpu/drm/rockchip/rockchip_drm_drv.h
+@@ -44,6 +44,7 @@ struct rockchip_crtc_state {
+  */
+ struct rockchip_drm_private {
+ 	struct iommu_domain *domain;
++	struct device *iommu_dev;
+ 	struct mutex mm_lock;
+ 	struct drm_mm mm;
+ };
+@@ -52,6 +53,8 @@ int rockchip_drm_dma_attach_device(struct drm_device *drm_dev,
+ 				   struct device *dev);
+ void rockchip_drm_dma_detach_device(struct drm_device *drm_dev,
+ 				    struct device *dev);
++void rockchip_drm_dma_init_device(struct drm_device *drm_dev,
++				  struct device *dev);
+ int rockchip_drm_wait_vact_end(struct drm_crtc *crtc, unsigned int mstimeout);
+ 
+ int rockchip_drm_endpoint_is_subdriver(struct device_node *ep);
+diff --git a/drivers/gpu/drm/rockchip/rockchip_drm_vop.c b/drivers/gpu/drm/rockchip/rockchip_drm_vop.c
+index 3e8d9e2d1b67..4c38c53e9f65 100644
+--- a/drivers/gpu/drm/rockchip/rockchip_drm_vop.c
++++ b/drivers/gpu/drm/rockchip/rockchip_drm_vop.c
+@@ -2175,6 +2175,8 @@ static int vop_bind(struct device *dev, struct device *master, void *data)
+ 		}
+ 	}
+ 
++	rockchip_drm_dma_init_device(drm_dev, dev);
++
+ 	return 0;
+ 
+ err_disable_pm_runtime:
+-- 
+2.28.0.dirty
 
->
-> Thanks,
->     Michele Ballabio
