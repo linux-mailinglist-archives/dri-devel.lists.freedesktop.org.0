@@ -1,60 +1,37 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3FB5D4F3FA7
-	for <lists+dri-devel@lfdr.de>; Tue,  5 Apr 2022 23:04:35 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 4F0764F3FA3
+	for <lists+dri-devel@lfdr.de>; Tue,  5 Apr 2022 23:04:31 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 0BE2910EED8;
-	Tue,  5 Apr 2022 21:04:01 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 72B3E10EED3;
+	Tue,  5 Apr 2022 21:03:59 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-wm1-x331.google.com (mail-wm1-x331.google.com
- [IPv6:2a00:1450:4864:20::331])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 9D20810EED6
- for <dri-devel@lists.freedesktop.org>; Tue,  5 Apr 2022 21:03:59 +0000 (UTC)
-Received: by mail-wm1-x331.google.com with SMTP id
- v64-20020a1cac43000000b0038cfd1b3a6dso2391146wme.5
- for <dri-devel@lists.freedesktop.org>; Tue, 05 Apr 2022 14:03:59 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ffwll.ch; s=google;
- h=from:to:cc:subject:date:message-id:in-reply-to:references
- :mime-version:content-transfer-encoding;
- bh=NyPCuPft4VaB2bVEt8jlMDRi9/YFFe0dNdOhzBh/pVo=;
- b=F0HQJ24i4ks7yQx5hR3xUHdrEk++vfZB+I6vxXQIZ+gvJZb71cJIpwJkGuTE1qxUY8
- dPfReQUnyZlr1Jx02A211gFq6p0RYy9c5WgrtTY5l9rW+cswOGal9TwuZ6+wl2H0ZMmY
- pgcmJBcaquPgl7T0boc+KUa/i2PCVRlv+qiVM=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
- :references:mime-version:content-transfer-encoding;
- bh=NyPCuPft4VaB2bVEt8jlMDRi9/YFFe0dNdOhzBh/pVo=;
- b=jDosedpkMFL5PrJH+1I5k6zYtzSbelYJiY5coJeQh7JXIbSi4wcqGjg0EEfID5SOz1
- AxvcMWR7zt7O5RKGTOdb4B+eH+A7ksLkhmT7AqEENjEsJY7MkwRqSuiceoSupwLgCPad
- y2oBIkWDA5RySi6/9APrEFRKhZMV8afXteyuUPwOl1WnqoM8P0XQuINmVU1IxNOhdDiL
- UO6hOPdd3uWaKhrgr59rZYCe9tPW8eJlgjzXCSIFOgWayms1LJmUFS04rA1n/Dy2o3HW
- JkUGmbQkx36HV+WW5rtWPJ4GrRbBPaDgtxe2pJfOgleFWSaCsHQe6Dkyk7JCc0Y6aKl4
- e5uA==
-X-Gm-Message-State: AOAM532f7NL5yXslvswzjnw4hEe+iHFlf6nqZuVlB0ypVVjI1rguO6N8
- OezOAC3HqAlLBtM6kTM6TqID0dHcBVAiwBeH1Lg=
-X-Google-Smtp-Source: ABdhPJy5CEDzX/GSZ9PpOzupBU5FccZ6aBQUJQDtPxDsf166S1k20pgXiSnB2gHxdDGFN399cLXKKQ==
-X-Received: by 2002:a05:600c:3d0e:b0:38c:9b5e:52c0 with SMTP id
- bh14-20020a05600c3d0e00b0038c9b5e52c0mr4509016wmb.3.1649192638129; 
- Tue, 05 Apr 2022 14:03:58 -0700 (PDT)
-Received: from phenom.ffwll.local ([2a02:168:57f4:0:efd0:b9e5:5ae6:c2fa])
- by smtp.gmail.com with ESMTPSA id
- az19-20020a05600c601300b0038cadf3aa69sm4858569wmb.36.2022.04.05.14.03.57
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 05 Apr 2022 14:03:57 -0700 (PDT)
-From: Daniel Vetter <daniel.vetter@ffwll.ch>
-To: DRI Development <dri-devel@lists.freedesktop.org>
-Subject: [PATCH v3 17/17] fbcon: Maintain a private array of fb_info
-Date: Tue,  5 Apr 2022 23:03:35 +0200
-Message-Id: <20220405210335.3434130-18-daniel.vetter@ffwll.ch>
-X-Mailer: git-send-email 2.34.1
-In-Reply-To: <20220405210335.3434130-1-daniel.vetter@ffwll.ch>
-References: <20220405210335.3434130-1-daniel.vetter@ffwll.ch>
+Received: from aposti.net (aposti.net [89.234.176.197])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 2A70D10EECB
+ for <dri-devel@lists.freedesktop.org>; Tue,  5 Apr 2022 21:03:56 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=crapouillou.net;
+ s=mail; t=1649192633; h=from:from:sender:reply-to:subject:subject:date:date:
+ message-id:message-id:to:to:cc:cc:mime-version:mime-version:
+ content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=3+gXLZmqhdPrOBrGZGktTeGHOT6E2+rkUcU65w77U9Q=;
+ b=icYQV0HoG9hcJUDeXuXeIU1WoXR6RQR8NP3K1VENb68F67Fe9qy7Gpm8XDNK8j16fqLl4N
+ kfR9fgtlPy/TXgEMLtLBxyy9fbdqmL1pEz43M9c99nYM+sfaV8N8a9AHvYeQsoWYW4L+bc
+ rFYBlHPAcvbgiPNfgIvsDiTEuof8ogg=
+Date: Tue, 05 Apr 2022 22:03:38 +0100
+From: Paul Cercueil <paul@crapouillou.net>
+Subject: Re: [PATCH v5 0/3] Ingenic DRM bridge_atomic_enable proposal
+To: Christophe Branchereau <cbranchereau@gmail.com>
+Message-Id: <26XV9R.735J8E0AH281@crapouillou.net>
+In-Reply-To: <20220321133651.291592-1-cbranchereau@gmail.com>
+References: <20220321133651.291592-1-cbranchereau@gmail.com>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=iso-8859-1; format=flowed
+Content-Transfer-Encoding: quoted-printable
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -67,304 +44,59 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Du Cheng <ducheng2@gmail.com>,
- Tetsuo Handa <penguin-kernel@I-love.SAKURA.ne.jp>,
- Daniel Vetter <daniel.vetter@ffwll.ch>,
- Intel Graphics Development <intel-gfx@lists.freedesktop.org>,
- Claudio Suarez <cssk@net-c.es>,
- Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
- Daniel Vetter <daniel.vetter@intel.com>, Sam Ravnborg <sam@ravnborg.org>
+Cc: devicetree@vger.kernel.org, David Airlie <airlied@linux.ie>,
+ linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
+ linux-mips@vger.kernel.org, Rob Herring <robh+dt@kernel.org>,
+ Thierry Reding <thierry.reding@gmail.com>, Sam Ravnborg <sam@ravnborg.org>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Accessing the one in fbmem.c without taking the right locks is a bad
-idea. Instead maintain our own private copy, which is fully protected
-by console_lock() (like everything else in fbcon.c). That copy is
-serialized through fbcon_fb_registered/unregistered() calls.
+Hi Christophe,
 
-Also this means we do not need to hold a full fb_info reference, which
-is nice because doing so would mean a refcount loop between the
-console and the fb_info. But it's also not nice since it means
-console_lock() must be held absolutely everywhere. Well strictly
-speaking we could still try to do some refcounting games again by
-calling get_fb_info before we drop the console_lock. But things will
-get tricky.
+Merged to drm-misc-next.
 
-Acked-by: Sam Ravnborg <sam@ravnborg.org>
-Signed-off-by: Daniel Vetter <daniel.vetter@intel.com>
-Cc: Daniel Vetter <daniel@ffwll.ch>
-Cc: Tetsuo Handa <penguin-kernel@I-love.SAKURA.ne.jp>
-Cc: Claudio Suarez <cssk@net-c.es>
-Cc: Du Cheng <ducheng2@gmail.com>
-Cc: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
----
- drivers/video/fbdev/core/fbcon.c | 82 +++++++++++++++++---------------
- 1 file changed, 43 insertions(+), 39 deletions(-)
+Thanks,
+-Paul
 
-diff --git a/drivers/video/fbdev/core/fbcon.c b/drivers/video/fbdev/core/fbcon.c
-index 944f514c77ec..6a7d470beec7 100644
---- a/drivers/video/fbdev/core/fbcon.c
-+++ b/drivers/video/fbdev/core/fbcon.c
-@@ -86,10 +86,6 @@
-  * - fbcon state itself is protected by the console_lock, and the code does a
-  *   pretty good job at making sure that lock is held everywhere it's needed.
-  *
-- * - access to the registered_fb array is entirely unprotected. This should use
-- *   proper object lifetime handling, i.e. get/put_fb_info. This also means
-- *   switching from indices to proper pointers for fb_info everywhere.
-- *
-  * - fbcon doesn't bother with fb_lock/unlock at all. This is buggy, since it
-  *   means concurrent access to the same fbdev from both fbcon and userspace
-  *   will blow up. To fix this all fbcon calls from fbmem.c need to be moved out
-@@ -107,6 +103,13 @@ enum {
- 
- static struct fbcon_display fb_display[MAX_NR_CONSOLES];
- 
-+struct fb_info *fbcon_registered_fb[FB_MAX];
-+int fbcon_num_registered_fb;
-+
-+#define fbcon_for_each_registered_fb(i)		\
-+	for (i = 0; WARN_CONSOLE_UNLOCKED(), i < FB_MAX; i++)		\
-+		if (!fbcon_registered_fb[i]) {} else
-+
- static signed char con2fb_map[MAX_NR_CONSOLES];
- static signed char con2fb_map_boot[MAX_NR_CONSOLES];
- 
-@@ -114,12 +117,7 @@ static struct fb_info *fbcon_info_from_console(int console)
- {
- 	WARN_CONSOLE_UNLOCKED();
- 
--	/*
--	 * Note that only con2fb_map is protected by the console lock,
--	 * registered_fb is protected by a separate mutex. This lookup can
--	 * therefore race.
--	 */
--	return registered_fb[con2fb_map[console]];
-+	return fbcon_registered_fb[con2fb_map[console]];
- }
- 
- static int logo_lines;
-@@ -518,7 +516,7 @@ static int do_fbcon_takeover(int show_logo)
- {
- 	int err, i;
- 
--	if (!num_registered_fb)
-+	if (!fbcon_num_registered_fb)
- 		return -ENODEV;
- 
- 	if (!show_logo)
-@@ -821,7 +819,7 @@ static int set_con2fb_map(int unit, int newidx, int user)
- {
- 	struct vc_data *vc = vc_cons[unit].d;
- 	int oldidx = con2fb_map[unit];
--	struct fb_info *info = registered_fb[newidx];
-+	struct fb_info *info = fbcon_registered_fb[newidx];
- 	struct fb_info *oldinfo = NULL;
- 	int found, err = 0, show_logo;
- 
-@@ -839,7 +837,7 @@ static int set_con2fb_map(int unit, int newidx, int user)
- 	}
- 
- 	if (oldidx != -1)
--		oldinfo = registered_fb[oldidx];
-+		oldinfo = fbcon_registered_fb[oldidx];
- 
- 	found = search_fb_in_map(newidx);
- 
-@@ -931,13 +929,13 @@ static const char *fbcon_startup(void)
- 	 *  If num_registered_fb is zero, this is a call for the dummy part.
- 	 *  The frame buffer devices weren't initialized yet.
- 	 */
--	if (!num_registered_fb || info_idx == -1)
-+	if (!fbcon_num_registered_fb || info_idx == -1)
- 		return display_desc;
- 	/*
- 	 * Instead of blindly using registered_fb[0], we use info_idx, set by
- 	 * fbcon_fb_registered();
- 	 */
--	info = registered_fb[info_idx];
-+	info = fbcon_registered_fb[info_idx];
- 	if (!info)
- 		return NULL;
- 	
-@@ -1150,9 +1148,9 @@ static void fbcon_release_all(void)
- 	struct fb_info *info;
- 	int i, j, mapped;
- 
--	for_each_registered_fb(i) {
-+	fbcon_for_each_registered_fb(i) {
- 		mapped = 0;
--		info = registered_fb[i];
-+		info = fbcon_registered_fb[i];
- 
- 		for (j = first_fb_vc; j <= last_fb_vc; j++) {
- 			if (con2fb_map[j] == i) {
-@@ -1179,7 +1177,7 @@ static void fbcon_deinit(struct vc_data *vc)
- 	if (idx == -1)
- 		goto finished;
- 
--	info = registered_fb[idx];
-+	info = fbcon_registered_fb[idx];
- 
- 	if (!info)
- 		goto finished;
-@@ -2098,9 +2096,9 @@ static int fbcon_switch(struct vc_data *vc)
- 	 *
- 	 * info->currcon = vc->vc_num;
- 	 */
--	for_each_registered_fb(i) {
--		if (registered_fb[i]->fbcon_par) {
--			struct fbcon_ops *o = registered_fb[i]->fbcon_par;
-+	fbcon_for_each_registered_fb(i) {
-+		if (fbcon_registered_fb[i]->fbcon_par) {
-+			struct fbcon_ops *o = fbcon_registered_fb[i]->fbcon_par;
- 
- 			o->currcon = vc->vc_num;
- 		}
-@@ -2745,7 +2743,7 @@ int fbcon_mode_deleted(struct fb_info *info,
- 		j = con2fb_map[i];
- 		if (j == -1)
- 			continue;
--		fb_info = registered_fb[j];
-+		fb_info = fbcon_registered_fb[j];
- 		if (fb_info != info)
- 			continue;
- 		p = &fb_display[i];
-@@ -2801,7 +2799,7 @@ void fbcon_fb_unbind(struct fb_info *info)
- 				set_con2fb_map(i, new_idx, 0);
- 		}
- 	} else {
--		struct fb_info *info = registered_fb[idx];
-+		struct fb_info *info = fbcon_registered_fb[idx];
- 
- 		/* This is sort of like set_con2fb_map, except it maps
- 		 * the consoles to no device and then releases the
-@@ -2831,6 +2829,9 @@ void fbcon_fb_unregistered(struct fb_info *info)
- 
- 	console_lock();
- 
-+	fbcon_registered_fb[info->node] = NULL;
-+	fbcon_num_registered_fb--;
-+
- 	if (deferred_takeover) {
- 		console_unlock();
- 		return;
-@@ -2845,7 +2846,7 @@ void fbcon_fb_unregistered(struct fb_info *info)
- 	if (idx == info_idx) {
- 		info_idx = -1;
- 
--		for_each_registered_fb(i) {
-+		fbcon_for_each_registered_fb(i) {
- 			info_idx = i;
- 			break;
- 		}
-@@ -2861,7 +2862,7 @@ void fbcon_fb_unregistered(struct fb_info *info)
- 	if (primary_device == idx)
- 		primary_device = -1;
- 
--	if (!num_registered_fb)
-+	if (!fbcon_num_registered_fb)
- 		do_unregister_con_driver(&fb_con);
- 	console_unlock();
- }
-@@ -2936,6 +2937,9 @@ int fbcon_fb_registered(struct fb_info *info)
- 	else
- 		atomic_inc(&ignore_console_lock_warning);
- 
-+	fbcon_registered_fb[info->node] = info;
-+	fbcon_num_registered_fb++;
-+
- 	idx = info->node;
- 	fbcon_select_primary(info);
- 
-@@ -3055,9 +3059,9 @@ int fbcon_set_con2fb_map_ioctl(void __user *argp)
- 		return -EINVAL;
- 	if (con2fb.framebuffer >= FB_MAX)
- 		return -EINVAL;
--	if (!registered_fb[con2fb.framebuffer])
-+	if (!fbcon_registered_fb[con2fb.framebuffer])
- 		request_module("fb%d", con2fb.framebuffer);
--	if (!registered_fb[con2fb.framebuffer]) {
-+	if (!fbcon_registered_fb[con2fb.framebuffer]) {
- 		return -EINVAL;
- 	}
- 
-@@ -3124,10 +3128,10 @@ static ssize_t store_rotate(struct device *device,
- 	console_lock();
- 	idx = con2fb_map[fg_console];
- 
--	if (idx == -1 || registered_fb[idx] == NULL)
-+	if (idx == -1 || fbcon_registered_fb[idx] == NULL)
- 		goto err;
- 
--	info = registered_fb[idx];
-+	info = fbcon_registered_fb[idx];
- 	rotate = simple_strtoul(buf, last, 0);
- 	fbcon_rotate(info, rotate);
- err:
-@@ -3146,10 +3150,10 @@ static ssize_t store_rotate_all(struct device *device,
- 	console_lock();
- 	idx = con2fb_map[fg_console];
- 
--	if (idx == -1 || registered_fb[idx] == NULL)
-+	if (idx == -1 || fbcon_registered_fb[idx] == NULL)
- 		goto err;
- 
--	info = registered_fb[idx];
-+	info = fbcon_registered_fb[idx];
- 	rotate = simple_strtoul(buf, last, 0);
- 	fbcon_rotate_all(info, rotate);
- err:
-@@ -3166,10 +3170,10 @@ static ssize_t show_rotate(struct device *device,
- 	console_lock();
- 	idx = con2fb_map[fg_console];
- 
--	if (idx == -1 || registered_fb[idx] == NULL)
-+	if (idx == -1 || fbcon_registered_fb[idx] == NULL)
- 		goto err;
- 
--	info = registered_fb[idx];
-+	info = fbcon_registered_fb[idx];
- 	rotate = fbcon_get_rotate(info);
- err:
- 	console_unlock();
-@@ -3186,10 +3190,10 @@ static ssize_t show_cursor_blink(struct device *device,
- 	console_lock();
- 	idx = con2fb_map[fg_console];
- 
--	if (idx == -1 || registered_fb[idx] == NULL)
-+	if (idx == -1 || fbcon_registered_fb[idx] == NULL)
- 		goto err;
- 
--	info = registered_fb[idx];
-+	info = fbcon_registered_fb[idx];
- 	ops = info->fbcon_par;
- 
- 	if (!ops)
-@@ -3212,10 +3216,10 @@ static ssize_t store_cursor_blink(struct device *device,
- 	console_lock();
- 	idx = con2fb_map[fg_console];
- 
--	if (idx == -1 || registered_fb[idx] == NULL)
-+	if (idx == -1 || fbcon_registered_fb[idx] == NULL)
- 		goto err;
- 
--	info = registered_fb[idx];
-+	info = fbcon_registered_fb[idx];
- 
- 	if (!info->fbcon_par)
- 		goto err;
-@@ -3275,8 +3279,8 @@ static void fbcon_register_existing_fbs(struct work_struct *work)
- 	deferred_takeover = false;
- 	logo_shown = FBCON_LOGO_DONTSHOW;
- 
--	for_each_registered_fb(i)
--		fbcon_fb_registered(registered_fb[i]);
-+	fbcon_for_each_registered_fb(i)
-+		fbcon_fb_registered(fbcon_registered_fb[i]);
- 
- 	console_unlock();
- }
--- 
-2.34.1
+
+Le lun., mars 21 2022 at 14:36:48 +0100, Christophe Branchereau=20
+<cbranchereau@gmail.com> a =E9crit :
+> Hello,
+>=20
+> v5 :
+>=20
+> - this set doesn't include the nv3052c bindings doc anymore,
+>   as it's already applied
+>=20
+> - nv3052c panel driver : removed empty lines, proceed to turn it off
+>   even is sleeping in fails instead of stopping there
+>=20
+> - abt panel : switched to REGCACHE_FLAT so we can disable sleep mode
+>   in .enable with regmap_set_bits() instead of doing it at init time
+>=20
+> - ingenic-drm-drv : added ingenic_drm_bridge_atomic_disable to balance
+>   out ingenic_drm_bridge_atomic_enable
+>=20
+> Tested working on the rg350m and rg280m
+>=20
+> Christophe Branchereau (3):
+>   drm/ingenic : add ingenic_drm_bridge_atomic_enable and disable
+>   drm/panel: Add panel driver for NewVision NV3052C based LCDs
+>   drm/panel : innolux-ej030na and abt-y030xx067a : add .enable and
+>     .disable
+>=20
+>  drivers/gpu/drm/ingenic/ingenic-drm-drv.c     |  34 +-
+>  drivers/gpu/drm/panel/Kconfig                 |   9 +
+>  drivers/gpu/drm/panel/Makefile                |   1 +
+>  drivers/gpu/drm/panel/panel-abt-y030xx067a.c  |  31 +-
+>  drivers/gpu/drm/panel/panel-innolux-ej030na.c |  31 +-
+>  .../gpu/drm/panel/panel-newvision-nv3052c.c   | 484=20
+> ++++++++++++++++++
+>  6 files changed, 572 insertions(+), 18 deletions(-)
+>  create mode 100644 drivers/gpu/drm/panel/panel-newvision-nv3052c.c
+>=20
+> --
+> 2.35.1
+>=20
+
 
