@@ -1,61 +1,41 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5B2484F3CFD
-	for <lists+dri-devel@lfdr.de>; Tue,  5 Apr 2022 19:38:25 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id DD5614F3D0B
+	for <lists+dri-devel@lfdr.de>; Tue,  5 Apr 2022 19:54:59 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id E08EA10EDA9;
-	Tue,  5 Apr 2022 17:38:20 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 273D510EE02;
+	Tue,  5 Apr 2022 17:54:57 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-pj1-x1035.google.com (mail-pj1-x1035.google.com
- [IPv6:2607:f8b0:4864:20::1035])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 8B3C510EDAE
- for <dri-devel@lists.freedesktop.org>; Tue,  5 Apr 2022 17:38:19 +0000 (UTC)
-Received: by mail-pj1-x1035.google.com with SMTP id
- nt14-20020a17090b248e00b001ca601046a4so3325039pjb.0
- for <dri-devel@lists.freedesktop.org>; Tue, 05 Apr 2022 10:38:19 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
- h=from:to:cc:subject:date:message-id:mime-version
- :content-transfer-encoding;
- bh=Io1IzG6hmJITuaZIDTYDYzvTfnNkY/lRuamDnYEiYog=;
- b=iz/lmMITgXQh0MqUOEQiFr6dsc0sTdIPypLCCvAym9JOaLdEYvr9t3x/gutfUpMmCz
- YB+c3zyDyI9Wl9NnnLHeqzzbgLg5x/vuuv3yvbSQZ617dXn+sAi8kVRb4YiSh8/NjB0Q
- cr2BhhDA/xuNawlnZ0rK+d9gHXVD67lZMQ6rlXU456ABQwE/ClXPwbq7/Cxz6bgfuspc
- OTehuW8IHfKzC8rrjyVr91xIYR4urF/R+UNHsxqcwR71gfvero52Uj+Em5/icX/Vza7x
- 0sNNcdda6Nt3Wak7MkP7XRlddpBgHPjxen/fJAFVjChFfKpN3jJ4Wj4F5J1N6rdoJS14
- jQPA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
- :content-transfer-encoding;
- bh=Io1IzG6hmJITuaZIDTYDYzvTfnNkY/lRuamDnYEiYog=;
- b=1NXM6M1Mx6QEUqZuQdsSrz9+Kov4K/svFhnyOOcJ93IRz6DALxqJMLXuw/VQxMuOHS
- k5aeY68s0i35SAfLsoGM/LKNnbPmaKlEUvxJ21hzwnLfW46krwV/uuKXSHmeKzkX6zl8
- JDPCg3CfCyUWlk4N2m4MQ+aI7dmrFD5Q0xwv5QlCif/TqTkkyRgBA8P+SyF/7asvHY4E
- 2MW6SOk6XAMcg8leUYyBknrsDMVoBH8HkoFuq/YBVcZ9PT3YVWasbz8UlhJuOpD8grGR
- IUZ7XqdF2NuwUpdzdv7vrN8fwZHaI+f/jdjJKGGREFlrc09eX7FjjbHuzT76firTq+JJ
- GwhA==
-X-Gm-Message-State: AOAM532w7QTmwFi/qKBOU6uI2lxtvJsoEUD1f+jQtI018N7MKjZOtPu0
- qKuouvMlDfRhVkIM7m+WsxfQZFGyQoc=
-X-Google-Smtp-Source: ABdhPJz8bWFNWl/yMS3gIRE+9LtjVYBYlTCCD9NPyLbTvdXKCpqIJrQ8mAH5ylinjXsk21ZNuzNM7Q==
-X-Received: by 2002:a17:902:a9c5:b0:156:32bf:b526 with SMTP id
- b5-20020a170902a9c500b0015632bfb526mr4687173plr.46.1649180298344; 
- Tue, 05 Apr 2022 10:38:18 -0700 (PDT)
-Received: from localhost ([2a00:79e1:abd:4a00:2703:3c72:eb1a:cffd])
- by smtp.gmail.com with ESMTPSA id
- t15-20020a63b70f000000b00381510608e9sm13966302pgf.14.2022.04.05.10.38.16
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 05 Apr 2022 10:38:17 -0700 (PDT)
-From: Rob Clark <robdclark@gmail.com>
-To: dri-devel@lists.freedesktop.org
-Subject: [PATCH] drm/virtio: Add execbuf flag to request no fence-event
-Date: Tue,  5 Apr 2022 10:39:18 -0700
-Message-Id: <20220405173918.1000846-1-robdclark@gmail.com>
-X-Mailer: git-send-email 2.35.1
+X-Greylist: delayed 487 seconds by postgrey-1.36 at gabe;
+ Tue, 05 Apr 2022 17:54:55 UTC
+Received: from hosting.gsystem.sk (hosting.gsystem.sk [212.5.213.30])
+ by gabe.freedesktop.org (Postfix) with ESMTP id 3D43F10EE02
+ for <dri-devel@lists.freedesktop.org>; Tue,  5 Apr 2022 17:54:55 +0000 (UTC)
+Received: from [192.168.0.2] (chello089173232159.chello.sk [89.173.232.159])
+ (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+ (No client certificate requested)
+ by hosting.gsystem.sk (Postfix) with ESMTPSA id 891F17A04A9;
+ Tue,  5 Apr 2022 19:46:46 +0200 (CEST)
+From: Ondrej Zary <linux@zary.sk>
+To: Helge Deller <deller@gmx.de>
+Subject: Re: [BUG] fbdev: i740fb: Divide error when
+ =?utf-8?q?=E2=80=98var-?=>=?utf-8?q?pixclock=E2=80=99_is?= zero
+Date: Tue, 5 Apr 2022 19:46:43 +0200
+User-Agent: KMail/1.9.10
+References: <CAMhUBjmFhqTLBscHHVZ1VTSqrJBT1VEevA+KkjY+y9_ZtdRkMg@mail.gmail.com>
+ <CAMuHMdUiEo8q9x0C0x5zOM=ax1=S06=s0JjcJvZYD4aMGLmEaQ@mail.gmail.com>
+ <a564f6af-31fa-79a2-72c3-578f2c095b23@gmx.de>
+In-Reply-To: <a564f6af-31fa-79a2-72c3-578f2c095b23@gmx.de>
+X-KMail-QuotePrefix: > 
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: Text/Plain;
+  charset="utf-8"
+Content-Transfer-Encoding: 7bit
+Content-Disposition: inline
+Message-Id: <202204051946.43277.linux@zary.sk>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -68,62 +48,78 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Rob Clark <robdclark@chromium.org>, David Airlie <airlied@linux.ie>,
- open list <linux-kernel@vger.kernel.org>,
- Gurchetan Singh <gurchetansingh@chromium.org>,
- Gerd Hoffmann <kraxel@redhat.com>,
- "open list:VIRTIO GPU DRIVER" <virtualization@lists.linux-foundation.org>
+Cc: Linux Fbdev development list <linux-fbdev@vger.kernel.org>,
+ Zheyu Ma <zheyuma97@gmail.com>, Geert Uytterhoeven <geert@linux-m68k.org>,
+ Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
+ DRI Development <dri-devel@lists.freedesktop.org>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-From: Rob Clark <robdclark@chromium.org>
 
-It would have been cleaner to have a flag to *request* the fence event.
-But that ship has sailed.  So add a flag so that userspace which doesn't
-care about the events can opt-out.
 
-Signed-off-by: Rob Clark <robdclark@chromium.org>
----
- drivers/gpu/drm/virtio/virtgpu_ioctl.c | 8 +++++---
- include/uapi/drm/virtgpu_drm.h         | 2 ++
- 2 files changed, 7 insertions(+), 3 deletions(-)
+On Tuesday 05 April 2022 08:33:57 Helge Deller wrote:
+> Hello Geert,
+> 
+> On 4/4/22 13:46, Geert Uytterhoeven wrote:
+> > Hi Helge,
+> >
+> > On Sun, Apr 3, 2022 at 5:41 PM Helge Deller <deller@gmx.de> wrote:
+> >> On 4/3/22 13:26, Zheyu Ma wrote:
+> >>> I found a bug in the function i740fb_set_par().
+> >>
+> >> Nice catch!
+> >>
+> >>> When the user calls the ioctl system call without setting the value to
+> >>> 'var->pixclock', the driver will throw a divide error.
+> >>>
+> >>> This bug occurs because the driver uses the value of 'var->pixclock'
+> >>> without checking it, as the following code snippet show:
+> >>>
+> >>> if ((1000000 / var->pixclock) > DACSPEED8) {
+> >>>      dev_err(info->device, "requested pixclock %i MHz out of range
+> >>> (max. %i MHz at 8bpp)\n",
+> >>>          1000000 / var->pixclock, DACSPEED8);
+> >>>     return -EINVAL;x
+> >>> }
+> >>>
+> >>> We can fix this by checking the value of 'var->pixclock' in the
+> >>> function i740fb_check_var() similar to commit
+> >>> b36b242d4b8ea178f7fd038965e3cac7f30c3f09, or we should set the lowest
+> >>> supported value when this field is zero.
+> >>> I have no idea about which solution is better.
+> >>
+> >> Me neither.
+> >> I think a solution like commit b36b242d4b8ea178f7fd038965e3cac7f30c3f09
+> >> is sufficient.
+> >>
+> >> Note that i740fb_set_par() is called in i740fb_resume() as well.
+> >> Since this doesn't comes form userspace I think adding a check for
+> >> the return value there isn't necessary.
+> >>
+> >> Would you mind sending a patch like b36b242d4b8ea178f7fd038965e3cac7f30c3f09 ?
+> >
+> > When passed an invalid value, .check_var() is supposed to
+> > round up the invalid to a valid value, if possible.
+> 
+> I don't disagree.
+> The main problem probably is: what is the next valid value?
+> This needs to be analyzed on a per-driver base and ideally tested.
+> Right now a division-by-zero is tiggered which is probably more worse.
 
-diff --git a/drivers/gpu/drm/virtio/virtgpu_ioctl.c b/drivers/gpu/drm/virtio/virtgpu_ioctl.c
-index 3a8078f2ee27..09f1aa263f91 100644
---- a/drivers/gpu/drm/virtio/virtgpu_ioctl.c
-+++ b/drivers/gpu/drm/virtio/virtgpu_ioctl.c
-@@ -225,9 +225,11 @@ static int virtio_gpu_execbuffer_ioctl(struct drm_device *dev, void *data,
- 		goto out_unresv;
- 	}
- 
--	ret = virtio_gpu_fence_event_create(dev, file, out_fence, ring_idx);
--	if (ret)
--		goto out_unresv;
-+	if (!(exbuf->flags & VIRTGPU_EXECBUF_NO_EVENT)) {
-+		ret = virtio_gpu_fence_event_create(dev, file, out_fence, ring_idx);
-+		if (ret)
-+			goto out_unresv;
-+	}
- 
- 	if (out_fence_fd >= 0) {
- 		sync_file = sync_file_create(&out_fence->f);
-diff --git a/include/uapi/drm/virtgpu_drm.h b/include/uapi/drm/virtgpu_drm.h
-index 0512fde5e697..d06cac3407cc 100644
---- a/include/uapi/drm/virtgpu_drm.h
-+++ b/include/uapi/drm/virtgpu_drm.h
-@@ -52,10 +52,12 @@ extern "C" {
- #define VIRTGPU_EXECBUF_FENCE_FD_IN	0x01
- #define VIRTGPU_EXECBUF_FENCE_FD_OUT	0x02
- #define VIRTGPU_EXECBUF_RING_IDX	0x04
-+#define VIRTGPU_EXECBUF_NO_EVENT	0x08
- #define VIRTGPU_EXECBUF_FLAGS  (\
- 		VIRTGPU_EXECBUF_FENCE_FD_IN |\
- 		VIRTGPU_EXECBUF_FENCE_FD_OUT |\
- 		VIRTGPU_EXECBUF_RING_IDX |\
-+		VIRTGPU_EXECBUF_NO_EVENT |\
- 		0)
- 
- struct drm_virtgpu_map {
+I still have an i740 card so I can test it.
+
+> That said, currently I'd prefer to apply the zero-checks patches over
+> any untested patches. It's easy to revert such checks if a better solution
+> becomes available.
+> 
+> Thoughts?
+> 
+> > Commit b36b242d4b8ea178 ("video: fbdev: asiliantfb: Error out if
+> > 'pixclock' equals zero") does not do that.
+> 
+> Helge
+> 
+
+
 -- 
-2.35.1
-
+Ondrej Zary
