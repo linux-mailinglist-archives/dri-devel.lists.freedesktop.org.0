@@ -1,42 +1,62 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 19ACE4F3304
-	for <lists+dri-devel@lfdr.de>; Tue,  5 Apr 2022 15:08:15 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 418A64F334A
+	for <lists+dri-devel@lfdr.de>; Tue,  5 Apr 2022 15:15:13 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id C55F610E5D3;
-	Tue,  5 Apr 2022 13:08:11 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id DDF9610E617;
+	Tue,  5 Apr 2022 13:15:08 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from perceval.ideasonboard.com (perceval.ideasonboard.com
- [213.167.242.64])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 2752210E5D3
- for <dri-devel@lists.freedesktop.org>; Tue,  5 Apr 2022 13:08:10 +0000 (UTC)
-Received: from pendragon.ideasonboard.com
- (117.145-247-81.adsl-dyn.isp.belgacom.be [81.247.145.117])
- by perceval.ideasonboard.com (Postfix) with ESMTPSA id 191D95D;
- Tue,  5 Apr 2022 15:08:08 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
- s=mail; t=1649164088;
- bh=bpKW22A1yHVmRKVgthdTbw7vllpmnsDe2wEdGGtKvJE=;
- h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
- b=Nj33o66tgcGAllW57bzY2lZMXlIm4LeubEPrTHjWgLosvx0744gPvCS81Z1SO+sT4
- av9QZT/xUHZFX/e8nm8F7TaULMha0erisPp0LnOUXy5cLwkt44TiFlUcdFIjlFeBTV
- Ao1x3gZF/N7lGl7XaaSxGvSsY+TynNl5HH2b/YDI=
-Date: Tue, 5 Apr 2022 16:08:04 +0300
-From: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-To: Dave Stevenson <dave.stevenson@raspberrypi.com>
-Subject: Re: [PATCH][RESEND] drm/bridge: ti-sn65dsi83: Check link status
- register after enabling the bridge
-Message-ID: <Ykw/NEI03rXJ+C9Y@pendragon.ideasonboard.com>
-References: <20220213022648.495895-1-marex@denx.de>
- <YkwrDtqhY+Ru2bxG@pendragon.ideasonboard.com>
- <CAPY8ntA+GpJ6WFwJbDcKjD5N2TdKAqv2kQPjrFbcJW=OoFL_Yg@mail.gmail.com>
+Received: from mail-ot1-x331.google.com (mail-ot1-x331.google.com
+ [IPv6:2607:f8b0:4864:20::331])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 5198310E617;
+ Tue,  5 Apr 2022 13:15:07 +0000 (UTC)
+Received: by mail-ot1-x331.google.com with SMTP id
+ o20-20020a9d7194000000b005cb20cf4f1bso9329414otj.7; 
+ Tue, 05 Apr 2022 06:15:07 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc:content-transfer-encoding;
+ bh=j+u9l1hFOb+F6NIjO1asGqQYJJ9ridmMMsrteD+DArU=;
+ b=o2iCPdweGHKt8sqrwJAU4uLdLnglJzQ2+RXjCoCbxhlP7u2/iMmxsuIMR086Re8ulW
+ Msb8qVUlHmI8DXPcKObQPJuTM1Dysv45iDoWAj9+Z68n6YdZtfZzawVVbCNdkwSNP7ca
+ NHufExGaX9FwpgPPCFZxuiP9ME7JIySF65g9x3/YJHm1TjjlZhfzuG/RToTI8Jrmv3FC
+ xUpn0+SxrEuTXlqge/m5l32VcjAiaerW4bwGN/vuXwL554G4fAEi6Csg/Ghz/onAJsGC
+ SVPQ+pMyKpgKoFbKYnJuBgzVCX7WIJDJv+vgBc5iKnRN77L30e+pmSjoler9lBSBheVZ
+ mL+Q==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc:content-transfer-encoding;
+ bh=j+u9l1hFOb+F6NIjO1asGqQYJJ9ridmMMsrteD+DArU=;
+ b=HBrp+APYpYtkJjGCEhaT7oeaTnbaMfeJpz/bGJz5XmFXoZhBuN6Xo8E/usR+tvAHBN
+ Z3rB/7HE1p+41v+eKlULKHrt4McBghZfUQleZjo/SQMKoilEh+Z9AKlanK7BHWu21qey
+ M3X8ZsKeQrtSxwtfdgntqLtzExZN+IL3OrRWhwAYv7ZqT+IbnDdTt7yJNxP9kWX0ra8b
+ /J+W/vN8MaF7M7o/o0LcK8SDcsePXbzgb8aYwRVEVCTPsTUyRN4uWaxfkBjQ0UUb2TJV
+ 5S3D5AUjIgzqSi0/8lErtd9oWDq7Y7aW72fgqYSjTBQJaY7Fu04ATggUi2TuJB7Gi19a
+ Pv4w==
+X-Gm-Message-State: AOAM533GFN/FFYHjSqs9FSN8TjYUhTvm4Q6ZFEI70jB1fw8Z0vUMAg26
+ ZRo4jhmLx4sUL6kT/6zKx0Ngztk28FMOSny5gcxJMulGMyU=
+X-Google-Smtp-Source: ABdhPJweaVqn5fj3LpuWzpkbuOf7ysTfZMy2YEcio3zT48dmeMlZswx+nBnRBuAMUmm9R7zs2vIlRlSWz440Cm2iuNw=
+X-Received: by 2002:a9d:4702:0:b0:5cd:481a:148a with SMTP id
+ a2-20020a9d4702000000b005cd481a148amr1171172otf.200.1649164506306; Tue, 05
+ Apr 2022 06:15:06 -0700 (PDT)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-In-Reply-To: <CAPY8ntA+GpJ6WFwJbDcKjD5N2TdKAqv2kQPjrFbcJW=OoFL_Yg@mail.gmail.com>
+References: <20220404214255.11902-1-Philip.Yang@amd.com>
+ <7a0e9d4c-257f-287e-9caf-f4161887ba39@molgen.mpg.de>
+ <530f3735-9a82-54af-c090-cc8d5b1510cc@amd.com>
+ <226a1c28-2516-7af4-dc19-7236f31128e9@molgen.mpg.de>
+In-Reply-To: <226a1c28-2516-7af4-dc19-7236f31128e9@molgen.mpg.de>
+From: Alex Deucher <alexdeucher@gmail.com>
+Date: Tue, 5 Apr 2022 09:14:55 -0400
+Message-ID: <CADnq5_M2nX_TAth0aQbxRWSLQVnDKMGuBBxzhvrBv6ZA5SZe1w@mail.gmail.com>
+Subject: Re: Public patches but non-public development branch (Re: [PATCH 1/1]
+ drm/amdkfd: Add missing NULL check in svm_range_map_to_gpu)
+To: Paul Menzel <pmenzel@molgen.mpg.de>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -49,79 +69,81 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Marek Vasut <marex@denx.de>,
- DRI Development <dri-devel@lists.freedesktop.org>,
- Sam Ravnborg <sam@ravnborg.org>, Jagan Teki <jagan@amarulasolutions.com>,
- Robert Foss <robert.foss@linaro.org>
+Cc: Philip Yang <Philip.Yang@amd.com>,
+ amd-gfx list <amd-gfx@lists.freedesktop.org>,
+ =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>,
+ Maling list - DRI developers <dri-devel@lists.freedesktop.org>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi Dave,
-
-On Tue, Apr 05, 2022 at 01:00:28PM +0100, Dave Stevenson wrote:
-> On Tue, 5 Apr 2022 at 12:42, Laurent Pinchart wrote:
-> > On Sun, Feb 13, 2022 at 03:26:48AM +0100, Marek Vasut wrote:
-> > > In rare cases, the bridge may not start up correctly, which usually
-> > > leads to no display output. In case this happens, warn about it in
-> > > the kernel log.
+On Tue, Apr 5, 2022 at 3:02 AM Paul Menzel <pmenzel@molgen.mpg.de> wrote:
+>
+> Dear Christian,
+>
+>
+> Am 05.04.22 um 08:54 schrieb Christian K=C3=B6nig:
+> > Am 05.04.22 um 08:45 schrieb Paul Menzel:
+>
+> >> Am 04.04.22 um 23:42 schrieb Philip Yang:
+> >>> bo_adev is NULL for system memory mapping to GPU.
+> >>>
+> >>> Fixes: 05fe8eeca92 (drm/amdgpu: fix TLB flushing during eviction)
+> >>
+> >> Sorry, where can I find that commit?
 > >
-> > Do you know what this is caused by ? It's a bit annoying to add a 10+ms
-> > delay at start time just to be notified of rare cases.
-> 
-> The datasheet [1] section 7.4.2 Initialization Sequence states in step 2
-> "After power is applied and stable, the DSI CLK lanes MUST be in HS
-> state and the DSI data lanes MUST be driven
-> to LP11 state"
-> Data lanes shouldn't go to HS until step 8 after the DSI83 has been configured.
-> 
-> Configuration from the driver is being done from atomic_enable,
-> therefore the data lanes are likely in HS mode and sending video, not
-> LP11.
-> 
-> Deviate from the specified initialisation sequence at your peril!
-> 
-> The SN65DSI8[3|4|5] is one of the DSI devices that I'd been looking at
-> with the DSI ordering patches [2] so that we could initialise it in
-> the way specified in the datasheet. I've had no responses to v2 of
-> those patches though.
+> > Well that's expected, the development branch is not public.
+>
+> Well obviously, it was unexpected for me. How should I have known? Where
+> is that documented? If the patches are publicly posted to the mailing
+> list, why is that development branch not public?
+>
+> The current situation is really frustrating for non-AMD employees. How
+> can the current situation be improved?
 
-Sounds like I need to review that :-) It's still in my queue, I'll try
-to push it to the top.
+Our development branch
+(https://gitlab.freedesktop.org/agd5f/linux/-/commits/amd-staging-drm-next)
+is available publicly.  There can be a day or so of lag depending on
+when it gets mirrored (e.g., over the weekend).
 
-Do you think this patch could then be reverted ?
+Alex
 
-> [1] https://www.ti.com/lit/ds/symlink/sn65dsi83.pdf
-> [2] https://patchwork.freedesktop.org/series/100252/#rev2
-> 
-> > > Signed-off-by: Marek Vasut <marex@denx.de>
-> > > Cc: Jagan Teki <jagan@amarulasolutions.com>
-> > > Cc: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-> > > Cc: Linus Walleij <linus.walleij@linaro.org>
-> > > Cc: Robert Foss <robert.foss@linaro.org>
-> > > Cc: Sam Ravnborg <sam@ravnborg.org>
-> > > Cc: dri-devel@lists.freedesktop.org
-> > > ---
-> > >  drivers/gpu/drm/bridge/ti-sn65dsi83.c | 5 +++++
-> > >  1 file changed, 5 insertions(+)
-> > >
-> > > diff --git a/drivers/gpu/drm/bridge/ti-sn65dsi83.c b/drivers/gpu/drm/bridge/ti-sn65dsi83.c
-> > > index 19daaddd29a41..1d7c154ea1d79 100644
-> > > --- a/drivers/gpu/drm/bridge/ti-sn65dsi83.c
-> > > +++ b/drivers/gpu/drm/bridge/ti-sn65dsi83.c
-> > > @@ -488,6 +488,11 @@ static void sn65dsi83_atomic_enable(struct drm_bridge *bridge,
-> > >       /* Clear all errors that got asserted during initialization. */
-> > >       regmap_read(ctx->regmap, REG_IRQ_STAT, &pval);
-> > >       regmap_write(ctx->regmap, REG_IRQ_STAT, pval);
-> > > +
-> > > +     usleep_range(10000, 12000);
-> > > +     regmap_read(ctx->regmap, REG_IRQ_STAT, &pval);
-> > > +     if (pval)
-> > > +             dev_err(ctx->dev, "Unexpected link status 0x%02x\n", pval);
-> > >  }
-> > >
-> > >  static void sn65dsi83_atomic_disable(struct drm_bridge *bridge,
-
--- 
-Regards,
-
-Laurent Pinchart
+>
+>
+> Kind regards,
+>
+> Paul
+>
+>
+> >> I do not see it in drm-next from agd5f git archive
+> >> git@gitlab.freedesktop.org:agd5f/linux.git.
+> >>
+> >>     $ git log --oneline -1
+> >>     e45422695c19 (HEAD, agd5f/drm-next) drm/amdkfd: Create file
+> >> descriptor after client is added to smi_clients list
+> >>
+> >>
+> >> Kind regards,
+> >>
+> >> Paul
+> >>
+> >>
+> >>> Signed-off-by: Philip Yang <Philip.Yang@amd.com>
+> >>> ---
+> >>>   drivers/gpu/drm/amd/amdkfd/kfd_svm.c | 2 +-
+> >>>   1 file changed, 1 insertion(+), 1 deletion(-)
+> >>>
+> >>> diff --git a/drivers/gpu/drm/amd/amdkfd/kfd_svm.c
+> >>> b/drivers/gpu/drm/amd/amdkfd/kfd_svm.c
+> >>> index 907b02045824..d3fb2d0b5a25 100644
+> >>> --- a/drivers/gpu/drm/amd/amdkfd/kfd_svm.c
+> >>> +++ b/drivers/gpu/drm/amd/amdkfd/kfd_svm.c
+> >>> @@ -1281,7 +1281,7 @@ svm_range_map_to_gpu(struct kfd_process_device
+> >>> *pdd, struct svm_range *prange,
+> >>>                          last_start, prange->start + i,
+> >>>                          pte_flags,
+> >>>                          last_start - prange->start,
+> >>> -                       bo_adev->vm_manager.vram_base_offset,
+> >>> +                       bo_adev ?
+> >>> bo_adev->vm_manager.vram_base_offset : 0,
+> >>>                          NULL, dma_addr, &vm->last_update);
+> >>>             for (j =3D last_start - prange->start; j <=3D i; j++)
