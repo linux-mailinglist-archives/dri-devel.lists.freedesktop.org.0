@@ -2,53 +2,53 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 41B304F3F7A
-	for <lists+dri-devel@lfdr.de>; Tue,  5 Apr 2022 23:04:12 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 1C3D94F3F80
+	for <lists+dri-devel@lfdr.de>; Tue,  5 Apr 2022 23:04:15 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 3FCA710EEBB;
-	Tue,  5 Apr 2022 21:03:49 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 1B09410ED47;
+	Tue,  5 Apr 2022 21:03:50 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-wr1-x42f.google.com (mail-wr1-x42f.google.com
- [IPv6:2a00:1450:4864:20::42f])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 12A8E10E45C
+Received: from mail-wr1-x42e.google.com (mail-wr1-x42e.google.com
+ [IPv6:2a00:1450:4864:20::42e])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id CB59E10E2F6
  for <dri-devel@lists.freedesktop.org>; Tue,  5 Apr 2022 21:03:47 +0000 (UTC)
-Received: by mail-wr1-x42f.google.com with SMTP id u3so345291wrg.3
- for <dri-devel@lists.freedesktop.org>; Tue, 05 Apr 2022 14:03:46 -0700 (PDT)
+Received: by mail-wr1-x42e.google.com with SMTP id b19so293249wrh.11
+ for <dri-devel@lists.freedesktop.org>; Tue, 05 Apr 2022 14:03:47 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ffwll.ch; s=google;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=S29FSv+eJmyfJZoRTSJV+EXfojUyv63fbNJUk83A8l4=;
- b=UcmJZz+GdrJa50pViHrkFerhwvD7gGcRiaUWKIh+7CJ//iivU/zOabv5EDihe+u97v
- zftjnRwS64/gA8vF8MxDGA4q32lLHlzkqgGRUSx9Gji9LVOZ/oyE4fJIvSj2QY8xTINe
- ErryP5yF/OE1GSZ14ozgdimkPWc5oekHLa3y4=
+ bh=njFWdYQAaDqfYiD2Xn7UdOgkX8BhGZCyAilm6L8VvPw=;
+ b=Z0d8OxH3ma5gI6/t6TzMdj48KE3+eiq0RZyPQCPmAJ1MplwnCCfyaophe2UKF9ZRzi
+ B3ZkDS8Ha2/SXBUXiftFNODgiET8wur75TONlwUzrCnrwGFlREz9rgL5kIcBJYiA0wBm
+ khIZvqpVsxX3jBHxq+lpQqJR3NGOZf/Xs9pU8=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=S29FSv+eJmyfJZoRTSJV+EXfojUyv63fbNJUk83A8l4=;
- b=dp4jUvD7N3IqAfAm8c9TCHQEsM8MErbnXA6FePlk7QTMp38APi9GP2LQTl6Ev4g9dB
- VL6xDNCdB6Xpuv22Df730yQF0oqUljt/Y4hNR8cHS4tXDfBjZr97DJ+ehL4qlGoNEno5
- kMk94LgzMv8VMH9cTrsTTOi2NS/1i0aoB6lnRflMgNGmEHJR87zTocuOZMKfw5JTcv8J
- ysG4d+kvSGAosis8yCW+8gCtoxU5kbmRmpPyEkDrI4jVg5ko0p574Lny1+utnQSge+rI
- ACyrevjIkpYwlOOjRM3r1GsJ+K3YiLBGMgatpVPRqt/Vb7FRUo/tuAZj89l9fnfDt5YO
- JvIg==
-X-Gm-Message-State: AOAM532/oDZXMboK1diVYB2N8+QP5dNx+zKLktYcFz5tF5T5qKR8vECl
- pZZWu7sjTXuWeEAEURbNGS01EHI0o+NKTaIe+xI=
-X-Google-Smtp-Source: ABdhPJzMFRNMpzjLDMGxxPchoGpe4381w9RkfcqqeSoBFDcTbhpVSgcvzzpGP5oLTb8Z65Qsl91Xpg==
-X-Received: by 2002:adf:c10b:0:b0:1ed:c40f:7f91 with SMTP id
- r11-20020adfc10b000000b001edc40f7f91mr4063615wre.276.1649192625481; 
- Tue, 05 Apr 2022 14:03:45 -0700 (PDT)
+ bh=njFWdYQAaDqfYiD2Xn7UdOgkX8BhGZCyAilm6L8VvPw=;
+ b=oE6yEqFvV+yJXiH3wUvUibz4NDCZm0YTUrLxpU9Z/UefWp4LbbcVNjGyOeedKSxNBp
+ NprNXo1r2NIzNmN5g/6wp0b7NL7vxGEGtGobXancHXyPcjSHqUCFu20VS5UAvNBOQVI+
+ ff95fvhC7bWA0NRTpRxfkhRA1pmG3uVnc/garY6gJerZyavPDjAD3XTTVjBlh7Chwl0s
+ bCglyvZc+26BP48MeG+C7hugLQ5cC0plokaoeV8VROxiYpNGgWa2kbTNoRXnAmCRwqW9
+ pqiW2t8plYMXePCkpvPe03IYXmrPHU/wxEE7/RGHMxllqCeaHfyxW15xZb169K32qalm
+ W5dg==
+X-Gm-Message-State: AOAM532emrRKulduyn2YZ7mZSRCksbJKGqgPl55+rkHcYP27DuR/gzTf
+ d2K/EUXisHZpDVLA00fePNR2xxKPqFkctUUiSXw=
+X-Google-Smtp-Source: ABdhPJxlOdCJ/qt4T+oOpatacnW0/s0GVKsccDWptFVX6UqCj8tkJTJcNhZasLpAvMDa4wko0z+3Xw==
+X-Received: by 2002:a5d:47a9:0:b0:205:d662:c1e1 with SMTP id
+ 9-20020a5d47a9000000b00205d662c1e1mr4107166wrb.577.1649192626375; 
+ Tue, 05 Apr 2022 14:03:46 -0700 (PDT)
 Received: from phenom.ffwll.local ([2a02:168:57f4:0:efd0:b9e5:5ae6:c2fa])
  by smtp.gmail.com with ESMTPSA id
- az19-20020a05600c601300b0038cadf3aa69sm4858569wmb.36.2022.04.05.14.03.44
+ az19-20020a05600c601300b0038cadf3aa69sm4858569wmb.36.2022.04.05.14.03.45
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
  Tue, 05 Apr 2022 14:03:45 -0700 (PDT)
 From: Daniel Vetter <daniel.vetter@ffwll.ch>
 To: DRI Development <dri-devel@lists.freedesktop.org>
-Subject: [PATCH v3 04/17] fbcon: delete delayed loading code
-Date: Tue,  5 Apr 2022 23:03:22 +0200
-Message-Id: <20220405210335.3434130-5-daniel.vetter@ffwll.ch>
+Subject: [PATCH v3 05/17] fbdev/sysfs: Fix locking
+Date: Tue,  5 Apr 2022 23:03:23 +0200
+Message-Id: <20220405210335.3434130-6-daniel.vetter@ffwll.ch>
 X-Mailer: git-send-email 2.34.1
 In-Reply-To: <20220405210335.3434130-1-daniel.vetter@ffwll.ch>
 References: <20220405210335.3434130-1-daniel.vetter@ffwll.ch>
@@ -66,84 +66,53 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Du Cheng <ducheng2@gmail.com>,
- Tetsuo Handa <penguin-kernel@I-love.SAKURA.ne.jp>,
- Daniel Vetter <daniel.vetter@ffwll.ch>,
+Cc: Daniel Vetter <daniel.vetter@ffwll.ch>,
  Intel Graphics Development <intel-gfx@lists.freedesktop.org>,
- Claudio Suarez <cssk@net-c.es>, Thomas Zimmermann <tzimmermann@suse.de>,
- Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+ Qing Wang <wangqing@vivo.com>, Thomas Zimmermann <tzimmermann@suse.de>,
  Daniel Vetter <daniel.vetter@intel.com>, Sam Ravnborg <sam@ravnborg.org>,
  Helge Deller <deller@gmx.de>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Before
+fb_set_var requires we hold the fb_info lock. Or at least this now
+matches what the ioctl does ...
 
-commit 6104c37094e729f3d4ce65797002112735d49cd1
-Author: Daniel Vetter <daniel.vetter@ffwll.ch>
-Date:   Tue Aug 1 17:32:07 2017 +0200
+Note that ps3fb and sh_mobile_lcdcfb are busted in different ways here,
+but I will not fix them up.
 
-    fbcon: Make fbcon a built-time depency for fbdev
-
-it was possible to load fbcon and fbdev drivers in any order, which
-means that fbcon init had to handle the case where fbdev drivers where
-already registered.
-
-This is no longer possible, hence delete that code.
-
-Note that the exit case is a bit more complex and will be done in a
-separate patch.
-
-Since I had to audit the entire fbcon load code I also spotted a wrong
-function name in a comment in fbcon_startup(), which this patch also
-fixes.
-
-v2: Explain why we also fix the comment (Sam)
+Also in practice this isn't a big deal, because really variable fbdev
+state is actually protected by console_lock (because fbcon just
+doesn't bother with lock_fb_info() at all), and lock_fb_info
+protecting anything is really just a neat lie. But that's a much
+bigger fish to fry.
 
 Acked-by: Thomas Zimmermann <tzimmermann@suse.de>
 Acked-by: Sam Ravnborg <sam@ravnborg.org>
 Signed-off-by: Daniel Vetter <daniel.vetter@intel.com>
 Cc: Helge Deller <deller@gmx.de>
 Cc: Daniel Vetter <daniel@ffwll.ch>
-Cc: Claudio Suarez <cssk@net-c.es>
-Cc: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-Cc: Tetsuo Handa <penguin-kernel@I-love.SAKURA.ne.jp>
-Cc: Du Cheng <ducheng2@gmail.com>
+Cc: Qing Wang <wangqing@vivo.com>
+Cc: Sam Ravnborg <sam@ravnborg.org>
 ---
- drivers/video/fbdev/core/fbcon.c | 13 +------------
- 1 file changed, 1 insertion(+), 12 deletions(-)
+ drivers/video/fbdev/core/fbsysfs.c | 2 ++
+ 1 file changed, 2 insertions(+)
 
-diff --git a/drivers/video/fbdev/core/fbcon.c b/drivers/video/fbdev/core/fbcon.c
-index b75e638cb83d..83f0223f5333 100644
---- a/drivers/video/fbdev/core/fbcon.c
-+++ b/drivers/video/fbdev/core/fbcon.c
-@@ -944,7 +944,7 @@ static const char *fbcon_startup(void)
- 		return display_desc;
- 	/*
- 	 * Instead of blindly using registered_fb[0], we use info_idx, set by
--	 * fb_console_init();
-+	 * fbcon_fb_registered();
- 	 */
- 	info = registered_fb[info_idx];
- 	if (!info)
-@@ -3299,17 +3299,6 @@ static void fbcon_start(void)
- 		return;
- 	}
- #endif
--
--	if (num_registered_fb) {
--		int i;
--
--		for_each_registered_fb(i) {
--			info_idx = i;
--			break;
--		}
--
--		do_fbcon_takeover(0);
--	}
- }
+diff --git a/drivers/video/fbdev/core/fbsysfs.c b/drivers/video/fbdev/core/fbsysfs.c
+index 26892940c213..8c1ee9ecec3d 100644
+--- a/drivers/video/fbdev/core/fbsysfs.c
++++ b/drivers/video/fbdev/core/fbsysfs.c
+@@ -91,9 +91,11 @@ static int activate(struct fb_info *fb_info, struct fb_var_screeninfo *var)
  
- static void fbcon_exit(void)
+ 	var->activate |= FB_ACTIVATE_FORCE;
+ 	console_lock();
++	lock_fb_info(fb_info);
+ 	err = fb_set_var(fb_info, var);
+ 	if (!err)
+ 		fbcon_update_vcs(fb_info, var->activate & FB_ACTIVATE_ALL);
++	unlock_fb_info(fb_info);
+ 	console_unlock();
+ 	if (err)
+ 		return err;
 -- 
 2.34.1
 
