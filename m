@@ -1,59 +1,53 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4E21A4F3D62
-	for <lists+dri-devel@lfdr.de>; Tue,  5 Apr 2022 21:48:07 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 590D24F3D7C
+	for <lists+dri-devel@lfdr.de>; Tue,  5 Apr 2022 22:06:17 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id D949110E9BE;
-	Tue,  5 Apr 2022 19:48:02 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 155AE10ED82;
+	Tue,  5 Apr 2022 20:06:12 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-ot1-x332.google.com (mail-ot1-x332.google.com
- [IPv6:2607:f8b0:4864:20::332])
- by gabe.freedesktop.org (Postfix) with ESMTPS id A8E1610E9BE
- for <dri-devel@lists.freedesktop.org>; Tue,  5 Apr 2022 19:48:01 +0000 (UTC)
-Received: by mail-ot1-x332.google.com with SMTP id
- w17-20020a056830111100b005b22c584b93so240514otq.11
- for <dri-devel@lists.freedesktop.org>; Tue, 05 Apr 2022 12:48:01 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=chromium.org; s=google;
- h=mime-version:in-reply-to:references:from:user-agent:date:message-id
- :subject:to:cc;
- bh=iJPD9APzDqLjV+qOf9rpHBZiLlNyWx7WzJ1mV8UJe7c=;
- b=T1SO1Fz8TMPvB4YbIVayaKmOpzcbPI4uhFO6kGD5j3HJ59Foh+JcCdORHlXxNcIp4M
- ZRmNdNuLv2/hIhMjYpHLvwxRgzsdd0tVTV0FlesVlNWEbpgqofyxQUWkVDB398yx/KQa
- /szIDDLfRGu/b2gi8ib21FLRu7/H7mSRXrwrk=
+Received: from mail-oi1-x230.google.com (mail-oi1-x230.google.com
+ [IPv6:2607:f8b0:4864:20::230])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id C8CEB10ED82
+ for <dri-devel@lists.freedesktop.org>; Tue,  5 Apr 2022 20:06:10 +0000 (UTC)
+Received: by mail-oi1-x230.google.com with SMTP id k10so298995oia.0
+ for <dri-devel@lists.freedesktop.org>; Tue, 05 Apr 2022 13:06:10 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ffwll.ch; s=google;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc; bh=QWxUGBkyoJQZulOyqMEuVhaAfgSTMVNxIngnIdOPpYU=;
+ b=bw29hLLMef0W9ZGmzfypk9FJayJsWNNBjyZHyz+UOw2JWyLqc5ndJK47wGNLpUJmg5
+ 91d4gA4L0EXHMsMbWyl34/IPf8R/fvZzdhCNojgWOCSgD6thSmAPl+hrLpeWLiFiF0oC
+ /YAXoJy2FwmBMZNWJkQNqmXBJQ2nn7ykVDREs=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=x-gm-message-state:mime-version:in-reply-to:references:from
- :user-agent:date:message-id:subject:to:cc;
- bh=iJPD9APzDqLjV+qOf9rpHBZiLlNyWx7WzJ1mV8UJe7c=;
- b=Ala1K/9PkEylQj92cFk9bgEoYjYa8jiycjkO2Oam5JvrfLZ3Mj/47JTx+DqdgEL7NN
- q99TIQ+gACP855HMl9D+54Gp1Qdxk48ogeFfwSnQB2e8q3lQ6jvs57J7ATN21EehNOBe
- l+sZvDqKCFd7RFi5AMaMq66rvlxi7eIRXR9N2XcGmDF6ed0fxYTLi+60sNoZaM3v4aOQ
- 0yoL/fLD4uDOT8/D3I8Q/amlF1wGDPuGYNyfFst4Uof+wxEfA/1SWoKXqfukZVdYldVj
- dfQ/43Vg7wxxnVomSgtKQwWZG5gYynmbLrMOorqIYVT2PurLO0j5s6yOYDZNs+XIshao
- gf3A==
-X-Gm-Message-State: AOAM533rJYPpGwHYdEV6g9pm0Uyih07SloBt/5bHRjsU4YDbRAmvvKyS
- HbTC/eomOprt71t0GiaIUU1lT0JOwJJweSWDVBOT2U3QHl4=
-X-Google-Smtp-Source: ABdhPJwR0A33UiSi8THY8lPeRPmOOiXc6cK6GctfIZWfsKcwOKJxED9C+HA79JYDyXPCBgczoDzz7MJSwix/UYHlFvY=
-X-Received: by 2002:a05:6830:61b:b0:5cc:e44:7dc3 with SMTP id
- w27-20020a056830061b00b005cc0e447dc3mr1771528oti.159.1649188080802; Tue, 05
- Apr 2022 12:48:00 -0700 (PDT)
-Received: from 753933720722 named unknown by gmailapi.google.com with
- HTTPREST; Tue, 5 Apr 2022 14:48:00 -0500
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=QWxUGBkyoJQZulOyqMEuVhaAfgSTMVNxIngnIdOPpYU=;
+ b=mFa38jP2KKBbEAbCMXY+uBATj7tKBBVGvpC9rG4/WxY0RLYsapOKOLWNxsFKU5QClb
+ /0sfpaRWKSVT5yrnqBVBnDv2RizP4fsAcYB9RgmQGZIx6gh16yYaRbfBmMfqSKD00s9u
+ BOnwUBMsXvrQ9vMcdgKV/HU/qlS2wO1mcaAJ8SGLY5NWGiE0+TZTVNSciovjw+CoDah4
+ cGivr4qWuVnm+iuGKvBXAGypLpOwA2S46Amk8/axP9xQUTDqzCC0TCNhfHqpTTkxFGwz
+ E+0z4z0LPR2O62rhohDmgmx/EmX3MbL3lYHXCAXs2dUNnbzL/GRgAzr7Y7yY8MzQbxLt
+ i3DQ==
+X-Gm-Message-State: AOAM530nBMCDlynQYSntCyva7EG5qjg+dGf4vKTd109TR8ENL/sm3kx/
+ FR3c2gyovIH6BRHRG9a5T4ogTglG2w0ft3qygmj4fg==
+X-Google-Smtp-Source: ABdhPJyN88JgxOV9OdsCTGmy9Zri73CWMwH03gYk8nSqfOZZNb26TA3gERB0i0Y9msTdlltQyneNy8Bc/xB/fXzhJNU=
+X-Received: by 2002:a54:4099:0:b0:2ec:d31c:481d with SMTP id
+ i25-20020a544099000000b002ecd31c481dmr2236343oii.7.1649189169679; Tue, 05 Apr
+ 2022 13:06:09 -0700 (PDT)
 MIME-Version: 1.0
-In-Reply-To: <1649182627-8068-1-git-send-email-quic_khsieh@quicinc.com>
-References: <1649182627-8068-1-git-send-email-quic_khsieh@quicinc.com>
-From: Stephen Boyd <swboyd@chromium.org>
-User-Agent: alot/0.10
-Date: Tue, 5 Apr 2022 14:48:00 -0500
-Message-ID: <CAE-0n50OYgSfhMcw2N_dd8LzxBXxoGhb0ToASsHGY=VPDa0zVg@mail.gmail.com>
-Subject: Re: [PATCH] drm/msm/dp: enhance both connect and disconnect
- pending_timeout handle
-To: Kuogee Hsieh <quic_khsieh@quicinc.com>, agross@kernel.org, airlied@linux.ie,
- bjorn.andersson@linaro.org, daniel@ffwll.ch, dmitry.baryshkov@linaro.org, 
- robdclark@gmail.com, sean@poorly.run, vkoul@kernel.org
+References: <20220401205602.1172975-1-zack@kde.org>
+ <YksRCsiQtCp74y/A@phenom.ffwll.local>
+ <51403dc6d7a769eeda6718a31e92135173591d9d.camel@vmware.com>
+In-Reply-To: <51403dc6d7a769eeda6718a31e92135173591d9d.camel@vmware.com>
+From: Daniel Vetter <daniel@ffwll.ch>
+Date: Tue, 5 Apr 2022 22:05:58 +0200
+Message-ID: <CAKMK7uFrb_NhyxvvJdp42QXb1enkETWs=RQ4WrMHscHmuohTbA@mail.gmail.com>
+Subject: Re: [PATCH 1/3] drm/vmwgfx: Add debugfs entries for ttm placements
+To: Zack Rusin <zackr@vmware.com>
 Content-Type: text/plain; charset="UTF-8"
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -67,268 +61,211 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: quic_sbillaka@quicinc.com, linux-arm-msm@vger.kernel.org,
- quic_abhinavk@quicinc.com, dri-devel@lists.freedesktop.org,
- linux-kernel@vger.kernel.org, quic_aravindh@quicinc.com,
- freedreno@lists.freedesktop.org
+Cc: Martin Krastev <krastevm@vmware.com>,
+ Maaz Mombasawala <mombasawalam@vmware.com>,
+ "dri-devel@lists.freedesktop.org" <dri-devel@lists.freedesktop.org>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Quoting Kuogee Hsieh (2022-04-05 11:17:07)
-> HPD plugin handle is responsible for setting up main link and depend on
-
-Is "HPD plugin handle" a function? Can you use the function name?
-
-> user space frame work to start video stream. Similarly, HPD unplugged
-> handle is responsible for tearing down main link and depend on user space
-> frame work to stop video stream. Connect_pending_timeout and disconnect_
-
-Is 'Connect_pending_timeout' actually 'dp_connect_pending_timeout()'? If
-so, it would be clearer if the function name is used.
-
-> pending_timeout are fired after 5 seconds timer expired to tear down main
-> link and video stream and restore DP driver state into known default
-> DISCONNECTED state in the case of frame work does not response uevent
-
-s/frame work/framework/
-s/response/respond to/
-
-> original from DP driver so that DP driver can recover gracefully.
-
-This part of the sentence doesn't make sense to me.
-
+On Tue, 5 Apr 2022 at 16:01, Zack Rusin <zackr@vmware.com> wrote:
 >
-> The original connect_pending_timeout and disconnect_pending_timeout were
-> not implemented correctly. This patch enhance both timeout functions to
-
-s/enhance/fixes/
-
-> tear down main link and video stream correctly once timer is fired.
+> On Mon, 2022-04-04 at 17:38 +0200, Daniel Vetter wrote:
+> > On Fri, Apr 01, 2022 at 04:56:00PM -0400, Zack Rusin wrote:
+> > > From: Zack Rusin <zackr@vmware.com>
+> > >
+> > > Add a few debugfs entries for every used TTM placement that vmwgfx
+> > > is
+> > > using. This allows basic tracking of memory usage inside vmwgfx,
+> > > e.g.
+> > > 'cat /sys/kernel/debug/dri/0/mob_ttm' will display mob memory
+> > > usage.
+> > >
+> > > Signed-off-by: Zack Rusin <zackr@vmware.com>
+> > > Reviewed-by: Martin Krastev <krastevm@vmware.com>
+> > > ---
+> > >  drivers/gpu/drm/vmwgfx/vmwgfx_drv.c        |  1 +
+> > >  drivers/gpu/drm/vmwgfx/vmwgfx_drv.h        |  1 +
+> > >  drivers/gpu/drm/vmwgfx/vmwgfx_ttm_buffer.c | 97
+> > > +++++++++++++++++++++-
+> > >  3 files changed, 98 insertions(+), 1 deletion(-)
+> > >
+> > > diff --git a/drivers/gpu/drm/vmwgfx/vmwgfx_drv.c
+> > > b/drivers/gpu/drm/vmwgfx/vmwgfx_drv.c
+> > > index 791f9a5f3868..6d675855f065 100644
+> > > --- a/drivers/gpu/drm/vmwgfx/vmwgfx_drv.c
+> > > +++ b/drivers/gpu/drm/vmwgfx/vmwgfx_drv.c
+> > > @@ -1632,6 +1632,7 @@ static int vmw_probe(struct pci_dev *pdev,
+> > > const struct pci_device_id *ent)
+> > >               goto out_unload;
+> > >
+> > >       vmw_debugfs_gem_init(vmw);
+> > > +     vmw_ttm_debugfs_init(vmw);
+> > >
+> > >       return 0;
+> > >  out_unload:
+> > > diff --git a/drivers/gpu/drm/vmwgfx/vmwgfx_drv.h
+> > > b/drivers/gpu/drm/vmwgfx/vmwgfx_drv.h
+> > > index be19aa6e1f13..eabe3e8e9cf9 100644
+> > > --- a/drivers/gpu/drm/vmwgfx/vmwgfx_drv.h
+> > > +++ b/drivers/gpu/drm/vmwgfx/vmwgfx_drv.h
+> > > @@ -1085,6 +1085,7 @@ vmw_bo_sg_table(struct ttm_buffer_object
+> > > *bo);
+> > >  extern int vmw_bo_create_and_populate(struct vmw_private
+> > > *dev_priv,
+> > >                                     unsigned long bo_size,
+> > >                                     struct ttm_buffer_object
+> > > **bo_p);
+> > > +void vmw_ttm_debugfs_init(struct vmw_private *vdev);
+> > >
+> > >  extern void vmw_piter_start(struct vmw_piter *viter,
+> > >                           const struct vmw_sg_table *vsgt,
+> > > diff --git a/drivers/gpu/drm/vmwgfx/vmwgfx_ttm_buffer.c
+> > > b/drivers/gpu/drm/vmwgfx/vmwgfx_ttm_buffer.c
+> > > index b84ecc6d6611..355414595e52 100644
+> > > --- a/drivers/gpu/drm/vmwgfx/vmwgfx_ttm_buffer.c
+> > > +++ b/drivers/gpu/drm/vmwgfx/vmwgfx_ttm_buffer.c
+> > > @@ -1,7 +1,7 @@
+> > >  // SPDX-License-Identifier: GPL-2.0 OR MIT
+> > >  /*****************************************************************
+> > > *********
+> > >   *
+> > > - * Copyright 2009-2015 VMware, Inc., Palo Alto, CA., USA
+> > > + * Copyright 2009-2022 VMware, Inc., Palo Alto, CA., USA
+> > >   *
+> > >   * Permission is hereby granted, free of charge, to any person
+> > > obtaining a
+> > >   * copy of this software and associated documentation files (the
+> > > @@ -677,3 +677,98 @@ int vmw_bo_create_and_populate(struct
+> > > vmw_private *dev_priv,
+> > >               *bo_p = bo;
+> > >       return ret;
+> > >  }
+> > > +
+> > > +#if defined(CONFIG_DEBUG_FS)
+> > > +
+> > > +static int vmw_ttm_vram_table_show(struct seq_file *m, void
+> > > *unused)
+> > > +{
+> > > +     struct vmw_private *vdev = (struct vmw_private *)m->private;
+> > > +     struct ttm_resource_manager *man = ttm_manager_type(&vdev-
+> > > >bdev,
+> > > +
+> > > TTM_PL_VRAM);
+> > > +     struct drm_printer p = drm_seq_file_printer(m);
+> > > +
+> > > +     ttm_resource_manager_debug(man, &p);
+> > > +     return 0;
+> > > +}
+> > > +
+> > > +static int vmw_ttm_page_pool_show(struct seq_file *m, void
+> > > *unused)
+> > > +{
+> > > +     struct vmw_private *vdev = (struct vmw_private *)m->private;
+> > > +
+> > > +     return ttm_pool_debugfs(&vdev->bdev.pool, m);
+> > > +}
+> > > +
+> > > +static int vmw_ttm_mob_table_show(struct seq_file *m, void
+> > > *unused)
+> > > +{
+> > > +     struct vmw_private *vdev = (struct vmw_private *)m->private;
+> > > +     struct ttm_resource_manager *man = ttm_manager_type(&vdev-
+> > > >bdev,
+> > > +
+> > > VMW_PL_MOB);
+> > > +     struct drm_printer p = drm_seq_file_printer(m);
+> > > +
+> > > +     ttm_resource_manager_debug(man, &p);
+> > > +     return 0;
+> > > +}
+> > > +
+> > > +static int vmw_ttm_gmr_table_show(struct seq_file *m, void
+> > > *unused)
+> > > +{
+> > > +     struct vmw_private *vdev = (struct vmw_private *)m->private;
+> > > +     struct ttm_resource_manager *man = ttm_manager_type(&vdev-
+> > > >bdev,
+> > > +
+> > > VMW_PL_GMR);
+> > > +     struct drm_printer p = drm_seq_file_printer(m);
+> > > +
+> > > +     ttm_resource_manager_debug(man, &p);
+> > > +     return 0;
+> > > +}
+> > > +
+> > > +static int vmw_ttm_system_table_show(struct seq_file *m, void
+> > > *unused)
+> > > +{
+> > > +     struct vmw_private *vdev = (struct vmw_private *)m->private;
+> > > +     struct ttm_resource_manager *man = ttm_manager_type(&vdev-
+> > > >bdev,
+> > > +
+> > > TTM_PL_SYSTEM);
+> > > +     struct drm_printer p = drm_seq_file_printer(m);
+> > > +
+> > > +     ttm_resource_manager_debug(man, &p);
+> > > +     return 0;
+> > > +}
+> > > +
+> > > +static int vmw_ttm_system_mob_table_show(struct seq_file *m, void
+> > > *unused)
+> > > +{
+> > > +     struct vmw_private *vdev = (struct vmw_private *)m->private;
+> > > +     struct ttm_resource_manager *man = ttm_manager_type(&vdev-
+> > > >bdev,
+> > > +
+> > > VMW_PL_SYSTEM);
+> > > +     struct drm_printer p = drm_seq_file_printer(m);
+> > > +
+> > > +     ttm_resource_manager_debug(man, &p);
+> > > +     return 0;
+> > > +}
+> > > +
+> > > +DEFINE_SHOW_ATTRIBUTE(vmw_ttm_vram_table);
+> > > +DEFINE_SHOW_ATTRIBUTE(vmw_ttm_mob_table);
+> > > +DEFINE_SHOW_ATTRIBUTE(vmw_ttm_gmr_table);
+> > > +DEFINE_SHOW_ATTRIBUTE(vmw_ttm_system_table);
+> > > +DEFINE_SHOW_ATTRIBUTE(vmw_ttm_system_mob_table);
+> > > +DEFINE_SHOW_ATTRIBUTE(vmw_ttm_page_pool);
+> > > +
+> > > +#endif
+> > > +
+> > > +void vmw_ttm_debugfs_init(struct vmw_private *vdev)
+> > > +{
+> > > +#if defined(CONFIG_DEBUG_FS)
+> > > +     struct drm_device *drm = &vdev->drm;
+> > > +     struct drm_minor *minor = drm->primary;
+> > > +     struct dentry *root = minor->debugfs_root;
+> > > +
+> > > +     debugfs_create_file("vram_ttm", 0444, root, vdev,
+> > > +                         &vmw_ttm_vram_table_fops);
+> > > +     debugfs_create_file("mob_ttm", 0444, root, vdev,
+> > > +                         &vmw_ttm_mob_table_fops);
+> > > +     debugfs_create_file("gmr_ttm", 0444, root, vdev,
+> > > +                         &vmw_ttm_gmr_table_fops);
+> > > +     debugfs_create_file("system_ttm", 0444, root, vdev,
+> > > +                         &vmw_ttm_system_table_fops);
+> > > +     debugfs_create_file("system_mob_ttm", 0444, root, vdev,
+> > > +                         &vmw_ttm_system_mob_table_fops);
+> > > +     debugfs_create_file("ttm_page_pool", 0444, root, vdev,
+> > > +                         &vmw_ttm_page_pool_fops);
+> > > +#endif
+> >
+> > Bit orthogonal, but can't ttm create the debugfs files for all the
+> > regions
+> > on its own when we set everything up? Or at least a "create me all
+> > the
+> > regions debugfs files" helpers would be useful. It's just rather
+> > silly
+> > amounts of boilerplate we're having here, and that in each driver.
 >
-> Fixes: 8ede2ecc3e5e ("drm/msm/dp: Add DP compliance tests on Snapdragon Chipsets")
->
+> Yea, agreed. With some kind of mapping between ttm data placement
+> defines and file names, this would be very much doable. Would you like
+> to see that done instead of this patch or after this patch lands?
 
-Nitpick: Drop newline.
-
-> Signed-off-by: Kuogee Hsieh <quic_khsieh@quicinc.com>
-> ---
->  drivers/gpu/drm/msm/dp/dp_ctrl.c    | 34 ++++++++++++++++++++++++--
->  drivers/gpu/drm/msm/dp/dp_ctrl.h    |  1 +
->  drivers/gpu/drm/msm/dp/dp_display.c | 48 +++++++++++++++++++++++++++----------
->  3 files changed, 68 insertions(+), 15 deletions(-)
->
-> diff --git a/drivers/gpu/drm/msm/dp/dp_ctrl.c b/drivers/gpu/drm/msm/dp/dp_ctrl.c
-> index dcd0126..3f4cf6d 100644
-> --- a/drivers/gpu/drm/msm/dp/dp_ctrl.c
-> +++ b/drivers/gpu/drm/msm/dp/dp_ctrl.c
-> @@ -1910,7 +1910,7 @@ int dp_ctrl_off_link_stream(struct dp_ctrl *dp_ctrl)
->         return ret;
->  }
->
-> -int dp_ctrl_off(struct dp_ctrl *dp_ctrl)
-> +int dp_ctrl_off_link(struct dp_ctrl *dp_ctrl)
->  {
->         struct dp_ctrl_private *ctrl;
->         struct dp_io *dp_io;
-> @@ -1926,7 +1926,37 @@ int dp_ctrl_off(struct dp_ctrl *dp_ctrl)
->
->         dp_catalog_ctrl_mainlink_ctrl(ctrl->catalog, false);
->
-> -       dp_catalog_ctrl_reset(ctrl->catalog);
-> +       ret = dp_power_clk_enable(ctrl->power, DP_CTRL_PM, false);
-> +       if (ret) {
-> +               DRM_ERROR("Failed to disable link clocks. ret=%d\n", ret);
-> +       }
-> +
-> +       DRM_DEBUG_DP("Before, phy=%x init_count=%d power_on=%d\n",
-> +               (u32)(uintptr_t)phy, phy->init_count, phy->power_count);
-
-Please don't recast pointer prints with %x. Use %p to print pointers.
-
-> +
-> +       phy_power_off(phy);
-> +
-> +       DRM_DEBUG_DP("After, phy=%x init_count=%d power_on=%d\n",
-> +               (u32)(uintptr_t)phy, phy->init_count, phy->power_count);
-
-It doesn't look good to be peeking inside struct phy. I wonder why that
-isn't an opaque struct. Either way, please don't print the struct
-members.
-
-> +
-> +       return ret;
-> +}
-> +
-> +int dp_ctrl_off(struct dp_ctrl *dp_ctrl)
-> +{
-> +       struct dp_ctrl_private *ctrl;
-> +       struct dp_io *dp_io;
-> +       struct phy *phy;
-> +       int ret = 0;
-
-Drop useless assignment please
-
-> +
-> +       if (!dp_ctrl)
-
-How is this possible? Please remove useless checks.
-
-> +               return -EINVAL;
-> +
-> +       ctrl = container_of(dp_ctrl, struct dp_ctrl_private, dp_ctrl);
-> +       dp_io = &ctrl->parser->io;
-> +       phy = dp_io->phy;
-> +
-> +       dp_catalog_ctrl_mainlink_ctrl(ctrl->catalog, false);
->
->         ret = dp_power_clk_enable(ctrl->power, DP_STREAM_PM, false);
->         if (ret)
-> diff --git a/drivers/gpu/drm/msm/dp/dp_display.c b/drivers/gpu/drm/msm/dp/dp_display.c
-> index 178b774..56bf7c5 100644
-> --- a/drivers/gpu/drm/msm/dp/dp_display.c
-> +++ b/drivers/gpu/drm/msm/dp/dp_display.c
-> @@ -593,10 +593,16 @@ static int dp_connect_pending_timeout(struct dp_display_private *dp, u32 data)
->
->         mutex_lock(&dp->event_mutex);
->
-> +       /*
-> +        * main link had been setup but video is not ready yet
-> +        * only tear down main link
-> +        */
->         state = dp->hpd_state;
->         if (state == ST_CONNECT_PENDING) {
-> -               dp->hpd_state = ST_CONNECTED;
->                 DRM_DEBUG_DP("type=%d\n", dp->dp_display.connector_type);
-> +               dp_ctrl_off_link(dp->ctrl);
-> +               dp_display_host_phy_exit(dp);
-> +               dp->hpd_state = ST_DISCONNECTED;
->         }
->
->         mutex_unlock(&dp->event_mutex);
-> @@ -645,6 +651,7 @@ static int dp_hpd_unplug_handle(struct dp_display_private *dp, u32 data)
->                 if (dp->link->sink_count == 0) {
->                         dp_display_host_phy_exit(dp);
->                 }
-> +               dp_display_usbpd_disconnect_cb(&dp->pdev->dev);
-
-The name of this function is very confusing. It would be nice to rename
-it to something like dp_display_notify_disconnect() and skip
-
->                 mutex_unlock(&dp->event_mutex);
->                 return 0;
->         }
-> @@ -661,19 +668,19 @@ static int dp_hpd_unplug_handle(struct dp_display_private *dp, u32 data)
->                 return 0;
->         }
->
-> -       dp->hpd_state = ST_DISCONNECT_PENDING;
-> -
->         /* disable HPD plug interrupts */
->         dp_catalog_hpd_config_intr(dp->catalog, DP_DP_HPD_PLUG_INT_MASK, false);
->
-> -       /*
-> -        * We don't need separate work for disconnect as
-> -        * connect/attention interrupts are disabled
-> -        */
-
-Why is this comment removed? Because a work is actually used? Why can't
-we call dp_display_send_hpd_notification() directly?
-
->         dp_display_usbpd_disconnect_cb(&dp->pdev->dev);
->
-> -       /* start sentinel checking in case of missing uevent */
-> -       dp_add_event(dp, EV_DISCONNECT_PENDING_TIMEOUT, 0, DP_TIMEOUT_5_SECOND);
-> +       if (state == ST_DISPLAY_OFF) {
-> +               dp->hpd_state = ST_DISCONNECTED;
-> +
-
-Drop extra newline please
-
-> +       } else {
-> +               /* start sentinel checking in case of missing uevent */
-> +               dp_add_event(dp, EV_DISCONNECT_PENDING_TIMEOUT, 0, DP_TIMEOUT_5_SECOND);
-> +               dp->hpd_state = ST_DISCONNECT_PENDING;
-
-It looks like dp_add_event() should check the event and change
-dp->hpd_state sometimes. Then this code would be simply adding an event
-and dp_add_event() would be changing the hpd_state while scheduling the
-work.
-
-> +       }
->
->         /* signal the disconnect event early to ensure proper teardown */
->         dp_display_handle_plugged_change(&dp->dp_display, false);
-> @@ -695,10 +702,16 @@ static int dp_disconnect_pending_timeout(struct dp_display_private *dp, u32 data
->
->         mutex_lock(&dp->event_mutex);
->
-> +       /*
-> +        * main link had been set up and video is ready
-> +        * tear down main link, video stream and phy
-
-because disconnect event never came and we need to get back to a default
-sane state?
-
-> +        */
->         state =  dp->hpd_state;
->         if (state == ST_DISCONNECT_PENDING) {
-> -               dp->hpd_state = ST_DISCONNECTED;
->                 DRM_DEBUG_DP("type=%d\n", dp->dp_display.connector_type);
-> +               dp_ctrl_off(dp->ctrl);
-> +               dp_display_host_phy_exit(dp);
-> +               dp->hpd_state = ST_DISCONNECTED;
->         }
->
->         mutex_unlock(&dp->event_mutex);
-> @@ -1571,6 +1584,12 @@ int msm_dp_display_enable(struct msm_dp *dp, struct drm_encoder *encoder)
->
->         mutex_lock(&dp_display->event_mutex);
->
-> +       state =  dp_display->hpd_state;
-
-s/=  /= /
-
-Drop extra space after '=' please.
-
-> +       if (state == ST_DISCONNECTED) {
-> +               mutex_unlock(&dp_display->event_mutex);
-> +               return rc;
-> +       }
-> +
->         /* stop sentinel checking */
->         dp_del_event(dp_display, EV_CONNECT_PENDING_TIMEOUT);
->
-> @@ -1588,8 +1607,6 @@ int msm_dp_display_enable(struct msm_dp *dp, struct drm_encoder *encoder)
->                 return rc;
->         }
->
-> -       state =  dp_display->hpd_state;
-> -
->         if (state == ST_DISPLAY_OFF)
->                 dp_display_host_phy_init(dp_display);
->
-> @@ -1638,13 +1655,18 @@ int msm_dp_display_disable(struct msm_dp *dp, struct drm_encoder *encoder)
->         /* stop sentinel checking */
->         dp_del_event(dp_display, EV_DISCONNECT_PENDING_TIMEOUT);
->
-> +       state =  dp_display->hpd_state;
-
-s/=  /= /
-
-Drop extra space after '=' please.
-
-> +       if (state == ST_DISCONNECTED || state == ST_DISPLAY_OFF) {
-> +               mutex_unlock(&dp_display->event_mutex);
-> +               return rc;
-> +       }
-> +
->         dp_display_disable(dp_display, 0);
->
->         rc = dp_display_unprepare(dp);
->         if (rc)
->                 DRM_ERROR("DP display unprepare failed, rc=%d\n", rc);
->
-> -       state =  dp_display->hpd_state;
->         if (state == ST_DISCONNECT_PENDING) {
->                 /* completed disconnection */
->                 dp_display->hpd_state = ST_DISCONNECTED;
+If you're volunteering either way is fine imo :-)
+-Daniel
+-- 
+Daniel Vetter
+Software Engineer, Intel Corporation
+http://blog.ffwll.ch
