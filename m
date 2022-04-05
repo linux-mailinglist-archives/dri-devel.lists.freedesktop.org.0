@@ -1,39 +1,43 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8AD564F23E3
-	for <lists+dri-devel@lfdr.de>; Tue,  5 Apr 2022 09:02:04 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id A8EBC4F2595
+	for <lists+dri-devel@lfdr.de>; Tue,  5 Apr 2022 09:48:49 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 76D8810EE0D;
-	Tue,  5 Apr 2022 07:02:00 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id DACD510E45E;
+	Tue,  5 Apr 2022 07:48:47 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mx1.molgen.mpg.de (mx3.molgen.mpg.de [141.14.17.11])
- by gabe.freedesktop.org (Postfix) with ESMTPS id E08D010EE0D;
- Tue,  5 Apr 2022 07:01:58 +0000 (UTC)
-Received: from [192.168.0.2] (ip5f5ae8ff.dynamic.kabel-deutschland.de
- [95.90.232.255])
- (using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
- key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
- (No client certificate requested) (Authenticated sender: pmenzel)
- by mx.molgen.mpg.de (Postfix) with ESMTPSA id 4780461E64846;
- Tue,  5 Apr 2022 09:01:57 +0200 (CEST)
-Message-ID: <226a1c28-2516-7af4-dc19-7236f31128e9@molgen.mpg.de>
-Date: Tue, 5 Apr 2022 09:01:56 +0200
+Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 6E97110E45E
+ for <dri-devel@lists.freedesktop.org>; Tue,  5 Apr 2022 07:48:46 +0000 (UTC)
+Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
+ (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+ (No client certificate requested)
+ by dfw.source.kernel.org (Postfix) with ESMTPS id D05F16172C;
+ Tue,  5 Apr 2022 07:48:45 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id B3D97C34110;
+ Tue,  5 Apr 2022 07:48:43 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linuxfoundation.org;
+ s=korg; t=1649144924;
+ bh=IV/c1dNZq5Imz6GlTesiiw6Gbmo/NPg97KtelmdkllE=;
+ h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
+ b=VP0JEGhXzFj5sXm+NOlf5YRK2c+kXwGPUMNrxZzzWxS81cPMuhF2LhG/C3pH8IEq+
+ N6B/tbYGmOx9SmeUKOkXTpZMjytjqq2HuT3QfX7SbsA7mdlCVoMo5ao1ucSfP0wy5I
+ PSOKFmvAJGlh+sZBo6NvoPi+AEXlLoAHJtq7bNy4=
+From: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+To: linux-kernel@vger.kernel.org
+Subject: [PATCH 5.17 0186/1126] drm/fb-helper: Mark screen buffers in system
+ memory with FBINFO_VIRTFB
+Date: Tue,  5 Apr 2022 09:15:33 +0200
+Message-Id: <20220405070413.066504239@linuxfoundation.org>
+X-Mailer: git-send-email 2.35.1
+In-Reply-To: <20220405070407.513532867@linuxfoundation.org>
+References: <20220405070407.513532867@linuxfoundation.org>
+User-Agent: quilt/0.66
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.7.0
-Subject: Public patches but non-public development branch (Re: [PATCH 1/1]
- drm/amdkfd: Add missing NULL check in svm_range_map_to_gpu)
-Content-Language: en-US
-To: =?UTF-8?Q?Christian_K=c3=b6nig?= <christian.koenig@amd.com>
-References: <20220404214255.11902-1-Philip.Yang@amd.com>
- <7a0e9d4c-257f-287e-9caf-f4161887ba39@molgen.mpg.de>
- <530f3735-9a82-54af-c090-cc8d5b1510cc@amd.com>
-From: Paul Menzel <pmenzel@molgen.mpg.de>
-In-Reply-To: <530f3735-9a82-54af-c090-cc8d5b1510cc@amd.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -47,69 +51,73 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Philip Yang <Philip.Yang@amd.com>, dri-devel@lists.freedesktop.org,
- amd-gfx@lists.freedesktop.org
+Cc: Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+ dri-devel@lists.freedesktop.org, Thomas Zimmermann <tzimmermann@suse.de>,
+ stable@vger.kernel.org, Daniel Vetter <daniel.vetter@ffwll.ch>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Dear Christian,
+From: Thomas Zimmermann <tzimmermann@suse.de>
+
+commit cd9f7f7ac5932129fe81b4c7559cfcb226ec7c5c upstream.
+
+Mark screen buffers in system memory with FBINFO_VIRTFB. Otherwise, fbdev
+deferred I/O marks mmap'ed areas of system memory with VM_IO. (There's an
+inverse relationship between the two flags.)
+
+For shadow buffers, also set the FBINFO_READS_FAST hint.
+
+v3:
+	* change FB_ to FBINFO_ in commit description
+v2:
+	* updated commit description (Daniel)
+	* added Fixes tag
+
+Signed-off-by: Thomas Zimmermann <tzimmermann@suse.de>
+Fixes: d536540f304c ("drm/fb-helper: Add generic fbdev emulation .fb_probe function")
+Reviewed-by: Daniel Vetter <daniel.vetter@ffwll.ch>
+Cc: dri-devel@lists.freedesktop.org
+Cc: <stable@vger.kernel.org> # v4.19+
+Link: https://patchwork.freedesktop.org/patch/msgid/20220201115305.9333-1-tzimmermann@suse.de
+Signed-off-by: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+---
+ drivers/gpu/drm/drm_fb_helper.c |    9 ++++++---
+ 1 file changed, 6 insertions(+), 3 deletions(-)
+
+--- a/drivers/gpu/drm/drm_fb_helper.c
++++ b/drivers/gpu/drm/drm_fb_helper.c
+@@ -2346,6 +2346,7 @@ static int drm_fb_helper_generic_probe(s
+ 	fbi->fbops = &drm_fbdev_fb_ops;
+ 	fbi->screen_size = sizes->surface_height * fb->pitches[0];
+ 	fbi->fix.smem_len = fbi->screen_size;
++	fbi->flags = FBINFO_DEFAULT;
+ 
+ 	drm_fb_helper_fill_info(fbi, fb_helper, sizes);
+ 
+@@ -2353,19 +2354,21 @@ static int drm_fb_helper_generic_probe(s
+ 		fbi->screen_buffer = vzalloc(fbi->screen_size);
+ 		if (!fbi->screen_buffer)
+ 			return -ENOMEM;
++		fbi->flags |= FBINFO_VIRTFB | FBINFO_READS_FAST;
+ 
+ 		fbi->fbdefio = &drm_fbdev_defio;
+-
+ 		fb_deferred_io_init(fbi);
+ 	} else {
+ 		/* buffer is mapped for HW framebuffer */
+ 		ret = drm_client_buffer_vmap(fb_helper->buffer, &map);
+ 		if (ret)
+ 			return ret;
+-		if (map.is_iomem)
++		if (map.is_iomem) {
+ 			fbi->screen_base = map.vaddr_iomem;
+-		else
++		} else {
+ 			fbi->screen_buffer = map.vaddr;
++			fbi->flags |= FBINFO_VIRTFB;
++		}
+ 
+ 		/*
+ 		 * Shamelessly leak the physical address to user-space. As
 
 
-Am 05.04.22 um 08:54 schrieb Christian König:
-> Am 05.04.22 um 08:45 schrieb Paul Menzel:
-
->> Am 04.04.22 um 23:42 schrieb Philip Yang:
->>> bo_adev is NULL for system memory mapping to GPU.
->>>
->>> Fixes: 05fe8eeca92 (drm/amdgpu: fix TLB flushing during eviction)
->>
->> Sorry, where can I find that commit?
-> 
-> Well that's expected, the development branch is not public.
-
-Well obviously, it was unexpected for me. How should I have known? Where 
-is that documented? If the patches are publicly posted to the mailing 
-list, why is that development branch not public?
-
-The current situation is really frustrating for non-AMD employees. How 
-can the current situation be improved?
-
-
-Kind regards,
-
-Paul
-
-
->> I do not see it in drm-next from agd5f git archive 
->> git@gitlab.freedesktop.org:agd5f/linux.git.
->>
->>     $ git log --oneline -1
->>     e45422695c19 (HEAD, agd5f/drm-next) drm/amdkfd: Create file 
->> descriptor after client is added to smi_clients list
->>
->>
->> Kind regards,
->>
->> Paul
->>
->>
->>> Signed-off-by: Philip Yang <Philip.Yang@amd.com>
->>> ---
->>>   drivers/gpu/drm/amd/amdkfd/kfd_svm.c | 2 +-
->>>   1 file changed, 1 insertion(+), 1 deletion(-)
->>>
->>> diff --git a/drivers/gpu/drm/amd/amdkfd/kfd_svm.c 
->>> b/drivers/gpu/drm/amd/amdkfd/kfd_svm.c
->>> index 907b02045824..d3fb2d0b5a25 100644
->>> --- a/drivers/gpu/drm/amd/amdkfd/kfd_svm.c
->>> +++ b/drivers/gpu/drm/amd/amdkfd/kfd_svm.c
->>> @@ -1281,7 +1281,7 @@ svm_range_map_to_gpu(struct kfd_process_device 
->>> *pdd, struct svm_range *prange,
->>>                          last_start, prange->start + i,
->>>                          pte_flags,
->>>                          last_start - prange->start,
->>> -                       bo_adev->vm_manager.vram_base_offset,
->>> +                       bo_adev ? 
->>> bo_adev->vm_manager.vram_base_offset : 0,
->>>                          NULL, dma_addr, &vm->last_update);
->>>             for (j = last_start - prange->start; j <= i; j++)
