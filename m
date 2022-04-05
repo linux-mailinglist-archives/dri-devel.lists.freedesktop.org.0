@@ -2,53 +2,70 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 590D24F3D7C
-	for <lists+dri-devel@lfdr.de>; Tue,  5 Apr 2022 22:06:17 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 440644F3ED8
+	for <lists+dri-devel@lfdr.de>; Tue,  5 Apr 2022 22:55:00 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 155AE10ED82;
-	Tue,  5 Apr 2022 20:06:12 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 279BE10EDF6;
+	Tue,  5 Apr 2022 20:54:57 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-oi1-x230.google.com (mail-oi1-x230.google.com
- [IPv6:2607:f8b0:4864:20::230])
- by gabe.freedesktop.org (Postfix) with ESMTPS id C8CEB10ED82
- for <dri-devel@lists.freedesktop.org>; Tue,  5 Apr 2022 20:06:10 +0000 (UTC)
-Received: by mail-oi1-x230.google.com with SMTP id k10so298995oia.0
- for <dri-devel@lists.freedesktop.org>; Tue, 05 Apr 2022 13:06:10 -0700 (PDT)
+Received: from mail-wr1-x441.google.com (mail-wr1-x441.google.com
+ [IPv6:2a00:1450:4864:20::441])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 5C1B410ED42
+ for <dri-devel@lists.freedesktop.org>; Tue,  5 Apr 2022 20:54:55 +0000 (UTC)
+Received: by mail-wr1-x441.google.com with SMTP id j12so306313wrb.5
+ for <dri-devel@lists.freedesktop.org>; Tue, 05 Apr 2022 13:54:55 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ffwll.ch; s=google;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=QWxUGBkyoJQZulOyqMEuVhaAfgSTMVNxIngnIdOPpYU=;
- b=bw29hLLMef0W9ZGmzfypk9FJayJsWNNBjyZHyz+UOw2JWyLqc5ndJK47wGNLpUJmg5
- 91d4gA4L0EXHMsMbWyl34/IPf8R/fvZzdhCNojgWOCSgD6thSmAPl+hrLpeWLiFiF0oC
- /YAXoJy2FwmBMZNWJkQNqmXBJQ2nn7ykVDREs=
+ h=date:from:to:cc:subject:message-id:mail-followup-to:references
+ :mime-version:content-disposition:in-reply-to;
+ bh=9NHEHnuZ3EwIt6oRfVHzwUDeTZ1Be9ZvXyD0BUY2xlM=;
+ b=dMIxaOA+PwGmGbUBgSF+BtNgTUc4RKGxiEJxcOGGW41WPS35KSWlB4hv7i4DbpxOGC
+ ZH1S+U4+vSggXY1XAGmMMGqiGDAAFbM1TiIfR+O950jkhP22hrN5zpqEUFn8ZJUif7W1
+ UT9mutnETTYpsxdjQi923ezsNRj0CTq+AgkAA=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=QWxUGBkyoJQZulOyqMEuVhaAfgSTMVNxIngnIdOPpYU=;
- b=mFa38jP2KKBbEAbCMXY+uBATj7tKBBVGvpC9rG4/WxY0RLYsapOKOLWNxsFKU5QClb
- /0sfpaRWKSVT5yrnqBVBnDv2RizP4fsAcYB9RgmQGZIx6gh16yYaRbfBmMfqSKD00s9u
- BOnwUBMsXvrQ9vMcdgKV/HU/qlS2wO1mcaAJ8SGLY5NWGiE0+TZTVNSciovjw+CoDah4
- cGivr4qWuVnm+iuGKvBXAGypLpOwA2S46Amk8/axP9xQUTDqzCC0TCNhfHqpTTkxFGwz
- E+0z4z0LPR2O62rhohDmgmx/EmX3MbL3lYHXCAXs2dUNnbzL/GRgAzr7Y7yY8MzQbxLt
- i3DQ==
-X-Gm-Message-State: AOAM530nBMCDlynQYSntCyva7EG5qjg+dGf4vKTd109TR8ENL/sm3kx/
- FR3c2gyovIH6BRHRG9a5T4ogTglG2w0ft3qygmj4fg==
-X-Google-Smtp-Source: ABdhPJyN88JgxOV9OdsCTGmy9Zri73CWMwH03gYk8nSqfOZZNb26TA3gERB0i0Y9msTdlltQyneNy8Bc/xB/fXzhJNU=
-X-Received: by 2002:a54:4099:0:b0:2ec:d31c:481d with SMTP id
- i25-20020a544099000000b002ecd31c481dmr2236343oii.7.1649189169679; Tue, 05 Apr
- 2022 13:06:09 -0700 (PDT)
-MIME-Version: 1.0
-References: <20220401205602.1172975-1-zack@kde.org>
- <YksRCsiQtCp74y/A@phenom.ffwll.local>
- <51403dc6d7a769eeda6718a31e92135173591d9d.camel@vmware.com>
-In-Reply-To: <51403dc6d7a769eeda6718a31e92135173591d9d.camel@vmware.com>
+ h=x-gm-message-state:date:from:to:cc:subject:message-id
+ :mail-followup-to:references:mime-version:content-disposition
+ :in-reply-to;
+ bh=9NHEHnuZ3EwIt6oRfVHzwUDeTZ1Be9ZvXyD0BUY2xlM=;
+ b=ey33IinxNLZEI63wzGpSw6kHYmVRn/V6GYgiPhGImEoHQAVVjA1z+ios9Mu5/+ECRr
+ k24eetZU3feX0fUghGYiSNNA9MC1OLgEfeZ2dhc3Y97EueMJe24ASLEUE7s8+//4YFbv
+ GjoE53Mnay0ArzyP+yD3qrDlrbaovvu5iF0Kl+vJVWEgESS0vuVuacwtZTn7+Sja89x9
+ lc2XPNN0EA/WgIYj5/+qf6C+LW7mIZ6yh77SfpCG0S3I8X+krtmkfgbqZuQREjLigsEa
+ xB9rzNAUDW4wWcY0R24EDy4u5Bo4mI9+3mawRBsI16wD9gevmDh2csvb19Bei1NkaNzT
+ FcwA==
+X-Gm-Message-State: AOAM5309x2HJcN+93+ydtAmOi/fRYdAUDVSzGCawSxoActrayIBeQv/q
+ lsBS+czKC0bMZvlQqvI8LGINTg==
+X-Google-Smtp-Source: ABdhPJyhXpgIjQQcv0SKxB4ADopYBn4Ma33nCG5hGhtlwq04P9w9qJQ0mEskhuSP+q2j89By5mUeGg==
+X-Received: by 2002:adf:f24d:0:b0:206:96b:4ea1 with SMTP id
+ b13-20020adff24d000000b00206096b4ea1mr4059467wrp.694.1649192093853; 
+ Tue, 05 Apr 2022 13:54:53 -0700 (PDT)
+Received: from phenom.ffwll.local ([2a02:168:57f4:0:efd0:b9e5:5ae6:c2fa])
+ by smtp.gmail.com with ESMTPSA id
+ s1-20020adfb781000000b002060d4a8bd9sm8008923wre.17.2022.04.05.13.54.52
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Tue, 05 Apr 2022 13:54:53 -0700 (PDT)
+Date: Tue, 5 Apr 2022 22:54:51 +0200
 From: Daniel Vetter <daniel@ffwll.ch>
-Date: Tue, 5 Apr 2022 22:05:58 +0200
-Message-ID: <CAKMK7uFrb_NhyxvvJdp42QXb1enkETWs=RQ4WrMHscHmuohTbA@mail.gmail.com>
-Subject: Re: [PATCH 1/3] drm/vmwgfx: Add debugfs entries for ttm placements
-To: Zack Rusin <zackr@vmware.com>
-Content-Type: text/plain; charset="UTF-8"
+To: Tetsuo Handa <penguin-kernel@i-love.sakura.ne.jp>
+Subject: Re: [PATCH v2 06/19] fbcon: Use delayed work for cursor
+Message-ID: <Ykysm3EJd3XLrzyr@phenom.ffwll.local>
+Mail-Followup-To: Tetsuo Handa <penguin-kernel@i-love.sakura.ne.jp>,
+ DRI Development <dri-devel@lists.freedesktop.org>,
+ Intel Graphics Development <intel-gfx@lists.freedesktop.org>,
+ linux-fbdev@vger.kernel.org, LKML <linux-kernel@vger.kernel.org>,
+ Daniel Vetter <daniel.vetter@intel.com>,
+ Claudio Suarez <cssk@net-c.es>, Du Cheng <ducheng2@gmail.com>,
+ Thomas Zimmermann <tzimmermann@suse.de>,
+ Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+References: <20220208210824.2238981-1-daniel.vetter@ffwll.ch>
+ <20220208210824.2238981-7-daniel.vetter@ffwll.ch>
+ <7f6d61f4-042f-8c9d-23ed-da6f1dcb20d0@I-love.SAKURA.ne.jp>
+MIME-Version: 1.0
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <7f6d61f4-042f-8c9d-23ed-da6f1dcb20d0@I-love.SAKURA.ne.jp>
+X-Operating-System: Linux phenom 5.10.0-8-amd64 
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -61,209 +78,34 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Martin Krastev <krastevm@vmware.com>,
- Maaz Mombasawala <mombasawalam@vmware.com>,
- "dri-devel@lists.freedesktop.org" <dri-devel@lists.freedesktop.org>
+Cc: linux-fbdev@vger.kernel.org, Thomas Zimmermann <tzimmermann@suse.de>,
+ Du Cheng <ducheng2@gmail.com>, Daniel Vetter <daniel.vetter@ffwll.ch>,
+ Intel Graphics Development <intel-gfx@lists.freedesktop.org>,
+ LKML <linux-kernel@vger.kernel.org>,
+ DRI Development <dri-devel@lists.freedesktop.org>,
+ Claudio Suarez <cssk@net-c.es>,
+ Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+ Daniel Vetter <daniel.vetter@intel.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Tue, 5 Apr 2022 at 16:01, Zack Rusin <zackr@vmware.com> wrote:
->
-> On Mon, 2022-04-04 at 17:38 +0200, Daniel Vetter wrote:
-> > On Fri, Apr 01, 2022 at 04:56:00PM -0400, Zack Rusin wrote:
-> > > From: Zack Rusin <zackr@vmware.com>
-> > >
-> > > Add a few debugfs entries for every used TTM placement that vmwgfx
-> > > is
-> > > using. This allows basic tracking of memory usage inside vmwgfx,
-> > > e.g.
-> > > 'cat /sys/kernel/debug/dri/0/mob_ttm' will display mob memory
-> > > usage.
-> > >
-> > > Signed-off-by: Zack Rusin <zackr@vmware.com>
-> > > Reviewed-by: Martin Krastev <krastevm@vmware.com>
-> > > ---
-> > >  drivers/gpu/drm/vmwgfx/vmwgfx_drv.c        |  1 +
-> > >  drivers/gpu/drm/vmwgfx/vmwgfx_drv.h        |  1 +
-> > >  drivers/gpu/drm/vmwgfx/vmwgfx_ttm_buffer.c | 97
-> > > +++++++++++++++++++++-
-> > >  3 files changed, 98 insertions(+), 1 deletion(-)
-> > >
-> > > diff --git a/drivers/gpu/drm/vmwgfx/vmwgfx_drv.c
-> > > b/drivers/gpu/drm/vmwgfx/vmwgfx_drv.c
-> > > index 791f9a5f3868..6d675855f065 100644
-> > > --- a/drivers/gpu/drm/vmwgfx/vmwgfx_drv.c
-> > > +++ b/drivers/gpu/drm/vmwgfx/vmwgfx_drv.c
-> > > @@ -1632,6 +1632,7 @@ static int vmw_probe(struct pci_dev *pdev,
-> > > const struct pci_device_id *ent)
-> > >               goto out_unload;
-> > >
-> > >       vmw_debugfs_gem_init(vmw);
-> > > +     vmw_ttm_debugfs_init(vmw);
-> > >
-> > >       return 0;
-> > >  out_unload:
-> > > diff --git a/drivers/gpu/drm/vmwgfx/vmwgfx_drv.h
-> > > b/drivers/gpu/drm/vmwgfx/vmwgfx_drv.h
-> > > index be19aa6e1f13..eabe3e8e9cf9 100644
-> > > --- a/drivers/gpu/drm/vmwgfx/vmwgfx_drv.h
-> > > +++ b/drivers/gpu/drm/vmwgfx/vmwgfx_drv.h
-> > > @@ -1085,6 +1085,7 @@ vmw_bo_sg_table(struct ttm_buffer_object
-> > > *bo);
-> > >  extern int vmw_bo_create_and_populate(struct vmw_private
-> > > *dev_priv,
-> > >                                     unsigned long bo_size,
-> > >                                     struct ttm_buffer_object
-> > > **bo_p);
-> > > +void vmw_ttm_debugfs_init(struct vmw_private *vdev);
-> > >
-> > >  extern void vmw_piter_start(struct vmw_piter *viter,
-> > >                           const struct vmw_sg_table *vsgt,
-> > > diff --git a/drivers/gpu/drm/vmwgfx/vmwgfx_ttm_buffer.c
-> > > b/drivers/gpu/drm/vmwgfx/vmwgfx_ttm_buffer.c
-> > > index b84ecc6d6611..355414595e52 100644
-> > > --- a/drivers/gpu/drm/vmwgfx/vmwgfx_ttm_buffer.c
-> > > +++ b/drivers/gpu/drm/vmwgfx/vmwgfx_ttm_buffer.c
-> > > @@ -1,7 +1,7 @@
-> > >  // SPDX-License-Identifier: GPL-2.0 OR MIT
-> > >  /*****************************************************************
-> > > *********
-> > >   *
-> > > - * Copyright 2009-2015 VMware, Inc., Palo Alto, CA., USA
-> > > + * Copyright 2009-2022 VMware, Inc., Palo Alto, CA., USA
-> > >   *
-> > >   * Permission is hereby granted, free of charge, to any person
-> > > obtaining a
-> > >   * copy of this software and associated documentation files (the
-> > > @@ -677,3 +677,98 @@ int vmw_bo_create_and_populate(struct
-> > > vmw_private *dev_priv,
-> > >               *bo_p = bo;
-> > >       return ret;
-> > >  }
-> > > +
-> > > +#if defined(CONFIG_DEBUG_FS)
-> > > +
-> > > +static int vmw_ttm_vram_table_show(struct seq_file *m, void
-> > > *unused)
-> > > +{
-> > > +     struct vmw_private *vdev = (struct vmw_private *)m->private;
-> > > +     struct ttm_resource_manager *man = ttm_manager_type(&vdev-
-> > > >bdev,
-> > > +
-> > > TTM_PL_VRAM);
-> > > +     struct drm_printer p = drm_seq_file_printer(m);
-> > > +
-> > > +     ttm_resource_manager_debug(man, &p);
-> > > +     return 0;
-> > > +}
-> > > +
-> > > +static int vmw_ttm_page_pool_show(struct seq_file *m, void
-> > > *unused)
-> > > +{
-> > > +     struct vmw_private *vdev = (struct vmw_private *)m->private;
-> > > +
-> > > +     return ttm_pool_debugfs(&vdev->bdev.pool, m);
-> > > +}
-> > > +
-> > > +static int vmw_ttm_mob_table_show(struct seq_file *m, void
-> > > *unused)
-> > > +{
-> > > +     struct vmw_private *vdev = (struct vmw_private *)m->private;
-> > > +     struct ttm_resource_manager *man = ttm_manager_type(&vdev-
-> > > >bdev,
-> > > +
-> > > VMW_PL_MOB);
-> > > +     struct drm_printer p = drm_seq_file_printer(m);
-> > > +
-> > > +     ttm_resource_manager_debug(man, &p);
-> > > +     return 0;
-> > > +}
-> > > +
-> > > +static int vmw_ttm_gmr_table_show(struct seq_file *m, void
-> > > *unused)
-> > > +{
-> > > +     struct vmw_private *vdev = (struct vmw_private *)m->private;
-> > > +     struct ttm_resource_manager *man = ttm_manager_type(&vdev-
-> > > >bdev,
-> > > +
-> > > VMW_PL_GMR);
-> > > +     struct drm_printer p = drm_seq_file_printer(m);
-> > > +
-> > > +     ttm_resource_manager_debug(man, &p);
-> > > +     return 0;
-> > > +}
-> > > +
-> > > +static int vmw_ttm_system_table_show(struct seq_file *m, void
-> > > *unused)
-> > > +{
-> > > +     struct vmw_private *vdev = (struct vmw_private *)m->private;
-> > > +     struct ttm_resource_manager *man = ttm_manager_type(&vdev-
-> > > >bdev,
-> > > +
-> > > TTM_PL_SYSTEM);
-> > > +     struct drm_printer p = drm_seq_file_printer(m);
-> > > +
-> > > +     ttm_resource_manager_debug(man, &p);
-> > > +     return 0;
-> > > +}
-> > > +
-> > > +static int vmw_ttm_system_mob_table_show(struct seq_file *m, void
-> > > *unused)
-> > > +{
-> > > +     struct vmw_private *vdev = (struct vmw_private *)m->private;
-> > > +     struct ttm_resource_manager *man = ttm_manager_type(&vdev-
-> > > >bdev,
-> > > +
-> > > VMW_PL_SYSTEM);
-> > > +     struct drm_printer p = drm_seq_file_printer(m);
-> > > +
-> > > +     ttm_resource_manager_debug(man, &p);
-> > > +     return 0;
-> > > +}
-> > > +
-> > > +DEFINE_SHOW_ATTRIBUTE(vmw_ttm_vram_table);
-> > > +DEFINE_SHOW_ATTRIBUTE(vmw_ttm_mob_table);
-> > > +DEFINE_SHOW_ATTRIBUTE(vmw_ttm_gmr_table);
-> > > +DEFINE_SHOW_ATTRIBUTE(vmw_ttm_system_table);
-> > > +DEFINE_SHOW_ATTRIBUTE(vmw_ttm_system_mob_table);
-> > > +DEFINE_SHOW_ATTRIBUTE(vmw_ttm_page_pool);
-> > > +
-> > > +#endif
-> > > +
-> > > +void vmw_ttm_debugfs_init(struct vmw_private *vdev)
-> > > +{
-> > > +#if defined(CONFIG_DEBUG_FS)
-> > > +     struct drm_device *drm = &vdev->drm;
-> > > +     struct drm_minor *minor = drm->primary;
-> > > +     struct dentry *root = minor->debugfs_root;
-> > > +
-> > > +     debugfs_create_file("vram_ttm", 0444, root, vdev,
-> > > +                         &vmw_ttm_vram_table_fops);
-> > > +     debugfs_create_file("mob_ttm", 0444, root, vdev,
-> > > +                         &vmw_ttm_mob_table_fops);
-> > > +     debugfs_create_file("gmr_ttm", 0444, root, vdev,
-> > > +                         &vmw_ttm_gmr_table_fops);
-> > > +     debugfs_create_file("system_ttm", 0444, root, vdev,
-> > > +                         &vmw_ttm_system_table_fops);
-> > > +     debugfs_create_file("system_mob_ttm", 0444, root, vdev,
-> > > +                         &vmw_ttm_system_mob_table_fops);
-> > > +     debugfs_create_file("ttm_page_pool", 0444, root, vdev,
-> > > +                         &vmw_ttm_page_pool_fops);
-> > > +#endif
-> >
-> > Bit orthogonal, but can't ttm create the debugfs files for all the
-> > regions
-> > on its own when we set everything up? Or at least a "create me all
-> > the
-> > regions debugfs files" helpers would be useful. It's just rather
-> > silly
-> > amounts of boilerplate we're having here, and that in each driver.
->
-> Yea, agreed. With some kind of mapping between ttm data placement
-> defines and file names, this would be very much doable. Would you like
-> to see that done instead of this patch or after this patch lands?
+On Thu, Feb 10, 2022 at 08:43:36PM +0900, Tetsuo Handa wrote:
+> On 2022/02/09 6:08, Daniel Vetter wrote:
+> > @@ -714,6 +700,8 @@ static int con2fb_acquire_newinfo(struct vc_data *vc, struct fb_info *info,
+> >  		ops = kzalloc(sizeof(struct fbcon_ops), GFP_KERNEL);
+> >  		if (!ops)
+> >  			err = -ENOMEM;
+> > +
+> > +		INIT_DELAYED_WORK(&ops->cursor_work, fb_flashcursor);
+> >  	}
+> >  
+> >  	if (!err) {
+> 
+> Memory allocation fault injection will hit NULL pointer dereference.
 
-If you're volunteering either way is fine imo :-)
+The error handling here is convoluted and I got this wrong, but a later
+patch to extract an fbcon_open() helper fixes it. I'll fix this small
+bisect issue for v3 anyway, thanks for taking a look at the patches.
 -Daniel
 -- 
 Daniel Vetter
