@@ -1,60 +1,61 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1CEA94F2388
-	for <lists+dri-devel@lfdr.de>; Tue,  5 Apr 2022 08:46:24 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 784914F23AC
+	for <lists+dri-devel@lfdr.de>; Tue,  5 Apr 2022 08:52:54 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 21A6710ED22;
-	Tue,  5 Apr 2022 06:46:22 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 86D5010ED7F;
+	Tue,  5 Apr 2022 06:52:48 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-qt1-f177.google.com (mail-qt1-f177.google.com
- [209.85.160.177])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 0EA2710ED22
- for <dri-devel@lists.freedesktop.org>; Tue,  5 Apr 2022 06:46:20 +0000 (UTC)
-Received: by mail-qt1-f177.google.com with SMTP id s11so9722939qtc.3
- for <dri-devel@lists.freedesktop.org>; Mon, 04 Apr 2022 23:46:20 -0700 (PDT)
+Received: from mail-qt1-f175.google.com (mail-qt1-f175.google.com
+ [209.85.160.175])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 0791110ED7F
+ for <dri-devel@lists.freedesktop.org>; Tue,  5 Apr 2022 06:52:47 +0000 (UTC)
+Received: by mail-qt1-f175.google.com with SMTP id b18so9677425qtk.13
+ for <dri-devel@lists.freedesktop.org>; Mon, 04 Apr 2022 23:52:46 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:mime-version:references:in-reply-to:from:date
  :message-id:subject:to:cc;
- bh=UuWjfy1DmKGBwxecHn9QW28Mp8RGeP8Fe6idp3HhRGs=;
- b=0ZUHhHPHlMix1g7f2T8Vjs4apKmxs6Sbfhj/LnrAOA5akl9nN8RgQZYWOBJkVZsUGA
- c0BMbBc6nlZwMuHp73xBBd13CNTg4CfSoCGOZOYZSBa6kIRFZxlplJwcs3VNEjlAeyOm
- vKWut1+ZW7GEReDZfVYvrQBOJY5GcX7YV4kUcdRpE3kscHGz37EYZythfuOXD3B+P9H6
- RS/dP89kVQ9Gy9+FGWFEkXMAEd3cQwmqVxft8mymPlLW2WRaFjfHjYqC+MmfrM3j8HNW
- OHK82cTLX20ashJxgchdxgarBIWhLH+xSgpcRojy1PcdHIRLHA2npji5C8n6P0LFHBpv
- Ba4Q==
-X-Gm-Message-State: AOAM531k8vSL3jgI2BHXoWWrOCP/xhp9G/Tn2cke7m2SgJwgZKuzRXl7
- hE2hnO3A+kVn4Bttc0D3vWNUsm8+WNO/QQ==
-X-Google-Smtp-Source: ABdhPJyKoQD8T10+6vTL6z4CX1iI4D1e+kqsUO6n+RlsOLHdeBLD3f4WltkIe5TG5Ku7CclUm0pgJQ==
-X-Received: by 2002:a05:622a:64a:b0:2e1:d8b4:c6a1 with SMTP id
- a10-20020a05622a064a00b002e1d8b4c6a1mr1710751qtb.0.1649141179117; 
- Mon, 04 Apr 2022 23:46:19 -0700 (PDT)
-Received: from mail-yb1-f177.google.com (mail-yb1-f177.google.com.
- [209.85.219.177]) by smtp.gmail.com with ESMTPSA id
- s16-20020ac85cd0000000b002e1ed82f1e5sm11097973qta.75.2022.04.04.23.46.18
+ bh=xS9sh+p2XRsClxVSPRroc3YnRbOn46SzHPHvIsqLwCM=;
+ b=5o4BxiFp3oXgL8zyDDFGMlxB+xJc7Au/O/f44KleqXuboQytGI2WqxKiixP2xLMbvs
+ 0w7E0mEWJZ1YBiQL3SOMEW5AjAUq7IBiuxR6EzG/kveu/Umfd7YhHBG22W6Mko1OAPWv
+ cS9sO8F6bRlhbW13d6MiGm5aHYRSnXXTmYZeswC+Eqt7Ri+s19z6okLAfvtYPOaUyr7N
+ EhI1f3CncLcM4Oms8yWkvuFfAWaMAVyqjxksVM75lc3uiNkFqRHCSAFU7JqBiGfn1V7K
+ BnTn1ruTGMK6XC0lpOSmbQ6lcaSZ2S3g533Krt4UHqKjP1d/fpCDhCzRo9LwPtqEB9GN
+ RQYw==
+X-Gm-Message-State: AOAM530qUxYw0wmmcLJX4sdvT0IvkAiogG6QzxpDjS9624C3q7j0/pYf
+ qFy2b2X7eb320aIOQRCqnbatCX6HcNAabA==
+X-Google-Smtp-Source: ABdhPJzrN+yrPk7wsqoiD10ntC+8tP/Mrowi24Foj1C5slxQACfe1GCXK6QZ6F5CYW8RiqQaYFDL/A==
+X-Received: by 2002:ac8:7d16:0:b0:2e1:e825:ec84 with SMTP id
+ g22-20020ac87d16000000b002e1e825ec84mr1610166qtb.433.1649141565220; 
+ Mon, 04 Apr 2022 23:52:45 -0700 (PDT)
+Received: from mail-yb1-f174.google.com (mail-yb1-f174.google.com.
+ [209.85.219.174]) by smtp.gmail.com with ESMTPSA id
+ a129-20020a376687000000b0067d186d953bsm7558680qkc.121.2022.04.04.23.52.44
  for <dri-devel@lists.freedesktop.org>
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Mon, 04 Apr 2022 23:46:18 -0700 (PDT)
-Received: by mail-yb1-f177.google.com with SMTP id l36so14198710ybj.12
- for <dri-devel@lists.freedesktop.org>; Mon, 04 Apr 2022 23:46:18 -0700 (PDT)
-X-Received: by 2002:a25:45:0:b0:633:96e2:2179 with SMTP id
- 66-20020a250045000000b0063396e22179mr1490905yba.393.1649141178137; 
- Mon, 04 Apr 2022 23:46:18 -0700 (PDT)
+ Mon, 04 Apr 2022 23:52:44 -0700 (PDT)
+Received: by mail-yb1-f174.google.com with SMTP id j2so21814922ybu.0
+ for <dri-devel@lists.freedesktop.org>; Mon, 04 Apr 2022 23:52:44 -0700 (PDT)
+X-Received: by 2002:a25:9e89:0:b0:63c:ad37:a5de with SMTP id
+ p9-20020a259e89000000b0063cad37a5demr1478959ybq.342.1649141564401; Mon, 04
+ Apr 2022 23:52:44 -0700 (PDT)
 MIME-Version: 1.0
-References: <CAHk-=wg6FWL1xjVyHx7DdjD2dHZETA5_=FqqW17Z19X-WTfWSg@mail.gmail.com>
- <20220404074734.1092959-1-geert@linux-m68k.org>
- <alpine.DEB.2.22.394.2204041006230.1941618@ramsan.of.borg>
- <874k38u20c.fsf@tynnyri.adurom.net>
-In-Reply-To: <874k38u20c.fsf@tynnyri.adurom.net>
+References: <CAMhUBjmFhqTLBscHHVZ1VTSqrJBT1VEevA+KkjY+y9_ZtdRkMg@mail.gmail.com>
+ <631f03bd-0fdf-9cc8-bf37-89235fb84162@gmx.de>
+ <CAMuHMdUiEo8q9x0C0x5zOM=ax1=S06=s0JjcJvZYD4aMGLmEaQ@mail.gmail.com>
+ <a564f6af-31fa-79a2-72c3-578f2c095b23@gmx.de>
+In-Reply-To: <a564f6af-31fa-79a2-72c3-578f2c095b23@gmx.de>
 From: Geert Uytterhoeven <geert@linux-m68k.org>
-Date: Tue, 5 Apr 2022 08:46:06 +0200
-X-Gmail-Original-Message-ID: <CAMuHMdV_-3TOHYehUsHeqwHjQtzN1Ot886K7vwPr4P-4u8eehw@mail.gmail.com>
-Message-ID: <CAMuHMdV_-3TOHYehUsHeqwHjQtzN1Ot886K7vwPr4P-4u8eehw@mail.gmail.com>
-Subject: Re: Build regressions/improvements in v5.18-rc1
-To: Kalle Valo <kvalo@kernel.org>
+Date: Tue, 5 Apr 2022 08:52:33 +0200
+X-Gmail-Original-Message-ID: <CAMuHMdU=r+TEJmgdnuM+0Mxa0jQ4HjtKT1jzkw_2R+1v9K_9RQ@mail.gmail.com>
+Message-ID: <CAMuHMdU=r+TEJmgdnuM+0Mxa0jQ4HjtKT1jzkw_2R+1v9K_9RQ@mail.gmail.com>
+Subject: =?UTF-8?B?UmU6IFtCVUddIGZiZGV2OiBpNzQwZmI6IERpdmlkZSBlcnJvciB3aGVuIOKAmHZhci0+cA==?=
+ =?UTF-8?B?aXhjbG9ja+KAmSBpcyB6ZXJv?=
+To: Helge Deller <deller@gmx.de>
 Content-Type: text/plain; charset="UTF-8"
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -68,55 +69,67 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: linux-wireless <linux-wireless@vger.kernel.org>,
- ALSA Development Mailing List <alsa-devel@alsa-project.org>,
- USB list <linux-usb@vger.kernel.org>, scsi <linux-scsi@vger.kernel.org>,
- Parisc List <linux-parisc@vger.kernel.org>,
- Dennis Dalessandro <dennis.dalessandro@cornelisnetworks.com>,
- linux-rdma <linux-rdma@vger.kernel.org>, netdev <netdev@vger.kernel.org>,
- Mike Marciniszyn <mike.marciniszyn@cornelisnetworks.com>,
- linux-um <linux-um@lists.infradead.org>,
+Cc: Linux Fbdev development list <linux-fbdev@vger.kernel.org>,
+ Zheyu Ma <zheyuma97@gmail.com>,
  Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
- DRI Development <dri-devel@lists.freedesktop.org>, linux-xfs@vger.kernel.org,
- linux-m68k <linux-m68k@lists.linux-m68k.org>,
- "open list:SERIAL DRIVERS" <linux-serial@vger.kernel.org>,
- sparclinux <sparclinux@vger.kernel.org>,
- linux-s390 <linux-s390@vger.kernel.org>,
- Linux Media Mailing List <linux-media@vger.kernel.org>
+ DRI Development <dri-devel@lists.freedesktop.org>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi Kalle,
+Hi Helge,
 
-On Mon, Apr 4, 2022 at 8:39 PM Kalle Valo <kvalo@kernel.org> wrote:
-> Geert Uytterhoeven <geert@linux-m68k.org> writes:
-> >> /kisskb/src/drivers/net/wireless/broadcom/brcm80211/brcmfmac/sdio.c:
-> >> error: case label does not reduce to an integer constant: => 3798:2,
-> >> 3809:2
+On Tue, Apr 5, 2022 at 8:34 AM Helge Deller <deller@gmx.de> wrote:
+> On 4/4/22 13:46, Geert Uytterhoeven wrote:
+> > On Sun, Apr 3, 2022 at 5:41 PM Helge Deller <deller@gmx.de> wrote:
+> >> On 4/3/22 13:26, Zheyu Ma wrote:
+> >>> I found a bug in the function i740fb_set_par().
+> >>
+> >> Nice catch!
+> >>
+> >>> When the user calls the ioctl system call without setting the value to
+> >>> 'var->pixclock', the driver will throw a divide error.
+> >>>
+> >>> This bug occurs because the driver uses the value of 'var->pixclock'
+> >>> without checking it, as the following code snippet show:
+> >>>
+> >>> if ((1000000 / var->pixclock) > DACSPEED8) {
+> >>>      dev_err(info->device, "requested pixclock %i MHz out of range
+> >>> (max. %i MHz at 8bpp)\n",
+> >>>          1000000 / var->pixclock, DACSPEED8);
+> >>>     return -EINVAL;x
+> >>> }
+> >>>
+> >>> We can fix this by checking the value of 'var->pixclock' in the
+> >>> function i740fb_check_var() similar to commit
+> >>> b36b242d4b8ea178f7fd038965e3cac7f30c3f09, or we should set the lowest
+> >>> supported value when this field is zero.
+> >>> I have no idea about which solution is better.
+> >>
+> >> Me neither.
+> >> I think a solution like commit b36b242d4b8ea178f7fd038965e3cac7f30c3f09
+> >> is sufficient.
+> >>
+> >> Note that i740fb_set_par() is called in i740fb_resume() as well.
+> >> Since this doesn't comes form userspace I think adding a check for
+> >> the return value there isn't necessary.
+> >>
+> >> Would you mind sending a patch like b36b242d4b8ea178f7fd038965e3cac7f30c3f09 ?
 > >
-> > arm64-gcc5.4/arm64-allmodconfig
-> > powerpc-gcc5/powerpc-allmodconfig
-> > powerpc-gcc5/ppc64_book3e_allmodconfig
+> > When passed an invalid value, .check_var() is supposed to
+> > round up the invalid to a valid value, if possible.
 >
-> After v5.17 there were two commits to brcmfmac/sdio.c:
+> I don't disagree.
+> The main problem probably is: what is the next valid value?
+> This needs to be analyzed on a per-driver base and ideally tested.
+> Right now a division-by-zero is tiggered which is probably more worse.
 >
-> $ git log --oneline v5.17.. drivers/net/wireless/broadcom/brcm80211/brcmfmac/sdio.c
-> ed26edf7bfd9 brcmfmac: Add BCM43454/6 support
-> 6d766d8cb505 brcmfmac: pcie: Declare missing firmware files in pcie.c
+> That said, currently I'd prefer to apply the zero-checks patches over
+> any untested patches. It's easy to revert such checks if a better solution
+> becomes available.
 >
-> I can't see how either of them could cause this warning. Could something
-> else cause this or am I missing something?
+> Thoughts?
 
-Doh, I should not have reduced the CC list in the xfs subthread...
-
-The builds above are all gcc-5 builds, so they are affected by the same
-issue as XFS: unsigned constants that don't fit in int are lacking a
-"U" suffix.
-
-I assume Arnd's patch for
-drivers/net/wireless/broadcom/brcm80211/brcmfmac/sdio.c
-fixes this?
-https://lore.kernel.org/all/CAK8P3a0wRiS03imdXk2WbGONkSSczEGdE-ue5ubF6UyyDE9dQg@mail.gmail.com
+Fair enough. And you're the maintainer ;-)
 
 Gr{oetje,eeting}s,
 
