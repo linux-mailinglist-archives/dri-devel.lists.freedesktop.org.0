@@ -1,40 +1,41 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 633B14F291F
-	for <lists+dri-devel@lfdr.de>; Tue,  5 Apr 2022 10:41:11 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 5451F4F2970
+	for <lists+dri-devel@lfdr.de>; Tue,  5 Apr 2022 11:27:55 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 4686310EE11;
-	Tue,  5 Apr 2022 08:41:09 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id BA0AD10ED89;
+	Tue,  5 Apr 2022 09:27:51 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 2E90410EE11
- for <dri-devel@lists.freedesktop.org>; Tue,  5 Apr 2022 08:41:08 +0000 (UTC)
+Received: from dfw.source.kernel.org (dfw.source.kernel.org
+ [IPv6:2604:1380:4641:c500::1])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 899DE10ED89
+ for <dri-devel@lists.freedesktop.org>; Tue,  5 Apr 2022 09:27:50 +0000 (UTC)
 Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
  (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
  (No client certificate requested)
- by dfw.source.kernel.org (Postfix) with ESMTPS id 9F9D2614E5;
- Tue,  5 Apr 2022 08:41:07 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id A4727C385A0;
- Tue,  5 Apr 2022 08:41:06 +0000 (UTC)
+ by dfw.source.kernel.org (Postfix) with ESMTPS id E982A61659;
+ Tue,  5 Apr 2022 09:27:49 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 03140C385A0;
+ Tue,  5 Apr 2022 09:27:48 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linuxfoundation.org;
- s=korg; t=1649148067;
+ s=korg; t=1649150869;
  bh=/fa+W8otdX4/pIC4YUsTrMT7cnva2we2YaIsU6eSU8M=;
  h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
- b=oUY+oUY2GWGNSTq0iSXQK5dbI/YN24eB3rjlYKfYMwNtaos251QI84fLW25X6Hqe8
- H6JUvLzKa2HpjbJ4VFRQ2YymHlXn5/UAaU16wz/nmL2ugU/IEKvVxue1iO7pcxMHbh
- LbAWJE7U12ipP8ToCQwgaQ4BCbz0kp9+4O4dnbEc=
+ b=Il4NHh0D3FfRPmmTDON3R6umP+EBGn4ok1Q8GN0Uk8R38N3qq+CE+gWFXfw0a2iCK
+ AD0XfSvxECY/JaoKE0bHkwRzlkfCrOVAajDm8keKQ1G/xIjgK2+e2H2SMP9dQAIwsv
+ VYdR8YUA/Oxu7U8Wsodbmn2D4qWuWreJ3Gmikki8=
 From: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
 To: linux-kernel@vger.kernel.org
-Subject: [PATCH 5.16 0189/1017] drm/fb-helper: Mark screen buffers in system
+Subject: [PATCH 5.15 178/913] drm/fb-helper: Mark screen buffers in system
  memory with FBINFO_VIRTFB
-Date: Tue,  5 Apr 2022 09:18:22 +0200
-Message-Id: <20220405070359.851843183@linuxfoundation.org>
+Date: Tue,  5 Apr 2022 09:20:40 +0200
+Message-Id: <20220405070345.189489718@linuxfoundation.org>
 X-Mailer: git-send-email 2.35.1
-In-Reply-To: <20220405070354.155796697@linuxfoundation.org>
-References: <20220405070354.155796697@linuxfoundation.org>
+In-Reply-To: <20220405070339.801210740@linuxfoundation.org>
+References: <20220405070339.801210740@linuxfoundation.org>
 User-Agent: quilt/0.66
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
