@@ -1,62 +1,44 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 561484F2954
-	for <lists+dri-devel@lfdr.de>; Tue,  5 Apr 2022 11:07:22 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 633B14F291F
+	for <lists+dri-devel@lfdr.de>; Tue,  5 Apr 2022 10:41:11 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id A430710F21C;
-	Tue,  5 Apr 2022 09:07:17 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 4686310EE11;
+	Tue,  5 Apr 2022 08:41:09 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-lj1-x230.google.com (mail-lj1-x230.google.com
- [IPv6:2a00:1450:4864:20::230])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 833DD10E088;
- Mon,  4 Apr 2022 23:33:07 +0000 (UTC)
-Received: by mail-lj1-x230.google.com with SMTP id bx37so11210928ljb.4;
- Mon, 04 Apr 2022 16:33:07 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
- h=from:to:cc:subject:date:message-id:mime-version
- :content-transfer-encoding;
- bh=DYcF2JgiKO3iyobrkCuRU5Bwnqu8GY+UYkhCntyAAkw=;
- b=W1gAsjOXHXd5TL2PafVBKwCAzkY5HfXPciUHtw1CalSECJqoaulG5OpfGOFU6p8NDy
- WyRAfCqNTNvossP5rgO2UsgamRarvNLZT5iTzFh+Yk2lgq+pO3AWFoogPTY0QXJIZht+
- nWcPj56EJ/8wIcZhixgkbOh2IcPoFJDoyROWr67l5a2t1Wmqwsu4xiUbmzNr6v9k7Q1K
- jiL6q6HTyO+QfkeKgAUnGrUtID/t7HGLmaKMegtkckswGfLDe7qTLDDffudxsi6Y+sjD
- Ik3iqZXbJAAS8DSuF1v31KJmP2FzQiUS+ZJN/Otf7Tk68v0BMaGss7YgRr4x/dLdXa6p
- 5cdw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
- :content-transfer-encoding;
- bh=DYcF2JgiKO3iyobrkCuRU5Bwnqu8GY+UYkhCntyAAkw=;
- b=hHx8V0uowSYDV+XtTlx2tgSQ6L7DWHoHK0fA1ouyKU5D+q1+yWSypzMprFYrNVgFrf
- YsfZPDLaxCcp9G3H9UzZyBaOHASsjB7YB6LupQ78w6fa9vwE1ow0kMhQ07ek9760s4bN
- cGgVA2FFmeKzZrKApFI4o0MVHzkiWcHSVNEJXNvwc9iY05h4CwCdXfLyVdWMnH//UiFe
- cAAjJHyyk1UmC2tGLINP7SUn6jUhJNnBeFor72HvoBkTJQu6pi4aJqXUrJG3brFirVO4
- HXWtkG92VbnckKBDF4tJFHe2QtmiAjCK04gJW5CRZGQURHVLzWVov4G1LZZr854H+R7j
- 8yJA==
-X-Gm-Message-State: AOAM5300atNjj8f3lvEnckEJ7xJNUG+jm4KVDAGVDBUyhpODK+Hh3AHw
- fMuP3gRn9Jh0OCW8h3ueK3w=
-X-Google-Smtp-Source: ABdhPJwRP8euVP8PJVykYTC47Km7db9gS6a+mK1PxM84xFd0Qefdqyn7QAmC+Mm+J/tUMjvzOrUWvg==
-X-Received: by 2002:a2e:9d91:0:b0:24b:a3:d784 with SMTP id
- c17-20020a2e9d91000000b0024b00a3d784mr292752ljj.461.1649115185641; 
- Mon, 04 Apr 2022 16:33:05 -0700 (PDT)
-Received: from noname.. ([2a02:2698:8c2a:1093:6d9:f5ff:fecb:a8ab])
- by smtp.googlemail.com with ESMTPSA id
- e11-20020a2e984b000000b00249b8b68f61sm1196639ljj.74.2022.04.04.16.33.04
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 04 Apr 2022 16:33:05 -0700 (PDT)
-From: Grigory Vasilyev <h0tc0d3@gmail.com>
-To: Rodrigo Siqueira <Rodrigo.Siqueira@amd.com>, Melissa Wen <mwen@igalia.com>
-Subject: [PATCH] drm/amdgpu: Junk code
-Date: Tue,  5 Apr 2022 02:33:04 +0300
-Message-Id: <20220404233306.2207-1-h0tc0d3@gmail.com>
+Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 2E90410EE11
+ for <dri-devel@lists.freedesktop.org>; Tue,  5 Apr 2022 08:41:08 +0000 (UTC)
+Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
+ (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+ (No client certificate requested)
+ by dfw.source.kernel.org (Postfix) with ESMTPS id 9F9D2614E5;
+ Tue,  5 Apr 2022 08:41:07 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id A4727C385A0;
+ Tue,  5 Apr 2022 08:41:06 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linuxfoundation.org;
+ s=korg; t=1649148067;
+ bh=/fa+W8otdX4/pIC4YUsTrMT7cnva2we2YaIsU6eSU8M=;
+ h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
+ b=oUY+oUY2GWGNSTq0iSXQK5dbI/YN24eB3rjlYKfYMwNtaos251QI84fLW25X6Hqe8
+ H6JUvLzKa2HpjbJ4VFRQ2YymHlXn5/UAaU16wz/nmL2ugU/IEKvVxue1iO7pcxMHbh
+ LbAWJE7U12ipP8ToCQwgaQ4BCbz0kp9+4O4dnbEc=
+From: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+To: linux-kernel@vger.kernel.org
+Subject: [PATCH 5.16 0189/1017] drm/fb-helper: Mark screen buffers in system
+ memory with FBINFO_VIRTFB
+Date: Tue,  5 Apr 2022 09:18:22 +0200
+Message-Id: <20220405070359.851843183@linuxfoundation.org>
 X-Mailer: git-send-email 2.35.1
+In-Reply-To: <20220405070354.155796697@linuxfoundation.org>
+References: <20220405070354.155796697@linuxfoundation.org>
+User-Agent: quilt/0.66
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-X-Mailman-Approved-At: Tue, 05 Apr 2022 09:07:16 +0000
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -69,62 +51,73 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Grigory Vasilyev <h0tc0d3@gmail.com>, "Pan, Xinhui" <Xinhui.Pan@amd.com>,
- linux-kernel@vger.kernel.org, amd-gfx@lists.freedesktop.org,
- David Airlie <airlied@linux.ie>, Claudio Suarez <cssk@net-c.es>,
- dri-devel@lists.freedesktop.org, Alex Deucher <alexander.deucher@amd.com>,
- =?UTF-8?q?Christian=20K=C3=B6nig?= <christian.koenig@amd.com>
+Cc: Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+ dri-devel@lists.freedesktop.org, Thomas Zimmermann <tzimmermann@suse.de>,
+ stable@vger.kernel.org, Daniel Vetter <daniel.vetter@ffwll.ch>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Variable igp_lane_info always is 0. 0 & any value = 0 and false.
-In this way, all сonditional statements will false.
-Therefore, it is not clear what this code does.
+From: Thomas Zimmermann <tzimmermann@suse.de>
 
-Signed-off-by: Grigory Vasilyev <h0tc0d3@gmail.com>
+commit cd9f7f7ac5932129fe81b4c7559cfcb226ec7c5c upstream.
+
+Mark screen buffers in system memory with FBINFO_VIRTFB. Otherwise, fbdev
+deferred I/O marks mmap'ed areas of system memory with VM_IO. (There's an
+inverse relationship between the two flags.)
+
+For shadow buffers, also set the FBINFO_READS_FAST hint.
+
+v3:
+	* change FB_ to FBINFO_ in commit description
+v2:
+	* updated commit description (Daniel)
+	* added Fixes tag
+
+Signed-off-by: Thomas Zimmermann <tzimmermann@suse.de>
+Fixes: d536540f304c ("drm/fb-helper: Add generic fbdev emulation .fb_probe function")
+Reviewed-by: Daniel Vetter <daniel.vetter@ffwll.ch>
+Cc: dri-devel@lists.freedesktop.org
+Cc: <stable@vger.kernel.org> # v4.19+
+Link: https://patchwork.freedesktop.org/patch/msgid/20220201115305.9333-1-tzimmermann@suse.de
+Signed-off-by: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
 ---
- .../gpu/drm/amd/amdgpu/atombios_encoders.c    | 21 -------------------
- 1 file changed, 21 deletions(-)
+ drivers/gpu/drm/drm_fb_helper.c |    9 ++++++---
+ 1 file changed, 6 insertions(+), 3 deletions(-)
 
-diff --git a/drivers/gpu/drm/amd/amdgpu/atombios_encoders.c b/drivers/gpu/drm/amd/amdgpu/atombios_encoders.c
-index 2b0cc793291c..100bad2f5901 100644
---- a/drivers/gpu/drm/amd/amdgpu/atombios_encoders.c
-+++ b/drivers/gpu/drm/amd/amdgpu/atombios_encoders.c
-@@ -769,7 +769,6 @@ amdgpu_atombios_encoder_setup_dig_transmitter(struct drm_encoder *encoder, int a
- 	int dp_clock = 0;
- 	int dp_lane_count = 0;
- 	int connector_object_id = 0;
--	int igp_lane_info = 0;
- 	int dig_encoder = dig->dig_encoder;
- 	int hpd_id = AMDGPU_HPD_NONE;
+--- a/drivers/gpu/drm/drm_fb_helper.c
++++ b/drivers/gpu/drm/drm_fb_helper.c
+@@ -2346,6 +2346,7 @@ static int drm_fb_helper_generic_probe(s
+ 	fbi->fbops = &drm_fbdev_fb_ops;
+ 	fbi->screen_size = fb->height * fb->pitches[0];
+ 	fbi->fix.smem_len = fbi->screen_size;
++	fbi->flags = FBINFO_DEFAULT;
  
-@@ -852,26 +851,6 @@ amdgpu_atombios_encoder_setup_dig_transmitter(struct drm_encoder *encoder, int a
- 			else
- 				args.v1.ucConfig |= ATOM_TRANSMITTER_CONFIG_DIG1_ENCODER;
+ 	drm_fb_helper_fill_info(fbi, fb_helper, sizes);
  
--			if ((adev->flags & AMD_IS_APU) &&
--			    (amdgpu_encoder->encoder_id == ENCODER_OBJECT_ID_INTERNAL_UNIPHY)) {
--				if (is_dp ||
--				    !amdgpu_dig_monitor_is_duallink(encoder, amdgpu_encoder->pixel_clock)) {
--					if (igp_lane_info & 0x1)
--						args.v1.ucConfig |= ATOM_TRANSMITTER_CONFIG_LANE_0_3;
--					else if (igp_lane_info & 0x2)
--						args.v1.ucConfig |= ATOM_TRANSMITTER_CONFIG_LANE_4_7;
--					else if (igp_lane_info & 0x4)
--						args.v1.ucConfig |= ATOM_TRANSMITTER_CONFIG_LANE_8_11;
--					else if (igp_lane_info & 0x8)
--						args.v1.ucConfig |= ATOM_TRANSMITTER_CONFIG_LANE_12_15;
--				} else {
--					if (igp_lane_info & 0x3)
--						args.v1.ucConfig |= ATOM_TRANSMITTER_CONFIG_LANE_0_7;
--					else if (igp_lane_info & 0xc)
--						args.v1.ucConfig |= ATOM_TRANSMITTER_CONFIG_LANE_8_15;
--				}
--			}
+@@ -2353,19 +2354,21 @@ static int drm_fb_helper_generic_probe(s
+ 		fbi->screen_buffer = vzalloc(fbi->screen_size);
+ 		if (!fbi->screen_buffer)
+ 			return -ENOMEM;
++		fbi->flags |= FBINFO_VIRTFB | FBINFO_READS_FAST;
+ 
+ 		fbi->fbdefio = &drm_fbdev_defio;
 -
- 			if (dig->linkb)
- 				args.v1.ucConfig |= ATOM_TRANSMITTER_CONFIG_LINKB;
- 			else
--- 
-2.35.1
+ 		fb_deferred_io_init(fbi);
+ 	} else {
+ 		/* buffer is mapped for HW framebuffer */
+ 		ret = drm_client_buffer_vmap(fb_helper->buffer, &map);
+ 		if (ret)
+ 			return ret;
+-		if (map.is_iomem)
++		if (map.is_iomem) {
+ 			fbi->screen_base = map.vaddr_iomem;
+-		else
++		} else {
+ 			fbi->screen_buffer = map.vaddr;
++			fbi->flags |= FBINFO_VIRTFB;
++		}
+ 
+ 		/*
+ 		 * Shamelessly leak the physical address to user-space. As
+
 
