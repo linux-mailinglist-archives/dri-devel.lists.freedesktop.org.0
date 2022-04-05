@@ -2,71 +2,44 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1C0A74F3CB9
-	for <lists+dri-devel@lfdr.de>; Tue,  5 Apr 2022 19:03:05 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 5955E4F3CB8
+	for <lists+dri-devel@lfdr.de>; Tue,  5 Apr 2022 19:02:52 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 19D5710EC2B;
-	Tue,  5 Apr 2022 17:03:03 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 775BA10EC24;
+	Tue,  5 Apr 2022 17:02:49 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-ed1-x533.google.com (mail-ed1-x533.google.com
- [IPv6:2a00:1450:4864:20::533])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 04E6A10EC27
- for <dri-devel@lists.freedesktop.org>; Tue,  5 Apr 2022 17:03:00 +0000 (UTC)
-Received: by mail-ed1-x533.google.com with SMTP id b24so15631295edu.10
- for <dri-devel@lists.freedesktop.org>; Tue, 05 Apr 2022 10:03:00 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=chromium.org; s=google;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=W9jjXhkkwggvTX4fvJBrk+j1Dfql0KOELV0oxfWMhuc=;
- b=Da196R/xzbnxuTIH3vscQpCMovYwydT/AzCJSlQj8Eqi4CvIwtAd/mUQm9MmrSBpfo
- C+EBgKeBCuBKVRkDsHPA8cOoIX8OcoIl86zyYotKiHUopfezjcGIoi0dE+KUYYdh8QMp
- KVzZw8avVxGZB0tQNm3+yFeorwp26KB33gYBo=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=W9jjXhkkwggvTX4fvJBrk+j1Dfql0KOELV0oxfWMhuc=;
- b=dU/Vr9lKgp9UcnpBsL/4i7aGFF1caGpt95yOCit/x4a1NxrKw0Vxo6w9igBqWFnzhG
- 6jXY7Q4dY9GROWiTmQp0HQGOWtYJ6+cvYHXLJq8iNvneybj5g1725sHM8ktPukcWJ5QX
- mL4NpknWkdgvvapWSRM0VVdT+VnatUSkL4zsqea3+kXuIEPNLUVG38HYC/E2iOoU4Rn+
- BZi7V7gRBJRSm6wiVIhbtOfx22NbRzdTTVbXy5Dc0JKX+7wEimpYy5A+vT0sigEuEDrs
- mKFIwaUSzznR/W85alFawpLDEnwAS2R5L3Ux25Fv4zesqwujyCH4K+Cp3UST652MT5P+
- KjAg==
-X-Gm-Message-State: AOAM531Bq7AdTd/Rpex+Y8VFOSdhbsBulF0U8DP2sFhyJwDwyo1BND1i
- MDNVlraYJfY5RZNbsOh6M1+nj5w1Nyeevyaa
-X-Google-Smtp-Source: ABdhPJx0JXmI55VcIyqXtr1nSklWRcfQ8iTED3rU87tLDaVYJ+ibbkNEpauB0P55h/tAWsTrZ/KjgA==
-X-Received: by 2002:a05:6402:3719:b0:412:fc6b:f271 with SMTP id
- ek25-20020a056402371900b00412fc6bf271mr4711236edb.345.1649178178981; 
- Tue, 05 Apr 2022 10:02:58 -0700 (PDT)
-Received: from mail-wm1-f46.google.com (mail-wm1-f46.google.com.
- [209.85.128.46]) by smtp.gmail.com with ESMTPSA id
- b17-20020aa7dc11000000b00412ae7fda95sm6775614edu.44.2022.04.05.10.02.56
- for <dri-devel@lists.freedesktop.org>
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Tue, 05 Apr 2022 10:02:57 -0700 (PDT)
-Received: by mail-wm1-f46.google.com with SMTP id
- l7-20020a05600c1d0700b0038c99618859so2007209wms.2
- for <dri-devel@lists.freedesktop.org>; Tue, 05 Apr 2022 10:02:56 -0700 (PDT)
-X-Received: by 2002:a05:600c:4f10:b0:38c:ae36:d305 with SMTP id
- l16-20020a05600c4f1000b0038cae36d305mr3996092wmq.34.1649178175654; Tue, 05
- Apr 2022 10:02:55 -0700 (PDT)
+Received: from perceval.ideasonboard.com (perceval.ideasonboard.com
+ [213.167.242.64])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 9F5BD10EC1D;
+ Tue,  5 Apr 2022 17:02:47 +0000 (UTC)
+Received: from pendragon.ideasonboard.com
+ (117.145-247-81.adsl-dyn.isp.belgacom.be [81.247.145.117])
+ by perceval.ideasonboard.com (Postfix) with ESMTPSA id 33D7E5D;
+ Tue,  5 Apr 2022 19:02:46 +0200 (CEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
+ s=mail; t=1649178166;
+ bh=VdVfVMz4RsEekdS+ua00Jxb9KTfcT+oE2GXNmrKpvrk=;
+ h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+ b=el5t2BfhpfXCt7y54pDTSYDi0GiGDnLw1o9euWyg20dOi61Q0TaxkQVqaJF4bkd72
+ BZiGVMv8GJMAHcdpU8/1MC5AiBeCVcORD7sNNL24KQ1/Hv0FdXbdsZ/6Izx2F+VPqu
+ 1SR0s7HzmrRvES4jLDic2nllLnjqT5N7MX6iEDJc=
+Date: Tue, 5 Apr 2022 20:02:43 +0300
+From: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+To: Abhinav Kumar <quic_abhinavk@quicinc.com>
+Subject: Re: [Freedreno] [PATCH v6 4/4] drm: allow real encoder to be passed
+ for drm_writeback_connector
+Message-ID: <Ykx2M0gUvG5fcLJ4@pendragon.ideasonboard.com>
+References: <1648771933-18512-1-git-send-email-quic_abhinavk@quicinc.com>
+ <1648771933-18512-5-git-send-email-quic_abhinavk@quicinc.com>
+ <YkccZgD+f0enx2aV@pendragon.ideasonboard.com>
+ <CAF6AEGu6dE_47DZm9ZcF54mkHpAXGY30WuSP3LCRjtf5bNvjtw@mail.gmail.com>
+ <YkxymKepTBq1MsWG@pendragon.ideasonboard.com>
+ <65a349f6-3978-bad0-1e64-2c4ccc22d075@quicinc.com>
 MIME-Version: 1.0
-References: <1648656179-10347-1-git-send-email-quic_sbillaka@quicinc.com>
- <1648656179-10347-2-git-send-email-quic_sbillaka@quicinc.com>
- <CAD=FV=X+QvjwoT2zGP82KW4kD0oMUY6ZgCizSikNX_Uj8dNDqA@mail.gmail.com>
- <392b933f-760c-3c81-1040-c514045df3da@linaro.org>
- <CAD=FV=W4PYK-t607yjRbfjDjjEZX0KdgHDRukw_vSH8E8EDH6w@mail.gmail.com>
- <CAA8EJppt9XONbgtKfmHmN+==QNqiVJeb8GKJFdZm=yyY-tgmHQ@mail.gmail.com>
- <CAD=FV=U5-sTDLYdkeJWLAOG-0wgxR49VxtwUyUO7z2PuibLGsg@mail.gmail.com>
- <CAA8EJppgfYgQjG8A4LsR-1wmBj3Ku3eO8cKfAYhxjWXL7e3eHg@mail.gmail.com>
-In-Reply-To: <CAA8EJppgfYgQjG8A4LsR-1wmBj3Ku3eO8cKfAYhxjWXL7e3eHg@mail.gmail.com>
-From: Doug Anderson <dianders@chromium.org>
-Date: Tue, 5 Apr 2022 10:02:42 -0700
-X-Gmail-Original-Message-ID: <CAD=FV=V=a1CnT8fqTJR40WoS3BaDQ3xZ=HnHVHqZh=MEmVUZBA@mail.gmail.com>
-Message-ID: <CAD=FV=V=a1CnT8fqTJR40WoS3BaDQ3xZ=HnHVHqZh=MEmVUZBA@mail.gmail.com>
-Subject: Re: [PATCH v6 1/8] drm/msm/dp: Add eDP support via aux_bus
-To: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+In-Reply-To: <65a349f6-3978-bad0-1e64-2c4ccc22d075@quicinc.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -79,122 +52,230 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: quic_kalyant <quic_kalyant@quicinc.com>,
- "open list:OPEN FIRMWARE AND FLATTENED DEVICE TREE BINDINGS"
- <devicetree@vger.kernel.org>, Sankeerth Billakanti <quic_sbillaka@quicinc.com>,
- "Abhinav Kumar \(QUIC\)" <quic_abhinavk@quicinc.com>,
- quic_vproddut <quic_vproddut@quicinc.com>, David Airlie <airlied@linux.ie>,
- linux-arm-msm <linux-arm-msm@vger.kernel.org>,
- Bjorn Andersson <bjorn.andersson@linaro.org>,
- LKML <linux-kernel@vger.kernel.org>,
+Cc: hamohammed.sa@gmail.com, Kandpal Suraj <suraj.kandpal@intel.com>,
+ Emma Anholt <emma@anholt.net>,
+ Rodrigo Siqueira <rodrigosiqueiramelo@gmail.com>,
+ Jani Nikula <jani.nikula@intel.com>, Liviu Dudau <liviu.dudau@arm.com>,
  dri-devel <dri-devel@lists.freedesktop.org>,
- Stephen Boyd <swboyd@chromium.org>, Sean Paul <sean@poorly.run>,
- Sean Paul <seanpaul@chromium.org>,
- "Aravind Venkateswaran \(QUIC\)" <quic_aravindh@quicinc.com>,
- "Kuogee Hsieh \(QUIC\)" <quic_khsieh@quicinc.com>,
+ Stephen Boyd <swboyd@chromium.org>, melissa.srw@gmail.com,
+ nganji@codeaurora.org, Sean Paul <seanpaul@chromium.org>,
+ Dmitry Baryshkov <dmitry.baryshkov@linaro.org>, james.qian.wang@arm.com,
+ quic_aravindh@quicinc.com, Mihail Atanassov <mihail.atanassov@arm.com>,
  freedreno <freedreno@lists.freedesktop.org>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi,
+Hi Abhinav,
 
-On Tue, Apr 5, 2022 at 5:54 AM Dmitry Baryshkov
-<dmitry.baryshkov@linaro.org> wrote:
-> > 3. For DP and eDP HPD means something a little different. Essentially
-> > there are two concepts: a) is a display physically connected and b) is
-> > the display powered up and ready. For DP, the two are really tied
-> > together. From the kernel's point of view you never "power down" a DP
-> > display and you can't detect that it's physically connected until it's
-> > ready. Said another way, on you tie "is a display there" to the HPD
-> > line and the moment a display is there it's ready for you to do AUX
-> > transfers. For eDP, in the lowest power state of a display it _won't_
-> > assert its "HPD" signal. However, it's still physically present. For
-> > eDP you simply have to _assume_ it's present without any actual proof
-> > since you can't get proof until you power it up. Thus for eDP, you
-> > report that the display is there as soon as we're asked. We can't
-> > _talk_ to the display yet, though. So in get_modes() we need to be
-> > able to power the display on enough to talk over the AUX channel to
-> > it. As part of this, we wait for the signal named "HPD" which really
-> > means "panel finished powering on" in this context.
-> >
-> > NOTE: for aux transfer, we don't have the _display_ pipe and clocks
-> > running. We only have enough stuff running to do the AUX transfer.
-> > We're not clocking out pixels. We haven't fully powered on the
-> > display. The AUX transfer is designed to be something that can be done
-> > early _before_ you turn on the display.
-> >
-> >
-> > OK, so basically that was a longwinded way of saying: yes, we could
-> > avoid the AUX transfer in probe, but we can't wait all the way to
-> > enable. We have to be able to transfer in get_modes(). If you think
-> > that's helpful I think it'd be a pretty easy patch to write even if it
-> > would look a tad bit awkward IMO. Let me know if you want me to post
-> > it up.
+On Tue, Apr 05, 2022 at 09:53:57AM -0700, Abhinav Kumar wrote:
+> On 4/5/2022 9:47 AM, Laurent Pinchart wrote:
+> > On Mon, Apr 04, 2022 at 11:43:37AM -0700, Rob Clark wrote:
+> >> On Fri, Apr 1, 2022 at 8:38 AM Laurent Pinchart wrote:
+> >>> On Thu, Mar 31, 2022 at 05:12:13PM -0700, Abhinav Kumar wrote:
+> >>>> For some vendor driver implementations, display hardware can
+> >>>> be shared between the encoder used for writeback and the physical
+> >>>> display.
+> >>>>
+> >>>> In addition resources such as clocks and interrupts can
+> >>>> also be shared between writeback and the real encoder.
+> >>>>
+> >>>> To accommodate such vendor drivers and hardware, allow
+> >>>> real encoder to be passed for drm_writeback_connector.
+> >>>>
+> >>>> changes in v6:
+> >>>>        - assign the encoder inside
+> >>>>          drm_writeback_connector_init_with_encoder() for
+> >>>>          better readability
+> >>>>        - improve some documentation for internal encoder
+> >>>>
+> >>>> Co-developed-by: Kandpal Suraj <suraj.kandpal@intel.com>
+> >>>> Signed-off-by: Kandpal Suraj <suraj.kandpal@intel.com>
+> >>>> Signed-off-by: Abhinav Kumar <quic_abhinavk@quicinc.com>
+> >>>> ---
+> >>>>   drivers/gpu/drm/drm_writeback.c | 18 ++++++++++++------
+> >>>>   drivers/gpu/drm/vc4/vc4_txp.c   | 14 ++++++++------
+> >>>>   include/drm/drm_writeback.h     | 21 +++++++++++++++++++--
+> >>>
+> >>> Please split this in two patches, one for the DRM core and one for the
+> >>> VC4 driver. This applies to most patches as a general rule, with the
+> >>> main exception being API refactoring that requires changing the
+> >>> implementation and all its users in a single patch.
+> >>
+> >> But this *is* API refactoring ;-)
+> > 
+> > Partly at least :-) Looking at the API change itself, wouldn't we
+> > minimize the extra changes to vc4 if we moved this patch before 3/4 ?
+> 
+> I can move all the changes done in vc4 except below part to the change 
+> 3/4 itself because that way I can show usage of vc4->drm_enc with the 
+> new API. Let me know if that works.
+
+What I meant is moving the API refactoring from 4/4 before the current
+3/4, with minimal changes to vc4 there (only to avoid introducing a
+bisection breakge), and then move most of the vc4 changes from this
+patch to the current 3/4 (which will become 4/4). If that's what you
+meant too, it sounds good to me.
+
+> The only part which will remain is the below one:
+> 
+> @@ -523,7 +525,7 @@  static int vc4_txp_bind(struct device *dev, struct 
+> device *master, void *data)
+>   	if (ret)
+>   		return ret;
+> 
+> -	encoder = &txp->connector.encoder;
+> +	encoder = txp->connector.encoder;
+>   	encoder->possible_crtcs = drm_crtc_mask(crtc);
+> 
+> Since i dont know vc4 driver very well, I was not sure of a good way to 
+> decouple this dependency.
+> 
+> Let me know if that works.
 >
-> I think it would be a good idea. At least it will allow us to judge,
-> which is the more correct way.
+> >>>>   3 files changed, 39 insertions(+), 14 deletions(-)
+> >>>>
+> >>>> diff --git a/drivers/gpu/drm/drm_writeback.c b/drivers/gpu/drm/drm_writeback.c
+> >>>> index 797223c..7f72109 100644
+> >>>> --- a/drivers/gpu/drm/drm_writeback.c
+> >>>> +++ b/drivers/gpu/drm/drm_writeback.c
+> >>>> @@ -179,21 +179,21 @@ int drm_writeback_connector_init(struct drm_device *dev,
+> >>>>   {
+> >>>>        int ret = 0;
+> >>>>
+> >>>> -     drm_encoder_helper_add(&wb_connector->encoder, enc_helper_funcs);
+> >>>> +     drm_encoder_helper_add(&wb_connector->internal_encoder, enc_helper_funcs);
+> >>>>
+> >>>> -     wb_connector->encoder.possible_crtcs = possible_crtcs;
+> >>>> +     wb_connector->internal_encoder.possible_crtcs = possible_crtcs;
+> >>>>
+> >>>> -     ret = drm_encoder_init(dev, &wb_connector->encoder,
+> >>>> +     ret = drm_encoder_init(dev, &wb_connector->internal_encoder,
+> >>>>                               &drm_writeback_encoder_funcs,
+> >>>>                               DRM_MODE_ENCODER_VIRTUAL, NULL);
+> >>>>        if (ret)
+> >>>>                return ret;
+> >>>>
+> >>>> -     ret = drm_writeback_connector_init_with_encoder(dev, wb_connector, &wb_connector->encoder,
+> >>>> -                     con_funcs, formats, n_formats);
+> >>>> +     ret = drm_writeback_connector_init_with_encoder(dev, wb_connector,
+> >>>> +                     &wb_connector->internal_encoder, con_funcs, formats, n_formats);
+> >>>>
+> >>>>        if (ret)
+> >>>> -             drm_encoder_cleanup(&wb_connector->encoder);
+> >>>> +             drm_encoder_cleanup(&wb_connector->internal_encoder);
+> >>>>
+> >>>>        return ret;
+> >>>>   }
+> >>>> @@ -238,6 +238,12 @@ int drm_writeback_connector_init_with_encoder(struct drm_device *dev,
+> >>>>        struct drm_mode_config *config = &dev->mode_config;
+> >>>>        int ret = create_writeback_properties(dev);
+> >>>>
+> >>>> +     /*
+> >>>> +      * Assign the encoder passed to this API to the wb_connector's encoder.
+> >>>> +      * For drm_writeback_connector_init(), this shall be the internal_encoder
+> >>>> +      */
+> >>>> +     wb_connector->encoder = enc;
+> >>>> +
+> >>>>        if (ret != 0)
+> >>>>                return ret;
+> >>>>
+> >>>> diff --git a/drivers/gpu/drm/vc4/vc4_txp.c b/drivers/gpu/drm/vc4/vc4_txp.c
+> >>>> index 5e53f02..a9b4f83 100644
+> >>>> --- a/drivers/gpu/drm/vc4/vc4_txp.c
+> >>>> +++ b/drivers/gpu/drm/vc4/vc4_txp.c
+> >>>> @@ -151,6 +151,8 @@ struct vc4_txp {
+> >>>>
+> >>>>        struct platform_device *pdev;
+> >>>>
+> >>>> +     struct drm_encoder drm_enc;
+> >>>> +
+> >>>>        struct drm_writeback_connector connector;
+> >>>>
+> >>>>        void __iomem *regs;
+> >>>> @@ -159,7 +161,7 @@ struct vc4_txp {
+> >>>>
+> >>>>   static inline struct vc4_txp *encoder_to_vc4_txp(struct drm_encoder *encoder)
+> >>>>   {
+> >>>> -     return container_of(encoder, struct vc4_txp, connector.encoder);
+> >>>> +     return container_of(encoder, struct vc4_txp, drm_enc);
+> >>>>   }
+> >>>>
+> >>>>   static inline struct vc4_txp *connector_to_vc4_txp(struct drm_connector *conn)
+> >>>> @@ -499,9 +501,9 @@ static int vc4_txp_bind(struct device *dev, struct device *master, void *data)
+> >>>>
+> >>>>        wb_conn = &txp->connector;
+> >>>>
+> >>>> -     drm_encoder_helper_add(&wb_conn->encoder, &vc4_txp_encoder_helper_funcs);
+> >>>> +     drm_encoder_helper_add(&txp->drm_enc, &vc4_txp_encoder_helper_funcs);
+> >>>>
+> >>>> -     ret = drm_encoder_init(drm, &wb_conn->encoder,
+> >>>> +     ret = drm_encoder_init(drm, &txp->drm_enc,
+> >>>>                        &vc4_txp_encoder_funcs,
+> >>>>                        DRM_MODE_ENCODER_VIRTUAL, NULL);
+> >>>>
+> >>>> @@ -511,10 +513,10 @@ static int vc4_txp_bind(struct device *dev, struct device *master, void *data)
+> >>>>        drm_connector_helper_add(&wb_conn->base,
+> >>>>                                 &vc4_txp_connector_helper_funcs);
+> >>>>
+> >>>> -     ret = drm_writeback_connector_init_with_encoder(drm, wb_conn, &wb_conn->encoder,
+> >>>> +     ret = drm_writeback_connector_init_with_encoder(drm, wb_conn, &txp->drm_enc,
+> >>>>                        &vc4_txp_connector_funcs, drm_fmts, ARRAY_SIZE(drm_fmts));
+> >>>>        if (ret) {
+> >>>> -             drm_encoder_cleanup(&wb_conn->encoder);
+> >>>> +             drm_encoder_cleanup(&txp->drm_enc);
+> >>>>                return ret;
+> >>>>        }
+> >>>>
+> >>>> @@ -523,7 +525,7 @@ static int vc4_txp_bind(struct device *dev, struct device *master, void *data)
+> >>>>        if (ret)
+> >>>>                return ret;
+> >>>>
+> >>>> -     encoder = &txp->connector.encoder;
+> >>>> +     encoder = txp->connector.encoder;
+> >>>>        encoder->possible_crtcs = drm_crtc_mask(crtc);
+> >>>>
+> >>>>        ret = devm_request_irq(dev, irq, vc4_txp_interrupt, 0,
+> >>>> diff --git a/include/drm/drm_writeback.h b/include/drm/drm_writeback.h
+> >>>> index 4795024..3f5c330 100644
+> >>>> --- a/include/drm/drm_writeback.h
+> >>>> +++ b/include/drm/drm_writeback.h
+> >>>> @@ -25,15 +25,32 @@ struct drm_writeback_connector {
+> >>>>        struct drm_connector base;
+> >>>>
+> >>>>        /**
+> >>>> -      * @encoder: Internal encoder used by the connector to fulfill
+> >>>> +      * @encoder: handle to drm_encoder used by the connector to fulfill
+> >>>>         * the DRM framework requirements. The users of the
+> >>>>         * @drm_writeback_connector control the behaviour of the @encoder
+> >>>>         * by passing the @enc_funcs parameter to drm_writeback_connector_init()
+> >>>>         * function.
+> >>>> +      *
+> >>>> +      * For some vendor drivers, the hardware resources are shared between
+> >>>> +      * writeback encoder and rest of the display pipeline.
+> >>>> +      * To accommodate such cases, encoder is a handle to the real encoder
+> >>>> +      * hardware.
+> >>>> +      *
+> >>>> +      * For current existing writeback users, this shall continue to be the
+> >>>> +      * embedded encoder for the writeback connector.
+> >>>>         */
+> >>>> -     struct drm_encoder encoder;
+> >>>> +     struct drm_encoder *encoder;
+> >>>>
+> >>>>        /**
+> >>>> +      * @internal_encoder: internal encoder used by writeback when
+> >>>> +      * drm_writeback_connector_init() is used.
+> >>>> +      * @encoder will be assigned to this for those cases
+> >>>> +      *
+> >>>> +      * This will be unused when drm_writeback_connector_init_with_encoder()
+> >>>> +      * is used.
+> >>>> +      */
+> >>>> +     struct drm_encoder internal_encoder;
+> >>>> +     /**
+> >>>>         * @pixel_formats_blob_ptr:
+> >>>>         *
+> >>>>         * DRM blob property data for the pixel formats list on writeback
 
-I'm still happy to prototype this, but the more I think about it the
-more it feels like a workaround for the Qualcomm driver. The eDP panel
-driver is actually given a pointer to the AUX bus at probe time. It's
-really weird to say that we can't do a transfer on it yet... As you
-said, this is a little sideband bus. It should be able to be used
-without all the full blown infra of the rest of the driver.
+-- 
+Regards,
 
-
-> And I also think it might help the ti,sn65dsi86 driver, as it won't
-> have to ensure that gpio is available during the AUX bus probe.
-
-The ti,sn65dsi86 GPIO issue has been solved for a while, though so not
-sure why we need to do something there? I'm also unclear how it would
-have helped. In this discussion, we've agreed that the panel driver
-would still acquire resources during its probe time and the only thing
-that would be delayed would be the first AUX transfer. The GPIO is a
-resource here and it's ideal to acquire it at probe time so we could
-EPROBE_DEFER if needed.
-
-
-> BTW, another random idea, before you start coding.
->
-> We have the bridge's hpd_notify call. Currently it is called only by
-> the means of drm_bridge_connector's HPD mechanism, tied to the bridge
-> registering as DRM_BRIDGE_OP_HPD.
-> It looks to me like it might be a perfect fit for the first aux-bus
-> related reads.
->
-> We'd need to trigger it manually once and tie it to the new
-> drm_panel_funcs callback, which in turn would probe the aux bus,
-> create backlight, etc.
->
-> Regarding the Sankeerth's patch. I have been comparing it with the
-> hpd_event_thread()'s calls.
-> It looks to me like we should reuse dp_display_config_hpd()
-> /EV_HPD_INIT_SETUP and maybe others.
->
-> What I'm trying to say is that if we split AUX probing and first AUX
-> transfers, it would be possible to reuse a significant part of MSM DP
-> HPD machine rather than hacking around it and replicating it manually.
-
-I'm not sure I completely understand, but I'm pretty wary here. It's
-my assertion that all of the current "HPD" infrastructure in DRM all
-relates to the physical presence of the panel. If you start
-implementing these functions for eDP I think you're going to confuse
-the heck out of everything. The kernel will think that this is a
-display that's sometimes not there. Whenever the display is powered
-off then HPD will be low and it will look like there's no display.
-Nothing will ever try to power it on because it looks like there's no
-display.
-
-I think your idea is to "trigger once" at bootup and then it all
-magically works, right? ...but what about after bootup? If you turn
-the display off for whatever reason (modeset or you simply close the
-lid of your laptop because you're using an external display) and then
-you want to use the eDP display again, how do you kickstart the
-process another time? You can't reboot, and when the display is off
-the HPD line is low.
-
-I can't say it enough times, HPD on eDP _does not mean hot plug
-detect_. The panel is always there. HPD is really a "panel ready /
-panel notify" signal for eDP. That's fully what its function is.
-
--Doug
+Laurent Pinchart
