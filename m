@@ -2,56 +2,56 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1D72E4F5729
-	for <lists+dri-devel@lfdr.de>; Wed,  6 Apr 2022 10:00:54 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 93B904F5727
+	for <lists+dri-devel@lfdr.de>; Wed,  6 Apr 2022 10:00:49 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 371B310ED45;
-	Wed,  6 Apr 2022 08:00:40 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id B9E1810E4D4;
+	Wed,  6 Apr 2022 08:00:39 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-lf1-x12e.google.com (mail-lf1-x12e.google.com
- [IPv6:2a00:1450:4864:20::12e])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 186BA10E05F;
- Tue,  5 Apr 2022 18:24:56 +0000 (UTC)
-Received: by mail-lf1-x12e.google.com with SMTP id d5so24723534lfj.9;
- Tue, 05 Apr 2022 11:24:56 -0700 (PDT)
+Received: from mail-lf1-x12d.google.com (mail-lf1-x12d.google.com
+ [IPv6:2a00:1450:4864:20::12d])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 9C4D310E703;
+ Tue,  5 Apr 2022 18:31:10 +0000 (UTC)
+Received: by mail-lf1-x12d.google.com with SMTP id t25so24776328lfg.7;
+ Tue, 05 Apr 2022 11:31:10 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
  h=from:to:cc:subject:date:message-id:mime-version
  :content-transfer-encoding;
  bh=yax7P8EHkvsWnyvnaOpe3ZP8r2G7HKN+i3pXtBsfClM=;
- b=ahjOaaJmEvTMuw04XfKy8Q/jCeHjGJeiKqvnNpxDiZbgbug2iTCIFR8Le7QuzbJ0sA
- woMR7Bdoa2OJ21AmrWpJ9wf5UeYzp2npgxgZT+buKF6ZPXRPo7D1odBGOr2gDXJBnEo1
- dkWcurhuvdFNP8Dk650l2JhDA0fOvj008COWZUoCNgTJfeq4MP8RN6j7rsMKr8OLgz/g
- +REZDqGSM3Il7wPm+eIG3XRLQMRqOgjGT9K2/gEEyEEZPbgRlOUmBBozA2zAXYVf2nhK
- G8VsNSrxXA6MnMp6WQTrLd05UsiB5sx51uWWPhPAVm2lr97Bkt0pI2fpK8iXvhS5wgCO
- +jfw==
+ b=AlOylQ0jQKVcFM1G55vgGfIw3N7jIKcPb8Fyyp/oULoQtqlhNXFckkFd9+WqoIycaG
+ j3uSXFSnN9MUKlSNkyQuzzYQaqjV8XGOAV98W2dX0/cu0rYAgesS6ZgugsjdK/H/2jkk
+ fnbt8Gy5iVlTh1oKRiKygkFT2D7usXujbRj9wtNhFNlx0xb1yHFF5nZCSug2Yffskd6k
+ SQbOTL8qdWillxUg7Hfyk1Z4yt900US5/buZ6HSUAnvFJUJzW3ZTTDpX+yeyxCzbWSFK
+ f/y1ax+r51kD23D/27l7CsWDA8dkGaWmjrSo4eFHKK9DHWERyMZIp7K7VdiMTWXaCd66
+ t7Sw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
  :content-transfer-encoding;
  bh=yax7P8EHkvsWnyvnaOpe3ZP8r2G7HKN+i3pXtBsfClM=;
- b=xUGDpQwdPnpnMGKK1KtWu/4HXDc+yoAbBtVifOoZ08K9SKf+O1aJG51NeW5CFrLhBF
- BRx8cpASRsn1+rYmla1elJtUjF/VkpgS5/yTDfoMGE6f6/fGN5YTHfeU/E3nCr0fZrii
- nwtnaq+CzZvMzPRB3Rbz8WHG/07S/A9eM80WPjmvAp0BWc4oc0W3cq9mAKrSbZFp4aAb
- NNMDzZsqzkehtlYvXfax9ds6sBrbX+I182ci/eWIPves3aplFjbailrAivvIffMJXk3X
- uEOLzNH8S9gSnKkl4x0l5WtGhcZI1DWfzHYCMsW8l59iWM1aQnFqvcjsG7I+KQrvTkOc
- orXQ==
-X-Gm-Message-State: AOAM530cD/pzDg11zFeh3bXw+0acH5T14CpGO8NC9+6G2TrS3XRj9DG7
- 6zUcaxq4886aEwQ0bmU8uHs=
-X-Google-Smtp-Source: ABdhPJxOhepnKOoKA4RqwLPJjMXDoxl/v8mx8vWmtqquCH1q7VX7Pr+WalSB0nHIR8npx8CG+gkjhw==
-X-Received: by 2002:a05:6512:3988:b0:44a:f02e:f28e with SMTP id
- j8-20020a056512398800b0044af02ef28emr3627503lfu.458.1649183094333; 
- Tue, 05 Apr 2022 11:24:54 -0700 (PDT)
+ b=Oh/hlCfOaSPHUUhA881NvKhFN864Vt6SCRwwTSBxbT/rQ0jdWNKbXS5nN4scMpmzNT
+ QXVuhKkMmMHeQc5XOgfHLjmMvN7iSNFdRcqq0NDXkQOCkT/WSVJAVJbKaEyKPXC0hYFW
+ P9cwmxepsTLR+U5vpTnBrqfvAxGj1udb/cLcyDeCK9oHvfSqruLSbt4QWhdOfW9q876J
+ xXuW7iOkDrkLyqGGGUO9xRsSbWl7NDs1gVK+GNXL4zfmvMHv6gbCGSMEIMMxUccWTKrs
+ c0lFAom+efHl6JJPHOS8M0UaTq5QDeoKN/jwfITjnAYN5h4ncgZu3fr2m3fscXe7sANd
+ U3Zw==
+X-Gm-Message-State: AOAM5331B01EVX4Llkq7KDpyRWKXOihTOcmS5qHZEiyC/ANaZWg+c6zv
+ ZaKuUtjaJlB5PidNvCBoVbI=
+X-Google-Smtp-Source: ABdhPJyytKONlFFPhM6uOSKsPqQ+53tg6aHeIXEVboaJV0vQ5E/W25OXeJQjKEHyzo/lHMBfI33Qlw==
+X-Received: by 2002:a05:6512:2347:b0:44a:6e3f:74f7 with SMTP id
+ p7-20020a056512234700b0044a6e3f74f7mr3457813lfu.660.1649183468960; 
+ Tue, 05 Apr 2022 11:31:08 -0700 (PDT)
 Received: from noname.. ([2a02:2698:8c2a:226e:6d9:f5ff:fecb:a8ab])
  by smtp.googlemail.com with ESMTPSA id
- bg19-20020a05651c0b9300b002497beec608sm1422452ljb.87.2022.04.05.11.24.53
+ c5-20020a2e9d85000000b0024b1571209csm800133ljj.0.2022.04.05.11.31.07
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 05 Apr 2022 11:24:53 -0700 (PDT)
+ Tue, 05 Apr 2022 11:31:08 -0700 (PDT)
 From: Grigory Vasilyev <h0tc0d3@gmail.com>
 To: Rodrigo Siqueira <Rodrigo.Siqueira@amd.com>, Melissa Wen <mwen@igalia.com>
 Subject: [PATCH] drm/amdgpu: Accessing to a null pointer
-Date: Tue,  5 Apr 2022 21:24:55 +0300
-Message-Id: <20220405182456.8798-1-h0tc0d3@gmail.com>
+Date: Tue,  5 Apr 2022 21:30:19 +0300
+Message-Id: <20220405183020.9422-1-h0tc0d3@gmail.com>
 X-Mailer: git-send-email 2.35.1
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
