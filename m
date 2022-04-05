@@ -2,59 +2,36 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 93B904F5727
-	for <lists+dri-devel@lfdr.de>; Wed,  6 Apr 2022 10:00:49 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id AFECE4F5726
+	for <lists+dri-devel@lfdr.de>; Wed,  6 Apr 2022 10:00:46 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id B9E1810E4D4;
+	by gabe.freedesktop.org (Postfix) with ESMTP id C540D10E748;
 	Wed,  6 Apr 2022 08:00:39 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-lf1-x12d.google.com (mail-lf1-x12d.google.com
- [IPv6:2a00:1450:4864:20::12d])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 9C4D310E703;
- Tue,  5 Apr 2022 18:31:10 +0000 (UTC)
-Received: by mail-lf1-x12d.google.com with SMTP id t25so24776328lfg.7;
- Tue, 05 Apr 2022 11:31:10 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
- h=from:to:cc:subject:date:message-id:mime-version
- :content-transfer-encoding;
- bh=yax7P8EHkvsWnyvnaOpe3ZP8r2G7HKN+i3pXtBsfClM=;
- b=AlOylQ0jQKVcFM1G55vgGfIw3N7jIKcPb8Fyyp/oULoQtqlhNXFckkFd9+WqoIycaG
- j3uSXFSnN9MUKlSNkyQuzzYQaqjV8XGOAV98W2dX0/cu0rYAgesS6ZgugsjdK/H/2jkk
- fnbt8Gy5iVlTh1oKRiKygkFT2D7usXujbRj9wtNhFNlx0xb1yHFF5nZCSug2Yffskd6k
- SQbOTL8qdWillxUg7Hfyk1Z4yt900US5/buZ6HSUAnvFJUJzW3ZTTDpX+yeyxCzbWSFK
- f/y1ax+r51kD23D/27l7CsWDA8dkGaWmjrSo4eFHKK9DHWERyMZIp7K7VdiMTWXaCd66
- t7Sw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
- :content-transfer-encoding;
- bh=yax7P8EHkvsWnyvnaOpe3ZP8r2G7HKN+i3pXtBsfClM=;
- b=Oh/hlCfOaSPHUUhA881NvKhFN864Vt6SCRwwTSBxbT/rQ0jdWNKbXS5nN4scMpmzNT
- QXVuhKkMmMHeQc5XOgfHLjmMvN7iSNFdRcqq0NDXkQOCkT/WSVJAVJbKaEyKPXC0hYFW
- P9cwmxepsTLR+U5vpTnBrqfvAxGj1udb/cLcyDeCK9oHvfSqruLSbt4QWhdOfW9q876J
- xXuW7iOkDrkLyqGGGUO9xRsSbWl7NDs1gVK+GNXL4zfmvMHv6gbCGSMEIMMxUccWTKrs
- c0lFAom+efHl6JJPHOS8M0UaTq5QDeoKN/jwfITjnAYN5h4ncgZu3fr2m3fscXe7sANd
- U3Zw==
-X-Gm-Message-State: AOAM5331B01EVX4Llkq7KDpyRWKXOihTOcmS5qHZEiyC/ANaZWg+c6zv
- ZaKuUtjaJlB5PidNvCBoVbI=
-X-Google-Smtp-Source: ABdhPJyytKONlFFPhM6uOSKsPqQ+53tg6aHeIXEVboaJV0vQ5E/W25OXeJQjKEHyzo/lHMBfI33Qlw==
-X-Received: by 2002:a05:6512:2347:b0:44a:6e3f:74f7 with SMTP id
- p7-20020a056512234700b0044a6e3f74f7mr3457813lfu.660.1649183468960; 
- Tue, 05 Apr 2022 11:31:08 -0700 (PDT)
-Received: from noname.. ([2a02:2698:8c2a:226e:6d9:f5ff:fecb:a8ab])
- by smtp.googlemail.com with ESMTPSA id
- c5-20020a2e9d85000000b0024b1571209csm800133ljj.0.2022.04.05.11.31.07
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 05 Apr 2022 11:31:08 -0700 (PDT)
-From: Grigory Vasilyev <h0tc0d3@gmail.com>
-To: Rodrigo Siqueira <Rodrigo.Siqueira@amd.com>, Melissa Wen <mwen@igalia.com>
-Subject: [PATCH] drm/amdgpu: Accessing to a null pointer
-Date: Tue,  5 Apr 2022 21:30:19 +0300
-Message-Id: <20220405183020.9422-1-h0tc0d3@gmail.com>
-X-Mailer: git-send-email 2.35.1
+Received: from mslow1.mail.gandi.net (mslow1.mail.gandi.net [217.70.178.240])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 06EB810EBAB
+ for <dri-devel@lists.freedesktop.org>; Tue,  5 Apr 2022 20:32:07 +0000 (UTC)
+Received: from relay7-d.mail.gandi.net (unknown [217.70.183.200])
+ by mslow1.mail.gandi.net (Postfix) with ESMTP id D8901C0960
+ for <dri-devel@lists.freedesktop.org>; Tue,  5 Apr 2022 20:26:47 +0000 (UTC)
+Received: (Authenticated sender: contact@artur-rojek.eu)
+ by mail.gandi.net (Postfix) with ESMTPA id 87D1320004;
+ Tue,  5 Apr 2022 20:26:40 +0000 (UTC)
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Date: Tue, 05 Apr 2022 22:26:40 +0200
+From: Artur Rojek <contact@artur-rojek.eu>
+To: Christophe Branchereau <cbranchereau@gmail.com>
+Subject: Re: [PATCH v5 1/3] drm/ingenic : add ingenic_drm_bridge_atomic_enable
+ and disable
+In-Reply-To: <20220321133651.291592-2-cbranchereau@gmail.com>
+References: <20220321133651.291592-1-cbranchereau@gmail.com>
+ <20220321133651.291592-2-cbranchereau@gmail.com>
+Message-ID: <2d0ebd708f9c5a6f1ff1f3ba2e9c92c2@artur-rojek.eu>
+X-Sender: contact@artur-rojek.eu
+Content-Type: text/plain; charset=US-ASCII;
+ format=flowed
+Content-Transfer-Encoding: 7bit
 X-Mailman-Approved-At: Wed, 06 Apr 2022 08:00:38 +0000
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -68,36 +45,117 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Jani Nikula <jani.nikula@intel.com>, Jiawei Gu <Jiawei.Gu@amd.com>,
- Grigory Vasilyev <h0tc0d3@gmail.com>, "Pan, Xinhui" <Xinhui.Pan@amd.com>,
- Lucas De Marchi <lucas.demarchi@intel.com>, linux-kernel@vger.kernel.org,
- amd-gfx@lists.freedesktop.org, David Airlie <airlied@linux.ie>,
- dri-devel@lists.freedesktop.org, Alex Deucher <alexander.deucher@amd.com>,
- =?UTF-8?q?Christian=20K=C3=B6nig?= <christian.koenig@amd.com>
+Cc: devicetree@vger.kernel.org, David Airlie <airlied@linux.ie>,
+ linux-kernel@vger.kernel.org, Rob Herring <robh+dt@kernel.org>,
+ linux-mips@vger.kernel.org, Paul Cercueil <paul@crapouillou.net>,
+ Thierry Reding <thierry.reding@gmail.com>, dri-devel@lists.freedesktop.org,
+ Sam Ravnborg <sam@ravnborg.org>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-A typo in the code. It was assumed that it was
-possible to shift the pointer to sizeof(BIOS_ATOM_PREFIX) - 1.
+On 2022-03-21 14:36, Christophe Branchereau wrote:
+Hi Christophe,
 
-Signed-off-by: Grigory Vasilyev <h0tc0d3@gmail.com>
----
- drivers/gpu/drm/amd/amdgpu/atom.c | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+looks good to me.
 
-diff --git a/drivers/gpu/drm/amd/amdgpu/atom.c b/drivers/gpu/drm/amd/amdgpu/atom.c
-index e729973af3c9..be9d61bcb8ae 100644
---- a/drivers/gpu/drm/amd/amdgpu/atom.c
-+++ b/drivers/gpu/drm/amd/amdgpu/atom.c
-@@ -1426,7 +1426,7 @@ static void atom_get_vbios_pn(struct atom_context *ctx)
- 
- 	if (*vbios_str == 0) {
- 		vbios_str = atom_find_str_in_rom(ctx, BIOS_ATOM_PREFIX, 3, 1024, 64);
--		if (vbios_str == NULL)
-+		if (vbios_str != NULL)
- 			vbios_str += sizeof(BIOS_ATOM_PREFIX) - 1;
- 	}
- 	if (vbios_str != NULL && *vbios_str == 0)
--- 
-2.35.1
+Cheers,
+Artur
 
+Acked-by: Artur Rojek <contact@artur-rojek.eu>
+
+> ingenic_drm_bridge_atomic_enable allows the CRTC to be enabled after
+> panels have slept out, and before their display is turned on, solving
+> a graphical bug on the newvision nv3502c.
+> 
+> Also add ingenic_drm_bridge_atomic_disable to balance it out.
+> 
+> Signed-off-by: Christophe Branchereau <cbranchereau@gmail.com>
+> ---
+>  drivers/gpu/drm/ingenic/ingenic-drm-drv.c | 34 +++++++++++++++--------
+>  1 file changed, 23 insertions(+), 11 deletions(-)
+> 
+> diff --git a/drivers/gpu/drm/ingenic/ingenic-drm-drv.c
+> b/drivers/gpu/drm/ingenic/ingenic-drm-drv.c
+> index dcf44cb00821..2bbfd2e7fdab 100644
+> --- a/drivers/gpu/drm/ingenic/ingenic-drm-drv.c
+> +++ b/drivers/gpu/drm/ingenic/ingenic-drm-drv.c
+> @@ -226,6 +226,18 @@ static int ingenic_drm_update_pixclk(struct
+> notifier_block *nb,
+>  	}
+>  }
+> 
+> +static void ingenic_drm_bridge_atomic_enable(struct drm_bridge 
+> *bridge,
+> +					     struct drm_bridge_state *old_bridge_state)
+> +{
+> +	struct ingenic_drm *priv = drm_device_get_priv(bridge->dev);
+> +
+> +	regmap_write(priv->map, JZ_REG_LCD_STATE, 0);
+> +
+> +	regmap_update_bits(priv->map, JZ_REG_LCD_CTRL,
+> +			   JZ_LCD_CTRL_ENABLE | JZ_LCD_CTRL_DISABLE,
+> +			   JZ_LCD_CTRL_ENABLE);
+> +}
+> +
+>  static void ingenic_drm_crtc_atomic_enable(struct drm_crtc *crtc,
+>  					   struct drm_atomic_state *state)
+>  {
+> @@ -237,28 +249,20 @@ static void
+> ingenic_drm_crtc_atomic_enable(struct drm_crtc *crtc,
+>  	if (WARN_ON(IS_ERR(priv_state)))
+>  		return;
+> 
+> -	regmap_write(priv->map, JZ_REG_LCD_STATE, 0);
+> -
+>  	/* Set addresses of our DMA descriptor chains */
+>  	next_id = priv_state->use_palette ? HWDESC_PALETTE : 0;
+>  	regmap_write(priv->map, JZ_REG_LCD_DA0, dma_hwdesc_addr(priv, 
+> next_id));
+>  	regmap_write(priv->map, JZ_REG_LCD_DA1, dma_hwdesc_addr(priv, 1));
+> 
+> -	regmap_update_bits(priv->map, JZ_REG_LCD_CTRL,
+> -			   JZ_LCD_CTRL_ENABLE | JZ_LCD_CTRL_DISABLE,
+> -			   JZ_LCD_CTRL_ENABLE);
+> -
+>  	drm_crtc_vblank_on(crtc);
+>  }
+> 
+> -static void ingenic_drm_crtc_atomic_disable(struct drm_crtc *crtc,
+> -					    struct drm_atomic_state *state)
+> +static void ingenic_drm_bridge_atomic_disable(struct drm_bridge 
+> *bridge,
+> +					      struct drm_bridge_state *old_bridge_state)
+>  {
+> -	struct ingenic_drm *priv = drm_crtc_get_priv(crtc);
+> +	struct ingenic_drm *priv = drm_device_get_priv(bridge->dev);
+>  	unsigned int var;
+> 
+> -	drm_crtc_vblank_off(crtc);
+> -
+>  	regmap_update_bits(priv->map, JZ_REG_LCD_CTRL,
+>  			   JZ_LCD_CTRL_DISABLE, JZ_LCD_CTRL_DISABLE);
+> 
+> @@ -267,6 +271,12 @@ static void
+> ingenic_drm_crtc_atomic_disable(struct drm_crtc *crtc,
+>  				 1000, 0);
+>  }
+> 
+> +static void ingenic_drm_crtc_atomic_disable(struct drm_crtc *crtc,
+> +					    struct drm_atomic_state *state)
+> +{
+> +	drm_crtc_vblank_off(crtc);
+> +}
+> +
+>  static void ingenic_drm_crtc_update_timings(struct ingenic_drm *priv,
+>  					    struct drm_display_mode *mode)
+>  {
+> @@ -968,6 +978,8 @@ static const struct drm_encoder_helper_funcs
+> ingenic_drm_encoder_helper_funcs =
+> 
+>  static const struct drm_bridge_funcs ingenic_drm_bridge_funcs = {
+>  	.attach			= ingenic_drm_bridge_attach,
+> +	.atomic_enable		= ingenic_drm_bridge_atomic_enable,
+> +	.atomic_disable		= ingenic_drm_bridge_atomic_disable,
+>  	.atomic_check		= ingenic_drm_bridge_atomic_check,
+>  	.atomic_reset		= drm_atomic_helper_bridge_reset,
+>  	.atomic_duplicate_state	= drm_atomic_helper_bridge_duplicate_state,
