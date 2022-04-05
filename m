@@ -2,54 +2,49 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 624D34F3D0F
-	for <lists+dri-devel@lfdr.de>; Tue,  5 Apr 2022 19:57:09 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 566094F3D12
+	for <lists+dri-devel@lfdr.de>; Tue,  5 Apr 2022 19:58:55 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 0CB1110EE06;
-	Tue,  5 Apr 2022 17:57:05 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id F2F7710E49F;
+	Tue,  5 Apr 2022 17:58:52 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-ej1-x636.google.com (mail-ej1-x636.google.com
- [IPv6:2a00:1450:4864:20::636])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 3E39B10EE06
- for <dri-devel@lists.freedesktop.org>; Tue,  5 Apr 2022 17:57:04 +0000 (UTC)
-Received: by mail-ej1-x636.google.com with SMTP id p15so28298465ejc.7
- for <dri-devel@lists.freedesktop.org>; Tue, 05 Apr 2022 10:57:04 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=fWlXCTkYGyXzOu6P6awXX/6nfl84WYIZI9g+WSGOyw0=;
- b=jwx0XQUGCaRHrpcErZBCsWMj23/VXGgzoKqDbPSw2f+7F8N/d9igo6HIZ+sSRTWP9a
- hqVlvkcMJHhbv8xYnDkM7bGSTq93zYJVCDN/0Uym3PloU+pHINLS9cTw6XdP9ouh17le
- it2++ow9VO0gUkSzqvwdCeMBzqbqoP5MRFjfawj+UxJefktYATV0WZknO8TYNGxTGfMQ
- A4SEg3p8c2YD/MFhBiOnIcKNUo84CMezQUHC+Em+oj9ZjR24dmD358+boudl6sT0Vpem
- JS1XGjGYbGqUCc76nIevCdXkQ4b19TaL0abiCBotNqqN7PtVcy3R/zqZT3DhISco56Xk
- 7VWw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=fWlXCTkYGyXzOu6P6awXX/6nfl84WYIZI9g+WSGOyw0=;
- b=18L3/yyjHBG9nxXokqP+affmQWqqj7PWEBmSFLU8mba9GWadl2P1u090spcaV+QrrS
- 4apIiSq2CZd/csCNd4lfjNsgramK8VIL2Pk5pWIl4mU2sclCK9Js6EWT/CBjd8yYw3dK
- stkGelHDmcUK6+RUpBcgPYfd6SyMuxqyUuavhEtrEYJPIX+v/jgGaUKdj3R/g7nzWNRe
- K+gbQwvrEFAi7sA8vjEh+GwmmxgMz8AYGg8ZIDVTy1amzFkTExNqs8+N8+hbjQ8spsod
- 4qUrKwhE26MP56Tl6yX/Pn7FHenQV6lQDrj7u6+GJgNgepB0Q0Pbwi8HP6BeVgxRNtNF
- lS6g==
-X-Gm-Message-State: AOAM533u3VgU9lxIDtkFSL8PzpMW2x3M705SAKvfZOdCpndgzmoGYQ5y
- tBw6fg77dMeIcjAjOIGplKuXYfX8j5F7y/xdRPo=
-X-Google-Smtp-Source: ABdhPJzNwJLndNEvf8of6myr8gcbYVYJMmeilk2VVKShekHBfh+c8nN7LVIdcrL0bjowhSiwuKS+l8gYahoKhGqXbFU=
-X-Received: by 2002:a17:906:d10c:b0:6cd:4aa2:cd62 with SMTP id
- b12-20020a170906d10c00b006cd4aa2cd62mr4684858ejz.229.1649181422577; Tue, 05
- Apr 2022 10:57:02 -0700 (PDT)
+Received: from casper.infradead.org (casper.infradead.org
+ [IPv6:2001:8b0:10b:1236::1])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 05D9110E4FE
+ for <dri-devel@lists.freedesktop.org>; Tue,  5 Apr 2022 17:58:52 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+ d=infradead.org; s=casper.20170209; h=Content-Transfer-Encoding:Content-Type:
+ In-Reply-To:From:References:Cc:To:Subject:MIME-Version:Date:Message-ID:Sender
+ :Reply-To:Content-ID:Content-Description;
+ bh=IvBWmBbI9A2nfHfEQ5fw5taUfPeU2oNqR0njw9KESho=; b=gqxsxjVUFVtxRNlYtPkGeAokgL
+ nBe9SjwVtkav8yJ/gOpBxNDP/tgC4zPGII+UUa/7IYiLuqyWp2Q680vzBGZZGq+UBPv3r2vg9rX0o
+ TE+/Ew+4sRwH/p0pIYC453JYbWT64Q+P0px/53GQzQXLEEgwsBcp81+SEc6EP15K4Szl1gbZTb9EH
+ xrPRb4q6u0KsLSvRSDnD5CPqvnN+6GvkJmMuk1e6KK0wwMDnqaQrYB4+dKA9bjsHY4Pg45R1HtRpA
+ uBa6XgKeYJ8oid7QGnjylvarWXkEKnV05Fnt/bpeFuCYmcDGR5jmxReZgu8SEciJZkzhxKoAZLPJJ
+ GupTbMFQ==;
+Received: from [2601:1c0:6280:3f0::aa0b]
+ by casper.infradead.org with esmtpsa (Exim 4.94.2 #2 (Red Hat Linux))
+ id 1nbnRv-006w06-Nn; Tue, 05 Apr 2022 17:58:40 +0000
+Message-ID: <c336dd9d-dae2-f654-4849-669c9b9b568f@infradead.org>
+Date: Tue, 5 Apr 2022 10:58:34 -0700
 MIME-Version: 1.0
-References: <20220405173918.1000846-1-robdclark@gmail.com>
-In-Reply-To: <20220405173918.1000846-1-robdclark@gmail.com>
-From: Chia-I Wu <olvaffe@gmail.com>
-Date: Tue, 5 Apr 2022 10:56:51 -0700
-Message-ID: <CAPaKu7Tur-_Kf3Lb9U=98Yr_08onxPHNKTPh2anHU6zLPhr5ZQ@mail.gmail.com>
-Subject: Re: [PATCH] drm/virtio: Add execbuf flag to request no fence-event
-To: Rob Clark <robdclark@gmail.com>
-Content-Type: text/plain; charset="UTF-8"
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.7.0
+Subject: Re: [PATCH] drm/format_helper: fix a kernel-doc typo
+Content-Language: en-US
+To: Simon Ser <contact@emersion.fr>
+References: <20220403232902.1753-1-rdunlap@infradead.org>
+ <ttcrpLw9HkdhAH5SkXylXDBi9SBf7LWgOeW09ZvTF4U4_zKJAOXBQZlFxfw6NKY0Hip6dXBFape6zkX09cstuOno72c-c00wmZ_VbNDg6xs=@emersion.fr>
+ <b20bbd22-895c-9e74-e579-d2f3561a2fe1@infradead.org>
+ <BzpH4s8ZYn84kTlJQ3BHVMQzZlESb2Fk6v-uO5KBaaeBNMvRvC98lpuBLUNLE3a5bdoYTb5JRvo6EU__5AGJ79LUirSppO39I1t1xlwx-fI=@emersion.fr>
+ <fda186f7-2cf4-a69a-d68e-58073d35cbea@redhat.com>
+ <c544d79e-90ec-7bbe-77ad-de96a700d711@infradead.org>
+ <qjTlHAInyuxpFWsTWPGXoVeByVdVe-NF-kg-FUeLWQbKy9SovMzCcK-eDsijpDt1roaSubDr-8kBGKQSt_7CXFa4-BxQ6SrGSNeoZrdiq-s=@emersion.fr>
+From: Randy Dunlap <rdunlap@infradead.org>
+In-Reply-To: <qjTlHAInyuxpFWsTWPGXoVeByVdVe-NF-kg-FUeLWQbKy9SovMzCcK-eDsijpDt1roaSubDr-8kBGKQSt_7CXFa4-BxQ6SrGSNeoZrdiq-s=@emersion.fr>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -62,69 +57,70 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Rob Clark <robdclark@chromium.org>, David Airlie <airlied@linux.ie>,
- open list <linux-kernel@vger.kernel.org>,
- ML dri-devel <dri-devel@lists.freedesktop.org>,
- Gurchetan Singh <gurchetansingh@chromium.org>,
- Gerd Hoffmann <kraxel@redhat.com>,
- "open list:VIRTIO GPU DRIVER" <virtualization@lists.linux-foundation.org>
+Cc: David Airlie <airlied@linux.ie>, dri-devel@lists.freedesktop.org,
+ Javier Martinez Canillas <javierm@redhat.com>,
+ Thomas Zimmermann <tzimmermann@suse.de>, linux-kernel@vger.kernel.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Tue, Apr 5, 2022 at 10:38 AM Rob Clark <robdclark@gmail.com> wrote:
->
-> From: Rob Clark <robdclark@chromium.org>
->
-> It would have been cleaner to have a flag to *request* the fence event.
-> But that ship has sailed.  So add a flag so that userspace which doesn't
-> care about the events can opt-out.
->
-> Signed-off-by: Rob Clark <robdclark@chromium.org>
-Reviewed-by: Chia-I Wu <olvaffe@gmail.com>
+Hi Simon,
 
-Might want to wait for Gurchetan to chime in as he added the mechanism.
+On 4/5/22 08:05, Simon Ser wrote:
+> On Tuesday, April 5th, 2022 at 16:39, Randy Dunlap <rdunlap@infradead.org> wrote:
+> 
+>> On 4/4/22 23:26, Javier Martinez Canillas wrote:
+>>
+>>> On 4/5/22 08:12, Simon Ser wrote:
+>>>
+>>>> On Monday, April 4th, 2022 at 23:35, Randy Dunlap rdunlap@infradead.org wrote:
+>>>>
+>>>>> On 4/4/22 09:04, Simon Ser wrote:
+>>>>>
+>>>>>> Both doc patches pushed, thanks. I had to manually edit them because they
+>>>>>> wouldn't apply cleanly. Next time, please use git-send-email (see
+>>>>>> https://git-send-email.io/ for setup instructions).
+>>>>>
+>>>>> That's odd. I did use 'git send-email' and I don't usually have any
+>>>>> problems (AFAIK). I'll check those setup instructions.
+>>>>
+>>>> Hm, maybe the issue isn't git-send-email, but the way the patch was
+>>>> generated? I had to manually edit these lines for the first patch to work:
+>>>>
+>>>> --- linux-next-20211217.orig/include/drm/drm_file.h
+>>>> +++ linux-next-20211217/include/drm/drm_file.h
+>>>>
+>>>> I changed these to:
+>>>>
+>>>> --- a/include/drm/drm_file.h
+>>>> +++ b/include/drm/drm_file.h
 
-> ---
->  drivers/gpu/drm/virtio/virtgpu_ioctl.c | 8 +++++---
->  include/uapi/drm/virtgpu_drm.h         | 2 ++
->  2 files changed, 7 insertions(+), 3 deletions(-)
->
-> diff --git a/drivers/gpu/drm/virtio/virtgpu_ioctl.c b/drivers/gpu/drm/virtio/virtgpu_ioctl.c
-> index 3a8078f2ee27..09f1aa263f91 100644
-> --- a/drivers/gpu/drm/virtio/virtgpu_ioctl.c
-> +++ b/drivers/gpu/drm/virtio/virtgpu_ioctl.c
-> @@ -225,9 +225,11 @@ static int virtio_gpu_execbuffer_ioctl(struct drm_device *dev, void *data,
->                 goto out_unresv;
->         }
->
-> -       ret = virtio_gpu_fence_event_create(dev, file, out_fence, ring_idx);
-> -       if (ret)
-> -               goto out_unresv;
-> +       if (!(exbuf->flags & VIRTGPU_EXECBUF_NO_EVENT)) {
-> +               ret = virtio_gpu_fence_event_create(dev, file, out_fence, ring_idx);
-> +               if (ret)
-> +                       goto out_unresv;
-> +       }
->
->         if (out_fence_fd >= 0) {
->                 sync_file = sync_file_create(&out_fence->f);
-> diff --git a/include/uapi/drm/virtgpu_drm.h b/include/uapi/drm/virtgpu_drm.h
-> index 0512fde5e697..d06cac3407cc 100644
-> --- a/include/uapi/drm/virtgpu_drm.h
-> +++ b/include/uapi/drm/virtgpu_drm.h
-> @@ -52,10 +52,12 @@ extern "C" {
->  #define VIRTGPU_EXECBUF_FENCE_FD_IN    0x01
->  #define VIRTGPU_EXECBUF_FENCE_FD_OUT   0x02
->  #define VIRTGPU_EXECBUF_RING_IDX       0x04
-> +#define VIRTGPU_EXECBUF_NO_EVENT       0x08
->  #define VIRTGPU_EXECBUF_FLAGS  (\
->                 VIRTGPU_EXECBUF_FENCE_FD_IN |\
->                 VIRTGPU_EXECBUF_FENCE_FD_OUT |\
->                 VIRTGPU_EXECBUF_RING_IDX |\
-> +               VIRTGPU_EXECBUF_NO_EVENT |\
->                 0)
->
->  struct drm_virtgpu_map {
-> --
-> 2.35.1
->
+quilt (which I am using) can generate a/ b/ patches instead of linux.orig/ and
+linux/ patches.
+
+>>>> This wasn't enough for the second patch, I had to re-do the changes by hand
+>>>> from scratch.
+
+I would like more information about this one if it's not too much trouble
+for you.
+
+>>> Yes, I believe the suggestion should be to use git-format-patch instead.
+>>>
+>>> To make sure that was is posted can be consumed by the git-am command.
+>>
+>>
+>> Considering that I am not using git, I think it will be difficult
+>> to use git-format-patch.
+> 
+> Ah, okay. Would you consider using Git for you next patches?
+
+Don't know. It's quite a big hurdle to jump over IMO.
+
+> (FYI, I'll pass next time I hit a patch which doesn't apply cleanly.
+> Nothing personal, it's just that I don't have time to deal with broken
+> patches.)
+
+Yeah, I get it.
+
+thanks.
+-- 
+~Randy
