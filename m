@@ -2,57 +2,53 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7824C4F2E6F
-	for <lists+dri-devel@lfdr.de>; Tue,  5 Apr 2022 14:00:49 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 77F974F2F67
+	for <lists+dri-devel@lfdr.de>; Tue,  5 Apr 2022 14:12:54 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 5423510E212;
-	Tue,  5 Apr 2022 12:00:47 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id B835210E5A6;
+	Tue,  5 Apr 2022 12:12:50 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-ed1-x52f.google.com (mail-ed1-x52f.google.com
- [IPv6:2a00:1450:4864:20::52f])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 390D610E212
- for <dri-devel@lists.freedesktop.org>; Tue,  5 Apr 2022 12:00:46 +0000 (UTC)
-Received: by mail-ed1-x52f.google.com with SMTP id d10so9813125edj.0
- for <dri-devel@lists.freedesktop.org>; Tue, 05 Apr 2022 05:00:46 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=raspberrypi.com; s=google;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=0xs4Hxc+ZxNnWFCcd2prVIIy9h77OLFAQGYf6kBQIkk=;
- b=THNbO3YvmzaFZ/lS98Z3LLuRrR6h1cy/45vFUAdAJF8DX9881V1Wbb5HxoZ6q9KzTD
- VZ8FY6lfdCYu0ScBhrtS3CePI61L7YgnFFWeNauwgkbYXUMPk4IQjWDqaAtyIot49UhO
- 85jvrIaSR6xz/kq+frvRou18hhpkpZyuWARzVD10XmieSV5sF1wl45uiS6uTYP0fWZur
- xRD+xg0ZilRYjpLDnuyGv6/acY9ECbHQvk5kBAk0Qb1ttnhNPNZFAQeGqczZj2CJvYKU
- DPiNOc3ZZ+5cTGMVcGu79hjkaVqXF0dkHoq2qcR4f30hITFt0D2XUSIRkRa9d4gDixkv
- 3qYA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=0xs4Hxc+ZxNnWFCcd2prVIIy9h77OLFAQGYf6kBQIkk=;
- b=o1TGIphJ/b0Xw8z1sg3YI4RqLrTtLRYdXDRfWrzKzmUGLMa+jQ3xLGGf94lvCbxchJ
- tpxGXB8wZxaEmJLnzgxFiupGJ6M2u4WY9Me5vQ5cfNXgw0TF6Bqa/g6hcB0/Wk7gvqpK
- 4xl1tgICMnTcjT2EoXqm2CBGiVs5KbBRsxujayNNf4/USXR+4l5TWEA0+dA+ZUlK4v+E
- /WmBz6fCdRHHIRy6wPM/hrvucX6rSdcDf0F5eP/zLMmjuwY51TtaKb6Ll2n4aQxpUAh0
- U5UxKTBiZhVeMR3G7k4FxXpX9Bq3bAHfonPM97chefn77U4trkE13WJtYztY9niLu7gm
- z3/Q==
-X-Gm-Message-State: AOAM533pTca5XeZRyVCS+r32N4vakk+oJhBS1i+ZbzrBJHDIkfMiLw0C
- k0+RcjOAfGopoSY0xyrPGQMmwo/czHL+/m80WGct6kprf9v3/Q==
-X-Google-Smtp-Source: ABdhPJwkqO8y48iAcd8MxqtSHG83NNgBvo+n0A2MMzQy/SwBrdESDb44fyDym46AdFSK2KGa9XmzJ6BrCXmgpZAZzMs=
-X-Received: by 2002:a05:6402:1e92:b0:419:76:21a6 with SMTP id
- f18-20020a0564021e9200b00419007621a6mr3220373edf.128.1649160044758; Tue, 05
- Apr 2022 05:00:44 -0700 (PDT)
+Received: from smtp-out2.suse.de (smtp-out2.suse.de [195.135.220.29])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 9886F10E2E2
+ for <dri-devel@lists.freedesktop.org>; Tue,  5 Apr 2022 12:12:49 +0000 (UTC)
+Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+ key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
+ (No client certificate requested)
+ by smtp-out2.suse.de (Postfix) with ESMTPS id 2FE681F745;
+ Tue,  5 Apr 2022 12:12:47 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.com; s=susede1;
+ t=1649160767; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+ mime-version:mime-version:content-type:content-type:
+ in-reply-to:in-reply-to:references:references;
+ bh=YGolTQlWegdqsJgfgfOCgFdotBM/n5qIvgfFfvEjxd0=;
+ b=BK6a6qL8o7p/MJgbNqqctnSF5bmv5BGKuuqBTv2USITbTpPoKI1f15ogW871KoTo/RdheN
+ 2ofE8y9/q59bmAhdL1seIYTAGQd263xP4FVoKwCcc/FYdRc3tUwqP3pmlISrihOeY4NF+U
+ B5AcViJAx3CYaDGctEIJbO7LJzMoxwU=
+Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+ key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
+ (No client certificate requested)
+ by imap2.suse-dmz.suse.de (Postfix) with ESMTPS id AA5C913A04;
+ Tue,  5 Apr 2022 12:12:46 +0000 (UTC)
+Received: from dovecot-director2.suse.de ([192.168.254.65])
+ by imap2.suse-dmz.suse.de with ESMTPSA id s8TPKD4yTGIlCAAAMHmgww
+ (envelope-from <mkoutny@suse.com>); Tue, 05 Apr 2022 12:12:46 +0000
+Date: Tue, 5 Apr 2022 14:12:45 +0200
+From: Michal =?iso-8859-1?Q?Koutn=FD?= <mkoutny@suse.com>
+To: "T.J. Mercier" <tjmercier@google.com>
+Subject: Re: [RFC v4 5/8] dmabuf: Add gpu cgroup charge transfer function
+Message-ID: <20220405121245.GA30368@blackbody.suse.cz>
+References: <20220328035951.1817417-1-tjmercier@google.com>
+ <20220328035951.1817417-6-tjmercier@google.com>
+ <20220329152142.GA15794@blackbody.suse.cz>
+ <CABdmKX2874NdYCBzpKLnqWhZQDkC2wKz4ZL_aFNqrec6iAutpQ@mail.gmail.com>
 MIME-Version: 1.0
-References: <20220213022648.495895-1-marex@denx.de>
- <YkwrDtqhY+Ru2bxG@pendragon.ideasonboard.com>
-In-Reply-To: <YkwrDtqhY+Ru2bxG@pendragon.ideasonboard.com>
-From: Dave Stevenson <dave.stevenson@raspberrypi.com>
-Date: Tue, 5 Apr 2022 13:00:28 +0100
-Message-ID: <CAPY8ntA+GpJ6WFwJbDcKjD5N2TdKAqv2kQPjrFbcJW=OoFL_Yg@mail.gmail.com>
-Subject: Re: [PATCH][RESEND] drm/bridge: ti-sn65dsi83: Check link status
- register after enabling the bridge
-To: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <CABdmKX2874NdYCBzpKLnqWhZQDkC2wKz4ZL_aFNqrec6iAutpQ@mail.gmail.com>
+User-Agent: Mutt/1.10.1 (2018-07-13)
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -65,81 +61,75 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Marek Vasut <marex@denx.de>,
- DRI Development <dri-devel@lists.freedesktop.org>,
- Sam Ravnborg <sam@ravnborg.org>, Jagan Teki <jagan@amarulasolutions.com>,
- Robert Foss <robert.foss@linaro.org>
+Cc: Zefan Li <lizefan.x@bytedance.com>, linux-doc@vger.kernel.org,
+ David Airlie <airlied@linux.ie>, dri-devel@lists.freedesktop.org,
+ Benjamin Gaignard <benjamin.gaignard@linaro.org>,
+ Kalesh Singh <kaleshsingh@google.com>, Joel Fernandes <joel@joelfernandes.org>,
+ Shuah Khan <shuah@kernel.org>, Sumit Semwal <sumit.semwal@linaro.org>,
+ Kenny.Ho@amd.com, Jonathan Corbet <corbet@lwn.net>,
+ Martijn Coenen <maco@android.com>, Laura Abbott <labbott@redhat.com>,
+ linux-media@vger.kernel.org, linux-kselftest@vger.kernel.org,
+ Todd Kjos <tkjos@android.com>, Thomas Zimmermann <tzimmermann@suse.de>,
+ linaro-mm-sig@lists.linaro.org, Tejun Heo <tj@kernel.org>,
+ Shuah Khan <skhan@linuxfoundation.org>, cgroups@vger.kernel.org,
+ Suren Baghdasaryan <surenb@google.com>, Christian Brauner <brauner@kernel.org>,
+ Greg Kroah-Hartman <gregkh@linuxfoundation.org>, linux-kernel@vger.kernel.org,
+ Liam Mark <lmark@codeaurora.org>,
+ Christian =?iso-8859-1?Q?K=F6nig?= <christian.koenig@amd.com>,
+ Arve =?iso-8859-1?B?SGr4bm5lduVn?= <arve@android.com>,
+ Johannes Weiner <hannes@cmpxchg.org>, Hridya Valsaraju <hridya@google.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi Laurent
+On Fri, Apr 01, 2022 at 11:41:36AM -0700, "T.J. Mercier" <tjmercier@google.com> wrote:
+> This link doesn't work for me, but I think you're referring to the
+> discussion about your "RAM_backed_buffers" comment from March 23rd.
 
-On Tue, 5 Apr 2022 at 12:42, Laurent Pinchart
-<laurent.pinchart@ideasonboard.com> wrote:
->
-> Hi Marek,
->
-> Thank you for the patch.
->
-> On Sun, Feb 13, 2022 at 03:26:48AM +0100, Marek Vasut wrote:
-> > In rare cases, the bridge may not start up correctly, which usually
-> > leads to no display output. In case this happens, warn about it in
-> > the kernel log.
->
-> Do you know what this is caused by ? It's a bit annoying to add a 10+ms
-> delay at start time just to be notified of rare cases.
+(Oops, it's a non-public message. But yes, you guessed it right ;-))
 
-The datasheet [1] section 7.4.2 Initialization Sequence states in step 2
-"After power is applied and stable, the DSI CLK lanes MUST be in HS
-state and the DSI data lanes MUST be driven
-to LP11 state"
-Data lanes shouldn't go to HS until step 8 after the DSI83 has been configured.
+> Anyway the test I did goes like this: enable memcg and gpu cgoups
+> tracking and run a process that allocates 100MiB of dmabufs. Observe
+> memcg and gpu accounting values before and after the allocation.
 
-Configuration from the driver is being done from atomic_enable,
-therefore the data lanes are likely in HS mode and sending video, not
-LP11.
+Thanks for this measurement/dem/demoo.
 
-Deviate from the specified initialisation sequence at your peril!
+> Before
+> # cat memory.current gpu.memory.current
+> 14909440
+> system 0
+> 
+> <Test program does the allocation of 100MiB of dmabufs>
+> 
+> After
+> # cat memory.current gpu.memory.current
+> 48025600
+> system 104857600
+> 
+> So the memcg value increases by about 30 MiB while the gpu values
+> increases by 100 MiB.
 
-The SN65DSI8[3|4|5] is one of the DSI devices that I'd been looking at
-with the DSI ordering patches [2] so that we could initialise it in
-the way specified in the datasheet. I've had no responses to v2 of
-those patches though.
+> This is with kmem enabled, and the /proc/maps
+> file for this process indicates that the majority of that 30 MiB is
+> kernel memory.
 
-  Dave
+> I think this result shows that neither the kernel nor process memory
+> overlap with the gpu cgroup tracking of these allocations.
 
-[1] https://www.ti.com/lit/ds/symlink/sn65dsi83.pdf
-[2] https://patchwork.freedesktop.org/series/100252/#rev2
+It depends how the semantics of the 'system' entry is defined, no?
+As I grasped from other thread, the 'total' is going to be removed, so
+'system' represents exclusively device memory?
 
-> > Signed-off-by: Marek Vasut <marex@denx.de>
-> > Cc: Jagan Teki <jagan@amarulasolutions.com>
-> > Cc: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-> > Cc: Linus Walleij <linus.walleij@linaro.org>
-> > Cc: Robert Foss <robert.foss@linaro.org>
-> > Cc: Sam Ravnborg <sam@ravnborg.org>
-> > Cc: dri-devel@lists.freedesktop.org
-> > ---
-> >  drivers/gpu/drm/bridge/ti-sn65dsi83.c | 5 +++++
-> >  1 file changed, 5 insertions(+)
-> >
-> > diff --git a/drivers/gpu/drm/bridge/ti-sn65dsi83.c b/drivers/gpu/drm/bridge/ti-sn65dsi83.c
-> > index 19daaddd29a41..1d7c154ea1d79 100644
-> > --- a/drivers/gpu/drm/bridge/ti-sn65dsi83.c
-> > +++ b/drivers/gpu/drm/bridge/ti-sn65dsi83.c
-> > @@ -488,6 +488,11 @@ static void sn65dsi83_atomic_enable(struct drm_bridge *bridge,
-> >       /* Clear all errors that got asserted during initialization. */
-> >       regmap_read(ctx->regmap, REG_IRQ_STAT, &pval);
-> >       regmap_write(ctx->regmap, REG_IRQ_STAT, pval);
-> > +
-> > +     usleep_range(10000, 12000);
-> > +     regmap_read(ctx->regmap, REG_IRQ_STAT, &pval);
-> > +     if (pval)
-> > +             dev_err(ctx->dev, "Unexpected link status 0x%02x\n", pval);
-> >  }
-> >
-> >  static void sn65dsi83_atomic_disable(struct drm_bridge *bridge,
->
-> --
-> Regards,
->
-> Laurent Pinchart
+
+> So despite the fact that these buffers are in main memory, they are
+> allocated in a way that does not result in memcg attribution. (It
+> looks to me like __GFP_ACCOUNT is not set for these.)
+
+(I thought you knew what dmabufs your program used :-p)
+
+So, the goal is to do the tracking and migrations only via the gpu cg
+layer, regardless how memcg charges it (or not).
+
+(I have no opinion on that, I'm just summing it so that we're on the
+same page.)
+
+Michal
