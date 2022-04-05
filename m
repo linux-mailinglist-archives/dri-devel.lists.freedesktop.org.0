@@ -1,45 +1,47 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 50DE04F3876
-	for <lists+dri-devel@lfdr.de>; Tue,  5 Apr 2022 16:34:16 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 6B40A4F3877
+	for <lists+dri-devel@lfdr.de>; Tue,  5 Apr 2022 16:34:19 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 8F4C610E6BB;
-	Tue,  5 Apr 2022 14:34:12 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id EA35810E660;
+	Tue,  5 Apr 2022 14:34:13 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from mga01.intel.com (mga01.intel.com [192.55.52.88])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 568BC10E6F5;
- Tue,  5 Apr 2022 14:34:11 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 5A34510E660;
+ Tue,  5 Apr 2022 14:34:12 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1649169251; x=1680705251;
- h=from:to:subject:date:message-id:mime-version:
- content-transfer-encoding;
- bh=lxGqvpICiHmCAftPrCdzUDeLfisNL7gseWyDw2DJlfw=;
- b=EWuKg6HUaE08XTwNdMmcpxPUB8gA+bJSHJo2t2EwKIIZTn40hvCuZ7ri
- XbQX7LVj+KhYlCqpQeNXbk6uLIfOo00OodRK11rqvjRE+xlFse78fRdlf
- mIKhWeI/5/0NBCT2qgq2qbh+xc/3d/nw9KapL/neYFHj+O2Amgmmx2JTE
- lWoMOYCPBETeb57mcEFNKOLNPlH19MuvEfv+b0RyE+ytJw6aB4oxvb1pX
- sKxPx25SIv4CXJ7APH2I4IMvBUfaXpMNiNYymLWs8wb2iFhm/C1NakIP/
- YB0wPttvLxeN+zxLylLdQNmY6fB0jh9p/kP7DbMEi0Ho60s0SRlBMfKzt w==;
-X-IronPort-AV: E=McAfee;i="6200,9189,10307"; a="285722165"
-X-IronPort-AV: E=Sophos;i="5.90,236,1643702400"; d="scan'208";a="285722165"
+ t=1649169252; x=1680705252;
+ h=from:to:subject:date:message-id:in-reply-to:references:
+ mime-version:content-transfer-encoding;
+ bh=FH1vn4P3u+/zwqyrOOmlegQIVQF8V8aUPfEigCgaNUY=;
+ b=EWpY4q26ZYBA2pFDzBu+WuHwRH2nG2Qw+fLzCnkznKU4fqfmUzHS4lTY
+ upN3XKsAEncK+GNYbW3tIw5eq33t5xKjuzrnkPueP6lP5Oc0ny7fzmg5E
+ 7WbphSCfYQ6MCWlkmX9cHBaGmY+3Wu8QeCoNfFoIzeeAma2jy0BifMFdw
+ WECuSt6GmAj040aLpeR53BAMbIT45QgU4IK/LF+arz6Jyd0tUT6Ctat/G
+ ibcrPoP4/S+aHPf7XWZy1vRA6uRjsZmKDtpx48Zs9okKLnvSJLOLFdcUI
+ F3Nvn++hAcJhALmBN4AgcYvzVvaYT63TUchfhochIt0FPqFI4d7izot/P g==;
+X-IronPort-AV: E=McAfee;i="6200,9189,10307"; a="285722168"
+X-IronPort-AV: E=Sophos;i="5.90,236,1643702400"; d="scan'208";a="285722168"
 Received: from orsmga004.jf.intel.com ([10.7.209.38])
  by fmsmga101.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 05 Apr 2022 07:34:10 -0700
-X-IronPort-AV: E=Sophos;i="5.90,236,1643702400"; d="scan'208";a="657958951"
+ 05 Apr 2022 07:34:11 -0700
+X-IronPort-AV: E=Sophos;i="5.90,236,1643702400"; d="scan'208";a="657958962"
 Received: from ramaling-i9x.iind.intel.com ([10.203.144.108])
  by orsmga004-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 05 Apr 2022 07:34:09 -0700
+ 05 Apr 2022 07:34:10 -0700
 From: Ramalingam C <ramalingam.c@intel.com>
 To: intel-gfx <intel-gfx@lists.freedesktop.org>,
  dri-devel <dri-devel@lists.freedesktop.org>
-Subject: [PATCH v8 0/9] drm/i915/ttm: Evict and restore of compressed object
-Date: Tue,  5 Apr 2022 20:04:45 +0530
-Message-Id: <20220405143454.16358-1-ramalingam.c@intel.com>
+Subject: [PATCH v8 1/9] drm/i915/gt: use engine instance directly for offset
+Date: Tue,  5 Apr 2022 20:04:46 +0530
+Message-Id: <20220405143454.16358-2-ramalingam.c@intel.com>
 X-Mailer: git-send-email 2.20.1
+In-Reply-To: <20220405143454.16358-1-ramalingam.c@intel.com>
+References: <20220405143454.16358-1-ramalingam.c@intel.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
@@ -57,63 +59,57 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Xe-HP and later devices, we use dedicated compression control
-state (CCS) stored in local memory for each surface, to support
-the 3D and media compression formats.
+To make it uniform across copy and clear, use the engine offset directly
+to calculate the offset in the cmd forming for emit_clear.
 
-The memory required for the CCS of the entire local memory is
-1/256 of the local memory size. So before the kernel
-boot, the required memory is reserved for the CCS data and a
-secure register will be programmed with the CCS base address
+Signed-off-by: Ramalingam C <ramalingam.c@intel.com>
+Reviewed-by: Thomas Hellstrom <thomas.hellstrom@linux.intel.com>
+---
+ drivers/gpu/drm/i915/gt/intel_migrate.c | 11 ++++-------
+ 1 file changed, 4 insertions(+), 7 deletions(-)
 
-So when we allocate a object in local memory we dont need to explicitly
-allocate the space for ccs data. But when we evict the obj into the smem
-to hold the compression related data along with the obj we need smem
-space of obj_size + (obj_size/256).
-
-Hence when we create smem for an obj with lmem placement possibility we
-create with the extra space.
-
-When we are swapping out the local memory obj on flat-ccs capable platform,
-we need to capture the ccs data too along with main meory and we need to
-restore it when we are swapping in the content.
-
-When lmem object is swapped into a smem obj, smem obj will
-have the extra pages required to hold the ccs data corresponding to the
-lmem main memory. So main memory of lmem will be copied into the initial
-pages of the smem and then ccs data corresponding to the main memory
-will be copied to the subsequent pages of smem.
-
-Swapin happens exactly in reverse order. First main memory of lmem is
-restored from the smem's initial pages and the ccs data will be restored
-from the subsequent pages of smem.
-
-Extracting and restoring the CCS data is done through a special cmd called
-XY_CTRL_SURF_COPY_BLT
-
-v8:
-  New patch for return value fix
-  Fix a return error code
-
-Test-with: 20220405141050.16037-1-ramalingam.c@intel.com
-
-Ramalingam C (9):
-  drm/i915/gt: use engine instance directly for offset
-  drm/i915/gt: Use XY_FAST_COLOR_BLT to clear obj on graphics ver 12+
-  drm/i915/gt: Optimize the migration and clear loop
-  drm/i915/gt: Pass the -EINVAL when emit_pte doesn't update any PTE
-  drm/i915/gt: Clear compress metadata for Flat-ccs objects
-  drm/i915/selftest_migrate: Consider the possible roundup of size
-  drm/i915/selftest_migrate: Check CCS meta data clear
-  drm/i915/gem: Add extra pages in ttm_tt for ccs data
-  drm/i915/migrate: Evict and restore the flatccs capable lmem obj
-
- drivers/gpu/drm/i915/gem/i915_gem_ttm.c      |  30 +-
- drivers/gpu/drm/i915/gt/intel_gpu_commands.h |  21 +
- drivers/gpu/drm/i915/gt/intel_migrate.c      | 385 +++++++++++++++++--
- drivers/gpu/drm/i915/gt/selftest_migrate.c   | 253 ++++++++++--
- 4 files changed, 629 insertions(+), 60 deletions(-)
-
+diff --git a/drivers/gpu/drm/i915/gt/intel_migrate.c b/drivers/gpu/drm/i915/gt/intel_migrate.c
+index 950fd6da146c..9d852a570400 100644
+--- a/drivers/gpu/drm/i915/gt/intel_migrate.c
++++ b/drivers/gpu/drm/i915/gt/intel_migrate.c
+@@ -613,15 +613,13 @@ intel_context_migrate_copy(struct intel_context *ce,
+ 	return err;
+ }
+ 
+-static int emit_clear(struct i915_request *rq, u64 offset, int size, u32 value)
++static int emit_clear(struct i915_request *rq, u32 offset, int size, u32 value)
+ {
+ 	const int ver = GRAPHICS_VER(rq->engine->i915);
+ 	u32 *cs;
+ 
+ 	GEM_BUG_ON(size >> PAGE_SHIFT > S16_MAX);
+ 
+-	offset += (u64)rq->engine->instance << 32;
+-
+ 	cs = intel_ring_begin(rq, ver >= 8 ? 8 : 6);
+ 	if (IS_ERR(cs))
+ 		return PTR_ERR(cs);
+@@ -631,17 +629,16 @@ static int emit_clear(struct i915_request *rq, u64 offset, int size, u32 value)
+ 		*cs++ = BLT_DEPTH_32 | BLT_ROP_COLOR_COPY | PAGE_SIZE;
+ 		*cs++ = 0;
+ 		*cs++ = size >> PAGE_SHIFT << 16 | PAGE_SIZE / 4;
+-		*cs++ = lower_32_bits(offset);
+-		*cs++ = upper_32_bits(offset);
++		*cs++ = offset;
++		*cs++ = rq->engine->instance;
+ 		*cs++ = value;
+ 		*cs++ = MI_NOOP;
+ 	} else {
+-		GEM_BUG_ON(upper_32_bits(offset));
+ 		*cs++ = XY_COLOR_BLT_CMD | BLT_WRITE_RGBA | (6 - 2);
+ 		*cs++ = BLT_DEPTH_32 | BLT_ROP_COLOR_COPY | PAGE_SIZE;
+ 		*cs++ = 0;
+ 		*cs++ = size >> PAGE_SHIFT << 16 | PAGE_SIZE / 4;
+-		*cs++ = lower_32_bits(offset);
++		*cs++ = offset;
+ 		*cs++ = value;
+ 	}
+ 
 -- 
 2.20.1
 
