@@ -2,68 +2,74 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 751FD4F24B0
-	for <lists+dri-devel@lfdr.de>; Tue,  5 Apr 2022 09:26:06 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 1A7F14F2623
+	for <lists+dri-devel@lfdr.de>; Tue,  5 Apr 2022 09:52:51 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id C8F9510EEE3;
-	Tue,  5 Apr 2022 07:26:00 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 90C4E10EF55;
+	Tue,  5 Apr 2022 07:52:47 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-ej1-x634.google.com (mail-ej1-x634.google.com
- [IPv6:2a00:1450:4864:20::634])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 6FCC410EEE2;
- Tue,  5 Apr 2022 07:25:59 +0000 (UTC)
-Received: by mail-ej1-x634.google.com with SMTP id bq8so24734161ejb.10;
- Tue, 05 Apr 2022 00:25:59 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
- h=message-id:date:mime-version:user-agent:subject:content-language:to
- :cc:references:from:in-reply-to:content-transfer-encoding;
- bh=3NJs3TJQkDKHjsGpm5fK36QM+EjCa9yPVHi4w1j6TIM=;
- b=EDIFosjFuzTfFaQTcs7VOeyPm632EBUUkn27uNm35fMklHHNxkTwm3Ku1jRafdagB4
- mdihxCCNZemb/kS6c8T9uIkYlYdKPP+/PhkN4Msn0tZ37cWK0arGGcjlbA+QhO0VfJwP
- Ca9X6kZWoqdZdEbchGp5ppOg+TCMgnX8W5Mp97Pkh7JMXQ6mIHSCWIiesiX5/YlXyRB3
- Uptb8tbOhn6gf+JDQOiIL5Jocw9iLq3qZsENNq7pCYHNT4Ogq8qK+g5PqrLb9b7tEJB+
- ATmNuG6clceAvFjae137WN0ozpkNQqX6l/e1wDwIk2ANV2kDZDDfTxKMceF0gT3H3HH5
- f4tA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
- :content-language:to:cc:references:from:in-reply-to
- :content-transfer-encoding;
- bh=3NJs3TJQkDKHjsGpm5fK36QM+EjCa9yPVHi4w1j6TIM=;
- b=jrzP7BBuPiSDYDF35IdvSyRGkUws4kSg9VPIdFf13oslTRuRVjY7C6vaxpehYx55/n
- x7JMUkVi6fC5z+OJUFHpxCMSGA+t0QMbRM5trgthVgwSHTx1PCOOhQatSShOAw0o0B4U
- +RG7fIs8DZ0beOY4heyyewwa26poyQhEE1nbWbqaWoL8N4BAlvcUpuUYTyPEK579AlVn
- CYlLnxw17ZsO34brCJekOKEDEmNwUi1va8nV6YmFmKOdCDr0FCXYn8Wh2zZeIeE15nxs
- kyCG+oujOCtXhOB2+pjyrNOPBs6WDgJEeQaHZHC/fpCJp1pne/HY4J7Zrylg/UXiMsCG
- olOg==
-X-Gm-Message-State: AOAM530+MxdicL3Q7r2ZtK4EWFw9AZy/YZwnOZslxhnEikAVUA6K1zGd
- 6z+BqOGX/WO171Fmur7mtQM=
-X-Google-Smtp-Source: ABdhPJwi6D5AH7obqmIABOGtSwk/H4uki4N9XPDglhCsrEF3w6AGcefZwAXj9HmvyXSo8T5mTpdsmQ==
-X-Received: by 2002:a17:906:3a04:b0:6d0:8d78:2758 with SMTP id
- z4-20020a1709063a0400b006d08d782758mr2131462eje.685.1649143557804; 
- Tue, 05 Apr 2022 00:25:57 -0700 (PDT)
-Received: from [192.168.178.21] (p5b0eab60.dip0.t-ipconnect.de. [91.14.171.96])
- by smtp.gmail.com with ESMTPSA id
- j21-20020a170906255500b006e08c4862ccsm5268902ejb.96.2022.04.05.00.25.51
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Tue, 05 Apr 2022 00:25:56 -0700 (PDT)
-Message-ID: <2a95c60e-a455-c721-f9d2-280505cb0061@gmail.com>
-Date: Tue, 5 Apr 2022 09:25:50 +0200
+Received: from wout2-smtp.messagingengine.com (wout2-smtp.messagingengine.com
+ [64.147.123.25])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id CB42210EF55
+ for <dri-devel@lists.freedesktop.org>; Tue,  5 Apr 2022 07:52:44 +0000 (UTC)
+Received: from compute5.internal (compute5.nyi.internal [10.202.2.45])
+ by mailout.west.internal (Postfix) with ESMTP id 565BD32019B4;
+ Tue,  5 Apr 2022 03:52:41 -0400 (EDT)
+Received: from mailfrontend1 ([10.202.2.162])
+ by compute5.internal (MEProxy); Tue, 05 Apr 2022 03:52:42 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=cerno.tech; h=cc
+ :cc:content-transfer-encoding:content-type:date:date:from:from
+ :in-reply-to:in-reply-to:message-id:mime-version:references
+ :reply-to:sender:subject:subject:to:to; s=fm3; bh=NB2LbP1FrwX2aE
+ jxzBIBvIHerPLRI4UZ+k3FQ1DQ++U=; b=r08fQ8GDXhzr6sE38pxAGjA1wV+sf6
+ n88Q0if4MkGsq1iLipwxU7v2OCzUDVJI1MThBpJPZ4BqUZs7zhbhAu/Dkvuu4zF7
+ e9U5WIyaUwJWei6u2exFN9fhLt0LtCmt96/TBjkZqJ89wymlhZff6eoW4m+8hH/9
+ KUPVH97KIjRXE43MfP1O8KyHdIsCzmKJQX8prNiFd2Aj8EI4l3PIdCubmjaf+ygZ
+ SAi6hAeF62f71OXh9OCvivnt33oylreWzlb2GCZqg4eaCLihdyJ16Fw8Gi9zJztw
+ uFvT5rhXwy+xxrN0cOVJrul3y3nj6k74e0QoK+ejUaPWoc/kkueO2KhQ==
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
+ messagingengine.com; h=cc:cc:content-transfer-encoding
+ :content-type:date:date:from:from:in-reply-to:in-reply-to
+ :message-id:mime-version:references:reply-to:sender:subject
+ :subject:to:to:x-me-proxy:x-me-proxy:x-me-sender:x-me-sender
+ :x-sasl-enc; s=fm3; bh=NB2LbP1FrwX2aEjxzBIBvIHerPLRI4UZ+k3FQ1DQ+
+ +U=; b=FvSD30clfwDk0JltxUd/u4IM1HazJIBlkDx2eE7JFn6nwAxUYZqSPPj82
+ Hc6qIJ8TYxoNSm5jH0glOkJ0NfKr+cmRt+brK2e/NgBhQk1W4ryeoVbiFMQtyhzQ
+ RlIXOf9FlOVyGI+o5Ng0hnCRsdGuQqlbfwu5/CrU3b+ID+bcNn2nUObwzQ5HJotz
+ HzVPMnCqeOXnuYW8+8BhPKkPK4BPmsjYG4DzH+zlFbx1LMU/DJSiSuT1CTrEAuJL
+ Dfyzd6FLCjTlF4J2tGsDgP6PxYlxQJbKijTKKfMR12ZmW59QsS60t2BtQ6Z3KKwE
+ 5jihPM41rPdz7+safiiTGf7ZMofUg==
+X-ME-Sender: <xms:R_VLYjJ6epsgLoYYNqqslJpyaT-r2AxKxsVS-CJlWxT7rJRQ1CB0Dg>
+ <xme:R_VLYnIP_YadvZ-x6Z8oyzrjt_gohClc-FjlFmuC932p5YgEZnXti7wqUSKuYuzDY
+ oHuM-moL_19tRBF3CU>
+X-ME-Received: <xmr:R_VLYrtXGObNlp_ccokaaisDcoVctjyxbW6yyYnBkuaiGGILqLOLDniOsKcjHCvp-HvuqV32BSxbwHtqFYuiBCssPalq-SHekmYs8BA>
+X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvvddrudejfedguddvhecutefuodetggdotefrod
+ ftvfcurfhrohhfihhlvgemucfhrghsthforghilhdpqfgfvfdpuffrtefokffrpgfnqfgh
+ necuuegrihhlohhuthemuceftddtnecusecvtfgvtghiphhivghnthhsucdlqddutddtmd
+ enucfjughrpefhvffufffkofgjfhggtgfgsehtkeertdertdejnecuhfhrohhmpeforgig
+ ihhmvgcutfhiphgrrhguuceomhgrgihimhgvsegtvghrnhhordhtvggthheqnecuggftrf
+ grthhtvghrnhepjeeugfegkeffgfeuvedtvddufffhjeffjeejvddvudduteehhfefhfef
+ geeikeeknecuvehluhhsthgvrhfuihiivgeptdenucfrrghrrghmpehmrghilhhfrhhomh
+ epmhgrgihimhgvsegtvghrnhhordhtvggthh
+X-ME-Proxy: <xmx:R_VLYsbIdibEyGX-AzYNoLmNSFIxDxCzcty1tUovNOaLtCtNrGWQ4A>
+ <xmx:R_VLYqYkwR_XRmlKYkc10Tl1LNMdgICLQa8bwpJT6J0aoUGISN5JOg>
+ <xmx:R_VLYgBbGEpewcOtJfCTT0OkugIfEBuMLTxGFXlKWZzpngwJer437w>
+ <xmx:SPVLYiokYKuYHuhN6v9AQYsGfzrtHy29NV0iLHsWFeNstGvbU7wgFg>
+Received: by mail.messagingengine.com (Postfix) with ESMTPA; Tue,
+ 5 Apr 2022 03:52:39 -0400 (EDT)
+From: Maxime Ripard <maxime@cerno.tech>
+To: Maxime Ripard <maxime@cerno.tech>, Frank Rowand <frowand.list@gmail.com>,
+ Rob Herring <robh+dt@kernel.org>
+Subject: Re: (subset) [PATCH] dt-bindings: display: bridge: Drop requirement
+ on input port for DSI devices
+Date: Tue,  5 Apr 2022 09:52:35 +0200
+Message-Id: <164914514524.239878.12110659661404307221.b4-ty@cerno.tech>
+X-Mailer: git-send-email 2.35.1
+In-Reply-To: <20220323154823.839469-1-maxime@cerno.tech>
+References: <20220323154823.839469-1-maxime@cerno.tech>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.7.0
-Subject: Re: [PATCH 06/23] drm/nouveau: stop using dma_resv_excl_fence
-Content-Language: en-US
-To: Karol Herbst <kherbst@redhat.com>,
- =?UTF-8?Q?Christian_K=c3=b6nig?= <christian.koenig@amd.com>
-References: <20220321135856.1331-1-christian.koenig@amd.com>
- <20220321135856.1331-6-christian.koenig@amd.com>
- <b9eb079c-3ec3-6095-92ab-5dbfab88d327@amd.com>
- <CACO55ttbz2vtr_3F=koenYW0S_238_FHXZ_w=r+i_X49ke+BYg@mail.gmail.com>
-From: =?UTF-8?Q?Christian_K=c3=b6nig?= <ckoenig.leichtzumerken@gmail.com>
-In-Reply-To: <CACO55ttbz2vtr_3F=koenYW0S_238_FHXZ_w=r+i_X49ke+BYg@mail.gmail.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -77,64 +83,28 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: nouveau <nouveau@lists.freedesktop.org>, Ben Skeggs <bskeggs@redhat.com>,
- dri-devel <dri-devel@lists.freedesktop.org>,
- Daniel Vetter <daniel.vetter@ffwll.ch>
+Cc: Marek Vasut <marex@denx.de>, devicetree@vger.kernel.org,
+ Neil Armstrong <narmstrong@baylibre.com>, David Airlie <airlied@linux.ie>,
+ Robert Foss <robert.foss@linaro.org>, dri-devel@lists.freedesktop.org,
+ Jonas Karlman <jonas@kwiboo.se>, Jernej Skrabec <jernej.skrabec@gmail.com>,
+ Laurent Pinchart <Laurent.pinchart@ideasonboard.com>,
+ Andrzej Hajda <andrzej.hajda@intel.com>,
+ Daniel Vetter <daniel.vetter@intel.com>,
+ Jagan Teki <jagan@amarulasolutions.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Am 04.04.22 um 13:47 schrieb Karol Herbst:
-> On Sun, Apr 3, 2022 at 5:59 PM Christian König <christian.koenig@amd.com> wrote:
->> Just a gentle ping to the nouveau guys.
->>
->> Any more comments on this? Otherwise I'm pushing that with Daniels rb.
->>
-> It looks fine, but given that this area broke in the past I will try
-> to do some testing either before or after you push it. As long as we
-> do so before 5.19 it should be okay I think.
+On Wed, 23 Mar 2022 16:48:23 +0100, Maxime Ripard wrote:
+> MIPI-DSI devices, if they are controlled through the bus itself, have to
+> be described as a child node of the controller they are attached to.
+> 
+> Thus, there's no requirement on the controller having an OF-Graph output
+> port to model the data stream: it's assumed that it would go from the
+> parent to the child.
+> 
+> [...]
 
-Ok that's sounds good enough to me. Going to push it to drm-misc-next now.
+Applied to drm/drm-misc (drm-misc-fixes).
 
-Thanks,
-Christian.
-
->
-> Unless somebody knowing more about this code has anything else to say.
->
->> Thanks,
->> Christian.
->>
->> Am 21.03.22 um 14:58 schrieb Christian König:
->>> Instead use the new dma_resv_get_singleton function.
->>>
->>> Signed-off-by: Christian König <christian.koenig@amd.com>
->>> Reviewed-by: Daniel Vetter <daniel.vetter@ffwll.ch>
->>> Cc: Ben Skeggs <bskeggs@redhat.com>
->>> Cc: Karol Herbst <kherbst@redhat.com>
->>> Cc: Lyude Paul <lyude@redhat.com>
->>> Cc: nouveau@lists.freedesktop.org
->>> ---
->>>    drivers/gpu/drm/nouveau/nouveau_bo.c | 9 ++++++++-
->>>    1 file changed, 8 insertions(+), 1 deletion(-)
->>>
->>> diff --git a/drivers/gpu/drm/nouveau/nouveau_bo.c b/drivers/gpu/drm/nouveau/nouveau_bo.c
->>> index fa73fe57f97b..74f8652d2bd3 100644
->>> --- a/drivers/gpu/drm/nouveau/nouveau_bo.c
->>> +++ b/drivers/gpu/drm/nouveau/nouveau_bo.c
->>> @@ -959,7 +959,14 @@ nouveau_bo_vm_cleanup(struct ttm_buffer_object *bo,
->>>    {
->>>        struct nouveau_drm *drm = nouveau_bdev(bo->bdev);
->>>        struct drm_device *dev = drm->dev;
->>> -     struct dma_fence *fence = dma_resv_excl_fence(bo->base.resv);
->>> +     struct dma_fence *fence;
->>> +     int ret;
->>> +
->>> +     /* TODO: This is actually a memory management dependency */
->>> +     ret = dma_resv_get_singleton(bo->base.resv, false, &fence);
->>> +     if (ret)
->>> +             dma_resv_wait_timeout(bo->base.resv, false, false,
->>> +                                   MAX_SCHEDULE_TIMEOUT);
->>>
->>>        nv10_bo_put_tile_region(dev, *old_tile, fence);
->>>        *old_tile = new_tile;
-
+Thanks!
+Maxime
