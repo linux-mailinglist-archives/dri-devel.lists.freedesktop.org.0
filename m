@@ -1,43 +1,74 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 568EB4F29A5
-	for <lists+dri-devel@lfdr.de>; Tue,  5 Apr 2022 11:54:42 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 98C5E4F2651
+	for <lists+dri-devel@lfdr.de>; Tue,  5 Apr 2022 10:03:03 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 17A2C10E739;
-	Tue,  5 Apr 2022 09:54:40 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id DB2E810EF9D;
+	Tue,  5 Apr 2022 08:02:59 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from ams.source.kernel.org (ams.source.kernel.org [145.40.68.75])
- by gabe.freedesktop.org (Postfix) with ESMTPS id D654B10EAE2
- for <dri-devel@lists.freedesktop.org>; Tue,  5 Apr 2022 09:54:38 +0000 (UTC)
-Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
- (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
- (No client certificate requested)
- by ams.source.kernel.org (Postfix) with ESMTPS id 355A6B818F3;
- Tue,  5 Apr 2022 09:54:37 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 771D2C385A1;
- Tue,  5 Apr 2022 09:54:35 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linuxfoundation.org;
- s=korg; t=1649152476;
- bh=YlM/FbAVBUssTY6JL+0GyHEKADXKYpFt3MPUZwaeiDw=;
- h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
- b=DLW3iua2dsOcb3WSEftpBBzLxs5ovs0yQTYn7aWXiZCmyRa2/RhsE1teMfVe+IVa9
- BLsOsHUs6RtbcOpUyvIXf2xafvLm932F/NN0pUDtIWW3WVwqh1MlFfhaTXvGOFKv/D
- 49rhpvCbssIR3z1MUvQQCL8vO2RfQXrfOCBbbjJQ=
-From: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-To: linux-kernel@vger.kernel.org
-Subject: [PATCH 5.15 783/913] drm/dp: Fix off-by-one in register cache size
-Date: Tue,  5 Apr 2022 09:30:45 +0200
-Message-Id: <20220405070403.305271234@linuxfoundation.org>
-X-Mailer: git-send-email 2.35.1
-In-Reply-To: <20220405070339.801210740@linuxfoundation.org>
-References: <20220405070339.801210740@linuxfoundation.org>
-User-Agent: quilt/0.66
+Received: from wout2-smtp.messagingengine.com (wout2-smtp.messagingengine.com
+ [64.147.123.25])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 4799710EF9B
+ for <dri-devel@lists.freedesktop.org>; Tue,  5 Apr 2022 08:02:58 +0000 (UTC)
+Received: from compute4.internal (compute4.nyi.internal [10.202.2.44])
+ by mailout.west.internal (Postfix) with ESMTP id 2E7833201F68;
+ Tue,  5 Apr 2022 04:02:57 -0400 (EDT)
+Received: from mailfrontend1 ([10.202.2.162])
+ by compute4.internal (MEProxy); Tue, 05 Apr 2022 04:02:57 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=cerno.tech; h=cc
+ :cc:content-type:date:date:from:from:in-reply-to:in-reply-to
+ :message-id:mime-version:references:reply-to:sender:subject
+ :subject:to:to; s=fm3; bh=9seaBYjHM2MwwOvuZVbvVKcMOxVEXIMnlH1nB8
+ b2x44=; b=Posq5w0NAsHAkq+jAyObQijeDPx4K6Te516Alr1vz9+k/zV6RlfpeI
+ 5p0gImngozzINW9AmBVX/MjpuebAYu9c7dYP+F2CwmNThnIE2MacdXyrQhbdfYHF
+ sJaCI2+On+mE/1CsCdff3Ef7IZdbOl8JQfbhoVLy+EGlw+EQJ/CeIskFGRfvaW6d
+ fAQS3fodiNcfa88gQnei0u3j6p47twFoj0sM4kdV0u1akw/hQcq36TLiG1Wb2WTp
+ PpJ7V5V1a0hhwV1ljwtTEkSlQJcrhim9u3qu3X4HWo1KwrgNpnNTzVcc2hzwfXm9
+ M+IbZOd5hGADma5TiB4cxroVRfVgtEGQ==
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
+ messagingengine.com; h=cc:cc:content-type:date:date:from:from
+ :in-reply-to:in-reply-to:message-id:mime-version:references
+ :reply-to:sender:subject:subject:to:to:x-me-proxy:x-me-proxy
+ :x-me-sender:x-me-sender:x-sasl-enc; s=fm3; bh=9seaBYjHM2MwwOvuZ
+ VbvVKcMOxVEXIMnlH1nB8b2x44=; b=DCaCV4Pu68yJjyb0ORE46t579Zaz9rntp
+ lJjfCrBe7kPk2vTgZR9f5FgdrdEPB1x0NljUoO1JIhmIyi+aS7BUH/UAOwJV+7Fu
+ 7+7Q8jGw0JOdi2AvWwStfDI81lvHzTZlHL9WVhtHrJbxbJ2Bj8JSZHT7yqYfCHSJ
+ 3PEh5oWOtQHGe7DBvqTr9sUQn7bScNuwkAxQ9Pu47WrRMOFAMAMXtSDFY2vXeOUo
+ LH1IlhLjv62dwnqLv5t8ItYnGz+xQTOTRx0hzU/+a1KdtFDkFPSq71XqAdTVOE1e
+ xo1ekUSrYCpGZbWycMKOoLITkrHHLleh253NP9dm2aCdoyjEQTmDQ==
+X-ME-Sender: <xms:sPdLYh0UqMS0ZgXEUug7dC9PtXt7cJgCcHmDpSABi4244q5W4NYbzA>
+ <xme:sPdLYoG6VLa7YI84jKe03DjCamHt9kN2xbrGOd_CS62_XVeFXL0g5XQqzhQDzuSv4
+ iqw2X4uOSg-3PwX4-c>
+X-ME-Received: <xmr:sPdLYh6n74X4yvvNhHgG1tG0CRUW2FkDFydQd9f8SRiqUKygPpZ6EjhYoXBQxjJKdsqlhkHx-h0BfYjlwz9jBGTgjnJYERdKMeOxsPo>
+X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvvddrudejfedguddvkecutefuodetggdotefrod
+ ftvfcurfhrohhfihhlvgemucfhrghsthforghilhdpqfgfvfdpuffrtefokffrpgfnqfgh
+ necuuegrihhlohhuthemuceftddtnecusecvtfgvtghiphhivghnthhsucdlqddutddtmd
+ enucfjughrpeffhffvuffkfhggtggujgesghdtreertddtvdenucfhrhhomhepofgrgihi
+ mhgvucftihhprghrugcuoehmrgigihhmvgestggvrhhnohdrthgvtghhqeenucggtffrrg
+ htthgvrhhnpeevgeduteektefhtefggfdtkeekgfehhffffeegudelheegheeiueevfeeg
+ vdeigeenucffohhmrghinhepghhithhhuhgsrdgtohhmnecuvehluhhsthgvrhfuihiivg
+ eptdenucfrrghrrghmpehmrghilhhfrhhomhepmhgrgihimhgvsegtvghrnhhordhtvggt
+ hh
+X-ME-Proxy: <xmx:sPdLYu2Huq-aqg_FBsNhRqImUtAvsMucNjxA1WU6jx1QSIrPNGPG3g>
+ <xmx:sPdLYkGSSnlMwryGmV4ID0WdXjKuDiVEiLuKB3fUBK81YGoN9D1axg>
+ <xmx:sPdLYv9H-VaJ4IkknUUaIgEDJu6jwlrKWzaTuEjReSjsBrDNmshnMQ>
+ <xmx:sPdLYgjMOVGm2RiKX-npGONp-g6EQlCBsFQfXDvzhzlCYpirO-riKQ>
+Received: by mail.messagingengine.com (Postfix) with ESMTPA; Tue,
+ 5 Apr 2022 04:02:55 -0400 (EDT)
+Date: Tue, 5 Apr 2022 10:02:54 +0200
+From: Maxime Ripard <maxime@cerno.tech>
+To: Marek Vasut <marex@denx.de>
+Subject: Re: [PATCH] drm: bridge: icn6211: Fix DSI-to-DPI PLL configuration
+Message-ID: <20220405080254.omlrpoebvjku4exi@houat>
+References: <20220402004118.897014-1-marex@denx.de>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
+Content-Type: multipart/signed; micalg=pgp-sha512;
+ protocol="application/pgp-signature"; boundary="22ay5avoqsgeo7my"
+Content-Disposition: inline
+In-Reply-To: <20220402004118.897014-1-marex@denx.de>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -50,58 +81,64 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Thomas Zimmermann <tzimmermann@suse.de>, David Airlie <airlied@linux.ie>,
- Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
- dri-devel@lists.freedesktop.org, "Gustavo A. R. Silva" <gustavoars@kernel.org>,
- stable@vger.kernel.org, Thierry Reding <treding@nvidia.com>,
- Kees Cook <keescook@chromium.org>
+Cc: Thomas Zimmermann <tzimmermann@suse.de>, Sam Ravnborg <sam@ravnborg.org>,
+ robert.foss@linaro.org, dri-devel@lists.freedesktop.org,
+ Jagan Teki <jagan@amarulasolutions.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-From: Kees Cook <keescook@chromium.org>
 
-commit d4da1f27396fb1dde079447a3612f4f512caed07 upstream.
+--22ay5avoqsgeo7my
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
-The pcon_dsc_dpcd array holds 13 registers (0x92 through 0x9E). Fix the
-math to calculate the max size. Found from a -Warray-bounds build:
+On Sat, Apr 02, 2022 at 02:41:18AM +0200, Marek Vasut wrote:
+> The datasheet for this bridge is not available, the PLL behavior has been
+> inferred from [1] and [2] and by analyzing the DPI pixel clock with scope.
+> After further testing with other displays and different DSI data lane cou=
+nt,
+> it turns out the P-factor is not 1/2^N divider, but rather only 1/N divid=
+er.
+> It also turns out the input into the PLL seem to be ByteClock instead of =
+DSI
+> HS clock.
+>=20
+> Rework the P-factor calculation such that the PLL calculation code handles
+> P-factor from 1..32 with P-factors above 16 must be even. In case P-factor
+> is even, enable built-in 1:2 divider and program P-factor/2 to PLL_REF_DI=
+V,
+> otherwise configure only the P-factor into PLL_REF_DIV register.
+>=20
+> Switch the PLL factor calculation from kHz to Hz to maintain precision.
+>=20
+> [1] https://github.com/rockchip-linux/kernel/blob/develop-4.19/drivers/gp=
+u/drm/bridge/icn6211.c
+> [2] https://github.com/tdjastrzebski/ICN6211-Configurator
+>=20
+> Fixes: f30cf0ece691 ("drm: bridge: icn6211: Add generic DSI-to-DPI PLL co=
+nfiguration")
+> Signed-off-by: Marek Vasut <marex@denx.de>
+> Cc: Jagan Teki <jagan@amarulasolutions.com>
+> Cc: Maxime Ripard <maxime@cerno.tech>
+> Cc: Robert Foss <robert.foss@linaro.org>
+> Cc: Sam Ravnborg <sam@ravnborg.org>
+> Cc: Thomas Zimmermann <tzimmermann@suse.de>
+> To: dri-devel@lists.freedesktop.org
 
-drivers/gpu/drm/drm_dp_helper.c: In function 'drm_dp_pcon_dsc_bpp_incr':
-drivers/gpu/drm/drm_dp_helper.c:3130:28: error: array subscript 12 is outside array bounds of 'const u8[12]' {aka 'const unsigned char[12]'} [-Werror=array-bounds]
- 3130 |         buf = pcon_dsc_dpcd[DP_PCON_DSC_BPP_INCR - DP_PCON_DSC_ENCODER];
-      |               ~~~~~~~~~~~~~^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-drivers/gpu/drm/drm_dp_helper.c:3126:39: note: while referencing 'pcon_dsc_dpcd'
- 3126 | int drm_dp_pcon_dsc_bpp_incr(const u8 pcon_dsc_dpcd[DP_PCON_DSC_ENCODER_CAP_SIZE])
-      |                              ~~~~~~~~~^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+Acked-by: Maxime Ripard <maxime@cerno.tech>
 
-Cc: Daniel Vetter <daniel@ffwll.ch>
-Cc: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>
-Cc: Maxime Ripard <mripard@kernel.org>
-Cc: Thomas Zimmermann <tzimmermann@suse.de>
-Cc: David Airlie <airlied@linux.ie>
-Cc: dri-devel@lists.freedesktop.org
-Fixes: e2e16da398d9 ("drm/dp_helper: Add support for Configuring DSC for HDMI2.1 Pcon")
-Cc: stable@vger.kernel.org
-Reviewed-by: Gustavo A. R. Silva <gustavoars@kernel.org>
-Link: https://lore.kernel.org/lkml/20211214001849.GA62559@embeddedor/
-Signed-off-by: Kees Cook <keescook@chromium.org>
-Link: https://lore.kernel.org/r/20220105173310.2420598-1-keescook@chromium.org
-Signed-off-by: Thierry Reding <treding@nvidia.com>
-Link: https://patchwork.freedesktop.org/patch/msgid/20220225035610.2552144-2-keescook@chromium.org
-Signed-off-by: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
----
- include/drm/drm_dp_helper.h |    2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+Maxime
 
---- a/include/drm/drm_dp_helper.h
-+++ b/include/drm/drm_dp_helper.h
-@@ -455,7 +455,7 @@ struct drm_panel;
- # define DP_FEC_BIT_ERROR_COUNT_CAP	    (1 << 3)
- 
- /* DP-HDMI2.1 PCON DSC ENCODER SUPPORT */
--#define DP_PCON_DSC_ENCODER_CAP_SIZE        0xC	/* 0x9E - 0x92 */
-+#define DP_PCON_DSC_ENCODER_CAP_SIZE        0xD	/* 0x92 through 0x9E */
- #define DP_PCON_DSC_ENCODER                 0x092
- # define DP_PCON_DSC_ENCODER_SUPPORTED      (1 << 0)
- # define DP_PCON_DSC_PPS_ENC_OVERRIDE       (1 << 1)
+--22ay5avoqsgeo7my
+Content-Type: application/pgp-signature; name="signature.asc"
 
+-----BEGIN PGP SIGNATURE-----
 
+iHUEABYKAB0WIQRcEzekXsqa64kGDp7j7w1vZxhRxQUCYkv3rgAKCRDj7w1vZxhR
+xRGpAQDxWrNV/rXD/apnsvspIaJWfUErXNmdghXYm6TCDyYtuwEA0XE1rh1l9Lh+
+74SUQNyCUnaYqieFiUiZQ+35uLtEgAY=
+=YwoU
+-----END PGP SIGNATURE-----
+
+--22ay5avoqsgeo7my--
