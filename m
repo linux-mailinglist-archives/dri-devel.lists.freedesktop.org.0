@@ -1,54 +1,57 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9F0A24F3554
-	for <lists+dri-devel@lfdr.de>; Tue,  5 Apr 2022 15:49:57 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 6F2D54F3570
+	for <lists+dri-devel@lfdr.de>; Tue,  5 Apr 2022 15:50:27 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 5934F10E11A;
-	Tue,  5 Apr 2022 13:49:55 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 57A7B10E91F;
+	Tue,  5 Apr 2022 13:50:25 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from phobos.denx.de (phobos.denx.de [85.214.62.61])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 5BECE10E11A
- for <dri-devel@lists.freedesktop.org>; Tue,  5 Apr 2022 13:49:53 +0000 (UTC)
-Received: from [127.0.0.1] (p578adb1c.dip0.t-ipconnect.de [87.138.219.28])
- (using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits))
- (No client certificate requested)
- (Authenticated sender: marex@denx.de)
- by phobos.denx.de (Postfix) with ESMTPSA id 8EF9383B53;
- Tue,  5 Apr 2022 15:49:50 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=denx.de;
- s=phobos-20191101; t=1649166591;
- bh=ZKpAN8TrJ5z3CFgGFOLfxrTIAxYGAJYuVT8dVZVJHdc=;
- h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
- b=lgh+AtvoZQgvSPUTTsEvkXfwWmQEagJC75GlR0SvHoQVwF458iUZUb2c2ITc+ZyWO
- pkix29ZMa6/6zYnN64qP8p2geP9Ve32yZQ9IKJhjwAnx+eYDKRKmfH/DKI1TVEfhXN
- fM7gf/qIc3DtBV4DWX/GE6udqUPgoNviPN8uZRkM4qvfylZGRn5SQlXEnwS9P98Iuk
- 3QCC3JoKqEV37XC8VOQiVBIOOkR1wmm8jOrX+4Aar7nX/0JpBBXR+taiH2Mhq88xph
- Q/6BF2HAQ2mi5wBUP/7fFittt99sUKDiHQoHqZn4TYx1a5UQc0bOnTMwDegGPJpUTv
- YsUsJZo0WX/uA==
-Message-ID: <2b6df0ac-d429-7d49-60e8-727f8c135671@denx.de>
-Date: Tue, 5 Apr 2022 15:49:50 +0200
+Received: from mail-qt1-x829.google.com (mail-qt1-x829.google.com
+ [IPv6:2607:f8b0:4864:20::829])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id D103E10E91F
+ for <dri-devel@lists.freedesktop.org>; Tue,  5 Apr 2022 13:50:23 +0000 (UTC)
+Received: by mail-qt1-x829.google.com with SMTP id 10so11029244qtz.11
+ for <dri-devel@lists.freedesktop.org>; Tue, 05 Apr 2022 06:50:23 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc; bh=oBw5C4mAzYHBqkIcJSiLqZdE6/dGN4RirBfflfNZeZw=;
+ b=cwod/pqZb/ZZ50J1wzA7SUpmhcqJ/4OQWOhBMvOgpobzAzK96fSaGe5d+kvm2ZMQYX
+ qbZ6Dy9RtuWeFQrkKYdrNG/Py4GeymojXrVYVNuGlvWGVjiJfefwCxoLF9mOUIeAG8R7
+ VzI5xSlVBgs99NqOxcCMknPsb6fSsu4UGL8qG3Isb8QN/BRfT68nedIEImfnc3lImVEs
+ zNBtLUyjF4/+15PtRVLawLIhI27HL7LT1TtIMIWP9m58z/ILmvarq4SjnRvuGECOHPPB
+ rC1YmWIJz7KB+vpaaad4x/RYT37HH6tEbLFb3Q5qG6nUxliDEgehez27PMolJ2AxXHHi
+ Z3zA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=oBw5C4mAzYHBqkIcJSiLqZdE6/dGN4RirBfflfNZeZw=;
+ b=UaD+AISEIk/pUOyclCW4I749yNAw7txHoN3Y/DxlEh6wSD2sZHz7Rjp6up5KUabfKc
+ fi8Si5icljIVsJlunJDF9iCQAu6Av8RPUhIBiuYfCJbyKGD4JSZN2MiiYiJ1XAILl5OY
+ 0Eo+SeNrHiFK8mUlVnwG6jTNzRLFWXvxiOKg8SVUjR78eHIKD359ct970hjuEec7Rtj7
+ YYZMPPZLvv78m1YwlSJLgNv2K5GyKPMDJizXQp5rJZLRRiPQuuMrujmNAKABWk996t1m
+ LJ8/Gk6izJyd3XkjycnYezSH6f4P23GGnRNbP61sGm1wdsbjs1MxHjAZlzM7EITI/iUK
+ 32Ew==
+X-Gm-Message-State: AOAM530xfohZfsZ/ICC6fYiJf3XoRNSPzyzsmR0T8T4IgL5NAn8XyUUn
+ 0NX9LSfq6ujthZ+LSD0nl4vy8ukOwKAbJaBnrnwvaA==
+X-Google-Smtp-Source: ABdhPJx4nj8M6K2gqZ2dD5wk8/mQwDX1/nbJ753mxmKM2qXGWJofvIUyTWtEx4xZ45vVyB8zzm8S/EPG0Xnnxqt2c8I=
+X-Received: by 2002:ac8:4e52:0:b0:2e1:dad8:5141 with SMTP id
+ e18-20020ac84e52000000b002e1dad85141mr3024119qtw.62.1649166622826; Tue, 05
+ Apr 2022 06:50:22 -0700 (PDT)
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.7.0
-Subject: Re: [PATCH][RESEND] drm/bridge: ti-sn65dsi83: Check link status
- register after enabling the bridge
-Content-Language: en-US
-To: Dave Stevenson <dave.stevenson@raspberrypi.com>,
- Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-References: <20220213022648.495895-1-marex@denx.de>
- <YkwrDtqhY+Ru2bxG@pendragon.ideasonboard.com>
- <CAPY8ntA+GpJ6WFwJbDcKjD5N2TdKAqv2kQPjrFbcJW=OoFL_Yg@mail.gmail.com>
- <Ykw/NEI03rXJ+C9Y@pendragon.ideasonboard.com>
- <CAPY8ntC5RQ4pq=Bf5Z+Vi-NhD6boGnEixjporJSKgR=AaUrEpw@mail.gmail.com>
-From: Marek Vasut <marex@denx.de>
-In-Reply-To: <CAPY8ntC5RQ4pq=Bf5Z+Vi-NhD6boGnEixjporJSKgR=AaUrEpw@mail.gmail.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
-X-Virus-Scanned: clamav-milter 0.103.5 at phobos.denx.de
-X-Virus-Status: Clean
+References: <1649166091-18032-1-git-send-email-quic_vpolimer@quicinc.com>
+ <1649166091-18032-2-git-send-email-quic_vpolimer@quicinc.com>
+In-Reply-To: <1649166091-18032-2-git-send-email-quic_vpolimer@quicinc.com>
+From: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
+Date: Tue, 5 Apr 2022 16:50:11 +0300
+Message-ID: <CAA8EJpri3MdWjGJfhSLAQwKSF-iyT-XMTxen4iu_iM68Wxp=zw@mail.gmail.com>
+Subject: Re: [PATCH v7 1/2] drm/msm/disp/dpu1: add inline function to validate
+ format support
+To: Vinod Polimera <quic_vpolimer@quicinc.com>
+Content-Type: text/plain; charset="UTF-8"
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -61,58 +64,87 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: DRI Development <dri-devel@lists.freedesktop.org>,
- Sam Ravnborg <sam@ravnborg.org>, Jagan Teki <jagan@amarulasolutions.com>,
- Robert Foss <robert.foss@linaro.org>
+Cc: quic_kalyant@quicinc.com, devicetree@vger.kernel.org,
+ linux-arm-msm@vger.kernel.org, linux-kernel@vger.kernel.org,
+ dri-devel@lists.freedesktop.org, dianders@chromium.org,
+ freedreno@lists.freedesktop.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 4/5/22 15:25, Dave Stevenson wrote:
-> On Tue, 5 Apr 2022 at 14:08, Laurent Pinchart
-> <laurent.pinchart@ideasonboard.com> wrote:
->>
->> Hi Dave,
->>
->> On Tue, Apr 05, 2022 at 01:00:28PM +0100, Dave Stevenson wrote:
->>> On Tue, 5 Apr 2022 at 12:42, Laurent Pinchart wrote:
->>>> On Sun, Feb 13, 2022 at 03:26:48AM +0100, Marek Vasut wrote:
->>>>> In rare cases, the bridge may not start up correctly, which usually
->>>>> leads to no display output. In case this happens, warn about it in
->>>>> the kernel log.
->>>>
->>>> Do you know what this is caused by ? It's a bit annoying to add a 10+ms
->>>> delay at start time just to be notified of rare cases.
->>>
->>> The datasheet [1] section 7.4.2 Initialization Sequence states in step 2
->>> "After power is applied and stable, the DSI CLK lanes MUST be in HS
->>> state and the DSI data lanes MUST be driven
->>> to LP11 state"
->>> Data lanes shouldn't go to HS until step 8 after the DSI83 has been configured.
->>>
->>> Configuration from the driver is being done from atomic_enable,
->>> therefore the data lanes are likely in HS mode and sending video, not
->>> LP11.
->>>
->>> Deviate from the specified initialisation sequence at your peril!
->>>
->>> The SN65DSI8[3|4|5] is one of the DSI devices that I'd been looking at
->>> with the DSI ordering patches [2] so that we could initialise it in
->>> the way specified in the datasheet. I've had no responses to v2 of
->>> those patches though.
->>
->> Sounds like I need to review that :-) It's still in my queue, I'll try
->> to push it to the top.
->>
->> Do you think this patch could then be reverted ?
-> 
-> If we can initialise the DSI host before the bridge for the
-> pre_enable, then all the configuration moves to the atomic_pre_enable
-> and there should be no need to have the delay.
-> 
-> I can't 100% guarantee that, but one of the folks on the Pi forums is
-> using [1] which does that, and is reporting it working well. (He's
-> also using the DSI85 to take 2 DSI links and drive 2 LVDS single link
-> panels)
+On Tue, 5 Apr 2022 at 16:41, Vinod Polimera <quic_vpolimer@quicinc.com> wrote:
+>
+> Check if the dpu format is supported or not using dpu_find_format.
+>
+> Co-developed-by: Kalyan Thota <quic_kalyant@quicinc.com>
+> Signed-off-by: Kalyan Thota <quic_kalyant@quicinc.com>
+> Signed-off-by: Vinod Polimera <quic_vpolimer@quicinc.com>
 
-It seems to me that checking whether the bridge got correctly 
-initialized is orthogonal to the aforementioned patchset though ?
+Reviewed-by: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
+
+> ---
+>  drivers/gpu/drm/msm/disp/dpu1/dpu_formats.h | 22 ++++++++++++++++++++++
+>  drivers/gpu/drm/msm/disp/dpu1/dpu_plane.c   | 10 +++-------
+>  2 files changed, 25 insertions(+), 7 deletions(-)
+>
+> diff --git a/drivers/gpu/drm/msm/disp/dpu1/dpu_formats.h b/drivers/gpu/drm/msm/disp/dpu1/dpu_formats.h
+> index 418f5ae..84b8b32 100644
+> --- a/drivers/gpu/drm/msm/disp/dpu1/dpu_formats.h
+> +++ b/drivers/gpu/drm/msm/disp/dpu1/dpu_formats.h
+> @@ -21,6 +21,28 @@ const struct dpu_format *dpu_get_dpu_format_ext(
+>  #define dpu_get_dpu_format(f) dpu_get_dpu_format_ext(f, 0)
+>
+>  /**
+> + * dpu_find_format - validate if the pixel format is supported
+> + * @format:            dpu format
+> + * @supported_formats: supported formats by dpu HW
+> + * @num_formatss:      total number of formats
+> + *
+> + * Return: false if not valid format, true on success
+> + */
+> +static inline bool dpu_find_format(u32 format, const u32 *supported_formats,
+> +                                       size_t num_formats)
+> +{
+> +       int i;
+> +
+> +       for (i = 0; i < num_formats; i++) {
+> +               /* check for valid formats supported */
+> +               if (format == supported_formats[i])
+> +                       return true;
+> +       }
+> +
+> +       return false;
+> +}
+> +
+> +/**
+>   * dpu_get_msm_format - get an dpu_format by its msm_format base
+>   *                     callback function registers with the msm_kms layer
+>   * @kms:             kms driver
+> diff --git a/drivers/gpu/drm/msm/disp/dpu1/dpu_plane.c b/drivers/gpu/drm/msm/disp/dpu1/dpu_plane.c
+> index 6565682..3216cda 100644
+> --- a/drivers/gpu/drm/msm/disp/dpu1/dpu_plane.c
+> +++ b/drivers/gpu/drm/msm/disp/dpu1/dpu_plane.c
+> @@ -1411,13 +1411,9 @@ static bool dpu_plane_format_mod_supported(struct drm_plane *plane,
+>         if (modifier == DRM_FORMAT_MOD_LINEAR)
+>                 return true;
+>
+> -       if (modifier == DRM_FORMAT_MOD_QCOM_COMPRESSED) {
+> -               int i;
+> -               for (i = 0; i < ARRAY_SIZE(qcom_compressed_supported_formats); i++) {
+> -                       if (format == qcom_compressed_supported_formats[i])
+> -                               return true;
+> -               }
+> -       }
+> +       if (modifier == DRM_FORMAT_MOD_QCOM_COMPRESSED)
+> +               return dpu_find_format(format, qcom_compressed_supported_formats,
+> +                               ARRAY_SIZE(qcom_compressed_supported_formats));
+>
+>         return false;
+>  }
+> --
+> 2.7.4
+>
+
+
+-- 
+With best wishes
+Dmitry
