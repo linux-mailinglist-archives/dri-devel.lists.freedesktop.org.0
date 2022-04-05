@@ -1,66 +1,72 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 858EC4F3CB6
-	for <lists+dri-devel@lfdr.de>; Tue,  5 Apr 2022 19:01:06 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 1C0A74F3CB9
+	for <lists+dri-devel@lfdr.de>; Tue,  5 Apr 2022 19:03:05 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 7B76C10EC09;
-	Tue,  5 Apr 2022 17:01:04 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 19D5710EC2B;
+	Tue,  5 Apr 2022 17:03:03 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-lf1-x12a.google.com (mail-lf1-x12a.google.com
- [IPv6:2a00:1450:4864:20::12a])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 25A5810EC0B
- for <dri-devel@lists.freedesktop.org>; Tue,  5 Apr 2022 17:01:03 +0000 (UTC)
-Received: by mail-lf1-x12a.google.com with SMTP id k21so24384815lfe.4
- for <dri-devel@lists.freedesktop.org>; Tue, 05 Apr 2022 10:01:03 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
- h=date:from:to:cc:subject:message-id:references:mime-version
- :content-disposition:in-reply-to:user-agent;
- bh=EhE3xEj7yTaKmn7cftZnafvMypbMiXwgf4Mz1OcfgBg=;
- b=lOsVIxXgyLw1bbuonyQ+6J95XWOlIKSAvozYTUSNESPEwUurIFSwO83vWvl3nF2MBD
- 3wmnsOCeDDX6uWLZDA5vNIaXVNQH3jySbWVWvMLfj/3ZnrVRePqEsH6s4soxqYv40puY
- LlLsO/d4o4eMbyfBOCL2DTIQ4s8bK2hxgcTIRwPVAPnYCG2Sl/rmeXhmigLhC6uUtfrW
- v44W9mrPOlsxgzG3/L3r4ZVEw/uh+1muxNhfcHxozbCm8OWeta3pvLNp3Wu3OQdb5w6u
- G++8hk/HAPtOUebaVL6NgdTeUeMJsexGIjmpEL26AYNwSMF2dklT9o5CjbQdV7bUfFEI
- AEBw==
+Received: from mail-ed1-x533.google.com (mail-ed1-x533.google.com
+ [IPv6:2a00:1450:4864:20::533])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 04E6A10EC27
+ for <dri-devel@lists.freedesktop.org>; Tue,  5 Apr 2022 17:03:00 +0000 (UTC)
+Received: by mail-ed1-x533.google.com with SMTP id b24so15631295edu.10
+ for <dri-devel@lists.freedesktop.org>; Tue, 05 Apr 2022 10:03:00 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=chromium.org; s=google;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc; bh=W9jjXhkkwggvTX4fvJBrk+j1Dfql0KOELV0oxfWMhuc=;
+ b=Da196R/xzbnxuTIH3vscQpCMovYwydT/AzCJSlQj8Eqi4CvIwtAd/mUQm9MmrSBpfo
+ C+EBgKeBCuBKVRkDsHPA8cOoIX8OcoIl86zyYotKiHUopfezjcGIoi0dE+KUYYdh8QMp
+ KVzZw8avVxGZB0tQNm3+yFeorwp26KB33gYBo=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=x-gm-message-state:date:from:to:cc:subject:message-id:references
- :mime-version:content-disposition:in-reply-to:user-agent;
- bh=EhE3xEj7yTaKmn7cftZnafvMypbMiXwgf4Mz1OcfgBg=;
- b=iE76zp2pul6ejd91v8I8iBS74+MpBgGot7WVE8pBN8kZP6Im4ijZRFAZcCQBBqVxFA
- xRJvjGZHQUADiBQ6cIYTs5fPdyJMleQDjXtAC3wZEHdPhz31pqiSG8x21NJ0cWGr/FWR
- Fet5rvMiJqqWQZqLvdrvXwExqqne/Ou3aefYCr0vclcJVvjEB6gDLGdn3p0WPmQySOL9
- gAoDsoSfEBSezazjmhkzEIymdmTRR1TpEM5Odu69aSQMMYDKFaooxzelPc7HhE01WXgo
- V8n9IZtNsY8NTLZ7IMZbDE2wrQY5fmENLQ915H8M7h7CHFHgOCCDLQLWalcXdS1mjvel
- 0EvQ==
-X-Gm-Message-State: AOAM530eLmzo658wMDpHGz4V2L6whHl0jIGgajqjnDXzAwYtGB+s1GX/
- HwxRkwaDvNfssxQ1VqrFG7A=
-X-Google-Smtp-Source: ABdhPJxdyhEhx3Oy3KqZw5PM7lrlcK1yJXCNYWYb9LypIihDqvGdwlFY8Y76QIJQS2OaT89Zm2xDDQ==
-X-Received: by 2002:ac2:4569:0:b0:44a:de90:e495 with SMTP id
- k9-20020ac24569000000b0044ade90e495mr3253977lfm.352.1649178061017; 
- Tue, 05 Apr 2022 10:01:01 -0700 (PDT)
-Received: from orome (pd9e518f7.dip0.t-ipconnect.de. [217.229.24.247])
- by smtp.gmail.com with ESMTPSA id
- 2-20020ac24d42000000b0044ad39c6c83sm1554336lfp.158.2022.04.05.10.00.59
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 05 Apr 2022 10:00:59 -0700 (PDT)
-Date: Tue, 5 Apr 2022 19:00:57 +0200
-From: Thierry Reding <thierry.reding@gmail.com>
-To: Paul Kocialkowski <paul.kocialkowski@bootlin.com>
-Subject: Re: [PATCH v3] drm: of: Properly try all possible cases for
- bridge/panel detection
-Message-ID: <Ykx1yQGROqyiu/yJ@orome>
-References: <20220329132732.628474-1-paul.kocialkowski@bootlin.com>
- <YkZulslrzeurp43U@ripper> <YkatbpubQjwBWOiK@aptenodytes>
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=W9jjXhkkwggvTX4fvJBrk+j1Dfql0KOELV0oxfWMhuc=;
+ b=dU/Vr9lKgp9UcnpBsL/4i7aGFF1caGpt95yOCit/x4a1NxrKw0Vxo6w9igBqWFnzhG
+ 6jXY7Q4dY9GROWiTmQp0HQGOWtYJ6+cvYHXLJq8iNvneybj5g1725sHM8ktPukcWJ5QX
+ mL4NpknWkdgvvapWSRM0VVdT+VnatUSkL4zsqea3+kXuIEPNLUVG38HYC/E2iOoU4Rn+
+ BZi7V7gRBJRSm6wiVIhbtOfx22NbRzdTTVbXy5Dc0JKX+7wEimpYy5A+vT0sigEuEDrs
+ mKFIwaUSzznR/W85alFawpLDEnwAS2R5L3Ux25Fv4zesqwujyCH4K+Cp3UST652MT5P+
+ KjAg==
+X-Gm-Message-State: AOAM531Bq7AdTd/Rpex+Y8VFOSdhbsBulF0U8DP2sFhyJwDwyo1BND1i
+ MDNVlraYJfY5RZNbsOh6M1+nj5w1Nyeevyaa
+X-Google-Smtp-Source: ABdhPJx0JXmI55VcIyqXtr1nSklWRcfQ8iTED3rU87tLDaVYJ+ibbkNEpauB0P55h/tAWsTrZ/KjgA==
+X-Received: by 2002:a05:6402:3719:b0:412:fc6b:f271 with SMTP id
+ ek25-20020a056402371900b00412fc6bf271mr4711236edb.345.1649178178981; 
+ Tue, 05 Apr 2022 10:02:58 -0700 (PDT)
+Received: from mail-wm1-f46.google.com (mail-wm1-f46.google.com.
+ [209.85.128.46]) by smtp.gmail.com with ESMTPSA id
+ b17-20020aa7dc11000000b00412ae7fda95sm6775614edu.44.2022.04.05.10.02.56
+ for <dri-devel@lists.freedesktop.org>
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Tue, 05 Apr 2022 10:02:57 -0700 (PDT)
+Received: by mail-wm1-f46.google.com with SMTP id
+ l7-20020a05600c1d0700b0038c99618859so2007209wms.2
+ for <dri-devel@lists.freedesktop.org>; Tue, 05 Apr 2022 10:02:56 -0700 (PDT)
+X-Received: by 2002:a05:600c:4f10:b0:38c:ae36:d305 with SMTP id
+ l16-20020a05600c4f1000b0038cae36d305mr3996092wmq.34.1649178175654; Tue, 05
+ Apr 2022 10:02:55 -0700 (PDT)
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha256;
- protocol="application/pgp-signature"; boundary="G3PF1PcGvTi6lpvg"
-Content-Disposition: inline
-In-Reply-To: <YkatbpubQjwBWOiK@aptenodytes>
-User-Agent: Mutt/2.2.1 (c8109e14) (2022-02-19)
+References: <1648656179-10347-1-git-send-email-quic_sbillaka@quicinc.com>
+ <1648656179-10347-2-git-send-email-quic_sbillaka@quicinc.com>
+ <CAD=FV=X+QvjwoT2zGP82KW4kD0oMUY6ZgCizSikNX_Uj8dNDqA@mail.gmail.com>
+ <392b933f-760c-3c81-1040-c514045df3da@linaro.org>
+ <CAD=FV=W4PYK-t607yjRbfjDjjEZX0KdgHDRukw_vSH8E8EDH6w@mail.gmail.com>
+ <CAA8EJppt9XONbgtKfmHmN+==QNqiVJeb8GKJFdZm=yyY-tgmHQ@mail.gmail.com>
+ <CAD=FV=U5-sTDLYdkeJWLAOG-0wgxR49VxtwUyUO7z2PuibLGsg@mail.gmail.com>
+ <CAA8EJppgfYgQjG8A4LsR-1wmBj3Ku3eO8cKfAYhxjWXL7e3eHg@mail.gmail.com>
+In-Reply-To: <CAA8EJppgfYgQjG8A4LsR-1wmBj3Ku3eO8cKfAYhxjWXL7e3eHg@mail.gmail.com>
+From: Doug Anderson <dianders@chromium.org>
+Date: Tue, 5 Apr 2022 10:02:42 -0700
+X-Gmail-Original-Message-ID: <CAD=FV=V=a1CnT8fqTJR40WoS3BaDQ3xZ=HnHVHqZh=MEmVUZBA@mail.gmail.com>
+Message-ID: <CAD=FV=V=a1CnT8fqTJR40WoS3BaDQ3xZ=HnHVHqZh=MEmVUZBA@mail.gmail.com>
+Subject: Re: [PATCH v6 1/8] drm/msm/dp: Add eDP support via aux_bus
+To: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
+Content-Type: text/plain; charset="UTF-8"
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -73,163 +79,122 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Thomas Zimmermann <tzimmermann@suse.de>, David Airlie <airlied@linux.ie>,
- linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
- Kuogee Hsieh <quic_khsieh@quicinc.com>,
- Jagan Teki <jagan@amarulasolutions.com>,
- Thomas Petazzoni <thomas.petazzoni@bootlin.com>,
- Dmitry Baryshkov <dmitry.baryshkov@linaro.org>,
- Bjorn Andersson <bjorn.andersson@linaro.org>
+Cc: quic_kalyant <quic_kalyant@quicinc.com>,
+ "open list:OPEN FIRMWARE AND FLATTENED DEVICE TREE BINDINGS"
+ <devicetree@vger.kernel.org>, Sankeerth Billakanti <quic_sbillaka@quicinc.com>,
+ "Abhinav Kumar \(QUIC\)" <quic_abhinavk@quicinc.com>,
+ quic_vproddut <quic_vproddut@quicinc.com>, David Airlie <airlied@linux.ie>,
+ linux-arm-msm <linux-arm-msm@vger.kernel.org>,
+ Bjorn Andersson <bjorn.andersson@linaro.org>,
+ LKML <linux-kernel@vger.kernel.org>,
+ dri-devel <dri-devel@lists.freedesktop.org>,
+ Stephen Boyd <swboyd@chromium.org>, Sean Paul <sean@poorly.run>,
+ Sean Paul <seanpaul@chromium.org>,
+ "Aravind Venkateswaran \(QUIC\)" <quic_aravindh@quicinc.com>,
+ "Kuogee Hsieh \(QUIC\)" <quic_khsieh@quicinc.com>,
+ freedreno <freedreno@lists.freedesktop.org>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
+Hi,
 
---G3PF1PcGvTi6lpvg
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+On Tue, Apr 5, 2022 at 5:54 AM Dmitry Baryshkov
+<dmitry.baryshkov@linaro.org> wrote:
+> > 3. For DP and eDP HPD means something a little different. Essentially
+> > there are two concepts: a) is a display physically connected and b) is
+> > the display powered up and ready. For DP, the two are really tied
+> > together. From the kernel's point of view you never "power down" a DP
+> > display and you can't detect that it's physically connected until it's
+> > ready. Said another way, on you tie "is a display there" to the HPD
+> > line and the moment a display is there it's ready for you to do AUX
+> > transfers. For eDP, in the lowest power state of a display it _won't_
+> > assert its "HPD" signal. However, it's still physically present. For
+> > eDP you simply have to _assume_ it's present without any actual proof
+> > since you can't get proof until you power it up. Thus for eDP, you
+> > report that the display is there as soon as we're asked. We can't
+> > _talk_ to the display yet, though. So in get_modes() we need to be
+> > able to power the display on enough to talk over the AUX channel to
+> > it. As part of this, we wait for the signal named "HPD" which really
+> > means "panel finished powering on" in this context.
+> >
+> > NOTE: for aux transfer, we don't have the _display_ pipe and clocks
+> > running. We only have enough stuff running to do the AUX transfer.
+> > We're not clocking out pixels. We haven't fully powered on the
+> > display. The AUX transfer is designed to be something that can be done
+> > early _before_ you turn on the display.
+> >
+> >
+> > OK, so basically that was a longwinded way of saying: yes, we could
+> > avoid the AUX transfer in probe, but we can't wait all the way to
+> > enable. We have to be able to transfer in get_modes(). If you think
+> > that's helpful I think it'd be a pretty easy patch to write even if it
+> > would look a tad bit awkward IMO. Let me know if you want me to post
+> > it up.
+>
+> I think it would be a good idea. At least it will allow us to judge,
+> which is the more correct way.
 
-On Fri, Apr 01, 2022 at 09:44:46AM +0200, Paul Kocialkowski wrote:
-> Hi Bjorn,
->=20
-> On Thu 31 Mar 22, 20:16, Bjorn Andersson wrote:
-> > On Tue 29 Mar 06:27 PDT 2022, Paul Kocialkowski wrote:
-> >=20
-> > > While bridge/panel detection was initially relying on the usual
-> > > port/ports-based of graph detection, it was recently changed to
-> > > perform the lookup on any child node that is not port/ports
-> > > instead when such a node is available, with no fallback on the
-> > > usual way.
-> > >=20
-> > > This results in breaking detection when a child node is present
-> > > but does not contain any panel or bridge node, even when the
-> > > usual port/ports-based of graph is there.
-> > >=20
-> > > In order to support both situations properly, this commit reworks
-> > > the logic to try both options and not just one of the two: it will
-> > > only return -EPROBE_DEFER when both have failed.
-> > >=20
-> >=20
-> > Thanks for your patch Paul, it fixed a regression on a device where I
-> > have a eDP bridge with an of_graph and a aux-bus defined.
-> >=20
-> > But unfortunately it does not resolve the regression I have for the
-> > USB based DisplayPort setup described below.
-> >=20
-> >=20
-> > In the Qualcomm DisplayPort driver We're calling:
-> >=20
-> > 	devm_drm_of_get_bridge(dev, dev->of_node, 1, 0);
-> >=20
-> > and with the following DT snippet the behavior changed:
-> >=20
-> > displayport-controller@ae90000 {
-> > 	compatible =3D "qcom,sc8180x-dp";
-> > 	...
-> >=20
-> > 	operating-points-v2 =3D <&dp0_opp_table>;
-> >=20
-> > 	ports {
-> > 		#address-cells =3D <1>;
-> > 		#size-cells =3D <0>;
-> >=20
-> > 		port@0 {
-> > 			reg =3D <0>;
-> > 			dp0_in: endpoint {
-> > 				remote-endpoint =3D <&display_driver>;
-> > 			};
-> > 		};
-> > 	};
-> >=20
-> > 	dp0_opp_table: opp-table {
-> > 		...;
-> > 	};
-> > };
-> >=20
-> > Prior to the introduction of 80253168dbfd ("drm: of: Lookup if child
-> > node has panel or bridge") this would return -ENODEV, so we could
-> > differentiate the case when we have a statically defined eDP panel from
-> > that of a dynamically attached (over USB) DP panel.
-> >=20
-> > Prior to your change, above case without the opp-table node would have
-> > still returned -ENODEV.
-> >=20
-> > But now this will just return -EPROBE_DEFER in both cases.
->=20
-> Oh that's right, the -ENODEV case was just completely removed by my chang=
-e.
-> Initially this would happen if !of_graph_is_present or if the remote node
-> doesn't exist.
->=20
-> Now that we are also checking for child nodes, we can't just return -ENOD=
-EV
-> when the graph or remote node is missing: we must also check that there i=
-s no
-> child node that is a panel/bridge.
->=20
-> For the graph remote case, we can reliabily return -EPROBE_DEFER when
-> of_graph_is_present and the remote exists and of_device_is_available.
-> Otherwise we can go for -ENODEV. I think getting -EPROBE_DEFER at this po=
-int
-> should stop the drm_of_find_panel_or_bridge process.
->=20
-> On the other hand for the child panel/bridge node case, I don't see how we
-> can reliably distinguish between -EPROBE_DEFER and -ENODEV, because
-> of_drm_find_panel and of_drm_find_bridge will behave the same if the child
-> node is a not-yet-probed panel/bridge or a totally unrelated node.
-> So I think we should always return -EPROBE_DEFER in that case.
->=20
-> As a result you can't get -ENODEV if using the of graph while having any
-> (unrelated) child node there, so your issue remains.
->=20
-> Do you see any way we could make this work?
->=20
-> > I thought the appropriate method of referencing the dsi panel was to
-> > actually reference that using the of_graph, even though it's a child of
-> > the dsi controller - that's at least how we've done it in e.g. [1].
-> > I find this to be much nicer than to just blindly define that all
-> > children of any sort of display controller must be a bridge or a panel.
->=20
-> Yes I totally agree. Given that using the child node directly apparently
-> can't allow us to distinguish between -EPROBE_DEFER/-ENODEV I would be in
-> favor of dropping this mechanism and going with explicit of graph in any =
-case
-> (even if it's a child node). I don't see any downside to this approach.
->=20
-> What do yout think?
+I'm still happy to prototype this, but the more I think about it the
+more it feels like a workaround for the Qualcomm driver. The eDP panel
+driver is actually given a pointer to the AUX bus at probe time. It's
+really weird to say that we can't do a transfer on it yet... As you
+said, this is a little sideband bus. It should be able to be used
+without all the full blown infra of the rest of the driver.
 
-This patch has recently starting causing failures on various Tegra
-devices that use drm_of_find_panel_or_bridge() for the case where the
-output might be connected to an eDP or LVDS panel. However, that same
-output could also be connected to an HDMI or DP monitor, in which case
-we obviously don't want a DT representation because it's all
-discoverable.
 
-If I understand correctly, that's similar to what Bjorn described. In my
-case I was able to fix the regression by returning -ENODEV at the very
-end of the function (i.e. no matching ports were found and no graph is
-present).
+> And I also think it might help the ti,sn65dsi86 driver, as it won't
+> have to ensure that gpio is available during the AUX bus probe.
 
-Thierry
+The ti,sn65dsi86 GPIO issue has been solved for a while, though so not
+sure why we need to do something there? I'm also unclear how it would
+have helped. In this discussion, we've agreed that the panel driver
+would still acquire resources during its probe time and the only thing
+that would be delayed would be the first AUX transfer. The GPIO is a
+resource here and it's ideal to acquire it at probe time so we could
+EPROBE_DEFER if needed.
 
---G3PF1PcGvTi6lpvg
-Content-Type: application/pgp-signature; name="signature.asc"
 
------BEGIN PGP SIGNATURE-----
+> BTW, another random idea, before you start coding.
+>
+> We have the bridge's hpd_notify call. Currently it is called only by
+> the means of drm_bridge_connector's HPD mechanism, tied to the bridge
+> registering as DRM_BRIDGE_OP_HPD.
+> It looks to me like it might be a perfect fit for the first aux-bus
+> related reads.
+>
+> We'd need to trigger it manually once and tie it to the new
+> drm_panel_funcs callback, which in turn would probe the aux bus,
+> create backlight, etc.
+>
+> Regarding the Sankeerth's patch. I have been comparing it with the
+> hpd_event_thread()'s calls.
+> It looks to me like we should reuse dp_display_config_hpd()
+> /EV_HPD_INIT_SETUP and maybe others.
+>
+> What I'm trying to say is that if we split AUX probing and first AUX
+> transfers, it would be possible to reuse a significant part of MSM DP
+> HPD machine rather than hacking around it and replicating it manually.
 
-iQIzBAABCAAdFiEEiOrDCAFJzPfAjcif3SOs138+s6EFAmJMdcYACgkQ3SOs138+
-s6G+FRAAteqUytCKBjVXrgayROapTBFjx8hTV88Y88uTqPW97kVaniy2tNZNK07I
-seH5o1SGPWam/5s/INXKwQ2RH3AOcIBSpvbVQFwDQRjXwjGcO7JuuBmFMNTlcuOD
-jqRbOawWCQt8uecnZmPPaLAGhg8zg2M2cAZflhqiQKy0F8ivdEfNkysZhU3Gc7v+
-jJihDHnPq2ot8HyvzYLKTl4Zf1CvJTkzYF5YPRhYDLPoQv+qHQd33U8dDmBFhJGk
-19FK0yLkpoGLM0jWWKsmiMuLHZ4u7y+lvmc3sKUafwjfzW1YgR9gq2I5kpWnWKlX
-0pDVPZG9lhuUHylKfrynzNWmS33KfdZViMgJgFd6NDkGVK0znnYOzYwhPiAJwQ+Q
-KD6SolpKJa82N9YYMnLUIPq9unmNnONWhY4VayfZYirOzf/4xjTYdtD6QWTkI3K+
-RCAgTk3QP0/hI+ZYFUdOqST/9Y9lYc1u/RlHgQjBF79pAYZcC9wp7eONvYHBgDK9
-k+CqExIzOc9EoCPxEbbSL1nsHg4hDa3Ct//1O4+zSbZe41hvO1ayA4Vl2TxM8cgG
-ELttCZZ5R879I+1IZL5ll0Ikw6RkRkZ5mplg4tfn2AJM7uYep4kkw6vvnfcsF2vS
-fAb9KrbHRCM+o76prnQfq3j4TrUZEeGOietyUPpBwXuUgbPAw0A=
-=zt/2
------END PGP SIGNATURE-----
+I'm not sure I completely understand, but I'm pretty wary here. It's
+my assertion that all of the current "HPD" infrastructure in DRM all
+relates to the physical presence of the panel. If you start
+implementing these functions for eDP I think you're going to confuse
+the heck out of everything. The kernel will think that this is a
+display that's sometimes not there. Whenever the display is powered
+off then HPD will be low and it will look like there's no display.
+Nothing will ever try to power it on because it looks like there's no
+display.
 
---G3PF1PcGvTi6lpvg--
+I think your idea is to "trigger once" at bootup and then it all
+magically works, right? ...but what about after bootup? If you turn
+the display off for whatever reason (modeset or you simply close the
+lid of your laptop because you're using an external display) and then
+you want to use the eDP display again, how do you kickstart the
+process another time? You can't reboot, and when the display is off
+the HPD line is low.
+
+I can't say it enough times, HPD on eDP _does not mean hot plug
+detect_. The panel is always there. HPD is really a "panel ready /
+panel notify" signal for eDP. That's fully what its function is.
+
+-Doug
