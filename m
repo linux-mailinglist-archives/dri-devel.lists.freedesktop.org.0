@@ -2,62 +2,41 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id B58C44F3301
-	for <lists+dri-devel@lfdr.de>; Tue,  5 Apr 2022 15:05:54 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 19ACE4F3304
+	for <lists+dri-devel@lfdr.de>; Tue,  5 Apr 2022 15:08:15 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 668B410E559;
-	Tue,  5 Apr 2022 13:05:51 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id C55F610E5D3;
+	Tue,  5 Apr 2022 13:08:11 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-wm1-x329.google.com (mail-wm1-x329.google.com
- [IPv6:2a00:1450:4864:20::329])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 29D3710E559
- for <dri-devel@lists.freedesktop.org>; Tue,  5 Apr 2022 13:05:50 +0000 (UTC)
-Received: by mail-wm1-x329.google.com with SMTP id
- l9-20020a05600c4f0900b0038ccd1b8642so1501178wmq.0
- for <dri-devel@lists.freedesktop.org>; Tue, 05 Apr 2022 06:05:50 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
- h=date:from:to:cc:subject:message-id:references:mime-version
- :content-disposition:in-reply-to;
- bh=5OoGrDH7nK9oFjsVTIEbOFtr4JmfdoVI2IyJ2wjIRyw=;
- b=bwrq0C1ajirhKSzPeBMF9M4xumTAECxTEkjAVIr9N/f/e13Ws70HiJje2vSD+LozFa
- WUKJttLtri9u8/VPFQ2yn2Kkj0BQy1trEq672pajS5zZ/h1OQ6nKRlGo0D03FrtkyN4H
- Y0bN8C0MwXLOOCzJf+mdEvBEreMuYHq2M+zd0TjqMEAcIwaUmgwUV6GfFt9qt+tzpHxQ
- 9gUZLRS0Fk5mCX7CEFWx7sVga6DYaeYUQxz4S4fcCrhGOy+RdDXIbu6N9B5MQQguGj1m
- zKgbRV3tdh3m78Oo3Qi0QwtP8oq301EPtUHMoYxmcZ9W7sNBWZSEljuxnga2xR+tUrBU
- 2DAA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=x-gm-message-state:date:from:to:cc:subject:message-id:references
- :mime-version:content-disposition:in-reply-to;
- bh=5OoGrDH7nK9oFjsVTIEbOFtr4JmfdoVI2IyJ2wjIRyw=;
- b=ntpi1214BEj0Bkg7oj5TNgho/blsUlbTDMHCKMxtMincjIpgo+xD6I65C9WiYTnZ4B
- VZ98GpZQyZVAhBL+tsT3FJOrOc2ixT2RDacOts7wUdfci7X5DonfrWenBRfjdj1l9ST1
- ius6hS3HNPewKLEMlCkIT6nXIozdvKPzEidOX/1LRk7tq6BibjuFdpAkOG8OVe0ebBMT
- b7jlHKitCqcNibqzHUP3eDhtcnVc0yFLsz/H3sDthyz9V3Cym4ViOsV8iyKv96Slu1Dz
- h9kpDrV+WyzBZC98dOX+nL4Nxfujw8q7QQ5qcgXMczS4IplAJk1i1O/nPKIbEgW+LZIP
- AVbw==
-X-Gm-Message-State: AOAM532ncYY8s5mp74Sf3O+mo9szx7g5Ql6pQqxYp8sCAiZuqN2/o5YI
- 4J3Ufw1lLiA0RsJ8YI3svMo=
-X-Google-Smtp-Source: ABdhPJwlDd/JO2QncqV+Qg7YsvFj5rwcuVsPA18gfL0PHrdH/061R20sU1lTWEubutb8Zv6bVjYCWg==
-X-Received: by 2002:a05:600c:4e92:b0:38c:73e8:7dcd with SMTP id
- f18-20020a05600c4e9200b0038c73e87dcdmr3141891wmq.196.1649163948642; 
- Tue, 05 Apr 2022 06:05:48 -0700 (PDT)
-Received: from debian (host-78-145-97-89.as13285.net. [78.145.97.89])
- by smtp.gmail.com with ESMTPSA id
- b8-20020a05600c4e0800b0038c6c37efc3sm2099463wmq.12.2022.04.05.06.05.47
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 05 Apr 2022 06:05:48 -0700 (PDT)
-Date: Tue, 5 Apr 2022 14:05:46 +0100
-From: Sudip Mukherjee <sudipm.mukherjee@gmail.com>
-To: Thomas Zimmermann <tzimmermann@suse.de>
-Subject: Re: fbdev: Fix unregistering of framebuffers without device
-Message-ID: <Ykw+qlW+bjWcy4BR@debian>
-References: <20220404194402.29974-1-tzimmermann@suse.de>
+Received: from perceval.ideasonboard.com (perceval.ideasonboard.com
+ [213.167.242.64])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 2752210E5D3
+ for <dri-devel@lists.freedesktop.org>; Tue,  5 Apr 2022 13:08:10 +0000 (UTC)
+Received: from pendragon.ideasonboard.com
+ (117.145-247-81.adsl-dyn.isp.belgacom.be [81.247.145.117])
+ by perceval.ideasonboard.com (Postfix) with ESMTPSA id 191D95D;
+ Tue,  5 Apr 2022 15:08:08 +0200 (CEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
+ s=mail; t=1649164088;
+ bh=bpKW22A1yHVmRKVgthdTbw7vllpmnsDe2wEdGGtKvJE=;
+ h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+ b=Nj33o66tgcGAllW57bzY2lZMXlIm4LeubEPrTHjWgLosvx0744gPvCS81Z1SO+sT4
+ av9QZT/xUHZFX/e8nm8F7TaULMha0erisPp0LnOUXy5cLwkt44TiFlUcdFIjlFeBTV
+ Ao1x3gZF/N7lGl7XaaSxGvSsY+TynNl5HH2b/YDI=
+Date: Tue, 5 Apr 2022 16:08:04 +0300
+From: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+To: Dave Stevenson <dave.stevenson@raspberrypi.com>
+Subject: Re: [PATCH][RESEND] drm/bridge: ti-sn65dsi83: Check link status
+ register after enabling the bridge
+Message-ID: <Ykw/NEI03rXJ+C9Y@pendragon.ideasonboard.com>
+References: <20220213022648.495895-1-marex@denx.de>
+ <YkwrDtqhY+Ru2bxG@pendragon.ideasonboard.com>
+ <CAPY8ntA+GpJ6WFwJbDcKjD5N2TdKAqv2kQPjrFbcJW=OoFL_Yg@mail.gmail.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
+Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
-In-Reply-To: <20220404194402.29974-1-tzimmermann@suse.de>
+In-Reply-To: <CAPY8ntA+GpJ6WFwJbDcKjD5N2TdKAqv2kQPjrFbcJW=OoFL_Yg@mail.gmail.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -70,54 +49,79 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: linux-fbdev@vger.kernel.org, dri-devel@lists.freedesktop.org,
- Xiyu Yang <xiyuyang19@fudan.edu.cn>, Guenter Roeck <linux@roeck-us.net>,
- Tetsuo Handa <penguin-kernel@i-love.sakura.ne.jp>,
- Daniel Vetter <daniel.vetter@ffwll.ch>, deller@gmx.de,
- Zheyu Ma <zheyuma97@gmail.com>, javierm@redhat.com,
- Matthew Wilcox <willy@infradead.org>, hdegoede@redhat.com,
- stable@vger.kernel.org, Zhen Lei <thunder.leizhen@huawei.com>,
- Alex Deucher <alexander.deucher@amd.com>, sam@ravnborg.org
+Cc: Marek Vasut <marex@denx.de>,
+ DRI Development <dri-devel@lists.freedesktop.org>,
+ Sam Ravnborg <sam@ravnborg.org>, Jagan Teki <jagan@amarulasolutions.com>,
+ Robert Foss <robert.foss@linaro.org>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Mon, Apr 04, 2022 at 09:44:02PM +0200, Thomas Zimmermann wrote:
-> OF framebuffers do not have an underlying device in the Linux
-> device hierarchy. Do a regular unregister call instead of hot
-> unplugging such a non-existing device. Fixes a NULL dereference.
-> An example error message on ppc64le is shown below.
+Hi Dave,
+
+On Tue, Apr 05, 2022 at 01:00:28PM +0100, Dave Stevenson wrote:
+> On Tue, 5 Apr 2022 at 12:42, Laurent Pinchart wrote:
+> > On Sun, Feb 13, 2022 at 03:26:48AM +0100, Marek Vasut wrote:
+> > > In rare cases, the bridge may not start up correctly, which usually
+> > > leads to no display output. In case this happens, warn about it in
+> > > the kernel log.
+> >
+> > Do you know what this is caused by ? It's a bit annoying to add a 10+ms
+> > delay at start time just to be notified of rare cases.
 > 
-
-<snip>
-
+> The datasheet [1] section 7.4.2 Initialization Sequence states in step 2
+> "After power is applied and stable, the DSI CLK lanes MUST be in HS
+> state and the DSI data lanes MUST be driven
+> to LP11 state"
+> Data lanes shouldn't go to HS until step 8 after the DSI83 has been configured.
 > 
-> Tested with 5.17 on qemu ppc64le emulation.
+> Configuration from the driver is being done from atomic_enable,
+> therefore the data lanes are likely in HS mode and sending video, not
+> LP11.
 > 
-> Signed-off-by: Thomas Zimmermann <tzimmermann@suse.de>
-> Fixes: 27599aacbaef ("fbdev: Hot-unplug firmware fb devices on forced removal")
-> Reported-by: Sudip Mukherjee <sudipm.mukherjee@gmail.com>
-> Cc: Zack Rusin <zackr@vmware.com>
-> Cc: Javier Martinez Canillas <javierm@redhat.com>
-> Cc: Hans de Goede <hdegoede@redhat.com>
-> Cc: stable@vger.kernel.org # v5.11+
-> Cc: Helge Deller <deller@gmx.de>
-> Cc: Daniel Vetter <daniel.vetter@ffwll.ch>
-> Cc: Sam Ravnborg <sam@ravnborg.org>
-> Cc: Zheyu Ma <zheyuma97@gmail.com>
-> Cc: Xiyu Yang <xiyuyang19@fudan.edu.cn>
-> Cc: Zhen Lei <thunder.leizhen@huawei.com>
-> Cc: Matthew Wilcox <willy@infradead.org>
-> Cc: Alex Deucher <alexander.deucher@amd.com>
-> Cc: Tetsuo Handa <penguin-kernel@i-love.sakura.ne.jp>
-> Cc: Guenter Roeck <linux@roeck-us.net>
-> Cc: linux-fbdev@vger.kernel.org
-> Cc: dri-devel@lists.freedesktop.org
-> Link: https://lore.kernel.org/all/YkHXO6LGHAN0p1pq@debian/ # [1]
-> Reviewed-by: Daniel Vetter <daniel.vetter@ffwll.ch>
-> ---
+> Deviate from the specified initialisation sequence at your peril!
+> 
+> The SN65DSI8[3|4|5] is one of the DSI devices that I'd been looking at
+> with the DSI ordering patches [2] so that we could initialise it in
+> the way specified in the datasheet. I've had no responses to v2 of
+> those patches though.
 
-Tested-by: Sudip Mukherjee <sudip.mukherjee@codethink.co.uk>
+Sounds like I need to review that :-) It's still in my queue, I'll try
+to push it to the top.
 
---
-Regards
-Sudip
+Do you think this patch could then be reverted ?
+
+> [1] https://www.ti.com/lit/ds/symlink/sn65dsi83.pdf
+> [2] https://patchwork.freedesktop.org/series/100252/#rev2
+> 
+> > > Signed-off-by: Marek Vasut <marex@denx.de>
+> > > Cc: Jagan Teki <jagan@amarulasolutions.com>
+> > > Cc: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+> > > Cc: Linus Walleij <linus.walleij@linaro.org>
+> > > Cc: Robert Foss <robert.foss@linaro.org>
+> > > Cc: Sam Ravnborg <sam@ravnborg.org>
+> > > Cc: dri-devel@lists.freedesktop.org
+> > > ---
+> > >  drivers/gpu/drm/bridge/ti-sn65dsi83.c | 5 +++++
+> > >  1 file changed, 5 insertions(+)
+> > >
+> > > diff --git a/drivers/gpu/drm/bridge/ti-sn65dsi83.c b/drivers/gpu/drm/bridge/ti-sn65dsi83.c
+> > > index 19daaddd29a41..1d7c154ea1d79 100644
+> > > --- a/drivers/gpu/drm/bridge/ti-sn65dsi83.c
+> > > +++ b/drivers/gpu/drm/bridge/ti-sn65dsi83.c
+> > > @@ -488,6 +488,11 @@ static void sn65dsi83_atomic_enable(struct drm_bridge *bridge,
+> > >       /* Clear all errors that got asserted during initialization. */
+> > >       regmap_read(ctx->regmap, REG_IRQ_STAT, &pval);
+> > >       regmap_write(ctx->regmap, REG_IRQ_STAT, pval);
+> > > +
+> > > +     usleep_range(10000, 12000);
+> > > +     regmap_read(ctx->regmap, REG_IRQ_STAT, &pval);
+> > > +     if (pval)
+> > > +             dev_err(ctx->dev, "Unexpected link status 0x%02x\n", pval);
+> > >  }
+> > >
+> > >  static void sn65dsi83_atomic_disable(struct drm_bridge *bridge,
+
+-- 
+Regards,
+
+Laurent Pinchart
