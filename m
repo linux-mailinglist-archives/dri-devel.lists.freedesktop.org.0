@@ -2,66 +2,68 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 146684F3D41
-	for <lists+dri-devel@lfdr.de>; Tue,  5 Apr 2022 21:04:07 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 6B26D4F3D43
+	for <lists+dri-devel@lfdr.de>; Tue,  5 Apr 2022 21:06:08 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id F347610EE5D;
-	Tue,  5 Apr 2022 19:04:03 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 1CA6910EE68;
+	Tue,  5 Apr 2022 19:06:05 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-oi1-x22c.google.com (mail-oi1-x22c.google.com
- [IPv6:2607:f8b0:4864:20::22c])
- by gabe.freedesktop.org (Postfix) with ESMTPS id BB03710EE5D
- for <dri-devel@lists.freedesktop.org>; Tue,  5 Apr 2022 19:04:02 +0000 (UTC)
-Received: by mail-oi1-x22c.google.com with SMTP id z8so91275oix.3
- for <dri-devel@lists.freedesktop.org>; Tue, 05 Apr 2022 12:04:02 -0700 (PDT)
+Received: from mail-ot1-x32e.google.com (mail-ot1-x32e.google.com
+ [IPv6:2607:f8b0:4864:20::32e])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 6232510EE68
+ for <dri-devel@lists.freedesktop.org>; Tue,  5 Apr 2022 19:06:03 +0000 (UTC)
+Received: by mail-ot1-x32e.google.com with SMTP id
+ w17-20020a056830111100b005b22c584b93so162110otq.11
+ for <dri-devel@lists.freedesktop.org>; Tue, 05 Apr 2022 12:06:03 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
  h=message-id:date:mime-version:user-agent:subject:content-language:to
  :cc:references:from:in-reply-to:content-transfer-encoding;
- bh=f0FIrXkgSbJ3gra6ip39hjP/ylT1GDYYmm9Df2jVEBw=;
- b=ngqlpM5kh1S+hJPGd1Gng3gNBxkAndCxv/ne01qTc8+FU7IgOU1MscTKygOX5ATLgh
- nZd0uS8+pS8F7d+0fdG4jEXqCWnOwC+0s6bCm3uKYuURxl08zMmh1rDGkjszfqpaUT1Y
- CF4ZWe0FKZIHPn5GTpb1GC3qfpdaG3kRYkTZaCfitxSA31Ydo0AFVNGDt2Dx66C3up/X
- xwPPJ8AyqCRiRhXvpzYxso4fUCi7ArQq14Bp8MG/lcpf4c3C0gkkPL6YCQFutNhY8imK
- 19OODxqhU1Dl8hVKGLmatW0h0zzJsFkmvKHCOjuDg5BUXB52LgISZxgQRS7WS6CDS3ur
- UTzw==
+ bh=EIujCWCO2qQ5eWdacFN0Ll7BkI4EHwmpjNfOsdNp9II=;
+ b=n6rT9gMpI0mrMk0VOC0llsGh5LauXwFU8NDiigQYPBMvu/3VJxxAx04UPP7i3nan+q
+ l1hErJpUSjSSKo3xiaSTX2jlZiURighCYFMWe/FKFbs03hvA8v00jpELnc0rnWR5I2C3
+ LFg7pZA3yb7AUp05x5TvFYeUp8KmWX/OMSjfZpmAJXETn9CXOJdGjPplBbVaacOw4SPF
+ pmFR/K6XbCpMmgwnuJrhSGDVmN3GWSyI0fxNmV4cL8p/8Ba0MP458NPOd/wgwAuuh9Ok
+ uu31W0cqyw8cWK26NCovYLG+wZN+5Uj8BnyIgJ8x7X9nN7aqtKaRVb+V3a32TS163PRU
+ J4wg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
  :content-language:to:cc:references:from:in-reply-to
  :content-transfer-encoding;
- bh=f0FIrXkgSbJ3gra6ip39hjP/ylT1GDYYmm9Df2jVEBw=;
- b=ZZJUMC6fzFRP1vRFc7UCA4G6r436G+xYHU+EIHs4xwuqH2lbmzDDaAzOv+PXlHsLxU
- 71sXZ7Jm5NS7KukfcOUjpp+Bn2w64XR89oafUU4NYY8UZJgDK/o62cMYFvn6Y5ZRjLu6
- u2afUx24xoCk8MeAvQtPglxf7r5R05flx1T+G17LdoObtSPVgckNAzbgAJEt2ILKspTB
- 2JwMcx6FZjwc9Us6kgYEf1cMh8sL/RFCnXkhA7Rjql1ROL1EO8TOXeMUSoekHct5pYK2
- vVa872OAoe/2+THbFIJrRLZi7FPQrzV/XPx7WJSXoCQyJVDbIwCam7zcTEE7tJ+HstFc
- zOAw==
-X-Gm-Message-State: AOAM530XVeRyXwTWO9+KCw3MqGbwEaoCGfNgj4tbBRrwGFNoVPPz/LQG
- mTGHxcKfgWqrxftaWpCOSysDV/wuYgw=
-X-Google-Smtp-Source: ABdhPJwPiqgDAz69T/ySc/b7GEihpprBeWQMKmLEwYbIeptu5O+qt9UU3CNtE9NvS8O1IeuWoZee6w==
-X-Received: by 2002:a54:4792:0:b0:2ef:7562:dcd7 with SMTP id
- o18-20020a544792000000b002ef7562dcd7mr2053747oic.263.1649185442010; 
- Tue, 05 Apr 2022 12:04:02 -0700 (PDT)
+ bh=EIujCWCO2qQ5eWdacFN0Ll7BkI4EHwmpjNfOsdNp9II=;
+ b=3NA97jpuk5VPdqH1V3h6fW3gwmtVtNBtjNdnmWo7UushkpFIe87q4R1AQ+T4qsUowr
+ 2liXdHiPCD31cRdQjOcW0v5GMSmRFuZ8fz77OXx7lyZbfgHbGLl8JjUdgsR40eebI+UN
+ 1FpSWzZyFLpT0htEw8H66wza9boLkHDji1IW7k27BFUSZyFitIBghzZPxwaxGHp2ks2s
+ r/AyBS5+PDl4ELxx4HnwJvrbpRUa6T49YfBjyXDWTtSdyuZAW8ssGfCXu/whaVztx+J1
+ zao7Ai/IEY2269n3tOo7E+Wld//5EcfIiM+4u5Gc7CgF5trhgpka9QtZNENph3CaZpxf
+ U5wg==
+X-Gm-Message-State: AOAM530qB4T5ZqcR7TiyOHCqq1n51kxhIMN/GV0RHk6Y39vxMcWrIp0I
+ 9wM1na1PPqfNKhfwAApPQ8c=
+X-Google-Smtp-Source: ABdhPJx/KY9pg/A4x4Gsc9X+JfRPB0+ekI5B0VPl1I9Of0gQ0rpxTkEccApWrTUO8CyW0SChVl0MMA==
+X-Received: by 2002:a9d:6a84:0:b0:5cd:ad64:a50 with SMTP id
+ l4-20020a9d6a84000000b005cdad640a50mr1795994otq.114.1649185561636; 
+ Tue, 05 Apr 2022 12:06:01 -0700 (PDT)
 Received: from ?IPV6:2804:431:c7f4:7cc:26a1:e446:de76:c0b8?
  ([2804:431:c7f4:7cc:26a1:e446:de76:c0b8])
  by smtp.gmail.com with ESMTPSA id
- p22-20020a056870831600b000ccfbea4f23sm6143118oae.33.2022.04.05.12.03.58
+ y7-20020a4a6247000000b00324e9bf46adsm5426843oog.41.2022.04.05.12.05.58
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Tue, 05 Apr 2022 12:04:01 -0700 (PDT)
-Message-ID: <f91a01b9-a11c-92a6-d996-de4b2708d1f7@gmail.com>
-Date: Tue, 5 Apr 2022 16:03:56 -0300
+ Tue, 05 Apr 2022 12:06:01 -0700 (PDT)
+Message-ID: <8234e944-d554-74dc-074c-3849e1e88c2d@gmail.com>
+Date: Tue, 5 Apr 2022 16:05:57 -0300
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
  Thunderbird/91.7.0
-Subject: Re: [PATCH v5 1/9] drm: vkms: Alloc the compose frame using vzalloc
+Subject: Re: [PATCH v5 4/9] drm: drm_atomic_helper: Add a new helper to deal
+ with the writeback connector validation
 Content-Language: en-US
 To: =?UTF-8?Q?Andr=c3=a9_Almeida?= <andrealmeid@riseup.net>
 References: <20220404204515.42144-1-igormtorrente@gmail.com>
- <20220404204515.42144-2-igormtorrente@gmail.com>
- <1d9f669a-d453-4792-67ab-cb82e3fd7bff@riseup.net>
+ <20220404204515.42144-5-igormtorrente@gmail.com>
+ <3a8413fd-d048-cffe-1600-a0af6544c9f2@riseup.net>
 From: Igor Torrente <igormtorrente@gmail.com>
-In-Reply-To: <1d9f669a-d453-4792-67ab-cb82e3fd7bff@riseup.net>
+In-Reply-To: <3a8413fd-d048-cffe-1600-a0af6544c9f2@riseup.net>
 Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
@@ -76,77 +78,28 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: melissa.srw@gmail.com, hamohammed.sa@gmail.com, tzimmermann@suse.de,
- rodrigosiqueiramelo@gmail.com, airlied@linux.ie, leandro.ribeiro@collabora.com,
- Melissa Wen <mwen@igalia.com>, ppaalanen@gmail.com,
- dri-devel@lists.freedesktop.org, tales.aparecida@gmail.com,
- ~lkcamp/patches@lists.sr.ht
+Cc: hamohammed.sa@gmail.com, tzimmermann@suse.de, rodrigosiqueiramelo@gmail.com,
+ airlied@linux.ie, leandro.ribeiro@collabora.com, melissa.srw@gmail.com,
+ ppaalanen@gmail.com, dri-devel@lists.freedesktop.org,
+ tales.aparecida@gmail.com, ~lkcamp/patches@lists.sr.ht
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 Hi André,
 
-On 4/5/22 11:05, André Almeida wrote:
-> Hi Igor,
-> 
-> Thanks for your patch!
-> 
+On 4/5/22 11:21, André Almeida wrote:
 > Às 17:45 de 04/04/22, Igor Torrente escreveu:
->> Currently, the memory to the composition frame is being allocated using
->> the kzmalloc. This comes with the limitation of maximum size of one
->> page size(which in the x86_64 is 4Kb and 4MB for default and hugepage
->> respectively).
+>> Add a helper function to validate the connector configuration receive in
+> 
+> Maybe it should be "received"
+> 
+>> the encoder atomic_check by the drivers.
 >>
->> Somes test of igt (e.g. kms_plane@pixel-format) uses more than 4MB when
->> testing some pixel formats like ARGB16161616 and the following error were
->> showing up when running kms_plane@plane-panning-bottom-right*:
->>
->> [drm:vkms_composer_worker [vkms]] *ERROR* Cannot allocate memory for
->> output frame.
->>
->> This problem is addessed by allocating the memory using kvzalloc that
+>> So the drivers don't need do these common validations themselves.
 > 
-> addessed -> addressed
-> 
-> OTOH, I would write this in imperative mood, as in "Address this by
-> allocating..." or "Fix this..."
-> 
->> circunvents this limitation.
-> 
-> circunvents -> circumvents
+> "don't need do" -> "don't need to do"
 
-Thanks, I will fix them!
+Thanks, I will fix them too.
 
-> 
->>
->> V5: Improve the commit message and drop the debugging issues in VKMS
->> TO-DO(Melissa Wen).
->>
-> 
-> Patch changelog are very useful for the mailing list, but not very
-> useful for the git log. For that reason, I usually put this right after
-> the --- in the patch, so the log will be dropped when the patch is applied.
-> 
-> Those comment applies for the rest of your series.
-
-Well, drivers in the DRM subsystem maintain the change history. As you
-can see in the commit below.
-
-4db3189ce0621be901f249f8cd8226c977dd601d
-d80976d9ffd9d7f89a26134a299b236910477f3b
-84ec374bd580364a32818c9fc269c19d6e931cab
-50fff206c5e3a04fcb239ad58d89cad166711b7f
-
-Aside from that, the current VKMS maintainer asked me to add them to the
-commit body.
-
-And for that two reasons, I will keep them.
-
-Thanks!
 ---
 Igor Torrente
-
-> 
->> Reviewed-by: Melissa Wen <mwen@igalia.com>
->> Signed-off-by: Igor Torrente <igormtorrente@gmail.com>
->> ---
