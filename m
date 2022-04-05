@@ -1,122 +1,66 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 06F6A4F3CB4
-	for <lists+dri-devel@lfdr.de>; Tue,  5 Apr 2022 19:00:54 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 858EC4F3CB6
+	for <lists+dri-devel@lfdr.de>; Tue,  5 Apr 2022 19:01:06 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id B319E10EC04;
-	Tue,  5 Apr 2022 17:00:49 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 7B76C10EC09;
+	Tue,  5 Apr 2022 17:01:04 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from NAM12-BN8-obe.outbound.protection.outlook.com
- (mail-bn8nam12on2047.outbound.protection.outlook.com [40.107.237.47])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 02C1310EC04;
- Tue,  5 Apr 2022 17:00:48 +0000 (UTC)
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=KqQZ6NCU5VOhj72Qsfr+htZee5eDN3kSAY8PIJoflHkBhFssomsMxb3fXSQHCJTVB56bVEc0EwLg+AftRlF95Z5IhiBF0u5xuGqPBd7eTdc3iSAQf2yJho8F2/a5Tij5rOHDkRmsd3T5T3RgkhFTsoga31jLra//O94cwaG10yjN59lgJNiTXP8LcmzLeCe39qvBFeoduMLfGlEnBzbk50AjQqx8Q8qXPG6pNqiWtFgwVQKuviBI2CJoojAxk68zxQz1sARLzJzEdVfOJ83C71wHsEtA5x0Uuss2y8FjvdI4DqEP3b6n1NqntqpYCFaU2tyKYhp8iYqDhKGRu7Ktsg==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=bRhaSgwQxursOeBtc3su16M0VCK+blA/0dBA1VenjL8=;
- b=V94L0D4RsMp4DGMAth0C/3OjCezFcBImYG6+dSM6PBCujw3/qQM2E8D/woeNeDB26/ViGCjJBL+VLv03oTE9OdeXlU5WCLVOK4Dt6ogI5Sh7NVz53HyK91/NOTzmiSzJz1NmNSxQvifo9/el6eQSSikV4EfCNSj8nOwarjkC6DiS0cts4OwYWQAz4Oi5MXab4yBC2WRZB3nx9HSwtdzolmsSVmsJBLsvRvs+ZoqHFzmTrJG5HUNgwtrFU6XTn7XL0yvsGZP31ssbzI0SDL63/emhtZBCAlOiiTSu+KC3VRro7/MvpyHll6+cpqRWiaQ8iUOCLKaDbsJeGz08fy5JqA==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=amd.com; dmarc=pass action=none header.from=amd.com; dkim=pass
- header.d=amd.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1; 
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=bRhaSgwQxursOeBtc3su16M0VCK+blA/0dBA1VenjL8=;
- b=oPylPikBGsqm+wt/eQTRAOu6YJ15mQIpOwnN+Dzegpdxliu5gIql5CZLmQ22j6V/yPRCKYZQa5gCxi10qXlQHujPtdWSfAI+2yFASOJu0JgOECn8M9IPqihZyCYCcG3IDbKNLkCP6medFmlp6DMMORbMGeBHdiub4yAhxwOnXW0=
-Authentication-Results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=amd.com;
-Received: from BN9PR12MB5115.namprd12.prod.outlook.com (2603:10b6:408:118::14)
- by CO6PR12MB5474.namprd12.prod.outlook.com (2603:10b6:303:139::9)
- with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.5123.31; Tue, 5 Apr
- 2022 17:00:45 +0000
-Received: from BN9PR12MB5115.namprd12.prod.outlook.com
- ([fe80::4839:9431:1040:5cd5]) by BN9PR12MB5115.namprd12.prod.outlook.com
- ([fe80::4839:9431:1040:5cd5%3]) with mapi id 15.20.5123.031; Tue, 5 Apr 2022
- 17:00:44 +0000
-Message-ID: <c55e9866-83f6-a3a0-2ad3-40090e978b40@amd.com>
-Date: Tue, 5 Apr 2022 13:00:42 -0400
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.7.0
-Subject: Re: [PATCH] drm/amdkfd: Fix potential NULL pointer dereference
-Content-Language: en-US
-To: Grigory Vasilyev <h0tc0d3@gmail.com>,
- Rodrigo Siqueira <Rodrigo.Siqueira@amd.com>, Melissa Wen <mwen@igalia.com>
-References: <20220404222132.12740-1-h0tc0d3@gmail.com>
-From: Felix Kuehling <felix.kuehling@amd.com>
-In-Reply-To: <20220404222132.12740-1-h0tc0d3@gmail.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
-X-ClientProxiedBy: YT1PR01CA0115.CANPRD01.PROD.OUTLOOK.COM
- (2603:10b6:b01:2c::24) To BN9PR12MB5115.namprd12.prod.outlook.com
- (2603:10b6:408:118::14)
+Received: from mail-lf1-x12a.google.com (mail-lf1-x12a.google.com
+ [IPv6:2a00:1450:4864:20::12a])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 25A5810EC0B
+ for <dri-devel@lists.freedesktop.org>; Tue,  5 Apr 2022 17:01:03 +0000 (UTC)
+Received: by mail-lf1-x12a.google.com with SMTP id k21so24384815lfe.4
+ for <dri-devel@lists.freedesktop.org>; Tue, 05 Apr 2022 10:01:03 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
+ h=date:from:to:cc:subject:message-id:references:mime-version
+ :content-disposition:in-reply-to:user-agent;
+ bh=EhE3xEj7yTaKmn7cftZnafvMypbMiXwgf4Mz1OcfgBg=;
+ b=lOsVIxXgyLw1bbuonyQ+6J95XWOlIKSAvozYTUSNESPEwUurIFSwO83vWvl3nF2MBD
+ 3wmnsOCeDDX6uWLZDA5vNIaXVNQH3jySbWVWvMLfj/3ZnrVRePqEsH6s4soxqYv40puY
+ LlLsO/d4o4eMbyfBOCL2DTIQ4s8bK2hxgcTIRwPVAPnYCG2Sl/rmeXhmigLhC6uUtfrW
+ v44W9mrPOlsxgzG3/L3r4ZVEw/uh+1muxNhfcHxozbCm8OWeta3pvLNp3Wu3OQdb5w6u
+ G++8hk/HAPtOUebaVL6NgdTeUeMJsexGIjmpEL26AYNwSMF2dklT9o5CjbQdV7bUfFEI
+ AEBw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+ :mime-version:content-disposition:in-reply-to:user-agent;
+ bh=EhE3xEj7yTaKmn7cftZnafvMypbMiXwgf4Mz1OcfgBg=;
+ b=iE76zp2pul6ejd91v8I8iBS74+MpBgGot7WVE8pBN8kZP6Im4ijZRFAZcCQBBqVxFA
+ xRJvjGZHQUADiBQ6cIYTs5fPdyJMleQDjXtAC3wZEHdPhz31pqiSG8x21NJ0cWGr/FWR
+ Fet5rvMiJqqWQZqLvdrvXwExqqne/Ou3aefYCr0vclcJVvjEB6gDLGdn3p0WPmQySOL9
+ gAoDsoSfEBSezazjmhkzEIymdmTRR1TpEM5Odu69aSQMMYDKFaooxzelPc7HhE01WXgo
+ V8n9IZtNsY8NTLZ7IMZbDE2wrQY5fmENLQ915H8M7h7CHFHgOCCDLQLWalcXdS1mjvel
+ 0EvQ==
+X-Gm-Message-State: AOAM530eLmzo658wMDpHGz4V2L6whHl0jIGgajqjnDXzAwYtGB+s1GX/
+ HwxRkwaDvNfssxQ1VqrFG7A=
+X-Google-Smtp-Source: ABdhPJxdyhEhx3Oy3KqZw5PM7lrlcK1yJXCNYWYb9LypIihDqvGdwlFY8Y76QIJQS2OaT89Zm2xDDQ==
+X-Received: by 2002:ac2:4569:0:b0:44a:de90:e495 with SMTP id
+ k9-20020ac24569000000b0044ade90e495mr3253977lfm.352.1649178061017; 
+ Tue, 05 Apr 2022 10:01:01 -0700 (PDT)
+Received: from orome (pd9e518f7.dip0.t-ipconnect.de. [217.229.24.247])
+ by smtp.gmail.com with ESMTPSA id
+ 2-20020ac24d42000000b0044ad39c6c83sm1554336lfp.158.2022.04.05.10.00.59
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Tue, 05 Apr 2022 10:00:59 -0700 (PDT)
+Date: Tue, 5 Apr 2022 19:00:57 +0200
+From: Thierry Reding <thierry.reding@gmail.com>
+To: Paul Kocialkowski <paul.kocialkowski@bootlin.com>
+Subject: Re: [PATCH v3] drm: of: Properly try all possible cases for
+ bridge/panel detection
+Message-ID: <Ykx1yQGROqyiu/yJ@orome>
+References: <20220329132732.628474-1-paul.kocialkowski@bootlin.com>
+ <YkZulslrzeurp43U@ripper> <YkatbpubQjwBWOiK@aptenodytes>
 MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-Office365-Filtering-Correlation-Id: e58d55df-24a7-477a-d4f9-08da1725d2dc
-X-MS-TrafficTypeDiagnostic: CO6PR12MB5474:EE_
-X-Microsoft-Antispam-PRVS: <CO6PR12MB54749A4C4B9C51296BBEEA2E92E49@CO6PR12MB5474.namprd12.prod.outlook.com>
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: cvOjWkzxtFGgp1x+8pubBFHIzA7ofEHVS6FnkBS5br2GBpR1CdQi3oKLl+K8m631CvPMdBSfKbDPzM4NRgmFjSkGF1rLegK3V8fIwbphjhu5AH7lm8EGPaQZMaek6lwvzr0BmSpWS/m7eWbc/gWPguAWCdm7hgy4T0YwLo2DLoeA+KyEnns1GsFtm63wTxLQg1icg7wQj4+t/8I0iFH26vyaq+KLDEppBouEeSCYbmZJJNwah2MnaQnk3Jb8TfHis8zSxp0VHGUVHSa1Lql9Qe5MuZQEau9tdWiFI0qi05WT1NmAw2f2KrwC+mFzNlkQLFcsngsFKd8xEt/3ZbR+iSqLdRE3kjT1NGlbhB57d7lq9CQ9OGIzheQP/zy/ltV2f+wYuQqWAxVrqkdGocFyZ0LpubgG2DFSk5/RRvsgqLNtvkLtCYBu2NSEYhJ8CoSkvO5RPwMZn40TyUtrSAoeRz2CRrOTGYg7y9Q1o3ByMA8rAS99hg9KUqrEzsLwa7IJWXetB2fLdiYJcE2YBRoHxSgSQ5X9NJ0CbFuAhm8491aCiFQpy2QDSU4J8C+T2gc9FR1ibu/xxkNJB5kMeHafADtmSUX2b1b5W65biLem8fL4KcsrIYFvu63ZmaUe5VwOzGp33AUM0kfEJSef82JLZ/D4ooWZAKUl5Aherdiax1grCtGwGTgfhGR6VD1WxL2st5QKc0VZXoaxym9y04IaQPaSwOoCAxRXD5PH4zsofiY=
-X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
- IPV:NLI; SFV:NSPM; H:BN9PR12MB5115.namprd12.prod.outlook.com; PTR:; CAT:NONE;
- SFS:(13230001)(4636009)(366004)(8676002)(36756003)(26005)(2616005)(4326008)(66946007)(186003)(6512007)(38100700002)(66476007)(31686004)(66556008)(83380400001)(6506007)(8936002)(110136005)(31696002)(508600001)(5660300002)(44832011)(2906002)(54906003)(6486002)(316002)(86362001)(43740500002)(45980500001);
- DIR:OUT; SFP:1101; 
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: =?utf-8?B?RUIyRXB5dzNTK2loOHA5ZEJoVWNYQi8xQ0YrZ0Jwc0hDZG03U3llSERTVnp4?=
- =?utf-8?B?Y1ZzUmhHVENUcHJsdEovaWZIL3paTDhCdEZwa0dQTXl2YWVQd3c3UE5iQnNk?=
- =?utf-8?B?Zm42bUVvd3lieERxdW5yU00zVUNydXJDd0xSV0dKWVVrNTNtbk9PZFM5cXhX?=
- =?utf-8?B?anEyOFhxcS9NQzI3NFlNK2lQeGRFektQdFNPWGJqZW1yNUxqVDZTOHpodW4w?=
- =?utf-8?B?cHhDRi9HQjkyT1lHR0ZNSkZNSU5ZT3pTSUc4RkpWSGQzVlRoY0pCODkxaDV0?=
- =?utf-8?B?YWdVeGZ4ZG1DdnIrekdDbWlaWFE4OER3RDhlNmg2RlJHc2VXMVBpZzNUdTQw?=
- =?utf-8?B?RVByR0NLdjZFSDlXdno1aEgwYUJmZzk5aWNkZEp0M2hHTmZhNU1WYXhacHJn?=
- =?utf-8?B?blgzRjg4UExReWlveUo0THdqeVZVRnYwUkJ1OU9QU0VpVVZ1SHFlUmVHOFhL?=
- =?utf-8?B?Tm0vdUtWSnk0MGNCRGp3RnorVGtsdnJ6WmhoaS9UNmRCUi9lZ0JjeHZhbU1v?=
- =?utf-8?B?NVJ5bWZUWTJkelg2ZEFCc3k2UEgxaWhhRlFwWE1tMCt1ZSs2MmVTT2FNZ25t?=
- =?utf-8?B?d0N6OVMyZHJLSFBlOHZBZEJrWTlrZlBQMmd2dzA3MXJ0aVhwbFBvNWNhVmUy?=
- =?utf-8?B?T1N6eEhQM0FVcWtKdmk4ek0xN21UcEROSWRiR1I0d21uZ2x5YUZvc2Q5dmVp?=
- =?utf-8?B?cm0vVHhaMUcwVGZRM3JlVDZUaGN3RWRYRFJZK0p4ZkQ0WmtOa0FHQWxybVlT?=
- =?utf-8?B?OXJpS1o2T1NJYkh5dHBPZjM0UUU2R3libStUbDBicGpJc08rc1hWaUc0Yk01?=
- =?utf-8?B?ZXdhSThYZGl3SjVXdk9URHd3Z2JTNDBidVZDQ1hjajJaM0MyMkpGcHZERXlO?=
- =?utf-8?B?b24zampsa1pTNm1iV3J5dmVjLzJTeG9YOW9XUVpuZ2pibGRuSllDVDNoU2J2?=
- =?utf-8?B?SXFtQUhwb0l4SnJsNGhTUVNRYVVneEhibEZ2UHBYb0lRTVN3Ni9pb1BiT2ZI?=
- =?utf-8?B?M2dSMkFJU3l6Z2JpUmltcFQyNm53QVk4bkVhTVg0RjhxSkJweXozU2c5dkEv?=
- =?utf-8?B?Skp2OFExUldLcXkrN1FwTUIvbGJYalR6Vko3VnljSVJuY2FtV3AxR1lLSWVK?=
- =?utf-8?B?UnZhOVNJK2VVaHphMVlJS3JLMGF1ZURhR1Q4M0lvYW0vbVo3Uk9rMlJoR1VI?=
- =?utf-8?B?Q0tmWlk5dytjMnJwa0xIOHFMbVd5L1FORTRlblQ1bEJBOHBNR0Q2N01uVkps?=
- =?utf-8?B?YTFRVjE0VTk2U0pLZHJmZWp6UHRPbXcwUG5HalQvdi9iZUFZa1VqYXpzWjI2?=
- =?utf-8?B?TFhETGlNbDRmbW84YmNnUHBQY2w5TDcrTFQxcUk4dldXRDhLUVVYRW9haDBq?=
- =?utf-8?B?Vi9SNmNLeXA2bjgyNmwvUUQ0U0ZaUjBCRFNHNnE4bzlOeWRaejUrblEzUmRl?=
- =?utf-8?B?anpMTzN1alltOVNXNUZOM0Q4TGhDYS9DVUZuYS9QbTc4ODFFQXpOekFRemhD?=
- =?utf-8?B?T1dWRmlvK0JqVmxNTDBhbENqR2pzY0I3a3VXT2orKzVqY2o0Wk9TODJyeE5P?=
- =?utf-8?B?YjZvVzJCdlZveVMvYTZZS2p0V1IxY1Zja29Dbit4MEs4dUV4bHErMi94WndJ?=
- =?utf-8?B?NVIvNEhjd1RueTFMVElxUVN0WE9xNktsMHZFZXhRZUhZcnpmMHVBS2FYSXBi?=
- =?utf-8?B?MHp1VWg5eTkrbUhwRTRLUDJoVkx0K3RONTdDT1FFUFIwbjZpS0V4NkYyUnpy?=
- =?utf-8?B?M1Q0K3FINzgvN3BsNmplYjVlayszYzRGMzJYZ1Fjc3d2RVNxN3RaQkdzZlFY?=
- =?utf-8?B?czZuWmdCMnNBS0JycVNLMFVoL1hGa3VFdUtJUFJLNTZjUEJvNFFGNGtscXRE?=
- =?utf-8?B?NC9YMWljVUJUTmJqVjdQbUd6enlaeUlhU2dudXRIRThGTkJoYWI0UjZIcWdN?=
- =?utf-8?B?RmN1YW8ycFRUUGtwYm9SNnZ5UTlBQ21ObkJ4eFQxV20vV2lTVWdELzdHcUQ4?=
- =?utf-8?B?eHhKcVBtekpkTWJKemNqRmRNRzEzVWVvS3JuSWIxRGFTczQzWkxxa09YREpa?=
- =?utf-8?B?MXpwQ1YwTDBqcTZEb3o4c1NXMDdSNWl6NXVCNmxKVlJaTlVVektlT2xYL3E5?=
- =?utf-8?B?eFI0NGZobUlPUVJUcXdzdmdMODJ3Vjlqc3NvNGdYWGxFNTR2ZmwvMFdiZzdJ?=
- =?utf-8?B?VU55dGFkWVRVeXVWQ3pEUUovTlduSTRrSDR4UDdDcy9XMjFzQ0huTy9GazEz?=
- =?utf-8?B?WGZGQnRIUFR4akRJQWJnWHl3amFQV2FJUyttV0phY0dONEhycUtvVVY5RFhU?=
- =?utf-8?B?UDlzanVycTJQME52OVV2SitPbU9MUmRqYlFlRFVNeFhyMDlGZ0JtZz09?=
-X-OriginatorOrg: amd.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: e58d55df-24a7-477a-d4f9-08da1725d2dc
-X-MS-Exchange-CrossTenant-AuthSource: BN9PR12MB5115.namprd12.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 05 Apr 2022 17:00:44.7606 (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: 9cSFjzYDu1rICe6cV4W256XyAHzXOktmnWKAirf4l0dzwAiJWbGaYYlUv9qi/nmE/ATXqmjPL9hz+Ne+iu1ONg==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: CO6PR12MB5474
+Content-Type: multipart/signed; micalg=pgp-sha256;
+ protocol="application/pgp-signature"; boundary="G3PF1PcGvTi6lpvg"
+Content-Disposition: inline
+In-Reply-To: <YkatbpubQjwBWOiK@aptenodytes>
+User-Agent: Mutt/2.2.1 (c8109e14) (2022-02-19)
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -129,58 +73,163 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: David Airlie <airlied@linux.ie>, "Pan, Xinhui" <Xinhui.Pan@amd.com>,
+Cc: Thomas Zimmermann <tzimmermann@suse.de>, David Airlie <airlied@linux.ie>,
  linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
- amd-gfx@lists.freedesktop.org, Alex Deucher <alexander.deucher@amd.com>,
- =?UTF-8?Q?Christian_K=c3=b6nig?= <christian.koenig@amd.com>
+ Kuogee Hsieh <quic_khsieh@quicinc.com>,
+ Jagan Teki <jagan@amarulasolutions.com>,
+ Thomas Petazzoni <thomas.petazzoni@bootlin.com>,
+ Dmitry Baryshkov <dmitry.baryshkov@linaro.org>,
+ Bjorn Andersson <bjorn.andersson@linaro.org>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Am 2022-04-04 um 18:21 schrieb Grigory Vasilyev:
-> In the amdgpu_amdkfd_get_xgmi_bandwidth_mbytes function,
-> the peer_adev pointer can be NULL and is passed to amdgpu_xgmi_get_num_links.
->
-> In amdgpu_xgmi_get_num_links, peer_adev pointer is dereferenced
-> without any checks: peer_adev->gmc.xgmi.node_id .
 
-What's worse, peer_adev is uninitialized with an undefined value if src 
-is NULL. So that code was definitely bogus.
+--G3PF1PcGvTi6lpvg
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
-However, I think your patch will result in incorrect results. Currently 
-amdgpu_amdkfd_get_xgmi_bandwidth is always called with is_min=true if 
-src==NULL, and with is_min=false if src!=NULL. The intention is, that we 
-assume a single XGMI link in the case that src==NULL. That means the 
-is_min parameter is redundant. What we should do instead is, assume that 
-num_links==1 if src==NULL, and drop the is_min parameter.
+On Fri, Apr 01, 2022 at 09:44:46AM +0200, Paul Kocialkowski wrote:
+> Hi Bjorn,
+>=20
+> On Thu 31 Mar 22, 20:16, Bjorn Andersson wrote:
+> > On Tue 29 Mar 06:27 PDT 2022, Paul Kocialkowski wrote:
+> >=20
+> > > While bridge/panel detection was initially relying on the usual
+> > > port/ports-based of graph detection, it was recently changed to
+> > > perform the lookup on any child node that is not port/ports
+> > > instead when such a node is available, with no fallback on the
+> > > usual way.
+> > >=20
+> > > This results in breaking detection when a child node is present
+> > > but does not contain any panel or bridge node, even when the
+> > > usual port/ports-based of graph is there.
+> > >=20
+> > > In order to support both situations properly, this commit reworks
+> > > the logic to try both options and not just one of the two: it will
+> > > only return -EPROBE_DEFER when both have failed.
+> > >=20
+> >=20
+> > Thanks for your patch Paul, it fixed a regression on a device where I
+> > have a eDP bridge with an of_graph and a aux-bus defined.
+> >=20
+> > But unfortunately it does not resolve the regression I have for the
+> > USB based DisplayPort setup described below.
+> >=20
+> >=20
+> > In the Qualcomm DisplayPort driver We're calling:
+> >=20
+> > 	devm_drm_of_get_bridge(dev, dev->of_node, 1, 0);
+> >=20
+> > and with the following DT snippet the behavior changed:
+> >=20
+> > displayport-controller@ae90000 {
+> > 	compatible =3D "qcom,sc8180x-dp";
+> > 	...
+> >=20
+> > 	operating-points-v2 =3D <&dp0_opp_table>;
+> >=20
+> > 	ports {
+> > 		#address-cells =3D <1>;
+> > 		#size-cells =3D <0>;
+> >=20
+> > 		port@0 {
+> > 			reg =3D <0>;
+> > 			dp0_in: endpoint {
+> > 				remote-endpoint =3D <&display_driver>;
+> > 			};
+> > 		};
+> > 	};
+> >=20
+> > 	dp0_opp_table: opp-table {
+> > 		...;
+> > 	};
+> > };
+> >=20
+> > Prior to the introduction of 80253168dbfd ("drm: of: Lookup if child
+> > node has panel or bridge") this would return -ENODEV, so we could
+> > differentiate the case when we have a statically defined eDP panel from
+> > that of a dynamically attached (over USB) DP panel.
+> >=20
+> > Prior to your change, above case without the opp-table node would have
+> > still returned -ENODEV.
+> >=20
+> > But now this will just return -EPROBE_DEFER in both cases.
+>=20
+> Oh that's right, the -ENODEV case was just completely removed by my chang=
+e.
+> Initially this would happen if !of_graph_is_present or if the remote node
+> doesn't exist.
+>=20
+> Now that we are also checking for child nodes, we can't just return -ENOD=
+EV
+> when the graph or remote node is missing: we must also check that there i=
+s no
+> child node that is a panel/bridge.
+>=20
+> For the graph remote case, we can reliabily return -EPROBE_DEFER when
+> of_graph_is_present and the remote exists and of_device_is_available.
+> Otherwise we can go for -ENODEV. I think getting -EPROBE_DEFER at this po=
+int
+> should stop the drm_of_find_panel_or_bridge process.
+>=20
+> On the other hand for the child panel/bridge node case, I don't see how we
+> can reliably distinguish between -EPROBE_DEFER and -ENODEV, because
+> of_drm_find_panel and of_drm_find_bridge will behave the same if the child
+> node is a not-yet-probed panel/bridge or a totally unrelated node.
+> So I think we should always return -EPROBE_DEFER in that case.
+>=20
+> As a result you can't get -ENODEV if using the of graph while having any
+> (unrelated) child node there, so your issue remains.
+>=20
+> Do you see any way we could make this work?
+>=20
+> > I thought the appropriate method of referencing the dsi panel was to
+> > actually reference that using the of_graph, even though it's a child of
+> > the dsi controller - that's at least how we've done it in e.g. [1].
+> > I find this to be much nicer than to just blindly define that all
+> > children of any sort of display controller must be a bridge or a panel.
+>=20
+> Yes I totally agree. Given that using the child node directly apparently
+> can't allow us to distinguish between -EPROBE_DEFER/-ENODEV I would be in
+> favor of dropping this mechanism and going with explicit of graph in any =
+case
+> (even if it's a child node). I don't see any downside to this approach.
+>=20
+> What do yout think?
 
-That would keep things working the way they do now, and prevent 
-potential problems in the future.
+This patch has recently starting causing failures on various Tegra
+devices that use drm_of_find_panel_or_bridge() for the case where the
+output might be connected to an eDP or LVDS panel. However, that same
+output could also be connected to an HDMI or DP monitor, in which case
+we obviously don't want a DT representation because it's all
+discoverable.
 
-Regards,
-   Felix
+If I understand correctly, that's similar to what Bjorn described. In my
+case I was able to fix the regression by returning -ENODEV at the very
+end of the function (i.e. no matching ports were found and no graph is
+present).
 
+Thierry
 
->
-> Signed-off-by: Grigory Vasilyev <h0tc0d3@gmail.com>
-> ---
->   drivers/gpu/drm/amd/amdgpu/amdgpu_amdkfd.c | 5 ++---
->   1 file changed, 2 insertions(+), 3 deletions(-)
->
-> diff --git a/drivers/gpu/drm/amd/amdgpu/amdgpu_amdkfd.c b/drivers/gpu/drm/amd/amdgpu/amdgpu_amdkfd.c
-> index be1a55f8b8c5..1a1006b18016 100644
-> --- a/drivers/gpu/drm/amd/amdgpu/amdgpu_amdkfd.c
-> +++ b/drivers/gpu/drm/amd/amdgpu/amdgpu_amdkfd.c
-> @@ -541,11 +541,10 @@ int amdgpu_amdkfd_get_xgmi_bandwidth_mbytes(struct amdgpu_device *dst,
->   	struct amdgpu_device *adev = dst, *peer_adev;
->   	int num_links;
->   
-> -	if (adev->asic_type != CHIP_ALDEBARAN)
-> +	if (!src || adev->asic_type != CHIP_ALDEBARAN)
->   		return 0;
->   
-> -	if (src)
-> -		peer_adev = src;
-> +	peer_adev = src;
->   
->   	/* num links returns 0 for indirect peers since indirect route is unknown. */
->   	num_links = is_min ? 1 : amdgpu_xgmi_get_num_links(adev, peer_adev);
+--G3PF1PcGvTi6lpvg
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iQIzBAABCAAdFiEEiOrDCAFJzPfAjcif3SOs138+s6EFAmJMdcYACgkQ3SOs138+
+s6G+FRAAteqUytCKBjVXrgayROapTBFjx8hTV88Y88uTqPW97kVaniy2tNZNK07I
+seH5o1SGPWam/5s/INXKwQ2RH3AOcIBSpvbVQFwDQRjXwjGcO7JuuBmFMNTlcuOD
+jqRbOawWCQt8uecnZmPPaLAGhg8zg2M2cAZflhqiQKy0F8ivdEfNkysZhU3Gc7v+
+jJihDHnPq2ot8HyvzYLKTl4Zf1CvJTkzYF5YPRhYDLPoQv+qHQd33U8dDmBFhJGk
+19FK0yLkpoGLM0jWWKsmiMuLHZ4u7y+lvmc3sKUafwjfzW1YgR9gq2I5kpWnWKlX
+0pDVPZG9lhuUHylKfrynzNWmS33KfdZViMgJgFd6NDkGVK0znnYOzYwhPiAJwQ+Q
+KD6SolpKJa82N9YYMnLUIPq9unmNnONWhY4VayfZYirOzf/4xjTYdtD6QWTkI3K+
+RCAgTk3QP0/hI+ZYFUdOqST/9Y9lYc1u/RlHgQjBF79pAYZcC9wp7eONvYHBgDK9
+k+CqExIzOc9EoCPxEbbSL1nsHg4hDa3Ct//1O4+zSbZe41hvO1ayA4Vl2TxM8cgG
+ELttCZZ5R879I+1IZL5ll0Ikw6RkRkZ5mplg4tfn2AJM7uYep4kkw6vvnfcsF2vS
+fAb9KrbHRCM+o76prnQfq3j4TrUZEeGOietyUPpBwXuUgbPAw0A=
+=zt/2
+-----END PGP SIGNATURE-----
+
+--G3PF1PcGvTi6lpvg--
