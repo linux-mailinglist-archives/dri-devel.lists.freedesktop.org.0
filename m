@@ -1,40 +1,61 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5A2324F2D64
-	for <lists+dri-devel@lfdr.de>; Tue,  5 Apr 2022 13:42:18 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 9C3BA4F2D88
+	for <lists+dri-devel@lfdr.de>; Tue,  5 Apr 2022 13:43:58 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 48A9D10E93D;
-	Tue,  5 Apr 2022 11:42:14 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 7FC1210E2D8;
+	Tue,  5 Apr 2022 11:43:56 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from perceval.ideasonboard.com (perceval.ideasonboard.com
- [213.167.242.64])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 7039D10EA3F
- for <dri-devel@lists.freedesktop.org>; Tue,  5 Apr 2022 11:42:12 +0000 (UTC)
-Received: from pendragon.ideasonboard.com
- (117.145-247-81.adsl-dyn.isp.belgacom.be [81.247.145.117])
- by perceval.ideasonboard.com (Postfix) with ESMTPSA id 628625D;
- Tue,  5 Apr 2022 13:42:10 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
- s=mail; t=1649158930;
- bh=BKnXaDB6e19/u6RKIOfoxvvk14h3gu5uX3laBLbr/CA=;
- h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
- b=kBvDNIiMJnDe9oWAYWfxlZMFMg04btQkTfTU64nm8cxXPZTIfCGnwOcJbZSz8yI/y
- WQdiUktB/OJAWekI7PafyjzTQVFZfbCTIELbHNdq29gbWOpmo8NNx4SqLFn5j06y6S
- 3uZyYFQjOSzqlOocRuTrSzRdPREc3TqNbFraX17Y=
-Date: Tue, 5 Apr 2022 14:42:06 +0300
-From: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-To: Marek Vasut <marex@denx.de>
-Subject: Re: [PATCH][RESEND] drm/bridge: ti-sn65dsi83: Check link status
- register after enabling the bridge
-Message-ID: <YkwrDtqhY+Ru2bxG@pendragon.ideasonboard.com>
-References: <20220213022648.495895-1-marex@denx.de>
+Received: from mail-ed1-x531.google.com (mail-ed1-x531.google.com
+ [IPv6:2a00:1450:4864:20::531])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 9444B10E2D8
+ for <dri-devel@lists.freedesktop.org>; Tue,  5 Apr 2022 11:43:55 +0000 (UTC)
+Received: by mail-ed1-x531.google.com with SMTP id g20so14545241edw.6
+ for <dri-devel@lists.freedesktop.org>; Tue, 05 Apr 2022 04:43:55 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=raspberrypi.com; s=google;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc; bh=l4k94ByR1oRGbcKcX1d3NvlulV4RUHJepixxQUaWm5A=;
+ b=NrZVF7/RyM4dgZ6EqCMpn+Y28/ip57gP7Kj89H6HWeTF3XEh9RASsyZTJzK7dI+6uS
+ SvsxBntmhBRFCWmKQ5alWNkfNUDZMfa3kfb/t9Cc8tn3Z3Zh9TOQ8rqJIVE6XyMXp3DT
+ 4q5LDKUiX/5GNjC1sb54TZE4iO0Mdis1dWNtkgKyI6CywaINIdRBwHpfvfZiIHUxN6Xu
+ /B8QNqktnqG5Q/DAXRIzaW18SVdMrt4diYWGYfwqzjBMm2dEuHJL7OHFXyBrTp2+Vg3k
+ /daJBCGl6rzH+q6q8GeCMRzZO/j1JupxYVxVPcAO0RXxyi/bk4LmahtLUrY62AShOW1Y
+ klaA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=l4k94ByR1oRGbcKcX1d3NvlulV4RUHJepixxQUaWm5A=;
+ b=XyjroIwOy/bMsolS9q00FEAOEse5TWurdk2f6i0N3OjI5R30/p8wRGV1VWZYzdZmts
+ DgUtnxFqC85uOSLDuqYsyER3EZnmSqvWgokU9QhfPVZyBWQnqT0LXHSIfD/Y4tAkoPOr
+ BuDYssHb9hFnHTPyqQpNsXMbUAPSgfVbsCcx7HbeAw2SVjcwYc9cfYi1MTKdrm/luC/Y
+ +Z+i1CPJ1/M5ejaTd8JFfJswb/bSxco75U59nR0MJS2Nukhc7bRYSTteWSJ7SMt+kwwA
+ 3RT9fyDHbtRi+xUGjdWMwSbXbncRIjUwIl3aGyJKxZzAhbZOYJlMcNTKzHwiiWpqVku/
+ y3gw==
+X-Gm-Message-State: AOAM5304GhwAGtWSTq/pEqBfOu1zwUsNWq4TbGxKJhor4YF+NbmDtxXv
+ WLOj6HjqjTG+pTemjX3ndUztE0HVuUsFK5jhO3pczA==
+X-Google-Smtp-Source: ABdhPJxvMwgOzgBTwySVbuCUYjNOeeth4ekvFr7qXNfjY8E7p6Fg1sqTIEKPjDNSOZoWnxSQc89JYaL2YnbePMqfKzY=
+X-Received: by 2002:a05:6402:1d55:b0:419:992b:9286 with SMTP id
+ dz21-20020a0564021d5500b00419992b9286mr3140523edb.235.1649159034108; Tue, 05
+ Apr 2022 04:43:54 -0700 (PDT)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-In-Reply-To: <20220213022648.495895-1-marex@denx.de>
+References: <cover.1646406653.git.dave.stevenson@raspberrypi.com>
+ <CAPY8ntC-2Yij+a5wWEZ3BRBSh7bz+74coHCoB01ZhY550H+BDg@mail.gmail.com>
+In-Reply-To: <CAPY8ntC-2Yij+a5wWEZ3BRBSh7bz+74coHCoB01ZhY550H+BDg@mail.gmail.com>
+From: Dave Stevenson <dave.stevenson@raspberrypi.com>
+Date: Tue, 5 Apr 2022 12:43:37 +0100
+Message-ID: <CAPY8ntAi1tM7BZEpKkMAasRH3R_+tJCUFY7k-yVBdtogvxQNRA@mail.gmail.com>
+Subject: Re: [PATCH V2 0/3] DSI host and peripheral initialisation ordering
+To: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+ Maxime Ripard <mripard@kernel.org>, 
+ Thomas Zimmermann <tzimmermann@suse.de>, David Airlie <airlied@linux.ie>,
+ Daniel Vetter <daniel@ffwll.ch>, 
+ DRI Development <dri-devel@lists.freedesktop.org>
+Content-Type: text/plain; charset="UTF-8"
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -47,52 +68,136 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Robert Foss <robert.foss@linaro.org>, Sam Ravnborg <sam@ravnborg.org>,
- Jagan Teki <jagan@amarulasolutions.com>, dri-devel@lists.freedesktop.org
+Cc: Marek Vasut <marex@denx.de>, Jonas Karlman <jonas@kwiboo.se>,
+ Robert Foss <robert.foss@linaro.org>, Neil Armstrong <narmstrong@baylibre.com>,
+ Douglas Anderson <dianders@chromium.org>,
+ Jernej Skrabec <jernej.skrabec@gmail.com>,
+ Andrzej Hajda <andrzej.hajda@gmail.com>,
+ Laurent Pinchart <Laurent.pinchart@ideasonboard.com>,
+ Andrzej Hajda <andrzej.hajda@intel.com>,
+ Dmitry Baryshkov <dmitry.baryshkov@linaro.org>,
+ Jagan Teki <jagan@amarulasolutions.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi Marek,
+On Fri, 18 Mar 2022 at 12:25, Dave Stevenson
+<dave.stevenson@raspberrypi.com> wrote:
+>
+> On Fri, 4 Mar 2022 at 15:18, Dave Stevenson
+> <dave.stevenson@raspberrypi.com> wrote:
+> >
+> > Hi All
+>
+> A gentle ping on this series. Any comments on the approach?
+> Thanks.
 
-Thank you for the patch.
+I realise the merge window has just closed and therefore folks have
+been busy, but no responses on this after a month?
 
-On Sun, Feb 13, 2022 at 03:26:48AM +0100, Marek Vasut wrote:
-> In rare cases, the bridge may not start up correctly, which usually
-> leads to no display output. In case this happens, warn about it in
-> the kernel log.
+Do I give up and submit a patch to document that DSI is broken and no one cares?
 
-Do you know what this is caused by ? It's a bit annoying to add a 10+ms
-delay at start time just to be notified of rare cases.
+  Dave
 
-> Signed-off-by: Marek Vasut <marex@denx.de>
-> Cc: Jagan Teki <jagan@amarulasolutions.com>
-> Cc: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-> Cc: Linus Walleij <linus.walleij@linaro.org>
-> Cc: Robert Foss <robert.foss@linaro.org>
-> Cc: Sam Ravnborg <sam@ravnborg.org>
-> Cc: dri-devel@lists.freedesktop.org
-> ---
->  drivers/gpu/drm/bridge/ti-sn65dsi83.c | 5 +++++
->  1 file changed, 5 insertions(+)
-> 
-> diff --git a/drivers/gpu/drm/bridge/ti-sn65dsi83.c b/drivers/gpu/drm/bridge/ti-sn65dsi83.c
-> index 19daaddd29a41..1d7c154ea1d79 100644
-> --- a/drivers/gpu/drm/bridge/ti-sn65dsi83.c
-> +++ b/drivers/gpu/drm/bridge/ti-sn65dsi83.c
-> @@ -488,6 +488,11 @@ static void sn65dsi83_atomic_enable(struct drm_bridge *bridge,
->  	/* Clear all errors that got asserted during initialization. */
->  	regmap_read(ctx->regmap, REG_IRQ_STAT, &pval);
->  	regmap_write(ctx->regmap, REG_IRQ_STAT, pval);
-> +
-> +	usleep_range(10000, 12000);
-> +	regmap_read(ctx->regmap, REG_IRQ_STAT, &pval);
-> +	if (pval)
-> +		dev_err(ctx->dev, "Unexpected link status 0x%02x\n", pval);
->  }
->  
->  static void sn65dsi83_atomic_disable(struct drm_bridge *bridge,
-
--- 
-Regards,
-
-Laurent Pinchart
+> > Changes from v1:
+> > - New patch to refactor drm_bridge_chain_post_disable and drm_bridge_chain_pre_enable
+> >   to reuse drm_atomic_bridge_chain_post_disable / drm_atomic_bridge_chain_pre_enable
+> >   but with a NULL state.
+> > - New patch that adds a pre_enable_upstream_first to drm_panel.
+> > - changed from an OPS flag to a bool "pre_enable_upstream_first" in drm_bridge.
+> > - Followed Andrzej's suggestion of using continue in the main loop to avoid
+> >   needing 2 additional loops (one forward to find the last bridge wanting
+> >   upstream first, and the second backwards again).
+> > - Actioned Laurent's review comments on docs patch.
+> >
+> > Original cover letter:
+> >
+> > Hopefully I've cc'ed all those that have bashed this problem around previously,
+> > or are otherwise linked to DRM bridges.
+> >
+> > There have been numerous discussions around how DSI support is currently broken
+> > as it doesn't support initialising the PHY to LP-11 and potentially the clock
+> > lane to HS prior to configuring the DSI peripheral. There is no op where the
+> > interface is initialised but HS video isn't also being sent.
+> > Currently you have:
+> > - peripheral pre_enable (host not initialised yet)
+> > - host pre_enable
+> > - encoder enable
+> > - host enable
+> > - peripheral enable (video already running)
+> >
+> > vc4 and exynos currently implement the DSI host as an encoder, and split the
+> > bridge_chain. This fails if you want to switch to being a bridge and/or use
+> > atomic calls as the state of all the elements split off are not added by
+> > drm_atomic_add_encoder_bridges.
+> >
+> > dw-mipi-dsi[1] and now msm[2] use the mode_set hook to initialise the PHY, so
+> > the bridge/panel pre_enable can send commands. In their post_disable they then
+> > call the downstream bridge/panel post_disable op manually so that shutdown
+> > commands can be sent before shutting down the PHY. Nothing handles that fact,
+> > so the framework then continues down the bridge chain and calls the post_disable
+> > again, so we get unbalanced panel prepare/unprepare calls being reported [3].
+> >
+> > There have been patches[4] proposing reversing the entire direction of
+> > pre_enable and post_disable, but that risks driving voltage into devices that
+> > have yet to be powered up.
+> > There have been discussions about adding either a pre_pre_enable, or adding a
+> > DSI host_op to initialise the host[5]. Both require significant reworking to all
+> > existing drivers in moving initialisation phases.
+> > We have patches that look like they may well be addressing race conditions in
+> > starting up a DSI peripheral[6].
+> >
+> > This patch takes a hybrid of the two: an optional reversing of the order for
+> > specific links within the bridge chain within pre_enable and post_disable done
+> > within the drm_bridge framework.
+> > I'm more than happy to move where the flag exists in structures (currently as
+> > DRM_BRIDGE_OP_UPSTREAM_FIRST in drm_bridge_ops, but it isn't an op), but does
+> > this solve the problem posed? If not, then can you describe the actual scenario
+> > it doesn't cover?
+> > A DSI peripheral can set the flag to get the DSI host initialised first, and
+> > therefore it has a stable LP-11 state before pre_enable. Likewise the peripheral
+> > can still send shutdown commands prior to the DSI host being shut down in
+> > post_disable. It also handles the case where there are multiple devices in the
+> > chain that all want their upstream bridge enabled first, so should there be a
+> > DSI mux between host and peripheral, then it can still get the host to the
+> > correct state.
+> >
+> > An example tree is at [7] which is drm-misc-next with these patches and then a
+> > conversion of vc4_dsi to use the atomic bridge functions (will be upstreamed
+> > once we're over this hurdle). It is working happily with the Toshiba TC358762 on
+> > a Raspberry Pi 7" panel.
+> > The same approach but on our vendor 5.15 tree[8] has also been tested
+> > successfully on a TI SN65DSI83 and LVDS panel.
+> >
+> > Whilst here, I've also documented the expected behaviour of DSI hosts and
+> > peripherals to aid those who come along after.
+> >
+> > Thanks
+> >   Dave
+> >
+> > [1] https://github.com/torvalds/linux/blob/master/drivers/gpu/drm/bridge/synopsys/dw-mipi-dsi.c#L940
+> > [2] https://lists.freedesktop.org/archives/dri-devel/2022-January/337769.html
+> > [3] https://lists.freedesktop.org/archives/dri-devel/2021-December/333908.html
+> > [4] https://lists.freedesktop.org/archives/dri-devel/2021-October/328476.html
+> > [5] https://lists.freedesktop.org/archives/dri-devel/2021-October/325853.html
+> > [6] https://lists.freedesktop.org/archives/dri-devel/2022-February/341852.html
+> > [7] https://github.com/6by9/linux/tree/drm-misc-next-vc4_dsi
+> > [8] https://github.com/6by9/linux/tree/rpi-5.15.y-sn65dsi83
+> >
+> > Dave Stevenson (4):
+> >   drm/bridge: Remove duplication from drm_bridge and drm_atomic_bridge
+> >     chains
+> >   drm/bridge: Introduce pre_enable_upstream_first to alter bridge init
+> >     order
+> >   drm/panel: Add prepare_upstream_first flag to drm_panel
+> >   drm/bridge: Document the expected behaviour of DSI host controllers
+> >
+> >  Documentation/gpu/drm-kms-helpers.rst |   7 ++
+> >  drivers/gpu/drm/bridge/panel.c        |   3 +
+> >  drivers/gpu/drm/drm_bridge.c          | 181 ++++++++++++++++++++++++----------
+> >  include/drm/drm_bridge.h              |   8 ++
+> >  include/drm/drm_panel.h               |  10 ++
+> >  5 files changed, 159 insertions(+), 50 deletions(-)
+> >
+> > --
+> > 2.7.4
+> >
