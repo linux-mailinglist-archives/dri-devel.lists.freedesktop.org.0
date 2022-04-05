@@ -1,56 +1,57 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6E39E4F3F65
-	for <lists+dri-devel@lfdr.de>; Tue,  5 Apr 2022 23:03:51 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id B7FB34F3F71
+	for <lists+dri-devel@lfdr.de>; Tue,  5 Apr 2022 23:04:04 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 929D110E269;
-	Tue,  5 Apr 2022 21:03:44 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 408ED10E5E6;
+	Tue,  5 Apr 2022 21:03:46 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from mail-wm1-x329.google.com (mail-wm1-x329.google.com
  [IPv6:2a00:1450:4864:20::329])
- by gabe.freedesktop.org (Postfix) with ESMTPS id E6C3A10E269
- for <dri-devel@lists.freedesktop.org>; Tue,  5 Apr 2022 21:03:42 +0000 (UTC)
-Received: by mail-wm1-x329.google.com with SMTP id
- m67-20020a1ca346000000b0038e6a1b218aso411840wme.2
- for <dri-devel@lists.freedesktop.org>; Tue, 05 Apr 2022 14:03:42 -0700 (PDT)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 14F8910E269
+ for <dri-devel@lists.freedesktop.org>; Tue,  5 Apr 2022 21:03:44 +0000 (UTC)
+Received: by mail-wm1-x329.google.com with SMTP id n35so219940wms.5
+ for <dri-devel@lists.freedesktop.org>; Tue, 05 Apr 2022 14:03:44 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ffwll.ch; s=google;
- h=from:to:cc:subject:date:message-id:mime-version
- :content-transfer-encoding;
- bh=EmOaY3X+UzOd3pPiVPd9yA17wGGx9u9yHzR4JJcIBQg=;
- b=j+XliKJ6kXANBjdtgyve2RxlWQewDg1F5yXlFuvu3EF1JqD2j6vPL4SUquS3KAPU0K
- zP/CT6ddM704lb3Z2VspQrEOSlPl6y/zmmZ1EgkXBJ1lf0Xh5Vt8bLkgaC1BgoGAMrkd
- /ed1COEsfeJxE4vcgLAlqRXFQxptD1z6bRXA0=
+ h=from:to:cc:subject:date:message-id:in-reply-to:references
+ :mime-version:content-transfer-encoding;
+ bh=MxAInQzcNTksfSA5RmeXKMCwZYYWqxTeyIXb4MMqxMg=;
+ b=heXy/Oj2qHVqoiONUHUhum4ojRz8gDiSulYsDe2V5W6uuzlbC/F7hk5OMUYPtA9lRK
+ EvsPHvaGwUj1SYGf9ddWUlFulWW0XgbgSmyQtVRl93y7J8G+JaTU+IS0yNBFs/xl82Ha
+ +ChM9wZTbrsQiZaoECs3CHhU+YvhETcifsyl4=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
- :content-transfer-encoding;
- bh=EmOaY3X+UzOd3pPiVPd9yA17wGGx9u9yHzR4JJcIBQg=;
- b=LFopqkgTDoz4T/zRc64FyEt3bH+77tCsG/H2V0WIv2Br4l4IHl8ltap/x7GLDQ1Sv6
- mJrnYO6VF3IQ5o3xZjXCBfo0o47lwXTkOcPYOF9OhR7JVy4+DC0e0wIzazYiZOTPkBqC
- zLHfwJDQXe8U9ynAqoOBW38ptePqkAHdhKrhmHZMcR4jQ75m4Dd+Q5k0DpVShvhICvPH
- kigJd7an133SAepXJIVSYRnEoOsKtdQVosYuY17lBfWdGOrqPNofeSUaSuvz0srGgaPa
- R9o5QCllsugu6TDUWOqakw6iYKU/TsUVJlidPPxjvAlBd+KQK+zEWBiiCZdyDp3tF2dB
- DmDw==
-X-Gm-Message-State: AOAM53316QYbp4WD8uUwJDnN6Jb7dFgItOGJY5ZHVk1p5IR92beHlQDY
- CR6iUqWmWYABOzXwjdRAm3Vm9gE7uYaUjiwgViA=
-X-Google-Smtp-Source: ABdhPJw+D0Cg8RRWzYqb5QOhMmnklaJ31pGCpY1jjaALOB3p+zdqhVAAqhHrNW7Xu3rx9Wxt/gNFSA==
-X-Received: by 2002:a05:600c:a48:b0:38c:c582:c3c7 with SMTP id
- c8-20020a05600c0a4800b0038cc582c3c7mr4721862wmq.171.1649192621411; 
- Tue, 05 Apr 2022 14:03:41 -0700 (PDT)
+ h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
+ :references:mime-version:content-transfer-encoding;
+ bh=MxAInQzcNTksfSA5RmeXKMCwZYYWqxTeyIXb4MMqxMg=;
+ b=Gz5YdOv+h1VPhSIz/SRVdutNplQsaB+AEgOahJQO7zphKBWerU4OUHZKXsjxP+A4wS
+ ycwZDsSuPMH4PCeGyM/kP71R68RzYYwjhbmXz6LIJx+T9p7JRKH5UVIA+nNm9Bd1lqeK
+ gJCX5rspO5tl8R64xKh8fEk6yUjut3drqcEDSrJqeP/062eOjeMUx4TrfvQU000T+XOg
+ OmS+dFRi1nrxKmtZWvYkqpCUpuSLwdV/rqsmx2dTl/B4zV3MqYL16OIgsUCZQUGvbH9d
+ t2Ag9dx2pgBIvYk86npzjdEBL/+ADicdwSRCnqVVkOpjKtNBBkgb5BFND73CAIY/FxLz
+ 7/ng==
+X-Gm-Message-State: AOAM532EqWz0dtoFXj14iNnCrZyjjZemCpS5SNby+njCTTobGzhM/t4x
+ Lw9zJaTYTCMbFSNfC0JlEJqkIhE/7ZVXCC3RLBg=
+X-Google-Smtp-Source: ABdhPJz2p3saRdVWddtUKvx6UT0VLLMUNUIrCE+5C8SmfhGX8UQm0bQwMJe+OH0L/3U/z0CpnnoNFQ==
+X-Received: by 2002:a1c:f30b:0:b0:37b:b5de:c804 with SMTP id
+ q11-20020a1cf30b000000b0037bb5dec804mr4615486wmq.166.1649192622624; 
+ Tue, 05 Apr 2022 14:03:42 -0700 (PDT)
 Received: from phenom.ffwll.local ([2a02:168:57f4:0:efd0:b9e5:5ae6:c2fa])
  by smtp.gmail.com with ESMTPSA id
- az19-20020a05600c601300b0038cadf3aa69sm4858569wmb.36.2022.04.05.14.03.40
+ az19-20020a05600c601300b0038cadf3aa69sm4858569wmb.36.2022.04.05.14.03.41
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 05 Apr 2022 14:03:40 -0700 (PDT)
+ Tue, 05 Apr 2022 14:03:41 -0700 (PDT)
 From: Daniel Vetter <daniel.vetter@ffwll.ch>
 To: DRI Development <dri-devel@lists.freedesktop.org>
-Subject: [PATCH v3 00/17] fbcon cleanups
-Date: Tue,  5 Apr 2022 23:03:18 +0200
-Message-Id: <20220405210335.3434130-1-daniel.vetter@ffwll.ch>
+Subject: [PATCH v3 01/17] fbcon: delete a few unneeded forward decl
+Date: Tue,  5 Apr 2022 23:03:19 +0200
+Message-Id: <20220405210335.3434130-2-daniel.vetter@ffwll.ch>
 X-Mailer: git-send-email 2.34.1
+In-Reply-To: <20220405210335.3434130-1-daniel.vetter@ffwll.ch>
+References: <20220405210335.3434130-1-daniel.vetter@ffwll.ch>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
@@ -65,51 +66,82 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Daniel Vetter <daniel.vetter@ffwll.ch>,
- Intel Graphics Development <intel-gfx@lists.freedesktop.org>
+Cc: Du Cheng <ducheng2@gmail.com>,
+ Tetsuo Handa <penguin-kernel@I-love.SAKURA.ne.jp>,
+ Daniel Vetter <daniel.vetter@ffwll.ch>,
+ Intel Graphics Development <intel-gfx@lists.freedesktop.org>,
+ Claudio Suarez <cssk@net-c.es>, Geert Uytterhoeven <geert@linux-m68k.org>,
+ Thomas Zimmermann <tzimmermann@suse.de>,
+ Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+ Daniel Vetter <daniel.vetter@intel.com>, Sam Ravnborg <sam@ravnborg.org>,
+ Helge Deller <deller@gmx.de>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi all,
+I didn't bother with any code movement to fix the others, these just
+got a bit in the way.
 
-Finally got around to respin this. Changes:
-- Bunch more acks and r-b, still not yet all patches.
-- one tiny fix for a bisect issue, end result was all fine
-- I dropped the last to patches to make registered_fb private, that needs
-  more work around how we handle the unregister vs driver load races
-  around fw fbdev drivers.
+v2: Rebase on top of Helge's reverts.
 
-Review and acks on the remaining patches very much welcome, I'd like to
-push this pile.
+Acked-by: Thomas Zimmermann <tzimmermann@suse.de>
+Acked-by: Sam Ravnborg <sam@ravnborg.org> (v1)
+Reviewed-by: Geert Uytterhoeven <geert@linux-m68k.org> (v1)
+Signed-off-by: Daniel Vetter <daniel.vetter@intel.com>
+Cc: Helge Deller <deller@gmx.de>
+Cc: Daniel Vetter <daniel@ffwll.ch>
+Cc: Thomas Zimmermann <tzimmermann@suse.de>
+Cc: Du Cheng <ducheng2@gmail.com>
+Cc: Tetsuo Handa <penguin-kernel@I-love.SAKURA.ne.jp>
+Cc: Claudio Suarez <cssk@net-c.es>
+Cc: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+---
+ drivers/video/fbdev/core/fbcon.c | 17 +----------------
+ 1 file changed, 1 insertion(+), 16 deletions(-)
 
-Thanks, Daniel
-
-Daniel Vetter (17):
-  fbcon: delete a few unneeded forward decl
-  fbcon: Move fbcon_bmove(_rec) functions
-  fbcon: Introduce wrapper for console->fb_info lookup
-  fbcon: delete delayed loading code
-  fbdev/sysfs: Fix locking
-  fbcon: Use delayed work for cursor
-  fbcon: Replace FBCON_FLAGS_INIT with a boolean
-  fb: Delete fb_info->queue
-  fbcon: Extract fbcon_open/release helpers
-  fbcon: Ditch error handling for con2fb_release_oldinfo
-  fbcon: move more common code into fb_open()
-  fbcon: use lock_fb_info in fbcon_open/release
-  fbcon: Consistently protect deferred_takeover with console_lock()
-  fbcon: Move console_lock for register/unlink/unregister
-  fbcon: Move more code into fbcon_release
-  fbcon: untangle fbcon_exit
-  fbcon: Maintain a private array of fb_info
-
- drivers/video/fbdev/core/fbcon.c   | 692 ++++++++++++++---------------
- drivers/video/fbdev/core/fbcon.h   |   8 +-
- drivers/video/fbdev/core/fbmem.c   |  27 +-
- drivers/video/fbdev/core/fbsysfs.c |   2 +
- include/linux/fb.h                 |   1 -
- 5 files changed, 333 insertions(+), 397 deletions(-)
-
+diff --git a/drivers/video/fbdev/core/fbcon.c b/drivers/video/fbdev/core/fbcon.c
+index 2fc1b80a26ad..235eaab37d84 100644
+--- a/drivers/video/fbdev/core/fbcon.c
++++ b/drivers/video/fbdev/core/fbcon.c
+@@ -163,29 +163,14 @@ static int fbcon_cursor_noblink;
+  *  Interface used by the world
+  */
+ 
+-static const char *fbcon_startup(void);
+-static void fbcon_init(struct vc_data *vc, int init);
+-static void fbcon_deinit(struct vc_data *vc);
+-static void fbcon_clear(struct vc_data *vc, int sy, int sx, int height,
+-			int width);
+-static void fbcon_putc(struct vc_data *vc, int c, int ypos, int xpos);
+-static void fbcon_putcs(struct vc_data *vc, const unsigned short *s,
+-			int count, int ypos, int xpos);
+ static void fbcon_clear_margins(struct vc_data *vc, int bottom_only);
+-static void fbcon_cursor(struct vc_data *vc, int mode);
+ static void fbcon_bmove(struct vc_data *vc, int sy, int sx, int dy, int dx,
+ 			int height, int width);
+-static int fbcon_switch(struct vc_data *vc);
+-static int fbcon_blank(struct vc_data *vc, int blank, int mode_switch);
+ static void fbcon_set_palette(struct vc_data *vc, const unsigned char *table);
+ 
+ /*
+  *  Internal routines
+  */
+-static __inline__ void ywrap_up(struct vc_data *vc, int count);
+-static __inline__ void ywrap_down(struct vc_data *vc, int count);
+-static __inline__ void ypan_up(struct vc_data *vc, int count);
+-static __inline__ void ypan_down(struct vc_data *vc, int count);
+ static void fbcon_bmove_rec(struct vc_data *vc, struct fbcon_display *p, int sy, int sx,
+ 			    int dy, int dx, int height, int width, u_int y_break);
+ static void fbcon_set_disp(struct fb_info *info, struct fb_var_screeninfo *var,
+@@ -194,8 +179,8 @@ static void fbcon_redraw_move(struct vc_data *vc, struct fbcon_display *p,
+ 			      int line, int count, int dy);
+ static void fbcon_modechanged(struct fb_info *info);
+ static void fbcon_set_all_vcs(struct fb_info *info);
+-static void fbcon_start(void);
+ static void fbcon_exit(void);
++
+ static struct device *fbcon_device;
+ 
+ #ifdef CONFIG_FRAMEBUFFER_CONSOLE_ROTATION
 -- 
 2.34.1
 
