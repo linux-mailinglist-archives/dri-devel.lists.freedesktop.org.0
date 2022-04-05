@@ -2,60 +2,54 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 23F4E4F3D06
-	for <lists+dri-devel@lfdr.de>; Tue,  5 Apr 2022 19:49:17 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 624D34F3D0F
+	for <lists+dri-devel@lfdr.de>; Tue,  5 Apr 2022 19:57:09 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 00EE910ED71;
-	Tue,  5 Apr 2022 17:49:13 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 0CB1110EE06;
+	Tue,  5 Apr 2022 17:57:05 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-ed1-x536.google.com (mail-ed1-x536.google.com
- [IPv6:2a00:1450:4864:20::536])
- by gabe.freedesktop.org (Postfix) with ESMTPS id D04F210ECDD
- for <dri-devel@lists.freedesktop.org>; Tue,  5 Apr 2022 17:49:11 +0000 (UTC)
-Received: by mail-ed1-x536.google.com with SMTP id r10so10096616eda.1
- for <dri-devel@lists.freedesktop.org>; Tue, 05 Apr 2022 10:49:11 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=20210112;
+Received: from mail-ej1-x636.google.com (mail-ej1-x636.google.com
+ [IPv6:2a00:1450:4864:20::636])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 3E39B10EE06
+ for <dri-devel@lists.freedesktop.org>; Tue,  5 Apr 2022 17:57:04 +0000 (UTC)
+Received: by mail-ej1-x636.google.com with SMTP id p15so28298465ejc.7
+ for <dri-devel@lists.freedesktop.org>; Tue, 05 Apr 2022 10:57:04 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
  h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc:content-transfer-encoding;
- bh=RXCW1evSnb4oJ88sHTAFEYTq0HTuOW2ocRpwnA3InQ4=;
- b=DFediYf4lKdcEGd6wHnf3P2A1rH9d97LcubT3QP6yRNY6vUA82uDkOevPceh0sN/Wl
- AzNDVgFuK6V76WaqpSYAiG2hRF9Re4Ov3xlC/Ms7hpW9uCTQ7y898MEv8Ijbqhc6SxXo
- QvfpY4jywVuV6j8Ii/P3vkQXreEU44Hlqin6E5RTxZAap0ziUpyUXuD83coag22gB7nJ
- kP94eXAsBC1cr7hK8pVNGZaStSW21SliZd84A/wTh+8QK9KZdm23HHaRa8zC2IVlp4fq
- sk905jrtMt/I2FOoTaeCu/ArrkOR8UVb6SsiWhRhquLKZ90pI6vt79FBY7MRBMWLMUZ2
- L8SQ==
+ :cc; bh=fWlXCTkYGyXzOu6P6awXX/6nfl84WYIZI9g+WSGOyw0=;
+ b=jwx0XQUGCaRHrpcErZBCsWMj23/VXGgzoKqDbPSw2f+7F8N/d9igo6HIZ+sSRTWP9a
+ hqVlvkcMJHhbv8xYnDkM7bGSTq93zYJVCDN/0Uym3PloU+pHINLS9cTw6XdP9ouh17le
+ it2++ow9VO0gUkSzqvwdCeMBzqbqoP5MRFjfawj+UxJefktYATV0WZknO8TYNGxTGfMQ
+ A4SEg3p8c2YD/MFhBiOnIcKNUo84CMezQUHC+Em+oj9ZjR24dmD358+boudl6sT0Vpem
+ JS1XGjGYbGqUCc76nIevCdXkQ4b19TaL0abiCBotNqqN7PtVcy3R/zqZT3DhISco56Xk
+ 7VWw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc:content-transfer-encoding;
- bh=RXCW1evSnb4oJ88sHTAFEYTq0HTuOW2ocRpwnA3InQ4=;
- b=z/4xKu3+NuvfHkOao+5HIA+/GBhjdyFCKnV70SNgAHbb7S07/vFChq0HrA/u2+bBfS
- jftMedv286kn1miHv4sRKN78iGVFsRLfhW51rdoA0PhWcb2UEarufKlBXvH/6S0BaGwA
- KWwpi9luwXZX0dCqzLz5PnEK6yk4qcF+T5mTMQf8ohKNS75y8bO/CCxqkoKv6J1S23+b
- fKEe7EBa6aI2c0KusTx/URxGELHB0R1bgNaYtm4/Ut/EzXk22PS95/f2bpuafD1M7ZcK
- A7HS/WDvKIOalBtlB6TwQ0WHS0kUPwy+gOB5eJZ15fN1rgroldXuJwpVUM+PyuVlo2TY
- XN6g==
-X-Gm-Message-State: AOAM532RX2GOxRry3DiBZqal3poGU6qbogaCZzTtkk2odL2CWqGR3R0R
- TouiSYTPAHd0B/zYrp5KPupFq1bSUcu/vojCgeMZcw==
-X-Google-Smtp-Source: ABdhPJy3kLISS/qYYRzMDmjCuhPu7OU3AJeQfL+t2mEx7NkNwMYgXC85KD1rOoe+vR5iNyCwy95ZqCXnaDcme/ng0CI=
-X-Received: by 2002:aa7:d98f:0:b0:41c:bf0f:4c45 with SMTP id
- u15-20020aa7d98f000000b0041cbf0f4c45mr4818393eds.379.1649180950052; Tue, 05
- Apr 2022 10:49:10 -0700 (PDT)
+ :message-id:subject:to:cc;
+ bh=fWlXCTkYGyXzOu6P6awXX/6nfl84WYIZI9g+WSGOyw0=;
+ b=18L3/yyjHBG9nxXokqP+affmQWqqj7PWEBmSFLU8mba9GWadl2P1u090spcaV+QrrS
+ 4apIiSq2CZd/csCNd4lfjNsgramK8VIL2Pk5pWIl4mU2sclCK9Js6EWT/CBjd8yYw3dK
+ stkGelHDmcUK6+RUpBcgPYfd6SyMuxqyUuavhEtrEYJPIX+v/jgGaUKdj3R/g7nzWNRe
+ K+gbQwvrEFAi7sA8vjEh+GwmmxgMz8AYGg8ZIDVTy1amzFkTExNqs8+N8+hbjQ8spsod
+ 4qUrKwhE26MP56Tl6yX/Pn7FHenQV6lQDrj7u6+GJgNgepB0Q0Pbwi8HP6BeVgxRNtNF
+ lS6g==
+X-Gm-Message-State: AOAM533u3VgU9lxIDtkFSL8PzpMW2x3M705SAKvfZOdCpndgzmoGYQ5y
+ tBw6fg77dMeIcjAjOIGplKuXYfX8j5F7y/xdRPo=
+X-Google-Smtp-Source: ABdhPJzNwJLndNEvf8of6myr8gcbYVYJMmeilk2VVKShekHBfh+c8nN7LVIdcrL0bjowhSiwuKS+l8gYahoKhGqXbFU=
+X-Received: by 2002:a17:906:d10c:b0:6cd:4aa2:cd62 with SMTP id
+ b12-20020a170906d10c00b006cd4aa2cd62mr4684858ejz.229.1649181422577; Tue, 05
+ Apr 2022 10:57:02 -0700 (PDT)
 MIME-Version: 1.0
-References: <20220328035951.1817417-1-tjmercier@google.com>
- <20220328035951.1817417-6-tjmercier@google.com>
- <20220329152142.GA15794@blackbody.suse.cz>
- <CABdmKX2874NdYCBzpKLnqWhZQDkC2wKz4ZL_aFNqrec6iAutpQ@mail.gmail.com>
- <20220405121245.GA30368@blackbody.suse.cz>
-In-Reply-To: <20220405121245.GA30368@blackbody.suse.cz>
-From: "T.J. Mercier" <tjmercier@google.com>
-Date: Tue, 5 Apr 2022 10:48:58 -0700
-Message-ID: <CABdmKX0aF5zXozbb7npcEq3PgaeDE=gaGLf+jYY4oRKW9N+46g@mail.gmail.com>
-Subject: Re: [RFC v4 5/8] dmabuf: Add gpu cgroup charge transfer function
-To: =?UTF-8?Q?Michal_Koutn=C3=BD?= <mkoutny@suse.com>
+References: <20220405173918.1000846-1-robdclark@gmail.com>
+In-Reply-To: <20220405173918.1000846-1-robdclark@gmail.com>
+From: Chia-I Wu <olvaffe@gmail.com>
+Date: Tue, 5 Apr 2022 10:56:51 -0700
+Message-ID: <CAPaKu7Tur-_Kf3Lb9U=98Yr_08onxPHNKTPh2anHU6zLPhr5ZQ@mail.gmail.com>
+Subject: Re: [PATCH] drm/virtio: Add execbuf flag to request no fence-event
+To: Rob Clark <robdclark@gmail.com>
 Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -68,92 +62,69 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Zefan Li <lizefan.x@bytedance.com>, linux-doc@vger.kernel.org,
- David Airlie <airlied@linux.ie>, dri-devel@lists.freedesktop.org,
- Benjamin Gaignard <benjamin.gaignard@linaro.org>,
- Kalesh Singh <kaleshsingh@google.com>, Joel Fernandes <joel@joelfernandes.org>,
- Shuah Khan <shuah@kernel.org>, Sumit Semwal <sumit.semwal@linaro.org>,
- Kenny.Ho@amd.com, Jonathan Corbet <corbet@lwn.net>,
- Martijn Coenen <maco@android.com>, Laura Abbott <labbott@redhat.com>,
- linux-media@vger.kernel.org, linux-kselftest@vger.kernel.org,
- Todd Kjos <tkjos@android.com>, Thomas Zimmermann <tzimmermann@suse.de>,
- linaro-mm-sig@lists.linaro.org, Tejun Heo <tj@kernel.org>,
- Shuah Khan <skhan@linuxfoundation.org>, cgroups@vger.kernel.org,
- Suren Baghdasaryan <surenb@google.com>, Christian Brauner <brauner@kernel.org>,
- Greg Kroah-Hartman <gregkh@linuxfoundation.org>, linux-kernel@vger.kernel.org,
- Liam Mark <lmark@codeaurora.org>,
- =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>,
- =?UTF-8?B?QXJ2ZSBIasO4bm5ldsOlZw==?= <arve@android.com>,
- Johannes Weiner <hannes@cmpxchg.org>, Hridya Valsaraju <hridya@google.com>
+Cc: Rob Clark <robdclark@chromium.org>, David Airlie <airlied@linux.ie>,
+ open list <linux-kernel@vger.kernel.org>,
+ ML dri-devel <dri-devel@lists.freedesktop.org>,
+ Gurchetan Singh <gurchetansingh@chromium.org>,
+ Gerd Hoffmann <kraxel@redhat.com>,
+ "open list:VIRTIO GPU DRIVER" <virtualization@lists.linux-foundation.org>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Tue, Apr 5, 2022 at 5:12 AM Michal Koutn=C3=BD <mkoutny@suse.com> wrote:
+On Tue, Apr 5, 2022 at 10:38 AM Rob Clark <robdclark@gmail.com> wrote:
 >
-> On Fri, Apr 01, 2022 at 11:41:36AM -0700, "T.J. Mercier" <tjmercier@googl=
-e.com> wrote:
-> > This link doesn't work for me, but I think you're referring to the
-> > discussion about your "RAM_backed_buffers" comment from March 23rd.
+> From: Rob Clark <robdclark@chromium.org>
 >
-> (Oops, it's a non-public message. But yes, you guessed it right ;-))
+> It would have been cleaner to have a flag to *request* the fence event.
+> But that ship has sailed.  So add a flag so that userspace which doesn't
+> care about the events can opt-out.
 >
-> > Anyway the test I did goes like this: enable memcg and gpu cgoups
-> > tracking and run a process that allocates 100MiB of dmabufs. Observe
-> > memcg and gpu accounting values before and after the allocation.
->
-> Thanks for this measurement/dem/demoo.
->
-> > Before
-> > # cat memory.current gpu.memory.current
-> > 14909440
-> > system 0
-> >
-> > <Test program does the allocation of 100MiB of dmabufs>
-> >
-> > After
-> > # cat memory.current gpu.memory.current
-> > 48025600
-> > system 104857600
-> >
-> > So the memcg value increases by about 30 MiB while the gpu values
-> > increases by 100 MiB.
->
-> > This is with kmem enabled, and the /proc/maps
-> > file for this process indicates that the majority of that 30 MiB is
-> > kernel memory.
->
-> > I think this result shows that neither the kernel nor process memory
-> > overlap with the gpu cgroup tracking of these allocations.
->
-> It depends how the semantics of the 'system' entry is defined, no?
-> As I grasped from other thread, the 'total' is going to be removed, so
-> 'system' represents exclusively device memory?
->
-That's right. The system charges (soon to be renamed "system-heap")
-result only from an allocator (in this case the system heap) deciding
-to call gpucg_try_charge for the buffer which is entirely device
-memory.
->
-> > So despite the fact that these buffers are in main memory, they are
-> > allocated in a way that does not result in memcg attribution. (It
-> > looks to me like __GFP_ACCOUNT is not set for these.)
->
-> (I thought you knew what dmabufs your program used :-p)
->
-I'm coming up to speed on a lot of new-to-me code here. :)
-Just for completeness, these buffers were allocated with
-libdmabufheap's AllocSystem.
+> Signed-off-by: Rob Clark <robdclark@chromium.org>
+Reviewed-by: Chia-I Wu <olvaffe@gmail.com>
 
-> So, the goal is to do the tracking and migrations only via the gpu cg
-> layer, regardless how memcg charges it (or not).
->
-> (I have no opinion on that, I'm just summing it so that we're on the
-> same page.)
->
-Yes, this reflects my intention and current state of the code in this serie=
-s.
+Might want to wait for Gurchetan to chime in as he added the mechanism.
 
-> Michal
-
-Thanks,
-T.J.
+> ---
+>  drivers/gpu/drm/virtio/virtgpu_ioctl.c | 8 +++++---
+>  include/uapi/drm/virtgpu_drm.h         | 2 ++
+>  2 files changed, 7 insertions(+), 3 deletions(-)
+>
+> diff --git a/drivers/gpu/drm/virtio/virtgpu_ioctl.c b/drivers/gpu/drm/virtio/virtgpu_ioctl.c
+> index 3a8078f2ee27..09f1aa263f91 100644
+> --- a/drivers/gpu/drm/virtio/virtgpu_ioctl.c
+> +++ b/drivers/gpu/drm/virtio/virtgpu_ioctl.c
+> @@ -225,9 +225,11 @@ static int virtio_gpu_execbuffer_ioctl(struct drm_device *dev, void *data,
+>                 goto out_unresv;
+>         }
+>
+> -       ret = virtio_gpu_fence_event_create(dev, file, out_fence, ring_idx);
+> -       if (ret)
+> -               goto out_unresv;
+> +       if (!(exbuf->flags & VIRTGPU_EXECBUF_NO_EVENT)) {
+> +               ret = virtio_gpu_fence_event_create(dev, file, out_fence, ring_idx);
+> +               if (ret)
+> +                       goto out_unresv;
+> +       }
+>
+>         if (out_fence_fd >= 0) {
+>                 sync_file = sync_file_create(&out_fence->f);
+> diff --git a/include/uapi/drm/virtgpu_drm.h b/include/uapi/drm/virtgpu_drm.h
+> index 0512fde5e697..d06cac3407cc 100644
+> --- a/include/uapi/drm/virtgpu_drm.h
+> +++ b/include/uapi/drm/virtgpu_drm.h
+> @@ -52,10 +52,12 @@ extern "C" {
+>  #define VIRTGPU_EXECBUF_FENCE_FD_IN    0x01
+>  #define VIRTGPU_EXECBUF_FENCE_FD_OUT   0x02
+>  #define VIRTGPU_EXECBUF_RING_IDX       0x04
+> +#define VIRTGPU_EXECBUF_NO_EVENT       0x08
+>  #define VIRTGPU_EXECBUF_FLAGS  (\
+>                 VIRTGPU_EXECBUF_FENCE_FD_IN |\
+>                 VIRTGPU_EXECBUF_FENCE_FD_OUT |\
+>                 VIRTGPU_EXECBUF_RING_IDX |\
+> +               VIRTGPU_EXECBUF_NO_EVENT |\
+>                 0)
+>
+>  struct drm_virtgpu_map {
+> --
+> 2.35.1
+>
