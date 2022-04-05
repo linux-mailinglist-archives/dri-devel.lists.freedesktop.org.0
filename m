@@ -2,36 +2,56 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4F0764F3FA3
-	for <lists+dri-devel@lfdr.de>; Tue,  5 Apr 2022 23:04:31 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id E74244F40BE
+	for <lists+dri-devel@lfdr.de>; Tue,  5 Apr 2022 23:21:24 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 72B3E10EED3;
-	Tue,  5 Apr 2022 21:03:59 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 220F610E828;
+	Tue,  5 Apr 2022 21:21:21 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from aposti.net (aposti.net [89.234.176.197])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 2A70D10EECB
- for <dri-devel@lists.freedesktop.org>; Tue,  5 Apr 2022 21:03:56 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=crapouillou.net;
- s=mail; t=1649192633; h=from:from:sender:reply-to:subject:subject:date:date:
- message-id:message-id:to:to:cc:cc:mime-version:mime-version:
- content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=3+gXLZmqhdPrOBrGZGktTeGHOT6E2+rkUcU65w77U9Q=;
- b=icYQV0HoG9hcJUDeXuXeIU1WoXR6RQR8NP3K1VENb68F67Fe9qy7Gpm8XDNK8j16fqLl4N
- kfR9fgtlPy/TXgEMLtLBxyy9fbdqmL1pEz43M9c99nYM+sfaV8N8a9AHvYeQsoWYW4L+bc
- rFYBlHPAcvbgiPNfgIvsDiTEuof8ogg=
-Date: Tue, 05 Apr 2022 22:03:38 +0100
-From: Paul Cercueil <paul@crapouillou.net>
-Subject: Re: [PATCH v5 0/3] Ingenic DRM bridge_atomic_enable proposal
-To: Christophe Branchereau <cbranchereau@gmail.com>
-Message-Id: <26XV9R.735J8E0AH281@crapouillou.net>
-In-Reply-To: <20220321133651.291592-1-cbranchereau@gmail.com>
-References: <20220321133651.291592-1-cbranchereau@gmail.com>
+Received: from mail-yw1-x112d.google.com (mail-yw1-x112d.google.com
+ [IPv6:2607:f8b0:4864:20::112d])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id B640A10E828
+ for <dri-devel@lists.freedesktop.org>; Tue,  5 Apr 2022 21:21:20 +0000 (UTC)
+Received: by mail-yw1-x112d.google.com with SMTP id
+ 00721157ae682-2db2add4516so6300037b3.1
+ for <dri-devel@lists.freedesktop.org>; Tue, 05 Apr 2022 14:21:20 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc; bh=05ESTLKuRKureM3diZOwIcKgKT6b+0avzQkzpMlIWl0=;
+ b=F4+e721tNcbr4VyIH/v5IIZ9tP+O6JaNPcwsW2WnYFsjKwz+f51Jekl18A+rixt41J
+ JOzuclwfSn8f5JdJQKTfJQNWNBFIdf0s995f8zlspLYdTtyXifztXr3SnJ52b5VLUVyc
+ F47A1nlECQW6jmuo8criSUTu4sFzdp6DBZ36wOGQjOX3qBgox8zG3vFmBkWaEq7xRL/J
+ 8AssrUOlC7k5WTeV0oelsqfOT2PekmM12laoDKCx+Sik6VVl9ObsaNZITN/dIW6WZc35
+ F3UUxaRXpwVu/a0lL7rew3B56UOopKkIXrdSFC/sHS6huWzOU7/u57GZ9ZN9n8CPrK6Y
+ fAhQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=05ESTLKuRKureM3diZOwIcKgKT6b+0avzQkzpMlIWl0=;
+ b=xr4VOraS4IMqm8j49Wm3S9WlyWlQCspBa68J5PdekCD2dfR2Kietb5mOoXZ1xCE2Wn
+ i3AVqLA9NGtTbQLEyYEwBpDTSgbCYbEJQWO24WkJMn9hm8lt3zI0qhivCyOJZOFTbqhH
+ 51Z6/cKfUJiCM5D51i1o4M3poeajOvbQFX15Cjnh+YNy+JVhSdBtDlKNwUfCucCWjoo6
+ V+3aplk6SX78BZc0FX4GtXYWNQfAr5nZkDAuZMLVr3aJTtlCpgmTTvlLtVKLnl7U1UZs
+ UAgK7oiQ/B13ZiJCc4LCj5cxASCLzX1tmczfJuWTCi5yqSTz19Rq+MEkYL17rgW0S6tl
+ HhoQ==
+X-Gm-Message-State: AOAM533KK9itvNJT22+tG4pDV9IkmwMhBU7fJp0ItSVUR9VxryWANTX8
+ SwvFcsdkLU4Ks0O5SxiDrl7XG6xwbF6a54fyJh1bfw==
+X-Google-Smtp-Source: ABdhPJwEINNWKQDaea3+TJzBVTdGEUBx+YlA8z0uH9ht1nC2kDVLVG1VUZvrKbQB9SHESxmVI/MOBKOBSGZVxnZp0I0=
+X-Received: by 2002:a81:d542:0:b0:2e5:c060:a0ac with SMTP id
+ l2-20020a81d542000000b002e5c060a0acmr4410118ywj.118.1649193679956; Tue, 05
+ Apr 2022 14:21:19 -0700 (PDT)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=iso-8859-1; format=flowed
-Content-Transfer-Encoding: quoted-printable
+References: <20220329132732.628474-1-paul.kocialkowski@bootlin.com>
+In-Reply-To: <20220329132732.628474-1-paul.kocialkowski@bootlin.com>
+From: Linus Walleij <linus.walleij@linaro.org>
+Date: Tue, 5 Apr 2022 23:21:08 +0200
+Message-ID: <CACRpkdbcoRBS=mDqMfseKDWQLZu-ohtXf1jo0nL_S+AagewRBA@mail.gmail.com>
+Subject: Re: [PATCH v3] drm: of: Properly try all possible cases for
+ bridge/panel detection
+To: Paul Kocialkowski <paul.kocialkowski@bootlin.com>
+Content-Type: text/plain; charset="UTF-8"
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -44,59 +64,36 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: devicetree@vger.kernel.org, David Airlie <airlied@linux.ie>,
- linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
- linux-mips@vger.kernel.org, Rob Herring <robh+dt@kernel.org>,
- Thierry Reding <thierry.reding@gmail.com>, Sam Ravnborg <sam@ravnborg.org>
+Cc: Thomas Petazzoni <thomas.petazzoni@bootlin.com>,
+ David Airlie <airlied@linux.ie>, linux-kernel@vger.kernel.org,
+ dri-devel@lists.freedesktop.org, Thomas Zimmermann <tzimmermann@suse.de>,
+ Jagan Teki <jagan@amarulasolutions.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi Christophe,
+On Tue, Mar 29, 2022 at 3:27 PM Paul Kocialkowski
+<paul.kocialkowski@bootlin.com> wrote:
 
-Merged to drm-misc-next.
+> While bridge/panel detection was initially relying on the usual
+> port/ports-based of graph detection, it was recently changed to
+> perform the lookup on any child node that is not port/ports
+> instead when such a node is available, with no fallback on the
+> usual way.
+>
+> This results in breaking detection when a child node is present
+> but does not contain any panel or bridge node, even when the
+> usual port/ports-based of graph is there.
+>
+> In order to support both situations properly, this commit reworks
+> the logic to try both options and not just one of the two: it will
+> only return -EPROBE_DEFER when both have failed.
+>
+> Signed-off-by: Paul Kocialkowski <paul.kocialkowski@bootlin.com>
+> Fixes: 80253168dbfd ("drm: of: Lookup if child node has panel or bridge")
 
-Thanks,
--Paul
+This patch fixes the problems I have on the Ux500 MCDE with DPI
+panels such as Janice, so:
+Tested-by: Linus Walleij <linus.walleij@linaro.org>
 
-
-Le lun., mars 21 2022 at 14:36:48 +0100, Christophe Branchereau=20
-<cbranchereau@gmail.com> a =E9crit :
-> Hello,
->=20
-> v5 :
->=20
-> - this set doesn't include the nv3052c bindings doc anymore,
->   as it's already applied
->=20
-> - nv3052c panel driver : removed empty lines, proceed to turn it off
->   even is sleeping in fails instead of stopping there
->=20
-> - abt panel : switched to REGCACHE_FLAT so we can disable sleep mode
->   in .enable with regmap_set_bits() instead of doing it at init time
->=20
-> - ingenic-drm-drv : added ingenic_drm_bridge_atomic_disable to balance
->   out ingenic_drm_bridge_atomic_enable
->=20
-> Tested working on the rg350m and rg280m
->=20
-> Christophe Branchereau (3):
->   drm/ingenic : add ingenic_drm_bridge_atomic_enable and disable
->   drm/panel: Add panel driver for NewVision NV3052C based LCDs
->   drm/panel : innolux-ej030na and abt-y030xx067a : add .enable and
->     .disable
->=20
->  drivers/gpu/drm/ingenic/ingenic-drm-drv.c     |  34 +-
->  drivers/gpu/drm/panel/Kconfig                 |   9 +
->  drivers/gpu/drm/panel/Makefile                |   1 +
->  drivers/gpu/drm/panel/panel-abt-y030xx067a.c  |  31 +-
->  drivers/gpu/drm/panel/panel-innolux-ej030na.c |  31 +-
->  .../gpu/drm/panel/panel-newvision-nv3052c.c   | 484=20
-> ++++++++++++++++++
->  6 files changed, 572 insertions(+), 18 deletions(-)
->  create mode 100644 drivers/gpu/drm/panel/panel-newvision-nv3052c.c
->=20
-> --
-> 2.35.1
->=20
-
-
+Yours,
+Linus Walleij
