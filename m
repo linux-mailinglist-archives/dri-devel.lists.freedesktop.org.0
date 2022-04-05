@@ -2,45 +2,63 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id F31FC4F3BC3
-	for <lists+dri-devel@lfdr.de>; Tue,  5 Apr 2022 17:21:51 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 00FD94F3C2E
+	for <lists+dri-devel@lfdr.de>; Tue,  5 Apr 2022 17:24:58 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 1631110E580;
-	Tue,  5 Apr 2022 15:21:45 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id CA19210E2CF;
+	Tue,  5 Apr 2022 15:24:55 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-X-Greylist: delayed 351 seconds by postgrey-1.36 at gabe;
- Tue, 05 Apr 2022 15:21:41 UTC
-Received: from mail.skyhub.de (mail.skyhub.de [5.9.137.197])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 764BF10E031;
- Tue,  5 Apr 2022 15:21:41 +0000 (UTC)
-Received: from zn.tnic (p2e55dff8.dip0.t-ipconnect.de [46.85.223.248])
- (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
- (No client certificate requested)
- by mail.skyhub.de (SuperMail on ZX Spectrum 128k) with ESMTPSA id A85A31EC04AD;
- Tue,  5 Apr 2022 17:16:15 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=alien8.de; s=dkim;
- t=1649171775;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=UGJa0G6U1JecsWznE/utyL4y2G3RA/n/MPX3Y999g1s=;
- b=Vv89Iy1RDuMgx2vBuJ6aiufMexPWUh3MwGTqNBEOMUUhvHSB0y8l2i69tK9QwFOTtuNDJM
- YhHKXgrhnLfqWafTqbUHa+rJKTyO/uE+N20XydbXc8BMlMkux0OrZIvNSwNf7URINzmz/1
- 0AGyqz6lX0GmQs7bIP+Sz5dGRRy6VmQ=
-From: Borislav Petkov <bp@alien8.de>
-To: LKML <linux-kernel@vger.kernel.org>
-Subject: [PATCH 11/11] drm/i915: Fix undefined behavior due to shift
- overflowing the constant
-Date: Tue,  5 Apr 2022 17:15:17 +0200
-Message-Id: <20220405151517.29753-12-bp@alien8.de>
-X-Mailer: git-send-email 2.35.1
-In-Reply-To: <20220405151517.29753-1-bp@alien8.de>
-References: <20220405151517.29753-1-bp@alien8.de>
+Received: from mail-ej1-x632.google.com (mail-ej1-x632.google.com
+ [IPv6:2a00:1450:4864:20::632])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 8FDAA10E2CF
+ for <dri-devel@lists.freedesktop.org>; Tue,  5 Apr 2022 15:24:54 +0000 (UTC)
+Received: by mail-ej1-x632.google.com with SMTP id yy13so27503860ejb.2
+ for <dri-devel@lists.freedesktop.org>; Tue, 05 Apr 2022 08:24:54 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=raspberrypi.com; s=google;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc; bh=EWCWYinG+0/z4ECv9vdWittW5AxPfnIvBO6foE/ZM5Q=;
+ b=P+7Y4FJ17893pJ3ZF+hQlpa/dAXlw0SF/RgcmnLFThiIoao5VfDFNP5DM+i62Mf62p
+ 3f3ltZjKKNlP7+K872aQsH7IEYeug8rOJwiK/RRchK/tl77z6hjPtttu2GfH3LcoTeo9
+ L2BxB+1dSwQCD1eDbxmg54FNFL8OoWoCgu9F5MxdgrmI8odkV6B7w2xRpW/SfZ587NUt
+ hZmy77sbaQ01lXiF7uBgSy88DkjNXtSIWx4/imMUsq7kbuu0pjPF9ORafJH0zb3DTmyR
+ OL6L9Zo8rznjwUI67XUG9AZYqJ5s0R6iRpngpWOhuQ4KVI4kkpWanCkFc7QtFp9k5VUY
+ XOww==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=EWCWYinG+0/z4ECv9vdWittW5AxPfnIvBO6foE/ZM5Q=;
+ b=3yPt6g0pVglFL6CvDZ1XBI5mnFBop+kYRyPYt8k0ZNnsceVrPcF/e2qu7O9IaQRC19
+ 65RXQkBFNA0VpEEUjfAlB06O+0Ux5dVvIINKY9E9gagyLUfVfBUL5zM8jJOoIIkXikWY
+ OACnRtopoywjGMJpzTACRqVqWWmS4jxNtP+Wkli8LAZV13uUh7FGuDjvY3Wu9anaeFOW
+ 9gxEZ8xuAMTJplnZ+b9eN8LusLlt7Sr27nKiLhtIY0uwSjVDqEEm2WdarZUFsiRx3lSX
+ lDjYToJmdh9xBSpRQ7rSqg/IgWWbbxuwbke25Gu6wkJ4qFjH2zljMC2+Id+e2WX0NmlE
+ UbZQ==
+X-Gm-Message-State: AOAM530nfSUqzTvHG8SVlVIaWM6MD2jLYFm8V5DI4N52CFYhw5kvjVRj
+ OOd5PH4/vQYvCthewUsPvFkmFNPP4cCQdc6abhEGcBaQsFuOHg==
+X-Google-Smtp-Source: ABdhPJwgkkttvOrGk/KbegszC/62uBN9Zyh48ePakqu5pbOLqoob74KwlmosxYG6B7LLd9ZgobQXPlFyLWRWc6dfIDs=
+X-Received: by 2002:a17:907:60cc:b0:6e0:dab3:ca76 with SMTP id
+ hv12-20020a17090760cc00b006e0dab3ca76mr4132205ejc.154.1649172293064; Tue, 05
+ Apr 2022 08:24:53 -0700 (PDT)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
+References: <20220213022648.495895-1-marex@denx.de>
+ <YkwrDtqhY+Ru2bxG@pendragon.ideasonboard.com>
+ <CAPY8ntA+GpJ6WFwJbDcKjD5N2TdKAqv2kQPjrFbcJW=OoFL_Yg@mail.gmail.com>
+ <Ykw/NEI03rXJ+C9Y@pendragon.ideasonboard.com>
+ <CAPY8ntC5RQ4pq=Bf5Z+Vi-NhD6boGnEixjporJSKgR=AaUrEpw@mail.gmail.com>
+ <2b6df0ac-d429-7d49-60e8-727f8c135671@denx.de>
+ <CAPY8ntDVaAoaCu19=2DxW97STQdaVMv1-DbuPuvQu50N6mY1mg@mail.gmail.com>
+ <941582a8-ca70-dd96-3097-570ae731eb73@denx.de>
+In-Reply-To: <941582a8-ca70-dd96-3097-570ae731eb73@denx.de>
+From: Dave Stevenson <dave.stevenson@raspberrypi.com>
+Date: Tue, 5 Apr 2022 16:24:36 +0100
+Message-ID: <CAPY8ntAYWgqTxZ3gwYt+Eo1_hJyYc1OgLE6cDGMqAb_djPPPuA@mail.gmail.com>
+Subject: Re: [PATCH][RESEND] drm/bridge: ti-sn65dsi83: Check link status
+ register after enabling the bridge
+To: Marek Vasut <marex@denx.de>
+Content-Type: text/plain; charset="UTF-8"
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -53,129 +71,118 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Tvrtko Ursulin <tvrtko.ursulin@linux.intel.com>,
- David Airlie <airlied@linux.ie>, intel-gfx@lists.freedesktop.org,
- dri-devel@lists.freedesktop.org, Rodrigo Vivi <rodrigo.vivi@intel.com>
+Cc: DRI Development <dri-devel@lists.freedesktop.org>,
+ Sam Ravnborg <sam@ravnborg.org>,
+ Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
+ Robert Foss <robert.foss@linaro.org>, Jagan Teki <jagan@amarulasolutions.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-From: Borislav Petkov <bp@suse.de>
+On Tue, 5 Apr 2022 at 15:48, Marek Vasut <marex@denx.de> wrote:
+>
+> On 4/5/22 16:20, Dave Stevenson wrote:
+>
+> Hi,
+>
+> >>> If we can initialise the DSI host before the bridge for the
+> >>> pre_enable, then all the configuration moves to the atomic_pre_enable
+> >>> and there should be no need to have the delay.
+> >>>
+> >>> I can't 100% guarantee that, but one of the folks on the Pi forums is
+> >>> using [1] which does that, and is reporting it working well. (He's
+> >>> also using the DSI85 to take 2 DSI links and drive 2 LVDS single link
+> >>> panels)
+> >>
+> >> It seems to me that checking whether the bridge got correctly
+> >> initialized is orthogonal to the aforementioned patchset though ?
+> >
+> > It's the delay that is ugly.
+>
+> You do need to wait a little after the initialization and before
+> checking the status, so that delay is not going away no matter how you
+> frob with the DSI bridge.
+>
+> > Put the check in atomic_enable which will be slightly later than
+> > configuration in pre_enable? Check that sufficient jiffies have passed
+> > if you needed.
+> > Or wire up the IRQ line from the SN65DSI83 rather than polling the IRQ
+> > Status register. Delayed workqueue if the IRQ isn't wired up.
+>
+> Are you able to do such deferred non-atomic operations in atomic_enable
+> callback ?
 
-Fix:
+atomic_enable returns void so you can't fail the atomic_enable.
+All you're doing is reading a register and potentially logging an
+error - surely that can be done from any context.
 
-  In file included from <command-line>:0:0:
-  drivers/gpu/drm/i915/gt/uc/intel_guc.c: In function ‘intel_guc_send_mmio’:
-  ././include/linux/compiler_types.h:352:38: error: call to ‘__compiletime_assert_1047’ \
-  declared with attribute error: FIELD_PREP: mask is not constant
-    _compiletime_assert(condition, msg, __compiletime_assert_, __COUNTER__)
+> > If I read it right your log message is triggered by any bit being set
+> > in REG_IRQ_STAT. So an inconveniently timed correctable DSI error will
+> > set bit 4 and log the error even though it's been corrected. Likewise
+> > bit 7 / CHA_SYNCH_ERR could get triggered by an H or V sync packet
+> > being received in that 10-12ms window (we're in atomic_enable, so
+> > video is already running).
+>
+> There should be no bits set in the IRQ_STAT register if everything works
+> as it should.
 
-and other build errors due to shift overflowing values.
+On a perfect link, yes.
 
-See https://lore.kernel.org/r/YkwQ6%2BtIH8GQpuct@zn.tnic for the gory
-details as to why it triggers with older gccs only.
+Looking at the top 4 bits.
 
-Signed-off-by: Borislav Petkov <bp@suse.de>
-Cc: Jani Nikula <jani.nikula@linux.intel.com>
-Cc: Joonas Lahtinen <joonas.lahtinen@linux.intel.com>
-Cc: Rodrigo Vivi <rodrigo.vivi@intel.com>
-Cc: Tvrtko Ursulin <tvrtko.ursulin@linux.intel.com>
-Cc: David Airlie <airlied@linux.ie>
-Cc: Daniel Vetter <daniel@ffwll.ch>
-Cc: intel-gfx@lists.freedesktop.org
-Cc: dri-devel@lists.freedesktop.org
----
- .../gpu/drm/i915/gt/uc/abi/guc_actions_abi.h   |  2 +-
- .../i915/gt/uc/abi/guc_communication_ctb_abi.h |  2 +-
- .../gpu/drm/i915/gt/uc/abi/guc_messages_abi.h  |  2 +-
- drivers/gpu/drm/i915/gt/uc/intel_guc_reg.h     |  2 +-
- drivers/gpu/drm/i915/i915_reg.h                | 18 +++++++++---------
- 5 files changed, 13 insertions(+), 13 deletions(-)
+Bit 4
+CHA_COR_ECC_ERR
+When the DSI channel A packet processor detects a correctable ECC
+error, this bit is set.
 
-diff --git a/drivers/gpu/drm/i915/gt/uc/abi/guc_actions_abi.h b/drivers/gpu/drm/i915/gt/uc/abi/guc_actions_abi.h
-index 7afdadc7656f..e835f28c0020 100644
---- a/drivers/gpu/drm/i915/gt/uc/abi/guc_actions_abi.h
-+++ b/drivers/gpu/drm/i915/gt/uc/abi/guc_actions_abi.h
-@@ -50,7 +50,7 @@
- 
- #define HOST2GUC_SELF_CFG_REQUEST_MSG_LEN		(GUC_HXG_REQUEST_MSG_MIN_LEN + 3u)
- #define HOST2GUC_SELF_CFG_REQUEST_MSG_0_MBZ		GUC_HXG_REQUEST_MSG_0_DATA0
--#define HOST2GUC_SELF_CFG_REQUEST_MSG_1_KLV_KEY		(0xffff << 16)
-+#define HOST2GUC_SELF_CFG_REQUEST_MSG_1_KLV_KEY		(0xffffU << 16)
- #define HOST2GUC_SELF_CFG_REQUEST_MSG_1_KLV_LEN		(0xffff << 0)
- #define HOST2GUC_SELF_CFG_REQUEST_MSG_2_VALUE32		GUC_HXG_REQUEST_MSG_n_DATAn
- #define HOST2GUC_SELF_CFG_REQUEST_MSG_3_VALUE64		GUC_HXG_REQUEST_MSG_n_DATAn
-diff --git a/drivers/gpu/drm/i915/gt/uc/abi/guc_communication_ctb_abi.h b/drivers/gpu/drm/i915/gt/uc/abi/guc_communication_ctb_abi.h
-index c9086a600bce..df83c1cc7c7a 100644
---- a/drivers/gpu/drm/i915/gt/uc/abi/guc_communication_ctb_abi.h
-+++ b/drivers/gpu/drm/i915/gt/uc/abi/guc_communication_ctb_abi.h
-@@ -82,7 +82,7 @@ static_assert(sizeof(struct guc_ct_buffer_desc) == 64);
- #define GUC_CTB_HDR_LEN				1u
- #define GUC_CTB_MSG_MIN_LEN			GUC_CTB_HDR_LEN
- #define GUC_CTB_MSG_MAX_LEN			256u
--#define GUC_CTB_MSG_0_FENCE			(0xffff << 16)
-+#define GUC_CTB_MSG_0_FENCE			(0xffffU << 16)
- #define GUC_CTB_MSG_0_FORMAT			(0xf << 12)
- #define   GUC_CTB_FORMAT_HXG			0u
- #define GUC_CTB_MSG_0_RESERVED			(0xf << 8)
-diff --git a/drivers/gpu/drm/i915/gt/uc/abi/guc_messages_abi.h b/drivers/gpu/drm/i915/gt/uc/abi/guc_messages_abi.h
-index 29ac823acd4c..7d5ba4d97d70 100644
---- a/drivers/gpu/drm/i915/gt/uc/abi/guc_messages_abi.h
-+++ b/drivers/gpu/drm/i915/gt/uc/abi/guc_messages_abi.h
-@@ -40,7 +40,7 @@
-  */
- 
- #define GUC_HXG_MSG_MIN_LEN			1u
--#define GUC_HXG_MSG_0_ORIGIN			(0x1 << 31)
-+#define GUC_HXG_MSG_0_ORIGIN			(0x1U << 31)
- #define   GUC_HXG_ORIGIN_HOST			0u
- #define   GUC_HXG_ORIGIN_GUC			1u
- #define GUC_HXG_MSG_0_TYPE			(0x7 << 28)
-diff --git a/drivers/gpu/drm/i915/gt/uc/intel_guc_reg.h b/drivers/gpu/drm/i915/gt/uc/intel_guc_reg.h
-index 66027a42cda9..ad570fa002a6 100644
---- a/drivers/gpu/drm/i915/gt/uc/intel_guc_reg.h
-+++ b/drivers/gpu/drm/i915/gt/uc/intel_guc_reg.h
-@@ -28,7 +28,7 @@
- #define   GS_MIA_HALT_REQUESTED		  (0x02 << GS_MIA_SHIFT)
- #define   GS_MIA_ISR_ENTRY		  (0x04 << GS_MIA_SHIFT)
- #define   GS_AUTH_STATUS_SHIFT		30
--#define   GS_AUTH_STATUS_MASK		  (0x03 << GS_AUTH_STATUS_SHIFT)
-+#define   GS_AUTH_STATUS_MASK		  (0x03U << GS_AUTH_STATUS_SHIFT)
- #define   GS_AUTH_STATUS_BAD		  (0x01 << GS_AUTH_STATUS_SHIFT)
- #define   GS_AUTH_STATUS_GOOD		  (0x02 << GS_AUTH_STATUS_SHIFT)
- 
-diff --git a/drivers/gpu/drm/i915/i915_reg.h b/drivers/gpu/drm/i915/i915_reg.h
-index 3c87d77d2cf6..f3ba3d0a430b 100644
---- a/drivers/gpu/drm/i915/i915_reg.h
-+++ b/drivers/gpu/drm/i915/i915_reg.h
-@@ -7555,19 +7555,19 @@ enum skl_power_gate {
- #define  PORT_CLK_SEL_LCPLL_810		(2 << 29)
- #define  PORT_CLK_SEL_SPLL		(3 << 29)
- #define  PORT_CLK_SEL_WRPLL(pll)	(((pll) + 4) << 29)
--#define  PORT_CLK_SEL_WRPLL1		(4 << 29)
--#define  PORT_CLK_SEL_WRPLL2		(5 << 29)
--#define  PORT_CLK_SEL_NONE		(7 << 29)
--#define  PORT_CLK_SEL_MASK		(7 << 29)
-+#define  PORT_CLK_SEL_WRPLL1		(4U << 29)
-+#define  PORT_CLK_SEL_WRPLL2		(5U << 29)
-+#define  PORT_CLK_SEL_NONE		(7U << 29)
-+#define  PORT_CLK_SEL_MASK		(7U << 29)
- 
- /* On ICL+ this is the same as PORT_CLK_SEL, but all bits change. */
- #define DDI_CLK_SEL(port)		PORT_CLK_SEL(port)
- #define  DDI_CLK_SEL_NONE		(0x0 << 28)
--#define  DDI_CLK_SEL_MG			(0x8 << 28)
--#define  DDI_CLK_SEL_TBT_162		(0xC << 28)
--#define  DDI_CLK_SEL_TBT_270		(0xD << 28)
--#define  DDI_CLK_SEL_TBT_540		(0xE << 28)
--#define  DDI_CLK_SEL_TBT_810		(0xF << 28)
-+#define  DDI_CLK_SEL_MG			(0x8U << 28)
-+#define  DDI_CLK_SEL_TBT_162		(0xCU << 28)
-+#define  DDI_CLK_SEL_TBT_270		(0xDU << 28)
-+#define  DDI_CLK_SEL_TBT_540		(0xEU << 28)
-+#define  DDI_CLK_SEL_TBT_810		(0xFU << 28)
- #define  DDI_CLK_SEL_MASK		(0xF << 28)
- 
- /* Transcoder clock selection */
--- 
-2.35.1
+The error is corrected, so why do we care? The display is still working.
 
+Bit 5
+CHA_UNC_ECC_ERR
+When the DSI channel A packet processor detects an uncorrectable ECC
+error, this bit is set;
+Bit 6
+CHA_CRC_ERR
+When the DSI channel A packet processor detects a data stream CRC error,
+this bit is set
+
+It doesn't say what behaviour the DSI83 will take under these
+circumstances, but shouldn't be fatal to the display.
+
+Bit 7
+CHA_SYNCH_ERR
+When the DSI channel A packet processor detects an HS or VS
+synchronization error, that is, an unexpected sync packet; this bit is
+set.
+
+It's happened, but shouldn't be fatal, so why do we care? The display
+should pick up correctly at the start of the next frame.
+As I've already said, we're in atomic_enable and video is therefore
+running, this is highly plausibly going to happen. We've delayed for
+4-5ms in sn65dsi83_atomic_enable, so we're a third of the way through
+a frame at 60fps. The chances of seeing a VS or HS packet at an
+unexpected time is therefore high.
+
+Bits 2 & 3 look equally inconsequential.
+
+Bit 0 as PLL unlock would cause grief.
+
+> > If it's the PLL being unlocked that is the issue then it should only
+> > be checking bit 0. Or possibly reading the actual PLL lock status from
+> > REG_RC_LVDS_PLL_PLL_EN_STAT. Although as we've already checked that
+> > the PLL is locked via REG_RC_LVDS_PLL_PLL_EN_STAT earlier in the
+> > atomic_enable, I'm now a little confused as to the condition you are
+> > actually wanting to detect.
+>
+> Any outstanding errors which are currently hidden and only show up
+> sporadically at the worst possible moment.
+
+If you were constantly looking at the status then that would be reasonable.
+To be looking during one specific 10-12ms period of time for some
+fairly generic status values seems a little redundant, and a waste of
+time in delaying the atomic_enable.
+
+It'll be interesting to see if these events just go away when the
+initialisation sequence specified in the datasheet is being followed.
+Let's leave the debate until then, as it's currently fairly arbitrary.
+
+  Dave
