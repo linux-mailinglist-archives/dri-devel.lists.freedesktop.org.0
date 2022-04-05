@@ -2,37 +2,36 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id CB47E4F270F
-	for <lists+dri-devel@lfdr.de>; Tue,  5 Apr 2022 10:06:40 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id A75014F2856
+	for <lists+dri-devel@lfdr.de>; Tue,  5 Apr 2022 10:20:31 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 3199110EFFB;
-	Tue,  5 Apr 2022 08:06:37 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 2AE4610F13D;
+	Tue,  5 Apr 2022 08:20:29 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from ams.source.kernel.org (ams.source.kernel.org
- [IPv6:2604:1380:4601:e00::1])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 13B2010EFFB
- for <dri-devel@lists.freedesktop.org>; Tue,  5 Apr 2022 08:06:35 +0000 (UTC)
+Received: from ams.source.kernel.org (ams.source.kernel.org [145.40.68.75])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 1A8EC10F13D
+ for <dri-devel@lists.freedesktop.org>; Tue,  5 Apr 2022 08:20:28 +0000 (UTC)
 Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
  (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
  (No client certificate requested)
- by ams.source.kernel.org (Postfix) with ESMTPS id A0140B81BB2;
- Tue,  5 Apr 2022 08:06:33 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id BBFFEC385A2;
- Tue,  5 Apr 2022 08:06:31 +0000 (UTC)
+ by ams.source.kernel.org (Postfix) with ESMTPS id 8B41EB81B92;
+ Tue,  5 Apr 2022 08:20:26 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id E9D29C385A4;
+ Tue,  5 Apr 2022 08:20:24 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linuxfoundation.org;
- s=korg; t=1649145992;
- bh=weF/+fdsg4H1uMnMRru4rmj6Vwi3n8PJR9iKpewABAA=;
+ s=korg; t=1649146825;
+ bh=qW1x31HnZxqlWv9yLK7leVGiHSRFHxjgpFRqN+3ePM4=;
  h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
- b=JNLVnZ2PsQNXsbZz9qt8XLbDMXijzgKvBtJ7/7dUVeyQOcKjWSB9twr++pdn6Wqzl
- ZUyzSAK5K9uQkST5ZDa3yHAYrTLXA85yi+MOYNYiKOL7wAmTwnfX5xqE7of+Wat8NM
- gL18VbRq3I7dRUbcRQfL0JXJxpqoOJjd89f+ocvY=
+ b=bsJZsHI+TBKqkMNhBKBqciGASA47um7CDLpgyfHSZXgFbWwN6E0NLA7PrCTlNFOpc
+ UqElw566k199UyfewNA1p1ckCKV3Ouax3LsGUHPNfXLIxAQX9Z8qXm/uCJTT0gQ6s4
+ KXtvtWOpLTbJJvMN+iLAlFfLMyiYaxdySGXktvLA=
 From: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
 To: linux-kernel@vger.kernel.org
-Subject: [PATCH 5.17 0604/1126] drm/dp: Fix OOB read when handling Post
- Cursor2 register
-Date: Tue,  5 Apr 2022 09:22:31 +0200
-Message-Id: <20220405070425.363510901@linuxfoundation.org>
+Subject: [PATCH 5.17 0902/1126] video: fbdev: nvidiafb: Use strscpy() to
+ prevent buffer overflow
+Date: Tue,  5 Apr 2022 09:27:29 +0200
+Message-Id: <20220405070434.006314514@linuxfoundation.org>
 X-Mailer: git-send-email 2.35.1
 In-Reply-To: <20220405070407.513532867@linuxfoundation.org>
 References: <20220405070407.513532867@linuxfoundation.org>
@@ -52,116 +51,57 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Sasha Levin <sashal@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>,
- David Airlie <airlied@linux.ie>,
- Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
- dri-devel@lists.freedesktop.org, "Gustavo A. R. Silva" <gustavoars@kernel.org>,
- Jani Nikula <jani.nikula@intel.com>, stable@vger.kernel.org,
- Thierry Reding <treding@nvidia.com>, Kees Cook <keescook@chromium.org>
+Cc: Sasha Levin <sashal@kernel.org>, linux-fbdev@vger.kernel.org,
+ Antonino Daplas <adaplas@gmail.com>,
+ Greg Kroah-Hartman <gregkh@linuxfoundation.org>, Helge Deller <deller@gmx.de>,
+ dri-devel@lists.freedesktop.org, stable@vger.kernel.org,
+ Tim Gardner <tim.gardner@canonical.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-From: Kees Cook <keescook@chromium.org>
+From: Tim Gardner <tim.gardner@canonical.com>
 
-[ Upstream commit a2151490cc6c57b368d7974ffd447a8b36ade639 ]
+[ Upstream commit 37a1a2e6eeeb101285cd34e12e48a881524701aa ]
 
-The link_status array was not large enough to read the Adjust Request
-Post Cursor2 register, so remove the common helper function to avoid
-an OOB read, found with a -Warray-bounds build:
+Coverity complains of a possible buffer overflow. However,
+given the 'static' scope of nvidia_setup_i2c_bus() it looks
+like that can't happen after examiniing the call sites.
 
-drivers/gpu/drm/drm_dp_helper.c: In function 'drm_dp_get_adjust_request_post_cursor':
-drivers/gpu/drm/drm_dp_helper.c:59:27: error: array subscript 10 is outside array bounds of 'const u8[6]' {aka 'const unsigned char[6]'} [-Werror=array-bounds]
-   59 |         return link_status[r - DP_LANE0_1_STATUS];
-      |                ~~~~~~~~~~~^~~~~~~~~~~~~~~~~~~~~~~
-drivers/gpu/drm/drm_dp_helper.c:147:51: note: while referencing 'link_status'
-  147 | u8 drm_dp_get_adjust_request_post_cursor(const u8 link_status[DP_LINK_STATUS_SIZE],
-      |                                          ~~~~~~~~~^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+CID 19036 (#1 of 1): Copy into fixed size buffer (STRING_OVERFLOW)
+1. fixed_size_dest: You might overrun the 48-character fixed-size string
+  chan->adapter.name by copying name without checking the length.
+2. parameter_as_source: Note: This defect has an elevated risk because the
+  source argument is a parameter of the current function.
+ 89        strcpy(chan->adapter.name, name);
 
-Replace the only user of the helper with an open-coded fetch and decode,
-similar to drivers/gpu/drm/amd/display/dc/core/dc_link_dp.c.
+Fix this warning by using strscpy() which will silence the warning and
+prevent any future buffer overflows should the names used to identify the
+channel become much longer.
 
-Cc: Daniel Vetter <daniel@ffwll.ch>
-Cc: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>
-Cc: Maxime Ripard <mripard@kernel.org>
-Cc: Thomas Zimmermann <tzimmermann@suse.de>
-Cc: David Airlie <airlied@linux.ie>
+Cc: Antonino Daplas <adaplas@gmail.com>
+Cc: linux-fbdev@vger.kernel.org
 Cc: dri-devel@lists.freedesktop.org
-Fixes: 79465e0ffeb9 ("drm/dp: Add helper to get post-cursor adjustments")
-Signed-off-by: Kees Cook <keescook@chromium.org>
-Reviewed-by: Gustavo A. R. Silva <gustavoars@kernel.org>
-Reviewed-by: Jani Nikula <jani.nikula@intel.com>
-Link: https://lore.kernel.org/r/20220105173507.2420910-1-keescook@chromium.org
-Signed-off-by: Thierry Reding <treding@nvidia.com>
+Cc: linux-kernel@vger.kernel.org
+Signed-off-by: Tim Gardner <tim.gardner@canonical.com>
+Signed-off-by: Helge Deller <deller@gmx.de>
 Signed-off-by: Sasha Levin <sashal@kernel.org>
 ---
- drivers/gpu/drm/drm_dp_helper.c | 10 ----------
- drivers/gpu/drm/tegra/dp.c      | 11 ++++++++++-
- include/drm/drm_dp_helper.h     |  2 --
- 3 files changed, 10 insertions(+), 13 deletions(-)
+ drivers/video/fbdev/nvidia/nv_i2c.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/drivers/gpu/drm/drm_dp_helper.c b/drivers/gpu/drm/drm_dp_helper.c
-index 23f9073bc473..c9528aa62c9c 100644
---- a/drivers/gpu/drm/drm_dp_helper.c
-+++ b/drivers/gpu/drm/drm_dp_helper.c
-@@ -144,16 +144,6 @@ u8 drm_dp_get_adjust_tx_ffe_preset(const u8 link_status[DP_LINK_STATUS_SIZE],
- }
- EXPORT_SYMBOL(drm_dp_get_adjust_tx_ffe_preset);
- 
--u8 drm_dp_get_adjust_request_post_cursor(const u8 link_status[DP_LINK_STATUS_SIZE],
--					 unsigned int lane)
--{
--	unsigned int offset = DP_ADJUST_REQUEST_POST_CURSOR2;
--	u8 value = dp_link_status(link_status, offset);
--
--	return (value >> (lane << 1)) & 0x3;
--}
--EXPORT_SYMBOL(drm_dp_get_adjust_request_post_cursor);
--
- static int __8b10b_clock_recovery_delay_us(const struct drm_dp_aux *aux, u8 rd_interval)
+diff --git a/drivers/video/fbdev/nvidia/nv_i2c.c b/drivers/video/fbdev/nvidia/nv_i2c.c
+index d7994a173245..0b48965a6420 100644
+--- a/drivers/video/fbdev/nvidia/nv_i2c.c
++++ b/drivers/video/fbdev/nvidia/nv_i2c.c
+@@ -86,7 +86,7 @@ static int nvidia_setup_i2c_bus(struct nvidia_i2c_chan *chan, const char *name,
  {
- 	if (rd_interval > 4)
-diff --git a/drivers/gpu/drm/tegra/dp.c b/drivers/gpu/drm/tegra/dp.c
-index 70dfb7d1dec5..f5535eb04c6b 100644
---- a/drivers/gpu/drm/tegra/dp.c
-+++ b/drivers/gpu/drm/tegra/dp.c
-@@ -549,6 +549,15 @@ static void drm_dp_link_get_adjustments(struct drm_dp_link *link,
- {
- 	struct drm_dp_link_train_set *adjust = &link->train.adjust;
- 	unsigned int i;
-+	u8 post_cursor;
-+	int err;
-+
-+	err = drm_dp_dpcd_read(link->aux, DP_ADJUST_REQUEST_POST_CURSOR2,
-+			       &post_cursor, sizeof(post_cursor));
-+	if (err < 0) {
-+		DRM_ERROR("failed to read post_cursor2: %d\n", err);
-+		post_cursor = 0;
-+	}
+ 	int rc;
  
- 	for (i = 0; i < link->lanes; i++) {
- 		adjust->voltage_swing[i] =
-@@ -560,7 +569,7 @@ static void drm_dp_link_get_adjustments(struct drm_dp_link *link,
- 				DP_TRAIN_PRE_EMPHASIS_SHIFT;
- 
- 		adjust->post_cursor[i] =
--			drm_dp_get_adjust_request_post_cursor(status, i);
-+			(post_cursor >> (i << 1)) & 0x3;
- 	}
- }
- 
-diff --git a/include/drm/drm_dp_helper.h b/include/drm/drm_dp_helper.h
-index 30359e434c3f..28378db676c8 100644
---- a/include/drm/drm_dp_helper.h
-+++ b/include/drm/drm_dp_helper.h
-@@ -1528,8 +1528,6 @@ u8 drm_dp_get_adjust_request_pre_emphasis(const u8 link_status[DP_LINK_STATUS_SI
- 					  int lane);
- u8 drm_dp_get_adjust_tx_ffe_preset(const u8 link_status[DP_LINK_STATUS_SIZE],
- 				   int lane);
--u8 drm_dp_get_adjust_request_post_cursor(const u8 link_status[DP_LINK_STATUS_SIZE],
--					 unsigned int lane);
- 
- #define DP_BRANCH_OUI_HEADER_SIZE	0xc
- #define DP_RECEIVER_CAP_SIZE		0xf
+-	strcpy(chan->adapter.name, name);
++	strscpy(chan->adapter.name, name, sizeof(chan->adapter.name));
+ 	chan->adapter.owner = THIS_MODULE;
+ 	chan->adapter.class = i2c_class;
+ 	chan->adapter.algo_data = &chan->algo;
 -- 
 2.34.1
 
