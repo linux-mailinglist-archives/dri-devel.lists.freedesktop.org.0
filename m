@@ -2,42 +2,68 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id A8EBC4F2595
-	for <lists+dri-devel@lfdr.de>; Tue,  5 Apr 2022 09:48:49 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 751FD4F24B0
+	for <lists+dri-devel@lfdr.de>; Tue,  5 Apr 2022 09:26:06 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id DACD510E45E;
-	Tue,  5 Apr 2022 07:48:47 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id C8F9510EEE3;
+	Tue,  5 Apr 2022 07:26:00 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 6E97110E45E
- for <dri-devel@lists.freedesktop.org>; Tue,  5 Apr 2022 07:48:46 +0000 (UTC)
-Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
- (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
- (No client certificate requested)
- by dfw.source.kernel.org (Postfix) with ESMTPS id D05F16172C;
- Tue,  5 Apr 2022 07:48:45 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id B3D97C34110;
- Tue,  5 Apr 2022 07:48:43 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linuxfoundation.org;
- s=korg; t=1649144924;
- bh=IV/c1dNZq5Imz6GlTesiiw6Gbmo/NPg97KtelmdkllE=;
- h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
- b=VP0JEGhXzFj5sXm+NOlf5YRK2c+kXwGPUMNrxZzzWxS81cPMuhF2LhG/C3pH8IEq+
- N6B/tbYGmOx9SmeUKOkXTpZMjytjqq2HuT3QfX7SbsA7mdlCVoMo5ao1ucSfP0wy5I
- PSOKFmvAJGlh+sZBo6NvoPi+AEXlLoAHJtq7bNy4=
-From: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-To: linux-kernel@vger.kernel.org
-Subject: [PATCH 5.17 0186/1126] drm/fb-helper: Mark screen buffers in system
- memory with FBINFO_VIRTFB
-Date: Tue,  5 Apr 2022 09:15:33 +0200
-Message-Id: <20220405070413.066504239@linuxfoundation.org>
-X-Mailer: git-send-email 2.35.1
-In-Reply-To: <20220405070407.513532867@linuxfoundation.org>
-References: <20220405070407.513532867@linuxfoundation.org>
-User-Agent: quilt/0.66
+Received: from mail-ej1-x634.google.com (mail-ej1-x634.google.com
+ [IPv6:2a00:1450:4864:20::634])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 6FCC410EEE2;
+ Tue,  5 Apr 2022 07:25:59 +0000 (UTC)
+Received: by mail-ej1-x634.google.com with SMTP id bq8so24734161ejb.10;
+ Tue, 05 Apr 2022 00:25:59 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
+ h=message-id:date:mime-version:user-agent:subject:content-language:to
+ :cc:references:from:in-reply-to:content-transfer-encoding;
+ bh=3NJs3TJQkDKHjsGpm5fK36QM+EjCa9yPVHi4w1j6TIM=;
+ b=EDIFosjFuzTfFaQTcs7VOeyPm632EBUUkn27uNm35fMklHHNxkTwm3Ku1jRafdagB4
+ mdihxCCNZemb/kS6c8T9uIkYlYdKPP+/PhkN4Msn0tZ37cWK0arGGcjlbA+QhO0VfJwP
+ Ca9X6kZWoqdZdEbchGp5ppOg+TCMgnX8W5Mp97Pkh7JMXQ6mIHSCWIiesiX5/YlXyRB3
+ Uptb8tbOhn6gf+JDQOiIL5Jocw9iLq3qZsENNq7pCYHNT4Ogq8qK+g5PqrLb9b7tEJB+
+ ATmNuG6clceAvFjae137WN0ozpkNQqX6l/e1wDwIk2ANV2kDZDDfTxKMceF0gT3H3HH5
+ f4tA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
+ :content-language:to:cc:references:from:in-reply-to
+ :content-transfer-encoding;
+ bh=3NJs3TJQkDKHjsGpm5fK36QM+EjCa9yPVHi4w1j6TIM=;
+ b=jrzP7BBuPiSDYDF35IdvSyRGkUws4kSg9VPIdFf13oslTRuRVjY7C6vaxpehYx55/n
+ x7JMUkVi6fC5z+OJUFHpxCMSGA+t0QMbRM5trgthVgwSHTx1PCOOhQatSShOAw0o0B4U
+ +RG7fIs8DZ0beOY4heyyewwa26poyQhEE1nbWbqaWoL8N4BAlvcUpuUYTyPEK579AlVn
+ CYlLnxw17ZsO34brCJekOKEDEmNwUi1va8nV6YmFmKOdCDr0FCXYn8Wh2zZeIeE15nxs
+ kyCG+oujOCtXhOB2+pjyrNOPBs6WDgJEeQaHZHC/fpCJp1pne/HY4J7Zrylg/UXiMsCG
+ olOg==
+X-Gm-Message-State: AOAM530+MxdicL3Q7r2ZtK4EWFw9AZy/YZwnOZslxhnEikAVUA6K1zGd
+ 6z+BqOGX/WO171Fmur7mtQM=
+X-Google-Smtp-Source: ABdhPJwi6D5AH7obqmIABOGtSwk/H4uki4N9XPDglhCsrEF3w6AGcefZwAXj9HmvyXSo8T5mTpdsmQ==
+X-Received: by 2002:a17:906:3a04:b0:6d0:8d78:2758 with SMTP id
+ z4-20020a1709063a0400b006d08d782758mr2131462eje.685.1649143557804; 
+ Tue, 05 Apr 2022 00:25:57 -0700 (PDT)
+Received: from [192.168.178.21] (p5b0eab60.dip0.t-ipconnect.de. [91.14.171.96])
+ by smtp.gmail.com with ESMTPSA id
+ j21-20020a170906255500b006e08c4862ccsm5268902ejb.96.2022.04.05.00.25.51
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Tue, 05 Apr 2022 00:25:56 -0700 (PDT)
+Message-ID: <2a95c60e-a455-c721-f9d2-280505cb0061@gmail.com>
+Date: Tue, 5 Apr 2022 09:25:50 +0200
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.7.0
+Subject: Re: [PATCH 06/23] drm/nouveau: stop using dma_resv_excl_fence
+Content-Language: en-US
+To: Karol Herbst <kherbst@redhat.com>,
+ =?UTF-8?Q?Christian_K=c3=b6nig?= <christian.koenig@amd.com>
+References: <20220321135856.1331-1-christian.koenig@amd.com>
+ <20220321135856.1331-6-christian.koenig@amd.com>
+ <b9eb079c-3ec3-6095-92ab-5dbfab88d327@amd.com>
+ <CACO55ttbz2vtr_3F=koenYW0S_238_FHXZ_w=r+i_X49ke+BYg@mail.gmail.com>
+From: =?UTF-8?Q?Christian_K=c3=b6nig?= <ckoenig.leichtzumerken@gmail.com>
+In-Reply-To: <CACO55ttbz2vtr_3F=koenYW0S_238_FHXZ_w=r+i_X49ke+BYg@mail.gmail.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -51,73 +77,64 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
- dri-devel@lists.freedesktop.org, Thomas Zimmermann <tzimmermann@suse.de>,
- stable@vger.kernel.org, Daniel Vetter <daniel.vetter@ffwll.ch>
+Cc: nouveau <nouveau@lists.freedesktop.org>, Ben Skeggs <bskeggs@redhat.com>,
+ dri-devel <dri-devel@lists.freedesktop.org>,
+ Daniel Vetter <daniel.vetter@ffwll.ch>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-From: Thomas Zimmermann <tzimmermann@suse.de>
+Am 04.04.22 um 13:47 schrieb Karol Herbst:
+> On Sun, Apr 3, 2022 at 5:59 PM Christian König <christian.koenig@amd.com> wrote:
+>> Just a gentle ping to the nouveau guys.
+>>
+>> Any more comments on this? Otherwise I'm pushing that with Daniels rb.
+>>
+> It looks fine, but given that this area broke in the past I will try
+> to do some testing either before or after you push it. As long as we
+> do so before 5.19 it should be okay I think.
 
-commit cd9f7f7ac5932129fe81b4c7559cfcb226ec7c5c upstream.
+Ok that's sounds good enough to me. Going to push it to drm-misc-next now.
 
-Mark screen buffers in system memory with FBINFO_VIRTFB. Otherwise, fbdev
-deferred I/O marks mmap'ed areas of system memory with VM_IO. (There's an
-inverse relationship between the two flags.)
+Thanks,
+Christian.
 
-For shadow buffers, also set the FBINFO_READS_FAST hint.
-
-v3:
-	* change FB_ to FBINFO_ in commit description
-v2:
-	* updated commit description (Daniel)
-	* added Fixes tag
-
-Signed-off-by: Thomas Zimmermann <tzimmermann@suse.de>
-Fixes: d536540f304c ("drm/fb-helper: Add generic fbdev emulation .fb_probe function")
-Reviewed-by: Daniel Vetter <daniel.vetter@ffwll.ch>
-Cc: dri-devel@lists.freedesktop.org
-Cc: <stable@vger.kernel.org> # v4.19+
-Link: https://patchwork.freedesktop.org/patch/msgid/20220201115305.9333-1-tzimmermann@suse.de
-Signed-off-by: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
----
- drivers/gpu/drm/drm_fb_helper.c |    9 ++++++---
- 1 file changed, 6 insertions(+), 3 deletions(-)
-
---- a/drivers/gpu/drm/drm_fb_helper.c
-+++ b/drivers/gpu/drm/drm_fb_helper.c
-@@ -2346,6 +2346,7 @@ static int drm_fb_helper_generic_probe(s
- 	fbi->fbops = &drm_fbdev_fb_ops;
- 	fbi->screen_size = sizes->surface_height * fb->pitches[0];
- 	fbi->fix.smem_len = fbi->screen_size;
-+	fbi->flags = FBINFO_DEFAULT;
- 
- 	drm_fb_helper_fill_info(fbi, fb_helper, sizes);
- 
-@@ -2353,19 +2354,21 @@ static int drm_fb_helper_generic_probe(s
- 		fbi->screen_buffer = vzalloc(fbi->screen_size);
- 		if (!fbi->screen_buffer)
- 			return -ENOMEM;
-+		fbi->flags |= FBINFO_VIRTFB | FBINFO_READS_FAST;
- 
- 		fbi->fbdefio = &drm_fbdev_defio;
--
- 		fb_deferred_io_init(fbi);
- 	} else {
- 		/* buffer is mapped for HW framebuffer */
- 		ret = drm_client_buffer_vmap(fb_helper->buffer, &map);
- 		if (ret)
- 			return ret;
--		if (map.is_iomem)
-+		if (map.is_iomem) {
- 			fbi->screen_base = map.vaddr_iomem;
--		else
-+		} else {
- 			fbi->screen_buffer = map.vaddr;
-+			fbi->flags |= FBINFO_VIRTFB;
-+		}
- 
- 		/*
- 		 * Shamelessly leak the physical address to user-space. As
-
+>
+> Unless somebody knowing more about this code has anything else to say.
+>
+>> Thanks,
+>> Christian.
+>>
+>> Am 21.03.22 um 14:58 schrieb Christian König:
+>>> Instead use the new dma_resv_get_singleton function.
+>>>
+>>> Signed-off-by: Christian König <christian.koenig@amd.com>
+>>> Reviewed-by: Daniel Vetter <daniel.vetter@ffwll.ch>
+>>> Cc: Ben Skeggs <bskeggs@redhat.com>
+>>> Cc: Karol Herbst <kherbst@redhat.com>
+>>> Cc: Lyude Paul <lyude@redhat.com>
+>>> Cc: nouveau@lists.freedesktop.org
+>>> ---
+>>>    drivers/gpu/drm/nouveau/nouveau_bo.c | 9 ++++++++-
+>>>    1 file changed, 8 insertions(+), 1 deletion(-)
+>>>
+>>> diff --git a/drivers/gpu/drm/nouveau/nouveau_bo.c b/drivers/gpu/drm/nouveau/nouveau_bo.c
+>>> index fa73fe57f97b..74f8652d2bd3 100644
+>>> --- a/drivers/gpu/drm/nouveau/nouveau_bo.c
+>>> +++ b/drivers/gpu/drm/nouveau/nouveau_bo.c
+>>> @@ -959,7 +959,14 @@ nouveau_bo_vm_cleanup(struct ttm_buffer_object *bo,
+>>>    {
+>>>        struct nouveau_drm *drm = nouveau_bdev(bo->bdev);
+>>>        struct drm_device *dev = drm->dev;
+>>> -     struct dma_fence *fence = dma_resv_excl_fence(bo->base.resv);
+>>> +     struct dma_fence *fence;
+>>> +     int ret;
+>>> +
+>>> +     /* TODO: This is actually a memory management dependency */
+>>> +     ret = dma_resv_get_singleton(bo->base.resv, false, &fence);
+>>> +     if (ret)
+>>> +             dma_resv_wait_timeout(bo->base.resv, false, false,
+>>> +                                   MAX_SCHEDULE_TIMEOUT);
+>>>
+>>>        nv10_bo_put_tile_region(dev, *old_tile, fence);
+>>>        *old_tile = new_tile;
 
