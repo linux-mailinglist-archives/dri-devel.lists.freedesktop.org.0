@@ -2,133 +2,75 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9C2AE4F59B8
-	for <lists+dri-devel@lfdr.de>; Wed,  6 Apr 2022 11:27:27 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 2EB8D4F59BA
+	for <lists+dri-devel@lfdr.de>; Wed,  6 Apr 2022 11:27:55 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 4FA2C10F2AB;
-	Wed,  6 Apr 2022 09:27:24 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id E0FF110F2C1;
+	Wed,  6 Apr 2022 09:27:52 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from EUR05-VI1-obe.outbound.protection.outlook.com
- (mail-vi1eur05on2047.outbound.protection.outlook.com [40.107.21.47])
- by gabe.freedesktop.org (Postfix) with ESMTPS id EBB9710F2AB
- for <dri-devel@lists.freedesktop.org>; Wed,  6 Apr 2022 09:27:22 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=armh.onmicrosoft.com; 
- s=selector2-armh-onmicrosoft-com;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=C1t0nEOQkwLs7xW6ArjE7M/kMg+2GkTmYLzd2EW91/U=;
- b=2dzGAq/X5FaPqcRSkRFGfhHxBA1e9Wxd77y7O1J6XWfbF3fyu48pzvwYcTivncWbIham52Y6R2hs7UaojrqNUmwX2Azxx7kEL/zyzHnMqJP1yDm04AmN90+MeKCE/JZW+y/d83Z7aRGDocF+oqvbD7pSGheWO5aQpnM7XpyAj3U=
-Received: from DB8PR06CA0058.eurprd06.prod.outlook.com (2603:10a6:10:120::32)
- by AM6PR08MB3512.eurprd08.prod.outlook.com (2603:10a6:20b:4f::24)
- with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.5123.31; Wed, 6 Apr
- 2022 09:27:14 +0000
-Received: from DB5EUR03FT045.eop-EUR03.prod.protection.outlook.com
- (2603:10a6:10:120:cafe::b7) by DB8PR06CA0058.outlook.office365.com
- (2603:10a6:10:120::32) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.5144.21 via Frontend
- Transport; Wed, 6 Apr 2022 09:27:14 +0000
-X-MS-Exchange-Authentication-Results: spf=pass (sender IP is 63.35.35.123)
- smtp.mailfrom=arm.com; dkim=pass (signature was verified)
- header.d=armh.onmicrosoft.com;dmarc=pass action=none header.from=arm.com;
-Received-SPF: Pass (protection.outlook.com: domain of arm.com designates
- 63.35.35.123 as permitted sender) receiver=protection.outlook.com;
- client-ip=63.35.35.123; helo=64aa7808-outbound-1.mta.getcheckrecipient.com;
-Received: from 64aa7808-outbound-1.mta.getcheckrecipient.com (63.35.35.123) by
- DB5EUR03FT045.mail.protection.outlook.com (10.152.21.164) with
- Microsoft SMTP
- Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.20.5123.19 via Frontend Transport; Wed, 6 Apr 2022 09:27:14 +0000
-Received: ("Tessian outbound 2d401af10eb3:v118");
- Wed, 06 Apr 2022 09:27:14 +0000
-X-CheckRecipientChecked: true
-X-CR-MTA-CID: 2121cf8f3e36a0a9
-X-CR-MTA-TID: 64aa7808
-Received: from d2c5bf162a18.1
- by 64aa7808-outbound-1.mta.getcheckrecipient.com id
- 8CBC6821-1B77-48C6-9AE6-51E68C370A4B.1; 
- Wed, 06 Apr 2022 09:27:04 +0000
-Received: from EUR04-DB3-obe.outbound.protection.outlook.com
- by 64aa7808-outbound-1.mta.getcheckrecipient.com with ESMTPS id d2c5bf162a18.1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384);
- Wed, 06 Apr 2022 09:27:04 +0000
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=f8SmK37msD1zbNWI1a1raSA2LltAxZwRodx5UsyyU8KQsyEE4wITWP0lv5/dOAnTs8Q/NHA92ntWf2ntR/P6SIM3YuGspiyv9Zp+fwViiuWuG5/lqFRDHzrLb2ZkttiWruLt8tLst5dKZvZOeNI3lJkrzI99tDF8Q9/k1aF77nib52D/oYrvUoDJb2aErv+F2SQ6F2/CqiwDOezg5UEttdw3LNVaPqTbGMVRgIO9Em6Z1fOpKjMWaDCLLKG6NcLzv+gs/5iB0RffHo2wyxG6oQ0+0myLNXI/xfnyfjGGlImSf+hgQHoNfu2YcRFsnPHGaaqzdDDf+38i+8ZeCkIF2Q==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=C1t0nEOQkwLs7xW6ArjE7M/kMg+2GkTmYLzd2EW91/U=;
- b=QgXXNhXQ7cM4FDPRA9vJNKOXXUb/J4JilwFoRPgB56A63de4FHKhD6QPHWi89LhrcDqRLCPLaBKgrGXxQ3FyDWR3FDfqOcts8GdiqaO3/uFTXXapdxGAME/tBWI46VGagc7fB8+9EUtDDyu7t7CPy3XgvHWr8CsnX8mWFtI6M9r/g0tH/OLJ6RDTTSOyq9CmZ7tX+tEyM77rKE2c+KGpPnKujUIUJoZrWntg7wrRSBSgkHlm4GMreLHSrfr/fbVVAKPT42WNLSLfFeb433xA4MW1R6d+LGLvg45w3FMhoT2HqCKiKANiy6dyFmx8V8PQD2azycerkvplAqobkOIZZg==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=arm.com; dmarc=pass action=none header.from=arm.com; dkim=pass
- header.d=arm.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=armh.onmicrosoft.com; 
- s=selector2-armh-onmicrosoft-com;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=C1t0nEOQkwLs7xW6ArjE7M/kMg+2GkTmYLzd2EW91/U=;
- b=2dzGAq/X5FaPqcRSkRFGfhHxBA1e9Wxd77y7O1J6XWfbF3fyu48pzvwYcTivncWbIham52Y6R2hs7UaojrqNUmwX2Azxx7kEL/zyzHnMqJP1yDm04AmN90+MeKCE/JZW+y/d83Z7aRGDocF+oqvbD7pSGheWO5aQpnM7XpyAj3U=
-Authentication-Results-Original: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=arm.com;
-Received: from DB9PR08MB6812.eurprd08.prod.outlook.com (2603:10a6:10:2a2::15)
- by VE1PR08MB5789.eurprd08.prod.outlook.com (2603:10a6:800:1b3::11)
- with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.5123.31; Wed, 6 Apr
- 2022 09:27:01 +0000
-Received: from DB9PR08MB6812.eurprd08.prod.outlook.com
- ([fe80::7d18:6735:d37c:23c4]) by DB9PR08MB6812.eurprd08.prod.outlook.com
- ([fe80::7d18:6735:d37c:23c4%8]) with mapi id 15.20.5123.031; Wed, 6 Apr 2022
- 09:27:01 +0000
-Date: Wed, 6 Apr 2022 10:27:00 +0100
-From: Brian Starkey <brian.starkey@arm.com>
-To: Robin Murphy <robin.murphy@arm.com>
-Subject: Re: [PATCH] drm/arm/malidp: Stop using iommu_present()
-Message-ID: <20220406092700.t7o7ujk4eqn7ckgr@000377403353>
-References: <5049994e6c2ba92c2f30d51850c8929136d0f8ca.1649167878.git.robin.murphy@arm.com>
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <5049994e6c2ba92c2f30d51850c8929136d0f8ca.1649167878.git.robin.murphy@arm.com>
-X-ClientProxiedBy: LNXP265CA0007.GBRP265.PROD.OUTLOOK.COM
- (2603:10a6:600:5e::19) To DB9PR08MB6812.eurprd08.prod.outlook.com
- (2603:10a6:10:2a2::15)
+Received: from mail-wm1-x32d.google.com (mail-wm1-x32d.google.com
+ [IPv6:2a00:1450:4864:20::32d])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 8F9BF10F2C1
+ for <dri-devel@lists.freedesktop.org>; Wed,  6 Apr 2022 09:27:51 +0000 (UTC)
+Received: by mail-wm1-x32d.google.com with SMTP id
+ n63-20020a1c2742000000b0038d0c31db6eso1232894wmn.1
+ for <dri-devel@lists.freedesktop.org>; Wed, 06 Apr 2022 02:27:51 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=baylibre-com.20210112.gappssmtp.com; s=20210112;
+ h=message-id:date:mime-version:user-agent:subject:content-language:to
+ :cc:references:from:organization:in-reply-to
+ :content-transfer-encoding;
+ bh=2dozhMA0WyNOQoebSOC067xsw7PeM67g26QO4MJYI9c=;
+ b=YiABsv8ezb2QdMFAfksoRNcpmDnrgdIFoNu7G3mrrM3uAwexApAQbCdrDThgZ/ifiQ
+ NOsNlPY64kHryCIrdgVsSxmHF/ttiGC7jwiORY9klfkhgyZmlHSv7xdJyrbKJRijQ0Td
+ welVRgfOmcJO9vTDKGrGZG86nG3DULjPqrJlXddw1NruKSEKyWM1mlKDUsJhhgqSFDNJ
+ BNTDnGh6+Uu2gr76FAvdzbo2TF8Yd2SKZDyFPQLGfTH6+y7lIkvUSC7yM4JgKzh2WHSu
+ OxwDF2ldERrMAedAWpp6a8K9y6zH4ppYO8hwIhG2MrWBuCipuDgM9nm8dwiiccmpidJ2
+ pyTA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
+ :content-language:to:cc:references:from:organization:in-reply-to
+ :content-transfer-encoding;
+ bh=2dozhMA0WyNOQoebSOC067xsw7PeM67g26QO4MJYI9c=;
+ b=YAU6xFcyS79Za6R8dsgw+/LFBN54kXKfJyGQb8FpmveicWtp3C6nlGgmOq5lg8lz++
+ mNjpY9PLTd5eonHZeWHtn4wl0fRXw4q0Mh4jZXbCgx9gxrYFCHhG1FPVPTREvTxmf7nU
+ Sa9CyL0yXTSSuyGJA1VKPgqHLVBVoj1NeQFaCWPSo0hyn13OusQO4r1FwlANO8v5E4Ld
+ L5WvVDCyZScWzXP8TbqQyituW8I/a4t5G5dvHfv0HRkn9Ie9DyR6MGTf70kNZoGAAD0V
+ EuobUvnYb/NXC9OQkanET9fEFx25bPZzdoxaL1PuMOmJ9jbeodoD3/pseYdW0KfQf+nU
+ R2eg==
+X-Gm-Message-State: AOAM533a7MJ5L3lrXqGjZSn0u0Id0CBe7yrqmiDPBhJPkDtcHo0+n7BG
+ iq86Lj5g5wNDlYdnEKBgvaSgzw==
+X-Google-Smtp-Source: ABdhPJxdkINh3/MgznBzEt+FOsDiMo/fYegNTWaGTdt+r2v7D9YejF49Vu9vjscBRiskwhBtptf1jw==
+X-Received: by 2002:a05:600c:5023:b0:38d:1261:aac6 with SMTP id
+ n35-20020a05600c502300b0038d1261aac6mr6553759wmr.180.1649237269847; 
+ Wed, 06 Apr 2022 02:27:49 -0700 (PDT)
+Received: from ?IPV6:2001:861:44c0:66c0:d960:ec5e:e421:9c9e?
+ ([2001:861:44c0:66c0:d960:ec5e:e421:9c9e])
+ by smtp.gmail.com with ESMTPSA id
+ i74-20020adf90d0000000b0020373ba7beesm19971003wri.0.2022.04.06.02.27.48
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Wed, 06 Apr 2022 02:27:49 -0700 (PDT)
+Message-ID: <224e9fec-2fab-b818-0b30-e3d83c7fd4be@baylibre.com>
+Date: Wed, 6 Apr 2022 11:27:48 +0200
 MIME-Version: 1.0
-X-MS-Office365-Filtering-Correlation-Id: 20c7a9f5-0f61-4b03-f4e1-08da17afa2ef
-X-MS-TrafficTypeDiagnostic: VE1PR08MB5789:EE_|DB5EUR03FT045:EE_|AM6PR08MB3512:EE_
-X-Microsoft-Antispam-PRVS: <AM6PR08MB3512C93F4FB5F937A787B84CF0E79@AM6PR08MB3512.eurprd08.prod.outlook.com>
-x-checkrecipientrouted: true
-NoDisclaimer: true
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam-Untrusted: BCL:0;
-X-Microsoft-Antispam-Message-Info-Original: rEjoPHpObQAzMcadS1OY3D4pBS8hnfT80z+In3PhGOVm0KFIFcIF48zlUiupPVQN30pLCk8WkUnDh428l3T8TcXjhrTIx+PUwnJbl6J1TA/RxCaqklKnfoWu+9t3O8aCul676zTwlinQcZWnHfNbGsAqpZOpCpP8RfL6Z1LwhqjiP/0rkVe/k7l6rMjck4aH+6AK4jS8T3PsIrGHaSUpGVJTEXxk3l11pO0+psDFOOlm6A9R+puBreInG8lwYfG0obGmEyawE0tbKyuWOgtIths8KsjLq6YIp+6yE/luKY9kZKB9JLxFGo+BN5ToK/pDL37YcuFs0pZfxfpUzO9WJfrfbqsszR5HbiMzpFYXiaZffcbWTDKxJE6rP92OYrhPeaSjDaTz/4KuIlOzdW89Rqv58l9ZdkqyCTUGqp8ubOhFHyaVEmWfJiL9vMMKY8APb6Sdkt++la+xaci2M5v8Pj7oxl+MM2phz4CR4ioZUb5eNoAofudBqJ6t52WOXMJEQPicp22a2937BsRasyxFqXu+QFkSAw10rTti8eYAU6IiKTOGwnctzJQg93+NHEDeTjyVwzGBQViyB9+1V3FU7UtSMTZNzkCsPJ2K5JGwWIIyuX6fBlTItiDJj2WEcoF2ypl79HcxgHIF6plfySdS6A==
-X-Forefront-Antispam-Report-Untrusted: CIP:255.255.255.255; CTRY:; LANG:en;
- SCL:1; SRV:; IPV:NLI; SFV:NSPM; H:DB9PR08MB6812.eurprd08.prod.outlook.com;
- PTR:; CAT:NONE;
- SFS:(13230001)(7916004)(4636009)(366004)(1076003)(83380400001)(2906002)(86362001)(186003)(26005)(44832011)(33716001)(6486002)(6636002)(6506007)(38100700002)(9686003)(5660300002)(8936002)(508600001)(6512007)(66946007)(316002)(6862004)(66556008)(4326008)(66476007)(8676002);
- DIR:OUT; SFP:1101; 
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: VE1PR08MB5789
-Original-Authentication-Results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=arm.com;
-X-EOPAttributedMessage: 0
-X-MS-Exchange-Transport-CrossTenantHeadersStripped: DB5EUR03FT045.eop-EUR03.prod.protection.outlook.com
-X-MS-PublicTrafficType: Email
-X-MS-Office365-Filtering-Correlation-Id-Prvs: 858a0126-0d02-472c-567f-08da17af9a77
-X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: C85OFPylbs+KtoNseMUcOxF/Qq9r3kmO0GW7QirlKUDWvU45EnQd2gvPSdRYaGLVdYtR90RK3gVDZIVganSGMNNMQETM9J3MCKgSErdVohP//e0GF1oijeHalTyAEbD6ZFQlOgE5wk3frQE9g2VisVASJ8n5W/i7jT5s+Dp6wW09PLgv8F/YPVI6tVU4ehsLd7seEYejoRlyyPGH9CBZLhPWuKp6e9czeugYmgO8wyb/ihiX3zLxuiFRhGgnFKiDbNnyAcgJEINFKOOszpJTn8NGl8+Ij+oqutwbYlUwBQeBxfJh+QNoyYdRzXjMz78OvEG0qtkVxcaN7+zPBVyLU5079r67iPnrbZqgSQRUm7m/rDVXnWXUJfzy2ZiM4pCT0VD1XrkCbUedZ9lDdR01ui7Mv0wrRpIHLpolsstvpAc/CovrT2fMq9m3nw/fOBdvETBxTLgoaB3fGxPto6xrZ1w99JDMv9pmFcFT6XzAmManhHAKwomdbIdtkri4UDJP5A4euVINBwklpeAbNp3ZJXcmCqj9kcVQJn8Po+5KHH5YZftsiuLOFGMjPtJ357fsFU/UwOBgx35xNUbxYofgadgzfQneJFeMCqSzeBOVnQQLAXvmPGKMhbfvYd5X6+Nex4O3CkoghpGBaePeMOHh0xuNSVEhJqDHo4LtzzCK3o1f+Y7qrxdWXULHkvTl1bfC
-X-Forefront-Antispam-Report: CIP:63.35.35.123; CTRY:IE; LANG:en; SCL:1; SRV:;
- IPV:CAL; SFV:NSPM; H:64aa7808-outbound-1.mta.getcheckrecipient.com;
- PTR:ec2-63-35-35-123.eu-west-1.compute.amazonaws.com; CAT:NONE;
- SFS:(13230001)(7916004)(4636009)(40470700004)(46966006)(36840700001)(82310400005)(186003)(47076005)(26005)(36860700001)(9686003)(8936002)(6512007)(2906002)(44832011)(1076003)(86362001)(6506007)(40460700003)(83380400001)(508600001)(336012)(70206006)(70586007)(81166007)(33716001)(6636002)(8676002)(316002)(5660300002)(4326008)(6486002)(6862004)(356005);
- DIR:OUT; SFP:1101; 
-X-OriginatorOrg: arm.com
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 06 Apr 2022 09:27:14.6540 (UTC)
-X-MS-Exchange-CrossTenant-Network-Message-Id: 20c7a9f5-0f61-4b03-f4e1-08da17afa2ef
-X-MS-Exchange-CrossTenant-Id: f34e5979-57d9-4aaa-ad4d-b122a662184d
-X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: TenantId=f34e5979-57d9-4aaa-ad4d-b122a662184d; Ip=[63.35.35.123];
- Helo=[64aa7808-outbound-1.mta.getcheckrecipient.com]
-X-MS-Exchange-CrossTenant-AuthSource: DB5EUR03FT045.eop-EUR03.prod.protection.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Anonymous
-X-MS-Exchange-CrossTenant-FromEntityHeader: HybridOnPrem
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: AM6PR08MB3512
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.5.0
+Subject: Re: [PATCH v1 5/5] drm: bridge: dw_hdmi: Audio: Add General Parallel
+ Audio (GPA) driver
+Content-Language: en-US
+To: Sandor.yu@nxp.com, dri-devel@lists.freedesktop.org,
+ linux-kernel@vger.kernel.org, andrzej.hajda@intel.com,
+ robert.foss@linaro.org, Laurent.pinchart@ideasonboard.com, jonas@kwiboo.se,
+ jernej.skrabec@gmail.com
+References: <cover.1649230434.git.Sandor.yu@nxp.com>
+ <abbcd4f1509419760d4b225aa3f3820b8d0d80ea.1649230434.git.Sandor.yu@nxp.com>
+From: Neil Armstrong <narmstrong@baylibre.com>
+Organization: Baylibre
+In-Reply-To: <abbcd4f1509419760d4b225aa3f3820b8d0d80ea.1649230434.git.Sandor.yu@nxp.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -141,57 +83,529 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: iommu@lists.linux-foundation.org, nd@arm.com, liviu.dudau@arm.com,
- dri-devel@lists.freedesktop.org
+Cc: shengjiu.wang@nxp.com, amuel@sholland.org, cai.huoqing@linux.dev,
+ maxime@cerno.tech, hverkuil-cisco@xs4all.nl
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi Robin,
+Hi,
 
-On Tue, Apr 05, 2022 at 03:11:18PM +0100, Robin Murphy wrote:
-> iommu_get_domain_for_dev() is already perfectly happy to return NULL
-> if the given device has no IOMMU. Drop the unnecessary check.
+On 06/04/2022 10:48, Sandor.yu@nxp.com wrote:
+> From: Sandor Yu <Sandor.yu@nxp.com>
 > 
-> Signed-off-by: Robin Murphy <robin.murphy@arm.com>
+> General Parallel Audio (GPA) interface is one of the supported
+> audio interface for synopsys HDMI module, which has verified for
+> i.MX8MP platform.
+> This is initial version for GPA.
+> 
+> Signed-off-by: Shengjiu Wang <shengjiu.wang@nxp.com>
+> Signed-off-by: Sandor Yu <Sandor.yu@nxp.com>
+> ---
+>   drivers/gpu/drm/bridge/synopsys/Kconfig       |  11 +
+>   drivers/gpu/drm/bridge/synopsys/Makefile      |   1 +
+>   .../drm/bridge/synopsys/dw-hdmi-gp-audio.c    | 199 ++++++++++++++++++
+>   drivers/gpu/drm/bridge/synopsys/dw-hdmi.c     | 128 ++++++++++-
+>   drivers/gpu/drm/bridge/synopsys/dw-hdmi.h     |  13 +-
+>   include/drm/bridge/dw_hdmi.h                  |   5 +
+>   6 files changed, 354 insertions(+), 3 deletions(-)
+>   create mode 100644 drivers/gpu/drm/bridge/synopsys/dw-hdmi-gp-audio.c
+> 
+> diff --git a/drivers/gpu/drm/bridge/synopsys/Kconfig b/drivers/gpu/drm/bridge/synopsys/Kconfig
+> index 21a1be3ced0f..e398b58c996d 100644
+> --- a/drivers/gpu/drm/bridge/synopsys/Kconfig
+> +++ b/drivers/gpu/drm/bridge/synopsys/Kconfig
+> @@ -25,6 +25,17 @@ config DRM_DW_HDMI_I2S_AUDIO
+>   	  Support the I2S Audio interface which is part of the Synopsys
+>   	  Designware HDMI block.
+>   
+> +config DRM_DW_HDMI_GP_AUDIO
+> +	tristate "Synopsys Designware GP Audio interface"
+> +	depends on DRM_DW_HDMI && SND
+> +	select SND_PCM
+> +	select SND_PCM_ELD
+> +	select SND_PCM_IEC958
+> +	help
+> +	  Support the GP Audio interface which is part of the Synopsys
+> +	  Designware HDMI block.  This is used in conjunction with
+> +	  the i.MX865 HDMI driver.
 
-LGTM, Acked-by: Brian Starkey <brian.starkey@arm.com>
+What does that mean ? it can only be used with i.MX865 HDMI driver ?
+If not, remove reference to i.MX865 HDMI driver.
 
-I'll have to leave it to Liviu to push though.
+> +
+>   config DRM_DW_HDMI_CEC
+>   	tristate "Synopsis Designware CEC interface"
+>   	depends on DRM_DW_HDMI
+> diff --git a/drivers/gpu/drm/bridge/synopsys/Makefile b/drivers/gpu/drm/bridge/synopsys/Makefile
+> index 91d746ad5de1..ce715562e9e5 100644
+> --- a/drivers/gpu/drm/bridge/synopsys/Makefile
+> +++ b/drivers/gpu/drm/bridge/synopsys/Makefile
+> @@ -1,6 +1,7 @@
+>   # SPDX-License-Identifier: GPL-2.0-only
+>   obj-$(CONFIG_DRM_DW_HDMI) += dw-hdmi.o
+>   obj-$(CONFIG_DRM_DW_HDMI_AHB_AUDIO) += dw-hdmi-ahb-audio.o
+> +obj-$(CONFIG_DRM_DW_HDMI_GP_AUDIO) += dw-hdmi-gp-audio.o
+>   obj-$(CONFIG_DRM_DW_HDMI_I2S_AUDIO) += dw-hdmi-i2s-audio.o
+>   obj-$(CONFIG_DRM_DW_HDMI_CEC) += dw-hdmi-cec.o
+>   
+> diff --git a/drivers/gpu/drm/bridge/synopsys/dw-hdmi-gp-audio.c b/drivers/gpu/drm/bridge/synopsys/dw-hdmi-gp-audio.c
+> new file mode 100644
+> index 000000000000..10a957c85a83
+> --- /dev/null
+> +++ b/drivers/gpu/drm/bridge/synopsys/dw-hdmi-gp-audio.c
+> @@ -0,0 +1,199 @@
+> +// SPDX-License-Identifier: (GPL-2.0+ OR MIT)
+> +/*
+> + * dw-hdmi-gp-audio.c
+> + *
+> + * Copyright 2020-2022 NXP
+> + */
+> +#include <linux/io.h>
+> +#include <linux/interrupt.h>
+> +#include <linux/module.h>
+> +#include <linux/platform_device.h>
+> +#include <linux/dmaengine.h>
+> +#include <linux/dma-mapping.h>
+> +#include <drm/bridge/dw_hdmi.h>
+> +#include <drm/drm_edid.h>
+> +#include <drm/drm_connector.h>
+> +
+> +#include <sound/hdmi-codec.h>
+> +#include <sound/asoundef.h>
+> +#include <sound/core.h>
+> +#include <sound/initval.h>
+> +#include <sound/pcm.h>
+> +#include <sound/pcm_drm_eld.h>
+> +#include <sound/pcm_iec958.h>
+> +#include <sound/dmaengine_pcm.h>
+> +
+> +#include "dw-hdmi-audio.h"
+> +
+> +#define DRIVER_NAME "dw-hdmi-gp-audio"
+> +#define DRV_NAME    "hdmi-gp-audio"
+> +
+> +struct snd_dw_hdmi {
+> +	struct dw_hdmi_audio_data data;
+> +	struct platform_device  *audio_pdev;
+> +	unsigned int pos;
+> +};
+> +
+> +struct dw_hdmi_channel_conf {
+> +	u8 conf1;
+> +	u8 ca;
+> +};
+> +
+> +/*
+> + * The default mapping of ALSA channels to HDMI channels and speaker
+> + * allocation bits.  Note that we can't do channel remapping here -
+> + * channels must be in the same order.
+> + *
+> + * Mappings for alsa-lib pcm/surround*.conf files:
+> + *
+> + *		Front	Sur4.0	Sur4.1	Sur5.0	Sur5.1	Sur7.1
+> + * Channels	2	4	6	6	6	8
+> + *
+> + * Our mapping from ALSA channel to CEA686D speaker name and HDMI channel:
+> + *
+> + *				Number of ALSA channels
+> + * ALSA Channel	2	3	4	5	6	7	8
+> + * 0		FL:0	=	=	=	=	=	=
+> + * 1		FR:1	=	=	=	=	=	=
+> + * 2			FC:3	RL:4	LFE:2	=	=	=
+> + * 3				RR:5	RL:4	FC:3	=	=
+> + * 4					RR:5	RL:4	=	=
+> + * 5						RR:5	=	=
+> + * 6							RC:6	=
+> + * 7							RLC/FRC	RLC/FRC
+> + */
+> +static struct dw_hdmi_channel_conf default_hdmi_channel_config[7] = {
+> +	{ 0x03, 0x00 },	/* FL,FR */
+> +	{ 0x0b, 0x02 },	/* FL,FR,FC */
+> +	{ 0x33, 0x08 },	/* FL,FR,RL,RR */
+> +	{ 0x37, 0x09 },	/* FL,FR,LFE,RL,RR */
+> +	{ 0x3f, 0x0b },	/* FL,FR,LFE,FC,RL,RR */
+> +	{ 0x7f, 0x0f },	/* FL,FR,LFE,FC,RL,RR,RC */
+> +	{ 0xff, 0x13 },	/* FL,FR,LFE,FC,RL,RR,[FR]RC,[FR]LC */
+> +};
+> +
+> +static int audio_hw_params(struct device *dev,  void *data,
+> +			   struct hdmi_codec_daifmt *daifmt,
+> +			   struct hdmi_codec_params *params)
+> +{
+> +	struct snd_dw_hdmi *dw = dev_get_drvdata(dev);
+> +	int ret = 0;
+> +	u8 ca;
+> +
+> +	dw_hdmi_set_sample_rate(dw->data.hdmi, params->sample_rate);
+> +
+> +	ca = default_hdmi_channel_config[params->channels - 2].ca;
+> +
+> +	dw_hdmi_set_channel_count(dw->data.hdmi, params->channels);
+> +	dw_hdmi_set_channel_allocation(dw->data.hdmi, ca);
+> +
+> +	dw_hdmi_set_sample_non_pcm(dw->data.hdmi,
+> +				   params->iec.status[0] & IEC958_AES0_NONAUDIO);
+> +	dw_hdmi_set_sample_width(dw->data.hdmi, params->sample_width);
+> +
+> +	return ret;
+> +}
+> +
+> +static void audio_shutdown(struct device *dev, void *data)
+> +{
+> +}
+> +
+> +static int audio_mute_stream(struct device *dev, void *data,
+> +			      bool enable, int direction)
+> +{
+> +	struct snd_dw_hdmi *dw = dev_get_drvdata(dev);
+> +	int ret = 0;
+> +
+> +	if (!enable)
+> +		dw_hdmi_audio_enable(dw->data.hdmi);
+> +	else
+> +		dw_hdmi_audio_disable(dw->data.hdmi);
+> +
+> +	return ret;
+> +}
+> +
+> +static int audio_get_eld(struct device *dev, void *data,
+> +			 u8 *buf, size_t len)
+> +{
+> +	struct dw_hdmi_audio_data *audio = data;
+> +	u8 *eld;
+> +
+> +	eld = audio->get_eld(audio->hdmi);
+> +	if (eld)
+> +		memcpy(buf, eld, min_t(size_t, MAX_ELD_BYTES, len));
+> +	else
+> +		/* Pass en empty ELD if connector not available */
+> +		memset(buf, 0, len);
+> +
+> +	return 0;
+> +}
+> +
+> +static int audio_hook_plugged_cb(struct device *dev, void *data,
+> +				 hdmi_codec_plugged_cb fn,
+> +				 struct device *codec_dev)
+> +{
+> +	struct snd_dw_hdmi *dw = dev_get_drvdata(dev);
+> +
+> +	return dw_hdmi_set_plugged_cb(dw->data.hdmi, fn, codec_dev);
+> +}
+> +
+> +static const struct hdmi_codec_ops audio_codec_ops = {
+> +	.hw_params = audio_hw_params,
+> +	.audio_shutdown = audio_shutdown,
+> +	.mute_stream = audio_mute_stream,
+> +	.get_eld = audio_get_eld,
+> +	.hook_plugged_cb = audio_hook_plugged_cb,
+> +};
+> +
+> +static int snd_dw_hdmi_probe(struct platform_device *pdev)
+> +{
+> +	struct dw_hdmi_audio_data *data = pdev->dev.platform_data;
+> +	struct snd_dw_hdmi *dw;
+> +
+> +	const struct hdmi_codec_pdata codec_data = {
+> +		.i2s = 1,
+> +		.spdif = 0,
+> +		.ops = &audio_codec_ops,
+> +		.max_i2s_channels = 8,
+> +		.data = data,
+> +	};
+> +
+> +	dw = devm_kzalloc(&pdev->dev, sizeof(*dw), GFP_KERNEL);
+> +	if (!dw)
+> +		return -ENOMEM;
+> +
+> +	dw->data = *data;
+> +
+> +	platform_set_drvdata(pdev, dw);
+> +
+> +	dw->audio_pdev = platform_device_register_data(&pdev->dev,
+> +						       HDMI_CODEC_DRV_NAME, 1,
+> +						       &codec_data,
+> +						       sizeof(codec_data));
+> +
+> +	return PTR_ERR_OR_ZERO(dw->audio_pdev);
+> +}
+> +
+> +static int snd_dw_hdmi_remove(struct platform_device *pdev)
+> +{
+> +	struct snd_dw_hdmi *dw = platform_get_drvdata(pdev);
+> +
+> +	platform_device_unregister(dw->audio_pdev);
+> +
+> +	return 0;
+> +}
+> +
+> +static struct platform_driver snd_dw_hdmi_driver = {
+> +	.probe	= snd_dw_hdmi_probe,
+> +	.remove	= snd_dw_hdmi_remove,
+> +	.driver	= {
+> +		.name = DRIVER_NAME,
+> +	},
+> +};
+> +
+> +module_platform_driver(snd_dw_hdmi_driver);
+> +
+> +MODULE_AUTHOR("Shengjiu Wang <shengjiu.wang@nxp.com>");
+> +MODULE_DESCRIPTION("Synopsis Designware HDMI GPA ALSA interface");
+> +MODULE_LICENSE("GPL");
+> +MODULE_ALIAS("platform:" DRIVER_NAME);
+> diff --git a/drivers/gpu/drm/bridge/synopsys/dw-hdmi.c b/drivers/gpu/drm/bridge/synopsys/dw-hdmi.c
+> index c6e701acd416..1385d8f7870e 100644
+> --- a/drivers/gpu/drm/bridge/synopsys/dw-hdmi.c
+> +++ b/drivers/gpu/drm/bridge/synopsys/dw-hdmi.c
+> @@ -191,7 +191,10 @@ struct dw_hdmi {
+>   
+>   	spinlock_t audio_lock;
+>   	struct mutex audio_mutex;
+> +	unsigned int sample_non_pcm;
+> +	unsigned int sample_width;
+>   	unsigned int sample_rate;
+> +	unsigned int channels;
+>   	unsigned int audio_cts;
+>   	unsigned int audio_n;
+>   	bool audio_enable;
+> @@ -589,6 +592,8 @@ static unsigned int hdmi_compute_n(unsigned int freq, unsigned long pixel_clk)
+>   			n = 4096;
+>   		else if (pixel_clk == 74176000 || pixel_clk == 148352000)
+>   			n = 11648;
+> +		else if (pixel_clk == 297000000)
+> +			n = 3072;
+>   		else
+>   			n = 4096;
+>   		n *= mult;
+> @@ -601,6 +606,8 @@ static unsigned int hdmi_compute_n(unsigned int freq, unsigned long pixel_clk)
+>   			n = 17836;
+>   		else if (pixel_clk == 148352000)
+>   			n = 8918;
+> +		else if (pixel_clk == 297000000)
+> +			n = 4704;
+>   		else
+>   			n = 6272;
+>   		n *= mult;
+> @@ -615,6 +622,8 @@ static unsigned int hdmi_compute_n(unsigned int freq, unsigned long pixel_clk)
+>   			n = 11648;
+>   		else if (pixel_clk == 148352000)
+>   			n = 5824;
+> +		else if (pixel_clk == 297000000)
+> +			n = 5120;
+>   		else
+>   			n = 6144;
+>   		n *= mult;
+> @@ -660,7 +669,7 @@ static void hdmi_set_clk_regenerator(struct dw_hdmi *hdmi,
+>   	config3 = hdmi_readb(hdmi, HDMI_CONFIG3_ID);
+>   
+>   	/* Only compute CTS when using internal AHB audio */
+> -	if (config3 & HDMI_CONFIG3_AHBAUDDMA) {
+> +	if ((config3 & HDMI_CONFIG3_AHBAUDDMA) || (config3 & HDMI_CONFIG3_GPAUD)) {
+
+Update the comment to include GPAUD.
+
+>   		/*
+>   		 * Compute the CTS value from the N value.  Note that CTS and N
+>   		 * can be up to 20 bits in total, so we need 64-bit math.  Also
+> @@ -702,6 +711,22 @@ static void hdmi_clk_regenerator_update_pixel_clock(struct dw_hdmi *hdmi)
+>   	mutex_unlock(&hdmi->audio_mutex);
+>   }
+>   
+> +void dw_hdmi_set_sample_width(struct dw_hdmi *hdmi, unsigned int width)
+> +{
+> +	mutex_lock(&hdmi->audio_mutex);
+> +	hdmi->sample_width = width;
+> +	mutex_unlock(&hdmi->audio_mutex);
+> +}
+> +EXPORT_SYMBOL_GPL(dw_hdmi_set_sample_width);
+> +
+> +void dw_hdmi_set_sample_non_pcm(struct dw_hdmi *hdmi, unsigned int non_pcm)
+> +{
+> +	mutex_lock(&hdmi->audio_mutex);
+> +	hdmi->sample_non_pcm = non_pcm;
+> +	mutex_unlock(&hdmi->audio_mutex);
+> +}
+> +EXPORT_SYMBOL_GPL(dw_hdmi_set_sample_non_pcm);
+> +
+>   void dw_hdmi_set_sample_rate(struct dw_hdmi *hdmi, unsigned int rate)
+>   {
+>   	mutex_lock(&hdmi->audio_mutex);
+> @@ -717,6 +742,7 @@ void dw_hdmi_set_channel_count(struct dw_hdmi *hdmi, unsigned int cnt)
+>   	u8 layout;
+>   
+>   	mutex_lock(&hdmi->audio_mutex);
+> +	hdmi->channels = cnt;
+>   
+>   	/*
+>   	 * For >2 channel PCM audio, we need to select layout 1
+> @@ -765,6 +791,87 @@ static u8 *hdmi_audio_get_eld(struct dw_hdmi *hdmi)
+>   	return hdmi->curr_conn->eld;
+>   }
+>   
+> +static void dw_hdmi_gp_audio_enable(struct dw_hdmi *hdmi)
+> +{
+> +	int sample_freq = 0x2, org_sample_freq = 0xD;
+> +	int ch_mask = BIT(hdmi->channels) - 1;
+> +
+> +	switch (hdmi->sample_rate) {
+> +	case 32000:
+> +		sample_freq = 0x03;
+> +		org_sample_freq = 0x0C;
+> +		break;
+> +	case 44100:
+> +		sample_freq = 0x00;
+> +		org_sample_freq = 0x0F;
+> +		break;
+> +	case 48000:
+> +		sample_freq = 0x02;
+> +		org_sample_freq = 0x0D;
+> +		break;
+> +	case 88200:
+> +		sample_freq = 0x08;
+> +		org_sample_freq = 0x07;
+> +		break;
+> +	case 96000:
+> +		sample_freq = 0x0A;
+> +		org_sample_freq = 0x05;
+> +		break;
+> +	case 176400:
+> +		sample_freq = 0x0C;
+> +		org_sample_freq = 0x03;
+> +		break;
+> +	case 192000:
+> +		sample_freq = 0x0E;
+> +		org_sample_freq = 0x01;
+> +		break;
+> +	default:
+> +		break;
+> +	}
+> +
+> +	hdmi_set_cts_n(hdmi, hdmi->audio_cts, hdmi->audio_n);
+> +	hdmi_enable_audio_clk(hdmi, true);
+> +
+> +	hdmi_writeb(hdmi, 0x1, HDMI_FC_AUDSCHNLS0);
+> +	hdmi_writeb(hdmi, hdmi->channels, HDMI_FC_AUDSCHNLS2);
+> +	hdmi_writeb(hdmi, 0x22, HDMI_FC_AUDSCHNLS3);
+> +	hdmi_writeb(hdmi, 0x22, HDMI_FC_AUDSCHNLS4);
+> +	hdmi_writeb(hdmi, 0x11, HDMI_FC_AUDSCHNLS5);
+> +	hdmi_writeb(hdmi, 0x11, HDMI_FC_AUDSCHNLS6);
+> +	hdmi_writeb(hdmi, (0x3 << 4) | sample_freq, HDMI_FC_AUDSCHNLS7);
+> +	hdmi_writeb(hdmi, (org_sample_freq << 4) | 0xb, HDMI_FC_AUDSCHNLS8);
+> +
+> +	hdmi_writeb(hdmi, ch_mask, HDMI_GP_CONF1);
+> +	hdmi_writeb(hdmi, 0x02, HDMI_GP_CONF2);
+> +	hdmi_writeb(hdmi, 0x01, HDMI_GP_CONF0);
+> +
+> +	hdmi_modb(hdmi,  0x3, 0x3, HDMI_FC_DATAUTO3);
+> +
+> +	/* hbr */
+> +	if (hdmi->sample_rate == 192000 && hdmi->channels == 8 &&
+> +	    hdmi->sample_width == 32 && hdmi->sample_non_pcm) {
+> +		hdmi_modb(hdmi, 0x01, 0x01, HDMI_GP_CONF2);
+> +	}
+> +
+> +	if (hdmi->phy.ops->enable_audio)
+> +		hdmi->phy.ops->enable_audio(hdmi, hdmi->phy.data,
+> +					    hdmi->channels,
+> +					    hdmi->sample_width,
+> +					    hdmi->sample_rate,
+> +					    hdmi->sample_non_pcm);
+> +}
+> +
+> +static void dw_hdmi_gp_audio_disable(struct dw_hdmi *hdmi)
+> +{
+> +	hdmi_set_cts_n(hdmi, hdmi->audio_cts, 0);
+> +
+> +	hdmi_modb(hdmi,  0, 0x3, HDMI_FC_DATAUTO3);
+> +	if (hdmi->phy.ops->disable_audio)
+> +		hdmi->phy.ops->disable_audio(hdmi, hdmi->phy.data);
+> +
+> +	hdmi_enable_audio_clk(hdmi, false);
+> +}
+> +
+>   static void dw_hdmi_ahb_audio_enable(struct dw_hdmi *hdmi)
+>   {
+>   	hdmi_set_cts_n(hdmi, hdmi->audio_cts, hdmi->audio_n);
+> @@ -3259,6 +3366,7 @@ struct dw_hdmi *dw_hdmi_probe(struct platform_device *pdev,
+>   	hdmi->plat_data = plat_data;
+>   	hdmi->dev = dev;
+>   	hdmi->sample_rate = 48000;
+> +	hdmi->channels = 2;
+>   	hdmi->disabled = true;
+>   	hdmi->rxsense = true;
+>   	hdmi->phy_mask = (u8)~(HDMI_PHY_HPD | HDMI_PHY_RX_SENSE);
+> @@ -3482,6 +3590,24 @@ struct dw_hdmi *dw_hdmi_probe(struct platform_device *pdev,
+>   		pdevinfo.size_data = sizeof(audio);
+>   		pdevinfo.dma_mask = DMA_BIT_MASK(32);
+>   		hdmi->audio = platform_device_register_full(&pdevinfo);
+> +	} else if (iores && config3 & HDMI_CONFIG3_GPAUD) {
+> +		struct dw_hdmi_audio_data audio;
+> +
+> +		audio.phys = iores->start;
+> +		audio.base = hdmi->regs;
+> +		audio.irq = irq;
+> +		audio.hdmi = hdmi;
+> +		audio.get_eld = hdmi_audio_get_eld;
+> +
+> +		hdmi->enable_audio = dw_hdmi_gp_audio_enable;
+> +		hdmi->disable_audio = dw_hdmi_gp_audio_disable;
+> +
+> +		pdevinfo.name = "dw-hdmi-gp-audio";
+> +		pdevinfo.id = PLATFORM_DEVID_NONE;
+> +		pdevinfo.data = &audio;
+> +		pdevinfo.size_data = sizeof(audio);
+> +		pdevinfo.dma_mask = DMA_BIT_MASK(32);
+> +		hdmi->audio = platform_device_register_full(&pdevinfo);
+>   	}
+>   
+>   	if (!plat_data->disable_cec && (config0 & HDMI_CONFIG0_CEC)) {
+> diff --git a/drivers/gpu/drm/bridge/synopsys/dw-hdmi.h b/drivers/gpu/drm/bridge/synopsys/dw-hdmi.h
+> index 1999db05bc3b..99aa1c03343b 100644
+> --- a/drivers/gpu/drm/bridge/synopsys/dw-hdmi.h
+> +++ b/drivers/gpu/drm/bridge/synopsys/dw-hdmi.h
+> @@ -158,8 +158,17 @@
+>   #define HDMI_FC_SPDDEVICEINF                    0x1062
+>   #define HDMI_FC_AUDSCONF                        0x1063
+>   #define HDMI_FC_AUDSSTAT                        0x1064
+> -#define HDMI_FC_AUDSCHNLS7                      0x106e
+> -#define HDMI_FC_AUDSCHNLS8                      0x106f
+> +#define HDMI_FC_AUDSV                           0x1065
+> +#define HDMI_FC_AUDSU                           0x1066
+> +#define HDMI_FC_AUDSCHNLS0                       0x1067
+> +#define HDMI_FC_AUDSCHNLS1                       0x1068
+> +#define HDMI_FC_AUDSCHNLS2                       0x1069
+> +#define HDMI_FC_AUDSCHNLS3                       0x106A
+> +#define HDMI_FC_AUDSCHNLS4                       0x106B
+> +#define HDMI_FC_AUDSCHNLS5                       0x106C
+> +#define HDMI_FC_AUDSCHNLS6                       0x106D
+> +#define HDMI_FC_AUDSCHNLS7                       0x106E
+> +#define HDMI_FC_AUDSCHNLS8                       0x106F
+>   #define HDMI_FC_DATACH0FILL                     0x1070
+>   #define HDMI_FC_DATACH1FILL                     0x1071
+>   #define HDMI_FC_DATACH2FILL                     0x1072
+> diff --git a/include/drm/bridge/dw_hdmi.h b/include/drm/bridge/dw_hdmi.h
+> index 70082f80a8c8..7f73c3398a54 100644
+> --- a/include/drm/bridge/dw_hdmi.h
+> +++ b/include/drm/bridge/dw_hdmi.h
+> @@ -121,6 +121,9 @@ struct dw_hdmi_phy_ops {
+>   	void (*update_hpd)(struct dw_hdmi *hdmi, void *data,
+>   			   bool force, bool disabled, bool rxsense);
+>   	void (*setup_hpd)(struct dw_hdmi *hdmi, void *data);
+> +	void (*enable_audio)(struct dw_hdmi *hdmi, void *data, int channel,
+> +			     int width, int rate, int non_pcm);
+> +	void (*disable_audio)(struct dw_hdmi *hdmi, void *data);
+>   };
+>   
+>   struct dw_hdmi_plat_data {
+> @@ -173,6 +176,8 @@ void dw_hdmi_setup_rx_sense(struct dw_hdmi *hdmi, bool hpd, bool rx_sense);
+>   
+>   int dw_hdmi_set_plugged_cb(struct dw_hdmi *hdmi, hdmi_codec_plugged_cb fn,
+>   			   struct device *codec_dev);
+> +void dw_hdmi_set_sample_non_pcm(struct dw_hdmi *hdmi, unsigned int non_pcm);
+> +void dw_hdmi_set_sample_width(struct dw_hdmi *hdmi, unsigned int width);
+>   void dw_hdmi_set_sample_rate(struct dw_hdmi *hdmi, unsigned int rate);
+>   void dw_hdmi_set_channel_count(struct dw_hdmi *hdmi, unsigned int cnt);
+>   void dw_hdmi_set_channel_status(struct dw_hdmi *hdmi, u8 *channel_status);
 
 Thanks,
--Brian
-
-> ---
->  drivers/gpu/drm/arm/malidp_planes.c | 14 +++++---------
->  1 file changed, 5 insertions(+), 9 deletions(-)
-> 
-> diff --git a/drivers/gpu/drm/arm/malidp_planes.c b/drivers/gpu/drm/arm/malidp_planes.c
-> index 0562bdaac00c..81d9f5004025 100644
-> --- a/drivers/gpu/drm/arm/malidp_planes.c
-> +++ b/drivers/gpu/drm/arm/malidp_planes.c
-> @@ -310,17 +310,13 @@ static int malidp_se_check_scaling(struct malidp_plane *mp,
->  
->  static u32 malidp_get_pgsize_bitmap(struct malidp_plane *mp)
->  {
-> -	u32 pgsize_bitmap = 0;
-> +	struct iommu_domain *mmu_dom;
->  
-> -	if (iommu_present(&platform_bus_type)) {
-> -		struct iommu_domain *mmu_dom =
-> -			iommu_get_domain_for_dev(mp->base.dev->dev);
-> +	mmu_dom = iommu_get_domain_for_dev(mp->base.dev->dev);
-> +	if (mmu_dom)
-> +		return mmu_dom->pgsize_bitmap;
->  
-> -		if (mmu_dom)
-> -			pgsize_bitmap = mmu_dom->pgsize_bitmap;
-> -	}
-> -
-> -	return pgsize_bitmap;
-> +	return 0;
->  }
->  
->  /*
-> -- 
-> 2.28.0.dirty
-> 
+Neil
