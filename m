@@ -1,39 +1,39 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2D3574F5A05
-	for <lists+dri-devel@lfdr.de>; Wed,  6 Apr 2022 11:29:52 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 36AB74F5A15
+	for <lists+dri-devel@lfdr.de>; Wed,  6 Apr 2022 11:36:46 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 1BEB410E175;
-	Wed,  6 Apr 2022 09:29:50 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 8ACB210EFBA;
+	Wed,  6 Apr 2022 09:36:43 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from phobos.denx.de (phobos.denx.de
- [IPv6:2a01:238:438b:c500:173d:9f52:ddab:ee01])
- by gabe.freedesktop.org (Postfix) with ESMTPS id EC41410E175
- for <dri-devel@lists.freedesktop.org>; Wed,  6 Apr 2022 09:29:48 +0000 (UTC)
+Received: from phobos.denx.de (phobos.denx.de [85.214.62.61])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 5E7EB10F006
+ for <dri-devel@lists.freedesktop.org>; Wed,  6 Apr 2022 09:36:41 +0000 (UTC)
 Received: from tr.lan (ip-89-176-112-137.net.upcbroadband.cz [89.176.112.137])
  (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits))
  (No client certificate requested)
  (Authenticated sender: marex@denx.de)
- by phobos.denx.de (Postfix) with ESMTPSA id D7ECF83C08;
- Wed,  6 Apr 2022 11:29:46 +0200 (CEST)
+ by phobos.denx.de (Postfix) with ESMTPSA id 7AFE683CA3;
+ Wed,  6 Apr 2022 11:36:38 +0200 (CEST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=denx.de;
- s=phobos-20191101; t=1649237387;
- bh=tJ2q/2AQXa+4QBAdgJ8e/FGBxSU2RNOflzxUe4ox/hw=;
+ s=phobos-20191101; t=1649237799;
+ bh=DjqbgkwjUDuqY40icMf/gBVOPgX4ORIhjTSVV3ymvoY=;
  h=From:To:Cc:Subject:Date:From;
- b=AK8cb71pz7fOAI0WmNehRRqX37Z5mt6sp0cSVRyYmmYdIf5j4p+PiQEj4JHHdOhWW
- viOEzZ5hS4xdbANnjmqYG7UPIflf7sAf/KZB8BoSsbfSjnMhJ0L3V/ewydvpNvwAY+
- 1yW7KKXKTGvwXbo6ZcNv+kStHmJ3V+UZWiVyDuyAZBhi6pUMVpIqrJd6s9WYAPWGlU
- dSuAvdUWJpg0e9vXJH1RQXugS8UXaOQezc1DxJzvjSizBVI5SBf52Hs23BhaS4XoD9
- 8GuvIHq8Xi7G1LqkF89FsOCNMRMpbutY4Gs75RhjogzvDOPEEAeS9qVyU1SnWbYZrc
- oDgMPI6eyW3og==
+ b=V1V3ASu+EtvbjYJEhI46dCq0JzdfnbpWoOOGXYnDvxmgJ/ZNXcMNalj81GwIrzNbo
+ sBTqFe7SDn4DTGQoF7mQOk28wGK2zSLP3EGRpEbuWxUKF6+Ek5S59p2qERVoIKxG4+
+ dbdVHdHoGXHWJ6JZtp9ktkE/W5jvdEH7qw41CAzbv8QSTEbdkKi18gQ9oMPBRSQ18d
+ khVm4YBbG/jxvt3p4kmElsnAatfLi/RWHdILkOHbPC5hZQwW0KRtEmz0zGI5dMkPbc
+ 623hvNbQqqZON5Y18Dq6fJLbk0FUyuSnLLbzyxavdNx5hX5wZyFs5JVq/2DgSFDZuz
+ Dn6MIUfL1jukw==
 From: Marek Vasut <marex@denx.de>
 To: dri-devel@lists.freedesktop.org
-Subject: [PATCH] drm: mxsfb: Obtain bus flags from bridge state
-Date: Wed,  6 Apr 2022 11:29:29 +0200
-Message-Id: <20220406092929.17498-1-marex@denx.de>
+Subject: [PATCH] drm/panel: simple: Add missing bus flags for Innolux
+ G070Y2-L01
+Date: Wed,  6 Apr 2022 11:36:27 +0200
+Message-Id: <20220406093627.18011-1-marex@denx.de>
 X-Mailer: git-send-email 2.35.1
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
@@ -51,68 +51,40 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Marek Vasut <marex@denx.de>, Peng Fan <peng.fan@nxp.com>,
- Alexander Stein <alexander.stein@ew.tq-group.com>, robert.foss@linaro.org,
- Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
- Robby Cai <robby.cai@nxp.com>, Sam Ravnborg <sam@ravnborg.org>
+Cc: Marek Vasut <marex@denx.de>, robert.foss@linaro.org,
+ Christoph Fritz <chf.fritz@googlemail.com>,
+ Laurent Pinchart <Laurent.pinchart@ideasonboard.com>,
+ Thomas Zimmermann <tzimmermann@suse.de>, Sam Ravnborg <sam@ravnborg.org>,
+ Maxime Ripard <maxime@cerno.tech>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-In case the MXSFB is connected to a bridge, attempt to obtain bus flags
-from that bridge state too. The bus flags may specify e.g. the DE signal
-polarity.
+The DE signal is active high on this display, fill in the missing bus_flags.
+This aligns panel_desc with its display_timing .
 
+Fixes: a5d2ade627dca ("drm/panel: simple: Add support for Innolux G070Y2-L01")
 Signed-off-by: Marek Vasut <marex@denx.de>
-Cc: Alexander Stein <alexander.stein@ew.tq-group.com>
-Cc: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-Cc: Lucas Stach <l.stach@pengutronix.de>
-Cc: Peng Fan <peng.fan@nxp.com>
-Cc: Robby Cai <robby.cai@nxp.com>
+Cc: Christoph Fritz <chf.fritz@googlemail.com>
+Cc: Laurent Pinchart <Laurent.pinchart@ideasonboard.com>
+Cc: Maxime Ripard <maxime@cerno.tech>
 Cc: Sam Ravnborg <sam@ravnborg.org>
-Cc: Stefan Agner <stefan@agner.ch>
+Cc: Thomas Zimmermann <tzimmermann@suse.de>
 ---
- drivers/gpu/drm/mxsfb/mxsfb_kms.c | 7 +++++--
- 1 file changed, 5 insertions(+), 2 deletions(-)
+ drivers/gpu/drm/panel/panel-simple.c | 1 +
+ 1 file changed, 1 insertion(+)
 
-diff --git a/drivers/gpu/drm/mxsfb/mxsfb_kms.c b/drivers/gpu/drm/mxsfb/mxsfb_kms.c
-index 4baa3db1f3d10..c7f14ef1edc25 100644
---- a/drivers/gpu/drm/mxsfb/mxsfb_kms.c
-+++ b/drivers/gpu/drm/mxsfb/mxsfb_kms.c
-@@ -298,6 +298,7 @@ static int mxsfb_reset_block(struct mxsfb_drm_private *mxsfb)
- }
+diff --git a/drivers/gpu/drm/panel/panel-simple.c b/drivers/gpu/drm/panel/panel-simple.c
+index 65c2a3000e471..18fccb0d47382 100644
+--- a/drivers/gpu/drm/panel/panel-simple.c
++++ b/drivers/gpu/drm/panel/panel-simple.c
+@@ -2149,6 +2149,7 @@ static const struct panel_desc innolux_g070y2_l01 = {
+ 		.unprepare = 800,
+ 	},
+ 	.bus_format = MEDIA_BUS_FMT_RGB888_1X7X4_SPWG,
++	.bus_flags = DRM_BUS_FLAG_DE_HIGH,
+ 	.connector_type = DRM_MODE_CONNECTOR_LVDS,
+ };
  
- static void mxsfb_crtc_mode_set_nofb(struct mxsfb_drm_private *mxsfb,
-+				     struct drm_bridge_state *bridge_state,
- 				     const u32 bus_format)
- {
- 	struct drm_device *drm = mxsfb->crtc.dev;
-@@ -307,6 +308,8 @@ static void mxsfb_crtc_mode_set_nofb(struct mxsfb_drm_private *mxsfb,
- 
- 	if (mxsfb->bridge && mxsfb->bridge->timings)
- 		bus_flags = mxsfb->bridge->timings->input_bus_flags;
-+	else if (bridge_state)
-+		bus_flags = bridge_state->input_bus_cfg.flags;
- 
- 	DRM_DEV_DEBUG_DRIVER(drm->dev, "Pixel clock: %dkHz (actual: %dkHz)\n",
- 			     m->crtc_clock,
-@@ -365,7 +368,7 @@ static void mxsfb_crtc_atomic_enable(struct drm_crtc *crtc,
- {
- 	struct mxsfb_drm_private *mxsfb = to_mxsfb_drm_private(crtc->dev);
- 	struct drm_display_mode *m = &mxsfb->crtc.state->adjusted_mode;
--	struct drm_bridge_state *bridge_state;
-+	struct drm_bridge_state *bridge_state = NULL;
- 	struct drm_device *drm = mxsfb->drm;
- 	u32 bus_format = 0;
- 
-@@ -399,7 +402,7 @@ static void mxsfb_crtc_atomic_enable(struct drm_crtc *crtc,
- 
- 	pm_runtime_get_sync(drm->dev);
- 
--	mxsfb_crtc_mode_set_nofb(mxsfb, bus_format);
-+	mxsfb_crtc_mode_set_nofb(mxsfb, bridge_state, bus_format);
- 
- 	/* Write cur_buf as well to avoid an initial corrupt frame */
- 	mxsfb_update_buffer(mxsfb, crtc->primary, true);
 -- 
 2.35.1
 
