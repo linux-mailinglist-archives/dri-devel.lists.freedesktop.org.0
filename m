@@ -1,59 +1,64 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id E5B764F5C27
-	for <lists+dri-devel@lfdr.de>; Wed,  6 Apr 2022 13:31:54 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 899F84F5DB3
+	for <lists+dri-devel@lfdr.de>; Wed,  6 Apr 2022 14:21:51 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 1FE4C10E05E;
-	Wed,  6 Apr 2022 11:31:51 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 26AEB10E08E;
+	Wed,  6 Apr 2022 12:21:47 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-pg1-x52e.google.com (mail-pg1-x52e.google.com
- [IPv6:2607:f8b0:4864:20::52e])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 3FF8710E033
- for <dri-devel@lists.freedesktop.org>; Wed,  6 Apr 2022 11:31:50 +0000 (UTC)
-Received: by mail-pg1-x52e.google.com with SMTP id c2so1944875pga.10
- for <dri-devel@lists.freedesktop.org>; Wed, 06 Apr 2022 04:31:50 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
- h=from:to:cc:subject:date:message-id;
- bh=xl6VVCAajevFuRJS9yPa1nlDbDqEUfMrrJAAj8Ufl7w=;
- b=Jm/MEaVSKPLAgcL0eRNOvFXKLkxCSUlelHrlNGJGE8zKGxd3mPDoOYmNNAr/PX2oZf
- RI56ezt7I/hXAiPJq0vjNGAcQdWuTdVWA/7HJ+WZ3/B7mbSna+w1YFowR0TTEWY06fIF
- WfJU0pApHvsua2/YXeuoXGx+e7I4ebchnLVYYnj8iygztCYswVz7jr7Dibf3ufK1ndcA
- mxmOxppTuxX3dtjyhVfSyWcNRIDUo0Z//arZ/poeXhMUaF3BOLjZy0EWeqKe8I2MeObe
- /A1vlRRhDQfVjwsZ3tA5TLRSHymZFcUXPpi8ktcYdFJDGzQe+HSYGq8JR+rxkv4chhPM
- MB5w==
+Received: from mail-wm1-x342.google.com (mail-wm1-x342.google.com
+ [IPv6:2a00:1450:4864:20::342])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 2C04510E08E
+ for <dri-devel@lists.freedesktop.org>; Wed,  6 Apr 2022 12:21:46 +0000 (UTC)
+Received: by mail-wm1-x342.google.com with SMTP id q20so1365279wmq.1
+ for <dri-devel@lists.freedesktop.org>; Wed, 06 Apr 2022 05:21:46 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ffwll.ch; s=google;
+ h=date:from:to:cc:subject:message-id:references:mime-version
+ :content-disposition:content-transfer-encoding:in-reply-to;
+ bh=npU+un/GtuZaZOJ2vYkytT+/OtoqJn539rMwuU+NQfg=;
+ b=RoQyA59EUYIj9O49StSvS07IUWwoRKqjeLItF4ItI7on8O7TgOC81NKR+0bUP670J7
+ 0tQaL4VIP6iKraCp108jUuFoTdrGbDasFs5W1X5bTIYTWJ4PnOFURtn/2bZbtY0PNc/5
+ NdvlYrAsFIr/0Yykw4qS55G7kf3YPQaTw1EKQ=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=x-gm-message-state:from:to:cc:subject:date:message-id;
- bh=xl6VVCAajevFuRJS9yPa1nlDbDqEUfMrrJAAj8Ufl7w=;
- b=gPrbwUImgdzCBF01IWXCehe4sGu3coQxQilC5fNOZk1V/d4rWwV/WpTTc9usYQ1dcB
- 02m/3jrLPXOvJn+Yv+Qtv0d1m7o6OaZf6TgCwTckuP2SmCKKYGDzEN4n4J1SsI6aQIi0
- qS0eku7PBDZyCA5wo6bH/46qfd89I7xdNpMPFTd403WRWPVExV0lkDv3NqlAgUhZqdMC
- TU/TTeOmIct4m8mqcLy37DFPcBp/LkCUTpQdHIs1g3RYiHeZrLlnbxpPvQo/Z+COO3BN
- mrpgQrX2mglrLyfkk1t/FUQOFWlKye+JQrqgEGs8eIoN6tfSuzzKV02K+EEj8Ooc8rHZ
- Ob0A==
-X-Gm-Message-State: AOAM531y0yQ1+CjZkFDYBSPNehI19i7hTlT5yXTHuNECrtwwmYre327I
- Xsx/m7H5SpBbm50FI4yUW9w=
-X-Google-Smtp-Source: ABdhPJx3gTn89KY6+7NY2fQ+ZYGvPyx47HtqtU3a9MIUqtNVPY4y3m/hrg/EmUaMM3x0fmQTiwagag==
-X-Received: by 2002:a63:221f:0:b0:374:7286:446a with SMTP id
- i31-20020a63221f000000b003747286446amr6759359pgi.538.1649244709835; 
- Wed, 06 Apr 2022 04:31:49 -0700 (PDT)
-Received: from localhost.localdomain ([119.3.119.18])
+ h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+ :mime-version:content-disposition:content-transfer-encoding
+ :in-reply-to;
+ bh=npU+un/GtuZaZOJ2vYkytT+/OtoqJn539rMwuU+NQfg=;
+ b=5mu5x3VJfOR1PgApdLdfq9viBQWRAzoT43Ml1lPTy0+arbpP2WC2btDswvgRZo/EIf
+ ntmNuLIMLsvrDK1xFKek5GvZYvJDHqNpj+qw9+89/74pDVa8NunDKpkYZTsRie9+GdkP
+ dwogO2pgiRNVOLK+gfrVJXZ5R8mlqqkRbbey5xVZ2DBjUsWo0KTpKBZSVysvcE4B84cS
+ Kk1oHpUIIlbkW/B563F/2sqEtbFPiBPtklEfnhd7HbRutrbKgM6VVjzyKfpR64SQ0p7W
+ jOaMObwsXA+q0tf7Bw1RRgbakCgXDIyq5Zvt57lfSNACv0oDRrYf4roirXJ1wcjMHZUe
+ qn7w==
+X-Gm-Message-State: AOAM533g0yiDM21dXQImYfpZUe24acmyShqBP7EVbfDK+5cLU054VtVE
+ KR60MK5zuX/A68VYOVDr3OEggQ==
+X-Google-Smtp-Source: ABdhPJxSKr3dH1avqCLR+NqmIamLCZRTc33/bKlNqgL2jwEJegu3shxI7e7hiozi9Wq/vcOf4vqW5A==
+X-Received: by 2002:a05:600c:4fce:b0:38d:a58:6d16 with SMTP id
+ o14-20020a05600c4fce00b0038d0a586d16mr7372736wmq.11.1649247704366; 
+ Wed, 06 Apr 2022 05:21:44 -0700 (PDT)
+Received: from phenom.ffwll.local ([2a02:168:57f4:0:efd0:b9e5:5ae6:c2fa])
  by smtp.gmail.com with ESMTPSA id
- f19-20020a056a00229300b004fb157f136asm19760516pfe.153.2022.04.06.04.31.46
+ l20-20020a05600c1d1400b0038cba2f88c0sm6772769wms.26.2022.04.06.05.21.43
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 06 Apr 2022 04:31:49 -0700 (PDT)
-From: Xiaomeng Tong <xiam0nd.tong@gmail.com>
-To: patrik.r.jakobsson@gmail.com,
-	airlied@linux.ie,
-	daniel@ffwll.ch
-Subject: [PATCH v2] drm/gma500: fix a potential repeat execution in
- psb_driver_load
-Date: Wed,  6 Apr 2022 19:31:43 +0800
-Message-Id: <20220406113143.10699-1-xiam0nd.tong@gmail.com>
-X-Mailer: git-send-email 2.17.1
+ Wed, 06 Apr 2022 05:21:43 -0700 (PDT)
+Date: Wed, 6 Apr 2022 14:21:42 +0200
+From: Daniel Vetter <daniel@ffwll.ch>
+To: DMA-resvusage@phenom.ffwll.local
+Subject: Re: [PATCH 01/16] dma-buf/drivers: make reserving a shared slot
+ mandatory v4
+Message-ID: <Yk2F1rc01RFnqU7b@phenom.ffwll.local>
+References: <20220406075132.3263-1-christian.koenig@amd.com>
+ <20220406075132.3263-2-christian.koenig@amd.com>
+MIME-Version: 1.0
+Content-Type: text/plain; charset=iso-8859-1
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <20220406075132.3263-2-christian.koenig@amd.com>
+X-Operating-System: Linux phenom 5.10.0-8-amd64 
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -66,44 +71,846 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Xiaomeng Tong <xiam0nd.tong@gmail.com>, linux-kernel@vger.kernel.org,
+Cc: daniel.vetter@ffwll.ch,
+ Christian =?iso-8859-1?Q?K=F6nig?= <christian.koenig@amd.com>,
  dri-devel@lists.freedesktop.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Instead of exiting the loop as expected when an entry is found, the
-list_for_each_entry() continues until the traversal is complete. To
-avoid potential executing 'ret = gma_backlight_init(dev);' repeatly,
-goto outside the loop when the entry is found.
+On Wed, Apr 06, 2022 at 09:51:17AM +0200, Christian König wrote:
+> Audit all the users of dma_resv_add_excl_fence() and make sure they
+> reserve a shared slot also when only trying to add an exclusive fence.
+> 
+> This is the next step towards handling the exclusive fence like a
+> shared one.
+> 
+> v2: fix missed case in amdgpu
+> v3: and two more radeon, rename function
+> v4: add one more case to TTM, fix i915 after rebase
+> 
+> Signed-off-by: Christian König <christian.koenig@amd.com>
 
-Signed-off-by: Xiaomeng Tong <xiam0nd.tong@gmail.com>
----
+Ok I think it looks all reasonable now and complete afaict. But it's
+tricky stuff.
 
-changes since v1:
- - goto outside the loop (Xiaomeng Tong)
+Reviewed-by: Daniel Vetter <daniel.vetter@ffwll.ch>
 
-v1: https://lore.kernel.org/lkml/20220401115811.9656-1-xiam0nd.tong@gmail.com/
+> ---
+>  drivers/dma-buf/dma-resv.c                    | 10 +--
+>  drivers/dma-buf/st-dma-resv.c                 | 64 +++++++++----------
+>  .../gpu/drm/amd/amdgpu/amdgpu_amdkfd_gpuvm.c  |  4 +-
+>  drivers/gpu/drm/amd/amdgpu/amdgpu_object.c    |  8 +++
+>  drivers/gpu/drm/amd/amdgpu/amdgpu_vm.c        |  4 +-
+>  drivers/gpu/drm/amd/amdkfd/kfd_svm.c          |  2 +-
+>  drivers/gpu/drm/etnaviv/etnaviv_gem_submit.c  |  8 +--
+>  drivers/gpu/drm/i915/gem/i915_gem_clflush.c   |  3 +-
+>  .../gpu/drm/i915/gem/i915_gem_execbuffer.c    | 10 ++-
+>  drivers/gpu/drm/i915/gem/i915_gem_ttm_move.c  |  6 +-
+>  .../drm/i915/gem/selftests/i915_gem_migrate.c |  5 +-
+>  drivers/gpu/drm/i915/i915_vma.c               | 10 ++-
+>  .../drm/i915/selftests/intel_memory_region.c  |  7 ++
+>  drivers/gpu/drm/lima/lima_gem.c               | 10 ++-
+>  drivers/gpu/drm/msm/msm_gem_submit.c          | 18 +++---
+>  drivers/gpu/drm/nouveau/nouveau_fence.c       |  8 +--
+>  drivers/gpu/drm/panfrost/panfrost_job.c       |  4 ++
+>  drivers/gpu/drm/qxl/qxl_release.c             |  2 +-
+>  drivers/gpu/drm/radeon/radeon_cs.c            |  4 ++
+>  drivers/gpu/drm/radeon/radeon_object.c        |  8 +++
+>  drivers/gpu/drm/radeon/radeon_vm.c            |  2 +-
+>  drivers/gpu/drm/ttm/ttm_bo.c                  |  8 ++-
+>  drivers/gpu/drm/ttm/ttm_bo_util.c             | 12 +++-
+>  drivers/gpu/drm/ttm/ttm_execbuf_util.c        | 15 ++---
+>  drivers/gpu/drm/v3d/v3d_gem.c                 | 15 +++--
+>  drivers/gpu/drm/vc4/vc4_gem.c                 |  2 +-
+>  drivers/gpu/drm/vgem/vgem_fence.c             | 12 ++--
+>  drivers/gpu/drm/virtio/virtgpu_gem.c          |  9 +++
+>  drivers/gpu/drm/vmwgfx/vmwgfx_bo.c            | 16 +++--
+>  include/linux/dma-resv.h                      |  4 +-
+>  30 files changed, 176 insertions(+), 114 deletions(-)
+> 
+> diff --git a/drivers/dma-buf/dma-resv.c b/drivers/dma-buf/dma-resv.c
+> index 15ffac35439d..8c650b96357a 100644
+> --- a/drivers/dma-buf/dma-resv.c
+> +++ b/drivers/dma-buf/dma-resv.c
+> @@ -152,7 +152,7 @@ static inline struct dma_resv_list *dma_resv_shared_list(struct dma_resv *obj)
+>  }
+>  
+>  /**
+> - * dma_resv_reserve_shared - Reserve space to add shared fences to
+> + * dma_resv_reserve_fences - Reserve space to add shared fences to
+>   * a dma_resv.
+>   * @obj: reservation object
+>   * @num_fences: number of fences we want to add
+> @@ -167,7 +167,7 @@ static inline struct dma_resv_list *dma_resv_shared_list(struct dma_resv *obj)
+>   * RETURNS
+>   * Zero for success, or -errno
+>   */
+> -int dma_resv_reserve_shared(struct dma_resv *obj, unsigned int num_fences)
+> +int dma_resv_reserve_fences(struct dma_resv *obj, unsigned int num_fences)
+>  {
+>  	struct dma_resv_list *old, *new;
+>  	unsigned int i, j, k, max;
+> @@ -230,7 +230,7 @@ int dma_resv_reserve_shared(struct dma_resv *obj, unsigned int num_fences)
+>  
+>  	return 0;
+>  }
+> -EXPORT_SYMBOL(dma_resv_reserve_shared);
+> +EXPORT_SYMBOL(dma_resv_reserve_fences);
+>  
+>  #ifdef CONFIG_DEBUG_MUTEXES
+>  /**
+> @@ -238,7 +238,7 @@ EXPORT_SYMBOL(dma_resv_reserve_shared);
+>   * @obj: the dma_resv object to reset
+>   *
+>   * Reset the number of pre-reserved shared slots to test that drivers do
+> - * correct slot allocation using dma_resv_reserve_shared(). See also
+> + * correct slot allocation using dma_resv_reserve_fences(). See also
+>   * &dma_resv_list.shared_max.
+>   */
+>  void dma_resv_reset_shared_max(struct dma_resv *obj)
+> @@ -260,7 +260,7 @@ EXPORT_SYMBOL(dma_resv_reset_shared_max);
+>   * @fence: the shared fence to add
+>   *
+>   * Add a fence to a shared slot, @obj must be locked with dma_resv_lock(), and
+> - * dma_resv_reserve_shared() has been called.
+> + * dma_resv_reserve_fences() has been called.
+>   *
+>   * See also &dma_resv.fence for a discussion of the semantics.
+>   */
+> diff --git a/drivers/dma-buf/st-dma-resv.c b/drivers/dma-buf/st-dma-resv.c
+> index cbe999c6e7a6..d2e61f6ae989 100644
+> --- a/drivers/dma-buf/st-dma-resv.c
+> +++ b/drivers/dma-buf/st-dma-resv.c
+> @@ -75,17 +75,16 @@ static int test_signaling(void *arg, bool shared)
+>  		goto err_free;
+>  	}
+>  
+> -	if (shared) {
+> -		r = dma_resv_reserve_shared(&resv, 1);
+> -		if (r) {
+> -			pr_err("Resv shared slot allocation failed\n");
+> -			goto err_unlock;
+> -		}
+> +	r = dma_resv_reserve_fences(&resv, 1);
+> +	if (r) {
+> +		pr_err("Resv shared slot allocation failed\n");
+> +		goto err_unlock;
+> +	}
+>  
+> +	if (shared)
+>  		dma_resv_add_shared_fence(&resv, f);
+> -	} else {
+> +	else
+>  		dma_resv_add_excl_fence(&resv, f);
+> -	}
+>  
+>  	if (dma_resv_test_signaled(&resv, shared)) {
+>  		pr_err("Resv unexpectedly signaled\n");
+> @@ -134,17 +133,16 @@ static int test_for_each(void *arg, bool shared)
+>  		goto err_free;
+>  	}
+>  
+> -	if (shared) {
+> -		r = dma_resv_reserve_shared(&resv, 1);
+> -		if (r) {
+> -			pr_err("Resv shared slot allocation failed\n");
+> -			goto err_unlock;
+> -		}
+> +	r = dma_resv_reserve_fences(&resv, 1);
+> +	if (r) {
+> +		pr_err("Resv shared slot allocation failed\n");
+> +		goto err_unlock;
+> +	}
+>  
+> +	if (shared)
+>  		dma_resv_add_shared_fence(&resv, f);
+> -	} else {
+> +	else
+>  		dma_resv_add_excl_fence(&resv, f);
+> -	}
+>  
+>  	r = -ENOENT;
+>  	dma_resv_for_each_fence(&cursor, &resv, shared, fence) {
+> @@ -206,18 +204,17 @@ static int test_for_each_unlocked(void *arg, bool shared)
+>  		goto err_free;
+>  	}
+>  
+> -	if (shared) {
+> -		r = dma_resv_reserve_shared(&resv, 1);
+> -		if (r) {
+> -			pr_err("Resv shared slot allocation failed\n");
+> -			dma_resv_unlock(&resv);
+> -			goto err_free;
+> -		}
+> +	r = dma_resv_reserve_fences(&resv, 1);
+> +	if (r) {
+> +		pr_err("Resv shared slot allocation failed\n");
+> +		dma_resv_unlock(&resv);
+> +		goto err_free;
+> +	}
+>  
+> +	if (shared)
+>  		dma_resv_add_shared_fence(&resv, f);
+> -	} else {
+> +	else
+>  		dma_resv_add_excl_fence(&resv, f);
+> -	}
+>  	dma_resv_unlock(&resv);
+>  
+>  	r = -ENOENT;
+> @@ -290,18 +287,17 @@ static int test_get_fences(void *arg, bool shared)
+>  		goto err_resv;
+>  	}
+>  
+> -	if (shared) {
+> -		r = dma_resv_reserve_shared(&resv, 1);
+> -		if (r) {
+> -			pr_err("Resv shared slot allocation failed\n");
+> -			dma_resv_unlock(&resv);
+> -			goto err_resv;
+> -		}
+> +	r = dma_resv_reserve_fences(&resv, 1);
+> +	if (r) {
+> +		pr_err("Resv shared slot allocation failed\n");
+> +		dma_resv_unlock(&resv);
+> +		goto err_resv;
+> +	}
+>  
+> +	if (shared)
+>  		dma_resv_add_shared_fence(&resv, f);
+> -	} else {
+> +	else
+>  		dma_resv_add_excl_fence(&resv, f);
+> -	}
+>  	dma_resv_unlock(&resv);
+>  
+>  	r = dma_resv_get_fences(&resv, shared, &i, &fences);
+> diff --git a/drivers/gpu/drm/amd/amdgpu/amdgpu_amdkfd_gpuvm.c b/drivers/gpu/drm/amd/amdgpu/amdgpu_amdkfd_gpuvm.c
+> index 900ed2a7483b..98b1736bb221 100644
+> --- a/drivers/gpu/drm/amd/amdgpu/amdgpu_amdkfd_gpuvm.c
+> +++ b/drivers/gpu/drm/amd/amdgpu/amdgpu_amdkfd_gpuvm.c
+> @@ -1233,7 +1233,7 @@ static int init_kfd_vm(struct amdgpu_vm *vm, void **process_info,
+>  				  AMDGPU_FENCE_OWNER_KFD, false);
+>  	if (ret)
+>  		goto wait_pd_fail;
+> -	ret = dma_resv_reserve_shared(vm->root.bo->tbo.base.resv, 1);
+> +	ret = dma_resv_reserve_fences(vm->root.bo->tbo.base.resv, 1);
+>  	if (ret)
+>  		goto reserve_shared_fail;
+>  	amdgpu_bo_fence(vm->root.bo,
+> @@ -2571,7 +2571,7 @@ int amdgpu_amdkfd_add_gws_to_process(void *info, void *gws, struct kgd_mem **mem
+>  	 * Add process eviction fence to bo so they can
+>  	 * evict each other.
+>  	 */
+> -	ret = dma_resv_reserve_shared(gws_bo->tbo.base.resv, 1);
+> +	ret = dma_resv_reserve_fences(gws_bo->tbo.base.resv, 1);
+>  	if (ret)
+>  		goto reserve_shared_fail;
+>  	amdgpu_bo_fence(gws_bo, &process_info->eviction_fence->base, true);
+> diff --git a/drivers/gpu/drm/amd/amdgpu/amdgpu_object.c b/drivers/gpu/drm/amd/amdgpu/amdgpu_object.c
+> index 25731719c627..6f57a2fd5fe3 100644
+> --- a/drivers/gpu/drm/amd/amdgpu/amdgpu_object.c
+> +++ b/drivers/gpu/drm/amd/amdgpu/amdgpu_object.c
+> @@ -1388,6 +1388,14 @@ void amdgpu_bo_fence(struct amdgpu_bo *bo, struct dma_fence *fence,
+>  		     bool shared)
+>  {
+>  	struct dma_resv *resv = bo->tbo.base.resv;
+> +	int r;
+> +
+> +	r = dma_resv_reserve_fences(resv, 1);
+> +	if (r) {
+> +		/* As last resort on OOM we block for the fence */
+> +		dma_fence_wait(fence, false);
+> +		return;
+> +	}
+>  
+>  	if (shared)
+>  		dma_resv_add_shared_fence(resv, fence);
+> diff --git a/drivers/gpu/drm/amd/amdgpu/amdgpu_vm.c b/drivers/gpu/drm/amd/amdgpu/amdgpu_vm.c
+> index 5d11978c162e..b13451255e8b 100644
+> --- a/drivers/gpu/drm/amd/amdgpu/amdgpu_vm.c
+> +++ b/drivers/gpu/drm/amd/amdgpu/amdgpu_vm.c
+> @@ -2926,7 +2926,7 @@ int amdgpu_vm_init(struct amdgpu_device *adev, struct amdgpu_vm *vm)
+>  	if (r)
+>  		goto error_free_root;
+>  
+> -	r = dma_resv_reserve_shared(root_bo->tbo.base.resv, 1);
+> +	r = dma_resv_reserve_fences(root_bo->tbo.base.resv, 1);
+>  	if (r)
+>  		goto error_unreserve;
+>  
+> @@ -3369,7 +3369,7 @@ bool amdgpu_vm_handle_fault(struct amdgpu_device *adev, u32 pasid,
+>  		value = 0;
+>  	}
+>  
+> -	r = dma_resv_reserve_shared(root->tbo.base.resv, 1);
+> +	r = dma_resv_reserve_fences(root->tbo.base.resv, 1);
+>  	if (r) {
+>  		pr_debug("failed %d to reserve fence slot\n", r);
+>  		goto error_unlock;
+> diff --git a/drivers/gpu/drm/amd/amdkfd/kfd_svm.c b/drivers/gpu/drm/amd/amdkfd/kfd_svm.c
+> index 3b8856b4cece..b3fc3e958227 100644
+> --- a/drivers/gpu/drm/amd/amdkfd/kfd_svm.c
+> +++ b/drivers/gpu/drm/amd/amdkfd/kfd_svm.c
+> @@ -548,7 +548,7 @@ svm_range_vram_node_new(struct amdgpu_device *adev, struct svm_range *prange,
+>  		goto reserve_bo_failed;
+>  	}
+>  
+> -	r = dma_resv_reserve_shared(bo->tbo.base.resv, 1);
+> +	r = dma_resv_reserve_fences(bo->tbo.base.resv, 1);
+>  	if (r) {
+>  		pr_debug("failed %d to reserve bo\n", r);
+>  		amdgpu_bo_unreserve(bo);
+> diff --git a/drivers/gpu/drm/etnaviv/etnaviv_gem_submit.c b/drivers/gpu/drm/etnaviv/etnaviv_gem_submit.c
+> index 5f502c49aec2..53f7c78628a4 100644
+> --- a/drivers/gpu/drm/etnaviv/etnaviv_gem_submit.c
+> +++ b/drivers/gpu/drm/etnaviv/etnaviv_gem_submit.c
+> @@ -179,11 +179,9 @@ static int submit_fence_sync(struct etnaviv_gem_submit *submit)
+>  		struct etnaviv_gem_submit_bo *bo = &submit->bos[i];
+>  		struct dma_resv *robj = bo->obj->base.resv;
+>  
+> -		if (!(bo->flags & ETNA_SUBMIT_BO_WRITE)) {
+> -			ret = dma_resv_reserve_shared(robj, 1);
+> -			if (ret)
+> -				return ret;
+> -		}
+> +		ret = dma_resv_reserve_fences(robj, 1);
+> +		if (ret)
+> +			return ret;
+>  
+>  		if (submit->flags & ETNA_SUBMIT_NO_IMPLICIT)
+>  			continue;
+> diff --git a/drivers/gpu/drm/i915/gem/i915_gem_clflush.c b/drivers/gpu/drm/i915/gem/i915_gem_clflush.c
+> index ce91b23385cf..1fd0cc9ca213 100644
+> --- a/drivers/gpu/drm/i915/gem/i915_gem_clflush.c
+> +++ b/drivers/gpu/drm/i915/gem/i915_gem_clflush.c
+> @@ -108,7 +108,8 @@ bool i915_gem_clflush_object(struct drm_i915_gem_object *obj,
+>  	trace_i915_gem_object_clflush(obj);
+>  
+>  	clflush = NULL;
+> -	if (!(flags & I915_CLFLUSH_SYNC))
+> +	if (!(flags & I915_CLFLUSH_SYNC) &&
+> +	    dma_resv_reserve_fences(obj->base.resv, 1) == 0)
+>  		clflush = clflush_work_create(obj);
+>  	if (clflush) {
+>  		i915_sw_fence_await_reservation(&clflush->base.chain,
+> diff --git a/drivers/gpu/drm/i915/gem/i915_gem_execbuffer.c b/drivers/gpu/drm/i915/gem/i915_gem_execbuffer.c
+> index d42f437149c9..78f8797853ce 100644
+> --- a/drivers/gpu/drm/i915/gem/i915_gem_execbuffer.c
+> +++ b/drivers/gpu/drm/i915/gem/i915_gem_execbuffer.c
+> @@ -998,11 +998,9 @@ static int eb_validate_vmas(struct i915_execbuffer *eb)
+>  			}
+>  		}
+>  
+> -		if (!(ev->flags & EXEC_OBJECT_WRITE)) {
+> -			err = dma_resv_reserve_shared(vma->obj->base.resv, 1);
+> -			if (err)
+> -				return err;
+> -		}
+> +		err = dma_resv_reserve_fences(vma->obj->base.resv, 1);
+> +		if (err)
+> +			return err;
+>  
+>  		GEM_BUG_ON(drm_mm_node_allocated(&vma->node) &&
+>  			   eb_vma_misplaced(&eb->exec[i], vma, ev->flags));
+> @@ -2303,7 +2301,7 @@ static int eb_parse(struct i915_execbuffer *eb)
+>  	if (IS_ERR(batch))
+>  		return PTR_ERR(batch);
+>  
+> -	err = dma_resv_reserve_shared(shadow->obj->base.resv, 1);
+> +	err = dma_resv_reserve_fences(shadow->obj->base.resv, 1);
+>  	if (err)
+>  		return err;
+>  
+> diff --git a/drivers/gpu/drm/i915/gem/i915_gem_ttm_move.c b/drivers/gpu/drm/i915/gem/i915_gem_ttm_move.c
+> index 1ebe6e4086a1..432ac74ff225 100644
+> --- a/drivers/gpu/drm/i915/gem/i915_gem_ttm_move.c
+> +++ b/drivers/gpu/drm/i915/gem/i915_gem_ttm_move.c
+> @@ -611,7 +611,11 @@ int i915_gem_obj_copy_ttm(struct drm_i915_gem_object *dst,
+>  	assert_object_held(src);
+>  	i915_deps_init(&deps, GFP_KERNEL | __GFP_NORETRY | __GFP_NOWARN);
+>  
+> -	ret = dma_resv_reserve_shared(src_bo->base.resv, 1);
+> +	ret = dma_resv_reserve_fences(src_bo->base.resv, 1);
+> +	if (ret)
+> +		return ret;
+> +
+> +	ret = dma_resv_reserve_fences(dst_bo->base.resv, 1);
+>  	if (ret)
+>  		return ret;
+>  
+> diff --git a/drivers/gpu/drm/i915/gem/selftests/i915_gem_migrate.c b/drivers/gpu/drm/i915/gem/selftests/i915_gem_migrate.c
+> index d534141b2cf7..0e52eb87cd55 100644
+> --- a/drivers/gpu/drm/i915/gem/selftests/i915_gem_migrate.c
+> +++ b/drivers/gpu/drm/i915/gem/selftests/i915_gem_migrate.c
+> @@ -216,7 +216,10 @@ static int __igt_lmem_pages_migrate(struct intel_gt *gt,
+>  					  i915_gem_object_is_lmem(obj),
+>  					  0xdeadbeaf, &rq);
+>  		if (rq) {
+> -			dma_resv_add_excl_fence(obj->base.resv, &rq->fence);
+> +			err = dma_resv_reserve_fences(obj->base.resv, 1);
+> +			if (!err)
+> +				dma_resv_add_excl_fence(obj->base.resv,
+> +							&rq->fence);
+>  			i915_gem_object_set_moving_fence(obj, &rq->fence);
+>  			i915_request_put(rq);
+>  		}
+> diff --git a/drivers/gpu/drm/i915/i915_vma.c b/drivers/gpu/drm/i915/i915_vma.c
+> index 94fcdb7bd21d..bae3423f58e8 100644
+> --- a/drivers/gpu/drm/i915/i915_vma.c
+> +++ b/drivers/gpu/drm/i915/i915_vma.c
+> @@ -1819,6 +1819,12 @@ int _i915_vma_move_to_active(struct i915_vma *vma,
+>  			intel_frontbuffer_put(front);
+>  		}
+>  
+> +		if (!(flags & __EXEC_OBJECT_NO_RESERVE)) {
+> +			err = dma_resv_reserve_fences(vma->obj->base.resv, 1);
+> +			if (unlikely(err))
+> +				return err;
+> +		}
+> +
+>  		if (fence) {
+>  			dma_resv_add_excl_fence(vma->obj->base.resv, fence);
+>  			obj->write_domain = I915_GEM_DOMAIN_RENDER;
+> @@ -1826,7 +1832,7 @@ int _i915_vma_move_to_active(struct i915_vma *vma,
+>  		}
+>  	} else {
+>  		if (!(flags & __EXEC_OBJECT_NO_RESERVE)) {
+> -			err = dma_resv_reserve_shared(vma->obj->base.resv, 1);
+> +			err = dma_resv_reserve_fences(vma->obj->base.resv, 1);
+>  			if (unlikely(err))
+>  				return err;
+>  		}
+> @@ -2044,7 +2050,7 @@ int i915_vma_unbind_async(struct i915_vma *vma, bool trylock_vm)
+>  	if (!obj->mm.rsgt)
+>  		return -EBUSY;
+>  
+> -	err = dma_resv_reserve_shared(obj->base.resv, 1);
+> +	err = dma_resv_reserve_fences(obj->base.resv, 1);
+>  	if (err)
+>  		return -EBUSY;
+>  
+> diff --git a/drivers/gpu/drm/i915/selftests/intel_memory_region.c b/drivers/gpu/drm/i915/selftests/intel_memory_region.c
+> index ba32893e0873..6114e013092b 100644
+> --- a/drivers/gpu/drm/i915/selftests/intel_memory_region.c
+> +++ b/drivers/gpu/drm/i915/selftests/intel_memory_region.c
+> @@ -1043,6 +1043,13 @@ static int igt_lmem_write_cpu(void *arg)
+>  	}
+>  
+>  	i915_gem_object_lock(obj, NULL);
+> +
+> +	err = dma_resv_reserve_fences(obj->base.resv, 1);
+> +	if (err) {
+> +		i915_gem_object_unlock(obj);
+> +		goto out_put;
+> +	}
+> +
+>  	/* Put the pages into a known state -- from the gpu for added fun */
+>  	intel_engine_pm_get(engine);
+>  	err = intel_context_migrate_clear(engine->gt->migrate.context, NULL,
+> diff --git a/drivers/gpu/drm/lima/lima_gem.c b/drivers/gpu/drm/lima/lima_gem.c
+> index 55bb1ec3c4f7..e0a11ee0e86d 100644
+> --- a/drivers/gpu/drm/lima/lima_gem.c
+> +++ b/drivers/gpu/drm/lima/lima_gem.c
+> @@ -257,13 +257,11 @@ int lima_gem_get_info(struct drm_file *file, u32 handle, u32 *va, u64 *offset)
+>  static int lima_gem_sync_bo(struct lima_sched_task *task, struct lima_bo *bo,
+>  			    bool write, bool explicit)
+>  {
+> -	int err = 0;
+> +	int err;
+>  
+> -	if (!write) {
+> -		err = dma_resv_reserve_shared(lima_bo_resv(bo), 1);
+> -		if (err)
+> -			return err;
+> -	}
+> +	err = dma_resv_reserve_fences(lima_bo_resv(bo), 1);
+> +	if (err)
+> +		return err;
+>  
+>  	/* explicit sync use user passed dep fence */
+>  	if (explicit)
+> diff --git a/drivers/gpu/drm/msm/msm_gem_submit.c b/drivers/gpu/drm/msm/msm_gem_submit.c
+> index c6d60c8d286d..3164db8be893 100644
+> --- a/drivers/gpu/drm/msm/msm_gem_submit.c
+> +++ b/drivers/gpu/drm/msm/msm_gem_submit.c
+> @@ -320,16 +320,14 @@ static int submit_fence_sync(struct msm_gem_submit *submit, bool no_implicit)
+>  		struct drm_gem_object *obj = &submit->bos[i].obj->base;
+>  		bool write = submit->bos[i].flags & MSM_SUBMIT_BO_WRITE;
+>  
+> -		if (!write) {
+> -			/* NOTE: _reserve_shared() must happen before
+> -			 * _add_shared_fence(), which makes this a slightly
+> -			 * strange place to call it.  OTOH this is a
+> -			 * convenient can-fail point to hook it in.
+> -			 */
+> -			ret = dma_resv_reserve_shared(obj->resv, 1);
+> -			if (ret)
+> -				return ret;
+> -		}
+> +		/* NOTE: _reserve_shared() must happen before
+> +		 * _add_shared_fence(), which makes this a slightly
+> +		 * strange place to call it.  OTOH this is a
+> +		 * convenient can-fail point to hook it in.
+> +		 */
+> +		ret = dma_resv_reserve_fences(obj->resv, 1);
+> +		if (ret)
+> +			return ret;
+>  
+>  		/* exclusive fences must be ordered */
+>  		if (no_implicit && !write)
+> diff --git a/drivers/gpu/drm/nouveau/nouveau_fence.c b/drivers/gpu/drm/nouveau/nouveau_fence.c
+> index a3a04e0d76ec..0268259e97eb 100644
+> --- a/drivers/gpu/drm/nouveau/nouveau_fence.c
+> +++ b/drivers/gpu/drm/nouveau/nouveau_fence.c
+> @@ -346,11 +346,9 @@ nouveau_fence_sync(struct nouveau_bo *nvbo, struct nouveau_channel *chan,
+>  	struct dma_resv *resv = nvbo->bo.base.resv;
+>  	int i, ret;
+>  
+> -	if (!exclusive) {
+> -		ret = dma_resv_reserve_shared(resv, 1);
+> -		if (ret)
+> -			return ret;
+> -	}
+> +	ret = dma_resv_reserve_fences(resv, 1);
+> +	if (ret)
+> +		return ret;
+>  
+>  	/* Waiting for the exclusive fence first causes performance regressions
+>  	 * under some circumstances. So manually wait for the shared ones first.
+> diff --git a/drivers/gpu/drm/panfrost/panfrost_job.c b/drivers/gpu/drm/panfrost/panfrost_job.c
+> index a6925dbb6224..c34114560e49 100644
+> --- a/drivers/gpu/drm/panfrost/panfrost_job.c
+> +++ b/drivers/gpu/drm/panfrost/panfrost_job.c
+> @@ -247,6 +247,10 @@ static int panfrost_acquire_object_fences(struct drm_gem_object **bos,
+>  	int i, ret;
+>  
+>  	for (i = 0; i < bo_count; i++) {
+> +		ret = dma_resv_reserve_fences(bos[i]->resv, 1);
+> +		if (ret)
+> +			return ret;
+> +
+>  		/* panfrost always uses write mode in its current uapi */
+>  		ret = drm_sched_job_add_implicit_dependencies(job, bos[i],
+>  							      true);
+> diff --git a/drivers/gpu/drm/qxl/qxl_release.c b/drivers/gpu/drm/qxl/qxl_release.c
+> index 469979cd0341..cde1e8ddaeaa 100644
+> --- a/drivers/gpu/drm/qxl/qxl_release.c
+> +++ b/drivers/gpu/drm/qxl/qxl_release.c
+> @@ -200,7 +200,7 @@ static int qxl_release_validate_bo(struct qxl_bo *bo)
+>  			return ret;
+>  	}
+>  
+> -	ret = dma_resv_reserve_shared(bo->tbo.base.resv, 1);
+> +	ret = dma_resv_reserve_fences(bo->tbo.base.resv, 1);
+>  	if (ret)
+>  		return ret;
+>  
+> diff --git a/drivers/gpu/drm/radeon/radeon_cs.c b/drivers/gpu/drm/radeon/radeon_cs.c
+> index 9ed2b2700e0a..446f7bae54c4 100644
+> --- a/drivers/gpu/drm/radeon/radeon_cs.c
+> +++ b/drivers/gpu/drm/radeon/radeon_cs.c
+> @@ -535,6 +535,10 @@ static int radeon_bo_vm_update_pte(struct radeon_cs_parser *p,
+>  			return r;
+>  
+>  		radeon_sync_fence(&p->ib.sync, bo_va->last_pt_update);
+> +
+> +		r = dma_resv_reserve_fences(bo->tbo.base.resv, 1);
+> +		if (r)
+> +			return r;
+>  	}
+>  
+>  	return radeon_vm_clear_invalids(rdev, vm);
+> diff --git a/drivers/gpu/drm/radeon/radeon_object.c b/drivers/gpu/drm/radeon/radeon_object.c
+> index 91a72cd14304..7ffd2e90f325 100644
+> --- a/drivers/gpu/drm/radeon/radeon_object.c
+> +++ b/drivers/gpu/drm/radeon/radeon_object.c
+> @@ -782,6 +782,14 @@ void radeon_bo_fence(struct radeon_bo *bo, struct radeon_fence *fence,
+>  		     bool shared)
+>  {
+>  	struct dma_resv *resv = bo->tbo.base.resv;
+> +	int r;
+> +
+> +	r = dma_resv_reserve_fences(resv, 1);
+> +	if (r) {
+> +		/* As last resort on OOM we block for the fence */
+> +		dma_fence_wait(&fence->base, false);
+> +		return;
+> +	}
+>  
+>  	if (shared)
+>  		dma_resv_add_shared_fence(resv, &fence->base);
+> diff --git a/drivers/gpu/drm/radeon/radeon_vm.c b/drivers/gpu/drm/radeon/radeon_vm.c
+> index bb53016f3138..987cabbf1318 100644
+> --- a/drivers/gpu/drm/radeon/radeon_vm.c
+> +++ b/drivers/gpu/drm/radeon/radeon_vm.c
+> @@ -831,7 +831,7 @@ static int radeon_vm_update_ptes(struct radeon_device *rdev,
+>  		int r;
+>  
+>  		radeon_sync_resv(rdev, &ib->sync, pt->tbo.base.resv, true);
+> -		r = dma_resv_reserve_shared(pt->tbo.base.resv, 1);
+> +		r = dma_resv_reserve_fences(pt->tbo.base.resv, 1);
+>  		if (r)
+>  			return r;
+>  
+> diff --git a/drivers/gpu/drm/ttm/ttm_bo.c b/drivers/gpu/drm/ttm/ttm_bo.c
+> index e5fd0f2c0299..c49996cf25d0 100644
+> --- a/drivers/gpu/drm/ttm/ttm_bo.c
+> +++ b/drivers/gpu/drm/ttm/ttm_bo.c
+> @@ -151,6 +151,10 @@ static int ttm_bo_handle_move_mem(struct ttm_buffer_object *bo,
+>  		}
+>  	}
+>  
+> +	ret = dma_resv_reserve_fences(bo->base.resv, 1);
+> +	if (ret)
+> +		goto out_err;
+> +
+>  	ret = bdev->funcs->move(bo, evict, ctx, mem, hop);
+>  	if (ret) {
+>  		if (ret == -EMULTIHOP)
+> @@ -735,7 +739,7 @@ static int ttm_bo_add_move_fence(struct ttm_buffer_object *bo,
+>  
+>  	dma_resv_add_shared_fence(bo->base.resv, fence);
+>  
+> -	ret = dma_resv_reserve_shared(bo->base.resv, 1);
+> +	ret = dma_resv_reserve_fences(bo->base.resv, 1);
+>  	if (unlikely(ret)) {
+>  		dma_fence_put(fence);
+>  		return ret;
+> @@ -794,7 +798,7 @@ int ttm_bo_mem_space(struct ttm_buffer_object *bo,
+>  	bool type_found = false;
+>  	int i, ret;
+>  
+> -	ret = dma_resv_reserve_shared(bo->base.resv, 1);
+> +	ret = dma_resv_reserve_fences(bo->base.resv, 1);
+>  	if (unlikely(ret))
+>  		return ret;
+>  
+> diff --git a/drivers/gpu/drm/ttm/ttm_bo_util.c b/drivers/gpu/drm/ttm/ttm_bo_util.c
+> index 219dd81bbeab..1b96b91bf81b 100644
+> --- a/drivers/gpu/drm/ttm/ttm_bo_util.c
+> +++ b/drivers/gpu/drm/ttm/ttm_bo_util.c
+> @@ -221,9 +221,6 @@ static int ttm_buffer_object_transfer(struct ttm_buffer_object *bo,
+>  
+>  	fbo->base = *bo;
+>  
+> -	ttm_bo_get(bo);
+> -	fbo->bo = bo;
+> -
+>  	/**
+>  	 * Fix up members that we shouldn't copy directly:
+>  	 * TODO: Explicit member copy would probably be better here.
+> @@ -250,6 +247,15 @@ static int ttm_buffer_object_transfer(struct ttm_buffer_object *bo,
+>  	ret = dma_resv_trylock(&fbo->base.base._resv);
+>  	WARN_ON(!ret);
+>  
+> +	ret = dma_resv_reserve_fences(&fbo->base.base._resv, 1);
+> +	if (ret) {
+> +		kfree(fbo);
+> +		return ret;
+> +	}
+> +
+> +	ttm_bo_get(bo);
+> +	fbo->bo = bo;
+> +
+>  	ttm_bo_move_to_lru_tail_unlocked(&fbo->base);
+>  
+>  	*new_obj = &fbo->base;
+> diff --git a/drivers/gpu/drm/ttm/ttm_execbuf_util.c b/drivers/gpu/drm/ttm/ttm_execbuf_util.c
+> index 071c48d672c6..789c645f004e 100644
+> --- a/drivers/gpu/drm/ttm/ttm_execbuf_util.c
+> +++ b/drivers/gpu/drm/ttm/ttm_execbuf_util.c
+> @@ -90,6 +90,7 @@ int ttm_eu_reserve_buffers(struct ww_acquire_ctx *ticket,
+>  
+>  	list_for_each_entry(entry, list, head) {
+>  		struct ttm_buffer_object *bo = entry->bo;
+> +		unsigned int num_fences;
+>  
+>  		ret = ttm_bo_reserve(bo, intr, (ticket == NULL), ticket);
+>  		if (ret == -EALREADY && dups) {
+> @@ -100,12 +101,10 @@ int ttm_eu_reserve_buffers(struct ww_acquire_ctx *ticket,
+>  			continue;
+>  		}
+>  
+> +		num_fences = min(entry->num_shared, 1u);
+>  		if (!ret) {
+> -			if (!entry->num_shared)
+> -				continue;
+> -
+> -			ret = dma_resv_reserve_shared(bo->base.resv,
+> -								entry->num_shared);
+> +			ret = dma_resv_reserve_fences(bo->base.resv,
+> +						      num_fences);
+>  			if (!ret)
+>  				continue;
+>  		}
+> @@ -120,9 +119,9 @@ int ttm_eu_reserve_buffers(struct ww_acquire_ctx *ticket,
+>  			ret = ttm_bo_reserve_slowpath(bo, intr, ticket);
+>  		}
+>  
+> -		if (!ret && entry->num_shared)
+> -			ret = dma_resv_reserve_shared(bo->base.resv,
+> -								entry->num_shared);
+> +		if (!ret)
+> +			ret = dma_resv_reserve_fences(bo->base.resv,
+> +						      num_fences);
+>  
+>  		if (unlikely(ret != 0)) {
+>  			if (ticket) {
+> diff --git a/drivers/gpu/drm/v3d/v3d_gem.c b/drivers/gpu/drm/v3d/v3d_gem.c
+> index 92bc0faee84f..961812d33827 100644
+> --- a/drivers/gpu/drm/v3d/v3d_gem.c
+> +++ b/drivers/gpu/drm/v3d/v3d_gem.c
+> @@ -259,16 +259,21 @@ v3d_lock_bo_reservations(struct v3d_job *job,
+>  		return ret;
+>  
+>  	for (i = 0; i < job->bo_count; i++) {
+> +		ret = dma_resv_reserve_fences(job->bo[i]->resv, 1);
+> +		if (ret)
+> +			goto fail;
+> +
+>  		ret = drm_sched_job_add_implicit_dependencies(&job->base,
+>  							      job->bo[i], true);
+> -		if (ret) {
+> -			drm_gem_unlock_reservations(job->bo, job->bo_count,
+> -						    acquire_ctx);
+> -			return ret;
+> -		}
+> +		if (ret)
+> +			goto fail;
+>  	}
+>  
+>  	return 0;
+> +
+> +fail:
+> +	drm_gem_unlock_reservations(job->bo, job->bo_count, acquire_ctx);
+> +	return ret;
+>  }
+>  
+>  /**
+> diff --git a/drivers/gpu/drm/vc4/vc4_gem.c b/drivers/gpu/drm/vc4/vc4_gem.c
+> index 4abf10b66fe8..594bd6bb00d2 100644
+> --- a/drivers/gpu/drm/vc4/vc4_gem.c
+> +++ b/drivers/gpu/drm/vc4/vc4_gem.c
+> @@ -644,7 +644,7 @@ vc4_lock_bo_reservations(struct drm_device *dev,
+>  	for (i = 0; i < exec->bo_count; i++) {
+>  		bo = &exec->bo[i]->base;
+>  
+> -		ret = dma_resv_reserve_shared(bo->resv, 1);
+> +		ret = dma_resv_reserve_fences(bo->resv, 1);
+>  		if (ret) {
+>  			vc4_unlock_bo_reservations(dev, exec, acquire_ctx);
+>  			return ret;
+> diff --git a/drivers/gpu/drm/vgem/vgem_fence.c b/drivers/gpu/drm/vgem/vgem_fence.c
+> index bd6f75285fd9..2ddbebca87d9 100644
+> --- a/drivers/gpu/drm/vgem/vgem_fence.c
+> +++ b/drivers/gpu/drm/vgem/vgem_fence.c
+> @@ -157,12 +157,14 @@ int vgem_fence_attach_ioctl(struct drm_device *dev,
+>  	}
+>  
+>  	/* Expose the fence via the dma-buf */
+> -	ret = 0;
+>  	dma_resv_lock(resv, NULL);
+> -	if (arg->flags & VGEM_FENCE_WRITE)
+> -		dma_resv_add_excl_fence(resv, fence);
+> -	else if ((ret = dma_resv_reserve_shared(resv, 1)) == 0)
+> -		dma_resv_add_shared_fence(resv, fence);
+> +	ret = dma_resv_reserve_fences(resv, 1);
+> +	if (!ret) {
+> +		if (arg->flags & VGEM_FENCE_WRITE)
+> +			dma_resv_add_excl_fence(resv, fence);
+> +		else
+> +			dma_resv_add_shared_fence(resv, fence);
+> +	}
+>  	dma_resv_unlock(resv);
+>  
+>  	/* Record the fence in our idr for later signaling */
+> diff --git a/drivers/gpu/drm/virtio/virtgpu_gem.c b/drivers/gpu/drm/virtio/virtgpu_gem.c
+> index 48d3c9955f0d..1820ca6cf673 100644
+> --- a/drivers/gpu/drm/virtio/virtgpu_gem.c
+> +++ b/drivers/gpu/drm/virtio/virtgpu_gem.c
+> @@ -214,6 +214,7 @@ void virtio_gpu_array_add_obj(struct virtio_gpu_object_array *objs,
+>  
+>  int virtio_gpu_array_lock_resv(struct virtio_gpu_object_array *objs)
+>  {
+> +	unsigned int i;
+>  	int ret;
+>  
+>  	if (objs->nents == 1) {
+> @@ -222,6 +223,14 @@ int virtio_gpu_array_lock_resv(struct virtio_gpu_object_array *objs)
+>  		ret = drm_gem_lock_reservations(objs->objs, objs->nents,
+>  						&objs->ticket);
+>  	}
+> +	if (ret)
+> +		return ret;
+> +
+> +	for (i = 0; i < objs->nents; ++i) {
+> +		ret = dma_resv_reserve_fences(objs->objs[i]->resv, 1);
+> +		if (ret)
+> +			return ret;
+> +	}
+>  	return ret;
+>  }
+>  
+> diff --git a/drivers/gpu/drm/vmwgfx/vmwgfx_bo.c b/drivers/gpu/drm/vmwgfx/vmwgfx_bo.c
+> index 31aecc46624b..fe13aa8b4a64 100644
+> --- a/drivers/gpu/drm/vmwgfx/vmwgfx_bo.c
+> +++ b/drivers/gpu/drm/vmwgfx/vmwgfx_bo.c
+> @@ -747,16 +747,22 @@ void vmw_bo_fence_single(struct ttm_buffer_object *bo,
+>  			 struct vmw_fence_obj *fence)
+>  {
+>  	struct ttm_device *bdev = bo->bdev;
+> -
+>  	struct vmw_private *dev_priv =
+>  		container_of(bdev, struct vmw_private, bdev);
+> +	int ret;
+>  
+> -	if (fence == NULL) {
+> +	if (fence == NULL)
+>  		vmw_execbuf_fence_commands(NULL, dev_priv, &fence, NULL);
+> +	else
+> +		dma_fence_get(&fence->base);
+> +
+> +	ret = dma_resv_reserve_fences(bo->base.resv, 1);
+> +	if (!ret)
+>  		dma_resv_add_excl_fence(bo->base.resv, &fence->base);
+> -		dma_fence_put(&fence->base);
+> -	} else
+> -		dma_resv_add_excl_fence(bo->base.resv, &fence->base);
+> +	else
+> +		/* Last resort fallback when we are OOM */
+> +		dma_fence_wait(&fence->base, false);
+> +	dma_fence_put(&fence->base);
+>  }
+>  
+>  
+> diff --git a/include/linux/dma-resv.h b/include/linux/dma-resv.h
+> index ecb697d4d861..5fa04d0fccad 100644
+> --- a/include/linux/dma-resv.h
+> +++ b/include/linux/dma-resv.h
+> @@ -117,7 +117,7 @@ struct dma_resv {
+>  	 * A new fence is added by calling dma_resv_add_shared_fence(). Since
+>  	 * this often needs to be done past the point of no return in command
+>  	 * submission it cannot fail, and therefore sufficient slots need to be
+> -	 * reserved by calling dma_resv_reserve_shared().
+> +	 * reserved by calling dma_resv_reserve_fences().
+>  	 *
+>  	 * Note that actual semantics of what an exclusive or shared fence mean
+>  	 * is defined by the user, for reservation objects shared across drivers
+> @@ -413,7 +413,7 @@ static inline void dma_resv_unlock(struct dma_resv *obj)
+>  
+>  void dma_resv_init(struct dma_resv *obj);
+>  void dma_resv_fini(struct dma_resv *obj);
+> -int dma_resv_reserve_shared(struct dma_resv *obj, unsigned int num_fences);
+> +int dma_resv_reserve_fences(struct dma_resv *obj, unsigned int num_fences);
+>  void dma_resv_add_shared_fence(struct dma_resv *obj, struct dma_fence *fence);
+>  void dma_resv_replace_fences(struct dma_resv *obj, uint64_t context,
+>  			     struct dma_fence *fence);
+> -- 
+> 2.25.1
+> 
 
----
- drivers/gpu/drm/gma500/psb_drv.c | 3 ++-
- 1 file changed, 2 insertions(+), 1 deletion(-)
-
-diff --git a/drivers/gpu/drm/gma500/psb_drv.c b/drivers/gpu/drm/gma500/psb_drv.c
-index 2aff54d505e2..929fd47548b4 100644
---- a/drivers/gpu/drm/gma500/psb_drv.c
-+++ b/drivers/gpu/drm/gma500/psb_drv.c
-@@ -400,9 +400,10 @@ static int psb_driver_load(struct drm_device *dev, unsigned long flags)
- 		case INTEL_OUTPUT_LVDS:
- 		case INTEL_OUTPUT_MIPI:
- 			ret = gma_backlight_init(dev);
--			break;
-+			goto out;
- 		}
- 	}
-+out:
- 	drm_connector_list_iter_end(&conn_iter);
- 
- 	if (ret)
 -- 
-2.17.1
-
+Daniel Vetter
+Software Engineer, Intel Corporation
+http://blog.ffwll.ch
