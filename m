@@ -2,61 +2,45 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4265F4F5BBF
-	for <lists+dri-devel@lfdr.de>; Wed,  6 Apr 2022 12:44:28 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 3D0734F5BC3
+	for <lists+dri-devel@lfdr.de>; Wed,  6 Apr 2022 12:48:56 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 506C810E23A;
-	Wed,  6 Apr 2022 10:44:26 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 1FE7010E2B2;
+	Wed,  6 Apr 2022 10:48:54 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from smtp-out2.suse.de (smtp-out2.suse.de [195.135.220.29])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 3A5C110E23A
- for <dri-devel@lists.freedesktop.org>; Wed,  6 Apr 2022 10:44:25 +0000 (UTC)
-Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
- key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
- (No client certificate requested)
- by smtp-out2.suse.de (Postfix) with ESMTPS id D0A231F7AD;
- Wed,  6 Apr 2022 10:44:23 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
- t=1649241863; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
- mime-version:mime-version:content-type:content-type:
- in-reply-to:in-reply-to:references:references;
- bh=BtjjMVrhvkSWvSMCc5G5QsIGVB7cYRt7jmbiOytUR8Y=;
- b=Rj+wCXVb1kDOYv2HooYFGh7j0vNJb/Gsdh7aoPUxrF0pXsBc1EdtwLiZ5haq3i0i512skq
- Hm43IelmTWjklQd7Yf1joK2pLUP9QFQzQpsxgNVCpGvVk6BDXMwnEBmHNmFfH3Z5//lRL7
- PL882dYEnFeXzAbuV8yhQ8mfsHWICrY=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
- s=susede2_ed25519; t=1649241863;
- h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
- mime-version:mime-version:content-type:content-type:
- in-reply-to:in-reply-to:references:references;
- bh=BtjjMVrhvkSWvSMCc5G5QsIGVB7cYRt7jmbiOytUR8Y=;
- b=v6REpgRwHB4pWaV0rDBPejeJzy6jGdtL4nIv6yc5LGwbh/r6C8bDnbv6I3oaDR7QL7og9M
- MxiEU3mL1/ij8ZBw==
-Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
- key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
- (No client certificate requested)
- by imap2.suse-dmz.suse.de (Postfix) with ESMTPS id AC87913A8E;
- Wed,  6 Apr 2022 10:44:23 +0000 (UTC)
-Received: from dovecot-director2.suse.de ([192.168.254.65])
- by imap2.suse-dmz.suse.de with ESMTPSA id Cjb+KAdvTWJpLQAAMHmgww
- (envelope-from <tzimmermann@suse.de>); Wed, 06 Apr 2022 10:44:23 +0000
-Message-ID: <5ffa57d1-f3ad-3dfc-d7f6-f7ddd9138572@suse.de>
-Date: Wed, 6 Apr 2022 12:44:23 +0200
+Received: from mailgw02.mediatek.com (unknown [210.61.82.184])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 7758710E2B2
+ for <dri-devel@lists.freedesktop.org>; Wed,  6 Apr 2022 10:48:53 +0000 (UTC)
+X-UUID: fd052d13cf3b4bf3a48b595c441a8d01-20220406
+X-UUID: fd052d13cf3b4bf3a48b595c441a8d01-20220406
+Received: from mtkmbs10n2.mediatek.inc [(172.21.101.183)] by
+ mailgw02.mediatek.com (envelope-from <rex-bc.chen@mediatek.com>)
+ (Generic MTA with TLSv1.2 ECDHE-RSA-AES256-GCM-SHA384 256/256)
+ with ESMTP id 352717976; Wed, 06 Apr 2022 18:48:46 +0800
+Received: from mtkcas10.mediatek.inc (172.21.101.39) by
+ mtkmbs07n2.mediatek.inc (172.21.101.141) with Microsoft SMTP Server (TLS) id
+ 15.0.1497.2; Wed, 6 Apr 2022 18:48:44 +0800
+Received: from mtksdccf07 (172.21.84.99) by mtkcas10.mediatek.inc
+ (172.21.101.73) with Microsoft SMTP Server id 15.0.1497.2 via Frontend
+ Transport; Wed, 6 Apr 2022 18:48:45 +0800
+Message-ID: <4ed2dc24d600fa73b91bb411391c98a5bf4f8d8b.camel@mediatek.com>
+Subject: Re: [PATCH 3/3] dt-bindings: display: mediatek: Correct disp_aal
+ binding for MT8192
+From: Rex-BC Chen <rex-bc.chen@mediatek.com>
+To: AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>,
+ "chunkuang.hu@kernel.org" <chunkuang.hu@kernel.org>, "robh+dt@kernel.org"
+ <robh+dt@kernel.org>, "krzk+dt@kernel.org" <krzk+dt@kernel.org>
+Date: Wed, 6 Apr 2022 18:48:45 +0800
+In-Reply-To: <2449070b-d7e1-122f-abe6-4148855a9aba@collabora.com>
+References: <20220406094654.29722-1-rex-bc.chen@mediatek.com>
+ <20220406094654.29722-4-rex-bc.chen@mediatek.com>
+ <2449070b-d7e1-122f-abe6-4148855a9aba@collabora.com>
+Content-Type: text/plain; charset="UTF-8"
+X-Mailer: Evolution 3.28.5-0ubuntu0.18.04.2 
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.6.1
-Subject: Re: [PATCH v2 0/7] drm/vc4: hvs: Various improvements
-Content-Language: en-US
-To: Maxime Ripard <maxime@cerno.tech>, dri-devel@lists.freedesktop.org
-References: <20220331143744.777652-1-maxime@cerno.tech>
-From: Thomas Zimmermann <tzimmermann@suse.de>
-In-Reply-To: <20220331143744.777652-1-maxime@cerno.tech>
-Content-Type: multipart/signed; micalg=pgp-sha256;
- protocol="application/pgp-signature";
- boundary="------------8vDe1fiAn1iHs9OPhWokErCl"
+Content-Transfer-Encoding: 7bit
+X-MTK: N
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -69,77 +53,56 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: David Airlie <airlied@linux.ie>, Daniel Vetter <daniel.vetter@intel.com>
+Cc: "devicetree@vger.kernel.org" <devicetree@vger.kernel.org>,
+ "airlied@linux.ie" <airlied@linux.ie>,
+ Jason-JH Lin =?UTF-8?Q?=28=E6=9E=97=E7=9D=BF=E7=A5=A5=29?=
+ <Jason-JH.Lin@mediatek.com>,
+ "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
+ "dri-devel@lists.freedesktop.org" <dri-devel@lists.freedesktop.org>,
+ Project_Global_Chrome_Upstream_Group
+ <Project_Global_Chrome_Upstream_Group@mediatek.com>,
+ Nancy Lin =?UTF-8?Q?=28=E6=9E=97=E6=AC=A3=E8=9E=A2=29?=
+ <Nancy.Lin@mediatek.com>,
+ "linux-mediatek@lists.infradead.org" <linux-mediatek@lists.infradead.org>,
+ Yongqiang Niu =?UTF-8?Q?=28=E7=89=9B=E6=B0=B8=E5=BC=BA=29?=
+ <yongqiang.niu@mediatek.com>,
+ "matthias.bgg@gmail.com" <matthias.bgg@gmail.com>,
+ "linux-arm-kernel@lists.infradead.org" <linux-arm-kernel@lists.infradead.org>,
+ Allen-KH Cheng =?UTF-8?Q?=28=E7=A8=8B=E5=86=A0=E5=8B=B3=29?=
+ <Allen-KH.Cheng@mediatek.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-This is an OpenPGP/MIME signed message (RFC 4880 and 3156)
---------------8vDe1fiAn1iHs9OPhWokErCl
-Content-Type: multipart/mixed; boundary="------------evwRb344SZf691XiMVPS2aRX";
- protected-headers="v1"
-From: Thomas Zimmermann <tzimmermann@suse.de>
-To: Maxime Ripard <maxime@cerno.tech>, dri-devel@lists.freedesktop.org
-Cc: Daniel Vetter <daniel.vetter@intel.com>, David Airlie <airlied@linux.ie>,
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>
-Message-ID: <5ffa57d1-f3ad-3dfc-d7f6-f7ddd9138572@suse.de>
-Subject: Re: [PATCH v2 0/7] drm/vc4: hvs: Various improvements
-References: <20220331143744.777652-1-maxime@cerno.tech>
-In-Reply-To: <20220331143744.777652-1-maxime@cerno.tech>
+On Wed, 2022-04-06 at 18:40 +0800, AngeloGioacchino Del Regno wrote:
+> Il 06/04/22 11:46, Rex-BC Chen ha scritto:
+> > The driver data for MT8192 is the same with MT8183. Therefore, we
+> > correct it.
+> > 
+> > Signed-off-by: Rex-BC Chen <rex-bc.chen@mediatek.com>
+> 
+> Reviewed-by: AngeloGioacchino Del Regno <
+> angelogioacchino.delregno@collabora.com>
+> 
+> ...though, from what I know, you should also move MT8195 down there!
 
---------------evwRb344SZf691XiMVPS2aRX
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: base64
+Hello Angelo,
 
-SGkgTWF4aW1lLA0KDQpmb3IgdGhlIHdob2xlIHBhdGNoc2V0DQoNCkFja2VkLWJ5OiBUaG9t
-YXMgWmltbWVybWFubiA8dHppbW1lcm1hbm5Ac3VzZS5kZT4NCg0KQmVzdCByZWdhcmRzDQpU
-aG9tYXMNCg0KQW0gMzEuMDMuMjIgdW0gMTY6Mzcgc2NocmllYiBNYXhpbWUgUmlwYXJkOg0K
-PiBIaSwNCj4gDQo+IFRoZXNlIHBhdGNoZXMgdXNlZCB0byBiZSBwYXJ0IG9mIHRoZSBzZXJp
-ZXM6DQo+IGh0dHBzOi8vbG9yZS5rZXJuZWwub3JnL2FsbC8yMDIyMDIyMTEzNDE1NS4xMjU0
-NDctMS1tYXhpbWVAY2Vybm8udGVjaC8NCj4gDQo+IGJ1dCBzaW5jZSB0aGUgbWFpbiBwYXRj
-aCBnb3Qgc3VwZXJzZWRlZCBieSBhbm90aGVyIGNvcmUgcGF0Y2gsIEkndmUgc3BsaXQgdGhl
-DQo+IGNsZWFudXAgcGF0Y2hlcyBvdXQgaW50byB0aGVpciBvd24gc2VyaWVzLg0KPiANCj4g
-TGV0IG1lIGtub3cgd2hhdCB5b3UgdGhpbmssDQo+IE1heGltZQ0KPiANCj4gQ2hhbmdlcyBm
-cm9tIHYxOg0KPiAgICAtIFVzZWQgRFJNX1BMQU5FX0NPTU1JVF9BQ1RJVkVfT05MWSB0byBz
-a2lwIGF0b21pY19mbHVzaA0KPiANCj4gTWF4aW1lIFJpcGFyZCAoNyk6DQo+ICAgIGRybS92
-YzQ6IGttczogVGFrZSBvbGQgc3RhdGUgY29yZSBjbG9jayByYXRlIGludG8gYWNjb3VudA0K
-PiAgICBkcm0vdmM0OiBodnM6IEZpeCBmcmFtZSBjb3VudCByZWdpc3RlciByZWFkb3V0DQo+
-ICAgIGRybS92YzQ6IGh2czogU3RvcmUgY2hhbm5lbCBpbiB2YXJpYWJsZQ0KPiAgICBkcm0v
-dmM0OiBodnM6IFJlbW92ZSBkbGlzdCBzZXR1cCBkdXBsaWNhdGlvbg0KPiAgICBkcm0vdmM0
-OiBodnM6IE1vdmUgdGhlIGRsaXN0IHNldHVwIHRvIGl0cyBvd24gZnVuY3Rpb24NCj4gICAg
-ZHJtL3ZjNDoga21zOiBJZ25vcmUgYXRvbWljX2ZsdXNoIGlmIHdlJ3JlIGRpc2FibGVkDQo+
-ICAgIGRybS92YzQ6IGh2czogVXNlIHBvaW50ZXIgdG8gSFZTIGluIEhWU19SRUFEIGFuZCBI
-VlNfV1JJVEUgbWFjcm9zDQo+IA0KPiAgIGRyaXZlcnMvZ3B1L2RybS92YzQvdmM0X2NydGMu
-YyB8ICAxNCArKy0tDQo+ICAgZHJpdmVycy9ncHUvZHJtL3ZjNC92YzRfZHJ2LmggIHwgIDE1
-ICsrLS0NCj4gICBkcml2ZXJzL2dwdS9kcm0vdmM0L3ZjNF9odnMuYyAgfCAxMjcgKysrKysr
-KysrKysrKysrKysrKystLS0tLS0tLS0tLS0tDQo+ICAgZHJpdmVycy9ncHUvZHJtL3ZjNC92
-YzRfa21zLmMgIHwgIDEzICsrLS0NCj4gICBkcml2ZXJzL2dwdS9kcm0vdmM0L3ZjNF9yZWdz
-LmggfCAgMTIgKysrLQ0KPiAgIDUgZmlsZXMgY2hhbmdlZCwgMTE1IGluc2VydGlvbnMoKyks
-IDY2IGRlbGV0aW9ucygtKQ0KPiANCg0KLS0gDQpUaG9tYXMgWmltbWVybWFubg0KR3JhcGhp
-Y3MgRHJpdmVyIERldmVsb3Blcg0KU1VTRSBTb2Z0d2FyZSBTb2x1dGlvbnMgR2VybWFueSBH
-bWJIDQpNYXhmZWxkc3RyLiA1LCA5MDQwOSBOw7xybmJlcmcsIEdlcm1hbnkNCihIUkIgMzY4
-MDksIEFHIE7DvHJuYmVyZykNCkdlc2Now6RmdHNmw7xocmVyOiBJdm8gVG90ZXYNCg==
+Thanks for your review.
+But for MT8195, disp_aal is using the same compatible with MT8173.
 
---------------evwRb344SZf691XiMVPS2aRX--
+From the MT8195 project DTS is using:
 
---------------8vDe1fiAn1iHs9OPhWokErCl
-Content-Type: application/pgp-signature; name="OpenPGP_signature.asc"
-Content-Description: OpenPGP digital signature
-Content-Disposition: attachment; filename="OpenPGP_signature"
+aal0: disp_aal@1c005000 {
+	compatible = "mediatek,mt8195-disp-aal",
+		     "mediatek,mt8173-disp-aal";
+	reg = <0 0x1c005000 0 0x1000>;
+	interrupts = <GIC_SPI 641 IRQ_TYPE_LEVEL_HIGH 0>;
+	power-domains = <&spm MT8195_POWER_DOMAIN_VDOSYS0>;
+	clocks = <&vdosys0 CLK_VDO0_DISP_AAL0>;
+	mediatek,gce-client-reg =
+		 <&gce0 SUBSYS_1c00XXXX 0x5000 0x1000>;
+};
 
------BEGIN PGP SIGNATURE-----
+BRs,
+Rex
 
-wsF5BAABCAAjFiEExndm/fpuMUdwYFFolh/E3EQov+AFAmJNbwcFAwAAAAAACgkQlh/E3EQov+Ah
-Gg/9HjXstwZ+TUY3+NPHqbKyBrJPvURaLUGwJm6HHGKatAAYp7Kf7WUlkiucQ3dBjqaI8J22MZsK
-B/WBmwfXvWd9D2DhaSJzijcBM0CsHkicycTAyNqTO2jAgSHngo2LcuAxDnp0CKYJ9LIrdRFZUXQ/
-lHYtz15h03eQbCFRyd459yPbDKmcMDCaKBaq/uwWAwN85J8CHJecLstT8uw5hPxni3jcxSIzW56z
-LQXxFSD1IqAvFmSWr2/Ltc0oCEGyc4L4sdJW6plPtVHwianYCbq9BOoHKK+xt3g8jVHjWarfyNJM
-+z8VoMGmD0VofREODy/x2hg/uN3JgFpOcM4j2GOlFpEsQuK7XVbUp8Mxd++pD4XKrOaRLnk2lmLK
-Evqoz5L7ta4NPqVE3duxXSGqEE8BvvNjxukSa8FISGb6MeBQ8vLBmRP9zQPtTn3AnQZKw+GXZexI
-QiNYF3HBAY/SwlzbiIIUI885kOJxdMdSipeRrJBElTVSI4R/OatdlbeeI5UcaWE+d2jrNG8dJrYL
-AOdfBfZEXqAkSuhGoaNkVvEvfYhg9DACbTlDncIi57p+s+feDtV0PLoEmeKZYvfD//xVxkhj4NKh
-i7QATNqJMP9dZsr2xOkWmZ9DuKDpkweOjfigj2l2G/YkeIq0ceMD3UbijEOaO4AncodyOsqafKFX
-TcA=
-=Xw6N
------END PGP SIGNATURE-----
-
---------------8vDe1fiAn1iHs9OPhWokErCl--
