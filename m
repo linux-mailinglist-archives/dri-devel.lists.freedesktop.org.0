@@ -2,28 +2,29 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id D5FAB4F640A
-	for <lists+dri-devel@lfdr.de>; Wed,  6 Apr 2022 18:01:41 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 0BE704F640B
+	for <lists+dri-devel@lfdr.de>; Wed,  6 Apr 2022 18:01:45 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id CA90510E3BD;
-	Wed,  6 Apr 2022 16:01:39 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id C313510E395;
+	Wed,  6 Apr 2022 16:01:40 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from metis.ext.pengutronix.de (metis.ext.pengutronix.de
  [IPv6:2001:67c:670:201:290:27ff:fe1d:cc33])
- by gabe.freedesktop.org (Postfix) with ESMTPS id B9EE110E395
- for <dri-devel@lists.freedesktop.org>; Wed,  6 Apr 2022 16:01:38 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id A16A110E395
+ for <dri-devel@lists.freedesktop.org>; Wed,  6 Apr 2022 16:01:39 +0000 (UTC)
 Received: from dude03.red.stw.pengutronix.de ([2a0a:edc0:0:1101:1d::39])
  by metis.ext.pengutronix.de with esmtp (Exim 4.92)
  (envelope-from <l.stach@pengutronix.de>)
- id 1nc862-0002Pq-2c; Wed, 06 Apr 2022 18:01:26 +0200
+ id 1nc862-0002Pq-SK; Wed, 06 Apr 2022 18:01:26 +0200
 From: Lucas Stach <l.stach@pengutronix.de>
 To: Philipp Zabel <p.zabel@pengutronix.de>, Rob Herring <robh+dt@kernel.org>,
  Krzysztof Kozlowski <krzk+dt@kernel.org>, Shawn Guo <shawnguo@kernel.org>,
  NXP Linux Team <linux-imx@nxp.com>
-Subject: [PATCH v0 01/10] drm/bridge: dw-hdmi: add low-active PHY reset
-Date: Wed,  6 Apr 2022 18:01:14 +0200
-Message-Id: <20220406160123.1272911-2-l.stach@pengutronix.de>
+Subject: [PATCH v0 02/10] dt-bindings: display: imx: add binding for i.MX8MP
+ HDMI TX
+Date: Wed,  6 Apr 2022 18:01:15 +0200
+Message-Id: <20220406160123.1272911-3-l.stach@pengutronix.de>
 X-Mailer: git-send-email 2.30.2
 In-Reply-To: <20220406160123.1272911-1-l.stach@pengutronix.de>
 References: <20220406160123.1272911-1-l.stach@pengutronix.de>
@@ -55,45 +56,93 @@ Cc: devicetree@vger.kernel.org, Pengutronix Kernel Team <kernel@pengutronix.de>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Allow vendor PHY implementations to reset PHYs with different polarity
-than the current Gen2 reset.
+The HDMI TX controller on the i.MX8MP SoC is a Synopsys designware IP
+core with a little bit of SoC integration around it.
 
 Signed-off-by: Lucas Stach <l.stach@pengutronix.de>
 ---
- drivers/gpu/drm/bridge/synopsys/dw-hdmi.c | 7 +++++++
- include/drm/bridge/dw_hdmi.h              | 1 +
- 2 files changed, 8 insertions(+)
+ .../bindings/display/imx/fsl,imx8mp-hdmi.yaml | 72 +++++++++++++++++++
+ 1 file changed, 72 insertions(+)
+ create mode 100644 Documentation/devicetree/bindings/display/imx/fsl,imx8mp-hdmi.yaml
 
-diff --git a/drivers/gpu/drm/bridge/synopsys/dw-hdmi.c b/drivers/gpu/drm/bridge/synopsys/dw-hdmi.c
-index 4befc104d220..7600f26aab27 100644
---- a/drivers/gpu/drm/bridge/synopsys/dw-hdmi.c
-+++ b/drivers/gpu/drm/bridge/synopsys/dw-hdmi.c
-@@ -1365,6 +1365,13 @@ void dw_hdmi_phy_reset(struct dw_hdmi *hdmi)
- }
- EXPORT_SYMBOL_GPL(dw_hdmi_phy_reset);
- 
-+void dw_hdmi_phy_reset_active_low(struct dw_hdmi *hdmi)
-+{
-+	hdmi_writeb(hdmi, 0, HDMI_MC_PHYRSTZ);
-+	hdmi_writeb(hdmi, HDMI_MC_PHYRSTZ_PHYRSTZ, HDMI_MC_PHYRSTZ);
-+}
-+EXPORT_SYMBOL_GPL(dw_hdmi_phy_reset_active_low);
+diff --git a/Documentation/devicetree/bindings/display/imx/fsl,imx8mp-hdmi.yaml b/Documentation/devicetree/bindings/display/imx/fsl,imx8mp-hdmi.yaml
+new file mode 100644
+index 000000000000..578062b6d64d
+--- /dev/null
++++ b/Documentation/devicetree/bindings/display/imx/fsl,imx8mp-hdmi.yaml
+@@ -0,0 +1,72 @@
++# SPDX-License-Identifier: (GPL-2.0-only OR BSD-2-Clause)
++%YAML 1.2
++---
++$id: http://devicetree.org/schemas/display/imx/fsl,imx8mp-hdmi.yaml#
++$schema: http://devicetree.org/meta-schemas/core.yaml#
 +
- void dw_hdmi_phy_i2c_set_addr(struct dw_hdmi *hdmi, u8 address)
- {
- 	hdmi_phy_test_clear(hdmi, 1);
-diff --git a/include/drm/bridge/dw_hdmi.h b/include/drm/bridge/dw_hdmi.h
-index 2a1f85f9a8a3..9b3d52a1e62a 100644
---- a/include/drm/bridge/dw_hdmi.h
-+++ b/include/drm/bridge/dw_hdmi.h
-@@ -190,6 +190,7 @@ void dw_hdmi_phy_i2c_write(struct dw_hdmi *hdmi, unsigned short data,
- void dw_hdmi_phy_gen2_pddq(struct dw_hdmi *hdmi, u8 enable);
- void dw_hdmi_phy_gen2_txpwron(struct dw_hdmi *hdmi, u8 enable);
- void dw_hdmi_phy_reset(struct dw_hdmi *hdmi);
-+void dw_hdmi_phy_reset_active_low(struct dw_hdmi *hdmi);
- 
- enum drm_connector_status dw_hdmi_phy_read_hpd(struct dw_hdmi *hdmi,
- 					       void *data);
++title: Freescale i.MX8MP DWC HDMI TX Encoder
++
++maintainers:
++  - Lucas Stach <l.stach@pengutronix.de>
++
++description: |
++  The HDMI transmitter is a Synopsys DesignWare HDMI 2.0 TX controller IP.
++
++allOf:
++  - $ref: ../bridge/synopsys,dw-hdmi.yaml#
++
++properties:
++  compatible:
++    enum:
++      - fsl,imx8mp-hdmi
++
++  reg:
++    maxItems: 1
++
++  reg-io-width:
++    const: 1
++
++  clocks:
++    maxItems: 4
++
++  clock-names:
++    items:
++      - {}
++      - {}
++      - const: cec
++      - const: pix
++
++  interrupts:
++    maxItems: 1
++
++  power-domains:
++    maxItems: 1
++
++required:
++  - compatible
++  - reg
++  - clocks
++  - clock-names
++  - interrupts
++  - power-domains
++
++additionalProperties: false
++
++examples:
++  - |
++    #include <dt-bindings/interrupt-controller/irq.h>
++    #include <dt-bindings/clock/imx8mp-clock.h>
++    #include <dt-bindings/power/imx8mp-power.h>
++
++    hdmi@32fd8000 {
++        compatible = "fsl,imx8mp-hdmi";
++        reg = <0x32fd8000 0x7eff>;
++        interrupts = <0 IRQ_TYPE_LEVEL_HIGH>;
++        clocks = <&clk IMX8MP_CLK_HDMI_APB>,
++                 <&clk IMX8MP_CLK_HDMI_REF_266M>,
++                 <&clk IMX8MP_CLK_32K>,
++                 <&hdmi_tx_phy>;
++        clock-names = "iahb", "isfr", "cec", "pix";
++        power-domains = <&hdmi_blk_ctrl IMX8MP_HDMIBLK_PD_HDMI_TX>;
++        reg-io-width = <1>;
++    };
 -- 
 2.30.2
 
