@@ -2,63 +2,36 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2FBCB4F581A
-	for <lists+dri-devel@lfdr.de>; Wed,  6 Apr 2022 10:53:26 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id B42044F5822
+	for <lists+dri-devel@lfdr.de>; Wed,  6 Apr 2022 10:56:58 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 4F7DE10E18D;
-	Wed,  6 Apr 2022 08:53:22 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 9CF9510E218;
+	Wed,  6 Apr 2022 08:56:54 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from smtp-out2.suse.de (smtp-out2.suse.de [195.135.220.29])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 5E5DA10E218
- for <dri-devel@lists.freedesktop.org>; Wed,  6 Apr 2022 08:53:20 +0000 (UTC)
-Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
- key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
- (No client certificate requested)
- by smtp-out2.suse.de (Postfix) with ESMTPS id 0AF7B1F38A;
- Wed,  6 Apr 2022 08:53:19 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
- t=1649235199; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
- mime-version:mime-version:content-type:content-type:
+Received: from aposti.net (aposti.net [89.234.176.197])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id D4D5610E218
+ for <dri-devel@lists.freedesktop.org>; Wed,  6 Apr 2022 08:56:53 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=crapouillou.net;
+ s=mail; t=1649235406; h=from:from:sender:reply-to:subject:subject:date:date:
+ message-id:message-id:to:to:cc:cc:mime-version:mime-version:
+ content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=EzGAQ/MofS+m8XrNR8nWydZTr6PeSPMu+omNIpQeHBA=;
- b=WvFRtJMcgnuV44HT4HDNz2TJxPr/tVBCoTJH9shiK+uch9QD8jbsW/WTJebk5oIB95Kw6f
- fZuUFgI9VvKyxNFehF0AK3NzBSawGYUv7euTibYFc2hBWeuEcljrrcB85M5eRAW7cZI1CQ
- kML8wpEcHDd040xWk9B6oT/JIlVWHyo=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
- s=susede2_ed25519; t=1649235199;
- h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
- mime-version:mime-version:content-type:content-type:
- in-reply-to:in-reply-to:references:references;
- bh=EzGAQ/MofS+m8XrNR8nWydZTr6PeSPMu+omNIpQeHBA=;
- b=8m/tuwTE2W7vdpkWV73106BkQqhWRyWWsFRyHKF4iHe4TrwLzI2XOhWhW4dTy2QsPAa7mA
- b6JKMXS8czuZ1sAA==
-Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
- key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
- (No client certificate requested)
- by imap2.suse-dmz.suse.de (Postfix) with ESMTPS id A4F95139F5;
- Wed,  6 Apr 2022 08:53:18 +0000 (UTC)
-Received: from dovecot-director2.suse.de ([192.168.254.65])
- by imap2.suse-dmz.suse.de with ESMTPSA id 8L7nJv5UTWJqdAAAMHmgww
- (envelope-from <tzimmermann@suse.de>); Wed, 06 Apr 2022 08:53:18 +0000
-Message-ID: <b1e7c3ad-1641-3466-e7df-f232d0fe4239@suse.de>
-Date: Wed, 6 Apr 2022 10:53:17 +0200
+ bh=YEZzm96WsgNKWPm41tm0nV++Aa+9P3fevYoGMhYP/zw=;
+ b=K+QzKAh62GkPKnK6Gcgil9rxSfp1+cvt8KVYpFNbuVCaJH7XGTYwPrKQ3lC7uwqNN8o536
+ 3JB6vTsSqYEFI1tFPO+F5hs2nPadagcbo0of12TC1/Y+AvX3xXOncEdw7MmSOglpKij/Vg
+ BEoimLtYd35UCWOAMqeHaRsgdOEH7sg=
+Date: Wed, 06 Apr 2022 09:56:31 +0100
+From: Paul Cercueil <paul@crapouillou.net>
+Subject: Re: linux-next: build failure after merge of the drm-misc tree
+To: Stephen Rothwell <sfr@canb.auug.org.au>
+Message-Id: <76UW9R.TLZ8ZU2LVHZW2@crapouillou.net>
+In-Reply-To: <20220406105049.5f5e01c1@canb.auug.org.au>
+References: <20220406105049.5f5e01c1@canb.auug.org.au>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.6.1
-Subject: Re: [PATCH v7 12/12] drm/vc4: hdmi: Remove clock rate initialization
-Content-Language: en-US
-To: Maxime Ripard <maxime@cerno.tech>,
- Mike Turquette <mturquette@baylibre.com>, Stephen Boyd <sboyd@kernel.org>
-References: <20220225143534.405820-1-maxime@cerno.tech>
- <20220225143534.405820-13-maxime@cerno.tech>
-From: Thomas Zimmermann <tzimmermann@suse.de>
-In-Reply-To: <20220225143534.405820-13-maxime@cerno.tech>
-Content-Type: multipart/signed; micalg=pgp-sha256;
- protocol="application/pgp-signature";
- boundary="------------RtGF9mbG2qwnUI51Xrmvz4jr"
+Content-Type: text/plain; charset=iso-8859-1; format=flowed
+Content-Transfer-Encoding: quoted-printable
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -71,85 +44,89 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Dom Cobley <dom@raspberrypi.com>, Tim Gover <tim.gover@raspberrypi.com>,
- Dave Stevenson <dave.stevenson@raspberrypi.com>,
- dri-devel@lists.freedesktop.org, linux-clk@vger.kernel.org,
- Phil Elwell <phil@raspberrypi.com>
+Cc: Daniel Vetter <daniel.vetter@ffwll.ch>,
+ Intel Graphics <intel-gfx@lists.freedesktop.org>,
+ Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
+ DRI <dri-devel@lists.freedesktop.org>, Mark Brown <broonie@kernel.org>,
+ Linux Next Mailing List <linux-next@vger.kernel.org>,
+ Christophe Branchereau <cbranchereau@gmail.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-This is an OpenPGP/MIME signed message (RFC 4880 and 3156)
---------------RtGF9mbG2qwnUI51Xrmvz4jr
-Content-Type: multipart/mixed; boundary="------------dqTW1P6o0A0qYobMjYw27y8o";
- protected-headers="v1"
-From: Thomas Zimmermann <tzimmermann@suse.de>
-To: Maxime Ripard <maxime@cerno.tech>,
- Mike Turquette <mturquette@baylibre.com>, Stephen Boyd <sboyd@kernel.org>
-Cc: Dom Cobley <dom@raspberrypi.com>, Tim Gover <tim.gover@raspberrypi.com>,
- Dave Stevenson <dave.stevenson@raspberrypi.com>,
- dri-devel@lists.freedesktop.org, Phil Elwell <phil@raspberrypi.com>,
- linux-clk@vger.kernel.org
-Message-ID: <b1e7c3ad-1641-3466-e7df-f232d0fe4239@suse.de>
-Subject: Re: [PATCH v7 12/12] drm/vc4: hdmi: Remove clock rate initialization
-References: <20220225143534.405820-1-maxime@cerno.tech>
- <20220225143534.405820-13-maxime@cerno.tech>
-In-Reply-To: <20220225143534.405820-13-maxime@cerno.tech>
+Hi Stephen,
 
---------------dqTW1P6o0A0qYobMjYw27y8o
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: base64
+Le mer., avril 6 2022 at 10:50:49 +1000, Stephen Rothwell=20
+<sfr@canb.auug.org.au> a =E9crit :
+> Hi all,
+>=20
+> After merging the drm-misc tree, today's linux-next build (x86_64
+> allmodconfig) failed like this:
+>=20
+> drivers/gpu/drm/panel/panel-newvision-nv3052c.c:478:19: error:=20
+> initialization of 'void (*)(struct spi_device *)' from incompatible=20
+> pointer type 'int (*)(struct spi_device *)'=20
+> [-Werror=3Dincompatible-pointer-types]
+>   478 |         .remove =3D nv3052c_remove,
+>       |                   ^~~~~~~~~~~~~~
+> drivers/gpu/drm/panel/panel-newvision-nv3052c.c:478:19: note: (near=20
+> initialization for 'nv3052c_driver.remove')
+>=20
+> Caused by commit
+>=20
+>   49956b505c53 ("drm/panel: Add panel driver for NewVision NV3052C=20
+> based LCDs")
+>=20
+> interacting with commit
+>=20
+>   2cbfa2128662 ("spi: make remove callback a void function")
+>=20
+> from Linus' tree (merged in v5.18-rc1).
+>=20
+> I applied the following merge resolution patch for today.
 
-DQoNCkFtIDI1LjAyLjIyIHVtIDE1OjM1IHNjaHJpZWIgTWF4aW1lIFJpcGFyZDoNCj4gTm93
-IHRoYXQgdGhlIGNsb2NrIGRyaXZlciBtYWtlcyBzdXJlIHdlIG5ldmVyIGVuZCB1cCB3aXRo
-IGEgcmF0ZSBvZiAwLA0KPiB0aGUgSERNSSBkcml2ZXIgZG9lc24ndCBuZWVkIHRvIGNhcmUg
-YW55bW9yZS4NCj4gDQo+IFNpZ25lZC1vZmYtYnk6IE1heGltZSBSaXBhcmQgPG1heGltZUBj
-ZXJuby50ZWNoPg0KDQpBY2tlZC1ieTogVGhvbWFzIFppbW1lcm1hbm4gPHR6aW1tZXJtYW5u
-QHN1c2UuZGU+DQoNCj4gLS0tDQo+ICAgZHJpdmVycy9ncHUvZHJtL3ZjNC92YzRfaGRtaS5j
-IHwgMTMgLS0tLS0tLS0tLS0tLQ0KPiAgIDEgZmlsZSBjaGFuZ2VkLCAxMyBkZWxldGlvbnMo
-LSkNCj4gDQo+IGRpZmYgLS1naXQgYS9kcml2ZXJzL2dwdS9kcm0vdmM0L3ZjNF9oZG1pLmMg
-Yi9kcml2ZXJzL2dwdS9kcm0vdmM0L3ZjNF9oZG1pLmMNCj4gaW5kZXggOTJiMTUzMGFhMTdi
-Li4yMWFmZjNhZDk2Y2YgMTAwNjQ0DQo+IC0tLSBhL2RyaXZlcnMvZ3B1L2RybS92YzQvdmM0
-X2hkbWkuYw0KPiArKysgYi9kcml2ZXJzL2dwdS9kcm0vdmM0L3ZjNF9oZG1pLmMNCj4gQEAg
-LTI1NzYsMTkgKzI1NzYsNiBAQCBzdGF0aWMgaW50IHZjNF9oZG1pX2JpbmQoc3RydWN0IGRl
-dmljZSAqZGV2LCBzdHJ1Y3QgZGV2aWNlICptYXN0ZXIsIHZvaWQgKmRhdGEpDQo+ICAgCQkJ
-dmM0X2hkbWktPmRpc2FibGVfNGtwNjAgPSB0cnVlOw0KPiAgIAl9DQo+ICAgDQo+IC0JLyoN
-Cj4gLQkgKiBJZiB3ZSBib290IHdpdGhvdXQgYW55IGNhYmxlIGNvbm5lY3RlZCB0byB0aGUg
-SERNSSBjb25uZWN0b3IsDQo+IC0JICogdGhlIGZpcm13YXJlIHdpbGwgc2tpcCB0aGUgSFNN
-IGluaXRpYWxpemF0aW9uIGFuZCBsZWF2ZSBpdA0KPiAtCSAqIHdpdGggYSByYXRlIG9mIDAs
-IHJlc3VsdGluZyBpbiBhIGJ1cyBsb2NrdXAgd2hlbiB3ZSdyZQ0KPiAtCSAqIGFjY2Vzc2lu
-ZyB0aGUgcmVnaXN0ZXJzIGV2ZW4gaWYgaXQncyBlbmFibGVkLg0KPiAtCSAqDQo+IC0JICog
-TGV0J3MgcHV0IGEgc2Vuc2libGUgZGVmYXVsdCBhdCBydW50aW1lX3Jlc3VtZSBzbyB0aGF0
-IHdlDQo+IC0JICogZG9uJ3QgZW5kIHVwIGluIHRoaXMgc2l0dWF0aW9uLg0KPiAtCSAqLw0K
-PiAtCXJldCA9IGNsa19zZXRfbWluX3JhdGUodmM0X2hkbWktPmhzbV9jbG9jaywgSFNNX01J
-Tl9DTE9DS19GUkVRKTsNCj4gLQlpZiAocmV0KQ0KPiAtCQlnb3RvIGVycl9wdXRfZGRjOw0K
-PiAtDQo+ICAgCS8qDQo+ICAgCSAqIFdlIG5lZWQgdG8gaGF2ZSB0aGUgZGV2aWNlIHBvd2Vy
-ZWQgdXAgYXQgdGhpcyBwb2ludCB0byBjYWxsDQo+ICAgCSAqIG91ciByZXNldCBob29rIGFu
-ZCBmb3IgdGhlIENFQyBpbml0Lg0KDQotLSANClRob21hcyBaaW1tZXJtYW5uDQpHcmFwaGlj
-cyBEcml2ZXIgRGV2ZWxvcGVyDQpTVVNFIFNvZnR3YXJlIFNvbHV0aW9ucyBHZXJtYW55IEdt
-YkgNCk1heGZlbGRzdHIuIDUsIDkwNDA5IE7DvHJuYmVyZywgR2VybWFueQ0KKEhSQiAzNjgw
-OSwgQUcgTsO8cm5iZXJnKQ0KR2VzY2jDpGZ0c2bDvGhyZXI6IEl2byBUb3Rldg0K
+Sorry about that, my fault.
 
---------------dqTW1P6o0A0qYobMjYw27y8o--
+I compile-tested Christophe's patchset *then* rebased to the latest=20
+drm-misc-next and pushed, should have done the other way around.
 
---------------RtGF9mbG2qwnUI51Xrmvz4jr
-Content-Type: application/pgp-signature; name="OpenPGP_signature.asc"
-Content-Description: OpenPGP digital signature
-Content-Disposition: attachment; filename="OpenPGP_signature"
+-Paul
 
------BEGIN PGP SIGNATURE-----
+> From: Stephen Rothwell <sfr@canb.auug.org.au>
+> Date: Wed, 6 Apr 2022 10:46:57 +1000
+> Subject: [PATCH] fixup for "spi: make remove callback a void function"
+>=20
+> Signed-off-by: Stephen Rothwell <sfr@canb.auug.org.au>
+> ---
+>  drivers/gpu/drm/panel/panel-newvision-nv3052c.c | 4 +---
+>  1 file changed, 1 insertion(+), 3 deletions(-)
+>=20
+> diff --git a/drivers/gpu/drm/panel/panel-newvision-nv3052c.c=20
+> b/drivers/gpu/drm/panel/panel-newvision-nv3052c.c
+> index 127bcfdb59df..cf078f0d3cd3 100644
+> --- a/drivers/gpu/drm/panel/panel-newvision-nv3052c.c
+> +++ b/drivers/gpu/drm/panel/panel-newvision-nv3052c.c
+> @@ -416,15 +416,13 @@ static int nv3052c_probe(struct spi_device *spi)
+>  	return 0;
+>  }
+>=20
+> -static int nv3052c_remove(struct spi_device *spi)
+> +static void nv3052c_remove(struct spi_device *spi)
+>  {
+>  	struct nv3052c *priv =3D spi_get_drvdata(spi);
+>=20
+>  	drm_panel_remove(&priv->panel);
+>  	drm_panel_disable(&priv->panel);
+>  	drm_panel_unprepare(&priv->panel);
+> -
+> -	return 0;
+>  }
+>=20
+>  static const struct drm_display_mode ltk035c5444t_modes[] =3D {
+> --
+> 2.35.1
+>=20
+> --
+> Cheers,
+> Stephen Rothwell
 
-wsF5BAABCAAjFiEExndm/fpuMUdwYFFolh/E3EQov+AFAmJNVP0FAwAAAAAACgkQlh/E3EQov+Bb
-Uw//QIql1fZy9kuJhuDDXDx+YbjD1BUZxyhi6zuh7NDJK9p/6Q796tvK2qqjdG8UPlY+5T6H5R1L
-fEsE8AM00gNA/P7AfsZ1tte7J1oVQX2+h05EhT0YVJIETWZtFiLh9VN1vdbY9baPZZsBNpQFHt33
-VRmh7ULjoT8wwlvVHFrmlQDYnSYdruYGDMCOjnxSzGmk9ut8rGim5Q1l45sHzaKdZomYZOlg7pSp
-V4JZAwdfzZWjsi4HFew8vtVNUd5sZH0ZNmb0A6XwVqpHvOOL3Dkio5/obuA0yFU2fyRUwy9krata
-Y0p1dcjEQ74yBWzcI4e5Cxsj4YGryPRobtqEG5ZrlPuGez47Wk47JFV61bl/YFnH42Jb/qZejtEs
-kHTflPap95a8Jwhkb4NubBuSPAWpGyx0d/ux74KfZQvtewUlzAKvr6iMWKWmfY7wDSTJaAusyEJz
-JieqnbKTcGph9SU8I6h7Yqx6UKFWP3+NAfaBFe3u9TGprSuKymrxtgGKrWKk7fZn/7qliURGWGHw
-iltBTKCK9JTX7cklDG8bPNqWKqR49keGhs9h7vhRCTAEQcb/IDph4GsoxsJqbzhfJoQawrqzonPR
-okXUrMBQ2auXcH5KAC7/pA0HI1eLE399tDIKqUKo0cbDt7oFJnbW9imDvblp8Hgdg+PvcfDo9ecQ
-ki0=
-=Ifv/
------END PGP SIGNATURE-----
 
---------------RtGF9mbG2qwnUI51Xrmvz4jr--
