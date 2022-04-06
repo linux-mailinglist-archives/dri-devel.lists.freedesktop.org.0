@@ -1,35 +1,39 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id B78CF4F5A45
-	for <lists+dri-devel@lfdr.de>; Wed,  6 Apr 2022 11:47:04 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 34CF24F5A48
+	for <lists+dri-devel@lfdr.de>; Wed,  6 Apr 2022 11:47:12 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 621B710F254;
-	Wed,  6 Apr 2022 09:47:02 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id D4A9B10F25B;
+	Wed,  6 Apr 2022 09:47:08 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from mailgw02.mediatek.com (unknown [210.61.82.184])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 94B9C10F24B
- for <dri-devel@lists.freedesktop.org>; Wed,  6 Apr 2022 09:47:00 +0000 (UTC)
-X-UUID: 0a38c940db9e494ea16a9483d4e7e7f1-20220406
-X-UUID: 0a38c940db9e494ea16a9483d4e7e7f1-20220406
-Received: from mtkcas11.mediatek.inc [(172.21.101.40)] by mailgw02.mediatek.com
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 6201410F25B
+ for <dri-devel@lists.freedesktop.org>; Wed,  6 Apr 2022 09:47:05 +0000 (UTC)
+X-UUID: 19c4f01cbce549e09253314650db3da8-20220406
+X-UUID: 19c4f01cbce549e09253314650db3da8-20220406
+Received: from mtkcas10.mediatek.inc [(172.21.101.39)] by mailgw02.mediatek.com
  (envelope-from <rex-bc.chen@mediatek.com>)
  (Generic MTA with TLSv1.2 ECDHE-RSA-AES256-SHA384 256/256)
- with ESMTP id 1412427719; Wed, 06 Apr 2022 17:46:56 +0800
+ with ESMTP id 496445204; Wed, 06 Apr 2022 17:47:01 +0800
 Received: from mtkcas10.mediatek.inc (172.21.101.39) by
- mtkmbs07n1.mediatek.inc (172.21.101.16) with Microsoft SMTP Server (TLS) id
- 15.0.1497.2; Wed, 6 Apr 2022 17:46:55 +0800
+ mtkmbs10n1.mediatek.inc (172.21.101.34) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_CBC_SHA384) id
+ 15.2.792.15; Wed, 6 Apr 2022 17:46:55 +0800
 Received: from mtksdccf07.mediatek.inc (172.21.84.99) by mtkcas10.mediatek.inc
  (172.21.101.73) with Microsoft SMTP Server id 15.0.1497.2 via
  Frontend Transport; Wed, 6 Apr 2022 17:46:55 +0800
 From: Rex-BC Chen <rex-bc.chen@mediatek.com>
 To: <chunkuang.hu@kernel.org>, <robh+dt@kernel.org>, <krzk+dt@kernel.org>
-Subject: [PATCH 0/3] Correct disp_aal dt-binding
-Date: Wed, 6 Apr 2022 17:46:51 +0800
-Message-ID: <20220406094654.29722-1-rex-bc.chen@mediatek.com>
+Subject: [PATCH 1/3] dt-bindings: display: mediatek: Correct disp_aal binding
+ for MT8183
+Date: Wed, 6 Apr 2022 17:46:52 +0800
+Message-ID: <20220406094654.29722-2-rex-bc.chen@mediatek.com>
 X-Mailer: git-send-email 2.18.0
+In-Reply-To: <20220406094654.29722-1-rex-bc.chen@mediatek.com>
+References: <20220406094654.29722-1-rex-bc.chen@mediatek.com>
 MIME-Version: 1.0
 Content-Type: text/plain
 X-MTK: N
@@ -55,24 +59,36 @@ Cc: devicetree@vger.kernel.org, airlied@linux.ie, jason-jh.lin@mediatek.com,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-There are several dt-binding error for MT8183 and MT8192. Therefore,
-we send this series to correct them.
-1. Correct dt-binding and dts for MT8183.
-2. Correct dt-binding for MT8192.
+The driver data of MT8183 and MT8173 are different.
+The value of has_gamma for MT8173 is true while the value of MT8183 is
+false. Therefore, the compatible of disp_aal for MT8183 is not suitable
+for the compatible for MT8173.
 
-This series is based on this series:
-"add display support for MediaTek SoC MT8186":
-Message id: 20220406030009.2357-1-rex-bc.chen@mediatek.com
+Signed-off-by: Rex-BC Chen <rex-bc.chen@mediatek.com>
+---
+ .../devicetree/bindings/display/mediatek/mediatek,aal.yaml  | 6 +++---
+ 1 file changed, 3 insertions(+), 3 deletions(-)
 
-Rex-BC Chen (3):
-  dt-bindings: display: mediatek: Correct disp_aal binding for MT8183
-  arm64: dts: mt8183: Correct disp_aal node compatible
-  dt-bindings: display: mediatek: Correct disp_aal binding for MT8192
-
- .../bindings/display/mediatek/mediatek,aal.yaml           | 8 ++++----
- arch/arm64/boot/dts/mediatek/mt8183.dtsi                  | 3 +--
- 2 files changed, 5 insertions(+), 6 deletions(-)
-
+diff --git a/Documentation/devicetree/bindings/display/mediatek/mediatek,aal.yaml b/Documentation/devicetree/bindings/display/mediatek/mediatek,aal.yaml
+index cb4a2f39ff88..f118075e4a89 100644
+--- a/Documentation/devicetree/bindings/display/mediatek/mediatek,aal.yaml
++++ b/Documentation/devicetree/bindings/display/mediatek/mediatek,aal.yaml
+@@ -21,12 +21,12 @@ description: |
+ properties:
+   compatible:
+     oneOf:
+-      - items:
+-          - const: mediatek,mt8173-disp-aal
++      - enum:
++          - mediatek,mt8173-disp-aal
++          - mediatek,mt8183-disp-aal
+       - items:
+           - enum:
+               - mediatek,mt2712-disp-aal
+-              - mediatek,mt8183-disp-aal
+               - mediatek,mt8192-disp-aal
+               - mediatek,mt8195-disp-aal
+           - const: mediatek,mt8173-disp-aal
 -- 
 2.18.0
 
