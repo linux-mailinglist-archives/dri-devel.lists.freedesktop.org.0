@@ -1,56 +1,37 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1D5284F6233
-	for <lists+dri-devel@lfdr.de>; Wed,  6 Apr 2022 16:54:28 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 878374F6236
+	for <lists+dri-devel@lfdr.de>; Wed,  6 Apr 2022 16:55:33 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 09D0510E323;
-	Wed,  6 Apr 2022 14:54:26 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 0001510E3C3;
+	Wed,  6 Apr 2022 14:55:30 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from metis.ext.pengutronix.de (metis.ext.pengutronix.de
- [IPv6:2001:67c:670:201:290:27ff:fe1d:cc33])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 6FC3710E323
- for <dri-devel@lists.freedesktop.org>; Wed,  6 Apr 2022 14:54:25 +0000 (UTC)
-Received: from ptx.hi.pengutronix.de ([2001:67c:670:100:1d::c0])
- by metis.ext.pengutronix.de with esmtps
- (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256) (Exim 4.92)
- (envelope-from <sha@pengutronix.de>)
- id 1nc739-0000f6-NQ; Wed, 06 Apr 2022 16:54:23 +0200
-Received: from sha by ptx.hi.pengutronix.de with local (Exim 4.92)
- (envelope-from <sha@pengutronix.de>)
- id 1nc737-0006AJ-9q; Wed, 06 Apr 2022 16:54:21 +0200
-Date: Wed, 6 Apr 2022 16:54:21 +0200
-From: Sascha Hauer <s.hauer@pengutronix.de>
-To: Andy Yan <andy.yan@rock-chips.com>
-Subject: Re: [PATCH v9 00/23] drm/rockchip: RK356x VOP2 support
-Message-ID: <20220406145421.GW4012@pengutronix.de>
-References: <20220328151116.2034635-1-s.hauer@pengutronix.de>
- <FB201567-AE5A-4242-82F1-7C55D8F111EA@gmail.com>
- <20220401125205.GL4012@pengutronix.de>
- <1c0fbf4f-2e17-29f9-5c69-c80b53ff3d2f@rock-chips.com>
- <20220405093700.GQ4012@pengutronix.de>
- <12a8c0ef-90ee-cf7e-50a0-e00add8af147@rock-chips.com>
- <20220406081333.GU4012@pengutronix.de>
- <a5e070ae-d9e1-e5ee-0871-2cdf58958203@rock-chips.com>
+Received: from foss.arm.com (foss.arm.com [217.140.110.172])
+ by gabe.freedesktop.org (Postfix) with ESMTP id 137E210E3C4
+ for <dri-devel@lists.freedesktop.org>; Wed,  6 Apr 2022 14:55:29 +0000 (UTC)
+Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
+ by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id AB95C1516
+ for <dri-devel@lists.freedesktop.org>; Wed,  6 Apr 2022 07:55:28 -0700 (PDT)
+Received: from e110455-lin.cambridge.arm.com (usa-sjc-imap-foss1.foss.arm.com
+ [10.121.207.14])
+ by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPA id 745333F73B
+ for <dri-devel@lists.freedesktop.org>; Wed,  6 Apr 2022 07:55:28 -0700 (PDT)
+Date: Wed, 6 Apr 2022 15:55:26 +0100
+From: Liviu Dudau <liviu.dudau@arm.com>
+To: Abhinav Kumar <quic_abhinavk@quicinc.com>
+Subject: Re: [PATCH v6 2/4] drm: introduce
+ drm_writeback_connector_init_with_encoder() API
+Message-ID: <Yk2p3q5EWd4P9u83@e110455-lin.cambridge.arm.com>
+References: <1648771933-18512-1-git-send-email-quic_abhinavk@quicinc.com>
+ <1648771933-18512-3-git-send-email-quic_abhinavk@quicinc.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=iso-8859-15
+Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
-In-Reply-To: <a5e070ae-d9e1-e5ee-0871-2cdf58958203@rock-chips.com>
-X-Sent-From: Pengutronix Hildesheim
-X-URL: http://www.pengutronix.de/
-X-IRC: #ptxdist @freenode
-X-Accept-Language: de,en
-X-Accept-Content-Type: text/plain
-X-Uptime: 16:05:52 up 7 days, 2:35, 73 users, load average: 0.24, 0.24, 0.22
-User-Agent: Mutt/1.10.1 (2018-07-13)
-X-SA-Exim-Connect-IP: 2001:67c:670:100:1d::c0
-X-SA-Exim-Mail-From: sha@pengutronix.de
-X-SA-Exim-Scanned: No (on metis.ext.pengutronix.de);
- SAEximRunCond expanded to false
-X-PTX-Original-Recipient: dri-devel@lists.freedesktop.org
+In-Reply-To: <1648771933-18512-3-git-send-email-quic_abhinavk@quicinc.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -63,116 +44,192 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: "devicetree@vger.kernel.org" <devicetree@vger.kernel.org>,
- Benjamin Gaignard <benjamin.gaignard@collabora.com>,
- Piotr Oniszczuk <piotr.oniszczuk@gmail.com>, Sandy Huang <hjc@rock-chips.com>,
- dri-devel@lists.freedesktop.org, Kever Yang <Kever.yang@rock-chips.com>,
- "open list:ARM/Rockchip SoC..." <linux-rockchip@lists.infradead.org>,
- Michael Riesch <michael.riesch@wolfvision.net>, kernel@pengutronix.de,
- Peter Geis <pgwipeout@gmail.com>,
- "linux-arm-kernel@lists.infradead.org" <linux-arm-kernel@lists.infradead.org>
+Cc: hamohammed.sa@gmail.com, suraj.kandpal@intel.com, emma@anholt.net,
+ rodrigosiqueiramelo@gmail.com, jani.nikula@intel.com,
+ dri-devel@lists.freedesktop.org, swboyd@chromium.org, melissa.srw@gmail.com,
+ nganji@codeaurora.org, seanpaul@chromium.org,
+ laurent.pinchart@ideasonboard.com, dmitry.baryshkov@linaro.org,
+ james.qian.wang@arm.com, quic_aravindh@quicinc.com, mihail.atanassov@arm.com,
+ freedreno@lists.freedesktop.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Wed, Apr 06, 2022 at 04:36:42PM +0800, Andy Yan wrote:
-> Hi:
-> 
-> On 4/6/22 16:13, Sascha Hauer wrote:
-> > On Wed, Apr 06, 2022 at 10:02:59AM +0800, Andy Yan wrote:
-> > > Hi:
-> > > 
-> > > On 4/5/22 17:37, Sascha Hauer wrote:
-> > > > On Sat, Apr 02, 2022 at 09:37:17AM +0800, Andy Yan wrote:
-> > > > > Hi Sacha:
-> > > > > 
-> > > > > On 4/1/22 20:52, Sascha Hauer wrote:
-> > > > > > -- 
-> > > > > > >From cbc03073623a7180243331ac24c3afaf9dec7522 Mon Sep 17 00:00:00 2001
-> > > > > > From: Sascha Hauer<s.hauer@pengutronix.de>
-> > > > > > Date: Fri, 1 Apr 2022 14:48:49 +0200
-> > > > > > Subject: [PATCH] fixup! drm: rockchip: Add VOP2 driver
-> > > > > > 
-> > > > > > ---
-> > > > > >     drivers/gpu/drm/rockchip/rockchip_drm_vop2.c | 14 ++++++++++++++
-> > > > > >     1 file changed, 14 insertions(+)
-> > > > > > 
-> > > > > > diff --git a/drivers/gpu/drm/rockchip/rockchip_drm_vop2.c b/drivers/gpu/drm/rockchip/rockchip_drm_vop2.c
-> > > > > > index 7dba7b9b63dc6..1421bf2f133f1 100644
-> > > > > > --- a/drivers/gpu/drm/rockchip/rockchip_drm_vop2.c
-> > > > > > +++ b/drivers/gpu/drm/rockchip/rockchip_drm_vop2.c
-> > > > > > @@ -2287,6 +2287,20 @@ static int vop2_create_crtc(struct vop2 *vop2)
-> > > > > >     			}
-> > > > > >     		}
-> > > > > > +		if (vop2->data->soc_id == 3566) {
-> > > > > > +			/*
-> > > > > > +			 * On RK3566 these windows don't have an independent
-> > > > > > +			 * framebuffer. They share the framebuffer with smart0,
-> > > > > > +			 * esmart0 and cluster0 respectively.
-> > > > > > +			 */
-> > > > > > +			switch (win->data->phys_id) {
-> > > > > > +			case ROCKCHIP_VOP2_SMART1:
-> > > > > > +			case ROCKCHIP_VOP2_ESMART1:
-> > > > > > +			case ROCKCHIP_VOP2_CLUSTER1:
-> > > > > > +				continue;
-> > > > > > +			}
-> > > > > Think about this , there maybe other upcoming vop2 base soc, they may only
-> > > > > have
-> > > > > 
-> > > > > mirror window Smart1 Esmart1, or Smart1, Esmart1, Esmart2, Cluster1.
-> > > > > 
-> > > > > I think this should add WIN_FEATURE at the platform description file
-> > > > > rockchip_vop2_reg.c, then
-> > > > > 
-> > > > > check the FEATURE to decide whether the driver should give this window a
-> > > > > special treatment.
-> > > > > 
-> > > > > this can make one code run for different soc with different platform
-> > > > > description. or we should add
-> > > > > 
-> > > > > the same code logic for different soc again and again.
-> > > > You mean like done in the downstream Kernel? Here indeed we have a
-> > > > WIN_FEATURE_MIRROR flag added to the platform description. This is then
-> > > > evaluated with:
-> > > > 
-> > > > static bool vop2_is_mirror_win(struct vop2_win *win)
-> > > > {
-> > > >           return soc_is_rk3566() && (win->feature & WIN_FEATURE_MIRROR);
-> > > > }
-> > > > 
-> > > > So a flag is added and afterwards its evaluation is SoC specific. That
-> > > > doesn't help at all and only obfuscates things.
-> > > > 
-> > > > Besides, experience shows that you can't predict a good abstraction for
-> > > This is not a  predict,  this is an IP feature, so it will appeared on
-> > > upcoming SOC.
-> > > 
-> > > We have rk3588 with 8 windows(4 Cluster + 4 Esmart, no Smart window), and
-> > > 
-> > > also have a entry level soc which only have 4 windows, they both have this
-> > > feature.
-> > Same as with the other discussion: Please let's solve this once we are
-> > there.
-> 
-> 
-> I am not sure if this is the suitable way for upstream, this sound like
-> 
-> just solve the issue appeared at the front of eyes and not think any
-> 
-> thing about make this driver easy to support new hardware in the future.
+Hi Abhinav,
 
-Oh come on, we are not talking about any major design decisions here,
-this is merely a small implementation detail that can be refactored
-anytime.
+On Thu, Mar 31, 2022 at 05:12:11PM -0700, Abhinav Kumar wrote:
+> For vendors drivers which pass an already allocated and
+> initialized encoder especially for cases where the encoder
+> hardware is shared OR the writeback encoder shares the resources
+> with the rest of the display pipeline introduce a new API,
+> drm_writeback_connector_init_with_encoder() which expects
+> an initialized encoder as a parameter and only sets up the
+> writeback connector.
+> 
+> changes in v6:
+> 	- remove drm_writeback_connector_setup() and instead
+> 	  directly call drm_writeback_connector_init_with_encoder()
+> 	- fix a drm_writeback_connector typo and function doc which
+> 	  incorrectly shows that the function accepts enc_helper_funcs
+> 	- pass encoder as a parameter explicitly to the new API
+> 	  for better readability
 
-I would change it when all it takes is to add a feature (or better:
-nonfeature) flag to the window data, but the combination of the flag
-*and* testing on which SoC the flag shall be honoured makes me feel
-that the feature flag is still not the best abstraction.
+Side comment: if you plan to have the log of changes in the commit message then I
+would keep a list of all the changes. Otherwise, putting the log after the -- line
+below would still convey the information but will also ensure that when merged it
+will not show up in the commit message.
 
-Sascha
+> 
+> Signed-off-by: Abhinav Kumar <quic_abhinavk@quicinc.com>
+> ---
+>  drivers/gpu/drm/drm_writeback.c | 72 +++++++++++++++++++++++++++++++++--------
+>  include/drm/drm_writeback.h     |  6 ++++
+>  2 files changed, 64 insertions(+), 14 deletions(-)
+> 
+> diff --git a/drivers/gpu/drm/drm_writeback.c b/drivers/gpu/drm/drm_writeback.c
+> index dc2ef12..797223c 100644
+> --- a/drivers/gpu/drm/drm_writeback.c
+> +++ b/drivers/gpu/drm/drm_writeback.c
+> @@ -177,6 +177,62 @@ int drm_writeback_connector_init(struct drm_device *dev,
+>  				 const struct drm_encoder_helper_funcs *enc_helper_funcs,
+>  				 const u32 *formats, int n_formats, uint32_t possible_crtcs)
+>  {
+> +	int ret = 0;
+> +
+> +	drm_encoder_helper_add(&wb_connector->encoder, enc_helper_funcs);
+> +
+> +	wb_connector->encoder.possible_crtcs = possible_crtcs;
+> +
+> +	ret = drm_encoder_init(dev, &wb_connector->encoder,
+> +			       &drm_writeback_encoder_funcs,
+> +			       DRM_MODE_ENCODER_VIRTUAL, NULL);
+> +	if (ret)
+> +		return ret;
+> +
+> +	ret = drm_writeback_connector_init_with_encoder(dev, wb_connector, &wb_connector->encoder,
+> +			con_funcs, formats, n_formats);
+> +
+> +	if (ret)
+> +		drm_encoder_cleanup(&wb_connector->encoder);
+> +
+> +	return ret;
+> +}
+> +EXPORT_SYMBOL(drm_writeback_connector_init);
+> +
+> +/**
+> + * drm_writeback_connector_init_with_encoder - Initialize a writeback connector and its properties
+> + * using the encoder which already assigned and initialized
+> + *
+> + * @dev: DRM device
+> + * @wb_connector: Writeback connector to initialize
+> + * @enc: handle to the already initialized drm encoder
+> + * @con_funcs: Connector funcs vtable
+> + * @formats: Array of supported pixel formats for the writeback engine
+> + * @n_formats: Length of the formats array
+> + *
+> + * This function creates the writeback-connector-specific properties if they
+> + * have not been already created, initializes the connector as
+> + * type DRM_MODE_CONNECTOR_WRITEBACK, and correctly initializes the property
+> + * values.
+> + *
+> + * This function assumes that the drm_writeback_connector's encoder has already been
+> + * created and initialized before invoking this function.
+> + *
+> + * In addition, this function also assumes that callers of this API will manage
+> + * assigning the encoder helper functions, possible_crtcs and any other encoder
+> + * specific operation which is otherwise handled by drm_writeback_connector_init().
+
+I would stop after "... specific operation".
+
+Otherwise, looks good to me.
+
+Reviewed-by: Liviu Dudau <liviu.dudau@arm.com>
+
+Best regards,
+Liviu
+
+
+> + *
+> + * Drivers should always use this function instead of drm_connector_init() to
+> + * set up writeback connectors if they want to manage themselves the lifetime of the
+> + * associated encoder.
+> + *
+> + * Returns: 0 on success, or a negative error code
+> + */
+> +int drm_writeback_connector_init_with_encoder(struct drm_device *dev,
+> +		struct drm_writeback_connector *wb_connector, struct drm_encoder *enc,
+> +		const struct drm_connector_funcs *con_funcs, const u32 *formats,
+> +		int n_formats)
+> +{
+>  	struct drm_property_blob *blob;
+>  	struct drm_connector *connector = &wb_connector->base;
+>  	struct drm_mode_config *config = &dev->mode_config;
+> @@ -190,15 +246,6 @@ int drm_writeback_connector_init(struct drm_device *dev,
+>  	if (IS_ERR(blob))
+>  		return PTR_ERR(blob);
+>  
+> -	drm_encoder_helper_add(&wb_connector->encoder, enc_helper_funcs);
+> -
+> -	wb_connector->encoder.possible_crtcs = possible_crtcs;
+> -
+> -	ret = drm_encoder_init(dev, &wb_connector->encoder,
+> -			       &drm_writeback_encoder_funcs,
+> -			       DRM_MODE_ENCODER_VIRTUAL, NULL);
+> -	if (ret)
+> -		goto fail;
+>  
+>  	connector->interlace_allowed = 0;
+>  
+> @@ -207,8 +254,7 @@ int drm_writeback_connector_init(struct drm_device *dev,
+>  	if (ret)
+>  		goto connector_fail;
+>  
+> -	ret = drm_connector_attach_encoder(connector,
+> -						&wb_connector->encoder);
+> +	ret = drm_connector_attach_encoder(connector, enc);
+>  	if (ret)
+>  		goto attach_fail;
+>  
+> @@ -237,12 +283,10 @@ int drm_writeback_connector_init(struct drm_device *dev,
+>  attach_fail:
+>  	drm_connector_cleanup(connector);
+>  connector_fail:
+> -	drm_encoder_cleanup(&wb_connector->encoder);
+> -fail:
+>  	drm_property_blob_put(blob);
+>  	return ret;
+>  }
+> -EXPORT_SYMBOL(drm_writeback_connector_init);
+> +EXPORT_SYMBOL(drm_writeback_connector_init_with_encoder);
+>  
+>  int drm_writeback_set_fb(struct drm_connector_state *conn_state,
+>  			 struct drm_framebuffer *fb)
+> diff --git a/include/drm/drm_writeback.h b/include/drm/drm_writeback.h
+> index db6214f..4795024 100644
+> --- a/include/drm/drm_writeback.h
+> +++ b/include/drm/drm_writeback.h
+> @@ -152,6 +152,12 @@ int drm_writeback_connector_init(struct drm_device *dev,
+>  				 const struct drm_encoder_helper_funcs *enc_helper_funcs,
+>  				 const u32 *formats, int n_formats, uint32_t possible_crtcs);
+>  
+> +int drm_writeback_connector_init_with_encoder(struct drm_device *dev,
+> +				struct drm_writeback_connector *wb_connector,
+> +				struct drm_encoder *enc,
+> +				const struct drm_connector_funcs *con_funcs, const u32 *formats,
+> +				int n_formats);
+> +
+>  int drm_writeback_set_fb(struct drm_connector_state *conn_state,
+>  			 struct drm_framebuffer *fb);
+>  
+> -- 
+> 2.7.4
+> 
 
 -- 
-Pengutronix e.K.                           |                             |
-Steuerwalder Str. 21                       | http://www.pengutronix.de/  |
-31137 Hildesheim, Germany                  | Phone: +49-5121-206917-0    |
-Amtsgericht Hildesheim, HRA 2686           | Fax:   +49-5121-206917-5555 |
+====================
+| I would like to |
+| fix the world,  |
+| but they're not |
+| giving me the   |
+ \ source code!  /
+  ---------------
+    Â¯\_(ãƒ„)_/Â¯
