@@ -1,50 +1,49 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2E9CA4F66F6
-	for <lists+dri-devel@lfdr.de>; Wed,  6 Apr 2022 19:30:19 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id E6DEB4F66F8
+	for <lists+dri-devel@lfdr.de>; Wed,  6 Apr 2022 19:30:25 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 938C710E0A8;
-	Wed,  6 Apr 2022 17:30:16 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 571DD10E125;
+	Wed,  6 Apr 2022 17:30:18 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 76A5510E0FA
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 764B310E0A8
  for <dri-devel@lists.freedesktop.org>; Wed,  6 Apr 2022 17:30:15 +0000 (UTC)
 Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
  (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
  (No client certificate requested)
- by dfw.source.kernel.org (Postfix) with ESMTPS id CEA4E61A95;
+ by dfw.source.kernel.org (Postfix) with ESMTPS id C733F6197E;
  Wed,  6 Apr 2022 17:30:14 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 10F5BC385A1;
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 14B09C385A5;
  Wed,  6 Apr 2022 17:30:14 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
  s=k20201202; t=1649266214;
- bh=TzTlpFZtH0J+36S9N9L4ND/H/yCs90y6P3aB8Lln2MI=;
+ bh=oonR2xgCOkK+2ZsJXKQdEiC5WZelRESZAkoTfAw8t7E=;
  h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
- b=CDIGt5bbay39GvswOhiiR9x75f4CZ8870l7rpiON7ocOR7Me8MM0zEhEwZm/0UnWZ
- xb0eOyjBo1tE5/yrUkFFzNGfXk0IMQqFaXgvgQmgnx6t7Q/ieFGMllaRCJ0+/hmhAa
- OVI2CLkcS36qkpexDIETUelaifR4eghO4GfP5Ywwe29lEOvaVO1fe6+lhP3kUGCEun
- M9CkpTS01zPwawvH3vfQYBHxYkZOtnXmEJfzGPJaZAf5UF7vkoe77u2dcRQ06Zi/h+
- Lzf7r9aeghgL7ZPdLdOoLFa9eIAk2MUQfK6SeqnSay9Tbwd0nJRipOO2YEoIAW1THs
- 3pqmcTIqow9Sg==
+ b=GmdCAI1PEXG/SQMmze443jy4k7raOrxY7mJu/mbfL29JTMs50hFJYyDQEZIXIFS6U
+ 6sIt9Gyo4XfjAEvTOCVYI2gpS88mTOwYESjW/FCz0EETOzglUdsDI/KHVwyd6/Ozfv
+ cJXLy+/BtoY6/bMusBJ2tgSVE0SE57A2bTAyWge2Tnc4AZPCxoMdboLTbXic/+75zx
+ JC4gWgIQknHrk7LLGTOyEhafG8bLwHPqZmHlIPOFSVkl7apatB4e9/Tmx/80VZzLaT
+ U8yKUPY8ThKVhJzACG6taKj8KWR/vfJlYFsVHP9C7TmSNcTEDN5Onpp3JfQ8vg0L7c
+ 6uXazcIawcA6g==
 Received: by wens.tw (Postfix, from userid 1000)
- id 4A61B5F8E8; Thu,  7 Apr 2022 01:30:11 +0800 (CST)
+ id 527CF5FD20; Thu,  7 Apr 2022 01:30:11 +0800 (CST)
 From: Chen-Yu Tsai <wens@kernel.org>
 To: Javier Martinez Canillas <javierm@redhat.com>,
  Maxime Ripard <mripard@kernel.org>, Rob Herring <robh+dt@kernel.org>,
  Krzysztof Kozlowski <krzk+dt@kernel.org>, David Airlie <airlied@linux.ie>,
  Daniel Vetter <daniel@ffwll.ch>
-Subject: [PATCH v2 1/4] dt-bindings: vendor-prefixes: Add prefix for SINO
- WEALTH Eletronics Ltd.
-Date: Thu,  7 Apr 2022 01:29:53 +0800
-Message-Id: <20220406172956.3953-2-wens@kernel.org>
+Subject: [PATCH v2 2/4] dt-bindings: display: ssd1307fb: Add entry for SINO
+ WEALTH SH1106
+Date: Thu,  7 Apr 2022 01:29:54 +0800
+Message-Id: <20220406172956.3953-3-wens@kernel.org>
 X-Mailer: git-send-email 2.34.1
 In-Reply-To: <20220406172956.3953-1-wens@kernel.org>
 References: <20220406172956.3953-1-wens@kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -65,27 +64,49 @@ Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 From: Chen-Yu Tsai <wens@csie.org>
 
-Add a vendor prefix entry for SINO WEALTH Eletronics Ltd.
-(http://www.sinowealth.com).
+The SINO WEALTH SH1106 is an OLED display driver that is somewhat
+compatible with the SSD1306. It supports a slightly wider display,
+at 132 instead of 128 pixels. The basic commands are the same, but
+the SH1106 doesn't support the horizontal or vertical address modes.
+
+Add a compatible string for it.
 
 Signed-off-by: Chen-Yu Tsai <wens@csie.org>
 ---
- Documentation/devicetree/bindings/vendor-prefixes.yaml | 2 ++
- 1 file changed, 2 insertions(+)
+ .../bindings/display/solomon,ssd1307fb.yaml         | 13 +++++++++++++
+ 1 file changed, 13 insertions(+)
 
-diff --git a/Documentation/devicetree/bindings/vendor-prefixes.yaml b/Documentation/devicetree/bindings/vendor-prefixes.yaml
-index 01430973ecec..79b72e370ade 100644
---- a/Documentation/devicetree/bindings/vendor-prefixes.yaml
-+++ b/Documentation/devicetree/bindings/vendor-prefixes.yaml
-@@ -1130,6 +1130,8 @@ patternProperties:
-     description: Sinlinx Electronics Technology Co., LTD
-   "^sinovoip,.*":
-     description: SinoVoip Co., Ltd
-+  "^sinowealth,.*":
-+    description: SINO WEALTH Electronic Ltd.
-   "^sipeed,.*":
-     description: Shenzhen Sipeed Technology Co., Ltd.
-   "^sirf,.*":
+diff --git a/Documentation/devicetree/bindings/display/solomon,ssd1307fb.yaml b/Documentation/devicetree/bindings/display/solomon,ssd1307fb.yaml
+index 9baafd0c42dd..ade61d502edd 100644
+--- a/Documentation/devicetree/bindings/display/solomon,ssd1307fb.yaml
++++ b/Documentation/devicetree/bindings/display/solomon,ssd1307fb.yaml
+@@ -13,6 +13,7 @@ maintainers:
+ properties:
+   compatible:
+     enum:
++      - sinowealth,sh1106-i2c
+       - solomon,ssd1305fb-i2c
+       - solomon,ssd1306fb-i2c
+       - solomon,ssd1307fb-i2c
+@@ -131,6 +132,18 @@ required:
+   - reg
+ 
+ allOf:
++  - if:
++      properties:
++        compatible:
++          contains:
++            const: sinowealth,sh1106-i2c
++    then:
++      properties:
++        solomon,dclk-div:
++          default: 1
++        solomon,dclk-frq:
++          default: 5
++
+   - if:
+       properties:
+         compatible:
 -- 
 2.34.1
 
