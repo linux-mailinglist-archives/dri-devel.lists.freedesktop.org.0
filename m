@@ -1,47 +1,58 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 44C944F5691
-	for <lists+dri-devel@lfdr.de>; Wed,  6 Apr 2022 08:44:21 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 27CD14F56B5
+	for <lists+dri-devel@lfdr.de>; Wed,  6 Apr 2022 09:04:11 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 5CFB410F290;
-	Wed,  6 Apr 2022 06:44:17 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 08F5810E478;
+	Wed,  6 Apr 2022 07:04:09 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from ams.source.kernel.org (ams.source.kernel.org
- [IPv6:2604:1380:4601:e00::1])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 7ACF610F2BB;
- Wed,  6 Apr 2022 06:44:15 +0000 (UTC)
-Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
- (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
- (No client certificate requested)
- by ams.source.kernel.org (Postfix) with ESMTPS id 234F7B81BAD;
- Wed,  6 Apr 2022 06:44:13 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 4F3BEC385A3;
- Wed,  6 Apr 2022 06:44:11 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1649227451;
- bh=BJfgiIoQUQYLiIMc6u/jkdzzSqCbxhlaeFQX+3zNbYg=;
- h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
- b=HYjekCYckPQzlYNTIu2rKllAWs8+5lcZdBvpLZ9xI5S8TRTJdcr5ttJmpzrvgTHqq
- eBOI+yY11Z3TJfcpG2JyiFMML5RGLQZJsboe9I9cTJW2Ci/Keo8fzQZrlMX9+bPIxk
- AneKP08C/7KyS3208//LaXSwa3QQlgkeONwROWpgAiYNlAFxBuTIrw8A3WPWPvibxK
- HsSwUsWha+bf7a+9bZ0PSFRY3uXveqsQ8JsThOC8+cr4nY85wQurMMEQ5RP1cJlBgD
- 8RLXoGCs8CFKCBH9Jm/YxFpfluX7bvVavRQrfH460j6li/IMFTeYAGgBTxFJMxa/rE
- gvsdmmG1GQPOA==
-Date: Wed, 6 Apr 2022 12:14:07 +0530
-From: Vinod Koul <vkoul@kernel.org>
-To: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
-Subject: Re: [PATCH v6 14/14] drm/msm/dsi: Add support for DSC configuration
-Message-ID: <Yk02t+sZS0I7heY3@matsya>
-References: <20220404163436.956875-1-vkoul@kernel.org>
- <20220404163436.956875-15-vkoul@kernel.org>
- <f5fc9704-5c22-8c95-b6d6-e2c20145672c@linaro.org>
+Received: from metis.ext.pengutronix.de (metis.ext.pengutronix.de
+ [IPv6:2001:67c:670:201:290:27ff:fe1d:cc33])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id D120110E478
+ for <dri-devel@lists.freedesktop.org>; Wed,  6 Apr 2022 07:04:07 +0000 (UTC)
+Received: from ptx.hi.pengutronix.de ([2001:67c:670:100:1d::c0])
+ by metis.ext.pengutronix.de with esmtps
+ (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256) (Exim 4.92)
+ (envelope-from <sha@pengutronix.de>)
+ id 1nbzi1-0003pO-VL; Wed, 06 Apr 2022 09:04:05 +0200
+Received: from sha by ptx.hi.pengutronix.de with local (Exim 4.92)
+ (envelope-from <sha@pengutronix.de>)
+ id 1nbzhz-0000mm-JG; Wed, 06 Apr 2022 09:04:03 +0200
+Date: Wed, 6 Apr 2022 09:04:03 +0200
+From: Sascha Hauer <s.hauer@pengutronix.de>
+To: Andy Yan <andy.yan@rock-chips.com>
+Subject: Re: [PATCH v9 20/23] drm/rockchip: Make VOP driver optional
+Message-ID: <20220406070403.GS4012@pengutronix.de>
+References: <20220330063913.GW12181@pengutronix.de>
+ <9619ce71-db59-d6cd-c254-2b67122fa245@rock-chips.com>
+ <20220331070614.GD4012@pengutronix.de>
+ <eebd2731-f18b-af1c-b0b9-09df669f5a3c@rock-chips.com>
+ <20220331081815.GF4012@pengutronix.de>
+ <8aa9da47-d7ed-41bf-384c-103757c19fe2@rock-chips.com>
+ <20220401125527.GM4012@pengutronix.de>
+ <7b2630d8-0575-5d65-dd81-3ef336ad5ba7@rock-chips.com>
+ <20220405090509.GP4012@pengutronix.de>
+ <93001a4c-b009-202f-7b04-34e1a9e617ec@rock-chips.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
+Content-Type: text/plain; charset=iso-8859-15
 Content-Disposition: inline
-In-Reply-To: <f5fc9704-5c22-8c95-b6d6-e2c20145672c@linaro.org>
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <93001a4c-b009-202f-7b04-34e1a9e617ec@rock-chips.com>
+X-Sent-From: Pengutronix Hildesheim
+X-URL: http://www.pengutronix.de/
+X-IRC: #ptxdist @freenode
+X-Accept-Language: de,en
+X-Accept-Content-Type: text/plain
+X-Uptime: 08:46:32 up 6 days, 19:16, 52 users, load average: 0.14, 0.10, 0.09
+User-Agent: Mutt/1.10.1 (2018-07-13)
+X-SA-Exim-Connect-IP: 2001:67c:670:100:1d::c0
+X-SA-Exim-Mail-From: sha@pengutronix.de
+X-SA-Exim-Scanned: No (on metis.ext.pengutronix.de);
+ SAEximRunCond expanded to false
+X-PTX-Original-Recipient: dri-devel@lists.freedesktop.org
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -54,94 +65,187 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Jonathan Marek <jonathan@marek.ca>, David Airlie <airlied@linux.ie>,
- linux-arm-msm@vger.kernel.org, Abhinav Kumar <quic_abhinavk@quicinc.com>,
- dri-devel@lists.freedesktop.org, Bjorn Andersson <bjorn.andersson@linaro.org>,
- freedreno@lists.freedesktop.org, linux-kernel@vger.kernel.org
+Cc: devicetree@vger.kernel.org,
+ Benjamin Gaignard <benjamin.gaignard@collabora.com>,
+ Sandy Huang <hjc@rock-chips.com>, dri-devel@lists.freedesktop.org,
+ Kever Yang <Kever.yang@rock-chips.com>, linux-rockchip@lists.infradead.org,
+ Michael Riesch <michael.riesch@wolfvision.net>, kernel@pengutronix.de,
+ Peter Geis <pgwipeout@gmail.com>, linux-arm-kernel@lists.infradead.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 06-04-22, 02:42, Dmitry Baryshkov wrote:
-> On 04/04/2022 19:34, Vinod Koul wrote:
-> > When DSC is enabled, we need to configure DSI registers accordingly and
-> > configure the respective stream compression registers.
-> > 
-> > Add support to calculate the register setting based on DSC params and
-> > timing information and configure these registers.
-> > 
-> > Signed-off-by: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
-> > Signed-off-by: Vinod Koul <vkoul@kernel.org>
-> > ---
-> >   drivers/gpu/drm/msm/dsi/dsi_host.c | 98 +++++++++++++++++++++++++++++-
-> >   1 file changed, 97 insertions(+), 1 deletion(-)
-> > 
-> > diff --git a/drivers/gpu/drm/msm/dsi/dsi_host.c b/drivers/gpu/drm/msm/dsi/dsi_host.c
-> > index eb0be34add45..f3ed6c40b9e1 100644
-> > --- a/drivers/gpu/drm/msm/dsi/dsi_host.c
-> > +++ b/drivers/gpu/drm/msm/dsi/dsi_host.c
-> > @@ -912,6 +912,65 @@ static void dsi_ctrl_config(struct msm_dsi_host *msm_host, bool enable,
-> >   		dsi_write(msm_host, REG_DSI_CPHY_MODE_CTRL, BIT(0));
-> >   }
-> > +static void dsi_update_dsc_timing(struct msm_dsi_host *msm_host, bool is_cmd_mode, u32 hdisplay)
-> > +{
-> > +	struct msm_display_dsc_config *dsc = msm_host->dsc;
-> > +	u32 reg, intf_width, reg_ctrl, reg_ctrl2;
-> > +	u32 slice_per_intf, total_bytes_per_intf;
-> > +	u32 pkt_per_line;
-> > +	u32 bytes_in_slice;
-> > +	u32 eol_byte_num;
-> > +
-> > +	/* first calculate dsc parameters and then program
-> > +	 * compress mode registers
-> > +	 */
-> > +	intf_width = hdisplay;
-> > +	slice_per_intf = DIV_ROUND_UP(intf_width, dsc->drm->slice_width);
-> > +
-> > +	/* If slice_per_pkt is greater than slice_per_intf
-> > +	 * then default to 1. This can happen during partial
-> > +	 * update.
-> > +	 */
-> > +	if (slice_per_intf > dsc->drm->slice_count)
-> > +		dsc->drm->slice_count = 1;
-> > +
-> > +	slice_per_intf = DIV_ROUND_UP(hdisplay, dsc->drm->slice_width);
-> > +	bytes_in_slice = DIV_ROUND_UP(dsc->drm->slice_width * dsc->drm->bits_per_pixel, 8);
-> > +
-> > +	dsc->drm->slice_chunk_size = bytes_in_slice;
-> > +
-> > +	total_bytes_per_intf = bytes_in_slice * slice_per_intf;
-> > +
-> > +	eol_byte_num = total_bytes_per_intf % 3;
-> > +	pkt_per_line = slice_per_intf / dsc->drm->slice_count;
-> > +
-> > +	if (is_cmd_mode) /* packet data type */
-> > +		reg = DSI_COMMAND_COMPRESSION_MODE_CTRL_STREAM0_DATATYPE(MIPI_DSI_DCS_LONG_WRITE);
-> > +	else
-> > +		reg = DSI_VIDEO_COMPRESSION_MODE_CTRL_DATATYPE(MIPI_DSI_COMPRESSED_PIXEL_STREAM);
-> > +
-> > +	/* DSI_VIDEO_COMPRESSION_MODE & DSI_COMMAND_COMPRESSION_MODE
-> > +	 * registers have similar offsets, so for below common code use
-> > +	 * DSI_VIDEO_COMPRESSION_MODE_XXXX for setting bits
-> > +	 */
-> > +	reg |= DSI_VIDEO_COMPRESSION_MODE_CTRL_PKT_PER_LINE(pkt_per_line >> 1);
-> > +	reg |= DSI_VIDEO_COMPRESSION_MODE_CTRL_EOL_BYTE_NUM(eol_byte_num);
-> > +	reg |= DSI_VIDEO_COMPRESSION_MODE_CTRL_EN;
-> > +
-> > +	if (is_cmd_mode) {
-> > +		reg_ctrl = dsi_read(msm_host, REG_DSI_COMMAND_COMPRESSION_MODE_CTRL);
-> > +		reg_ctrl2 = dsi_read(msm_host, REG_DSI_COMMAND_COMPRESSION_MODE_CTRL2);
-> > +
-> > +		reg_ctrl |= reg;
-> > +		reg_ctrl2 |= DSI_COMMAND_COMPRESSION_MODE_CTRL2_STREAM0_SLICE_WIDTH(bytes_in_slice);
-> > +
-> > +		dsi_write(msm_host, REG_DSI_COMMAND_COMPRESSION_MODE_CTRL, reg);
+On Wed, Apr 06, 2022 at 09:43:49AM +0800, Andy Yan wrote:
+> Hi Sacha:
 > 
-> reg_ctrl, as reported by testing robot
+> On 4/5/22 17:05, Sascha Hauer wrote:
+> > On Sat, Apr 02, 2022 at 09:25:33AM +0800, Andy Yan wrote:
+> > > Hi Sascha:
+> > > 
+> > > On 4/1/22 20:55, Sascha Hauer wrote:
+> > > > On Thu, Mar 31, 2022 at 07:00:34PM +0800, Andy Yan wrote:
+> > > > > Hi:
+> > > > > 
+> > > > > On 3/31/22 16:18, Sascha Hauer wrote:
+> > > > > > On Thu, Mar 31, 2022 at 03:20:37PM +0800, Andy Yan wrote:
+> > > > > > > Hi Sascha:
+> > > > > > > 
+> > > > > > > On 3/31/22 15:06, Sascha Hauer wrote:
+> > > > > > > > On Wed, Mar 30, 2022 at 08:50:09PM +0800, Andy Yan wrote:
+> > > > > > > > > Hi Sascha:
+> > > > > > > > > 
+> > > > > > > > > On 3/30/22 14:39, Sascha Hauer wrote:
+> > > > > > > > > > Hi Andy,
+> > > > > > > > > > 
+> > > > > > > > > > On Tue, Mar 29, 2022 at 07:56:27PM +0800, Andy Yan wrote:
+> > > > > > > > > > > Hi Sascha:
+> > > > > > > > > > > 
+> > > > > > > > > > > On 3/28/22 23:11, Sascha Hauer wrote:
+> > > > > > > > > > > > With upcoming VOP2 support VOP won't be the only choice anymore, so make
+> > > > > > > > > > > > the VOP driver optional.
+> > > > > > > > > > > > 
+> > > > > > > > > > > > Signed-off-by: Sascha Hauer <s.hauer@pengutronix.de>
+> > > > > > > > > > > > ---
+> > > > > > > > > > > >        drivers/gpu/drm/rockchip/Kconfig            | 8 ++++++++
+> > > > > > > > > > > >        drivers/gpu/drm/rockchip/Makefile           | 3 ++-
+> > > > > > > > > > > >        drivers/gpu/drm/rockchip/rockchip_drm_drv.c | 2 +-
+> > > > > > > > > > > >        3 files changed, 11 insertions(+), 2 deletions(-)
+> > > > > > > > > > > > 
+> > > > > > > > > > > > diff --git a/drivers/gpu/drm/rockchip/Kconfig b/drivers/gpu/drm/rockchip/Kconfig
+> > > > > > > > > > > > index fa5cfda4e90e3..7d22e2997a571 100644
+> > > > > > > > > > > > --- a/drivers/gpu/drm/rockchip/Kconfig
+> > > > > > > > > > > > +++ b/drivers/gpu/drm/rockchip/Kconfig
+> > > > > > > > > > > > @@ -23,8 +23,16 @@ config DRM_ROCKCHIP
+> > > > > > > > > > > >        if DRM_ROCKCHIP
+> > > > > > > > > > > > +config ROCKCHIP_VOP
+> > > > > > > > > > > > +	bool "Rockchip VOP driver"
+> > > > > > > > > > > > +	default y
+> > > > > > > > > > > > +	help
+> > > > > > > > > > > > +	  This selects support for the VOP driver. You should enable it
+> > > > > > > > > > > > +	  on all older SoCs up to RK3399.
+> > > > > > > > > > That reminds me that I wanted to rephrase this. Will change in next
+> > > > > > > > > > round.
+> > > > > > > > > > 
+> > > > > > > > > > > > +
+> > > > > > > > > > > >        config ROCKCHIP_ANALOGIX_DP
+> > > > > > > > > > > >        	bool "Rockchip specific extensions for Analogix DP driver"
+> > > > > > > > > > > > +	depends on ROCKCHIP_VOP
+> > > > > > > > > > > Aanlogix dp is also on vop2 base soc such as  rk356x and rk3588.
+> > > > > > > > BTW I just looked at the downstream driver. Here we have the same
+> > > > > > > > situation that the analogix dp driver calls rockchip_drm_wait_vact_end()
+> > > > > > > > which is implemented in the VOP driver, so when the analogix dp driver
+> > > > > > > > is actually used on a VOP2 SoC then it is either used in a way that
+> > > > > > > > rockchip_drm_wait_vact_end() will never be called or it explodes in all
+> > > > > > > > colours.
+> > > > > > > > 
+> > > > > > > > > > I added the dependency because analogix_dp-rockchip.c calls
+> > > > > > > > > > rockchip_drm_wait_vact_end() which is implemented in the VOP driver,
+> > > > > > > > > > so this driver currenty can't work with the VOP2 driver and can't
+> > > > > > > > > > be linked without the VOP driver being present.
+> > > > > > > > > > I'll add a few words to the commit message.
+> > > > > > > > > Maybe a better direction is move rockchip_drm_wait_vact_end from the VOP
+> > > > > > > > > driver to rockchip_drm_drv.c
+> > > > > > > > I am not sure if that's really worth it. Yes, the direction might be the
+> > > > > > > > right one, but I would really prefer when somebody does the change who
+> > > > > > > > can test and confirm that the analogix dp really works with VOP2 in the
+> > > > > > > > end.
+> > > > > > > If follow this point, the current DW_MIPI also has not been tested for
+> > > > > > > confirm that it
+> > > > > > > 
+> > > > > > > can really work with VOP2, so you should also make it depends on
+> > > > > > > ROCKCHIP_VOP.
+> > Here you are suggesting to add even more Kconfig dependencies.
+> > 
+> > > > > > Well at least I have patches here which make DW_MIPI work with VOP2 ;)
+> > > > > But you DW_MIPI patches for rk356x didn't come. So this is not keep
+> > > > > consistency with this point.
+> > > > > 
+> > > > > > What about the others, like LVDS and RGB?
+> > > > > Yes, we also have other interface , RK356X has LVDS/RGB/BT1120/BT656, RK3588
+> > > > > has BT1120/BT656, no LVDS or RGB.
+> > > > > 
+> > > > > > > I think the current solution is just a workaround to make your patch pass
+> > > > > > > the kernel compile
+> > > > > > Indeed.
+> > > > > > 
+> > > > > > I agree that it would be good to add a note somewhere which outputs
+> > > > > > work with the VOP2 driver (currently only HDMI), but I wonder if Kconfig
+> > > > > > dependencies is the right place for it, because only people who deliberately
+> > > > > > disable VOP support will see this information.
+> > > > > > Maybe we should rather add it to the Kconfig help text?
+> > > > > If a device is supported for this soc, we will add dt node at the dtsi file.
+> > > > > 
+> > > > > A Kconfig dependencies don't seems a good idea.
+> > Here you say Kconfig dependencies are no good idea.
+> 
+> 
+> Yes. It's not a good idea. So I don't want to see you use a Kcofig
+> dependence
+> 
+> to disable a module to avoid compile which introduced by your patch.
+> 
+> > 
+> > > > Ok, this means we can keep my current approach with just letting
+> > > > ROCKCHIP_ANALOGIX_DP depend on ROCKCHIP_VOP to avoid having a non
+> > > Excuse me? How do you get this conclusion ?
+> > Given that you say that you want to have both more and less Kconfig
+> > dependencies I came to the conclusion that I only add one where it's
+> > necessary to compile the driver.
+> > 
+> > > I said before,  vop and vop2 based platforms both have ROCKCHIP_ANALOGIX_DP.
+> > Maybe, but vop2 with ROCKCHIP_ANALOGIX_DP doesn't even work in the
+> > Rockchip downstream kernel, so I wonder how relevant this usecase really
+> > is.
+> 
+> 
+> No, this is not the truth. Rockchip_ANALOGIX_DP of course work with the
+> vendor kernel. We have many rk356x based products shipped with edp.
+> Even the VGA output interface on RK3568_EVB1 is drived by
+> ROCKCHIP_ANALOGIX_DP with a RTD2166 eDP to VGA convert
+> chip.
+> 
+> 
+> So how do you get conclusion that ROCKCHIP_ANALOGIX_DP can't work with
+> the Rockchip downstream kernel? Is it because you can't make the DP work on
+> your board? If it is, please contact the supplier who gave you the board.
 
-Yes, I did run W=1 check for the patches, with gcc I do not see this
-warning :(
+In the downstream kernel I have available (which is a 5.10.66)
+analogix_dp-rockchip.c calls rockchip_drm_wait_vact_end() which is
+implemented in rockchip_drm_vop.c and assumes that the passed struct
+drm_crtc * can be converted to a struct vop *. Basically it's the same
+situation we have right now with the mainline kernel, just that the
+linker issues won't show up because the VOP driver can't be disabled
+in the downstream kernel.
 
-I have fixed and will send updated revision shortly
+> 
+> 
+> Do you have a RK3568_EVB1 that has a VGA output interface on board?
+> 
+> If you have it, I can offer you image to verify the DP.
+> 
+> 
+> > > If this patch will cause the compile error, please do a real fix, not a
+> > I can't, because I don't have any hardware to test the Analogix DP on a
+> > VOP hardware, and given that Analogix DP in conjunction with VOP2 hardware is
+> > not even supported in the downstream Kernel I am not sure if it's really
+> > worth doing that.
+> 
+> 
+> Again, this is not the truth, see above.
+> I am not ask you support the ROCKCHIP_ANALOGIX_DP on upstream, I just
+> want you can give a better solution when you patch cause the compile error.
+> Disable a module when it conflict with your patch is too rough.
+
+It does not conflict with my patch. The dependency only means that you can't
+enable the Analogix DP driver when the VOP driver is disabled. That
+doesn't hurt, because currently you can't do anything with the Analogix
+DP driver without the VOP driver. With the added dependency the Analogix DP
+driver can still be used with the VOP driver, even when the VOP2 driver
+is enabled. I really can't see a problem with that.
+
+Sascha
 
 -- 
-~Vinod
+Pengutronix e.K.                           |                             |
+Steuerwalder Str. 21                       | http://www.pengutronix.de/  |
+31137 Hildesheim, Germany                  | Phone: +49-5121-206917-0    |
+Amtsgericht Hildesheim, HRA 2686           | Fax:   +49-5121-206917-5555 |
