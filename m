@@ -2,35 +2,35 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 60C6E4F5810
-	for <lists+dri-devel@lfdr.de>; Wed,  6 Apr 2022 10:47:51 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 216594F5812
+	for <lists+dri-devel@lfdr.de>; Wed,  6 Apr 2022 10:47:56 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id BC4F710E32E;
-	Wed,  6 Apr 2022 08:47:46 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 1757110E906;
+	Wed,  6 Apr 2022 08:47:47 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from inva020.nxp.com (inva020.nxp.com [92.121.34.13])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 6C82D10E55F
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 6789110E32E
  for <dri-devel@lists.freedesktop.org>; Wed,  6 Apr 2022 08:47:45 +0000 (UTC)
 Received: from inva020.nxp.com (localhost [127.0.0.1])
- by inva020.eu-rdc02.nxp.com (Postfix) with ESMTP id DB4771A1E84;
- Wed,  6 Apr 2022 10:40:11 +0200 (CEST)
+ by inva020.eu-rdc02.nxp.com (Postfix) with ESMTP id CA5791A06DE;
+ Wed,  6 Apr 2022 10:40:13 +0200 (CEST)
 Received: from aprdc01srsp001v.ap-rdc01.nxp.com
  (aprdc01srsp001v.ap-rdc01.nxp.com [165.114.16.16])
- by inva020.eu-rdc02.nxp.com (Postfix) with ESMTP id 914A81A1784;
- Wed,  6 Apr 2022 10:40:11 +0200 (CEST)
+ by inva020.eu-rdc02.nxp.com (Postfix) with ESMTP id 802B81A129E;
+ Wed,  6 Apr 2022 10:40:13 +0200 (CEST)
 Received: from localhost.localdomain (mega.ap.freescale.net [10.192.208.232])
  by aprdc01srsp001v.ap-rdc01.nxp.com (Postfix) with ESMTP id
- AE8E8183AC4F; Wed,  6 Apr 2022 16:40:09 +0800 (+08)
+ 663E1183AC8A; Wed,  6 Apr 2022 16:40:11 +0800 (+08)
 From: Sandor.yu@nxp.com
 To: dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org,
  andrzej.hajda@intel.com, narmstrong@baylibre.com, robert.foss@linaro.org,
  Laurent.pinchart@ideasonboard.com, jonas@kwiboo.se,
  jernej.skrabec@gmail.com
-Subject: [PATCH v1 1/5] drm: bridge: dw_hdmi: cec: Add cec suspend/resume
- function
-Date: Wed,  6 Apr 2022 16:48:33 +0800
-Message-Id: <27380b83a1b17419a35a13e29a86a1989204d1c3.1649230434.git.Sandor.yu@nxp.com>
+Subject: [PATCH v1 2/5] drm: bridge: dw_hdmi: enable overflow workaround for
+ v2.13a
+Date: Wed,  6 Apr 2022 16:48:34 +0800
+Message-Id: <5339589121b05c0db7ee4befdc48c7e4ab4f1653.1649230434.git.Sandor.yu@nxp.com>
 X-Mailer: git-send-email 2.17.1
 In-Reply-To: <cover.1649230434.git.Sandor.yu@nxp.com>
 References: <cover.1649230434.git.Sandor.yu@nxp.com>
@@ -56,75 +56,43 @@ Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 From: Sandor Yu <Sandor.yu@nxp.com>
 
-CEC interrupt status/mask and logical address registers
-will be reset when device enter suspend.
-It will cause cec fail to work after device resume.
-Add CEC suspend/resume functions, save these registers status
-when suspend and restore them when resume.
+iMX865 HDMI (v2.13a) have been identified as needing the workaround.
+Tests show that one iteration is enough.
+
+Without the workaround, iMX865 HDMI audio may not work
+after cable plugout/in, because HDMI mode is not really set in
+register HDMI_FC_INVIDCONF.
 
 Signed-off-by: Sandor Yu <Sandor.yu@nxp.com>
 ---
- drivers/gpu/drm/bridge/synopsys/dw-hdmi-cec.c | 35 +++++++++++++++++++
- 1 file changed, 35 insertions(+)
+ drivers/gpu/drm/bridge/synopsys/dw-hdmi.c | 7 ++++---
+ 1 file changed, 4 insertions(+), 3 deletions(-)
 
-diff --git a/drivers/gpu/drm/bridge/synopsys/dw-hdmi-cec.c b/drivers/gpu/drm/bridge/synopsys/dw-hdmi-cec.c
-index c8f44bcb298a..ceb619b32fde 100644
---- a/drivers/gpu/drm/bridge/synopsys/dw-hdmi-cec.c
-+++ b/drivers/gpu/drm/bridge/synopsys/dw-hdmi-cec.c
-@@ -18,6 +18,8 @@
- 
- #include "dw-hdmi-cec.h"
- 
-+static u8 cec_saved_regs[5];
-+
- enum {
- 	HDMI_IH_CEC_STAT0	= 0x0106,
- 	HDMI_IH_MUTE_CEC_STAT0	= 0x0186,
-@@ -306,11 +308,44 @@ static int dw_hdmi_cec_remove(struct platform_device *pdev)
- 	return 0;
- }
- 
-+static int __maybe_unused dw_hdmi_cec_resume(struct device *dev)
-+{
-+	struct dw_hdmi_cec *cec = dev_get_drvdata(dev);
-+
-+	/* Restore logical address and interrupt status/mask register */
-+	dw_hdmi_write(cec, cec_saved_regs[0], HDMI_CEC_ADDR_L);
-+	dw_hdmi_write(cec, cec_saved_regs[1], HDMI_CEC_ADDR_H);
-+	dw_hdmi_write(cec, cec_saved_regs[2], HDMI_CEC_POLARITY);
-+	dw_hdmi_write(cec, cec_saved_regs[3], HDMI_CEC_MASK);
-+	dw_hdmi_write(cec, cec_saved_regs[4], HDMI_IH_MUTE_CEC_STAT0);
-+
-+	return 0;
-+}
-+
-+static int __maybe_unused dw_hdmi_cec_suspend(struct device *dev)
-+{
-+	struct dw_hdmi_cec *cec = dev_get_drvdata(dev);
-+
-+	/* store logical address and interrupt status/mask register */
-+	cec_saved_regs[0] = dw_hdmi_read(cec, HDMI_CEC_ADDR_L);
-+	cec_saved_regs[1] = dw_hdmi_read(cec, HDMI_CEC_ADDR_H);
-+	cec_saved_regs[2] = dw_hdmi_read(cec, HDMI_CEC_POLARITY);
-+	cec_saved_regs[3] = dw_hdmi_read(cec, HDMI_CEC_MASK);
-+	cec_saved_regs[4] = dw_hdmi_read(cec, HDMI_IH_MUTE_CEC_STAT0);
-+
-+	return 0;
-+}
-+
-+static const struct dev_pm_ops dw_hdmi_cec_pm = {
-+	SET_SYSTEM_SLEEP_PM_OPS(dw_hdmi_cec_suspend, dw_hdmi_cec_resume)
-+};
-+
- static struct platform_driver dw_hdmi_cec_driver = {
- 	.probe	= dw_hdmi_cec_probe,
- 	.remove	= dw_hdmi_cec_remove,
- 	.driver = {
- 		.name = "dw-hdmi-cec",
-+		.pm = &dw_hdmi_cec_pm,
- 	},
- };
- module_platform_driver(dw_hdmi_cec_driver);
+diff --git a/drivers/gpu/drm/bridge/synopsys/dw-hdmi.c b/drivers/gpu/drm/bridge/synopsys/dw-hdmi.c
+index 4befc104d220..b11577de4836 100644
+--- a/drivers/gpu/drm/bridge/synopsys/dw-hdmi.c
++++ b/drivers/gpu/drm/bridge/synopsys/dw-hdmi.c
+@@ -2087,9 +2087,9 @@ static void dw_hdmi_clear_overflow(struct dw_hdmi *hdmi)
+ 	 *
+ 	 * The number of iterations matters and depends on the HDMI TX revision
+ 	 * (and possibly on the platform). So far i.MX6Q (v1.30a), i.MX6DL
+-	 * (v1.31a) and multiple Allwinner SoCs (v1.32a) have been identified
+-	 * as needing the workaround, with 4 iterations for v1.30a and 1
+-	 * iteration for others.
++	 * (v1.31a), iMX865(v2.13a) and multiple Allwinner SoCs (v1.32a)
++	 * have been identified as needing the workaround,
++	 * with 4 iterations for v1.30a and 1 iteration for others.
+ 	 * The Amlogic Meson GX SoCs (v2.01a) have been identified as needing
+ 	 * the workaround with a single iteration.
+ 	 * The Rockchip RK3288 SoC (v2.00a) and RK3328/RK3399 SoCs (v2.11a) have
+@@ -2106,6 +2106,7 @@ static void dw_hdmi_clear_overflow(struct dw_hdmi *hdmi)
+ 	case 0x201a:
+ 	case 0x211a:
+ 	case 0x212a:
++	case 0x213a:
+ 		count = 1;
+ 		break;
+ 	default:
 -- 
 2.25.1
 
