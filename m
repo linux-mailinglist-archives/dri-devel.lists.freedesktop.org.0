@@ -1,29 +1,29 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2EA964F6411
-	for <lists+dri-devel@lfdr.de>; Wed,  6 Apr 2022 18:01:58 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 4D1CF4F6410
+	for <lists+dri-devel@lfdr.de>; Wed,  6 Apr 2022 18:01:56 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 20B6C10E3E2;
+	by gabe.freedesktop.org (Postfix) with ESMTP id 19A7610E3D8;
 	Wed,  6 Apr 2022 16:01:48 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from metis.ext.pengutronix.de (metis.ext.pengutronix.de
  [IPv6:2001:67c:670:201:290:27ff:fe1d:cc33])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 5852B10E3CF
- for <dri-devel@lists.freedesktop.org>; Wed,  6 Apr 2022 16:01:43 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 1209C10E3CF
+ for <dri-devel@lists.freedesktop.org>; Wed,  6 Apr 2022 16:01:44 +0000 (UTC)
 Received: from dude03.red.stw.pengutronix.de ([2a0a:edc0:0:1101:1d::39])
  by metis.ext.pengutronix.de with esmtp (Exim 4.92)
  (envelope-from <l.stach@pengutronix.de>)
- id 1nc867-0002Pq-MP; Wed, 06 Apr 2022 18:01:31 +0200
+ id 1nc868-0002Pq-GG; Wed, 06 Apr 2022 18:01:32 +0200
 From: Lucas Stach <l.stach@pengutronix.de>
 To: Philipp Zabel <p.zabel@pengutronix.de>, Rob Herring <robh+dt@kernel.org>,
  Krzysztof Kozlowski <krzk+dt@kernel.org>, Shawn Guo <shawnguo@kernel.org>,
  NXP Linux Team <linux-imx@nxp.com>
-Subject: [PATCH v0 08/10] arm64: dts: imx8mp: add HDMI irqsteer
-Date: Wed,  6 Apr 2022 18:01:21 +0200
-Message-Id: <20220406160123.1272911-9-l.stach@pengutronix.de>
+Subject: [PATCH v0 09/10] arm64: dts: imx8mp: add HDMI display pipeline
+Date: Wed,  6 Apr 2022 18:01:22 +0200
+Message-Id: <20220406160123.1272911-10-l.stach@pengutronix.de>
 X-Mailer: git-send-email 2.30.2
 In-Reply-To: <20220406160123.1272911-1-l.stach@pengutronix.de>
 References: <20220406160123.1272911-1-l.stach@pengutronix.de>
@@ -55,35 +55,101 @@ Cc: devicetree@vger.kernel.org, Pengutronix Kernel Team <kernel@pengutronix.de>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-The HDMI irqsteer is a secondary interrupt controller within the HDMI
-subsystem that maps all HDMI peripheral IRQs into a single upstream
-IRQ line.
+This adds the DT nodes for all the peripherals that make up the
+HDMI display pipeline.
 
 Signed-off-by: Lucas Stach <l.stach@pengutronix.de>
 ---
- arch/arm64/boot/dts/freescale/imx8mp.dtsi | 13 +++++++++++++
- 1 file changed, 13 insertions(+)
+ arch/arm64/boot/dts/freescale/imx8mp.dtsi | 80 +++++++++++++++++++++++
+ 1 file changed, 80 insertions(+)
 
 diff --git a/arch/arm64/boot/dts/freescale/imx8mp.dtsi b/arch/arm64/boot/dts/freescale/imx8mp.dtsi
-index cbe75b816b43..6b7b5ba32b48 100644
+index 6b7b5ba32b48..a41da99e9537 100644
 --- a/arch/arm64/boot/dts/freescale/imx8mp.dtsi
 +++ b/arch/arm64/boot/dts/freescale/imx8mp.dtsi
-@@ -1074,6 +1074,19 @@ hdmi_blk_ctrl: blk-ctrl@32fc0000 {
- 						     "hdmi-tx", "hdmi-tx-phy";
- 				#power-domain-cells = <1>;
+@@ -1087,6 +1087,86 @@ irqsteer_hdmi: interrupt-controller@32fc2000 {
+ 				clock-names = "ipg";
+ 				power-domains = <&hdmi_blk_ctrl IMX8MP_HDMIBLK_PD_IRQSTEER>;
  			};
 +
-+			irqsteer_hdmi: interrupt-controller@32fc2000 {
-+				compatible = "fsl,imx-irqsteer";
-+				reg = <0x32fc2000 0x44>;
-+				interrupts = <GIC_SPI 43 IRQ_TYPE_LEVEL_HIGH>;
-+				interrupt-controller;
-+				#interrupt-cells = <1>;
-+				fsl,channel = <1>;
-+				fsl,num-irqs = <64>;
-+				clocks = <&clk IMX8MP_CLK_HDMI_APB>;
-+				clock-names = "ipg";
-+				power-domains = <&hdmi_blk_ctrl IMX8MP_HDMIBLK_PD_IRQSTEER>;
++			hdmi_pvi: display-bridge@32fc4000 {
++				compatible = "fsl,imx8mp-hdmi-pvi";
++				reg = <0x32fc4000 0x40>;
++				power-domains = <&hdmi_blk_ctrl IMX8MP_HDMIBLK_PD_PVI>;
++
++				ports {
++					#address-cells = <1>;
++					#size-cells = <0>;
++
++					port@0 {
++						reg = <0>;
++						pvi_from_lcdif3: endpoint {
++							remote-endpoint = <&lcdif3_to_pvi>;
++						};
++					};
++
++					port@1 {
++						reg = <1>;
++						pvi_to_hdmi_tx: endpoint {
++							remote-endpoint = <&hdmi_tx_from_pvi>;
++						};
++					};
++				};
++			};
++
++			lcdif3: display-controller@32fc6000 {
++				compatible = "fsl,imx8mp-lcdif";
++				reg = <0x32fc6000 0x238>;
++				interrupts = <8 IRQ_TYPE_LEVEL_HIGH>;
++				interrupt-parent = <&irqsteer_hdmi>;
++				clocks = <&hdmi_tx_phy>,
++					 <&clk IMX8MP_CLK_HDMI_APB>,
++					 <&clk IMX8MP_CLK_HDMI_ROOT>;
++				clock-names = "pix", "axi", "disp_axi";
++				power-domains = <&hdmi_blk_ctrl IMX8MP_HDMIBLK_PD_LCDIF>;
++
++				port {
++					lcdif3_to_pvi: endpoint {
++						remote-endpoint = <&pvi_from_lcdif3>;
++					};
++				};
++			};
++
++			hdmi_tx: hdmi@32fd8000 {
++				compatible = "fsl,imx8mp-hdmi";
++				reg = <0x32fd8000 0x7eff>;
++				interrupts = <0 IRQ_TYPE_LEVEL_HIGH>;
++				interrupt-parent = <&irqsteer_hdmi>;
++				clocks = <&clk IMX8MP_CLK_HDMI_APB>,
++					 <&clk IMX8MP_CLK_HDMI_REF_266M>,
++					 <&clk IMX8MP_CLK_32K>,
++					 <&hdmi_tx_phy>;
++				clock-names = "iahb", "isfr", "cec", "pix";
++				assigned-clocks = <&clk IMX8MP_CLK_HDMI_REF_266M>;
++				assigned-clock-parents = <&clk IMX8MP_SYS_PLL1_266M>;
++				power-domains = <&hdmi_blk_ctrl IMX8MP_HDMIBLK_PD_HDMI_TX>;
++				reg-io-width = <1>;
++				status = "disabled";
++
++				port {
++					hdmi_tx_from_pvi: endpoint {
++						remote-endpoint = <&pvi_to_hdmi_tx>;
++					};
++				};
++			};
++
++			hdmi_tx_phy: phy@32fdff00 {
++				compatible = "fsl,imx8mp-hdmi-phy";
++				reg = <0x32fdff00 0x100>;
++				clocks = <&clk IMX8MP_CLK_HDMI_APB>,
++					 <&clk IMX8MP_CLK_HDMI_24M>;
++				clock-names = "apb", "ref";
++				assigned-clocks = <&clk IMX8MP_CLK_HDMI_24M>;
++				assigned-clock-parents = <&clk IMX8MP_CLK_24M>;
++				power-domains = <&hdmi_blk_ctrl IMX8MP_HDMIBLK_PD_HDMI_TX_PHY>;
++				#clock-cells = <0>;
++				#phy-cells = <0>;
++				status = "disabled";
 +			};
  		};
  
