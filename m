@@ -1,45 +1,60 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 59EAB4F4D11
-	for <lists+dri-devel@lfdr.de>; Wed,  6 Apr 2022 03:24:04 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 9CE984F4D12
+	for <lists+dri-devel@lfdr.de>; Wed,  6 Apr 2022 03:24:35 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 5127510ECCC;
-	Wed,  6 Apr 2022 01:24:02 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id B7C3810ED53;
+	Wed,  6 Apr 2022 01:24:33 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from ams.source.kernel.org (ams.source.kernel.org [145.40.68.75])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 8399810ECCC
- for <dri-devel@lists.freedesktop.org>; Wed,  6 Apr 2022 01:24:00 +0000 (UTC)
-Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
- (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
- (No client certificate requested)
- by ams.source.kernel.org (Postfix) with ESMTPS id 3B618B82014;
- Wed,  6 Apr 2022 01:23:57 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 9027AC385A1;
- Wed,  6 Apr 2022 01:23:52 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1649208236;
- bh=y610PixkxE0FbqCL6lBrY29URlY0CZAXClPdmkzBRr8=;
- h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
- b=mPT1GL31n6ypgG8+0qeuiomp4TGySTjAhFA1JoBIEH4K6CR2KfpyHO0IfL9ksSOyo
- v1o9u56Y/wVLQCrdJzucyk86wNkIe5XNeC/Vb+XHGU0ASvnAKTdfdt6klXsKbbTjdD
- AdCjGtPjCp9IpQVGCZzS8EhDuF6lBOfUwbM4hma6sppIYVWSMhp9zMP6D+I7SHobpV
- 68YfptgKuHu/pfZ/xKk6/DSmloIy5b85XZ+zQE58B4lRS7Gy+P+TwxHRQ/EWLyriga
- PAxTJ0yjK+XOmAMZ0Eg077Rs85AQsgqjk9sgvGaSbxSCLUTQ5TPjy9gwenbIKvBX4h
- jb5R27IhVqK+A==
-Date: Wed, 6 Apr 2022 09:23:48 +0800
-From: Shawn Guo <shawnguo@kernel.org>
-To: Oleksij Rempel <o.rempel@pengutronix.de>
-Subject: Re: [PATCH v1 1/8] ARM: dts: imx6qdl-vicut1/vicutgo: Set default
- backlight brightness to maximum
-Message-ID: <20220406012348.GE129381@dragon>
-References: <20220221095312.3692669-1-o.rempel@pengutronix.de>
+Received: from mail-pg1-x536.google.com (mail-pg1-x536.google.com
+ [IPv6:2607:f8b0:4864:20::536])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id EEE6910ED53
+ for <dri-devel@lists.freedesktop.org>; Wed,  6 Apr 2022 01:24:31 +0000 (UTC)
+Received: by mail-pg1-x536.google.com with SMTP id t13so886363pgn.8
+ for <dri-devel@lists.freedesktop.org>; Tue, 05 Apr 2022 18:24:31 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc; bh=+kvmNeaIx7IB5BYMxWZTmG2UdGRttU94dBZuAtL4Mmo=;
+ b=LEzG1yPF+iOw/30hd5E7mWGalRFTazmZ26PA34EyQTbkg0YljKXLaPf2eOppyTj4H6
+ yLrLvmCh4vLS4e2+5tjq6DOsc6DDq3GCdY9pxzAAVprQOEvgGRqi/GvrU1xlenMON/oq
+ vqkTGOyRs5HC02ZNBLpMhFjGj8eayV8R8iQ4TlHoXJUQ6x8p1czQStn3js4L+fBTje6D
+ D9DXldHCWPPs3LnMdGHflwmMfHA4JbQ0XtCSRo6SWODePkGh6Q2o1+rlWu9XV6ZxJBvE
+ WKfi+upKy5fetBruNDSKmuKInPS/KDtKhk4gPSPMsFIHEDOfnCEdEMka4RBlnM5rIHVv
+ VTSQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=+kvmNeaIx7IB5BYMxWZTmG2UdGRttU94dBZuAtL4Mmo=;
+ b=wa9Pyouj3kS/uEMtqRFG4pO3RmNtW1Yy3Uc1Z711H6OlhfJt4ngb3sGf8MgJrmhlTF
+ DPPoXmIRsgt+OtO0cQ2AbjlX2LRl/zxrxjxe692gi8sAMa9XDanvaWNrWpnQUUcXuoW/
+ E1NK3ZJm9ZdzUsbE/NJSIZ0CUpDnHORFBd/V205m8NC2SWCtJcduFN1G0yO88sP4Ur+O
+ HFtNIKwt3lDC4380a6/mwJQUfe9Ej/4cv3aiz8EwCiliCsUYD1vol7eVETGfB0xwuBKR
+ hqPjArkmNF1eqgFagEc+OsMQGGVFywEGAs5ZbyiWx0zBCUx0ndDzOeXB+wGjls6ZsmUy
+ pNSA==
+X-Gm-Message-State: AOAM530yN0qtQO/1rRQ21N20tAR9VemBzUbK5YiwJj2YFif1GEdkECac
+ 3f/eE8iXt1Iv3k/MDRc9jya2vS/IFxNU1MQLBg==
+X-Google-Smtp-Source: ABdhPJxTPLh2sMTHkDH1jcm5HIN822wKj5fW0FIFDwf+vBCsisO7uLWVer2kyP1/VgsP1RgN6oAFUVzW0GGO1epC5+4=
+X-Received: by 2002:a62:4e4e:0:b0:4fa:b1d4:3405 with SMTP id
+ c75-20020a624e4e000000b004fab1d43405mr6433730pfb.71.1649208271487; Tue, 05
+ Apr 2022 18:24:31 -0700 (PDT)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20220221095312.3692669-1-o.rempel@pengutronix.de>
+References: <CAMhUBjmFhqTLBscHHVZ1VTSqrJBT1VEevA+KkjY+y9_ZtdRkMg@mail.gmail.com>
+ <CAMuHMdUiEo8q9x0C0x5zOM=ax1=S06=s0JjcJvZYD4aMGLmEaQ@mail.gmail.com>
+ <a564f6af-31fa-79a2-72c3-578f2c095b23@gmx.de>
+ <202204051946.43277.linux@zary.sk>
+ <527a8c23-609f-5f8a-e076-a8a59da59865@gmx.de>
+In-Reply-To: <527a8c23-609f-5f8a-e076-a8a59da59865@gmx.de>
+From: Zheyu Ma <zheyuma97@gmail.com>
+Date: Wed, 6 Apr 2022 09:24:20 +0800
+Message-ID: <CAMhUBjmBm3=CY=cCZuH0+ZeemNVT=9XywSoYiR7WLcYOUGu9VQ@mail.gmail.com>
+Subject: =?UTF-8?B?UmU6IFtCVUddIGZiZGV2OiBpNzQwZmI6IERpdmlkZSBlcnJvciB3aGVuIOKAmHZhci0+cA==?=
+ =?UTF-8?B?aXhjbG9ja+KAmSBpcyB6ZXJv?=
+To: Helge Deller <deller@gmx.de>
+Content-Type: text/plain; charset="UTF-8"
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -52,65 +67,71 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Mark Rutland <mark.rutland@arm.com>, devicetree@vger.kernel.org,
- Pengutronix Kernel Team <kernel@pengutronix.de>,
- Robin van der Gracht <robin@protonic.nl>, David Airlie <airlied@linux.ie>,
- Sascha Hauer <s.hauer@pengutronix.de>, linux-kernel@vger.kernel.org,
- dri-devel@lists.freedesktop.org, Rob Herring <robh+dt@kernel.org>,
- Thierry Reding <thierry.reding@gmail.com>, NXP Linux Team <linux-imx@nxp.com>,
- David Jander <david@protonic.nl>, Sam Ravnborg <sam@ravnborg.org>,
- linux-arm-kernel@lists.infradead.org
+Cc: Linux Fbdev development list <linux-fbdev@vger.kernel.org>,
+ Geert Uytterhoeven <geert@linux-m68k.org>,
+ Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
+ DRI Development <dri-devel@lists.freedesktop.org>, Ondrej Zary <linux@zary.sk>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Mon, Feb 21, 2022 at 10:53:05AM +0100, Oleksij Rempel wrote:
-> From: David Jander <david@protonic.nl>
-> 
-> Recover default behavior of the device and set maximal brightness
-> 
-> Signed-off-by: David Jander <david@protonic.nl>
-> Signed-off-by: Oleksij Rempel <o.rempel@pengutronix.de>
-> ---
->  arch/arm/boot/dts/imx6dl-victgo.dts   | 2 +-
->  arch/arm/boot/dts/imx6qdl-vicut1.dtsi | 2 +-
->  2 files changed, 2 insertions(+), 2 deletions(-)
-> 
-> diff --git a/arch/arm/boot/dts/imx6dl-victgo.dts b/arch/arm/boot/dts/imx6dl-victgo.dts
-> index 227c952543d4..e6134efbfabd 100644
-> --- a/arch/arm/boot/dts/imx6dl-victgo.dts
-> +++ b/arch/arm/boot/dts/imx6dl-victgo.dts
-> @@ -28,7 +28,7 @@ backlight: backlight {
->  		pwms = <&pwm1 0 5000000 0>;
->  		brightness-levels = <0 16 64 255>;
->  		num-interpolated-steps = <16>;
-> -		default-brightness-level = <1>;
-> +		default-brightness-level = <48>;
+On Wed, Apr 6, 2022 at 2:23 AM Helge Deller <deller@gmx.de> wrote:
+>
+> On 4/5/22 19:46, Ondrej Zary wrote:
+> > On Tuesday 05 April 2022 08:33:57 Helge Deller wrote:
+> >> Hello Geert,
+> >>
+> >> On 4/4/22 13:46, Geert Uytterhoeven wrote:
+> >>> Hi Helge,
+> >>>
+> >>> On Sun, Apr 3, 2022 at 5:41 PM Helge Deller <deller@gmx.de> wrote:
+> >>>> On 4/3/22 13:26, Zheyu Ma wrote:
+> >>>>> I found a bug in the function i740fb_set_par().
+> >>>>
+> >>>> Nice catch!
+> >>>>
+> >>>>> When the user calls the ioctl system call without setting the value to
+> >>>>> 'var->pixclock', the driver will throw a divide error.
+> >>>>>
+> >>>>> This bug occurs because the driver uses the value of 'var->pixclock'
+> >>>>> without checking it, as the following code snippet show:
+> >>>>>
+> >>>>> if ((1000000 / var->pixclock) > DACSPEED8) {
+> >>>>>      dev_err(info->device, "requested pixclock %i MHz out of range
+> >>>>> (max. %i MHz at 8bpp)\n",
+> >>>>>          1000000 / var->pixclock, DACSPEED8);
+> >>>>>     return -EINVAL;x
+> >>>>> }
+> >>>>>
+> >>>>> We can fix this by checking the value of 'var->pixclock' in the
+> >>>>> function i740fb_check_var() similar to commit
+> >>>>> b36b242d4b8ea178f7fd038965e3cac7f30c3f09, or we should set the lowest
+> >>>>> supported value when this field is zero.
+> >>>>> I have no idea about which solution is better.
+> >>>>
+> >>>> Me neither.
+> >>>> I think a solution like commit b36b242d4b8ea178f7fd038965e3cac7f30c3f09
+> >>>> is sufficient.
+> >>>>
+> >>>> Note that i740fb_set_par() is called in i740fb_resume() as well.
+> >>>> Since this doesn't comes form userspace I think adding a check for
+> >>>> the return value there isn't necessary.
+> >>>>
+> >>>> Would you mind sending a patch like b36b242d4b8ea178f7fd038965e3cac7f30c3f09 ?
+> >>>
+> >>> When passed an invalid value, .check_var() is supposed to
+> >>> round up the invalid to a valid value, if possible.
+> >>
+> >> I don't disagree.
+> >> The main problem probably is: what is the next valid value?
+> >> This needs to be analyzed on a per-driver base and ideally tested.
+> >> Right now a division-by-zero is tiggered which is probably more worse.
+> >
+> > I still have an i740 card so I can test it.
+>
+> Good. Someone wants to come up with a proposed patch?
 
-Please take a look at the documentation of the property.
+I have submitted patches for the i740fb driver and other drivers which
+have similar bugs as follows:
+https://lore.kernel.org/all/20220404084723.79089-1-zheyuma97@gmail.com/
 
-  default-brightness-level:
-    description:
-      The default brightness level (index into the array defined by the
-      "brightness-levels" property).
-
-Shawn
-
->  		power-supply = <&reg_3v3>;
->  		enable-gpios = <&gpio4 28 GPIO_ACTIVE_HIGH>;
->  	};
-> diff --git a/arch/arm/boot/dts/imx6qdl-vicut1.dtsi b/arch/arm/boot/dts/imx6qdl-vicut1.dtsi
-> index 1ac7e13249d2..c1d06bc28c67 100644
-> --- a/arch/arm/boot/dts/imx6qdl-vicut1.dtsi
-> +++ b/arch/arm/boot/dts/imx6qdl-vicut1.dtsi
-> @@ -23,7 +23,7 @@ backlight: backlight {
->  		pwms = <&pwm1 0 5000000 0>;
->  		brightness-levels = <0 16 64 255>;
->  		num-interpolated-steps = <16>;
-> -		default-brightness-level = <1>;
-> +		default-brightness-level = <48>;
->  		power-supply = <&reg_3v3>;
->  		enable-gpios = <&gpio4 28 GPIO_ACTIVE_HIGH>;
->  	};
-> -- 
-> 2.30.2
-> 
+Zheyu Ma
