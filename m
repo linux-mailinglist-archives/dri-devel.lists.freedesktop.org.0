@@ -2,55 +2,55 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2C20B4F778A
-	for <lists+dri-devel@lfdr.de>; Thu,  7 Apr 2022 09:32:38 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 1CE414F7789
+	for <lists+dri-devel@lfdr.de>; Thu,  7 Apr 2022 09:32:36 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id A0C8D10E59E;
+	by gabe.freedesktop.org (Postfix) with ESMTP id 7952010E587;
 	Thu,  7 Apr 2022 07:32:31 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-ej1-x633.google.com (mail-ej1-x633.google.com
- [IPv6:2a00:1450:4864:20::633])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 7BC8810E14F;
- Wed,  6 Apr 2022 13:39:49 +0000 (UTC)
-Received: by mail-ej1-x633.google.com with SMTP id l26so4391274ejx.1;
- Wed, 06 Apr 2022 06:39:49 -0700 (PDT)
+Received: from mail-ej1-x62b.google.com (mail-ej1-x62b.google.com
+ [IPv6:2a00:1450:4864:20::62b])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 2CBB910E122;
+ Wed,  6 Apr 2022 13:41:37 +0000 (UTC)
+Received: by mail-ej1-x62b.google.com with SMTP id r13so4365607ejd.5;
+ Wed, 06 Apr 2022 06:41:37 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
  h=mime-version:references:in-reply-to:from:date:message-id:subject:to
  :cc:content-transfer-encoding;
- bh=iyJLK8l5hs8KCNBFxlx1llqa+FYfySe8JZbdJuv2BSY=;
- b=AZPHzmAkPb4vBz8KQIFg70PyU76BInADKyX8st0Ig2+U518SEl0fYZpUw9xiNqn87K
- aFxAL3Rzj+bm6m248CxtYI2apq5TfG0PFHHUmZ81yjVBfZyky+nQJ/y68jjzZEoz3IVP
- 2ZeHrhjWp7zRdPFnB94aJ4/AKOIGQDHMVIHBYN9336v/0QdlpMxxmRvr9byy1Bbv4vDL
- t/8yFF66Fj9bRZzxcLG0bXKl15HjhRZclLJAUz756gQUgnTvBYY20cHN7doi1i5nWcX4
- ErVcNb4eFZDmVj0lZzaKcxqtV9IkWmD3avg4JPdWRFGAV0+pyTjszJMDk1upXk7xhzUN
- JwKw==
+ bh=0IeTkY1yhaJPK6VDqHKztL6/sdrLKeK5VaUPik01uco=;
+ b=WbP9ySUZSPgHLrHFRxIUWqAkKlwtz3/lphdxBTdMOVQuUT5+HfJKYrAg4eUTEsXZkz
+ 8e8KhdnBO1xUEtEoMVUbtRmhxsR8BiyPPc5TfM+9lfBW5O/VYyOW+YLyas51CMQO09SJ
+ sZRGZOroZ5LEsaydgXPFKgZgbG1xzpflqC0GHSWYpUCcjg8C4j+ZieSFKHPLTUOmbrOS
+ FoxY0v0cP6iQBZ+ms6c4zzRlAar3PgroXfqXIn9AfuiaBKa3RqrlilCrfE7ZwizUQ6Gj
+ m53Hcr11tJjGhloLapsO3Q2jt656PpXU7Rt7ClPkwJ/n3+3r+zLKxwgtFNDXTmcfVLZU
+ ZYlw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:mime-version:references:in-reply-to:from:date
  :message-id:subject:to:cc:content-transfer-encoding;
- bh=iyJLK8l5hs8KCNBFxlx1llqa+FYfySe8JZbdJuv2BSY=;
- b=mHkxQxX1Bk2WnsX38WHq0QTcUekcCGLsX8NvjN/IkfWfDVfeP3zYMTTEhkcrv0uM1D
- NW5P5F9dXe1RstcqKcPwa52jO+v28uugG/feK3WMmgHUPf/sX/P3JrQZsO0Lx5LvAGn0
- BiU5bHdamfCRGLhSpKMKp12pkfHxGuFN+ypdkCAJtXNccFw10WpHfBHF931P+x6IJdEZ
- wv9bf8JiLiwmK6+qE/2BElw+On+VWp0JSWPFFEfrTfVDWyISa2mW6TenwidZLK+qn3vZ
- OEF7RJCWWY9Dj4xSzH2fhWqfdBPZVi6qCiNJLpusUmjKe0KFv2C34Gf6vIg0BakxXljk
- KMXA==
-X-Gm-Message-State: AOAM531rEWQhIDAMzlXSYBJFr3Yq5SJYKoaDr3uU5XFe+newnQrTdXJN
- rxAPsftlchQ6HvN4O/QfXz4uf9YG/pBKEvrCGPQ=
-X-Google-Smtp-Source: ABdhPJxMIvTQA11CZ2AiXt7TtQTnJBNSoAaXV+VAZQ4YGkON/JIi45sEq/1i4BR871lm6N50qVjEtGN9q8EZB893/WU=
-X-Received: by 2002:a17:906:7947:b0:6da:892f:2503 with SMTP id
- l7-20020a170906794700b006da892f2503mr8161523ejo.710.1649252387873; Wed, 06
- Apr 2022 06:39:47 -0700 (PDT)
+ bh=0IeTkY1yhaJPK6VDqHKztL6/sdrLKeK5VaUPik01uco=;
+ b=Y+q2oC4XXksaGcuJ7ayRlfTtleJXJijWGdbF008BJZMb15/UNgW6Y/Lru1Qvf2Ui8P
+ n6iDmeS13HkUuoGuBWB80MkwXfpUsCxFga1uBqewt5nzng37gjggpTooOEq7jI5tEQ9s
+ 79ydUrzrkhd5bsp0TA7FGuzLgvhepjmQ4Xy2F+k/pR/R/0RYW5GCvU/gkISUbzNNPbo8
+ PinIf10n2/SbaXhXyDLF04KP4XRxDrSA1IIxsQHzxg5XMchGM77ngmi1s2oWArVQMv1s
+ 3k/eqCRstChdEROs9Smg9bHEGKIXe8+e6aNT1oF2SuSxigiBXFPb8n4TmB5G9/2gCXFO
+ 8J1A==
+X-Gm-Message-State: AOAM531mJR0YBxIGtGKQfVxi2qucx52bcdHLlRSr9IQYCPMdkpASbTMY
+ aUpw0ymTCnrNFYS7hxAnZXIwaNHv3FD8fZz1nDU=
+X-Google-Smtp-Source: ABdhPJxZ9dElneUwA1wzU6Q0bcRp/j+jGbBrxLosQpe0RT2zY1YIsaK+d6cZ5N6w4jJF97TCJJ6VotA+kDLMYk0zyDo=
+X-Received: by 2002:a17:907:980b:b0:6e0:71d9:c87e with SMTP id
+ ji11-20020a170907980b00b006e071d9c87emr8142309ejc.510.1649252495645; Wed, 06
+ Apr 2022 06:41:35 -0700 (PDT)
 MIME-Version: 1.0
-References: <20220405213800.90205-1-h0tc0d3@gmail.com>
- <CADnq5_PXDyOXX2p4FswWWyY6sw8nXmajhUzx-=ke+6jiZn3ZPA@mail.gmail.com>
-In-Reply-To: <CADnq5_PXDyOXX2p4FswWWyY6sw8nXmajhUzx-=ke+6jiZn3ZPA@mail.gmail.com>
+References: <20220404222132.12740-1-h0tc0d3@gmail.com>
+ <c55e9866-83f6-a3a0-2ad3-40090e978b40@amd.com>
+In-Reply-To: <c55e9866-83f6-a3a0-2ad3-40090e978b40@amd.com>
 From: =?UTF-8?B?0JPRgNC40LPQvtGA0LjQuQ==?= <h0tc0d3@gmail.com>
-Date: Wed, 6 Apr 2022 16:39:46 +0300
-Message-ID: <CAD5ugGDAKGtKLavhqSDObbGRu1WSyE04eQRhUv4Dk7dC+PrK6w@mail.gmail.com>
-Subject: Re: [PATCH] drm/amdgpu: Unnecessary code in gfx_v7_0.c
-To: Alex Deucher <alexdeucher@gmail.com>
+Date: Wed, 6 Apr 2022 16:41:34 +0300
+Message-ID: <CAD5ugGDL7U1TiOW3P=ecwVhF95XgdibtoYGV8GzbAskuB5UWCA@mail.gmail.com>
+Subject: Re: [PATCH] drm/amdkfd: Fix potential NULL pointer dereference
+To: Felix Kuehling <felix.kuehling@amd.com>
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 X-Mailman-Approved-At: Thu, 07 Apr 2022 07:32:25 +0000
@@ -66,80 +66,81 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Bhaskar Chowdhury <unixbhaskar@gmail.com>,
- Guchun Chen <guchun.chen@amd.com>, David Airlie <airlied@linux.ie>, "Pan,
- Xinhui" <Xinhui.Pan@amd.com>, Rodrigo Siqueira <Rodrigo.Siqueira@amd.com>,
+Cc: David Airlie <airlied@linux.ie>, "Pan, Xinhui" <Xinhui.Pan@amd.com>,
+ Rodrigo Siqueira <Rodrigo.Siqueira@amd.com>,
  LKML <linux-kernel@vger.kernel.org>,
  amd-gfx list <amd-gfx@lists.freedesktop.org>, Melissa Wen <mwen@igalia.com>,
  Maling list - DRI developers <dri-devel@lists.freedesktop.org>,
- Joseph Greathouse <Joseph.Greathouse@amd.com>,
- Alex Deucher <alexander.deucher@amd.com>, Evan Quan <evan.quan@amd.com>,
- Lee Jones <lee.jones@linaro.org>,
+ Alex Deucher <alexander.deucher@amd.com>,
  =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Alex Deucher, Thanks, that's what I thought too. But this code is
-uninformative, and without it is clear what this code is doing. If you
-need to provide additional information on how the code works, then for
-me it's better to leave a comment.
-This is actually more like a bug than an explanation of what the code is do=
-ing.
+Thanks. You are right. I found a potential bug, and as I understand
+it, the code only applies to the Aldebaran GPU and I can not check the
+correctness of the code. I only test code on my navi 10 and run GPU
+stress tests.
+My knowledge of amdgpu is limited, and fixing potential bugs allows me
+to learn more about amdgpu code. But there are many that I still don't
+understand. In any case, we need to fix the code to eliminate
+problems in the future.
 
-=D1=81=D1=80, 6 =D0=B0=D0=BF=D1=80. 2022 =D0=B3. =D0=B2 16:20, Alex Deucher=
- <alexdeucher@gmail.com>:
+Regards, Grigory.
+
+=D0=B2=D1=82, 5 =D0=B0=D0=BF=D1=80. 2022 =D0=B3. =D0=B2 20:00, Felix Kuehli=
+ng <felix.kuehling@amd.com>:
 >
-> On Wed, Apr 6, 2022 at 4:00 AM Grigory Vasilyev <h0tc0d3@gmail.com> wrote=
-:
+> Am 2022-04-04 um 18:21 schrieb Grigory Vasilyev:
+> > In the amdgpu_amdkfd_get_xgmi_bandwidth_mbytes function,
+> > the peer_adev pointer can be NULL and is passed to amdgpu_xgmi_get_num_=
+links.
 > >
-> > The code is useless and doesn't change the value.
-> >
-> > (0 << GB_ADDR_CONFIG__ROW_SIZE__SHIFT) =3D 0
-> > gb_addr_config | 0 =3D gb_addr_config
-> >
-> > Perhaps there could be 1 instead of 0, but this does not correspond wit=
-h
-> > the logic of the switch.
+> > In amdgpu_xgmi_get_num_links, peer_adev pointer is dereferenced
+> > without any checks: peer_adev->gmc.xgmi.node_id .
 >
-> It doesn't do anything, but it helps the developer to understand how
-> the driver state maps to hardware state.
+> What's worse, peer_adev is uninitialized with an undefined value if src
+> is NULL. So that code was definitely bogus.
 >
-> Alex
+> However, I think your patch will result in incorrect results. Currently
+> amdgpu_amdkfd_get_xgmi_bandwidth is always called with is_min=3Dtrue if
+> src=3D=3DNULL, and with is_min=3Dfalse if src!=3DNULL. The intention is, =
+that we
+> assume a single XGMI link in the case that src=3D=3DNULL. That means the
+> is_min parameter is redundant. What we should do instead is, assume that
+> num_links=3D=3D1 if src=3D=3DNULL, and drop the is_min parameter.
+>
+> That would keep things working the way they do now, and prevent
+> potential problems in the future.
+>
+> Regards,
+>    Felix
+>
 >
 > >
 > > Signed-off-by: Grigory Vasilyev <h0tc0d3@gmail.com>
 > > ---
-> >  drivers/gpu/drm/amd/amdgpu/gfx_v7_0.c | 6 ++----
-> >  1 file changed, 2 insertions(+), 4 deletions(-)
+> >   drivers/gpu/drm/amd/amdgpu/amdgpu_amdkfd.c | 5 ++---
+> >   1 file changed, 2 insertions(+), 3 deletions(-)
 > >
-> > diff --git a/drivers/gpu/drm/amd/amdgpu/gfx_v7_0.c b/drivers/gpu/drm/am=
-d/amdgpu/gfx_v7_0.c
-> > index 1cb5db17d2b9..5ed84a6467ee 100644
-> > --- a/drivers/gpu/drm/amd/amdgpu/gfx_v7_0.c
-> > +++ b/drivers/gpu/drm/amd/amdgpu/gfx_v7_0.c
-> > @@ -4409,16 +4409,14 @@ static void gfx_v7_0_gpu_early_init(struct amdg=
-pu_device *adev)
-> >         /* fix up row size */
-> >         gb_addr_config &=3D ~GB_ADDR_CONFIG__ROW_SIZE_MASK;
-> >         switch (adev->gfx.config.mem_row_size_in_kb) {
-> > -       case 1:
-> > -       default:
-> > -               gb_addr_config |=3D (0 << GB_ADDR_CONFIG__ROW_SIZE__SHI=
-FT);
-> > -               break;
-> >         case 2:
-> >                 gb_addr_config |=3D (1 << GB_ADDR_CONFIG__ROW_SIZE__SHI=
-FT);
-> >                 break;
-> >         case 4:
-> >                 gb_addr_config |=3D (2 << GB_ADDR_CONFIG__ROW_SIZE__SHI=
-FT);
-> >                 break;
-> > +       default:
-> > +               break;
-> >         }
-> >         adev->gfx.config.gb_addr_config =3D gb_addr_config;
-> >  }
-> > --
-> > 2.35.1
+> > diff --git a/drivers/gpu/drm/amd/amdgpu/amdgpu_amdkfd.c b/drivers/gpu/d=
+rm/amd/amdgpu/amdgpu_amdkfd.c
+> > index be1a55f8b8c5..1a1006b18016 100644
+> > --- a/drivers/gpu/drm/amd/amdgpu/amdgpu_amdkfd.c
+> > +++ b/drivers/gpu/drm/amd/amdgpu/amdgpu_amdkfd.c
+> > @@ -541,11 +541,10 @@ int amdgpu_amdkfd_get_xgmi_bandwidth_mbytes(struc=
+t amdgpu_device *dst,
+> >       struct amdgpu_device *adev =3D dst, *peer_adev;
+> >       int num_links;
 > >
+> > -     if (adev->asic_type !=3D CHIP_ALDEBARAN)
+> > +     if (!src || adev->asic_type !=3D CHIP_ALDEBARAN)
+> >               return 0;
+> >
+> > -     if (src)
+> > -             peer_adev =3D src;
+> > +     peer_adev =3D src;
+> >
+> >       /* num links returns 0 for indirect peers since indirect route is=
+ unknown. */
+> >       num_links =3D is_min ? 1 : amdgpu_xgmi_get_num_links(adev, peer_a=
+dev);
