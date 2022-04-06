@@ -1,63 +1,66 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id C53744F5EE8
-	for <lists+dri-devel@lfdr.de>; Wed,  6 Apr 2022 15:08:50 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id BB4594F5EEE
+	for <lists+dri-devel@lfdr.de>; Wed,  6 Apr 2022 15:13:29 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 1BE3610E0D8;
-	Wed,  6 Apr 2022 13:08:48 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 0C26610E0A1;
+	Wed,  6 Apr 2022 13:13:25 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-wr1-x434.google.com (mail-wr1-x434.google.com
- [IPv6:2a00:1450:4864:20::434])
- by gabe.freedesktop.org (Postfix) with ESMTPS id D85A010E0D8
- for <dri-devel@lists.freedesktop.org>; Wed,  6 Apr 2022 13:08:46 +0000 (UTC)
-Received: by mail-wr1-x434.google.com with SMTP id h4so3085987wrc.13
- for <dri-devel@lists.freedesktop.org>; Wed, 06 Apr 2022 06:08:46 -0700 (PDT)
+Received: from mail-wm1-x32d.google.com (mail-wm1-x32d.google.com
+ [IPv6:2a00:1450:4864:20::32d])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 4E28F10E294
+ for <dri-devel@lists.freedesktop.org>; Wed,  6 Apr 2022 13:13:23 +0000 (UTC)
+Received: by mail-wm1-x32d.google.com with SMTP id
+ n38-20020a05600c502600b0038e4a0fc5easo1599152wmr.3
+ for <dri-devel@lists.freedesktop.org>; Wed, 06 Apr 2022 06:13:23 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
- h=date:from:to:cc:subject:message-id:references:mime-version
+ h=date:from:to:subject:message-id:references:mime-version
  :content-disposition:in-reply-to:user-agent;
- bh=EzPicKvhciEAshSHE/waFTsLkuf/DuXzcy4ZuAGYnOQ=;
- b=ZYv5p3MjHvI8UrhE6y/d5AJOhKKDQVlCHSNdip8u3z4CcvBJcKQ8oD6c1RWTeExkK1
- v4cjRoN/i0pYgQkZfJlLDo2EfdJDgFu7rGHeRogFVEfkgRN4Z4oCKOOUJCf50s0uRjjS
- LlOeu0sDQkrNbfcjpleVjhFwDblFIE3EP22lt9x1QV9I9/t9Btk9oGzNXLS3Jwm5Wb88
- oFe0tO+M2YWSYPnNhCnxARmvOCqYhrwHblygkyDSZJsJO/t8OxGg+vSUfNs3ev1RdwpA
- a4eWqeh0gjhTzsUs1gIE1GYYiz59nAenynDYpUlIwXrmMgY1Uukv8orchLBAQ2QGPzVc
- 5jvA==
+ bh=45i/CvfTddvxblmcHvQsxR/rIMn4CHfVmtuYXswnVdA=;
+ b=ZcNkS8zLmzW0LMlBUGAKpiIBoOGt7ErwgWPdn3INTlgoe/0elFOEZYsKtZV4gRFKyB
+ 6AIczeW0IlCpEi94avR1IPizDVjFUA8CwEzmQBio9r0djW5S7zS2AmmcxUmRWCkPPPto
+ CSEcun40J4Q7v9OPKfxUDDLT+/1bYTMUmPZaH7NK4GuiQwDSX4+jzcedM/ds6ZGNp9BM
+ EAcSETKjAQcqAseWTNdwV5l7I6tZiqH4fhP4QetU435FO5uCfhnTIB1AzdNefABplo8l
+ eGc3lfvWcp5PvWsTWzWJuETr1L3Tnt3KYpkuU5PLH3a418ASTOSFTx6LaHjQd9YD6+uu
+ Xm9A==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+ h=x-gm-message-state:date:from:to:subject:message-id:references
  :mime-version:content-disposition:in-reply-to:user-agent;
- bh=EzPicKvhciEAshSHE/waFTsLkuf/DuXzcy4ZuAGYnOQ=;
- b=PzVP9Om4Y0KqNyCZkQS/RwZMg7rb1vWSHBf28hightfpRZAqXoyyACeOEaKUEpRJFy
- WE4032+RLMnuKb0sjabWvw7RbvfybsJREyPBe/o5+2k5QMkny59Q4UmLwqAtyYCB8A5d
- X9sDs0emtDChm8AqyHt8OOd9MmwQud6PWFFdh3W15UZX1/tpESq2PfuDzqcicwK3eRr7
- xXmA7B8mcOhBQXjjW6rMzkLlLDL3RimFgK85q/f6z62KWLMBhD+rLfgA7DlIhXDMWZzZ
- QbuB2bUsljxP446fzQTLWz181rtT9YJm0JDWByXZT2XC/bInoxU7wK5snlk57nTla4V/
- 5k9g==
-X-Gm-Message-State: AOAM533/AtUNdemOSEjhPNGS7oY5aPL9f9DgeWpeIY7Dd+JYZV9dHXKC
- zLnEn8blns5LajH6zxKn+cI=
-X-Google-Smtp-Source: ABdhPJx0Yr5teJaPktbkGEyUw2tv218TFtm8lcAFMNVMPKfCxv/8tvYndt0yGBd8nPkC8ru6DeBr6Q==
-X-Received: by 2002:adf:fb0b:0:b0:205:dfbd:8601 with SMTP id
- c11-20020adffb0b000000b00205dfbd8601mr6302576wrr.527.1649250525257; 
- Wed, 06 Apr 2022 06:08:45 -0700 (PDT)
+ bh=45i/CvfTddvxblmcHvQsxR/rIMn4CHfVmtuYXswnVdA=;
+ b=RBQJIZ0Qc76chM7jHXZ8gZ1MRFJqhuw3cWjHsHV8lonSahx5EZ910XhlDaRXnuJ4mx
+ CqctpwJBOUcD3MYNa9Qaxh+DElDWJljSHaGfSJWp++sDFcnQWji23pRkFQMDUGlP3MVy
+ HzC15RQ039yYoVijJV9vmLvlqMELaf4zYV6+MD9TSk1ytnc5cuHODLv8YT7Lp6lRpNMj
+ OqFVtx29OxQVostPT3FlWZdjB8FJ0VeES0ceYEPqavybGEGzUTLgRKINNysvEZYZXFBv
+ gHvSq09txtQ0TJ/J1/L6ex2cVUszvo0RvCfNC//oqLN1447SgQqASsORbqYw3WAZ1bgn
+ Er5g==
+X-Gm-Message-State: AOAM533Wam++uJfQ1rcdZSdV9K0qm1aqnz83Q5T+jRmiDPAHEK50MyPy
+ znC7+ojLbHg/PIbKCQRTCwU=
+X-Google-Smtp-Source: ABdhPJyoPGoFFi1IQASTHhSfsn93F7IYsEEwkYxbqGGCWaBV5Gvcee+lcG3JeAihYRzWLP/t5HC1oA==
+X-Received: by 2002:a1c:7c0a:0:b0:38e:7c61:eb9c with SMTP id
+ x10-20020a1c7c0a000000b0038e7c61eb9cmr7292405wmc.69.1649250801727; 
+ Wed, 06 Apr 2022 06:13:21 -0700 (PDT)
 Received: from orome (pd9e518f7.dip0.t-ipconnect.de. [217.229.24.247])
  by smtp.gmail.com with ESMTPSA id
- v18-20020adfc5d2000000b0020589b76704sm15184511wrg.70.2022.04.06.06.08.43
+ h8-20020a05600c350800b0038cc9096507sm5412067wmq.3.2022.04.06.06.13.20
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 06 Apr 2022 06:08:44 -0700 (PDT)
-Date: Wed, 6 Apr 2022 15:08:42 +0200
+ Wed, 06 Apr 2022 06:13:20 -0700 (PDT)
+Date: Wed, 6 Apr 2022 15:13:17 +0200
 From: Thierry Reding <thierry.reding@gmail.com>
-To: Randy Dunlap <rdunlap@infradead.org>
-Subject: Re: [PATCH] gpu: host1x: fix a kernel-doc warning
-Message-ID: <Yk2Q2kcgrECbhAi4@orome>
-References: <20220403225354.2492-1-rdunlap@infradead.org>
+To: Mikko Perttunen <mperttunen@nvidia.com>,
+ Jon Hunter <jonathanh@nvidia.com>, dri-devel@lists.freedesktop.org,
+ linux-tegra@vger.kernel.org
+Subject: Re: [PATCH] gpu: host1x: Do not use mapping cache for job submissions
+Message-ID: <Yk2R7SBLy7ZnQJNR@orome>
+References: <20220324103025.2660775-1-thierry.reding@gmail.com>
 MIME-Version: 1.0
 Content-Type: multipart/signed; micalg=pgp-sha256;
- protocol="application/pgp-signature"; boundary="9J87IkycnimcbG86"
+ protocol="application/pgp-signature"; boundary="HxpSELrC68ALoLx1"
 Content-Disposition: inline
-In-Reply-To: <20220403225354.2492-1-rdunlap@infradead.org>
+In-Reply-To: <20220324103025.2660775-1-thierry.reding@gmail.com>
 User-Agent: Mutt/2.2.1 (c8109e14) (2022-02-19)
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -71,58 +74,58 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: David Airlie <airlied@linux.ie>, linux-tegra@vger.kernel.org,
- Thierry Reding <treding@nvidia.com>, linux-kernel@vger.kernel.org,
- dri-devel@lists.freedesktop.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 
---9J87IkycnimcbG86
+--HxpSELrC68ALoLx1
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 Content-Transfer-Encoding: quoted-printable
 
-On Sun, Apr 03, 2022 at 03:53:54PM -0700, Randy Dunlap wrote:
-> Add @cache description to eliminate a kernel-doc warning.
+On Thu, Mar 24, 2022 at 11:30:25AM +0100, Thierry Reding wrote:
+> From: Thierry Reding <treding@nvidia.com>
 >=20
-> include/linux/host1x.h:104: warning: Function parameter or member 'cache'=
- not described in 'host1x_client'
+> Buffer mappings used in job submissions are usually small and not
+> rapidly reused as opposed to framebuffers (which are usually large and
+> rapidly reused, for example when page-flipping between double-buffered
+> framebuffers). Avoid going through the mapping cache for these buffers
+> since the cache would also lead to leaks if nobody is ever releasing
+> the cache's last reference. For DRM/KMS these last references are
+> dropped when the framebuffers are removed and therefore no longer
+> needed.
 >=20
-> Fixes: 1f39b1dfa53c ("drm/tegra: Implement buffer object cache")
-> Signed-off-by: Randy Dunlap <rdunlap@infradead.org>
-> Cc: Thierry Reding <treding@nvidia.com>
-> Cc: linux-tegra@vger.kernel.org
-> Cc: David Airlie <airlied@linux.ie>
-> Cc: Daniel Vetter <daniel@ffwll.ch>
-> Cc: dri-devel@lists.freedesktop.org
+> While at it, also add a note about the need to explicitly remove the
+> final reference to the mapping in the cache.
+>=20
+> Signed-off-by: Thierry Reding <treding@nvidia.com>
 > ---
->  include/linux/host1x.h |    1 +
->  1 file changed, 1 insertion(+)
->=20
+>  drivers/gpu/host1x/job.c | 4 ++--
+>  include/linux/host1x.h   | 5 +++++
+>  2 files changed, 7 insertions(+), 2 deletions(-)
 
-Applied, thanks.
+Applied.
 
 Thierry
 
---9J87IkycnimcbG86
+--HxpSELrC68ALoLx1
 Content-Type: application/pgp-signature; name="signature.asc"
 
 -----BEGIN PGP SIGNATURE-----
 
-iQIzBAABCAAdFiEEiOrDCAFJzPfAjcif3SOs138+s6EFAmJNkNoACgkQ3SOs138+
-s6GQ7A//U1t+rjKiIEIQmxmnfruDLVKJ+IOn6D45CGb52JfwVSCEK+1JC5Z3V7+a
-owzbWNXmCh33rHIf4wiXGZYmlkXcyjYCowBMDGsUejA+eVlQzo8H2eiNfovPkBFB
-M+UY1gB0T1KbzEpDO5i9a1tBfy22P38pV19sxN8EKkq0pwdFXKwwQ3xMw+SC0e7L
-jDrWqJgp4pg1H10+GlHM8ipHOhCx0QNcYae9T1vTsToa56gmOWadGnHqUHUhb1ES
-KjnpZg08XPq3fcw/AEzir4SZqfgx8O7MJYGofzZOnXoztNoH9ytiiPDfY5CeQy2a
-ExDOgXX+hckf0rr2uIJWvqxklDAt1QkIaT7+68MMh/kuzEwNdmyXBcOzggrD+IlQ
-xk56pa5abrdxWgb9p6E4CKyjvTAJ+puc30jbaZLG6T1Deh+92dBJlMyLDVcaprqQ
-spqZjMe7uqEfR32Wm9b4K59HdTiacvBTfUbTgmdRazHlTJ9KOQpL+xtnU9KqhMmu
-h/ahj7DYwXSkt26G1z5rPcJ6cp8tO1pjHcZSaIWxfXJbzYQ/EikyYn4p2YTEPBak
-kOkev2jc09VAKLUxn5NA3TK5lwHRu42IBRaNWn8odtvjDTWFYwSDSr+KOIX1gy3X
-aRKKkrkteE1wpYeWhVxv+B5CJiOs73jXDsoPtlwZKA35Xtu5SuY=
-=xxNp
+iQIzBAABCAAdFiEEiOrDCAFJzPfAjcif3SOs138+s6EFAmJNke0ACgkQ3SOs138+
+s6Gj6BAAm6+AEy/Yny+Uvy+JcDhdeZbr22dLQqGgQ+pkczQP97N3tG1pncFny09M
++c8WGxZeqCpIxA+ddWgZ/JS4NskknWSDi6GHCeT3/8X5eEZ/bOhfnSnUP5zYAIB/
+yCRm2vJMzmhDUjsl7gie8R6wLaEL2yXpdKEFPBXrYYNym6wTfpOCdiLgkqW3MN1i
+8g8qOIZTpXKdKBMrlkHi2JSYAhKy9cT42lt0woiDEWiHS89C43Jok44piLPYNPhY
+iVZbm0jjdBOg1SUO4v0TDCXStx/zIPxMg1S7Y7Ip+flPzRhBFnIZZrbFPTPwF/u1
+G900plqSHoREcSX7nCTJCpf5xUZoUA6JM75rVtynBxEYXeuPiUjhA5mgCxQOCPbJ
+lDkncLImc3nOwWX/a2Ch5r65NCwHyF/pqturpXbFrM6RIAJBfVcvMRjjGUMSUeGd
+mZFwnwAQnwUT+3IGYqEo8kQhT1Qwhns+5wgrXzwuqVLqzxkb7GZBzf4VHR23vUzK
+HzPeZpKVVFPdJyiR7YgHCo5Wey+jyyNahgF4vEZEpdSV44xhgXYhNO2dxt2O1fmR
+3SEVUktaENFAjTi0l0buQxCCfbv7LjSXmHALdjG/XX3Bf0t2mUjnyYZR8SazMLa3
+ex8whYuqnHv0TIB9C7ptDhXS7NlpXFyp4Ikzx3Si7CEOuU2ZRI8=
+=vUAo
 -----END PGP SIGNATURE-----
 
---9J87IkycnimcbG86--
+--HxpSELrC68ALoLx1--
