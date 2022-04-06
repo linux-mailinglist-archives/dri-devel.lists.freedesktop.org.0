@@ -1,63 +1,56 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 42A024F6D44
-	for <lists+dri-devel@lfdr.de>; Wed,  6 Apr 2022 23:46:59 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id EC0834F6D89
+	for <lists+dri-devel@lfdr.de>; Wed,  6 Apr 2022 23:55:14 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 125F410E658;
-	Wed,  6 Apr 2022 21:46:57 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 0843D10E0F4;
+	Wed,  6 Apr 2022 21:55:12 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-pj1-x102f.google.com (mail-pj1-x102f.google.com
- [IPv6:2607:f8b0:4864:20::102f])
- by gabe.freedesktop.org (Postfix) with ESMTPS id B397410E658;
- Wed,  6 Apr 2022 21:46:55 +0000 (UTC)
-Received: by mail-pj1-x102f.google.com with SMTP id
- l4-20020a17090a49c400b001c6840df4a3so4225438pjm.0; 
- Wed, 06 Apr 2022 14:46:55 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
- h=from:to:cc:subject:date:message-id:in-reply-to:references
- :mime-version:content-transfer-encoding;
- bh=YPzsprcAWsqrwWakA9Ciodx92zg09lPCp1+8pJTWeds=;
- b=kdbzt1tG4Q+iXEUS2HYgVvOqb1rXJiVH+ppx6xZcJNktLBqKJTH86fnTQy3rQZzmxu
- K1et1JfqTjeL5rUhovd0J+nsMv9lllBILH0kEFGGHRhtsgt7FNNDvDbJUkKXfUwI7bGf
- Oo+jeBtnsQW8t7M2/TnNrBeKKg9kfGrbmygNXK7cEs71AqW8W/NUe3nMZmnW01DETjg1
- xdYej1tRmR9WTckYFqaaBuitaETl/x51FDyQyAVNdzX0S6UWZURR9j1UrhospI4riZpr
- lY9lr/mQuU3Ghi2P4WrBLqJlcFEOaUbuCWooln6ycyxFe0T0LZRrF6fvw8NE5AVPAEii
- MUKw==
+Received: from mail-qk1-x732.google.com (mail-qk1-x732.google.com
+ [IPv6:2607:f8b0:4864:20::732])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 1C3CA10E0F4
+ for <dri-devel@lists.freedesktop.org>; Wed,  6 Apr 2022 21:55:11 +0000 (UTC)
+Received: by mail-qk1-x732.google.com with SMTP id a38so587035qkp.5
+ for <dri-devel@lists.freedesktop.org>; Wed, 06 Apr 2022 14:55:11 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=dowhile0-org.20210112.gappssmtp.com; s=20210112;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc; bh=18K4Koo+gSDcc2mYQoqx/5md7n9d+vojvdjDwRnfQkQ=;
+ b=Kvts+vyOdgj5qb/yrmcCtgFddEpMAYJ6Vtt+e7K/TdG5zlgevkxRZJ7mT6fCAextWP
+ CkBNmJNYEme2Prp18S+VCdHLmsbnxtU2/GL7oLXhZyLH1ZbhmnD+NEIAXbAYNfNwDH0P
+ xne4EbAvbRql8bNt00hQfBSFq9neL63asMKnw0R8vSI+6e1KKIwyBEfnMLIWLMnwxMY2
+ UymboPIBOVUTC8THIxgFIWNXTLThaSoUhLGzr/yflxFTA9qQ/j4XZtytj7c/YrpAuTU3
+ U1JW4JHshQKqmHCC3SAvRIuphMsmKxiP3pyGPi+vtdE/Ad4rYIqpWQTm/V3S581T+70y
+ qWpQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
- :references:mime-version:content-transfer-encoding;
- bh=YPzsprcAWsqrwWakA9Ciodx92zg09lPCp1+8pJTWeds=;
- b=IQeUSD+10/3BiLzW9XXOSUaU1lCurfm0yhllxt/iQ18qPz+qd/EPDJ7T4RGTVOgTu5
- qqQU/5q0ASQW4vF8iCEA32R02z5CEucfPsM4vpxkv/LCxT9+U4a9K2H+AY+8E9V+9S1U
- uepYw9uj1ZN+5JmMbM0kZVr3QfmR5seEN9whsCQsw/2d3FBhJpTetRqBp5vFOpUQAipv
- 9oEYZGFJWtattf+hxtQ10yrXODKHhV7dgk3f70OAQUw55sjroZpiYVEUwwISUhFDLgc1
- 0NuX9b7jqG+7Dg+8Set6szbQRp2n+fz6+wsX4oCUnmx9u+od92XXKwM7A3UVadq3aDCF
- JzEQ==
-X-Gm-Message-State: AOAM531XweXZ2xUQ+Lcz1jzKYz4bjPDTyoZA668Z373s65zLzZVpa+U6
- UHnX4A+ULMVyRmU6zA+bBrMq8EKJqLQ=
-X-Google-Smtp-Source: ABdhPJwYumXvLka0QXC7th+Qn497ZDA703hb5H9vrZff6ta8ovqmT+6VgvS7bP5o3bY0wRnmQ953tQ==
-X-Received: by 2002:a17:90a:b00f:b0:1c9:9205:433 with SMTP id
- x15-20020a17090ab00f00b001c992050433mr12061046pjq.116.1649281614677; 
- Wed, 06 Apr 2022 14:46:54 -0700 (PDT)
-Received: from localhost ([2a00:79e1:abd:4a00:2703:3c72:eb1a:cffd])
- by smtp.gmail.com with ESMTPSA id
- x36-20020a634a24000000b0039cc6fff510sm20503pga.58.2022.04.06.14.46.53
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 06 Apr 2022 14:46:53 -0700 (PDT)
-From: Rob Clark <robdclark@gmail.com>
-To: dri-devel@lists.freedesktop.org
-Subject: [PATCH v3 10/10] drm/msm: Add a way for userspace to allocate GPU iova
-Date: Wed,  6 Apr 2022 14:46:26 -0700
-Message-Id: <20220406214636.1156978-11-robdclark@gmail.com>
-X-Mailer: git-send-email 2.35.1
-In-Reply-To: <20220406214636.1156978-1-robdclark@gmail.com>
-References: <20220406214636.1156978-1-robdclark@gmail.com>
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=18K4Koo+gSDcc2mYQoqx/5md7n9d+vojvdjDwRnfQkQ=;
+ b=z+0HVSeXEDqM16qN3vrdEHfg35fIQfDsJbb8UhxVl4ct5SP0opiV3EVXg8XT3JCL18
+ iyAoNglmtTexMMcAKSk/Vt14vyeijo5MZ0fPqXeuI5M7/hopLuJ29uKvdi7seotomm6S
+ ONAGZQDE02U1GOgVzWDyi+3OIFpT6jUmIAmv79ibGugyqWx5sJbGxnCZx3gbfmKAWgFT
+ CCLT5Nq1RybuJg7nRTuBjf/HCUIzm6xi7ZtLt494qE4Cw/vPPOpQ0XrFCdoi8vuxTO5v
+ NaJ/wplR1PSuI4zQUFbqUWEONGqycaGwSCKbY4jt/1W2tW2cHGHYwRn/jiZWOaQDnzit
+ uWtQ==
+X-Gm-Message-State: AOAM5302+NN7FYV8/xArgTdg8SvOkyq+Xr9hBkBesCUXuklWJLoq8kpS
+ HDBtgfRFVpnC89jZ/TMrDMoa+gi3Jt7a/zomq4bnRA==
+X-Google-Smtp-Source: ABdhPJzrSfiA86e2SS1hOhDbnO4gW9TDF++9F+ETBBY4qKTwTrC34JSvWVKrwHQPm+7n0fPZ0ApGvCzsI+S+PYVc3To=
+X-Received: by 2002:a05:620a:892:b0:67e:60a9:83c2 with SMTP id
+ b18-20020a05620a089200b0067e60a983c2mr7245120qka.670.1649282110221; Wed, 06
+ Apr 2022 14:55:10 -0700 (PDT)
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+References: <20220406172956.3953-1-wens@kernel.org>
+In-Reply-To: <20220406172956.3953-1-wens@kernel.org>
+From: Javier Martinez Canillas <javier@dowhile0.org>
+Date: Wed, 6 Apr 2022 23:54:59 +0200
+Message-ID: <CABxcv=k=dRPg3S5LrY+bcrEJ91CxoLdsRjVx+sLM7GYEKdv8Gw@mail.gmail.com>
+Subject: Re: [PATCH v2 0/4] drm/ssd130x: Add support for SINO WEALTH SH1106
+To: Chen-Yu Tsai <wens@kernel.org>
+Content-Type: text/plain; charset="UTF-8"
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -70,229 +63,33 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Rob Clark <robdclark@chromium.org>, Emma Anholt <emma@anholt.net>,
- open list <linux-kernel@vger.kernel.org>, Jonathan Marek <jonathan@marek.ca>,
- Akhil P Oommen <quic_akhilpo@quicinc.com>, David Airlie <airlied@linux.ie>,
- linux-arm-msm@vger.kernel.org, Abhinav Kumar <quic_abhinavk@quicinc.com>,
- Jordan Crouse <jordan@cosmicpenguin.net>, Sean Paul <sean@poorly.run>,
- Dmitry Osipenko <dmitry.osipenko@collabora.com>,
- Dmitry Baryshkov <dmitry.baryshkov@linaro.org>,
- freedreno@lists.freedesktop.org, Dan Carpenter <dan.carpenter@oracle.com>
+Cc: devicetree@vger.kernel.org, David Airlie <airlied@linux.ie>,
+ Javier Martinez Canillas <javierm@redhat.com>,
+ Linux Kernel <linux-kernel@vger.kernel.org>, Chen-Yu Tsai <wens@csie.org>,
+ Rob Herring <robh+dt@kernel.org>, dri-devel <dri-devel@lists.freedesktop.org>,
+ Krzysztof Kozlowski <krzk+dt@kernel.org>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-From: Rob Clark <robdclark@chromium.org>
+Hello Chen-Yu,
 
-The motivation at this point is mainly native userspace mesa driver in a
-VM guest.  The one remaining synchronous "hotpath" is buffer allocation,
-because guest needs to wait to know the bo's iova before it can start
-emitting cmdstream/state that references the new bo.  By allocating the
-iova in the guest userspace, we no longer need to wait for a response
-from the host, but can just rely on the allocation request being
-processed before the cmdstream submission.  Allocation failures (OoM,
-etc) would just be treated as context-lost (ie. GL_GUILTY_CONTEXT_RESET)
-or subsequent allocations (or readpix, etc) can raise GL_OUT_OF_MEMORY.
+On Wed, Apr 6, 2022 at 7:30 PM Chen-Yu Tsai <wens@kernel.org> wrote:
+>
+> From: Chen-Yu Tsai <wens@csie.org>
+>
+> Hi everyone,
+>
+> This series adds support for SH1106 to the ssd130x OLED display
+> driver.
+>
 
-v2: Fix inuse check
-v3: Change mismatched iova case to -EBUSY
+Thanks for re-spinning your series. I believe that gave you my
+Acked-by for most of the patches in v1 already? But it seems you
+didn't pick them up.
 
-Signed-off-by: Rob Clark <robdclark@chromium.org>
-Reviewed-by: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
----
- drivers/gpu/drm/msm/adreno/adreno_gpu.c | 10 ++++++
- drivers/gpu/drm/msm/msm_drv.c           | 21 +++++++++++
- drivers/gpu/drm/msm/msm_gem.c           | 48 +++++++++++++++++++++++++
- drivers/gpu/drm/msm/msm_gem.h           |  8 +++++
- drivers/gpu/drm/msm/msm_gem_vma.c       |  2 ++
- include/uapi/drm/msm_drm.h              |  3 ++
- 6 files changed, 92 insertions(+)
+You addressed the comments I had in v1 so those stand, for all patches:
 
-diff --git a/drivers/gpu/drm/msm/adreno/adreno_gpu.c b/drivers/gpu/drm/msm/adreno/adreno_gpu.c
-index 6385ab06632f..4caae0229518 100644
---- a/drivers/gpu/drm/msm/adreno/adreno_gpu.c
-+++ b/drivers/gpu/drm/msm/adreno/adreno_gpu.c
-@@ -281,6 +281,16 @@ int adreno_get_param(struct msm_gpu *gpu, struct msm_file_private *ctx,
- 	case MSM_PARAM_SUSPENDS:
- 		*value = gpu->suspend_count;
- 		return 0;
-+	case MSM_PARAM_VA_START:
-+		if (ctx->aspace == gpu->aspace)
-+			return -EINVAL;
-+		*value = ctx->aspace->va_start;
-+		return 0;
-+	case MSM_PARAM_VA_SIZE:
-+		if (ctx->aspace == gpu->aspace)
-+			return -EINVAL;
-+		*value = ctx->aspace->va_size;
-+		return 0;
- 	default:
- 		DBG("%s: invalid param: %u", gpu->name, param);
- 		return -EINVAL;
-diff --git a/drivers/gpu/drm/msm/msm_drv.c b/drivers/gpu/drm/msm/msm_drv.c
-index d618953d33ea..34e2169308b4 100644
---- a/drivers/gpu/drm/msm/msm_drv.c
-+++ b/drivers/gpu/drm/msm/msm_drv.c
-@@ -722,6 +722,23 @@ static int msm_ioctl_gem_info_iova(struct drm_device *dev,
- 	return msm_gem_get_iova(obj, ctx->aspace, iova);
- }
- 
-+static int msm_ioctl_gem_info_set_iova(struct drm_device *dev,
-+		struct drm_file *file, struct drm_gem_object *obj,
-+		uint64_t iova)
-+{
-+	struct msm_drm_private *priv = dev->dev_private;
-+	struct msm_file_private *ctx = file->driver_priv;
-+
-+	if (!priv->gpu)
-+		return -EINVAL;
-+
-+	/* Only supported if per-process address space is supported: */
-+	if (priv->gpu->aspace == ctx->aspace)
-+		return -EOPNOTSUPP;
-+
-+	return msm_gem_set_iova(obj, ctx->aspace, iova);
-+}
-+
- static int msm_ioctl_gem_info(struct drm_device *dev, void *data,
- 		struct drm_file *file)
- {
-@@ -736,6 +753,7 @@ static int msm_ioctl_gem_info(struct drm_device *dev, void *data,
- 	switch (args->info) {
- 	case MSM_INFO_GET_OFFSET:
- 	case MSM_INFO_GET_IOVA:
-+	case MSM_INFO_SET_IOVA:
- 		/* value returned as immediate, not pointer, so len==0: */
- 		if (args->len)
- 			return -EINVAL;
-@@ -760,6 +778,9 @@ static int msm_ioctl_gem_info(struct drm_device *dev, void *data,
- 	case MSM_INFO_GET_IOVA:
- 		ret = msm_ioctl_gem_info_iova(dev, file, obj, &args->value);
- 		break;
-+	case MSM_INFO_SET_IOVA:
-+		ret = msm_ioctl_gem_info_set_iova(dev, file, obj, args->value);
-+		break;
- 	case MSM_INFO_SET_NAME:
- 		/* length check should leave room for terminating null: */
- 		if (args->len >= sizeof(msm_obj->name)) {
-diff --git a/drivers/gpu/drm/msm/msm_gem.c b/drivers/gpu/drm/msm/msm_gem.c
-index bf4af17e2f1e..3ee30b8a76bd 100644
---- a/drivers/gpu/drm/msm/msm_gem.c
-+++ b/drivers/gpu/drm/msm/msm_gem.c
-@@ -525,6 +525,54 @@ int msm_gem_get_iova(struct drm_gem_object *obj,
- 	return ret;
- }
- 
-+static int clear_iova(struct drm_gem_object *obj,
-+		      struct msm_gem_address_space *aspace)
-+{
-+	struct msm_gem_vma *vma = lookup_vma(obj, aspace);
-+
-+	if (!vma)
-+		return 0;
-+
-+	if (msm_gem_vma_inuse(vma))
-+		return -EBUSY;
-+
-+	msm_gem_purge_vma(vma->aspace, vma);
-+	msm_gem_close_vma(vma->aspace, vma);
-+	del_vma(vma);
-+
-+	return 0;
-+}
-+
-+/*
-+ * Get the requested iova but don't pin it.  Fails if the requested iova is
-+ * not available.  Doesn't need a put because iovas are currently valid for
-+ * the life of the object.
-+ *
-+ * Setting an iova of zero will clear the vma.
-+ */
-+int msm_gem_set_iova(struct drm_gem_object *obj,
-+		     struct msm_gem_address_space *aspace, uint64_t iova)
-+{
-+	int ret = 0;
-+
-+	msm_gem_lock(obj);
-+	if (!iova) {
-+		ret = clear_iova(obj, aspace);
-+	} else {
-+		struct msm_gem_vma *vma;
-+		vma = get_vma_locked(obj, aspace, iova, iova + obj->size);
-+		if (IS_ERR(vma)) {
-+			ret = PTR_ERR(vma);
-+		} else if (GEM_WARN_ON(vma->iova != iova)) {
-+			clear_iova(obj, aspace);
-+			ret = -EBUSY;
-+		}
-+	}
-+	msm_gem_unlock(obj);
-+
-+	return ret;
-+}
-+
- /*
-  * Unpin a iova by updating the reference counts. The memory isn't actually
-  * purged until something else (shrinker, mm_notifier, destroy, etc) decides
-diff --git a/drivers/gpu/drm/msm/msm_gem.h b/drivers/gpu/drm/msm/msm_gem.h
-index 38d66e1248b1..efa2e5c19f1e 100644
---- a/drivers/gpu/drm/msm/msm_gem.h
-+++ b/drivers/gpu/drm/msm/msm_gem.h
-@@ -38,6 +38,12 @@ struct msm_gem_address_space {
- 
- 	/* @faults: the number of GPU hangs associated with this address space */
- 	int faults;
-+
-+	/** @va_start: lowest possible address to allocate */
-+	uint64_t va_start;
-+
-+	/** @va_size: the size of the address space (in bytes) */
-+	uint64_t va_size;
- };
- 
- struct msm_gem_address_space *
-@@ -144,6 +150,8 @@ struct msm_gem_vma *msm_gem_get_vma_locked(struct drm_gem_object *obj,
- 					   struct msm_gem_address_space *aspace);
- int msm_gem_get_iova(struct drm_gem_object *obj,
- 		struct msm_gem_address_space *aspace, uint64_t *iova);
-+int msm_gem_set_iova(struct drm_gem_object *obj,
-+		struct msm_gem_address_space *aspace, uint64_t iova);
- int msm_gem_get_and_pin_iova_range(struct drm_gem_object *obj,
- 		struct msm_gem_address_space *aspace, uint64_t *iova,
- 		u64 range_start, u64 range_end);
-diff --git a/drivers/gpu/drm/msm/msm_gem_vma.c b/drivers/gpu/drm/msm/msm_gem_vma.c
-index 6f9a402450f9..354f91aff573 100644
---- a/drivers/gpu/drm/msm/msm_gem_vma.c
-+++ b/drivers/gpu/drm/msm/msm_gem_vma.c
-@@ -182,6 +182,8 @@ msm_gem_address_space_create(struct msm_mmu *mmu, const char *name,
- 	spin_lock_init(&aspace->lock);
- 	aspace->name = name;
- 	aspace->mmu = mmu;
-+	aspace->va_start = va_start;
-+	aspace->va_size  = size;
- 
- 	drm_mm_init(&aspace->mm, va_start, size);
- 
-diff --git a/include/uapi/drm/msm_drm.h b/include/uapi/drm/msm_drm.h
-index 794ad1948497..3c7b097c4e3d 100644
---- a/include/uapi/drm/msm_drm.h
-+++ b/include/uapi/drm/msm_drm.h
-@@ -84,6 +84,8 @@ struct drm_msm_timespec {
- #define MSM_PARAM_SYSPROF    0x0b  /* WO: 1 preserves perfcntrs, 2 also disables suspend */
- #define MSM_PARAM_COMM       0x0c  /* WO: override for task->comm */
- #define MSM_PARAM_CMDLINE    0x0d  /* WO: override for task cmdline */
-+#define MSM_PARAM_VA_START   0x0e  /* RO: start of valid GPU iova range */
-+#define MSM_PARAM_VA_SIZE    0x0f  /* RO: size of valid GPU iova range (bytes) */
- 
- /* For backwards compat.  The original support for preemption was based on
-  * a single ring per priority level so # of priority levels equals the #
-@@ -135,6 +137,7 @@ struct drm_msm_gem_new {
- #define MSM_INFO_GET_IOVA	0x01   /* get iova, returned by value */
- #define MSM_INFO_SET_NAME	0x02   /* set the debug name (by pointer) */
- #define MSM_INFO_GET_NAME	0x03   /* get debug name, returned by pointer */
-+#define MSM_INFO_SET_IOVA	0x04   /* set the iova, passed by value */
- 
- struct drm_msm_gem_info {
- 	__u32 handle;         /* in */
--- 
-2.35.1
+Reviewed-by: Javier Martinez Canillas <javierm@redhat.com>
 
+Best regards,
+Javier
