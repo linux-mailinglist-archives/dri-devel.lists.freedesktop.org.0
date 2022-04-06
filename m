@@ -1,78 +1,55 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4ECF74F641E
-	for <lists+dri-devel@lfdr.de>; Wed,  6 Apr 2022 18:07:01 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 905D74F6419
+	for <lists+dri-devel@lfdr.de>; Wed,  6 Apr 2022 18:06:38 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 01E6C10E457;
-	Wed,  6 Apr 2022 16:06:59 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id D5F2210E40D;
+	Wed,  6 Apr 2022 16:06:35 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from us-smtp-delivery-124.mimecast.com
- (us-smtp-delivery-124.mimecast.com [170.10.133.124])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 38BB310E457
- for <dri-devel@lists.freedesktop.org>; Wed,  6 Apr 2022 16:06:53 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1649261212;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=4FhXBUnLq/AeYpcQ43hIiOOWtFlBWzfoVNvi0Bsh0Mg=;
- b=PGDD+5akyJEPVRJCT+HhyyGoU3Unl3QwvnHj/I2kcO8dfazcToks6NmGU5xEts1nxriiIA
- psLEIzNhXw/kMVeSHww72hbk95aaUtz5TliXCPpB1BM4oCRTaAVz9fUe0CoojiCYHJ9atQ
- A0JhVmEdXw1OS61hGsprO1PO+wxK2oY=
-Received: from mail-wr1-f69.google.com (mail-wr1-f69.google.com
- [209.85.221.69]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-54-d0-of1mGMnuLy6Xje1WRAw-1; Wed, 06 Apr 2022 12:06:51 -0400
-X-MC-Unique: d0-of1mGMnuLy6Xje1WRAw-1
-Received: by mail-wr1-f69.google.com with SMTP id
- e4-20020adfa444000000b002060b7347f8so653253wra.6
- for <dri-devel@lists.freedesktop.org>; Wed, 06 Apr 2022 09:06:50 -0700 (PDT)
+Received: from mail-wr1-x42a.google.com (mail-wr1-x42a.google.com
+ [IPv6:2a00:1450:4864:20::42a])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 52B9F10E40D;
+ Wed,  6 Apr 2022 16:06:34 +0000 (UTC)
+Received: by mail-wr1-x42a.google.com with SMTP id h4so3905600wrc.13;
+ Wed, 06 Apr 2022 09:06:34 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc; bh=c6IFtJoccYowp2SPFkLYl7fBTN/gyRfnIU15c9wrgHI=;
+ b=grM1c17B0+b10VDghHxy8oPE55Scxin6NssMWayxOjNDQoqugsgbLfxFLwL8WGZxT0
+ nQKyhL51D6/3Zvs37Htp607mvGk3e4EqwSuojcAvtXGfITqyx2pbWetI2tPgjx2s3Nq0
+ L2AxpxCPyahMH9H19Uv9QemuQi7JT+OpwJvACkjwKZaJYDcWMCXBGPgqOFNldl6gFV2h
+ NOwQHgJoADY7iqKi4gUlYYFbMg9PhKfCY1KVaaQY+BogPv8zofz36D/LGuH9WsEmsXB0
+ 19rRpPGUf1LyuIz3lPAwY/Gkbs57SYBCjmbpWCdNYI5wl4JiwnUuUBFDXTLXx7sk7Xs4
+ DA4w==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
- :references:mime-version:content-transfer-encoding;
- bh=4FhXBUnLq/AeYpcQ43hIiOOWtFlBWzfoVNvi0Bsh0Mg=;
- b=hypZ0d5Xc1FSUtStOlCJjmjJtd0Nl2SNA6U0aHIVzkih+8GI3mfgn/0MCdzFKWjboe
- 3H4dLGRSXDUTTFDWxlHW1uZyyUEvibLjdAq9olyZHz3Dr2KwjI16VJ38sS7V36W7WyPt
- SroCkXItPVVVuLkDqaTduVkM8ToGNSKM8I0wGKQZ9I1VUKkZt7LNLJMCHq3cxuirKwLg
- MgnpqoQJV5/3HoTPvmrjUAeI6y8DnnHxad3NKx4Hkb6j9g034qEDgCYFOy49VrR2vLrf
- kSfwbLu6Kx821e9+bexwCrlHXAOmPvRysMBkq0qDapQmfglKi7Tdk9OTm9N9boWXtbq6
- SCMA==
-X-Gm-Message-State: AOAM53340KqG57U/b1M00gYFwTwGazJ3gv7FDXHf/NcTOapgFcS+25+S
- 74vsvNGLsbJtpaxdiCXizX45F+A/jpFNaKO7oD0mkA/7UmCpqkXVjHeL3pOcqxQYACBkJL6ktx1
- Js0u2PkLPGNTloO+Q7DbQB0yEpfnB
-X-Received: by 2002:adf:dd4d:0:b0:203:f178:b78b with SMTP id
- u13-20020adfdd4d000000b00203f178b78bmr7137231wrm.93.1649261209856; 
- Wed, 06 Apr 2022 09:06:49 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJxjTyMg4XL89qFWV3gB2V/HQc1uQjBder3TeH9rKQDOsGox6TANK3aF+8wdzRe76EhPl9Zl5g==
-X-Received: by 2002:adf:dd4d:0:b0:203:f178:b78b with SMTP id
- u13-20020adfdd4d000000b00203f178b78bmr7137221wrm.93.1649261209641; 
- Wed, 06 Apr 2022 09:06:49 -0700 (PDT)
-Received: from minerva.home ([92.176.231.205])
- by smtp.gmail.com with ESMTPSA id
- f1-20020a1c6a01000000b0038c9f6a3634sm5038899wmc.7.2022.04.06.09.06.48
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 06 Apr 2022 09:06:49 -0700 (PDT)
-From: Javier Martinez Canillas <javierm@redhat.com>
-To: linux-kernel@vger.kernel.org
-Subject: [RFC PATCH 5/5] Revert "fbdev: Prevent probing generic drivers if a
- FB is already registered"
-Date: Wed,  6 Apr 2022 18:06:32 +0200
-Message-Id: <20220406160632.496684-6-javierm@redhat.com>
-X-Mailer: git-send-email 2.35.1
-In-Reply-To: <20220406160632.496684-1-javierm@redhat.com>
-References: <20220406160632.496684-1-javierm@redhat.com>
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=c6IFtJoccYowp2SPFkLYl7fBTN/gyRfnIU15c9wrgHI=;
+ b=hDte1QvtN+Tj9X7ey3Knv0nnfvn89PybB16In+vfhzdDlLuhvtAJsl82J0qa2u0c0i
+ 4TXcmE4XUO7tpYXh7Si71U3uPTb56XbGhXUr+dn7NlC8UL2bCi9D9AJh/nRVBc8wzPvG
+ nIAcCH2QrsF2DkBNM5sahVY4rqdzqcJQFAASSSgm4PLQMf6qjhWZ3v01uYFGC1HA5lB5
+ dpkIu84tokUz4UohpCSBQuGmYOSdgBfb6GlhlTlIYEu5IWqjy6ky1dMj4m4SQzMMD2br
+ ToobkU9p6LCKoYBPyIAK8AJDHBxvtcSx8+jwWSlq/BlLhgPVroOCPfpUMfEYNAlMfUFr
+ UnBw==
+X-Gm-Message-State: AOAM533IZOzh+LyI5Opkf2X9SRGiDy/FqJADFVxynYfnY+8/SzjqHJB3
+ WgaaKZFdAv7fdJxZyDxOrGY1vdWXtMn+di/CIgA=
+X-Google-Smtp-Source: ABdhPJwtoCa6agm4ae7x3ltTqzFBJvsMB5pyzwvMFqAyEOix6fNa73x/0iOZLqFrV58zC6dyFRZPjkcrKrbc4E9GDio=
+X-Received: by 2002:a5d:6dad:0:b0:204:154d:c93d with SMTP id
+ u13-20020a5d6dad000000b00204154dc93dmr7070237wrs.574.1649261192659; Wed, 06
+ Apr 2022 09:06:32 -0700 (PDT)
 MIME-Version: 1.0
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=javierm@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Transfer-Encoding: 8bit
-Content-Type: application/octet-stream; x-default=true
+References: <5ab4f4574d7f3e042261da702d493ee40d003356.1649168268.git.robin.murphy@arm.com>
+In-Reply-To: <5ab4f4574d7f3e042261da702d493ee40d003356.1649168268.git.robin.murphy@arm.com>
+From: Rob Clark <robdclark@gmail.com>
+Date: Wed, 6 Apr 2022 09:07:26 -0700
+Message-ID: <CAF6AEGvgfqFrXHji6R1sTsxOFSdvA7HQSxa1QCXWVmEL1qcK9w@mail.gmail.com>
+Subject: Re: [PATCH] drm/msm: Stop using iommu_present()
+To: Robin Murphy <robin.murphy@arm.com>
+Content-Type: text/plain; charset="UTF-8"
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -85,90 +62,41 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: linux-fbdev@vger.kernel.org, Daniel Vetter <daniel.vetter@ffwll.ch>,
- Helge Deller <deller@gmx.de>, Javier Martinez Canillas <javierm@redhat.com>,
- dri-devel@lists.freedesktop.org, Hans de Goede <hdegoede@redhat.com>,
- Peter Jones <pjones@redhat.com>, Thomas Zimmermann <tzimmermann@suse.de>,
- Ilya Trukhanov <lahvuun@gmail.com>, Daniel Vetter <daniel.vetter@intel.com>
+Cc: freedreno <freedreno@lists.freedesktop.org>,
+ "list@263.net:IOMMU DRIVERS <iommu@lists.linux-foundation.org>,
+ Joerg Roedel <joro@8bytes.org>, " <iommu@lists.linux-foundation.org>,
+ Sean Paul <sean@poorly.run>, Abhinav Kumar <quic_abhinavk@quicinc.com>,
+ dri-devel <dri-devel@lists.freedesktop.org>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-From: Daniel Vetter <daniel.vetter@ffwll.ch>
+On Tue, Apr 5, 2022 at 7:17 AM Robin Murphy <robin.murphy@arm.com> wrote:
+>
+> Even if some IOMMU has registered itself on the platform "bus", that
+> doesn't necessarily mean it provides translation for the device we
+> care about. Replace iommu_present() with a more appropriate check.
+>
+> Signed-off-by: Robin Murphy <robin.murphy@arm.com>
 
-This reverts commit fb561bf9abde49f7e00fdbf9ed2ccf2d86cac8ee.
+Reviewed-by: Rob Clark <robdclark@gmail.com>
 
-With
-
-commit 27599aacbaefcbf2af7b06b0029459bbf682000d
-Author: Thomas Zimmermann <tzimmermann@suse.de>
-Date:   Tue Jan 25 10:12:18 2022 +0100
-
-    fbdev: Hot-unplug firmware fb devices on forced removal
-
-this should be fixed properly and we can remove this somewhat hackish
-check here (e.g. this won't catch drm drivers if fbdev emulation isn't
-enabled).
-
-Cc: Thomas Zimmermann <tzimmermann@suse.de>
-Cc: Zack Rusin <zackr@vmware.com>
-Cc: Javier Martinez Canillas <javierm@redhat.com>
-Cc: Zack Rusin <zackr@vmware.com>
-Cc: Hans de Goede <hdegoede@redhat.com>
-Cc: Ilya Trukhanov <lahvuun@gmail.com>
-Signed-off-by: Daniel Vetter <daniel.vetter@intel.com>
-Cc: Peter Jones <pjones@redhat.com>
-Cc: linux-fbdev@vger.kernel.org
-Signed-off-by: Javier Martinez Canillas <javierm@redhat.com>
----
-
- drivers/video/fbdev/efifb.c    | 11 -----------
- drivers/video/fbdev/simplefb.c | 11 -----------
- 2 files changed, 22 deletions(-)
-
-diff --git a/drivers/video/fbdev/efifb.c b/drivers/video/fbdev/efifb.c
-index ea42ba6445b2..edca3703b964 100644
---- a/drivers/video/fbdev/efifb.c
-+++ b/drivers/video/fbdev/efifb.c
-@@ -351,17 +351,6 @@ static int efifb_probe(struct platform_device *dev)
- 	char *option = NULL;
- 	efi_memory_desc_t md;
- 
--	/*
--	 * Generic drivers must not be registered if a framebuffer exists.
--	 * If a native driver was probed, the display hardware was already
--	 * taken and attempting to use the system framebuffer is dangerous.
--	 */
--	if (num_registered_fb > 0) {
--		dev_err(&dev->dev,
--			"efifb: a framebuffer is already registered\n");
--		return -EINVAL;
--	}
--
- 	if (screen_info.orig_video_isVGA != VIDEO_TYPE_EFI || pci_dev_disabled)
- 		return -ENODEV;
- 
-diff --git a/drivers/video/fbdev/simplefb.c b/drivers/video/fbdev/simplefb.c
-index 94fc9c6d0411..0ef41173325a 100644
---- a/drivers/video/fbdev/simplefb.c
-+++ b/drivers/video/fbdev/simplefb.c
-@@ -413,17 +413,6 @@ static int simplefb_probe(struct platform_device *pdev)
- 	struct simplefb_par *par;
- 	struct resource *res, *mem;
- 
--	/*
--	 * Generic drivers must not be registered if a framebuffer exists.
--	 * If a native driver was probed, the display hardware was already
--	 * taken and attempting to use the system framebuffer is dangerous.
--	 */
--	if (num_registered_fb > 0) {
--		dev_err(&pdev->dev,
--			"simplefb: a framebuffer is already registered\n");
--		return -EINVAL;
--	}
--
- 	if (fb_get_options("simplefb", NULL))
- 		return -ENODEV;
- 
--- 
-2.35.1
-
+> ---
+>  drivers/gpu/drm/msm/msm_drv.c | 2 +-
+>  1 file changed, 1 insertion(+), 1 deletion(-)
+>
+> diff --git a/drivers/gpu/drm/msm/msm_drv.c b/drivers/gpu/drm/msm/msm_drv.c
+> index affa95eb05fc..9c36b505daab 100644
+> --- a/drivers/gpu/drm/msm/msm_drv.c
+> +++ b/drivers/gpu/drm/msm/msm_drv.c
+> @@ -274,7 +274,7 @@ bool msm_use_mmu(struct drm_device *dev)
+>         struct msm_drm_private *priv = dev->dev_private;
+>
+>         /* a2xx comes with its own MMU */
+> -       return priv->is_a2xx || iommu_present(&platform_bus_type);
+> +       return priv->is_a2xx || device_iommu_mapped(dev->dev);
+>  }
+>
+>  static int msm_init_vram(struct drm_device *dev)
+> --
+> 2.28.0.dirty
+>
