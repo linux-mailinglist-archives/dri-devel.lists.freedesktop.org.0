@@ -1,57 +1,47 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 062D94F64BE
-	for <lists+dri-devel@lfdr.de>; Wed,  6 Apr 2022 18:10:55 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 550404F64C7
+	for <lists+dri-devel@lfdr.de>; Wed,  6 Apr 2022 18:18:47 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id EF2B810E2C7;
-	Wed,  6 Apr 2022 16:10:50 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id DBB3210E36B;
+	Wed,  6 Apr 2022 16:18:44 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-pj1-x102e.google.com (mail-pj1-x102e.google.com
- [IPv6:2607:f8b0:4864:20::102e])
- by gabe.freedesktop.org (Postfix) with ESMTPS id A3C0710E2C7
- for <dri-devel@lists.freedesktop.org>; Wed,  6 Apr 2022 16:10:49 +0000 (UTC)
-Received: by mail-pj1-x102e.google.com with SMTP id
- j20-20020a17090ae61400b001ca9553d073so3161210pjy.5
- for <dri-devel@lists.freedesktop.org>; Wed, 06 Apr 2022 09:10:49 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=gateworks-com.20210112.gappssmtp.com; s=20210112;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=95RDoGyZtbEcoHnBFQepKxpMoAUWFwyWGwDHuUzcbMY=;
- b=zTEdfItkEUK2LGYDh68HRGrbmaItaQKULw+9lTwbEZaNWQ05CQRkXWASt2A7Qmhj8K
- YGMn50PZLtb7ypgA3b1nPiDm0qf0Mv3ndZBmL7rAsU/WuANTcI6C8A08/xkYCuGhWLKS
- PItQG6iDdRcofzI+yRZ3GcCEqpnnkET4k4bzz5g+2T2owMotAIBXShuBP2qJnHIyhZWp
- JCjqJ0UKzYCWKcRzlgzg3hI2Hp+zS69zcd8L4LMVuD4I9iJvsWoN1cLmAFk4OA5SGfrd
- SRU58ASegW/3oxsQ7FfT09ANtu+UI8wvdVAghhGIgJdowFKp0DMI+a9BBAlS1Qy3vrlF
- 7gIw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=95RDoGyZtbEcoHnBFQepKxpMoAUWFwyWGwDHuUzcbMY=;
- b=wnMZe8pLiZ18qTQt+aT7Zwvvkx/EW7YWd1FgDxtJdH0sjkrmfk8c9ZT9YLHZ//3CTc
- A/FTgHnqFOCKphV+SDlA2FAuKsko4qSTNENWgcA81tuER2lBX1ru9yitIgTbjMs9MNGy
- ph+eP6OHBSXE/k86yObtIrrvxiRfDP+1kwvdPcsKHGkJmLKf2+56zHsm4ZVSoVG/Xh5h
- oVVzSg2W1LFPP9p5s+wA2DusrWJrcfNnCj3/zzX2F/8WJBICErb3uuIV8VWXwawsWvJ2
- UZnFbkqsR5T434B5VgNcAZfEogHGjvUogOMfZmcrlTHvP6mxWPOV1+kjTsb6hnS/36An
- biEw==
-X-Gm-Message-State: AOAM5320o/kcJuc56OKW1vTRu5IwjwdxJD1Fhuj1BLDf47zI27ID9APP
- f2dxo9hzXwxX3dCC/DrLVfVzquuvXK/Zb8/Py224BA==
-X-Google-Smtp-Source: ABdhPJzlZiYbA1h7PZOpTXhFDSXJLbry3YFGlV7/j3Lx1oTWVTvgRcbYK3zPbBRS+2NsM3aFsrF3c9D6iK8fVBDPttI=
-X-Received: by 2002:a17:903:206:b0:153:ebab:a52f with SMTP id
- r6-20020a170903020600b00153ebaba52fmr9290143plh.118.1649261449125; Wed, 06
- Apr 2022 09:10:49 -0700 (PDT)
+Received: from relay05.th.seeweb.it (relay05.th.seeweb.it [5.144.164.166])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id A550110E36B
+ for <dri-devel@lists.freedesktop.org>; Wed,  6 Apr 2022 16:18:43 +0000 (UTC)
+Received: from SoMainline.org (94-209-165-62.cable.dynamic.v4.ziggo.nl
+ [94.209.165.62])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+ key-exchange ECDHE (P-256) server-signature RSA-PSS (2048 bits) server-digest
+ SHA256) (No client certificate requested)
+ by m-r2.th.seeweb.it (Postfix) with ESMTPSA id A8F573F40B;
+ Wed,  6 Apr 2022 18:18:40 +0200 (CEST)
+Date: Wed, 6 Apr 2022 18:18:39 +0200
+From: Marijn Suijten <marijn.suijten@somainline.org>
+To: Joel Selvaraj <jo@jsfamily.in>
+Subject: Re: [PATCH v2 1/3] drm/panel: nt36672a: add backlight support
+Message-ID: <20220406161839.srtt7c5eywp56i43@SoMainline.org>
+Mail-Followup-To: Marijn Suijten <marijn.suijten@somainline.org>,
+ Joel Selvaraj <jo@jsfamily.in>,
+ Sumit Semwal <sumit.semwal@linaro.org>,
+ Thierry Reding <thierry.reding@gmail.com>,
+ Sam Ravnborg <sam@ravnborg.org>, David Airlie <airlied@linux.ie>,
+ Daniel Vetter <daniel@ffwll.ch>, Rob Herring <robh+dt@kernel.org>,
+ Andy Gross <agross@kernel.org>,
+ Bjorn Andersson <bjorn.andersson@linaro.org>,
+ dri-devel@lists.freedesktop.org, devicetree@vger.kernel.org,
+ linux-kernel@vger.kernel.org, linux-arm-msm@vger.kernel.org,
+ ~postmarketos/upstreaming@lists.sr.ht, phone-devel@vger.kernel.org,
+ Amit Pundir <amit.pundir@linaro.org>
+References: <20220401001810.81507-1-jo@jsfamily.in>
+ <BY5PR02MB700935F5817128CB7C3991CDD9E09@BY5PR02MB7009.namprd02.prod.outlook.com>
 MIME-Version: 1.0
-References: <20220406160123.1272911-1-l.stach@pengutronix.de>
-In-Reply-To: <20220406160123.1272911-1-l.stach@pengutronix.de>
-From: Tim Harvey <tharvey@gateworks.com>
-Date: Wed, 6 Apr 2022 09:10:38 -0700
-Message-ID: <CAJ+vNU3pxSiAX5_fmLy9ztUZ4-dvm5GHdUnucWZwWcQ539dT4w@mail.gmail.com>
-Subject: Re: [PATCH v0 00/10] i.MX8MP HDMI support
-To: Lucas Stach <l.stach@pengutronix.de>
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <BY5PR02MB700935F5817128CB7C3991CDD9E09@BY5PR02MB7009.namprd02.prod.outlook.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -64,97 +54,44 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Device Tree Mailing List <devicetree@vger.kernel.org>,
- Pengutronix Kernel Team <kernel@pengutronix.de>,
- Neil Armstrong <narmstrong@baylibre.com>,
- DRI mailing list <dri-devel@lists.freedesktop.org>,
- Robert Foss <robert.foss@linaro.org>, Kishon Vijay Abraham I <kishon@ti.com>,
- Vinod Koul <vkoul@kernel.org>, Rob Herring <robh+dt@kernel.org>,
- NXP Linux Team <linux-imx@nxp.com>, linux-phy@lists.infradead.org,
- Krzysztof Kozlowski <krzk+dt@kernel.org>, patchwork-lst@pengutronix.de,
- Shawn Guo <shawnguo@kernel.org>,
- Linux ARM Mailing List <linux-arm-kernel@lists.infradead.org>,
- Andrzej Hajda <andrzej.hajda@intel.com>
+Cc: Amit Pundir <amit.pundir@linaro.org>, devicetree@vger.kernel.org,
+ David Airlie <airlied@linux.ie>, linux-kernel@vger.kernel.org,
+ Andy Gross <agross@kernel.org>, dri-devel@lists.freedesktop.org,
+ Bjorn Andersson <bjorn.andersson@linaro.org>, Rob Herring <robh+dt@kernel.org>,
+ Thierry Reding <thierry.reding@gmail.com>,
+ ~postmarketos/upstreaming@lists.sr.ht, linux-arm-msm@vger.kernel.org,
+ phone-devel@vger.kernel.org, Sam Ravnborg <sam@ravnborg.org>,
+ Sumit Semwal <sumit.semwal@linaro.org>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Wed, Apr 6, 2022 at 9:01 AM Lucas Stach <l.stach@pengutronix.de> wrote:
->
-> Hi all,
->
-> this adds support for the HDMI output pipeline on the i.MX8MP.
-> It currently depends on the i.MX8MP HDMI power domain series [1]
-> and support for the new LCDIF [2] in the i.MX8MP. I guess the
-> implementation presented here also still has some warts that
-> require fixing and the individual patches most likely need to go
-> through different maintainer trees, so I don't expect this series
-> to be applied right away.
->
-> However this complete series should allow people to test it more
-> easily and provide feedback on the implementation with the full
-> picture available.
->
-> Compared to downstream this implementation actually allows to
-> power down the separate HDMI PHY power domain when the display
-> is inactive or no HDMI cable is connected.
->
-> Regards,
-> Lucas
->
-> [1] https://lore.kernel.org/all/20220406153402.1265474-1-l.stach@pengutronix.de/
-> [2] https://lore.kernel.org/all/20220322142853.125880-1-marex@denx.de/
->
-> Lucas Stach (10):
->   drm/bridge: dw-hdmi: add low-active PHY reset
->   dt-bindings: display: imx: add binding for i.MX8MP HDMI TX
->   drm/imx: add bridge wrapper driver for i.MX8MP DWC HDMI
->   dt-bindings: display: imx: add binding for i.MX8MP HDMI PVI
->   drm/imx: add driver for HDMI TX Parallel Video Interface
->   dt-bindings: phy: add binding for the i.MX8MP HDMI PHY
->   phy: freescale: add Samsung HDMI PHY
->   arm64: dts: imx8mp: add HDMI irqsteer
->   arm64: dts: imx8mp: add HDMI display pipeline
->   arm64: dts: imx8mp-evk: enable HDMI
->
->  .../display/imx/fsl,imx8mp-hdmi-pvi.yaml      |   83 ++
->  .../bindings/display/imx/fsl,imx8mp-hdmi.yaml |   72 ++
->  .../bindings/phy/fsl,imx8mp-hdmi-phy.yaml     |   62 +
->  arch/arm64/boot/dts/freescale/imx8mp-evk.dts  |   19 +
->  arch/arm64/boot/dts/freescale/imx8mp.dtsi     |   93 ++
->  drivers/gpu/drm/bridge/synopsys/dw-hdmi.c     |    7 +
->  drivers/gpu/drm/imx/Kconfig                   |    1 +
->  drivers/gpu/drm/imx/Makefile                  |    2 +
->  drivers/gpu/drm/imx/bridge/Kconfig            |   18 +
->  drivers/gpu/drm/imx/bridge/Makefile           |    4 +
->  drivers/gpu/drm/imx/bridge/imx-hdmi-pvi.c     |  209 +++
->  drivers/gpu/drm/imx/bridge/imx-hdmi.c         |  128 ++
->  drivers/phy/freescale/Kconfig                 |    7 +
->  drivers/phy/freescale/Makefile                |    1 +
->  drivers/phy/freescale/phy-fsl-samsung-hdmi.c  | 1145 +++++++++++++++++
->  include/drm/bridge/dw_hdmi.h                  |    1 +
->  16 files changed, 1852 insertions(+)
->  create mode 100644 Documentation/devicetree/bindings/display/imx/fsl,imx8mp-hdmi-pvi.yaml
->  create mode 100644 Documentation/devicetree/bindings/display/imx/fsl,imx8mp-hdmi.yaml
->  create mode 100644 Documentation/devicetree/bindings/phy/fsl,imx8mp-hdmi-phy.yaml
->  create mode 100644 drivers/gpu/drm/imx/bridge/Kconfig
->  create mode 100644 drivers/gpu/drm/imx/bridge/Makefile
->  create mode 100644 drivers/gpu/drm/imx/bridge/imx-hdmi-pvi.c
->  create mode 100644 drivers/gpu/drm/imx/bridge/imx-hdmi.c
->  create mode 100644 drivers/phy/freescale/phy-fsl-samsung-hdmi.c
->
-> --
-> 2.30.2
->
+On 2022-04-01 05:48:08, Joel Selvaraj wrote:
+> Add support for backlight. This panel supports backlight control
+> through the QCOM WLED driver in Xiaomi Poco F1 device.
+> 
+> Signed-off-by: Joel Selvaraj <jo@jsfamily.in>
 
-Lucas,
+Reviewed-by: Marijn Suijten <marijn.suijten@somainline.org>
 
-Thanks for consolidating this - It's been difficult to try to merge
-these for testing.
-
-I still have not been able to apply these to origin/master or
-imx/master - what are you basing off of here?
-
-Best Regards,
-
-Tim
-I
+> ---
+>  drivers/gpu/drm/panel/panel-novatek-nt36672a.c | 4 ++++
+>  1 file changed, 4 insertions(+)
+> 
+> diff --git a/drivers/gpu/drm/panel/panel-novatek-nt36672a.c b/drivers/gpu/drm/panel/panel-novatek-nt36672a.c
+> index 231f371901e8..6d6ce42787e2 100644
+> --- a/drivers/gpu/drm/panel/panel-novatek-nt36672a.c
+> +++ b/drivers/gpu/drm/panel/panel-novatek-nt36672a.c
+> @@ -628,6 +628,10 @@ static int nt36672a_panel_add(struct nt36672a_panel *pinfo)
+>  
+>  	drm_panel_init(&pinfo->base, dev, &panel_funcs, DRM_MODE_CONNECTOR_DSI);
+>  
+> +	ret = drm_panel_of_backlight(&pinfo->base);
+> +	if (ret)
+> +		return dev_err_probe(dev, ret, "Failed to get backlight\n");
+> +
+>  	drm_panel_add(&pinfo->base);
+>  
+>  	return 0;
+> -- 
+> 2.35.1
+> 
