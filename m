@@ -2,67 +2,61 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id BC2284F5A67
-	for <lists+dri-devel@lfdr.de>; Wed,  6 Apr 2022 12:04:13 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 284654F5A6A
+	for <lists+dri-devel@lfdr.de>; Wed,  6 Apr 2022 12:06:04 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 3364F10E60E;
-	Wed,  6 Apr 2022 10:04:11 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 7526510EA33;
+	Wed,  6 Apr 2022 10:06:00 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-wm1-x344.google.com (mail-wm1-x344.google.com
- [IPv6:2a00:1450:4864:20::344])
- by gabe.freedesktop.org (Postfix) with ESMTPS id CE7E510E60E
- for <dri-devel@lists.freedesktop.org>; Wed,  6 Apr 2022 10:04:09 +0000 (UTC)
-Received: by mail-wm1-x344.google.com with SMTP id
- n63-20020a1c2742000000b0038d0c31db6eso1291972wmn.1
- for <dri-devel@lists.freedesktop.org>; Wed, 06 Apr 2022 03:04:09 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ffwll.ch; s=google;
- h=date:from:to:cc:subject:message-id:mail-followup-to:references
- :mime-version:content-disposition:in-reply-to;
- bh=Gsn/KVUZ2ef93UgRqhOePHB9TxRguehEszYRtNa4ZMI=;
- b=NCWYdNcW45PTe6kKF0w+n8KY1aKTNCTcXWUn9Vd1Y+0HeE5v6VGX56SvDvtTWTcwvn
- foA/h57PkpDokJjifQ0W/rTHCw6AxOfDck6Yq/ES/yfX94n8dRjUnemTpjYP1qPqPEci
- fNfHE77j5zc+jbDIO9yC9EKgcCtmpjWmjQJ5M=
+Received: from mail-lj1-x232.google.com (mail-lj1-x232.google.com
+ [IPv6:2a00:1450:4864:20::232])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 3766810EA33
+ for <dri-devel@lists.freedesktop.org>; Wed,  6 Apr 2022 10:05:59 +0000 (UTC)
+Received: by mail-lj1-x232.google.com with SMTP id q14so2464129ljc.12
+ for <dri-devel@lists.freedesktop.org>; Wed, 06 Apr 2022 03:05:59 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=XCWdbxiqhWgKkOF44rX/3oEnHasSzOiNrgOg0mVvfWM=;
+ b=PErHMAJDRW5HOTkUwC6NoEhEvAPvYrAD/LaDrxIyWhah+z9mq5MK+fuAFD2lMhLrfF
+ tDMQt9g2z8EmrIzdo/qeETvptgCaWLkdu5b3apyDNgZi69oQYqpPq1HuBvwacPCjfKWJ
+ ESO4rQCVg918mWxT56GrSel1r1PFm7MsGnWgl9f2jBQGJbUdSqwQUcwfAK74qA2YZWQe
+ POXvSGQtsGJ7twkWvr+SDZpGWgxOh7blKHXXDN8O4/54gNuFYPSjA4adwOIUyBlzxC9C
+ RlWt9CI7d0hDyp5/+TwtJpaozT6BfTFL0RQy2fmwqGi7kineBZ5UVhUulMDCSJf44ED0
+ 5I4g==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=x-gm-message-state:date:from:to:cc:subject:message-id
- :mail-followup-to:references:mime-version:content-disposition
- :in-reply-to;
- bh=Gsn/KVUZ2ef93UgRqhOePHB9TxRguehEszYRtNa4ZMI=;
- b=3Ty5bxTXBbINB8oK8ekzPDJajWAZACr+U+K9edMhszZTv2j5JKPbGU38ps32RpK9SJ
- GIoIMB+gi39shGRUSpFuzVuPQEPnU6MJkiYi5NrsDu7LmAVjzuBd6b0+IIaqi5SsGsPP
- QKDZqj+MhlMo5G+6aUpTwjP35WyoRP2xutQUaPseqpcuFel5DS8bs8/ic9+5JAghxv5f
- UrN/N5vM9/O4bp/TsSukYQIyAtT70z565UwXlFKXjQNT/WlIW9O3fxO0ZFv0qer1X6W+
- yXMP41ZtT56RX2qZptKdBXwyp9sRXsJM44W6ZaU9q2Mh5MwWOTv5wvc1Gh/jIxK2H03V
- 6/Og==
-X-Gm-Message-State: AOAM5327LYa/E1LR0vj0KAFXRn1pLySx6HwK9u/xkfLi+2bGol5yMXFo
- 218ftl9KYDmG0ZfcBpbMWnhv4w==
-X-Google-Smtp-Source: ABdhPJxpJ2B8ipfnst6KF5vUfg2vrUjZLgS+eJ7m2geRcChNtFKQ+Ox79lRxUALgsfwgkDOKI1RUvQ==
-X-Received: by 2002:a05:600c:a47:b0:37c:965:2b6f with SMTP id
- c7-20020a05600c0a4700b0037c09652b6fmr6743785wmq.31.1649239448406; 
- Wed, 06 Apr 2022 03:04:08 -0700 (PDT)
-Received: from phenom.ffwll.local ([2a02:168:57f4:0:efd0:b9e5:5ae6:c2fa])
- by smtp.gmail.com with ESMTPSA id
- bk1-20020a0560001d8100b002061d6bdfd0sm5286345wrb.63.2022.04.06.03.04.07
+ h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=XCWdbxiqhWgKkOF44rX/3oEnHasSzOiNrgOg0mVvfWM=;
+ b=PbT3YL1axBf+9dLB5kWsKFqJWrrsKZBhj6Za9TMfZn/aCew3IptiQRpsJDLgx/VypD
+ xjhhBwkTYHJy9k0BEhqb93fqSV8hTT2wJ1gKO5jmH/sget+UJpq5IjGwJk7O70yrDDwc
+ uFCPhlDqpBI9Q04Ov4Tdrhcwk0TZcZulVP8YrIBBOGzTkXzqAZzC8Ez0cXB6ayt+E5ns
+ YrIpDr1oAQ0updJqoZnaE8MKOqH2gbFqVXA8n9W9rMq5rNfr2OkSTmfKhaPRvR7j9wK7
+ yudl+OI+o8QWhFh4RX5AXdfh3HSgsvaXxDRjvbeAX6FpTAaT8Zc6xfiLm6XlcYH5Jq9q
+ DwMw==
+X-Gm-Message-State: AOAM531WQ8uZvISmyK9e9mOXh8uG8sZBiNz72x2VeLcf60YcpfL71Yb9
+ K/EWj3RMWjw2+GHgVovQ7/Q2Rw==
+X-Google-Smtp-Source: ABdhPJzOjExWlVixKSZzVytPS7T3PEAEBrY0I2KinkWqM7gyqg5XvIgjZWTSDopUr9ujNzagA8HVyg==
+X-Received: by 2002:a2e:96d1:0:b0:24a:c2b6:734 with SMTP id
+ d17-20020a2e96d1000000b0024ac2b60734mr4781083ljj.144.1649239557469; 
+ Wed, 06 Apr 2022 03:05:57 -0700 (PDT)
+Received: from eriador.lan ([37.153.55.125]) by smtp.gmail.com with ESMTPSA id
+ d17-20020a194f11000000b0044a30825a6fsm1788375lfb.42.2022.04.06.03.05.56
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 06 Apr 2022 03:04:08 -0700 (PDT)
-Date: Wed, 6 Apr 2022 12:04:06 +0200
-From: Daniel Vetter <daniel@ffwll.ch>
-To: Sui Jingfeng <15330273260@189.cn>
-Subject: Re: [PATCH] drm/drm_modeset_helper_vtables.h: fix a typo
-Message-ID: <Yk1llmSuQEmtCk1Y@phenom.ffwll.local>
-Mail-Followup-To: Sui Jingfeng <15330273260@189.cn>,
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Maxime Ripard <mripard@kernel.org>,
- Thomas Zimmermann <tzimmermann@suse.de>,
- David Airlie <airlied@linux.ie>, dri-devel@lists.freedesktop.org,
- linux-kernel@vger.kernel.org
-References: <20220406073036.276288-1-15330273260@189.cn>
+ Wed, 06 Apr 2022 03:05:57 -0700 (PDT)
+From: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
+To: Bjorn Andersson <bjorn.andersson@linaro.org>,
+ Rob Clark <robdclark@gmail.com>, Sean Paul <sean@poorly.run>,
+ Abhinav Kumar <quic_abhinavk@quicinc.com>
+Subject: [PATCH v2] drm/msm: remove unused plane_property field from
+ msm_drm_private
+Date: Wed,  6 Apr 2022 13:05:56 +0300
+Message-Id: <20220406100556.479706-1-dmitry.baryshkov@linaro.org>
+X-Mailer: git-send-email 2.35.1
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20220406073036.276288-1-15330273260@189.cn>
-X-Operating-System: Linux phenom 5.10.0-8-amd64 
+Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -75,41 +69,53 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Thomas Zimmermann <tzimmermann@suse.de>, David Airlie <airlied@linux.ie>,
- linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org
+Cc: David Airlie <airlied@linux.ie>, linux-arm-msm@vger.kernel.org,
+ dri-devel@lists.freedesktop.org, Stephen Boyd <swboyd@chromium.org>,
+ freedreno@lists.freedesktop.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Wed, Apr 06, 2022 at 03:30:36PM +0800, Sui Jingfeng wrote:
->  change upate to update
-> 
-> Signed-off-by: Sui Jingfeng <15330273260@189.cn>
+Remove unused field plane_property from struct msm_drm_private. Also
+drop the enum msm_mdp_plane_property which also becomes unused.
 
-Applied to drm-misc-next, thanks for the patch.
--Daniel
+Fixes: 7d36db0be3b9 ("drm/msm/mdp5: switch to standard zpos property")
+Signed-off-by: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
+---
 
-> ---
->  include/drm/drm_modeset_helper_vtables.h | 2 +-
->  1 file changed, 1 insertion(+), 1 deletion(-)
-> 
-> diff --git a/include/drm/drm_modeset_helper_vtables.h b/include/drm/drm_modeset_helper_vtables.h
-> index fdfa9f37ce05..fafa70ac1337 100644
-> --- a/include/drm/drm_modeset_helper_vtables.h
-> +++ b/include/drm/drm_modeset_helper_vtables.h
-> @@ -1384,7 +1384,7 @@ struct drm_mode_config_helper_funcs {
->  	 * starting to commit the update to the hardware.
->  	 *
->  	 * After the atomic update is committed to the hardware this hook needs
-> -	 * to call drm_atomic_helper_commit_hw_done(). Then wait for the upate
-> +	 * to call drm_atomic_helper_commit_hw_done(). Then wait for the update
->  	 * to be executed by the hardware, for example using
->  	 * drm_atomic_helper_wait_for_vblanks() or
->  	 * drm_atomic_helper_wait_for_flip_done(), and then clean up the old
-> -- 
-> 2.25.1
-> 
+Changes since v1: also drop enum msm_mdp_plane_property
 
+---
+ drivers/gpu/drm/msm/msm_drv.h | 10 ----------
+ 1 file changed, 10 deletions(-)
+
+diff --git a/drivers/gpu/drm/msm/msm_drv.h b/drivers/gpu/drm/msm/msm_drv.h
+index ee3093890d97..a34e44968558 100644
+--- a/drivers/gpu/drm/msm/msm_drv.h
++++ b/drivers/gpu/drm/msm/msm_drv.h
+@@ -53,13 +53,6 @@ struct msm_disp_state;
+ 
+ #define FRAC_16_16(mult, div)    (((mult) << 16) / (div))
+ 
+-enum msm_mdp_plane_property {
+-	PLANE_PROP_ZPOS,
+-	PLANE_PROP_ALPHA,
+-	PLANE_PROP_PREMULTIPLIED,
+-	PLANE_PROP_MAX_NUM
+-};
+-
+ enum msm_dp_controller {
+ 	MSM_DP_CONTROLLER_0,
+ 	MSM_DP_CONTROLLER_1,
+@@ -192,9 +185,6 @@ struct msm_drm_private {
+ 	unsigned int num_bridges;
+ 	struct drm_bridge *bridges[MAX_BRIDGES];
+ 
+-	/* Properties */
+-	struct drm_property *plane_property[PLANE_PROP_MAX_NUM];
+-
+ 	/* VRAM carveout, used when no IOMMU: */
+ 	struct {
+ 		unsigned long size;
 -- 
-Daniel Vetter
-Software Engineer, Intel Corporation
-http://blog.ffwll.ch
+2.35.1
+
