@@ -1,63 +1,62 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 53F2E4F5E5D
-	for <lists+dri-devel@lfdr.de>; Wed,  6 Apr 2022 14:47:49 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 526964F5E60
+	for <lists+dri-devel@lfdr.de>; Wed,  6 Apr 2022 14:48:42 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 5608C10EC3A;
-	Wed,  6 Apr 2022 12:47:47 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 66BB210E26E;
+	Wed,  6 Apr 2022 12:48:40 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from mail-ej1-x643.google.com (mail-ej1-x643.google.com
  [IPv6:2a00:1450:4864:20::643])
- by gabe.freedesktop.org (Postfix) with ESMTPS id CF6D010EC3A
- for <dri-devel@lists.freedesktop.org>; Wed,  6 Apr 2022 12:47:45 +0000 (UTC)
-Received: by mail-ej1-x643.google.com with SMTP id l26so4072855ejx.1
- for <dri-devel@lists.freedesktop.org>; Wed, 06 Apr 2022 05:47:45 -0700 (PDT)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 5ED6510E21E
+ for <dri-devel@lists.freedesktop.org>; Wed,  6 Apr 2022 12:48:39 +0000 (UTC)
+Received: by mail-ej1-x643.google.com with SMTP id bq8so3990738ejb.10
+ for <dri-devel@lists.freedesktop.org>; Wed, 06 Apr 2022 05:48:39 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ffwll.ch; s=google;
  h=date:from:to:cc:subject:message-id:references:mime-version
  :content-disposition:content-transfer-encoding:in-reply-to;
- bh=y8bPqel3ouGR/I60k5zZQFZK4ZbAX5R9rEUcGjAA9U8=;
- b=irVZwy/8aWeLmnpSqmiuC05P+LEvhyCKWRm+0ZOL5PjAw7UvMdtm+XfUaVq+6/inDi
- jMmOmoe+s1nIiAHFCK30O3jZ+ebEz+SN01Jgue4iKxKeHf8Pl438zGaOvlVuzSXayacV
- fGenwC3WxFXjhw+dLdtR/b2bLqXLGO7xCalzA=
+ bh=XLbDeRdIqcHBTN8y8yOmAb/E868VYxGtotM6kj18Wk8=;
+ b=bMj3MxQRDIdDiCAx9hA2dWVp6FsFnvhvj8xQdp4Ww/5l3cZpeOH22jRDdU6cPFguRM
+ oNdzDRQoQvnVXiDHw/B6lo3ma75T4U1MSUED4LGjKe1CNP2lHkaoi0mVQdTY90kwF5DW
+ iuQEzvCgNtmHpy8HdC2p+R0/hsgb2YTBBcnCk=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:date:from:to:cc:subject:message-id:references
  :mime-version:content-disposition:content-transfer-encoding
  :in-reply-to;
- bh=y8bPqel3ouGR/I60k5zZQFZK4ZbAX5R9rEUcGjAA9U8=;
- b=qm6Gg2BK60DxxgzJEEwKZO6npHZ+x26NTPO+n4meYDA5iEfl+Urk/j8fMV7nWBT6sg
- UEQH4rH150uwnv13Zz5Q4HkI+LOAzV29Wua4jDtUC7KV3qzCG3BDIgIT0xlIadxNUfeo
- JLAOrY7vcvt/O9PT+BRsTRtd4l17+vfTvSKC9Sc3JZnZG/+lnR35Qh4rRb5AzC3zLqaL
- EKAMqSqD+xSpkFizHOey8mBazzBrV8HkRUfQ3L2b7p/wzibl4C1L1YxLfdaSQXczLwVP
- GGfPAFWAJbhr42P7TTCp3CkL/glbN34tF+Tw9TJZN7YO2QbFzIl4saeZHXa9ascrubpG
- 3slQ==
-X-Gm-Message-State: AOAM532/RPkh4rmw4CQQk09/dgJ0N8CQaCzN4KHb3rmNVOaJSMeS655Y
- 55MF6SPRD2PHVtznhEl0zGzeLOIKMSmhxaEhRTg=
-X-Google-Smtp-Source: ABdhPJyiwBxZZCdR3lrN3TgjHcVGI+0MYC9d940g1zpt/300SoFO/rCJsqMUpCar8VLfxl208c2ebA==
-X-Received: by 2002:a17:906:d54e:b0:6db:b241:c0e2 with SMTP id
- cr14-20020a170906d54e00b006dbb241c0e2mr8006110ejc.724.1649249264404; 
- Wed, 06 Apr 2022 05:47:44 -0700 (PDT)
+ bh=XLbDeRdIqcHBTN8y8yOmAb/E868VYxGtotM6kj18Wk8=;
+ b=F4k+tWJAOTHBupoOsxkHgna6+OTgFqxWStaFaOW0K4tSfJHzRSFE5gZCQM6VUZfplY
+ 7kh37TNnuIcJYv4ofhLQfBtuhcdoENYOq14nfaw4ON6/HyGgxyrbiGk7092n8shISlKr
+ fzhPbRgsCBWDqL01p4ilRlTNTxnS0Q6iCdm1h7rkHOEnewSow2a2+K5eGIB1UEU/CbHb
+ AJSPmouk9isB7jhNf/mXRm8MNR47eJMTredHr1R3NUlztYYYYF9jR64R03xLDD9IO7/l
+ o9TK/qF/oHcevchGZG0AprJ8GTtR3eDs9MIsxb0pdkQMpo+kchv4Ed5p3CDq9/4k9M/f
+ RL0g==
+X-Gm-Message-State: AOAM533pX/kpu+2xuy7ooD4cE5+6BCEY96ZsQKDDhU+mQUeccwJKCHzD
+ OZtBlR6RsPXIoft86SDs3I29qA==
+X-Google-Smtp-Source: ABdhPJzSxs/wc9qTXoleIg7jUBaFLpTMcykIG5F0hcYEhkpbGNPt0hr90ej/yYaCI7pB9AYbon9Rwg==
+X-Received: by 2002:a17:906:66d5:b0:6e0:5ba8:8e0f with SMTP id
+ k21-20020a17090666d500b006e05ba88e0fmr7850947ejp.581.1649249317987; 
+ Wed, 06 Apr 2022 05:48:37 -0700 (PDT)
 Received: from phenom.ffwll.local ([2a02:168:57f4:0:efd0:b9e5:5ae6:c2fa])
  by smtp.gmail.com with ESMTPSA id
- kx5-20020a170907774500b006e1382b8192sm6647708ejc.147.2022.04.06.05.47.43
+ o3-20020aa7c7c3000000b00410d407da2esm7586346eds.13.2022.04.06.05.48.37
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 06 Apr 2022 05:47:43 -0700 (PDT)
-Date: Wed, 6 Apr 2022 14:47:42 +0200
+ Wed, 06 Apr 2022 05:48:37 -0700 (PDT)
+Date: Wed, 6 Apr 2022 14:48:35 +0200
 From: Daniel Vetter <daniel@ffwll.ch>
 To: DMA-resvusage@phenom.ffwll.local
-Subject: Re: [PATCH 09/16] drm/nouveau: only wait for kernel fences in
- nouveau_bo_vm_cleanup
-Message-ID: <Yk2L7oW/ypvwtF7I@phenom.ffwll.local>
+Subject: Re: [PATCH 10/16] RDMA: use DMA_RESV_USAGE_KERNEL
+Message-ID: <Yk2MI3ZKA1Is973w@phenom.ffwll.local>
 References: <20220406075132.3263-1-christian.koenig@amd.com>
- <20220406075132.3263-10-christian.koenig@amd.com>
+ <20220406075132.3263-11-christian.koenig@amd.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=iso-8859-1
 Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
-In-Reply-To: <20220406075132.3263-10-christian.koenig@amd.com>
+In-Reply-To: <20220406075132.3263-11-christian.koenig@amd.com>
 X-Operating-System: Linux phenom 5.10.0-8-amd64 
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -77,35 +76,33 @@ Cc: daniel.vetter@ffwll.ch,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Wed, Apr 06, 2022 at 09:51:25AM +0200, Christian König wrote:
-> Don't wait for user space submissions. I'm not 100% sure if that is
-> correct, but it seems to match what the code initially intended.
+On Wed, Apr 06, 2022 at 09:51:26AM +0200, Christian König wrote:
+> We only need to wait for kernel submissions here.
 > 
 > Signed-off-by: Christian König <christian.koenig@amd.com>
 
-I'll let nouveau folks review/test this one.
--Daniel
+I think we had an implied ack from Jason on this one. Not quite enough cc
+to regrab it.
+
+Reviewed-by: Daniel Vetter <daniel.vetter@ffwll.ch>
+
 > ---
->  drivers/gpu/drm/nouveau/nouveau_bo.c | 4 ++--
->  1 file changed, 2 insertions(+), 2 deletions(-)
+>  drivers/infiniband/core/umem_dmabuf.c | 2 +-
+>  1 file changed, 1 insertion(+), 1 deletion(-)
 > 
-> diff --git a/drivers/gpu/drm/nouveau/nouveau_bo.c b/drivers/gpu/drm/nouveau/nouveau_bo.c
-> index 05076e530e7d..13deb6c70ba6 100644
-> --- a/drivers/gpu/drm/nouveau/nouveau_bo.c
-> +++ b/drivers/gpu/drm/nouveau/nouveau_bo.c
-> @@ -962,10 +962,10 @@ nouveau_bo_vm_cleanup(struct ttm_buffer_object *bo,
->  	struct dma_fence *fence;
->  	int ret;
->  
-> -	ret = dma_resv_get_singleton(bo->base.resv, DMA_RESV_USAGE_WRITE,
-> +	ret = dma_resv_get_singleton(bo->base.resv, DMA_RESV_USAGE_KERNEL,
->  				     &fence);
->  	if (ret)
-> -		dma_resv_wait_timeout(bo->base.resv, DMA_RESV_USAGE_WRITE,
-> +		dma_resv_wait_timeout(bo->base.resv, DMA_RESV_USAGE_KERNEL,
->  				      false, MAX_SCHEDULE_TIMEOUT);
->  
->  	nv10_bo_put_tile_region(dev, *old_tile, fence);
+> diff --git a/drivers/infiniband/core/umem_dmabuf.c b/drivers/infiniband/core/umem_dmabuf.c
+> index f9901d273b8e..fce80a4a5147 100644
+> --- a/drivers/infiniband/core/umem_dmabuf.c
+> +++ b/drivers/infiniband/core/umem_dmabuf.c
+> @@ -68,7 +68,7 @@ int ib_umem_dmabuf_map_pages(struct ib_umem_dmabuf *umem_dmabuf)
+>  	 * the migration.
+>  	 */
+>  	return dma_resv_wait_timeout(umem_dmabuf->attach->dmabuf->resv,
+> -				     DMA_RESV_USAGE_WRITE,
+> +				     DMA_RESV_USAGE_KERNEL,
+>  				     false, MAX_SCHEDULE_TIMEOUT);
+>  }
+>  EXPORT_SYMBOL(ib_umem_dmabuf_map_pages);
 > -- 
 > 2.25.1
 > 
