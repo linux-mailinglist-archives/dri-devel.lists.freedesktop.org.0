@@ -2,42 +2,50 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 40F4C4F4E3C
-	for <lists+dri-devel@lfdr.de>; Wed,  6 Apr 2022 03:43:25 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id AF6FF4F4E49
+	for <lists+dri-devel@lfdr.de>; Wed,  6 Apr 2022 03:43:56 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 78A0610E0F7;
-	Wed,  6 Apr 2022 01:43:21 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 7F00510E18F;
+	Wed,  6 Apr 2022 01:43:54 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from phobos.denx.de (phobos.denx.de [85.214.62.61])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 9DF5C10E0F7
- for <dri-devel@lists.freedesktop.org>; Wed,  6 Apr 2022 01:43:20 +0000 (UTC)
-Received: from tr.lan (ip-89-176-112-137.net.upcbroadband.cz [89.176.112.137])
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits))
- (No client certificate requested)
- (Authenticated sender: marex@denx.de)
- by phobos.denx.de (Postfix) with ESMTPSA id 07D1783608;
- Wed,  6 Apr 2022 03:43:06 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=denx.de;
- s=phobos-20191101; t=1649209398;
- bh=TLmnBzjX2gXdl2W7zyE1J/LlowQLvpYiOzm48fDtAs0=;
- h=From:To:Cc:Subject:Date:From;
- b=gnRqxb445Qk4kHp+n10DdPBCZAT89SqZPV77yunkkfeQ+039D5vXCwU9ZlxXsrpbC
- yflZUV4E2MhOZTmjBqqJAOg5wTP3JPJz5LQiGJ9y2wWyS1w/eX/poXXB6n8zQReqar
- WCHTuR4FYEKJW1Po9y1T4e0B0QmnNHwPY3TLFVWKef3Gm5YxnIaszl0qpTh73WskaK
- atU0zfvvZvI6dXD5K2nuuBVFb79Cp9R1aM4Q2FU9wvMoEAFdUX3RlEjzOm7XuEYWub
- 599HdftDk3sJBTCI0KjjG+TSzrMWSihclhpTC0fKWnYgunNtU5/i2hbwCOS1fTt311
- A3AtOZZR1nBuQ==
-From: Marek Vasut <marex@denx.de>
-To: dri-devel@lists.freedesktop.org
-Subject: [PATCH] drm: bridge: icn6211: Mark module exit callback with __exit
-Date: Wed,  6 Apr 2022 03:42:50 +0200
-Message-Id: <20220406014250.902187-1-marex@denx.de>
-X-Mailer: git-send-email 2.35.1
+Received: from mail-m17637.qiye.163.com (mail-m17637.qiye.163.com
+ [59.111.176.37])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 173FE10E18F
+ for <dri-devel@lists.freedesktop.org>; Wed,  6 Apr 2022 01:43:53 +0000 (UTC)
+Received: from [172.16.12.141] (unknown [58.22.7.114])
+ by mail-m17637.qiye.163.com (Hmail) with ESMTPA id 881C3980594;
+ Wed,  6 Apr 2022 09:43:50 +0800 (CST)
+Message-ID: <93001a4c-b009-202f-7b04-34e1a9e617ec@rock-chips.com>
+Date: Wed, 6 Apr 2022 09:43:49 +0800
 MIME-Version: 1.0
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.7.0
+Subject: Re: [PATCH v9 20/23] drm/rockchip: Make VOP driver optional
+Content-Language: en-US
+To: Sascha Hauer <s.hauer@pengutronix.de>
+References: <20220328151116.2034635-21-s.hauer@pengutronix.de>
+ <274a12a9-61f1-7d6a-e89c-52237621930b@rock-chips.com>
+ <20220330063913.GW12181@pengutronix.de>
+ <9619ce71-db59-d6cd-c254-2b67122fa245@rock-chips.com>
+ <20220331070614.GD4012@pengutronix.de>
+ <eebd2731-f18b-af1c-b0b9-09df669f5a3c@rock-chips.com>
+ <20220331081815.GF4012@pengutronix.de>
+ <8aa9da47-d7ed-41bf-384c-103757c19fe2@rock-chips.com>
+ <20220401125527.GM4012@pengutronix.de>
+ <7b2630d8-0575-5d65-dd81-3ef336ad5ba7@rock-chips.com>
+ <20220405090509.GP4012@pengutronix.de>
+From: Andy Yan <andy.yan@rock-chips.com>
+In-Reply-To: <20220405090509.GP4012@pengutronix.de>
+Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 8bit
-X-Virus-Scanned: clamav-milter 0.103.5 at phobos.denx.de
-X-Virus-Status: Clean
+X-HM-Spam-Status: e1kfGhgUHx5ZQUtXWQgPGg8OCBgUHx5ZQUlOS1dZCBgUCR5ZQVlLVUtZV1
+ kWDxoPAgseWUFZKDYvK1lXWShZQUlKS0tKN1dZLVlBSVdZDwkaFQgSH1lBWUNPH0xWSk1OHR0eSU
+ 8ZTR1JVRMBExYaEhckFA4PWVdZFhoPEhUdFFlBWU9LSFVKSktISkNVS1kG
+X-HM-Sender-Digest: e1kMHhlZQR0aFwgeV1kSHx4VD1lBWUc6MVE6Cgw*Hj5OHUsKMRYvCFYu
+ MClPFBpVSlVKTU9CSUtCT0hKSkJJVTMWGhIXVRoVHwJVAhoVOwkUGBBWGBMSCwhVGBQWRVlXWRIL
+ WUFZTkNVSUlVTFVKSk9ZV1kIAVlBSktJTEw3Bg++
+X-HM-Tid: 0a7ffc8ad35ad992kuws881c3980594
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -50,43 +58,189 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Marek Vasut <marex@denx.de>, Stephen Rothwell <sfr@canb.auug.org.au>,
- robert.foss@linaro.org, Jagan Teki <jagan@amarulasolutions.com>,
- Thomas Zimmermann <tzimmermann@suse.de>, Sam Ravnborg <sam@ravnborg.org>,
- Maxime Ripard <maxime@cerno.tech>
+Cc: devicetree@vger.kernel.org,
+ Benjamin Gaignard <benjamin.gaignard@collabora.com>,
+ Sandy Huang <hjc@rock-chips.com>, dri-devel@lists.freedesktop.org,
+ Kever Yang <Kever.yang@rock-chips.com>, linux-rockchip@lists.infradead.org,
+ Michael Riesch <michael.riesch@wolfvision.net>, kernel@pengutronix.de,
+ Peter Geis <pgwipeout@gmail.com>, linux-arm-kernel@lists.infradead.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Fix copy-paste error, module exit function should be marked with __exit
-instead of __init.
+Hi Sacha:
 
-Fixes: 8dde6f7452a1 ("drm: bridge: icn6211: Add I2C configuration support")
-Reported-by: Stephen Rothwell <sfr@canb.auug.org.au>
-Signed-off-by: Marek Vasut <marex@denx.de>
-Cc: Jagan Teki <jagan@amarulasolutions.com>
-Cc: Maxime Ripard <maxime@cerno.tech>
-Cc: Robert Foss <robert.foss@linaro.org>
-Cc: Sam Ravnborg <sam@ravnborg.org>
-Cc: Stephen Rothwell <sfr@canb.auug.org.au>
-Cc: Thomas Zimmermann <tzimmermann@suse.de>
-To: dri-devel@lists.freedesktop.org
----
- drivers/gpu/drm/bridge/chipone-icn6211.c | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+On 4/5/22 17:05, Sascha Hauer wrote:
+> On Sat, Apr 02, 2022 at 09:25:33AM +0800, Andy Yan wrote:
+>> Hi Sascha:
+>>
+>> On 4/1/22 20:55, Sascha Hauer wrote:
+>>> On Thu, Mar 31, 2022 at 07:00:34PM +0800, Andy Yan wrote:
+>>>> Hi:
+>>>>
+>>>> On 3/31/22 16:18, Sascha Hauer wrote:
+>>>>> On Thu, Mar 31, 2022 at 03:20:37PM +0800, Andy Yan wrote:
+>>>>>> Hi Sascha:
+>>>>>>
+>>>>>> On 3/31/22 15:06, Sascha Hauer wrote:
+>>>>>>> On Wed, Mar 30, 2022 at 08:50:09PM +0800, Andy Yan wrote:
+>>>>>>>> Hi Sascha:
+>>>>>>>>
+>>>>>>>> On 3/30/22 14:39, Sascha Hauer wrote:
+>>>>>>>>> Hi Andy,
+>>>>>>>>>
+>>>>>>>>> On Tue, Mar 29, 2022 at 07:56:27PM +0800, Andy Yan wrote:
+>>>>>>>>>> Hi Sascha:
+>>>>>>>>>>
+>>>>>>>>>> On 3/28/22 23:11, Sascha Hauer wrote:
+>>>>>>>>>>> With upcoming VOP2 support VOP won't be the only choice anymore, so make
+>>>>>>>>>>> the VOP driver optional.
+>>>>>>>>>>>
+>>>>>>>>>>> Signed-off-by: Sascha Hauer <s.hauer@pengutronix.de>
+>>>>>>>>>>> ---
+>>>>>>>>>>>        drivers/gpu/drm/rockchip/Kconfig            | 8 ++++++++
+>>>>>>>>>>>        drivers/gpu/drm/rockchip/Makefile           | 3 ++-
+>>>>>>>>>>>        drivers/gpu/drm/rockchip/rockchip_drm_drv.c | 2 +-
+>>>>>>>>>>>        3 files changed, 11 insertions(+), 2 deletions(-)
+>>>>>>>>>>>
+>>>>>>>>>>> diff --git a/drivers/gpu/drm/rockchip/Kconfig b/drivers/gpu/drm/rockchip/Kconfig
+>>>>>>>>>>> index fa5cfda4e90e3..7d22e2997a571 100644
+>>>>>>>>>>> --- a/drivers/gpu/drm/rockchip/Kconfig
+>>>>>>>>>>> +++ b/drivers/gpu/drm/rockchip/Kconfig
+>>>>>>>>>>> @@ -23,8 +23,16 @@ config DRM_ROCKCHIP
+>>>>>>>>>>>        if DRM_ROCKCHIP
+>>>>>>>>>>> +config ROCKCHIP_VOP
+>>>>>>>>>>> +	bool "Rockchip VOP driver"
+>>>>>>>>>>> +	default y
+>>>>>>>>>>> +	help
+>>>>>>>>>>> +	  This selects support for the VOP driver. You should enable it
+>>>>>>>>>>> +	  on all older SoCs up to RK3399.
+>>>>>>>>> That reminds me that I wanted to rephrase this. Will change in next
+>>>>>>>>> round.
+>>>>>>>>>
+>>>>>>>>>>> +
+>>>>>>>>>>>        config ROCKCHIP_ANALOGIX_DP
+>>>>>>>>>>>        	bool "Rockchip specific extensions for Analogix DP driver"
+>>>>>>>>>>> +	depends on ROCKCHIP_VOP
+>>>>>>>>>> Aanlogix dp is also on vop2 base soc such as  rk356x and rk3588.
+>>>>>>> BTW I just looked at the downstream driver. Here we have the same
+>>>>>>> situation that the analogix dp driver calls rockchip_drm_wait_vact_end()
+>>>>>>> which is implemented in the VOP driver, so when the analogix dp driver
+>>>>>>> is actually used on a VOP2 SoC then it is either used in a way that
+>>>>>>> rockchip_drm_wait_vact_end() will never be called or it explodes in all
+>>>>>>> colours.
+>>>>>>>
+>>>>>>>>> I added the dependency because analogix_dp-rockchip.c calls
+>>>>>>>>> rockchip_drm_wait_vact_end() which is implemented in the VOP driver,
+>>>>>>>>> so this driver currenty can't work with the VOP2 driver and can't
+>>>>>>>>> be linked without the VOP driver being present.
+>>>>>>>>> I'll add a few words to the commit message.
+>>>>>>>> Maybe a better direction is move rockchip_drm_wait_vact_end from the VOP
+>>>>>>>> driver to rockchip_drm_drv.c
+>>>>>>> I am not sure if that's really worth it. Yes, the direction might be the
+>>>>>>> right one, but I would really prefer when somebody does the change who
+>>>>>>> can test and confirm that the analogix dp really works with VOP2 in the
+>>>>>>> end.
+>>>>>> If follow this point, the current DW_MIPI also has not been tested for
+>>>>>> confirm that it
+>>>>>>
+>>>>>> can really work with VOP2, so you should also make it depends on
+>>>>>> ROCKCHIP_VOP.
+> Here you are suggesting to add even more Kconfig dependencies.
+>
+>>>>> Well at least I have patches here which make DW_MIPI work with VOP2 ;)
+>>>> But you DW_MIPI patches for rk356x didn't come. So this is not keep
+>>>> consistency with this point.
+>>>>
+>>>>> What about the others, like LVDS and RGB?
+>>>> Yes, we also have other interface , RK356X has LVDS/RGB/BT1120/BT656, RK3588
+>>>> has BT1120/BT656, no LVDS or RGB.
+>>>>
+>>>>>> I think the current solution is just a workaround to make your patch pass
+>>>>>> the kernel compile
+>>>>> Indeed.
+>>>>>
+>>>>> I agree that it would be good to add a note somewhere which outputs
+>>>>> work with the VOP2 driver (currently only HDMI), but I wonder if Kconfig
+>>>>> dependencies is the right place for it, because only people who deliberately
+>>>>> disable VOP support will see this information.
+>>>>> Maybe we should rather add it to the Kconfig help text?
+>>>> If a device is supported for this soc, we will add dt node at the dtsi file.
+>>>>
+>>>> A Kconfig dependencies don't seems a good idea.
+> Here you say Kconfig dependencies are no good idea.
 
-diff --git a/drivers/gpu/drm/bridge/chipone-icn6211.c b/drivers/gpu/drm/bridge/chipone-icn6211.c
-index c4d2f6d811bf1..b9cc0fac26686 100644
---- a/drivers/gpu/drm/bridge/chipone-icn6211.c
-+++ b/drivers/gpu/drm/bridge/chipone-icn6211.c
-@@ -787,7 +787,7 @@ static int __init chipone_init(void)
- }
- module_init(chipone_init);
- 
--static void __init chipone_exit(void)
-+static void __exit chipone_exit(void)
- {
- 	i2c_del_driver(&chipone_i2c_driver);
- 
--- 
-2.35.1
 
+Yes. It's not a good idea. So I don't want to see you use a Kcofig 
+dependence
+
+to disable a module to avoid compile which introduced by your patch.
+
+>
+>>> Ok, this means we can keep my current approach with just letting
+>>> ROCKCHIP_ANALOGIX_DP depend on ROCKCHIP_VOP to avoid having a non
+>> Excuse me? How do you get this conclusion ?
+> Given that you say that you want to have both more and less Kconfig
+> dependencies I came to the conclusion that I only add one where it's
+> necessary to compile the driver.
+>
+>> I said before,  vop and vop2 based platforms both have ROCKCHIP_ANALOGIX_DP.
+> Maybe, but vop2 with ROCKCHIP_ANALOGIX_DP doesn't even work in the
+> Rockchip downstream kernel, so I wonder how relevant this usecase really
+> is.
+
+
+No, this is not the truth. Rockchip_ANALOGIX_DP of course work with the
+
+vendor kernel. We have many rk356x based products shipped with edp.
+
+Even the VGA output interface on RK3568_EVB1 is drived by
+
+ROCKCHIP_ANALOGIX_DP with a RTD2166 eDP to VGA convert
+
+chip.
+
+
+So how do you get conclusion that ROCKCHIP_ANALOGIX_DP can't work with
+
+the Rockchip downstream kernel? Is it because you can't make the DP work on
+
+your board? If it is, please contact the supplier who gave you the board.
+
+
+Do you have a RK3568_EVB1 that has a VGA output interface on board?
+
+If you have it, I can offer you image to verify the DP.
+
+
+>> If this patch will cause the compile error, please do a real fix, not a
+> I can't, because I don't have any hardware to test the Analogix DP on a
+> VOP hardware, and given that Analogix DP in conjunction with VOP2 hardware is
+> not even supported in the downstream Kernel I am not sure if it's really
+> worth doing that.
+
+
+Again, this is not the truth, see above.
+
+I am not ask you support the ROCKCHIP_ANALOGIX_DP on upstream, I just
+
+want you can give a better solution when you patch cause the compile error.
+
+Disable a module when it conflict with your patch is too rough.
+
+>
+> Moving rockchip_drm_wait_vact_end() to rockchip_drm_drv.c doesn't work
+> with mainline currently, we first would have to add a struct crtc_funcs
+> to struct rockchip_drm_private. Yes, that could be done.
+>
+>> workaround that may deliver misleading information.
+> The Kconfig dependency quite clearly says that the Analogix DP currently
+> doesn't work with the VOP2. Anyone who wants to change that can use that
+> information as a starting point and implement whatever is necessary and
+> likely has the hardware to verify the work. I don't want to solve
+> problems that *might* arise in the future, and in this case it's not a
+> direction decision that we might regret in the future.
+>
+> Sascha
+>
+>
+>
