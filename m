@@ -2,49 +2,44 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1F5784F4CC4
-	for <lists+dri-devel@lfdr.de>; Wed,  6 Apr 2022 03:21:09 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 59EAB4F4D11
+	for <lists+dri-devel@lfdr.de>; Wed,  6 Apr 2022 03:24:04 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 88BDA10ECDD;
-	Wed,  6 Apr 2022 01:21:03 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 5127510ECCC;
+	Wed,  6 Apr 2022 01:24:02 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mailgw02.mediatek.com (unknown [210.61.82.184])
- by gabe.freedesktop.org (Postfix) with ESMTPS id B4F2110ECDD
- for <dri-devel@lists.freedesktop.org>; Wed,  6 Apr 2022 01:21:02 +0000 (UTC)
-X-UUID: ccf0173b3f3744f3bd37e8cb6f1ad1a9-20220406
-X-UUID: ccf0173b3f3744f3bd37e8cb6f1ad1a9-20220406
-Received: from mtkmbs10n1.mediatek.inc [(172.21.101.34)] by
- mailgw02.mediatek.com (envelope-from <yunfei.dong@mediatek.com>)
- (Generic MTA with TLSv1.2 ECDHE-RSA-AES256-GCM-SHA384 256/256)
- with ESMTP id 206969711; Wed, 06 Apr 2022 09:20:54 +0800
-Received: from mtkexhb02.mediatek.inc (172.21.101.103) by
- mtkmbs07n1.mediatek.inc (172.21.101.16) with Microsoft SMTP Server (TLS) id
- 15.0.1497.2; Wed, 6 Apr 2022 09:20:53 +0800
-Received: from mtkcas11.mediatek.inc (172.21.101.40) by mtkexhb02.mediatek.inc
- (172.21.101.103) with Microsoft SMTP Server (TLS) id 15.0.1497.2;
- Wed, 6 Apr 2022 09:20:52 +0800
-Received: from localhost.localdomain (10.17.3.154) by mtkcas11.mediatek.inc
- (172.21.101.73) with Microsoft SMTP Server id 15.0.1497.2 via Frontend
- Transport; Wed, 6 Apr 2022 09:20:49 +0800
-From: Yunfei Dong <yunfei.dong@mediatek.com>
-To: Yunfei Dong <yunfei.dong@mediatek.com>, Alexandre Courbot
- <acourbot@chromium.org>, Nicolas Dufresne <nicolas@ndufresne.ca>, "Hans
- Verkuil" <hverkuil-cisco@xs4all.nl>, AngeloGioacchino Del Regno
- <angelogioacchino.delregno@collabora.com>, Benjamin Gaignard
- <benjamin.gaignard@collabora.com>, Tiffany Lin <tiffany.lin@mediatek.com>,
- Andrew-CT Chen <andrew-ct.chen@mediatek.com>, Mauro Carvalho Chehab
- <mchehab@kernel.org>, Rob Herring <robh+dt@kernel.org>, Matthias Brugger
- <matthias.bgg@gmail.com>, Tomasz Figa <tfiga@google.com>
-Subject: [PATCH] media: mediatek: vcodec: Fix v4l2 compliance decoder cmd test
- fail
-Date: Wed, 6 Apr 2022 09:20:48 +0800
-Message-ID: <20220406012048.5970-1-yunfei.dong@mediatek.com>
-X-Mailer: git-send-email 2.25.1
+Received: from ams.source.kernel.org (ams.source.kernel.org [145.40.68.75])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 8399810ECCC
+ for <dri-devel@lists.freedesktop.org>; Wed,  6 Apr 2022 01:24:00 +0000 (UTC)
+Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
+ (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+ (No client certificate requested)
+ by ams.source.kernel.org (Postfix) with ESMTPS id 3B618B82014;
+ Wed,  6 Apr 2022 01:23:57 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 9027AC385A1;
+ Wed,  6 Apr 2022 01:23:52 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+ s=k20201202; t=1649208236;
+ bh=y610PixkxE0FbqCL6lBrY29URlY0CZAXClPdmkzBRr8=;
+ h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+ b=mPT1GL31n6ypgG8+0qeuiomp4TGySTjAhFA1JoBIEH4K6CR2KfpyHO0IfL9ksSOyo
+ v1o9u56Y/wVLQCrdJzucyk86wNkIe5XNeC/Vb+XHGU0ASvnAKTdfdt6klXsKbbTjdD
+ AdCjGtPjCp9IpQVGCZzS8EhDuF6lBOfUwbM4hma6sppIYVWSMhp9zMP6D+I7SHobpV
+ 68YfptgKuHu/pfZ/xKk6/DSmloIy5b85XZ+zQE58B4lRS7Gy+P+TwxHRQ/EWLyriga
+ PAxTJ0yjK+XOmAMZ0Eg077Rs85AQsgqjk9sgvGaSbxSCLUTQ5TPjy9gwenbIKvBX4h
+ jb5R27IhVqK+A==
+Date: Wed, 6 Apr 2022 09:23:48 +0800
+From: Shawn Guo <shawnguo@kernel.org>
+To: Oleksij Rempel <o.rempel@pengutronix.de>
+Subject: Re: [PATCH v1 1/8] ARM: dts: imx6qdl-vicut1/vicutgo: Set default
+ backlight brightness to maximum
+Message-ID: <20220406012348.GE129381@dragon>
+References: <20220221095312.3692669-1-o.rempel@pengutronix.de>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-Content-Type: text/plain
-X-MTK: N
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20220221095312.3692669-1-o.rempel@pengutronix.de>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -57,48 +52,65 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Irui Wang <irui.wang@mediatek.com>, George Sun <george.sun@mediatek.com>,
- Steve Cho <stevecho@chromium.org>, srv_heupstream@mediatek.com,
- devicetree@vger.kernel.org, Project_Global_Chrome_Upstream_Group@mediatek.com,
- linux-kernel@vger.kernel.org, dri-devel <dri-devel@lists.freedesktop.org>,
- Xiaoyong Lu <xiaoyong.lu@mediatek.com>, linux-mediatek@lists.infradead.org,
- Hsin-Yi Wang <hsinyi@chromium.org>, Fritz Koenig <frkoenig@chromium.org>,
- linux-arm-kernel@lists.infradead.org, linux-media@vger.kernel.org
+Cc: Mark Rutland <mark.rutland@arm.com>, devicetree@vger.kernel.org,
+ Pengutronix Kernel Team <kernel@pengutronix.de>,
+ Robin van der Gracht <robin@protonic.nl>, David Airlie <airlied@linux.ie>,
+ Sascha Hauer <s.hauer@pengutronix.de>, linux-kernel@vger.kernel.org,
+ dri-devel@lists.freedesktop.org, Rob Herring <robh+dt@kernel.org>,
+ Thierry Reding <thierry.reding@gmail.com>, NXP Linux Team <linux-imx@nxp.com>,
+ David Jander <david@protonic.nl>, Sam Ravnborg <sam@ravnborg.org>,
+ linux-arm-kernel@lists.infradead.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Will return -EINVAL using standard framework api when test stateless
-decoder with cmd VIDIOC_(TRY)DECODER_CMD.
+On Mon, Feb 21, 2022 at 10:53:05AM +0100, Oleksij Rempel wrote:
+> From: David Jander <david@protonic.nl>
+> 
+> Recover default behavior of the device and set maximal brightness
+> 
+> Signed-off-by: David Jander <david@protonic.nl>
+> Signed-off-by: Oleksij Rempel <o.rempel@pengutronix.de>
+> ---
+>  arch/arm/boot/dts/imx6dl-victgo.dts   | 2 +-
+>  arch/arm/boot/dts/imx6qdl-vicut1.dtsi | 2 +-
+>  2 files changed, 2 insertions(+), 2 deletions(-)
+> 
+> diff --git a/arch/arm/boot/dts/imx6dl-victgo.dts b/arch/arm/boot/dts/imx6dl-victgo.dts
+> index 227c952543d4..e6134efbfabd 100644
+> --- a/arch/arm/boot/dts/imx6dl-victgo.dts
+> +++ b/arch/arm/boot/dts/imx6dl-victgo.dts
+> @@ -28,7 +28,7 @@ backlight: backlight {
+>  		pwms = <&pwm1 0 5000000 0>;
+>  		brightness-levels = <0 16 64 255>;
+>  		num-interpolated-steps = <16>;
+> -		default-brightness-level = <1>;
+> +		default-brightness-level = <48>;
 
-Using another return value to adjust v4l2 compliance test for user
-driver(GStreamer/Chrome) won't use decoder cmd.
+Please take a look at the documentation of the property.
 
-Fixes: 8cdc3794b2e3 ("media: mtk-vcodec: vdec: support stateless API")
-Signed-off-by: Yunfei Dong <yunfei.dong@mediatek.com>
-Reviewed-by: AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>
----
-changes compared with v2:
-- add reviewed-by tag
-changes compared with v1:
-- add Fixes: tag
----
- drivers/media/platform/mediatek/vcodec/mtk_vcodec_dec.c | 3 +--
- 1 file changed, 1 insertion(+), 2 deletions(-)
+  default-brightness-level:
+    description:
+      The default brightness level (index into the array defined by the
+      "brightness-levels" property).
 
-diff --git a/drivers/media/platform/mediatek/vcodec/mtk_vcodec_dec.c b/drivers/media/platform/mediatek/vcodec/mtk_vcodec_dec.c
-index 3859e4c651c6..69b0e797d342 100644
---- a/drivers/media/platform/mediatek/vcodec/mtk_vcodec_dec.c
-+++ b/drivers/media/platform/mediatek/vcodec/mtk_vcodec_dec.c
-@@ -51,8 +51,7 @@ static int vidioc_try_decoder_cmd(struct file *file, void *priv,
- 
- 	/* Use M2M stateless helper if relevant */
- 	if (ctx->dev->vdec_pdata->uses_stateless_api)
--		return v4l2_m2m_ioctl_stateless_try_decoder_cmd(file, priv,
--								cmd);
-+		return -ENOTTY;
- 	else
- 		return v4l2_m2m_ioctl_try_decoder_cmd(file, priv, cmd);
- }
--- 
-2.18.0
+Shawn
 
+>  		power-supply = <&reg_3v3>;
+>  		enable-gpios = <&gpio4 28 GPIO_ACTIVE_HIGH>;
+>  	};
+> diff --git a/arch/arm/boot/dts/imx6qdl-vicut1.dtsi b/arch/arm/boot/dts/imx6qdl-vicut1.dtsi
+> index 1ac7e13249d2..c1d06bc28c67 100644
+> --- a/arch/arm/boot/dts/imx6qdl-vicut1.dtsi
+> +++ b/arch/arm/boot/dts/imx6qdl-vicut1.dtsi
+> @@ -23,7 +23,7 @@ backlight: backlight {
+>  		pwms = <&pwm1 0 5000000 0>;
+>  		brightness-levels = <0 16 64 255>;
+>  		num-interpolated-steps = <16>;
+> -		default-brightness-level = <1>;
+> +		default-brightness-level = <48>;
+>  		power-supply = <&reg_3v3>;
+>  		enable-gpios = <&gpio4 28 GPIO_ACTIVE_HIGH>;
+>  	};
+> -- 
+> 2.30.2
+> 
