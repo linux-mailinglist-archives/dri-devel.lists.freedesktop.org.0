@@ -2,31 +2,32 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3BF8A4F6A24
-	for <lists+dri-devel@lfdr.de>; Wed,  6 Apr 2022 21:41:25 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 10A914F6A2D
+	for <lists+dri-devel@lfdr.de>; Wed,  6 Apr 2022 21:42:43 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id C310C10E1E2;
-	Wed,  6 Apr 2022 19:41:21 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 07EB110E206;
+	Wed,  6 Apr 2022 19:42:41 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from metis.ext.pengutronix.de (metis.ext.pengutronix.de
  [IPv6:2001:67c:670:201:290:27ff:fe1d:cc33])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 8302A10E15A
- for <dri-devel@lists.freedesktop.org>; Wed,  6 Apr 2022 19:41:20 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id C546D10E168
+ for <dri-devel@lists.freedesktop.org>; Wed,  6 Apr 2022 19:42:38 +0000 (UTC)
 Received: from gallifrey.ext.pengutronix.de
  ([2001:67c:670:201:5054:ff:fe8d:eefb] helo=[IPv6:::1])
  by metis.ext.pengutronix.de with esmtps
  (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256) (Exim 4.92)
  (envelope-from <l.stach@pengutronix.de>)
- id 1ncBWo-0003JV-Vh; Wed, 06 Apr 2022 21:41:19 +0200
-Message-ID: <ffc23134df69d9fe6ba7229e6a3239ebd131e68e.camel@pengutronix.de>
-Subject: Re: [PATCH v2 2/7] drm: mxsfb: Simplify LCDIF IRQ handling
+ id 1ncBY5-0003VH-97; Wed, 06 Apr 2022 21:42:37 +0200
+Message-ID: <887fd2ce405ec816627ae298e57f79403c825cc7.camel@pengutronix.de>
+Subject: Re: [PATCH v2 3/7] drm: mxsfb: Wrap FIFO reset and comments into
+ mxsfb_reset_block()
 From: Lucas Stach <l.stach@pengutronix.de>
 To: Marek Vasut <marex@denx.de>, dri-devel@lists.freedesktop.org
-Date: Wed, 06 Apr 2022 21:41:17 +0200
-In-Reply-To: <20220311170601.50995-2-marex@denx.de>
+Date: Wed, 06 Apr 2022 21:42:36 +0200
+In-Reply-To: <20220311170601.50995-3-marex@denx.de>
 References: <20220311170601.50995-1-marex@denx.de>
- <20220311170601.50995-2-marex@denx.de>
+ <20220311170601.50995-3-marex@denx.de>
 Content-Type: text/plain; charset="UTF-8"
 User-Agent: Evolution 3.40.4 (3.40.4-1.fc34) 
 MIME-Version: 1.0
@@ -56,24 +57,8 @@ Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 Am Freitag, dem 11.03.2022 um 18:05 +0100 schrieb Marek Vasut:
-> The call to drm_crtc_vblank_off(&lcdif->crtc); disables IRQ generation
-> from the LCDIF block already and this is called in mxsfb_load() before
-> request_irq(), so explicitly disabling IRQ using custom function like
-> mxsfb_irq_disable() is not needed, remove it.
-> 
-
-Have you checked that the drm_vblank_off in probe actually results in a
-call to mxsfb_crtc_disable_vblank? From my reading of the core code,
-this should be a no-op without a previous drm_vblank_on, so it would
-not result in the desired masking before the IRQ is requested.
-
-Regards,
-Lucas
-
->  The request_irq() call
-> would return -ENOTCONN if IRQ is IRQ_NOTCONNECTED already, so remove
-> the unnecessary check. Finally, remove both mxsfb_irq_install() and
-> mxsfb_irq_uninstall() as well, since they are no longer useful.
+> Wrap FIFO reset and comments into mxsfb_reset_block(), this is a clean up.
+> No functional change.
 > 
 > Signed-off-by: Marek Vasut <marex@denx.de>
 > Cc: Alexander Stein <alexander.stein@ew.tq-group.com>
@@ -83,82 +68,80 @@ Lucas
 > Cc: Robby Cai <robby.cai@nxp.com>
 > Cc: Sam Ravnborg <sam@ravnborg.org>
 > Cc: Stefan Agner <stefan@agner.ch>
+
+Reviewed-by: Lucas Stach <l.stach@pengutronix.de>
+
 > ---
 > V2: No change
 > ---
->  drivers/gpu/drm/mxsfb/mxsfb_drv.c | 38 +++++++------------------------
->  1 file changed, 8 insertions(+), 30 deletions(-)
+>  drivers/gpu/drm/mxsfb/mxsfb_kms.c | 36 +++++++++++++++++--------------
+>  1 file changed, 20 insertions(+), 16 deletions(-)
 > 
-> diff --git a/drivers/gpu/drm/mxsfb/mxsfb_drv.c b/drivers/gpu/drm/mxsfb/mxsfb_drv.c
-> index c790aeff0a6f0..94cafff7f68d5 100644
-> --- a/drivers/gpu/drm/mxsfb/mxsfb_drv.c
-> +++ b/drivers/gpu/drm/mxsfb/mxsfb_drv.c
-> @@ -157,33 +157,6 @@ static irqreturn_t mxsfb_irq_handler(int irq, void *data)
->  	return IRQ_HANDLED;
+> diff --git a/drivers/gpu/drm/mxsfb/mxsfb_kms.c b/drivers/gpu/drm/mxsfb/mxsfb_kms.c
+> index 657b6afbbf1f9..015b289d93a3c 100644
+> --- a/drivers/gpu/drm/mxsfb/mxsfb_kms.c
+> +++ b/drivers/gpu/drm/mxsfb/mxsfb_kms.c
+> @@ -183,6 +183,12 @@ static int mxsfb_reset_block(struct mxsfb_drm_private *mxsfb)
+>  {
+>  	int ret;
+>  
+> +	/*
+> +	 * It seems, you can't re-program the controller if it is still
+> +	 * running. This may lead to shifted pictures (FIFO issue?), so
+> +	 * first stop the controller and drain its FIFOs.
+> +	 */
+> +
+>  	ret = clear_poll_bit(mxsfb->base + LCDC_CTRL, CTRL_SFTRST);
+>  	if (ret)
+>  		return ret;
+> @@ -193,7 +199,20 @@ static int mxsfb_reset_block(struct mxsfb_drm_private *mxsfb)
+>  	if (ret)
+>  		return ret;
+>  
+> -	return clear_poll_bit(mxsfb->base + LCDC_CTRL, CTRL_CLKGATE);
+> +	ret = clear_poll_bit(mxsfb->base + LCDC_CTRL, CTRL_CLKGATE);
+> +	if (ret)
+> +		return ret;
+> +
+> +	/* Clear the FIFOs */
+> +	writel(CTRL1_FIFO_CLEAR, mxsfb->base + LCDC_CTRL1 + REG_SET);
+> +	readl(mxsfb->base + LCDC_CTRL1);
+> +	writel(CTRL1_FIFO_CLEAR, mxsfb->base + LCDC_CTRL1 + REG_CLR);
+> +	readl(mxsfb->base + LCDC_CTRL1);
+> +
+> +	if (mxsfb->devdata->has_overlay)
+> +		writel(0, mxsfb->base + LCDC_AS_CTRL);
+> +
+> +	return 0;
 >  }
 >  
-> -static void mxsfb_irq_disable(struct drm_device *drm)
-> -{
-> -	struct mxsfb_drm_private *mxsfb = drm->dev_private;
-> -
-> -	/* Disable and clear VBLANK IRQ */
-> -	writel(CTRL1_CUR_FRAME_DONE_IRQ_EN, mxsfb->base + LCDC_CTRL1 + REG_CLR);
-> -	writel(CTRL1_CUR_FRAME_DONE_IRQ, mxsfb->base + LCDC_CTRL1 + REG_CLR);
-> -}
-> -
-> -static int mxsfb_irq_install(struct drm_device *dev, int irq)
-> -{
-> -	if (irq == IRQ_NOTCONNECTED)
-> -		return -ENOTCONN;
-> -
-> -	mxsfb_irq_disable(dev);
-> -
-> -	return request_irq(irq, mxsfb_irq_handler, 0,  dev->driver->name, dev);
-> -}
-> -
-> -static void mxsfb_irq_uninstall(struct drm_device *dev)
-> -{
-> -	struct mxsfb_drm_private *mxsfb = dev->dev_private;
-> -
-> -	mxsfb_irq_disable(dev);
-> -	free_irq(mxsfb->irq, dev);
-> -}
-> -
->  static int mxsfb_load(struct drm_device *drm,
->  		      const struct mxsfb_devdata *devdata)
->  {
-> @@ -259,7 +232,8 @@ static int mxsfb_load(struct drm_device *drm,
->  		return ret;
->  	mxsfb->irq = ret;
+>  static dma_addr_t mxsfb_get_fb_paddr(struct drm_plane *plane)
+> @@ -220,26 +239,11 @@ static void mxsfb_crtc_mode_set_nofb(struct mxsfb_drm_private *mxsfb,
+>  	u32 vdctrl0, vsync_pulse_len, hsync_pulse_len;
+>  	int err;
 >  
-> -	ret = mxsfb_irq_install(drm, mxsfb->irq);
-> +	ret = request_irq(mxsfb->irq, mxsfb_irq_handler, 0,
-> +			  drm->driver->name, drm);
->  	if (ret < 0) {
->  		dev_err(drm->dev, "Failed to install IRQ handler\n");
->  		return ret;
-> @@ -276,16 +250,20 @@ static int mxsfb_load(struct drm_device *drm,
->  
->  static void mxsfb_unload(struct drm_device *drm)
->  {
-> +	struct mxsfb_drm_private *mxsfb = drm->dev_private;
-> +
->  	pm_runtime_get_sync(drm->dev);
->  
-> +	drm_crtc_vblank_off(&mxsfb->crtc);
-> +
->  	drm_kms_helper_poll_fini(drm);
->  	drm_mode_config_cleanup(drm);
->  
-> -	mxsfb_irq_uninstall(drm);
+> -	/*
+> -	 * It seems, you can't re-program the controller if it is still
+> -	 * running. This may lead to shifted pictures (FIFO issue?), so
+> -	 * first stop the controller and drain its FIFOs.
+> -	 */
 > -
->  	pm_runtime_put_sync(drm->dev);
->  	pm_runtime_disable(drm->dev);
+>  	/* Mandatory eLCDIF reset as per the Reference Manual */
+>  	err = mxsfb_reset_block(mxsfb);
+>  	if (err)
+>  		return;
 >  
-> +	free_irq(mxsfb->irq, drm->dev);
-> +
->  	drm->dev_private = NULL;
->  }
+> -	/* Clear the FIFOs */
+> -	writel(CTRL1_FIFO_CLEAR, mxsfb->base + LCDC_CTRL1 + REG_SET);
+> -	readl(mxsfb->base + LCDC_CTRL1);
+> -	writel(CTRL1_FIFO_CLEAR, mxsfb->base + LCDC_CTRL1 + REG_CLR);
+> -	readl(mxsfb->base + LCDC_CTRL1);
+> -
+> -	if (mxsfb->devdata->has_overlay)
+> -		writel(0, mxsfb->base + LCDC_AS_CTRL);
+> -
+>  	mxsfb_set_formats(mxsfb, bus_format);
 >  
+>  	if (mxsfb->bridge && mxsfb->bridge->timings)
 
 
