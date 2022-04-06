@@ -2,67 +2,67 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id E1A474F6D20
-	for <lists+dri-devel@lfdr.de>; Wed,  6 Apr 2022 23:41:12 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id A337F4F6D21
+	for <lists+dri-devel@lfdr.de>; Wed,  6 Apr 2022 23:41:14 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id EDE5310E14C;
-	Wed,  6 Apr 2022 21:41:01 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 5E4A510E012;
+	Wed,  6 Apr 2022 21:41:10 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from us-smtp-delivery-124.mimecast.com
  (us-smtp-delivery-124.mimecast.com [170.10.129.124])
- by gabe.freedesktop.org (Postfix) with ESMTPS id D118310E0A0
- for <dri-devel@lists.freedesktop.org>; Wed,  6 Apr 2022 21:40:58 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 0F5EF10E012
+ for <dri-devel@lists.freedesktop.org>; Wed,  6 Apr 2022 21:41:08 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1649281257;
+ s=mimecast20190719; t=1649281268;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=U2QzSBkwn7Yafa/16sbGGbBUM4FbySeU5GGeHJm/Jx0=;
- b=ATCK0n5/10Ao6VUz0/U8Dq4LyPLLWPNHajpsrtwMOt7cjuTjsWpqbeGNaVLTRXk81+DePg
- K3UP4xHZyy/7mYu2Yg/fOni/P05lbHVg0sC0MfT3xLbE996j75G902ns4XGKwCN8w7GMsR
- oVGBOccLrw1pFWxzVODCXPVHKbEiZ1o=
-Received: from mail-wm1-f70.google.com (mail-wm1-f70.google.com
- [209.85.128.70]) by relay.mimecast.com with ESMTP with STARTTLS
+ bh=4FhXBUnLq/AeYpcQ43hIiOOWtFlBWzfoVNvi0Bsh0Mg=;
+ b=L50LCGCn2re4befpwuE6VAc6ODcs3VVYy+Z7YS9JJnXYrVbzwjXBUPuwzOJodORzE+S40l
+ 3k+wCvYsh7AOa2E3KUWymO2UMeBEXYZd9AT8GibnPSA69vmAuD9imO1/0rntiV2CPNr1BG
+ lnjnOiql0zZBPzcn+5udsYNeDd8517s=
+Received: from mail-wm1-f69.google.com (mail-wm1-f69.google.com
+ [209.85.128.69]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-363-D2YGC5w5Mba9K3I17P9uGw-1; Wed, 06 Apr 2022 17:40:57 -0400
-X-MC-Unique: D2YGC5w5Mba9K3I17P9uGw-1
-Received: by mail-wm1-f70.google.com with SMTP id
- r206-20020a1c44d7000000b0038e6a1b25f1so3531899wma.7
- for <dri-devel@lists.freedesktop.org>; Wed, 06 Apr 2022 14:40:56 -0700 (PDT)
+ us-mta-199-Io-Xt4SSNF6tboKe5_BeDA-1; Wed, 06 Apr 2022 17:40:59 -0400
+X-MC-Unique: Io-Xt4SSNF6tboKe5_BeDA-1
+Received: by mail-wm1-f69.google.com with SMTP id
+ c15-20020a7bc84f000000b0038e8df5c9ddso37004wml.7
+ for <dri-devel@lists.freedesktop.org>; Wed, 06 Apr 2022 14:40:59 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=U2QzSBkwn7Yafa/16sbGGbBUM4FbySeU5GGeHJm/Jx0=;
- b=cYz+bx0P0A61nYGHXNB+/5WYl2qvt7/YlbyOIkVRymy+Qs4FJymdE+2mW26FdF+G0R
- yfdWyMKNTmRLZmNBWX8hcn1oJHODiwm9oXSR6C6il2ZHNF4WyRdjUM36e5XPNGaMH3Pz
- skbVCYT4+EeJmV+B8uxGFrIE2KzzPJNNitWhMU7/u+8qV/WIUU7p7/tY6DMsS6MWsVdf
- z64X1eRJ/m4GhaPrp3JU60kM+oETVEewMWJymL2xjJdo49LCsI9K8/VWcgFfHTIzJPTq
- LG9AaltrRdPHCsDV7eyn6GNLoWmphWObfAEHC4J7ISU94qUygkpcJczmxSoP4uOrqPOg
- ZKyQ==
-X-Gm-Message-State: AOAM5335ipcxfreVVi5nRrLtfFUnqV3FSy4Y2+8nzI+ObN1ngFup6vht
- y596kHbKx6qBdMNLrB32VRW61hgyfXRgcWzmU017QNoiW4otgL3/AcXYJPCUFUm/Ubs/fx2R90Y
- zRhZeXOfIUnz3hxPNefKvaKgRc1T1
-X-Received: by 2002:a05:600c:6004:b0:38c:6c00:4316 with SMTP id
- az4-20020a05600c600400b0038c6c004316mr9499670wmb.6.1649281255705; 
- Wed, 06 Apr 2022 14:40:55 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJy98rnXAztsyk4KBqYgyk86f1BpoiJOrcBFIcbWPB9DOuUKh2YKVe/1UDGOsUjrhGSlhCdgYw==
-X-Received: by 2002:a05:600c:6004:b0:38c:6c00:4316 with SMTP id
- az4-20020a05600c600400b0038c6c004316mr9499656wmb.6.1649281255447; 
- Wed, 06 Apr 2022 14:40:55 -0700 (PDT)
+ bh=4FhXBUnLq/AeYpcQ43hIiOOWtFlBWzfoVNvi0Bsh0Mg=;
+ b=f4i5jQnNwWt6ZBTzziF35LcPzUz66r+PY4DrsFMmOovO5A+3WhZxip6yBH7RMPLdOT
+ cFxdlwqMSSSJ9jrAQYvMN+AZQbgGp648i70YY6FWHvBjvHyLRdtmOHGcl6mpuGZ/khGH
+ SclnawpilMcGqzKdDo8vKeRg74wLmKEMULJ8+Hn4aGfxfF6iDHu+4w9nSabn+/whEmfZ
+ ARbH7aOVDqn/46Z70CXBv+X9kBB6Tl/EuD/oGghaQeUIayGtDOG/rlat2fBqNyei1teG
+ dVYw9yF7YbmestZMW8YUDxJeQ5Hj0OnOVj30IvwxibWinRbD77H/XGRRSZHDTfa0VyYk
+ 1Y9g==
+X-Gm-Message-State: AOAM532M/nJDa3wCKnGed3PVglxdSvezodlDl7ER5DqcdDmp/zhwFQZl
+ SyDZc1Ns6KGu5bHLClSUZaEsjgHFWXlQAomD2JtGa7sA8/4nPh9Tw+8rcdkuxDCH6fcQcIZHS+x
+ 6dFkIcUR+cFSpo7rZ6eTkY6s6qu3n
+X-Received: by 2002:a7b:cf2f:0:b0:38e:6f21:bba9 with SMTP id
+ m15-20020a7bcf2f000000b0038e6f21bba9mr9082585wmg.94.1649281257932; 
+ Wed, 06 Apr 2022 14:40:57 -0700 (PDT)
+X-Google-Smtp-Source: ABdhPJzu0lYRk3QkxgnvH66v8eUTrMYR+LVlqeV9xMaH6jcY66CpHDS6DKp0bRanjMtEYrzwKOSL2A==
+X-Received: by 2002:a7b:cf2f:0:b0:38e:6f21:bba9 with SMTP id
+ m15-20020a7bcf2f000000b0038e6f21bba9mr9082565wmg.94.1649281257668; 
+ Wed, 06 Apr 2022 14:40:57 -0700 (PDT)
 Received: from minerva.home ([92.176.231.205])
  by smtp.gmail.com with ESMTPSA id
- o29-20020a05600c511d00b0038e3532b23csm5876020wms.15.2022.04.06.14.40.54
+ o29-20020a05600c511d00b0038e3532b23csm5876020wms.15.2022.04.06.14.40.55
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 06 Apr 2022 14:40:55 -0700 (PDT)
+ Wed, 06 Apr 2022 14:40:57 -0700 (PDT)
 From: Javier Martinez Canillas <javierm@redhat.com>
 To: linux-kernel@vger.kernel.org
-Subject: [RESEND RFC PATCH 4/5] fbdev: Fix some race conditions between fbmem
- and sysfb
-Date: Wed,  6 Apr 2022 23:39:18 +0200
-Message-Id: <20220406213919.600294-5-javierm@redhat.com>
+Subject: [RESEND RFC PATCH 5/5] Revert "fbdev: Prevent probing generic drivers
+ if a FB is already registered"
+Date: Wed,  6 Apr 2022 23:39:19 +0200
+Message-Id: <20220406213919.600294-6-javierm@redhat.com>
 X-Mailer: git-send-email 2.35.1
 In-Reply-To: <20220406213919.600294-1-javierm@redhat.com>
 References: <20220406213919.600294-1-javierm@redhat.com>
@@ -72,7 +72,7 @@ Authentication-Results: relay.mimecast.com;
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
 Content-Transfer-Encoding: 8bit
-Content-Type: text/plain; charset="US-ASCII"; x-default=true
+Content-Type: application/octet-stream; x-default=true
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -85,86 +85,90 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: linux-fbdev@vger.kernel.org, Xiyu Yang <xiyuyang19@fudan.edu.cn>,
- Daniel Vetter <daniel.vetter@ffwll.ch>, Helge Deller <deller@gmx.de>,
- Javier Martinez Canillas <javierm@redhat.com>, dri-devel@lists.freedesktop.org,
- Thomas Zimmermann <tzimmermann@suse.de>, Zhen Lei <thunder.leizhen@huawei.com>,
- Alex Deucher <alexander.deucher@amd.com>, Sam Ravnborg <sam@ravnborg.org>,
- Guenter Roeck <linux@roeck-us.net>
+Cc: linux-fbdev@vger.kernel.org, Daniel Vetter <daniel.vetter@ffwll.ch>,
+ Helge Deller <deller@gmx.de>, Javier Martinez Canillas <javierm@redhat.com>,
+ dri-devel@lists.freedesktop.org, Hans de Goede <hdegoede@redhat.com>,
+ Peter Jones <pjones@redhat.com>, Thomas Zimmermann <tzimmermann@suse.de>,
+ Ilya Trukhanov <lahvuun@gmail.com>, Daniel Vetter <daniel.vetter@intel.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-The platform devices registered in sysfb match with a firmware-based fbdev
-or DRM driver, that are used to have early graphics using framebuffers set
-up by the system firmware.
+From: Daniel Vetter <daniel.vetter@ffwll.ch>
 
-Real DRM drivers later are probed and remove all conflicting framebuffers,
-leading to these platform devices for generic drivers to be unregistered.
+This reverts commit fb561bf9abde49f7e00fdbf9ed2ccf2d86cac8ee.
 
-But the current solution has two issues that this patch fixes:
+With
 
-1) It is a layering violation for the fbdev core to unregister a device
-   that was registered by sysfb.
+commit 27599aacbaefcbf2af7b06b0029459bbf682000d
+Author: Thomas Zimmermann <tzimmermann@suse.de>
+Date:   Tue Jan 25 10:12:18 2022 +0100
 
-   Instead, the sysfb_try_unregister() helper function can be called for
-   sysfb to attempt unregistering the device if is the one registered.
+    fbdev: Hot-unplug firmware fb devices on forced removal
 
-2) The sysfb_init() function could be called after a DRM driver is probed
-   and requested to unregister devices for drivers with a conflicting fb.
+this should be fixed properly and we can remove this somewhat hackish
+check here (e.g. this won't catch drm drivers if fbdev emulation isn't
+enabled).
 
-   To prevent this, disable any future sysfb platform device registration
-   by calling sysfb_disable(), if a driver requested to remove conflicting
-   framebuffers with remove_conflicting_framebuffers().
-
-Suggested-by: Daniel Vetter <daniel.vetter@ffwll.ch>
+Cc: Thomas Zimmermann <tzimmermann@suse.de>
+Cc: Zack Rusin <zackr@vmware.com>
+Cc: Javier Martinez Canillas <javierm@redhat.com>
+Cc: Zack Rusin <zackr@vmware.com>
+Cc: Hans de Goede <hdegoede@redhat.com>
+Cc: Ilya Trukhanov <lahvuun@gmail.com>
+Signed-off-by: Daniel Vetter <daniel.vetter@intel.com>
+Cc: Peter Jones <pjones@redhat.com>
+Cc: linux-fbdev@vger.kernel.org
 Signed-off-by: Javier Martinez Canillas <javierm@redhat.com>
 ---
 
- drivers/video/fbdev/core/fbmem.c | 17 ++++++++++++++++-
- 1 file changed, 16 insertions(+), 1 deletion(-)
+ drivers/video/fbdev/efifb.c    | 11 -----------
+ drivers/video/fbdev/simplefb.c | 11 -----------
+ 2 files changed, 22 deletions(-)
 
-diff --git a/drivers/video/fbdev/core/fbmem.c b/drivers/video/fbdev/core/fbmem.c
-index c1bfb8df9cba..acf641b05d11 100644
---- a/drivers/video/fbdev/core/fbmem.c
-+++ b/drivers/video/fbdev/core/fbmem.c
-@@ -19,6 +19,7 @@
- #include <linux/kernel.h>
- #include <linux/major.h>
- #include <linux/slab.h>
-+#include <linux/sysfb.h>
- #include <linux/mm.h>
- #include <linux/mman.h>
- #include <linux/vt.h>
-@@ -1588,7 +1589,10 @@ static void do_remove_conflicting_framebuffers(struct apertures_struct *a,
- 				 * unregister_framebuffer() function that takes it.
- 				 */
- 				mutex_unlock(&registration_lock);
--				platform_device_unregister(to_platform_device(device));
-+				if (!sysfb_try_unregister(device)) {
-+					/* sysfb didn't register this device, unregister it */
-+					platform_device_unregister(to_platform_device(device));
-+				}
- 				mutex_lock(&registration_lock);
- 				/*
- 				 * Restart the removal now that the platform device
-@@ -1781,6 +1785,17 @@ int remove_conflicting_framebuffers(struct apertures_struct *a,
- 		do_free = true;
- 	}
+diff --git a/drivers/video/fbdev/efifb.c b/drivers/video/fbdev/efifb.c
+index ea42ba6445b2..edca3703b964 100644
+--- a/drivers/video/fbdev/efifb.c
++++ b/drivers/video/fbdev/efifb.c
+@@ -351,17 +351,6 @@ static int efifb_probe(struct platform_device *dev)
+ 	char *option = NULL;
+ 	efi_memory_desc_t md;
  
-+	/*
-+	 * If a driver asked to unregister a platform device registered by
-+	 * sysfb, then can be assumed that this is a driver for a display
-+	 * that is set up by the system firmware and has a generic driver.
-+	 *
-+	 * Drivers for devices that don't have a generic driver will never
-+	 * ask for this, so let's assume that a real driver for the display
-+	 * was already probed and prevent sysfb to register devices later.
-+	 */
-+	sysfb_disable();
-+
- 	mutex_lock(&registration_lock);
- 	do_remove_conflicting_framebuffers(a, name, primary);
- 	mutex_unlock(&registration_lock);
+-	/*
+-	 * Generic drivers must not be registered if a framebuffer exists.
+-	 * If a native driver was probed, the display hardware was already
+-	 * taken and attempting to use the system framebuffer is dangerous.
+-	 */
+-	if (num_registered_fb > 0) {
+-		dev_err(&dev->dev,
+-			"efifb: a framebuffer is already registered\n");
+-		return -EINVAL;
+-	}
+-
+ 	if (screen_info.orig_video_isVGA != VIDEO_TYPE_EFI || pci_dev_disabled)
+ 		return -ENODEV;
+ 
+diff --git a/drivers/video/fbdev/simplefb.c b/drivers/video/fbdev/simplefb.c
+index 94fc9c6d0411..0ef41173325a 100644
+--- a/drivers/video/fbdev/simplefb.c
++++ b/drivers/video/fbdev/simplefb.c
+@@ -413,17 +413,6 @@ static int simplefb_probe(struct platform_device *pdev)
+ 	struct simplefb_par *par;
+ 	struct resource *res, *mem;
+ 
+-	/*
+-	 * Generic drivers must not be registered if a framebuffer exists.
+-	 * If a native driver was probed, the display hardware was already
+-	 * taken and attempting to use the system framebuffer is dangerous.
+-	 */
+-	if (num_registered_fb > 0) {
+-		dev_err(&pdev->dev,
+-			"simplefb: a framebuffer is already registered\n");
+-		return -EINVAL;
+-	}
+-
+ 	if (fb_get_options("simplefb", NULL))
+ 		return -ENODEV;
+ 
 -- 
 2.35.1
 
