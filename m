@@ -1,29 +1,29 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4D1CF4F6410
-	for <lists+dri-devel@lfdr.de>; Wed,  6 Apr 2022 18:01:56 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 9B0DE4F6414
+	for <lists+dri-devel@lfdr.de>; Wed,  6 Apr 2022 18:02:02 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 19A7610E3D8;
-	Wed,  6 Apr 2022 16:01:48 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 862BD10E427;
+	Wed,  6 Apr 2022 16:01:54 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from metis.ext.pengutronix.de (metis.ext.pengutronix.de
  [IPv6:2001:67c:670:201:290:27ff:fe1d:cc33])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 1209C10E3CF
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 22AC110E3E2
  for <dri-devel@lists.freedesktop.org>; Wed,  6 Apr 2022 16:01:44 +0000 (UTC)
 Received: from dude03.red.stw.pengutronix.de ([2a0a:edc0:0:1101:1d::39])
  by metis.ext.pengutronix.de with esmtp (Exim 4.92)
  (envelope-from <l.stach@pengutronix.de>)
- id 1nc868-0002Pq-GG; Wed, 06 Apr 2022 18:01:32 +0200
+ id 1nc869-0002Pq-9n; Wed, 06 Apr 2022 18:01:33 +0200
 From: Lucas Stach <l.stach@pengutronix.de>
 To: Philipp Zabel <p.zabel@pengutronix.de>, Rob Herring <robh+dt@kernel.org>,
  Krzysztof Kozlowski <krzk+dt@kernel.org>, Shawn Guo <shawnguo@kernel.org>,
  NXP Linux Team <linux-imx@nxp.com>
-Subject: [PATCH v0 09/10] arm64: dts: imx8mp: add HDMI display pipeline
-Date: Wed,  6 Apr 2022 18:01:22 +0200
-Message-Id: <20220406160123.1272911-10-l.stach@pengutronix.de>
+Subject: [PATCH v0 10/10] arm64: dts: imx8mp-evk: enable HDMI
+Date: Wed,  6 Apr 2022 18:01:23 +0200
+Message-Id: <20220406160123.1272911-11-l.stach@pengutronix.de>
 X-Mailer: git-send-email 2.30.2
 In-Reply-To: <20220406160123.1272911-1-l.stach@pengutronix.de>
 References: <20220406160123.1272911-1-l.stach@pengutronix.de>
@@ -55,105 +55,51 @@ Cc: devicetree@vger.kernel.org, Pengutronix Kernel Team <kernel@pengutronix.de>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-This adds the DT nodes for all the peripherals that make up the
-HDMI display pipeline.
+Enable the DT nodes for HDMI TX and PHY and add the pinctrl for the few
+involved pins that are configurable.
 
 Signed-off-by: Lucas Stach <l.stach@pengutronix.de>
 ---
- arch/arm64/boot/dts/freescale/imx8mp.dtsi | 80 +++++++++++++++++++++++
- 1 file changed, 80 insertions(+)
+ arch/arm64/boot/dts/freescale/imx8mp-evk.dts | 19 +++++++++++++++++++
+ 1 file changed, 19 insertions(+)
 
-diff --git a/arch/arm64/boot/dts/freescale/imx8mp.dtsi b/arch/arm64/boot/dts/freescale/imx8mp.dtsi
-index 6b7b5ba32b48..a41da99e9537 100644
---- a/arch/arm64/boot/dts/freescale/imx8mp.dtsi
-+++ b/arch/arm64/boot/dts/freescale/imx8mp.dtsi
-@@ -1087,6 +1087,86 @@ irqsteer_hdmi: interrupt-controller@32fc2000 {
- 				clock-names = "ipg";
- 				power-domains = <&hdmi_blk_ctrl IMX8MP_HDMIBLK_PD_IRQSTEER>;
- 			};
-+
-+			hdmi_pvi: display-bridge@32fc4000 {
-+				compatible = "fsl,imx8mp-hdmi-pvi";
-+				reg = <0x32fc4000 0x40>;
-+				power-domains = <&hdmi_blk_ctrl IMX8MP_HDMIBLK_PD_PVI>;
-+
-+				ports {
-+					#address-cells = <1>;
-+					#size-cells = <0>;
-+
-+					port@0 {
-+						reg = <0>;
-+						pvi_from_lcdif3: endpoint {
-+							remote-endpoint = <&lcdif3_to_pvi>;
-+						};
-+					};
-+
-+					port@1 {
-+						reg = <1>;
-+						pvi_to_hdmi_tx: endpoint {
-+							remote-endpoint = <&hdmi_tx_from_pvi>;
-+						};
-+					};
-+				};
-+			};
-+
-+			lcdif3: display-controller@32fc6000 {
-+				compatible = "fsl,imx8mp-lcdif";
-+				reg = <0x32fc6000 0x238>;
-+				interrupts = <8 IRQ_TYPE_LEVEL_HIGH>;
-+				interrupt-parent = <&irqsteer_hdmi>;
-+				clocks = <&hdmi_tx_phy>,
-+					 <&clk IMX8MP_CLK_HDMI_APB>,
-+					 <&clk IMX8MP_CLK_HDMI_ROOT>;
-+				clock-names = "pix", "axi", "disp_axi";
-+				power-domains = <&hdmi_blk_ctrl IMX8MP_HDMIBLK_PD_LCDIF>;
-+
-+				port {
-+					lcdif3_to_pvi: endpoint {
-+						remote-endpoint = <&pvi_from_lcdif3>;
-+					};
-+				};
-+			};
-+
-+			hdmi_tx: hdmi@32fd8000 {
-+				compatible = "fsl,imx8mp-hdmi";
-+				reg = <0x32fd8000 0x7eff>;
-+				interrupts = <0 IRQ_TYPE_LEVEL_HIGH>;
-+				interrupt-parent = <&irqsteer_hdmi>;
-+				clocks = <&clk IMX8MP_CLK_HDMI_APB>,
-+					 <&clk IMX8MP_CLK_HDMI_REF_266M>,
-+					 <&clk IMX8MP_CLK_32K>,
-+					 <&hdmi_tx_phy>;
-+				clock-names = "iahb", "isfr", "cec", "pix";
-+				assigned-clocks = <&clk IMX8MP_CLK_HDMI_REF_266M>;
-+				assigned-clock-parents = <&clk IMX8MP_SYS_PLL1_266M>;
-+				power-domains = <&hdmi_blk_ctrl IMX8MP_HDMIBLK_PD_HDMI_TX>;
-+				reg-io-width = <1>;
-+				status = "disabled";
-+
-+				port {
-+					hdmi_tx_from_pvi: endpoint {
-+						remote-endpoint = <&pvi_to_hdmi_tx>;
-+					};
-+				};
-+			};
-+
-+			hdmi_tx_phy: phy@32fdff00 {
-+				compatible = "fsl,imx8mp-hdmi-phy";
-+				reg = <0x32fdff00 0x100>;
-+				clocks = <&clk IMX8MP_CLK_HDMI_APB>,
-+					 <&clk IMX8MP_CLK_HDMI_24M>;
-+				clock-names = "apb", "ref";
-+				assigned-clocks = <&clk IMX8MP_CLK_HDMI_24M>;
-+				assigned-clock-parents = <&clk IMX8MP_CLK_24M>;
-+				power-domains = <&hdmi_blk_ctrl IMX8MP_HDMIBLK_PD_HDMI_TX_PHY>;
-+				#clock-cells = <0>;
-+				#phy-cells = <0>;
-+				status = "disabled";
-+			};
- 		};
+diff --git a/arch/arm64/boot/dts/freescale/imx8mp-evk.dts b/arch/arm64/boot/dts/freescale/imx8mp-evk.dts
+index 4c3ac4214a2c..fdf851865ba9 100644
+--- a/arch/arm64/boot/dts/freescale/imx8mp-evk.dts
++++ b/arch/arm64/boot/dts/freescale/imx8mp-evk.dts
+@@ -197,6 +197,16 @@ ethphy1: ethernet-phy@1 {
+ 	};
+ };
  
- 		gpu3d: gpu@38000000 {
++&hdmi_tx {
++	pinctrl-names = "default";
++	pinctrl-0 = <&pinctrl_hdmi>;
++	status = "okay";
++};
++
++&hdmi_tx_phy {
++	status = "okay";
++};
++
+ &i2c1 {
+ 	clock-frequency = <400000>;
+ 	pinctrl-names = "default";
+@@ -465,6 +475,15 @@ MX8MP_IOMUXC_NAND_READY_B__GPIO3_IO16	0x19
+ 		>;
+ 	};
+ 
++	pinctrl_hdmi: hdmigrp {
++		fsl,pins = <
++			MX8MP_IOMUXC_HDMI_DDC_SCL__HDMIMIX_HDMI_SCL	0x1c3
++			MX8MP_IOMUXC_HDMI_DDC_SDA__HDMIMIX_HDMI_SDA	0x1c3
++			MX8MP_IOMUXC_HDMI_HPD__HDMIMIX_HDMI_HPD		0x19
++			MX8MP_IOMUXC_HDMI_CEC__HDMIMIX_HDMI_CEC		0x19
++		>;
++	};
++
+ 	pinctrl_i2c1: i2c1grp {
+ 		fsl,pins = <
+ 			MX8MP_IOMUXC_I2C1_SCL__I2C1_SCL		0x400001c3
 -- 
 2.30.2
 
