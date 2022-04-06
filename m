@@ -1,46 +1,43 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 22AA04F56BB
-	for <lists+dri-devel@lfdr.de>; Wed,  6 Apr 2022 09:09:10 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id CCB394F56C0
+	for <lists+dri-devel@lfdr.de>; Wed,  6 Apr 2022 09:13:29 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 7843610EBB1;
-	Wed,  6 Apr 2022 07:09:07 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id C00EB10E45A;
+	Wed,  6 Apr 2022 07:13:27 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mailgw01.mediatek.com (unknown [60.244.123.138])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 57B9810E251
- for <dri-devel@lists.freedesktop.org>; Wed,  6 Apr 2022 07:09:05 +0000 (UTC)
-X-UUID: c835b0a0749d4d8195d7d630a6eceb4f-20220406
-X-UUID: c835b0a0749d4d8195d7d630a6eceb4f-20220406
+Received: from mailgw02.mediatek.com (unknown [210.61.82.184])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 3CEA410E45A
+ for <dri-devel@lists.freedesktop.org>; Wed,  6 Apr 2022 07:13:26 +0000 (UTC)
+X-UUID: e222855c284d4624a897c4833d159510-20220406
+X-UUID: e222855c284d4624a897c4833d159510-20220406
 Received: from mtkmbs10n1.mediatek.inc [(172.21.101.34)] by
- mailgw01.mediatek.com (envelope-from <rex-bc.chen@mediatek.com>)
+ mailgw02.mediatek.com (envelope-from <rex-bc.chen@mediatek.com>)
  (Generic MTA with TLSv1.2 ECDHE-RSA-AES256-GCM-SHA384 256/256)
- with ESMTP id 1601077540; Wed, 06 Apr 2022 15:08:59 +0800
+ with ESMTP id 340841123; Wed, 06 Apr 2022 15:13:19 +0800
 Received: from mtkexhb02.mediatek.inc (172.21.101.103) by
- mtkmbs10n1.mediatek.inc (172.21.101.34) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_CBC_SHA384) id
- 15.2.792.15; Wed, 6 Apr 2022 15:08:58 +0800
+ mtkmbs07n2.mediatek.inc (172.21.101.141) with Microsoft SMTP Server (TLS) id
+ 15.0.1497.2; Wed, 6 Apr 2022 15:13:19 +0800
 Received: from mtkcas11.mediatek.inc (172.21.101.40) by mtkexhb02.mediatek.inc
  (172.21.101.103) with Microsoft SMTP Server (TLS) id 15.0.1497.2;
- Wed, 6 Apr 2022 15:08:58 +0800
+ Wed, 6 Apr 2022 15:13:18 +0800
 Received: from mtksdccf07 (172.21.84.99) by mtkcas11.mediatek.inc
  (172.21.101.73) with Microsoft SMTP Server id 15.0.1497.2 via Frontend
- Transport; Wed, 6 Apr 2022 15:08:58 +0800
-Message-ID: <ae8ba0030d42d078580233f1710c592992e7d778.camel@mediatek.com>
-Subject: Re: [PATCH v2,1/2] dt-bindings: display: mediatek: dpi: Add
- compatible for MediaTek MT8186
+ Transport; Wed, 6 Apr 2022 15:13:18 +0800
+Message-ID: <8e3db8a1285e43dcd397eee444b15957074106ab.camel@mediatek.com>
+Subject: Re: [PATCH v2,2/2] drm/mediatek: Add mt8186 dpi compatible to
+ mtk_dpi.c
 From: Rex-BC Chen <rex-bc.chen@mediatek.com>
-To: CK Hu <ck.hu@mediatek.com>, <xinlei.lee@mediatek.com>,
- <chunkuang.hu@kernel.org>, <p.zabel@pengutronix.de>, <airlied@linux.ie>,
- <daniel@ffwll.ch>, <robh+dt@kernel.org>, <matthias.bgg@gmail.com>
-Date: Wed, 6 Apr 2022 15:08:58 +0800
-In-Reply-To: <4940e2e4ecb5f9f6857dc960ea5dbe43c551df77.camel@mediatek.com>
+To: <xinlei.lee@mediatek.com>, <chunkuang.hu@kernel.org>,
+ <p.zabel@pengutronix.de>, <airlied@linux.ie>, <daniel@ffwll.ch>,
+ <robh+dt@kernel.org>, <matthias.bgg@gmail.com>
+Date: Wed, 6 Apr 2022 15:13:18 +0800
+In-Reply-To: <1648727917-3099-3-git-send-email-xinlei.lee@mediatek.com>
 References: <1648727917-3099-1-git-send-email-xinlei.lee@mediatek.com>
- <1648727917-3099-2-git-send-email-xinlei.lee@mediatek.com>
- <e0d5a344c8ec1f92357bd9d5b8782dded862c549.camel@mediatek.com>
- <4940e2e4ecb5f9f6857dc960ea5dbe43c551df77.camel@mediatek.com>
+ <1648727917-3099-3-git-send-email-xinlei.lee@mediatek.com>
 Content-Type: text/plain; charset="UTF-8"
 X-Mailer: Evolution 3.28.5-0ubuntu0.18.04.2 
 MIME-Version: 1.0
@@ -65,97 +62,55 @@ Cc: devicetree@vger.kernel.org, jitao.shi@mediatek.com,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Wed, 2022-04-06 at 14:38 +0800, CK Hu wrote:
-> Hi,
+On Thu, 2022-03-31 at 19:58 +0800, xinlei.lee@mediatek.com wrote:
+> From: Xinlei Lee <xinlei.lee@mediatek.com>
 > 
-> On Fri, 2022-04-01 at 09:38 +0800, Rex-BC Chen wrote:
-> > On Thu, 2022-03-31 at 19:58 +0800, xinlei.lee@mediatek.com wrote:
-> > > From: Xinlei Lee <xinlei.lee@mediatek.com>
-> > > 
-> > > Add dt-binding documentation of dpi for MediaTek MT8186 SoC.
-> > > 
-> > > Signed-off-by: Xinlei Lee <xinlei.lee@mediatek.com>
-> > > ---
-> > >  .../devicetree/bindings/display/mediatek/mediatek,dpi.yaml      
-> > >  |
-> > > 1
-> > > +
-> > >  1 file changed, 1 insertion(+)
-> > > 
-> > > diff --git
-> > > a/Documentation/devicetree/bindings/display/mediatek/mediatek,dpi
-> > > .y
-> > > am
-> > > l
-> > > b/Documentation/devicetree/bindings/display/mediatek/mediatek,dpi
-> > > .y
-> > > am
-> > > l
-> > > index dd2896a40ff0..a73044c50b5f 100644
-> > > ---
-> > > a/Documentation/devicetree/bindings/display/mediatek/mediatek,dpi
-> > > .y
-> > > am
-> > > l
-> > > +++
-> > > b/Documentation/devicetree/bindings/display/mediatek/mediatek,dpi
-> > > .y
-> > > am
-> > > l
-> > > @@ -22,6 +22,7 @@ properties:
-> > >        - mediatek,mt7623-dpi
-> > >        - mediatek,mt8173-dpi
-> > >        - mediatek,mt8183-dpi
-> > > +      - mediatek,mt8186-dpi
-> > >        - mediatek,mt8192-dpi
-> > >  
-> > >    reg:
-> > 
-> > Hello Xinlei,
-> > 
-> > From the dts we use, the dpi node needs other properties for
-> > MT8186.
-> > Please send another patch and add these properties to binding.
-> > 
-> > assigned-clocks = <&topckgen CLK_TOP_DPI>;
-> > assigned-clock-parents = <&topckgen CLK_TOP_TVDPLL_D2>;
+> Add the compatible because use different .data in mt8186.
 > 
-> According to [1], the assigned-clocks is initial value. Without this
-> initial value, I think driver would set this clock again, wouldn't
-> it?
+> Signed-off-by: Xinlei Lee <xinlei.lee@mediatek.com>
+> ---
+>  drivers/gpu/drm/mediatek/mtk_dpi.c | 11 +++++++++++
+>  1 file changed, 11 insertions(+)
 > 
-> [1] 
-> 
-https://www.kernel.org/doc/Documentation/devicetree/bindings/clock/clock-bindings.txt
-> 
-> Regards,
-> CK
-> 
+> diff --git a/drivers/gpu/drm/mediatek/mtk_dpi.c
+> b/drivers/gpu/drm/mediatek/mtk_dpi.c
+> index 4554e2de1430..6fac146cf1fb 100644
+> --- a/drivers/gpu/drm/mediatek/mtk_dpi.c
+> +++ b/drivers/gpu/drm/mediatek/mtk_dpi.c
+> @@ -823,6 +823,14 @@ static const struct mtk_dpi_conf mt8192_conf = {
+>  	.num_output_fmts = ARRAY_SIZE(mt8173_output_fmts),
+>  };
+>  
+> +static const struct mtk_dpi_conf mt8186_conf = {
+> +	.cal_factor =  mt8183_calculate_factor,
+> +	.reg_h_fre_con = 0xe0,
+> +	.max_clock_khz = 150000,
+> +	.output_fmts = mt8183_output_fmts,
+> +	.num_output_fmts = ARRAY_SIZE(mt8183_output_fmts),
+> +};
+> +
 
-Hello CK,
+Hello Xinlei,
 
-OK, Thanks for your explanation.
+Could you move 8186 between 8183 and 8192?
 
+>  static int mtk_dpi_probe(struct platform_device *pdev)
+>  {
+>  	struct device *dev = &pdev->dev;
+> @@ -945,6 +953,9 @@ static const struct of_device_id mtk_dpi_of_ids[]
+> = {
+>  	{ .compatible = "mediatek,mt8192-dpi",
+>  	  .data = &mt8192_conf,
+>  	},
+> +	{ .compatible = "mediatek,mt8186-dpi",
+> +	  .data = &mt8186_conf,
+> +	},
 
-Reviewed-by: Rex-BC Chen <rex-bc.chen@mediatek.com>
+ditto
 
 BRs,
 Rex
-> > 
-> > Thanks
-> > 
-> > BRs,
-> > Rex
-> > 
-> > 
-> > _______________________________________________
-> > Linux-mediatek mailing list
-> > Linux-mediatek@lists.infradead.org
-> > 
-> 
-> 
-https://urldefense.com/v3/__http://lists.infradead.org/mailman/listinfo/linux-mediatek__;!!CTRNKA9wMg0ARbw!wtF15QZZTCzWfRpxNLjZ1VQQ54i40D8STuOo0h18dtz3es-ksLfYQGTEFlb7lg$
-> >  
-> 
-> 
+>  	{ },
+>  };
+>  MODULE_DEVICE_TABLE(of, mtk_dpi_of_ids);
 
