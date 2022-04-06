@@ -1,47 +1,48 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 61FD84F6EEA
-	for <lists+dri-devel@lfdr.de>; Thu,  7 Apr 2022 02:00:18 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 363774F6EED
+	for <lists+dri-devel@lfdr.de>; Thu,  7 Apr 2022 02:00:21 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 7195F10E0A4;
-	Thu,  7 Apr 2022 00:00:11 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 7957510E0D7;
+	Thu,  7 Apr 2022 00:00:12 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from phobos.denx.de (phobos.denx.de
  [IPv6:2a01:238:438b:c500:173d:9f52:ddab:ee01])
- by gabe.freedesktop.org (Postfix) with ESMTPS id E262C10E0A4
- for <dri-devel@lists.freedesktop.org>; Thu,  7 Apr 2022 00:00:07 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 8CF3F10E04F
+ for <dri-devel@lists.freedesktop.org>; Thu,  7 Apr 2022 00:00:08 +0000 (UTC)
 Received: from [127.0.0.1] (p578adb1c.dip0.t-ipconnect.de [87.138.219.28])
  (using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits))
  (No client certificate requested)
  (Authenticated sender: marex@denx.de)
- by phobos.denx.de (Postfix) with ESMTPSA id 9593E83E30;
- Thu,  7 Apr 2022 02:00:05 +0200 (CEST)
+ by phobos.denx.de (Postfix) with ESMTPSA id BEBE483E3A;
+ Thu,  7 Apr 2022 02:00:06 +0200 (CEST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=denx.de;
- s=phobos-20191101; t=1649289606;
- bh=aA/9oEkF2Ds57zQVjWRxA+XwgkmIXc5IZ3N5ay7Zav4=;
+ s=phobos-20191101; t=1649289607;
+ bh=kvBuJvm4JAsIW3ZA+9Jyx7OXPt81kmzRLrju/IoXSxY=;
  h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
- b=bEQFyLIY3Dj7qSndFBeajgel+ZjW9HTm2y0+SYF/i2Acicf9rAPdwSZJbdCNV3ltz
- Bj7MXS9aW0+JKNR5y99+/SYhH9GKrQHN1EzJsBWKMwnTitVlGGtZozpV4/ZbiwFx97
- ucCJbtP9jN/G3u8OhYe9IR7OwGU4WdfVzvRZVRcE2kRF/rnNrBuRJv/asnj9nV8ZDq
- rCJPUP9ZLa5cshET7XayRA4p0A07apuMr/Dws5Dty99dRYqxoeDApOr3OD2LGwFVYA
- lKsceyAz6mnoJmLwDeffdiox1t5Yf8gkz5crfkM03kG4B9zJx0t9kV8WHzJ/8PDXU4
- HxMIpBysTIoHg==
-Message-ID: <3f46927b-b458-81bf-0b9b-03171e9bbcb5@denx.de>
-Date: Thu, 7 Apr 2022 00:03:41 +0200
+ b=Dnh/6YsH6gJIfspV6kZFu/J13TT4veibY4KVqnFSC1uu1AiXcUG6yMeLj8pHr7IJA
+ sB6OsrezmZWg4DTpM98I4lDnnzDJRTJRDOyE1XsOI+252lyKnInL9gAMclzFti9kbe
+ I0UJkUInVXKkCPDVk3FhdLMOFy0sNJAUSKArdowUYT5wUwTMJLBVV+xQZrpPaKgPXG
+ fb7wIoO1SOv9+4Y+c+T9B/zNn/v9/eRJLFa7UaVfF7GXXYpkNkguhrUjzrSc3GvLdT
+ bkiszVsfFnDGfZgGD+R+7Ygt4tErglP4vKjHOW55loMtfqAC/Jg2MIY0Cf3nqwIrTN
+ 1b2VW6+TTl8fg==
+Message-ID: <2e038048-c3ac-4c33-fb98-ba6bec705d5b@denx.de>
+Date: Thu, 7 Apr 2022 00:05:29 +0200
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
  Thunderbird/91.7.0
-Subject: Re: [PATCH v2 2/7] drm: mxsfb: Simplify LCDIF IRQ handling
+Subject: Re: [PATCH v2 4/7] drm: mxsfb: Move mxsfb_get_fb_paddr() away from
+ register IO functions
 Content-Language: en-US
 To: Lucas Stach <l.stach@pengutronix.de>, dri-devel@lists.freedesktop.org
 References: <20220311170601.50995-1-marex@denx.de>
- <20220311170601.50995-2-marex@denx.de>
- <ffc23134df69d9fe6ba7229e6a3239ebd131e68e.camel@pengutronix.de>
+ <20220311170601.50995-4-marex@denx.de>
+ <5f7eb7a214ec0f219c4c9ce87e6c8c87bc7f0aeb.camel@pengutronix.de>
 From: Marek Vasut <marex@denx.de>
-In-Reply-To: <ffc23134df69d9fe6ba7229e6a3239ebd131e68e.camel@pengutronix.de>
+In-Reply-To: <5f7eb7a214ec0f219c4c9ce87e6c8c87bc7f0aeb.camel@pengutronix.de>
 Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 7bit
 X-Virus-Scanned: clamav-milter 0.103.5 at phobos.denx.de
@@ -65,19 +66,22 @@ Cc: Peng Fan <peng.fan@nxp.com>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 4/6/22 21:41, Lucas Stach wrote:
+On 4/6/22 21:45, Lucas Stach wrote:
 > Am Freitag, dem 11.03.2022 um 18:05 +0100 schrieb Marek Vasut:
->> The call to drm_crtc_vblank_off(&lcdif->crtc); disables IRQ generation
->> from the LCDIF block already and this is called in mxsfb_load() before
->> request_irq(), so explicitly disabling IRQ using custom function like
->> mxsfb_irq_disable() is not needed, remove it.
+>> Move mxsfb_get_fb_paddr() out of the way, away from register IO functions.
+>> This is a clean up. No functional change.
 >>
+>> Signed-off-by: Marek Vasut <marex@denx.de>
+>> Cc: Alexander Stein <alexander.stein@ew.tq-group.com>
+>> Cc: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+>> Cc: Lucas Stach <l.stach@pengutronix.de>
+>> Cc: Peng Fan <peng.fan@nxp.com>
+>> Cc: Robby Cai <robby.cai@nxp.com>
+>> Cc: Sam Ravnborg <sam@ravnborg.org>
+>> Cc: Stefan Agner <stefan@agner.ch>
 > 
-> Have you checked that the drm_vblank_off in probe actually results in a
-> call to mxsfb_crtc_disable_vblank? From my reading of the core code,
-> this should be a no-op without a previous drm_vblank_on, so it would
-> not result in the desired masking before the IRQ is requested.
+> Hm, I don't see any real benefit, but I also fail to see why it
+> shouldn't be done so:
 
-I must've missed the vblank->enabled check, but then, I am also not 
-getting any interrupts, so presumably they are already disabled after 
-the IP is reset.
+The entire point of this series is to clean up the mxsfb and isolate 
+lcdif (the original lcdif) from any of the common code.
