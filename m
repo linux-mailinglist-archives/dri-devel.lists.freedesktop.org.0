@@ -1,60 +1,60 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id BA1954F56EA
-	for <lists+dri-devel@lfdr.de>; Wed,  6 Apr 2022 09:52:02 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 9E4854F56EB
+	for <lists+dri-devel@lfdr.de>; Wed,  6 Apr 2022 09:52:04 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id A66C110F2CF;
-	Wed,  6 Apr 2022 07:51:51 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 5C73A10F2DD;
+	Wed,  6 Apr 2022 07:51:52 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-ed1-x536.google.com (mail-ed1-x536.google.com
- [IPv6:2a00:1450:4864:20::536])
- by gabe.freedesktop.org (Postfix) with ESMTPS id C44A210F2CF
- for <dri-devel@lists.freedesktop.org>; Wed,  6 Apr 2022 07:51:48 +0000 (UTC)
-Received: by mail-ed1-x536.google.com with SMTP id c42so1611818edf.3
- for <dri-devel@lists.freedesktop.org>; Wed, 06 Apr 2022 00:51:48 -0700 (PDT)
+Received: from mail-ej1-x62f.google.com (mail-ej1-x62f.google.com
+ [IPv6:2a00:1450:4864:20::62f])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id D9DA210F2D8
+ for <dri-devel@lists.freedesktop.org>; Wed,  6 Apr 2022 07:51:49 +0000 (UTC)
+Received: by mail-ej1-x62f.google.com with SMTP id a6so2618722ejk.0
+ for <dri-devel@lists.freedesktop.org>; Wed, 06 Apr 2022 00:51:49 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
  h=from:to:cc:subject:date:message-id:in-reply-to:references:reply-to
  :mime-version:content-transfer-encoding;
- bh=3QbzjuROnxJraA9CK9trtayJW6PgZOzIb/wwNoU3y6s=;
- b=P/BjtrN/T5hmXaI2+LmjJqNeZFpQMvxlTgSeYNjekfbRzDx5i46OXpZllmW/cIWSJO
- eBXYK6J9IPrcNlt+2p1X1p7vKW4LjZTDtXzp9FdxfPS+qEHNRw1R/0pCAVFQQ/F++F5g
- EK4yztlr4+BKweHP5lnArAd711sUN8+/P+P33LZLsHLAG+jh4w9YzdNb28Zcb5nhksCb
- MKJOqgny9F5k21IqgK+HFVNH0vAZ54qVDxrbDKeab3VlhB2tLVT8mgZLzXy06wYzfJAe
- YUK7urljtU2ShNXkOGWMFC9KbsIyRreIA4ZSTDJT0pGZhqy+9ZaeMnuS0JDSEDlV1ARZ
- RKnw==
+ bh=Q9J71JHfLi+jNvESRZI7/GeJZRTFH9JIsw/X6nmHqVg=;
+ b=mjkQmZ+kYVo5DG7qCjJzpIzzWU1ZSLcSmO7HmEVkv0Te4t8WJqAmEBygzPMyK+dMwa
+ 7jh3DTT/YXbLQ848CnQXG/X2oQZziRohGDOXea3n4GrXOv6SnAWJTu6rtmlP/7QuKeza
+ keVIbt15cAfBkXP11NXSiNOIpofDRCE4+HbhmAt5lWZ5dv0HDdXGeuc4uG4dncYVZmxU
+ wgq5NnrcCeh8heERDcKbSB9pZ230DAUpdfCVSOY7AEuf9OfeqqUVkX/mpL10Y5X1gndb
+ vKYZ3xmc1hCZFRSIO97knE5w0MRz0nZXgCX9zPTZyfT3P2eFIfF8HpMHxiIGaUjqJmAG
+ ZOXQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:reply-to:mime-version:content-transfer-encoding;
- bh=3QbzjuROnxJraA9CK9trtayJW6PgZOzIb/wwNoU3y6s=;
- b=s5zYER9k34JWFzlLyEFUojcFLr9k2Ai+nLQZ79k/huxh1LTW3CUF1xIgDycWgRixw5
- yJgGI8lo8JSaaGVcAv4VtzNyFnQhrkohOLhtDLdUdZDTxC3A4EgaIheaGL2VCCMfjNwX
- XxoNGAUn0nRES/soqUXMMUatrWtwYcJ5nBRTKuSc/eBQjVXTbgWYRVCto01KhgGjlZlM
- dH4foogwM5XkKHCvKkmKqn5C2WTzLVsu4+xLx5TRH//YRmcu1DKN9S2YOQOCBiyfInT6
- gSJZJoOG/GbXHCCjQ2cBt4WvpNFX6DRQa0Wr3QNg/T12ALdLN+kpn39wfLsB9xCtCsFW
- X0CA==
-X-Gm-Message-State: AOAM533aYZQSe521V0hy5iu8CeRrFKu198zLxEl3RC+zykD382jJAykY
- Fo4vSU1Jf0qmSVIwXurpgYA=
-X-Google-Smtp-Source: ABdhPJwcURPKRYe43rOuZYJAMDgrddD933xM+S/e3+9v+c8mRntxISdEpq6h23kHvh8fQQa47+NTAA==
-X-Received: by 2002:aa7:d8da:0:b0:41c:ce44:dfcd with SMTP id
- k26-20020aa7d8da000000b0041cce44dfcdmr7512803eds.142.1649231507347; 
- Wed, 06 Apr 2022 00:51:47 -0700 (PDT)
+ bh=Q9J71JHfLi+jNvESRZI7/GeJZRTFH9JIsw/X6nmHqVg=;
+ b=Ac7MHRVfsJBQrKX3dB0nbIqlEpIRHiu01DKsppJWBCGQmUqv7dqZeKDWwZYoaSKyBJ
+ Edbvv00gP9OC0Gq+YPWVHeMIsPaOTb981mRAS9zO+fiefosux3FsoUu9sg7nB2uwlf7P
+ 5kWJRn95X8KANsNu1QF/VyYU4BvKDK7aj94cyxxDMHVw4nkuIBrowCc62XB+7A5beIT1
+ Pq3IRNR2u52TMtKUzYP4/G9jIqJA+0GpjhZdB5OOu7Q0xNiyYVvjVC/aGSs+heTgrrNC
+ ea8mao/D8LzGdQyt+tbT4k9BpEOd+YPiB0JQ7p9pD5ez2QlPlh2dgNxobjMA7/LOcoUp
+ YPXw==
+X-Gm-Message-State: AOAM5332L5URlSNOmYTOmr6NI7X8nmgCbJnS+XVHPYbMwns+q4bza/jk
+ 9qTIoha2Ld1aIeKOGrZ+Xvg=
+X-Google-Smtp-Source: ABdhPJzzpWX0YjUIry/3gMKmj6LouW+H4HfoZAesD5IyKvRhvpkHUyiFd6ti3o0VtayI3jvlayIpxA==
+X-Received: by 2002:a17:907:168b:b0:6e7:f2a5:bb0f with SMTP id
+ hc11-20020a170907168b00b006e7f2a5bb0fmr7087209ejc.162.1649231508447; 
+ Wed, 06 Apr 2022 00:51:48 -0700 (PDT)
 Received: from able.fritz.box (p57b0b9e1.dip0.t-ipconnect.de. [87.176.185.225])
  by smtp.gmail.com with ESMTPSA id
- bs7-20020a056402304700b004197e5d2350sm7376386edb.54.2022.04.06.00.51.46
+ bs7-20020a056402304700b004197e5d2350sm7376386edb.54.2022.04.06.00.51.47
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 06 Apr 2022 00:51:46 -0700 (PDT)
+ Wed, 06 Apr 2022 00:51:47 -0700 (PDT)
 From: "=?UTF-8?q?Christian=20K=C3=B6nig?=" <ckoenig.leichtzumerken@gmail.com>
 X-Google-Original-From: =?UTF-8?q?Christian=20K=C3=B6nig?=
  <christian.koenig@amd.com>
 To: daniel.vetter@ffwll.ch,
 	dri-devel@lists.freedesktop.org
-Subject: [PATCH 07/16] drm/radeon: use DMA_RESV_USAGE_KERNEL
-Date: Wed,  6 Apr 2022 09:51:23 +0200
-Message-Id: <20220406075132.3263-8-christian.koenig@amd.com>
+Subject: [PATCH 08/16] drm/etnaviv: always wait for kernel fences
+Date: Wed,  6 Apr 2022 09:51:24 +0200
+Message-Id: <20220406075132.3263-9-christian.koenig@amd.com>
 X-Mailer: git-send-email 2.25.1
 In-Reply-To: <20220406075132.3263-1-christian.koenig@amd.com>
 References: <20220406075132.3263-1-christian.koenig@amd.com>
@@ -78,63 +78,58 @@ Cc: =?UTF-8?q?Christian=20K=C3=B6nig?= <christian.koenig@amd.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Always wait for kernel fences before kmap and not only for UVD kmaps.
+Even for explicit synchronization we should wait for kernel fences.
 
 Signed-off-by: Christian König <christian.koenig@amd.com>
 ---
- drivers/gpu/drm/radeon/radeon_object.c |  7 ++++++-
- drivers/gpu/drm/radeon/radeon_uvd.c    | 12 ++----------
- 2 files changed, 8 insertions(+), 11 deletions(-)
+ drivers/gpu/drm/etnaviv/etnaviv_gem_submit.c | 27 ++++++++++++++++++--
+ 1 file changed, 25 insertions(+), 2 deletions(-)
 
-diff --git a/drivers/gpu/drm/radeon/radeon_object.c b/drivers/gpu/drm/radeon/radeon_object.c
-index cb5c4aa45cef..6c4a6802ca96 100644
---- a/drivers/gpu/drm/radeon/radeon_object.c
-+++ b/drivers/gpu/drm/radeon/radeon_object.c
-@@ -219,7 +219,12 @@ int radeon_bo_create(struct radeon_device *rdev,
- int radeon_bo_kmap(struct radeon_bo *bo, void **ptr)
- {
- 	bool is_iomem;
--	int r;
-+	long r;
+diff --git a/drivers/gpu/drm/etnaviv/etnaviv_gem_submit.c b/drivers/gpu/drm/etnaviv/etnaviv_gem_submit.c
+index 98bb5c9239de..3fedd29732d5 100644
+--- a/drivers/gpu/drm/etnaviv/etnaviv_gem_submit.c
++++ b/drivers/gpu/drm/etnaviv/etnaviv_gem_submit.c
+@@ -171,6 +171,26 @@ static int submit_lock_objects(struct etnaviv_gem_submit *submit,
+ 	return ret;
+ }
+ 
++/* TODO: This should be moved into the GPU scheduler if others need it */
++static int submit_fence_kernel_sync(struct etnaviv_gem_submit *submit,
++				    struct dma_resv *resv)
++{
++	struct dma_resv_iter cursor;
++	struct dma_fence *fence;
++	int ret;
 +
-+	r = dma_resv_wait_timeout(bo->tbo.base.resv, DMA_RESV_USAGE_KERNEL,
-+				  false, MAX_SCHEDULE_TIMEOUT);
-+	if (r < 0)
-+		return r;
++	dma_resv_for_each_fence(&cursor, resv, DMA_RESV_USAGE_KERNEL, fence) {
++		/* Make sure to grab an additional ref on the added fence */
++		dma_fence_get(fence);
++		ret = drm_sched_job_add_dependency(&submit->sched_job, fence);
++		if (ret) {
++			dma_fence_put(fence);
++			return ret;
++		}
++	}
++	return 0;
++}
++
+ static int submit_fence_sync(struct etnaviv_gem_submit *submit)
+ {
+ 	int i, ret = 0;
+@@ -183,8 +203,11 @@ static int submit_fence_sync(struct etnaviv_gem_submit *submit)
+ 		if (ret)
+ 			return ret;
  
- 	if (bo->kptr) {
- 		if (ptr) {
-diff --git a/drivers/gpu/drm/radeon/radeon_uvd.c b/drivers/gpu/drm/radeon/radeon_uvd.c
-index a50750740ab0..a2cda184b2b2 100644
---- a/drivers/gpu/drm/radeon/radeon_uvd.c
-+++ b/drivers/gpu/drm/radeon/radeon_uvd.c
-@@ -470,24 +470,16 @@ static int radeon_uvd_cs_msg(struct radeon_cs_parser *p, struct radeon_bo *bo,
- 	int32_t *msg, msg_type, handle;
- 	unsigned img_size = 0;
- 	void *ptr;
--	long r;
--	int i;
-+	int i, r;
+-		if (submit->flags & ETNA_SUBMIT_NO_IMPLICIT)
+-			continue;
++		if (submit->flags & ETNA_SUBMIT_NO_IMPLICIT) {
++			ret = submit_fence_kernel_sync(submit, robj);
++			if (ret)
++				return ret;
++		}
  
- 	if (offset & 0x3F) {
- 		DRM_ERROR("UVD messages must be 64 byte aligned!\n");
- 		return -EINVAL;
- 	}
- 
--	r = dma_resv_wait_timeout(bo->tbo.base.resv, DMA_RESV_USAGE_WRITE,
--				  false, MAX_SCHEDULE_TIMEOUT);
--	if (r <= 0) {
--		DRM_ERROR("Failed waiting for UVD message (%ld)!\n", r);
--		return r ? r : -ETIME;
--	}
--
- 	r = radeon_bo_kmap(bo, &ptr);
- 	if (r) {
--		DRM_ERROR("Failed mapping the UVD message (%ld)!\n", r);
-+		DRM_ERROR("Failed mapping the UVD message (%d)!\n", r);
- 		return r;
- 	}
- 
+ 		ret = drm_sched_job_add_implicit_dependencies(&submit->sched_job,
+ 							      &bo->obj->base,
 -- 
 2.25.1
 
