@@ -2,58 +2,38 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3B6704F56D3
-	for <lists+dri-devel@lfdr.de>; Wed,  6 Apr 2022 09:29:15 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 0AF7B4F56D5
+	for <lists+dri-devel@lfdr.de>; Wed,  6 Apr 2022 09:30:47 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 3CA0A10F319;
-	Wed,  6 Apr 2022 07:29:13 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 0346E10F415;
+	Wed,  6 Apr 2022 07:30:45 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-qt1-x832.google.com (mail-qt1-x832.google.com
- [IPv6:2607:f8b0:4864:20::832])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 2A65310F311;
- Wed,  6 Apr 2022 07:29:12 +0000 (UTC)
-Received: by mail-qt1-x832.google.com with SMTP id s11so3035047qtc.3;
- Wed, 06 Apr 2022 00:29:12 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
- h=from:to:cc:subject:date:message-id:mime-version
- :content-transfer-encoding;
- bh=VE08dsgukeGG5IChIzOIKz1Sx9tWGQgZeReJDKhgy2Y=;
- b=FUuVzC2mh2PVAGCMRzU0asrMqYuRHc8mtDR5m5TiIlCPxpg/IWOWW0Zdfm3/eLqi2R
- 2p7j5BO1/HkIb7o4D2nSTOo/Pr9CaSHq4DN7QdoDCAb02JfVSPV1dPTdYrwSHgoSW659
- KKSXTOllrtnDh55cJMQot97phLbbifmvR1+xfuSGrduOtaBhdWJm1wO4jaUSrTSwq90S
- 8KyvuqNUQUwpfhQY7SouUIWg2PIQIKrGfRBUeX16AGAPJBgExu4TQlsIaqia1hf60TkR
- 5MKJZGi9MfiM6PwShYFhEnUYjvPvRGZ5KQ8lpxtXCUGjfEXvLyF/VGfKo2tz0n/DVCKL
- uBUQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
- :content-transfer-encoding;
- bh=VE08dsgukeGG5IChIzOIKz1Sx9tWGQgZeReJDKhgy2Y=;
- b=E8xY/XjYOithYs5l6n+0CuVuOApQ6Sp1vOemG+ooO+BWsiKPy04bUsYomG5j0ZnuzC
- gnIFujAsbYaQMLmRH4PhXZtJSc2dLKTFMoWjaPg6Y5mXMdWH5qyxanaIlnYb7iIxmFPt
- Kvor0M2ECN5xDeO6Y1t0tsODM3vQKgbNPlMw1XbgiqGlSltac2ueJkKV6ne20U1JOu2d
- 2iL3rRxW3Ye+BhMzl5GFYl/H8gtDpxD8S4m9mS+wp9bpbNoVXX4kPmoE63HA4Sjx1ulE
- aV08wf34OUJOY2RN5ZI52bXOPRPwkf3Vd5wmwmVPzEqIaWBQEnmyqt6pBpgxo3nswPRh
- kWgQ==
-X-Gm-Message-State: AOAM530Yf/3KF9ekUtyUvyqRPyQRhYP721iO2Ngm6J2P9mzaj/ecFZZE
- rm/Nhwpequ2uth76jSUuPGY=
-X-Google-Smtp-Source: ABdhPJwigMtxTwtlbYYuXX75zJfRY1b7cxmWJvS5iiYcfK8nJ29v69OEJU8x+gG+EYqd39myJHe+pg==
-X-Received: by 2002:ac8:5f07:0:b0:2e1:d695:d857 with SMTP id
- x7-20020ac85f07000000b002e1d695d857mr6317759qta.40.1649230151230; 
- Wed, 06 Apr 2022 00:29:11 -0700 (PDT)
-Received: from localhost.localdomain ([193.203.214.57])
- by smtp.gmail.com with ESMTPSA id
- d124-20020ae9ef82000000b00699a8b42aa8sm7949525qkg.16.2022.04.06.00.29.05
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 06 Apr 2022 00:29:10 -0700 (PDT)
-From: cgel.zte@gmail.com
-X-Google-Original-From: lv.ruyi@zte.com.cn
-To: harry.wentland@amd.com,
-	sunpeng.li@amd.com
-Subject: [PATCH] drm/amd/dc:: remove duplicate include
-Date: Wed,  6 Apr 2022 07:28:40 +0000
-Message-Id: <20220406072840.2488056-1-lv.ruyi@zte.com.cn>
+Received: from 189.cn (ptr.189.cn [183.61.185.101])
+ by gabe.freedesktop.org (Postfix) with ESMTP id 09C9110F415
+ for <dri-devel@lists.freedesktop.org>; Wed,  6 Apr 2022 07:30:44 +0000 (UTC)
+HMM_SOURCE_IP: 10.64.8.43:54472.1734920290
+HMM_ATTACHE_NUM: 0000
+HMM_SOURCE_TYPE: SMTP
+Received: from clientip-114.242.206.180 (unknown [10.64.8.43])
+ by 189.cn (HERMES) with SMTP id 6C6EB1002AB;
+ Wed,  6 Apr 2022 15:30:37 +0800 (CST)
+Received: from  ([114.242.206.180])
+ by gateway-151646-dep-b7fbf7d79-vjdjk with ESMTP id
+ b3fc00b12b0444a3b3ce6c4630009db5 for maarten.lankhorst@linux.intel.com; 
+ Wed, 06 Apr 2022 15:30:40 CST
+X-Transaction-ID: b3fc00b12b0444a3b3ce6c4630009db5
+X-Real-From: 15330273260@189.cn
+X-Receive-IP: 114.242.206.180
+X-MEDUSA-Status: 0
+From: Sui Jingfeng <15330273260@189.cn>
+To: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+ Maxime Ripard <mripard@kernel.org>,
+ Thomas Zimmermann <tzimmermann@suse.de>, David Airlie <airlied@linux.ie>,
+ Daniel Vetter <daniel@ffwll.ch>
+Subject: [PATCH] drm/drm_modeset_helper_vtables.h: fix a typo
+Date: Wed,  6 Apr 2022 15:30:36 +0800
+Message-Id: <20220406073036.276288-1-15330273260@189.cn>
 X-Mailer: git-send-email 2.25.1
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
@@ -69,38 +49,30 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: dri-devel@lists.freedesktop.org, Angus.Wang@amd.com, hvanzyll@amd.com,
- airlied@linux.ie, qingqing.zhuo@amd.com, Xinhui.Pan@amd.com,
- Rodrigo.Siqueira@amd.com, linux-kernel@vger.kernel.org,
- amd-gfx@lists.freedesktop.org, Zeal Robot <zealci@zte.com.cn>,
- Bing.Guo@amd.com, lv.ruyi@zte.com.cn, alvin.lee2@amd.com,
- alexander.deucher@amd.com, Jun.Lei@amd.com, Anthony.Koo@amd.com,
- christian.koenig@amd.com
+Cc: linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-From: Lv Ruyi <lv.ruyi@zte.com.cn>
+ change upate to update
 
-'dm_services.h' included in 'freesync,c' is duplicated, so remove one.
-
-Reported-by: Zeal Robot <zealci@zte.com.cn>
-Signed-off-by: Lv Ruyi <lv.ruyi@zte.com.cn>
+Signed-off-by: Sui Jingfeng <15330273260@189.cn>
 ---
- drivers/gpu/drm/amd/display/modules/freesync/freesync.c | 1 -
- 1 file changed, 1 deletion(-)
+ include/drm/drm_modeset_helper_vtables.h | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/drivers/gpu/drm/amd/display/modules/freesync/freesync.c b/drivers/gpu/drm/amd/display/modules/freesync/freesync.c
-index d72566c6928a..0130f1879116 100644
---- a/drivers/gpu/drm/amd/display/modules/freesync/freesync.c
-+++ b/drivers/gpu/drm/amd/display/modules/freesync/freesync.c
-@@ -29,7 +29,6 @@
- #include "dc.h"
- #include "mod_freesync.h"
- #include "core_types.h"
--#include "dm_services.h"
- 
- #define MOD_FREESYNC_MAX_CONCURRENT_STREAMS  32
- 
+diff --git a/include/drm/drm_modeset_helper_vtables.h b/include/drm/drm_modeset_helper_vtables.h
+index fdfa9f37ce05..fafa70ac1337 100644
+--- a/include/drm/drm_modeset_helper_vtables.h
++++ b/include/drm/drm_modeset_helper_vtables.h
+@@ -1384,7 +1384,7 @@ struct drm_mode_config_helper_funcs {
+ 	 * starting to commit the update to the hardware.
+ 	 *
+ 	 * After the atomic update is committed to the hardware this hook needs
+-	 * to call drm_atomic_helper_commit_hw_done(). Then wait for the upate
++	 * to call drm_atomic_helper_commit_hw_done(). Then wait for the update
+ 	 * to be executed by the hardware, for example using
+ 	 * drm_atomic_helper_wait_for_vblanks() or
+ 	 * drm_atomic_helper_wait_for_flip_done(), and then clean up the old
 -- 
 2.25.1
 
