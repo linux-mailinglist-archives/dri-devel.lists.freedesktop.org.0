@@ -1,56 +1,57 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 896A24F62A9
-	for <lists+dri-devel@lfdr.de>; Wed,  6 Apr 2022 17:09:50 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 0B2DC4F62AD
+	for <lists+dri-devel@lfdr.de>; Wed,  6 Apr 2022 17:10:41 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 3163E10E1E9;
-	Wed,  6 Apr 2022 15:09:48 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id AECDC10E338;
+	Wed,  6 Apr 2022 15:10:38 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-oa1-x2e.google.com (mail-oa1-x2e.google.com
- [IPv6:2001:4860:4864:20::2e])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 75BEF10E1E9
- for <dri-devel@lists.freedesktop.org>; Wed,  6 Apr 2022 15:09:46 +0000 (UTC)
-Received: by mail-oa1-x2e.google.com with SMTP id
- 586e51a60fabf-ddfa38f1c1so3178493fac.11
- for <dri-devel@lists.freedesktop.org>; Wed, 06 Apr 2022 08:09:46 -0700 (PDT)
+Received: from mail-ot1-x331.google.com (mail-ot1-x331.google.com
+ [IPv6:2607:f8b0:4864:20::331])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 9D89310E339
+ for <dri-devel@lists.freedesktop.org>; Wed,  6 Apr 2022 15:10:36 +0000 (UTC)
+Received: by mail-ot1-x331.google.com with SMTP id
+ w17-20020a056830111100b005b22c584b93so1887898otq.11
+ for <dri-devel@lists.freedesktop.org>; Wed, 06 Apr 2022 08:10:36 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=chromium.org; s=google;
  h=mime-version:in-reply-to:references:from:user-agent:date:message-id
  :subject:to:cc;
- bh=W+SggYf9ZzUodZE2aDeDsbfyv++1hsGS8AoCuhA4ZeY=;
- b=TABFHoDlD/pgPUkRr6Aj4RRrjDFDoyvY0P1V47KSIdKeldIqaeYv98NU2YIRxtdyXW
- ze/Dug8d8CJPMjX5RsVxT5gY81U0sQiwOb/E6NSCYeq1AIgO6w7SJ1zp+JUUeiPsKno/
- xxlsN2DRS4pK3QoqoH+UD9z91re79FgU/vmSk=
+ bh=EW64PsFO/oRdWsOjfEcx3qDN++rt+wfe2o19U6WLL8w=;
+ b=OuP7pmKSNZDGrcIzCwJpg2/t9nw1/WFVenZlPZZPYYqR3ddx27AM1BdClVJBzRLnM/
+ XzyRxX5oW18V+chqRFu7GaSf6OPLzLbij/YLJdjj44ZV17xQdIINEj7ednClXRZGPfWk
+ yoK5NuZk4gawap5VuGW2wqbV+SL+0xGTL7UXY=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:mime-version:in-reply-to:references:from
  :user-agent:date:message-id:subject:to:cc;
- bh=W+SggYf9ZzUodZE2aDeDsbfyv++1hsGS8AoCuhA4ZeY=;
- b=qe3/Qiq0t0i9Y569u/YrR4XI8jxLQzBtsFPLEc1xoh2kCWc6aNBBUrxOtE8MCM4KXB
- TaPaGbCDrOsgGxYo5rHS7GOwZNCo4UOH8d5WlFVK2Pr7/ljUoxnuhE9huv0WUDnVAxsL
- 8DwD9ADXfd8tpgUekqKa4DUU14DrhMzhQehnveNz1dlssgumiCjl2p8Q5jF33HvvoS26
- JxmpNwsAZlhtNTZUnpZMkOd/pRl51JhUXqxVWpLRqV/aXy2DM6NT2sT5Cay9aNtwa0iy
- FgW9586Yq3aJnIn9r+JBAIVTq9Ece8kpFOle/wLOdHQM6EFeboYGuuga1okJKew/PxC+
- g7JQ==
-X-Gm-Message-State: AOAM530htY0JHkG83eCXXLU5qc+y6GxH+h59RrssN8NHIy8KbGngJeAf
- mCVBioaZaCSRcwCb8YJAygyROC8OJiSmAYhpVEfaUA==
-X-Google-Smtp-Source: ABdhPJyiriWb9lM7r6nEGyokGF5E6v8arQe+jgv787NGJAGxQR/U6cRpfcBrI1g3T3RShG5DwchbWml9Jseu+Ya+YfA=
-X-Received: by 2002:a05:6870:558e:b0:e1:db7c:26aa with SMTP id
- n14-20020a056870558e00b000e1db7c26aamr4119396oao.63.1649257785731; Wed, 06
- Apr 2022 08:09:45 -0700 (PDT)
+ bh=EW64PsFO/oRdWsOjfEcx3qDN++rt+wfe2o19U6WLL8w=;
+ b=Kvtbn581c55ieBNwV+a5GsATaJCyewcD/nHQKbs1wBGF7N21J54ERxYTmi0hX4pQZG
+ dwyaQ5SALDeXQh4Ab/f3/wlJn72/vqQ4VLn/Qhq9q+oL+JVZpTdGVWScL+upgXbv+UFq
+ Lol1c8Od9uF4COAyPBxeNXsV++KBDl80hfD/z1fU57a1VZgeOmfrRfRvrscdcRQvFSez
+ ehboUjZ6IFpxqPyLyk4dqV9VfIy3OBV1goJo+iJ3o07TkslIsyVA+WX8MfXaYitAJuPq
+ 7V9bvL78lRU24l8NLajTGv2FoN5ygg91QkjMHC2lOtai+aJvwaf+zwX5njzrnQkte417
+ qx7w==
+X-Gm-Message-State: AOAM532IU2pFqriHxeO6mH5fr50kO9GcissarckRkxrbJJsSqrQ6VFMM
+ 0MJaTjrIyJQgE5PzKypZVn3QGHSxNSci8d2PiqsF5Q==
+X-Google-Smtp-Source: ABdhPJw6NpBjiEJqSqfKLXHGIB0nJEtoJYa4P3HUoNxUv5I2kNi8OGPCno72muKbEi3n2T76pqYyndvLaE5nenHEEhY=
+X-Received: by 2002:a9d:b85:0:b0:5cb:3eeb:d188 with SMTP id
+ 5-20020a9d0b85000000b005cb3eebd188mr3145467oth.77.1649257835830; Wed, 06 Apr
+ 2022 08:10:35 -0700 (PDT)
 Received: from 753933720722 named unknown by gmailapi.google.com with
- HTTPREST; Wed, 6 Apr 2022 08:09:45 -0700
+ HTTPREST; Wed, 6 Apr 2022 08:10:35 -0700
 MIME-Version: 1.0
-In-Reply-To: <20220406100556.479706-1-dmitry.baryshkov@linaro.org>
-References: <20220406100556.479706-1-dmitry.baryshkov@linaro.org>
+In-Reply-To: <20220406101247.483649-4-dmitry.baryshkov@linaro.org>
+References: <20220406101247.483649-1-dmitry.baryshkov@linaro.org>
+ <20220406101247.483649-4-dmitry.baryshkov@linaro.org>
 From: Stephen Boyd <swboyd@chromium.org>
 User-Agent: alot/0.10
-Date: Wed, 6 Apr 2022 08:09:45 -0700
-Message-ID: <CAE-0n52jMGWFFv3pRE2ZvY_+s1xGk09WXsqJsc1uR2buRZ0s3A@mail.gmail.com>
-Subject: Re: [PATCH v2] drm/msm: remove unused plane_property field from
- msm_drm_private
+Date: Wed, 6 Apr 2022 08:10:35 -0700
+Message-ID: <CAE-0n50FBpNy=Hmfz8+MKziPY=Z9079jFm-ZHrBD-hd_TMv37w@mail.gmail.com>
+Subject: Re: [PATCH v2 3/3] drm/msm: don't store created planes, connectors
+ and encoders
 To: Abhinav Kumar <quic_abhinavk@quicinc.com>,
  Bjorn Andersson <bjorn.andersson@linaro.org>, 
  Dmitry Baryshkov <dmitry.baryshkov@linaro.org>, Rob Clark <robdclark@gmail.com>,
@@ -73,11 +74,10 @@ Cc: David Airlie <airlied@linux.ie>, linux-arm-msm@vger.kernel.org,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Quoting Dmitry Baryshkov (2022-04-06 03:05:56)
-> Remove unused field plane_property from struct msm_drm_private. Also
-> drop the enum msm_mdp_plane_property which also becomes unused.
+Quoting Dmitry Baryshkov (2022-04-06 03:12:47)
+> There is no point now in storing arrays of creates planes, connectors
+> and encoders. Remove them from struct msm_drm_private.
 >
-> Fixes: 7d36db0be3b9 ("drm/msm/mdp5: switch to standard zpos property")
 > Signed-off-by: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
 > ---
 
