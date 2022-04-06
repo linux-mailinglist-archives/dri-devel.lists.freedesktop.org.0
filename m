@@ -2,61 +2,75 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 077DF4F5831
-	for <lists+dri-devel@lfdr.de>; Wed,  6 Apr 2022 11:10:19 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 4492B4F58D5
+	for <lists+dri-devel@lfdr.de>; Wed,  6 Apr 2022 11:17:32 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id CAB2A10F289;
-	Wed,  6 Apr 2022 09:10:16 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 3245910EC1B;
+	Wed,  6 Apr 2022 09:17:30 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from smtp-out1.suse.de (smtp-out1.suse.de [195.135.220.28])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 7A4E210F289
- for <dri-devel@lists.freedesktop.org>; Wed,  6 Apr 2022 09:10:15 +0000 (UTC)
-Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
- key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
- (No client certificate requested)
- by smtp-out1.suse.de (Postfix) with ESMTPS id 2996A210DE;
- Wed,  6 Apr 2022 09:10:14 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
- t=1649236214; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
- mime-version:mime-version:content-type:content-type:
- in-reply-to:in-reply-to:references:references;
- bh=zw5om9VLPHJOOBX0Qlh+9XRHLGzW7CNyc/w3e75MEVk=;
- b=mNWMW4tn7GIMgGo7k+NqbOgFD11SsmOkUTfBAS72Uu5XAxF35wJU/CyMLg1EHvKTX7Woba
- 34tuV/6Nc/02oX1TLCGlb8BaFPsDfs3F+1WCDAMlk8Wd3reS4o0azFJTx36oOizLmxAyBa
- rNW7Ir/UPxcmTtIS77QDeEODyLFdavc=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
- s=susede2_ed25519; t=1649236214;
- h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
- mime-version:mime-version:content-type:content-type:
- in-reply-to:in-reply-to:references:references;
- bh=zw5om9VLPHJOOBX0Qlh+9XRHLGzW7CNyc/w3e75MEVk=;
- b=2RYPmRt3tnShjd+SUY4kmUfSe19LDDEohtvafCnPuhJ7woAN8dAplhubhTG0DNXiT+VFIt
- Y5g10hWKuM+dvSBQ==
-Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
- key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
- (No client certificate requested)
- by imap2.suse-dmz.suse.de (Postfix) with ESMTPS id D9C71139F5;
- Wed,  6 Apr 2022 09:10:13 +0000 (UTC)
-Received: from dovecot-director2.suse.de ([192.168.254.65])
- by imap2.suse-dmz.suse.de with ESMTPSA id kJrrM/VYTWJifQAAMHmgww
- (envelope-from <tzimmermann@suse.de>); Wed, 06 Apr 2022 09:10:13 +0000
-Message-ID: <165a2746-29a7-6749-08d7-f0c7086378ee@suse.de>
-Date: Wed, 6 Apr 2022 11:10:12 +0200
+Received: from mail-wm1-x336.google.com (mail-wm1-x336.google.com
+ [IPv6:2a00:1450:4864:20::336])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 627B110EC1B
+ for <dri-devel@lists.freedesktop.org>; Wed,  6 Apr 2022 09:17:28 +0000 (UTC)
+Received: by mail-wm1-x336.google.com with SMTP id
+ 123-20020a1c1981000000b0038b3616a71aso1197765wmz.4
+ for <dri-devel@lists.freedesktop.org>; Wed, 06 Apr 2022 02:17:28 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=baylibre-com.20210112.gappssmtp.com; s=20210112;
+ h=message-id:date:mime-version:user-agent:subject:content-language:to
+ :cc:references:from:organization:in-reply-to
+ :content-transfer-encoding;
+ bh=D4zgoZclwNWAy7GNMBiOgI00ZJJ7Tqwh6A08SCt6pdI=;
+ b=4mPdNS6Qp2kPdoY1al0XaQ1vDNLgd+lUfDX/vReaSgLZofqvDUGdVrsfBwmJYUMs9N
+ z5LiqsL7du7Pie5rtj20r7RkdcQlbvSbXgq/erE8cZhxEor1vTYwNZGH6nq4nPK/+zIK
+ OH7sTQoa7YB0bFSKO7SnAUZe6OxzQcdiN6B7Vh/mNp5/DLBy4scxMXL8tM8WgQ91nBrj
+ 3Gd0GTdNd2cVjiTo/G5upSvcWhOwwM5oZ33ymRyTatmxsqjWt9/3qqI7WUDX1jPzDfQh
+ E98h3/Jd7dj82IAvlluTEYLCtDgtdxHxKlmLimOiXzkgaP1WkuJGbGUfg6RcpeD32yKS
+ kAfQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
+ :content-language:to:cc:references:from:organization:in-reply-to
+ :content-transfer-encoding;
+ bh=D4zgoZclwNWAy7GNMBiOgI00ZJJ7Tqwh6A08SCt6pdI=;
+ b=bCffcc6V/7YjFV/V4rkAsAVVBqJjXn/YZCctSRqv0IWaWbEDD9waT6wELfa1IgPZAs
+ omBpdxVDXyz/Q3M5F5kVShtY9NA7A5gOq7Mt87H3mAT03HT9EULD9iBTeCPnk5pC7D7s
+ 1pNg1cNe3KT8qOFzC9WcP3vU0PkT84jP76ThMhzGVLtq7gxVtfCouubnzgtNItpLZyVC
+ DMu7TZOmFznhDD4rHHZ8jgVyrgI9JR8Xhf0BvN34de28OICK5J32qjo4bdiLZYMt1GJR
+ ap4r0h9CgQfKNhQTM5VDelyeh8PF8CRTPwhKEcjr3y8/XcaWXkujVurvnMUh/98W+Jb0
+ 029w==
+X-Gm-Message-State: AOAM530wyr/Jd+Fl5m3mJwVIBcxD7QQDzH6SJpFraz7faVidTn2z4qCr
+ /1s/NBTUfY05g7oaZswydBwXhQ==
+X-Google-Smtp-Source: ABdhPJzBwuDizZnW41jYs5B/56St90jchlAKOjRgc5MGekcmUThSes/DzTUhIvAXEeNy2qomXQzcWQ==
+X-Received: by 2002:a05:600c:35d5:b0:38e:3bca:716f with SMTP id
+ r21-20020a05600c35d500b0038e3bca716fmr6455019wmq.200.1649236646728; 
+ Wed, 06 Apr 2022 02:17:26 -0700 (PDT)
+Received: from ?IPV6:2001:861:44c0:66c0:d960:ec5e:e421:9c9e?
+ ([2001:861:44c0:66c0:d960:ec5e:e421:9c9e])
+ by smtp.gmail.com with ESMTPSA id
+ m3-20020a5d6243000000b001e33760776fsm13918135wrv.10.2022.04.06.02.17.25
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Wed, 06 Apr 2022 02:17:26 -0700 (PDT)
+Message-ID: <45668d73-a9fb-b23a-fb32-2e50eb4982aa@baylibre.com>
+Date: Wed, 6 Apr 2022 11:17:25 +0200
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.6.1
-Subject: Re: [PATCH 0/6] drm/vc4: Fixes for the writeback
+ Thunderbird/91.5.0
+Subject: Re: [PATCH v1 2/5] drm: bridge: dw_hdmi: enable overflow workaround
+ for v2.13a
 Content-Language: en-US
-To: Maxime Ripard <maxime@cerno.tech>, dri-devel@lists.freedesktop.org
-References: <20220328153659.2382206-1-maxime@cerno.tech>
-From: Thomas Zimmermann <tzimmermann@suse.de>
-In-Reply-To: <20220328153659.2382206-1-maxime@cerno.tech>
-Content-Type: multipart/signed; micalg=pgp-sha256;
- protocol="application/pgp-signature";
- boundary="------------jwvdKmpAj1wh08tGJuM2Xdbd"
+To: Sandor.yu@nxp.com, dri-devel@lists.freedesktop.org,
+ linux-kernel@vger.kernel.org, andrzej.hajda@intel.com,
+ robert.foss@linaro.org, Laurent.pinchart@ideasonboard.com, jonas@kwiboo.se,
+ jernej.skrabec@gmail.com
+References: <cover.1649230434.git.Sandor.yu@nxp.com>
+ <5339589121b05c0db7ee4befdc48c7e4ab4f1653.1649230434.git.Sandor.yu@nxp.com>
+From: Neil Armstrong <narmstrong@baylibre.com>
+Organization: Baylibre
+In-Reply-To: <5339589121b05c0db7ee4befdc48c7e4ab4f1653.1649230434.git.Sandor.yu@nxp.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -69,72 +83,61 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: David Airlie <airlied@linux.ie>, Daniel Vetter <daniel.vetter@intel.com>
+Cc: shengjiu.wang@nxp.com, amuel@sholland.org, cai.huoqing@linux.dev,
+ maxime@cerno.tech, hverkuil-cisco@xs4all.nl
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-This is an OpenPGP/MIME signed message (RFC 4880 and 3156)
---------------jwvdKmpAj1wh08tGJuM2Xdbd
-Content-Type: multipart/mixed; boundary="------------w3QWWbfAtgVZIIwkGeODdwIP";
- protected-headers="v1"
-From: Thomas Zimmermann <tzimmermann@suse.de>
-To: Maxime Ripard <maxime@cerno.tech>, dri-devel@lists.freedesktop.org
-Cc: Daniel Vetter <daniel.vetter@intel.com>, David Airlie <airlied@linux.ie>,
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>
-Message-ID: <165a2746-29a7-6749-08d7-f0c7086378ee@suse.de>
-Subject: Re: [PATCH 0/6] drm/vc4: Fixes for the writeback
-References: <20220328153659.2382206-1-maxime@cerno.tech>
-In-Reply-To: <20220328153659.2382206-1-maxime@cerno.tech>
+Hi,
 
---------------w3QWWbfAtgVZIIwkGeODdwIP
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: base64
+On 06/04/2022 10:48, Sandor.yu@nxp.com wrote:
+> From: Sandor Yu <Sandor.yu@nxp.com>
+> 
+> iMX865 HDMI (v2.13a) have been identified as needing the workaround.
+> Tests show that one iteration is enough.
+> 
+> Without the workaround, iMX865 HDMI audio may not work
+> after cable plugout/in, because HDMI mode is not really set in
+> register HDMI_FC_INVIDCONF.
+> 
+> Signed-off-by: Sandor Yu <Sandor.yu@nxp.com>
+> ---
+>   drivers/gpu/drm/bridge/synopsys/dw-hdmi.c | 7 ++++---
+>   1 file changed, 4 insertions(+), 3 deletions(-)
+> 
+> diff --git a/drivers/gpu/drm/bridge/synopsys/dw-hdmi.c b/drivers/gpu/drm/bridge/synopsys/dw-hdmi.c
+> index 4befc104d220..b11577de4836 100644
+> --- a/drivers/gpu/drm/bridge/synopsys/dw-hdmi.c
+> +++ b/drivers/gpu/drm/bridge/synopsys/dw-hdmi.c
+> @@ -2087,9 +2087,9 @@ static void dw_hdmi_clear_overflow(struct dw_hdmi *hdmi)
+>   	 *
+>   	 * The number of iterations matters and depends on the HDMI TX revision
+>   	 * (and possibly on the platform). So far i.MX6Q (v1.30a), i.MX6DL
+> -	 * (v1.31a) and multiple Allwinner SoCs (v1.32a) have been identified
+> -	 * as needing the workaround, with 4 iterations for v1.30a and 1
+> -	 * iteration for others.
+> +	 * (v1.31a), iMX865(v2.13a) and multiple Allwinner SoCs (v1.32a)
+> +	 * have been identified as needing the workaround,
+> +	 * with 4 iterations for v1.30a and 1 iteration for others.
+>   	 * The Amlogic Meson GX SoCs (v2.01a) have been identified as needing
+>   	 * the workaround with a single iteration.
+>   	 * The Rockchip RK3288 SoC (v2.00a) and RK3328/RK3399 SoCs (v2.11a) have
+> @@ -2106,6 +2106,7 @@ static void dw_hdmi_clear_overflow(struct dw_hdmi *hdmi)
+>   	case 0x201a:
+>   	case 0x211a:
+>   	case 0x212a:
+> +	case 0x213a:
+>   		count = 1;
+>   		break;
 
-SGkNCg0KQW0gMjguMDMuMjIgdW0gMTc6MzYgc2NocmllYiBNYXhpbWUgUmlwYXJkOg0KPiBI
-aSwNCj4gDQo+IFRoaXMgc2VyaWVzIGFkZHJlc3MgbXVsdGlwbGUgaXNzdWVzIHdpdGggdGhl
-IHRyYW5zcG9zZXIgc3VwcG9ydCwgYW5kIHRodXMgdGhlDQo+IHdyaXRlYmFjayBzdXBwb3J0
-Lg0KDQpXaXRoIG15IGNvbW1lbnRzIGNvbnNpZGVyZWQsIGZlZWwgZnJlZSB0byBhZGQNCg0K
-QWNrZWQtYnk6IFRob21hcyBaaW1tZXJtYW5uIDx0emltbWVybWFubkBzdXNlLmRlPg0KDQpJ
-IGNhbm5vdCByZWFsbHkgY2hlY2sgdGhlIGNvcnJlY3RuZXNzIG9mIHRoZSBpbmRpdmlkdWFs
-IEhXIG9wZXJhdGlvbnMgDQp0aG91Z2guDQoNCkJlc3QgcmVnYXJkcw0KVGhvbWFzDQoNCj4g
-DQo+IExldCBtZSBrbm93IHdoYXQgeW91IHRoaW5rLA0KPiBNYXhpbWUNCj4gDQo+IE1heGlt
-ZSBSaXBhcmQgKDYpOg0KPiAgICBkcm0vdmM0OiBodnM6IFJlc2V0IG11eGVzIGF0IHByb2Jl
-IHRpbWUNCj4gICAgZHJtL3ZjNDogdHhwOiBEb24ndCBzZXQgVFhQX1ZTVEFSVF9BVF9FT0YN
-Cj4gICAgZHJtL3ZjNDogdHhwOiBGb3JjZSBhbHBoYSB0byBiZSAweGZmIGlmIGl0J3MgZGlz
-YWJsZWQNCj4gICAgZHJtL3ZjNDoga21zOiBTdG9yZSBjaGFubmVsIGluIGxvY2FsIHZhcmlh
-YmxlDQo+ICAgIGRybS92YzQ6IGttczogV2FybiBpZiB3ZSBoYXZlIGFuIGluY29tcGF0aWJs
-ZSBtdXhpbmcgc2V0dXANCj4gICAgZHJtL3ZjNDoga21zOiBJbXByb3ZlIGxvZ2dpbmcNCj4g
-DQo+ICAgZHJpdmVycy9ncHUvZHJtL3ZjNC92YzRfaHZzLmMgfCAyNiArKysrKysrKysrKysr
-KysrKysrLS0tLS0NCj4gICBkcml2ZXJzL2dwdS9kcm0vdmM0L3ZjNF9rbXMuYyB8IDM4ICsr
-KysrKysrKysrKysrKysrKysrKysrKysrKy0tLS0tLS0tDQo+ICAgZHJpdmVycy9ncHUvZHJt
-L3ZjNC92YzRfdHhwLmMgfCAgNCArKystDQo+ICAgMyBmaWxlcyBjaGFuZ2VkLCA1NCBpbnNl
-cnRpb25zKCspLCAxNCBkZWxldGlvbnMoLSkNCj4gDQoNCi0tIA0KVGhvbWFzIFppbW1lcm1h
-bm4NCkdyYXBoaWNzIERyaXZlciBEZXZlbG9wZXINClNVU0UgU29mdHdhcmUgU29sdXRpb25z
-IEdlcm1hbnkgR21iSA0KTWF4ZmVsZHN0ci4gNSwgOTA0MDkgTsO8cm5iZXJnLCBHZXJtYW55
-DQooSFJCIDM2ODA5LCBBRyBOw7xybmJlcmcpDQpHZXNjaMOkZnRzZsO8aHJlcjogSXZvIFRv
-dGV2DQo=
+At some point we must consider only v1.30a needs 4, and other needs 1.
 
---------------w3QWWbfAtgVZIIwkGeODdwIP--
+It would be simpler to put the "count = 1" in a default case.
 
---------------jwvdKmpAj1wh08tGJuM2Xdbd
-Content-Type: application/pgp-signature; name="OpenPGP_signature.asc"
-Content-Description: OpenPGP digital signature
-Content-Disposition: attachment; filename="OpenPGP_signature"
+The comment change is still welcome so we can track.
 
------BEGIN PGP SIGNATURE-----
+Thanks,
+Neil
 
-wsF5BAABCAAjFiEExndm/fpuMUdwYFFolh/E3EQov+AFAmJNWPQFAwAAAAAACgkQlh/E3EQov+BU
-IhAArm/65Uvk16tXBhKoEL0yztdLlDkCKsMrbH/GZ7wDeOPdUoXtZIk1YbRO2C1zid0BNammii23
-gbCBYKM2GAeUdN9+Lrsp5PB+ioP7uk0z0MVsL+FOxCGCwRQV2JoLWN06FsPu2GxO2nzK7ByForMn
-tMb8fAAuaFsuWM8p1NJof5lWQu92fF8QakioO1v/hHyyDd8P5Nev1BYV7EZ8ghKQ05wewdmFMncc
-OSeX+ujVR8N8E3qXT2tyBlps0V7h83zl3T5qoj5EQHzrSj+hzkmOasV5KqGlhhiz+VyGwiR0fWge
-X8uJMxpU73B6TLQx+b4PKsyxQdLzIKFRajNQPgV/pKz1NmDTaxlnh0pb0bguu2UFWoOWLEvB140F
-6wo53qXNxYv47lAIWwuLCTXi0d7t4r0uV39R5Ykr7kfBGsbq6S4ft41XQGHIZtrFWtjDNV9cKx3l
-1fjyOq6tXOdO2qVjErQN6CLeVBvVqBVqpV44NOblIhe5oWRC7N3MqQ7962BgUM+DXvcH4PPH4nUw
-pr5hgD89X4nzcGCVHjcDIhYCV4ipNrDtiXyg9LgkKC75VWx9fJwBevCezqeEiZvF3ahOaN9QR7/W
-eYLvtnfo3qgaZvDMRyT+43q7gDg498ByvlrOCNL0gEiyPeYxdCPGtp4GF96MICgNpAmyQXsap6Ua
-gIY=
-=a8gM
------END PGP SIGNATURE-----
+>   	default:
 
---------------jwvdKmpAj1wh08tGJuM2Xdbd--
