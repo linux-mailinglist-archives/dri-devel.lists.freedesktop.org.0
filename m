@@ -1,54 +1,60 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id A25A14F4F52
-	for <lists+dri-devel@lfdr.de>; Wed,  6 Apr 2022 03:59:34 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 9CF7E4F4F54
+	for <lists+dri-devel@lfdr.de>; Wed,  6 Apr 2022 03:59:48 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 8EE5710EA8A;
-	Wed,  6 Apr 2022 01:59:32 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 7723A10EAB3;
+	Wed,  6 Apr 2022 01:59:46 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 7D0E510EA8A
- for <dri-devel@lists.freedesktop.org>; Wed,  6 Apr 2022 01:59:30 +0000 (UTC)
-Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
- (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
- (No client certificate requested)
- by dfw.source.kernel.org (Postfix) with ESMTPS id 5D307612C5
- for <dri-devel@lists.freedesktop.org>; Wed,  6 Apr 2022 01:59:29 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id C3745C385A6
- for <dri-devel@lists.freedesktop.org>; Wed,  6 Apr 2022 01:59:28 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1649210368;
- bh=pDwgEh6KmeCPgKnTyof6KSyznbNRaJiPPR8oySZr3rc=;
- h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
- b=capxQEI0O5lXiCZ51wrnI6lHYT0Rwe0rlsse+qJyO3lag9aPOIjkMZJspSuV/naGy
- 1Uxm1Z0GsGXU+urhiW6rlMyafUJb6VSxu4BRKPvxuXrBm4fA8V3ukjjo81Ut9/xXOd
- NqEGgjgLUR2xTdDTkMKVuh4Nq5ONoordnW/Xa1YVhQO1xVSpT6MUo60svO97kCkoZs
- DacL3aR+LmTLVHXRN4hOqhjHAz1ty7W8+nPZlJqYT0td+ybhB6RqQNGZO97K334AL+
- uPPVPcYCxJ3aN6qYyuSOxxghrOuFjXEiT0HeaIqepHeEYeJ0ac8egcarB2XiJzC2uv
- yJMy48iqbsXug==
-Received: by mail-oa1-f42.google.com with SMTP id
- 586e51a60fabf-df22f50e0cso1446137fac.3
- for <dri-devel@lists.freedesktop.org>; Tue, 05 Apr 2022 18:59:28 -0700 (PDT)
-X-Gm-Message-State: AOAM533jLU19KFvRtmX9dCE9s5ayLBSNOYb2XQsrPHCI8k3hciSZ2KA+
- na3rN4I9LHhQKSaS7Olg4/22N17DeogWbIwLCMY=
-X-Google-Smtp-Source: ABdhPJyWss1xlGBkA+PCf/HgdAp6TEkP4sbTxbCSm6ZcXecPsMrAuDs3F6O7hTv2eW1CSEDxRr7c5QC//7WPFwPAPc4=
-X-Received: by 2002:a05:6870:ec90:b0:de:33ac:8100 with SMTP id
- eo16-20020a056870ec9000b000de33ac8100mr3008585oab.192.1649210367798; Tue, 05
- Apr 2022 18:59:27 -0700 (PDT)
+Received: from mail-ot1-x335.google.com (mail-ot1-x335.google.com
+ [IPv6:2607:f8b0:4864:20::335])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id A031E10EA98
+ for <dri-devel@lists.freedesktop.org>; Wed,  6 Apr 2022 01:59:44 +0000 (UTC)
+Received: by mail-ot1-x335.google.com with SMTP id
+ x8-20020a9d6288000000b005b22c373759so811588otk.8
+ for <dri-devel@lists.freedesktop.org>; Tue, 05 Apr 2022 18:59:44 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=chromium.org; s=google;
+ h=mime-version:in-reply-to:references:from:user-agent:date:message-id
+ :subject:to:cc;
+ bh=jv43f2rrIHjk1Fj7wJPYOjxueyGmJxQafkTafIj1hDc=;
+ b=e2thw7ORFBl8BjqnMIlCXWzL8TEvHVFQvm51vKJ6HZWpwH+ikEQJ9uUr0XXWzGW/LA
+ yvYoh4bLmeNTMzkPCkk//kXR/dxKm75XLsoiBJ1Al+b52tsq58jDPpGQv+E9tLhjL83i
+ YLYPRMTNSc565Jq1KFxV+EQkYyiXSwK32k/7w=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=x-gm-message-state:mime-version:in-reply-to:references:from
+ :user-agent:date:message-id:subject:to:cc;
+ bh=jv43f2rrIHjk1Fj7wJPYOjxueyGmJxQafkTafIj1hDc=;
+ b=wY3Lxb52M+R0DtAccfaaUeioMqvT0956dNKBHIj6OeqX7KDXiXDpiq+hz29AilJlT8
+ q6L2QIftsjRY45K6+9hoSnjYPwriF717f3PQ+DEoA53gu2S2qYQxNrkDFlx02vVgUYBw
+ 3PRuOlJqzO5PWFdkeXM24D2uyrNFw0C4+GTsaREnD5t+y+uNswoRvfsiIX8m8P4DZtid
+ oZQINKX5kn/L5x7qUmIzPNn73peEVAt6n4K9zm0NuyoNmD4I2pBMI+EPZoHOI6tA8fqL
+ ufeeAErV+Izs4FKLsJ4rTw0DViYKi3sbyHF0ZOCyVOV6331aPc7EB6tvDkdY7PuMrBOC
+ pC5A==
+X-Gm-Message-State: AOAM533dTwzQ7i1zVh4Jt4LRr/7rWSOFck9wDnEyzQ5JMOl2026LtWTK
+ LQw59AhuJA2GDUEOg2s2I+QS2Iyh/10is6erfjRo+g==
+X-Google-Smtp-Source: ABdhPJzJE9a18gRAhOd6LPf+zCiWM3yrZAtlUUjLRrak7Q4fo7tUpBr2ScsKEhil00lOrpnbqc7pUFELqtLxYKz0Tiw=
+X-Received: by 2002:a9d:b85:0:b0:5cb:3eeb:d188 with SMTP id
+ 5-20020a9d0b85000000b005cb3eebd188mr2258425oth.77.1649210383948; Tue, 05 Apr
+ 2022 18:59:43 -0700 (PDT)
+Received: from 753933720722 named unknown by gmailapi.google.com with
+ HTTPREST; Tue, 5 Apr 2022 18:59:43 -0700
 MIME-Version: 1.0
-References: <20220221095312.3692669-1-o.rempel@pengutronix.de>
- <20220406012348.GE129381@dragon>
-In-Reply-To: <20220406012348.GE129381@dragon>
-From: Shawn Guo <shawnguo@kernel.org>
-Date: Wed, 6 Apr 2022 09:59:17 +0800
-X-Gmail-Original-Message-ID: <CAJBJ56+bmpmDYP+PP3NN+CKkJT8Ls-FLeUBxFxwNLqVbbgHbOQ@mail.gmail.com>
-Message-ID: <CAJBJ56+bmpmDYP+PP3NN+CKkJT8Ls-FLeUBxFxwNLqVbbgHbOQ@mail.gmail.com>
-Subject: Re: [PATCH v1 1/8] ARM: dts: imx6qdl-vicut1/vicutgo: Set default
- backlight brightness to maximum
-To: Oleksij Rempel <o.rempel@pengutronix.de>
+In-Reply-To: <20220405234121.358948-1-dmitry.baryshkov@linaro.org>
+References: <20220405234121.358948-1-dmitry.baryshkov@linaro.org>
+From: Stephen Boyd <swboyd@chromium.org>
+User-Agent: alot/0.10
+Date: Tue, 5 Apr 2022 18:59:43 -0700
+Message-ID: <CAE-0n52u=wx403GmAvccbk1JgOgK4zz+MTBS60hvJT701WdKHA@mail.gmail.com>
+Subject: Re: [PATCH] drm/msm: remove unused plane_property field from
+ msm_drm_private
+To: Abhinav Kumar <quic_abhinavk@quicinc.com>,
+ Bjorn Andersson <bjorn.andersson@linaro.org>, 
+ Dmitry Baryshkov <dmitry.baryshkov@linaro.org>, Rob Clark <robdclark@gmail.com>,
+ Sean Paul <sean@poorly.run>
 Content-Type: text/plain; charset="UTF-8"
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -62,50 +68,30 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Mark Rutland <mark.rutland@arm.com>, devicetree@vger.kernel.org,
- Pengutronix Kernel Team <kernel@pengutronix.de>,
- Robin van der Gracht <robin@protonic.nl>, David Airlie <airlied@linux.ie>,
- Sascha Hauer <s.hauer@pengutronix.de>,
- Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
- dri-devel@lists.freedesktop.org, Rob Herring <robh+dt@kernel.org>,
- Thierry Reding <thierry.reding@gmail.com>, NXP Linux Team <linux-imx@nxp.com>,
- David Jander <david@protonic.nl>, Sam Ravnborg <sam@ravnborg.org>,
- linux-arm-kernel@lists.infradead.org
+Cc: David Airlie <airlied@linux.ie>, linux-arm-msm@vger.kernel.org,
+ freedreno@lists.freedesktop.org, dri-devel@lists.freedesktop.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Wed, Apr 6, 2022 at 9:23 AM Shawn Guo <shawnguo@kernel.org> wrote:
+Quoting Dmitry Baryshkov (2022-04-05 16:41:21)
+> Remove from struct msm_drm_private unused field plane_property.
 >
-> On Mon, Feb 21, 2022 at 10:53:05AM +0100, Oleksij Rempel wrote:
-> > From: David Jander <david@protonic.nl>
-> >
-> > Recover default behavior of the device and set maximal brightness
-> >
-> > Signed-off-by: David Jander <david@protonic.nl>
-> > Signed-off-by: Oleksij Rempel <o.rempel@pengutronix.de>
-> > ---
-> >  arch/arm/boot/dts/imx6dl-victgo.dts   | 2 +-
-> >  arch/arm/boot/dts/imx6qdl-vicut1.dtsi | 2 +-
-> >  2 files changed, 2 insertions(+), 2 deletions(-)
-> >
-> > diff --git a/arch/arm/boot/dts/imx6dl-victgo.dts b/arch/arm/boot/dts/imx6dl-victgo.dts
-> > index 227c952543d4..e6134efbfabd 100644
-> > --- a/arch/arm/boot/dts/imx6dl-victgo.dts
-> > +++ b/arch/arm/boot/dts/imx6dl-victgo.dts
-> > @@ -28,7 +28,7 @@ backlight: backlight {
-> >               pwms = <&pwm1 0 5000000 0>;
-> >               brightness-levels = <0 16 64 255>;
-> >               num-interpolated-steps = <16>;
-> > -             default-brightness-level = <1>;
-> > +             default-brightness-level = <48>;
+> Fixes: 7d36db0be3b9 ("drm/msm/mdp5: switch to standard zpos property")
+> Signed-off-by: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
+> ---
+>  drivers/gpu/drm/msm/msm_drv.h | 3 ---
+>  1 file changed, 3 deletions(-)
 >
-> Please take a look at the documentation of the property.
+> diff --git a/drivers/gpu/drm/msm/msm_drv.h b/drivers/gpu/drm/msm/msm_drv.h
+> index ee3093890d97..3bce127953ec 100644
+> --- a/drivers/gpu/drm/msm/msm_drv.h
+> +++ b/drivers/gpu/drm/msm/msm_drv.h
+> @@ -192,9 +192,6 @@ struct msm_drm_private {
+>         unsigned int num_bridges;
+>         struct drm_bridge *bridges[MAX_BRIDGES];
 >
->   default-brightness-level:
->     description:
->       The default brightness level (index into the array defined by the
->       "brightness-levels" property).
+> -       /* Properties */
+> -       struct drm_property *plane_property[PLANE_PROP_MAX_NUM];
+> -
 
-Ah, never mind, I missed 'num-interpolated-steps' there.
-
-Shawn
+Can we remove PLANE_PROP_MAX_NUM too?
