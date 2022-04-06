@@ -2,59 +2,59 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 130D14F56F1
-	for <lists+dri-devel@lfdr.de>; Wed,  6 Apr 2022 09:52:14 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 8C5AC4F56F2
+	for <lists+dri-devel@lfdr.de>; Wed,  6 Apr 2022 09:52:15 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 8EFDD10F2DF;
-	Wed,  6 Apr 2022 07:52:02 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 36D4310F3A3;
+	Wed,  6 Apr 2022 07:52:04 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-ed1-x532.google.com (mail-ed1-x532.google.com
- [IPv6:2a00:1450:4864:20::532])
- by gabe.freedesktop.org (Postfix) with ESMTPS id DEE2010F2DF
- for <dri-devel@lists.freedesktop.org>; Wed,  6 Apr 2022 07:51:55 +0000 (UTC)
-Received: by mail-ed1-x532.google.com with SMTP id p23so1586146edi.8
- for <dri-devel@lists.freedesktop.org>; Wed, 06 Apr 2022 00:51:55 -0700 (PDT)
+Received: from mail-ed1-x52b.google.com (mail-ed1-x52b.google.com
+ [IPv6:2a00:1450:4864:20::52b])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 41DF210F3A3;
+ Wed,  6 Apr 2022 07:51:57 +0000 (UTC)
+Received: by mail-ed1-x52b.google.com with SMTP id f18so1601659edc.5;
+ Wed, 06 Apr 2022 00:51:57 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
  h=from:to:cc:subject:date:message-id:in-reply-to:references:reply-to
  :mime-version:content-transfer-encoding;
- bh=p1oIraT43DCmFRrvIXq7yg7WWW/RZ0K1IMmPkDfaGmk=;
- b=H4FDZMM78TY69dcMik/VKhdoeypIKKVqMFKYP7xELDalqT0ll4k3/4NqQaWjXoKK3k
- fJYBaA+RhJTG2vP37cWoKcspCq6vhCYAYgO4nXNpsjXYnddqvFjEm9BqXPDwXTs4uto1
- OHXbkaMCguL5l6EDbO1B50j8NwrgxInYoQ3rqFX6IhhsxThUjxtdkjfR+e7LD4epwh8t
- /VhQaRsl6at7uVQ5j71fDSUoYE1mr2PkvXJxEyT9vfXWvy/0ODrMt7RkZ9XR9AL2AotE
- ODQE9Etr4ETd5BXJ7xyNFSFWxQ8ACBdRldZMiwSKGh067yjezBMTcsMiB264fjo9m+9W
- lAGg==
+ bh=8IUNqlEB/tRirjBlmf3DCVptBJ3+kBQH40nEBk4GLOk=;
+ b=X9P3tJvW3HKJc3sug915qTd9C3H2V7j4nI4YQgvhFeHZUcz+j20z4Z+m3I8VXMudRl
+ TVIG3ymi3nJVgk1R3SJJt7WreydonZZBkAU1M7E0GXcqYSs9nt1i5gUmZwfhUlzsOPMz
+ ij+QL3XcYVBS6wW86e5N1MI10NiedCQ9B8H0xe9WVIvnP98VKf8VpynVgBkci7JFmMAB
+ CPfjmO+uvZ2RTPzgznniXBbwcT4uuRZKWSBmLf0oIAQfBZ60GZ+vnJ4vJ5FZW/32O5g+
+ efcefDbbF50Pve2z3lrIA2XdwWEnlwgH6IlfeNuQf8KQFZDvXJqRFwZePykQn6cOvKWY
+ V0NA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:reply-to:mime-version:content-transfer-encoding;
- bh=p1oIraT43DCmFRrvIXq7yg7WWW/RZ0K1IMmPkDfaGmk=;
- b=p0/bnhAn/RH2eYELLOTjgkgRBz79uyrJwMJC1SzTY0nm4sdQ+m+x5ULOr6ZO3JI7JM
- jMtMMdnSXWY06oHrm07lHATfP33VRR2bi2TMGOisiaRUTJvvdrVgIFX8ujvjL3WFDK8S
- IgacitJf56FWDAXaGDc0aS/sMCuJgiCJgh38BYPTyz48u9sXXeeYXNZYwfUG6AIkAKWr
- Y9Jz2ulzkFCSOCQO89REHstTngDh8LeO/vgjllCRLWvGT85kuOOfaoMcvQ47/zAoqQjI
- iwa2rLLaFjRfTnHdM2GIZ59L5+IyjBDphrVgHwn1TDdn6Sz3ykkA8kC04GdrV57gyJII
- BNxA==
-X-Gm-Message-State: AOAM532SqAIN48fP010KkIHiknYt1QhoqQK+D4o/z9f1DafbGZ3UT0cw
- CMdxG1kV7uEqwXZKpzm6uLx0zhXt3To3Fg==
-X-Google-Smtp-Source: ABdhPJxZaNKSpvHrRI9jwq5qdrqc4oi6vDcMqoY33B6tmKKH/gVijvWnKjjSHgdac2sI8SnZ8RNXyg==
-X-Received: by 2002:a05:6402:847:b0:419:7fb0:9e29 with SMTP id
- b7-20020a056402084700b004197fb09e29mr7533620edz.45.1649231514446; 
- Wed, 06 Apr 2022 00:51:54 -0700 (PDT)
+ bh=8IUNqlEB/tRirjBlmf3DCVptBJ3+kBQH40nEBk4GLOk=;
+ b=1s7yOpwvd6Q3eHsWHlwy/wM4wjVHIWskhvsswLSN0KGSawHmkJxb/Ob3b/Az+48GCy
+ 7iK6pGxJ4xfQehc8IoTLdP4x16m6FIUuZNsytEOP1AIdUbzG6NaslnI6f0sGcx5ktEUW
+ 7B44Bk4ma3p9wzvNRgFxwICgzmgVLvKT6yfOtdnJmt0EMiYGcUyjJBsTVzuWLkc/y8zy
+ b8utkTxvQWtJfxP3OGBHKlX5S4XW6ZF0CICgfPoAh1ugcQgksNNUJ1Sdr9VpBiT+OGfh
+ oVAKJpCHGP3j4Lwc1iBK4vcTm3avQcUFPZK6RyI0aF0L8Q7KfFjmNV4IdQ4aUYNNxf5R
+ CNAw==
+X-Gm-Message-State: AOAM530TkWzgsQI6896M0fET+fk5o7cm1b87znjjmQOM/BXnp9eaDdeH
+ 5eazsHpA6gczv0uWWXlCVeteHGpPsUAAMw==
+X-Google-Smtp-Source: ABdhPJy0+JErg9p2oMRm1PXnpJQjuqlnvkXBrUzjX02vEcwu1iH2UJrnnplvZ/NlEZ9THbQKc8XraQ==
+X-Received: by 2002:a05:6402:1941:b0:413:2b5f:9074 with SMTP id
+ f1-20020a056402194100b004132b5f9074mr7297644edz.414.1649231515756; 
+ Wed, 06 Apr 2022 00:51:55 -0700 (PDT)
 Received: from able.fritz.box (p57b0b9e1.dip0.t-ipconnect.de. [87.176.185.225])
  by smtp.gmail.com with ESMTPSA id
- bs7-20020a056402304700b004197e5d2350sm7376386edb.54.2022.04.06.00.51.53
+ bs7-20020a056402304700b004197e5d2350sm7376386edb.54.2022.04.06.00.51.54
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 06 Apr 2022 00:51:53 -0700 (PDT)
+ Wed, 06 Apr 2022 00:51:54 -0700 (PDT)
 From: "=?UTF-8?q?Christian=20K=C3=B6nig?=" <ckoenig.leichtzumerken@gmail.com>
 X-Google-Original-From: =?UTF-8?q?Christian=20K=C3=B6nig?=
  <christian.koenig@amd.com>
 To: daniel.vetter@ffwll.ch,
 	dri-devel@lists.freedesktop.org
-Subject: [PATCH 13/16] dma-buf: wait for map to complete for static attachments
-Date: Wed,  6 Apr 2022 09:51:29 +0200
-Message-Id: <20220406075132.3263-14-christian.koenig@amd.com>
+Subject: [PATCH 14/16] drm/i915: drop bo->moving dependency
+Date: Wed,  6 Apr 2022 09:51:30 +0200
+Message-Id: <20220406075132.3263-15-christian.koenig@amd.com>
 X-Mailer: git-send-email 2.25.1
 In-Reply-To: <20220406075132.3263-1-christian.koenig@amd.com>
 References: <20220406075132.3263-1-christian.koenig@amd.com>
@@ -74,138 +74,195 @@ List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
 Reply-To: DMA-resv@freedesktop.org
-Cc: =?UTF-8?q?Christian=20K=C3=B6nig?= <christian.koenig@amd.com>
+Cc: intel-gfx@lists.freedesktop.org,
+ =?UTF-8?q?Christian=20K=C3=B6nig?= <christian.koenig@amd.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-We have previously done that in the individual drivers but it is
-more defensive to move that into the common code.
-
-Dynamic attachments should wait for map operations to complete by themselves.
+That should now be handled by the common dma_resv framework.
 
 Signed-off-by: Christian König <christian.koenig@amd.com>
 Reviewed-by: Daniel Vetter <daniel.vetter@ffwll.ch>
+Cc: intel-gfx@lists.freedesktop.org
 ---
- drivers/dma-buf/dma-buf.c                   | 18 +++++++++++++++---
- drivers/gpu/drm/amd/amdgpu/amdgpu_dma_buf.c | 14 +-------------
- drivers/gpu/drm/nouveau/nouveau_prime.c     | 17 +----------------
- drivers/gpu/drm/radeon/radeon_prime.c       | 16 +++-------------
- 4 files changed, 20 insertions(+), 45 deletions(-)
+ drivers/gpu/drm/i915/gem/i915_gem_object.c    | 41 ++++---------------
+ drivers/gpu/drm/i915/gem/i915_gem_object.h    |  8 +---
+ drivers/gpu/drm/i915/gem/i915_gem_ttm_move.c  | 15 +------
+ .../drm/i915/gem/selftests/i915_gem_migrate.c |  3 +-
+ .../drm/i915/gem/selftests/i915_gem_mman.c    |  3 +-
+ drivers/gpu/drm/i915/i915_vma.c               |  9 +++-
+ 6 files changed, 21 insertions(+), 58 deletions(-)
 
-diff --git a/drivers/dma-buf/dma-buf.c b/drivers/dma-buf/dma-buf.c
-index 1cddb65eafda..79795857be3e 100644
---- a/drivers/dma-buf/dma-buf.c
-+++ b/drivers/dma-buf/dma-buf.c
-@@ -661,12 +661,24 @@ static struct sg_table * __map_dma_buf(struct dma_buf_attachment *attach,
- 				       enum dma_data_direction direction)
+diff --git a/drivers/gpu/drm/i915/gem/i915_gem_object.c b/drivers/gpu/drm/i915/gem/i915_gem_object.c
+index 372bc220faeb..ffde7bc0a95d 100644
+--- a/drivers/gpu/drm/i915/gem/i915_gem_object.c
++++ b/drivers/gpu/drm/i915/gem/i915_gem_object.c
+@@ -741,30 +741,19 @@ static const struct drm_gem_object_funcs i915_gem_object_funcs = {
+ /**
+  * i915_gem_object_get_moving_fence - Get the object's moving fence if any
+  * @obj: The object whose moving fence to get.
++ * @fence: The resulting fence
+  *
+  * A non-signaled moving fence means that there is an async operation
+  * pending on the object that needs to be waited on before setting up
+  * any GPU- or CPU PTEs to the object's pages.
+  *
+- * Return: A refcounted pointer to the object's moving fence if any,
+- * NULL otherwise.
++ * Return: Negative error code or 0 for success.
+  */
+-struct dma_fence *
+-i915_gem_object_get_moving_fence(struct drm_i915_gem_object *obj)
++int i915_gem_object_get_moving_fence(struct drm_i915_gem_object *obj,
++				     struct dma_fence **fence)
  {
- 	struct sg_table *sg_table;
-+	signed long ret;
- 
- 	sg_table = attach->dmabuf->ops->map_dma_buf(attach, direction);
-+	if (IS_ERR_OR_NULL(sg_table))
-+		return sg_table;
-+
-+	if (!dma_buf_attachment_is_dynamic(attach)) {
-+		ret = dma_resv_wait_timeout(attach->dmabuf->resv,
-+					    DMA_RESV_USAGE_KERNEL, true,
-+					    MAX_SCHEDULE_TIMEOUT);
-+		if (ret < 0) {
-+			attach->dmabuf->ops->unmap_dma_buf(attach, sg_table,
-+							   direction);
-+			return ERR_PTR(ret);
-+		}
-+	}
- 
--	if (!IS_ERR_OR_NULL(sg_table))
--		mangle_sg_table(sg_table);
+-	return dma_fence_get(i915_gem_to_ttm(obj)->moving);
+-}
 -
-+	mangle_sg_table(sg_table);
- 	return sg_table;
- }
- 
-diff --git a/drivers/gpu/drm/amd/amdgpu/amdgpu_dma_buf.c b/drivers/gpu/drm/amd/amdgpu/amdgpu_dma_buf.c
-index 579adfafe4d0..782cbca37538 100644
---- a/drivers/gpu/drm/amd/amdgpu/amdgpu_dma_buf.c
-+++ b/drivers/gpu/drm/amd/amdgpu/amdgpu_dma_buf.c
-@@ -102,21 +102,9 @@ static int amdgpu_dma_buf_pin(struct dma_buf_attachment *attach)
- {
- 	struct drm_gem_object *obj = attach->dmabuf->priv;
- 	struct amdgpu_bo *bo = gem_to_amdgpu_bo(obj);
--	int r;
- 
- 	/* pin buffer into GTT */
--	r = amdgpu_bo_pin(bo, AMDGPU_GEM_DOMAIN_GTT);
--	if (r)
--		return r;
+-void i915_gem_object_set_moving_fence(struct drm_i915_gem_object *obj,
+-				      struct dma_fence *fence)
+-{
+-	struct dma_fence **moving = &i915_gem_to_ttm(obj)->moving;
 -
--	if (bo->tbo.moving) {
--		r = dma_fence_wait(bo->tbo.moving, true);
--		if (r) {
--			amdgpu_bo_unpin(bo);
--			return r;
--		}
--	}
--	return 0;
-+	return amdgpu_bo_pin(bo, AMDGPU_GEM_DOMAIN_GTT);
+-	if (*moving == fence)
+-		return;
+-
+-	dma_fence_put(*moving);
+-	*moving = dma_fence_get(fence);
++	return dma_resv_get_singleton(obj->base.resv, DMA_RESV_USAGE_KERNEL,
++				      fence);
  }
  
  /**
-diff --git a/drivers/gpu/drm/nouveau/nouveau_prime.c b/drivers/gpu/drm/nouveau/nouveau_prime.c
-index 60019d0532fc..347488685f74 100644
---- a/drivers/gpu/drm/nouveau/nouveau_prime.c
-+++ b/drivers/gpu/drm/nouveau/nouveau_prime.c
-@@ -93,22 +93,7 @@ int nouveau_gem_prime_pin(struct drm_gem_object *obj)
- 	if (ret)
- 		return -EINVAL;
- 
--	ret = ttm_bo_reserve(&nvbo->bo, false, false, NULL);
+@@ -782,23 +771,9 @@ void i915_gem_object_set_moving_fence(struct drm_i915_gem_object *obj,
+ int i915_gem_object_wait_moving_fence(struct drm_i915_gem_object *obj,
+ 				      bool intr)
+ {
+-	struct dma_fence *fence = i915_gem_to_ttm(obj)->moving;
+-	int ret;
+-
+ 	assert_object_held(obj);
+-	if (!fence)
+-		return 0;
+-
+-	ret = dma_fence_wait(fence, intr);
 -	if (ret)
--		goto error;
+-		return ret;
 -
--	if (nvbo->bo.moving)
--		ret = dma_fence_wait(nvbo->bo.moving, true);
+-	if (fence->error)
+-		return fence->error;
 -
--	ttm_bo_unreserve(&nvbo->bo);
--	if (ret)
--		goto error;
--
--	return ret;
--
--error:
--	nouveau_bo_unpin(nvbo);
--	return ret;
-+	return 0;
+-	i915_gem_to_ttm(obj)->moving = NULL;
+-	dma_fence_put(fence);
+-	return 0;
++	return dma_resv_wait_timeout(obj->base. resv, DMA_RESV_USAGE_KERNEL,
++				     intr, MAX_SCHEDULE_TIMEOUT);
  }
  
- void nouveau_gem_prime_unpin(struct drm_gem_object *obj)
-diff --git a/drivers/gpu/drm/radeon/radeon_prime.c b/drivers/gpu/drm/radeon/radeon_prime.c
-index 4a90807351e7..42a87948e28c 100644
---- a/drivers/gpu/drm/radeon/radeon_prime.c
-+++ b/drivers/gpu/drm/radeon/radeon_prime.c
-@@ -77,19 +77,9 @@ int radeon_gem_prime_pin(struct drm_gem_object *obj)
+ #if IS_ENABLED(CONFIG_DRM_I915_SELFTEST)
+diff --git a/drivers/gpu/drm/i915/gem/i915_gem_object.h b/drivers/gpu/drm/i915/gem/i915_gem_object.h
+index 02c37fe4a535..e11d82a9f7c3 100644
+--- a/drivers/gpu/drm/i915/gem/i915_gem_object.h
++++ b/drivers/gpu/drm/i915/gem/i915_gem_object.h
+@@ -520,12 +520,8 @@ i915_gem_object_finish_access(struct drm_i915_gem_object *obj)
+ 	i915_gem_object_unpin_pages(obj);
+ }
  
- 	/* pin buffer into GTT */
- 	ret = radeon_bo_pin(bo, RADEON_GEM_DOMAIN_GTT, NULL);
--	if (unlikely(ret))
--		goto error;
+-struct dma_fence *
+-i915_gem_object_get_moving_fence(struct drm_i915_gem_object *obj);
 -
--	if (bo->tbo.moving) {
--		ret = dma_fence_wait(bo->tbo.moving, false);
--		if (unlikely(ret)) {
--			radeon_bo_unpin(bo);
--			goto error;
--		}
--	}
+-void i915_gem_object_set_moving_fence(struct drm_i915_gem_object *obj,
+-				      struct dma_fence *fence);
 -
--	bo->prime_shared_count++;
--error:
-+	if (likely(ret == 0))
-+		bo->prime_shared_count++;
++int i915_gem_object_get_moving_fence(struct drm_i915_gem_object *obj,
++				     struct dma_fence **fence);
+ int i915_gem_object_wait_moving_fence(struct drm_i915_gem_object *obj,
+ 				      bool intr);
+ 
+diff --git a/drivers/gpu/drm/i915/gem/i915_gem_ttm_move.c b/drivers/gpu/drm/i915/gem/i915_gem_ttm_move.c
+index 438b8a95b3d1..a10716f4e717 100644
+--- a/drivers/gpu/drm/i915/gem/i915_gem_ttm_move.c
++++ b/drivers/gpu/drm/i915/gem/i915_gem_ttm_move.c
+@@ -467,19 +467,6 @@ __i915_ttm_move(struct ttm_buffer_object *bo,
+ 	return fence;
+ }
+ 
+-static int
+-prev_deps(struct ttm_buffer_object *bo, struct ttm_operation_ctx *ctx,
+-	  struct i915_deps *deps)
+-{
+-	int ret;
+-
+-	ret = i915_deps_add_dependency(deps, bo->moving, ctx);
+-	if (!ret)
+-		ret = i915_deps_add_resv(deps, bo->base.resv, ctx);
+-
+-	return ret;
+-}
+-
+ /**
+  * i915_ttm_move - The TTM move callback used by i915.
+  * @bo: The buffer object.
+@@ -534,7 +521,7 @@ int i915_ttm_move(struct ttm_buffer_object *bo, bool evict,
+ 		struct i915_deps deps;
+ 
+ 		i915_deps_init(&deps, GFP_KERNEL | __GFP_NORETRY | __GFP_NOWARN);
+-		ret = prev_deps(bo, ctx, &deps);
++		ret = i915_deps_add_resv(&deps, bo->base.resv, ctx);
+ 		if (ret) {
+ 			i915_refct_sgt_put(dst_rsgt);
+ 			return ret;
+diff --git a/drivers/gpu/drm/i915/gem/selftests/i915_gem_migrate.c b/drivers/gpu/drm/i915/gem/selftests/i915_gem_migrate.c
+index 4997ed18b6e4..0ad443a90c8b 100644
+--- a/drivers/gpu/drm/i915/gem/selftests/i915_gem_migrate.c
++++ b/drivers/gpu/drm/i915/gem/selftests/i915_gem_migrate.c
+@@ -219,8 +219,7 @@ static int __igt_lmem_pages_migrate(struct intel_gt *gt,
+ 			err = dma_resv_reserve_fences(obj->base.resv, 1);
+ 			if (!err)
+ 				dma_resv_add_fence(obj->base.resv, &rq->fence,
+-						   DMA_RESV_USAGE_WRITE);
+-			i915_gem_object_set_moving_fence(obj, &rq->fence);
++						   DMA_RESV_USAGE_KERNEL);
+ 			i915_request_put(rq);
+ 		}
+ 		if (err)
+diff --git a/drivers/gpu/drm/i915/gem/selftests/i915_gem_mman.c b/drivers/gpu/drm/i915/gem/selftests/i915_gem_mman.c
+index 3a6e3f6d239f..dfc34cc2ef8c 100644
+--- a/drivers/gpu/drm/i915/gem/selftests/i915_gem_mman.c
++++ b/drivers/gpu/drm/i915/gem/selftests/i915_gem_mman.c
+@@ -1221,8 +1221,7 @@ static int __igt_mmap_migrate(struct intel_memory_region **placements,
+ 	i915_gem_object_unpin_pages(obj);
+ 	if (rq) {
+ 		dma_resv_add_fence(obj->base.resv, &rq->fence,
+-				   DMA_RESV_USAGE_WRITE);
+-		i915_gem_object_set_moving_fence(obj, &rq->fence);
++				   DMA_RESV_USAGE_KERNEL);
+ 		i915_request_put(rq);
+ 	}
+ 	i915_gem_object_unlock(obj);
+diff --git a/drivers/gpu/drm/i915/i915_vma.c b/drivers/gpu/drm/i915/i915_vma.c
+index 524477d8939e..d077f7b9eaad 100644
+--- a/drivers/gpu/drm/i915/i915_vma.c
++++ b/drivers/gpu/drm/i915/i915_vma.c
+@@ -1357,10 +1357,17 @@ int i915_vma_pin_ww(struct i915_vma *vma, struct i915_gem_ww_ctx *ww,
+ 	if (err)
+ 		return err;
+ 
++	if (vma->obj) {
++		err = i915_gem_object_get_moving_fence(vma->obj, &moving);
++		if (err)
++			return err;
++	} else {
++		moving = NULL;
++	}
 +
- 	radeon_bo_unreserve(bo);
- 	return ret;
- }
+ 	if (flags & PIN_GLOBAL)
+ 		wakeref = intel_runtime_pm_get(&vma->vm->i915->runtime_pm);
+ 
+-	moving = vma->obj ? i915_gem_object_get_moving_fence(vma->obj) : NULL;
+ 	if (flags & vma->vm->bind_async_flags || moving) {
+ 		/* lock VM */
+ 		err = i915_vm_lock_objects(vma->vm, ww);
 -- 
 2.25.1
 
