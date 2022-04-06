@@ -1,62 +1,58 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0B2DC4F62AD
-	for <lists+dri-devel@lfdr.de>; Wed,  6 Apr 2022 17:10:41 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 055694F62B1
+	for <lists+dri-devel@lfdr.de>; Wed,  6 Apr 2022 17:15:22 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id AECDC10E338;
-	Wed,  6 Apr 2022 15:10:38 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 5AD1010E15D;
+	Wed,  6 Apr 2022 15:15:19 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-ot1-x331.google.com (mail-ot1-x331.google.com
- [IPv6:2607:f8b0:4864:20::331])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 9D89310E339
- for <dri-devel@lists.freedesktop.org>; Wed,  6 Apr 2022 15:10:36 +0000 (UTC)
-Received: by mail-ot1-x331.google.com with SMTP id
- w17-20020a056830111100b005b22c584b93so1887898otq.11
- for <dri-devel@lists.freedesktop.org>; Wed, 06 Apr 2022 08:10:36 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=chromium.org; s=google;
- h=mime-version:in-reply-to:references:from:user-agent:date:message-id
- :subject:to:cc;
- bh=EW64PsFO/oRdWsOjfEcx3qDN++rt+wfe2o19U6WLL8w=;
- b=OuP7pmKSNZDGrcIzCwJpg2/t9nw1/WFVenZlPZZPYYqR3ddx27AM1BdClVJBzRLnM/
- XzyRxX5oW18V+chqRFu7GaSf6OPLzLbij/YLJdjj44ZV17xQdIINEj7ednClXRZGPfWk
- yoK5NuZk4gawap5VuGW2wqbV+SL+0xGTL7UXY=
+Received: from mail-oa1-f50.google.com (mail-oa1-f50.google.com
+ [209.85.160.50])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 786BD10E15D
+ for <dri-devel@lists.freedesktop.org>; Wed,  6 Apr 2022 15:15:18 +0000 (UTC)
+Received: by mail-oa1-f50.google.com with SMTP id
+ 586e51a60fabf-d39f741ba0so3185406fac.13
+ for <dri-devel@lists.freedesktop.org>; Wed, 06 Apr 2022 08:15:18 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=x-gm-message-state:mime-version:in-reply-to:references:from
- :user-agent:date:message-id:subject:to:cc;
- bh=EW64PsFO/oRdWsOjfEcx3qDN++rt+wfe2o19U6WLL8w=;
- b=Kvtbn581c55ieBNwV+a5GsATaJCyewcD/nHQKbs1wBGF7N21J54ERxYTmi0hX4pQZG
- dwyaQ5SALDeXQh4Ab/f3/wlJn72/vqQ4VLn/Qhq9q+oL+JVZpTdGVWScL+upgXbv+UFq
- Lol1c8Od9uF4COAyPBxeNXsV++KBDl80hfD/z1fU57a1VZgeOmfrRfRvrscdcRQvFSez
- ehboUjZ6IFpxqPyLyk4dqV9VfIy3OBV1goJo+iJ3o07TkslIsyVA+WX8MfXaYitAJuPq
- 7V9bvL78lRU24l8NLajTGv2FoN5ygg91QkjMHC2lOtai+aJvwaf+zwX5njzrnQkte417
- qx7w==
-X-Gm-Message-State: AOAM532IU2pFqriHxeO6mH5fr50kO9GcissarckRkxrbJJsSqrQ6VFMM
- 0MJaTjrIyJQgE5PzKypZVn3QGHSxNSci8d2PiqsF5Q==
-X-Google-Smtp-Source: ABdhPJw6NpBjiEJqSqfKLXHGIB0nJEtoJYa4P3HUoNxUv5I2kNi8OGPCno72muKbEi3n2T76pqYyndvLaE5nenHEEhY=
-X-Received: by 2002:a9d:b85:0:b0:5cb:3eeb:d188 with SMTP id
- 5-20020a9d0b85000000b005cb3eebd188mr3145467oth.77.1649257835830; Wed, 06 Apr
- 2022 08:10:35 -0700 (PDT)
-Received: from 753933720722 named unknown by gmailapi.google.com with
- HTTPREST; Wed, 6 Apr 2022 08:10:35 -0700
+ h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+ :mime-version:content-disposition:in-reply-to;
+ bh=RpvtWoojBQC/zAbnCARk8Keu9NdnUbRhNT220URCdbA=;
+ b=vNSDNdpucVkt7rxyBGos2Oc+7QVfD2OE3DSHiSJwWRYlps4lJu3/xYSRXYaL1qRlC7
+ dJ6oj1eH3rB1wFMQR78pp9z6jUOxIJhsi8oNuzomHA7YeeuDenAky8PL6miH/4TulBd5
+ q0hpe4UxrKqFICGGWFvgBYu9G5IwOcQl2oBbKBSttrz3+YzFOP5vffMovGdh+xaUzfGn
+ 4cC+f+2Fv/icb2Uv+66pGrPxaW/bcJnT6Mo2VyUL0iWXj9YUcTFf5CzmSjK/Nop7FJIR
+ EOqdxV0MYqaW0aWvMLkJlzDTns3YQdtHSQdpps9zRyCQVQQ974zvqIxAiMkc+cdjDuuA
+ aIQA==
+X-Gm-Message-State: AOAM531taFyAbDX0wEAT9dSc6S/CdcZNqGW0baXiDqGP8TCYTFEpT9HN
+ m87Zbaklwf1M38rz3b4s/A==
+X-Google-Smtp-Source: ABdhPJxPRAU35Z8YAsHokOrrhdeTBPlBAcUIPkn2lyOwPKuqU/qsErcv+UFsS47fLlo/nlTZi7C8HQ==
+X-Received: by 2002:a05:6870:1807:b0:d7:2a4c:14b8 with SMTP id
+ t7-20020a056870180700b000d72a4c14b8mr4123400oaf.97.1649258117511; 
+ Wed, 06 Apr 2022 08:15:17 -0700 (PDT)
+Received: from robh.at.kernel.org (66-90-144-107.dyn.grandenetworks.net.
+ [66.90.144.107]) by smtp.gmail.com with ESMTPSA id
+ q11-20020a4a330b000000b003289cbe97c6sm6422082ooq.13.2022.04.06.08.15.16
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Wed, 06 Apr 2022 08:15:16 -0700 (PDT)
+Received: (nullmailer pid 2263085 invoked by uid 1000);
+ Wed, 06 Apr 2022 15:15:15 -0000
+Date: Wed, 6 Apr 2022 10:15:15 -0500
+From: Rob Herring <robh@kernel.org>
+To: Rex-BC Chen <rex-bc.chen@mediatek.com>
+Subject: Re: [PATCH v2,1/2] dt-bindings: display: mediatek: dpi: Add
+ compatible for MediaTek MT8186
+Message-ID: <Yk2ugxQukjPmYbFL@robh.at.kernel.org>
+References: <1648727917-3099-1-git-send-email-xinlei.lee@mediatek.com>
+ <1648727917-3099-2-git-send-email-xinlei.lee@mediatek.com>
+ <e0d5a344c8ec1f92357bd9d5b8782dded862c549.camel@mediatek.com>
 MIME-Version: 1.0
-In-Reply-To: <20220406101247.483649-4-dmitry.baryshkov@linaro.org>
-References: <20220406101247.483649-1-dmitry.baryshkov@linaro.org>
- <20220406101247.483649-4-dmitry.baryshkov@linaro.org>
-From: Stephen Boyd <swboyd@chromium.org>
-User-Agent: alot/0.10
-Date: Wed, 6 Apr 2022 08:10:35 -0700
-Message-ID: <CAE-0n50FBpNy=Hmfz8+MKziPY=Z9079jFm-ZHrBD-hd_TMv37w@mail.gmail.com>
-Subject: Re: [PATCH v2 3/3] drm/msm: don't store created planes, connectors
- and encoders
-To: Abhinav Kumar <quic_abhinavk@quicinc.com>,
- Bjorn Andersson <bjorn.andersson@linaro.org>, 
- Dmitry Baryshkov <dmitry.baryshkov@linaro.org>, Rob Clark <robdclark@gmail.com>,
- Sean Paul <sean@poorly.run>
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <e0d5a344c8ec1f92357bd9d5b8782dded862c549.camel@mediatek.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -69,16 +65,57 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: David Airlie <airlied@linux.ie>, linux-arm-msm@vger.kernel.org,
- freedreno@lists.freedesktop.org, dri-devel@lists.freedesktop.org
+Cc: chunkuang.hu@kernel.org, jitao.shi@mediatek.com, xinlei.lee@mediatek.com,
+ devicetree@vger.kernel.org, airlied@linux.ie, linux-kernel@vger.kernel.org,
+ dri-devel@lists.freedesktop.org,
+ Project_Global_Chrome_Upstream_Group@mediatek.com,
+ linux-mediatek@lists.infradead.org, matthias.bgg@gmail.com,
+ linux-arm-kernel@lists.infradead.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Quoting Dmitry Baryshkov (2022-04-06 03:12:47)
-> There is no point now in storing arrays of creates planes, connectors
-> and encoders. Remove them from struct msm_drm_private.
->
-> Signed-off-by: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
-> ---
+On Fri, Apr 01, 2022 at 09:38:20AM +0800, Rex-BC Chen wrote:
+> On Thu, 2022-03-31 at 19:58 +0800, xinlei.lee@mediatek.com wrote:
+> > From: Xinlei Lee <xinlei.lee@mediatek.com>
+> > 
+> > Add dt-binding documentation of dpi for MediaTek MT8186 SoC.
+> > 
+> > Signed-off-by: Xinlei Lee <xinlei.lee@mediatek.com>
+> > ---
+> >  .../devicetree/bindings/display/mediatek/mediatek,dpi.yaml       | 1
+> > +
+> >  1 file changed, 1 insertion(+)
+> > 
+> > diff --git
+> > a/Documentation/devicetree/bindings/display/mediatek/mediatek,dpi.yam
+> > l
+> > b/Documentation/devicetree/bindings/display/mediatek/mediatek,dpi.yam
+> > l
+> > index dd2896a40ff0..a73044c50b5f 100644
+> > ---
+> > a/Documentation/devicetree/bindings/display/mediatek/mediatek,dpi.yam
+> > l
+> > +++
+> > b/Documentation/devicetree/bindings/display/mediatek/mediatek,dpi.yam
+> > l
+> > @@ -22,6 +22,7 @@ properties:
+> >        - mediatek,mt7623-dpi
+> >        - mediatek,mt8173-dpi
+> >        - mediatek,mt8183-dpi
+> > +      - mediatek,mt8186-dpi
+> >        - mediatek,mt8192-dpi
+> >  
+> >    reg:
+> 
+> Hello Xinlei,
+> 
+> From the dts we use, the dpi node needs other properties for MT8186.
+> Please send another patch and add these properties to binding.
+> 
+> assigned-clocks = <&topckgen CLK_TOP_DPI>;
+> assigned-clock-parents = <&topckgen CLK_TOP_TVDPLL_D2>;
 
-Reviewed-by: Stephen Boyd <swboyd@chromium.org>
+Those are always allowed on any node with 'clocks', so no need to add 
+them here.
+
+Rob
