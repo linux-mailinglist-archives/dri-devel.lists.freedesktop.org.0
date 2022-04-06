@@ -2,58 +2,60 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id C26274F6614
-	for <lists+dri-devel@lfdr.de>; Wed,  6 Apr 2022 18:55:36 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 956AA4F6615
+	for <lists+dri-devel@lfdr.de>; Wed,  6 Apr 2022 18:55:40 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id E054710E03B;
-	Wed,  6 Apr 2022 16:55:31 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 6A2F210E0F1;
+	Wed,  6 Apr 2022 16:55:34 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-wr1-x429.google.com (mail-wr1-x429.google.com
- [IPv6:2a00:1450:4864:20::429])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 54DB410E03B
- for <dri-devel@lists.freedesktop.org>; Wed,  6 Apr 2022 16:55:30 +0000 (UTC)
-Received: by mail-wr1-x429.google.com with SMTP id q19so4149918wrc.6
- for <dri-devel@lists.freedesktop.org>; Wed, 06 Apr 2022 09:55:30 -0700 (PDT)
+Received: from mail-wr1-x435.google.com (mail-wr1-x435.google.com
+ [IPv6:2a00:1450:4864:20::435])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 23B3E10E03B
+ for <dri-devel@lists.freedesktop.org>; Wed,  6 Apr 2022 16:55:31 +0000 (UTC)
+Received: by mail-wr1-x435.google.com with SMTP id j12so4157794wrb.5
+ for <dri-devel@lists.freedesktop.org>; Wed, 06 Apr 2022 09:55:31 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
- h=from:to:cc:subject:date:message-id:mime-version
- :content-transfer-encoding;
- bh=fLTxnGR7/KTIrTDEayIFV/BI/DbPoVL88+VO1j10fPI=;
- b=Z7MBoyVQaoQbXieqx9qBI5GYO+2AdCuq0p9KpnbZlQWWbCS3qGiJEeFFp6bn3jER+O
- YTJeKhwvNRVcLyLmeZMe9urVW7uBNJOsZFDJfCGFgVxT9Z9Ost0Y5KjMQQNrZhXhnfGd
- oRjc8lGI+owp5FFB94h1Xk7sU1irJSkS8H5ALS+OTZQHkukOyrDfFfqYuHu/cweS74N2
- K428wdkELHXOqp9RXLZfqkgTG9WCFHyX56vWH8/H1DzcQgsfRWyvcs4HsoCliB+i/csb
- w1W3uApqQie6RrwI9JmzF1xjBETby2HrhbzroNgT0D0mliRVu38z5WQQamuCweMOTGEF
- Vgog==
+ h=from:to:cc:subject:date:message-id:in-reply-to:references
+ :mime-version:content-transfer-encoding;
+ bh=Brc5sUVC73xpzNVMY8eIEmfdgN51pWWRYrH2qSgq75o=;
+ b=nT9FCG1nc9hgRjXNNEpzWPUpQ5PojjQAMUumt/NiFssL0aqZRp/qouxeaDAXsBdAjm
+ wK0dL/+Z8a9V4Puu02rv2z0du9c1gtbLgKuhXN68KFvnfqs5qOZmOJBD++mWiRRvOv7D
+ LCZ+tPcEitRE8DSB77Ko1vPjl9VahjMnfmwoEqmxhVkzdAbZ76Esu+FPHJfFijdNX/Rp
+ 2r2LWIl7Z4qZK8f1AZ5PSAqy8vgxwsAMlHjxz/7jKOdZDvsdvG7E2VjHmdMBgc1Gz0MV
+ ezE4GkIxyDl1x2Ty7rbohCgUqRZmHg7XndH7hqHdH1+F62idcmQypsSeaZlDeHFQfPRG
+ PA/Q==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
- :content-transfer-encoding;
- bh=fLTxnGR7/KTIrTDEayIFV/BI/DbPoVL88+VO1j10fPI=;
- b=WfQHeOWMrPhheo4rWLmaLb1+1/pZkKhasCVPO2AjlxMsURw731IQuqXmLeneU4xsNV
- ZJEf2grkyN4CU/z4Wh3atmhS94tu2cNQqbjY4CcARMwEkHNhBpTeiGfWxyOcU7sucecD
- skC4OBdOXc1HSbok4FESMRJWEU2DSMn1LKE2Zeddw7oSNLRSUvZCSOGmX6V/WkEUUZsf
- ypEYQOLSPXv/gSKp6L6kT8ebOLPnOhrv6IWmcElHAX8UFwgxcig0BVVuWCjlGpSsGHQI
- kFT5CcdLmA/++GgfmKo84rrZCc7xydWOmM5PVuicnvOYYh5t276/1o15NKENXRNbKe35
- mTtg==
-X-Gm-Message-State: AOAM533Jrbt2Zup+VQdY0nvgU0gjgarqzbeGavPBtRcTmz74/qu1BEuQ
- gJJNza5ypaVk+s8n0hYozFs=
-X-Google-Smtp-Source: ABdhPJwkIAuexl3wfrlFeKQ3C80Sb6JkJaovTFTC+6nDT5lFOmwSus6YA2zf1UDBLUBgluO0yExeDA==
-X-Received: by 2002:adf:e5c2:0:b0:206:116a:432a with SMTP id
- a2-20020adfe5c2000000b00206116a432amr7358435wrn.223.1649264128743; 
- Wed, 06 Apr 2022 09:55:28 -0700 (PDT)
+ h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
+ :references:mime-version:content-transfer-encoding;
+ bh=Brc5sUVC73xpzNVMY8eIEmfdgN51pWWRYrH2qSgq75o=;
+ b=DlTJktjYlCivsMo4tktL7zKaSEOqmzrD4OXg0aW8f1lm5rakdtRWspHS/LrFKbiXf0
+ 2pQG6R9jc/MtZPES0SZH8A6ff4ig1EDlstgeQy8Pxj1FSNy4c5BhGitp0r1AcSZAT7N1
+ giYbU2SSIphxICNMTPIn5eEENvPpMqL5FAqwrZYeNK/31QFFjqx4Cro3co4kBeiwcOQt
+ SsgW0KVFQFUKW9fc4+GrpC3yN7ZH8mds+bddm4uA2DXzHS01TXWHMmRLjr7ljX8Wl3Zn
+ nmkJyYsGsfshEU+pLIU1CzJfFEKkSsfyv3N1l9n1/M5Qk401AbarmDCVNe5YGK73nHn7
+ dksg==
+X-Gm-Message-State: AOAM531hKeFnU9bdVzgR0co2CppvrgcVYvkd8bbAkA20ueigDuZJS1RP
+ kEQUXNqhwhYVYdUV/rXDu7A=
+X-Google-Smtp-Source: ABdhPJyPO9myg44y/8FXgf9FElA/EI9EQTODsY0bVDuMEU4VBW5owNAPHxuejsQgef0qBC7QlPorHg==
+X-Received: by 2002:adf:e104:0:b0:206:109a:c90f with SMTP id
+ t4-20020adfe104000000b00206109ac90fmr7374435wrz.259.1649264129576; 
+ Wed, 06 Apr 2022 09:55:29 -0700 (PDT)
 Received: from localhost.localdomain ([217.113.241.148])
  by smtp.gmail.com with ESMTPSA id
- j16-20020a05600c191000b0038c9249ffdesm5694484wmq.9.2022.04.06.09.55.27
+ j16-20020a05600c191000b0038c9249ffdesm5694484wmq.9.2022.04.06.09.55.28
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 06 Apr 2022 09:55:28 -0700 (PDT)
+ Wed, 06 Apr 2022 09:55:29 -0700 (PDT)
 From: =?UTF-8?q?Jos=C3=A9=20Exp=C3=B3sito?= <jose.exposito89@gmail.com>
 To: emma@anholt.net
-Subject: [PATCH 0/1] drm/vc4: hdmi: Replace drm_detect_hdmi_monitor() with
- drm_display_info.is_hdmi
-Date: Wed,  6 Apr 2022 18:55:13 +0200
-Message-Id: <20220406165514.6106-1-jose.exposito89@gmail.com>
+Subject: [PATCH 1/1] drm/vc4: hdmi: Replace drm_detect_hdmi_monitor() with
+ is_hdmi
+Date: Wed,  6 Apr 2022 18:55:14 +0200
+Message-Id: <20220406165514.6106-2-jose.exposito89@gmail.com>
 X-Mailer: git-send-email 2.25.1
+In-Reply-To: <20220406165514.6106-1-jose.exposito89@gmail.com>
+References: <20220406165514.6106-1-jose.exposito89@gmail.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
@@ -75,28 +77,89 @@ Cc: airlied@linux.ie, linux-kernel@vger.kernel.org,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hello everyone,
+Once EDID is parsed, the monitor HDMI support information is cached in
+drm_display_info.is_hdmi by drm_parse_hdmi_vsdb_video().
 
-This patch replaces the calls to drm_detect_hdmi_monitor() with the more
-efficient drm_display_info.is_hdmi in the VC4 driver.
+This driver calls drm_detect_hdmi_monitor() to receive the same
+information and stores its own cached value, which is less efficient.
 
-After applying it, vc4_encoder->hdmi_monitor could be removed in a
-follow up patch. However, since it is used by some code not present in
-the mainline kernel but present in the Raspberry Pi tree [1] I decided
-to send only this first patch and see if the maintainers also want to
-remove vc4_encoder->hdmi_monitor.
+Avoid calling drm_detect_hdmi_monitor() and use drm_display_info.is_hdmi
+instead.
 
-Best wishes,
-José Expósito
+drm_detect_hdmi_monitor() is called in vc4_hdmi_connector_detect() and
+vc4_hdmi_connector_get_modes(). In both cases it is safe to rely on
+drm_display_info.is_hdmi as shown by ftrace:
 
-[1] https://github.com/raspberrypi/linux/blob/rpi-5.15.y/drivers/gpu/drm/vc4/vc4_firmware_kms.c#L1410
+vc4_hdmi_connector_detect:
 
-José Expósito (1):
-  drm/vc4: hdmi: Replace drm_detect_hdmi_monitor() with is_hdmi
+    vc4_hdmi_connector_detect() {
+      drm_get_edid() {
+        drm_connector_update_edid_property() {
+          drm_add_display_info() {
+            drm_reset_display_info();
+            drm_for_each_detailed_block.part.0();
+            drm_parse_cea_ext() {
+              drm_find_cea_extension();
+              cea_db_offsets.part.0();
+              cea_db_is_hdmi_vsdb.part.0();
+              drm_parse_hdmi_vsdb_video();
+              /* drm_display_info.is_hdmi is cached here */
+            }
+          }
+        }
+      }
+      /* drm_display_info.is_hdmi is used here */
+    }
 
+vc4_hdmi_connector_get_modes:
+
+    vc4_hdmi_connector_get_modes() {
+      drm_get_edid() {
+        drm_connector_update_edid_property() {
+          drm_add_display_info() {
+            drm_reset_display_info();
+            drm_for_each_detailed_block.part.0();
+            drm_parse_cea_ext() {
+              drm_find_cea_extension();
+              cea_db_offsets.part.0();
+              cea_db_is_hdmi_vsdb.part.0();
+              drm_parse_hdmi_vsdb_video();
+              /* drm_display_info.is_hdmi is cached here */
+            }
+          }
+        }
+      }
+      /* drm_display_info.is_hdmi is used here */
+      drm_connector_update_edid_property();
+    }
+
+Signed-off-by: José Expósito <jose.exposito89@gmail.com>
+---
  drivers/gpu/drm/vc4/vc4_hdmi.c | 4 ++--
  1 file changed, 2 insertions(+), 2 deletions(-)
 
+diff --git a/drivers/gpu/drm/vc4/vc4_hdmi.c b/drivers/gpu/drm/vc4/vc4_hdmi.c
+index 6c58b0fd13fb..ecdb1ffc2023 100644
+--- a/drivers/gpu/drm/vc4/vc4_hdmi.c
++++ b/drivers/gpu/drm/vc4/vc4_hdmi.c
+@@ -216,7 +216,7 @@ vc4_hdmi_connector_detect(struct drm_connector *connector, bool force)
+ 
+ 			if (edid) {
+ 				cec_s_phys_addr_from_edid(vc4_hdmi->cec_adap, edid);
+-				vc4_hdmi->encoder.hdmi_monitor = drm_detect_hdmi_monitor(edid);
++				vc4_hdmi->encoder.hdmi_monitor = connector->display_info.is_hdmi;
+ 				kfree(edid);
+ 			}
+ 		}
+@@ -255,7 +255,7 @@ static int vc4_hdmi_connector_get_modes(struct drm_connector *connector)
+ 		goto out;
+ 	}
+ 
+-	vc4_encoder->hdmi_monitor = drm_detect_hdmi_monitor(edid);
++	vc4_encoder->hdmi_monitor = connector->display_info.is_hdmi;
+ 
+ 	drm_connector_update_edid_property(connector, edid);
+ 	ret = drm_add_edid_modes(connector, edid);
 -- 
 2.25.1
 
