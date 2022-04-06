@@ -1,32 +1,32 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 194A14F6A56
-	for <lists+dri-devel@lfdr.de>; Wed,  6 Apr 2022 21:48:24 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id CC9CE4F6A5F
+	for <lists+dri-devel@lfdr.de>; Wed,  6 Apr 2022 21:49:08 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id CE05310E239;
-	Wed,  6 Apr 2022 19:48:21 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id B40DB89C21;
+	Wed,  6 Apr 2022 19:49:06 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from metis.ext.pengutronix.de (metis.ext.pengutronix.de
  [IPv6:2001:67c:670:201:290:27ff:fe1d:cc33])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 7F19C10E239
- for <dri-devel@lists.freedesktop.org>; Wed,  6 Apr 2022 19:48:20 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 72F2889C21
+ for <dri-devel@lists.freedesktop.org>; Wed,  6 Apr 2022 19:49:05 +0000 (UTC)
 Received: from gallifrey.ext.pengutronix.de
  ([2001:67c:670:201:5054:ff:fe8d:eefb] helo=[IPv6:::1])
  by metis.ext.pengutronix.de with esmtps
  (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256) (Exim 4.92)
  (envelope-from <l.stach@pengutronix.de>)
- id 1ncBda-000474-Vz; Wed, 06 Apr 2022 21:48:19 +0200
-Message-ID: <032571d2b128c34f5ab6e133653e5370e0d3fd48.camel@pengutronix.de>
-Subject: Re: [PATCH v2 6/7] drm: mxsfb: Reorder mxsfb_crtc_mode_set_nofb()
+ id 1ncBeJ-0004AF-P9; Wed, 06 Apr 2022 21:49:03 +0200
+Message-ID: <5068b8296cf1e2e885ac411a3d1728bad12c47f6.camel@pengutronix.de>
+Subject: Re: [PATCH v2 7/7] drm: mxsfb: Factor out mxsfb_update_buffer()
 From: Lucas Stach <l.stach@pengutronix.de>
 To: Marek Vasut <marex@denx.de>, dri-devel@lists.freedesktop.org
-Date: Wed, 06 Apr 2022 21:48:18 +0200
-In-Reply-To: <20220311170601.50995-6-marex@denx.de>
+Date: Wed, 06 Apr 2022 21:49:02 +0200
+In-Reply-To: <20220311170601.50995-7-marex@denx.de>
 References: <20220311170601.50995-1-marex@denx.de>
- <20220311170601.50995-6-marex@denx.de>
+ <20220311170601.50995-7-marex@denx.de>
 Content-Type: text/plain; charset="UTF-8"
 User-Agent: Evolution 3.40.4 (3.40.4-1.fc34) 
 MIME-Version: 1.0
@@ -56,9 +56,9 @@ Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 Am Freitag, dem 11.03.2022 um 18:06 +0100 schrieb Marek Vasut:
-> Reorder mxsfb_crtc_mode_set_nofb() such that all functions which perform
-> register IO are called from one single location in this function. This is
-> a clean up. No functional change.
+> Pull functionality responsible for programming framebuffer address into
+> the controller into dedicated function mxsfb_update_buffer(). This is a
+> clean up. No functional change.
 > 
 > Signed-off-by: Marek Vasut <marex@denx.de>
 > Cc: Alexander Stein <alexander.stein@ew.tq-group.com>
@@ -74,40 +74,69 @@ Reviewed-by: Lucas Stach <l.stach@pengutronix.de>
 > ---
 > V2: No change
 > ---
->  drivers/gpu/drm/mxsfb/mxsfb_kms.c | 14 +++++++-------
->  1 file changed, 7 insertions(+), 7 deletions(-)
+>  drivers/gpu/drm/mxsfb/mxsfb_kms.c | 28 ++++++++++++++++++----------
+>  1 file changed, 18 insertions(+), 10 deletions(-)
 > 
 > diff --git a/drivers/gpu/drm/mxsfb/mxsfb_kms.c b/drivers/gpu/drm/mxsfb/mxsfb_kms.c
-> index 14f5cc590a51b..497603964add8 100644
+> index 497603964add8..4baa3db1f3d10 100644
 > --- a/drivers/gpu/drm/mxsfb/mxsfb_kms.c
 > +++ b/drivers/gpu/drm/mxsfb/mxsfb_kms.c
-> @@ -289,13 +289,6 @@ static void mxsfb_crtc_mode_set_nofb(struct mxsfb_drm_private *mxsfb,
->  	u32 bus_flags = mxsfb->connector->display_info.bus_flags;
->  	int err;
->  
-> -	/* Mandatory eLCDIF reset as per the Reference Manual */
-> -	err = mxsfb_reset_block(mxsfb);
-> -	if (err)
-> -		return;
-> -
-> -	mxsfb_set_formats(mxsfb, bus_format);
-> -
->  	if (mxsfb->bridge && mxsfb->bridge->timings)
->  		bus_flags = mxsfb->bridge->timings->input_bus_flags;
->  
-> @@ -306,6 +299,13 @@ static void mxsfb_crtc_mode_set_nofb(struct mxsfb_drm_private *mxsfb,
->  			     bus_flags);
->  	DRM_DEV_DEBUG_DRIVER(drm->dev, "Mode flags: 0x%08X\n", m->flags);
->  
-> +	/* Mandatory eLCDIF reset as per the Reference Manual */
-> +	err = mxsfb_reset_block(mxsfb);
-> +	if (err)
-> +		return;
-> +
-> +	mxsfb_set_formats(mxsfb, bus_format);
-> +
->  	mxsfb_set_mode(mxsfb, bus_flags);
+> @@ -58,6 +58,22 @@ static dma_addr_t mxsfb_get_fb_paddr(struct drm_plane *plane)
+>  	return gem->paddr;
 >  }
 >  
+> +static void
+> +mxsfb_update_buffer(struct mxsfb_drm_private *mxsfb, struct drm_plane *plane,
+> +		    bool both)
+> +{
+> +	dma_addr_t paddr;
+> +
+> +	paddr = mxsfb_get_fb_paddr(plane);
+> +	if (!paddr)
+> +		return;
+> +
+> +	if (both)
+> +		writel(paddr, mxsfb->base + mxsfb->devdata->cur_buf);
+> +
+> +	writel(paddr, mxsfb->base + mxsfb->devdata->next_buf);
+> +}
+> +
+>  /*
+>   * Setup the MXSFB registers for decoding the pixels out of the framebuffer and
+>   * outputting them on the bus.
+> @@ -352,7 +368,6 @@ static void mxsfb_crtc_atomic_enable(struct drm_crtc *crtc,
+>  	struct drm_bridge_state *bridge_state;
+>  	struct drm_device *drm = mxsfb->drm;
+>  	u32 bus_format = 0;
+> -	dma_addr_t paddr;
+>  
+>  	/* If there is a bridge attached to the LCDIF, use its bus format */
+>  	if (mxsfb->bridge) {
+> @@ -387,11 +402,7 @@ static void mxsfb_crtc_atomic_enable(struct drm_crtc *crtc,
+>  	mxsfb_crtc_mode_set_nofb(mxsfb, bus_format);
+>  
+>  	/* Write cur_buf as well to avoid an initial corrupt frame */
+> -	paddr = mxsfb_get_fb_paddr(crtc->primary);
+> -	if (paddr) {
+> -		writel(paddr, mxsfb->base + mxsfb->devdata->cur_buf);
+> -		writel(paddr, mxsfb->base + mxsfb->devdata->next_buf);
+> -	}
+> +	mxsfb_update_buffer(mxsfb, crtc->primary, true);
+>  
+>  	mxsfb_enable_controller(mxsfb);
+>  
+> @@ -491,11 +502,8 @@ static void mxsfb_plane_primary_atomic_update(struct drm_plane *plane,
+>  					      struct drm_atomic_state *state)
+>  {
+>  	struct mxsfb_drm_private *mxsfb = to_mxsfb_drm_private(plane->dev);
+> -	dma_addr_t paddr;
+>  
+> -	paddr = mxsfb_get_fb_paddr(plane);
+> -	if (paddr)
+> -		writel(paddr, mxsfb->base + mxsfb->devdata->next_buf);
+> +	mxsfb_update_buffer(mxsfb, plane, false);
+>  }
+>  
+>  static void mxsfb_plane_overlay_atomic_update(struct drm_plane *plane,
 
 
