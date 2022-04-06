@@ -1,47 +1,37 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 264214F57D2
-	for <lists+dri-devel@lfdr.de>; Wed,  6 Apr 2022 10:36:58 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 1184E4F5813
+	for <lists+dri-devel@lfdr.de>; Wed,  6 Apr 2022 10:47:58 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id A38CE10F22B;
-	Wed,  6 Apr 2022 08:36:54 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id A8B7A10F02A;
+	Wed,  6 Apr 2022 08:47:52 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-m17637.qiye.163.com (mail-m17637.qiye.163.com
- [59.111.176.37])
- by gabe.freedesktop.org (Postfix) with ESMTPS id E1A6C10F22B
- for <dri-devel@lists.freedesktop.org>; Wed,  6 Apr 2022 08:36:52 +0000 (UTC)
-Received: from [192.168.60.102] (unknown [103.29.142.67])
- by mail-m17637.qiye.163.com (Hmail) with ESMTPA id B89019801AA;
- Wed,  6 Apr 2022 16:36:48 +0800 (CST)
-Message-ID: <a5e070ae-d9e1-e5ee-0871-2cdf58958203@rock-chips.com>
-Date: Wed, 6 Apr 2022 16:36:42 +0800
-MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.7.0
-Subject: Re: [PATCH v9 00/23] drm/rockchip: RK356x VOP2 support
-Content-Language: en-US
-To: Sascha Hauer <s.hauer@pengutronix.de>
-References: <20220328151116.2034635-1-s.hauer@pengutronix.de>
- <FB201567-AE5A-4242-82F1-7C55D8F111EA@gmail.com>
- <20220401125205.GL4012@pengutronix.de>
- <1c0fbf4f-2e17-29f9-5c69-c80b53ff3d2f@rock-chips.com>
- <20220405093700.GQ4012@pengutronix.de>
- <12a8c0ef-90ee-cf7e-50a0-e00add8af147@rock-chips.com>
- <20220406081333.GU4012@pengutronix.de>
-From: Andy Yan <andy.yan@rock-chips.com>
-In-Reply-To: <20220406081333.GU4012@pengutronix.de>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
-X-HM-Spam-Status: e1kfGhgUHx5ZQUtXWQgPGg8OCBgUHx5ZQUlOS1dZCBgUCR5ZQVlLVUtZV1
- kWDxoPAgseWUFZKDYvK1lXWShZQUhPN1dZLVlBSVdZDwkaFQgSH1lBWUNKGR5WTEwaTktMGE4ZHU
- IZVRMBExYaEhckFA4PWVdZFhoPEhUdFFlBWU9LSFVKSktISkxVS1kG
-X-HM-Sender-Digest: e1kMHhlZQR0aFwgeV1kSHx4VD1lBWUc6PBw6Ejo*LD5MI0oxNz0yDwgZ
- PD0KFDNVSlVKTU9CSUhPSUpKS05MVTMWGhIXVRoVHwJVAhoVOwkUGBBWGBMSCwhVGBQWRVlXWRIL
- WUFZSktIVUlCVUpPSVVNTFlXWQgBWUFNSUhMNwY+
-X-HM-Tid: 0a7ffe04ef24d992kuwsb89019801aa
+Received: from inva020.nxp.com (inva020.nxp.com [92.121.34.13])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 46B4110E32E
+ for <dri-devel@lists.freedesktop.org>; Wed,  6 Apr 2022 08:47:46 +0000 (UTC)
+Received: from inva020.nxp.com (localhost [127.0.0.1])
+ by inva020.eu-rdc02.nxp.com (Postfix) with ESMTP id AB9C21A1755;
+ Wed,  6 Apr 2022 10:40:10 +0200 (CEST)
+Received: from aprdc01srsp001v.ap-rdc01.nxp.com
+ (aprdc01srsp001v.ap-rdc01.nxp.com [165.114.16.16])
+ by inva020.eu-rdc02.nxp.com (Postfix) with ESMTP id 60A761A1746;
+ Wed,  6 Apr 2022 10:40:10 +0200 (CEST)
+Received: from localhost.localdomain (mega.ap.freescale.net [10.192.208.232])
+ by aprdc01srsp001v.ap-rdc01.nxp.com (Postfix) with ESMTP id
+ 425D7183ACDE; Wed,  6 Apr 2022 16:40:08 +0800 (+08)
+From: Sandor.yu@nxp.com
+To: dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org,
+ andrzej.hajda@intel.com, narmstrong@baylibre.com, robert.foss@linaro.org,
+ Laurent.pinchart@ideasonboard.com, jonas@kwiboo.se,
+ jernej.skrabec@gmail.com
+Subject: [PATCH v1 0/5] DRM: Bridge: DW_HDMI: Add new features and bug fix
+Date: Wed,  6 Apr 2022 16:48:32 +0800
+Message-Id: <cover.1649230434.git.Sandor.yu@nxp.com>
+X-Mailer: git-send-email 2.17.1
+X-Virus-Scanned: ClamAV using ClamSMTP
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -54,106 +44,41 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: "devicetree@vger.kernel.org" <devicetree@vger.kernel.org>,
- Benjamin Gaignard <benjamin.gaignard@collabora.com>,
- Piotr Oniszczuk <piotr.oniszczuk@gmail.com>, Sandy Huang <hjc@rock-chips.com>,
- dri-devel@lists.freedesktop.org, Kever Yang <Kever.yang@rock-chips.com>,
- "open list:ARM/Rockchip SoC..." <linux-rockchip@lists.infradead.org>,
- Michael Riesch <michael.riesch@wolfvision.net>, kernel@pengutronix.de,
- Peter Geis <pgwipeout@gmail.com>,
- "linux-arm-kernel@lists.infradead.org" <linux-arm-kernel@lists.infradead.org>
+Cc: Sandor.yu@nxp.com, shengjiu.wang@nxp.com, amuel@sholland.org,
+ cai.huoqing@linux.dev, maxime@cerno.tech, hverkuil-cisco@xs4all.nl
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi:
+From: Sandor Yu <Sandor.yu@nxp.com>
 
-On 4/6/22 16:13, Sascha Hauer wrote:
-> On Wed, Apr 06, 2022 at 10:02:59AM +0800, Andy Yan wrote:
->> Hi:
->>
->> On 4/5/22 17:37, Sascha Hauer wrote:
->>> On Sat, Apr 02, 2022 at 09:37:17AM +0800, Andy Yan wrote:
->>>> Hi Sacha:
->>>>
->>>> On 4/1/22 20:52, Sascha Hauer wrote:
->>>>> -- 
->>>>> >From cbc03073623a7180243331ac24c3afaf9dec7522 Mon Sep 17 00:00:00 2001
->>>>> From: Sascha Hauer<s.hauer@pengutronix.de>
->>>>> Date: Fri, 1 Apr 2022 14:48:49 +0200
->>>>> Subject: [PATCH] fixup! drm: rockchip: Add VOP2 driver
->>>>>
->>>>> ---
->>>>>     drivers/gpu/drm/rockchip/rockchip_drm_vop2.c | 14 ++++++++++++++
->>>>>     1 file changed, 14 insertions(+)
->>>>>
->>>>> diff --git a/drivers/gpu/drm/rockchip/rockchip_drm_vop2.c b/drivers/gpu/drm/rockchip/rockchip_drm_vop2.c
->>>>> index 7dba7b9b63dc6..1421bf2f133f1 100644
->>>>> --- a/drivers/gpu/drm/rockchip/rockchip_drm_vop2.c
->>>>> +++ b/drivers/gpu/drm/rockchip/rockchip_drm_vop2.c
->>>>> @@ -2287,6 +2287,20 @@ static int vop2_create_crtc(struct vop2 *vop2)
->>>>>     			}
->>>>>     		}
->>>>> +		if (vop2->data->soc_id == 3566) {
->>>>> +			/*
->>>>> +			 * On RK3566 these windows don't have an independent
->>>>> +			 * framebuffer. They share the framebuffer with smart0,
->>>>> +			 * esmart0 and cluster0 respectively.
->>>>> +			 */
->>>>> +			switch (win->data->phys_id) {
->>>>> +			case ROCKCHIP_VOP2_SMART1:
->>>>> +			case ROCKCHIP_VOP2_ESMART1:
->>>>> +			case ROCKCHIP_VOP2_CLUSTER1:
->>>>> +				continue;
->>>>> +			}
->>>> Think about this , there maybe other upcoming vop2 base soc, they may only
->>>> have
->>>>
->>>> mirror window Smart1 Esmart1, or Smart1, Esmart1, Esmart2, Cluster1.
->>>>
->>>> I think this should add WIN_FEATURE at the platform description file
->>>> rockchip_vop2_reg.c, then
->>>>
->>>> check the FEATURE to decide whether the driver should give this window a
->>>> special treatment.
->>>>
->>>> this can make one code run for different soc with different platform
->>>> description. or we should add
->>>>
->>>> the same code logic for different soc again and again.
->>> You mean like done in the downstream Kernel? Here indeed we have a
->>> WIN_FEATURE_MIRROR flag added to the platform description. This is then
->>> evaluated with:
->>>
->>> static bool vop2_is_mirror_win(struct vop2_win *win)
->>> {
->>>           return soc_is_rk3566() && (win->feature & WIN_FEATURE_MIRROR);
->>> }
->>>
->>> So a flag is added and afterwards its evaluation is SoC specific. That
->>> doesn't help at all and only obfuscates things.
->>>
->>> Besides, experience shows that you can't predict a good abstraction for
->> This is not a  predict,  this is an IP feature, so it will appeared on
->> upcoming SOC.
->>
->> We have rk3588 with 8 windows(4 Cluster + 4 Esmart, no Smart window), and
->>
->> also have a entry level soc which only have 4 windows, they both have this
->> feature.
-> Same as with the other discussion: Please let's solve this once we are
-> there.
+It is new features and bug fix patch set for DW_HDMI DRM bridge driver
+that has verified by NXP iMX865.
+Three new feature added:
+1. Add GP Audio interface for DW_HDMI.
+2. Add CEC PM functions to restore CEC status when device suspend/resume
+3. New API for reset PHY Gen1.
+Two bugs fixed:
+1. Enable overflow workaround for v2.13a.
+2. Clear GPC_Auto bit for 24bit bpp to pass CTS.
 
+Sandor Yu (5):
+  drm: bridge: dw_hdmi: cec: Add cec suspend/resume function
+  drm: bridge: dw_hdmi: enable overflow workaround for v2.13a
+  drm: bridge: dw_hdmi: Enable GCP only for Deep Color
+  drm: bridge: dw_hdmi: add reset function for PHY GEN1
+  drm: bridge: dw_hdmi: Audio: Add General Parallel Audio (GPA) driver
 
-I am not sure if this is the suitable way for upstream, this sound like
+ drivers/gpu/drm/bridge/synopsys/Kconfig       |  11 +
+ drivers/gpu/drm/bridge/synopsys/Makefile      |   1 +
+ drivers/gpu/drm/bridge/synopsys/dw-hdmi-cec.c |  35 +++
+ .../drm/bridge/synopsys/dw-hdmi-gp-audio.c    | 199 ++++++++++++++++++
+ drivers/gpu/drm/bridge/synopsys/dw-hdmi.c     | 157 +++++++++++++-
+ drivers/gpu/drm/bridge/synopsys/dw-hdmi.h     |  13 +-
+ drivers/gpu/drm/sun4i/sun8i_hdmi_phy.c        |   2 +-
+ include/drm/bridge/dw_hdmi.h                  |   9 +-
+ 8 files changed, 416 insertions(+), 11 deletions(-)
+ create mode 100644 drivers/gpu/drm/bridge/synopsys/dw-hdmi-gp-audio.c
 
-just solve the issue appeared at the front of eyes and not think any
+-- 
+2.25.1
 
-thing about make this driver easy to support new hardware in the future.
-
-> For now my addition is the easiest way out. Once other SoCs shall be
-> supported we can re-evaluate that and find better suitable ways for SoC
-> abstractions. This may result in just your suggestion (in which case you
-> can say told-you-so) or completely different.
->
-> Sascha
->
