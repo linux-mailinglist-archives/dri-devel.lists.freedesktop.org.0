@@ -2,75 +2,63 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 62CBD4F5F02
-	for <lists+dri-devel@lfdr.de>; Wed,  6 Apr 2022 15:26:41 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 9D5734F600D
+	for <lists+dri-devel@lfdr.de>; Wed,  6 Apr 2022 15:34:48 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 7E36810E257;
-	Wed,  6 Apr 2022 13:26:37 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 955CE10E2EE;
+	Wed,  6 Apr 2022 13:34:46 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from out5-smtp.messagingengine.com (out5-smtp.messagingengine.com
- [66.111.4.29])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 8467410E257
- for <dri-devel@lists.freedesktop.org>; Wed,  6 Apr 2022 13:26:34 +0000 (UTC)
-Received: from compute5.internal (compute5.nyi.internal [10.202.2.45])
- by mailout.nyi.internal (Postfix) with ESMTP id 3BB385C0101;
- Wed,  6 Apr 2022 09:26:31 -0400 (EDT)
-Received: from mailfrontend1 ([10.202.2.162])
- by compute5.internal (MEProxy); Wed, 06 Apr 2022 09:26:31 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=cerno.tech; h=cc
- :cc:content-transfer-encoding:content-type:date:date:from:from
- :in-reply-to:in-reply-to:message-id:mime-version:references
- :reply-to:sender:subject:subject:to:to; s=fm3; bh=P3m/wle+zCqkTn
- Q2LsPonLaq4rJxOMD+5SCFJhySlqE=; b=TrRjehic15v/CX3lDxIOQUinSCSeZi
- JIvndbbp0QbrLc0y2XjWwitDJ+FvSNkncr2g/uJXIT3NiIQ19Nv32kSOFGoOMOkw
- bzJx6feyD5QwtZ0h63Nj5Ng0cGsDA/zoMoMkLEtIjniA343zA5EINJp3D5tFwaAQ
- 4j2P0dso0cx6XF/3/5x9F6a9QoBN6GLR7SQBu32oDsHix36FY82bLnxeYNRobGpu
- ptgRjZl9cU5Z1uNjkny2C6ngqewg83L/tVCaRowE6fYxO/GKqiJroAj/Z52dKiYD
- rJP8yZlOdyNw2+sB2dR/wfMbSeMWzrFD424ZPDwEg1zgNEvvsALqIu8g==
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
- messagingengine.com; h=cc:cc:content-transfer-encoding
- :content-type:date:date:from:from:in-reply-to:in-reply-to
- :message-id:mime-version:references:reply-to:sender:subject
- :subject:to:to:x-me-proxy:x-me-proxy:x-me-sender:x-me-sender
- :x-sasl-enc; s=fm3; bh=P3m/wle+zCqkTnQ2LsPonLaq4rJxOMD+5SCFJhySl
- qE=; b=ZCAdKSKgJgyS4lTmscX0tFw6OV1e+lXII8Fnusj6151B5QvkA1tvCcjfQ
- EqMq/X5a5B3P4UuiXSR+whJQgnHE/43KyRMIZkl4+yccqpyfUTlC8J2qAQ59cDiw
- k2DKS2LqZlEgY1FaULEQTyStRa+aV9Od6FJtYdK3LPN3e4X5IKlG0JSUThDPwOTT
- Xy07IGkzYg7T9zwE4vm+3sZ39hKwb5Yurb8Yu0sM3bNOK44kQYDzUOBMNEyJML8S
- qhmjQFC+yR8933eYF/YYIEEnJICAr0wFztGXJZnue6ymewWSSTWXCcPHvmkiawWu
- dgR8hjyOsDzGK/hfL5ZBwvwe2hsBg==
-X-ME-Sender: <xms:BpVNYpVfXPiQZP4wFU0UPZuIpzSh9nH8EL6IF342QnhBblo2aC1bSg>
- <xme:BpVNYpmshljiBC2_eRCe1VMurca_EUEM9dzW2fwvhn469wKFzaQBe33oZh6Z1gfjw
- qI_jX-jdGKmGdKg4h8>
-X-ME-Received: <xmr:BpVNYlZL1XKM-BTahI-6VI4KsU1QWWuasy1mr9JV6vBXzRLCOulESlSFDiNH4K_P03tqMpc4Zi7rXYbelAkaxCL1sKmwG8OBRnwbmbQ>
-X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvvddrudejiedgieehucetufdoteggodetrfdotf
- fvucfrrhhofhhilhgvmecuhfgrshhtofgrihhlpdfqfgfvpdfurfetoffkrfgpnffqhgen
- uceurghilhhouhhtmecufedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmne
- cujfgurhephffvufffkffojghfgggtgfesthekredtredtjeenucfhrhhomhepofgrgihi
- mhgvucftihhprghrugcuoehmrgigihhmvgestggvrhhnohdrthgvtghhqeenucggtffrrg
- htthgvrhhnpeelteejleefvdejffetjeehfffhtdeugeffleejfeekffelteektefgveet
- vdekjeenucffohhmrghinhepkhgvrhhnvghlrdhorhhgnecuvehluhhsthgvrhfuihiivg
- eptdenucfrrghrrghmpehmrghilhhfrhhomhepmhgrgihimhgvsegtvghrnhhordhtvggt
- hh
-X-ME-Proxy: <xmx:BpVNYsXDq9IcoDpsEQIUI41xaqyUSsK-O5ytQt22IjR_gg155CGYrA>
- <xmx:BpVNYjkd5ZCOJCtMJt1lh8nN8CPQHBwHeZeWcjDO5pHaY-a4rnbyJg>
- <xmx:BpVNYpdDQWkC5ESfj7YeoS0UpQ9iDc0sMyS1fuyWxBOYzNrY_VBAIw>
- <xmx:B5VNYhjl343MrKh_nfFnzMyVjO5ulSQmIjWhcnHr1QazQQ90WXvePA>
-Received: by mail.messagingengine.com (Postfix) with ESMTPA; Wed,
- 6 Apr 2022 09:26:30 -0400 (EDT)
-From: Maxime Ripard <maxime@cerno.tech>
-To: dri-devel@lists.freedesktop.org,
-	Maxime Ripard <maxime@cerno.tech>
-Subject: Re: [PATCH v2 0/7] drm/vc4: hvs: Various improvements
-Date: Wed,  6 Apr 2022 15:26:28 +0200
-Message-Id: <164925158504.1310811.6236787289249011628.b4-ty@cerno.tech>
-X-Mailer: git-send-email 2.35.1
-In-Reply-To: <20220331143744.777652-1-maxime@cerno.tech>
-References: <20220331143744.777652-1-maxime@cerno.tech>
+Received: from mail-lj1-x234.google.com (mail-lj1-x234.google.com
+ [IPv6:2a00:1450:4864:20::234])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 0A23210E2F7
+ for <dri-devel@lists.freedesktop.org>; Wed,  6 Apr 2022 13:34:46 +0000 (UTC)
+Received: by mail-lj1-x234.google.com with SMTP id 17so3269430lji.1
+ for <dri-devel@lists.freedesktop.org>; Wed, 06 Apr 2022 06:34:45 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
+ h=date:from:to:cc:subject:message-id:references:mime-version
+ :content-disposition:in-reply-to:user-agent;
+ bh=V90PxnafyyyrLitDFx01gCjLqvEmPMg8reBbGv3nzX8=;
+ b=dMC8KZhee89xqoNHh/xcEB6gtyP/V48ohjRqKkPVPBDt86eHLnV2oeNCSnaZIS/URP
+ rP+sZU2HaeQGP29hYMnVRUSeMpfPklicHiGNbu8xoCpsoi8NORi1UGoot2//zeUE9pN9
+ BFNF/L01Cqg6VvorM6pEngWN44uhFEKXbAAyTG89GfRRhPNVu4gZBlCZt7lmsGeVUZrh
+ TLzMvdtz/zw7OFNwyAfCB1RoVBQx8TzjemPHlBZz4ndhjskPnGvCVTmN0dB7TVbM/gQo
+ g2FcZOAEFytAyorf13tzXKWGKA6fwUSDIHmogftlU2gUYdaffctCObAaB/UQ6mWzqLm3
+ UKAg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+ :mime-version:content-disposition:in-reply-to:user-agent;
+ bh=V90PxnafyyyrLitDFx01gCjLqvEmPMg8reBbGv3nzX8=;
+ b=zJUXZ91vZdsAcfWIk9bCUM8+4qPZNfTIODy8fcl9sJasyV2TVqg6mXT53RhFerfnfO
+ fjJTeO7Jv7icnSnh68ckiQJXvOtCEyZksWEzXwL0qjvX5TcTfptrBAkxUYDBNsaIRtDE
+ RMbZHp5Fv0HZAbfXpVqNaULvfSnPy7/PI0gifYBLasQED4HtjuUQrK6xgHhZYjIZFhU1
+ G3ymBjfCEMNYfNU2X6RnRF84MQHug0GTrXFMeR78PdrUYXaFoMThA+aQySU/rTTV0Hc4
+ N3+aueZkhRyd5cLf7Ilpi0TPRH9EZequXt470vgwWkmWFNaYZs5wBieGNNcxIwRsYcVt
+ eXwQ==
+X-Gm-Message-State: AOAM531zml1hLARz5EjcGe4ZYa7epMjMmlUlocrpRJBmBND7X8Q6SFbK
+ fYhIh747YoPN28TKYJazgeU=
+X-Google-Smtp-Source: ABdhPJx/x6lyQdnpIRycXKcuk4GYHH8nwLJZrsbtHGG5dDG1zDXXnufRnzCG62cI8rElvOLOISaPQQ==
+X-Received: by 2002:a2e:a275:0:b0:24a:fe62:5e8d with SMTP id
+ k21-20020a2ea275000000b0024afe625e8dmr5593201ljm.416.1649252084224; 
+ Wed, 06 Apr 2022 06:34:44 -0700 (PDT)
+Received: from orome (pd9e518f7.dip0.t-ipconnect.de. [217.229.24.247])
+ by smtp.gmail.com with ESMTPSA id
+ d13-20020a19384d000000b0044a20646b2bsm1836476lfj.205.2022.04.06.06.34.42
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Wed, 06 Apr 2022 06:34:42 -0700 (PDT)
+Date: Wed, 6 Apr 2022 15:34:41 +0200
+From: Thierry Reding <thierry.reding@gmail.com>
+To: Jon Hunter <jonathanh@nvidia.com>
+Subject: Re: [PATCH] gpu: host1x: Show all allocated syncpts via debugfs
+Message-ID: <Yk2W8XBRFmYdlitz@orome>
+References: <20220114140453.83863-1-jonathanh@nvidia.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 8bit
+Content-Type: multipart/signed; micalg=pgp-sha256;
+ protocol="application/pgp-signature"; boundary="WT2Xb/X6kQ2JXyny"
+Content-Disposition: inline
+In-Reply-To: <20220114140453.83863-1-jonathanh@nvidia.com>
+User-Agent: Mutt/2.2.1 (c8109e14) (2022-02-19)
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -83,24 +71,53 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: David Airlie <airlied@linux.ie>, Daniel Vetter <daniel.vetter@intel.com>,
- Thomas Zimmermann <tzimmermann@suse.de>
+Cc: linux-tegra@vger.kernel.org, dri-devel@lists.freedesktop.org,
+ Mikko Perttunen <mperttunen@nvidia.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Thu, 31 Mar 2022 16:37:37 +0200, Maxime Ripard wrote:
-> These patches used to be part of the series:
-> https://lore.kernel.org/all/20220221134155.125447-1-maxime@cerno.tech/
-> 
-> but since the main patch got superseded by another core patch, I've split the
-> cleanup patches out into their own series.
-> 
-> Let me know what you think,
-> Maxime
-> 
-> [...]
 
-Applied to drm/drm-misc (drm-misc-next).
+--WT2Xb/X6kQ2JXyny
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
-Thanks!
-Maxime
+On Fri, Jan 14, 2022 at 02:04:53PM +0000, Jon Hunter wrote:
+> When the host1x syncpts status is dumped via the debugfs, syncpts that
+> have been allocated but not yet used are not shown and so currently it
+> is not possible to see all the allocated syncpts. Update the path for
+> dumping the syncpt status via the debugfs to show all allocated syncpts
+> even if they have not been used yet. Note that when the syncpt status
+> is dumped by the kernel itself for debugging only the active syncpt are
+> shown.
+>=20
+> Signed-off-by: Jon Hunter <jonathanh@nvidia.com>
+> ---
+>  drivers/gpu/host1x/debug.c | 11 +++++++----
+>  1 file changed, 7 insertions(+), 4 deletions(-)
+
+Applied, thanks.
+
+Thierry
+
+--WT2Xb/X6kQ2JXyny
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iQIzBAABCAAdFiEEiOrDCAFJzPfAjcif3SOs138+s6EFAmJNlvAACgkQ3SOs138+
+s6EFQxAAvtSZ2jDT2wJjYpay3l9DAsHVlTbhmo9HQ3mHj7Cw2QszY40waIe12TS1
+yRWgfL6U0XVfH1yC2uVKwDeA1HroRUuxJEcL6vcvNoZvhtwKIehgAeTbgonxcZWn
+bSlGymkAc1TWVbwcAM2EAo7JLN5Q0pABJ12/TUvOcmX/BZTapQmpJYrgGtGwQYnk
+6pUmCzxdvXq5U57rdkngklXAHtbXS4q9C4WXCRTFb0JWmuIndboBaEYdawqdx6r3
+gfJwnbCqAdHFMauIxcPHOvQXPVcX8u4wGygOkdMGI3brAX3X3x4yMJby/AdJHXYZ
+ma36sqKLsPAS2RXulo6ELWKQDeYuQ5DFiOwwbyte5RdNeADncHQX3e7rvBkBHKTB
+rlxAKltTAvLGABEdFxQXXASRiQcEbLxTmfNLgbpK+FFZPbYCWoKPcx+o9bngrZVh
+QL4oR8cQwDtiqTUlE9QeOGDsNSplkQAFRtF6ekN9gQph/yACRs3F4JDhjtavsuIp
+KCIdDpR7SGOc2GWpYTuiXEm9GOS6Cg2kuVB4Lk2GqRSd/mp5OBTglXZXQ1Ol6WED
+GKkhEPz8eXaFD68bI0EW1ZFQRKVIW2amjAwV8yjRHyeQx0vHvhyCYdCoj05tIVZ7
+ospSYxX39rBSW1jrCG3P3UBg/3IqVZUaPGJsSebOsQwlwgQE8TI=
+=FtrS
+-----END PGP SIGNATURE-----
+
+--WT2Xb/X6kQ2JXyny--
