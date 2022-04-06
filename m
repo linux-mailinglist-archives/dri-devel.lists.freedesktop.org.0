@@ -2,40 +2,61 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 048FC4F6501
-	for <lists+dri-devel@lfdr.de>; Wed,  6 Apr 2022 18:27:22 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id C26274F6614
+	for <lists+dri-devel@lfdr.de>; Wed,  6 Apr 2022 18:55:36 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 07F2510E5E2;
-	Wed,  6 Apr 2022 16:27:20 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id E054710E03B;
+	Wed,  6 Apr 2022 16:55:31 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from metis.ext.pengutronix.de (metis.ext.pengutronix.de
- [IPv6:2001:67c:670:201:290:27ff:fe1d:cc33])
- by gabe.freedesktop.org (Postfix) with ESMTPS id AD0C310E61E
- for <dri-devel@lists.freedesktop.org>; Wed,  6 Apr 2022 16:27:18 +0000 (UTC)
-Received: from gallifrey.ext.pengutronix.de
- ([2001:67c:670:201:5054:ff:fe8d:eefb] helo=[IPv6:::1])
- by metis.ext.pengutronix.de with esmtps
- (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256) (Exim 4.92)
- (envelope-from <l.stach@pengutronix.de>)
- id 1nc8Ur-0006hd-Vs; Wed, 06 Apr 2022 18:27:06 +0200
-Message-ID: <628350a25aa9943bf731a24ac4db364412c6b8c7.camel@pengutronix.de>
-Subject: Re: [PATCH v0 00/10] i.MX8MP HDMI support
-From: Lucas Stach <l.stach@pengutronix.de>
-To: Tim Harvey <tharvey@gateworks.com>
-Date: Wed, 06 Apr 2022 18:27:03 +0200
-In-Reply-To: <CAJ+vNU3pxSiAX5_fmLy9ztUZ4-dvm5GHdUnucWZwWcQ539dT4w@mail.gmail.com>
-References: <20220406160123.1272911-1-l.stach@pengutronix.de>
- <CAJ+vNU3pxSiAX5_fmLy9ztUZ4-dvm5GHdUnucWZwWcQ539dT4w@mail.gmail.com>
-Content-Type: text/plain; charset="UTF-8"
-User-Agent: Evolution 3.40.4 (3.40.4-1.fc34) 
+Received: from mail-wr1-x429.google.com (mail-wr1-x429.google.com
+ [IPv6:2a00:1450:4864:20::429])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 54DB410E03B
+ for <dri-devel@lists.freedesktop.org>; Wed,  6 Apr 2022 16:55:30 +0000 (UTC)
+Received: by mail-wr1-x429.google.com with SMTP id q19so4149918wrc.6
+ for <dri-devel@lists.freedesktop.org>; Wed, 06 Apr 2022 09:55:30 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
+ h=from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=fLTxnGR7/KTIrTDEayIFV/BI/DbPoVL88+VO1j10fPI=;
+ b=Z7MBoyVQaoQbXieqx9qBI5GYO+2AdCuq0p9KpnbZlQWWbCS3qGiJEeFFp6bn3jER+O
+ YTJeKhwvNRVcLyLmeZMe9urVW7uBNJOsZFDJfCGFgVxT9Z9Ost0Y5KjMQQNrZhXhnfGd
+ oRjc8lGI+owp5FFB94h1Xk7sU1irJSkS8H5ALS+OTZQHkukOyrDfFfqYuHu/cweS74N2
+ K428wdkELHXOqp9RXLZfqkgTG9WCFHyX56vWH8/H1DzcQgsfRWyvcs4HsoCliB+i/csb
+ w1W3uApqQie6RrwI9JmzF1xjBETby2HrhbzroNgT0D0mliRVu38z5WQQamuCweMOTGEF
+ Vgog==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=fLTxnGR7/KTIrTDEayIFV/BI/DbPoVL88+VO1j10fPI=;
+ b=WfQHeOWMrPhheo4rWLmaLb1+1/pZkKhasCVPO2AjlxMsURw731IQuqXmLeneU4xsNV
+ ZJEf2grkyN4CU/z4Wh3atmhS94tu2cNQqbjY4CcARMwEkHNhBpTeiGfWxyOcU7sucecD
+ skC4OBdOXc1HSbok4FESMRJWEU2DSMn1LKE2Zeddw7oSNLRSUvZCSOGmX6V/WkEUUZsf
+ ypEYQOLSPXv/gSKp6L6kT8ebOLPnOhrv6IWmcElHAX8UFwgxcig0BVVuWCjlGpSsGHQI
+ kFT5CcdLmA/++GgfmKo84rrZCc7xydWOmM5PVuicnvOYYh5t276/1o15NKENXRNbKe35
+ mTtg==
+X-Gm-Message-State: AOAM533Jrbt2Zup+VQdY0nvgU0gjgarqzbeGavPBtRcTmz74/qu1BEuQ
+ gJJNza5ypaVk+s8n0hYozFs=
+X-Google-Smtp-Source: ABdhPJwkIAuexl3wfrlFeKQ3C80Sb6JkJaovTFTC+6nDT5lFOmwSus6YA2zf1UDBLUBgluO0yExeDA==
+X-Received: by 2002:adf:e5c2:0:b0:206:116a:432a with SMTP id
+ a2-20020adfe5c2000000b00206116a432amr7358435wrn.223.1649264128743; 
+ Wed, 06 Apr 2022 09:55:28 -0700 (PDT)
+Received: from localhost.localdomain ([217.113.241.148])
+ by smtp.gmail.com with ESMTPSA id
+ j16-20020a05600c191000b0038c9249ffdesm5694484wmq.9.2022.04.06.09.55.27
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Wed, 06 Apr 2022 09:55:28 -0700 (PDT)
+From: =?UTF-8?q?Jos=C3=A9=20Exp=C3=B3sito?= <jose.exposito89@gmail.com>
+To: emma@anholt.net
+Subject: [PATCH 0/1] drm/vc4: hdmi: Replace drm_detect_hdmi_monitor() with
+ drm_display_info.is_hdmi
+Date: Wed,  6 Apr 2022 18:55:13 +0200
+Message-Id: <20220406165514.6106-1-jose.exposito89@gmail.com>
+X-Mailer: git-send-email 2.25.1
 MIME-Version: 1.0
-Content-Transfer-Encoding: 7bit
-X-SA-Exim-Connect-IP: 2001:67c:670:201:5054:ff:fe8d:eefb
-X-SA-Exim-Mail-From: l.stach@pengutronix.de
-X-SA-Exim-Scanned: No (on metis.ext.pengutronix.de);
- SAEximRunCond expanded to false
-X-PTX-Original-Recipient: dri-devel@lists.freedesktop.org
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -48,104 +69,34 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Device Tree Mailing List <devicetree@vger.kernel.org>,
- Pengutronix Kernel Team <kernel@pengutronix.de>,
- Neil Armstrong <narmstrong@baylibre.com>,
- DRI mailing list <dri-devel@lists.freedesktop.org>,
- Robert Foss <robert.foss@linaro.org>, Kishon Vijay Abraham I <kishon@ti.com>,
- Vinod Koul <vkoul@kernel.org>, Rob Herring <robh+dt@kernel.org>,
- NXP Linux Team <linux-imx@nxp.com>, linux-phy@lists.infradead.org,
- Krzysztof Kozlowski <krzk+dt@kernel.org>, patchwork-lst@pengutronix.de,
- Shawn Guo <shawnguo@kernel.org>,
- Linux ARM Mailing List <linux-arm-kernel@lists.infradead.org>,
- Andrzej Hajda <andrzej.hajda@intel.com>
+Cc: airlied@linux.ie, linux-kernel@vger.kernel.org,
+ dri-devel@lists.freedesktop.org, laurent.pinchart@ideasonboard.com,
+ =?UTF-8?q?Jos=C3=A9=20Exp=C3=B3sito?= <jose.exposito89@gmail.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi Tim,
+Hello everyone,
 
-Am Mittwoch, dem 06.04.2022 um 09:10 -0700 schrieb Tim Harvey:
-> On Wed, Apr 6, 2022 at 9:01 AM Lucas Stach <l.stach@pengutronix.de> wrote:
-> > 
-> > Hi all,
-> > 
-> > this adds support for the HDMI output pipeline on the i.MX8MP.
-> > It currently depends on the i.MX8MP HDMI power domain series [1]
-> > and support for the new LCDIF [2] in the i.MX8MP. I guess the
-> > implementation presented here also still has some warts that
-> > require fixing and the individual patches most likely need to go
-> > through different maintainer trees, so I don't expect this series
-> > to be applied right away.
-> > 
-> > However this complete series should allow people to test it more
-> > easily and provide feedback on the implementation with the full
-> > picture available.
-> > 
-> > Compared to downstream this implementation actually allows to
-> > power down the separate HDMI PHY power domain when the display
-> > is inactive or no HDMI cable is connected.
-> > 
-> > Regards,
-> > Lucas
-> > 
-> > [1] https://lore.kernel.org/all/20220406153402.1265474-1-l.stach@pengutronix.de/
-> > [2] https://lore.kernel.org/all/20220322142853.125880-1-marex@denx.de/
-> > 
-> > Lucas Stach (10):
-> >   drm/bridge: dw-hdmi: add low-active PHY reset
-> >   dt-bindings: display: imx: add binding for i.MX8MP HDMI TX
-> >   drm/imx: add bridge wrapper driver for i.MX8MP DWC HDMI
-> >   dt-bindings: display: imx: add binding for i.MX8MP HDMI PVI
-> >   drm/imx: add driver for HDMI TX Parallel Video Interface
-> >   dt-bindings: phy: add binding for the i.MX8MP HDMI PHY
-> >   phy: freescale: add Samsung HDMI PHY
-> >   arm64: dts: imx8mp: add HDMI irqsteer
-> >   arm64: dts: imx8mp: add HDMI display pipeline
-> >   arm64: dts: imx8mp-evk: enable HDMI
-> > 
-> >  .../display/imx/fsl,imx8mp-hdmi-pvi.yaml      |   83 ++
-> >  .../bindings/display/imx/fsl,imx8mp-hdmi.yaml |   72 ++
-> >  .../bindings/phy/fsl,imx8mp-hdmi-phy.yaml     |   62 +
-> >  arch/arm64/boot/dts/freescale/imx8mp-evk.dts  |   19 +
-> >  arch/arm64/boot/dts/freescale/imx8mp.dtsi     |   93 ++
-> >  drivers/gpu/drm/bridge/synopsys/dw-hdmi.c     |    7 +
-> >  drivers/gpu/drm/imx/Kconfig                   |    1 +
-> >  drivers/gpu/drm/imx/Makefile                  |    2 +
-> >  drivers/gpu/drm/imx/bridge/Kconfig            |   18 +
-> >  drivers/gpu/drm/imx/bridge/Makefile           |    4 +
-> >  drivers/gpu/drm/imx/bridge/imx-hdmi-pvi.c     |  209 +++
-> >  drivers/gpu/drm/imx/bridge/imx-hdmi.c         |  128 ++
-> >  drivers/phy/freescale/Kconfig                 |    7 +
-> >  drivers/phy/freescale/Makefile                |    1 +
-> >  drivers/phy/freescale/phy-fsl-samsung-hdmi.c  | 1145 +++++++++++++++++
-> >  include/drm/bridge/dw_hdmi.h                  |    1 +
-> >  16 files changed, 1852 insertions(+)
-> >  create mode 100644 Documentation/devicetree/bindings/display/imx/fsl,imx8mp-hdmi-pvi.yaml
-> >  create mode 100644 Documentation/devicetree/bindings/display/imx/fsl,imx8mp-hdmi.yaml
-> >  create mode 100644 Documentation/devicetree/bindings/phy/fsl,imx8mp-hdmi-phy.yaml
-> >  create mode 100644 drivers/gpu/drm/imx/bridge/Kconfig
-> >  create mode 100644 drivers/gpu/drm/imx/bridge/Makefile
-> >  create mode 100644 drivers/gpu/drm/imx/bridge/imx-hdmi-pvi.c
-> >  create mode 100644 drivers/gpu/drm/imx/bridge/imx-hdmi.c
-> >  create mode 100644 drivers/phy/freescale/phy-fsl-samsung-hdmi.c
-> > 
-> > --
-> > 2.30.2
-> > 
-> 
-> Lucas,
-> 
-> Thanks for consolidating this - It's been difficult to try to merge
-> these for testing.
-> 
-> I still have not been able to apply these to origin/master or
-> imx/master - what are you basing off of here?
+This patch replaces the calls to drm_detect_hdmi_monitor() with the more
+efficient drm_display_info.is_hdmi in the VC4 driver.
 
-This HDMI series depends on the HDMI blk-ctrl ([1] in this cover
-letter), which in turn depends on the GPCv2 i.MX8MP support series ([1]
-in the HDMI blk-ctrl cover letter), which should apply cleanly or with
-minimal fuzz to 5.18-rc1.
+After applying it, vc4_encoder->hdmi_monitor could be removed in a
+follow up patch. However, since it is used by some code not present in
+the mainline kernel but present in the Raspberry Pi tree [1] I decided
+to send only this first patch and see if the maintainers also want to
+remove vc4_encoder->hdmi_monitor.
 
-Regards,
-Lucas
+Best wishes,
+José Expósito
+
+[1] https://github.com/raspberrypi/linux/blob/rpi-5.15.y/drivers/gpu/drm/vc4/vc4_firmware_kms.c#L1410
+
+José Expósito (1):
+  drm/vc4: hdmi: Replace drm_detect_hdmi_monitor() with is_hdmi
+
+ drivers/gpu/drm/vc4/vc4_hdmi.c | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
+
+-- 
+2.25.1
 
