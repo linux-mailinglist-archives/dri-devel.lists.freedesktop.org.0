@@ -1,58 +1,68 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id E2DDC4F5A62
-	for <lists+dri-devel@lfdr.de>; Wed,  6 Apr 2022 12:01:26 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id BC2284F5A67
+	for <lists+dri-devel@lfdr.de>; Wed,  6 Apr 2022 12:04:13 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id D4C8910F0F6;
-	Wed,  6 Apr 2022 10:01:22 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 3364F10E60E;
+	Wed,  6 Apr 2022 10:04:11 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-qt1-x82c.google.com (mail-qt1-x82c.google.com
- [IPv6:2607:f8b0:4864:20::82c])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 46B4F10F0F3
- for <dri-devel@lists.freedesktop.org>; Wed,  6 Apr 2022 10:01:21 +0000 (UTC)
-Received: by mail-qt1-x82c.google.com with SMTP id t7so3364779qta.10
- for <dri-devel@lists.freedesktop.org>; Wed, 06 Apr 2022 03:01:21 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=nF1xNfj+J34XrxSolTF0D+orBqwvLN2KXHwwalZ4HTY=;
- b=wMZd4R/cJhJ0o5uoKdvVDyQbmt+R0cgDYTu4JUHaYhNncFM5q3J2vIFNDb6TYhq3LE
- 1W4tlDgycH1xe5kmdKZiAKsDXZDO2eoIWr9IG4QUl2HXztiNpg2QEpXjEdvM+HqLQ0F7
- kEBsIzbv7rm5tWx89SgopcE6Y21ULM2Ra2BUCx0WoLeB3sHu7yglx2NCzrpL4W+1Ax6w
- xnLlNpMzURktWbZ+6A4hxd3K4LdO1umpftfSXwqwzTpZcGB1iWe3eRnfZKwRHtrDrzfC
- 6ukVilvbwKDLkLBScgPEwiSVUIjS1oME067AS55bD9Lc2ooX2knRqNavt5FdWtw0kOwD
- bFqg==
+Received: from mail-wm1-x344.google.com (mail-wm1-x344.google.com
+ [IPv6:2a00:1450:4864:20::344])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id CE7E510E60E
+ for <dri-devel@lists.freedesktop.org>; Wed,  6 Apr 2022 10:04:09 +0000 (UTC)
+Received: by mail-wm1-x344.google.com with SMTP id
+ n63-20020a1c2742000000b0038d0c31db6eso1291972wmn.1
+ for <dri-devel@lists.freedesktop.org>; Wed, 06 Apr 2022 03:04:09 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ffwll.ch; s=google;
+ h=date:from:to:cc:subject:message-id:mail-followup-to:references
+ :mime-version:content-disposition:in-reply-to;
+ bh=Gsn/KVUZ2ef93UgRqhOePHB9TxRguehEszYRtNa4ZMI=;
+ b=NCWYdNcW45PTe6kKF0w+n8KY1aKTNCTcXWUn9Vd1Y+0HeE5v6VGX56SvDvtTWTcwvn
+ foA/h57PkpDokJjifQ0W/rTHCw6AxOfDck6Yq/ES/yfX94n8dRjUnemTpjYP1qPqPEci
+ fNfHE77j5zc+jbDIO9yC9EKgcCtmpjWmjQJ5M=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=nF1xNfj+J34XrxSolTF0D+orBqwvLN2KXHwwalZ4HTY=;
- b=i8HE+7cM9h4qRHYROKLw6ikyU9LQbvai9E4AmRg0Q/x9l4qRcgS/ry62AGy8YODL4R
- GsmYOI5nevIbZstHMGpjYLU3XEy19EOYgzbj/h9rouyYDHQrZJuQBbfzga9HtU5Ypt5F
- wyNSWqTGMGlszG4KKgmUa3ScrRlyZLjg+0MkQYUQqs1Fj2llzQ7nh3smynxDEWafjreA
- Hbrujflo/4Ooc43/XVR3EFCBNABfUjkUZkLe/4qgDnDMOQxS+3KKibPu0vxKBH8LkJEM
- DVn/7wXQCXq1cP+Ug/rubLnogCwrmjlzcCJeYMCQ4LX/0ANzNjQjpgbnBMLdaHYejw8s
- lTaQ==
-X-Gm-Message-State: AOAM532HLwJfworPY1T5gwLZBJ6VcVqZDoNTWwxW7pp81lU156UlD/2s
- yr0AQbWbDUMm4PheVyDlJuEIpdp8efh0/RslMkIfwg==
-X-Google-Smtp-Source: ABdhPJwifkB/hY55P59uzoya9A0itxh640pczG4PfHi0w+ZaI8JqLhcORl90QHWitXyvPRj+jQS9OQSCdNRAmmRwB0A=
-X-Received: by 2002:ac8:4e52:0:b0:2e1:dad8:5141 with SMTP id
- e18-20020ac84e52000000b002e1dad85141mr6605974qtw.62.1649239280348; Wed, 06
- Apr 2022 03:01:20 -0700 (PDT)
+ h=x-gm-message-state:date:from:to:cc:subject:message-id
+ :mail-followup-to:references:mime-version:content-disposition
+ :in-reply-to;
+ bh=Gsn/KVUZ2ef93UgRqhOePHB9TxRguehEszYRtNa4ZMI=;
+ b=3Ty5bxTXBbINB8oK8ekzPDJajWAZACr+U+K9edMhszZTv2j5JKPbGU38ps32RpK9SJ
+ GIoIMB+gi39shGRUSpFuzVuPQEPnU6MJkiYi5NrsDu7LmAVjzuBd6b0+IIaqi5SsGsPP
+ QKDZqj+MhlMo5G+6aUpTwjP35WyoRP2xutQUaPseqpcuFel5DS8bs8/ic9+5JAghxv5f
+ UrN/N5vM9/O4bp/TsSukYQIyAtT70z565UwXlFKXjQNT/WlIW9O3fxO0ZFv0qer1X6W+
+ yXMP41ZtT56RX2qZptKdBXwyp9sRXsJM44W6ZaU9q2Mh5MwWOTv5wvc1Gh/jIxK2H03V
+ 6/Og==
+X-Gm-Message-State: AOAM5327LYa/E1LR0vj0KAFXRn1pLySx6HwK9u/xkfLi+2bGol5yMXFo
+ 218ftl9KYDmG0ZfcBpbMWnhv4w==
+X-Google-Smtp-Source: ABdhPJxpJ2B8ipfnst6KF5vUfg2vrUjZLgS+eJ7m2geRcChNtFKQ+Ox79lRxUALgsfwgkDOKI1RUvQ==
+X-Received: by 2002:a05:600c:a47:b0:37c:965:2b6f with SMTP id
+ c7-20020a05600c0a4700b0037c09652b6fmr6743785wmq.31.1649239448406; 
+ Wed, 06 Apr 2022 03:04:08 -0700 (PDT)
+Received: from phenom.ffwll.local ([2a02:168:57f4:0:efd0:b9e5:5ae6:c2fa])
+ by smtp.gmail.com with ESMTPSA id
+ bk1-20020a0560001d8100b002061d6bdfd0sm5286345wrb.63.2022.04.06.03.04.07
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Wed, 06 Apr 2022 03:04:08 -0700 (PDT)
+Date: Wed, 6 Apr 2022 12:04:06 +0200
+From: Daniel Vetter <daniel@ffwll.ch>
+To: Sui Jingfeng <15330273260@189.cn>
+Subject: Re: [PATCH] drm/drm_modeset_helper_vtables.h: fix a typo
+Message-ID: <Yk1llmSuQEmtCk1Y@phenom.ffwll.local>
+Mail-Followup-To: Sui Jingfeng <15330273260@189.cn>,
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+ Maxime Ripard <mripard@kernel.org>,
+ Thomas Zimmermann <tzimmermann@suse.de>,
+ David Airlie <airlied@linux.ie>, dri-devel@lists.freedesktop.org,
+ linux-kernel@vger.kernel.org
+References: <20220406073036.276288-1-15330273260@189.cn>
 MIME-Version: 1.0
-References: <20220405235059.359738-1-dmitry.baryshkov@linaro.org>
- <20220405235059.359738-4-dmitry.baryshkov@linaro.org>
- <CAE-0n501rjepeF3Oc6g05ctyGYdZTPR1+OMC=piQEtUZT+03=w@mail.gmail.com>
-In-Reply-To: <CAE-0n501rjepeF3Oc6g05ctyGYdZTPR1+OMC=piQEtUZT+03=w@mail.gmail.com>
-From: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
-Date: Wed, 6 Apr 2022 13:01:09 +0300
-Message-ID: <CAA8EJppOtqSD0+3C60Qz77oCGgq0=bqC6dLK8sN_S8uRvCQ0wQ@mail.gmail.com>
-Subject: Re: [PATCH 3/3] drm/msm: don't store created planes,
- connectors and encoders
-To: Stephen Boyd <swboyd@chromium.org>
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20220406073036.276288-1-15330273260@189.cn>
+X-Operating-System: Linux phenom 5.10.0-8-amd64 
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -65,54 +75,41 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: freedreno@lists.freedesktop.org, David Airlie <airlied@linux.ie>,
- linux-arm-msm@vger.kernel.org, Abhinav Kumar <quic_abhinavk@quicinc.com>,
- dri-devel@lists.freedesktop.org, Bjorn Andersson <bjorn.andersson@linaro.org>,
- Sean Paul <sean@poorly.run>
+Cc: Thomas Zimmermann <tzimmermann@suse.de>, David Airlie <airlied@linux.ie>,
+ linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Wed, 6 Apr 2022 at 07:03, Stephen Boyd <swboyd@chromium.org> wrote:
->
-> Quoting Dmitry Baryshkov (2022-04-05 16:50:59)
-> > diff --git a/drivers/gpu/drm/msm/msm_drv.h b/drivers/gpu/drm/msm/msm_drv.h
-> > index d661debb50f1..ee3093890d97 100644
-> > --- a/drivers/gpu/drm/msm/msm_drv.h
-> > +++ b/drivers/gpu/drm/msm/msm_drv.h
-> > @@ -184,23 +184,14 @@ struct msm_drm_private {
-> >
-> >         struct workqueue_struct *wq;
-> >
-> > -       unsigned int num_planes;
-> > -       struct drm_plane *planes[MAX_PLANES];
->
-> Can we get rid of MAX_PLANES?
+On Wed, Apr 06, 2022 at 03:30:36PM +0800, Sui Jingfeng wrote:
+>  change upate to update
+> 
+> Signed-off-by: Sui Jingfeng <15330273260@189.cn>
 
-Sure, I'll drop all these defines in v2.
+Applied to drm-misc-next, thanks for the patch.
+-Daniel
 
->
-> > -
-> >         unsigned int num_crtcs;
-> >         struct drm_crtc *crtcs[MAX_CRTCS];
-> >
-> >         struct msm_drm_thread event_thread[MAX_CRTCS];
-> >
-> > -       unsigned int num_encoders;
-> > -       struct drm_encoder *encoders[MAX_ENCODERS];
->
-> And MAX_ENCODERS?
->
-> > -
-> >         unsigned int num_bridges;
-> >         struct drm_bridge *bridges[MAX_BRIDGES];
-> >
-> > -       unsigned int num_connectors;
-> > -       struct drm_connector *connectors[MAX_CONNECTORS];
->
-> And MAX_CONNECTORS?
-
-
+> ---
+>  include/drm/drm_modeset_helper_vtables.h | 2 +-
+>  1 file changed, 1 insertion(+), 1 deletion(-)
+> 
+> diff --git a/include/drm/drm_modeset_helper_vtables.h b/include/drm/drm_modeset_helper_vtables.h
+> index fdfa9f37ce05..fafa70ac1337 100644
+> --- a/include/drm/drm_modeset_helper_vtables.h
+> +++ b/include/drm/drm_modeset_helper_vtables.h
+> @@ -1384,7 +1384,7 @@ struct drm_mode_config_helper_funcs {
+>  	 * starting to commit the update to the hardware.
+>  	 *
+>  	 * After the atomic update is committed to the hardware this hook needs
+> -	 * to call drm_atomic_helper_commit_hw_done(). Then wait for the upate
+> +	 * to call drm_atomic_helper_commit_hw_done(). Then wait for the update
+>  	 * to be executed by the hardware, for example using
+>  	 * drm_atomic_helper_wait_for_vblanks() or
+>  	 * drm_atomic_helper_wait_for_flip_done(), and then clean up the old
+> -- 
+> 2.25.1
+> 
 
 -- 
-With best wishes
-Dmitry
+Daniel Vetter
+Software Engineer, Intel Corporation
+http://blog.ffwll.ch
