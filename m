@@ -1,40 +1,39 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 565254F52C9
-	for <lists+dri-devel@lfdr.de>; Wed,  6 Apr 2022 05:26:31 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 420644F52D1
+	for <lists+dri-devel@lfdr.de>; Wed,  6 Apr 2022 05:29:17 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id DFAE110EED9;
-	Wed,  6 Apr 2022 03:26:26 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 589E610ED3F;
+	Wed,  6 Apr 2022 03:29:14 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mailgw02.mediatek.com (unknown [210.61.82.184])
- by gabe.freedesktop.org (Postfix) with ESMTPS id A368810EEBF
- for <dri-devel@lists.freedesktop.org>; Wed,  6 Apr 2022 03:26:24 +0000 (UTC)
-X-UUID: fa20a524bf4842848135357a270be9bf-20220406
-X-UUID: fa20a524bf4842848135357a270be9bf-20220406
-Received: from mtkexhb01.mediatek.inc [(172.21.101.102)] by
- mailgw02.mediatek.com (envelope-from <ck.hu@mediatek.com>)
- (Generic MTA with TLSv1.2 ECDHE-RSA-AES256-SHA384 256/256)
- with ESMTP id 1929525275; Wed, 06 Apr 2022 11:26:17 +0800
+Received: from mailgw01.mediatek.com (unknown [60.244.123.138])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 7E74510ED3F
+ for <dri-devel@lists.freedesktop.org>; Wed,  6 Apr 2022 03:29:13 +0000 (UTC)
+X-UUID: 5086c79da67943cfa6bcfb5a68627ddb-20220406
+X-UUID: 5086c79da67943cfa6bcfb5a68627ddb-20220406
+Received: from mtkmbs10n2.mediatek.inc [(172.21.101.183)] by
+ mailgw01.mediatek.com (envelope-from <ck.hu@mediatek.com>)
+ (Generic MTA with TLSv1.2 ECDHE-RSA-AES256-GCM-SHA384 256/256)
+ with ESMTP id 456243619; Wed, 06 Apr 2022 11:29:06 +0800
 Received: from mtkcas10.mediatek.inc (172.21.101.39) by
- mtkmbs10n2.mediatek.inc (172.21.101.183) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_CBC_SHA384) id 15.2.792.3; 
- Wed, 6 Apr 2022 11:26:16 +0800
+ mtkmbs07n2.mediatek.inc (172.21.101.141) with Microsoft SMTP Server (TLS) id
+ 15.0.1497.2; Wed, 6 Apr 2022 11:29:04 +0800
 Received: from mtksdccf07 (172.21.84.99) by mtkcas10.mediatek.inc
  (172.21.101.73) with Microsoft SMTP Server id 15.0.1497.2 via Frontend
- Transport; Wed, 6 Apr 2022 11:26:16 +0800
-Message-ID: <0656f45f2933518708b82195bd9c49351e394c16.camel@mediatek.com>
-Subject: Re: [PATCH v10 1/4] dt-bindings: display: mediatek: revise enum to
- const
+ Transport; Wed, 6 Apr 2022 11:29:04 +0800
+Message-ID: <751374a287a70831c09da51daef1ee286285359b.camel@mediatek.com>
+Subject: Re: [PATCH v10 2/4] dt-bindings: display: mediatek: change to use
+ enum for mutex
 From: CK Hu <ck.hu@mediatek.com>
 To: Rex-BC Chen <rex-bc.chen@mediatek.com>, <chunkuang.hu@kernel.org>,
  <matthias.bgg@gmail.com>, <robh+dt@kernel.org>
-Date: Wed, 6 Apr 2022 11:26:16 +0800
-In-Reply-To: <20220406030009.2357-2-rex-bc.chen@mediatek.com>
+Date: Wed, 6 Apr 2022 11:29:04 +0800
+In-Reply-To: <20220406030009.2357-3-rex-bc.chen@mediatek.com>
 References: <20220406030009.2357-1-rex-bc.chen@mediatek.com>
- <20220406030009.2357-2-rex-bc.chen@mediatek.com>
+ <20220406030009.2357-3-rex-bc.chen@mediatek.com>
 Content-Type: text/plain; charset="UTF-8"
 X-Mailer: Evolution 3.28.5-0ubuntu0.18.04.2 
 MIME-Version: 1.0
@@ -54,18 +53,17 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
 Cc: devicetree@vger.kernel.org, krzysztof.kozlowski@canonical.com,
  airlied@linux.ie, jassisinghbrar@gmail.com, linux-kernel@vger.kernel.org,
- dri-devel@lists.freedesktop.org, yongqiang.niu@mediatek.com,
+ dri-devel@lists.freedesktop.org,
  Project_Global_Chrome_Upstream_Group@mediatek.com, fparent@baylibre.com,
- linux-mediatek@lists.infradead.org, hsinyi@chromium.org,
- linux-arm-kernel@lists.infradead.org
+ linux-mediatek@lists.infradead.org, yongqiang.niu@mediatek.com,
+ hsinyi@chromium.org, linux-arm-kernel@lists.infradead.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 Hi, Rex:
 
 On Wed, 2022-04-06 at 11:00 +0800, Rex-BC Chen wrote:
-> There won't be more than 1 fallback for these bindings, so we modify
-> them to use const instead of enum.
+> All single entry cases in mutex can be merged as a single enum.
 
 Reviewed-by: CK Hu <ck.hu@mediatek.com>
 
@@ -75,190 +73,51 @@ Reviewed-by: CK Hu <ck.hu@mediatek.com>
 > Reviewed-by: AngeloGioacchino Del Regno <
 > angelogioacchino.delregno@collabora.com>
 > ---
->  .../devicetree/bindings/display/mediatek/mediatek,aal.yaml  | 3 +--
->  .../bindings/display/mediatek/mediatek,ccorr.yaml           | 3 +--
->  .../bindings/display/mediatek/mediatek,color.yaml           | 6 ++
+>  .../display/mediatek/mediatek,mutex.yaml      | 24 +++++++--------
 > ----
->  .../bindings/display/mediatek/mediatek,dither.yaml          | 3 +--
->  .../bindings/display/mediatek/mediatek,gamma.yaml           | 3 +--
->  .../devicetree/bindings/display/mediatek/mediatek,ovl.yaml  | 6 ++
-> ----
->  .../devicetree/bindings/display/mediatek/mediatek,rdma.yaml | 6 ++
-> ----
->  7 files changed, 10 insertions(+), 20 deletions(-)
+>  1 file changed, 9 insertions(+), 15 deletions(-)
 > 
 > diff --git
-> a/Documentation/devicetree/bindings/display/mediatek/mediatek,aal.yam
-> l
-> b/Documentation/devicetree/bindings/display/mediatek/mediatek,aal.yam
-> l
-> index 61f0ed1e388f..cdb6d0819cca 100644
+> a/Documentation/devicetree/bindings/display/mediatek/mediatek,mutex.y
+> aml
+> b/Documentation/devicetree/bindings/display/mediatek/mediatek,mutex.y
+> aml
+> index 00e6a1041a9b..b470fbb1b40a 100644
 > ---
-> a/Documentation/devicetree/bindings/display/mediatek/mediatek,aal.yam
-> l
+> a/Documentation/devicetree/bindings/display/mediatek/mediatek,mutex.y
+> aml
 > +++
-> b/Documentation/devicetree/bindings/display/mediatek/mediatek,aal.yam
-> l
-> @@ -29,8 +29,7 @@ properties:
->                - mediatek,mt8183-disp-aal
->                - mediatek,mt8192-disp-aal
->                - mediatek,mt8195-disp-aal
-> -          - enum:
-> -              - mediatek,mt8173-disp-aal
-> +          - const: mediatek,mt8173-disp-aal
+> b/Documentation/devicetree/bindings/display/mediatek/mediatek,mutex.y
+> aml
+> @@ -23,21 +23,15 @@ description: |
 >  
->    reg:
->      maxItems: 1
-> diff --git
-> a/Documentation/devicetree/bindings/display/mediatek/mediatek,ccorr.y
-> aml
-> b/Documentation/devicetree/bindings/display/mediatek/mediatek,ccorr.y
-> aml
-> index 0ed53b6238f0..7766c806c102 100644
-> ---
-> a/Documentation/devicetree/bindings/display/mediatek/mediatek,ccorr.y
-> aml
-> +++
-> b/Documentation/devicetree/bindings/display/mediatek/mediatek,ccorr.y
-> aml
-> @@ -28,8 +28,7 @@ properties:
->        - items:
->            - enum:
->                - mediatek,mt8195-disp-ccorr
-> -          - enum:
-> -              - mediatek,mt8192-disp-ccorr
-> +          - const: mediatek,mt8192-disp-ccorr
->  
->    reg:
->      maxItems: 1
-> diff --git
-> a/Documentation/devicetree/bindings/display/mediatek/mediatek,color.y
-> aml
-> b/Documentation/devicetree/bindings/display/mediatek/mediatek,color.y
-> aml
-> index 3ad842eb5668..0c9095b0411e 100644
-> ---
-> a/Documentation/devicetree/bindings/display/mediatek/mediatek,color.y
-> aml
-> +++
-> b/Documentation/devicetree/bindings/display/mediatek/mediatek,color.y
-> aml
-> @@ -32,15 +32,13 @@ properties:
->            - enum:
->                - mediatek,mt7623-disp-color
->                - mediatek,mt2712-disp-color
-> -          - enum:
-> -              - mediatek,mt2701-disp-color
-> +          - const: mediatek,mt2701-disp-color
->        - items:
->            - enum:
->                - mediatek,mt8183-disp-color
->                - mediatek,mt8192-disp-color
->                - mediatek,mt8195-disp-color
-> -          - enum:
-> -              - mediatek,mt8173-disp-color
-> +          - const: mediatek,mt8173-disp-color
+>  properties:
+>    compatible:
+> -    oneOf:
+> -      - items:
+> -          - const: mediatek,mt2701-disp-mutex
+> -      - items:
+> -          - const: mediatek,mt2712-disp-mutex
+> -      - items:
+> -          - const: mediatek,mt8167-disp-mutex
+> -      - items:
+> -          - const: mediatek,mt8173-disp-mutex
+> -      - items:
+> -          - const: mediatek,mt8183-disp-mutex
+> -      - items:
+> -          - const: mediatek,mt8192-disp-mutex
+> -      - items:
+> -          - const: mediatek,mt8195-disp-mutex
+> +    enum:
+> +      - mediatek,mt2701-disp-mutex
+> +      - mediatek,mt2712-disp-mutex
+> +      - mediatek,mt8167-disp-mutex
+> +      - mediatek,mt8173-disp-mutex
+> +      - mediatek,mt8183-disp-mutex
+> +      - mediatek,mt8192-disp-mutex
+> +      - mediatek,mt8195-disp-mutex
+> +
 >    reg:
 >      maxItems: 1
 >  
-> diff --git
-> a/Documentation/devicetree/bindings/display/mediatek/mediatek,dither.
-> yaml
-> b/Documentation/devicetree/bindings/display/mediatek/mediatek,dither.
-> yaml
-> index 6657549af165..8180ed0a89ff 100644
-> ---
-> a/Documentation/devicetree/bindings/display/mediatek/mediatek,dither.
-> yaml
-> +++
-> b/Documentation/devicetree/bindings/display/mediatek/mediatek,dither.
-> yaml
-> @@ -28,8 +28,7 @@ properties:
->            - enum:
->                - mediatek,mt8192-disp-dither
->                - mediatek,mt8195-disp-dither
-> -          - enum:
-> -              - mediatek,mt8183-disp-dither
-> +          - const: mediatek,mt8183-disp-dither
->  
->    reg:
->      maxItems: 1
-> diff --git
-> a/Documentation/devicetree/bindings/display/mediatek/mediatek,gamma.y
-> aml
-> b/Documentation/devicetree/bindings/display/mediatek/mediatek,gamma.y
-> aml
-> index 78442339314f..5f1825b4512b 100644
-> ---
-> a/Documentation/devicetree/bindings/display/mediatek/mediatek,gamma.y
-> aml
-> +++
-> b/Documentation/devicetree/bindings/display/mediatek/mediatek,gamma.y
-> aml
-> @@ -29,8 +29,7 @@ properties:
->            - enum:
->                - mediatek,mt8192-disp-gamma
->                - mediatek,mt8195-disp-gamma
-> -          - enum:
-> -              - mediatek,mt8183-disp-gamma
-> +          - const: mediatek,mt8183-disp-gamma
->  
->    reg:
->      maxItems: 1
-> diff --git
-> a/Documentation/devicetree/bindings/display/mediatek/mediatek,ovl.yam
-> l
-> b/Documentation/devicetree/bindings/display/mediatek/mediatek,ovl.yam
-> l
-> index f77094e61443..51f8235f1b1b 100644
-> ---
-> a/Documentation/devicetree/bindings/display/mediatek/mediatek,ovl.yam
-> l
-> +++
-> b/Documentation/devicetree/bindings/display/mediatek/mediatek,ovl.yam
-> l
-> @@ -33,13 +33,11 @@ properties:
->            - enum:
->                - mediatek,mt7623-disp-ovl
->                - mediatek,mt2712-disp-ovl
-> -          - enum:
-> -              - mediatek,mt2701-disp-ovl
-> +          - const: mediatek,mt2701-disp-ovl
->        - items:
->            - enum:
->                - mediatek,mt8195-disp-ovl
-> -          - enum:
-> -              - mediatek,mt8183-disp-ovl
-> +          - const: mediatek,mt8183-disp-ovl
->  
->    reg:
->      maxItems: 1
-> diff --git
-> a/Documentation/devicetree/bindings/display/mediatek/mediatek,rdma.ya
-> ml
-> b/Documentation/devicetree/bindings/display/mediatek/mediatek,rdma.ya
-> ml
-> index e8c72afa0630..9a6756f185ee 100644
-> ---
-> a/Documentation/devicetree/bindings/display/mediatek/mediatek,rdma.ya
-> ml
-> +++
-> b/Documentation/devicetree/bindings/display/mediatek/mediatek,rdma.ya
-> ml
-> @@ -35,13 +35,11 @@ properties:
->            - enum:
->                - mediatek,mt7623-disp-rdma
->                - mediatek,mt2712-disp-rdma
-> -          - enum:
-> -              - mediatek,mt2701-disp-rdma
-> +          - const: mediatek,mt2701-disp-rdma
->        - items:
->            - enum:
->                - mediatek,mt8192-disp-rdma
-> -          - enum:
-> -              - mediatek,mt8183-disp-rdma
-> +          - const: mediatek,mt8183-disp-rdma
->  
->    reg:
->      maxItems: 1
 
