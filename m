@@ -1,67 +1,58 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id BFD5B4F5A49
-	for <lists+dri-devel@lfdr.de>; Wed,  6 Apr 2022 11:47:36 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id E2DDC4F5A62
+	for <lists+dri-devel@lfdr.de>; Wed,  6 Apr 2022 12:01:26 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id A461B10F269;
-	Wed,  6 Apr 2022 09:47:34 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id D4C8910F0F6;
+	Wed,  6 Apr 2022 10:01:22 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-lf1-x12d.google.com (mail-lf1-x12d.google.com
- [IPv6:2a00:1450:4864:20::12d])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 471B710F243
- for <dri-devel@lists.freedesktop.org>; Wed,  6 Apr 2022 09:47:33 +0000 (UTC)
-Received: by mail-lf1-x12d.google.com with SMTP id d5so3093118lfj.9
- for <dri-devel@lists.freedesktop.org>; Wed, 06 Apr 2022 02:47:33 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
- h=mime-version:subject:from:in-reply-to:date:cc
- :content-transfer-encoding:message-id:references:to;
- bh=E42yxEwN9hE1F4mWuGhw6zVEQZFBfw5J79gP+8Gl7J0=;
- b=iIjUtMWiW9sFTZs6ixgTkqoKUp9KooOrSiS9xGSuEy6/zJouQvGjaePtj3kWP5pzMD
- yTfKsp1ezsj9aZv6DkThlDhU+1QlwGrdUokDb493Jnpju0dK8/uGZQx4wEK6F9fft2nt
- AARzVJuVqUYQrdbf7wgRZJ4AKMuGQxj3qG3ReyNmigbaCWBjH2FLVLWZfrUq8Iub9RVu
- 99npCDtAWWcjaLY9mHUhvWh08uqmN0OQ2Q8at89tr49Kog5UE8NGCROwS3flh7go1/NK
- MgKdW5OsYySzV9uK+gWIleRdTjgIjGBgSYyUzyIhwq+tNmr10Tw5hTtYr6EI4WwzqgOT
- iM6g==
+Received: from mail-qt1-x82c.google.com (mail-qt1-x82c.google.com
+ [IPv6:2607:f8b0:4864:20::82c])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 46B4F10F0F3
+ for <dri-devel@lists.freedesktop.org>; Wed,  6 Apr 2022 10:01:21 +0000 (UTC)
+Received: by mail-qt1-x82c.google.com with SMTP id t7so3364779qta.10
+ for <dri-devel@lists.freedesktop.org>; Wed, 06 Apr 2022 03:01:21 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc; bh=nF1xNfj+J34XrxSolTF0D+orBqwvLN2KXHwwalZ4HTY=;
+ b=wMZd4R/cJhJ0o5uoKdvVDyQbmt+R0cgDYTu4JUHaYhNncFM5q3J2vIFNDb6TYhq3LE
+ 1W4tlDgycH1xe5kmdKZiAKsDXZDO2eoIWr9IG4QUl2HXztiNpg2QEpXjEdvM+HqLQ0F7
+ kEBsIzbv7rm5tWx89SgopcE6Y21ULM2Ra2BUCx0WoLeB3sHu7yglx2NCzrpL4W+1Ax6w
+ xnLlNpMzURktWbZ+6A4hxd3K4LdO1umpftfSXwqwzTpZcGB1iWe3eRnfZKwRHtrDrzfC
+ 6ukVilvbwKDLkLBScgPEwiSVUIjS1oME067AS55bD9Lc2ooX2knRqNavt5FdWtw0kOwD
+ bFqg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=x-gm-message-state:mime-version:subject:from:in-reply-to:date:cc
- :content-transfer-encoding:message-id:references:to;
- bh=E42yxEwN9hE1F4mWuGhw6zVEQZFBfw5J79gP+8Gl7J0=;
- b=nibeJutIWZoNPmDStwCsh5ujFEn5koUzGc3Tnus+4l8abaTHCIHFHLwmKM0P7NjJlx
- We7oRN0HAe5eTc80vBTzhEP4lMoXEn8zZXFBarNnyj0I0UAOCdqm4hrwweWNkhAzlLmY
- K4PmxpLG4c5/nYHKtMweYpINUZENTC337AQHTZaTbZ2Pige8kM/bQsVXdf482sqYkqGg
- GBHGFerPFz2eoWZ0cVghVaRCA58oN/NlJWVbLmMBhIyxXAVTHEsIBVdL1w5ha5rCZQu5
- cYqYBWHeuMzhwjvuGjJy/OKC+ivDheP9caEjnsYHKG/zypfKimxP7+uEnIJFpIIfBE1V
- 0y8Q==
-X-Gm-Message-State: AOAM530W2grhc+XuwwWhAtDSpY7VDrkpxONH1MgXle0KCZ2oPjudv7Hy
- u1Pl7Nf/gIkpdEcZWI43luo=
-X-Google-Smtp-Source: ABdhPJwC+eyrRKTQfRnsJir5jLb4gCz3POVqq+LV1mkriib2J7vxsIWGH9wtcC3p7KlK7L+G3REqyA==
-X-Received: by 2002:a05:6512:3341:b0:44a:eb29:c59c with SMTP id
- y1-20020a056512334100b0044aeb29c59cmr5331160lfd.596.1649238451239; 
- Wed, 06 Apr 2022 02:47:31 -0700 (PDT)
-Received: from smtpclient.apple (31-178-191-245.dynamic.chello.pl.
- [31.178.191.245]) by smtp.gmail.com with ESMTPSA id
- m22-20020a0565120a9600b0044a93d21093sm1776972lfu.279.2022.04.06.02.47.28
- (version=TLS1_2 cipher=ECDHE-ECDSA-AES128-GCM-SHA256 bits=128/128);
- Wed, 06 Apr 2022 02:47:30 -0700 (PDT)
-Content-Type: text/plain;
-	charset=utf-8
-Mime-Version: 1.0 (Mac OS X Mail 14.0 \(3654.120.0.1.13\))
-Subject: Re: [PATCH v9 00/23] drm/rockchip: RK356x VOP2 support
-From: Piotr Oniszczuk <piotr.oniszczuk@gmail.com>
-In-Reply-To: <5420D26D-34FD-4637-B602-F6271E38BB8D@gmail.com>
-Date: Wed, 6 Apr 2022 11:47:22 +0200
-Content-Transfer-Encoding: quoted-printable
-Message-Id: <BA4C591F-D115-43D2-BF59-A75B29889E50@gmail.com>
-References: <20220328151116.2034635-1-s.hauer@pengutronix.de>
- <FB201567-AE5A-4242-82F1-7C55D8F111EA@gmail.com>
- <20220401125205.GL4012@pengutronix.de>
- <5420D26D-34FD-4637-B602-F6271E38BB8D@gmail.com>
-To: Sascha Hauer <s.hauer@pengutronix.de>
-X-Mailer: Apple Mail (2.3654.120.0.1.13)
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=nF1xNfj+J34XrxSolTF0D+orBqwvLN2KXHwwalZ4HTY=;
+ b=i8HE+7cM9h4qRHYROKLw6ikyU9LQbvai9E4AmRg0Q/x9l4qRcgS/ry62AGy8YODL4R
+ GsmYOI5nevIbZstHMGpjYLU3XEy19EOYgzbj/h9rouyYDHQrZJuQBbfzga9HtU5Ypt5F
+ wyNSWqTGMGlszG4KKgmUa3ScrRlyZLjg+0MkQYUQqs1Fj2llzQ7nh3smynxDEWafjreA
+ Hbrujflo/4Ooc43/XVR3EFCBNABfUjkUZkLe/4qgDnDMOQxS+3KKibPu0vxKBH8LkJEM
+ DVn/7wXQCXq1cP+Ug/rubLnogCwrmjlzcCJeYMCQ4LX/0ANzNjQjpgbnBMLdaHYejw8s
+ lTaQ==
+X-Gm-Message-State: AOAM532HLwJfworPY1T5gwLZBJ6VcVqZDoNTWwxW7pp81lU156UlD/2s
+ yr0AQbWbDUMm4PheVyDlJuEIpdp8efh0/RslMkIfwg==
+X-Google-Smtp-Source: ABdhPJwifkB/hY55P59uzoya9A0itxh640pczG4PfHi0w+ZaI8JqLhcORl90QHWitXyvPRj+jQS9OQSCdNRAmmRwB0A=
+X-Received: by 2002:ac8:4e52:0:b0:2e1:dad8:5141 with SMTP id
+ e18-20020ac84e52000000b002e1dad85141mr6605974qtw.62.1649239280348; Wed, 06
+ Apr 2022 03:01:20 -0700 (PDT)
+MIME-Version: 1.0
+References: <20220405235059.359738-1-dmitry.baryshkov@linaro.org>
+ <20220405235059.359738-4-dmitry.baryshkov@linaro.org>
+ <CAE-0n501rjepeF3Oc6g05ctyGYdZTPR1+OMC=piQEtUZT+03=w@mail.gmail.com>
+In-Reply-To: <CAE-0n501rjepeF3Oc6g05ctyGYdZTPR1+OMC=piQEtUZT+03=w@mail.gmail.com>
+From: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
+Date: Wed, 6 Apr 2022 13:01:09 +0300
+Message-ID: <CAA8EJppOtqSD0+3C60Qz77oCGgq0=bqC6dLK8sN_S8uRvCQ0wQ@mail.gmail.com>
+Subject: Re: [PATCH 3/3] drm/msm: don't store created planes,
+ connectors and encoders
+To: Stephen Boyd <swboyd@chromium.org>
+Content-Type: text/plain; charset="UTF-8"
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -74,110 +65,54 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: "devicetree@vger.kernel.org" <devicetree@vger.kernel.org>,
- Benjamin Gaignard <benjamin.gaignard@collabora.com>,
- Peter Geis <pgwipeout@gmail.com>, Sandy Huang <hjc@rock-chips.com>,
- dri-devel@lists.freedesktop.org,
- "open list:ARM/Rockchip SoC..." <linux-rockchip@lists.infradead.org>,
- Michael Riesch <michael.riesch@wolfvision.net>, kernel@pengutronix.de,
- Andy Yan <andy.yan@rock-chips.com>,
- "linux-arm-kernel@lists.infradead.org" <linux-arm-kernel@lists.infradead.org>
+Cc: freedreno@lists.freedesktop.org, David Airlie <airlied@linux.ie>,
+ linux-arm-msm@vger.kernel.org, Abhinav Kumar <quic_abhinavk@quicinc.com>,
+ dri-devel@lists.freedesktop.org, Bjorn Andersson <bjorn.andersson@linaro.org>,
+ Sean Paul <sean@poorly.run>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
+On Wed, 6 Apr 2022 at 07:03, Stephen Boyd <swboyd@chromium.org> wrote:
+>
+> Quoting Dmitry Baryshkov (2022-04-05 16:50:59)
+> > diff --git a/drivers/gpu/drm/msm/msm_drv.h b/drivers/gpu/drm/msm/msm_drv.h
+> > index d661debb50f1..ee3093890d97 100644
+> > --- a/drivers/gpu/drm/msm/msm_drv.h
+> > +++ b/drivers/gpu/drm/msm/msm_drv.h
+> > @@ -184,23 +184,14 @@ struct msm_drm_private {
+> >
+> >         struct workqueue_struct *wq;
+> >
+> > -       unsigned int num_planes;
+> > -       struct drm_plane *planes[MAX_PLANES];
+>
+> Can we get rid of MAX_PLANES?
+
+Sure, I'll drop all these defines in v2.
+
+>
+> > -
+> >         unsigned int num_crtcs;
+> >         struct drm_crtc *crtcs[MAX_CRTCS];
+> >
+> >         struct msm_drm_thread event_thread[MAX_CRTCS];
+> >
+> > -       unsigned int num_encoders;
+> > -       struct drm_encoder *encoders[MAX_ENCODERS];
+>
+> And MAX_ENCODERS?
+>
+> > -
+> >         unsigned int num_bridges;
+> >         struct drm_bridge *bridges[MAX_BRIDGES];
+> >
+> > -       unsigned int num_connectors;
+> > -       struct drm_connector *connectors[MAX_CONNECTORS];
+>
+> And MAX_CONNECTORS?
 
 
-> Wiadomo=C5=9B=C4=87 napisana przez Piotr Oniszczuk =
-<piotr.oniszczuk@gmail.com> w dniu 01.04.2022, o godz. 15:05:
->=20
->=20
->=20
->> Wiadomo=C5=9B=C4=87 napisana przez Sascha Hauer =
-<s.hauer@pengutronix.de> w dniu 01.04.2022, o godz. 14:52:
->>=20
->> Based on the discussion with Andy please try the following patch, it
->> should fix your green screen issue. Note that with this patch the
->> CRTC and plane ids will change, so the modetest commands need to be
->> adjusted accordingly.
->>=20
->> Sascha
->>=20
->> -------------------------8<---------------------------
->>=20
->> --=20
->> =46rom cbc03073623a7180243331ac24c3afaf9dec7522 Mon Sep 17 00:00:00 =
-2001
->> From: Sascha Hauer <s.hauer@pengutronix.de>
->> Date: Fri, 1 Apr 2022 14:48:49 +0200
->> Subject: [PATCH] fixup! drm: rockchip: Add VOP2 driver
->>=20
->> ---
->> drivers/gpu/drm/rockchip/rockchip_drm_vop2.c | 14 ++++++++++++++
->> 1 file changed, 14 insertions(+)
->>=20
->> diff --git a/drivers/gpu/drm/rockchip/rockchip_drm_vop2.c =
-b/drivers/gpu/drm/rockchip/rockchip_drm_vop2.c
->> index 7dba7b9b63dc6..1421bf2f133f1 100644
->> --- a/drivers/gpu/drm/rockchip/rockchip_drm_vop2.c
->> +++ b/drivers/gpu/drm/rockchip/rockchip_drm_vop2.c
->> @@ -2287,6 +2287,20 @@ static int vop2_create_crtc(struct vop2 *vop2)
->> 			}
->> 		}
->>=20
->> +		if (vop2->data->soc_id =3D=3D 3566) {
->> +			/*
->> +			 * On RK3566 these windows don't have an =
-independent
->> +			 * framebuffer. They share the framebuffer with =
-smart0,
->> +			 * esmart0 and cluster0 respectively.
->> +			 */
->> +			switch (win->data->phys_id) {
->> +			case ROCKCHIP_VOP2_SMART1:
->> +			case ROCKCHIP_VOP2_ESMART1:
->> +			case ROCKCHIP_VOP2_CLUSTER1:
->> +				continue;
->> +			}
->> +		}
->> +
->> 		if (win->type =3D=3D DRM_PLANE_TYPE_OVERLAY)
->> 			possible_crtcs =3D (1 << nvps) - 1;
->>=20
->> --=20
->> 2.30.2
->>=20
->> Pengutronix e.K.                           |                          =
-   |
->> Steuerwalder Str. 21                       | =
-http://www.pengutronix.de/  |
->> 31137 Hildesheim, Germany                  | Phone: +49-5121-206917-0 =
-   |
->> Amtsgericht Hildesheim, HRA 2686           | Fax:   =
-+49-5121-206917-5555 |
->=20
-> Sascha
->=20
-> Now works perfectly!
-> (hd playback with 3.5...5.5% cpu while rendering to drm plane)
->=20
-> Fantastic work of You!
 
-Sascha,
-
-Having vop2 finally working with drm planes rendering i discovered =
-another issue: overlay osd is invisible at playback.=20
-
-context: player draws video on plane #X and osd on overlay plane #Y
-When user do i.e. seek at playback - app uses overlay OSD plane to =
-display OSD to user. This approach is used by majority of players (KODI, =
-etc.)
-
-This works well on all platforms i have  - except rk3566=20
-
-For me it looks like z-order vop2 issue or alpha blending issue.
-As this is only on rk3566 and only on drm-planes mode - issue is vop2 =
-related imho.
-
-what you think?
-
-
+-- 
+With best wishes
+Dmitry
