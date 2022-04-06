@@ -2,57 +2,59 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1CE414F7789
-	for <lists+dri-devel@lfdr.de>; Thu,  7 Apr 2022 09:32:36 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 7CC3F4F7787
+	for <lists+dri-devel@lfdr.de>; Thu,  7 Apr 2022 09:32:32 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 7952010E587;
-	Thu,  7 Apr 2022 07:32:31 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 79A4D10E098;
+	Thu,  7 Apr 2022 07:32:28 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-ej1-x62b.google.com (mail-ej1-x62b.google.com
- [IPv6:2a00:1450:4864:20::62b])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 2CBB910E122;
- Wed,  6 Apr 2022 13:41:37 +0000 (UTC)
-Received: by mail-ej1-x62b.google.com with SMTP id r13so4365607ejd.5;
- Wed, 06 Apr 2022 06:41:37 -0700 (PDT)
+Received: from mail-lf1-x133.google.com (mail-lf1-x133.google.com
+ [IPv6:2a00:1450:4864:20::133])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 682B210E03B;
+ Wed,  6 Apr 2022 16:50:53 +0000 (UTC)
+Received: by mail-lf1-x133.google.com with SMTP id b21so5132325lfb.5;
+ Wed, 06 Apr 2022 09:50:53 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc:content-transfer-encoding;
- bh=0IeTkY1yhaJPK6VDqHKztL6/sdrLKeK5VaUPik01uco=;
- b=WbP9ySUZSPgHLrHFRxIUWqAkKlwtz3/lphdxBTdMOVQuUT5+HfJKYrAg4eUTEsXZkz
- 8e8KhdnBO1xUEtEoMVUbtRmhxsR8BiyPPc5TfM+9lfBW5O/VYyOW+YLyas51CMQO09SJ
- sZRGZOroZ5LEsaydgXPFKgZgbG1xzpflqC0GHSWYpUCcjg8C4j+ZieSFKHPLTUOmbrOS
- FoxY0v0cP6iQBZ+ms6c4zzRlAar3PgroXfqXIn9AfuiaBKa3RqrlilCrfE7ZwizUQ6Gj
- m53Hcr11tJjGhloLapsO3Q2jt656PpXU7Rt7ClPkwJ/n3+3r+zLKxwgtFNDXTmcfVLZU
- ZYlw==
+ h=from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=7mcxCMUsY68b1C+y1FYJV5SZRpo8yl4CCyl7R2mFnT0=;
+ b=LCXDwOcQDeA5enlC7K6Ie77FKlqGpjFTFPq/iH0xIFNgegH0lHp95s3B+k5PMn1p/5
+ D75OJnHRVlBjkfYEjU5hiEStLBBWmsnq+vlJV/wJ2DaovZetBIyCfgo4YUqsa1CvJ7w3
+ kdQUr8kMDa2qI7EbHIxcPRqt68eA7k4Bl0zlKcog6azWtr9r4fpfXH7fE+9Ph459D6ve
+ cdOgD8Zjzi8jethjodBKELXCjaKfot89VjplCw28l6k9HK2APqZ5735RRtYm9Sw8nTU7
+ WLTvHCCfFpSeVql5Oi6KjsyyTTfgSySWDDbIcOH1l82MVLXbZWQ9vbpt8O5H6prPfYm/
+ AL1Q==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc:content-transfer-encoding;
- bh=0IeTkY1yhaJPK6VDqHKztL6/sdrLKeK5VaUPik01uco=;
- b=Y+q2oC4XXksaGcuJ7ayRlfTtleJXJijWGdbF008BJZMb15/UNgW6Y/Lru1Qvf2Ui8P
- n6iDmeS13HkUuoGuBWB80MkwXfpUsCxFga1uBqewt5nzng37gjggpTooOEq7jI5tEQ9s
- 79ydUrzrkhd5bsp0TA7FGuzLgvhepjmQ4Xy2F+k/pR/R/0RYW5GCvU/gkISUbzNNPbo8
- PinIf10n2/SbaXhXyDLF04KP4XRxDrSA1IIxsQHzxg5XMchGM77ngmi1s2oWArVQMv1s
- 3k/eqCRstChdEROs9Smg9bHEGKIXe8+e6aNT1oF2SuSxigiBXFPb8n4TmB5G9/2gCXFO
- 8J1A==
-X-Gm-Message-State: AOAM531mJR0YBxIGtGKQfVxi2qucx52bcdHLlRSr9IQYCPMdkpASbTMY
- aUpw0ymTCnrNFYS7hxAnZXIwaNHv3FD8fZz1nDU=
-X-Google-Smtp-Source: ABdhPJxZ9dElneUwA1wzU6Q0bcRp/j+jGbBrxLosQpe0RT2zY1YIsaK+d6cZ5N6w4jJF97TCJJ6VotA+kDLMYk0zyDo=
-X-Received: by 2002:a17:907:980b:b0:6e0:71d9:c87e with SMTP id
- ji11-20020a170907980b00b006e071d9c87emr8142309ejc.510.1649252495645; Wed, 06
- Apr 2022 06:41:35 -0700 (PDT)
+ h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=7mcxCMUsY68b1C+y1FYJV5SZRpo8yl4CCyl7R2mFnT0=;
+ b=OKYa8Pup8pVcCkMGWoXIRjM/CKiUOtqODgGotPSp7Dw36aFL0UjtQc4rq+utIOGxer
+ GO414hnsZBNKBr/sspNo49HWU5ivgC7wzS7joTh9gMatLBbztz8+dDaBShyxaqzE4+Fh
+ tdWTtET307+QwbAvkwO1xvcvXSnepvzuICbYXJ+f9YLkbgFPqMrLddnwmriN9CM7k4u7
+ CG0oWHONjJcBngelVzWqrQQguuQFSIOhFu7sdjq13aQpWPl2mNOrvw/pUG1lf9wTdjE+
+ AUWidkpSAHYK1TiXnhYQbclC3KokXhPcphBH/ij9mM55I2MTJOPcFrYcxw+wewJcJiAE
+ BxYQ==
+X-Gm-Message-State: AOAM531k6ky2zrl02ognbe1mARg9CaOgqCBs0b4zX7Obnhe6qsmwMyW8
+ RXRrtRoo6I5IV65pIY8WUlo=
+X-Google-Smtp-Source: ABdhPJzPCpdf6bHUll904yF8Otv10ELarDhb1BAS3riXpkas1kvTZGd3KYrfieHGJ3plUkcvkm/2ZQ==
+X-Received: by 2002:a05:6512:108f:b0:44a:4317:a066 with SMTP id
+ j15-20020a056512108f00b0044a4317a066mr6614576lfg.236.1649263851576; 
+ Wed, 06 Apr 2022 09:50:51 -0700 (PDT)
+Received: from noname.. ([2a02:2698:8c2a:226e:6d9:f5ff:fecb:a8ab])
+ by smtp.googlemail.com with ESMTPSA id
+ k9-20020a056512330900b0044a1be3bdbbsm1877872lfe.196.2022.04.06.09.50.50
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Wed, 06 Apr 2022 09:50:51 -0700 (PDT)
+From: Grigory Vasilyev <h0tc0d3@gmail.com>
+To: Rodrigo Siqueira <Rodrigo.Siqueira@amd.com>, Melissa Wen <mwen@igalia.com>
+Subject: [PATCH] drm/amdgpu: Fix code with incorrect enum type
+Date: Wed,  6 Apr 2022 19:50:56 +0300
+Message-Id: <20220406165057.97492-1-h0tc0d3@gmail.com>
+X-Mailer: git-send-email 2.35.1
 MIME-Version: 1.0
-References: <20220404222132.12740-1-h0tc0d3@gmail.com>
- <c55e9866-83f6-a3a0-2ad3-40090e978b40@amd.com>
-In-Reply-To: <c55e9866-83f6-a3a0-2ad3-40090e978b40@amd.com>
-From: =?UTF-8?B?0JPRgNC40LPQvtGA0LjQuQ==?= <h0tc0d3@gmail.com>
-Date: Wed, 6 Apr 2022 16:41:34 +0300
-Message-ID: <CAD5ugGDL7U1TiOW3P=ecwVhF95XgdibtoYGV8GzbAskuB5UWCA@mail.gmail.com>
-Subject: Re: [PATCH] drm/amdkfd: Fix potential NULL pointer dereference
-To: Felix Kuehling <felix.kuehling@amd.com>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Transfer-Encoding: 8bit
 X-Mailman-Approved-At: Thu, 07 Apr 2022 07:32:25 +0000
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -66,81 +68,44 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: David Airlie <airlied@linux.ie>, "Pan, Xinhui" <Xinhui.Pan@amd.com>,
- Rodrigo Siqueira <Rodrigo.Siqueira@amd.com>,
- LKML <linux-kernel@vger.kernel.org>,
- amd-gfx list <amd-gfx@lists.freedesktop.org>, Melissa Wen <mwen@igalia.com>,
- Maling list - DRI developers <dri-devel@lists.freedesktop.org>,
- Alex Deucher <alexander.deucher@amd.com>,
- =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>
+Cc: Joseph Greathouse <Joseph.Greathouse@amd.com>,
+ Guchun Chen <guchun.chen@amd.com>, Grigory Vasilyev <h0tc0d3@gmail.com>, "Pan,
+ Xinhui" <Xinhui.Pan@amd.com>, linux-kernel@vger.kernel.org,
+ amd-gfx@lists.freedesktop.org, David Airlie <airlied@linux.ie>,
+ dri-devel@lists.freedesktop.org, Alex Deucher <alexander.deucher@amd.com>,
+ Evan Quan <evan.quan@amd.com>,
+ =?UTF-8?q?Christian=20K=C3=B6nig?= <christian.koenig@amd.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Thanks. You are right. I found a potential bug, and as I understand
-it, the code only applies to the Aldebaran GPU and I can not check the
-correctness of the code. I only test code on my navi 10 and run GPU
-stress tests.
-My knowledge of amdgpu is limited, and fixing potential bugs allows me
-to learn more about amdgpu code. But there are many that I still don't
-understand. In any case, we need to fix the code to eliminate
-problems in the future.
+Instead of the 'amdgpu_ring_priority_level' type,
+the 'amdgpu_gfx_pipe_priority' type was used,
+which is an error when setting ring priority.
+This is a minor error, but may cause problems in the future.
 
-Regards, Grigory.
+Instead of AMDGPU_RING_PRIO_2 = 2, we can use AMDGPU_RING_PRIO_MAX = 3,
+but AMDGPU_RING_PRIO_2 = 2 is used for compatibility with
+AMDGPU_GFX_PIPE_PRIO_HIGH = 2, and not change the behavior of the
+code.
 
-=D0=B2=D1=82, 5 =D0=B0=D0=BF=D1=80. 2022 =D0=B3. =D0=B2 20:00, Felix Kuehli=
-ng <felix.kuehling@amd.com>:
->
-> Am 2022-04-04 um 18:21 schrieb Grigory Vasilyev:
-> > In the amdgpu_amdkfd_get_xgmi_bandwidth_mbytes function,
-> > the peer_adev pointer can be NULL and is passed to amdgpu_xgmi_get_num_=
-links.
-> >
-> > In amdgpu_xgmi_get_num_links, peer_adev pointer is dereferenced
-> > without any checks: peer_adev->gmc.xgmi.node_id .
->
-> What's worse, peer_adev is uninitialized with an undefined value if src
-> is NULL. So that code was definitely bogus.
->
-> However, I think your patch will result in incorrect results. Currently
-> amdgpu_amdkfd_get_xgmi_bandwidth is always called with is_min=3Dtrue if
-> src=3D=3DNULL, and with is_min=3Dfalse if src!=3DNULL. The intention is, =
-that we
-> assume a single XGMI link in the case that src=3D=3DNULL. That means the
-> is_min parameter is redundant. What we should do instead is, assume that
-> num_links=3D=3D1 if src=3D=3DNULL, and drop the is_min parameter.
->
-> That would keep things working the way they do now, and prevent
-> potential problems in the future.
->
-> Regards,
->    Felix
->
->
-> >
-> > Signed-off-by: Grigory Vasilyev <h0tc0d3@gmail.com>
-> > ---
-> >   drivers/gpu/drm/amd/amdgpu/amdgpu_amdkfd.c | 5 ++---
-> >   1 file changed, 2 insertions(+), 3 deletions(-)
-> >
-> > diff --git a/drivers/gpu/drm/amd/amdgpu/amdgpu_amdkfd.c b/drivers/gpu/d=
-rm/amd/amdgpu/amdgpu_amdkfd.c
-> > index be1a55f8b8c5..1a1006b18016 100644
-> > --- a/drivers/gpu/drm/amd/amdgpu/amdgpu_amdkfd.c
-> > +++ b/drivers/gpu/drm/amd/amdgpu/amdgpu_amdkfd.c
-> > @@ -541,11 +541,10 @@ int amdgpu_amdkfd_get_xgmi_bandwidth_mbytes(struc=
-t amdgpu_device *dst,
-> >       struct amdgpu_device *adev =3D dst, *peer_adev;
-> >       int num_links;
-> >
-> > -     if (adev->asic_type !=3D CHIP_ALDEBARAN)
-> > +     if (!src || adev->asic_type !=3D CHIP_ALDEBARAN)
-> >               return 0;
-> >
-> > -     if (src)
-> > -             peer_adev =3D src;
-> > +     peer_adev =3D src;
-> >
-> >       /* num links returns 0 for indirect peers since indirect route is=
- unknown. */
-> >       num_links =3D is_min ? 1 : amdgpu_xgmi_get_num_links(adev, peer_a=
-dev);
+Signed-off-by: Grigory Vasilyev <h0tc0d3@gmail.com>
+---
+ drivers/gpu/drm/amd/amdgpu/gfx_v8_0.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+
+diff --git a/drivers/gpu/drm/amd/amdgpu/gfx_v8_0.c b/drivers/gpu/drm/amd/amdgpu/gfx_v8_0.c
+index 5554084ec1f1..9bc26395f833 100644
+--- a/drivers/gpu/drm/amd/amdgpu/gfx_v8_0.c
++++ b/drivers/gpu/drm/amd/amdgpu/gfx_v8_0.c
+@@ -1929,7 +1929,7 @@ static int gfx_v8_0_compute_ring_init(struct amdgpu_device *adev, int ring_id,
+ 		+ ring->pipe;
+ 
+ 	hw_prio = amdgpu_gfx_is_high_priority_compute_queue(adev, ring) ?
+-			AMDGPU_GFX_PIPE_PRIO_HIGH : AMDGPU_RING_PRIO_DEFAULT;
++			AMDGPU_RING_PRIO_2 : AMDGPU_RING_PRIO_DEFAULT;
+ 	/* type-2 packets are deprecated on MEC, use type-3 instead */
+ 	r = amdgpu_ring_init(adev, ring, 1024, &adev->gfx.eop_irq, irq_type,
+ 			     hw_prio, NULL);
+-- 
+2.35.1
+
