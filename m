@@ -2,53 +2,52 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1D67E4F6ADF
-	for <lists+dri-devel@lfdr.de>; Wed,  6 Apr 2022 22:08:35 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id DC8A94F6ADE
+	for <lists+dri-devel@lfdr.de>; Wed,  6 Apr 2022 22:08:30 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id B01A810E030;
-	Wed,  6 Apr 2022 20:08:27 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 0800810E028;
+	Wed,  6 Apr 2022 20:08:26 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-ot1-f47.google.com (mail-ot1-f47.google.com
- [209.85.210.47])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 765A710E030
- for <dri-devel@lists.freedesktop.org>; Wed,  6 Apr 2022 20:08:26 +0000 (UTC)
-Received: by mail-ot1-f47.google.com with SMTP id
- y3-20020a056830070300b005cd9c4d03feso2477054ots.3
- for <dri-devel@lists.freedesktop.org>; Wed, 06 Apr 2022 13:08:26 -0700 (PDT)
+Received: from mail-oi1-f173.google.com (mail-oi1-f173.google.com
+ [209.85.167.173])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id CAEEE10E028
+ for <dri-devel@lists.freedesktop.org>; Wed,  6 Apr 2022 20:08:24 +0000 (UTC)
+Received: by mail-oi1-f173.google.com with SMTP id q189so3546388oia.9
+ for <dri-devel@lists.freedesktop.org>; Wed, 06 Apr 2022 13:08:24 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:from:to:cc:in-reply-to:references:subject:date
  :message-id;
- bh=Jba1vSeRP1HF/2xdMVwK3zKEPMIqomVyRzHfIeKZsuY=;
- b=OqbGzrbdQnU2SAMUgor+PTv3HcYIVtU/ZV21ASgt6CyES+8nXa8HXyGkDwGSDu5PIY
- gV9tLVb9Ilbws9BtgcwXLZdP0jSjO5+/Q3ER2RQQl0bgb+wst65S4t/voFDaz4iv2Jj0
- pPfHD7Mi793SA9g6p/qYII1XwwJ96UvLy2lGtey7rp1psMQLv4SRuJjf36fGVa5w45V/
- fSXd8qFesRI6HE+TEsU86Vj+7Tn4pM23hCUkKwybiPlbkSn1Suah8w2+bHtHgasDeHLb
- M9iTB8EtkiPOli6k+Tv+HCNqesW3sY3r4HDL81+a2SxFGM6uNXjLKizzcIVCEAeW0mkG
- jI9A==
-X-Gm-Message-State: AOAM5337yOQ1TdLuErJJE0Lsydg/biOJmswYPwq+9CaevHMLZUufSf0S
- fJmh3PFdYHl1y7Z/ndRKPg==
-X-Google-Smtp-Source: ABdhPJymdB2qRyAE4P6pRY0v0g5bx14Pp9fxc/u5M6zMOtOt95SXs96EoRWJvD2Hj1G1XlilxiDxKg==
-X-Received: by 2002:a05:6830:1498:b0:5cd:a787:e8c1 with SMTP id
- s24-20020a056830149800b005cda787e8c1mr3759352otq.11.1649275705675; 
- Wed, 06 Apr 2022 13:08:25 -0700 (PDT)
+ bh=Ij58TvIE+TDuatjfhEwf9b3mQ663OItZ9ImpiU3kgrI=;
+ b=P8CdJ2pdu1/j1fdQjqJhqQgUADh8DM4e8jIhM5+K6kMEraf++MsHdC63mwcG2+3bU4
+ EoT67Y310hOwitxBpaE7ZaMlwhtmtwhz3h0ZQ0DRClkO2fPSaRm8trPfkOsiyK+4ciEb
+ 2weV9DQB7GZ+0QkcI88sUTxn750Yh9Qk1tjtkYzZUdaHOYyhHe40p+auiZIMb4sSmDnB
+ 8LR5ULv78Hoi23K0ktgy9Iwhdsxlc0apWzvJb1IwYhOe014bUsveUdydEBcLEH+uggbY
+ D8YmMmAyyW0BYFvy4NtI7dswmoLPjjS+QBhyhpwezaCTCsFfgWnfJIQ4AYS7xgFbbxL0
+ hYww==
+X-Gm-Message-State: AOAM5322P1DUVLleokz07affNQYugxTSS3eFYBEbELMWQguXCFb9B48e
+ Dqs3aVnV90hsx2/dG5XkXQ==
+X-Google-Smtp-Source: ABdhPJxYnIz2g0qPXdqTbqLE0eqrv8euhVAVjzwh4ZLxVREAHMcDwMoJ3msELLzm3uy3CAyi87Z3jQ==
+X-Received: by 2002:a05:6808:1b12:b0:2da:28e1:39f7 with SMTP id
+ bx18-20020a0568081b1200b002da28e139f7mr4422301oib.289.1649275703960; 
+ Wed, 06 Apr 2022 13:08:23 -0700 (PDT)
 Received: from robh.at.kernel.org (66-90-144-107.dyn.grandenetworks.net.
  [66.90.144.107]) by smtp.gmail.com with ESMTPSA id
- s22-20020a056830149600b005b24a96174asm7200413otq.8.2022.04.06.13.08.24
+ t4-20020a0568301e2400b005c9781086d9sm7003791otr.9.2022.04.06.13.08.23
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 06 Apr 2022 13:08:24 -0700 (PDT)
-Received: (nullmailer pid 2682168 invoked by uid 1000);
+ Wed, 06 Apr 2022 13:08:23 -0700 (PDT)
+Received: (nullmailer pid 2682165 invoked by uid 1000);
  Wed, 06 Apr 2022 20:08:22 -0000
 From: Rob Herring <robh@kernel.org>
 To: Lucas Stach <l.stach@pengutronix.de>
-In-Reply-To: <20220406160123.1272911-5-l.stach@pengutronix.de>
+In-Reply-To: <20220406160123.1272911-3-l.stach@pengutronix.de>
 References: <20220406160123.1272911-1-l.stach@pengutronix.de>
- <20220406160123.1272911-5-l.stach@pengutronix.de>
-Subject: Re: [PATCH v0 04/10] dt-bindings: display: imx: add binding for
- i.MX8MP HDMI PVI
+ <20220406160123.1272911-3-l.stach@pengutronix.de>
+Subject: Re: [PATCH v0 02/10] dt-bindings: display: imx: add binding for
+ i.MX8MP HDMI TX
 Date: Wed, 06 Apr 2022 15:08:22 -0500
-Message-Id: <1649275702.760311.2682167.nullmailer@robh.at.kernel.org>
+Message-Id: <1649275702.749756.2682164.nullmailer@robh.at.kernel.org>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -62,25 +61,25 @@ List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
 Cc: devicetree@vger.kernel.org, Andrzej Hajda <andrzej.hajda@intel.com>,
- Neil Armstrong <narmstrong@baylibre.com>, Shawn Guo <shawnguo@kernel.org>,
- dri-devel@lists.freedesktop.org, patchwork-lst@pengutronix.de,
- Vinod Koul <vkoul@kernel.org>, Rob Herring <robh+dt@kernel.org>,
- Robert Foss <robert.foss@linaro.org>, linux-phy@lists.infradead.org,
- Krzysztof Kozlowski <krzk+dt@kernel.org>,
- Kishon Vijay Abraham I <kishon@ti.com>,
+ Neil Armstrong <narmstrong@baylibre.com>, dri-devel@lists.freedesktop.org,
+ Kishon Vijay Abraham I <kishon@ti.com>, Vinod Koul <vkoul@kernel.org>,
+ Rob Herring <robh+dt@kernel.org>, Robert Foss <robert.foss@linaro.org>,
+ linux-phy@lists.infradead.org, Krzysztof Kozlowski <krzk+dt@kernel.org>,
+ patchwork-lst@pengutronix.de, Shawn Guo <shawnguo@kernel.org>,
  Pengutronix Kernel Team <kernel@pengutronix.de>,
  linux-arm-kernel@lists.infradead.org, NXP Linux Team <linux-imx@nxp.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Wed, 06 Apr 2022 18:01:17 +0200, Lucas Stach wrote:
-> Add binding for the i.MX8MP HDMI parallel video interface block.
+On Wed, 06 Apr 2022 18:01:15 +0200, Lucas Stach wrote:
+> The HDMI TX controller on the i.MX8MP SoC is a Synopsys designware IP
+> core with a little bit of SoC integration around it.
 > 
 > Signed-off-by: Lucas Stach <l.stach@pengutronix.de>
 > ---
->  .../display/imx/fsl,imx8mp-hdmi-pvi.yaml      | 83 +++++++++++++++++++
->  1 file changed, 83 insertions(+)
->  create mode 100644 Documentation/devicetree/bindings/display/imx/fsl,imx8mp-hdmi-pvi.yaml
+>  .../bindings/display/imx/fsl,imx8mp-hdmi.yaml | 72 +++++++++++++++++++
+>  1 file changed, 72 insertions(+)
+>  create mode 100644 Documentation/devicetree/bindings/display/imx/fsl,imx8mp-hdmi.yaml
 > 
 
 My bot found errors running 'make DT_CHECKER_FLAGS=-m dt_binding_check'
@@ -89,9 +88,9 @@ on your patch (DT_CHECKER_FLAGS is new in v5.13):
 yamllint warnings/errors:
 
 dtschema/dtc warnings/errors:
-Error: Documentation/devicetree/bindings/display/imx/fsl,imx8mp-hdmi-pvi.example.dts:26.45-46 syntax error
+Error: Documentation/devicetree/bindings/display/imx/fsl,imx8mp-hdmi.example.dts:36.45-46 syntax error
 FATAL ERROR: Unable to parse input tree
-make[1]: *** [scripts/Makefile.lib:364: Documentation/devicetree/bindings/display/imx/fsl,imx8mp-hdmi-pvi.example.dtb] Error 1
+make[1]: *** [scripts/Makefile.lib:364: Documentation/devicetree/bindings/display/imx/fsl,imx8mp-hdmi.example.dtb] Error 1
 make[1]: *** Waiting for unfinished jobs....
 make: *** [Makefile:1401: dt_binding_check] Error 2
 
