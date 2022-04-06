@@ -2,39 +2,38 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 995FE4F5A3A
-	for <lists+dri-devel@lfdr.de>; Wed,  6 Apr 2022 11:41:35 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 49E2C4F5A3C
+	for <lists+dri-devel@lfdr.de>; Wed,  6 Apr 2022 11:41:40 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id B1C6810F2C9;
-	Wed,  6 Apr 2022 09:41:33 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 3BAA210F2DE;
+	Wed,  6 Apr 2022 09:41:38 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from dfw.source.kernel.org (dfw.source.kernel.org
- [IPv6:2604:1380:4641:c500::1])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 2C5DD10F299;
- Wed,  6 Apr 2022 09:41:32 +0000 (UTC)
+Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 0A91810F2CD;
+ Wed,  6 Apr 2022 09:41:36 +0000 (UTC)
 Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
  (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
  (No client certificate requested)
- by dfw.source.kernel.org (Postfix) with ESMTPS id 68ACE61615;
+ by dfw.source.kernel.org (Postfix) with ESMTPS id 7EB9860AD0;
+ Wed,  6 Apr 2022 09:41:35 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 6883AC385A1;
  Wed,  6 Apr 2022 09:41:31 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 52FD4C385A8;
- Wed,  6 Apr 2022 09:41:27 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1649238090;
- bh=rzOQqeQjTPMlc735N7xJrYNzCHkjJGD3CLA4kWFFXVc=;
+ s=k20201202; t=1649238094;
+ bh=wZn/e4sxHXSGTfbPNJYitmbYpHxKQIky6u4oMw7PM3k=;
  h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
- b=fsmLZnAUCJjO+U+L3dKendSoMYuhn2eqy8osmJvvIhBTjLqdB37IWZNzZpA9S73Cg
- 3SNg0GLiAsbq4hw25fmQf+7zMTesohfk3usDw4LZafpHNNJqGVu3pYwF8bmyts2xXM
- hDbbOOD7lReLeMch8h6BpX3wI/UWOCIVfzjAVM2Wt5OevqPnkdUbK1QoOjUUcU7AC3
- HySgSOamM/bTmZiJEINAo+FC+If6X9aCs8EII6r0y2ixmu1hPSKRmJIXq4ublR46nm
- 0rt1RX1rCwp8irtAfwzMWmf2EkKaq+AiAFBrlDJ/HKmtN0Z83erUqDGYwhIcnyA+Ub
- uH3A4s30e2Bvw==
+ b=V1W0Pq5VlxzT1vxIppRRRaQHjPiyd2+3GjHsfBtAWL2t2RGvPpA7SUYNfei7Dglei
+ z4KGysW/RSwx9pKhtTxoCmEpn7yn/Pefo9G8NGHMj7LdE9rynk4B4H0FN/NYmSyDlQ
+ e8F3HzNs5cYPvUlPCMznnzAJS2XFTekbsnHHIka8v+VoGy/BPtMib/GK5OQgUS2ATL
+ e09lQ4QumD5jYP4iAGT/2E5l2HcC21uMCjMt/HLXjy3YE4GHcV5gCOYOtdAPskahQb
+ b2TGAFfT/WyGpeNt28kY16lrhjIzn0RjNGArzfq7Thf9PV7U+8TlxvZMaa5T222Gjh
+ 1wwCWYmpvOurw==
 From: Vinod Koul <vkoul@kernel.org>
 To: Rob Clark <robdclark@gmail.com>
-Subject: [PATCH v7 12/14] drm/msm/dsi: add mode valid callback for dsi_mgr
-Date: Wed,  6 Apr 2022 15:10:29 +0530
-Message-Id: <20220406094031.1027376-13-vkoul@kernel.org>
+Subject: [PATCH v7 13/14] drm/msm: Update generated headers
+Date: Wed,  6 Apr 2022 15:10:30 +0530
+Message-Id: <20220406094031.1027376-14-vkoul@kernel.org>
 X-Mailer: git-send-email 2.34.1
 In-Reply-To: <20220406094031.1027376-1-vkoul@kernel.org>
 References: <20220406094031.1027376-1-vkoul@kernel.org>
@@ -60,99 +59,117 @@ Cc: Jonathan Marek <jonathan@marek.ca>, David Airlie <airlied@linux.ie>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Add a mode valid callback for dsi_mgr for checking mode being valid in
-case of DSC. For DSC the height and width needs to be multiple of slice,
-so we check that here
+Update headers from mesa commit:
+
+  commit 28ae397be111c37c6ced397e12d453a7695701bd
+  Author: Vinod Koul <vkoul@kernel.org>
+  Date:   Fri Apr 1 16:53:04 2022 +0530
+
+      freedreno/registers: update dsi registers to support dsc
+
+      Display Stream compression (DSC) compresses the display stream in
+      host which is later decoded by panel. This requires addition of 3 new
+      DSI registers to support DSC over DSI.
+
+      Signed-off-by: Vinod Koul <vkoul@kernel.org>
+      Part-of: <https://gitlab.freedesktop.org/mesa/mesa/-/merge_requests/14967>
 
 Reviewed-by: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
-Reviewed-by: Abhinav Kumar <quic_abhinavk@quicinc.com>
 Signed-off-by: Vinod Koul <vkoul@kernel.org>
 ---
- drivers/gpu/drm/msm/dsi/dsi.h         |  2 ++
- drivers/gpu/drm/msm/dsi/dsi_host.c    | 26 ++++++++++++++++++++++++++
- drivers/gpu/drm/msm/dsi/dsi_manager.c | 12 ++++++++++++
- 3 files changed, 40 insertions(+)
+ drivers/gpu/drm/msm/dsi/dsi.xml.h | 80 +++++++++++++++++++++++++++++++
+ 1 file changed, 80 insertions(+)
 
-diff --git a/drivers/gpu/drm/msm/dsi/dsi.h b/drivers/gpu/drm/msm/dsi/dsi.h
-index 16cd9b2fce86..580a1e6358bf 100644
---- a/drivers/gpu/drm/msm/dsi/dsi.h
-+++ b/drivers/gpu/drm/msm/dsi/dsi.h
-@@ -114,6 +114,8 @@ int msm_dsi_host_power_on(struct mipi_dsi_host *host,
- int msm_dsi_host_power_off(struct mipi_dsi_host *host);
- int msm_dsi_host_set_display_mode(struct mipi_dsi_host *host,
- 				  const struct drm_display_mode *mode);
-+enum drm_mode_status msm_dsi_host_check_dsc(struct mipi_dsi_host *host,
-+					    const struct drm_display_mode *mode);
- struct drm_panel *msm_dsi_host_get_panel(struct mipi_dsi_host *host);
- unsigned long msm_dsi_host_get_mode_flags(struct mipi_dsi_host *host);
- struct drm_bridge *msm_dsi_host_get_bridge(struct mipi_dsi_host *host);
-diff --git a/drivers/gpu/drm/msm/dsi/dsi_host.c b/drivers/gpu/drm/msm/dsi/dsi_host.c
-index cb2e179127ea..eb0be34add45 100644
---- a/drivers/gpu/drm/msm/dsi/dsi_host.c
-+++ b/drivers/gpu/drm/msm/dsi/dsi_host.c
-@@ -2554,6 +2554,32 @@ int msm_dsi_host_set_display_mode(struct mipi_dsi_host *host,
- 	return 0;
- }
+diff --git a/drivers/gpu/drm/msm/dsi/dsi.xml.h b/drivers/gpu/drm/msm/dsi/dsi.xml.h
+index 4dee6f0bdda6..d1b2a17b0a66 100644
+--- a/drivers/gpu/drm/msm/dsi/dsi.xml.h
++++ b/drivers/gpu/drm/msm/dsi/dsi.xml.h
+@@ -704,5 +704,85 @@ static inline uint32_t DSI_VERSION_MAJOR(uint32_t val)
  
-+enum drm_mode_status msm_dsi_host_check_dsc(struct mipi_dsi_host *host,
-+					    const struct drm_display_mode *mode)
+ #define REG_DSI_CPHY_MODE_CTRL					0x000002d4
+ 
++#define REG_DSI_VIDEO_COMPRESSION_MODE_CTRL			0x0000029c
++#define DSI_VIDEO_COMPRESSION_MODE_CTRL_WC__MASK		0xffff0000
++#define DSI_VIDEO_COMPRESSION_MODE_CTRL_WC__SHIFT		16
++static inline uint32_t DSI_VIDEO_COMPRESSION_MODE_CTRL_WC(uint32_t val)
 +{
-+	struct msm_dsi_host *msm_host = to_msm_dsi_host(host);
-+	struct msm_display_dsc_config *dsc = msm_host->dsc;
-+	int pic_width = mode->hdisplay;
-+	int pic_height = mode->vdisplay;
-+
-+	if (!msm_host->dsc)
-+		return MODE_OK;
-+
-+	if (pic_width % dsc->drm->slice_width) {
-+		pr_err("DSI: pic_width %d has to be multiple of slice %d\n",
-+		       pic_width, dsc->drm->slice_width);
-+		return MODE_H_ILLEGAL;
-+	}
-+
-+	if (pic_height % dsc->drm->slice_height) {
-+		pr_err("DSI: pic_height %d has to be multiple of slice %d\n",
-+		       pic_height, dsc->drm->slice_height);
-+		return MODE_V_ILLEGAL;
-+	}
-+
-+	return MODE_OK;
++	return ((val) << DSI_VIDEO_COMPRESSION_MODE_CTRL_WC__SHIFT) & DSI_VIDEO_COMPRESSION_MODE_CTRL_WC__MASK;
 +}
-+
- struct drm_panel *msm_dsi_host_get_panel(struct mipi_dsi_host *host)
- {
- 	return of_drm_find_panel(to_msm_dsi_host(host)->device_node);
-diff --git a/drivers/gpu/drm/msm/dsi/dsi_manager.c b/drivers/gpu/drm/msm/dsi/dsi_manager.c
-index 0c1b7dde377c..100a8fcbddee 100644
---- a/drivers/gpu/drm/msm/dsi/dsi_manager.c
-+++ b/drivers/gpu/drm/msm/dsi/dsi_manager.c
-@@ -573,6 +573,17 @@ static void dsi_mgr_bridge_mode_set(struct drm_bridge *bridge,
- 	dsi_mgr_bridge_power_on(bridge);
- }
- 
-+static enum drm_mode_status dsi_mgr_bridge_mode_valid(struct drm_bridge *bridge,
-+						      const struct drm_display_info *info,
-+						      const struct drm_display_mode *mode)
++#define DSI_VIDEO_COMPRESSION_MODE_CTRL_DATATYPE__MASK		0x00003f00
++#define DSI_VIDEO_COMPRESSION_MODE_CTRL_DATATYPE__SHIFT		8
++static inline uint32_t DSI_VIDEO_COMPRESSION_MODE_CTRL_DATATYPE(uint32_t val)
 +{
-+	int id = dsi_mgr_bridge_get_id(bridge);
-+	struct msm_dsi *msm_dsi = dsi_mgr_get_dsi(id);
-+	struct mipi_dsi_host *host = msm_dsi->host;
-+
-+	return msm_dsi_host_check_dsc(host, mode);
++	return ((val) << DSI_VIDEO_COMPRESSION_MODE_CTRL_DATATYPE__SHIFT) & DSI_VIDEO_COMPRESSION_MODE_CTRL_DATATYPE__MASK;
 +}
++#define DSI_VIDEO_COMPRESSION_MODE_CTRL_PKT_PER_LINE__MASK	0x000000c0
++#define DSI_VIDEO_COMPRESSION_MODE_CTRL_PKT_PER_LINE__SHIFT	6
++static inline uint32_t DSI_VIDEO_COMPRESSION_MODE_CTRL_PKT_PER_LINE(uint32_t val)
++{
++	return ((val) << DSI_VIDEO_COMPRESSION_MODE_CTRL_PKT_PER_LINE__SHIFT) & DSI_VIDEO_COMPRESSION_MODE_CTRL_PKT_PER_LINE__MASK;
++}
++#define DSI_VIDEO_COMPRESSION_MODE_CTRL_EOL_BYTE_NUM__MASK	0x00000030
++#define DSI_VIDEO_COMPRESSION_MODE_CTRL_EOL_BYTE_NUM__SHIFT	4
++static inline uint32_t DSI_VIDEO_COMPRESSION_MODE_CTRL_EOL_BYTE_NUM(uint32_t val)
++{
++	return ((val) << DSI_VIDEO_COMPRESSION_MODE_CTRL_EOL_BYTE_NUM__SHIFT) & DSI_VIDEO_COMPRESSION_MODE_CTRL_EOL_BYTE_NUM__MASK;
++}
++#define DSI_VIDEO_COMPRESSION_MODE_CTRL_EN			0x00000001
 +
- static const struct drm_connector_funcs dsi_mgr_connector_funcs = {
- 	.detect = dsi_mgr_connector_detect,
- 	.fill_modes = drm_helper_probe_single_connector_modes,
-@@ -593,6 +604,7 @@ static const struct drm_bridge_funcs dsi_mgr_bridge_funcs = {
- 	.disable = dsi_mgr_bridge_disable,
- 	.post_disable = dsi_mgr_bridge_post_disable,
- 	.mode_set = dsi_mgr_bridge_mode_set,
-+	.mode_valid = dsi_mgr_bridge_mode_valid,
- };
++#define REG_DSI_COMMAND_COMPRESSION_MODE_CTRL			0x000002a4
++#define DSI_COMMAND_COMPRESSION_MODE_CTRL_STREAM1_DATATYPE__MASK	0x3f000000
++#define DSI_COMMAND_COMPRESSION_MODE_CTRL_STREAM1_DATATYPE__SHIFT	24
++static inline uint32_t DSI_COMMAND_COMPRESSION_MODE_CTRL_STREAM1_DATATYPE(uint32_t val)
++{
++	return ((val) << DSI_COMMAND_COMPRESSION_MODE_CTRL_STREAM1_DATATYPE__SHIFT) & DSI_COMMAND_COMPRESSION_MODE_CTRL_STREAM1_DATATYPE__MASK;
++}
++#define DSI_COMMAND_COMPRESSION_MODE_CTRL_STREAM1_PKT_PER_LINE__MASK	0x00c00000
++#define DSI_COMMAND_COMPRESSION_MODE_CTRL_STREAM1_PKT_PER_LINE__SHIFT	22
++static inline uint32_t DSI_COMMAND_COMPRESSION_MODE_CTRL_STREAM1_PKT_PER_LINE(uint32_t val)
++{
++	return ((val) << DSI_COMMAND_COMPRESSION_MODE_CTRL_STREAM1_PKT_PER_LINE__SHIFT) & DSI_COMMAND_COMPRESSION_MODE_CTRL_STREAM1_PKT_PER_LINE__MASK;
++}
++#define DSI_COMMAND_COMPRESSION_MODE_CTRL_STREAM1_EOL_BYTE_NUM__MASK	0x00300000
++#define DSI_COMMAND_COMPRESSION_MODE_CTRL_STREAM1_EOL_BYTE_NUM__SHIFT	20
++static inline uint32_t DSI_COMMAND_COMPRESSION_MODE_CTRL_STREAM1_EOL_BYTE_NUM(uint32_t val)
++{
++	return ((val) << DSI_COMMAND_COMPRESSION_MODE_CTRL_STREAM1_EOL_BYTE_NUM__SHIFT) & DSI_COMMAND_COMPRESSION_MODE_CTRL_STREAM1_EOL_BYTE_NUM__MASK;
++}
++#define DSI_COMMAND_COMPRESSION_MODE_CTRL_STREAM1_EN		0x00010000
++#define DSI_COMMAND_COMPRESSION_MODE_CTRL_STREAM0_DATATYPE__MASK	0x00003f00
++#define DSI_COMMAND_COMPRESSION_MODE_CTRL_STREAM0_DATATYPE__SHIFT	8
++static inline uint32_t DSI_COMMAND_COMPRESSION_MODE_CTRL_STREAM0_DATATYPE(uint32_t val)
++{
++	return ((val) << DSI_COMMAND_COMPRESSION_MODE_CTRL_STREAM0_DATATYPE__SHIFT) & DSI_COMMAND_COMPRESSION_MODE_CTRL_STREAM0_DATATYPE__MASK;
++}
++#define DSI_COMMAND_COMPRESSION_MODE_CTRL_STREAM0_PKT_PER_LINE__MASK	0x000000c0
++#define DSI_COMMAND_COMPRESSION_MODE_CTRL_STREAM0_PKT_PER_LINE__SHIFT	6
++static inline uint32_t DSI_COMMAND_COMPRESSION_MODE_CTRL_STREAM0_PKT_PER_LINE(uint32_t val)
++{
++	return ((val) << DSI_COMMAND_COMPRESSION_MODE_CTRL_STREAM0_PKT_PER_LINE__SHIFT) & DSI_COMMAND_COMPRESSION_MODE_CTRL_STREAM0_PKT_PER_LINE__MASK;
++}
++#define DSI_COMMAND_COMPRESSION_MODE_CTRL_STREAM0_EOL_BYTE_NUM__MASK	0x00000030
++#define DSI_COMMAND_COMPRESSION_MODE_CTRL_STREAM0_EOL_BYTE_NUM__SHIFT	4
++static inline uint32_t DSI_COMMAND_COMPRESSION_MODE_CTRL_STREAM0_EOL_BYTE_NUM(uint32_t val)
++{
++	return ((val) << DSI_COMMAND_COMPRESSION_MODE_CTRL_STREAM0_EOL_BYTE_NUM__SHIFT) & DSI_COMMAND_COMPRESSION_MODE_CTRL_STREAM0_EOL_BYTE_NUM__MASK;
++}
++#define DSI_COMMAND_COMPRESSION_MODE_CTRL_STREAM0_EN		0x00000001
++
++#define REG_DSI_COMMAND_COMPRESSION_MODE_CTRL2			0x000002a8
++#define DSI_COMMAND_COMPRESSION_MODE_CTRL2_STREAM1_SLICE_WIDTH__MASK	0xffff0000
++#define DSI_COMMAND_COMPRESSION_MODE_CTRL2_STREAM1_SLICE_WIDTH__SHIFT	16
++static inline uint32_t DSI_COMMAND_COMPRESSION_MODE_CTRL2_STREAM1_SLICE_WIDTH(uint32_t val)
++{
++	return ((val) << DSI_COMMAND_COMPRESSION_MODE_CTRL2_STREAM1_SLICE_WIDTH__SHIFT) & DSI_COMMAND_COMPRESSION_MODE_CTRL2_STREAM1_SLICE_WIDTH__MASK;
++}
++#define DSI_COMMAND_COMPRESSION_MODE_CTRL2_STREAM0_SLICE_WIDTH__MASK	0x0000ffff
++#define DSI_COMMAND_COMPRESSION_MODE_CTRL2_STREAM0_SLICE_WIDTH__SHIFT	0
++static inline uint32_t DSI_COMMAND_COMPRESSION_MODE_CTRL2_STREAM0_SLICE_WIDTH(uint32_t val)
++{
++	return ((val) << DSI_COMMAND_COMPRESSION_MODE_CTRL2_STREAM0_SLICE_WIDTH__SHIFT) & DSI_COMMAND_COMPRESSION_MODE_CTRL2_STREAM0_SLICE_WIDTH__MASK;
++}
  
- /* initialize connector when we're connected to a drm_panel */
+ #endif /* DSI_XML */
 -- 
 2.34.1
 
