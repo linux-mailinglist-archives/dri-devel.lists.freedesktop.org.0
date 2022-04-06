@@ -1,46 +1,49 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 09D394F5BC4
-	for <lists+dri-devel@lfdr.de>; Wed,  6 Apr 2022 12:50:11 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 04E954F5BC5
+	for <lists+dri-devel@lfdr.de>; Wed,  6 Apr 2022 12:51:43 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id E332310E440;
-	Wed,  6 Apr 2022 10:50:08 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 15B7410E5E9;
+	Wed,  6 Apr 2022 10:51:41 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mailgw01.mediatek.com (unknown [60.244.123.138])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 099D310E40A
- for <dri-devel@lists.freedesktop.org>; Wed,  6 Apr 2022 10:50:06 +0000 (UTC)
-X-UUID: d710005dabbd42d68bdd942d31903cc9-20220406
-X-UUID: d710005dabbd42d68bdd942d31903cc9-20220406
-Received: from mtkcas10.mediatek.inc [(172.21.101.39)] by mailgw01.mediatek.com
- (envelope-from <rex-bc.chen@mediatek.com>)
- (Generic MTA with TLSv1.2 ECDHE-RSA-AES256-SHA384 256/256)
- with ESMTP id 1297674620; Wed, 06 Apr 2022 18:50:01 +0800
-Received: from mtkcas10.mediatek.inc (172.21.101.39) by
- mtkmbs10n2.mediatek.inc (172.21.101.183) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_CBC_SHA384) id 15.2.792.3; 
- Wed, 6 Apr 2022 18:49:59 +0800
-Received: from mtksdccf07 (172.21.84.99) by mtkcas10.mediatek.inc
- (172.21.101.73) with Microsoft SMTP Server id 15.0.1497.2 via Frontend
- Transport; Wed, 6 Apr 2022 18:49:59 +0800
-Message-ID: <42e890bef5927f2c4854c146f9bab2f974b64a48.camel@mediatek.com>
-Subject: Re: [PATCH 1/3] dt-bindings: display: mediatek: Correct disp_aal
- binding for MT8183
-From: Rex-BC Chen <rex-bc.chen@mediatek.com>
-To: AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>,
- <chunkuang.hu@kernel.org>, <robh+dt@kernel.org>, <krzk+dt@kernel.org>
-Date: Wed, 6 Apr 2022 18:49:59 +0800
-In-Reply-To: <19a1af29-19a7-a546-b565-a2cc973a7f28@collabora.com>
-References: <20220406094654.29722-1-rex-bc.chen@mediatek.com>
- <20220406094654.29722-2-rex-bc.chen@mediatek.com>
- <19a1af29-19a7-a546-b565-a2cc973a7f28@collabora.com>
-Content-Type: text/plain; charset="UTF-8"
-X-Mailer: Evolution 3.28.5-0ubuntu0.18.04.2 
+Received: from bhuna.collabora.co.uk (bhuna.collabora.co.uk [46.235.227.227])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 5B4D410E5E9
+ for <dri-devel@lists.freedesktop.org>; Wed,  6 Apr 2022 10:51:39 +0000 (UTC)
+Received: from [127.0.0.1] (localhost [127.0.0.1])
+ (Authenticated sender: kholk11) with ESMTPSA id 5357A1F40EEA
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
+ s=mail; t=1649242298;
+ bh=au3kCGpBvELGj1O6aCEDgSZw3PDmNnTwCgo2ZapgbJY=;
+ h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
+ b=k8lcVf8I9OjzL+Yob0GKMFrCpB3OMWOSdFSJ1vEdCc/3LPY7XhF7g1KGHrHyO7+Je
+ akVMl7CsoT5V5aCZINzeQhUH3RmtO9hQyQdMsksPUFuULZiaZVd7i/CI08Yx0999Qc
+ uKMhT0MPfHPsCxFNq3wbodLtSinV4mCnKSe+cwWmSz1Bi9RAIMl5ZoguOabgGmDeoM
+ W2tiM8+ihWlLanFyMB1oKFA3yGBon14UGi/jwC7d12ikEczIYrXo8dHHsAA2tPDWtP
+ zpSLlIDK0j0/ObDa8X5bXKRqjWkuXUbN+HivTzFDsR7F2AgbuzmpX2TksYqkyRS0Na
+ bv7dX0vBwdH1Q==
+Message-ID: <0e6d110d-0637-2be8-cab0-9d936668fa7b@collabora.com>
+Date: Wed, 6 Apr 2022 12:51:34 +0200
 MIME-Version: 1.0
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.7.0
+Subject: Re: [PATCH 3/3] dt-bindings: display: mediatek: Correct disp_aal
+ binding for MT8192
+Content-Language: en-US
+To: Rex-BC Chen <rex-bc.chen@mediatek.com>,
+ "chunkuang.hu@kernel.org" <chunkuang.hu@kernel.org>,
+ "robh+dt@kernel.org" <robh+dt@kernel.org>,
+ "krzk+dt@kernel.org" <krzk+dt@kernel.org>
+References: <20220406094654.29722-1-rex-bc.chen@mediatek.com>
+ <20220406094654.29722-4-rex-bc.chen@mediatek.com>
+ <2449070b-d7e1-122f-abe6-4148855a9aba@collabora.com>
+ <4ed2dc24d600fa73b91bb411391c98a5bf4f8d8b.camel@mediatek.com>
+From: AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>
+In-Reply-To: <4ed2dc24d600fa73b91bb411391c98a5bf4f8d8b.camel@mediatek.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 7bit
-X-MTK: N
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -53,48 +56,59 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: devicetree@vger.kernel.org, airlied@linux.ie, jason-jh.lin@mediatek.com,
- linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
- Project_Global_Chrome_Upstream_Group@mediatek.com, nancy.lin@mediatek.com,
- linux-mediatek@lists.infradead.org, yongqiang.niu@mediatek.com,
- matthias.bgg@gmail.com, linux-arm-kernel@lists.infradead.org,
- allen-kh.cheng@mediatek.com
+Cc: "devicetree@vger.kernel.org" <devicetree@vger.kernel.org>,
+ "airlied@linux.ie" <airlied@linux.ie>,
+ =?UTF-8?B?SmFzb24tSkggTGluICjmnpfnnb/npaUp?= <Jason-JH.Lin@mediatek.com>,
+ "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
+ "dri-devel@lists.freedesktop.org" <dri-devel@lists.freedesktop.org>,
+ Project_Global_Chrome_Upstream_Group
+ <Project_Global_Chrome_Upstream_Group@mediatek.com>,
+ =?UTF-8?B?TmFuY3kgTGluICjmnpfmrKPonqIp?= <Nancy.Lin@mediatek.com>,
+ "linux-mediatek@lists.infradead.org" <linux-mediatek@lists.infradead.org>,
+ =?UTF-8?B?WW9uZ3FpYW5nIE5pdSAo54mb5rC45by6KQ==?= <yongqiang.niu@mediatek.com>,
+ "matthias.bgg@gmail.com" <matthias.bgg@gmail.com>,
+ "linux-arm-kernel@lists.infradead.org" <linux-arm-kernel@lists.infradead.org>,
+ =?UTF-8?B?QWxsZW4tS0ggQ2hlbmcgKOeoi+WGoOWLsyk=?= <Allen-KH.Cheng@mediatek.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Wed, 2022-04-06 at 12:38 +0200, AngeloGioacchino Del Regno wrote:
-> Il 06/04/22 11:46, Rex-BC Chen ha scritto:
-> > The driver data of MT8183 and MT8173 are different.
-> > The value of has_gamma for MT8173 is true while the value of MT8183
-> > is
-> > false. Therefore, the compatible of disp_aal for MT8183 is not
-> > suitable
-> > for the compatible for MT8173.
-> > 
-> > Signed-off-by: Rex-BC Chen <rex-bc.chen@mediatek.com>
+Il 06/04/22 12:48, Rex-BC Chen ha scritto:
+> On Wed, 2022-04-06 at 18:40 +0800, AngeloGioacchino Del Regno wrote:
+>> Il 06/04/22 11:46, Rex-BC Chen ha scritto:
+>>> The driver data for MT8192 is the same with MT8183. Therefore, we
+>>> correct it.
+>>>
+>>> Signed-off-by: Rex-BC Chen <rex-bc.chen@mediatek.com>
+>>
+>> Reviewed-by: AngeloGioacchino Del Regno <
+>> angelogioacchino.delregno@collabora.com>
+>>
+>> ...though, from what I know, you should also move MT8195 down there!
 > 
-> Hello!
-> Yes, I definitely agree with this change, it makes no sense to have
-> both
-> 8173 and 8183 compatibles for 8183 (and similar).
+> Hello Angelo,
 > 
-> Though, please, add a note in this commit message advertising that
-> the
-> mistake was only in the yaml binding, as the driver doesn't require
-> any
-> functional changes, so that things are clear for people with less
-> expertise
-> on MediaTek platforms.
+> Thanks for your review.
+> But for MT8195, disp_aal is using the same compatible with MT8173.
 > 
-> After that:
-> Reviewed-by: AngeloGioacchino Del Regno <
-> angelogioacchino.delregno@collabora.com>
+>  From the MT8195 project DTS is using:
+> 
+> aal0: disp_aal@1c005000 {
+> 	compatible = "mediatek,mt8195-disp-aal",
+> 		     "mediatek,mt8173-disp-aal";
+> 	reg = <0 0x1c005000 0 0x1000>;
+> 	interrupts = <GIC_SPI 641 IRQ_TYPE_LEVEL_HIGH 0>;
+> 	power-domains = <&spm MT8195_POWER_DOMAIN_VDOSYS0>;
+> 	clocks = <&vdosys0 CLK_VDO0_DISP_AAL0>;
+> 	mediatek,gce-client-reg =
+> 		 <&gce0 SUBSYS_1c00XXXX 0x5000 0x1000>;
+> };
+> 
+> BRs,
+> Rex
+> 
 
-Hello Angelo,
+I'm sorry Rex, I've just realized - I was confusing this one with the
+8195 gamma binding instead!
 
-Thanks for your review.
-I will add them to the commit message in next version.
-
-BRs,
-Rex
-
+Cheers,
+Angelo
