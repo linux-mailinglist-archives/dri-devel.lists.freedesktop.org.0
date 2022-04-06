@@ -2,60 +2,41 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7E3624F5303
-	for <lists+dri-devel@lfdr.de>; Wed,  6 Apr 2022 06:03:12 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 60C444F552C
+	for <lists+dri-devel@lfdr.de>; Wed,  6 Apr 2022 07:44:39 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 4743510F105;
-	Wed,  6 Apr 2022 04:03:10 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 466E610EC3E;
+	Wed,  6 Apr 2022 05:44:36 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-oi1-x231.google.com (mail-oi1-x231.google.com
- [IPv6:2607:f8b0:4864:20::231])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 6B8BD10F105
- for <dri-devel@lists.freedesktop.org>; Wed,  6 Apr 2022 04:03:09 +0000 (UTC)
-Received: by mail-oi1-x231.google.com with SMTP id e189so1215938oia.8
- for <dri-devel@lists.freedesktop.org>; Tue, 05 Apr 2022 21:03:09 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=chromium.org; s=google;
- h=mime-version:in-reply-to:references:from:user-agent:date:message-id
- :subject:to:cc;
- bh=OWGK0XSf75E2cBZKiH+umLuz5CYhWcZRVj1UAjEllAY=;
- b=B3Xk0zf30mn3aJ6PALMS1FYblpAC7sg/WWGpfndFeo4pqSCs2E3RWu4wnQ85Ns8Mu7
- tNV9xYLSWizZpyECol/+pTvwoQGHG/8U0IGsK7lxkp1fbLlEZmA4QJtG4PLXdhsH/0ND
- lQzmYdtcR1t/GIkVSGJuOIQ0Qz/M3m2bH4lVg=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=x-gm-message-state:mime-version:in-reply-to:references:from
- :user-agent:date:message-id:subject:to:cc;
- bh=OWGK0XSf75E2cBZKiH+umLuz5CYhWcZRVj1UAjEllAY=;
- b=B1sbdLRUhjwLKudNqvXey2iXPerQAW2VAe5Vwo0KIz7DwKT21aVanxhDZms4Z56ha0
- WiFJ1vWWRKINbrsy7RE9YRs5YHNxVNkwalEnuzgVHot+sIc4wznSuk49nU83txnX5cVh
- urVdunDHmFSxnoaMsGJtLe+6DDRqJICd4CpHvPFIFOUmX2zUMh+wMqhjwwmhcrVjfJ5b
- 1LUY7oeCGTvIHoR9qUJ7uUnKoxMvzBvUae3hmcvTw8RpDxAJ9t83Fn9FtUwYmKTlJkyi
- KMY7HR/1HAO+w0CojDYxlDWj/p56wARACuAqHqfp2h5vQ6uVpORwH+89JbyrvqVw88Lu
- LKGA==
-X-Gm-Message-State: AOAM531gfz5TiyMrMYddNrzKw+DNqH9L+u1I12DvkDniVi3cDQFimrAf
- MoOfKpmXUOkjquOhmEtxuhr87w79pGD58Ot/F5LKww==
-X-Google-Smtp-Source: ABdhPJxM0nn6L84rHUj4Gb+jOZSqgxHoFiOkcE8dNBOJmIDosHNk+ShSDIkEgO2AH7sNO4+MIcnbS/HprQhkcuCb8wY=
-X-Received: by 2002:aca:bd41:0:b0:2ec:ff42:814f with SMTP id
- n62-20020acabd41000000b002ecff42814fmr2770219oif.63.1649217788747; Tue, 05
- Apr 2022 21:03:08 -0700 (PDT)
-Received: from 753933720722 named unknown by gmailapi.google.com with
- HTTPREST; Tue, 5 Apr 2022 21:03:08 -0700
+Received: from gandalf.ozlabs.org (gandalf.ozlabs.org [150.107.74.76])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 7354F10EC3E;
+ Wed,  6 Apr 2022 05:44:35 +0000 (UTC)
+Received: from authenticated.ozlabs.org (localhost [127.0.0.1])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+ key-exchange ECDHE (P-256) server-signature RSA-PSS (4096 bits) server-digest
+ SHA256) (No client certificate requested)
+ by mail.ozlabs.org (Postfix) with ESMTPSA id 4KYD3h2RjGz4xXv;
+ Wed,  6 Apr 2022 15:44:32 +1000 (AEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=canb.auug.org.au;
+ s=201702; t=1649223873;
+ bh=XaEydd0v9rzsjJ13ImPTLIrQlLhXxeytXQhVXvFUX7o=;
+ h=Date:From:To:Cc:Subject:From;
+ b=avGYXP2CPTvwcCNmlWuD4lLUQkgt7Lg78rxV6FIqIuSLvfNYYnCWP9JREZV++p7zZ
+ hqVkzof54G7BdHanWlkP/e3VflnYsjlBI9NzuvSj2WoNE9TVAhTzWO5W4VPmTdL20g
+ RAJ7Kt0i8RBrRS+MDWs6BkdLnK9HHKuoDm1xHC9r2z8posznVWEMbye5mPSwAbajN1
+ o46vazQKvaGn9X4QtKi65jJZWn7WgM2p0jp0IspOE5u153gr9inFKFyWyOAo44EUdl
+ 1rV4j1VDgR1glZ/AVXwmJl4eKnNFQvi/0jl5IITVyrOjMFfyEWkSAHY0dWvD6Xv4Ck
+ CyHOhn+UxD0/Q==
+Date: Wed, 6 Apr 2022 15:44:31 +1000
+From: Stephen Rothwell <sfr@canb.auug.org.au>
+To: Daniel Vetter <daniel.vetter@ffwll.ch>, Intel Graphics
+ <intel-gfx@lists.freedesktop.org>, DRI <dri-devel@lists.freedesktop.org>
+Subject: linux-next: build warnings after merge of the drm-misc tree
+Message-ID: <20220406154431.567414c3@canb.auug.org.au>
 MIME-Version: 1.0
-In-Reply-To: <20220405235059.359738-4-dmitry.baryshkov@linaro.org>
-References: <20220405235059.359738-1-dmitry.baryshkov@linaro.org>
- <20220405235059.359738-4-dmitry.baryshkov@linaro.org>
-From: Stephen Boyd <swboyd@chromium.org>
-User-Agent: alot/0.10
-Date: Tue, 5 Apr 2022 21:03:08 -0700
-Message-ID: <CAE-0n501rjepeF3Oc6g05ctyGYdZTPR1+OMC=piQEtUZT+03=w@mail.gmail.com>
-Subject: Re: [PATCH 3/3] drm/msm: don't store created planes,
- connectors and encoders
-To: Abhinav Kumar <quic_abhinavk@quicinc.com>,
- Bjorn Andersson <bjorn.andersson@linaro.org>, 
- Dmitry Baryshkov <dmitry.baryshkov@linaro.org>, Rob Clark <robdclark@gmail.com>,
- Sean Paul <sean@poorly.run>
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: multipart/signed; boundary="Sig_/WJiKREXF3Ec+2vEZl7GyBMA";
+ protocol="application/pgp-signature"; micalg=pgp-sha256
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -68,41 +49,55 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: David Airlie <airlied@linux.ie>, linux-arm-msm@vger.kernel.org,
- freedreno@lists.freedesktop.org, dri-devel@lists.freedesktop.org
+Cc: Jani Nikula <jani.nikula@intel.com>,
+ Linux Next Mailing List <linux-next@vger.kernel.org>,
+ Linux Kernel Mailing List <linux-kernel@vger.kernel.org>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Quoting Dmitry Baryshkov (2022-04-05 16:50:59)
-> diff --git a/drivers/gpu/drm/msm/msm_drv.h b/drivers/gpu/drm/msm/msm_drv.h
-> index d661debb50f1..ee3093890d97 100644
-> --- a/drivers/gpu/drm/msm/msm_drv.h
-> +++ b/drivers/gpu/drm/msm/msm_drv.h
-> @@ -184,23 +184,14 @@ struct msm_drm_private {
->
->         struct workqueue_struct *wq;
->
-> -       unsigned int num_planes;
-> -       struct drm_plane *planes[MAX_PLANES];
+--Sig_/WJiKREXF3Ec+2vEZl7GyBMA
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: quoted-printable
 
-Can we get rid of MAX_PLANES?
+Hi all,
 
-> -
->         unsigned int num_crtcs;
->         struct drm_crtc *crtcs[MAX_CRTCS];
->
->         struct msm_drm_thread event_thread[MAX_CRTCS];
->
-> -       unsigned int num_encoders;
-> -       struct drm_encoder *encoders[MAX_ENCODERS];
+After merging the drm-misc tree, today's linux-next build (KCONFIG_NAME)
+produced these warnings:
 
-And MAX_ENCODERS?
+drivers/gpu/drm/drm_edid.c:1589: warning: Function parameter or member '_ed=
+id' not described in 'drm_edid_header_is_valid'
+drivers/gpu/drm/drm_edid.c:1589: warning: Excess function parameter 'raw_ed=
+id' description in 'drm_edid_header_is_valid'
+drivers/gpu/drm/drm_edid.c:1737: warning: Function parameter or member '_bl=
+ock' not described in 'drm_edid_block_valid'
+drivers/gpu/drm/drm_edid.c:1737: warning: Excess function parameter 'raw_ed=
+id' description in 'drm_edid_block_valid'
 
-> -
->         unsigned int num_bridges;
->         struct drm_bridge *bridges[MAX_BRIDGES];
->
-> -       unsigned int num_connectors;
-> -       struct drm_connector *connectors[MAX_CONNECTORS];
+Introduced by commits
 
-And MAX_CONNECTORS?
+  6d987ddd6843 ("drm/edid: make drm_edid_header_is_valid() accept void poin=
+ter")
+  1f221284ab63 ("drm/edid: split drm_edid_block_valid() to check and act pa=
+rts")
+
+--=20
+Cheers,
+Stephen Rothwell
+
+--Sig_/WJiKREXF3Ec+2vEZl7GyBMA
+Content-Type: application/pgp-signature
+Content-Description: OpenPGP digital signature
+
+-----BEGIN PGP SIGNATURE-----
+
+iQEzBAEBCAAdFiEENIC96giZ81tWdLgKAVBC80lX0GwFAmJNKL8ACgkQAVBC80lX
+0Gzakwf/SzB8dszFDecGzZx/RB+HDNQ/knJlKX/GG/8apJdnYOwkU+45eA+15CJn
+yuNnfUipmpuzawrtEmcZtbChiUGux2dSz5tTHeqDtJFEVW57BjZIG9+HskxdsH9x
+H7ztoESQiFtU5xh2+CQ3RpDGhadTLB22fQrHdSYH+GItBSFI8OlFuOfKqWS7a5sU
+7YmiiOdlXxJ7clC6NacS+xYsg0KWHuCbZtNXNg/qI/L8to3lyWZryWUuvpspG7fK
++bom6Bsf3sEyPYo6n4cf7UShEt/FnlB7OKIpw84lJgO/cWD6qOhMDAUUq/m38mp8
+INlfF6/c76XQpp/vT1IGb5idycWzYA==
+=eirQ
+-----END PGP SIGNATURE-----
+
+--Sig_/WJiKREXF3Ec+2vEZl7GyBMA--
