@@ -1,41 +1,54 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id CC9CE4F6A5F
-	for <lists+dri-devel@lfdr.de>; Wed,  6 Apr 2022 21:49:08 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 1D67E4F6ADF
+	for <lists+dri-devel@lfdr.de>; Wed,  6 Apr 2022 22:08:35 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id B40DB89C21;
-	Wed,  6 Apr 2022 19:49:06 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id B01A810E030;
+	Wed,  6 Apr 2022 20:08:27 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from metis.ext.pengutronix.de (metis.ext.pengutronix.de
- [IPv6:2001:67c:670:201:290:27ff:fe1d:cc33])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 72F2889C21
- for <dri-devel@lists.freedesktop.org>; Wed,  6 Apr 2022 19:49:05 +0000 (UTC)
-Received: from gallifrey.ext.pengutronix.de
- ([2001:67c:670:201:5054:ff:fe8d:eefb] helo=[IPv6:::1])
- by metis.ext.pengutronix.de with esmtps
- (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256) (Exim 4.92)
- (envelope-from <l.stach@pengutronix.de>)
- id 1ncBeJ-0004AF-P9; Wed, 06 Apr 2022 21:49:03 +0200
-Message-ID: <5068b8296cf1e2e885ac411a3d1728bad12c47f6.camel@pengutronix.de>
-Subject: Re: [PATCH v2 7/7] drm: mxsfb: Factor out mxsfb_update_buffer()
-From: Lucas Stach <l.stach@pengutronix.de>
-To: Marek Vasut <marex@denx.de>, dri-devel@lists.freedesktop.org
-Date: Wed, 06 Apr 2022 21:49:02 +0200
-In-Reply-To: <20220311170601.50995-7-marex@denx.de>
-References: <20220311170601.50995-1-marex@denx.de>
- <20220311170601.50995-7-marex@denx.de>
-Content-Type: text/plain; charset="UTF-8"
-User-Agent: Evolution 3.40.4 (3.40.4-1.fc34) 
-MIME-Version: 1.0
-Content-Transfer-Encoding: 7bit
-X-SA-Exim-Connect-IP: 2001:67c:670:201:5054:ff:fe8d:eefb
-X-SA-Exim-Mail-From: l.stach@pengutronix.de
-X-SA-Exim-Scanned: No (on metis.ext.pengutronix.de);
- SAEximRunCond expanded to false
-X-PTX-Original-Recipient: dri-devel@lists.freedesktop.org
+Received: from mail-ot1-f47.google.com (mail-ot1-f47.google.com
+ [209.85.210.47])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 765A710E030
+ for <dri-devel@lists.freedesktop.org>; Wed,  6 Apr 2022 20:08:26 +0000 (UTC)
+Received: by mail-ot1-f47.google.com with SMTP id
+ y3-20020a056830070300b005cd9c4d03feso2477054ots.3
+ for <dri-devel@lists.freedesktop.org>; Wed, 06 Apr 2022 13:08:26 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=x-gm-message-state:from:to:cc:in-reply-to:references:subject:date
+ :message-id;
+ bh=Jba1vSeRP1HF/2xdMVwK3zKEPMIqomVyRzHfIeKZsuY=;
+ b=OqbGzrbdQnU2SAMUgor+PTv3HcYIVtU/ZV21ASgt6CyES+8nXa8HXyGkDwGSDu5PIY
+ gV9tLVb9Ilbws9BtgcwXLZdP0jSjO5+/Q3ER2RQQl0bgb+wst65S4t/voFDaz4iv2Jj0
+ pPfHD7Mi793SA9g6p/qYII1XwwJ96UvLy2lGtey7rp1psMQLv4SRuJjf36fGVa5w45V/
+ fSXd8qFesRI6HE+TEsU86Vj+7Tn4pM23hCUkKwybiPlbkSn1Suah8w2+bHtHgasDeHLb
+ M9iTB8EtkiPOli6k+Tv+HCNqesW3sY3r4HDL81+a2SxFGM6uNXjLKizzcIVCEAeW0mkG
+ jI9A==
+X-Gm-Message-State: AOAM5337yOQ1TdLuErJJE0Lsydg/biOJmswYPwq+9CaevHMLZUufSf0S
+ fJmh3PFdYHl1y7Z/ndRKPg==
+X-Google-Smtp-Source: ABdhPJymdB2qRyAE4P6pRY0v0g5bx14Pp9fxc/u5M6zMOtOt95SXs96EoRWJvD2Hj1G1XlilxiDxKg==
+X-Received: by 2002:a05:6830:1498:b0:5cd:a787:e8c1 with SMTP id
+ s24-20020a056830149800b005cda787e8c1mr3759352otq.11.1649275705675; 
+ Wed, 06 Apr 2022 13:08:25 -0700 (PDT)
+Received: from robh.at.kernel.org (66-90-144-107.dyn.grandenetworks.net.
+ [66.90.144.107]) by smtp.gmail.com with ESMTPSA id
+ s22-20020a056830149600b005b24a96174asm7200413otq.8.2022.04.06.13.08.24
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Wed, 06 Apr 2022 13:08:24 -0700 (PDT)
+Received: (nullmailer pid 2682168 invoked by uid 1000);
+ Wed, 06 Apr 2022 20:08:22 -0000
+From: Rob Herring <robh@kernel.org>
+To: Lucas Stach <l.stach@pengutronix.de>
+In-Reply-To: <20220406160123.1272911-5-l.stach@pengutronix.de>
+References: <20220406160123.1272911-1-l.stach@pengutronix.de>
+ <20220406160123.1272911-5-l.stach@pengutronix.de>
+Subject: Re: [PATCH v0 04/10] dt-bindings: display: imx: add binding for
+ i.MX8MP HDMI PVI
+Date: Wed, 06 Apr 2022 15:08:22 -0500
+Message-Id: <1649275702.760311.2682167.nullmailer@robh.at.kernel.org>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -48,95 +61,52 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Peng Fan <peng.fan@nxp.com>,
- Alexander Stein <alexander.stein@ew.tq-group.com>,
- Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
- Sam Ravnborg <sam@ravnborg.org>, Robby Cai <robby.cai@nxp.com>
+Cc: devicetree@vger.kernel.org, Andrzej Hajda <andrzej.hajda@intel.com>,
+ Neil Armstrong <narmstrong@baylibre.com>, Shawn Guo <shawnguo@kernel.org>,
+ dri-devel@lists.freedesktop.org, patchwork-lst@pengutronix.de,
+ Vinod Koul <vkoul@kernel.org>, Rob Herring <robh+dt@kernel.org>,
+ Robert Foss <robert.foss@linaro.org>, linux-phy@lists.infradead.org,
+ Krzysztof Kozlowski <krzk+dt@kernel.org>,
+ Kishon Vijay Abraham I <kishon@ti.com>,
+ Pengutronix Kernel Team <kernel@pengutronix.de>,
+ linux-arm-kernel@lists.infradead.org, NXP Linux Team <linux-imx@nxp.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Am Freitag, dem 11.03.2022 um 18:06 +0100 schrieb Marek Vasut:
-> Pull functionality responsible for programming framebuffer address into
-> the controller into dedicated function mxsfb_update_buffer(). This is a
-> clean up. No functional change.
+On Wed, 06 Apr 2022 18:01:17 +0200, Lucas Stach wrote:
+> Add binding for the i.MX8MP HDMI parallel video interface block.
 > 
-> Signed-off-by: Marek Vasut <marex@denx.de>
-> Cc: Alexander Stein <alexander.stein@ew.tq-group.com>
-> Cc: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-> Cc: Lucas Stach <l.stach@pengutronix.de>
-> Cc: Peng Fan <peng.fan@nxp.com>
-> Cc: Robby Cai <robby.cai@nxp.com>
-> Cc: Sam Ravnborg <sam@ravnborg.org>
-> Cc: Stefan Agner <stefan@agner.ch>
-
-Reviewed-by: Lucas Stach <l.stach@pengutronix.de>
-
+> Signed-off-by: Lucas Stach <l.stach@pengutronix.de>
 > ---
-> V2: No change
-> ---
->  drivers/gpu/drm/mxsfb/mxsfb_kms.c | 28 ++++++++++++++++++----------
->  1 file changed, 18 insertions(+), 10 deletions(-)
+>  .../display/imx/fsl,imx8mp-hdmi-pvi.yaml      | 83 +++++++++++++++++++
+>  1 file changed, 83 insertions(+)
+>  create mode 100644 Documentation/devicetree/bindings/display/imx/fsl,imx8mp-hdmi-pvi.yaml
 > 
-> diff --git a/drivers/gpu/drm/mxsfb/mxsfb_kms.c b/drivers/gpu/drm/mxsfb/mxsfb_kms.c
-> index 497603964add8..4baa3db1f3d10 100644
-> --- a/drivers/gpu/drm/mxsfb/mxsfb_kms.c
-> +++ b/drivers/gpu/drm/mxsfb/mxsfb_kms.c
-> @@ -58,6 +58,22 @@ static dma_addr_t mxsfb_get_fb_paddr(struct drm_plane *plane)
->  	return gem->paddr;
->  }
->  
-> +static void
-> +mxsfb_update_buffer(struct mxsfb_drm_private *mxsfb, struct drm_plane *plane,
-> +		    bool both)
-> +{
-> +	dma_addr_t paddr;
-> +
-> +	paddr = mxsfb_get_fb_paddr(plane);
-> +	if (!paddr)
-> +		return;
-> +
-> +	if (both)
-> +		writel(paddr, mxsfb->base + mxsfb->devdata->cur_buf);
-> +
-> +	writel(paddr, mxsfb->base + mxsfb->devdata->next_buf);
-> +}
-> +
->  /*
->   * Setup the MXSFB registers for decoding the pixels out of the framebuffer and
->   * outputting them on the bus.
-> @@ -352,7 +368,6 @@ static void mxsfb_crtc_atomic_enable(struct drm_crtc *crtc,
->  	struct drm_bridge_state *bridge_state;
->  	struct drm_device *drm = mxsfb->drm;
->  	u32 bus_format = 0;
-> -	dma_addr_t paddr;
->  
->  	/* If there is a bridge attached to the LCDIF, use its bus format */
->  	if (mxsfb->bridge) {
-> @@ -387,11 +402,7 @@ static void mxsfb_crtc_atomic_enable(struct drm_crtc *crtc,
->  	mxsfb_crtc_mode_set_nofb(mxsfb, bus_format);
->  
->  	/* Write cur_buf as well to avoid an initial corrupt frame */
-> -	paddr = mxsfb_get_fb_paddr(crtc->primary);
-> -	if (paddr) {
-> -		writel(paddr, mxsfb->base + mxsfb->devdata->cur_buf);
-> -		writel(paddr, mxsfb->base + mxsfb->devdata->next_buf);
-> -	}
-> +	mxsfb_update_buffer(mxsfb, crtc->primary, true);
->  
->  	mxsfb_enable_controller(mxsfb);
->  
-> @@ -491,11 +502,8 @@ static void mxsfb_plane_primary_atomic_update(struct drm_plane *plane,
->  					      struct drm_atomic_state *state)
->  {
->  	struct mxsfb_drm_private *mxsfb = to_mxsfb_drm_private(plane->dev);
-> -	dma_addr_t paddr;
->  
-> -	paddr = mxsfb_get_fb_paddr(plane);
-> -	if (paddr)
-> -		writel(paddr, mxsfb->base + mxsfb->devdata->next_buf);
-> +	mxsfb_update_buffer(mxsfb, plane, false);
->  }
->  
->  static void mxsfb_plane_overlay_atomic_update(struct drm_plane *plane,
 
+My bot found errors running 'make DT_CHECKER_FLAGS=-m dt_binding_check'
+on your patch (DT_CHECKER_FLAGS is new in v5.13):
+
+yamllint warnings/errors:
+
+dtschema/dtc warnings/errors:
+Error: Documentation/devicetree/bindings/display/imx/fsl,imx8mp-hdmi-pvi.example.dts:26.45-46 syntax error
+FATAL ERROR: Unable to parse input tree
+make[1]: *** [scripts/Makefile.lib:364: Documentation/devicetree/bindings/display/imx/fsl,imx8mp-hdmi-pvi.example.dtb] Error 1
+make[1]: *** Waiting for unfinished jobs....
+make: *** [Makefile:1401: dt_binding_check] Error 2
+
+doc reference errors (make refcheckdocs):
+
+See https://patchwork.ozlabs.org/patch/
+
+This check can fail if there are any dependencies. The base for a patch
+series is generally the most recent rc1.
+
+If you already ran 'make dt_binding_check' and didn't see the above
+error(s), then make sure 'yamllint' is installed and dt-schema is up to
+date:
+
+pip3 install dtschema --upgrade
+
+Please check and re-submit.
 
