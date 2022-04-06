@@ -1,43 +1,50 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id D020B4F4B3A
-	for <lists+dri-devel@lfdr.de>; Wed,  6 Apr 2022 02:58:38 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 1F5784F4CC4
+	for <lists+dri-devel@lfdr.de>; Wed,  6 Apr 2022 03:21:09 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 82B6110E0D6;
-	Wed,  6 Apr 2022 00:58:32 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 88BDA10ECDD;
+	Wed,  6 Apr 2022 01:21:03 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from gandalf.ozlabs.org (mail.ozlabs.org
- [IPv6:2404:9400:2221:ea00::3])
- by gabe.freedesktop.org (Postfix) with ESMTPS id D258710E0D6;
- Wed,  6 Apr 2022 00:58:31 +0000 (UTC)
-Received: from authenticated.ozlabs.org (localhost [127.0.0.1])
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
- key-exchange ECDHE (P-256) server-signature RSA-PSS (4096 bits) server-digest
- SHA256) (No client certificate requested)
- by mail.ozlabs.org (Postfix) with ESMTPSA id 4KY5jd3mCZz4xgX;
- Wed,  6 Apr 2022 10:58:29 +1000 (AEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=canb.auug.org.au;
- s=201702; t=1649206710;
- bh=pi9XiXNOUCWDkzxj0K1TVRkwxuLVNRPtWNUbObBWuwc=;
- h=Date:From:To:Cc:Subject:From;
- b=lfud6uyclEmjYXOZX/GX/MCHGDXZ0PdazufiH3wBaM4Z9yeBlmq/Ab1gmiG2COzL/
- eevGdFWUWov+Wu2QDnRa+PJkkCVHFqBe94gHNCmaPuaYkeP60E2Rsw2o486RpZBqx+
- jVBoHI4HLmuzfZ/Ob47L6gkCzjh054cV9E2nMS/6sA7g2VfPdECaidfnM+cIX1gUM/
- vklirSaonTk+V/VSxzKHSCb0j6cQBuaFX8l76+C4O1NRZVhN3WiWOObB4Zag+/tIl1
- dS0f1YkM7CC5Y/SHbnsuuItn/b9gLbJhljBMeFkZm8cjERtULNBGaecaKzIPOXPw6/
- TpwyZ9oFxtIKg==
-Date: Wed, 6 Apr 2022 10:58:28 +1000
-From: Stephen Rothwell <sfr@canb.auug.org.au>
-To: Daniel Vetter <daniel.vetter@ffwll.ch>, Intel Graphics
- <intel-gfx@lists.freedesktop.org>, DRI <dri-devel@lists.freedesktop.org>
-Subject: linux-next: build warning after merge of the drm-misc tree
-Message-ID: <20220406105828.6d238651@canb.auug.org.au>
+Received: from mailgw02.mediatek.com (unknown [210.61.82.184])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id B4F2110ECDD
+ for <dri-devel@lists.freedesktop.org>; Wed,  6 Apr 2022 01:21:02 +0000 (UTC)
+X-UUID: ccf0173b3f3744f3bd37e8cb6f1ad1a9-20220406
+X-UUID: ccf0173b3f3744f3bd37e8cb6f1ad1a9-20220406
+Received: from mtkmbs10n1.mediatek.inc [(172.21.101.34)] by
+ mailgw02.mediatek.com (envelope-from <yunfei.dong@mediatek.com>)
+ (Generic MTA with TLSv1.2 ECDHE-RSA-AES256-GCM-SHA384 256/256)
+ with ESMTP id 206969711; Wed, 06 Apr 2022 09:20:54 +0800
+Received: from mtkexhb02.mediatek.inc (172.21.101.103) by
+ mtkmbs07n1.mediatek.inc (172.21.101.16) with Microsoft SMTP Server (TLS) id
+ 15.0.1497.2; Wed, 6 Apr 2022 09:20:53 +0800
+Received: from mtkcas11.mediatek.inc (172.21.101.40) by mtkexhb02.mediatek.inc
+ (172.21.101.103) with Microsoft SMTP Server (TLS) id 15.0.1497.2;
+ Wed, 6 Apr 2022 09:20:52 +0800
+Received: from localhost.localdomain (10.17.3.154) by mtkcas11.mediatek.inc
+ (172.21.101.73) with Microsoft SMTP Server id 15.0.1497.2 via Frontend
+ Transport; Wed, 6 Apr 2022 09:20:49 +0800
+From: Yunfei Dong <yunfei.dong@mediatek.com>
+To: Yunfei Dong <yunfei.dong@mediatek.com>, Alexandre Courbot
+ <acourbot@chromium.org>, Nicolas Dufresne <nicolas@ndufresne.ca>, "Hans
+ Verkuil" <hverkuil-cisco@xs4all.nl>, AngeloGioacchino Del Regno
+ <angelogioacchino.delregno@collabora.com>, Benjamin Gaignard
+ <benjamin.gaignard@collabora.com>, Tiffany Lin <tiffany.lin@mediatek.com>,
+ Andrew-CT Chen <andrew-ct.chen@mediatek.com>, Mauro Carvalho Chehab
+ <mchehab@kernel.org>, Rob Herring <robh+dt@kernel.org>, Matthias Brugger
+ <matthias.bgg@gmail.com>, Tomasz Figa <tfiga@google.com>
+Subject: [PATCH] media: mediatek: vcodec: Fix v4l2 compliance decoder cmd test
+ fail
+Date: Wed, 6 Apr 2022 09:20:48 +0800
+Message-ID: <20220406012048.5970-1-yunfei.dong@mediatek.com>
+X-Mailer: git-send-email 2.25.1
 MIME-Version: 1.0
-Content-Type: multipart/signed; boundary="Sig_/8khWjiccJo17txCVA+lH=D+";
- protocol="application/pgp-signature"; micalg=pgp-sha256
+Content-Transfer-Encoding: 8bit
+Content-Type: text/plain
+X-MTK: N
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -50,56 +57,48 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Marek Vasut <marex@denx.de>,
- Linux Next Mailing List <linux-next@vger.kernel.org>,
- Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
- Robert Foss <robert.foss@linaro.org>
+Cc: Irui Wang <irui.wang@mediatek.com>, George Sun <george.sun@mediatek.com>,
+ Steve Cho <stevecho@chromium.org>, srv_heupstream@mediatek.com,
+ devicetree@vger.kernel.org, Project_Global_Chrome_Upstream_Group@mediatek.com,
+ linux-kernel@vger.kernel.org, dri-devel <dri-devel@lists.freedesktop.org>,
+ Xiaoyong Lu <xiaoyong.lu@mediatek.com>, linux-mediatek@lists.infradead.org,
+ Hsin-Yi Wang <hsinyi@chromium.org>, Fritz Koenig <frkoenig@chromium.org>,
+ linux-arm-kernel@lists.infradead.org, linux-media@vger.kernel.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
---Sig_/8khWjiccJo17txCVA+lH=D+
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: quoted-printable
+Will return -EINVAL using standard framework api when test stateless
+decoder with cmd VIDIOC_(TRY)DECODER_CMD.
 
-Hi all,
+Using another return value to adjust v4l2 compliance test for user
+driver(GStreamer/Chrome) won't use decoder cmd.
 
-After merging the drm-misc tree, today's linux-next build (x86_64
-allmodconfig) produced this warning:
+Fixes: 8cdc3794b2e3 ("media: mtk-vcodec: vdec: support stateless API")
+Signed-off-by: Yunfei Dong <yunfei.dong@mediatek.com>
+Reviewed-by: AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>
+---
+changes compared with v2:
+- add reviewed-by tag
+changes compared with v1:
+- add Fixes: tag
+---
+ drivers/media/platform/mediatek/vcodec/mtk_vcodec_dec.c | 3 +--
+ 1 file changed, 1 insertion(+), 2 deletions(-)
 
-WARNING: modpost: drivers/gpu/drm/bridge/chipone-icn6211.prelink.o(.exit.da=
-ta+0x0): Section mismatch in reference from the variable __cfi_jt_cleanup_m=
-odule to the function .init.text:cleanup_module()
-The variable __exitdata __cfi_jt_cleanup_module references
-a function __init cleanup_module().
-This is often seen when error handling in the exit function
-uses functionality in the init path.
-The fix is often to remove the __init annotation of
-cleanup_module() so it may be used outside an init section.
+diff --git a/drivers/media/platform/mediatek/vcodec/mtk_vcodec_dec.c b/drivers/media/platform/mediatek/vcodec/mtk_vcodec_dec.c
+index 3859e4c651c6..69b0e797d342 100644
+--- a/drivers/media/platform/mediatek/vcodec/mtk_vcodec_dec.c
++++ b/drivers/media/platform/mediatek/vcodec/mtk_vcodec_dec.c
+@@ -51,8 +51,7 @@ static int vidioc_try_decoder_cmd(struct file *file, void *priv,
+ 
+ 	/* Use M2M stateless helper if relevant */
+ 	if (ctx->dev->vdec_pdata->uses_stateless_api)
+-		return v4l2_m2m_ioctl_stateless_try_decoder_cmd(file, priv,
+-								cmd);
++		return -ENOTTY;
+ 	else
+ 		return v4l2_m2m_ioctl_try_decoder_cmd(file, priv, cmd);
+ }
+-- 
+2.18.0
 
-Introduced by commit
-
-  8dde6f7452a1 ("drm: bridge: icn6211: Add I2C configuration support")
-
-The chipone_exit function should not be marked __init.
-
---=20
-Cheers,
-Stephen Rothwell
-
---Sig_/8khWjiccJo17txCVA+lH=D+
-Content-Type: application/pgp-signature
-Content-Description: OpenPGP digital signature
-
------BEGIN PGP SIGNATURE-----
-
-iQEzBAEBCAAdFiEENIC96giZ81tWdLgKAVBC80lX0GwFAmJM5bQACgkQAVBC80lX
-0Gyl4ggAoejsSpMqlTgpt87ppk4jvpqqjuMoEk7wVlY0xo9FQQvjbxbboiHZUn8v
-fIWdbVjL9LTDkiduXGG+1JLMLMqUT8VmPr3dXnbp34Y4/kqS5Vh966ItFTtprmxV
-DrA83Q1DXZ1gNJO4XUjjgS62csfi2cqF8BYY099nH9jtJLinxJKWtvkj1+yb8OD/
-W33SLXoMxAN1FtlDOZunCeKDImk4+QKQoVV9ORqasGtjNmgOET3ybpGdAzrdhGfw
-MYT/B/cRFhfFB+EQIBZLGoCh8/7vcerzj0Kg0LWuMR1YaXVMdr59pliyOFsZCzz9
-mnAfCh13W0BGtJ//UJQKQQnqBZojLg==
-=/2nT
------END PGP SIGNATURE-----
-
---Sig_/8khWjiccJo17txCVA+lH=D+--
