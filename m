@@ -1,57 +1,55 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7A2484F56D9
-	for <lists+dri-devel@lfdr.de>; Wed,  6 Apr 2022 09:36:49 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 05D504F56DA
+	for <lists+dri-devel@lfdr.de>; Wed,  6 Apr 2022 09:37:57 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id B2E4110F508;
-	Wed,  6 Apr 2022 07:36:47 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 06F9A10F516;
+	Wed,  6 Apr 2022 07:37:55 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-pg1-x531.google.com (mail-pg1-x531.google.com
- [IPv6:2607:f8b0:4864:20::531])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 1A2BA10F508
- for <dri-devel@lists.freedesktop.org>; Wed,  6 Apr 2022 07:36:47 +0000 (UTC)
-Received: by mail-pg1-x531.google.com with SMTP id q19so1520216pgm.6
- for <dri-devel@lists.freedesktop.org>; Wed, 06 Apr 2022 00:36:47 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=bBkJiLuPHjOc9NWEYiRCYWyb3Lk5w/JeF/xlR5gs4hs=;
- b=YFbbcWhLrIQiF1+6PHpsstMvedJMKsyUdVbwOSE5Jv5LsHhfx0glQxkm3++FnDzv04
- LYQYaYWej7V5SXpmEJvWuR537StZYvls37Kxndpmp/3su25zybk7xG1vWl4qiFgj0BNr
- N5SzzMS4goMIOlEcOJHz2nTNAQHZEyFOy5sTuG6/YXCjoHqfLtO/3QRoqQlGD9zHJHZq
- 6GrNzNqLmnWNjYjrU0A4rTQsrWPD+pRdzk+ZkvDW02hAIKNhLXVHQaR1xGAL6iVQMuhv
- juiE005RBlZIHgDUhOjyajJx7s+FlQT9V5txMBAYQVMptZWrbfc4k8LKWrib9OfROvcC
- iX7Q==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=bBkJiLuPHjOc9NWEYiRCYWyb3Lk5w/JeF/xlR5gs4hs=;
- b=xRtSwhuaPb5O5kH0xNbP8E0r2X5GJJcRO7OpfOQAdcT4f8REEZyRxuBTM657043JcI
- 7iC0gSrPykANBtosg1pMzVvMXdvVtDVhgbWRmgstp/HP8kvScLsoVlo7FhVTczqYwLWE
- aC7yxtdN6uRBx9CudBHYC92UG2sVsKr+WAKSTEsHtTncsb/gnRcG75nmPOoNP1qxUQ9k
- iI5ANv+hyashL9wS1lwQFapOOY7RpTEp5gCJKs7z+pqfwVrBtUvdwwWLV8+LfUz2cOaV
- 2osxKFqhWi7uyfjwT7wtiXE9LKIJ0sFw/D2IyRcS2YYv8tBHBh8L+KR4Rx+Lqtf0eB6k
- Kb+w==
-X-Gm-Message-State: AOAM530UpZU1PVDgRXqcEnzWQ7UC3Kh8ACXnPLhkbCEOk1RP8sQoXg+x
- 2h/7tgL2CVJNDlv7zbx9dexsCcTEMRrRMQfExE80AA==
-X-Google-Smtp-Source: ABdhPJzDlXAqdXyJmzlyqhZzt4gotOVEw9vpY/kAHpMA21l6uadwNlKjnJyvsTIKuRVX7bsm7J3/f8KYBijEG3MKDWM=
-X-Received: by 2002:aa7:9110:0:b0:4fa:e388:af57 with SMTP id
- 16-20020aa79110000000b004fae388af57mr7435754pfh.1.1649230606699; Wed, 06 Apr
- 2022 00:36:46 -0700 (PDT)
+Received: from mga17.intel.com (mga17.intel.com [192.55.52.151])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id BD92E10F516;
+ Wed,  6 Apr 2022 07:37:53 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+ t=1649230673; x=1680766673;
+ h=message-id:date:mime-version:subject:to:cc:references:
+ from:in-reply-to:content-transfer-encoding;
+ bh=TQzg629lZ5Al3lFGJDcjOJYM3c+Mn4qzy6CwJ7hMZmQ=;
+ b=Go5PTMDK0buzs/9vbXScUwuxjOrdpiB3cvH2BLrMM4zHfSVy4uLDyA8R
+ RDg7C9s4Y9I6B+0Jrgv8ihyEO/HWso+pvoUE+Wtm3hQWZh1Qf9MHhIAyM
+ jNLHJddzNMmOw8HWZn330B7fiCGa/uaUt74FboTLE3B4mrTiJ8ySqeBe2
+ kRmWuNS5Em3kQPtsdXJhJNImrA6B19XDkY0XFEWhf4Kvy/indsAM66Xk+
+ 4LlDGXfIIPlpMyvcmVkQic2evMES7dSa7GB/iJT300hbRmeBPJyVrNeku
+ KRm0lo0LxEZ438UmlqRQltOLRtwbZ6aU6N2P9KJeN4bKkthfI0ktIJtHu Q==;
+X-IronPort-AV: E=McAfee;i="6200,9189,10308"; a="241562031"
+X-IronPort-AV: E=Sophos;i="5.90,239,1643702400"; d="scan'208";a="241562031"
+Received: from orsmga002.jf.intel.com ([10.7.209.21])
+ by fmsmga107.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 06 Apr 2022 00:37:53 -0700
+X-IronPort-AV: E=Sophos;i="5.90,239,1643702400"; d="scan'208";a="523817539"
+Received: from aghafar1-mobl2.ger.corp.intel.com (HELO [10.213.220.12])
+ ([10.213.220.12])
+ by orsmga002-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 06 Apr 2022 00:37:50 -0700
+Message-ID: <18487536-ccb2-ce68-1586-a68870f56214@linux.intel.com>
+Date: Wed, 6 Apr 2022 08:37:46 +0100
 MIME-Version: 1.0
-References: <20220406014250.902187-1-marex@denx.de>
- <CAG3jFyuDzKW3fKSZMob3idBWGk3S8jmGVw83p7Rnm02ouyy0Pg@mail.gmail.com>
-In-Reply-To: <CAG3jFyuDzKW3fKSZMob3idBWGk3S8jmGVw83p7Rnm02ouyy0Pg@mail.gmail.com>
-From: Robert Foss <robert.foss@linaro.org>
-Date: Wed, 6 Apr 2022 09:36:35 +0200
-Message-ID: <CAG3jFyv5Cm1oRbu4fy3idDWpOM1aBdwNp4V1B+LGvztwbc_KOQ@mail.gmail.com>
-Subject: Re: [PATCH] drm: bridge: icn6211: Mark module exit callback with
- __exit
-To: Marek Vasut <marex@denx.de>
-Content-Type: text/plain; charset="UTF-8"
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.7.0
+Subject: Re: [Intel-gfx] [PATCH] drm/i915: Fixup kerneldoc in struct
+ i915_gem_context
+Content-Language: en-US
+To: Daniel Vetter <daniel@ffwll.ch>
+References: <20220405155345.3292769-1-tvrtko.ursulin@linux.intel.com>
+ <YkxowQIS5SZer86X@phenom.ffwll.local>
+From: Tvrtko Ursulin <tvrtko.ursulin@linux.intel.com>
+Organization: Intel Corporation UK Plc
+In-Reply-To: <YkxowQIS5SZer86X@phenom.ffwll.local>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -64,11 +62,31 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Stephen Rothwell <sfr@canb.auug.org.au>, dri-devel@lists.freedesktop.org,
- Jagan Teki <jagan@amarulasolutions.com>,
- Thomas Zimmermann <tzimmermann@suse.de>, Sam Ravnborg <sam@ravnborg.org>,
- Maxime Ripard <maxime@cerno.tech>
+Cc: Intel-gfx@lists.freedesktop.org, dri-devel@lists.freedesktop.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Applied to drm-misc-next.
+
+On 05/04/2022 17:05, Daniel Vetter wrote:
+> On Tue, Apr 05, 2022 at 04:53:45PM +0100, Tvrtko Ursulin wrote:
+>> From: Tvrtko Ursulin <tvrtko.ursulin@intel.com>
+>>
+>> Mixup in rebasing and patchwork re-runs made me push the wrong version of
+>> the patch. Or I even forgot to send out the fixed version. Fix it up.
+>>
+>> Signed-off-by: Tvrtko Ursulin <tvrtko.ursulin@intel.com>
+>> Fixes: 748716041dfa ("drm/i915: Track all user contexts per client")
+>> Cc: Umesh Nerlige Ramappa <umesh.nerlige.ramappa@intel.com>
+> 
+> You picked the wrong sha1. Sure you're on the right tree? :-)
+
+Yeah, my sha1 was of a fixed version of the patch which I never sent out..
+
+> Fixes: 49bd54b390c2 ("drm/i915: Track all user contexts per client")
+> Reviewed-by: Daniel Vetter <daniel.vetter@ffwll.ch>
+
+Thanks, pushed.
+
+Regards,
+
+Tvrtko
