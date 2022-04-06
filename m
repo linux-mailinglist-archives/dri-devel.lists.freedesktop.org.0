@@ -1,66 +1,58 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id C80BD4F56F4
-	for <lists+dri-devel@lfdr.de>; Wed,  6 Apr 2022 09:52:17 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 706814F572F
+	for <lists+dri-devel@lfdr.de>; Wed,  6 Apr 2022 10:01:03 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 9975D10F3A6;
-	Wed,  6 Apr 2022 07:52:07 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 2D06410EFB9;
+	Wed,  6 Apr 2022 08:00:59 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-ed1-x536.google.com (mail-ed1-x536.google.com
- [IPv6:2a00:1450:4864:20::536])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 0029A10F39C
- for <dri-devel@lists.freedesktop.org>; Wed,  6 Apr 2022 07:51:59 +0000 (UTC)
-Received: by mail-ed1-x536.google.com with SMTP id k2so1577345edj.9
- for <dri-devel@lists.freedesktop.org>; Wed, 06 Apr 2022 00:51:59 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
- h=from:to:cc:subject:date:message-id:in-reply-to:references:reply-to
- :mime-version:content-transfer-encoding;
- bh=++1jVizcvHmOgbF39nCmTgx8csIzrlfkMcf5vnq8LKE=;
- b=fcAui09hg2UkLCPe6uLTaAMz1pN89NQOac6X5ZEYs3O41L2rAdwTnM2djgDcGsyZL1
- wG7LuRJJ5Nml5/AWnS0rC8n+8ra/QkCOHIXL6ZFgEgxYe8qj+Vnk0UWS7+xdYrukHoU0
- cmY7mDOYi66EhSp9x+1ootrocF+Ok9xDLNGs9EBDJFS8g8OBmbMCGWo10Tr8GWqemjIL
- JPA/umabR7vwv1Eai3YgfqoQSsNtCr3uhNeGxfZ2yeSwU0/UWpZg/PTaAflT36s0Xo3p
- eXwuenXfmB8o/Q43yOlbxC9l4rb8F0OCpHRmI2RjCeFwA4pFS2JpS1PyVNz4wtQjJVfC
- j8Cg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
- :references:reply-to:mime-version:content-transfer-encoding;
- bh=++1jVizcvHmOgbF39nCmTgx8csIzrlfkMcf5vnq8LKE=;
- b=6komgOCzOV0kDdkOms+ehyyQeMbQCo1/9opi9MCm8O8dbwlYtqhlkCN3eEWrKQGlUJ
- t/rWkB3jo57fd/JoSnjI7YKCjznL54EWMBmkZ2HBMsTX7KM2YkTvmI0MxDwU+0Hs32DA
- 7dxSOlKC1ziOaipLfk7F4aJ5I7snjGZjCDRgRhUMeRTDvVtUseByZiXVECJ+5KCVayeY
- OpADHzOO0psyxJZ0/6+GIgvLjIcorZeqlIEdP51Aiu2e/avr6LMVmAZBSoCP2XvCt5xg
- VyqVS/R11PhCrhF49TCxgF2lRN6wychT6U16pRgwdRwdDPHfysj+pS90/yKy/1CQMYi+
- 05GA==
-X-Gm-Message-State: AOAM533ffNB/HICOQzz8v5se7EowL50iVGVro4INXkMQEvph0s2PlgwH
- h2+oZe5ztXsaAcdD4+7zykk=
-X-Google-Smtp-Source: ABdhPJyhRY/py8JPz1zgxwqOZ6P8AOirAEfncXUYe331mK5ZH6kiXwgjd9MFGuWbIuAxTNdWLLQORw==
-X-Received: by 2002:a50:fe07:0:b0:419:323:baee with SMTP id
- f7-20020a50fe07000000b004190323baeemr7434329edt.221.1649231518553; 
- Wed, 06 Apr 2022 00:51:58 -0700 (PDT)
-Received: from able.fritz.box (p57b0b9e1.dip0.t-ipconnect.de. [87.176.185.225])
- by smtp.gmail.com with ESMTPSA id
- bs7-20020a056402304700b004197e5d2350sm7376386edb.54.2022.04.06.00.51.57
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 06 Apr 2022 00:51:57 -0700 (PDT)
-From: "=?UTF-8?q?Christian=20K=C3=B6nig?=" <ckoenig.leichtzumerken@gmail.com>
-X-Google-Original-From: =?UTF-8?q?Christian=20K=C3=B6nig?=
- <christian.koenig@amd.com>
-To: daniel.vetter@ffwll.ch,
-	dri-devel@lists.freedesktop.org
-Subject: [PATCH 16/16] dma-buf: drop seq count based update
-Date: Wed,  6 Apr 2022 09:51:32 +0200
-Message-Id: <20220406075132.3263-17-christian.koenig@amd.com>
-X-Mailer: git-send-email 2.25.1
-In-Reply-To: <20220406075132.3263-1-christian.koenig@amd.com>
-References: <20220406075132.3263-1-christian.koenig@amd.com>
+Received: from metis.ext.pengutronix.de (metis.ext.pengutronix.de
+ [IPv6:2001:67c:670:201:290:27ff:fe1d:cc33])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id CDD9710F116
+ for <dri-devel@lists.freedesktop.org>; Wed,  6 Apr 2022 08:00:57 +0000 (UTC)
+Received: from ptx.hi.pengutronix.de ([2001:67c:670:100:1d::c0])
+ by metis.ext.pengutronix.de with esmtps
+ (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256) (Exim 4.92)
+ (envelope-from <sha@pengutronix.de>)
+ id 1nc0b2-0001UE-3N; Wed, 06 Apr 2022 10:00:56 +0200
+Received: from sha by ptx.hi.pengutronix.de with local (Exim 4.92)
+ (envelope-from <sha@pengutronix.de>)
+ id 1nc0b0-0003bW-3l; Wed, 06 Apr 2022 10:00:54 +0200
+Date: Wed, 6 Apr 2022 10:00:54 +0200
+From: Sascha Hauer <s.hauer@pengutronix.de>
+To: Andy Yan <andy.yan@rock-chips.com>
+Subject: Re: [PATCH v9 20/23] drm/rockchip: Make VOP driver optional
+Message-ID: <20220406080054.GT4012@pengutronix.de>
+References: <20220331070614.GD4012@pengutronix.de>
+ <eebd2731-f18b-af1c-b0b9-09df669f5a3c@rock-chips.com>
+ <20220331081815.GF4012@pengutronix.de>
+ <8aa9da47-d7ed-41bf-384c-103757c19fe2@rock-chips.com>
+ <20220401125527.GM4012@pengutronix.de>
+ <7b2630d8-0575-5d65-dd81-3ef336ad5ba7@rock-chips.com>
+ <20220405090509.GP4012@pengutronix.de>
+ <93001a4c-b009-202f-7b04-34e1a9e617ec@rock-chips.com>
+ <20220406070403.GS4012@pengutronix.de>
+ <52d602e9-088a-4c82-ab08-9f0a127d0e5f@rock-chips.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
+Content-Type: text/plain; charset=iso-8859-15
+Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
+In-Reply-To: <52d602e9-088a-4c82-ab08-9f0a127d0e5f@rock-chips.com>
+X-Sent-From: Pengutronix Hildesheim
+X-URL: http://www.pengutronix.de/
+X-IRC: #ptxdist @freenode
+X-Accept-Language: de,en
+X-Accept-Content-Type: text/plain
+X-Uptime: 09:50:02 up 6 days, 20:19, 65 users, load average: 0.01, 0.05, 0.08
+User-Agent: Mutt/1.10.1 (2018-07-13)
+X-SA-Exim-Connect-IP: 2001:67c:670:100:1d::c0
+X-SA-Exim-Mail-From: sha@pengutronix.de
+X-SA-Exim-Scanned: No (on metis.ext.pengutronix.de);
+ SAEximRunCond expanded to false
+X-PTX-Original-Recipient: dri-devel@lists.freedesktop.org
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -73,185 +65,186 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Reply-To: DMA-resv@freedesktop.org
-Cc: =?UTF-8?q?Christian=20K=C3=B6nig?= <christian.koenig@amd.com>
+Cc: devicetree@vger.kernel.org,
+ Benjamin Gaignard <benjamin.gaignard@collabora.com>,
+ Sandy Huang <hjc@rock-chips.com>, dri-devel@lists.freedesktop.org,
+ Kever Yang <Kever.yang@rock-chips.com>, linux-rockchip@lists.infradead.org,
+ Michael Riesch <michael.riesch@wolfvision.net>, kernel@pengutronix.de,
+ Peter Geis <pgwipeout@gmail.com>, linux-arm-kernel@lists.infradead.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-This should be possible now since we don't have the distinction
-between exclusive and shared fences any more.
+On Wed, Apr 06, 2022 at 03:47:18PM +0800, Andy Yan wrote:
+> Hi:
+> 
+> On 4/6/22 15:04, Sascha Hauer wrote:
+> > On Wed, Apr 06, 2022 at 09:43:49AM +0800, Andy Yan wrote:
+> > > Hi Sacha:
+> > > 
+> > > On 4/5/22 17:05, Sascha Hauer wrote:
+> > > > On Sat, Apr 02, 2022 at 09:25:33AM +0800, Andy Yan wrote:
+> > > > > Hi Sascha:
+> > > > > 
+> > > > > On 4/1/22 20:55, Sascha Hauer wrote:
+> > > > > > On Thu, Mar 31, 2022 at 07:00:34PM +0800, Andy Yan wrote:
+> > > > > > > Hi:
+> > > > > > > 
+> > > > > > > On 3/31/22 16:18, Sascha Hauer wrote:
+> > > > > > > > On Thu, Mar 31, 2022 at 03:20:37PM +0800, Andy Yan wrote:
+> > > > > > > > > Hi Sascha:
+> > > > > > > > > 
+> > > > > > > > > On 3/31/22 15:06, Sascha Hauer wrote:
+> > > > > > > > > > On Wed, Mar 30, 2022 at 08:50:09PM +0800, Andy Yan wrote:
+> > > > > > > > > > > Hi Sascha:
+> > > > > > > > > > > 
+> > > > > > > > > > > On 3/30/22 14:39, Sascha Hauer wrote:
+> > > > > > > > > > > > Hi Andy,
+> > > > > > > > > > > > 
+> > > > > > > > > > > > On Tue, Mar 29, 2022 at 07:56:27PM +0800, Andy Yan wrote:
+> > > > > > > > > > > > > Hi Sascha:
+> > > > > > > > > > > > > 
+> > > > > > > > > > > > > On 3/28/22 23:11, Sascha Hauer wrote:
+> > > > > > > > > > > > > > With upcoming VOP2 support VOP won't be the only choice anymore, so make
+> > > > > > > > > > > > > > the VOP driver optional.
+> > > > > > > > > > > > > > 
+> > > > > > > > > > > > > > Signed-off-by: Sascha Hauer <s.hauer@pengutronix.de>
+> > > > > > > > > > > > > > ---
+> > > > > > > > > > > > > >         drivers/gpu/drm/rockchip/Kconfig            | 8 ++++++++
+> > > > > > > > > > > > > >         drivers/gpu/drm/rockchip/Makefile           | 3 ++-
+> > > > > > > > > > > > > >         drivers/gpu/drm/rockchip/rockchip_drm_drv.c | 2 +-
+> > > > > > > > > > > > > >         3 files changed, 11 insertions(+), 2 deletions(-)
+> > > > > > > > > > > > > > 
+> > > > > > > > > > > > > > diff --git a/drivers/gpu/drm/rockchip/Kconfig b/drivers/gpu/drm/rockchip/Kconfig
+> > > > > > > > > > > > > > index fa5cfda4e90e3..7d22e2997a571 100644
+> > > > > > > > > > > > > > --- a/drivers/gpu/drm/rockchip/Kconfig
+> > > > > > > > > > > > > > +++ b/drivers/gpu/drm/rockchip/Kconfig
+> > > > > > > > > > > > > > @@ -23,8 +23,16 @@ config DRM_ROCKCHIP
+> > > > > > > > > > > > > >         if DRM_ROCKCHIP
+> > > > > > > > > > > > > > +config ROCKCHIP_VOP
+> > > > > > > > > > > > > > +	bool "Rockchip VOP driver"
+> > > > > > > > > > > > > > +	default y
+> > > > > > > > > > > > > > +	help
+> > > > > > > > > > > > > > +	  This selects support for the VOP driver. You should enable it
+> > > > > > > > > > > > > > +	  on all older SoCs up to RK3399.
+> > > > > > > > > > > > That reminds me that I wanted to rephrase this. Will change in next
+> > > > > > > > > > > > round.
+> > > > > > > > > > > > 
+> > > > > > > > > > > > > > +
+> > > > > > > > > > > > > >         config ROCKCHIP_ANALOGIX_DP
+> > > > > > > > > > > > > >         	bool "Rockchip specific extensions for Analogix DP driver"
+> > > > > > > > > > > > > > +	depends on ROCKCHIP_VOP
+> > > > > > > > > > > > > Aanlogix dp is also on vop2 base soc such as  rk356x and rk3588.
+> > > > > > > > > > BTW I just looked at the downstream driver. Here we have the same
+> > > > > > > > > > situation that the analogix dp driver calls rockchip_drm_wait_vact_end()
+> > > > > > > > > > which is implemented in the VOP driver, so when the analogix dp driver
+> > > > > > > > > > is actually used on a VOP2 SoC then it is either used in a way that
+> > > > > > > > > > rockchip_drm_wait_vact_end() will never be called or it explodes in all
+> > > > > > > > > > colours.
+> > > > > > > > > > 
+> > > > > > > > > > > > I added the dependency because analogix_dp-rockchip.c calls
+> > > > > > > > > > > > rockchip_drm_wait_vact_end() which is implemented in the VOP driver,
+> > > > > > > > > > > > so this driver currenty can't work with the VOP2 driver and can't
+> > > > > > > > > > > > be linked without the VOP driver being present.
+> > > > > > > > > > > > I'll add a few words to the commit message.
+> > > > > > > > > > > Maybe a better direction is move rockchip_drm_wait_vact_end from the VOP
+> > > > > > > > > > > driver to rockchip_drm_drv.c
+> > > > > > > > > > I am not sure if that's really worth it. Yes, the direction might be the
+> > > > > > > > > > right one, but I would really prefer when somebody does the change who
+> > > > > > > > > > can test and confirm that the analogix dp really works with VOP2 in the
+> > > > > > > > > > end.
+> > > > > > > > > If follow this point, the current DW_MIPI also has not been tested for
+> > > > > > > > > confirm that it
+> > > > > > > > > 
+> > > > > > > > > can really work with VOP2, so you should also make it depends on
+> > > > > > > > > ROCKCHIP_VOP.
+> > > > Here you are suggesting to add even more Kconfig dependencies.
+> > > > 
+> > > > > > > > Well at least I have patches here which make DW_MIPI work with VOP2 ;)
+> > > > > > > But you DW_MIPI patches for rk356x didn't come. So this is not keep
+> > > > > > > consistency with this point.
+> > > > > > > 
+> > > > > > > > What about the others, like LVDS and RGB?
+> > > > > > > Yes, we also have other interface , RK356X has LVDS/RGB/BT1120/BT656, RK3588
+> > > > > > > has BT1120/BT656, no LVDS or RGB.
+> > > > > > > 
+> > > > > > > > > I think the current solution is just a workaround to make your patch pass
+> > > > > > > > > the kernel compile
+> > > > > > > > Indeed.
+> > > > > > > > 
+> > > > > > > > I agree that it would be good to add a note somewhere which outputs
+> > > > > > > > work with the VOP2 driver (currently only HDMI), but I wonder if Kconfig
+> > > > > > > > dependencies is the right place for it, because only people who deliberately
+> > > > > > > > disable VOP support will see this information.
+> > > > > > > > Maybe we should rather add it to the Kconfig help text?
+> > > > > > > If a device is supported for this soc, we will add dt node at the dtsi file.
+> > > > > > > 
+> > > > > > > A Kconfig dependencies don't seems a good idea.
+> > > > Here you say Kconfig dependencies are no good idea.
+> > > 
+> > > Yes. It's not a good idea. So I don't want to see you use a Kcofig
+> > > dependence
+> > > 
+> > > to disable a module to avoid compile which introduced by your patch.
+> > > 
+> > > > > > Ok, this means we can keep my current approach with just letting
+> > > > > > ROCKCHIP_ANALOGIX_DP depend on ROCKCHIP_VOP to avoid having a non
+> > > > > Excuse me? How do you get this conclusion ?
+> > > > Given that you say that you want to have both more and less Kconfig
+> > > > dependencies I came to the conclusion that I only add one where it's
+> > > > necessary to compile the driver.
+> > > > 
+> > > > > I said before,  vop and vop2 based platforms both have ROCKCHIP_ANALOGIX_DP.
+> > > > Maybe, but vop2 with ROCKCHIP_ANALOGIX_DP doesn't even work in the
+> > > > Rockchip downstream kernel, so I wonder how relevant this usecase really
+> > > > is.
+> > > 
+> > > No, this is not the truth. Rockchip_ANALOGIX_DP of course work with the
+> > > vendor kernel. We have many rk356x based products shipped with edp.
+> > > Even the VGA output interface on RK3568_EVB1 is drived by
+> > > ROCKCHIP_ANALOGIX_DP with a RTD2166 eDP to VGA convert
+> > > chip.
+> > > 
+> > > 
+> > > So how do you get conclusion that ROCKCHIP_ANALOGIX_DP can't work with
+> > > the Rockchip downstream kernel? Is it because you can't make the DP work on
+> > > your board? If it is, please contact the supplier who gave you the board.
+> > In the downstream kernel I have available (which is a 5.10.66)
+> > analogix_dp-rockchip.c calls rockchip_drm_wait_vact_end() which is
+> > implemented in rockchip_drm_vop.c and assumes that the passed struct
+> > drm_crtc * can be converted to a struct vop *. Basically it's the same
+> > situation we have right now with the mainline kernel, just that the
+> > linker issues won't show up because the VOP driver can't be disabled
+> > in the downstream kernel.
+> 
+> 
+> So you judge ROCKCHIP_ANALOGIX_DP can't work by this(as vop2 doesn't has
+> rockchip_drm_wait_vact_end interface)?
+> 
+> No, you may not know clearly about this function, this function is used for
+> eDP PSR, which is a
+> 
+> optional function, that means not every eDP panel has PSR function(this
+> function usually parsed from edid).
+> 
+> This really not means than ROCKCHIP_ANALOGIX_DP can't work.
+> 
+> 
+> And your 5.10 downstream kernel seems out of dated. We have already move
+> this function out from rockchip_drm_vop to rockchip_drm_drv.
 
-The only possible pitfall is that a dma_fence would be reused during the
-RCU grace period, but even that could be handled with a single extra check.
+I guessed that. Well we can do the same once we are there, but currently
+we are not. My patch doesn't break any existing features and we can add
+Analogix DP support later. I know the VOP2 driver is not feature
+complete and it doesn't aim to be.
 
-Signed-off-by: Christian KÃ¶nig <christian.koenig@amd.com>
----
- drivers/dma-buf/dma-resv.c    | 33 ++++++++++++---------------------
- drivers/dma-buf/st-dma-resv.c |  2 +-
- include/linux/dma-resv.h      | 12 ------------
- 3 files changed, 13 insertions(+), 34 deletions(-)
+Please let's stop arguing about this topic. Once somebody wants to add
+Analogix DP support with VOP2 we can discuss the right way at length and
+until then my patch won't do any harm.
 
-diff --git a/drivers/dma-buf/dma-resv.c b/drivers/dma-buf/dma-resv.c
-index 5b64aa554c36..0cce6e4ec946 100644
---- a/drivers/dma-buf/dma-resv.c
-+++ b/drivers/dma-buf/dma-resv.c
-@@ -133,7 +133,6 @@ static void dma_resv_list_free(struct dma_resv_list *list)
- void dma_resv_init(struct dma_resv *obj)
- {
- 	ww_mutex_init(&obj->lock, &reservation_ww_class);
--	seqcount_ww_mutex_init(&obj->seq, &obj->lock);
- 
- 	RCU_INIT_POINTER(obj->fences, NULL);
- }
-@@ -292,28 +291,24 @@ void dma_resv_add_fence(struct dma_resv *obj, struct dma_fence *fence,
- 	fobj = dma_resv_fences_list(obj);
- 	count = fobj->num_fences;
- 
--	write_seqcount_begin(&obj->seq);
--
- 	for (i = 0; i < count; ++i) {
- 		enum dma_resv_usage old_usage;
- 
- 		dma_resv_list_entry(fobj, i, obj, &old, &old_usage);
- 		if ((old->context == fence->context && old_usage >= usage) ||
--		    dma_fence_is_signaled(old))
--			goto replace;
-+		    dma_fence_is_signaled(old)) {
-+			dma_resv_list_set(fobj, i, fence, usage);
-+			dma_fence_put(old);
-+			return;
-+		}
- 	}
- 
- 	BUG_ON(fobj->num_fences >= fobj->max_fences);
--	old = NULL;
- 	count++;
- 
--replace:
- 	dma_resv_list_set(fobj, i, fence, usage);
- 	/* pointer update must be visible before we extend the num_fences */
- 	smp_store_mb(fobj->num_fences, count);
--
--	write_seqcount_end(&obj->seq);
--	dma_fence_put(old);
- }
- EXPORT_SYMBOL(dma_resv_add_fence);
- 
-@@ -341,7 +336,6 @@ void dma_resv_replace_fences(struct dma_resv *obj, uint64_t context,
- 	dma_resv_assert_held(obj);
- 
- 	list = dma_resv_fences_list(obj);
--	write_seqcount_begin(&obj->seq);
- 	for (i = 0; list && i < list->num_fences; ++i) {
- 		struct dma_fence *old;
- 
-@@ -352,14 +346,12 @@ void dma_resv_replace_fences(struct dma_resv *obj, uint64_t context,
- 		dma_resv_list_set(list, i, replacement, usage);
- 		dma_fence_put(old);
- 	}
--	write_seqcount_end(&obj->seq);
- }
- EXPORT_SYMBOL(dma_resv_replace_fences);
- 
- /* Restart the unlocked iteration by initializing the cursor object. */
- static void dma_resv_iter_restart_unlocked(struct dma_resv_iter *cursor)
- {
--	cursor->seq = read_seqcount_begin(&cursor->obj->seq);
- 	cursor->index = 0;
- 	cursor->num_fences = 0;
- 	cursor->fences = dma_resv_fences_list(cursor->obj);
-@@ -388,8 +380,10 @@ static void dma_resv_iter_walk_unlocked(struct dma_resv_iter *cursor)
- 				    cursor->obj, &cursor->fence,
- 				    &cursor->fence_usage);
- 		cursor->fence = dma_fence_get_rcu(cursor->fence);
--		if (!cursor->fence)
--			break;
-+		if (!cursor->fence) {
-+			dma_resv_iter_restart_unlocked(cursor);
-+			continue;
-+		}
- 
- 		if (!dma_fence_is_signaled(cursor->fence) &&
- 		    cursor->usage >= cursor->fence_usage)
-@@ -415,7 +409,7 @@ struct dma_fence *dma_resv_iter_first_unlocked(struct dma_resv_iter *cursor)
- 	do {
- 		dma_resv_iter_restart_unlocked(cursor);
- 		dma_resv_iter_walk_unlocked(cursor);
--	} while (read_seqcount_retry(&cursor->obj->seq, cursor->seq));
-+	} while (dma_resv_fences_list(cursor->obj) != cursor->fences);
- 	rcu_read_unlock();
- 
- 	return cursor->fence;
-@@ -438,13 +432,13 @@ struct dma_fence *dma_resv_iter_next_unlocked(struct dma_resv_iter *cursor)
- 
- 	rcu_read_lock();
- 	cursor->is_restarted = false;
--	restart = read_seqcount_retry(&cursor->obj->seq, cursor->seq);
-+	restart = dma_resv_fences_list(cursor->obj) != cursor->fences;
- 	do {
- 		if (restart)
- 			dma_resv_iter_restart_unlocked(cursor);
- 		dma_resv_iter_walk_unlocked(cursor);
- 		restart = true;
--	} while (read_seqcount_retry(&cursor->obj->seq, cursor->seq));
-+	} while (dma_resv_fences_list(cursor->obj) != cursor->fences);
- 	rcu_read_unlock();
- 
- 	return cursor->fence;
-@@ -540,10 +534,7 @@ int dma_resv_copy_fences(struct dma_resv *dst, struct dma_resv *src)
- 	}
- 	dma_resv_iter_end(&cursor);
- 
--	write_seqcount_begin(&dst->seq);
- 	list = rcu_replace_pointer(dst->fences, list, dma_resv_held(dst));
--	write_seqcount_end(&dst->seq);
--
- 	dma_resv_list_free(list);
- 	return 0;
- }
-diff --git a/drivers/dma-buf/st-dma-resv.c b/drivers/dma-buf/st-dma-resv.c
-index 8ace9e84c845..813779e3c9be 100644
---- a/drivers/dma-buf/st-dma-resv.c
-+++ b/drivers/dma-buf/st-dma-resv.c
-@@ -217,7 +217,7 @@ static int test_for_each_unlocked(void *arg)
- 		if (r == -ENOENT) {
- 			r = -EINVAL;
- 			/* That should trigger an restart */
--			cursor.seq--;
-+			cursor.fences = (void*)~0;
- 		} else if (r == -EINVAL) {
- 			r = 0;
- 		}
-diff --git a/include/linux/dma-resv.h b/include/linux/dma-resv.h
-index 1db759eacc98..c8ccbc94d5d2 100644
---- a/include/linux/dma-resv.h
-+++ b/include/linux/dma-resv.h
-@@ -155,15 +155,6 @@ struct dma_resv {
- 	 */
- 	struct ww_mutex lock;
- 
--	/**
--	 * @seq:
--	 *
--	 * Sequence count for managing RCU read-side synchronization, allows
--	 * read-only access to @fences while ensuring we take a consistent
--	 * snapshot.
--	 */
--	seqcount_ww_mutex_t seq;
--
- 	/**
- 	 * @fences:
- 	 *
-@@ -202,9 +193,6 @@ struct dma_resv_iter {
- 	/** @fence_usage: the usage of the current fence */
- 	enum dma_resv_usage fence_usage;
- 
--	/** @seq: sequence number to check for modifications */
--	unsigned int seq;
--
- 	/** @index: index into the shared fences */
- 	unsigned int index;
- 
+Sascha
+
 -- 
-2.25.1
-
+Pengutronix e.K.                           |                             |
+Steuerwalder Str. 21                       | http://www.pengutronix.de/  |
+31137 Hildesheim, Germany                  | Phone: +49-5121-206917-0    |
+Amtsgericht Hildesheim, HRA 2686           | Fax:   +49-5121-206917-5555 |
