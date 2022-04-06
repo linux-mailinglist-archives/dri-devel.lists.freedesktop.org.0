@@ -2,127 +2,133 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id CB21E4F60C1
-	for <lists+dri-devel@lfdr.de>; Wed,  6 Apr 2022 16:10:25 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 21CFC4F60C2
+	for <lists+dri-devel@lfdr.de>; Wed,  6 Apr 2022 16:11:14 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id B46FC10E02C;
-	Wed,  6 Apr 2022 14:10:22 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 00C8610E122;
+	Wed,  6 Apr 2022 14:11:12 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from NAM10-DM6-obe.outbound.protection.outlook.com
- (mail-dm6nam10on2089.outbound.protection.outlook.com [40.107.93.89])
- by gabe.freedesktop.org (Postfix) with ESMTPS id D756610E02C
- for <dri-devel@lists.freedesktop.org>; Wed,  6 Apr 2022 14:10:20 +0000 (UTC)
+Received: from EUR05-VI1-obe.outbound.protection.outlook.com
+ (mail-vi1eur05on2121.outbound.protection.outlook.com [40.107.21.121])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 78DCD10E122
+ for <dri-devel@lists.freedesktop.org>; Wed,  6 Apr 2022 14:11:10 +0000 (UTC)
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=ZVyQoRHps+dbmqGu1DlTtZ45xVsSScwMtIITCMccpJ+Ih96Mt6KWGi54qwfgjBp98IgWaaLOyApHrAb75KzYnqmMrVHkA04+TorLu0+qe2C7M7BTbA057rzv033aOeKe5pcFGou5eI3jDXXtExpghF9q/DM7Pcx+2+EIjIpruEOMrst6MCE4HN5wGSAF7b7v75VYcZ7WSBIH8BNygDlct6BSVCmyFe4h2hQjr3WY0Hz+pQp/Ew8fQn3oHy27LkMRFSrwWr5SLMqZoDZaZaKmcwG/5stlJg8+Hn6Yd1fDoUasHYthvtuA+2HQjZ0fko4jYX7XKm9Tkx/F1/yY4e0KCA==
+ b=Nr4Gyv1Epad1qKK5GHykMNLRuVGQSSzXwKCPnK3JsNckEypk04mAxtkn5BxbhNGc885XaPQc6ntrQGZ0ddQ8MlVeogLFj3U2kf3qlxz1oO+uITwLckialmE4XNSRarZKDDW2DikGlRIcV5qfNP+lmsDoe/XPg4Az41BU0sPLF//EXTPc+U0sFegmHeApabUlaGiKuYN9RLokR9Ou5IfDr3PFfEQPcf5Rkmu87X77aftf4EAdS2aRW+XGGqolrLYgiexkYii3h5e+oVfpr93ZQkNj0owR4nizHNLDIsXqsJB7tRMDCqCJs7yeZSnQqtpTZVQo9lO0NGht4RxHR7i4YA==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
  s=arcselector9901;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=s31oRNUGSXW3fp+lVRPxYu3KQwdKl1f9B1Cknn8Oc6U=;
- b=ZRTdZJ3Nldr2LnzZlTBEn4zNeVxTosrIcdEBOY3VzKrV1VGTkZiUUsu+kMt+iisnMj7M9xnKv/V3ib/2MwhqMaH5YyIdU3iZ5iOGzmj5ASDtOzPuIrNJJ2wMdfr+raSWw1dibqbOkk29mn6uFX9pC/El7sOq8E1143evnBDPu8KmkN7EGFgkJ+/5DTZvqOdnmjzdXBuKG6nTfXnwiYEGYoC2YHrNrj/oPMpUANK+n5HQBRuDLjVfmw4fj5XuPAJCEAPln8YT45nf+lm01FQD3XuT1gEd/RUadQgxaR9Y4EyYLrHxD/COrEiOESJ7osuL9m48s1IStmUaqtidDzI8sQ==
+ bh=iTCV5LDTL6aUSKul8tYcAwgHV3Ol3Vv8N8naiMHJTbQ=;
+ b=hwqrIQV/Tatte4qH2qoFXQgI9ptMZSVIggltvwOO/3RE8ysNaQdpqpzvqt/DJdgsbXQErz2up5vp0Hw5XoDf/20rv/L8awqaTaf2151DNJ3K+NK2XbLpCsvViXNX+1Diu/TwEFmYqSNrGEas3ujrQdLRdadj/3dVUh+h/JSoi26rlAT0e8qKrjjh8QBbLKpYi0OUiuBNhYxZ4UiduO7D3jluQP59aaJ3QmqAJIYUxLIZuzYLH5TcGOpf0NLmk8/Cuynp8sz1CUKU3nKDpwoXQrB9SCHaMpBsseNvs5Fi6fyU7dVyWSAv7cwC92mpc3NcFA00BQHOVxqBxs+oB1Va5Q==
 ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=vmware.com; dmarc=pass action=none header.from=vmware.com;
- dkim=pass header.d=vmware.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=vmware.com;
- s=selector2;
+ smtp.mailfrom=kontron.de; dmarc=pass action=none header.from=kontron.de;
+ dkim=pass header.d=kontron.de; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=mysnt.onmicrosoft.com; 
+ s=selector2-mysnt-onmicrosoft-com;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=s31oRNUGSXW3fp+lVRPxYu3KQwdKl1f9B1Cknn8Oc6U=;
- b=jWGSRbuNeSYd/+CBieo45aV/E/w5vUe+7cMjoru74MDNd+j6wvMAGJ+nmcgEesn9E390QO4In3Fz7+GztpnSTFeHpZ6ZmdXEXdGywn00xZic3jTDUuu1BOclNTcN4KtcDFe+hGvVgc+yllPKRTjlxU/k513SYoFcheOuhGKmg/g=
-Received: from MN2PR05MB6624.namprd05.prod.outlook.com (2603:10b6:208:d8::18)
- by BN7PR05MB5857.namprd05.prod.outlook.com (2603:10b6:408:36::30)
+ bh=iTCV5LDTL6aUSKul8tYcAwgHV3Ol3Vv8N8naiMHJTbQ=;
+ b=WHpSXMkjnfDSpbNdat0UOslVQWbzUmNuY8dzBpov7FMhDWtkJidvud3p2DzweEcLGjbqWCFSFcakUFnvMAfkj0UpptcDLUdxJeA5gJmlPVqeX8sU3gaUwTExqbiRDP2nbbRV0ogbsYOP8LrKA/KHUnmHBHbWQ3NkPgZwAPWDBCA=
+Authentication-Results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=kontron.de;
+Received: from AM0PR10MB2963.EURPRD10.PROD.OUTLOOK.COM (2603:10a6:208:157::14)
+ by DB9PR10MB5763.EURPRD10.PROD.OUTLOOK.COM (2603:10a6:10:2ee::20)
  with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.5144.19; Wed, 6 Apr
- 2022 14:10:17 +0000
-Received: from MN2PR05MB6624.namprd05.prod.outlook.com
- ([fe80::c0e9:29ea:8618:834c]) by MN2PR05MB6624.namprd05.prod.outlook.com
- ([fe80::c0e9:29ea:8618:834c%3]) with mapi id 15.20.5164.007; Wed, 6 Apr 2022
- 14:10:17 +0000
-From: Zack Rusin <zackr@vmware.com>
-To: "michel.daenzer@mailbox.org" <michel.daenzer@mailbox.org>
-Subject: Re: [PATCH] drm/atomic: Convert a warning to dbg atomic printk
-Thread-Topic: [PATCH] drm/atomic: Convert a warning to dbg atomic printk
-Thread-Index: AQHYSFDL1w9LOO3EfUqTzTYgFMJQ1azhj04AgABebICAAKK8AIAAXvwA
-Date: Wed, 6 Apr 2022 14:10:17 +0000
-Message-ID: <b904d6755e2c039963b3076e12e2fb085e399353.camel@vmware.com>
-References: <20220404182115.18849-1-zack@kde.org>
- <4f5cd810-39e1-1c1f-4dd0-480fd6689d5c@mailbox.org>
- <5752c3fd9f901a722e3ea9210127118ed22c97b4.camel@vmware.com>
- <3254a42f-c922-f17a-97f6-35466c735d40@mailbox.org>
-In-Reply-To: <3254a42f-c922-f17a-97f6-35466c735d40@mailbox.org>
-Accept-Language: en-US
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.5123.31; Wed, 6 Apr
+ 2022 14:11:06 +0000
+Received: from AM0PR10MB2963.EURPRD10.PROD.OUTLOOK.COM
+ ([fe80::ac3d:2f31:c9d8:75bc]) by AM0PR10MB2963.EURPRD10.PROD.OUTLOOK.COM
+ ([fe80::ac3d:2f31:c9d8:75bc%7]) with mapi id 15.20.5123.031; Wed, 6 Apr 2022
+ 14:11:06 +0000
+Message-ID: <e205c5d6-d4c0-b99b-98ab-d0215c91e6c5@kontron.de>
+Date: Wed, 6 Apr 2022 16:11:04 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.7.0
+Subject: Re: [PATCH][RESEND] drm/bridge: ti-sn65dsi83: Check link status
+ register after enabling the bridge
 Content-Language: en-US
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-user-agent: Evolution 3.40.4-1ubuntu2 
-authentication-results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=vmware.com;
-x-ms-publictraffictype: Email
-x-ms-office365-filtering-correlation-id: 10c31cc4-409d-45bd-dc1f-08da17d72d67
-x-ms-traffictypediagnostic: BN7PR05MB5857:EE_
-x-ms-exchange-atpmessageproperties: SA|SL
-x-microsoft-antispam-prvs: <BN7PR05MB58570A73F831C301ADCF5C00CEE79@BN7PR05MB5857.namprd05.prod.outlook.com>
-x-ms-exchange-senderadcheck: 1
-x-ms-exchange-antispam-relay: 0
-x-microsoft-antispam: BCL:0;
-x-microsoft-antispam-message-info: tN20QpGrJbmTNLGJMS/DakUTe9jUx7RuwJrn1DII5970gHVU4iXy6To1fdsLvk14cSj7nUS3a+Q+sFPUraw0BpmEsOJPiAWGOo/YMfojNtZoTfhOJ4WAyrdpt9bB5lwHwkn+vcDfRUc0yo99joX38OwG2GteNB9TD8QwNNB8ZlELrNVLkIElQNcmhtp5qmwU9mCjN5ZinXpXgbF03r3vti7aFZRJ68LxciuwarmZYzD6toXVyykH8pk3qW9lPXvmkOcO7RldZ9A61AdYTECMxOQ4wmu5MF72AgkKUylggHwm1R5jfy43qf/ySt2ogUjj28FKLeqf1vb2wvVtjpJQA8amSjH0g/SWbulHRErhS8u3Nm+aAaBlL/CVyAMwdUwelViH82Lei/xJTSuWn06KPQe3MKUJjXgOuR+RCbaayrP4qa2Uh/exP9Bicu6r3FrZmlhZ0EI21m6lGjNR42ZfEpmIsiEmY2i4AizHLRZLhhSSp9ZJCK+vgNU6zgw6hk/RzZIChWO1mLt+tCQZxIwWl29uadORyK/ukF/rccNqa9mkUR6Y2ARJZYgMIQ8/KZmfuBQzTfLa87mqCshcitB1ugyd0jpxNrabEBz6rbEd4RW0qFltVXUft/VIJK313Ot1MYQp0TjyCZ3Vwh67NObvevkiHHSbh/Ul8opus/Jo3Nn9e/SThE8XNXdibfSAdyXO6K9rLJQYdkT2bXsk45SIMQlImjH3UlOKP7GUgi8NlDsISwzuxZpKmJcF2QhS1JpN
-x-forefront-antispam-report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
- IPV:NLI; SFV:NSPM; H:MN2PR05MB6624.namprd05.prod.outlook.com; PTR:; CAT:NONE;
- SFS:(13230001)(4636009)(366004)(86362001)(66446008)(38100700002)(66946007)(4326008)(5660300002)(66574015)(66476007)(508600001)(6512007)(76116006)(8936002)(64756008)(6486002)(8676002)(83380400001)(122000001)(71200400001)(66556008)(53546011)(2906002)(36756003)(186003)(2616005)(38070700005)(6506007)(54906003)(6916009)(316002)(26005);
- DIR:OUT; SFP:1101; 
-x-ms-exchange-antispam-messagedata-chunkcount: 1
-x-ms-exchange-antispam-messagedata-0: =?utf-8?B?T3JEdUZIbDZQaWVrLzJCUThBYkM2RDBkd1JQQXhhRkhnRW5ZZjFNcTNNbEdP?=
- =?utf-8?B?UFpjNlB2Mi81cmYrZXNhVWJxS1ZFMDd2SHp6a1dFTXluYkJNb24vek1nOVRp?=
- =?utf-8?B?OEpyVDdmMzlDMTU4LzBwQXllVDM5eVAyYXNDY0xPUzJqYUozbk1rUGRXcG53?=
- =?utf-8?B?OXpFZVZLeG5PU2J5MlFGYWQxVUN1ZzBEaElDbVFoWktEZ0I3WnJRT3M0dEhD?=
- =?utf-8?B?ODdvVTRqWnlqLzlHa3g4YVBiUEh5ak5KckcrdC9yYmNpOHhBN2RLb3JLR1Nl?=
- =?utf-8?B?R2k3T1VwVGlxYUY3d24ra1ErQjF5RHNSa3Y3c3dFK3YrZVRnb2xwbGVZVm5w?=
- =?utf-8?B?WDBJR0E4eEZMM3Z2YjVCVXJsYXlpekZNb1BkNFhMdmNQcnZmMXJSTHprSkNp?=
- =?utf-8?B?K2o1VVhzcHVjMjM2Zmo1dFBUV3NGa1BrY1RtNmpoYXBHbWcvd0R2QnhtZ09G?=
- =?utf-8?B?TE81SFV3K1JGNkI2VkJ6bXV6Sm5BdDR5MU1SbkhST2g3VFRRSE1XWHVGdlB3?=
- =?utf-8?B?SFdGMEJqUHlqSEtQejM3RUlVNzVnakp0VjVBU3VKOFozMUNkUi9GeHNLR3po?=
- =?utf-8?B?UlNzS3ZqekY3VmdXNE96c093cm5YdDRQRGIwbSsybWxxYUNzUFdjc3kwM0d3?=
- =?utf-8?B?K253M0paeFBiQUhwelBpRmRLZkpBNTZ6cWMwY05HM0NEUVY2L3l6aTFmWDRC?=
- =?utf-8?B?RE51WElSSUk4MVU1M2dkbXoxbisxUG13UXlVa0x1bmdDMjRZeFZEUm90RWVv?=
- =?utf-8?B?QmJWZjM1MFVTVzNEb2UvOWhTcVlKWXd6SGcwWlNiQVFpcVVrZlg1Vmt3OWZu?=
- =?utf-8?B?L2FLSFRUSWlkYVg1QU5MQS82MnU4M1BKUklUZ3NDNTBQSVpoa0w3WWgzdW9G?=
- =?utf-8?B?aTNWT0NLZ2RLTWpQdjl1bk8wY1ZDbVU3eXdNckJVaDhsWWdva0g3T2hmV2Rq?=
- =?utf-8?B?UzdWdWppVXJxeTZDLzgrZ0g2d1hGRGVYWmsvQlJxSWc3Z3FwTXU2M1FVNXJE?=
- =?utf-8?B?VXVkYy9vZHlCSjI2c3RBRlJXSFFpN2hIUFFVakVuc2lDUjJZK0dzLzN4UkJr?=
- =?utf-8?B?TDE5M1dOMldBQVhETU1CUlk5ZjRkcmVURDdaQUorODR5c0ZPbUQ3UHF2Vllo?=
- =?utf-8?B?M1J3ZEc4cmF4SWpxZnEwYmNaRFZxVm04Tm5uWFFWMUpxU2lDaGJxMlNrYXpy?=
- =?utf-8?B?NTdjUUp3MjlqU05mTzNCbzJjdVM3cmVEQ3ZEdEhFMHVMamp6TDNkRndDQnhq?=
- =?utf-8?B?ZisrOGRsOG5rRFh0N2x2NHk5NVJkZU0yNytXUUdkeXNpYlZKVXBEenIvS051?=
- =?utf-8?B?aFlYcHpENGFObXI5bWU5N1dGbWVwTkNzNnhmWjRGMmY0TlNKamR5VzNoK0tO?=
- =?utf-8?B?NHVFNnl0Y281UjJKOVhEN0tNQXRjd3drZDFsdGd6UWVvUTNmR2FqUTlPOFhK?=
- =?utf-8?B?bG1nNklFWjhBMGc2QUFEc3lsS1JDY0FOYXFCZkIvekN5RjNIQ2g5RTlIeS9K?=
- =?utf-8?B?UjN2dkRvTmo3VSt5aS9pVEhXY08zS2FRaXVpNm56dC9HWk8zcDRUWVB6Wm9k?=
- =?utf-8?B?QTh3NFZEM1dEaGJ3a3lGT2tqS29xay9IMG1sU0MralJ1eGNPNVROWm5JK0JG?=
- =?utf-8?B?cWhMVFhmMGFabXpmcXV5bkRGV1llQ0FHcVJiRFNJbXZYcVdnWm1QZmhRb0pB?=
- =?utf-8?B?MGxkeWhhTzZyV2RjYi9qdEg3MW53ajlzUmlVVEc1cnQ1UFhQbndLZE5MVWpE?=
- =?utf-8?B?WmJVZnVCT2tKKzZjZ2g3dWFyNVdNOVJKRVZveWN5dEJMd25VRjVvcFk2S0t0?=
- =?utf-8?B?UHNVZy8vZ3UrYlF2NTVncm54eUJKOUhqWVdpR3BWZTBlMUhmMStlZkwzUGJl?=
- =?utf-8?B?aEVIcVVZQ3liQ1pQdHhUUlNUa3EyeUNuc2x6TTJRRjhrZ3V0K29GWC9LaWxx?=
- =?utf-8?B?SHdpUkZGVmI5UjZVREJUWjZmT01Yc1VGUFhhZEViZ1hKT3BCckxjYy9Pd2Q5?=
- =?utf-8?B?RWNRM0huSUFRdjJsRkltQnZvUmJYUU1xOEVGcmt1a0JDa3prNk1nc01TNmln?=
- =?utf-8?B?bm5kbkVsWmxZNHZUOVlLSitSR2JVM0VoUnoyNzJKTEhnOUlkVnNnMzg0MSty?=
- =?utf-8?B?Y2pxMnhadjBDbFlCNmUyWFhUWEVhT1FKdFo5UlN0MmxweUdoTHBVTEYzWTFN?=
- =?utf-8?B?Z1M0eUNBNmpuUXVhcjVHb2R4SkNaY0o0QlVDTTNGYktXK05pcEowOTFIRDJ5?=
- =?utf-8?B?T25wQytsRm8yOFRQMHI3U1dGTFF0NS9CSXpjeUxrWHAydTh0eVA0cFEyc25L?=
- =?utf-8?B?ajdPdDVUdkxoRXlGWkR3WW5rem05V0ZtemZpYTlXQTVvYUdtTGNrdz09?=
-Content-Type: text/plain; charset="utf-8"
-Content-ID: <F6989DA01AE3784D8F46D3CFF3E10053@namprd05.prod.outlook.com>
-Content-Transfer-Encoding: base64
+To: Marek Vasut <marex@denx.de>,
+ Dave Stevenson <dave.stevenson@raspberrypi.com>
+References: <20220213022648.495895-1-marex@denx.de>
+ <YkwrDtqhY+Ru2bxG@pendragon.ideasonboard.com>
+ <CAPY8ntA+GpJ6WFwJbDcKjD5N2TdKAqv2kQPjrFbcJW=OoFL_Yg@mail.gmail.com>
+ <Ykw/NEI03rXJ+C9Y@pendragon.ideasonboard.com>
+ <CAPY8ntC5RQ4pq=Bf5Z+Vi-NhD6boGnEixjporJSKgR=AaUrEpw@mail.gmail.com>
+ <2b6df0ac-d429-7d49-60e8-727f8c135671@denx.de>
+ <CAPY8ntDVaAoaCu19=2DxW97STQdaVMv1-DbuPuvQu50N6mY1mg@mail.gmail.com>
+ <941582a8-ca70-dd96-3097-570ae731eb73@denx.de>
+ <CAPY8ntAYWgqTxZ3gwYt+Eo1_hJyYc1OgLE6cDGMqAb_djPPPuA@mail.gmail.com>
+ <b352a7c2-c0d5-7058-d4c9-fcd5b46bd322@denx.de>
+From: Frieder Schrempf <frieder.schrempf@kontron.de>
+In-Reply-To: <b352a7c2-c0d5-7058-d4c9-fcd5b46bd322@denx.de>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
+X-ClientProxiedBy: AM6PR04CA0056.eurprd04.prod.outlook.com
+ (2603:10a6:20b:f0::33) To AM0PR10MB2963.EURPRD10.PROD.OUTLOOK.COM
+ (2603:10a6:208:157::14)
 MIME-Version: 1.0
-X-OriginatorOrg: vmware.com
+X-MS-PublicTrafficType: Email
+X-MS-Office365-Filtering-Correlation-Id: 55bb31f1-7237-44a7-0d6a-08da17d74a77
+X-MS-TrafficTypeDiagnostic: DB9PR10MB5763:EE_
+X-Microsoft-Antispam-PRVS: <DB9PR10MB5763DB4E48718C84E52AAA78E9E79@DB9PR10MB5763.EURPRD10.PROD.OUTLOOK.COM>
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: BCL:0;
+X-Microsoft-Antispam-Message-Info: +X52qRVCH3dAcThD9eXyqDDMt7VD+TcNXdH8Uep35C4XePS6eniiCk7syCUw+XPoDjWbITIXZlOGJihsEWeXWdozNIJ697gejA8dws4xDma8l5y2qGB/7Q+kRp0FZiOhpRnJmK0xRNtP084l3hipr3uzKwcO0fZjufJMkFv18+WEODMZOSw9cYKEBNkwJ79Ke2lw0/rBR2YL/lPUIB2vJZ5uNatSUfHZOxzjgosqyo3UYadUihg+gToRJKW5UualbLnaWoE4NmikjJPZLMICjBCtm63ZophcPMJDEpbBfpGs+DAE8EkXjjaagM359oGw7vHFvoYiIkK3U/uieMNOZAUZpkFnW4UePf1dO9tZvRBL9Xm2xXtMTuai03Q49rBNZdAbJbDQWvs0VS0TKKlzsj42hrvoH4ZK23MqqRYGk0F0k73gTyetDOibUp6THMnnzhq8EXayUs3aHl3zhYu51GTU5tVFzS8MHIzXdBGhpopLaZ0r6MpzFu3l6J2YW+fHu0PheepxWXSfHC8w7jjluP90wa6MdBn3vhJy6qw8xxuHtPibEK4/CvTy2JAC99IN5XSHGVTLnJrtuvKeG3Dy0wZUOxy1W9yKZTgoAum4AfHeC0+L8p1px15v/NAfsaMc8N7ueWx3Si5JpCgRhKOUwnuY6HHpa/jwkiWpRCZijciCME8JevT3GFtRAazK/S+VoqlCCPXqx8bBLpFjcUj9PeZMFT0x4FiB8gz9uxahx/8=
+X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
+ IPV:NLI; SFV:NSPM; H:AM0PR10MB2963.EURPRD10.PROD.OUTLOOK.COM; PTR:; CAT:NONE;
+ SFS:(13230001)(4636009)(366004)(6506007)(53546011)(2906002)(86362001)(6512007)(5660300002)(31696002)(38100700002)(83380400001)(8936002)(186003)(8676002)(110136005)(6486002)(26005)(2616005)(316002)(66476007)(54906003)(66556008)(44832011)(36756003)(31686004)(66946007)(508600001)(4326008)(43740500002)(45980500001);
+ DIR:OUT; SFP:1102; 
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0: =?utf-8?B?TjZZVmh4Y3IzSkVqTUE5UExUVnBpblhiR05pUUxNQS9STzFIWE4yOWxTZ2RE?=
+ =?utf-8?B?L3FuZkNEaHlGNU9qamFvK0tVTGs2QVh3TUJoR2NkV0d6bXpkb1p4VTBTNE5x?=
+ =?utf-8?B?YWpObUZxbVhhL2FSODY2VGNzZW5LUUIva01LUUh0VTBnbXlzOElST0xYN2h0?=
+ =?utf-8?B?UUZtUTN4WnY4Mkd4MTl0ckJOaEhVdTd3Z29wQWdwTm5saGFEeVVBNTNHQ005?=
+ =?utf-8?B?S0t4QkpZUUtBNTN5WFpMMkxwVXZHdy9kNVBhQ3UzMmZxbVZhd1NMUWVOL0Mr?=
+ =?utf-8?B?bzlZeW1XWE9qb2tteGV2QUViSE1sanJCSVp4UWFyODZKaFFLYldDZkZKVzh0?=
+ =?utf-8?B?cDhkeDVZNjBOMjR4Ky8xUmd4Z2p5ZWtrb3djQkdFZE9pN1pkK3k4eG9aSml1?=
+ =?utf-8?B?UWZJdzNvNlAxaEVmZFBQQm1BcitUYXRtamhGZEpNNTlhNjNLdFM3NkRTU3BG?=
+ =?utf-8?B?NFFZbXR6ZERPNytBcEM5L1M3VTNVc0dHa2tSUHZiU2IydTdWMEp0V1VLbzQ5?=
+ =?utf-8?B?OUZXVWp2WFMvS3RuTDFXUGRVUmUzclRTMXcvZHRrelFwTXFscndabzhFNVAx?=
+ =?utf-8?B?b0VIdkliYjRhWUN0WEpsOEtMYTcrQk5wNVVhYVJ4YzJob05qK1RFVGlIdm1j?=
+ =?utf-8?B?cHA0OFFBUWhpUVVBYU45aGM5SGp1VEJBa21Rb1d0NkNYN3R1b0ZlRkw4eVA0?=
+ =?utf-8?B?QVU1WldyQk1IR2NuTGNIQlBxN3VuTXRvTUhXR1RkMU05b0VJMnJxM0RUcEwr?=
+ =?utf-8?B?ZzR4cDMxQm1GbFM1cFpLd2o2MysySnpBbkpwWkFUOVRlQTR4UXo0dGdCOVNN?=
+ =?utf-8?B?blJLUi9vT1d1Z3ZFN0RFcVVWTFgvZ1FhZnhaUXdENzJrOG5RcHFxNzhJdGsy?=
+ =?utf-8?B?WTVVdU9CUXF4S05GWjFuNDFXTytMK0NmWksrWHdJSllQMTNFK2ZLaDR1NC9t?=
+ =?utf-8?B?eGVTNTBQd25SS01PVHQ2QUtUbEVoZndRMUVuN2hDSHBHd0JUNThkcUxDK3Z1?=
+ =?utf-8?B?cWZubXhGeVNKd1B0NGo5MEFSV2xzR0JkVzdHeW5kRjF5QWpaSDN2VTVlaHlO?=
+ =?utf-8?B?RGs3UytCSHZyWk5aSC9Ta0NiMi9YeTVIRWxhVzRobWlCQmtiazRLZkNJa1Zw?=
+ =?utf-8?B?akF6dS9hbHlXYUtJenpWdE10VVFLTHFXbVg5WkcrbFd2dU50Q2Q4c0dWMDZa?=
+ =?utf-8?B?TTJ4ckorcncwbTdxb28yQkJEc1dFU3RxbjVjUnBVZ1JySWFRWnk2TnZueUJB?=
+ =?utf-8?B?RUtVQlNxZWtLWW90Y25iRGY2cUJXNXMvT2EvYzl3L1pYakNrNGhQcEM2bi8v?=
+ =?utf-8?B?T2hMR3ZqZDdlNjlNZnlIaUkxOGZtM3ZNdVZEb0IydVdpOHJmbW94Vk15L0Ni?=
+ =?utf-8?B?czdDak5KYkxLdExLMlROOXF1bmN4WklrbFpwTFdReEdUcjZKTGpCRzJibVFH?=
+ =?utf-8?B?MWhzNUNYbWhvdGc1VkhNOTlLVVVnMTE5YXlISXJ3THBBalVuZjRHZTE1U1pV?=
+ =?utf-8?B?cmhzSVdzbXV1V3J4TklLM2pnT1lwM0d5azI3b0x1anN3T0dPR1g1NDlxUFZT?=
+ =?utf-8?B?OU9jSDd1bDNYZi9UbThkU3dWc0hXY1NvN216aVZyWFJvWnNLTnhZRmZHSW82?=
+ =?utf-8?B?SDdpc2VOY3BSRitZNERTTElXTExhbVVDL3pWRHdjK2k0WW0yV2p6NzZuSURo?=
+ =?utf-8?B?QUY4OXpUUGI1Y2JTWUZJTGREWWpXSUlESEhXeTdZL3BPU0p4K1JTM1FPc1RR?=
+ =?utf-8?B?b29CR1hRS1ZkcmdLSklla1B5QVR4MktoQ3U1N0ZFTHRLU3hKVFZoaWpYWVNM?=
+ =?utf-8?B?dGk4Mi9JblZnbGFUUXRpNG43VGczUmlZTDV4ME1CbDljTU9vSjN0UHorZHJZ?=
+ =?utf-8?B?R1dtK1JyT2lZcVhsajlPMjEvZUdCblZla1lId1lzTHFyUGg0Y2NhUWl1dzlY?=
+ =?utf-8?B?WC8yZ013aEYweG5TT3FjaFgvQ1g5bERQaHdSUWNJNmZ2UGRBcmlhSUFNNXB5?=
+ =?utf-8?B?WXExSllMVVBKc0ZpelFUTWpQOWNGMUpidWhHK1FpQXVRaDgxY2RJdWdQQWlk?=
+ =?utf-8?B?T3hLSlpYM0ZzSzh0aTIwVFhzVUpBU094dDZ6MFZDRndzeHh5WWRJTEgxcXhn?=
+ =?utf-8?B?dzhkcngwRG5Jckd6bGUxVnBXOVhROFl2em9ZeHU3NGRHNWtlL2lzdzJFWStT?=
+ =?utf-8?B?R1d6d0Y1RUtMWVpUQSsxeW9BUnhGQVpISU5jVnV1cmxZbjhlQzFVN2ZSVUtF?=
+ =?utf-8?B?YnpNT1llQ3hMWE1zUVRwOUNvYVZ3bUJqQ3NxcnB2VFU2elp0NEZxQzhyUi9v?=
+ =?utf-8?B?SVJpSElHSG9GTTRUTTlSWVMwMGhCTlJaRG5TWnBSL3pqS0crbFhkNGZSQTZq?=
+ =?utf-8?Q?Gb1B/y4FjIwvB0Bc=3D?=
+X-OriginatorOrg: kontron.de
+X-MS-Exchange-CrossTenant-Network-Message-Id: 55bb31f1-7237-44a7-0d6a-08da17d74a77
+X-MS-Exchange-CrossTenant-AuthSource: AM0PR10MB2963.EURPRD10.PROD.OUTLOOK.COM
 X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-AuthSource: MN2PR05MB6624.namprd05.prod.outlook.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 10c31cc4-409d-45bd-dc1f-08da17d72d67
-X-MS-Exchange-CrossTenant-originalarrivaltime: 06 Apr 2022 14:10:17.3066 (UTC)
-X-MS-Exchange-CrossTenant-fromentityheader: Hosted
-X-MS-Exchange-CrossTenant-id: b39138ca-3cee-4b4a-a4d6-cd83d9dd62f0
-X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
-X-MS-Exchange-CrossTenant-userprincipalname: 75QYHEUN/wRXx9z5Lo65Fei5WdPRN7puDXyZB0NvW/YK4epNjUT4uzLN4XuCJ7u9t/jSNxawl0v7XBy5pkjPjQ==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: BN7PR05MB5857
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 06 Apr 2022 14:11:06.3257 (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 8c9d3c97-3fd9-41c8-a2b1-646f3942daf1
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: o//T2/bASfXe0/lVhIU7AI372cCU0+R/DUpWyETmuKia6JzleM9nbN1+FoVREE6hVALScs+M3o30tjIWuh1AhmVa20mvZYytcf8m4n9hG6Y=
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: DB9PR10MB5763
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -135,63 +141,145 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: "airlied@linux.ie" <airlied@linux.ie>, Martin Krastev <krastevm@vmware.com>,
- Maaz Mombasawala <mombasawalam@vmware.com>,
- "dri-devel@lists.freedesktop.org" <dri-devel@lists.freedesktop.org>,
- "tzimmermann@suse.de" <tzimmermann@suse.de>
+Cc: Robert Foss <robert.foss@linaro.org>, Sam Ravnborg <sam@ravnborg.org>,
+ Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
+ DRI Development <dri-devel@lists.freedesktop.org>,
+ Jagan Teki <jagan@amarulasolutions.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-T24gV2VkLCAyMDIyLTA0LTA2IGF0IDEwOjMwICswMjAwLCBNaWNoZWwgRMOkbnplciB3cm90ZToN
-Cj4g4pqgIEV4dGVybmFsIEVtYWlsDQo+IA0KPiBPbiAyMDIyLTA0LTA2IDAwOjQ3LCBaYWNrIFJ1
-c2luIHdyb3RlOg0KPiA+IE9uIFR1ZSwgMjAyMi0wNC0wNSBhdCAxOTowOSArMDIwMCwgTWljaGVs
-IETDpG56ZXIgd3JvdGU6DQo+ID4gPiBPbiAyMDIyLTA0LTA0IDIwOjIxLCBaYWNrIFJ1c2luIHdy
-b3RlOg0KPiA+ID4gPiBGcm9tOiBaYWNrIFJ1c2luIDx6YWNrckB2bXdhcmUuY29tPg0KPiA+ID4g
-PiANCj4gPiA+ID4gQnkgZGVmYXVsdCBlYWNoIGZsaXAgdGltZXMgb3V0IGFmdGVyIDAuMSBzZWMN
-Cj4gPiA+IA0KPiA+ID4gMTAgKiBIWiBpcyAxMCBzZWNvbmRzLCBub3QgMC4xLg0KPiA+IA0KPiA+
-IFllYSwgc29ycnksIHRoaXMgZW50aXJlIGNvbW1pdCBtZXNzYWdlIGlzIG5vdCBjb3JyZWN0LiBJ
-J3ZlIHNlbnQNCj4gPiBvdXQgYQ0KPiA+IHZlcnkgb2xkIGRpZmYgd2l0aCBhIGxvZyB0aGUgYmVz
-dCBJIGNvdWxkIHJlbWVtYmVyLiBJIHJlY2FsbCBvdXINCj4gPiBjb252ZXJzYXRpb24gbm93IGFu
-ZCBpaXJjIHdlIHNhaWQgdGhhdCBtYXliZSBhbiBpbnRlcmZhY2UgdGhyb3VnaA0KPiA+IGRybQ0K
-PiA+IGF0b21pYyBjb2RlIHRvIGVuYWJsZS9kaXNhYmxlIHRoaXMgZXJyb3IgaXMgdGhlIHdheSB0
-byBnbyBidXQgYWZ0ZXINCj4gPiBsb29raW5nIGF0IHRoaXMgYWdhaW4gSSdtIG5vdCBzdXJlLiBN
-b3JlIGJlbG93Lg0KPiA+IA0KPiA+ID4gPiBhbmQgYSB3YXJuaW5nIGFib3V0IHRoZSB0aW1lIG91
-dCBpcyBhZGRlZCB0byB0aGUga2VybmVsIGxvZy4NCj4gPiA+ID4gVGhlDQo+ID4gPiA+IHdhcm5p
-bmcgaXMNCj4gPiA+ID4gaGFybWxlc3MgYmVjYXVzZSB0aGVyZSdzIGFub3RoZXIgZmxpcCBjb21p
-bmcgcmlnaHQgYWZ0ZXIgYnV0IGl0DQo+ID4gPiA+IGNhbg0KPiA+ID4gPiBxdWlja2x5IGZpbGwg
-dXANCj4gPiA+ID4gdGhlIGxvZywgZS5nLiBtaXNzaW5nIDIgZmxpcHMgZXZlcnkgc2Vjb25kIG92
-ZXIgYSAyNCBob3VyIHNwYW4NCj4gPiA+ID4gd2lsbA0KPiA+ID4gPiBhZGQgYWJvdXQgMTcyIHRo
-b3VzYW5kIGxpbmVzIHRvIHRoZSBsb2cuDQo+ID4gPiANCj4gPiA+IEFzIHdlIGRpc2N1c3NlZCBi
-ZWZvcmUsIHdoaWxlIHRoaXMgbWlnaHQgYmUgdHJ1ZSBmb3IgdGhlIHZtd2dmeA0KPiA+ID4gZHJp
-dmVyLA0KPiA+ID4gZm9yIG90aGVyIGRyaXZlcnMgdGhpcyBtZXNzYWdlIGluZGljYXRlcyB0aGF0
-IGVpdGhlciB0aGUgR1BVDQo+ID4gPiBodW5nLCBvcg0KPiA+ID4gc29tZXRoaW5nIGVsc2Ugd2Vu
-dCB3cm9uZyBzcGVjdGFjdWxhcmx5LiBBcyBzdWNoLCBJIHRoaW5rIHdlIGRvDQo+ID4gPiB3YW50
-IHRvDQo+ID4gPiBzZWUgdGhlc2UgbWVzc2FnZXMgYnkgZGVmYXVsdCBmb3Igb3RoZXIgZHJpdmVy
-cyBhdCBsZWFzdC4NCj4gPiANCj4gPiBJJ20gbm90IGdvaW5nIHRvIGFyZ3VlIGZvciBvciBhZ2Fp
-bnN0IHRoYXQgYnV0IEkgYW0gY3VyaW91cyB3aGF0J3MNCj4gPiB0aGUNCj4gPiBwb2ludCBvZiB0
-aGUgbWVzc2FnZS4gVGhlIG1lc3NhZ2UgaXMgYmFzaWNhbGx5IHNheWluZyAic29tZXRoaW5nDQo+
-ID4gY291bGQNCj4gPiBwb3NzaWJseSBoYXZlIHdlbnQgdmVyeSB3cm9uZyIuIE9LLCB3aGF0J3Mg
-bmV4dD8gRXNwZWNpYWxseSBpZg0KPiA+IHRoZXJlJ3MNCj4gPiBubyB2aXNpYmxlIHByb2JsZW1z
-IGFuZCBpdCdzIG5vdCByZXByb2R1Y2libGUuIEV2ZW4gaWYgaXQgd291bGQgYmUNCj4gPiByZXBy
-b2R1Y2libGUgdGhlcmUncyBub3RoaW5nIGFjdGlvbmFibGUgZnJvbSB0aGUgbWVzc2FnZSBpdHNl
-bGYuIElmDQo+ID4gdGhlDQo+ID4gc3lzdGVtIGhhcyBubyBvdXRwdXQgY29ubmVjdGVkIGFuZCBu
-byB1c2VycyBhcmUgY3VycmVudGx5IGxvZ2dlZCBpbg0KPiA+IGFuZA0KPiA+IHdlIG1pc3NlZCBh
-IGZsaXAsIGRvZXMgaXQgbWF0dGVyPw0KPiANCj4gSSBkb24ndCB0aGluayB3YWl0aW5nIGZvciBh
-IDEwIHNlY29uZCB0aW1lb3V0IGlzIHRoZSBhcHByb3ByaWF0ZQ0KPiBiZWhhdmlvdXIgaW4gdGhh
-dCBjYXNlLiBXaGlsZSBhIEtNUyBDUlRDIGlzIGVuYWJsZWQsIHRoZSBkcml2ZXIgbmVlZHMNCj4g
-dG8gbWFrZSBpdCB3b3JrLCBpbiB0aGUgd29yc3QgY2FzZSB2aWEgYSB0aW1lciB3aGljaCB0aWNr
-cyBhdCB0aGUNCj4gQ1JUQyByZWZyZXNoIHJhdGUuDQoNCldoYXQgaWYgaXQgaXNuJ3QgYSBkcml2
-ZXIgYnVnIGFuZCBpdCBqdXN0IHNvIGhhcHBlbnMgdGhhdCB2bXdnZnggaXMgdGhlDQpvbmx5IG9u
-ZSB0aGF0J3MgcnVubmluZyBvbiBzb21lIHNwZWNpZmljIHN5c3RlbSB3aXRob3V0IGEgZGlzcGxh
-eSBsb25nDQplbm91Z2g/IFdpdGhvdXQgYmVpbmcgYWJsZSB0byByZXByb2R1Y2UgaG93IHdvdWxk
-IHlvdSBrbm93Pw0KDQo+IA0KPiBUaGUgZXJyb3IgbWVhbnMgdGhhdCBlaXRoZXI6DQo+IA0KPiAq
-IEEgZmxpcCBhY3R1YWxseSBkaWRuJ3QgY29tcGxldGUgaW4gMTAgc2Vjb25kcy4NCj4gKiBUaGVy
-ZSdzIHNvbWUga2luZCBvZiB0aW1lIHRyYWNraW5nIGlzc3VlIHdoaWNoIHJlc3VsdHMgaW4gdGhl
-IHRpbWVyDQo+IGZpcmluZyBhZnRlciBsZXNzIHRoYW4gMTAgc2Vjb25kcyAob2YgdGhlIHN5c3Rl
-bSBhY3R1YWxseSBydW5uaW5nKS4NCj4gDQo+IEVpdGhlciB3YXksIGl0J3MgYW4gaXNzdWUgd2hp
-Y2ggc2hvdWxkIGJlIGZpeGVkIHJhdGhlciB0aGFuIGp1c3QNCj4gc3dlcHQgdW5kZXIgdGhlIHJ1
-Zy4NCg0KV2l0aG91dCBiZWluZyBhYmxlIHRvIHJlcHJvZHVjZSBvciByZWFsbHkgY29uZmlybSB0
-aGF0IGl0J3MgYW4gYWN0dWFsDQpwcm9ibGVtIGluIHZtd2dmeCBJJ20gZ29pbmcgdG8gbGVhdmUg
-dGhpcyB0byB5b3UgdGhlbi4gSSdkIGJlIGhhcHB5IHRvDQpsb29rIGF0IGl0IGFnYWluIG9yIGhl
-bHAgb3V0IGluIGFueSB3YXkgSSBjYW4gaWYgeW91IGZpbmQgYW55IHByb2JsZW1zDQp3ZSBjYW4g
-ZG8gYW55dGhpbmcgYWJvdXQuDQoNCnoNCg0K
+Am 05.04.22 um 23:36 schrieb Marek Vasut:
+> On 4/5/22 17:24, Dave Stevenson wrote:
+> 
+> Hi,
+> 
+>>>>>> If we can initialise the DSI host before the bridge for the
+>>>>>> pre_enable, then all the configuration moves to the atomic_pre_enable
+>>>>>> and there should be no need to have the delay.
+>>>>>>
+>>>>>> I can't 100% guarantee that, but one of the folks on the Pi forums is
+>>>>>> using [1] which does that, and is reporting it working well. (He's
+>>>>>> also using the DSI85 to take 2 DSI links and drive 2 LVDS single link
+>>>>>> panels)
+>>>>>
+>>>>> It seems to me that checking whether the bridge got correctly
+>>>>> initialized is orthogonal to the aforementioned patchset though ?
+>>>>
+>>>> It's the delay that is ugly.
+>>>
+>>> You do need to wait a little after the initialization and before
+>>> checking the status, so that delay is not going away no matter how you
+>>> frob with the DSI bridge.
+>>>
+>>>> Put the check in atomic_enable which will be slightly later than
+>>>> configuration in pre_enable? Check that sufficient jiffies have passed
+>>>> if you needed.
+>>>> Or wire up the IRQ line from the SN65DSI83 rather than polling the IRQ
+>>>> Status register. Delayed workqueue if the IRQ isn't wired up.
+>>>
+>>> Are you able to do such deferred non-atomic operations in atomic_enable
+>>> callback ?
+>>
+>> atomic_enable returns void so you can't fail the atomic_enable.
+>> All you're doing is reading a register and potentially logging an
+>> error - surely that can be done from any context.
+>>
+>>>> If I read it right your log message is triggered by any bit being set
+>>>> in REG_IRQ_STAT. So an inconveniently timed correctable DSI error will
+>>>> set bit 4 and log the error even though it's been corrected. Likewise
+>>>> bit 7 / CHA_SYNCH_ERR could get triggered by an H or V sync packet
+>>>> being received in that 10-12ms window (we're in atomic_enable, so
+>>>> video is already running).
+>>>
+>>> There should be no bits set in the IRQ_STAT register if everything works
+>>> as it should.
+>>
+>> On a perfect link, yes.
+> 
+> If your hardware is broken, then you really do want to know about it.
+> 
+>> Looking at the top 4 bits.
+>>
+>> Bit 4
+>> CHA_COR_ECC_ERR
+>> When the DSI channel A packet processor detects a correctable ECC
+>> error, this bit is set.
+>>
+>> The error is corrected, so why do we care? The display is still working.
+> 
+> If you get a lot of those correctable errors, your display might not
+> work at all. So we do care.
+> 
+>> Bit 5
+>> CHA_UNC_ECC_ERR
+>> When the DSI channel A packet processor detects an uncorrectable ECC
+>> error, this bit is set;
+>> Bit 6
+>> CHA_CRC_ERR
+>> When the DSI channel A packet processor detects a data stream CRC error,
+>> this bit is set
+>>
+>> It doesn't say what behaviour the DSI83 will take under these
+>> circumstances, but shouldn't be fatal to the display.
+> 
+> See above, it is an error, hardware is broken, you want to know about
+> this and fix the hardware.
+> 
+>> Bit 7
+>> CHA_SYNCH_ERR
+>> When the DSI channel A packet processor detects an HS or VS
+>> synchronization error, that is, an unexpected sync packet; this bit is
+>> set.
+>>
+>> It's happened, but shouldn't be fatal, so why do we care? The display
+>> should pick up correctly at the start of the next frame.
+> 
+> Or maybe it won't because of noise on the DSI link, fix the hardware.
+> 
+> Sorry, I am not happy about hiding errors and trying to somehow justify
+> they are OK. They are not, the hardware is likely broken and it should
+> be fixed, that is the right way to handle these errors.
+> 
+>> As I've already said, we're in atomic_enable and video is therefore
+>> running, this is highly plausibly going to happen. We've delayed for
+>> 4-5ms in sn65dsi83_atomic_enable, so we're a third of the way through
+>> a frame at 60fps. The chances of seeing a VS or HS packet at an
+>> unexpected time is therefore high.
+>>
+>> Bits 2 & 3 look equally inconsequential.
+>>
+>> Bit 0 as PLL unlock would cause grief.
+>>
+>>>> If it's the PLL being unlocked that is the issue then it should only
+>>>> be checking bit 0. Or possibly reading the actual PLL lock status from
+>>>> REG_RC_LVDS_PLL_PLL_EN_STAT. Although as we've already checked that
+>>>> the PLL is locked via REG_RC_LVDS_PLL_PLL_EN_STAT earlier in the
+>>>> atomic_enable, I'm now a little confused as to the condition you are
+>>>> actually wanting to detect.
+>>>
+>>> Any outstanding errors which are currently hidden and only show up
+>>> sporadically at the worst possible moment.
+>>
+>> If you were constantly looking at the status then that would be
+>> reasonable.
+>> To be looking during one specific 10-12ms period of time for some
+>> fairly generic status values seems a little redundant, and a waste of
+>> time in delaying the atomic_enable.
+> 
+> Sorry, I disagree. I think 10ms extra time in atomic_enable() is a good
+> trade-off for knowing about possible hardware problems sooner rather
+> than later.
+
+Isn't the delay at this point even required (regardless of the debugging
+information), as the init sequence in the datasheet mentions a 10 ms
+delay after issuing a soft reset and before the DSI stream is enabled?
+Or is this handled elsewhere?
+
+> 
+>> It'll be interesting to see if these events just go away when the
+>> initialisation sequence specified in the datasheet is being followed.
+>> Let's leave the debate until then, as it's currently fairly arbitrary.
+> 
+> No, your patch series is orthogonal to this patch.
+> 
+> 
