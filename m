@@ -1,49 +1,47 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1A77B4F568D
-	for <lists+dri-devel@lfdr.de>; Wed,  6 Apr 2022 08:38:53 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 44C944F5691
+	for <lists+dri-devel@lfdr.de>; Wed,  6 Apr 2022 08:44:21 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id D353910E380;
-	Wed,  6 Apr 2022 06:38:50 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 5CFB410F290;
+	Wed,  6 Apr 2022 06:44:17 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mailgw02.mediatek.com (unknown [210.61.82.184])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 3A0B810E380
- for <dri-devel@lists.freedesktop.org>; Wed,  6 Apr 2022 06:38:49 +0000 (UTC)
-X-UUID: d4e1b5a7c4674690ba3742875695fc36-20220406
-X-UUID: d4e1b5a7c4674690ba3742875695fc36-20220406
-Received: from mtkcas10.mediatek.inc [(172.21.101.39)] by mailgw02.mediatek.com
- (envelope-from <ck.hu@mediatek.com>)
- (Generic MTA with TLSv1.2 ECDHE-RSA-AES256-SHA384 256/256)
- with ESMTP id 322571076; Wed, 06 Apr 2022 14:38:42 +0800
-Received: from mtkexhb01.mediatek.inc (172.21.101.102) by
- mtkmbs07n1.mediatek.inc (172.21.101.16) with Microsoft SMTP Server (TLS) id
- 15.0.1497.2; Wed, 6 Apr 2022 14:38:41 +0800
-Received: from mtkcas11.mediatek.inc (172.21.101.40) by mtkexhb01.mediatek.inc
- (172.21.101.102) with Microsoft SMTP Server (TLS) id 15.0.1497.2;
- Wed, 6 Apr 2022 14:38:40 +0800
-Received: from mtksdccf07 (172.21.84.99) by mtkcas11.mediatek.inc
- (172.21.101.73) with Microsoft SMTP Server id 15.0.1497.2 via Frontend
- Transport; Wed, 6 Apr 2022 14:38:40 +0800
-Message-ID: <4940e2e4ecb5f9f6857dc960ea5dbe43c551df77.camel@mediatek.com>
-Subject: Re: [PATCH v2,1/2] dt-bindings: display: mediatek: dpi: Add
- compatible for MediaTek MT8186
-From: CK Hu <ck.hu@mediatek.com>
-To: Rex-BC Chen <rex-bc.chen@mediatek.com>, <xinlei.lee@mediatek.com>,
- <chunkuang.hu@kernel.org>, <p.zabel@pengutronix.de>, <airlied@linux.ie>,
- <daniel@ffwll.ch>, <robh+dt@kernel.org>, <matthias.bgg@gmail.com>
-Date: Wed, 6 Apr 2022 14:38:40 +0800
-In-Reply-To: <e0d5a344c8ec1f92357bd9d5b8782dded862c549.camel@mediatek.com>
-References: <1648727917-3099-1-git-send-email-xinlei.lee@mediatek.com>
- <1648727917-3099-2-git-send-email-xinlei.lee@mediatek.com>
- <e0d5a344c8ec1f92357bd9d5b8782dded862c549.camel@mediatek.com>
-Content-Type: text/plain; charset="UTF-8"
-X-Mailer: Evolution 3.28.5-0ubuntu0.18.04.2 
+Received: from ams.source.kernel.org (ams.source.kernel.org
+ [IPv6:2604:1380:4601:e00::1])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 7ACF610F2BB;
+ Wed,  6 Apr 2022 06:44:15 +0000 (UTC)
+Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
+ (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+ (No client certificate requested)
+ by ams.source.kernel.org (Postfix) with ESMTPS id 234F7B81BAD;
+ Wed,  6 Apr 2022 06:44:13 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 4F3BEC385A3;
+ Wed,  6 Apr 2022 06:44:11 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+ s=k20201202; t=1649227451;
+ bh=BJfgiIoQUQYLiIMc6u/jkdzzSqCbxhlaeFQX+3zNbYg=;
+ h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+ b=HYjekCYckPQzlYNTIu2rKllAWs8+5lcZdBvpLZ9xI5S8TRTJdcr5ttJmpzrvgTHqq
+ eBOI+yY11Z3TJfcpG2JyiFMML5RGLQZJsboe9I9cTJW2Ci/Keo8fzQZrlMX9+bPIxk
+ AneKP08C/7KyS3208//LaXSwa3QQlgkeONwROWpgAiYNlAFxBuTIrw8A3WPWPvibxK
+ HsSwUsWha+bf7a+9bZ0PSFRY3uXveqsQ8JsThOC8+cr4nY85wQurMMEQ5RP1cJlBgD
+ 8RLXoGCs8CFKCBH9Jm/YxFpfluX7bvVavRQrfH460j6li/IMFTeYAGgBTxFJMxa/rE
+ gvsdmmG1GQPOA==
+Date: Wed, 6 Apr 2022 12:14:07 +0530
+From: Vinod Koul <vkoul@kernel.org>
+To: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
+Subject: Re: [PATCH v6 14/14] drm/msm/dsi: Add support for DSC configuration
+Message-ID: <Yk02t+sZS0I7heY3@matsya>
+References: <20220404163436.956875-1-vkoul@kernel.org>
+ <20220404163436.956875-15-vkoul@kernel.org>
+ <f5fc9704-5c22-8c95-b6d6-e2c20145672c@linaro.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 7bit
-X-MTK: N
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <f5fc9704-5c22-8c95-b6d6-e2c20145672c@linaro.org>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -56,81 +54,94 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: devicetree@vger.kernel.org, jitao.shi@mediatek.com,
- linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
- Project_Global_Chrome_Upstream_Group@mediatek.com,
- linux-mediatek@lists.infradead.org, linux-arm-kernel@lists.infradead.org
+Cc: Jonathan Marek <jonathan@marek.ca>, David Airlie <airlied@linux.ie>,
+ linux-arm-msm@vger.kernel.org, Abhinav Kumar <quic_abhinavk@quicinc.com>,
+ dri-devel@lists.freedesktop.org, Bjorn Andersson <bjorn.andersson@linaro.org>,
+ freedreno@lists.freedesktop.org, linux-kernel@vger.kernel.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi,
-
-On Fri, 2022-04-01 at 09:38 +0800, Rex-BC Chen wrote:
-> On Thu, 2022-03-31 at 19:58 +0800, xinlei.lee@mediatek.com wrote:
-> > From: Xinlei Lee <xinlei.lee@mediatek.com>
+On 06-04-22, 02:42, Dmitry Baryshkov wrote:
+> On 04/04/2022 19:34, Vinod Koul wrote:
+> > When DSC is enabled, we need to configure DSI registers accordingly and
+> > configure the respective stream compression registers.
 > > 
-> > Add dt-binding documentation of dpi for MediaTek MT8186 SoC.
+> > Add support to calculate the register setting based on DSC params and
+> > timing information and configure these registers.
 > > 
-> > Signed-off-by: Xinlei Lee <xinlei.lee@mediatek.com>
+> > Signed-off-by: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
+> > Signed-off-by: Vinod Koul <vkoul@kernel.org>
 > > ---
-> >  .../devicetree/bindings/display/mediatek/mediatek,dpi.yaml       |
-> > 1
+> >   drivers/gpu/drm/msm/dsi/dsi_host.c | 98 +++++++++++++++++++++++++++++-
+> >   1 file changed, 97 insertions(+), 1 deletion(-)
+> > 
+> > diff --git a/drivers/gpu/drm/msm/dsi/dsi_host.c b/drivers/gpu/drm/msm/dsi/dsi_host.c
+> > index eb0be34add45..f3ed6c40b9e1 100644
+> > --- a/drivers/gpu/drm/msm/dsi/dsi_host.c
+> > +++ b/drivers/gpu/drm/msm/dsi/dsi_host.c
+> > @@ -912,6 +912,65 @@ static void dsi_ctrl_config(struct msm_dsi_host *msm_host, bool enable,
+> >   		dsi_write(msm_host, REG_DSI_CPHY_MODE_CTRL, BIT(0));
+> >   }
+> > +static void dsi_update_dsc_timing(struct msm_dsi_host *msm_host, bool is_cmd_mode, u32 hdisplay)
+> > +{
+> > +	struct msm_display_dsc_config *dsc = msm_host->dsc;
+> > +	u32 reg, intf_width, reg_ctrl, reg_ctrl2;
+> > +	u32 slice_per_intf, total_bytes_per_intf;
+> > +	u32 pkt_per_line;
+> > +	u32 bytes_in_slice;
+> > +	u32 eol_byte_num;
 > > +
-> >  1 file changed, 1 insertion(+)
-> > 
-> > diff --git
-> > a/Documentation/devicetree/bindings/display/mediatek/mediatek,dpi.y
-> > am
-> > l
-> > b/Documentation/devicetree/bindings/display/mediatek/mediatek,dpi.y
-> > am
-> > l
-> > index dd2896a40ff0..a73044c50b5f 100644
-> > ---
-> > a/Documentation/devicetree/bindings/display/mediatek/mediatek,dpi.y
-> > am
-> > l
-> > +++
-> > b/Documentation/devicetree/bindings/display/mediatek/mediatek,dpi.y
-> > am
-> > l
-> > @@ -22,6 +22,7 @@ properties:
-> >        - mediatek,mt7623-dpi
-> >        - mediatek,mt8173-dpi
-> >        - mediatek,mt8183-dpi
-> > +      - mediatek,mt8186-dpi
-> >        - mediatek,mt8192-dpi
-> >  
-> >    reg:
+> > +	/* first calculate dsc parameters and then program
+> > +	 * compress mode registers
+> > +	 */
+> > +	intf_width = hdisplay;
+> > +	slice_per_intf = DIV_ROUND_UP(intf_width, dsc->drm->slice_width);
+> > +
+> > +	/* If slice_per_pkt is greater than slice_per_intf
+> > +	 * then default to 1. This can happen during partial
+> > +	 * update.
+> > +	 */
+> > +	if (slice_per_intf > dsc->drm->slice_count)
+> > +		dsc->drm->slice_count = 1;
+> > +
+> > +	slice_per_intf = DIV_ROUND_UP(hdisplay, dsc->drm->slice_width);
+> > +	bytes_in_slice = DIV_ROUND_UP(dsc->drm->slice_width * dsc->drm->bits_per_pixel, 8);
+> > +
+> > +	dsc->drm->slice_chunk_size = bytes_in_slice;
+> > +
+> > +	total_bytes_per_intf = bytes_in_slice * slice_per_intf;
+> > +
+> > +	eol_byte_num = total_bytes_per_intf % 3;
+> > +	pkt_per_line = slice_per_intf / dsc->drm->slice_count;
+> > +
+> > +	if (is_cmd_mode) /* packet data type */
+> > +		reg = DSI_COMMAND_COMPRESSION_MODE_CTRL_STREAM0_DATATYPE(MIPI_DSI_DCS_LONG_WRITE);
+> > +	else
+> > +		reg = DSI_VIDEO_COMPRESSION_MODE_CTRL_DATATYPE(MIPI_DSI_COMPRESSED_PIXEL_STREAM);
+> > +
+> > +	/* DSI_VIDEO_COMPRESSION_MODE & DSI_COMMAND_COMPRESSION_MODE
+> > +	 * registers have similar offsets, so for below common code use
+> > +	 * DSI_VIDEO_COMPRESSION_MODE_XXXX for setting bits
+> > +	 */
+> > +	reg |= DSI_VIDEO_COMPRESSION_MODE_CTRL_PKT_PER_LINE(pkt_per_line >> 1);
+> > +	reg |= DSI_VIDEO_COMPRESSION_MODE_CTRL_EOL_BYTE_NUM(eol_byte_num);
+> > +	reg |= DSI_VIDEO_COMPRESSION_MODE_CTRL_EN;
+> > +
+> > +	if (is_cmd_mode) {
+> > +		reg_ctrl = dsi_read(msm_host, REG_DSI_COMMAND_COMPRESSION_MODE_CTRL);
+> > +		reg_ctrl2 = dsi_read(msm_host, REG_DSI_COMMAND_COMPRESSION_MODE_CTRL2);
+> > +
+> > +		reg_ctrl |= reg;
+> > +		reg_ctrl2 |= DSI_COMMAND_COMPRESSION_MODE_CTRL2_STREAM0_SLICE_WIDTH(bytes_in_slice);
+> > +
+> > +		dsi_write(msm_host, REG_DSI_COMMAND_COMPRESSION_MODE_CTRL, reg);
 > 
-> Hello Xinlei,
-> 
-> From the dts we use, the dpi node needs other properties for MT8186.
-> Please send another patch and add these properties to binding.
-> 
-> assigned-clocks = <&topckgen CLK_TOP_DPI>;
-> assigned-clock-parents = <&topckgen CLK_TOP_TVDPLL_D2>;
+> reg_ctrl, as reported by testing robot
 
-According to [1], the assigned-clocks is initial value. Without this
-initial value, I think driver would set this clock again, wouldn't it?
+Yes, I did run W=1 check for the patches, with gcc I do not see this
+warning :(
 
-[1] 
-https://www.kernel.org/doc/Documentation/devicetree/bindings/clock/clock-bindings.txt
+I have fixed and will send updated revision shortly
 
-Regards,
-CK
-
-> 
-> Thanks
-> 
-> BRs,
-> Rex
-> 
-> 
-> _______________________________________________
-> Linux-mediatek mailing list
-> Linux-mediatek@lists.infradead.org
-> 
-https://urldefense.com/v3/__http://lists.infradead.org/mailman/listinfo/linux-mediatek__;!!CTRNKA9wMg0ARbw!wtF15QZZTCzWfRpxNLjZ1VQQ54i40D8STuOo0h18dtz3es-ksLfYQGTEFlb7lg$
->  
-
+-- 
+~Vinod
