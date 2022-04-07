@@ -2,61 +2,68 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4809A4F7ACC
-	for <lists+dri-devel@lfdr.de>; Thu,  7 Apr 2022 11:01:33 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 8C3C04F7AF7
+	for <lists+dri-devel@lfdr.de>; Thu,  7 Apr 2022 11:03:28 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 4442210E6DA;
-	Thu,  7 Apr 2022 09:01:31 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 7FE5610E741;
+	Thu,  7 Apr 2022 09:03:26 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-qt1-x832.google.com (mail-qt1-x832.google.com
- [IPv6:2607:f8b0:4864:20::832])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 35DF810E656
- for <dri-devel@lists.freedesktop.org>; Thu,  7 Apr 2022 09:01:30 +0000 (UTC)
-Received: by mail-qt1-x832.google.com with SMTP id j21so7685325qta.0
- for <dri-devel@lists.freedesktop.org>; Thu, 07 Apr 2022 02:01:30 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
- h=from:to:cc:subject:date:message-id:mime-version
- :content-transfer-encoding;
- bh=7k9wHjGCmirLGQtDNZunWvATfCdcYy0H3Z1yCUnVVgo=;
- b=eoSQ6dFjX7ebCs11Jl1ZGRgtLmSxbNl8ge+CP32X1ALfHiAP2IqJsNz2PI1FytMYUG
- wUlrBhsUyB8iWdbxQvx7SEou0vURFav0N5dpZmkhWn1epeWwsbtahWixJ+DvtrgxM7O1
- cAyCa3JpyK47O59pZ7QhhwWLIWuO1h3ttFuePmUQSOpK4UesJik8t17h7x/b1PySd85y
- W1hb6lPqoW6xpJx88rax1kgFmWI8v/12R9K4AU+Y8W6Vs3STD1QjVe0nB0w5ZedFy8Ql
- 94sSm72kvl24tKaaqoNkeiKR56ArK91gf6jWl5bv1YLhOjabEm6zcLamLIAsZFavr8sQ
- VyMw==
+Received: from mail-ed1-x542.google.com (mail-ed1-x542.google.com
+ [IPv6:2a00:1450:4864:20::542])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 98E7910E0F2
+ for <dri-devel@lists.freedesktop.org>; Thu,  7 Apr 2022 09:03:24 +0000 (UTC)
+Received: by mail-ed1-x542.google.com with SMTP id q26so5593950edc.7
+ for <dri-devel@lists.freedesktop.org>; Thu, 07 Apr 2022 02:03:24 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ffwll.ch; s=google;
+ h=date:from:to:cc:subject:message-id:mail-followup-to:references
+ :mime-version:content-disposition:in-reply-to;
+ bh=W+1rOYPnAZkSAoFE9WFZU5G0otnwYX5qic+yQYdsVYw=;
+ b=ikVAtHHNfS1qoYViGuL94fCuQ8C+sS0IgCobHN4E5+VSj6BZL+yj96oOWGAUUkJR6j
+ NRB1pT3xl3CiOTSvTd6VKHK50u0XaKBOmFDpQNAb1T85d611C2juxICUAgCCXG7prKLe
+ nXmGV880tstI6aOa/b2NvPHEJAJZP0kATx3Sg=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
- :content-transfer-encoding;
- bh=7k9wHjGCmirLGQtDNZunWvATfCdcYy0H3Z1yCUnVVgo=;
- b=wQ1BIILeoZOpRu3AVe94NtJE+MNrSqmayAgrlsi+gdzTCfDJXtfWrMaUFeb7334qbv
- Tmg4WqzHSccT+beRpY/4bjqJQdniBzHo9Ak2Sl7JO9hB/BnxacgwFLcg0EPAHaAfa7iw
- WQCr3SpxAfWfHeUMqW4JWuvQU87Ujg2kf/PZ0wTWXaR3OVS2i2k+d8+194Izo0zhUXIk
- z7MzaOJ4O52qkC4FgPRVZugAhFH4e9HTv9TVgMjvZtGClzev2X6tr/PPoX/GbOoCK+YQ
- DV7dPZw4BKb27KbpQkMnBPCUnDRRcbOkNNpypl0m5KeIl7AyexjMs2kxxvN5d6RkZOYf
- 6z4w==
-X-Gm-Message-State: AOAM5311nL3FC1v5jdFqbo65pCgmBiYNkTqExs6rEK4vpEcvOIU8jGQ5
- qSF1W73AWeqFXSklI0PT2/c=
-X-Google-Smtp-Source: ABdhPJyt6Mnnqh0FTkOo1W8dKin7q9bCtIm4dDnlr76kyfZvugnPP3KPcRcXj0jwBM7EhC3Ss1VxKQ==
-X-Received: by 2002:a05:622a:653:b0:2e1:c046:4825 with SMTP id
- a19-20020a05622a065300b002e1c0464825mr11178669qtb.430.1649322089296; 
- Thu, 07 Apr 2022 02:01:29 -0700 (PDT)
-Received: from localhost.localdomain ([193.203.214.57])
+ h=x-gm-message-state:date:from:to:cc:subject:message-id
+ :mail-followup-to:references:mime-version:content-disposition
+ :in-reply-to;
+ bh=W+1rOYPnAZkSAoFE9WFZU5G0otnwYX5qic+yQYdsVYw=;
+ b=q7oSdAbF4Bf/T/GcVgoL9IdEGXaAFHth5GHnOo9jU1uXYZ7H5ax1NMYQEA5wz0Gd4C
+ ++W6fWh7AEVpZwziI2k3n7ysddvqLydHXeiOFoiJFMgCwzq2NQsfxFUBdouBoV6n5GZz
+ WKX5NmZEjciAUdeza4gUzSNed6nmSjcgHBE4k9ZyUjzCIXCc6e3BSEtx+1uSfhusIPHw
+ eXWoYPPpiiWlIJ3NLmpoWhHJv05VZKRvydbH/v924/dkzMvtajiLpW/gfyS92o0bGY+P
+ 5gbdHTR85ehPyZ/5anThZBpQAJlumcoZd9BunsVc75u6VlvaCJg9bHnBvpfLcoaGCP6x
+ kKKw==
+X-Gm-Message-State: AOAM531wQTrhACmeX1dhIa6pQjrAslke3pOEH2ldBH1qN3ZmjPQJ+fuc
+ wdMWzehEKBylGaEMaoEeeJ/LrA==
+X-Google-Smtp-Source: ABdhPJwiSCGjhBdoXYK5Nvas9Re2eGRnUUUVEvu1QLTjngawJF0jewMmPTqZfm9TwzhKEP8c0Pm7GQ==
+X-Received: by 2002:a05:6402:438d:b0:419:4550:d52b with SMTP id
+ o13-20020a056402438d00b004194550d52bmr12998429edc.83.1649322203124; 
+ Thu, 07 Apr 2022 02:03:23 -0700 (PDT)
+Received: from phenom.ffwll.local ([2a02:168:57f4:0:efd0:b9e5:5ae6:c2fa])
  by smtp.gmail.com with ESMTPSA id
- o21-20020ac85a55000000b002e16389b501sm15031194qta.96.2022.04.07.02.01.25
+ f13-20020a50bf0d000000b0041cdd9c9147sm3857173edk.40.2022.04.07.02.03.22
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 07 Apr 2022 02:01:29 -0700 (PDT)
-From: cgel.zte@gmail.com
-X-Google-Original-From: lv.ruyi@zte.com.cn
-To: s.hauer@pengutronix.de,
-	kernel@pengutronix.de
-Subject: [PATCH] video: fbdev:  Fix missing of_node_put in imxfb_probe
-Date: Thu,  7 Apr 2022 09:01:22 +0000
-Message-Id: <20220407090122.2491922-1-lv.ruyi@zte.com.cn>
-X-Mailer: git-send-email 2.25.1
+ Thu, 07 Apr 2022 02:03:22 -0700 (PDT)
+Date: Thu, 7 Apr 2022 11:03:20 +0200
+From: Daniel Vetter <daniel@ffwll.ch>
+To: Javier Martinez Canillas <javierm@redhat.com>
+Subject: Re: [RESEND RFC PATCH 1/5] firmware: sysfb: Make
+ sysfb_create_simplefb() return a pdev pointer
+Message-ID: <Yk6o2MzkMQeSAcsb@phenom.ffwll.local>
+Mail-Followup-To: Javier Martinez Canillas <javierm@redhat.com>,
+ linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
+ Thomas Zimmermann <tzimmermann@suse.de>,
+ Borislav Petkov <bp@suse.de>,
+ Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+ Miaoqian Lin <linmq006@gmail.com>
+References: <20220406213919.600294-1-javierm@redhat.com>
+ <20220406213919.600294-2-javierm@redhat.com>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20220406213919.600294-2-javierm@redhat.com>
+X-Operating-System: Linux phenom 5.10.0-8-amd64 
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -69,41 +76,154 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: linux-fbdev@vger.kernel.org, shawnguo@kernel.org, deller@gmx.de,
- Zeal Robot <zealci@zte.com.cn>, linux-kernel@vger.kernel.org,
- dri-devel@lists.freedesktop.org, linux-imx@nxp.com,
- Lv Ruyi <lv.ruyi@zte.com.cn>, linux-arm-kernel@lists.infradead.org
+Cc: Miaoqian Lin <linmq006@gmail.com>,
+ Greg Kroah-Hartman <gregkh@linuxfoundation.org>, linux-kernel@vger.kernel.org,
+ dri-devel@lists.freedesktop.org, Thomas Zimmermann <tzimmermann@suse.de>,
+ Daniel Vetter <daniel.vetter@ffwll.ch>, Borislav Petkov <bp@suse.de>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-From: Lv Ruyi <lv.ruyi@zte.com.cn>
+On Wed, Apr 06, 2022 at 11:39:15PM +0200, Javier Martinez Canillas wrote:
+> This function just returned 0 on success or an errno code on error, but it
+> could be useful to sysfb_init() to get a pointer to the device registered.
+> 
+> Signed-off-by: Javier Martinez Canillas <javierm@redhat.com>
 
-of_parse_phandle returns node pointer with refcount incremented,
-use of_node_put() on it when done.
+You need to rebase this onto 202c08914ba5 ("firmware: sysfb: fix
+platform-device leak in error path") which fixes the same error path leak
+you are fixing in here too. Or we just have a neat conflict when merging
+:-) But in that case please mention that you fix the error path leak too
+so it's less confusing when Linus or someone needs to resolve the
+conflict.
 
-Reported-by: Zeal Robot <zealci@zte.com.cn>
-Signed-off-by: Lv Ruyi <lv.ruyi@zte.com.cn>
----
- drivers/video/fbdev/imxfb.c | 2 ++
- 1 file changed, 2 insertions(+)
+Anyway Reviewed-by: Daniel Vetter <daniel.vetter@ffwll.ch>
 
-diff --git a/drivers/video/fbdev/imxfb.c b/drivers/video/fbdev/imxfb.c
-index 68288756ffff..a2f644c97f28 100644
---- a/drivers/video/fbdev/imxfb.c
-+++ b/drivers/video/fbdev/imxfb.c
-@@ -925,10 +925,12 @@ static int imxfb_probe(struct platform_device *pdev)
- 				sizeof(struct imx_fb_videomode), GFP_KERNEL);
- 		if (!fbi->mode) {
- 			ret = -ENOMEM;
-+			of_node_put(display_np);
- 			goto failed_of_parse;
- 		}
- 
- 		ret = imxfb_of_read_mode(&pdev->dev, display_np, fbi->mode);
-+		of_node_put(display_np);
- 		if (ret)
- 			goto failed_of_parse;
- 	}
+> ---
+> 
+>  drivers/firmware/sysfb.c          |  4 ++--
+>  drivers/firmware/sysfb_simplefb.c | 24 +++++++++++++++---------
+>  include/linux/sysfb.h             | 10 +++++-----
+>  3 files changed, 22 insertions(+), 16 deletions(-)
+> 
+> diff --git a/drivers/firmware/sysfb.c b/drivers/firmware/sysfb.c
+> index 2bfbb05f7d89..b032f40a92de 100644
+> --- a/drivers/firmware/sysfb.c
+> +++ b/drivers/firmware/sysfb.c
+> @@ -46,8 +46,8 @@ static __init int sysfb_init(void)
+>  	/* try to create a simple-framebuffer device */
+>  	compatible = sysfb_parse_mode(si, &mode);
+>  	if (compatible) {
+> -		ret = sysfb_create_simplefb(si, &mode);
+> -		if (!ret)
+> +		pd = sysfb_create_simplefb(si, &mode);
+> +		if (!IS_ERR(pd))
+>  			return 0;
+>  	}
+>  
+> diff --git a/drivers/firmware/sysfb_simplefb.c b/drivers/firmware/sysfb_simplefb.c
+> index 76c4abc42a30..c42648ed3aad 100644
+> --- a/drivers/firmware/sysfb_simplefb.c
+> +++ b/drivers/firmware/sysfb_simplefb.c
+> @@ -57,8 +57,8 @@ __init bool sysfb_parse_mode(const struct screen_info *si,
+>  	return false;
+>  }
+>  
+> -__init int sysfb_create_simplefb(const struct screen_info *si,
+> -				 const struct simplefb_platform_data *mode)
+> +__init struct platform_device *sysfb_create_simplefb(const struct screen_info *si,
+> +						     const struct simplefb_platform_data *mode)
+>  {
+>  	struct platform_device *pd;
+>  	struct resource res;
+> @@ -76,7 +76,7 @@ __init int sysfb_create_simplefb(const struct screen_info *si,
+>  		base |= (u64)si->ext_lfb_base << 32;
+>  	if (!base || (u64)(resource_size_t)base != base) {
+>  		printk(KERN_DEBUG "sysfb: inaccessible VRAM base\n");
+> -		return -EINVAL;
+> +		return ERR_PTR(-EINVAL);
+>  	}
+>  
+>  	/*
+> @@ -93,7 +93,7 @@ __init int sysfb_create_simplefb(const struct screen_info *si,
+>  	length = mode->height * mode->stride;
+>  	if (length > size) {
+>  		printk(KERN_WARNING "sysfb: VRAM smaller than advertised\n");
+> -		return -EINVAL;
+> +		return ERR_PTR(-EINVAL);
+>  	}
+>  	length = PAGE_ALIGN(length);
+>  
+> @@ -104,25 +104,31 @@ __init int sysfb_create_simplefb(const struct screen_info *si,
+>  	res.start = base;
+>  	res.end = res.start + length - 1;
+>  	if (res.end <= res.start)
+> -		return -EINVAL;
+> +		return ERR_PTR(-EINVAL);
+>  
+>  	pd = platform_device_alloc("simple-framebuffer", 0);
+>  	if (!pd)
+> -		return -ENOMEM;
+> +		return ERR_PTR(-ENOMEM);
+>  
+>  	sysfb_apply_efi_quirks(pd);
+>  
+>  	ret = platform_device_add_resources(pd, &res, 1);
+>  	if (ret) {
+>  		platform_device_put(pd);
+> -		return ret;
+> +		return ERR_PTR(ret);
+>  	}
+>  
+>  	ret = platform_device_add_data(pd, mode, sizeof(*mode));
+>  	if (ret) {
+>  		platform_device_put(pd);
+> -		return ret;
+> +		return ERR_PTR(ret);
+>  	}
+>  
+> -	return platform_device_add(pd);
+> +	ret = platform_device_add(pd);
+> +	if (ret) {
+> +		platform_device_put(pd);
+> +		return ERR_PTR(ret);
+> +	}
+> +
+> +	return pd;
+>  }
+> diff --git a/include/linux/sysfb.h b/include/linux/sysfb.h
+> index b0dcfa26d07b..708152e9037b 100644
+> --- a/include/linux/sysfb.h
+> +++ b/include/linux/sysfb.h
+> @@ -72,8 +72,8 @@ static inline void sysfb_apply_efi_quirks(struct platform_device *pd)
+>  
+>  bool sysfb_parse_mode(const struct screen_info *si,
+>  		      struct simplefb_platform_data *mode);
+> -int sysfb_create_simplefb(const struct screen_info *si,
+> -			  const struct simplefb_platform_data *mode);
+> +struct platform_device *sysfb_create_simplefb(const struct screen_info *si,
+> +					      const struct simplefb_platform_data *mode);
+>  
+>  #else /* CONFIG_SYSFB_SIMPLE */
+>  
+> @@ -83,10 +83,10 @@ static inline bool sysfb_parse_mode(const struct screen_info *si,
+>  	return false;
+>  }
+>  
+> -static inline int sysfb_create_simplefb(const struct screen_info *si,
+> -					 const struct simplefb_platform_data *mode)
+> +static inline struct platform_device *sysfb_create_simplefb(const struct screen_info *si,
+> +							    const struct simplefb_platform_data *mode)
+>  {
+> -	return -EINVAL;
+> +	return ERR_PTR(-EINVAL);
+>  }
+>  
+>  #endif /* CONFIG_SYSFB_SIMPLE */
+> -- 
+> 2.35.1
+> 
+
 -- 
-2.25.1
-
+Daniel Vetter
+Software Engineer, Intel Corporation
+http://blog.ffwll.ch
