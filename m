@@ -2,38 +2,109 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 22F7D4F7DC6
-	for <lists+dri-devel@lfdr.de>; Thu,  7 Apr 2022 13:17:00 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id E82344F7E04
+	for <lists+dri-devel@lfdr.de>; Thu,  7 Apr 2022 13:24:47 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 1734910E6D4;
-	Thu,  7 Apr 2022 11:16:58 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id EEC7910E6DC;
+	Thu,  7 Apr 2022 11:24:45 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from perceval.ideasonboard.com (perceval.ideasonboard.com
- [213.167.242.64])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 2111810E6D4
- for <dri-devel@lists.freedesktop.org>; Thu,  7 Apr 2022 11:16:57 +0000 (UTC)
-Received: from pendragon.ideasonboard.com
- (117.145-247-81.adsl-dyn.isp.belgacom.be [81.247.145.117])
- by perceval.ideasonboard.com (Postfix) with ESMTPSA id 197F9880;
- Thu,  7 Apr 2022 13:16:55 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
- s=mail; t=1649330215;
- bh=akVwUXZIkthfpmGLtSN0Cre33yHkCsSVdJb0TT3mKfU=;
- h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
- b=utZtV7vP3XWu3KbdEdpEkheyFIb+vi9NGOHd4F51Yoj4MubcuX0vS3dKbReojBwaO
- pz3I2GosmLq/wYbvDfRhmAcyUQfa6sh2G9tHIle2lyKgx+BbAWip7fHhcUDoV5brxa
- ofk/9yVa0Q7Y64aAquIhNTS9rEBHc6G5/NWuqxAo=
-Date: Thu, 7 Apr 2022 14:16:51 +0300
-From: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-To: Marek Vasut <marex@denx.de>
-Subject: Re: [PATCH v2 1/2] drm/panel: lvds: Simplify mode parsing
-Message-ID: <Yk7II6F7edZ/uEdF@pendragon.ideasonboard.com>
-References: <20220401162154.295152-1-marex@denx.de>
+Received: from mailout2.w1.samsung.com (mailout2.w1.samsung.com
+ [210.118.77.12])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 9C7D810E6DC
+ for <dri-devel@lists.freedesktop.org>; Thu,  7 Apr 2022 11:24:44 +0000 (UTC)
+Received: from eucas1p1.samsung.com (unknown [182.198.249.206])
+ by mailout2.w1.samsung.com (KnoxPortal) with ESMTP id
+ 20220407112442euoutp0260b18ba5d6f96d790da0ae0bf6749042~jmYRgPauB0191601916euoutp02C
+ for <dri-devel@lists.freedesktop.org>; Thu,  7 Apr 2022 11:24:42 +0000 (GMT)
+DKIM-Filter: OpenDKIM Filter v2.11.0 mailout2.w1.samsung.com
+ 20220407112442euoutp0260b18ba5d6f96d790da0ae0bf6749042~jmYRgPauB0191601916euoutp02C
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=samsung.com;
+ s=mail20170921; t=1649330682;
+ bh=vjRisTLYuWjKcbGI8nSAS9yA5mwWMUdL2Jg/z3fc27M=;
+ h=Date:Subject:To:Cc:From:In-Reply-To:References:From;
+ b=CZP0H3u6g8hLKUxEzi969w6SwnATwTAW4JH8ICpH4MHleC0e6mBKrO8vvTZ22m+zy
+ GEg0Is4qM7wyAhglq7+UfKPuigt/a0fDy6bWQBQ1DPSJ1L6O5e12qrBeBIxRhUQcqH
+ 6oM3U+4D1VBIKp2kIKi5Qm7xFTcTnKkLnXd696qE=
+Received: from eusmges3new.samsung.com (unknown [203.254.199.245]) by
+ eucas1p2.samsung.com (KnoxPortal) with ESMTP id
+ 20220407112441eucas1p2a30ef15449e6cd6a3dd14a89ea2a469b~jmYREjnHw2449324493eucas1p2y;
+ Thu,  7 Apr 2022 11:24:41 +0000 (GMT)
+Received: from eucas1p1.samsung.com ( [182.198.249.206]) by
+ eusmges3new.samsung.com (EUCPMTA) with SMTP id 70.BE.10260.9F9CE426; Thu,  7
+ Apr 2022 12:24:41 +0100 (BST)
+Received: from eusmtrp1.samsung.com (unknown [182.198.249.138]) by
+ eucas1p1.samsung.com (KnoxPortal) with ESMTPA id
+ 20220407112441eucas1p1d577502ed059109d147f481432b9c2c6~jmYQpusSX1424914249eucas1p1M;
+ Thu,  7 Apr 2022 11:24:41 +0000 (GMT)
+Received: from eusmgms2.samsung.com (unknown [182.198.249.180]) by
+ eusmtrp1.samsung.com (KnoxPortal) with ESMTP id
+ 20220407112441eusmtrp118fe987fdc877d2fb05295b9ad461896~jmYQo4h_d0924509245eusmtrp1_;
+ Thu,  7 Apr 2022 11:24:41 +0000 (GMT)
+X-AuditID: cbfec7f5-bf3ff70000002814-58-624ec9f91984
+Received: from eusmtip2.samsung.com ( [203.254.199.222]) by
+ eusmgms2.samsung.com (EUCPMTA) with SMTP id 48.7D.09404.9F9CE426; Thu,  7
+ Apr 2022 12:24:41 +0100 (BST)
+Received: from [106.210.134.192] (unknown [106.210.134.192]) by
+ eusmtip2.samsung.com (KnoxPortal) with ESMTPA id
+ 20220407112440eusmtip2f0e052ccbedfa4036011da4320050f15~jmYP7ePXV0933209332eusmtip2O;
+ Thu,  7 Apr 2022 11:24:40 +0000 (GMT)
+Message-ID: <4fda3d0b-e787-ece5-5357-228b852c1667@samsung.com>
+Date: Thu, 7 Apr 2022 13:24:42 +0200
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-In-Reply-To: <20220401162154.295152-1-marex@denx.de>
+User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:91.0)
+ Gecko/20100101 Thunderbird/91.7.0
+Subject: Re: [PATCH v6 0/6] drm: exynos: dsi: Convert drm bridge
+Content-Language: en-US
+To: Robert Foss <robert.foss@linaro.org>, Adam Ford <aford173@gmail.com>
+From: Marek Szyprowski <m.szyprowski@samsung.com>
+In-Reply-To: <CAG3jFytFrzzXVWODccVBKaiD+ZeW-Kt7sazVdTiXxdUGjdVyNw@mail.gmail.com>
+Content-Transfer-Encoding: 8bit
+X-Brightmail-Tracker: H4sIAAAAAAAAA+NgFjrCKsWRmVeSWpSXmKPExsWy7djPc7o/T/olGWyYZWJx5/ZpZov7iz+z
+ WFz5+p7NYtL9CSwWXzZNYLPonLiE3WL5hH1sFqcaW1ksDvVFW3ya9ZDZYsXPrYwO3B5rP95n
+ 9Xh/o5XdY+esu+wesztmsnos3vOSyePOtT1sHve7jzN5LJl2lc2jb8sqxgDOKC6blNSczLLU
+ In27BK6Mc/NPMhV8VKlovdDF2sB4V66LkZNDQsBEYt7W80xdjFwcQgIrGCVm/XvAAuF8YZRY
+ MXEyK4TzmVFi85c5jDAtR/uboRLLGSUaTr1nhHA+Mkq8OHmVGaSKV8BO4vKJOawgNouAisSF
+ 2wtYIOKCEidnPgGzRQWSJFZvX80GYgsLOEi8mdzHBGIzC4hL3HoyH8wWEfCQWLV9O9hNzALz
+ mYEa/rODJNgEDCW63naBNXMKBEpse/aOBaJZXqJ562xmiFNnc0psOZsJYbtIbD3fxg5hC0u8
+ Or4FypaROD25B6iXA8jOl/g7wxgiXCFx7fUaqDHWEnfO/WIDKWEW0JRYv0sfIuwo0fRoBjNE
+ J5/EjbeCEAfwSUzaNh0qzCvR0SYEUa0mMev4OridBy9cYp7AqDQLKUxmIfl9FpJXZiHsXcDI
+ sopRPLW0ODc9tdg4L7Vcrzgxt7g0L10vOT93EyMwoZ3+d/zrDsYVrz7qHWJk4mA8xCjBwawk
+ wluV65MkxJuSWFmVWpQfX1Sak1p8iFGag0VJnDc5c0OikEB6YklqdmpqQWoRTJaJg1OqgWnF
+ 2m+T91Sc3Xu6P159ZdunfVo7H/Q/3mzeX3RutvxmU2au/wt/b6/5/23+iy2TNG5sd9qhP/VT
+ 0dST2x6eNKgW/ZWqcaVScf72G4FzRWJ9Q5OrJyveW7RX6IiAV3uZUsG+l+m3jwVv+OW2/MzZ
+ lOq7DjzRK0ojUoJ3Tb+52HPx5fiCGdZWtq1ekXuXbIuedK8pNjbx1flD50t9VRSCdUxPNQQv
+ mvHnttG12KZtGaXTo2b+sJ2/+8AC1c/RC3eKSJremTnneZPIlB9/tRo/r3vPEurE4+mfGjVf
+ qqp96Zkl32VDHijf86jOl9ydXlz03l8qz2Z9ix2rTI+9+uTDP+ff3/jackXdwan6y1PvF5nO
+ VWIpzkg01GIuKk4EAImZDc3XAwAA
+X-Brightmail-Tracker: H4sIAAAAAAAAA+NgFrrFIsWRmVeSWpSXmKPExsVy+t/xe7o/T/olGRw7KGZx5/ZpZov7iz+z
+ WFz5+p7NYtL9CSwWXzZNYLPonLiE3WL5hH1sFqcaW1ksDvVFW3ya9ZDZYsXPrYwO3B5rP95n
+ 9Xh/o5XdY+esu+wesztmsnos3vOSyePOtT1sHve7jzN5LJl2lc2jb8sqxgDOKD2bovzSklSF
+ jPziElulaEMLIz1DSws9IxNLPUNj81grI1MlfTublNSczLLUIn27BL2Mc/NPMhV8VKlovdDF
+ 2sB4V66LkZNDQsBE4mh/M2sXIxeHkMBSRon9HXMZIRIyEienNbBC2MISf651sUEUvWeU+HVh
+ FxNIglfATuLyiTlgRSwCKhIXbi9ggYgLSpyc+QTMFhVIkrjU1Q42VFjAQeLN5D6wXmYBcYlb
+ T+aD2SICHhKrtm9nAVnALLCYWWLP8Q4miG03mCS2r3wNVsUmYCjR9RbkDE4OToFAiW3P3rFA
+ TDKT6NraxQhhy0s0b53NPIFRaBaSQ2YhWTgLScssJC0LGFlWMYqklhbnpucWG+kVJ+YWl+al
+ 6yXn525iBEbytmM/t+xgXPnqo94hRiYOxkOMEhzMSiK8Vbk+SUK8KYmVValF+fFFpTmpxYcY
+ TYGhMZFZSjQ5H5hK8kriDc0MTA1NzCwNTC3NjJXEeT0LOhKFBNITS1KzU1MLUotg+pg4OKUa
+ mLJ36b9+/XEFe25zNuPX014nlqnOe5fMxFlTzn2y6kosk9j0E2+2c8y6VqKwYGMY7+3851eS
+ JiQpL5NSY04v6pfM4zmpUyB3ajoXr+SFdpUjPb0hwguObz81eepVqy3xeXMMG/d/THDOP1wq
+ nNQwo+/wZ65b73Zd8ow6xGxl0Lm4uKZmx/OAy4d233xjXjKhxHi2Tmh08cSAa2FL37MffqE5
+ bWGqj+el6cyi2csammamPS/Y4xtnm/BvfUSQqVVkVKdQ16qHa6suXXxgOX3lzVvvCqZzxRVI
+ LVL0K9oZ19ErdqYzbk1SyNK+9ElpTt9+T7k4//33DRpB7uW685MPhix0S1B98mFu3uyJ2p+/
+ WCuxFGckGmoxFxUnAgBW6qBYbQMAAA==
+X-CMS-MailID: 20220407112441eucas1p1d577502ed059109d147f481432b9c2c6
+X-Msg-Generator: CA
+Content-Type: text/plain; charset="utf-8"
+X-RootMTR: 20220303163725eucas1p26c4a165b20dd629f2129926b1b662154
+X-EPHeader: CA
+CMS-TYPE: 201P
+X-CMS-RootMailID: 20220303163725eucas1p26c4a165b20dd629f2129926b1b662154
+References: <CGME20220303163725eucas1p26c4a165b20dd629f2129926b1b662154@eucas1p2.samsung.com>
+ <20220303163654.3381470-1-jagan@amarulasolutions.com>
+ <e104d9cf-73da-330a-db5a-d914839b273c@samsung.com>
+ <CAHCN7xKpHFhRKSWQNPFjpav4B=LgipuVY5wNdkCYNQu71GS9Bg@mail.gmail.com>
+ <CAG3jFytFrzzXVWODccVBKaiD+ZeW-Kt7sazVdTiXxdUGjdVyNw@mail.gmail.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -46,124 +117,153 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Christoph Niedermaier <cniedermaier@dh-electronics.com>,
- Daniel Vetter <daniel.vetter@ffwll.ch>, robert.foss@linaro.org,
- dri-devel@lists.freedesktop.org, Thomas Zimmermann <tzimmermann@suse.de>,
- Dmitry Osipenko <digetx@gmail.com>, Sam Ravnborg <sam@ravnborg.org>
+Cc: Neil Armstrong <narmstrong@baylibre.com>,
+ linux-amarula <linux-amarula@amarulasolutions.com>,
+ dri-devel <dri-devel@lists.freedesktop.org>,
+ Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
+ Andrzej Hajda <andrzej.hajda@intel.com>,
+ Michael Nazzareno Trimarchi <michael@amarulasolutions.com>,
+ Sam Ravnborg <sam@ravnborg.org>, Jagan Teki <jagan@amarulasolutions.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi Marek,
+Dear All,
 
-Thank you for the patch.
+On 31.03.2022 16:22, Robert Foss wrote:
+> On Fri, 25 Mar 2022 at 17:04, Adam Ford <aford173@gmail.com> wrote:
+>> On Fri, Mar 25, 2022 at 10:00 AM Marek Szyprowski
+>> <m.szyprowski@samsung.com> wrote:
+>>> On 03.03.2022 17:36, Jagan Teki wrote:
+>>>> Updated series about drm bridge conversion of exynos dsi.
+>>>>
+>>>> Previous version can be accessible, here [1].
+>>>>
+>>>> Patch 1: tc358764 panel_bridge API
+>>>>
+>>>> Patch 2: connector reset
+>>>>
+>>>> Patch 3: bridge attach in MIC
+>>>>
+>>>> Patch 4: panel_bridge API
+>>>>
+>>>> Patch 5: bridge conversion
+>>>>
+>>>> Patch 6: atomic functions
+>>>>
+>>>>
+>>>>
+>>>> Any inputs?
+>>>
+>>> I'm really sorry for the delay on my side. I was really busy with other
+>>> things and I was not able to check the display of the boards with remote
+>>> access.
+>>>
+>>>
+>>> Finally, this patchset works properly on all my Exynos-based test systems:
+>>>
+>>> 1. Exynos4210 Trats with Samsung s6e8aa0 DSI panel
+>>>
+>>> 2. Exynos4412 Trats2 with Samsung s6e8aa0 DSI panel
+>>>
+>>> 3. Exynos5250 Arndale with TC358764 DSI-LVDS bridge and LVDS panel
+>>>
+>>> 4. Exynos5433 TM2e with Samsung s6e3hf2 DSI panel and internal Exynos
+>>> MIC bridge
+>>>
+>>>
+>>> I will post my acked-by and tested-by tags for each patch.
+>> Thank you so much!  I think a lot of people will celebrate when this
+>> gets approved and merged.  ;-)
+>>
+>>
+> Applied to drm-misc-next.
 
-On Fri, Apr 01, 2022 at 06:21:53PM +0200, Marek Vasut wrote:
-> The mode parsing is currently implemented in three steps:
-> of_get_display_timing() - DT panel-timing to struct display_timing
-> videomode_from_timing() - struct display_timing to struct videomode
-> drm_display_mode_from_videomode() - struct videomode to struct drm_display_mode
-> 
-> Replace all that with simple of_get_drm_panel_display_mode() call,
-> which already populates struct drm_display_mode and then duplicate
-> that mode in panel_lvds_get_modes() each time, since the mode does
-> not change.
-> 
-> Nice bonus is the bus_flags parsed by of_get_drm_panel_display_mode()
-> out of panel-timing DT node, which is used in subsequent patch to fix
-> handling of 'de-active' DT property.
-> 
-> Tested-by: Christoph Niedermaier <cniedermaier@dh-electronics.com>
-> Signed-off-by: Marek Vasut <marex@denx.de>
-> Cc: Christoph Niedermaier <cniedermaier@dh-electronics.com>
-> Cc: Daniel Vetter <daniel.vetter@ffwll.ch>
-> Cc: Dmitry Osipenko <digetx@gmail.com>
-> Cc: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-> Cc: Robert Foss <robert.foss@linaro.org>
-> Cc: Sam Ravnborg <sam@ravnborg.org>
-> Cc: Thomas Zimmermann <tzimmermann@suse.de>
-> To: dri-devel@lists.freedesktop.org
 
-Reviewed-by: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+Thanks for merging this. Today (once the patches landed in linux-next) I 
+found that there is one more issue left to fix.
 
-> ---
-> V2: - Reinstate mandatory width-mm/height-mm DT property check
->     - Collect TB from Christoph
-> ---
->  drivers/gpu/drm/panel/panel-lvds.c | 22 +++++++++-------------
->  1 file changed, 9 insertions(+), 13 deletions(-)
-> 
-> diff --git a/drivers/gpu/drm/panel/panel-lvds.c b/drivers/gpu/drm/panel/panel-lvds.c
-> index 27a1c9923b09..6422868c1089 100644
-> --- a/drivers/gpu/drm/panel/panel-lvds.c
-> +++ b/drivers/gpu/drm/panel/panel-lvds.c
-> @@ -30,7 +30,8 @@ struct panel_lvds {
->  	const char *label;
->  	unsigned int width;
->  	unsigned int height;
-> -	struct videomode video_mode;
-> +	struct drm_display_mode dmode;
-> +	u32 bus_flags;
->  	unsigned int bus_format;
->  	bool data_mirror;
->  
-> @@ -87,16 +88,15 @@ static int panel_lvds_get_modes(struct drm_panel *panel,
->  	struct panel_lvds *lvds = to_panel_lvds(panel);
->  	struct drm_display_mode *mode;
->  
-> -	mode = drm_mode_create(connector->dev);
-> +	mode = drm_mode_duplicate(connector->dev, &lvds->dmode);
->  	if (!mode)
->  		return 0;
->  
-> -	drm_display_mode_from_videomode(&lvds->video_mode, mode);
->  	mode->type |= DRM_MODE_TYPE_DRIVER | DRM_MODE_TYPE_PREFERRED;
->  	drm_mode_probed_add(connector, mode);
->  
-> -	connector->display_info.width_mm = lvds->width;
-> -	connector->display_info.height_mm = lvds->height;
-> +	connector->display_info.width_mm = lvds->dmode.width_mm;
-> +	connector->display_info.height_mm = lvds->dmode.height_mm;
->  	drm_display_info_set_bus_formats(&connector->display_info,
->  					 &lvds->bus_format, 1);
->  	connector->display_info.bus_flags = lvds->data_mirror
-> @@ -116,7 +116,6 @@ static const struct drm_panel_funcs panel_lvds_funcs = {
->  static int panel_lvds_parse_dt(struct panel_lvds *lvds)
->  {
->  	struct device_node *np = lvds->dev->of_node;
-> -	struct display_timing timing;
->  	int ret;
->  
->  	ret = of_drm_get_panel_orientation(np, &lvds->orientation);
-> @@ -125,23 +124,20 @@ static int panel_lvds_parse_dt(struct panel_lvds *lvds)
->  		return ret;
->  	}
->  
-> -	ret = of_get_display_timing(np, "panel-timing", &timing);
-> +	ret = of_get_drm_panel_display_mode(np, &lvds->dmode, &lvds->bus_flags);
->  	if (ret < 0) {
->  		dev_err(lvds->dev, "%pOF: problems parsing panel-timing (%d)\n",
->  			np, ret);
->  		return ret;
->  	}
->  
-> -	videomode_from_timing(&timing, &lvds->video_mode);
-> -
-> -	ret = of_property_read_u32(np, "width-mm", &lvds->width);
-> -	if (ret < 0) {
-> +	if (lvds->dmode.width_mm == 0) {
->  		dev_err(lvds->dev, "%pOF: invalid or missing %s DT property\n",
->  			np, "width-mm");
->  		return -ENODEV;
->  	}
-> -	ret = of_property_read_u32(np, "height-mm", &lvds->height);
-> -	if (ret < 0) {
-> +
-> +	if (lvds->dmode.height_mm == 0) {
->  		dev_err(lvds->dev, "%pOF: invalid or missing %s DT property\n",
->  			np, "height-mm");
->  		return -ENODEV;
+On the Exynos4210-based Trats board I get the following error:
 
+# ./modetest -c -Mexynos
+could not get connector 56: No such file or directory
+Segmentation fault
+
+#
+
+Surprisingly, all other boards, even Exynos4412-based Trats2 with 
+exactly the same DSI controller and panel works fine:
+
+# ./modetest -c -Mexynos
+Connectors:
+id      encoder status          name            size (mm) modes   encoders
+71      70      connected       DSI-1           58x103 1       70
+   modes:
+         name refresh (Hz) hdisp hss hse htot vdisp vss vse vtot)
+   720x1280 60 720 725 730 735 1280 1293 1295 1296 57153 flags: ; type: 
+preferred, driver
+   props:
+         1 EDID:
+                 flags: immutable blob
+                 blobs:
+
+                 value:
+         2 DPMS:
+                 flags: enum
+                 enums: On=0 Standby=1 Suspend=2 Off=3
+                 value: 0
+         5 link-status:
+                 flags: enum
+                 enums: Good=0 Bad=1
+                 value: 0
+         6 non-desktop:
+                 flags: immutable range
+                 values: 0 1
+                 value: 0
+         4 TILE:
+                 flags: immutable blob
+                 blobs:
+
+                 value:
+         20 CRTC_ID:
+                 flags: object
+                 value: 54
+73      0       connected       HDMI-A-1        0x0 0       72
+   props:
+         1 EDID:
+                 flags: immutable blob
+                 blobs:
+
+                 value:
+         2 DPMS:
+                 flags: enum
+                 enums: On=0 Standby=1 Suspend=2 Off=3
+                 value: 0
+         5 link-status:
+                 flags: enum
+                 enums: Good=0 Bad=1
+                 value: 0
+         6 non-desktop:
+                 flags: immutable range
+                 values: 0 1
+                 value: 0
+         4 TILE:
+                 flags: immutable blob
+                 blobs:
+
+                 value:
+         20 CRTC_ID:
+                 flags: object
+                 value: 0
+
+(the only difference between Trats and Trats2 is the fact that Trats2 
+has also HDMI output implemented).
+
+It looks that something is missing in the connector initialization, but 
+I didn't dig enough into it. The emulated framebuffer is properly 
+registered and displayed on the panel.
+
+Best regards
 -- 
-Regards,
+Marek Szyprowski, PhD
+Samsung R&D Institute Poland
 
-Laurent Pinchart
