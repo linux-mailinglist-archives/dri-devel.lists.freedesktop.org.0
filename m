@@ -1,77 +1,70 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 760714F8844
-	for <lists+dri-devel@lfdr.de>; Thu,  7 Apr 2022 22:03:19 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 4D1A24F884B
+	for <lists+dri-devel@lfdr.de>; Thu,  7 Apr 2022 22:11:21 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 7478C10EEA5;
-	Thu,  7 Apr 2022 20:03:11 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 0613E10ED16;
+	Thu,  7 Apr 2022 20:11:17 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from us-smtp-delivery-124.mimecast.com
- (us-smtp-delivery-124.mimecast.com [170.10.129.124])
- by gabe.freedesktop.org (Postfix) with ESMTPS id A414710EEA6
- for <dri-devel@lists.freedesktop.org>; Thu,  7 Apr 2022 20:03:10 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1649361789;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=5NcP0b+Q0Ufxh9RUzkPjmCQaibubGP7dZRDqNH5/afA=;
- b=gw5/GsRNaStdFIy1jxdpwFry5I85LurhqNBu3t/NR7ojzCmkkOXWZkwpxbOTADXXhTBTjw
- ynB53aTjQbZsYMQ/kkX7KyI3DEXe1tmRry7ot98FtPaqsVslR179xAwIcCxREgeDYS7AfI
- EaNz+4pc3IXs9FXFfTk0wpRQlWb/WNI=
-Received: from mail-wm1-f72.google.com (mail-wm1-f72.google.com
- [209.85.128.72]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-575-RG9mFQO-MmiFONZ55WMlcg-1; Thu, 07 Apr 2022 16:03:06 -0400
-X-MC-Unique: RG9mFQO-MmiFONZ55WMlcg-1
-Received: by mail-wm1-f72.google.com with SMTP id
- o35-20020a05600c512300b0038e83a52c71so1765671wms.7
- for <dri-devel@lists.freedesktop.org>; Thu, 07 Apr 2022 13:03:06 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
- :references:mime-version:content-transfer-encoding;
- bh=5NcP0b+Q0Ufxh9RUzkPjmCQaibubGP7dZRDqNH5/afA=;
- b=WG+g0kEkxNhJW7C1SkMG+DBxHJAJ+AKWJugEoxatLVuh6mFixS7WRtXGOskCARs+50
- 6omtPPO1HnSRLfSe48g4KcksNSTKUNczFtkskILEzvQ6flLtuYnJPaNZ0OVTFwvYhgA0
- oABuBAqf/VGC1+HSvL1KlcvtIJ+7Z1A4FS5KOFDr6DTO2rDnXZ3fEmW0MhmGYPJhe/Lf
- Zak1bAfbB8lit3YtiFfS5qqmehmxus2r1g4AI6TXDki6ilBUNYb3NeYdB/U5xdw17+AX
- MZcDWV6DDnC7q8g1wz9fzoiHAXV0aRYBDURD4YfE0GLJciRYG6hD9FPchtW/+mg7JAkp
- nW7g==
-X-Gm-Message-State: AOAM5317g3sMizkCEEvEqn2S3lyzlAdcW/jfStgqDPS4P2GohZsWXmIb
- dhBHTC753sYVVZfbY3d01bDUe7yTZky/WBy13vJQ/osQQgetAPtaQ94EO3/7O9wnnoYM41fIySc
- qXAzigB4SjF/wJOyRIQuF0AvGMXV0
-X-Received: by 2002:a5d:5584:0:b0:206:d53:b553 with SMTP id
- i4-20020a5d5584000000b002060d53b553mr12234297wrv.222.1649361785087; 
- Thu, 07 Apr 2022 13:03:05 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJwXhhElfHmHDSPxSVNJjtnjf4vXjXqp1p7HB+KYOspevUbZB9uXRGs/dS5r42YLL/Kl1pV98Q==
-X-Received: by 2002:a5d:5584:0:b0:206:d53:b553 with SMTP id
- i4-20020a5d5584000000b002060d53b553mr12234281wrv.222.1649361784743; 
- Thu, 07 Apr 2022 13:03:04 -0700 (PDT)
-Received: from minerva.home ([92.176.231.205])
- by smtp.gmail.com with ESMTPSA id
- f15-20020a0560001a8f00b002078f74ccd2sm1048712wry.36.2022.04.07.13.03.03
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 07 Apr 2022 13:03:04 -0700 (PDT)
-From: Javier Martinez Canillas <javierm@redhat.com>
-To: linux-kernel@vger.kernel.org
-Subject: [PATCH 5/5] drm/solomon: Add SSD130x OLED displays SPI support
-Date: Thu,  7 Apr 2022 22:02:04 +0200
-Message-Id: <20220407200205.28838-6-javierm@redhat.com>
-X-Mailer: git-send-email 2.35.1
-In-Reply-To: <20220407200205.28838-1-javierm@redhat.com>
-References: <20220407200205.28838-1-javierm@redhat.com>
+Received: from alexa-out-sd-01.qualcomm.com (alexa-out-sd-01.qualcomm.com
+ [199.106.114.38])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 4F12810E7F6;
+ Thu,  7 Apr 2022 20:11:15 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=quicinc.com; i=@quicinc.com; q=dns/txt; s=qcdkim;
+ t=1649362275; x=1680898275;
+ h=message-id:date:mime-version:subject:to:cc:references:
+ from:in-reply-to:content-transfer-encoding;
+ bh=6YMixsEVwFVkNKmr3eeWBAfpfNcjRCyqzyw6myiN/Vg=;
+ b=o9RPlFOsRekwsWeL7ERJ1FbTuSW92LyzwvtphY9qhp6is8KV2WI7+5PE
+ 57aAUuTaPVU8ohumM2JapxWVomfBbRcSzeahTlMQzuOaj2N3uOnpv0Bzq
+ HCREM6Lxm6uOLgKOl3uO6b4KntxL4exWGt6XAmx+oRPynDm0rdEU0c+Zc Y=;
+Received: from unknown (HELO ironmsg02-sd.qualcomm.com) ([10.53.140.142])
+ by alexa-out-sd-01.qualcomm.com with ESMTP; 07 Apr 2022 13:11:13 -0700
+X-QCInternal: smtphost
+Received: from nasanex01c.na.qualcomm.com ([10.47.97.222])
+ by ironmsg02-sd.qualcomm.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 07 Apr 2022 13:11:12 -0700
+Received: from nalasex01a.na.qualcomm.com (10.47.209.196) by
+ nasanex01c.na.qualcomm.com (10.47.97.222) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.2.986.22; Thu, 7 Apr 2022 13:11:12 -0700
+Received: from [10.111.161.146] (10.80.80.8) by nalasex01a.na.qualcomm.com
+ (10.47.209.196) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.986.22; Thu, 7 Apr 2022
+ 13:11:08 -0700
+Message-ID: <c4f086ce-c56f-f7c9-4092-7f2432330d50@quicinc.com>
+Date: Thu, 7 Apr 2022 13:11:06 -0700
 MIME-Version: 1.0
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=javierm@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Transfer-Encoding: 8bit
-Content-Type: text/plain; charset="US-ASCII"; x-default=true
+User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:91.0) Gecko/20100101
+ Thunderbird/91.6.2
+Subject: Re: [PATCH v6 1/8] drm/msm/dp: Add eDP support via aux_bus
+Content-Language: en-US
+To: Doug Anderson <dianders@chromium.org>, "Sankeerth Billakanti (QUIC)"
+ <quic_sbillaka@quicinc.com>
+References: <1648656179-10347-1-git-send-email-quic_sbillaka@quicinc.com>
+ <1648656179-10347-2-git-send-email-quic_sbillaka@quicinc.com>
+ <CAD=FV=X+QvjwoT2zGP82KW4kD0oMUY6ZgCizSikNX_Uj8dNDqA@mail.gmail.com>
+ <392b933f-760c-3c81-1040-c514045df3da@linaro.org>
+ <CAD=FV=W4PYK-t607yjRbfjDjjEZX0KdgHDRukw_vSH8E8EDH6w@mail.gmail.com>
+ <CAA8EJppt9XONbgtKfmHmN+==QNqiVJeb8GKJFdZm=yyY-tgmHQ@mail.gmail.com>
+ <CAD=FV=U5-sTDLYdkeJWLAOG-0wgxR49VxtwUyUO7z2PuibLGsg@mail.gmail.com>
+ <CAA8EJppgfYgQjG8A4LsR-1wmBj3Ku3eO8cKfAYhxjWXL7e3eHg@mail.gmail.com>
+ <CAD=FV=V=a1CnT8fqTJR40WoS3BaDQ3xZ=HnHVHqZh=MEmVUZBA@mail.gmail.com>
+ <3e5fa57f-d636-879a-b98f-77323d07c156@linaro.org>
+ <CAD=FV=Uibu-kZyix7K4_WVc-+C8xpzTqU4WFy7O=6sukMZrX5g@mail.gmail.com>
+ <MW4PR02MB7186245772DAC3E04FA8D1C0E1E69@MW4PR02MB7186.namprd02.prod.outlook.com>
+ <CAD=FV=Wk3U7_bVdiCPp8iQ4bcCA_Botemu4pwHeRtgBa3Xk6KQ@mail.gmail.com>
+From: Abhinav Kumar <quic_abhinavk@quicinc.com>
+In-Reply-To: <CAD=FV=Wk3U7_bVdiCPp8iQ4bcCA_Botemu4pwHeRtgBa3Xk6KQ@mail.gmail.com>
+Content-Type: text/plain; charset="UTF-8"; format=flowed
+Content-Transfer-Encoding: 7bit
+X-Originating-IP: [10.80.80.8]
+X-ClientProxiedBy: nasanex01b.na.qualcomm.com (10.46.141.250) To
+ nalasex01a.na.qualcomm.com (10.47.209.196)
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -84,253 +77,172 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Chen-Yu Tsai <wens@kernel.org>, David Airlie <airlied@linux.ie>,
- YueHaibing <yuehaibing@huawei.com>,
- Javier Martinez Canillas <javierm@redhat.com>, dri-devel@lists.freedesktop.org,
- Chen-Yu Tsai <wens@csie.org>, Mark Brown <broonie@kernel.org>,
- Geert Uytterhoeven <geert@linux-m68k.org>, Maxime Ripard <maxime@cerno.tech>,
- Andy Shevchenko <andriy.shevchenko@linux.intel.com>
+Cc: quic_kalyant <quic_kalyant@quicinc.com>, "open list:OPEN FIRMWARE AND
+ FLATTENED DEVICE TREE BINDINGS" <devicetree@vger.kernel.org>,
+ quic_vproddut <quic_vproddut@quicinc.com>, David Airlie <airlied@linux.ie>,
+ linux-arm-msm <linux-arm-msm@vger.kernel.org>,
+ Stephen Boyd <swboyd@chromium.org>, LKML <linux-kernel@vger.kernel.org>,
+ dri-devel <dri-devel@lists.freedesktop.org>,
+ "Kuogee Hsieh \(QUIC\)" <quic_khsieh@quicinc.com>, Sean Paul <sean@poorly.run>,
+ Sean Paul <seanpaul@chromium.org>,
+ "dmitry.baryshkov@linaro.org" <dmitry.baryshkov@linaro.org>, "Aravind
+ Venkateswaran \(QUIC\)" <quic_aravindh@quicinc.com>,
+ "bjorn.andersson@linaro.org" <bjorn.andersson@linaro.org>,
+ freedreno <freedreno@lists.freedesktop.org>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-The ssd130x driver only provides the core support for these devices but it
-does not have any bus transport logic. Add a driver to interface over SPI.
+Hi Doug and Dmitry
 
-There is a difference in the communication protocol when using 4-wire SPI
-instead of I2C. For the latter, a control byte that contains a D/C# field
-has to be sent. This field tells the controller whether the data has to be
-written to the command register or to the graphics display data memory.
+Sorry, but I caught up on this email just now.
 
-But for 4-wire SPI that control byte is not used, instead a real D/C# line
-must be pulled HIGH for commands data and LOW for graphics display data.
+Some comments below.
 
-For this reason the standard SPI regmap can't be used and a custom .write
-bus handler is needed.
+Thanks
 
-Signed-off-by: Javier Martinez Canillas <javierm@redhat.com>
----
+Abhinav
+On 4/7/2022 10:07 AM, Doug Anderson wrote:
+> Hi,
+> 
+> On Thu, Apr 7, 2022 at 7:19 AM Sankeerth Billakanti (QUIC)
+> <quic_sbillaka@quicinc.com> wrote:
+>>
+>> Hi Dmitry and Doug,
+>>
+>>> Hi,
+>>>
+>>> On Tue, Apr 5, 2022 at 10:36 AM Dmitry Baryshkov
+>>> <dmitry.baryshkov@linaro.org> wrote:
+>>>>
+>>>> On 05/04/2022 20:02, Doug Anderson wrote:
+>>>>> Hi,
+>>>>>
+>>>>> On Tue, Apr 5, 2022 at 5:54 AM Dmitry Baryshkov
+>>>>> <dmitry.baryshkov@linaro.org> wrote:
+>>>>>>> 3. For DP and eDP HPD means something a little different.
+>>>>>>> Essentially there are two concepts: a) is a display physically
+>>>>>>> connected and b) is the display powered up and ready. For DP, the
+>>>>>>> two are really tied together. From the kernel's point of view you
+>>>>>>> never "power down" a DP display and you can't detect that it's
+>>>>>>> physically connected until it's ready. Said another way, on you
+>>>>>>> tie "is a display there" to the HPD line and the moment a display
+>>>>>>> is there it's ready for you to do AUX transfers. For eDP, in the
+>>>>>>> lowest power state of a display it _won't_ assert its "HPD"
+>>>>>>> signal. However, it's still physically present. For eDP you simply
+>>>>>>> have to _assume_ it's present without any actual proof since you
+>>>>>>> can't get proof until you power it up. Thus for eDP, you report
+>>>>>>> that the display is there as soon as we're asked. We can't _talk_
+>>>>>>> to the display yet, though. So in get_modes() we need to be able
+>>>>>>> to power the display on enough to talk over the AUX channel to it.
+>>>>>>> As part of this, we wait for the signal named "HPD" which really means
+>>> "panel finished powering on" in this context.
+>>>>>>>
+>>>>>>> NOTE: for aux transfer, we don't have the _display_ pipe and
+>>>>>>> clocks running. We only have enough stuff running to do the AUX
+>>> transfer.
+>>>>>>> We're not clocking out pixels. We haven't fully powered on the
+>>>>>>> display. The AUX transfer is designed to be something that can be
+>>>>>>> done early _before_ you turn on the display.
+>>>>>>>
+>>>>>>>
+>>>>>>> OK, so basically that was a longwinded way of saying: yes, we
+>>>>>>> could avoid the AUX transfer in probe, but we can't wait all the
+>>>>>>> way to enable. We have to be able to transfer in get_modes(). If
+>>>>>>> you think that's helpful I think it'd be a pretty easy patch to
+>>>>>>> write even if it would look a tad bit awkward IMO. Let me know if
+>>>>>>> you want me to post it up.
+>>>>>>
+>>>>>> I think it would be a good idea. At least it will allow us to
+>>>>>> judge, which is the more correct way.
+>>>>>
+>>>>> I'm still happy to prototype this, but the more I think about it the
+>>>>> more it feels like a workaround for the Qualcomm driver. The eDP
+>>>>> panel driver is actually given a pointer to the AUX bus at probe
+>>>>> time. It's really weird to say that we can't do a transfer on it
+>>>>> yet... As you said, this is a little sideband bus. It should be able
+>>>>> to be used without all the full blown infra of the rest of the driver.
+>>>>
+>>>> Yes, I have that feeling too. However I also have a feeling that just
+>>>> powering up the PHY before the bus probe is ... a hack. There are no
+>>>> obvious stopgaps for the driver not to power it down later.
+>>>
 
- drivers/gpu/drm/solomon/Kconfig       |   9 ++
- drivers/gpu/drm/solomon/Makefile      |   1 +
- drivers/gpu/drm/solomon/ssd130x-spi.c | 184 ++++++++++++++++++++++++++
- 3 files changed, 194 insertions(+)
- create mode 100644 drivers/gpu/drm/solomon/ssd130x-spi.c
+Lets go back to why we need to power up the PHY before the bus probe.
 
-diff --git a/drivers/gpu/drm/solomon/Kconfig b/drivers/gpu/drm/solomon/Kconfig
-index 8c0a0c788385..e170716d976b 100644
---- a/drivers/gpu/drm/solomon/Kconfig
-+++ b/drivers/gpu/drm/solomon/Kconfig
-@@ -20,3 +20,12 @@ config DRM_SSD130X_I2C
- 	  I2C bus.
- 
- 	  If M is selected the module will be called ssd130x-i2c.
-+
-+config DRM_SSD130X_SPI
-+	tristate "DRM support for Solomon SSD130X OLED displays (SPI bus)"
-+	depends on DRM_SSD130X && SPI
-+	select REGMAP
-+	help
-+	  Say Y here if the SSD130x OLED display is connected via SPI bus.
-+
-+	  If M is selected the module will be called ssd130x-spi.
-diff --git a/drivers/gpu/drm/solomon/Makefile b/drivers/gpu/drm/solomon/Makefile
-index 4bfc5acb0447..b5fc792257d7 100644
---- a/drivers/gpu/drm/solomon/Makefile
-+++ b/drivers/gpu/drm/solomon/Makefile
-@@ -1,2 +1,3 @@
- obj-$(CONFIG_DRM_SSD130X)	+= ssd130x.o
- obj-$(CONFIG_DRM_SSD130X_I2C)	+= ssd130x-i2c.o
-+obj-$(CONFIG_DRM_SSD130X_SPI)	+= ssd130x-spi.o
-diff --git a/drivers/gpu/drm/solomon/ssd130x-spi.c b/drivers/gpu/drm/solomon/ssd130x-spi.c
-new file mode 100644
-index 000000000000..c3a2e7ba67a1
---- /dev/null
-+++ b/drivers/gpu/drm/solomon/ssd130x-spi.c
-@@ -0,0 +1,184 @@
-+// SPDX-License-Identifier: GPL-2.0-only
-+/*
-+ * DRM driver for Solomon SSD130X OLED displays (SPI bus)
-+ *
-+ * Copyright 2022 Red Hat Inc.
-+ * Authors: Javier Martinez Canillas <javierm@redhat.com>
-+ */
-+#include <linux/spi/spi.h>
-+#include <linux/module.h>
-+
-+#include "ssd130x.h"
-+
-+#define DRIVER_NAME	"ssd130x-spi"
-+#define DRIVER_DESC	"DRM driver for Solomon SSD130X OLED displays (SPI)"
-+
-+struct ssd130x_spi_transport {
-+	struct spi_device *spi;
-+	struct gpio_desc *dc;
-+};
-+
-+static const struct regmap_config ssd130x_spi_regmap_config = {
-+	.reg_bits = 8,
-+	.val_bits = 8,
-+};
-+
-+/*
-+ * The regmap bus .write handler, it is just a wrapper around spi_write()
-+ * but toggling the Data/Command control pin (D/C#). Since for 4-wire SPI
-+ * a D/C# pin is used, in contrast with I2C where a control byte is sent,
-+ * prior to every data byte, that contains a bit with the D/C# value.
-+ *
-+ * These control bytes are considered registers by the ssd130x core driver
-+ * and can be used by the ssd130x SPI driver to determine if the data sent
-+ * is for a command register or for the Graphic Display Data RAM (GDDRAM).
-+ */
-+static int ssd130x_spi_write(void *context, const void *data, size_t count)
-+{
-+	struct ssd130x_spi_transport *t = context;
-+	struct spi_device *spi = t->spi;
-+	const u8 *reg = data;
-+
-+	if (*reg == SSD130X_COMMAND)
-+		gpiod_set_value_cansleep(t->dc, 0);
-+
-+	if (*reg == SSD130X_DATA)
-+		gpiod_set_value_cansleep(t->dc, 1);
-+
-+	/* Remove the control byte since is not used by the 4-wire SPI */
-+	return spi_write(spi, ((u8 *)data) + 1, count - 1);
-+}
-+
-+/* The ssd130x driver does not read registers but regmap expects a .read */
-+static int ssd130x_spi_read(void *context, const void *reg, size_t reg_size,
-+			    void *val, size_t val_size)
-+{
-+	return 0;
-+}
-+
-+/*
-+ * A custom bus is needed due the special write that toggles a D/C# pin,
-+ * another option could be to just have a .reg_write() callback but that
-+ * will prevent to do data writes in bulk.
-+ *
-+ * Once the regmap API is extended to support defining a bulk write handler
-+ * in the struct regmap_config, this can be simplified and the bus dropped.
-+ */
-+static struct regmap_bus regmap_ssd130x_spi_bus = {
-+	.write = ssd130x_spi_write,
-+	.read = ssd130x_spi_read,
-+};
-+
-+static struct gpio_desc *ssd130x_spi_get_dc(struct device *dev)
-+{
-+	struct gpio_desc *dc = devm_gpiod_get(dev, "dc", GPIOD_OUT_LOW);
-+
-+	if (IS_ERR(dc))
-+		return ERR_PTR(dev_err_probe(dev, PTR_ERR(dc), "Failed to get dc gpio\n"));
-+
-+	return dc;
-+}
-+
-+static int ssd130x_spi_probe(struct spi_device *spi)
-+{
-+	struct ssd130x_spi_transport *t;
-+	struct ssd130x_device *ssd130x;
-+	struct regmap *regmap;
-+	struct device *dev = &spi->dev;
-+
-+	t = devm_kzalloc(dev, sizeof(*t), GFP_KERNEL);
-+	if (!t)
-+		return dev_err_probe(dev, -ENOMEM,
-+				     "Failed to allocate SPI transport data\n");
-+
-+	t->spi = spi;
-+
-+	t->dc = ssd130x_spi_get_dc(&spi->dev);
-+	if (IS_ERR(t->dc))
-+		return PTR_ERR(t->dc);
-+
-+	regmap = devm_regmap_init(dev, &regmap_ssd130x_spi_bus, t,
-+				  &ssd130x_spi_regmap_config);
-+	if (IS_ERR(regmap))
-+		return PTR_ERR(regmap);
-+
-+	ssd130x = ssd130x_probe(dev, regmap);
-+	if (IS_ERR(ssd130x))
-+		return PTR_ERR(ssd130x);
-+
-+	spi_set_drvdata(spi, ssd130x);
-+
-+	return 0;
-+}
-+
-+static void ssd130x_spi_remove(struct spi_device *spi)
-+{
-+	struct ssd130x_device *ssd130x = spi_get_drvdata(spi);
-+
-+	ssd130x_remove(ssd130x);
-+}
-+
-+static void ssd130x_spi_shutdown(struct spi_device *spi)
-+{
-+	struct ssd130x_device *ssd130x = spi_get_drvdata(spi);
-+
-+	ssd130x_shutdown(ssd130x);
-+}
-+
-+static const struct of_device_id ssd130x_of_match[] = {
-+	{
-+		.compatible = "sinowealth,sh1106-spi",
-+		.data = (void *)SH1106_ID,
-+	},
-+	{
-+		.compatible = "solomon,ssd1305-spi",
-+		.data = (void *)SSD1305_ID,
-+	},
-+	{
-+		.compatible = "solomon,ssd1306-spi",
-+		.data =  (void *)SSD1306_ID,
-+	},
-+	{
-+		.compatible = "solomon,ssd1307-spi",
-+		.data =  (void *)SSD1307_ID,
-+	},
-+	{
-+		.compatible = "solomon,ssd1309-spi",
-+		.data =  (void *)SSD1309_ID,
-+	},
-+	{ /* sentinel */ }
-+};
-+MODULE_DEVICE_TABLE(of, ssd130x_of_match);
-+
-+/*
-+ * The SPI core always reports a MODALIAS uevent of the form "spi:<dev>", even
-+ * if the device was registered via OF. This means that the module will not be
-+ * auto loaded, unless it contains an alias that matches the MODALIAS reported.
-+ *
-+ * To workaround this issue, add a SPI device ID table. Even when this should
-+ * not be needed for this driver to match the registered SPI devices.
-+ */
-+static const struct spi_device_id ssd130x_spi_table[] = {
-+	{ "sh1106-spi",  SH1106_ID },
-+	{ "ssd1305-spi", SSD1305_ID },
-+	{ "ssd1306-spi", SSD1306_ID },
-+	{ "ssd1307-spi", SSD1307_ID },
-+	{ "ssd1309-spi", SSD1309_ID },
-+	{ /* sentinel */ }
-+};
-+MODULE_DEVICE_TABLE(spi, ssd130x_spi_table);
-+
-+static struct spi_driver ssd130x_spi_driver = {
-+	.driver = {
-+		.name = DRIVER_NAME,
-+		.of_match_table = ssd130x_of_match,
-+	},
-+	.probe = ssd130x_spi_probe,
-+	.remove = ssd130x_spi_remove,
-+	.shutdown = ssd130x_spi_shutdown,
-+};
-+module_spi_driver(ssd130x_spi_driver);
-+
-+MODULE_DESCRIPTION(DRIVER_DESC);
-+MODULE_AUTHOR("Javier Martinez Canillas <javierm@redhat.com>");
-+MODULE_LICENSE("GPL");
--- 
-2.35.1
+We need to power up PHY before bus probe because panel-eDP tries to read 
+the EDID in probe() for the panel_id. Not get_modes().
 
+So doug, I didnt follow your comment that panel-eDP only does EDID read 
+in get_modes()
+
+	panel_id = drm_edid_get_panel_id(panel->ddc);
+	if (!panel_id) {
+		dev_err(dev, "Couldn't identify panel via EDID\n");
+		ret = -EIO;
+		goto exit;
+	}
+
+If we do not need this part, we really dont need to power up the PHY 
+before the probe(). The hack which dmitry was referring to.
+
+So this is boiling down to why or how panel-eDP was originally designed.
+
+>>> This is why I think we need to move to Runtime PM to manage this. Basically:
+>>>
+>>> 1. When an AUX transfer happens, you grab a PM runtime reference that
+>>> _that_ powers up the PHY.
+
+This will not be trivial and needs to be scoped out as sankeerth said 
+but if the above is the only concern, why do we need to do this? There 
+seems to be an explanation why we are doing this and its not a hack.
+
+How would Dmitry's rework address this? We need some RFC to conclude on 
+that first.
+
+>>>
+>>> 2. At the end of the AUX transfer function, you do a "put_autosuspend".
+>>>
+>>> Then it becomes not a hack, right?
+>>>
+>>>
+>>
+>> pm runtime ops needs to be implemented for both eDP and DP. This change
+>> take good amount of planning and code changes as it affects DP also.
+>>
+>> Because this patch series consist of basic eDP changes for SC7280 bootup,
+>> shall we take this pm_runtime implementation in subsequent patch series?
+> 
+> Dmitry is the real decision maker here, but in my opinion it would be
+> OK to get something landed first that worked OK and wasn't taking us
+> too far in the wrong direction and then we could get a follow up patch
+> to move to pm_runtime.
+
+I would say the discussion changed into a direction of implementing 
+pm-runtime because the current patch series does what it takes to adhere 
+to panel-eDP's design along with aux bus requirements of PHY needing to 
+be on.
+
+So doug, to answer your questions here:
+
+"So I guess the net result is maybe we should just keep it where it is.
+Long term I'd be interested in knowing if there's a reason why we
+can't structure the driver so that AUX transfers can happen with less
+intertwining with the rest of the code, but that can happen later. I
+would expect that you'd basically just need clocks and regulators on
+and maybe your PHY on."
+
+Yes PHY needs to be absolutely on and configured before aux transfers.
+
+If we want to change that up to stop reading the panel_id in the panel 
+probe() and do it later, perhaps some of the changes done here are not 
+needed.
+
+It only seems reasonable that we first prototype that in a separate 
+patch even a RFC perhaps and take this further as these set of changes 
+are needed for basic display functionality on sc7280 chromebooks.
+
+Let us know what are the concerns with doing it in a follow up change.
+
+Thanks
+
+Abhinav
