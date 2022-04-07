@@ -1,54 +1,85 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id D943F4F77A2
-	for <lists+dri-devel@lfdr.de>; Thu,  7 Apr 2022 09:34:50 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id DAA074F77E9
+	for <lists+dri-devel@lfdr.de>; Thu,  7 Apr 2022 09:43:24 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 00EF510E55A;
-	Thu,  7 Apr 2022 07:34:49 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 0A74E89DEA;
+	Thu,  7 Apr 2022 07:43:18 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mga01.intel.com (mga01.intel.com [192.55.52.88])
- by gabe.freedesktop.org (Postfix) with ESMTPS id DD9E310E55A
- for <dri-devel@lists.freedesktop.org>; Thu,  7 Apr 2022 07:34:47 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1649316887; x=1680852887;
- h=from:to:cc:subject:in-reply-to:references:date:
- message-id:mime-version;
- bh=RWgELCyWrl+lCylDiA14En8+ave8Qq1B7Aatr3tB0Ts=;
- b=B7GcfBDH+QHZfwSKO8tqrBQYnmDv9zGAmZv9cM6l3U9TIGOhJqr3jBYY
- IB8eLVN7MacwuVJUgQ4Kk60Vq8KPxWhKpN9RbL7KX5geJK6QshRloWJlj
- pXhnMVCcyJC/4/C6QnXe8JBDfyWTjupAenkA14kKsrSLHIiJewkhK1LW9
- Z7hadOxGtemHjMVY0T9jwCdnwnh5nsPamClIJGTxcTZrx6BkZvKHw2IeE
- 4u6TkUbf7h+ygcGXFwWRlDo07NQ8jakxhqcR6Ka++J+CJEsZBOTObNIqa
- 2l/8/D9FbACpgI0wENGpOaCKdhbRaAsFlru9lY62MZXvDueEU6zGHVQGz Q==;
-X-IronPort-AV: E=McAfee;i="6200,9189,10309"; a="286232400"
-X-IronPort-AV: E=Sophos;i="5.90,241,1643702400"; d="scan'208";a="286232400"
-Received: from orsmga008.jf.intel.com ([10.7.209.65])
- by fmsmga101.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 07 Apr 2022 00:34:47 -0700
-X-IronPort-AV: E=Sophos;i="5.90,241,1643702400"; d="scan'208";a="570935709"
-Received: from kgibala-mobl.ger.corp.intel.com (HELO localhost)
- ([10.249.142.48])
- by orsmga008-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 07 Apr 2022 00:34:43 -0700
-From: Jani Nikula <jani.nikula@linux.intel.com>
+Received: from us-smtp-delivery-124.mimecast.com
+ (us-smtp-delivery-124.mimecast.com [170.10.129.124])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 89287898AA
+ for <dri-devel@lists.freedesktop.org>; Thu,  7 Apr 2022 07:43:16 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1649317395;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=4EX5Jm2qmutxx25UZpYyb3t/77xiYceloaJ7dNE06/A=;
+ b=YPn45kSxfJQm5LE8GSum/siKZRSIrPTwETzYotRYqp/IUtiVZDStZkSFYI198yGoR55iMA
+ CXWx+KHN0afDDDoDfywdmSHUWg1a9XYn4MWJblWe4nk+B9DqPuSQTowd4HyeL4a7qbtj2p
+ 6COJHiMjzB5sZXshMT9YWudRZOWSkpg=
+Received: from mail-wr1-f72.google.com (mail-wr1-f72.google.com
+ [209.85.221.72]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ us-mta-625-tOJmjPBZOvO-poREQH8M0Q-1; Thu, 07 Apr 2022 03:43:11 -0400
+X-MC-Unique: tOJmjPBZOvO-poREQH8M0Q-1
+Received: by mail-wr1-f72.google.com with SMTP id
+ k3-20020adfb343000000b0020605c1e785so985852wrd.18
+ for <dri-devel@lists.freedesktop.org>; Thu, 07 Apr 2022 00:43:08 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
+ :content-language:to:cc:references:from:in-reply-to
+ :content-transfer-encoding;
+ bh=4EX5Jm2qmutxx25UZpYyb3t/77xiYceloaJ7dNE06/A=;
+ b=x7PQRtJBACjyK+VLYUz6q6T121wxihqsiiBSqXgDrfcGLPr7avEnW8uuBaJyNwX4bx
+ f6Soex18p1one4S/garTj0I+FV8/0aPBLvg+CSaQTpvtkAbhOxXckqj0uYOXv1e6/Fyu
+ 3ujOWaPSH8BiCNTSRkhi5WBcX/w5eOAOsUAI1IbmBu9ODTKP92M0G6J0H9XLN5CG0dQ1
+ E1cGqOUeexovPW361mgill+xQ+Vos/TC/KfE3fuUfhXezuU6TpAR/xtjARUoBuqLUoyl
+ KEJLd0p0rJKH+knr4/NP+brtrnfN6Yg5WrJjR4zHYZx3/Tjl24gI9J4gq9xyvAc2m5D2
+ brIQ==
+X-Gm-Message-State: AOAM530dvRAz6pDnSNWyywKmY0Jmz33SmmkGN7CvzD+yd/rSqQhZz4Jm
+ HGIZkwyqlNb7VLFGNO8ueDPyA2nL4+1VigFyFpaCIipXLE5qAnOMDsUMDHmcs4xplcdz85Dqeqd
+ c0521+vX5WJjp5KGyIsVvpCHE91XG
+X-Received: by 2002:a5d:5986:0:b0:205:87ae:9b08 with SMTP id
+ n6-20020a5d5986000000b0020587ae9b08mr9683691wri.652.1649317387709; 
+ Thu, 07 Apr 2022 00:43:07 -0700 (PDT)
+X-Google-Smtp-Source: ABdhPJzna1DlvNodN0MCdEzKf9FVylRqK6Ebsb4WtQzlghQd0W41SCYySLH2G7touh7tDnaixFsIrQ==
+X-Received: by 2002:a5d:5986:0:b0:205:87ae:9b08 with SMTP id
+ n6-20020a5d5986000000b0020587ae9b08mr9683674wri.652.1649317387477; 
+ Thu, 07 Apr 2022 00:43:07 -0700 (PDT)
+Received: from [192.168.1.102] ([92.176.231.205])
+ by smtp.gmail.com with ESMTPSA id
+ q14-20020a1cf30e000000b0038986a18ec8sm6817420wmq.46.2022.04.07.00.43.06
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Thu, 07 Apr 2022 00:43:07 -0700 (PDT)
+Message-ID: <f6daa1b3-8267-72ee-182a-6ed61fe650cf@redhat.com>
+Date: Thu, 7 Apr 2022 09:43:05 +0200
+MIME-Version: 1.0
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.7.0
+Subject: Re: [PATCH 3/8] drm/display: Introduce a DRM display-helper module
 To: Thomas Zimmermann <tzimmermann@suse.de>, daniel@ffwll.ch,
  airlied@linux.ie, maarten.lankhorst@linux.intel.com, mripard@kernel.org,
- lyude@redhat.com
-Subject: Re: [PATCH 7/8] drm/display: Move HDMI helpers into display-helper
- module
-In-Reply-To: <871qy973i6.fsf@intel.com>
-Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
+ jani.nikula@linux.intel.com, lyude@redhat.com
 References: <20220322192743.14414-1-tzimmermann@suse.de>
- <20220322192743.14414-8-tzimmermann@suse.de> <87wngbbue8.fsf@intel.com>
- <3be7b84e-b28e-e8d0-f6ec-90142b9ecb21@suse.de> <871qy973i6.fsf@intel.com>
-Date: Thu, 07 Apr 2022 10:34:40 +0300
-Message-ID: <87wng15otr.fsf@intel.com>
-MIME-Version: 1.0
-Content-Type: text/plain
+ <20220322192743.14414-4-tzimmermann@suse.de>
+ <e02eceb6-4bf5-3641-502e-9e5a246ae5fd@redhat.com>
+ <b17ead61-b7f1-d57a-d51f-c961d8ad59a1@suse.de>
+From: Javier Martinez Canillas <javierm@redhat.com>
+In-Reply-To: <b17ead61-b7f1-d57a-d51f-c961d8ad59a1@suse.de>
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=javierm@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Language: en-US
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -65,98 +96,66 @@ Cc: dri-devel@lists.freedesktop.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Thu, 07 Apr 2022, Jani Nikula <jani.nikula@linux.intel.com> wrote:
-> On Wed, 06 Apr 2022, Thomas Zimmermann <tzimmermann@suse.de> wrote:
->> Hi
+On 4/6/22 21:08, Thomas Zimmermann wrote:
+> Hi Javier
+> 
+> Am 30.03.22 um 11:23 schrieb Javier Martinez Canillas:
+>> On 3/22/22 20:27, Thomas Zimmermann wrote:
+>>> Replace the DP-helper module with a display-helper module. Update
+>>> all related Kconfig and Makefile rules.
+>>>
+>>> Besides the existing code for DisplayPort, the new module will
+>>> contain helpers for other video-output standards, such as HDMI.
+>>> Drivers will still be able to select the required video-output
+>>> helpers. Linking all such code into a single module avoids the
+>>> proliferation of small kernel modules.
+>>>
+>>> Signed-off-by: Thomas Zimmermann <tzimmermann@suse.de>
+>>> ---
 >>
->> Am 30.03.22 um 12:35 schrieb Jani Nikula:
->>> On Tue, 22 Mar 2022, Thomas Zimmermann <tzimmermann@suse.de> wrote:
->>>> diff --git a/include/drm/drm_edid.h b/include/drm/drm_edid.h
->>>> index 144c495b99c4..e6e9e4557067 100644
->>>> --- a/include/drm/drm_edid.h
->>>> +++ b/include/drm/drm_edid.h
->>>> @@ -391,33 +391,6 @@ drm_load_edid_firmware(struct drm_connector *connector)
->>>>   
->>>>   bool drm_edid_are_equal(const struct edid *edid1, const struct edid *edid2);
->>>>   
->>>> -int
->>>> -drm_hdmi_avi_infoframe_from_display_mode(struct hdmi_avi_infoframe *frame,
->>>> -					 const struct drm_connector *connector,
->>>> -					 const struct drm_display_mode *mode);
->>>> -int
->>>> -drm_hdmi_vendor_infoframe_from_display_mode(struct hdmi_vendor_infoframe *frame,
->>>> -					    const struct drm_connector *connector,
->>>> -					    const struct drm_display_mode *mode);
->>>> -
->>>> -void
->>>> -drm_hdmi_avi_infoframe_colorimetry(struct hdmi_avi_infoframe *frame,
->>>> -				   const struct drm_connector_state *conn_state);
->>>> -
->>>> -void
->>>> -drm_hdmi_avi_infoframe_bars(struct hdmi_avi_infoframe *frame,
->>>> -			    const struct drm_connector_state *conn_state);
->>>> -
->>>> -void
->>>> -drm_hdmi_avi_infoframe_quant_range(struct hdmi_avi_infoframe *frame,
->>>> -				   const struct drm_connector *connector,
->>>> -				   const struct drm_display_mode *mode,
->>>> -				   enum hdmi_quantization_range rgb_quant_range);
->>>> -
->>>> -int
->>>> -drm_hdmi_infoframe_set_hdr_metadata(struct hdmi_drm_infoframe *frame,
->>>> -				    const struct drm_connector_state *conn_state);
->>>> -
->>>>   /**
->>>>    * drm_eld_mnl - Get ELD monitor name length in bytes.
->>>>    * @eld: pointer to an eld memory structure with mnl set
->>>> @@ -587,6 +560,10 @@ void drm_edid_get_monitor_name(struct edid *edid, char *name,
->>>>   struct drm_display_mode *drm_mode_find_dmt(struct drm_device *dev,
->>>>   					   int hsize, int vsize, int fresh,
->>>>   					   bool rb);
->>>> +
->>>> +u8 drm_match_hdmi_mode(const struct drm_display_mode *to_match);
->>>> +enum hdmi_picture_aspect drm_get_cea_aspect_ratio(const u8 video_code);
->>>> +enum hdmi_picture_aspect drm_get_hdmi_aspect_ratio(const u8 video_code);
->>> 
->>> I think these were fine as static, but not really great interfaces to
->>> export. There's zero input checking on the vic in the latter, because
->>> internally we could be sure they were fine.
+>> [snip]
 >>
->> I see. If nothing else, HDMI could be removed from the patchset. OTOH 
->> having these HDMI functions as part of the edid code doesn't seem right 
->> either.
-
-To clarify, I think the HDMI functionality should probably be
-moved. It's just the new interfaces I'm worried about.
-
-BR,
-Jani.
-
-
+>>> +config DRM_DISPLAY_HELPER
+>>> +	tristate
+>>> +	depends on DRM
+>>> +	help
+>>> +	  DRM helpers for display adapters.
+>>> +
+>>>   config DRM_DP_HELPER
+>>>   	tristate
+>>>   	depends on DRM
+>>> +	select DRM_DISPLAY_HELPER
+>>>   	help
+>>>   	  DRM helpers for DisplayPort.
+>>>
 >>
->>> 
->>> I also wish we could limit the usage to the module you're adding; this
->>> is now available to all drivers which should be discouraged.
+>> I was about to ask why this would still be needed but then re-read the
+>> commit message that says drivers will still be able to select required
+>> video-output helpers.
 >>
->> Why is that discouraged? Quite a few drivers use these interfaces.
+>> That makes sense since the fact that all helpers will be in the same module
+>> would be transparent to drivers.
+> 
+> After some more testing, it turns out to be not so easy. For example, if 
+> we have DP_HELPER=m and HDMI_HELPER=y, then DISPLAY_HELPER would be 
+> auto-selected as 'y'. The code for DP_HELPER would not be linked correctly.
 >
-> No driver needed to directly use the functions you're now additionally
-> exporting from drm_edid.c. I'd hope no driver starts to use them either.
+> I'm going to make drivers select DISPLAY_HELPER and the rsp helpers 
+> explicitly. The individual helpers would be covered boolean options that 
+> enable the feature in the display-helper library.
+> 
+> If you know some Kconfig magic to enable the original design, let me know.
 >
-> BR,
-> Jani.
->
->
->
->>
->> Best regards
->> Thomas
->>> 
->>> 
->>> BR,
->>> Jani.
->>> 
->>> 
 
--- 
-Jani Nikula, Intel Open Source Graphics Center
+I do not. But I wonder if the problem here is the usage of select rather than
+depends and if with the later the original design could still be achieved...
+
+But yes, probably the only way to prevent that issue is to make the drivers
+to explicitly select both DRM_DISPLAY_HELPER and respective helpers symbol.
+ -- 
+Best regards,
+
+Javier Martinez Canillas
+Linux Engineering
+Red Hat
+
