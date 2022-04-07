@@ -2,57 +2,56 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1C2D14F7ABD
-	for <lists+dri-devel@lfdr.de>; Thu,  7 Apr 2022 11:00:34 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 7DD9D4F7AC9
+	for <lists+dri-devel@lfdr.de>; Thu,  7 Apr 2022 11:01:28 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id E70DF10E725;
-	Thu,  7 Apr 2022 09:00:31 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 8189310E544;
+	Thu,  7 Apr 2022 09:01:26 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from mx07-00178001.pphosted.com (mx07-00178001.pphosted.com
  [185.132.182.106])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 6054910E544
- for <dri-devel@lists.freedesktop.org>; Thu,  7 Apr 2022 09:00:30 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 975B210E656
+ for <dri-devel@lists.freedesktop.org>; Thu,  7 Apr 2022 09:01:25 +0000 (UTC)
 Received: from pps.filterd (m0241204.ppops.net [127.0.0.1])
- by mx07-00178001.pphosted.com (8.16.1.2/8.16.1.2) with ESMTP id 2378M3sK024755;
- Thu, 7 Apr 2022 11:00:10 +0200
+ by mx07-00178001.pphosted.com (8.16.1.2/8.16.1.2) with ESMTP id 23743g5e001248;
+ Thu, 7 Apr 2022 11:01:21 +0200
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=foss.st.com;
  h=message-id : date :
- mime-version : subject : from : to : cc : references : in-reply-to :
+ mime-version : subject : to : cc : references : from : in-reply-to :
  content-type : content-transfer-encoding; s=selector1;
- bh=rUL2veylaVfr51l/Dh0QDKTCbdxBEglchohti3Uqxco=;
- b=txVMebuxSmqnGdEtk+RMXlQq5ATujzmJWeB0LDyN3OuF3eVJhFwELnz5+ufO27MQ542q
- tLGjTLp9oTIN6PiZII5hD1GggZYtLQxBayvgqbpKe+nDPDq9Hk8AnrRvB0ttQ03tpCSt
- F54p6RvDHAGXsgMTpf+WmWs5rnj9EkDP2VIIfIYO09fr/fGZM4H5vGz1iJmymNdaKD1r
- RRT8YIblJxxa1WATAQYJJ0RdN2ur1ynmmAltXXb+ouXVgGJnfFgb/rLwfRK5J7T7FrIC
- DO3ROsg11ISy6rJIQd6DeMPnlIwcZj7THCiagoeVWEoEuS3a6m1QyMpZWLI6hZ/7I54V Kw== 
+ bh=1ezUATS7YucgATnJzZ/8KE0ypMPsbEqbkpxpFXJwO8U=;
+ b=3Ll0G2zY4iXhpM85f2y+tpuAkUiZ6MD+ymFHIxX5IdzbfmP9Rv2LnfP+hejpS+l/tsGx
+ 0t8+fixaS+WItL/S+j7XXa0Yt+K/U7T+iBrUb2rz51bPN3vkg0IFzodk8NFSgdnKyE+e
+ +rxyiWuAJh8OZ2+1p+5cgd9EB6gm6QrdTtuPL0a0z+k07TWVAvM8S+cyG6GLxoMv0Nc4
+ uEJmSTd3vkoDxAXOKJtKpfmOePhh+b1NTtDjobiwX190HbtdLnBzeXE9a7APjqgxLY/5
+ IUgldEdtq/qcdBNeiicTIZduR6tKo/Cw25+ODeHmxY+89tj9NGu8DPYtD28IUexIr9jY Kg== 
 Received: from beta.dmz-eu.st.com (beta.dmz-eu.st.com [164.129.1.35])
- by mx07-00178001.pphosted.com (PPS) with ESMTPS id 3f6du13hgb-1
+ by mx07-00178001.pphosted.com (PPS) with ESMTPS id 3f6du13hsv-1
  (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Thu, 07 Apr 2022 11:00:10 +0200
+ Thu, 07 Apr 2022 11:01:21 +0200
 Received: from euls16034.sgp.st.com (euls16034.sgp.st.com [10.75.44.20])
- by beta.dmz-eu.st.com (STMicroelectronics) with ESMTP id 5B36A100034;
- Thu,  7 Apr 2022 11:00:08 +0200 (CEST)
+ by beta.dmz-eu.st.com (STMicroelectronics) with ESMTP id B9A3B10002A;
+ Thu,  7 Apr 2022 11:01:20 +0200 (CEST)
 Received: from Webmail-eu.st.com (sfhdag2node2.st.com [10.75.127.5])
- by euls16034.sgp.st.com (STMicroelectronics) with ESMTP id 091FC215153;
- Thu,  7 Apr 2022 11:00:08 +0200 (CEST)
+ by euls16034.sgp.st.com (STMicroelectronics) with ESMTP id 9EE16215159;
+ Thu,  7 Apr 2022 11:01:20 +0200 (CEST)
 Received: from [10.201.22.81] (10.75.127.51) by SFHDAG2NODE2.st.com
  (10.75.127.5) with Microsoft SMTP Server (TLS) id 15.0.1497.26; Thu, 7 Apr
- 2022 11:00:06 +0200
-Message-ID: <ce113c8e-d7d6-fc42-df66-30cdee3eedc9@foss.st.com>
-Date: Thu, 7 Apr 2022 11:00:02 +0200
+ 2022 11:01:19 +0200
+Message-ID: <f2d9d0e9-aecf-6436-6ff5-56b4ccb98f6c@foss.st.com>
+Date: Thu, 7 Apr 2022 11:01:19 +0200
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
  Thunderbird/91.7.0
-Subject: Re: [PATCH] drm: sti: don't use kernel-doc markers
+Subject: Re: [PATCH] stm: ltdc: fix two incorrect NULL checks on list iterator
 Content-Language: en-US
+To: Raphael Gallais-Pou <raphael.gallais-pou@foss.st.com>, Xiaomeng Tong
+ <xiam0nd.tong@gmail.com>, <yannick.fertre@foss.st.com>
+References: <20220327055355.3808-1-xiam0nd.tong@gmail.com>
+ <be2042d2-e315-223d-5454-ebfb934f9d2d@foss.st.com>
 From: Philippe CORNU <philippe.cornu@foss.st.com>
-To: Daniel Vetter <daniel@ffwll.ch>, Alain Volmat <alain.volmat@foss.st.com>
-References: <20220326235132.25192-1-rdunlap@infradead.org>
- <20220328102116.GA2406908@gnbcxd0016.gnb.st.com>
- <YkHFn0UG9FjGeowF@phenom.ffwll.local>
- <483b5089-a99e-c348-8dee-11d1e298c20e@foss.st.com>
-In-Reply-To: <483b5089-a99e-c348-8dee-11d1e298c20e@foss.st.com>
+In-Reply-To: <be2042d2-e315-223d-5454-ebfb934f9d2d@foss.st.com>
 Content-Type: text/plain; charset="UTF-8"; format=flowed
 Content-Transfer-Encoding: 8bit
 X-Originating-IP: [10.75.127.51]
@@ -73,182 +72,48 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Aditya Srivastava <yashsri421@gmail.com>, David Airlie <airlied@linux.ie>,
- Randy Dunlap <rdunlap@infradead.org>, patches@lists.linux.dev,
- dri-devel@lists.freedesktop.org,
- Benjamin Gaignard <benjamin.gaignard@linaro.org>
+Cc: marex@denx.de, airlied@linux.ie, alexandre.torgue@foss.st.com,
+ dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org,
+ stable@vger.kernel.org, mcoquelin.stm32@gmail.com,
+ linux-stm32@st-md-mailman.stormreply.com, linux-arm-kernel@lists.infradead.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 
 
-On 3/31/22 18:58, Philippe CORNU wrote:
+On 3/28/22 14:37, Raphael Gallais-Pou wrote:
+> Hello Xiaomeng
 > 
-> 
-> On 3/28/22 16:26, Daniel Vetter wrote:
->> On Mon, Mar 28, 2022 at 12:21:16PM +0200, Alain Volmat wrote:
->>> Hi Randy,
->>>
->>> thanks for the patch.
->>>
->>> Acked-by: Alain Volmat <alain.volmat@foss.st.com>
+> On 3/27/22 07:53, Xiaomeng Tong wrote:
+>> The two bugs are here:
+>> 	if (encoder) {
+>> 	if (bridge && bridge->timings)
 >>
->> Will Philippe apply this one?
+>> The list iterator value 'encoder/bridge' will *always* be set and
+>> non-NULL by drm_for_each_encoder()/list_for_each_entry(), so it is
+>> incorrect to assume that the iterator value will be NULL if the
+>> list is empty or no element is found.
+>>
+>> To fix the bug, use a new variable '*_iter' as the list iterator,
+>> while use the old variable 'encoder/bridge' as a dedicated pointer
+>> to point to the found element.
+>>
+>> Cc: stable@vger.kernel.org
+>> Fixes: 99e360442f223 ("drm/stm: Fix bus_flags handling")
+>> Signed-off-by: Xiaomeng Tong <xiam0nd.tong@gmail.com>
+>> ---
+>>   drivers/gpu/drm/stm/ltdc.c | 16 ++++++++++------
+>>   1 file changed, 10 insertions(+), 6 deletions(-)
 > 
-> Hi,
-> yes I will (probably early next week).
-> Many thanks
-> Philippe
+> 
+> Thanks for your fix
+> 
+> Acked-by: Raphael Gallais-Pou <raphael.gallais-pou@foss.st.com>
+> 
+> 
+> Raphaël Gallais-Pou
 > 
 
 Applied on drm-misc-next.
 Many thanks for your patch,
 Philippe :-)
-
->>
->> Just trying to make sure this wont be lost, just acking isn't enough :-)
->> -Daniel
->>
->>>
->>> Alain
->>>
->>> On Sat, Mar 26, 2022 at 04:51:32PM -0700, Randy Dunlap wrote:
->>>> Don't mark static functions as kernel-doc.
->>>>
->>>> Prevents multiple kernel-doc build warnings:
->>>>
->>>> drivers/gpu/drm/sti/sti_hdmi.c:187: warning: This comment starts 
->>>> with '/**', but isn't a kernel-doc comment. Refer 
->>>> Documentation/doc-guide/kernel-doc.rst
->>>>   * HDMI interrupt handler threaded
->>>> drivers/gpu/drm/sti/sti_hdmi.c:219: warning: This comment starts 
->>>> with '/**', but isn't a kernel-doc comment. Refer 
->>>> Documentation/doc-guide/kernel-doc.rst
->>>>   * HDMI interrupt handler
->>>> drivers/gpu/drm/sti/sti_hdmi.c:241: warning: This comment starts 
->>>> with '/**', but isn't a kernel-doc comment. Refer 
->>>> Documentation/doc-guide/kernel-doc.rst
->>>>   * Set hdmi active area depending on the drm display mode selected
->>>> drivers/gpu/drm/sti/sti_hdmi.c:262: warning: This comment starts 
->>>> with '/**', but isn't a kernel-doc comment. Refer 
->>>> Documentation/doc-guide/kernel-doc.rst
->>>>   * Overall hdmi configuration
->>>> drivers/gpu/drm/sti/sti_hdmi.c:340: warning: This comment starts 
->>>> with '/**', but isn't a kernel-doc comment. Refer 
->>>> Documentation/doc-guide/kernel-doc.rst
->>>>   * Helper to concatenate infoframe in 32 bits word
->>>> drivers/gpu/drm/sti/sti_hdmi.c:357: warning: This comment starts 
->>>> with '/**', but isn't a kernel-doc comment. Refer 
->>>> Documentation/doc-guide/kernel-doc.rst
->>>>   * Helper to write info frame
->>>> drivers/gpu/drm/sti/sti_hdmi.c:427: warning: This comment starts 
->>>> with '/**', but isn't a kernel-doc comment. Refer 
->>>> Documentation/doc-guide/kernel-doc.rst
->>>>   * Prepare and configure the AVI infoframe
->>>> drivers/gpu/drm/sti/sti_hdmi.c:470: warning: This comment starts 
->>>> with '/**', but isn't a kernel-doc comment. Refer 
->>>> Documentation/doc-guide/kernel-doc.rst
->>>>   * Prepare and configure the AUDIO infoframe
->>>> drivers/gpu/drm/sti/sti_hdmi.c:555: warning: This comment starts 
->>>> with '/**', but isn't a kernel-doc comment. Refer 
->>>> Documentation/doc-guide/kernel-doc.rst
->>>>   * Software reset of the hdmi subsystem
->>>>
->>>> Fixes: 5402626c83a2 ("drm: sti: add HDMI driver")
->>>> Signed-off-by: Randy Dunlap <rdunlap@infradead.org>
->>>> Cc: Aditya Srivastava <yashsri421@gmail.com>
->>>> Cc: Benjamin Gaignard <benjamin.gaignard@linaro.org>
->>>> Cc: Alain Volmat <alain.volmat@foss.st.com>
->>>> Cc: David Airlie <airlied@linux.ie>
->>>> Cc: Daniel Vetter <daniel@ffwll.ch>
->>>> ---
->>>>   drivers/gpu/drm/sti/sti_hdmi.c |   20 ++++++++++----------
->>>>   1 file changed, 10 insertions(+), 10 deletions(-)
->>>>
->>>> --- linux-next-20220325.orig/drivers/gpu/drm/sti/sti_hdmi.c
->>>> +++ linux-next-20220325/drivers/gpu/drm/sti/sti_hdmi.c
->>>> @@ -183,7 +183,7 @@ void hdmi_write(struct sti_hdmi *hdmi, u
->>>>       writel(val, hdmi->regs + offset);
->>>>   }
->>>> -/**
->>>> +/*
->>>>    * HDMI interrupt handler threaded
->>>>    *
->>>>    * @irq: irq number
->>>> @@ -215,7 +215,7 @@ static irqreturn_t hdmi_irq_thread(int i
->>>>       return IRQ_HANDLED;
->>>>   }
->>>> -/**
->>>> +/*
->>>>    * HDMI interrupt handler
->>>>    *
->>>>    * @irq: irq number
->>>> @@ -237,7 +237,7 @@ static irqreturn_t hdmi_irq(int irq, voi
->>>>       return IRQ_WAKE_THREAD;
->>>>   }
->>>> -/**
->>>> +/*
->>>>    * Set hdmi active area depending on the drm display mode selected
->>>>    *
->>>>    * @hdmi: pointer on the hdmi internal structure
->>>> @@ -258,7 +258,7 @@ static void hdmi_active_area(struct sti_
->>>>       hdmi_write(hdmi, ymax, HDMI_ACTIVE_VID_YMAX);
->>>>   }
->>>> -/**
->>>> +/*
->>>>    * Overall hdmi configuration
->>>>    *
->>>>    * @hdmi: pointer on the hdmi internal structure
->>>> @@ -336,7 +336,7 @@ static void hdmi_infoframe_reset(struct
->>>>           hdmi_write(hdmi, 0x0, pack_offset + i);
->>>>   }
->>>> -/**
->>>> +/*
->>>>    * Helper to concatenate infoframe in 32 bits word
->>>>    *
->>>>    * @ptr: pointer on the hdmi internal structure
->>>> @@ -353,7 +353,7 @@ static inline unsigned int hdmi_infofram
->>>>       return value;
->>>>   }
->>>> -/**
->>>> +/*
->>>>    * Helper to write info frame
->>>>    *
->>>>    * @hdmi: pointer on the hdmi internal structure
->>>> @@ -423,7 +423,7 @@ static void hdmi_infoframe_write_infopac
->>>>       hdmi_write(hdmi, val, HDMI_SW_DI_CFG);
->>>>   }
->>>> -/**
->>>> +/*
->>>>    * Prepare and configure the AVI infoframe
->>>>    *
->>>>    * AVI infoframe are transmitted at least once per two video field 
->>>> and
->>>> @@ -466,7 +466,7 @@ static int hdmi_avi_infoframe_config(str
->>>>       return 0;
->>>>   }
->>>> -/**
->>>> +/*
->>>>    * Prepare and configure the AUDIO infoframe
->>>>    *
->>>>    * AUDIO infoframe are transmitted once per frame and
->>>> @@ -551,7 +551,7 @@ static int hdmi_vendor_infoframe_config(
->>>>   #define HDMI_TIMEOUT_SWRESET  100   /*milliseconds */
->>>> -/**
->>>> +/*
->>>>    * Software reset of the hdmi subsystem
->>>>    *
->>>>    * @hdmi: pointer on the hdmi internal structure
->>>> @@ -785,7 +785,7 @@ static void sti_hdmi_disable(struct drm_
->>>>       cec_notifier_set_phys_addr(hdmi->notifier, 
->>>> CEC_PHYS_ADDR_INVALID);
->>>>   }
->>>> -/**
->>>> +/*
->>>>    * sti_hdmi_audio_get_non_coherent_n() - get N parameter for 
->>>> non-coherent
->>>>    * clocks. None-coherent clocks means that audio and TMDS clocks 
->>>> have not the
->>>>    * same source (drifts between clocks). In this case assumption is 
->>>> that CTS is
->>
