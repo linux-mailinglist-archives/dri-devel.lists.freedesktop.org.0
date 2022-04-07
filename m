@@ -2,71 +2,65 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8B7494F7B70
-	for <lists+dri-devel@lfdr.de>; Thu,  7 Apr 2022 11:19:39 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id C89BA4F7B86
+	for <lists+dri-devel@lfdr.de>; Thu,  7 Apr 2022 11:24:59 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 4A9CD10E162;
-	Thu,  7 Apr 2022 09:19:37 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id B4CC910E0F5;
+	Thu,  7 Apr 2022 09:24:57 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-ej1-x642.google.com (mail-ej1-x642.google.com
- [IPv6:2a00:1450:4864:20::642])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 3768610E0F5
- for <dri-devel@lists.freedesktop.org>; Thu,  7 Apr 2022 09:19:36 +0000 (UTC)
-Received: by mail-ej1-x642.google.com with SMTP id bh17so9495915ejb.8
- for <dri-devel@lists.freedesktop.org>; Thu, 07 Apr 2022 02:19:36 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ffwll.ch; s=google;
- h=date:from:to:cc:subject:message-id:mail-followup-to:references
- :mime-version:content-disposition:content-transfer-encoding
- :in-reply-to; bh=tl9nBOnLqqP1/acS+yYHjDz2pgRvrY9cqBHbFKj8Fnc=;
- b=CBDEbkCCAkqWcu7rwSRxHuzvDQzAI6q2gOWepIQXIDBbJj5cPNZbu6U8yOAL3lfJYR
- xhKFp5hUopFdDtyiwJfVkQdRMsq1huLcJV7GkTRXOLg8M8+oumKCgOrVEZHJFOeZaqug
- QaS7Fun7MTS/4JRgL7uvADTsO+5Y9rvnLTgKw=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=x-gm-message-state:date:from:to:cc:subject:message-id
- :mail-followup-to:references:mime-version:content-disposition
- :content-transfer-encoding:in-reply-to;
- bh=tl9nBOnLqqP1/acS+yYHjDz2pgRvrY9cqBHbFKj8Fnc=;
- b=xzP9ULn8Aem3dtH/co3G8CP4JerwyRxUQvlML46lsRsscoxEg74zA9SWwevzOdW9UJ
- wCxc39mfqPPaF1mUY6fXnfYLh2SdkiRCkJrG6+O+cqQgtp6Q3eKaIyLNFg5+Y3WI2SDU
- s1SEce4MDzqWzshNjJmHElsDOJuujS/87D8doSABJpS9OLboXPfqS2iKdP+fo7bkR4h4
- tvDuyJK92LbX5k4zAiYJgzQVLQPUT0Cvm4hPVS2RNs8/MnxXd6i+kqsI0wBNqW9WNnrG
- YsUmjrcG75EUEMgsuW14vfTJWAP3X7e89k8kBKGkH1eLxHfQC+8X8r0/czyWfZmfWzQ0
- 2AJw==
-X-Gm-Message-State: AOAM5304ZHmcQ7MwMvNzRKLKYBZ6oJTsoM75GswlYbTQbCo9/OQq0u2G
- X4sfk0iyVhC9TceWt1oFrHCGkg==
-X-Google-Smtp-Source: ABdhPJzUgJqDlmh4A5Ht8QOIfc1rzltJqxuNxKdfx/yt4VDI386e+Hs+rpvAXO7SRwNbW/OkTGfw7g==
-X-Received: by 2002:a17:907:6e16:b0:6e4:de0d:d93 with SMTP id
- sd22-20020a1709076e1600b006e4de0d0d93mr12253676ejc.29.1649323174807; 
- Thu, 07 Apr 2022 02:19:34 -0700 (PDT)
-Received: from phenom.ffwll.local ([2a02:168:57f4:0:efd0:b9e5:5ae6:c2fa])
- by smtp.gmail.com with ESMTPSA id
- r19-20020a17090638d300b006d6e4fc047bsm7585498ejd.11.2022.04.07.02.19.34
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 07 Apr 2022 02:19:34 -0700 (PDT)
-Date: Thu, 7 Apr 2022 11:19:32 +0200
-From: Daniel Vetter <daniel@ffwll.ch>
-To: Christian =?iso-8859-1?Q?K=F6nig?= <ckoenig.leichtzumerken@gmail.com>
-Subject: Re: [PATCH 15/15] seqlock: drop seqcount_ww_mutex_t
-Message-ID: <Yk6spNv/zSCB2ewe@phenom.ffwll.local>
-Mail-Followup-To: Christian =?iso-8859-1?Q?K=F6nig?=
- <ckoenig.leichtzumerken@gmail.com>, 
- dri-devel@lists.freedesktop.org, linux-media@vger.kernel.org,
- linaro-mm-sig@lists.linaro.org, intel-gfx@lists.freedesktop.org,
- Christian =?iso-8859-1?Q?K=F6nig?= <christian.koenig@amd.com>,
- Peter Zijlstra <peterz@infradead.org>,
- Ingo Molnar <mingo@redhat.com>, Will Deacon <will@kernel.org>,
- Waiman Long <longman@redhat.com>, Boqun Feng <boqun.feng@gmail.com>,
- linux-kernel@vger.kernel.org
-References: <20220407085946.744568-1-christian.koenig@amd.com>
- <20220407085946.744568-16-christian.koenig@amd.com>
+Received: from mx07-00178001.pphosted.com (mx08-00178001.pphosted.com
+ [91.207.212.93])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 900D010E0F5
+ for <dri-devel@lists.freedesktop.org>; Thu,  7 Apr 2022 09:24:56 +0000 (UTC)
+Received: from pps.filterd (m0046661.ppops.net [127.0.0.1])
+ by mx07-00178001.pphosted.com (8.16.1.2/8.16.1.2) with ESMTP id 2375IfKD006910;
+ Thu, 7 Apr 2022 11:24:52 +0200
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=foss.st.com;
+ h=message-id : date :
+ mime-version : subject : to : cc : references : from : in-reply-to :
+ content-type : content-transfer-encoding; s=selector1;
+ bh=jjm66IhMmXssBJIGy9+tsQSPGgWrKquMgoKpEwFFvcE=;
+ b=fPZLiI2XbDepOd2MTC1IYuiTf2yNBTg9DGHWuEPllYK7cbjIrbf/5kMRR97oNKrJOpV9
+ NKduqSXlxz8zYVQdCvC8WG6CwsUYLNOC/3nx0nTDIhUZpbd7Pkj2K2s3E6xIcrdcGW39
+ kHwC0SBxXjYRFbdvJiNWxttSpd7iK1gy4PWmvyEHyhCvpIkyj4Bep9fxbEIvNPwRgZOj
+ iU2gblPzOlH49dIJCEPQ37uTxdQ7a1zM1pe8Hhed5R8P+BPuJVo2cWvd9xaHl0nx6trD
+ p4Q6ezV17XTvudMaSWnSbKsVr12TAujTfN0y/3Br39yO6/4F2QBJBQ4RVTzfCOwoDWXr MQ== 
+Received: from beta.dmz-eu.st.com (beta.dmz-eu.st.com [164.129.1.35])
+ by mx07-00178001.pphosted.com (PPS) with ESMTPS id 3f8x9gjqkn-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Thu, 07 Apr 2022 11:24:52 +0200
+Received: from euls16034.sgp.st.com (euls16034.sgp.st.com [10.75.44.20])
+ by beta.dmz-eu.st.com (STMicroelectronics) with ESMTP id 8F54810002A;
+ Thu,  7 Apr 2022 11:24:51 +0200 (CEST)
+Received: from Webmail-eu.st.com (sfhdag2node2.st.com [10.75.127.5])
+ by euls16034.sgp.st.com (STMicroelectronics) with ESMTP id 7ECD2215A31;
+ Thu,  7 Apr 2022 11:24:51 +0200 (CEST)
+Received: from [10.201.22.81] (10.75.127.45) by SFHDAG2NODE2.st.com
+ (10.75.127.5) with Microsoft SMTP Server (TLS) id 15.0.1497.26; Thu, 7 Apr
+ 2022 11:24:50 +0200
+Message-ID: <129c5d51-b645-e9eb-00ad-c660d2f16b9d@foss.st.com>
+Date: Thu, 7 Apr 2022 11:24:40 +0200
 MIME-Version: 1.0
-Content-Type: text/plain; charset=iso-8859-1
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <20220407085946.744568-16-christian.koenig@amd.com>
-X-Operating-System: Linux phenom 5.10.0-8-amd64 
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.7.0
+Subject: Re: [PATCH] drm: sti: fix spelling mistake: rejec -> rejection
+Content-Language: en-US
+To: Colin King <colin.king@canonical.com>, Benjamin Gaignard
+ <benjamin.gaignard@linaro.org>, Vincent Abriou <vincent.abriou@st.com>,
+ "David Airlie" <airlied@linux.ie>, Daniel Vetter <daniel@ffwll.ch>,
+ <dri-devel@lists.freedesktop.org>
+References: <20191004082706.26478-1-colin.king@canonical.com>
+From: Philippe CORNU <philippe.cornu@foss.st.com>
+In-Reply-To: <20191004082706.26478-1-colin.king@canonical.com>
+Content-Type: text/plain; charset="UTF-8"; format=flowed
+Content-Transfer-Encoding: 7bit
+X-Originating-IP: [10.75.127.45]
+X-ClientProxiedBy: SFHDAG2NODE2.st.com (10.75.127.5) To SFHDAG2NODE2.st.com
+ (10.75.127.5)
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.205,Aquarius:18.0.850,Hydra:6.0.425,FMLib:17.11.64.514
+ definitions=2022-04-06_13,2022-04-06_01,2022-02-23_01
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -79,93 +73,41 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Boqun Feng <boqun.feng@gmail.com>, Peter Zijlstra <peterz@infradead.org>,
- daniel.vetter@ffwll.ch, intel-gfx@lists.freedesktop.org,
- linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
- linaro-mm-sig@lists.linaro.org, Ingo Molnar <mingo@redhat.com>,
- Waiman Long <longman@redhat.com>, Will Deacon <will@kernel.org>,
- Christian =?iso-8859-1?Q?K=F6nig?= <christian.koenig@amd.com>,
- linux-media@vger.kernel.org
+Cc: kernel-janitors@vger.kernel.org, linux-kernel@vger.kernel.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Thu, Apr 07, 2022 at 10:59:46AM +0200, Christian König wrote:
-> Daniel pointed out that this series removes the last user of
-> seqcount_ww_mutex_t, so let's drop this.
+
+
+On 10/4/19 10:27, Colin King wrote:
+> From: Colin Ian King <colin.king@canonical.com>
 > 
-> Signed-off-by: Christian König <christian.koenig@amd.com>
-> Cc: Peter Zijlstra <peterz@infradead.org>
-> Cc: Ingo Molnar <mingo@redhat.com>
-> Cc: Will Deacon <will@kernel.org>
-> Cc: Waiman Long <longman@redhat.com>
-> Cc: Boqun Feng <boqun.feng@gmail.com>
-> Cc: linux-kernel@vger.kernel.org
-
-Yeah I don't think we'll ever need this again, ww_mutex aren't common and
-the ww_mutex+seqlock thing wasn't the brighest idea.
-
-Peter/Ingo, assuming you agree, can you ack this for merging through
-drm-misc, or want to pick this up later on when the last user disappeared
-in Linus' tree?
-
-Cheers, Daniel
-
+> In other places of the driver the string hdmi_rejection_pll is
+> used instead of the truncated hdmi_rejec_pll, so use this string
+> instead to be consistent.
+> 
+> Signed-off-by: Colin Ian King <colin.king@canonical.com>
 > ---
->  include/linux/seqlock.h | 8 ++------
->  1 file changed, 2 insertions(+), 6 deletions(-)
+>   drivers/gpu/drm/sti/sti_hdmi.c | 2 +-
+>   1 file changed, 1 insertion(+), 1 deletion(-)
 > 
-> diff --git a/include/linux/seqlock.h b/include/linux/seqlock.h
-> index 37ded6b8fee6..3926e9027947 100644
-> --- a/include/linux/seqlock.h
-> +++ b/include/linux/seqlock.h
-> @@ -17,7 +17,6 @@
->  #include <linux/kcsan-checks.h>
->  #include <linux/lockdep.h>
->  #include <linux/mutex.h>
-> -#include <linux/ww_mutex.h>
->  #include <linux/preempt.h>
->  #include <linux/spinlock.h>
->  
-> @@ -164,7 +163,7 @@ static inline void seqcount_lockdep_reader_access(const seqcount_t *s)
->   * static initializer or init function. This enables lockdep to validate
->   * that the write side critical section is properly serialized.
->   *
-> - * LOCKNAME:	raw_spinlock, spinlock, rwlock, mutex, or ww_mutex.
-> + * LOCKNAME:	raw_spinlock, spinlock, rwlock or mutex
->   */
->  
->  /*
-> @@ -184,7 +183,6 @@ static inline void seqcount_lockdep_reader_access(const seqcount_t *s)
->  #define seqcount_spinlock_init(s, lock)		seqcount_LOCKNAME_init(s, lock, spinlock)
->  #define seqcount_rwlock_init(s, lock)		seqcount_LOCKNAME_init(s, lock, rwlock)
->  #define seqcount_mutex_init(s, lock)		seqcount_LOCKNAME_init(s, lock, mutex)
-> -#define seqcount_ww_mutex_init(s, lock)		seqcount_LOCKNAME_init(s, lock, ww_mutex)
->  
->  /*
->   * SEQCOUNT_LOCKNAME()	- Instantiate seqcount_LOCKNAME_t and helpers
-> @@ -277,7 +275,6 @@ SEQCOUNT_LOCKNAME(raw_spinlock, raw_spinlock_t,  false,    s->lock,        raw_s
->  SEQCOUNT_LOCKNAME(spinlock,     spinlock_t,      __SEQ_RT, s->lock,        spin,     spin_lock(s->lock))
->  SEQCOUNT_LOCKNAME(rwlock,       rwlock_t,        __SEQ_RT, s->lock,        read,     read_lock(s->lock))
->  SEQCOUNT_LOCKNAME(mutex,        struct mutex,    true,     s->lock,        mutex,    mutex_lock(s->lock))
-> -SEQCOUNT_LOCKNAME(ww_mutex,     struct ww_mutex, true,     &s->lock->base, ww_mutex, ww_mutex_lock(s->lock, NULL))
->  
->  /*
->   * SEQCNT_LOCKNAME_ZERO - static initializer for seqcount_LOCKNAME_t
-> @@ -304,8 +301,7 @@ SEQCOUNT_LOCKNAME(ww_mutex,     struct ww_mutex, true,     &s->lock->base, ww_mu
->  	__seqprop_case((s),	raw_spinlock,	prop),			\
->  	__seqprop_case((s),	spinlock,	prop),			\
->  	__seqprop_case((s),	rwlock,		prop),			\
-> -	__seqprop_case((s),	mutex,		prop),			\
-> -	__seqprop_case((s),	ww_mutex,	prop))
-> +	__seqprop_case((s),	mutex,		prop))
->  
->  #define seqprop_ptr(s)			__seqprop(s, ptr)
->  #define seqprop_sequence(s)		__seqprop(s, sequence)
-> -- 
-> 2.25.1
-> 
+> diff --git a/drivers/gpu/drm/sti/sti_hdmi.c b/drivers/gpu/drm/sti/sti_hdmi.c
+> index 814560ead4e1..e2018e4a3ec5 100644
+> --- a/drivers/gpu/drm/sti/sti_hdmi.c
+> +++ b/drivers/gpu/drm/sti/sti_hdmi.c
+> @@ -886,7 +886,7 @@ static void sti_hdmi_pre_enable(struct drm_bridge *bridge)
+>   	if (clk_prepare_enable(hdmi->clk_tmds))
+>   		DRM_ERROR("Failed to prepare/enable hdmi_tmds clk\n");
+>   	if (clk_prepare_enable(hdmi->clk_phy))
+> -		DRM_ERROR("Failed to prepare/enable hdmi_rejec_pll clk\n");
+> +		DRM_ERROR("Failed to prepare/enable hdmi_rejection_pll clk\n");
+>   
+>   	hdmi->enabled = true;
+>   
 
--- 
-Daniel Vetter
-Software Engineer, Intel Corporation
-http://blog.ffwll.ch
+Dear Colin,
+Many thanks for your patch,
+Applied on drm-misc-next.
+and sorry for the delay.
+Have a good day
+Philippe :-)
