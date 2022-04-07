@@ -2,66 +2,65 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id F20744F7AB5
-	for <lists+dri-devel@lfdr.de>; Thu,  7 Apr 2022 11:00:19 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 1C2D14F7ABD
+	for <lists+dri-devel@lfdr.de>; Thu,  7 Apr 2022 11:00:34 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id DA67F10E702;
-	Thu,  7 Apr 2022 09:00:12 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id E70DF10E725;
+	Thu,  7 Apr 2022 09:00:31 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-ej1-x631.google.com (mail-ej1-x631.google.com
- [IPv6:2a00:1450:4864:20::631])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 71C3C10E744;
- Thu,  7 Apr 2022 09:00:08 +0000 (UTC)
-Received: by mail-ej1-x631.google.com with SMTP id r13so9445370ejd.5;
- Thu, 07 Apr 2022 02:00:08 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
- h=from:to:cc:subject:date:message-id:in-reply-to:references
- :mime-version:content-transfer-encoding;
- bh=VbFDVmTFBsd/3PPMbLnd0zhFg5hlSy27/q7PHNvEkAU=;
- b=L4OO6eb7ni5fxfWYjcoc1AJlIPg5JcpoXNN12PfSY9eA57qm2EUg5RVLIHGBK3VNbf
- RFHNi0kNwvI9iT+7c0Hb6apznk/SvQ1WsHaKj+i/wYdVG1Hr/cCgFNJHFECCiAcgaIWG
- 5kXJmsWr7eM5aFIGc/eV/NlPLgi/riHhwoVbHHqZCFube8OUfza+H5hFgVG3O7CwytrA
- RgunR52+1F2wDi8pSJnOFn0PIJKgJMUxzOHFYYRZKZXjn51LrxUfkcYZjcl+4s7OFvON
- 6TSv1XA0xJ9KyafbipSjeswu6Wvq1C64YEh1/5T9Ayq4BH9auU/fHwIO1+1Q2lfPFIo1
- RuVQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
- :references:mime-version:content-transfer-encoding;
- bh=VbFDVmTFBsd/3PPMbLnd0zhFg5hlSy27/q7PHNvEkAU=;
- b=RBVqHBfaOfQYDJOtyny4NvepB5gsxK6TfvJVj6r4JWmnLCN4VJuC3v7kvQZZ6hK7aa
- wbFodAbY29Aw/EeyLU3qPpZEUrSR8Dm2gSc/OumClDFKGE5bbavqW9ThfZA+1DzwMehP
- hCaIzjOruUsBLYQ/5evaG28VmWMLl3pOu3VUlPnekvbAPr2YiVsj5QjwJrN9Pj2vtA7V
- qfmIQYcGmhzBtbtOKhqwCFaR7qrUzOyQ4270wQoO9gTq4yFnrtz07qe4lTn+Ws84i+fv
- C8wb6cap2NoFaH6htapNrGQKbxmmsR7fNgJS40mhSkgEVBh37dTM2YRAq9K296JEO0Sn
- lUwg==
-X-Gm-Message-State: AOAM531oUxJdeM6gXKhFwYwNyKLIQavTfE64TMJH6U3EzMErj2uLqh5N
- NvBwbzT4I0DQJvXJx8j7IZo=
-X-Google-Smtp-Source: ABdhPJwcwlCuBQZ5LEDFL+WbGTxNe8cavosIh6OlGUwJxIjCDdIzBgTE+UAYL0o8qUk83C1jHYYuYw==
-X-Received: by 2002:a17:906:9397:b0:6e7:eb3a:ec2d with SMTP id
- l23-20020a170906939700b006e7eb3aec2dmr12172316ejx.257.1649322006685; 
- Thu, 07 Apr 2022 02:00:06 -0700 (PDT)
-Received: from able.fritz.box (p57b0b9e1.dip0.t-ipconnect.de. [87.176.185.225])
- by smtp.gmail.com with ESMTPSA id
- h26-20020a170906111a00b006e778bd4fc8sm5186563eja.38.2022.04.07.02.00.05
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 07 Apr 2022 02:00:06 -0700 (PDT)
-From: "=?UTF-8?q?Christian=20K=C3=B6nig?=" <ckoenig.leichtzumerken@gmail.com>
-X-Google-Original-From: =?UTF-8?q?Christian=20K=C3=B6nig?=
- <christian.koenig@amd.com>
-To: daniel.vetter@ffwll.ch, dri-devel@lists.freedesktop.org,
- linux-media@vger.kernel.org, linaro-mm-sig@lists.linaro.org,
- intel-gfx@lists.freedesktop.org
-Subject: [PATCH 15/15] seqlock: drop seqcount_ww_mutex_t
-Date: Thu,  7 Apr 2022 10:59:46 +0200
-Message-Id: <20220407085946.744568-16-christian.koenig@amd.com>
-X-Mailer: git-send-email 2.25.1
-In-Reply-To: <20220407085946.744568-1-christian.koenig@amd.com>
-References: <20220407085946.744568-1-christian.koenig@amd.com>
+Received: from mx07-00178001.pphosted.com (mx07-00178001.pphosted.com
+ [185.132.182.106])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 6054910E544
+ for <dri-devel@lists.freedesktop.org>; Thu,  7 Apr 2022 09:00:30 +0000 (UTC)
+Received: from pps.filterd (m0241204.ppops.net [127.0.0.1])
+ by mx07-00178001.pphosted.com (8.16.1.2/8.16.1.2) with ESMTP id 2378M3sK024755;
+ Thu, 7 Apr 2022 11:00:10 +0200
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=foss.st.com;
+ h=message-id : date :
+ mime-version : subject : from : to : cc : references : in-reply-to :
+ content-type : content-transfer-encoding; s=selector1;
+ bh=rUL2veylaVfr51l/Dh0QDKTCbdxBEglchohti3Uqxco=;
+ b=txVMebuxSmqnGdEtk+RMXlQq5ATujzmJWeB0LDyN3OuF3eVJhFwELnz5+ufO27MQ542q
+ tLGjTLp9oTIN6PiZII5hD1GggZYtLQxBayvgqbpKe+nDPDq9Hk8AnrRvB0ttQ03tpCSt
+ F54p6RvDHAGXsgMTpf+WmWs5rnj9EkDP2VIIfIYO09fr/fGZM4H5vGz1iJmymNdaKD1r
+ RRT8YIblJxxa1WATAQYJJ0RdN2ur1ynmmAltXXb+ouXVgGJnfFgb/rLwfRK5J7T7FrIC
+ DO3ROsg11ISy6rJIQd6DeMPnlIwcZj7THCiagoeVWEoEuS3a6m1QyMpZWLI6hZ/7I54V Kw== 
+Received: from beta.dmz-eu.st.com (beta.dmz-eu.st.com [164.129.1.35])
+ by mx07-00178001.pphosted.com (PPS) with ESMTPS id 3f6du13hgb-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Thu, 07 Apr 2022 11:00:10 +0200
+Received: from euls16034.sgp.st.com (euls16034.sgp.st.com [10.75.44.20])
+ by beta.dmz-eu.st.com (STMicroelectronics) with ESMTP id 5B36A100034;
+ Thu,  7 Apr 2022 11:00:08 +0200 (CEST)
+Received: from Webmail-eu.st.com (sfhdag2node2.st.com [10.75.127.5])
+ by euls16034.sgp.st.com (STMicroelectronics) with ESMTP id 091FC215153;
+ Thu,  7 Apr 2022 11:00:08 +0200 (CEST)
+Received: from [10.201.22.81] (10.75.127.51) by SFHDAG2NODE2.st.com
+ (10.75.127.5) with Microsoft SMTP Server (TLS) id 15.0.1497.26; Thu, 7 Apr
+ 2022 11:00:06 +0200
+Message-ID: <ce113c8e-d7d6-fc42-df66-30cdee3eedc9@foss.st.com>
+Date: Thu, 7 Apr 2022 11:00:02 +0200
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.7.0
+Subject: Re: [PATCH] drm: sti: don't use kernel-doc markers
+Content-Language: en-US
+From: Philippe CORNU <philippe.cornu@foss.st.com>
+To: Daniel Vetter <daniel@ffwll.ch>, Alain Volmat <alain.volmat@foss.st.com>
+References: <20220326235132.25192-1-rdunlap@infradead.org>
+ <20220328102116.GA2406908@gnbcxd0016.gnb.st.com>
+ <YkHFn0UG9FjGeowF@phenom.ffwll.local>
+ <483b5089-a99e-c348-8dee-11d1e298c20e@foss.st.com>
+In-Reply-To: <483b5089-a99e-c348-8dee-11d1e298c20e@foss.st.com>
+Content-Type: text/plain; charset="UTF-8"; format=flowed
 Content-Transfer-Encoding: 8bit
+X-Originating-IP: [10.75.127.51]
+X-ClientProxiedBy: SFHDAG2NODE1.st.com (10.75.127.4) To SFHDAG2NODE2.st.com
+ (10.75.127.5)
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.205,Aquarius:18.0.850,Hydra:6.0.425,FMLib:17.11.64.514
+ definitions=2022-04-06_13,2022-04-06_01,2022-02-23_01
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -74,74 +73,182 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Peter Zijlstra <peterz@infradead.org>, Boqun Feng <boqun.feng@gmail.com>,
- linux-kernel@vger.kernel.org, Ingo Molnar <mingo@redhat.com>,
- Waiman Long <longman@redhat.com>, Will Deacon <will@kernel.org>,
- =?UTF-8?q?Christian=20K=C3=B6nig?= <christian.koenig@amd.com>
+Cc: Aditya Srivastava <yashsri421@gmail.com>, David Airlie <airlied@linux.ie>,
+ Randy Dunlap <rdunlap@infradead.org>, patches@lists.linux.dev,
+ dri-devel@lists.freedesktop.org,
+ Benjamin Gaignard <benjamin.gaignard@linaro.org>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Daniel pointed out that this series removes the last user of
-seqcount_ww_mutex_t, so let's drop this.
 
-Signed-off-by: Christian König <christian.koenig@amd.com>
-Cc: Peter Zijlstra <peterz@infradead.org>
-Cc: Ingo Molnar <mingo@redhat.com>
-Cc: Will Deacon <will@kernel.org>
-Cc: Waiman Long <longman@redhat.com>
-Cc: Boqun Feng <boqun.feng@gmail.com>
-Cc: linux-kernel@vger.kernel.org
----
- include/linux/seqlock.h | 8 ++------
- 1 file changed, 2 insertions(+), 6 deletions(-)
 
-diff --git a/include/linux/seqlock.h b/include/linux/seqlock.h
-index 37ded6b8fee6..3926e9027947 100644
---- a/include/linux/seqlock.h
-+++ b/include/linux/seqlock.h
-@@ -17,7 +17,6 @@
- #include <linux/kcsan-checks.h>
- #include <linux/lockdep.h>
- #include <linux/mutex.h>
--#include <linux/ww_mutex.h>
- #include <linux/preempt.h>
- #include <linux/spinlock.h>
- 
-@@ -164,7 +163,7 @@ static inline void seqcount_lockdep_reader_access(const seqcount_t *s)
-  * static initializer or init function. This enables lockdep to validate
-  * that the write side critical section is properly serialized.
-  *
-- * LOCKNAME:	raw_spinlock, spinlock, rwlock, mutex, or ww_mutex.
-+ * LOCKNAME:	raw_spinlock, spinlock, rwlock or mutex
-  */
- 
- /*
-@@ -184,7 +183,6 @@ static inline void seqcount_lockdep_reader_access(const seqcount_t *s)
- #define seqcount_spinlock_init(s, lock)		seqcount_LOCKNAME_init(s, lock, spinlock)
- #define seqcount_rwlock_init(s, lock)		seqcount_LOCKNAME_init(s, lock, rwlock)
- #define seqcount_mutex_init(s, lock)		seqcount_LOCKNAME_init(s, lock, mutex)
--#define seqcount_ww_mutex_init(s, lock)		seqcount_LOCKNAME_init(s, lock, ww_mutex)
- 
- /*
-  * SEQCOUNT_LOCKNAME()	- Instantiate seqcount_LOCKNAME_t and helpers
-@@ -277,7 +275,6 @@ SEQCOUNT_LOCKNAME(raw_spinlock, raw_spinlock_t,  false,    s->lock,        raw_s
- SEQCOUNT_LOCKNAME(spinlock,     spinlock_t,      __SEQ_RT, s->lock,        spin,     spin_lock(s->lock))
- SEQCOUNT_LOCKNAME(rwlock,       rwlock_t,        __SEQ_RT, s->lock,        read,     read_lock(s->lock))
- SEQCOUNT_LOCKNAME(mutex,        struct mutex,    true,     s->lock,        mutex,    mutex_lock(s->lock))
--SEQCOUNT_LOCKNAME(ww_mutex,     struct ww_mutex, true,     &s->lock->base, ww_mutex, ww_mutex_lock(s->lock, NULL))
- 
- /*
-  * SEQCNT_LOCKNAME_ZERO - static initializer for seqcount_LOCKNAME_t
-@@ -304,8 +301,7 @@ SEQCOUNT_LOCKNAME(ww_mutex,     struct ww_mutex, true,     &s->lock->base, ww_mu
- 	__seqprop_case((s),	raw_spinlock,	prop),			\
- 	__seqprop_case((s),	spinlock,	prop),			\
- 	__seqprop_case((s),	rwlock,		prop),			\
--	__seqprop_case((s),	mutex,		prop),			\
--	__seqprop_case((s),	ww_mutex,	prop))
-+	__seqprop_case((s),	mutex,		prop))
- 
- #define seqprop_ptr(s)			__seqprop(s, ptr)
- #define seqprop_sequence(s)		__seqprop(s, sequence)
--- 
-2.25.1
+On 3/31/22 18:58, Philippe CORNU wrote:
+> 
+> 
+> On 3/28/22 16:26, Daniel Vetter wrote:
+>> On Mon, Mar 28, 2022 at 12:21:16PM +0200, Alain Volmat wrote:
+>>> Hi Randy,
+>>>
+>>> thanks for the patch.
+>>>
+>>> Acked-by: Alain Volmat <alain.volmat@foss.st.com>
+>>
+>> Will Philippe apply this one?
+> 
+> Hi,
+> yes I will (probably early next week).
+> Many thanks
+> Philippe
+> 
 
+Applied on drm-misc-next.
+Many thanks for your patch,
+Philippe :-)
+
+>>
+>> Just trying to make sure this wont be lost, just acking isn't enough :-)
+>> -Daniel
+>>
+>>>
+>>> Alain
+>>>
+>>> On Sat, Mar 26, 2022 at 04:51:32PM -0700, Randy Dunlap wrote:
+>>>> Don't mark static functions as kernel-doc.
+>>>>
+>>>> Prevents multiple kernel-doc build warnings:
+>>>>
+>>>> drivers/gpu/drm/sti/sti_hdmi.c:187: warning: This comment starts 
+>>>> with '/**', but isn't a kernel-doc comment. Refer 
+>>>> Documentation/doc-guide/kernel-doc.rst
+>>>>   * HDMI interrupt handler threaded
+>>>> drivers/gpu/drm/sti/sti_hdmi.c:219: warning: This comment starts 
+>>>> with '/**', but isn't a kernel-doc comment. Refer 
+>>>> Documentation/doc-guide/kernel-doc.rst
+>>>>   * HDMI interrupt handler
+>>>> drivers/gpu/drm/sti/sti_hdmi.c:241: warning: This comment starts 
+>>>> with '/**', but isn't a kernel-doc comment. Refer 
+>>>> Documentation/doc-guide/kernel-doc.rst
+>>>>   * Set hdmi active area depending on the drm display mode selected
+>>>> drivers/gpu/drm/sti/sti_hdmi.c:262: warning: This comment starts 
+>>>> with '/**', but isn't a kernel-doc comment. Refer 
+>>>> Documentation/doc-guide/kernel-doc.rst
+>>>>   * Overall hdmi configuration
+>>>> drivers/gpu/drm/sti/sti_hdmi.c:340: warning: This comment starts 
+>>>> with '/**', but isn't a kernel-doc comment. Refer 
+>>>> Documentation/doc-guide/kernel-doc.rst
+>>>>   * Helper to concatenate infoframe in 32 bits word
+>>>> drivers/gpu/drm/sti/sti_hdmi.c:357: warning: This comment starts 
+>>>> with '/**', but isn't a kernel-doc comment. Refer 
+>>>> Documentation/doc-guide/kernel-doc.rst
+>>>>   * Helper to write info frame
+>>>> drivers/gpu/drm/sti/sti_hdmi.c:427: warning: This comment starts 
+>>>> with '/**', but isn't a kernel-doc comment. Refer 
+>>>> Documentation/doc-guide/kernel-doc.rst
+>>>>   * Prepare and configure the AVI infoframe
+>>>> drivers/gpu/drm/sti/sti_hdmi.c:470: warning: This comment starts 
+>>>> with '/**', but isn't a kernel-doc comment. Refer 
+>>>> Documentation/doc-guide/kernel-doc.rst
+>>>>   * Prepare and configure the AUDIO infoframe
+>>>> drivers/gpu/drm/sti/sti_hdmi.c:555: warning: This comment starts 
+>>>> with '/**', but isn't a kernel-doc comment. Refer 
+>>>> Documentation/doc-guide/kernel-doc.rst
+>>>>   * Software reset of the hdmi subsystem
+>>>>
+>>>> Fixes: 5402626c83a2 ("drm: sti: add HDMI driver")
+>>>> Signed-off-by: Randy Dunlap <rdunlap@infradead.org>
+>>>> Cc: Aditya Srivastava <yashsri421@gmail.com>
+>>>> Cc: Benjamin Gaignard <benjamin.gaignard@linaro.org>
+>>>> Cc: Alain Volmat <alain.volmat@foss.st.com>
+>>>> Cc: David Airlie <airlied@linux.ie>
+>>>> Cc: Daniel Vetter <daniel@ffwll.ch>
+>>>> ---
+>>>>   drivers/gpu/drm/sti/sti_hdmi.c |   20 ++++++++++----------
+>>>>   1 file changed, 10 insertions(+), 10 deletions(-)
+>>>>
+>>>> --- linux-next-20220325.orig/drivers/gpu/drm/sti/sti_hdmi.c
+>>>> +++ linux-next-20220325/drivers/gpu/drm/sti/sti_hdmi.c
+>>>> @@ -183,7 +183,7 @@ void hdmi_write(struct sti_hdmi *hdmi, u
+>>>>       writel(val, hdmi->regs + offset);
+>>>>   }
+>>>> -/**
+>>>> +/*
+>>>>    * HDMI interrupt handler threaded
+>>>>    *
+>>>>    * @irq: irq number
+>>>> @@ -215,7 +215,7 @@ static irqreturn_t hdmi_irq_thread(int i
+>>>>       return IRQ_HANDLED;
+>>>>   }
+>>>> -/**
+>>>> +/*
+>>>>    * HDMI interrupt handler
+>>>>    *
+>>>>    * @irq: irq number
+>>>> @@ -237,7 +237,7 @@ static irqreturn_t hdmi_irq(int irq, voi
+>>>>       return IRQ_WAKE_THREAD;
+>>>>   }
+>>>> -/**
+>>>> +/*
+>>>>    * Set hdmi active area depending on the drm display mode selected
+>>>>    *
+>>>>    * @hdmi: pointer on the hdmi internal structure
+>>>> @@ -258,7 +258,7 @@ static void hdmi_active_area(struct sti_
+>>>>       hdmi_write(hdmi, ymax, HDMI_ACTIVE_VID_YMAX);
+>>>>   }
+>>>> -/**
+>>>> +/*
+>>>>    * Overall hdmi configuration
+>>>>    *
+>>>>    * @hdmi: pointer on the hdmi internal structure
+>>>> @@ -336,7 +336,7 @@ static void hdmi_infoframe_reset(struct
+>>>>           hdmi_write(hdmi, 0x0, pack_offset + i);
+>>>>   }
+>>>> -/**
+>>>> +/*
+>>>>    * Helper to concatenate infoframe in 32 bits word
+>>>>    *
+>>>>    * @ptr: pointer on the hdmi internal structure
+>>>> @@ -353,7 +353,7 @@ static inline unsigned int hdmi_infofram
+>>>>       return value;
+>>>>   }
+>>>> -/**
+>>>> +/*
+>>>>    * Helper to write info frame
+>>>>    *
+>>>>    * @hdmi: pointer on the hdmi internal structure
+>>>> @@ -423,7 +423,7 @@ static void hdmi_infoframe_write_infopac
+>>>>       hdmi_write(hdmi, val, HDMI_SW_DI_CFG);
+>>>>   }
+>>>> -/**
+>>>> +/*
+>>>>    * Prepare and configure the AVI infoframe
+>>>>    *
+>>>>    * AVI infoframe are transmitted at least once per two video field 
+>>>> and
+>>>> @@ -466,7 +466,7 @@ static int hdmi_avi_infoframe_config(str
+>>>>       return 0;
+>>>>   }
+>>>> -/**
+>>>> +/*
+>>>>    * Prepare and configure the AUDIO infoframe
+>>>>    *
+>>>>    * AUDIO infoframe are transmitted once per frame and
+>>>> @@ -551,7 +551,7 @@ static int hdmi_vendor_infoframe_config(
+>>>>   #define HDMI_TIMEOUT_SWRESET  100   /*milliseconds */
+>>>> -/**
+>>>> +/*
+>>>>    * Software reset of the hdmi subsystem
+>>>>    *
+>>>>    * @hdmi: pointer on the hdmi internal structure
+>>>> @@ -785,7 +785,7 @@ static void sti_hdmi_disable(struct drm_
+>>>>       cec_notifier_set_phys_addr(hdmi->notifier, 
+>>>> CEC_PHYS_ADDR_INVALID);
+>>>>   }
+>>>> -/**
+>>>> +/*
+>>>>    * sti_hdmi_audio_get_non_coherent_n() - get N parameter for 
+>>>> non-coherent
+>>>>    * clocks. None-coherent clocks means that audio and TMDS clocks 
+>>>> have not the
+>>>>    * same source (drifts between clocks). In this case assumption is 
+>>>> that CTS is
+>>
