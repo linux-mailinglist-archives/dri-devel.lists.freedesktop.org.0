@@ -1,41 +1,44 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 763324F7BBF
-	for <lists+dri-devel@lfdr.de>; Thu,  7 Apr 2022 11:34:31 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 20CCD4F7C23
+	for <lists+dri-devel@lfdr.de>; Thu,  7 Apr 2022 11:47:43 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 7632410E775;
-	Thu,  7 Apr 2022 09:34:29 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 3A11110E068;
+	Thu,  7 Apr 2022 09:47:39 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from relay10.mail.gandi.net (relay10.mail.gandi.net
- [IPv6:2001:4b98:dc4:8::230])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 0808810E765
- for <dri-devel@lists.freedesktop.org>; Thu,  7 Apr 2022 09:34:26 +0000 (UTC)
-Received: (Authenticated sender: paul.kocialkowski@bootlin.com)
- by mail.gandi.net (Postfix) with ESMTPSA id 4F6FE240003;
- Thu,  7 Apr 2022 09:34:22 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bootlin.com; s=gm1;
- t=1649324064;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:
- content-transfer-encoding:content-transfer-encoding;
- bh=1QZGZ1l8/R6LZhl//SEGQRr/cjfdJ4XRWOzBWhSBo4I=;
- b=E0RlPrFXWSHAXPNxV2G21nu0veHQpr26sTTRKSYUb1XKBVxKJVi4xUpdsBFHnjoWGApEUC
- umKFnAhmhvCBpt+LvvamJ8rkTiq+WMqwcBagV2COABEPuDEcp23nx7LNZSQOjzZGqnzY3S
- XMZYEaIJAbX/azduTrkHP1SHWwxzGmG2iPmifpxpFjzUzNW3fZFyyBns7bRD8t4N0fhBDt
- RL2rsXPfW2eCcQbokZ/s0x2KwpEyG8zcv/JSPaTp4qJaI3a4aT2DtfnCD5HSOLqzqU8M83
- v4oV3rOV13JSuHv6MsmVl/aIZhJc0HTie6N+OdeS7WQAb1ISSXkRUSWPvijwlA==
-From: Paul Kocialkowski <paul.kocialkowski@bootlin.com>
-To: dri-devel@lists.freedesktop.org,
-	linux-kernel@vger.kernel.org
-Subject: [PATCH] drm: of: Improve error handling in bridge/panel detection
-Date: Thu,  7 Apr 2022 11:34:08 +0200
-Message-Id: <20220407093408.1478769-1-paul.kocialkowski@bootlin.com>
-X-Mailer: git-send-email 2.35.1
+Received: from metis.ext.pengutronix.de (metis.ext.pengutronix.de
+ [IPv6:2001:67c:670:201:290:27ff:fe1d:cc33])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id EDFA610E068
+ for <dri-devel@lists.freedesktop.org>; Thu,  7 Apr 2022 09:47:37 +0000 (UTC)
+Received: from gallifrey.ext.pengutronix.de
+ ([2001:67c:670:201:5054:ff:fe8d:eefb] helo=[IPv6:::1])
+ by metis.ext.pengutronix.de with esmtps
+ (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256) (Exim 4.92)
+ (envelope-from <l.stach@pengutronix.de>)
+ id 1ncOjo-0007h2-DP; Thu, 07 Apr 2022 11:47:36 +0200
+Message-ID: <ef4d8f36a16edda8abf9b6d818cd17f15b0b67cf.camel@pengutronix.de>
+Subject: Re: [PATCH v2 4/7] drm: mxsfb: Move mxsfb_get_fb_paddr() away from
+ register IO functions
+From: Lucas Stach <l.stach@pengutronix.de>
+To: Marek Vasut <marex@denx.de>, dri-devel@lists.freedesktop.org
+Date: Thu, 07 Apr 2022 11:47:34 +0200
+In-Reply-To: <2e038048-c3ac-4c33-fb98-ba6bec705d5b@denx.de>
+References: <20220311170601.50995-1-marex@denx.de>
+ <20220311170601.50995-4-marex@denx.de>
+ <5f7eb7a214ec0f219c4c9ce87e6c8c87bc7f0aeb.camel@pengutronix.de>
+ <2e038048-c3ac-4c33-fb98-ba6bec705d5b@denx.de>
+Content-Type: text/plain; charset="UTF-8"
+User-Agent: Evolution 3.40.4 (3.40.4-1.fc34) 
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Transfer-Encoding: 7bit
+X-SA-Exim-Connect-IP: 2001:67c:670:201:5054:ff:fe8d:eefb
+X-SA-Exim-Mail-From: l.stach@pengutronix.de
+X-SA-Exim-Scanned: No (on metis.ext.pengutronix.de);
+ SAEximRunCond expanded to false
+X-PTX-Original-Recipient: dri-devel@lists.freedesktop.org
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -48,102 +51,37 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Thomas Zimmermann <tzimmermann@suse.de>, David Airlie <airlied@linux.ie>,
- Thomas Petazzoni <thomas.petazzoni@bootlin.com>,
- Bjorn Andersson <bjorn.andersson@linaro.org>,
- Paul Kocialkowski <paul.kocialkowski@bootlin.com>,
- Thierry Reding <thierry.reding@gmail.com>,
- Jagan Teki <jagan@amarulasolutions.com>
+Cc: Peng Fan <peng.fan@nxp.com>,
+ Alexander Stein <alexander.stein@ew.tq-group.com>,
+ Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
+ Sam Ravnborg <sam@ravnborg.org>, Robby Cai <robby.cai@nxp.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-With the previous rework of drm_of_find_panel_or_bridge only
--EPROBE_DEFER is returned while previous behavior allowed -ENODEV
-to be returned when the port/endpoint is either missing or unavailable.
+Am Donnerstag, dem 07.04.2022 um 00:05 +0200 schrieb Marek Vasut:
+> On 4/6/22 21:45, Lucas Stach wrote:
+> > Am Freitag, dem 11.03.2022 um 18:05 +0100 schrieb Marek Vasut:
+> > > Move mxsfb_get_fb_paddr() out of the way, away from register IO functions.
+> > > This is a clean up. No functional change.
+> > > 
+> > > Signed-off-by: Marek Vasut <marex@denx.de>
+> > > Cc: Alexander Stein <alexander.stein@ew.tq-group.com>
+> > > Cc: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+> > > Cc: Lucas Stach <l.stach@pengutronix.de>
+> > > Cc: Peng Fan <peng.fan@nxp.com>
+> > > Cc: Robby Cai <robby.cai@nxp.com>
+> > > Cc: Sam Ravnborg <sam@ravnborg.org>
+> > > Cc: Stefan Agner <stefan@agner.ch>
+> > 
+> > Hm, I don't see any real benefit, but I also fail to see why it
+> > shouldn't be done so:
+> 
+> The entire point of this series is to clean up the mxsfb and isolate 
+> lcdif (the original lcdif) from any of the common code.
 
-Make the default return code of the function -ENODEV to handle this and
-only return -EPROBE_DEFER in find_panel_or_bridge when the of device is
-available but not yet registered. Also return the error code whenever
-the remote node exists to avoid checking for child nodes.
+Actually, just use drm_fb_cma_get_gem_addr() instead?
 
-Checking child nodes could result in -EPROBE_DEFER returned by
-find_panel_or_bridge with an unrelated child node that would overwrite
-a legitimate -ENODEV from find_panel_or_bridge if the remote node from
-the of graph is unavailable. This happens because find_panel_or_bridge
-has no way to distinguish between a legitimate panel/bridge node that
-isn't yet registered and an unrelated node.
+Regards,
+Lucas
 
-Add comments around to clarify this behavior.
-
-Signed-off-by: Paul Kocialkowski <paul.kocialkowski@bootlin.com>
-Fixes: 67bae5f28c89 ("drm: of: Properly try all possible cases for bridge/panel detection")
-Cc: Bjorn Andersson <bjorn.andersson@linaro.org>
-Cc: Thierry Reding <thierry.reding@gmail.com>
-Cc: Linus Walleij <linus.walleij@linaro.org>
-
----
- drivers/gpu/drm/drm_of.c | 23 ++++++++++++++++++-----
- 1 file changed, 18 insertions(+), 5 deletions(-)
-
-diff --git a/drivers/gpu/drm/drm_of.c b/drivers/gpu/drm/drm_of.c
-index 8716da6369a6..97ea9d2016ff 100644
---- a/drivers/gpu/drm/drm_of.c
-+++ b/drivers/gpu/drm/drm_of.c
-@@ -223,6 +223,9 @@ static int find_panel_or_bridge(struct device_node *node,
- 				struct drm_panel **panel,
- 				struct drm_bridge **bridge)
- {
-+	if (!of_device_is_available(node))
-+		return -ENODEV;
-+
- 	if (panel) {
- 		*panel = of_drm_find_panel(node);
- 		if (!IS_ERR(*panel))
-@@ -265,7 +268,7 @@ int drm_of_find_panel_or_bridge(const struct device_node *np,
- 				struct drm_bridge **bridge)
- {
- 	struct device_node *node;
--	int ret;
-+	int ret = -ENODEV;
- 
- 	if (!panel && !bridge)
- 		return -EINVAL;
-@@ -282,8 +285,12 @@ int drm_of_find_panel_or_bridge(const struct device_node *np,
- 			ret = find_panel_or_bridge(node, panel, bridge);
- 			of_node_put(node);
- 
--			if (!ret)
--				return 0;
-+			/*
-+			 * If the graph/remote node is present we consider it
-+			 * to be the legitimate candidate here and return
-+			 * whatever code we got from find_panel_or_bridge.
-+			 */
-+			return ret;
- 		}
- 	}
- 
-@@ -296,12 +303,18 @@ int drm_of_find_panel_or_bridge(const struct device_node *np,
- 		ret = find_panel_or_bridge(node, panel, bridge);
- 		of_node_put(node);
- 
--		/* Stop at the first found occurrence. */
-+		/*
-+		 * Note that an unrelated (available) child node will cause
-+		 * find_panel_or_bridge to return -EPROBE_DEFER because there
-+		 * is no way to distinguish the node from a legitimate
-+		 * panel/bridge that didn't register yet. Keep iterating nodes
-+		 * and only return on the first found occurrence.
-+		 */
- 		if (!ret)
- 			return 0;
- 	}
- 
--	return -EPROBE_DEFER;
-+	return ret;
- }
- EXPORT_SYMBOL_GPL(drm_of_find_panel_or_bridge);
- 
--- 
-2.35.1
 
