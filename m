@@ -1,51 +1,50 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 898BE4F7D10
-	for <lists+dri-devel@lfdr.de>; Thu,  7 Apr 2022 12:37:05 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id E091A4F7D52
+	for <lists+dri-devel@lfdr.de>; Thu,  7 Apr 2022 12:56:30 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 1A4BF10E9A9;
-	Thu,  7 Apr 2022 10:37:03 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 7C2C810E0B7;
+	Thu,  7 Apr 2022 10:56:26 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from metis.ext.pengutronix.de (metis.ext.pengutronix.de
- [IPv6:2001:67c:670:201:290:27ff:fe1d:cc33])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 7C5E010E0B7
- for <dri-devel@lists.freedesktop.org>; Thu,  7 Apr 2022 10:37:01 +0000 (UTC)
-Received: from drehscheibe.grey.stw.pengutronix.de ([2a0a:edc0:0:c01:1d::a2])
- by metis.ext.pengutronix.de with esmtps
- (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256) (Exim 4.92)
- (envelope-from <p.zabel@pengutronix.de>)
- id 1ncPVR-0006uR-6o; Thu, 07 Apr 2022 12:36:49 +0200
-Received: from [2a0a:edc0:0:900:1d::4e] (helo=lupine)
- by drehscheibe.grey.stw.pengutronix.de with esmtp (Exim 4.94.2)
- (envelope-from <p.zabel@pengutronix.de>)
- id 1ncPVQ-001apD-H0; Thu, 07 Apr 2022 12:36:47 +0200
-Received: from pza by lupine with local (Exim 4.94.2)
- (envelope-from <p.zabel@pengutronix.de>)
- id 1ncPVO-0005T6-6E; Thu, 07 Apr 2022 12:36:46 +0200
-Message-ID: <4b2f47a4870fbec9da5d7a6ad1b8a9bb9ff68e83.camel@pengutronix.de>
-Subject: Re: [PATCH v0 05/10] drm/imx: add driver for HDMI TX Parallel Video
- Interface
-From: Philipp Zabel <p.zabel@pengutronix.de>
-To: Lucas Stach <l.stach@pengutronix.de>, Rob Herring <robh+dt@kernel.org>, 
- Krzysztof Kozlowski
- <krzk+dt@kernel.org>, Shawn Guo <shawnguo@kernel.org>, NXP Linux Team
- <linux-imx@nxp.com>
-Date: Thu, 07 Apr 2022 12:36:46 +0200
-In-Reply-To: <20220406160123.1272911-6-l.stach@pengutronix.de>
-References: <20220406160123.1272911-1-l.stach@pengutronix.de>
- <20220406160123.1272911-6-l.stach@pengutronix.de>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-User-Agent: Evolution 3.38.3-1 
+Received: from mga06.intel.com (mga06.intel.com [134.134.136.31])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 2BC4D10E9A7;
+ Thu,  7 Apr 2022 10:56:25 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+ t=1649328985; x=1680864985;
+ h=message-id:date:mime-version:from:to:cc:subject:
+ content-transfer-encoding;
+ bh=Ht2T6rVrGztyvBUWIGSshl9b6ltd8WD+Wj6Vs2aI5vM=;
+ b=OUOWZmZXkBMBTmvda3no4NmAurNK2kEIATKEBs6skDBNWUkSNIrTsVFU
+ un88bDSakh4ruHjwSHI17tFDxMSiHlsk4e+pJnhS8fq+dvEvRmj99nPTV
+ 2tYFS1+Til4BrPQdMM3Jc8euYXWwl4c9jFxPMSVu0s1ZEYA5V2Y4zS4Vg
+ rQAyLKUHEljBOONTuG4zJTVE+yWs5wJdLPPcZLisUhb3rxdPreME8w7/n
+ cStzkvI0Ew4dOyrpikDDRBgcgc14LyJ71DpEv8gtvWnLKZZDnmhk5hPxv
+ NPasFNBc9NPsVKXbqW2u58kl1KDDYowgP2rz7Bqc/ufI7Uy0eVui0yIio g==;
+X-IronPort-AV: E=McAfee;i="6200,9189,10309"; a="321982819"
+X-IronPort-AV: E=Sophos;i="5.90,241,1643702400"; d="scan'208";a="321982819"
+Received: from orsmga007.jf.intel.com ([10.7.209.58])
+ by orsmga104.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 07 Apr 2022 03:56:24 -0700
+X-IronPort-AV: E=Sophos;i="5.90,241,1643702400"; d="scan'208";a="549997455"
+Received: from dzinchen-mobl1.ccr.corp.intel.com (HELO [10.252.52.87])
+ ([10.252.52.87])
+ by orsmga007-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 07 Apr 2022 03:56:21 -0700
+Message-ID: <58fa2262-3eb6-876d-7157-ab7a135696b7@linux.intel.com>
+Date: Thu, 7 Apr 2022 12:56:19 +0200
 MIME-Version: 1.0
-X-SA-Exim-Connect-IP: 2a0a:edc0:0:c01:1d::a2
-X-SA-Exim-Mail-From: p.zabel@pengutronix.de
-X-SA-Exim-Scanned: No (on metis.ext.pengutronix.de);
- SAEximRunCond expanded to false
-X-PTX-Original-Recipient: dri-devel@lists.freedesktop.org
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Firefox/91.0 Thunderbird/91.7.0
+From: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>
+To: Dave Airlie <airlied@gmail.com>, Daniel Vetter <daniel.vetter@ffwll.ch>
+Subject: [PULL] drm-misc-fixes
+Content-Language: en-US
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -58,60 +57,82 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: devicetree@vger.kernel.org, Pengutronix Kernel Team <kernel@pengutronix.de>,
- Neil Armstrong <narmstrong@baylibre.com>, Robert Foss <robert.foss@linaro.org>,
- Kishon Vijay Abraham I <kishon@ti.com>, Vinod Koul <vkoul@kernel.org>,
- dri-devel@lists.freedesktop.org, Andrzej Hajda <andrzej.hajda@intel.com>,
- linux-phy@lists.infradead.org, patchwork-lst@pengutronix.de,
- linux-arm-kernel@lists.infradead.org
+Cc: Tvrtko Ursulin <tvrtko.ursulin@linux.intel.com>,
+ dim-tools@lists.freedesktop.org, dri-devel@lists.freedesktop.org,
+ Thomas Zimmermann <tzimmermann@suse.de>, Rodrigo Vivi <rodrigo.vivi@intel.com>,
+ intel-gfx@lists.freedesktop.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Mi, 2022-04-06 at 18:01 +0200, Lucas Stach wrote:
-> This IP block is found in the HDMI subsystem of the i.MX8MP SoC. It has a
-> full timing generator and can switch between different video sources. On
-> the i.MX8MP however the only supported source is the LCDIF. The block
-> just needs to be powered up and told about the polarity of the video
-> sync signals to act in bypass mode.
->=20
-> Signed-off-by: Lucas Stach <l.stach@pengutronix.de>
-> ---
-[...]
-> +static void imx_hdmi_pvi_bridge_enable(struct drm_bridge *bridge,
-> +				       struct drm_bridge_state *bridge_state)
-> +{
-> +	struct drm_atomic_state *state =3D bridge_state->base.state;
-> +	struct imx_hdmi_pvi *pvi =3D to_imx_hdmi_pvi(bridge);
-> +	struct drm_connector_state *conn_state;
-> +	const struct drm_display_mode *mode;
-> +	struct drm_crtc_state *crtc_state;
-> +	struct drm_connector *connector;
-> +	u32 bus_flags, val;
-> +
-> +	connector =3D drm_atomic_get_new_connector_for_encoder(state, bridge->e=
-ncoder);
-> +	if (WARN_ON(!connector))
-> +		return;
-> +
-> +	conn_state =3D drm_atomic_get_new_connector_state(state, connector);
-> +	if (WARN_ON(!conn_state))
-> +		return;
-> +
-> +	crtc_state =3D drm_atomic_get_new_crtc_state(state, conn_state->crtc);
-> +	if (WARN_ON(!crtc_state))
-> +		return;
+drm-misc-fixes-2022-04-07:
+drm-misc-fixes for v5.18-rc2:
+- Fix a crash when booting with nouveau on tegra.
+- Don't require input port for MIPI-DSI, and make width/height mandatory.
+- Fix unregistering of framebuffers without device.
+-
+The following changes since commit 3123109284176b1532874591f7c81f3837bbdc17:
 
-Can those happen at all, and if so, should they be caught at
-atomic_check time?
+  Linux 5.18-rc1 (2022-04-03 14:08:21 -0700)
 
-> +
-> +	if (WARN_ON(pm_runtime_resume_and_get(pvi->dev)))
-> +		return;
+are available in the Git repository at:
 
-Should be pm_runtime_get_sync(), since the error is ignored.
+  git://anongit.freedesktop.org/drm/drm-misc tags/drm-misc-fixes-2022-04-07
 
-Otherwise the pm_runtime_put() in imx_hdmi_pvi_bridge_disable() will
-double-decrement the usage counter in case this failed.
+for you to fetch changes up to 1ecc0c09f19f8e10a2c52676f8ca47c28c9f73c7:
 
-regards
-Philipp
+  dt-bindings: display: panel: mipi-dbi-spi: Make width-mm/height-mm mandatory (2022-04-07 03:28:10 +0200)
+
+----------------------------------------------------------------
+drm-misc-fixes for v5.18-rc2:
+- Fix a crash when booting with nouveau on tegra.
+- Don't require input port for MIPI-DSI, and make width/height mandatory.
+- Fix unregistering of framebuffers without device.
+-
+
+----------------------------------------------------------------
+Christian König (5):
+      dma-buf: Add dma_fence_array_for_each (v2)
+      dma-buf: add dma_fence_unwrap v2
+      dma-buf/sync-file: fix warning about fence containers
+      dma-buf/sync-file: fix logic error in new fence merge code
+      dma-buf: handle empty dma_fence_arrays gracefully
+
+Karol Herbst (1):
+      drm/nouveau/pmu: Add missing callbacks for Tegra devices
+
+Marek Vasut (1):
+      dt-bindings: display: panel: mipi-dbi-spi: Make width-mm/height-mm mandatory
+
+Maxime Ripard (3):
+      dt-bindings: display: bridge: Drop requirement on input port for DSI devices
+      Merge drm/drm-fixes into drm-misc-fixes
+      Merge drm-misc/drm-misc-next-fixes into drm-misc-fixes
+
+Paul Kocialkowski (1):
+      drm: of: Properly try all possible cases for bridge/panel detection
+
+Thomas Zimmermann (1):
+      fbdev: Fix unregistering of framebuffers without device
+
+ .../bindings/display/bridge/chipone,icn6211.yaml   |   1 -
+ .../bindings/display/bridge/toshiba,tc358762.yaml  |   1 -
+ .../bindings/display/panel/panel-mipi-dbi-spi.yaml |   2 +
+ Documentation/driver-api/dma-buf.rst               |   6 +
+ drivers/dma-buf/Makefile                           |   1 +
+ drivers/dma-buf/dma-fence-array.c                  |  32 +++
+ drivers/dma-buf/selftests.h                        |   1 +
+ drivers/dma-buf/st-dma-fence-unwrap.c              | 261 +++++++++++++++++++++
+ drivers/dma-buf/sync_file.c                        | 141 +++++------
+ drivers/gpu/drm/drm_of.c                           |  99 ++++----
+ drivers/gpu/drm/nouveau/nvkm/subdev/pmu/gm20b.c    |   1 +
+ drivers/gpu/drm/nouveau/nvkm/subdev/pmu/gp102.c    |   2 +-
+ drivers/gpu/drm/nouveau/nvkm/subdev/pmu/gp10b.c    |   1 +
+ drivers/gpu/drm/nouveau/nvkm/subdev/pmu/priv.h     |   1 +
+ drivers/gpu/drm/panel/panel-ilitek-ili9341.c       |   4 +-
+ drivers/video/fbdev/core/fbmem.c                   |   9 +-
+ include/linux/dma-fence-array.h                    |  19 ++
+ include/linux/dma-fence-chain.h                    |   2 +
+ include/linux/dma-fence-unwrap.h                   |  95 ++++++++
+ 19 files changed, 557 insertions(+), 122 deletions(-)
+ create mode 100644 drivers/dma-buf/st-dma-fence-unwrap.c
+ create mode 100644 include/linux/dma-fence-unwrap.h
