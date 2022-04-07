@@ -2,69 +2,57 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 06FFF4F88F3
-	for <lists+dri-devel@lfdr.de>; Fri,  8 Apr 2022 00:03:35 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 5F8144F8A65
+	for <lists+dri-devel@lfdr.de>; Fri,  8 Apr 2022 00:50:18 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id C012810E038;
-	Thu,  7 Apr 2022 22:03:32 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 87D9010ECCA;
+	Thu,  7 Apr 2022 22:50:15 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from alexa-out.qualcomm.com (alexa-out.qualcomm.com [129.46.98.28])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 35ADE10E035;
- Thu,  7 Apr 2022 22:03:31 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=quicinc.com; i=@quicinc.com; q=dns/txt; s=qcdkim;
- t=1649369011; x=1680905011;
- h=message-id:date:mime-version:subject:to:cc:references:
- from:in-reply-to:content-transfer-encoding;
- bh=CtdHjGdwi53B95XEwjnchoG2NHlfPeYAN9cH0Dtn04c=;
- b=YU0Q6pGMRRLv6WujvKQglUqEq9TNdv3Zv4tShibK3lHbd2KsvDM3/DNN
- L6SJbv5MAGUFe4+fzA95fchV/wMrrn0naEAa898KNCEcInkFI8ambfwrD
- j9PC1cqQzipLL78ZfYOcxWfDg7nBkYwM1M4M2POSiJe5A7YKyYJ+tc11C w=;
-Received: from ironmsg-lv-alpha.qualcomm.com ([10.47.202.13])
- by alexa-out.qualcomm.com with ESMTP; 07 Apr 2022 15:03:31 -0700
-X-QCInternal: smtphost
-Received: from nasanex01c.na.qualcomm.com ([10.47.97.222])
- by ironmsg-lv-alpha.qualcomm.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 07 Apr 2022 15:03:30 -0700
-Received: from nalasex01a.na.qualcomm.com (10.47.209.196) by
- nasanex01c.na.qualcomm.com (10.47.97.222) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.2.986.22; Thu, 7 Apr 2022 15:03:09 -0700
-Received: from [10.111.161.146] (10.80.80.8) by nalasex01a.na.qualcomm.com
- (10.47.209.196) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.986.22; Thu, 7 Apr 2022
- 15:03:06 -0700
-Message-ID: <225d2c0a-42ec-28ad-688c-e7e9e2035ee1@quicinc.com>
-Date: Thu, 7 Apr 2022 15:03:03 -0700
+Received: from mail-wr1-x429.google.com (mail-wr1-x429.google.com
+ [IPv6:2a00:1450:4864:20::429])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 29A7410ECB4;
+ Thu,  7 Apr 2022 22:50:14 +0000 (UTC)
+Received: by mail-wr1-x429.google.com with SMTP id b19so10143742wrh.11;
+ Thu, 07 Apr 2022 15:50:14 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc:content-transfer-encoding;
+ bh=u6o9vTRYKHEXbMoIz2iS/TzwQfRhBiIL5J1+77bot7w=;
+ b=cU6R6SgUXQ7DTj9ehBzc3gOOtumcx01lbL+f6XLFleqcQF4QsarZgtjfM+K+Ol4GzC
+ P86QWpkK5UNT9bhoZCeB8C8+UWgtVRB8/fANRqz62Ra+mYu5mbumgMxSZWyGbL/FFSEh
+ pwlFGrzc5STg+TGYLPwCP2kpPkjF5FHACStcIFnfksjX1xBW7Dcdel/3kMBvgGaKCB3E
+ P8VN7P9URVB863NMXRIBCmAi+RFeyZvKr2XbTz0D6h9JAqwNtx4qbyeIGlyt7eno6Crp
+ kHXkY4Jf7/NPyU8c0WXQydRPlYqReUhhUpTpBl4HBlDzM6SR5zvtI7GUXhhCsG3U0VSV
+ I2MA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc:content-transfer-encoding;
+ bh=u6o9vTRYKHEXbMoIz2iS/TzwQfRhBiIL5J1+77bot7w=;
+ b=BJ1U9j2c6Vuxw8ij611s5HDx0aZG1u6NmZHba/gB0IyTKETUOl1moKbIwQ6iwCngrR
+ gTLrRkGCyHdrNtm2qLrUchbEkNHDRFWHQ+Oom+nHF99RLPO5S2yrY2bjDkYxVGxkAIvo
+ 9X32cPg3b9DFgvM1lsNDdF/4sq/ZFtJUKVFxfuSQUoh4vqPVXekVsFLanQ6fmlkuN8pp
+ CG0aZfmQynZaMBQBk9RmzDHFYahg51YrQyGGxEJJmIgJrOvfrpWf0JdSv2VFzPWZEEeR
+ 5FkG7qjL67hoYWInTL86e29hzONEHE63S72amutdIM72scYXgBB/4DlnYCJwfRsI8UCS
+ +gZA==
+X-Gm-Message-State: AOAM532Mqg+IbfjdzPpGnkbLYuKa9iI+y2/Ycgudpe8ODwPifqui9q8G
+ baM65dWhM9Nq3ELVnNLI++Heg1LRGwZkyu7qt4s=
+X-Google-Smtp-Source: ABdhPJzt4sJwvj2c2Q7X9lSWOFzxfRkal7yaMfDEBzeOs72VF+ThMrxt7faRU0gKZhdWXqJtbYLtdLMWEKh0bCMgd3w=
+X-Received: by 2002:a1c:f616:0:b0:37d:1e1c:f90a with SMTP id
+ w22-20020a1cf616000000b0037d1e1cf90amr14874429wmc.148.1649371812436; Thu, 07
+ Apr 2022 15:50:12 -0700 (PDT)
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:91.0) Gecko/20100101
- Thunderbird/91.6.2
-Subject: Re: [PATCH v6 1/8] drm/msm/dp: Add eDP support via aux_bus
-Content-Language: en-US
-To: Doug Anderson <dianders@chromium.org>
-References: <1648656179-10347-1-git-send-email-quic_sbillaka@quicinc.com>
- <1648656179-10347-2-git-send-email-quic_sbillaka@quicinc.com>
- <CAD=FV=X+QvjwoT2zGP82KW4kD0oMUY6ZgCizSikNX_Uj8dNDqA@mail.gmail.com>
- <392b933f-760c-3c81-1040-c514045df3da@linaro.org>
- <CAD=FV=W4PYK-t607yjRbfjDjjEZX0KdgHDRukw_vSH8E8EDH6w@mail.gmail.com>
- <CAA8EJppt9XONbgtKfmHmN+==QNqiVJeb8GKJFdZm=yyY-tgmHQ@mail.gmail.com>
- <CAD=FV=U5-sTDLYdkeJWLAOG-0wgxR49VxtwUyUO7z2PuibLGsg@mail.gmail.com>
- <CAA8EJppgfYgQjG8A4LsR-1wmBj3Ku3eO8cKfAYhxjWXL7e3eHg@mail.gmail.com>
- <CAD=FV=V=a1CnT8fqTJR40WoS3BaDQ3xZ=HnHVHqZh=MEmVUZBA@mail.gmail.com>
- <3e5fa57f-d636-879a-b98f-77323d07c156@linaro.org>
- <CAD=FV=Uibu-kZyix7K4_WVc-+C8xpzTqU4WFy7O=6sukMZrX5g@mail.gmail.com>
- <MW4PR02MB7186245772DAC3E04FA8D1C0E1E69@MW4PR02MB7186.namprd02.prod.outlook.com>
- <CAD=FV=Wk3U7_bVdiCPp8iQ4bcCA_Botemu4pwHeRtgBa3Xk6KQ@mail.gmail.com>
- <c4f086ce-c56f-f7c9-4092-7f2432330d50@quicinc.com>
- <CAD=FV=UmU_BVUaL_X75yOEvQPtGUBTR5-jiVWBHq7uSRt6HM4Q@mail.gmail.com>
-From: Abhinav Kumar <quic_abhinavk@quicinc.com>
-In-Reply-To: <CAD=FV=UmU_BVUaL_X75yOEvQPtGUBTR5-jiVWBHq7uSRt6HM4Q@mail.gmail.com>
-Content-Type: text/plain; charset="UTF-8"; format=flowed
-Content-Transfer-Encoding: 7bit
-X-Originating-IP: [10.80.80.8]
-X-ClientProxiedBy: nasanex01b.na.qualcomm.com (10.46.141.250) To
- nalasex01a.na.qualcomm.com (10.47.209.196)
+References: <20220331152021.2671937-1-daniel.vetter@ffwll.ch>
+ <823b3f2c-b624-f7a3-8bdc-4c069571c810@quicinc.com>
+In-Reply-To: <823b3f2c-b624-f7a3-8bdc-4c069571c810@quicinc.com>
+From: Rob Clark <robdclark@gmail.com>
+Date: Thu, 7 Apr 2022 15:51:07 -0700
+Message-ID: <CAF6AEGvLY-+v0ZCvtoZDsW-0z5a8UH8suN9cp22m_ec=Ggb9Mw@mail.gmail.com>
+Subject: Re: [PATCH] drm/atomic-helpers: remove legacy_cursor_update hacks
+To: Jessica Zhang <quic_jesszhan@quicinc.com>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -77,260 +65,248 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: quic_kalyant <quic_kalyant@quicinc.com>,
- "open list:OPEN FIRMWARE AND FLATTENED DEVICE
- TREE BINDINGS" <devicetree@vger.kernel.org>,
- "Sankeerth Billakanti \(QUIC\)" <quic_sbillaka@quicinc.com>,
- quic_vproddut <quic_vproddut@quicinc.com>, David Airlie <airlied@linux.ie>,
- linux-arm-msm <linux-arm-msm@vger.kernel.org>,
- Stephen Boyd <swboyd@chromium.org>, LKML <linux-kernel@vger.kernel.org>,
- dri-devel <dri-devel@lists.freedesktop.org>,
- "Kuogee Hsieh \(QUIC\)" <quic_khsieh@quicinc.com>, Sean Paul <sean@poorly.run>,
- Sean Paul <seanpaul@chromium.org>,
- "dmitry.baryshkov@linaro.org" <dmitry.baryshkov@linaro.org>, "Aravind
- Venkateswaran \(QUIC\)" <quic_aravindh@quicinc.com>,
- "bjorn.andersson@linaro.org" <bjorn.andersson@linaro.org>,
- freedreno <freedreno@lists.freedesktop.org>
+Cc: Rob Clark <robdclark@chromium.org>, Daniel Vetter <daniel.vetter@ffwll.ch>,
+ =?UTF-8?Q?Michel_D=C3=A4nzer?= <michel@daenzer.net>,
+ DRI Development <dri-devel@lists.freedesktop.org>,
+ Maxime Ripard <maxime@cerno.tech>,
+ Dmitry Osipenko <dmitry.osipenko@collabora.com>,
+ Daniel Vetter <daniel.vetter@intel.com>, Mikita Lipski <mikita.lipski@amd.com>,
+ Intel Graphics Development <intel-gfx@lists.freedesktop.org>, "Kazlauskas,
+ Nicholas" <nicholas.kazlauskas@amd.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi Doug
+On Wed, Apr 6, 2022 at 6:27 PM Jessica Zhang <quic_jesszhan@quicinc.com> wr=
+ote:
+>
+>
+>
+> On 3/31/2022 8:20 AM, Daniel Vetter wrote:
+> > The stuff never really worked, and leads to lots of fun because it
+> > out-of-order frees atomic states. Which upsets KASAN, among other
+> > things.
+> >
+> > For async updates we now have a more solid solution with the
+> > ->atomic_async_check and ->atomic_async_commit hooks. Support for that
+> > for msm and vc4 landed. nouveau and i915 have their own commit
+> > routines, doing something similar.
+> >
+> > For everyone else it's probably better to remove the use-after-free
+> > bug, and encourage folks to use the async support instead. The
+> > affected drivers which register a legacy cursor plane and don't either
+> > use the new async stuff or their own commit routine are: amdgpu,
+> > atmel, mediatek, qxl, rockchip, sti, sun4i, tegra, virtio, and vmwgfx.
+> >
+> > Inspired by an amdgpu bug report.
+> >
+> > v2: Drop RFC, I think with amdgpu converted over to use
+> > atomic_async_check/commit done in
+> >
+> > commit 674e78acae0dfb4beb56132e41cbae5b60f7d662
+> > Author: Nicholas Kazlauskas <nicholas.kazlauskas@amd.com>
+> > Date:   Wed Dec 5 14:59:07 2018 -0500
+> >
+> >      drm/amd/display: Add fast path for cursor plane updates
+> >
+> > we don't have any driver anymore where we have userspace expecting
+> > solid legacy cursor support _and_ they are using the atomic helpers in
+> > their fully glory. So we can retire this.
+> >
+> > v3: Paper over msm and i915 regression. The complete_all is the only
+> > thing missing afaict.
+> >
+> > v4: Fixup i915 fixup ...
+> >
+> > References: https://bugzilla.kernel.org/show_bug.cgi?id=3D199425
+> > References: https://lore.kernel.org/all/20220221134155.125447-9-maxime@=
+cerno.tech/
+> > References: https://bugzilla.kernel.org/show_bug.cgi?id=3D199425
+> > Cc: Maxime Ripard <maxime@cerno.tech>
+> > Tested-by: Maxime Ripard <maxime@cerno.tech>
+> > Cc: mikita.lipski@amd.com
+> > Cc: Michel D=C3=A4nzer <michel@daenzer.net>
+> > Cc: harry.wentland@amd.com
+> > Cc: Rob Clark <robdclark@gmail.com>
+>
+> Hey Rob,
+>
+> I saw your tested-by and reviewed-by tags on Patchwork. Just curious,
+> what device did you test on?
 
-Thanks for the response, some comments below.
+I was testing on strongbad.. v5.18-rc1 + patches (notably, revert
+80253168dbfd ("drm: of: Lookup if child node has panel or bridge")
 
-Abhinav
-On 4/7/2022 1:47 PM, Doug Anderson wrote:
-> Hi,
-> 
-> On Thu, Apr 7, 2022 at 1:11 PM Abhinav Kumar <quic_abhinavk@quicinc.com> wrote:
->>
->> Hi Doug and Dmitry
->>
->> Sorry, but I caught up on this email just now.
->>
->> Some comments below.
->>
->> Thanks
->>
->> Abhinav
->> On 4/7/2022 10:07 AM, Doug Anderson wrote:
->>> Hi,
->>>
->>> On Thu, Apr 7, 2022 at 7:19 AM Sankeerth Billakanti (QUIC)
->>> <quic_sbillaka@quicinc.com> wrote:
->>>>
->>>> Hi Dmitry and Doug,
->>>>
->>>>> Hi,
->>>>>
->>>>> On Tue, Apr 5, 2022 at 10:36 AM Dmitry Baryshkov
->>>>> <dmitry.baryshkov@linaro.org> wrote:
->>>>>>
->>>>>> On 05/04/2022 20:02, Doug Anderson wrote:
->>>>>>> Hi,
->>>>>>>
->>>>>>> On Tue, Apr 5, 2022 at 5:54 AM Dmitry Baryshkov
->>>>>>> <dmitry.baryshkov@linaro.org> wrote:
->>>>>>>>> 3. For DP and eDP HPD means something a little different.
->>>>>>>>> Essentially there are two concepts: a) is a display physically
->>>>>>>>> connected and b) is the display powered up and ready. For DP, the
->>>>>>>>> two are really tied together. From the kernel's point of view you
->>>>>>>>> never "power down" a DP display and you can't detect that it's
->>>>>>>>> physically connected until it's ready. Said another way, on you
->>>>>>>>> tie "is a display there" to the HPD line and the moment a display
->>>>>>>>> is there it's ready for you to do AUX transfers. For eDP, in the
->>>>>>>>> lowest power state of a display it _won't_ assert its "HPD"
->>>>>>>>> signal. However, it's still physically present. For eDP you simply
->>>>>>>>> have to _assume_ it's present without any actual proof since you
->>>>>>>>> can't get proof until you power it up. Thus for eDP, you report
->>>>>>>>> that the display is there as soon as we're asked. We can't _talk_
->>>>>>>>> to the display yet, though. So in get_modes() we need to be able
->>>>>>>>> to power the display on enough to talk over the AUX channel to it.
->>>>>>>>> As part of this, we wait for the signal named "HPD" which really means
->>>>> "panel finished powering on" in this context.
->>>>>>>>>
->>>>>>>>> NOTE: for aux transfer, we don't have the _display_ pipe and
->>>>>>>>> clocks running. We only have enough stuff running to do the AUX
->>>>> transfer.
->>>>>>>>> We're not clocking out pixels. We haven't fully powered on the
->>>>>>>>> display. The AUX transfer is designed to be something that can be
->>>>>>>>> done early _before_ you turn on the display.
->>>>>>>>>
->>>>>>>>>
->>>>>>>>> OK, so basically that was a longwinded way of saying: yes, we
->>>>>>>>> could avoid the AUX transfer in probe, but we can't wait all the
->>>>>>>>> way to enable. We have to be able to transfer in get_modes(). If
->>>>>>>>> you think that's helpful I think it'd be a pretty easy patch to
->>>>>>>>> write even if it would look a tad bit awkward IMO. Let me know if
->>>>>>>>> you want me to post it up.
->>>>>>>>
->>>>>>>> I think it would be a good idea. At least it will allow us to
->>>>>>>> judge, which is the more correct way.
->>>>>>>
->>>>>>> I'm still happy to prototype this, but the more I think about it the
->>>>>>> more it feels like a workaround for the Qualcomm driver. The eDP
->>>>>>> panel driver is actually given a pointer to the AUX bus at probe
->>>>>>> time. It's really weird to say that we can't do a transfer on it
->>>>>>> yet... As you said, this is a little sideband bus. It should be able
->>>>>>> to be used without all the full blown infra of the rest of the driver.
->>>>>>
->>>>>> Yes, I have that feeling too. However I also have a feeling that just
->>>>>> powering up the PHY before the bus probe is ... a hack. There are no
->>>>>> obvious stopgaps for the driver not to power it down later.
->>>>>
->>
->> Lets go back to why we need to power up the PHY before the bus probe.
->>
->> We need to power up PHY before bus probe because panel-eDP tries to read
->> the EDID in probe() for the panel_id. Not get_modes().
->>
->> So doug, I didnt follow your comment that panel-eDP only does EDID read
->> in get_modes()
->>
->>          panel_id = drm_edid_get_panel_id(panel->ddc);
->>          if (!panel_id) {
->>                  dev_err(dev, "Couldn't identify panel via EDID\n");
->>                  ret = -EIO;
->>                  goto exit;
->>          }
->>
->> If we do not need this part, we really dont need to power up the PHY
->> before the probe(). The hack which dmitry was referring to.
-> 
-> Right. ...so we _could_ remove the above from the panel-edp probe and
-> defer it to get_modes() and it wouldn't be that hard. ...but:
-> 
-> 1. It feels like a hack to work around the Qualcomm driver. The way
-> the AUX bus is designed is that a pointer to the AUX bus is passed to
-> the panel-edp probe. It seems kinda strange to say that the panel
-> isn't allowed to do transfers with the pointer that's passed in.
-> 
+I think the display setup shouldn't be significantly different than
+limozeen (ie. it's an eDP panel).  But I didn't do much start/stop
+ui.. I was mostly looking to make sure cursor movements weren't
+causing fps drops ;-)
 
-And thats why to satisfy the requirements of passing an initialized AUX, 
-sankeerth is delaying devm_of_dp_aux_populate_ep_devices() till PHY is 
-initialized which seems reasonable to satisfy the probe() time requirements.
+BR,
+-R
 
-Even if we move to pm_runtime(), yes I agree it will club all the 
-resources needed to control AUX in one place but you will still have to 
-initialize PHY before probe() under the hood of pm_runtime().
-
-So how will it help this cause?
-
-We just have to accept that initializing PHY is a requirement to use AUX 
-and before calling panel-eDP's probe(), we have to have an initialized AUX.
-
-So we are not working around the driver but just satisfying the hardware 
-requirements to be able to satisfy panel-edp's and 
-drm_panel_dp_aux_backlight()'s aux bus requirements.
-
-> 2. There's a second place where we might do an AUX transfer at probe
-> time which is when we're using the DP AUX backlight. There we call
-> drm_panel_dp_aux_backlight(). Conceivably this too could be deferred
-> until the get_modes(), but now it feels even more like a hack. We're
-> going to be registering the backlight in the first call to
-> get_modes()? That's, ummm, unexpected. We could look at perhaps
-> breaking the "DP AUX backlight" in two parts also, but that gets
-> involved. I think we're supposed to know the number of backlight
-> levels at device init time for backlight devices and we need an AUX
-> transfer to that.
-> 
-
-
-> 
-> So the answer is that we could probably make it work, but it seems
-> like an uglier solution than just making the Qualcomm driver able to
-> do AUX transfers when it should be able to.
-
-Correct and by delaying the panel-edp's probe(), we are doing exactly that?
-
-> 
->> So this is boiling down to why or how panel-eDP was originally designed.
->>
->>>>> This is why I think we need to move to Runtime PM to manage this. Basically:
->>>>>
->>>>> 1. When an AUX transfer happens, you grab a PM runtime reference that
->>>>> _that_ powers up the PHY.
->>
->> This will not be trivial and needs to be scoped out as sankeerth said
->> but if the above is the only concern, why do we need to do this? There
->> seems to be an explanation why we are doing this and its not a hack.
->>
->> How would Dmitry's rework address this? We need some RFC to conclude on
->> that first.
->>
->>>>>
->>>>> 2. At the end of the AUX transfer function, you do a "put_autosuspend".
->>>>>
->>>>> Then it becomes not a hack, right?
->>>>>
->>>>>
->>>>
->>>> pm runtime ops needs to be implemented for both eDP and DP. This change
->>>> take good amount of planning and code changes as it affects DP also.
->>>>
->>>> Because this patch series consist of basic eDP changes for SC7280 bootup,
->>>> shall we take this pm_runtime implementation in subsequent patch series?
->>>
->>> Dmitry is the real decision maker here, but in my opinion it would be
->>> OK to get something landed first that worked OK and wasn't taking us
->>> too far in the wrong direction and then we could get a follow up patch
->>> to move to pm_runtime.
->>
->> I would say the discussion changed into a direction of implementing
->> pm-runtime because the current patch series does what it takes to adhere
->> to panel-eDP's design along with aux bus requirements of PHY needing to
->> be on.
->>
->> So doug, to answer your questions here:
->>
->> "So I guess the net result is maybe we should just keep it where it is.
->> Long term I'd be interested in knowing if there's a reason why we
->> can't structure the driver so that AUX transfers can happen with less
->> intertwining with the rest of the code, but that can happen later. I
->> would expect that you'd basically just need clocks and regulators on
->> and maybe your PHY on."
->>
->> Yes PHY needs to be absolutely on and configured before aux transfers.
->>
->> If we want to change that up to stop reading the panel_id in the panel
->> probe() and do it later, perhaps some of the changes done here are not
->> needed.
->>
->> It only seems reasonable that we first prototype that in a separate
->> patch even a RFC perhaps and take this further as these set of changes
->> are needed for basic display functionality on sc7280 chromebooks.
->>
->> Let us know what are the concerns with doing it in a follow up change.
-> 
-> As per above, I'm not objecting to it being a follow-up change, but I
-> do believe it's the right design and will lead to an overall cleaner
-> solution. I think I even mentioned in my reviews that the current
-> patch series seems to "scattershot" enable resources and that's how we
-> end up with patches like patch #5 in this series ("drm/msm/dp: prevent
-> multiple votes for dp resources"). IMO there should be be a 1-to-1
-> mapping between "turn on resources" and "turn off resources" and it
-> should be reference counted. So if your codepath turned on resources
-> then it's up to your codepath to turn resources off when done. If a
-> seconde code path might be running at the same time then it should
-> also turn on/off resources itself. ...and it should all be managed by
-> pm_runtime which is _exactly designed_ for this specific use case.
-> 
-Agreed on this topic, moving to pm_runtime() will club all resources in 
-one place and make things cleaner that way.
-
-Complexity of it obviously needs to be evaluated to check the effort Vs 
-rewards.
-
-But it will still not address the original concern of this thread that
-powering up the PHY before the probe() is a hack.
-
-"Yes, I have that feeling too. However I also have a feeling that just
- > powering up the PHY before the bus probe is ... a hack. There are no
- > obvious stopgaps for the driver not to power it down later."
-
-We would still end up doing that under the hood of pm_runtime.
-
-And thats why its an improvement and not a necessity qualifying it for a 
-separate change.
-
-> -Doug
+> I'm hitting several instances of this error when doing a start/stop ui
+> on Lazor Chromebook with this patch:
+>
+> [ 3092.608322] CPU: 2 PID: 18579 Comm: DrmThread Tainted: G        W
+>       5.17.0-rc2-lockdep-00089-g7f17ab7bf567 #155
+> e5912cd286513b064a82a38938b3fdef86b079aa
+> [ 3092.622880] Hardware name: Google Lazor Limozeen without Touchscreen
+> (rev4) (DT)
+> [ 3092.630492] pstate: 80400009 (Nzcv daif +PAN -UAO -TCO -DIT -SSBS
+> BTYPE=3D--)
+> [ 3092.637664] pc : dpu_crtc_atomic_flush+0x9c/0x144
+> [ 3092.642523] lr : dpu_crtc_atomic_flush+0x60/0x144
+> [ 3092.647379] sp : ffffffc00c1e3760
+> [ 3092.650805] x29: ffffffc00c1e3760 x28: ffffff80985dd800 x27:
+> 0000000000000425
+> [ 3092.658164] x26: ffffff80985dc500 x25: ffffff80985ddc00 x24:
+> ffffffdf8ae3b6f0
+> [ 3092.665522] x23: 0000000000000000 x22: 0000000000000000 x21:
+> ffffff809b82da00
+> [ 3092.672890] x20: ffffff80840e1000 x19: ffffff80840e2000 x18:
+> 0000000000001000
+> [ 3092.680255] x17: 0000000000000400 x16: 0000000000000100 x15:
+> 000000000000003b
+> [ 3092.687622] x14: 0000000000000000 x13: 0000000000000002 x12:
+> 0000000000000003
+> [ 3092.694979] x11: ffffff8084009000 x10: 0000000000000040 x9 :
+> 0000000000000040
+> [ 3092.702340] x8 : 0000000000000300 x7 : 000000000000000c x6 :
+> 0000000000000004
+> [ 3092.709698] x5 : 0000000000000320 x4 : 0000000000000018 x3 :
+> 0000000000000000
+> [ 3092.717056] x2 : 0000000000000000 x1 : 7bfb38b2a3a89800 x0 :
+> ffffff809a1eb300
+> [ 3092.724424] Call trace:
+> [ 3092.726958]  dpu_crtc_atomic_flush+0x9c/0x144
+> [ 3092.731463]  drm_atomic_helper_commit_planes+0x1bc/0x1c4
+> [ 3092.736944]  msm_atomic_commit_tail+0x23c/0x3e0
+> [ 3092.741627]  commit_tail+0x7c/0xfc
+> [ 3092.745145]  drm_atomic_helper_commit+0x158/0x15c
+> [ 3092.749998]  drm_atomic_commit+0x60/0x74
+> [ 3092.754055]  drm_atomic_helper_update_plane+0x100/0x110
+> [ 3092.759449]  __setplane_atomic+0x11c/0x120
+> [ 3092.763685]  drm_mode_cursor_universal+0x188/0x22c
+> [ 3092.768633]  drm_mode_cursor_common+0x120/0x1f8
+> [ 3092.773310]  drm_mode_cursor_ioctl+0x68/0x8c
+> [ 3092.777721]  drm_ioctl_kernel+0xe8/0x168
+> [ 3092.781770]  drm_ioctl+0x320/0x370
+> [ 3092.785289]  drm_compat_ioctl+0x40/0xdc
+> [ 3092.789257]  __arm64_compat_sys_ioctl+0xe0/0x150
+> [ 3092.794030]  invoke_syscall+0x80/0x114
+> [ 3092.797905]  el0_svc_common.constprop.3+0xc4/0xf8
+> [ 3092.802765]  do_el0_svc_compat+0x2c/0x54
+> [ 3092.806811]  el0_svc_compat+0x4c/0xe4
+> [ 3092.810598]  el0t_32_sync_handler+0xc4/0xf4
+> [ 3092.814914]  el0t_32_sync+0x174/0x178
+> [ 3092.818701] irq event stamp: 55940
+> [ 3092.822217] hardirqs last  enabled at (55939): [<ffffffdf8ad617a4>]
+> exit_to_kernel_mode+0x10c/0x11c
+> [ 3092.831523] hardirqs last disabled at (55940): [<ffffffdf8ad62728>]
+> el1_dbg+0x28/0x70
+> [ 3092.839577] softirqs last  enabled at (55938): [<ffffffdf8a2103a8>]
+> __do_softirq+0x1e8/0x480
+> [ 3092.848256] softirqs last disabled at (55923): [<ffffffdf8a28d668>]
+> __irq_exit_rcu+0xdc/0x140
+> [ 3092.857022] ---[ end trace 0000000000000000 ]---
+>
+>
+>
+>
+> Thanks,
+>
+> Jessica Zhang
+>
+> > Cc: "Kazlauskas, Nicholas" <nicholas.kazlauskas@amd.com>
+> > Cc: Dmitry Osipenko <dmitry.osipenko@collabora.com>
+> > Signed-off-by: Daniel Vetter <daniel.vetter@intel.com>
+> > ---
+> >   drivers/gpu/drm/drm_atomic_helper.c          | 13 -------------
+> >   drivers/gpu/drm/i915/display/intel_display.c | 14 ++++++++++++++
+> >   drivers/gpu/drm/msm/msm_atomic.c             |  2 ++
+> >   3 files changed, 16 insertions(+), 13 deletions(-)
+> >
+> > diff --git a/drivers/gpu/drm/drm_atomic_helper.c b/drivers/gpu/drm/drm_=
+atomic_helper.c
+> > index 9603193d2fa1..a2899af82b4a 100644
+> > --- a/drivers/gpu/drm/drm_atomic_helper.c
+> > +++ b/drivers/gpu/drm/drm_atomic_helper.c
+> > @@ -1498,13 +1498,6 @@ drm_atomic_helper_wait_for_vblanks(struct drm_de=
+vice *dev,
+> >       int i, ret;
+> >       unsigned int crtc_mask =3D 0;
+> >
+> > -      /*
+> > -       * Legacy cursor ioctls are completely unsynced, and userspace
+> > -       * relies on that (by doing tons of cursor updates).
+> > -       */
+> > -     if (old_state->legacy_cursor_update)
+> > -             return;
+> > -
+> >       for_each_oldnew_crtc_in_state(old_state, crtc, old_crtc_state, ne=
+w_crtc_state, i) {
+> >               if (!new_crtc_state->active)
+> >                       continue;
+> > @@ -2135,12 +2128,6 @@ int drm_atomic_helper_setup_commit(struct drm_at=
+omic_state *state,
+> >                       continue;
+> >               }
+> >
+> > -             /* Legacy cursor updates are fully unsynced. */
+> > -             if (state->legacy_cursor_update) {
+> > -                     complete_all(&commit->flip_done);
+> > -                     continue;
+> > -             }
+> > -
+> >               if (!new_crtc_state->event) {
+> >                       commit->event =3D kzalloc(sizeof(*commit->event),
+> >                                               GFP_KERNEL);
+> > diff --git a/drivers/gpu/drm/i915/display/intel_display.c b/drivers/gpu=
+/drm/i915/display/intel_display.c
+> > index d2abe0e430bf..6ca5a6e7703b 100644
+> > --- a/drivers/gpu/drm/i915/display/intel_display.c
+> > +++ b/drivers/gpu/drm/i915/display/intel_display.c
+> > @@ -8799,6 +8799,20 @@ static int intel_atomic_commit(struct drm_device=
+ *dev,
+> >               intel_runtime_pm_put(&dev_priv->runtime_pm, state->wakere=
+f);
+> >               return ret;
+> >       }
+> > +
+> > +     /*
+> > +      * FIXME: Cut over to (async) commit helpers instead of hand-roll=
+ing
+> > +      * everything.
+> > +      */
+> > +     if (state->base.legacy_cursor_update) {
+> > +             struct intel_crtc_state *new_crtc_state;
+> > +             struct intel_crtc *crtc;
+> > +             int i;
+> > +
+> > +             for_each_new_intel_crtc_in_state(state, crtc, new_crtc_st=
+ate, i)
+> > +                     complete_all(&new_crtc_state->uapi.commit->flip_d=
+one);
+> > +     }
+> > +
+> >       intel_shared_dpll_swap_state(state);
+> >       intel_atomic_track_fbs(state);
+> >
+> > diff --git a/drivers/gpu/drm/msm/msm_atomic.c b/drivers/gpu/drm/msm/msm=
+_atomic.c
+> > index 1686fbb611fd..b3cfabebe5d6 100644
+> > --- a/drivers/gpu/drm/msm/msm_atomic.c
+> > +++ b/drivers/gpu/drm/msm/msm_atomic.c
+> > @@ -222,6 +222,8 @@ void msm_atomic_commit_tail(struct drm_atomic_state=
+ *state)
+> >               /* async updates are limited to single-crtc updates: */
+> >               WARN_ON(crtc_mask !=3D drm_crtc_mask(async_crtc));
+> >
+> > +             complete_all(&async_crtc->state->commit->flip_done);
+> > +
+> >               /*
+> >                * Start timer if we don't already have an update pending
+> >                * on this crtc:
+> > --
+> > 2.34.1
+> >
