@@ -2,73 +2,52 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id B5A1E4F7E72
-	for <lists+dri-devel@lfdr.de>; Thu,  7 Apr 2022 13:52:38 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id F1B194F7E78
+	for <lists+dri-devel@lfdr.de>; Thu,  7 Apr 2022 13:54:21 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 75CE310E752;
-	Thu,  7 Apr 2022 11:52:33 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 569AB10E197;
+	Thu,  7 Apr 2022 11:54:19 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from wout3-smtp.messagingengine.com (wout3-smtp.messagingengine.com
- [64.147.123.19])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 425FF10E74C;
- Thu,  7 Apr 2022 11:52:31 +0000 (UTC)
-Received: from compute3.internal (compute3.nyi.internal [10.202.2.43])
- by mailout.west.internal (Postfix) with ESMTP id 390AE3201805;
- Thu,  7 Apr 2022 07:52:28 -0400 (EDT)
-Received: from mailfrontend2 ([10.202.2.163])
- by compute3.internal (MEProxy); Thu, 07 Apr 2022 07:52:29 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=cerno.tech; h=cc
- :cc:content-type:date:date:from:from:in-reply-to:in-reply-to
- :message-id:mime-version:references:reply-to:sender:subject
- :subject:to:to; s=fm3; bh=CYQK1Aw0zHXhtboijYB6+yQFzMqQpbyg+dX8KI
- bADhc=; b=iqcSpjURnuazV1vebxsY365jW7r+bLu6vSHCaAP53+2VuQ0yq2UX6W
- CtrUsXuPyQriT0aNdSYZdbciKYSpyG+V+8HTfuCGvtT1n8oIu0YnWsN7Yh9NLs2a
- KZQWJ5OhG3q24zCXei/ZTf1prl/xVkH8gmymDuAQkd3GtETqRcXiRFDJlihLM9qD
- 4ulc6/DAc8PtMF1G4vQTbEGNN6AVteIxLBXL80XR3Ah+cERtnm0+iHnZB3QltEjZ
- khUtIw03vkO4AZj85Kvlm+5jU/MUlEAuRajFqg7t/kug3E0SdP+xwwd8sUt8WQE6
- rauS8Up+aEHy+b9FhFPAq98ohyuMoPKw==
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
- messagingengine.com; h=cc:cc:content-type:date:date:from:from
- :in-reply-to:in-reply-to:message-id:mime-version:references
- :reply-to:sender:subject:subject:to:to:x-me-proxy:x-me-proxy
- :x-me-sender:x-me-sender:x-sasl-enc; s=fm3; bh=CYQK1Aw0zHXhtboij
- YB6+yQFzMqQpbyg+dX8KIbADhc=; b=HlHjRz5Rx644dmkU1WDtV80YdcFjZwS/p
- 9zngXyhxJdhm41RgQSwHPb1GQGQMXy4mkTGCZ4Sw/3BwU/ZmPlT0LLfdWIU0agNJ
- B0lJTrUXEiRoWvCdqClj8QTaS+ZwD8iv0Dk/a7zuu5vKyKM1lB+gGZhKD1JT6gz0
- xzvszyW7Fce0m+dTjlPqpypjfaqGnjQsiSJP9BplsQP2I2Hro585VQtVXPmz2yiQ
- w37u1YFy3AqHzd4FV4wyjYGXkYNnkisj/GBJCSfN6GtuPKSxH588QIhSiQ40xdCE
- +SOgbcIeYIPTc3u871EyhwZORmQDptFFBIq0NB4WO7UK6BQ2ZVHhQ==
-X-ME-Sender: <xms:e9BOYr8k2iIttSBISJDoMiu9Guh221u22Yu-n94-0-K-zsaFPcgjkQ>
- <xme:e9BOYntb7532HhbRvY2KRVFSVXfXBqca3WS7W6qNjrgmyfeFbwhn4mE2uCIfK3cPa
- UQ9XDErcxitqwb30Y0>
-X-ME-Received: <xmr:e9BOYpDN3kFJcE3fCB5MfeoSx-UfAcFiq6cbcMK2BnOTt_fLbe-YIPHP6KKPYikbbObE6uy9DwRcaSHwemhKSk_5JBMGB1_YXQNLToA>
-X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvvddrudejkedggeehucetufdoteggodetrfdotf
- fvucfrrhhofhhilhgvmecuhfgrshhtofgrihhlpdfqfgfvpdfurfetoffkrfgpnffqhgen
- uceurghilhhouhhtmecufedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmne
- cujfgurhepfffhvffukfhfgggtuggjsehgtderredttddvnecuhfhrohhmpeforgigihhm
- vgcutfhiphgrrhguuceomhgrgihimhgvsegtvghrnhhordhtvggthheqnecuggftrfgrth
- htvghrnhepjeduvdfhkeekhfdtgeeihfeluddtvedthfektdelfeejgfeludfhteduveej
- hefhnecuffhomhgrihhnpehfrhgvvgguvghskhhtohhprdhorhhgnecuvehluhhsthgvrh
- fuihiivgeptdenucfrrghrrghmpehmrghilhhfrhhomhepmhgrgihimhgvsegtvghrnhho
- rdhtvggthh
-X-ME-Proxy: <xmx:e9BOYndSMN4-sVPwuIsyMe4QC2Sl9sNUWOewYMvmR0R-y7lqyV1PAA>
- <xmx:e9BOYgPLoXgybQbPQmv2_vMRg1Ga_8dggnHZHYgTrm_VYtGoHh_oaw>
- <xmx:e9BOYpm-8voMKbyoi0nRpkvvE6lHGNsZUFeKAdRo_ia9E-WqO59QMQ>
- <xmx:e9BOYvr-6uUXPvPfoboOBzsEI12On0sU1Zh2qvjB7GMrbZmSXnnPQQ>
-Received: by mail.messagingengine.com (Postfix) with ESMTPA; Thu,
- 7 Apr 2022 07:52:26 -0400 (EDT)
-Date: Thu, 7 Apr 2022 13:52:24 +0200
-From: Maxime Ripard <maxime@cerno.tech>
-To: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>
-Subject: Re: [PULL] drm-misc-next-fixes
-Message-ID: <20220407115224.uzcljfhvx4ix6sfw@houat>
-References: <3b8e6439-612e-f640-e380-51e834393e94@linux.intel.com>
+Received: from mga03.intel.com (mga03.intel.com [134.134.136.65])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 64A0910E197;
+ Thu,  7 Apr 2022 11:54:17 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+ t=1649332457; x=1680868457;
+ h=date:from:to:cc:subject:message-id:references:
+ mime-version:content-transfer-encoding:in-reply-to;
+ bh=HN2DtR0xtCzCUe4m8mwX3MopOEmbTnewrLCroEHqGmo=;
+ b=AMfOPLcDwgmtwAdKG4F8+NUfpDqTtKDIfoDB/yqk+Wr3DTlQMsNuIJ5i
+ NH37BoIa2J1IbkOO0hjQApuBpvo9u8Pb698YczjAiaVkFsiM9cT6FZ1sM
+ 92rfCGRs5k+wqU/m4foOERwJ6LvIYnDLtMtbtA39TydTb9Nyo+jCOjK1E
+ 5pMj1G0P+p3PmB9wj0Kxpzob+VcAkzsheT1494kV5zCHuMUPP8k0f8Tjk
+ FH1LIJm+yMhCs34/PEZSJMoq5j/tpUI5G6ANE2Ab6WIkiDRAcruVZjDM0
+ AQQVmiVeO9Uqn7s6UO4j4BMZcDbMbACArScnc+TdVxrjEfTKKWMfCsOJ0 A==;
+X-IronPort-AV: E=McAfee;i="6200,9189,10309"; a="261296100"
+X-IronPort-AV: E=Sophos;i="5.90,241,1643702400"; d="scan'208";a="261296100"
+Received: from orsmga006.jf.intel.com ([10.7.209.51])
+ by orsmga103.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 07 Apr 2022 04:54:16 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.90,241,1643702400"; d="scan'208";a="524893241"
+Received: from stinkpipe.fi.intel.com (HELO stinkbox) ([10.237.72.51])
+ by orsmga006.jf.intel.com with SMTP; 07 Apr 2022 04:54:14 -0700
+Received: by stinkbox (sSMTP sendmail emulation);
+ Thu, 07 Apr 2022 14:54:13 +0300
+Date: Thu, 7 Apr 2022 14:54:13 +0300
+From: Ville =?iso-8859-1?Q?Syrj=E4l=E4?= <ville.syrjala@linux.intel.com>
+To: Jani Nikula <jani.nikula@intel.com>
+Subject: Re: [PATCH 03/12] drm/edid: refactor EDID block status printing
+Message-ID: <Yk7Q5fJoe7Dv/XOB@intel.com>
+References: <cover.1649322799.git.jani.nikula@intel.com>
+ <012d5b007a6a3771540499fb1273882d631887b3.1649322799.git.jani.nikula@intel.com>
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha512;
- protocol="application/pgp-signature"; boundary="6ajx4b27gcfb32gg"
+Content-Type: text/plain; charset=iso-8859-1
 Content-Disposition: inline
-In-Reply-To: <3b8e6439-612e-f640-e380-51e834393e94@linux.intel.com>
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <012d5b007a6a3771540499fb1273882d631887b3.1649322799.git.jani.nikula@intel.com>
+X-Patchwork-Hint: comment
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -81,64 +60,127 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Tvrtko Ursulin <tvrtko.ursulin@linux.intel.com>,
- dim-tools@lists.freedesktop.org, Daniel Vetter <daniel.vetter@ffwll.ch>,
- intel-gfx@lists.freedesktop.org, dri-devel@lists.freedesktop.org,
- Thomas Zimmermann <tzimmermann@suse.de>, Rodrigo Vivi <rodrigo.vivi@intel.com>
+Cc: intel-gfx@lists.freedesktop.org, dri-devel@lists.freedesktop.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
+On Thu, Apr 07, 2022 at 12:14:29PM +0300, Jani Nikula wrote:
+> Split out a function to log EDID block status. The printouts get changed
+> slightly.
+> 
+> Unfortunately, not all users will have struct drm_device available, so
+> we convert to pr_* debug logging instead of drm device based logging.
+> 
+> Signed-off-by: Jani Nikula <jani.nikula@intel.com>
+> ---
+>  drivers/gpu/drm/drm_edid.c | 75 ++++++++++++++++++++++++++------------
+>  1 file changed, 51 insertions(+), 24 deletions(-)
+> 
+> diff --git a/drivers/gpu/drm/drm_edid.c b/drivers/gpu/drm/drm_edid.c
+> index f062d1715ec3..3d04d63464ba 100644
+> --- a/drivers/gpu/drm/drm_edid.c
+> +++ b/drivers/gpu/drm/drm_edid.c
+> @@ -1729,6 +1729,50 @@ static bool edid_block_valid(const void *block, bool base)
+>  				       edid_block_tag(block));
+>  }
+>  
+> +static void edid_block_status_print(enum edid_block_status status,
+> +				    const struct edid *block,
+> +				    int block_num)
+> +{
+> +	switch (status) {
+> +	case EDID_BLOCK_OK:
+> +		break;
+> +	case EDID_BLOCK_NULL:
+> +		pr_debug("EDID block %d pointer is NULL\n", block_num);
+> +		break;
+> +	case EDID_BLOCK_ZERO:
+> +		pr_notice("EDID block %d is all zeroes\n", block_num);
+> +		break;
+> +	case EDID_BLOCK_HEADER_CORRUPT:
+> +		pr_notice("EDID has corrupt header\n");
+> +		break;
+> +	case EDID_BLOCK_HEADER_REPAIR:
+> +		pr_debug("EDID corrupt header needs repair\n");
+> +		break;
+> +	case EDID_BLOCK_HEADER_FIXED:
+> +		pr_debug("EDID corrupt header fixed\n");
+> +		break;
+> +	case EDID_BLOCK_CHECKSUM:
+> +		if (edid_block_status_valid(status, edid_block_tag(block))) {
+> +			pr_debug("EDID block %d (tag 0x%02x) checksum is invalid, remainder is %d, ignoring\n",
+> +				 block_num, edid_block_tag(block),
+> +				 edid_block_compute_checksum(block));
+> +		} else {
+> +			pr_notice("EDID block %d (tag 0x%02x) checksum is invalid, remainder is %d\n",
+> +				  block_num, edid_block_tag(block),
+> +				  edid_block_compute_checksum(block));
+> +		}
+> +		break;
+> +	case EDID_BLOCK_VERSION:
+> +		pr_notice("EDID has major version %d, instead of 1\n",
+> +			  block->version);
+> +		break;
+> +	default:
+> +		pr_debug("EDID block %d unknown edid block status code %d\n",
+> +			 block_num, status);
 
---6ajx4b27gcfb32gg
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+Maybe this should complaing a bit more loudly. Indicates a bug in the
+code no?
 
-Hi
+Reviewed-by: Ville Syrjälä <ville.syrjala@linux.intel.com>
 
-On Thu, Apr 07, 2022 at 12:56:27PM +0200, Maarten Lankhorst wrote:
-> drm-misc-next-fixes-2022-04-07:
-> drm-misc-next-fixes for v5.18-rc2:
-> - fix warning about fence containers
-> - fix logic error in new fence merge code
-> - handle empty dma_fence_arrays gracefully
-> - Try all possible cases for bridge/panel detection.
-> The following changes since commit 7344bad7fb6daa4877a1c064b52c7d5f9182c4=
-1b:
->=20
->   drm/edid: fix CEA extension byte #3 parsing (2022-03-24 11:41:14 +0200)
->=20
-> are available in the Git repository at:
->=20
->   git://anongit.freedesktop.org/drm/drm-misc tags/drm-misc-next-fixes-202=
-2-04-07
->=20
-> for you to fetch changes up to 67bae5f28c895f8737a1974c3f31cf12b9170b14:
->=20
->   drm: of: Properly try all possible cases for bridge/panel detection (20=
-22-03-30 10:16:05 +0200)
->=20
-> ----------------------------------------------------------------
-> drm-misc-next-fixes for v5.18-rc2:
-> - fix warning about fence containers
-> - fix logic error in new fence merge code
-> - handle empty dma_fence_arrays gracefully
-> - Try all possible cases for bridge/panel detection.
+> +		break;
+> +	}
+> +}
+> +
+>  /**
+>   * drm_edid_block_valid - Sanity check the EDID block (base or extension)
+>   * @raw_edid: pointer to raw EDID block
+> @@ -1775,33 +1819,16 @@ bool drm_edid_block_valid(u8 *_block, int block_num, bool print_bad_edid,
+>  			*edid_corrupt = true;
+>  	}
+>  
+> +	edid_block_status_print(status, block, block_num);
+> +
+>  	/* Determine whether we can use this block with this status. */
+>  	valid = edid_block_status_valid(status, edid_block_tag(block));
+>  
+> -	/* Some fairly random status printouts. */
+> -	if (status == EDID_BLOCK_CHECKSUM) {
+> -		if (valid) {
+> -			DRM_DEBUG("EDID block checksum is invalid, remainder is %d\n",
+> -				  edid_block_compute_checksum(block));
+> -			DRM_DEBUG("Assuming a KVM switch modified the block but left the original checksum\n");
+> -		} else if (print_bad_edid) {
+> -			DRM_NOTE("EDID block checksum is invalid, remainder is %d\n",
+> -				 edid_block_compute_checksum(block));
+> -		}
+> -	} else if (status == EDID_BLOCK_VERSION) {
+> -		DRM_NOTE("EDID has major version %d, instead of 1\n",
+> -			 block->version);
+> -	}
+> -
+> -	if (!valid && print_bad_edid) {
+> -		if (status == EDID_BLOCK_ZERO) {
+> -			pr_notice("EDID block is all zeroes\n");
+> -		} else {
+> -			pr_notice("Raw EDID:\n");
+> -			print_hex_dump(KERN_NOTICE,
+> -				       " \t", DUMP_PREFIX_NONE, 16, 1,
+> -				       block, EDID_LENGTH, false);
+> -		}
+> +	if (!valid && print_bad_edid && status != EDID_BLOCK_ZERO) {
+> +		pr_notice("Raw EDID:\n");
+> +		print_hex_dump(KERN_NOTICE,
+> +			       " \t", DUMP_PREFIX_NONE, 16, 1,
+> +			       block, EDID_LENGTH, false);
+>  	}
+>  
+>  	return valid;
+> -- 
+> 2.30.2
 
-I merged it in drm-misc-fixes earlier this week, so drm-misc-fixes is
-the only PR that needs to be merged
-
-Maxime
-
---6ajx4b27gcfb32gg
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iHUEABYKAB0WIQRcEzekXsqa64kGDp7j7w1vZxhRxQUCYk7QeAAKCRDj7w1vZxhR
-xYkEAPwOdp8Kp1KCdc4OBIf//Oj42qCxULWDH5Yeh73J2n89IAEAlDkfFp00CcuN
-NT5hW8moR1776WMa2eq2a6lZEk7btQQ=
-=p7G2
------END PGP SIGNATURE-----
-
---6ajx4b27gcfb32gg--
+-- 
+Ville Syrjälä
+Intel
