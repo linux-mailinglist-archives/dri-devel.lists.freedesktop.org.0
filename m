@@ -2,55 +2,42 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 526F64F7A1D
-	for <lists+dri-devel@lfdr.de>; Thu,  7 Apr 2022 10:45:22 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id C68B24F7A3D
+	for <lists+dri-devel@lfdr.de>; Thu,  7 Apr 2022 10:48:10 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 91E6F10E54C;
-	Thu,  7 Apr 2022 08:45:20 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 2087B10E65D;
+	Thu,  7 Apr 2022 08:48:07 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mga04.intel.com (mga04.intel.com [192.55.52.120])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 8EF3E10E54C
- for <dri-devel@lists.freedesktop.org>; Thu,  7 Apr 2022 08:45:18 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1649321118; x=1680857118;
- h=from:to:cc:subject:in-reply-to:references:date:
- message-id:mime-version;
- bh=lSX50a6jnLkclzn/wMe/C8LXTgb1CQOGo94u6NkUO1E=;
- b=fUQxTahPYGgl3T/AvPmdWke4ZNuEUz0IKh61e/BHUlwqknkImlQ7srLY
- qntS3w3ab45CXzsC4J4jMFrwNR+pSTOVaXwW/jplhCdOsd83w3FjVAPWk
- GnkUVHsBJc7F3CXHLdSRlqnX0VPbw89PmJkvjmQjiu8BysObhu5uJZWI0
- Yiw4hwZlL7KXYSIhcxoSkYA5HsFXjKHdhVgp4AxeiQRnFqddArqbKa87P
- cEOVys4K4rOZKpKPJaEaBFEDXfnPtfswMp0l1Ndf0/fOAZFKYk7t7230W
- +9+JDjIqtsP+Oz4cORUyVdH7yL20npPGrxdefEHQNF5WGXD89yp2I/qSw Q==;
-X-IronPort-AV: E=McAfee;i="6200,9189,10309"; a="260102419"
-X-IronPort-AV: E=Sophos;i="5.90,241,1643702400"; d="scan'208";a="260102419"
-Received: from orsmga006.jf.intel.com ([10.7.209.51])
- by fmsmga104.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 07 Apr 2022 01:45:17 -0700
-X-IronPort-AV: E=Sophos;i="5.90,241,1643702400"; d="scan'208";a="524834889"
-Received: from kgibala-mobl.ger.corp.intel.com (HELO localhost)
- ([10.249.142.48])
- by orsmga006-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 07 Apr 2022 01:45:14 -0700
-From: Jani Nikula <jani.nikula@linux.intel.com>
-To: Thomas Zimmermann <tzimmermann@suse.de>, Javier Martinez Canillas
- <javierm@redhat.com>, daniel@ffwll.ch, airlied@linux.ie,
- maarten.lankhorst@linux.intel.com, mripard@kernel.org, lyude@redhat.com
-Subject: Re: [PATCH 3/8] drm/display: Introduce a DRM display-helper module
-In-Reply-To: <824df12f-c8fd-91ee-58f5-3ea4e83aff32@suse.de>
-Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
-References: <20220322192743.14414-1-tzimmermann@suse.de>
- <20220322192743.14414-4-tzimmermann@suse.de>
- <e02eceb6-4bf5-3641-502e-9e5a246ae5fd@redhat.com>
- <b17ead61-b7f1-d57a-d51f-c961d8ad59a1@suse.de>
- <f6daa1b3-8267-72ee-182a-6ed61fe650cf@redhat.com>
- <824df12f-c8fd-91ee-58f5-3ea4e83aff32@suse.de>
-Date: Thu, 07 Apr 2022 11:45:11 +0300
-Message-ID: <87tub55lk8.fsf@intel.com>
+Received: from metis.ext.pengutronix.de (metis.ext.pengutronix.de
+ [IPv6:2001:67c:670:201:290:27ff:fe1d:cc33])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id E8D098914E
+ for <dri-devel@lists.freedesktop.org>; Thu,  7 Apr 2022 08:48:04 +0000 (UTC)
+Received: from gallifrey.ext.pengutronix.de
+ ([2001:67c:670:201:5054:ff:fe8d:eefb] helo=[IPv6:::1])
+ by metis.ext.pengutronix.de with esmtps
+ (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256) (Exim 4.92)
+ (envelope-from <l.stach@pengutronix.de>)
+ id 1ncNoB-0003W6-CH; Thu, 07 Apr 2022 10:48:03 +0200
+Message-ID: <41a531191aaaa880b9a44096b8e4c366f50d1f77.camel@pengutronix.de>
+Subject: Re: [PATCH 2/2] drm: lcdif: Add support for i.MX8MP LCDIF variant
+From: Lucas Stach <l.stach@pengutronix.de>
+To: Marek Vasut <marex@denx.de>, dri-devel@lists.freedesktop.org
+Date: Thu, 07 Apr 2022 10:48:01 +0200
+In-Reply-To: <0ba4a237-e8ac-485f-5291-5c23398ba6d7@denx.de>
+References: <20220322142853.125880-1-marex@denx.de>
+ <20220322142853.125880-2-marex@denx.de>
+ <97d0ed7496a65d70a79afed174a777d7d7abb4ae.camel@pengutronix.de>
+ <0ba4a237-e8ac-485f-5291-5c23398ba6d7@denx.de>
+Content-Type: text/plain; charset="UTF-8"
+User-Agent: Evolution 3.40.4 (3.40.4-1.fc34) 
 MIME-Version: 1.0
-Content-Type: text/plain
+Content-Transfer-Encoding: 7bit
+X-SA-Exim-Connect-IP: 2001:67c:670:201:5054:ff:fe8d:eefb
+X-SA-Exim-Mail-From: l.stach@pengutronix.de
+X-SA-Exim-Scanned: No (on metis.ext.pengutronix.de);
+ SAEximRunCond expanded to false
+X-PTX-Original-Recipient: dri-devel@lists.freedesktop.org
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -63,115 +50,235 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: dri-devel@lists.freedesktop.org
+Cc: Peng Fan <peng.fan@nxp.com>,
+ Alexander Stein <alexander.stein@ew.tq-group.com>,
+ Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
+ Sam Ravnborg <sam@ravnborg.org>, Robby Cai <robby.cai@nxp.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Thu, 07 Apr 2022, Thomas Zimmermann <tzimmermann@suse.de> wrote:
-> Hi Javier
->
-> Am 07.04.22 um 09:43 schrieb Javier Martinez Canillas:
->> On 4/6/22 21:08, Thomas Zimmermann wrote:
->>> Hi Javier
->>>
->>> Am 30.03.22 um 11:23 schrieb Javier Martinez Canillas:
->>>> On 3/22/22 20:27, Thomas Zimmermann wrote:
->>>>> Replace the DP-helper module with a display-helper module. Update
->>>>> all related Kconfig and Makefile rules.
->>>>>
->>>>> Besides the existing code for DisplayPort, the new module will
->>>>> contain helpers for other video-output standards, such as HDMI.
->>>>> Drivers will still be able to select the required video-output
->>>>> helpers. Linking all such code into a single module avoids the
->>>>> proliferation of small kernel modules.
->>>>>
->>>>> Signed-off-by: Thomas Zimmermann <tzimmermann@suse.de>
->>>>> ---
->>>>
->>>> [snip]
->>>>
->>>>> +config DRM_DISPLAY_HELPER
->>>>> +	tristate
->>>>> +	depends on DRM
->>>>> +	help
->>>>> +	  DRM helpers for display adapters.
->>>>> +
->>>>>    config DRM_DP_HELPER
->>>>>    	tristate
->>>>>    	depends on DRM
->>>>> +	select DRM_DISPLAY_HELPER
->>>>>    	help
->>>>>    	  DRM helpers for DisplayPort.
->>>>>
->>>>
->>>> I was about to ask why this would still be needed but then re-read the
->>>> commit message that says drivers will still be able to select required
->>>> video-output helpers.
->>>>
->>>> That makes sense since the fact that all helpers will be in the same module
->>>> would be transparent to drivers.
->>>
->>> After some more testing, it turns out to be not so easy. For example, if
->>> we have DP_HELPER=m and HDMI_HELPER=y, then DISPLAY_HELPER would be
->>> auto-selected as 'y'. The code for DP_HELPER would not be linked correctly.
->>>
->>> I'm going to make drivers select DISPLAY_HELPER and the rsp helpers
->>> explicitly. The individual helpers would be covered boolean options that
->>> enable the feature in the display-helper library.
->>>
->>> If you know some Kconfig magic to enable the original design, let me know.
->>>
->> 
->> I do not. But I wonder if the problem here is the usage of select rather than
->> depends and if with the later the original design could still be achieved...
->
-> With 'depends DRM_DISPLAY_HELPER' users would need to explictly enable 
-> DRM_DISPLAY_HELPER, I think.
->
->> 
->> But yes, probably the only way to prevent that issue is to make the drivers
->> to explicitly select both DRM_DISPLAY_HELPER and respective helpers symbol.
->
-> I'll remake the patches with the new style.
->
-> I think another idea that could work is to use an intermediate symbol. 
-> For DP, drivers would select the tristate DP_HELPER, which in turn 
-> selects tristate DISPLAY_HELPER and boolean DISPLAY_DP_HELPER.  But this 
-> would require a 'useless' symbol DP_HELPER only for convenience.  It's 
-> an even less optimal solution, it seems.
+Am Donnerstag, dem 07.04.2022 um 01:22 +0200 schrieb Marek Vasut:
+> On 4/4/22 14:23, Lucas Stach wrote:
+> > Hi Marek,
+> 
+> Hi,
+> 
+> > not a full review right now, just the first things that I noticed while
+> > playing around with this.
+> > 
+> > Am Dienstag, dem 22.03.2022 um 15:28 +0100 schrieb Marek Vasut:
+> > > Add support for i.MX8MP LCDIF variant. This is called LCDIFv3 and is
+> > > completely different from the LCDIFv3 found in i.MX23 in that it has
+> > > a completely scrambled register layout compared to all previous LCDIF
+> > > variants. The new LCDIFv3 also supports 36bit address space.
+> > > 
+> > > Add a separate driver which is really a fork of MXSFB driver with the
+> > > i.MX8MP LCDIF variant handling filled in.
+> 
+> [...]
+> 
+> > >   drivers/gpu/drm/mxsfb/Kconfig      |  16 +
+> > >   drivers/gpu/drm/mxsfb/Makefile     |   2 +
+> > >   drivers/gpu/drm/mxsfb/lcdif_drv.c  | 367 +++++++++++++++++++++
+> > >   drivers/gpu/drm/mxsfb/lcdif_drv.h  |  48 +++
+> > >   drivers/gpu/drm/mxsfb/lcdif_kms.c  | 492 +++++++++++++++++++++++++++++
+> > >   drivers/gpu/drm/mxsfb/lcdif_regs.h | 243 ++++++++++++++
+> > 
+> > Not sure about this placement. I know you hope to share some code with
+> > the other mxsfb driver, but I would prefer to add this into
+> > drivers/gpu/drm/imx, same as the DCSS. Another driver for the imx21-
+> > lcdif will also be added there and we'll move the ipuv3 driver into its
+> > own subdirectory to make it clear that there are multiple separate
+> > drivers.
+> 
+> I do disagree with that. This new LCDIF and old LCDIF (mxsfb) are very 
+> similar except for bit shuffling, and yes, I would like to share common 
+> code between those two drivers as much as possible.
+> 
+> Placing this driver and mxsfb driver into the same directory makes it easy.
 
-Documentation/kbuild/kconfig-language.rst:
+Lets postpone this discussion until the technical bits are settled.
 
-  Note:
-	select should be used with care. select will force
-	a symbol to a value without visiting the dependencies.
-	By abusing select you are able to select a symbol FOO even
-	if FOO depends on BAR that is not set.
--->	In general use select only for non-visible symbols
--->	(no prompts anywhere) and for symbols with no dependencies.
-	That will limit the usefulness but on the other hand avoid
-	the illegal configurations all over.
+> 
+> > >   6 files changed, 1168 insertions(+)
+> > >   create mode 100644 drivers/gpu/drm/mxsfb/lcdif_drv.c
+> > >   create mode 100644 drivers/gpu/drm/mxsfb/lcdif_drv.h
+> > >   create mode 100644 drivers/gpu/drm/mxsfb/lcdif_kms.c
+> > >   create mode 100644 drivers/gpu/drm/mxsfb/lcdif_regs.h
+> > > 
+> > > diff --git a/drivers/gpu/drm/mxsfb/Kconfig b/drivers/gpu/drm/mxsfb/Kconfig
+> > > index 987170e16ebd6..deb84f99d2fca 100644
+> > > --- a/drivers/gpu/drm/mxsfb/Kconfig
+> > > +++ b/drivers/gpu/drm/mxsfb/Kconfig
+> > > @@ -19,3 +19,19 @@ config DRM_MXSFB
+> > >   	  i.MX28, i.MX6SX, i.MX7 and i.MX8M).
+> > >   
+> > >   	  If M is selected the module will be called mxsfb.
+> > > +
+> > > +config DRM_LCDIF
+> > 
+> > The config option name and also the DRM driver name are way too
+> > generic. Every 3rd SoC out there has a block called lcdif to drive a
+> > panel...
+> 
+> Do you have any other example of LCDIF ? I only see LCDIF from MX23 
+> (sgtl design) and this new LCDIF , which still seems like an evolution 
+> of that sgtl design.
+> 
+I don't specifically mean in the FSL/NXP line, but LCF IF being a quite
+common abbreviation for LCF interface, it just seems too generic.
 
-Most of the difficult Kconfig issues I've encountered over the years
-come from not following the above two rules. People break those rules
-for "convenience", causing a lot of inconvenience down the line.
+> > Maybe something like CONFIG_FSL_LCDIF_V3 and fsl-lcdif-v3 for the name?
+> 
+> Except that LCDIF v3 is the LCDIF present in i.MX23 , which makes this 
+> even more confusing. Any other ideas ?
+> 
+Yes, I wish the NXP guys already were a bit more creative with the
+name, so we don't have to pull a distinctive name out of thin air.
+
+Maybe we just drop this version stuff at all and just call the
+controller with the shuffled register layout FSL_LCDIF_REV2?
+
+> [...]
+> 
+> > > +static struct drm_framebuffer *
+> > > +lcdif_fb_create(struct drm_device *dev, struct drm_file *file_priv,
+> > > +		const struct drm_mode_fb_cmd2 *mode_cmd)
+> > > +{
+> > > +	const struct drm_format_info *info;
+> > > +
+> > > +	info = drm_get_format_info(dev, mode_cmd);
+> > > +	if (!info)
+> > > +		return ERR_PTR(-EINVAL);
+> > > +
+> > > +	if (mode_cmd->width * info->cpp[0] != mode_cmd->pitches[0]) {
+> > > +		dev_dbg(dev->dev, "Invalid pitch: fb width must match pitch\n");
+> > > +		return ERR_PTR(-EINVAL);
+> > > +	}
+> > 
+> > That's not true. One of the major advantages of the LCDIFv3 vs. the
+> > other controllers supported by mxsfb is that it actually has a
+> > configurable pitch (CTRLDESCL0_3) separate from the display width.
+> 
+> Right, dropped.
+> 
+> [...]
+> 
+> > > +static int lcdif_rpm_suspend(struct device *dev)
+> > > +{
+> > > +	struct drm_device *drm = dev_get_drvdata(dev);
+> > > +	struct lcdif_drm_private *lcdif = drm->dev_private;
+> > > +
+> > > +	/* These clock supply the DISPLAY CLOCK Domain */
+> > > +	clk_disable_unprepare(lcdif->clk);
+> > 
+> > The pixel clock is really only needed when the display is active, so I
+> > think it would be better to keep this in the modeset path.
+> 
+> Let's continue this in the MXSFB patch discussion so its in one place.
+> 
+> [...]
+> 
+> > > +static void
+> > > +lcdif_update_buffer(struct lcdif_drm_private *lcdif, struct drm_plane *plane)
+> > > +{
+> > > +	dma_addr_t paddr;
+> > > +	u32 reg;
+> > > +
+> > > +	paddr = lcdif_get_fb_paddr(plane);
+> > > +	if (!paddr)
+> > > +		return;
+> > > +
+> > > +	writel(lower_32_bits(paddr),
+> > > +	       lcdif->base + LCDC_V8_CTRLDESCL_LOW0_4);
+> > > +	writel(CTRLDESCL_HIGH0_4_ADDR_HIGH(upper_32_bits(paddr)),
+> > > +	       lcdif->base + LCDC_V8_CTRLDESCL_HIGH0_4);
+> > > +
+> > > +	reg = readl(lcdif->base + LCDC_V8_CTRLDESCL0_5);
+> > > +	reg |= CTRLDESCL0_5_SHADOW_LOAD_EN;
+> > > +	writel(reg, lcdif->base + LCDC_V8_CTRLDESCL0_5);
+> > 
+> > The shadow load enable should typically go into the atomic_flush
+> > function, together with drm_crtc_arm_vblank_event to avoid races.
+> 
+> Can you elaborate on this further ? Why ? What races ?
+
+It doesn't really matter if you just have one plane like on this
+controller, but generally the atomic update is always racing with the
+vblank IRQ, which sends out the DRM vblank events. Those events signal
+the completion of a atomic commit when the vblank event is armed. After
+the event has been sent, userspace is free to reuse or scrap the
+buffers from the previous atomic state. So you really want to make sure
+that any races between commit and IRQ only ever result in the event
+being sent too late rather than too early, as this results in the
+display scanning out garbage or freed memory.
+
+So the general flow should always look like this:
+
+In the atomic commit:
+  1. program all crtc/plane state
+  2. enable shadow load to be executed on next vblank
+  3. arm vblank event
+
+In the IRQ handler:
+  1. check if shadow load was actually executed
+    -> send armed vblank event
+
+This way the vblank happening in the middle of your atomic commit or
+the shadow laod being enabled too late for HW to execute it in the
+current vblank never results in the vblank event being sent too early,
+but just defers it to the next vblank. Then the inherent races only
+lead to a skipped frame, rather than scanning out garbage, which is a
+much nicer user experience. ;)
+
+> 
+> > > +static void lcdif_set_mode(struct lcdif_drm_private *lcdif, u32 bus_flags)
+> > > +{
+> > > +	struct drm_display_mode *m = &lcdif->crtc.state->adjusted_mode;
+> > > +	u32 ctrl = 0;
+> > > +
+> > > +	if (m->flags & DRM_MODE_FLAG_PHSYNC)
+> > > +		ctrl |= CTRL_INV_HS;
+> > > +	if (m->flags & DRM_MODE_FLAG_PVSYNC)
+> > > +		ctrl |= CTRL_INV_VS;
+> > > +	/* Make sure Data Enable is high active by default */
+> > > +	if (!(bus_flags & DRM_BUS_FLAG_DE_LOW))
+> > > +		ctrl |= CTRL_INV_DE;
+> > 
+> > The above three controls seems to have the wrong polarity. Bit set
+> > means low active according to the register documentation and the PVI in
+> > the HDMI path, which has configurable input signal polarity, seems to
+> > agree with that.
+> 
+> I seem to recall seeing something about DE polarity being inverted in 
+> odd way in the NXP downstream driver, and differently for each LCDIF 
+> instance. Isn't that what you're seeing with HDMI ?
+> 
+Yes, there seems to be some funky business going on here. I guess for
+the MIPI DSI path it's the same as on the i.MX8MM where the DSI core
+always expects the sync to be low active IIRC. In the HDMI path there
+is a block called PVI, which can be configured on what sync polarity to
+expect on the input. My experiments show that if I program the PVI for
+high active sync signals, the CTRL_INV_* bits must not be set in the
+LCDIF for the PVI to pick up the signal, which is consistent with the
+documentation of those bits in the LCDIF register map. 
+
+> [...]
+> 
+> > > +static void lcdif_disable_controller(struct lcdif_drm_private *lcdif)
+> > > +{
+> > > +	u32 reg;
+> > > +
+> > > +	reg = readl(lcdif->base + LCDC_V8_CTRLDESCL0_5);
+> > > +	reg &= ~CTRLDESCL0_5_EN;
+> > > +	writel(reg, lcdif->base + LCDC_V8_CTRLDESCL0_5);
+> > 
+> > The downstream driver claims that this bit only takes effect on the end
+> > of frame, so we should wait here to make sure that DMA is really
+> > stopped.
+> 
+> [...]
+> 
+> The rest should be fixed.
 
 
-BR,
-Jani.
-
-
->
-> Best regards
-> Thomas
->
->>   --
->> Best regards,
->> 
->> Javier Martinez Canillas
->> Linux Engineering
->> Red Hat
->> 
-
--- 
-Jani Nikula, Intel Open Source Graphics Center
