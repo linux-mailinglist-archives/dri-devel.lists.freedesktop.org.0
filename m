@@ -1,55 +1,153 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 317634F7C86
-	for <lists+dri-devel@lfdr.de>; Thu,  7 Apr 2022 12:16:51 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 54D7E4F7CAA
+	for <lists+dri-devel@lfdr.de>; Thu,  7 Apr 2022 12:24:29 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 4F77C10E708;
-	Thu,  7 Apr 2022 10:16:47 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id A5CF210E9B3;
+	Thu,  7 Apr 2022 10:24:24 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from metis.ext.pengutronix.de (metis.ext.pengutronix.de
- [IPv6:2001:67c:670:201:290:27ff:fe1d:cc33])
- by gabe.freedesktop.org (Postfix) with ESMTPS id AFFEC10E708
- for <dri-devel@lists.freedesktop.org>; Thu,  7 Apr 2022 10:16:46 +0000 (UTC)
-Received: from ptx.hi.pengutronix.de ([2001:67c:670:100:1d::c0])
- by metis.ext.pengutronix.de with esmtps
- (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256) (Exim 4.92)
- (envelope-from <sha@pengutronix.de>)
- id 1ncPC1-0003YL-0L; Thu, 07 Apr 2022 12:16:45 +0200
-Received: from sha by ptx.hi.pengutronix.de with local (Exim 4.92)
- (envelope-from <sha@pengutronix.de>)
- id 1ncPBy-0007PN-7B; Thu, 07 Apr 2022 12:16:42 +0200
-Date: Thu, 7 Apr 2022 12:16:42 +0200
-From: Sascha Hauer <s.hauer@pengutronix.de>
-To: Piotr Oniszczuk <piotr.oniszczuk@gmail.com>
-Subject: Re: [PATCH v9 00/23] drm/rockchip: RK356x VOP2 support
-Message-ID: <20220407101642.GE4012@pengutronix.de>
-References: <20220328151116.2034635-1-s.hauer@pengutronix.de>
- <FB201567-AE5A-4242-82F1-7C55D8F111EA@gmail.com>
- <20220401125205.GL4012@pengutronix.de>
- <5420D26D-34FD-4637-B602-F6271E38BB8D@gmail.com>
- <BA4C591F-D115-43D2-BF59-A75B29889E50@gmail.com>
- <20220406145847.GX4012@pengutronix.de>
- <1A6985CC-CBEB-44B2-AA61-3005D204C023@gmail.com>
+Received: from mga14.intel.com (mga14.intel.com [192.55.52.115])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 59D4610E9A7;
+ Thu,  7 Apr 2022 10:24:23 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+ t=1649327063; x=1680863063;
+ h=from:to:cc:subject:date:message-id:references:
+ in-reply-to:content-id:content-transfer-encoding: mime-version;
+ bh=oM0GNQX9i3BRLqiKlFFwCHVWdM9dT89rE8xOAKh7r30=;
+ b=hhSol9tQ28nvlSXJtShVelR7ZCcbtwSobJHM4REaxlJknxm4CxTmdRz1
+ aGBvp3od1js92CygMywoprk1BI498PPGkJIaojB12Vvo/fN2tC42fP7y7
+ 8j1VznORZnJleHgw+V3cKtvZFGo/jDjMo5TKLxjjT7Ns+qU8062BsveQI
+ c02N6ZbFWFDgzT92rmAp/17oi52Gh4BC5qPDJikGuM2UFCjgpclqy2tQJ
+ p7S3tcLXk2j4MjYLHlGkW1WKzoDEaDAKyy6U1DuCE85PQFtztrHUqZrHS
+ 1TnqHxsusMXnfy9HrtIlir4Rs1az2jTrgLrvb3+RMA/LY8FzNwJJWAKmA Q==;
+X-IronPort-AV: E=McAfee;i="6200,9189,10309"; a="261463318"
+X-IronPort-AV: E=Sophos;i="5.90,241,1643702400"; d="scan'208";a="261463318"
+Received: from fmsmga002.fm.intel.com ([10.253.24.26])
+ by fmsmga103.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 07 Apr 2022 03:24:14 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.90,241,1643702400"; d="scan'208";a="652764862"
+Received: from orsmsx605.amr.corp.intel.com ([10.22.229.18])
+ by fmsmga002.fm.intel.com with ESMTP; 07 Apr 2022 03:24:13 -0700
+Received: from orsmsx612.amr.corp.intel.com (10.22.229.25) by
+ ORSMSX605.amr.corp.intel.com (10.22.229.18) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.2308.27; Thu, 7 Apr 2022 03:24:12 -0700
+Received: from orsmsx610.amr.corp.intel.com (10.22.229.23) by
+ ORSMSX612.amr.corp.intel.com (10.22.229.25) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.2308.27; Thu, 7 Apr 2022 03:24:12 -0700
+Received: from orsedg603.ED.cps.intel.com (10.7.248.4) by
+ orsmsx610.amr.corp.intel.com (10.22.229.23) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.2308.27 via Frontend Transport; Thu, 7 Apr 2022 03:24:12 -0700
+Received: from NAM12-DM6-obe.outbound.protection.outlook.com (104.47.59.168)
+ by edgegateway.intel.com (134.134.137.100) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.1.2308.27; Thu, 7 Apr 2022 03:24:12 -0700
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=cNKcI45734UymGLB22rGm4JEa6Yuw2S9fepyRZH4IMb19zlpjXYhJvUkq4ZYJjlTCs67MkRVdhdijN7Xgv3b1GOwVcRXherYXZ8sspwIOSPHNnUuEl94NdUpjyeHu659XXAzw4CeRTH/pQkAS2RQFtQsA65ZJJkEbL6+/LzoN+g8IARIG7HvMPAEpCxRVs3/f+VmlcH6XXReL7HxYnrt9JF/QzO3/zJadobrNZZh0ErDv/OipoAs4l49AxYuLFI8C6VsFZTrjM4EoRd5IKK95hB3W/x6eDR5unohFoi4wDJD0m5WlRV7OiLmcHMlWqfsUMugmB6BCZF1d5zH19FMyA==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=oM0GNQX9i3BRLqiKlFFwCHVWdM9dT89rE8xOAKh7r30=;
+ b=IX4X+peVKYtIRtiTwxvt6IXm2q/0V+ZZ5JMjgMjQnAShlDkw4Rm+r1LkhBKO296dsXMnLjDqG03FVZYRborICyko19Ov3B5lJ0YVb9AJRE3trwixq0uqW37/qpElx55KS7ClAkMY6dGAQwOivRHFJCdxj8XPkS32tNOh2NX98RNtnneibS7Gglr0VAU5hKU7/+KF9K9fckcoWSdd1GJi8Yubpk5lsHklmtgxupJ5A2Sr+Rp7UvUr5vff7U+khRa2XaFHKhyUmREvF9BszFqHBnqpAWoU0Kgc/K10/Z+MS+VzocVXGudvGzD6iFA2tg9aO3y27ZU2EvXFI24pqHU/6w==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=intel.com; dmarc=pass action=none header.from=intel.com;
+ dkim=pass header.d=intel.com; arc=none
+Received: from DM4PR11MB5549.namprd11.prod.outlook.com (2603:10b6:5:388::7) by
+ SN6PR11MB3181.namprd11.prod.outlook.com (2603:10b6:805:c3::29) with
+ Microsoft
+ SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.20.5123.31; Thu, 7 Apr 2022 10:24:10 +0000
+Received: from DM4PR11MB5549.namprd11.prod.outlook.com
+ ([fe80::e5b8:93eb:e06b:f1ab]) by DM4PR11MB5549.namprd11.prod.outlook.com
+ ([fe80::e5b8:93eb:e06b:f1ab%5]) with mapi id 15.20.5144.022; Thu, 7 Apr 2022
+ 10:24:10 +0000
+From: "Wang, Zhi A" <zhi.a.wang@intel.com>
+To: Christoph Hellwig <hch@lst.de>, Zhi Wang <zhi.wang.linux@gmail.com>
+Subject: Re: [PATCH v9 1/3] i915/gvt: Separate the MMIO tracking table from
+ GVT-g
+Thread-Topic: [PATCH v9 1/3] i915/gvt: Separate the MMIO tracking table from
+ GVT-g
+Thread-Index: AQHYSk/vDxh6otQMi0KsvRqKHUKM56zkGD+AgAAmXYA=
+Date: Thu, 7 Apr 2022 10:24:10 +0000
+Message-ID: <25f11f25-ef51-df22-fa16-620f9f2b7f53@intel.com>
+References: <20220407071945.72148-1-zhi.a.wang@intel.com>
+ <20220407071945.72148-2-zhi.a.wang@intel.com> <20220407080651.GA16455@lst.de>
+In-Reply-To: <20220407080651.GA16455@lst.de>
+Accept-Language: en-FI, en-US
+Content-Language: aa
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+user-agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.14.0
+authentication-results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=intel.com;
+x-ms-publictraffictype: Email
+x-ms-office365-filtering-correlation-id: 148b3e96-7122-4104-143d-08da1880c162
+x-ms-traffictypediagnostic: SN6PR11MB3181:EE_
+x-ld-processed: 46c98d88-e344-4ed4-8496-4ed7712e255d,ExtAddr
+x-microsoft-antispam-prvs: <SN6PR11MB3181E75D697BD0A3E16D2401CAE69@SN6PR11MB3181.namprd11.prod.outlook.com>
+x-ms-exchange-senderadcheck: 1
+x-ms-exchange-antispam-relay: 0
+x-microsoft-antispam: BCL:0;
+x-microsoft-antispam-message-info: P32f07oaXG3NYfAVZDqsterVz5VOZXtjVaWFwk/L0gEUxbHkVZWcMpigyZHs1xPh4LykhXMfmqrNiR7vEPWRW+x82gZxtOJ78674RcuJsKRdKQxQiZ0lZuSaxwgpGVBVXaYw8M5rURUD1Aeo6JaD+fzHtNu7pt9XTr6T1eG/8zc7WrrKx/b1YOPZdPsRL248U730emvYOy+DTNG3ZNWiqZC9hJEvv9jmt4zKJ2uR4G8mJLCxgssF+8KlM3IH+WvJ2FZjTVQiUX8EDoEqgQTsC3l6e6zpRzRgdAN0HpTCn0F/ATw8uYWXnb7KYY+dNEmQRTgdMIf3JLPuat0vj8DLrwC/oX8OI23hVypZCXdJ7Hi2kSMqSUqQeK3Se269tX1lwKim9bhECp4pwdBYusiZ+9dLHRarXz2T6n1IauePvo86dlud6Se/JlbZvwEmDzm9luIYdFP5zdWgVigKP74bP7viSHesKOoR5pxQssrvM4GRhTwfk2lMI83HpBFgwnjfHfz0Q+po+h+zhGddnaf+BcuPTRW1On3e5l19Amf9uzLSfK5hIUMpXTXENn2xK2RFUSVMYyinFEVpHE4K5fvO4zEZt462SkIWaJuKV+eiC7gYFlAcTjsbuhZpaKIdCsXlwGY5Q0tx1cLE7BkCevGv5O0xJrDpsLIBcPurL7WQ4Q6vECc9L7RRxtDd6uKKvDtEQJjNmVFnE756kKFKL7jr3ziQ2qMbkO6qsBasKyrVzoFqO8R0Uy8rRyrmbYkAPCH8HBoSZueWWXWHcIWu3SAtMg==
+x-forefront-antispam-report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
+ IPV:NLI; SFV:NSPM; H:DM4PR11MB5549.namprd11.prod.outlook.com; PTR:; CAT:NONE;
+ SFS:(13230001)(366004)(31696002)(86362001)(82960400001)(38100700002)(122000001)(38070700005)(316002)(64756008)(8676002)(76116006)(91956017)(4326008)(66556008)(66476007)(66446008)(66946007)(110136005)(54906003)(8936002)(4744005)(6486002)(53546011)(186003)(26005)(2616005)(6512007)(6506007)(71200400001)(508600001)(7416002)(5660300002)(36756003)(31686004)(2906002)(45980500001)(43740500002);
+ DIR:OUT; SFP:1102; 
+x-ms-exchange-antispam-messagedata-chunkcount: 1
+x-ms-exchange-antispam-messagedata-0: =?Windows-1252?Q?iZnFaNas9T1XFWGRxIwhPnPmn29On1jA74umwgltSIoGIdtQULgdUDVm?=
+ =?Windows-1252?Q?VzZQrnjAkyHukEHmqv29r6AjgMWUTyTj2env/vhy1kAGwOgjd9uKG8sR?=
+ =?Windows-1252?Q?mtzJukZ7zLLZ0FaFS1DjHHSDC2xlfRH3nfA+ElRvuGvaAzYYFqErwxHf?=
+ =?Windows-1252?Q?dapoP/VzQO8splJyDJYPacdtf9yhDDSnucU+Cgjhoslt20QJRsLdaEgo?=
+ =?Windows-1252?Q?7s7Gmo7JymtDDTu4jbf69ycklpu+fTyMzEjaHsY2FLgpOgXf2Fm3FOh/?=
+ =?Windows-1252?Q?ycEfFAmiGcfAPTPRUr0mL1kIjW9t1qX+luTCSQLbKbg6sl2lRlctF4E/?=
+ =?Windows-1252?Q?WV6MrBJWHcW6Q7aFqxh1nNmPJco1XNoWU7DN4Ia6ov4pxoqgDBygw0Mi?=
+ =?Windows-1252?Q?K2X7XUZ4dBioMejJhJ4+lmkZ5DGb+KZ0KA3p/XuHp27yDYCeKRIxb8ZQ?=
+ =?Windows-1252?Q?WyTmFLqr3yBoDs/UcO/rcHdjEjSzHZcoTeGgVTTldwyvTVVPit0XYyhF?=
+ =?Windows-1252?Q?GmjGY8+NX1P1cmsZ5epE+B1cNCcPUBxSkljhFykeFKvMPDKEm3gnrVFd?=
+ =?Windows-1252?Q?DZKC7xKUc1yx++KWz/qIprf7tXBOn16WCJV9MWwknEiGcXyrFYUcnB/1?=
+ =?Windows-1252?Q?5xaDlidbQl1RPahkbY4CRjagyvZFhXbRsXA8SI59GAM9rLgXKKKF12pA?=
+ =?Windows-1252?Q?NsFhik0DD8NJec0DUoCdj/KTpqQi5YzE+W7opi/hVKHU5FTv01rD+JQZ?=
+ =?Windows-1252?Q?XnrR6kuSr9MUWn3Wm6cHeqeR1F3AxVW/r+oTWxmrQJV1idtDKWmif4hR?=
+ =?Windows-1252?Q?DmrOJ8DJiNC4VTRFwbpW4CsJRUGM9Pz/NRHaZw7GPhIXIFU0Sh1Z0Hfy?=
+ =?Windows-1252?Q?tqmYbeeXy3BNC2eDdwbBGGnhKUPxHsJAMGX3eV4Ni3NE0kloB4euwuAx?=
+ =?Windows-1252?Q?I1Whxxo0OabLQ+If3np1BfZk7KgDjzuL/YBfm2e08j8nR08MSjEPwy35?=
+ =?Windows-1252?Q?lBcX6VvC5ab2NQtJn0lPcHdHi5heRD7Vr9Xs71V+baNMymMP2MFeGJBk?=
+ =?Windows-1252?Q?SEoKLzerrV2y3P3agolcE4QSvUeR8nNIOwOknWp2N11VkPOPzBN3/fDC?=
+ =?Windows-1252?Q?Dl8ovY+wj4GC05Bb3ggSRrufvvuas3GOt9ZaUFMqI6/IlRfhAd+9sYnr?=
+ =?Windows-1252?Q?/gq+Tvp2KL1H75Zr0kesouVUEQZ8BqPkFn5golXbdG5SF84aLUE77q5K?=
+ =?Windows-1252?Q?Kv5SVv/LSLsr736LjVUwW8RN32Xhi7ccIxIuD7D4aCPqb2L1nG6adZcy?=
+ =?Windows-1252?Q?2puidUGubo05nNyXGlxWXbQFFRLX7iWcgiz2TzCTVeKXj/+nNzjGWCe4?=
+ =?Windows-1252?Q?PLz95nu1WWJMtyhtVZGzRJP8ZQ+VRGh9U4rAFZ8+KkED91/RqNiz0hxE?=
+ =?Windows-1252?Q?Px3QcYPJrLLh2h0/K2F6pgbyLlIIRCQBrWcaFEUwsgQ/sCXuJTqaCZO1?=
+ =?Windows-1252?Q?SQAuSGhmyAzmCBex7mm+bFBKvWvUKjOcNQknzjqWtU4TzuMqfglEC4YD?=
+ =?Windows-1252?Q?Wfp2dOrZLDJFBiYbhxoE3//vlxHwQ8LdLbGNJJ1wfOaeqP+iQDXYxGDE?=
+ =?Windows-1252?Q?7ZMQCETSvsKL46Kny11m3j4siJba5Qf4NLp1kUZIUjKLLT1nnJ1WYNHU?=
+ =?Windows-1252?Q?c6NR/3Pql51tr7d4hKqmIBHEMFgJB0m4ATMDLmJZNkRPCoKCxbKFM83w?=
+ =?Windows-1252?Q?i2RZp+cHGXouA77uBml73oXhakypdLSmvgNdmspjN+hbMihzlv/qwzZL?=
+ =?Windows-1252?Q?CaX3QWfQrIHpAStACTJ5SPODYQeVhPAz2K/Hxe2Wu6w02x8IVVqv4/gx?=
+ =?Windows-1252?Q?5jD/0ucpUT5veg=3D=3D?=
+Content-Type: text/plain; charset="Windows-1252"
+Content-ID: <C3D2184B7FE24E47ACE5B3CC2A6D2E03@namprd11.prod.outlook.com>
+Content-Transfer-Encoding: quoted-printable
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <1A6985CC-CBEB-44B2-AA61-3005D204C023@gmail.com>
-X-Sent-From: Pengutronix Hildesheim
-X-URL: http://www.pengutronix.de/
-X-IRC: #ptxdist @freenode
-X-Accept-Language: de,en
-X-Accept-Content-Type: text/plain
-X-Uptime: 12:03:24 up 7 days, 22:33, 69 users, load average: 0.45, 0.37, 0.25
-User-Agent: Mutt/1.10.1 (2018-07-13)
-X-SA-Exim-Connect-IP: 2001:67c:670:100:1d::c0
-X-SA-Exim-Mail-From: sha@pengutronix.de
-X-SA-Exim-Scanned: No (on metis.ext.pengutronix.de);
- SAEximRunCond expanded to false
-X-PTX-Original-Recipient: dri-devel@lists.freedesktop.org
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-AuthSource: DM4PR11MB5549.namprd11.prod.outlook.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 148b3e96-7122-4104-143d-08da1880c162
+X-MS-Exchange-CrossTenant-originalarrivaltime: 07 Apr 2022 10:24:10.5344 (UTC)
+X-MS-Exchange-CrossTenant-fromentityheader: Hosted
+X-MS-Exchange-CrossTenant-id: 46c98d88-e344-4ed4-8496-4ed7712e255d
+X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
+X-MS-Exchange-CrossTenant-userprincipalname: kOMjikDP8/rxEC8+XU/0Mmnc4IvGV7Td/ordb6EWUs4qDWBFXSA027AxP2wPhG+QNgsO6GxK4O+DutxA2wb7EQ==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: SN6PR11MB3181
+X-OriginatorOrg: intel.com
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -62,154 +160,27 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: "devicetree@vger.kernel.org" <devicetree@vger.kernel.org>,
- Benjamin Gaignard <benjamin.gaignard@collabora.com>,
- Peter Geis <pgwipeout@gmail.com>, Sandy Huang <hjc@rock-chips.com>,
- dri-devel@lists.freedesktop.org,
- "open list:ARM/Rockchip SoC..." <linux-rockchip@lists.infradead.org>,
- Michael Riesch <michael.riesch@wolfvision.net>, kernel@pengutronix.de,
- Andy Yan <andy.yan@rock-chips.com>,
- "linux-arm-kernel@lists.infradead.org" <linux-arm-kernel@lists.infradead.org>
+Cc: Zhi Wang <zhi.a.wang@gmail.com>,
+ "intel-gfx@lists.freedesktop.org" <intel-gfx@lists.freedesktop.org>,
+ "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
+ "dri-devel@lists.freedesktop.org" <dri-devel@lists.freedesktop.org>,
+ Jason Gunthorpe <jgg@nvidia.com>, "Vivi, Rodrigo" <rodrigo.vivi@intel.com>,
+ "intel-gvt-dev@lists.freedesktop.org" <intel-gvt-dev@lists.freedesktop.org>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Wed, Apr 06, 2022 at 06:00:00PM +0200, Piotr Oniszczuk wrote:
-> 
-> 
-> > Wiadomość napisana przez Sascha Hauer <s.hauer@pengutronix.de> w dniu 06.04.2022, o godz. 16:58:
-> > 
-> > On Wed, Apr 06, 2022 at 11:47:22AM +0200, Piotr Oniszczuk wrote:
-> >> 
-> >> 
-> >> Sascha,
-> >> 
-> >> Having vop2 finally working with drm planes rendering i discovered another issue: overlay osd is invisible at playback. 
-> >> 
-> >> context: player draws video on plane #X and osd on overlay plane #Y
-> >> When user do i.e. seek at playback - app uses overlay OSD plane to display OSD to user. This approach is used by majority of players (KODI, etc.)
-> >> 
-> >> This works well on all platforms i have  - except rk3566 
-> >> 
-> >> For me it looks like z-order vop2 issue or alpha blending issue.
-> >> As this is only on rk3566 and only on drm-planes mode - issue is vop2 related imho.
-> > 
-> > During my testing I haven't seen any z-order issues, but that doesn't
-> > mean much. With Weston I can currently only use the AFBC enabled cluster
-> > windows and with modetest I can only use the non-cluster windows. Are
-> > you able to find out which window is used for the OSD?
-> > 
-> > Sascha
-> > 
-> > -- 
-> > Pengutronix e.K.                           |                             |
-> > Steuerwalder Str. 21                       | http://www.pengutronix.de/  |
-> > 31137 Hildesheim, Germany                  | Phone: +49-5121-206917-0    |
-> > Amtsgericht Hildesheim, HRA 2686           | Fax:   +49-5121-206917-5555 |
-> 
-> WiIl this answer to your Q?
+Thanks so much!
 
-Yes, and it raises a few more ;)
+Jani and Joonas, it would be better to have one rb from i915 maintainers as=
+ this patches also modify i915 code.
 
-> 
-> player:
-> 
-> 2022-04-06 17:52:26.424487 I Display: Geometry: 1920x1080+0+0 Size(Qt): 930mmx530mm
-> 2022-04-06 17:52:26.424922 I /dev/dri/card0 Qt EGLFS/KMS Fd:5 Crtc id:49 Connector id:51 Atomic: 1
-> 2022-04-06 17:52:26.425061 I /dev/dri/card0: Authenticated
-> 2022-04-06 17:52:26.534362 I /dev/dri/card0: Found 3 planes; 3 for this CRTC
-> 2022-04-06 17:52:26.534384 I /dev/dri/card0: Selected Plane #37 Overlay for video
-> 2022-04-06 17:52:26.534430 I /dev/dri/card0: Supported DRM video formats: NV12,NV16,NV24,YVYU,VYUY
-> 2022-04-06 17:52:26.534437 I /dev/dri/card0: Selected Plane #43 Overlay for GUI
-> 2022-04-06 17:52:26.534480 I /dev/dri/card0: DRM device retrieved from Qt
-> 2022-04-06 17:52:26.534489 I /dev/dri/card0: Multi-plane setup: Requested: 1 Setup: 1
-> 
-> so:
-> plane #37 is where video is drawing
-> plane #43 is GUI/OSD
-> 
-> 
-> dri state:
-> 
-> root@Myth-Frontend-06c7e973c2f1:~ # cat /sys/kernel/debug/dri/0/state
-> plane[31]: Smart0-win0
->         crtc=video_port0
->         fb=58
->                 allocated by = mythfrontend
->                 refcount=2
->                 format=XR24 little-endian (0x34325258)
->                 modifier=0x0
->                 size=1920x1080
->                 layers:
->                         size[0]=1920x1080
->                         pitch[0]=7680
->                         offset[0]=0
->                         obj[0]:
->                                 name=0
->                                 refcount=4
->                                 start=00000000
->                                 size=8294400
->                                 imported=no
->         crtc-pos=1920x1080+0+0
->         src-pos=1920.000000x1080.000000+0.000000+0.000000
->         rotation=1
->         normalized-zpos=0
->         color-encoding=ITU-R BT.601 YCbCr
->         color-range=YCbCr limited range
+Thanks,
+Zhi.
 
-Ok, this seems to be the base plane.
+On 4/7/22 8:06 AM, Christoph Hellwig wrote:
+> The whole series looks good and works fine on by Kaby Lake Thinkpad:
+>=20
+> Reviewed-by: Christoph Hellwig <hch@lst.de>
+> Tested-by: Christoph Hellwig <hch@lst.de>
+>=20
 
-> plane[37]: Esmart0-win0
->         crtc=(null)
-
-crtc=null? Did you capture the state without a video playing? Otherwise
-I would expect a crtc associated here.
-
->         fb=0
->         crtc-pos=1920x1080+0+0
->         src-pos=1920.000000x1080.000000+0.000000+0.000000
->         rotation=1
->         normalized-zpos=0
->         color-encoding=ITU-R BT.601 YCbCr
->         color-range=YCbCr limited range
-> plane[43]: Cluster0-win0
->         crtc=(null)
-
-This plane is selected for OSD by your application. The cluster windows
-can't show a regular linear framebuffer, they can only do AFBC. You'll
-see that in modetest:
-
-	in_formats blob decoded:
-                 XR24:  ARM_BLOCK_SIZE=16x16,
-			 ARM_BLOCK_SIZE=16x16,MODE=SPARSE
-			 ARM_BLOCK_SIZE=16x16,MODE=YTR
-			 ARM_BLOCK_SIZE=16x16,MODE=CBR
-			 ARM_BLOCK_SIZE=16x16,MODE=YTR|SPARSE
-			 ARM_BLOCK_SIZE=16x16,MODE=SPARSE|CBR
-			 ARM_BLOCK_SIZE=16x16,MODE=YTR|CBR
-			 ARM_BLOCK_SIZE=16x16,MODE=YTR|SPARSE|CBR
-			 ARM_BLOCK_SIZE=16x16,MODE=YTR|SPLIT|SPARSE
-		...
-
-The other windows show "XR24: LINEAR" here. Does your application use
-the GPU to render the OSD? Otherwise I doubt your application can
-handle this format, so it should not use this layer.
-
->         fb=0
->         crtc-pos=0x0+0+0
->         src-pos=0.000000x0.000000+0.000000+0.000000
->         rotation=1
->         normalized-zpos=0
-
-I would be interested in this output when the player is actually playing
-something. This normalized-zpos puzzles me a bit. Normally it should be
-unique over all enabled planes for a CRTC. Maybe 0 is ok here because
-it's currently not associated to any CRTC.
-
-Sascha
-
-
--- 
-Pengutronix e.K.                           |                             |
-Steuerwalder Str. 21                       | http://www.pengutronix.de/  |
-31137 Hildesheim, Germany                  | Phone: +49-5121-206917-0    |
-Amtsgericht Hildesheim, HRA 2686           | Fax:   +49-5121-206917-5555 |
