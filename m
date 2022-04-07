@@ -1,40 +1,53 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id DC25D4F8539
-	for <lists+dri-devel@lfdr.de>; Thu,  7 Apr 2022 18:51:25 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 393A24F8545
+	for <lists+dri-devel@lfdr.de>; Thu,  7 Apr 2022 18:51:40 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id C78F810EBB0;
-	Thu,  7 Apr 2022 16:51:23 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id DD20F10EBC1;
+	Thu,  7 Apr 2022 16:51:37 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-4022.proton.ch (mail-4022.proton.ch [185.70.40.22])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 5525C10EBA9
- for <dri-devel@lists.freedesktop.org>; Thu,  7 Apr 2022 16:51:22 +0000 (UTC)
-Date: Thu, 07 Apr 2022 16:51:13 +0000
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=emersion.fr;
- s=protonmail2; t=1649350279;
- bh=CIhE/kwMfhimpbQ5nn3P/sVHmLzHnMgi9uGqRaUb9pM=;
- h=Date:To:From:Cc:Reply-To:Subject:Message-ID:In-Reply-To:
- References:From:To:Cc:Date:Subject:Reply-To:Feedback-ID:
- Message-ID;
- b=wQKtylWdjFCc8zx7+K2Q8YJdfzhN5aiGL6jV4zQRmiZCURn4yeD152eBTSNTMuumz
- zLeXj8fwRMjcAJy9pR4VDNctNWZt3oudokxs5Kb3SDaWzcnkmT56xnQ6WYCfhKxAyD
- q+mZ6uEdO0+zOb6dtebyCuJFtiSkwIsml6oWHAX8/exnOvhB3iXmvp/dfEV8wn7SWE
- 4/86sAv7YXNTJ+OpaP20EzUy5us1se2OLO5NhvtSSfqgsw4HSyQMNEVpEyWSwOOWra
- xzb4adi5NjX7BkyTO0uimVbf6q2TduIyVY+KTUtarGxJHlmcbPbgyNMz71hZhzjKR3
- 5a8oMgZWwVOHw==
-To: Hans de Goede <hdegoede@redhat.com>
-From: Simon Ser <contact@emersion.fr>
-Subject: Re: [RFC] drm/kms: control display brightness through drm_connector
- properties
-Message-ID: <dP36CeeNjDVKgcJzbBAdkNM0HzB3N5Uzd6cgBcmrb5mA6xzWs9AKMmRdMKG2y6c1geMhZ1i8hONKQmxYYHN-ZhRLGT_TXz5IhtqnJSWBD9Q=@emersion.fr>
-In-Reply-To: <0d188965-d809-81b5-74ce-7d30c49fee2d@redhat.com>
-References: <0d188965-d809-81b5-74ce-7d30c49fee2d@redhat.com>
+Received: from alexa-out.qualcomm.com (alexa-out.qualcomm.com [129.46.98.28])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 69F0E10EBBF;
+ Thu,  7 Apr 2022 16:51:36 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=quicinc.com; i=@quicinc.com; q=dns/txt; s=qcdkim;
+ t=1649350296; x=1680886296;
+ h=from:to:cc:subject:date:message-id:mime-version;
+ bh=zWgHs9WoOcSa0eb+PT/FFhzIfcD017bTdrABzx78AoA=;
+ b=bwIbaRiWgEVkI7Gm6mPJOcZHJNHk0XhA6GTYcL+b6F1udMMGjECh4q5C
+ yG3sqiRiVp0qpAK2lioLOOHx8Jw+loEaDcekXyKOFzjo4K0BVlzBKxs2s
+ 84OhyOYgN2ElxggBvIJK6rBcINzTuGwVLmM3wiwzJRk2evBxZtQhnBa+V g=;
+Received: from ironmsg-lv-alpha.qualcomm.com ([10.47.202.13])
+ by alexa-out.qualcomm.com with ESMTP; 07 Apr 2022 09:51:35 -0700
+X-QCInternal: smtphost
+Received: from nasanex01c.na.qualcomm.com ([10.47.97.222])
+ by ironmsg-lv-alpha.qualcomm.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 07 Apr 2022 09:51:35 -0700
+Received: from nalasex01a.na.qualcomm.com (10.47.209.196) by
+ nasanex01c.na.qualcomm.com (10.47.97.222) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.2.986.22; Thu, 7 Apr 2022 09:51:34 -0700
+Received: from khsieh-linux1.qualcomm.com (10.80.80.8) by
+ nalasex01a.na.qualcomm.com (10.47.209.196) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.2.986.22; Thu, 7 Apr 2022 09:51:34 -0700
+From: Kuogee Hsieh <quic_khsieh@quicinc.com>
+To: <robdclark@gmail.com>, <sean@poorly.run>, <swboyd@chromium.org>,
+ <vkoul@kernel.org>, <daniel@ffwll.ch>, <airlied@linux.ie>,
+ <agross@kernel.org>, <dmitry.baryshkov@linaro.org>,
+ <bjorn.andersson@linaro.org>
+Subject: [PATCH] drm/msm/dp: add fail safe mode outside of event_mutex context
+Date: Thu, 7 Apr 2022 09:51:26 -0700
+Message-ID: <1649350286-11504-1-git-send-email-quic_khsieh@quicinc.com>
+X-Mailer: git-send-email 2.7.4
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain
+X-Originating-IP: [10.80.80.8]
+X-ClientProxiedBy: nasanex01b.na.qualcomm.com (10.46.141.250) To
+ nalasex01a.na.qualcomm.com (10.47.209.196)
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -47,88 +60,93 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Reply-To: Simon Ser <contact@emersion.fr>
-Cc: Sebastian Wick <sebastian.wick@redhat.com>,
- Martin Roukala <martin.roukala@mupuf.org>,
- Christoph Grenz <christophg+lkml@grenz-bonn.de>,
- wayland <wayland-devel@lists.freedesktop.org>,
- "dri-devel@lists.freedesktop.org" <dri-devel@lists.freedesktop.org>,
- Yusuf Khan <yusisamerican@gmail.com>
+Cc: quic_sbillaka@quicinc.com, linux-arm-msm@vger.kernel.org,
+ quic_abhinavk@quicinc.com, dri-devel@lists.freedesktop.org,
+ quic_khsieh@quicinc.com, quic_aravindh@quicinc.com,
+ freedreno@lists.freedesktop.org, linux-kernel@vger.kernel.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Very nice plan! Big +1 for the overall approach.
+There is possible circular locking dependency detected on event_mutex.
+To break this possible circular locking, this patch move setting fail
+safe mode out of event_mutex scope.
 
-On Thursday, April 7th, 2022 at 17:38, Hans de Goede <hdegoede@redhat.com> =
-wrote:
+Fixes: d4aca422539c ("drm/msm/dp:  always add fail-safe mode into connector mode list")
+Signed-off-by: Kuogee Hsieh <quic_khsieh@quicinc.com>
+---
+ drivers/gpu/drm/msm/dp/dp_display.c |  6 ++++++
+ drivers/gpu/drm/msm/dp/dp_panel.c   | 20 ++++++++++----------
+ drivers/gpu/drm/msm/dp/dp_panel.h   |  1 +
+ 3 files changed, 17 insertions(+), 10 deletions(-)
 
-> The drm_connector brightness properties
-> =3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
-=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
->
-> bl_brightness: rw 0-int32_max property controlling the brightness setting
-> of the connected display. The actual maximum of this will be less then
-> int32_max and is given in bl_brightness_max.
+diff --git a/drivers/gpu/drm/msm/dp/dp_display.c b/drivers/gpu/drm/msm/dp/dp_display.c
+index 178b774..a42732b 100644
+--- a/drivers/gpu/drm/msm/dp/dp_display.c
++++ b/drivers/gpu/drm/msm/dp/dp_display.c
+@@ -580,6 +580,12 @@ static int dp_hpd_plug_handle(struct dp_display_private *dp, u32 data)
+ 			dp->dp_display.connector_type, state);
+ 	mutex_unlock(&dp->event_mutex);
+ 
++	/*
++	 * add fail safe mode outside event_mutex scope
++	 * to avoid potiential circular lock with drm thread
++	 */
++	dp_panel_add_fail_safe_mode(dp->dp_display.connector);
++
+ 	/* uevent will complete connection part */
+ 	return 0;
+ };
+diff --git a/drivers/gpu/drm/msm/dp/dp_panel.c b/drivers/gpu/drm/msm/dp/dp_panel.c
+index f141872..26c3653 100644
+--- a/drivers/gpu/drm/msm/dp/dp_panel.c
++++ b/drivers/gpu/drm/msm/dp/dp_panel.c
+@@ -151,6 +151,15 @@ static int dp_panel_update_modes(struct drm_connector *connector,
+ 	return rc;
+ }
+ 
++void dp_panel_add_fail_safe_mode(struct drm_connector *connector)
++{
++	/* fail safe edid */
++	mutex_lock(&connector->dev->mode_config.mutex);
++	if (drm_add_modes_noedid(connector, 640, 480))
++		drm_set_preferred_mode(connector, 640, 480);
++	mutex_unlock(&connector->dev->mode_config.mutex);
++}
++
+ int dp_panel_read_sink_caps(struct dp_panel *dp_panel,
+ 	struct drm_connector *connector)
+ {
+@@ -207,16 +216,7 @@ int dp_panel_read_sink_caps(struct dp_panel *dp_panel,
+ 			goto end;
+ 		}
+ 
+-		/* fail safe edid */
+-		mutex_lock(&connector->dev->mode_config.mutex);
+-		if (drm_add_modes_noedid(connector, 640, 480))
+-			drm_set_preferred_mode(connector, 640, 480);
+-		mutex_unlock(&connector->dev->mode_config.mutex);
+-	} else {
+-		/* always add fail-safe mode as backup mode */
+-		mutex_lock(&connector->dev->mode_config.mutex);
+-		drm_add_modes_noedid(connector, 640, 480);
+-		mutex_unlock(&connector->dev->mode_config.mutex);
++		dp_panel_add_fail_safe_mode(connector);
+ 	}
+ 
+ 	if (panel->aux_cfg_update_done) {
+diff --git a/drivers/gpu/drm/msm/dp/dp_panel.h b/drivers/gpu/drm/msm/dp/dp_panel.h
+index 9023e5b..99739ea 100644
+--- a/drivers/gpu/drm/msm/dp/dp_panel.h
++++ b/drivers/gpu/drm/msm/dp/dp_panel.h
+@@ -59,6 +59,7 @@ int dp_panel_init_panel_info(struct dp_panel *dp_panel);
+ int dp_panel_deinit(struct dp_panel *dp_panel);
+ int dp_panel_timing_cfg(struct dp_panel *dp_panel);
+ void dp_panel_dump_regs(struct dp_panel *dp_panel);
++void dp_panel_add_fail_safe_mode(struct drm_connector *connector);
+ int dp_panel_read_sink_caps(struct dp_panel *dp_panel,
+ 		struct drm_connector *connector);
+ u32 dp_panel_get_mode_bpp(struct dp_panel *dp_panel, u32 mode_max_bpp,
+-- 
+The Qualcomm Innovation Center, Inc. is a member of the Code Aurora Forum,
+a Linux Foundation Collaborative Project
 
-Do we need to split this up into two props for sw/hw state? The privacy scr=
-een
-stuff needed this, but you're pretty familiar with that. :)
-
-> bl_brightness_max: ro 0-int32_max property giving the actual maximum
-> of the display's brightness setting. This will report 0 when brightness
-> control is not available (yet).
-
-I don't think we actually need that one. Integer KMS props all have a
-range which can be fetched via drmModeGetProperty. The max can be
-exposed via this range. Example with the existing alpha prop:
-
-    "alpha": range [0, UINT16_MAX] =3D 65535
-
-> bl_brightness_0_is_min_brightness: ro, boolean
-> When this is set to true then it is safe to set brightness to 0
-> without worrying that this completely turns the backlight off causing
-> the screen to become unreadable. When this is false setting brightness
-> to 0 may turn the backlight off, but this is not guaranteed.
-> This will e.g. be true when directly driving a PWM and the video-BIOS
-> has provided a minimum (non 0) duty-cycle below which the driver will
-> never go.
-
-Hm. It's quite unfortunate that it's impossible to have strong guarantees
-here.
-
-Is there any way we can avoid this prop?
-
-For instance if we can guarantee that the min level won't turn the screen
-completely off we could make the range start from 1 instead of 0.
-Or allow -1 to mean "minimum value, maybe completely off".
-
-> bl_brightness_control_method: ro, enum, possible values:
-> none: The GPU driver expects brightness control to be provided by another
-> driver and that driver has not loaded yet.
-> unknown: The underlying control mechanism is unknown.
-> pwm: The brightness property directly controls the duty-cycle of a PWM
-> output.
-> firmware: The brightness is controlled through firmware calls.
-> DDC/CI: The brightness is controlled through the DDC/CI protocol.
-> gmux: The brightness is controlled by the GMUX.
-> Note this enum may be extended in the future, so other values may
-> be read, these should be treated as "unknown".
->
-> When brightness control becomes available after being reported
-> as not available before (bl_brightness_control_method=3D=3D"none")
-> a uevent with CONNECTOR=3D<connector-id> and
->
-> PROPERTY=3D<bl_brightness_control_method-id> will be generated
->
-> at this point all the properties must be re-read.
->
-> When/once brightness control is available then all the read-only
-> properties are fixed and will never change.
->
-> Besides the "none" value for no driver having loaded yet,
-> the different bl_brightness_control_method values are intended for
-> (userspace) heuristics for such things as the brightness setting
-> linearly controlling electrical power or setting perceived brightness.
-
-Can you elaborate? I don't know enough about brightness control to
-understand all of the implications here.
