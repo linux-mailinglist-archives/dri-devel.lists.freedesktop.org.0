@@ -1,38 +1,38 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id B4E144F7DB8
-	for <lists+dri-devel@lfdr.de>; Thu,  7 Apr 2022 13:16:20 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 3D4E14F7DBA
+	for <lists+dri-devel@lfdr.de>; Thu,  7 Apr 2022 13:16:25 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 1946A10E6C3;
-	Thu,  7 Apr 2022 11:16:17 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id D8D3A10E6CB;
+	Thu,  7 Apr 2022 11:16:22 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from mo4-p03-ob.smtp.rzone.de (mo4-p03-ob.smtp.rzone.de
- [81.169.146.172])
- by gabe.freedesktop.org (Postfix) with ESMTPS id D037D10E69B
- for <dri-devel@lists.freedesktop.org>; Thu,  7 Apr 2022 11:16:15 +0000 (UTC)
+ [85.215.255.103])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 67E0D10E6D4
+ for <dri-devel@lists.freedesktop.org>; Thu,  7 Apr 2022 11:16:21 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; t=1649330173;
  s=strato-dkim-0002; d=goldelico.com;
  h=References:In-Reply-To:Message-Id:Date:Subject:Cc:To:From:Cc:Date:
  From:Subject:Sender;
- bh=ghuIHOXwcBIPtNzAtXxIIrMgvWMfEspBSWPIcijGCo0=;
- b=lzV7xcfX/NnVZKB2WsRCTREkq6y1NvR6MFt70ozwrwoK7e4D/lrT6EpMQONq3PnuPS
- hDrDIYhC1OFobcDxQH/vTUQXCT1tz0AavoFfOzFWw67vxmKkbxi8dEeU42SPbIOxBT4o
- JGepwZTTUmN2yypLrJ3TKrc6qeHy95z20Us907dZ4FZcmJ3zKq6x+Y8gmvfTXMnVoiGb
- JXkzdTfFo0V38Q+eN7Dy/jsI3Cb18UpyXNkmMKY77YmE902LbMi+o95Nwn23nMtRolqj
- qxkb1E0a1vLlNCrGqydsxx0eaIVYBWbxR+iVUvu/2kV483bRaKBOtnrgvAmcJtu0AwLy
- 3dJw==
+ bh=mli3SbgeH19fgUBo5oZuvEr6dwkaZKlBs97YGkIQ7hs=;
+ b=m+N+EovPDYaXEeM9dWP3zoGWYJWca46FkN9WJtA3Fp9OD6gDw8lhy8F6UIhKYymgtf
+ CebZrV9paQ7V2hCHLxk+eDvmDD6Zv7KEt1mIyl4NcnfoXykSWOh0CTNOHllo1D3SnYAx
+ xLMLaJFTTJEKmSNRdzrAa6LhHEQVAmitRACoYQIqjNYk4/0rW76atCXzxf0jy62TwrN3
+ QIf3OxXquiWooLHgN/8C9aVxJQDrRs+w5YqaTNVQgQR2co30vFGJJkwoJ0iCCgz441/y
+ 8g20Y+pa2FHriVyAq1YDSn7pkt/2aQbb4YWyxmXjxVxyz5svJ1gpgxhhBEsZx7popfjQ
+ kx4w==
 Authentication-Results: strato.com;
     dkim=none
 X-RZG-AUTH: ":JGIXVUS7cutRB/49FwqZ7WcJeFKiMhflhwDubTJ9o1KHeBQyh+ITDDFsCr4="
 X-RZG-CLASS-ID: mo00
 Received: from iMac.fritz.box by smtp.strato.de (RZmta 47.42.2 DYNA|AUTH)
- with ESMTPSA id k708cfy37BGCjxD
+ with ESMTPSA id k708cfy37BGDjxE
  (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256 bits))
  (Client did not present a certificate);
- Thu, 7 Apr 2022 13:16:12 +0200 (CEST)
+ Thu, 7 Apr 2022 13:16:13 +0200 (CEST)
 From: "H. Nikolaus Schaller" <hns@goldelico.com>
 To: Andrzej Hajda <andrzej.hajda@intel.com>,
  Neil Armstrong <narmstrong@baylibre.com>,
@@ -43,9 +43,10 @@ To: Andrzej Hajda <andrzej.hajda@intel.com>,
  Maxime Ripard <maxime@cerno.tech>,
  "H. Nikolaus Schaller" <hns@goldelico.com>,
  Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>
-Subject: [PATCH v18 1/3] drm/bridge: display-connector: add ddc-en gpio support
-Date: Thu,  7 Apr 2022 13:16:09 +0200
-Message-Id: <3607e924b7c0cf0be956c0d49894be1442dbda41.1649330171.git.hns@goldelico.com>
+Subject: [PATCH v18 2/3] drm/ingenic: Implement proper
+ .atomic_get_input_bus_fmts
+Date: Thu,  7 Apr 2022 13:16:10 +0200
+Message-Id: <ab25925723cff2f3e773e7137567ef86fff5fdba.1649330171.git.hns@goldelico.com>
 X-Mailer: git-send-email 2.33.0
 In-Reply-To: <cover.1649330170.git.hns@goldelico.com>
 References: <cover.1649330170.git.hns@goldelico.com>
@@ -63,74 +64,72 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Jonas Karlman <jonas@kwiboo.se>, linux-mips@vger.kernel.org,
- dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org,
- Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
- letux-kernel@openphoenux.org
+Cc: letux-kernel@openphoenux.org, linux-mips@vger.kernel.org,
+ linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
+ Jonas Karlman <jonas@kwiboo.se>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-"hdmi-connector.yaml" bindings defines an optional property
-"ddc-en-gpios" for a single gpio to enable DDC operation.
+From: Paul Cercueil <paul@crapouillou.net>
 
-Usually this controls +5V power on the HDMI connector.
-This +5V may also be needed for HPD.
+The .atomic_get_input_bus_fmts() callback of our top bridge should
+return the possible input formats for a given output format. If the
+requested output format is not supported, then NULL should be returned,
+otherwise the bus format negociation will end with a bus format that the
+encoder does not support.
 
-This was not reflected in code but is needed to make the CI20
-board work.
-
-Now, the driver activates the ddc gpio after probe and
-deactivates after remove so it is "almost on".
-
-But only if this driver is loaded (and not e.g. blacklisted
-as module).
-
+Signed-off-by: Paul Cercueil <paul@crapouillou.net>
 Signed-off-by: H. Nikolaus Schaller <hns@goldelico.com>
-Reviewed-by: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
 ---
- drivers/gpu/drm/bridge/display-connector.c | 15 +++++++++++++++
- 1 file changed, 15 insertions(+)
+ drivers/gpu/drm/ingenic/ingenic-drm-drv.c | 28 ++++++++++++++++++++++-
+ 1 file changed, 27 insertions(+), 1 deletion(-)
 
-diff --git a/drivers/gpu/drm/bridge/display-connector.c b/drivers/gpu/drm/bridge/display-connector.c
-index d24f5b90feabf..e4d52a7e31b71 100644
---- a/drivers/gpu/drm/bridge/display-connector.c
-+++ b/drivers/gpu/drm/bridge/display-connector.c
-@@ -24,6 +24,7 @@ struct display_connector {
- 	int			hpd_irq;
- 
- 	struct regulator	*dp_pwr;
-+	struct gpio_desc	*ddc_en;
- };
- 
- static inline struct display_connector *
-@@ -345,6 +346,17 @@ static int display_connector_probe(struct platform_device *pdev)
- 		}
+diff --git a/drivers/gpu/drm/ingenic/ingenic-drm-drv.c b/drivers/gpu/drm/ingenic/ingenic-drm-drv.c
+index a4f5a323f4906..8eb0ad501a7b9 100644
+--- a/drivers/gpu/drm/ingenic/ingenic-drm-drv.c
++++ b/drivers/gpu/drm/ingenic/ingenic-drm-drv.c
+@@ -833,6 +833,32 @@ static int ingenic_drm_bridge_atomic_check(struct drm_bridge *bridge,
  	}
+ }
  
-+	/* enable DDC */
-+	if (type == DRM_MODE_CONNECTOR_HDMIA) {
-+		conn->ddc_en = devm_gpiod_get_optional(&pdev->dev, "ddc-en",
-+						       GPIOD_OUT_HIGH);
-+
-+		if (IS_ERR(conn->ddc_en)) {
-+			dev_err(&pdev->dev, "Couldn't get ddc-en gpio\n");
-+			return PTR_ERR(conn->ddc_en);
-+		}
++static u32 *
++ingenic_drm_bridge_atomic_get_input_bus_fmts(struct drm_bridge *bridge,
++					     struct drm_bridge_state *bridge_state,
++					     struct drm_crtc_state *crtc_state,
++					     struct drm_connector_state *conn_state,
++					     u32 output_fmt,
++					     unsigned int *num_input_fmts)
++{
++	switch (output_fmt) {
++	case MEDIA_BUS_FMT_RGB888_1X24:
++	case MEDIA_BUS_FMT_RGB666_1X18:
++	case MEDIA_BUS_FMT_RGB565_1X16:
++	case MEDIA_BUS_FMT_RGB888_3X8:
++	case MEDIA_BUS_FMT_RGB888_3X8_DELTA:
++		break;
++	default:
++		*num_input_fmts = 0;
++		return NULL;
 +	}
 +
- 	conn->bridge.funcs = &display_connector_bridge_funcs;
- 	conn->bridge.of_node = pdev->dev.of_node;
- 
-@@ -373,6 +385,9 @@ static int display_connector_remove(struct platform_device *pdev)
- {
- 	struct display_connector *conn = platform_get_drvdata(pdev);
- 
-+	if (conn->ddc_en)
-+		gpiod_set_value(conn->ddc_en, 0);
++	return drm_atomic_helper_bridge_propagate_bus_fmt(bridge, bridge_state,
++							  crtc_state, conn_state,
++							  output_fmt,
++							  num_input_fmts);
++}
 +
- 	if (conn->dp_pwr)
- 		regulator_disable(conn->dp_pwr);
+ static irqreturn_t ingenic_drm_irq_handler(int irq, void *arg)
+ {
+ 	struct ingenic_drm *priv = drm_device_get_priv(arg);
+@@ -984,7 +1010,7 @@ static const struct drm_bridge_funcs ingenic_drm_bridge_funcs = {
+ 	.atomic_reset		= drm_atomic_helper_bridge_reset,
+ 	.atomic_duplicate_state	= drm_atomic_helper_bridge_duplicate_state,
+ 	.atomic_destroy_state	= drm_atomic_helper_bridge_destroy_state,
+-	.atomic_get_input_bus_fmts = drm_atomic_helper_bridge_propagate_bus_fmt,
++	.atomic_get_input_bus_fmts = ingenic_drm_bridge_atomic_get_input_bus_fmts,
+ };
  
+ static const struct drm_mode_config_funcs ingenic_drm_mode_config_funcs = {
 -- 
 2.33.0
 
