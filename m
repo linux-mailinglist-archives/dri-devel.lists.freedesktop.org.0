@@ -2,72 +2,85 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id C2CFF4F7B04
-	for <lists+dri-devel@lfdr.de>; Thu,  7 Apr 2022 11:08:09 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 61B794F7B0B
+	for <lists+dri-devel@lfdr.de>; Thu,  7 Apr 2022 11:09:22 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id B0A5210E75A;
-	Thu,  7 Apr 2022 09:08:07 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id A89D210E073;
+	Thu,  7 Apr 2022 09:09:20 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-ed1-x543.google.com (mail-ed1-x543.google.com
- [IPv6:2a00:1450:4864:20::543])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 3DAE310E75A
- for <dri-devel@lists.freedesktop.org>; Thu,  7 Apr 2022 09:08:07 +0000 (UTC)
-Received: by mail-ed1-x543.google.com with SMTP id f18so5631969edc.5
- for <dri-devel@lists.freedesktop.org>; Thu, 07 Apr 2022 02:08:07 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ffwll.ch; s=google;
- h=date:from:to:cc:subject:message-id:mail-followup-to:references
- :mime-version:content-disposition:in-reply-to;
- bh=tii6bmJW9q55jraQmqHw5/idP+ltcE2ABPemNM804dw=;
- b=d8NY3NEzkBkOOnx/540Vv7+vhzPjQIzJR7MP2cGJi36CjQNjQxQZe9D0NcJm3aLrUU
- 7wHgNikyxzQlxUvrhu/bEjik7VXhE7Dod+c64jjBDTCbwdHcxgmEXtdXh07U3cEZ/1V7
- SmGZfZQBtkjZSr1TrudQYHmWhY7b5sJUOH4GY=
+Received: from us-smtp-delivery-124.mimecast.com
+ (us-smtp-delivery-124.mimecast.com [170.10.129.124])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id A566E10E5B6
+ for <dri-devel@lists.freedesktop.org>; Thu,  7 Apr 2022 09:09:19 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1649322558;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=hB372ZQZwFtHcO7eQrCjRw+uc8WqcWd1Sg3EXTJwdeA=;
+ b=GnJ6CxzSRFKCCreCYoxq+Jz+y+QpF0Kti0oUp+HT5L0xjx4s2tPPl3hzkfQooIm/rde2ol
+ B4OHa8KjOCpuwRJHffgXabtpGlAx+XM/WIfdW71uqGw1xVk7qTh9CV+mXqV933uQjCRCTn
+ ONG6EuV38Bh+HnLTOxiaef2JifQAyHE=
+Received: from mail-wm1-f71.google.com (mail-wm1-f71.google.com
+ [209.85.128.71]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ us-mta-363-c-ubSfCHPxORg1AMQ77WQA-1; Thu, 07 Apr 2022 05:09:17 -0400
+X-MC-Unique: c-ubSfCHPxORg1AMQ77WQA-1
+Received: by mail-wm1-f71.google.com with SMTP id
+ 189-20020a1c02c6000000b0038e6c4c6472so4309123wmc.1
+ for <dri-devel@lists.freedesktop.org>; Thu, 07 Apr 2022 02:09:17 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=x-gm-message-state:date:from:to:cc:subject:message-id
- :mail-followup-to:references:mime-version:content-disposition
- :in-reply-to;
- bh=tii6bmJW9q55jraQmqHw5/idP+ltcE2ABPemNM804dw=;
- b=HWZpVTSFklt0e3v+STKuCDhS9ACH7IM09uFN0GPqyQVdepKx13hdnePpYuE/a8I9X1
- bhtgXpetTjmiZxDdK25N5kyA2HAi5Bi1Pv4zBaNt/I0xBes2L3VlGvCeZqggYVG7uJnn
- OM0Ap8dduR0H68/R1M6dWo3TCU6FyQDEgjeOX4o8nKu/Cw+FYaOGqLnLwvNh9dHMXo/p
- bzIzY7tu8BGGFt1cr0S6d9dtOnIr7WbeLMidz1o6yaZIJn3e6TgS75lYqeeRFGuFnrN1
- 4lMqykkuZaMUPbRef1/ASH+v2iadZZVhJNRsnfAWtUFcaHHWA9U15sG2zjOdzOIMvbRI
- fBNg==
-X-Gm-Message-State: AOAM532doRnFHsY5WtESPEUB4PugTOfHEVj7Wt7M29/ybE4gO9aGNt0u
- TE3YCS0DP6KagOr8PIKpZqJKlw==
-X-Google-Smtp-Source: ABdhPJyQFKkA+eaM9rwNPX5uaaYGzenW769xIFP9frPL0MM1TluJEXSe1dbq2fqxT6/3oclOghqisw==
-X-Received: by 2002:a05:6402:34cf:b0:419:75b1:99ad with SMTP id
- w15-20020a05640234cf00b0041975b199admr13137536edc.228.1649322485763; 
- Thu, 07 Apr 2022 02:08:05 -0700 (PDT)
-Received: from phenom.ffwll.local ([2a02:168:57f4:0:efd0:b9e5:5ae6:c2fa])
+ h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
+ :content-language:to:references:from:in-reply-to
+ :content-transfer-encoding;
+ bh=hB372ZQZwFtHcO7eQrCjRw+uc8WqcWd1Sg3EXTJwdeA=;
+ b=y6L/XZ3XNA+5LDUPy8fOucFt3YUhfkYkchIXqoipDSoTXvINidwBP32LY+RKpeZOTA
+ 0H/OdwXQdaeSbtFzY4PuR7uIp+eZ2aIJNPn/W67lCqW95zaG4i1YrBq9szCqcNU6SBJa
+ oQGu1JEYLSU4miLqt3JJ/JsvxhMrcPKcPvDIKwbcxKONLKuOmd0HapGotUs5P4nhg3hb
+ q71n2q6JZiRK2w+DN11jERuWsc01/HhbAWhDQPP74FylZEiWKRiAuZt1LQurmloW49h6
+ iYK8jeay4MP51hKi9OWJ8pj48PCPf1PSaim4I8XwivMs8gZozZJGQSlmWZcqOGweAQBd
+ BDbw==
+X-Gm-Message-State: AOAM5318v4B0l2DIwJnScepg2G8lGvgtIPukogR4Gfb2OUMYGwAeRiPQ
+ mdbqcaDrdD+dI40dJfLjdKvIOGp04JdPTVX8bPKzPIf9eP1nZj+qUXqdgBSbxuAk3BbrpvExFYw
+ A/ho/VHpdUjWjvIQpcmy8W+wysSZ4
+X-Received: by 2002:a5d:4288:0:b0:206:b7b:db7a with SMTP id
+ k8-20020a5d4288000000b002060b7bdb7amr10086632wrq.28.1649322556215; 
+ Thu, 07 Apr 2022 02:09:16 -0700 (PDT)
+X-Google-Smtp-Source: ABdhPJyl0hLCrJWyvNC3LHUnOPVnkuMzNK6MdN9AyHNReSrLGnx8hW5NAoD1FUkaGxU16mm66GKK9g==
+X-Received: by 2002:a5d:4288:0:b0:206:b7b:db7a with SMTP id
+ k8-20020a5d4288000000b002060b7bdb7amr10086613wrq.28.1649322555951; 
+ Thu, 07 Apr 2022 02:09:15 -0700 (PDT)
+Received: from [192.168.1.102] ([92.176.231.205])
  by smtp.gmail.com with ESMTPSA id
- ds5-20020a170907724500b006df8f39dadesm7470308ejc.218.2022.04.07.02.08.04
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 07 Apr 2022 02:08:05 -0700 (PDT)
-Date: Thu, 7 Apr 2022 11:08:03 +0200
-From: Daniel Vetter <daniel@ffwll.ch>
-To: Javier Martinez Canillas <javierm@redhat.com>
-Subject: Re: [RESEND RFC PATCH 3/5] fbdev: Restart conflicting fb removal
- loop when unregistering devices
-Message-ID: <Yk6p86OohLC9wJpj@phenom.ffwll.local>
-Mail-Followup-To: Javier Martinez Canillas <javierm@redhat.com>,
- linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
- Thomas Zimmermann <tzimmermann@suse.de>,
- Alex Deucher <alexander.deucher@amd.com>,
- Geert Uytterhoeven <geert+renesas@glider.be>,
- Guenter Roeck <linux@roeck-us.net>, Helge Deller <deller@gmx.de>,
- Sam Ravnborg <sam@ravnborg.org>,
- Xiyu Yang <xiyuyang19@fudan.edu.cn>,
- Zhen Lei <thunder.leizhen@huawei.com>,
- Zheyu Ma <zheyuma97@gmail.com>, linux-fbdev@vger.kernel.org
-References: <20220406213919.600294-1-javierm@redhat.com>
- <20220406213919.600294-4-javierm@redhat.com>
+ l5-20020a05600c2cc500b0038e9ac68d54sm38955wmc.32.2022.04.07.02.09.15
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Thu, 07 Apr 2022 02:09:15 -0700 (PDT)
+Message-ID: <4957c527-3346-104e-0265-8231be093d1f@redhat.com>
+Date: Thu, 7 Apr 2022 11:09:14 +0200
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20220406213919.600294-4-javierm@redhat.com>
-X-Operating-System: Linux phenom 5.10.0-8-amd64 
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.7.0
+Subject: Re: [RESEND RFC PATCH 1/5] firmware: sysfb: Make
+ sysfb_create_simplefb() return a pdev pointer
+To: linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
+ Thomas Zimmermann <tzimmermann@suse.de>, Borislav Petkov <bp@suse.de>,
+ Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+ Miaoqian Lin <linmq006@gmail.com>
+References: <20220406213919.600294-1-javierm@redhat.com>
+ <20220406213919.600294-2-javierm@redhat.com>
+ <Yk6o2MzkMQeSAcsb@phenom.ffwll.local>
+From: Javier Martinez Canillas <javierm@redhat.com>
+In-Reply-To: <Yk6o2MzkMQeSAcsb@phenom.ffwll.local>
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=javierm@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Language: en-US
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -80,117 +93,41 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: linux-fbdev@vger.kernel.org, Xiyu Yang <xiyuyang19@fudan.edu.cn>,
- Geert Uytterhoeven <geert+renesas@glider.be>,
- Daniel Vetter <daniel.vetter@ffwll.ch>, Helge Deller <deller@gmx.de>,
- Zheyu Ma <zheyuma97@gmail.com>, linux-kernel@vger.kernel.org,
- dri-devel@lists.freedesktop.org, Thomas Zimmermann <tzimmermann@suse.de>,
- Zhen Lei <thunder.leizhen@huawei.com>,
- Alex Deucher <alexander.deucher@amd.com>, Sam Ravnborg <sam@ravnborg.org>,
- Guenter Roeck <linux@roeck-us.net>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Wed, Apr 06, 2022 at 11:39:17PM +0200, Javier Martinez Canillas wrote:
-> Drivers that want to remove registered conflicting framebuffers prior to
-> register their own framebuffer, calls remove_conflicting_framebuffers().
-> 
-> This function takes the registration_lock mutex, to prevent a races when
-> drivers register framebuffer devices. But if a conflicting framebuffer
-> device is found, the underlaying platform device is unregistered and this
-> will lead to the platform driver .remove callback to be called, which in
-> turn will call to the unregister_framebuffer() that takes the same lock.
-> 
-> To prevent this, a struct fb_info.forced_out field was used as indication
-> to unregister_framebuffer() whether the mutex has to be grabbed or not.
-> 
-> A cleaner solution is to drop the lock before platform_device_unregister()
-> so unregister_framebuffer() can take it when called from the fbdev driver,
-> and just grab the lock again after the device has been registered and do
-> a removal loop restart.
-> 
-> Since the framebuffer devices will already be removed, the loop would just
-> finish when no more conflicting framebuffers are found.
-> 
-> Suggested-by: Daniel Vetter <daniel.vetter@ffwll.ch>
-> Signed-off-by: Javier Martinez Canillas <javierm@redhat.com>
+Hello Daniel,
 
-It's always entertaining with these things since they can go boom in funny
-ways, but need to a least try :-) Recursive locks are just a bit too evil.
+On 4/7/22 11:03, Daniel Vetter wrote:
+> On Wed, Apr 06, 2022 at 11:39:15PM +0200, Javier Martinez Canillas wrote:
+>> This function just returned 0 on success or an errno code on error, but it
+>> could be useful to sysfb_init() to get a pointer to the device registered.
+>>
+>> Signed-off-by: Javier Martinez Canillas <javierm@redhat.com>
+> 
+> You need to rebase this onto 202c08914ba5 ("firmware: sysfb: fix
+> platform-device leak in error path") which fixes the same error path leak
+> you are fixing in here too. Or we just have a neat conflict when merging
+> :-) But in that case please mention that you fix the error path leak too
+> so it's less confusing when Linus or someone needs to resolve the
+> conflict.
+>
 
-Reviewed-by: Daniel Vetter <daniel.vetter@ffwll.ch>
+Ups, I thought that had my local tree up-to-date but it seems that was a few
+days old. I've updated my remote now and rebased, so will have this fixed in
+the next revision of the series.
 
-> ---
+And this patch becomes smaller indeed :)
+ 
+> Anyway Reviewed-by: Daniel Vetter <daniel.vetter@ffwll.ch>
 > 
->  drivers/video/fbdev/core/fbmem.c | 21 ++++++++++++++-------
->  include/linux/fb.h               |  1 -
->  2 files changed, 14 insertions(+), 8 deletions(-)
-> 
-> diff --git a/drivers/video/fbdev/core/fbmem.c b/drivers/video/fbdev/core/fbmem.c
-> index b585339509b0..c1bfb8df9cba 100644
-> --- a/drivers/video/fbdev/core/fbmem.c
-> +++ b/drivers/video/fbdev/core/fbmem.c
-> @@ -1555,6 +1555,7 @@ static void do_remove_conflicting_framebuffers(struct apertures_struct *a,
->  {
->  	int i;
->  
-> +restart_removal:
->  	/* check all firmware fbs and kick off if the base addr overlaps */
->  	for_each_registered_fb(i) {
->  		struct apertures_struct *gen_aper;
-> @@ -1582,8 +1583,18 @@ static void do_remove_conflicting_framebuffers(struct apertures_struct *a,
->  			 * fix would add code to remove the device from the system.
->  			 */
->  			if (dev_is_platform(device)) {
-> -				registered_fb[i]->forced_out = true;
-> +				/*
-> +				 * Drop the lock since the driver will call to the
-> +				 * unregister_framebuffer() function that takes it.
-> +				 */
-> +				mutex_unlock(&registration_lock);
->  				platform_device_unregister(to_platform_device(device));
-> +				mutex_lock(&registration_lock);
-> +				/*
-> +				 * Restart the removal now that the platform device
-> +				 * has been unregistered and its associated fb gone.
-> +				 */
-> +				goto restart_removal;
->  			} else {
->  				pr_warn("fb%d: cannot remove device\n", i);
->  				do_unregister_framebuffer(registered_fb[i]);
-> @@ -1917,13 +1928,9 @@ EXPORT_SYMBOL(register_framebuffer);
->  void
->  unregister_framebuffer(struct fb_info *fb_info)
->  {
-> -	bool forced_out = fb_info->forced_out;
-> -
-> -	if (!forced_out)
-> -		mutex_lock(&registration_lock);
-> +	mutex_lock(&registration_lock);
->  	do_unregister_framebuffer(fb_info);
-> -	if (!forced_out)
-> -		mutex_unlock(&registration_lock);
-> +	mutex_unlock(&registration_lock);
->  }
->  EXPORT_SYMBOL(unregister_framebuffer);
->  
-> diff --git a/include/linux/fb.h b/include/linux/fb.h
-> index 39baa9a70779..f1e0cd751b06 100644
-> --- a/include/linux/fb.h
-> +++ b/include/linux/fb.h
-> @@ -503,7 +503,6 @@ struct fb_info {
->  	} *apertures;
->  
->  	bool skip_vt_switch; /* no VT switch on suspend/resume required */
-> -	bool forced_out; /* set when being removed by another driver */
->  };
->  
->  static inline struct apertures_struct *alloc_apertures(unsigned int max_num) {
-> -- 
-> 2.35.1
-> 
+
+Thanks!
 
 -- 
-Daniel Vetter
-Software Engineer, Intel Corporation
-http://blog.ffwll.ch
+Best regards,
+
+Javier Martinez Canillas
+Linux Engineering
+Red Hat
+
