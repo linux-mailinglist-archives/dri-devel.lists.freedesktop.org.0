@@ -1,77 +1,158 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id D55D14F88AC
-	for <lists+dri-devel@lfdr.de>; Thu,  7 Apr 2022 22:48:21 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 9D8AE4F88AF
+	for <lists+dri-devel@lfdr.de>; Thu,  7 Apr 2022 22:49:12 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 076DA88007;
-	Thu,  7 Apr 2022 20:48:16 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id B18A510E66D;
+	Thu,  7 Apr 2022 20:49:09 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-ej1-x631.google.com (mail-ej1-x631.google.com
- [IPv6:2a00:1450:4864:20::631])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 0B06C10E66D
- for <dri-devel@lists.freedesktop.org>; Thu,  7 Apr 2022 20:48:15 +0000 (UTC)
-Received: by mail-ej1-x631.google.com with SMTP id a6so13432917ejk.0
- for <dri-devel@lists.freedesktop.org>; Thu, 07 Apr 2022 13:48:14 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=chromium.org; s=google;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=KTfNEaVRRahWYsVWnvf54Nm0EiMRp3IlprcC5NKfZ9M=;
- b=ekoZS3gvBVuf+fQ1f4FHVgjDw0z8j7KBMigUADUzFOlne+pOb1gNNrHVU4dL0AuEDB
- aIKMEEXRiqPkuOQSlIqAXL0CVFf0RrKTurmLbSjLMqamK13JU/o2haFQT4o8OBnOcthO
- 41PguON5ciRBjh21EzOxh0VeKNVgcWYtQ7VxQ=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=KTfNEaVRRahWYsVWnvf54Nm0EiMRp3IlprcC5NKfZ9M=;
- b=JVKITyHl+u1jnt6lDXIeSBpnRq3VI0Ro6oDxW7hsPNlN1UchhK9FAFPt/Is7Qg0NA5
- HGvIxcoN61Q5T3Efdm4iOKrVLBSonNBcTyZUaiZr5pquwIWjd/WQEVUATfT6t86fpWPy
- bREFzSJl+/3+EktVSUT6GAVz1l12a+pDScC6LoS5qu3hX1dRtaU/wJnjt+GDsWQjNTL9
- n/RLOra1UEEZGlbJBM+tglcHC1fu/HQRqf2QQmQ+YbccPthDVUU7x2xq5FV/3ZwtIQYh
- T90oG546mEvq1dLif8vbqMfMPR4nt9YBEJimFiXkxKcFCll3ax0VtOTwfbxFvV7KRIFu
- DoEg==
-X-Gm-Message-State: AOAM530ICdPzznZ6eV0DXT/20pBX5kAr4J1ZSCLrfGhFAe8tmHC7Sd91
- jMiDFVsxiuCPWNw7RfiVcN1N/fqdF0sxgS190jU=
-X-Google-Smtp-Source: ABdhPJzNKRUtiPvB6YsMt/dvNPGxU5wkORj/vVNpL94xYtbD2vcsQb+S/1y90tFqst9l9CF3zOBDXg==
-X-Received: by 2002:a17:906:3082:b0:6e0:111f:8986 with SMTP id
- 2-20020a170906308200b006e0111f8986mr14621301ejv.677.1649364493044; 
- Thu, 07 Apr 2022 13:48:13 -0700 (PDT)
-Received: from mail-wr1-f49.google.com (mail-wr1-f49.google.com.
- [209.85.221.49]) by smtp.gmail.com with ESMTPSA id
- z21-20020a1709063a1500b006da6436819dsm7957348eje.173.2022.04.07.13.48.09
- for <dri-devel@lists.freedesktop.org>
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Thu, 07 Apr 2022 13:48:10 -0700 (PDT)
-Received: by mail-wr1-f49.google.com with SMTP id z1so9636334wrg.4
- for <dri-devel@lists.freedesktop.org>; Thu, 07 Apr 2022 13:48:09 -0700 (PDT)
-X-Received: by 2002:adf:e591:0:b0:206:1202:214 with SMTP id
- l17-20020adfe591000000b0020612020214mr12251692wrm.342.1649364488679; Thu, 07
- Apr 2022 13:48:08 -0700 (PDT)
+Received: from mga03.intel.com (mga03.intel.com [134.134.136.65])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 0905B10E66D;
+ Thu,  7 Apr 2022 20:49:07 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+ t=1649364548; x=1680900548;
+ h=message-id:date:subject:to:references:from:in-reply-to:
+ content-transfer-encoding:mime-version;
+ bh=A5ty1OhmQGLxKl2eRf22bf/JvMNT+XfpEIZ7fIlRVq8=;
+ b=VEoiT+0KgAGUceVZye9tBU7AaKLgukpyFQ7Qu2v8WW9wAJhcoSYCbN1f
+ HofrfxOIRhPhTkKVi+2djfbPPg0yfo9vMiGYXOwy5pu62fh1PcbpgE0TN
+ 9ZfVjEenGMPvtSRC2pBQhPMfBRYAWARhlwDdSB0fYagIm2y7uqKyPKq4F
+ A/HPRZ4RI/xIFC0kLTK/0zfhvdnz/iicjU4FtaBC82miZyhrRDrfQmHbF
+ ZHFcVi7sjdsr4zeaNxYNjRfb97VXKTyGsTM5TzNHxJlaCpZ7Z29u82vnc
+ vrmMljT10oWcXntH+XxE8ghv1U76WamWHkmMiKT/Nh8yOPOpP47H8ICIK A==;
+X-IronPort-AV: E=McAfee;i="6400,9594,10310"; a="261432275"
+X-IronPort-AV: E=Sophos;i="5.90,242,1643702400"; d="scan'208";a="261432275"
+Received: from orsmga001.jf.intel.com ([10.7.209.18])
+ by orsmga103.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 07 Apr 2022 13:49:07 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.90,242,1643702400"; d="scan'208";a="588971883"
+Received: from fmsmsx606.amr.corp.intel.com ([10.18.126.86])
+ by orsmga001.jf.intel.com with ESMTP; 07 Apr 2022 13:49:07 -0700
+Received: from fmsmsx606.amr.corp.intel.com (10.18.126.86) by
+ fmsmsx606.amr.corp.intel.com (10.18.126.86) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.2308.27; Thu, 7 Apr 2022 13:49:06 -0700
+Received: from FMSEDG603.ED.cps.intel.com (10.1.192.133) by
+ fmsmsx606.amr.corp.intel.com (10.18.126.86) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.2308.27 via Frontend Transport; Thu, 7 Apr 2022 13:49:06 -0700
+Received: from NAM12-BN8-obe.outbound.protection.outlook.com (104.47.55.170)
+ by edgegateway.intel.com (192.55.55.68) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.1.2308.27; Thu, 7 Apr 2022 13:49:06 -0700
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=TY9ylSP7sRTd6R8v1napY+RDVEkzZry4Edw2a/rV9cNyNlxLwudMnpw5X+7LX5fpqaLhS9tvGWmGQ5VC4JvNIt6D5MZ3ttkEoZMqujDOIVxKJ2SC0oLDPDTzDXcWHaL56u14ftiNlOwlUWUus2qmEPqw2uFC8JmTEVsSmlPj4ksN6X0VAtALgvfgDNnTsPU1KOnk+AoTekb0jR9phrj9dH3gyGYWcJC0li9wRuNISYWd40dpz995Ma2vzXlrcc3XaNGfonJII0P69aKcOTQxA36hmNaRAzvhoZM3e6ltQZerso3XIPygz7lvqJsSjfzZ8IN3drSRvou7Ce964Qtvjw==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=plS1V2bmbUPZ31rWuAeUJPQ3w+kSfvkFAQcrMmHh8kw=;
+ b=Kw9Th/wy5GyrQOg6uBLdgaQxUoqyiZ1OuDh5GGAh48F3LohZa3UKWCilt4fdt0GshGnW+xGtaIcSHA/r1MNytJX0lE+JsNlDqtgCWQXOpfjAKfKq2hrJHIzpaGebmqEP8Lhi31ogXOmqG1z2K/H7M3+fXZZu9JIr1tYOQxD07c9e2kYgOzTXoEJCZwzGDAk6yNpDu8edbRmoHci/VRV2Zy7y6ePnbRMqdbpA8pnFqdhaZN5S8kTm7wqRgxk3Hm7RvyAPA2krPu1RzCaXAS1fzAvXcoiicUao4Uxkt+Bgtcc0pBhDsnGY7RP51nhtSanwrvcsok8PcH5Cd2vHUwjCpQ==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=intel.com; dmarc=pass action=none header.from=intel.com;
+ dkim=pass header.d=intel.com; arc=none
+Authentication-Results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=intel.com;
+Received: from BY5PR11MB3911.namprd11.prod.outlook.com (2603:10b6:a03:18d::29)
+ by MWHPR11MB1584.namprd11.prod.outlook.com (2603:10b6:301:e::12) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.5144.22; Thu, 7 Apr
+ 2022 20:49:04 +0000
+Received: from BY5PR11MB3911.namprd11.prod.outlook.com
+ ([fe80::21e6:3fe8:e859:75b5]) by BY5PR11MB3911.namprd11.prod.outlook.com
+ ([fe80::21e6:3fe8:e859:75b5%7]) with mapi id 15.20.5123.031; Thu, 7 Apr 2022
+ 20:49:04 +0000
+Message-ID: <006e88f8-38c5-3cda-0c89-cb97fa0cd817@intel.com>
+Date: Thu, 7 Apr 2022 13:49:01 -0700
+User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:91.0) Gecko/20100101
+ Firefox/91.0 Thunderbird/91.7.0
+Subject: Re: [Intel-gfx] [PATCH 1/1] drm/i915/uc: Use platform specific
+ defaults for GuC/HuC enabling
+Content-Language: en-GB
+To: Tvrtko Ursulin <tvrtko.ursulin@linux.intel.com>, Matthew Brost
+ <matthew.brost@intel.com>, <intel-gfx@lists.freedesktop.org>,
+ <dri-devel@lists.freedesktop.org>, Daniele Ceraolo Spurio
+ <daniele.ceraolospurio@intel.com>, "Wajdeczko, Michal"
+ <Michal.Wajdeczko@intel.com>
+References: <20210603164812.19045-1-matthew.brost@intel.com>
+ <20210603164812.19045-2-matthew.brost@intel.com>
+ <062c1a4b-f35d-6ecf-14a0-b41b438d3464@linux.intel.com>
+From: John Harrison <john.c.harrison@intel.com>
+In-Reply-To: <062c1a4b-f35d-6ecf-14a0-b41b438d3464@linux.intel.com>
+Content-Type: text/plain; charset="UTF-8"; format=flowed
+Content-Transfer-Encoding: 8bit
+X-ClientProxiedBy: SJ0P220CA0014.NAMP220.PROD.OUTLOOK.COM
+ (2603:10b6:a03:41b::22) To BY5PR11MB3911.namprd11.prod.outlook.com
+ (2603:10b6:a03:18d::29)
 MIME-Version: 1.0
-References: <1648656179-10347-1-git-send-email-quic_sbillaka@quicinc.com>
- <1648656179-10347-2-git-send-email-quic_sbillaka@quicinc.com>
- <CAD=FV=X+QvjwoT2zGP82KW4kD0oMUY6ZgCizSikNX_Uj8dNDqA@mail.gmail.com>
- <392b933f-760c-3c81-1040-c514045df3da@linaro.org>
- <CAD=FV=W4PYK-t607yjRbfjDjjEZX0KdgHDRukw_vSH8E8EDH6w@mail.gmail.com>
- <CAA8EJppt9XONbgtKfmHmN+==QNqiVJeb8GKJFdZm=yyY-tgmHQ@mail.gmail.com>
- <CAD=FV=U5-sTDLYdkeJWLAOG-0wgxR49VxtwUyUO7z2PuibLGsg@mail.gmail.com>
- <CAA8EJppgfYgQjG8A4LsR-1wmBj3Ku3eO8cKfAYhxjWXL7e3eHg@mail.gmail.com>
- <CAD=FV=V=a1CnT8fqTJR40WoS3BaDQ3xZ=HnHVHqZh=MEmVUZBA@mail.gmail.com>
- <3e5fa57f-d636-879a-b98f-77323d07c156@linaro.org>
- <CAD=FV=Uibu-kZyix7K4_WVc-+C8xpzTqU4WFy7O=6sukMZrX5g@mail.gmail.com>
- <MW4PR02MB7186245772DAC3E04FA8D1C0E1E69@MW4PR02MB7186.namprd02.prod.outlook.com>
- <CAD=FV=Wk3U7_bVdiCPp8iQ4bcCA_Botemu4pwHeRtgBa3Xk6KQ@mail.gmail.com>
- <c4f086ce-c56f-f7c9-4092-7f2432330d50@quicinc.com>
-In-Reply-To: <c4f086ce-c56f-f7c9-4092-7f2432330d50@quicinc.com>
-From: Doug Anderson <dianders@chromium.org>
-Date: Thu, 7 Apr 2022 13:47:55 -0700
-X-Gmail-Original-Message-ID: <CAD=FV=UmU_BVUaL_X75yOEvQPtGUBTR5-jiVWBHq7uSRt6HM4Q@mail.gmail.com>
-Message-ID: <CAD=FV=UmU_BVUaL_X75yOEvQPtGUBTR5-jiVWBHq7uSRt6HM4Q@mail.gmail.com>
-Subject: Re: [PATCH v6 1/8] drm/msm/dp: Add eDP support via aux_bus
-To: Abhinav Kumar <quic_abhinavk@quicinc.com>
-Content-Type: text/plain; charset="UTF-8"
+X-MS-PublicTrafficType: Email
+X-MS-Office365-Filtering-Correlation-Id: ab54e593-b260-4d1c-f9bb-08da18d80d3e
+X-MS-TrafficTypeDiagnostic: MWHPR11MB1584:EE_
+X-LD-Processed: 46c98d88-e344-4ed4-8496-4ed7712e255d,ExtAddr
+X-Microsoft-Antispam-PRVS: <MWHPR11MB15846D25E5A4265E0C54EE9CBDE69@MWHPR11MB1584.namprd11.prod.outlook.com>
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: BCL:0;
+X-Microsoft-Antispam-Message-Info: w0Wa2F0gZOeIHvo9jU70LdSDexIA9d1XPgz218DW/eT+i2u2xgyw6ikrFwNJOTc85C0DB0TM03ti6d+vbTSrcCWppt9IT8Wez8piQ44i3DmJyvFimq0y4nL3c+B9devBjE6VP5zzHFFagCvaRksNBDUh0RHnFis69/WayYsZZQwlOzNEGtvk1te4M5FglZ1t9RltgZsT0TCk4sKGc2S44qVhlXa28l+TCVOMDl9NTzvVt3J1T8U/HJrdeZD/LGj2m/pSl38DPFWGVrt/lq7GrKu6zxDRJ423kqEFHNjM6cd980Fnbp8BEW6thg2iHfOah1Jp+KkUECyVaexufjyCD/Al/DQKWBMHsAsE/RjX/M8WCZapXgcv9amIzODjrN56UH4wWenaZcKtR/0G9nn77c1gdH4HhRibcjZv/2mx0yLMAjudvNqxKyOA7ZADxiwRzVGUewhiK2/A4NglSRYww0LQFzxAwQ3RUUo8Yi2MYeAtO6btMS4KiSAU1RCEIcefOiXdwgkfpwJ5L+JowabZr0m2YY4XEOOLsswgDozzo+t19XrWjPfeNOu4Gp/Qcx8o6lo6RVt1oc9LC9WqqzO+/PwY5/7snLLhNnKoWytJ0h0Z1bDZeFI9akG9GqlPRopZxwcPhJ552BF6E6vXIRYkSkWAm8DDd2g0BMkLWRukcsu2mpnj2BBuAznZ9l46Mx5q3crUjEsmkzP8x/JvLnHCkbqbce/R/6MkH49gNDWBTQQ=
+X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
+ IPV:NLI; SFV:NSPM; H:BY5PR11MB3911.namprd11.prod.outlook.com; PTR:; CAT:NONE;
+ SFS:(13230001)(366004)(31696002)(86362001)(82960400001)(66476007)(38100700002)(5660300002)(6486002)(66556008)(36756003)(508600001)(8676002)(8936002)(110136005)(6636002)(66946007)(316002)(186003)(26005)(31686004)(83380400001)(2616005)(53546011)(6666004)(6512007)(6506007)(2906002)(45980500001)(43740500002);
+ DIR:OUT; SFP:1102; 
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0: =?utf-8?B?Wi82TE5PUi9jZ3o5QWx3S0g5c04vQmVQd0w2Mmp0Zm1MZ2o5cWRwN2p4eVVw?=
+ =?utf-8?B?ZEd5ZGYrOGdRU01GMWZ0Zkp0WkRJQng3STV6aTlkZnJvWkZFQzU3bWc2RkUr?=
+ =?utf-8?B?ZHdZRnpRT3dZZ3NKZGRIdHhrSlprdDl6KzhTanJNWStVMER5WFhuRVZ0bkxw?=
+ =?utf-8?B?RENDdlAwcVpDN0QrcnFSNjZ6Y1Avb285Y0xsOUdrOTNpUmx2VkowVDE2QzJP?=
+ =?utf-8?B?RlBsMkhtR3V3dnkyMXBDaGQ2TVlVZVFOTTh1VCtmWmpOZDNQQUxXWHh4dno4?=
+ =?utf-8?B?cEIyL2RHSFlvRDZLUzEyZU1HVTJkdlNVY1ZYVWRPRHFzU2p3L0t3cXpoRCtp?=
+ =?utf-8?B?VWxHUnZJWnRJS2hVeFRXR3FRdHNQL0k3Z2RDUEpGRmdPOUlUYmV5dmpaejRC?=
+ =?utf-8?B?Mk4xZGVvT3BQVkVxN0ViYXZXajBIdldrUE1hZGJLZXRyNlUwcDFROXBrblBF?=
+ =?utf-8?B?UytEUm9aTXlIS0gzd282WDRZVHpYL1RkbkwzRTN0MTJLN0oyUG5xSitGRkNj?=
+ =?utf-8?B?UHdqZDNiMC9tQUk1dkVGNzZGR0RwWkVJc1lmVm04QWN3dk42MlkxY0E5Uit4?=
+ =?utf-8?B?YzdHWllxaUViVm55eGJwcnB0RzA4ZE9VeWhXc0c1S3R1UUJORDRXNlgrSG5y?=
+ =?utf-8?B?bnQxc2ZoeExTVEdGaEgwWjhteHRLZWV5WHlqbzFzVkRDVXhSS2hrNjAyRUNH?=
+ =?utf-8?B?dUVHd2tNSjZXb1U5RkhVNGE4WjJrU3NrQXdWWHNQVDM3bHN4cmozTlY2bFdn?=
+ =?utf-8?B?aXBKWExxWnFHRTh2Njl3MGgvM2x0MXUwNU5NU2xzbGJVRksrMDlIN01FTi85?=
+ =?utf-8?B?aTRsUjFVT1g1UEhWNXJ3ZEdMK0JPZkZxUHJGdGs0Rm15VE1FTVhVTlhFemh2?=
+ =?utf-8?B?MFdkMmF4djJUbmw3QWp4ZFkzcFdrcTFBTDNoZkYvVWFTekNqYkZJSzRnZnBG?=
+ =?utf-8?B?cmZTNk9EbmxEbEFLSVpqRGdUYTkveDJvclZpUHB3WHc4RXNuN1haaTdncXo5?=
+ =?utf-8?B?K3c4SktyZ1laeWR1azc5S2hJaTBWYm9vK29mVHh1ODJWUDJONUJwMUp2bWM0?=
+ =?utf-8?B?VmdhbTErQnFaVGVTcWI4Q284L05RS2FqTkJqa3V2WEM4TmtxOGlaN2xCRzFz?=
+ =?utf-8?B?M2FGdkt2RGlrS0VmTWdRbkFZQnM3SVlNR0lqVERWVU5yUkYyZ3lZTW81SmRz?=
+ =?utf-8?B?OTlGcExVT0hoTElyQWJqOGQ5Q2IwcUdweWVBYk1SREFPVUtzMjl3dWV0Z3hW?=
+ =?utf-8?B?NFYyUStpaUtvM05PelpsL1dFalR4Y3NBNVNld1hzRVZXNTBpb1BTVFJZVlhF?=
+ =?utf-8?B?dzI3ME4xV0lycUF5QWxhNDcxeU9LVURJQlgvTHlKQ3hNMXNsa0NCaXZGOXRR?=
+ =?utf-8?B?L3Q5UFBzQm1VRktjTURDN2l5NzhuVUkxNExXSVlXWHJhK1BKU1NLM09Nc3p5?=
+ =?utf-8?B?VTA0RFNxRjJYWVF3MzVhMWx2UmpHTlJnc3ZEVHhiL1REcVJLa3JYYkI5dnUx?=
+ =?utf-8?B?cENCYnkwc3lkdEhFNjlJODNINU9hcldQcnA2RnFWUldBNXd5S1RtTjB0YTVy?=
+ =?utf-8?B?bnhqOFg5TUhPSHVndWRQekdkQWc3VGlWUUpPbDFVMmJlWGJtVG95cVNZNUtk?=
+ =?utf-8?B?TU55djN5UW1qbTl4ckh0eHdKSUlvV29Sa29vOE92bkU4MkI2NENOdkVvUlhw?=
+ =?utf-8?B?ekhxMGZURlNNU1B1ei8rVnl2Ri9qRkkxRHQyREZtUU9KL0RhL2dRT3NYbFBF?=
+ =?utf-8?B?d3hzTDVrQTVONWIvOGdzWVVOL2lPaGwyWlErSWg0V3VscnM0b3RXRVM2M1Z0?=
+ =?utf-8?B?cXdub290RVE2NjdZS2dWeUZZQVJpQmhFVXF6cC9yenRHQkFYc1l6YTdDTmhn?=
+ =?utf-8?B?OG5IeFA1dDFVZFRodFQxSUV6SVVZS2RJOWRDV01RajBIUUxpMXNRd3hIMERW?=
+ =?utf-8?B?cnIzb3l2R3ZUSElFWllveU8raFFTQXAyYk5tTjUybTc5MlV4YWM3TzRyNE5a?=
+ =?utf-8?B?azZjYTA2bUVYd3M1RDNOcGFSakxKMlRiUTNuT2ZSQzBLaGRyOWxYRCs5U1d5?=
+ =?utf-8?B?b3RPYjlnbE5sL2d4dXBqZzh5SUc4eUk4bjNncUxDN0xNSTB1OGlZMnRkSldl?=
+ =?utf-8?B?dnlaZm9VUGt6bzIzR1BCcE94WFpSV1FpT2JBOFUrdkRjcjlPUDl0blIyUThl?=
+ =?utf-8?B?T2xZbjdLN0duZ2RCN0lwRm5XM0NxaS85b0JneU9Oaittd09JUk5HWUI4QzJl?=
+ =?utf-8?B?cXQvR0xEejlOR2Fuc0UrRnRzaUoyS0U1UWZwRncwLzQ2TS9WOUM5OGh2Mzhm?=
+ =?utf-8?B?MSttMTgxUVZpd01hcXYxbWtXWTJhbzVOQ3M5TzBIOEpZQVdPclNJTDE2U2FY?=
+ =?utf-8?Q?8bRMs/tRRkitz5iU=3D?=
+X-MS-Exchange-CrossTenant-Network-Message-Id: ab54e593-b260-4d1c-f9bb-08da18d80d3e
+X-MS-Exchange-CrossTenant-AuthSource: BY5PR11MB3911.namprd11.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 07 Apr 2022 20:49:04.2611 (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 46c98d88-e344-4ed4-8496-4ed7712e255d
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: aGpXK37aYX72xO096jUnUgKVvz/Tj/El7e/hn+ONkUV/XjzI//ZQWDMAM0KGojE80HTHQ6UI7bma3zCOkcUPwu7+2e8Bq+YhEVXd2R4O/aM=
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: MWHPR11MB1584
+X-OriginatorOrg: intel.com
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -84,213 +165,74 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: quic_kalyant <quic_kalyant@quicinc.com>,
- "open list:OPEN FIRMWARE AND FLATTENED DEVICE TREE BINDINGS"
- <devicetree@vger.kernel.org>,
- "Sankeerth Billakanti \(QUIC\)" <quic_sbillaka@quicinc.com>,
- quic_vproddut <quic_vproddut@quicinc.com>, David Airlie <airlied@linux.ie>,
- linux-arm-msm <linux-arm-msm@vger.kernel.org>,
- Stephen Boyd <swboyd@chromium.org>, LKML <linux-kernel@vger.kernel.org>,
- dri-devel <dri-devel@lists.freedesktop.org>,
- "Kuogee Hsieh \(QUIC\)" <quic_khsieh@quicinc.com>, Sean Paul <sean@poorly.run>,
- Sean Paul <seanpaul@chromium.org>,
- "dmitry.baryshkov@linaro.org" <dmitry.baryshkov@linaro.org>,
- "Aravind Venkateswaran \(QUIC\)" <quic_aravindh@quicinc.com>,
- "bjorn.andersson@linaro.org" <bjorn.andersson@linaro.org>,
- freedreno <freedreno@lists.freedesktop.org>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi,
+On 4/7/2022 08:49, Tvrtko Ursulin wrote:
+> On 03/06/2021 17:48, Matthew Brost wrote:
+>> From: John Harrison <John.C.Harrison@Intel.com>
+>>
+>> The meaning of 'default' for the enable_guc module parameter has been
+>> updated to accurately reflect what is supported on current platforms.
+>> So start using the defaults instead of forcing everything off.
+>> Although, note that right now, the default is for everything to be off
+>> anyway. So this is not a change for current platforms.
+>>
+>> Signed-off-by: John Harrison <John.C.Harrison@Intel.com>
+>> Signed-off-by: Matthew Brost <matthew.brost@intel.com>
+>> Reviewed-by: Daniele Ceraolo Spurio <daniele.ceraolospurio@intel.com>
+>> ---
+>>   drivers/gpu/drm/i915/i915_params.c | 2 +-
+>>   drivers/gpu/drm/i915/i915_params.h | 2 +-
+>>   2 files changed, 2 insertions(+), 2 deletions(-)
+>>
+>> diff --git a/drivers/gpu/drm/i915/i915_params.c 
+>> b/drivers/gpu/drm/i915/i915_params.c
+>> index 0320878d96b0..e07f4cfea63a 100644
+>> --- a/drivers/gpu/drm/i915/i915_params.c
+>> +++ b/drivers/gpu/drm/i915/i915_params.c
+>> @@ -160,7 +160,7 @@ i915_param_named_unsafe(edp_vswing, int, 0400,
+>>   i915_param_named_unsafe(enable_guc, int, 0400,
+>>       "Enable GuC load for GuC submission and/or HuC load. "
+>>       "Required functionality can be selected using bitmask values. "
+>> -    "(-1=auto, 0=disable [default], 1=GuC submission, 2=HuC load)");
+>> +    "(-1=auto [default], 0=disable, 1=GuC submission, 2=HuC load)");
+>>     i915_param_named(guc_log_level, int, 0400,
+>>       "GuC firmware logging level. Requires GuC to be loaded. "
+>> diff --git a/drivers/gpu/drm/i915/i915_params.h 
+>> b/drivers/gpu/drm/i915/i915_params.h
+>> index 4a114a5ad000..f27eceb82c0f 100644
+>> --- a/drivers/gpu/drm/i915/i915_params.h
+>> +++ b/drivers/gpu/drm/i915/i915_params.h
+>> @@ -59,7 +59,7 @@ struct drm_printer;
+>>       param(int, disable_power_well, -1, 0400) \
+>>       param(int, enable_ips, 1, 0600) \
+>>       param(int, invert_brightness, 0, 0600) \
+>> -    param(int, enable_guc, 0, 0400) \
+>> +    param(int, enable_guc, -1, 0400) \
+>>       param(int, guc_log_level, -1, 0400) \
+>>       param(char *, guc_firmware_path, NULL, 0400) \
+>>       param(char *, huc_firmware_path, NULL, 0400) \
+>
+> What is the BKM to use this with multi-GPU setups? Specifically I have 
+> a TGL+DG1 laptop (off the shelf) and want to have GuC with DG1 only. 
+> If I pass i915.enable_guc=3 it seems it wants to enable it for TGL as 
+> well and wedges the GPU if it can't?
+>
+I don't think there is one.
 
-On Thu, Apr 7, 2022 at 1:11 PM Abhinav Kumar <quic_abhinavk@quicinc.com> wrote:
->
-> Hi Doug and Dmitry
->
-> Sorry, but I caught up on this email just now.
->
-> Some comments below.
->
-> Thanks
->
-> Abhinav
-> On 4/7/2022 10:07 AM, Doug Anderson wrote:
-> > Hi,
-> >
-> > On Thu, Apr 7, 2022 at 7:19 AM Sankeerth Billakanti (QUIC)
-> > <quic_sbillaka@quicinc.com> wrote:
-> >>
-> >> Hi Dmitry and Doug,
-> >>
-> >>> Hi,
-> >>>
-> >>> On Tue, Apr 5, 2022 at 10:36 AM Dmitry Baryshkov
-> >>> <dmitry.baryshkov@linaro.org> wrote:
-> >>>>
-> >>>> On 05/04/2022 20:02, Doug Anderson wrote:
-> >>>>> Hi,
-> >>>>>
-> >>>>> On Tue, Apr 5, 2022 at 5:54 AM Dmitry Baryshkov
-> >>>>> <dmitry.baryshkov@linaro.org> wrote:
-> >>>>>>> 3. For DP and eDP HPD means something a little different.
-> >>>>>>> Essentially there are two concepts: a) is a display physically
-> >>>>>>> connected and b) is the display powered up and ready. For DP, the
-> >>>>>>> two are really tied together. From the kernel's point of view you
-> >>>>>>> never "power down" a DP display and you can't detect that it's
-> >>>>>>> physically connected until it's ready. Said another way, on you
-> >>>>>>> tie "is a display there" to the HPD line and the moment a display
-> >>>>>>> is there it's ready for you to do AUX transfers. For eDP, in the
-> >>>>>>> lowest power state of a display it _won't_ assert its "HPD"
-> >>>>>>> signal. However, it's still physically present. For eDP you simply
-> >>>>>>> have to _assume_ it's present without any actual proof since you
-> >>>>>>> can't get proof until you power it up. Thus for eDP, you report
-> >>>>>>> that the display is there as soon as we're asked. We can't _talk_
-> >>>>>>> to the display yet, though. So in get_modes() we need to be able
-> >>>>>>> to power the display on enough to talk over the AUX channel to it.
-> >>>>>>> As part of this, we wait for the signal named "HPD" which really means
-> >>> "panel finished powering on" in this context.
-> >>>>>>>
-> >>>>>>> NOTE: for aux transfer, we don't have the _display_ pipe and
-> >>>>>>> clocks running. We only have enough stuff running to do the AUX
-> >>> transfer.
-> >>>>>>> We're not clocking out pixels. We haven't fully powered on the
-> >>>>>>> display. The AUX transfer is designed to be something that can be
-> >>>>>>> done early _before_ you turn on the display.
-> >>>>>>>
-> >>>>>>>
-> >>>>>>> OK, so basically that was a longwinded way of saying: yes, we
-> >>>>>>> could avoid the AUX transfer in probe, but we can't wait all the
-> >>>>>>> way to enable. We have to be able to transfer in get_modes(). If
-> >>>>>>> you think that's helpful I think it'd be a pretty easy patch to
-> >>>>>>> write even if it would look a tad bit awkward IMO. Let me know if
-> >>>>>>> you want me to post it up.
-> >>>>>>
-> >>>>>> I think it would be a good idea. At least it will allow us to
-> >>>>>> judge, which is the more correct way.
-> >>>>>
-> >>>>> I'm still happy to prototype this, but the more I think about it the
-> >>>>> more it feels like a workaround for the Qualcomm driver. The eDP
-> >>>>> panel driver is actually given a pointer to the AUX bus at probe
-> >>>>> time. It's really weird to say that we can't do a transfer on it
-> >>>>> yet... As you said, this is a little sideband bus. It should be able
-> >>>>> to be used without all the full blown infra of the rest of the driver.
-> >>>>
-> >>>> Yes, I have that feeling too. However I also have a feeling that just
-> >>>> powering up the PHY before the bus probe is ... a hack. There are no
-> >>>> obvious stopgaps for the driver not to power it down later.
-> >>>
->
-> Lets go back to why we need to power up the PHY before the bus probe.
->
-> We need to power up PHY before bus probe because panel-eDP tries to read
-> the EDID in probe() for the panel_id. Not get_modes().
->
-> So doug, I didnt follow your comment that panel-eDP only does EDID read
-> in get_modes()
->
->         panel_id = drm_edid_get_panel_id(panel->ddc);
->         if (!panel_id) {
->                 dev_err(dev, "Couldn't identify panel via EDID\n");
->                 ret = -EIO;
->                 goto exit;
->         }
->
-> If we do not need this part, we really dont need to power up the PHY
-> before the probe(). The hack which dmitry was referring to.
+Module parameters are driver global and therefore apply to all cards in 
+the system, both discrete and integrated. The '-1' default can and does 
+have different meanings for each card. So in the TGL+DG1 case, TGL 
+should default to execlist and DG1 should already be defaulting to GuC. 
+So the -1 setting should do what you want. But if you did need to 
+override for one specific card only then I think you would need to do 
+that with a code change and rebuild.
 
-Right. ...so we _could_ remove the above from the panel-edp probe and
-defer it to get_modes() and it wouldn't be that hard. ...but:
-
-1. It feels like a hack to work around the Qualcomm driver. The way
-the AUX bus is designed is that a pointer to the AUX bus is passed to
-the panel-edp probe. It seems kinda strange to say that the panel
-isn't allowed to do transfers with the pointer that's passed in.
-
-2. There's a second place where we might do an AUX transfer at probe
-time which is when we're using the DP AUX backlight. There we call
-drm_panel_dp_aux_backlight(). Conceivably this too could be deferred
-until the get_modes(), but now it feels even more like a hack. We're
-going to be registering the backlight in the first call to
-get_modes()? That's, ummm, unexpected. We could look at perhaps
-breaking the "DP AUX backlight" in two parts also, but that gets
-involved. I think we're supposed to know the number of backlight
-levels at device init time for backlight devices and we need an AUX
-transfer to that.
+John.
 
 
-So the answer is that we could probably make it work, but it seems
-like an uglier solution than just making the Qualcomm driver able to
-do AUX transfers when it should be able to.
+> Regards,
+>
+> Tvrtko
 
-> So this is boiling down to why or how panel-eDP was originally designed.
->
-> >>> This is why I think we need to move to Runtime PM to manage this. Basically:
-> >>>
-> >>> 1. When an AUX transfer happens, you grab a PM runtime reference that
-> >>> _that_ powers up the PHY.
->
-> This will not be trivial and needs to be scoped out as sankeerth said
-> but if the above is the only concern, why do we need to do this? There
-> seems to be an explanation why we are doing this and its not a hack.
->
-> How would Dmitry's rework address this? We need some RFC to conclude on
-> that first.
->
-> >>>
-> >>> 2. At the end of the AUX transfer function, you do a "put_autosuspend".
-> >>>
-> >>> Then it becomes not a hack, right?
-> >>>
-> >>>
-> >>
-> >> pm runtime ops needs to be implemented for both eDP and DP. This change
-> >> take good amount of planning and code changes as it affects DP also.
-> >>
-> >> Because this patch series consist of basic eDP changes for SC7280 bootup,
-> >> shall we take this pm_runtime implementation in subsequent patch series?
-> >
-> > Dmitry is the real decision maker here, but in my opinion it would be
-> > OK to get something landed first that worked OK and wasn't taking us
-> > too far in the wrong direction and then we could get a follow up patch
-> > to move to pm_runtime.
->
-> I would say the discussion changed into a direction of implementing
-> pm-runtime because the current patch series does what it takes to adhere
-> to panel-eDP's design along with aux bus requirements of PHY needing to
-> be on.
->
-> So doug, to answer your questions here:
->
-> "So I guess the net result is maybe we should just keep it where it is.
-> Long term I'd be interested in knowing if there's a reason why we
-> can't structure the driver so that AUX transfers can happen with less
-> intertwining with the rest of the code, but that can happen later. I
-> would expect that you'd basically just need clocks and regulators on
-> and maybe your PHY on."
->
-> Yes PHY needs to be absolutely on and configured before aux transfers.
->
-> If we want to change that up to stop reading the panel_id in the panel
-> probe() and do it later, perhaps some of the changes done here are not
-> needed.
->
-> It only seems reasonable that we first prototype that in a separate
-> patch even a RFC perhaps and take this further as these set of changes
-> are needed for basic display functionality on sc7280 chromebooks.
->
-> Let us know what are the concerns with doing it in a follow up change.
-
-As per above, I'm not objecting to it being a follow-up change, but I
-do believe it's the right design and will lead to an overall cleaner
-solution. I think I even mentioned in my reviews that the current
-patch series seems to "scattershot" enable resources and that's how we
-end up with patches like patch #5 in this series ("drm/msm/dp: prevent
-multiple votes for dp resources"). IMO there should be be a 1-to-1
-mapping between "turn on resources" and "turn off resources" and it
-should be reference counted. So if your codepath turned on resources
-then it's up to your codepath to turn resources off when done. If a
-seconde code path might be running at the same time then it should
-also turn on/off resources itself. ...and it should all be managed by
-pm_runtime which is _exactly designed_ for this specific use case.
-
--Doug
