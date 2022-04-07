@@ -2,57 +2,47 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id BC5FB4F8492
-	for <lists+dri-devel@lfdr.de>; Thu,  7 Apr 2022 18:08:04 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 0F8384F84BF
+	for <lists+dri-devel@lfdr.de>; Thu,  7 Apr 2022 18:19:19 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id DCC5B10EB6A;
-	Thu,  7 Apr 2022 16:08:00 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id BEABE10E1C1;
+	Thu,  7 Apr 2022 16:19:15 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-oi1-x22e.google.com (mail-oi1-x22e.google.com
- [IPv6:2607:f8b0:4864:20::22e])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 80D0110E28C;
- Thu,  7 Apr 2022 16:07:59 +0000 (UTC)
-Received: by mail-oi1-x22e.google.com with SMTP id a19so1605932oie.7;
- Thu, 07 Apr 2022 09:07:59 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=WZc922TCkE49F8hGZOnYik1JaLOlZX3dBUSjrkm78qo=;
- b=ef8hjGCXAvHCiEwP6/S3w3yGSEbo8Mowe/AtutAkNNHKu0/c/vnFP35yO+oTCmSXzv
- 7CcwjhjDaDUQBc7Qbw9hvKlzTLlSrsskExp4bs12YtSgM9cRoDazvi7w51bbpe2E0rvz
- sgOAHUj1aIDePV8roZ1gK6DDwg8Hj+hsfCHCn2tpUni/RrBz8aHMJfqUaJxl0T/pVaqa
- taEKsGaudGSREFpHiLeIaBB5n6PCsKOPnMBZPKbQSiz3myMpqjFk4NkCdq+VqC6Ld3HR
- a8Gvyp53Ju7Qiczm5KgjH4fBESrXXwgNmrWI/oAfbkInLUZM3JRJ1Y7hQiXTH1Ves/Fs
- OF+A==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=WZc922TCkE49F8hGZOnYik1JaLOlZX3dBUSjrkm78qo=;
- b=wswfYJTlq3C7XujxoX6rT4eKB09WTGM6pF4P18IpS1+75bNlh/fav2Xy5bW03tNv7m
- bBLgkyLwsy6U44MRO+2OynxziL+N1OEQzGmHUE93PWIBTi6FQvnXOBdJtySrdZ43KNpt
- lkIFBwfl1ecLBiaHRCL5Tnnbb3XJGIGXK2WXl3gCasBjY+HN/kU1eyell3jY437MaICg
- 5vyiZHODJiIpnXahvAUzWnD/7MAaeaCLGDbfVlID/iguPfdP2BF7CFEzkFts88WkZg5G
- QnDUvQJdS9wzn7JQe7dsTSgkFgXjzuGgPZcrY5mTtP5o8QluyLdWVF3c+r/Es1wJgCZM
- yWrw==
-X-Gm-Message-State: AOAM531uxGVz4FhqlDN39VLrFv5Hc6py+3nWFkPdhwM9hDz+0inXerkF
- 5l5wP0omRnTlB0CR9EDwAYcKIS0HsQIocHo8DzI=
-X-Google-Smtp-Source: ABdhPJzIL4EpK3DQnR+LNMct9rhw7zo1YuFYfIGktjGBWN36b1ZLz75mvni1P6FT0iILO3UJhNrH8W9NdLLOwXv14oY=
-X-Received: by 2002:aca:6006:0:b0:2f9:c685:f4e2 with SMTP id
- u6-20020aca6006000000b002f9c685f4e2mr317231oib.200.1649347678620; Thu, 07 Apr
- 2022 09:07:58 -0700 (PDT)
+Received: from mga09.intel.com (mga09.intel.com [134.134.136.24])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id A3C6E10E1C1;
+ Thu,  7 Apr 2022 16:19:14 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+ t=1649348354; x=1680884354;
+ h=from:to:cc:subject:date:message-id:mime-version:
+ content-transfer-encoding;
+ bh=YwPKjq/8WassANyC+LRTLgE+Ar0zHpwLSxm0/dDeX88=;
+ b=NhHXH1dAQfVJ8AZgDj+dQUyqVpTMz7EzV4T2+ixhO7XGo2mr/Ely4mmZ
+ GMDLfyzzR20p/GYw/vvbtJabPaLwwQgg5js2LREIK9FaZO+pSVqYfnXkA
+ pt/kNnT4c0SbZF7QZ/FYHOVYcLA5JaaeXKwGDk2fWTU8qFY4SLezmQ40D
+ b/ZxpamgRF4Au6lh9dutAf7gTqfsl/C3qwBZFLYy7T7x1Tn6Cf5JL0IuN
+ 4/tR8+bls6i5eUMMzT/hMhOfCzw35uNPJ5YL1WFZeW1k97TPvxn6xTW0E
+ JP3wnlCMx0EdlsA2Q3MpQ1TLyxWCl3uzCWywxywA8/aTwlt9c0f0b/EPG Q==;
+X-IronPort-AV: E=McAfee;i="6400,9594,10310"; a="261065161"
+X-IronPort-AV: E=Sophos;i="5.90,242,1643702400"; d="scan'208";a="261065161"
+Received: from fmsmga005.fm.intel.com ([10.253.24.32])
+ by orsmga102.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 07 Apr 2022 09:18:57 -0700
+X-IronPort-AV: E=Sophos;i="5.90,242,1643702400"; d="scan'208";a="851739308"
+Received: from mdroper-desk1.fm.intel.com ([10.1.27.134])
+ by fmsmga005-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 07 Apr 2022 09:18:57 -0700
+From: Matt Roper <matthew.d.roper@intel.com>
+To: intel-gfx@lists.freedesktop.org
+Subject: [PATCH] drm/i915: Sunset igpu legacy mmap support based on
+ GRAPHICS_VER_FULL
+Date: Thu,  7 Apr 2022 09:18:39 -0700
+Message-Id: <20220407161839.1073443-1-matthew.d.roper@intel.com>
+X-Mailer: git-send-email 2.34.1
 MIME-Version: 1.0
-References: <1649311250-17077-1-git-send-email-baihaowen@meizu.com>
- <bb7635cf-461e-7abd-6092-4be67099c846@amd.com>
- <CADnq5_Ogke7XuVsQaB8pskreXam1ASTE2jna=U6iuKuuyR4r-Q@mail.gmail.com>
-In-Reply-To: <CADnq5_Ogke7XuVsQaB8pskreXam1ASTE2jna=U6iuKuuyR4r-Q@mail.gmail.com>
-From: Alex Deucher <alexdeucher@gmail.com>
-Date: Thu, 7 Apr 2022 12:07:47 -0400
-Message-ID: <CADnq5_Phw7SvfdtX_RN7N4xEzceYpZLvRv971y3YyOdrg5Lz_w@mail.gmail.com>
-Subject: Re: [PATCH] drm/amd/display: Fix indenting mistakes in
- dcn10_hw_sequencer.c
-To: Harry Wentland <harry.wentland@amd.com>
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -65,72 +55,43 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Haowen Bai <baihaowen@meizu.com>, Leo Li <sunpeng.li@amd.com>, "Pan,
- Xinhui" <Xinhui.Pan@amd.com>, Rodrigo Siqueira <Rodrigo.Siqueira@amd.com>,
- LKML <linux-kernel@vger.kernel.org>,
- amd-gfx list <amd-gfx@lists.freedesktop.org>, David Airlie <airlied@linux.ie>,
- Maling list - DRI developers <dri-devel@lists.freedesktop.org>,
- Alex Deucher <alexander.deucher@amd.com>,
- =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>
+Cc: Lucas De Marchi <lucas.demarchi@intel.com>,
+ =?UTF-8?q?Thomas=20Hellstr=C3=B6m?= <thomas.hellstrom@linux.intel.com>,
+ dri-devel@lists.freedesktop.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Actually this just causes another warning.  Dropped for now.  More below.
+The intent of the version check in the mmap ioctl was to maintain
+support for existing platforms (i.e., ADL/RPL and earlier), but drop
+support on all future igpu platforms.  As we've seen on the dgpu side,
+the hardware teams are using a more fine-grained numbering system for IP
+version numbers these days, so it's possible the version number
+associated with our next igpu could be some form of "12.xx" rather than
+13 or higher.  Comparing against the full ver.release number will ensure
+the intent of the check is maintained no matter what numbering the
+hardware teams settle on.
 
-On Thu, Apr 7, 2022 at 11:52 AM Alex Deucher <alexdeucher@gmail.com> wrote:
->
-> Applied.  Thanks!
->
-> Alex
->
-> On Thu, Apr 7, 2022 at 10:18 AM Harry Wentland <harry.wentland@amd.com> wrote:
-> >
-> >
-> >
-> > On 2022-04-07 02:00, Haowen Bai wrote:
-> > > Smatch reports the following:
-> > > drivers/gpu/drm/amd/amdgpu/../display/dc/dcn10/dcn10_hw_sequencer.c:2174
-> > > dcn10_enable_vblanks_synchronization() warn: if statement not indented
-> > >
-> > > Signed-off-by: Haowen Bai <baihaowen@meizu.com>
-> >
-> > Reviewed-by: Harry Wentland <harry.wentland@amd.com>
-> >
-> > Harry
-> >
-> > > ---
-> > >  drivers/gpu/drm/amd/display/dc/dcn10/dcn10_hw_sequencer.c | 14 +++++++-------
-> > >  1 file changed, 7 insertions(+), 7 deletions(-)
-> > >
-> > > diff --git a/drivers/gpu/drm/amd/display/dc/dcn10/dcn10_hw_sequencer.c b/drivers/gpu/drm/amd/display/dc/dcn10/dcn10_hw_sequencer.c
-> > > index ee22f4422d26..3c338b85040c 100644
-> > > --- a/drivers/gpu/drm/amd/display/dc/dcn10/dcn10_hw_sequencer.c
-> > > +++ b/drivers/gpu/drm/amd/display/dc/dcn10/dcn10_hw_sequencer.c
-> > > @@ -2172,13 +2172,13 @@ void dcn10_enable_vblanks_synchronization(
-> > >       if (master >= 0) {
-> > >               for (i = 0; i < group_size; i++) {
-> > >                       if (i != master && !grouped_pipes[i]->stream->has_non_synchronizable_pclk)
-> > > -                     grouped_pipes[i]->stream_res.tg->funcs->align_vblanks(
-> > > -                             grouped_pipes[master]->stream_res.tg,
-> > > -                             grouped_pipes[i]->stream_res.tg,
-> > > -                             grouped_pipes[master]->stream->timing.pix_clk_100hz,
-> > > -                             grouped_pipes[i]->stream->timing.pix_clk_100hz,
-> > > -                             get_clock_divider(grouped_pipes[master], false),
-> > > -                             get_clock_divider(grouped_pipes[i], false));
-> > > +                             grouped_pipes[i]->stream_res.tg->funcs->align_vblanks(
-> > > +                                     grouped_pipes[master]->stream_res.tg,
-> > > +                                     grouped_pipes[i]->stream_res.tg,
-> > > +                                     grouped_pipes[master]->stream->timing.pix_clk_100hz,
-> > > +                                     grouped_pipes[i]->stream->timing.pix_clk_100hz,
-> > > +                                     get_clock_divider(grouped_pipes[master], false),
-> > > +                                     get_clock_divider(grouped_pipes[i], false));
-> > >                               grouped_pipes[i]->stream->vblank_synchronized = true;
+Fixes: d3f3baa3562a ("drm/i915: Reinstate the mmap ioctl for some platforms")
+Cc: Thomas Hellström <thomas.hellstrom@linux.intel.com>
+Cc: Lucas De Marchi <lucas.demarchi@intel.com>
+Signed-off-by: Matt Roper <matthew.d.roper@intel.com>
+---
+ drivers/gpu/drm/i915/gem/i915_gem_mman.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-@Harry Wentland should this last statement be part of the if clause or
-the for loop?
+diff --git a/drivers/gpu/drm/i915/gem/i915_gem_mman.c b/drivers/gpu/drm/i915/gem/i915_gem_mman.c
+index c3ea243d414d..0c5c43852e24 100644
+--- a/drivers/gpu/drm/i915/gem/i915_gem_mman.c
++++ b/drivers/gpu/drm/i915/gem/i915_gem_mman.c
+@@ -70,7 +70,7 @@ i915_gem_mmap_ioctl(struct drm_device *dev, void *data,
+ 	 * mmap ioctl is disallowed for all discrete platforms,
+ 	 * and for all platforms with GRAPHICS_VER > 12.
+ 	 */
+-	if (IS_DGFX(i915) || GRAPHICS_VER(i915) > 12)
++	if (IS_DGFX(i915) || GRAPHICS_VER_FULL(i915) > IP_VER(12, 0))
+ 		return -EOPNOTSUPP;
+ 
+ 	if (args->flags & ~(I915_MMAP_WC))
+-- 
+2.34.1
 
-Alex
-
-> > >               }
-> > >               grouped_pipes[master]->stream->vblank_synchronized = true;
-> >
