@@ -2,34 +2,34 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3D4E14F7DBA
-	for <lists+dri-devel@lfdr.de>; Thu,  7 Apr 2022 13:16:25 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 16AC74F7DB9
+	for <lists+dri-devel@lfdr.de>; Thu,  7 Apr 2022 13:16:23 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id D8D3A10E6CB;
-	Thu,  7 Apr 2022 11:16:22 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id BF1BD10E6C8;
+	Thu,  7 Apr 2022 11:16:20 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from mo4-p03-ob.smtp.rzone.de (mo4-p03-ob.smtp.rzone.de
- [85.215.255.103])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 67E0D10E6D4
- for <dri-devel@lists.freedesktop.org>; Thu,  7 Apr 2022 11:16:21 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; t=1649330173;
+ [81.169.146.173])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 3ADE710E6C8
+ for <dri-devel@lists.freedesktop.org>; Thu,  7 Apr 2022 11:16:17 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; t=1649330174;
  s=strato-dkim-0002; d=goldelico.com;
  h=References:In-Reply-To:Message-Id:Date:Subject:Cc:To:From:Cc:Date:
  From:Subject:Sender;
- bh=mli3SbgeH19fgUBo5oZuvEr6dwkaZKlBs97YGkIQ7hs=;
- b=m+N+EovPDYaXEeM9dWP3zoGWYJWca46FkN9WJtA3Fp9OD6gDw8lhy8F6UIhKYymgtf
- CebZrV9paQ7V2hCHLxk+eDvmDD6Zv7KEt1mIyl4NcnfoXykSWOh0CTNOHllo1D3SnYAx
- xLMLaJFTTJEKmSNRdzrAa6LhHEQVAmitRACoYQIqjNYk4/0rW76atCXzxf0jy62TwrN3
- QIf3OxXquiWooLHgN/8C9aVxJQDrRs+w5YqaTNVQgQR2co30vFGJJkwoJ0iCCgz441/y
- 8g20Y+pa2FHriVyAq1YDSn7pkt/2aQbb4YWyxmXjxVxyz5svJ1gpgxhhBEsZx7popfjQ
- kx4w==
+ bh=vGhCyz1GPf2jh1WBHKte1uugDSUBVLnc0vdCb4M+ec4=;
+ b=HnTl5Nq1rQqjIns7XRRSlVSHLw4DmZySH3duvU89b1kI+S+ZjTnIyK4y85w2Y5LyfE
+ 90rO8Ln0U32u/rjgdp2vQK+w3DIao+tXVBl2Gihev+Z3GxXJ627LLNBcNwYqY7slxrl0
+ YI6AogwqEbR8ETCREEsoatUBCLNuERAisCPM54AijYhJp6CZwddSpfcYU4EkjriTBGgp
+ xEV0PnEd7csDXe/JkDEpVTM8lnwMA6xBm3dmcLmbXqH4+XQN7OIKdpqzgoQnj4oP7BnI
+ qiJLWNQta1q2RmWsZOnP2uGY8DkOazG9sTT1XmRzhypBm69l3wU55spADop4txkAuYXL
+ yv/g==
 Authentication-Results: strato.com;
     dkim=none
 X-RZG-AUTH: ":JGIXVUS7cutRB/49FwqZ7WcJeFKiMhflhwDubTJ9o1KHeBQyh+ITDDFsCr4="
 X-RZG-CLASS-ID: mo00
 Received: from iMac.fritz.box by smtp.strato.de (RZmta 47.42.2 DYNA|AUTH)
- with ESMTPSA id k708cfy37BGDjxE
+ with ESMTPSA id k708cfy37BGDjxF
  (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256 bits))
  (Client did not present a certificate);
  Thu, 7 Apr 2022 13:16:13 +0200 (CEST)
@@ -43,10 +43,10 @@ To: Andrzej Hajda <andrzej.hajda@intel.com>,
  Maxime Ripard <maxime@cerno.tech>,
  "H. Nikolaus Schaller" <hns@goldelico.com>,
  Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>
-Subject: [PATCH v18 2/3] drm/ingenic: Implement proper
- .atomic_get_input_bus_fmts
-Date: Thu,  7 Apr 2022 13:16:10 +0200
-Message-Id: <ab25925723cff2f3e773e7137567ef86fff5fdba.1649330171.git.hns@goldelico.com>
+Subject: [PATCH v18 3/3] drm/ingenic: Add dw-hdmi driver specialization for
+ jz4780
+Date: Thu,  7 Apr 2022 13:16:11 +0200
+Message-Id: <e5cdf9cd44bde52cce379cc830f2d6117ea15c32.1649330171.git.hns@goldelico.com>
 X-Mailer: git-send-email 2.33.0
 In-Reply-To: <cover.1649330170.git.hns@goldelico.com>
 References: <cover.1649330170.git.hns@goldelico.com>
@@ -64,72 +64,177 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: letux-kernel@openphoenux.org, linux-mips@vger.kernel.org,
- linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
- Jonas Karlman <jonas@kwiboo.se>
+Cc: Jonas Karlman <jonas@kwiboo.se>, linux-mips@vger.kernel.org,
+ dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org,
+ letux-kernel@openphoenux.org, Ezequiel Garcia <ezequiel@collabora.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-From: Paul Cercueil <paul@crapouillou.net>
+From: Paul Boddie <paul@boddie.org.uk>
 
-The .atomic_get_input_bus_fmts() callback of our top bridge should
-return the possible input formats for a given output format. If the
-requested output format is not supported, then NULL should be returned,
-otherwise the bus format negociation will end with a bus format that the
-encoder does not support.
+A specialisation of the generic Synopsys HDMI driver is employed for
+JZ4780 HDMI support. This requires a new driver, plus device tree and
+configuration modifications.
 
-Signed-off-by: Paul Cercueil <paul@crapouillou.net>
+Here we add Kconfig DRM_INGENIC_DW_HDMI, Makefile and driver code.
+
+Note that there is no hpd-gpio installed on the CI20 board HDMI
+connector. Hence there is no hpd detection by the connector driver
+and we have to enable polling in the dw-hdmi core driver.
+
+For that we need to set .poll_enabled but that struct component
+can only be accessed by core code. Hence we use the public
+setter function drm_kms_helper_hotplug_event() introduced before.
+
+Also note that we disable Color Space Conversion since it is not
+working on jz4780.
+
+Signed-off-by: Paul Boddie <paul@boddie.org.uk>
+Signed-off-by: Ezequiel Garcia <ezequiel@collabora.com>
 Signed-off-by: H. Nikolaus Schaller <hns@goldelico.com>
 ---
- drivers/gpu/drm/ingenic/ingenic-drm-drv.c | 28 ++++++++++++++++++++++-
- 1 file changed, 27 insertions(+), 1 deletion(-)
+ drivers/gpu/drm/ingenic/Kconfig           |   9 ++
+ drivers/gpu/drm/ingenic/Makefile          |   1 +
+ drivers/gpu/drm/ingenic/ingenic-dw-hdmi.c | 103 ++++++++++++++++++++++
+ 3 files changed, 113 insertions(+)
+ create mode 100644 drivers/gpu/drm/ingenic/ingenic-dw-hdmi.c
 
-diff --git a/drivers/gpu/drm/ingenic/ingenic-drm-drv.c b/drivers/gpu/drm/ingenic/ingenic-drm-drv.c
-index a4f5a323f4906..8eb0ad501a7b9 100644
---- a/drivers/gpu/drm/ingenic/ingenic-drm-drv.c
-+++ b/drivers/gpu/drm/ingenic/ingenic-drm-drv.c
-@@ -833,6 +833,32 @@ static int ingenic_drm_bridge_atomic_check(struct drm_bridge *bridge,
- 	}
- }
+diff --git a/drivers/gpu/drm/ingenic/Kconfig b/drivers/gpu/drm/ingenic/Kconfig
+index 001f59fb06d56..090830bcbde7f 100644
+--- a/drivers/gpu/drm/ingenic/Kconfig
++++ b/drivers/gpu/drm/ingenic/Kconfig
+@@ -24,4 +24,13 @@ config DRM_INGENIC_IPU
  
-+static u32 *
-+ingenic_drm_bridge_atomic_get_input_bus_fmts(struct drm_bridge *bridge,
-+					     struct drm_bridge_state *bridge_state,
-+					     struct drm_crtc_state *crtc_state,
-+					     struct drm_connector_state *conn_state,
-+					     u32 output_fmt,
-+					     unsigned int *num_input_fmts)
-+{
-+	switch (output_fmt) {
-+	case MEDIA_BUS_FMT_RGB888_1X24:
-+	case MEDIA_BUS_FMT_RGB666_1X18:
-+	case MEDIA_BUS_FMT_RGB565_1X16:
-+	case MEDIA_BUS_FMT_RGB888_3X8:
-+	case MEDIA_BUS_FMT_RGB888_3X8_DELTA:
-+		break;
-+	default:
-+		*num_input_fmts = 0;
-+		return NULL;
-+	}
+ 	  The Image Processing Unit (IPU) will appear as a second primary plane.
+ 
++config DRM_INGENIC_DW_HDMI
++	tristate "Ingenic specific support for Synopsys DW HDMI"
++	depends on MACH_JZ4780
++	select DRM_DW_HDMI
++	help
++	  Choose this option to enable Synopsys DesignWare HDMI based driver.
++	  If you want to enable HDMI on Ingenic JZ4780 based SoC, you should
++	  select this option.
 +
-+	return drm_atomic_helper_bridge_propagate_bus_fmt(bridge, bridge_state,
-+							  crtc_state, conn_state,
-+							  output_fmt,
-+							  num_input_fmts);
+ endif
+diff --git a/drivers/gpu/drm/ingenic/Makefile b/drivers/gpu/drm/ingenic/Makefile
+index d313326bdddbb..f10cc1c5a5f22 100644
+--- a/drivers/gpu/drm/ingenic/Makefile
++++ b/drivers/gpu/drm/ingenic/Makefile
+@@ -1,3 +1,4 @@
+ obj-$(CONFIG_DRM_INGENIC) += ingenic-drm.o
+ ingenic-drm-y = ingenic-drm-drv.o
+ ingenic-drm-$(CONFIG_DRM_INGENIC_IPU) += ingenic-ipu.o
++obj-$(CONFIG_DRM_INGENIC_DW_HDMI) += ingenic-dw-hdmi.o
+diff --git a/drivers/gpu/drm/ingenic/ingenic-dw-hdmi.c b/drivers/gpu/drm/ingenic/ingenic-dw-hdmi.c
+new file mode 100644
+index 0000000000000..72f8b44998a51
+--- /dev/null
++++ b/drivers/gpu/drm/ingenic/ingenic-dw-hdmi.c
+@@ -0,0 +1,103 @@
++// SPDX-License-Identifier: GPL-2.0
++/* Copyright (C) 2011-2013 Freescale Semiconductor, Inc.
++ * Copyright (C) 2019, 2020 Paul Boddie <paul@boddie.org.uk>
++ *
++ * Derived from dw_hdmi-imx.c with i.MX portions removed.
++ */
++
++#include <linux/module.h>
++#include <linux/of_platform.h>
++#include <linux/platform_device.h>
++
++#include <drm/bridge/dw_hdmi.h>
++#include <drm/drm_of.h>
++#include <drm/drm_print.h>
++
++static const struct dw_hdmi_mpll_config ingenic_mpll_cfg[] = {
++	{ 45250000,  { { 0x01e0, 0x0000 }, { 0x21e1, 0x0000 }, { 0x41e2, 0x0000 } } },
++	{ 92500000,  { { 0x0140, 0x0005 }, { 0x2141, 0x0005 }, { 0x4142, 0x0005 } } },
++	{ 148500000, { { 0x00a0, 0x000a }, { 0x20a1, 0x000a }, { 0x40a2, 0x000a } } },
++	{ 216000000, { { 0x00a0, 0x000a }, { 0x2001, 0x000f }, { 0x4002, 0x000f } } },
++	{ ~0UL,      { { 0x0000, 0x0000 }, { 0x0000, 0x0000 }, { 0x0000, 0x0000 } } }
++};
++
++static const struct dw_hdmi_curr_ctrl ingenic_cur_ctr[] = {
++	/*pixelclk     bpp8    bpp10   bpp12 */
++	{ 54000000,  { 0x091c, 0x091c, 0x06dc } },
++	{ 58400000,  { 0x091c, 0x06dc, 0x06dc } },
++	{ 72000000,  { 0x06dc, 0x06dc, 0x091c } },
++	{ 74250000,  { 0x06dc, 0x0b5c, 0x091c } },
++	{ 118800000, { 0x091c, 0x091c, 0x06dc } },
++	{ 216000000, { 0x06dc, 0x0b5c, 0x091c } },
++	{ ~0UL,      { 0x0000, 0x0000, 0x0000 } },
++};
++
++/*
++ * Resistance term 133Ohm Cfg
++ * PREEMP config 0.00
++ * TX/CK level 10
++ */
++static const struct dw_hdmi_phy_config ingenic_phy_config[] = {
++	/*pixelclk   symbol   term   vlev */
++	{ 216000000, 0x800d, 0x0005, 0x01ad},
++	{ ~0UL,      0x0000, 0x0000, 0x0000}
++};
++
++static enum drm_mode_status
++ingenic_dw_hdmi_mode_valid(struct dw_hdmi *hdmi, void *data,
++			   const struct drm_display_info *info,
++			   const struct drm_display_mode *mode)
++{
++	if (mode->clock < 13500)
++		return MODE_CLOCK_LOW;
++	/* FIXME: Hardware is capable of 270MHz, but setup data is missing. */
++	if (mode->clock > 216000)
++		return MODE_CLOCK_HIGH;
++
++	return MODE_OK;
 +}
 +
- static irqreturn_t ingenic_drm_irq_handler(int irq, void *arg)
- {
- 	struct ingenic_drm *priv = drm_device_get_priv(arg);
-@@ -984,7 +1010,7 @@ static const struct drm_bridge_funcs ingenic_drm_bridge_funcs = {
- 	.atomic_reset		= drm_atomic_helper_bridge_reset,
- 	.atomic_duplicate_state	= drm_atomic_helper_bridge_duplicate_state,
- 	.atomic_destroy_state	= drm_atomic_helper_bridge_destroy_state,
--	.atomic_get_input_bus_fmts = drm_atomic_helper_bridge_propagate_bus_fmt,
-+	.atomic_get_input_bus_fmts = ingenic_drm_bridge_atomic_get_input_bus_fmts,
- };
- 
- static const struct drm_mode_config_funcs ingenic_drm_mode_config_funcs = {
++static struct dw_hdmi_plat_data ingenic_dw_hdmi_plat_data = {
++	.mpll_cfg   = ingenic_mpll_cfg,
++	.cur_ctr    = ingenic_cur_ctr,
++	.phy_config = ingenic_phy_config,
++	.mode_valid = ingenic_dw_hdmi_mode_valid,
++	.output_port	= 1,
++};
++
++static const struct of_device_id ingenic_dw_hdmi_dt_ids[] = {
++	{ .compatible = "ingenic,jz4780-dw-hdmi" },
++	{ /* Sentinel */ },
++};
++MODULE_DEVICE_TABLE(of, ingenic_dw_hdmi_dt_ids);
++
++static void ingenic_dw_hdmi_cleanup(void *data)
++{
++	struct dw_hdmi *hdmi = (struct dw_hdmi *)data;
++
++	dw_hdmi_remove(hdmi);
++}
++
++static int ingenic_dw_hdmi_probe(struct platform_device *pdev)
++{
++	struct dw_hdmi *hdmi;
++
++	hdmi = dw_hdmi_probe(pdev, &ingenic_dw_hdmi_plat_data);
++	if (IS_ERR(hdmi))
++		return PTR_ERR(hdmi);
++
++	return devm_add_action_or_reset(&pdev->dev, ingenic_dw_hdmi_cleanup, hdmi);
++}
++
++static struct platform_driver ingenic_dw_hdmi_driver = {
++	.probe  = ingenic_dw_hdmi_probe,
++	.driver = {
++		.name = "dw-hdmi-ingenic",
++		.of_match_table = ingenic_dw_hdmi_dt_ids,
++	},
++};
++module_platform_driver(ingenic_dw_hdmi_driver);
++
++MODULE_DESCRIPTION("JZ4780 Specific DW-HDMI Driver Extension");
++MODULE_LICENSE("GPL v2");
++MODULE_ALIAS("platform:dw-hdmi-ingenic");
 -- 
 2.33.0
 
