@@ -2,50 +2,38 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 040114F721A
-	for <lists+dri-devel@lfdr.de>; Thu,  7 Apr 2022 04:32:23 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id D2C684F725F
+	for <lists+dri-devel@lfdr.de>; Thu,  7 Apr 2022 04:57:14 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id DAD3B10E6AB;
-	Thu,  7 Apr 2022 02:32:17 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id EA1D410E6BD;
+	Thu,  7 Apr 2022 02:57:03 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from out203-205-221-173.mail.qq.com (out203-205-221-173.mail.qq.com
- [203.205.221.173])
- by gabe.freedesktop.org (Postfix) with ESMTPS id C3D3810E6AB;
- Thu,  7 Apr 2022 02:32:14 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=foxmail.com;
- s=s201512; t=1649298732;
- bh=EE9E+vmbSiL+K//wojxGVNYmWUWjLLsXN8IgKVrebUk=;
- h=From:To:Cc:Subject:Date;
- b=OuIOFMkE2v14WJyUFfOxHhhyUSUTW43Xd3Fc/l2f5UWAp5iPiOyhIGkagdFIm6eog
- vWBnjRekeNrD5l7haTJXWUhIjbrSYiJyGGP2p60qHQUx+nefu41Zyyza63NsTggb+q
- 7p+yAsUaw14U/Zj1U4OVA1HhI/aSdlfJEqIlr1nY=
-Received: from localhost.localdomain ([43.227.138.48])
- by newxmesmtplogicsvrszb6.qq.com (NewEsmtp) with SMTP
- id 8082725D; Thu, 07 Apr 2022 10:32:08 +0800
-X-QQ-mid: xmsmtpt1649298728tccwz3535
-Message-ID: <tencent_8E2A1C78140EE1784AB2FF4B2088CC0AB908@qq.com>
-X-QQ-XMAILINFO: NSMIDlHhjvLjbXcmEjGjYtMMB+VxtOCuqM52WBMXPTZa5F9/hJEebwSU+dSyh+
- 7DH+K4JCzvWDAE2eWZm4BoFyPznmN7xhHELxv+2zcDNzm5tG/NvjSbBPXMoIRXICEgy7IPe3Mkbg
- 2YvBRmYADVDi2NnIBnTxVNEVk0s6jPXhUDMnnwPwS8tGvymQkEHYOyVVwabh8PHONsCr8UxennEI
- 2rczCZMJhDKnn1SsowQH20yEc8UvqiCnyEPR1UvJKVeCh1B/XWoyx98Dxa8i9K3c+nkhrHFQmfiJ
- EefFHV4HCPA2Jdvgh++/jgIZRWJy9qQn/3wVevqYub1ZqJfFY7/owJzgDnQqNqIsrR4cdHzp9oA/
- VGn59ERTFRjezkhVk2qVVfky8SkvymTT18b08Ltmy+Mg/KLztiv4FVXL6f0mW6Q7LXoqJpu4pRmj
- f8JcbGA+cZGAkznfpPo7FVbfpTLXnOgj7z7VlR0ZwRuHxaeTiDPQioe5BbZK1yivn0HtM5IvSFHo
- EmlrIe9r4UAScMtBOqJjAXaKC2vtaS2K2qFf6DQizXTeOjNIk2r1mpbNK+wCPXsOy2WRT7NlHjZ1
- boNu7eNzS84EfqN/NU9Uiujal69kaQ8wS767eTRNkOqIj6JAeU0HhJAxS0gf87joAL9bCyyLncSq
- Xuutjrjh9Q+FlJ7LwIZIu0ZB29VTnnBwVcEL8I3elo1lQ/454vlId/Ht8P3pUka77/zJrWcyu34z
- d1fMesTcUmBq6Woqwe96DhUcbdUktUtUupCNLVP+rXQ5ZOCj+1wWRU+00Mqz/Yp95ezOHsrUM5ZJ
- g+A4q2PCokVhj8QtZoPOJ/B78AeGQXPY5AaL9tfYm/5BwLdyp/NYvLJUlrWNUD5lctGJSMCbVGm1
- npco49BZrkNCXZjLY9ZUJXOonZOP6rux1flXJ/f5YPvHFEGCFrBRA/PO2Y1FjfK2Q9mRMlvQUh6m
- VpUX3Nun3qh06suqvJlQ==
-From: xkernel.wang@foxmail.com
-To: robdclark@gmail.com,
-	quic_abhinavk@quicinc.com
-Subject: [PATCH v2] drm/msm/mdp5: check the return of kzalloc()
-Date: Thu,  7 Apr 2022 10:31:51 +0800
-X-OQ-MSGID: <20220407023151.13663-1-xkernel.wang@foxmail.com>
+Received: from letterbox.kde.org (letterbox.kde.org
+ [IPv6:2001:41c9:1:41e::242])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 2DE5010E6B5
+ for <dri-devel@lists.freedesktop.org>; Thu,  7 Apr 2022 02:57:02 +0000 (UTC)
+Received: from vertex.vmware.com (pool-108-36-85-85.phlapa.fios.verizon.net
+ [108.36.85.85]) (Authenticated sender: zack)
+ by letterbox.kde.org (Postfix) with ESMTPSA id 0234828A5A9;
+ Thu,  7 Apr 2022 03:56:58 +0100 (BST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kde.org; s=users;
+ t=1649300220; bh=9acSGAPbCAXZXE+VpJxZwWXm/bmGmEfcza0ZtidZHyE=;
+ h=From:To:Cc:Subject:Date:From;
+ b=d/Eo7b+ixk/+KnT7l+ukkjpNhjLzvoAT/Nm1XMwAVf3LNXyp8sqbhsjYBGXJ0TWlh
+ LFxoSW8plVlMiwo6Ddfr6zB1SjlHDW+ogp/D4aUMviNCtCEiFUF73HEHh55Sj5TUoi
+ Qr7EhbAZ8ZKzeIbuhYK8xIoXm2POSr/XYq7S6kew0VaTftLzOHZyPyn7xAQe72kWHT
+ tRmunOdvqK1lRPN+jdCoxBPWPWZ1jvHklk2eg2jcr/vkmiekyE9eI5Ul44ebrqsiIV
+ pvKXgDfP8p3zNmAXumwOU5g5wYOdszOSsb6IUv7jqvYYpscgld61H/wsza+Aerbvlb
+ G5AhhOW4UKxuQ==
+From: Zack Rusin <zack@kde.org>
+To: dri-devel@lists.freedesktop.org
+Subject: [PATCH 0/5] drm/ttm: Introduce TTM res manager debugfs helpers
+Date: Wed,  6 Apr 2022 22:56:46 -0400
+Message-Id: <20220407025652.146426-1-zack@kde.org>
+X-Mailer: git-send-email 2.32.0
 MIME-Version: 1.0
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -59,41 +47,39 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: sean@poorly.run, airlied@linux.ie, linux-arm-msm@vger.kernel.org,
- linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
- Xiaoke Wang <xkernel.wang@foxmail.com>, freedreno@lists.freedesktop.org
+Reply-To: Zack Rusin <zackr@vmware.com>
+Cc: David Airlie <airlied@linux.ie>, krastevm@vmware.com,
+ Huang Rui <ray.huang@amd.com>, Christian Koenig <christian.koenig@amd.com>,
+ mombasawalam@vmware.com
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-From: Xiaoke Wang <xkernel.wang@foxmail.com>
+From: Zack Rusin <zackr@vmware.com>
 
-kzalloc() is a memory allocation function which can return NULL when
-some internal memory errors happen. So it is better to check it to
-prevent potential wrong memory access.
+This series introduces generic TTM resource manager debugfs helpers and
+refactors TTM drivers which have been using hand rolled out versions
+of those to use the new code.
 
-Besides, since mdp5_plane_reset() is void type, so we should better
-set `plane-state` to NULL after releasing it.
+Because those entries are managed by TTM the location of them moves to
+/sys/kernel/debug/ttm/. If there are any scripts which depend on the old
+locations we can certainly add a new root dentry to
+ttm_resource_manager_debugfs_init to preserve the old locations.
 
-Signed-off-by: Xiaoke Wang <xkernel.wang@foxmail.com>
----
-ChangeLog:
-v1->v2 simplify the patch and update the description.
- drivers/gpu/drm/msm/disp/mdp5/mdp5_plane.c | 3 +++
- 1 file changed, 3 insertions(+)
+Zack Rusin (5):
+  drm/ttm: Add common debugfs code for resource managers
+  drm/vmwgfx: Add debugfs entries for various ttm resource managers
+  drm/amdgpu: Use TTM builtin resource manager debugfs code
+  drm/qxl: Use TTM builtin resource manager debugfs code
+  drm/radeon: Use TTM builtin resource manager debugfs code
 
-diff --git a/drivers/gpu/drm/msm/disp/mdp5/mdp5_plane.c b/drivers/gpu/drm/msm/disp/mdp5/mdp5_plane.c
-index c6b69af..50e8542 100644
---- a/drivers/gpu/drm/msm/disp/mdp5/mdp5_plane.c
-+++ b/drivers/gpu/drm/msm/disp/mdp5/mdp5_plane.c
-@@ -90,7 +90,10 @@ static void mdp5_plane_reset(struct drm_plane *plane)
- 		__drm_atomic_helper_plane_destroy_state(plane->state);
- 
- 	kfree(to_mdp5_plane_state(plane->state));
-+	plane->state = NULL;
- 	mdp5_state = kzalloc(sizeof(*mdp5_state), GFP_KERNEL);
-+	if (!mdp5_state)
-+		return;
- 
- 	if (plane->type == DRM_PLANE_TYPE_PRIMARY)
- 		mdp5_state->base.zpos = STAGE_BASE;
+ drivers/gpu/drm/amd/amdgpu/amdgpu_ttm.c | 81 ++++---------------------
+ drivers/gpu/drm/qxl/qxl_ttm.c           | 40 +++---------
+ drivers/gpu/drm/radeon/radeon_ttm.c     | 37 +++--------
+ drivers/gpu/drm/ttm/ttm_resource.c      | 65 ++++++++++++++++++++
+ drivers/gpu/drm/vmwgfx/vmwgfx_drv.c     | 10 +++
+ include/drm/ttm/ttm_resource.h          |  4 ++
+ 6 files changed, 104 insertions(+), 133 deletions(-)
+
 -- 
+2.32.0
+
