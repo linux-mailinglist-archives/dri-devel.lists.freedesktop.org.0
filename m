@@ -1,49 +1,75 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id C692B4F829F
-	for <lists+dri-devel@lfdr.de>; Thu,  7 Apr 2022 17:16:52 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id C4AC04F832B
+	for <lists+dri-devel@lfdr.de>; Thu,  7 Apr 2022 17:27:29 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 044F610EABC;
-	Thu,  7 Apr 2022 15:16:45 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id CE90910EAD1;
+	Thu,  7 Apr 2022 15:27:27 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mga07.intel.com (mga07.intel.com [134.134.136.100])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 6212410EAA4;
- Thu,  7 Apr 2022 15:16:41 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1649344601; x=1680880601;
- h=from:to:cc:subject:date:message-id:in-reply-to:
- references:mime-version:content-transfer-encoding;
- bh=lDiLvcciIOdC1NXP+sNVWvVR2nFuU7TF5JOpwHyxflc=;
- b=NN6jLNnJkldnvT+RB9jlvhpWC0ER0yVgW0Nh5ZL+0SOg5Myu0fHxoJ8K
- 1cunkibxndoQxwDOb1mS87adSpTMJdeeQQX0EO0ultN7b9D93ptMZwbye
- QcQd99IZj6amDvjavRNwjosnoxdcPNhR/+7+4RL4IuvxNmz5TVBBvTDPy
- Znb7kaFvierJWqF3WkGzZlzn6u9zjE0sjBmwC8cqiEgGbQYK/56oAFzI+
- igfMDl7/OB0o7CW5dbvag7dntfqoVortrHwMg+W8vOLZ6uoP9fZUSPwE+
- MEJZrf9ZpMcmBn6ps9YRgD9B728pBxRxgd/RJOm/LOACSbH8xT1atDlxu Q==;
-X-IronPort-AV: E=McAfee;i="6400,9594,10310"; a="324512350"
-X-IronPort-AV: E=Sophos;i="5.90,242,1643702400"; d="scan'208";a="324512350"
-Received: from orsmga006.jf.intel.com ([10.7.209.51])
- by orsmga105.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 07 Apr 2022 08:16:41 -0700
-X-IronPort-AV: E=Sophos;i="5.90,242,1643702400"; d="scan'208";a="524962800"
-Received: from twsparks-mobl1.amr.corp.intel.com (HELO tursulin-mobl2.home)
- ([10.212.41.19])
- by orsmga006-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 07 Apr 2022 08:16:40 -0700
-From: Tvrtko Ursulin <tvrtko.ursulin@linux.intel.com>
-To: Intel-gfx@lists.freedesktop.org
-Subject: [PATCH 1/1] drm/i915: Inherit submitter nice when scheduling requests
-Date: Thu,  7 Apr 2022 16:16:27 +0100
-Message-Id: <20220407151627.3387655-2-tvrtko.ursulin@linux.intel.com>
-X-Mailer: git-send-email 2.32.0
-In-Reply-To: <20220407151627.3387655-1-tvrtko.ursulin@linux.intel.com>
-References: <20220407151627.3387655-1-tvrtko.ursulin@linux.intel.com>
+Received: from wout5-smtp.messagingengine.com (wout5-smtp.messagingengine.com
+ [64.147.123.21])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id BA4EB10EAD1
+ for <dri-devel@lists.freedesktop.org>; Thu,  7 Apr 2022 15:27:25 +0000 (UTC)
+Received: from compute1.internal (compute1.nyi.internal [10.202.2.41])
+ by mailout.west.internal (Postfix) with ESMTP id EB5753200B8B;
+ Thu,  7 Apr 2022 11:27:21 -0400 (EDT)
+Received: from mailfrontend1 ([10.202.2.162])
+ by compute1.internal (MEProxy); Thu, 07 Apr 2022 11:27:22 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=cerno.tech; h=cc
+ :cc:content-type:date:date:from:from:in-reply-to:in-reply-to
+ :message-id:mime-version:references:reply-to:sender:subject
+ :subject:to:to; s=fm3; bh=KmaGcpZRZ7EQ4bZea01sp8yB4p8jkdhNq5RVEO
+ ba/aU=; b=ZC/EmOMaklVwlaOUYGRA6+5UYh6ky6gYpnWTWwcPx8XJ3AaZa2KBAn
+ 55M3Rzs+J/p5DL/lco6rAfEStMPHY7i4aWjLxqBgPCEFiAyC+7M1dIgEf/r6N98J
+ 7+AhpEQhbrE/nLLofv0LuDLPWOehlAXqK6rJMY4x+bT+JpEHsjIq2H+PgRh/dc5Y
+ qvUbabXHppC7mwi/076ztx2kNwSS1qEjpNHr0X5m/aF6eZIUC9oxKhu+Lxta8T5g
+ w7uExXEO7eOOo/ghPRCXeNnDDhnGoukSpoPMnOwL+HZnMA/wzBSHDsNKbVoszD/d
+ 7MWoKUlL0+KkMx8ToYfW/D8tKMQIz8aQ==
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
+ messagingengine.com; h=cc:cc:content-type:date:date:from:from
+ :in-reply-to:in-reply-to:message-id:mime-version:references
+ :reply-to:sender:subject:subject:to:to:x-me-proxy:x-me-proxy
+ :x-me-sender:x-me-sender:x-sasl-enc; s=fm3; bh=KmaGcpZRZ7EQ4bZea
+ 01sp8yB4p8jkdhNq5RVEOba/aU=; b=lsBDDNpa5ywNO5zmZh7tgirPLm8o5Itfm
+ MGkBLjJouVReHgBu7eGhe+4X+IMToTo4BxkCJiFl5Dej+tJX9aH8VmTxdQUCo6Kl
+ oqwGrYKv0abTKpSQqQU1TS4WLVBUwfW4yo0j80YipG+Jh0R/dbFY9zDyHWuOWpz0
+ 4QFjV8GkYGHuWvW0iCcfgOmiPzgMYIsb1QUc2+gZ9Kvd05WXjnFtjr9AH7lEl18V
+ GBMGF5fwYPuX0JOIf9z2HyZyHF0s8El4Hgx3EY3HLMo+CoqLL4hQtBzT3jQgQPr+
+ m9NP8+QKwRlTvjDxOUdWOEiiDAA+Z+SIBw60KdXucMJBeC4emR78g==
+X-ME-Sender: <xms:2QJPYlIyFEhGYEMHwniI0clflIidfcyjNbGHSWpMiyjMKvZwMMU3wg>
+ <xme:2QJPYhI1XZ22UMuU4JFXWL3iW4kw6J_DlmZ8pf4_5oTN8g81_zJ8_tqA0tx55X0fj
+ x9j1EpAAmVdhr3iaGQ>
+X-ME-Received: <xmr:2QJPYtscVj6PoOZ7GgwV1o2yO9K_sD2_YXMSZguIrjG-NaB37ORbO67aLGne08cuE0O0D9Qzf4UCUvkYL7s4BM4HBCm14RYnjB92Tuo>
+X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvvddrudejkedgkeelucetufdoteggodetrfdotf
+ fvucfrrhhofhhilhgvmecuhfgrshhtofgrihhlpdfqfgfvpdfurfetoffkrfgpnffqhgen
+ uceurghilhhouhhtmecufedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmne
+ cujfgurhepfffhvffukfhfgggtuggjsehgtderredttddvnecuhfhrohhmpeforgigihhm
+ vgcutfhiphgrrhguuceomhgrgihimhgvsegtvghrnhhordhtvggthheqnecuggftrfgrth
+ htvghrnhepveegudetkeethfetgffgtdekkefghefhffefgeduleehgeehieeuveefgedv
+ ieegnecuffhomhgrihhnpehgihhthhhusgdrtghomhenucevlhhushhtvghrufhiiigvpe
+ dtnecurfgrrhgrmhepmhgrihhlfhhrohhmpehmrgigihhmvgestggvrhhnohdrthgvtghh
+X-ME-Proxy: <xmx:2QJPYmZ3XrG5-XRVnXxdWeUX7tBpbl80pJUbl_PB4Fd9oT3Yb9Bn0g>
+ <xmx:2QJPYsY-yiZ3S_u6lwWdAxAlj1OQ8XAUnST6lfXqI4PRXVWECajrfg>
+ <xmx:2QJPYqA68UtjXMJb4_VuC6w858IyEk49kBIsgVnAQQZVXkWrImEauQ>
+ <xmx:2QJPYiPyAetQn4EWmJXjpSZRd_ERPmof4pbFHj2bZUfvwV-egU-5wQ>
+Received: by mail.messagingengine.com (Postfix) with ESMTPA; Thu,
+ 7 Apr 2022 11:27:20 -0400 (EDT)
+Date: Thu, 7 Apr 2022 17:27:19 +0200
+From: Maxime Ripard <maxime@cerno.tech>
+To: Yassine Oudjana <y.oudjana@protonmail.com>
+Subject: Re: [PATCH v7 04/12] clk: Always clamp the rounded rate
+Message-ID: <20220407152719.fjyrfglm3qprtzv3@houat>
+References: <20220406183714.830218-1-y.oudjana@protonmail.com>
+ <20220407080833.fkieuqx3hgdnwqy2@houat>
+ <wv5t_wS8upUbTp267ngk1_SkGV7a-6vOpeQ13QMZ3HGGcD8RqrTriBjZs7aFbP4rS1D_YC4eKmga-r4o3Ke8sp0xsp9NMV9WX87ZTEV6oOU=@protonmail.com>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: multipart/signed; micalg=pgp-sha512;
+ protocol="application/pgp-signature"; boundary="7h2a37eao5bbiz7x"
+Content-Disposition: inline
+In-Reply-To: <wv5t_wS8upUbTp267ngk1_SkGV7a-6vOpeQ13QMZ3HGGcD8RqrTriBjZs7aFbP4rS1D_YC4eKmga-r4o3Ke8sp0xsp9NMV9WX87ZTEV6oOU=@protonmail.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -56,59 +82,45 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: dri-devel@lists.freedesktop.org, Tvrtko Ursulin <tvrtko.ursulin@intel.com>
+Cc: Dom Cobley <dom@raspberrypi.com>, Tim Gover <tim.gover@raspberrypi.com>,
+ Dave Stevenson <dave.stevenson@raspberrypi.com>,
+ Stephen Boyd <sboyd@kernel.org>, linux-arm-msm@vger.kernel.org,
+ Mike Turquette <mturquette@baylibre.com>, dri-devel@lists.freedesktop.org,
+ linux-clk@vger.kernel.org, Phil Elwell <phil@raspberrypi.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-From: Tvrtko Ursulin <tvrtko.ursulin@intel.com>
 
-Inherit submitter nice at point of request submission to account for long
-running processes getting either externally or self re-niced.
+--7h2a37eao5bbiz7x
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
-This accounts for the current processing landscape where computational
-pipelines are composed of CPU and GPU parts working in tandem.
+On Thu, Apr 07, 2022 at 08:27:39AM +0000, Yassine Oudjana wrote:
+> On Thursday, April 7th, 2022 at 12:08 PM, Maxime Ripard <maxime@cerno.tec=
+h> wrote:
+> > I've been piling up few fixes already for other platforms, could you
+> > also test ?
+> >
+> > https://github.com/mripard/linux/tree/rpi/clk-improvements-more-fixes
+>=20
+> Alright, will test.
 
-Nice value will only apply to requests which originate from user contexts
-and have default context priority. This is to avoid disturbing any
-application made choices of low and high (batch processing and latency
-sensitive compositing). In this case nice value adjusts the effective
-priority in the narrow band of -19 to +20 around
-I915_CONTEXT_DEFAULT_PRIORITY.
+I've pushed another version of my branch a few minutes ago, so make sure
+you pulled the last version if you want to test it :)
 
-This means that userspace using the context priority uapi directly has a
-wider range of possible adjustments (in practice that only applies to
-execlists platforms - with GuC there are only three priority buckets), but
-in all cases nice adjustment has the expected effect: positive nice
-lowering the scheduling priority and negative nice raising it.
+Thanks!
+Maxime
 
-Signed-off-by: Tvrtko Ursulin <tvrtko.ursulin@intel.com>
----
- drivers/gpu/drm/i915/i915_request.c | 11 ++++++++++-
- 1 file changed, 10 insertions(+), 1 deletion(-)
+--7h2a37eao5bbiz7x
+Content-Type: application/pgp-signature; name="signature.asc"
 
-diff --git a/drivers/gpu/drm/i915/i915_request.c b/drivers/gpu/drm/i915/i915_request.c
-index 582770360ad1..e5cfa073d8f0 100644
---- a/drivers/gpu/drm/i915/i915_request.c
-+++ b/drivers/gpu/drm/i915/i915_request.c
-@@ -1811,8 +1811,17 @@ void i915_request_add(struct i915_request *rq)
- 	/* XXX placeholder for selftests */
- 	rcu_read_lock();
- 	ctx = rcu_dereference(rq->context->gem_context);
--	if (ctx)
-+	if (ctx) {
- 		attr = ctx->sched;
-+		/*
-+		 * Inherit process nice when scheduling user contexts but only
-+		 * if context has the default priority to avoid touching
-+		 * contexts where GEM uapi has been used to explicitly lower
-+		 * or elevate it.
-+		 */
-+		if (attr.priority == I915_CONTEXT_DEFAULT_PRIORITY)
-+			attr.priority = -task_nice(current);
-+	}
- 	rcu_read_unlock();
- 
- 	__i915_request_queue(rq, &attr);
--- 
-2.32.0
+-----BEGIN PGP SIGNATURE-----
 
+iHUEABYKAB0WIQRcEzekXsqa64kGDp7j7w1vZxhRxQUCYk8C1wAKCRDj7w1vZxhR
+xU0dAP4jZClKIm61CiKsBBAFnC3/GkrxttiZma06zocqzEEB1AD+KOo5KUJHo7LU
+qema2fJDsfFOuBrGofBOUmFEPPC6rQs=
+=0eyT
+-----END PGP SIGNATURE-----
+
+--7h2a37eao5bbiz7x--
