@@ -2,64 +2,73 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1F5764F883C
-	for <lists+dri-devel@lfdr.de>; Thu,  7 Apr 2022 21:50:53 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id E9F7D4F8840
+	for <lists+dri-devel@lfdr.de>; Thu,  7 Apr 2022 22:03:07 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 8344510ECF3;
-	Thu,  7 Apr 2022 19:50:49 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 6F84910EE9F;
+	Thu,  7 Apr 2022 20:03:03 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mout.gmx.net (mout.gmx.net [212.227.15.15])
- by gabe.freedesktop.org (Postfix) with ESMTPS id C873E10ECF9
- for <dri-devel@lists.freedesktop.org>; Thu,  7 Apr 2022 19:50:47 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=gmx.net;
- s=badeba3b8450; t=1649361045;
- bh=N6/FEyVpcVAz4B+dz6VLJs5njSr6wfG1FKLDFl/Zz78=;
- h=X-UI-Sender-Class:Date:Subject:To:Cc:References:From:In-Reply-To;
- b=B7n6TIwYu1+DHeTm1GOKoTSqRG7BNXJ08AfDv7yBwGMRBJ1k0F89222hSG71s3aNg
- er0OHo5kj1Fdsg47uo46MLzJYujcTWaY8Hlci7B+HYwhX9Q1vhOzu2NIIEW1VVR0ZA
- Lmb4FkKu9KCmSjyTiWg9sCAqAQdeJDCIrBdLVCEA=
-X-UI-Sender-Class: 01bb95c1-4bf8-414a-932a-4f6e2808ef9c
-Received: from [192.168.20.60] ([92.116.161.122]) by mail.gmx.net (mrgmx004
- [212.227.17.190]) with ESMTPSA (Nemesis) id 1M2f9h-1nYRQ20Y2B-004BOi; Thu, 07
- Apr 2022 21:50:45 +0200
-Message-ID: <eb2edc5a-afad-f0c9-012f-9b9f226d2e5a@gmx.de>
-Date: Thu, 7 Apr 2022 21:49:03 +0200
+Received: from us-smtp-delivery-124.mimecast.com
+ (us-smtp-delivery-124.mimecast.com [170.10.129.124])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id D24C710EE9F
+ for <dri-devel@lists.freedesktop.org>; Thu,  7 Apr 2022 20:03:01 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1649361780;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding;
+ bh=3ubm6YFhYAC6YInMSbu5d7oAdD3benT+KYPcFzTrtvY=;
+ b=Ypj31GM5mE8z8bI6/7GoN9+Ir5goV1Sx3mNqhq0+eQFKoD0Ttvryvqps5YngPf8okwLZNx
+ PcP5bktijHUaYVqP8oF0WkWvlKGovR9Ig27xj2RH9n5JrRcW4Jyg7NdTBoAqCS55f9Oqoj
+ MMD7xWb13JP1367hrS+x7NdzsDK6uVs=
+Received: from mail-wr1-f71.google.com (mail-wr1-f71.google.com
+ [209.85.221.71]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ us-mta-453-8HvcXUMLM-CQT-Q2aH7ElA-1; Thu, 07 Apr 2022 16:02:59 -0400
+X-MC-Unique: 8HvcXUMLM-CQT-Q2aH7ElA-1
+Received: by mail-wr1-f71.google.com with SMTP id
+ s13-20020adfa28d000000b00205e049cff2so1564375wra.17
+ for <dri-devel@lists.freedesktop.org>; Thu, 07 Apr 2022 13:02:59 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=3ubm6YFhYAC6YInMSbu5d7oAdD3benT+KYPcFzTrtvY=;
+ b=Pq1BW1tBmPgCiT7t1xNqCdcGAsZ1RBodUrpNSXuTfeXg643aa7P9bfOhmWv7VZktOV
+ /L95rqBizEk/L3UlTlQiIXFDTR1JoxRoSFQP0Gs323lOWxYzdnhA9IxduN3z7oJNeIT0
+ tGXYutm3SA8R/W12bQ7DQKd+s0G846mtMzYc6ASYA7gGbbTI5wqG5m4cCC9q9Hx8bWvs
+ 51XxO/QfgJg3N6dzTR6F/qnzweAb0Y29rQG7z9RG2pTa8fZqQQp6fDIHUuG/XE7gakRb
+ XNl4FleZth0C6ojYhnSei58alDBLx4DP/IW9rUxj/bPNhFALqqE/ducaefUFixufhyY6
+ pEug==
+X-Gm-Message-State: AOAM532hB1T8Waqhh6NnTPAkPfPyi9hVbutVp6FAB4hOkdkGzubRbdG7
+ 64g+F19IrGOAlw2UIwpEzEoqgiXPqaR2v7m5pB+afi9q1b1DeY/GxP9yO5QmQZKVbR6M+IJ1yiX
+ tWrK/LFFM0RKHZ/oXKGJ8TAoSnk+v
+X-Received: by 2002:a05:600c:3c8c:b0:38e:4c59:6852 with SMTP id
+ bg12-20020a05600c3c8c00b0038e4c596852mr13621691wmb.194.1649361778335; 
+ Thu, 07 Apr 2022 13:02:58 -0700 (PDT)
+X-Google-Smtp-Source: ABdhPJysWMrIHnSxlQAqg6ZsL9nRoRIt6fyQo/+UTGcvFjw2Wl1wRNhCzVnqbJMc1z8BK0S49w+MJg==
+X-Received: by 2002:a05:600c:3c8c:b0:38e:4c59:6852 with SMTP id
+ bg12-20020a05600c3c8c00b0038e4c596852mr13621668wmb.194.1649361778123; 
+ Thu, 07 Apr 2022 13:02:58 -0700 (PDT)
+Received: from minerva.home ([92.176.231.205])
+ by smtp.gmail.com with ESMTPSA id
+ f15-20020a0560001a8f00b002078f74ccd2sm1048712wry.36.2022.04.07.13.02.57
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Thu, 07 Apr 2022 13:02:57 -0700 (PDT)
+From: Javier Martinez Canillas <javierm@redhat.com>
+To: linux-kernel@vger.kernel.org
+Subject: [PATCH 0/5] drm/solomon: Add SSD130x OLED displays SPI support
+Date: Thu,  7 Apr 2022 22:01:59 +0200
+Message-Id: <20220407200205.28838-1-javierm@redhat.com>
+X-Mailer: git-send-email 2.35.1
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.7.0
-Subject: Re: [PATCH 1/7] video: fbdev: i740fb: Error out if 'pixclock' equals
- zero
-Content-Language: en-US
-To: Zheyu Ma <zheyuma97@gmail.com>
-References: <20220404084723.79089-1-zheyuma97@gmail.com>
- <20220404084723.79089-2-zheyuma97@gmail.com>
-From: Helge Deller <deller@gmx.de>
-In-Reply-To: <20220404084723.79089-2-zheyuma97@gmail.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: quoted-printable
-X-Provags-ID: V03:K1:XxvmZy8oYHEoPKTe6X2SYk0Pjr8XeAjoK1SV6d6GPPRKYzfl92j
- 4mENiOhlREipIcFBpaEyuyq4T/upzS8fU2vT8q0RJJMgI4yc5/vQWvPaWZvMmu6Cm2xlZXy
- 6nDRqB2J2mlNs05MzmcULprxcIGyOVwxdD4TnYt3q088BbkH56pExHZjsdgwhWzLlBCpYU4
- QIykXMIP/DCNAllnteMnQ==
-X-Spam-Flag: NO
-X-UI-Out-Filterresults: notjunk:1;V03:K0:qdHYM8OnE48=:qEnD3vzrrt/xa8J/oGWqb2
- rjIuCiOSC74K14DfwC7cKIum8WcExtTdU9kP2n1qCm09xDVvRw0T4zxHJ9E++K7xjoosHTmI3
- TPvyYObhmBkKPqjWlNdrDKXoYf7x0h2xx3vRqCCI9aIFAzzrXGJtsLhmw5d+vzD5x/7TMmq1i
- fcVN4g1P48mkbqo393Fqf/G2+2m8McqCKIqDtFos1cZtNBzZwlYYmxro4/CGJKyOlZqDXT166
- nVc9tIYTxZRqvDAIyOL+VTj6CEBtHFiOvXhZGeu8uYY3Rjm71mSaXYj8gMAHDfzdyj7yEdm50
- DWGZ8DunOtsO1KGeE1TrBJzfh8MPFzr6vrS4YQZWDwRpRvHv58WwznqKMlkACRapZNVUx+zmM
- cakzhU3NlKUcNQueRmDdBL8DpwhvTa0QiWeYO+YCQl6GuRZBTkxv32/WaMIhWzpjvQUpICRdD
- Dut4LSsNDUjgnen63+TaT2PmZqXz9ZHWc0+Eoo2pdirB84bxM93MJNDfxJWmINmhLEShKoKgf
- lzWFcaeexaxXhANunWJjYLQEUJq6VXHp0AZTIbf2aVoaDoAb1a1CPuPtVU+O1bGysTTYWqmMn
- hJ6OagmGdfnSt0FMfGG2X0+WSf/XJ+FuBb64oGDS5w0Gl+TFpVQsXLWwKQDrv48PYdzl0CX87
- ATUL+lFU3Ptif+3szFz2S6gxgsdK1o8lwgMgAkrnbXB34hwm8Ikpf+vaheus4Hr3ckILY8WM0
- ITgc4lcS8Z2ZMXo1kYz0JgoFUONc/WJo+MZACs0zelFaYSY4zNwd3rYI0sVgki+JXeXdJbyjL
- /1VB9AzSA73r1/mi0wbixwE8lvuy2U2IB1dQwT1KVOoZ0dCYDw6BZXTQxptrjQNweTI2uwbK0
- zMMMiyA7BsDO7awekZvnwf1iT65CgrqFgNrPPK1/dBmzIVoHhcpTsj6jp4wovsYjBHo0s68DG
- KPnHMo9t3nBjR4CEPO+C5YDSrHSgPqwDXzevz+6ypLn7AgKGCd7VJXl/nXvHRuICOezUOdGaY
- Ragujj36VfajOtXd0xey1xA8j2t1kX94WtUM8d1Q9ABTl9MpTi2CZlm/P/fRtr/+5UPmjWgJR
- rgVq3PVjXQY+/A=
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=javierm@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset="US-ASCII"; x-default=true
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -72,63 +81,61 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: linux-fbdev@vger.kernel.org, linux-kernel@vger.kernel.org,
- dri-devel@lists.freedesktop.org
+Cc: devicetree@vger.kernel.org, Chen-Yu Tsai <wens@kernel.org>,
+ David Airlie <airlied@linux.ie>, YueHaibing <yuehaibing@huawei.com>,
+ Javier Martinez Canillas <javierm@redhat.com>, dri-devel@lists.freedesktop.org,
+ Rob Herring <robh+dt@kernel.org>, Chen-Yu Tsai <wens@csie.org>,
+ Mark Brown <broonie@kernel.org>, Geert Uytterhoeven <geert@linux-m68k.org>,
+ Maxime Ripard <maxime@cerno.tech>, Krzysztof Kozlowski <krzk+dt@kernel.org>,
+ Andy Shevchenko <andriy.shevchenko@linux.intel.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 4/4/22 10:47, Zheyu Ma wrote:
-> The userspace program could pass any values to the driver through
-> ioctl() interface. If the driver doesn't check the value of 'pixclock',
-> it may cause divide error.
->
-> Fix this by checking whether 'pixclock' is zero in the function
-> i740fb_check_var().
->
-> The following log reveals it:
->
-> divide error: 0000 [#1] PREEMPT SMP KASAN PTI
-> RIP: 0010:i740fb_decode_var drivers/video/fbdev/i740fb.c:444 [inline]
-> RIP: 0010:i740fb_set_par+0x272f/0x3bb0 drivers/video/fbdev/i740fb.c:739
-> Call Trace:
->     fb_set_var+0x604/0xeb0 drivers/video/fbdev/core/fbmem.c:1036
->     do_fb_ioctl+0x234/0x670 drivers/video/fbdev/core/fbmem.c:1112
->     fb_ioctl+0xdd/0x130 drivers/video/fbdev/core/fbmem.c:1191
->     vfs_ioctl fs/ioctl.c:51 [inline]
->     __do_sys_ioctl fs/ioctl.c:874 [inline]
->
-> Signed-off-by: Zheyu Ma <zheyuma97@gmail.com>
+Hello,
 
-Hello Zheyu,
+This series adds a ssd130x-spi driver that provides a 4-wire SPI transport
+support for SSD130x OLED controllers that can be accessed through a SPI.
 
-I've applied the patches #2-#7 of this series, but left
-out this specific patch (for now).
-As discussed on the mailing list we can try to come up with a
-better fix (to round up the pixclock when it's invalid).
-If not, I will apply this one later.
+The driver is quite similar to existing ssd130x-i2c driver that is used by
+I2C controllers, but there is a difference in the protocol used by SSD130x
+depending on the transport used. The details are in patch #4 description.
 
-Thanks!
-Helge
+Patch #1 just makes the current ssd130x-i2c compatible strings in the DT
+binding to be deprecated, and add new ones that don't have an -fb suffix.
+
+Patch #2 extends the DT binding with the compatible string and properties
+needed to support the ssd130x-spi devices.
+
+Patch #3 adds the new compatible strings to the OF device ID table in the
+ssd130x-i2c DRM driver.
+
+Patch #4 moves the device info for the different SSD130x variants from
+the ssd130x-i2c transport driver to the ssd130x core driver.
+
+Finally patch #5 adds the ssd130x-spi DRM driver for the OLED controllers
+that come with a 4-wire SPI interface, instead of an I2C interface.
+
+Best regards,
+Javier
 
 
-> ---
->  drivers/video/fbdev/i740fb.c | 3 +++
->  1 file changed, 3 insertions(+)
->
-> diff --git a/drivers/video/fbdev/i740fb.c b/drivers/video/fbdev/i740fb.c
-> index 52cce0db8bd3..b595437a5752 100644
-> --- a/drivers/video/fbdev/i740fb.c
-> +++ b/drivers/video/fbdev/i740fb.c
-> @@ -657,6 +657,9 @@ static int i740fb_decode_var(const struct fb_var_scr=
-eeninfo *var,
->
->  static int i740fb_check_var(struct fb_var_screeninfo *var, struct fb_in=
-fo *info)
->  {
-> +	if (!var->pixclock)
-> +		return -EINVAL;
-> +
->  	switch (var->bits_per_pixel) {
->  	case 8:
->  		var->red.offset	=3D var->green.offset =3D var->blue.offset =3D 0;
+Javier Martinez Canillas (5):
+  dt-bindings: display: ssd1307fb: Deprecate fbdev compatible strings
+  dt-bindings: display: ssd1307fb: Extend schema for SPI controllers
+  drm/solomon: Add ssd130x-i2c compatible strings without an -fb suffix
+  drm/solomon: Move device info from ssd130x-i2c to the core driver
+  drm/solomon: Add SSD130x OLED displays SPI support
+
+ .../bindings/display/solomon,ssd1307fb.yaml   | 117 ++++++++---
+ drivers/gpu/drm/solomon/Kconfig               |   9 +
+ drivers/gpu/drm/solomon/Makefile              |   1 +
+ drivers/gpu/drm/solomon/ssd130x-i2c.c         |  60 +++---
+ drivers/gpu/drm/solomon/ssd130x-spi.c         | 184 ++++++++++++++++++
+ drivers/gpu/drm/solomon/ssd130x.c             |  60 +++++-
+ drivers/gpu/drm/solomon/ssd130x.h             |  13 ++
+ 7 files changed, 376 insertions(+), 68 deletions(-)
+ create mode 100644 drivers/gpu/drm/solomon/ssd130x-spi.c
+
+-- 
+2.35.1
 
