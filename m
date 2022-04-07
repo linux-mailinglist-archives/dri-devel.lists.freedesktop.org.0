@@ -2,64 +2,40 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id C3B064F7744
-	for <lists+dri-devel@lfdr.de>; Thu,  7 Apr 2022 09:20:10 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 38A504F777F
+	for <lists+dri-devel@lfdr.de>; Thu,  7 Apr 2022 09:30:56 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 0A1C610E568;
-	Thu,  7 Apr 2022 07:19:57 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 0BD8510E543;
+	Thu,  7 Apr 2022 07:30:54 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-lf1-x12f.google.com (mail-lf1-x12f.google.com
- [IPv6:2a00:1450:4864:20::12f])
- by gabe.freedesktop.org (Postfix) with ESMTPS id E9AA710E48B;
- Thu,  7 Apr 2022 07:19:53 +0000 (UTC)
-Received: by mail-lf1-x12f.google.com with SMTP id b21so8066987lfb.5;
- Thu, 07 Apr 2022 00:19:53 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
- h=from:to:cc:subject:date:message-id:in-reply-to:references
- :mime-version:content-transfer-encoding;
- bh=g3YdE7NZj+L8Dg/chDHlwxEN35uclyYb0VXoHTgKIhw=;
- b=hhGxeURLZ59DftusEYx1alpsXXNNYNVJ3p1q1D0s6eQ/fu51CqONFsgoyfeGdvMXGF
- /OsB7LG0gRdd6jT9knDXO/EbLHOO2FKeEJssE3HwTtBOiNUiRvkc432598qs54rdjiee
- udXd/UNdwKvjIzS7J6pNXlgnmjX7ZJFdrL5dO3XvVwhjItWfhMk0dD7FztHxgSC0V8c5
- /FxBcnAIfnxuWGU34V9fUgtLvowhNdefZv5RvCQ8gSlC8U7Fc3ROKMqGhIDZNqrnJhf/
- YSO9hAZfKxldkMxdGW82diCIMz60F3m32k1moJI5ddboeS2oi0hbFPFId0ErJTQBeoTM
- eQGg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
- :references:mime-version:content-transfer-encoding;
- bh=g3YdE7NZj+L8Dg/chDHlwxEN35uclyYb0VXoHTgKIhw=;
- b=w5Wni6xU5l7lOZJ3nQ8ps2h8SnYF1bUSWBRExZ6pwSmguNJfb8FqQ5V6P5jOXJhJFN
- Xcwe3cT/Escq20JWi1Xik6hBzo4y4s59nHMQcf7IZx2jh22jCzan/nLz8Pc5qZLQal6s
- bfUhmHhqrxHF54f1KqI+Sr2R0pbyjZq+6ooxeEsJR9mFkAmxqZq50pzYKrtQkl/evh1z
- xY9cwgrmCv498my5IucYd8IeBUs6NN5d3NAFykZJrSFj4MRX9l7U8Vx+DRxHGldAtGzo
- O4KzTl+Kx4LjKyR+bN+uqtKxz1iJYJbqSViDcx7d10mqLjndbh/aZiTldKafS+dt9DUE
- JtGg==
-X-Gm-Message-State: AOAM5305DmZAkwdXm++7XK3UvhcQpgqWLgH0bswbbO6bR9NEujH3u3F1
- p37THJvNuyPfZ6+jY7Ylv3ypN5CwWxk=
-X-Google-Smtp-Source: ABdhPJyU6i8B6QzGlf/AR+FLn6olOfRUr++T8sQ2rwwiTalavs8/pFf99Ti8hVcfMxbfaEod78epMA==
-X-Received: by 2002:a05:6512:3f96:b0:44a:f504:597f with SMTP id
- x22-20020a0565123f9600b0044af504597fmr8507756lfa.621.1649315991992; 
- Thu, 07 Apr 2022 00:19:51 -0700 (PDT)
-Received: from inno-pc.lan (88-115-161-74.elisa-laajakaista.fi.
- [88.115.161.74]) by smtp.gmail.com with ESMTPSA id
- h10-20020a056512220a00b0044a308dad8csm2081465lfu.149.2022.04.07.00.19.51
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 07 Apr 2022 00:19:51 -0700 (PDT)
-From: Zhi Wang <zhi.wang.linux@gmail.com>
-X-Google-Original-From: Zhi Wang <zhi.a.wang@intel.com>
-To: dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org,
- intel-gfx@lists.freedesktop.org, intel-gvt-dev@lists.freedesktop.org
-Subject: [PATCH v9 3/3] i915/gvt: Use the initial HW state snapshot saved in
- i915
-Date: Thu,  7 Apr 2022 03:19:45 -0400
-Message-Id: <20220407071945.72148-4-zhi.a.wang@intel.com>
-X-Mailer: git-send-email 2.25.1
-In-Reply-To: <20220407071945.72148-1-zhi.a.wang@intel.com>
-References: <20220407071945.72148-1-zhi.a.wang@intel.com>
+Received: from perceval.ideasonboard.com (perceval.ideasonboard.com
+ [213.167.242.64])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 7F07610E543
+ for <dri-devel@lists.freedesktop.org>; Thu,  7 Apr 2022 07:30:52 +0000 (UTC)
+Received: from pendragon.ideasonboard.com
+ (117.145-247-81.adsl-dyn.isp.belgacom.be [81.247.145.117])
+ by perceval.ideasonboard.com (Postfix) with ESMTPSA id 52E14499;
+ Thu,  7 Apr 2022 09:30:50 +0200 (CEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
+ s=mail; t=1649316650;
+ bh=1eYFzMoK6H6YYEen2Elb5S6MFSJv6PvKrhbGFK6YAmQ=;
+ h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+ b=CDNK07HLiQt8KNFejRu9SlEOiqnqmisrPh8vREkV5t2BWV3Ne7HUmKOhvOS+kiwRe
+ UVr59wrSJ7lKyu5DTFTkE8l9d62e65coFCQMDDmdsOANTjLbkkFgtY+d0vQ3xf4rZv
+ Dor/3DxdKtAjB5H95KydaMJWpt222kn0AuKAE1v4=
+Date: Thu, 7 Apr 2022 10:30:46 +0300
+From: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+To: "H. Nikolaus Schaller" <hns@goldelico.com>
+Subject: Re: [PATCH v17 6/6] drm/bridge: display-connector: add ddc-en gpio
+ support
+Message-ID: <Yk6TJgdoSqthWUiz@pendragon.ideasonboard.com>
+References: <cover.1649262368.git.hns@goldelico.com>
+ <bf90de303a5dbc587517fe4a1bb437e198b90198.1649262368.git.hns@goldelico.com>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+In-Reply-To: <bf90de303a5dbc587517fe4a1bb437e198b90198.1649262368.git.hns@goldelico.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -72,80 +48,87 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Jason Gunthorpe <jgg@nvidia.com>, Vivi Rodrigo <rodrigo.vivi@intel.com>,
- Christoph Hellwig <hch@lst.de>, Zhi Wang <zhi.a.wang@intel.com>
+Cc: Paul Boddie <paul@boddie.org.uk>, Neil Armstrong <narmstrong@baylibre.com>,
+ David Airlie <airlied@linux.ie>, dri-devel@lists.freedesktop.org,
+ Jonas Karlman <jonas@kwiboo.se>, linux-kernel@vger.kernel.org,
+ Jernej Skrabec <jernej.skrabec@gmail.com>, linux-mips@vger.kernel.org,
+ Paul Cercueil <paul@crapouillou.net>,
+ Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>,
+ Robert Foss <robert.foss@linaro.org>, Andrzej Hajda <andrzej.hajda@intel.com>,
+ letux-kernel@openphoenux.org, Maxime Ripard <maxime@cerno.tech>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-The code of saving initial HW state snapshot has been moved into i915.
-Let the GVT-g core logic use that snapshot.
+Hi Nikolaus,
 
-Cc: Christoph Hellwig <hch@lst.de>
-Cc: Jason Gunthorpe <jgg@nvidia.com>
-Cc: Jani Nikula <jani.nikula@linux.intel.com>
-Cc: Joonas Lahtinen <joonas.lahtinen@linux.intel.com>
-Cc: Vivi Rodrigo <rodrigo.vivi@intel.com>
-Cc: Zhenyu Wang <zhenyuw@linux.intel.com>
-Cc: Zhi Wang <zhi.a.wang@intel.com>
-Signed-off-by: Zhi Wang <zhi.a.wang@intel.com>
----
- drivers/gpu/drm/i915/gvt/firmware.c | 25 +++++++++----------------
- 1 file changed, 9 insertions(+), 16 deletions(-)
+Thank you for the patch.
 
-diff --git a/drivers/gpu/drm/i915/gvt/firmware.c b/drivers/gpu/drm/i915/gvt/firmware.c
-index 1a8274a3f4b1..54fe442238c6 100644
---- a/drivers/gpu/drm/i915/gvt/firmware.c
-+++ b/drivers/gpu/drm/i915/gvt/firmware.c
-@@ -66,22 +66,16 @@ static struct bin_attribute firmware_attr = {
- 	.mmap = NULL,
- };
- 
--static int mmio_snapshot_handler(struct intel_gvt *gvt, u32 offset, void *data)
--{
--	*(u32 *)(data + offset) = intel_uncore_read_notrace(gvt->gt->uncore,
--							    _MMIO(offset));
--	return 0;
--}
--
- static int expose_firmware_sysfs(struct intel_gvt *gvt)
- {
- 	struct intel_gvt_device_info *info = &gvt->device_info;
--	struct pci_dev *pdev = to_pci_dev(gvt->gt->i915->drm.dev);
-+	struct drm_i915_private *i915 = gvt->gt->i915;
-+	struct pci_dev *pdev = to_pci_dev(i915->drm.dev);
- 	struct gvt_firmware_header *h;
- 	void *firmware;
- 	void *p;
- 	unsigned long size, crc32_start;
--	int i, ret;
-+	int ret;
- 
- 	size = sizeof(*h) + info->mmio_size + info->cfg_space_size;
- 	firmware = vzalloc(size);
-@@ -99,17 +93,16 @@ static int expose_firmware_sysfs(struct intel_gvt *gvt)
- 
- 	p = firmware + h->cfg_space_offset;
- 
--	for (i = 0; i < h->cfg_space_size; i += 4)
--		pci_read_config_dword(pdev, i, p + i);
--
--	memcpy(gvt->firmware.cfg_space, p, info->cfg_space_size);
-+	memcpy(gvt->firmware.cfg_space, i915->vgpu.initial_cfg_space,
-+	       info->cfg_space_size);
-+	memcpy(p, gvt->firmware.cfg_space, info->cfg_space_size);
- 
- 	p = firmware + h->mmio_offset;
- 
--	/* Take a snapshot of hw mmio registers. */
--	intel_gvt_for_each_tracked_mmio(gvt, mmio_snapshot_handler, p);
-+	memcpy(gvt->firmware.mmio, i915->vgpu.initial_mmio,
-+	       info->mmio_size);
- 
--	memcpy(gvt->firmware.mmio, p, info->mmio_size);
-+	memcpy(p, gvt->firmware.mmio, info->mmio_size);
- 
- 	crc32_start = offsetof(struct gvt_firmware_header, crc32) + 4;
- 	h->crc32 = crc32_le(0, firmware + crc32_start, size - crc32_start);
+On Wed, Apr 06, 2022 at 06:26:08PM +0200, H. Nikolaus Schaller wrote:
+> "hdmi-connector.yaml" bindings defines an optional property
+> "ddc-en-gpios" for a single gpio to enable DDC operation.
+> 
+> Usually this controls +5V power on the HDMI connector.
+> This +5V may also be needed for HPD.
+> 
+> This was not reflected in code but is needed to make the CI20
+> board work.
+> 
+> Now, the driver activates the ddc gpio after probe and
+> deactivates after remove so it is "almost on".
+> 
+> But only if this driver is loaded (and not e.g. blacklisted
+> as module).
+> 
+> Signed-off-by: H. Nikolaus Schaller <hns@goldelico.com>
+
+Reviewed-by: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+
+> ---
+>  drivers/gpu/drm/bridge/display-connector.c | 15 +++++++++++++++
+>  1 file changed, 15 insertions(+)
+> 
+> diff --git a/drivers/gpu/drm/bridge/display-connector.c b/drivers/gpu/drm/bridge/display-connector.c
+> index d24f5b90feabf..e4d52a7e31b71 100644
+> --- a/drivers/gpu/drm/bridge/display-connector.c
+> +++ b/drivers/gpu/drm/bridge/display-connector.c
+> @@ -24,6 +24,7 @@ struct display_connector {
+>  	int			hpd_irq;
+>  
+>  	struct regulator	*dp_pwr;
+> +	struct gpio_desc	*ddc_en;
+>  };
+>  
+>  static inline struct display_connector *
+> @@ -345,6 +346,17 @@ static int display_connector_probe(struct platform_device *pdev)
+>  		}
+>  	}
+>  
+> +	/* enable DDC */
+> +	if (type == DRM_MODE_CONNECTOR_HDMIA) {
+> +		conn->ddc_en = devm_gpiod_get_optional(&pdev->dev, "ddc-en",
+> +						       GPIOD_OUT_HIGH);
+> +
+> +		if (IS_ERR(conn->ddc_en)) {
+> +			dev_err(&pdev->dev, "Couldn't get ddc-en gpio\n");
+> +			return PTR_ERR(conn->ddc_en);
+> +		}
+> +	}
+> +
+>  	conn->bridge.funcs = &display_connector_bridge_funcs;
+>  	conn->bridge.of_node = pdev->dev.of_node;
+>  
+> @@ -373,6 +385,9 @@ static int display_connector_remove(struct platform_device *pdev)
+>  {
+>  	struct display_connector *conn = platform_get_drvdata(pdev);
+>  
+> +	if (conn->ddc_en)
+> +		gpiod_set_value(conn->ddc_en, 0);
+> +
+>  	if (conn->dp_pwr)
+>  		regulator_disable(conn->dp_pwr);
+>  
+
 -- 
-2.25.1
+Regards,
 
+Laurent Pinchart
