@@ -2,44 +2,64 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3F1CF4F7A5A
-	for <lists+dri-devel@lfdr.de>; Thu,  7 Apr 2022 10:51:13 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 756E94F7AA6
+	for <lists+dri-devel@lfdr.de>; Thu,  7 Apr 2022 10:59:54 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 16B8910E4AD;
-	Thu,  7 Apr 2022 08:51:09 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 21D8B10E4BB;
+	Thu,  7 Apr 2022 08:59:52 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from metis.ext.pengutronix.de (metis.ext.pengutronix.de
- [IPv6:2001:67c:670:201:290:27ff:fe1d:cc33])
- by gabe.freedesktop.org (Postfix) with ESMTPS id ED93B10E4AD
- for <dri-devel@lists.freedesktop.org>; Thu,  7 Apr 2022 08:51:07 +0000 (UTC)
-Received: from gallifrey.ext.pengutronix.de
- ([2001:67c:670:201:5054:ff:fe8d:eefb] helo=[IPv6:::1])
- by metis.ext.pengutronix.de with esmtps
- (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256) (Exim 4.92)
- (envelope-from <l.stach@pengutronix.de>)
- id 1ncNqz-0004iY-2X; Thu, 07 Apr 2022 10:50:57 +0200
-Message-ID: <245623b25bfc6de8ef76bcbbbce5a2d8fbad7b74.camel@pengutronix.de>
-Subject: Re: [PATCH v0 01/10] drm/bridge: dw-hdmi: add low-active PHY reset
-From: Lucas Stach <l.stach@pengutronix.de>
-To: Neil Armstrong <narmstrong@baylibre.com>, Philipp Zabel
- <p.zabel@pengutronix.de>, Rob Herring <robh+dt@kernel.org>, Krzysztof
- Kozlowski <krzk+dt@kernel.org>, Shawn Guo <shawnguo@kernel.org>, NXP Linux
- Team <linux-imx@nxp.com>
-Date: Thu, 07 Apr 2022 10:50:55 +0200
-In-Reply-To: <b3abd199-0acb-a2d3-bd53-aa26182aa0c9@baylibre.com>
-References: <20220406160123.1272911-1-l.stach@pengutronix.de>
- <20220406160123.1272911-2-l.stach@pengutronix.de>
- <b3abd199-0acb-a2d3-bd53-aa26182aa0c9@baylibre.com>
-Content-Type: text/plain; charset="UTF-8"
-User-Agent: Evolution 3.40.4 (3.40.4-1.fc34) 
+Received: from mail-ed1-x52c.google.com (mail-ed1-x52c.google.com
+ [IPv6:2a00:1450:4864:20::52c])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 2F3EF10E4BB;
+ Thu,  7 Apr 2022 08:59:51 +0000 (UTC)
+Received: by mail-ed1-x52c.google.com with SMTP id b24so5571247edu.10;
+ Thu, 07 Apr 2022 01:59:51 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
+ h=from:to:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=mLaoaPEpHffRvRTEifG5GvlOmzNyIxhDlxnSe+A6QV4=;
+ b=KQk/koXUWDrAcboJIVgBLjpc0QYpwsZ3DIM0o9klQbRZJsaCO34oSRRIrMfgKpDF2S
+ ZWlmRIjETP+JDut3v3QRzL8jT9+95eE0DSNyl9zuhuEg+sll8Kxs9lYCDYtdCa6el3rG
+ s1ixTXOTAUz1BuJTIjnhQmP0Rx/9kp3PkPyv5fltrv3I8RRz3KJjgWGO2gc0fMdXX/0k
+ sQecUP+jtN5lgcsURh88wjQmR2OH+MxbMnFH/8BoORqJ52TeAOkUeYIQsdh+yDPl2GkZ
+ Ap2EmIMb6bVMJU5e8hd5z42cKS7/4faWcDaSH3sLsSlUJn/DoACF7GrKHj44pgRXUFa3
+ lHFA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=x-gm-message-state:from:to:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=mLaoaPEpHffRvRTEifG5GvlOmzNyIxhDlxnSe+A6QV4=;
+ b=zg6BmDcXNAHs2BYe248tYQPiuUlGOwMfzy83JhY25fhxcfmfSBH/fNmyYbrIEZlO7k
+ TqyXztBYdZ8djzNkkLmwfO7eJTEnOlNqQPhJMlJYSDlM+EeSXZXo9wvmy1Q4RhOpDO/A
+ vAJuuqpvjwTQkJRnkBjn1eSKsRt9CwqW7h/wwp2tz7R2kF1erH/uFQMPc1a34dre+y/f
+ yVTmpAd6w2hyBQnRYtkbezxMvlYBZbobfyQndiom7i9nn/V/U3J9YXL3aR0jjLrrWDoe
+ wD4ABgAMcpiuEr+tD2cGuPwFW2Fk4DrvFtX4HffubpBfA/1vIghhDUESSIpoQxdUpomS
+ ujTA==
+X-Gm-Message-State: AOAM530Nz5JauyOF4qlXZZX+dI9cmewiJejyIvO3hnxJYrZ35sXl6N+U
+ vFtSIhmJuBfwbOAETRZaZTE=
+X-Google-Smtp-Source: ABdhPJzeETI+aibm16Fz7XHOsM+emhYvd4jn7+9bFUhsY3UvzT3cfJuShTcwU9S3v1mIXnpgHhIOGA==
+X-Received: by 2002:aa7:d287:0:b0:41d:79:73ca with SMTP id
+ w7-20020aa7d287000000b0041d007973camr3673930edq.142.1649321989621; 
+ Thu, 07 Apr 2022 01:59:49 -0700 (PDT)
+Received: from able.fritz.box (p57b0b9e1.dip0.t-ipconnect.de. [87.176.185.225])
+ by smtp.gmail.com with ESMTPSA id
+ h26-20020a170906111a00b006e778bd4fc8sm5186563eja.38.2022.04.07.01.59.48
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Thu, 07 Apr 2022 01:59:48 -0700 (PDT)
+From: "=?UTF-8?q?Christian=20K=C3=B6nig?=" <ckoenig.leichtzumerken@gmail.com>
+X-Google-Original-From: =?UTF-8?q?Christian=20K=C3=B6nig?=
+ <christian.koenig@amd.com>
+To: daniel.vetter@ffwll.ch, dri-devel@lists.freedesktop.org,
+ linux-media@vger.kernel.org, linaro-mm-sig@lists.linaro.org,
+ intel-gfx@lists.freedesktop.org
+Subject: DMA-resv usage
+Date: Thu,  7 Apr 2022 10:59:31 +0200
+Message-Id: <20220407085946.744568-1-christian.koenig@amd.com>
+X-Mailer: git-send-email 2.25.1
 MIME-Version: 1.0
-Content-Transfer-Encoding: 7bit
-X-SA-Exim-Connect-IP: 2001:67c:670:201:5054:ff:fe8d:eefb
-X-SA-Exim-Mail-From: l.stach@pengutronix.de
-X-SA-Exim-Scanned: No (on metis.ext.pengutronix.de);
- SAEximRunCond expanded to false
-X-PTX-Original-Recipient: dri-devel@lists.freedesktop.org
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -52,66 +72,16 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: devicetree@vger.kernel.org, Pengutronix Kernel Team <kernel@pengutronix.de>,
- Robert Foss <robert.foss@linaro.org>, Kishon Vijay Abraham I <kishon@ti.com>,
- Vinod Koul <vkoul@kernel.org>, dri-devel@lists.freedesktop.org,
- Andrzej Hajda <andrzej.hajda@intel.com>, linux-phy@lists.infradead.org,
- patchwork-lst@pengutronix.de, linux-arm-kernel@lists.infradead.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi Neil,
+Hi Daniel,
 
-Am Donnerstag, dem 07.04.2022 um 10:30 +0200 schrieb Neil Armstrong:
-> Hi Lucas,
-> 
-> On 06/04/2022 18:01, Lucas Stach wrote:
-> > Allow vendor PHY implementations to reset PHYs with different polarity
-> > than the current Gen2 reset.
-> > 
-> > Signed-off-by: Lucas Stach <l.stach@pengutronix.de>
-> > ---
-> >   drivers/gpu/drm/bridge/synopsys/dw-hdmi.c | 7 +++++++
-> >   include/drm/bridge/dw_hdmi.h              | 1 +
-> >   2 files changed, 8 insertions(+)
-> > 
-> > diff --git a/drivers/gpu/drm/bridge/synopsys/dw-hdmi.c b/drivers/gpu/drm/bridge/synopsys/dw-hdmi.c
-> > index 4befc104d220..7600f26aab27 100644
-> > --- a/drivers/gpu/drm/bridge/synopsys/dw-hdmi.c
-> > +++ b/drivers/gpu/drm/bridge/synopsys/dw-hdmi.c
-> > @@ -1365,6 +1365,13 @@ void dw_hdmi_phy_reset(struct dw_hdmi *hdmi)
-> >   }
-> >   EXPORT_SYMBOL_GPL(dw_hdmi_phy_reset);
-> >   
-> > +void dw_hdmi_phy_reset_active_low(struct dw_hdmi *hdmi)
-> > +{
-> > +	hdmi_writeb(hdmi, 0, HDMI_MC_PHYRSTZ);
-> > +	hdmi_writeb(hdmi, HDMI_MC_PHYRSTZ_PHYRSTZ, HDMI_MC_PHYRSTZ);
-> > +}
-> > +EXPORT_SYMBOL_GPL(dw_hdmi_phy_reset_active_low);
-> > +
-> >   void dw_hdmi_phy_i2c_set_addr(struct dw_hdmi *hdmi, u8 address)
-> >   {
-> >   	hdmi_phy_test_clear(hdmi, 1);
-> > diff --git a/include/drm/bridge/dw_hdmi.h b/include/drm/bridge/dw_hdmi.h
-> > index 2a1f85f9a8a3..9b3d52a1e62a 100644
-> > --- a/include/drm/bridge/dw_hdmi.h
-> > +++ b/include/drm/bridge/dw_hdmi.h
-> > @@ -190,6 +190,7 @@ void dw_hdmi_phy_i2c_write(struct dw_hdmi *hdmi, unsigned short data,
-> >   void dw_hdmi_phy_gen2_pddq(struct dw_hdmi *hdmi, u8 enable);
-> >   void dw_hdmi_phy_gen2_txpwron(struct dw_hdmi *hdmi, u8 enable);
-> >   void dw_hdmi_phy_reset(struct dw_hdmi *hdmi);
-> > +void dw_hdmi_phy_reset_active_low(struct dw_hdmi *hdmi);
-> >   
-> >   enum drm_connector_status dw_hdmi_phy_read_hpd(struct dw_hdmi *hdmi,
-> >   					       void *data);
-> 
-> This has already been submitted at https://lore.kernel.org/r/800262112191a720639ba321be18f0926d4e1d2a.1649230434.git.Sandor.yu@nxp.com
+only patch #2 had some significant changes. The rest ist pretty much the
+same except for the dropped exynos change and the added cleanup for the
+seqlock.
 
-Thanks for the pointer, seems I missed this series. I'll switch to this
-function instead.
-
-Regards,
-Lucas
+Thanks,
+Christian.
 
 
