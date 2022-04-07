@@ -1,61 +1,61 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4576B4F7AB9
-	for <lists+dri-devel@lfdr.de>; Thu,  7 Apr 2022 11:00:26 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 6577B4F7AB7
+	for <lists+dri-devel@lfdr.de>; Thu,  7 Apr 2022 11:00:23 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id B526D10E6F1;
+	by gabe.freedesktop.org (Postfix) with ESMTP id A7BC010E6E1;
 	Thu,  7 Apr 2022 09:00:11 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-ed1-x52c.google.com (mail-ed1-x52c.google.com
- [IPv6:2a00:1450:4864:20::52c])
- by gabe.freedesktop.org (Postfix) with ESMTPS id B561D10E58D;
- Thu,  7 Apr 2022 09:00:02 +0000 (UTC)
-Received: by mail-ed1-x52c.google.com with SMTP id d7so5568523edn.11;
- Thu, 07 Apr 2022 02:00:02 -0700 (PDT)
+Received: from mail-ej1-x62f.google.com (mail-ej1-x62f.google.com
+ [IPv6:2a00:1450:4864:20::62f])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 9E50A10E656;
+ Thu,  7 Apr 2022 09:00:03 +0000 (UTC)
+Received: by mail-ej1-x62f.google.com with SMTP id qh7so9352366ejb.11;
+ Thu, 07 Apr 2022 02:00:03 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=cJnlk9Oe18dreLhx9uK9ZwzcTZstYY5iUuUfkW8tRrM=;
- b=l2gjx89JUUtewB70mA2emV55sPZiTfAi1iEeA9vMVFBvGhGRfb5pueQojIJxWZ2CUv
- cMXLooNuYPfOgXmDvsDzpMIwkdeaISPyy2/s4xZEF22nv4BqiYRhWJ29tTGizcZqDtc5
- LISUMM2tv7hWHZYeP5J3gkjwXgrMlZkMXvtIOcOK9oK2KVubkeZ1vCpi0Om+drJq/4Iv
- XtGDB6y8hzgZkcQ10/ufDpNfgN04DK/n5Gldbyt7aJNaYIzcgyDvvvHgaZ97AY9/xEwS
- PYtX5LpOPCufWjFmaI3c5QF/FHPOz6N+lorzoO8MSxc+yKxWmv/M2E7kcyIEmAGokuIM
- KTgw==
+ bh=p1oIraT43DCmFRrvIXq7yg7WWW/RZ0K1IMmPkDfaGmk=;
+ b=gxb2jkUDiHshrpAACrN19sNyhaZW8zaMZAdWIAdXXvYoFgln4dl0p9Nr7KCuK2R+Fb
+ GaPAv1ur7F9tB1n2kqkHjkGj4npKi8Ehn6fw2CCaxVgTYSGl/ALUNIxOWKKsAteiTyiL
+ jd0bDttFR2pytU0BOZkwnJSBCX7k59cEow4lKWLfJOtqpNOFHUzsr0tPoweyREkCw35E
+ ySMSfZ7uJ8TLzpIqemcdC1JFtqWmeDkmHMieYFRksI/M+zBwj/sLuGT5zzU3rWcqXX8r
+ o5UnGCMnnP4pklilV9o/f9fC3lKGIjOraKEZGkbmZby9gquO0Q5LhyKYj4RRvwFYB+V5
+ JL+w==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=cJnlk9Oe18dreLhx9uK9ZwzcTZstYY5iUuUfkW8tRrM=;
- b=uz0wQZ6XX6HDsdVvz3TJjKjcRUlR9Zk/HVmnWD74+w2QV7JGjUEBNO6juCUc4YRxMu
- 9nAcyBKuwbH7OqJ73Q09lVC2jjF3zOlmSt/+QZ304aIGwtiOdQEWGIJ7P7Dzrq/C4fyH
- vHeR+GW6Ikg0mIenmfqJk0/XROO6AntZCjFVOkszrEFyaTds5fzVKpUdGn2QoniqnpLA
- RjLYTT3iuBa5YbRWmCW32/h+joohffqCkIwwTDPoROoOgGdzxPamZn6ncu1TTKyuT7hk
- HB5VVhKpsxA6s5chnl5AjEm96hx7adHqFIYpkz+bJu57HMf925r5QreuxA5YiA3cMoMq
- jozA==
-X-Gm-Message-State: AOAM5317fz+ptCObzZmLyBMc1gv0VgZ2/FFp0gLM5VFNpPnsJPxjmhs6
- YPK8mmud4jEIYkgrEMV4Om4=
-X-Google-Smtp-Source: ABdhPJz10luuyog+RiWlnfRijKPRqrjTT5XDcO7k91kIKNaQlGO+86J2TKiPrmCi9PjeJ0hM4s96Sg==
-X-Received: by 2002:a05:6402:42d4:b0:412:c26b:789 with SMTP id
- i20-20020a05640242d400b00412c26b0789mr13097363edc.232.1649322001125; 
- Thu, 07 Apr 2022 02:00:01 -0700 (PDT)
+ bh=p1oIraT43DCmFRrvIXq7yg7WWW/RZ0K1IMmPkDfaGmk=;
+ b=RnMS4b5uz1zXDdYfEGclXKqd1YLBLYfGL3uYjR+izCCzy7EzgWSQGLmPAHQZx66L73
+ cxWGeVUmUDTJpbriqJEhxnDduK4EwsSiJRMZiijWxH9LzHF76BrCkZuI17wl9dds7eK6
+ Tii/EUczcZTzu/oi+9BHtBDb1ercUKAJIPoyUUOGG4THLGExAbgZT0fbmct6itezbG8H
+ 39iWSrZhU2N9LSYnYMu8ah2e6rjWi24rfER3aLBd3jpDkHdJgn6QSTS4V3uouLhZTw2p
+ 5nIBsJz3WnHTDUxt9ISh4pJkZLT8dOvIqOQ+lpmlF5VvE8TCDB38NpzHXc7Ib8YQCCSo
+ /M7g==
+X-Gm-Message-State: AOAM531Hi84nkyseDxtx1v+g7tU3W8mml+rKVzzpQa8/OBBfS2jDcbR7
+ L+PdMVoC7VZJRxAo6Ll7hI0=
+X-Google-Smtp-Source: ABdhPJwqRJBVrok3a/o+by9pZifIwuF5FAE8Dl4D6Ju8RKNnF7EkALL9A7Cnjh8HPNcfvHwprbRtcg==
+X-Received: by 2002:a17:907:1b06:b0:6e7:f58a:9b91 with SMTP id
+ mp6-20020a1709071b0600b006e7f58a9b91mr12640249ejc.291.1649322002116; 
+ Thu, 07 Apr 2022 02:00:02 -0700 (PDT)
 Received: from able.fritz.box (p57b0b9e1.dip0.t-ipconnect.de. [87.176.185.225])
  by smtp.gmail.com with ESMTPSA id
- h26-20020a170906111a00b006e778bd4fc8sm5186563eja.38.2022.04.07.02.00.00
+ h26-20020a170906111a00b006e778bd4fc8sm5186563eja.38.2022.04.07.02.00.01
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 07 Apr 2022 02:00:00 -0700 (PDT)
+ Thu, 07 Apr 2022 02:00:01 -0700 (PDT)
 From: "=?UTF-8?q?Christian=20K=C3=B6nig?=" <ckoenig.leichtzumerken@gmail.com>
 X-Google-Original-From: =?UTF-8?q?Christian=20K=C3=B6nig?=
  <christian.koenig@amd.com>
 To: daniel.vetter@ffwll.ch, dri-devel@lists.freedesktop.org,
  linux-media@vger.kernel.org, linaro-mm-sig@lists.linaro.org,
  intel-gfx@lists.freedesktop.org
-Subject: [PATCH 10/15] drm/amdgpu: use DMA_RESV_USAGE_BOOKKEEP
-Date: Thu,  7 Apr 2022 10:59:41 +0200
-Message-Id: <20220407085946.744568-11-christian.koenig@amd.com>
+Subject: [PATCH 11/15] dma-buf: wait for map to complete for static attachments
+Date: Thu,  7 Apr 2022 10:59:42 +0200
+Message-Id: <20220407085946.744568-12-christian.koenig@amd.com>
 X-Mailer: git-send-email 2.25.1
 In-Reply-To: <20220407085946.744568-1-christian.koenig@amd.com>
 References: <20220407085946.744568-1-christian.koenig@amd.com>
@@ -78,41 +78,134 @@ Cc: =?UTF-8?q?Christian=20K=C3=B6nig?= <christian.koenig@amd.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Use DMA_RESV_USAGE_BOOKKEEP for VM page table updates and KFD preemption fence.
+We have previously done that in the individual drivers but it is
+more defensive to move that into the common code.
+
+Dynamic attachments should wait for map operations to complete by themselves.
 
 Signed-off-by: Christian König <christian.koenig@amd.com>
+Reviewed-by: Daniel Vetter <daniel.vetter@ffwll.ch>
 ---
- drivers/gpu/drm/amd/amdgpu/amdgpu_amdkfd_gpuvm.c | 2 +-
- drivers/gpu/drm/amd/amdgpu/amdgpu_vm_sdma.c      | 3 ++-
- 2 files changed, 3 insertions(+), 2 deletions(-)
+ drivers/dma-buf/dma-buf.c                   | 18 +++++++++++++++---
+ drivers/gpu/drm/amd/amdgpu/amdgpu_dma_buf.c | 14 +-------------
+ drivers/gpu/drm/nouveau/nouveau_prime.c     | 17 +----------------
+ drivers/gpu/drm/radeon/radeon_prime.c       | 16 +++-------------
+ 4 files changed, 20 insertions(+), 45 deletions(-)
 
-diff --git a/drivers/gpu/drm/amd/amdgpu/amdgpu_amdkfd_gpuvm.c b/drivers/gpu/drm/amd/amdgpu/amdgpu_amdkfd_gpuvm.c
-index 5031e26e6716..808e21dcb517 100644
---- a/drivers/gpu/drm/amd/amdgpu/amdgpu_amdkfd_gpuvm.c
-+++ b/drivers/gpu/drm/amd/amdgpu/amdgpu_amdkfd_gpuvm.c
-@@ -263,7 +263,7 @@ static int amdgpu_amdkfd_remove_eviction_fence(struct amdgpu_bo *bo,
- 	 */
- 	replacement = dma_fence_get_stub();
- 	dma_resv_replace_fences(bo->tbo.base.resv, ef->base.context,
--				replacement, DMA_RESV_USAGE_READ);
-+				replacement, DMA_RESV_USAGE_BOOKKEEP);
- 	dma_fence_put(replacement);
- 	return 0;
- }
-diff --git a/drivers/gpu/drm/amd/amdgpu/amdgpu_vm_sdma.c b/drivers/gpu/drm/amd/amdgpu/amdgpu_vm_sdma.c
-index dbb551762805..9485b541947e 100644
---- a/drivers/gpu/drm/amd/amdgpu/amdgpu_vm_sdma.c
-+++ b/drivers/gpu/drm/amd/amdgpu/amdgpu_vm_sdma.c
-@@ -112,7 +112,8 @@ static int amdgpu_vm_sdma_commit(struct amdgpu_vm_update_params *p,
- 		swap(p->vm->last_unlocked, f);
- 		dma_fence_put(tmp);
- 	} else {
--		amdgpu_bo_fence(p->vm->root.bo, f, true);
-+		dma_resv_add_fence(p->vm->root.bo->tbo.base.resv, f,
-+				   DMA_RESV_USAGE_BOOKKEEP);
- 	}
+diff --git a/drivers/dma-buf/dma-buf.c b/drivers/dma-buf/dma-buf.c
+index 1cddb65eafda..79795857be3e 100644
+--- a/drivers/dma-buf/dma-buf.c
++++ b/drivers/dma-buf/dma-buf.c
+@@ -661,12 +661,24 @@ static struct sg_table * __map_dma_buf(struct dma_buf_attachment *attach,
+ 				       enum dma_data_direction direction)
+ {
+ 	struct sg_table *sg_table;
++	signed long ret;
  
- 	if (fence && !p->immediate)
+ 	sg_table = attach->dmabuf->ops->map_dma_buf(attach, direction);
++	if (IS_ERR_OR_NULL(sg_table))
++		return sg_table;
++
++	if (!dma_buf_attachment_is_dynamic(attach)) {
++		ret = dma_resv_wait_timeout(attach->dmabuf->resv,
++					    DMA_RESV_USAGE_KERNEL, true,
++					    MAX_SCHEDULE_TIMEOUT);
++		if (ret < 0) {
++			attach->dmabuf->ops->unmap_dma_buf(attach, sg_table,
++							   direction);
++			return ERR_PTR(ret);
++		}
++	}
+ 
+-	if (!IS_ERR_OR_NULL(sg_table))
+-		mangle_sg_table(sg_table);
+-
++	mangle_sg_table(sg_table);
+ 	return sg_table;
+ }
+ 
+diff --git a/drivers/gpu/drm/amd/amdgpu/amdgpu_dma_buf.c b/drivers/gpu/drm/amd/amdgpu/amdgpu_dma_buf.c
+index 579adfafe4d0..782cbca37538 100644
+--- a/drivers/gpu/drm/amd/amdgpu/amdgpu_dma_buf.c
++++ b/drivers/gpu/drm/amd/amdgpu/amdgpu_dma_buf.c
+@@ -102,21 +102,9 @@ static int amdgpu_dma_buf_pin(struct dma_buf_attachment *attach)
+ {
+ 	struct drm_gem_object *obj = attach->dmabuf->priv;
+ 	struct amdgpu_bo *bo = gem_to_amdgpu_bo(obj);
+-	int r;
+ 
+ 	/* pin buffer into GTT */
+-	r = amdgpu_bo_pin(bo, AMDGPU_GEM_DOMAIN_GTT);
+-	if (r)
+-		return r;
+-
+-	if (bo->tbo.moving) {
+-		r = dma_fence_wait(bo->tbo.moving, true);
+-		if (r) {
+-			amdgpu_bo_unpin(bo);
+-			return r;
+-		}
+-	}
+-	return 0;
++	return amdgpu_bo_pin(bo, AMDGPU_GEM_DOMAIN_GTT);
+ }
+ 
+ /**
+diff --git a/drivers/gpu/drm/nouveau/nouveau_prime.c b/drivers/gpu/drm/nouveau/nouveau_prime.c
+index 60019d0532fc..347488685f74 100644
+--- a/drivers/gpu/drm/nouveau/nouveau_prime.c
++++ b/drivers/gpu/drm/nouveau/nouveau_prime.c
+@@ -93,22 +93,7 @@ int nouveau_gem_prime_pin(struct drm_gem_object *obj)
+ 	if (ret)
+ 		return -EINVAL;
+ 
+-	ret = ttm_bo_reserve(&nvbo->bo, false, false, NULL);
+-	if (ret)
+-		goto error;
+-
+-	if (nvbo->bo.moving)
+-		ret = dma_fence_wait(nvbo->bo.moving, true);
+-
+-	ttm_bo_unreserve(&nvbo->bo);
+-	if (ret)
+-		goto error;
+-
+-	return ret;
+-
+-error:
+-	nouveau_bo_unpin(nvbo);
+-	return ret;
++	return 0;
+ }
+ 
+ void nouveau_gem_prime_unpin(struct drm_gem_object *obj)
+diff --git a/drivers/gpu/drm/radeon/radeon_prime.c b/drivers/gpu/drm/radeon/radeon_prime.c
+index 4a90807351e7..42a87948e28c 100644
+--- a/drivers/gpu/drm/radeon/radeon_prime.c
++++ b/drivers/gpu/drm/radeon/radeon_prime.c
+@@ -77,19 +77,9 @@ int radeon_gem_prime_pin(struct drm_gem_object *obj)
+ 
+ 	/* pin buffer into GTT */
+ 	ret = radeon_bo_pin(bo, RADEON_GEM_DOMAIN_GTT, NULL);
+-	if (unlikely(ret))
+-		goto error;
+-
+-	if (bo->tbo.moving) {
+-		ret = dma_fence_wait(bo->tbo.moving, false);
+-		if (unlikely(ret)) {
+-			radeon_bo_unpin(bo);
+-			goto error;
+-		}
+-	}
+-
+-	bo->prime_shared_count++;
+-error:
++	if (likely(ret == 0))
++		bo->prime_shared_count++;
++
+ 	radeon_bo_unreserve(bo);
+ 	return ret;
+ }
 -- 
 2.25.1
 
