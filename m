@@ -1,40 +1,59 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 97F054F8F3D
-	for <lists+dri-devel@lfdr.de>; Fri,  8 Apr 2022 09:11:23 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 168E34F8F36
+	for <lists+dri-devel@lfdr.de>; Fri,  8 Apr 2022 09:11:07 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 61C4810F8E7;
-	Fri,  8 Apr 2022 07:11:09 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 0910010F8DC;
+	Fri,  8 Apr 2022 07:11:02 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from linux.microsoft.com (linux.microsoft.com [13.77.154.182])
- by gabe.freedesktop.org (Postfix) with ESMTP id DD77510EC32
- for <dri-devel@lists.freedesktop.org>; Thu,  7 Apr 2022 17:43:52 +0000 (UTC)
-Received: by linux.microsoft.com (Postfix, from userid 1127)
- id 602E320DFDAB; Thu,  7 Apr 2022 10:43:52 -0700 (PDT)
-DKIM-Filter: OpenDKIM Filter v2.11.0 linux.microsoft.com 602E320DFDAB
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linux.microsoft.com;
- s=default; t=1649353432;
- bh=EoJK1cBRSxo9Ig4qPEGnpUnvdRWX31TX6ZeHZVK0Sw0=;
- h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
- b=XqTrtOYyF1p+M94p4/7WCsFlHG51vKhNy4mvHF4IgNrX88YCoKDmGlber6C+PU7Je
- gm7T1wrWqdvjjNBzFQIkbv2z3IsbJSfObH0naSckjoJTo6dyU9tRsbwEomKpsOlzGX
- 10snADbS+QSCPY6kQMgDFDAXyqvFMlVEJ759PBSU=
-Date: Thu, 7 Apr 2022 10:43:52 -0700
-From: Saurabh Singh Sengar <ssengar@linux.microsoft.com>
-To: Deepak Rawat <drawat.floss@gmail.com>
-Subject: Re: [PATCH v2] drm/hyperv: Added error message for fb size greater
- then allocated
-Message-ID: <20220407174352.GA10647@linuxonhyperv3.guj3yctzbm1etfxqx2vob5hsef.xx.internal.cloudapp.net>
-References: <1649312827-728-1-git-send-email-ssengar@linux.microsoft.com>
- <CAHFnvW2V0tz25D4YMxYMNqYs5uMkbjEoc6p93e6naBhvybzmoQ@mail.gmail.com>
+Received: from mail-ej1-x634.google.com (mail-ej1-x634.google.com
+ [IPv6:2a00:1450:4864:20::634])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 6EA2110EC67;
+ Thu,  7 Apr 2022 18:36:08 +0000 (UTC)
+Received: by mail-ej1-x634.google.com with SMTP id r13so12709253ejd.5;
+ Thu, 07 Apr 2022 11:36:08 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc:content-transfer-encoding;
+ bh=efsOEK74uxQH0g4CA1QrPFjgXzWZd0T4aU7euJISdQs=;
+ b=qHBU2iY1gdx/BaLr7O+TicPwlIUJq0P588uTeJuPqy+p4jbqR3GT1rpakWQ1FwYg6H
+ 9vCwzfhEX0k156qWY/2XNSeYGmSd+MeAcVfgmpSZkWEEDrVAlSYDO1bJf4GsKoiTaRjf
+ Fa6uMjaxFuznkMDuOwUBW9mfx0E4B415zukgiJ+u43lIQ1HG073zu3bRGzQNn8jh3/xu
+ BacDAA/ttzHu3krCFUSLk7uV7HDep2eeb1v4hh9429ZgHcZioQUz/CXJMUrpgF/V/bPz
+ GF9VD56SR/TnQU6QN1TXCBYbCC+grCuIO7qj6fgtCqnT+705f9ajUuS6Zy6AG4OIQpWZ
+ UBnQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc:content-transfer-encoding;
+ bh=efsOEK74uxQH0g4CA1QrPFjgXzWZd0T4aU7euJISdQs=;
+ b=lIXiT2Cd2VUBKfTos59kKnJ2AYzFHEgjG6MP3yz2NsMiVaBPF6pFSnfUZKO4/rnjxY
+ IZUIRcD6Bkgl59XSYKIdntEgSbX3f1bMBmfmDAJxyYRYMVW2M6n/JkS33f+QNgVOivqM
+ y15jnvvYzRBAF4Es52DopDccqIoa9fyLLMetqIDsiJs06SLEoHWHcS65oAGq1khFZNVS
+ doN3i52uMPOnox4eQaIqXFjluU8hEZbT3YWyITbC67ajB8/U1R/wn9WaLczhOJOk3bXh
+ wfFSFICK6V3pJi9EZDPCTsPgB+s9KITYESwvzUvZ7fhQa0pahHtMdHceQOZYhgiX2h/m
+ NMwg==
+X-Gm-Message-State: AOAM532GaUk9hv9CyXjjl1MqdBeJaCReU9H57L2iUxYfSXFuf/N10aJU
+ AyVHU+NbZcJTBiDocTncEMmKFRzTjSG6s6Epyys=
+X-Google-Smtp-Source: ABdhPJxy1jWI5CERHD0x1aaFsei6BQ4Qn3oXT1cfmvk0+B0UJyjaV5LYpzZPw2p9s5subhfYioZotT1XZiWr7wT7vpI=
+X-Received: by 2002:a17:906:7947:b0:6da:892f:2503 with SMTP id
+ l7-20020a170906794700b006da892f2503mr14421854ejo.710.1649356566868; Thu, 07
+ Apr 2022 11:36:06 -0700 (PDT)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <CAHFnvW2V0tz25D4YMxYMNqYs5uMkbjEoc6p93e6naBhvybzmoQ@mail.gmail.com>
-User-Agent: Mutt/1.5.21 (2010-09-15)
+References: <20220406165057.97492-1-h0tc0d3@gmail.com>
+ <26951c45-f742-2f0e-f4a6-281a031c3471@gmail.com>
+ <CADnq5_NXzEzo=6adPQzEBrAGtWfegyvi=yGHVVOsb+3r9OiNaQ@mail.gmail.com>
+In-Reply-To: <CADnq5_NXzEzo=6adPQzEBrAGtWfegyvi=yGHVVOsb+3r9OiNaQ@mail.gmail.com>
+From: =?UTF-8?B?0JPRgNC40LPQvtGA0LjQuQ==?= <h0tc0d3@gmail.com>
+Date: Thu, 7 Apr 2022 21:36:05 +0300
+Message-ID: <CAD5ugGDe1SnjEKfoJp0yS8BM-PPc=dOJ+7u-eEkMH0pSOTyFZg@mail.gmail.com>
+Subject: Re: [PATCH] drm/amdgpu: Fix code with incorrect enum type
+To: Alex Deucher <alexdeucher@gmail.com>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 X-Mailman-Approved-At: Fri, 08 Apr 2022 07:11:00 +0000
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -48,52 +67,75 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: linux-hyperv@vger.kernel.org, David Airlie <airlied@linux.ie>,
- ssengar@microsoft.com, Dexuan Cui <decui@microsoft.com>,
- linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
- Michael Kelley <mikelley@microsoft.com>
+Cc: Joseph Greathouse <Joseph.Greathouse@amd.com>,
+ Guchun Chen <guchun.chen@amd.com>, David Airlie <airlied@linux.ie>,
+ =?UTF-8?Q?Christian_K=C3=B6nig?= <ckoenig.leichtzumerken@gmail.com>, "Pan,
+ Xinhui" <Xinhui.Pan@amd.com>, Rodrigo Siqueira <Rodrigo.Siqueira@amd.com>,
+ LKML <linux-kernel@vger.kernel.org>,
+ amd-gfx list <amd-gfx@lists.freedesktop.org>, Melissa Wen <mwen@igalia.com>,
+ Maling list - DRI developers <dri-devel@lists.freedesktop.org>,
+ Alex Deucher <alexander.deucher@amd.com>, Evan Quan <evan.quan@amd.com>,
+ =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Thu, Apr 07, 2022 at 09:28:53AM -0700, Deepak Rawat wrote:
-> On Wed, Apr 6, 2022 at 11:27 PM Saurabh Sengar
-> <ssengar@linux.microsoft.com> wrote:
-> >
-> > Added error message when the size of requested framebuffer is more then
-> > the allocated size by vmbus mmio region for framebuffer
-> >
-> > Signed-off-by: Saurabh Sengar <ssengar@linux.microsoft.com>
-> > ---
-> > v1 -> v2 : Corrected Sign-off
-> >
-> >  drivers/gpu/drm/hyperv/hyperv_drm_modeset.c | 5 ++++-
-> >  1 file changed, 4 insertions(+), 1 deletion(-)
-> >
-> > diff --git a/drivers/gpu/drm/hyperv/hyperv_drm_modeset.c b/drivers/gpu/drm/hyperv/hyperv_drm_modeset.c
-> > index e82b815..92587f0 100644
-> > --- a/drivers/gpu/drm/hyperv/hyperv_drm_modeset.c
-> > +++ b/drivers/gpu/drm/hyperv/hyperv_drm_modeset.c
-> > @@ -123,8 +123,11 @@ static int hyperv_pipe_check(struct drm_simple_display_pipe *pipe,
-> >         if (fb->format->format != DRM_FORMAT_XRGB8888)
-> >                 return -EINVAL;
-> >
-> > -       if (fb->pitches[0] * fb->height > hv->fb_size)
-> > +       if (fb->pitches[0] * fb->height > hv->fb_size) {
-> > +               drm_err(&hv->dev, "hv->hdev, fb size requested by process %s for %d X %d (pitch %d) is greater then allocated size %ld\n",
-> > +               current->comm, fb->width, fb->height, fb->pitches[0], hv->fb_size);
-> 
-> Any reason to add an error message here. Since this function is called
-> whenever there is an update, avoid printing an error here.
+Alex Deucher I will do it. Initially, I came across an error that
+different enum types are used.
+Now I looked at the files, and indeed AMDGPU_GFX_PIPE_PRIO_* is used
+instead of AMDGPU_RING_PRIO_*.
+The question remains whether it is worth increasing the priority to
+AMDGPU_RING_PRIO_MAX=3D3 ?
 
-Recently we hit an issue where userspace application was programing the bigger size buffer then the actual allocated size for framebuffer by hyperv vmbus. This resulted in black screen, and there was no error message it was failing silently and took a
- while to debug this issue. Although the function will be called in each update but this error is printed only in fatal case where pipeline is fail to set the crtc for desired resolution.
+Regards, Grigory.
 
-> 
-> >                 return -EINVAL;
-> > +       }
+=D1=87=D1=82, 7 =D0=B0=D0=BF=D1=80. 2022 =D0=B3. =D0=B2 20:46, Alex Deucher=
+ <alexdeucher@gmail.com>:
+>
+> On Thu, Apr 7, 2022 at 2:21 AM Christian K=C3=B6nig
+> <ckoenig.leichtzumerken@gmail.com> wrote:
 > >
-> >         return 0;
-> >  }
-> > --
-> > 1.8.3.1
+> > Am 06.04.22 um 18:50 schrieb Grigory Vasilyev:
+> > > Instead of the 'amdgpu_ring_priority_level' type,
+> > > the 'amdgpu_gfx_pipe_priority' type was used,
+> > > which is an error when setting ring priority.
+> > > This is a minor error, but may cause problems in the future.
+> > >
+> > > Instead of AMDGPU_RING_PRIO_2 =3D 2, we can use AMDGPU_RING_PRIO_MAX =
+=3D 3,
+> > > but AMDGPU_RING_PRIO_2 =3D 2 is used for compatibility with
+> > > AMDGPU_GFX_PIPE_PRIO_HIGH =3D 2, and not change the behavior of the
+> > > code.
+> > >
+> > > Signed-off-by: Grigory Vasilyev <h0tc0d3@gmail.com>
+> >
+> > Good catch, Acked-by: Christian K=C3=B6nig <christian.koenig@amd.com>
+> >
+> > > ---
+> > >   drivers/gpu/drm/amd/amdgpu/gfx_v8_0.c | 2 +-
+> > >   1 file changed, 1 insertion(+), 1 deletion(-)
+> > >
+> > > diff --git a/drivers/gpu/drm/amd/amdgpu/gfx_v8_0.c b/drivers/gpu/drm/=
+amd/amdgpu/gfx_v8_0.c
+> > > index 5554084ec1f1..9bc26395f833 100644
+> > > --- a/drivers/gpu/drm/amd/amdgpu/gfx_v8_0.c
+> > > +++ b/drivers/gpu/drm/amd/amdgpu/gfx_v8_0.c
+> > > @@ -1929,7 +1929,7 @@ static int gfx_v8_0_compute_ring_init(struct am=
+dgpu_device *adev, int ring_id,
+> > >               + ring->pipe;
+> > >
+> > >       hw_prio =3D amdgpu_gfx_is_high_priority_compute_queue(adev, rin=
+g) ?
+> > > -                     AMDGPU_GFX_PIPE_PRIO_HIGH : AMDGPU_RING_PRIO_DE=
+FAULT;
+> > > +                     AMDGPU_RING_PRIO_2 : AMDGPU_RING_PRIO_DEFAULT;
+>
+> gfx_v8_0.c, gfx_v9_0.c, gfx_v10_0.c all do this.  Care to fix them all up=
+?
+>
+> Alex
+>
+> > >       /* type-2 packets are deprecated on MEC, use type-3 instead */
+> > >       r =3D amdgpu_ring_init(adev, ring, 1024, &adev->gfx.eop_irq, ir=
+q_type,
+> > >                            hw_prio, NULL);
 > >
