@@ -1,53 +1,46 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 36C444F7EAE
-	for <lists+dri-devel@lfdr.de>; Thu,  7 Apr 2022 14:06:21 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 1B7774F7EDC
+	for <lists+dri-devel@lfdr.de>; Thu,  7 Apr 2022 14:20:54 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 915E810E9F5;
-	Thu,  7 Apr 2022 12:06:17 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 5335D10EAE6;
+	Thu,  7 Apr 2022 12:20:51 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mga05.intel.com (mga05.intel.com [192.55.52.43])
- by gabe.freedesktop.org (Postfix) with ESMTPS id B209710E9E7;
- Thu,  7 Apr 2022 12:06:15 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1649333175; x=1680869175;
- h=date:from:to:cc:subject:message-id:references:
- mime-version:content-transfer-encoding:in-reply-to;
- bh=mGaqFKTQXiJuKGE+whZJcOJfR266Ubfu+PbrFF/qsro=;
- b=GQ7BHK3WJigia2rgwz9cdksSX4V37A93wkHoQCmKwjEDaEkJHQ5aGl9+
- tVB2VSHXTqoD3fm2vstRBY+YBb99mw3oZ1h8JZn8Gj/eULKk9msDzCga9
- yjmgY4vQbNtDpfZ7xrEJ1YPFMUjLMMtHwgN/ftFZw6nJ0jnZBpW3QM8zY
- glIjVgkdfYbNUKtyBidvYEUestNLdubfS+VO/cfpqtxFCv+a26Ygmg39y
- nBEAT1bR/3xMYB/zTwLSP7v1qufZ3XtfSH/Ei7bARjScNgyK4CmyJ7Ra7
- RBNkLbX5Q9+4Cq1yjzW/GcgK1R9s0UqBxQZHFaQVOj5s3nDMUt94Ou1HH g==;
-X-IronPort-AV: E=McAfee;i="6200,9189,10309"; a="347745910"
-X-IronPort-AV: E=Sophos;i="5.90,241,1643702400"; d="scan'208";a="347745910"
-Received: from orsmga008.jf.intel.com ([10.7.209.65])
- by fmsmga105.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 07 Apr 2022 05:06:14 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.90,241,1643702400"; d="scan'208";a="571025978"
-Received: from stinkpipe.fi.intel.com (HELO stinkbox) ([10.237.72.51])
- by orsmga008.jf.intel.com with SMTP; 07 Apr 2022 05:06:12 -0700
-Received: by stinkbox (sSMTP sendmail emulation);
- Thu, 07 Apr 2022 15:06:11 +0300
-Date: Thu, 7 Apr 2022 15:06:11 +0300
-From: Ville =?iso-8859-1?Q?Syrj=E4l=E4?= <ville.syrjala@linux.intel.com>
-To: Jani Nikula <jani.nikula@intel.com>
-Subject: Re: [PATCH 06/12] drm/edid: add typedef for block read function
-Message-ID: <Yk7Ts/ejETyarJSh@intel.com>
-References: <cover.1649322799.git.jani.nikula@intel.com>
- <94e414efe8d127f3fd0b4fd7948aafbe7be079a9.1649322799.git.jani.nikula@intel.com>
+X-Greylist: delayed 445 seconds by postgrey-1.36 at gabe;
+ Thu, 07 Apr 2022 12:20:49 UTC
+Received: from smtp-relay-canonical-1.canonical.com
+ (smtp-relay-canonical-1.canonical.com [185.125.188.121])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 40CE510EADD;
+ Thu,  7 Apr 2022 12:20:49 +0000 (UTC)
+Received: from localhost.localdomain (unknown [10.101.196.174])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+ key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
+ (No client certificate requested)
+ by smtp-relay-canonical-1.canonical.com (Postfix) with ESMTPSA id 35F803F1C1; 
+ Thu,  7 Apr 2022 12:13:15 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=canonical.com;
+ s=20210705; t=1649333600;
+ bh=7d9HpX9xJNe7GwBK5GWCOecxSN4L3nt6+lrVisYKkb4=;
+ h=From:To:Cc:Subject:Date:Message-Id:MIME-Version;
+ b=rxBpAzM7VPvJwot97nRvX4vVja01L1CSrfP4x6oTxHQpRIfwv2Oi/bdzfJADL8RWK
+ nl1UJR4xIVMyf8NmnbBqmaFt+WTF6kdD+ZvbYWJbDZ1NEhHZZ/47wt4t3SUDFcbOTS
+ vPw9Oa/UgV/lKKGJ2b9+RgbOpi+qmHUw+woUoiBIjq/yMLVgCAGIn2fP7OrcnALYd+
+ Z9EdM19SIfViFBkWlwQNdSB9M44BNCwgq2fzrMmYkvlq+WmiTcFzJpGCcIzyoEvTCY
+ 31FOTKQzsBO67uesg419CZzL03wLSH2Yps0X+FTVNhwjOcVH17hWINxfL6Six+8hOx
+ TfsgttR368wAQ==
+From: Kai-Heng Feng <kai.heng.feng@canonical.com>
+To: alexander.deucher@amd.com,
+	christian.koenig@amd.com,
+	Xinhui.Pan@amd.com
+Subject: [PATCH] drm/amdgpu: Ensure HDA function is suspended before ASIC reset
+Date: Thu,  7 Apr 2022 20:12:28 +0800
+Message-Id: <20220407121230.132627-1-kai.heng.feng@canonical.com>
+X-Mailer: git-send-email 2.34.1
 MIME-Version: 1.0
-Content-Type: text/plain; charset=iso-8859-1
-Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
-In-Reply-To: <94e414efe8d127f3fd0b4fd7948aafbe7be079a9.1649322799.git.jani.nikula@intel.com>
-X-Patchwork-Hint: comment
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -60,85 +53,81 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: intel-gfx@lists.freedesktop.org, dri-devel@lists.freedesktop.org
+Cc: David Airlie <airlied@linux.ie>, dri-devel@lists.freedesktop.org,
+ linux-kernel@vger.kernel.org, amd-gfx@lists.freedesktop.org,
+ Solomon Chiu <solomon.chiu@amd.com>,
+ Kai-Heng Feng <kai.heng.feng@canonical.com>,
+ Mario Limonciello <mario.limonciello@amd.com>, Evan Quan <evan.quan@amd.com>,
+ Luben Tuikov <luben.tuikov@amd.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Thu, Apr 07, 2022 at 12:14:32PM +0300, Jani Nikula wrote:
-> Make the callback a bit easier on the eye.
-> 
-> Signed-off-by: Jani Nikula <jani.nikula@intel.com>
-> ---
->  drivers/gpu/drm/drm_edid.c | 18 +++++++++---------
->  1 file changed, 9 insertions(+), 9 deletions(-)
-> 
-> diff --git a/drivers/gpu/drm/drm_edid.c b/drivers/gpu/drm/drm_edid.c
-> index ba54701f91f6..926ffe5cd97e 100644
-> --- a/drivers/gpu/drm/drm_edid.c
-> +++ b/drivers/gpu/drm/drm_edid.c
-> @@ -2037,10 +2037,11 @@ int drm_add_override_edid_modes(struct drm_connector *connector)
->  }
->  EXPORT_SYMBOL(drm_add_override_edid_modes);
->  
-> +typedef int read_block_fn(void *context, u8 *buf, unsigned int block, size_t len);
-> +
+DP/HDMI audio on AMD PRO VII stops working after S3:
+[  149.450391] amdgpu 0000:63:00.0: amdgpu: MODE1 reset
+[  149.450395] amdgpu 0000:63:00.0: amdgpu: GPU mode1 reset
+[  149.450494] amdgpu 0000:63:00.0: amdgpu: GPU psp mode1 reset
+[  149.983693] snd_hda_intel 0000:63:00.1: refused to change power state from D0 to D3hot
+[  150.003439] amdgpu 0000:63:00.0: refused to change power state from D0 to D3hot
+...
+[  155.432975] snd_hda_intel 0000:63:00.1: CORB reset timeout#2, CORBRP = 65535
 
-The header still has the eyesore. Maybe we want to put the typedef
-there?
+The offending commit is daf8de0874ab5b ("drm/amdgpu: always reset the asic in
+suspend (v2)"). Commit 34452ac3038a7 ("drm/amdgpu: don't use BACO for
+reset in S3 ") doesn't help, so the issue is something different.
 
-Reviewed-by: Ville Syrjälä <ville.syrjala@linux.intel.com>
+Assuming that to make HDA resume to D0 fully realized, it needs to be
+successfully put to D3 first. And this guesswork proves working, by
+moving amdgpu_asic_reset() to noirq callback, so it's called after HDA
+function is in D3.
 
->  static struct edid *drm_do_get_edid_base_block(struct drm_connector *connector,
-> -	int (*get_edid_block)(void *data, u8 *buf, unsigned int block,
-> -			      size_t len),
-> -	void *data)
-> +					       read_block_fn read_block,
-> +					       void *context)
->  {
->  	int *null_edid_counter = connector ? &connector->null_edid_counter : NULL;
->  	bool *edid_corrupt = connector ? &connector->edid_corrupt : NULL;
-> @@ -2053,7 +2054,7 @@ static struct edid *drm_do_get_edid_base_block(struct drm_connector *connector,
->  
->  	/* base block fetch */
->  	for (try = 0; try < 4; try++) {
-> -		if (get_edid_block(data, edid, 0, EDID_LENGTH))
-> +		if (read_block(context, edid, 0, EDID_LENGTH))
->  			goto out;
->  		if (drm_edid_block_valid(edid, 0, false, edid_corrupt))
->  			break;
-> @@ -2097,9 +2098,8 @@ static struct edid *drm_do_get_edid_base_block(struct drm_connector *connector,
->   * Return: Pointer to valid EDID or NULL if we couldn't find any.
->   */
->  struct edid *drm_do_get_edid(struct drm_connector *connector,
-> -	int (*get_edid_block)(void *data, u8 *buf, unsigned int block,
-> -			      size_t len),
-> -	void *data)
-> +			     read_block_fn read_block,
-> +			     void *context)
->  {
->  	int j, invalid_blocks = 0;
->  	struct edid *edid, *new, *override;
-> @@ -2108,7 +2108,7 @@ struct edid *drm_do_get_edid(struct drm_connector *connector,
->  	if (override)
->  		return override;
->  
-> -	edid = drm_do_get_edid_base_block(connector, get_edid_block, data);
-> +	edid = drm_do_get_edid_base_block(connector, read_block, context);
->  	if (!edid)
->  		return NULL;
->  
-> @@ -2125,7 +2125,7 @@ struct edid *drm_do_get_edid(struct drm_connector *connector,
->  		int try;
->  
->  		for (try = 0; try < 4; try++) {
-> -			if (get_edid_block(data, block, j, EDID_LENGTH))
-> +			if (read_block(context, block, j, EDID_LENGTH))
->  				goto out;
->  			if (drm_edid_block_valid(block, j, false, NULL))
->  				break;
-> -- 
-> 2.30.2
+Fixes: daf8de0874ab5b ("drm/amdgpu: always reset the asic in suspend (v2)")
+Signed-off-by: Kai-Heng Feng <kai.heng.feng@canonical.com>
+---
+ drivers/gpu/drm/amd/amdgpu/amdgpu_drv.c | 18 ++++++++++++------
+ 1 file changed, 12 insertions(+), 6 deletions(-)
 
+diff --git a/drivers/gpu/drm/amd/amdgpu/amdgpu_drv.c b/drivers/gpu/drm/amd/amdgpu/amdgpu_drv.c
+index bb1c025d90019..31f7229e7ea89 100644
+--- a/drivers/gpu/drm/amd/amdgpu/amdgpu_drv.c
++++ b/drivers/gpu/drm/amd/amdgpu/amdgpu_drv.c
+@@ -2323,18 +2323,23 @@ static int amdgpu_pmops_suspend(struct device *dev)
+ {
+ 	struct drm_device *drm_dev = dev_get_drvdata(dev);
+ 	struct amdgpu_device *adev = drm_to_adev(drm_dev);
+-	int r;
+ 
+ 	if (amdgpu_acpi_is_s0ix_active(adev))
+ 		adev->in_s0ix = true;
+ 	else
+ 		adev->in_s3 = true;
+-	r = amdgpu_device_suspend(drm_dev, true);
+-	if (r)
+-		return r;
++	return amdgpu_device_suspend(drm_dev, true);
++}
++
++static int amdgpu_pmops_suspend_noirq(struct device *dev)
++{
++	struct drm_device *drm_dev = dev_get_drvdata(dev);
++	struct amdgpu_device *adev = drm_to_adev(drm_dev);
++
+ 	if (!adev->in_s0ix)
+-		r = amdgpu_asic_reset(adev);
+-	return r;
++		return amdgpu_asic_reset(adev);
++
++	return 0;
+ }
+ 
+ static int amdgpu_pmops_resume(struct device *dev)
+@@ -2575,6 +2580,7 @@ static const struct dev_pm_ops amdgpu_pm_ops = {
+ 	.prepare = amdgpu_pmops_prepare,
+ 	.complete = amdgpu_pmops_complete,
+ 	.suspend = amdgpu_pmops_suspend,
++	.suspend_noirq = amdgpu_pmops_suspend_noirq,
+ 	.resume = amdgpu_pmops_resume,
+ 	.freeze = amdgpu_pmops_freeze,
+ 	.thaw = amdgpu_pmops_thaw,
 -- 
-Ville Syrjälä
-Intel
+2.34.1
+
