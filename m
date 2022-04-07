@@ -1,41 +1,41 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id A474C4F7EE9
-	for <lists+dri-devel@lfdr.de>; Thu,  7 Apr 2022 14:25:21 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id D3DB94F7F02
+	for <lists+dri-devel@lfdr.de>; Thu,  7 Apr 2022 14:30:16 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id BC0C710EA6F;
-	Thu,  7 Apr 2022 12:25:17 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 1355E10EA27;
+	Thu,  7 Apr 2022 12:30:13 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mga17.intel.com (mga17.intel.com [192.55.52.151])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 492DA10E147;
- Thu,  7 Apr 2022 12:25:16 +0000 (UTC)
+Received: from mga02.intel.com (mga02.intel.com [134.134.136.20])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 58A8610E147;
+ Thu,  7 Apr 2022 12:30:11 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1649334316; x=1680870316;
+ t=1649334611; x=1680870611;
  h=message-id:date:mime-version:subject:to:cc:references:
  from:in-reply-to:content-transfer-encoding;
- bh=6LXlAvqge9lTmAOcOd1+ovu4qHT1PeDJvrstMa9OqR8=;
- b=i4S3nGZ0lEzTcIaTgy7dOTMQqCz+zium039Ci8lYaVB+fQ+wGlV7nF3t
- j2v2hD0A0N9U8V5L5OojlsmHw/m1Nc+VJbHXQBiTMFrBlHUhMjweIgd50
- XJZjdsHhOXeFFkwalw+NUsO/uU0Kkc3IlweGHGD/ME4pY0cgAuFdTBWGs
- idkjwjLpc+7XTZhsNJA2mJX/sDi7BzSuaaWpcNgY+Kn9wzq3USqAY9PyF
- XXLnDnVKOy99iNKCszyP9szarrJLpbRrOUdpWU+hLnT/wEElBNg3S11tB
- JOHZj42gCubkpBx+pildCBRWYPpnC7OYctePMxzXgwPk0Gv85A/Aa9ytt Q==;
-X-IronPort-AV: E=McAfee;i="6400,9594,10309"; a="241901867"
-X-IronPort-AV: E=Sophos;i="5.90,242,1643702400"; d="scan'208";a="241901867"
+ bh=5PRRqyrHW2RhVVCT4NKhvyr3ISGHI6foy9KEIBGeyY8=;
+ b=V+e8UFP+nCLo2BlN0HftxKok66+TYdx4Qd1W/po26h24aZmf12PnNC3P
+ YgRN5TUKi8t4ktvF99Kz/HFrHb7wA9J/qTFVW9X3pNH2yzJGB4PhXLoo4
+ aPG0YXUeXeyXL5fIejvuWt8cd83vIVzq8iknV7NpW1IKUxPL8+GINR0PP
+ EI9RNwgykqDGa10GdZQFZqqpXhQ8BmOCOkPDyRphYXu9aRibjG+zv1sup
+ XptJ6tlt3mKRbngQbjaGeyXku+Qs/a0Lkjr2LL6p/yqU/FOzAI2mAvGk+
+ r9M8fB6qkgE3EIHO4skvDtFqxItQa+jEIpNre7N2DjiyNyin9+Gjqn51D Q==;
+X-IronPort-AV: E=McAfee;i="6400,9594,10309"; a="248837032"
+X-IronPort-AV: E=Sophos;i="5.90,242,1643702400"; d="scan'208";a="248837032"
 Received: from orsmga007.jf.intel.com ([10.7.209.58])
- by fmsmga107.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 07 Apr 2022 05:25:15 -0700
-X-IronPort-AV: E=Sophos;i="5.90,242,1643702400"; d="scan'208";a="550029577"
+ by orsmga101.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 07 Apr 2022 05:30:10 -0700
+X-IronPort-AV: E=Sophos;i="5.90,242,1643702400"; d="scan'208";a="550030943"
 Received: from twsparks-mobl1.amr.corp.intel.com (HELO [10.212.41.19])
  ([10.212.41.19])
  by orsmga007-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 07 Apr 2022 05:25:14 -0700
-Message-ID: <42c6cd3e-2923-5b28-ce8e-4b8f6f654e49@linux.intel.com>
-Date: Thu, 7 Apr 2022 13:25:09 +0100
+ 07 Apr 2022 05:30:08 -0700
+Message-ID: <daeee428-9815-fd07-4722-c18a40a9393a@linux.intel.com>
+Date: Thu, 7 Apr 2022 13:30:04 +0100
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
  Thunderbird/91.7.0
@@ -45,11 +45,11 @@ Content-Language: en-US
 To: Matt Roper <matthew.d.roper@intel.com>
 References: <20220330232858.3204283-1-matthew.d.roper@intel.com>
  <20220330232858.3204283-16-matthew.d.roper@intel.com>
- <14359c1d-506c-1c60-51a6-33e1d0a50420@linux.intel.com>
- <YktkqBnknXIn+6A3@mdroper-desk1.amr.corp.intel.com>
+ <2cb72460-e86b-e212-766a-7dc79739d078@linux.intel.com>
+ <YktmKlpR4oqy2P82@mdroper-desk1.amr.corp.intel.com>
 From: Tvrtko Ursulin <tvrtko.ursulin@linux.intel.com>
 Organization: Intel Corporation UK Plc
-In-Reply-To: <YktkqBnknXIn+6A3@mdroper-desk1.amr.corp.intel.com>
+In-Reply-To: <YktmKlpR4oqy2P82@mdroper-desk1.amr.corp.intel.com>
 Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 7bit
 X-BeenThere: dri-devel@lists.freedesktop.org
@@ -69,8 +69,8 @@ Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 
-On 04/04/2022 22:35, Matt Roper wrote:
-> On Thu, Mar 31, 2022 at 06:35:52PM +0100, Tvrtko Ursulin wrote:
+On 04/04/2022 22:42, Matt Roper wrote:
+> On Fri, Apr 01, 2022 at 09:34:04AM +0100, Tvrtko Ursulin wrote:
 >>
 >> On 31/03/2022 00:28, Matt Roper wrote:
 >>> Historically we've selected and programmed a single MCR group/instance
@@ -96,87 +96,6 @@ On 04/04/2022 22:35, Matt Roper wrote:
 >>> handling of power management events to clobber/wipe the steering
 >>> value we had previously initialized because they assume we'll be
 >>> re-programming it anyway.
->>
->> That external agent of any kind can mess with registers behind drivers back
->> is kind of a weak justification, no? Because steering is just one small part
->> of what can go wrong in this case.
-> 
-> Apparently the assumption when the hardware was designed was that
-> software would explicitly steer every MCR access; they never really
-> considered the design we've been using where we try to set it up once
-
-Are you referring to Xe_HP here or even older generations? Pretty sure 
-the way we programmed the steering at driver load was the same as what 
-Windows driver was doing. If we both got it wrong that would be funny.
-
-> and try to minimize subsequent updates to the steering control.  In a
-> lot of cases different agents updating steering have their own steering
-> control registers (i.e., the GuC, the command streamers, and a couple
-> other internal hardware units have their own independent steering
-> control registers to try to avoid racing with whatever the KMD/CPU is
-> doing), but I think there may have been some cases that aren't 100%
-> covered there.
-
-The last point - it would be good to find out - do we have a current 
-case (current platform) when something in the hardware can mess up the 
-steering behind drivers back, and where.
-
-> This is also partially motivated by the direction the general hardware
-> teams want to move in the future --- they plan to reduce the number of
-> different steering control registers for different agents and make more
-> of them share a single register with the KMD/CPU.  There will be a
-> separate "semaphore" register used for coordinating access between
-> various agents (of course that will bring new challenges such as
-> increased latency and what to do if some hardware unit grabs the
-> semaphore and somehow fails to release it).
-
-Understandable I guess, thanks for the info! If i915 is still not 
-accessing those registers much problem will not be that big.
-
-Regards,
-
-Tvrtko
-
-> 
->>
->> Also, someone at some point has to know which are the affected registers. Be
->> it a range table, or at actual point of submitting patches which add
->> register definitions. At any of those points mistakes are possible.
-> 
-> True.  But today there are a lot of registers used by the driver that
-> are multicast and I don't think the code written around them was really
-> thinking about the multicast semantics of the register, especially when
-> the code was copy/pasted from earlier platforms where they weren't
-> multicast (the TLB invalidation registers are an example --- should we
-> be waiting for an ack to come back on every mslice rather than just on a
-> single random mslice?).  MCR registers seem to be an area that's pretty
-> mysterious to a lot of people that haven't looked at them carefully, and
-> sometimes doing a simple intel_uncore_{read,write} doesn't accomplish
-> what you'd expect; forcing us to be a bit more deliberate about the type
-> of behavior we expect to get seems like it will help reduce mistakes in
-> the long run.
-> 
->>
->> So I guess I am not immediately buying the need to refactor all this. Apart
->> from churn, the main downside that I see is that all accesses need separate
->> helpers. Question is why. Driver could choose to always steer before reading
->> today, right?
-> 
-> You mean like making intel_uncore_read always do a steering table lookup
-> for all registers?  We could, although I'm a bit hesitant to add even
-> more GT-specific logic to the uncore functions that are used for non-GT
-> purposes as well.  And like I said before, it still hides the fact that
-> there may be multiple register instances and you're just reading one
-> semi-random instance.
-> 
-> 
-> Matt
-> 
->>
->> Regards,
->>
->> Tvrtko
->>
 >>>
 >>> Signed-off-by: Matt Roper <matthew.d.roper@intel.com>
 >>> ---
@@ -378,6 +297,42 @@ Tvrtko
 >>>    	int id;
 >>> -	xehp_init_mcr(gt, wal);
 >>> +	intel_gt_mcr_report_steering(&p, gt, false);
+>>
+>> Are these platforms immune to system hangs caused by incorrect/missing
+>> default MCR configuration such was fixed with c7d561cfcf86 ("drm/i915:
+>> Enable WaProgramMgsrForCorrectSliceSpecificMmioReads for Gen9") ? That was
+>> triggerable from userspace to be clear.
+> 
+> They're supposed to be.  The mmio design guarantees specific termination
+> behavior for any disabled (fused off, powerwed down) register endpoint:
+> reads return a 0 dummy value and writes are dropped.  I can't find the
+> hardware description of WaProgramMgsrForCorrectSliceSpecificMmioReads
+> now, but it sounds like the termination points were either not part of
+> the design yet on old platforms like that, or were just not implemented
+> properly by hardware.
+
+It would be good to get in touch with someone from Media UMD to gain 
+understanding of the failure mode on Gen9 which was fixed by the quoted 
+commit and get their statement on whether Xe_HP is immune.
+
+With that clarified I think the high level approach is good. To be clear 
+I am not considering the debugging angle as valid, but I am counting on 
+the justification that legitimate parts of hardware will start fiddling 
+with a shared steering register in the near future.
+
+Regards,
+
+Tvrtko
+
+> 
+> 
+> Matt
+> 
+>>
+>> Regards,
+>>
+>> Tvrtko
+>>
 >>> +
 >>> +	/*
 >>> +	 * SQIDI ranges are special because they use different steering
