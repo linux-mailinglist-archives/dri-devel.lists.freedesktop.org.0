@@ -2,54 +2,53 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id E98254F8583
-	for <lists+dri-devel@lfdr.de>; Thu,  7 Apr 2022 19:06:34 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id EF8E44F858C
+	for <lists+dri-devel@lfdr.de>; Thu,  7 Apr 2022 19:07:31 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 0947A10EBCB;
-	Thu,  7 Apr 2022 17:06:30 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 3F81410EC0A;
+	Thu,  7 Apr 2022 17:07:28 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mga05.intel.com (mga05.intel.com [192.55.52.43])
- by gabe.freedesktop.org (Postfix) with ESMTPS id EC84410EBB7;
- Thu,  7 Apr 2022 17:06:28 +0000 (UTC)
+Received: from mga06.intel.com (mga06.intel.com [134.134.136.31])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id CCE4D10EBF0;
+ Thu,  7 Apr 2022 17:07:26 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1649351188; x=1680887188;
+ t=1649351246; x=1680887246;
  h=message-id:date:mime-version:subject:to:cc:references:
- from:in-reply-to;
- bh=QC/PsDNvpmZx8XlUZ+4mTM4TpiXQcFarI5jExrSUEaw=;
- b=Pygf+v3vl+AxKpTgUJKDCg9Q8HvY2BKNIrk//78OxbMo7+iL3IixHPXP
- c3ThTFgYr7UqA3OtRCwYGNPE78lw780C+ygGQWZZUQn/RJe38exKzNx7p
- BoobMuvaiOMA7NxgfPKIgussuWOaSqkRnQ+2V6GiU/YC/FqfDcpzs+9Fh
- szDbi2lFedswHZPjRYdRU/Up5M1fAsYZRRtzilG7bHU6AVx6B68UWZVYr
- YupqDTJF/sXI+bmpEoN0/Fa2AjbwljXh9DTQKGQESnrBGc+ie0UuVnfps
- W64IWgDs9ugquqYwpbjhLa2J4hHUqAIItdrgLXeNe4TZe5hz/oF4B9Zvh A==;
-X-IronPort-AV: E=McAfee;i="6400,9594,10310"; a="347825477"
-X-IronPort-AV: E=Sophos;i="5.90,242,1643702400"; 
- d="scan'208,217";a="347825477"
-Received: from orsmga007.jf.intel.com ([10.7.209.58])
- by fmsmga105.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 07 Apr 2022 10:06:28 -0700
-X-IronPort-AV: E=Sophos;i="5.90,242,1643702400"; 
- d="scan'208,217";a="550150306"
-Received: from nirmoyda-mobl.ger.corp.intel.com (HELO [10.252.51.6])
- ([10.252.51.6])
- by orsmga007-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 07 Apr 2022 10:06:26 -0700
-Content-Type: multipart/alternative;
- boundary="------------0L0CgOOiuFLZ0uRNefopYQ8x"
-Message-ID: <2a1deba4-28cd-f0f8-01c5-906f44142c03@linux.intel.com>
-Date: Thu, 7 Apr 2022 19:06:25 +0200
+ from:in-reply-to:content-transfer-encoding;
+ bh=aGaIYpZ3CQiBFpOe26QeufAV/wGjSVKzW0QlcUijRg0=;
+ b=XplHeY56ZaOaEc3Ud3/XQ5ZBQHCi3qkps4R4ffTvb2ZVyS9AunDYRD7S
+ u/lKJ+pVS4sf6cntNU/L1Wnj7QKIdECaPDalX6HaEWOxxRY0l89HYXV8p
+ xrTox/mfY/KD2lga59JJWSN67hRMy0AQUsFFe0k+sPWf8PXM1qKukzgNF
+ ZWSiAKDlSHtpjZFqzRV0AmskdMi82ONnQTLghfBiZq2nLaCq4BOTTOXWQ
+ o4E/0/u8ixGTkEQ1rmo1gsyzbu/cYf6iiiIYcOck4os9qG/Dvyr19NCw/
+ jRgS4fj3nn/wWt1BE3BHR04y9qJEgdXSf8XGkPwh7IC5ow7vjVwMcoTHP g==;
+X-IronPort-AV: E=McAfee;i="6400,9594,10310"; a="322075596"
+X-IronPort-AV: E=Sophos;i="5.90,242,1643702400"; d="scan'208";a="322075596"
+Received: from orsmga006.jf.intel.com ([10.7.209.51])
+ by orsmga104.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 07 Apr 2022 10:07:26 -0700
+X-IronPort-AV: E=Sophos;i="5.90,242,1643702400"; d="scan'208";a="525010166"
+Received: from doboyle-mobl1.ger.corp.intel.com (HELO [10.252.21.221])
+ ([10.252.21.221])
+ by orsmga006-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 07 Apr 2022 10:07:24 -0700
+Message-ID: <4ce166c1-9c19-79ac-25d6-08ef559517ad@intel.com>
+Date: Thu, 7 Apr 2022 18:07:22 +0100
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:91.0) Gecko/20100101
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
  Thunderbird/91.7.0
-Subject: Re: [PATCH 2/2] drm/i915/buddy: sanity check the size
-Content-Language: en-US
-To: Matthew Auld <matthew.auld@intel.com>, intel-gfx@lists.freedesktop.org
-References: <20220407110608.1184820-1-matthew.auld@intel.com>
- <20220407110608.1184820-2-matthew.auld@intel.com>
-From: "Das, Nirmoy" <nirmoy.das@linux.intel.com>
-In-Reply-To: <20220407110608.1184820-2-matthew.auld@intel.com>
+Subject: Re: [PATCH 1/2] drm/i915: fix broken build
+Content-Language: en-GB
+To: =?UTF-8?Q?Christian_K=c3=b6nig?= <christian.koenig@amd.com>,
+ intel-gfx@lists.freedesktop.org
+References: <20220407164532.1242578-1-matthew.auld@intel.com>
+ <1a4ebf85-4447-8f1b-b8cb-2fe0ad0372a1@amd.com>
+From: Matthew Auld <matthew.auld@intel.com>
+In-Reply-To: <1a4ebf85-4447-8f1b-b8cb-2fe0ad0372a1@amd.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -62,87 +61,60 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: =?UTF-8?Q?Thomas_Hellstr=c3=b6m?= <thomas.hellstrom@linux.intel.com>,
- dri-devel@lists.freedesktop.org
+Cc: Daniel Vetter <daniel.vetter@ffwll.ch>, dri-devel@lists.freedesktop.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-This is a multi-part message in MIME format.
---------------0L0CgOOiuFLZ0uRNefopYQ8x
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
+On 07/04/2022 17:49, Christian König wrote:
+> Am 07.04.22 um 18:45 schrieb Matthew Auld:
+>> I guess this was missed in the conversion or something.
+>>
+>> Fixes: 7bc80a5462c3 ("dma-buf: add enum dma_resv_usage v4")
+>> Signed-off-by: Matthew Auld <matthew.auld@intel.com>
+>> Cc: Christian König <christian.koenig@amd.com>
+>> Cc: Daniel Vetter <daniel.vetter@ffwll.ch>
+> 
+> My best guess is that this is a rebase/merge conflict. I'm 100% sure 
+> i915 was compiling fine before I pushed the patch.
 
-|Reviewed-by: Nirmoy Das <nirmoy.das@intel.com>|
+That was my thinking also, but building drm-misc-next I get the same error:
 
-On 4/7/2022 1:06 PM, Matthew Auld wrote:
-> Ensure we check that the size is compatible with the requested
-> page_size. For tiny objects that are automatically annotated with
-> TTM_PL_FLAG_CONTIGUOUS(since they fit within a single page), we
-> currently end up silently overriding the min_page_size, which ends up
-> hiding bugs elsewhere.
->
-> Signed-off-by: Matthew Auld<matthew.auld@intel.com>
-> Cc: Thomas Hellström<thomas.hellstrom@linux.intel.com>
-> Cc: Nirmoy Das<nirmoy.das@linux.intel.com>
-> ---
->   drivers/gpu/drm/i915/i915_ttm_buddy_manager.c | 1 +
->   1 file changed, 1 insertion(+)
->
-> diff --git a/drivers/gpu/drm/i915/i915_ttm_buddy_manager.c b/drivers/gpu/drm/i915/i915_ttm_buddy_manager.c
-> index 8e4e3f72c1ef..a5109548abc0 100644
-> --- a/drivers/gpu/drm/i915/i915_ttm_buddy_manager.c
-> +++ b/drivers/gpu/drm/i915/i915_ttm_buddy_manager.c
-> @@ -70,6 +70,7 @@ static int i915_ttm_buddy_man_alloc(struct ttm_resource_manager *man,
->   		min_page_size = bo->page_alignment << PAGE_SHIFT;
->   
->   	GEM_BUG_ON(min_page_size < mm->chunk_size);
-> +	GEM_BUG_ON(!IS_ALIGNED(size, min_page_size));
->   
->   	if (place->fpfn + bman_res->base.num_pages != place->lpfn &&
->   	    place->flags & TTM_PL_FLAG_CONTIGUOUS) {
---------------0L0CgOOiuFLZ0uRNefopYQ8x
-Content-Type: text/html; charset=UTF-8
-Content-Transfer-Encoding: 8bit
+drivers/gpu/drm/i915/i915_deps.c: In function ‘i915_deps_add_resv’:
+drivers/gpu/drm/i915/i915_deps.c:229:46: error: implicit conversion from 
+‘enum <anonymous>’ to ‘enum dma_resv_usage’ [-Werror=enum-conversion]
+   229 |         dma_resv_for_each_fence(&iter, resv, true, fence) {
+       |                                              ^~~~
+./include/linux/dma-resv.h:297:47: note: in definition of macro 
+‘dma_resv_for_each_fence’
+   297 |         for (dma_resv_iter_begin(cursor, obj, usage),   \
+       |                                               ^~~~~
 
-<html>
-  <head>
-    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-  </head>
-  <body>
-    <pre class="moz-quote-pre" wrap=""><code style="padding: 0px; tab-size: 8;" class="hljs diff language-diff">Reviewed-by: Nirmoy Das <a class="moz-txt-link-rfc2396E" href="mailto:nirmoy.das@intel.com">&lt;nirmoy.das@intel.com&gt;</a></code></pre>
-    <div class="moz-cite-prefix">On 4/7/2022 1:06 PM, Matthew Auld
-      wrote:<br>
-    </div>
-    <blockquote type="cite"
-      cite="mid:20220407110608.1184820-2-matthew.auld@intel.com">
-      <pre class="moz-quote-pre" wrap="">Ensure we check that the size is compatible with the requested
-page_size. For tiny objects that are automatically annotated with
-TTM_PL_FLAG_CONTIGUOUS(since they fit within a single page), we
-currently end up silently overriding the min_page_size, which ends up
-hiding bugs elsewhere.
+> 
+> Anyway Reviewed-by: Christian König <christian.koenig@amd.com> for the 
+> series.
 
-Signed-off-by: Matthew Auld <a class="moz-txt-link-rfc2396E" href="mailto:matthew.auld@intel.com">&lt;matthew.auld@intel.com&gt;</a>
-Cc: Thomas Hellström <a class="moz-txt-link-rfc2396E" href="mailto:thomas.hellstrom@linux.intel.com">&lt;thomas.hellstrom@linux.intel.com&gt;</a>
-Cc: Nirmoy Das <a class="moz-txt-link-rfc2396E" href="mailto:nirmoy.das@linux.intel.com">&lt;nirmoy.das@linux.intel.com&gt;</a>
----
- drivers/gpu/drm/i915/i915_ttm_buddy_manager.c | 1 +
- 1 file changed, 1 insertion(+)
+Thanks.
 
-diff --git a/drivers/gpu/drm/i915/i915_ttm_buddy_manager.c b/drivers/gpu/drm/i915/i915_ttm_buddy_manager.c
-index 8e4e3f72c1ef..a5109548abc0 100644
---- a/drivers/gpu/drm/i915/i915_ttm_buddy_manager.c
-+++ b/drivers/gpu/drm/i915/i915_ttm_buddy_manager.c
-@@ -70,6 +70,7 @@ static int i915_ttm_buddy_man_alloc(struct ttm_resource_manager *man,
- 		min_page_size = bo-&gt;page_alignment &lt;&lt; PAGE_SHIFT;
- 
- 	GEM_BUG_ON(min_page_size &lt; mm-&gt;chunk_size);
-+	GEM_BUG_ON(!IS_ALIGNED(size, min_page_size));
- 
- 	if (place-&gt;fpfn + bman_res-&gt;base.num_pages != place-&gt;lpfn &amp;&amp;
- 	    place-&gt;flags &amp; TTM_PL_FLAG_CONTIGUOUS) {
-</pre>
-    </blockquote>
-  </body>
-</html>
-
---------------0L0CgOOiuFLZ0uRNefopYQ8x--
+> 
+> Thanks,
+> Christian.
+> 
+>> ---
+>>   drivers/gpu/drm/i915/i915_deps.c | 2 +-
+>>   1 file changed, 1 insertion(+), 1 deletion(-)
+>>
+>> diff --git a/drivers/gpu/drm/i915/i915_deps.c 
+>> b/drivers/gpu/drm/i915/i915_deps.c
+>> index 999210b37325..297b8e4e42ee 100644
+>> --- a/drivers/gpu/drm/i915/i915_deps.c
+>> +++ b/drivers/gpu/drm/i915/i915_deps.c
+>> @@ -226,7 +226,7 @@ int i915_deps_add_resv(struct i915_deps *deps, 
+>> struct dma_resv *resv,
+>>       struct dma_fence *fence;
+>>       dma_resv_assert_held(resv);
+>> -    dma_resv_for_each_fence(&iter, resv, true, fence) {
+>> +    dma_resv_for_each_fence(&iter, resv, dma_resv_usage_rw(true), 
+>> fence) {
+>>           int ret = i915_deps_add_dependency(deps, fence, ctx);
+>>           if (ret)
+> 
