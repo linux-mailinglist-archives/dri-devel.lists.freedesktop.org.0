@@ -1,56 +1,50 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4E9994F8595
-	for <lists+dri-devel@lfdr.de>; Thu,  7 Apr 2022 19:08:23 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id A9D844F8606
+	for <lists+dri-devel@lfdr.de>; Thu,  7 Apr 2022 19:26:32 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 1FCF010EBDC;
-	Thu,  7 Apr 2022 17:08:21 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 119F310EBEE;
+	Thu,  7 Apr 2022 17:26:28 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-oi1-x233.google.com (mail-oi1-x233.google.com
- [IPv6:2607:f8b0:4864:20::233])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 26F2C10EBB7;
- Thu,  7 Apr 2022 17:08:19 +0000 (UTC)
-Received: by mail-oi1-x233.google.com with SMTP id w127so6251386oig.10;
- Thu, 07 Apr 2022 10:08:19 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=JqDkTinK10x3zeolGbydLx/yEZJP4ImSGKmYcvP6lVQ=;
- b=Cy0VXhmnAEqP0lRJ0KQuwUy715TtVttVKnb19XsHu+WELC6cFz4o3We4LkuxtsJYIR
- Di3N1+8prGyIRhYxREa/bbeMsylUltqSC4+WRA7TqQv1qm8UCzeUwGYDYmw8YKHJEf9Z
- 04x1BYmO7f/FAI3j/O9jTgK0tyiQxdbUurLzX3Ymyxm03m1bvBllSiZgGdEfD0Ryrsyp
- MJHwx0eF5rHTH+brtzbUTyGdYEzq6lvEIZFtsiFGfXDAxewiOFiWrlfPMkot2B56Cw90
- VaHAdRR1AQW3Qw4Ny+MBKI+761GiyxeWIsLhSVsmJLnE+7ZA6n4Q1XYWaV6p6NxlA8jp
- e2kw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=JqDkTinK10x3zeolGbydLx/yEZJP4ImSGKmYcvP6lVQ=;
- b=G0VW7XLKnELUY2/ZVxxVrZDuFlMX502PdFWxFm3dJosZBjg6OGPhMh0YD6Q2tCd2Cz
- CTfcTfNalfB0bhCXs2bE+7YC+PHtI1MW2kd7CalRTU01rd4Nt/02HtU4a2w2IdK177KV
- QVDd08K6FaVM4BavR3FVguhwSuJwFrf3wmgpgxt/EZyrHBHcdbFXgMB45DRXKIOLs5ly
- rio1bWOfgHLq75BItkRIRmhCwUxhwYfnSUFBRlT1n8GjSOAO6bPFCeVdEWgwfYaVxdpL
- uc9Pi35ew0d+2F0BcTep4Cgi1aIC4arqjhV5bgruTyQ+KEk8Q81btOOdveJ/WI5tKnfp
- z7Hg==
-X-Gm-Message-State: AOAM530q9YUn/dobdC6ZvZCcu7aLtwxgmCWA7IUqgy44WXbg916i29Om
- /BvXba1NmRphrgu2lO4bvxDRyC85qpk10aC31pw=
-X-Google-Smtp-Source: ABdhPJxylZ9P0pQvwI6USl2YGwdfB/0/fgO3ea3ZdU5f2ipIyl5F1+aUvZ2K86YyCnVCnX962vuWjCpdcgbpRakh+Vw=
-X-Received: by 2002:aca:6006:0:b0:2f9:c685:f4e2 with SMTP id
- u6-20020aca6006000000b002f9c685f4e2mr446739oib.200.1649351298327; Thu, 07 Apr
- 2022 10:08:18 -0700 (PDT)
+Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id D8EF910EAAB;
+ Thu,  7 Apr 2022 17:26:26 +0000 (UTC)
+Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
+ (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+ (No client certificate requested)
+ by dfw.source.kernel.org (Postfix) with ESMTPS id 2D9CA6175A;
+ Thu,  7 Apr 2022 17:26:26 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 1054CC385A0;
+ Thu,  7 Apr 2022 17:26:25 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linuxfoundation.org;
+ s=korg; t=1649352385;
+ bh=JVHmD/j+982q82Hd9yNr4YBGxFQIXSXjMoQdgw6ykAI=;
+ h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+ b=l9pKfCYRQ+hXKX0R2HxMhUsSKKuI4QZXs86eW0eMMQGCIS9+3rq/mXAWUD6FwusV2
+ 2bsJdDPgSeFo4pFUHfHoUd1NLNk9Lo2j/d5YIybKX/KtH9m834Y3BF2R5pNkepMMBw
+ pWg83S6NQWDDpCQk/5EDwqP19AsVl1W796UgTq8k=
+Date: Thu, 7 Apr 2022 19:26:22 +0200
+From: Greg KH <gregkh@linuxfoundation.org>
+To: Daniel Vetter <daniel@ffwll.ch>
+Subject: Re: [PATCH v2 18/19] Revert "fbdev: Prevent probing generic drivers
+ if a FB is already registered"
+Message-ID: <Yk8evqGtjw1H1Q29@kroah.com>
+References: <YkwAhSt9HlbxcuZo@phenom.ffwll.local>
+ <408ffe9b-f09f-dc7e-7f5e-a93b311a06fa@redhat.com>
+ <CAKMK7uHf6H8mhSm6eDHUruWK5Xc2cSPkJUX6v-jpeQfjS19dKw@mail.gmail.com>
+ <e124af06-4f24-277a-543a-82b383f48cea@redhat.com>
+ <CAKMK7uH4GgDQJZguT-k0QmgEAHYHuDEbBtjYje51_Rtqzud0yw@mail.gmail.com>
+ <CAMuHMdWr0L0r+MVU-=+_yeHKwK8BjF7_EJQxiJT5jMqS9FJUeQ@mail.gmail.com>
+ <YkxFHUdm/YeiVY+D@kroah.com> <Ykxqi82sOEd2Zg1K@phenom.ffwll.local>
+ <YkxyBt8Zee8qrEbT@kroah.com>
+ <CAKMK7uEWMDZoB_OLLu7desVVPXEAgDiCEjVDJ3FrSeSTBoYtGQ@mail.gmail.com>
 MIME-Version: 1.0
-References: <20220407121230.132627-1-kai.heng.feng@canonical.com>
-In-Reply-To: <20220407121230.132627-1-kai.heng.feng@canonical.com>
-From: Alex Deucher <alexdeucher@gmail.com>
-Date: Thu, 7 Apr 2022 13:08:07 -0400
-Message-ID: <CADnq5_Oq4nS1A8MxosTn=0EztBCDeURmGq9WBW9886E9y-sO7Q@mail.gmail.com>
-Subject: Re: [PATCH] drm/amdgpu: Ensure HDA function is suspended before ASIC
- reset
-To: Kai-Heng Feng <kai.heng.feng@canonical.com>
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <CAKMK7uEWMDZoB_OLLu7desVVPXEAgDiCEjVDJ3FrSeSTBoYtGQ@mail.gmail.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -63,94 +57,156 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: David Airlie <airlied@linux.ie>, xinhui pan <Xinhui.Pan@amd.com>,
+Cc: Linux Fbdev development list <linux-fbdev@vger.kernel.org>,
+ Intel Graphics Development <intel-gfx@lists.freedesktop.org>,
  LKML <linux-kernel@vger.kernel.org>,
- Maling list - DRI developers <dri-devel@lists.freedesktop.org>,
- Solomon Chiu <solomon.chiu@amd.com>, Luben Tuikov <luben.tuikov@amd.com>,
- amd-gfx list <amd-gfx@lists.freedesktop.org>, "Deucher,
- Alexander" <alexander.deucher@amd.com>, Evan Quan <evan.quan@amd.com>,
- Christian Koenig <christian.koenig@amd.com>,
- Mario Limonciello <mario.limonciello@amd.com>
+ DRI Development <dri-devel@lists.freedesktop.org>,
+ Javier Martinez Canillas <javierm@redhat.com>,
+ Hans de Goede <hdegoede@redhat.com>, Peter Jones <pjones@redhat.com>,
+ Geert Uytterhoeven <geert@linux-m68k.org>,
+ Thomas Zimmermann <tzimmermann@suse.de>, Ilya Trukhanov <lahvuun@gmail.com>,
+ Daniel Vetter <daniel.vetter@intel.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Thu, Apr 7, 2022 at 8:21 AM Kai-Heng Feng
-<kai.heng.feng@canonical.com> wrote:
->
-> DP/HDMI audio on AMD PRO VII stops working after S3:
-> [  149.450391] amdgpu 0000:63:00.0: amdgpu: MODE1 reset
-> [  149.450395] amdgpu 0000:63:00.0: amdgpu: GPU mode1 reset
-> [  149.450494] amdgpu 0000:63:00.0: amdgpu: GPU psp mode1 reset
-> [  149.983693] snd_hda_intel 0000:63:00.1: refused to change power state from D0 to D3hot
-> [  150.003439] amdgpu 0000:63:00.0: refused to change power state from D0 to D3hot
-> ...
-> [  155.432975] snd_hda_intel 0000:63:00.1: CORB reset timeout#2, CORBRP = 65535
+On Tue, Apr 05, 2022 at 07:29:22PM +0200, Daniel Vetter wrote:
+> On Tue, 5 Apr 2022 at 18:45, Greg KH <gregkh@linuxfoundation.org> wrote:
+> >
+> > On Tue, Apr 05, 2022 at 06:12:59PM +0200, Daniel Vetter wrote:
+> > > On Tue, Apr 05, 2022 at 03:33:17PM +0200, Greg KH wrote:
+> > > > On Tue, Apr 05, 2022 at 03:24:40PM +0200, Geert Uytterhoeven wrote:
+> > > > > Hi Daniel,
+> > > > >
+> > > > > On Tue, Apr 5, 2022 at 1:48 PM Daniel Vetter <daniel@ffwll.ch> wrote:
+> > > > > > On Tue, 5 Apr 2022 at 11:52, Javier Martinez Canillas
+> > > > > > <javierm@redhat.com> wrote:
+> > > > > > > On 4/5/22 11:24, Daniel Vetter wrote:
+> > > > > > > > On Tue, 5 Apr 2022 at 11:19, Javier Martinez Canillas
+> > > > > > > >> This is how I think that work, please let me know if you see something
+> > > > > > > >> wrong in my logic:
+> > > > > > > >>
+> > > > > > > >> 1) A PCI device of OF device is registered for the GPU, this attempt to
+> > > > > > > >>    match a registered driver but no driver was registered that match yet.
+> > > > > > > >>
+> > > > > > > >> 2) The efifb driver is built-in, will be initialized according to the link
+> > > > > > > >>    order of the objects under drivers/video and the fbdev driver is registered.
+> > > > > > > >>
+> > > > > > > >>    There is no platform device or PCI/OF device registered that matches.
+> > > > > > > >>
+> > > > > > > >> 3) The DRM driver is built-in, will be initialized according to the link
+> > > > > > > >>    order of the objects under drivers/gpu and the DRM driver is registered.
+> > > > > > > >>
+> > > > > > > >>    This matches the device registered in (1) and the DRM driver probes.
+> > > > > > > >>
+> > > > > > > >> 4) The DRM driver .probe kicks out any conflicting DRM drivers and pdev
+> > > > > > > >>    before registering the DRM device.
+> > > > > > > >>
+> > > > > > > >>    There are no conflicting drivers or platform device at this point.
+> > > > > > > >>
+> > > > > > > >> 5) Latter at some point the drivers/firmware/sysfb.c init function is
+> > > > > > > >>    executed, and this registers a platform device for the generic fb.
+> > > > > > > >>
+> > > > > > > >>    This device matches the efifb driver registered in (2) and the fbdev
+> > > > > > > >>    driver probes.
+> > > > > > > >>
+> > > > > > > >>    Since that happens *after* the DRM driver already matched, probed
+> > > > > > > >>    and registered the DRM device, that is a bug and what the reverted
+> > > > > > > >>    patch worked around.
+> > > > > > > >>
+> > > > > > > >> So we need to prevent (5) if (1) and (3) already happened. Having a flag
+> > > > > > > >> set in the fbdev core somewhere when remove_conflicting_framebuffers()
+> > > > > > > >> is called could be a solution indeed.
+> > > > > > > >>
+> > > > > > > >> That is, the fbdev core needs to know that a DRM driver already probed
+> > > > > > > >> and make register_framebuffer() fail if info->flag & FBINFO_MISC_FIRMWARE
+> > > > > > > >>
+> > > > > > > >> I can attempt to write a patch for that.
+> > > > > > > >
+> > > > > > > > Ah yeah that could be an issue. I think the right fix is to replace
+> > > > > > > > the platform dev unregister with a sysfb_unregister() function in
+> > > > > > > > sysfb.c, which is synced with a common lock with the sysfb_init
+> > > > > > > > function and a small boolean. I think I can type that up quickly for
+> > > > > > > > v3.
+> > > > > > >
+> > > > > > > It's more complicated than that since sysfb is just *one* of the several
+> > > > > > > places where platform devices can be registered for video devices.
+> > > > > > >
+> > > > > > > For instance, the vga16fb driver registers its own platform device in
+> > > > > > > its module_init() function so that can also happen after the conflicting
+> > > > > > > framebuffers (and associated devices) were removed by a DRM driver probe.
+> > > > > > >
+> > > > > > > I tried to minimize the issue for that particular driver with commit:
+> > > > > > >
+> > > > > > > https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git/commit/?id=0499f419b76f
+> > > > > > >
+> > > > > > > But the point stands, it all boils down to the fact that you have two
+> > > > > > > different subsystems registering video drivers and they don't know all
+> > > > > > > about each other to take a proper decision.
+> > > > > > >
+> > > > > > > Right now the drm_aperture_remove_conflicting_framebuffers() call signals
+> > > > > > > in one direction from DRM to fbdev but there isn't a communication in the
+> > > > > > > other direction, from fbdev to DRM.
+> > > > > > >
+> > > > > > > I believe the correct fix would be for the fbdev core to keep a list of
+> > > > > > > the apertures struct that are passed to remove_conflicting_framebuffers(),
+> > > > > > > that way it will know what apertures are not available anymore and prevent
+> > > > > > > to register any fbdev framebuffer that conflicts with one already present.
+> > > > > >
+> > > > > > Hm that still feels like reinventing a driver model, badly.
+> > > > > >
+> > > > > > I think there's two cleaner solutions:
+> > > > > > - move all the firmware driver platform_dev into sysfb.c, and then
+> > > > > > just bind the special cases against that (e.g. offb, vga16fb and all
+> > > > > > these). Then we'd have one sysfb_try_unregister(struct device *dev)
+> > > > > > interface that fbmem.c uses.
+> > > > > > - let fbmem.c call into each of these firmware device providers, which
+> > > > > > means some loops most likely (like we can't call into vga16fb), so
+> > > > > > probably need to move that into fbmem.c and it all gets a bit messy.
+> > > > > >
+> > > > > > > Let me know if you think that makes sense and I can attempt to write a fix.
+> > > > > >
+> > > > > > I still think unregistering the platform_dev properly makes the most
+> > > > >
+> > > > > That doesn't sound very driver-model-aware to me. The device is what
+> > > > > the driver binds to; it does not cease to exist.
+> > > >
+> > > > I agree, that sounds odd.
+> > > >
+> > > > The device should always stick around (as the bus creates it), it's up
+> > > > to the driver to bind to the device as needed.
+> > >
+> > > The device actually disappears when the real driver takes over.
+> > >
+> > > The firmware fb is a special thing which only really exists as long as the
+> > > firmware is in charge of the display hardware. As soon as a real driver
+> > > takes over, it stops being a thing.
+> > >
+> > > And since a driver without a device is a bit a funny thing, we have been
+> > > pushing towards a model where the firmware code sets up a platform_device
+> > > for this fw interface, and the fw driver (efifb, simplefb and others like
+> > > that) bind against it. And then we started to throw out that
+> > > platform_device (which unbinds the fw driver and prevents it from ever
+> > > rebinding), except in the wrong layer so there's a few races.
+> > >
+> > > Should we throw out all that code and replace it with something else? What
+> > > would that be like?
+> >
+> > Ah, no, sorry, I didn't know that at all.
+> >
+> > That sounds semi-sane, just fix the races by moving the layer elsewhere?
+> 
+> Yeah essentially move it all into drivers/firmware/sysfb.c, for all
+> drivers, both the registering and the nuking, and warp that into a
+> local mutex. Currently parts is in there, parts is in fbmem.c, parts
+> in some of the drivers like vga16fb, and some drivers (iirc only offb)
+> still don't even have any platform_dev underneath their driver. So
+> ideally the drivers would all just have their platform_driver probe
+> functions, and that's it. It does mean though that some of that stuff
+> needs to be moved to sysfb.c or into the relevant fw code that sets
+> stuff up.
+> 
+> It'll take some, so really just a direction check before we move
+> further. You should get cc'ed on the patches (like with the sysfb
+> stuff) anyway. Sounds roughly right?
 
-As an aside, shouldn't device links order this properly already?  I
-thought that was the whole point of them.  We have quirks in PCI
-quirks.c to create device links for all GPU integrated peripherals
-(audio, usb, ucsi).
-
-Alex
-
->
-> The offending commit is daf8de0874ab5b ("drm/amdgpu: always reset the asic in
-> suspend (v2)"). Commit 34452ac3038a7 ("drm/amdgpu: don't use BACO for
-> reset in S3 ") doesn't help, so the issue is something different.
->
-> Assuming that to make HDA resume to D0 fully realized, it needs to be
-> successfully put to D3 first. And this guesswork proves working, by
-> moving amdgpu_asic_reset() to noirq callback, so it's called after HDA
-> function is in D3.
->
-> Fixes: daf8de0874ab5b ("drm/amdgpu: always reset the asic in suspend (v2)")
-> Signed-off-by: Kai-Heng Feng <kai.heng.feng@canonical.com>
-> ---
->  drivers/gpu/drm/amd/amdgpu/amdgpu_drv.c | 18 ++++++++++++------
->  1 file changed, 12 insertions(+), 6 deletions(-)
->
-> diff --git a/drivers/gpu/drm/amd/amdgpu/amdgpu_drv.c b/drivers/gpu/drm/amd/amdgpu/amdgpu_drv.c
-> index bb1c025d90019..31f7229e7ea89 100644
-> --- a/drivers/gpu/drm/amd/amdgpu/amdgpu_drv.c
-> +++ b/drivers/gpu/drm/amd/amdgpu/amdgpu_drv.c
-> @@ -2323,18 +2323,23 @@ static int amdgpu_pmops_suspend(struct device *dev)
->  {
->         struct drm_device *drm_dev = dev_get_drvdata(dev);
->         struct amdgpu_device *adev = drm_to_adev(drm_dev);
-> -       int r;
->
->         if (amdgpu_acpi_is_s0ix_active(adev))
->                 adev->in_s0ix = true;
->         else
->                 adev->in_s3 = true;
-> -       r = amdgpu_device_suspend(drm_dev, true);
-> -       if (r)
-> -               return r;
-> +       return amdgpu_device_suspend(drm_dev, true);
-> +}
-> +
-> +static int amdgpu_pmops_suspend_noirq(struct device *dev)
-> +{
-> +       struct drm_device *drm_dev = dev_get_drvdata(dev);
-> +       struct amdgpu_device *adev = drm_to_adev(drm_dev);
-> +
->         if (!adev->in_s0ix)
-> -               r = amdgpu_asic_reset(adev);
-> -       return r;
-> +               return amdgpu_asic_reset(adev);
-> +
-> +       return 0;
->  }
->
->  static int amdgpu_pmops_resume(struct device *dev)
-> @@ -2575,6 +2580,7 @@ static const struct dev_pm_ops amdgpu_pm_ops = {
->         .prepare = amdgpu_pmops_prepare,
->         .complete = amdgpu_pmops_complete,
->         .suspend = amdgpu_pmops_suspend,
-> +       .suspend_noirq = amdgpu_pmops_suspend_noirq,
->         .resume = amdgpu_pmops_resume,
->         .freeze = amdgpu_pmops_freeze,
->         .thaw = amdgpu_pmops_thaw,
-> --
-> 2.34.1
->
+That's fine with me, thanks.
