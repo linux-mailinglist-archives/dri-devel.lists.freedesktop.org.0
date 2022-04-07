@@ -2,66 +2,49 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 408074F7B92
-	for <lists+dri-devel@lfdr.de>; Thu,  7 Apr 2022 11:27:04 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 469654F7BA2
+	for <lists+dri-devel@lfdr.de>; Thu,  7 Apr 2022 11:29:37 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 3158A10E47C;
-	Thu,  7 Apr 2022 09:27:02 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 070C310E5C7;
+	Thu,  7 Apr 2022 09:29:35 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-ed1-x543.google.com (mail-ed1-x543.google.com
- [IPv6:2a00:1450:4864:20::543])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 2498110E47C
- for <dri-devel@lists.freedesktop.org>; Thu,  7 Apr 2022 09:27:01 +0000 (UTC)
-Received: by mail-ed1-x543.google.com with SMTP id x20so5650658edi.12
- for <dri-devel@lists.freedesktop.org>; Thu, 07 Apr 2022 02:27:01 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ffwll.ch; s=google;
- h=date:from:to:cc:subject:message-id:references:mime-version
- :content-disposition:content-transfer-encoding:in-reply-to;
- bh=NKwFB/zlsvGYRImG4cLRY5yZTV/Q5TVTyl65gq+hkqo=;
- b=RgdSMzkTMM4hiF4zEKjreCFRSLEC8992YB6/AgNQsBsCyGdMEBBFUxt2/mvtM6L4tu
- 3sUHk40dx72q9lz6lC4LrCEYC3d6/p9Y38otcUZgcNk153G9xbvPH8OgieOaEr5Lskjb
- oYMnUMSejXiOasTo9HovC95MaGxiufPiYpruY=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=x-gm-message-state:date:from:to:cc:subject:message-id:references
- :mime-version:content-disposition:content-transfer-encoding
- :in-reply-to;
- bh=NKwFB/zlsvGYRImG4cLRY5yZTV/Q5TVTyl65gq+hkqo=;
- b=LC30IDMDy+pwd4R1OCaYpuDNoC/WRJpQ1iwOoYnoyRIGQWaUx9DJywE/KwOgv87Zpx
- paddBPcBQ4z5w0BbP7RLbkcL3CD/MglCAF4ryf6MLFU6aiwRMTIAUGs8Zai5FWSHuw8X
- EzNJ1GVoHnCRQ1c3dFl4rxOSGF7jZf2SS1MPZF/ywG750e9lErKDx8Eai5Kt0A//H/+H
- VD25Kp42W1xAu8bpiCc9LNE16eK7oAn+j9bhsYK7zyYKtJOW0YX27LD57BdXHBiYtbiE
- S+Oo2dG+GqpFDiQUPIGzQL5mkC/xrdD18Kg6BBU/2vd4J//ueFYAuoANcnavvB6LB9om
- Quyg==
-X-Gm-Message-State: AOAM531WkIla6G0F717ciWAQmG+OtmcqYN25IVNeTRPd2wyLk4AmAPFL
- yiQzHnCuZuP1FhQJsw2dCL4NCQ==
-X-Google-Smtp-Source: ABdhPJwkzhgCQ/edLqyydPyiVEglje/cbxL8SiNAOoNWmps+0EaHGX8lvVIhCjmusMY2cBciuxcafQ==
-X-Received: by 2002:a50:ce03:0:b0:41c:c36b:c75 with SMTP id
- y3-20020a50ce03000000b0041cc36b0c75mr12928303edi.195.1649323619689; 
- Thu, 07 Apr 2022 02:26:59 -0700 (PDT)
-Received: from phenom.ffwll.local ([2a02:168:57f4:0:efd0:b9e5:5ae6:c2fa])
- by smtp.gmail.com with ESMTPSA id
- t7-20020a50d907000000b0041cda2f0548sm4594579edj.10.2022.04.07.02.26.59
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 07 Apr 2022 02:26:59 -0700 (PDT)
-Date: Thu, 7 Apr 2022 11:26:57 +0200
-From: Daniel Vetter <daniel@ffwll.ch>
-To: Christian =?iso-8859-1?Q?K=F6nig?= <christian.koenig@amd.com>
-Subject: Re: [PATCH 03/16] dma-buf: specify usage while adding fences to
- dma_resv obj v6
-Message-ID: <Yk6uYXZq8BDalPXA@phenom.ffwll.local>
-References: <20220406075132.3263-1-christian.koenig@amd.com>
- <20220406075132.3263-4-christian.koenig@amd.com>
- <Yk2IVgQMbb24cKdv@phenom.ffwll.local>
- <Yk2JBZ7z/uZop5xx@phenom.ffwll.local>
- <0e34ce06-c962-b1f1-d2a9-5dedbd19ff32@amd.com>
+Received: from metis.ext.pengutronix.de (metis.ext.pengutronix.de
+ [IPv6:2001:67c:670:201:290:27ff:fe1d:cc33])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 963BB10E5C7
+ for <dri-devel@lists.freedesktop.org>; Thu,  7 Apr 2022 09:29:33 +0000 (UTC)
+Received: from drehscheibe.grey.stw.pengutronix.de ([2a0a:edc0:0:c01:1d::a2])
+ by metis.ext.pengutronix.de with esmtps
+ (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256) (Exim 4.92)
+ (envelope-from <p.zabel@pengutronix.de>)
+ id 1ncOS8-0004Bg-EB; Thu, 07 Apr 2022 11:29:20 +0200
+Received: from [2a0a:edc0:0:900:1d::4e] (helo=lupine)
+ by drehscheibe.grey.stw.pengutronix.de with esmtp (Exim 4.94.2)
+ (envelope-from <p.zabel@pengutronix.de>)
+ id 1ncOS8-001aLn-C1; Thu, 07 Apr 2022 11:29:18 +0200
+Received: from pza by lupine with local (Exim 4.94.2)
+ (envelope-from <p.zabel@pengutronix.de>)
+ id 1ncOS5-00041P-Ki; Thu, 07 Apr 2022 11:29:17 +0200
+Message-ID: <f410271385fc8901d7c1dac0187122eb96e96aaf.camel@pengutronix.de>
+Subject: Re: [PATCH v0 07/10] phy: freescale: add Samsung HDMI PHY
+From: Philipp Zabel <p.zabel@pengutronix.de>
+To: Lucas Stach <l.stach@pengutronix.de>, Rob Herring <robh+dt@kernel.org>, 
+ Krzysztof Kozlowski
+ <krzk+dt@kernel.org>, Shawn Guo <shawnguo@kernel.org>, NXP Linux Team
+ <linux-imx@nxp.com>
+Date: Thu, 07 Apr 2022 11:29:17 +0200
+In-Reply-To: <20220406160123.1272911-8-l.stach@pengutronix.de>
+References: <20220406160123.1272911-1-l.stach@pengutronix.de>
+ <20220406160123.1272911-8-l.stach@pengutronix.de>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+User-Agent: Evolution 3.38.3-1 
 MIME-Version: 1.0
-Content-Type: text/plain; charset=iso-8859-1
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <0e34ce06-c962-b1f1-d2a9-5dedbd19ff32@amd.com>
-X-Operating-System: Linux phenom 5.10.0-8-amd64 
+X-SA-Exim-Connect-IP: 2a0a:edc0:0:c01:1d::a2
+X-SA-Exim-Mail-From: p.zabel@pengutronix.de
+X-SA-Exim-Scanned: No (on metis.ext.pengutronix.de);
+ SAEximRunCond expanded to false
+X-PTX-Original-Recipient: dri-devel@lists.freedesktop.org
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -74,87 +57,303 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: daniel.vetter@ffwll.ch, dri-devel@lists.freedesktop.org,
- DMA-resvusage@phenom.ffwll.local
+Cc: devicetree@vger.kernel.org, Pengutronix Kernel Team <kernel@pengutronix.de>,
+ Neil Armstrong <narmstrong@baylibre.com>, Robert Foss <robert.foss@linaro.org>,
+ Kishon Vijay Abraham I <kishon@ti.com>, Vinod Koul <vkoul@kernel.org>,
+ dri-devel@lists.freedesktop.org, Andrzej Hajda <andrzej.hajda@intel.com>,
+ linux-phy@lists.infradead.org, patchwork-lst@pengutronix.de,
+ linux-arm-kernel@lists.infradead.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Thu, Apr 07, 2022 at 10:01:52AM +0200, Christian König wrote:
-> Am 06.04.22 um 14:35 schrieb Daniel Vetter:
-> > On Wed, Apr 06, 2022 at 02:32:22PM +0200, Daniel Vetter wrote:
-> > > On Wed, Apr 06, 2022 at 09:51:19AM +0200, Christian König wrote:
-> > > > [SNIP]
-> > > > diff --git a/drivers/gpu/drm/etnaviv/etnaviv_gem_submit.c b/drivers/gpu/drm/etnaviv/etnaviv_gem_submit.c
-> > > > index 53f7c78628a4..98bb5c9239de 100644
-> > > > --- a/drivers/gpu/drm/etnaviv/etnaviv_gem_submit.c
-> > > > +++ b/drivers/gpu/drm/etnaviv/etnaviv_gem_submit.c
-> > > > @@ -202,14 +202,10 @@ static void submit_attach_object_fences(struct etnaviv_gem_submit *submit)
-> > > >   	for (i = 0; i < submit->nr_bos; i++) {
-> > > >   		struct drm_gem_object *obj = &submit->bos[i].obj->base;
-> > > > +		bool write = submit->bos[i].flags & ETNA_SUBMIT_BO_WRITE;
-> > > > -		if (submit->bos[i].flags & ETNA_SUBMIT_BO_WRITE)
-> > > > -			dma_resv_add_excl_fence(obj->resv,
-> > > > -							  submit->out_fence);
-> > > > -		else
-> > > > -			dma_resv_add_shared_fence(obj->resv,
-> > > > -							    submit->out_fence);
-> > > > -
-> > > > +		dma_resv_add_fence(obj->resv, submit->out_fence, write ?
-> > > > +				   DMA_RESV_USAGE_WRITE : DMA_RESV_USAGE_READ);
-> > > Iirc I had some suggestions to use dma_resv_usage_rw here and above. Do
-> > > these happen in later patches? There's also a few more of these later on.
-> 
-> That won't work. dma_resv_usage_rw() returns the usage as necessary for
-> dependencies. In other words write return DMA_RESV_USAGE_READ and read
-> return DMA_RESV_USAGE_WRITE.
+Hi Lucas,
 
-Hm right, that's a bit annoying due to the asymetry in dependencies and
-adding fences.
-> 
-> What we could do is to add a dma_resv_add_fence_rw() wrapper which does the
-> necessary ?: in a central place.
+On Mi, 2022-04-06 at 18:01 +0200, Lucas Stach wrote:
+> This adds the driver for the Samsung HDMI PHY found on the
+> i.MX8MP SoC.
+>=20
+> Heavily based on the PHY implementation in the downstream kernel
+> written by Sandor Yu <Sandor.yu@nxp.com>, but also cleaned up
+> quite a bit and extended to support runtime PM.
+>=20
+> Signed-off-by: Lucas Stach <l.stach@pengutronix.de>
+> ---
+> FIXME: The PHY configuration could be cleaned up further, it
+> currently has a lot of register writes that are same across
+> all supported modes.
 
-I'm not sure it's overkill, but what about something like this:
+Agreed.
 
-enum drm_sync_mode {
-	DRM_SYNC_NO_IMPLICIT,
-	DRM_SYNC_WRITE,
-	DRM_SYNC_READ,
-}
+[...]
+> ---
+> =C2=A0drivers/phy/freescale/Kconfig                |    7 +
+> =C2=A0drivers/phy/freescale/Makefile               |    1 +
+> =C2=A0drivers/phy/freescale/phy-fsl-samsung-hdmi.c | 1145 +++++++++++++++=
++++
+> =C2=A03 files changed, 1153 insertions(+)
+> =C2=A0create mode 100644 drivers/phy/freescale/phy-fsl-samsung-hdmi.c
+>=20
+> diff --git a/drivers/phy/freescale/Kconfig b/drivers/phy/freescale/Kconfi=
+g
+> index f9c54cd02036..f80c92eb7c55 100644
+> --- a/drivers/phy/freescale/Kconfig
+> +++ b/drivers/phy/freescale/Kconfig
+> @@ -26,6 +26,13 @@ config PHY_FSL_IMX8M_PCIE
+> =C2=A0	  Enable this to add support for the PCIE PHY as found on
+> =C2=A0	  i.MX8M family of SOCs.
+> =C2=A0
+> +config PHY_FSL_SAMSUNG_HDMI_PHY
+> +	tristate "Samsung HDMI PHY support"
+> +	depends on OF && HAS_IOMEM
+> +	select GENERIC_PHY
 
-And then two functions, on in the drm/sched which replaces the current
-add_implicit_dependencies, and the other which would be in the glorious
-future eu utils shared between ttm and gem drivers, which adds the fence
-with the right usage. And they would take care of the right mapping in
-each case.
+Why select GENERIC_PHY when all the driver does is register a clock?
 
-And then all we'd still have in driver code is mapping from random
-bonghits driver flags to drm_sync_mode, and all the confusion would be in
-shared code. And see above, at least for me it's confusing as heck :-)
+[...]
+> +struct fsl_samsung_hdmi_phy {
+> +	struct device *dev;
+> +	void __iomem *regs;
+> +	struct clk *apbclk;
+> +	struct clk *refclk;
 
-> 
-> > > > diff --git a/drivers/gpu/drm/lima/lima_gem.c b/drivers/gpu/drm/lima/lima_gem.c
-> > > > index e0a11ee0e86d..cb3bfccc930f 100644
-> > > > --- a/drivers/gpu/drm/lima/lima_gem.c
-> > > > +++ b/drivers/gpu/drm/lima/lima_gem.c
-> > > > @@ -367,7 +367,7 @@ int lima_gem_submit(struct drm_file *file, struct lima_submit *submit)
-> > > >   		if (submit->bos[i].flags & LIMA_SUBMIT_BO_WRITE)
-> > > >   			dma_resv_add_excl_fence(lima_bo_resv(bos[i]), fence);
-> > > >   		else
-> > > > -			dma_resv_add_shared_fence(lima_bo_resv(bos[i]), fence);
-> > > > +			dma_resv_add_fence(lima_bo_resv(bos[i]), fence);
-> > Correction on the r-b, I'm still pretty sure that this won't compile at
-> > all.
-> 
-> Grrr, I've forgot to add CONFIG_OF to my compile build config.
-> 
-> BTW: Do we have a tool for compile test coverage of patches? E.g. something
-> which figures out if a build created an o file for each c file a patch
-> touched?
+refclk isn't really used beyond phy_clk_register, it doesn't have to be
+stored in struct fsl_samsung_hdmi_phy.
 
-Just regrets when I screw up :-/
--Daniel
--- 
-Daniel Vetter
-Software Engineer, Intel Corporation
-http://blog.ffwll.ch
+> +
+> +	/* clk provider */
+> +	struct clk_hw hw;
+> +	const struct phy_config *cur_cfg;
+> +};
+> +
+> +static inline struct fsl_samsung_hdmi_phy *
+> +to_fsl_samsung_hdmi_phy(struct clk_hw *hw)
+> +{
+> +	return container_of(hw, struct fsl_samsung_hdmi_phy, hw);
+> +}
+> +
+> +static void fsl_samsung_hdmi_phy_configure(struct fsl_samsung_hdmi_phy *=
+phy,
+> +					  const struct phy_config *cfg)
+> +{
+> +	int i;
+> +
+> +	/* HDMI PHY init */
+> +	writeb(REG33_FIX_DA, phy->regs + PHY_REG_33);
+> +
+> +	for (i =3D 0; i < PHY_PLL_REGS_NUM; i++)
+> +		writeb(cfg->regs[i], phy->regs + i * 4);
+> +
+> +	writeb(REG33_FIX_DA | REG33_MODE_SET_DONE , phy->regs + PHY_REG_33);
+> +}
+> +
+> +static int phy_clk_prepare(struct clk_hw *hw)
+> +{
+> +	struct fsl_samsung_hdmi_phy *phy =3D to_fsl_samsung_hdmi_phy(hw);
+> +	int ret =3D 0;
+> +	u8 val;
+> +
+> +	return 0;
+
+I'd say remove this line or pyh_clk_prepare().
+
+> +	ret =3D readb_poll_timeout(phy->regs + PHY_REG_34, val,
+> +				 val & REG34_PLL_LOCK,
+> +				 20, 20000);
+> +	if (ret)
+> +		dev_err(phy->dev, "PLL failed to lock\n");
+> +
+> +	return ret;
+> +}
+> +
+> +static unsigned long phy_clk_recalc_rate(struct clk_hw *hw,
+> +					 unsigned long parent_rate)
+> +{
+> +	struct fsl_samsung_hdmi_phy *phy =3D to_fsl_samsung_hdmi_phy(hw);
+> +
+> +	if (!phy->cur_cfg)
+> +		return 0;
+> +
+> +	return phy->cur_cfg->clk_rate;
+> +}
+> +
+> +static long phy_clk_round_rate(struct clk_hw *hw,
+> +			       unsigned long rate, unsigned long *parent_rate)
+> +{
+> +	const struct phy_config *phy_cfg =3D phy_pll_cfg;
+> +
+> +	for (; phy_cfg->clk_rate !=3D 0; phy_cfg++)
+> +		if (phy_cfg->clk_rate =3D=3D rate)
+
+ * @round_rate: Given a target rate as input, returns the closest rate actu=
+ally
+ *              supported by the clock. The parent rate is an input/output
+ *              parameter.
+
+This should round, not -EINVAL on unsupported rates.
+
+> +			break;
+> +
+> +	if (phy_cfg->clk_rate =3D=3D 0)
+> +		return -EINVAL;
+> +
+> +	return phy_cfg->clk_rate;
+> +}
+> +
+> +static int phy_clk_set_rate(struct clk_hw *hw,
+> +			    unsigned long rate, unsigned long parent_rate)
+> +{
+> +	struct fsl_samsung_hdmi_phy *phy =3D to_fsl_samsung_hdmi_phy(hw);
+> +	const struct phy_config *phy_cfg =3D phy_pll_cfg;
+> +	int ret =3D 0;
+
+Unnecessary initialization.
+
+> +	u8 val;
+> +
+> +	for (; phy_cfg->clk_rate !=3D 0; phy_cfg++)
+> +		if (phy_cfg->clk_rate =3D=3D rate)
+> +			break;
+> +
+> +	if (phy_cfg->clk_rate =3D=3D 0)
+> +		return -EINVAL;
+> +
+> +	phy->cur_cfg =3D phy_cfg;
+> +
+> +	fsl_samsung_hdmi_phy_configure(phy, phy_cfg);
+> +
+> +	ret =3D readb_poll_timeout(phy->regs + PHY_REG_34, val,
+> +				 val & REG34_PLL_LOCK,
+> +				 50, 20000);
+> +	if (ret)
+> +		dev_err(phy->dev, "PLL failed to lock\n");
+> +
+> +	return ret;
+> +}
+> +
+> +static const struct clk_ops phy_clk_ops =3D {
+> +	.prepare =3D phy_clk_prepare,
+> +	.recalc_rate =3D phy_clk_recalc_rate,
+> +	.round_rate =3D phy_clk_round_rate,
+> +	.set_rate =3D phy_clk_set_rate,
+> +};
+> +
+> +static int phy_clk_register(struct fsl_samsung_hdmi_phy *phy)
+> +{
+> +	struct device *dev =3D phy->dev;
+> +	struct device_node *np =3D dev->of_node;
+> +	struct clk_init_data init;
+> +	const char *parent_name;
+> +	struct clk *phyclk;
+> +	int ret;
+> +
+> +	parent_name =3D __clk_get_name(phy->refclk);
+> +
+> +	init.parent_names =3D &parent_name;
+> +	init.num_parents =3D 1;
+> +	init.flags =3D 0;
+> +	init.name =3D "hdmi_pclk";
+> +	init.ops =3D &phy_clk_ops;
+> +
+> +	phy->hw.init =3D &init;
+> +
+> +	phyclk =3D devm_clk_register(dev, &phy->hw);
+> +	if (IS_ERR(phyclk))
+> +		return dev_err_probe(dev, PTR_ERR(phyclk),
+> +				     "failed to register clock\n");
+> +
+> +	ret =3D of_clk_add_provider(np, of_clk_src_simple_get, phyclk);
+> +	if (ret)
+> +		return dev_err_probe(dev, ret,
+> +				     "failed to register clock provider\n");
+> +
+> +	return 0;
+> +}
+> +
+> +static int fsl_samsung_hdmi_phy_probe(struct platform_device *pdev)
+> +{
+> +	struct fsl_samsung_hdmi_phy *phy;
+> +	int ret;
+> +
+> +	phy =3D devm_kzalloc(&pdev->dev, sizeof(*phy), GFP_KERNEL);
+> +	if (!phy)
+> +		return -ENOMEM;
+> +
+> +	platform_set_drvdata(pdev, phy);
+> +	phy->dev =3D &pdev->dev;
+> +
+> +	phy->regs =3D devm_platform_ioremap_resource(pdev, 0);
+> +	if (IS_ERR(phy->regs))
+> +		return PTR_ERR(phy->regs);
+> +
+> +	phy->apbclk =3D devm_clk_get(phy->dev, "apb");
+> +	if (IS_ERR(phy->apbclk))
+> +		return dev_err_probe(phy->dev, PTR_ERR(phy->apbclk),
+> +				     "failed to get apb clk\n");
+> +
+> +	phy->refclk =3D devm_clk_get(phy->dev, "ref");
+> +	if (IS_ERR(phy->refclk))
+> +		return dev_err_probe(phy->dev, PTR_ERR(phy->refclk),
+> +				     "failed to get ref clk\n");
+> +
+> +	ret =3D clk_prepare_enable(phy->apbclk);
+> +	if (ret) {
+> +		dev_err(phy->dev, "failed to enable apbclk\n");
+> +		return ret;
+> +	}
+> +
+> +	pm_runtime_get_noresume(phy->dev);
+> +	pm_runtime_set_active(phy->dev);
+> +	pm_runtime_enable(phy->dev);
+> +
+> +	ret =3D phy_clk_register(phy);
+> +	if (ret) {
+> +		dev_err(&pdev->dev, "register clk failed\n");
+> +		goto register_clk_failed;
+> +	}
+> +
+> +	pm_runtime_put(phy->dev);
+> +
+> +	return 0;
+> +
+> +register_clk_failed:
+> +	clk_disable_unprepare(phy->apbclk);
+> +
+> +	return ret;
+> +}
+> +
+> +static int fsl_samsung_hdmi_phy_remove(struct platform_device *pdev)
+> +{
+> +	of_clk_del_provider(pdev->dev.of_node);
+> +
+> +	return 0;
+> +}
+> +
+> +#ifdef CONFIG_PM
+> +static int fsl_samsung_hdmi_phy_suspend(struct device *dev)
+> +{
+> +	struct fsl_samsung_hdmi_phy *phy =3D dev_get_drvdata(dev);
+> +
+> +	clk_disable_unprepare(phy->apbclk);
+> +
+> +	return 0;
+> +}
+> +
+> +static int fsl_samsung_hdmi_phy_resume(struct device *dev)
+> +{
+> +	struct fsl_samsung_hdmi_phy *phy =3D dev_get_drvdata(dev);
+> +	int ret;
+> +
+> +	ret =3D clk_prepare_enable(phy->apbclk);
+> +	if (ret) {
+> +		dev_err(phy->dev, "failed to enable apbclk\n");
+> +		return ret;
+> +	}
+> +
+> +	if (phy->cur_cfg)
+> +		fsl_samsung_hdmi_phy_configure(phy, phy->cur_cfg);
+
+Not checking PLL lock during resume?
+
+
+regards
+Philipp
