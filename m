@@ -1,46 +1,57 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8AB9C4F93D1
-	for <lists+dri-devel@lfdr.de>; Fri,  8 Apr 2022 13:23:21 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id D77334F9404
+	for <lists+dri-devel@lfdr.de>; Fri,  8 Apr 2022 13:28:33 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 0413E10E37E;
-	Fri,  8 Apr 2022 11:23:09 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 7497F10EF73;
+	Fri,  8 Apr 2022 11:28:29 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from metis.ext.pengutronix.de (metis.ext.pengutronix.de
- [IPv6:2001:67c:670:201:290:27ff:fe1d:cc33])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 35F4D10E2EF
- for <dri-devel@lists.freedesktop.org>; Fri,  8 Apr 2022 11:22:49 +0000 (UTC)
-Received: from drehscheibe.grey.stw.pengutronix.de ([2a0a:edc0:0:c01:1d::a2])
- by metis.ext.pengutronix.de with esmtps
- (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256) (Exim 4.92)
- (envelope-from <sha@pengutronix.de>)
- id 1ncmhT-0002J4-5L; Fri, 08 Apr 2022 13:22:47 +0200
-Received: from [2a0a:edc0:0:1101:1d::28] (helo=dude02.red.stw.pengutronix.de)
- by drehscheibe.grey.stw.pengutronix.de with esmtp (Exim 4.94.2)
- (envelope-from <sha@pengutronix.de>)
- id 1ncmhT-001n4Y-G4; Fri, 08 Apr 2022 13:22:46 +0200
-Received: from sha by dude02.red.stw.pengutronix.de with local (Exim 4.94.2)
- (envelope-from <sha@pengutronix.de>)
- id 1ncmhO-005Z4k-Pb; Fri, 08 Apr 2022 13:22:42 +0200
-From: Sascha Hauer <s.hauer@pengutronix.de>
-To: dri-devel@lists.freedesktop.org
-Subject: [PATCH v10 24/24] dt-bindings: display: rockchip: dw-hdmi: fix ports
- description
-Date: Fri,  8 Apr 2022 13:22:38 +0200
-Message-Id: <20220408112238.1274817-25-s.hauer@pengutronix.de>
-X-Mailer: git-send-email 2.30.2
-In-Reply-To: <20220408112238.1274817-1-s.hauer@pengutronix.de>
-References: <20220408112238.1274817-1-s.hauer@pengutronix.de>
+Received: from mail-yb1-xb31.google.com (mail-yb1-xb31.google.com
+ [IPv6:2607:f8b0:4864:20::b31])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id DCBBE10EF73
+ for <dri-devel@lists.freedesktop.org>; Fri,  8 Apr 2022 11:28:27 +0000 (UTC)
+Received: by mail-yb1-xb31.google.com with SMTP id f23so14543794ybj.7
+ for <dri-devel@lists.freedesktop.org>; Fri, 08 Apr 2022 04:28:27 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=basnieuwenhuizen.nl; s=google;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc; bh=Ixi8kZe3SkhTQxe+wXeMeIxrtbGzlOxLmNLbF+cZC8M=;
+ b=JC/JLxvdznj2flCGhE/ltsXvXoWICpPPcZVAc4nW/hIHqnRvzJNB0Djd9odaS3YkfV
+ s7aspmSbK8nu1lhQj0rQcmzyNOBf11KgGcACQNMYUITCRoOPSaTHtBKBtYiSppKmbIHg
+ 79M4wAqawm6e81OjbTeIDHjoSSDr5I1WSqTQlKJOS20EBWB7SF2O5DSc6brgdosF2zkB
+ VbrGxDeYyx7ZWsOy1ZBfoJCiqP8pOC4IEHZhP1jEO9lc6jF5xxO0NeNu7+29zOtTl2Sx
+ RJcldomKk4zPxcBPtRPr9CH+LPdC6JbNgeblwnmgGh/LUavVVJLGHVJfFLN8kqTzMdaK
+ sGAg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=Ixi8kZe3SkhTQxe+wXeMeIxrtbGzlOxLmNLbF+cZC8M=;
+ b=o3Se9E9WJr3kqSL1RxU7clhXM/bVAqpTR+FjpvnEbbwZOtZXXvuprfqWFXyFeremLZ
+ 0UFyhbytIDJQil9+kE2g/RRXNuX2kR/irZZ0A24KtD+ELUuZaz9KmaT4mhCQf6UHSnUQ
+ tprHgH2K7w41VnZ4Cbs3yDqbDdfoQNJzZUnGzKIz6J8P8ujNrUBydOsPeleg4/b9Gn6t
+ IwtOxlhaXwTpJHARnbNSKDFw6+SjVDfQUvg3WrHUd6txCP/n79pcECNvIIZ+QyuUUr/v
+ tqQ/rUNVzXcHDEhGLMbCSjlQ/LxEzAthxyJqDaNOXz+yVR1CawHO1qK+HqJrsl4iyjyj
+ y0Vg==
+X-Gm-Message-State: AOAM5312VRDLmeC00ZfsO3B8b4HhYUfFuUBwzPRekxf9S/AvYwLNLD3S
+ Mj8dyq/ZbRcpg0nYpFaGxXZw4ae9vAY3lyp2ebi4Ag==
+X-Google-Smtp-Source: ABdhPJzwFRM17qVNXqispIOAMRuWTccQv1dCmb99J12Wu/5Bz2f0suYtIbNIiAk2urkS/Qj+dWH8wJUS9YWSs5bZwKU=
+X-Received: by 2002:a25:1409:0:b0:63e:4e0c:9158 with SMTP id
+ 9-20020a251409000000b0063e4e0c9158mr6468964ybu.555.1649417306934; Fri, 08 Apr
+ 2022 04:28:26 -0700 (PDT)
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-SA-Exim-Connect-IP: 2a0a:edc0:0:c01:1d::a2
-X-SA-Exim-Mail-From: sha@pengutronix.de
-X-SA-Exim-Scanned: No (on metis.ext.pengutronix.de);
- SAEximRunCond expanded to false
-X-PTX-Original-Recipient: dri-devel@lists.freedesktop.org
+References: <20220408092803.3188-1-h0tc0d3@gmail.com>
+ <4o2YD5id7zhK5g__CUK3Yf-6Dj459XQ0qsydW6wKHdco3YYtl78BqGUfXvQ9UO0AZoAsMPfhFB0jw1BFldiFDcbZXmGgsobuAoTMWmoDqmE=@emersion.fr>
+In-Reply-To: <4o2YD5id7zhK5g__CUK3Yf-6Dj459XQ0qsydW6wKHdco3YYtl78BqGUfXvQ9UO0AZoAsMPfhFB0jw1BFldiFDcbZXmGgsobuAoTMWmoDqmE=@emersion.fr>
+From: Bas Nieuwenhuizen <bas@basnieuwenhuizen.nl>
+Date: Fri, 8 Apr 2022 13:28:25 +0200
+Message-ID: <CAP+8YyED70CSqVRaB7JgrAtK-yvBx5EsvrrdR7EpvOG2AVhskQ@mail.gmail.com>
+Subject: Re: [PATCH] drm/amdgpu: Fix NULL pointer dereference
+To: Simon Ser <contact@emersion.fr>
+Content-Type: text/plain; charset="UTF-8"
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -53,84 +64,24 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: devicetree@vger.kernel.org,
- Benjamin Gaignard <benjamin.gaignard@collabora.com>,
- Peter Geis <pgwipeout@gmail.com>, Sascha Hauer <s.hauer@pengutronix.de>,
- Sandy Huang <hjc@rock-chips.com>, linux-rockchip@lists.infradead.org,
- Michael Riesch <michael.riesch@wolfvision.net>, kernel@pengutronix.de,
- Andy Yan <andy.yan@rock-chips.com>, linux-arm-kernel@lists.infradead.org
+Cc: Grigory Vasilyev <h0tc0d3@gmail.com>, Qingqing Zhuo <qingqing.zhuo@amd.com>,
+ "Pan, Xinhui" <Xinhui.Pan@amd.com>,
+ Rodrigo Siqueira <Rodrigo.Siqueira@amd.com>,
+ LKML <linux-kernel@vger.kernel.org>,
+ amd-gfx mailing list <amd-gfx@lists.freedesktop.org>,
+ Melissa Wen <mwen@igalia.com>, David Airlie <airlied@linux.ie>,
+ =?UTF-8?Q?Michel_D=C3=A4nzer?= <mdaenzer@redhat.com>,
+ Sean Paul <seanpaul@chromium.org>,
+ ML dri-devel <dri-devel@lists.freedesktop.org>,
+ Alex Deucher <alexander.deucher@amd.com>, Evan Quan <evan.quan@amd.com>,
+ =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Current port description doesn't cover all possible cases. It currently
-expects one single port with two endpoints.
+On Fri, Apr 8, 2022 at 12:01 PM Simon Ser <contact@emersion.fr> wrote:
+>
+> Is amdgpu_display_get_fb_info ever called with NULL tiling_flags/tmz_surface?
+> If not, there's no point in adding NULL checks.
 
-When the HDMI connector is described in the device tree there can be two
-ports, first one going to the VOP and the second one going to the connector.
-
-Also on SoCs which only have a single VOP there will be only one
-endpoint instead of two.
-
-This patch addresses both issues. With this there can either be a single
-port ("port") , or two of them ("port@0", "port@1") when the connector
-is also in the device tree. Also the first or only port can either have
-one endpoint ("endpoint") for single VOP SoCs or two ("endpoint@0",
-"endpoint@1") for dual VOP SoCs.
-
-Signed-off-by: Sascha Hauer <s.hauer@pengutronix.de>
-Reviewed-by: Rob Herring <robh@kernel.org>
----
-
-Notes:
-    Changes since v6:
-    - Add Reviewed-by: Rob Herring <robh@kernel.org>
-    Changes since v5:
-    - new patch
-
- .../display/rockchip/rockchip,dw-hdmi.yaml    | 24 +++++++------------
- 1 file changed, 9 insertions(+), 15 deletions(-)
-
-diff --git a/Documentation/devicetree/bindings/display/rockchip/rockchip,dw-hdmi.yaml b/Documentation/devicetree/bindings/display/rockchip/rockchip,dw-hdmi.yaml
-index d7cb2b2be60e8..7e59dee15a5f4 100644
---- a/Documentation/devicetree/bindings/display/rockchip/rockchip,dw-hdmi.yaml
-+++ b/Documentation/devicetree/bindings/display/rockchip/rockchip,dw-hdmi.yaml
-@@ -97,27 +97,21 @@ properties:
-   ports:
-     $ref: /schemas/graph.yaml#/properties/ports
- 
--    properties:
--      port:
--        $ref: /schemas/graph.yaml#/$defs/port-base
--        unevaluatedProperties: false
-+    patternProperties:
-+      "^port(@0)?$":
-+        $ref: /schemas/graph.yaml#/properties/port
-         description: Input of the DWC HDMI TX
--
-         properties:
-+          endpoint:
-+            description: Connection to the VOP
-           endpoint@0:
--            $ref: /schemas/graph.yaml#/properties/endpoint
-             description: Connection to the VOPB
--
-           endpoint@1:
--            $ref: /schemas/graph.yaml#/properties/endpoint
-             description: Connection to the VOPL
--
--        required:
--          - endpoint@0
--          - endpoint@1
--
--    required:
--      - port
-+    properties:
-+      port@1:
-+        $ref: /schemas/graph.yaml#/properties/port
-+        description: Output of the DWC HDMI TX
- 
-   rockchip,grf:
-     $ref: /schemas/types.yaml#/definitions/phandle
--- 
-2.30.2
-
+It isn't called with NULL anywhere, the NULL checks that already exist
+seem redundant.
