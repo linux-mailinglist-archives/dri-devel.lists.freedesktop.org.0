@@ -1,86 +1,126 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id AFC8A4F98DD
-	for <lists+dri-devel@lfdr.de>; Fri,  8 Apr 2022 17:00:34 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 046414F98E2
+	for <lists+dri-devel@lfdr.de>; Fri,  8 Apr 2022 17:02:20 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id E37AF10E50F;
-	Fri,  8 Apr 2022 15:00:29 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 991E710E51E;
+	Fri,  8 Apr 2022 15:02:16 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from us-smtp-delivery-124.mimecast.com
- (us-smtp-delivery-124.mimecast.com [170.10.129.124])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 6064310E503
- for <dri-devel@lists.freedesktop.org>; Fri,  8 Apr 2022 15:00:28 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1649430027;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=MowZCsVYbCEMjPsPuqbk/wMskXNrnfT6vDeXV1XxhKs=;
- b=P9e8EDcZuvOTFNC4cIKgPqTLOy+zMlHlXdc1x6ts7/F+uzqo9wNMuisZvN6kYUoZLj1g3C
- LSilePYChUjvCINt6zli4STXatyJmOqPabl2ENOboU1ztWXmGGPaHtZplkg13Vttg6A6mX
- IW8FdY8ZGKBOmSCfIMq02rONR9OHwWs=
-Received: from mail-ed1-f69.google.com (mail-ed1-f69.google.com
- [209.85.208.69]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-203-QkvDG_h-Pgic0CnzAbRBZA-1; Fri, 08 Apr 2022 11:00:26 -0400
-X-MC-Unique: QkvDG_h-Pgic0CnzAbRBZA-1
-Received: by mail-ed1-f69.google.com with SMTP id
- v5-20020aa7d645000000b0041ce08ab5afso4759088edr.6
- for <dri-devel@lists.freedesktop.org>; Fri, 08 Apr 2022 08:00:25 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
- :content-language:to:cc:references:from:in-reply-to
- :content-transfer-encoding;
- bh=MowZCsVYbCEMjPsPuqbk/wMskXNrnfT6vDeXV1XxhKs=;
- b=gTi0kVRNxPDAhZGCp9Jlnt8/HB3t1020mvjMz3NYeB8a6+x12EVlik02XW79cXUuIm
- bdfoqaw2aYC71fajlmsj9ThcBWFtCKOQV5ctS+TIG5JHwfz6tWr4zGxb8VqEH+NIj+X7
- kaZLMNzGgD0UNwHDqCclJq/b/teDmXSDP1o95ZpsU1P+S9ZqGCELq+Oprb49Q2IQh0G+
- odI9tPvcx1kYNT+P7d3/mDZbrnXOX0HMcv3waVrm7wH8kojTrWrRwpyvhxP4UpTDaJGO
- 3Q+7N/rSC6oA3z/XMUyi0KqLCuNCFUE+jxJcrRd286ie+eeYfL0YjpSqKgwRwDQFT8am
- Bvdw==
-X-Gm-Message-State: AOAM530CdCtekptMtwlTEaIMUGXuIR7ZjD7sF6HcxiNzZXC/gB8l9GIt
- 4oeTOj6ycFs4/iOwijNpZX6owoaHqwrWD0xfj3wdzMlO7kyj+eNETKs6TeURTZZvzudxRD/8QQw
- xU1thZx4ojl5T01KhdxOM09UokKo+
-X-Received: by 2002:a17:907:a411:b0:6e1:2084:99d2 with SMTP id
- sg17-20020a170907a41100b006e1208499d2mr1870848ejc.639.1649430024715; 
- Fri, 08 Apr 2022 08:00:24 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJxfPqZMN1TDD9SQ8CopRNSQv4nT+xcAmStxEvSA0bIoi0AzL722DKonpHfhRXsoXsPcb6j8nQ==
-X-Received: by 2002:a17:907:a411:b0:6e1:2084:99d2 with SMTP id
- sg17-20020a170907a41100b006e1208499d2mr1870805ejc.639.1649430024254; 
- Fri, 08 Apr 2022 08:00:24 -0700 (PDT)
-Received: from ?IPV6:2001:1c00:2a00:8801:7f46:c497:ac60:f6e7?
- (2001-1c00-2a00-8801-7f46-c497-ac60-f6e7.cable.dynamic.v6.ziggo.nl.
- [2001:1c00:2a00:8801:7f46:c497:ac60:f6e7])
- by smtp.gmail.com with ESMTPSA id
- h9-20020aa7c949000000b0041b4d8ae50csm10484386edt.34.2022.04.08.08.00.23
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Fri, 08 Apr 2022 08:00:23 -0700 (PDT)
-Message-ID: <a29be726-70db-5525-68f3-08c2233b6f8f@redhat.com>
-Date: Fri, 8 Apr 2022 17:00:22 +0200
-MIME-Version: 1.0
+Received: from NAM04-DM6-obe.outbound.protection.outlook.com
+ (mail-dm6nam08on2070.outbound.protection.outlook.com [40.107.102.70])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 5DF3A10E1C9;
+ Fri,  8 Apr 2022 15:02:15 +0000 (UTC)
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=P8Xtnx/Flv2ylHqjqD+4e7F7w4PviZJiN+0BeZ52BuGe8V4Z56//HAwbtKTIVTRJV7Lw0Ife0V3spMF8Ez32KBxu44DwelYmrObq8NstT1hWfh6IJzuP7ziKmDTWBErMGy4ZDCMvGFu1pfyYykzan/VrVDabO7LqyroLXL1ygHvAr7WooLK5Ob5Odr6wQ1aU8LwU6cPv/8N7mK+Mp8sNk5xumV0T3OlUBlIA4Ko/CB91xM3PSdUesCB5joM+k4Es0U3rHwdffh98y3vHeWwOLvvmA/TeOLwpbAt6Ow8FP6iWJ5TcbUXdd5/iUIBoAbaz24qsfgCL1Sd7RRlGXWLdHw==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=Alr3H4bDzjhXJa1CJELJElUeHOf8iZ77KeU8A5dRMDo=;
+ b=KHiwM8ihcnwoZ/pWkFDCcQhu83Ahe928sWVY6I3dmZrEFqy7gZVQqx4hdDejvBHFh644Ra0dLBs9ZvQguzQgNdExn60t3cOis+d6OW9UtU9BW3FppKrBCqH+nuWdJ8FQOETX/glnFWueDkc0lvBHT/kAk+8F/vdBodEfYgp6Zd5tjPapA4wKYIEPP4mrJSAW/NrfIaI0jAsb/8r6neDgrPsUuyqPX3ien6NpEWJfes2iR568BYyed5epp9oiFRT1WAmS6zetBozXJE4VzxH3dCs41Y3K+ZHocKoiDc5CZiZd3BPD6arGBkdUPmNqoOl9DxRvyteSYdJecOhmFAM8+g==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=amd.com; dmarc=pass action=none header.from=amd.com; dkim=pass
+ header.d=amd.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1; 
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=Alr3H4bDzjhXJa1CJELJElUeHOf8iZ77KeU8A5dRMDo=;
+ b=jf0LYNu9fJaHFvRZtrfz/S8BgCW2SGR0PKBC8Sgjz7PUa6XfJsqVWB/H4rHhgww45zxO4zTYmlyk4ZNsLlJ5oDSHA7WjdOLWk4kvOIyB3xl+aZcdlYnpWKOOGvwI1mWGG2bMUdUcLNT5OECQTG2uqU/Ia8b+dmi68W4JOeFSUws=
+Authentication-Results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=amd.com;
+Received: from CO6PR12MB5427.namprd12.prod.outlook.com (2603:10b6:5:358::13)
+ by BYAPR12MB2744.namprd12.prod.outlook.com (2603:10b6:a03:69::12) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.5144.22; Fri, 8 Apr
+ 2022 15:02:13 +0000
+Received: from CO6PR12MB5427.namprd12.prod.outlook.com
+ ([fe80::61e4:a6bf:9444:31f9]) by CO6PR12MB5427.namprd12.prod.outlook.com
+ ([fe80::61e4:a6bf:9444:31f9%6]) with mapi id 15.20.5144.026; Fri, 8 Apr 2022
+ 15:02:13 +0000
+Message-ID: <375fd7ff-a68e-d5c0-ff0d-bd6b50e90b93@amd.com>
+Date: Fri, 8 Apr 2022 11:02:08 -0400
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.4.0
-Subject: Re: [RFC] drm/kms: control display brightness through drm_connector
- properties
-To: Simon Ser <contact@emersion.fr>
-References: <0d188965-d809-81b5-74ce-7d30c49fee2d@redhat.com>
- <dP36CeeNjDVKgcJzbBAdkNM0HzB3N5Uzd6cgBcmrb5mA6xzWs9AKMmRdMKG2y6c1geMhZ1i8hONKQmxYYHN-ZhRLGT_TXz5IhtqnJSWBD9Q=@emersion.fr>
- <0e1cffc1-e8b6-dc58-56ff-53f911f33e60@redhat.com>
- <XwpYE-RK1zRFJfojeMJV5ddsxHnHg4HRTXd4fZ_7yUMBZRCy3ARRIPC6Y-eCJ5Ag9Fin8FGLz6t-L8Ix4P7ykQlrJ6dH4LYye20kyHKtVaI=@emersion.fr>
-From: Hans de Goede <hdegoede@redhat.com>
-In-Reply-To: <XwpYE-RK1zRFJfojeMJV5ddsxHnHg4HRTXd4fZ_7yUMBZRCy3ARRIPC6Y-eCJ5Ag9Fin8FGLz6t-L8Ix4P7ykQlrJ6dH4LYye20kyHKtVaI=@emersion.fr>
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=hdegoede@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
+ Thunderbird/91.8.0
+Subject: Re: [PATCH 1/3] drm/debug: Expose connector's max supported bpc via
+ debugfs
 Content-Language: en-US
+To: Bhanuprakash Modem <bhanuprakash.modem@intel.com>,
+ intel-gfx@lists.freedesktop.org, dri-devel@lists.freedesktop.org,
+ amd-gfx@lists.freedesktop.org, jani.nikula@linux.intel.com,
+ ville.syrjala@linux.intel.com, swati2.sharma@intel.com
+References: <20220408065350.1485328-1-bhanuprakash.modem@intel.com>
+ <20220408065350.1485328-2-bhanuprakash.modem@intel.com>
+From: Harry Wentland <harry.wentland@amd.com>
+In-Reply-To: <20220408065350.1485328-2-bhanuprakash.modem@intel.com>
 Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+Content-Transfer-Encoding: 8bit
+X-ClientProxiedBy: YT1PR01CA0045.CANPRD01.PROD.OUTLOOK.COM
+ (2603:10b6:b01:2e::14) To CO6PR12MB5427.namprd12.prod.outlook.com
+ (2603:10b6:5:358::13)
+MIME-Version: 1.0
+X-MS-PublicTrafficType: Email
+X-MS-Office365-Filtering-Correlation-Id: 4560155f-751f-489a-aa25-08da1970c2f8
+X-MS-TrafficTypeDiagnostic: BYAPR12MB2744:EE_
+X-Microsoft-Antispam-PRVS: <BYAPR12MB2744137A2AE878E77951416F8CE99@BYAPR12MB2744.namprd12.prod.outlook.com>
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: BCL:0;
+X-Microsoft-Antispam-Message-Info: GX7Qp/jv8NYY7zCKffkRqn0hppIub2btXjc2weCb3dbTdiB3YuluVdRCa3OjjBOdm4XlfpP6mXFo0IWENIgtkB7AeYFG0iN45hVfFCO5XsC2ye8gFjHPTY9b7rHSglcJg1rrZKMVF2eKsqbEqIX9C0NU2cndW2mLB2LWJ8sP7UuKkmdZv1GMguZYsBFgkQFwpm2zMNJoJwYO5ZZmPvX2u5r3XSe3X/PpBgWri1ws7FRgb/W8Z342aNVgXsh5UViELUsLIxsbB0jvMKl0B3od18oA3fG+OWOGjN67lWXkyJ8m0iBuhT4di/m+y+6aQ5WGaRDcdyLE4xSpfHlG4rnCtHVwjqrP7ZTXuojuB9/eZn1F+4UEF2C3B6XLVmtdWFmnEOMfxRU9k4EvzdtT9ICkQQNzLDO+qHDYR/jcLa7gLSNTlHHJEuD/KjAUMycIDvW0fpukh633ahJAykDuFuPGwtsA4NiujSvF6fDaICm9+p3Bj2s2J4Aa/jHDnHUUDAP1e7xWYAMikDmJP/NiO4OtIwWSjcXD5pPOKM0cvuBb52zBjiJokV9CxyrWOXR4uYqBgXjxjNEvBGyWZVJ8kE+kLXKrA4lkRhPlvoQQ1Vy6pAbqzVXVx5tb1iWjC3h5deWXIsuVB56FAxSXWgQf4jXXll3jnIua96ZaEctua6eHdacRQaAPtT4QiItSolXGhWcw2jI+9lQ5KVCMgufXByQCwZxGS566Tg4TX7SA9mvs8Eg=
+X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
+ IPV:NLI; SFV:NSPM; H:CO6PR12MB5427.namprd12.prod.outlook.com; PTR:; CAT:NONE;
+ SFS:(13230001)(4636009)(366004)(508600001)(2906002)(6486002)(6506007)(31696002)(8676002)(6512007)(66476007)(5660300002)(44832011)(186003)(26005)(8936002)(6666004)(53546011)(36756003)(86362001)(2616005)(66556008)(66946007)(31686004)(316002)(38100700002)(43740500002)(45980500001);
+ DIR:OUT; SFP:1101; 
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0: =?utf-8?B?NHpnUzdtYml3NG5xV3dreHNQVThQeXN3Q0dRMTd4UHNDZVkza3ZRNUw0Zk1Y?=
+ =?utf-8?B?ZXBSalpEV05mRk5Cck5pWVhIMmRyT1VUWlhoZ0dlM1hQRmdQT0NEYVprTjBo?=
+ =?utf-8?B?SnlMRW5VZTdMV2pHMEREcTY3ZGVoaEt4bXh2ZGZOUUkxemxUL2JYQjdkNnRw?=
+ =?utf-8?B?a05tbzFIMGk1cHc3Yk1iQ0M5TC9LeGd3RUsxL2hvQ3d6MFdLeVNMWjQ2dEVO?=
+ =?utf-8?B?VmR3S2czenozRFNrV0VwUnhSZkV5YjVaQVpEY3hEUnhpUUpvRTV1RmszbU1o?=
+ =?utf-8?B?dlhLMXlPRUtzanIyWEhqaTV4WDlzN2RiN2QxRzE5c2R2TEZHdTdQRzJPMjVB?=
+ =?utf-8?B?bjRrR3N2Vzd2S042NjF1TFlPNzBEQXZhQUJrdXN5MlZ4a2hscm53OXhqbnRM?=
+ =?utf-8?B?RzNlOFlrMFFaOG1qcVRUL2hkQTliYUQwVlRwd2sycXNuZG4wcWtpNXdoUUhF?=
+ =?utf-8?B?Q0JRR3pRWS9nQmRETGxFd2luM3Rpb2Y4bmtWRmswcTExbmQrY0V5eTJpekpj?=
+ =?utf-8?B?NkhZSkd3NE5aN2tyY2NRcXNmcnJHSmlUTVlnRjMrQVVnNExWcHNkanBrMXlL?=
+ =?utf-8?B?Y0ZwRWk0eVFaYUlXcnhMWUNSLzFiOHRLN1VaeU1xTnZDV05HanI0NUEweGlL?=
+ =?utf-8?B?aU9nS25oWjlOaHc0NXdNdllPbkxncXBMRDhZS0prbUhoQ0dnQWUyaW8xT0cw?=
+ =?utf-8?B?cWt5NE5ncURXdnpsSklQenVlWUoxbVRIVzJBMzluVU5KclloQ0pqRzFsQjlH?=
+ =?utf-8?B?anlaUmlVTktQOFRpK1RqQlhNYmtMSlRBR2YxK2VaWEo4ZVZHd0tDNXFmbjhJ?=
+ =?utf-8?B?VzQ3dzhVaHJDeGR5dHh0OHQrQnZyOCtJWkp0ZXVZZXNHcDF6djJrc002VTdY?=
+ =?utf-8?B?OGpqK1ZRQU0veURNRENZMnFzTWk1WXE2STZBTjZnOXhGWjRhTDNJRjZQK2FG?=
+ =?utf-8?B?TG9BakJKWExNdkNGRGdDcFFTR0V1QXFhWjhSMUFoU2xRQ3ovaHNlWUoxZkV0?=
+ =?utf-8?B?Q3dDUjA5cE5MUDdwV1hKNzlVcm5lYkN3a2J4ZGZydWRXbUxETkdwNE8waVBX?=
+ =?utf-8?B?U2VJSWg0WUV1U29YMlJEMXhROFVTMDcyNlVGL292UUc2SU41TmNvSk9jYnBi?=
+ =?utf-8?B?aGtBZjB4NWc2OWx5UUc1S3Zyd3VsQm1aMTRaM0YxNzZ1c0ZrMkFKNUhNZUp6?=
+ =?utf-8?B?YndweGdyRGo3NGVWeXV5bURLdkVGeEFiSjdFSVlIRDdpeVJVb1p0aVYzNnZy?=
+ =?utf-8?B?TWFBMU5JTWM4K0Z1TkJwblMrdlRaZ3Rqand3SkhEY0Ntb0NjNytmUXAxUFBj?=
+ =?utf-8?B?K0w2dzVhbUhsMlYvZkNYM1JyUXhLeldDYmE5bk0yMU4vT3JybnhQOWo4aEcw?=
+ =?utf-8?B?d3ltaFVyS0lyK2VySDI5aGRlQ0Y4OHUyRFVjamFiRFE1SkxHTDFuTHFjOWRj?=
+ =?utf-8?B?TmRDSmVHdDFqMTlzVUJkUW1NdWIyR2grVFNSb09SckNOUTdnR2FBUmFKMXFD?=
+ =?utf-8?B?TCtrTG1oRzhnV3dMamJFbDBNL1lFb0VmdmJFMnVCQnJEdGUwMHIyNDl2c3lG?=
+ =?utf-8?B?bS8reDZkQ0FtVW91enJZZ0RZVWRLQVVONXlDNHhhUVA2YWN6WjRlOHNKbkpC?=
+ =?utf-8?B?R3NacExsSzJGV3hsR2szR3NBc2U1NzNqNkd5aURVT055Szh5amIwVEFrUnRC?=
+ =?utf-8?B?eEw2YlhuRFZOcFdEcTR6SFNJWG9IZ0M0VXlKOHNWd3FsVHN6d1Z6aC9Zdk5u?=
+ =?utf-8?B?ZEE1Ui9SbWRDTjRLdmUrVERCTmZvZmR1Yi9iWXRzNXl0U0ppN1VoQmdpKzlx?=
+ =?utf-8?B?c1VGTHFwY01ZUUxvU1NzWSt6amhuYm9DempLd3RPaU1Ed09ZTnU3NGljVjZt?=
+ =?utf-8?B?eUxocGNxRnZUNGk0THNtSmwydndaQXc0SE1aMFN3bUxQSUZnTmpVL2ZtQk9w?=
+ =?utf-8?B?M0VmRkZlOEcvS1dLU292SVlGbm5GbXZ3Yjh1MHE4RzVoUkg3RTNiWWJTWWFq?=
+ =?utf-8?B?c24wQ0krVm44NXd2MUR3UzdxTHFaWFFsNGxkZDB6NTl6NmtqYjVnUXBLaTBs?=
+ =?utf-8?B?TVVkRGdScnFOOEtwc0cxUEJ5TzZZNDZSY2tXWGxFT3puS09KU2dET1VQZTAv?=
+ =?utf-8?B?M0VYc1RzeDRDM0UxM01Hc0YwQXNaWlBoVTBidWF1bVpnN3E1YTBQT29HSGFV?=
+ =?utf-8?B?QlBqcE1tV0lnRGRGZGNnRlI3bUoreGxpUC9VSkxtOTB3cFhoU2owMHdsa0ZW?=
+ =?utf-8?B?YXVKdER5cFBsQS96U01LZUR1aGJZVmc4eWZiWkZHRjh1TE53M0w3RVVWd25a?=
+ =?utf-8?B?SENyS0xtWmtqb2JCZ3l0cXlZcUNuTG1qWGFoTHpEWm1RWmxpQVREQT09?=
+X-OriginatorOrg: amd.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 4560155f-751f-489a-aa25-08da1970c2f8
+X-MS-Exchange-CrossTenant-AuthSource: CO6PR12MB5427.namprd12.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 08 Apr 2022 15:02:13.1328 (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: 7Qatc6hHPAaAH3wTY28OhZz4xict5ystoEhjEwMoYuQznnzOj+2fHH531k/Bfjw0JaKMym996UeQQxLBU0wpQQ==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: BYAPR12MB2744
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -93,224 +133,69 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Sebastian Wick <sebastian.wick@redhat.com>,
- Martin Roukala <martin.roukala@mupuf.org>,
- Christoph Grenz <christophg+lkml@grenz-bonn.de>,
- wayland <wayland-devel@lists.freedesktop.org>,
- "dri-devel@lists.freedesktop.org" <dri-devel@lists.freedesktop.org>,
- Yusuf Khan <yusisamerican@gmail.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi Simon,
 
-On 4/8/22 10:22, Simon Ser wrote:
-> Hi Hans,
-> 
-> Thanks for your details replies!
-> 
-> On Thursday, April 7th, 2022 at 19:43, Hans de Goede <hdegoede@redhat.com> wrote:
-> 
->>> On Thursday, April 7th, 2022 at 17:38, Hans de Goede <hdegoede@redhat.com> wrote:
->>>
->>>> The drm_connector brightness properties
->>>> =======================================
->>>>
->>>> bl_brightness: rw 0-int32_max property controlling the brightness setting
->>>> of the connected display. The actual maximum of this will be less then
->>>> int32_max and is given in bl_brightness_max.
->>>
->>> Do we need to split this up into two props for sw/hw state? The privacy screen
->>> stuff needed this, but you're pretty familiar with that. :)
->>
->> Luckily that won't be necessary, since the privacy-screen is a security
->> feature the firmware/embedded-controller may refuse our requests
->> (may temporarily lock-out changes) and/or may make changes without
->> us requesting them itself. Neither is really the case with the
->> brightness setting of displays.
-> 
-> Cool, makes sense to me!
-> 
->>>> bl_brightness_max: ro 0-int32_max property giving the actual maximum
->>>> of the display's brightness setting. This will report 0 when brightness
->>>> control is not available (yet).
->>>
->>> I don't think we actually need that one. Integer KMS props all have a
->>> range which can be fetched via drmModeGetProperty. The max can be
->>> exposed via this range. Example with the existing alpha prop:
->>>
->>>     "alpha": range [0, UINT16_MAX] = 65535
->>
->> Right, I already knew that, which is why I explicitly added a range
->> to the props already. The problem is that the range must be set
->> before registering the connector and when the backlight driver
->> only shows up (much) later during boot then we don't know the
->> range when registering the connector. I guess we could "patch-up"
->> the range later. But AFAIK that would be a bit of abuse of the
->> property API as the range is intended to never change, not
->> even after hotplug uevents. At least atm there is no infra
->> in the kernel to change the range later.
->>
->> Which is why I added an explicit bl_brightness_max property
->> of which the value gives the actual effective maximum of the
->> brightness.
->>
->> I did consider using the range for this and updating it
->> on the fly I think nothing is really preventing us from
->> doing so, but it very much feels like abusing the generic
->> properties API.
-> 
-> Since this is new uAPI there's no concern about backwards compat here. So it's
-> pretty much a matter of how we want the uAPI to look like. I was suggesting
-> using a range because it's self-describing, but maybe it's an abuse.
-> 
-> Daniel Vetter, what do you think? If a property's range is going to be updated
-> on the fly, should we go for it, or should we use a separate prop to describe
-> the max value?
-> 
->>>> bl_brightness_0_is_min_brightness: ro, boolean
->>>> When this is set to true then it is safe to set brightness to 0
->>>> without worrying that this completely turns the backlight off causing
->>>> the screen to become unreadable. When this is false setting brightness
->>>> to 0 may turn the backlight off, but this is not guaranteed.
->>>> This will e.g. be true when directly driving a PWM and the video-BIOS
->>>> has provided a minimum (non 0) duty-cycle below which the driver will
->>>> never go.
->>>
->>> Hm. It's quite unfortunate that it's impossible to have strong guarantees
->>> here.
->>>
->>> Is there any way we can avoid this prop?
->>
->> Not really, the problem is that we really don't know if 0 is off
->> or min-brightness. In the given example where we actually never go
->> down to a duty-cycle of 0% because the video BIOS tables tell us
->> not to, we can be certain that setting the brightness prop to 0
->> will not turn of the backlight, since we then set the duty-cycle
->> to the VBT provided minimum. Note the intend here is to only set
->> the boolean to true if the VBT provided minimum is _not_ 0, 0
->> just means the vendor did not bother to provide a minimum.
->>
->> Currently e.g. GNOME never goes lower then something like 5%
->> of brightness_max to avoid accidentally turning the screen off.
->>
->> Turning the screen off is quite bad to do on e.g. tablets where
->> the GUI is the only way to undo the brightness change and now
->> the user can no longer see the GUI.
->>
->> The idea behind this boolean is to give e.g. GNOME a way to
->> know that it is safe to go down to 0% and for it to use
->> the entire range.
->>
->>> For instance if we can guarantee that the min level won't turn the screen
->>> completely off we could make the range start from 1 instead of 0.
->>> Or allow -1 to mean "minimum value, maybe completely off".
->>
->> Right, the problem is we really don't know and when the range is
->> e.g. 0-65535 then something like 1 will almost always still just
->> turn the screen completely off. There will be a value of say like
->> 150 or some such which is then the actual minimum value to still
->> get the backlight to light up at all. The problem is we have
->> no clue what the actual minimum is. And if the PWM output does
->> not directly drive the LEDs but is used as an input for some
->> LED backlight driver chip, that chip itself may have a lookup
->> table (which may also take care of doing perceived brightness
->> mapping) and may guarantee a minimum backlight even when given
->> a 0% duty cycle PWM signal...
-> 
-> Oh, what a fun world we live in.
-> 
-> Would it be completely unreasonable to have a hwdb in the kernel to know the
-> real minimum value if it hasn't been provided by the VBT? Or would that be too
-> much of a colossal effort?
 
-I'm afraid that that is not feasible, there are way to many laptop
-models and for a single model different batches often use different
-panels, so the amount model + panel combos such a hwdb would need
-to contain is very large.
-> What happens in the DDC/CI world? What does 0 mean there? Is it the same messy
-> situation again?
-
-I would expect 0 to pretty much always be min brightness there I
-don't expect an external  monitor to allow turning off the backlight
-outside of DPMS, otherwise if the brightness is controlled through the
-OSD users won't be able to get it back to a functional value and
-they will get way too much support calls.
-
+On 2022-04-08 02:53, Bhanuprakash Modem wrote:
+> It's useful to know the connector's max supported bpc for IGT
+> testing. Expose it via a debugfs file on the connector "output_bpc".
 > 
->> This prop is sort of orthogonal to the generic change to
->> drm_connector props, so we could also do this later as a follow up
->> change. At a minimum when I code this up this should be in its
->> own commit(s) I believe.
->>
->> But I do think having this will be useful for the above
->> GNOME example.
->>
->>>> bl_brightness_control_method: ro, enum, possible values:
->>>> none: The GPU driver expects brightness control to be provided by another
->>>> driver and that driver has not loaded yet.
->>>> unknown: The underlying control mechanism is unknown.
->>>> pwm: The brightness property directly controls the duty-cycle of a PWM
->>>> output.
->>>> firmware: The brightness is controlled through firmware calls.
->>>> DDC/CI: The brightness is controlled through the DDC/CI protocol.
->>>> gmux: The brightness is controlled by the GMUX.
->>>> Note this enum may be extended in the future, so other values may
->>>> be read, these should be treated as "unknown".
->>>>
->>>> When brightness control becomes available after being reported
->>>> as not available before (bl_brightness_control_method=="none")
->>>> a uevent with CONNECTOR=<connector-id> and
->>>>
->>>> PROPERTY=<bl_brightness_control_method-id> will be generated
->>>>
->>>> at this point all the properties must be re-read.
->>>>
->>>> When/once brightness control is available then all the read-only
->>>> properties are fixed and will never change.
->>>>
->>>> Besides the "none" value for no driver having loaded yet,
->>>> the different bl_brightness_control_method values are intended for
->>>> (userspace) heuristics for such things as the brightness setting
->>>> linearly controlling electrical power or setting perceived brightness.
->>>
->>> Can you elaborate? I don't know enough about brightness control to
->>> understand all of the implications here.
->>
->> So after sending this email I was already thinking myself that this
->> one might not be the best idea. Another shortcoming of the current
->> backlight API is that it does not let userspace know if the
->> number is a linear control of the time the LEDs are on vs off
->> (assuming a LED backlight) or if some component already uses a
->> lookup table to make 0-100% be more of a linear scale in the
->> human perception, which is very much non linear. See e.g.:
->>
->> https://www.sciencedirect.com/topics/computer-science/perceived-brightness
->>
->> "refers to the perceived amount of light coming from self-luminous sources"
->> "Perceived brightness is a very nonlinear function of the amount of light emitted by a lamp."
->>
->> The problem is that at the kernel level we have no idea if
->> we are controlling "the amount of light emitted" or
->> perceived brightness and it would be sorta nice for userspace
->> to know. So the idea here is/was to allow userspace to make some
->> educated guess here. E.g. a bl_brightness_control_method of "PWM"
->> hints strongly at "the amount of light emitted" (but this is
->> not true 100% of the time).  ATM userspace does not do any
->> "perceived brightness" curve correction so for the first
->> implementation of moving brightness control to drm properties
->> I believe it might be better to just park the whole
->> bl_brightness_control_method propery idea.
+> Example: cat /sys/kernel/debug/dri/0/DP-1/output_bpc
 > 
-> Hm, I see.
+> Cc: Jani Nikula <jani.nikula@linux.intel.com>
+> Cc: Ville Syrjälä <ville.syrjala@linux.intel.com>
+> Cc: Harry Wentland <harry.wentland@amd.com>
+> Signed-off-by: Bhanuprakash Modem <bhanuprakash.modem@intel.com>
+> ---
+>  drivers/gpu/drm/drm_debugfs.c | 21 +++++++++++++++++++++
+>  1 file changed, 21 insertions(+)
 > 
-> Are there other use-cases for this property besides the perceived brightness?
+> diff --git a/drivers/gpu/drm/drm_debugfs.c b/drivers/gpu/drm/drm_debugfs.c
+> index 7f1b82dbaebb..33e5345c6f3e 100644
+> --- a/drivers/gpu/drm/drm_debugfs.c
+> +++ b/drivers/gpu/drm/drm_debugfs.c
+> @@ -395,6 +395,23 @@ static int vrr_range_show(struct seq_file *m, void *data)
+>  }
+>  DEFINE_SHOW_ATTRIBUTE(vrr_range);
+>  
+> +/*
+> + * Returns Connector's max supported bpc through debugfs file.
+> + * Example usage: cat /sys/kernel/debug/dri/0/DP-1/max_bpc
 
-No not really, the more I think about it the more I think that this is
-a half-baked idea and for now I plan to not add this property to any
-patches implementing this proposal.
+/s/max_bpc/output_bpc
 
-Regards,
+Btw, in amdgpu we have both max_bpc and output_bpc.
 
-Hans
+Harry
+
+> + */
+> +static int output_bpc_show(struct seq_file *m, void *data)
+> +{
+> +	struct drm_connector *connector = m->private;
+> +
+> +	if (connector->status != connector_status_connected)
+> +		return -ENODEV;
+> +
+> +	seq_printf(m, "Maximum: %u\n", connector->display_info.bpc);
+> +
+> +	return 0;
+> +}
+> +DEFINE_SHOW_ATTRIBUTE(output_bpc);
+> +
+>  static const struct file_operations drm_edid_fops = {
+>  	.owner = THIS_MODULE,
+>  	.open = edid_open,
+> @@ -437,6 +454,10 @@ void drm_debugfs_connector_add(struct drm_connector *connector)
+>  	debugfs_create_file("vrr_range", S_IRUGO, root, connector,
+>  			    &vrr_range_fops);
+>  
+> +	/* max bpc */
+> +	debugfs_create_file("output_bpc", 0444, root, connector,
+> +			    &output_bpc_fops);
+> +
+>  	if (connector->funcs->debugfs_init)
+>  		connector->funcs->debugfs_init(connector, root);
+>  }
 
