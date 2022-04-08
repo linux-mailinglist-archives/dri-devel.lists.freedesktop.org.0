@@ -1,82 +1,55 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id B83A84F90AC
-	for <lists+dri-devel@lfdr.de>; Fri,  8 Apr 2022 10:23:22 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id C1B804F90BA
+	for <lists+dri-devel@lfdr.de>; Fri,  8 Apr 2022 10:25:39 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 6912E10F085;
-	Fri,  8 Apr 2022 08:23:20 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 5483F10F047;
+	Fri,  8 Apr 2022 08:25:36 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from us-smtp-delivery-124.mimecast.com
- (us-smtp-delivery-124.mimecast.com [170.10.133.124])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 994EF10F085
- for <dri-devel@lists.freedesktop.org>; Fri,  8 Apr 2022 08:23:18 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1649406197;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=FUcwtvoATPKcbLJbMiymueRtIS1H2mxW0mqljwxnCkI=;
- b=LkzHLKiSjR9le31eBSloJQ89QdTv8FyvWhznQaC+EGXIIS/tCJPuyxCQ+MpoT3WybJzoS0
- WffVdHqXnpO19iwt/W312k9MZFDSj1hQ6L6JKIQ+HkMOs9xFddET3j4X+yGRxd90GG13n8
- qz/D1lM4y1/4qVV2ebwuwgskPqH/ZrQ=
-Received: from mail-wr1-f69.google.com (mail-wr1-f69.google.com
- [209.85.221.69]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-170-VxvitrFrOQqdyspY4EI_eg-1; Fri, 08 Apr 2022 04:23:16 -0400
-X-MC-Unique: VxvitrFrOQqdyspY4EI_eg-1
-Received: by mail-wr1-f69.google.com with SMTP id
- j67-20020adf9149000000b00203e6b7d151so1997503wrj.13
- for <dri-devel@lists.freedesktop.org>; Fri, 08 Apr 2022 01:23:16 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
- :content-language:to:cc:references:from:in-reply-to
- :content-transfer-encoding;
- bh=FUcwtvoATPKcbLJbMiymueRtIS1H2mxW0mqljwxnCkI=;
- b=3A3hF8m4cUaV0U2yrvuwM/+l6L7iJkAqsWZFSf5qTuptF/JA97wKxtx6PMgJsA0gsf
- BOtgpwsYpWwatykzZHvIFsru9XL48CbMhpcZu0Ezpb+dpi21XMeZ+OiSTpYO85UeHekb
- LNp5PAKKZ4JKqnh8sWGDbgYzN61t4Mlp3pM61M5B/FqVYYq/PtXUo5TxgEfQlBH1NXmC
- b7wcfAMuo+sJf3QMUWYj2jSM9McRbQvssot1FpkpEkeZAnaHbWGhO4nWLBuzw4pDW2dT
- 7LNJY06l6/dAmb54hQicyliGhoiQdcNeJzDk/110TiJ3w1hfAzjopEovK8o39KwG0+Z8
- b4/A==
-X-Gm-Message-State: AOAM533nWbPgue8mCbuDnlB/0WEfRfW5qhc2XQ+RorNMfpYmDP8cEIDw
- 9O+JRVZ2OS03GL7ZgA93Uf0ejUudAaHl1ck8YJkPy7KC+0wMlbzsfQFHTKXWXu7H6iUksgNYK62
- c4f2zPjhpd84DvSi0rKMvFUPpBQbg
-X-Received: by 2002:a05:600c:218f:b0:38e:9e76:d3d4 with SMTP id
- e15-20020a05600c218f00b0038e9e76d3d4mr2736729wme.53.1649406195146; 
- Fri, 08 Apr 2022 01:23:15 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJx8JHzx8H7yOzKjvWesVxprpjTwS5/70usS+SbIiXVLP90ZSgvc+nVUJsdy9HtKMZxtFTJa3g==
-X-Received: by 2002:a05:600c:218f:b0:38e:9e76:d3d4 with SMTP id
- e15-20020a05600c218f00b0038e9e76d3d4mr2736712wme.53.1649406194920; 
- Fri, 08 Apr 2022 01:23:14 -0700 (PDT)
-Received: from [192.168.1.102] ([92.176.231.205])
- by smtp.gmail.com with ESMTPSA id
- 3-20020a5d47a3000000b0020412ba45f6sm22799702wrb.8.2022.04.08.01.23.13
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Fri, 08 Apr 2022 01:23:14 -0700 (PDT)
-Message-ID: <67634336-4711-d643-03d3-d2514af55917@redhat.com>
-Date: Fri, 8 Apr 2022 10:23:12 +0200
+Received: from mga04.intel.com (mga04.intel.com [192.55.52.120])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 6065710F093;
+ Fri,  8 Apr 2022 08:25:34 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+ t=1649406334; x=1680942334;
+ h=message-id:date:mime-version:subject:to:cc:references:
+ from:in-reply-to:content-transfer-encoding;
+ bh=iOP7kwKib9kq+rExHbsgnxNkixd0tqWGE21G+0d6zZA=;
+ b=Myr6xlMtfwtYeNI1v0aVqTZq62poI6NQnt64KrGK2mBiy5oTfeM0OJYM
+ uYEL71D9tcCQei17JPhW+bA54N+19RQ7cYP4rBq+KlTbKf5MbVIf9Bnrh
+ V2x4HiiUeMpe4nJrw9+uWoBV7sz2zPOBheVQvHpu4jaZ4K/35/GHKjQUk
+ c9lzk5pOg47pCQQ4R04p3pvK9ndJHT1Jkp+1ucCBcRV8JEeFGnIcgQmtb
+ UCYO5Fxjy/NBy/RN39GkCKV5ST8ok07X+td71Krrp72Nkm7/mVGtXCYtS
+ GoR/5WQGrEf2hNR2Ta/Zg06veM3ezP74g3usl0YIAvd09J11WkIYxMj7Z g==;
+X-IronPort-AV: E=McAfee;i="6400,9594,10310"; a="260378172"
+X-IronPort-AV: E=Sophos;i="5.90,244,1643702400"; d="scan'208";a="260378172"
+Received: from orsmga008.jf.intel.com ([10.7.209.65])
+ by fmsmga104.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 08 Apr 2022 01:25:33 -0700
+X-IronPort-AV: E=Sophos;i="5.90,244,1643702400"; d="scan'208";a="571410962"
+Received: from ddobson-mobl.ger.corp.intel.com (HELO [10.213.224.220])
+ ([10.213.224.220])
+ by orsmga008-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 08 Apr 2022 01:25:32 -0700
+Message-ID: <b9fd2365-9412-b496-6e41-757d6d5d0f0c@linux.intel.com>
+Date: Fri, 8 Apr 2022 09:25:28 +0100
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
  Thunderbird/91.7.0
-Subject: Re: [PATCH 4/5] drm/solomon: Move device info from ssd130x-i2c to the
- core driver
-To: Neil Armstrong <narmstrong@baylibre.com>, linux-kernel@vger.kernel.org
-References: <20220407200205.28838-1-javierm@redhat.com>
- <20220407200205.28838-5-javierm@redhat.com>
- <58e38622-a041-3e5c-3dca-fa95cd5f59be@baylibre.com>
-From: Javier Martinez Canillas <javierm@redhat.com>
-In-Reply-To: <58e38622-a041-3e5c-3dca-fa95cd5f59be@baylibre.com>
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=javierm@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
+Subject: Re: [PATCH 1/1] drm/i915: Inherit submitter nice when scheduling
+ requests
 Content-Language: en-US
-Content-Type: text/plain; charset=UTF-8
+To: Daniel Vetter <daniel@ffwll.ch>
+References: <20220407151627.3387655-1-tvrtko.ursulin@linux.intel.com>
+ <20220407151627.3387655-2-tvrtko.ursulin@linux.intel.com>
+ <Yk/rHyGrOlrkDtdR@phenom.ffwll.local>
+From: Tvrtko Ursulin <tvrtko.ursulin@linux.intel.com>
+Organization: Intel Corporation UK Plc
+In-Reply-To: <Yk/rHyGrOlrkDtdR@phenom.ffwll.local>
+Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 7bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -90,46 +63,86 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Chen-Yu Tsai <wens@kernel.org>, David Airlie <airlied@linux.ie>,
- dri-devel@lists.freedesktop.org, Mark Brown <broonie@kernel.org>,
- Geert Uytterhoeven <geert@linux-m68k.org>,
- Andy Shevchenko <andriy.shevchenko@linux.intel.com>
+Cc: Intel-gfx@lists.freedesktop.org, dri-devel@lists.freedesktop.org,
+ Tvrtko Ursulin <tvrtko.ursulin@intel.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hello Neil,
 
-Thanks for your feedback.
+On 08/04/2022 08:58, Daniel Vetter wrote:
+> On Thu, Apr 07, 2022 at 04:16:27PM +0100, Tvrtko Ursulin wrote:
+>> From: Tvrtko Ursulin <tvrtko.ursulin@intel.com>
+>>
+>> Inherit submitter nice at point of request submission to account for long
+>> running processes getting either externally or self re-niced.
+>>
+>> This accounts for the current processing landscape where computational
+>> pipelines are composed of CPU and GPU parts working in tandem.
+>>
+>> Nice value will only apply to requests which originate from user contexts
+>> and have default context priority. This is to avoid disturbing any
+>> application made choices of low and high (batch processing and latency
+>> sensitive compositing). In this case nice value adjusts the effective
+>> priority in the narrow band of -19 to +20 around
+>> I915_CONTEXT_DEFAULT_PRIORITY.
+>>
+>> This means that userspace using the context priority uapi directly has a
+>> wider range of possible adjustments (in practice that only applies to
+>> execlists platforms - with GuC there are only three priority buckets), but
+>> in all cases nice adjustment has the expected effect: positive nice
+>> lowering the scheduling priority and negative nice raising it.
+>>
+>> Signed-off-by: Tvrtko Ursulin <tvrtko.ursulin@intel.com>
+> 
+> I don't think adding any more fancy features to i915-scheduler makes
+> sense, at least not before we've cut over to drm/sched.
 
-On 4/8/22 09:49, Neil Armstrong wrote:
+Why do you think so?
 
-[snip]
+Drm/sched has at least low/normal/high priority and surely we will keep 
+the i915 context priority ABI.
 
+Then this patch is not touching the i915 scheduler at all, neither it is 
+fancy.
+
+The cover letter explains how it implements the same approach as the IO 
+scheduler. And it explains the reasoning and benefits. Provides an user 
+experience benefit today, which can easily be preserved.
+
+Regards,
+
+Tvrtko
+
+> -Daniel
+> 
+>> ---
+>>   drivers/gpu/drm/i915/i915_request.c | 11 ++++++++++-
+>>   1 file changed, 10 insertions(+), 1 deletion(-)
+>>
+>> diff --git a/drivers/gpu/drm/i915/i915_request.c b/drivers/gpu/drm/i915/i915_request.c
+>> index 582770360ad1..e5cfa073d8f0 100644
+>> --- a/drivers/gpu/drm/i915/i915_request.c
+>> +++ b/drivers/gpu/drm/i915/i915_request.c
+>> @@ -1811,8 +1811,17 @@ void i915_request_add(struct i915_request *rq)
+>>   	/* XXX placeholder for selftests */
+>>   	rcu_read_lock();
+>>   	ctx = rcu_dereference(rq->context->gem_context);
+>> -	if (ctx)
+>> +	if (ctx) {
+>>   		attr = ctx->sched;
+>> +		/*
+>> +		 * Inherit process nice when scheduling user contexts but only
+>> +		 * if context has the default priority to avoid touching
+>> +		 * contexts where GEM uapi has been used to explicitly lower
+>> +		 * or elevate it.
+>> +		 */
+>> +		if (attr.priority == I915_CONTEXT_DEFAULT_PRIORITY)
+>> +			attr.priority = -task_nice(current);
+>> +	}
+>>   	rcu_read_unlock();
 >>   
->> +static struct ssd130x_deviceinfo ssd130x_variants[] =  {
->> +	{
->> +		.default_vcomh = 0x40,
->> +		.default_dclk_div = 1,
->> +		.default_dclk_frq = 5,
->> +		.page_mode_only = 1,
->> +	},
+>>   	__i915_request_queue(rq, &attr);
+>> -- 
+>> 2.32.0
+>>
 > 
-> Why not [SH1106_ID] = {
-> 
-> and later:
-> 
-> if (variant < NR_SSD130X_VARIANTS)
-> 	ssd130x->device_info = ssd130x_variants[variant];
-> 
-> instead of less efficient ssd13x_variant_to_info ?
->
-
-Indeed. I'll change that in v2.
-
--- 
-Best regards,
-
-Javier Martinez Canillas
-Linux Engineering
-Red Hat
-
