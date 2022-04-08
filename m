@@ -2,61 +2,48 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0047C4F9C49
-	for <lists+dri-devel@lfdr.de>; Fri,  8 Apr 2022 20:13:25 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id B414E4F9C53
+	for <lists+dri-devel@lfdr.de>; Fri,  8 Apr 2022 20:15:25 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id AA1A710E3C9;
-	Fri,  8 Apr 2022 18:13:21 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id DF87B89123;
+	Fri,  8 Apr 2022 18:15:23 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-oa1-x31.google.com (mail-oa1-x31.google.com
- [IPv6:2001:4860:4864:20::31])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 55E8C10E38E;
- Fri,  8 Apr 2022 18:13:20 +0000 (UTC)
-Received: by mail-oa1-x31.google.com with SMTP id
- 586e51a60fabf-e1dcc0a327so10570018fac.1; 
- Fri, 08 Apr 2022 11:13:20 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc:content-transfer-encoding;
- bh=bhP3eIOYqFQ1TLSj31wqQTbMB1cCk1qoaWt6+VR4BLw=;
- b=Qu1oWRu2JGHe24zZhQ4F0+ypq/DSujSGxjFiCTEtij0J1fAO2oFUTpnr9B9qfHoWTm
- 756Lo5Sh/3bLUXO8RxhWd6obNcOrETC75QRMjwLBYClfaffoygf2/v/YfxyLHKTl5ecJ
- nVNsJzxjkHMySUYQB1ak4nnoY/U56GCcuvW8Cg04SKviYKoi3iLwj5z6nE97qGjCCtGF
- KQorSYoGfOvuJvEmLg0qYNnuV9mYVRn2i7oJIVOb69Im5NS+7sgpUEkBfuDPBLbBa26t
- UvXUWISkiodiQJDHZlbxcv/CGUUkM8gAj0ylpoOiDPy51El4YHmG/B2XsL9/siOSOnTk
- t0zQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc:content-transfer-encoding;
- bh=bhP3eIOYqFQ1TLSj31wqQTbMB1cCk1qoaWt6+VR4BLw=;
- b=bfl43fvd/Jm1qX8cNzNd0fC+Dfm0AUldAW/qQ/K7gI7803PYND8m3OSub8TtvphV3o
- FV7FvJ61qpg+/EfKABk4GeBHG69DNao5vt0U2kgokAUNlmlxJKkoRo9lwJarOpA38Z6y
- 10wvidQzDI6IUnV4JWZetxXkXDr6JSKZ2J0HJ54NdK/7XPJ/yQoo7qASWzxrPbycUT/d
- nlYKte9Hhwig5w7u6qb5kl5YxHzbdvbSHt2JTF30F9H3YKJIyKCv5jcQHM5e2Osdpl7m
- aOoPwaCuExf3WsOwHeKV4Z2o8HUL1hK3HXlbaAmm3TpmZvOAQt6qo9P/Ju4WAAmNIfnq
- aMiA==
-X-Gm-Message-State: AOAM531WNiKrW7c/UPVFTbFlAs7G83UvnSyZWdRRgYNsQqwO4yenOKS/
- IiiJ8LR3W/zGkFOoVq6OWpMRL4pUM29YLhSN8JY=
-X-Google-Smtp-Source: ABdhPJy/5j7dhpq7nAlYcXWuJYra1eFEi2YT/D5jTr+unwf6/PZglehZSAX76bFE1Mri4dpLdCIaFYQn1dd+nnZttqo=
-X-Received: by 2002:a05:6870:d683:b0:de:eaa2:3550 with SMTP id
- z3-20020a056870d68300b000deeaa23550mr9582559oap.253.1649441599543; Fri, 08
- Apr 2022 11:13:19 -0700 (PDT)
+Received: from perceval.ideasonboard.com (perceval.ideasonboard.com
+ [213.167.242.64])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 316BB89123
+ for <dri-devel@lists.freedesktop.org>; Fri,  8 Apr 2022 18:15:23 +0000 (UTC)
+Received: from pendragon.ideasonboard.com
+ (117.145-247-81.adsl-dyn.isp.belgacom.be [81.247.145.117])
+ by perceval.ideasonboard.com (Postfix) with ESMTPSA id 9CB30499;
+ Fri,  8 Apr 2022 20:15:21 +0200 (CEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
+ s=mail; t=1649441721;
+ bh=6iwr9Zs3cr7KsdO/x+rH9o5VlG9YCBKZJsYnTyrOgJc=;
+ h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+ b=Zg3dxLIrqC5Ea6NKe090MFiVqjYI4Rv88jh++WJWpjJhsLvmT20TSkvHpEQGPvJY+
+ Bng7soUcXEL2zEjudUu2i4Y9ryrfEO9u3vcPZZuMeYtA9IAZJmx7TAyVzW1IjrLd9C
+ InbONZuQ7bKNIFUEqQM8YyBRFu/xL/fxgd3G+toI=
+Date: Fri, 8 Apr 2022 21:15:16 +0300
+From: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+To: Max Krummenacher <max.oss.09@gmail.com>
+Subject: Re: [RFC PATCH] drm/panel: simple: panel-dpi: use bus-format to set
+ bpc and bus_format
+Message-ID: <YlB7tDZQqU8xjvmm@pendragon.ideasonboard.com>
+References: <20220302142142.zroy464l5etide2g@houat>
+ <9c9a10ca-e6a1-c310-c0a5-37d4fed6efd6@denx.de>
+ <CAEHkU3We_odwtWBXHdcwu+_9yEUo0mudC5sVjr0or0C6nbw+vw@mail.gmail.com>
+ <20220318163549.5a5v3lex4btnnvgb@houat>
+ <CAPY8ntDgWwXyWXDWVouzhdC2wsyjbRgfrvWGU=MRG_2sAquHyQ@mail.gmail.com>
+ <20220318171642.y72eqf5qbmuu2ln2@houat>
+ <CAPY8ntAjnmAyr=6sdAJWbmiEODHM3=Q3c5UnBCTNgyZqBsWBzQ@mail.gmail.com>
+ <5ae44b7cd1f7577c98f316a7d288aa4cf423da2d.camel@active.ch>
+ <20220323155817.xcsqxothziot7ba3@houat>
+ <ab2db55f6dedba76cd112e4bbc43cf8a7e4332a3.camel@gmail.com>
 MIME-Version: 1.0
-References: <20220408154447.3519453-1-richard.gong@amd.com>
- <BL1PR12MB51576654D3EEB10F5DF862A7E2E99@BL1PR12MB5157.namprd12.prod.outlook.com>
- <CADnq5_PmxGxrJG5uZkkFXQ1YbJbDZTvAqb2oYqdCE=NtqBojqw@mail.gmail.com>
- <2603fe3e-2b8b-0161-2812-6c1f21eda02b@amd.com>
-In-Reply-To: <2603fe3e-2b8b-0161-2812-6c1f21eda02b@amd.com>
-From: Alex Deucher <alexdeucher@gmail.com>
-Date: Fri, 8 Apr 2022 14:13:08 -0400
-Message-ID: <CADnq5_PLwkm9tKc7Hh3WOo9nKJEeTcKGdYtVtfGVoVq6gGo1sg@mail.gmail.com>
-Subject: Re: [PATCH] drm/amdgpu: disable ASPM for legacy products that don't
- support ASPM
-To: "Gong, Richard" <richard.gong@amd.com>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+In-Reply-To: <ab2db55f6dedba76cd112e4bbc43cf8a7e4332a3.camel@gmail.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -69,116 +56,198 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: "amd-gfx@lists.freedesktop.org" <amd-gfx@lists.freedesktop.org>,
- "airlied@linux.ie" <airlied@linux.ie>, "Pan, Xinhui" <Xinhui.Pan@amd.com>,
- "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
- "dri-devel@lists.freedesktop.org" <dri-devel@lists.freedesktop.org>,
- "Limonciello, Mario" <Mario.Limonciello@amd.com>, "Deucher,
- Alexander" <Alexander.Deucher@amd.com>, "Koenig,
- Christian" <Christian.Koenig@amd.com>
+Cc: Marek Vasut <marex@denx.de>,
+ Christoph Niedermaier <cniedermaier@dh-electronics.com>,
+ Pengutronix Kernel Team <kernel@pengutronix.de>,
+ Dave Stevenson <dave.stevenson@raspberrypi.com>,
+ David Airlie <airlied@linux.ie>, Sam Ravnborg <sam@ravnborg.org>,
+ Sascha Hauer <s.hauer@pengutronix.de>,
+ DRI Development <dri-devel@lists.freedesktop.org>,
+ DenysDrozdov <denys.drozdov@toradex.com>, Maxime Ripard <maxime@cerno.tech>,
+ Max Krummenacher <max.krummenacher@toradex.com>,
+ Shawn Guo <shawnguo@kernel.org>,
+ Linux ARM <linux-arm-kernel@lists.infradead.org>,
+ NXP Linux Team <linux-imx@nxp.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Fri, Apr 8, 2022 at 12:15 PM Gong, Richard <richard.gong@amd.com> wrote:
->
-> Hi Alex,
->
-> On 4/8/2022 10:54 AM, Alex Deucher wrote:
-> > On Fri, Apr 8, 2022 at 11:47 AM Limonciello, Mario
-> > <Mario.Limonciello@amd.com> wrote:
-> >> [Public]
-> >>
-> >>
-> >>
-> >>> -----Original Message-----
-> >>> From: Gong, Richard <Richard.Gong@amd.com>
-> >>> Sent: Friday, April 8, 2022 10:45
-> >>> To: Deucher, Alexander <Alexander.Deucher@amd.com>; Koenig, Christian
-> >>> <Christian.Koenig@amd.com>; Pan, Xinhui <Xinhui.Pan@amd.com>;
-> >>> airlied@linux.ie; daniel@ffwll.ch
-> >>> Cc: amd-gfx@lists.freedesktop.org; dri-devel@lists.freedesktop.org; l=
-inux-
-> >>> kernel@vger.kernel.org; Limonciello, Mario <Mario.Limonciello@amd.com=
->;
-> >>> Gong, Richard <Richard.Gong@amd.com>
-> >>> Subject: [PATCH] drm/amdgpu: disable ASPM for legacy products that do=
-n't
-> >>> support ASPM
-> >>>
-> >>> Active State Power Management (ASPM) feature is enabled since kernel
-> >>> 5.14.
-> >>> However there are some legacy products (WX3200 and RX640 are examples=
-)
-> >>> that
-> >>> do not support ASPM. Use them as video/display output and system woul=
-d
-> >>> hang
-> >>> during suspend/resume.
-> >>>
-> >>> Add extra check to disable ASPM for old products that don't have
-> >>> ASPM support.
-> > The patch description is incorrect.  ASPM works just fine on these
-> > GPUs.  It's more of an issue with whether the underlying platform
-> > supports ASPM or not.  Rather than disabling a chip family, I would
-> > prefer to add a check for problematic platforms and disable ASPM on
-> > those platforms.
->
-> I thought that initially.
->
-> But I found out that suspend/resume works just fine on the "problematic"
-> platform (Dell Precision 3660, Intel ADL based) + AMD W6400 GFX card.
-> With WX3200 or RX640, suspend/resume works only when ASPM was disabled.
-> Both WX3200 and RX640 are from CHIP_POLARIS12 family.
->
-> This is why I take chip family approach.
+On Wed, Mar 23, 2022 at 09:06:18PM +0100, Max Krummenacher wrote:
+> Am Mittwoch, den 23.03.2022, 16:58 +0100 schrieb Maxime Ripard:
+> > On Wed, Mar 23, 2022 at 09:42:11AM +0100, Max Krummenacher wrote:
+> > > Am Freitag, den 18.03.2022, 17:53 +0000 schrieb Dave Stevenson:
+> > > > On Fri, 18 Mar 2022 at 17:16, Maxime Ripard wrote:
+> > > > > On Fri, Mar 18, 2022 at 05:05:11PM +0000, Dave Stevenson wrote:
+> > > > > > On Fri, 18 Mar 2022 at 16:35, Maxime Ripard wrote:
+> > > > > > > On Mon, Mar 07, 2022 at 04:26:56PM +0100, Max Krummenacher wrote:
+> > > > > > > > On Wed, Mar 2, 2022 at 5:22 PM Marek Vasut wrote:
+> > > > > > > > > On 3/2/22 15:21, Maxime Ripard wrote:
+> > > > > > > > > > On Wed, Feb 23, 2022 at 04:25:19PM +0100, Max Krummenacher wrote:
+> > > > > > > > > > > The goal here is to set the element bus_format in the struct
+> > > > > > > > > > > panel_desc. This is an enum with the possible values defined in
+> > > > > > > > > > > include/uapi/linux/media-bus-format.h.
+> > > > > > > > > > > 
+> > > > > > > > > > > The enum values are not constructed in a way that you could calculate
+> > > > > > > > > > > the value from color channel width/shift/mapping/whatever. You rather
+> > > > > > > > > > > would have to check if the combination of color channel
+> > > > > > > > > > > width/shift/mapping/whatever maps to an existing value and otherwise
+> > > > > > > > > > > EINVAL out.
+> > > > > > > > > > > 
+> > > > > > > > > > > I don't see the value in having yet another way of how this
+> > > > > > > > > > > information can be specified and then having to write a more
+> > > > > > > > > > > complicated parser which maps the dt data to bus_format.
+> > > > > > > > > > 
+> > > > > > > > > > Generally speaking, sending an RFC without explicitly stating what you
+> > > > > > > > > > want a comment on isn't very efficient.
+> > > > > > > > > 
+> > > > > > > > > Isn't that what RFC stands for -- Request For Comment ?
+> > > > > > > > 
+> > > > > > > > I hoped that the link to the original discussion was enough.
+> > > > > > > > 
+> > > > > > > > panel-simple used to have a finite number of hardcoded panels selected
+> > > > > > > > by their compatible.
+> > > > > > > > The following patchsets added a compatible 'panel-dpi' which should
+> > > > > > > > allow to specify the panel in the device tree with timing etc.
+> > > > > > > >   
+> > > > > > > > https://patchwork.kernel.org/project/dri-devel/patch/20200216181513.28109-6-sam@ravnborg.org/
+> > > > > > > > In the same release cycle part of it got reverted:
+> > > > > > > >   
+> > > > > > > > https://patchwork.kernel.org/project/dri-devel/patch/20200314153047.2486-3-sam@ravnborg.org/
+> > > > > > > > With this it is no longer possible to set bus_format.
+> > > > > > > > 
+> > > > > > > > The explanation what makes the use of a property "data-mapping" not a
+> > > > > > > > suitable way in that revert
+> > > > > > > > is a bit vague.
+> > > > > > > 
+> > > > > > > Indeed, but I can only guess. BGR666 in itself doesn't mean much for
+> > > > > > > example. Chances are the DPI interface will use a 24 bit bus, so where
+> > > > > > > is the padding?
+> > > > > > > 
+> > > > > > > I think that's what Sam and Laurent were talking about: there wasn't
+> > > > > > > enough information encoded in that property to properly describe the
+> > > > > > > format, hence the revert.
+> > > 
+> > > I agree that the strings used to set "data-mapping" weren't self explaining.
+> > > However, as there was a
+> > > clear 1:1 relation to the bus_format value the meaning
+> > > wasn't ambiguous at all.
+> > > 
+> > > > > > MEDIA_BUS_FMT_RGB666_1X18 defines an 18bit bus, therefore there is no
+> > > > > > padding. "bgr666" was selecting that media bus code (I won't ask about
+> > > > > > the rgb/bgr swap).
+> > > > > > 
+> > > > > > If there is padding on a 24 bit bus, then you'd use (for example)
+> > > > > > MEDIA_BUS_FMT_RGB666_1X24_CPADHI to denote that the top 2 bits of each
+> > > > > > colour are the padding. Define and use a PADLO variant if the padding
+> > > > > > is the low bits.
+> > > > > 
+> > > > > Yeah, that's kind of my point actually :)
+> > > > 
+> > > > Ah, OK :)
+> > > > 
+> > > > > Just having a rgb666 string won't allow to differentiate between
+> > > > > MEDIA_BUS_FMT_RGB666_1X18 and MEDIA_BUS_FMT_RGB666_1X24_CPADHI: both are
+> > > > > RGB666 formats. Or we could say that it's MEDIA_BUS_FMT_RGB666_1X18 and
+> > > > > then when we'll need MEDIA_BUS_FMT_RGB666_1X24_CPADHI we'll add a new
+> > > > > string but that usually leads to inconsistent or weird names, so this
+> > > > > isn't ideal.
+> > > 
+> > > We're on the same page that the strings that were used aren't self
+> > > explaining and do not follow a pattern which would make it easy to
+> > > extend. However that is something I addressed in my RFC proposal, not?
+> > > 
+> > > > > > The string matching would need to be extended to have some string to
+> > > > > > select those codes ("lvds666" is a weird choice from the original
+> > > > > > patch).
+> > > > > > 
+> > > > > > Taking those media bus codes and handling them appropriately is
+> > > > > > already done in vc4_dpi [1], and the vendor tree has gained
+> > > > > > BGR666_1X18 and BGR666_1X24_CPADHI [2] as they aren't defined in
+> > > > > > mainline.
+> > > > > > 
+> > > > > > Now this does potentially balloon out the number of MEDIA_BUS_FMT_xxx
+> > > > > > defines needed, but that's the downside of having defines for all
+> > > > > > formats.
+> > > > > > 
+> > > > > > (I will admit to having a similar change in the Pi vendor tree that
+> > > > > > allows the media bus code to be selected explicitly by hex value).
+> > > > > 
+> > > > > I think having an integer value is indeed better: it doesn't change much
+> > > > > in the device tree if we're using a header, it makes the driver simpler
+> > > > > since we don't have to parse a string, and we can easily extend it or
+> > > > > rename the define, it won't change the ABI.
+> > > 
+> > > Fine with me.
 
-Sure, but you could put those polaris12 boards into a different system
-and they work just fine with ASPM enabled.
+I'm fine with integers too. Strings give the false impression that new
+values can be added with a lower risk of a conflict, but that just a
+false impression.
 
-Alex
+> > > > > I'm not sure using the raw media bus format value is ideal though, since
+> > > > > that value could then be used by any OS, and it would effectively force
+> > > > > the mbus stuff down their throat.
+> > > 
+> > > I disagree here, this forces us to use code to map the device tree enum
+> > > to the kernel enum for Linux, i.e. adds complexity and maintenance work
+> > > if additional bus_formats are needed.
+> > > Assuming there is another OS which uses the device tree it would not
+> > > make a difference, that OS would still need to map the device tree enum
+> > > to the corresponding representation in their kernel.
+> > 
+> > So, you don't want to do something in Linux, but would expect someone
+> > else to be completely ok with that?
+> 
+> Yes, sort of.
+> Recycling the values as used currently in the Linux kernel rather than
+> inventing a new numbering will make the Linux code a little easier to
+> write, read and maintain without any negative effect on how that other
+> OSs would have to map the DT representation to their internal representation.
+> 
+> Would you rather have something like:
+> 
+> <the common dt-bindings header file>
+> DT_BUS_FMT_RGB666_1X18	1
+> DT_BUS_FMT_RGB888_1X24	2
+> ...
+> 
+> <panel-simple.c>
+> switch (bus-format) {
+> case DT_BUS_FMT_RGB666_1X18:
+>   bus_format = MEDIA_BUS_FMT_RGB666_1X18; break;
+> case DT_BUS_FMT_RGB888_1X24:
+>   bus_format = MEDIA_BUS_FMT_RGB888_1X24; break;
+> ...
 
->
-> Regards,
->
-> Richard
->
-> > Alex
-> >
-> >>> Signed-off-by: Richard Gong <richard.gong@amd.com>
-> >>> Link: https://nam11.safelinks.protection.outlook.com/?url=3Dhttps%3A%=
-2F%2Fgitlab.freedesktop.org%2Fdrm%2Famd%2F-%2Fissues%2F1885&amp;data=3D04%7=
-C01%7CRichard.Gong%40amd.com%7C96f8f686f75f43abb5ed08da19780fab%7C3dd8961fe=
-4884e608e11a82d994e183d%7C0%7C0%7C637850300760921285%7CUnknown%7CTWFpbGZsb3=
-d8eyJWIjoiMC4wLjAwMDAiLCJQIjoiV2luMzIiLCJBTiI6Ik1haWwiLCJXVCI6Mn0%3D%7C3000=
-&amp;sdata=3DxVKC0Q16ho5Y2GDuN%2Fnx68wm6NzOIyR5xJbiXPgqPpQ%3D&amp;reserved=
-=3D0
-> >>> ---
-> >>>   drivers/gpu/drm/amd/amdgpu/amdgpu_drv.c | 4 ++++
-> >>>   1 file changed, 4 insertions(+)
-> >>>
-> >>> diff --git a/drivers/gpu/drm/amd/amdgpu/amdgpu_drv.c
-> >>> b/drivers/gpu/drm/amd/amdgpu/amdgpu_drv.c
-> >>> index bb1c025d9001..8987107f41ee 100644
-> >>> --- a/drivers/gpu/drm/amd/amdgpu/amdgpu_drv.c
-> >>> +++ b/drivers/gpu/drm/amd/amdgpu/amdgpu_drv.c
-> >>> @@ -2012,6 +2012,10 @@ static int amdgpu_pci_probe(struct pci_dev
-> >>> *pdev,
-> >>>        if (amdgpu_aspm =3D=3D -1 && !pcie_aspm_enabled(pdev))
-> >>>                amdgpu_aspm =3D 0;
-> >>>
-> >>> +     /* disable ASPM for the legacy products that don't support ASPM=
- */
-> >>> +     if ((flags & AMD_ASIC_MASK) =3D=3D CHIP_POLARIS12)
-> >>> +             amdgpu_aspm =3D 0;
-> >>> +
-> >> I think it's problematic to disable it for the entire driver.  There m=
-ight be multiple
-> >> AMDGPUs in the system, and others may support ASPM.
-> >>
-> >> Can it be done just as part of probe for Polaris?
-> >>
-> >>>        if (amdgpu_virtual_display ||
-> >>>            amdgpu_device_asic_has_dc_support(flags & AMD_ASIC_MASK))
-> >>>                supports_atomic =3D true;
-> >>> --
-> >>> 2.25.1
+I'm having a bit of trouble providing comments on this RFC, because I
+don't believe I have a good enough overview of the different cases we
+need to support (and in particular the corner cases). Max, you mentioned
+an interesting one on Tegra platforms, would you maybe have a short (or
+long, who knows) list of use cases you need to support now, or just know
+about ? I think it would be easier to discuss the problem and the best
+solution with concrete examples.
+
+One particular thing that needs to be taken into account is that not all
+devices (I'm talking about both the panel side and the source side) use
+a data bus with contiguous bits. How to map a format to D[23:0] is one
+thing, but there are devices that document pins as R[7:0], G[7:0],
+B[7:0] (possibly with some permutations of the components). It's quite
+easy to map between those two representations, once a mapping is
+defined. I'd like these things to be considered explicitly instead of
+relying on an implicit shared knowledge, as in my experience implicit
+rules lead to one version per participant in the conversation :-)
+
+> > > I would copy the definitions of media-bus-format.h into a header in
+> > > include/dt-bindings similarly as it is done for
+> > > include/dt-bindings/display/sdtv-standards.h for TV standards.
+> > 
+> > That might not be an option: that header is licensed under the GPL,
+> > device trees are usually licensed under GPL+MIT, and we don't have any
+> > requirements on the license for other projects using a DT (hence the
+> > dual license).
+> 
+> That one I didn't consider. That would be solved by a newly invented
+> enum.
+
+-- 
+Regards,
+
+Laurent Pinchart
