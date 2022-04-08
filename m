@@ -2,44 +2,47 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id A11A24F92AF
-	for <lists+dri-devel@lfdr.de>; Fri,  8 Apr 2022 12:15:53 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 7A3114F92B4
+	for <lists+dri-devel@lfdr.de>; Fri,  8 Apr 2022 12:16:22 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 60D1D10E1A0;
-	Fri,  8 Apr 2022 10:15:51 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 77B0B10F083;
+	Fri,  8 Apr 2022 10:16:18 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from bhuna.collabora.co.uk (bhuna.collabora.co.uk [46.235.227.227])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 76A9D10E1A0
- for <dri-devel@lists.freedesktop.org>; Fri,  8 Apr 2022 10:15:49 +0000 (UTC)
-Received: from [127.0.0.1] (localhost [127.0.0.1])
- (Authenticated sender: kholk11) with ESMTPSA id D22C91F46D8D
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
- s=mail; t=1649412947;
- bh=/D4CZAKLnqdj/M80cIjvlVohAFtB9g0GsYprmX56/1Q=;
- h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
- b=ivhbUs03MisYCUDf6ZujZd2gEirPb969jXJoo/opKjOEuxtjINybODsRYd6F7qIcB
- 2Li4i2TDM4OW6lJQfqiSkrEXot8X2bcjIgr56bNi5hMYG/pZLuXJPQiUotJh/0uoZF
- 6Nab4iFRxZPzyUh8f/NpoAMy0Iu8T3hRUxMpNshT/q4dddfmZ2ZcY5fQIJpW00tXQx
- ElfMG6ckF6/DXWy29b69mmZbyKNK22gCWvlxw7T7rNiAXBhJLWZ1ksayxVwW40LiEE
- ZJXxpETS1fW8ejpDvZfoL60gkXPYto0oO0OIaC4SMA2pVRpstrTM7Ogaua7Hst2/g9
- Gw7UZaRFn15KA==
-Message-ID: <63867ed3-0c2a-207f-df91-ad1f6ec1d550@collabora.com>
-Date: Fri, 8 Apr 2022 12:15:44 +0200
+X-Greylist: delayed 6814 seconds by postgrey-1.36 at gabe;
+ Fri, 08 Apr 2022 10:16:16 UTC
+Received: from mail-4317.proton.ch (mail-4317.proton.ch [185.70.43.17])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 93EEB10E148;
+ Fri,  8 Apr 2022 10:16:16 +0000 (UTC)
+Date: Fri, 08 Apr 2022 10:16:04 +0000
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=emersion.fr;
+ s=protonmail2; t=1649412974;
+ bh=CglVMq+ZKsqBthONc2WJjnguxWL+Rm4qbX6xvTyDOsE=;
+ h=Date:To:From:Cc:Reply-To:Subject:Message-ID:In-Reply-To:
+ References:From:To:Cc:Date:Subject:Reply-To:Feedback-ID:
+ Message-ID;
+ b=Wvj9RvORFWjIucvq15xMDs9F40I50Qba/vn/6nX2DX4Xg4EGAOpPBqm853QJKNR7u
+ gJb/BZ9ENOD/Jy6tZX0X/JZrofALfCGWFXlEgP7uLYrmCy5mSROyUroGqdVFupSTVf
+ PcVeJ2ufeQxbB3EqH7KSjFeillGdrmXWi8/h3LWdAwk7HX/hQy2Hd+elGKG1U3KWSV
+ 1/pZQztIZ/pP96o5HTUvvacSr69zRuJBCHCXXdJvYMlWzYGbW/hqHzy6rnJM2ZkWLM
+ EkBmr7uGSF4AL460Mnm7mhT6vq5cYDKUVB0MD3urd3HLnsiQob2M5IuneZbCNiBR2a
+ R43RIxaeejyXA==
+To: Hans de Goede <hdegoede@redhat.com>
+From: Simon Ser <contact@emersion.fr>
+Subject: Re: [RFC] drm/kms: control display brightness through drm_connector
+ properties
+Message-ID: <AQ3YD3wm6m_Knso5FAW-CKcokQqjDweExgrnV-f84VGkcOk8B0UcaooLiNqFMsHLOnhVnsnxC9kJMh_gY7z6rHlFaIx1OAZxSUfrOnd2jtY=@emersion.fr>
+In-Reply-To: <dc3754a4-3f74-95bb-adae-56000a3756f5@redhat.com>
+References: <0d188965-d809-81b5-74ce-7d30c49fee2d@redhat.com>
+ <dP36CeeNjDVKgcJzbBAdkNM0HzB3N5Uzd6cgBcmrb5mA6xzWs9AKMmRdMKG2y6c1geMhZ1i8hONKQmxYYHN-ZhRLGT_TXz5IhtqnJSWBD9Q=@emersion.fr>
+ <0e1cffc1-e8b6-dc58-56ff-53f911f33e60@redhat.com>
+ <CADnq5_OGtERRYUPLskgjVD4eLbb2PxKdzcr+xmR2mRMAK73Log@mail.gmail.com>
+ <Yk/tOG+iga/wj/Gt@phenom.ffwll.local>
+ <acd0c8b6-b045-bab7-dc92-ea166b22c1c6@redhat.com>
+ <dc3754a4-3f74-95bb-adae-56000a3756f5@redhat.com>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.7.0
-Subject: Re: [PATCH] drm/bridge: anx7625: Use irq flags from devicetree
-Content-Language: en-US
-To: =?UTF-8?B?TsOtY29sYXMgRi4gUi4gQS4gUHJhZG8=?= <nfraprado@collabora.com>,
- Robert Foss <robert.foss@linaro.org>,
- Neil Armstrong <narmstrong@baylibre.com>,
- Andrzej Hajda <andrzej.hajda@intel.com>
-References: <20220408013356.673732-1-nfraprado@collabora.com>
-From: AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>
-In-Reply-To: <20220408013356.673732-1-nfraprado@collabora.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: quoted-printable
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -52,70 +55,17 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Pi-Hsun Shih <pihsun@chromium.org>, Jonas Karlman <jonas@kwiboo.se>,
- David Airlie <airlied@linux.ie>, dri-devel@lists.freedesktop.org,
- linux-kernel@vger.kernel.org, Jernej Skrabec <jernej.skrabec@gmail.com>,
- Tzung-Bi Shih <tzungbi@google.com>,
- Laurent Pinchart <Laurent.pinchart@ideasonboard.com>,
- Hsin-Yi Wang <hsinyi@chromium.org>, kernel@collabora.com,
- Sam Ravnborg <sam@ravnborg.org>, Xin Ji <xji@analogixsemi.com>,
- Maxime Ripard <maxime@cerno.tech>
+Reply-To: Simon Ser <contact@emersion.fr>
+Cc: Sebastian Wick <sebastian.wick@redhat.com>,
+ Martin Roukala <martin.roukala@mupuf.org>,
+ Christoph Grenz <christophg+lkml@grenz-bonn.de>,
+ wayland <wayland-devel@lists.freedesktop.org>,
+ "dri-devel@lists.freedesktop.org" <dri-devel@lists.freedesktop.org>,
+ Yusuf Khan <yusisamerican@gmail.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Il 08/04/22 03:33, Nícolas F. R. A. Prado ha scritto:
-> Read the irq flags, like which edge to trigger on, from the devicetree
-> and use those when registering the irq instead of hardcoding them.
-> In case none was specified, fallback to falling edge trigger.
-> 
-> Signed-off-by: Nícolas F. R. A. Prado <nfraprado@collabora.com>
-> 
-> ---
-> 
->   drivers/gpu/drm/bridge/analogix/anx7625.c | 8 ++++++--
->   1 file changed, 6 insertions(+), 2 deletions(-)
-> 
-> diff --git a/drivers/gpu/drm/bridge/analogix/anx7625.c b/drivers/gpu/drm/bridge/analogix/anx7625.c
-> index 6516f9570b86..97d954b8cc12 100644
-> --- a/drivers/gpu/drm/bridge/analogix/anx7625.c
-> +++ b/drivers/gpu/drm/bridge/analogix/anx7625.c
-> @@ -2588,6 +2588,7 @@ static int anx7625_i2c_probe(struct i2c_client *client,
->   	struct anx7625_platform_data *pdata;
->   	int ret = 0;
->   	struct device *dev = &client->dev;
-> +	unsigned long irqflags;
->   
->   	if (!i2c_check_functionality(client->adapter,
->   				     I2C_FUNC_SMBUS_I2C_BLOCK)) {
-> @@ -2639,10 +2640,13 @@ static int anx7625_i2c_probe(struct i2c_client *client,
->   			goto free_hdcp_wq;
->   		}
->   
-> +		irqflags = irq_get_trigger_type(client->irq);
+Would it be an option to only support the KMS prop for Good devices,
+and continue using the suboptimal existing sysfs API for Bad devices?
 
-Nicolas, this is not necessary... what are you trying to solve?
-
-> +		if (!irqflags)
-> +			irqflags = IRQF_TRIGGER_FALLING;
-
-...and this is already done for you by __setup_irq(), check kernel/irq/manage.c.
-
-> +
->   		ret = devm_request_threaded_irq(dev, platform->pdata.intp_irq,
->   						NULL, anx7625_intr_hpd_isr,
-> -						IRQF_TRIGGER_FALLING |
-> -						IRQF_ONESHOT,
-> +						irqflags | IRQF_ONESHOT,
->   						"anx7625-intp", platform);
-Partial devm_request_threaded_irq() flow, to make you understand what's going on:
-
-devm_request_threaded_irq() -> request_threaded_irq() -> __setup_irq()
-
-
-That said, congrats for solving that external display issue, but I'm sure that this
-commit is not part of any solution and, if it is, you should recheck your machine's
-DT, as the mistake must be there, then!
-
-Cheers,
-Angelo
-
+(I'm just throwing ideas around to see what sticks, feel free to ignore.)
