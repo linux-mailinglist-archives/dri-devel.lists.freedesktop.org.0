@@ -1,53 +1,61 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id E98B24F8FF8
-	for <lists+dri-devel@lfdr.de>; Fri,  8 Apr 2022 09:57:59 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 78F114F8FFB
+	for <lists+dri-devel@lfdr.de>; Fri,  8 Apr 2022 09:58:24 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id A2FA610E390;
-	Fri,  8 Apr 2022 07:57:56 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 0730510E3B8;
+	Fri,  8 Apr 2022 07:58:22 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mga12.intel.com (mga12.intel.com [192.55.52.136])
- by gabe.freedesktop.org (Postfix) with ESMTPS id B8AEF10E23B;
- Fri,  8 Apr 2022 07:57:54 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1649404674; x=1680940674;
- h=from:to:cc:subject:in-reply-to:references:date:
- message-id:mime-version:content-transfer-encoding;
- bh=liK3gMhN8QfzHqxpaMqTMFS4xrVbB+MTfKzgumdtbRQ=;
- b=Ziy+jr02N8oVcLrJV27kP5+vmmp5W04XFvFdJiScqZzcDoE6AGo2OM7t
- DqiexoW0jOii7RRPGshyvP+25kGUL+5sOaeH2RDlAZvt1dkOpNorooJSW
- +dPtzVwHuB2TSnKa33D9JOOILgO7RpCK6ZBSG7T/VoM6xD7MkGfvtdxLV
- QsD/1d4uLHAkw4MpWehdaHS4yeBvNa0FTPR5iqZADlmVMB6Nzo/rc/wH7
- hxh/kglGD+pcGE5Gy+hsuhljn21PjFQqeA9BNkGXomfEp6RwZSYe+0Dpn
- w4GsioMHErUuNQQOhGsz9ixNYk2bNDBaidEBe0+jOByuAA6wN3Z+HSIzB Q==;
-X-IronPort-AV: E=McAfee;i="6400,9594,10310"; a="241472750"
-X-IronPort-AV: E=Sophos;i="5.90,244,1643702400"; d="scan'208";a="241472750"
-Received: from orsmga006.jf.intel.com ([10.7.209.51])
- by fmsmga106.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 08 Apr 2022 00:57:48 -0700
-X-IronPort-AV: E=Sophos;i="5.90,244,1643702400"; d="scan'208";a="525285417"
-Received: from mionica-mobl1.ger.corp.intel.com (HELO localhost)
- ([10.249.148.41])
- by orsmga006-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 08 Apr 2022 00:57:45 -0700
-From: Jani Nikula <jani.nikula@linux.intel.com>
-To: Imre Deak <imre.deak@intel.com>, intel-gfx@lists.freedesktop.org,
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, Maxime Ripard
- <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>
-Subject: Re: [Intel-gfx] [PATCH 0/4] drm/i915/dg2: Add support for
- render/media decompression
-In-Reply-To: <20220404133846.131401-1-imre.deak@intel.com>
-Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
-References: <20220404133846.131401-1-imre.deak@intel.com>
-Date: Fri, 08 Apr 2022 10:57:41 +0300
-Message-ID: <874k34j9ca.fsf@intel.com>
+Received: from mail-lf1-x12a.google.com (mail-lf1-x12a.google.com
+ [IPv6:2a00:1450:4864:20::12a])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 09E0B10E3B8;
+ Fri,  8 Apr 2022 07:58:20 +0000 (UTC)
+Received: by mail-lf1-x12a.google.com with SMTP id bu29so13789912lfb.0;
+ Fri, 08 Apr 2022 00:58:19 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
+ h=from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=LDg0VuOdkCKm0C8uZKp3vKpTf/VpsO8U9ed6vcjhQTo=;
+ b=TAfmtGR4a9a3jgYPSlQ7/KHOY55cHJ2ZPH+9tvKC7XSRQzemgPxT5uuo5NqPmlMrYb
+ g7/2IJN9Xzw2TASKcNKcaffTQV8aDR6Vbb4hDIMyK0Mdujx5V4YWTFmXzhnZvDk2UlIi
+ tgWzh1dy3QsKgBEpmqFUlP9Bmrxw6qzurk0R1TofqqHib2TrmWnkKE2A/1xWbAcemmnw
+ Lbuk3qPIMCx7WSAaZSshBYhR7x+Rhla24TRiM++omihK0V4+pxuPlvFwQyA3OKBaaoKd
+ c3z1qXih8x1kjR1ndEVUZej/p/Cne/Zo0XrpIJQLX+9KhYKPnvy4amdrAX6U/aqAnFD6
+ 9oCQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=LDg0VuOdkCKm0C8uZKp3vKpTf/VpsO8U9ed6vcjhQTo=;
+ b=XLjM4ciLnc4+1MZ2YLPirlR0Gj7Ko+hCO2RPlcrCZkpgkjwq5xrQNVxMOOn+Jld8Q7
+ AcnrQ1rU6Hnr+seQ5tYvBE2Jt/dXFLgT1Z5D55xvXiq+Z+6OFKJC0MRx4xRuEKCwF2Z3
+ YbmcL7FxR1SLQfZyLTnvc7junG8MK3FbCdzkMsWYUAruK79JjRHVTycJrt5gWzrocdmE
+ h5I9+WebGu8IFeInCSOFuk//bHcIM8OmI0aYqbXjzqeNiJM1E4ypUPHuDddP8bQE5cZi
+ tEeOBN+jhvrggg4Gui5WJHNbzqqeRTMHFocZbp9KjWC6PkiGcDM0qtErrZghdQedPilU
+ fbfA==
+X-Gm-Message-State: AOAM530DWAnRWLH7YZULmEjvLzqa+suC4tOulb0Bi2QMdLrn3uaspGLc
+ 419lyqm0GJSPUbSMrR7ZXNNNDo2GZ5rpnA==
+X-Google-Smtp-Source: ABdhPJyYta5aydqTXUvGMWiC0TCQ8PlSIHqgPbTB0TDQ6KifZ6JROMRtolpO3so0hsiB92awnmsKrg==
+X-Received: by 2002:a19:f00f:0:b0:443:ae5c:47d0 with SMTP id
+ p15-20020a19f00f000000b00443ae5c47d0mr12061146lfc.332.1649404698181; 
+ Fri, 08 Apr 2022 00:58:18 -0700 (PDT)
+Received: from noname.. ([2a02:2698:8c2a:149d:6d9:f5ff:fecb:a8ab])
+ by smtp.googlemail.com with ESMTPSA id
+ g9-20020a2e9cc9000000b0024afe85d0c8sm2170520ljj.121.2022.04.08.00.58.16
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Fri, 08 Apr 2022 00:58:17 -0700 (PDT)
+From: Grigory Vasilyev <h0tc0d3@gmail.com>
+To: Rodrigo.Siqueira@amd.com,
+	Melissa Wen <mwen@igalia.com>
+Subject: [PATCH] drm/amdgpu: Fix incorrect enum type
+Date: Fri,  8 Apr 2022 10:58:17 +0300
+Message-Id: <20220408075820.10396-1-h0tc0d3@gmail.com>
+X-Mailer: git-send-email 2.35.1
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: quoted-printable
+Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -60,56 +68,77 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Daniel Vetter <daniel.vetter@ffwll.ch>,
- Juha-Pekka =?utf-8?Q?Heikkil=C3=A4?= <juha-pekka.heikkila@intel.com>,
- dri-devel@lists.freedesktop.org
+Cc: Lijo Lazar <lijo.lazar@amd.com>, Yifan Zhang <yifan1.zhang@amd.com>,
+ Tao Zhou <tao.zhou1@amd.com>, Chengming Gui <Jack.Gui@amd.com>,
+ Guchun Chen <guchun.chen@amd.com>, Grigory Vasilyev <h0tc0d3@gmail.com>, "Pan,
+ Xinhui" <Xinhui.Pan@amd.com>, linux-kernel@vger.kernel.org,
+ amd-gfx@lists.freedesktop.org, yipechai <YiPeng.Chai@amd.com>,
+ David Airlie <airlied@linux.ie>, Victor Skvortsov <victor.skvortsov@amd.com>,
+ Huang Rui <ray.huang@amd.com>, dri-devel@lists.freedesktop.org,
+ Joseph Greathouse <Joseph.Greathouse@amd.com>,
+ Alex Deucher <alexander.deucher@amd.com>, Peng Ju Zhou <PengJu.Zhou@amd.com>,
+ Evan Quan <evan.quan@amd.com>,
+ =?UTF-8?q?Christian=20K=C3=B6nig?= <christian.koenig@amd.com>,
+ Hawking Zhang <Hawking.Zhang@amd.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Mon, 04 Apr 2022, Imre Deak <imre.deak@intel.com> wrote:
-> This is a rebased version of patches 15-17 of [1], adding DG2 display
-> engine support for decompressing render and media compressed
-> framebuffers.
->
-> The dependency patches from [1] should be merged already to drm-tip.
->
-> It addresses the review comments on the modifier layout description from
-> Nanley, updates the commit logs vs. flat CCS and Tile4 and splits out
-> the changes adding the modifiers to drm_fourcc.h to separate patches.
+Instead of the 'amdgpu_ring_priority_level' type,
+the 'amdgpu_gfx_pipe_priority' type was used,
+which is an error when setting ring priority.
+This is a minor error, but may cause problems in the future.
 
-Cc'd a bunch more people; ack on merging patches 2 & 4 via drm-intel?
+Instead of AMDGPU_RING_PRIO_2 = 2, we can use AMDGPU_RING_PRIO_MAX = 3,
+but AMDGPU_RING_PRIO_2 = 2 is used for compatibility with
+AMDGPU_GFX_PIPE_PRIO_HIGH = 2, and not change the behavior of the
+code.
 
-BR,
-Jani.
+Signed-off-by: Grigory Vasilyev <h0tc0d3@gmail.com>
+---
+ drivers/gpu/drm/amd/amdgpu/gfx_v10_0.c | 2 +-
+ drivers/gpu/drm/amd/amdgpu/gfx_v8_0.c  | 2 +-
+ drivers/gpu/drm/amd/amdgpu/gfx_v9_0.c  | 2 +-
+ 3 files changed, 3 insertions(+), 3 deletions(-)
 
+diff --git a/drivers/gpu/drm/amd/amdgpu/gfx_v10_0.c b/drivers/gpu/drm/amd/amdgpu/gfx_v10_0.c
+index b3081c28db0a..1d9120a4b3f5 100644
+--- a/drivers/gpu/drm/amd/amdgpu/gfx_v10_0.c
++++ b/drivers/gpu/drm/amd/amdgpu/gfx_v10_0.c
+@@ -4745,7 +4745,7 @@ static int gfx_v10_0_compute_ring_init(struct amdgpu_device *adev, int ring_id,
+ 		+ ((ring->me - 1) * adev->gfx.mec.num_pipe_per_mec)
+ 		+ ring->pipe;
+ 	hw_prio = amdgpu_gfx_is_high_priority_compute_queue(adev, ring) ?
+-			AMDGPU_GFX_PIPE_PRIO_HIGH : AMDGPU_GFX_PIPE_PRIO_NORMAL;
++			AMDGPU_RING_PRIO_2 : AMDGPU_RING_PRIO_DEFAULT;
+ 	/* type-2 packets are deprecated on MEC, use type-3 instead */
+ 	r = amdgpu_ring_init(adev, ring, 1024, &adev->gfx.eop_irq, irq_type,
+ 			     hw_prio, NULL);
+diff --git a/drivers/gpu/drm/amd/amdgpu/gfx_v8_0.c b/drivers/gpu/drm/amd/amdgpu/gfx_v8_0.c
+index 5554084ec1f1..9bc26395f833 100644
+--- a/drivers/gpu/drm/amd/amdgpu/gfx_v8_0.c
++++ b/drivers/gpu/drm/amd/amdgpu/gfx_v8_0.c
+@@ -1929,7 +1929,7 @@ static int gfx_v8_0_compute_ring_init(struct amdgpu_device *adev, int ring_id,
+ 		+ ring->pipe;
+ 
+ 	hw_prio = amdgpu_gfx_is_high_priority_compute_queue(adev, ring) ?
+-			AMDGPU_GFX_PIPE_PRIO_HIGH : AMDGPU_RING_PRIO_DEFAULT;
++			AMDGPU_RING_PRIO_2 : AMDGPU_RING_PRIO_DEFAULT;
+ 	/* type-2 packets are deprecated on MEC, use type-3 instead */
+ 	r = amdgpu_ring_init(adev, ring, 1024, &adev->gfx.eop_irq, irq_type,
+ 			     hw_prio, NULL);
+diff --git a/drivers/gpu/drm/amd/amdgpu/gfx_v9_0.c b/drivers/gpu/drm/amd/amdgpu/gfx_v9_0.c
+index 71cf025a2bbd..029c97c92463 100644
+--- a/drivers/gpu/drm/amd/amdgpu/gfx_v9_0.c
++++ b/drivers/gpu/drm/amd/amdgpu/gfx_v9_0.c
+@@ -2278,7 +2278,7 @@ static int gfx_v9_0_compute_ring_init(struct amdgpu_device *adev, int ring_id,
+ 		+ ((ring->me - 1) * adev->gfx.mec.num_pipe_per_mec)
+ 		+ ring->pipe;
+ 	hw_prio = amdgpu_gfx_is_high_priority_compute_queue(adev, ring) ?
+-			AMDGPU_GFX_PIPE_PRIO_HIGH : AMDGPU_GFX_PIPE_PRIO_NORMAL;
++			AMDGPU_RING_PRIO_2 : AMDGPU_RING_PRIO_DEFAULT;
+ 	/* type-2 packets are deprecated on MEC, use type-3 instead */
+ 	return amdgpu_ring_init(adev, ring, 1024, &adev->gfx.eop_irq, irq_type,
+ 				hw_prio, NULL);
+-- 
+2.35.1
 
->
-> [1] https://patchwork.freedesktop.org/series/95686/
->
-> Cc: Anshuman Gupta <anshuman.gupta@intel.com>
-> Cc: Ramalingam C <ramalingam.c@intel.com>
-> Cc: Radhakrishna Sripada <radhakrishna.sripada@intel.com>
-> Cc: Matt Roper <matthew.d.roper@intel.com>
-> Cc: Mika Kahola <mika.kahola@intel.com>
-> Cc: Juha-Pekka Heikkil=C3=A4 <juha-pekka.heikkila@intel.com>
-> Cc: Nanley Chery <nanley.g.chery@intel.com>
->
-> Anshuman Gupta (1):
->   drm/i915/dg2: Add support for DG2 clear color compression
->
-> Matt Roper (2):
->   drm/fourcc: Introduce format modifiers for DG2 render and media
->     compression
->   drm/i915/dg2: Add support for DG2 render and media compression
->
-> Mika Kahola (1):
->   drm/fourcc: Introduce format modifier for DG2 clear color
->
->  drivers/gpu/drm/i915/display/intel_display.c  |  4 +-
->  drivers/gpu/drm/i915/display/intel_fb.c       | 53 +++++++++++++++----
->  .../drm/i915/display/skl_universal_plane.c    | 49 +++++++++++++----
->  include/uapi/drm/drm_fourcc.h                 | 36 +++++++++++++
->  4 files changed, 122 insertions(+), 20 deletions(-)
-
---=20
-Jani Nikula, Intel Open Source Graphics Center
