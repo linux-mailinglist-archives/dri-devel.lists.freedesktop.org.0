@@ -1,84 +1,61 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 24D5D4F9DA3
-	for <lists+dri-devel@lfdr.de>; Fri,  8 Apr 2022 21:25:34 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 93A9F4F9E31
+	for <lists+dri-devel@lfdr.de>; Fri,  8 Apr 2022 22:30:50 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 3066A10E2E3;
-	Fri,  8 Apr 2022 19:25:31 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 634C710E20E;
+	Fri,  8 Apr 2022 20:30:48 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from us-smtp-delivery-124.mimecast.com
- (us-smtp-delivery-124.mimecast.com [170.10.129.124])
- by gabe.freedesktop.org (Postfix) with ESMTPS id EF6EE10E2E3
- for <dri-devel@lists.freedesktop.org>; Fri,  8 Apr 2022 19:25:28 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1649445927;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=UGrov/V4uOu3LT5x6dwFAgilRHaV8cu7rkG7AUn9KTY=;
- b=h5cJ5V2Q8G5FWDMZJr6M2jJ59Jrq8M4UHC+cg3Ftpa4GD/yT08sutXH/Pngr52KwIrtKX1
- OF31gA59XEd62zAu8dDG0OYLuQ4PGfjBw9QpfJH59O7Ovm5lDIg+H8aAvAlBN5rF/PHgaI
- QTXm64b2pX00KkmtQbw8UbILJRplhPc=
-Received: from mail-wr1-f71.google.com (mail-wr1-f71.google.com
- [209.85.221.71]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-471-TRby55o5MEOZKEp-ATUskQ-1; Fri, 08 Apr 2022 15:25:26 -0400
-X-MC-Unique: TRby55o5MEOZKEp-ATUskQ-1
-Received: by mail-wr1-f71.google.com with SMTP id
- 65-20020adf8147000000b00207982c3692so607543wrm.15
- for <dri-devel@lists.freedesktop.org>; Fri, 08 Apr 2022 12:25:26 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
- :content-language:from:to:cc:references:in-reply-to
- :content-transfer-encoding;
- bh=UGrov/V4uOu3LT5x6dwFAgilRHaV8cu7rkG7AUn9KTY=;
- b=OZ93nqfIjPpY9Gmn0PWSiTuJJByXtvWb8Irg3AG5cOg3wm9bDHAp32MGOjacFB6NRP
- wanJBBRver5Ra08Fr2sBKVpbZUpTezN/g1jdqQQsBaCzcxptRjT8swCex4X1ng46V5Xm
- JDP2ZiUNOqHTwcH212UZ66uzUHA3yLgap1sw4Zd2N4bXdzUBOQ6VSamK8dj4aAoqcnfj
- Gox9kAF8lvGpV/GBNOosPJyyQadQbz91XPO6k9r6FccPpc2zxqdHgOTfS2LGISqedZLI
- IvNTccDUIVy56i/Hrnu6IfNi+duvkgs49SXhSGxn9J20q+h3lsG4jd9qqrlB5HlS8exg
- 4HJg==
-X-Gm-Message-State: AOAM531PPZzkJ6/nelmC2h5a/xVB8gUMRR84Avly0ZR3phhx1/BNTE5J
- oAqE/HaTtPq7nFlIS/UVEUlV9LezONRYk5xY0BX3WPQdZd0LQg0vXG3sRzHDRlSL2cxPmhpRpDv
- UtL4HXYA488mnW5RibZU8FmcsLGC8
-X-Received: by 2002:a5d:6a0b:0:b0:207:9e23:8b4b with SMTP id
- m11-20020a5d6a0b000000b002079e238b4bmr45498wru.337.1649445925313; 
- Fri, 08 Apr 2022 12:25:25 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJwtpxhv4RA2iFT06aQJ6jH2+mBKBrcJL3FNdxAkbV0UH3rboulTNyoMaM+1BcHn/wT4wRNyKg==
-X-Received: by 2002:a5d:6a0b:0:b0:207:9e23:8b4b with SMTP id
- m11-20020a5d6a0b000000b002079e238b4bmr45485wru.337.1649445925090; 
- Fri, 08 Apr 2022 12:25:25 -0700 (PDT)
-Received: from [192.168.1.102] ([92.176.231.205])
- by smtp.gmail.com with ESMTPSA id
- m7-20020adfe0c7000000b002060e7bbe49sm19704733wri.45.2022.04.08.12.25.24
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Fri, 08 Apr 2022 12:25:24 -0700 (PDT)
-Message-ID: <dfc438ab-29fd-881d-f019-7223cae60e88@redhat.com>
-Date: Fri, 8 Apr 2022 21:25:18 +0200
+Received: from alexa-out.qualcomm.com (alexa-out.qualcomm.com [129.46.98.28])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 0DEC810E20E;
+ Fri,  8 Apr 2022 20:30:46 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=quicinc.com; i=@quicinc.com; q=dns/txt; s=qcdkim;
+ t=1649449847; x=1680985847;
+ h=message-id:date:mime-version:subject:to:cc:references:
+ from:in-reply-to:content-transfer-encoding;
+ bh=ScFBd6ng2QrtUCP/bpsILqIYheFSc3NhuBQ1NA/h5ow=;
+ b=PEek9DCsQnlQTkFxmbrjXFHiv25+o7NJNEsGFMg1LGujbnR5PRz+tSVd
+ sE4B+UrEOrGcrDXQpwYFgMDSduXMgJJz9+p1/Wa5CAWy2cuYvGuK2Hk8q
+ Tqm0FD2aP5/rECzcN+oGisMXyA8uIB+wpuJHUv5A3I5mzRzNY9PwfZB78 o=;
+Received: from ironmsg07-lv.qualcomm.com ([10.47.202.151])
+ by alexa-out.qualcomm.com with ESMTP; 08 Apr 2022 13:30:46 -0700
+X-QCInternal: smtphost
+Received: from nasanex01c.na.qualcomm.com ([10.47.97.222])
+ by ironmsg07-lv.qualcomm.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 08 Apr 2022 13:30:45 -0700
+Received: from nalasex01a.na.qualcomm.com (10.47.209.196) by
+ nasanex01c.na.qualcomm.com (10.47.97.222) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.2.986.22; Fri, 8 Apr 2022 13:30:45 -0700
+Received: from [10.110.92.113] (10.80.80.8) by nalasex01a.na.qualcomm.com
+ (10.47.209.196) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.986.22; Fri, 8 Apr 2022
+ 13:30:44 -0700
+Message-ID: <09fd563f-4a2c-f670-51c2-0e5ff023816d@quicinc.com>
+Date: Fri, 8 Apr 2022 13:30:43 -0700
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:91.0) Gecko/20100101
  Thunderbird/91.7.0
-Subject: Re: [PATCH 1/5] dt-bindings: display: ssd1307fb: Deprecate fbdev
- compatible strings
-From: Javier Martinez Canillas <javierm@redhat.com>
-To: Rob Herring <robh@kernel.org>
-References: <20220407200205.28838-1-javierm@redhat.com>
- <20220407200205.28838-2-javierm@redhat.com>
- <YlB9TsbhoQblo1H8@robh.at.kernel.org>
- <ffe5c7d4-d27f-ccb6-932e-e027e1ae14da@redhat.com>
-In-Reply-To: <ffe5c7d4-d27f-ccb6-932e-e027e1ae14da@redhat.com>
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=javierm@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
+Subject: Re: [PATCH v2] drm/msm/dp: enhance both connect and disconnect
+ pending_timeout handle
 Content-Language: en-US
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+To: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>, <robdclark@gmail.com>,
+ <sean@poorly.run>, <swboyd@chromium.org>, <vkoul@kernel.org>,
+ <daniel@ffwll.ch>, <airlied@linux.ie>, <agross@kernel.org>,
+ <bjorn.andersson@linaro.org>
+References: <1649280493-4393-1-git-send-email-quic_khsieh@quicinc.com>
+ <625ce8a0-4e25-5513-5599-c1cdebf5a3a5@linaro.org>
+From: Kuogee Hsieh <quic_khsieh@quicinc.com>
+In-Reply-To: <625ce8a0-4e25-5513-5599-c1cdebf5a3a5@linaro.org>
+Content-Type: text/plain; charset="UTF-8"; format=flowed
+Content-Transfer-Encoding: 8bit
+X-Originating-IP: [10.80.80.8]
+X-ClientProxiedBy: nasanex01a.na.qualcomm.com (10.52.223.231) To
+ nalasex01a.na.qualcomm.com (10.47.209.196)
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -91,46 +68,263 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: devicetree@vger.kernel.org,
- Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
- David Airlie <airlied@linux.ie>, linux-kernel@vger.kernel.org,
- dri-devel@lists.freedesktop.org, Mark Brown <broonie@kernel.org>,
- Geert Uytterhoeven <geert@linux-m68k.org>,
- Krzysztof Kozlowski <krzk+dt@kernel.org>, Chen-Yu Tsai <wens@kernel.org>
+Cc: quic_sbillaka@quicinc.com, linux-arm-msm@vger.kernel.org,
+ quic_abhinavk@quicinc.com, dri-devel@lists.freedesktop.org,
+ linux-kernel@vger.kernel.org, quic_aravindh@quicinc.com,
+ freedreno@lists.freedesktop.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 4/8/22 21:19, Javier Martinez Canillas wrote:
 
-[snip]
-
->>
->> There's also no reason to put the bus interface into the compatible as 
->> the same compatible will work on different buses. But since you want to 
->> add SPI, just using the 'i2c' one will confuse people. For that reason 
->> you could add 'solomon,ssd1305', etc. for both SPI support and I2C DRM.
-> 
-> That's not really true. There's a reason to add per bus compatible strings
-> at least in Linux. And is that there's no information about the bus types
-> in module aliases that are reported to user-space for module auto-loading.
+On 4/8/2022 5:27 AM, Dmitry Baryshkov wrote:
+> On 07/04/2022 00:28, Kuogee Hsieh wrote:
+>> dp_hpd_plug_handle() is responsible for setting up main link and send
+>> uevent to notify user space framework to start video stream. Similarly,
+>> dp_hdp_unplug_handle is responsible to send uevent to notify user space
+>> framework to stop video stream and then tear down main link.
+>> However there are rare cases, such as in the middle of system 
+>> suspending,
+>> that uevent could not be delivered to user space framework. Therefore
+>> some kind of recover mechanism armed by timer need to be in place in the
+>> case of user space framework does not respond to uevent.
 >
+> Hmm, how does userpsace 'respond' to the uevent? The driver should 
+> send hotplug notifications to userspace, but it must not expect any 
+> particular reaction. The userspace might be as simple, as fbdev 
+> emulation, but the driver still should function correctly.
 
-Forgot to mention that in this particular case it will work but just because
-the SPI subsystem always report a module alias of the form "spi:device" even
-for devices that are registered through OF.
+yes, driver is function correctly by setting up main link. but it does 
+not know which resolution to display.
 
-So having a single "solomon,ssd1306" would work because for I2C the module
-alias will be "of:NoledT(null)Csolomon,ssd1306" and for SPI it will be
-"spi:ssd1306".
+It send hotplug notification through uevent to framework after main link 
+is ready.
 
-But if ever the SPI subsystem is fixed to report proper OF module aliases
-things will break. And since the DT bindings is an ABI, it's safer to have
-"-i2c" and "-spi" compatible strings variants.
+Framework  is responsible to set up MDP timing engine to start video stream.
 
--- 
-Best regards,
 
-Javier Martinez Canillas
-Linux Engineering
-Red Hat
+However it does not know which
 
+
+>
+>> This patch have both dp_conenct_pending_timeout and
+>> dp_disconnect_pending_timeout are used to stop video stream and tear 
+>> down
+>> main link and eventually restore DP driver state to known default
+>> DISCONNECTED state in the case of timer fired due to framework does not
+>> respond to uevent so that DP driver can recover itself gracefully at 
+>> next
+>> dongle unplug followed by plugin event.
+>>
+>> Changes in v2:
+>> -- replace dp_display_usbpd_disconnect_cb with 
+>> dp_display_notify_disconnect
+>>
+>> Fixes: 8ede2ecc3e5e ("drm/msm/dp: Add DP compliance tests on 
+>> Snapdragon Chipsets")
+>> Signed-off-by: Kuogee Hsieh <quic_khsieh@quicinc.com>
+>> ---
+>>   drivers/gpu/drm/msm/dp/dp_ctrl.c    | 36 ++++++++++++++++++++-----
+>>   drivers/gpu/drm/msm/dp/dp_ctrl.h    |  1 +
+>>   drivers/gpu/drm/msm/dp/dp_display.c | 54 
+>> ++++++++++++++++++++++++++++---------
+>>   3 files changed, 72 insertions(+), 19 deletions(-)
+>>
+>> diff --git a/drivers/gpu/drm/msm/dp/dp_ctrl.c 
+>> b/drivers/gpu/drm/msm/dp/dp_ctrl.c
+>> index dcd0126..48990fb 100644
+>> --- a/drivers/gpu/drm/msm/dp/dp_ctrl.c
+>> +++ b/drivers/gpu/drm/msm/dp/dp_ctrl.c
+>> @@ -1910,15 +1910,12 @@ int dp_ctrl_off_link_stream(struct dp_ctrl 
+>> *dp_ctrl)
+>>       return ret;
+>>   }
+>>   -int dp_ctrl_off(struct dp_ctrl *dp_ctrl)
+>> +int dp_ctrl_off_link(struct dp_ctrl *dp_ctrl)
+>>   {
+>>       struct dp_ctrl_private *ctrl;
+>>       struct dp_io *dp_io;
+>>       struct phy *phy;
+>> -    int ret = 0;
+>> -
+>> -    if (!dp_ctrl)
+>> -        return -EINVAL;
+>> +    int ret;
+>>         ctrl = container_of(dp_ctrl, struct dp_ctrl_private, dp_ctrl);
+>>       dp_io = &ctrl->parser->io;
+>> @@ -1926,7 +1923,34 @@ int dp_ctrl_off(struct dp_ctrl *dp_ctrl)
+>>         dp_catalog_ctrl_mainlink_ctrl(ctrl->catalog, false);
+>>   -    dp_catalog_ctrl_reset(ctrl->catalog);
+>> +    ret = dp_power_clk_enable(ctrl->power, DP_CTRL_PM, false);
+>> +    if (ret) {
+>> +        DRM_ERROR("Failed to disable link clocks. ret=%d\n", ret);
+>> +    }
+>> +
+>> +    DRM_DEBUG_DP("Before, phy=%p init_count=%d power_on=%d\n",
+>> +        phy, phy->init_count, phy->power_count);
+>> +
+>> +    phy_power_off(phy);
+>> +
+>> +    DRM_DEBUG_DP("After, phy=%p init_count=%d power_on=%d\n",
+>> +        phy, phy->init_count, phy->power_count);
+>> +
+>> +    return ret;
+>> +}
+>> +
+>> +int dp_ctrl_off(struct dp_ctrl *dp_ctrl)
+>> +{
+>> +    struct dp_ctrl_private *ctrl;
+>> +    struct dp_io *dp_io;
+>> +    struct phy *phy;
+>> +    int ret;
+>> +
+>> +    ctrl = container_of(dp_ctrl, struct dp_ctrl_private, dp_ctrl);
+>> +    dp_io = &ctrl->parser->io;
+>> +    phy = dp_io->phy;
+>> +
+>> +    dp_catalog_ctrl_mainlink_ctrl(ctrl->catalog, false);
+>>         ret = dp_power_clk_enable(ctrl->power, DP_STREAM_PM, false);
+>>       if (ret)
+>> diff --git a/drivers/gpu/drm/msm/dp/dp_ctrl.h 
+>> b/drivers/gpu/drm/msm/dp/dp_ctrl.h
+>> index 2433edb..ffafe17 100644
+>> --- a/drivers/gpu/drm/msm/dp/dp_ctrl.h
+>> +++ b/drivers/gpu/drm/msm/dp/dp_ctrl.h
+>> @@ -22,6 +22,7 @@ struct dp_ctrl {
+>>   int dp_ctrl_on_link(struct dp_ctrl *dp_ctrl);
+>>   int dp_ctrl_on_stream(struct dp_ctrl *dp_ctrl);
+>>   int dp_ctrl_off_link_stream(struct dp_ctrl *dp_ctrl);
+>> +int dp_ctrl_off_link(struct dp_ctrl *dp_ctrl);
+>>   int dp_ctrl_off(struct dp_ctrl *dp_ctrl);
+>>   void dp_ctrl_push_idle(struct dp_ctrl *dp_ctrl);
+>>   void dp_ctrl_isr(struct dp_ctrl *dp_ctrl);
+>> diff --git a/drivers/gpu/drm/msm/dp/dp_display.c 
+>> b/drivers/gpu/drm/msm/dp/dp_display.c
+>> index 178b774..a6200a5 100644
+>> --- a/drivers/gpu/drm/msm/dp/dp_display.c
+>> +++ b/drivers/gpu/drm/msm/dp/dp_display.c
+>> @@ -451,11 +451,14 @@ static int dp_display_usbpd_configure_cb(struct 
+>> device *dev)
+>>     static int dp_display_usbpd_disconnect_cb(struct device *dev)
+>>   {
+>> +    return 0;
+>> +}
+>> +
+>> +static void dp_display_notify_disconnect(struct device *dev)
+>> +{
+>>       struct dp_display_private *dp = dev_get_dp_display_private(dev);
+>>         dp_add_event(dp, EV_USER_NOTIFICATION, false, 0);
+>> -
+>> -    return 0;
+>>   }
+>>     static void dp_display_handle_video_request(struct 
+>> dp_display_private *dp)
+>> @@ -593,10 +596,16 @@ static int dp_connect_pending_timeout(struct 
+>> dp_display_private *dp, u32 data)
+>>         mutex_lock(&dp->event_mutex);
+>>   +    /*
+>> +     * main link had been setup but video is not ready yet
+>> +     * only tear down main link
+>> +     */
+>>       state = dp->hpd_state;
+>>       if (state == ST_CONNECT_PENDING) {
+>> -        dp->hpd_state = ST_CONNECTED;
+>>           DRM_DEBUG_DP("type=%d\n", dp->dp_display.connector_type);
+>> +        dp_ctrl_off_link(dp->ctrl);
+>> +        dp_display_host_phy_exit(dp);
+>> +        dp->hpd_state = ST_DISCONNECTED;
+>>       }
+>>         mutex_unlock(&dp->event_mutex);
+>> @@ -645,6 +654,7 @@ static int dp_hpd_unplug_handle(struct 
+>> dp_display_private *dp, u32 data)
+>>           if (dp->link->sink_count == 0) {
+>>               dp_display_host_phy_exit(dp);
+>>           }
+>> +        dp_display_notify_disconnect(&dp->pdev->dev);
+>>           mutex_unlock(&dp->event_mutex);
+>>           return 0;
+>>       }
+>> @@ -661,19 +671,22 @@ static int dp_hpd_unplug_handle(struct 
+>> dp_display_private *dp, u32 data)
+>>           return 0;
+>>       }
+>>   -    dp->hpd_state = ST_DISCONNECT_PENDING;
+>> -
+>>       /* disable HPD plug interrupts */
+>>       dp_catalog_hpd_config_intr(dp->catalog, 
+>> DP_DP_HPD_PLUG_INT_MASK, false);
+>>         /*
+>>        * We don't need separate work for disconnect as
+>>        * connect/attention interrupts are disabled
+>> -     */
+>> -    dp_display_usbpd_disconnect_cb(&dp->pdev->dev);
+>> +    */
+>> +    dp_display_notify_disconnect(&dp->pdev->dev);
+>>   -    /* start sentinel checking in case of missing uevent */
+>> -    dp_add_event(dp, EV_DISCONNECT_PENDING_TIMEOUT, 0, 
+>> DP_TIMEOUT_5_SECOND);
+>> +    if (state == ST_DISPLAY_OFF) {
+>> +        dp->hpd_state = ST_DISCONNECTED;
+>> +    } else {
+>> +        /* start sentinel checking in case of missing uevent */
+>> +        dp_add_event(dp, EV_DISCONNECT_PENDING_TIMEOUT, 0, 
+>> DP_TIMEOUT_5_SECOND);
+>> +        dp->hpd_state = ST_DISCONNECT_PENDING;
+>> +    }
+>>         /* signal the disconnect event early to ensure proper 
+>> teardown */
+>>       dp_display_handle_plugged_change(&dp->dp_display, false);
+>> @@ -695,10 +708,16 @@ static int dp_disconnect_pending_timeout(struct 
+>> dp_display_private *dp, u32 data
+>>         mutex_lock(&dp->event_mutex);
+>>   +    /*
+>> +     * main link had been set up and video is ready
+>> +     * tear down main link, video stream and phy
+>> +     */
+>>       state =  dp->hpd_state;
+>>       if (state == ST_DISCONNECT_PENDING) {
+>> -        dp->hpd_state = ST_DISCONNECTED;
+>>           DRM_DEBUG_DP("type=%d\n", dp->dp_display.connector_type);
+>> +        dp_ctrl_off(dp->ctrl);
+>> +        dp_display_host_phy_exit(dp);
+>> +        dp->hpd_state = ST_DISCONNECTED;
+>>       }
+>>         mutex_unlock(&dp->event_mutex);
+>> @@ -1571,6 +1590,12 @@ int msm_dp_display_enable(struct msm_dp *dp, 
+>> struct drm_encoder *encoder)
+>>         mutex_lock(&dp_display->event_mutex);
+>>   +    state = dp_display->hpd_state;
+>> +    if (state == ST_DISCONNECTED) {
+>> +        mutex_unlock(&dp_display->event_mutex);
+>> +        return rc;
+>> +    }
+>> +
+>>       /* stop sentinel checking */
+>>       dp_del_event(dp_display, EV_CONNECT_PENDING_TIMEOUT);
+>>   @@ -1588,8 +1613,6 @@ int msm_dp_display_enable(struct msm_dp *dp, 
+>> struct drm_encoder *encoder)
+>>           return rc;
+>>       }
+>>   -    state =  dp_display->hpd_state;
+>> -
+>>       if (state == ST_DISPLAY_OFF)
+>>           dp_display_host_phy_init(dp_display);
+>>   @@ -1638,13 +1661,18 @@ int msm_dp_display_disable(struct msm_dp 
+>> *dp, struct drm_encoder *encoder)
+>>       /* stop sentinel checking */
+>>       dp_del_event(dp_display, EV_DISCONNECT_PENDING_TIMEOUT);
+>>   +    state = dp_display->hpd_state;
+>> +    if (state == ST_DISCONNECTED || state == ST_DISPLAY_OFF) {
+>> +        mutex_unlock(&dp_display->event_mutex);
+>> +        return rc;
+>> +    }
+>> +
+>>       dp_display_disable(dp_display, 0);
+>>         rc = dp_display_unprepare(dp);
+>>       if (rc)
+>>           DRM_ERROR("DP display unprepare failed, rc=%d\n", rc);
+>>   -    state =  dp_display->hpd_state;
+>>       if (state == ST_DISCONNECT_PENDING) {
+>>           /* completed disconnection */
+>>           dp_display->hpd_state = ST_DISCONNECTED;
+>
+>
