@@ -1,50 +1,74 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 84BCE4F96C1
-	for <lists+dri-devel@lfdr.de>; Fri,  8 Apr 2022 15:35:33 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 5D8314F9714
+	for <lists+dri-devel@lfdr.de>; Fri,  8 Apr 2022 15:41:44 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 7091C10F19C;
-	Fri,  8 Apr 2022 13:35:30 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id B13B910F1A9;
+	Fri,  8 Apr 2022 13:41:40 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mga03.intel.com (mga03.intel.com [134.134.136.65])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 666F510F19C
- for <dri-devel@lists.freedesktop.org>; Fri,  8 Apr 2022 13:35:29 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1649424929; x=1680960929;
- h=date:from:to:cc:subject:message-id:mime-version:
- content-transfer-encoding;
- bh=8Jay/Ui0EC7xFbtFJoKbamhHuLeaHZ70pEoabfxqMVQ=;
- b=EPM5lBGHNCXyLHEkCucEaN641/LtQu/pVnZnWPXSpQN1E3dmYacxAwZn
- fofm68GM/OjDflKAuPqdF1eYqsN2xV8b3xOgTLNGlqeE/5+ARQrQC9klR
- ldpJ/Vg8y3j0qRDU+LKeZ5H/7TrFIwc4a8NXL9NO+PFFQySUXityzoFNO
- cSsoqsLyueG6UxWv844UBYE1Qs+VamcVItLQneGBSg1ugMfAo5wvj+IR+
- hEawJ6zQbv4XY4UpYlVGZO0nWcEvAnwITC6TpQUl2bm2fLzYY7u5UoEGD
- W7FZsHzxj9fBrIsV7kDTMKT7Mz0aEU5HcMln4kCDWVNtiNGADFVmrfOOp w==;
-X-IronPort-AV: E=McAfee;i="6400,9594,10310"; a="261585703"
-X-IronPort-AV: E=Sophos;i="5.90,245,1643702400"; d="scan'208";a="261585703"
-Received: from orsmga008.jf.intel.com ([10.7.209.65])
- by orsmga103.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 08 Apr 2022 06:35:28 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.90,245,1643702400"; d="scan'208";a="571490352"
-Received: from lkp-server02.sh.intel.com (HELO 7e80bc2a00a0) ([10.239.97.151])
- by orsmga008.jf.intel.com with ESMTP; 08 Apr 2022 06:35:26 -0700
-Received: from kbuild by 7e80bc2a00a0 with local (Exim 4.95)
- (envelope-from <lkp@intel.com>) id 1ncolp-0000J5-QP;
- Fri, 08 Apr 2022 13:35:25 +0000
-Date: Fri, 08 Apr 2022 21:35:14 +0800
-From: kernel test robot <lkp@intel.com>
-To: Andrew Morton <akpm@linux-foundation.org>
-Subject: [linux-next:pending-fixes] BUILD REGRESSION
- 02f3bd309a78c84c8e12ff44a3fd4de16d1180c3
-Message-ID: <62503a12.elUurkADGOBGC+Ma%lkp@intel.com>
-User-Agent: Heirloom mailx 12.5 6/20/10
+Received: from mail-wr1-x431.google.com (mail-wr1-x431.google.com
+ [IPv6:2a00:1450:4864:20::431])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id E822E10F1A9
+ for <dri-devel@lists.freedesktop.org>; Fri,  8 Apr 2022 13:41:39 +0000 (UTC)
+Received: by mail-wr1-x431.google.com with SMTP id m30so12951745wrb.1
+ for <dri-devel@lists.freedesktop.org>; Fri, 08 Apr 2022 06:41:39 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=baylibre-com.20210112.gappssmtp.com; s=20210112;
+ h=message-id:date:mime-version:user-agent:subject:content-language:to
+ :cc:references:from:organization:in-reply-to
+ :content-transfer-encoding;
+ bh=ttnjxeFPtnBDvb8Dmwr7pVkOvTYYrY+X3dFBMwXdT3Y=;
+ b=uCwSmY+ePMLZWlx2IqWzxlM4xato0/+QGD8xW8s506c56i6Phvjwf2CmIivbe3yS6w
+ fcPXSkc5zW5rgCjHzdYh1A7hSxsPFAKabvn+vAROfC/ZTb8yXBku323RGXkMfJ5Wbzsu
+ D3Yll8aXkE2q5GMplOjbZAMXoQOHTpRRI6oeAtElp8B1Hcn9PEtM0sbvoCZlsqp7eGXH
+ zG9boZBRQBoFEKfgSAOH+FI2rFAKijM+GQmlgVgVkyYkynvaeT5aiSPZ/BiP58yq5VAc
+ TS+g+H3xOAEwIxCV2p5n7etg9jJ+/VRU6rZvSmoDb7tyskiS9SLnxcaslbiWnHq1D8Pn
+ dDww==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
+ :content-language:to:cc:references:from:organization:in-reply-to
+ :content-transfer-encoding;
+ bh=ttnjxeFPtnBDvb8Dmwr7pVkOvTYYrY+X3dFBMwXdT3Y=;
+ b=n8ByTC5NoaE7yckMVvfkMisnafQ+3K0i2eUHHOuKq6Ujzrul1Ae7m6uXMo7h3RcaNc
+ cEYSIJ5DyYSkMMAiyqQcv1rt30QQPcvIoIf8kVax7+DnW358BzJHoJHiGGA1OtAzRIzK
+ FRLCsP7oXjQGjsix2V/EdvBZrbjPWLVxAOQAvxnQ1IaS0FnZtwEMpSAmQO2VDf7AzK1I
+ 04BCPv4hBBwx4dAlddq85DZ2RwIA7r+962k4Ta0r1Tqf6mFBOxWFoI6aRGuxjWoDnNPd
+ aODQUmn6MU/J69r3J+PdAJokxF/buOpMrN1blFktvIlWAj1GZaRCeHEgkuXQ6A457e0T
+ 510A==
+X-Gm-Message-State: AOAM531co49Cu7VT9dnk/GYlV/Cdgaqixhes9q1On9bBJu9otxO0kaZ7
+ YhHOz6soeSGCihUBp4haZcVKxw==
+X-Google-Smtp-Source: ABdhPJzZMmsiiLeNmisRgf/QerRPfZJDrPAsPV0vAyABh/txaHHIq4rGE5g6fUSveEUfpckt8rBRGA==
+X-Received: by 2002:a5d:414b:0:b0:205:89b7:91bf with SMTP id
+ c11-20020a5d414b000000b0020589b791bfmr14754373wrq.217.1649425298367; 
+ Fri, 08 Apr 2022 06:41:38 -0700 (PDT)
+Received: from ?IPV6:2001:861:44c0:66c0:eacd:ce6:e294:acd1?
+ ([2001:861:44c0:66c0:eacd:ce6:e294:acd1])
+ by smtp.gmail.com with ESMTPSA id
+ 3-20020a5d47a3000000b0020412ba45f6sm23576229wrb.8.2022.04.08.06.41.36
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Fri, 08 Apr 2022 06:41:37 -0700 (PDT)
+Message-ID: <4a6a4b70-3e24-3043-4e9d-f62e4798f28b@baylibre.com>
+Date: Fri, 8 Apr 2022 15:41:36 +0200
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.5.0
+Subject: Re: [PATCH v2 1/5] drm: bridge: dw_hdmi: cec: Add cec suspend/resume
+ function
+Content-Language: en-US
+To: Sandor Yu <Sandor.yu@nxp.com>, dri-devel@lists.freedesktop.org,
+ linux-kernel@vger.kernel.org, andrzej.hajda@intel.com,
+ robert.foss@linaro.org, Laurent.pinchart@ideasonboard.com, jonas@kwiboo.se,
+ jernej.skrabec@gmail.com, hverkuil-cisco@xs4all.nl
+References: <cover.1649412256.git.Sandor.yu@nxp.com>
+ <45739041a743cd435415ca53264678e57a653147.1649412256.git.Sandor.yu@nxp.com>
+From: Neil Armstrong <narmstrong@baylibre.com>
+Organization: Baylibre
+In-Reply-To: <45739041a743cd435415ca53264678e57a653147.1649412256.git.Sandor.yu@nxp.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 7bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -58,141 +82,87 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: linaro-mm-sig@lists.linaro.org,
- Linux Memory Management List <linux-mm@kvack.org>,
- dri-devel@lists.freedesktop.org, linux-media@vger.kernel.org
+Cc: shengjiu.wang@nxp.com, cai.huoqing@linux.dev, maxime@cerno.tech
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-tree/branch: https://git.kernel.org/pub/scm/linux/kernel/git/next/linux-next.git pending-fixes
-branch HEAD: 02f3bd309a78c84c8e12ff44a3fd4de16d1180c3  Merge branch 'for-linux-next-fixes' of git://anongit.freedesktop.org/drm/drm-misc
+On 08/04/2022 12:32, Sandor Yu wrote:
+> CEC interrupt status/mask and logical address registers
+> will be reset when device enter suspend.
+> It will cause cec fail to work after device resume.
+> Add CEC suspend/resume functions, reinitialize logical address registers
+> and restore interrupt status/mask registers after resume.
+> 
+> Signed-off-by: Sandor Yu <Sandor.yu@nxp.com>
+> ---
+>   drivers/gpu/drm/bridge/synopsys/dw-hdmi-cec.c | 37 +++++++++++++++++++
+>   1 file changed, 37 insertions(+)
+> 
+> diff --git a/drivers/gpu/drm/bridge/synopsys/dw-hdmi-cec.c b/drivers/gpu/drm/bridge/synopsys/dw-hdmi-cec.c
+> index c8f44bcb298a..ab176401b727 100644
+> --- a/drivers/gpu/drm/bridge/synopsys/dw-hdmi-cec.c
+> +++ b/drivers/gpu/drm/bridge/synopsys/dw-hdmi-cec.c
+> @@ -62,6 +62,10 @@ struct dw_hdmi_cec {
+>   	bool rx_done;
+>   	struct cec_notifier *notify;
+>   	int irq;
+> +
+> +	u8 regs_polarity;
+> +	u8 regs_mask;
+> +	u8 regs_mute_stat0;
+>   };
+>   
+>   static void dw_hdmi_write(struct dw_hdmi_cec *cec, u8 val, int offset)
+> @@ -306,11 +310,44 @@ static int dw_hdmi_cec_remove(struct platform_device *pdev)
+>   	return 0;
+>   }
+>   
+> +static int __maybe_unused dw_hdmi_cec_resume(struct device *dev)
+> +{
+> +	struct dw_hdmi_cec *cec = dev_get_drvdata(dev);
+> +
+> +	/* Restore logical address */
+> +	dw_hdmi_write(cec, cec->addresses & 255, HDMI_CEC_ADDR_L);
+> +	dw_hdmi_write(cec, cec->addresses >> 8, HDMI_CEC_ADDR_H);
+> +
+> +	/* Restore interrupt status/mask register */
+> +	dw_hdmi_write(cec, cec->regs_polarity, HDMI_CEC_POLARITY);
+> +	dw_hdmi_write(cec, cec->regs_mask, HDMI_CEC_MASK);
+> +	dw_hdmi_write(cec, cec->regs_mute_stat0, HDMI_IH_MUTE_CEC_STAT0);
+> +
+> +	return 0;
+> +}
+> +
+> +static int __maybe_unused dw_hdmi_cec_suspend(struct device *dev)
+> +{
+> +	struct dw_hdmi_cec *cec = dev_get_drvdata(dev);
+> +
+> +	/* store interrupt status/mask register */
+> +	 cec->regs_polarity = dw_hdmi_read(cec, HDMI_CEC_POLARITY);
+> +	 cec->regs_mask = dw_hdmi_read(cec, HDMI_CEC_MASK);
+> +	 cec->regs_mute_stat0 = dw_hdmi_read(cec, HDMI_IH_MUTE_CEC_STAT0);
+> +
+> +	return 0;
+> +}
+> +
+> +static const struct dev_pm_ops dw_hdmi_cec_pm = {
+> +	SET_SYSTEM_SLEEP_PM_OPS(dw_hdmi_cec_suspend, dw_hdmi_cec_resume)
+> +};
+> +
+>   static struct platform_driver dw_hdmi_cec_driver = {
+>   	.probe	= dw_hdmi_cec_probe,
+>   	.remove	= dw_hdmi_cec_remove,
+>   	.driver = {
+>   		.name = "dw-hdmi-cec",
+> +		.pm = &dw_hdmi_cec_pm,
+>   	},
+>   };
+>   module_platform_driver(dw_hdmi_cec_driver);
 
-Unverified Error/Warning (likely false positive, please contact us if interested):
+As Hans said on v1, why don't you call dw_hdmi_cec_enable(cec->adap, false) in suspend and dw_hdmi_cec_enable(cec->adap, true) in resume ?
 
-drivers/dma-buf/st-dma-fence-unwrap.c:261:1: internal compiler error: Segmentation fault
+With this, CEC engine is not disabled on suspend.
 
-Error/Warning ids grouped by kconfigs:
+Do you plan to use the engine from the suspend code ?
 
-gcc_recent_errors
-`-- riscv-randconfig-r042-20220406
-    `-- drivers-dma-buf-st-dma-fence-unwrap.c:internal-compiler-error:Segmentation-fault
-
-elapsed time: 726m
-
-configs tested: 105
-configs skipped: 3
-
-gcc tested configs:
-arm                              allyesconfig
-arm                                 defconfig
-arm64                               defconfig
-arm                              allmodconfig
-arm64                            allyesconfig
-parisc                           allyesconfig
-sh                               allmodconfig
-h8300                            allyesconfig
-xtensa                           allyesconfig
-arc                              allyesconfig
-alpha                            allyesconfig
-nios2                            allyesconfig
-arm                      integrator_defconfig
-powerpc                     taishan_defconfig
-sh                          polaris_defconfig
-sh                        dreamcast_defconfig
-openrisc                    or1ksim_defconfig
-sh                     sh7710voipgw_defconfig
-arm                          gemini_defconfig
-x86_64                           alldefconfig
-ia64                        generic_defconfig
-xtensa                           alldefconfig
-sh                          sdk7780_defconfig
-x86_64                        randconfig-c001
-i386                          randconfig-c001
-arm                  randconfig-c002-20220408
-ia64                             allmodconfig
-ia64                             allyesconfig
-ia64                                defconfig
-m68k                             allyesconfig
-m68k                             allmodconfig
-m68k                                defconfig
-nios2                               defconfig
-alpha                               defconfig
-csky                                defconfig
-arc                                 defconfig
-s390                                defconfig
-s390                             allmodconfig
-parisc                              defconfig
-parisc64                            defconfig
-s390                             allyesconfig
-sparc                               defconfig
-i386                             allyesconfig
-sparc                            allyesconfig
-i386                                defconfig
-i386                   debian-10.3-kselftests
-i386                              debian-10.3
-mips                             allyesconfig
-mips                             allmodconfig
-powerpc                          allyesconfig
-powerpc                           allnoconfig
-powerpc                          allmodconfig
-x86_64                        randconfig-a002
-x86_64                        randconfig-a006
-x86_64                        randconfig-a004
-i386                          randconfig-a001
-i386                          randconfig-a003
-i386                          randconfig-a005
-x86_64                        randconfig-a013
-x86_64                        randconfig-a011
-x86_64                        randconfig-a015
-i386                          randconfig-a014
-i386                          randconfig-a012
-i386                          randconfig-a016
-arc                  randconfig-r043-20220408
-riscv                randconfig-r042-20220408
-s390                 randconfig-r044-20220408
-riscv                               defconfig
-riscv                    nommu_virt_defconfig
-riscv                          rv32_defconfig
-riscv                    nommu_k210_defconfig
-riscv                             allnoconfig
-riscv                            allmodconfig
-riscv                            allyesconfig
-um                           x86_64_defconfig
-um                             i386_defconfig
-x86_64                              defconfig
-x86_64                           allyesconfig
-x86_64                                  kexec
-x86_64                          rhel-8.3-func
-x86_64                               rhel-8.3
-x86_64                         rhel-8.3-kunit
-x86_64                    rhel-8.3-kselftests
-
-clang tested configs:
-powerpc                     mpc512x_defconfig
-powerpc                   microwatt_defconfig
-powerpc                    socrates_defconfig
-arm                          pcm027_defconfig
-riscv                             allnoconfig
-arm                          collie_defconfig
-powerpc                     powernv_defconfig
-mips                           rs90_defconfig
-arm                                 defconfig
-arm                         socfpga_defconfig
-x86_64                        randconfig-a001
-x86_64                        randconfig-a003
-x86_64                        randconfig-a005
-i386                          randconfig-a002
-i386                          randconfig-a004
-i386                          randconfig-a006
-x86_64                        randconfig-a012
-x86_64                        randconfig-a014
-x86_64                        randconfig-a016
-i386                          randconfig-a013
-i386                          randconfig-a011
-i386                          randconfig-a015
-hexagon              randconfig-r045-20220408
-hexagon              randconfig-r041-20220408
-
--- 
-0-DAY CI Kernel Test Service
-https://01.org/lkp
+Neil
