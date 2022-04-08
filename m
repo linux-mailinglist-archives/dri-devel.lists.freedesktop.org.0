@@ -1,81 +1,41 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 908C84F8A8C
-	for <lists+dri-devel@lfdr.de>; Fri,  8 Apr 2022 02:21:27 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id D35974F8BCE
+	for <lists+dri-devel@lfdr.de>; Fri,  8 Apr 2022 03:10:22 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 684C710EE72;
-	Fri,  8 Apr 2022 00:21:25 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 9394710E049;
+	Fri,  8 Apr 2022 01:10:18 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-ed1-x535.google.com (mail-ed1-x535.google.com
- [IPv6:2a00:1450:4864:20::535])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 32F1410EE70
- for <dri-devel@lists.freedesktop.org>; Fri,  8 Apr 2022 00:21:24 +0000 (UTC)
-Received: by mail-ed1-x535.google.com with SMTP id c42so8282519edf.3
- for <dri-devel@lists.freedesktop.org>; Thu, 07 Apr 2022 17:21:24 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=chromium.org; s=google;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=4AEJnP5mTsYddtMXtuB9PzpAwm62Zr/93tws7knCoTY=;
- b=FrYI2nBdk+yG/OOXXygzXyvL+ZpcWJWtKe8unV3SbCy1rXBwNnk84WeXyNP/2VlDJy
- Kg/uBh0NPlU2+DivSPdwyS8dsLdPzD8+y5xmEtYYC5jD30jJr5S+ozejI/3/UdKogkht
- sWSHEixJSYchJR9gauZlQDTuFx098SCzhXo+o=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=4AEJnP5mTsYddtMXtuB9PzpAwm62Zr/93tws7knCoTY=;
- b=U6i/FdDQl4FiSCsXXgJcck8XombEDPYXknySQKUBbr9Ojq+JbSxzypGZQk6h9Ha8Qn
- 3kxhpalYc/IE5Jj98JpkNdhqQo+uV1aTVk07vcnnI4BtO66Ni5V1ekXQMaBhvq7/taKv
- yln/1zTS+BifTuuuzd8kddRjsrwEfW1X53iFNpweWqsOZQOZ9m3HsVkfDb1Trg35PwIF
- sNT9EI2uGaTqKhRBwrUmNK9zKR5bctEhZ+wGGJfFncpb0wA4jtzAgwr1J7MJZ4+J2uee
- jFd+4l+L4qpIq0WE0IrS6QnPTGWvUqwHbnKKLQezZwP4L8e15UwYk8KaUtFPYWvtbs0F
- +K+g==
-X-Gm-Message-State: AOAM532jrmY6XFH+523FkapN4a9Pb0LHLN1M0j7EdG0QmErGcv0TfKvm
- Rrb3reDFi47dc5hD+SW5Fj4AAJ0nM9ZbcL6vTbk=
-X-Google-Smtp-Source: ABdhPJzosyjeUYBK2ctWLss/FkR2oocVQ8TftVj53c0g77U/a98afrn5hih8IgQA30oQtwNJss1nxg==
-X-Received: by 2002:a05:6402:1d51:b0:418:bd81:78b3 with SMTP id
- dz17-20020a0564021d5100b00418bd8178b3mr16544219edb.46.1649377282524; 
- Thu, 07 Apr 2022 17:21:22 -0700 (PDT)
-Received: from mail-wr1-f51.google.com (mail-wr1-f51.google.com.
- [209.85.221.51]) by smtp.gmail.com with ESMTPSA id
- m2-20020a50e1c2000000b0041d121b095fsm883261edl.67.2022.04.07.17.21.19
- for <dri-devel@lists.freedesktop.org>
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Thu, 07 Apr 2022 17:21:19 -0700 (PDT)
-Received: by mail-wr1-f51.google.com with SMTP id h4so10477884wrc.13
- for <dri-devel@lists.freedesktop.org>; Thu, 07 Apr 2022 17:21:19 -0700 (PDT)
-X-Received: by 2002:a5d:568e:0:b0:207:8d1a:46c6 with SMTP id
- f14-20020a5d568e000000b002078d1a46c6mr3186227wrv.422.1649377278855; Thu, 07
- Apr 2022 17:21:18 -0700 (PDT)
+Received: from gandalf.ozlabs.org (gandalf.ozlabs.org [150.107.74.76])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id AFB0B10E049;
+ Fri,  8 Apr 2022 01:10:17 +0000 (UTC)
+Received: from authenticated.ozlabs.org (localhost [127.0.0.1])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+ key-exchange ECDHE (P-256) server-signature RSA-PSS (4096 bits) server-digest
+ SHA256) (No client certificate requested)
+ by mail.ozlabs.org (Postfix) with ESMTPSA id 4KZKtD1J46z4xR9;
+ Fri,  8 Apr 2022 11:10:11 +1000 (AEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=canb.auug.org.au;
+ s=201702; t=1649380213;
+ bh=vcX4MhOwVA1LeMEowdgiUTbVi0yZ19UPaE1n3h2j1kw=;
+ h=Date:From:To:Cc:Subject:From;
+ b=i52oSShQe3jtquwqvSkQtRfQRB+TAxTK+HMdnw+NulpsBx5vSQ0+uiDUBmzEvAOJz
+ nUcp09h5YnjxweCJNGzLFIW0fSHJ8e450O6BiYlvkds2H4F6ZS0rOs2Zo8oDp48jLW
+ MrI0hySWMhCrvnyeFRQLZ05GQ1GZXeOLAZPmYW38ris+J3wAwSXNPzguYw0W62kyBz
+ qJYVjX7W993aGXlQO6gaTct4Z0MjziuNUTfKrxorosCnuV0vrBlv+s3NYzWHqNhKr6
+ U2R71crH8fqZNLojGDCoJ5DDfzBH5Vb0Io0YNahky2oMJ8RU0u7hbKFYbFvoVkC04e
+ QqPlR4yqvzDhw==
+Date: Fri, 8 Apr 2022 11:10:10 +1000
+From: Stephen Rothwell <sfr@canb.auug.org.au>
+To: Daniel Vetter <daniel.vetter@ffwll.ch>
+Subject: linux-next: build failure after merge of the drm-misc tree
+Message-ID: <20220408111010.31a7bc8b@canb.auug.org.au>
 MIME-Version: 1.0
-References: <1648656179-10347-1-git-send-email-quic_sbillaka@quicinc.com>
- <1648656179-10347-2-git-send-email-quic_sbillaka@quicinc.com>
- <CAD=FV=X+QvjwoT2zGP82KW4kD0oMUY6ZgCizSikNX_Uj8dNDqA@mail.gmail.com>
- <392b933f-760c-3c81-1040-c514045df3da@linaro.org>
- <CAD=FV=W4PYK-t607yjRbfjDjjEZX0KdgHDRukw_vSH8E8EDH6w@mail.gmail.com>
- <CAA8EJppt9XONbgtKfmHmN+==QNqiVJeb8GKJFdZm=yyY-tgmHQ@mail.gmail.com>
- <CAD=FV=U5-sTDLYdkeJWLAOG-0wgxR49VxtwUyUO7z2PuibLGsg@mail.gmail.com>
- <CAA8EJppgfYgQjG8A4LsR-1wmBj3Ku3eO8cKfAYhxjWXL7e3eHg@mail.gmail.com>
- <CAD=FV=V=a1CnT8fqTJR40WoS3BaDQ3xZ=HnHVHqZh=MEmVUZBA@mail.gmail.com>
- <3e5fa57f-d636-879a-b98f-77323d07c156@linaro.org>
- <CAD=FV=Uibu-kZyix7K4_WVc-+C8xpzTqU4WFy7O=6sukMZrX5g@mail.gmail.com>
- <MW4PR02MB7186245772DAC3E04FA8D1C0E1E69@MW4PR02MB7186.namprd02.prod.outlook.com>
- <CAD=FV=Wk3U7_bVdiCPp8iQ4bcCA_Botemu4pwHeRtgBa3Xk6KQ@mail.gmail.com>
- <c4f086ce-c56f-f7c9-4092-7f2432330d50@quicinc.com>
- <CAD=FV=UmU_BVUaL_X75yOEvQPtGUBTR5-jiVWBHq7uSRt6HM4Q@mail.gmail.com>
- <225d2c0a-42ec-28ad-688c-e7e9e2035ee1@quicinc.com>
- <CAD=FV=W=WjSACHvRDFBnkLUp-LU2c4XMu3=FTzTx=zexNF5PAw@mail.gmail.com>
- <CAA8EJpqLZ9up4euGEbhf5QyBqm4tJuLcHi7D+0Si7ak9Jej52w@mail.gmail.com>
-In-Reply-To: <CAA8EJpqLZ9up4euGEbhf5QyBqm4tJuLcHi7D+0Si7ak9Jej52w@mail.gmail.com>
-From: Doug Anderson <dianders@chromium.org>
-Date: Thu, 7 Apr 2022 17:21:06 -0700
-X-Gmail-Original-Message-ID: <CAD=FV=XwOzsRf7RnvyBjr5TtedMhC0LJFKoK9tp-kw1eEyuJmQ@mail.gmail.com>
-Message-ID: <CAD=FV=XwOzsRf7RnvyBjr5TtedMhC0LJFKoK9tp-kw1eEyuJmQ@mail.gmail.com>
-Subject: Re: [PATCH v6 1/8] drm/msm/dp: Add eDP support via aux_bus
-To: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: multipart/signed; boundary="Sig_/.SKFAt/wruZuvWlKvY6mSCm";
+ protocol="application/pgp-signature"; micalg=pgp-sha256
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -88,57 +48,61 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: quic_kalyant <quic_kalyant@quicinc.com>,
- "open list:OPEN FIRMWARE AND FLATTENED DEVICE TREE BINDINGS"
- <devicetree@vger.kernel.org>,
- "Sankeerth Billakanti \(QUIC\)" <quic_sbillaka@quicinc.com>,
- quic_vproddut <quic_vproddut@quicinc.com>, David Airlie <airlied@linux.ie>,
- linux-arm-msm <linux-arm-msm@vger.kernel.org>,
- Stephen Boyd <swboyd@chromium.org>, Abhinav Kumar <quic_abhinavk@quicinc.com>,
- dri-devel <dri-devel@lists.freedesktop.org>,
- "Kuogee Hsieh \(QUIC\)" <quic_khsieh@quicinc.com>, Sean Paul <sean@poorly.run>,
- Sean Paul <seanpaul@chromium.org>,
- "Aravind Venkateswaran \(QUIC\)" <quic_aravindh@quicinc.com>,
- "bjorn.andersson@linaro.org" <bjorn.andersson@linaro.org>,
- freedreno <freedreno@lists.freedesktop.org>,
- LKML <linux-kernel@vger.kernel.org>
+Cc: Intel Graphics <intel-gfx@lists.freedesktop.org>,
+ Linux Next Mailing List <linux-next@vger.kernel.org>,
+ Christian =?UTF-8?B?S8O2bmln?= <christian.koenig@amd.com>,
+ DRI <dri-devel@lists.freedesktop.org>,
+ Linux Kernel Mailing List <linux-kernel@vger.kernel.org>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi,
+--Sig_/.SKFAt/wruZuvWlKvY6mSCm
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: quoted-printable
 
-On Thu, Apr 7, 2022 at 4:46 PM Dmitry Baryshkov
-<dmitry.baryshkov@linaro.org> wrote:
->
-> > The way I'm arguing it should work is that:
-> >
-> > 1. A whole bunch of the DP init code should move to the DP driver's
-> > probe function. This includes parsing the DT, acquiring clocks,
-> > getting a handle to our PHY, and IO mapping registers. As far as I
-> > know, there's no reason to wait on all the components being probed in
-> > order to do this stuff.
->
-> Yes. And that's one of the reasons I tried to stay away from the DP
-> driver. Each time I open the source code, my hands itch to start
-> refactoring the code.
->
-> >
-> > 2. Once we have done the above things, it should be possible to do AUX
-> > transfers, correct? ...and then we can populate the AUX bus from the
-> > probe function too.
->
-> No. In the DP case the AUX bus is inaccessible until the dongle is
-> plugged (see all the HPD handling, phy_init()/phy_power_on() is hidden
-> somewhere in that path)
+Hi all,
 
-I guess my thought was that in DP you could still create the AUX bus
-at probe time. Then for DP you just return an instant "transfer
-failed" from the AUX bus if HPD isn't asserted. For eDP (as discussed
-elsewhere) when we try to do an AUX transfer then we delay until HPD
-is there.
+After merging the drm-misc tree, today's linux-next build (x86_64
+allmodconfig) failed like this:
 
-So we can still acquire resources (clocks, PHY, io maps, etc) at probe
-time for DP and create the AUX bus, right? It will just return
-"-ENODEV" if HPD isn't asserted and you're DP?
+In file included from include/drm/drm_gem.h:38,
+                 from include/drm/ttm/ttm_bo_api.h:34,
+                 from drivers/gpu/drm/i915/i915_deps.c:9:
+drivers/gpu/drm/i915/i915_deps.c: In function 'i915_deps_add_resv':
+drivers/gpu/drm/i915/i915_deps.c:229:46: error: implicit conversion from 'e=
+num <anonymous>' to 'enum dma_resv_usage' [-Werror=3Denum-conversion]
+  229 |         dma_resv_for_each_fence(&iter, resv, true, fence) {
+      |                                              ^~~~
+include/linux/dma-resv.h:297:47: note: in definition of macro 'dma_resv_for=
+_each_fence'
+  297 |         for (dma_resv_iter_begin(cursor, obj, usage),   \
+      |                                               ^~~~~
+cc1: all warnings being treated as errors
 
--Doug
+Caused by commit
+
+  7bc80a5462c3 ("dma-buf: add enum dma_resv_usage v4")
+
+I have used the drm-misc tree from next-20220407 for today.
+
+--=20
+Cheers,
+Stephen Rothwell
+
+--Sig_/.SKFAt/wruZuvWlKvY6mSCm
+Content-Type: application/pgp-signature
+Content-Description: OpenPGP digital signature
+
+-----BEGIN PGP SIGNATURE-----
+
+iQEzBAEBCAAdFiEENIC96giZ81tWdLgKAVBC80lX0GwFAmJPi3IACgkQAVBC80lX
+0Gz+8Qf/drWgwj9Cac1navOGvFSwgy85VNIXr2xbcebnqAkPxMscSqiuphw7MSx9
+/ekATn0qTatU6xvumrw4zz+hg2KmW46knsQKFMEbeLFRDkenq6PVbVL2v4hQnsp+
+ADNJ3fV25mc4hK7fkzeGJkIUHtX3RK6bTsgMa+085w6RTo9WCEmPRP6eceWi9FlU
+50rW8LXyQXtnh0dgbCa8UNoKUrwdn1+dBCyTW/r6bmBRzSxztkWINpxPmovXmanT
+8EiJDCUAHFRoFdoBwK+13CYIhvNGE4Li99CF5/84a74SudmhMKNJbLqkoOxelbe4
+kOHDmm0zlXM+1CmZcUbYuZ5cq6W6rQ==
+=kY2o
+-----END PGP SIGNATURE-----
+
+--Sig_/.SKFAt/wruZuvWlKvY6mSCm--
