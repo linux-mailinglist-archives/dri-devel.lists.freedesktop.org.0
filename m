@@ -2,51 +2,50 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 26D5D4F8D34
-	for <lists+dri-devel@lfdr.de>; Fri,  8 Apr 2022 07:01:16 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id D8B2D4F8D41
+	for <lists+dri-devel@lfdr.de>; Fri,  8 Apr 2022 07:18:08 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 7D6C510F613;
-	Fri,  8 Apr 2022 05:01:08 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 7E13910F620;
+	Fri,  8 Apr 2022 05:18:02 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mga17.intel.com (mga17.intel.com [192.55.52.151])
- by gabe.freedesktop.org (Postfix) with ESMTPS id A7CCE10F611;
- Fri,  8 Apr 2022 05:01:06 +0000 (UTC)
+Received: from mga04.intel.com (mga04.intel.com [192.55.52.120])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 5E85210F620;
+ Fri,  8 Apr 2022 05:18:01 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1649394067; x=1680930067;
+ t=1649395081; x=1680931081;
  h=date:from:to:cc:subject:message-id:references:
  mime-version:content-transfer-encoding:in-reply-to;
- bh=KV+wOdANaLqcyIoVaKJhEwe3kWPlSyKxVDvjkaC0ff4=;
- b=IMUAqNq/03IwRjS6fU3it1vD6fKLxi28Z/L/Vh3GNFxBsP7mxsAlwgQN
- zAYweQhipXHeWFvcU16YlbqMOUhZyEEgLnQ21wBQg4+ApKvffU4aHWcf9
- 1T/oV9qagZX9LNThTJFi1gTR+jK23OXUcz8rfrN1PN4R4NS6a+iec3h82
- jR7z+4sohjF/lwVKbjCdlOS5hVJxJYfxI56Veb26a+fsSY+6EZNzoHK5k
- +VmwSUmgOxKLj1D5PcN25Qo51Ujntn++OkCGpwdmLSgOwqjGrH2CqqpGj
- m/x/xcKC5YbfulH+Hvq/viKdA0g4AYCV77co064CDGzBFF5VtwlVsXQLK Q==;
-X-IronPort-AV: E=McAfee;i="6400,9594,10310"; a="242106116"
-X-IronPort-AV: E=Sophos;i="5.90,244,1643702400"; d="scan'208";a="242106116"
+ bh=YSQDheq8XtVc5EpwvzKy5YTKtqdFPn8eorhRrePjleA=;
+ b=gPh5cW7FQa6xiHa21m/ulU5Lc5IxYMEhWbFKOMz2xAFcKOqw8q+oR4l3
+ 6SxSLH5XzcB9OEGrjafYMJS0yfgLJ5V5bQpdE9wd5vuExT+YD5dHSCrGU
+ 4vYaO10Jeo6+Fs7RLoDSKsyoXYjDTqVBxZp2TMNWJZ9gczt8whsozOtfm
+ OUSjR9s6tgeNk1g2zEY2BdnXSDXC9RedqRmG360G5JDoJitYofpPPvJyM
+ BbZutpWhotMxKIrUx3g5RNAQoRRndd1yJ1GrvEgWyNVLgK9eHdbEiVY3S
+ 2pTUGPUqBTEAaCRdo1NB9psTBxzn0/PSO1nCIsSgF4NAZ9LDpmuJg1K28 A==;
+X-IronPort-AV: E=McAfee;i="6400,9594,10310"; a="260346967"
+X-IronPort-AV: E=Sophos;i="5.90,244,1643702400"; d="scan'208";a="260346967"
 Received: from orsmga001.jf.intel.com ([10.7.209.18])
- by fmsmga107.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 07 Apr 2022 22:00:46 -0700
-X-IronPort-AV: E=Sophos;i="5.90,244,1643702400"; d="scan'208";a="589093644"
+ by fmsmga104.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 07 Apr 2022 22:18:00 -0700
+X-IronPort-AV: E=Sophos;i="5.90,244,1643702400"; d="scan'208";a="589097177"
 Received: from aalkukhu-mobl1.amr.corp.intel.com (HELO ldmartin-desk2)
  ([10.212.172.187])
  by orsmga001-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 07 Apr 2022 22:00:45 -0700
-Date: Thu, 7 Apr 2022 22:00:44 -0700
+ 07 Apr 2022 22:18:00 -0700
+Date: Thu, 7 Apr 2022 22:18:00 -0700
 From: Lucas De Marchi <lucas.demarchi@intel.com>
-To: Matthew Auld <matthew.auld@intel.com>
-Subject: Re: [Intel-gfx] [PATCH 2/2] drm/i915: fix
- i915_gem_object_wait_moving_fence
-Message-ID: <20220408050044.7wd54sjbzzkzpqzr@ldmartin-desk2>
-References: <20220407164532.1242578-1-matthew.auld@intel.com>
- <20220407164532.1242578-2-matthew.auld@intel.com>
+To: Matt Roper <matthew.d.roper@intel.com>
+Subject: Re: [Intel-gfx] [PATCH] drm/i915: Sunset igpu legacy mmap support
+ based on GRAPHICS_VER_FULL
+Message-ID: <20220408051800.3gedsqgkjbb7wpc5@ldmartin-desk2>
+References: <20220407161839.1073443-1-matthew.d.roper@intel.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=iso-8859-1; format=flowed
 Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
-In-Reply-To: <20220407164532.1242578-2-matthew.auld@intel.com>
+In-Reply-To: <20220407161839.1073443-1-matthew.d.roper@intel.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -59,50 +58,50 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Daniel Vetter <daniel.vetter@ffwll.ch>, intel-gfx@lists.freedesktop.org,
- Christian =?utf-8?B?S8O2bmln?= <christian.koenig@amd.com>,
- dri-devel@lists.freedesktop.org
+Cc: Thomas =?utf-8?Q?Hellstr=C3=B6m?= <thomas.hellstrom@linux.intel.com>,
+ intel-gfx@lists.freedesktop.org, dri-devel@lists.freedesktop.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Thu, Apr 07, 2022 at 05:45:32PM +0100, Matthew Auld wrote:
->All of CI is just failing with the following, which prevents loading of
->the module:
+On Thu, Apr 07, 2022 at 09:18:39AM -0700, Matt Roper wrote:
+>The intent of the version check in the mmap ioctl was to maintain
+>support for existing platforms (i.e., ADL/RPL and earlier), but drop
+>support on all future igpu platforms.  As we've seen on the dgpu side,
+>the hardware teams are using a more fine-grained numbering system for IP
+>version numbers these days, so it's possible the version number
+>associated with our next igpu could be some form of "12.xx" rather than
+>13 or higher.  Comparing against the full ver.release number will ensure
+>the intent of the check is maintained no matter what numbering the
+>hardware teams settle on.
 >
->    i915 0000:03:00.0: [drm] *ERROR* Scratch setup failed
->
->Best guess is that this comes from the pin_map() for the scratch page,
->which does an i915_gem_object_wait_moving_fence() somewhere. It looks
->like this now calls into dma_resv_wait_timeout() which can return the
->remaining timeout, leading to the caller thinking this is an error.
->
->Fixes: 1d7f5e6c5240 ("drm/i915: drop bo->moving dependency")
->Signed-off-by: Matthew Auld <matthew.auld@intel.com>
->Cc: Christian König <christian.koenig@amd.com>
->Cc: Daniel Vetter <daniel.vetter@ffwll.ch>
->---
-> drivers/gpu/drm/i915/gem/i915_gem_object.c | 9 +++++++--
-> 1 file changed, 7 insertions(+), 2 deletions(-)
->
->diff --git a/drivers/gpu/drm/i915/gem/i915_gem_object.c b/drivers/gpu/drm/i915/gem/i915_gem_object.c
->index 2998d895a6b3..1c88d4121658 100644
->--- a/drivers/gpu/drm/i915/gem/i915_gem_object.c
->+++ b/drivers/gpu/drm/i915/gem/i915_gem_object.c
->@@ -772,9 +772,14 @@ int i915_gem_object_get_moving_fence(struct drm_i915_gem_object *obj,
-> int i915_gem_object_wait_moving_fence(struct drm_i915_gem_object *obj,
-> 				      bool intr)
-> {
->+	long ret;
->+
-> 	assert_object_held(obj);
->-	return dma_resv_wait_timeout(obj->base. resv, DMA_RESV_USAGE_KERNEL,
->-				     intr, MAX_SCHEDULE_TIMEOUT);
->+
->+	ret = dma_resv_wait_timeout(obj->base. resv, DMA_RESV_USAGE_KERNEL,
->+				    intr, MAX_SCHEDULE_TIMEOUT);
->+
->+	return ret < 0 ? ret : 0;
+>Fixes: d3f3baa3562a ("drm/i915: Reinstate the mmap ioctl for some platforms")
+>Cc: Thomas Hellström <thomas.hellstrom@linux.intel.com>
+>Cc: Lucas De Marchi <lucas.demarchi@intel.com>
+>Signed-off-by: Matt Roper <matthew.d.roper@intel.com>
 
-shouldn't == 0 also be an error since it would be a timeout?
 
+Reviewed-by: Lucas De Marchi <lucas.demarchi@intel.com>
+
+thanks
 Lucas De Marchi
+
+>---
+> drivers/gpu/drm/i915/gem/i915_gem_mman.c | 2 +-
+> 1 file changed, 1 insertion(+), 1 deletion(-)
+>
+>diff --git a/drivers/gpu/drm/i915/gem/i915_gem_mman.c b/drivers/gpu/drm/i915/gem/i915_gem_mman.c
+>index c3ea243d414d..0c5c43852e24 100644
+>--- a/drivers/gpu/drm/i915/gem/i915_gem_mman.c
+>+++ b/drivers/gpu/drm/i915/gem/i915_gem_mman.c
+>@@ -70,7 +70,7 @@ i915_gem_mmap_ioctl(struct drm_device *dev, void *data,
+> 	 * mmap ioctl is disallowed for all discrete platforms,
+> 	 * and for all platforms with GRAPHICS_VER > 12.
+> 	 */
+>-	if (IS_DGFX(i915) || GRAPHICS_VER(i915) > 12)
+>+	if (IS_DGFX(i915) || GRAPHICS_VER_FULL(i915) > IP_VER(12, 0))
+> 		return -EOPNOTSUPP;
+>
+> 	if (args->flags & ~(I915_MMAP_WC))
+>-- 
+>2.34.1
+>
