@@ -1,55 +1,65 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 26CE44F8D47
-	for <lists+dri-devel@lfdr.de>; Fri,  8 Apr 2022 07:38:45 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 31D1C4F8D49
+	for <lists+dri-devel@lfdr.de>; Fri,  8 Apr 2022 07:43:00 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 0501D10F624;
-	Fri,  8 Apr 2022 05:38:42 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id D189410ED73;
+	Fri,  8 Apr 2022 05:42:57 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from ams.source.kernel.org (ams.source.kernel.org
- [IPv6:2604:1380:4601:e00::1])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 2FDCD10EF56
- for <dri-devel@lists.freedesktop.org>; Fri,  8 Apr 2022 05:38:40 +0000 (UTC)
-Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
- (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
- (No client certificate requested)
- by ams.source.kernel.org (Postfix) with ESMTPS id D84FDB8298B;
- Fri,  8 Apr 2022 05:38:34 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPS id 8719DC385A3;
- Fri,  8 Apr 2022 05:38:33 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1649396313;
- bh=4VwFY/1dGrKNVVe0C1muo8ohXdUHOioA8pasVOe2NLU=;
- h=Subject:From:In-Reply-To:References:Date:To:Cc:From;
- b=SIag0LzbJITvSskJYSUuM+Hcj9G++x+fWXivJbjLh9jNyueu90fn07GNZ2909RvTx
- GWbD0WoHCKAcsiaLKp13CKrEP9SDqBeCyoKWmSWjEZbrGtiVXi8GVk704GxzjHO0SP
- DCPEP4OvfYVpWJQFZZ1jm2pQ+x8kOMIcllx0NUdIn81jXHBmKjW83yMEFJ798oyAQp
- AxAZ9mDJ0OFy2kfI5KU+xrIO85V32WAQggAKr99qPTWojMBXjucWPsmV+YqWgAYNdN
- 9FHgAnjg2z81TeEgyyImfobuEV4boom+y1i0pAOiO5r5dTYUYXa+CEGOeCqVFAp05B
- Zq8DdOd2vsTyw==
-Received: from aws-us-west-2-korg-oddjob-1.ci.codeaurora.org
- (localhost.localdomain [127.0.0.1])
- by aws-us-west-2-korg-oddjob-1.ci.codeaurora.org (Postfix) with ESMTP id
- 745D2E6D402; Fri,  8 Apr 2022 05:38:33 +0000 (UTC)
-Subject: Re: [git pull] drm fixes for 5.18-rc2
-From: pr-tracker-bot@kernel.org
-In-Reply-To: <CAPM=9tx5F2iOY6S4o2Rjk3uZG_M5Tso+=j3_gyQk-p3vj8tqew@mail.gmail.com>
+Received: from mail-lf1-x133.google.com (mail-lf1-x133.google.com
+ [IPv6:2a00:1450:4864:20::133])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 978D510ED73
+ for <dri-devel@lists.freedesktop.org>; Fri,  8 Apr 2022 05:42:56 +0000 (UTC)
+Received: by mail-lf1-x133.google.com with SMTP id k21so13269385lfe.4
+ for <dri-devel@lists.freedesktop.org>; Thu, 07 Apr 2022 22:42:56 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=linux-foundation.org; s=google;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc; bh=R+HXRFmonCLAOKu7Tx1l0IgtdhflHf7kEkD9u893yPQ=;
+ b=gVIdhhP4ICXLdTOfdrNFbOA+Jr/YPS4zvSK1bSFU5CR6vxifk/0LBMAXt4iCloTQVH
+ 0sGrq4tKJ5z2d/0OqWbmPvp1I4RhBoWno9HgRgIYg/PFnPfeUuUI5XJd53FSZPqVMA0x
+ A+3kUSdSMSVb1XBETA29zYZxNikCFwkKpRWM8=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=R+HXRFmonCLAOKu7Tx1l0IgtdhflHf7kEkD9u893yPQ=;
+ b=WSBJcK+a4bWWgrUlB7wmtM4IO1KYwjDsmSUp+m5kYD9HmcbkOaqoPWS8yVjLXQhr3P
+ tBAtrntsHp/bP/7bNSEN833Mwj2ZMFBspLSDUOmmNJXslNCRBY+gJDTvsr42q+77JzOj
+ aTICbwTwprYTvB+PVTdCu8QBKoURJ1864ifrw966/jtaFLUpasdFTnpHJnlfv9lJ3UZJ
+ x/2YSPJ5LFbKhHpmXiHI+sQrUb15RGQexGf9ukHugYQGzj0zCLbAYWAAftMjMir5vCtK
+ EDX5/48aityC1L4Ggih9YBt650PmpfqfKjX1t/O82hy75Cn0izoOue2/oB+ScNfOhFVX
+ K6tQ==
+X-Gm-Message-State: AOAM531Yyj1w4BaV2SlFcqLAfKeIBXLN/QNa7pTiThq/ex9Uv/iLdS4U
+ Eh9kBsHykrKi59/xv59q2Y5ed1olqFqAp3bK
+X-Google-Smtp-Source: ABdhPJwkGnGaXdgaAruqP2zc9TSSHbsAtnehiQ84/Ade+A9Ps5Ra44nlwADvAEfH/dqMu0iyBehbaA==
+X-Received: by 2002:a05:6512:3b9e:b0:44a:47c6:eb16 with SMTP id
+ g30-20020a0565123b9e00b0044a47c6eb16mr11574416lfv.486.1649396574643; 
+ Thu, 07 Apr 2022 22:42:54 -0700 (PDT)
+Received: from mail-lj1-f182.google.com (mail-lj1-f182.google.com.
+ [209.85.208.182]) by smtp.gmail.com with ESMTPSA id
+ g36-20020a0565123ba400b0044a2a1ccd99sm2360760lfv.20.2022.04.07.22.42.54
+ for <dri-devel@lists.freedesktop.org>
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Thu, 07 Apr 2022 22:42:54 -0700 (PDT)
+Received: by mail-lj1-f182.google.com with SMTP id by7so10191486ljb.0
+ for <dri-devel@lists.freedesktop.org>; Thu, 07 Apr 2022 22:42:54 -0700 (PDT)
+X-Received: by 2002:a05:651c:b07:b0:24b:4af9:828 with SMTP id
+ b7-20020a05651c0b0700b0024b4af90828mr2474847ljr.506.1649396573727; Thu, 07
+ Apr 2022 22:42:53 -0700 (PDT)
+MIME-Version: 1.0
 References: <CAPM=9tx5F2iOY6S4o2Rjk3uZG_M5Tso+=j3_gyQk-p3vj8tqew@mail.gmail.com>
-X-PR-Tracked-List-Id: Direct Rendering Infrastructure - Development
- <dri-devel.lists.freedesktop.org>
-X-PR-Tracked-Message-Id: <CAPM=9tx5F2iOY6S4o2Rjk3uZG_M5Tso+=j3_gyQk-p3vj8tqew@mail.gmail.com>
-X-PR-Tracked-Remote: git://anongit.freedesktop.org/drm/drm
- tags/drm-fixes-2022-04-08
-X-PR-Tracked-Commit-Id: 88711fa9a14f6f473f4a7645155ca51386e36c21
-X-PR-Merge-Tree: torvalds/linux.git
-X-PR-Merge-Refname: refs/heads/master
-X-PR-Merge-Commit-Id: 1831fed559732b132aef0ea8261ac77e73f7eadf
-Message-Id: <164939631346.5614.12089109522962019963.pr-tracker-bot@kernel.org>
-Date: Fri, 08 Apr 2022 05:38:33 +0000
+In-Reply-To: <CAPM=9tx5F2iOY6S4o2Rjk3uZG_M5Tso+=j3_gyQk-p3vj8tqew@mail.gmail.com>
+From: Linus Torvalds <torvalds@linux-foundation.org>
+Date: Thu, 7 Apr 2022 19:42:37 -1000
+X-Gmail-Original-Message-ID: <CAHk-=wj_=LwGgPVfnOdEJF5O2rt2NEXCK5155v88eDHdGkWOWg@mail.gmail.com>
+Message-ID: <CAHk-=wj_=LwGgPVfnOdEJF5O2rt2NEXCK5155v88eDHdGkWOWg@mail.gmail.com>
+Subject: Re: [git pull] drm fixes for 5.18-rc2
 To: Dave Airlie <airlied@gmail.com>
+Content-Type: text/plain; charset="UTF-8"
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -62,22 +72,17 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Daniel Vetter <daniel.vetter@ffwll.ch>,
- Linus Torvalds <torvalds@linux-foundation.org>,
- LKML <linux-kernel@vger.kernel.org>,
+Cc: Daniel Vetter <daniel.vetter@ffwll.ch>, LKML <linux-kernel@vger.kernel.org>,
  dri-devel <dri-devel@lists.freedesktop.org>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-The pull request you sent on Fri, 8 Apr 2022 10:19:47 +1000:
+On Thu, Apr 7, 2022 at 2:20 PM Dave Airlie <airlied@gmail.com> wrote:
+>
+> I think this should fix the amdgpu splat you have been seeing since rc1.
 
-> git://anongit.freedesktop.org/drm/drm tags/drm-fixes-2022-04-08
+Not the machine I'm currently traveling with, but I'll double-check
+when I'm back home.
 
-has been merged into torvalds/linux.git:
-https://git.kernel.org/torvalds/c/1831fed559732b132aef0ea8261ac77e73f7eadf
-
-Thank you!
-
--- 
-Deet-doot-dot, I am a bot.
-https://korg.docs.kernel.org/prtracker.html
+Thanks,
+                Linus
