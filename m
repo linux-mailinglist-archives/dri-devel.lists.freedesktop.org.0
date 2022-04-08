@@ -1,53 +1,55 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 306984F9061
-	for <lists+dri-devel@lfdr.de>; Fri,  8 Apr 2022 10:07:56 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id ACB844F9079
+	for <lists+dri-devel@lfdr.de>; Fri,  8 Apr 2022 10:13:18 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 4420A10EFDC;
-	Fri,  8 Apr 2022 08:07:54 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 03B3B89C9C;
+	Fri,  8 Apr 2022 08:13:16 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from metis.ext.pengutronix.de (metis.ext.pengutronix.de
- [IPv6:2001:67c:670:201:290:27ff:fe1d:cc33])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 8D58A10EFDC
- for <dri-devel@lists.freedesktop.org>; Fri,  8 Apr 2022 08:07:53 +0000 (UTC)
-Received: from ptx.hi.pengutronix.de ([2001:67c:670:100:1d::c0])
- by metis.ext.pengutronix.de with esmtps
- (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256) (Exim 4.92)
- (envelope-from <sha@pengutronix.de>)
- id 1ncjep-0006gG-Rw; Fri, 08 Apr 2022 10:07:51 +0200
-Received: from sha by ptx.hi.pengutronix.de with local (Exim 4.92)
- (envelope-from <sha@pengutronix.de>)
- id 1ncjem-0001ic-HQ; Fri, 08 Apr 2022 10:07:48 +0200
-Date: Fri, 8 Apr 2022 10:07:48 +0200
-From: Sascha Hauer <s.hauer@pengutronix.de>
-To: Piotr Oniszczuk <piotr.oniszczuk@gmail.com>
-Subject: Re: [PATCH v9 00/23] drm/rockchip: RK356x VOP2 support
-Message-ID: <20220408080748.GA2387@pengutronix.de>
-References: <20220328151116.2034635-1-s.hauer@pengutronix.de>
- <FB201567-AE5A-4242-82F1-7C55D8F111EA@gmail.com>
- <20220401125205.GL4012@pengutronix.de>
- <5420D26D-34FD-4637-B602-F6271E38BB8D@gmail.com>
- <BA4C591F-D115-43D2-BF59-A75B29889E50@gmail.com>
+Received: from mga18.intel.com (mga18.intel.com [134.134.136.126])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 25C7D10EFA1;
+ Fri,  8 Apr 2022 08:13:14 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+ t=1649405594; x=1680941594;
+ h=message-id:date:mime-version:subject:to:cc:references:
+ from:in-reply-to:content-transfer-encoding;
+ bh=oI/LDnXxFQTsHaE8GxDNgLxFUN8kR1r6ELN1nlmOiek=;
+ b=QTR9fttDT3JCNkMpMjJ07fadYpxjzzR+OeM8VBc48n2jMVbCT7JXccPe
+ 4ifkRiF8ITqDJ+TfpR2vDCXj7i7LW/sN67GyfRMNetw49Q1+bgRXmg2Uj
+ YVHfK5QpdOnTos6BySc/7YJuQt20jduHNa2F9RWOP9O+JeA+Hqc/T96Iq
+ Nj1xGx/uOO0rROXR95LlJHKkjpYUG0zdITqxS/anY48ogbX2psghnwLVk
+ 9DoSGR2/e04sYx/Nw50XzZTYdwGw033RfJA4qa1RvCn9fNphHLXDzjkht
+ gLa68yuh7u0/mD/bdCx6BEvfHRt0twFq/7Sq11Qmp+oP7LyZN7NtSQ7tJ w==;
+X-IronPort-AV: E=McAfee;i="6400,9594,10310"; a="243674369"
+X-IronPort-AV: E=Sophos;i="5.90,244,1643702400"; d="scan'208";a="243674369"
+Received: from orsmga005.jf.intel.com ([10.7.209.41])
+ by orsmga106.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 08 Apr 2022 01:13:13 -0700
+X-IronPort-AV: E=Sophos;i="5.90,244,1643702400"; d="scan'208";a="723308378"
+Received: from ajomalle-mobl.ger.corp.intel.com (HELO [10.252.1.141])
+ ([10.252.1.141])
+ by orsmga005-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 08 Apr 2022 01:13:11 -0700
+Message-ID: <2d860759-81d2-df81-54c9-16fb89a96fe9@intel.com>
+Date: Fri, 8 Apr 2022 09:13:09 +0100
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.7.0
+Subject: Re: [Intel-gfx] [PATCH 2/2] drm/i915: fix
+ i915_gem_object_wait_moving_fence
+Content-Language: en-GB
+To: Lucas De Marchi <lucas.demarchi@intel.com>
+References: <20220407164532.1242578-1-matthew.auld@intel.com>
+ <20220407164532.1242578-2-matthew.auld@intel.com>
+ <20220408050044.7wd54sjbzzkzpqzr@ldmartin-desk2>
+From: Matthew Auld <matthew.auld@intel.com>
+In-Reply-To: <20220408050044.7wd54sjbzzkzpqzr@ldmartin-desk2>
+Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 8bit
-In-Reply-To: <BA4C591F-D115-43D2-BF59-A75B29889E50@gmail.com>
-X-Sent-From: Pengutronix Hildesheim
-X-URL: http://www.pengutronix.de/
-X-IRC: #ptxdist @freenode
-X-Accept-Language: de,en
-X-Accept-Content-Type: text/plain
-X-Uptime: 10:04:12 up 8 days, 20:33, 66 users, load average: 0.29, 0.37, 0.24
-User-Agent: Mutt/1.10.1 (2018-07-13)
-X-SA-Exim-Connect-IP: 2001:67c:670:100:1d::c0
-X-SA-Exim-Mail-From: sha@pengutronix.de
-X-SA-Exim-Scanned: No (on metis.ext.pengutronix.de);
- SAEximRunCond expanded to false
-X-PTX-Original-Recipient: dri-devel@lists.freedesktop.org
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -60,82 +62,56 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: "devicetree@vger.kernel.org" <devicetree@vger.kernel.org>,
- Benjamin Gaignard <benjamin.gaignard@collabora.com>,
- Peter Geis <pgwipeout@gmail.com>, Sandy Huang <hjc@rock-chips.com>,
- dri-devel@lists.freedesktop.org,
- "open list:ARM/Rockchip SoC..." <linux-rockchip@lists.infradead.org>,
- Michael Riesch <michael.riesch@wolfvision.net>, kernel@pengutronix.de,
- Andy Yan <andy.yan@rock-chips.com>,
- "linux-arm-kernel@lists.infradead.org" <linux-arm-kernel@lists.infradead.org>
+Cc: Daniel Vetter <daniel.vetter@ffwll.ch>, intel-gfx@lists.freedesktop.org,
+ =?UTF-8?Q?Christian_K=c3=b6nig?= <christian.koenig@amd.com>,
+ dri-devel@lists.freedesktop.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Wed, Apr 06, 2022 at 11:47:22AM +0200, Piotr Oniszczuk wrote:
+On 08/04/2022 06:00, Lucas De Marchi wrote:
+> On Thu, Apr 07, 2022 at 05:45:32PM +0100, Matthew Auld wrote:
+>> All of CI is just failing with the following, which prevents loading of
+>> the module:
+>>
+>>    i915 0000:03:00.0: [drm] *ERROR* Scratch setup failed
+>>
+>> Best guess is that this comes from the pin_map() for the scratch page,
+>> which does an i915_gem_object_wait_moving_fence() somewhere. It looks
+>> like this now calls into dma_resv_wait_timeout() which can return the
+>> remaining timeout, leading to the caller thinking this is an error.
+>>
+>> Fixes: 1d7f5e6c5240 ("drm/i915: drop bo->moving dependency")
+>> Signed-off-by: Matthew Auld <matthew.auld@intel.com>
+>> Cc: Christian König <christian.koenig@amd.com>
+>> Cc: Daniel Vetter <daniel.vetter@ffwll.ch>
+>> ---
+>> drivers/gpu/drm/i915/gem/i915_gem_object.c | 9 +++++++--
+>> 1 file changed, 7 insertions(+), 2 deletions(-)
+>>
+>> diff --git a/drivers/gpu/drm/i915/gem/i915_gem_object.c 
+>> b/drivers/gpu/drm/i915/gem/i915_gem_object.c
+>> index 2998d895a6b3..1c88d4121658 100644
+>> --- a/drivers/gpu/drm/i915/gem/i915_gem_object.c
+>> +++ b/drivers/gpu/drm/i915/gem/i915_gem_object.c
+>> @@ -772,9 +772,14 @@ int i915_gem_object_get_moving_fence(struct 
+>> drm_i915_gem_object *obj,
+>> int i915_gem_object_wait_moving_fence(struct drm_i915_gem_object *obj,
+>>                       bool intr)
+>> {
+>> +    long ret;
+>> +
+>>     assert_object_held(obj);
+>> -    return dma_resv_wait_timeout(obj->base. resv, DMA_RESV_USAGE_KERNEL,
+>> -                     intr, MAX_SCHEDULE_TIMEOUT);
+>> +
+>> +    ret = dma_resv_wait_timeout(obj->base. resv, DMA_RESV_USAGE_KERNEL,
+>> +                    intr, MAX_SCHEDULE_TIMEOUT);
+>> +
+>> +    return ret < 0 ? ret : 0;
 > 
+> shouldn't == 0 also be an error since it would be a timeout?
+
+Hmm, I guess so...
+
 > 
-> > Wiadomość napisana przez Piotr Oniszczuk <piotr.oniszczuk@gmail.com> w dniu 01.04.2022, o godz. 15:05:
-> > Sascha
-> > 
-> > Now works perfectly!
-> > (hd playback with 3.5...5.5% cpu while rendering to drm plane)
-> > 
-> > Fantastic work of You!
-> 
-> Sascha,
-> 
-> Having vop2 finally working with drm planes rendering i discovered another issue: overlay osd is invisible at playback. 
-> 
-> context: player draws video on plane #X and osd on overlay plane #Y
-> When user do i.e. seek at playback - app uses overlay OSD plane to display OSD to user. This approach is used by majority of players (KODI, etc.)
-> 
-> This works well on all platforms i have  - except rk3566 
-> 
-> For me it looks like z-order vop2 issue or alpha blending issue.
-> As this is only on rk3566 and only on drm-planes mode - issue is vop2 related imho.
-
-That turned out to be simpler than I thought it would be. The zpos
-values were never actually written to the hardware. Please try the
-following fixup, it should fix this issue.
-
-Thanks for your valuable testing feedback so far :)
-
-Sascha
-
-----------------------------8<------------------------
-
-From d5a102ff1d3010320f492a6ebac6710276fc641f Mon Sep 17 00:00:00 2001
-From: Sascha Hauer <s.hauer@pengutronix.de>
-Date: Fri, 8 Apr 2022 09:45:24 +0200
-Subject: [PATCH] fixup! drm: rockchip: Add VOP2 driver
-
----
- drivers/gpu/drm/rockchip/rockchip_drm_vop2.c | 6 ++++--
- 1 file changed, 4 insertions(+), 2 deletions(-)
-
-diff --git a/drivers/gpu/drm/rockchip/rockchip_drm_vop2.c b/drivers/gpu/drm/rockchip/rockchip_drm_vop2.c
-index 54208b20a5a7e..8d1323a47f822 100644
---- a/drivers/gpu/drm/rockchip/rockchip_drm_vop2.c
-+++ b/drivers/gpu/drm/rockchip/rockchip_drm_vop2.c
-@@ -1943,8 +1943,10 @@ static void vop2_setup_layer_mixer(struct vop2_video_port *vp)
- 			break;
- 		}
- 
--		layer_sel &= ~RK3568_OVL_LAYER_SEL__LAYER(nlayer + ofs, 0x7);
--		layer_sel |= RK3568_OVL_LAYER_SEL__LAYER(nlayer + ofs, win->data->layer_sel_id);
-+		layer_sel &= ~RK3568_OVL_LAYER_SEL__LAYER(plane->state->normalized_zpos + ofs,
-+							  0x7);
-+		layer_sel |= RK3568_OVL_LAYER_SEL__LAYER(plane->state->normalized_zpos + ofs,
-+							 win->data->layer_sel_id);
- 		nlayer++;
- 	}
- 
--- 
-2.30.2
-
-
--- 
-Pengutronix e.K.                           |                             |
-Steuerwalder Str. 21                       | http://www.pengutronix.de/  |
-31137 Hildesheim, Germany                  | Phone: +49-5121-206917-0    |
-Amtsgericht Hildesheim, HRA 2686           | Fax:   +49-5121-206917-5555 |
+> Lucas De Marchi
