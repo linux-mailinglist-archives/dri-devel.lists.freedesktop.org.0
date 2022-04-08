@@ -1,42 +1,52 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4762F4F8BDD
-	for <lists+dri-devel@lfdr.de>; Fri,  8 Apr 2022 03:43:37 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 654A04F8BDF
+	for <lists+dri-devel@lfdr.de>; Fri,  8 Apr 2022 03:44:32 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 97D9F10E0A3;
-	Fri,  8 Apr 2022 01:43:32 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id F3C8F10E0D1;
+	Fri,  8 Apr 2022 01:44:29 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from bhuna.collabora.co.uk (bhuna.collabora.co.uk
- [IPv6:2a00:1098:0:82:1000:25:2eeb:e3e3])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 1C5A010E0A3
- for <dri-devel@lists.freedesktop.org>; Fri,  8 Apr 2022 01:43:31 +0000 (UTC)
-Received: from [127.0.0.1] (localhost [127.0.0.1])
- (Authenticated sender: nfraprado) with ESMTPSA id 313121F42799
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
- s=mail; t=1649382210;
- bh=Kgjk0PMTnxKr4o7yne9XJVv+nnOoS8+3S6jBLjJ/RhY=;
- h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
- b=TgTfyumEKjt0cCM/ZqjoWMw4qAfPE810ZDss67mhG4U3BZwSRIPPbZeYBpHzpsonD
- SBrX0+vXz4qsGEHj9UsJKH5bl+f/YQs8/7jx3DB84uQHk7lWPmkEa+8WCA7QrtbhNN
- z4a4n7r77ZC3DR+u2DpHDsHRjSzJS17WAJu1AdRFxdjXrgQuzRaRXyNIKC2KfDaOkr
- uq1nujFa8JTATay3Tdr64cYzm/9ytAWEyACWIiEW2DNnocsX2shBRjfUghTUwwHClX
- u1K+BvaU0iQRkNz6D3PCrWcPHtRaP5gaweQniGubIE4kJ2x6VBKT02tn2btTEFF9+4
- pt5+O3BKOX3PQ==
-Date: Thu, 7 Apr 2022 21:43:23 -0400
-From: =?utf-8?B?TsOtY29sYXMgRi4gUi4gQS4=?= Prado <nfraprado@collabora.com>
-To: CK Hu <ck.hu@mediatek.com>
-Subject: Re: [PATCH] drm/mediatek: dpi: Use mt8183 output formats for mt8192
-Message-ID: <20220408014323.k5imykh7btbqc4c2@notapiano>
-References: <20220408011907.672120-1-nfraprado@collabora.com>
- <6afe7366ceffb77674d34c48f84aa85b1c088bc3.camel@mediatek.com>
+Received: from mga02.intel.com (mga02.intel.com [134.134.136.20])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 46BDE10E0D1;
+ Fri,  8 Apr 2022 01:44:28 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+ t=1649382268; x=1680918268;
+ h=date:from:to:cc:subject:message-id:references:
+ mime-version:content-transfer-encoding:in-reply-to;
+ bh=ChtkOh/ISpvqUuW9xdvHdmhTKpHeeirOwyFuISQwhDA=;
+ b=IKEwzNTi3fp6YCF1pDyxb3i83d7/Zxa6s0ILZMj9X4eLdqW2YaLkaGP7
+ DyxPmISjcqx1z7Ed92zpIDST9tb4V6HyEhe+aa0n8XFCclXizs08awkqU
+ HKZA70G1/TTYegGty2FebBILyGt4qyQGURkLAUiqhHwIzsg33gzksKJXk
+ GAu4hIBu9uELMmEVfel2/wjN7hY43133k+9SloTwwjGI/rTYKEOVSe/QY
+ qV2kqb1KO/zv8R5UTdlvsLbHYP6RZkSrgqq/zSmjib0vzMd6MKldLCqNs
+ AY8O0J9/L7pvUdK+2ExTtUp7uy5ht5M5ncQDm9wWA8G5qxeU0rMj2dKov g==;
+X-IronPort-AV: E=McAfee;i="6400,9594,10310"; a="249014795"
+X-IronPort-AV: E=Sophos;i="5.90,243,1643702400"; d="scan'208";a="249014795"
+Received: from orsmga008.jf.intel.com ([10.7.209.65])
+ by orsmga101.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 07 Apr 2022 18:44:27 -0700
+X-IronPort-AV: E=Sophos;i="5.90,243,1643702400"; d="scan'208";a="571306392"
+Received: from aalkukhu-mobl1.amr.corp.intel.com (HELO ldmartin-desk2)
+ ([10.212.172.187])
+ by orsmga008-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 07 Apr 2022 18:44:27 -0700
+Date: Thu, 7 Apr 2022 18:44:27 -0700
+From: Lucas De Marchi <lucas.demarchi@intel.com>
+To: Matthew Auld <matthew.auld@intel.com>
+Subject: Re: [Intel-gfx] [PATCH 2/2] drm/i915: fix
+ i915_gem_object_wait_moving_fence
+Message-ID: <20220408014427.7qincl464uyxj3sx@ldmartin-desk2>
+References: <20220407164532.1242578-1-matthew.auld@intel.com>
+ <20220407164532.1242578-2-matthew.auld@intel.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=iso-8859-1
+Content-Type: text/plain; charset=iso-8859-1; format=flowed
 Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
-In-Reply-To: <6afe7366ceffb77674d34c48f84aa85b1c088bc3.camel@mediatek.com>
+In-Reply-To: <20220407164532.1242578-2-matthew.auld@intel.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -49,64 +59,33 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Chun-Kuang Hu <chunkuang.hu@kernel.org>, jitao.shi@mediatek.com,
- David Airlie <airlied@linux.ie>, linux-kernel@vger.kernel.org,
- dri-devel@lists.freedesktop.org, Matthias Brugger <matthias.bgg@gmail.com>,
- linux-mediatek@lists.infradead.org, rex-bc.chen@mediatek.com,
- kernel@collabora.com, linux-arm-kernel@lists.infradead.org,
- AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>
+Cc: Daniel Vetter <daniel.vetter@ffwll.ch>, intel-gfx@lists.freedesktop.org,
+ Christian =?utf-8?B?S8O2bmln?= <christian.koenig@amd.com>,
+ dri-devel@lists.freedesktop.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Fri, Apr 08, 2022 at 09:36:17AM +0800, CK Hu wrote:
-> Hi, Jitao & Rex:
-> 
-> Please help to comment on this patch.
+On Thu, Apr 07, 2022 at 05:45:32PM +0100, Matthew Auld wrote:
+>All of CI is just failing with the following, which prevents loading of
+>the module:
+>
+>    i915 0000:03:00.0: [drm] *ERROR* Scratch setup failed
+>
+>Best guess is that this comes from the pin_map() for the scratch page,
+>which does an i915_gem_object_wait_moving_fence() somewhere. It looks
+>like this now calls into dma_resv_wait_timeout() which can return the
+>remaining timeout, leading to the caller thinking this is an error.
+>
+>Fixes: 1d7f5e6c5240 ("drm/i915: drop bo->moving dependency")
+>Signed-off-by: Matthew Auld <matthew.auld@intel.com>
+>Cc: Christian König <christian.koenig@amd.com>
+>Cc: Daniel Vetter <daniel.vetter@ffwll.ch>
 
-Hi Chuang,
+This indeed brings CI back to life.
 
-I already sent a v2 of this patch [1] because I forgot to add the Fixes tag.
-Sorry for the noise.
 
-Thanks,
-Nícolas
+Acked-by: Lucas De Marchi <lucas.demarchi@intel.com>
 
-[1] https://lore.kernel.org/all/20220408013950.674477-1-nfraprado@collabora.com/
 
-> 
-> On Thu, 2022-04-07 at 21:19 -0400, Nícolas F. R. A. Prado wrote:
-> > The configuration for mt8192 was incorrectly using the output formats
-> > from mt8173. Since the output formats for mt8192 are instead the same
-> > ones as for mt8183, which require two bus samples per pixel, the
-> > pixelclock and DDR edge setting were misconfigured. This made
-> > external
-> > displays unable to show the image.
-> > 
-> > Fix the issue by correcting the output format for mt8192 to be the
-> > same
-> > as for mt8183, fixing the usage of external displays for mt8192.
-> > 
-> > Signed-off-by: Nícolas F. R. A. Prado <nfraprado@collabora.com>
-> > 
-> > ---
-> > 
-> >  drivers/gpu/drm/mediatek/mtk_dpi.c | 4 ++--
-> >  1 file changed, 2 insertions(+), 2 deletions(-)
-> > 
-> > diff --git a/drivers/gpu/drm/mediatek/mtk_dpi.c
-> > b/drivers/gpu/drm/mediatek/mtk_dpi.c
-> > index 4554e2de1430..e61cd67b978f 100644
-> > --- a/drivers/gpu/drm/mediatek/mtk_dpi.c
-> > +++ b/drivers/gpu/drm/mediatek/mtk_dpi.c
-> > @@ -819,8 +819,8 @@ static const struct mtk_dpi_conf mt8192_conf = {
-> >  	.cal_factor = mt8183_calculate_factor,
-> >  	.reg_h_fre_con = 0xe0,
-> >  	.max_clock_khz = 150000,
-> > -	.output_fmts = mt8173_output_fmts,
-> > -	.num_output_fmts = ARRAY_SIZE(mt8173_output_fmts),
-> > +	.output_fmts = mt8183_output_fmts,
-> > +	.num_output_fmts = ARRAY_SIZE(mt8183_output_fmts),
-> >  };
-> >  
-> >  static int mtk_dpi_probe(struct platform_device *pdev)
-> 
+thanks
+Lucas De Marchi
