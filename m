@@ -1,63 +1,58 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 024C94F9E9F
-	for <lists+dri-devel@lfdr.de>; Fri,  8 Apr 2022 23:06:00 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 221294F9EFB
+	for <lists+dri-devel@lfdr.de>; Fri,  8 Apr 2022 23:12:44 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id D88B510E683;
-	Fri,  8 Apr 2022 21:05:57 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 80DB110E8B7;
+	Fri,  8 Apr 2022 21:12:41 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-ot1-x32a.google.com (mail-ot1-x32a.google.com
- [IPv6:2607:f8b0:4864:20::32a])
- by gabe.freedesktop.org (Postfix) with ESMTPS id C0EAA10E68A
- for <dri-devel@lists.freedesktop.org>; Fri,  8 Apr 2022 21:05:55 +0000 (UTC)
-Received: by mail-ot1-x32a.google.com with SMTP id
- a17-20020a9d3e11000000b005cb483c500dso6921883otd.6
- for <dri-devel@lists.freedesktop.org>; Fri, 08 Apr 2022 14:05:55 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=from:to:cc:subject:date:message-id:in-reply-to:references
- :mime-version:content-transfer-encoding;
- bh=/6bF252QqnY12H7PjXHxtHVXzmjhuS4IY4ywpEiT3F4=;
- b=bX3q3cffPSL7HX15VA0/7vcodNKzm9GcJLAGtQNZRrY/jo2zHyo67+eaqjF0TZuH9O
- UJs47CoLQXfKzFmbPYXlgUIQCeaixSBKNKxng6izLWyH5UXqPjSh5AfIq63mYDGW9ITF
- QdxLQnhX09H/zcdLRTK8kByv5nsZFMrOYPz0YvTg09r69NMRQq5ZfM7M5STkxl+VgHp1
- lCKElw75Tn3au3nk1577813tB9U6jNKrH8T7/zpHn8Ku698P0kl8qOWNH6CHOKjIs2EP
- sALiAz/v/AkLsOcSBwh7AiIfkT6X3rtmsTfo1iJlHOn31PvJITVuFIkvKtoO09ysM97d
- klwg==
+Received: from mail-pg1-x531.google.com (mail-pg1-x531.google.com
+ [IPv6:2607:f8b0:4864:20::531])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 6A02010E8B7;
+ Fri,  8 Apr 2022 21:12:40 +0000 (UTC)
+Received: by mail-pg1-x531.google.com with SMTP id 32so6672304pgl.4;
+ Fri, 08 Apr 2022 14:12:40 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
+ h=from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=nk1qUFXg3SiseuNYjEIl+VPm4EeXFht7d29XrU4KaA4=;
+ b=hHTYVCbzDxg/E6f2Y5m+SrW5q0WvHz2DjhOqkt9ageKVHSkzhR36bFmCGsjUHf6l46
+ g8lbXxqsW6ogDLPjvXs161Wnur99anKCZOV1yg7BjtKY2pHGJmAFmkqlWrmEehmNOf2U
+ 1GgiQCxoOJRaOLN/FYVn9voavYu9gGLQehaSe0lg4eINObxUDrkjRN809DqSqJ0nEqPm
+ m6fVJvimqwyI7aafsQeLPxLUjmY7gTpQZXsNkynW1z1enXVR/h4clXHFNFegenDJasV6
+ DNSMQ7Sw84CLuUxbYRwTcWB6mYCTELyC6JVhbsRRb4I7g/wsr5q+a9BmKzco85tUIg+M
+ vK4g==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
- :references:mime-version:content-transfer-encoding;
- bh=/6bF252QqnY12H7PjXHxtHVXzmjhuS4IY4ywpEiT3F4=;
- b=GoCvIvfibg7I3gl5yqxDF/VFn274UQBDsAUSji5q8sc+E4K4TgWoFxIGOp9Fy3/NQl
- 6MM9xd84X1Hu9akHocPxzeWY6UnuDaWKA6TsvMuK2KPhDm6Cb0e8ZW1vgheG5NUH1YIV
- gsStRj1EExeqxOpbO2st5Kc2HCrDCLFP/LHjGeLb2fCe8mleFthCKQrjXkFjuVs3DKUn
- Tw3wxwAgvxznE6TKQESiFd0+D/P/xmoI5cyoQUwqzOmWG4Ry8iWTXKFXfoOVM+zU+GDI
- AE1ei5ev/nGe5oOnYMKqUXCFvGteE0fZJsjUX+WeF4PE0qf9myTdkrVkH8b7t36kXWgl
- Wmcg==
-X-Gm-Message-State: AOAM533kTqFLiUOoGW81s/NGPsUD3ESCfRNilp2M1v47F5LeIM/h7j4S
- Te/PiLB/GEyeMFCS7jUSsrbuXw==
-X-Google-Smtp-Source: ABdhPJzyHOxnC2y32CYITmSfyBZzFVbKrQ+pRvockWV4jxLwEx0YqRBgTITQPSRrQgGmtquEJ4txBQ==
-X-Received: by 2002:a05:6830:1605:b0:5c9:4fde:ba63 with SMTP id
- g5-20020a056830160500b005c94fdeba63mr7352822otr.84.1649451954926; 
- Fri, 08 Apr 2022 14:05:54 -0700 (PDT)
-Received: from ripper.. ([2600:1700:a0:3dc8:205:1bff:fec0:b9b3])
+ h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=nk1qUFXg3SiseuNYjEIl+VPm4EeXFht7d29XrU4KaA4=;
+ b=mAwgvghlUXb2x3nGG+4z5Bn2z2tWZFjkzszTcNxQM02n2SnRdx6t7NARfARqdDzCL/
+ fVQRTtbpQQb1QyaTGmacCNZcPjTIwB2yEWumjvCV3MYRK3aU2T43F3vS9iOQtxX6Uaxc
+ xLkX+oJP9jk/BOBrsy6N3gGIWAQ4TQ+9QUlG6FgRGOB3SuOXb7UeCADEjV1sXNbH5D+D
+ kEhU5NGe0+XPDbQXRzy8QqbE/VCz9MdITOcpYkpKu8gufCrQdfj9uAvJYF+a8ebYV6f3
+ u8Mj0Bap+hM89tia1PBJCKZworpWavvw80UPccQfRqFhz8zG3hUrcYKmD7sSVNlquT26
+ j93Q==
+X-Gm-Message-State: AOAM533Hk8+dL6MF3l5Y8AZeDrbSUDb1vBLZlIE3TOtIS+rMpK2U3ii2
+ 7kzPldE7lKg0TZDORu0uZ9N+wTdtO+4=
+X-Google-Smtp-Source: ABdhPJwttnVHc5lT1HgmINnh+1IbLwkQVQL2uri4evMfw1Up+524IZGFS0MQjKMwPf5h0DYx5sW0hQ==
+X-Received: by 2002:a63:e24b:0:b0:399:1d7e:1503 with SMTP id
+ y11-20020a63e24b000000b003991d7e1503mr16974463pgj.335.1649452359613; 
+ Fri, 08 Apr 2022 14:12:39 -0700 (PDT)
+Received: from olv-glaptop3.lan ([2601:647:4400:452:c6d0:c747:3e11:b8e3])
  by smtp.gmail.com with ESMTPSA id
- y18-20020a056871011200b000e1f5910d45sm6560356oab.7.2022.04.08.14.05.53
+ b7-20020a17090ae38700b001ca8947e73csm12277207pjz.0.2022.04.08.14.12.38
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Fri, 08 Apr 2022 14:05:54 -0700 (PDT)
-From: Bjorn Andersson <bjorn.andersson@linaro.org>
-To: Rob Clark <robdclark@gmail.com>, Abhinav Kumar <quic_abhinavk@quicinc.com>,
- Rob Herring <robh+dt@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>,
- Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
-Subject: [PATCH v3 2/2] drm/msm/dpu: Issue MDSS reset during initialization
-Date: Fri,  8 Apr 2022 14:08:13 -0700
-Message-Id: <20220408210813.581391-2-bjorn.andersson@linaro.org>
-X-Mailer: git-send-email 2.35.1
-In-Reply-To: <20220408210813.581391-1-bjorn.andersson@linaro.org>
-References: <20220408210813.581391-1-bjorn.andersson@linaro.org>
+ Fri, 08 Apr 2022 14:12:38 -0700 (PDT)
+From: Chia-I Wu <olvaffe@gmail.com>
+To: freedreno@lists.freedesktop.org
+Subject: [PATCH] drm/msm: add trace_dma_fence_emit to msm_gpu_submit
+Date: Fri,  8 Apr 2022 14:12:30 -0700
+Message-Id: <20220408211230.601475-1-olvaffe@gmail.com>
+X-Mailer: git-send-email 2.35.1.1178.g4f1659d476-goog
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
@@ -72,101 +67,43 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: freedreno@lists.freedesktop.org, devicetree@vger.kernel.org,
- David Airlie <airlied@linux.ie>, linux-arm-msm@vger.kernel.org,
- linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
- Sean Paul <sean@poorly.run>
+Cc: Rob Clark <robdclark@chromium.org>, David Airlie <airlied@linux.ie>,
+ linux-arm-msm@vger.kernel.org, Abhinav Kumar <quic_abhinavk@quicinc.com>,
+ dri-devel@lists.freedesktop.org, Sumit Semwal <sumit.semwal@linaro.org>,
+ Sean Paul <sean@poorly.run>,
+ =?UTF-8?q?Christian=20K=C3=B6nig?= <christian.koenig@amd.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-It's typical for the bootloader to bring up the display for showing a
-boot splash or efi framebuffer. But in some cases the kernel driver ends
-up only partially configuring (in particular) the DPU, which might
-result in e.g. that two different data paths attempts to push data to
-the interface - with resulting graphical artifacts.
+In practice, trace_dma_fence_init is good enough and almost no driver
+calls trace_dma_fence_emit.  But this is still more correct in theory.
 
-Naturally the end goal would be to inherit the bootloader's
-configuration and provide the user with a glitch free handover from the
-boot configuration to a running DPU.
-
-But as implementing seamless transition from the bootloader
-configuration to the running OS will be a considerable effort, start by
-simply resetting the entire MDSS to its power-on state, to avoid the
-partial configuration.
-
-Signed-off-by: Bjorn Andersson <bjorn.andersson@linaro.org>
+Signed-off-by: Chia-I Wu <olvaffe@gmail.com>
+Cc: Rob Clark <robdclark@chromium.org>
 ---
+ drivers/gpu/drm/msm/msm_gpu.c | 2 ++
+ 1 file changed, 2 insertions(+)
 
-Changes since v2:
-- Move the reset before the probing of the children, to avoid issues if child
-  drivers touched hardware at probe time.
-- Extend reset assert time as the previous 1us showed reliability issues on
-  Lenovo Flex 5G.
-
- drivers/gpu/drm/msm/disp/dpu1/dpu_mdss.c | 32 ++++++++++++++++++++++++
- 1 file changed, 32 insertions(+)
-
-diff --git a/drivers/gpu/drm/msm/disp/dpu1/dpu_mdss.c b/drivers/gpu/drm/msm/disp/dpu1/dpu_mdss.c
-index b10ca505f9ac..6f921910d0e0 100644
---- a/drivers/gpu/drm/msm/disp/dpu1/dpu_mdss.c
-+++ b/drivers/gpu/drm/msm/disp/dpu1/dpu_mdss.c
-@@ -3,10 +3,12 @@
-  * Copyright (c) 2018, The Linux Foundation
-  */
+diff --git a/drivers/gpu/drm/msm/msm_gpu.c b/drivers/gpu/drm/msm/msm_gpu.c
+index faf0c242874e..a82193f41ea2 100644
+--- a/drivers/gpu/drm/msm/msm_gpu.c
++++ b/drivers/gpu/drm/msm/msm_gpu.c
+@@ -15,6 +15,7 @@
+ #include <linux/string_helpers.h>
+ #include <linux/devcoredump.h>
+ #include <linux/sched/task.h>
++#include <trace/events/dma_fence.h>
  
-+#include <linux/delay.h>
- #include <linux/irq.h>
- #include <linux/irqchip.h>
- #include <linux/irqdesc.h>
- #include <linux/irqchip/chained_irq.h>
-+#include <linux/reset.h>
- #include "dpu_kms.h"
+ /*
+  * Power Management:
+@@ -769,6 +770,7 @@ void msm_gpu_submit(struct msm_gpu *gpu, struct msm_gem_submit *submit)
+ 	gpu->active_submits++;
+ 	mutex_unlock(&gpu->active_lock);
  
- #define to_dpu_mdss(x) container_of(x, struct dpu_mdss, base)
-@@ -197,6 +199,32 @@ static void dpu_mdss_destroy(struct msm_mdss *mdss)
- 	dpu_mdss->mmio = NULL;
- }
++	trace_dma_fence_emit(submit->hw_fence);
+ 	gpu->funcs->submit(gpu, submit);
+ 	gpu->cur_ctx_seqno = submit->queue->ctx->seqno;
  
-+static int dpu_mdss_reset(struct device *dev)
-+{
-+	struct reset_control *reset;
-+
-+	reset = reset_control_get_optional_exclusive(dev, NULL);
-+	if (!reset) {
-+		/* Optional reset not specified */
-+		return 0;
-+	} else if (IS_ERR(reset)) {
-+		DPU_ERROR("failed to acquire mdss reset, ret=%ld", PTR_ERR(reset));
-+		return PTR_ERR(reset);
-+	}
-+
-+	reset_control_assert(reset);
-+	/*
-+	 * Tests indicate that reset has to be held for some period of time,
-+	 * make it one frame in a typical system
-+	 */
-+	msleep(20);
-+	reset_control_deassert(reset);
-+
-+	reset_control_put(reset);
-+
-+	return 0;
-+}
-+
- static const struct msm_mdss_funcs mdss_funcs = {
- 	.enable	= dpu_mdss_enable,
- 	.disable = dpu_mdss_disable,
-@@ -210,6 +238,10 @@ int dpu_mdss_init(struct platform_device *pdev)
- 	int ret;
- 	int irq;
- 
-+	ret = dpu_mdss_reset(&pdev->dev);
-+	if (ret)
-+		return ret;
-+
- 	dpu_mdss = devm_kzalloc(&pdev->dev, sizeof(*dpu_mdss), GFP_KERNEL);
- 	if (!dpu_mdss)
- 		return -ENOMEM;
 -- 
-2.35.1
+2.35.1.1178.g4f1659d476-goog
 
