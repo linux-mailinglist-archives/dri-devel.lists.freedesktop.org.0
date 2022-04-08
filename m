@@ -2,45 +2,45 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id BC37B4F956A
-	for <lists+dri-devel@lfdr.de>; Fri,  8 Apr 2022 14:13:55 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 91A864F957E
+	for <lists+dri-devel@lfdr.de>; Fri,  8 Apr 2022 14:20:14 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 225CA10E413;
-	Fri,  8 Apr 2022 12:13:51 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id E579510EFE4;
+	Fri,  8 Apr 2022 12:20:11 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-qk1-x734.google.com (mail-qk1-x734.google.com
- [IPv6:2607:f8b0:4864:20::734])
- by gabe.freedesktop.org (Postfix) with ESMTPS id A585B10E413
- for <dri-devel@lists.freedesktop.org>; Fri,  8 Apr 2022 12:13:49 +0000 (UTC)
-Received: by mail-qk1-x734.google.com with SMTP id j6so4585152qkp.9
- for <dri-devel@lists.freedesktop.org>; Fri, 08 Apr 2022 05:13:49 -0700 (PDT)
+Received: from mail-qv1-xf35.google.com (mail-qv1-xf35.google.com
+ [IPv6:2607:f8b0:4864:20::f35])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 66FCF10EFE4
+ for <dri-devel@lists.freedesktop.org>; Fri,  8 Apr 2022 12:20:10 +0000 (UTC)
+Received: by mail-qv1-xf35.google.com with SMTP id f3so7291370qvz.10
+ for <dri-devel@lists.freedesktop.org>; Fri, 08 Apr 2022 05:20:10 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=Arewm4aQpx1cT2q4dPKQ3HPLjp07y7cA6oxjb8oJlW8=;
- b=VKgfA8yrFSFOJIddQ/PpANf1sfzrMGxijHDMvjVQx4hjCnWb9Ld4jB4oBtszl+ppQT
- QYqjR2pAjQju6o1gswuZmtFffh2m4gDg/g16gDI+t1OhuEOIvoR9X4CvOMXB03B1FASM
- UtA6slUL9gNiySX82qtdqEwk9fNSNbOwmJeHY+IH3ONgTmjvpefoY4AlpYQ8VbmzYTgz
- pRB/MDy1V90CpF9Xeqjio2ZJF3pCZizbOj1GV7RevgZeGXOMK5u8QiV4UT+lFefIaOEf
- 6MEnDSJ3e8W26O2U3AmmuG7Kwb65WaDd9Qx2NiLTzNuzfk9Q4I9LOyONhNZ3T+hXIP+z
- xpEg==
+ :cc; bh=qnV1xPHXIhELyu3l/Rzc6DpeLBQsaK18p8BjdbQ3rfM=;
+ b=m7ai8kdqUTEqZEtxij01ueqIDRNer/to8wJyLd/8iO4+BLLqvAAGiuEGtFzKZVWOI0
+ FV/J3KeywgRxq3mhQ0PIgEpaWUYcXq8q5pdUDyuLa1l/zUEF/XmUB07U8oM9Ik0ysJZU
+ vtqly3RaJH1bNvzi6uSmk8HQKzgpWr+pZGK+PFytl/a+91zOoys1eTL/TjpBJuuhgLIX
+ uSy86jjMuQvtjhuFQhLBllDLqzUq4JtcLaGAZeHjJ2Hv5djMNzin/jFgQ9ZYB435eHS5
+ LVdMoExsv9u3WQBoOa1+52e5CSHkH4OyAXpoV7og/Kx2CCxV65JCpbOMII1Aqgj/ppvr
+ pw4Q==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:mime-version:references:in-reply-to:from:date
  :message-id:subject:to:cc;
- bh=Arewm4aQpx1cT2q4dPKQ3HPLjp07y7cA6oxjb8oJlW8=;
- b=6RXVnCn+tE8w/bq9mv61caAj0QBnP1rWkTEVOh3wxhyCUq9wQ57JPKZSD0wWdlNllz
- 3qSpP/mu2f0i52a0qTjtKoIdJeBsbuDCqw2aR5lRkntC8wEHVSuAbAM+DMW4R0KNM9ih
- ssFMUwUhZEJSqaQobEALf9U5u/EMBIY0s0KdTNxa8UjfmhRutP35l//BJlQPeVtGn2Fl
- QGXlrtRLVPhEPuKUde6qcZDGb4JDpPqk0ZapsrVTOP6Q3XOqs598GraZLHpFTDY3weOP
- D6rwES9yB3yO/YGiiHMdn4d4MoTlpAjfvST669fdpufsaOi1o7rWp1LHL225E8KAPQYm
- rQDA==
-X-Gm-Message-State: AOAM531jJEv/KGwRGJal5ryo1YZFz9BBPP0qUsHLXCi0rgQtabPoN4jC
- txnLd7HSveJ2df0TiGomm0hvz7yNY814rYaKPxxtzg==
-X-Google-Smtp-Source: ABdhPJy5P9+4bfSCbB1onvnvwIp8rhXMjt0EzyPw6aJVpgHebQZIks1AUDZz/i0HFQXxvuXWYClnpcoYSSCUg+3xJqA=
-X-Received: by 2002:a05:620a:28c7:b0:67d:6d4e:16ee with SMTP id
- l7-20020a05620a28c700b0067d6d4e16eemr12338727qkp.59.1649420028771; Fri, 08
- Apr 2022 05:13:48 -0700 (PDT)
+ bh=qnV1xPHXIhELyu3l/Rzc6DpeLBQsaK18p8BjdbQ3rfM=;
+ b=fp4uaEYE3QhFVphM/kHwbXUHParwf3E3S+B+e6z0bAWfMbCm86isPaCwA0PBopScEB
+ v56r34f3vR3zt+CCoNS+G/AAsOvM3f6NuCKrNUwzJUCLElYoKAEmCRvNbRpSPYnbhrdQ
+ vlMD8i7d5FPyU1uR7NPet2iDi1OIsfapONssO6rojLHE/lzPMCDQcf9QEgs3Qo0TprTC
+ 6sYJYGJM8RsUCv0ImbjvEtwjGMolXQkkREpWborLbgoN4H+fSVpL+wO2N9xTbBUjhZ8W
+ 6dF6ppXOGsvjpWgMeGDA/eGH34M8fcM4yGypxZo96gNeCJBeAVeNadpnvIfO3HyTfU95
+ +Fig==
+X-Gm-Message-State: AOAM532DMvpEmkwiDx+HUOCUA/m5txkRfpK9Oo/um3/cdpWuvE9Hd0I1
+ yZq59GEdm5jqETBuhuPTaLR+MgRgLBxZO/W74I/WUA==
+X-Google-Smtp-Source: ABdhPJyppvxucb4/91IO7XFUMqE5JTo2LAUqFHjQRBj+2zXkmKhMX/jftAjRdF5M39x/wbJKWCwF15Aho5GRj5Cqkkc=
+X-Received: by 2002:a05:6214:20e4:b0:441:7bed:5ccd with SMTP id
+ 4-20020a05621420e400b004417bed5ccdmr16143495qvk.119.1649420409412; Fri, 08
+ Apr 2022 05:20:09 -0700 (PDT)
 MIME-Version: 1.0
 References: <1648656179-10347-1-git-send-email-quic_sbillaka@quicinc.com>
  <1648656179-10347-2-git-send-email-quic_sbillaka@quicinc.com>
@@ -56,12 +56,15 @@ References: <1648656179-10347-1-git-send-email-quic_sbillaka@quicinc.com>
  <MW4PR02MB7186245772DAC3E04FA8D1C0E1E69@MW4PR02MB7186.namprd02.prod.outlook.com>
  <CAD=FV=Wk3U7_bVdiCPp8iQ4bcCA_Botemu4pwHeRtgBa3Xk6KQ@mail.gmail.com>
  <c4f086ce-c56f-f7c9-4092-7f2432330d50@quicinc.com>
- <CAA8EJprdV64jOexEF-XqbkwsNDWBNRRndOAas-QqMHaL=zp9rw@mail.gmail.com>
- <CAD=FV=XdRKWFQnJx9AKYmB2p26sXmhjqxLzz+LYyCt7rg+zF6w@mail.gmail.com>
-In-Reply-To: <CAD=FV=XdRKWFQnJx9AKYmB2p26sXmhjqxLzz+LYyCt7rg+zF6w@mail.gmail.com>
+ <CAD=FV=UmU_BVUaL_X75yOEvQPtGUBTR5-jiVWBHq7uSRt6HM4Q@mail.gmail.com>
+ <225d2c0a-42ec-28ad-688c-e7e9e2035ee1@quicinc.com>
+ <CAD=FV=W=WjSACHvRDFBnkLUp-LU2c4XMu3=FTzTx=zexNF5PAw@mail.gmail.com>
+ <CAA8EJpqLZ9up4euGEbhf5QyBqm4tJuLcHi7D+0Si7ak9Jej52w@mail.gmail.com>
+ <CAD=FV=XwOzsRf7RnvyBjr5TtedMhC0LJFKoK9tp-kw1eEyuJmQ@mail.gmail.com>
+In-Reply-To: <CAD=FV=XwOzsRf7RnvyBjr5TtedMhC0LJFKoK9tp-kw1eEyuJmQ@mail.gmail.com>
 From: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
-Date: Fri, 8 Apr 2022 15:13:38 +0300
-Message-ID: <CAA8EJprvSy1PuYCXMr-TxBF1XwcAZaErSmzH2Tw5-NAovxHY7A@mail.gmail.com>
+Date: Fri, 8 Apr 2022 15:19:59 +0300
+Message-ID: <CAA8EJprb5UF24WRNvGaY_hSqW--NPd=9=8AaPYWSMbUumNn+dQ@mail.gmail.com>
 Subject: Re: [PATCH v6 1/8] drm/msm/dp: Add eDP support via aux_bus
 To: Doug Anderson <dianders@chromium.org>
 Content-Type: text/plain; charset="UTF-8"
@@ -94,47 +97,49 @@ Cc: quic_kalyant <quic_kalyant@quicinc.com>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Fri, 8 Apr 2022 at 03:28, Doug Anderson <dianders@chromium.org> wrote:
+On Fri, 8 Apr 2022 at 03:26, Doug Anderson <dianders@chromium.org> wrote:
 >
 > Hi,
 >
-> On Thu, Apr 7, 2022 at 4:36 PM Dmitry Baryshkov
+> On Thu, Apr 7, 2022 at 4:46 PM Dmitry Baryshkov
 > <dmitry.baryshkov@linaro.org> wrote:
 > >
-> > The ps8640 driver looks 'working by coincidence'. It calls
-> > dp_aux_populate, then immediately after the function returns it checks
-> > for the panel. If panel-edp is built as a module, the probe might fail
-> > easily.
-> > The anx7625 driver has the same kind of issue. The DP AUX bus is
-> > populated from the probe() and after some additional work the panel is
-> > being checked.
-> > This design is fragile and from my quick glance it can break (or be
-> > broken) too easy. It reminds me of our drm msm 'probe' loops
-> > preventing the device to boot completely if the dsi bridge/panel could
-> > not be probed in time.
+> > > The way I'm arguing it should work is that:
+> > >
+> > > 1. A whole bunch of the DP init code should move to the DP driver's
+> > > probe function. This includes parsing the DT, acquiring clocks,
+> > > getting a handle to our PHY, and IO mapping registers. As far as I
+> > > know, there's no reason to wait on all the components being probed in
+> > > order to do this stuff.
+> >
+> > Yes. And that's one of the reasons I tried to stay away from the DP
+> > driver. Each time I open the source code, my hands itch to start
+> > refactoring the code.
+> >
+> > >
+> > > 2. Once we have done the above things, it should be possible to do AUX
+> > > transfers, correct? ...and then we can populate the AUX bus from the
+> > > probe function too.
+> >
+> > No. In the DP case the AUX bus is inaccessible until the dongle is
+> > plugged (see all the HPD handling, phy_init()/phy_power_on() is hidden
+> > somewhere in that path)
 >
-> I did spend some time thinking about this, at least for ps8640. I
-> believe that as long as the panel's probe isn't asynchronous.
+> I guess my thought was that in DP you could still create the AUX bus
+> at probe time. Then for DP you just return an instant "transfer
+> failed" from the AUX bus if HPD isn't asserted. For eDP (as discussed
+> elsewhere) when we try to do an AUX transfer then we delay until HPD
+> is there.
 
-By panel probe (as a probe of any device) is potentially asynchronous.
-As in your example, the PWM might not be present, the regulator probe
-might have been delayed, the panel-edp might be built as a module,
-which is not present for some reason.
+I think panel-edp would already handle the delay, so we do not need to
+have this logic in the DP driver.
 
-> Basically if the panel isn't ready then ps8640 should return and we'll
-> retry later. I do remember the probe loops that we used to have with
-> msm and I don't _think_ this would trigger it.
+> So we can still acquire resources (clocks, PHY, io maps, etc) at probe
+> time for DP and create the AUX bus, right? It will just return
+> "-ENODEV" if HPD isn't asserted and you're DP?
 
-I don't have proof here. But as I wrote, this thing might break at some point.
-
-> That being said, if we need to separate out the AUX bus into a
-> sub-device like we did in sn65dsi86 we certainly could.
-
-Ideally we should separate the "bridge" subdevice, like it was done in
-sn65dsi86.
-So that the aux host probes, registers the EP device, then the bridge
-device can not be probed (and thus the drm_bridge is not created)
-until the next  bridge becomes available.
+Yes, please. I still suppose that we'd need a separate case to
+power_on eDP's PHY during the probe time. Maybe I'm mistaken here.
 
 -- 
 With best wishes
