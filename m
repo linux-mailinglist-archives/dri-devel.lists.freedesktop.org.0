@@ -1,43 +1,51 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id C9C0C4F969D
-	for <lists+dri-devel@lfdr.de>; Fri,  8 Apr 2022 15:27:04 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 84BCE4F96C1
+	for <lists+dri-devel@lfdr.de>; Fri,  8 Apr 2022 15:35:33 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 739EA10F18C;
-	Fri,  8 Apr 2022 13:27:00 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 7091C10F19C;
+	Fri,  8 Apr 2022 13:35:30 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-4323.proton.ch (mail-4323.proton.ch [185.70.43.23])
- by gabe.freedesktop.org (Postfix) with ESMTPS id A1EDE10F18B;
- Fri,  8 Apr 2022 13:26:58 +0000 (UTC)
-Date: Fri, 08 Apr 2022 13:26:50 +0000
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=emersion.fr;
- s=protonmail2; t=1649424416;
- bh=xKdnbX/uu4zDxFZ8hCkBVd/wtWNCWZBH1JAcwPtLw/U=;
- h=Date:To:From:Cc:Reply-To:Subject:Message-ID:In-Reply-To:
- References:From:To:Cc:Date:Subject:Reply-To:Feedback-ID:
- Message-ID;
- b=LIdIuHNo44bjyNxrW+WjYFfH/4NTVydxbOGEB5iHHJ3owDhI4nYaiOvipxfn+FXvy
- ISRv3yZxCJWe8nQIA+ES9ZFYs7Jhe+sXhp3X8qfjIK1tltflAvTcAUkIyz2okxJiOn
- Zx6dmDOJ6pBaKfMrw1tK0kMiaQ4KAsz3eAPmgzBLiWEWnj+5Ym6Xg+FUNd8bTi3jHZ
- VWAJdM/yRINXPQFHaVfE438ETtnh/XPI90OfXoTxM91zwnBG69RVqDCRevgTx8iRNS
- IOjnq3OqvlRm0L5NAM6LToaXr+Nq6HbePYTbRzixIBO9e1CiSKJSr5s4urJpVoLlp+
- vI7nkcslF/stQ==
-To: Grigory Vasilyev <h0tc0d3@gmail.com>
-From: Simon Ser <contact@emersion.fr>
-Subject: Re: [PATCH] drm/amdgpu: Fix NULL pointer dereference
-Message-ID: <2GaGJp5T0FARGpEE4FSEdCCQQNOecHtBBdQxqneeCWad2PD7gKqhp6-2LhdZSpTvDToW2kKggbfzlcvw9vsM7L_kJXo1uMNjoiAHJ4bQAjI=@emersion.fr>
-In-Reply-To: <CAD5ugGD6QzCUqk7_EVwH9Cc6PQtx_VfjVRWzzP9uKR5tkGh1RQ@mail.gmail.com>
-References: <20220408092803.3188-1-h0tc0d3@gmail.com>
- <4o2YD5id7zhK5g__CUK3Yf-6Dj459XQ0qsydW6wKHdco3YYtl78BqGUfXvQ9UO0AZoAsMPfhFB0jw1BFldiFDcbZXmGgsobuAoTMWmoDqmE=@emersion.fr>
- <CAP+8YyED70CSqVRaB7JgrAtK-yvBx5EsvrrdR7EpvOG2AVhskQ@mail.gmail.com>
- <QfKpxmkE_cy9wt5VJruw_TSdnl5KceKM8BxJGmZSBs-KiaRwIYfgc8h_-5h7Wmj6G-NtUJ3A88V5pzPvZuLlpkK-oRO5pSjeTxwHcZWlogs=@emersion.fr>
- <CAD5ugGD6QzCUqk7_EVwH9Cc6PQtx_VfjVRWzzP9uKR5tkGh1RQ@mail.gmail.com>
+Received: from mga03.intel.com (mga03.intel.com [134.134.136.65])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 666F510F19C
+ for <dri-devel@lists.freedesktop.org>; Fri,  8 Apr 2022 13:35:29 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+ t=1649424929; x=1680960929;
+ h=date:from:to:cc:subject:message-id:mime-version:
+ content-transfer-encoding;
+ bh=8Jay/Ui0EC7xFbtFJoKbamhHuLeaHZ70pEoabfxqMVQ=;
+ b=EPM5lBGHNCXyLHEkCucEaN641/LtQu/pVnZnWPXSpQN1E3dmYacxAwZn
+ fofm68GM/OjDflKAuPqdF1eYqsN2xV8b3xOgTLNGlqeE/5+ARQrQC9klR
+ ldpJ/Vg8y3j0qRDU+LKeZ5H/7TrFIwc4a8NXL9NO+PFFQySUXityzoFNO
+ cSsoqsLyueG6UxWv844UBYE1Qs+VamcVItLQneGBSg1ugMfAo5wvj+IR+
+ hEawJ6zQbv4XY4UpYlVGZO0nWcEvAnwITC6TpQUl2bm2fLzYY7u5UoEGD
+ W7FZsHzxj9fBrIsV7kDTMKT7Mz0aEU5HcMln4kCDWVNtiNGADFVmrfOOp w==;
+X-IronPort-AV: E=McAfee;i="6400,9594,10310"; a="261585703"
+X-IronPort-AV: E=Sophos;i="5.90,245,1643702400"; d="scan'208";a="261585703"
+Received: from orsmga008.jf.intel.com ([10.7.209.65])
+ by orsmga103.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 08 Apr 2022 06:35:28 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.90,245,1643702400"; d="scan'208";a="571490352"
+Received: from lkp-server02.sh.intel.com (HELO 7e80bc2a00a0) ([10.239.97.151])
+ by orsmga008.jf.intel.com with ESMTP; 08 Apr 2022 06:35:26 -0700
+Received: from kbuild by 7e80bc2a00a0 with local (Exim 4.95)
+ (envelope-from <lkp@intel.com>) id 1ncolp-0000J5-QP;
+ Fri, 08 Apr 2022 13:35:25 +0000
+Date: Fri, 08 Apr 2022 21:35:14 +0800
+From: kernel test robot <lkp@intel.com>
+To: Andrew Morton <akpm@linux-foundation.org>
+Subject: [linux-next:pending-fixes] BUILD REGRESSION
+ 02f3bd309a78c84c8e12ff44a3fd4de16d1180c3
+Message-ID: <62503a12.elUurkADGOBGC+Ma%lkp@intel.com>
+User-Agent: Heirloom mailx 12.5 6/20/10
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=us-ascii
+Content-Transfer-Encoding: 7bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -50,33 +58,141 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Reply-To: Simon Ser <contact@emersion.fr>
-Cc: David Airlie <airlied@linux.ie>, Qingqing Zhuo <qingqing.zhuo@amd.com>,
- "Pan, Xinhui" <Xinhui.Pan@amd.com>,
- Rodrigo Siqueira <Rodrigo.Siqueira@amd.com>,
- LKML <linux-kernel@vger.kernel.org>,
- amd-gfx mailing list <amd-gfx@lists.freedesktop.org>,
- Melissa Wen <mwen@igalia.com>,
- =?utf-8?Q?Michel_D=C3=A4nzer?= <mdaenzer@redhat.com>,
- Sean Paul <seanpaul@chromium.org>,
- ML dri-devel <dri-devel@lists.freedesktop.org>,
- Alex Deucher <alexander.deucher@amd.com>, Evan Quan <evan.quan@amd.com>,
- =?utf-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>
+Cc: linaro-mm-sig@lists.linaro.org,
+ Linux Memory Management List <linux-mm@kvack.org>,
+ dri-devel@lists.freedesktop.org, linux-media@vger.kernel.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Friday, April 8th, 2022 at 15:21, Grigory Vasilyev <h0tc0d3@gmail.com> w=
-rote:
+tree/branch: https://git.kernel.org/pub/scm/linux/kernel/git/next/linux-next.git pending-fixes
+branch HEAD: 02f3bd309a78c84c8e12ff44a3fd4de16d1180c3  Merge branch 'for-linux-next-fixes' of git://anongit.freedesktop.org/drm/drm-misc
 
-> Simon Ser and Bas Nieuwenhuizen, do you understand that you are
-> proposing to make the code less safe in the future? In the future,
-> someone might rewrite the code and we'll get an error.
+Unverified Error/Warning (likely false positive, please contact us if interested):
 
-I don't think we should blindly add NULL checks for all functions which
-take a pointer as argument. This makes it way more complicated to find
-a bug when the function is mis-used. Crashing is better because it
-indicates a programmer error. In the future, any new call with a NULL
-pointer will produce a clear error.
+drivers/dma-buf/st-dma-fence-unwrap.c:261:1: internal compiler error: Segmentation fault
 
-Using pointers for output values is a common pattern in C, it allows a
-function to return multiple values.
+Error/Warning ids grouped by kconfigs:
+
+gcc_recent_errors
+`-- riscv-randconfig-r042-20220406
+    `-- drivers-dma-buf-st-dma-fence-unwrap.c:internal-compiler-error:Segmentation-fault
+
+elapsed time: 726m
+
+configs tested: 105
+configs skipped: 3
+
+gcc tested configs:
+arm                              allyesconfig
+arm                                 defconfig
+arm64                               defconfig
+arm                              allmodconfig
+arm64                            allyesconfig
+parisc                           allyesconfig
+sh                               allmodconfig
+h8300                            allyesconfig
+xtensa                           allyesconfig
+arc                              allyesconfig
+alpha                            allyesconfig
+nios2                            allyesconfig
+arm                      integrator_defconfig
+powerpc                     taishan_defconfig
+sh                          polaris_defconfig
+sh                        dreamcast_defconfig
+openrisc                    or1ksim_defconfig
+sh                     sh7710voipgw_defconfig
+arm                          gemini_defconfig
+x86_64                           alldefconfig
+ia64                        generic_defconfig
+xtensa                           alldefconfig
+sh                          sdk7780_defconfig
+x86_64                        randconfig-c001
+i386                          randconfig-c001
+arm                  randconfig-c002-20220408
+ia64                             allmodconfig
+ia64                             allyesconfig
+ia64                                defconfig
+m68k                             allyesconfig
+m68k                             allmodconfig
+m68k                                defconfig
+nios2                               defconfig
+alpha                               defconfig
+csky                                defconfig
+arc                                 defconfig
+s390                                defconfig
+s390                             allmodconfig
+parisc                              defconfig
+parisc64                            defconfig
+s390                             allyesconfig
+sparc                               defconfig
+i386                             allyesconfig
+sparc                            allyesconfig
+i386                                defconfig
+i386                   debian-10.3-kselftests
+i386                              debian-10.3
+mips                             allyesconfig
+mips                             allmodconfig
+powerpc                          allyesconfig
+powerpc                           allnoconfig
+powerpc                          allmodconfig
+x86_64                        randconfig-a002
+x86_64                        randconfig-a006
+x86_64                        randconfig-a004
+i386                          randconfig-a001
+i386                          randconfig-a003
+i386                          randconfig-a005
+x86_64                        randconfig-a013
+x86_64                        randconfig-a011
+x86_64                        randconfig-a015
+i386                          randconfig-a014
+i386                          randconfig-a012
+i386                          randconfig-a016
+arc                  randconfig-r043-20220408
+riscv                randconfig-r042-20220408
+s390                 randconfig-r044-20220408
+riscv                               defconfig
+riscv                    nommu_virt_defconfig
+riscv                          rv32_defconfig
+riscv                    nommu_k210_defconfig
+riscv                             allnoconfig
+riscv                            allmodconfig
+riscv                            allyesconfig
+um                           x86_64_defconfig
+um                             i386_defconfig
+x86_64                              defconfig
+x86_64                           allyesconfig
+x86_64                                  kexec
+x86_64                          rhel-8.3-func
+x86_64                               rhel-8.3
+x86_64                         rhel-8.3-kunit
+x86_64                    rhel-8.3-kselftests
+
+clang tested configs:
+powerpc                     mpc512x_defconfig
+powerpc                   microwatt_defconfig
+powerpc                    socrates_defconfig
+arm                          pcm027_defconfig
+riscv                             allnoconfig
+arm                          collie_defconfig
+powerpc                     powernv_defconfig
+mips                           rs90_defconfig
+arm                                 defconfig
+arm                         socfpga_defconfig
+x86_64                        randconfig-a001
+x86_64                        randconfig-a003
+x86_64                        randconfig-a005
+i386                          randconfig-a002
+i386                          randconfig-a004
+i386                          randconfig-a006
+x86_64                        randconfig-a012
+x86_64                        randconfig-a014
+x86_64                        randconfig-a016
+i386                          randconfig-a013
+i386                          randconfig-a011
+i386                          randconfig-a015
+hexagon              randconfig-r045-20220408
+hexagon              randconfig-r041-20220408
+
+-- 
+0-DAY CI Kernel Test Service
+https://01.org/lkp
