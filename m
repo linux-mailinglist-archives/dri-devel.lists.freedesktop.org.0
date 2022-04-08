@@ -1,159 +1,156 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 39BDE4F9958
-	for <lists+dri-devel@lfdr.de>; Fri,  8 Apr 2022 17:25:52 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 8E9224F9966
+	for <lists+dri-devel@lfdr.de>; Fri,  8 Apr 2022 17:27:05 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 7EF9310E524;
-	Fri,  8 Apr 2022 15:25:46 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 8999110E80A;
+	Fri,  8 Apr 2022 15:27:02 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mga11.intel.com (mga11.intel.com [192.55.52.93])
- by gabe.freedesktop.org (Postfix) with ESMTPS id D71D010E501;
- Fri,  8 Apr 2022 15:25:44 +0000 (UTC)
+Received: from mga01.intel.com (mga01.intel.com [192.55.52.88])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 3279010E7EB;
+ Fri,  8 Apr 2022 15:27:01 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1649431544; x=1680967544;
- h=message-id:date:subject:to:cc:references:from:
- in-reply-to:content-transfer-encoding:mime-version;
- bh=dEauW3GLpw0PL3QQeEvZzeh41d5OUV66h6KHLqwSC8s=;
- b=cTYcNMIDmorAc3iQshWhVPh5qdsPBMw1ULNZg8dQBBo5NE5HysVQgn1O
- e88EwvFS/8IAgW9OBRXk/vHqEm08LFXyHVJcyMXje0K8EPVJRhI1P0wqb
- 0TMTvEw6utkdBTroyJbgupQZpgoUqAcq38yaRNSnW7lB+mOhH28Ova95G
- 7rFSXOntGijPbRZ6oMjskbEsAW7mZhC17d4fu343w1zcyHRJtrERaIA1r
- dUiKiVbCRJzWM8SKiAGbOJDhgdaxcA80eYbH8BiuzC6b7btHF7DowCge8
- rxt7ExO6m2eyRIExvurocEyuPgH4dYk34Xfzbi6wXpI9dac1BwjMt0uZF Q==;
-X-IronPort-AV: E=McAfee;i="6400,9594,10310"; a="259214468"
-X-IronPort-AV: E=Sophos;i="5.90,245,1643702400"; d="scan'208";a="259214468"
-Received: from orsmga002.jf.intel.com ([10.7.209.21])
- by fmsmga102.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 08 Apr 2022 08:23:50 -0700
+ t=1649431621; x=1680967621;
+ h=message-id:date:subject:to:references:from:in-reply-to:
+ content-transfer-encoding:mime-version;
+ bh=GIsWCj6bzOXnEfT+PzxDa8PqOoGUgKBW3xcnn8XKLHQ=;
+ b=lUkkTM8kS+ly9GrMoJIBmBQE8a2cP6YuruAdqll6+TUTqPVa/kYI0pc+
+ zbX4bIHk90L3u6OSAqAbC3tPbarfxIpBkZDmtZB440Nxatupl9l8iohDp
+ ML44LkRqlNi5SQLtDWLcI9WhLDKWT/Plfm2SGKS5HLVnSJ+rp1dq9oNQD
+ DM9BTMd7sXQSTExnx29endvOpoBRBJ6WR5vfY9UrzUlSuQ5o5wS5BcO5U
+ 1cK0X5QazgjZOl8HOs7KSpmRrIHde0uIs1FE9YebrcQh96wvW9+dpfKxy
+ j9xN0UmjJmoBQIXQTHAcND6C3EH1qNaFJHmrib787aaADwjnqy5bf5/TQ Q==;
+X-IronPort-AV: E=McAfee;i="6400,9594,10310"; a="286608708"
+X-IronPort-AV: E=Sophos;i="5.90,245,1643702400"; d="scan'208";a="286608708"
+Received: from fmsmga008.fm.intel.com ([10.253.24.58])
+ by fmsmga101.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 08 Apr 2022 08:25:33 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.90,245,1643702400"; d="scan'208";a="524812376"
-Received: from orsmsx601.amr.corp.intel.com ([10.22.229.14])
- by orsmga002.jf.intel.com with ESMTP; 08 Apr 2022 08:23:50 -0700
-Received: from orsmsx612.amr.corp.intel.com (10.22.229.25) by
- ORSMSX601.amr.corp.intel.com (10.22.229.14) with Microsoft SMTP Server
+X-IronPort-AV: E=Sophos;i="5.90,245,1643702400"; d="scan'208";a="609788885"
+Received: from fmsmsx601.amr.corp.intel.com ([10.18.126.81])
+ by fmsmga008.fm.intel.com with ESMTP; 08 Apr 2022 08:25:24 -0700
+Received: from fmsmsx606.amr.corp.intel.com (10.18.126.86) by
+ fmsmsx601.amr.corp.intel.com (10.18.126.81) with Microsoft SMTP Server
  (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2308.27; Fri, 8 Apr 2022 08:23:50 -0700
-Received: from orsmsx604.amr.corp.intel.com (10.22.229.17) by
- ORSMSX612.amr.corp.intel.com (10.22.229.25) with Microsoft SMTP Server
+ 15.1.2308.27; Fri, 8 Apr 2022 08:25:24 -0700
+Received: from fmsedg601.ED.cps.intel.com (10.1.192.135) by
+ fmsmsx606.amr.corp.intel.com (10.18.126.86) with Microsoft SMTP Server
  (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2308.27; Fri, 8 Apr 2022 08:23:49 -0700
-Received: from orsedg603.ED.cps.intel.com (10.7.248.4) by
- orsmsx604.amr.corp.intel.com (10.22.229.17) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2308.27 via Frontend Transport; Fri, 8 Apr 2022 08:23:49 -0700
-Received: from NAM10-DM6-obe.outbound.protection.outlook.com (104.47.58.108)
- by edgegateway.intel.com (134.134.137.100) with Microsoft SMTP Server
+ 15.1.2308.27 via Frontend Transport; Fri, 8 Apr 2022 08:25:24 -0700
+Received: from NAM11-CO1-obe.outbound.protection.outlook.com (104.47.56.173)
+ by edgegateway.intel.com (192.55.55.70) with Microsoft SMTP Server
  (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.1.2308.27; Fri, 8 Apr 2022 08:23:49 -0700
+ 15.1.2308.27; Fri, 8 Apr 2022 08:25:24 -0700
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=Fj23aPGSyfcef/16yGFSfSu+AW9NumfBB7ARgpadMyjXeM055KCEaIKcq0eWZVaBQ/UaML/itZxBeA29KsdgYLdK2FQL26uvSHvKTWzv+RZyyLlGeYhf26hKI0mCVNelZTguTQdPLfU0CZH/uwaYkJUCsSQgU9QY2hJeNeUeaDRH9lM2lRIpYumO4TEv+WHKrzLY0cVGfVOZQUBwBr7N3vfKSV4gJNWYt8GK+K6Co04YVQyJnjvpea1dAGdmSdjFH+qvv8zd9BaDHHnEKGoLNfESricwe5iF11GeKCbOK6rsXo7wuKKJRia8vkeAoRPKXfFLANXLGWHPD/dkSQv1Eg==
+ b=DYIeLfsss4NF692pThZmyoVYlGunHuwAlycAjAbU+JoE+v7DD9CYqHRMFtC8/9l9Ca4DOmyPHcr5EZSwixI2ouVJrpyYUlZpInZsyZpHmpPXHI5OuC0B4CyIzc+IKTbyw9NG6avB2gJ1R+7uOR/q6IhiN1Sp2N5Tru7g6hZa1c63GpLganGwULPKedDRoU1gPM1WjHfKrHjWfJ4UgEKliwgAwrmDB1sj6oKPakvwcbdL+we2P7R8M6qMgvHwpQhgO+U0evn9oV/1Wd98uXonggmMUxreYuo7NcDy3vjIIsofhCL0d5iHM+ZdYV+MpFOWahUobpSpL8tfsY+NmK1X2A==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
  s=arcselector9901;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=3OG8f0hy/EB5PuIqul3CrOVVFWRxjz38xvLZaMrXX+w=;
- b=ht9ydg7XHLp8U8yNfeVGqULUGl52ID6r245Mu+g7S4/WD51EUFMd2onikIaznJ1/HYCWEPG30krmYP0aBDhX6DoYCiqUyPGuisAZbD/2vzCWylJLI3pl9JCS6tEwDW3EaDCUmtBHSGn4TJZYEbzW/RWhAL8bahGON57WAApUlDT4shqzhj/Yuso7om4D9bYmuXl6Ms9ZxZoRTf9prUOR9sOtv9/o5w9YnIXvQcj8pbX5LTpJzzM5sajnYfZ3en9K7IiKmS807Ybi0weFbh3CPSO8nI4hzwReOvFaOjuWZuxZkJpFPmBT5VJbf8sEaqlXl9bwk5GpbLaDJYjrac4FJA==
+ bh=GuFwFSsu50c3OaJqzkVYexk2JINbqRChA4+zVMmxqR0=;
+ b=oKigSRvhAkjovOiC2sDdf1EIqJnb5ZFrc2jU2RwP7xlM0/5N/GSkLNLimktYRIgKKJ6Nyv1b4RA8lCx5Loo+NzusLwYdnsfZiq01O0i24TsMYUXyNvaeiywLYHYymNmjmzIwliD5mGn7NBK4SSdYrBvOfp/tyL3TDgVERVgfls3Jt4ViYhmb6xHmTdg3U9AkYGr3L5yY6WRoXPUAklAGfxw7SZSo/dnMCkv62xBO5zDp28PS7GCTFOe6QeK5kUeZe8fCEkv4T6y0eUCRYbXzl5/lVEb6dIaJodZUt/6IJGKDPsBlr7fXvXcMxyyzC7kIx8wbe/q3yn3sDV/SDoia4A==
 ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
  smtp.mailfrom=intel.com; dmarc=pass action=none header.from=intel.com;
  dkim=pass header.d=intel.com; arc=none
 Authentication-Results: dkim=none (message not signed)
  header.d=none;dmarc=none action=none header.from=intel.com;
 Received: from DM8PR11MB5719.namprd11.prod.outlook.com (2603:10b6:8:10::6) by
- BYAPR11MB3253.namprd11.prod.outlook.com (2603:10b6:a03:77::31) with
+ BL0PR11MB3249.namprd11.prod.outlook.com (2603:10b6:208:6b::27) with
  Microsoft
  SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.20.5144.26; Fri, 8 Apr 2022 15:23:48 +0000
+ 15.20.5144.22; Fri, 8 Apr 2022 15:25:22 +0000
 Received: from DM8PR11MB5719.namprd11.prod.outlook.com
  ([fe80::905:c4c3:7416:d3e9]) by DM8PR11MB5719.namprd11.prod.outlook.com
  ([fe80::905:c4c3:7416:d3e9%7]) with mapi id 15.20.5144.026; Fri, 8 Apr 2022
- 15:23:48 +0000
-Message-ID: <76050092-5d2f-a79f-6775-44a6c1213f61@intel.com>
-Date: Fri, 8 Apr 2022 20:53:35 +0530
+ 15:25:22 +0000
+Message-ID: <cb1569b6-b842-6d3b-903c-94ded72cbf5d@intel.com>
+Date: Fri, 8 Apr 2022 20:55:11 +0530
 User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:91.0) Gecko/20100101
  Thunderbird/91.7.0
-Subject: Re: [PATCH 3/3] drm/amd/display: Move connector debugfs to drm
+Subject: Re: [PATCH 1/3] drm/debug: Expose connector's max supported bpc via
+ debugfs
 Content-Language: en-US
 To: Harry Wentland <harry.wentland@amd.com>,
  <intel-gfx@lists.freedesktop.org>, <dri-devel@lists.freedesktop.org>,
  <amd-gfx@lists.freedesktop.org>, <jani.nikula@linux.intel.com>,
  <ville.syrjala@linux.intel.com>, <swati2.sharma@intel.com>
 References: <20220408065350.1485328-1-bhanuprakash.modem@intel.com>
- <20220408065350.1485328-4-bhanuprakash.modem@intel.com>
- <16c42991-7b44-3eab-261a-3c60f4d1fee3@amd.com>
+ <20220408065350.1485328-2-bhanuprakash.modem@intel.com>
+ <375fd7ff-a68e-d5c0-ff0d-bd6b50e90b93@amd.com>
 From: "Modem, Bhanuprakash" <bhanuprakash.modem@intel.com>
 Organization: Intel
-In-Reply-To: <16c42991-7b44-3eab-261a-3c60f4d1fee3@amd.com>
+In-Reply-To: <375fd7ff-a68e-d5c0-ff0d-bd6b50e90b93@amd.com>
 Content-Type: text/plain; charset="UTF-8"; format=flowed
-Content-Transfer-Encoding: 7bit
-X-ClientProxiedBy: PN0PR01CA0013.INDPRD01.PROD.OUTLOOK.COM
- (2603:1096:c01:4f::18) To DM8PR11MB5719.namprd11.prod.outlook.com
+Content-Transfer-Encoding: 8bit
+X-ClientProxiedBy: PN0PR01CA0009.INDPRD01.PROD.OUTLOOK.COM
+ (2603:1096:c01:4f::14) To DM8PR11MB5719.namprd11.prod.outlook.com
  (2603:10b6:8:10::6)
 MIME-Version: 1.0
 X-MS-PublicTrafficType: Email
-X-MS-Office365-Filtering-Correlation-Id: 9a5ca2ee-9356-4825-7cdc-08da1973c6f8
-X-MS-TrafficTypeDiagnostic: BYAPR11MB3253:EE_
-X-Microsoft-Antispam-PRVS: <BYAPR11MB32537BECA5C7C3A8CDE856FD8DE99@BYAPR11MB3253.namprd11.prod.outlook.com>
+X-MS-Office365-Filtering-Correlation-Id: 160f9abd-b97f-4b61-68c1-08da1973ff78
+X-MS-TrafficTypeDiagnostic: BL0PR11MB3249:EE_
+X-Microsoft-Antispam-PRVS: <BL0PR11MB324953D46C473BB3D9D321D58DE99@BL0PR11MB3249.namprd11.prod.outlook.com>
 X-MS-Exchange-SenderADCheck: 1
 X-MS-Exchange-AntiSpam-Relay: 0
 X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: zAsRclZm+CkPiumEt5+hnNCQH0kbay2g+MJeRCFuyq+dpWjY40yG9TL6H/N8iRO/DgjQORcTL1pr2kElyEPg8AxBHTszKiy7kkpqGR18VquBa2Y4iVNa1enNw7Gwzh1Y+F/ScwUcI5RYC/f+OJ09rHhQ8C5pheY70M2mPpQplsc/A5JVx1zFkXgZvWPvBp8pemjkT4tG6IKoVXb4wzciKOkYaQwtXuX1laCQUG0Epzgs2R5QdTbFUFZlvL6f7RVOKE6x/54eOedhup80paWNDRrIQIZ0npPse1JReXzpguc6ak/mpBUwv+49dM2+vgciA0UlbWJsXmyHg6DFwpfY1jdpV+xx7S9zYXTqLIiAJe+VH0HocevZlzstiiZ3IRkD6Ml6Vj8684QII5ua/35/G9uDK12bZ+gMwl39fMC5Pm9dSPjF9pZawTOs/VqmQivjllhCUQFN4axnbeq4UdbEVtcDbO2o9g3Rz+JIFvuYKAaxy3HnD2M+10cKjH49muh742Ypfycoqn8tYTo8wR5HQ++1YVR6sOdG32wZcam0Q/Crd9Zqr0Nt218PATE3JeY5lR+6xkrqCqOx+h+Phll/rwhCnMyRs/uRtlYMvNfucflyH7AIoRwN+2/fq1EScrdoCaXO55193gx8kbgxREF0BZpvcIj9929+d9ZUBbZV2wBjvOB5plQHI89/eOHQl4zZ8LDnL6C0b1622kECBhWOPxOoYnljDdS1IGkfnHLGBwsljls+Z5gTbM1GxAx4vYSZ
+X-Microsoft-Antispam-Message-Info: jzQdnq8F2J6vhFyqoHgPTz7r+BU06vFd0vyXdZK5eQGc5jGkivG7Qo7upVLmnYP1/ywH0wEkupprFKJXt1rDl3u+RyjF7dTdcl14epT6MVr6DDGxY8D93dawrKCzLM5SUccN6ocmL5kJ2L3Zz96myvVSfvZwTvuEqhf5RpMxOuTqfkvRt6B3snKBBEAzgjW6tqaOu6XYmsKRpdMQJOe6gx9nKTIFaxPCFOVkMjJSIkQ2rYKfvfdV/MCUhG9sqJu8UqdtbzdMujaQa/lyw9jGkFX/5fPH0yMb3ocXoHBbT/iN71Hd9yMRfhHT7iByFwNj3TJIsHTTOiEWa0ocw/Tu05iPos1au4Qr0UFtThyFdKCt+I7UnO2NdPVBh+G2hnduTtHtRRehTaQc6fNI547aJxcGix2uaPgzOnTpv5WJgrXLBYFBxB4Q+qSGnwL9PHdzaU+qnXg4gPsytkRhn8pRxP70rjgnqr81p3zp1uimjuZaPiNUHrrdP4dIY885+VY4+xfk1Az8T2NHe8HGPV6+7R7aYpPmmSxaBVsb5Tb8hOY5PxZROZJVNuxprJ7Nzpj9uhuIgBVQRPt8MkRdmnuiesYy+c8/qUnmoa09PSJ65gYaStZHXXp/25CJSi6J1NP3DfKLxmz4FXd9/+ejacdXQCqKWcMUFi2oVHV4q6pqQPgyMb9WphZm+JW9k7ePZBEcDZuWdQf2xP6ycBYY6M7FEc1OJzzVN33+ySGyW5/OVUI=
 X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
  IPV:NLI; SFV:NSPM; H:DM8PR11MB5719.namprd11.prod.outlook.com; PTR:; CAT:NONE;
- SFS:(13230001)(366004)(66946007)(6486002)(966005)(38100700002)(8676002)(4326008)(26005)(186003)(66476007)(5660300002)(6666004)(66556008)(36916002)(8936002)(508600001)(83380400001)(82960400001)(36756003)(6512007)(2906002)(6636002)(316002)(31686004)(31696002)(2616005)(6506007)(86362001)(53546011)(45980500001)(43740500002);
+ SFS:(13230001)(366004)(5660300002)(6486002)(31696002)(82960400001)(508600001)(8936002)(53546011)(2616005)(186003)(26005)(6512007)(86362001)(2906002)(6666004)(36916002)(6506007)(38100700002)(6636002)(316002)(8676002)(66476007)(66946007)(66556008)(36756003)(31686004)(45980500001)(43740500002);
  DIR:OUT; SFP:1102; 
 X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: =?utf-8?B?cTNYTkVrUVh1aVVpalJRdFBoblpXRjI3aVNycHRTQ0dTaCtDRjFjaE5mV2Z2?=
- =?utf-8?B?NGFINms1Z25oeDRHSmRVV0JtK21VTTdGbDhVdUV2SUlHSXBqR1VMUWZYK0hm?=
- =?utf-8?B?SWZXUityQm1VVGtlZkJjZmk5c1RwY3EzdWliQlJtaHRURWFnaWdteE1kSGpX?=
- =?utf-8?B?ZExhU0NDRE4rUDNQMEFHZHAvOXJwdi9iblVwY0JlWjQ1Q0Y4VDZ0YkJ5eW5W?=
- =?utf-8?B?SDlYemdMVTIwVjQ4YkJVVm5WVWZnVUM2TmZlZXlTWFhxa2t4TStuTHYya3Rr?=
- =?utf-8?B?MkZXdFJ6dWdHQnQwRGd4cGpoWDN1cmF0cGYxOTFEdThRUDRhNmY1Z3VqQ0Mr?=
- =?utf-8?B?YmsyRWJNRnhremdiS3NpT21jdkhqQmdCOE5XRC96RHdoeFlpVytOcEJRR3RS?=
- =?utf-8?B?N2RoWUMycXNMeUl6Zmxnam1mSEF3SVNydWRmSFB2TWtlTEtWdXBaVDFRWUhW?=
- =?utf-8?B?YVdsbFltNlFtaC9WYndEa055RmZodDdLVEY4WEJoWlpwM09ZRFY3MysyUnBL?=
- =?utf-8?B?ZEtQRllsUElyckgwa0pXdnZ5c0lYd3c5bkYzQ2RJbDQvblZtdmNrTjhscTFE?=
- =?utf-8?B?Y0JEdDlPZWxZaW9aRkZpVk5WdkNSVTBvRHkxMW5jaDBuaFdEUng4RUlYQy9y?=
- =?utf-8?B?Q1l0SEViMnhTWWtnRWRPbFpCRzY4SHlFakZBQkl0RVFhNUh5Ynp3T2hXYkht?=
- =?utf-8?B?QitsNUx3cXh4NS95Z2U5NHh4ZnBqWUxWRjZtMFJXRWdQL2dEakZZVnVTZ28x?=
- =?utf-8?B?SzlWT3U4aWZ6NUtSOEg2SjAvQkJXbm03NTFLdm03TEtadTlPS01KcU91TnVn?=
- =?utf-8?B?Q294dzN5Z0xNSHA0VWlwTTdCVkhqeDdsL1JHd1JZRE9jSzc0Z3ByYVJ2dmc4?=
- =?utf-8?B?cXl4K0x5QTRldWl1VmY0QlZXZ2VkQXR1eTFOWlBhSTlQRGRnOFowaFZsakJ1?=
- =?utf-8?B?Y2VzRWdpNWJiMzZxMjBiTTl0SzhOKzVwRElheUdoaVFxbWFUdGxNSVgzMDRQ?=
- =?utf-8?B?S0FNajg4VDVGRkZ5clkwV3hPUXpqRUdsM24xTHBWWlRwSnJWaWxPYVJQcmNP?=
- =?utf-8?B?eXlialJ6NzF1MU8xckxIWWZqM01ESjM1M3ZPWWhIQnJJckV0VmhyTGlicU5Z?=
- =?utf-8?B?eHRLclJVdzZGbkFXVC9pUEdkUk5aSFlVR0xPazFNWEJWTjdlNDRLWnJueENn?=
- =?utf-8?B?aGhLRFdjaHdWa1lPemhJR3krcS8yd1ViaHRBRXhvTEN4ckVyTm5TS1B6N1RD?=
- =?utf-8?B?Uld0Uk9pdlg5Ym1xd0ZsNlFqbEpUbXF5ckNJeDFFbVJEMTE5SjRpOHZTMHJL?=
- =?utf-8?B?bVRHM0Zvc0x3ZVdhNjNsNHVHSjdRMmhBRDhtTEhoaDlxY3lKVXJzWGZJOWsy?=
- =?utf-8?B?dFh2RW9OTkFJUlhxS1Z2WDRBUC9VUFdIUzc0L2YwbWhuNnhGUXRldnNDMk1t?=
- =?utf-8?B?anliaHI3V3lUVHE3QnRlcG51N3FDakdCOER5UldXZ25aK0NnVEI4Zk5ZUFpW?=
- =?utf-8?B?VHBkK3RUTjQ4M0xpeXY1Q2g3NC9GSHdIRTBMWndZR2pOVW1KdnIxZkEvaThX?=
- =?utf-8?B?VXJoMGtnVUtrbzhwMzJlOXViZEN3OXUzWTE4NE0xZ3dNTDh6U001djlHZkJw?=
- =?utf-8?B?eEpkWllzNWVTeXMvTFZIdGRmVExjL2cxamFhc2ttbGZBOHJiVDZQUVByNFNY?=
- =?utf-8?B?MHlNV3UwZkUrNmhRamwycGw4R05sL1lrazRtWTBQY1RJWHRTdy94RDkvV3ho?=
- =?utf-8?B?S0FkcnRXNDVkZldzVVdQUlBvZXk5SXh4bUZXY3ZGQ3hGdjFsWFhsS0xPSUFp?=
- =?utf-8?B?U0ptU1hnV1Q1YUVIaGVTcHd1a045ekJFVk5DK01jeVZNUXl1N1VGVmlPaTJQ?=
- =?utf-8?B?RzlXdHNiWFRKVkt6UWpZWUozMTVOUlE2eDZ6RnNaQWVYUGkvcCtNbUN5NHE1?=
- =?utf-8?B?YVIwdmxXaFBTVUIveXVmYnZnYVIzUzN4clVlTnZaQ09LbXUrYlNxdEhZQmtP?=
- =?utf-8?B?enQwUmtnMktHeG9BaVRlcG4weTJ3OXRpeS8ySml4Rks5NUJJU2VOdytCZGdx?=
- =?utf-8?B?VTJzajJJMlZuQjcrWmtRRHlrTGxHNEZaa08zTElnSG4rd3F1VjhCdFFYMXAw?=
- =?utf-8?B?Y3NldFo4QmpBQmxBdUFkTUNnaWVBZkZoY0NKRDJjY0RpV0hkUlo0Sys5OTJN?=
- =?utf-8?B?UjBDWWdxWFdXT0ZNV3hnMVBVNGcwaE1JdHhYc2MxRUkrOHcrVmJTQU00RFFH?=
- =?utf-8?B?Nk5CMWhVcjJ3TEVYVjJZOUF3WXAxcGFuYmZCS1hxclYzRHlpaUVxOGsxZk82?=
- =?utf-8?B?RnVBRnhNVjA3Y3huMkNVeGJqQUl5ZCtFNFlwSjdwUk5zbDd5eVpIdldaaklj?=
- =?utf-8?Q?mOr1OfTbvOKmVsnjc3+YJIEE62B+nxXVEK+Ye?=
-X-MS-Exchange-CrossTenant-Network-Message-Id: 9a5ca2ee-9356-4825-7cdc-08da1973c6f8
+X-MS-Exchange-AntiSpam-MessageData-0: =?utf-8?B?UHA3NnF4cHBEbEZmcnNZUW1yS3RVVEoxamNTZ2JMbDh3UytNZVpvRFRRMFRU?=
+ =?utf-8?B?YW8vWEQxbGZNQ3JiMHRFUW1tUnE2TWtaMk9weVVOcmIvQWMzSUx1TkYvNkww?=
+ =?utf-8?B?eXFFVEhCdlpxQW01RGk2aHNCNS9hb0FyQlVnWlJaTVZlWCtuNGwrNXloZDhm?=
+ =?utf-8?B?WmhTemJuOTJYd01OcEp5YmJJM3ZvM2RPWHBzUTh0TS9xVko3MkZPY1JDcTc0?=
+ =?utf-8?B?aWtRTVNrQk9SdkZaelE0d2c3S3VhZktOQTBQYTBBeWhIVllWcVNXbkxTUjlY?=
+ =?utf-8?B?YUlFRVlRSW1UQ3ZqaHZqSXpSbVJUMkpscHY1bnR5OW96OXRDQ0x2Nm16dEli?=
+ =?utf-8?B?N09mYTFUcG5EWEtkRUlsVWI4Nk9RUmk2ZXdINUt1cElMTTEwY1dMVGdCa1U5?=
+ =?utf-8?B?dUxmektIek1Ock9Tc3BsV0hDakp3Ymlab1NlN3RBeXhNam1zMzhIZW1xc3VY?=
+ =?utf-8?B?aThUa1pubzFtbzlvT2duNVA5Vnh4c29uRS9Tc01WTnNDbnlnV2ZxTFJhcFJo?=
+ =?utf-8?B?dkREazBYbTJaR0ltYzlPN2l6RWNwQmM1cGE4cWpkOGowZFlURnp6WHdpb3pj?=
+ =?utf-8?B?YVp5Z2k5V3lSVDF4WTA3QzZMZG03aDlEVTg2MWRhRW5NMWUzUjhoM2IxYVNY?=
+ =?utf-8?B?Y3duOW1JNmZLVXVJVVlYMHZTdmJLUW5MQjJpMHJQaXN0bjVKK0pqK0FGdXZO?=
+ =?utf-8?B?OUdUQW80QWIydXFpeEZ3MmNvUHpvVHRLYVlib0h2MjQ4ejljcVdGQXBFRUxS?=
+ =?utf-8?B?dzNSbHZPK1YyMEJRazRUS0Q1RG4xWTBWRTZ6Z1hjYmFNc201UHc5TWNrVkRt?=
+ =?utf-8?B?V1gyaVJscm9aS2JuWVRLajVSaDI0RGxnblZjY2xoeVNBSkQ1Q2xIaFNIc09h?=
+ =?utf-8?B?WjhMS0ova2xxZEZDN1dqcFVwVStPdTNrUmRDaW5Wd05PdUtyTk91QkkvU21F?=
+ =?utf-8?B?dUNJVjVqSEY4NWVMOGZDZTF5b1R5YmxTQnR2UzRxZ25keU0yS0VRZFA0ZWhw?=
+ =?utf-8?B?K285Ym9tZk9nTmlxM3JOZXRTVzc4SS9Vb3pSZzV3ek1jVXJCOEN0N0VvbmNX?=
+ =?utf-8?B?VnkzMi9rOEpFM3k1TFdoTFVRdXBKV0tvTnEvdCs4a1NTQ0lKV1IxakEvM3d0?=
+ =?utf-8?B?dlNXSDV4aUVOOG9PYitoaTVwVUwxc3RPTUFoSm9WdWxXM2NWNGttRFFLRlVB?=
+ =?utf-8?B?ZTVNbFE1SGcrakpadWhXT0FQOFVXaFc4UUFaRjhINmJjZDlEVUt6VkdkTG1r?=
+ =?utf-8?B?b2xEK2tXbklRcGg4TUpNcjIrNkU5ZytuODZkS0JtOHFhU1hVOGdWbVFpZHcx?=
+ =?utf-8?B?OGZQRmxZVTZMWFhaZGVwVzE4dk5TenFZTmVlQzhYam4yWjk0SnoyR3pEZW9x?=
+ =?utf-8?B?NEJTdUNSUkpZcXl2aHBGWFFBMDVaRVZMWnJPaDl6N2loRWpaRitUTzA5bEQx?=
+ =?utf-8?B?dngwSkNzaXBPUWNBSENpOE9oQXFtc2F3VFdzYUtYNEtST3I2c2xIaGlTbno0?=
+ =?utf-8?B?bnE4SGJvL2dEUTV2aUYyd1NvVVduOWIvSnZMTG1xcnpTWS9XK1RHQmZVRjd3?=
+ =?utf-8?B?MjFSQUhuenhscUZDWW1YeWgwdUxBUU9pc2N2QnF3WWVkajZjMWNXTndyN0Za?=
+ =?utf-8?B?YTcwWXBkNVNueWVDY3ZUZTFhd2pRL01JU2h3L3RsWlhvOEU5cER2Mkx4SER2?=
+ =?utf-8?B?aU91eEpMYk8xc3daaVlWcWtGd29lMjhBeXlJM1IyQW0rdXJUS0gzeEZveXJW?=
+ =?utf-8?B?dDNaa2RxTzlwc1E4UWY4S3hZVmFUYTRUdmRaTStMN3dhU1VHYmlyMVN2UUE5?=
+ =?utf-8?B?b05kdE92NU1EOUUzdlF1Sll3V3EySEcvV1ZPaEFIMU94VTV5MllEeldWQXd6?=
+ =?utf-8?B?Q28zSVE4Snc3T2NOeTN3VFEycjZoZ2JhU2kvUjhEaWJBQjdqMEZaRElFdjUv?=
+ =?utf-8?B?OTRiMjBIQTdZV0dnRHk0KzdYQllqNTZkMklJKzBDZGNySlorVXQxZkRRTDY0?=
+ =?utf-8?B?MElMSGF2bVMyaGV5Nm9QcDk0VjdsM0hQYkorWjhjaW5RTzkyNGtpMmxVQjFT?=
+ =?utf-8?B?UHZBZWp3ZGpyYmJiWjMzQ01WSFFab0hjR0tPRzZYTFFUYnJXb2pYbENIMmxn?=
+ =?utf-8?B?bDVLdjVEeHJteFczUHphWE1TOXBMeDQxaHVhWnVTV3ZjS2Q1YlRJODlwUHZ0?=
+ =?utf-8?B?R3drL0VRMWlSV1U5V1hjcW0xU29PdGppM2JpMDFRRkI4cVBMb2FRdFRsSUdD?=
+ =?utf-8?B?Q3cvdTRWcXN1Wmo3RzRid2lKNjZ5YWZaUllKMDBnSFhHM2wrTlZXa0FiYUpr?=
+ =?utf-8?B?QzFZbXVOQ2R4NkRVOGpDbjVBVTBFYzFodDlEL2FzbU1NeEJkd3o4YkFTWFF6?=
+ =?utf-8?Q?z7eI/vmOYksJblSA=3D?=
+X-MS-Exchange-CrossTenant-Network-Message-Id: 160f9abd-b97f-4b61-68c1-08da1973ff78
 X-MS-Exchange-CrossTenant-AuthSource: DM8PR11MB5719.namprd11.prod.outlook.com
 X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 08 Apr 2022 15:23:47.9578 (UTC)
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 08 Apr 2022 15:25:22.7173 (UTC)
 X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
 X-MS-Exchange-CrossTenant-Id: 46c98d88-e344-4ed4-8496-4ed7712e255d
 X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: md0DUxzLjcoW/EwNESwmfKahHwtRegtwfO7txoX+RjzsB1u0Cl3rCauY/zF4dQULzPBd1jarxqGrJ5qMiPhKdZd0eM0ERbjWGZ2nyXDheCs=
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: BYAPR11MB3253
+X-MS-Exchange-CrossTenant-UserPrincipalName: FK5ypunWAhDyYVK3yvUSU2TIJy2R3ovF3sd7H7mglgHB2BfjxF8UCa/QeiKJXpzfTBswlea85Gq6JFaZxHSJX5Gv7y5YHJsX+IRzvn++v3M=
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: BL0PR11MB3249
 X-OriginatorOrg: intel.com
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -167,183 +164,76 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Rodrigo Siqueira <Rodrigo.Siqueira@amd.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Fri-08-04-2022 08:33 pm, Harry Wentland wrote:
+On Fri-08-04-2022 08:32 pm, Harry Wentland wrote:
 > 
 > 
 > On 2022-04-08 02:53, Bhanuprakash Modem wrote:
->> As drm_connector already have the display_info, instead of creating
->> "output_bpc" debugfs in vendor specific driver, move the logic to
->> the drm layer.
+>> It's useful to know the connector's max supported bpc for IGT
+>> testing. Expose it via a debugfs file on the connector "output_bpc".
 >>
->> This patch will also move "Current" bpc to the crtc debugfs from
->> connector debugfs, since we are getting this info from crtc_state.
+>> Example: cat /sys/kernel/debug/dri/0/DP-1/output_bpc
 >>
+>> Cc: Jani Nikula <jani.nikula@linux.intel.com>
+>> Cc: Ville Syrjälä <ville.syrjala@linux.intel.com>
+>> Cc: Harry Wentland <harry.wentland@amd.com>
+>> Signed-off-by: Bhanuprakash Modem <bhanuprakash.modem@intel.com>
+>> ---
+>>   drivers/gpu/drm/drm_debugfs.c | 21 +++++++++++++++++++++
+>>   1 file changed, 21 insertions(+)
+>>
+>> diff --git a/drivers/gpu/drm/drm_debugfs.c b/drivers/gpu/drm/drm_debugfs.c
+>> index 7f1b82dbaebb..33e5345c6f3e 100644
+>> --- a/drivers/gpu/drm/drm_debugfs.c
+>> +++ b/drivers/gpu/drm/drm_debugfs.c
+>> @@ -395,6 +395,23 @@ static int vrr_range_show(struct seq_file *m, void *data)
+>>   }
+>>   DEFINE_SHOW_ATTRIBUTE(vrr_range);
+>>   
+>> +/*
+>> + * Returns Connector's max supported bpc through debugfs file.
+>> + * Example usage: cat /sys/kernel/debug/dri/0/DP-1/max_bpc
 > 
-> Does the amd_max_bpc test pass after this change?
+> /s/max_bpc/output_bpc
+> 
+> Btw, in amdgpu we have both max_bpc and output_bpc.
 
-We need IGT fix along with this change. And I have made the required 
-changes in IGT: https://patchwork.freedesktop.org/series/102387/
+I'll float a new rev, Thanks.
 
 - Bhanu
 
 > 
 > Harry
 > 
->> Cc: Harry Wentland <harry.wentland@amd.com>
->> Cc: Rodrigo Siqueira <Rodrigo.Siqueira@amd.com>
->> Signed-off-by: Bhanuprakash Modem <bhanuprakash.modem@intel.com>
->> ---
->>   .../gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.c |  4 --
->>   .../amd/display/amdgpu_dm/amdgpu_dm_debugfs.c | 38 +++++++------------
->>   .../amd/display/amdgpu_dm/amdgpu_dm_debugfs.h |  2 -
->>   3 files changed, 13 insertions(+), 31 deletions(-)
->>
->> diff --git a/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.c b/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.c
->> index 73423b805b54..f89651c71ec7 100644
->> --- a/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.c
->> +++ b/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.c
->> @@ -6615,14 +6615,12 @@ dm_crtc_duplicate_state(struct drm_crtc *crtc)
->>   	return &state->base;
->>   }
->>   
->> -#ifdef CONFIG_DRM_AMD_SECURE_DISPLAY
->>   static int amdgpu_dm_crtc_late_register(struct drm_crtc *crtc)
->>   {
->>   	crtc_debugfs_init(crtc);
->>   
->>   	return 0;
->>   }
->> -#endif
->>   
->>   static inline int dm_set_vupdate_irq(struct drm_crtc *crtc, bool enable)
->>   {
->> @@ -6720,9 +6718,7 @@ static const struct drm_crtc_funcs amdgpu_dm_crtc_funcs = {
->>   	.enable_vblank = dm_enable_vblank,
->>   	.disable_vblank = dm_disable_vblank,
->>   	.get_vblank_timestamp = drm_crtc_vblank_helper_get_vblank_timestamp,
->> -#if defined(CONFIG_DRM_AMD_SECURE_DISPLAY)
->>   	.late_register = amdgpu_dm_crtc_late_register,
->> -#endif
->>   };
->>   
->>   static enum drm_connector_status
->> diff --git a/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm_debugfs.c b/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm_debugfs.c
->> index da17ece1a2c5..3ee26083920b 100644
->> --- a/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm_debugfs.c
->> +++ b/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm_debugfs.c
->> @@ -873,28 +873,18 @@ static int psr_capability_show(struct seq_file *m, void *data)
->>   }
->>   
->>   /*
->> - * Returns the current and maximum output bpc for the connector.
->> - * Example usage: cat /sys/kernel/debug/dri/0/DP-1/output_bpc
->> + * Returns the current bpc for the crtc.
->> + * Example usage: cat /sys/kernel/debug/dri/0/crtc-0/amdgpu_current_bpc
->>    */
->> -static int output_bpc_show(struct seq_file *m, void *data)
->> +static int amdgpu_current_bpc_show(struct seq_file *m, void *data)
->>   {
->> -	struct drm_connector *connector = m->private;
->> -	struct drm_device *dev = connector->dev;
->> -	struct drm_crtc *crtc = NULL;
->> +	struct drm_crtc *crtc = m->private;
->> +	struct drm_device *dev = crtc->dev;
->>   	struct dm_crtc_state *dm_crtc_state = NULL;
->>   	int res = -ENODEV;
->>   	unsigned int bpc;
->>   
->>   	mutex_lock(&dev->mode_config.mutex);
->> -	drm_modeset_lock(&dev->mode_config.connection_mutex, NULL);
->> -
->> -	if (connector->state == NULL)
->> -		goto unlock;
->> -
->> -	crtc = connector->state->crtc;
->> -	if (crtc == NULL)
->> -		goto unlock;
->> -
->>   	drm_modeset_lock(&crtc->mutex, NULL);
->>   	if (crtc->state == NULL)
->>   		goto unlock;
->> @@ -924,18 +914,15 @@ static int output_bpc_show(struct seq_file *m, void *data)
->>   	}
->>   
->>   	seq_printf(m, "Current: %u\n", bpc);
->> -	seq_printf(m, "Maximum: %u\n", connector->display_info.bpc);
->>   	res = 0;
->>   
->>   unlock:
->> -	if (crtc)
->> -		drm_modeset_unlock(&crtc->mutex);
->> -
->> -	drm_modeset_unlock(&dev->mode_config.connection_mutex);
->> +	drm_modeset_unlock(&crtc->mutex);
->>   	mutex_unlock(&dev->mode_config.mutex);
->>   
->>   	return res;
->>   }
->> +DEFINE_SHOW_ATTRIBUTE(amdgpu_current_bpc);
->>   
->>   /*
->>    * Example usage:
->> @@ -2541,7 +2528,6 @@ static int target_backlight_show(struct seq_file *m, void *unused)
->>   DEFINE_SHOW_ATTRIBUTE(dp_dsc_fec_support);
->>   DEFINE_SHOW_ATTRIBUTE(dmub_fw_state);
->>   DEFINE_SHOW_ATTRIBUTE(dmub_tracebuffer);
->> -DEFINE_SHOW_ATTRIBUTE(output_bpc);
->>   DEFINE_SHOW_ATTRIBUTE(dp_lttpr_status);
->>   #ifdef CONFIG_DRM_AMD_DC_HDCP
->>   DEFINE_SHOW_ATTRIBUTE(hdcp_sink_capability);
->> @@ -2788,7 +2774,6 @@ static const struct {
->>   	const struct file_operations *fops;
->>   } connector_debugfs_entries[] = {
->>   		{"force_yuv420_output", &force_yuv420_output_fops},
->> -		{"output_bpc", &output_bpc_fops},
->>   		{"trigger_hotplug", &trigger_hotplug_debugfs_fops},
->>   		{"internal_display", &internal_display_fops}
->>   };
->> @@ -3172,9 +3157,10 @@ static int crc_win_update_get(void *data, u64 *val)
->>   
->>   DEFINE_DEBUGFS_ATTRIBUTE(crc_win_update_fops, crc_win_update_get,
->>   			 crc_win_update_set, "%llu\n");
->> -
->> +#endif
->>   void crtc_debugfs_init(struct drm_crtc *crtc)
->>   {
->> +#ifdef CONFIG_DRM_AMD_SECURE_DISPLAY
->>   	struct dentry *dir = debugfs_lookup("crc", crtc->debugfs_entry);
->>   
->>   	if (!dir)
->> @@ -3190,9 +3176,11 @@ void crtc_debugfs_init(struct drm_crtc *crtc)
->>   				   &crc_win_y_end_fops);
->>   	debugfs_create_file_unsafe("crc_win_update", 0644, dir, crtc,
->>   				   &crc_win_update_fops);
->> -
->> -}
->>   #endif
->> +	debugfs_create_file("amdgpu_current_bpc", 0644, crtc->debugfs_entry,
->> +			    crtc, &amdgpu_current_bpc_fops);
->> +}
+>> + */
+>> +static int output_bpc_show(struct seq_file *m, void *data)
+>> +{
+>> +	struct drm_connector *connector = m->private;
 >> +
->>   /*
->>    * Writes DTN log state to the user supplied buffer.
->>    * Example usage: cat /sys/kernel/debug/dri/0/amdgpu_dm_dtn_log
->> diff --git a/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm_debugfs.h b/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm_debugfs.h
->> index 3366cb644053..071200473c27 100644
->> --- a/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm_debugfs.h
->> +++ b/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm_debugfs.h
->> @@ -31,8 +31,6 @@
+>> +	if (connector->status != connector_status_connected)
+>> +		return -ENODEV;
+>> +
+>> +	seq_printf(m, "Maximum: %u\n", connector->display_info.bpc);
+>> +
+>> +	return 0;
+>> +}
+>> +DEFINE_SHOW_ATTRIBUTE(output_bpc);
+>> +
+>>   static const struct file_operations drm_edid_fops = {
+>>   	.owner = THIS_MODULE,
+>>   	.open = edid_open,
+>> @@ -437,6 +454,10 @@ void drm_debugfs_connector_add(struct drm_connector *connector)
+>>   	debugfs_create_file("vrr_range", S_IRUGO, root, connector,
+>>   			    &vrr_range_fops);
 >>   
->>   void connector_debugfs_init(struct amdgpu_dm_connector *connector);
->>   void dtn_debugfs_init(struct amdgpu_device *adev);
->> -#if defined(CONFIG_DRM_AMD_SECURE_DISPLAY)
->>   void crtc_debugfs_init(struct drm_crtc *crtc);
->> -#endif
->>   
->>   #endif
+>> +	/* max bpc */
+>> +	debugfs_create_file("output_bpc", 0444, root, connector,
+>> +			    &output_bpc_fops);
+>> +
+>>   	if (connector->funcs->debugfs_init)
+>>   		connector->funcs->debugfs_init(connector, root);
+>>   }
 > 
 
