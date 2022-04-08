@@ -1,144 +1,65 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 94CBB4F9A89
-	for <lists+dri-devel@lfdr.de>; Fri,  8 Apr 2022 18:23:38 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 4FF324F9AF8
+	for <lists+dri-devel@lfdr.de>; Fri,  8 Apr 2022 18:48:16 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 93B4510E574;
-	Fri,  8 Apr 2022 16:23:36 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id B8EC810E256;
+	Fri,  8 Apr 2022 16:48:11 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from NAM11-DM6-obe.outbound.protection.outlook.com
- (mail-dm6nam11on2084.outbound.protection.outlook.com [40.107.223.84])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 6435610E564;
- Fri,  8 Apr 2022 16:23:34 +0000 (UTC)
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=XctnETpUpoE2Qta9e5hqtutvQ4mYdfNl4CSlrU+JFkXAC6e0aBqtYb2BLi/WV1L/LLk/kfxmTRDK0NMrp7Zue84bnBq/SYdrazlEcW3uFxr/d8lKOv8oQFAdnUKag6NbD5QhsOk/kXJ+C+y39KLqsNlWGTewA+FfV0BgEb78+L+Su09VoVtUfjDYHtSrUHM8sL5CRfepk+D1a/xT+uKv1XC+51lQ45rOjHwAtOAMaxx7vgbsnRxJOs+dzi8baLS07waTEZihxrZzHZDfHsWtvgBBsfp2vCabvfMer5rkQ2k4pILOD7Y06Dz5mo7JxGCqdgarJmlD3//MWbv/HFTvNA==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=0bqr3nPo/EdHsvqGv8sqjeBdZaX7WAJdXkI4b8JLkb4=;
- b=jVAXh8GKDUfoxUBl7W2lxzKTeAzEU3k8cVhYEMXkiboOr2LdlHzArTDGyRxc8ECXA7t9vwjgLGTuMcPNVthwEU6aDq0x4HTsOG+dAOUVKFKF1tcN1yRKsksO3iDNcZdlY0/t+DsFiG3uT7u3G1aSuOfUyMDcg0wrdX82UHEyPCK2bDmUdEQRKf3DGDbo3OChFLt0j02gALPOxoyQtSrp8PjPkLXZ38+ogevfkA9Jau/yB23XGD8tLqfDUtW52Jzgx+BASCDW9BG8VRxuMCwIdsaCOzvofgcFvMNXwx7AivYVNkPaBL3TBTPo1Bce+FoUVZZpJbMNbcNtFJKx2ybauw==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=amd.com; dmarc=pass action=none header.from=amd.com; dkim=pass
- header.d=amd.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1; 
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=0bqr3nPo/EdHsvqGv8sqjeBdZaX7WAJdXkI4b8JLkb4=;
- b=THQCCzGeqL8cObxvoMVBaZggXjEoNgNADr6AS/JPjfgYBGp/crvCS4jvM/Kbow+DWExERAFhzchL8AlUExo91pVy9D8Z6ZOJu3noCkt5zPy/8SLFMsO77RBm6UV2PTzqa82prYjzjAJiQwQqeb778MGBX2XP0I7hI7nyTRt0D5g=
-Received: from BL1PR12MB5157.namprd12.prod.outlook.com (2603:10b6:208:308::15)
- by BYAPR12MB3256.namprd12.prod.outlook.com (2603:10b6:a03:135::26)
- with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.5144.22; Fri, 8 Apr
- 2022 16:23:30 +0000
-Received: from BL1PR12MB5157.namprd12.prod.outlook.com
- ([fe80::70d6:f6dd:3e14:3c2d]) by BL1PR12MB5157.namprd12.prod.outlook.com
- ([fe80::70d6:f6dd:3e14:3c2d%5]) with mapi id 15.20.5144.025; Fri, 8 Apr 2022
- 16:23:30 +0000
-From: "Limonciello, Mario" <Mario.Limonciello@amd.com>
-To: "Gong, Richard" <Richard.Gong@amd.com>, "Deucher, Alexander"
- <Alexander.Deucher@amd.com>, "Koenig, Christian" <Christian.Koenig@amd.com>,
- "Pan, Xinhui" <Xinhui.Pan@amd.com>, "airlied@linux.ie" <airlied@linux.ie>,
- "daniel@ffwll.ch" <daniel@ffwll.ch>
-Subject: RE: [PATCH] drm/amdgpu: disable ASPM for legacy products that don't
- support ASPM
-Thread-Topic: [PATCH] drm/amdgpu: disable ASPM for legacy products that don't
- support ASPM
-Thread-Index: AQHYS1+vbeZYg8F3L0aXkBYKsAfwnazmKNIAgAAJZACAAACksA==
-Date: Fri, 8 Apr 2022 16:23:30 +0000
-Message-ID: <BL1PR12MB5157099D1DE3F8B3AC4F59FCE2E99@BL1PR12MB5157.namprd12.prod.outlook.com>
-References: <20220408154447.3519453-1-richard.gong@amd.com>
- <BL1PR12MB51576654D3EEB10F5DF862A7E2E99@BL1PR12MB5157.namprd12.prod.outlook.com>
- <768e8812-ecbf-93e7-ffad-feec1b36d924@amd.com>
-In-Reply-To: <768e8812-ecbf-93e7-ffad-feec1b36d924@amd.com>
-Accept-Language: en-US
-Content-Language: en-US
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-msip_labels: MSIP_Label_d4243a53-6221-4f75-8154-e4b33a5707a1_Enabled=true;
- MSIP_Label_d4243a53-6221-4f75-8154-e4b33a5707a1_SetDate=2022-04-08T16:23:26Z; 
- MSIP_Label_d4243a53-6221-4f75-8154-e4b33a5707a1_Method=Privileged;
- MSIP_Label_d4243a53-6221-4f75-8154-e4b33a5707a1_Name=Public-AIP 2.0;
- MSIP_Label_d4243a53-6221-4f75-8154-e4b33a5707a1_SiteId=3dd8961f-e488-4e60-8e11-a82d994e183d;
- MSIP_Label_d4243a53-6221-4f75-8154-e4b33a5707a1_ActionId=b89953b9-3b4a-43cf-98ae-41ef61289b46;
- MSIP_Label_d4243a53-6221-4f75-8154-e4b33a5707a1_ContentBits=1
-msip_label_d4243a53-6221-4f75-8154-e4b33a5707a1_enabled: true
-msip_label_d4243a53-6221-4f75-8154-e4b33a5707a1_setdate: 2022-04-08T16:23:28Z
-msip_label_d4243a53-6221-4f75-8154-e4b33a5707a1_method: Privileged
-msip_label_d4243a53-6221-4f75-8154-e4b33a5707a1_name: Public-AIP 2.0
-msip_label_d4243a53-6221-4f75-8154-e4b33a5707a1_siteid: 3dd8961f-e488-4e60-8e11-a82d994e183d
-msip_label_d4243a53-6221-4f75-8154-e4b33a5707a1_actionid: 70c15800-2c47-432f-ae89-2743b4122ff5
-msip_label_d4243a53-6221-4f75-8154-e4b33a5707a1_contentbits: 0
-authentication-results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=amd.com;
-x-ms-publictraffictype: Email
-x-ms-office365-filtering-correlation-id: 987aa9e0-73d4-4928-5df6-08da197c1e84
-x-ms-traffictypediagnostic: BYAPR12MB3256:EE_
-x-microsoft-antispam-prvs: <BYAPR12MB3256691A75944F99932E3BD6E2E99@BYAPR12MB3256.namprd12.prod.outlook.com>
-x-ms-exchange-senderadcheck: 1
-x-ms-exchange-antispam-relay: 0
-x-microsoft-antispam: BCL:0;
-x-microsoft-antispam-message-info: IUKK74Ns7O5UZPIMW/eokltkk5WrOSCbjxsDKoYJ26pXfU0pySTAOLWDc51zWZeNTSzy0Mf585AK83buh0ks8DpiOTs4zR4Quqv03M/a9AQUdkTK9OVrcu00yDHGTf15fAM/B5LvBO/F6r+9GkPN9ChXlwvyUXzx0t5V36mSEgCkHXJl3O+ml3i5p+5LlyZ+VfFootLxPQHDnBPyunZwvBcUkueCKIFyBNNzbBA8livsg6KAQnxvY4gR3l35eEP4QGOPzUhDRxO8mRuRhC8EBIPfTLQP6lNZTIADkUUgAGsIZnyy44bvC655SwBjSpm7a2e+UY08RWuAsSdFpqO9XpZdYKFq75CjFVl+VaIZpR8dW0gfr05qoO5U0MIGf6JOhd096rMH4x14UuTE45v5GTSNJDd1JrL36lwDhnlnGecSSu9PtLFEWj4PnHWIoK54Nng55wrUFy96PK2BSO4XwhezYGskL+MS6UoaLy1nb4ifLwTtL+saowGDothcDGo8XLAtDrP3MViefar8nNV9MNIHUFglYeU1IADm1L6OZk6xig5nuK09MGb8/hEcDUkZtKc/5VCq509eY/8wgMJqWgPySXvlgUXbODR2K1stJm/eMaY/NZDH+tj05RwHUwY366WYABiWYgfNzoA0uqNat3giaqx4E0+98cRf/mthO0AopWusw6IEfVIM2va6B2/PmCHe4XqM6LZfYTe67fgfBu/q8NL5n9JljJ3raJ2CjPc=
-x-forefront-antispam-report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
- IPV:NLI; SFV:NSPM; H:BL1PR12MB5157.namprd12.prod.outlook.com; PTR:; CAT:NONE;
- SFS:(13230001)(4636009)(366004)(9686003)(52536014)(508600001)(66446008)(6506007)(8936002)(86362001)(7696005)(2906002)(122000001)(921005)(38100700002)(55016003)(53546011)(186003)(966005)(33656002)(5660300002)(71200400001)(66556008)(83380400001)(66946007)(110136005)(38070700005)(54906003)(8676002)(66476007)(4326008)(64756008)(76116006)(316002);
- DIR:OUT; SFP:1101; 
-x-ms-exchange-antispam-messagedata-chunkcount: 2
-x-ms-exchange-antispam-messagedata-0: =?utf-8?B?TDBtRVlrd0t6WU1NMTl0eVV0RHpkQWN1OWpuNnVIdDlIZXNHZFdrbmdkZkJ1?=
- =?utf-8?B?bFhYeTZDNmRMZm9JYVR3MjB0TWVzclBRVFpJOHhCTzZmZXlPZE5DZkF2TytR?=
- =?utf-8?B?ZFhBOTZ3WU9VOFBIOU0vZHlvRE5sU2lyT2l1R2NsalJkTXlWdldIalJMbFFS?=
- =?utf-8?B?QWtYcDhZcGlVYk9XcnBkaGpyMExIMW9kU0IzSTVSNGlqN0c1OHJUVDQ2WDBK?=
- =?utf-8?B?Y3FoUkZabXBkR0xpMnRZemNtSFUrNEI5MXN4bGljekluQjZRdVVKSmxTWmFr?=
- =?utf-8?B?Z2FJdUEyclhFSm1VeWNZTGhJb0IxQVBoVlV0MWZ6djJKWnR5STRNTktBdTRl?=
- =?utf-8?B?ZldvWjUwQVBpa1h5bEZzSVk1cUY2QXZybWNqZnNGS0E4MTZLL2hGRU54TlJk?=
- =?utf-8?B?Y0FNQ01WYmZPNkljd3Jhb0Z5MGNuTitJYjNCR1VDWWRDN25uMVVCenYwbVZa?=
- =?utf-8?B?UHhseDhZVzBZajR4ZEl1UUlXNEFrYkE5S3FrUUdZVzE1WWM3UVpTRHlWWXli?=
- =?utf-8?B?T2o2V1haTXVpZjBPMnVGOXpxNVFpWjI4ZVRwbEdOZ3hseUxLbG1Xc3ZuanRn?=
- =?utf-8?B?aXBFc3Z0OVh0TDRONWlWTUMrTzFUZzJpVVkyVVR6Ri9wM1RJWUhoZHdsVWRj?=
- =?utf-8?B?LzRZRlhuMmg4U1JaMVp1RWFvRkowbVZyeHZKd25MN3FmcjZ2VHNDSnRnbEx4?=
- =?utf-8?B?a0Z0bDc0bDhQeXJ5SEhrV1BOWnJpMHBHVm9EOE8xaEVKOHE1YkY2YVlGTExZ?=
- =?utf-8?B?MWd3OWwra0FGR0k2NTVieERXeVNod3J0UXk0QnorNjg4L3lQWWxJMkxoNWtn?=
- =?utf-8?B?K3IyNkJpanprTEV5QmU0czNJVDJ4Smo5NHpBMjVuZzFLMkNSTWN5TGtrRUdx?=
- =?utf-8?B?VE1qUjR2eXJZZkxrdWxSRk5TOGpGeTd1RDJEQUVzQnNXWU84bC9QdCttTHBj?=
- =?utf-8?B?U0VFQzZsTUREZzZqUjNweGs4OHk1bFRrWHJ3dE84U1lNRkhuSmtQNEdjbHQ5?=
- =?utf-8?B?cDhZOHRGOG13MmhST0VacDMvMmFvQ1NQNXZJUHRVL2NQYVF3b2VsZHNEQ3pN?=
- =?utf-8?B?cnR1RzU0R01qZkY0SHJsMXUvUHRwTFJ6MEgwUlMvcmhFUWdudmY1eWltVGk2?=
- =?utf-8?B?OXA5dTUreExqLzJaT3NyR05LZXdGWjhnYWFqT09Qb1UxMnJpQ2p5amF3L2hM?=
- =?utf-8?B?NzBQSGpOUFRwZWdwcldkT1F2ZkxoemtKUWcxUk00R1R3WXN4NG5vOFVIdFhm?=
- =?utf-8?B?bnJIbkRVek9sMHk4OXB1V1pzZjBVc0pwRm9JamtyaWRhS2wzeXhJRFdXaHU3?=
- =?utf-8?B?ZUpSOGt5S05jejFpUG1hcGVTMkhWTHhnRDh6RWMvdGowUmp0RiszYnpIWFRm?=
- =?utf-8?B?SER1L3plSVlHVUxRaUpNaFE3blZVV1FSb2o5OG5GL2VubWFJbjhGRmlFcmpP?=
- =?utf-8?B?cWFVdlc3WkN2dVVCMk80WGR5NHQ5WXpIV1ZyRUZSejZHdjBnV3F6YWc1eXc5?=
- =?utf-8?B?ZGI2aXNuVmFqck4vTjh4VzlMSmFFY1crWm1ta3JPTkwwaUczMW11SE15ZnZs?=
- =?utf-8?B?RmFZSStFZVBKdzJhYW9MWHp2MHdqZTdjbTR1TmlCd1BUZUZkdDNBcy81aGpo?=
- =?utf-8?B?R1pEMG5yUU1kQSt2NHhOc2lpRnZPNk5ueDc0eC9aMUd5RUgvZXNJbzF6VUc2?=
- =?utf-8?B?Q00yYmxGajdLT0M2WHhoanVBY0hrMXkwNm9PRmZTWHNmb2oydllYTk5tR0JZ?=
- =?utf-8?B?eVFhYjd1Rm9zbk9BNFA4andLdDZSdHlvbUVOd0x1dUZtcHFFNk1zZlBuK0JE?=
- =?utf-8?B?SVZKUFI1Y2xvKzJPaDNpb21zZDVodXJaa3ZlTEFNMXEzK0thNG1helZNOXdM?=
- =?utf-8?B?RkFBVCtJSW1Hayt6VmpRNSsyQTBGamtEbTliOWNnc2x3YlZlMVdCK0dGMy9G?=
- =?utf-8?B?QTRYdzl5RnVIWHdiTWoxdDAyK0ZybC9oQkIzNi9JVjN1T0k1S0lUblBsejE0?=
- =?utf-8?B?Ky85OXl3aWZac3lrc0tkdlZzOHV1ajBHWmVTL05QWVRHNElGblZFR0hZM1By?=
- =?utf-8?B?ek9laFE0TEV0aTdTSExRTVVpTHpHazgrMmNvK2o5SFlxYmE2ZG1YYklLMENx?=
- =?utf-8?B?VDRkRjVJNVMycE03RHZ6cS9HUGFHUkNwMkFnM0lnZnBIZ1cwUHAvejVIZWV6?=
- =?utf-8?B?OHlBN21NR0llWXpRTytPbkxmYVpMcHNHMXBNbUtENDZraHlvWVlvUzRCQlQx?=
- =?utf-8?B?SllSQmo4d0QyYUh5ZnJIRDZJemp6R2hTckxDbXR0QVdSVnRwZklQSEVXelZC?=
- =?utf-8?B?Q2E1TG1jVnRlZGZSRzBFell6QzF1L1FRZHo3NmhYcFhIdk5HYzZpaGZFV041?=
- =?utf-8?Q?TPjosZdONKCatLEGYJGkadf+k/BcfKLPCJuVUhLUJvO0K?=
-x-ms-exchange-antispam-messagedata-1: eXFaFAD+vqbaLw==
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: base64
+Received: from mail-qt1-x82f.google.com (mail-qt1-x82f.google.com
+ [IPv6:2607:f8b0:4864:20::82f])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 7F0D810E523
+ for <dri-devel@lists.freedesktop.org>; Fri,  8 Apr 2022 16:48:10 +0000 (UTC)
+Received: by mail-qt1-x82f.google.com with SMTP id s7so11126372qtk.6
+ for <dri-devel@lists.freedesktop.org>; Fri, 08 Apr 2022 09:48:10 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc; bh=9HjOrBUfs8Z6x5I6sVx6PJ5LGYw8BrTV4oFrIZF67Hs=;
+ b=M/jWmqkVBjU9zzpJqnRzakyLe00IAWZFKzUg6M2CM/kiOkzBrz589gggdsQuc41uPN
+ oZ3uATWIcMO123/4ZYNtS8HTrs4RQO97fUXbjfSmjxq+w3q1hT+2ZQcgfMxbpSWE5sQl
+ 5sP3nOMIHzLqYiX+kPGNKy4ObqsiGug3cnFO7fJHCihGHRSkL3xtIgrkVJ7N3qrrxQEj
+ eSH1h8FAIDWX9atSO5rWqKRAq+GVVtpzdyNkWJ3+Bks1gFuOaVSBWmkVyf22xp+X1F6a
+ Sh66MikqlYcWSwPhi5YUtkHyLdNzSUJG6GpARgOl3WVsJSTcqzz2eMsPAUZU4+DjRXf7
+ 25CQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=9HjOrBUfs8Z6x5I6sVx6PJ5LGYw8BrTV4oFrIZF67Hs=;
+ b=iPP6V81R5Kju8S6c6xtOatJxz0mU76WlSBQuVf6FX/AnDNLIQa2bUzafICUKqpHUne
+ mv7mpx+WO9AhkNKwM103ze710afqEO82KtZLtoOj9qmyS4lG90R1kG1MEYt0VfKxb6vG
+ x5oIqYPCuUCVB0OewCZ5hxOH+zxuU3oKoWMLy/GBGJHJSz5tQ89Cheqw4nk6GK1wzOjZ
+ A3XsL2wjiPuiYgUxYij2G/7tBd90nXNEm75t/Ouok6K3O9GonYAk36oOKCQ6lx+0J9Tl
+ S2lasthL6yAos/Y/6mVQYl5BTllj82Bpauz1GTnIcyao8xPY7rB+Dl5sPNvNAPRxu6vw
+ UTtA==
+X-Gm-Message-State: AOAM533+jcb7aUqNtSEIxQ7mzFAR049znK7bApbxqRvfty5XGK21gySd
+ 5R1M4x2Q5CLNg44PFm+jDnxlQSU8wljTekHIAbdxiw==
+X-Google-Smtp-Source: ABdhPJwJ1fdfwMjWMuSJIRUR7bInFD8OZhpjGlOGQWe8is3ojh1tGr9hqEL/Zdka1TLaG9c3dy8Usfh//IvzuR2Ugn8=
+X-Received: by 2002:ac8:4e52:0:b0:2e1:dad8:5141 with SMTP id
+ e18-20020ac84e52000000b002e1dad85141mr16521942qtw.62.1649436489466; Fri, 08
+ Apr 2022 09:48:09 -0700 (PDT)
 MIME-Version: 1.0
-X-OriginatorOrg: amd.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-AuthSource: BL1PR12MB5157.namprd12.prod.outlook.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 987aa9e0-73d4-4928-5df6-08da197c1e84
-X-MS-Exchange-CrossTenant-originalarrivaltime: 08 Apr 2022 16:23:30.3258 (UTC)
-X-MS-Exchange-CrossTenant-fromentityheader: Hosted
-X-MS-Exchange-CrossTenant-id: 3dd8961f-e488-4e60-8e11-a82d994e183d
-X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
-X-MS-Exchange-CrossTenant-userprincipalname: gNRdWmv3ng8kiehM7C4lBZl79wuOPBqPLjyKueAedCXlzn1ZX1hsjF2QjpbDo2dKgNQIYketfxq3OzGW4vJlnA==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: BYAPR12MB3256
+References: <1648656179-10347-1-git-send-email-quic_sbillaka@quicinc.com>
+ <1648656179-10347-9-git-send-email-quic_sbillaka@quicinc.com>
+ <CAA8EJprvE31ex3fCQHZ-=x+EWHK4UZ0qqHRh+rH4dk5TPhmVyw@mail.gmail.com>
+ <MW4PR02MB71867220A90FCFED295830D0E1E19@MW4PR02MB7186.namprd02.prod.outlook.com>
+ <CAD=FV=VK0D_GzYBv+u+o6-ks-UAsw97__0mWsSn9OycX72LJFg@mail.gmail.com>
+ <MW4PR02MB71865B8E17F3D194B05013EDE1E59@MW4PR02MB7186.namprd02.prod.outlook.com>
+ <CAA8EJpqFh7c9ohDbR_0kG5t106-djE7TYfaoAbiT-W4-294jTw@mail.gmail.com>
+ <MW4PR02MB71868617E96D59D659EFD87EE1E69@MW4PR02MB7186.namprd02.prod.outlook.com>
+ <CAA8EJpqd+JVHqjNrwZ4MHi+9JMdA5QPX2UwGpeM6RhUntv0brA@mail.gmail.com>
+ <MW4PR02MB7186577BFEEF3CCD8DED3D44E1E99@MW4PR02MB7186.namprd02.prod.outlook.com>
+In-Reply-To: <MW4PR02MB7186577BFEEF3CCD8DED3D44E1E99@MW4PR02MB7186.namprd02.prod.outlook.com>
+From: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
+Date: Fri, 8 Apr 2022 19:47:58 +0300
+Message-ID: <CAA8EJpo4MjqZDY4oLzS9ob6LPAe5gU=eqVz6m62_DaPAnxwWTQ@mail.gmail.com>
+Subject: Re: [PATCH v6 8/8] drm/msm/dp: Handle eDP mode_valid differently from
+ dp
+To: Sankeerth Billakanti <sbillaka@qti.qualcomm.com>
+Content-Type: text/plain; charset="UTF-8"
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -151,66 +72,200 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: "dri-devel@lists.freedesktop.org" <dri-devel@lists.freedesktop.org>,
- "amd-gfx@lists.freedesktop.org" <amd-gfx@lists.freedesktop.org>,
- "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>
+Cc: quic_kalyant <quic_kalyant@quicinc.com>,
+ "devicetree@vger.kernel.org" <devicetree@vger.kernel.org>,
+ "Sankeerth Billakanti \(QUIC\)" <quic_sbillaka@quicinc.com>,
+ "Abhinav Kumar \(QUIC\)" <quic_abhinavk@quicinc.com>,
+ quic_vproddut <quic_vproddut@quicinc.com>,
+ "airlied@linux.ie" <airlied@linux.ie>,
+ "linux-arm-msm@vger.kernel.org" <linux-arm-msm@vger.kernel.org>,
+ "Kuogee Hsieh \(QUIC\)" <quic_khsieh@quicinc.com>,
+ "bjorn.andersson@linaro.org" <bjorn.andersson@linaro.org>,
+ Doug Anderson <dianders@chromium.org>,
+ "dri-devel@lists.freedesktop.org" <dri-devel@lists.freedesktop.org>,
+ "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
+ "sean@poorly.run" <sean@poorly.run>,
+ "seanpaul@chromium.org" <seanpaul@chromium.org>,
+ "Aravind Venkateswaran \(QUIC\)" <quic_aravindh@quicinc.com>,
+ "swboyd@chromium.org" <swboyd@chromium.org>,
+ "freedreno@lists.freedesktop.org" <freedreno@lists.freedesktop.org>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-W1B1YmxpY10NCg0KDQoNCj4gLS0tLS1PcmlnaW5hbCBNZXNzYWdlLS0tLS0NCj4gRnJvbTogR29u
-ZywgUmljaGFyZCA8UmljaGFyZC5Hb25nQGFtZC5jb20+DQo+IFNlbnQ6IEZyaWRheSwgQXByaWwg
-OCwgMjAyMiAxMToyMA0KPiBUbzogTGltb25jaWVsbG8sIE1hcmlvIDxNYXJpby5MaW1vbmNpZWxs
-b0BhbWQuY29tPjsgRGV1Y2hlciwgQWxleGFuZGVyDQo+IDxBbGV4YW5kZXIuRGV1Y2hlckBhbWQu
-Y29tPjsgS29lbmlnLCBDaHJpc3RpYW4NCj4gPENocmlzdGlhbi5Lb2VuaWdAYW1kLmNvbT47IFBh
-biwgWGluaHVpIDxYaW5odWkuUGFuQGFtZC5jb20+Ow0KPiBhaXJsaWVkQGxpbnV4LmllOyBkYW5p
-ZWxAZmZ3bGwuY2gNCj4gQ2M6IGFtZC1nZnhAbGlzdHMuZnJlZWRlc2t0b3Aub3JnOyBkcmktZGV2
-ZWxAbGlzdHMuZnJlZWRlc2t0b3Aub3JnOyBsaW51eC0NCj4ga2VybmVsQHZnZXIua2VybmVsLm9y
-Zw0KPiBTdWJqZWN0OiBSZTogW1BBVENIXSBkcm0vYW1kZ3B1OiBkaXNhYmxlIEFTUE0gZm9yIGxl
-Z2FjeSBwcm9kdWN0cyB0aGF0DQo+IGRvbid0IHN1cHBvcnQgQVNQTQ0KPiANCj4gDQo+IE9uIDQv
-OC8yMDIyIDEwOjQ3IEFNLCBMaW1vbmNpZWxsbywgTWFyaW8gd3JvdGU6DQo+ID4gW1B1YmxpY10N
-Cj4gPg0KPiA+DQo+ID4NCj4gPj4gLS0tLS1PcmlnaW5hbCBNZXNzYWdlLS0tLS0NCj4gPj4gRnJv
-bTogR29uZywgUmljaGFyZCA8UmljaGFyZC5Hb25nQGFtZC5jb20+DQo+ID4+IFNlbnQ6IEZyaWRh
-eSwgQXByaWwgOCwgMjAyMiAxMDo0NQ0KPiA+PiBUbzogRGV1Y2hlciwgQWxleGFuZGVyIDxBbGV4
-YW5kZXIuRGV1Y2hlckBhbWQuY29tPjsgS29lbmlnLA0KPiBDaHJpc3RpYW4NCj4gPj4gPENocmlz
-dGlhbi5Lb2VuaWdAYW1kLmNvbT47IFBhbiwgWGluaHVpIDxYaW5odWkuUGFuQGFtZC5jb20+Ow0K
-PiA+PiBhaXJsaWVkQGxpbnV4LmllOyBkYW5pZWxAZmZ3bGwuY2gNCj4gPj4gQ2M6IGFtZC1nZnhA
-bGlzdHMuZnJlZWRlc2t0b3Aub3JnOyBkcmktZGV2ZWxAbGlzdHMuZnJlZWRlc2t0b3Aub3JnOw0K
-PiBsaW51eC0NCj4gPj4ga2VybmVsQHZnZXIua2VybmVsLm9yZzsgTGltb25jaWVsbG8sIE1hcmlv
-DQo+IDxNYXJpby5MaW1vbmNpZWxsb0BhbWQuY29tPjsNCj4gPj4gR29uZywgUmljaGFyZCA8Umlj
-aGFyZC5Hb25nQGFtZC5jb20+DQo+ID4+IFN1YmplY3Q6IFtQQVRDSF0gZHJtL2FtZGdwdTogZGlz
-YWJsZSBBU1BNIGZvciBsZWdhY3kgcHJvZHVjdHMgdGhhdA0KPiBkb24ndA0KPiA+PiBzdXBwb3J0
-IEFTUE0NCj4gPj4NCj4gPj4gQWN0aXZlIFN0YXRlIFBvd2VyIE1hbmFnZW1lbnQgKEFTUE0pIGZl
-YXR1cmUgaXMgZW5hYmxlZCBzaW5jZSBrZXJuZWwNCj4gPj4gNS4xNC4NCj4gPj4gSG93ZXZlciB0
-aGVyZSBhcmUgc29tZSBsZWdhY3kgcHJvZHVjdHMgKFdYMzIwMCBhbmQgUlg2NDAgYXJlDQo+IGV4
-YW1wbGVzKQ0KPiA+PiB0aGF0DQo+ID4+IGRvIG5vdCBzdXBwb3J0IEFTUE0uIFVzZSB0aGVtIGFz
-IHZpZGVvL2Rpc3BsYXkgb3V0cHV0IGFuZCBzeXN0ZW0NCj4gd291bGQNCj4gPj4gaGFuZw0KPiA+
-PiBkdXJpbmcgc3VzcGVuZC9yZXN1bWUuDQo+ID4+DQo+ID4+IEFkZCBleHRyYSBjaGVjayB0byBk
-aXNhYmxlIEFTUE0gZm9yIG9sZCBwcm9kdWN0cyB0aGF0IGRvbid0IGhhdmUNCj4gPj4gQVNQTSBz
-dXBwb3J0Lg0KPiA+Pg0KPiA+PiBTaWduZWQtb2ZmLWJ5OiBSaWNoYXJkIEdvbmcgPHJpY2hhcmQu
-Z29uZ0BhbWQuY29tPg0KPiA+PiBMaW5rOiBodHRwczovL2dpdGxhYi5mcmVlZGVza3RvcC5vcmcv
-ZHJtL2FtZC8tL2lzc3Vlcy8xODg1DQo+ID4+IC0tLQ0KPiA+PiAgIGRyaXZlcnMvZ3B1L2RybS9h
-bWQvYW1kZ3B1L2FtZGdwdV9kcnYuYyB8IDQgKysrKw0KPiA+PiAgIDEgZmlsZSBjaGFuZ2VkLCA0
-IGluc2VydGlvbnMoKykNCj4gPj4NCj4gPj4gZGlmZiAtLWdpdCBhL2RyaXZlcnMvZ3B1L2RybS9h
-bWQvYW1kZ3B1L2FtZGdwdV9kcnYuYw0KPiA+PiBiL2RyaXZlcnMvZ3B1L2RybS9hbWQvYW1kZ3B1
-L2FtZGdwdV9kcnYuYw0KPiA+PiBpbmRleCBiYjFjMDI1ZDkwMDEuLjg5ODcxMDdmNDFlZSAxMDA2
-NDQNCj4gPj4gLS0tIGEvZHJpdmVycy9ncHUvZHJtL2FtZC9hbWRncHUvYW1kZ3B1X2Rydi5jDQo+
-ID4+ICsrKyBiL2RyaXZlcnMvZ3B1L2RybS9hbWQvYW1kZ3B1L2FtZGdwdV9kcnYuYw0KPiA+PiBA
-QCAtMjAxMiw2ICsyMDEyLDEwIEBAIHN0YXRpYyBpbnQgYW1kZ3B1X3BjaV9wcm9iZShzdHJ1Y3Qg
-cGNpX2Rldg0KPiA+PiAqcGRldiwNCj4gPj4gICAJaWYgKGFtZGdwdV9hc3BtID09IC0xICYmICFw
-Y2llX2FzcG1fZW5hYmxlZChwZGV2KSkNCj4gPj4gICAJCWFtZGdwdV9hc3BtID0gMDsNCj4gPj4N
-Cj4gPj4gKwkvKiBkaXNhYmxlIEFTUE0gZm9yIHRoZSBsZWdhY3kgcHJvZHVjdHMgdGhhdCBkb24n
-dCBzdXBwb3J0IEFTUE0gKi8NCj4gPj4gKwlpZiAoKGZsYWdzICYgQU1EX0FTSUNfTUFTSykgPT0g
-Q0hJUF9QT0xBUklTMTIpDQo+ID4+ICsJCWFtZGdwdV9hc3BtID0gMDsNCj4gPj4gKw0KPiA+IEkg
-dGhpbmsgaXQncyBwcm9ibGVtYXRpYyB0byBkaXNhYmxlIGl0IGZvciB0aGUgZW50aXJlIGRyaXZl
-ci4gIFRoZXJlIG1pZ2h0IGJlDQo+IG11bHRpcGxlDQo+ID4gQU1ER1BVcyBpbiB0aGUgc3lzdGVt
-LCBhbmQgb3RoZXJzIG1heSBzdXBwb3J0IEFTUE0uDQo+IA0KPiBUaGUgInByb2JsZW0iIGFyZSBX
-WDMyMDAgYW5kIFJYNjQwLCBib3RoIGFyZSBmcm9tIHRoZSBzYW1lIFBPTEFSSVMxMg0KPiBmYW1p
-bHkuDQo+IA0KDQpSaWdodCBidXQgd2hhdCBpZiBzb21lIG90aGVyICJ3b3JraW5nIiBjYXJkcyBh
-cmUgaW5jbHVkZWQgaW4gdGhlIHN5c3RlbSB0b28/DQpUaGVuIEFTUE0gZ2V0cyBkaXNhYmxlZCBm
-b3IgdGhlbSB0b28uICBJdCBzaG91bGQgb25seSBiZSBkaXNhYmxlZCBmb3IgdGhlIHBjaV9kZXYN
-CmNvcnJlc3BvbmRpbmcgdG8gcHJvYmxlbWF0aWMgR1BVcyBpbiBwcm9ibGVtYXRpYyBzaXR1YXRp
-b25zLg0KDQo+ID4gQ2FuIGl0IGJlIGRvbmUganVzdCBhcyBwYXJ0IG9mIHByb2JlIGZvciBQb2xh
-cmlzPw0KPiA+DQo+ID4+ICAgCWlmIChhbWRncHVfdmlydHVhbF9kaXNwbGF5IHx8DQo+ID4+ICAg
-CSAgICBhbWRncHVfZGV2aWNlX2FzaWNfaGFzX2RjX3N1cHBvcnQoZmxhZ3MgJiBBTURfQVNJQ19N
-QVNLKSkNCj4gPj4gICAJCXN1cHBvcnRzX2F0b21pYyA9IHRydWU7DQo+ID4+IC0tDQo+ID4+IDIu
-MjUuMQ0K
+On Fri, 8 Apr 2022 at 18:50, Sankeerth Billakanti
+<sbillaka@qti.qualcomm.com> wrote:
+>
+> Hi Dmitry,
+>
+> > > > > > > > On Wed, 30 Mar 2022 at 19:04, Sankeerth Billakanti
+> > > > > > > > <quic_sbillaka@quicinc.com> wrote:
+> > > > > > > > >
+> > > > > > > > > The panel-edp driver modes needs to be validated
+> > > > > > > > > differently from DP because the link capabilities are not
+> > > > > > > > > available for EDP by
+> > > > that time.
+> > > > > > > > >
+> > > > > > > > > Signed-off-by: Sankeerth Billakanti
+> > > > > > > > > <quic_sbillaka@quicinc.com>
+> > > > > > > >
+> > > > > > > > This should not be necessary after
+> > > > > > > >
+> > > > > >
+> > > >
+> > https://patchwork.freedesktop.org/patch/479261/?series=101682&rev=1.
+> > > > > > > > Could you please check?
+> > > > > > > >
+> > > > > > >
+> > > > > > > The check for DP_MAX_PIXEL_CLK_KHZ is not necessary anymore
+> > > > > > > but
+> > > > we
+> > > > > > > need to return early for eDP because unlike DP, eDP context
+> > > > > > > will not have the information about the number of lanes and link
+> > clock.
+> > > > > > >
+> > > > > > > So, I will modify the patch to return after the
+> > > > > > > DP_MAX_PIXEL_CLK_KHZ
+> > > > > > check if is_eDP is set.
+> > > > > >
+> > > > > > I haven't walked through all the relevant code but something you
+> > > > > > said above sounds strange. You say that for eDP we don't have
+> > > > > > info about the number of lanes? We _should_.
+> > > > > >
+> > > > > > It's certainly possible to have a panel that supports _either_ 1
+> > > > > > or
+> > > > > > 2 lanes but then only physically connect 1 lane to it. ...or you
+> > > > > > could have a panel that supports 2 or 4 lanes and you only connect 1
+> > lane.
+> > > > > > See, for instance, ti_sn_bridge_parse_lanes. There we assume 4
+> > > > > > lanes but if a "data-lanes" property is present then we can use
+> > > > > > that to know that fewer lanes are physically connected.
+> > > > > >
+> > > > > > It's also possible to connect more lanes to a panel than it supports.
+> > > > > > You could connect 2 lanes to it but then it only supports 1.
+> > > > > > This case needs to be handled as well...
+> > > > > >
+> > > > >
+> > > > > I was referring to the checks we do for DP in
+> > > > > dp_bridge_mode_valid. We check if the Link bandwidth can support
+> > > > > the pixel bandwidth. For an external DP connection, the Initial
+> > > > > DPCD/EDID read after cable connection will return the sink
+> > > > > capabilities like link rate, lane count and bpp information that
+> > > > > are used to we filter out the unsupported
+> > > > modes from the list of modes from EDID.
+> > > > >
+> > > > > For eDP case, the dp driver performs the first dpcd read during
+> > > > > bridge_enable. The dp_bridge_mode_valid function is executed
+> > > > > before bridge_enable and hence does not have the full link or the
+> > > > > sink capabilities information like external DP connection, by then.
+> > > >
+> > > > It sounds to me like we should emulate the HPD event for eDP to be
+> > > > handled earlier than the get_modes()/prepare() calls are attempted.
+> > > > However this might open another can of worms.
+> > > >
+> > >
+> > > For DP, the HPD handler mainly initiates link training and gets the EDID.
+> > >
+> > > Before adding support for a separate eDP panel, we had discussed about
+> > > this internally and decided to emulate eDP HPD during enable(). Main
+> > > reason being, eDP power is guaranteed to be on only after
+> > bridge_enable().
+> > > So, eDP link training can happen and sustain only after bridge_enable().
+> > >
+> > > Emulating HPD before/during get_modes will not have any effect because:
+> >
+> > As we have seen, the term HPD is significantly overloaded. What do you
+> > want to emulate?
+> >
+>
+> On DP, we use HPD event for link training and EDID read.
+>
+> I understood that you wanted me to emulate HPD event before get_modes()
+> but because the panel power is controlled by panel-edp, whatever programming
+> we do on the sink side will be reset when panel power will be turned off by
+> the pm_runtime_put_autosuspend() of the panel-edp in panel_edp_get_modes().
+
+The pm_runtime_put_autosuspend() wouldn't suspend the device
+immediately. It will be suspended after the grace period finished, if
+nobody resumes the devices again. This is how it works in the
+sn65dsi86 driver. It sets the timeout delay long enough, so that
+get_modes and pre_enable would typically work together without
+suspending the host.
+
+>
+> > >
+> > > 1. get_modes() will go to panel's get_modes() function to power on
+> > > read EDID
+> > >
+> > > 2. panel power will be turned off after get_modes(). Panel power off
+> > > will reset every write transaction in DPCD. anyway invalidating link
+> > > training
+> >
+> > I tend to agree with Doug here. eDP link power status should be handled by
+> > the pm_runtime_autosuspend with grace period being high enough to cover
+> > the timeslot between get_mode() and enable().
+> >
+> > panel-edp already does most of required work.
+> >
+>
+> The eDP controller resources are enabled through the host_init() and the link
+> resources need to be powered on for doing link training, which needs to happen
+> in the enable() with generic panel-edp.
+
+nothing wrong with that up to now
+
+>
+> > >
+> > > 3. mode_valid will land in dp driver but panel will not be powered on
+> > > at that time and we cannot do aux transfers or DPCD read writes.
+> >
+> > Why do we need to perform AUX writes in mode_valid?
+> >
+>
+> I am trying to justify why we cannot have mode_valid() implementation similar to DP for eDP.
+> The detect() and get_modes() are called from panel bridge and panel-edp.c respectively.
+> The first eDP specific call which will land in the dp_driver is mode_valid(), in which the
+> controller cannot perform aux access because the panel will not be powered-on.
+
+I fail to understand why you'd like to perform aux access from
+mode_valid at all.
+
+> As the panel-power and backlight are panel resources, we are not enabling/voting for them
+> from the DP/eDP controller driver.
+
+correct
+
+>
+> > >
+> > > > > So, we need to proceed with the reported mode for eDP.
+> > > >
+> > > > Well... Even if during the first call to get_modes() the DPCD is not
+> > > > read, during subsequent calls the driver has necessary information,
+> > > > so it can proceed with all the checks, can't it?
+> > > >
+> > >
+> > > get_modes() currently does not land in DP driver. It gets executed in
+> > > panel bridge. But the mode_valid() comes to DP driver to check the
+> > > controller compatibility.
+> >
+> > Yes, this is correct. the DP's mode_valid() knows the hardware limitations
+> > (max clock speed, amount of lanes, etc) and thus it can decide whether the
+> > mode is supported by the whole chain or not.
+> > We should not skip such checks for the eDP.
+> >
+> >
+>
+> For eDP, we have no information about the number of lanes or the link rate supported
+> We only know the max lanes from the data-lanes DT property.
+
+If the device connects just a single line to the eDP panel, the DT
+will be changed to list that single lane.
+It looks like we have to call dp_panel_read_sink_caps() somewhere for
+the eDP case. For the DP case the HPD callbacks do this work.
+
+No, mode_valid doesn't look like a proper place. We already have read
+modes, so the AUX bus has been powered for some time. We could do it
+earlier.
+
+-- 
+With best wishes
+Dmitry
