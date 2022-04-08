@@ -2,42 +2,43 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 052D24F909C
-	for <lists+dri-devel@lfdr.de>; Fri,  8 Apr 2022 10:19:08 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 91EDF4F90A5
+	for <lists+dri-devel@lfdr.de>; Fri,  8 Apr 2022 10:21:57 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id F1BDC10ED95;
-	Fri,  8 Apr 2022 08:19:05 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id B32BF10F01B;
+	Fri,  8 Apr 2022 08:21:53 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from bhuna.collabora.co.uk (bhuna.collabora.co.uk
  [IPv6:2a00:1098:0:82:1000:25:2eeb:e3e3])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 42A9610ED95
- for <dri-devel@lists.freedesktop.org>; Fri,  8 Apr 2022 08:19:04 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 32DDE10EFE0
+ for <dri-devel@lists.freedesktop.org>; Fri,  8 Apr 2022 08:21:52 +0000 (UTC)
 Received: from [127.0.0.1] (localhost [127.0.0.1])
- (Authenticated sender: kholk11) with ESMTPSA id 3CE601F46C62
+ (Authenticated sender: kholk11) with ESMTPSA id 0BC531F46C62
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
- s=mail; t=1649405942;
- bh=n3PZ5EP+atv7EGkUpF8rFTDvYYK90dAfeWT4ALjfgCk=;
+ s=mail; t=1649406110;
+ bh=5hTYFqNB9vDIxHeFkZOuvaqNuZxpgzcJpUFPnM90T7A=;
  h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
- b=AGaSlQ5GwsYXwaRRFXeblbG7SziGG7emykikpIAfxEU0y7PwcVwq+u6+VC78eN7ac
- dvw4nM8YN/wlDXzinoeJexXRkswap/l5Ls4ByFmjq/HeK24G2a+ei3E/QPHNlU+kb0
- FACQyoSJTpUN6/Qwc7zjRsdxlPDWzX/WDlEMy/6m4XewBkGSzAmTCCLqrY3gX6T3hj
- I96FsuASNPhaQ76uG7hfT1gtyOnHu5KrRh3XnPIl3aQoVUBLlIbyAfSs8KB68bB0ZK
- EkXH2Wm3jvEvoVccIPRgGHjU+2jhsf2pcMh5mSC8js3K5Of3XDs8yFPmkJJr5iHzGr
- Z0TDgO0kfr0gA==
-Message-ID: <ba1d3b7b-9bcf-9c45-c487-91da767b83f5@collabora.com>
-Date: Fri, 8 Apr 2022 10:18:59 +0200
+ b=RX2ac4nHdftRiVxnIm/L5xLNJ346VIem9P4MCmnuKCk9O3k39+2W9DAYtLA8WHl5s
+ WRg5G8B1tppItIlehtNiZNLX9peiMae6F1O1Ewu/dI2ue4OMlTaazbd0INZ/VKJ2j6
+ 7zWzEK66mcjqyd8IyXdc7vFR9OOd/fGZnJ+5RISKzOXLRm5P25tx6hJQ9gbji4aegA
+ GcRGQt5XDzNSCrjVM97T0cv4yzbyaQkzF8v9ln+q2elehSPLXs9VqjJNPg0tHwB6Pt
+ rNWrgJlYlPdfsM7hETLT6GSDmAeq+doDka/C4xwdBK/N4lOLYKJLLq4SeMO/HCDSEJ
+ PaFNHVl4XbYFQ==
+Message-ID: <20848108-31bc-357c-224b-9cbdd465b195@collabora.com>
+Date: Fri, 8 Apr 2022 10:21:47 +0200
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
  Thunderbird/91.7.0
-Subject: Re: [PATCH v2] drm/mediatek: dpi: Use mt8183 output formats for mt8192
+Subject: Re: [PATCH] drm/bridge: anx7625: Use uint8 for lane-swing arrays
 Content-Language: en-US
 To: =?UTF-8?B?TsOtY29sYXMgRi4gUi4gQS4gUHJhZG8=?= <nfraprado@collabora.com>,
- Philipp Zabel <p.zabel@pengutronix.de>,
- Chun-Kuang Hu <chunkuang.hu@kernel.org>
-References: <20220408013950.674477-1-nfraprado@collabora.com>
+ Robert Foss <robert.foss@linaro.org>,
+ Neil Armstrong <narmstrong@baylibre.com>,
+ Andrzej Hajda <andrzej.hajda@intel.com>
+References: <20220408013034.673418-1-nfraprado@collabora.com>
 From: AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>
-In-Reply-To: <20220408013950.674477-1-nfraprado@collabora.com>
+In-Reply-To: <20220408013034.673418-1-nfraprado@collabora.com>
 Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
@@ -52,28 +53,30 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Jitao Shi <jitao.shi@mediatek.com>, David Airlie <airlied@linux.ie>,
- linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
- Rex-BC Chen <rex-bc.chen@mediatek.com>, linux-mediatek@lists.infradead.org,
- Matthias Brugger <matthias.bgg@gmail.com>, kernel@collabora.com,
- linux-arm-kernel@lists.infradead.org
+Cc: Pi-Hsun Shih <pihsun@chromium.org>, Jonas Karlman <jonas@kwiboo.se>,
+ David Airlie <airlied@linux.ie>, dri-devel@lists.freedesktop.org,
+ linux-kernel@vger.kernel.org, Jernej Skrabec <jernej.skrabec@gmail.com>,
+ Tzung-Bi Shih <tzungbi@google.com>,
+ Laurent Pinchart <Laurent.pinchart@ideasonboard.com>,
+ Hsin-Yi Wang <hsinyi@chromium.org>, kernel@collabora.com,
+ Sam Ravnborg <sam@ravnborg.org>, Xin Ji <xji@analogixsemi.com>,
+ Maxime Ripard <maxime@cerno.tech>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Il 08/04/22 03:39, Nícolas F. R. A. Prado ha scritto:
-> The configuration for mt8192 was incorrectly using the output formats
-> from mt8173. Since the output formats for mt8192 are instead the same
-> ones as for mt8183, which require two bus samples per pixel, the
-> pixelclock and DDR edge setting were misconfigured. This made external
-> displays unable to show the image.
+Il 08/04/22 03:30, Nícolas F. R. A. Prado ha scritto:
+> As defined in the anx7625 dt-binding, the analogix,lane0-swing and
+> analogix,lane1-swing properties are uint8 arrays. Yet, the driver was
+> reading the array as if it were of uint32 and masking to 8-bit before
+> writing to the registers. This means that a devicetree written in
+> accordance to the dt-binding would have its values incorrectly parsed.
 > 
-> Fix the issue by correcting the output format for mt8192 to be the same
-> as for mt8183, fixing the usage of external displays for mt8192.
+> Fix the issue by reading the array as uint8 and storing them as uint8
+> internally, so that we can also drop the masking when writing the
+> registers.
 > 
-> Fixes: be63f6e8601f ("drm/mediatek: dpi: Add output bus formats to driver data")
+> Fixes: fd0310b6fe7d ("drm/bridge: anx7625: add MIPI DPI input feature")
 > Signed-off-by: Nícolas F. R. A. Prado <nfraprado@collabora.com>
 > 
-
-Lovely!
 
 Reviewed-by: AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>
