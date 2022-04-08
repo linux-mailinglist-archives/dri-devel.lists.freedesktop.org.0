@@ -1,88 +1,56 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 79C714F9294
-	for <lists+dri-devel@lfdr.de>; Fri,  8 Apr 2022 12:09:51 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id DC8944F92AC
+	for <lists+dri-devel@lfdr.de>; Fri,  8 Apr 2022 12:15:33 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id A543510F13F;
-	Fri,  8 Apr 2022 10:09:45 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 3EFD410EFD2;
+	Fri,  8 Apr 2022 10:15:30 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from us-smtp-delivery-124.mimecast.com
- (us-smtp-delivery-124.mimecast.com [170.10.133.124])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 14BBA10F136
- for <dri-devel@lists.freedesktop.org>; Fri,  8 Apr 2022 10:09:43 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1649412583;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=EiVIxvljQFV5G39uBsrGYp4sBEpxW/A4qxbBuQByXAY=;
- b=SWhMKzS8pZPxnFgL+ksZdYMI2rUQPOVAEIcjfjMnkE/Y4qU8yfoM9jdZQpzDllAhMgQ/MG
- 1Eb8VOdbh8PsjUJ3JQEya6hv+SQVJR5Hq/rAqyY06Mvg+umA4I7xTBp5GB1Xdi59Qh9cph
- agKWm9yfeW0TG/X5nblAcnHVc1EHxSY=
-Received: from mail-ej1-f71.google.com (mail-ej1-f71.google.com
- [209.85.218.71]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-28-BccGCD2zM1eCxk7uKtuAcQ-1; Fri, 08 Apr 2022 06:09:42 -0400
-X-MC-Unique: BccGCD2zM1eCxk7uKtuAcQ-1
-Received: by mail-ej1-f71.google.com with SMTP id
- nd34-20020a17090762a200b006e0ef16745cso4626682ejc.20
- for <dri-devel@lists.freedesktop.org>; Fri, 08 Apr 2022 03:09:41 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
- :content-language:from:to:cc:references:in-reply-to
- :content-transfer-encoding;
- bh=EiVIxvljQFV5G39uBsrGYp4sBEpxW/A4qxbBuQByXAY=;
- b=xuUtRdzh92GII6DRt3l/ytXR5EjnR1/vEmbKFppjUCgtBRK3exh/5pQWCUaYsup4DP
- cFkxmp173KuX9etBxHHHdHkriJKEWWT2AmgtzS0ZCxd22XB/wtuqTaQjHG/j+m8Z33dw
- +gpXd3rqLKoHtphSwyUdBuFZAjSE3tqqwqJghijVbrYP2B941TfTWJw2b9CVXo68cHth
- w/UxGZjg0YyCjAzZQJ9ndDWAus22yP22jJBrpQAuvbJ8dSuGCzIZtHDpDoUo4Pyuy+Vu
- UC/XZohIj/g+wj5yu6JN3uBRcv5pHL/VdiO41aY7DgX95Vy6CYeQEK7OH8R2UCFT8/MT
- xHug==
-X-Gm-Message-State: AOAM533gbLPn7c868SjntHFS+3GTYmosxd+spQAX06Ym1wDMsjkEDuJQ
- zS+LoiV8PEg9yjvfqjFzMzgtFrSpg8DtkNjjHIZblaAaHgQJGcT+Elc94ubQHlvSrw7gPHJxr3h
- O6faCU0xDaZzvwDO6ki7HYy/+iW5e
-X-Received: by 2002:a17:907:eaa:b0:6e8:2f3:45f9 with SMTP id
- ho42-20020a1709070eaa00b006e802f345f9mr18126222ejc.323.1649412580675; 
- Fri, 08 Apr 2022 03:09:40 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJyYqz9Govwh6K0rCRA8ZO9jX5Vwo5yI19Wlo8YLhE1hopx0UBwVmROY0VxnCRonKEy2aUS2yg==
-X-Received: by 2002:a17:907:eaa:b0:6e8:2f3:45f9 with SMTP id
- ho42-20020a1709070eaa00b006e802f345f9mr18126194ejc.323.1649412580276; 
- Fri, 08 Apr 2022 03:09:40 -0700 (PDT)
-Received: from ?IPV6:2001:1c00:c1e:bf00:1db8:22d3:1bc9:8ca1?
- (2001-1c00-0c1e-bf00-1db8-22d3-1bc9-8ca1.cable.dynamic.v6.ziggo.nl.
- [2001:1c00:c1e:bf00:1db8:22d3:1bc9:8ca1])
- by smtp.gmail.com with ESMTPSA id
- dm11-20020a170907948b00b006cf488e72e3sm8572563ejc.25.2022.04.08.03.09.38
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Fri, 08 Apr 2022 03:09:39 -0700 (PDT)
-Message-ID: <dc3754a4-3f74-95bb-adae-56000a3756f5@redhat.com>
-Date: Fri, 8 Apr 2022 12:09:38 +0200
+Received: from mga06.intel.com (mga06.intel.com [134.134.136.31])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id A77E910E148;
+ Fri,  8 Apr 2022 10:15:28 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+ t=1649412928; x=1680948928;
+ h=from:to:cc:subject:in-reply-to:references:date:
+ message-id:mime-version:content-transfer-encoding;
+ bh=AE6RC8EG+Hd7geescp2zPSNunjGGgYbaGkWQI8nsPIA=;
+ b=Aw3rWLIwsT3vaFxtbW3El2Cc3EAonqRV56CAgpzQpJXdYzVPxXDCs31o
+ KJjTzLaQvlGTSElPvvpKP1GSKuH5MC4Hpy0behdfMndP2njttEoTOOgxV
+ TPyk9v/YVR+lfMQnYbztBcwga02i+qtanP02zuD1SB+x3uy80ewUiVzeN
+ 6SW273+scMwHUM1z7/sRXVWGwMIVZ1eSdEvkucLNGuBDho3Igb5bC1h1F
+ ljd38tdNBVBTJYQ9RNkYa2mHVK9QcpMfS2verG6/zdMNaEHgpGc3FTJwf
+ XFD7dj8TMPzT7T7/XL7cCuYGBC1xynHxtENpZtg4afAdd9pEWQvwwZiLD g==;
+X-IronPort-AV: E=McAfee;i="6400,9594,10310"; a="322248467"
+X-IronPort-AV: E=Sophos;i="5.90,244,1643702400"; d="scan'208";a="322248467"
+Received: from orsmga008.jf.intel.com ([10.7.209.65])
+ by orsmga104.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 08 Apr 2022 03:15:28 -0700
+X-IronPort-AV: E=Sophos;i="5.90,244,1643702400"; d="scan'208";a="571438969"
+Received: from dmunisam-mobl.ger.corp.intel.com (HELO localhost)
+ ([10.249.141.69])
+ by orsmga008-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 08 Apr 2022 03:15:24 -0700
+From: Jani Nikula <jani.nikula@linux.intel.com>
+To: Christian =?utf-8?Q?K=C3=B6nig?= <christian.koenig@amd.com>, Christian
+ =?utf-8?Q?K=C3=B6nig?=
+ <ckoenig.leichtzumerken@gmail.com>, daniel.vetter@ffwll.ch,
+ dri-devel@lists.freedesktop.org, linux-media@vger.kernel.org,
+ linaro-mm-sig@lists.linaro.org, intel-gfx@lists.freedesktop.org
+Subject: Re: [PATCH 12/15] drm/i915: drop bo->moving dependency
+In-Reply-To: <f6f56ad0-4a5b-69b7-500d-79663f690f13@amd.com>
+Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
+References: <20220407085946.744568-1-christian.koenig@amd.com>
+ <20220407085946.744568-13-christian.koenig@amd.com>
+ <87y20ghrmy.fsf@intel.com> <f6f56ad0-4a5b-69b7-500d-79663f690f13@amd.com>
+Date: Fri, 08 Apr 2022 13:15:21 +0300
+Message-ID: <87v8vjj2yu.fsf@intel.com>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.7.0
-Subject: Re: [RFC] drm/kms: control display brightness through drm_connector
- properties
-From: Hans de Goede <hdegoede@redhat.com>
-To: Daniel Vetter <daniel@ffwll.ch>, Alex Deucher <alexdeucher@gmail.com>
-References: <0d188965-d809-81b5-74ce-7d30c49fee2d@redhat.com>
- <dP36CeeNjDVKgcJzbBAdkNM0HzB3N5Uzd6cgBcmrb5mA6xzWs9AKMmRdMKG2y6c1geMhZ1i8hONKQmxYYHN-ZhRLGT_TXz5IhtqnJSWBD9Q=@emersion.fr>
- <0e1cffc1-e8b6-dc58-56ff-53f911f33e60@redhat.com>
- <CADnq5_OGtERRYUPLskgjVD4eLbb2PxKdzcr+xmR2mRMAK73Log@mail.gmail.com>
- <Yk/tOG+iga/wj/Gt@phenom.ffwll.local>
- <acd0c8b6-b045-bab7-dc92-ea166b22c1c6@redhat.com>
-In-Reply-To: <acd0c8b6-b045-bab7-dc92-ea166b22c1c6@redhat.com>
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=hdegoede@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Language: en-US
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: quoted-printable
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -95,218 +63,264 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Sebastian Wick <sebastian.wick@redhat.com>,
- Martin Roukala <martin.roukala@mupuf.org>,
- Christoph Grenz <christophg+lkml@grenz-bonn.de>,
- wayland <wayland-devel@lists.freedesktop.org>,
- "dri-devel@lists.freedesktop.org" <dri-devel@lists.freedesktop.org>,
- Yusuf Khan <yusisamerican@gmail.com>
+Cc: Rodrigo Vivi <rodrigo.vivi@intel.com>, "Ursulin,
+ Tvrtko" <tvrtko.ursulin@intel.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi,
-
-On 4/8/22 11:58, Hans de Goede wrote:
-> Hi Daniel,
-> 
-> On 4/8/22 10:07, Daniel Vetter wrote:
->> On Thu, Apr 07, 2022 at 05:05:52PM -0400, Alex Deucher wrote:
->>> On Thu, Apr 7, 2022 at 1:43 PM Hans de Goede <hdegoede@redhat.com> wrote:
->>>>
->>>> Hi Simon,
->>>>
->>>> On 4/7/22 18:51, Simon Ser wrote:
->>>>> Very nice plan! Big +1 for the overall approach.
->>>>
->>>> Thanks.
->>>>
->>>>> On Thursday, April 7th, 2022 at 17:38, Hans de Goede <hdegoede@redhat.com> wrote:
->>>>>
->>>>>> The drm_connector brightness properties
->>>>>> =======================================
->>>>>>
->>>>>> bl_brightness: rw 0-int32_max property controlling the brightness setting
->>>>>> of the connected display. The actual maximum of this will be less then
->>>>>> int32_max and is given in bl_brightness_max.
->>>>>
->>>>> Do we need to split this up into two props for sw/hw state? The privacy screen
->>>>> stuff needed this, but you're pretty familiar with that. :)
->>>>
->>>> Luckily that won't be necessary, since the privacy-screen is a security
->>>> feature the firmware/embedded-controller may refuse our requests
->>>> (may temporarily lock-out changes) and/or may make changes without
->>>> us requesting them itself. Neither is really the case with the
->>>> brightness setting of displays.
->>>>
->>>>>> bl_brightness_max: ro 0-int32_max property giving the actual maximum
->>>>>> of the display's brightness setting. This will report 0 when brightness
->>>>>> control is not available (yet).
->>>>>
->>>>> I don't think we actually need that one. Integer KMS props all have a
->>>>> range which can be fetched via drmModeGetProperty. The max can be
->>>>> exposed via this range. Example with the existing alpha prop:
->>>>>
->>>>>     "alpha": range [0, UINT16_MAX] = 65535
->>>>
->>>> Right, I already knew that, which is why I explicitly added a range
->>>> to the props already. The problem is that the range must be set
->>>> before registering the connector and when the backlight driver
->>>> only shows up (much) later during boot then we don't know the
->>>> range when registering the connector. I guess we could "patch-up"
->>>> the range later. But AFAIK that would be a bit of abuse of the
->>>> property API as the range is intended to never change, not
->>>> even after hotplug uevents. At least atm there is no infra
->>>> in the kernel to change the range later.
->>>>
->>>> Which is why I added an explicit bl_brightness_max property
->>>> of which the value gives the actual effective maximum of the
->>>> brightness.
+On Fri, 08 Apr 2022, Christian K=C3=B6nig <christian.koenig@amd.com> wrote:
+> Am 08.04.22 um 11:05 schrieb Jani Nikula:
+>> On Thu, 07 Apr 2022, "Christian K=C3=B6nig" <ckoenig.leichtzumerken@gmai=
+l.com> wrote:
+>>> That should now be handled by the common dma_resv framework.
+>>>
+>>> Signed-off-by: Christian K=C3=B6nig <christian.koenig@amd.com>
+>>> Reviewed-by: Daniel Vetter <daniel.vetter@ffwll.ch>
+>>> Cc: intel-gfx@lists.freedesktop.org
+>> So, where are the i915 maintainer acks for merging this (and the other
+>> patches in the series touching i915) via drm-misc-next?
 >>
->> Uh ... I'm not a huge fan tbh. The thing is, if we allow hotplugging
->> brightness control later on then we just perpetuate the nonsense we have
->> right now, forever.
+>> Daniel's Reviewed-by is not an ack to merge outside drm-intel-next.
+>
+> I had the impression that it would be sufficient.
+
+Please don't assume. Please always ask for explicit acks from the
+maintainers before merging, and record the acks in the commit
+message. This has been standard policy for as long as I remember.
+
+Contrast with us merging non-trivial dma-buf changes via drm-intel-next
+with a Reviewed-by from someone who isn't a dma-buf maintainer, and not
+even bothering to Cc the maintainers.
+
+>> We don't merge i915 stuff without passing CI results. Apparently this
+>> one failed enough machines that the CI had to be stopped entirely.
+>
+> That was unfortunately partially expected and pointed out by Matthew and=
+=20
+> Daniel before the push.
+>
+> i915 for some reason extended the usage of the bo->moving fence despite=20
+> the fact we had patches on the mailing list to entirely remove this featu=
+re.
+>
+> I couldn't get any sane CI results for weeks because of this and at some=
+=20
+> point we just had to go ahead and fix the clash in drm-tip.
+
+Did you talk to the maintainers about it?
+
+
+BR,
+Jani.
+
+>
+> Sorry for any inconvenience cause by that. I hoped that we fixed all=20
+> cases, but looks like we still missed some.
+>
+> Regards,
+> Christian.
+>
 >>
->> Imo we should support two kinds of drivers:
 >>
->> - drivers which are non-crap, and make sure their backlight driver is
->>   loaded before they register the drm_device (or at least the
->>   drm_connector). For those we want the drm_connector->backlight pointer
->>   to bit static over the lifetime of the connector, and then we can also
->>   set up the brightness range correctly.
-> 
-> The only problem is that outside of device-tree platforms where
-> we can have a backlight link in a devicetree display-connector node,
-> there are no non crap devices and thus no non crap drivers.
-> 
->> - funny drivers which implement the glorious fallback dance which
->>   libbacklight implements currently in userspace. Imo for these drivers we
->>   should have a libbacklight_heuristics_backlight, which normalizes or
->>   whatever, and is also ways there. And then internally handles the
->>   fallback mess to the "right" backlight driver.
-> 
-> So this will be pretty much all of them including i915 and nouveau.
-> 
-> My first thoughts where the same as yours and we can mostly guarantee
-> that the drm_connector->backlight pointer is static over lifetime of
-> the connector. But the problem is with the backlight device-s provided
-> by things like the dell-laptop, thinkpad_acpi, etc. drivers which are
-> still necessary / used for backlight control on core2duo era laptops
-> which are still being active used by people.
-> 
-> Basically atm the kernel code to determine which backlight-device
-> to use (which assumes a single internal LCD panel) goes like this (1):
-> 
-> 1. Check cmdline-override, DMI quirks (and return their value if set)
-> 2. If ACPI video extensions are not supported then expect a backlight
->    device of the dell-laptop, thinkpad_acpi, etc. type, and use that.
-> 3. If the ACPI tables have been written for Windows8 or later and
->    the GPU driver offers a GPU native backlight device use that.
-> 4. Use the ACPI video extensions backlight device
-> 
->> We might have some gaps on acpi systems to make sure the drm driver can
->> wait for the backlight driver to show up, but that's about it.
-> 
-> The problem here is 2. or IOW devices which don't support the
-> ACPI video extensions, these typically (always?) also don't offer
-> a GPU native backlight device, instead relying on
-> the embedded-controller for backlight control using some vendor
-> specific firmware API to talk to the EC.
-> 
-> For the other cases there are indeed some gaps which I plan to close
-> so that we can make sure that the backlight device will be in place
-> when we register the connector.
-> 
-> But the old devices without ACPI video extensions case is a big
-> problem and more then just some gaps" and that is a path which all
-> major x86 drivers may hit.
-> 
-> In some cases I even expect the backlight_device to simply never
-> show up when hitting 2. Either because the necessary driver is
-> not enabled in the kernel or because no-one ever added support for
-> the specific fw interface used on the laptop in question. But I
-> do expect this to be quite rare.
-> 
-> For the privacy-screen case where we had a similar issue this
-> was solved by in essence duplicating the detection part of the
-> privacy-screen drivers inside the drm_privacy code and use
-> -EPROBE_DEFER to wait for the privacy-screen driver to load.
-> 
-> But in this case that is not really feasible IMHO because:
-> 
-> [hans@shalem linux]$ ack -l backlight_device_register drivers/platform/x86
-> drivers/platform/x86/toshiba_acpi.c
-> drivers/platform/x86/intel/oaktrail.c
-> drivers/platform/x86/dell/dell-laptop.c
-> drivers/platform/x86/msi-laptop.c
-> drivers/platform/x86/panasonic-laptop.c
-> drivers/platform/x86/ideapad-laptop.c
-> drivers/platform/x86/sony-laptop.c
-> drivers/platform/x86/thinkpad_acpi.c
-> drivers/platform/x86/acer-wmi.c
-> drivers/platform/x86/samsung-q10.c
-> drivers/platform/x86/asus-wmi.c
-> drivers/platform/x86/apple-gmux.c
-> drivers/platform/x86/nvidia-wmi-ec-backlight.c
-> drivers/platform/x86/msi-wmi.c
-> drivers/platform/x86/asus-laptop.c
-> drivers/platform/x86/classmate-laptop.c
-> drivers/platform/x86/eeepc-laptop.c
-> drivers/platform/x86/fujitsu-laptop.c
-> drivers/platform/x86/samsung-laptop.c
-> drivers/platform/x86/compal-laptop.c
-> [hans@shalem linux]$ ack -l backlight_device_register drivers/platform/x86 | wc -l
-> 20
-> 
-> Duplicating 20 wildly different ACPI/WMI backlight detection
-> routines is a bit much; and also something which I cannot test
-> easily and doing EPROBE_DEFER like behavior will require all
-> of these to also be available in the initrd.
-> 
-> So IMHO at least for devices relying on these it is best to allow
-> having the bl_brightness* properties be presend on the internal
-> LCD connector at registration time with a hint that they are
-> not functional and then send an uevent when they become functional.
-> 
-> I really see no other way to deal with these (old) devices.
+>> BR,
+>> Jani.
+>>
+>>
+>>> ---
+>>>   drivers/gpu/drm/i915/gem/i915_gem_object.c    | 41 ++++---------------
+>>>   drivers/gpu/drm/i915/gem/i915_gem_object.h    |  8 +---
+>>>   drivers/gpu/drm/i915/gem/i915_gem_ttm_move.c  | 15 +------
+>>>   .../drm/i915/gem/selftests/i915_gem_migrate.c |  3 +-
+>>>   .../drm/i915/gem/selftests/i915_gem_mman.c    |  3 +-
+>>>   drivers/gpu/drm/i915/i915_vma.c               |  9 +++-
+>>>   6 files changed, 21 insertions(+), 58 deletions(-)
+>>>
+>>> diff --git a/drivers/gpu/drm/i915/gem/i915_gem_object.c b/drivers/gpu/d=
+rm/i915/gem/i915_gem_object.c
+>>> index 372bc220faeb..ffde7bc0a95d 100644
+>>> --- a/drivers/gpu/drm/i915/gem/i915_gem_object.c
+>>> +++ b/drivers/gpu/drm/i915/gem/i915_gem_object.c
+>>> @@ -741,30 +741,19 @@ static const struct drm_gem_object_funcs i915_gem=
+_object_funcs =3D {
+>>>   /**
+>>>    * i915_gem_object_get_moving_fence - Get the object's moving fence i=
+f any
+>>>    * @obj: The object whose moving fence to get.
+>>> + * @fence: The resulting fence
+>>>    *
+>>>    * A non-signaled moving fence means that there is an async operation
+>>>    * pending on the object that needs to be waited on before setting up
+>>>    * any GPU- or CPU PTEs to the object's pages.
+>>>    *
+>>> - * Return: A refcounted pointer to the object's moving fence if any,
+>>> - * NULL otherwise.
+>>> + * Return: Negative error code or 0 for success.
+>>>    */
+>>> -struct dma_fence *
+>>> -i915_gem_object_get_moving_fence(struct drm_i915_gem_object *obj)
+>>> +int i915_gem_object_get_moving_fence(struct drm_i915_gem_object *obj,
+>>> +				     struct dma_fence **fence)
+>>>   {
+>>> -	return dma_fence_get(i915_gem_to_ttm(obj)->moving);
+>>> -}
+>>> -
+>>> -void i915_gem_object_set_moving_fence(struct drm_i915_gem_object *obj,
+>>> -				      struct dma_fence *fence)
+>>> -{
+>>> -	struct dma_fence **moving =3D &i915_gem_to_ttm(obj)->moving;
+>>> -
+>>> -	if (*moving =3D=3D fence)
+>>> -		return;
+>>> -
+>>> -	dma_fence_put(*moving);
+>>> -	*moving =3D dma_fence_get(fence);
+>>> +	return dma_resv_get_singleton(obj->base.resv, DMA_RESV_USAGE_KERNEL,
+>>> +				      fence);
+>>>   }
+>>>=20=20=20
+>>>   /**
+>>> @@ -782,23 +771,9 @@ void i915_gem_object_set_moving_fence(struct drm_i=
+915_gem_object *obj,
+>>>   int i915_gem_object_wait_moving_fence(struct drm_i915_gem_object *obj,
+>>>   				      bool intr)
+>>>   {
+>>> -	struct dma_fence *fence =3D i915_gem_to_ttm(obj)->moving;
+>>> -	int ret;
+>>> -
+>>>   	assert_object_held(obj);
+>>> -	if (!fence)
+>>> -		return 0;
+>>> -
+>>> -	ret =3D dma_fence_wait(fence, intr);
+>>> -	if (ret)
+>>> -		return ret;
+>>> -
+>>> -	if (fence->error)
+>>> -		return fence->error;
+>>> -
+>>> -	i915_gem_to_ttm(obj)->moving =3D NULL;
+>>> -	dma_fence_put(fence);
+>>> -	return 0;
+>>> +	return dma_resv_wait_timeout(obj->base. resv, DMA_RESV_USAGE_KERNEL,
+>>> +				     intr, MAX_SCHEDULE_TIMEOUT);
+>>>   }
+>>>=20=20=20
+>>>   #if IS_ENABLED(CONFIG_DRM_I915_SELFTEST)
+>>> diff --git a/drivers/gpu/drm/i915/gem/i915_gem_object.h b/drivers/gpu/d=
+rm/i915/gem/i915_gem_object.h
+>>> index 02c37fe4a535..e11d82a9f7c3 100644
+>>> --- a/drivers/gpu/drm/i915/gem/i915_gem_object.h
+>>> +++ b/drivers/gpu/drm/i915/gem/i915_gem_object.h
+>>> @@ -520,12 +520,8 @@ i915_gem_object_finish_access(struct drm_i915_gem_=
+object *obj)
+>>>   	i915_gem_object_unpin_pages(obj);
+>>>   }
+>>>=20=20=20
+>>> -struct dma_fence *
+>>> -i915_gem_object_get_moving_fence(struct drm_i915_gem_object *obj);
+>>> -
+>>> -void i915_gem_object_set_moving_fence(struct drm_i915_gem_object *obj,
+>>> -				      struct dma_fence *fence);
+>>> -
+>>> +int i915_gem_object_get_moving_fence(struct drm_i915_gem_object *obj,
+>>> +				     struct dma_fence **fence);
+>>>   int i915_gem_object_wait_moving_fence(struct drm_i915_gem_object *obj,
+>>>   				      bool intr);
+>>>=20=20=20
+>>> diff --git a/drivers/gpu/drm/i915/gem/i915_gem_ttm_move.c b/drivers/gpu=
+/drm/i915/gem/i915_gem_ttm_move.c
+>>> index 438b8a95b3d1..a10716f4e717 100644
+>>> --- a/drivers/gpu/drm/i915/gem/i915_gem_ttm_move.c
+>>> +++ b/drivers/gpu/drm/i915/gem/i915_gem_ttm_move.c
+>>> @@ -467,19 +467,6 @@ __i915_ttm_move(struct ttm_buffer_object *bo,
+>>>   	return fence;
+>>>   }
+>>>=20=20=20
+>>> -static int
+>>> -prev_deps(struct ttm_buffer_object *bo, struct ttm_operation_ctx *ctx,
+>>> -	  struct i915_deps *deps)
+>>> -{
+>>> -	int ret;
+>>> -
+>>> -	ret =3D i915_deps_add_dependency(deps, bo->moving, ctx);
+>>> -	if (!ret)
+>>> -		ret =3D i915_deps_add_resv(deps, bo->base.resv, ctx);
+>>> -
+>>> -	return ret;
+>>> -}
+>>> -
+>>>   /**
+>>>    * i915_ttm_move - The TTM move callback used by i915.
+>>>    * @bo: The buffer object.
+>>> @@ -534,7 +521,7 @@ int i915_ttm_move(struct ttm_buffer_object *bo, boo=
+l evict,
+>>>   		struct i915_deps deps;
+>>>=20=20=20
+>>>   		i915_deps_init(&deps, GFP_KERNEL | __GFP_NORETRY | __GFP_NOWARN);
+>>> -		ret =3D prev_deps(bo, ctx, &deps);
+>>> +		ret =3D i915_deps_add_resv(&deps, bo->base.resv, ctx);
+>>>   		if (ret) {
+>>>   			i915_refct_sgt_put(dst_rsgt);
+>>>   			return ret;
+>>> diff --git a/drivers/gpu/drm/i915/gem/selftests/i915_gem_migrate.c b/dr=
+ivers/gpu/drm/i915/gem/selftests/i915_gem_migrate.c
+>>> index 4997ed18b6e4..0ad443a90c8b 100644
+>>> --- a/drivers/gpu/drm/i915/gem/selftests/i915_gem_migrate.c
+>>> +++ b/drivers/gpu/drm/i915/gem/selftests/i915_gem_migrate.c
+>>> @@ -219,8 +219,7 @@ static int __igt_lmem_pages_migrate(struct intel_gt=
+ *gt,
+>>>   			err =3D dma_resv_reserve_fences(obj->base.resv, 1);
+>>>   			if (!err)
+>>>   				dma_resv_add_fence(obj->base.resv, &rq->fence,
+>>> -						   DMA_RESV_USAGE_WRITE);
+>>> -			i915_gem_object_set_moving_fence(obj, &rq->fence);
+>>> +						   DMA_RESV_USAGE_KERNEL);
+>>>   			i915_request_put(rq);
+>>>   		}
+>>>   		if (err)
+>>> diff --git a/drivers/gpu/drm/i915/gem/selftests/i915_gem_mman.c b/drive=
+rs/gpu/drm/i915/gem/selftests/i915_gem_mman.c
+>>> index 3a6e3f6d239f..dfc34cc2ef8c 100644
+>>> --- a/drivers/gpu/drm/i915/gem/selftests/i915_gem_mman.c
+>>> +++ b/drivers/gpu/drm/i915/gem/selftests/i915_gem_mman.c
+>>> @@ -1221,8 +1221,7 @@ static int __igt_mmap_migrate(struct intel_memory=
+_region **placements,
+>>>   	i915_gem_object_unpin_pages(obj);
+>>>   	if (rq) {
+>>>   		dma_resv_add_fence(obj->base.resv, &rq->fence,
+>>> -				   DMA_RESV_USAGE_WRITE);
+>>> -		i915_gem_object_set_moving_fence(obj, &rq->fence);
+>>> +				   DMA_RESV_USAGE_KERNEL);
+>>>   		i915_request_put(rq);
+>>>   	}
+>>>   	i915_gem_object_unlock(obj);
+>>> diff --git a/drivers/gpu/drm/i915/i915_vma.c b/drivers/gpu/drm/i915/i91=
+5_vma.c
+>>> index 524477d8939e..d077f7b9eaad 100644
+>>> --- a/drivers/gpu/drm/i915/i915_vma.c
+>>> +++ b/drivers/gpu/drm/i915/i915_vma.c
+>>> @@ -1357,10 +1357,17 @@ int i915_vma_pin_ww(struct i915_vma *vma, struc=
+t i915_gem_ww_ctx *ww,
+>>>   	if (err)
+>>>   		return err;
+>>>=20=20=20
+>>> +	if (vma->obj) {
+>>> +		err =3D i915_gem_object_get_moving_fence(vma->obj, &moving);
+>>> +		if (err)
+>>> +			return err;
+>>> +	} else {
+>>> +		moving =3D NULL;
+>>> +	}
+>>> +
+>>>   	if (flags & PIN_GLOBAL)
+>>>   		wakeref =3D intel_runtime_pm_get(&vma->vm->i915->runtime_pm);
+>>>=20=20=20
+>>> -	moving =3D vma->obj ? i915_gem_object_get_moving_fence(vma->obj) : NU=
+LL;
+>>>   	if (flags & vma->vm->bind_async_flags || moving) {
+>>>   		/* lock VM */
+>>>   		err =3D i915_vm_lock_objects(vma->vm, ww);
+>
 
-Oh and one important thing which I forgot to add, it is these
-old vendor specific firmware APIs for setting the backlight which
-have the issue of having only say 8 levels, so scaling those
-to 0-65535 leads to the:
-
-"E.g GNOME decides
-  on a step size for the hotkeys by doing min(brightness_max/20, 1).
-  Some of the vendor specific backlight fw APIs (e.g. dell-laptop) have
-  only 8 steps. When giving userspace the actual max_brightness value, then
-  this will all work just fine. When hardcode brightness_max to 65535 OTOH
-  then in this case GNOME will still give the user 20 steps where only 1
-  in every 2-3 steps actually changes the brightness which IMHO is
-  an unacceptably bad user experience."
-
-problem from my original email starting the thread. One thing which
-I did consider is to always scale to 0-65535 and then add a
-"bl_brightness_step_size" property which would then be set to
-65535/8 = 8192 in this case. But there are 2 disadvantages to this:
-
-1. We still need a uevent for when the step-size changes once
-the backlight-device finally shows up on impacted old devices
-2. Scaling between the backlight device and the property value
-sooner or later may lead to drift due to rounding issues.
-
-So I don't really see this as better, TBH the whole scaling
-+ reporting step-size thing feels significantly worse then
-just updating brightness_max.
-
-And then we would need to report step-size = 0 to report no
-backlight device is available yet, which also feels worse then
-using brightness_max=0 to indicate lack of brightness control.
-
-Regards,
-
-Hans
-
-
-> 1) For now I, intend to extend this with detection of Apple GMUX and
->    NVIDIA_WMI_EC_BACKLIGHT support
-> 
-
+--=20
+Jani Nikula, Intel Open Source Graphics Center
