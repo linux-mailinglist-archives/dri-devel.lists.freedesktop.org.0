@@ -2,75 +2,76 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 542484F9D99
-	for <lists+dri-devel@lfdr.de>; Fri,  8 Apr 2022 21:19:33 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 24D5D4F9DA3
+	for <lists+dri-devel@lfdr.de>; Fri,  8 Apr 2022 21:25:34 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 6515C10E27E;
-	Fri,  8 Apr 2022 19:19:30 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 3066A10E2E3;
+	Fri,  8 Apr 2022 19:25:31 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from us-smtp-delivery-124.mimecast.com
- (us-smtp-delivery-124.mimecast.com [170.10.133.124])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 4A83510E27E
- for <dri-devel@lists.freedesktop.org>; Fri,  8 Apr 2022 19:19:29 +0000 (UTC)
+ (us-smtp-delivery-124.mimecast.com [170.10.129.124])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id EF6EE10E2E3
+ for <dri-devel@lists.freedesktop.org>; Fri,  8 Apr 2022 19:25:28 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1649445568;
+ s=mimecast20190719; t=1649445927;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=0fvEhjlM3QZzX1sj1DtKINnNazNEUJ++0aetbtdWVKg=;
- b=h3YwPQ61pEGrif5jUTkO4x2FqVcpNsK4Nkin39Oy77JTTZkii1NyrIlF8gR/7/INtjjniC
- r5qdPfG7d0SFhg0FIL/dv/mpWSNIBfUCXq2zM9Ti2xZmb7OCzPJoFxoh/+DC1wGsksXUjc
- /D2y7aXQ8bJFTwQNqMujhn6MfahmB7E=
-Received: from mail-wm1-f69.google.com (mail-wm1-f69.google.com
- [209.85.128.69]) by relay.mimecast.com with ESMTP with STARTTLS
+ bh=UGrov/V4uOu3LT5x6dwFAgilRHaV8cu7rkG7AUn9KTY=;
+ b=h5cJ5V2Q8G5FWDMZJr6M2jJ59Jrq8M4UHC+cg3Ftpa4GD/yT08sutXH/Pngr52KwIrtKX1
+ OF31gA59XEd62zAu8dDG0OYLuQ4PGfjBw9QpfJH59O7Ovm5lDIg+H8aAvAlBN5rF/PHgaI
+ QTXm64b2pX00KkmtQbw8UbILJRplhPc=
+Received: from mail-wr1-f71.google.com (mail-wr1-f71.google.com
+ [209.85.221.71]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-648-xDCMXZUQN9W-4dxV06QQ5g-1; Fri, 08 Apr 2022 15:19:27 -0400
-X-MC-Unique: xDCMXZUQN9W-4dxV06QQ5g-1
-Received: by mail-wm1-f69.google.com with SMTP id
- h65-20020a1c2144000000b0038e9ce3b29cso1643383wmh.2
- for <dri-devel@lists.freedesktop.org>; Fri, 08 Apr 2022 12:19:26 -0700 (PDT)
+ us-mta-471-TRby55o5MEOZKEp-ATUskQ-1; Fri, 08 Apr 2022 15:25:26 -0400
+X-MC-Unique: TRby55o5MEOZKEp-ATUskQ-1
+Received: by mail-wr1-f71.google.com with SMTP id
+ 65-20020adf8147000000b00207982c3692so607543wrm.15
+ for <dri-devel@lists.freedesktop.org>; Fri, 08 Apr 2022 12:25:26 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
- :content-language:to:cc:references:from:in-reply-to
+ :content-language:from:to:cc:references:in-reply-to
  :content-transfer-encoding;
- bh=0fvEhjlM3QZzX1sj1DtKINnNazNEUJ++0aetbtdWVKg=;
- b=u8a1ELwxxbA/jlYo1QXNFnyf9SH7WPCQScO1FNJ2j7GPqH1cNx7K7TCy7QS/NQW/NE
- NtS96WW4Cvop9UJj47bqBwWa7koDWg+mUTNaBrezFG4pGlCb2mVOokTfakBxO2txwqdh
- QodMrIKwOnaWjrHNUKZ8Es0t3GBHXftH2SODKKEGz+a37pqr5JmHPwOtW/Z+mPmVwX+P
- EVMbe5JXk1OJdUbQR6JaDS+7vEwEk2LMRuE0RI1UCDyoPYhtdSh4Nb4EbeacPO0qeGVp
- 1WKwHvLfYmRotshBiIfkqNQiwUaPIx+qkTpjYUr7/lnDDuTzvO5CYrYM1gWjPycHzEVJ
- fBvw==
-X-Gm-Message-State: AOAM53348ja1f/h3VNxZUe57C54ICaqVfVapYxaNrYI1uavdSm6WNW0J
- 1ti2GEoESUAx/NudzLh2i7ocITXLIwcAyLlsOMjzpjAuh3fvZMRcqnD35dLVadQ4P2HAEg+Cf1x
- wVLsYyM4LrJMGkTLG5p4ciipkphZX
-X-Received: by 2002:a1c:f717:0:b0:38e:6bed:2aad with SMTP id
- v23-20020a1cf717000000b0038e6bed2aadmr18373481wmh.45.1649445565779; 
- Fri, 08 Apr 2022 12:19:25 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJzTT0GmyN7JrE/yRf+eSHTLh9bVjgwg1JFALb3opklGlOqu4r3MXnbDoHko0BkqNp4p7yOH1g==
-X-Received: by 2002:a1c:f717:0:b0:38e:6bed:2aad with SMTP id
- v23-20020a1cf717000000b0038e6bed2aadmr18373474wmh.45.1649445565511; 
- Fri, 08 Apr 2022 12:19:25 -0700 (PDT)
+ bh=UGrov/V4uOu3LT5x6dwFAgilRHaV8cu7rkG7AUn9KTY=;
+ b=OZ93nqfIjPpY9Gmn0PWSiTuJJByXtvWb8Irg3AG5cOg3wm9bDHAp32MGOjacFB6NRP
+ wanJBBRver5Ra08Fr2sBKVpbZUpTezN/g1jdqQQsBaCzcxptRjT8swCex4X1ng46V5Xm
+ JDP2ZiUNOqHTwcH212UZ66uzUHA3yLgap1sw4Zd2N4bXdzUBOQ6VSamK8dj4aAoqcnfj
+ Gox9kAF8lvGpV/GBNOosPJyyQadQbz91XPO6k9r6FccPpc2zxqdHgOTfS2LGISqedZLI
+ IvNTccDUIVy56i/Hrnu6IfNi+duvkgs49SXhSGxn9J20q+h3lsG4jd9qqrlB5HlS8exg
+ 4HJg==
+X-Gm-Message-State: AOAM531PPZzkJ6/nelmC2h5a/xVB8gUMRR84Avly0ZR3phhx1/BNTE5J
+ oAqE/HaTtPq7nFlIS/UVEUlV9LezONRYk5xY0BX3WPQdZd0LQg0vXG3sRzHDRlSL2cxPmhpRpDv
+ UtL4HXYA488mnW5RibZU8FmcsLGC8
+X-Received: by 2002:a5d:6a0b:0:b0:207:9e23:8b4b with SMTP id
+ m11-20020a5d6a0b000000b002079e238b4bmr45498wru.337.1649445925313; 
+ Fri, 08 Apr 2022 12:25:25 -0700 (PDT)
+X-Google-Smtp-Source: ABdhPJwtpxhv4RA2iFT06aQJ6jH2+mBKBrcJL3FNdxAkbV0UH3rboulTNyoMaM+1BcHn/wT4wRNyKg==
+X-Received: by 2002:a5d:6a0b:0:b0:207:9e23:8b4b with SMTP id
+ m11-20020a5d6a0b000000b002079e238b4bmr45485wru.337.1649445925090; 
+ Fri, 08 Apr 2022 12:25:25 -0700 (PDT)
 Received: from [192.168.1.102] ([92.176.231.205])
  by smtp.gmail.com with ESMTPSA id
- i14-20020a0560001ace00b00203da1fa749sm30024255wry.72.2022.04.08.12.19.24
+ m7-20020adfe0c7000000b002060e7bbe49sm19704733wri.45.2022.04.08.12.25.24
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Fri, 08 Apr 2022 12:19:25 -0700 (PDT)
-Message-ID: <ffe5c7d4-d27f-ccb6-932e-e027e1ae14da@redhat.com>
-Date: Fri, 8 Apr 2022 21:19:24 +0200
+ Fri, 08 Apr 2022 12:25:24 -0700 (PDT)
+Message-ID: <dfc438ab-29fd-881d-f019-7223cae60e88@redhat.com>
+Date: Fri, 8 Apr 2022 21:25:18 +0200
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
  Thunderbird/91.7.0
 Subject: Re: [PATCH 1/5] dt-bindings: display: ssd1307fb: Deprecate fbdev
  compatible strings
+From: Javier Martinez Canillas <javierm@redhat.com>
 To: Rob Herring <robh@kernel.org>
 References: <20220407200205.28838-1-javierm@redhat.com>
  <20220407200205.28838-2-javierm@redhat.com>
  <YlB9TsbhoQblo1H8@robh.at.kernel.org>
-From: Javier Martinez Canillas <javierm@redhat.com>
-In-Reply-To: <YlB9TsbhoQblo1H8@robh.at.kernel.org>
+ <ffe5c7d4-d27f-ccb6-932e-e027e1ae14da@redhat.com>
+In-Reply-To: <ffe5c7d4-d27f-ccb6-932e-e027e1ae14da@redhat.com>
 Authentication-Results: relay.mimecast.com;
  auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=javierm@redhat.com
 X-Mimecast-Spam-Score: 0
@@ -99,122 +100,32 @@ Cc: devicetree@vger.kernel.org,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hello Rob,
-
-On 4/8/22 20:22, Rob Herring wrote:
-> On Thu, Apr 07, 2022 at 10:02:00PM +0200, Javier Martinez Canillas wrote:
->> The current compatible strings for SSD130x I2C controllers contain an -fb
->> suffix, this seems to indicate that are for a fbdev driver. But the DT is
->> supposed to describe the hardware and not Linux implementation details.
-> 
-> True, but compatible is just an identifier. There's no reason to 
-> deprecate unless the binding as a whole needs to be redone.
-> 
-> I imagine you also want 2 compatibles for 2 drivers. That's saying you 
-> should change your firmware to switch drivers. The fact that we have 2 
-> drivers for the same h/w is a kernel problem. Don't bring DT into it.
->
-
-No, that's not what I meant. In fact, we currently have two drivers that
-match against the same set of compatible strings. These drivers are:
-
-* drivers/video/fbdev/ssd1307fb.c
-* drivers/gpu/drm/solomon/ssd130x-i2c.c
-
-what I don't personally like about the current compatible strings is that
-the *driver* name was encoded on those, rather than the IC names. So for
-instance there's a "solomon,ssd1307fb-i2c" (notice the fb suffix) instead
-of just "solomon,ssd1307-i2c" or "solomon,ssd1307".
-
-When I ported the fbdev driver to DRM, I considered using different values
-for the compatible strings but decided to just use the same for backward
-compatibility.
-
-But now I want to add compatible strings for OLED controllers that use a
-SPI interface instead, and I don't really want to add a compatible string
-"solomon,ssd1307fb-spi" but just without the "fb".
-
-I want the SPI compatible strings to be consistent with the I2C ones though,
-hence the deprecation so new DTS could just use the ones without a "fb".
-
-Now, if you say that I can't do add new ones for I2C, then I will just add
-"solomon,ssd1307fb-spi" and similar even though I don't like the "fb" there.
-
-And just to make clear, the DRM driver will continue matching against both
-compatible strings, but the fbdev will only match the old "fb" ones.
+On 4/8/22 21:19, Javier Martinez Canillas wrote:
 
 [snip]
 
->> +
->> +      # SSD130x I2C controllers
->> +      - items:
->> +          - enum:
->> +              - sinowealth,sh1106-i2c
->> +              - solomon,ssd1305-i2c
->> +              - solomon,ssd1306-i2c
->> +              - solomon,ssd1307-i2c
->> +              - solomon,ssd1309-i2c
+>>
+>> There's also no reason to put the bus interface into the compatible as 
+>> the same compatible will work on different buses. But since you want to 
+>> add SPI, just using the 'i2c' one will confuse people. For that reason 
+>> you could add 'solomon,ssd1305', etc. for both SPI support and I2C DRM.
 > 
-> There's also no reason to put the bus interface into the compatible as 
-> the same compatible will work on different buses. But since you want to 
-> add SPI, just using the 'i2c' one will confuse people. For that reason 
-> you could add 'solomon,ssd1305', etc. for both SPI support and I2C DRM.
-
-That's not really true. There's a reason to add per bus compatible strings
-at least in Linux. And is that there's no information about the bus types
-in module aliases that are reported to user-space for module auto-loading.
-
-For example, 
-
-$ cat /sys/devices/platform/soc/fe804000.i2c/i2c-1/1-003c/modalias 
-of:NoledT(null)Csolomon,ssd1306fb-i2c
-
-$ cat /sys/devices/platform/soc/fe804000.i2c/i2c-1/1-003c/uevent 
-DRIVER=ssd130x-i2c
-OF_NAME=oled
-OF_FULLNAME=/soc/i2c@7e804000/oled@3c
-OF_COMPATIBLE_0=solomon,ssd1306fb-i2c
-OF_COMPATIBLE_N=1
-MODALIAS=of:NoledT(null)Csolomon,ssd1306fb-i2c
-
-and
-
-$ modinfo ssd130x-i2c | grep alias
-alias:          of:N*T*Csolomon,ssd1309fb-i2cC*
-alias:          of:N*T*Csolomon,ssd1309fb-i2c
-alias:          of:N*T*Csolomon,ssd1307fb-i2cC*
-alias:          of:N*T*Csolomon,ssd1307fb-i2c
-alias:          of:N*T*Csolomon,ssd1306fb-i2cC*
-alias:          of:N*T*Csolomon,ssd1306fb-i2c
-alias:          of:N*T*Csolomon,ssd1305fb-i2cC*
-alias:          of:N*T*Csolomon,ssd1305fb-i2c
-alias:          of:N*T*Csinowealth,sh1106-i2cC*
-alias:          of:N*T*Csinowealth,sh1106-i2c
-
-this module will match against any MODALIAS uevent that has one of the
-listed compatible strings in "C" and any node name in "N". But also for
-any type "T".
-
-And even if the module alias was more restrictive and say only matched
-against 'of:N*Ti2cCsolomon,ssd1307fb-i2c', the type information is not
-filled by the bus drivers.
-
-So, if we just had a "solomon,ssd1307" compatible string, then a device
-registered through OF could lead to the wrong kernel module to be loaded.
-
-In other words, it's true that having a single compatible strings for all
-bus drivers will work for device -> driver matching but may not work for
-module auto-loading.
-
-> (You should also support the 'fb-i2c' variant in DRM IMO, but doubtful 
-> that I'll review that.)
+> That's not really true. There's a reason to add per bus compatible strings
+> at least in Linux. And is that there's no information about the bus types
+> in module aliases that are reported to user-space for module auto-loading.
 >
 
-As mentioned above, it does even after adding support for the new strings,
-for backward compatibility.
- 
-> Rob
-> 
+Forgot to mention that in this particular case it will work but just because
+the SPI subsystem always report a module alias of the form "spi:device" even
+for devices that are registered through OF.
+
+So having a single "solomon,ssd1306" would work because for I2C the module
+alias will be "of:NoledT(null)Csolomon,ssd1306" and for SPI it will be
+"spi:ssd1306".
+
+But if ever the SPI subsystem is fixed to report proper OF module aliases
+things will break. And since the DT bindings is an ABI, it's safer to have
+"-i2c" and "-spi" compatible strings variants.
 
 -- 
 Best regards,
