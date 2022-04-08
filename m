@@ -2,40 +2,40 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id D35974F8BCE
-	for <lists+dri-devel@lfdr.de>; Fri,  8 Apr 2022 03:10:22 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 0E02F4F8BD1
+	for <lists+dri-devel@lfdr.de>; Fri,  8 Apr 2022 03:19:18 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 9394710E049;
-	Fri,  8 Apr 2022 01:10:18 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id CCB7F10E051;
+	Fri,  8 Apr 2022 01:19:15 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from gandalf.ozlabs.org (gandalf.ozlabs.org [150.107.74.76])
- by gabe.freedesktop.org (Postfix) with ESMTPS id AFB0B10E049;
- Fri,  8 Apr 2022 01:10:17 +0000 (UTC)
-Received: from authenticated.ozlabs.org (localhost [127.0.0.1])
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
- key-exchange ECDHE (P-256) server-signature RSA-PSS (4096 bits) server-digest
- SHA256) (No client certificate requested)
- by mail.ozlabs.org (Postfix) with ESMTPSA id 4KZKtD1J46z4xR9;
- Fri,  8 Apr 2022 11:10:11 +1000 (AEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=canb.auug.org.au;
- s=201702; t=1649380213;
- bh=vcX4MhOwVA1LeMEowdgiUTbVi0yZ19UPaE1n3h2j1kw=;
- h=Date:From:To:Cc:Subject:From;
- b=i52oSShQe3jtquwqvSkQtRfQRB+TAxTK+HMdnw+NulpsBx5vSQ0+uiDUBmzEvAOJz
- nUcp09h5YnjxweCJNGzLFIW0fSHJ8e450O6BiYlvkds2H4F6ZS0rOs2Zo8oDp48jLW
- MrI0hySWMhCrvnyeFRQLZ05GQ1GZXeOLAZPmYW38ris+J3wAwSXNPzguYw0W62kyBz
- qJYVjX7W993aGXlQO6gaTct4Z0MjziuNUTfKrxorosCnuV0vrBlv+s3NYzWHqNhKr6
- U2R71crH8fqZNLojGDCoJ5DDfzBH5Vb0Io0YNahky2oMJ8RU0u7hbKFYbFvoVkC04e
- QqPlR4yqvzDhw==
-Date: Fri, 8 Apr 2022 11:10:10 +1000
-From: Stephen Rothwell <sfr@canb.auug.org.au>
-To: Daniel Vetter <daniel.vetter@ffwll.ch>
-Subject: linux-next: build failure after merge of the drm-misc tree
-Message-ID: <20220408111010.31a7bc8b@canb.auug.org.au>
+Received: from bhuna.collabora.co.uk (bhuna.collabora.co.uk
+ [IPv6:2a00:1098:0:82:1000:25:2eeb:e3e3])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 047D010E062
+ for <dri-devel@lists.freedesktop.org>; Fri,  8 Apr 2022 01:19:13 +0000 (UTC)
+Received: from [127.0.0.1] (localhost [127.0.0.1])
+ (Authenticated sender: nfraprado) with ESMTPSA id 8FD2F1F46B10
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
+ s=mail; t=1649380752;
+ bh=DRF0VVql1NDF1AFBXdreQkrM736cxZe8TLofRJp+rIE=;
+ h=From:To:Cc:Subject:Date:From;
+ b=CzKotq9B/GtJeR8NyobQE7fpb4jsG3di7QvNmI8YKfpttbMaevDT9Uf0OdhsDS3Wq
+ kW0OUMPFd8j73Nlc3Lx7iohdfUWUeC1u6t+C0BUkKMEfMlejJb/BOwbGK3j4oiaQzl
+ zV1wC6Be1FGMR6a/4BlZpDjMns3t8ZmMr6qU8M/9H3+myE196Vsk92YjgRydOUwQhB
+ F1h6D4bzcLn4Cau+hHx5IL9LmniCCecJfT4lHOneb0gonTu8akKH5rN3Lxdb82jKcK
+ rYHceKabJgfRjDlxubAvqcymueNkYSqbcd2MEn7p1ifNkTqfkboJOVEsqsCUZcY+/0
+ Qj2e/jOnJFqkA==
+From: =?UTF-8?q?N=C3=ADcolas=20F=2E=20R=2E=20A=2E=20Prado?=
+ <nfraprado@collabora.com>
+To: Philipp Zabel <p.zabel@pengutronix.de>,
+ Chun-Kuang Hu <chunkuang.hu@kernel.org>
+Subject: [PATCH] drm/mediatek: dpi: Use mt8183 output formats for mt8192
+Date: Thu,  7 Apr 2022 21:19:07 -0400
+Message-Id: <20220408011907.672120-1-nfraprado@collabora.com>
+X-Mailer: git-send-email 2.35.1
 MIME-Version: 1.0
-Content-Type: multipart/signed; boundary="Sig_/.SKFAt/wruZuvWlKvY6mSCm";
- protocol="application/pgp-signature"; micalg=pgp-sha256
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -48,61 +48,46 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Intel Graphics <intel-gfx@lists.freedesktop.org>,
- Linux Next Mailing List <linux-next@vger.kernel.org>,
- Christian =?UTF-8?B?S8O2bmln?= <christian.koenig@amd.com>,
- DRI <dri-devel@lists.freedesktop.org>,
- Linux Kernel Mailing List <linux-kernel@vger.kernel.org>
+Cc: =?UTF-8?q?N=C3=ADcolas=20F=2E=20R=2E=20A=2E=20Prado?=
+ <nfraprado@collabora.com>, David Airlie <airlied@linux.ie>,
+ linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
+ linux-mediatek@lists.infradead.org, Matthias Brugger <matthias.bgg@gmail.com>,
+ kernel@collabora.com, linux-arm-kernel@lists.infradead.org,
+ AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
---Sig_/.SKFAt/wruZuvWlKvY6mSCm
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: quoted-printable
+The configuration for mt8192 was incorrectly using the output formats
+from mt8173. Since the output formats for mt8192 are instead the same
+ones as for mt8183, which require two bus samples per pixel, the
+pixelclock and DDR edge setting were misconfigured. This made external
+displays unable to show the image.
 
-Hi all,
+Fix the issue by correcting the output format for mt8192 to be the same
+as for mt8183, fixing the usage of external displays for mt8192.
 
-After merging the drm-misc tree, today's linux-next build (x86_64
-allmodconfig) failed like this:
+Signed-off-by: Nícolas F. R. A. Prado <nfraprado@collabora.com>
 
-In file included from include/drm/drm_gem.h:38,
-                 from include/drm/ttm/ttm_bo_api.h:34,
-                 from drivers/gpu/drm/i915/i915_deps.c:9:
-drivers/gpu/drm/i915/i915_deps.c: In function 'i915_deps_add_resv':
-drivers/gpu/drm/i915/i915_deps.c:229:46: error: implicit conversion from 'e=
-num <anonymous>' to 'enum dma_resv_usage' [-Werror=3Denum-conversion]
-  229 |         dma_resv_for_each_fence(&iter, resv, true, fence) {
-      |                                              ^~~~
-include/linux/dma-resv.h:297:47: note: in definition of macro 'dma_resv_for=
-_each_fence'
-  297 |         for (dma_resv_iter_begin(cursor, obj, usage),   \
-      |                                               ^~~~~
-cc1: all warnings being treated as errors
+---
 
-Caused by commit
+ drivers/gpu/drm/mediatek/mtk_dpi.c | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
 
-  7bc80a5462c3 ("dma-buf: add enum dma_resv_usage v4")
+diff --git a/drivers/gpu/drm/mediatek/mtk_dpi.c b/drivers/gpu/drm/mediatek/mtk_dpi.c
+index 4554e2de1430..e61cd67b978f 100644
+--- a/drivers/gpu/drm/mediatek/mtk_dpi.c
++++ b/drivers/gpu/drm/mediatek/mtk_dpi.c
+@@ -819,8 +819,8 @@ static const struct mtk_dpi_conf mt8192_conf = {
+ 	.cal_factor = mt8183_calculate_factor,
+ 	.reg_h_fre_con = 0xe0,
+ 	.max_clock_khz = 150000,
+-	.output_fmts = mt8173_output_fmts,
+-	.num_output_fmts = ARRAY_SIZE(mt8173_output_fmts),
++	.output_fmts = mt8183_output_fmts,
++	.num_output_fmts = ARRAY_SIZE(mt8183_output_fmts),
+ };
+ 
+ static int mtk_dpi_probe(struct platform_device *pdev)
+-- 
+2.35.1
 
-I have used the drm-misc tree from next-20220407 for today.
-
---=20
-Cheers,
-Stephen Rothwell
-
---Sig_/.SKFAt/wruZuvWlKvY6mSCm
-Content-Type: application/pgp-signature
-Content-Description: OpenPGP digital signature
-
------BEGIN PGP SIGNATURE-----
-
-iQEzBAEBCAAdFiEENIC96giZ81tWdLgKAVBC80lX0GwFAmJPi3IACgkQAVBC80lX
-0Gz+8Qf/drWgwj9Cac1navOGvFSwgy85VNIXr2xbcebnqAkPxMscSqiuphw7MSx9
-/ekATn0qTatU6xvumrw4zz+hg2KmW46knsQKFMEbeLFRDkenq6PVbVL2v4hQnsp+
-ADNJ3fV25mc4hK7fkzeGJkIUHtX3RK6bTsgMa+085w6RTo9WCEmPRP6eceWi9FlU
-50rW8LXyQXtnh0dgbCa8UNoKUrwdn1+dBCyTW/r6bmBRzSxztkWINpxPmovXmanT
-8EiJDCUAHFRoFdoBwK+13CYIhvNGE4Li99CF5/84a74SudmhMKNJbLqkoOxelbe4
-kOHDmm0zlXM+1CmZcUbYuZ5cq6W6rQ==
-=kY2o
------END PGP SIGNATURE-----
-
---Sig_/.SKFAt/wruZuvWlKvY6mSCm--
