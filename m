@@ -2,51 +2,48 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 77DC84F9C11
-	for <lists+dri-devel@lfdr.de>; Fri,  8 Apr 2022 19:55:45 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 80DE54F9C2C
+	for <lists+dri-devel@lfdr.de>; Fri,  8 Apr 2022 20:01:36 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 3D27F10E6D7;
-	Fri,  8 Apr 2022 17:55:43 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 0AB0310E6F3;
+	Fri,  8 Apr 2022 18:01:32 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from phobos.denx.de (phobos.denx.de
- [IPv6:2a01:238:438b:c500:173d:9f52:ddab:ee01])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 12A4710E6D7
- for <dri-devel@lists.freedesktop.org>; Fri,  8 Apr 2022 17:55:41 +0000 (UTC)
-Received: from [127.0.0.1] (p578adb1c.dip0.t-ipconnect.de [87.138.219.28])
- (using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits))
- (No client certificate requested)
- (Authenticated sender: marex@denx.de)
- by phobos.denx.de (Postfix) with ESMTPSA id E426C83A97;
- Fri,  8 Apr 2022 19:55:38 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=denx.de;
- s=phobos-20191101; t=1649440539;
- bh=BDWp6Jago7GfLdFMp4ltJ39tiOzPTVkDp8buYKrvTmY=;
- h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
- b=f+aidy7DKMENj2sk7/p0sIkVEtnCf94n83X5Js5WdVYofSaCk4MwCLJQZhu3ubN9h
- yprf8Htsdzc15h33iFGnJKVjx0s08x+2km883r3OlcY2hFehgJJLXZtFSEB9/YNhtk
- KuyFaz/T54LUm9l41sII6T30x18ZupUE50vfDDvUVqQGUrdUu7gCnHpOcWxolLnnhc
- skHru1TwidCoqHJ4FabIjGQlSrQtxnlaH4vOUL4LFDsHIs0mvFEtJ50etkwnXSEpu1
- mwale7OhboVJZU4gVGgRkh/kN57Xp+oYDop1wLZ8mvGBmxb9GlNp6IjO1l3r8KfJ6t
- sxA51sRNu91oA==
-Message-ID: <257ef1da-dd1f-cec6-2950-42990750af43@denx.de>
-Date: Fri, 8 Apr 2022 19:55:38 +0200
+Received: from perceval.ideasonboard.com (perceval.ideasonboard.com
+ [213.167.242.64])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 9C65D10E6F3
+ for <dri-devel@lists.freedesktop.org>; Fri,  8 Apr 2022 18:01:30 +0000 (UTC)
+Received: from pendragon.ideasonboard.com
+ (117.145-247-81.adsl-dyn.isp.belgacom.be [81.247.145.117])
+ by perceval.ideasonboard.com (Postfix) with ESMTPSA id 95516499;
+ Fri,  8 Apr 2022 20:01:28 +0200 (CEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
+ s=mail; t=1649440888;
+ bh=XVlXldVmMbK4ZdMZR7ZO2iAnFDbXwYeICcHEaM4OKaw=;
+ h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+ b=aEHATppX9zQY9R+9cEkR+sMDyoZAUFK90JqaRLSnle1V00UREIk02jU6h2N7xAyHL
+ 4E8SlG4u0nEkTE8NiLILRVPwQPK9NMXkfPN70gyts6AVE5L8Leib+VT9B1bU4jlUrH
+ FEqnj9TH0Y9Dg4Q8G1/wkJOAak2cGIBYd6yspnwM=
+Date: Fri, 8 Apr 2022 21:01:23 +0300
+From: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+To: Francesco Dolcini <francesco.dolcini@toradex.com>
+Subject: Re: [RFC PATCH] drm/panel: simple: panel-dpi: use bus-format to set
+ bpc and bus_format
+Message-ID: <YlB4c6/5ysA4o6J4@pendragon.ideasonboard.com>
+References: <9c9a10ca-e6a1-c310-c0a5-37d4fed6efd6@denx.de>
+ <CAEHkU3We_odwtWBXHdcwu+_9yEUo0mudC5sVjr0or0C6nbw+vw@mail.gmail.com>
+ <20220318163549.5a5v3lex4btnnvgb@houat>
+ <CAPY8ntDgWwXyWXDWVouzhdC2wsyjbRgfrvWGU=MRG_2sAquHyQ@mail.gmail.com>
+ <20220318171642.y72eqf5qbmuu2ln2@houat>
+ <CAPY8ntAjnmAyr=6sdAJWbmiEODHM3=Q3c5UnBCTNgyZqBsWBzQ@mail.gmail.com>
+ <5ae44b7cd1f7577c98f316a7d288aa4cf423da2d.camel@active.ch>
+ <20220323155817.xcsqxothziot7ba3@houat>
+ <ab2db55f6dedba76cd112e4bbc43cf8a7e4332a3.camel@gmail.com>
+ <20220324081533.GA249009@francesco-nb.int.toradex.com>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.7.0
-Subject: Re: [PATCH] dt-bindings: display: panel: mipi-dbi-spi: Make
- width-mm/height-mm mandatory
-Content-Language: en-US
-To: =?UTF-8?Q?Noralf_Tr=c3=b8nnes?= <noralf@tronnes.org>,
- dri-devel@lists.freedesktop.org
-References: <20220404192105.12547-1-marex@denx.de>
- <2d4ef041-8339-006e-3e94-8ff16309cba7@tronnes.org>
-From: Marek Vasut <marex@denx.de>
-In-Reply-To: <2d4ef041-8339-006e-3e94-8ff16309cba7@tronnes.org>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
-X-Virus-Scanned: clamav-milter 0.103.5 at phobos.denx.de
-X-Virus-Status: Clean
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+In-Reply-To: <20220324081533.GA249009@francesco-nb.int.toradex.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -59,25 +56,44 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Christoph Niedermaier <cniedermaier@dh-electronics.com>,
- devicetree@vger.kernel.org, Daniel Vetter <daniel.vetter@ffwll.ch>,
- robert.foss@linaro.org, Rob Herring <robh+dt@kernel.org>,
- Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
- Thomas Zimmermann <tzimmermann@suse.de>, Dmitry Osipenko <digetx@gmail.com>,
- Sam Ravnborg <sam@ravnborg.org>
+Cc: Marek Vasut <marex@denx.de>,
+ Christoph Niedermaier <cniedermaier@dh-electronics.com>,
+ Max Krummenacher <max.krummenacher@toradex.com>,
+ Dave Stevenson <dave.stevenson@raspberrypi.com>,
+ David Airlie <airlied@linux.ie>, Shawn Guo <shawnguo@kernel.org>,
+ Sascha Hauer <s.hauer@pengutronix.de>, Max Krummenacher <max.oss.09@gmail.com>,
+ DRI Development <dri-devel@lists.freedesktop.org>,
+ DenysDrozdov <denys.drozdov@toradex.com>, Maxime Ripard <maxime@cerno.tech>,
+ Pengutronix Kernel Team <kernel@pengutronix.de>,
+ Sam Ravnborg <sam@ravnborg.org>,
+ Linux ARM <linux-arm-kernel@lists.infradead.org>,
+ NXP Linux Team <linux-imx@nxp.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 4/8/22 16:50, Noralf Trønnes wrote:
-> Hi Marek,
+On Thu, Mar 24, 2022 at 09:15:33AM +0100, Francesco Dolcini wrote:
+> On Wed, Mar 23, 2022 at 09:06:18PM +0100, Max Krummenacher wrote:
+> > Am Mittwoch, den 23.03.2022, 16:58 +0100 schrieb Maxime Ripard:
+> > > On Wed, Mar 23, 2022 at 09:42:11AM +0100, Max Krummenacher wrote:
+> > > > I would copy the definitions of media-bus-format.h into a header in
+> > > > include/dt-bindings similarly as it is done for
+> > > > include/dt-bindings/display/sdtv-standards.h for TV standards.
+> > > 
+> > > That might not be an option: that header is licensed under the GPL,
+> > > device trees are usually licensed under GPL+MIT, and we don't have any
+> > > requirements on the license for other projects using a DT (hence the
+> > > dual license).
+> > 
+> > That one I didn't consider. That would be solved by a newly invented
+> > enum.
+> 
+> IANAL, but we are talking about the copyright of something that is not
+> even a complete API, it is just a list of name/value. I do not believe
+> that this is a real problem without solution.
 
-Hi,
+I agree here, I don't think it's an issue.
 
-> I see that you have commit rights so I assume you will be applying this
-> patch.
+-- 
+Regards,
 
-It's already in drm-misc-fixes:
-
-https://cgit.freedesktop.org/drm/drm-misc/log/?h=drm-misc-fixes
-
-https://cgit.freedesktop.org/drm/drm-misc/commit/?h=drm-misc-fixes&id=1ecc0c09f19f8e10a2c52676f8ca47c28c9f73c7
+Laurent Pinchart
