@@ -1,59 +1,49 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3BDCC4F8BE2
-	for <lists+dri-devel@lfdr.de>; Fri,  8 Apr 2022 03:58:27 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 39CAE4F8BE4
+	for <lists+dri-devel@lfdr.de>; Fri,  8 Apr 2022 04:09:51 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 8D2A110E0EA;
-	Fri,  8 Apr 2022 01:58:23 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 55D8E10F03F;
+	Fri,  8 Apr 2022 02:09:48 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-pj1-x102f.google.com (mail-pj1-x102f.google.com
- [IPv6:2607:f8b0:4864:20::102f])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 7493210E13A
- for <dri-devel@lists.freedesktop.org>; Fri,  8 Apr 2022 01:58:21 +0000 (UTC)
-Received: by mail-pj1-x102f.google.com with SMTP id
- h23-20020a17090a051700b001c9c1dd3acbso8254737pjh.3
- for <dri-devel@lists.freedesktop.org>; Thu, 07 Apr 2022 18:58:21 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=QDV7vyVJua5x627okL/E8Nxi+qH90boTSsIqmiOxLwI=;
- b=bLbexJ08nK+TWPoYlGxZS1ziMwfEiNM87Hlc5Aqszi3h8/f4qux0ng/XTX6ol5mTaA
- H39eWUpuBI9MAYKqMhrxBkAJXd52jvhwp24o4jqVANR7oNkQyNLbPtpOD6TtXAPtRsot
- tIH7+M+u8k5IeGu584A4sF9KCmBn1U3AgmNw0A2vw4VlZ88ynwh2bf0eafSvudh3JkIS
- wDu5j/BMfPTn8yrUGJkMLGFOl5PkBfsD/iH+TJo0R+MOzqC24PSr+HmDAwfKYIly7Lpj
- 3OQSIPP6arO/QbH6GuLkzGcBkdH5LD2+lWvUxI/SAW0qm0T/fcc5hgoCMF5pzDBHwGPx
- OBVg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=QDV7vyVJua5x627okL/E8Nxi+qH90boTSsIqmiOxLwI=;
- b=NBt3lrqbamc34je341OBiHH5IOClSFDqQqLbinxuFevxCHXIiH54Qiy2OLr4g49s4/
- lN027IlHD0lx1iPseSmQHc6DNzNfOQBZnXqFzJ+5a0SeemabxBjQFFbUYAmmODibWbLw
- McYtGD4ESGfq0lDBxuyOk7v7C8Fb6bPZcuYS2wIcIrYiVMKYswBTJc8fkC4nb45rM4O2
- 9OOeCcXniQD5Zk348gMXWGEob9fTbBLPZxUQzep0T6mhpS/NXdwWr8y4wAjY1/SL79dE
- ou2ILA5uGSAyS5693XJ/5pU9nSD46zWYI0Lir3SgSe4a2ofI/vNUdCfP/ldCCfcZcR86
- 6qbA==
-X-Gm-Message-State: AOAM532zvZCeuQwjPYWyZPB7/0JFyUTDw57C8gCxImcSXBq4gKm2E4fi
- YWl6eQ88UEi8FJ8CGueGDyF8NkoI/y3zBoF73A==
-X-Google-Smtp-Source: ABdhPJx0eXbtrpr/r855v08vuUbK+sfYFO73JqWyYf8oavJH3sMjVil0MSKbotkscRuus74X4yjHtAw2IjvhwhIT/L4=
-X-Received: by 2002:a17:90a:5407:b0:1bf:43ce:f11b with SMTP id
- z7-20020a17090a540700b001bf43cef11bmr19285418pjh.31.1649383101050; Thu, 07
- Apr 2022 18:58:21 -0700 (PDT)
+Received: from 189.cn (ptr.189.cn [183.61.185.102])
+ by gabe.freedesktop.org (Postfix) with ESMTP id 6D87910F03B
+ for <dri-devel@lists.freedesktop.org>; Fri,  8 Apr 2022 02:09:46 +0000 (UTC)
+HMM_SOURCE_IP: 10.64.8.31:60826.1597264051
+HMM_ATTACHE_NUM: 0000
+HMM_SOURCE_TYPE: SMTP
+Received: from clientip-114.242.206.180 (unknown [10.64.8.31])
+ by 189.cn (HERMES) with SMTP id 53D81100238;
+ Fri,  8 Apr 2022 10:09:36 +0800 (CST)
+Received: from  ([114.242.206.180])
+ by gateway-151646-dep-b7fbf7d79-bwdqx with ESMTP id
+ 9a6d2578ad0843f1b537747d9ceb5895 for robh@kernel.org; 
+ Fri, 08 Apr 2022 10:09:44 CST
+X-Transaction-ID: 9a6d2578ad0843f1b537747d9ceb5895
+X-Real-From: 15330273260@189.cn
+X-Receive-IP: 114.242.206.180
+X-MEDUSA-Status: 0
+Message-ID: <3e0287d1-b6e4-b3f3-3ede-2c2243101790@189.cn>
+Date: Fri, 8 Apr 2022 10:09:33 +0800
 MIME-Version: 1.0
-References: <20220404084723.79089-1-zheyuma97@gmail.com>
- <20220404084723.79089-2-zheyuma97@gmail.com>
- <eb2edc5a-afad-f0c9-012f-9b9f226d2e5a@gmx.de>
-In-Reply-To: <eb2edc5a-afad-f0c9-012f-9b9f226d2e5a@gmx.de>
-From: Zheyu Ma <zheyuma97@gmail.com>
-Date: Fri, 8 Apr 2022 09:58:10 +0800
-Message-ID: <CAMhUBjmm6ADp2Fr89CCQNX5FnhmBBrwFE0EQ3sq7CLER0J3ZEg@mail.gmail.com>
-Subject: Re: [PATCH 1/7] video: fbdev: i740fb: Error out if 'pixclock' equals
- zero
-To: Helge Deller <deller@gmx.de>
-Content-Type: text/plain; charset="UTF-8"
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.7.0
+Subject: Re: [PATCH v11 7/7] drm/lsdc: add drm driver for loongson display
+ controller
+Content-Language: en-US
+To: Rob Herring <robh@kernel.org>
+References: <20220321162916.1116541-1-15330273260@189.cn>
+ <20220321162916.1116541-8-15330273260@189.cn>
+ <Yjo2R5LQrRICr7dC@robh.at.kernel.org>
+ <9ea4d326-ad5f-4f2c-1609-4ca772699d1b@189.cn>
+ <YjsclWsqGX3JrknM@robh.at.kernel.org>
+From: Sui Jingfeng <15330273260@189.cn>
+In-Reply-To: <YjsclWsqGX3JrknM@robh.at.kernel.org>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -66,45 +56,82 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Linux Fbdev development list <linux-fbdev@vger.kernel.org>,
- Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
- DRI Development <dri-devel@lists.freedesktop.org>
+Cc: David Airlie <airlied@linux.ie>, dri-devel@lists.freedesktop.org,
+ linux-kernel@vger.kernel.org, Sam Ravnborg <sam@ravnborg.org>,
+ kernel test robot <lkp@intel.com>, Krzysztof Kozlowski <krzk@kernel.org>,
+ Dan Carpenter <dan.carpenter@oracle.com>, devicetree@vger.kernel.org,
+ suijingfeng <suijingfeng@loongson.cn>, Thomas Zimmermann <tzimmermann@suse.de>,
+ Roland Scheidegger <sroland@vmware.com>,
+ Andrey Zhizhikin <andrey.zhizhikin@leica-geosystems.com>,
+ Thomas Bogendoerfer <tsbogend@alpha.franken.de>, linux-mips@vger.kernel.org,
+ "David S . Miller" <davem@davemloft.net>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Fri, Apr 8, 2022 at 3:50 AM Helge Deller <deller@gmx.de> wrote:
->
-> On 4/4/22 10:47, Zheyu Ma wrote:
-> > The userspace program could pass any values to the driver through
-> > ioctl() interface. If the driver doesn't check the value of 'pixclock',
-> > it may cause divide error.
-> >
-> > Fix this by checking whether 'pixclock' is zero in the function
-> > i740fb_check_var().
-> >
-> > The following log reveals it:
-> >
-> > divide error: 0000 [#1] PREEMPT SMP KASAN PTI
-> > RIP: 0010:i740fb_decode_var drivers/video/fbdev/i740fb.c:444 [inline]
-> > RIP: 0010:i740fb_set_par+0x272f/0x3bb0 drivers/video/fbdev/i740fb.c:739
-> > Call Trace:
-> >     fb_set_var+0x604/0xeb0 drivers/video/fbdev/core/fbmem.c:1036
-> >     do_fb_ioctl+0x234/0x670 drivers/video/fbdev/core/fbmem.c:1112
-> >     fb_ioctl+0xdd/0x130 drivers/video/fbdev/core/fbmem.c:1191
-> >     vfs_ioctl fs/ioctl.c:51 [inline]
-> >     __do_sys_ioctl fs/ioctl.c:874 [inline]
-> >
-> > Signed-off-by: Zheyu Ma <zheyuma97@gmail.com>
->
-> Hello Zheyu,
->
-> I've applied the patches #2-#7 of this series, but left
-> out this specific patch (for now).
-> As discussed on the mailing list we can try to come up with a
-> better fix (to round up the pixclock when it's invalid).
-> If not, I will apply this one later.
 
-I'm also looking forward to a more appropriate patch for this driver!
+On 2022/3/23 21:11, Rob Herring wrote:
+> On Wed, Mar 23, 2022 at 12:12:43PM +0800, Sui Jingfeng wrote:
+>> On 2022/3/23 04:49, Rob Herring wrote:
+>>>> +/*
+>>>> + * mainly for dc in ls7a1000 which have builtin gpio emulated i2c
+>>>> + *
+>>>> + * @index : output channel index, 0 for DVO0, 1 for DVO1
+>>>> + */
+>>>> +struct lsdc_i2c *lsdc_create_i2c_chan(struct device *dev, void *base, unsigned int index)
+>>>> +{
+>>>> +	char compat[32] = {0};
+>>>> +	unsigned int udelay = 5;
+>>>> +	unsigned int timeout = 2200;
+>>>> +	int nr = -1;
+>>>> +	struct i2c_adapter *adapter;
+>>>> +	struct lsdc_i2c *li2c;
+>>>> +	struct device_node *i2c_np;
+>>>> +	int ret;
+>>>> +
+>>>> +	li2c = devm_kzalloc(dev, sizeof(*li2c), GFP_KERNEL);
+>>>> +	if (!li2c)
+>>>> +		return ERR_PTR(-ENOMEM);
+>>>> +
+>>>> +	li2c->index = index;
+>>>> +	li2c->dev = dev;
+>>>> +
+>>>> +	if (index == 0) {
+>>>> +		li2c->sda = 0x01;
+>>>> +		li2c->scl = 0x02;
+>>>> +	} else if (index == 1) {
+>>>> +		li2c->sda = 0x04;
+>>>> +		li2c->scl = 0x08;
+>>> Just require this to be in DT rather than having some default.
+>>>
+>> By design,  I am try very hard to let the code NOT fully  DT dependent. DT is nice , easy to learn and use.
+>> But kernel side developer plan to follow UEFI + ACPI Specification on LS3A5000 + LS7A1000 platform. See [1]
+>> There will no DT support then, provide a convention support  make the driver more flexible. I want the
+>> driver works with minimal requirement. The driver just works on simple boards by put the following dc device
+>> node in arch/mips/dts/loongson/loongson64g_4core_ls7a.dts,
+> Pick DT or ACPI for the platform, not both. We don't need to have both
+> in the kernel to support.
+>
+> Rob
 
-Thanks,
-Zheyu Ma
+Hi, everybody
+
+I have send new version of my patch,  there may still have flaws though.
+
+Would you like to help to review it again?
+
+https://patchwork.freedesktop.org/series/102104/
+
+@Rob @Maxime  @Krzysztof
+
+I have  correct many issues as you guys mentioned  before,
+
+if something get ignored and I may miss the point,  would like to 
+mention it again
+
+on my new patches?  because mails received previously got lost(flushed 
+by new mails).
+
+I can only reply to new reviews.
+
+Thanks for your time.
+
