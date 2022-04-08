@@ -2,49 +2,144 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 175444F92BA
-	for <lists+dri-devel@lfdr.de>; Fri,  8 Apr 2022 12:17:43 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id ABDEB4F92D4
+	for <lists+dri-devel@lfdr.de>; Fri,  8 Apr 2022 12:23:25 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 2649B10F0E9;
-	Fri,  8 Apr 2022 10:17:40 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 9020510E174;
+	Fri,  8 Apr 2022 10:23:22 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mga03.intel.com (mga03.intel.com [134.134.136.65])
- by gabe.freedesktop.org (Postfix) with ESMTPS id DBF7210F0E9;
- Fri,  8 Apr 2022 10:17:38 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1649413059; x=1680949059;
- h=from:to:cc:subject:in-reply-to:references:date:
- message-id:mime-version;
- bh=ZN2WT+aHWp12igTiJOcFcOuGrpSymXLSvwLhWlCo5CA=;
- b=hweWbJsXxeDr4dh7Y4YhIo1EoKw0p3xxsGvepaf0rl+LLIFT+DmKogzT
- AdJhHPM/6qGB4KDFLgmfXGdm93ffZrqAun30a5aRzmOzTBmY4UDjLv201
- QUIc4O93+gVR4dGv8yIqHnn4kJAPFVv+unmcEBO0yiBLbHqewhHsmd1Eh
- 2DCoUK5v8F/DY4HSTsWlCKXt4pcDjZQp+8h967vVxq6o/DpjkS8AZYzBn
- 4pL+qrkTRm34d6RSqHQY4RdJ+DNawz2UeOC8Ags4+MeKizsWW0EunhKGf
- dlHxnxZwQrJFImeVeZJ95fJXnmfdxGiy2nfplJa9PdcnUvrFXA86hyYx2 w==;
-X-IronPort-AV: E=McAfee;i="6400,9594,10310"; a="261554094"
-X-IronPort-AV: E=Sophos;i="5.90,244,1643702400"; d="scan'208";a="261554094"
-Received: from orsmga008.jf.intel.com ([10.7.209.65])
- by orsmga103.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 08 Apr 2022 03:17:38 -0700
-X-IronPort-AV: E=Sophos;i="5.90,244,1643702400"; d="scan'208";a="571439569"
-Received: from dmunisam-mobl.ger.corp.intel.com (HELO localhost)
- ([10.249.141.69])
- by orsmga008-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 08 Apr 2022 03:17:31 -0700
-From: Jani Nikula <jani.nikula@linux.intel.com>
-To: cgel.zte@gmail.com, alexander.deucher@amd.com, christian.koenig@amd.com,
- Xinhui.Pan@amd.com, airlied@linux.ie
-Subject: Re: [PATCH] drivers: Fix spelling mistake "writting" -> "writing"
-In-Reply-To: <20220408095531.2495168-1-lv.ruyi@zte.com.cn>
-Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
-References: <20220408095531.2495168-1-lv.ruyi@zte.com.cn>
-Date: Fri, 08 Apr 2022 13:17:27 +0300
-Message-ID: <87sfqnj2vc.fsf@intel.com>
+Received: from mx0b-00069f02.pphosted.com (mx0b-00069f02.pphosted.com
+ [205.220.177.32])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id C5E8510E174
+ for <dri-devel@lists.freedesktop.org>; Fri,  8 Apr 2022 10:23:21 +0000 (UTC)
+Received: from pps.filterd (m0246631.ppops.net [127.0.0.1])
+ by mx0b-00069f02.pphosted.com (8.16.1.2/8.16.1.2) with SMTP id 238910LL005378; 
+ Fri, 8 Apr 2022 10:23:19 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=oracle.com;
+ h=date : from : to : cc
+ : subject : message-id : content-type : mime-version; s=corp-2021-07-09;
+ bh=KYoUER8wVR5j6fUYzfvr8Hh5E+TNPuAvS0FUYnzJCeI=;
+ b=ezLADFozsZuJCioJJyrYvgF1pqHrD7NKj8tNQalxHUYT4Z9MD5JU8mrvjeu1LLSRvIZp
+ r+824+W2J18aq9NzwnErsfoGQYKAWfOJ1Xkr9sniH4xkVbC5h3ryea71/PmxclCEllQr
+ J+V7mXk/Dbfa+FyKbYVDWXRDbWaV0BpYGFnEKmBdl4x9EyOPD86VASW+jiP/V1BEpA8D
+ PG3iw6UHsTvmKOCzGIxsEocEVnjd3bXWp046Dg54LapipuTn4HAPaEeNXq7Q4sjcLmZQ
+ 0IxPEbGeahFDjLYer8awBY7V8lFyF0PSnXWHL5pXEiamMBSW/d33DSbU3V4ytD4Ae9nL 5Q== 
+Received: from iadpaimrmta03.imrmtpd1.prodappiadaev1.oraclevcn.com
+ (iadpaimrmta03.appoci.oracle.com [130.35.103.27])
+ by mx0b-00069f02.pphosted.com with ESMTP id 3f6d936q01-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+ Fri, 08 Apr 2022 10:23:19 +0000
+Received: from pps.filterd
+ (iadpaimrmta03.imrmtpd1.prodappiadaev1.oraclevcn.com [127.0.0.1])
+ by iadpaimrmta03.imrmtpd1.prodappiadaev1.oraclevcn.com (8.16.1.2/8.16.1.2)
+ with SMTP id 2388GswH009572; Fri, 8 Apr 2022 10:21:51 GMT
+Received: from nam10-bn7-obe.outbound.protection.outlook.com
+ (mail-bn7nam10lp2109.outbound.protection.outlook.com [104.47.70.109])
+ by iadpaimrmta03.imrmtpd1.prodappiadaev1.oraclevcn.com with ESMTP id
+ 3f97wsb0nr-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+ Fri, 08 Apr 2022 10:21:51 +0000
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=DnTmfyDwlLsPe2c/DHcSMj+ovJPJzvA/0HkKUAQtQX4vE4oFZj1/Kksas3DFNR50JWvtog0vSO+EVR+GoA/yEKOj8P40KP6Gb3LEsXJKmZNLgIsouHffKKsfEgxuIZSjvvqRf8MFrgvZKgiV0I/hvW739JkNG2KUB4HsDIg2NfZTa63YAIH+zl4I+B73HIzhxrtCNIDjgDAEjnoi75PRz7FAXzWwUdn93/tvcptDuA6TkzGLy7AAT3uIiMMUPmn7WQLTHQd8i0WOH0LvYsnCHS47vmy5D8cE7DpX3F4PZugOw/kkyqt82KUCZPZTFbAw9Fec4KkOeWVEwRQcCFTVQw==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=KYoUER8wVR5j6fUYzfvr8Hh5E+TNPuAvS0FUYnzJCeI=;
+ b=Y8WjPZPCMgGXSEAyVp9O3Xli/VaA2QYEzNWq8t0/6uFq1PU8JZ1Rn/x/vgXuA7PT1O42X1kprJ0CdE4le8pNVO6TbeLKu3gzgqMIFi62FKXAjvEfAGk/dxiU7dcfDh1JMtzwaieLdAVvK1WLPPS2jL/QZatdVICPPZr0XMZLfxZpsEYuiT/CZdhfjUKBTf76QAlPceVlUeFq6T48hBU/qA+YGWK8JL8si6F0jwvSNDKBoCDKlPo7wxsgcwjjmBePIRpelE5RiASYOUzVffl1SR3DloBcHYn5ze0hWVCLW5q6H0BDvx+kquA+zAz23SQbUFKVUi/g0cZOeMPYYhEi9g==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=oracle.com; dmarc=pass action=none header.from=oracle.com;
+ dkim=pass header.d=oracle.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=oracle.onmicrosoft.com; s=selector2-oracle-onmicrosoft-com;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=KYoUER8wVR5j6fUYzfvr8Hh5E+TNPuAvS0FUYnzJCeI=;
+ b=hjdC47/tUAkoj90lO+vSSjDrqpsHJrCBBenjH5Sw0FDzJJHWzq4QWbyzITKRyQ8LQoAUgem2FOVV6G/vWSVHe/Hjiy10R7Mi4afCnZ9N/YTjZfw/h+HllvTcPQSL3ABvEfFYaPvcJhqfXD6M4R9kDpwP1rlQzbHhVaA2bhK0BFo=
+Received: from MWHPR1001MB2365.namprd10.prod.outlook.com
+ (2603:10b6:301:2d::28) by BYAPR10MB3061.namprd10.prod.outlook.com
+ (2603:10b6:a03:83::14) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.5144.26; Fri, 8 Apr
+ 2022 10:21:49 +0000
+Received: from MWHPR1001MB2365.namprd10.prod.outlook.com
+ ([fe80::b5d5:7b39:ca2d:1b87]) by MWHPR1001MB2365.namprd10.prod.outlook.com
+ ([fe80::b5d5:7b39:ca2d:1b87%5]) with mapi id 15.20.5144.022; Fri, 8 Apr 2022
+ 10:21:49 +0000
+Date: Fri, 8 Apr 2022 13:21:34 +0300
+From: Dan Carpenter <dan.carpenter@oracle.com>
+To: Inki Dae <inki.dae@samsung.com>, Jagan Teki <jagan@amarulasolutions.com>
+Subject: [PATCH] drm/exynos: fix IS_ERR() vs NULL check in probe
+Message-ID: <20220408102134.GA14120@kili>
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+X-Mailer: git-send-email haha only kidding
+User-Agent: Mutt/1.10.1 (2018-07-13)
+X-ClientProxiedBy: ZRAP278CA0017.CHEP278.PROD.OUTLOOK.COM
+ (2603:10a6:910:10::27) To MWHPR1001MB2365.namprd10.prod.outlook.com
+ (2603:10b6:301:2d::28)
 MIME-Version: 1.0
-Content-Type: text/plain
+X-MS-PublicTrafficType: Email
+X-MS-Office365-Filtering-Correlation-Id: 2e86583e-15d3-4c1c-98e2-08da1949978b
+X-MS-TrafficTypeDiagnostic: BYAPR10MB3061:EE_
+X-Microsoft-Antispam-PRVS: <BYAPR10MB30618F16AC8AD8584021233F8EE99@BYAPR10MB3061.namprd10.prod.outlook.com>
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: BCL:0;
+X-Microsoft-Antispam-Message-Info: V4GfxsraiK7Z023hwA6oPpA5bBxTzXF1L1XqZWopbr0ezKC63+nBrxcvHn5sizxr1rOB8QZ7qDe2SH2sbPvVvvcO1otEGW4LxPFfefbAHnxXmy/0e6MQsersLCV7vjWZPhZOfbr+52qEyX37AoRPZu0ATvQLatgjVrfn7ohGa93m1op4qzA+0DM5Df5owaRY3yexmvzU0bGosowxO+kFPYWEvSK1TuJIGRpoIz2P7pud8zIFlgmwjYvAQouIcFL/g2fL3mKAoi6L5Qsiw8XzXxkwhUZvAqVtWP+7sRN4geyzGMeHIXTZV5EviyO2bB/7ZzLhlb9d1aZ18Bhh72epjmw01HHlKiG0/zYpNDmt/dMITheiN1GrsmIQRqPwOxWRejzWzYIrSfJtXUgLsKHGWEoQPELlKOYBqwW9AF7RXyKjcr7DpxEMZIbA1r3E4nBj0CxsoFZX4+VYlKcklBa24XfJq5IdZHtpQsmVbXnk/jUSRnSo18hRfhP/mL8J4TjuQhGRkBvioBUHx6CWm5MmQv1mBDp0snGLk53891b5g70g/cNNm30IZos0Nr9unbEtn0thSpzAb5eLCx3XXC2Scx+XV94m/dT5XMbBdQ2pfMIcIHh/tGVDUFDqcHVqD4oHxbH3liiA0XM48j978B/tbD8Sj8EUJXJ+QKRbdVS8y1zMDTswAPnIzia96tYQQWXoJFWCvdvfqIQl4b7eRaDLjg==
+X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
+ IPV:NLI; SFV:NSPM; H:MWHPR1001MB2365.namprd10.prod.outlook.com; PTR:; CAT:NONE;
+ SFS:(13230001)(7916004)(366004)(1076003)(44832011)(54906003)(110136005)(52116002)(33656002)(6506007)(9686003)(6512007)(4326008)(86362001)(8676002)(26005)(316002)(83380400001)(186003)(66476007)(66556008)(66946007)(7416002)(38100700002)(8936002)(2906002)(6666004)(6486002)(38350700002)(5660300002)(33716001)(4744005)(508600001);
+ DIR:OUT; SFP:1101; 
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0: =?us-ascii?Q?xa5EeNWWr1sTuV/w+Uu1xHANvGy/i7IQ06V03hR0OvcPjy8gxWNMEmhdjU4H?=
+ =?us-ascii?Q?vlIbbwfp8B+6dTnyuGaA+lfOnjmTE25khvIQIrcUyzVra4crW1hlUHTaGQ6T?=
+ =?us-ascii?Q?UZtm+ELZJpByP40YAEFn0/JtpO/Awhgj3gJ4O5/f24C/ffDDDRioc4wHt+9h?=
+ =?us-ascii?Q?9+0MjWA/E3HuwFD55mbcbrzdsB/tZVbWRDP4sGQ2InxLAmjnzrAqMq2g8ZfZ?=
+ =?us-ascii?Q?V3O1TAQiNy7nCKS2qjp7gcV6bfqPvxuW5qJVGbLyx5eJZF9rRoacbPTMts7V?=
+ =?us-ascii?Q?6JPL8ERg9ELTqmsAvpwM7xdErfEyPop7y70+Rzq10ZwcV5HMZH+1AhrtAkFY?=
+ =?us-ascii?Q?BnlA50chpS4Ue0M6tELIMjjWCoxyUzppfK+rTbUbbk3gqz85OoHBNF8RodGL?=
+ =?us-ascii?Q?xQMZd785MdUJjgu+u883yaPWoRVwat4wO7Cq7t3Qr//dKOoDH8K54ytlSJWH?=
+ =?us-ascii?Q?r7Xt+tKqU/1WA0VUPMmC5lFTXE2Wl/aapCEVba6KYNikylxwP4JXHjkTd7kN?=
+ =?us-ascii?Q?l+Jogh5HYgwrjaklGizjN8AajYSW+LWQE8NFxd/uRlEjPlN1bQQOyGPlCCq9?=
+ =?us-ascii?Q?AE9QfihiFP+zM8T20eynZmCykDVvloQyllMQosw7G0GfCucVvohtemXT9kHf?=
+ =?us-ascii?Q?NTfufhmknZRCdvTzSW7ukLl0FnBy5LGSa/ZsIOzLfnT4peLYELb5diP9nB/b?=
+ =?us-ascii?Q?nMcZKaZFbhwXNpgk75KtXBkl6LI9ATYl5yvbhFWXPS03QclE64CWRKF1HKbp?=
+ =?us-ascii?Q?lhD/rjrUCcJWjvwE2Yav2/GgjaRbQCawUxMMBR0f42rpBGEjWtenku1thamK?=
+ =?us-ascii?Q?nOtRQo+DD0GDgiaHr7dDp6u+vQAheRUjo4YuJQXgNA0SA60QAa7UllAMTkbz?=
+ =?us-ascii?Q?ZoanoqkBfGV98A8p7VIzvEpTxkjoKFuYwI3/VDX6ljDmRG7v7S8LbgF1o9Id?=
+ =?us-ascii?Q?rniXrcrkDGTQidVGMUkcaC6qGl7SC1Q7U7nrIsdi3Dh9M4M07/Hph8JsRruG?=
+ =?us-ascii?Q?cWopBh3G3UIKAKbFeO/uxLBbdHBeNraC2mknzn2Ddj3YdO9WjzeoM9IQq86v?=
+ =?us-ascii?Q?I11QgA1fGFpVP9d2Dx0j9Qh/AItv+q4R9gxjgrdYql+9nCN1Dd71vbzcVBFY?=
+ =?us-ascii?Q?XjQjFs0VMJRc0YRnWyKPvinIaf/h4P+QFlToXS+lD4i/j2LURvIQPwxdKPGw?=
+ =?us-ascii?Q?IAJyuqIJtaWcf61jZtEBLLgmPMiB4Mm1yEyX9r2Lh8ewep/oIex8lvV+mg0G?=
+ =?us-ascii?Q?GlBVkpQY8QsKgWAaYCg/5ALjkfhW9DOyXPqFB2U9HMq7jRQBptgNTdc9Iv1P?=
+ =?us-ascii?Q?JxQbzz1pzidTvZjg6s+QibDWUZiT5iF4l8RRLMhmczGpsstuGOZmrUPk++uz?=
+ =?us-ascii?Q?tMOo7hrRZw3bIZ83aXYaHxnCHQg4OVCSg0yRH8qM4TMSlZ/cBVkhcI1UIbNK?=
+ =?us-ascii?Q?mZTKTr5PQxTxWBIe3VknXXnEo9oeiE8V3KHULGiAA43BA12/PwPLG94Ro8wF?=
+ =?us-ascii?Q?GfX1yGwyD5/6o0R5LmnDlHArwTxP1YJINHRzzJlCXMLQEBpmqqE7ZntBok24?=
+ =?us-ascii?Q?Zms7d06PBYM6Sk1DyYwvCcZgiXXXXYpJflrWrNCcPUc0LCMmDt7GWBFjIlsv?=
+ =?us-ascii?Q?9QEEqBdafSIrLteQYL0Rp/qIdTdhD/qGT0Bo9SnxbRDq7Qtw5/kjCaXXf3Kk?=
+ =?us-ascii?Q?1fRk9yclTch/+iSFL46tAIZl9yduawXz21UnP1pKkAlxG+vwKR5AAcFQqthW?=
+ =?us-ascii?Q?EsttPpiADgoCr9gsw4EFq/wfOwv8L44=3D?=
+X-OriginatorOrg: oracle.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 2e86583e-15d3-4c1c-98e2-08da1949978b
+X-MS-Exchange-CrossTenant-AuthSource: MWHPR1001MB2365.namprd10.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 08 Apr 2022 10:21:49.3724 (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 4e2c6054-71cb-48f1-bd6c-3a9705aca71b
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: pALenrlMk5Vjx9Ws9TOTDGitpv8Aa/I4yt4h250okBp4eB69vZ4D1qurMRZHK7I+ENR322AcxCCL4L9qhXD7+XgxbisLlTREJAzvu4Hy2Lw=
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: BYAPR10MB3061
+X-Proofpoint-Virus-Version: vendor=fsecure engine=2.50.10434:6.0.425, 18.0.850
+ definitions=2022-04-07_01:2022-04-07,
+ 2022-04-07 signatures=0
+X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 malwarescore=0
+ suspectscore=0
+ phishscore=0 mlxscore=0 mlxlogscore=999 adultscore=0 spamscore=0
+ bulkscore=0 classifier=spam adjust=0 reason=mlx scancount=1
+ engine=8.12.0-2202240000 definitions=main-2204070064
+X-Proofpoint-ORIG-GUID: V9rON6zmAvlSkfXLPnbifMFb2MLJrvCd
+X-Proofpoint-GUID: V9rON6zmAvlSkfXLPnbifMFb2MLJrvCd
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -57,164 +152,44 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: linux-rtc@vger.kernel.org, tvrtko.ursulin@linux.intel.com,
- linux-scsi@vger.kernel.org, netdev@vger.kernel.org, lv.ruyi@zte.com.cn,
- linux-wireless@vger.kernel.org, linux-kernel@vger.kernel.org,
- amd-gfx@lists.freedesktop.org, platform-driver-x86@vger.kernel.org,
- dri-devel@lists.freedesktop.org, rodrigo.vivi@intel.com,
- Zeal Robot <zealci@zte.com.cn>, intel-gfx@lists.freedesktop.org
+Cc: linux-samsung-soc@vger.kernel.org, Joonyoung Shim <jy0922.shim@samsung.com>,
+ David Airlie <airlied@linux.ie>, kernel-janitors@vger.kernel.org,
+ Seung-Woo Kim <sw0312.kim@samsung.com>,
+ Kyungmin Park <kyungmin.park@samsung.com>,
+ Robert Foss <robert.foss@linaro.org>,
+ Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>,
+ dri-devel@lists.freedesktop.org, Alim Akhtar <alim.akhtar@samsung.com>,
+ Marek Szyprowski <m.szyprowski@samsung.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Fri, 08 Apr 2022, cgel.zte@gmail.com wrote:
-> From: Lv Ruyi <lv.ruyi@zte.com.cn>
->
-> There are some spelling mistakes in the comments. Fix it.
+The of_drm_find_bridge() does not return error pointers, it returns
+NULL on error.
 
-Please prefer splitting by driver. This isn't even split by subsystem. I
-presume there are very few maintainers willing to pick this up as it is.
+Fixes: dd8b6803bc49 ("exynos: drm: dsi: Attach in_bridge in MIC driver")
+Signed-off-by: Dan Carpenter <dan.carpenter@oracle.com>
+---
+-EPROBE_DEFER is the correct return, right?
 
-BR,
-Jani.
+ drivers/gpu/drm/exynos/exynos_drm_mic.c | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
 
->
-> Reported-by: Zeal Robot <zealci@zte.com.cn>
-> Signed-off-by: Lv Ruyi <lv.ruyi@zte.com.cn>
-> ---
->  drivers/gpu/drm/amd/amdgpu/gfx_v10_0.c              | 2 +-
->  drivers/gpu/drm/i915/i915_request.c                 | 2 +-
->  drivers/net/ethernet/sfc/mcdi_pcol.h                | 4 ++--
->  drivers/net/ethernet/toshiba/tc35815.c              | 2 +-
->  drivers/net/wireless/realtek/rtlwifi/rtl8192cu/hw.c | 4 ++--
->  drivers/platform/x86/hp_accel.c                     | 2 +-
->  drivers/rtc/rtc-sa1100.c                            | 2 +-
->  drivers/scsi/pmcraid.c                              | 4 ++--
->  8 files changed, 11 insertions(+), 11 deletions(-)
->
-> diff --git a/drivers/gpu/drm/amd/amdgpu/gfx_v10_0.c b/drivers/gpu/drm/amd/amdgpu/gfx_v10_0.c
-> index 9426e252d8aa..ce361fce7155 100644
-> --- a/drivers/gpu/drm/amd/amdgpu/gfx_v10_0.c
-> +++ b/drivers/gpu/drm/amd/amdgpu/gfx_v10_0.c
-> @@ -7304,7 +7304,7 @@ static void gfx_v10_0_setup_grbm_cam_remapping(struct amdgpu_device *adev)
->  		return;
->  
->  	/* initialize cam_index to 0
-> -	 * index will auto-inc after each data writting */
-> +	 * index will auto-inc after each data writing */
->  	WREG32_SOC15(GC, 0, mmGRBM_CAM_INDEX, 0);
->  
->  	switch (adev->ip_versions[GC_HWIP][0]) {
-> diff --git a/drivers/gpu/drm/i915/i915_request.c b/drivers/gpu/drm/i915/i915_request.c
-> index 582770360ad1..cf79a25cd98a 100644
-> --- a/drivers/gpu/drm/i915/i915_request.c
-> +++ b/drivers/gpu/drm/i915/i915_request.c
-> @@ -451,7 +451,7 @@ static bool __request_in_flight(const struct i915_request *signal)
->  	 * to avoid tearing.]
->  	 *
->  	 * Note that the read of *execlists->active may race with the promotion
-> -	 * of execlists->pending[] to execlists->inflight[], overwritting
-> +	 * of execlists->pending[] to execlists->inflight[], overwriting
->  	 * the value at *execlists->active. This is fine. The promotion implies
->  	 * that we received an ACK from the HW, and so the context is not
->  	 * stuck -- if we do not see ourselves in *active, the inflight status
-> diff --git a/drivers/net/ethernet/sfc/mcdi_pcol.h b/drivers/net/ethernet/sfc/mcdi_pcol.h
-> index d3fcbf930dba..ff617b1b38d3 100644
-> --- a/drivers/net/ethernet/sfc/mcdi_pcol.h
-> +++ b/drivers/net/ethernet/sfc/mcdi_pcol.h
-> @@ -73,8 +73,8 @@
->   *               \------------------------------ Resync (always set)
->   *
->   * The client writes it's request into MC shared memory, and rings the
-> - * doorbell. Each request is completed by either by the MC writting
-> - * back into shared memory, or by writting out an event.
-> + * doorbell. Each request is completed by either by the MC writing
-> + * back into shared memory, or by writing out an event.
->   *
->   * All MCDI commands support completion by shared memory response. Each
->   * request may also contain additional data (accounted for by HEADER.LEN),
-> diff --git a/drivers/net/ethernet/toshiba/tc35815.c b/drivers/net/ethernet/toshiba/tc35815.c
-> index ce38f7515225..1b4c207afb66 100644
-> --- a/drivers/net/ethernet/toshiba/tc35815.c
-> +++ b/drivers/net/ethernet/toshiba/tc35815.c
-> @@ -157,7 +157,7 @@ struct tc35815_regs {
->  #define PROM_Read	       0x00004000 /*10:Read operation		     */
->  #define PROM_Write	       0x00002000 /*01:Write operation		     */
->  #define PROM_Erase	       0x00006000 /*11:Erase operation		     */
-> -					  /*00:Enable or Disable Writting,   */
-> +					  /*00:Enable or Disable Writing,    */
->  					  /*	  as specified in PROM_Addr. */
->  #define PROM_Addr_Ena	       0x00000030 /*11xxxx:PROM Write enable	     */
->  					  /*00xxxx:	      disable	     */
-> diff --git a/drivers/net/wireless/realtek/rtlwifi/rtl8192cu/hw.c b/drivers/net/wireless/realtek/rtlwifi/rtl8192cu/hw.c
-> index eaba66113328..fbb4941d0da8 100644
-> --- a/drivers/net/wireless/realtek/rtlwifi/rtl8192cu/hw.c
-> +++ b/drivers/net/wireless/realtek/rtlwifi/rtl8192cu/hw.c
-> @@ -520,7 +520,7 @@ static void _rtl92cu_init_queue_reserved_page(struct ieee80211_hw *hw,
->  		 * 2 out-ep. Remainder pages have assigned to High queue */
->  		if (outepnum > 1 && txqremaininpage)
->  			numhq += txqremaininpage;
-> -		/* NOTE: This step done before writting REG_RQPN. */
-> +		/* NOTE: This step done before writing REG_RQPN. */
->  		if (ischipn) {
->  			if (queue_sel & TX_SELE_NQ)
->  				numnq = txqpageunit;
-> @@ -539,7 +539,7 @@ static void _rtl92cu_init_queue_reserved_page(struct ieee80211_hw *hw,
->  			numlq = ischipn ? WMM_CHIP_B_PAGE_NUM_LPQ :
->  				WMM_CHIP_A_PAGE_NUM_LPQ;
->  		}
-> -		/* NOTE: This step done before writting REG_RQPN. */
-> +		/* NOTE: This step done before writing REG_RQPN. */
->  		if (ischipn) {
->  			if (queue_sel & TX_SELE_NQ)
->  				numnq = WMM_CHIP_B_PAGE_NUM_NPQ;
-> diff --git a/drivers/platform/x86/hp_accel.c b/drivers/platform/x86/hp_accel.c
-> index e9f852f7c27f..b59b852a666f 100644
-> --- a/drivers/platform/x86/hp_accel.c
-> +++ b/drivers/platform/x86/hp_accel.c
-> @@ -122,7 +122,7 @@ static int lis3lv02d_acpi_read(struct lis3lv02d *lis3, int reg, u8 *ret)
->  static int lis3lv02d_acpi_write(struct lis3lv02d *lis3, int reg, u8 val)
->  {
->  	struct acpi_device *dev = lis3->bus_priv;
-> -	unsigned long long ret; /* Not used when writting */
-> +	unsigned long long ret; /* Not used when writing */
->  	union acpi_object in_obj[2];
->  	struct acpi_object_list args = { 2, in_obj };
->  
-> diff --git a/drivers/rtc/rtc-sa1100.c b/drivers/rtc/rtc-sa1100.c
-> index 1250887e4382..a52a333de8e8 100644
-> --- a/drivers/rtc/rtc-sa1100.c
-> +++ b/drivers/rtc/rtc-sa1100.c
-> @@ -231,7 +231,7 @@ int sa1100_rtc_init(struct platform_device *pdev, struct sa1100_rtc *info)
->  	 * initialization is unknown and could in principle happen during
->  	 * normal processing.
->  	 *
-> -	 * Notice that clearing bit 1 and 0 is accomplished by writting ONES to
-> +	 * Notice that clearing bit 1 and 0 is accomplished by writing ONES to
->  	 * the corresponding bits in RTSR. */
->  	writel_relaxed(RTSR_AL | RTSR_HZ, info->rtsr);
->  
-> diff --git a/drivers/scsi/pmcraid.c b/drivers/scsi/pmcraid.c
-> index fd674ed1febe..d7f4680f6106 100644
-> --- a/drivers/scsi/pmcraid.c
-> +++ b/drivers/scsi/pmcraid.c
-> @@ -857,7 +857,7 @@ static void _pmcraid_fire_command(struct pmcraid_cmd *cmd)
->  	unsigned long lock_flags;
->  
->  	/* Add this command block to pending cmd pool. We do this prior to
-> -	 * writting IOARCB to ioarrin because IOA might complete the command
-> +	 * writing IOARCB to ioarrin because IOA might complete the command
->  	 * by the time we are about to add it to the list. Response handler
->  	 * (isr/tasklet) looks for cmd block in the pending pending list.
->  	 */
-> @@ -2450,7 +2450,7 @@ static void pmcraid_request_sense(struct pmcraid_cmd *cmd)
->  
->  	/* request sense might be called as part of error response processing
->  	 * which runs in tasklets context. It is possible that mid-layer might
-> -	 * schedule queuecommand during this time, hence, writting to IOARRIN
-> +	 * schedule queuecommand during this time, hence, writing to IOARRIN
->  	 * must be protect by host_lock
->  	 */
->  	pmcraid_send_cmd(cmd, pmcraid_erp_done,
-
+diff --git a/drivers/gpu/drm/exynos/exynos_drm_mic.c b/drivers/gpu/drm/exynos/exynos_drm_mic.c
+index 9e06f8e2a863..07e04ceb2476 100644
+--- a/drivers/gpu/drm/exynos/exynos_drm_mic.c
++++ b/drivers/gpu/drm/exynos/exynos_drm_mic.c
+@@ -434,9 +434,9 @@ static int exynos_mic_probe(struct platform_device *pdev)
+ 
+ 	remote = of_graph_get_remote_node(dev->of_node, 1, 0);
+ 	mic->next_bridge = of_drm_find_bridge(remote);
+-	if (IS_ERR(mic->next_bridge)) {
++	if (!mic->next_bridge) {
+ 		DRM_DEV_ERROR(dev, "mic: Failed to find next bridge\n");
+-		ret = PTR_ERR(mic->next_bridge);
++		ret = -EPROBE_DEFER;
+ 		goto err;
+ 	}
+ 
 -- 
-Jani Nikula, Intel Open Source Graphics Center
+2.20.1
+
