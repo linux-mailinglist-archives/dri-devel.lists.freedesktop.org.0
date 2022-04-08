@@ -1,52 +1,50 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 719024F8EF9
-	for <lists+dri-devel@lfdr.de>; Fri,  8 Apr 2022 08:56:24 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 8EF9E4F8EF7
+	for <lists+dri-devel@lfdr.de>; Fri,  8 Apr 2022 08:56:20 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 29A7110F72E;
-	Fri,  8 Apr 2022 06:56:09 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 632C010F6F0;
+	Fri,  8 Apr 2022 06:56:07 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from mga09.intel.com (mga09.intel.com [134.134.136.24])
- by gabe.freedesktop.org (Postfix) with ESMTPS id A4F6F10F6B0;
+ by gabe.freedesktop.org (Postfix) with ESMTPS id F056F10EA7A;
  Fri,  8 Apr 2022 06:56:04 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1649400964; x=1680936964;
+ t=1649400965; x=1680936965;
  h=from:to:cc:subject:date:message-id:in-reply-to:
  references:mime-version:content-transfer-encoding;
- bh=p9T8zrpe35Nae52kAiwGqClJ17030KLvJba4eJjBSqI=;
- b=SbZ6jXLW6NRWeVBN5MNhgbgRYsQwqdMy4x6Eljo8XpAQeaMEInLueDme
- wdFKOEds6XRCXOr4YE8uBX1J/CSuZ35Kcgx3Pj+lTvTdJAVhFdtFCOsEI
- kQqma7IfMLdL10Oc/Fb8Vm4fqq/xBOygweIQKk/Z2j/ogAm6ozimDhhla
- HFIUO97z+V2os2tCjU/XeaMhsn4G65CtPu3iTpKdSz2/b+ij7/s67NpAS
- OheZ65bsv5aw+pb4JYZCJpB1pxHTrJkcLyu11Ru0A4fbQskHTDfmS+Ifl
- mkF3SeNE+1o1Jn4gRLobGb6daAH1LxXqbzuAKvJ2qO8ku4Xmm1bbAfCYF A==;
-X-IronPort-AV: E=McAfee;i="6400,9594,10310"; a="261219266"
-X-IronPort-AV: E=Sophos;i="5.90,244,1643702400"; d="scan'208";a="261219266"
+ bh=qufrRYEWXWrknet/HpR6fCSUT9AQSw/VcxGsDl6GRns=;
+ b=c70Jy7ht5UW3CeApyFfUxA8JJbDOyh0hBZ2fhlRtU+4lzwdU/5lZcCNb
+ oG8v4Dzyti8gcatpTSxuM2P3jUwvQbbxSbE6GS0UDnlDkZw+qh3YxYHNN
+ MAwH5g/DxEbu1kC9TjhjFgGPHOaR34wfBtAv1gQOqq3p5Bq4ptZg8ItGT
+ OgiHtuwiw5ld+g94pxqSM7ci5ehr3lxmVRjiTLdUTDktR8ewRNmsNR8CG
+ 8yd7jI6L+HTse5WbMapmnQ5by99TYjg/U99yazJyqcNp1wXbY3HvBCU7H
+ zy4JArxaFZOnDczdH7ftmR7fqdlAfHN4BGazSxTaFw02R5KShFzPyapfn A==;
+X-IronPort-AV: E=McAfee;i="6400,9594,10310"; a="261219275"
+X-IronPort-AV: E=Sophos;i="5.90,244,1643702400"; d="scan'208";a="261219275"
 Received: from orsmga003.jf.intel.com ([10.7.209.27])
  by orsmga102.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 07 Apr 2022 23:55:57 -0700
-X-IronPort-AV: E=Sophos;i="5.90,244,1643702400"; d="scan'208";a="506457609"
+ 07 Apr 2022 23:56:00 -0700
+X-IronPort-AV: E=Sophos;i="5.90,244,1643702400"; d="scan'208";a="506457617"
 Received: from bhanu-nuclab.iind.intel.com ([10.145.162.173])
  by orsmga003-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 07 Apr 2022 23:55:54 -0700
+ 07 Apr 2022 23:55:57 -0700
 From: Bhanuprakash Modem <bhanuprakash.modem@intel.com>
 To: intel-gfx@lists.freedesktop.org, dri-devel@lists.freedesktop.org,
  amd-gfx@lists.freedesktop.org, jani.nikula@linux.intel.com,
  ville.syrjala@linux.intel.com, harry.wentland@amd.com,
  swati2.sharma@intel.com
-Subject: [PATCH 2/3] drm/i915/display/debug: Expose crtc current bpc via
- debugfs
-Date: Fri,  8 Apr 2022 12:23:49 +0530
-Message-Id: <20220408065350.1485328-3-bhanuprakash.modem@intel.com>
+Subject: [PATCH 3/3] drm/amd/display: Move connector debugfs to drm
+Date: Fri,  8 Apr 2022 12:23:50 +0530
+Message-Id: <20220408065350.1485328-4-bhanuprakash.modem@intel.com>
 X-Mailer: git-send-email 2.35.1
 In-Reply-To: <20220408065350.1485328-1-bhanuprakash.modem@intel.com>
 References: <20220408065350.1485328-1-bhanuprakash.modem@intel.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -60,81 +58,170 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Uma Shankar <uma.shankar@intel.com>,
+Cc: Rodrigo Siqueira <Rodrigo.Siqueira@amd.com>,
  Bhanuprakash Modem <bhanuprakash.modem@intel.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-This new debugfs will expose the currently using bpc by crtc.
-It is very useful for verifying whether we enter the correct
-output color depth from IGT.
+As drm_connector already have the display_info, instead of creating
+"output_bpc" debugfs in vendor specific driver, move the logic to
+the drm layer.
 
-This patch will also add the connector's max supported bpc to
-"i915_display_info" debugfs.
+This patch will also move "Current" bpc to the crtc debugfs from
+connector debugfs, since we are getting this info from crtc_state.
 
-Example:
-cat /sys/kernel/debug/dri/0/crtc-0/i915_current_bpc
-Current: 8
-
-Cc: Jani Nikula <jani.nikula@linux.intel.com>
-Cc: Ville Syrjälä <ville.syrjala@linux.intel.com>
-Cc: Uma Shankar <uma.shankar@intel.com>
+Cc: Harry Wentland <harry.wentland@amd.com>
+Cc: Rodrigo Siqueira <Rodrigo.Siqueira@amd.com>
 Signed-off-by: Bhanuprakash Modem <bhanuprakash.modem@intel.com>
 ---
- .../drm/i915/display/intel_display_debugfs.c  | 28 +++++++++++++++++++
- 1 file changed, 28 insertions(+)
+ .../gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.c |  4 --
+ .../amd/display/amdgpu_dm/amdgpu_dm_debugfs.c | 38 +++++++------------
+ .../amd/display/amdgpu_dm/amdgpu_dm_debugfs.h |  2 -
+ 3 files changed, 13 insertions(+), 31 deletions(-)
 
-diff --git a/drivers/gpu/drm/i915/display/intel_display_debugfs.c b/drivers/gpu/drm/i915/display/intel_display_debugfs.c
-index 452d773fd4e3..6c3954479047 100644
---- a/drivers/gpu/drm/i915/display/intel_display_debugfs.c
-+++ b/drivers/gpu/drm/i915/display/intel_display_debugfs.c
-@@ -590,6 +590,8 @@ static void intel_connector_info(struct seq_file *m,
- 	seq_puts(m, "\tHDCP version: ");
- 	intel_hdcp_info(m, intel_connector);
+diff --git a/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.c b/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.c
+index 73423b805b54..f89651c71ec7 100644
+--- a/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.c
++++ b/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.c
+@@ -6615,14 +6615,12 @@ dm_crtc_duplicate_state(struct drm_crtc *crtc)
+ 	return &state->base;
+ }
  
-+	seq_printf(m, "\tmax bpc: %u\n", connector->display_info.bpc);
-+
- 	intel_panel_info(m, intel_connector);
+-#ifdef CONFIG_DRM_AMD_SECURE_DISPLAY
+ static int amdgpu_dm_crtc_late_register(struct drm_crtc *crtc)
+ {
+ 	crtc_debugfs_init(crtc);
  
- 	seq_printf(m, "\tmodes:\n");
-@@ -2202,6 +2204,29 @@ static const struct file_operations i915_dsc_bpp_fops = {
- 	.write = i915_dsc_bpp_write
+ 	return 0;
+ }
+-#endif
+ 
+ static inline int dm_set_vupdate_irq(struct drm_crtc *crtc, bool enable)
+ {
+@@ -6720,9 +6718,7 @@ static const struct drm_crtc_funcs amdgpu_dm_crtc_funcs = {
+ 	.enable_vblank = dm_enable_vblank,
+ 	.disable_vblank = dm_disable_vblank,
+ 	.get_vblank_timestamp = drm_crtc_vblank_helper_get_vblank_timestamp,
+-#if defined(CONFIG_DRM_AMD_SECURE_DISPLAY)
+ 	.late_register = amdgpu_dm_crtc_late_register,
+-#endif
  };
  
-+/*
-+ * Returns the Current CRTC's bpc.
-+ * Example usage: cat /sys/kernel/debug/dri/0/crtc-0/i915_current_bpc
-+ */
-+static int i915_current_bpc_show(struct seq_file *m, void *data)
-+{
-+	struct intel_crtc *crtc = to_intel_crtc(m->private);
-+	struct intel_crtc_state *crtc_state;
-+	int ret;
-+
-+	ret = drm_modeset_lock_single_interruptible(&crtc->base.mutex);
-+	if (ret)
-+		return ret;
-+
-+	crtc_state = to_intel_crtc_state(crtc->base.state);
-+	seq_printf(m, "Current: %u\n", crtc_state->pipe_bpp / 3);
-+
-+	drm_modeset_unlock(&crtc->base.mutex);
-+
-+	return ret;
-+}
-+DEFINE_SHOW_ATTRIBUTE(i915_current_bpc);
-+
- /**
-  * intel_connector_debugfs_add - add i915 specific connector debugfs files
-  * @connector: pointer to a registered drm_connector
-@@ -2272,4 +2297,7 @@ void intel_crtc_debugfs_add(struct drm_crtc *crtc)
- 
- 	crtc_updates_add(crtc);
- 	intel_fbc_crtc_debugfs_add(to_intel_crtc(crtc));
-+
-+	debugfs_create_file("i915_current_bpc", 0444, crtc->debugfs_entry, crtc,
-+			    &i915_current_bpc_fops);
+ static enum drm_connector_status
+diff --git a/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm_debugfs.c b/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm_debugfs.c
+index da17ece1a2c5..3ee26083920b 100644
+--- a/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm_debugfs.c
++++ b/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm_debugfs.c
+@@ -873,28 +873,18 @@ static int psr_capability_show(struct seq_file *m, void *data)
  }
+ 
+ /*
+- * Returns the current and maximum output bpc for the connector.
+- * Example usage: cat /sys/kernel/debug/dri/0/DP-1/output_bpc
++ * Returns the current bpc for the crtc.
++ * Example usage: cat /sys/kernel/debug/dri/0/crtc-0/amdgpu_current_bpc
+  */
+-static int output_bpc_show(struct seq_file *m, void *data)
++static int amdgpu_current_bpc_show(struct seq_file *m, void *data)
+ {
+-	struct drm_connector *connector = m->private;
+-	struct drm_device *dev = connector->dev;
+-	struct drm_crtc *crtc = NULL;
++	struct drm_crtc *crtc = m->private;
++	struct drm_device *dev = crtc->dev;
+ 	struct dm_crtc_state *dm_crtc_state = NULL;
+ 	int res = -ENODEV;
+ 	unsigned int bpc;
+ 
+ 	mutex_lock(&dev->mode_config.mutex);
+-	drm_modeset_lock(&dev->mode_config.connection_mutex, NULL);
+-
+-	if (connector->state == NULL)
+-		goto unlock;
+-
+-	crtc = connector->state->crtc;
+-	if (crtc == NULL)
+-		goto unlock;
+-
+ 	drm_modeset_lock(&crtc->mutex, NULL);
+ 	if (crtc->state == NULL)
+ 		goto unlock;
+@@ -924,18 +914,15 @@ static int output_bpc_show(struct seq_file *m, void *data)
+ 	}
+ 
+ 	seq_printf(m, "Current: %u\n", bpc);
+-	seq_printf(m, "Maximum: %u\n", connector->display_info.bpc);
+ 	res = 0;
+ 
+ unlock:
+-	if (crtc)
+-		drm_modeset_unlock(&crtc->mutex);
+-
+-	drm_modeset_unlock(&dev->mode_config.connection_mutex);
++	drm_modeset_unlock(&crtc->mutex);
+ 	mutex_unlock(&dev->mode_config.mutex);
+ 
+ 	return res;
+ }
++DEFINE_SHOW_ATTRIBUTE(amdgpu_current_bpc);
+ 
+ /*
+  * Example usage:
+@@ -2541,7 +2528,6 @@ static int target_backlight_show(struct seq_file *m, void *unused)
+ DEFINE_SHOW_ATTRIBUTE(dp_dsc_fec_support);
+ DEFINE_SHOW_ATTRIBUTE(dmub_fw_state);
+ DEFINE_SHOW_ATTRIBUTE(dmub_tracebuffer);
+-DEFINE_SHOW_ATTRIBUTE(output_bpc);
+ DEFINE_SHOW_ATTRIBUTE(dp_lttpr_status);
+ #ifdef CONFIG_DRM_AMD_DC_HDCP
+ DEFINE_SHOW_ATTRIBUTE(hdcp_sink_capability);
+@@ -2788,7 +2774,6 @@ static const struct {
+ 	const struct file_operations *fops;
+ } connector_debugfs_entries[] = {
+ 		{"force_yuv420_output", &force_yuv420_output_fops},
+-		{"output_bpc", &output_bpc_fops},
+ 		{"trigger_hotplug", &trigger_hotplug_debugfs_fops},
+ 		{"internal_display", &internal_display_fops}
+ };
+@@ -3172,9 +3157,10 @@ static int crc_win_update_get(void *data, u64 *val)
+ 
+ DEFINE_DEBUGFS_ATTRIBUTE(crc_win_update_fops, crc_win_update_get,
+ 			 crc_win_update_set, "%llu\n");
+-
++#endif
+ void crtc_debugfs_init(struct drm_crtc *crtc)
+ {
++#ifdef CONFIG_DRM_AMD_SECURE_DISPLAY
+ 	struct dentry *dir = debugfs_lookup("crc", crtc->debugfs_entry);
+ 
+ 	if (!dir)
+@@ -3190,9 +3176,11 @@ void crtc_debugfs_init(struct drm_crtc *crtc)
+ 				   &crc_win_y_end_fops);
+ 	debugfs_create_file_unsafe("crc_win_update", 0644, dir, crtc,
+ 				   &crc_win_update_fops);
+-
+-}
+ #endif
++	debugfs_create_file("amdgpu_current_bpc", 0644, crtc->debugfs_entry,
++			    crtc, &amdgpu_current_bpc_fops);
++}
++
+ /*
+  * Writes DTN log state to the user supplied buffer.
+  * Example usage: cat /sys/kernel/debug/dri/0/amdgpu_dm_dtn_log
+diff --git a/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm_debugfs.h b/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm_debugfs.h
+index 3366cb644053..071200473c27 100644
+--- a/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm_debugfs.h
++++ b/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm_debugfs.h
+@@ -31,8 +31,6 @@
+ 
+ void connector_debugfs_init(struct amdgpu_dm_connector *connector);
+ void dtn_debugfs_init(struct amdgpu_device *adev);
+-#if defined(CONFIG_DRM_AMD_SECURE_DISPLAY)
+ void crtc_debugfs_init(struct drm_crtc *crtc);
+-#endif
+ 
+ #endif
 -- 
 2.35.1
 
