@@ -1,49 +1,58 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5B5484F9FD8
-	for <lists+dri-devel@lfdr.de>; Sat,  9 Apr 2022 01:02:43 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id CD59D4FA05C
+	for <lists+dri-devel@lfdr.de>; Sat,  9 Apr 2022 01:59:37 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id E63D510E144;
-	Fri,  8 Apr 2022 23:02:38 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id BDD6A10E1F7;
+	Fri,  8 Apr 2022 23:59:34 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mga01.intel.com (mga01.intel.com [192.55.52.88])
- by gabe.freedesktop.org (Postfix) with ESMTPS id D20A110E144;
- Fri,  8 Apr 2022 23:02:37 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1649458957; x=1680994957;
- h=date:from:to:cc:subject:message-id:reply-to:references:
- mime-version:in-reply-to;
- bh=5LQJRMtPBG+xFDZjts9fMc+3ns4KieZfK8HTvnaktI0=;
- b=E+UyO7e3dyKqJ5zjTmOaK1TqaNmR5uwQ7Ly/u1LZ0EaEnbX5WTax18kW
- D/i5cM7Xu9Vqn0bJv16lChewE5EhHDIOLIXSRnzQqDZjxTMAEAputMOy5
- 95M6x3WjlcVFGM9tt25Oly3YQPUtr/w4B6+1PJaYL8Sasr3uo1Qiu2IfN
- H6wA1BsdSbMMgKrlM9HIcFOYXSqPXw2oO8GgoG6jt40XsZbU4nS7EWcZ7
- wX1lEjIEh/u9/zU9Afbo4fYgSTjksLwTM0BpvrBjcaCQr0j5Frr5BN8Sf
- fnM9Tt6l06xviZpiFeQ7opmWc8pE5D+xziv/1nxKAf2Bw5d9paHdXw9lS Q==;
-X-IronPort-AV: E=McAfee;i="6400,9594,10311"; a="286713381"
-X-IronPort-AV: E=Sophos;i="5.90,246,1643702400"; d="scan'208";a="286713381"
-Received: from fmsmga007.fm.intel.com ([10.253.24.52])
- by fmsmga101.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 08 Apr 2022 16:02:33 -0700
-X-IronPort-AV: E=Sophos;i="5.90,246,1643702400"; d="scan'208";a="557963655"
-Received: from ideak-desk.fi.intel.com ([10.237.72.175])
- by fmsmga007-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 08 Apr 2022 16:02:31 -0700
-Date: Sat, 9 Apr 2022 02:02:28 +0300
-From: Imre Deak <imre.deak@intel.com>
-To: "Almahallawy, Khaled" <khaled.almahallawy@intel.com>
-Subject: Re: [v2,1/2] drm/dp: Factor out a function to probe a DPCD address
-Message-ID: <YlC/BMxH+BklOUej@ideak-desk.fi.intel.com>
-References: <20220408172154.807900-1-imre.deak@intel.com>
- <4a7027ccd8a5007f460dead096961b5a03bf68aa.camel@intel.com>
+Received: from mail-qk1-x736.google.com (mail-qk1-x736.google.com
+ [IPv6:2607:f8b0:4864:20::736])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id CBCD710E1F7
+ for <dri-devel@lists.freedesktop.org>; Fri,  8 Apr 2022 23:59:33 +0000 (UTC)
+Received: by mail-qk1-x736.google.com with SMTP id b33so6090900qkp.13
+ for <dri-devel@lists.freedesktop.org>; Fri, 08 Apr 2022 16:59:33 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc; bh=ep4HFxZGemluJutovsTbozz4aCXR3Ya1T5frn7xqC+A=;
+ b=W1MkNAp8xV5HT+QqAx4kLm0SNYJQBh84WYuvZfZmLltO29+iMFuxhXu/9iPkvvyghd
+ evMPG3QDhUti9BYqPcLkpVCb1PNebe36yhEAlsoPSXsm3ZX1Vdjytwd28ik26yCTeZwo
+ 8ssm5qZ2k165XPYHn58Y0MR0QZWeokpgdMBw3N386WqBL6BOOU30pUPL/lORltzQpyTH
+ fZQwOHaCVMxUgS8CNdYui496fBoMJXXkV5Jw1OyddA+IJeRUUkw8w5mANj0JWfU8wwEK
+ 8W0sKFHiwwsInstAxplk6zqDrVbY6DTjdc+00p/zKab3JIGMD0QrQkir+tnW0GGs9w0e
+ ReAg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=ep4HFxZGemluJutovsTbozz4aCXR3Ya1T5frn7xqC+A=;
+ b=8NgkvET/I2ciNEPky2iGR+xWpFmwsIeymIVw3YazvHMsQ/b3b8s1RpAQsaS00zrZSD
+ iu7Ma+VQD/0jp4PystU6QsBEC9w1Zy+EUpNtz8UaXaIgHRuHgUlCyD4CUjDhvkHTsGgC
+ 0mw5NvyEqcvOjnjrXOPoXZsxc1ly1O8TquBqEyuLTZ8WZYCLku80hMRjxoQ3O9YnCS27
+ fqZBx+QecWqLHq8Kf6asYE1I1+T+mJ60ltIEksUOb0uRuDSwuZp6prqmmpVtrOqKl/iG
+ 4+zCg4p8WlsBmrPYriuktSmowxfcMQaDa2i/mAa2mnpkWSxjlAcEICrq+SDshs/FKssy
+ UQvA==
+X-Gm-Message-State: AOAM5333vi/GGIrudBLAnTMswy45dMmJgC4O4Q0rwoDQ97sqLXvGf1K1
+ nw5CuYqh83cp9aV/doc1bSgpk4eNJY8qbClu2ucvEg==
+X-Google-Smtp-Source: ABdhPJybXQIl400imv5u+eLq4wIpQrgRiwQ4eURC/e6m01mzUErigFhQXkQJfEw+aw8JJtTDDj1iqa8rcBKROaoImMU=
+X-Received: by 2002:a05:620a:2449:b0:69a:4ae:85e5 with SMTP id
+ h9-20020a05620a244900b0069a04ae85e5mr7089008qkn.30.1649462372909; Fri, 08 Apr
+ 2022 16:59:32 -0700 (PDT)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <4a7027ccd8a5007f460dead096961b5a03bf68aa.camel@intel.com>
+References: <1649280493-4393-1-git-send-email-quic_khsieh@quicinc.com>
+ <625ce8a0-4e25-5513-5599-c1cdebf5a3a5@linaro.org>
+ <09fd563f-4a2c-f670-51c2-0e5ff023816d@quicinc.com>
+In-Reply-To: <09fd563f-4a2c-f670-51c2-0e5ff023816d@quicinc.com>
+From: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
+Date: Sat, 9 Apr 2022 02:59:21 +0300
+Message-ID: <CAA8EJpqzucFGf8ndDi2LZqtKiOt_w=_h1oPAUNVCdmUyh_3+zA@mail.gmail.com>
+Subject: Re: [PATCH v2] drm/msm/dp: enhance both connect and disconnect
+ pending_timeout handle
+To: Kuogee Hsieh <quic_khsieh@quicinc.com>
+Content-Type: text/plain; charset="UTF-8"
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -56,106 +65,52 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Reply-To: imre.deak@intel.com
-Cc: "intel-gfx@lists.freedesktop.org" <intel-gfx@lists.freedesktop.org>,
- "dri-devel@lists.freedesktop.org" <dri-devel@lists.freedesktop.org>
+Cc: quic_sbillaka@quicinc.com, quic_abhinavk@quicinc.com, airlied@linux.ie,
+ freedreno@lists.freedesktop.org, vkoul@kernel.org,
+ dri-devel@lists.freedesktop.org, swboyd@chromium.org, agross@kernel.org,
+ linux-arm-msm@vger.kernel.org, quic_aravindh@quicinc.com,
+ bjorn.andersson@linaro.org, sean@poorly.run, linux-kernel@vger.kernel.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Sat, Apr 09, 2022 at 01:47:21AM +0300, Almahallawy, Khaled wrote:
-> On Fri, 2022-04-08 at 20:21 +0300, Imre Deak wrote:
-> > Factor out from drm_dp_dpcd_read() a function to probe a DPCD address
-> > with a 1-byte read access. This will be needed by the next patch
-> > doing a
-> > read from an LTTPR address, which must happen without the preceding
-> > wake-up read in drm_dp_dpcd_read().
+On Fri, 8 Apr 2022 at 23:30, Kuogee Hsieh <quic_khsieh@quicinc.com> wrote:
+>
+>
+> On 4/8/2022 5:27 AM, Dmitry Baryshkov wrote:
+> > On 07/04/2022 00:28, Kuogee Hsieh wrote:
+> >> dp_hpd_plug_handle() is responsible for setting up main link and send
+> >> uevent to notify user space framework to start video stream. Similarly,
+> >> dp_hdp_unplug_handle is responsible to send uevent to notify user space
+> >> framework to stop video stream and then tear down main link.
+> >> However there are rare cases, such as in the middle of system
+> >> suspending,
+> >> that uevent could not be delivered to user space framework. Therefore
+> >> some kind of recover mechanism armed by timer need to be in place in the
+> >> case of user space framework does not respond to uevent.
 > >
-> > v2: Add a probe function instead of exporting drm_dp_dpcd_access().
-> > (Jani)
-> >
-> > Cc: Jani Nikula <jani.nikula@linux.intel.com>
-> > Cc: dri-devel@lists.freedesktop.org
-> > Signed-off-by: Imre Deak <imre.deak@intel.com>
-> > ---
-> >  drivers/gpu/drm/dp/drm_dp.c    | 28 +++++++++++++++++++++++++---
-> >  include/drm/dp/drm_dp_helper.h |  1 +
-> >  2 files changed, 26 insertions(+), 3 deletions(-)
-> >
-> > diff --git a/drivers/gpu/drm/dp/drm_dp.c
-> > b/drivers/gpu/drm/dp/drm_dp.c
-> > index 580016a1b9eb7..b58e30132768d 100644
-> > --- a/drivers/gpu/drm/dp/drm_dp.c
-> > +++ b/drivers/gpu/drm/dp/drm_dp.c
-> > @@ -527,6 +527,29 @@ static int drm_dp_dpcd_access(struct drm_dp_aux
-> > *aux, u8 request,
-> >       return ret;
-> >  }
-> >
-> > +/**
-> > + * drm_dp_dpcd_probe() - probe a given DPCD address with a 1-byte read access
-> > + * @aux: DisplayPort AUX channel (SST)
-> > + * @offset: address of the register to probe
-> > + *
-> > + * Probe the provided DPCD address by reading 1 byte from it. The function can
-> > + * be used to trigger some side-effect the read access has, like waking up the
-> > + * sink, without the need for the read-out value.
-> > + *
-> > + * Returns 0 if the read access suceeded, or a negative error code on failure.
-> > + */
-> > +int drm_dp_dpcd_probe(struct drm_dp_aux *aux, unsigned int offset)
-> > +{
-> > +     u8 buffer;
-> > +     int ret;
-> > +
-> > +     ret = drm_dp_dpcd_access(aux, DP_AUX_NATIVE_READ, offset, &buffer, 1);
-> > +     WARN_ON(ret == 0);
-> > +
-> 
-> Could you add "drm_dp_dump_access" similar to drm_dp_dpcd_read/write
-> in order for this aux tranaction appears in the log?
+> > Hmm, how does userpsace 'respond' to the uevent? The driver should
+> > send hotplug notifications to userspace, but it must not expect any
+> > particular reaction. The userspace might be as simple, as fbdev
+> > emulation, but the driver still should function correctly.
+>
+> yes, driver is function correctly by setting up main link. but it does
+> not know which resolution to display.
+>
+> It send hotplug notification through uevent to framework after main link
+> is ready.
+>
+> Framework  is responsible to set up MDP timing engine to start video stream.
+>
+>
+> However it does not know which
 
-I considered that, however I'd find the log before each actual read
-transfer too verbose.
+It's of no concern to the driver. It is completely the userspace
+problem. After resuming, it should reread available video output
+properties. The display could have been changed while the system is
+suspended.
+From your description I still do not understand why you need the
+'recovery' mechanism.
 
-However logging in case of a failure could be moved here.
-
-> 
-> Thanks
-> Khaled
-> > +     return ret < 0 ? ret : 0;
-> > +}
-> > +EXPORT_SYMBOL(drm_dp_dpcd_probe);
-> > +
-> >  /**
-> >   * drm_dp_dpcd_read() - read a series of bytes from the DPCD
-> >   * @aux: DisplayPort AUX channel (SST or MST)
-> > @@ -559,9 +582,8 @@ ssize_t drm_dp_dpcd_read(struct drm_dp_aux *aux,
-> > unsigned int offset,
-> >        * monitor doesn't power down exactly after the throw away
-> > read.
-> >        */
-> >       if (!aux->is_remote) {
-> > -             ret = drm_dp_dpcd_access(aux, DP_AUX_NATIVE_READ,
-> > DP_DPCD_REV,
-> > -                                      buffer, 1);
-> > -             if (ret != 1)
-> > +             ret = drm_dp_dpcd_probe(aux, DP_DPCD_REV);
-> > +             if (ret < 0)
-> >                       goto out;
-> >       }
-> >
-> > diff --git a/include/drm/dp/drm_dp_helper.h
-> > b/include/drm/dp/drm_dp_helper.h
-> > index 1eccd97419436..91af98e6617c6 100644
-> > --- a/include/drm/dp/drm_dp_helper.h
-> > +++ b/include/drm/dp/drm_dp_helper.h
-> > @@ -2053,6 +2053,7 @@ struct drm_dp_aux {
-> >       bool is_remote;
-> >  };
-> >
-> > +int drm_dp_dpcd_probe(struct drm_dp_aux *aux, unsigned int offset);
-> >  ssize_t drm_dp_dpcd_read(struct drm_dp_aux *aux, unsigned int
-> > offset,
-> >                        void *buffer, size_t size);
-> >  ssize_t drm_dp_dpcd_write(struct drm_dp_aux *aux, unsigned int
-> > offset,
+-- 
+With best wishes
+Dmitry
