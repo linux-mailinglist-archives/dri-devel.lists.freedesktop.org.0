@@ -1,36 +1,36 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8A8554F93AD
-	for <lists+dri-devel@lfdr.de>; Fri,  8 Apr 2022 13:22:51 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 1A3E64F93DA
+	for <lists+dri-devel@lfdr.de>; Fri,  8 Apr 2022 13:23:33 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id DD75410E176;
-	Fri,  8 Apr 2022 11:22:48 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 60A8F10EF08;
+	Fri,  8 Apr 2022 11:23:10 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from metis.ext.pengutronix.de (metis.ext.pengutronix.de
  [IPv6:2001:67c:670:201:290:27ff:fe1d:cc33])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 3FE4310E176
- for <dri-devel@lists.freedesktop.org>; Fri,  8 Apr 2022 11:22:48 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id CE79710EF08
+ for <dri-devel@lists.freedesktop.org>; Fri,  8 Apr 2022 11:22:50 +0000 (UTC)
 Received: from drehscheibe.grey.stw.pengutronix.de ([2a0a:edc0:0:c01:1d::a2])
  by metis.ext.pengutronix.de with esmtps
  (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256) (Exim 4.92)
  (envelope-from <sha@pengutronix.de>)
- id 1ncmhS-0002Hx-4B; Fri, 08 Apr 2022 13:22:46 +0200
+ id 1ncmhU-0002LQ-VO; Fri, 08 Apr 2022 13:22:49 +0200
 Received: from [2a0a:edc0:0:1101:1d::28] (helo=dude02.red.stw.pengutronix.de)
  by drehscheibe.grey.stw.pengutronix.de with esmtp (Exim 4.94.2)
  (envelope-from <sha@pengutronix.de>)
- id 1ncmhS-001n43-5E; Fri, 08 Apr 2022 13:22:44 +0200
+ id 1ncmhU-001n4z-7J; Fri, 08 Apr 2022 13:22:46 +0200
 Received: from sha by dude02.red.stw.pengutronix.de with local (Exim 4.94.2)
  (envelope-from <sha@pengutronix.de>)
- id 1ncmhO-005Z4V-Iz; Fri, 08 Apr 2022 13:22:42 +0200
+ id 1ncmhO-005Z4Y-Ji; Fri, 08 Apr 2022 13:22:42 +0200
 From: Sascha Hauer <s.hauer@pengutronix.de>
 To: dri-devel@lists.freedesktop.org
-Subject: [PATCH v10 19/24] arm64: dts: rockchip: enable vop2 and hdmi tx on
- quartz64a
-Date: Fri,  8 Apr 2022 13:22:33 +0200
-Message-Id: <20220408112238.1274817-20-s.hauer@pengutronix.de>
+Subject: [PATCH v10 20/24] arm64: dts: rockchip: enable vop2 and hdmi tx on
+ rock-3a
+Date: Fri,  8 Apr 2022 13:22:34 +0200
+Message-Id: <20220408112238.1274817-21-s.hauer@pengutronix.de>
 X-Mailer: git-send-email 2.30.2
 In-Reply-To: <20220408112238.1274817-1-s.hauer@pengutronix.de>
 References: <20220408112238.1274817-1-s.hauer@pengutronix.de>
@@ -58,46 +58,43 @@ Cc: devicetree@vger.kernel.org,
  Peter Geis <pgwipeout@gmail.com>, Sascha Hauer <s.hauer@pengutronix.de>,
  Sandy Huang <hjc@rock-chips.com>, linux-rockchip@lists.infradead.org,
  Michael Riesch <michael.riesch@wolfvision.net>, kernel@pengutronix.de,
- Andy Yan <andy.yan@rock-chips.com>, linux-arm-kernel@lists.infradead.org
+ Andy Yan <andy.yan@rock-chips.com>, linux-arm-kernel@lists.infradead.org,
+ kernel test robot <lkp@intel.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 From: Michael Riesch <michael.riesch@wolfvision.net>
 
-Enable the RK356x Video Output Processor (VOP) 2 on the Pine64
-Quartz64 Model A.
+Enable the RK356x Video Output Processor (VOP) 2 on the Radxa
+ROCK3 Model A.
 
 Signed-off-by: Michael Riesch <michael.riesch@wolfvision.net>
+Reported-by: kernel test robot <lkp@intel.com>
+Link: https://lore.kernel.org/r/20220310210352.451136-4-michael.riesch@wolfvision.net
 Signed-off-by: Sascha Hauer <s.hauer@pengutronix.de>
 ---
 
 Notes:
-    Changes since v5:
-    - Drop reg property from single endpoint node
-    
-    Changes since v4:
-    - Sort nodes alphabetically
-    
-    Changes since v3:
-    - Fix HDMI connector type
+    Changes since v9:
+    - new patch
 
- .../boot/dts/rockchip/rk3566-quartz64-a.dts   | 47 +++++++++++++++++++
+ .../boot/dts/rockchip/rk3568-rock-3a.dts      | 47 +++++++++++++++++++
  1 file changed, 47 insertions(+)
 
-diff --git a/arch/arm64/boot/dts/rockchip/rk3566-quartz64-a.dts b/arch/arm64/boot/dts/rockchip/rk3566-quartz64-a.dts
-index dd7f4b9b686b8..6504f7ab3ea77 100644
---- a/arch/arm64/boot/dts/rockchip/rk3566-quartz64-a.dts
-+++ b/arch/arm64/boot/dts/rockchip/rk3566-quartz64-a.dts
+diff --git a/arch/arm64/boot/dts/rockchip/rk3568-rock-3a.dts b/arch/arm64/boot/dts/rockchip/rk3568-rock-3a.dts
+index 18d2d8e5e6933..e568ce3770551 100644
+--- a/arch/arm64/boot/dts/rockchip/rk3568-rock-3a.dts
++++ b/arch/arm64/boot/dts/rockchip/rk3568-rock-3a.dts
 @@ -4,6 +4,7 @@
- 
  #include <dt-bindings/gpio/gpio.h>
+ #include <dt-bindings/leds/common.h>
  #include <dt-bindings/pinctrl/rockchip.h>
 +#include <dt-bindings/soc/rockchip,vop2.h>
- #include "rk3566.dtsi"
+ #include "rk3568.dtsi"
  
  / {
-@@ -35,6 +36,17 @@ fan: gpio_fan {
- 		#cooling-cells = <2>;
+@@ -20,6 +21,17 @@ chosen: chosen {
+ 		stdout-path = "serial2:1500000n8";
  	};
  
 +	hdmi-con {
@@ -114,13 +111,13 @@ index dd7f4b9b686b8..6504f7ab3ea77 100644
  	leds {
  		compatible = "gpio-leds";
  
-@@ -248,6 +260,24 @@ &gpu {
+@@ -134,6 +146,24 @@ &gpu {
  	status = "okay";
  };
  
 +&hdmi {
-+	avdd-0v9-supply = <&vdda_0v9>;
-+	avdd-1v8-supply = <&vcc_1v8>;
++	avdd-0v9-supply = <&vdda0v9_image>;
++	avdd-1v8-supply = <&vcca1v8_image>;
 +	status = "okay";
 +};
 +
@@ -139,8 +136,8 @@ index dd7f4b9b686b8..6504f7ab3ea77 100644
  &i2c0 {
  	status = "okay";
  
-@@ -685,3 +715,20 @@ &usb2phy1_otg {
- 	phy-supply = <&vcc5v0_usb20_host>;
+@@ -499,3 +529,20 @@ &usb2phy1_otg {
+ 	phy-supply = <&vcc5v0_usb_host>;
  	status = "okay";
  };
 +
