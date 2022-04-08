@@ -1,39 +1,71 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id A48F24F9220
-	for <lists+dri-devel@lfdr.de>; Fri,  8 Apr 2022 11:38:56 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 0B3314F9223
+	for <lists+dri-devel@lfdr.de>; Fri,  8 Apr 2022 11:39:33 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id F013110E1D0;
-	Fri,  8 Apr 2022 09:38:53 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id D434C10E1C3;
+	Fri,  8 Apr 2022 09:39:30 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from aposti.net (aposti.net [89.234.176.197])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 5912B10E1C3
- for <dri-devel@lists.freedesktop.org>; Fri,  8 Apr 2022 09:38:52 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=crapouillou.net;
- s=mail; t=1649410729; h=from:from:sender:reply-to:subject:subject:date:date:
- message-id:message-id:to:to:cc:cc:mime-version:mime-version:
- content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=NrebAZrO+cMXZp6CaRNO+bsoFWQqrGGUkEnoihN5xWs=;
- b=MQYgpLVvrULNIgrboUzg9K7r/BL1qhCJH2swSW53nukPGpWNhy0WYujcm5bZQlBIHbnG9T
- w+LprBkTUAsdopa7B81SeZTwlDHLsMr5aCuAHFmEtZKIfjPG7CneBAucIygR/tVO4Avfly
- /8j/0b+RpGf+2VwXoRSgIdrFa2S+KfQ=
-Date: Fri, 08 Apr 2022 10:38:38 +0100
-From: Paul Cercueil <paul@crapouillou.net>
-Subject: Re: [PATCH v18 3/3] drm/ingenic: Add dw-hdmi driver specialization
- for jz4780
-To: "H. Nikolaus Schaller" <hns@goldelico.com>
-Message-Id: <EGL0AR.AQWZJ0LNDYJ63@crapouillou.net>
-In-Reply-To: <e5cdf9cd44bde52cce379cc830f2d6117ea15c32.1649330171.git.hns@goldelico.com>
-References: <cover.1649330170.git.hns@goldelico.com>
- <e5cdf9cd44bde52cce379cc830f2d6117ea15c32.1649330171.git.hns@goldelico.com>
+Received: from mail-ej1-x629.google.com (mail-ej1-x629.google.com
+ [IPv6:2a00:1450:4864:20::629])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id C1EB510E205;
+ Fri,  8 Apr 2022 09:39:29 +0000 (UTC)
+Received: by mail-ej1-x629.google.com with SMTP id k23so16178155ejd.3;
+ Fri, 08 Apr 2022 02:39:29 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
+ h=message-id:date:mime-version:user-agent:subject:content-language:to
+ :cc:references:from:in-reply-to:content-transfer-encoding;
+ bh=tsGzAIi74QtByGW709COJjAShCzflE3HJdR1Mr3sX0Y=;
+ b=GvYjd/0WzRbp4jlLSW0Oue0vvp6pztK3JnRvcvpaa+JeJ0G7eXw5Qn9gfvXbkWRhvu
+ 5ggxD0yvnVdpYMum3zgjOVfSf3cbvPf1DxaJiIj6LqophOm0r1ZG574oHuf/wwDafkkx
+ L5EQGj5pQgJEFXPUGoe8GbeCdcjjP5x0brxcv1XjF6jdfUd1kSh6L3A2nHl7WMlQNROU
+ A/YVpad2JgwsTbToelhyxwlWBs2imAdXhxzMvR4NunqAvwRnNN0wr7lSXbgKkEUJsoPa
+ izuIg7iCyqpau+xjCc44X/5MG734YUdbKfw61vROonHLRLC7PSo2DONtqMNTNgfI3Lnv
+ mfYQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
+ :content-language:to:cc:references:from:in-reply-to
+ :content-transfer-encoding;
+ bh=tsGzAIi74QtByGW709COJjAShCzflE3HJdR1Mr3sX0Y=;
+ b=hl6IgRN3tDSxxqfXrSCsxY5BqLkA2QBMUKBZ2hyeYp7z2xrqNo4DEBZlg/tRnLo5B4
+ 6vYxPZg0zaHUvJyuuMoe2O/e8e2B7/hQ+qIRfz1+F/jSVIy5eG4w7BpE3eFbE7W5w5C0
+ zbgVYQRfH08eg+2hXYfhWwMwTmnop7kYG7MLAgcyvodQQVaf/JgsB2VOZUA7JhFfBeVa
+ +bgQR9lkWG3y3sEm+4KiSJdeP6/hLs0Q5B2lgatOpAR/Tq2ttQU26jtK2xXn8zaYOpRS
+ Ge0Q8W16CglU2VWFiKEt1UZaqhHfIpgB0307eUXU/JMxKlTEB5iJDnB5ADXIk5mLVjs0
+ wEnw==
+X-Gm-Message-State: AOAM532UMbRd4DwXu/gDtZftRyoqCYKWR0azS6icWfR4iAS0sg1fmCNi
+ 4NECMsKmx4eGxUNdeCEU0Hg=
+X-Google-Smtp-Source: ABdhPJz7RH7xBJ+qWnA5hWmL+S03P9dlzHJsu8iIVtIR2lc3djaPixzhg4BhL5dHJKR9tFgBGWzW4Q==
+X-Received: by 2002:a17:907:1c16:b0:6d7:622b:efea with SMTP id
+ nc22-20020a1709071c1600b006d7622befeamr17293005ejc.110.1649410768228; 
+ Fri, 08 Apr 2022 02:39:28 -0700 (PDT)
+Received: from ?IPV6:2a02:908:1252:fb60:114:5e2d:4d2d:2c8b?
+ ([2a02:908:1252:fb60:114:5e2d:4d2d:2c8b])
+ by smtp.gmail.com with ESMTPSA id
+ a1-20020a1709063e8100b006ce06ed8aa7sm8564408ejj.142.2022.04.08.02.39.27
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Fri, 08 Apr 2022 02:39:27 -0700 (PDT)
+Message-ID: <3b9a361a-543c-f6e0-7f12-260f90de9c9e@gmail.com>
+Date: Fri, 8 Apr 2022 11:39:26 +0200
 MIME-Version: 1.0
-Content-Type: text/plain; charset=iso-8859-1; format=flowed
-Content-Transfer-Encoding: quoted-printable
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.7.0
+Subject: Re: [PATCH 12/15] drm/i915: drop bo->moving dependency
+Content-Language: en-US
+To: Daniel Vetter <daniel.vetter@ffwll.ch>,
+ =?UTF-8?Q?Christian_K=c3=b6nig?= <christian.koenig@amd.com>
+References: <20220407085946.744568-1-christian.koenig@amd.com>
+ <20220407085946.744568-13-christian.koenig@amd.com>
+ <87y20ghrmy.fsf@intel.com> <f6f56ad0-4a5b-69b7-500d-79663f690f13@amd.com>
+ <CAKMK7uEYbNrNZAx1k_D7u01=2-d3chResyBo9NFzG9BPq84LpA@mail.gmail.com>
+From: =?UTF-8?Q?Christian_K=c3=b6nig?= <ckoenig.leichtzumerken@gmail.com>
+In-Reply-To: <CAKMK7uEYbNrNZAx1k_D7u01=2-d3chResyBo9NFzG9BPq84LpA@mail.gmail.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -46,209 +78,249 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Paul Boddie <paul@boddie.org.uk>, Neil Armstrong <narmstrong@baylibre.com>,
- David Airlie <airlied@linux.ie>, Robert Foss <robert.foss@linaro.org>,
- dri-devel@lists.freedesktop.org, Jonas Karlman <jonas@kwiboo.se>,
- linux-kernel@vger.kernel.org, Jernej Skrabec <jernej.skrabec@gmail.com>,
- linux-mips@vger.kernel.org,
- Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>,
- Laurent Pinchart <Laurent.pinchart@ideasonboard.com>,
- Andrzej Hajda <andrzej.hajda@intel.com>, letux-kernel@openphoenux.org,
- Ezequiel Garcia <ezequiel@collabora.com>, Maxime Ripard <maxime@cerno.tech>
+Cc: "Ursulin, Tvrtko" <tvrtko.ursulin@intel.com>,
+ intel-gfx@lists.freedesktop.org, dri-devel@lists.freedesktop.org,
+ linaro-mm-sig@lists.linaro.org, Rodrigo Vivi <rodrigo.vivi@intel.com>,
+ linux-media@vger.kernel.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi,
+Am 08.04.22 um 11:33 schrieb Daniel Vetter:
+> On Fri, 8 Apr 2022 at 11:27, Christian König <christian.koenig@amd.com> wrote:
+>> Am 08.04.22 um 11:05 schrieb Jani Nikula:
+>>> On Thu, 07 Apr 2022, "Christian König" <ckoenig.leichtzumerken@gmail.com> wrote:
+>>>> That should now be handled by the common dma_resv framework.
+>>>>
+>>>> Signed-off-by: Christian König <christian.koenig@amd.com>
+>>>> Reviewed-by: Daniel Vetter <daniel.vetter@ffwll.ch>
+>>>> Cc: intel-gfx@lists.freedesktop.org
+>>> So, where are the i915 maintainer acks for merging this (and the other
+>>> patches in the series touching i915) via drm-misc-next?
+>>>
+>>> Daniel's Reviewed-by is not an ack to merge outside drm-intel-next.
+>> I had the impression that it would be sufficient.
+>>
+>>> We don't merge i915 stuff without passing CI results. Apparently this
+>>> one failed enough machines that the CI had to be stopped entirely.
+>> That was unfortunately partially expected and pointed out by Matthew and
+>> Daniel before the push.
+> Uh I didn't realize that CI never tested this. Usually the way then is
+> to rebase onto drm-tip and figure out the merge story. Doing subsystem
+> wide changes while not on linux-next or drm-tip or another integration
+> tree is just fraught with surprises due to conflicts.
+>
+> Also "doesn't even compile" is really below the bar, and not the first
+> time this happened at all. And i915 isn't really an obscure driver
+> which is hard to compile test :-)
 
-Le jeu., avril 7 2022 at 13:16:11 +0200, H. Nikolaus Schaller=20
-<hns@goldelico.com> a =E9crit :
-> From: Paul Boddie <paul@boddie.org.uk>
->=20
-> A specialisation of the generic Synopsys HDMI driver is employed for
-> JZ4780 HDMI support. This requires a new driver, plus device tree and
-> configuration modifications.
->=20
-> Here we add Kconfig DRM_INGENIC_DW_HDMI, Makefile and driver code.
->=20
-> Note that there is no hpd-gpio installed on the CI20 board HDMI
-> connector. Hence there is no hpd detection by the connector driver
-> and we have to enable polling in the dw-hdmi core driver.
->=20
-> For that we need to set .poll_enabled but that struct component
-> can only be accessed by core code. Hence we use the public
-> setter function drm_kms_helper_hotplug_event() introduced before.
->=20
-> Also note that we disable Color Space Conversion since it is not
-> working on jz4780.
->=20
-> Signed-off-by: Paul Boddie <paul@boddie.org.uk>
-> Signed-off-by: Ezequiel Garcia <ezequiel@collabora.com>
-> Signed-off-by: H. Nikolaus Schaller <hns@goldelico.com>
+Yeah, I'm really wondering how the build breakage slipped as well.
 
-The patch looks good, if I can get an ack/review (Neil?), I can merge=20
-the whole series.
+I've double checked it multiple times now. My build system was certainly 
+not complaining about anything, but right after the push both i915, VC4 
+and one of the core header changes broke the build on drm-tip.
 
-Cheers,
--Paul
+Going to try to figure out why that didn't worked as expected.
 
-> ---
->  drivers/gpu/drm/ingenic/Kconfig           |   9 ++
->  drivers/gpu/drm/ingenic/Makefile          |   1 +
->  drivers/gpu/drm/ingenic/ingenic-dw-hdmi.c | 103=20
-> ++++++++++++++++++++++
->  3 files changed, 113 insertions(+)
->  create mode 100644 drivers/gpu/drm/ingenic/ingenic-dw-hdmi.c
->=20
-> diff --git a/drivers/gpu/drm/ingenic/Kconfig=20
-> b/drivers/gpu/drm/ingenic/Kconfig
-> index 001f59fb06d56..090830bcbde7f 100644
-> --- a/drivers/gpu/drm/ingenic/Kconfig
-> +++ b/drivers/gpu/drm/ingenic/Kconfig
-> @@ -24,4 +24,13 @@ config DRM_INGENIC_IPU
->=20
->  	  The Image Processing Unit (IPU) will appear as a second primary=20
-> plane.
->=20
-> +config DRM_INGENIC_DW_HDMI
-> +	tristate "Ingenic specific support for Synopsys DW HDMI"
-> +	depends on MACH_JZ4780
-> +	select DRM_DW_HDMI
-> +	help
-> +	  Choose this option to enable Synopsys DesignWare HDMI based=20
-> driver.
-> +	  If you want to enable HDMI on Ingenic JZ4780 based SoC, you should
-> +	  select this option.
-> +
->  endif
-> diff --git a/drivers/gpu/drm/ingenic/Makefile=20
-> b/drivers/gpu/drm/ingenic/Makefile
-> index d313326bdddbb..f10cc1c5a5f22 100644
-> --- a/drivers/gpu/drm/ingenic/Makefile
-> +++ b/drivers/gpu/drm/ingenic/Makefile
-> @@ -1,3 +1,4 @@
->  obj-$(CONFIG_DRM_INGENIC) +=3D ingenic-drm.o
->  ingenic-drm-y =3D ingenic-drm-drv.o
->  ingenic-drm-$(CONFIG_DRM_INGENIC_IPU) +=3D ingenic-ipu.o
-> +obj-$(CONFIG_DRM_INGENIC_DW_HDMI) +=3D ingenic-dw-hdmi.o
-> diff --git a/drivers/gpu/drm/ingenic/ingenic-dw-hdmi.c=20
-> b/drivers/gpu/drm/ingenic/ingenic-dw-hdmi.c
-> new file mode 100644
-> index 0000000000000..72f8b44998a51
-> --- /dev/null
-> +++ b/drivers/gpu/drm/ingenic/ingenic-dw-hdmi.c
-> @@ -0,0 +1,103 @@
-> +// SPDX-License-Identifier: GPL-2.0
-> +/* Copyright (C) 2011-2013 Freescale Semiconductor, Inc.
-> + * Copyright (C) 2019, 2020 Paul Boddie <paul@boddie.org.uk>
-> + *
-> + * Derived from dw_hdmi-imx.c with i.MX portions removed.
-> + */
-> +
-> +#include <linux/module.h>
-> +#include <linux/of_platform.h>
-> +#include <linux/platform_device.h>
-> +
-> +#include <drm/bridge/dw_hdmi.h>
-> +#include <drm/drm_of.h>
-> +#include <drm/drm_print.h>
-> +
-> +static const struct dw_hdmi_mpll_config ingenic_mpll_cfg[] =3D {
-> +	{ 45250000,  { { 0x01e0, 0x0000 }, { 0x21e1, 0x0000 }, { 0x41e2,=20
-> 0x0000 } } },
-> +	{ 92500000,  { { 0x0140, 0x0005 }, { 0x2141, 0x0005 }, { 0x4142,=20
-> 0x0005 } } },
-> +	{ 148500000, { { 0x00a0, 0x000a }, { 0x20a1, 0x000a }, { 0x40a2,=20
-> 0x000a } } },
-> +	{ 216000000, { { 0x00a0, 0x000a }, { 0x2001, 0x000f }, { 0x4002,=20
-> 0x000f } } },
-> +	{ ~0UL,      { { 0x0000, 0x0000 }, { 0x0000, 0x0000 }, { 0x0000,=20
-> 0x0000 } } }
-> +};
-> +
-> +static const struct dw_hdmi_curr_ctrl ingenic_cur_ctr[] =3D {
-> +	/*pixelclk     bpp8    bpp10   bpp12 */
-> +	{ 54000000,  { 0x091c, 0x091c, 0x06dc } },
-> +	{ 58400000,  { 0x091c, 0x06dc, 0x06dc } },
-> +	{ 72000000,  { 0x06dc, 0x06dc, 0x091c } },
-> +	{ 74250000,  { 0x06dc, 0x0b5c, 0x091c } },
-> +	{ 118800000, { 0x091c, 0x091c, 0x06dc } },
-> +	{ 216000000, { 0x06dc, 0x0b5c, 0x091c } },
-> +	{ ~0UL,      { 0x0000, 0x0000, 0x0000 } },
-> +};
-> +
-> +/*
-> + * Resistance term 133Ohm Cfg
-> + * PREEMP config 0.00
-> + * TX/CK level 10
-> + */
-> +static const struct dw_hdmi_phy_config ingenic_phy_config[] =3D {
-> +	/*pixelclk   symbol   term   vlev */
-> +	{ 216000000, 0x800d, 0x0005, 0x01ad},
-> +	{ ~0UL,      0x0000, 0x0000, 0x0000}
-> +};
-> +
-> +static enum drm_mode_status
-> +ingenic_dw_hdmi_mode_valid(struct dw_hdmi *hdmi, void *data,
-> +			   const struct drm_display_info *info,
-> +			   const struct drm_display_mode *mode)
-> +{
-> +	if (mode->clock < 13500)
-> +		return MODE_CLOCK_LOW;
-> +	/* FIXME: Hardware is capable of 270MHz, but setup data is missing.=20
-> */
-> +	if (mode->clock > 216000)
-> +		return MODE_CLOCK_HIGH;
-> +
-> +	return MODE_OK;
-> +}
-> +
-> +static struct dw_hdmi_plat_data ingenic_dw_hdmi_plat_data =3D {
-> +	.mpll_cfg   =3D ingenic_mpll_cfg,
-> +	.cur_ctr    =3D ingenic_cur_ctr,
-> +	.phy_config =3D ingenic_phy_config,
-> +	.mode_valid =3D ingenic_dw_hdmi_mode_valid,
-> +	.output_port	=3D 1,
-> +};
-> +
-> +static const struct of_device_id ingenic_dw_hdmi_dt_ids[] =3D {
-> +	{ .compatible =3D "ingenic,jz4780-dw-hdmi" },
-> +	{ /* Sentinel */ },
-> +};
-> +MODULE_DEVICE_TABLE(of, ingenic_dw_hdmi_dt_ids);
-> +
-> +static void ingenic_dw_hdmi_cleanup(void *data)
-> +{
-> +	struct dw_hdmi *hdmi =3D (struct dw_hdmi *)data;
-> +
-> +	dw_hdmi_remove(hdmi);
-> +}
-> +
-> +static int ingenic_dw_hdmi_probe(struct platform_device *pdev)
-> +{
-> +	struct dw_hdmi *hdmi;
-> +
-> +	hdmi =3D dw_hdmi_probe(pdev, &ingenic_dw_hdmi_plat_data);
-> +	if (IS_ERR(hdmi))
-> +		return PTR_ERR(hdmi);
-> +
-> +	return devm_add_action_or_reset(&pdev->dev,=20
-> ingenic_dw_hdmi_cleanup, hdmi);
-> +}
-> +
-> +static struct platform_driver ingenic_dw_hdmi_driver =3D {
-> +	.probe  =3D ingenic_dw_hdmi_probe,
-> +	.driver =3D {
-> +		.name =3D "dw-hdmi-ingenic",
-> +		.of_match_table =3D ingenic_dw_hdmi_dt_ids,
-> +	},
-> +};
-> +module_platform_driver(ingenic_dw_hdmi_driver);
-> +
-> +MODULE_DESCRIPTION("JZ4780 Specific DW-HDMI Driver Extension");
-> +MODULE_LICENSE("GPL v2");
-> +MODULE_ALIAS("platform:dw-hdmi-ingenic");
-> --
-> 2.33.0
->=20
+Thanks,
+Christian
 
+> -Daniel
+>
+>> i915 for some reason extended the usage of the bo->moving fence despite
+>> the fact we had patches on the mailing list to entirely remove this feature.
+>>
+>> I couldn't get any sane CI results for weeks because of this and at some
+>> point we just had to go ahead and fix the clash in drm-tip.
+>>
+>> Sorry for any inconvenience cause by that. I hoped that we fixed all
+>> cases, but looks like we still missed some.
+>>
+>> Regards,
+>> Christian.
+>>
+>>>
+>>> BR,
+>>> Jani.
+>>>
+>>>
+>>>> ---
+>>>>    drivers/gpu/drm/i915/gem/i915_gem_object.c    | 41 ++++---------------
+>>>>    drivers/gpu/drm/i915/gem/i915_gem_object.h    |  8 +---
+>>>>    drivers/gpu/drm/i915/gem/i915_gem_ttm_move.c  | 15 +------
+>>>>    .../drm/i915/gem/selftests/i915_gem_migrate.c |  3 +-
+>>>>    .../drm/i915/gem/selftests/i915_gem_mman.c    |  3 +-
+>>>>    drivers/gpu/drm/i915/i915_vma.c               |  9 +++-
+>>>>    6 files changed, 21 insertions(+), 58 deletions(-)
+>>>>
+>>>> diff --git a/drivers/gpu/drm/i915/gem/i915_gem_object.c b/drivers/gpu/drm/i915/gem/i915_gem_object.c
+>>>> index 372bc220faeb..ffde7bc0a95d 100644
+>>>> --- a/drivers/gpu/drm/i915/gem/i915_gem_object.c
+>>>> +++ b/drivers/gpu/drm/i915/gem/i915_gem_object.c
+>>>> @@ -741,30 +741,19 @@ static const struct drm_gem_object_funcs i915_gem_object_funcs = {
+>>>>    /**
+>>>>     * i915_gem_object_get_moving_fence - Get the object's moving fence if any
+>>>>     * @obj: The object whose moving fence to get.
+>>>> + * @fence: The resulting fence
+>>>>     *
+>>>>     * A non-signaled moving fence means that there is an async operation
+>>>>     * pending on the object that needs to be waited on before setting up
+>>>>     * any GPU- or CPU PTEs to the object's pages.
+>>>>     *
+>>>> - * Return: A refcounted pointer to the object's moving fence if any,
+>>>> - * NULL otherwise.
+>>>> + * Return: Negative error code or 0 for success.
+>>>>     */
+>>>> -struct dma_fence *
+>>>> -i915_gem_object_get_moving_fence(struct drm_i915_gem_object *obj)
+>>>> +int i915_gem_object_get_moving_fence(struct drm_i915_gem_object *obj,
+>>>> +                                 struct dma_fence **fence)
+>>>>    {
+>>>> -    return dma_fence_get(i915_gem_to_ttm(obj)->moving);
+>>>> -}
+>>>> -
+>>>> -void i915_gem_object_set_moving_fence(struct drm_i915_gem_object *obj,
+>>>> -                                  struct dma_fence *fence)
+>>>> -{
+>>>> -    struct dma_fence **moving = &i915_gem_to_ttm(obj)->moving;
+>>>> -
+>>>> -    if (*moving == fence)
+>>>> -            return;
+>>>> -
+>>>> -    dma_fence_put(*moving);
+>>>> -    *moving = dma_fence_get(fence);
+>>>> +    return dma_resv_get_singleton(obj->base.resv, DMA_RESV_USAGE_KERNEL,
+>>>> +                                  fence);
+>>>>    }
+>>>>
+>>>>    /**
+>>>> @@ -782,23 +771,9 @@ void i915_gem_object_set_moving_fence(struct drm_i915_gem_object *obj,
+>>>>    int i915_gem_object_wait_moving_fence(struct drm_i915_gem_object *obj,
+>>>>                                     bool intr)
+>>>>    {
+>>>> -    struct dma_fence *fence = i915_gem_to_ttm(obj)->moving;
+>>>> -    int ret;
+>>>> -
+>>>>       assert_object_held(obj);
+>>>> -    if (!fence)
+>>>> -            return 0;
+>>>> -
+>>>> -    ret = dma_fence_wait(fence, intr);
+>>>> -    if (ret)
+>>>> -            return ret;
+>>>> -
+>>>> -    if (fence->error)
+>>>> -            return fence->error;
+>>>> -
+>>>> -    i915_gem_to_ttm(obj)->moving = NULL;
+>>>> -    dma_fence_put(fence);
+>>>> -    return 0;
+>>>> +    return dma_resv_wait_timeout(obj->base. resv, DMA_RESV_USAGE_KERNEL,
+>>>> +                                 intr, MAX_SCHEDULE_TIMEOUT);
+>>>>    }
+>>>>
+>>>>    #if IS_ENABLED(CONFIG_DRM_I915_SELFTEST)
+>>>> diff --git a/drivers/gpu/drm/i915/gem/i915_gem_object.h b/drivers/gpu/drm/i915/gem/i915_gem_object.h
+>>>> index 02c37fe4a535..e11d82a9f7c3 100644
+>>>> --- a/drivers/gpu/drm/i915/gem/i915_gem_object.h
+>>>> +++ b/drivers/gpu/drm/i915/gem/i915_gem_object.h
+>>>> @@ -520,12 +520,8 @@ i915_gem_object_finish_access(struct drm_i915_gem_object *obj)
+>>>>       i915_gem_object_unpin_pages(obj);
+>>>>    }
+>>>>
+>>>> -struct dma_fence *
+>>>> -i915_gem_object_get_moving_fence(struct drm_i915_gem_object *obj);
+>>>> -
+>>>> -void i915_gem_object_set_moving_fence(struct drm_i915_gem_object *obj,
+>>>> -                                  struct dma_fence *fence);
+>>>> -
+>>>> +int i915_gem_object_get_moving_fence(struct drm_i915_gem_object *obj,
+>>>> +                                 struct dma_fence **fence);
+>>>>    int i915_gem_object_wait_moving_fence(struct drm_i915_gem_object *obj,
+>>>>                                     bool intr);
+>>>>
+>>>> diff --git a/drivers/gpu/drm/i915/gem/i915_gem_ttm_move.c b/drivers/gpu/drm/i915/gem/i915_gem_ttm_move.c
+>>>> index 438b8a95b3d1..a10716f4e717 100644
+>>>> --- a/drivers/gpu/drm/i915/gem/i915_gem_ttm_move.c
+>>>> +++ b/drivers/gpu/drm/i915/gem/i915_gem_ttm_move.c
+>>>> @@ -467,19 +467,6 @@ __i915_ttm_move(struct ttm_buffer_object *bo,
+>>>>       return fence;
+>>>>    }
+>>>>
+>>>> -static int
+>>>> -prev_deps(struct ttm_buffer_object *bo, struct ttm_operation_ctx *ctx,
+>>>> -      struct i915_deps *deps)
+>>>> -{
+>>>> -    int ret;
+>>>> -
+>>>> -    ret = i915_deps_add_dependency(deps, bo->moving, ctx);
+>>>> -    if (!ret)
+>>>> -            ret = i915_deps_add_resv(deps, bo->base.resv, ctx);
+>>>> -
+>>>> -    return ret;
+>>>> -}
+>>>> -
+>>>>    /**
+>>>>     * i915_ttm_move - The TTM move callback used by i915.
+>>>>     * @bo: The buffer object.
+>>>> @@ -534,7 +521,7 @@ int i915_ttm_move(struct ttm_buffer_object *bo, bool evict,
+>>>>               struct i915_deps deps;
+>>>>
+>>>>               i915_deps_init(&deps, GFP_KERNEL | __GFP_NORETRY | __GFP_NOWARN);
+>>>> -            ret = prev_deps(bo, ctx, &deps);
+>>>> +            ret = i915_deps_add_resv(&deps, bo->base.resv, ctx);
+>>>>               if (ret) {
+>>>>                       i915_refct_sgt_put(dst_rsgt);
+>>>>                       return ret;
+>>>> diff --git a/drivers/gpu/drm/i915/gem/selftests/i915_gem_migrate.c b/drivers/gpu/drm/i915/gem/selftests/i915_gem_migrate.c
+>>>> index 4997ed18b6e4..0ad443a90c8b 100644
+>>>> --- a/drivers/gpu/drm/i915/gem/selftests/i915_gem_migrate.c
+>>>> +++ b/drivers/gpu/drm/i915/gem/selftests/i915_gem_migrate.c
+>>>> @@ -219,8 +219,7 @@ static int __igt_lmem_pages_migrate(struct intel_gt *gt,
+>>>>                       err = dma_resv_reserve_fences(obj->base.resv, 1);
+>>>>                       if (!err)
+>>>>                               dma_resv_add_fence(obj->base.resv, &rq->fence,
+>>>> -                                               DMA_RESV_USAGE_WRITE);
+>>>> -                    i915_gem_object_set_moving_fence(obj, &rq->fence);
+>>>> +                                               DMA_RESV_USAGE_KERNEL);
+>>>>                       i915_request_put(rq);
+>>>>               }
+>>>>               if (err)
+>>>> diff --git a/drivers/gpu/drm/i915/gem/selftests/i915_gem_mman.c b/drivers/gpu/drm/i915/gem/selftests/i915_gem_mman.c
+>>>> index 3a6e3f6d239f..dfc34cc2ef8c 100644
+>>>> --- a/drivers/gpu/drm/i915/gem/selftests/i915_gem_mman.c
+>>>> +++ b/drivers/gpu/drm/i915/gem/selftests/i915_gem_mman.c
+>>>> @@ -1221,8 +1221,7 @@ static int __igt_mmap_migrate(struct intel_memory_region **placements,
+>>>>       i915_gem_object_unpin_pages(obj);
+>>>>       if (rq) {
+>>>>               dma_resv_add_fence(obj->base.resv, &rq->fence,
+>>>> -                               DMA_RESV_USAGE_WRITE);
+>>>> -            i915_gem_object_set_moving_fence(obj, &rq->fence);
+>>>> +                               DMA_RESV_USAGE_KERNEL);
+>>>>               i915_request_put(rq);
+>>>>       }
+>>>>       i915_gem_object_unlock(obj);
+>>>> diff --git a/drivers/gpu/drm/i915/i915_vma.c b/drivers/gpu/drm/i915/i915_vma.c
+>>>> index 524477d8939e..d077f7b9eaad 100644
+>>>> --- a/drivers/gpu/drm/i915/i915_vma.c
+>>>> +++ b/drivers/gpu/drm/i915/i915_vma.c
+>>>> @@ -1357,10 +1357,17 @@ int i915_vma_pin_ww(struct i915_vma *vma, struct i915_gem_ww_ctx *ww,
+>>>>       if (err)
+>>>>               return err;
+>>>>
+>>>> +    if (vma->obj) {
+>>>> +            err = i915_gem_object_get_moving_fence(vma->obj, &moving);
+>>>> +            if (err)
+>>>> +                    return err;
+>>>> +    } else {
+>>>> +            moving = NULL;
+>>>> +    }
+>>>> +
+>>>>       if (flags & PIN_GLOBAL)
+>>>>               wakeref = intel_runtime_pm_get(&vma->vm->i915->runtime_pm);
+>>>>
+>>>> -    moving = vma->obj ? i915_gem_object_get_moving_fence(vma->obj) : NULL;
+>>>>       if (flags & vma->vm->bind_async_flags || moving) {
+>>>>               /* lock VM */
+>>>>               err = i915_vm_lock_objects(vma->vm, ww);
+>
 
