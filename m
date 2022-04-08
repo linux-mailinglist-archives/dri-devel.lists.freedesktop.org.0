@@ -2,88 +2,56 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 04F714F92DF
-	for <lists+dri-devel@lfdr.de>; Fri,  8 Apr 2022 12:26:39 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id E86B34F92EC
+	for <lists+dri-devel@lfdr.de>; Fri,  8 Apr 2022 12:29:28 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id C287910F093;
-	Fri,  8 Apr 2022 10:26:32 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 8A70B10EF14;
+	Fri,  8 Apr 2022 10:29:25 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from us-smtp-delivery-124.mimecast.com
- (us-smtp-delivery-124.mimecast.com [170.10.129.124])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 16B8510F093
- for <dri-devel@lists.freedesktop.org>; Fri,  8 Apr 2022 10:26:32 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1649413591;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=5oOyycln+SiSeQpg9NpgCor5XvP2dHzkAPXgOp2Vma4=;
- b=frJc4YSalAwrVEScRsn6fy/NveUN2vDd4W1B5wsbESdSKKYQ/zG397aAaqpWuo/fWT131z
- z1K3QXLa1AbAUrimQGt1DSx5t206nLDhlAfmBVVGADgtVsbVu9LZXOXKuWAi7UlAPi3Lrl
- fdrgcDWN5TtLyRKiihgPa0f9JbKrDs8=
-Received: from mail-ed1-f70.google.com (mail-ed1-f70.google.com
- [209.85.208.70]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-315-ESU3uMX9O_ODCCVY1e7IBQ-1; Fri, 08 Apr 2022 06:26:26 -0400
-X-MC-Unique: ESU3uMX9O_ODCCVY1e7IBQ-1
-Received: by mail-ed1-f70.google.com with SMTP id
- l24-20020a056402231800b00410f19a3103so4406775eda.5
- for <dri-devel@lists.freedesktop.org>; Fri, 08 Apr 2022 03:26:26 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
- :content-language:to:cc:references:from:in-reply-to
- :content-transfer-encoding;
- bh=5oOyycln+SiSeQpg9NpgCor5XvP2dHzkAPXgOp2Vma4=;
- b=FMphZpTVYBxAzYLDNj/emwm6KKhC7ACj2S5rYN23ttqZOhEe+J/Kr0nADXUzFaYf7/
- nFjTUPhblgrv2la/8Ga0jI8EOgJ8kiu/hAD9H3LT6Jt8oe7s6CNODp45Ek1+MYHbyo1u
- 5Ai1bPxNrIMRB7/nhgSNNVTbYShXJqauZEnDgWLLwNvL9//gWsF0UE8UJnVX/TMYizFO
- tuORkiUmk9N7H8fhm+vh7ohi6GIVxMpnhNy2t+bQ+nDHKlkT9W7o6QVURtezO2xD9y21
- LcMFR6XaxSU4G6iHqeX4l82kZbKrKMROq9jqRwYQro545XI0O/iRLynaHL2VnKGQ/YR/
- cn1w==
-X-Gm-Message-State: AOAM531lvZrBe4/ruFd6yw7O5xan6w6pYfd6lVD7Su35EsNLc5JBlvDE
- 4lqOt3wk/8BX2iQdF3SxvxZWAOoEPzOdUjeugZPYc+qttIpiE9trpIPbinAOmh04eMPJwrT4Wxo
- ZGWPnFJVV/5HE3bCaGHKdjaL62Oib
-X-Received: by 2002:a17:906:69d1:b0:6ce:7201:ec26 with SMTP id
- g17-20020a17090669d100b006ce7201ec26mr17498306ejs.105.1649413585519; 
- Fri, 08 Apr 2022 03:26:25 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJzYYmjthq8B8DKiTecVzxrWItvd2a0qodmD1OQ04r78Zq1nPc/CJAj1gWGs2gkUosBUvivDgg==
-X-Received: by 2002:a17:906:69d1:b0:6ce:7201:ec26 with SMTP id
- g17-20020a17090669d100b006ce7201ec26mr17498289ejs.105.1649413585366; 
- Fri, 08 Apr 2022 03:26:25 -0700 (PDT)
-Received: from ?IPV6:2001:1c00:c1e:bf00:1db8:22d3:1bc9:8ca1?
- (2001-1c00-0c1e-bf00-1db8-22d3-1bc9-8ca1.cable.dynamic.v6.ziggo.nl.
- [2001:1c00:c1e:bf00:1db8:22d3:1bc9:8ca1])
- by smtp.gmail.com with ESMTPSA id
- jg15-20020a170907970f00b006e0466dcc42sm8536959ejc.134.2022.04.08.03.26.24
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Fri, 08 Apr 2022 03:26:24 -0700 (PDT)
-Message-ID: <ca6eead3-13e7-2973-657d-48798c6cf89f@redhat.com>
-Date: Fri, 8 Apr 2022 12:26:24 +0200
+Received: from mga11.intel.com (mga11.intel.com [192.55.52.93])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 00FEF10EF02;
+ Fri,  8 Apr 2022 10:29:23 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+ t=1649413764; x=1680949764;
+ h=message-id:date:mime-version:subject:to:cc:references:
+ from:in-reply-to:content-transfer-encoding;
+ bh=mOI8r0Rqr6JNRC8p9cFhY+wm2LO3eHxeN4SAQSB9wv4=;
+ b=kIZygV1LBoeNduhw2gVJVAeHFitBDnEClnRpY/VnK3NrQ52ArLHxhH9h
+ q4rot24tseUBAIvQ6PUKqemCtc1h0Nv0h++YQgvye+fFTMrChssJEWTPh
+ edU6Imne6m1/ZsD7nr9OLZTaNH1/amxfgqs+1fyZnCQZFxtJwX9yqd2Bq
+ LEM+kRRKezYayY81Gm6BBUXNN6GuIThbydR9o2xTAya09KfOQP0fbMpe2
+ qMyt2+vjieVQ0ciM5bFh5qkR82G3ItkK5sFT8ujvreZHnkY4h0Y+8RcVR
+ NSrK7dZXUR+a/bMFcTsJPjsNGzuwpryJ2hDO7K0bEq+RnrXYia9MRLtIm w==;
+X-IronPort-AV: E=McAfee;i="6400,9594,10310"; a="259160797"
+X-IronPort-AV: E=Sophos;i="5.90,244,1643702400"; d="scan'208";a="259160797"
+Received: from orsmga008.jf.intel.com ([10.7.209.65])
+ by fmsmga102.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 08 Apr 2022 03:29:23 -0700
+X-IronPort-AV: E=Sophos;i="5.90,244,1643702400"; d="scan'208";a="571443207"
+Received: from ddobson-mobl.ger.corp.intel.com (HELO [10.213.224.220])
+ ([10.213.224.220])
+ by orsmga008-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 08 Apr 2022 03:29:22 -0700
+Message-ID: <b03c8d96-26d2-9ef9-1589-f47dd529146e@linux.intel.com>
+Date: Fri, 8 Apr 2022 11:29:17 +0100
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
  Thunderbird/91.7.0
-Subject: Re: [RFC] drm/kms: control display brightness through drm_connector
- properties
-To: Simon Ser <contact@emersion.fr>
-References: <0d188965-d809-81b5-74ce-7d30c49fee2d@redhat.com>
- <dP36CeeNjDVKgcJzbBAdkNM0HzB3N5Uzd6cgBcmrb5mA6xzWs9AKMmRdMKG2y6c1geMhZ1i8hONKQmxYYHN-ZhRLGT_TXz5IhtqnJSWBD9Q=@emersion.fr>
- <0e1cffc1-e8b6-dc58-56ff-53f911f33e60@redhat.com>
- <CADnq5_OGtERRYUPLskgjVD4eLbb2PxKdzcr+xmR2mRMAK73Log@mail.gmail.com>
- <Yk/tOG+iga/wj/Gt@phenom.ffwll.local>
- <acd0c8b6-b045-bab7-dc92-ea166b22c1c6@redhat.com>
- <dc3754a4-3f74-95bb-adae-56000a3756f5@redhat.com>
- <AQ3YD3wm6m_Knso5FAW-CKcokQqjDweExgrnV-f84VGkcOk8B0UcaooLiNqFMsHLOnhVnsnxC9kJMh_gY7z6rHlFaIx1OAZxSUfrOnd2jtY=@emersion.fr>
-From: Hans de Goede <hdegoede@redhat.com>
-In-Reply-To: <AQ3YD3wm6m_Knso5FAW-CKcokQqjDweExgrnV-f84VGkcOk8B0UcaooLiNqFMsHLOnhVnsnxC9kJMh_gY7z6rHlFaIx1OAZxSUfrOnd2jtY=@emersion.fr>
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=hdegoede@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
+Subject: Re: [PATCH 1/1] drm/i915: Inherit submitter nice when scheduling
+ requests
 Content-Language: en-US
-Content-Type: text/plain; charset=UTF-8
+To: Dave Airlie <airlied@gmail.com>
+References: <20220407151627.3387655-1-tvrtko.ursulin@linux.intel.com>
+ <20220407151627.3387655-2-tvrtko.ursulin@linux.intel.com>
+ <Yk/rHyGrOlrkDtdR@phenom.ffwll.local>
+ <b9fd2365-9412-b496-6e41-757d6d5d0f0c@linux.intel.com>
+ <CAPM=9tyJTMBidxLip9XkJjYPNr5s7=oQqLYo9++UtHEemR9DQQ@mail.gmail.com>
+From: Tvrtko Ursulin <tvrtko.ursulin@linux.intel.com>
+Organization: Intel Corporation UK Plc
+In-Reply-To: <CAPM=9tyJTMBidxLip9XkJjYPNr5s7=oQqLYo9++UtHEemR9DQQ@mail.gmail.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 7bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -97,31 +65,91 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Sebastian Wick <sebastian.wick@redhat.com>,
- Martin Roukala <martin.roukala@mupuf.org>,
- Christoph Grenz <christophg+lkml@grenz-bonn.de>,
- wayland <wayland-devel@lists.freedesktop.org>,
- "dri-devel@lists.freedesktop.org" <dri-devel@lists.freedesktop.org>,
- Yusuf Khan <yusisamerican@gmail.com>
+Cc: Intel Graphics Development <Intel-gfx@lists.freedesktop.org>,
+ dri-devel <dri-devel@lists.freedesktop.org>,
+ Tvrtko Ursulin <tvrtko.ursulin@intel.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi,
 
-On 4/8/22 12:16, Simon Ser wrote:
-> Would it be an option to only support the KMS prop for Good devices,
-> and continue using the suboptimal existing sysfs API for Bad devices?
+On 08/04/2022 10:50, Dave Airlie wrote:
+> On Fri, 8 Apr 2022 at 18:25, Tvrtko Ursulin
+> <tvrtko.ursulin@linux.intel.com> wrote:
+>>
+>>
+>> On 08/04/2022 08:58, Daniel Vetter wrote:
+>>> On Thu, Apr 07, 2022 at 04:16:27PM +0100, Tvrtko Ursulin wrote:
+>>>> From: Tvrtko Ursulin <tvrtko.ursulin@intel.com>
+>>>>
+>>>> Inherit submitter nice at point of request submission to account for long
+>>>> running processes getting either externally or self re-niced.
+>>>>
+>>>> This accounts for the current processing landscape where computational
+>>>> pipelines are composed of CPU and GPU parts working in tandem.
+>>>>
+>>>> Nice value will only apply to requests which originate from user contexts
+>>>> and have default context priority. This is to avoid disturbing any
+>>>> application made choices of low and high (batch processing and latency
+>>>> sensitive compositing). In this case nice value adjusts the effective
+>>>> priority in the narrow band of -19 to +20 around
+>>>> I915_CONTEXT_DEFAULT_PRIORITY.
+>>>>
+>>>> This means that userspace using the context priority uapi directly has a
+>>>> wider range of possible adjustments (in practice that only applies to
+>>>> execlists platforms - with GuC there are only three priority buckets), but
+>>>> in all cases nice adjustment has the expected effect: positive nice
+>>>> lowering the scheduling priority and negative nice raising it.
+>>>>
+>>>> Signed-off-by: Tvrtko Ursulin <tvrtko.ursulin@intel.com>
+>>>
+>>> I don't think adding any more fancy features to i915-scheduler makes
+>>> sense, at least not before we've cut over to drm/sched.
+>>
+>> Why do you think so?
+>>
+>> Drm/sched has at least low/normal/high priority and surely we will keep
+>> the i915 context priority ABI.
+>>
+>> Then this patch is not touching the i915 scheduler at all, neither it is
+>> fancy.
+>>
+>> The cover letter explains how it implements the same approach as the IO
+>> scheduler. And it explains the reasoning and benefits. Provides an user
+>> experience benefit today, which can easily be preserved.
 > 
-> (I'm just throwing ideas around to see what sticks, feel free to ignore.)
+> won't this cause uAPI divergence between execlists and GuC, like if
+> something nices to -15 or -18 with execlists and the same with GuC it
+> won't get the same sort of result will it?
 
-Currently suid-root or pkexec helpers are used to deal with the
-/sys/class/backlight requires root rights issue. I really want to
-be able to disable these helpers at build time in e.g. GNOME once
-the new properties are supported in GNOME.  So that distros with
-a new enough kernel can reduce their attack surface this way.
+Not sure what you consider new ABI divergence but the general problem 
+space of execlists vs GuC priority handling is not related to this patch.
+
+Existing GEM context ABI has -1023 - +1023 for user priorities while GuC 
+maps that to low/normal/high only. I915_CONTEXT_DEFAULT_PRIORITY is zero 
+which maps to GuC normal. Negatives map to GuC low and positives to 
+high. Drm/sched is I understand similar or the same.
+
+So any userspace using the existing uapi can already observe differences 
+between GuC and execlists. With your example of -15 vs -18 I mean.
+
+I don't think anyone considered that a problem because execution order 
+based on priority is not a hard guarantee. Neither is proportionality of 
+timeslicing. Otherwise GuC would already be breaking the ABI.
+
+With this patch it simply allows external control - whereas before only 
+applications could change their priorities, now users can influence the 
+priority of the ones which did not bother to set a non-default priority.
+
+In the case of GuC if user says "nice 10 churn-my-dataset-on-gpu && 
+run-my-game", former part get low prio, latter gets normal. I don't see 
+any issues there. Same as if the "churn-my-dataset-on-gpu" command 
+implemented a command line switch which passed context priority to i915 
+via the existing GEM context param ioctl.
+
+I've described the exact experiments in both modes in the cover letter 
+which shows it works. (Ignoring the GuC scheduling quirk where 
+apparently low-vs-normal timeslices worse than normal-vs-high).
 
 Regards,
 
-Hans
-
-
+Tvrtko
