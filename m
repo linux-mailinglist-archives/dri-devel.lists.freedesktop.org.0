@@ -1,131 +1,83 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 398224F9D8C
-	for <lists+dri-devel@lfdr.de>; Fri,  8 Apr 2022 21:12:37 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 542484F9D99
+	for <lists+dri-devel@lfdr.de>; Fri,  8 Apr 2022 21:19:33 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 7749610F22E;
-	Fri,  8 Apr 2022 19:12:33 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 6515C10E27E;
+	Fri,  8 Apr 2022 19:19:30 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from NAM02-DM3-obe.outbound.protection.outlook.com
- (mail-dm3nam07on2084.outbound.protection.outlook.com [40.107.95.84])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 1319710F22E;
- Fri,  8 Apr 2022 19:12:32 +0000 (UTC)
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=ZH2H7jnBhceWh0QgRsymAzC+lW7t5+Gx8sZy78b2Kwe+ZC6MhfQQ92aABrTJRX3B5TBi1uVBJsQ1KDC+Uw67ZsqhgHi5HaXe91TWifctO4CF+LHSHwpaZp+kNzSH7heVOotuc71TC76JRCEC+raWjkBzpZvWQ+HS4951oKxPz/LCIaoRs/KigFaOuU3N/AMIAyPBr9J4VwxeoCpBvcjgC/23kzPSYqRFKOgaGnoUPzAVWUlIbAH0pHTw3JEKCwWirURLFLFdPc1IxrRZib5OoTMNbPtQP71BFlnsg6Su+pbA3l/60mc4pdY4LmYie3OAts1+7m5uAZ9U+3gBPvt5OA==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=jLxym25lY8eLjhuEQJzuPb+u1fjuMyJ5tuuAIPVtk9k=;
- b=W0Rp6/RILAd+kFDfeG6+/JebP++2AhlOzfdvT3jbCG6Kmp5om+L3hVE4YiW0rVQfrUk/75aeYUnPclsgRgsXAymwHH+f7Gg8nopYDlshoIy7JOZvefxy36YVe+0tZ7a/Gx5NiBlVSTe2NVa0MOdBumQQeR2SijUAgl3DJv6fgC38kWznr5emcpVuKh5BGD31DtDyyM8nkaXke36IED/MybpWko3D6OV2GWHbz0oe7xtK/TIS5Ezs/YFuM5AMxb0+X2EFQv3LZkAFXNKvUTvu1qh9VklELYB9pz60yIeJdZpyS1KfzzdEGMXqnbS9FuTuOYTMUhbVS4zHkoM7Bsn7eA==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=amd.com; dmarc=pass action=none header.from=amd.com; dkim=pass
- header.d=amd.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1; 
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=jLxym25lY8eLjhuEQJzuPb+u1fjuMyJ5tuuAIPVtk9k=;
- b=gfv9HreEU7vjTReHhr0YAEVtf4Ckks5p7Bag/KOA8hZKLnhFYzoHSUfbOonR23WatWOL8jcUf9nF4g9f3PZoZvxqB9Im9nPHpoAEtjoOeBeUof/t7GLaujYjD6J6w673wX2GgafSE9e916/FJR2c5y8gjaMxGjS2EriFdkUju+Q=
-Received: from BL1PR12MB5157.namprd12.prod.outlook.com (2603:10b6:208:308::15)
- by BN9PR12MB5081.namprd12.prod.outlook.com (2603:10b6:408:132::22)
- with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.5144.22; Fri, 8 Apr
- 2022 19:12:30 +0000
-Received: from BL1PR12MB5157.namprd12.prod.outlook.com
- ([fe80::70d6:f6dd:3e14:3c2d]) by BL1PR12MB5157.namprd12.prod.outlook.com
- ([fe80::70d6:f6dd:3e14:3c2d%5]) with mapi id 15.20.5144.025; Fri, 8 Apr 2022
- 19:12:30 +0000
-From: "Limonciello, Mario" <Mario.Limonciello@amd.com>
-To: Alex Deucher <alexdeucher@gmail.com>, "Gong, Richard"
- <Richard.Gong@amd.com>
-Subject: RE: [PATCHv2] drm/amdgpu: disable ASPM on Intel AlderLake based
- systems
-Thread-Topic: [PATCHv2] drm/amdgpu: disable ASPM on Intel AlderLake based
- systems
-Thread-Index: AQHYS3ur4fhVQ9BfN02QW2I6djqPkazmYR2AgAAA6SA=
-Date: Fri, 8 Apr 2022 19:12:29 +0000
-Message-ID: <BL1PR12MB5157C47C289EC94283C09759E2E99@BL1PR12MB5157.namprd12.prod.outlook.com>
-References: <20220408190502.4103670-1-richard.gong@amd.com>
- <CADnq5_NY-2sX+5Q7LZWpRqPz0dQg4-xgqSx2_-qzvZ8Ar=J_YA@mail.gmail.com>
-In-Reply-To: <CADnq5_NY-2sX+5Q7LZWpRqPz0dQg4-xgqSx2_-qzvZ8Ar=J_YA@mail.gmail.com>
-Accept-Language: en-US
-Content-Language: en-US
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-msip_labels: MSIP_Label_d4243a53-6221-4f75-8154-e4b33a5707a1_Enabled=true;
- MSIP_Label_d4243a53-6221-4f75-8154-e4b33a5707a1_SetDate=2022-04-08T19:12:12Z; 
- MSIP_Label_d4243a53-6221-4f75-8154-e4b33a5707a1_Method=Privileged;
- MSIP_Label_d4243a53-6221-4f75-8154-e4b33a5707a1_Name=Public-AIP 2.0;
- MSIP_Label_d4243a53-6221-4f75-8154-e4b33a5707a1_SiteId=3dd8961f-e488-4e60-8e11-a82d994e183d;
- MSIP_Label_d4243a53-6221-4f75-8154-e4b33a5707a1_ActionId=d424ae51-5b2f-43f2-9c33-e0ccdfa58293;
- MSIP_Label_d4243a53-6221-4f75-8154-e4b33a5707a1_ContentBits=1
-msip_label_d4243a53-6221-4f75-8154-e4b33a5707a1_enabled: true
-msip_label_d4243a53-6221-4f75-8154-e4b33a5707a1_setdate: 2022-04-08T19:12:28Z
-msip_label_d4243a53-6221-4f75-8154-e4b33a5707a1_method: Privileged
-msip_label_d4243a53-6221-4f75-8154-e4b33a5707a1_name: Public-AIP 2.0
-msip_label_d4243a53-6221-4f75-8154-e4b33a5707a1_siteid: 3dd8961f-e488-4e60-8e11-a82d994e183d
-msip_label_d4243a53-6221-4f75-8154-e4b33a5707a1_actionid: 748055a9-5543-4f00-8331-ca86da3b5771
-msip_label_d4243a53-6221-4f75-8154-e4b33a5707a1_contentbits: 0
-authentication-results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=amd.com;
-x-ms-publictraffictype: Email
-x-ms-office365-filtering-correlation-id: a8c8b3c4-7f5b-4bf6-83b6-08da1993ba34
-x-ms-traffictypediagnostic: BN9PR12MB5081:EE_
-x-microsoft-antispam-prvs: <BN9PR12MB5081C52E92711C1E19D2AC19E2E99@BN9PR12MB5081.namprd12.prod.outlook.com>
-x-ms-exchange-senderadcheck: 1
-x-ms-exchange-antispam-relay: 0
-x-microsoft-antispam: BCL:0;
-x-microsoft-antispam-message-info: IsiyBNQLyIrWpq/xnk6+0hGHeWZ0fx/C0krErlrFtL0LNuf7OIpd6sHk6Q77t0dLbQntm0RqUACVXICipWgK0FHLyjMNcbdfP1VLYB5LL2daSL1YTqrahgnDRfgLaGGtbrp3ksv07Gf1ZipuDs04o6VFKlyxc1EtFoA46xs2W64c+T4QDgMjOq/mG2m7Fuiv1uCAYtqP8zitTy31OcgU1rlFCSMBztZeSkKh19eTxrnHKa/GJ2JQwhWd+WVxs0yUdA9YLCeUZVgOVuD8GQBovOLGErh8XvFNDBTO9RGF7XA4nVPFBV9FwKwya+NXDZfohx+63TR0ibibyHG8rJC6L0K4DntACGhM2qP+QlApUT+AMn8/awyYk8e+U1AHRwdeCodIeSfFLWcBo76zI0naVPZWfDfxhp3RvVI/hcg3bviGVFpTwM4pj6Dj35RbUW763lmWezzdqLOREQXkd3xlvo9ka91Wt8Jn+unIprW0iHL321vLCuD+OpiMeUT1aCCLYeEIqRpkCgnF3CdWdKOFunSaZaOwkMkhAT6dtHLqJts9NJE9KxKVE7qTsuTBoSrM/0xsx/qu0xYA6JbVmsgzx4tj+uhh5w3ZRPy3TVUgotPK4S+4HJs0yOH53Lpz4MJx4GnU16Bh/98ABv3pfaBFSklAm5JWngFiSD4qRt+DetMO3nNEehQV7uz79v9N7wErloymeOuGqM32mNsajU3FHmFBt3yAI/373d1g+qfM65yaOaZ2rCRQzr+qIVoRYGLfWW9XcFd0TXW0U7CClVLvU5NhDaWgLqwv3u50BpJeT4U=
-x-forefront-antispam-report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
- IPV:NLI; SFV:NSPM; H:BL1PR12MB5157.namprd12.prod.outlook.com; PTR:; CAT:NONE;
- SFS:(13230001)(4636009)(366004)(83380400001)(33656002)(2906002)(53546011)(316002)(9686003)(55016003)(508600001)(5660300002)(966005)(186003)(110136005)(6636002)(54906003)(64756008)(6506007)(7696005)(76116006)(66946007)(66476007)(4326008)(8676002)(38070700005)(8936002)(66446008)(38100700002)(66556008)(71200400001)(52536014)(86362001)(122000001)(45080400002);
- DIR:OUT; SFP:1101; 
-x-ms-exchange-antispam-messagedata-chunkcount: 2
-x-ms-exchange-antispam-messagedata-0: =?us-ascii?Q?4SEZcaY2cXIGgIhbUi+3WgX0x9zoWDhdWeIae07b3WD/4Fsd9ayT9erCgWnB?=
- =?us-ascii?Q?tyzwYEhbhfA+lVUopNbtOjWWHZlIgOZo/YCJgsheLQP5wnYFOqGe1Ick/vtT?=
- =?us-ascii?Q?mfsMnHdCvK8iloI5wxG3fxrd+CkxNeCPiL4vYwNdHuAeok7XGbylhKIS5AHr?=
- =?us-ascii?Q?by5LcTPiEf5WzQBQPsUgt3I+TOHzS5NFrgECGbdE3pPvc9MGijVKcECYgmD1?=
- =?us-ascii?Q?hOf9wdnad4/ntoevzpybdOrGHQh91LvkOt8cIjobbD4Bg2zUe5jFStKKL3Gk?=
- =?us-ascii?Q?DdhCZf+9ZftChI74GsTtPM/Jlrl+7vwDFhYhvb8WAPk4FuHkSMd7/aFt7wCY?=
- =?us-ascii?Q?oVaXn0IhptR88ypKqa2BL7iLPfDUCHL+tJT1OR5xKPGlnyGSGMiiB1XudPg5?=
- =?us-ascii?Q?Hpq1xQ6WSbnebY21FOwilKtfPVIauH0dTr0bcM1Ey3MrYP/roTl8nXue68DC?=
- =?us-ascii?Q?RTtcXKwHEnaHo9yAVfY1jbQwhTmrqlzYN1ZOhU3xIAHpn5JhT6N6dVgdUVed?=
- =?us-ascii?Q?S29VRVrQFBLd4bce8GQRHdWjzCLj0hyBVnURPVhNPXZbYVkM2QVTs2/tzxod?=
- =?us-ascii?Q?8851aOt3plPKJwCVpLnllK5ZxaLfUoposIfuwGBjcuH2/lF/7/00tLQbfJtN?=
- =?us-ascii?Q?xmIAEr5ku8bDHSR+k9ur1HB5ycH30j9NeOVwXmSf+8NychBiHiVviQ1x/GvF?=
- =?us-ascii?Q?1587Z+YBX1QIylpuNQ/Sq/63xi61bJMfYSk0E0ytafUB/JS602EuwE19E48o?=
- =?us-ascii?Q?CuMTAFRQPurydq4gnXc7eV8MYKogG0T6nOwGcO31I/k7aPrQ1I0oUNCJNMEF?=
- =?us-ascii?Q?y0cHd/hVGcSvGxN8ZGi+NVxg7sTG1MxcbKJo+nPZMUHEF6Hl/33PU2G9kS8s?=
- =?us-ascii?Q?/sY105XpIWPSWH90yBM4CR7ZLoQCWhZoyPhu/2x+UlT2ZJJakUsSfL8pFKFH?=
- =?us-ascii?Q?7kmMqxGK9PJxXyuogmB11b851Mr8ve2epR1hMMMAdY2igP46UeiO0u4U+AA2?=
- =?us-ascii?Q?OkSKWg2FTVgfcza3R5fdp8QyDlV1eG7ctp0f3DGpAv0wHVafxsxToo6zeMdX?=
- =?us-ascii?Q?wYfYDztvz1cedqpvilWGcIOpRfg/5xe04YAE5PSmJBveDnqDVBx4JjHwmcq/?=
- =?us-ascii?Q?BkUQsFvqqJR4rfV0FrcDFLEIxyjcS047uNtFqv9TT5o4s8nJ4/c4mN8DTV27?=
- =?us-ascii?Q?+ZHbTo6GjT5eKZNoqWDz5rtB/BuQawwyGrBZTDF3+iqZyvGR94FIl1Qhd1NZ?=
- =?us-ascii?Q?AhoLqFXcicVLSbTvc0P7x62v8VVkjfWbubNX84YAKmbQLg5y0w7q4UH6SPW+?=
- =?us-ascii?Q?S3wtt9bnFcpgjo8O9oxhooYiJUBasm2K9+lvthusmhAAPJC9sAc6hj0xGbmH?=
- =?us-ascii?Q?zB3NUAWYrkY6UvJIpz/XgS4RKjaKhhkjz3wz66G6UFukpqdz/+zxhSvszzep?=
- =?us-ascii?Q?YC8nw7Hga8wGONt0ARrAF0BptmOYTJeQxETO24UJk8FvOuJztxQaU0reFmIt?=
- =?us-ascii?Q?bwsWu1EbQ4pQaAZ4MSej9BSIhAGWvM3zcrUDF1fQWmorOXH5i8J6wESM8srP?=
- =?us-ascii?Q?MZiaacY6seC4RN8txvVU4QSZx6iOKyOVN2xSeAskHSlNAmpyiXnrAs+bX4PT?=
- =?us-ascii?Q?1xTD2StSCKgxx8hZ+IpReZ2fBaGf83jLqUR0cLDojf77nDMOFR9mBgGbtr0b?=
- =?us-ascii?Q?cifqUX4R5/wTfEzso09NJTfRVZc/OEZ+FUQ4xBFfcSdb5LXvnmHmdMJDuYrm?=
- =?us-ascii?Q?G/Y9C+1at9pJhTz6waGP7TXQ9w1+2EXlPe9lIvNtKB1r0d3fkN9ynqEUkCAx?=
-x-ms-exchange-antispam-messagedata-1: IAWZ9myp3+UJaA==
-Content-Type: text/plain; charset="us-ascii"
-Content-Transfer-Encoding: quoted-printable
+Received: from us-smtp-delivery-124.mimecast.com
+ (us-smtp-delivery-124.mimecast.com [170.10.133.124])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 4A83510E27E
+ for <dri-devel@lists.freedesktop.org>; Fri,  8 Apr 2022 19:19:29 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1649445568;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=0fvEhjlM3QZzX1sj1DtKINnNazNEUJ++0aetbtdWVKg=;
+ b=h3YwPQ61pEGrif5jUTkO4x2FqVcpNsK4Nkin39Oy77JTTZkii1NyrIlF8gR/7/INtjjniC
+ r5qdPfG7d0SFhg0FIL/dv/mpWSNIBfUCXq2zM9Ti2xZmb7OCzPJoFxoh/+DC1wGsksXUjc
+ /D2y7aXQ8bJFTwQNqMujhn6MfahmB7E=
+Received: from mail-wm1-f69.google.com (mail-wm1-f69.google.com
+ [209.85.128.69]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ us-mta-648-xDCMXZUQN9W-4dxV06QQ5g-1; Fri, 08 Apr 2022 15:19:27 -0400
+X-MC-Unique: xDCMXZUQN9W-4dxV06QQ5g-1
+Received: by mail-wm1-f69.google.com with SMTP id
+ h65-20020a1c2144000000b0038e9ce3b29cso1643383wmh.2
+ for <dri-devel@lists.freedesktop.org>; Fri, 08 Apr 2022 12:19:26 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
+ :content-language:to:cc:references:from:in-reply-to
+ :content-transfer-encoding;
+ bh=0fvEhjlM3QZzX1sj1DtKINnNazNEUJ++0aetbtdWVKg=;
+ b=u8a1ELwxxbA/jlYo1QXNFnyf9SH7WPCQScO1FNJ2j7GPqH1cNx7K7TCy7QS/NQW/NE
+ NtS96WW4Cvop9UJj47bqBwWa7koDWg+mUTNaBrezFG4pGlCb2mVOokTfakBxO2txwqdh
+ QodMrIKwOnaWjrHNUKZ8Es0t3GBHXftH2SODKKEGz+a37pqr5JmHPwOtW/Z+mPmVwX+P
+ EVMbe5JXk1OJdUbQR6JaDS+7vEwEk2LMRuE0RI1UCDyoPYhtdSh4Nb4EbeacPO0qeGVp
+ 1WKwHvLfYmRotshBiIfkqNQiwUaPIx+qkTpjYUr7/lnDDuTzvO5CYrYM1gWjPycHzEVJ
+ fBvw==
+X-Gm-Message-State: AOAM53348ja1f/h3VNxZUe57C54ICaqVfVapYxaNrYI1uavdSm6WNW0J
+ 1ti2GEoESUAx/NudzLh2i7ocITXLIwcAyLlsOMjzpjAuh3fvZMRcqnD35dLVadQ4P2HAEg+Cf1x
+ wVLsYyM4LrJMGkTLG5p4ciipkphZX
+X-Received: by 2002:a1c:f717:0:b0:38e:6bed:2aad with SMTP id
+ v23-20020a1cf717000000b0038e6bed2aadmr18373481wmh.45.1649445565779; 
+ Fri, 08 Apr 2022 12:19:25 -0700 (PDT)
+X-Google-Smtp-Source: ABdhPJzTT0GmyN7JrE/yRf+eSHTLh9bVjgwg1JFALb3opklGlOqu4r3MXnbDoHko0BkqNp4p7yOH1g==
+X-Received: by 2002:a1c:f717:0:b0:38e:6bed:2aad with SMTP id
+ v23-20020a1cf717000000b0038e6bed2aadmr18373474wmh.45.1649445565511; 
+ Fri, 08 Apr 2022 12:19:25 -0700 (PDT)
+Received: from [192.168.1.102] ([92.176.231.205])
+ by smtp.gmail.com with ESMTPSA id
+ i14-20020a0560001ace00b00203da1fa749sm30024255wry.72.2022.04.08.12.19.24
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Fri, 08 Apr 2022 12:19:25 -0700 (PDT)
+Message-ID: <ffe5c7d4-d27f-ccb6-932e-e027e1ae14da@redhat.com>
+Date: Fri, 8 Apr 2022 21:19:24 +0200
 MIME-Version: 1.0
-X-OriginatorOrg: amd.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-AuthSource: BL1PR12MB5157.namprd12.prod.outlook.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: a8c8b3c4-7f5b-4bf6-83b6-08da1993ba34
-X-MS-Exchange-CrossTenant-originalarrivaltime: 08 Apr 2022 19:12:29.8737 (UTC)
-X-MS-Exchange-CrossTenant-fromentityheader: Hosted
-X-MS-Exchange-CrossTenant-id: 3dd8961f-e488-4e60-8e11-a82d994e183d
-X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
-X-MS-Exchange-CrossTenant-userprincipalname: PPHE2Tk6T04C4K6BZf5v4f0iveUJtIzqtoksJ/v6gcaYvIxnDxtb/0X1tYcy6f7iDquPzEcfkwdowGtgC4O85g==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: BN9PR12MB5081
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.7.0
+Subject: Re: [PATCH 1/5] dt-bindings: display: ssd1307fb: Deprecate fbdev
+ compatible strings
+To: Rob Herring <robh@kernel.org>
+References: <20220407200205.28838-1-javierm@redhat.com>
+ <20220407200205.28838-2-javierm@redhat.com>
+ <YlB9TsbhoQblo1H8@robh.at.kernel.org>
+From: Javier Martinez Canillas <javierm@redhat.com>
+In-Reply-To: <YlB9TsbhoQblo1H8@robh.at.kernel.org>
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=javierm@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Language: en-US
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -138,117 +90,136 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Dave Airlie <airlied@linux.ie>, "Pan, Xinhui" <Xinhui.Pan@amd.com>,
- LKML <linux-kernel@vger.kernel.org>,
- Maling list - DRI developers <dri-devel@lists.freedesktop.org>,
- amd-gfx list <amd-gfx@lists.freedesktop.org>, "Deucher,
- Alexander" <Alexander.Deucher@amd.com>, "Koenig,
- Christian" <Christian.Koenig@amd.com>
+Cc: devicetree@vger.kernel.org,
+ Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
+ David Airlie <airlied@linux.ie>, linux-kernel@vger.kernel.org,
+ dri-devel@lists.freedesktop.org, Mark Brown <broonie@kernel.org>,
+ Geert Uytterhoeven <geert@linux-m68k.org>,
+ Krzysztof Kozlowski <krzk+dt@kernel.org>, Chen-Yu Tsai <wens@kernel.org>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-[Public]
+Hello Rob,
 
+On 4/8/22 20:22, Rob Herring wrote:
+> On Thu, Apr 07, 2022 at 10:02:00PM +0200, Javier Martinez Canillas wrote:
+>> The current compatible strings for SSD130x I2C controllers contain an -fb
+>> suffix, this seems to indicate that are for a fbdev driver. But the DT is
+>> supposed to describe the hardware and not Linux implementation details.
+> 
+> True, but compatible is just an identifier. There's no reason to 
+> deprecate unless the binding as a whole needs to be redone.
+> 
+> I imagine you also want 2 compatibles for 2 drivers. That's saying you 
+> should change your firmware to switch drivers. The fact that we have 2 
+> drivers for the same h/w is a kernel problem. Don't bring DT into it.
+>
 
+No, that's not what I meant. In fact, we currently have two drivers that
+match against the same set of compatible strings. These drivers are:
 
-> -----Original Message-----
-> From: Alex Deucher <alexdeucher@gmail.com>
-> Sent: Friday, April 8, 2022 14:09
-> To: Gong, Richard <Richard.Gong@amd.com>
-> Cc: Deucher, Alexander <Alexander.Deucher@amd.com>; Koenig, Christian
-> <Christian.Koenig@amd.com>; Pan, Xinhui <Xinhui.Pan@amd.com>; Dave Airlie
-> <airlied@linux.ie>; Daniel Vetter <daniel@ffwll.ch>; Limonciello, Mario
-> <Mario.Limonciello@amd.com>; Maling list - DRI developers <dri-
-> devel@lists.freedesktop.org>; amd-gfx list <amd-gfx@lists.freedesktop.org=
->;
-> LKML <linux-kernel@vger.kernel.org>
-> Subject: Re: [PATCHv2] drm/amdgpu: disable ASPM on Intel AlderLake based
-> systems
->=20
-> On Fri, Apr 8, 2022 at 3:05 PM Richard Gong <richard.gong@amd.com> wrote:
-> >
-> > Active State Power Management (ASPM) feature is enabled since kernel 5.=
-14.
-> > There are some AMD GFX cards (such as WX3200 and RX640) that cannot be
-> > used with Intel AlderLake based systems to enable ASPM. Using these GFX
-> > cards as video/display output, Intel Alder Lake based systems will hang
-> > during suspend/resume.
-> >
-> > Add extra check to disable ASPM on Intel AlderLake based systems.
-> >
-> > Fixes: 0064b0ce85bb ("drm/amd/pm: enable ASPM by default")
-> > Link:
-> https://nam11.safelinks.protection.outlook.com/?url=3Dhttps%3A%2F%2Fgitla=
-b.fr
-> eedesktop.org%2Fdrm%2Famd%2F-
-> %2Fissues%2F1885&amp;data=3D04%7C01%7Cmario.limonciello%40amd.com%7
-> C440357cd10e74d8c4e1d08da1993344b%7C3dd8961fe4884e608e11a82d994e1
-> 83d%7C0%7C0%7C637850417310167943%7CUnknown%7CTWFpbGZsb3d8eyJ
-> WIjoiMC4wLjAwMDAiLCJQIjoiV2luMzIiLCJBTiI6Ik1haWwiLCJXVCI6Mn0%3D%7C
-> 3000&amp;sdata=3DWXyESh1FGlxgFLH14P7pYJu3tsyp53uKpUP9NyDV5yE%3D&am
-> p;reserved=3D0
-> > Signed-off-by: Richard Gong <richard.gong@amd.com>
->=20
-> Reviewed-by: Alex Deucher <alexander.deucher@amd.com>
+* drivers/video/fbdev/ssd1307fb.c
+* drivers/gpu/drm/solomon/ssd130x-i2c.c
 
-Reviewed-by: Mario Limonciello <mario.limonciello@amd.com>
+what I don't personally like about the current compatible strings is that
+the *driver* name was encoded on those, rather than the IC names. So for
+instance there's a "solomon,ssd1307fb-i2c" (notice the fb suffix) instead
+of just "solomon,ssd1307-i2c" or "solomon,ssd1307".
 
->=20
-> > ---
-> > v2: correct commit description
-> >     move the check from chip family to problematic platform
-> > ---
-> >  drivers/gpu/drm/amd/amdgpu/vi.c | 17 ++++++++++++++++-
-> >  1 file changed, 16 insertions(+), 1 deletion(-)
-> >
-> > diff --git a/drivers/gpu/drm/amd/amdgpu/vi.c
-> b/drivers/gpu/drm/amd/amdgpu/vi.c
-> > index 039b90cdc3bc..8b4eaf54b23e 100644
-> > --- a/drivers/gpu/drm/amd/amdgpu/vi.c
-> > +++ b/drivers/gpu/drm/amd/amdgpu/vi.c
-> > @@ -81,6 +81,10 @@
-> >  #include "mxgpu_vi.h"
-> >  #include "amdgpu_dm.h"
-> >
-> > +#if IS_ENABLED(CONFIG_X86_64)
-> > +#include <asm/intel-family.h>
-> > +#endif
-> > +
-> >  #define ixPCIE_LC_L1_PM_SUBSTATE       0x100100C6
-> >  #define
-> PCIE_LC_L1_PM_SUBSTATE__LC_L1_SUBSTATES_OVERRIDE_EN_MASK
-> 0x00000001L
-> >  #define PCIE_LC_L1_PM_SUBSTATE__LC_PCI_PM_L1_2_OVERRIDE_MASK
-> 0x00000002L
-> > @@ -1134,13 +1138,24 @@ static void vi_enable_aspm(struct
-> amdgpu_device *adev)
-> >                 WREG32_PCIE(ixPCIE_LC_CNTL, data);
-> >  }
-> >
-> > +static bool intel_core_apsm_chk(void)
-> > +{
-> > +#if IS_ENABLED(CONFIG_X86_64)
-> > +       struct cpuinfo_x86 *c =3D &cpu_data(0);
-> > +
-> > +       return (c->x86 =3D=3D 6 && c->x86_model =3D=3D INTEL_FAM6_ALDER=
-LAKE);
-> > +#else
-> > +       return false;
-> > +#endif
-> > +}
-> > +
-> >  static void vi_program_aspm(struct amdgpu_device *adev)
-> >  {
-> >         u32 data, data1, orig;
-> >         bool bL1SS =3D false;
-> >         bool bClkReqSupport =3D true;
-> >
-> > -       if (!amdgpu_device_should_use_aspm(adev))
-> > +       if (!amdgpu_device_should_use_aspm(adev) || intel_core_apsm_chk=
-())
-> >                 return;
-> >
-> >         if (adev->flags & AMD_IS_APU ||
-> > --
-> > 2.25.1
-> >
+When I ported the fbdev driver to DRM, I considered using different values
+for the compatible strings but decided to just use the same for backward
+compatibility.
+
+But now I want to add compatible strings for OLED controllers that use a
+SPI interface instead, and I don't really want to add a compatible string
+"solomon,ssd1307fb-spi" but just without the "fb".
+
+I want the SPI compatible strings to be consistent with the I2C ones though,
+hence the deprecation so new DTS could just use the ones without a "fb".
+
+Now, if you say that I can't do add new ones for I2C, then I will just add
+"solomon,ssd1307fb-spi" and similar even though I don't like the "fb" there.
+
+And just to make clear, the DRM driver will continue matching against both
+compatible strings, but the fbdev will only match the old "fb" ones.
+
+[snip]
+
+>> +
+>> +      # SSD130x I2C controllers
+>> +      - items:
+>> +          - enum:
+>> +              - sinowealth,sh1106-i2c
+>> +              - solomon,ssd1305-i2c
+>> +              - solomon,ssd1306-i2c
+>> +              - solomon,ssd1307-i2c
+>> +              - solomon,ssd1309-i2c
+> 
+> There's also no reason to put the bus interface into the compatible as 
+> the same compatible will work on different buses. But since you want to 
+> add SPI, just using the 'i2c' one will confuse people. For that reason 
+> you could add 'solomon,ssd1305', etc. for both SPI support and I2C DRM.
+
+That's not really true. There's a reason to add per bus compatible strings
+at least in Linux. And is that there's no information about the bus types
+in module aliases that are reported to user-space for module auto-loading.
+
+For example, 
+
+$ cat /sys/devices/platform/soc/fe804000.i2c/i2c-1/1-003c/modalias 
+of:NoledT(null)Csolomon,ssd1306fb-i2c
+
+$ cat /sys/devices/platform/soc/fe804000.i2c/i2c-1/1-003c/uevent 
+DRIVER=ssd130x-i2c
+OF_NAME=oled
+OF_FULLNAME=/soc/i2c@7e804000/oled@3c
+OF_COMPATIBLE_0=solomon,ssd1306fb-i2c
+OF_COMPATIBLE_N=1
+MODALIAS=of:NoledT(null)Csolomon,ssd1306fb-i2c
+
+and
+
+$ modinfo ssd130x-i2c | grep alias
+alias:          of:N*T*Csolomon,ssd1309fb-i2cC*
+alias:          of:N*T*Csolomon,ssd1309fb-i2c
+alias:          of:N*T*Csolomon,ssd1307fb-i2cC*
+alias:          of:N*T*Csolomon,ssd1307fb-i2c
+alias:          of:N*T*Csolomon,ssd1306fb-i2cC*
+alias:          of:N*T*Csolomon,ssd1306fb-i2c
+alias:          of:N*T*Csolomon,ssd1305fb-i2cC*
+alias:          of:N*T*Csolomon,ssd1305fb-i2c
+alias:          of:N*T*Csinowealth,sh1106-i2cC*
+alias:          of:N*T*Csinowealth,sh1106-i2c
+
+this module will match against any MODALIAS uevent that has one of the
+listed compatible strings in "C" and any node name in "N". But also for
+any type "T".
+
+And even if the module alias was more restrictive and say only matched
+against 'of:N*Ti2cCsolomon,ssd1307fb-i2c', the type information is not
+filled by the bus drivers.
+
+So, if we just had a "solomon,ssd1307" compatible string, then a device
+registered through OF could lead to the wrong kernel module to be loaded.
+
+In other words, it's true that having a single compatible strings for all
+bus drivers will work for device -> driver matching but may not work for
+module auto-loading.
+
+> (You should also support the 'fb-i2c' variant in DRM IMO, but doubtful 
+> that I'll review that.)
+>
+
+As mentioned above, it does even after adding support for the new strings,
+for backward compatibility.
+ 
+> Rob
+> 
+
+-- 
+Best regards,
+
+Javier Martinez Canillas
+Linux Engineering
+Red Hat
+
