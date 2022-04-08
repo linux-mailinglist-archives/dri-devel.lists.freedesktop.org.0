@@ -1,75 +1,55 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id E72804F9584
-	for <lists+dri-devel@lfdr.de>; Fri,  8 Apr 2022 14:20:55 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 5A5354F9589
+	for <lists+dri-devel@lfdr.de>; Fri,  8 Apr 2022 14:21:35 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 1B20410E58E;
-	Fri,  8 Apr 2022 12:20:54 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 08A7010F0E5;
+	Fri,  8 Apr 2022 12:21:33 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-wm1-x333.google.com (mail-wm1-x333.google.com
- [IPv6:2a00:1450:4864:20::333])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 1209310E58E
- for <dri-devel@lists.freedesktop.org>; Fri,  8 Apr 2022 12:20:53 +0000 (UTC)
-Received: by mail-wm1-x333.google.com with SMTP id h16so5379241wmd.0
- for <dri-devel@lists.freedesktop.org>; Fri, 08 Apr 2022 05:20:52 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=baylibre-com.20210112.gappssmtp.com; s=20210112;
- h=message-id:date:mime-version:user-agent:subject:content-language:to
- :cc:references:from:organization:in-reply-to
- :content-transfer-encoding;
- bh=Tm3844p3tyj2hoHmI7W25/vDNLRVfKVH7ujOGYxkyIE=;
- b=SQ4QXeiefAStQE0uIiuq5fbTmB6dqaolONV3x2vWJ/d61seFNX6BK/GfTHcpkaABjv
- fN90oNIkgoBZXoioj+sQt2X7JdgL1a4QbcIKAtSVIqnkUK6DdA0oTRa3fxKiNaOYSwav
- E0OUcFQLy5tttayTwrU4ht2Z6VjzGjpbDOhmKEVf3ug5gh+jzOlXvIfbyDj0Cp7quIv9
- 0rV7CEzteB98W5wJu/75nOqNpENOjVFuZwd7LycBEGWPvFpQx5RpQ3B2YvAW0+ZId6eh
- WiQud2cf5ykiV6P4hyCUzQfaEES8MCcWGxwJcG0Nl80x01UqH/kh4K/BnH85E+ODKxup
- hmBw==
+Received: from mail-qv1-xf2c.google.com (mail-qv1-xf2c.google.com
+ [IPv6:2607:f8b0:4864:20::f2c])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id DBF9E10F0C7
+ for <dri-devel@lists.freedesktop.org>; Fri,  8 Apr 2022 12:21:31 +0000 (UTC)
+Received: by mail-qv1-xf2c.google.com with SMTP id kl29so7320045qvb.2
+ for <dri-devel@lists.freedesktop.org>; Fri, 08 Apr 2022 05:21:31 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc; bh=YRo7o4btpESJNDRm1Sx3TiY7NQIcJDsdvvXgFQ9NGKc=;
+ b=fC4YVY0voFTb7xf7jGHf5z4ClA2JWzzjJAJk/eJAafLPDNcd51omB5oEC5gIAPs+mb
+ 9vwV+W+ZpWER1jaHI/z80OUDSzO11ylNsDJh1oPo2W/tegkiykV45tyH+zyV8TRB4lrM
+ SQcT6so8RswTm3LdtHFeJsdwz0qW0J+J8t21nI24qlqYvkUY+jnggPRjnnVTWz0Eh0an
+ rNCxcXVQG4PloCSVuG3qvJp8sc7syNWTI0oQ719vT9lY704ztiYvv0xb4WmfkyFyLKWd
+ jess8X1HhbxeJdjhmgoM8zkWQQ9+//RUAemVGiLaC5mggO/ishyKoOgv6ycLk5TSKHFt
+ kUJQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
- :content-language:to:cc:references:from:organization:in-reply-to
- :content-transfer-encoding;
- bh=Tm3844p3tyj2hoHmI7W25/vDNLRVfKVH7ujOGYxkyIE=;
- b=xLIg579WugLz49Eejb2WFrOkik0D+Rgp/Aj6Nsn0azrZpmuxmoH2dhKUYtCg6k1N4Y
- uNkWWT2YtvbR7HpOvGTv1KXD7V5tfjVBF14N9btsxYbyyjZD9wH55vrItb6vX6YXuYf2
- u7G9jkjbKAqvKkgIvanK75lM8FMIUza81T1G2oML3w+jRUGtpbubrlPNFCjXbV5dnpkT
- 598Qyzbf0T3INl/joSjC9RzZgbLpSd/wNoKrejjw5sxElVQXQ8ZX4KbNG6njgpOZbfF/
- XvLI4TD0eLFkAlQF8u3gNsDYvTu3J1xxUaHhIG6R3qnlZslB1YUkmq2pCpesg8W7TLQf
- bolg==
-X-Gm-Message-State: AOAM530OStZLOdttKE5ig+00qO806SangDiO9B2mOpC+f3eF695a7Fdv
- Iuyp9GsnXzyIyCrr5y9sDuvGaw==
-X-Google-Smtp-Source: ABdhPJyGLvOJ/1FtA8a81Q6gFsU03e8HUiyv0If0DZiyYPgTULh2Nj1Yr/DOO3WhVFFKZf93TjeeVw==
-X-Received: by 2002:a05:600c:5021:b0:38c:70c0:80e9 with SMTP id
- n33-20020a05600c502100b0038c70c080e9mr16445209wmr.91.1649420451363; 
- Fri, 08 Apr 2022 05:20:51 -0700 (PDT)
-Received: from ?IPV6:2001:861:44c0:66c0:eacd:ce6:e294:acd1?
- ([2001:861:44c0:66c0:eacd:ce6:e294:acd1])
- by smtp.gmail.com with ESMTPSA id
- j3-20020adfd203000000b0020616cddfd5sm11134751wrh.7.2022.04.08.05.20.50
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Fri, 08 Apr 2022 05:20:50 -0700 (PDT)
-Message-ID: <50460cf7-34e9-7c8e-131b-6866f43ec2da@baylibre.com>
-Date: Fri, 8 Apr 2022 14:20:49 +0200
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=YRo7o4btpESJNDRm1Sx3TiY7NQIcJDsdvvXgFQ9NGKc=;
+ b=iJ7Px92R0smYuFbKNxoZbeISFq1p4k3uq79cLb05Wc9nshX41a8iWYGHjYuq+glVtq
+ LTP5auNqqumz0IW0vBM/UasDMgr3D86lPrMKO/vu9AF8drwu2MeQBx4cxPfhSrQn1ogD
+ RX98g58epY2Iqa5DiIXRslWgV5rG1blDkZN3yD+5atTdLqSS1INX0ULZn9vhwgZLjQQ/
+ fWrEZrI1d3t2H3PGzcF8AoHd6/XRg+I+DGKDhGXpu6KRP79klwmtBdmX1GFcGRqCLo1P
+ IZIYkxOeuYEShkqoupcN5fkhTBTvgC0/XVFa2WPEK9B/gKxnDFWDWy1TiVqEOLVWzehC
+ G5pQ==
+X-Gm-Message-State: AOAM533020tYoN4D3sfsLJiZj+VuPGhjRIsvlWwmVTwNyqL1rBC8sKaA
+ I5uNilWm+fnni5WBg6F3FkgxsXVrCPCdiEqRET8wUw==
+X-Google-Smtp-Source: ABdhPJzyPvV2EX3O5x5qzKd7QrCWD7nwrriMxeUbFZZ/oV9CoHBlI4Bman5yBlnB8oOnR72ONhBZO5Vt7RuHEAXJx9g=
+X-Received: by 2002:a05:6214:921:b0:443:ce3d:577b with SMTP id
+ dk1-20020a056214092100b00443ce3d577bmr15918452qvb.122.1649420490768; Fri, 08
+ Apr 2022 05:21:30 -0700 (PDT)
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.5.0
-Subject: Re: [PATCH v2 2/5] drm: bridge: dw_hdmi: default enable workaround to
- clear the overflow
-Content-Language: en-US
-To: Sandor Yu <Sandor.yu@nxp.com>, dri-devel@lists.freedesktop.org,
- linux-kernel@vger.kernel.org, andrzej.hajda@intel.com,
- robert.foss@linaro.org, Laurent.pinchart@ideasonboard.com, jonas@kwiboo.se,
- jernej.skrabec@gmail.com, hverkuil-cisco@xs4all.nl
-References: <cover.1649412256.git.Sandor.yu@nxp.com>
- <39592fee39610c544058e6b8f9af4b4ea8dc4cdc.1649412256.git.Sandor.yu@nxp.com>
-From: Neil Armstrong <narmstrong@baylibre.com>
-Organization: Baylibre
-In-Reply-To: <39592fee39610c544058e6b8f9af4b4ea8dc4cdc.1649412256.git.Sandor.yu@nxp.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
+References: <20220407202836.1211268-1-robdclark@gmail.com>
+In-Reply-To: <20220407202836.1211268-1-robdclark@gmail.com>
+From: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
+Date: Fri, 8 Apr 2022 15:21:20 +0300
+Message-ID: <CAA8EJpqfoPwmsJcwMvFgz1KL7sE5XahFGV4WoJ=Eg9Sr8R39RQ@mail.gmail.com>
+Subject: Re: [PATCH] drm/msm: Fix range size vs end confusion
+To: Rob Clark <robdclark@gmail.com>
+Content-Type: text/plain; charset="UTF-8"
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -82,66 +62,52 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: shengjiu.wang@nxp.com, cai.huoqing@linux.dev, maxime@cerno.tech
+Cc: Rob Clark <robdclark@chromium.org>, freedreno@lists.freedesktop.org,
+ Jonathan Marek <jonathan@marek.ca>, David Airlie <airlied@linux.ie>,
+ linux-arm-msm@vger.kernel.org, Abhinav Kumar <quic_abhinavk@quicinc.com>,
+ dri-devel@lists.freedesktop.org, Jordan Crouse <jordan@cosmicpenguin.net>,
+ Akhil P Oommen <quic_akhilpo@quicinc.com>, Sean Paul <sean@poorly.run>,
+ open list <linux-kernel@vger.kernel.org>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 08/04/2022 12:32, Sandor Yu wrote:
-> i.MX8MPlus (v2.13a) has verified need the workaround to clear the
-> overflow with one iteration.
-> Only i.MX6Q(v1.30a) need the workaround with 4 iterations,
-> the others versions later than v1.3a have been identified as needing
-> the workaround with a single iteration.
-> 
-> Default enable the workaround with one iteration for all versions
-> later than v1.30a.
-> 
-> Signed-off-by: Sandor Yu <Sandor.yu@nxp.com>
-> ---
->   drivers/gpu/drm/bridge/synopsys/dw-hdmi.c | 23 +++++++----------------
->   1 file changed, 7 insertions(+), 16 deletions(-)
-> 
-> diff --git a/drivers/gpu/drm/bridge/synopsys/dw-hdmi.c b/drivers/gpu/drm/bridge/synopsys/dw-hdmi.c
-> index 4befc104d220..02d8f7e08814 100644
-> --- a/drivers/gpu/drm/bridge/synopsys/dw-hdmi.c
-> +++ b/drivers/gpu/drm/bridge/synopsys/dw-hdmi.c
-> @@ -2086,30 +2086,21 @@ static void dw_hdmi_clear_overflow(struct dw_hdmi *hdmi)
->   	 * then write one of the FC registers several times.
->   	 *
->   	 * The number of iterations matters and depends on the HDMI TX revision
-> -	 * (and possibly on the platform). So far i.MX6Q (v1.30a), i.MX6DL
-> -	 * (v1.31a) and multiple Allwinner SoCs (v1.32a) have been identified
-> -	 * as needing the workaround, with 4 iterations for v1.30a and 1
-> -	 * iteration for others.
-> -	 * The Amlogic Meson GX SoCs (v2.01a) have been identified as needing
-> -	 * the workaround with a single iteration.
-> -	 * The Rockchip RK3288 SoC (v2.00a) and RK3328/RK3399 SoCs (v2.11a) have
-> -	 * been identified as needing the workaround with a single iteration.
-> +	 * (and possibly on the platform).
-> +	 * 4 iterations for i.MX6Q(v1.30a) and 1 iteration for others.
-> +	 * i.MX6DL (v1.31a), Allwinner SoCs (v1.32a), Rockchip RK3288 SoC (v2.00a),
-> +	 * Amlogic Meson GX SoCs (v2.01a), RK3328/RK3399 SoCs (v2.11a)
-> +	 * and i.MX8MPlus (v2.13a) have been identified as needing the workaround
-> +	 * with a single iteration.
->   	 */
->   
->   	switch (hdmi->version) {
->   	case 0x130a:
->   		count = 4;
->   		break;
-> -	case 0x131a:
-> -	case 0x132a:
-> -	case 0x200a:
-> -	case 0x201a:
-> -	case 0x211a:
-> -	case 0x212a:
-> +	default:
->   		count = 1;
->   		break;
-> -	default:
-> -		return;
->   	}
->   
->   	/* TMDS software reset */
+On Thu, 7 Apr 2022 at 23:27, Rob Clark <robdclark@gmail.com> wrote:
+>
+> From: Rob Clark <robdclark@chromium.org>
+>
+> The fourth param is size, rather than range_end.
+>
+> Note that we could increase the address space size if we had a way to
+> prevent buffers from spanning a 4G split, mostly just to avoid fw bugs
+> with 64b math.
+>
+> Fixes: 84c31ee16f90 ("drm/msm/a6xx: Add support for per-instance pagetables")
+> Signed-off-by: Rob Clark <robdclark@chromium.org>
 
-Acked-by: Neil Armstrong <narmstrong@baylibre.com>
+Reviewed-by: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
+
+> ---
+>  drivers/gpu/drm/msm/adreno/a6xx_gpu.c | 2 +-
+>  1 file changed, 1 insertion(+), 1 deletion(-)
+>
+> diff --git a/drivers/gpu/drm/msm/adreno/a6xx_gpu.c b/drivers/gpu/drm/msm/adreno/a6xx_gpu.c
+> index 17de46fc4bf2..80d57608b34a 100644
+> --- a/drivers/gpu/drm/msm/adreno/a6xx_gpu.c
+> +++ b/drivers/gpu/drm/msm/adreno/a6xx_gpu.c
+> @@ -1742,7 +1742,7 @@ a6xx_create_private_address_space(struct msm_gpu *gpu)
+>                 return ERR_CAST(mmu);
+>
+>         return msm_gem_address_space_create(mmu,
+> -               "gpu", 0x100000000ULL, 0x1ffffffffULL);
+> +               "gpu", 0x100000000ULL, SZ_4G);
+>  }
+>
+>  static uint32_t a6xx_get_rptr(struct msm_gpu *gpu, struct msm_ringbuffer *ring)
+> --
+> 2.35.1
+>
+
+
+-- 
+With best wishes
+Dmitry
