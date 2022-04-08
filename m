@@ -1,61 +1,62 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 78F114F8FFB
-	for <lists+dri-devel@lfdr.de>; Fri,  8 Apr 2022 09:58:24 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 0BBA04F9001
+	for <lists+dri-devel@lfdr.de>; Fri,  8 Apr 2022 09:58:32 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 0730510E3B8;
-	Fri,  8 Apr 2022 07:58:22 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 7E87710E655;
+	Fri,  8 Apr 2022 07:58:28 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-lf1-x12a.google.com (mail-lf1-x12a.google.com
- [IPv6:2a00:1450:4864:20::12a])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 09E0B10E3B8;
- Fri,  8 Apr 2022 07:58:20 +0000 (UTC)
-Received: by mail-lf1-x12a.google.com with SMTP id bu29so13789912lfb.0;
- Fri, 08 Apr 2022 00:58:19 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
- h=from:to:cc:subject:date:message-id:mime-version
- :content-transfer-encoding;
- bh=LDg0VuOdkCKm0C8uZKp3vKpTf/VpsO8U9ed6vcjhQTo=;
- b=TAfmtGR4a9a3jgYPSlQ7/KHOY55cHJ2ZPH+9tvKC7XSRQzemgPxT5uuo5NqPmlMrYb
- g7/2IJN9Xzw2TASKcNKcaffTQV8aDR6Vbb4hDIMyK0Mdujx5V4YWTFmXzhnZvDk2UlIi
- tgWzh1dy3QsKgBEpmqFUlP9Bmrxw6qzurk0R1TofqqHib2TrmWnkKE2A/1xWbAcemmnw
- Lbuk3qPIMCx7WSAaZSshBYhR7x+Rhla24TRiM++omihK0V4+pxuPlvFwQyA3OKBaaoKd
- c3z1qXih8x1kjR1ndEVUZej/p/Cne/Zo0XrpIJQLX+9KhYKPnvy4amdrAX6U/aqAnFD6
- 9oCQ==
+Received: from mail-wm1-x344.google.com (mail-wm1-x344.google.com
+ [IPv6:2a00:1450:4864:20::344])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 7340810E401
+ for <dri-devel@lists.freedesktop.org>; Fri,  8 Apr 2022 07:58:27 +0000 (UTC)
+Received: by mail-wm1-x344.google.com with SMTP id r7so4944516wmq.2
+ for <dri-devel@lists.freedesktop.org>; Fri, 08 Apr 2022 00:58:27 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ffwll.ch; s=google;
+ h=date:from:to:cc:subject:message-id:references:mime-version
+ :content-disposition:in-reply-to;
+ bh=8gZxwgtjNldQdWOHmbuyBINbNYL+r4dNmkA4XgTkZyk=;
+ b=CEqSTp8mOA317UKyaNECHFwHjtRZl9G1A0wNlqdAQonk3PwOD+fEFhUsfEsN+7JvDX
+ fTveu5/EOaD9oHV0GGv5SZJFxE+sqA2NV2LfsY4OKlB3KdniUqYFmNsyWFe4NOvObJCe
+ O5o/w2ns59ZGcS5XrCkZkQbh8qneT3a4gFjDI=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
- :content-transfer-encoding;
- bh=LDg0VuOdkCKm0C8uZKp3vKpTf/VpsO8U9ed6vcjhQTo=;
- b=XLjM4ciLnc4+1MZ2YLPirlR0Gj7Ko+hCO2RPlcrCZkpgkjwq5xrQNVxMOOn+Jld8Q7
- AcnrQ1rU6Hnr+seQ5tYvBE2Jt/dXFLgT1Z5D55xvXiq+Z+6OFKJC0MRx4xRuEKCwF2Z3
- YbmcL7FxR1SLQfZyLTnvc7junG8MK3FbCdzkMsWYUAruK79JjRHVTycJrt5gWzrocdmE
- h5I9+WebGu8IFeInCSOFuk//bHcIM8OmI0aYqbXjzqeNiJM1E4ypUPHuDddP8bQE5cZi
- tEeOBN+jhvrggg4Gui5WJHNbzqqeRTMHFocZbp9KjWC6PkiGcDM0qtErrZghdQedPilU
- fbfA==
-X-Gm-Message-State: AOAM530DWAnRWLH7YZULmEjvLzqa+suC4tOulb0Bi2QMdLrn3uaspGLc
- 419lyqm0GJSPUbSMrR7ZXNNNDo2GZ5rpnA==
-X-Google-Smtp-Source: ABdhPJyYta5aydqTXUvGMWiC0TCQ8PlSIHqgPbTB0TDQ6KifZ6JROMRtolpO3so0hsiB92awnmsKrg==
-X-Received: by 2002:a19:f00f:0:b0:443:ae5c:47d0 with SMTP id
- p15-20020a19f00f000000b00443ae5c47d0mr12061146lfc.332.1649404698181; 
- Fri, 08 Apr 2022 00:58:18 -0700 (PDT)
-Received: from noname.. ([2a02:2698:8c2a:149d:6d9:f5ff:fecb:a8ab])
- by smtp.googlemail.com with ESMTPSA id
- g9-20020a2e9cc9000000b0024afe85d0c8sm2170520ljj.121.2022.04.08.00.58.16
+ h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+ :mime-version:content-disposition:in-reply-to;
+ bh=8gZxwgtjNldQdWOHmbuyBINbNYL+r4dNmkA4XgTkZyk=;
+ b=imIyk6LxRYBTRWBU5GrLZfbsmR8ynyXwbr/Ob6OVvFLn02dXkO/gQbE6A1vKpZoK+B
+ cK/NeWxmfKF1bq/S/Scgut2tNYByThleTV1z3m2/LlRIMS/uZ79FtVLu4lxBH98KxScF
+ wfBSVXSkh0+YV/YRtGrmQAqyJ1obAJDGy12Fb/jY9xIGM+6a/VBfRpLDla6JDpXAzJ62
+ m6vPaxxoYxyTmb9P07c0qYV8wGbZOG6yjOnS0fwD5gngXi6Taqs7LynpEEv4Qp8hCl+O
+ 91a4rMLq5wOiPHHnqhGdpmpVvP+/fzozlHFsx7JDKt77WHPRnc73Jk0dTBEgYLGrGdqS
+ +VTw==
+X-Gm-Message-State: AOAM531wT1unWUkM6VFnrhjXF6L7Nc8DdGHGg7V6RTSQ3Ku7IBvYHYc4
+ qscpfsUFWf5kaWxiE0/YLgmtLw==
+X-Google-Smtp-Source: ABdhPJwEGuFRb3D+dqRIfLFmnbcVcoeaP+c29MR86azql4/m6MLfgUopZkaAm7ctouDOs3mzc4ffmQ==
+X-Received: by 2002:a7b:c30e:0:b0:37f:a63d:3d1f with SMTP id
+ k14-20020a7bc30e000000b0037fa63d3d1fmr15514167wmj.178.1649404705559; 
+ Fri, 08 Apr 2022 00:58:25 -0700 (PDT)
+Received: from phenom.ffwll.local ([2a02:168:57f4:0:efd0:b9e5:5ae6:c2fa])
+ by smtp.gmail.com with ESMTPSA id
+ i15-20020a5d584f000000b00204171ba528sm18398286wrf.109.2022.04.08.00.58.24
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Fri, 08 Apr 2022 00:58:17 -0700 (PDT)
-From: Grigory Vasilyev <h0tc0d3@gmail.com>
-To: Rodrigo.Siqueira@amd.com,
-	Melissa Wen <mwen@igalia.com>
-Subject: [PATCH] drm/amdgpu: Fix incorrect enum type
-Date: Fri,  8 Apr 2022 10:58:17 +0300
-Message-Id: <20220408075820.10396-1-h0tc0d3@gmail.com>
-X-Mailer: git-send-email 2.35.1
+ Fri, 08 Apr 2022 00:58:25 -0700 (PDT)
+Date: Fri, 8 Apr 2022 09:58:23 +0200
+From: Daniel Vetter <daniel@ffwll.ch>
+To: Tvrtko Ursulin <tvrtko.ursulin@linux.intel.com>
+Subject: Re: [PATCH 1/1] drm/i915: Inherit submitter nice when scheduling
+ requests
+Message-ID: <Yk/rHyGrOlrkDtdR@phenom.ffwll.local>
+References: <20220407151627.3387655-1-tvrtko.ursulin@linux.intel.com>
+ <20220407151627.3387655-2-tvrtko.ursulin@linux.intel.com>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20220407151627.3387655-2-tvrtko.ursulin@linux.intel.com>
+X-Operating-System: Linux phenom 5.10.0-8-amd64 
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -68,77 +69,71 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Lijo Lazar <lijo.lazar@amd.com>, Yifan Zhang <yifan1.zhang@amd.com>,
- Tao Zhou <tao.zhou1@amd.com>, Chengming Gui <Jack.Gui@amd.com>,
- Guchun Chen <guchun.chen@amd.com>, Grigory Vasilyev <h0tc0d3@gmail.com>, "Pan,
- Xinhui" <Xinhui.Pan@amd.com>, linux-kernel@vger.kernel.org,
- amd-gfx@lists.freedesktop.org, yipechai <YiPeng.Chai@amd.com>,
- David Airlie <airlied@linux.ie>, Victor Skvortsov <victor.skvortsov@amd.com>,
- Huang Rui <ray.huang@amd.com>, dri-devel@lists.freedesktop.org,
- Joseph Greathouse <Joseph.Greathouse@amd.com>,
- Alex Deucher <alexander.deucher@amd.com>, Peng Ju Zhou <PengJu.Zhou@amd.com>,
- Evan Quan <evan.quan@amd.com>,
- =?UTF-8?q?Christian=20K=C3=B6nig?= <christian.koenig@amd.com>,
- Hawking Zhang <Hawking.Zhang@amd.com>
+Cc: Intel-gfx@lists.freedesktop.org, dri-devel@lists.freedesktop.org,
+ Tvrtko Ursulin <tvrtko.ursulin@intel.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Instead of the 'amdgpu_ring_priority_level' type,
-the 'amdgpu_gfx_pipe_priority' type was used,
-which is an error when setting ring priority.
-This is a minor error, but may cause problems in the future.
+On Thu, Apr 07, 2022 at 04:16:27PM +0100, Tvrtko Ursulin wrote:
+> From: Tvrtko Ursulin <tvrtko.ursulin@intel.com>
+> 
+> Inherit submitter nice at point of request submission to account for long
+> running processes getting either externally or self re-niced.
+> 
+> This accounts for the current processing landscape where computational
+> pipelines are composed of CPU and GPU parts working in tandem.
+> 
+> Nice value will only apply to requests which originate from user contexts
+> and have default context priority. This is to avoid disturbing any
+> application made choices of low and high (batch processing and latency
+> sensitive compositing). In this case nice value adjusts the effective
+> priority in the narrow band of -19 to +20 around
+> I915_CONTEXT_DEFAULT_PRIORITY.
+> 
+> This means that userspace using the context priority uapi directly has a
+> wider range of possible adjustments (in practice that only applies to
+> execlists platforms - with GuC there are only three priority buckets), but
+> in all cases nice adjustment has the expected effect: positive nice
+> lowering the scheduling priority and negative nice raising it.
+> 
+> Signed-off-by: Tvrtko Ursulin <tvrtko.ursulin@intel.com>
 
-Instead of AMDGPU_RING_PRIO_2 = 2, we can use AMDGPU_RING_PRIO_MAX = 3,
-but AMDGPU_RING_PRIO_2 = 2 is used for compatibility with
-AMDGPU_GFX_PIPE_PRIO_HIGH = 2, and not change the behavior of the
-code.
+I don't think adding any more fancy features to i915-scheduler makes
+sense, at least not before we've cut over to drm/sched.
+-Daniel
 
-Signed-off-by: Grigory Vasilyev <h0tc0d3@gmail.com>
----
- drivers/gpu/drm/amd/amdgpu/gfx_v10_0.c | 2 +-
- drivers/gpu/drm/amd/amdgpu/gfx_v8_0.c  | 2 +-
- drivers/gpu/drm/amd/amdgpu/gfx_v9_0.c  | 2 +-
- 3 files changed, 3 insertions(+), 3 deletions(-)
+> ---
+>  drivers/gpu/drm/i915/i915_request.c | 11 ++++++++++-
+>  1 file changed, 10 insertions(+), 1 deletion(-)
+> 
+> diff --git a/drivers/gpu/drm/i915/i915_request.c b/drivers/gpu/drm/i915/i915_request.c
+> index 582770360ad1..e5cfa073d8f0 100644
+> --- a/drivers/gpu/drm/i915/i915_request.c
+> +++ b/drivers/gpu/drm/i915/i915_request.c
+> @@ -1811,8 +1811,17 @@ void i915_request_add(struct i915_request *rq)
+>  	/* XXX placeholder for selftests */
+>  	rcu_read_lock();
+>  	ctx = rcu_dereference(rq->context->gem_context);
+> -	if (ctx)
+> +	if (ctx) {
+>  		attr = ctx->sched;
+> +		/*
+> +		 * Inherit process nice when scheduling user contexts but only
+> +		 * if context has the default priority to avoid touching
+> +		 * contexts where GEM uapi has been used to explicitly lower
+> +		 * or elevate it.
+> +		 */
+> +		if (attr.priority == I915_CONTEXT_DEFAULT_PRIORITY)
+> +			attr.priority = -task_nice(current);
+> +	}
+>  	rcu_read_unlock();
+>  
+>  	__i915_request_queue(rq, &attr);
+> -- 
+> 2.32.0
+> 
 
-diff --git a/drivers/gpu/drm/amd/amdgpu/gfx_v10_0.c b/drivers/gpu/drm/amd/amdgpu/gfx_v10_0.c
-index b3081c28db0a..1d9120a4b3f5 100644
---- a/drivers/gpu/drm/amd/amdgpu/gfx_v10_0.c
-+++ b/drivers/gpu/drm/amd/amdgpu/gfx_v10_0.c
-@@ -4745,7 +4745,7 @@ static int gfx_v10_0_compute_ring_init(struct amdgpu_device *adev, int ring_id,
- 		+ ((ring->me - 1) * adev->gfx.mec.num_pipe_per_mec)
- 		+ ring->pipe;
- 	hw_prio = amdgpu_gfx_is_high_priority_compute_queue(adev, ring) ?
--			AMDGPU_GFX_PIPE_PRIO_HIGH : AMDGPU_GFX_PIPE_PRIO_NORMAL;
-+			AMDGPU_RING_PRIO_2 : AMDGPU_RING_PRIO_DEFAULT;
- 	/* type-2 packets are deprecated on MEC, use type-3 instead */
- 	r = amdgpu_ring_init(adev, ring, 1024, &adev->gfx.eop_irq, irq_type,
- 			     hw_prio, NULL);
-diff --git a/drivers/gpu/drm/amd/amdgpu/gfx_v8_0.c b/drivers/gpu/drm/amd/amdgpu/gfx_v8_0.c
-index 5554084ec1f1..9bc26395f833 100644
---- a/drivers/gpu/drm/amd/amdgpu/gfx_v8_0.c
-+++ b/drivers/gpu/drm/amd/amdgpu/gfx_v8_0.c
-@@ -1929,7 +1929,7 @@ static int gfx_v8_0_compute_ring_init(struct amdgpu_device *adev, int ring_id,
- 		+ ring->pipe;
- 
- 	hw_prio = amdgpu_gfx_is_high_priority_compute_queue(adev, ring) ?
--			AMDGPU_GFX_PIPE_PRIO_HIGH : AMDGPU_RING_PRIO_DEFAULT;
-+			AMDGPU_RING_PRIO_2 : AMDGPU_RING_PRIO_DEFAULT;
- 	/* type-2 packets are deprecated on MEC, use type-3 instead */
- 	r = amdgpu_ring_init(adev, ring, 1024, &adev->gfx.eop_irq, irq_type,
- 			     hw_prio, NULL);
-diff --git a/drivers/gpu/drm/amd/amdgpu/gfx_v9_0.c b/drivers/gpu/drm/amd/amdgpu/gfx_v9_0.c
-index 71cf025a2bbd..029c97c92463 100644
---- a/drivers/gpu/drm/amd/amdgpu/gfx_v9_0.c
-+++ b/drivers/gpu/drm/amd/amdgpu/gfx_v9_0.c
-@@ -2278,7 +2278,7 @@ static int gfx_v9_0_compute_ring_init(struct amdgpu_device *adev, int ring_id,
- 		+ ((ring->me - 1) * adev->gfx.mec.num_pipe_per_mec)
- 		+ ring->pipe;
- 	hw_prio = amdgpu_gfx_is_high_priority_compute_queue(adev, ring) ?
--			AMDGPU_GFX_PIPE_PRIO_HIGH : AMDGPU_GFX_PIPE_PRIO_NORMAL;
-+			AMDGPU_RING_PRIO_2 : AMDGPU_RING_PRIO_DEFAULT;
- 	/* type-2 packets are deprecated on MEC, use type-3 instead */
- 	return amdgpu_ring_init(adev, ring, 1024, &adev->gfx.eop_irq, irq_type,
- 				hw_prio, NULL);
 -- 
-2.35.1
-
+Daniel Vetter
+Software Engineer, Intel Corporation
+http://blog.ffwll.ch
