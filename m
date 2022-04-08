@@ -2,74 +2,85 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id AF82A4F98C7
-	for <lists+dri-devel@lfdr.de>; Fri,  8 Apr 2022 16:58:46 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id AFC8A4F98DD
+	for <lists+dri-devel@lfdr.de>; Fri,  8 Apr 2022 17:00:34 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 42D5B10E4E0;
-	Fri,  8 Apr 2022 14:58:43 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id E37AF10E50F;
+	Fri,  8 Apr 2022 15:00:29 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-qt1-x836.google.com (mail-qt1-x836.google.com
- [IPv6:2607:f8b0:4864:20::836])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 2C53410E4E7
- for <dri-devel@lists.freedesktop.org>; Fri,  8 Apr 2022 14:58:42 +0000 (UTC)
-Received: by mail-qt1-x836.google.com with SMTP id s11so10879077qtc.3
- for <dri-devel@lists.freedesktop.org>; Fri, 08 Apr 2022 07:58:42 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=oK4c0Q5n4J9QZqL0KRS62UFXdtvmGL0QpHUG9UqlFtM=;
- b=JiaoeEJ/h9I9ehyz8BB6b9aKvzhlWiELooPvTLvhQPWAibE2DQQfgLRqmoAyu/5dvT
- rnPF14ChjvoWWRTv1O1+XGk7d7CJaDjrPBzhI5kNAqSbVvHLEDKlSwnepynKSS382oJy
- KRSei97PDYMYZ94FSluYQxLrD913+mXOOxVOtoZkWB3KA5eS5WrnMIHM2QkMCAAs7Dbu
- 7bmklpOVzpmMLTFCXp1ZBNeN4XW577KkV4MJy3932uMLZ3wmLOWREGM25Ndko/6r690q
- r5EPs7PQTXDQR5cT4l3+GmWBYArICqxEdbETXBxTRdr6Q6Dhix31+mOqoVVKgySLNTpy
- VmWQ==
+Received: from us-smtp-delivery-124.mimecast.com
+ (us-smtp-delivery-124.mimecast.com [170.10.129.124])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 6064310E503
+ for <dri-devel@lists.freedesktop.org>; Fri,  8 Apr 2022 15:00:28 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1649430027;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=MowZCsVYbCEMjPsPuqbk/wMskXNrnfT6vDeXV1XxhKs=;
+ b=P9e8EDcZuvOTFNC4cIKgPqTLOy+zMlHlXdc1x6ts7/F+uzqo9wNMuisZvN6kYUoZLj1g3C
+ LSilePYChUjvCINt6zli4STXatyJmOqPabl2ENOboU1ztWXmGGPaHtZplkg13Vttg6A6mX
+ IW8FdY8ZGKBOmSCfIMq02rONR9OHwWs=
+Received: from mail-ed1-f69.google.com (mail-ed1-f69.google.com
+ [209.85.208.69]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ us-mta-203-QkvDG_h-Pgic0CnzAbRBZA-1; Fri, 08 Apr 2022 11:00:26 -0400
+X-MC-Unique: QkvDG_h-Pgic0CnzAbRBZA-1
+Received: by mail-ed1-f69.google.com with SMTP id
+ v5-20020aa7d645000000b0041ce08ab5afso4759088edr.6
+ for <dri-devel@lists.freedesktop.org>; Fri, 08 Apr 2022 08:00:25 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=oK4c0Q5n4J9QZqL0KRS62UFXdtvmGL0QpHUG9UqlFtM=;
- b=TjGGiF9Cx0HcI4gxMNrGmZUDKv+CKMgeae/f4RoIthdmQ/WFNoK6wDi+CD1G4pL8LL
- yBRSmnWVNviALMyIU117Jjlur8TLx+PgxT6cLCIQs+wU6rLCx//VlDQQws5W7dwN7wMP
- SYVOMNcycmIcPmmjroo9wC+RNuMhWQOu3w6lJj0iTvrFQ3AzpcZSiEbP3IqbhWKuWHtk
- Vf7rXl1BpyB3g4drj87+RUfamyMuQiRco+ATg4+RMhJ4uURpy2maao8FFeIC73bzFnXs
- pkchsTbQeYeD22LTgc/BTcBauXfWX4mWazae99qKTf5ml0JQUeeWhaf8G1ywypWBtFep
- mLtQ==
-X-Gm-Message-State: AOAM533Oa3tjmbbLyB9aXLKnLsIb1cpxKJQHPz+koXKV1rh9uwH8mX98
- UNtYd+JrHnuC8Sreb65ooB0LxMpt9HQF9E36TxVwsw==
-X-Google-Smtp-Source: ABdhPJz4zF64TRpqJTVRBI33gdjEupkPabNbuA0AKMSnErc+1tO72wtp19hJVfKoDbuiPTth9omw+T8ZHl/AJ/7gkmg=
-X-Received: by 2002:ac8:5a46:0:b0:2e2:2edd:374 with SMTP id
- o6-20020ac85a46000000b002e22edd0374mr16119166qta.295.1649429920056; Fri, 08
- Apr 2022 07:58:40 -0700 (PDT)
+ h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
+ :content-language:to:cc:references:from:in-reply-to
+ :content-transfer-encoding;
+ bh=MowZCsVYbCEMjPsPuqbk/wMskXNrnfT6vDeXV1XxhKs=;
+ b=gTi0kVRNxPDAhZGCp9Jlnt8/HB3t1020mvjMz3NYeB8a6+x12EVlik02XW79cXUuIm
+ bdfoqaw2aYC71fajlmsj9ThcBWFtCKOQV5ctS+TIG5JHwfz6tWr4zGxb8VqEH+NIj+X7
+ kaZLMNzGgD0UNwHDqCclJq/b/teDmXSDP1o95ZpsU1P+S9ZqGCELq+Oprb49Q2IQh0G+
+ odI9tPvcx1kYNT+P7d3/mDZbrnXOX0HMcv3waVrm7wH8kojTrWrRwpyvhxP4UpTDaJGO
+ 3Q+7N/rSC6oA3z/XMUyi0KqLCuNCFUE+jxJcrRd286ie+eeYfL0YjpSqKgwRwDQFT8am
+ Bvdw==
+X-Gm-Message-State: AOAM530CdCtekptMtwlTEaIMUGXuIR7ZjD7sF6HcxiNzZXC/gB8l9GIt
+ 4oeTOj6ycFs4/iOwijNpZX6owoaHqwrWD0xfj3wdzMlO7kyj+eNETKs6TeURTZZvzudxRD/8QQw
+ xU1thZx4ojl5T01KhdxOM09UokKo+
+X-Received: by 2002:a17:907:a411:b0:6e1:2084:99d2 with SMTP id
+ sg17-20020a170907a41100b006e1208499d2mr1870848ejc.639.1649430024715; 
+ Fri, 08 Apr 2022 08:00:24 -0700 (PDT)
+X-Google-Smtp-Source: ABdhPJxfPqZMN1TDD9SQ8CopRNSQv4nT+xcAmStxEvSA0bIoi0AzL722DKonpHfhRXsoXsPcb6j8nQ==
+X-Received: by 2002:a17:907:a411:b0:6e1:2084:99d2 with SMTP id
+ sg17-20020a170907a41100b006e1208499d2mr1870805ejc.639.1649430024254; 
+ Fri, 08 Apr 2022 08:00:24 -0700 (PDT)
+Received: from ?IPV6:2001:1c00:2a00:8801:7f46:c497:ac60:f6e7?
+ (2001-1c00-2a00-8801-7f46-c497-ac60-f6e7.cable.dynamic.v6.ziggo.nl.
+ [2001:1c00:2a00:8801:7f46:c497:ac60:f6e7])
+ by smtp.gmail.com with ESMTPSA id
+ h9-20020aa7c949000000b0041b4d8ae50csm10484386edt.34.2022.04.08.08.00.23
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Fri, 08 Apr 2022 08:00:23 -0700 (PDT)
+Message-ID: <a29be726-70db-5525-68f3-08c2233b6f8f@redhat.com>
+Date: Fri, 8 Apr 2022 17:00:22 +0200
 MIME-Version: 1.0
-References: <1648656179-10347-1-git-send-email-quic_sbillaka@quicinc.com>
- <1648656179-10347-2-git-send-email-quic_sbillaka@quicinc.com>
- <CAD=FV=X+QvjwoT2zGP82KW4kD0oMUY6ZgCizSikNX_Uj8dNDqA@mail.gmail.com>
- <392b933f-760c-3c81-1040-c514045df3da@linaro.org>
- <CAD=FV=W4PYK-t607yjRbfjDjjEZX0KdgHDRukw_vSH8E8EDH6w@mail.gmail.com>
- <CAA8EJppt9XONbgtKfmHmN+==QNqiVJeb8GKJFdZm=yyY-tgmHQ@mail.gmail.com>
- <CAD=FV=U5-sTDLYdkeJWLAOG-0wgxR49VxtwUyUO7z2PuibLGsg@mail.gmail.com>
- <CAA8EJppgfYgQjG8A4LsR-1wmBj3Ku3eO8cKfAYhxjWXL7e3eHg@mail.gmail.com>
- <CAD=FV=V=a1CnT8fqTJR40WoS3BaDQ3xZ=HnHVHqZh=MEmVUZBA@mail.gmail.com>
- <3e5fa57f-d636-879a-b98f-77323d07c156@linaro.org>
- <CAD=FV=Uibu-kZyix7K4_WVc-+C8xpzTqU4WFy7O=6sukMZrX5g@mail.gmail.com>
- <MW4PR02MB7186245772DAC3E04FA8D1C0E1E69@MW4PR02MB7186.namprd02.prod.outlook.com>
- <CAD=FV=Wk3U7_bVdiCPp8iQ4bcCA_Botemu4pwHeRtgBa3Xk6KQ@mail.gmail.com>
- <c4f086ce-c56f-f7c9-4092-7f2432330d50@quicinc.com>
- <CAD=FV=UmU_BVUaL_X75yOEvQPtGUBTR5-jiVWBHq7uSRt6HM4Q@mail.gmail.com>
- <225d2c0a-42ec-28ad-688c-e7e9e2035ee1@quicinc.com>
- <CAD=FV=W=WjSACHvRDFBnkLUp-LU2c4XMu3=FTzTx=zexNF5PAw@mail.gmail.com>
- <CAA8EJpqLZ9up4euGEbhf5QyBqm4tJuLcHi7D+0Si7ak9Jej52w@mail.gmail.com>
- <CAD=FV=XwOzsRf7RnvyBjr5TtedMhC0LJFKoK9tp-kw1eEyuJmQ@mail.gmail.com>
- <CAA8EJprb5UF24WRNvGaY_hSqW--NPd=9=8AaPYWSMbUumNn+dQ@mail.gmail.com>
- <CAD=FV=UG7k4A+hMXxwju-0mLddD1oJdGngXMkMA-dO3AxOx0rQ@mail.gmail.com>
-In-Reply-To: <CAD=FV=UG7k4A+hMXxwju-0mLddD1oJdGngXMkMA-dO3AxOx0rQ@mail.gmail.com>
-From: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
-Date: Fri, 8 Apr 2022 17:58:28 +0300
-Message-ID: <CAA8EJprLRiWrkqLG09UG1arDmo1fuq917ztfxts66p+AaYcYbA@mail.gmail.com>
-Subject: Re: [PATCH v6 1/8] drm/msm/dp: Add eDP support via aux_bus
-To: Doug Anderson <dianders@chromium.org>
-Content-Type: text/plain; charset="UTF-8"
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.4.0
+Subject: Re: [RFC] drm/kms: control display brightness through drm_connector
+ properties
+To: Simon Ser <contact@emersion.fr>
+References: <0d188965-d809-81b5-74ce-7d30c49fee2d@redhat.com>
+ <dP36CeeNjDVKgcJzbBAdkNM0HzB3N5Uzd6cgBcmrb5mA6xzWs9AKMmRdMKG2y6c1geMhZ1i8hONKQmxYYHN-ZhRLGT_TXz5IhtqnJSWBD9Q=@emersion.fr>
+ <0e1cffc1-e8b6-dc58-56ff-53f911f33e60@redhat.com>
+ <XwpYE-RK1zRFJfojeMJV5ddsxHnHg4HRTXd4fZ_7yUMBZRCy3ARRIPC6Y-eCJ5Ag9Fin8FGLz6t-L8Ix4P7ykQlrJ6dH4LYye20kyHKtVaI=@emersion.fr>
+From: Hans de Goede <hdegoede@redhat.com>
+In-Reply-To: <XwpYE-RK1zRFJfojeMJV5ddsxHnHg4HRTXd4fZ_7yUMBZRCy3ARRIPC6Y-eCJ5Ag9Fin8FGLz6t-L8Ix4P7ykQlrJ6dH4LYye20kyHKtVaI=@emersion.fr>
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=hdegoede@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Language: en-US
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -82,103 +93,224 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: quic_kalyant <quic_kalyant@quicinc.com>,
- "open list:OPEN FIRMWARE AND FLATTENED DEVICE TREE BINDINGS"
- <devicetree@vger.kernel.org>,
- "Sankeerth Billakanti \(QUIC\)" <quic_sbillaka@quicinc.com>,
- quic_vproddut <quic_vproddut@quicinc.com>, David Airlie <airlied@linux.ie>,
- linux-arm-msm <linux-arm-msm@vger.kernel.org>,
- Stephen Boyd <swboyd@chromium.org>, Abhinav Kumar <quic_abhinavk@quicinc.com>,
- dri-devel <dri-devel@lists.freedesktop.org>,
- "Kuogee Hsieh \(QUIC\)" <quic_khsieh@quicinc.com>, Sean Paul <sean@poorly.run>,
- Sean Paul <seanpaul@chromium.org>,
- "Aravind Venkateswaran \(QUIC\)" <quic_aravindh@quicinc.com>,
- "bjorn.andersson@linaro.org" <bjorn.andersson@linaro.org>,
- freedreno <freedreno@lists.freedesktop.org>,
- LKML <linux-kernel@vger.kernel.org>
+Cc: Sebastian Wick <sebastian.wick@redhat.com>,
+ Martin Roukala <martin.roukala@mupuf.org>,
+ Christoph Grenz <christophg+lkml@grenz-bonn.de>,
+ wayland <wayland-devel@lists.freedesktop.org>,
+ "dri-devel@lists.freedesktop.org" <dri-devel@lists.freedesktop.org>,
+ Yusuf Khan <yusisamerican@gmail.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Fri, 8 Apr 2022 at 16:43, Doug Anderson <dianders@chromium.org> wrote:
->
-> Hi,
->
-> On Fri, Apr 8, 2022 at 5:20 AM Dmitry Baryshkov
-> <dmitry.baryshkov@linaro.org> wrote:
-> >
-> > > I guess my thought was that in DP you could still create the AUX bus
-> > > at probe time. Then for DP you just return an instant "transfer
-> > > failed" from the AUX bus if HPD isn't asserted. For eDP (as discussed
-> > > elsewhere) when we try to do an AUX transfer then we delay until HPD
-> > > is there.
-> >
-> > I think panel-edp would already handle the delay, so we do not need to
-> > have this logic in the DP driver.
->
-> There's a whole discussion about this between Stephen and me in patch
-> #5 ("drm/msm/dp: wait for hpd high before any sink interaction").
-> Basically:
->
-> * If panel HPD is hooked up to the dedicated HPD pin on the eDP
-> controller then the panel driver doesn't have a way to read it.
+Hi Simon,
 
-I refreshed that dialog. I must admit, I have missed the fact that the
-HPD pin might not be visible as the GPIO pin.
+On 4/8/22 10:22, Simon Ser wrote:
+> Hi Hans,
+> 
+> Thanks for your details replies!
+> 
+> On Thursday, April 7th, 2022 at 19:43, Hans de Goede <hdegoede@redhat.com> wrote:
+> 
+>>> On Thursday, April 7th, 2022 at 17:38, Hans de Goede <hdegoede@redhat.com> wrote:
+>>>
+>>>> The drm_connector brightness properties
+>>>> =======================================
+>>>>
+>>>> bl_brightness: rw 0-int32_max property controlling the brightness setting
+>>>> of the connected display. The actual maximum of this will be less then
+>>>> int32_max and is given in bl_brightness_max.
+>>>
+>>> Do we need to split this up into two props for sw/hw state? The privacy screen
+>>> stuff needed this, but you're pretty familiar with that. :)
+>>
+>> Luckily that won't be necessary, since the privacy-screen is a security
+>> feature the firmware/embedded-controller may refuse our requests
+>> (may temporarily lock-out changes) and/or may make changes without
+>> us requesting them itself. Neither is really the case with the
+>> brightness setting of displays.
+> 
+> Cool, makes sense to me!
+> 
+>>>> bl_brightness_max: ro 0-int32_max property giving the actual maximum
+>>>> of the display's brightness setting. This will report 0 when brightness
+>>>> control is not available (yet).
+>>>
+>>> I don't think we actually need that one. Integer KMS props all have a
+>>> range which can be fetched via drmModeGetProperty. The max can be
+>>> exposed via this range. Example with the existing alpha prop:
+>>>
+>>>     "alpha": range [0, UINT16_MAX] = 65535
+>>
+>> Right, I already knew that, which is why I explicitly added a range
+>> to the props already. The problem is that the range must be set
+>> before registering the connector and when the backlight driver
+>> only shows up (much) later during boot then we don't know the
+>> range when registering the connector. I guess we could "patch-up"
+>> the range later. But AFAIK that would be a bit of abuse of the
+>> property API as the range is intended to never change, not
+>> even after hotplug uevents. At least atm there is no infra
+>> in the kernel to change the range later.
+>>
+>> Which is why I added an explicit bl_brightness_max property
+>> of which the value gives the actual effective maximum of the
+>> brightness.
+>>
+>> I did consider using the range for this and updating it
+>> on the fly I think nothing is really preventing us from
+>> doing so, but it very much feels like abusing the generic
+>> properties API.
+> 
+> Since this is new uAPI there's no concern about backwards compat here. So it's
+> pretty much a matter of how we want the uAPI to look like. I was suggesting
+> using a range because it's self-describing, but maybe it's an abuse.
+> 
+> Daniel Vetter, what do you think? If a property's range is going to be updated
+> on the fly, should we go for it, or should we use a separate prop to describe
+> the max value?
+> 
+>>>> bl_brightness_0_is_min_brightness: ro, boolean
+>>>> When this is set to true then it is safe to set brightness to 0
+>>>> without worrying that this completely turns the backlight off causing
+>>>> the screen to become unreadable. When this is false setting brightness
+>>>> to 0 may turn the backlight off, but this is not guaranteed.
+>>>> This will e.g. be true when directly driving a PWM and the video-BIOS
+>>>> has provided a minimum (non 0) duty-cycle below which the driver will
+>>>> never go.
+>>>
+>>> Hm. It's quite unfortunate that it's impossible to have strong guarantees
+>>> here.
+>>>
+>>> Is there any way we can avoid this prop?
+>>
+>> Not really, the problem is that we really don't know if 0 is off
+>> or min-brightness. In the given example where we actually never go
+>> down to a duty-cycle of 0% because the video BIOS tables tell us
+>> not to, we can be certain that setting the brightness prop to 0
+>> will not turn of the backlight, since we then set the duty-cycle
+>> to the VBT provided minimum. Note the intend here is to only set
+>> the boolean to true if the VBT provided minimum is _not_ 0, 0
+>> just means the vendor did not bother to provide a minimum.
+>>
+>> Currently e.g. GNOME never goes lower then something like 5%
+>> of brightness_max to avoid accidentally turning the screen off.
+>>
+>> Turning the screen off is quite bad to do on e.g. tablets where
+>> the GUI is the only way to undo the brightness change and now
+>> the user can no longer see the GUI.
+>>
+>> The idea behind this boolean is to give e.g. GNOME a way to
+>> know that it is safe to go down to 0% and for it to use
+>> the entire range.
+>>
+>>> For instance if we can guarantee that the min level won't turn the screen
+>>> completely off we could make the range start from 1 instead of 0.
+>>> Or allow -1 to mean "minimum value, maybe completely off".
+>>
+>> Right, the problem is we really don't know and when the range is
+>> e.g. 0-65535 then something like 1 will almost always still just
+>> turn the screen completely off. There will be a value of say like
+>> 150 or some such which is then the actual minimum value to still
+>> get the backlight to light up at all. The problem is we have
+>> no clue what the actual minimum is. And if the PWM output does
+>> not directly drive the LEDs but is used as an input for some
+>> LED backlight driver chip, that chip itself may have a lookup
+>> table (which may also take care of doing perceived brightness
+>> mapping) and may guarantee a minimum backlight even when given
+>> a 0% duty cycle PWM signal...
+> 
+> Oh, what a fun world we live in.
+> 
+> Would it be completely unreasonable to have a hwdb in the kernel to know the
+> real minimum value if it hasn't been provided by the VBT? Or would that be too
+> much of a colossal effort?
 
-> * We can't leverage the existing "HPD" query functions in DRM because
-> those indicate whether a panel is _physically_ connected. For eDP, it
-> always is.
+I'm afraid that that is not feasible, there are way to many laptop
+models and for a single model different batches often use different
+panels, so the amount model + panel combos such a hwdb would need
+to contain is very large.
+> What happens in the DDC/CI world? What does 0 mean there? Is it the same messy
+> situation again?
 
-Yes, I was thinking about (mis)using the
-drm_bridge_connector_hpd_notify() for generic HPD-related
-notifications (to tell eDP that it should check the current state). I
-have abandoned that idea.
+I would expect 0 to pretty much always be min brightness there I
+don't expect an external  monitor to allow turning off the backlight
+outside of DPMS, otherwise if the brightness is controlled through the
+OSD users won't be able to get it back to a functional value and
+they will get way too much support calls.
 
-> For now the rule is that the AUX transfer function is in charge of
-> waiting for HPD for eDP if the dedicated HPD pin is used. If we want
-> to re-invent this we could, but that system works, isn't _too_ ugly,
-> and we're already making big enough changes in this series.
+> 
+>> This prop is sort of orthogonal to the generic change to
+>> drm_connector props, so we could also do this later as a follow up
+>> change. At a minimum when I code this up this should be in its
+>> own commit(s) I believe.
+>>
+>> But I do think having this will be useful for the above
+>> GNOME example.
+>>
+>>>> bl_brightness_control_method: ro, enum, possible values:
+>>>> none: The GPU driver expects brightness control to be provided by another
+>>>> driver and that driver has not loaded yet.
+>>>> unknown: The underlying control mechanism is unknown.
+>>>> pwm: The brightness property directly controls the duty-cycle of a PWM
+>>>> output.
+>>>> firmware: The brightness is controlled through firmware calls.
+>>>> DDC/CI: The brightness is controlled through the DDC/CI protocol.
+>>>> gmux: The brightness is controlled by the GMUX.
+>>>> Note this enum may be extended in the future, so other values may
+>>>> be read, these should be treated as "unknown".
+>>>>
+>>>> When brightness control becomes available after being reported
+>>>> as not available before (bl_brightness_control_method=="none")
+>>>> a uevent with CONNECTOR=<connector-id> and
+>>>>
+>>>> PROPERTY=<bl_brightness_control_method-id> will be generated
+>>>>
+>>>> at this point all the properties must be re-read.
+>>>>
+>>>> When/once brightness control is available then all the read-only
+>>>> properties are fixed and will never change.
+>>>>
+>>>> Besides the "none" value for no driver having loaded yet,
+>>>> the different bl_brightness_control_method values are intended for
+>>>> (userspace) heuristics for such things as the brightness setting
+>>>> linearly controlling electrical power or setting perceived brightness.
+>>>
+>>> Can you elaborate? I don't know enough about brightness control to
+>>> understand all of the implications here.
+>>
+>> So after sending this email I was already thinking myself that this
+>> one might not be the best idea. Another shortcoming of the current
+>> backlight API is that it does not let userspace know if the
+>> number is a linear control of the time the LEDs are on vs off
+>> (assuming a LED backlight) or if some component already uses a
+>> lookup table to make 0-100% be more of a linear scale in the
+>> human perception, which is very much non linear. See e.g.:
+>>
+>> https://www.sciencedirect.com/topics/computer-science/perceived-brightness
+>>
+>> "refers to the perceived amount of light coming from self-luminous sources"
+>> "Perceived brightness is a very nonlinear function of the amount of light emitted by a lamp."
+>>
+>> The problem is that at the kernel level we have no idea if
+>> we are controlling "the amount of light emitted" or
+>> perceived brightness and it would be sorta nice for userspace
+>> to know. So the idea here is/was to allow userspace to make some
+>> educated guess here. E.g. a bl_brightness_control_method of "PWM"
+>> hints strongly at "the amount of light emitted" (but this is
+>> not true 100% of the time).  ATM userspace does not do any
+>> "perceived brightness" curve correction so for the first
+>> implementation of moving brightness control to drm properties
+>> I believe it might be better to just park the whole
+>> bl_brightness_control_method propery idea.
+> 
+> Hm, I see.
+> 
+> Are there other use-cases for this property besides the perceived brightness?
 
-The is_hpd_asserted() looks like a good callback for the aux bus.
-It will allow the panel driver to check if the panel is powered up (in
-the absence of the GPIO pin).
+No not really, the more I think about it the more I think that this is
+a half-baked idea and for now I plan to not add this property to any
+patches implementing this proposal.
 
-> > > So we can still acquire resources (clocks, PHY, io maps, etc) at probe
-> > > time for DP and create the AUX bus, right? It will just return
-> > > "-ENODEV" if HPD isn't asserted and you're DP?
-> >
-> > Yes, please. I still suppose that we'd need a separate case to
-> > power_on eDP's PHY during the probe time. Maybe I'm mistaken here.
->
-> I think the ideal way is to do it like Kieran's proposal for sn65dsi86:
->
-> https://lore.kernel.org/r/20220317131250.1481275-4-kieran.bingham+renesas@ideasonboard.com/
->
-> * When enabling HPD (physical hot plug detect) in the hpd_enable()
-> callback you do a pm_runtime_get(). You do the
-> pm_runtime_put_autosuspend() when disabling. This is only used for DP
-> since we only provide DRM_BRIDGE_OP_HPD for DP, not for eDP.
->
-> * We do a pm_runtime_get() / pm_runtime_put_autosuspend() in the AUX
-> transfer routine. While holding the pm_runtime reference we check HPD.
-> For DP we return immediately if HPD isn't asserted. For eDP, we delay.
->
-> * We do the pm_runtime_get() in pre_enable and the pm_runtime_put() in
-> post_disable. For DP this will add a 2nd refcount (since we probably
-> were holding the reference for HPD). For eDP this will cause us to
-> power on.
->
-> * If there's any other time we need to read HW registers, and we
-> aren't guaranteed to already have a pm_runtime reference (like during
-> probe), we can do a temporary pm_runtime_get() /
-> pm_runtime_put_autosuspend().
+Regards,
 
-This looks good. I'd be more than welcome to review such series.
+Hans
 
-Note: I think this would require using
-drm_bridge_connector_enable_hpd() in the DP code.
-Hopefully at some point we would be able to move all
-drm_bridge_connector calls to the core msm layer.
---
-With best wishes
-Dmitry
