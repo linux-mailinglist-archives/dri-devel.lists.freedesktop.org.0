@@ -2,49 +2,50 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 435904F9A73
-	for <lists+dri-devel@lfdr.de>; Fri,  8 Apr 2022 18:22:53 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 22C3C4F9A76
+	for <lists+dri-devel@lfdr.de>; Fri,  8 Apr 2022 18:23:01 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 30E2C10E520;
-	Fri,  8 Apr 2022 16:22:51 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 5C04D10E51A;
+	Fri,  8 Apr 2022 16:22:59 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-pg1-x535.google.com (mail-pg1-x535.google.com
- [IPv6:2607:f8b0:4864:20::535])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 58BFD10E51A
- for <dri-devel@lists.freedesktop.org>; Fri,  8 Apr 2022 16:22:49 +0000 (UTC)
-Received: by mail-pg1-x535.google.com with SMTP id q19so8181083pgm.6
- for <dri-devel@lists.freedesktop.org>; Fri, 08 Apr 2022 09:22:49 -0700 (PDT)
+Received: from mail-pj1-x1036.google.com (mail-pj1-x1036.google.com
+ [IPv6:2607:f8b0:4864:20::1036])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 92ADD10E51A
+ for <dri-devel@lists.freedesktop.org>; Fri,  8 Apr 2022 16:22:57 +0000 (UTC)
+Received: by mail-pj1-x1036.google.com with SMTP id
+ n6-20020a17090a670600b001caa71a9c4aso10180466pjj.1
+ for <dri-devel@lists.freedesktop.org>; Fri, 08 Apr 2022 09:22:57 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=amarulasolutions.com; s=google;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=h67+xEaF679u3X7yXL9S0kYbWc8Rb5WkxAfTc72OsWE=;
- b=VjoSi9WU5V454XbD6q0vk8Y4PR6A9RpDl6B9dhzKJi6gNTDFn3lyl0CADVzDB7BSeo
- BTq8UNFYmAqm5Z4zWbZvYDcwhUpK0/EVeqIssiJCFL8BVGe5PkVBwzj8Br515L6grBLR
- UgD/GdKl6S3/PWvMd9HkgkRqSmYmCBE95ssp8=
+ bh=Is0eSnwBB0c+KCKE5P6y3Z/4g9fKoG//Yrq64nJGzuA=;
+ b=PJ1FXOhyq6lEZGcESSV3oZwNaq+cYEByIC3a06+xLMyPUy4BAL3RMx2iQFRq6Zuapa
+ GnJw/ocMXEDvDTGDzFf9FeZ7429S7s3jYF9LBWvOAlbq3/4peayUB6XiweycgoC59yhp
+ wNjpd+UKj0nS71yvRdLLqDdlPK7xZ/pUb2iqk=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=h67+xEaF679u3X7yXL9S0kYbWc8Rb5WkxAfTc72OsWE=;
- b=B9GON6LdqiOEztK3LdGconpkhZJTj1YucI/EapE4kQB52JYX+vG7swtvTmn+C3KTRs
- 0FQ/IiFnids42Mpw0x02EUDS7Lwv1Y31dwaBQEF1gm4Ycmt62ZMEkBl3vun4uCie0fY4
- wHLY+cMJAMwxzjVBXrZJ3a80jLXMv1HOhcy5WmcoK3Jf9Sc8NoWZTJBfAqRgIOWJbsgm
- HU47vL4LgGU7NDXyRf2Mlxuee4EZGWlwQLCBziHWD/B64TS01Gjh2X8ev9elONUHKQja
- k12YulaIlIwAhG7F3UurYhviKMKd4DE31TpKLNsq9bY5ld+Sk0XpqYLQvlbhks4hsi1C
- tOrA==
-X-Gm-Message-State: AOAM531TUfroV2uUd5H7XHpCCpfLsIyuRg+QFe7ZG9KdygWQd8l/Bavq
- zMFuzcv3XSuXemvvmOlFPx+BYg==
-X-Google-Smtp-Source: ABdhPJz3OPdHHuEVTCzuIQR+OnVd+H9EwJqCLGXpxHAoSLoARiy/JNu3Mkt6PeZzcb0UTqJHopaSwA==
-X-Received: by 2002:a63:ec46:0:b0:381:81c4:ebbd with SMTP id
- r6-20020a63ec46000000b0038181c4ebbdmr16197865pgj.534.1649434968925; 
- Fri, 08 Apr 2022 09:22:48 -0700 (PDT)
+ bh=Is0eSnwBB0c+KCKE5P6y3Z/4g9fKoG//Yrq64nJGzuA=;
+ b=FEMDgPCu9eU6aikzwV7rtfUgFf83ZiR2jZHyh5+1IelYtxHAC88Fe0E/sYFKFszOPs
+ zrMXH5SQccX1HFPdmuelfEVbjnS9fjpce+j8kFHL3mPUR/6S2HeVAxxQ3RWcC3i2m3Ec
+ v//bDD1IBAcaZzaY/CsY56t4N/lA7nF/THFtNpem27WbZpfjgNkVOQGwU9SBSQRDRtu/
+ lc2OszYsau2KUDkGQS3hz/lhJonaYDWYNWXtc3WytxGETNMRIxY+KZ7vHPZKH4VKpiIT
+ dayPKWJmS9heDEecQvc1Gbf0yL62YB6Fb90KA2DGXvQd4WasewU9pP61sNtFbmt21XIF
+ QzLw==
+X-Gm-Message-State: AOAM530Ul3eQgj8NLUJnfK3vnArzR4DqrPv2L6OoE+NljUq0HDa3rP5E
+ /rSxOQNyEoE7CRUlxjq0g9TjlQ==
+X-Google-Smtp-Source: ABdhPJyyC+DLIlCAsb4NS7NYt091VuqvyMKyji4aF7dG4s7CnOE/27EJaHXsz9UfH0iHconOn81y2A==
+X-Received: by 2002:a17:902:cf05:b0:156:9d:ca01 with SMTP id
+ i5-20020a170902cf0500b00156009dca01mr19868194plg.111.1649434977157; 
+ Fri, 08 Apr 2022 09:22:57 -0700 (PDT)
 Received: from j-ThinkPad-E14-Gen-2.domain.name ([45.249.78.214])
  by smtp.gmail.com with ESMTPSA id
- n18-20020a056a0007d200b004fdac35672fsm24929863pfu.68.2022.04.08.09.22.41
+ n18-20020a056a0007d200b004fdac35672fsm24929863pfu.68.2022.04.08.09.22.49
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Fri, 08 Apr 2022 09:22:48 -0700 (PDT)
+ Fri, 08 Apr 2022 09:22:56 -0700 (PDT)
 From: Jagan Teki <jagan@amarulasolutions.com>
 To: Andrzej Hajda <andrzej.hajda@intel.com>, Inki Dae <inki.dae@samsung.com>,
  Marek Szyprowski <m.szyprowski@samsung.com>,
@@ -58,9 +59,9 @@ To: Andrzej Hajda <andrzej.hajda@intel.com>, Inki Dae <inki.dae@samsung.com>,
  Robert Foss <robert.foss@linaro.org>,
  Laurent Pinchart <Laurent.pinchart@ideasonboard.com>,
  Rob Herring <robh+dt@kernel.org>
-Subject: [PATCH 05/11] drm: bridge: samsung-dsim: Fix PLL_P (PMS_P) offset
-Date: Fri,  8 Apr 2022 21:51:02 +0530
-Message-Id: <20220408162108.184583-6-jagan@amarulasolutions.com>
+Subject: [PATCH 06/11] drm: bridge: samsung-dsim: Add module init, exit
+Date: Fri,  8 Apr 2022 21:51:03 +0530
+Message-Id: <20220408162108.184583-7-jagan@amarulasolutions.com>
 X-Mailer: git-send-email 2.25.1
 In-Reply-To: <20220408162108.184583-1-jagan@amarulasolutions.com>
 References: <20220408162108.184583-1-jagan@amarulasolutions.com>
@@ -85,104 +86,56 @@ Cc: devicetree@vger.kernel.org, linux-samsung-soc@vger.kernel.org,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-The i.MX 8M Mini Applications Processor Reference Manual, Rev. 3, 11/2020
-with 13.7.10.1 Master PLL PMS Value setting Register mentioned PMS_P offset
-range from BIT[18-13] and the upstream driver is using the same offset.
+Add module init and exit functions for the bridge to register
+and unregister dsi_driver.
 
-However, offset 13 is not working on i.MX8M Mini platforms but downstream
-NXP driver is using 14 [1] and it is working with i.MX8M Mini SoC.
+Exynos drm driver stack will register the platform_driver separately
+in the common of it's exynos_drm_drv.c including dsi_driver.
 
-Not sure about whether it is reference manual documentation or something
-else but this patch trusts the downstream code and fixes the PLL_P offset.
-
-[1] https://source.codeaurora.org/external/imx/linux-imx/tree/drivers/gpu/drm/bridge/sec-dsim.c?h=imx_5.4.47_2.2.0#n211
+Register again would return -EBUSY, so return 0 for such cases as
+dsi_driver is already registered.
 
 v1:
-* updated commit message
-* add downstream driver link
+* none
 
-Signed-off-by: Frieder Schrempf <frieder.schrempf@kontron.de>
 Signed-off-by: Jagan Teki <jagan@amarulasolutions.com>
 ---
- drivers/gpu/drm/bridge/samsung-dsim.c | 10 ++++++++--
- include/drm/bridge/samsung-dsim.h     |  1 +
- 2 files changed, 9 insertions(+), 2 deletions(-)
+ drivers/gpu/drm/bridge/samsung-dsim.c | 22 ++++++++++++++++++++++
+ 1 file changed, 22 insertions(+)
 
 diff --git a/drivers/gpu/drm/bridge/samsung-dsim.c b/drivers/gpu/drm/bridge/samsung-dsim.c
-index 3e12b469dfa8..423d654e8ffd 100644
+index 423d654e8ffd..1fe4b8e737a4 100644
 --- a/drivers/gpu/drm/bridge/samsung-dsim.c
 +++ b/drivers/gpu/drm/bridge/samsung-dsim.c
-@@ -169,7 +169,7 @@
- /* DSIM_PLLCTRL */
- #define DSIM_FREQ_BAND(x)		((x) << 24)
- #define DSIM_PLL_EN			(1 << 23)
--#define DSIM_PLL_P(x)			((x) << 13)
-+#define DSIM_PLL_P(x, offset)		((x) << (offset))
- #define DSIM_PLL_M(x)			((x) << 4)
- #define DSIM_PLL_S(x)			((x) << 1)
+@@ -1696,6 +1696,28 @@ struct platform_driver dsi_driver = {
+ 	},
+ };
  
-@@ -369,6 +369,7 @@ static const struct samsung_dsim_driver_data exynos3_dsi_driver_data = {
- 	.max_freq = 1000,
- 	.wait_for_reset = 1,
- 	.num_bits_resol = 11,
-+	.pll_p_offset = 13,
- 	.reg_values = reg_values,
- 	.platform_init = true,
- };
-@@ -382,6 +383,7 @@ static const struct samsung_dsim_driver_data exynos4_dsi_driver_data = {
- 	.max_freq = 1000,
- 	.wait_for_reset = 1,
- 	.num_bits_resol = 11,
-+	.pll_p_offset = 13,
- 	.reg_values = reg_values,
- 	.platform_init = true,
- };
-@@ -393,6 +395,7 @@ static const struct samsung_dsim_driver_data exynos5_dsi_driver_data = {
- 	.max_freq = 1000,
- 	.wait_for_reset = 1,
- 	.num_bits_resol = 11,
-+	.pll_p_offset = 13,
- 	.reg_values = reg_values,
- 	.platform_init = true,
- };
-@@ -405,6 +408,7 @@ static const struct samsung_dsim_driver_data exynos5433_dsi_driver_data = {
- 	.max_freq = 1500,
- 	.wait_for_reset = 0,
- 	.num_bits_resol = 12,
-+	.pll_p_offset = 13,
- 	.reg_values = exynos5433_reg_values,
- 	.platform_init = true,
- };
-@@ -417,6 +421,7 @@ static const struct samsung_dsim_driver_data exynos5422_dsi_driver_data = {
- 	.max_freq = 1500,
- 	.wait_for_reset = 1,
- 	.num_bits_resol = 12,
-+	.pll_p_offset = 13,
- 	.reg_values = exynos5422_reg_values,
- 	.platform_init = true,
- };
-@@ -564,7 +569,8 @@ static unsigned long samsung_dsim_set_pll(struct samsung_dsim *dsi,
- 	writel(driver_data->reg_values[PLL_TIMER],
- 			dsi->reg_base + driver_data->plltmr_reg);
- 
--	reg = DSIM_PLL_EN | DSIM_PLL_P(p) | DSIM_PLL_M(m) | DSIM_PLL_S(s);
-+	reg = DSIM_PLL_EN | DSIM_PLL_P(p, driver_data->pll_p_offset) |
-+	      DSIM_PLL_M(m) | DSIM_PLL_S(s);
- 
- 	if (driver_data->has_freqband) {
- 		static const unsigned long freq_bands[] = {
-diff --git a/include/drm/bridge/samsung-dsim.h b/include/drm/bridge/samsung-dsim.h
-index eca7eacb5910..4eb48ec6543f 100644
---- a/include/drm/bridge/samsung-dsim.h
-+++ b/include/drm/bridge/samsung-dsim.h
-@@ -38,6 +38,7 @@ struct samsung_dsim_driver_data {
- 	unsigned int max_freq;
- 	unsigned int wait_for_reset;
- 	unsigned int num_bits_resol;
-+	unsigned int pll_p_offset;
- 	const unsigned int *reg_values;
- 	bool platform_init;
- };
++static int __init samsung_mipi_dsim_init(void)
++{
++	int ret;
++
++	ret = platform_driver_register(&dsi_driver);
++
++	/**
++	 * Exynos drm driver stack will register the platform_driver
++	 * separately in the common of it's exynos_drm_drv.c including
++	 * dsi_driver. Register again would return -EBUSY, so return 0
++	 * for such cases as dsi_driver is already registered.
++	 */
++	return ret == -EBUSY ? 0 : ret;
++}
++module_init(samsung_mipi_dsim_init);
++
++static void __exit samsung_mipi_dsim_exit(void)
++{
++	platform_driver_unregister(&dsi_driver);
++}
++module_exit(samsung_mipi_dsim_exit);
++
+ MODULE_AUTHOR("Jagan Teki <jagan@amarulasolutions.com>");
+ MODULE_DESCRIPTION("Samsung MIPI DSIM controller bridge");
+ MODULE_LICENSE("GPL v2");
 -- 
 2.25.1
 
