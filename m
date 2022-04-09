@@ -1,58 +1,37 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1C27C4FA1DF
-	for <lists+dri-devel@lfdr.de>; Sat,  9 Apr 2022 05:00:16 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 000C44FA1E2
+	for <lists+dri-devel@lfdr.de>; Sat,  9 Apr 2022 05:05:20 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 8586E10E1FE;
-	Sat,  9 Apr 2022 03:00:13 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id B4C3310E262;
+	Sat,  9 Apr 2022 03:05:18 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-il1-x133.google.com (mail-il1-x133.google.com
- [IPv6:2607:f8b0:4864:20::133])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 953FE10E18B
- for <dri-devel@lists.freedesktop.org>; Sat,  9 Apr 2022 03:00:12 +0000 (UTC)
-Received: by mail-il1-x133.google.com with SMTP id t4so7675186ilo.12
- for <dri-devel@lists.freedesktop.org>; Fri, 08 Apr 2022 20:00:12 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
- h=from:to:cc:subject:date:message-id:mime-version
- :content-transfer-encoding;
- bh=7RUgxB5lUnMf0m/8cJBKRpGrEmDxJAR3LLco6CCvSoQ=;
- b=XOXBEPeFHHNN7CMBaD7IyFVzbQgjm8LkaxzYx1ftFJNSXV6gS4JkUd3UW9t/qvpKhZ
- 3YqwXfBtp1ZwgTxM8bHyhRab4zRiuVR5U+P86722emmM0Z+rkuRzVSFGXbMwxf2YJvKl
- +5dSv5E54VhyCQS6z4Uh87JCJvbgeNU+ztiegdXow7rIUt5CJjZoj06jKgDKGpMWuWnb
- n/KBhqUHRdJDauCFwQJvFZFx2l2LR25EQ9ZFShh+AOVFcx7jcsznU5rQXBoxfpgyU55e
- s9nDMzZP93lBA1F/g2jfVaETN4k5Hdh3hrL9THd1tFNTPAMlkAfqw/kwODL0inMrukXH
- RsXA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
- :content-transfer-encoding;
- bh=7RUgxB5lUnMf0m/8cJBKRpGrEmDxJAR3LLco6CCvSoQ=;
- b=XRs0+7NYSgVtTM14kbTQSHnYZUxQwkcc4SmAKBvQ6BOP8UBf3ay/mGew1ebbuyjX+m
- biIaf+vba7eVF183vb/mJttPK8eWenyMpv/6Vvtcr3jklAcVrMyHA5x+ulymbFfJr6Ef
- /WG5+yx+eELZaAurtOvhjRH//IilYqiZZJNFK47D7Kw157tqS7aA10JhIf2Okk2nrCUY
- NE0wfuDxEWEiI3TJNqoC5hIBDVgiTTfCwLPTvoVsGTsIyY2IsNgB0Pm11N5goEYXAQyq
- IbbQgUdc4ns9pUHBkINAkkwb/ItTogQk5ERT82qq5vUwOqKCD8abd99xFunNTe0wy4pE
- rN3Q==
-X-Gm-Message-State: AOAM532H/iVgoA9E1mc1bpm3YbrwBq2RpHW32a3KRtBlnYphrWALdkks
- Dm5zbvdQAxB2ZdPmPTp+PTK7HCjQpC338w==
-X-Google-Smtp-Source: ABdhPJwrhxj/LWZYAEPg4H8QbXHQjFpoQ8f4XNumCm8a/VGKhnV20+mtj6vY1XGvloXnr8hnu3nTqQ==
-X-Received: by 2002:a05:6e02:1c41:b0:2ca:8a04:ad8d with SMTP id
- d1-20020a056e021c4100b002ca8a04ad8dmr2527592ilg.195.1649473211662; 
- Fri, 08 Apr 2022 20:00:11 -0700 (PDT)
-Received: from james-x399.localdomain (71-218-122-133.hlrn.qwest.net.
- [71.218.122.133]) by smtp.gmail.com with ESMTPSA id
- y8-20020a920908000000b002ca38acaa60sm10314731ilg.81.2022.04.08.20.00.10
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Fri, 08 Apr 2022 20:00:11 -0700 (PDT)
-From: James Hilliard <james.hilliard1@gmail.com>
-To: dri-devel@lists.freedesktop.org
-Subject: [PATCH] drm/gma500: select framebuffer dependency
-Date: Fri,  8 Apr 2022 20:59:48 -0600
-Message-Id: <20220409025948.3179636-1-james.hilliard1@gmail.com>
-X-Mailer: git-send-email 2.25.1
+Received: from bombadil.infradead.org (bombadil.infradead.org
+ [IPv6:2607:7c80:54:e::133])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id C464410E18B
+ for <dri-devel@lists.freedesktop.org>; Sat,  9 Apr 2022 03:05:16 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+ d=infradead.org; s=bombadil.20210309; h=Content-Transfer-Encoding:
+ MIME-Version:Message-Id:Date:Subject:Cc:To:From:Sender:Reply-To:Content-Type:
+ Content-ID:Content-Description:In-Reply-To:References;
+ bh=zj+6qY9oD0Jri3Uj9KIZMW6MqyKShipi14GhcbjvaE8=; b=o2/XIYlk3asS/ckD2dNmjhUPND
+ 3xNzThDxnWPEFAkJRvgi636lpHD8HMjlokS4wWxZWx5vREQDgA9Bm2C64Zm1CCHjDkani/p6W5qDn
+ 22r2PmQnAPJ53emP5Ydnug/209GDoMO4d1wa41erdZ+vLKLX8OObtUYbcFPAbRLhxmNaeuyQujfqW
+ I++0pTk1h5ZUbqtm/gpdqgyVInPrc7eVpxNGeWtUdeVWTC34iHGEnC3obMWe7ak9/4EcHA0GGSGdC
+ DIvn3BI2fArB4ZJHvE2hfOqqkd6OrN9Qk5E4DPQ7Ur59DfeB2TjFbAp6wv9WAaZbCkULcDfXQ874T
+ ZnZ4VxlA==;
+Received: from [2601:1c0:6280:3f0::aa0b] (helo=bombadil.infradead.org)
+ by bombadil.infradead.org with esmtpsa (Exim 4.94.2 #2 (Red Hat Linux))
+ id 1nd1PN-001nKr-Il; Sat, 09 Apr 2022 03:05:05 +0000
+From: Randy Dunlap <rdunlap@infradead.org>
+To: linux-kernel@vger.kernel.org
+Subject: [PATCH] drm/hisilicon/hibmc: add back depends on MMU
+Date: Fri,  8 Apr 2022 20:05:04 -0700
+Message-Id: <20220409030504.16089-1-rdunlap@infradead.org>
+X-Mailer: git-send-email 2.34.1
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
@@ -67,31 +46,55 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: David Airlie <airlied@linux.ie>, James Hilliard <james.hilliard1@gmail.com>,
- linux-kernel@vger.kernel.org
+Cc: kernel test robot <lkp@intel.com>, Xinliang Liu <xinliang.liu@linaro.org>,
+ Chen Feng <puck.chen@hisilicon.com>, Randy Dunlap <rdunlap@infradead.org>,
+ Javier Martinez Canillas <javierm@redhat.com>, dri-devel@lists.freedesktop.org,
+ David Airlie <airlied@linux.ie>, Xinwei Kong <kong.kongxinwei@hisilicon.com>,
+ Thomas Zimmermann <tzimmermann@suse.de>, Tian Tao <tiantao6@hisilicon.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-This appears to be needed for video output to function correctly.
+ARM64 always has CONFIG_MMU=y but adding a dependency on
+COMPILE_TEST allows an arch with MMU optional (riscv in this case)
+to build the hibmc driver, leading to a kconfig warning and
+build errors, so restore the MMU dependency.
 
-Signed-off-by: James Hilliard <james.hilliard1@gmail.com>
+WARNING: unmet direct dependencies detected for DRM_TTM
+  Depends on [n]: HAS_IOMEM [=y] && DRM [=y] && MMU [=n]
+  Selected by [y]:
+  - DRM_TTM_HELPER [=y] && HAS_IOMEM [=y] && DRM [=y]
+  - DRM_HISI_HIBMC [=y] && HAS_IOMEM [=y] && DRM [=y] && PCI [=y] && (ARM64 || COMPILE_TEST [=y])
+
+riscv64-linux-ld: drivers/gpu/drm/ttm/ttm_bo_vm.o: in function `.L97':
+ttm_bo_vm.c:(.text+0x814): undefined reference to `vmf_insert_pfn_prot'
+riscv64-linux-ld: drivers/gpu/drm/ttm/ttm_bo_vm.o: in function `.L0 ':
+ttm_bo_vm.c:(.text+0x9d0): undefined reference to `vmf_insert_pfn_prot'
+
+Fixes: a0f25a6bb319 ("drm/hisilicon/hibmc: Allow to be built if COMPILE_TEST is enabled")
+Signed-off-by: Randy Dunlap <rdunlap@infradead.org>
+Reported-by: kernel test robot <lkp@intel.com>
+Cc: Javier Martinez Canillas <javierm@redhat.com>
+Cc: Thomas Zimmermann <tzimmermann@suse.de>
+Cc: Xinliang Liu <xinliang.liu@linaro.org>
+Cc: Tian Tao  <tiantao6@hisilicon.com>
+Cc: John Stultz <john.stultz@linaro.org>
+Cc: Xinwei Kong <kong.kongxinwei@hisilicon.com>
+Cc: Chen Feng <puck.chen@hisilicon.com>
+Cc: David Airlie <airlied@linux.ie>
+Cc: Daniel Vetter <daniel@ffwll.ch>
+Cc: dri-devel@lists.freedesktop.org
 ---
- drivers/gpu/drm/gma500/Kconfig | 2 ++
- 1 file changed, 2 insertions(+)
+ drivers/gpu/drm/hisilicon/hibmc/Kconfig |    2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/drivers/gpu/drm/gma500/Kconfig b/drivers/gpu/drm/gma500/Kconfig
-index 0cff20265f97..ff8c7b6e87f5 100644
---- a/drivers/gpu/drm/gma500/Kconfig
-+++ b/drivers/gpu/drm/gma500/Kconfig
-@@ -7,6 +7,8 @@ config DRM_GMA500
- 	select ACPI_VIDEO if ACPI
- 	select BACKLIGHT_CLASS_DEVICE if ACPI
- 	select INPUT if ACPI
-+	select FB
-+	select FB_EFI if EFI
- 	help
- 	  Say yes for an experimental 2D KMS framebuffer driver for the
- 	  Intel GMA500 (Poulsbo), Intel GMA600 (Moorestown/Oak Trail) and
--- 
-2.25.1
-
+--- a/drivers/gpu/drm/hisilicon/hibmc/Kconfig
++++ b/drivers/gpu/drm/hisilicon/hibmc/Kconfig
+@@ -1,7 +1,7 @@
+ # SPDX-License-Identifier: GPL-2.0-only
+ config DRM_HISI_HIBMC
+ 	tristate "DRM Support for Hisilicon Hibmc"
+-	depends on DRM && PCI && (ARM64 || COMPILE_TEST)
++	depends on DRM && PCI && MMU && (ARM64 || COMPILE_TEST)
+ 	select DRM_KMS_HELPER
+ 	select DRM_VRAM_HELPER
+ 	select DRM_TTM
