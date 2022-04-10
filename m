@@ -1,44 +1,51 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 05F414FAB19
-	for <lists+dri-devel@lfdr.de>; Sun, 10 Apr 2022 01:11:12 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id F31A34FAB31
+	for <lists+dri-devel@lfdr.de>; Sun, 10 Apr 2022 02:32:23 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id A289410E5FF;
-	Sat,  9 Apr 2022 23:11:06 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id F1E5110E123;
+	Sun, 10 Apr 2022 00:32:17 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from phobos.denx.de (phobos.denx.de
- [IPv6:2a01:238:438b:c500:173d:9f52:ddab:ee01])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 3D9E810E5FF
- for <dri-devel@lists.freedesktop.org>; Sat,  9 Apr 2022 23:11:05 +0000 (UTC)
-Received: from tr.lan (ip-89-176-112-137.net.upcbroadband.cz [89.176.112.137])
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits))
- (No client certificate requested)
- (Authenticated sender: marex@denx.de)
- by phobos.denx.de (Postfix) with ESMTPSA id 1075D80885;
- Sun, 10 Apr 2022 01:11:00 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=denx.de;
- s=phobos-20191101; t=1649545862;
- bh=FABARVohaSIw/3ccLPJWH46r3KnR8volEEgjbj1Uxpg=;
- h=From:To:Cc:Subject:Date:From;
- b=G/0dCx50+VeaVmAO/fbNcLx2NFo6+qR4QheT7IhDdkxSs+sxXK+BGU1RPQjSU2dbM
- 1XQyoNuLZauPCEUtesWkZVB9lGkOLvzx4/hvPKaKqlcHkFZbvZkUzKav+2d7N/T9yS
- T8/UNiPNkZioGkmYQE220wYRGnexilGn+OW1Y1Q4ikROfBvjEYPYKVmy+/PRXV6HbT
- k+Yjj23zg5Vgxvt8BVIO2awH60VjAb1UG1Ar7ISaMxQM647i6r09DBWKk0iE4ziR2G
- PSpl7ixPnvhivd/pTupila1uWR/4kDfgxjelWJkg5GqU+6G5Gotwvs9R39alz+s4BV
- RRK55CkYz7Z6Q==
-From: Marek Vasut <marex@denx.de>
-To: dri-devel@lists.freedesktop.org
-Subject: [PATCH] drm: mxsfb: Implement LCDIF scanout CRC32 support
-Date: Sun, 10 Apr 2022 01:10:40 +0200
-Message-Id: <20220409231040.344801-1-marex@denx.de>
-X-Mailer: git-send-email 2.35.1
+Received: from mout.kundenserver.de (mout.kundenserver.de [217.72.192.74])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 0EBB610E123
+ for <dri-devel@lists.freedesktop.org>; Sun, 10 Apr 2022 00:32:16 +0000 (UTC)
+Received: from [192.168.1.107] ([37.4.249.94]) by mrelayeu.kundenserver.de
+ (mreue109 [212.227.15.183]) with ESMTPSA (Nemesis) id
+ 1Mo6zF-1oIzvB0WHT-00pbrz; Sun, 10 Apr 2022 02:32:06 +0200
+Message-ID: <42f24a68-391a-e6c8-25a7-511e91a5c7f9@i2se.com>
+Date: Sun, 10 Apr 2022 02:32:02 +0200
 MIME-Version: 1.0
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.7.0
+Subject: Re: vc4: Couldn't stop firmware display driver during boot
+Content-Language: en-US
+From: Stefan Wahren <stefan.wahren@i2se.com>
+To: Maxime Ripard <maxime@cerno.tech>
+References: <69c4f25d-7b48-081b-f609-8e1fd5f950cb@i2se.com>
+ <df9d739d-7dff-4e2b-d1cd-66a5c5887cab@i2se.com>
+In-Reply-To: <df9d739d-7dff-4e2b-d1cd-66a5c5887cab@i2se.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 8bit
-X-Virus-Scanned: clamav-milter 0.103.5 at phobos.denx.de
-X-Virus-Status: Clean
+X-Provags-ID: V03:K1:9mm4jMgUDfJxfbUhwwZEmZqAa6U5EkWiBsKFWugkKDJ5G3Ki5Mk
+ a8iBdb8WLhw7eZU9eedUQ/ElXS9gzTrHWhlowKl6A/eZEz873W0TsaagsQk+EuLb0yvUQxN
+ JTYuPrDhwiTZJC3okr4mhicSDPVw5/v3U3cb2umSOPf92SlO8dOYvAC9KSSuSQcBYc7c6wB
+ NSrVPAHbwQs/1KIZL0T7Q==
+X-Spam-Flag: NO
+X-UI-Out-Filterresults: notjunk:1;V03:K0:u2WN6oC0iGs=:BVjx8C7TeGR4PZlqnyVUG6
+ 2eL+CdBeijvENFzhQ5rmVxZ2gF0F0BVoCe58qExQB1jpDKgxbexLOS5If5G3BaTIxWVB6MPuz
+ 0Cweuv+YNiycdMDgICswMaatKIaJBcSRrIcfAcrmuyfW65tPX1a0uCdiO2iC2AGBSSbJPZSds
+ Z/LuSgY4QnusH/S98+/zxy9/QY2uPe3xoohk69pabO6YhzpzKqd4GkAbNysx7sitSzse87+TP
+ rdiptOOs0nONrNoy/T0qL4ZO0haHx208sfGbv/Rk8L98YMDtEk2V8nGYJXEnRxSvE+Ob1E6Y+
+ 1LIYGkQnVOB8Nf++VgspgAc3+7xQAuYsZqL+x6yEl2EJK/dwdpPDY7vjsg13yM2Xh05TTYJbp
+ KCDFsMx57VU8B0KAcF1xc+qrqhlXYiSPkLWjYUXjU0OdQV9vISi5zP/HDkuEv+zPHmaZGqbyr
+ n+CnRlMdzNuI5l47r7F7ha71o0uGzzMhYq9gPOTsffz0OtVl9O4Y36YY+1MubZ19Ulum0wwlU
+ f0zlHNy9rvzg8ScxcsQPF0K44OLuUQ9RMfHAVsepE1G8LbgbTABjDswhkjihQRLfotpFCNJBN
+ ZubfQ7m868HSIDykFemBcfzqCPZWxLfumXyetDT/dA/+Eh8E88oancBgR9/NVik+F7lqYPeOf
+ qthIdxCM8MGMBJfjUOgs9mqWx1ol67Ve4bD71Hnmla8U5rbxOsRfZqoywwm8HaLWoixm9feU8
+ 5V50r1QBUGfIann8
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -51,231 +58,97 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Marek Vasut <marex@denx.de>, Peng Fan <peng.fan@nxp.com>,
- Alexander Stein <alexander.stein@ew.tq-group.com>, robert.foss@linaro.org,
- Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
- Robby Cai <robby.cai@nxp.com>, Sam Ravnborg <sam@ravnborg.org>
+Cc: Dave Stevenson <dave.stevenson@raspberrypi.com>,
+ David Airlie <airlied@linux.ie>, Daniel Vetter <daniel.vetter@ffwll.ch>,
+ Javier Martinez Canillas <javierm@redhat.com>,
+ DRI Development <dri-devel@lists.freedesktop.org>,
+ Thomas Zimmermann <tzimmermann@suse.de>, Phil Elwell <phil@raspberrypi.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-The LCDIF controller as present in i.MX28/i.MX6SX/i.MX8M Mini/Nano has
-CRC_STAT register, which contains CRC32 of the frame as it was clocked
-out of the DPI interface of the LCDIF. This is most likely meant as a
-functional safety feature.
-
-Unfortunately, there is zero documentation on how the CRC32 is calculated,
-there is no documentation of the polynomial, the init value, nor on which
-data is the checksum applied.
-
-By applying brute-force on 8 pixel / 2 line frame, which is the minimum
-size LCDIF would work with, it turns out the polynomial is CRC32_POLY_LE
-0xedb88320 , init value is 0xffffffff , the input data are bitrev32()
-of the entire frame and the resulting CRC has to be also bitrev32()ed.
-
-Doing this calculation in kernel for each frame is unrealistic due to the
-CPU demand, so attach the CRC collected from hardware to a frame instead.
-The DRM subsystem already has an interface for this purpose and the CRC
-can be accessed e.g. via debugfs:
-"
-$ echo auto > /sys/kernel/debug/dri/1/crtc-0/crc/control
-$ cat /sys/kernel/debug/dri/1/crtc-0/crc/data
-0x0000408c 0xa4e5cdd8
-0x0000408d 0x72f537b4
-"
-The per-frame CRC can be used by userspace e.g. during automated testing,
-to verify that whatever buffer was sent to be scanned out was actually
-scanned out of the LCDIF correctly.
-
-Signed-off-by: Marek Vasut <marex@denx.de>
-Cc: Alexander Stein <alexander.stein@ew.tq-group.com>
-Cc: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-Cc: Lucas Stach <l.stach@pengutronix.de>
-Cc: Peng Fan <peng.fan@nxp.com>
-Cc: Robby Cai <robby.cai@nxp.com>
-Cc: Sam Ravnborg <sam@ravnborg.org>
-Cc: Stefan Agner <stefan@agner.ch>
----
- drivers/gpu/drm/mxsfb/mxsfb_drv.c  | 15 +++++++-
- drivers/gpu/drm/mxsfb/mxsfb_drv.h  |  3 ++
- drivers/gpu/drm/mxsfb/mxsfb_kms.c  | 59 ++++++++++++++++++++++++++++--
- drivers/gpu/drm/mxsfb/mxsfb_regs.h |  1 +
- 4 files changed, 73 insertions(+), 5 deletions(-)
-
-diff --git a/drivers/gpu/drm/mxsfb/mxsfb_drv.c b/drivers/gpu/drm/mxsfb/mxsfb_drv.c
-index 94cafff7f68d5..ccf4107476ecc 100644
---- a/drivers/gpu/drm/mxsfb/mxsfb_drv.c
-+++ b/drivers/gpu/drm/mxsfb/mxsfb_drv.c
-@@ -9,6 +9,7 @@
-  */
- 
- #include <linux/clk.h>
-+#include <linux/crc32.h>
- #include <linux/dma-mapping.h>
- #include <linux/io.h>
- #include <linux/module.h>
-@@ -52,6 +53,7 @@ static const struct mxsfb_devdata mxsfb_devdata[] = {
- 		.hs_wdth_shift	= 24,
- 		.has_overlay	= false,
- 		.has_ctrl2	= false,
-+		.has_crc32	= false,
- 	},
- 	[MXSFB_V4] = {
- 		.transfer_count	= LCDC_V4_TRANSFER_COUNT,
-@@ -61,6 +63,7 @@ static const struct mxsfb_devdata mxsfb_devdata[] = {
- 		.hs_wdth_shift	= 18,
- 		.has_overlay	= false,
- 		.has_ctrl2	= true,
-+		.has_crc32	= true,
- 	},
- 	[MXSFB_V6] = {
- 		.transfer_count	= LCDC_V4_TRANSFER_COUNT,
-@@ -70,6 +73,7 @@ static const struct mxsfb_devdata mxsfb_devdata[] = {
- 		.hs_wdth_shift	= 18,
- 		.has_overlay	= true,
- 		.has_ctrl2	= true,
-+		.has_crc32	= true,
- 	},
- };
- 
-@@ -145,12 +149,19 @@ static irqreturn_t mxsfb_irq_handler(int irq, void *data)
- {
- 	struct drm_device *drm = data;
- 	struct mxsfb_drm_private *mxsfb = drm->dev_private;
--	u32 reg;
-+	u32 reg, crc;
-+	u64 vbc;
- 
- 	reg = readl(mxsfb->base + LCDC_CTRL1);
- 
--	if (reg & CTRL1_CUR_FRAME_DONE_IRQ)
-+	if (reg & CTRL1_CUR_FRAME_DONE_IRQ) {
- 		drm_crtc_handle_vblank(&mxsfb->crtc);
-+		if (mxsfb->crc_active) {
-+			crc = readl(mxsfb->base + LCDC_V4_CRC_STAT);
-+			vbc = drm_crtc_accurate_vblank_count(&mxsfb->crtc);
-+			drm_crtc_add_crc_entry(&mxsfb->crtc, true, vbc, &crc);
-+		}
-+	}
- 
- 	writel(CTRL1_CUR_FRAME_DONE_IRQ, mxsfb->base + LCDC_CTRL1 + REG_CLR);
- 
-diff --git a/drivers/gpu/drm/mxsfb/mxsfb_drv.h b/drivers/gpu/drm/mxsfb/mxsfb_drv.h
-index ddb5b0417a82c..d160d921b25fc 100644
---- a/drivers/gpu/drm/mxsfb/mxsfb_drv.h
-+++ b/drivers/gpu/drm/mxsfb/mxsfb_drv.h
-@@ -23,6 +23,7 @@ struct mxsfb_devdata {
- 	unsigned int	hs_wdth_shift;
- 	bool		has_overlay;
- 	bool		has_ctrl2;
-+	bool		has_crc32;
- };
- 
- struct mxsfb_drm_private {
-@@ -44,6 +45,8 @@ struct mxsfb_drm_private {
- 	struct drm_encoder		encoder;
- 	struct drm_connector		*connector;
- 	struct drm_bridge		*bridge;
-+
-+	bool				crc_active;
- };
- 
- static inline struct mxsfb_drm_private *
-diff --git a/drivers/gpu/drm/mxsfb/mxsfb_kms.c b/drivers/gpu/drm/mxsfb/mxsfb_kms.c
-index c7f14ef1edc25..85ba17fbbe35c 100644
---- a/drivers/gpu/drm/mxsfb/mxsfb_kms.c
-+++ b/drivers/gpu/drm/mxsfb/mxsfb_kms.c
-@@ -454,6 +454,39 @@ static void mxsfb_crtc_disable_vblank(struct drm_crtc *crtc)
- 	writel(CTRL1_CUR_FRAME_DONE_IRQ, mxsfb->base + LCDC_CTRL1 + REG_CLR);
- }
- 
-+static int mxsfb_crtc_set_crc_source(struct drm_crtc *crtc, const char *source)
-+{
-+	struct mxsfb_drm_private *mxsfb = to_mxsfb_drm_private(crtc->dev);
-+
-+	if (!crtc)
-+		return -ENODEV;
-+
-+	if (source && strcmp(source, "auto") == 0)
-+		mxsfb->crc_active = true;
-+	else if (!source)
-+		mxsfb->crc_active = false;
-+	else
-+		return -EINVAL;
-+
-+	return 0;
-+}
-+
-+static int mxsfb_crtc_verify_crc_source(struct drm_crtc *crtc,
-+					const char *source, size_t *values_cnt)
-+{
-+	if (!crtc)
-+		return -ENODEV;
-+
-+	if (source && strcmp(source, "auto") != 0) {
-+		DRM_DEBUG_DRIVER("Unknown CRC source %s for %s\n",
-+				 source, crtc->name);
-+		return -EINVAL;
-+	}
-+
-+	*values_cnt = 1;
-+	return 0;
-+}
-+
- static const struct drm_crtc_helper_funcs mxsfb_crtc_helper_funcs = {
- 	.atomic_check = mxsfb_crtc_atomic_check,
- 	.atomic_flush = mxsfb_crtc_atomic_flush,
-@@ -472,6 +505,19 @@ static const struct drm_crtc_funcs mxsfb_crtc_funcs = {
- 	.disable_vblank = mxsfb_crtc_disable_vblank,
- };
- 
-+static const struct drm_crtc_funcs mxsfb_crtc_with_crc_funcs = {
-+	.reset = drm_atomic_helper_crtc_reset,
-+	.destroy = drm_crtc_cleanup,
-+	.set_config = drm_atomic_helper_set_config,
-+	.page_flip = drm_atomic_helper_page_flip,
-+	.atomic_duplicate_state = drm_atomic_helper_crtc_duplicate_state,
-+	.atomic_destroy_state = drm_atomic_helper_crtc_destroy_state,
-+	.enable_vblank = mxsfb_crtc_enable_vblank,
-+	.disable_vblank = mxsfb_crtc_disable_vblank,
-+	.set_crc_source = mxsfb_crtc_set_crc_source,
-+	.verify_crc_source = mxsfb_crtc_verify_crc_source,
-+};
-+
- /* -----------------------------------------------------------------------------
-  * Encoder
-  */
-@@ -655,9 +701,16 @@ int mxsfb_kms_init(struct mxsfb_drm_private *mxsfb)
- 	}
- 
- 	drm_crtc_helper_add(crtc, &mxsfb_crtc_helper_funcs);
--	ret = drm_crtc_init_with_planes(mxsfb->drm, crtc,
--					&mxsfb->planes.primary, NULL,
--					&mxsfb_crtc_funcs, NULL);
-+	if (mxsfb->devdata->has_crc32) {
-+		ret = drm_crtc_init_with_planes(mxsfb->drm, crtc,
-+						&mxsfb->planes.primary, NULL,
-+						&mxsfb_crtc_with_crc_funcs,
-+						NULL);
-+	} else {
-+		ret = drm_crtc_init_with_planes(mxsfb->drm, crtc,
-+						&mxsfb->planes.primary, NULL,
-+						&mxsfb_crtc_funcs, NULL);
-+	}
- 	if (ret)
- 		return ret;
- 
-diff --git a/drivers/gpu/drm/mxsfb/mxsfb_regs.h b/drivers/gpu/drm/mxsfb/mxsfb_regs.h
-index 694fea13e893e..cf813a1da1d78 100644
---- a/drivers/gpu/drm/mxsfb/mxsfb_regs.h
-+++ b/drivers/gpu/drm/mxsfb/mxsfb_regs.h
-@@ -26,6 +26,7 @@
- #define LCDC_VDCTRL2			0x90
- #define LCDC_VDCTRL3			0xa0
- #define LCDC_VDCTRL4			0xb0
-+#define LCDC_V4_CRC_STAT		0x1a0
- #define LCDC_V4_DEBUG0			0x1d0
- #define LCDC_V3_DEBUG0			0x1f0
- #define LCDC_AS_CTRL			0x210
--- 
-2.35.1
-
+Am 09.04.22 um 21:25 schrieb Stefan Wahren:
+> Hi,
+>
+> today i tested Linux 5.18-rc1 on my Raspberry Pi 400 connected to my 
+> HDMI display (multi_v7_defconfig + CONFIG_ARM_LPAE, firmware: 
+> 2021-01-08T14:31:16) and i'm getting these strange errors from 
+> raspberrypi-firmware driver / vc4 during boot:
+>
+> [   13.094733] fb0: switching to vc4 from simple
+> [   13.110759] Console: switching to colour dummy device 80x30
+> [   13.120691] raspberrypi-firmware soc:firmware: Request 0x00030066 
+> returned status 0x80000001
+> [   13.120715] vc4-drm gpu: [drm] Couldn't stop firmware display 
+> driver: -22
+This is a new error which was introduced with Linux 5.18-rc1 
+(c406ad5e4a85 "drm/vc4: Notify the firmware when DRM is in charge"). 
+0x00030066 stands for the new firmware property 
+RPI_FIRMWARE_NOTIFY_DISPLAY_DONE. And i guess the firmware from January 
+2021 doesn't support it?
+> [ 13.120839] vc4-drm gpu: bound fe400000.hvs (ops vc4_hvs_ops [vc4])
+> [   13.121213] Bluetooth: Core ver 2.22
+> [   13.121266] NET: Registered PF_BLUETOOTH protocol family
+> [   13.121270] Bluetooth: HCI device and connection manager initialized
+> [   13.121281] Bluetooth: HCI socket layer initialized
+> [   13.121286] Bluetooth: L2CAP socket layer initialized
+> [   13.121297] Bluetooth: SCO socket layer initialized
+> [   13.132879] cfg80211: Loading compiled-in X.509 certificates for 
+> regulatory database
+> [   13.164278] Bluetooth: HCI UART driver ver 2.3
+> [   13.164293] Bluetooth: HCI UART protocol H4 registered
+> [   13.166608] raspberrypi-firmware soc:firmware: Request 0x00030066 
+> returned status 0x80000001
+> [   13.166633] vc4-drm gpu: [drm] Couldn't stop firmware display 
+> driver: -22
+> [   13.166717] vc4-drm gpu: bound fe400000.hvs (ops vc4_drm_unregister 
+> [vc4])
+> [   13.176173] Bluetooth: HCI UART protocol Broadcom registered
+> [   13.182365] hci_uart_bcm serial0-0: supply vbat not found, using 
+> dummy regulator
+> [   13.182505] hci_uart_bcm serial0-0: supply vddio not found, using 
+> dummy regulator
+> [   13.300636] uart-pl011 fe201000.serial: no DMA platform data
+> [   13.422683] raspberrypi-firmware soc:firmware: Request 0x00030066 
+> returned status 0x80000001
+> [   13.422700] vc4-drm gpu: [drm] Couldn't stop firmware display 
+> driver: -22
+> [   13.422788] vc4-drm gpu: bound fe400000.hvs (ops vc4_drm_unregister 
+> [vc4])
+> [   13.458620] bcmgenet fd580000.ethernet: GENET 5.0 EPHY: 0x0000
+> [   13.461925] raspberrypi-firmware soc:firmware: Request 0x00030066 
+> returned status 0x80000001
+> [   13.461941] vc4-drm gpu: [drm] Couldn't stop firmware display 
+> driver: -22
+> [   13.462006] vc4-drm gpu: bound fe400000.hvs (ops vc4_drm_unregister 
+> [vc4])
+> [   13.469287] cfg80211: Loaded X.509 cert 'sforshee: 00b28ddf47aef9cea7'
+> [   13.507497] vc4-drm gpu: bound fef00700.hdmi (ops 
+> vc4_drm_unregister [vc4])
+> [   13.521840] brcmfmac: brcmf_fw_alloc_request: using 
+> brcm/brcmfmac43456-sdio for chip BCM4345/9
+> [   13.522128] brcmfmac mmc0:0001:1: Direct firmware load for 
+> brcm/brcmfmac43456-sdio.raspberrypi,400.bin failed with error -2
+> [   13.535444] brcmfmac mmc0:0001:1: Direct firmware load for 
+> brcm/brcmfmac43456-sdio.raspberrypi,400.txt failed with error -2
+> [   13.564153] Bluetooth: hci0: BCM: chip id 130
+> [   13.564675] Bluetooth: hci0: BCM: features 0x0f
+> [   13.566157] Bluetooth: hci0: BCM4345C5
+> [   13.566164] Bluetooth: hci0: BCM4345C5 (003.006.006) build 0000
+> [   13.568434] Bluetooth: hci0: BCM4345C5 'brcm/BCM4345C5.hcd' Patch
+> [   13.570485] unimac-mdio unimac-mdio.-19: Broadcom UniMAC MDIO bus
+> [   13.576820] vc4-drm gpu: bound fef05700.hdmi (ops 
+> vc4_drm_unregister [vc4])
+> [   13.576967] vc4-drm gpu: bound fe004000.txp (ops vc4_drm_unregister 
+> [vc4])
+> [   13.577044] vc4-drm gpu: bound fe206000.pixelvalve (ops 
+> vc4_drm_unregister [vc4])
+> [   13.577118] vc4-drm gpu: bound fe207000.pixelvalve (ops 
+> vc4_drm_unregister [vc4])
+> [   13.577185] vc4-drm gpu: bound fe20a000.pixelvalve (ops 
+> vc4_drm_unregister [vc4])
+> [   13.577237] vc4-drm gpu: bound fe216000.pixelvalve (ops 
+> vc4_drm_unregister [vc4])
+> [   13.613504] [drm] Initialized vc4 0.0.0 20140616 for gpu on minor 0
+>
+> Best regards
+>
