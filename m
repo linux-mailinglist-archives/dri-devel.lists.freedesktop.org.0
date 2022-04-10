@@ -2,67 +2,55 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9EAA14FADAA
-	for <lists+dri-devel@lfdr.de>; Sun, 10 Apr 2022 13:31:33 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id B67924FAE17
+	for <lists+dri-devel@lfdr.de>; Sun, 10 Apr 2022 15:54:28 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 5BD7E10E2BA;
-	Sun, 10 Apr 2022 11:31:28 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id F328710F5B6;
+	Sun, 10 Apr 2022 13:54:24 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-ed1-x52a.google.com (mail-ed1-x52a.google.com
- [IPv6:2a00:1450:4864:20::52a])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 76CA210E2BA
- for <dri-devel@lists.freedesktop.org>; Sun, 10 Apr 2022 11:31:27 +0000 (UTC)
-Received: by mail-ed1-x52a.google.com with SMTP id r3so5436088edi.8
- for <dri-devel@lists.freedesktop.org>; Sun, 10 Apr 2022 04:31:27 -0700 (PDT)
+Received: from mail-pl1-x629.google.com (mail-pl1-x629.google.com
+ [IPv6:2607:f8b0:4864:20::629])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 40CCC10F5B6;
+ Sun, 10 Apr 2022 13:54:24 +0000 (UTC)
+Received: by mail-pl1-x629.google.com with SMTP id s14so2164763plk.8;
+ Sun, 10 Apr 2022 06:54:24 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
- h=message-id:date:mime-version:user-agent:subject:content-language:to
- :cc:references:from:in-reply-to:content-transfer-encoding;
- bh=sRX1WEzD+OHwRyf2blrJgodVZwUjqhVpYgifnVk+28Y=;
- b=fSiEMLggH6nOdVHr/inNql5RIWc6hCvaVdD44xWAsr7FgswCKbgCQrsr6hhZ36Qnxb
- vpQX4Lb7KHwYN0hblJaC85Fcc6jzu7t3fft4sd/UuYM69jUC/uhtEhUtBw6DWpMAdjJP
- zl9FQkM98CZxxy00AK+IZvXbuAB5HZ5GD+rM48S6ZrIiWHrkDFNQoRdrMZvF+N/hzzU4
- k+f89HH3u/8ZrC0Dl5vzfnmO4wLBuiLDjiT8hz/w7/SMVnN5tvyBTzDIuOGssGa6jtn4
- 5WIQt3R0sTdG9FE1r9/6oBG5AxXDRdajEVuI+kSQVtN7s3C4dYdaq9t3vgASLpATTHB0
- XoMA==
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc; bh=x6PPcktaF21f9upBr78QhnzJ6O8/NNRSC9H7jHUfSVk=;
+ b=ZjHOKGewNdnoyQoQ4+1sMIO8mNsZhtZaCNu9dp5a8tS4dNARaGpGcdmZcDMdOWfVeg
+ yzXhcLB4TUYDN0aR1aAYJNtzwekjRzHML2CS44Hsj9Nq6N8Z+6sSeJNkYjdNSXNug9ME
+ 19wiBrNc/ELmqRsVn0ooD+iaz5PeLfpUaZqthT4ghSkWPXxMRC75gLRTP19FKSDkEW+U
+ ifaHJsD6A6XUS12X3mpM5Yk11q6cM74ZNCTWk+PlLosRiCn0lFk3vNU2EjXjBJI7i84K
+ zXR+0/Xw7EeCTOHgpbtEoQZEv4IBPoS6cNiotAlmyKt2dc5l6Dt7qpHHBPqe69Yw5y9Y
+ 9b1Q==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
- :content-language:to:cc:references:from:in-reply-to
- :content-transfer-encoding;
- bh=sRX1WEzD+OHwRyf2blrJgodVZwUjqhVpYgifnVk+28Y=;
- b=MG43wYzEzJX2daiaIxQODkPhNNaR5uT5Px3tTEIltF8O/cr5sY8rKWvcnuHf0RWeT8
- 48yQMS8swxrXl249IrO786STBq8bHz7YZNJcpjCydSHaL59XZqOfc24V37IyXgKYTles
- NwNNgfN642GVi7JWq+//ZIqEFDAVXGGQQws0pEHWUqVrj/Spf1ld7aXOvgs3Apueg4yq
- TbCAoMOCcfrQE9RQuplSPYdukwinsWH6fyez8XjDoldkc+OtgIgA4vhLkYxs/9O41Paa
- g39YnPePzxZFabGQ27FLTBIpqivcZNbmNDXwYMAEf5F8r9a8Rdfe2Ms6g73jln3gfU3I
- 5W4w==
-X-Gm-Message-State: AOAM532iTn6PaTw9/DMwiBhsVYM5czau+LSz/C+8S+dWLz4OfQ8hdY0e
- l33xDoVtn5L4sgcFtnuSFuKYHZjvS12NUwM=
-X-Google-Smtp-Source: ABdhPJw2erxI96LZQkKnLkWjSTDPEUQ3gin+rFkfZ/8VujZteZqKt0pgxbL48uF44MjdbzP8CcImOg==
-X-Received: by 2002:a50:858a:0:b0:41d:740f:55bd with SMTP id
- a10-20020a50858a000000b0041d740f55bdmr3769846edh.128.1649590285884; 
- Sun, 10 Apr 2022 04:31:25 -0700 (PDT)
-Received: from ?IPV6:2001:16b8:e981:9e00:815a:6661:46b9:139d?
- ([2001:16b8:e981:9e00:815a:6661:46b9:139d])
- by smtp.gmail.com with ESMTPSA id
- dn4-20020a17090794c400b006dbec4f4acbsm10869995ejc.6.2022.04.10.04.31.24
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Sun, 10 Apr 2022 04:31:25 -0700 (PDT)
-Message-ID: <8fac5d72-c635-521c-e7d1-a3980a4ed719@gmail.com>
-Date: Sun, 10 Apr 2022 13:31:23 +0200
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=x6PPcktaF21f9upBr78QhnzJ6O8/NNRSC9H7jHUfSVk=;
+ b=wMaxba8lNQozD9ptWMUT+6WkogcpcPRY9g06321aEHKGbvD7TI2qOpsUeRz7wMHLt4
+ eCxLAK4KRRvQbHtmgCKTCHRPFWHa+HQg7xDZxzNR0iIH+ukpUiou3mWf+BGbCY62E8dS
+ 23209kMnbREVCpCNtjfNt3ZwTzU4T6xdi24jE0zTRC/IYIdVUSG5pAswZQU2vxQVmkRP
+ irsRaiDKEJUiE0MlTg/4lejR6LL0h+SALI+EIazNinSejAEUe+uhNieSFlwE3ZhB1QpY
+ q5YRy+/RcKJNZNKU7RX5VR4usfG5cmJ+mMQ48I2bI2dZUjS3ocfbuCtwJgbJ53/FP//O
+ oXYA==
+X-Gm-Message-State: AOAM530A8SbkK7bGHTHXH8WVmBvp4GEZcB9oe0UQ3MPpInJzpaJWX6No
+ PsP+g44l0WtJgG2wDbTbVr4wi8oQPYfl4wiXOoE=
+X-Google-Smtp-Source: ABdhPJwAYqqtu5JKbjkVTCMYYki1aCO23WJJdbnSso/mGJ4qP4dpMjUc/s3jbcVxPjYW+/LgB1u4EGGbImKyzoqr3WU=
+X-Received: by 2002:a17:90b:224f:b0:1c9:949e:2202 with SMTP id
+ hk15-20020a17090b224f00b001c9949e2202mr31585598pjb.56.1649598863849; Sun, 10
+ Apr 2022 06:54:23 -0700 (PDT)
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.5.0
-Subject: Re: [PATCH v10 12/24] drm/rockchip: dw_hdmi: drop mode_valid hook
-Content-Language: en-US
-To: Sascha Hauer <s.hauer@pengutronix.de>, dri-devel@lists.freedesktop.org
-References: <20220408112238.1274817-1-s.hauer@pengutronix.de>
- <20220408112238.1274817-13-s.hauer@pengutronix.de>
-From: Alex Bee <knaerzche@gmail.com>
-In-Reply-To: <20220408112238.1274817-13-s.hauer@pengutronix.de>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+References: <20220408190502.4103670-1-richard.gong@amd.com>
+In-Reply-To: <20220408190502.4103670-1-richard.gong@amd.com>
+From: =?UTF-8?Q?Nils_Wallm=C3=A9nius?= <nils.wallmenius@gmail.com>
+Date: Sun, 10 Apr 2022 15:54:12 +0200
+Message-ID: <CA+nq7DsCU97Ana34GcyQZ_GzR4eiQbzkzPLUBRQTAtNYa-OiLA@mail.gmail.com>
+Subject: Re: [PATCHv2] drm/amdgpu: disable ASPM on Intel AlderLake based
+ systems
+To: Richard Gong <richard.gong@amd.com>
+Content-Type: multipart/alternative; boundary="0000000000004d3d6905dc4d2aff"
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -75,129 +63,187 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: devicetree@vger.kernel.org,
- Benjamin Gaignard <benjamin.gaignard@collabora.com>,
- Peter Geis <pgwipeout@gmail.com>, Sandy Huang <hjc@rock-chips.com>,
- linux-rockchip@lists.infradead.org,
- Michael Riesch <michael.riesch@wolfvision.net>, kernel@pengutronix.de,
- Andy Yan <andy.yan@rock-chips.com>, linux-arm-kernel@lists.infradead.org
+Cc: amd-gfx@lists.freedesktop.org, airlied@linux.ie, xinhui.pan@amd.com,
+ linux-kernel@vger.kernel.org,
+ Maling list - DRI developers <dri-devel@lists.freedesktop.org>,
+ mario.limonciello@amd.com, Alex Deucher <alexander.deucher@amd.com>,
+ =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Am 08.04.22 um 13:22 schrieb Sascha Hauer:
-> The driver checks if the pixel clock of the given mode matches an entry
-> in the mpll config table. The frequencies in the mpll table are meant as
-> a frequency range up to which the entry works, not as a frequency that
-> must match the pixel clock. The downstream Kernel also does not have
-> this check, so drop it to allow for more display resolutions.
-> 
-> Signed-off-by: Sascha Hauer <s.hauer@pengutronix.de>
+--0000000000004d3d6905dc4d2aff
+Content-Type: text/plain; charset="UTF-8"
+
+Hi Richard, see inline comment.
+
+Den fre 8 apr. 2022 21:05Richard Gong <richard.gong@amd.com> skrev:
+
+> Active State Power Management (ASPM) feature is enabled since kernel 5.14.
+> There are some AMD GFX cards (such as WX3200 and RX640) that cannot be
+> used with Intel AlderLake based systems to enable ASPM. Using these GFX
+> cards as video/display output, Intel Alder Lake based systems will hang
+> during suspend/resume.
+>
+> Add extra check to disable ASPM on Intel AlderLake based systems.
+>
+> Fixes: 0064b0ce85bb ("drm/amd/pm: enable ASPM by default")
+> Link: https://gitlab.freedesktop.org/drm/amd/-/issues/1885
+> Signed-off-by: Richard Gong <richard.gong@amd.com>
 > ---
-> 
-You're correct: That frequency is meant to be greater or equal. But I'm
-not sure if it makes sense to completely drop it - what happens for
-clocks rates > 600 MHz which might be supported by later generation
-sinks (HDMI 2.1 or later)?
-As these are not supported by the IPs/PHYs currently supported by that
-driver a reason a simple
-
-        int i;
-
-
-
-        for (i = 0; mpll_cfg[i].mpixelclock != (~0UL); i++) {
-
--               if (pclk == mpll_cfg[i].mpixelclock) {
-
-+               if (pclk >= mpll_cfg[i].mpixelclock) {
-
-                        valid = true;
-
-                        break;
-
-                }
-
-would be the better idea, I guess.
-
-Regards,
-Alex
-
-> Notes:
->     Changes since v3:
->     - new patch
-> 
->  drivers/gpu/drm/rockchip/dw_hdmi-rockchip.c | 25 ---------------------
->  1 file changed, 25 deletions(-)
-> 
-> diff --git a/drivers/gpu/drm/rockchip/dw_hdmi-rockchip.c b/drivers/gpu/drm/rockchip/dw_hdmi-rockchip.c
-> index cb43e7b47157d..008ab20f39ee6 100644
-> --- a/drivers/gpu/drm/rockchip/dw_hdmi-rockchip.c
-> +++ b/drivers/gpu/drm/rockchip/dw_hdmi-rockchip.c
-> @@ -248,26 +248,6 @@ static int rockchip_hdmi_parse_dt(struct rockchip_hdmi *hdmi)
->  	return 0;
+> v2: correct commit description
+>     move the check from chip family to problematic platform
+> ---
+>  drivers/gpu/drm/amd/amdgpu/vi.c | 17 ++++++++++++++++-
+>  1 file changed, 16 insertions(+), 1 deletion(-)
+>
+> diff --git a/drivers/gpu/drm/amd/amdgpu/vi.c
+> b/drivers/gpu/drm/amd/amdgpu/vi.c
+> index 039b90cdc3bc..8b4eaf54b23e 100644
+> --- a/drivers/gpu/drm/amd/amdgpu/vi.c
+> +++ b/drivers/gpu/drm/amd/amdgpu/vi.c
+> @@ -81,6 +81,10 @@
+>  #include "mxgpu_vi.h"
+>  #include "amdgpu_dm.h"
+>
+> +#if IS_ENABLED(CONFIG_X86_64)
+> +#include <asm/intel-family.h>
+> +#endif
+> +
+>  #define ixPCIE_LC_L1_PM_SUBSTATE       0x100100C6
+>  #define PCIE_LC_L1_PM_SUBSTATE__LC_L1_SUBSTATES_OVERRIDE_EN_MASK
+>  0x00000001L
+>  #define PCIE_LC_L1_PM_SUBSTATE__LC_PCI_PM_L1_2_OVERRIDE_MASK   0x00000002L
+> @@ -1134,13 +1138,24 @@ static void vi_enable_aspm(struct amdgpu_device
+> *adev)
+>                 WREG32_PCIE(ixPCIE_LC_CNTL, data);
 >  }
->  
-> -static enum drm_mode_status
-> -dw_hdmi_rockchip_mode_valid(struct dw_hdmi *hdmi, void *data,
-> -			    const struct drm_display_info *info,
-> -			    const struct drm_display_mode *mode)
-> -{
-> -	const struct dw_hdmi_mpll_config *mpll_cfg = rockchip_mpll_cfg;
-> -	int pclk = mode->clock * 1000;
-> -	bool valid = false;
-> -	int i;
-> -
-> -	for (i = 0; mpll_cfg[i].mpixelclock != (~0UL); i++) {
-> -		if (pclk == mpll_cfg[i].mpixelclock) {
-> -			valid = true;
-> -			break;
-> -		}
-> -	}
-> -
-> -	return (valid) ? MODE_OK : MODE_BAD;
-> -}
-> -
->  static void dw_hdmi_rockchip_encoder_disable(struct drm_encoder *encoder)
+>
+
+There's a typo in the new function name apsm/aspm. Btw might be worth a
+comment why this check is done?
+
+Regards
+Nils
+
+
+> +static bool intel_core_apsm_chk(void)
+> +{
+> +#if IS_ENABLED(CONFIG_X86_64)
+> +       struct cpuinfo_x86 *c = &cpu_data(0);
+> +
+> +       return (c->x86 == 6 && c->x86_model == INTEL_FAM6_ALDERLAKE);
+> +#else
+> +       return false;
+> +#endif
+> +}
+> +
+>  static void vi_program_aspm(struct amdgpu_device *adev)
 >  {
->  }
-> @@ -433,7 +413,6 @@ static struct rockchip_hdmi_chip_data rk3228_chip_data = {
->  };
->  
->  static const struct dw_hdmi_plat_data rk3228_hdmi_drv_data = {
-> -	.mode_valid = dw_hdmi_rockchip_mode_valid,
->  	.mpll_cfg = rockchip_mpll_cfg,
->  	.cur_ctr = rockchip_cur_ctr,
->  	.phy_config = rockchip_phy_config,
-> @@ -450,7 +429,6 @@ static struct rockchip_hdmi_chip_data rk3288_chip_data = {
->  };
->  
->  static const struct dw_hdmi_plat_data rk3288_hdmi_drv_data = {
-> -	.mode_valid = dw_hdmi_rockchip_mode_valid,
->  	.mpll_cfg   = rockchip_mpll_cfg,
->  	.cur_ctr    = rockchip_cur_ctr,
->  	.phy_config = rockchip_phy_config,
-> @@ -470,7 +448,6 @@ static struct rockchip_hdmi_chip_data rk3328_chip_data = {
->  };
->  
->  static const struct dw_hdmi_plat_data rk3328_hdmi_drv_data = {
-> -	.mode_valid = dw_hdmi_rockchip_mode_valid,
->  	.mpll_cfg = rockchip_mpll_cfg,
->  	.cur_ctr = rockchip_cur_ctr,
->  	.phy_config = rockchip_phy_config,
-> @@ -488,7 +465,6 @@ static struct rockchip_hdmi_chip_data rk3399_chip_data = {
->  };
->  
->  static const struct dw_hdmi_plat_data rk3399_hdmi_drv_data = {
-> -	.mode_valid = dw_hdmi_rockchip_mode_valid,
->  	.mpll_cfg   = rockchip_mpll_cfg,
->  	.cur_ctr    = rockchip_cur_ctr,
->  	.phy_config = rockchip_phy_config,
-> @@ -501,7 +477,6 @@ static struct rockchip_hdmi_chip_data rk3568_chip_data = {
->  };
->  
->  static const struct dw_hdmi_plat_data rk3568_hdmi_drv_data = {
-> -	.mode_valid = dw_hdmi_rockchip_mode_valid,
->  	.mpll_cfg   = rockchip_mpll_cfg,
->  	.cur_ctr    = rockchip_cur_ctr,
->  	.phy_config = rockchip_phy_config,
+>         u32 data, data1, orig;
+>         bool bL1SS = false;
+>         bool bClkReqSupport = true;
+>
+> -       if (!amdgpu_device_should_use_aspm(adev))
+> +       if (!amdgpu_device_should_use_aspm(adev) || intel_core_apsm_chk())
+>                 return;
+>
+>         if (adev->flags & AMD_IS_APU ||
+> --
+> 2.25.1
+>
+>
 
+--0000000000004d3d6905dc4d2aff
+Content-Type: text/html; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+
+<div dir=3D"auto"><div>Hi Richard, see inline comment.<br><br><div class=3D=
+"gmail_quote"><div dir=3D"ltr" class=3D"gmail_attr">Den fre 8 apr. 2022 21:=
+05Richard Gong &lt;<a href=3D"mailto:richard.gong@amd.com">richard.gong@amd=
+.com</a>&gt; skrev:<br></div><blockquote class=3D"gmail_quote" style=3D"mar=
+gin:0 0 0 .8ex;border-left:1px #ccc solid;padding-left:1ex">Active State Po=
+wer Management (ASPM) feature is enabled since kernel 5.14.<br>
+There are some AMD GFX cards (such as WX3200 and RX640) that cannot be<br>
+used with Intel AlderLake based systems to enable ASPM. Using these GFX<br>
+cards as video/display output, Intel Alder Lake based systems will hang<br>
+during suspend/resume.<br>
+<br>
+Add extra check to disable ASPM on Intel AlderLake based systems.<br>
+<br>
+Fixes: 0064b0ce85bb (&quot;drm/amd/pm: enable ASPM by default&quot;)<br>
+Link: <a href=3D"https://gitlab.freedesktop.org/drm/amd/-/issues/1885" rel=
+=3D"noreferrer noreferrer" target=3D"_blank">https://gitlab.freedesktop.org=
+/drm/amd/-/issues/1885</a><br>
+Signed-off-by: Richard Gong &lt;<a href=3D"mailto:richard.gong@amd.com" tar=
+get=3D"_blank" rel=3D"noreferrer">richard.gong@amd.com</a>&gt;<br>
+---<br>
+v2: correct commit description<br>
+=C2=A0 =C2=A0 move the check from chip family to problematic platform<br>
+---<br>
+=C2=A0drivers/gpu/drm/amd/amdgpu/vi.c | 17 ++++++++++++++++-<br>
+=C2=A01 file changed, 16 insertions(+), 1 deletion(-)<br>
+<br>
+diff --git a/drivers/gpu/drm/amd/amdgpu/vi.c b/drivers/gpu/drm/amd/amdgpu/v=
+i.c<br>
+index 039b90cdc3bc..8b4eaf54b23e 100644<br>
+--- a/drivers/gpu/drm/amd/amdgpu/vi.c<br>
++++ b/drivers/gpu/drm/amd/amdgpu/vi.c<br>
+@@ -81,6 +81,10 @@<br>
+=C2=A0#include &quot;mxgpu_vi.h&quot;<br>
+=C2=A0#include &quot;amdgpu_dm.h&quot;<br>
+<br>
++#if IS_ENABLED(CONFIG_X86_64)<br>
++#include &lt;asm/intel-family.h&gt;<br>
++#endif<br>
++<br>
+=C2=A0#define ixPCIE_LC_L1_PM_SUBSTATE=C2=A0 =C2=A0 =C2=A0 =C2=A00x100100C6=
+<br>
+=C2=A0#define PCIE_LC_L1_PM_SUBSTATE__LC_L1_SUBSTATES_OVERRIDE_EN_MASK=C2=
+=A0 =C2=A0 =C2=A0 =C2=A00x00000001L<br>
+=C2=A0#define PCIE_LC_L1_PM_SUBSTATE__LC_PCI_PM_L1_2_OVERRIDE_MASK=C2=A0 =
+=C2=A00x00000002L<br>
+@@ -1134,13 +1138,24 @@ static void vi_enable_aspm(struct amdgpu_device *ad=
+ev)<br>
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 WREG32_PCIE(ixPCIE_=
+LC_CNTL, data);<br>
+=C2=A0}<br></blockquote></div></div><div dir=3D"auto"><br></div><div dir=3D=
+"auto"><div class=3D"gmail_quote"><blockquote class=3D"gmail_quote" style=
+=3D"margin:0 0 0 .8ex;border-left:1px #ccc solid;padding-left:1ex"></blockq=
+uote></div></div><div dir=3D"auto">There&#39;s a typo in the new function n=
+ame apsm/aspm. Btw might be worth a comment why this check is done?</div><d=
+iv dir=3D"auto"><br></div><div dir=3D"auto">Regards</div><div dir=3D"auto">=
+Nils</div><div dir=3D"auto"><br></div><div dir=3D"auto"><div class=3D"gmail=
+_quote"><blockquote class=3D"gmail_quote" style=3D"margin:0 0 0 .8ex;border=
+-left:1px #ccc solid;padding-left:1ex"><br></blockquote><blockquote class=
+=3D"gmail_quote" style=3D"margin:0 0 0 .8ex;border-left:1px #ccc solid;padd=
+ing-left:1ex">
++static bool intel_core_apsm_chk(void)<br>
++{<br>
++#if IS_ENABLED(CONFIG_X86_64)<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0struct cpuinfo_x86 *c =3D &amp;cpu_data(0);<br>
++<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0return (c-&gt;x86 =3D=3D 6 &amp;&amp; c-&gt;x86=
+_model =3D=3D INTEL_FAM6_ALDERLAKE);<br>
++#else<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0return false;<br>
++#endif<br>
++}<br>
++<br>
+=C2=A0static void vi_program_aspm(struct amdgpu_device *adev)<br>
+=C2=A0{<br>
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 u32 data, data1, orig;<br>
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 bool bL1SS =3D false;<br>
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 bool bClkReqSupport =3D true;<br>
+<br>
+-=C2=A0 =C2=A0 =C2=A0 =C2=A0if (!amdgpu_device_should_use_aspm(adev))<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0if (!amdgpu_device_should_use_aspm(adev) || int=
+el_core_apsm_chk())<br>
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 return;<br>
+<br>
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 if (adev-&gt;flags &amp; AMD_IS_APU ||<br>
+-- <br>
+2.25.1<br>
+<br>
+</blockquote></div></div></div>
+
+--0000000000004d3d6905dc4d2aff--
