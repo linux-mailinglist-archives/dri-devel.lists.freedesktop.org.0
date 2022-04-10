@@ -2,55 +2,58 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id C2BAE4FAB3A
-	for <lists+dri-devel@lfdr.de>; Sun, 10 Apr 2022 02:50:33 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id E43244FAB3B
+	for <lists+dri-devel@lfdr.de>; Sun, 10 Apr 2022 02:51:44 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 7A76C10E2F7;
-	Sun, 10 Apr 2022 00:50:29 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 304E510E134;
+	Sun, 10 Apr 2022 00:51:43 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-ed1-x535.google.com (mail-ed1-x535.google.com
- [IPv6:2a00:1450:4864:20::535])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 55A3B10E134;
- Sun, 10 Apr 2022 00:50:28 +0000 (UTC)
-Received: by mail-ed1-x535.google.com with SMTP id c64so1981028edf.11;
- Sat, 09 Apr 2022 17:50:28 -0700 (PDT)
+Received: from mail-ej1-x62a.google.com (mail-ej1-x62a.google.com
+ [IPv6:2a00:1450:4864:20::62a])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 3C19910E134;
+ Sun, 10 Apr 2022 00:51:42 +0000 (UTC)
+Received: by mail-ej1-x62a.google.com with SMTP id k23so24172272ejd.3;
+ Sat, 09 Apr 2022 17:51:42 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
  h=mime-version:references:in-reply-to:from:date:message-id:subject:to
  :cc:content-transfer-encoding;
- bh=7HtVe2guHiIahNbZDnAKk5WaarwcdEBXzqi2lyPe5QI=;
- b=WebFnt8vxXxGF9+rn0eXifa+Pk7Pg897od0g0G9rMzYZiHzWGLOFv4tzOcSRkloPNk
- ZfCAmKoJQSs22cv7vAEF9bb/W20yEPZjHeMijK7yMzgq8VPA4sN9R69aGH+XTVaBFsxi
- EZyeSftXxzY82g2AkJDeYAD6JLrf9mmMCM/RZoI3FHNhyOBEP5rmdL47x2r4QDiUk2nv
- UWvDfyCz5WC1Mw5oPvGqisRYdouOAht1OJhGaCswEGhFI9vr9+SjpmGUN69q+qp8zCvz
- d2QdaJVmTk0VPbfQQZ6t/ug+/Y6ojBz+2Qn474YrDwlLhzn5jfp3TjNNa6RBrmy+KQ1I
- VjHw==
+ bh=UumSOi3bVb4/q3h+ATEP8uiyPH1qa/l+xbjDc3aGRoY=;
+ b=Wpfv8e/QtYVqq+ae3AXvVreoZ7ZF1txzYHecTrr6f56GfjQtarUN44NuJsrNRyb/pn
+ yXdgDWBp+gdex/zmzOXSU+AORuclxUPOTszcK7G6DjWiDLLFThwtIzCB13ekoVvA0jTi
+ F12b9sY+ZsI6QCdTC+pzifJnBCrldSU7l2fy/Cx2hsspibI6TSkqO0aJBsqW9KuRz40g
+ QIc3LcQacL/TRM1to+DMqQl6wL6CCJNdp/f7PsLM+3gkznrfWcd5WsQptG2mtUyUK27a
+ mRx7WK5dYQao28oCwkjSvy7fXVbvaeRGgOlW/V/GBKfTWIdtlRbhA1Kjd06Jxrhgr0iR
+ ltKg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:mime-version:references:in-reply-to:from:date
  :message-id:subject:to:cc:content-transfer-encoding;
- bh=7HtVe2guHiIahNbZDnAKk5WaarwcdEBXzqi2lyPe5QI=;
- b=8EedPnd/nA1E8xwp5CESucDt+Gj4e6PF0AEPMicsWIXGJfmepaeg6f/4Zsl7hr2LPS
- PYLk7jgwpUvZksRD1IPt18TGftptuRzuzOD0OrueWaq3vFd1ylLuRsxvY7B9xnhRKwNf
- rv1UbJnOVhJ8hcIX5pRpFFc7e1qSFYjfZPVpJY5Tbxi7ZaKmMEaL0YxxRZY1HU/l8edm
- 5Mc7w3gUS6aOKc/S7Nl5JtmMlMSPtmu9FKG+YrmWQMRrGglSzStvf1nghHUc9ELFamH+
- xRdUIE0/Pvg2pL3INAMzV5osMKJ56nJpQs51oKH9geIDASA45nHsTuO6M3KS43jNFe36
- 7K1Q==
-X-Gm-Message-State: AOAM532pW26HWwzgsUdzSsdOYuSQY2t/mkFH54WA3gFlaUF575FCTfUs
- lW/yw/ZcC7Rhh+93bBGrdvg/NdizPAPK/0bHM+A=
-X-Google-Smtp-Source: ABdhPJxrqwFrLV44uG+X6bhKQxtFAe//AUKD4xulz+mQi3zOvMiBcpohNfsTapnOWH4OzRPGHvXTS8+L228j29ItyEw=
-X-Received: by 2002:a05:6402:1907:b0:41d:29d9:e3d with SMTP id
- e7-20020a056402190700b0041d29d90e3dmr10131837edz.250.1649551826678; Sat, 09
- Apr 2022 17:50:26 -0700 (PDT)
+ bh=UumSOi3bVb4/q3h+ATEP8uiyPH1qa/l+xbjDc3aGRoY=;
+ b=Dpg8A10IJoDOVO2cJVKZllWScEBLqVnCqZsle76P29tzVVtVzA3pLynnaW8RtZ+9rf
+ NOddEEFpspE450rAYf7y2EF5Gvs6AAelII7OszWiTgj2aMPKJXiuOmcjjmnYBkl17el3
+ cp6szfDKoYdOVmReWGnODKFk+7Bhbv+q4y0zbJfGJCRdxMUwHksJi/EDYxYC+gvyClLt
+ Nw2J6OrtKzPEr6kNPUWyKXWKGx3Weszlga1Pbd4BuVYvXPxSLpZh7c5iUkJM5dwk+AmP
+ SUZLDIm0ciOgMsoc3D12KXpGMQDrUyWAEokwcQSyr2jygplYUqGMNQBuHxXQfb1JIVDw
+ 3jPw==
+X-Gm-Message-State: AOAM533GIwL08ix5F1GQyv3WRyNSAnKaLRg5rniOiWjKyhMMjfM6fBSh
+ ah9ID4lN81okOT7GlGn+LqPfkA925rp+g49RdRA=
+X-Google-Smtp-Source: ABdhPJxQwID87p/D+o6yfKWz+g3H0+XBvfl8OCx5eFBQpBraG6rnAHk332AH/yFvoDWsBBhKeP5wO3o39UJkUr3VFG0=
+X-Received: by 2002:a17:907:daa:b0:6e4:9b0d:3f1 with SMTP id
+ go42-20020a1709070daa00b006e49b0d03f1mr23879729ejc.37.1649551900752; Sat, 09
+ Apr 2022 17:51:40 -0700 (PDT)
 MIME-Version: 1.0
-References: <20220405173632.2663-1-h0tc0d3@gmail.com>
- <614a4844-fa5d-8b8e-0628-894394f31608@amd.com>
- <874k3670ez.fsf@intel.com> <f742b6b8-4056-543c-17a5-ae373ca71b45@amd.com>
-In-Reply-To: <f742b6b8-4056-543c-17a5-ae373ca71b45@amd.com>
+References: <20220408092803.3188-1-h0tc0d3@gmail.com>
+ <4o2YD5id7zhK5g__CUK3Yf-6Dj459XQ0qsydW6wKHdco3YYtl78BqGUfXvQ9UO0AZoAsMPfhFB0jw1BFldiFDcbZXmGgsobuAoTMWmoDqmE=@emersion.fr>
+ <CAP+8YyED70CSqVRaB7JgrAtK-yvBx5EsvrrdR7EpvOG2AVhskQ@mail.gmail.com>
+ <QfKpxmkE_cy9wt5VJruw_TSdnl5KceKM8BxJGmZSBs-KiaRwIYfgc8h_-5h7Wmj6G-NtUJ3A88V5pzPvZuLlpkK-oRO5pSjeTxwHcZWlogs=@emersion.fr>
+ <CAD5ugGD6QzCUqk7_EVwH9Cc6PQtx_VfjVRWzzP9uKR5tkGh1RQ@mail.gmail.com>
+ <436116c9-6ce4-87cc-b1cd-f44b72fcfb35@amd.com>
+In-Reply-To: <436116c9-6ce4-87cc-b1cd-f44b72fcfb35@amd.com>
 From: Grigory Vasilyev <h0tc0d3@gmail.com>
-Date: Sun, 10 Apr 2022 03:50:25 +0300
-Message-ID: <CAD5ugGBZeA1+7pS2eSyXkCt+DvHY8=6wObD7eJ98UAgY-FPVOw@mail.gmail.com>
-Subject: Re: [PATCH] drm/amdgpu: Senseless code and unnecessary memset
+Date: Sun, 10 Apr 2022 03:51:39 +0300
+Message-ID: <CAD5ugGDrDrWWf1xMKTy=56H1AR8cyXMV41f1X8P=HVtYY6idDA@mail.gmail.com>
+Subject: Re: [PATCH] drm/amdgpu: Fix NULL pointer dereference
 To: =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
@@ -66,116 +69,63 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Jiawei Gu <Jiawei.Gu@amd.com>, Jani Nikula <jani.nikula@intel.com>,
- Lucas De Marchi <lucas.demarchi@intel.com>, "Pan, Xinhui" <Xinhui.Pan@amd.com>,
+Cc: David Airlie <airlied@linux.ie>, Qingqing Zhuo <qingqing.zhuo@amd.com>,
+ "Pan, Xinhui" <Xinhui.Pan@amd.com>,
  Rodrigo Siqueira <Rodrigo.Siqueira@amd.com>,
  LKML <linux-kernel@vger.kernel.org>,
- amd-gfx list <amd-gfx@lists.freedesktop.org>, Melissa Wen <mwen@igalia.com>,
- David Airlie <airlied@linux.ie>,
- Maling list - DRI developers <dri-devel@lists.freedesktop.org>,
- Alex Deucher <alexander.deucher@amd.com>
+ amd-gfx mailing list <amd-gfx@lists.freedesktop.org>,
+ Melissa Wen <mwen@igalia.com>,
+ =?UTF-8?Q?Michel_D=C3=A4nzer?= <mdaenzer@redhat.com>,
+ Sean Paul <seanpaul@chromium.org>,
+ ML dri-devel <dri-devel@lists.freedesktop.org>,
+ Alex Deucher <alexander.deucher@amd.com>, Evan Quan <evan.quan@amd.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Christian K=C3=B6nig in fact the compiler will very often replace {0} with
-a memset call. I don't see a problem using {0} for local arrays with
-primitive types.
-There should also be no problem with memory alignment. Because the
-compiler understands it. Using sizeof is also not a good idea.
-More often everyone also makes mistakes with sizeof. It's best to
-leave it as is, and there's no errors.
-Indeed, when using structures and {0}, errors may occur, but I am not
-aware of errors when using primitive types. I also looked at the
-amdgpu code and  {0} is used in many places.
-Also from experience malloc+memset is the most dangerous chain, can
-silently damage memory, causing a bunch of subtle problems, and it is
-better to replace them with more safe calloc.
-Such a problem, for example, was recently found by me in fontconfig
-and it crashed intel quartus. Therefore, where possible, I try to
-avoid memset.
+Christian K=C3=B6nig, Simon Ser In fact, the code looks strange, we return
+the return code, but for some reason we also write false and 0. In my
+opinion, the caller should do this.
+Of course, you are right, but I look from the position that nothing
+should fall in the user system. There may be strange errors that occur
+periodically under certain conditions and do not affect developers.
+Also, the user will not always be able to correctly write a bug report.
 
 Regards, Grigory.
 
-=D1=81=D1=80, 6 =D0=B0=D0=BF=D1=80. 2022 =D0=B3. =D0=B2 17:43, Christian K=
+=D0=BF=D1=82, 8 =D0=B0=D0=BF=D1=80. 2022 =D0=B3. =D0=B2 17:30, Christian K=
 =C3=B6nig <christian.koenig@amd.com>:
 >
-> Am 06.04.22 um 16:26 schrieb Jani Nikula:
-> > On Tue, 05 Apr 2022, Christian K=C3=B6nig <christian.koenig@amd.com> wr=
-ote:
-> >> Am 05.04.22 um 19:36 schrieb Grigory Vasilyev:
-> >>> Using memset on local arrays before exiting the function is pointless=
-.
-> >>> Compilator will remove this code. Also for local arrays is preferable=
- to
-> >>> use {0} instead of memset. Mistakes are often made when working with
-> >>> memset.
-> >> Well actually memset is preferred when working with structures which a=
-re
-> >> given to the hardware parser because {0} won't initialize paddings.
-> > Not that I'd know anything that's going on here... but it sure seems
-> > strange to me to be passing unpacked structures where the padding might
-> > matter to a "hardware parser".
+> Am 08.04.22 um 15:21 schrieb Grigory Vasilyev:
+> > Simon Ser and Bas Nieuwenhuizen, do you understand that you are
+> > proposing to make the code less safe in the future? In the future,
+> > someone might rewrite the code and we'll get an error.
 >
-> Well to me it is an absolute miracle why the heck compilers don't
-> initialize paddings.
+> Which is perfectly fine.
 >
-> We had so many ups moments over the years and I really don't see why it
-> should be more optimal to do this.
+> See error handling is to handle userspace or hardware errors and *not*
+> coding errors.
 >
-> Anyway, the memset() is used intentionally here and I don't really want
-> to change it. What we could do is removing the second superfluous memset
-> and use sizeof() instead of hard coding the size.
+> Testing all pointers for NULL without any reason is not defensive, but
+> rather the exactly opposite since it helps hiding real bugs.
 >
 > Regards,
 > Christian.
 >
 > >
-> > *shrug*
-> >
-> >
-> > BR,
-> > Jani.
-> >
-> >
-> >> So please don't use {0} in any of the atom bios code.
+> > =D0=BF=D1=82, 8 =D0=B0=D0=BF=D1=80. 2022 =D0=B3. =D0=B2 14:48, Simon Se=
+r <contact@emersion.fr>:
+> >> On Friday, April 8th, 2022 at 13:28, Bas Nieuwenhuizen <bas@basnieuwen=
+huizen.nl> wrote:
 > >>
-> >> Regards,
-> >> Christian.
-> >>
-> >>> Signed-off-by: Grigory Vasilyev <h0tc0d3@gmail.com>
-> >>> ---
-> >>>    drivers/gpu/drm/amd/amdgpu/atom.c | 8 +-------
-> >>>    1 file changed, 1 insertion(+), 7 deletions(-)
+> >>> On Fri, Apr 8, 2022 at 12:01 PM Simon Ser contact@emersion.fr wrote:
 > >>>
-> >>> diff --git a/drivers/gpu/drm/amd/amdgpu/atom.c b/drivers/gpu/drm/amd/=
-amdgpu/atom.c
-> >>> index be9d61bcb8ae..537e48fbbe6b 100644
-> >>> --- a/drivers/gpu/drm/amd/amdgpu/atom.c
-> >>> +++ b/drivers/gpu/drm/amd/amdgpu/atom.c
-> >>> @@ -1538,11 +1538,9 @@ struct atom_context *amdgpu_atom_parse(struct =
-card_info *card, void *bios)
-> >>>    int amdgpu_atom_asic_init(struct atom_context *ctx)
-> >>>    {
-> >>>     int hwi =3D CU16(ctx->data_table + ATOM_DATA_FWI_PTR);
-> >>> -   uint32_t ps[16];
-> >>> +   uint32_t ps[16] =3D {0};
-> >>>     int ret;
-> >>>
-> >>> -   memset(ps, 0, 64);
-> >>> -
-> >>>     ps[0] =3D cpu_to_le32(CU32(hwi + ATOM_FWI_DEFSCLK_PTR));
-> >>>     ps[1] =3D cpu_to_le32(CU32(hwi + ATOM_FWI_DEFMCLK_PTR));
-> >>>     if (!ps[0] || !ps[1])
-> >>> @@ -1551,10 +1549,6 @@ int amdgpu_atom_asic_init(struct atom_context =
-*ctx)
-> >>>     if (!CU16(ctx->cmd_table + 4 + 2 * ATOM_CMD_INIT))
-> >>>             return 1;
-> >>>     ret =3D amdgpu_atom_execute_table(ctx, ATOM_CMD_INIT, ps);
-> >>> -   if (ret)
-> >>> -           return ret;
-> >>> -
-> >>> -   memset(ps, 0, 64);
-> >>>
-> >>>     return ret;
-> >>>    }
+> >>>> Is amdgpu_display_get_fb_info ever called with NULL tiling_flags/tmz=
+_surface?
+> >>>> If not, there's no point in adding NULL checks.
+> >>> It isn't called with NULL anywhere, the NULL checks that already exis=
+t
+> >>> seem redundant.
+> >> Grigory, would be be willing to submit a v2 which removes the unnecess=
+ary
+> >> NULL checks?
 >
