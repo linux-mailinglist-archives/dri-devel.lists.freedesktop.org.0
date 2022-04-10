@@ -1,59 +1,55 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1B6924FB35C
-	for <lists+dri-devel@lfdr.de>; Mon, 11 Apr 2022 07:55:41 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 1B1CB4FB534
+	for <lists+dri-devel@lfdr.de>; Mon, 11 Apr 2022 09:47:37 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id BF13F10EE82;
-	Mon, 11 Apr 2022 05:55:36 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 8466610F017;
+	Mon, 11 Apr 2022 07:47:34 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from alexa-out-sd-02.qualcomm.com (alexa-out-sd-02.qualcomm.com
- [199.106.114.39])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 0ACB810EE74;
- Mon, 11 Apr 2022 05:55:34 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=quicinc.com; i=@quicinc.com; q=dns/txt; s=qcdkim;
- t=1649656535; x=1681192535;
- h=message-id:date:mime-version:subject:to:cc:references:
- from:in-reply-to:content-transfer-encoding;
- bh=p9HXYw/ALt+MopqQNrusnXpB/e7Lu7tHls88nUVRk1Q=;
- b=Vqb4xvQIqez5v21H2EtXpsw0nVmD/NBvFxq5cosnWx/OHceug7c1AUXs
- vwGWHHvUb0ZjO70eNVXjyvDgkf/ffvm70szIASi2moTs9R2qZSQY30hr7
- Ig24P5VK4/brHd33NsmZx3+75iE6CtuPZB4GV6EoJfeGvj9L4ms98WjU1 Q=;
-Received: from unknown (HELO ironmsg04-sd.qualcomm.com) ([10.53.140.144])
- by alexa-out-sd-02.qualcomm.com with ESMTP; 10 Apr 2022 22:55:33 -0700
-X-QCInternal: smtphost
-Received: from nasanex01c.na.qualcomm.com ([10.47.97.222])
- by ironmsg04-sd.qualcomm.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 10 Apr 2022 22:55:32 -0700
-Received: from nalasex01a.na.qualcomm.com (10.47.209.196) by
- nasanex01c.na.qualcomm.com (10.47.97.222) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.2.986.22; Sun, 10 Apr 2022 22:55:31 -0700
-Received: from [10.111.167.150] (10.80.80.8) by nalasex01a.na.qualcomm.com
- (10.47.209.196) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.986.22; Sun, 10 Apr
- 2022 22:55:29 -0700
-Message-ID: <adb5b728-d1e3-022d-62fa-1f7278e63e41@quicinc.com>
-Date: Sun, 10 Apr 2022 22:55:27 -0700
+Received: from mail-oa1-x36.google.com (mail-oa1-x36.google.com
+ [IPv6:2001:4860:4864:20::36])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 7079410E266
+ for <dri-devel@lists.freedesktop.org>; Sun, 10 Apr 2022 23:49:47 +0000 (UTC)
+Received: by mail-oa1-x36.google.com with SMTP id
+ 586e51a60fabf-de3eda6b5dso15566665fac.0
+ for <dri-devel@lists.freedesktop.org>; Sun, 10 Apr 2022 16:49:47 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
+ h=mime-version:from:date:message-id:subject:to;
+ bh=nTHyisLKl+Q0FI0Y23Gh/PNjSPiHrWB/KIBAtZ1kFeA=;
+ b=b3HsV0iufwWJYgrAsWxqJwwt3tvnC+vWargrs9rvppFVPKQrw45AIFzvzYb2Fy5gWP
+ c81TEBtyQXtWKUt4rsMnpOzSUJ997EN95bIkkUI5muxtTsvb2BOEsVcrjOFpZU0HEkUm
+ cXx3nyoEFAwzc6/pU40SOOasVIZ/2etvH8E6PnpicMhH4neTto14vmOJ56t6KKfHEe+9
+ CasdQEwPjOKclcJn8aUDnwb2ntREKA+HgddDgNGRAiGgVBNuX6jfrdmCerGFozeX7BHb
+ h/TgJeUuIsb52ApsWHjv2YA9Zf7feHwYS48Z91K1hGAe901yoRBgdBmm5aOEO5uxX87a
+ FBkg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=x-gm-message-state:mime-version:from:date:message-id:subject:to;
+ bh=nTHyisLKl+Q0FI0Y23Gh/PNjSPiHrWB/KIBAtZ1kFeA=;
+ b=1pGR5/NPKWiw+25VU8AjRZWzjjNjkUVx5LXADoZveclYkFB3H19gsO1xPFvynuyxi8
+ c3Ia6YWqJcb0AxhsOdr1/fcLMTCf1PPlheb+STkXUIs9qdj+e+ARffcsxBZ4DKE1Mosf
+ 3pbKmLBfL4GmEoAhHaHuQKWvYdLgJOyUOzAMS7Aeyikwq7or0TEbvFiyMASwMMIGDzeJ
+ 3nHD0pGLTVUvPyfzIR0gr69yL8KXHy4vpiF9T6mA0sl2F5hmMtsJRM1SMRGpTVTnxyVL
+ 9woYrdHC6bx+luAPrHsonIsSF45YkQLMpDp9JtZLh9jUvwSsK175RZmSgdXrnU1sJanl
+ qowA==
+X-Gm-Message-State: AOAM530K4hnSMDZcqrCuKvJnVk18It4NtC6Vrcqcqxcn2IrdNqtSSCff
+ m/wuSLpBVEpKtOypGVcFFugCAUzSFayxuCsVcnK4fz5Lpco=
+X-Google-Smtp-Source: ABdhPJwN8rRS+a3RHYHoJua9uF4hJl0IicrwTbexoFkQ+KM/hAJ8DxRcYCZglPdoNQp4BcitqTsq171UDjtEGHASLnw=
+X-Received: by 2002:a05:6870:f295:b0:e1:ea02:2001 with SMTP id
+ u21-20020a056870f29500b000e1ea022001mr5229356oap.241.1649634586271; Sun, 10
+ Apr 2022 16:49:46 -0700 (PDT)
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:91.0) Gecko/20100101
- Thunderbird/91.6.2
-Subject: Re: [PATCH] drm/msm/dsi: Use connector directly in
- msm_dsi_manager_connector_init()
-Content-Language: en-US
-To: Stephen Boyd <swboyd@chromium.org>, Rob Clark <robdclark@gmail.com>, "Sean
- Paul" <sean@poorly.run>
-References: <20220318000731.2823718-1-swboyd@chromium.org>
-From: Abhinav Kumar <quic_abhinavk@quicinc.com>
-In-Reply-To: <20220318000731.2823718-1-swboyd@chromium.org>
-Content-Type: text/plain; charset="UTF-8"; format=flowed
-Content-Transfer-Encoding: 7bit
-X-Originating-IP: [10.80.80.8]
-X-ClientProxiedBy: nasanex01b.na.qualcomm.com (10.46.141.250) To
- nalasex01a.na.qualcomm.com (10.47.209.196)
+From: Mae Chavez <maec6129@gmail.com>
+Date: Sun, 10 Apr 2022 17:49:33 -0600
+Message-ID: <CAMTJphAVjGvmg6t7KX7VmME3_gKNT+Pp78OEYNGwrxn2DR0cgw@mail.gmail.com>
+Subject: Re: [Intel-gfx] [PATCH 4/4] drm/i915/selftest: Always cancel
+ semaphore on error
+To: dri-devel@lists.freedesktop.org
+Content-Type: multipart/alternative; boundary="00000000000086220805dc557ba8"
+X-Mailman-Approved-At: Mon, 11 Apr 2022 07:47:33 +0000
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -66,45 +62,17 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: linux-arm-msm@vger.kernel.org, linux-kernel@vger.kernel.org,
- dri-devel@lists.freedesktop.org, Sean Paul <seanpaul@chromium.org>, Dmitry
- Baryshkov <dmitry.baryshkov@linaro.org>, freedreno@lists.freedesktop.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
+--00000000000086220805dc557ba8
+Content-Type: text/plain; charset="UTF-8"
 
 
-On 3/17/2022 5:07 PM, Stephen Boyd wrote:
-> The member 'msm_dsi->connector' isn't assigned until
-> msm_dsi_manager_connector_init() returns (see msm_dsi_modeset_init() and
-> how it assigns the return value). Therefore this pointer is going to be
-> NULL here. Let's use 'connector' which is what was intended.
-> 
-> Cc: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
-> Cc: Sean Paul <seanpaul@chromium.org>
-> Fixes: 6d5e78406991 ("drm/msm/dsi: Move dsi panel init into modeset init path")
-> Signed-off-by: Stephen Boyd <swboyd@chromium.org>
-Reviewed-by: Abhinav Kumar <quic_abhinavk@quicinc.com>
-> ---
-> 
-> I don't know if this is superseeded by something else but I found this
-> while trying to use the connector from msm_dsi in this function.
-> 
->   drivers/gpu/drm/msm/dsi/dsi_manager.c | 2 +-
->   1 file changed, 1 insertion(+), 1 deletion(-)
-> 
-> diff --git a/drivers/gpu/drm/msm/dsi/dsi_manager.c b/drivers/gpu/drm/msm/dsi/dsi_manager.c
-> index 0c1b7dde377c..9f6af0f0fe00 100644
-> --- a/drivers/gpu/drm/msm/dsi/dsi_manager.c
-> +++ b/drivers/gpu/drm/msm/dsi/dsi_manager.c
-> @@ -638,7 +638,7 @@ struct drm_connector *msm_dsi_manager_connector_init(u8 id)
->   	return connector;
->   
->   fail:
-> -	connector->funcs->destroy(msm_dsi->connector);
-> +	connector->funcs->destroy(connector);
->   	return ERR_PTR(ret);
->   }
->   
-> 
-> base-commit: 05afd57f4d34602a652fdaf58e0a2756b3c20fd4
+
+--00000000000086220805dc557ba8
+Content-Type: text/html; charset="UTF-8"
+
+<div dir="auto"></div>
+
+--00000000000086220805dc557ba8--
