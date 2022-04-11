@@ -2,44 +2,58 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id DE8B94FB771
-	for <lists+dri-devel@lfdr.de>; Mon, 11 Apr 2022 11:26:24 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 17E6F4FB77B
+	for <lists+dri-devel@lfdr.de>; Mon, 11 Apr 2022 11:27:58 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 2DC2D10F7CF;
-	Mon, 11 Apr 2022 09:26:22 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id E2AC110F889;
+	Mon, 11 Apr 2022 09:27:55 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from ams.source.kernel.org (ams.source.kernel.org
- [IPv6:2604:1380:4601:e00::1])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 2E60210F7CB;
- Mon, 11 Apr 2022 09:26:20 +0000 (UTC)
-Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
- (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
- (No client certificate requested)
- by ams.source.kernel.org (Postfix) with ESMTPS id CA8C1B81134;
- Mon, 11 Apr 2022 09:26:18 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 25655C385A4;
- Mon, 11 Apr 2022 09:26:16 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linuxfoundation.org;
- s=korg; t=1649669177;
- bh=iFKeezBtqRqyOeQiGMFLQotZHbPpd/RM2TWmZ2+y4Eo=;
- h=Subject:To:Cc:From:Date:From;
- b=pLObq6fN0FHZwcfOWmuAXQwgakreTJC5oMgCFUaHv9lS6G713xd4Cje6jUhBBTcR+
- kGmEBk3tcqtBk9YtUYK2hdWPVKYJKqqHkHlYniKyAQzM9sEh7os/ThfC8FItkMIe2e
- PLjA3/x2ZewmpshBaVdsc8VLSUevzAz2THZI5NZg=
-Subject: Patch "drm/nouveau/pmu: Add missing callbacks for Tegra devices" has
- been added to the 5.17-stable tree
-To: bskeggs@redhat.com, dri-devel@lists.freedesktop.org,
- gregkh@linuxfoundation.org, kherbst@redhat.com, lyude@redhat.com,
- nouveau@lists.freedesktop.org
-From: <gregkh@linuxfoundation.org>
-Date: Mon, 11 Apr 2022 11:25:25 +0200
-Message-ID: <164966912517713@kroah.com>
+Received: from mail-pg1-x52d.google.com (mail-pg1-x52d.google.com
+ [IPv6:2607:f8b0:4864:20::52d])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id DA54810F889
+ for <dri-devel@lists.freedesktop.org>; Mon, 11 Apr 2022 09:27:54 +0000 (UTC)
+Received: by mail-pg1-x52d.google.com with SMTP id q19so13662105pgm.6
+ for <dri-devel@lists.freedesktop.org>; Mon, 11 Apr 2022 02:27:54 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc; bh=gUZLnKBxx8VA3OSu2dIqsE8cEUY3AK5vGZQzH6jJ2vo=;
+ b=JyOGjkokBa+Aw6qxRAQJ498sUGyUYwxAOiPIEVGS79xAIQhaHmakXcZkILRXU1fOW2
+ NVc0WL0w8BYbOkqfCmzChBxCXKDv6gT1+t/+dbygd3zinfwoTxBI6btFBiQRlVizGmDX
+ RB7oCRd8YSitvkDPJ4LrpIemvAEqXANu3j9uhcwculIe7oLiojCuItyi223yx6g+RUAt
+ SzYGRFIZDaUuTcj3XbAkDJ4KsVqTk1z7LPooAhAA6GrGWXCnU4MG8OLY3qUCN6/JXVs2
+ KFKpIvtlpMIfuUokiO3icBC5jp5HjunYGiP1vQcNBH7/xKxKPgKgRRQnwiDdsZBkU1ND
+ +mBQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=gUZLnKBxx8VA3OSu2dIqsE8cEUY3AK5vGZQzH6jJ2vo=;
+ b=JgqknF9gini+1+mvCkFt8AYbmFzSiIO5Vgtq7z1ZjcFLcdXw8XMVbflBtEMyRt8Uhz
+ WpMIB2vS2SCz6+6WB8ykEwlLvayEWiEmxFjST1njjLVHJ2+FbIAEMlWGOWh6RMZZEa/u
+ scq3vHo+4QIF3TM4Jy9QJ8WOXg7Jcm6kYg7qLL52X34dcLF+8omPw6knYNVI42bp/kQL
+ Zb1xJqZqDC3As4CEDGgq7U8y0plgM4ZfUD0+qdMrYxoCsG7fDatqIf9hIaqZEO7q4COm
+ dQ8xbs9E+pxCqJpTTlHXPAnTEBDXVQ9eppiHTfJQnrx9Uvcx4Mklr1fR/Ar7M9zKkN/D
+ GlDw==
+X-Gm-Message-State: AOAM531ogp8uKWQ6cyJgTM8GtT6OBfPlyzuTjco+r+sRcYp0pWUkDmNG
+ /4bONA2Tk5i+7NnTv6rqokd+XvV2muaMXw2FBGeNpUmy
+X-Google-Smtp-Source: ABdhPJxV9ml1CzlL5oo0xAIHD9+A2y+UDXYm1lYeNkcyI8Z7ey1mgEDT7HQb3xEvCQaE4O+y95NuNpdvXwzy8iTz0jY=
+X-Received: by 2002:a63:e20:0:b0:385:fe08:52f9 with SMTP id
+ d32-20020a630e20000000b00385fe0852f9mr25852698pgl.99.1649669274422; Mon, 11
+ Apr 2022 02:27:54 -0700 (PDT)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=ANSI_X3.4-1968
-Content-Transfer-Encoding: 8bit
-X-stable: commit
-X-Patchwork-Hint: ignore 
+References: <20220409042321.3184493-1-james.hilliard1@gmail.com>
+ <CAMeQTsanEow=zq=MuZLjMqpzybdS=5S0=JrkxuCdT7d5MxpEWQ@mail.gmail.com>
+ <CADvTj4rBKzGFch8iVzHu1s+6=P0PcLEwoFi74xd_ormEX+2rMA@mail.gmail.com>
+ <CAMeQTsaM363n5F=--xhSTayFqOMNvjTQjqz_aEhby6i-KRVBKQ@mail.gmail.com>
+ <CADvTj4o_zyVZxaBz0+kRUF30OW3SKFMuo87r6FE9Qkfn1dVsBw@mail.gmail.com>
+In-Reply-To: <CADvTj4o_zyVZxaBz0+kRUF30OW3SKFMuo87r6FE9Qkfn1dVsBw@mail.gmail.com>
+From: Patrik Jakobsson <patrik.r.jakobsson@gmail.com>
+Date: Mon, 11 Apr 2022 11:27:43 +0200
+Message-ID: <CAMeQTsbKMxQcDsDRqHsMwqU1BnrcOLwtU7uOrB-1E0z65P79-w@mail.gmail.com>
+Subject: Re: [PATCH v3] drm/gma500: depend on framebuffer
+To: James Hilliard <james.hilliard1@gmail.com>
+Content-Type: text/plain; charset="UTF-8"
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -52,97 +66,49 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: stable-commits@vger.kernel.org
+Cc: David Airlie <airlied@linux.ie>, Randy Dunlap <rdunlap@infradead.org>,
+ dri-devel <dri-devel@lists.freedesktop.org>,
+ linux-kernel <linux-kernel@vger.kernel.org>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
+On Sun, Apr 10, 2022 at 10:05 PM James Hilliard
+<james.hilliard1@gmail.com> wrote:
+>
+> On Sun, Apr 10, 2022 at 1:52 PM Patrik Jakobsson
+> <patrik.r.jakobsson@gmail.com> wrote:
+> >
+> > On Sun, Apr 10, 2022 at 9:40 PM James Hilliard
+> > <james.hilliard1@gmail.com> wrote:
+> > >
+> > > On Sun, Apr 10, 2022 at 1:36 PM Patrik Jakobsson
+> > > <patrik.r.jakobsson@gmail.com> wrote:
+> > > >
+> > > > On Sat, Apr 9, 2022 at 6:23 AM James Hilliard <james.hilliard1@gmail.com> wrote:
+> > > > >
+> > > > > Select the efi framebuffer if efi is enabled.
+> > > > >
+> > > > > This appears to be needed for video output to function correctly.
+> > > > >
+> > > > > Signed-off-by: James Hilliard <james.hilliard1@gmail.com>
+> > > >
+> > > > Hi James,
+> > > > EFI_FB is its own driver and not needed by gma500 to drive its
+> > > > hardware. What makes you think it's required?
+> > >
+> > > I wasn't getting any HDMI video output without it enabled for some reason,
+> > > I assume it is doing some sort of initialization needed by gma500
+> > > during startup.
+> >
+> > Then it sounds like you might just be using EFI_FB and not gma500. Can
+> > you provide the kernel log with drm.debug=0x1f set on kernel
+> > command-line.
+>
+> Seems efifb loads first and then hands off to gma500
 
-This is a note to let you know that I've just added the patch titled
-
-    drm/nouveau/pmu: Add missing callbacks for Tegra devices
-
-to the 5.17-stable tree which can be found at:
-    http://www.kernel.org/git/?p=linux/kernel/git/stable/stable-queue.git;a=summary
-
-The filename of the patch is:
-     drm-nouveau-pmu-add-missing-callbacks-for-tegra-devices.patch
-and it can be found in the queue-5.17 subdirectory.
-
-If you, or anyone else, feels it should not be added to the stable tree,
-please let <stable@vger.kernel.org> know about it.
-
-
-From 38d4e5cf5b08798f093374e53c2f4609d5382dd5 Mon Sep 17 00:00:00 2001
-From: Karol Herbst <kherbst@redhat.com>
-Date: Tue, 22 Mar 2022 13:48:00 +0100
-Subject: drm/nouveau/pmu: Add missing callbacks for Tegra devices
-
-From: Karol Herbst <kherbst@redhat.com>
-
-commit 38d4e5cf5b08798f093374e53c2f4609d5382dd5 upstream.
-
-Fixes a crash booting on those platforms with nouveau.
-
-Fixes: 4cdd2450bf73 ("drm/nouveau/pmu/gm200-: use alternate falcon reset sequence")
-Cc: Ben Skeggs <bskeggs@redhat.com>
-Cc: Karol Herbst <kherbst@redhat.com>
-Cc: dri-devel@lists.freedesktop.org
-Cc: nouveau@lists.freedesktop.org
-Cc: <stable@vger.kernel.org> # v5.17+
-Signed-off-by: Karol Herbst <kherbst@redhat.com>
-Reviewed-by: Lyude Paul <lyude@redhat.com>
-Link: https://patchwork.freedesktop.org/patch/msgid/20220322124800.2605463-1-kherbst@redhat.com
-Signed-off-by: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
----
- drivers/gpu/drm/nouveau/nvkm/subdev/pmu/gm20b.c |    1 +
- drivers/gpu/drm/nouveau/nvkm/subdev/pmu/gp102.c |    2 +-
- drivers/gpu/drm/nouveau/nvkm/subdev/pmu/gp10b.c |    1 +
- drivers/gpu/drm/nouveau/nvkm/subdev/pmu/priv.h  |    1 +
- 4 files changed, 4 insertions(+), 1 deletion(-)
-
---- a/drivers/gpu/drm/nouveau/nvkm/subdev/pmu/gm20b.c
-+++ b/drivers/gpu/drm/nouveau/nvkm/subdev/pmu/gm20b.c
-@@ -216,6 +216,7 @@ gm20b_pmu = {
- 	.intr = gt215_pmu_intr,
- 	.recv = gm20b_pmu_recv,
- 	.initmsg = gm20b_pmu_initmsg,
-+	.reset = gf100_pmu_reset,
- };
- 
- #if IS_ENABLED(CONFIG_ARCH_TEGRA_210_SOC)
---- a/drivers/gpu/drm/nouveau/nvkm/subdev/pmu/gp102.c
-+++ b/drivers/gpu/drm/nouveau/nvkm/subdev/pmu/gp102.c
-@@ -23,7 +23,7 @@
-  */
- #include "priv.h"
- 
--static void
-+void
- gp102_pmu_reset(struct nvkm_pmu *pmu)
- {
- 	struct nvkm_device *device = pmu->subdev.device;
---- a/drivers/gpu/drm/nouveau/nvkm/subdev/pmu/gp10b.c
-+++ b/drivers/gpu/drm/nouveau/nvkm/subdev/pmu/gp10b.c
-@@ -83,6 +83,7 @@ gp10b_pmu = {
- 	.intr = gt215_pmu_intr,
- 	.recv = gm20b_pmu_recv,
- 	.initmsg = gm20b_pmu_initmsg,
-+	.reset = gp102_pmu_reset,
- };
- 
- #if IS_ENABLED(CONFIG_ARCH_TEGRA_210_SOC)
---- a/drivers/gpu/drm/nouveau/nvkm/subdev/pmu/priv.h
-+++ b/drivers/gpu/drm/nouveau/nvkm/subdev/pmu/priv.h
-@@ -41,6 +41,7 @@ int gt215_pmu_send(struct nvkm_pmu *, u3
- 
- bool gf100_pmu_enabled(struct nvkm_pmu *);
- void gf100_pmu_reset(struct nvkm_pmu *);
-+void gp102_pmu_reset(struct nvkm_pmu *pmu);
- 
- void gk110_pmu_pgob(struct nvkm_pmu *, bool);
- 
-
-
-Patches currently in stable-queue which might be from kherbst@redhat.com are
-
-queue-5.17/drm-nouveau-pmu-add-missing-callbacks-for-tegra-devices.patch
+That is how it normally works but efifb shouldn't change the state of
+the currently set mode so shouldn't affect gma500.
+From the logs I can see that you have LVDS (internal panel), HDMI and
+DP (3 displays in total) connected. This sounds wrong. Your version of
+gma500 (Cedarview) doesn't support more than 2 crtcs/pipes. This might
+be a problem.
