@@ -2,54 +2,54 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5F3234FB9F1
-	for <lists+dri-devel@lfdr.de>; Mon, 11 Apr 2022 12:46:01 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id CD8384FBA7E
+	for <lists+dri-devel@lfdr.de>; Mon, 11 Apr 2022 13:06:19 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 4BE0C10F632;
-	Mon, 11 Apr 2022 10:45:58 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 6031410E23A;
+	Mon, 11 Apr 2022 11:06:17 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mga14.intel.com (mga14.intel.com [192.55.52.115])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 4B17110F638;
- Mon, 11 Apr 2022 10:45:56 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1649673956; x=1681209956;
- h=message-id:date:mime-version:subject:to:cc:references:
- from:in-reply-to:content-transfer-encoding;
- bh=xAIaFaRxRb/y7SJ/yOei69L1F7DrUcF025DiXtQgjhc=;
- b=RnI/ELuwZEcSqcKFS6xgZRzcTSgh8bdCIWy1K1WmIjSxs9BZt51g+N2P
- nBgwvsj6UySFBdsqqyoVV613PbtROaP5aOjMx7+nzD/qqYNcXI2yX+9YJ
- yUR0/uKHJhc5fSpMrQYp8QQy8GDo3n92OpABg2vYEwPSDnxIhBoa2f2uZ
- QNm3m+cU2ZTdYi9wob0Rzje6Yf7s8VqExCFiubpcd+iuGJ3MIlGfQX8sb
- J4Cy2fjpRo8hY6tz1j4ErUWtK7v7tzAw9d8sKR7v7VN2TVSGYfFkRDGgn
- 9wHZULAtku6OGlZ6GqfTp4OxSivfHwQXwonw5A/7vzLZZYfOay1sKdxl+ w==;
-X-IronPort-AV: E=McAfee;i="6400,9594,10313"; a="262265413"
-X-IronPort-AV: E=Sophos;i="5.90,251,1643702400"; d="scan'208";a="262265413"
-Received: from orsmga004.jf.intel.com ([10.7.209.38])
- by fmsmga103.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 11 Apr 2022 03:45:55 -0700
-X-IronPort-AV: E=Sophos;i="5.90,251,1643702400"; d="scan'208";a="659998478"
-Received: from melhebea-mobl1.amr.corp.intel.com (HELO [10.249.254.167])
- ([10.249.254.167])
- by orsmga004-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 11 Apr 2022 03:45:53 -0700
-Message-ID: <271fa83e-029e-a0d2-ecc3-5583722c7320@linux.intel.com>
-Date: Mon, 11 Apr 2022 12:45:51 +0200
+X-Greylist: delayed 309 seconds by postgrey-1.36 at gabe;
+ Mon, 11 Apr 2022 11:06:15 UTC
+Received: from mout.kundenserver.de (mout.kundenserver.de [212.227.126.135])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 5DC0910E23A
+ for <dri-devel@lists.freedesktop.org>; Mon, 11 Apr 2022 11:06:15 +0000 (UTC)
+Received: from [192.168.1.107] ([37.4.249.94]) by mrelayeu.kundenserver.de
+ (mreue010 [212.227.15.167]) with ESMTPSA (Nemesis) id
+ 1N6sWd-1o22ho2xCx-018I52; Mon, 11 Apr 2022 13:00:59 +0200
+Message-ID: <16571256-de30-db4e-6eea-268b0ef00103@i2se.com>
+Date: Mon, 11 Apr 2022 13:00:56 +0200
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
  Thunderbird/91.7.0
-Subject: Re: [PATCH] drm/ttm: stop passing NULL fence in
- ttm_bo_move_sync_cleanup
+Subject: Re: vc4: Couldn't stop firmware display driver during boot
 Content-Language: en-US
-To: Matthew Auld <matthew.auld@intel.com>, intel-gfx@lists.freedesktop.org
-References: <20220411085603.58156-1-matthew.auld@intel.com>
- <11835204-fd38-ef91-8e55-2b3e15aaaacd@linux.intel.com>
- <dd38bc4f-33ea-eb29-6192-fe04578f90f6@intel.com>
-From: =?UTF-8?Q?Thomas_Hellstr=c3=b6m?= <thomas.hellstrom@linux.intel.com>
-In-Reply-To: <dd38bc4f-33ea-eb29-6192-fe04578f90f6@intel.com>
+To: Maxime Ripard <maxime@cerno.tech>
+References: <69c4f25d-7b48-081b-f609-8e1fd5f950cb@i2se.com>
+ <df9d739d-7dff-4e2b-d1cd-66a5c5887cab@i2se.com>
+ <42f24a68-391a-e6c8-25a7-511e91a5c7f9@i2se.com>
+ <20220411073511.l5v7aqwbg6sdedjf@houat>
+From: Stefan Wahren <stefan.wahren@i2se.com>
+In-Reply-To: <20220411073511.l5v7aqwbg6sdedjf@houat>
 Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 8bit
+X-Provags-ID: V03:K1:O3DK9dqHik7awro2UrEn5DRvftkl0gQ88HzMn/4EMvLzgkpMlQl
+ PrBlWnpqcSw28gBkwERc0Y825yWrg1xDZyjBEqkELO8ER4BFYguio/tDsqeBsHk8gbHVr0o
+ Rze3kYXi+71cCESstxTA5MLLni0eNHXbJZ6DPKKXYqnMlZvG7x8BnI4YQAb9JCUX1NboIsr
+ ElsdvrqMqSMimQzznVXsQ==
+X-Spam-Flag: NO
+X-UI-Out-Filterresults: notjunk:1;V03:K0:D5hcTX9sAxw=:9K14kVkmAKmpANVeATBFxm
+ vz/saPnAFC5VzY3zWSCB/XncdNuavDq06laLqXQy+gYe17ZJLsyLrulalXyN3P/fP2tVPHBM1
+ Wpsli1taxIZe9NSmP4oSzo/D4z8N5J0P/MMDe0S0F84VxFn62UpJ+iAWlX+GpZPGVMN+iJ0jN
+ uAscXRt+nsOZT9Wp22Nv3muSm//CX4Tbu7PUwnEh3OkHYEt431vFggnu53zj/t4IsB+3BPbeJ
+ HRjmJt23umeJIYdehf0IC7ovIdBjQByEXRfqn60W6yR/+zuGODAkc6W14X2XyfmHs2HKs3+5g
+ zk6R48rPhsA7/WVnbtD2eg4VI95VYdJ9rQ7+yhNiW3FwuH87/cWCxaHaHbip94Rg1FAmvtMzM
+ H/pkKTXwILdCJcq/K6kryFShrKJcqXQ+bWZ/rZLTzO6WNsrCpyMycqx55lQcJDzhb2CyiXNAT
+ nsugrrrBc6qmLATZx8SlvXoK7wvHyTiaTM52U3QI9YsGBqfP4jut9Qg6uqu0Z+flrgsMcSen0
+ AHeCEhOhMd6+SHE9+SiTRIlZsSAX9cgcn5zGEH/GvDvzs6VfOPCKWzMW8VROTjQ6hhBhVErUx
+ RZ9pQZu35PiBwFJjrviZPApzlvzWmPIyZ1Mp711LF8YaEwP+Fypq2PbkcImKA9chbHsNne9QP
+ EA0OAijqxEbF8a9qFKoukvIy0JJoYeWrbhsPecidTq4ziJ8g0Br1X/g3OPEFNgu/yYWp8dhyi
+ OHbANPG/G2/LGScc
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -62,128 +62,63 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Nirmoy Das <nirmoy.das@linux.intel.com>,
- Lucas De Marchi <lucas.demarchi@intel.com>,
- =?UTF-8?Q?Christian_K=c3=b6nig?= <christian.koenig@amd.com>,
- dri-devel@lists.freedesktop.org
+Cc: Dave Stevenson <dave.stevenson@raspberrypi.com>,
+ David Airlie <airlied@linux.ie>, Daniel Vetter <daniel.vetter@ffwll.ch>,
+ Javier Martinez Canillas <javierm@redhat.com>,
+ DRI Development <dri-devel@lists.freedesktop.org>,
+ Thomas Zimmermann <tzimmermann@suse.de>, Phil Elwell <phil@raspberrypi.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
+Hi Maxime,
 
-On 4/11/22 12:06, Matthew Auld wrote:
-> On 11/04/2022 10:56, Thomas Hellström wrote:
->> Hi, Matthew
->>
->> On 4/11/22 10:56, Matthew Auld wrote:
->>> If we hit the sync case, like when skipping clearing for kernel 
->>> internal
->>> objects, or when falling back to cpu clearing, like in i915, we end up
->>> trying to add a NULL fence, but with some recent changes in this area
->>> this now just results in NULL deref in dma_resv_add_fence:
->>>
->>> <1>[    5.466383] BUG: kernel NULL pointer dereference, address: 
->>> 0000000000000008
->>> <1>[    5.466384] #PF: supervisor read access in kernel mode
->>> <1>[    5.466385] #PF: error_code(0x0000) - not-present page
->>> <6>[    5.466386] PGD 0 P4D 0
->>> <4>[    5.466387] Oops: 0000 [#1] PREEMPT SMP NOPTI
->>> <4>[    5.466389] CPU: 5 PID: 267 Comm: modprobe Not tainted 
->>> 5.18.0-rc2-CI-CI_DRM_11481+ #1
->>> <4>[    5.466391] RIP: 0010:dma_resv_add_fence+0x63/0x260
->>> <4>[    5.466395] Code: 38 85 c0 0f 84 df 01 00 00 0f 88 e8 01 00 00 
->>> 83 c0 01 0f 88 df 01 00 00 8b 05 35 89 10 01 49 8d 5e 68 85 c0 0f 85 
->>> 45 01 00 00 <48> 8b 45 08 48 3d c0 a5 0a 82 0f 84 5c 01 00 00 48 3d 
->>> 60 a5 0a 82
->>> <4>[    5.466396] RSP: 0018:ffffc90000e974f8 EFLAGS: 00010202
->>> <4>[    5.466397] RAX: 0000000000000001 RBX: ffff888123e88b28 RCX: 
->>> 00000000ffffffff
->>> <4>[    5.466398] RDX: 0000000000000001 RSI: ffffffff822e4f50 RDI: 
->>> ffffffff8233f087
->>> <4>[    5.466399] RBP: 0000000000000000 R08: ffff8881313dbc80 R09: 
->>> 0000000000000001
->>> <4>[    5.466399] R10: 0000000000000001 R11: 00000000da354294 R12: 
->>> 0000000000000000
->>> <4>[    5.466400] R13: ffff88810927dc58 R14: ffff888123e88ac0 R15: 
->>> ffff88810a88d600
->>> <4>[    5.466401] FS:  00007f5fa1193540(0000) 
->>> GS:ffff88845d880000(0000) knlGS:0000000000000000
->>> <4>[    5.466402] CS:  0010 DS: 0000 ES: 0000 CR0: 0000000080050033
->>> <4>[    5.466402] CR2: 0000000000000008 CR3: 0000000106dd6003 CR4: 
->>> 00000000003706e0
->>> <4>[    5.466403] DR0: 0000000000000000 DR1: 0000000000000000 DR2: 
->>> 0000000000000000
->>> <4>[    5.466404] DR3: 0000000000000000 DR6: 00000000fffe0ff0 DR7: 
->>> 0000000000000400
->>> <4>[    5.466404] Call Trace:
->>> <4>[    5.466405]  <TASK>
->>> <4>[    5.466406]  ttm_bo_move_accel_cleanup+0x62/0x270 [ttm]
->>> <4>[    5.466411]  ? i915_rsgt_from_buddy_resource+0x185/0x1e0 [i915]
->>> <4>[    5.466529]  i915_ttm_move+0xfd/0x430 [i915]
->>> <4>[    5.466833]  ? dma_resv_reserve_fences+0x4e/0x320
->>> <4>[    5.466836]  ? ttm_bo_add_move_fence.constprop.20+0xf7/0x140 
->>> [ttm]
->>> <4>[    5.466841]  ttm_bo_handle_move_mem+0xa1/0x140 [ttm]
->>> <4>[    5.466845]  ttm_bo_validate+0xee/0x160 [ttm]
->>> <4>[    5.466849]  __i915_ttm_get_pages+0x4f/0x210 [i915]
->>> <4>[    5.466976]  i915_ttm_get_pages+0xad/0x140 [i915]
->>> <4>[    5.467094] ____i915_gem_object_get_pages+0x32/0xf0 [i915]
->>> <4>[    5.467210]  __i915_gem_object_get_pages+0x89/0xa0 [i915]
->>> <4>[    5.467323]  i915_vma_get_pages+0x114/0x1d0 [i915]
->>> <4>[    5.467446]  i915_vma_pin_ww+0xd3/0xa90 [i915]
->>> <4>[    5.467570]  i915_vma_pin.constprop.10+0x119/0x1b0 [i915]
->>> <4>[    5.467700]  ? __mutex_unlock_slowpath+0x3e/0x2b0
->>> <4>[    5.467704] intel_alloc_initial_plane_obj.isra.6+0x1a9/0x390 
->>> [i915]
->>> <4>[    5.467833] intel_crtc_initial_plane_config+0x83/0x340 [i915]
->>>
->>> In the ttm_bo_move_sync_cleanup() case it seems we only really care
->>> about calling ttm_bo_wait_free_node(), so let's instead just call that
->>> directly.
->>>
->>> Signed-off-by: Matthew Auld <matthew.auld@intel.com>
->>> Cc: Thomas Hellström <thomas.hellstrom@linux.intel.com>
->>> Cc: Christian König <christian.koenig@amd.com>
->>> Cc: Lucas De Marchi <lucas.demarchi@intel.com>
->>> Cc: Nirmoy Das <nirmoy.das@linux.intel.com>
->>> ---
->>>   drivers/gpu/drm/ttm/ttm_bo_util.c | 15 +++++++++++++++
->>>   include/drm/ttm/ttm_bo_driver.h   | 11 +++--------
->>>   2 files changed, 18 insertions(+), 8 deletions(-)
->>>
->>> diff --git a/drivers/gpu/drm/ttm/ttm_bo_util.c 
->>> b/drivers/gpu/drm/ttm/ttm_bo_util.c
->>> index bc5190340b9c..1cbfb00c1d65 100644
->>> --- a/drivers/gpu/drm/ttm/ttm_bo_util.c
->>> +++ b/drivers/gpu/drm/ttm/ttm_bo_util.c
->>> @@ -572,6 +572,21 @@ int ttm_bo_move_accel_cleanup(struct 
->>> ttm_buffer_object *bo,
->>>   }
->>>   EXPORT_SYMBOL(ttm_bo_move_accel_cleanup);
->>> +void ttm_bo_move_sync_cleanup(struct ttm_buffer_object *bo,
->>> +                  struct ttm_resource *new_mem)
->>> +{
->>> +    struct ttm_device *bdev = bo->bdev;
->>> +    struct ttm_resource_manager *man = ttm_manager_type(bdev, 
->>> new_mem->mem_type);
->>> +    int ret;
->>> +
->>> +    ret = ttm_bo_wait_free_node(bo, man->use_tt);
->>> +    if (WARN_ON(ret))
->>> +        return;
->>> +
->>> +    ttm_bo_assign_mem(bo, new_mem);
->>> +}
->>> +EXPORT_SYMBOL(ttm_bo_move_sync_cleanup);
->>
->> I don't think this will help in the case where we call 
->> ttm_bo_move_accel_cleanup() with a NULL fence....
+Am 11.04.22 um 09:35 schrieb Maxime Ripard:
+> Hi Stefan,
 >
-> Hmm, do you know if that case actually exists? I thought the only 
-> current user passing fence == NULL was ttm_bo_move_sync_cleanup().
+> On Sun, Apr 10, 2022 at 02:32:02AM +0200, Stefan Wahren wrote:
+>> Am 09.04.22 um 21:25 schrieb Stefan Wahren:
+>>> Hi,
+>>>
+>>> today i tested Linux 5.18-rc1 on my Raspberry Pi 400 connected to my
+>>> HDMI display (multi_v7_defconfig + CONFIG_ARM_LPAE, firmware:
+>>> 2021-01-08T14:31:16) and i'm getting these strange errors from
+>>> raspberrypi-firmware driver / vc4 during boot:
+>>>
+>>> [   13.094733] fb0: switching to vc4 from simple
+>>> [   13.110759] Console: switching to colour dummy device 80x30
+>>> [   13.120691] raspberrypi-firmware soc:firmware: Request 0x00030066
+>>> returned status 0x80000001
+>>> [   13.120715] vc4-drm gpu: [drm] Couldn't stop firmware display driver:
+>>> -22
+>> This is a new error which was introduced with Linux 5.18-rc1 (c406ad5e4a85
+>> "drm/vc4: Notify the firmware when DRM is in charge"). 0x00030066 stands for
+>> the new firmware property RPI_FIRMWARE_NOTIFY_DISPLAY_DONE. And i guess the
+>> firmware from January 2021 doesn't support it?
+> If I remember well, this was added some time in the middle of last year,
+> so it wouldn't surprise me that your firmware doesn't support it.
+>
+> It's not really harmful, but it might still be a good idea to upgrade
+> your firmware. The display pipeline has an unflushable FIFO between
+> devices and if we don't take special care when disabling all the devices
+> in that pipeline, we end up with a shift of one pixel for the rest of
+> the system's life.
+>
+> We have some code to deal with the transition between the firmware and
+> the kernel, but we couldn't make it work reliably so we ended up asking
+> the firmware instead.
+>
+> So.. Yeah, it's bad if you want to use the displays output, but it not
+> critical either.
 
+I understand. I think it would be nice to give the user a more helpful 
+warning how to possible fix this, because we cannot assume that every 
+system has the latest firmware.
 
-Yes, indeed, you're right. Not sure if any other driver hits that, though.
+Also i'm not sure if should give this warning once or on every probing 
+attempt.
 
-/Thomas
+Best regards
+Stefan
 
-
+>
+> Maxime
