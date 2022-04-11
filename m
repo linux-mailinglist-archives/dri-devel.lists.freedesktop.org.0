@@ -1,63 +1,59 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 56F884FC572
-	for <lists+dri-devel@lfdr.de>; Mon, 11 Apr 2022 22:06:00 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 937674FC5C1
+	for <lists+dri-devel@lfdr.de>; Mon, 11 Apr 2022 22:27:08 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 25A1410F289;
-	Mon, 11 Apr 2022 20:05:55 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 40B5610E009;
+	Mon, 11 Apr 2022 20:27:05 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from smtp-out2.suse.de (smtp-out2.suse.de [195.135.220.29])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 52A5D10F28A;
- Mon, 11 Apr 2022 20:05:53 +0000 (UTC)
-Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
- key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
- (No client certificate requested)
- by smtp-out2.suse.de (Postfix) with ESMTPS id A1D091F7AD;
- Mon, 11 Apr 2022 20:05:50 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
- t=1649707550; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
- mime-version:mime-version:content-type:content-type:
- in-reply-to:in-reply-to:references:references;
- bh=1pt81Ck4x3qSosxsi+EKBi9IZrxIJffklmHrjxWK3b8=;
- b=W/gvCPwLNw59QyCKy+13WkS8ZrvszPluKsFXmT2RFTls15I4EkUAKoRCcMz+ooMy/y4wwZ
- V+h4SMYAyjnE+sIBHzkkQEyWP9F9Xg2Tpn+US3vZT7ldNqA+saODwcYYp/ZCsJgNmJKE0L
- YkuxVSjvs2tx6Fzp5TqXR5mGzIYw1Mk=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
- s=susede2_ed25519; t=1649707550;
- h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
- mime-version:mime-version:content-type:content-type:
- in-reply-to:in-reply-to:references:references;
- bh=1pt81Ck4x3qSosxsi+EKBi9IZrxIJffklmHrjxWK3b8=;
- b=zipwT6tuEmz8rFIe0LKHytxSr0syCpYyEBom0a2rqRes/btlgri6CUGv7vAAWrxwRx8XEv
- RXPwlouY3y2mnwDw==
-Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
- key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
- (No client certificate requested)
- by imap2.suse-dmz.suse.de (Postfix) with ESMTPS id 6BD7C13AB5;
- Mon, 11 Apr 2022 20:05:50 +0000 (UTC)
-Received: from dovecot-director2.suse.de ([192.168.254.65])
- by imap2.suse-dmz.suse.de with ESMTPSA id iWrLGB6KVGK2QgAAMHmgww
- (envelope-from <tzimmermann@suse.de>); Mon, 11 Apr 2022 20:05:50 +0000
-Message-ID: <7d49198b-778d-f715-09e1-d9ff3def6a33@suse.de>
-Date: Mon, 11 Apr 2022 22:05:49 +0200
+Received: from mail-ej1-x633.google.com (mail-ej1-x633.google.com
+ [IPv6:2a00:1450:4864:20::633])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 455ED10E03A
+ for <dri-devel@lists.freedesktop.org>; Mon, 11 Apr 2022 20:27:04 +0000 (UTC)
+Received: by mail-ej1-x633.google.com with SMTP id i27so33225133ejd.9
+ for <dri-devel@lists.freedesktop.org>; Mon, 11 Apr 2022 13:27:04 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc; bh=vtXeoECWCYtOuibBR1WD+NzkQ5jAdZNOzd5gP7v/F68=;
+ b=FSdxalS/9rQr38UcuUFjy48IsJb33ncqAiZcPoKDWhw7aaMROIkBOZlhuZdDYhMTOI
+ mTFVYr9Qo+Cuab1Bo1oOkWZA4N1yEoh5fPXK9VRBkP5Awlvkbi5HJHeTzUVnJJ4ZqdVx
+ JFghkUb5BEW6qzEsRsQcBWvvlKk97g4BcbK+MOLnXdIgy08noKOt3jiyYe1ao79XxqFb
+ xmaEUGEOZ4CdTI6jnG4PsAOcOMFr3DPJUTJKzfPz6zzYbIaDTQ4G/OGWMfgXxduPToTu
+ f/9gUsc3YZA3AQ5uNeKfzd0VUTsMf0AQt2x2Mo4dFxE4e9i+cykGe6M7AeClMbXXVZZp
+ EV6w==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=vtXeoECWCYtOuibBR1WD+NzkQ5jAdZNOzd5gP7v/F68=;
+ b=ktvIRUFVMUkDLQJO5yxcQZrZ2fXJnujtC1kNSb+DzCpd2TpUv2rQYnh4oDhebsJbmt
+ odYpqhfq+4w0mvIgIZuGytITBfGBCVcrpH7l4FN/Q/pe3nVgSOACoAZhocf8ZNzhmcX5
+ k1R4+n89jU1NU1/BsA2tUkO3C/rKeoBhR5Q17y3IAwZt8dUitw2ELONdkLR8uonT6SAK
+ 6q3Mv7mFAsKYJBzk4MmzRCpPnJdqLqH9LCjA04CTa9N0xE8lGtyquvXAyXUhfLZI+bIU
+ Lrsobb2vL0OQmuSNEht852O4yi7A0i3KSKFxyszbdX03cRV543b7Ns7lQ0BE9esGFoX2
+ 0BCQ==
+X-Gm-Message-State: AOAM532/Brjz7Tyqe8S71AGU0Z5ZXmFD+m3XwKmDNYLgy612LbTUEaEK
+ VMeXwePBbeCw8ayW1q9qmN27ByCXJTfS+hA93K4=
+X-Google-Smtp-Source: ABdhPJyvASstPUeUz9lGWA6v8FVDQ3IYNOsFIkQoMZ9P2t3/3626XRwt0koNl28e3mFYk9TFm1B8rA8hPRx1nXZhJbA=
+X-Received: by 2002:a17:906:c145:b0:6da:aaaf:770c with SMTP id
+ dp5-20020a170906c14500b006daaaaf770cmr31277025ejc.504.1649708822640; Mon, 11
+ Apr 2022 13:27:02 -0700 (PDT)
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.6.1
-Subject: Re: [PATCH] drm/ttm: stop passing NULL fence in
- ttm_bo_move_sync_cleanup
-Content-Language: en-US
-To: Matthew Auld <matthew.auld@intel.com>, intel-gfx@lists.freedesktop.org
-References: <20220411085603.58156-1-matthew.auld@intel.com>
-From: Thomas Zimmermann <tzimmermann@suse.de>
-In-Reply-To: <20220411085603.58156-1-matthew.auld@intel.com>
-Content-Type: multipart/signed; micalg=pgp-sha256;
- protocol="application/pgp-signature";
- boundary="------------13WhuFUH00LzUF0oBHgvDlzT"
+References: <CGME20220408162213eucas1p158d7c7ee27006a61d4af95d3c72c58e3@eucas1p1.samsung.com>
+ <20220408162108.184583-1-jagan@amarulasolutions.com>
+ <4c693c6e-512b-a568-948a-4a1af6a1313a@samsung.com>
+ <CAHCN7xK_H-nLA5Z6hJW5V0Bpo8bDKPU6UpN05kMBkG+PXmwBBw@mail.gmail.com>
+ <bde95ab4-38d8-5249-053c-57fb58d1a200@samsung.com>
+In-Reply-To: <bde95ab4-38d8-5249-053c-57fb58d1a200@samsung.com>
+From: Adam Ford <aford173@gmail.com>
+Date: Mon, 11 Apr 2022 15:26:51 -0500
+Message-ID: <CAHCN7xJ+PhDE1ntk883c0vCux_impP88rF=GBQRQ+4tw9E-Guw@mail.gmail.com>
+Subject: Re: [PATCH 00/11] drm: bridge: Add Samsung MIPI DSIM bridge
+To: Marek Szyprowski <m.szyprowski@samsung.com>
+Content-Type: text/plain; charset="UTF-8"
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -70,168 +66,197 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: =?UTF-8?Q?Thomas_Hellstr=c3=b6m?= <thomas.hellstrom@linux.intel.com>,
- Lucas De Marchi <lucas.demarchi@intel.com>,
- =?UTF-8?Q?Christian_K=c3=b6nig?= <christian.koenig@amd.com>,
- dri-devel@lists.freedesktop.org, Nirmoy Das <nirmoy.das@linux.intel.com>
+Cc: dri-devel <dri-devel@lists.freedesktop.org>,
+ devicetree <devicetree@vger.kernel.org>,
+ linux-samsung-soc <linux-samsung-soc@vger.kernel.org>,
+ Joonyoung Shim <jy0922.shim@samsung.com>,
+ Neil Armstrong <narmstrong@baylibre.com>, Robert Foss <robert.foss@linaro.org>,
+ Seung-Woo Kim <sw0312.kim@samsung.com>, NXP Linux Team <linux-imx@nxp.com>,
+ Frieder Schrempf <frieder.schrempf@kontron.de>,
+ Kyungmin Park <kyungmin.park@samsung.com>, Rob Herring <robh+dt@kernel.org>,
+ Jagan Teki <jagan@amarulasolutions.com>,
+ Andrzej Hajda <andrzej.hajda@intel.com>, Fancy Fang <chen.fang@nxp.com>,
+ Michael Nazzareno Trimarchi <michael@amarulasolutions.com>,
+ linux-amarula <linux-amarula@amarulasolutions.com>,
+ arm-soc <linux-arm-kernel@lists.infradead.org>,
+ Laurent Pinchart <Laurent.pinchart@ideasonboard.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-This is an OpenPGP/MIME signed message (RFC 4880 and 3156)
---------------13WhuFUH00LzUF0oBHgvDlzT
-Content-Type: multipart/mixed; boundary="------------wZfM5Yt4X0rtBqFTLImWkyOL";
- protected-headers="v1"
-From: Thomas Zimmermann <tzimmermann@suse.de>
-To: Matthew Auld <matthew.auld@intel.com>, intel-gfx@lists.freedesktop.org
-Cc: =?UTF-8?Q?Thomas_Hellstr=c3=b6m?= <thomas.hellstrom@linux.intel.com>,
- Lucas De Marchi <lucas.demarchi@intel.com>,
- =?UTF-8?Q?Christian_K=c3=b6nig?= <christian.koenig@amd.com>,
- dri-devel@lists.freedesktop.org, Nirmoy Das <nirmoy.das@linux.intel.com>
-Message-ID: <7d49198b-778d-f715-09e1-d9ff3def6a33@suse.de>
-Subject: Re: [PATCH] drm/ttm: stop passing NULL fence in
- ttm_bo_move_sync_cleanup
-References: <20220411085603.58156-1-matthew.auld@intel.com>
-In-Reply-To: <20220411085603.58156-1-matthew.auld@intel.com>
+On Mon, Apr 11, 2022 at 11:25 AM Marek Szyprowski
+<m.szyprowski@samsung.com> wrote:
+>
+> On 11.04.2022 16:39, Adam Ford wrote:
+> > On Mon, Apr 11, 2022 at 8:56 AM Marek Szyprowski
+> > <m.szyprowski@samsung.com> wrote:
+> >> On 08.04.2022 18:20, Jagan Teki wrote:
+> >>> This series supports common bridge support for Samsung MIPI DSIM
+> >>> which is used in Exynos and i.MX8MM SoC's.
+> >>>
+> >>> Previous RFC can be available here [1].
+> >>>
+> >>> The final bridge supports both the Exynos and i.MX8MM DSI devices.
+> >>>
+> >>> On, summary this patch-set break the entire DSIM driver into
+> >>> - platform specific glue code for platform ops, component_ops.
+> >>> - common bridge driver which handle platform glue init and invoke.
+> >>>
+> >>> Patch 0000:   Samsung DSIM bridge
+> >>>
+> >>> Patch 0001:   platform init flag via driver_data
+> >>>
+> >>> Patch 0002/9:   bridge fixes, atomic API's
+> >>>
+> >>> Patch 0010:   document fsl,imx8mm-mipi-dsim
+> >>>
+> >>> Patch 0011:   add i.MX8MM DSIM support
+> >>>
+> >>> Tested in Engicam i.Core MX8M Mini SoM.
+> >>>
+> >>> Anyone interested, please have a look on this repo [2]
 
---------------wZfM5Yt4X0rtBqFTLImWkyOL
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: base64
+I attempted to build your newer repo, but I get build errors:
 
-DQoNCkFtIDExLjA0LjIyIHVtIDEwOjU2IHNjaHJpZWIgTWF0dGhldyBBdWxkOg0KPiBJZiB3
-ZSBoaXQgdGhlIHN5bmMgY2FzZSwgbGlrZSB3aGVuIHNraXBwaW5nIGNsZWFyaW5nIGZvciBr
-ZXJuZWwgaW50ZXJuYWwNCj4gb2JqZWN0cywgb3Igd2hlbiBmYWxsaW5nIGJhY2sgdG8gY3B1
-IGNsZWFyaW5nLCBsaWtlIGluIGk5MTUsIHdlIGVuZCB1cA0KPiB0cnlpbmcgdG8gYWRkIGEg
-TlVMTCBmZW5jZSwgYnV0IHdpdGggc29tZSByZWNlbnQgY2hhbmdlcyBpbiB0aGlzIGFyZWEN
-Cj4gdGhpcyBub3cganVzdCByZXN1bHRzIGluIE5VTEwgZGVyZWYgaW4gZG1hX3Jlc3ZfYWRk
-X2ZlbmNlOg0KPiANCj4gPDE+WyAgICA1LjQ2NjM4M10gQlVHOiBrZXJuZWwgTlVMTCBwb2lu
-dGVyIGRlcmVmZXJlbmNlLCBhZGRyZXNzOiAwMDAwMDAwMDAwMDAwMDA4DQo+IDwxPlsgICAg
-NS40NjYzODRdICNQRjogc3VwZXJ2aXNvciByZWFkIGFjY2VzcyBpbiBrZXJuZWwgbW9kZQ0K
-PiA8MT5bICAgIDUuNDY2Mzg1XSAjUEY6IGVycm9yX2NvZGUoMHgwMDAwKSAtIG5vdC1wcmVz
-ZW50IHBhZ2UNCj4gPDY+WyAgICA1LjQ2NjM4Nl0gUEdEIDAgUDREIDANCj4gPDQ+WyAgICA1
-LjQ2NjM4N10gT29wczogMDAwMCBbIzFdIFBSRUVNUFQgU01QIE5PUFRJDQo+IDw0PlsgICAg
-NS40NjYzODldIENQVTogNSBQSUQ6IDI2NyBDb21tOiBtb2Rwcm9iZSBOb3QgdGFpbnRlZCA1
-LjE4LjAtcmMyLUNJLUNJX0RSTV8xMTQ4MSsgIzENCj4gPDQ+WyAgICA1LjQ2NjM5MV0gUklQ
-OiAwMDEwOmRtYV9yZXN2X2FkZF9mZW5jZSsweDYzLzB4MjYwDQo+IDw0PlsgICAgNS40NjYz
-OTVdIENvZGU6IDM4IDg1IGMwIDBmIDg0IGRmIDAxIDAwIDAwIDBmIDg4IGU4IDAxIDAwIDAw
-IDgzIGMwIDAxIDBmIDg4IGRmIDAxIDAwIDAwIDhiIDA1IDM1IDg5IDEwIDAxIDQ5IDhkIDVl
-IDY4IDg1IGMwIDBmIDg1IDQ1IDAxIDAwIDAwIDw0OD4gOGIgNDUgMDggNDggM2QgYzAgYTUg
-MGEgODIgMGYgODQgNWMgMDEgMDAgMDAgNDggM2QgNjAgYTUgMGEgODINCj4gPDQ+WyAgICA1
-LjQ2NjM5Nl0gUlNQOiAwMDE4OmZmZmZjOTAwMDBlOTc0ZjggRUZMQUdTOiAwMDAxMDIwMg0K
-PiA8ND5bICAgIDUuNDY2Mzk3XSBSQVg6IDAwMDAwMDAwMDAwMDAwMDEgUkJYOiBmZmZmODg4
-MTIzZTg4YjI4IFJDWDogMDAwMDAwMDBmZmZmZmZmZg0KPiA8ND5bICAgIDUuNDY2Mzk4XSBS
-RFg6IDAwMDAwMDAwMDAwMDAwMDEgUlNJOiBmZmZmZmZmZjgyMmU0ZjUwIFJESTogZmZmZmZm
-ZmY4MjMzZjA4Nw0KPiA8ND5bICAgIDUuNDY2Mzk5XSBSQlA6IDAwMDAwMDAwMDAwMDAwMDAg
-UjA4OiBmZmZmODg4MTMxM2RiYzgwIFIwOTogMDAwMDAwMDAwMDAwMDAwMQ0KPiA8ND5bICAg
-IDUuNDY2Mzk5XSBSMTA6IDAwMDAwMDAwMDAwMDAwMDEgUjExOiAwMDAwMDAwMGRhMzU0Mjk0
-IFIxMjogMDAwMDAwMDAwMDAwMDAwMA0KPiA8ND5bICAgIDUuNDY2NDAwXSBSMTM6IGZmZmY4
-ODgxMDkyN2RjNTggUjE0OiBmZmZmODg4MTIzZTg4YWMwIFIxNTogZmZmZjg4ODEwYTg4ZDYw
-MA0KPiA8ND5bICAgIDUuNDY2NDAxXSBGUzogIDAwMDA3ZjVmYTExOTM1NDAoMDAwMCkgR1M6
-ZmZmZjg4ODQ1ZDg4MDAwMCgwMDAwKSBrbmxHUzowMDAwMDAwMDAwMDAwMDAwDQo+IDw0Plsg
-ICAgNS40NjY0MDJdIENTOiAgMDAxMCBEUzogMDAwMCBFUzogMDAwMCBDUjA6IDAwMDAwMDAw
-ODAwNTAwMzMNCj4gPDQ+WyAgICA1LjQ2NjQwMl0gQ1IyOiAwMDAwMDAwMDAwMDAwMDA4IENS
-MzogMDAwMDAwMDEwNmRkNjAwMyBDUjQ6IDAwMDAwMDAwMDAzNzA2ZTANCj4gPDQ+WyAgICA1
-LjQ2NjQwM10gRFIwOiAwMDAwMDAwMDAwMDAwMDAwIERSMTogMDAwMDAwMDAwMDAwMDAwMCBE
-UjI6IDAwMDAwMDAwMDAwMDAwMDANCj4gPDQ+WyAgICA1LjQ2NjQwNF0gRFIzOiAwMDAwMDAw
-MDAwMDAwMDAwIERSNjogMDAwMDAwMDBmZmZlMGZmMCBEUjc6IDAwMDAwMDAwMDAwMDA0MDAN
-Cj4gPDQ+WyAgICA1LjQ2NjQwNF0gQ2FsbCBUcmFjZToNCj4gPDQ+WyAgICA1LjQ2NjQwNV0g
-IDxUQVNLPg0KPiA8ND5bICAgIDUuNDY2NDA2XSAgdHRtX2JvX21vdmVfYWNjZWxfY2xlYW51
-cCsweDYyLzB4MjcwIFt0dG1dDQo+IDw0PlsgICAgNS40NjY0MTFdICA/IGk5MTVfcnNndF9m
-cm9tX2J1ZGR5X3Jlc291cmNlKzB4MTg1LzB4MWUwIFtpOTE1XQ0KPiA8ND5bICAgIDUuNDY2
-NTI5XSAgaTkxNV90dG1fbW92ZSsweGZkLzB4NDMwIFtpOTE1XQ0KPiA8ND5bICAgIDUuNDY2
-ODMzXSAgPyBkbWFfcmVzdl9yZXNlcnZlX2ZlbmNlcysweDRlLzB4MzIwDQo+IDw0PlsgICAg
-NS40NjY4MzZdICA/IHR0bV9ib19hZGRfbW92ZV9mZW5jZS5jb25zdHByb3AuMjArMHhmNy8w
-eDE0MCBbdHRtXQ0KPiA8ND5bICAgIDUuNDY2ODQxXSAgdHRtX2JvX2hhbmRsZV9tb3ZlX21l
-bSsweGExLzB4MTQwIFt0dG1dDQo+IDw0PlsgICAgNS40NjY4NDVdICB0dG1fYm9fdmFsaWRh
-dGUrMHhlZS8weDE2MCBbdHRtXQ0KPiA8ND5bICAgIDUuNDY2ODQ5XSAgX19pOTE1X3R0bV9n
-ZXRfcGFnZXMrMHg0Zi8weDIxMCBbaTkxNV0NCj4gPDQ+WyAgICA1LjQ2Njk3Nl0gIGk5MTVf
-dHRtX2dldF9wYWdlcysweGFkLzB4MTQwIFtpOTE1XQ0KPiA8ND5bICAgIDUuNDY3MDk0XSAg
-X19fX2k5MTVfZ2VtX29iamVjdF9nZXRfcGFnZXMrMHgzMi8weGYwIFtpOTE1XQ0KPiA8ND5b
-ICAgIDUuNDY3MjEwXSAgX19pOTE1X2dlbV9vYmplY3RfZ2V0X3BhZ2VzKzB4ODkvMHhhMCBb
-aTkxNV0NCj4gPDQ+WyAgICA1LjQ2NzMyM10gIGk5MTVfdm1hX2dldF9wYWdlcysweDExNC8w
-eDFkMCBbaTkxNV0NCj4gPDQ+WyAgICA1LjQ2NzQ0Nl0gIGk5MTVfdm1hX3Bpbl93dysweGQz
-LzB4YTkwIFtpOTE1XQ0KPiA8ND5bICAgIDUuNDY3NTcwXSAgaTkxNV92bWFfcGluLmNvbnN0
-cHJvcC4xMCsweDExOS8weDFiMCBbaTkxNV0NCj4gPDQ+WyAgICA1LjQ2NzcwMF0gID8gX19t
-dXRleF91bmxvY2tfc2xvd3BhdGgrMHgzZS8weDJiMA0KPiA8ND5bICAgIDUuNDY3NzA0XSAg
-aW50ZWxfYWxsb2NfaW5pdGlhbF9wbGFuZV9vYmouaXNyYS42KzB4MWE5LzB4MzkwIFtpOTE1
-XQ0KPiA8ND5bICAgIDUuNDY3ODMzXSAgaW50ZWxfY3J0Y19pbml0aWFsX3BsYW5lX2NvbmZp
-ZysweDgzLzB4MzQwIFtpOTE1XQ0KPiANCj4gSW4gdGhlIHR0bV9ib19tb3ZlX3N5bmNfY2xl
-YW51cCgpIGNhc2UgaXQgc2VlbXMgd2Ugb25seSByZWFsbHkgY2FyZQ0KPiBhYm91dCBjYWxs
-aW5nIHR0bV9ib193YWl0X2ZyZWVfbm9kZSgpLCBzbyBsZXQncyBpbnN0ZWFkIGp1c3QgY2Fs
-bCB0aGF0DQo+IGRpcmVjdGx5Lg0KPiANCj4gU2lnbmVkLW9mZi1ieTogTWF0dGhldyBBdWxk
-IDxtYXR0aGV3LmF1bGRAaW50ZWwuY29tPg0KPiBDYzogVGhvbWFzIEhlbGxzdHLDtm0gPHRo
-b21hcy5oZWxsc3Ryb21AbGludXguaW50ZWwuY29tPg0KPiBDYzogQ2hyaXN0aWFuIEvDtm5p
-ZyA8Y2hyaXN0aWFuLmtvZW5pZ0BhbWQuY29tPg0KPiBDYzogTHVjYXMgRGUgTWFyY2hpIDxs
-dWNhcy5kZW1hcmNoaUBpbnRlbC5jb20+DQo+IENjOiBOaXJtb3kgRGFzIDxuaXJtb3kuZGFz
-QGxpbnV4LmludGVsLmNvbT4NCg0KVGVzdGVkLWJ5OiBUaG9tYXMgWmltbWVybWFubiA8dHpp
-bW1lcm1hbm5Ac3VzZS5kZT4NCg0Kd2l0aCBib2NocyBvbiBwcGM2NGxlLg0KDQo+IC0tLQ0K
-PiAgIGRyaXZlcnMvZ3B1L2RybS90dG0vdHRtX2JvX3V0aWwuYyB8IDE1ICsrKysrKysrKysr
-KysrKw0KPiAgIGluY2x1ZGUvZHJtL3R0bS90dG1fYm9fZHJpdmVyLmggICB8IDExICsrKy0t
-LS0tLS0tDQo+ICAgMiBmaWxlcyBjaGFuZ2VkLCAxOCBpbnNlcnRpb25zKCspLCA4IGRlbGV0
-aW9ucygtKQ0KPiANCj4gZGlmZiAtLWdpdCBhL2RyaXZlcnMvZ3B1L2RybS90dG0vdHRtX2Jv
-X3V0aWwuYyBiL2RyaXZlcnMvZ3B1L2RybS90dG0vdHRtX2JvX3V0aWwuYw0KPiBpbmRleCBi
-YzUxOTAzNDBiOWMuLjFjYmZiMDBjMWQ2NSAxMDA2NDQNCj4gLS0tIGEvZHJpdmVycy9ncHUv
-ZHJtL3R0bS90dG1fYm9fdXRpbC5jDQo+ICsrKyBiL2RyaXZlcnMvZ3B1L2RybS90dG0vdHRt
-X2JvX3V0aWwuYw0KPiBAQCAtNTcyLDYgKzU3MiwyMSBAQCBpbnQgdHRtX2JvX21vdmVfYWNj
-ZWxfY2xlYW51cChzdHJ1Y3QgdHRtX2J1ZmZlcl9vYmplY3QgKmJvLA0KPiAgIH0NCj4gICBF
-WFBPUlRfU1lNQk9MKHR0bV9ib19tb3ZlX2FjY2VsX2NsZWFudXApOw0KPiAgIA0KPiArdm9p
-ZCB0dG1fYm9fbW92ZV9zeW5jX2NsZWFudXAoc3RydWN0IHR0bV9idWZmZXJfb2JqZWN0ICpi
-bywNCj4gKwkJCSAgICAgIHN0cnVjdCB0dG1fcmVzb3VyY2UgKm5ld19tZW0pDQo+ICt7DQo+
-ICsJc3RydWN0IHR0bV9kZXZpY2UgKmJkZXYgPSBiby0+YmRldjsNCj4gKwlzdHJ1Y3QgdHRt
-X3Jlc291cmNlX21hbmFnZXIgKm1hbiA9IHR0bV9tYW5hZ2VyX3R5cGUoYmRldiwgbmV3X21l
-bS0+bWVtX3R5cGUpOw0KPiArCWludCByZXQ7DQo+ICsNCj4gKwlyZXQgPSB0dG1fYm9fd2Fp
-dF9mcmVlX25vZGUoYm8sIG1hbi0+dXNlX3R0KTsNCj4gKwlpZiAoV0FSTl9PTihyZXQpKQ0K
-PiArCQlyZXR1cm47DQo+ICsNCj4gKwl0dG1fYm9fYXNzaWduX21lbShibywgbmV3X21lbSk7
-DQo+ICt9DQo+ICtFWFBPUlRfU1lNQk9MKHR0bV9ib19tb3ZlX3N5bmNfY2xlYW51cCk7DQo+
-ICsNCj4gICAvKioNCj4gICAgKiB0dG1fYm9fcGlwZWxpbmVfZ3V0dGluZyAtIHB1cmdlIHRo
-ZSBjb250ZW50cyBvZiBhIGJvDQo+ICAgICogQGJvOiBUaGUgYnVmZmVyIG9iamVjdA0KPiBk
-aWZmIC0tZ2l0IGEvaW5jbHVkZS9kcm0vdHRtL3R0bV9ib19kcml2ZXIuaCBiL2luY2x1ZGUv
-ZHJtL3R0bS90dG1fYm9fZHJpdmVyLmgNCj4gaW5kZXggMDU5YTU5NWUxNGU1Li44OTdiODhm
-MGJkNTkgMTAwNjQ0DQo+IC0tLSBhL2luY2x1ZGUvZHJtL3R0bS90dG1fYm9fZHJpdmVyLmgN
-Cj4gKysrIGIvaW5jbHVkZS9kcm0vdHRtL3R0bV9ib19kcml2ZXIuaA0KPiBAQCAtMjQ1LDcg
-KzI0NSw3IEBAIGludCB0dG1fYm9fbW92ZV9hY2NlbF9jbGVhbnVwKHN0cnVjdCB0dG1fYnVm
-ZmVyX29iamVjdCAqYm8sDQo+ICAgCQkJICAgICAgc3RydWN0IHR0bV9yZXNvdXJjZSAqbmV3
-X21lbSk7DQo+ICAgDQo+ICAgLyoqDQo+IC0gKiB0dG1fYm9fbW92ZV9hY2NlbF9jbGVhbnVw
-Lg0KPiArICogdHRtX2JvX21vdmVfc3luY19jbGVhbnVwLg0KPiAgICAqDQo+ICAgICogQGJv
-OiBBIHBvaW50ZXIgdG8gYSBzdHJ1Y3QgdHRtX2J1ZmZlcl9vYmplY3QuDQo+ICAgICogQG5l
-d19tZW06IHN0cnVjdCB0dG1fcmVzb3VyY2UgaW5kaWNhdGluZyB3aGVyZSB0byBtb3ZlLg0K
-PiBAQCAtMjUzLDEzICsyNTMsOCBAQCBpbnQgdHRtX2JvX21vdmVfYWNjZWxfY2xlYW51cChz
-dHJ1Y3QgdHRtX2J1ZmZlcl9vYmplY3QgKmJvLA0KPiAgICAqIFNwZWNpYWwgY2FzZSBvZiB0
-dG1fYm9fbW92ZV9hY2NlbF9jbGVhbnVwIHdoZXJlIHRoZSBibyBpcyBndWFyYW50ZWVkDQo+
-ICAgICogYnkgdGhlIGNhbGxlciB0byBiZSBpZGxlLiBUeXBpY2FsbHkgdXNlZCBhZnRlciBt
-ZW1jcHkgYnVmZmVyIG1vdmVzLg0KPiAgICAqLw0KPiAtc3RhdGljIGlubGluZSB2b2lkIHR0
-bV9ib19tb3ZlX3N5bmNfY2xlYW51cChzdHJ1Y3QgdHRtX2J1ZmZlcl9vYmplY3QgKmJvLA0K
-PiAtCQkJCQkgICAgc3RydWN0IHR0bV9yZXNvdXJjZSAqbmV3X21lbSkNCj4gLXsNCj4gLQlp
-bnQgcmV0ID0gdHRtX2JvX21vdmVfYWNjZWxfY2xlYW51cChibywgTlVMTCwgdHJ1ZSwgZmFs
-c2UsIG5ld19tZW0pOw0KPiAtDQo+IC0JV0FSTl9PTihyZXQpOw0KPiAtfQ0KPiArdm9pZCB0
-dG1fYm9fbW92ZV9zeW5jX2NsZWFudXAoc3RydWN0IHR0bV9idWZmZXJfb2JqZWN0ICpibywN
-Cj4gKwkJCSAgICAgIHN0cnVjdCB0dG1fcmVzb3VyY2UgKm5ld19tZW0pOw0KPiAgIA0KPiAg
-IC8qKg0KPiAgICAqIHR0bV9ib19waXBlbGluZV9ndXR0aW5nLg0KDQotLSANClRob21hcyBa
-aW1tZXJtYW5uDQpHcmFwaGljcyBEcml2ZXIgRGV2ZWxvcGVyDQpTVVNFIFNvZnR3YXJlIFNv
-bHV0aW9ucyBHZXJtYW55IEdtYkgNCk1heGZlbGRzdHIuIDUsIDkwNDA5IE7DvHJuYmVyZywg
-R2VybWFueQ0KKEhSQiAzNjgwOSwgQUcgTsO8cm5iZXJnKQ0KR2VzY2jDpGZ0c2bDvGhyZXI6
-IEl2byBUb3Rldg0K
+~/src/linux-opendev$ make Image modules ARCH=arm64
+CROSS_COMPILE=aarch64-linux-gnu- -j8
+  CALL    scripts/atomic/check-atomics.sh
+  CALL    scripts/checksyscalls.sh
+  CHK     include/generated/compile.h
+  MODPOST modules-only.symvers
+ERROR: modpost: "dsi_driver" [drivers/gpu/drm/exynos/exynosdrm.ko] undefined!
+make[1]: *** [scripts/Makefile.modpost:134: modules-only.symvers] Error 1
+make[1]: *** Deleting file 'modules-only.symvers'
+make: *** [Makefile:1746: modules] Error 2
 
---------------wZfM5Yt4X0rtBqFTLImWkyOL--
+I'm using gcc version 11.2.0 (Ubuntu 11.2.0-17ubuntu1) part of the
+ubuntu 22.04 beta.  I know it's beta, so it might be buggy, but I
+expect GCC 11.2 to be stable.
 
---------------13WhuFUH00LzUF0oBHgvDlzT
-Content-Type: application/pgp-signature; name="OpenPGP_signature.asc"
-Content-Description: OpenPGP digital signature
-Content-Disposition: attachment; filename="OpenPGP_signature"
+I'm going to keep investigating.  If I find a fix, I'll send you a
+private message with the patch attached to avoid spamming everyone.
 
------BEGIN PGP SIGNATURE-----
+adam
 
-wsF5BAABCAAjFiEExndm/fpuMUdwYFFolh/E3EQov+AFAmJUih0FAwAAAAAACgkQlh/E3EQov+Ax
-8BAAk1GYne/ia826WPP0oPuMqdCK/EgNxw6C7O+jnGQHHlA+yMLTAcXyqiRCe8wfcuK+mpMM+I/O
-RiYRE4yHCEBA1AHtSNO4fIvjnMu4h8J0Mq6Vufw/zhu3CMCai09sTUTpZvxLzTPadoulNWp6Hn77
-FNzsbb9zwCYer76Q9GDDsVwCzFI0kn30Fd0Ay5qF9smkj0bcf7+XkuEY3DpntteLqPHle9jE3MBz
-DKDlPwP9uh9fNT6jYmqZ1bzNCkjkiu1cjnylOUfSfa+QxtbwZtwMT1HDbph739Bfi8wfve3a2C5U
-h4XoNp8nBMQR3pOY4cb7Ge4PzGwLPZozcUKsMCJsKdvV0jY0o6ddwFsqOiXp0ihpdsncPAAMrc4U
-/yAjvXARiOWned+rqZFTMovmD1HPtFsvCDtt0gcxgom4Gd/Dh0kTy2qUPNvCLMLaVmG7DrlyYl2O
-CmQzTtEakS/vQu9LFa9BJN7IEMEeyyWUV2yXkNcUnvtcfksjyWlR/njIs2GFSOvYYsFxU8hcNPQF
-r5N5QeHJE0OPBu4DmU6t1CXHUD3t9YkUEBaIdFoCy4tOVRjIuP5TS252Psp12p4VfQGBe9eX7Mau
-RwTauu8VOX1BdMkH/cFtP4Ma7IYYV64cTh91pdnhPzTRgKIz4/IWvTvLaqo7Ju805Erm+zy7EhaB
-HPk=
-=yFaG
------END PGP SIGNATURE-----
-
---------------13WhuFUH00LzUF0oBHgvDlzT--
+> >>>
+> >>> [2] https://protect2.fireeye.com/v1/url?k=930e329a-f28527b5-930fb9d5-74fe485cbfe7-b0c53e2d688ddbc5&q=1&e=e6aa727d-5ae2-4ca5-bff3-7f62d8fae87e&u=https%3A%2F%2Fgithub.com%2Fopenedev%2Fkernel%2Ftree%2Fimx8mm-dsi-v1
+> >>> [1] https://lore.kernel.org/linux-arm-kernel/YP2j9k5SrZ2%2Fo2%2F5@ravnborg.org/T/
+> >>>
+> >>> Any inputs?
+> >> I wanted to test this on the Exynos, but I wasn't able to find what base
+> >> should I apply this patchset. I've tried linux-next as well as
+> >> 95a2441e4347 ("drm: exynos: dsi: Switch to atomic funcs").
+> >>
+> >> Please note that pointing a proper base for the patchset is really
+> >> essential if you really want others to test it.
+> > Can you clone his repo and test that?  He posted it above.  I was
+> > going to clone it at some point this week to give it a try.
+>
+> Okay, my fault. I've missed that.
+>
+> There is a trivial compilation issue,
+> drivers/gpu/drm/exynos/exynos_drm_dsi.c lacks "#include
+> <linux/gpio/consumer.h>" after conversion. Besides that, it simply nukes
+> on the simplest Exynos setup (exynos4210-trats) during the initialization:
+>
+> [drm] Exynos DRM: using 11c00000.fimd device for DMA mapping operations
+> exynos-drm exynos-drm: bound 11c00000.fimd (ops fimd_component_ops)
+> 8<--- cut here ---
+> Unable to handle kernel NULL pointer dereference at virtual address 00000048
+> [00000048] *pgd=00000000
+> Internal error: Oops: 5 [#1] PREEMPT SMP ARM
+> Modules linked in:
+> CPU: 0 PID: 1 Comm: swapper/0 Not tainted
+> 5.17.0-rc2-00577-g22e968113668-dirty #11635
+> Hardware name: Samsung Exynos (Flattened Device Tree)
+> PC is at exynos_dsi_bind+0x14/0x3c
+> LR is at component_bind_all+0x130/0x290
+> pc : [<c06924e0>]    lr : [<c06b0f6c>]    psr: 60000113
+> sp : c1cafcb8  ip : 00000002  fp : c0f4a53c
+> r10: c135e6a8  r9 : c1efd800  r8 : 00000000
+> r7 : c26d2100  r6 : c2c69fc0  r5 : 00000018  r4 : 00000000
+> r3 : c06924cc  r2 : 00000002  r1 : 00000000  r0 : c1efd800
+> Flags: nZCv  IRQs on  FIQs on  Mode SVC_32  ISA ARM  Segment none
+> Control: 10c5387d  Table: 4000404a  DAC: 00000051
+> Register r0 information: slab kmalloc-2k start c1efd800 pointer offset 0
+> size 2048
+> Register r1 information: NULL pointer
+> Register r2 information: non-paged memory
+> Register r3 information: non-slab/vmalloc memory
+> Register r4 information: NULL pointer
+> Register r5 information: non-paged memory
+> Register r6 information: slab kmalloc-64 start c2c69fc0 pointer offset 0
+> size 64
+> Register r7 information: slab kmalloc-64 start c26d2100 pointer offset 0
+> size 64
+> Register r8 information: NULL pointer
+> Register r9 information: slab kmalloc-2k start c1efd800 pointer offset 0
+> size 2048
+> Register r10 information: non-slab/vmalloc memory
+> Register r11 information: non-slab/vmalloc memory
+> Register r12 information: non-paged memory
+> Process swapper/0 (pid: 1, stack limit = 0x(ptrval))
+> Stack: (0xc1cafcb8 to 0xc1cb0000)
+> ...
+>   exynos_dsi_bind from component_bind_all+0x130/0x290
+>   component_bind_all from exynos_drm_bind+0xe8/0x194
+>   exynos_drm_bind from try_to_bring_up_master+0x208/0x2d0
+>   try_to_bring_up_master from component_master_add_with_match+0xd0/0x104
+>   component_master_add_with_match from exynos_drm_platform_probe+0xe8/0x118
+>   exynos_drm_platform_probe from platform_probe+0x80/0xc0
+>   platform_probe from really_probe+0xfc/0x440
+>   really_probe from __driver_probe_device+0xa4/0x204
+>   __driver_probe_device from driver_probe_device+0x34/0xd4
+>   driver_probe_device from __driver_attach+0x114/0x184
+>   __driver_attach from bus_for_each_dev+0x64/0xb0
+>   bus_for_each_dev from bus_add_driver+0x170/0x20c
+>   bus_add_driver from driver_register+0x78/0x10c
+>   driver_register from exynos_drm_init+0xe0/0x14c
+>   exynos_drm_init from do_one_initcall+0x6c/0x3a4
+>   do_one_initcall from kernel_init_freeable+0x1c4/0x214
+>   kernel_init_freeable from kernel_init+0x18/0x12c
+>   kernel_init from ret_from_fork+0x14/0x2c
+> Exception stack(0xc1caffb0 to 0xc1cafff8)
+> ffa0:                                     00000000 00000000 00000000
+> 00000000
+> ffc0: 00000000 00000000 00000000 00000000 00000000 00000000 00000000
+> 00000000
+> ffe0: 00000000 00000000 00000000 00000000 00000013 00000000
+> Code: e5904040 e1a00002 e3a02002 e1a01004 (e5945048)
+> ---[ end trace 0000000000000000 ]---
+> Kernel panic - not syncing: Attempted to kill init! exitcode=0x0000000b
+> CPU1: stopping
+> CPU: 1 PID: 0 Comm: swapper/1 Tainted: G      D
+> 5.17.0-rc2-00577-g22e968113668-dirty #11635
+> Hardware name: Samsung Exynos (Flattened Device Tree)
+>   unwind_backtrace from show_stack+0x10/0x14
+>   show_stack from dump_stack_lvl+0x58/0x70
+>   dump_stack_lvl from do_handle_IPI+0x2ec/0x36c
+>   do_handle_IPI from ipi_handler+0x18/0x20
+>   ipi_handler from handle_percpu_devid_irq+0xd0/0x394
+>   handle_percpu_devid_irq from generic_handle_domain_irq+0x44/0x88
+>   generic_handle_domain_irq from gic_handle_irq+0x88/0xac
+>   gic_handle_irq from generic_handle_arch_irq+0x58/0x78
+>   generic_handle_arch_irq from __irq_svc+0x54/0x88
+> Exception stack(0xc1cd1f48 to 0xc1cd1f90)
+> 1f40:                   00000001 c0eff5a4 00000001 c011ca80 c1208f0c
+> c1353420
+> 1f60: 00000000 c1d8d000 00000000 c0f34234 c1d8d000 00000000 c0eeee98
+> c1cd1f98
+> 1f80: c0109144 c0109148 20000013 ffffffff
+>   __irq_svc from arch_cpu_idle+0x40/0x44
+>   arch_cpu_idle from default_idle_call+0x74/0x2c4
+>   default_idle_call from do_idle+0x1cc/0x284
+>   do_idle from cpu_startup_entry+0x18/0x1c
+>   cpu_startup_entry from 0x401018b4
+> ---[ end Kernel panic - not syncing: Attempted to kill init!
+> exitcode=0x0000000b ]---
+>
+>
+> I will try to take a look into this later in the evening.
+>
+>
+> Best regards
+> --
+> Marek Szyprowski, PhD
+> Samsung R&D Institute Poland
+>
