@@ -2,64 +2,54 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id B4D444FC105
-	for <lists+dri-devel@lfdr.de>; Mon, 11 Apr 2022 17:37:57 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 7C23E4FC10F
+	for <lists+dri-devel@lfdr.de>; Mon, 11 Apr 2022 17:39:07 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 0AFC210E33C;
-	Mon, 11 Apr 2022 15:37:54 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 3782E10E3D0;
+	Mon, 11 Apr 2022 15:39:05 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-wm1-x32f.google.com (mail-wm1-x32f.google.com
- [IPv6:2a00:1450:4864:20::32f])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 0C50710E33C
- for <dri-devel@lists.freedesktop.org>; Mon, 11 Apr 2022 15:37:53 +0000 (UTC)
-Received: by mail-wm1-x32f.google.com with SMTP id
- r206-20020a1c44d7000000b0038ccb70e239so4844569wma.3
- for <dri-devel@lists.freedesktop.org>; Mon, 11 Apr 2022 08:37:52 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
- h=from:to:cc:subject:date:message-id:in-reply-to:references
- :mime-version:content-transfer-encoding;
- bh=ZEd2NUfggsD7hgjY8ZW9Vk2tNqqVUG6JADb5kDnjH9Y=;
- b=ZOQvmS/wEUkvWeynt1+EWEaVA+W9eMPHyQEiaRq21gFbWomCufcS8tUyh7ZQPu5LwP
- eUJ1WFpwyr9Yaqft68B8Nm/C+PGGHXUuTmGoF51iyzkF3siGBMH+JbPuJgnjBYZUQ0rk
- Rcab+BNrqtIDRdL1aduuV/rJWLG6C3gqZxMSNqkBpLnMkCujJoCI1LqQFlAqfyYnWPkC
- bvWQ6Pmc5eLqexEdzFrdr3CkHrDmtXhkSU7mjU3BvZHz1uqWYGghCI2eTSdTnMfEAzTC
- H/xVAOBg32rRcMvl5vxvcfb3LXbU80yq1DS9PzCV7iURoVOOuLaKzCbcU5eq/IECPn71
- 8chg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
- :references:mime-version:content-transfer-encoding;
- bh=ZEd2NUfggsD7hgjY8ZW9Vk2tNqqVUG6JADb5kDnjH9Y=;
- b=twYGaibhDtISxV6bJ/3gjri4RtHZ5I+lLLouBk88Xf1EWzQCDxXTML8QDtFAZ37bLU
- 33rNxfAnfYRQHc/QyS1uP8zcR5URQiRd/fCMZUZdKjjgVHP6/+QR2IXAHJDKHe2DT3I3
- bUXXBNZsdS+hcIo2CXhenIeL+oHA4v+eUoVxRkA14HE3JgvjPIjGFIi+4D0HEbViBNL3
- IL1o4JKHlsDtEfeW17cjF7Pt6c4A5em8I6jWK8yXG7NCxewG4SSSlvhaA8AVpR1nido7
- lyf4STIOD2McaUKRlNRWBgAPQyDiICE7dO++7FLc6+3ygnQA1bsGB3pbVm/WBilRl/3C
- 0tNA==
-X-Gm-Message-State: AOAM530/0+Vm7IOiErbLwNnlvaDx4XXOqjJ2cNDNCddYT2U0eAo19Eyn
- hI38qpd9iTlxe4Tc5/QMlmQ=
-X-Google-Smtp-Source: ABdhPJy/BzuwObXpGrBkuPP/B+nIiUKgXHozXUMEVJpsQ9JEfJdCGxcjcG2VRWPpqzSHJ8PxH0l9YA==
-X-Received: by 2002:a7b:c7c3:0:b0:389:cbf1:fadf with SMTP id
- z3-20020a7bc7c3000000b00389cbf1fadfmr30248265wmk.147.1649691471387; 
- Mon, 11 Apr 2022 08:37:51 -0700 (PDT)
-Received: from kista.localnet (cpe-86-58-32-107.static.triera.net.
- [86.58.32.107]) by smtp.gmail.com with ESMTPSA id
- u23-20020a7bcb17000000b0037bdfa1665asm22528252wmj.18.2022.04.11.08.37.50
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 11 Apr 2022 08:37:51 -0700 (PDT)
-From: Jernej =?utf-8?B?xaBrcmFiZWM=?= <jernej.skrabec@gmail.com>
-To: Chen-Yu Tsai <wens@csie.org>, Maxime Ripard <mripard@kernel.org>,
- Samuel Holland <samuel@sholland.org>
-Subject: Re: [PATCH 03/10] drm/sun4i: Remove obsolete references to PHYS_OFFSET
-Date: Mon, 11 Apr 2022 17:37:49 +0200
-Message-ID: <3167527.44csPzL39Z@kista>
-In-Reply-To: <20220411043423.37333-4-samuel@sholland.org>
-References: <20220411043423.37333-1-samuel@sholland.org>
- <20220411043423.37333-4-samuel@sholland.org>
+Received: from mga14.intel.com (mga14.intel.com [192.55.52.115])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 4605610E3F2;
+ Mon, 11 Apr 2022 15:39:04 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+ t=1649691544; x=1681227544;
+ h=date:from:to:cc:subject:message-id:references:
+ mime-version:in-reply-to;
+ bh=4OuhLMDm2gIHeo2uWhK5RkdHal1Usw5svsUTMNNReMA=;
+ b=ea2dIGZ8w0s6wAICc/l/YVRiUeFrD0BIaqNKUyz0v1B4qm2gcFX+8+n/
+ cP/xEOwjdOwcUgIibhcFThOCBtppnreEtwHHMrCGm09Peb6mCx0I1p9/E
+ LBt6ydv5CfgPVCxYaDzEmPC1cIssr3v7IuVCj87EUUNuVb2RBbRb8OTqy
+ /56cMA9+w9eiWqHi44lCpiXP8TNXvfYjC271zkY3dlk20WKggzIETYxLv
+ ABmzhrurv9uapv60Ofh6/LBe/ypJlOUoB0Gs6J1S1fmEgzIeRMMufFNTR
+ vbDkgQKXbYtwsGXkIenxRZIDs4C3Pl7oLtPYmP+X0gG/51wHDF1wEbd3H w==;
+X-IronPort-AV: E=McAfee;i="6400,9594,10314"; a="262324626"
+X-IronPort-AV: E=Sophos;i="5.90,252,1643702400"; d="scan'208";a="262324626"
+Received: from fmsmga008.fm.intel.com ([10.253.24.58])
+ by fmsmga103.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 11 Apr 2022 08:39:03 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.90,252,1643702400"; d="scan'208";a="611029400"
+Received: from lkp-server02.sh.intel.com (HELO d3fc50ef50de) ([10.239.97.151])
+ by fmsmga008.fm.intel.com with ESMTP; 11 Apr 2022 08:39:01 -0700
+Received: from kbuild by d3fc50ef50de with local (Exim 4.95)
+ (envelope-from <lkp@intel.com>) id 1ndw84-0001wt-Su;
+ Mon, 11 Apr 2022 15:39:00 +0000
+Date: Mon, 11 Apr 2022 23:38:09 +0800
+From: kernel test robot <lkp@intel.com>
+To: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>,
+ Bjorn Andersson <bjorn.andersson@linaro.org>,
+ Rob Clark <robdclark@gmail.com>, Sean Paul <sean@poorly.run>,
+ Abhinav Kumar <quic_abhinavk@quicinc.com>
+Subject: Re: [PATCH] drm/msm: properly add and remove internal bridges
+Message-ID: <202204112350.b4eldlK1-lkp@intel.com>
+References: <20220408130623.866092-1-dmitry.baryshkov@linaro.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 7Bit
-Content-Type: text/plain; charset="us-ascii"
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20220408130623.866092-1-dmitry.baryshkov@linaro.org>
+User-Agent: Mutt/1.10.1 (2018-07-13)
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -72,89 +62,44 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: devicetree@vger.kernel.org, Samuel Holland <samuel@sholland.org>,
- David Airlie <airlied@linux.ie>, linux-kernel@vger.kernel.org,
- dri-devel@lists.freedesktop.org, Rob Herring <robh+dt@kernel.org>,
- Krzysztof Kozlowski <krzk+dt@kernel.org>, linux-sunxi@lists.linux.dev,
- linux-arm-kernel@lists.infradead.org
+Cc: kbuild-all@lists.01.org, David Airlie <airlied@linux.ie>,
+ linux-arm-msm@vger.kernel.org, dri-devel@lists.freedesktop.org,
+ Stephen Boyd <swboyd@chromium.org>, freedreno@lists.freedesktop.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Dne ponedeljek, 11. april 2022 ob 06:34:15 CEST je Samuel Holland napisal(a):
-> commit b4bdc4fbf8d0 ("soc: sunxi: Deal with the MBUS DMA offsets in a
-> central place") added a platform device notifier that sets the DMA
-> offset for all of the display engine frontend and backend devices.
-> 
-> The code applying the offset to DMA buffer physical addresses was then
-> removed from the backend driver in commit 756668ba682e ("drm/sun4i:
-> backend: Remove the MBUS quirks"), but the code subtracting PHYS_OFFSET
-> was left in the frontend driver.
-> 
-> As a result, the offset was applied twice in the frontend driver. This
-> likely went unnoticed because it only affects specific configurations
-> (scaling or certain pixel formats) where the frontend is used, on boards
-> with both one of these older SoCs and more than 1 GB of DRAM.
-> 
-> In addition, the references to PHYS_OFFSET prevent compiling the driver
-> on architectures where PHYS_OFFSET is not defined.
-> 
-> Fixes: b4bdc4fbf8d0 ("soc: sunxi: Deal with the MBUS DMA offsets in a central 
-place")
-> Signed-off-by: Samuel Holland <samuel@sholland.org>
+Hi Dmitry,
 
-Good catch! Actually, people complained about non-working display on 
-Cubietruck IIRC, which has 2 GB of RAM.
+Thank you for the patch! Yet something to improve:
 
-Did you test this on HW?
+[auto build test ERROR on drm/drm-next]
+[also build test ERROR on v5.18-rc2 next-20220411]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch]
 
-Reviewed-by: Jernej Skrabec <jernej.skrabec@gmail.com>
+url:    https://github.com/intel-lab-lkp/linux/commits/Dmitry-Baryshkov/drm-msm-properly-add-and-remove-internal-bridges/20220408-210744
+base:   git://anongit.freedesktop.org/drm/drm drm-next
+config: arm64-defconfig (https://download.01.org/0day-ci/archive/20220411/202204112350.b4eldlK1-lkp@intel.com/config)
+compiler: aarch64-linux-gcc (GCC) 11.2.0
+reproduce (this is a W=1 build):
+        wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbin/make.cross -O ~/bin/make.cross
+        chmod +x ~/bin/make.cross
+        # https://github.com/intel-lab-lkp/linux/commit/fe14b6490aa99b01a424580fb84462519a9a310c
+        git remote add linux-review https://github.com/intel-lab-lkp/linux
+        git fetch --no-tags linux-review Dmitry-Baryshkov/drm-msm-properly-add-and-remove-internal-bridges/20220408-210744
+        git checkout fe14b6490aa99b01a424580fb84462519a9a310c
+        # save the config file to linux build tree
+        mkdir build_dir
+        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-11.2.0 make.cross O=build_dir ARCH=arm64 SHELL=/bin/bash
 
-Best regards,
-Jernej
+If you fix the issue, kindly add following tag as appropriate
+Reported-by: kernel test robot <lkp@intel.com>
 
-> ---
-> 
->  drivers/gpu/drm/sun4i/sun4i_frontend.c | 3 ---
->  1 file changed, 3 deletions(-)
-> 
-> diff --git a/drivers/gpu/drm/sun4i/sun4i_frontend.c b/drivers/gpu/drm/sun4i/
-sun4i_frontend.c
-> index 56ae38389db0..462fae73eae9 100644
-> --- a/drivers/gpu/drm/sun4i/sun4i_frontend.c
-> +++ b/drivers/gpu/drm/sun4i/sun4i_frontend.c
-> @@ -222,13 +222,11 @@ void sun4i_frontend_update_buffer(struct sun4i_frontend 
-*frontend,
->  
->  	/* Set the physical address of the buffer in memory */
->  	paddr = drm_fb_cma_get_gem_addr(fb, state, 0);
-> -	paddr -= PHYS_OFFSET;
->  	DRM_DEBUG_DRIVER("Setting buffer #0 address to %pad\n", &paddr);
->  	regmap_write(frontend->regs, SUN4I_FRONTEND_BUF_ADDR0_REG, paddr);
->  
->  	if (fb->format->num_planes > 1) {
->  		paddr = drm_fb_cma_get_gem_addr(fb, state, swap ? 2 : 
-1);
-> -		paddr -= PHYS_OFFSET;
->  		DRM_DEBUG_DRIVER("Setting buffer #1 address to %pad\n", 
-&paddr);
->  		regmap_write(frontend->regs, 
-SUN4I_FRONTEND_BUF_ADDR1_REG,
->  			     paddr);
-> @@ -236,7 +234,6 @@ void sun4i_frontend_update_buffer(struct sun4i_frontend 
-*frontend,
->  
->  	if (fb->format->num_planes > 2) {
->  		paddr = drm_fb_cma_get_gem_addr(fb, state, swap ? 1 : 
-2);
-> -		paddr -= PHYS_OFFSET;
->  		DRM_DEBUG_DRIVER("Setting buffer #2 address to %pad\n", 
-&paddr);
->  		regmap_write(frontend->regs, 
-SUN4I_FRONTEND_BUF_ADDR2_REG,
->  			     paddr);
-> -- 
-> 2.35.1
-> 
-> 
+All errors (new ones prefixed by >>, old ones prefixed by <<):
 
+>> ERROR: modpost: "drm_bridge_detach" [drivers/gpu/drm/msm/msm.ko] undefined!
 
+-- 
+0-DAY CI Kernel Test Service
+https://01.org/lkp
