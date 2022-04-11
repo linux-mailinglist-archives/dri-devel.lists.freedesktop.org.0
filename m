@@ -1,48 +1,55 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6F3704FC7CE
-	for <lists+dri-devel@lfdr.de>; Tue, 12 Apr 2022 00:43:48 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 2C8A54FC7EC
+	for <lists+dri-devel@lfdr.de>; Tue, 12 Apr 2022 00:58:32 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 8AB3210E417;
-	Mon, 11 Apr 2022 22:43:33 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id B97B210E50B;
+	Mon, 11 Apr 2022 22:58:23 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mga02.intel.com (mga02.intel.com [134.134.136.20])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 16D1B10E0FC;
- Mon, 11 Apr 2022 22:43:26 +0000 (UTC)
+Received: from mga12.intel.com (mga12.intel.com [192.55.52.136])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 01E1D10E4FE;
+ Mon, 11 Apr 2022 22:58:22 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1649717006; x=1681253006;
- h=from:to:cc:subject:date:message-id:in-reply-to:
- references:mime-version:content-transfer-encoding;
- bh=6WwvN7y4ArFU4yNiuCpSi6x5yHhjL93Oi6aMccisVRc=;
- b=c/+vkzymkPsOg4iJM9BNUx7fJ75tQgkX7dOT4Ne818mVoARH85YitR3j
- /s9wmcAE8rdjzhsqLBK7552MZF2VeKBX2wDt3047UN81rUYimiMMVI92Y
- EEZeX4eC8Iks2J7+qBruYthk/Bgl9hdawXEr7g2OvJ+0WgV9MzZKsCbKw
- Z33jSwDc8L8fSPs5923aQhmvRkdhZLHlt1sT3YkTLqs5Jd/fjqKSsvWkD
- 1J4ZfCiWW9/Pp0YdzK8rvmWngOHF+lvAuvTVQs9pGtG81eAiI/jamiczG
- KRQ3jJoRUPPZcHsekBl2Zx2qf/G/Vp0F9kkaQoOnWVHlLxiirqRqmkRLa w==;
-X-IronPort-AV: E=McAfee;i="6400,9594,10314"; a="249513174"
-X-IronPort-AV: E=Sophos;i="5.90,252,1643702400"; d="scan'208";a="249513174"
-Received: from orsmga007.jf.intel.com ([10.7.209.58])
- by orsmga101.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 11 Apr 2022 15:43:25 -0700
-X-IronPort-AV: E=Sophos;i="5.90,252,1643702400"; d="scan'208";a="551432097"
-Received: from mdroper-desk1.fm.intel.com ([10.1.27.134])
- by orsmga007-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 11 Apr 2022 15:43:25 -0700
-From: Matt Roper <matthew.d.roper@intel.com>
-To: intel-gfx@lists.freedesktop.org
-Subject: [PATCH 4/4] drm/i915/uapi: Add DRM_I915_QUERY_GEOMETRY_SUBSLICES
-Date: Mon, 11 Apr 2022 15:43:19 -0700
-Message-Id: <20220411224319.467166-5-matthew.d.roper@intel.com>
-X-Mailer: git-send-email 2.34.1
-In-Reply-To: <20220411224319.467166-1-matthew.d.roper@intel.com>
-References: <20220411224319.467166-1-matthew.d.roper@intel.com>
+ t=1649717903; x=1681253903;
+ h=date:from:to:cc:subject:message-id:references:
+ mime-version:in-reply-to;
+ bh=4Z9VI6tEyTt8ATI/3X1UsbKKq6JOuVqvsq8x+y0yhEY=;
+ b=N8O79R8n1UZa4D3FIdsE1caQ+raAY4O6zOcV9zoSGVb6Ix/bnobQ38fh
+ wlVj0zEqXSRxfkAZMjw4rzyxRA0/6og8lO3sE3wPwaw5CE3S5bkJDdzB/
+ Zh5a3HS2WTmEcUohaaX655eaxmJfqdzPDlXhlCxOUgNOhhJJjpRVo5AZx
+ WjzjEYVsolHMkjgRABhDvQoKKnotJaXIsHd8CVZrSedNQvSWj6I7ypriK
+ s1R+XXnVRrPz+8EBpL8sSdsaPADIxpe9Fwf8M1hCZg+2VsCQBJAY8RDIw
+ fWdvikLanHGqj7YNdNrx4WKRpojayrVM9A1p2NhdM2X4ZynxVSdAJfSyD A==;
+X-IronPort-AV: E=McAfee;i="6400,9594,10314"; a="242171939"
+X-IronPort-AV: E=Sophos;i="5.90,252,1643702400"; d="scan'208";a="242171939"
+Received: from orsmga002.jf.intel.com ([10.7.209.21])
+ by fmsmga106.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 11 Apr 2022 15:58:22 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.90,252,1643702400"; d="scan'208";a="525761722"
+Received: from lkp-server02.sh.intel.com (HELO d3fc50ef50de) ([10.239.97.151])
+ by orsmga002.jf.intel.com with ESMTP; 11 Apr 2022 15:58:19 -0700
+Received: from kbuild by d3fc50ef50de with local (Exim 4.95)
+ (envelope-from <lkp@intel.com>) id 1ne2zC-0002IA-Ba;
+ Mon, 11 Apr 2022 22:58:18 +0000
+Date: Tue, 12 Apr 2022 06:57:29 +0800
+From: kernel test robot <lkp@intel.com>
+To: Richard Gong <richard.gong@amd.com>, alexander.deucher@amd.com,
+ christian.koenig@amd.com, xinhui.pan@amd.com, airlied@linux.ie,
+ daniel@ffwll.ch
+Subject: Re: [PATCHv2] drm/amdgpu: disable ASPM on Intel AlderLake based
+ systems
+Message-ID: <202204120618.4I6dOUw9-lkp@intel.com>
+References: <20220408190502.4103670-1-richard.gong@amd.com>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20220408190502.4103670-1-richard.gong@amd.com>
+User-Agent: Mutt/1.10.1 (2018-07-13)
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -55,257 +62,81 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Matt Atwood <matthew.s.atwood@intel.com>, dri-devel@lists.freedesktop.org,
- Ashutosh Dixit <ashutosh.dixit@intel.com>
+Cc: kbuild-all@lists.01.org, richard.gong@amd.com,
+ dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org,
+ amd-gfx@lists.freedesktop.org, mario.limonciello@amd.com
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-From: Matt Atwood <matthew.s.atwood@intel.com>
+Hi Richard,
 
-Newer platforms have DSS that aren't necessarily available for both
-geometry and compute, two queries will need to exist. This introduces
-the first, when passing a valid engine class and engine instance in the
-flags returns a topology describing geometry.
+Thank you for the patch! Yet something to improve:
 
-Based on past discussion, we currently only support this new query item
-on Xe_HP and beyond; earlier platforms do not need to worry about
-geometry and compute pipelines having access to different topology and
-should continue to use the existing topology query.
+[auto build test ERROR on drm/drm-next]
+[also build test ERROR on v5.18-rc2 next-20220411]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch]
 
-v2: fix white space errors
-v3: change flags from hosting 2 8 bit numbers to holding a
-i915_engine_class_instance struct
-v4: add error if non rcs engine passed.
-v5 (by MattR):
- - Improve kerneldoc and cross references to related structs/enums.
-   (Daniel)
- - Clarify that geometry query is only supported on render engines
-   (Francisco)
- - Clarify that the new query is only supported on Xe_HP+.
- - Fix checkpatch warnings.
+url:    https://github.com/intel-lab-lkp/linux/commits/Richard-Gong/drm-amdgpu-disable-ASPM-on-Intel-AlderLake-based-systems/20220409-030656
+base:   git://anongit.freedesktop.org/drm/drm drm-next
+config: um-allmodconfig (https://download.01.org/0day-ci/archive/20220412/202204120618.4I6dOUw9-lkp@intel.com/config)
+compiler: gcc-11 (Debian 11.2.0-19) 11.2.0
+reproduce (this is a W=1 build):
+        # https://github.com/intel-lab-lkp/linux/commit/bb9a037cafa91918c2ece823591d1d04b812ae17
+        git remote add linux-review https://github.com/intel-lab-lkp/linux
+        git fetch --no-tags linux-review Richard-Gong/drm-amdgpu-disable-ASPM-on-Intel-AlderLake-based-systems/20220409-030656
+        git checkout bb9a037cafa91918c2ece823591d1d04b812ae17
+        # save the config file to linux build tree
+        mkdir build_dir
+        make W=1 O=build_dir ARCH=um SHELL=/bin/bash
 
-Cc: Ashutosh Dixit <ashutosh.dixit@intel.com>
-Cc: Matt Roper <matthew.d.roper@intel.com>
-Cc: Joonas Lahtinen <joonas.lahtinen@linux.intel.com>
-Cc: Francisco Jerez <currojerez@riseup.net>
-UMD (mesa): https://gitlab.freedesktop.org/mesa/mesa/-/merge_requests/14143
-Signed-off-by: Matt Atwood <matthew.s.atwood@intel.com>
-Signed-off-by: Matt Roper <matthew.d.roper@intel.com>
----
- drivers/gpu/drm/i915/i915_query.c | 71 ++++++++++++++++++++++---------
- include/uapi/drm/i915_drm.h       | 27 ++++++++++--
- 2 files changed, 75 insertions(+), 23 deletions(-)
+If you fix the issue, kindly add following tag as appropriate
+Reported-by: kernel test robot <lkp@intel.com>
 
-diff --git a/drivers/gpu/drm/i915/i915_query.c b/drivers/gpu/drm/i915/i915_query.c
-index b5ca00cb6cf6..7584cec53d5d 100644
---- a/drivers/gpu/drm/i915/i915_query.c
-+++ b/drivers/gpu/drm/i915/i915_query.c
-@@ -9,6 +9,7 @@
- #include "i915_drv.h"
- #include "i915_perf.h"
- #include "i915_query.h"
-+#include "gt/intel_engine_user.h"
- #include <uapi/drm/i915_drm.h>
- 
- static int copy_query_item(void *query_hdr, size_t query_sz,
-@@ -28,36 +29,30 @@ static int copy_query_item(void *query_hdr, size_t query_sz,
- 	return 0;
- }
- 
--static int query_topology_info(struct drm_i915_private *dev_priv,
--			       struct drm_i915_query_item *query_item)
-+static int fill_topology_info(const struct sseu_dev_info *sseu,
-+			      struct drm_i915_query_item *query_item,
-+			      const u8 *subslice_mask)
- {
--	const struct sseu_dev_info *sseu = &to_gt(dev_priv)->info.sseu;
- 	struct drm_i915_query_topology_info topo;
- 	u32 slice_length, subslice_length, eu_length, total_length;
- 	int ret;
- 
--	if (query_item->flags != 0)
--		return -EINVAL;
-+	BUILD_BUG_ON(sizeof(u8) != sizeof(sseu->slice_mask));
- 
- 	if (sseu->max_slices == 0)
- 		return -ENODEV;
- 
--	BUILD_BUG_ON(sizeof(u8) != sizeof(sseu->slice_mask));
--
- 	slice_length = sizeof(sseu->slice_mask);
- 	subslice_length = sseu->max_slices * sseu->ss_stride;
- 	eu_length = sseu->max_slices * sseu->max_subslices * sseu->eu_stride;
- 	total_length = sizeof(topo) + slice_length + subslice_length +
- 		       eu_length;
- 
--	ret = copy_query_item(&topo, sizeof(topo), total_length,
--			      query_item);
-+	ret = copy_query_item(&topo, sizeof(topo), total_length, query_item);
-+
- 	if (ret != 0)
- 		return ret;
- 
--	if (topo.flags != 0)
--		return -EINVAL;
--
- 	memset(&topo, 0, sizeof(topo));
- 	topo.max_slices = sseu->max_slices;
- 	topo.max_subslices = sseu->max_subslices;
-@@ -69,27 +64,64 @@ static int query_topology_info(struct drm_i915_private *dev_priv,
- 	topo.eu_stride = sseu->eu_stride;
- 
- 	if (copy_to_user(u64_to_user_ptr(query_item->data_ptr),
--			   &topo, sizeof(topo)))
-+			 &topo, sizeof(topo)))
- 		return -EFAULT;
- 
- 	if (copy_to_user(u64_to_user_ptr(query_item->data_ptr + sizeof(topo)),
--			   &sseu->slice_mask, slice_length))
-+			 &sseu->slice_mask, slice_length))
- 		return -EFAULT;
- 
- 	if (copy_to_user(u64_to_user_ptr(query_item->data_ptr +
--					   sizeof(topo) + slice_length),
--			   sseu->subslice_mask, subslice_length))
-+					 sizeof(topo) + slice_length),
-+			 subslice_mask, subslice_length))
- 		return -EFAULT;
- 
- 	if (copy_to_user(u64_to_user_ptr(query_item->data_ptr +
--					   sizeof(topo) +
--					   slice_length + subslice_length),
--			   sseu->eu_mask, eu_length))
-+					 sizeof(topo) +
-+					 slice_length + subslice_length),
-+			 sseu->eu_mask, eu_length))
- 		return -EFAULT;
- 
- 	return total_length;
- }
- 
-+static int query_topology_info(struct drm_i915_private *dev_priv,
-+			       struct drm_i915_query_item *query_item)
-+{
-+	const struct sseu_dev_info *sseu = &to_gt(dev_priv)->info.sseu;
-+
-+	if (query_item->flags != 0)
-+		return -EINVAL;
-+
-+	return fill_topology_info(sseu, query_item, sseu->subslice_mask);
-+}
-+
-+static int query_geometry_subslices(struct drm_i915_private *i915,
-+				    struct drm_i915_query_item *query_item)
-+{
-+	const struct sseu_dev_info *sseu;
-+	struct intel_engine_cs *engine;
-+	struct i915_engine_class_instance classinstance;
-+
-+	if (GRAPHICS_VER_FULL(i915) < IP_VER(12, 50))
-+		return -ENODEV;
-+
-+	classinstance = *((struct i915_engine_class_instance *)&query_item->flags);
-+
-+	engine = intel_engine_lookup_user(i915, (u8)classinstance.engine_class,
-+					  (u8)classinstance.engine_instance);
-+
-+	if (!engine)
-+		return -EINVAL;
-+
-+	if (engine->class != RENDER_CLASS)
-+		return -EINVAL;
-+
-+	sseu = &engine->gt->info.sseu;
-+
-+	return fill_topology_info(sseu, query_item, sseu->geometry_subslice_mask);
-+}
-+
- static int
- query_engine_info(struct drm_i915_private *i915,
- 		  struct drm_i915_query_item *query_item)
-@@ -508,6 +540,7 @@ static int (* const i915_query_funcs[])(struct drm_i915_private *dev_priv,
- 	query_perf_config,
- 	query_memregion_info,
- 	query_hwconfig_blob,
-+	query_geometry_subslices,
- };
- 
- int i915_query_ioctl(struct drm_device *dev, void *data, struct drm_file *file)
-diff --git a/include/uapi/drm/i915_drm.h b/include/uapi/drm/i915_drm.h
-index 097a7935a510..35ca528803fd 100644
---- a/include/uapi/drm/i915_drm.h
-+++ b/include/uapi/drm/i915_drm.h
-@@ -172,7 +172,9 @@ enum drm_i915_gem_engine_class {
- 	I915_ENGINE_CLASS_INVALID	= -1
- };
- 
--/*
-+/**
-+ * struct i915_engine_class_instance - Engine class/instance identifier
-+ *
-  * There may be more than one engine fulfilling any role within the system.
-  * Each engine of a class is given a unique instance number and therefore
-  * any engine can be specified by its class:instance tuplet. APIs that allow
-@@ -180,10 +182,21 @@ enum drm_i915_gem_engine_class {
-  * for this identification.
-  */
- struct i915_engine_class_instance {
--	__u16 engine_class; /* see enum drm_i915_gem_engine_class */
--	__u16 engine_instance;
-+	/**
-+	 * @engine_class:
-+	 *
-+	 * Engine class from enum drm_i915_gem_engine_class
-+	 */
-+	__u16 engine_class;
- #define I915_ENGINE_CLASS_INVALID_NONE -1
- #define I915_ENGINE_CLASS_INVALID_VIRTUAL -2
-+
-+	/**
-+	 * @engine_instance:
-+	 *
-+	 * Engine instance.
-+	 */
-+	__u16 engine_instance;
- };
- 
- /**
-@@ -2735,6 +2748,7 @@ struct drm_i915_query_item {
- 	 *  - %DRM_I915_QUERY_PERF_CONFIG (see struct drm_i915_query_perf_config)
- 	 *  - %DRM_I915_QUERY_MEMORY_REGIONS (see struct drm_i915_query_memory_regions)
- 	 *  - %DRM_I915_QUERY_HWCONFIG_BLOB (see `GuC HWCONFIG blob uAPI`)
-+	 *  - %DRM_I915_QUERY_GEOMETRY_SUBSLICES (see struct drm_i915_query_topology_info)
- 	 */
- 	__u64 query_id;
- #define DRM_I915_QUERY_TOPOLOGY_INFO		1
-@@ -2742,6 +2756,7 @@ struct drm_i915_query_item {
- #define DRM_I915_QUERY_PERF_CONFIG		3
- #define DRM_I915_QUERY_MEMORY_REGIONS		4
- #define DRM_I915_QUERY_HWCONFIG_BLOB		5
-+#define DRM_I915_QUERY_GEOMETRY_SUBSLICES	6
- /* Must be kept compact -- no holes and well documented */
- 
- 	/**
-@@ -2765,6 +2780,9 @@ struct drm_i915_query_item {
- 	 *	- %DRM_I915_QUERY_PERF_CONFIG_LIST
- 	 *      - %DRM_I915_QUERY_PERF_CONFIG_DATA_FOR_UUID
- 	 *      - %DRM_I915_QUERY_PERF_CONFIG_FOR_UUID
-+	 *
-+	 * When &query_id == %DRM_I915_QUERY_GEOMETRY_SUBSLICES must contain
-+	 * a struct i915_engine_class_instance that references a render engine.
- 	 */
- 	__u32 flags;
- #define DRM_I915_QUERY_PERF_CONFIG_LIST          1
-@@ -3051,7 +3069,8 @@ struct drm_i915_query_engine_info {
- /**
-  * struct drm_i915_query_perf_config
-  *
-- * Data written by the kernel with query %DRM_I915_QUERY_PERF_CONFIG.
-+ * Data written by the kernel with query %DRM_I915_QUERY_PERF_CONFIG and
-+ * %DRM_I915_QUERY_GEOMETRY_SUBSLICES.
-  */
- struct drm_i915_query_perf_config {
- 	union {
+All errors (new ones prefixed by >>):
+
+   In file included from arch/x86/um/asm/processor.h:41,
+                    from include/linux/mutex.h:19,
+                    from include/linux/kernfs.h:11,
+                    from include/linux/sysfs.h:16,
+                    from include/linux/kobject.h:20,
+                    from include/linux/pci.h:35,
+                    from drivers/gpu/drm/amd/amdgpu/vi.c:24:
+   drivers/gpu/drm/amd/amdgpu/vi.c: In function 'intel_core_apsm_chk':
+   arch/um/include/asm/processor-generic.h:103:19: error: called object is not a function or function pointer
+     103 | #define cpu_data (&boot_cpu_data)
+         |                  ~^~~~~~~~~~~~~~~
+   drivers/gpu/drm/amd/amdgpu/vi.c:1144:34: note: in expansion of macro 'cpu_data'
+    1144 |         struct cpuinfo_x86 *c = &cpu_data(0);
+         |                                  ^~~~~~~~
+>> drivers/gpu/drm/amd/amdgpu/vi.c:1146:18: error: invalid use of undefined type 'struct cpuinfo_x86'
+    1146 |         return (c->x86 == 6 && c->x86_model == INTEL_FAM6_ALDERLAKE);
+         |                  ^~
+   drivers/gpu/drm/amd/amdgpu/vi.c:1146:33: error: invalid use of undefined type 'struct cpuinfo_x86'
+    1146 |         return (c->x86 == 6 && c->x86_model == INTEL_FAM6_ALDERLAKE);
+         |                                 ^~
+   drivers/gpu/drm/amd/amdgpu/vi.c:1150:1: error: control reaches end of non-void function [-Werror=return-type]
+    1150 | }
+         | ^
+   cc1: some warnings being treated as errors
+
+
+vim +1146 drivers/gpu/drm/amd/amdgpu/vi.c
+
+  1140	
+  1141	static bool intel_core_apsm_chk(void)
+  1142	{
+  1143	#if IS_ENABLED(CONFIG_X86_64)
+  1144		struct cpuinfo_x86 *c = &cpu_data(0);
+  1145	
+> 1146		return (c->x86 == 6 && c->x86_model == INTEL_FAM6_ALDERLAKE);
+  1147	#else
+  1148		return false;
+  1149	#endif
+  1150	}
+  1151	
+
 -- 
-2.34.1
-
+0-DAY CI Kernel Test Service
+https://01.org/lkp
