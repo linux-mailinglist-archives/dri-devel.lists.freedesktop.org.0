@@ -1,67 +1,69 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 36AE04FB39D
-	for <lists+dri-devel@lfdr.de>; Mon, 11 Apr 2022 08:20:01 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 723D14FB3D1
+	for <lists+dri-devel@lfdr.de>; Mon, 11 Apr 2022 08:37:51 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 1D17A10ED2F;
-	Mon, 11 Apr 2022 06:19:59 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 7A95E10EB7D;
+	Mon, 11 Apr 2022 06:37:46 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mout.gmx.net (mout.gmx.net [212.227.15.18])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 6CA4B10E974
- for <dri-devel@lists.freedesktop.org>; Mon, 11 Apr 2022 06:19:57 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=gmx.net;
- s=badeba3b8450; t=1649657995;
- bh=sfEMxueHlINxP3Ft9h3uCgQL3x0NL57EBnCByLr9WHw=;
- h=X-UI-Sender-Class:Date:Subject:To:Cc:References:From:In-Reply-To;
- b=LXG4o5IDHO3ef5fr2tCKvvAdmWy6WIOep7bK3zPAw1v0pOte4O2KeD1jEN7hX5ct4
- IcwhR6sh4VZBXqQfqgaSM9+8BW5vCFjVtyaGLZZVttgDs/8q7oGwGLU+PTHciFrDh2
- adcuO0ETsyF73Pz5sk0MlqsJzWhDmnmrfh/Fm57M=
-X-UI-Sender-Class: 01bb95c1-4bf8-414a-932a-4f6e2808ef9c
-Received: from [192.168.20.60] ([92.116.145.57]) by mail.gmx.net (mrgmx005
- [212.227.17.190]) with ESMTPSA (Nemesis) id 1MvK0R-1nuukM0DMv-00rHOG; Mon, 11
- Apr 2022 08:19:55 +0200
-Message-ID: <f68dde85-5ead-3c5c-3bf3-3e6bd7458f2e@gmx.de>
-Date: Mon, 11 Apr 2022 08:18:09 +0200
+Received: from mail-ed1-x52e.google.com (mail-ed1-x52e.google.com
+ [IPv6:2a00:1450:4864:20::52e])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id C096810ED97
+ for <dri-devel@lists.freedesktop.org>; Mon, 11 Apr 2022 06:37:44 +0000 (UTC)
+Received: by mail-ed1-x52e.google.com with SMTP id c6so1915279edn.8
+ for <dri-devel@lists.freedesktop.org>; Sun, 10 Apr 2022 23:37:44 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=message-id:date:mime-version:user-agent:subject:content-language:to
+ :cc:references:from:in-reply-to:content-transfer-encoding;
+ bh=vzNjZUXGyvh4gu1a5eskzN2ZgAinNkq/VfowbMZKkRY=;
+ b=n9tsVChRT1PVIqDW/MqDK2AAvs1Dzp1foGwlobVRiFihFy4lvDQG/DlNcqT7KZoBCw
+ /b0cTlbdft9bB57n7QmxErwXwdW+oCBAIceQdsZl1SynUBR2d2DXQNpiSfUpWL2gCTlM
+ fEnbLQP3oAeReSQqM8w8+/1LIrkSqlPl6XswAialCagtaqmTvdnjBRXvZt999cniBbYb
+ wEPBtVWY0mWdCo4YIFofSwnP/9RtCGySUqGg5iQC8PKIhQCaoLUdc4bz/3ZoDPrZrE/W
+ XCKJcdVDAII9iJRM45lmMEExa3pTLJOklS953Ygoc/KbNDSItyZ5i4FkcPwI3lOEQepa
+ JTow==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
+ :content-language:to:cc:references:from:in-reply-to
+ :content-transfer-encoding;
+ bh=vzNjZUXGyvh4gu1a5eskzN2ZgAinNkq/VfowbMZKkRY=;
+ b=5vxNf4clKtuWlcoWx5zvb9+zOG6AbO6OzNUfClcaaV0Zk1DaXWJS1AAbGGdTNceZI+
+ RZYNbwRFOwCXAwVfvaO6VrEFUa1hsLri5ugIMAYnr5THG0o1uHtorojjZXvni8QtL9ho
+ aCENe+R/w7Fu+lp0zvKX+bjlwZLdRCBBw2nzNIKgzi6M6HICcn83ElvAuqGnZHnFQaDm
+ MigM0Gxtsd02gLlghP7X44utf2cZlkx1JQd9kOJH/g3VdxXF2l1fFBGkHUYLx8l1DdDZ
+ dFQk13qUgHLi/EVGkE5Y6dTzUOFkFuJxWcxwwY4vpvZMdZ3scGRPVAgiJcJGPUQxeUV3
+ 0SZA==
+X-Gm-Message-State: AOAM531ZaeOk7nrWh1tf7o2wYyDvZxC4dR5X8wKqrY3C8HUNqJKJRtlH
+ J5yRsO7cE50Hq1n/Rr8KYbxQDw==
+X-Google-Smtp-Source: ABdhPJyxeX5ahiPnIwsYZpijDZ2+BJKM+oobLR5YazSI/pEHlQhHy62TVXuI5C0rQe+zdN6vXT8dmQ==
+X-Received: by 2002:a05:6402:1c1e:b0:416:5b93:eacf with SMTP id
+ ck30-20020a0564021c1e00b004165b93eacfmr32015436edb.302.1649659063100; 
+ Sun, 10 Apr 2022 23:37:43 -0700 (PDT)
+Received: from [192.168.0.191] (xdsl-188-155-201-27.adslplus.ch.
+ [188.155.201.27]) by smtp.gmail.com with ESMTPSA id
+ z11-20020a50e68b000000b00412ec8b2180sm14586743edm.90.2022.04.10.23.37.42
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Sun, 10 Apr 2022 23:37:42 -0700 (PDT)
+Message-ID: <ba417ad0-a263-77c4-a7bd-a1e7c43fe6b7@linaro.org>
+Date: Mon, 11 Apr 2022 08:37:41 +0200
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
  Thunderbird/91.7.0
-Subject: Re: [PATCH 1/7] video: fbdev: i740fb: Error out if 'pixclock' equals
- zero
+Subject: Re: [PATCH 01/10] dt-bindings: display: Separate clock item lists by
+ compatible
 Content-Language: en-US
-To: Ondrej Zary <linux@zary.sk>, Zheyu Ma <zheyuma97@gmail.com>
-References: <20220404084723.79089-1-zheyuma97@gmail.com>
- <eb2edc5a-afad-f0c9-012f-9b9f226d2e5a@gmx.de>
- <CAMhUBjmm6ADp2Fr89CCQNX5FnhmBBrwFE0EQ3sq7CLER0J3ZEg@mail.gmail.com>
- <202204101102.13505.linux@zary.sk>
-From: Helge Deller <deller@gmx.de>
-In-Reply-To: <202204101102.13505.linux@zary.sk>
+To: Samuel Holland <samuel@sholland.org>, Chen-Yu Tsai <wens@csie.org>,
+ Jernej Skrabec <jernej.skrabec@gmail.com>, Maxime Ripard <mripard@kernel.org>
+References: <20220411043423.37333-1-samuel@sholland.org>
+ <20220411043423.37333-2-samuel@sholland.org>
+From: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
+In-Reply-To: <20220411043423.37333-2-samuel@sholland.org>
 Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: quoted-printable
-X-Provags-ID: V03:K1:7UMRgaQGw+lmVxgdw35JNxFmQ8/erZc7B2ZAznUL56KFExbyAyL
- eozhZDqrTS640g+EG/wkbxyUl8tATZwLYGBClGzFD5kDMy1zVp8ncsOPrHKCShmztq59eXl
- 43nNT+8gxU1B2smqyyhJrXqFFnQ5TDJsLNhcWI8Uh+nsFWnporQ37jdkOTraCUBwf05DeQm
- egEJBdtNlJbsWoNHbWn6w==
-X-Spam-Flag: NO
-X-UI-Out-Filterresults: notjunk:1;V03:K0:wz+exaJD4EU=:qCbHUBMR0eECdtBeg75SJM
- U4Thoi+oZ8fwwOrWoG2hwwJ07nadK6Jm03W7VVGxZEYRgPFh1iZpPDRgvRM4S1oB+TVrN9IvV
- 2B/S4Lm21lqV9vwhXQK66Xc2YQjR6DxQkm+FeMVWdsOFDjTS7G+UwlxQB0NRUQ6h0s5oHTTkp
- n5U9MdMRoHHf/JfpRgPLBvCb55hXzHbbI6NmoZFjCjTuJe+eglBElNT0Eowp/LxqMnkWwoPjA
- 8osGq39Rah3GpUONk5awjJHiR0pe8C1iesARwQNu42byJ9Nmip0nh+CD0XtGK/VnPiEEPdPeO
- yEINGfEAHdyYvn8ccLQjcA/JSZMDulF9dLFb2iKZfw7cYuKkmsOQrvCseLVzAESqVhX1vCM3L
- /FmPOOKieZ+6bzZPYAV/+OvsyHCjCTaKtv44feUrok68MrLiZZCGGzva5twG/e7uq+PW+hx0O
- xdnlq8hgdkIYmK+BJaubWb097/CLjtgw4jSbVfq+yuEQiT0GwaWTGHSJVRtcUDANHqLwv0h7q
- x1D+bzOomHGx8kmiP5uPq4zNlDBrhfAtNBuUQGj9gbIsLdyZnz1tjRBDdCUWvSisNnY0B8eE+
- 6Pmq4EUmauZY5MlJX/4iY5w1vaBC6pzHjVqf35fQ+S/6aJtDqeRfa0Nx69h+K86yhJYH+A2sA
- +/QN+JQ6a1q19QElMcOywTVCoJ3AM25ThZ2RZ16wm9/km/K0wzAeSwgpa+Z/iQ7YIokH6hu0j
- Gw4Dpl8Kc1PBaWHrLjfiSDOqjP3gpgZL13w6YCXxx9j9d7qhHvkvPDYnyneSiMxwVCxMCfaw9
- Yiri1Y6qZK/6IFrCN/bMuipbcuCY0YGu2/QUgAo8CJ663SYVSIgXH0cL8A/E+uqCm1pO+shqM
- MTAWAP0JDcXSgUWFJsEuZqigyKLSLudz+57FTgBGqa25uA432PzWSgdJEoEPFG0eAJq6JT+UH
- 98pFXzf3KPz4EK5SrFBm8/CICP60rHasqehg7bFe+VWjJXWONFwdcXUM2zNkLUKj2hy4rxMaj
- hCO6AlqijlgG+syyV4ATSMQ+NlLKZ9t3qfSu+PGqucClxai+BNEoqpVuk8noaVYKyCKBV76Bi
- iV/iWoQhb/7Iw0=
+Content-Transfer-Encoding: 7bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -74,60 +76,31 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Linux Fbdev development list <linux-fbdev@vger.kernel.org>,
- Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
- DRI Development <dri-devel@lists.freedesktop.org>
+Cc: devicetree@vger.kernel.org, David Airlie <airlied@linux.ie>,
+ linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
+ Rob Herring <robh+dt@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>,
+ linux-sunxi@lists.linux.dev, linux-arm-kernel@lists.infradead.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 4/10/22 11:02, Ondrej Zary wrote:
-> On Friday 08 April 2022 03:58:10 Zheyu Ma wrote:
->> On Fri, Apr 8, 2022 at 3:50 AM Helge Deller <deller@gmx.de> wrote:
->>>
->>> On 4/4/22 10:47, Zheyu Ma wrote:
->>>> The userspace program could pass any values to the driver through
->>>> ioctl() interface. If the driver doesn't check the value of 'pixclock=
-',
->>>> it may cause divide error.
->>>>
->>>> Fix this by checking whether 'pixclock' is zero in the function
->>>> i740fb_check_var().
->>>>
->>>> The following log reveals it:
->>>>
->>>> divide error: 0000 [#1] PREEMPT SMP KASAN PTI
->>>> RIP: 0010:i740fb_decode_var drivers/video/fbdev/i740fb.c:444 [inline]
->>>> RIP: 0010:i740fb_set_par+0x272f/0x3bb0 drivers/video/fbdev/i740fb.c:7=
-39
->>>> Call Trace:
->>>>     fb_set_var+0x604/0xeb0 drivers/video/fbdev/core/fbmem.c:1036
->>>>     do_fb_ioctl+0x234/0x670 drivers/video/fbdev/core/fbmem.c:1112
->>>>     fb_ioctl+0xdd/0x130 drivers/video/fbdev/core/fbmem.c:1191
->>>>     vfs_ioctl fs/ioctl.c:51 [inline]
->>>>     __do_sys_ioctl fs/ioctl.c:874 [inline]
->>>>
->>>> Signed-off-by: Zheyu Ma <zheyuma97@gmail.com>
->>>
->>> Hello Zheyu,
->>>
->>> I've applied the patches #2-#7 of this series, but left
->>> out this specific patch (for now).
->>> As discussed on the mailing list we can try to come up with a
->>> better fix (to round up the pixclock when it's invalid).
->>> If not, I will apply this one later.
->>
->> I'm also looking forward to a more appropriate patch for this driver!
->
-> I was not able to reproduce it at first but finally found it: the
-> monitor must be unplugged. If a valid EDID is present,
-> fb_validate_mode() call in i740fb_check_var() will refuse zero
-> pixclock.
->
-> Haven't found any obvious way to correct zero pixclock value. Most other=
- drivers simply return -EINVAL.
+On 11/04/2022 06:34, Samuel Holland wrote:
+> So far, the binding and driver have relied on the fact that the H6
+> clocks are both a prefix and a subset of the R40 clocks. This allows
+> them to share the clocks/clock-names items and the clock-output-names
+> order between the hardware variants.
+> 
+> However, the D1 hardware has TCON TV0 and DSI, but no TCON TV1. This
+> cannot be supported by the existing scheme because it puts a gap in the
+> middle of the item lists. To prepare for adding D1 support, use separate
+> lists for variants with different combinations of clocks.
+> 
+> Signed-off-by: Samuel Holland <samuel@sholland.org>
+> ---
+> 
 
-Thanks for checking, Ondrej!
 
-So, I'll apply the EINVAL-patch from Zheyu for now.
+Reviewed-by: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
 
-Helge
+
+Best regards,
+Krzysztof
