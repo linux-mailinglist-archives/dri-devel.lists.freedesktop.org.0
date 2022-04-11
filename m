@@ -2,42 +2,42 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3CAA14FB810
-	for <lists+dri-devel@lfdr.de>; Mon, 11 Apr 2022 11:48:11 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 2B5AE4FB811
+	for <lists+dri-devel@lfdr.de>; Mon, 11 Apr 2022 11:48:15 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 8447510FA0A;
-	Mon, 11 Apr 2022 09:48:08 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id EEDE110FA0F;
+	Mon, 11 Apr 2022 09:48:12 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from mga02.intel.com (mga02.intel.com [134.134.136.20])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 683A810F7AE;
- Mon, 11 Apr 2022 09:48:07 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 351D710FA0D;
+ Mon, 11 Apr 2022 09:48:12 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1649670487; x=1681206487;
+ t=1649670492; x=1681206492;
  h=from:to:cc:subject:date:message-id:in-reply-to:
  references:mime-version:content-transfer-encoding;
- bh=4N7SdD5vrLJmW6Mc38Xu8tuY6dNq4Byj6zyttM9gCCU=;
- b=XILkEZIQ7H7PqqNMH0m069MfLITaCpVVdDYksLj8j+hCoCtAEkkA+yHY
- kHvjCynj4V9X2yDe9OvEpDr7wgCArh68Y6jvzaCW/j2rEPjdQuFzHyezO
- Ffnk3l7m3Yq5Wp0BQ1BXJ12ZeT9jqzQvHpGBHfieGdXV0uc1zDq6TV9yz
- dDW3Ruc+lzbrO04/kIyu9CBtcTYULvtxQeeX5Zfxm5xQS2zv92R42ccXt
- Z/wJ43iBuDFsIowPwDPBiFDeNOb4EbBo16SJQ4VsvVmWCVVGTH3mOTU7o
- 1WPstBlKUM43l9ADnJ52hVuuYV8Gr/7ywKkc2hK52e0mHT3u06DfF1vTc Q==;
-X-IronPort-AV: E=McAfee;i="6400,9594,10313"; a="249359696"
-X-IronPort-AV: E=Sophos;i="5.90,251,1643702400"; d="scan'208";a="249359696"
+ bh=jabrUGXuKhZTX0fUStcWz547nRNVXCV/fPdQAGmQDRM=;
+ b=WmcTZwqo2aPvGxx076dlG1O34P1RUgv8vV4sB3FETCjCoZUV8Nx+b+MD
+ kbdKu8L/0Ahj/NuewwEuYzwH+4GTBHMEyvX0c1IR8Fdh4yWk5fKukWRxn
+ qHqlGfAKTNYfABtxWU8JU2gn9ZnSC8UMRuTf+YsvmL+vwywetWb8Ysevj
+ Dkto2GLCqN5+Z+6lYaO8+qvEFYQXrNnwBXiliC94vBjIZFacHP4Rify1+
+ mta2yowKg0cdBID8KD75qdDcKeo6thRlk6Bx8/0NYkoeWrYPeVEsxOcTw
+ SW0pTD5bkRG+/pxPdoesTwbwDjWP8vHzHwVwSz2VM8ntifvfx6W5571/e A==;
+X-IronPort-AV: E=McAfee;i="6400,9594,10313"; a="249359715"
+X-IronPort-AV: E=Sophos;i="5.90,251,1643702400"; d="scan'208";a="249359715"
 Received: from orsmga008.jf.intel.com ([10.7.209.65])
  by orsmga101.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 11 Apr 2022 02:48:06 -0700
-X-IronPort-AV: E=Sophos;i="5.90,251,1643702400"; d="scan'208";a="572053472"
+ 11 Apr 2022 02:48:12 -0700
+X-IronPort-AV: E=Sophos;i="5.90,251,1643702400"; d="scan'208";a="572053489"
 Received: from lwit-desk1.ger.corp.intel.com (HELO localhost) ([10.249.143.43])
  by orsmga008-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 11 Apr 2022 02:48:04 -0700
+ 11 Apr 2022 02:48:10 -0700
 From: Jani Nikula <jani.nikula@intel.com>
 To: dri-devel@lists.freedesktop.org
-Subject: [CI v2 05/12] drm/edid: pass struct edid to connector_bad_edid()
-Date: Mon, 11 Apr 2022 12:47:26 +0300
-Message-Id: <b8ded3c19bba443ce0bf86a662bd7ee3d7075555.1649670305.git.jani.nikula@intel.com>
+Subject: [CI v2 06/12] drm/edid: add typedef for block read function
+Date: Mon, 11 Apr 2022 12:47:27 +0300
+Message-Id: <2282c320bbf3327bfdb2af85d09625b13fd00eb1.1649670305.git.jani.nikula@intel.com>
 X-Mailer: git-send-email 2.30.2
 In-Reply-To: <cover.1649670305.git.jani.nikula@intel.com>
 References: <cover.1649670305.git.jani.nikula@intel.com>
@@ -61,63 +61,72 @@ Cc: jani.nikula@intel.com, intel-gfx@lists.freedesktop.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Avoid casting here and there, and make it const.
+Make the callback a bit easier on the eye.
 
 Signed-off-by: Jani Nikula <jani.nikula@intel.com>
 Reviewed-by: Ville Syrjälä <ville.syrjala@linux.intel.com>
 ---
- drivers/gpu/drm/drm_edid.c | 15 ++++++---------
- 1 file changed, 6 insertions(+), 9 deletions(-)
+ drivers/gpu/drm/drm_edid.c | 18 +++++++++---------
+ 1 file changed, 9 insertions(+), 9 deletions(-)
 
 diff --git a/drivers/gpu/drm/drm_edid.c b/drivers/gpu/drm/drm_edid.c
-index 0b8098e34236..e1afd6a55a8c 100644
+index e1afd6a55a8c..5b450bad018e 100644
 --- a/drivers/gpu/drm/drm_edid.c
 +++ b/drivers/gpu/drm/drm_edid.c
-@@ -1967,7 +1967,7 @@ drm_do_probe_ddc_edid(void *data, u8 *buf, unsigned int block, size_t len)
+@@ -2037,10 +2037,11 @@ int drm_add_override_edid_modes(struct drm_connector *connector)
  }
+ EXPORT_SYMBOL(drm_add_override_edid_modes);
  
- static void connector_bad_edid(struct drm_connector *connector,
--			       u8 *edid, int num_blocks)
-+			       const struct edid *edid, int num_blocks)
++typedef int read_block_fn(void *context, u8 *buf, unsigned int block, size_t len);
++
+ static struct edid *drm_do_get_edid_base_block(struct drm_connector *connector,
+-	int (*get_edid_block)(void *data, u8 *buf, unsigned int block,
+-			      size_t len),
+-	void *data)
++					       read_block_fn read_block,
++					       void *context)
  {
- 	int i;
- 	u8 last_block;
-@@ -1978,22 +1978,19 @@ static void connector_bad_edid(struct drm_connector *connector,
- 	 * of 0x7e in the EDID of the _index_ of the last block in the
- 	 * combined chunk of memory.
- 	 */
--	last_block = edid[0x7e];
-+	last_block = edid->extensions;
+ 	int *null_edid_counter = connector ? &connector->null_edid_counter : NULL;
+ 	bool *edid_corrupt = connector ? &connector->edid_corrupt : NULL;
+@@ -2053,7 +2054,7 @@ static struct edid *drm_do_get_edid_base_block(struct drm_connector *connector,
  
- 	/* Calculate real checksum for the last edid extension block data */
- 	if (last_block < num_blocks)
- 		connector->real_edid_checksum =
--			edid_block_compute_checksum(edid + last_block * EDID_LENGTH);
-+			edid_block_compute_checksum(edid + last_block);
+ 	/* base block fetch */
+ 	for (try = 0; try < 4; try++) {
+-		if (get_edid_block(data, edid, 0, EDID_LENGTH))
++		if (read_block(context, edid, 0, EDID_LENGTH))
+ 			goto out;
+ 		if (drm_edid_block_valid(edid, 0, false, edid_corrupt))
+ 			break;
+@@ -2097,9 +2098,8 @@ static struct edid *drm_do_get_edid_base_block(struct drm_connector *connector,
+  * Return: Pointer to valid EDID or NULL if we couldn't find any.
+  */
+ struct edid *drm_do_get_edid(struct drm_connector *connector,
+-	int (*get_edid_block)(void *data, u8 *buf, unsigned int block,
+-			      size_t len),
+-	void *data)
++			     read_block_fn read_block,
++			     void *context)
+ {
+ 	int j, invalid_blocks = 0;
+ 	struct edid *edid, *new, *override;
+@@ -2108,7 +2108,7 @@ struct edid *drm_do_get_edid(struct drm_connector *connector,
+ 	if (override)
+ 		return override;
  
- 	if (connector->bad_edid_counter++ && !drm_debug_enabled(DRM_UT_KMS))
- 		return;
+-	edid = drm_do_get_edid_base_block(connector, get_edid_block, data);
++	edid = drm_do_get_edid_base_block(connector, read_block, context);
+ 	if (!edid)
+ 		return NULL;
  
- 	drm_dbg_kms(connector->dev, "%s: EDID is invalid:\n", connector->name);
--	for (i = 0; i < num_blocks; i++) {
--		u8 *block = edid + i * EDID_LENGTH;
--
--		edid_block_dump(KERN_DEBUG, block, i);
--	}
-+	for (i = 0; i < num_blocks; i++)
-+		edid_block_dump(KERN_DEBUG, edid + i, i);
- }
+@@ -2125,7 +2125,7 @@ struct edid *drm_do_get_edid(struct drm_connector *connector,
+ 		int try;
  
- /* Get override or firmware EDID */
-@@ -2139,7 +2136,7 @@ struct edid *drm_do_get_edid(struct drm_connector *connector,
- 	}
- 
- 	if (invalid_blocks) {
--		connector_bad_edid(connector, (u8 *)edid, edid->extensions + 1);
-+		connector_bad_edid(connector, edid, edid->extensions + 1);
- 
- 		edid = edid_filter_invalid_blocks(edid, invalid_blocks);
- 	}
+ 		for (try = 0; try < 4; try++) {
+-			if (get_edid_block(data, block, j, EDID_LENGTH))
++			if (read_block(context, block, j, EDID_LENGTH))
+ 				goto out;
+ 			if (drm_edid_block_valid(block, j, false, NULL))
+ 				break;
 -- 
 2.30.2
 
