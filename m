@@ -1,111 +1,93 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0AFBE4FC448
-	for <lists+dri-devel@lfdr.de>; Mon, 11 Apr 2022 20:43:16 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 748554FC463
+	for <lists+dri-devel@lfdr.de>; Mon, 11 Apr 2022 20:51:14 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 580B510EBE3;
-	Mon, 11 Apr 2022 18:43:13 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 2F5EA10E634;
+	Mon, 11 Apr 2022 18:51:07 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from NAM10-BN7-obe.outbound.protection.outlook.com
- (mail-bn7nam10on2068.outbound.protection.outlook.com [40.107.92.68])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 791F010EBC0;
- Mon, 11 Apr 2022 18:43:11 +0000 (UTC)
+Received: from NAM11-BN8-obe.outbound.protection.outlook.com
+ (mail-bn8nam11on2044.outbound.protection.outlook.com [40.107.236.44])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id E8AAA10E053;
+ Mon, 11 Apr 2022 18:51:04 +0000 (UTC)
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=IkvVTjdr2kWFwo1n9nmQd1CLABTLOFV7813jri9yQ0YkLLfVT9dK8rAdUMC8otfnc7JHwxa1r3UhCBZ6EAty7TlPQdMsKfxylRRpKOBwq+2ipcXZG/sAaoeFIFqa1vRtK/FN9qc+9hV1uaL55UAkg26M9RAbftimFNKNakaXvdd6HJ5vM0On5DEFZGIETKJatFWMah6cpovoUXth4Dq29CY8/75B3+vGOgSsUh/jovtoSxHDOdvSutiRX3f/DnRU38flZGp269eG9cimg1jfJ+3BrOyBeIhk0BGnGAEkeDFx85RGGdfnBtfBfit5XSPkSZJV2H9Y4XMvxXN0y22Kqw==
+ b=FFTdoW8F5j/P9T2NkzZTBgX+OS7JgtRO2O8elxLYs2QoSBeN9DxxGfQbRM+YJQ29YF6pYNo05J3sFxQf6+f5zW3qgZ04LZnv8BI8vqofk7S/hizJhrSaYk4whnQ7cgvwd4COWTktbZhCA2xD5X/PpNECULyfff141l3Zp9kkKkqZdybkDrXrCZektf+zPuE5KhZqTMEQcobBebRPr1YGXA6zhPTIU6B/dnioXXIHmuvKlp5Cn2LOAanxs/fm+BY/aqwfLU045kcchUlYh7cDLFbMZHdnRkzWIYTz30czMYWRc3fr+cQzgrKS+7lFIAF4LpkUyOsiq6KVzP++je9M2w==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
  s=arcselector9901;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=q5SLHBKh96sDYwSj50vo2N/E08E4SKejJOxBlLhKb5U=;
- b=g9kFVFQ6Mgq/2+zRpR2KihAGA6qZkA8NWRFiNQcwkfhDO9SgIrEMqrEvKkywTSMvr6cZWdLOA53DP8iU+mLlWiXYoF4VJz6FULKXzn+gqTmT+UWdw9Z50wE8oklm9sVWj7n63S1eiYJ83C7PmEg4gorJETBRY6gNiSiipUC3txBYybKdlNrCxEpXUaxGKqXvYWCCSl45an8jl+r26yN1qxdxoo3VVsnXnAOE9HvArwraBzy1HEq/CGf9PCS2XYdS4wk62qtwLSczSUc5EveHJsQbHtliQPM2Mxs0oC+fqYWu4wo2CFh9cV5kdQPtYpQTIwuXHezTbiPaXvkUfTrtJw==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=nvidia.com; dmarc=pass action=none header.from=nvidia.com;
- dkim=pass header.d=nvidia.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=Nvidia.com;
- s=selector2;
+ bh=MNR41bqIRskitPGO6HlBXHwKS0pJXtfRdm3+52Ad1WE=;
+ b=WB4JzpCbmp/E6TGsXjc+QOEk3pqRme1pXmobuww38jC62TQCRgn/+aLIMZUXot3rNEVcGZmGlE7AyBvhVjAFOE0NaNXg2DL5XweI+ME/FqPXXsaLgC/UTTgpDonEYLeuptCxGUiT09FFNqN9XmwSoY7Aj+iOVMYBYJV6VRfMrkfxZMFh3SzmxLKivu9X7nzAWjp2DMz6Qgmq5rERI/YKPrMouXsZrpho/j6VXqMAEbbiJroB1/SxXgDm22Pjkh1NWjXIT7GbN+/yw61E2dzJIqPZD+6zYc7qNlltGk8V5Khh+sTD+LFvghhEKRa6nVQE0QAYe9OFxHoLqYbXOOegKw==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass (sender ip is
+ 165.204.84.17) smtp.rcpttodomain=lists.freedesktop.org smtp.mailfrom=amd.com; 
+ dmarc=pass (p=quarantine sp=quarantine pct=100) action=none
+ header.from=amd.com; dkim=none (message not signed); arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1; 
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=q5SLHBKh96sDYwSj50vo2N/E08E4SKejJOxBlLhKb5U=;
- b=ZG1hXP+Xjadrj2jOKlPGWWD64yvZ+pHLDrgsTh90OU93zwE10/RzlOhBZphmA1gahDHLMdD2SjrcNJyHAntBQ6LMN0mcRnpeOXaUD/f46uqC5+/YerxxEU5yVP1KX4HRi2B/CW70fL+rBQ7yjtCVDDKxBq6DKF0Nf1lNcJW0hNeAOG3dF/cVruPhvD8usvBZGXvnXXxTLuEXikH/mNldBt7Pi8rr0Uki8L6Dx7AU7eAzM8j+5OnI3oQ7BNZ+OixiHnwb7DUtnJE9U4Nlixg2+2163/Kzo5N8SG3Jw+JuTA6SY5dNJ04lyI2vz2mPrIBoJC+vMXzRYKAKkpsHpTnIew==
-Authentication-Results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=nvidia.com;
-Received: from MN2PR12MB4192.namprd12.prod.outlook.com (2603:10b6:208:1d5::15)
- by DM5PR12MB1610.namprd12.prod.outlook.com (2603:10b6:4:3::12) with
- Microsoft
- SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.20.5144.29; Mon, 11 Apr 2022 18:43:09 +0000
-Received: from MN2PR12MB4192.namprd12.prod.outlook.com
- ([fe80::cdfb:f88e:410b:9374]) by MN2PR12MB4192.namprd12.prod.outlook.com
- ([fe80::cdfb:f88e:410b:9374%6]) with mapi id 15.20.5144.029; Mon, 11 Apr 2022
- 18:43:09 +0000
-Date: Mon, 11 Apr 2022 15:43:08 -0300
-From: Jason Gunthorpe <jgg@nvidia.com>
-To: Christoph Hellwig <hch@lst.de>
-Subject: Re: [PATCH 06/34] drm/i915/gvt: move the gvt code into kvmgt.ko
-Message-ID: <20220411184308.GF2120790@nvidia.com>
-References: <20220411141403.86980-1-hch@lst.de>
- <20220411141403.86980-7-hch@lst.de>
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20220411141403.86980-7-hch@lst.de>
-X-ClientProxiedBy: MN2PR14CA0022.namprd14.prod.outlook.com
- (2603:10b6:208:23e::27) To MN2PR12MB4192.namprd12.prod.outlook.com
- (2603:10b6:208:1d5::15)
+ bh=MNR41bqIRskitPGO6HlBXHwKS0pJXtfRdm3+52Ad1WE=;
+ b=ArxTDsEJlultm0kZjVXA/G1qgXQWG33cQ58ZuI4K3LmSBMEuDjpYjRgtcekLAZb39YgFEB/pv43o9sp56czSBkLbBio02tSHpPESKy1OCBW5v6tMRxsgo8INLpA8dIzZFKlNZqmn072LxgiKJ3eQcDw6QcZvfNZixZFnonuLT+A=
+Received: from BN0PR10CA0002.namprd10.prod.outlook.com (2603:10b6:408:143::16)
+ by PH7PR12MB5619.namprd12.prod.outlook.com (2603:10b6:510:136::7)
+ with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.5144.29; Mon, 11 Apr
+ 2022 18:51:02 +0000
+Received: from BN8NAM11FT054.eop-nam11.prod.protection.outlook.com
+ (2603:10b6:408:143:cafe::60) by BN0PR10CA0002.outlook.office365.com
+ (2603:10b6:408:143::16) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.5144.29 via Frontend
+ Transport; Mon, 11 Apr 2022 18:51:02 +0000
+X-MS-Exchange-Authentication-Results: spf=pass (sender IP is 165.204.84.17)
+ smtp.mailfrom=amd.com; dkim=none (message not signed)
+ header.d=none;dmarc=pass action=none header.from=amd.com;
+Received-SPF: Pass (protection.outlook.com: domain of amd.com designates
+ 165.204.84.17 as permitted sender) receiver=protection.outlook.com;
+ client-ip=165.204.84.17; helo=SATLEXMB04.amd.com;
+Received: from SATLEXMB04.amd.com (165.204.84.17) by
+ BN8NAM11FT054.mail.protection.outlook.com (10.13.177.102) with Microsoft SMTP
+ Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.20.5144.20 via Frontend Transport; Mon, 11 Apr 2022 18:51:02 +0000
+Received: from rtg-amd.amd.com (10.180.168.240) by SATLEXMB04.amd.com
+ (10.181.40.145) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2375.24; Mon, 11 Apr
+ 2022 13:50:59 -0500
+From: Arunpravin Paneer Selvam <Arunpravin.PaneerSelvam@amd.com>
+To: <igt-dev@lists.freedesktop.org>, <intel-gfx@lists.freedesktop.org>,
+ <amd-gfx@lists.freedesktop.org>, <dri-devel@lists.freedesktop.org>
+Subject: [igt-dev] [PATCH i-g-t v2] tests/drm_buddy: Add drm buddy test cases
+Date: Tue, 12 Apr 2022 00:20:42 +0530
+Message-ID: <20220411185042.24338-1-Arunpravin.PaneerSelvam@amd.com>
+X-Mailer: git-send-email 2.25.1
 MIME-Version: 1.0
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 8bit
+X-Originating-IP: [10.180.168.240]
+X-ClientProxiedBy: SATLEXMB03.amd.com (10.181.40.144) To SATLEXMB04.amd.com
+ (10.181.40.145)
+X-EOPAttributedMessage: 0
 X-MS-PublicTrafficType: Email
-X-MS-Office365-Filtering-Correlation-Id: 76dee174-4330-4059-60fe-08da1beb1ffd
-X-MS-TrafficTypeDiagnostic: DM5PR12MB1610:EE_
-X-Microsoft-Antispam-PRVS: <DM5PR12MB161037F238CD4AFDC106387EC2EA9@DM5PR12MB1610.namprd12.prod.outlook.com>
+X-MS-Office365-Filtering-Correlation-Id: 7317f60e-3d6e-4d0a-b428-08da1bec39c2
+X-MS-TrafficTypeDiagnostic: PH7PR12MB5619:EE_
+X-Microsoft-Antispam-PRVS: <PH7PR12MB56190B0BA81B7FDC46E5609FE4EA9@PH7PR12MB5619.namprd12.prod.outlook.com>
 X-MS-Exchange-SenderADCheck: 1
 X-MS-Exchange-AntiSpam-Relay: 0
 X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: Mmuy3W70GzT2FrrGuL5QiPEIL7SGSn3+yZcllgMaLpN0pDvZEZVy0zap8f/Eublk44Cn/siJcVqf656mc7qqvoD1vkC8Zz5+nqYt+rqU8k0YIzph18EIwLtfauyuhV2M2CWh0TQcLSk0gelV3vBvcaJWjfu8X1d0G0h1MJufo1Uz6sserh5ynmrXHUc+qHLb0VZ/QaWUOsT4b8x4Jsd+wzSSYAaChziw4jn4wpHflEaL7F8WcUn0JSPerXOlCoxK0PHQD0LE327vzim+5qH288M9Poo0DsalMRIFQ+ZpA8pyDlpJBlJVoHvGiNVYdRMh3Qd/I7Ls/y8n0s4HjnTmR8pCATHK2Isy9XJLnXFcOaDbYxPqBkGLL0IN4HYDrQafCRVyeOGen++KFf5UonIOVPerEx60DUkPyOXIeO5cEW8vMmC94G8S80q4n+YiXwbFRvHrqSmcdj6/95aA0s/G2/zKlfJ6or4u8IjUZn9YBnMpg1F4M8128d6TGF352CutmYYvsanoCfWXmwnOm3pUxGVCh8acxcYuH4hIzsRVZg0JtOc4vpx4jf9qyfUt6Hi1p9HsaE3vjXGp/1JgJ8DB9xPSnU6aoJM12X6K7SynzibZeSWxVXF0g9/WD3CRy3YHFAdVz4HrZdpJyDkSUNSfWA==
-X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
- IPV:NLI; SFV:NSPM; H:MN2PR12MB4192.namprd12.prod.outlook.com; PTR:; CAT:NONE;
- SFS:(13230001)(4636009)(366004)(2906002)(26005)(186003)(66946007)(4326008)(6486002)(83380400001)(86362001)(8676002)(38100700002)(36756003)(1076003)(2616005)(66476007)(66556008)(508600001)(6916009)(316002)(7416002)(5660300002)(8936002)(54906003)(6506007)(33656002)(6512007);
+X-Microsoft-Antispam-Message-Info: qpxcJAV6gsPaycz4ACwdsT2B5zV9H2wbmfBcaLm0zKlK7S2T4TjAbFgBM9Mu2hCD6e8J+JqHuKP6J9TTle23mp8uLdR8aJEr76hSxU/YaSZt0QJdhnNlsyEaV0vZFlp5aYyFDrhMLOw0SpYLZViQhJzaL+F+dETq12RqOZ1Hr9sdyFI0RT5T303Gah++DdyjUYA44cMvMcqagCfv+AbObki6Q/ypE3dm0/b4jiN6ASbKKONxGUeHiv/fu6AI8HpwhKje3VK3HjRkJfyxTjO2FB3dMutaoTHpk2bCY76//gAB8x9I4l3zfUNbgA8zkTYaIUQ2E/9usETDGx0ulMgBZIhAIahx6ufqLv37WIAj2yXJeL0ntwY3WR/SUNwaMzQvg/MUAr09aRXwiYqTNFSpo+UXVXIMZqucvUi9+TOqZvhMetl8j7FU6QojPom4hs9uXlztfrAzoSI0qu1G6haGL7rQDzVG1mFn9sh5E6vQBTQy8LgeA1y0Kvmr+dDbDOoJUUZwsTxztgr0GSAk/CeNewAhT0I1j5A6UF8ECw9wtFFkeEils2GaZi+NkCjpN6WYXO/XoMdDiMVIb/sjqwcdp2Bj0aoXdWbm30q3p5QV/rx/f+iI5LCXHDvaZr9chk2+YOXcvCI8L//0waNwZRXgXmXFxecPLhu2njqo2qQJYy9rR7I3U/guG3zJ4T6lE0TtdUXspQ+mkmpuCw+IfhHNOg==
+X-Forefront-Antispam-Report: CIP:165.204.84.17; CTRY:US; LANG:en; SCL:1; SRV:;
+ IPV:CAL; SFV:NSPM; H:SATLEXMB04.amd.com; PTR:InfoDomainNonexistent; CAT:NONE;
+ SFS:(13230001)(4636009)(40470700004)(46966006)(36840700001)(8676002)(5660300002)(70586007)(82310400005)(110136005)(7696005)(36756003)(8936002)(40460700003)(2906002)(81166007)(356005)(316002)(336012)(70206006)(2616005)(4326008)(54906003)(1076003)(36860700001)(6666004)(83380400001)(26005)(47076005)(86362001)(186003)(16526019)(508600001)(426003)(36900700001);
  DIR:OUT; SFP:1101; 
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: =?us-ascii?Q?2T3E2PVcPBByBOX+9dxFNNijrpPBa+jPRfawL7jOeqzYx1MD86mSKASlZeGn?=
- =?us-ascii?Q?hqYgQJ0TnY/XHpqBy3P7K1W4ec2KZCCSUQ5uZtYwZvoPqgC0JBywddPXyEa4?=
- =?us-ascii?Q?/ZlMnkpZgwyd6grHbawZTbYthtjVLgxlbNdK4HzX/tiJ08N80c464kFVure9?=
- =?us-ascii?Q?3Qp6HeMXgSY+LXbOY3YRSWmrjVen4UwlMGsOEaFR6OAj6DRDH8dGTMfbkUhB?=
- =?us-ascii?Q?l0q4aHZVTvDn62A2R/3+o5+X7ncIPJooFD9I/iLQ6wdp12D2dhckTue6htQi?=
- =?us-ascii?Q?vbGjXB4gxk/HWi+AeblwwD4x8B2gqmxv9r+tl0uVWLR3JLy3731wzpYh/ve5?=
- =?us-ascii?Q?i6tE34JkgcxotzR6S+GsLaMmjraxhYp37SFnNqPGZOiv7ld1qIXkzp/fn2t/?=
- =?us-ascii?Q?7iOfHW58uL6xBA5Pv2aOF8E1mpEO/8GUDViyWnXdtWZUTWoza0bkDrf6glQN?=
- =?us-ascii?Q?xMVnj/rRh8SBjBd+trGKrEGZ4W2U4au/1v8JQnC7DLeZOyd7lnBJQ7zYyPnP?=
- =?us-ascii?Q?kT2Rc9emeM0kna86H6r56e3tj1btrQTb7Bt5L51lgKV1v5KAcex0TVWQ7m10?=
- =?us-ascii?Q?+cP5z64OHsszmL6kbkrewd5DyKSZgdwlk4v8vUW2RGaPtVJufKE3uLycWTiI?=
- =?us-ascii?Q?6xjR1yNaQ7DNVCJQVyQn3zkL5VvjijZB0JkFYDVp2r81WOSlBAPf+X806k4u?=
- =?us-ascii?Q?4CtMarbUmAaw0valZL8TQOswVqysI5qxm2ZIQBDAGz2U8WySghqNMUfBne/a?=
- =?us-ascii?Q?kzkULZKF/BUA1LsFIlON6zM1rZNesLMUQ4xaEyfmvNswsxXdrxaVpj9dUZ97?=
- =?us-ascii?Q?NFx7YFBlC/aDbfH0eteUofApsVTKv6GijtAxe99hlhuC5k5cgSDVOthhn9Gs?=
- =?us-ascii?Q?8KC09r0IZ0JWl5Ge+2CbIOUmsfQTpTdfIcHaMfw4VMjw/ixhQqXzduccSS5U?=
- =?us-ascii?Q?4RjQieSETNuhNjCsjMsPu9/xPqYY+gfWXWYQ+vGr5MB+3NMLSZCbOQ2CqVIQ?=
- =?us-ascii?Q?Hv8oJIt8J9UHYzRlz8++Px4IsYjr3rpyBLHzhPqFUBpo5wXWtZHWxUUo0tKJ?=
- =?us-ascii?Q?f05Ji4/suWFSrcAWrlhaPUO0QT4TxyAQXyYotna45Lpzv75cGlchkg8T97bp?=
- =?us-ascii?Q?B44+FkMDuNyw7ItT1Paw8eOx8C2gzKZInlmrLeDFWCpML4uGrD/SCAsMjEmx?=
- =?us-ascii?Q?plcrG5BVsGJwR5DKYdQkZte5aaE2LWrlCLJtBrgrrqDqaKKlxxxahErBbE0R?=
- =?us-ascii?Q?+W712Sh4bS6/waMV9yxaue+pBeg5Oty0q13MkGUaGbGlP5HnLmtFCVv8riWy?=
- =?us-ascii?Q?wFJ4B4y/+DLbH6w10XGNM9wKFJXRhvmWRl9qQIxSuDlx6hxBikV+7Zs2HPnx?=
- =?us-ascii?Q?7Rxw8foQCYCwlNl3B+jR/4pks0GjsAtvjF/cM5/k4djfDiszaB5RMNkaFAO/?=
- =?us-ascii?Q?L3DtUFFDQPxYez/S5lYEWayis1Av/aXaV5MoYQ0H23vC1GeKN2+1Xs63W2wG?=
- =?us-ascii?Q?fKI/P2xAYNCTqPzByfeE3E6WXR2kbJLr0xa1DwABxuxDyvnZxOlEqf2fp244?=
- =?us-ascii?Q?Ds4u3pguqCUMOK2f+Fbc98qalYBThlkdM2QEQ+mi3n4FJskb/j46HkOCR5EB?=
- =?us-ascii?Q?sZOjitdZh4PoY2u50tvl5ZfpmZcO3mMw1Iand3HlySz8fBtgM7FPK1oNyBOO?=
- =?us-ascii?Q?yB6rghKRUQywKAL5N6o+Omk++IUVovkF7Dq+d6nvpEnYn8/eDMvJ83z0CBCr?=
- =?us-ascii?Q?suKIYq9Y8A=3D=3D?=
-X-OriginatorOrg: Nvidia.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 76dee174-4330-4059-60fe-08da1beb1ffd
-X-MS-Exchange-CrossTenant-AuthSource: MN2PR12MB4192.namprd12.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 11 Apr 2022 18:43:09.5547 (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 43083d15-7273-40c1-b7db-39efd9ccc17a
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: /3Cx/2EatSnMclBlDLI2rzGFiaKUi3i+3+DPOLxtM5aU0P1w6KFkaYswMm/+nrK/
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: DM5PR12MB1610
+X-OriginatorOrg: amd.com
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 11 Apr 2022 18:51:02.1014 (UTC)
+X-MS-Exchange-CrossTenant-Network-Message-Id: 7317f60e-3d6e-4d0a-b428-08da1bec39c2
+X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
+X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: TenantId=3dd8961f-e488-4e60-8e11-a82d994e183d; Ip=[165.204.84.17];
+ Helo=[SATLEXMB04.amd.com]
+X-MS-Exchange-CrossTenant-AuthSource: BN8NAM11FT054.eop-nam11.prod.protection.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Anonymous
+X-MS-Exchange-CrossTenant-FromEntityHeader: HybridOnPrem
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: PH7PR12MB5619
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -118,38 +100,57 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: dri-devel@lists.freedesktop.org, intel-gfx@lists.freedesktop.org,
- linux-kernel@vger.kernel.org, Rodrigo Vivi <rodrigo.vivi@intel.com>,
- intel-gvt-dev@lists.freedesktop.org, Zhi Wang <zhi.a.wang@intel.com>
+Cc: alexander.deucher@amd.com,
+ Arunpravin Paneer Selvam <Arunpravin.PaneerSelvam@amd.com>,
+ matthew.auld@intel.com, christian.koenig@amd.com
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Mon, Apr 11, 2022 at 04:13:35PM +0200, Christoph Hellwig wrote:
-> Instead of having an option to build the gvt code into the main i915
-> module, just move it into the kvmgt.ko module.  This only requires
-> a new struct with three entries that the KVMGT modules needs to register
-> with the main i915 module, and a proper list of GVT-enabled devices
-> instead of global device pointer.
-> 
-> Signed-off-by: Christoph Hellwig <hch@lst.de>
-> ---
->  drivers/gpu/drm/i915/Kconfig                |  36 ++--
->  drivers/gpu/drm/i915/Makefile               |   2 +-
->  drivers/gpu/drm/i915/gvt/Makefile           |   5 +-
->  drivers/gpu/drm/i915/gvt/gvt.c              |  55 ++----
->  drivers/gpu/drm/i915/gvt/gvt.h              |   6 +-
->  drivers/gpu/drm/i915/gvt/kvmgt.c            |  14 +-
->  drivers/gpu/drm/i915/gvt/mpt.h              |   3 -
->  drivers/gpu/drm/i915/i915_driver.c          |   7 -
->  drivers/gpu/drm/i915/i915_drv.h             |   1 +
->  drivers/gpu/drm/i915/intel_gvt.c            | 200 +++++++++++++-------
->  drivers/gpu/drm/i915/intel_gvt.h            |  17 +-
->  drivers/gpu/drm/i915/intel_gvt_mmio_table.c |   1 +
->  12 files changed, 193 insertions(+), 154 deletions(-)
+Add a set of drm buddy test cases to validate the
+drm/drm_buddy.c memory allocator.
 
-There is a few things going on in here, I looked a few times and
-didn't spot anything..
+v2: sorted in alphabetical order
 
-Reviewed-by: Jason Gunthorpe <jgg@nvidia.com>
+Signed-off-by: Arunpravin Paneer Selvam <Arunpravin.PaneerSelvam@amd.com>
+Reviewed-by: Matthew Auld <matthew.auld@intel.com>
+---
+ tests/drm_buddy.c | 14 ++++++++++++++
+ tests/meson.build |  1 +
+ 2 files changed, 15 insertions(+)
+ create mode 100644 tests/drm_buddy.c
 
-Jason
+diff --git a/tests/drm_buddy.c b/tests/drm_buddy.c
+new file mode 100644
+index 00000000..06876e0c
+--- /dev/null
++++ b/tests/drm_buddy.c
+@@ -0,0 +1,14 @@
++// SPDX-License-Identifier: MIT
++/*
++ * Copyright © 2019 Intel Corporation
++ */
++
++#include "igt.h"
++#include "igt_kmod.h"
++
++IGT_TEST_DESCRIPTION("Basic sanity check of DRM's buddy allocator (struct drm_buddy)");
++
++igt_main
++{
++	igt_kselftests("test-drm_buddy", NULL, NULL, NULL);
++}
+diff --git a/tests/meson.build b/tests/meson.build
+index b0eab3d6..7261e9aa 100644
+--- a/tests/meson.build
++++ b/tests/meson.build
+@@ -8,6 +8,7 @@ test_progs = [
+ 	'debugfs_test',
+ 	'dmabuf',
+ 	'device_reset',
++	'drm_buddy',
+ 	'drm_import_export',
+ 	'drm_mm',
+ 	'drm_read',
+-- 
+2.25.1
+
