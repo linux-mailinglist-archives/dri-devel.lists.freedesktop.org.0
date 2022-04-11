@@ -1,63 +1,67 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8A93B4FB391
-	for <lists+dri-devel@lfdr.de>; Mon, 11 Apr 2022 08:18:28 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 36AE04FB39D
+	for <lists+dri-devel@lfdr.de>; Mon, 11 Apr 2022 08:20:01 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 1F64C10E94D;
-	Mon, 11 Apr 2022 06:18:24 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 1D17A10ED2F;
+	Mon, 11 Apr 2022 06:19:59 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mout.gmx.net (mout.gmx.net [212.227.15.15])
- by gabe.freedesktop.org (Postfix) with ESMTPS id CA67310E94D
- for <dri-devel@lists.freedesktop.org>; Mon, 11 Apr 2022 06:18:22 +0000 (UTC)
+Received: from mout.gmx.net (mout.gmx.net [212.227.15.18])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 6CA4B10E974
+ for <dri-devel@lists.freedesktop.org>; Mon, 11 Apr 2022 06:19:57 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=gmx.net;
- s=badeba3b8450; t=1649657900;
- bh=DEmNhBL/gohEUMJP8JibIxeatvMiK2dGmVjbuB97Fyc=;
+ s=badeba3b8450; t=1649657995;
+ bh=sfEMxueHlINxP3Ft9h3uCgQL3x0NL57EBnCByLr9WHw=;
  h=X-UI-Sender-Class:Date:Subject:To:Cc:References:From:In-Reply-To;
- b=DTYxIIxSrTbphxaZpPdNkGBdxIx4xgavKoAi0RQpMqIiaOpWpcmk5Z42kBtiauavl
- b3y9WRPtqX8Rut1wKJXPtC3kyBZXNsWWHGXhkSnfwZoIM2stMvQUJdmeEMctK3Lnmx
- 8Ofp7p6LJYUWaEuESkPg+XwcEzuetajM+zfvZJiU=
+ b=LXG4o5IDHO3ef5fr2tCKvvAdmWy6WIOep7bK3zPAw1v0pOte4O2KeD1jEN7hX5ct4
+ IcwhR6sh4VZBXqQfqgaSM9+8BW5vCFjVtyaGLZZVttgDs/8q7oGwGLU+PTHciFrDh2
+ adcuO0ETsyF73Pz5sk0MlqsJzWhDmnmrfh/Fm57M=
 X-UI-Sender-Class: 01bb95c1-4bf8-414a-932a-4f6e2808ef9c
-Received: from [192.168.20.60] ([92.116.145.57]) by mail.gmx.net (mrgmx004
- [212.227.17.190]) with ESMTPSA (Nemesis) id 1MulqD-1nuMpD1OYl-00rsZa; Mon, 11
- Apr 2022 08:18:20 +0200
-Message-ID: <e0f26cb5-a67f-dbb0-46cf-441a19a82129@gmx.de>
-Date: Mon, 11 Apr 2022 08:16:35 +0200
+Received: from [192.168.20.60] ([92.116.145.57]) by mail.gmx.net (mrgmx005
+ [212.227.17.190]) with ESMTPSA (Nemesis) id 1MvK0R-1nuukM0DMv-00rHOG; Mon, 11
+ Apr 2022 08:19:55 +0200
+Message-ID: <f68dde85-5ead-3c5c-3bf3-3e6bd7458f2e@gmx.de>
+Date: Mon, 11 Apr 2022 08:18:09 +0200
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
  Thunderbird/91.7.0
-Subject: Re: [PATCH] fbdev: i740fb: use memset_io() to clear screen
+Subject: Re: [PATCH 1/7] video: fbdev: i740fb: Error out if 'pixclock' equals
+ zero
 Content-Language: en-US
-To: Ondrej Zary <linux@zary.sk>
-References: <20220410202833.26608-1-linux@zary.sk>
+To: Ondrej Zary <linux@zary.sk>, Zheyu Ma <zheyuma97@gmail.com>
+References: <20220404084723.79089-1-zheyuma97@gmail.com>
+ <eb2edc5a-afad-f0c9-012f-9b9f226d2e5a@gmx.de>
+ <CAMhUBjmm6ADp2Fr89CCQNX5FnhmBBrwFE0EQ3sq7CLER0J3ZEg@mail.gmail.com>
+ <202204101102.13505.linux@zary.sk>
 From: Helge Deller <deller@gmx.de>
-In-Reply-To: <20220410202833.26608-1-linux@zary.sk>
+In-Reply-To: <202204101102.13505.linux@zary.sk>
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: quoted-printable
-X-Provags-ID: V03:K1:wDZTZbxfEuUfXVVlZgGev+nwA1g7MKEILesmHJFJP4UYp3fOPxV
- kWzG+kJJSU0aNzxkRa1b1qqPnAMDd/jWqhk9l9kkJpvVvjWTHNTck+l5ISZB6fKiobMXV4+
- aP2IFDjxT1BrluJrHO5ppdKmmzC2vX18Ati0IYPmbRz1zXFxxEOZanwyZXkgqYqDuqT0T2G
- TNF13pw59FCq/9OoG8Amg==
+X-Provags-ID: V03:K1:7UMRgaQGw+lmVxgdw35JNxFmQ8/erZc7B2ZAznUL56KFExbyAyL
+ eozhZDqrTS640g+EG/wkbxyUl8tATZwLYGBClGzFD5kDMy1zVp8ncsOPrHKCShmztq59eXl
+ 43nNT+8gxU1B2smqyyhJrXqFFnQ5TDJsLNhcWI8Uh+nsFWnporQ37jdkOTraCUBwf05DeQm
+ egEJBdtNlJbsWoNHbWn6w==
 X-Spam-Flag: NO
-X-UI-Out-Filterresults: notjunk:1;V03:K0:jYWVJBqjH/0=:yYvVfny61rLZJasumIHxC3
- wW2XCQSzcisl+0gcWX8hz1Om40LkQmMfGosY0XsbiPFADJJ6EnF4aNzvQg5egxeo+hPlwgO0H
- HubMC7f5Aff/nypweDl/u288F5XFfur80lXPUu+1qA8u1fsA8Xj5NqcDmOE0Wucg0i4IdFz3l
- 9y+EOuzMvq31aSFWACw0dtMy8OLkBXGqwWK7j1b67lOvjPUVlp4nFrXEKU4bXwFkjEuemiaIC
- c57j6FhR9Mv6p2SZNShshJ+SrgPn3lKwNbIT78EKF2d09BUsdKX5/PCQE6dO+6gD8wEfDR7YL
- cF7Vlvie1pZ/qkKhmBRHoeX8RCdpgAuWdtojqTQWqdu0utqCjVvlVsnXPRCk30OqcMPooRnxI
- KePaQufjtB3KdV9pcLTN8GAeo0RHXhw5wsJQmdEA3CFOFWFf2Z2KYJRavI3nRAgoJ9dLMVlEf
- RDzdnrr5LqFvW2dRqmLQhqCUIokrlYBrucABlk1obczZGxsF/wfij+NkHf00S5qqHodeUWe6V
- hcaWpXakqBa/HLBv8Lxxl5anxayH8lBxT5vQEGVpUCmD+zYLTsX0HF8EFRF/cmxqp0fHJwmLZ
- sn/w0HP2RwcR9FHcVcsJ1pL9H12STHj0yx4KGvOegB0NBi8X7Xy7aBSHw49ay8SA8QWJyX0me
- 0jRhxS+OPtCguuqpv6HiajLpUw5kgRTxc0i5YKgpbCfGH41CZ6OhP1Ve8eFsvqWIBjr391jMW
- BTljY+rkr0NHCYCptJ5Ok9JJJUpfP+R/MH8doFrkYW+DULuji8YpHmlN58gonxORW5H8hTSZy
- n9RByI80s9CjNb1KMgVljHV5ZInUOagTo6YogNA/46qB9eggZ9TwBrpCAaAPSkGMLPcejCpMJ
- JzjnqM+fyqc0kPXoUB6lPpa+t9WMmNmpqR80NQjJCcrqMNphnTzj3IxsGIYO4pEwFi2XqQNAz
- pTpF/V0R5TZC8TXcAVm2BcGRKoPfuP51l0pzN9yr4vitmT7PbIHHDqKxQioogPw8W3upskaLo
- PO5TcCr1HzgUIoeb28w4Ci6W7pCJvNnTZxaOufkGGgUZ7zN0WcDzB9qxOX4eQWA0BLPzsOs+j
- oZUgAjlooUUGqE=
+X-UI-Out-Filterresults: notjunk:1;V03:K0:wz+exaJD4EU=:qCbHUBMR0eECdtBeg75SJM
+ U4Thoi+oZ8fwwOrWoG2hwwJ07nadK6Jm03W7VVGxZEYRgPFh1iZpPDRgvRM4S1oB+TVrN9IvV
+ 2B/S4Lm21lqV9vwhXQK66Xc2YQjR6DxQkm+FeMVWdsOFDjTS7G+UwlxQB0NRUQ6h0s5oHTTkp
+ n5U9MdMRoHHf/JfpRgPLBvCb55hXzHbbI6NmoZFjCjTuJe+eglBElNT0Eowp/LxqMnkWwoPjA
+ 8osGq39Rah3GpUONk5awjJHiR0pe8C1iesARwQNu42byJ9Nmip0nh+CD0XtGK/VnPiEEPdPeO
+ yEINGfEAHdyYvn8ccLQjcA/JSZMDulF9dLFb2iKZfw7cYuKkmsOQrvCseLVzAESqVhX1vCM3L
+ /FmPOOKieZ+6bzZPYAV/+OvsyHCjCTaKtv44feUrok68MrLiZZCGGzva5twG/e7uq+PW+hx0O
+ xdnlq8hgdkIYmK+BJaubWb097/CLjtgw4jSbVfq+yuEQiT0GwaWTGHSJVRtcUDANHqLwv0h7q
+ x1D+bzOomHGx8kmiP5uPq4zNlDBrhfAtNBuUQGj9gbIsLdyZnz1tjRBDdCUWvSisNnY0B8eE+
+ 6Pmq4EUmauZY5MlJX/4iY5w1vaBC6pzHjVqf35fQ+S/6aJtDqeRfa0Nx69h+K86yhJYH+A2sA
+ +/QN+JQ6a1q19QElMcOywTVCoJ3AM25ThZ2RZ16wm9/km/K0wzAeSwgpa+Z/iQ7YIokH6hu0j
+ Gw4Dpl8Kc1PBaWHrLjfiSDOqjP3gpgZL13w6YCXxx9j9d7qhHvkvPDYnyneSiMxwVCxMCfaw9
+ Yiri1Y6qZK/6IFrCN/bMuipbcuCY0YGu2/QUgAo8CJ663SYVSIgXH0cL8A/E+uqCm1pO+shqM
+ MTAWAP0JDcXSgUWFJsEuZqigyKLSLudz+57FTgBGqa25uA432PzWSgdJEoEPFG0eAJq6JT+UH
+ 98pFXzf3KPz4EK5SrFBm8/CICP60rHasqehg7bFe+VWjJXWONFwdcXUM2zNkLUKj2hy4rxMaj
+ hCO6AlqijlgG+syyV4ATSMQ+NlLKZ9t3qfSu+PGqucClxai+BNEoqpVuk8noaVYKyCKBV76Bi
+ iV/iWoQhb/7Iw0=
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -70,42 +74,60 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: linux-fbdev@vger.kernel.org, linux-kernel@vger.kernel.org,
- dri-devel@lists.freedesktop.org
+Cc: Linux Fbdev development list <linux-fbdev@vger.kernel.org>,
+ Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
+ DRI Development <dri-devel@lists.freedesktop.org>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 4/10/22 22:28, Ondrej Zary wrote:
-> sparse complains that using memset() on __iomem pointer is wrong:
-> incorrect type in argument 1 (different address spaces)
+On 4/10/22 11:02, Ondrej Zary wrote:
+> On Friday 08 April 2022 03:58:10 Zheyu Ma wrote:
+>> On Fri, Apr 8, 2022 at 3:50 AM Helge Deller <deller@gmx.de> wrote:
+>>>
+>>> On 4/4/22 10:47, Zheyu Ma wrote:
+>>>> The userspace program could pass any values to the driver through
+>>>> ioctl() interface. If the driver doesn't check the value of 'pixclock=
+',
+>>>> it may cause divide error.
+>>>>
+>>>> Fix this by checking whether 'pixclock' is zero in the function
+>>>> i740fb_check_var().
+>>>>
+>>>> The following log reveals it:
+>>>>
+>>>> divide error: 0000 [#1] PREEMPT SMP KASAN PTI
+>>>> RIP: 0010:i740fb_decode_var drivers/video/fbdev/i740fb.c:444 [inline]
+>>>> RIP: 0010:i740fb_set_par+0x272f/0x3bb0 drivers/video/fbdev/i740fb.c:7=
+39
+>>>> Call Trace:
+>>>>     fb_set_var+0x604/0xeb0 drivers/video/fbdev/core/fbmem.c:1036
+>>>>     do_fb_ioctl+0x234/0x670 drivers/video/fbdev/core/fbmem.c:1112
+>>>>     fb_ioctl+0xdd/0x130 drivers/video/fbdev/core/fbmem.c:1191
+>>>>     vfs_ioctl fs/ioctl.c:51 [inline]
+>>>>     __do_sys_ioctl fs/ioctl.c:874 [inline]
+>>>>
+>>>> Signed-off-by: Zheyu Ma <zheyuma97@gmail.com>
+>>>
+>>> Hello Zheyu,
+>>>
+>>> I've applied the patches #2-#7 of this series, but left
+>>> out this specific patch (for now).
+>>> As discussed on the mailing list we can try to come up with a
+>>> better fix (to round up the pixclock when it's invalid).
+>>> If not, I will apply this one later.
+>>
+>> I'm also looking forward to a more appropriate patch for this driver!
 >
-> Use memset_io() to clear screen instead.
+> I was not able to reproduce it at first but finally found it: the
+> monitor must be unplugged. If a valid EDID is present,
+> fb_validate_mode() call in i740fb_check_var() will refuse zero
+> pixclock.
 >
-> Tested on real i740 cards.
->
-> Signed-off-by: Ondrej Zary <linux@zary.sk>
+> Haven't found any obvious way to correct zero pixclock value. Most other=
+ drivers simply return -EINVAL.
 
-applied.
-Thanks!
+Thanks for checking, Ondrej!
+
+So, I'll apply the EINVAL-patch from Zheyu for now.
 
 Helge
-
-
-> ---
->  drivers/video/fbdev/i740fb.c | 2 +-
->  1 file changed, 1 insertion(+), 1 deletion(-)
->
-> diff --git a/drivers/video/fbdev/i740fb.c b/drivers/video/fbdev/i740fb.c
-> index 52cce0db8bd3..dd45ea8203be 100644
-> --- a/drivers/video/fbdev/i740fb.c
-> +++ b/drivers/video/fbdev/i740fb.c
-> @@ -740,7 +740,7 @@ static int i740fb_set_par(struct fb_info *info)
->  	if (i)
->  		return i;
->
-> -	memset(info->screen_base, 0, info->screen_size);
-> +	memset_io(info->screen_base, 0, info->screen_size);
->
->  	vga_protect(par);
->
-
