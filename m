@@ -1,57 +1,61 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3F7044FBD28
-	for <lists+dri-devel@lfdr.de>; Mon, 11 Apr 2022 15:32:11 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id AE43C4FBD3D
+	for <lists+dri-devel@lfdr.de>; Mon, 11 Apr 2022 15:35:52 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 725B810EE79;
-	Mon, 11 Apr 2022 13:32:07 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id C4BA510F074;
+	Mon, 11 Apr 2022 13:35:49 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mga12.intel.com (mga12.intel.com [192.55.52.136])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 7C9AC10EE54;
- Mon, 11 Apr 2022 13:32:06 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1649683926; x=1681219926;
- h=message-id:date:mime-version:subject:to:cc:references:
- from:in-reply-to:content-transfer-encoding;
- bh=5E7jxPhpMDzKeO+76OwbEXDMhNGno4DLluxKQbugKtI=;
- b=e5EgsMdiqsBoEGCOBWwb/AkZkFl8uVjSd0OHAkhoNU+EUN89Cy5LsYZM
- 9R+wT9p4oDlayYZyMUVcvEqV9pJ22mFG7VJq7w1VZoNeZ7P3OYvutADXw
- 4N2drCZL9e8oKqkx/Jsbe/tkn+a4pvJzCnF/sk+vE2OIsM23TlZ6Gk1nU
- 2D7JabzsRHmTty8tCMrdqIe23WNCT7At34LfHBuj7Q5pU5sTfUxa+jnKQ
- m+dD6j4ayNcbxobq158y7bXinKrkjqjMnEba+lGNrAu1g4j6MadyyG+VQ
- yCTcQ8JN8lBol2P4P/2NAvinrqEDpi5wa9OXjpn6USHRmyotbhuclHOsd w==;
-X-IronPort-AV: E=McAfee;i="6400,9594,10313"; a="242052718"
-X-IronPort-AV: E=Sophos;i="5.90,251,1643702400"; d="scan'208";a="242052718"
-Received: from fmsmga003.fm.intel.com ([10.253.24.29])
- by fmsmga106.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 11 Apr 2022 06:32:06 -0700
-X-IronPort-AV: E=Sophos;i="5.90,251,1643702400"; d="scan'208";a="644085475"
-Received: from dxharrix-mobl.ger.corp.intel.com (HELO [10.252.1.119])
- ([10.252.1.119])
- by fmsmga003-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 11 Apr 2022 06:32:04 -0700
-Message-ID: <5f2a190a-f8ef-9b5f-d6b2-efa30f367612@intel.com>
-Date: Mon, 11 Apr 2022 14:32:02 +0100
+Received: from mail-qk1-f178.google.com (mail-qk1-f178.google.com
+ [209.85.222.178])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id D79AB10F074
+ for <dri-devel@lists.freedesktop.org>; Mon, 11 Apr 2022 13:35:48 +0000 (UTC)
+Received: by mail-qk1-f178.google.com with SMTP id 141so1012836qkf.3
+ for <dri-devel@lists.freedesktop.org>; Mon, 11 Apr 2022 06:35:48 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=6S8S+a0YX9xrAM7ZLPpu+Eb5jo+Pr1Yp9P1ijuzXncc=;
+ b=bCpErw4dSh4TxlxDG/yS/ySIkzLNhC5cXeFdHWJCGGex56FNtD9dgiPPStVMzAxm2Y
+ DHteAwvDBUjmfHfmhdcBkGqFaG23dGupRyXPFvEVAGoD5aDDOImFyzrQyKDuyLJOskEZ
+ 72jqeIEJjbRMlZODazYVFTAbLP3AhgYcAbAdvXKXbPL5dqYrPcjZnBKIyaaS3N3Q1DM9
+ IsiunPYV9HnWitw/l15jdnGR/pXHtgNca9AXEEfeRkHlIZM/CpmI9CSMiCWxeP90V4p8
+ IkdrWzrVjNHfs74D+f6ob/MXxXYCegAMYJOhSYoA/8xsZVq8zNuO2EW8U5LPvzk7QUXi
+ E3dg==
+X-Gm-Message-State: AOAM533DaJ3vQuQYW2rpyrKuQQParfRvb/g4erHVLP+SUS481pZxAcrR
+ Nl2zHAjDbqmOx2myNZP4hKhRh+fM3wi9dw==
+X-Google-Smtp-Source: ABdhPJz0jf7Wy6EbhznprtEoReBNd/cjwCKdoqtKRemIWG1eH4dDgpDRsZy23CVoniURlZVRlVpzbw==
+X-Received: by 2002:a05:620a:13f9:b0:69a:17b:7a0a with SMTP id
+ h25-20020a05620a13f900b0069a017b7a0amr14256147qkl.67.1649684147579; 
+ Mon, 11 Apr 2022 06:35:47 -0700 (PDT)
+Received: from mail-yw1-f175.google.com (mail-yw1-f175.google.com.
+ [209.85.128.175]) by smtp.gmail.com with ESMTPSA id
+ k189-20020a3788c6000000b0069c10860b10sm3039398qkd.107.2022.04.11.06.35.47
+ for <dri-devel@lists.freedesktop.org>
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Mon, 11 Apr 2022 06:35:47 -0700 (PDT)
+Received: by mail-yw1-f175.google.com with SMTP id
+ 00721157ae682-2db2add4516so165678507b3.1
+ for <dri-devel@lists.freedesktop.org>; Mon, 11 Apr 2022 06:35:47 -0700 (PDT)
+X-Received: by 2002:a0d:e743:0:b0:2eb:3106:9b32 with SMTP id
+ q64-20020a0de743000000b002eb31069b32mr26595858ywe.512.1649684146995; Mon, 11
+ Apr 2022 06:35:46 -0700 (PDT)
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.7.0
-Subject: Re: [PATCH v3] drm: add a check to verify the size alignment
-Content-Language: en-GB
-To: =?UTF-8?Q?Christian_K=c3=b6nig?= <ckoenig.leichtzumerken@gmail.com>,
- Arunpravin Paneer Selvam <Arunpravin.PaneerSelvam@amd.com>,
- intel-gfx@lists.freedesktop.org, amd-gfx@lists.freedesktop.org,
- dri-devel@lists.freedesktop.org
-References: <20220411073834.15210-1-Arunpravin.PaneerSelvam@amd.com>
- <9ecac65c-84d9-9965-4fd3-f86ea572bb9d@intel.com>
- <ca280f24-8efe-e972-4a03-700e002cc6f7@gmail.com>
-From: Matthew Auld <matthew.auld@intel.com>
-In-Reply-To: <ca280f24-8efe-e972-4a03-700e002cc6f7@gmail.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
+References: <20220406172956.3953-1-wens@kernel.org>
+ <20220406172956.3953-3-wens@kernel.org>
+In-Reply-To: <20220406172956.3953-3-wens@kernel.org>
+From: Geert Uytterhoeven <geert@linux-m68k.org>
+Date: Mon, 11 Apr 2022 15:35:36 +0200
+X-Gmail-Original-Message-ID: <CAMuHMdUMc35MrWwbDXvsRNx9qSRf1bACNrhsGpeFcLCETsL4dw@mail.gmail.com>
+Message-ID: <CAMuHMdUMc35MrWwbDXvsRNx9qSRf1bACNrhsGpeFcLCETsL4dw@mail.gmail.com>
+Subject: Re: [PATCH v2 2/4] dt-bindings: display: ssd1307fb: Add entry for
+ SINO WEALTH SH1106
+To: Chen-Yu Tsai <wens@kernel.org>
+Content-Type: text/plain; charset="UTF-8"
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -64,45 +68,55 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: alexander.deucher@amd.com, christian.koenig@amd.com
+Cc: "open list:OPEN FIRMWARE AND FLATTENED DEVICE TREE BINDINGS"
+ <devicetree@vger.kernel.org>, David Airlie <airlied@linux.ie>,
+ Javier Martinez Canillas <javierm@redhat.com>,
+ Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
+ Chen-Yu Tsai <wens@csie.org>, Rob Herring <robh+dt@kernel.org>,
+ DRI Development <dri-devel@lists.freedesktop.org>,
+ Krzysztof Kozlowski <krzk+dt@kernel.org>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 11/04/2022 13:42, Christian König wrote:
-> 
-> Am 11.04.22 um 11:47 schrieb Matthew Auld:
->> On 11/04/2022 08:38, Arunpravin Paneer Selvam wrote:
->>> Add a simple check to reject any size not aligned to the
->>> min_page_size.
->>>
->>> when size is not aligned to min_page_size, driver module
->>> should handle in their own way either to round_up() the
->>> size value to min_page_size or just to enable WARN_ON().
->>>
->>> If we dont handle the alignment properly, we may hit the
->>> following bug, Unigine Heaven has allocation requests for
->>> example required pages are 257 and alignment request is 256.
->>> To allocate the left over 1 page, continues the iteration to
->>> find the order value which is 0 and when it compares with
->>> min_order = 8, triggers the BUG_ON(order < min_order).
->>>
->>> v2: add more commit description
->>> v3: remove WARN_ON()
->>>
->>> Signed-off-by: Arunpravin Paneer Selvam 
->>> <Arunpravin.PaneerSelvam@amd.com>
->>> Suggested-by: Matthew Auld <matthew.auld@intel.com>
->> Reviewed-by: Matthew Auld <matthew.auld@intel.com>
->>
-> 
-> Question here is who will be pushing that to drm-misc-next? Should I 
-> take care of that?
+Hi Chen-Yu,
 
-Yes, please do.
+On Wed, Apr 6, 2022 at 10:13 PM Chen-Yu Tsai <wens@kernel.org> wrote:
+> From: Chen-Yu Tsai <wens@csie.org>
+>
+> The SINO WEALTH SH1106 is an OLED display driver that is somewhat
+> compatible with the SSD1306. It supports a slightly wider display,
+> at 132 instead of 128 pixels. The basic commands are the same, but
+> the SH1106 doesn't support the horizontal or vertical address modes.
+>
+> Add a compatible string for it.
+>
+> Signed-off-by: Chen-Yu Tsai <wens@csie.org>
 
-> 
-> I think it's time that Arun should request push permission for 
-> drm-misc-next.
-> 
-> Thanks,
-> Christian.
+Thanks for your patch!
+
+> --- a/Documentation/devicetree/bindings/display/solomon,ssd1307fb.yaml
+> +++ b/Documentation/devicetree/bindings/display/solomon,ssd1307fb.yaml
+> @@ -13,6 +13,7 @@ maintainers:
+>  properties:
+>    compatible:
+>      enum:
+> +      - sinowealth,sh1106-i2c
+
+Please don't introduce new compatible values including the bus type.
+There is no need for that, and this will only lead to more deprecated
+compatible values soon...
+
+Oops, this is already commit 97a40c23cda5d64a ("dt-bindings:
+display: ssd1307fb: Add entry for SINO WEALTH SH1106") in
+drm-misc/for-linux-next...
+
+Gr{oetje,eeting}s,
+
+                        Geert
+
+--
+Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k.org
+
+In personal conversations with technical people, I call myself a hacker. But
+when I'm talking to journalists I just say "programmer" or something like that.
+                                -- Linus Torvalds
