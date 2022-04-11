@@ -1,70 +1,70 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 911084FB303
-	for <lists+dri-devel@lfdr.de>; Mon, 11 Apr 2022 06:41:33 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 1ACE94FB2FC
+	for <lists+dri-devel@lfdr.de>; Mon, 11 Apr 2022 06:41:22 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id D182C10EBA3;
-	Mon, 11 Apr 2022 04:41:22 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 8EA9810EB7E;
+	Mon, 11 Apr 2022 04:41:06 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from wout1-smtp.messagingengine.com (wout1-smtp.messagingengine.com
  [64.147.123.24])
- by gabe.freedesktop.org (Postfix) with ESMTPS id EEA7110EB7E
+ by gabe.freedesktop.org (Postfix) with ESMTPS id ED12C10EB66
  for <dri-devel@lists.freedesktop.org>; Mon, 11 Apr 2022 04:41:04 +0000 (UTC)
-Received: from compute5.internal (compute5.nyi.internal [10.202.2.45])
- by mailout.west.internal (Postfix) with ESMTP id 856A932019B4;
- Mon, 11 Apr 2022 00:34:36 -0400 (EDT)
+Received: from compute2.internal (compute2.nyi.internal [10.202.2.46])
+ by mailout.west.internal (Postfix) with ESMTP id 8AE303201E78;
+ Mon, 11 Apr 2022 00:34:39 -0400 (EDT)
 Received: from mailfrontend2 ([10.202.2.163])
- by compute5.internal (MEProxy); Mon, 11 Apr 2022 00:34:37 -0400
+ by compute2.internal (MEProxy); Mon, 11 Apr 2022 00:34:40 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=sholland.org; h=
  cc:cc:content-transfer-encoding:date:date:from:from:in-reply-to
  :in-reply-to:message-id:mime-version:references:reply-to:sender
- :subject:subject:to:to; s=fm2; t=1649651676; x=1649738076; bh=up
- wHJZq3ilcL1V7e9ZySCks1e8OXo9GLaTCqa/VWglI=; b=cMKxBiYnFNGVEXH555
- dJBeoA6cVb4BFPkeHTy5ENKz/h/PjKItLQ592w57FjD16pSCApgkM/+zOuguvpZZ
- An5AmEDawAxBBQOf5z2UCDHJjYgGtbi49fekV4wNplGzV9B9b/29iTjBh3eAu1zw
- uM+a0NAcKnnDMy4RKg1OdsaKcXym7GyKFHharxpawH76iNPqJdXXUD+6WYA7jCcD
- Q/739ete+jJ3pDf+K4yATnTBGv92n6CEWezVwoCSJN19sO8zZakRt9tz3emTbO1+
- vdDHk1h/gOZ7295fh2ddIKHEqXkRbmH++mSkCTfe/YPQ5qsvfhDGSSBTLSszJtNv
- bZ4g==
+ :subject:subject:to:to; s=fm2; t=1649651679; x=1649738079; bh=lm
+ 1CYL2crA76mqn8yhmfIaPwd9txmmkjx2Gv/gchVwA=; b=np6Nt/5VsPzzijoTdC
+ 55o1rTmMueDS5rokTb7//Z9moldP49kJK32dEUghyQ6Z4yfJU9Jk7Gscbcbn+gYA
+ MiZtN6NGDYiMun6BBjIcsvwKQ/RKAGjmCQmdaflHZd24wB+Iu+f2vwyUa/7AKYZp
+ q9fMofyp4l8XK6PV/MxbiwMtwHythlqlvrl+vXyxcVLZ8fc0kBjg5OM+KmEUcTJu
+ oR+7nvocqXkWL/d+JKOCHoCp77uWT5bPUze4KS3pELN9anTgR28eFeP+aTEis6ES
+ XhFgIrEMjmlN0pbznJxxoOkdHZorccFZwrszDoxr2ifIuAvigTOyE/DsL6aSQxPY
+ 6qDw==
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
  messagingengine.com; h=cc:cc:content-transfer-encoding:date:date
  :from:from:in-reply-to:in-reply-to:message-id:mime-version
  :references:reply-to:sender:subject:subject:to:to:x-me-proxy
  :x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=fm3; t=
- 1649651676; x=1649738076; bh=upwHJZq3ilcL1V7e9ZySCks1e8OXo9GLaTC
- qa/VWglI=; b=U8KNP18qvy77w5UYdrFh8NTfBE4YuB/nAQfTySlEYICaB93eo/f
- h5MOpBStwBRzEznaYuteTVzgiwkJWrUTeWfE1uW1mM08WWrIGunJ/XetCUXyBJTu
- 0MIQpvH1yDifCJ/zL4iaxRAxrcNAhmFGby6J2n5e00dS9tf6pmvt33sgTxnn1Mp3
- SEqO+ywCNwjGFqfmfQnECWoqMg+dCO8guPPe8cm15sRvhCXHl5NjTbMtmi3QNkD0
- 1dl4ttHXh77FMYxqXzELQ6C1PXLgNNgYnchIxN1vZqrwPylpOdtESZHwEemQfzbB
- zvHFrFHKnaOdisIGgjzH3VwjmPwCs8dF1Yw==
-X-ME-Sender: <xms:3K9TYg161CD_SoIe_wS9CTXHZRTpxgl0yOMzH6U1kp13DNsgPA3E5g>
- <xme:3K9TYrHBEfJpWKF04zRLOoL9HCQ7V_aD2QP812y5QtT5W2VgRWwZL5VYn8A_bzMEI
- NsFvpygVy3eq374QQ>
-X-ME-Received: <xmr:3K9TYo7WIAprOgJnODmpQnzzb0jZ8ZRcvxC3KPYC1vQJLaZGJab7B2SbQCe_MGBcZp4aOSodg3oELutN0X_kCOmgjQxK_j2fqnm-OIiWG8oTQ5obVscb5mOHiMYteWwrjZ-lVw>
-X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvvddrudekhedgjeelucetufdoteggodetrfdotf
+ 1649651679; x=1649738079; bh=lm1CYL2crA76mqn8yhmfIaPwd9txmmkjx2G
+ v/gchVwA=; b=NCFOaAIyhaLKstsTz4SH0wej+qlv1QngXha/KNRK2ScNcDEGtHN
+ NXygq3jzFO+b8cLUSJhZz+umDI1mnZ9pnZgqA6KATiWXJXXOqW+D3ECxLiXEuEZd
+ biLpCatdZBps5Br7tvrpqDXWWp+rny+nBRMxRW3yQJmPZUGOtxWQjl5Ippot0oBr
+ LBwml0UyOH+rcH3h87hcR6yhiJEP2VRpO6F2BFtpQbRLOwA3LXJbfH4FBs1fM+25
+ TR9EkqhHIgCACuVw3k3x7YSpnmnti/F3UaVkZPaImEGmxVZdGcVnzXQmDO1KhOtl
+ 4MJa+X5EOJEeuVc+1xOxYYD8ZjjLjbse+jA==
+X-ME-Sender: <xms:369TYjcrlcVa4hGauUCawWuGJu9_65WIX3uxLH4k2ktiHNj3SyTNpg>
+ <xme:369TYpPsAPYAUarpZ2yE5-JcKVo5WipLLn-bm0nm_gMCI9hmHVJSj9GyxuOGZILuW
+ lmTEw7G-auSHz1B6w>
+X-ME-Received: <xmr:369TYsgk1Rt2MYZQIrBmWxVaCWgP7TAw3yS7DmEgRQ6n02ePgfM07HqUnnWaQpMv4bYuk1-qX6XIMK_LdGPaUdHKDdRpebZEG20pjZqlPfQL2dDqpGL-44DACP8ecqG94zn0wg>
+X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvvddrudekhedgkedtucetufdoteggodetrfdotf
  fvucfrrhhofhhilhgvmecuhfgrshhtofgrihhlpdfqfgfvpdfurfetoffkrfgpnffqhgen
  uceurghilhhouhhtmecufedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmne
  cujfgurhephffvufffkffojghfggfgsedtkeertdertddtnecuhfhrohhmpefurghmuhgv
  lhcujfholhhlrghnugcuoehsrghmuhgvlhesshhhohhllhgrnhgurdhorhhgqeenucggtf
  frrghtthgvrhhnpeduhfejfedvhffgfeehtefghfeiiefgfeehgfdvvdevfeegjeehjedv
- gfejheeuieenucevlhhushhtvghrufhiiigvpedunecurfgrrhgrmhepmhgrihhlfhhroh
+ gfejheeuieenucevlhhushhtvghrufhiiigvpedtnecurfgrrhgrmhepmhgrihhlfhhroh
  hmpehsrghmuhgvlhesshhhohhllhgrnhgurdhorhhg
-X-ME-Proxy: <xmx:3K9TYp1aigR6hq-YI7Eidh_Tq4Nx731Bpr_2kr2_XpOt0Xq97CXnjQ>
- <xmx:3K9TYjFnUSeFV5jZn_tefXYV92EhSmQ_OD-ypawI621dAfAPJNN0Cw>
- <xmx:3K9TYi-ScQD-ccdf3Wxout6TVtiJH9f6XFqdVsSDZ1K12Qnmr7oKxQ>
- <xmx:3K9TYq-O3Bv6V02WmY2EBuvncNc5BaGIe5U2K8hbJqn5ODweNIctfQ>
+X-ME-Proxy: <xmx:369TYk_FD_am8tVwX9UvLsIygh_DZe7uQChMcdNu1phpRElu0WNxKA>
+ <xmx:369TYvvAE5NCl1Aa3AUG_hH3OEPDt7xyu4D7mNPlSy61dmu4oUBzkg>
+ <xmx:369TYjFJFXGI_LUoHo16HTlHDwJTBXAnRgZlZ2QM3rhkrL3d9PEBPw>
+ <xmx:369TYjEKxKk-NEHV53uFP8X0cjlGj2_Kt1aOSbCX-peXU8LqQDERdA>
 Received: by mail.messagingengine.com (Postfix) with ESMTPA; Mon,
- 11 Apr 2022 00:34:35 -0400 (EDT)
+ 11 Apr 2022 00:34:38 -0400 (EDT)
 From: Samuel Holland <samuel@sholland.org>
 To: Chen-Yu Tsai <wens@csie.org>, Jernej Skrabec <jernej.skrabec@gmail.com>,
  Maxime Ripard <mripard@kernel.org>
-Subject: [PATCH 03/10] drm/sun4i: Remove obsolete references to PHYS_OFFSET
-Date: Sun, 10 Apr 2022 23:34:15 -0500
-Message-Id: <20220411043423.37333-4-samuel@sholland.org>
+Subject: [PATCH 04/10] drm/sun4i: Allow building the driver on RISC-V
+Date: Sun, 10 Apr 2022 23:34:16 -0500
+Message-Id: <20220411043423.37333-5-samuel@sholland.org>
 X-Mailer: git-send-email 2.35.1
 In-Reply-To: <20220411043423.37333-1-samuel@sholland.org>
 References: <20220411043423.37333-1-samuel@sholland.org>
@@ -90,56 +90,29 @@ Cc: devicetree@vger.kernel.org, Samuel Holland <samuel@sholland.org>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-commit b4bdc4fbf8d0 ("soc: sunxi: Deal with the MBUS DMA offsets in a
-central place") added a platform device notifier that sets the DMA
-offset for all of the display engine frontend and backend devices.
+Allwinner D1 is a RISC-V SoC which contains a DE 2.0 engine. Let's
+remove the dependency on a specific CPU architecture, so the driver can
+be built wherever ARCH_SUNXI is selected.
 
-The code applying the offset to DMA buffer physical addresses was then
-removed from the backend driver in commit 756668ba682e ("drm/sun4i:
-backend: Remove the MBUS quirks"), but the code subtracting PHYS_OFFSET
-was left in the frontend driver.
-
-As a result, the offset was applied twice in the frontend driver. This
-likely went unnoticed because it only affects specific configurations
-(scaling or certain pixel formats) where the frontend is used, on boards
-with both one of these older SoCs and more than 1 GB of DRAM.
-
-In addition, the references to PHYS_OFFSET prevent compiling the driver
-on architectures where PHYS_OFFSET is not defined.
-
-Fixes: b4bdc4fbf8d0 ("soc: sunxi: Deal with the MBUS DMA offsets in a central place")
 Signed-off-by: Samuel Holland <samuel@sholland.org>
 ---
 
- drivers/gpu/drm/sun4i/sun4i_frontend.c | 3 ---
- 1 file changed, 3 deletions(-)
+ drivers/gpu/drm/sun4i/Kconfig | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/drivers/gpu/drm/sun4i/sun4i_frontend.c b/drivers/gpu/drm/sun4i/sun4i_frontend.c
-index 56ae38389db0..462fae73eae9 100644
---- a/drivers/gpu/drm/sun4i/sun4i_frontend.c
-+++ b/drivers/gpu/drm/sun4i/sun4i_frontend.c
-@@ -222,13 +222,11 @@ void sun4i_frontend_update_buffer(struct sun4i_frontend *frontend,
- 
- 	/* Set the physical address of the buffer in memory */
- 	paddr = drm_fb_cma_get_gem_addr(fb, state, 0);
--	paddr -= PHYS_OFFSET;
- 	DRM_DEBUG_DRIVER("Setting buffer #0 address to %pad\n", &paddr);
- 	regmap_write(frontend->regs, SUN4I_FRONTEND_BUF_ADDR0_REG, paddr);
- 
- 	if (fb->format->num_planes > 1) {
- 		paddr = drm_fb_cma_get_gem_addr(fb, state, swap ? 2 : 1);
--		paddr -= PHYS_OFFSET;
- 		DRM_DEBUG_DRIVER("Setting buffer #1 address to %pad\n", &paddr);
- 		regmap_write(frontend->regs, SUN4I_FRONTEND_BUF_ADDR1_REG,
- 			     paddr);
-@@ -236,7 +234,6 @@ void sun4i_frontend_update_buffer(struct sun4i_frontend *frontend,
- 
- 	if (fb->format->num_planes > 2) {
- 		paddr = drm_fb_cma_get_gem_addr(fb, state, swap ? 1 : 2);
--		paddr -= PHYS_OFFSET;
- 		DRM_DEBUG_DRIVER("Setting buffer #2 address to %pad\n", &paddr);
- 		regmap_write(frontend->regs, SUN4I_FRONTEND_BUF_ADDR2_REG,
- 			     paddr);
+diff --git a/drivers/gpu/drm/sun4i/Kconfig b/drivers/gpu/drm/sun4i/Kconfig
+index befc5a80222d..3a43c436c74a 100644
+--- a/drivers/gpu/drm/sun4i/Kconfig
++++ b/drivers/gpu/drm/sun4i/Kconfig
+@@ -1,7 +1,7 @@
+ # SPDX-License-Identifier: GPL-2.0-only
+ config DRM_SUN4I
+ 	tristate "DRM Support for Allwinner A10 Display Engine"
+-	depends on DRM && (ARM || ARM64) && COMMON_CLK
++	depends on DRM && COMMON_CLK
+ 	depends on ARCH_SUNXI || COMPILE_TEST
+ 	select DRM_GEM_CMA_HELPER
+ 	select DRM_KMS_HELPER
 -- 
 2.35.1
 
