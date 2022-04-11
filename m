@@ -1,55 +1,65 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2E1814FCC00
-	for <lists+dri-devel@lfdr.de>; Tue, 12 Apr 2022 03:53:54 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 52B014FCC86
+	for <lists+dri-devel@lfdr.de>; Tue, 12 Apr 2022 04:38:36 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 6C92110FB3F;
-	Tue, 12 Apr 2022 01:53:50 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 3CD7C10E012;
+	Tue, 12 Apr 2022 02:38:32 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mga03.intel.com (mga03.intel.com [134.134.136.65])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 8CB5810FB3D;
- Tue, 12 Apr 2022 01:53:48 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1649728428; x=1681264428;
- h=date:from:to:cc:subject:message-id:references:
- mime-version:in-reply-to;
- bh=Ir3eT6jI/snnEdY9SDd2SItgjEL3YQS+5bWAtYrZ8TA=;
- b=Dlf8BnNOv/8N+yjXjViKb+yI28p4LH24fnVvGVvb/X3g+shFddjtB4zb
- TQsT8tO9wJ/yF8sShSC/111SazeluL3odXORM6Uv8eJTrEG60PISx5l5O
- df93IJWRRueRe9krEez2wc54jIx0Jr0w3+47UH5B1n9aFlGKGx0vXQd11
- tJJD+rjlw8KVuuyFU+NwqFSlAB/iNiQAniIPo3CI1OReP/vVWbT8ahAU6
- /ln3lB/0xLBLYmb0fJ1tNgH2qk/1iY3CKj2fHpdpLCljBe5Lx6rkZhUlu
- dREmVubJfl00xlRjCuRVBtyPeYMKM8w/Oesjg24B4NGYIbXfuh0cv80C8 A==;
-X-IronPort-AV: E=McAfee;i="6400,9594,10314"; a="262000879"
-X-IronPort-AV: E=Sophos;i="5.90,252,1643702400"; d="scan'208";a="262000879"
-Received: from orsmga008.jf.intel.com ([10.7.209.65])
- by orsmga103.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 11 Apr 2022 18:53:48 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.90,252,1643702400"; d="scan'208";a="572507578"
-Received: from lkp-server02.sh.intel.com (HELO d3fc50ef50de) ([10.239.97.151])
- by orsmga008.jf.intel.com with ESMTP; 11 Apr 2022 18:53:44 -0700
-Received: from kbuild by d3fc50ef50de with local (Exim 4.95)
- (envelope-from <lkp@intel.com>) id 1ne5ix-0002Pw-DT;
- Tue, 12 Apr 2022 01:53:43 +0000
-Date: Tue, 12 Apr 2022 09:52:47 +0800
-From: kernel test robot <lkp@intel.com>
-To: Sean Paul <sean@poorly.run>, dri-devel@lists.freedesktop.org,
- jani.nikula@intel.com, intel-gfx@lists.freedesktop.org,
- freedreno@lists.freedesktop.org, rodrigo.vivi@intel.com
-Subject: Re: [Intel-gfx] [PATCH v5 04/10] drm/hdcp: Expand HDCP helper
- library for enable/disable/check
-Message-ID: <202204120922.hnbHBMC7-lkp@intel.com>
-References: <20220411204741.1074308-5-sean@poorly.run>
+Received: from mail-oa1-x33.google.com (mail-oa1-x33.google.com
+ [IPv6:2001:4860:4864:20::33])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 4365B10E0AB
+ for <dri-devel@lists.freedesktop.org>; Tue, 12 Apr 2022 02:38:30 +0000 (UTC)
+Received: by mail-oa1-x33.google.com with SMTP id
+ 586e51a60fabf-d6ca46da48so19400988fac.12
+ for <dri-devel@lists.freedesktop.org>; Mon, 11 Apr 2022 19:38:30 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
+ h=from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=Pa9WwzHadKlCjrvfcB9D4MgnDzHSCGlSrVswLImMa8I=;
+ b=D72TXjIRRxAYUF1GhrIJuBx5NNanvsTIdEn3+x88WpFvr8xQvL9Okk2fyovtwES8im
+ rjXE8JZEsJHZ+50iEyXzBCfhA0H7a9ghbwIyEo5RRHCX5CUvnxCb12+TN40zmDgzQrU+
+ w+feNeZGB/zowaw/EuMMhc9s644RVHwPs8itqCEzBzb9N7Xs0yOOXwRQW+Sn+gsDLooD
+ qI8DofOhBZLAQX/9GiPaHsi/I9Zbx8qAO0bBFKt+5D+lazIILxC6JOY284BEVlabuh/m
+ DaLXJHuHws8JcJ5GdqhMoxW6X+RdoWdHxwN4I+ScA+JDDb2rchTTzjX/6Z0qAKSqvBkB
+ 02ZA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=Pa9WwzHadKlCjrvfcB9D4MgnDzHSCGlSrVswLImMa8I=;
+ b=UdBfRArZl+X0fK0GYnUXEJfcIX4LPFE0xdsI7mbKUOr//+pzmYey6hNttobua2aBRv
+ 7Bgrg/+nI4MhHKDuXXESv7kmVLKwKw1RT7jQxpZ5X4DLtQC3/Pie+U8q4W9nPu80yZoO
+ cILaNo37Mrjy3wNQfEiu3TSxRfRLnvy29GcyDo9zIK5z/pzsdTwkh2VTqYghuzOrNYbh
+ DurjqonN4bfXfkrXLycjUEqZWrMXA9s4q2GSkm3qr2xmF6fGbt8HkPgioS28L8oaYWLb
+ dqur21t7ivZGz5I+MMmarYMYMjfD4EJ4LJVB/aAhpbEvUIYTteQkh6KNMlBm7o9UH8o7
+ Z14w==
+X-Gm-Message-State: AOAM5339iQmae8701TNfTfiChpYg5HWuzGWCdu6ti2wdHwfv9TLlulTZ
+ TswbyfbItQKOCsRRFAB924JRQa2wazLkUTfl
+X-Google-Smtp-Source: ABdhPJyCDg9ewqGRiwFCMT8iZhMryAHQAGR8IoOQ4I0nYRrdV4IAsb5Ni421s9WyGQK7M1Rg7wrRNA==
+X-Received: by 2002:a05:6870:c20e:b0:e2:ae93:8ee1 with SMTP id
+ z14-20020a056870c20e00b000e2ae938ee1mr1156567oae.12.1649731109593; 
+ Mon, 11 Apr 2022 19:38:29 -0700 (PDT)
+Received: from localhost.localdomain ([2804:14c:4c2:8a9b::1002])
+ by smtp.gmail.com with ESMTPSA id
+ p14-20020a9d744e000000b005b235f5cf92sm12995256otk.65.2022.04.11.19.38.27
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Mon, 11 Apr 2022 19:38:29 -0700 (PDT)
+From: Tales Lelo da Aparecida <tales.aparecida@gmail.com>
+To: Rodrigo Siqueira <rodrigosiqueiramelo@gmail.com>,
+ Melissa Wen <melissa.srw@gmail.com>,
+ Haneen Mohammed <hamohammed.sa@gmail.com>, Daniel Vetter <daniel@ffwll.ch>,
+ David Airlie <airlied@linux.ie>, dri-devel@lists.freedesktop.org,
+ linux-kernel@vger.kernel.org, andrealmeid@riseup.net
+Subject: [PATCH 0/1] drm/vkms: check plane_composer->map[0] before using it
+Date: Mon, 11 Apr 2022 20:38:00 -0300
+Message-Id: <20220411233801.36297-1-tales.aparecida@gmail.com>
+X-Mailer: git-send-email 2.35.1
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20220411204741.1074308-5-sean@poorly.run>
-User-Agent: Mutt/1.10.1 (2018-07-13)
+Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -62,49 +72,19 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: kbuild-all@lists.01.org, David Airlie <airlied@linux.ie>,
- markyacoub@chromium.org, abhinavk@codeaurora.org, swboyd@chromium.org,
- Sean Paul <seanpaul@chromium.org>, Thomas Zimmermann <tzimmermann@suse.de>,
- bjorn.andersson@linaro.org
+Cc: Tales Lelo da Aparecida <tales.aparecida@gmail.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi Sean,
+Hello, I'm interested in collaborating with VKMS, please let me know if there's
+anything that I could better.
 
-I love your patch! Yet something to improve:
+Tales Lelo da Aparecida (1):
+  drm/vkms: check plane_composer->map[0] before using it
 
-[auto build test ERROR on drm-tip/drm-tip]
-[also build test ERROR on v5.18-rc2 next-20220411]
-[cannot apply to drm/drm-next drm-intel/for-linux-next robh/for-next]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch]
-
-url:    https://github.com/intel-lab-lkp/linux/commits/Sean-Paul/drm-hdcp-Pull-HDCP-auth-exchange-check-into-helpers/20220412-045000
-base:   git://anongit.freedesktop.org/drm/drm-tip drm-tip
-config: mips-buildonly-randconfig-r001-20220411 (https://download.01.org/0day-ci/archive/20220412/202204120922.hnbHBMC7-lkp@intel.com/config)
-compiler: mips-linux-gcc (GCC) 11.2.0
-reproduce (this is a W=1 build):
-        wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbin/make.cross -O ~/bin/make.cross
-        chmod +x ~/bin/make.cross
-        # https://github.com/intel-lab-lkp/linux/commit/7486d07edbd9a137420102bc24535c5d29c53c12
-        git remote add linux-review https://github.com/intel-lab-lkp/linux
-        git fetch --no-tags linux-review Sean-Paul/drm-hdcp-Pull-HDCP-auth-exchange-check-into-helpers/20220412-045000
-        git checkout 7486d07edbd9a137420102bc24535c5d29c53c12
-        # save the config file to linux build tree
-        mkdir build_dir
-        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-11.2.0 make.cross O=build_dir ARCH=mips SHELL=/bin/bash
-
-If you fix the issue, kindly add following tag as appropriate
-Reported-by: kernel test robot <lkp@intel.com>
-
-All errors (new ones prefixed by >>):
-
-   mips-linux-ld: drivers/gpu/drm/drm_hdcp.o: in function `drm_hdcp_remote_dpcd_read':
->> drm_hdcp.c:(.text+0x5e4): undefined reference to `drm_dp_dpcd_read'
-   mips-linux-ld: drivers/gpu/drm/drm_hdcp.o: in function `drm_hdcp_remote_write':
->> drm_hdcp.c:(.text+0xf48): undefined reference to `drm_dp_dpcd_write'
+ drivers/gpu/drm/vkms/vkms_composer.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
 -- 
-0-DAY CI Kernel Test Service
-https://01.org/lkp
+2.35.1
+
