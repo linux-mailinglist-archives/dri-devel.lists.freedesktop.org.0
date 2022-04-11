@@ -2,43 +2,42 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id E73154FB81A
-	for <lists+dri-devel@lfdr.de>; Mon, 11 Apr 2022 11:48:31 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 83D504FB81B
+	for <lists+dri-devel@lfdr.de>; Mon, 11 Apr 2022 11:48:35 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 8CDAC10F2E2;
-	Mon, 11 Apr 2022 09:48:28 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 89C7510F138;
+	Mon, 11 Apr 2022 09:48:33 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mga06.intel.com (mga06b.intel.com [134.134.136.31])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 6779210F138;
- Mon, 11 Apr 2022 09:48:27 +0000 (UTC)
+Received: from mga09.intel.com (mga09.intel.com [134.134.136.24])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 6B72F10F138;
+ Mon, 11 Apr 2022 09:48:32 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1649670507; x=1681206507;
+ t=1649670512; x=1681206512;
  h=from:to:cc:subject:date:message-id:in-reply-to:
  references:mime-version:content-transfer-encoding;
- bh=Gp56NpPmP+iA4JNYKh3FzfQpdyY9ywX++fF8huTw2ek=;
- b=lkI2Pjtufvg0KssjBB+BdfkD6yhUw26WrprFfxr7qKW0rBIjVy8PMJmF
- 84a0Z60M0mKcvZ2Vwwmr8sLW52RXFpfxp8TtJMebAidKdKSwUKyLdgiFy
- BkPlNxji740JypjnCBELJSf+H/HTAxgahN9ln8HGiT+4fsaWqhDPRQwVA
- oIPqpeh20Pzl+UC2wfU/B2OGOdVneogycEYbMo3m2+Lrq+NCOuCtx1fBM
- 6jjgXyjec8/uFhUwKfispzg/g5/gQwOSdX0RGxUHDfw2XU6QoNvtG5eHv
- 9jJc1XIBYtDrY5UFOLEQ/qj2fLiGz+1d1zUZkLXAnej3hoZmlNjur1P0b Q==;
-X-IronPort-AV: E=McAfee;i="6400,9594,10313"; a="322522288"
-X-IronPort-AV: E=Sophos;i="5.90,251,1643702400"; d="scan'208";a="322522288"
-Received: from orsmga005.jf.intel.com ([10.7.209.41])
- by orsmga104.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 11 Apr 2022 02:48:26 -0700
-X-IronPort-AV: E=Sophos;i="5.90,251,1643702400"; d="scan'208";a="723902245"
+ bh=3YjDo7f81ABmljbzA1CfL/dzPIgXuAg7hLX3Gn4gMr8=;
+ b=dYCyDemu0btyK4ko71CW16FamrNKEPKbjtBQDkvLsifRB3H15tNjrGgh
+ msfjEsH0B8BqoKDffdGBumErV6UmCvHyVUCdJpG9EFkFexKBbfJAdLrOX
+ 2drggPDyGWFpaT2SZJZFw3/FM8Bi7KwPTTl96EgKCGGlHeLj+kv9Q4HEU
+ TM3pMNp57oBqW0zy4p2rQcnVyzD9b2552+4fgKJff+LoHydc2Md53OSum
+ cSDE3gdNeI6PwDQSDTaowE9XVm62Ca+mNQtfzS9/29KQLj1vEIe/t7L18
+ hL0nvUEQZ45MDMCzUcG3uqNYqkG69+bs9FTrPTWzbFSitulCUNQWewgAk A==;
+X-IronPort-AV: E=McAfee;i="6400,9594,10313"; a="261516324"
+X-IronPort-AV: E=Sophos;i="5.90,251,1643702400"; d="scan'208";a="261516324"
+Received: from orsmga007.jf.intel.com ([10.7.209.58])
+ by orsmga102.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 11 Apr 2022 02:48:32 -0700
+X-IronPort-AV: E=Sophos;i="5.90,251,1643702400"; d="scan'208";a="551066253"
 Received: from lwit-desk1.ger.corp.intel.com (HELO localhost) ([10.249.143.43])
- by orsmga005-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 11 Apr 2022 02:48:25 -0700
+ by orsmga007-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 11 Apr 2022 02:48:30 -0700
 From: Jani Nikula <jani.nikula@intel.com>
 To: dri-devel@lists.freedesktop.org
-Subject: [CI v2 09/12] drm/edid: convert extension block read to EDID block
- read helper
-Date: Mon, 11 Apr 2022 12:47:30 +0300
-Message-Id: <dc3354184660537d8c7edb5dbbab8b89db60d013.1649670305.git.jani.nikula@intel.com>
+Subject: [CI v2 10/12] drm/edid: drop extra local var
+Date: Mon, 11 Apr 2022 12:47:31 +0300
+Message-Id: <da9b5a230c1613d5e9db73a38d92b5375c7616ee.1649670305.git.jani.nikula@intel.com>
 X-Mailer: git-send-email 2.30.2
 In-Reply-To: <cover.1649670305.git.jani.nikula@intel.com>
 References: <cover.1649670305.git.jani.nikula@intel.com>
@@ -62,47 +61,34 @@ Cc: jani.nikula@intel.com, intel-gfx@lists.freedesktop.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Use the EDID block read helper also for extension block reads, making
-edid_block_read() the only place with the read retry logic.
-
-Note: We observe that drm_do_get_edid() does not use invalid extension
-blocks to flag the EDID as corrupt.
+We don't need override as a variable for anything.
 
 Signed-off-by: Jani Nikula <jani.nikula@intel.com>
 Reviewed-by: Ville Syrjälä <ville.syrjala@linux.intel.com>
 ---
- drivers/gpu/drm/drm_edid.c | 15 +++++++--------
- 1 file changed, 7 insertions(+), 8 deletions(-)
+ drivers/gpu/drm/drm_edid.c | 8 ++++----
+ 1 file changed, 4 insertions(+), 4 deletions(-)
 
 diff --git a/drivers/gpu/drm/drm_edid.c b/drivers/gpu/drm/drm_edid.c
-index 359d3d6f216e..8a050b65c06a 100644
+index 8a050b65c06a..5a1906a5c523 100644
 --- a/drivers/gpu/drm/drm_edid.c
 +++ b/drivers/gpu/drm/drm_edid.c
-@@ -2143,17 +2143,16 @@ struct edid *drm_do_get_edid(struct drm_connector *connector,
+@@ -2102,11 +2102,11 @@ struct edid *drm_do_get_edid(struct drm_connector *connector,
+ {
+ 	enum edid_block_status status;
+ 	int j, invalid_blocks = 0;
+-	struct edid *edid, *new, *override;
++	struct edid *edid, *new;
  
- 	for (j = 1; j <= edid->extensions; j++) {
- 		void *block = edid + j;
--		int try;
+-	override = drm_get_override_edid(connector);
+-	if (override)
+-		return override;
++	edid = drm_get_override_edid(connector);
++	if (edid)
++		return edid;
  
--		for (try = 0; try < 4; try++) {
--			if (read_block(context, block, j, EDID_LENGTH))
--				goto out;
--			if (drm_edid_block_valid(block, j, false, NULL))
--				break;
--		}
-+		status = edid_block_read(block, j, read_block, context);
- 
--		if (try == 4)
-+		edid_block_status_print(status, block, j);
-+
-+		if (!edid_block_status_valid(status, edid_block_tag(block))) {
-+			if (status == EDID_BLOCK_READ_FAIL)
-+				goto out;
- 			invalid_blocks++;
-+		}
- 	}
- 
- 	if (invalid_blocks) {
+ 	edid = kmalloc(EDID_LENGTH, GFP_KERNEL);
+ 	if (!edid)
 -- 
 2.30.2
 
