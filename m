@@ -1,50 +1,111 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 13F734FC235
-	for <lists+dri-devel@lfdr.de>; Mon, 11 Apr 2022 18:24:44 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 24A1A4FC239
+	for <lists+dri-devel@lfdr.de>; Mon, 11 Apr 2022 18:26:01 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id D020A10E3C4;
-	Mon, 11 Apr 2022 16:24:35 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id F2A9F10E3E3;
+	Mon, 11 Apr 2022 16:25:58 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mga03.intel.com (mga03.intel.com [134.134.136.65])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 5874F10E3D8;
- Mon, 11 Apr 2022 16:24:34 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1649694274; x=1681230274;
- h=from:to:cc:subject:date:message-id:in-reply-to:
- references:mime-version:content-transfer-encoding;
- bh=ecvUgxfOnAlqhK1AsXGez9gKqR8nGNKedj7CSUT5wPA=;
- b=X0CZYNUZ8VyI8TPi4gffDnJLtk+7tQvWRBNanMB73MDR0L+UOg48Mqa+
- fK2oRzuKro/awXP7VKeTn3WZ38R8S4RF7QcxRn+xyLefWp/xyexk0/Yqo
- kDckLMmzDgvv7mekNNQDTgyWlQ1k4jJZr40Nmli6lR3WwxLrg99JNiJBo
- vdXKpFVhXHgav1Vo5CEUsSz/I8fue2AjSvEG9xVo3i3/nmwf5NqhdvUH2
- z/K9SdlM2DbuthDJd9eGnVy0udYSPLpyHD/JDLZa9EnbIh2aBHYz7pE1z
- F/axZkK8s9S3BlXlgqkpUmin9NHZGhTYaXIoXEz9Coo6+ZEpda/7I13Sn w==;
-X-IronPort-AV: E=McAfee;i="6400,9594,10314"; a="261901408"
-X-IronPort-AV: E=Sophos;i="5.90,252,1643702400"; d="scan'208";a="261901408"
-Received: from fmsmga006.fm.intel.com ([10.253.24.20])
- by orsmga103.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 11 Apr 2022 09:24:34 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.90,252,1643702400"; d="scan'208";a="801776692"
-Received: from unknown (HELO slisovsk-Lenovo-ideapad-720S-13IKB.fi.intel.com)
- ([10.237.72.65])
- by fmsmga006.fm.intel.com with ESMTP; 11 Apr 2022 09:24:32 -0700
-From: Stanislav Lisovskiy <stanislav.lisovskiy@intel.com>
-To: intel-gfx@lists.freedesktop.org
-Subject: [PATCH 2/2] drm/i915: Add DSC support to MST path
-Date: Mon, 11 Apr 2022 19:25:18 +0300
-Message-Id: <20220411162518.9352-3-stanislav.lisovskiy@intel.com>
-X-Mailer: git-send-email 2.24.1.485.gad05a3d8e5
-In-Reply-To: <20220411162518.9352-1-stanislav.lisovskiy@intel.com>
-References: <20220411162518.9352-1-stanislav.lisovskiy@intel.com>
+Received: from mailout1.w1.samsung.com (mailout1.w1.samsung.com
+ [210.118.77.11])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 40C4F10E3E3
+ for <dri-devel@lists.freedesktop.org>; Mon, 11 Apr 2022 16:25:57 +0000 (UTC)
+Received: from eucas1p2.samsung.com (unknown [182.198.249.207])
+ by mailout1.w1.samsung.com (KnoxPortal) with ESMTP id
+ 20220411162555euoutp018e90dd6d16720953f9822710e1e3f8ec~k5EanaTv_1092410924euoutp019
+ for <dri-devel@lists.freedesktop.org>; Mon, 11 Apr 2022 16:25:55 +0000 (GMT)
+DKIM-Filter: OpenDKIM Filter v2.11.0 mailout1.w1.samsung.com
+ 20220411162555euoutp018e90dd6d16720953f9822710e1e3f8ec~k5EanaTv_1092410924euoutp019
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=samsung.com;
+ s=mail20170921; t=1649694355;
+ bh=ZOnGPhjP4eRpgyBsRrE8QlSFuiADHoafOGxxHXTYx3g=;
+ h=Date:Subject:To:Cc:From:In-Reply-To:References:From;
+ b=sunlE+xlX2ybO+fxpdMZbJE30RBzD/ba7VfhCOizVQWhKP+ZEiZXhZDCHEJup38WO
+ usiR+XloRomLkhh2tNijm0P7TtEj+/QQ0BdP30+bwPvo7er/k7KkP+D/ZpXr5DIE3n
+ 5geHjIAzdjub3o5ZwbHUSuS4zhn7NWsw58zchtoA=
+Received: from eusmges3new.samsung.com (unknown [203.254.199.245]) by
+ eucas1p1.samsung.com (KnoxPortal) with ESMTP id
+ 20220411162555eucas1p13050dc751a7cb24c5f403b2443de8134~k5EaQMzd_2029820298eucas1p1P;
+ Mon, 11 Apr 2022 16:25:55 +0000 (GMT)
+Received: from eucas1p1.samsung.com ( [182.198.249.206]) by
+ eusmges3new.samsung.com (EUCPMTA) with SMTP id DD.3F.10260.39654526; Mon, 11
+ Apr 2022 17:25:55 +0100 (BST)
+Received: from eusmtrp1.samsung.com (unknown [182.198.249.138]) by
+ eucas1p2.samsung.com (KnoxPortal) with ESMTPA id
+ 20220411162554eucas1p2e709930ca43903efc00946c82569fbcd~k5EZHuEtr1498214982eucas1p2J;
+ Mon, 11 Apr 2022 16:25:54 +0000 (GMT)
+Received: from eusmgms2.samsung.com (unknown [182.198.249.180]) by
+ eusmtrp1.samsung.com (KnoxPortal) with ESMTP id
+ 20220411162554eusmtrp1599df90e266d55b8e845bf0c9f10c62b~k5EZGyuf_3205632056eusmtrp1I;
+ Mon, 11 Apr 2022 16:25:54 +0000 (GMT)
+X-AuditID: cbfec7f5-bddff70000002814-6a-625456930ed3
+Received: from eusmtip2.samsung.com ( [203.254.199.222]) by
+ eusmgms2.samsung.com (EUCPMTA) with SMTP id 1F.76.09404.19654526; Mon, 11
+ Apr 2022 17:25:53 +0100 (BST)
+Received: from [106.210.134.192] (unknown [106.210.134.192]) by
+ eusmtip2.samsung.com (KnoxPortal) with ESMTPA id
+ 20220411162552eusmtip2b225e68f44319f6f4121cad07f2f83e0~k5EX-w10z0970309703eusmtip2V;
+ Mon, 11 Apr 2022 16:25:52 +0000 (GMT)
+Message-ID: <bde95ab4-38d8-5249-053c-57fb58d1a200@samsung.com>
+Date: Mon, 11 Apr 2022 18:25:52 +0200
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
+User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:91.0)
+ Gecko/20100101 Thunderbird/91.7.0
+Subject: Re: [PATCH 00/11] drm: bridge: Add Samsung MIPI DSIM bridge
+Content-Language: en-US
+To: Adam Ford <aford173@gmail.com>
+From: Marek Szyprowski <m.szyprowski@samsung.com>
+In-Reply-To: <CAHCN7xK_H-nLA5Z6hJW5V0Bpo8bDKPU6UpN05kMBkG+PXmwBBw@mail.gmail.com>
 Content-Transfer-Encoding: 8bit
+X-Brightmail-Tracker: H4sIAAAAAAAAA01Sa0xbZRjO13N6enGth46Fb2yy2EV0Jiubw+UTFKfO5RiMKYm34K2lHIEM
+ CmmHTueFYcqlAiljzl6IaMqgwihYytgcm6HiqoN1VFmlK6xsa5wUGLbADBCqtIcp/573ed/n
+ fZ73y8fFRDVEIrdAeYhWKeWFYoKPn7646NrZ8OrLObsumXhozDeIIb95DkdTPguBmgZcbDSy
+ MEug2pOr6Jhfh6N5m45Af1534+hy+TQHVdc3c1Cr7gKBbLc8bKRd+hZD+isXWOjSUQ2OHHVv
+ oLDxBoY05wc4SN8wSSD3z2Fs3yaqI+RnU7OjGg7lqhknqLPGcQ5lqjKwKXPfJIuytVUT1MBV
+ M5sa8/QRlP9zJ4vqbv6U+u7OGRZVZ28D1JwtSSrM5j+ZSxcWvEerUjJk/HxfVzlR4k09PH9O
+ XgY0O7WAx4VkKnR8UcnWAj5XRFoAvGxrZzHFPIAG3XGcKeYAnA4M4/ckf1Tr1hqtAJ6yj60V
+ IQCt585zolMCMgNarv3GimKcfAieCC0TDB8HfzEEYps2kTmwvbc9xm8k98MeTySmxcgEeC3Q
+ FNPGk2I4PrQCogYYuUjAit+1INogyN1QO6ONiXlkFnRf/RJjxNvgZz0mLCqAZDkfum4HCSb3
+ fmiucq7hjTDotHMYvBUONtSsJuKu4mK4ot/D0IehZ+oUxuB0OOZaIqIjGLkDdn6fwkw/A1uu
+ ZzNQCEdn4pgAQnjsdDRMlBbAqgoRsyMZGp3W/yz7h3/FdEBsXPcmxnW3G9edYvzf9muAt4EE
+ ulRdlEer9yjp9yVqeZG6VJknURQX2cDqhx2MOBfOAEswJHEAFhc4AORi4ngBypHmiAS58g8+
+ pFXF76hKC2m1A2zh4uIEgaKgSy4i8+SH6IM0XUKr7nVZXF5iGeu55gmFs0svaZp/5ea+RFnT
+ 5hcowLaAHZG7ujjXg9n1E4HKDrV0OfJa5wMtlTc1haP1jVlJ96fGjxCC2wl1ew2zd+ci/qAq
+ q0whvjIj5T3sVdCf2KWtgwvdb524yDvS+Pqdnqe923/AD/7YLc/nL/YPeJ8Nd8IbHwnLXrRO
+ y2o3P7YtLdPkufX2WXplr+er7A0FYe/Jf/TuZT1PN0Qubf8mN3zgzY87ZtN6OobMf7stU4YN
+ Jdy0QKMHSuwtmZW9I8p0X0V8ZuJP1VuO5rUkZVh3pQjTWcWy3uQjByZrHu97hC2bkIY8puTE
+ YU1n8Hn2X9aX2p8Yf7f+qa39Pk7tfanpYlydL9/9KKZSy/8F5o+vnB8EAAA=
+X-Brightmail-Tracker: H4sIAAAAAAAAA+NgFlrEKsWRmVeSWpSXmKPExsVy+t/xe7oTw0KSDE70W1jcuX2a2eL+4s8s
+ Fq9vr2CzmH/kHKvFla/v2Sx6lwJZk+5PYLH4smkCm8WLexdZLM42vWG36Jy4hN1i+YR9bBab
+ Hl9jtej6tZLZYsb5fUwWpxpbWSwO9UVbfJr1kNmide8RdosZk1+yWVw88YnZQdRj7cf7rB7v
+ b7Sye5zrucvmsXPWXXaP2R0zWT0W73nJ5LFpVSebx5Gri1k97lzbw+Zxv/s4k8fmJfUeG9/t
+ YPLo27KK0ePzJrkAvig9m6L80pJUhYz84hJbpWhDCyM9Q0sLPSMTSz1DY/NYKyNTJX07m5TU
+ nMyy1CJ9uwS9jNsbmtgKbppUfNmd2MDYqtvFyMkhIWAi8axzAksXIxeHkMBSRokLvxcxQyRk
+ JE5Oa2CFsIUl/lzrYoMoes8osbvpBViCV8BOYsWty0wgNouAqsS0j7/ZIOKCEidnPmEBsUUF
+ kiQudbUzgtjCAi4SW6/9YwexmQXEJW49mQ/WKyKgJHH3zF9GkAXMAv/ZJNofrWKE2DaBSWL6
+ qU9g29gEDCW63naBbeAUCJS4eHU6M8QkM4murV2MELa8RPPW2cwTGIVmITlkFpKFs5C0zELS
+ soCRZRWjSGppcW56brGRXnFibnFpXrpecn7uJkZgYtl27OeWHYwrX33UO8TIxMF4iFGCg1lJ
+ hNciKSBJiDclsbIqtSg/vqg0J7X4EKMpMDQmMkuJJucDU1teSbyhmYGpoYmZpYGppZmxkjiv
+ Z0FHopBAemJJanZqakFqEUwfEwenVAOTrIp1f0ryiwNdW6RzplpoKt6o3P6CTcWpefPWnzvj
+ ud42n6jpf5LJd2l5xOXUR14qpcWM/94s/7jub9Xzbxl5F3fdyNYpYOESb7zmckbs0PEjE94y
+ 33rW6aHalyd1TWLTTt+PR/gkDubOP75Y9PFd/t12S6q9+aWebNrhnVC5MTNqOsOtTnmryv1R
+ N6t4sm2l/U6JvBLcfa7JNn7LqS+96t2rJizo+BvB0779flS38UffS88lmSvrItwljC4uvhJh
+ Hae4tJEnmPfZM7E1a2M/TnoTO8Vd5vceVwVja4XlTh/fzzx7lVn7xvu/ba+EoreZ+CmnHnhs
+ yuqTsLLx2XXNkn17Is/+c+9pEtn2anGeEktxRqKhFnNRcSIAJQb2QbUDAAA=
+X-CMS-MailID: 20220411162554eucas1p2e709930ca43903efc00946c82569fbcd
+X-Msg-Generator: CA
+Content-Type: text/plain; charset="utf-8"
+X-RootMTR: 20220408162213eucas1p158d7c7ee27006a61d4af95d3c72c58e3
+X-EPHeader: CA
+CMS-TYPE: 201P
+X-CMS-RootMailID: 20220408162213eucas1p158d7c7ee27006a61d4af95d3c72c58e3
+References: <CGME20220408162213eucas1p158d7c7ee27006a61d4af95d3c72c58e3@eucas1p1.samsung.com>
+ <20220408162108.184583-1-jagan@amarulasolutions.com>
+ <4c693c6e-512b-a568-948a-4a1af6a1313a@samsung.com>
+ <CAHCN7xK_H-nLA5Z6hJW5V0Bpo8bDKPU6UpN05kMBkG+PXmwBBw@mail.gmail.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -57,403 +118,171 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Stanislav.Lisovskiy@intel.com, jani.nikula@intel.com,
- dri-devel@lists.freedesktop.org, jani.saarinen@intel.com
+Cc: dri-devel <dri-devel@lists.freedesktop.org>,
+ devicetree <devicetree@vger.kernel.org>,
+ linux-samsung-soc <linux-samsung-soc@vger.kernel.org>,
+ Joonyoung Shim <jy0922.shim@samsung.com>,
+ Neil Armstrong <narmstrong@baylibre.com>, Robert Foss <robert.foss@linaro.org>,
+ Seung-Woo Kim <sw0312.kim@samsung.com>, NXP Linux Team <linux-imx@nxp.com>,
+ Frieder Schrempf <frieder.schrempf@kontron.de>,
+ Kyungmin Park <kyungmin.park@samsung.com>, Rob Herring <robh+dt@kernel.org>,
+ Jagan Teki <jagan@amarulasolutions.com>,
+ Andrzej Hajda <andrzej.hajda@intel.com>, Fancy Fang <chen.fang@nxp.com>,
+ Michael Nazzareno Trimarchi <michael@amarulasolutions.com>,
+ linux-amarula <linux-amarula@amarulasolutions.com>,
+ arm-soc <linux-arm-kernel@lists.infradead.org>,
+ Laurent Pinchart <Laurent.pinchart@ideasonboard.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Whenever we are not able to get enough timeslots
-for required PBN, let's try to allocate those
-using DSC, just same way as we do for SST.
+On 11.04.2022 16:39, Adam Ford wrote:
+> On Mon, Apr 11, 2022 at 8:56 AM Marek Szyprowski
+> <m.szyprowski@samsung.com> wrote:
+>> On 08.04.2022 18:20, Jagan Teki wrote:
+>>> This series supports common bridge support for Samsung MIPI DSIM
+>>> which is used in Exynos and i.MX8MM SoC's.
+>>>
+>>> Previous RFC can be available here [1].
+>>>
+>>> The final bridge supports both the Exynos and i.MX8MM DSI devices.
+>>>
+>>> On, summary this patch-set break the entire DSIM driver into
+>>> - platform specific glue code for platform ops, component_ops.
+>>> - common bridge driver which handle platform glue init and invoke.
+>>>
+>>> Patch 0000:   Samsung DSIM bridge
+>>>
+>>> Patch 0001:   platform init flag via driver_data
+>>>
+>>> Patch 0002/9:   bridge fixes, atomic API's
+>>>
+>>> Patch 0010:   document fsl,imx8mm-mipi-dsim
+>>>
+>>> Patch 0011:   add i.MX8MM DSIM support
+>>>
+>>> Tested in Engicam i.Core MX8M Mini SoM.
+>>>
+>>> Anyone interested, please have a look on this repo [2]
+>>>
+>>> [2] https://protect2.fireeye.com/v1/url?k=930e329a-f28527b5-930fb9d5-74fe485cbfe7-b0c53e2d688ddbc5&q=1&e=e6aa727d-5ae2-4ca5-bff3-7f62d8fae87e&u=https%3A%2F%2Fgithub.com%2Fopenedev%2Fkernel%2Ftree%2Fimx8mm-dsi-v1
+>>> [1] https://lore.kernel.org/linux-arm-kernel/YP2j9k5SrZ2%2Fo2%2F5@ravnborg.org/T/
+>>>
+>>> Any inputs?
+>> I wanted to test this on the Exynos, but I wasn't able to find what base
+>> should I apply this patchset. I've tried linux-next as well as
+>> 95a2441e4347 ("drm: exynos: dsi: Switch to atomic funcs").
+>>
+>> Please note that pointing a proper base for the patchset is really
+>> essential if you really want others to test it.
+> Can you clone his repo and test that?  He posted it above.  I was
+> going to clone it at some point this week to give it a try.
 
-v2: Removed intel_dp_mst_dsc_compute_config and refactored
-    intel_dp_dsc_compute_config to support timeslots as a
-    parameter(Ville Syrjälä)
+Okay, my fault. I've missed that.
 
-Signed-off-by: Stanislav Lisovskiy <stanislav.lisovskiy@intel.com>
----
- drivers/gpu/drm/i915/display/intel_dp.c     |  75 +++++-----
- drivers/gpu/drm/i915/display/intel_dp.h     |  17 +++
- drivers/gpu/drm/i915/display/intel_dp_mst.c | 143 ++++++++++++++++++++
- 3 files changed, 191 insertions(+), 44 deletions(-)
+There is a trivial compilation issue, 
+drivers/gpu/drm/exynos/exynos_drm_dsi.c lacks "#include 
+<linux/gpio/consumer.h>" after conversion. Besides that, it simply nukes 
+on the simplest Exynos setup (exynos4210-trats) during the initialization:
 
-diff --git a/drivers/gpu/drm/i915/display/intel_dp.c b/drivers/gpu/drm/i915/display/intel_dp.c
-index 972c9ed46829..f5477f1bf622 100644
---- a/drivers/gpu/drm/i915/display/intel_dp.c
-+++ b/drivers/gpu/drm/i915/display/intel_dp.c
-@@ -114,7 +114,6 @@ bool intel_dp_is_edp(struct intel_dp *intel_dp)
- }
- 
- static void intel_dp_unset_edid(struct intel_dp *intel_dp);
--static int intel_dp_dsc_compute_bpp(struct intel_dp *intel_dp, u8 dsc_max_bpc);
- 
- /* Is link rate UHBR and thus 128b/132b? */
- bool intel_dp_is_uhbr(const struct intel_crtc_state *crtc_state)
-@@ -640,11 +639,12 @@ small_joiner_ram_size_bits(struct drm_i915_private *i915)
- 		return 6144 * 8;
- }
- 
--static u16 intel_dp_dsc_get_output_bpp(struct drm_i915_private *i915,
--				       u32 link_clock, u32 lane_count,
--				       u32 mode_clock, u32 mode_hdisplay,
--				       bool bigjoiner,
--				       u32 pipe_bpp)
-+u16 intel_dp_dsc_get_output_bpp(struct drm_i915_private *i915,
-+				u32 link_clock, u32 lane_count,
-+				u32 mode_clock, u32 mode_hdisplay,
-+				bool bigjoiner,
-+				u32 pipe_bpp,
-+				u32 timeslots)
- {
- 	u32 bits_per_pixel, max_bpp_small_joiner_ram;
- 	int i;
-@@ -656,7 +656,7 @@ static u16 intel_dp_dsc_get_output_bpp(struct drm_i915_private *i915,
- 	 * for MST -> TimeSlotsPerMTP has to be calculated
- 	 */
- 	bits_per_pixel = (link_clock * lane_count * 8) /
--			 intel_dp_mode_to_fec_clock(mode_clock);
-+			 (intel_dp_mode_to_fec_clock(mode_clock) * timeslots);
- 	drm_dbg_kms(&i915->drm, "Max link bpp: %u\n", bits_per_pixel);
- 
- 	/* Small Joiner Check: output bpp <= joiner RAM (bits) / Horiz. width */
-@@ -710,9 +710,9 @@ static u16 intel_dp_dsc_get_output_bpp(struct drm_i915_private *i915,
- 	return bits_per_pixel << 4;
- }
- 
--static u8 intel_dp_dsc_get_slice_count(struct intel_dp *intel_dp,
--				       int mode_clock, int mode_hdisplay,
--				       bool bigjoiner)
-+u8 intel_dp_dsc_get_slice_count(struct intel_dp *intel_dp,
-+				int mode_clock, int mode_hdisplay,
-+				bool bigjoiner)
- {
- 	struct drm_i915_private *i915 = dp_to_i915(intel_dp);
- 	u8 min_slice_count, i;
-@@ -919,8 +919,8 @@ intel_dp_mode_valid_downstream(struct intel_connector *connector,
- 	return MODE_OK;
- }
- 
--static bool intel_dp_need_bigjoiner(struct intel_dp *intel_dp,
--				    int hdisplay, int clock)
-+bool intel_dp_need_bigjoiner(struct intel_dp *intel_dp,
-+			     int hdisplay, int clock)
- {
- 	struct drm_i915_private *i915 = dp_to_i915(intel_dp);
- 
-@@ -1007,7 +1007,7 @@ intel_dp_mode_valid(struct drm_connector *_connector,
- 							    target_clock,
- 							    mode->hdisplay,
- 							    bigjoiner,
--							    pipe_bpp) >> 4;
-+							    pipe_bpp, 1) >> 4;
- 			dsc_slice_count =
- 				intel_dp_dsc_get_slice_count(intel_dp,
- 							     target_clock,
-@@ -1311,7 +1311,7 @@ intel_dp_compute_link_config_wide(struct intel_dp *intel_dp,
- 	return -EINVAL;
- }
- 
--static int intel_dp_dsc_compute_bpp(struct intel_dp *intel_dp, u8 max_req_bpc)
-+int intel_dp_dsc_compute_bpp(struct intel_dp *intel_dp, u8 max_req_bpc)
- {
- 	struct drm_i915_private *i915 = dp_to_i915(intel_dp);
- 	int i, num_bpc;
-@@ -1401,10 +1401,11 @@ static int intel_dp_dsc_compute_params(struct intel_encoder *encoder,
- 	return drm_dsc_compute_rc_parameters(vdsc_cfg);
- }
- 
--static int intel_dp_dsc_compute_config(struct intel_dp *intel_dp,
--				       struct intel_crtc_state *pipe_config,
--				       struct drm_connector_state *conn_state,
--				       struct link_config_limits *limits)
-+int intel_dp_dsc_compute_config(struct intel_dp *intel_dp,
-+				struct intel_crtc_state *pipe_config,
-+				struct drm_connector_state *conn_state,
-+				struct link_config_limits *limits,
-+				int timeslots)
- {
- 	struct intel_digital_port *dig_port = dp_to_dig_port(intel_dp);
- 	struct drm_i915_private *dev_priv = to_i915(dig_port->base.base.dev);
-@@ -1455,7 +1456,8 @@ static int intel_dp_dsc_compute_config(struct intel_dp *intel_dp,
- 						    adjusted_mode->crtc_clock,
- 						    adjusted_mode->crtc_hdisplay,
- 						    pipe_config->bigjoiner_pipes,
--						    pipe_bpp);
-+						    pipe_bpp,
-+						    timeslots);
- 		dsc_dp_slice_count =
- 			intel_dp_dsc_get_slice_count(intel_dp,
- 						     adjusted_mode->crtc_clock,
-@@ -1467,41 +1469,26 @@ static int intel_dp_dsc_compute_config(struct intel_dp *intel_dp,
- 			return -EINVAL;
- 		}
- 		pipe_config->dsc.compressed_bpp = min_t(u16,
--							       dsc_max_output_bpp >> 4,
--							       pipe_config->pipe_bpp);
-+							dsc_max_output_bpp >> 4,
-+							pipe_config->pipe_bpp);
- 		pipe_config->dsc.slice_count = dsc_dp_slice_count;
-+		drm_dbg_kms(&dev_priv->drm, "DSC: compressed bpp %d slice count %d\n",
-+			    pipe_config->dsc.compressed_bpp,
-+			    pipe_config->dsc.slice_count);
- 	}
--
--	/* As of today we support DSC for only RGB */
--	if (intel_dp->force_dsc_bpp) {
--		if (intel_dp->force_dsc_bpp >= 8 &&
--		    intel_dp->force_dsc_bpp < pipe_bpp) {
--			drm_dbg_kms(&dev_priv->drm,
--				    "DSC BPP forced to %d",
--				    intel_dp->force_dsc_bpp);
--			pipe_config->dsc.compressed_bpp =
--						intel_dp->force_dsc_bpp;
--		} else {
--			drm_dbg_kms(&dev_priv->drm,
--				    "Invalid DSC BPP %d",
--				    intel_dp->force_dsc_bpp);
--		}
--	}
--
- 	/*
- 	 * VDSC engine operates at 1 Pixel per clock, so if peak pixel rate
- 	 * is greater than the maximum Cdclock and if slice count is even
- 	 * then we need to use 2 VDSC instances.
- 	 */
--	if (adjusted_mode->crtc_clock > dev_priv->max_cdclk_freq ||
--	    pipe_config->bigjoiner_pipes) {
--		if (pipe_config->dsc.slice_count < 2) {
-+	if (adjusted_mode->crtc_clock > dev_priv->max_cdclk_freq) {
-+		if (pipe_config->dsc.slice_count > 1) {
-+			pipe_config->dsc.dsc_split = true;
-+		} else {
- 			drm_dbg_kms(&dev_priv->drm,
- 				    "Cannot split stream to use 2 VDSC instances\n");
- 			return -EINVAL;
- 		}
--
--		pipe_config->dsc.dsc_split = true;
- 	}
- 
- 	ret = intel_dp_dsc_compute_params(&dig_port->base, pipe_config);
-@@ -1590,7 +1577,7 @@ intel_dp_compute_link_config(struct intel_encoder *encoder,
- 			    str_yes_no(ret), str_yes_no(joiner_needs_dsc),
- 			    str_yes_no(intel_dp->force_dsc_en));
- 		ret = intel_dp_dsc_compute_config(intel_dp, pipe_config,
--						  conn_state, &limits);
-+						  conn_state, &limits, 1);
- 		if (ret < 0)
- 			return ret;
- 	}
-diff --git a/drivers/gpu/drm/i915/display/intel_dp.h b/drivers/gpu/drm/i915/display/intel_dp.h
-index d457e17bdc57..4c0ad3158ee7 100644
---- a/drivers/gpu/drm/i915/display/intel_dp.h
-+++ b/drivers/gpu/drm/i915/display/intel_dp.h
-@@ -55,6 +55,11 @@ void intel_dp_encoder_flush_work(struct drm_encoder *encoder);
- int intel_dp_compute_config(struct intel_encoder *encoder,
- 			    struct intel_crtc_state *pipe_config,
- 			    struct drm_connector_state *conn_state);
-+int intel_dp_dsc_compute_config(struct intel_dp *intel_dp,
-+				struct intel_crtc_state *pipe_config,
-+				struct drm_connector_state *conn_state,
-+				struct link_config_limits *limits,
-+				int timeslots);
- bool intel_dp_is_edp(struct intel_dp *intel_dp);
- bool intel_dp_is_uhbr(const struct intel_crtc_state *crtc_state);
- bool intel_dp_is_port_edp(struct drm_i915_private *dev_priv, enum port port);
-@@ -94,6 +99,18 @@ void intel_read_dp_sdp(struct intel_encoder *encoder,
- 		       struct intel_crtc_state *crtc_state,
- 		       unsigned int type);
- bool intel_digital_port_connected(struct intel_encoder *encoder);
-+int intel_dp_dsc_compute_bpp(struct intel_dp *intel_dp, u8 dsc_max_bpc);
-+u16 intel_dp_dsc_get_output_bpp(struct drm_i915_private *i915,
-+				u32 link_clock, u32 lane_count,
-+				u32 mode_clock, u32 mode_hdisplay,
-+				bool bigjoiner,
-+				u32 pipe_bpp,
-+				u32 timeslots);
-+u8 intel_dp_dsc_get_slice_count(struct intel_dp *intel_dp,
-+				int mode_clock, int mode_hdisplay,
-+				bool bigjoiner);
-+bool intel_dp_need_bigjoiner(struct intel_dp *intel_dp,
-+			     int hdisplay, int clock);
- 
- static inline unsigned int intel_dp_unused_lane_mask(int lane_count)
- {
-diff --git a/drivers/gpu/drm/i915/display/intel_dp_mst.c b/drivers/gpu/drm/i915/display/intel_dp_mst.c
-index 061b277e5ce7..550fcd380487 100644
---- a/drivers/gpu/drm/i915/display/intel_dp_mst.c
-+++ b/drivers/gpu/drm/i915/display/intel_dp_mst.c
-@@ -99,6 +99,82 @@ static int intel_dp_mst_compute_link_config(struct intel_encoder *encoder,
- 	return 0;
- }
- 
-+static int intel_dp_dsc_mst_compute_link_config(struct intel_encoder *encoder,
-+						struct intel_crtc_state *crtc_state,
-+						struct drm_connector_state *conn_state,
-+						struct link_config_limits *limits)
-+{
-+	struct drm_atomic_state *state = crtc_state->uapi.state;
-+	struct intel_dp_mst_encoder *intel_mst = enc_to_mst(encoder);
-+	struct intel_dp *intel_dp = &intel_mst->primary->dp;
-+	struct intel_connector *connector =
-+		to_intel_connector(conn_state->connector);
-+	struct drm_i915_private *i915 = to_i915(connector->base.dev);
-+	const struct drm_display_mode *adjusted_mode =
-+		&crtc_state->hw.adjusted_mode;
-+	bool constant_n = drm_dp_has_quirk(&intel_dp->desc,
-+					   DP_DPCD_QUIRK_CONSTANT_N);
-+	int bpp, slots = -EINVAL;
-+	int i, num_bpc;
-+	u8 dsc_bpc[3] = {0};
-+	int min_bpp, max_bpp;
-+	u8 dsc_max_bpc;
-+
-+	crtc_state->lane_count = limits->max_lane_count;
-+	crtc_state->port_clock = limits->max_rate;
-+
-+	/* Max DSC Input BPC for ICL is 10 and for TGL+ is 12 */
-+	if (DISPLAY_VER(i915) >= 12)
-+		dsc_max_bpc = min_t(u8, 12, conn_state->max_requested_bpc);
-+	else
-+		dsc_max_bpc = min_t(u8, 10, conn_state->max_requested_bpc);
-+
-+	max_bpp = min_t(u8, dsc_max_bpc * 3, limits->max_bpp);
-+	min_bpp = limits->min_bpp;
-+
-+	num_bpc = drm_dp_dsc_sink_supported_input_bpcs(intel_dp->dsc_dpcd,
-+						       dsc_bpc);
-+	for (i = 0; i < num_bpc; i++) {
-+		if (max_bpp >= dsc_bpc[i] * 3)
-+			if (min_bpp > dsc_bpc[i] * 3)
-+				min_bpp = dsc_bpc[i] * 3;
-+	}
-+	drm_dbg_kms(&i915->drm, "DSC Sink supported min bpp %d max bpp %d\n",
-+		    min_bpp, max_bpp);
-+	for (bpp = max_bpp; bpp >= min_bpp; bpp -= 2 * 3) {
-+		crtc_state->pbn = drm_dp_calc_pbn_mode(adjusted_mode->crtc_clock,
-+						       bpp << 4,
-+						       true);
-+
-+		slots = drm_dp_atomic_find_vcpi_slots(state, &intel_dp->mst_mgr,
-+						      connector->port,
-+						      crtc_state->pbn, 0);
-+
-+		drm_dbg_kms(&i915->drm, "Trying bpp %d got %d pbn %d slots\n",
-+			    bpp, crtc_state->pbn, slots);
-+
-+		if (slots == -EDEADLK)
-+			return slots;
-+		if (slots >= 0)
-+			break;
-+	}
-+
-+	if (slots < 0) {
-+		drm_dbg_kms(&i915->drm, "failed finding vcpi slots:%d\n",
-+			    slots);
-+		return slots;
-+	}
-+
-+	intel_link_compute_m_n(crtc_state->pipe_bpp,
-+			       crtc_state->lane_count,
-+			       adjusted_mode->crtc_clock,
-+			       crtc_state->port_clock,
-+			       &crtc_state->dp_m_n,
-+			       constant_n, crtc_state->fec_enable);
-+	crtc_state->dp_m_n.tu = slots;
-+
-+	return 0;
-+}
- static int intel_dp_mst_update_slots(struct intel_encoder *encoder,
- 				     struct intel_crtc_state *crtc_state,
- 				     struct drm_connector_state *conn_state)
-@@ -175,6 +251,27 @@ static int intel_dp_mst_compute_config(struct intel_encoder *encoder,
- 
- 	ret = intel_dp_mst_compute_link_config(encoder, pipe_config,
- 					       conn_state, &limits);
-+
-+	if (ret == -EDEADLK)
-+		return ret;
-+
-+	/* enable compression if the mode doesn't fit available BW */
-+	drm_dbg_kms(&dev_priv->drm, "Force DSC en = %d\n", intel_dp->force_dsc_en);
-+	if (ret || intel_dp->force_dsc_en) {
-+		/*
-+		 * Try to get at least some timeslots and then see, if
-+		 * we can fit there with DSC.
-+		 */
-+		ret = intel_dp_dsc_mst_compute_link_config(encoder, pipe_config,
-+							   conn_state, &limits);
-+		if (ret < 0)
-+			return ret;
-+
-+		ret = intel_dp_dsc_compute_config(intel_dp, pipe_config,
-+						  conn_state, &limits,
-+						  pipe_config->dp_m_n.tu);
-+	}
-+
- 	if (ret)
- 		return ret;
- 
-@@ -713,6 +810,10 @@ intel_dp_mst_mode_valid_ctx(struct drm_connector *connector,
- 	int max_dotclk = to_i915(connector->dev)->max_dotclk_freq;
- 	int max_rate, mode_rate, max_lanes, max_link_clock;
- 	int ret;
-+	bool dsc = false, bigjoiner = false;
-+	u16 dsc_max_output_bpp = 0;
-+	u8 dsc_slice_count = 0;
-+	int target_clock = mode->clock;
- 
- 	if (drm_connector_is_unregistered(connector)) {
- 		*status = MODE_ERROR;
-@@ -750,6 +851,48 @@ intel_dp_mst_mode_valid_ctx(struct drm_connector *connector,
- 		return 0;
- 	}
- 
-+	if (intel_dp_need_bigjoiner(intel_dp, mode->hdisplay, target_clock)) {
-+		bigjoiner = true;
-+		max_dotclk *= 2;
-+	}
-+
-+	if (DISPLAY_VER(dev_priv) >= 10 &&
-+	    drm_dp_sink_supports_dsc(intel_dp->dsc_dpcd)) {
-+		/*
-+		 * TBD pass the connector BPC,
-+		 * for now U8_MAX so that max BPC on that platform would be picked
-+		 */
-+		int pipe_bpp = intel_dp_dsc_compute_bpp(intel_dp, U8_MAX);
-+
-+		if (drm_dp_sink_supports_fec(intel_dp->fec_capable)) {
-+			dsc_max_output_bpp =
-+				intel_dp_dsc_get_output_bpp(dev_priv,
-+							    max_link_clock,
-+							    max_lanes,
-+							    target_clock,
-+							    mode->hdisplay,
-+							    bigjoiner,
-+							    pipe_bpp, 1) >> 4;
-+			dsc_slice_count =
-+				intel_dp_dsc_get_slice_count(intel_dp,
-+							     target_clock,
-+							     mode->hdisplay,
-+							     bigjoiner);
-+		}
-+
-+		dsc = dsc_max_output_bpp && dsc_slice_count;
-+	}
-+
-+	/*
-+	 * Big joiner configuration needs DSC for TGL which is not true for
-+	 * XE_LPD where uncompressed joiner is supported.
-+	 */
-+	if (DISPLAY_VER(dev_priv) < 13 && bigjoiner && !dsc)
-+		return MODE_CLOCK_HIGH;
-+
-+	if (mode_rate > max_rate && !dsc)
-+		return MODE_CLOCK_HIGH;
-+
- 	*status = intel_mode_valid_max_plane_size(dev_priv, mode, false);
- 	return 0;
- }
+[drm] Exynos DRM: using 11c00000.fimd device for DMA mapping operations
+exynos-drm exynos-drm: bound 11c00000.fimd (ops fimd_component_ops)
+8<--- cut here ---
+Unable to handle kernel NULL pointer dereference at virtual address 00000048
+[00000048] *pgd=00000000
+Internal error: Oops: 5 [#1] PREEMPT SMP ARM
+Modules linked in:
+CPU: 0 PID: 1 Comm: swapper/0 Not tainted 
+5.17.0-rc2-00577-g22e968113668-dirty #11635
+Hardware name: Samsung Exynos (Flattened Device Tree)
+PC is at exynos_dsi_bind+0x14/0x3c
+LR is at component_bind_all+0x130/0x290
+pc : [<c06924e0>]    lr : [<c06b0f6c>]    psr: 60000113
+sp : c1cafcb8  ip : 00000002  fp : c0f4a53c
+r10: c135e6a8  r9 : c1efd800  r8 : 00000000
+r7 : c26d2100  r6 : c2c69fc0  r5 : 00000018  r4 : 00000000
+r3 : c06924cc  r2 : 00000002  r1 : 00000000  r0 : c1efd800
+Flags: nZCv  IRQs on  FIQs on  Mode SVC_32  ISA ARM  Segment none
+Control: 10c5387d  Table: 4000404a  DAC: 00000051
+Register r0 information: slab kmalloc-2k start c1efd800 pointer offset 0 
+size 2048
+Register r1 information: NULL pointer
+Register r2 information: non-paged memory
+Register r3 information: non-slab/vmalloc memory
+Register r4 information: NULL pointer
+Register r5 information: non-paged memory
+Register r6 information: slab kmalloc-64 start c2c69fc0 pointer offset 0 
+size 64
+Register r7 information: slab kmalloc-64 start c26d2100 pointer offset 0 
+size 64
+Register r8 information: NULL pointer
+Register r9 information: slab kmalloc-2k start c1efd800 pointer offset 0 
+size 2048
+Register r10 information: non-slab/vmalloc memory
+Register r11 information: non-slab/vmalloc memory
+Register r12 information: non-paged memory
+Process swapper/0 (pid: 1, stack limit = 0x(ptrval))
+Stack: (0xc1cafcb8 to 0xc1cb0000)
+...
+  exynos_dsi_bind from component_bind_all+0x130/0x290
+  component_bind_all from exynos_drm_bind+0xe8/0x194
+  exynos_drm_bind from try_to_bring_up_master+0x208/0x2d0
+  try_to_bring_up_master from component_master_add_with_match+0xd0/0x104
+  component_master_add_with_match from exynos_drm_platform_probe+0xe8/0x118
+  exynos_drm_platform_probe from platform_probe+0x80/0xc0
+  platform_probe from really_probe+0xfc/0x440
+  really_probe from __driver_probe_device+0xa4/0x204
+  __driver_probe_device from driver_probe_device+0x34/0xd4
+  driver_probe_device from __driver_attach+0x114/0x184
+  __driver_attach from bus_for_each_dev+0x64/0xb0
+  bus_for_each_dev from bus_add_driver+0x170/0x20c
+  bus_add_driver from driver_register+0x78/0x10c
+  driver_register from exynos_drm_init+0xe0/0x14c
+  exynos_drm_init from do_one_initcall+0x6c/0x3a4
+  do_one_initcall from kernel_init_freeable+0x1c4/0x214
+  kernel_init_freeable from kernel_init+0x18/0x12c
+  kernel_init from ret_from_fork+0x14/0x2c
+Exception stack(0xc1caffb0 to 0xc1cafff8)
+ffa0:                                     00000000 00000000 00000000 
+00000000
+ffc0: 00000000 00000000 00000000 00000000 00000000 00000000 00000000 
+00000000
+ffe0: 00000000 00000000 00000000 00000000 00000013 00000000
+Code: e5904040 e1a00002 e3a02002 e1a01004 (e5945048)
+---[ end trace 0000000000000000 ]---
+Kernel panic - not syncing: Attempted to kill init! exitcode=0x0000000b
+CPU1: stopping
+CPU: 1 PID: 0 Comm: swapper/1 Tainted: G      D 
+5.17.0-rc2-00577-g22e968113668-dirty #11635
+Hardware name: Samsung Exynos (Flattened Device Tree)
+  unwind_backtrace from show_stack+0x10/0x14
+  show_stack from dump_stack_lvl+0x58/0x70
+  dump_stack_lvl from do_handle_IPI+0x2ec/0x36c
+  do_handle_IPI from ipi_handler+0x18/0x20
+  ipi_handler from handle_percpu_devid_irq+0xd0/0x394
+  handle_percpu_devid_irq from generic_handle_domain_irq+0x44/0x88
+  generic_handle_domain_irq from gic_handle_irq+0x88/0xac
+  gic_handle_irq from generic_handle_arch_irq+0x58/0x78
+  generic_handle_arch_irq from __irq_svc+0x54/0x88
+Exception stack(0xc1cd1f48 to 0xc1cd1f90)
+1f40:                   00000001 c0eff5a4 00000001 c011ca80 c1208f0c 
+c1353420
+1f60: 00000000 c1d8d000 00000000 c0f34234 c1d8d000 00000000 c0eeee98 
+c1cd1f98
+1f80: c0109144 c0109148 20000013 ffffffff
+  __irq_svc from arch_cpu_idle+0x40/0x44
+  arch_cpu_idle from default_idle_call+0x74/0x2c4
+  default_idle_call from do_idle+0x1cc/0x284
+  do_idle from cpu_startup_entry+0x18/0x1c
+  cpu_startup_entry from 0x401018b4
+---[ end Kernel panic - not syncing: Attempted to kill init! 
+exitcode=0x0000000b ]---
+
+
+I will try to take a look into this later in the evening.
+
+
+Best regards
 -- 
-2.24.1.485.gad05a3d8e5
+Marek Szyprowski, PhD
+Samsung R&D Institute Poland
 
