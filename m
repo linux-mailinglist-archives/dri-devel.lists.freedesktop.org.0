@@ -1,53 +1,64 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 49F284FB0AA
-	for <lists+dri-devel@lfdr.de>; Mon, 11 Apr 2022 00:17:43 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id E57BD4FB0ED
+	for <lists+dri-devel@lfdr.de>; Mon, 11 Apr 2022 02:06:26 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 6CABF10F6E0;
-	Sun, 10 Apr 2022 22:17:38 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id BA26910E266;
+	Mon, 11 Apr 2022 00:06:21 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from phobos.denx.de (phobos.denx.de [85.214.62.61])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 5202610F6E0
- for <dri-devel@lists.freedesktop.org>; Sun, 10 Apr 2022 22:17:37 +0000 (UTC)
-Received: from [127.0.0.1] (p578adb1c.dip0.t-ipconnect.de [87.138.219.28])
- (using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits))
+Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 9EDAF10E266
+ for <dri-devel@lists.freedesktop.org>; Mon, 11 Apr 2022 00:06:20 +0000 (UTC)
+Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
+ (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
  (No client certificate requested)
- (Authenticated sender: marex@denx.de)
- by phobos.denx.de (Postfix) with ESMTPSA id 7C9C183B03;
- Mon, 11 Apr 2022 00:17:34 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=denx.de;
- s=phobos-20191101; t=1649629055;
- bh=NwVMl8JQoYY9af7Oa9YPGzdvaKFPbc1uEaHSgsHggKc=;
- h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
- b=CmxmMqJ8z+S15nAsb/d8a5Bo3nuf3Srs+cqBL7lupuZTdLrFzESAnVhmg72mzB/Oe
- G3x+QEkL5M5qMzp8bLnSnldLV659UfokZKWQgeC3vA0372lKjTOrbrKe31ulQv6uP/
- E6DolwE0kUvFIO04GbFMCEDcQuNHk/q1g01t7z1VKb2WxZwEp5vIOef3LZe1rL+aqo
- JyfrfPlKrfqKjopeaZmmvpO4wCyvh8/tgwYmxetRok8i5aKOKOoiRdAU7v52tcaRRc
- vQbePN9yRmQ2oOWkPuc6crJljmMF0jMtM/jCZ9hnPWVQ4A9poXlBtqvKKeHz6m3BrU
- n009vh9lAJwrA==
-Message-ID: <141af457-18df-13c5-a6d4-08ea1fd2f511@denx.de>
-Date: Mon, 11 Apr 2022 00:17:34 +0200
+ by dfw.source.kernel.org (Postfix) with ESMTPS id D5D8C60E8D
+ for <dri-devel@lists.freedesktop.org>; Mon, 11 Apr 2022 00:06:19 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPS id C83EBC385AC
+ for <dri-devel@lists.freedesktop.org>; Mon, 11 Apr 2022 00:06:18 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+ s=k20201202; t=1649635578;
+ bh=wO43+tfYpyvv7kGS/BuqXT4nokVS/4QBzhOQzz0VSz8=;
+ h=From:To:Subject:Date:In-Reply-To:References:From;
+ b=qoZjvipibZvMCbKEhGfkmPG9WmzMKIUnR5gs3ve1Ex+AVzY4/HfamaDo6zRgt6zbQ
+ Qn10HqapqSGfbu0S7Yxk3BEcvkjdRNaQKHhkaTFcnYt2CKklPJ7NOtAP4tHJQYQolB
+ 3D6xWHq20lNnOjP4ZpdnoRW1RyYfvRZ7fSWhiKsGfJR2yx3yYM0NsaOgmOhZ1PyS7n
+ cDNOtJh0oPMy4Ean4eC5aedSW9s2nqjI6p56flx58TLL81s7+vP1HrHsu6hp284Pk+
+ yjK/vPg0WQxnBkXB3YC/2sBtN9QDrgF+nFJS4sqJmMvOujty8KFOaZx8i87GpkHSbT
+ E/7Ywiot2EljA==
+Received: by aws-us-west-2-korg-bugzilla-1.web.codeaurora.org (Postfix,
+ from userid 48) id B81D1C05F98; Mon, 11 Apr 2022 00:06:18 +0000 (UTC)
+From: bugzilla-daemon@kernel.org
+To: dri-devel@lists.freedesktop.org
+Subject: [Bug 211425] [drm:atom_op_jump] *ERROR* atombios stuck in loop for
+ more than 20secs aborting
+Date: Mon, 11 Apr 2022 00:06:18 +0000
+X-Bugzilla-Reason: None
+X-Bugzilla-Type: changed
+X-Bugzilla-Watch-Reason: AssignedTo drivers_video-dri@kernel-bugs.osdl.org
+X-Bugzilla-Product: Drivers
+X-Bugzilla-Component: Video(DRI - non Intel)
+X-Bugzilla-Version: 2.5
+X-Bugzilla-Keywords: 
+X-Bugzilla-Severity: blocking
+X-Bugzilla-Who: barnoid@gmx.net
+X-Bugzilla-Status: NEW
+X-Bugzilla-Resolution: 
+X-Bugzilla-Priority: P1
+X-Bugzilla-Assigned-To: drivers_video-dri@kernel-bugs.osdl.org
+X-Bugzilla-Flags: 
+X-Bugzilla-Changed-Fields: cc
+Message-ID: <bug-211425-2300-w23VhEDc8b@https.bugzilla.kernel.org/>
+In-Reply-To: <bug-211425-2300@https.bugzilla.kernel.org/>
+References: <bug-211425-2300@https.bugzilla.kernel.org/>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+X-Bugzilla-URL: https://bugzilla.kernel.org/
+Auto-Submitted: auto-generated
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.7.0
-Subject: Re: [PATCH v2 4/7] drm: mxsfb: Move mxsfb_get_fb_paddr() away from
- register IO functions
-Content-Language: en-US
-To: Lucas Stach <l.stach@pengutronix.de>, dri-devel@lists.freedesktop.org
-References: <20220311170601.50995-1-marex@denx.de>
- <20220311170601.50995-4-marex@denx.de>
- <5f7eb7a214ec0f219c4c9ce87e6c8c87bc7f0aeb.camel@pengutronix.de>
- <2e038048-c3ac-4c33-fb98-ba6bec705d5b@denx.de>
- <ef4d8f36a16edda8abf9b6d818cd17f15b0b67cf.camel@pengutronix.de>
-From: Marek Vasut <marex@denx.de>
-In-Reply-To: <ef4d8f36a16edda8abf9b6d818cd17f15b0b67cf.camel@pengutronix.de>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
-X-Virus-Scanned: clamav-milter 0.103.5 at phobos.denx.de
-X-Virus-Status: Clean
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -60,37 +71,50 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Peng Fan <peng.fan@nxp.com>,
- Alexander Stein <alexander.stein@ew.tq-group.com>,
- Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
- Sam Ravnborg <sam@ravnborg.org>, Robby Cai <robby.cai@nxp.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 4/7/22 11:47, Lucas Stach wrote:
-> Am Donnerstag, dem 07.04.2022 um 00:05 +0200 schrieb Marek Vasut:
->> On 4/6/22 21:45, Lucas Stach wrote:
->>> Am Freitag, dem 11.03.2022 um 18:05 +0100 schrieb Marek Vasut:
->>>> Move mxsfb_get_fb_paddr() out of the way, away from register IO functions.
->>>> This is a clean up. No functional change.
->>>>
->>>> Signed-off-by: Marek Vasut <marex@denx.de>
->>>> Cc: Alexander Stein <alexander.stein@ew.tq-group.com>
->>>> Cc: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
->>>> Cc: Lucas Stach <l.stach@pengutronix.de>
->>>> Cc: Peng Fan <peng.fan@nxp.com>
->>>> Cc: Robby Cai <robby.cai@nxp.com>
->>>> Cc: Sam Ravnborg <sam@ravnborg.org>
->>>> Cc: Stefan Agner <stefan@agner.ch>
->>>
->>> Hm, I don't see any real benefit, but I also fail to see why it
->>> shouldn't be done so:
->>
->> The entire point of this series is to clean up the mxsfb and isolate
->> lcdif (the original lcdif) from any of the common code.
-> 
-> Actually, just use drm_fb_cma_get_gem_addr() instead?
+https://bugzilla.kernel.org/show_bug.cgi?id=3D211425
 
-That function seems to add only extra code that is executed, but does 
-not do away with the !fb check anyway. So, why ? (Also, seems unrelated 
-to this patch)
+barnoid@gmx.net changed:
+
+           What    |Removed                     |Added
+----------------------------------------------------------------------------
+                 CC|                            |barnoid@gmx.net
+
+--- Comment #25 from barnoid@gmx.net ---
+I have observed this as well on a 5.15.32 kernel. The system is equipped wi=
+th
+an AMD Threadripper 3970X and 2 x LG HDMI displays connected via DP (4K@60H=
+z).
+The error happens when powering-up the monitors after a long power-down per=
+iod.
+
+
+>[122427.564568] amdgpu 0000:03:00.0: [drm] Cannot find any crtc or sizes
+>[122427.603599] amdgpu 0000:03:00.0: [drm] Cannot find any crtc or sizes
+>[122427.954560] [drm] fb mappable at 0xC0E00000
+>[122427.954563] [drm] vram apper at 0xC0000000
+>[122427.954563] [drm] size 33177600
+>[122427.954564] [drm] fb depth is 24
+>[122427.954564] [drm]    pitch is 15360
+>[122427.954625] fbcon: amdgpudrmfb (fb0) is primary device
+>[122427.954759] Console: switching to colour frame buffer device 480x135
+>[122427.954763] amdgpu 0000:03:00.0: [drm] fb0: amdgpudrmfb frame buffer
+>device
+>[122482.729791] [drm:atom_op_jump [amdgpu]] *ERROR* atombios stuck in loop=
+ for
+>>more than 20secs aborting
+>[122482.729839] [drm:amdgpu_atom_execute_table_locked [amdgpu]] *ERROR*
+>atombios stuck executing C220 (len 62, WS 0, PS 0) @ 0xC23C
+
+
+Ctrl-Alt-F1 and restarting X (i.e., the login manager) is sufficient to bri=
+ng
+the system back into a useable state.
+
+--=20
+You may reply to this email to add a comment.
+
+You are receiving this mail because:
+You are watching the assignee of the bug.=
