@@ -2,41 +2,39 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 047274FB279
-	for <lists+dri-devel@lfdr.de>; Mon, 11 Apr 2022 05:59:00 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 5ED614FB294
+	for <lists+dri-devel@lfdr.de>; Mon, 11 Apr 2022 06:14:08 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 3567110E92A;
-	Mon, 11 Apr 2022 03:58:54 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 7B0BE10E340;
+	Mon, 11 Apr 2022 04:14:03 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mailgw01.mediatek.com (unknown [60.244.123.138])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 700E610E924
- for <dri-devel@lists.freedesktop.org>; Mon, 11 Apr 2022 03:58:52 +0000 (UTC)
-X-UUID: 61d9f0ad50ee42d99456cf471b4c4ce2-20220411
-X-UUID: 61d9f0ad50ee42d99456cf471b4c4ce2-20220411
-Received: from mtkmbs10n2.mediatek.inc [(172.21.101.183)] by
- mailgw01.mediatek.com (envelope-from <rex-bc.chen@mediatek.com>)
- (Generic MTA with TLSv1.2 ECDHE-RSA-AES256-GCM-SHA384 256/256)
- with ESMTP id 1656277168; Mon, 11 Apr 2022 11:58:45 +0800
-Received: from mtkcas11.mediatek.inc (172.21.101.40) by
- mtkmbs07n1.mediatek.inc (172.21.101.16) with Microsoft SMTP Server (TLS) id
- 15.0.1497.2; Mon, 11 Apr 2022 11:58:45 +0800
-Received: from mtksdccf07.mediatek.inc (172.21.84.99) by mtkcas11.mediatek.inc
- (172.21.101.73) with Microsoft SMTP Server id 15.0.1497.2 via
- Frontend Transport; Mon, 11 Apr 2022 11:58:44 +0800
-From: Rex-BC Chen <rex-bc.chen@mediatek.com>
-To: <chunkuang.hu@kernel.org>, <robh+dt@kernel.org>, <krzk+dt@kernel.org>,
- <matthias.bgg@gmail.com>
-Subject: [PATCH V2 3/3] dt-bindings: display: mediatek: Update disp_aal
- binding for MT8192 and MT8195
-Date: Mon, 11 Apr 2022 11:58:43 +0800
-Message-ID: <20220411035843.19847-4-rex-bc.chen@mediatek.com>
-X-Mailer: git-send-email 2.18.0
-In-Reply-To: <20220411035843.19847-1-rex-bc.chen@mediatek.com>
-References: <20220411035843.19847-1-rex-bc.chen@mediatek.com>
-MIME-Version: 1.0
-Content-Type: text/plain
-X-MTK: N
+Received: from linux.microsoft.com (linux.microsoft.com [13.77.154.182])
+ by gabe.freedesktop.org (Postfix) with ESMTP id 5624610E340
+ for <dri-devel@lists.freedesktop.org>; Mon, 11 Apr 2022 04:14:02 +0000 (UTC)
+Received: from
+ linuxonhyperv3.guj3yctzbm1etfxqx2vob5hsef.xx.internal.cloudapp.net
+ (linux.microsoft.com [13.77.154.182])
+ by linux.microsoft.com (Postfix) with ESMTPSA id 5A5CE205845F;
+ Sun, 10 Apr 2022 21:14:01 -0700 (PDT)
+DKIM-Filter: OpenDKIM Filter v2.11.0 linux.microsoft.com 5A5CE205845F
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linux.microsoft.com;
+ s=default; t=1649650441;
+ bh=1CE5tL3nbw04pRTjcKkm6W9BNuI9HtgHCs/cFUU4uBI=;
+ h=From:To:Subject:Date:From;
+ b=YWCrewhiRD5KF/KMC4BcuneHC+qudT89GPBAmwOF/eeEXmZk9ofuQgwX7rp5sL1dB
+ 4eSIOcDUHWj/6oYPiD73JshaYvKt35Zhh6w/Mffci5QoCbtvGuHJSfo2mr8FwY0TRQ
+ xlA8EYCP/YOI5EFugNpLn5REml2QqhQoJhIEWuLk=
+From: Saurabh Sengar <ssengar@linux.microsoft.com>
+To: ssengar@microsoft.com, drawat.floss@gmail.com, airlied@linux.ie,
+ daniel@ffwll.ch, linux-hyperv@vger.kernel.org,
+ dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org,
+ mikelley@microsoft.com, decui@microsoft.com
+Subject: [PATCH v3] drm/hyperv: Added error message for fb size greater than
+ allocated
+Date: Sun, 10 Apr 2022 21:13:57 -0700
+Message-Id: <1649650437-17977-1-git-send-email-ssengar@linux.microsoft.com>
+X-Mailer: git-send-email 1.8.3.1
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -49,42 +47,36 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: devicetree@vger.kernel.org, airlied@linux.ie, jason-jh.lin@mediatek.com,
- linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
- Project_Global_Chrome_Upstream_Group@mediatek.com, nancy.lin@mediatek.com,
- linux-mediatek@lists.infradead.org, yongqiang.niu@mediatek.com,
- Rex-BC Chen <rex-bc.chen@mediatek.com>, linux-arm-kernel@lists.infradead.org,
- allen-kh.cheng@mediatek.com
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Disp_aal of MT8192 and MT8195 are fully compatible with disp_aal of
-MT8183. Therefore, we move the them to item "mediatek,mt8183-disp-aal".
+Added error message when the size of requested framebuffer is more than
+the allocated size by vmbus mmio region for framebuffer
 
-Signed-off-by: Rex-BC Chen <rex-bc.chen@mediatek.com>
+Signed-off-by: Saurabh Sengar <ssengar@linux.microsoft.com>
 ---
- .../devicetree/bindings/display/mediatek/mediatek,aal.yaml    | 4 ++--
- 1 file changed, 2 insertions(+), 2 deletions(-)
+v2 -> v3 : then -> than (typo fix)
 
-diff --git a/Documentation/devicetree/bindings/display/mediatek/mediatek,aal.yaml b/Documentation/devicetree/bindings/display/mediatek/mediatek,aal.yaml
-index f118075e4a89..d4d585485e7b 100644
---- a/Documentation/devicetree/bindings/display/mediatek/mediatek,aal.yaml
-+++ b/Documentation/devicetree/bindings/display/mediatek/mediatek,aal.yaml
-@@ -27,12 +27,12 @@ properties:
-       - items:
-           - enum:
-               - mediatek,mt2712-disp-aal
--              - mediatek,mt8192-disp-aal
--              - mediatek,mt8195-disp-aal
-           - const: mediatek,mt8173-disp-aal
-       - items:
-           - enum:
-               - mediatek,mt8186-disp-aal
-+              - mediatek,mt8192-disp-aal
-+              - mediatek,mt8195-disp-aal
-           - const: mediatek,mt8183-disp-aal
+ drivers/gpu/drm/hyperv/hyperv_drm_modeset.c | 5 ++++-
+ 1 file changed, 4 insertions(+), 1 deletion(-)
+
+diff --git a/drivers/gpu/drm/hyperv/hyperv_drm_modeset.c b/drivers/gpu/drm/hyperv/hyperv_drm_modeset.c
+index e82b815..6634818 100644
+--- a/drivers/gpu/drm/hyperv/hyperv_drm_modeset.c
++++ b/drivers/gpu/drm/hyperv/hyperv_drm_modeset.c
+@@ -123,8 +123,11 @@ static int hyperv_pipe_check(struct drm_simple_display_pipe *pipe,
+ 	if (fb->format->format != DRM_FORMAT_XRGB8888)
+ 		return -EINVAL;
  
-   reg:
+-	if (fb->pitches[0] * fb->height > hv->fb_size)
++	if (fb->pitches[0] * fb->height > hv->fb_size) {
++		drm_err(&hv->dev, "hv->hdev, fb size requested by process %s for %d X %d (pitch %d) is greater than allocated size %ld\n",
++		current->comm, fb->width, fb->height, fb->pitches[0], hv->fb_size);
+ 		return -EINVAL;
++	}
+ 
+ 	return 0;
+ }
 -- 
-2.18.0
+1.8.3.1
 
