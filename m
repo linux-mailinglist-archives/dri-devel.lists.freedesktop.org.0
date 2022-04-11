@@ -1,40 +1,42 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 249D14FB121
-	for <lists+dri-devel@lfdr.de>; Mon, 11 Apr 2022 02:47:49 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id A9C4C4FB122
+	for <lists+dri-devel@lfdr.de>; Mon, 11 Apr 2022 02:47:52 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 1FFC910E410;
-	Mon, 11 Apr 2022 00:47:46 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 58B5B10E433;
+	Mon, 11 Apr 2022 00:47:47 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from phobos.denx.de (phobos.denx.de [85.214.62.61])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 0D5D810E410
- for <dri-devel@lists.freedesktop.org>; Mon, 11 Apr 2022 00:47:44 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 2BECA10E433
+ for <dri-devel@lists.freedesktop.org>; Mon, 11 Apr 2022 00:47:45 +0000 (UTC)
 Received: from tr.lan (ip-86-49-12-201.net.upcbroadband.cz [86.49.12.201])
  (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits))
  (No client certificate requested)
  (Authenticated sender: marex@denx.de)
- by phobos.denx.de (Postfix) with ESMTPSA id 45F0583C90;
- Mon, 11 Apr 2022 02:47:42 +0200 (CEST)
+ by phobos.denx.de (Postfix) with ESMTPSA id 0D1F383B25;
+ Mon, 11 Apr 2022 02:47:43 +0200 (CEST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=denx.de;
- s=phobos-20191101; t=1649638062;
- bh=8UE3sCZ5ItLTXlIK2WJ/xtxkdmO/CEjKvLZ+7Rb660U=;
- h=From:To:Cc:Subject:Date:From;
- b=adrlOqIOc2FtVVk5mjnIwKcQ9z5SQLftYP68JPSudmSPuJHhCZ5lUeuneEepRql6V
- gq5VYtmBu52NMUptmNLpACiVtfl0Tf72J3ZBt26dI73Uf7Xm9INorXIraJcYjVxjoH
- RU0qc3fieKnYqG5q8F5d3xrjLQGONBQF+mhLF6jdQNn11+DjT6HbchhTD+A4jk5YZO
- OV9RicR1nejdzJfdVYZ3fbbO3L7ZvrO5cKg1wP+OG0VgCvcsALEbDar+wXusyFnxVs
- U+m0Gw3YMQris1IFiwE4ccJ7SrVS9fwlQuJBwrG9FUNnvdjsDRqQmYzc4QXPcGhg3O
- VSDtEkSAoweoQ==
+ s=phobos-20191101; t=1649638063;
+ bh=gqR9qog7g2NCP9Sv3+OOmeQcPCAZ6wAVbzxWW56gJMk=;
+ h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
+ b=GRffyAA8YBzKLqMRS0aCK8++O78iaofVYJc2kWHOvC6aAbtjVFpnGgMVmwk5bhyig
+ M2HxX+1MpdsYlJxZ23dJ7vGy+jUTAOkE4Fwo9GmYWjyZcnH7HQ7BV1ru9tSMKaNsLs
+ OukzYYJpwxhHW0TviA3eNcsWcvUSN6qL4MWYPvKkDUIZlNxxq25T5Gj2SbCX5me/SK
+ n8QLq7q635udGt8tWe1hNla2POJ1FmSMkw2O2bPyYRXUGPISyEJVr7oRNMBR6jY4Fm
+ LljUo2xsnPbZ1Bpy1RxHgadLZ8wmHPw0VA19bTlHtaSJq1CiU2EPqb/XKhUe6S/bFh
+ eCVDup6GjWPgA==
 From: Marek Vasut <marex@denx.de>
 To: dri-devel@lists.freedesktop.org
-Subject: [PATCH 1/2] drm/modes: Make width-mm/height-mm check in
- of_get_drm_panel_display_mode() mandatory
-Date: Mon, 11 Apr 2022 02:47:27 +0200
-Message-Id: <20220411004728.68203-1-marex@denx.de>
+Subject: [PATCH 2/2] drm/panel: lvds: Drop now redundant width-mm and
+ height-mm check
+Date: Mon, 11 Apr 2022 02:47:28 +0200
+Message-Id: <20220411004728.68203-2-marex@denx.de>
 X-Mailer: git-send-email 2.35.1
+In-Reply-To: <20220411004728.68203-1-marex@denx.de>
+References: <20220411004728.68203-1-marex@denx.de>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
@@ -63,10 +65,9 @@ Cc: Marek Vasut <marex@denx.de>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-All users of this function require width-mm/height-mm DT property to be
-present per their DT bindings, make width-mm/height-mm check mandatory.
-It is generally a good idea to specify panel dimensions, so userspace
-can configure e.g. scaling accordingly.
+The check for mandatory DT properties width-mm and height-mm is now
+part of of_get_drm_panel_display_mode(), drop the redundant check
+from this driver.
 
 Signed-off-by: Marek Vasut <marex@denx.de>
 Cc: Christoph Niedermaier <cniedermaier@dh-electronics.com>
@@ -80,38 +81,32 @@ Cc: Sam Ravnborg <sam@ravnborg.org>
 Cc: Thomas Zimmermann <tzimmermann@suse.de>
 To: dri-devel@lists.freedesktop.org
 ---
- drivers/gpu/drm/drm_modes.c | 8 ++++----
- 1 file changed, 4 insertions(+), 4 deletions(-)
+ drivers/gpu/drm/panel/panel-lvds.c | 12 ------------
+ 1 file changed, 12 deletions(-)
 
-diff --git a/drivers/gpu/drm/drm_modes.c b/drivers/gpu/drm/drm_modes.c
-index 6e7e10f16ec03..f0b000ddaddb5 100644
---- a/drivers/gpu/drm/drm_modes.c
-+++ b/drivers/gpu/drm/drm_modes.c
-@@ -735,8 +735,8 @@ EXPORT_SYMBOL_GPL(of_get_drm_display_mode);
-  * @dmode: will be set to the return value
-  * @bus_flags: information about pixelclk, sync and DE polarity
-  *
-- * The Device Tree properties width-mm and height-mm will be read and set on
-- * the display mode if they are present.
-+ * The mandatory Device Tree properties width-mm and height-mm
-+ * are read and set on the display mode.
-  *
-  * Returns:
-  * Zero on success, negative error code on failure.
-@@ -761,11 +761,11 @@ int of_get_drm_panel_display_mode(struct device_node *np,
- 		drm_bus_flags_from_videomode(&vm, bus_flags);
- 
- 	ret = of_property_read_u32(np, "width-mm", &width_mm);
--	if (ret && ret != -EINVAL)
-+	if (ret)
+diff --git a/drivers/gpu/drm/panel/panel-lvds.c b/drivers/gpu/drm/panel/panel-lvds.c
+index eca067e785796..f11252fb00fea 100644
+--- a/drivers/gpu/drm/panel/panel-lvds.c
++++ b/drivers/gpu/drm/panel/panel-lvds.c
+@@ -128,18 +128,6 @@ static int panel_lvds_parse_dt(struct panel_lvds *lvds)
  		return ret;
+ 	}
  
- 	ret = of_property_read_u32(np, "height-mm", &height_mm);
--	if (ret && ret != -EINVAL)
-+	if (ret)
- 		return ret;
+-	if (lvds->dmode.width_mm == 0) {
+-		dev_err(lvds->dev, "%pOF: invalid or missing %s DT property\n",
+-			np, "width-mm");
+-		return -ENODEV;
+-	}
+-
+-	if (lvds->dmode.height_mm == 0) {
+-		dev_err(lvds->dev, "%pOF: invalid or missing %s DT property\n",
+-			np, "height-mm");
+-		return -ENODEV;
+-	}
+-
+ 	of_property_read_string(np, "label", &lvds->label);
  
- 	dmode->width_mm = width_mm;
+ 	ret = drm_of_lvds_get_data_mapping(np);
 -- 
 2.35.1
 
