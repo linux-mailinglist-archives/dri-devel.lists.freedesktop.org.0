@@ -1,33 +1,34 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id A9C304FB5F1
-	for <lists+dri-devel@lfdr.de>; Mon, 11 Apr 2022 10:27:54 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 0A11B4FB5F5
+	for <lists+dri-devel@lfdr.de>; Mon, 11 Apr 2022 10:28:28 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 8405810F422;
-	Mon, 11 Apr 2022 08:27:50 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 5F4A610E38F;
+	Mon, 11 Apr 2022 08:28:25 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from ams.source.kernel.org (ams.source.kernel.org [145.40.68.75])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 9907010F384
- for <dri-devel@lists.freedesktop.org>; Mon, 11 Apr 2022 08:27:48 +0000 (UTC)
+Received: from dfw.source.kernel.org (dfw.source.kernel.org
+ [IPv6:2604:1380:4641:c500::1])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 139C710E38F
+ for <dri-devel@lists.freedesktop.org>; Mon, 11 Apr 2022 08:28:24 +0000 (UTC)
 Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
  (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
  (No client certificate requested)
- by ams.source.kernel.org (Postfix) with ESMTPS id E0E0AB8111A;
- Mon, 11 Apr 2022 08:27:44 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 4F34EC385A4;
- Mon, 11 Apr 2022 08:27:43 +0000 (UTC)
+ by dfw.source.kernel.org (Postfix) with ESMTPS id 2FB6E614CF;
+ Mon, 11 Apr 2022 08:28:23 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 38CDEC385A4;
+ Mon, 11 Apr 2022 08:28:22 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linuxfoundation.org;
- s=korg; t=1649665663;
- bh=tiRHCAXvo9xKyaIJeeWvkptjhdlMDyojlIMaATlu85Q=;
+ s=korg; t=1649665702;
+ bh=Hhy5UMcIA35ZHVndOjsEty8QreQ6afNmpjXCNOu+/5U=;
  h=Subject:To:Cc:From:Date:From;
- b=jJ0nGW1UNGk28RhpBdilh/lkPq6HmLZRb+0d8/Q2ofKo+BrHdYOZVLxljG8jknZmM
- kbEoXAfWKKPsQuEmF3ll7QAtkfF68vRGBAwPvStplTtkpZbC1rbgt+c/pLsMcCaaMm
- 086TQCcNTUJwond2vhIs5PK6JSV9Qr/JZj0qAf2w=
+ b=a9qx+EGt5XI0UJ1Dh904kRjP9Kdc2KI+EUV6NAgih0w9XQ4hIxnBp7ARDXuR1VL6U
+ PS60RCvHa3gajofIYgQo2Y5hV6usROMZ+R11sbE8aI8eh6G8jdA+J11MXEmEDhP4j7
+ FpxgX2JB8qSBqnOHn8Su7Vc7Tclrh2smI8AhlnV0=
 Subject: Patch "fbdev: Fix unregistering of framebuffers without device" has
- been added to the 5.15-stable tree
+ been added to the 5.16-stable tree
 To: alexander.deucher@amd.com, daniel.vetter@ffwll.ch, deller@gmx.de,
  dri-devel@lists.freedesktop.org, gregkh@linuxfoundation.org,
  hdegoede@redhat.com, javierm@redhat.com, linux@roeck-us.net,
@@ -36,8 +37,8 @@ To: alexander.deucher@amd.com, daniel.vetter@ffwll.ch, deller@gmx.de,
  thunder.leizhen@huawei.com, tzimmermann@suse.de, willy@infradead.org,
  xiyuyang19@fudan.edu.cn, zackr@vmware.com, zheyuma97@gmail.com
 From: <gregkh@linuxfoundation.org>
-Date: Mon, 11 Apr 2022 10:27:21 +0200
-Message-ID: <1649665641182175@kroah.com>
+Date: Mon, 11 Apr 2022 10:27:34 +0200
+Message-ID: <1649665654151109@kroah.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=ANSI_X3.4-1968
 Content-Transfer-Encoding: 8bit
@@ -64,12 +65,12 @@ This is a note to let you know that I've just added the patch titled
 
     fbdev: Fix unregistering of framebuffers without device
 
-to the 5.15-stable tree which can be found at:
+to the 5.16-stable tree which can be found at:
     http://www.kernel.org/git/?p=linux/kernel/git/stable/stable-queue.git;a=summary
 
 The filename of the patch is:
      fbdev-fix-unregistering-of-framebuffers-without-device.patch
-and it can be found in the queue-5.15 subdirectory.
+and it can be found in the queue-5.16 subdirectory.
 
 If you, or anyone else, feels it should not be added to the stable tree,
 please let <stable@vger.kernel.org> know about it.
@@ -177,4 +178,4 @@ Signed-off-by: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
 
 Patches currently in stable-queue which might be from tzimmermann@suse.de are
 
-queue-5.15/fbdev-fix-unregistering-of-framebuffers-without-device.patch
+queue-5.16/fbdev-fix-unregistering-of-framebuffers-without-device.patch
