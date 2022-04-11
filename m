@@ -1,75 +1,59 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id BEF024FB2FF
-	for <lists+dri-devel@lfdr.de>; Mon, 11 Apr 2022 06:41:27 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 1B6924FB35C
+	for <lists+dri-devel@lfdr.de>; Mon, 11 Apr 2022 07:55:41 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 2CDC510EB95;
-	Mon, 11 Apr 2022 04:41:08 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id BF13F10EE82;
+	Mon, 11 Apr 2022 05:55:36 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from wout1-smtp.messagingengine.com (wout1-smtp.messagingengine.com
- [64.147.123.24])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 6D9FE10EB94
- for <dri-devel@lists.freedesktop.org>; Mon, 11 Apr 2022 04:41:05 +0000 (UTC)
-Received: from compute2.internal (compute2.nyi.internal [10.202.2.46])
- by mailout.west.internal (Postfix) with ESMTP id E245F3201F73;
- Mon, 11 Apr 2022 00:34:57 -0400 (EDT)
-Received: from mailfrontend2 ([10.202.2.163])
- by compute2.internal (MEProxy); Mon, 11 Apr 2022 00:34:58 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=sholland.org; h=
- cc:cc:content-transfer-encoding:date:date:from:from:in-reply-to
- :in-reply-to:message-id:mime-version:references:reply-to:sender
- :subject:subject:to:to; s=fm2; t=1649651697; x=1649738097; bh=GF
- Mu8ARIAw6YIaqjRrMzqPr2bRnKZum/EaxSGb2uoFw=; b=cGwDPuZJS3qbvVn/oX
- k9FXFB1MLBwzNcHIhTxFu14GcHW0JYkhAhhGTzZVJ94qWTPPcTDfa8p4FgURBmBD
- QmxR3oUJ6mY69mIq+r2I0aOfFq8SA/GNuAVb6GQIAoVtE1SC2+4PcC+1xgcJA+KZ
- ckR6HrD1hPJXJQT8trQBEsezoaLQqGNHvHcHCdrCQx5rLrScjbGxjF/jsNan9/ar
- URO0OELpJfpyArFi4ULZ/Zu0B8U4mFHeFUMTHQpACUx+UGnrp1RRgFjAFLOwT/ll
- YkpBeHTf5OB9WHyB2VDTFAIAPwcxPNr1tC1xpC71qkVr9wJJjYhD0qMa1wUZ3uBB
- 4BTg==
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
- messagingengine.com; h=cc:cc:content-transfer-encoding:date:date
- :from:from:in-reply-to:in-reply-to:message-id:mime-version
- :references:reply-to:sender:subject:subject:to:to:x-me-proxy
- :x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=fm3; t=
- 1649651697; x=1649738097; bh=GFMu8ARIAw6YIaqjRrMzqPr2bRnKZum/Eax
- SGb2uoFw=; b=fpKXoqZSYnH34Qv1kXpxO3HoynnoQRSCPcAJK76Tm4VxlMpvsqA
- BxCIDplh344BnVHlOZ4RXjUiQgIzNe3njpps/1R7fr9DaqJo4qpuJFIxkA8y8ucT
- mbS+vSF5vQwGq5D0T8z9P4n9PXunmOHAzjcVi1dQYw+n6IWuf0eF0hGM1hsH/4By
- ojD1O58dMsdZxcv2uX1rp5AhqCWr9xJk6dHFENla/qiLn4g+qF0TtKzVm9V1lAIr
- uK15+2PjOvnVT9oxqOTBlzPihu+pQOHms00AEqlM22HVqg/I8b7I2dpUl4ObnbXf
- lYMo2BCWM7IIFHD+fh0vAIi3pTYkyhNs5LQ==
-X-ME-Sender: <xms:8a9TYna8qZUv_981JCmTrG84BHlm93qL3tr_pHVx-E69gMXM5NnG6w>
- <xme:8a9TYmZeVZE7VXJgOUC6Et4HOT2HaDKrqOyyhEK-nuytHDStq8CeqSnFKi1a40CRe
- VM2R00Nzs-SulNjSA>
-X-ME-Received: <xmr:8a9TYp8tkQVyBrgIAi2v1SpphBzmIpGyQuCPdyQHwe0fDQK23h-h94kghBddzjv3kYs0W70CzT4fb13_U21NgureVAYV7O6HkDrS7jqNXybCT2KU4bvx7ASWp4dgiY1RSgp3RA>
-X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvvddrudekhedgkedtucetufdoteggodetrfdotf
- fvucfrrhhofhhilhgvmecuhfgrshhtofgrihhlpdfqfgfvpdfurfetoffkrfgpnffqhgen
- uceurghilhhouhhtmecufedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmne
- cujfgurhephffvufffkffojghfggfgsedtkeertdertddtnecuhfhrohhmpefurghmuhgv
- lhcujfholhhlrghnugcuoehsrghmuhgvlhesshhhohhllhgrnhgurdhorhhgqeenucggtf
- frrghtthgvrhhnpeduhfejfedvhffgfeehtefghfeiiefgfeehgfdvvdevfeegjeehjedv
- gfejheeuieenucevlhhushhtvghrufhiiigvpedvnecurfgrrhgrmhepmhgrihhlfhhroh
- hmpehsrghmuhgvlhesshhhohhllhgrnhgurdhorhhg
-X-ME-Proxy: <xmx:8a9TYtqyRAMy9Uu6utjRKlM_YTvOuXPeYhbO0FHGD3C2CtGx8TPjYA>
- <xmx:8a9TYirHK0YOu0ACofDlRP57b63xkDCFoBmPicji6jKGxxX7xGpHgg>
- <xmx:8a9TYjQlMr1hEBUhc7cXMQUA_qGPcHGK-dJV9YiEAgkRWZBTSGqUAQ>
- <xmx:8a9TYvTsKwg_BpFHbys59XWdcKeKsbj9BBE72HjA3ojr81f7CyIsIQ>
-Received: by mail.messagingengine.com (Postfix) with ESMTPA; Mon,
- 11 Apr 2022 00:34:56 -0400 (EDT)
-From: Samuel Holland <samuel@sholland.org>
-To: Chen-Yu Tsai <wens@csie.org>, Jernej Skrabec <jernej.skrabec@gmail.com>,
- Maxime Ripard <mripard@kernel.org>
-Subject: [PATCH 10/10] drm/sun4i: Add compatible for D1 display engine
-Date: Sun, 10 Apr 2022 23:34:22 -0500
-Message-Id: <20220411043423.37333-11-samuel@sholland.org>
-X-Mailer: git-send-email 2.35.1
-In-Reply-To: <20220411043423.37333-1-samuel@sholland.org>
-References: <20220411043423.37333-1-samuel@sholland.org>
+Received: from alexa-out-sd-02.qualcomm.com (alexa-out-sd-02.qualcomm.com
+ [199.106.114.39])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 0ACB810EE74;
+ Mon, 11 Apr 2022 05:55:34 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=quicinc.com; i=@quicinc.com; q=dns/txt; s=qcdkim;
+ t=1649656535; x=1681192535;
+ h=message-id:date:mime-version:subject:to:cc:references:
+ from:in-reply-to:content-transfer-encoding;
+ bh=p9HXYw/ALt+MopqQNrusnXpB/e7Lu7tHls88nUVRk1Q=;
+ b=Vqb4xvQIqez5v21H2EtXpsw0nVmD/NBvFxq5cosnWx/OHceug7c1AUXs
+ vwGWHHvUb0ZjO70eNVXjyvDgkf/ffvm70szIASi2moTs9R2qZSQY30hr7
+ Ig24P5VK4/brHd33NsmZx3+75iE6CtuPZB4GV6EoJfeGvj9L4ms98WjU1 Q=;
+Received: from unknown (HELO ironmsg04-sd.qualcomm.com) ([10.53.140.144])
+ by alexa-out-sd-02.qualcomm.com with ESMTP; 10 Apr 2022 22:55:33 -0700
+X-QCInternal: smtphost
+Received: from nasanex01c.na.qualcomm.com ([10.47.97.222])
+ by ironmsg04-sd.qualcomm.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 10 Apr 2022 22:55:32 -0700
+Received: from nalasex01a.na.qualcomm.com (10.47.209.196) by
+ nasanex01c.na.qualcomm.com (10.47.97.222) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.2.986.22; Sun, 10 Apr 2022 22:55:31 -0700
+Received: from [10.111.167.150] (10.80.80.8) by nalasex01a.na.qualcomm.com
+ (10.47.209.196) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.986.22; Sun, 10 Apr
+ 2022 22:55:29 -0700
+Message-ID: <adb5b728-d1e3-022d-62fa-1f7278e63e41@quicinc.com>
+Date: Sun, 10 Apr 2022 22:55:27 -0700
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:91.0) Gecko/20100101
+ Thunderbird/91.6.2
+Subject: Re: [PATCH] drm/msm/dsi: Use connector directly in
+ msm_dsi_manager_connector_init()
+Content-Language: en-US
+To: Stephen Boyd <swboyd@chromium.org>, Rob Clark <robdclark@gmail.com>, "Sean
+ Paul" <sean@poorly.run>
+References: <20220318000731.2823718-1-swboyd@chromium.org>
+From: Abhinav Kumar <quic_abhinavk@quicinc.com>
+In-Reply-To: <20220318000731.2823718-1-swboyd@chromium.org>
+Content-Type: text/plain; charset="UTF-8"; format=flowed
+Content-Transfer-Encoding: 7bit
+X-Originating-IP: [10.80.80.8]
+X-ClientProxiedBy: nasanex01b.na.qualcomm.com (10.46.141.250) To
+ nalasex01a.na.qualcomm.com (10.47.209.196)
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -82,35 +66,45 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: devicetree@vger.kernel.org, Samuel Holland <samuel@sholland.org>,
- David Airlie <airlied@linux.ie>, linux-kernel@vger.kernel.org,
- dri-devel@lists.freedesktop.org, Rob Herring <robh+dt@kernel.org>,
- Krzysztof Kozlowski <krzk+dt@kernel.org>, linux-sunxi@lists.linux.dev,
- linux-arm-kernel@lists.infradead.org
+Cc: linux-arm-msm@vger.kernel.org, linux-kernel@vger.kernel.org,
+ dri-devel@lists.freedesktop.org, Sean Paul <seanpaul@chromium.org>, Dmitry
+ Baryshkov <dmitry.baryshkov@linaro.org>, freedreno@lists.freedesktop.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Now that the various blocks in the D1 display engine pipeline are
-supported, we can enable the overall engine.
 
-Signed-off-by: Samuel Holland <samuel@sholland.org>
----
 
- drivers/gpu/drm/sun4i/sun4i_drv.c | 1 +
- 1 file changed, 1 insertion(+)
-
-diff --git a/drivers/gpu/drm/sun4i/sun4i_drv.c b/drivers/gpu/drm/sun4i/sun4i_drv.c
-index 6a9ba8a77c77..275f7e4a03ae 100644
---- a/drivers/gpu/drm/sun4i/sun4i_drv.c
-+++ b/drivers/gpu/drm/sun4i/sun4i_drv.c
-@@ -418,6 +418,7 @@ static const struct of_device_id sun4i_drv_of_table[] = {
- 	{ .compatible = "allwinner,sun8i-r40-display-engine" },
- 	{ .compatible = "allwinner,sun8i-v3s-display-engine" },
- 	{ .compatible = "allwinner,sun9i-a80-display-engine" },
-+	{ .compatible = "allwinner,sun20i-d1-display-engine" },
- 	{ .compatible = "allwinner,sun50i-a64-display-engine" },
- 	{ .compatible = "allwinner,sun50i-h6-display-engine" },
- 	{ }
--- 
-2.35.1
-
+On 3/17/2022 5:07 PM, Stephen Boyd wrote:
+> The member 'msm_dsi->connector' isn't assigned until
+> msm_dsi_manager_connector_init() returns (see msm_dsi_modeset_init() and
+> how it assigns the return value). Therefore this pointer is going to be
+> NULL here. Let's use 'connector' which is what was intended.
+> 
+> Cc: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
+> Cc: Sean Paul <seanpaul@chromium.org>
+> Fixes: 6d5e78406991 ("drm/msm/dsi: Move dsi panel init into modeset init path")
+> Signed-off-by: Stephen Boyd <swboyd@chromium.org>
+Reviewed-by: Abhinav Kumar <quic_abhinavk@quicinc.com>
+> ---
+> 
+> I don't know if this is superseeded by something else but I found this
+> while trying to use the connector from msm_dsi in this function.
+> 
+>   drivers/gpu/drm/msm/dsi/dsi_manager.c | 2 +-
+>   1 file changed, 1 insertion(+), 1 deletion(-)
+> 
+> diff --git a/drivers/gpu/drm/msm/dsi/dsi_manager.c b/drivers/gpu/drm/msm/dsi/dsi_manager.c
+> index 0c1b7dde377c..9f6af0f0fe00 100644
+> --- a/drivers/gpu/drm/msm/dsi/dsi_manager.c
+> +++ b/drivers/gpu/drm/msm/dsi/dsi_manager.c
+> @@ -638,7 +638,7 @@ struct drm_connector *msm_dsi_manager_connector_init(u8 id)
+>   	return connector;
+>   
+>   fail:
+> -	connector->funcs->destroy(msm_dsi->connector);
+> +	connector->funcs->destroy(connector);
+>   	return ERR_PTR(ret);
+>   }
+>   
+> 
+> base-commit: 05afd57f4d34602a652fdaf58e0a2756b3c20fd4
