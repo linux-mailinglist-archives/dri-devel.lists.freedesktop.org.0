@@ -2,58 +2,42 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 937674FC5C1
-	for <lists+dri-devel@lfdr.de>; Mon, 11 Apr 2022 22:27:08 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 56BF34FC5E5
+	for <lists+dri-devel@lfdr.de>; Mon, 11 Apr 2022 22:35:52 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 40B5610E009;
-	Mon, 11 Apr 2022 20:27:05 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 0852F10E00D;
+	Mon, 11 Apr 2022 20:35:49 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-ej1-x633.google.com (mail-ej1-x633.google.com
- [IPv6:2a00:1450:4864:20::633])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 455ED10E03A
- for <dri-devel@lists.freedesktop.org>; Mon, 11 Apr 2022 20:27:04 +0000 (UTC)
-Received: by mail-ej1-x633.google.com with SMTP id i27so33225133ejd.9
- for <dri-devel@lists.freedesktop.org>; Mon, 11 Apr 2022 13:27:04 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=vtXeoECWCYtOuibBR1WD+NzkQ5jAdZNOzd5gP7v/F68=;
- b=FSdxalS/9rQr38UcuUFjy48IsJb33ncqAiZcPoKDWhw7aaMROIkBOZlhuZdDYhMTOI
- mTFVYr9Qo+Cuab1Bo1oOkWZA4N1yEoh5fPXK9VRBkP5Awlvkbi5HJHeTzUVnJJ4ZqdVx
- JFghkUb5BEW6qzEsRsQcBWvvlKk97g4BcbK+MOLnXdIgy08noKOt3jiyYe1ao79XxqFb
- xmaEUGEOZ4CdTI6jnG4PsAOcOMFr3DPJUTJKzfPz6zzYbIaDTQ4G/OGWMfgXxduPToTu
- f/9gUsc3YZA3AQ5uNeKfzd0VUTsMf0AQt2x2Mo4dFxE4e9i+cykGe6M7AeClMbXXVZZp
- EV6w==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=vtXeoECWCYtOuibBR1WD+NzkQ5jAdZNOzd5gP7v/F68=;
- b=ktvIRUFVMUkDLQJO5yxcQZrZ2fXJnujtC1kNSb+DzCpd2TpUv2rQYnh4oDhebsJbmt
- odYpqhfq+4w0mvIgIZuGytITBfGBCVcrpH7l4FN/Q/pe3nVgSOACoAZhocf8ZNzhmcX5
- k1R4+n89jU1NU1/BsA2tUkO3C/rKeoBhR5Q17y3IAwZt8dUitw2ELONdkLR8uonT6SAK
- 6q3Mv7mFAsKYJBzk4MmzRCpPnJdqLqH9LCjA04CTa9N0xE8lGtyquvXAyXUhfLZI+bIU
- Lrsobb2vL0OQmuSNEht852O4yi7A0i3KSKFxyszbdX03cRV543b7Ns7lQ0BE9esGFoX2
- 0BCQ==
-X-Gm-Message-State: AOAM532/Brjz7Tyqe8S71AGU0Z5ZXmFD+m3XwKmDNYLgy612LbTUEaEK
- VMeXwePBbeCw8ayW1q9qmN27ByCXJTfS+hA93K4=
-X-Google-Smtp-Source: ABdhPJyvASstPUeUz9lGWA6v8FVDQ3IYNOsFIkQoMZ9P2t3/3626XRwt0koNl28e3mFYk9TFm1B8rA8hPRx1nXZhJbA=
-X-Received: by 2002:a17:906:c145:b0:6da:aaaf:770c with SMTP id
- dp5-20020a170906c14500b006daaaaf770cmr31277025ejc.504.1649708822640; Mon, 11
- Apr 2022 13:27:02 -0700 (PDT)
+Received: from phobos.denx.de (phobos.denx.de [85.214.62.61])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 189BA10E00C
+ for <dri-devel@lists.freedesktop.org>; Mon, 11 Apr 2022 20:35:47 +0000 (UTC)
+Received: from tr.lan (ip-86-49-12-201.net.upcbroadband.cz [86.49.12.201])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits))
+ (No client certificate requested)
+ (Authenticated sender: marex@denx.de)
+ by phobos.denx.de (Postfix) with ESMTPSA id 35D88811D8;
+ Mon, 11 Apr 2022 22:35:45 +0200 (CEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=denx.de;
+ s=phobos-20191101; t=1649709345;
+ bh=VJZN6aUkBXUaW76O9wqHNZ/O2S7aKgaReWYJ8/H1GUQ=;
+ h=From:To:Cc:Subject:Date:From;
+ b=RISDhEOPttjogdK5/FKV7Nm/HH+CrtEygg6pSVQ3yVcvNYuu3s6MKFN6GEMKnrgQE
+ MMqEbatsN79c7EUKCP+GXw6c1lf6mgt8S0WnBaXkMT9dYstes5wQAU1ebMbyHNjmLi
+ K6HTEvq0q4B9HjHfpismmeAR1GGBGhwGuC1Ct4zZRgb9ikTNZ0nZ8lTcMb0YCAbIXh
+ CUubhIFvq5Y1RBW4B5i6MhRul4viuyHUBRtqYYpF+jnsRfPSF3dSNQPhiPbG316Q6Q
+ cCHAQlO3KVYG6NOZ4koBkjP7xoNfuh43dszRomAMhzWEmbnosFYV/EqiTmHOHj7Ycq
+ Ro6mgcjdx0vKg==
+From: Marek Vasut <marex@denx.de>
+To: dri-devel@lists.freedesktop.org
+Subject: [PATCH v2] drm: mxsfb: Implement LCDIF scanout CRC32 support
+Date: Mon, 11 Apr 2022 22:35:31 +0200
+Message-Id: <20220411203531.774958-1-marex@denx.de>
+X-Mailer: git-send-email 2.35.1
 MIME-Version: 1.0
-References: <CGME20220408162213eucas1p158d7c7ee27006a61d4af95d3c72c58e3@eucas1p1.samsung.com>
- <20220408162108.184583-1-jagan@amarulasolutions.com>
- <4c693c6e-512b-a568-948a-4a1af6a1313a@samsung.com>
- <CAHCN7xK_H-nLA5Z6hJW5V0Bpo8bDKPU6UpN05kMBkG+PXmwBBw@mail.gmail.com>
- <bde95ab4-38d8-5249-053c-57fb58d1a200@samsung.com>
-In-Reply-To: <bde95ab4-38d8-5249-053c-57fb58d1a200@samsung.com>
-From: Adam Ford <aford173@gmail.com>
-Date: Mon, 11 Apr 2022 15:26:51 -0500
-Message-ID: <CAHCN7xJ+PhDE1ntk883c0vCux_impP88rF=GBQRQ+4tw9E-Guw@mail.gmail.com>
-Subject: Re: [PATCH 00/11] drm: bridge: Add Samsung MIPI DSIM bridge
-To: Marek Szyprowski <m.szyprowski@samsung.com>
-Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 8bit
+X-Virus-Scanned: clamav-milter 0.103.5 at phobos.denx.de
+X-Virus-Status: Clean
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -66,197 +50,235 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: dri-devel <dri-devel@lists.freedesktop.org>,
- devicetree <devicetree@vger.kernel.org>,
- linux-samsung-soc <linux-samsung-soc@vger.kernel.org>,
- Joonyoung Shim <jy0922.shim@samsung.com>,
- Neil Armstrong <narmstrong@baylibre.com>, Robert Foss <robert.foss@linaro.org>,
- Seung-Woo Kim <sw0312.kim@samsung.com>, NXP Linux Team <linux-imx@nxp.com>,
- Frieder Schrempf <frieder.schrempf@kontron.de>,
- Kyungmin Park <kyungmin.park@samsung.com>, Rob Herring <robh+dt@kernel.org>,
- Jagan Teki <jagan@amarulasolutions.com>,
- Andrzej Hajda <andrzej.hajda@intel.com>, Fancy Fang <chen.fang@nxp.com>,
- Michael Nazzareno Trimarchi <michael@amarulasolutions.com>,
- linux-amarula <linux-amarula@amarulasolutions.com>,
- arm-soc <linux-arm-kernel@lists.infradead.org>,
- Laurent Pinchart <Laurent.pinchart@ideasonboard.com>
+Cc: Marek Vasut <marex@denx.de>, Peng Fan <peng.fan@nxp.com>,
+ Alexander Stein <alexander.stein@ew.tq-group.com>, robert.foss@linaro.org,
+ Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
+ Robby Cai <robby.cai@nxp.com>, Sam Ravnborg <sam@ravnborg.org>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Mon, Apr 11, 2022 at 11:25 AM Marek Szyprowski
-<m.szyprowski@samsung.com> wrote:
->
-> On 11.04.2022 16:39, Adam Ford wrote:
-> > On Mon, Apr 11, 2022 at 8:56 AM Marek Szyprowski
-> > <m.szyprowski@samsung.com> wrote:
-> >> On 08.04.2022 18:20, Jagan Teki wrote:
-> >>> This series supports common bridge support for Samsung MIPI DSIM
-> >>> which is used in Exynos and i.MX8MM SoC's.
-> >>>
-> >>> Previous RFC can be available here [1].
-> >>>
-> >>> The final bridge supports both the Exynos and i.MX8MM DSI devices.
-> >>>
-> >>> On, summary this patch-set break the entire DSIM driver into
-> >>> - platform specific glue code for platform ops, component_ops.
-> >>> - common bridge driver which handle platform glue init and invoke.
-> >>>
-> >>> Patch 0000:   Samsung DSIM bridge
-> >>>
-> >>> Patch 0001:   platform init flag via driver_data
-> >>>
-> >>> Patch 0002/9:   bridge fixes, atomic API's
-> >>>
-> >>> Patch 0010:   document fsl,imx8mm-mipi-dsim
-> >>>
-> >>> Patch 0011:   add i.MX8MM DSIM support
-> >>>
-> >>> Tested in Engicam i.Core MX8M Mini SoM.
-> >>>
-> >>> Anyone interested, please have a look on this repo [2]
+The LCDIF controller as present in i.MX28/i.MX6SX/i.MX8M Mini/Nano has
+CRC_STAT register, which contains CRC32 of the frame as it was clocked
+out of the DPI interface of the LCDIF. This is most likely meant as a
+functional safety feature.
 
-I attempted to build your newer repo, but I get build errors:
+Unfortunately, there is zero documentation on how the CRC32 is calculated,
+there is no documentation of the polynomial, the init value, nor on which
+data is the checksum applied.
 
-~/src/linux-opendev$ make Image modules ARCH=arm64
-CROSS_COMPILE=aarch64-linux-gnu- -j8
-  CALL    scripts/atomic/check-atomics.sh
-  CALL    scripts/checksyscalls.sh
-  CHK     include/generated/compile.h
-  MODPOST modules-only.symvers
-ERROR: modpost: "dsi_driver" [drivers/gpu/drm/exynos/exynosdrm.ko] undefined!
-make[1]: *** [scripts/Makefile.modpost:134: modules-only.symvers] Error 1
-make[1]: *** Deleting file 'modules-only.symvers'
-make: *** [Makefile:1746: modules] Error 2
+By applying brute-force on 8 pixel / 2 line frame, which is the minimum
+size LCDIF would work with, it turns out the polynomial is CRC32_POLY_LE
+0xedb88320 , init value is 0xffffffff , the input data are bitrev32()
+of the entire frame and the resulting CRC has to be also bitrev32()ed.
 
-I'm using gcc version 11.2.0 (Ubuntu 11.2.0-17ubuntu1) part of the
-ubuntu 22.04 beta.  I know it's beta, so it might be buggy, but I
-expect GCC 11.2 to be stable.
+Doing this calculation in kernel for each frame is unrealistic due to the
+CPU demand, so attach the CRC collected from hardware to a frame instead.
+The DRM subsystem already has an interface for this purpose and the CRC
+can be accessed e.g. via debugfs:
+"
+$ echo auto > /sys/kernel/debug/dri/1/crtc-0/crc/control
+$ cat /sys/kernel/debug/dri/1/crtc-0/crc/data
+0x0000408c 0xa4e5cdd8
+0x0000408d 0x72f537b4
+"
+The per-frame CRC can be used by userspace e.g. during automated testing,
+to verify that whatever buffer was sent to be scanned out was actually
+scanned out of the LCDIF correctly.
 
-I'm going to keep investigating.  If I find a fix, I'll send you a
-private message with the patch attached to avoid spamming everyone.
+Signed-off-by: Marek Vasut <marex@denx.de>
+Cc: Alexander Stein <alexander.stein@ew.tq-group.com>
+Cc: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+Cc: Lucas Stach <l.stach@pengutronix.de>
+Cc: Peng Fan <peng.fan@nxp.com>
+Cc: Robby Cai <robby.cai@nxp.com>
+Cc: Sam Ravnborg <sam@ravnborg.org>
+Cc: Stefan Agner <stefan@agner.ch>
+---
+V2: Check crtc for non-NULL before dereferencing it in mxsfb_crtc_set_crc_source
+---
+ drivers/gpu/drm/mxsfb/mxsfb_drv.c  | 15 +++++++-
+ drivers/gpu/drm/mxsfb/mxsfb_drv.h  |  3 ++
+ drivers/gpu/drm/mxsfb/mxsfb_kms.c  | 61 ++++++++++++++++++++++++++++--
+ drivers/gpu/drm/mxsfb/mxsfb_regs.h |  1 +
+ 4 files changed, 75 insertions(+), 5 deletions(-)
 
-adam
+diff --git a/drivers/gpu/drm/mxsfb/mxsfb_drv.c b/drivers/gpu/drm/mxsfb/mxsfb_drv.c
+index 94cafff7f68d5..ccf4107476ecc 100644
+--- a/drivers/gpu/drm/mxsfb/mxsfb_drv.c
++++ b/drivers/gpu/drm/mxsfb/mxsfb_drv.c
+@@ -9,6 +9,7 @@
+  */
+ 
+ #include <linux/clk.h>
++#include <linux/crc32.h>
+ #include <linux/dma-mapping.h>
+ #include <linux/io.h>
+ #include <linux/module.h>
+@@ -52,6 +53,7 @@ static const struct mxsfb_devdata mxsfb_devdata[] = {
+ 		.hs_wdth_shift	= 24,
+ 		.has_overlay	= false,
+ 		.has_ctrl2	= false,
++		.has_crc32	= false,
+ 	},
+ 	[MXSFB_V4] = {
+ 		.transfer_count	= LCDC_V4_TRANSFER_COUNT,
+@@ -61,6 +63,7 @@ static const struct mxsfb_devdata mxsfb_devdata[] = {
+ 		.hs_wdth_shift	= 18,
+ 		.has_overlay	= false,
+ 		.has_ctrl2	= true,
++		.has_crc32	= true,
+ 	},
+ 	[MXSFB_V6] = {
+ 		.transfer_count	= LCDC_V4_TRANSFER_COUNT,
+@@ -70,6 +73,7 @@ static const struct mxsfb_devdata mxsfb_devdata[] = {
+ 		.hs_wdth_shift	= 18,
+ 		.has_overlay	= true,
+ 		.has_ctrl2	= true,
++		.has_crc32	= true,
+ 	},
+ };
+ 
+@@ -145,12 +149,19 @@ static irqreturn_t mxsfb_irq_handler(int irq, void *data)
+ {
+ 	struct drm_device *drm = data;
+ 	struct mxsfb_drm_private *mxsfb = drm->dev_private;
+-	u32 reg;
++	u32 reg, crc;
++	u64 vbc;
+ 
+ 	reg = readl(mxsfb->base + LCDC_CTRL1);
+ 
+-	if (reg & CTRL1_CUR_FRAME_DONE_IRQ)
++	if (reg & CTRL1_CUR_FRAME_DONE_IRQ) {
+ 		drm_crtc_handle_vblank(&mxsfb->crtc);
++		if (mxsfb->crc_active) {
++			crc = readl(mxsfb->base + LCDC_V4_CRC_STAT);
++			vbc = drm_crtc_accurate_vblank_count(&mxsfb->crtc);
++			drm_crtc_add_crc_entry(&mxsfb->crtc, true, vbc, &crc);
++		}
++	}
+ 
+ 	writel(CTRL1_CUR_FRAME_DONE_IRQ, mxsfb->base + LCDC_CTRL1 + REG_CLR);
+ 
+diff --git a/drivers/gpu/drm/mxsfb/mxsfb_drv.h b/drivers/gpu/drm/mxsfb/mxsfb_drv.h
+index ddb5b0417a82c..d160d921b25fc 100644
+--- a/drivers/gpu/drm/mxsfb/mxsfb_drv.h
++++ b/drivers/gpu/drm/mxsfb/mxsfb_drv.h
+@@ -23,6 +23,7 @@ struct mxsfb_devdata {
+ 	unsigned int	hs_wdth_shift;
+ 	bool		has_overlay;
+ 	bool		has_ctrl2;
++	bool		has_crc32;
+ };
+ 
+ struct mxsfb_drm_private {
+@@ -44,6 +45,8 @@ struct mxsfb_drm_private {
+ 	struct drm_encoder		encoder;
+ 	struct drm_connector		*connector;
+ 	struct drm_bridge		*bridge;
++
++	bool				crc_active;
+ };
+ 
+ static inline struct mxsfb_drm_private *
+diff --git a/drivers/gpu/drm/mxsfb/mxsfb_kms.c b/drivers/gpu/drm/mxsfb/mxsfb_kms.c
+index c7f14ef1edc25..323087944ac56 100644
+--- a/drivers/gpu/drm/mxsfb/mxsfb_kms.c
++++ b/drivers/gpu/drm/mxsfb/mxsfb_kms.c
+@@ -454,6 +454,41 @@ static void mxsfb_crtc_disable_vblank(struct drm_crtc *crtc)
+ 	writel(CTRL1_CUR_FRAME_DONE_IRQ, mxsfb->base + LCDC_CTRL1 + REG_CLR);
+ }
+ 
++static int mxsfb_crtc_set_crc_source(struct drm_crtc *crtc, const char *source)
++{
++	struct mxsfb_drm_private *mxsfb;
++
++	if (!crtc)
++		return -ENODEV;
++
++	mxsfb = to_mxsfb_drm_private(crtc->dev);
++
++	if (source && strcmp(source, "auto") == 0)
++		mxsfb->crc_active = true;
++	else if (!source)
++		mxsfb->crc_active = false;
++	else
++		return -EINVAL;
++
++	return 0;
++}
++
++static int mxsfb_crtc_verify_crc_source(struct drm_crtc *crtc,
++					const char *source, size_t *values_cnt)
++{
++	if (!crtc)
++		return -ENODEV;
++
++	if (source && strcmp(source, "auto") != 0) {
++		DRM_DEBUG_DRIVER("Unknown CRC source %s for %s\n",
++				 source, crtc->name);
++		return -EINVAL;
++	}
++
++	*values_cnt = 1;
++	return 0;
++}
++
+ static const struct drm_crtc_helper_funcs mxsfb_crtc_helper_funcs = {
+ 	.atomic_check = mxsfb_crtc_atomic_check,
+ 	.atomic_flush = mxsfb_crtc_atomic_flush,
+@@ -472,6 +507,19 @@ static const struct drm_crtc_funcs mxsfb_crtc_funcs = {
+ 	.disable_vblank = mxsfb_crtc_disable_vblank,
+ };
+ 
++static const struct drm_crtc_funcs mxsfb_crtc_with_crc_funcs = {
++	.reset = drm_atomic_helper_crtc_reset,
++	.destroy = drm_crtc_cleanup,
++	.set_config = drm_atomic_helper_set_config,
++	.page_flip = drm_atomic_helper_page_flip,
++	.atomic_duplicate_state = drm_atomic_helper_crtc_duplicate_state,
++	.atomic_destroy_state = drm_atomic_helper_crtc_destroy_state,
++	.enable_vblank = mxsfb_crtc_enable_vblank,
++	.disable_vblank = mxsfb_crtc_disable_vblank,
++	.set_crc_source = mxsfb_crtc_set_crc_source,
++	.verify_crc_source = mxsfb_crtc_verify_crc_source,
++};
++
+ /* -----------------------------------------------------------------------------
+  * Encoder
+  */
+@@ -655,9 +703,16 @@ int mxsfb_kms_init(struct mxsfb_drm_private *mxsfb)
+ 	}
+ 
+ 	drm_crtc_helper_add(crtc, &mxsfb_crtc_helper_funcs);
+-	ret = drm_crtc_init_with_planes(mxsfb->drm, crtc,
+-					&mxsfb->planes.primary, NULL,
+-					&mxsfb_crtc_funcs, NULL);
++	if (mxsfb->devdata->has_crc32) {
++		ret = drm_crtc_init_with_planes(mxsfb->drm, crtc,
++						&mxsfb->planes.primary, NULL,
++						&mxsfb_crtc_with_crc_funcs,
++						NULL);
++	} else {
++		ret = drm_crtc_init_with_planes(mxsfb->drm, crtc,
++						&mxsfb->planes.primary, NULL,
++						&mxsfb_crtc_funcs, NULL);
++	}
+ 	if (ret)
+ 		return ret;
+ 
+diff --git a/drivers/gpu/drm/mxsfb/mxsfb_regs.h b/drivers/gpu/drm/mxsfb/mxsfb_regs.h
+index 694fea13e893e..cf813a1da1d78 100644
+--- a/drivers/gpu/drm/mxsfb/mxsfb_regs.h
++++ b/drivers/gpu/drm/mxsfb/mxsfb_regs.h
+@@ -26,6 +26,7 @@
+ #define LCDC_VDCTRL2			0x90
+ #define LCDC_VDCTRL3			0xa0
+ #define LCDC_VDCTRL4			0xb0
++#define LCDC_V4_CRC_STAT		0x1a0
+ #define LCDC_V4_DEBUG0			0x1d0
+ #define LCDC_V3_DEBUG0			0x1f0
+ #define LCDC_AS_CTRL			0x210
+-- 
+2.35.1
 
-> >>>
-> >>> [2] https://protect2.fireeye.com/v1/url?k=930e329a-f28527b5-930fb9d5-74fe485cbfe7-b0c53e2d688ddbc5&q=1&e=e6aa727d-5ae2-4ca5-bff3-7f62d8fae87e&u=https%3A%2F%2Fgithub.com%2Fopenedev%2Fkernel%2Ftree%2Fimx8mm-dsi-v1
-> >>> [1] https://lore.kernel.org/linux-arm-kernel/YP2j9k5SrZ2%2Fo2%2F5@ravnborg.org/T/
-> >>>
-> >>> Any inputs?
-> >> I wanted to test this on the Exynos, but I wasn't able to find what base
-> >> should I apply this patchset. I've tried linux-next as well as
-> >> 95a2441e4347 ("drm: exynos: dsi: Switch to atomic funcs").
-> >>
-> >> Please note that pointing a proper base for the patchset is really
-> >> essential if you really want others to test it.
-> > Can you clone his repo and test that?  He posted it above.  I was
-> > going to clone it at some point this week to give it a try.
->
-> Okay, my fault. I've missed that.
->
-> There is a trivial compilation issue,
-> drivers/gpu/drm/exynos/exynos_drm_dsi.c lacks "#include
-> <linux/gpio/consumer.h>" after conversion. Besides that, it simply nukes
-> on the simplest Exynos setup (exynos4210-trats) during the initialization:
->
-> [drm] Exynos DRM: using 11c00000.fimd device for DMA mapping operations
-> exynos-drm exynos-drm: bound 11c00000.fimd (ops fimd_component_ops)
-> 8<--- cut here ---
-> Unable to handle kernel NULL pointer dereference at virtual address 00000048
-> [00000048] *pgd=00000000
-> Internal error: Oops: 5 [#1] PREEMPT SMP ARM
-> Modules linked in:
-> CPU: 0 PID: 1 Comm: swapper/0 Not tainted
-> 5.17.0-rc2-00577-g22e968113668-dirty #11635
-> Hardware name: Samsung Exynos (Flattened Device Tree)
-> PC is at exynos_dsi_bind+0x14/0x3c
-> LR is at component_bind_all+0x130/0x290
-> pc : [<c06924e0>]    lr : [<c06b0f6c>]    psr: 60000113
-> sp : c1cafcb8  ip : 00000002  fp : c0f4a53c
-> r10: c135e6a8  r9 : c1efd800  r8 : 00000000
-> r7 : c26d2100  r6 : c2c69fc0  r5 : 00000018  r4 : 00000000
-> r3 : c06924cc  r2 : 00000002  r1 : 00000000  r0 : c1efd800
-> Flags: nZCv  IRQs on  FIQs on  Mode SVC_32  ISA ARM  Segment none
-> Control: 10c5387d  Table: 4000404a  DAC: 00000051
-> Register r0 information: slab kmalloc-2k start c1efd800 pointer offset 0
-> size 2048
-> Register r1 information: NULL pointer
-> Register r2 information: non-paged memory
-> Register r3 information: non-slab/vmalloc memory
-> Register r4 information: NULL pointer
-> Register r5 information: non-paged memory
-> Register r6 information: slab kmalloc-64 start c2c69fc0 pointer offset 0
-> size 64
-> Register r7 information: slab kmalloc-64 start c26d2100 pointer offset 0
-> size 64
-> Register r8 information: NULL pointer
-> Register r9 information: slab kmalloc-2k start c1efd800 pointer offset 0
-> size 2048
-> Register r10 information: non-slab/vmalloc memory
-> Register r11 information: non-slab/vmalloc memory
-> Register r12 information: non-paged memory
-> Process swapper/0 (pid: 1, stack limit = 0x(ptrval))
-> Stack: (0xc1cafcb8 to 0xc1cb0000)
-> ...
->   exynos_dsi_bind from component_bind_all+0x130/0x290
->   component_bind_all from exynos_drm_bind+0xe8/0x194
->   exynos_drm_bind from try_to_bring_up_master+0x208/0x2d0
->   try_to_bring_up_master from component_master_add_with_match+0xd0/0x104
->   component_master_add_with_match from exynos_drm_platform_probe+0xe8/0x118
->   exynos_drm_platform_probe from platform_probe+0x80/0xc0
->   platform_probe from really_probe+0xfc/0x440
->   really_probe from __driver_probe_device+0xa4/0x204
->   __driver_probe_device from driver_probe_device+0x34/0xd4
->   driver_probe_device from __driver_attach+0x114/0x184
->   __driver_attach from bus_for_each_dev+0x64/0xb0
->   bus_for_each_dev from bus_add_driver+0x170/0x20c
->   bus_add_driver from driver_register+0x78/0x10c
->   driver_register from exynos_drm_init+0xe0/0x14c
->   exynos_drm_init from do_one_initcall+0x6c/0x3a4
->   do_one_initcall from kernel_init_freeable+0x1c4/0x214
->   kernel_init_freeable from kernel_init+0x18/0x12c
->   kernel_init from ret_from_fork+0x14/0x2c
-> Exception stack(0xc1caffb0 to 0xc1cafff8)
-> ffa0:                                     00000000 00000000 00000000
-> 00000000
-> ffc0: 00000000 00000000 00000000 00000000 00000000 00000000 00000000
-> 00000000
-> ffe0: 00000000 00000000 00000000 00000000 00000013 00000000
-> Code: e5904040 e1a00002 e3a02002 e1a01004 (e5945048)
-> ---[ end trace 0000000000000000 ]---
-> Kernel panic - not syncing: Attempted to kill init! exitcode=0x0000000b
-> CPU1: stopping
-> CPU: 1 PID: 0 Comm: swapper/1 Tainted: G      D
-> 5.17.0-rc2-00577-g22e968113668-dirty #11635
-> Hardware name: Samsung Exynos (Flattened Device Tree)
->   unwind_backtrace from show_stack+0x10/0x14
->   show_stack from dump_stack_lvl+0x58/0x70
->   dump_stack_lvl from do_handle_IPI+0x2ec/0x36c
->   do_handle_IPI from ipi_handler+0x18/0x20
->   ipi_handler from handle_percpu_devid_irq+0xd0/0x394
->   handle_percpu_devid_irq from generic_handle_domain_irq+0x44/0x88
->   generic_handle_domain_irq from gic_handle_irq+0x88/0xac
->   gic_handle_irq from generic_handle_arch_irq+0x58/0x78
->   generic_handle_arch_irq from __irq_svc+0x54/0x88
-> Exception stack(0xc1cd1f48 to 0xc1cd1f90)
-> 1f40:                   00000001 c0eff5a4 00000001 c011ca80 c1208f0c
-> c1353420
-> 1f60: 00000000 c1d8d000 00000000 c0f34234 c1d8d000 00000000 c0eeee98
-> c1cd1f98
-> 1f80: c0109144 c0109148 20000013 ffffffff
->   __irq_svc from arch_cpu_idle+0x40/0x44
->   arch_cpu_idle from default_idle_call+0x74/0x2c4
->   default_idle_call from do_idle+0x1cc/0x284
->   do_idle from cpu_startup_entry+0x18/0x1c
->   cpu_startup_entry from 0x401018b4
-> ---[ end Kernel panic - not syncing: Attempted to kill init!
-> exitcode=0x0000000b ]---
->
->
-> I will try to take a look into this later in the evening.
->
->
-> Best regards
-> --
-> Marek Szyprowski, PhD
-> Samsung R&D Institute Poland
->
