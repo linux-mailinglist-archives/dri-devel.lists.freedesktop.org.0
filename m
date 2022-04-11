@@ -1,79 +1,48 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id C43024FB664
-	for <lists+dri-devel@lfdr.de>; Mon, 11 Apr 2022 10:52:52 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id C1A6C4FB688
+	for <lists+dri-devel@lfdr.de>; Mon, 11 Apr 2022 10:56:26 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id D153310EE73;
-	Mon, 11 Apr 2022 08:52:50 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 8715210ECEB;
+	Mon, 11 Apr 2022 08:56:24 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from us-smtp-delivery-124.mimecast.com
- (us-smtp-delivery-124.mimecast.com [170.10.133.124])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 6C91A10F2D2
- for <dri-devel@lists.freedesktop.org>; Mon, 11 Apr 2022 08:52:49 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1649667168;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding;
- bh=3vF22tUUU5mQz2MMbsVAqGRpsABBDO2J9NhzUkzJrNw=;
- b=et7ZbtjZQjxgp9FVCHUPbhXQvJtNoC1PMLUOowtjAM8t2mGQFFX6WMwY2IXpx8KKn7ujkz
- lFAehmYF00kfHagBc8GvORlwfN3XKytn85lWMJOyw+OjcMo/+I7/p33CsW1o7QXQMEEScm
- +EQeNDHBOgxAC6cAjhG6m24Wz/oCSyk=
-Received: from mail-ed1-f70.google.com (mail-ed1-f70.google.com
- [209.85.208.70]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-462-faPDYB43P7eVS7WFe-vdLA-1; Mon, 11 Apr 2022 04:52:44 -0400
-X-MC-Unique: faPDYB43P7eVS7WFe-vdLA-1
-Received: by mail-ed1-f70.google.com with SMTP id
- l14-20020aa7cace000000b003f7f8e1cbbdso8566096edt.20
- for <dri-devel@lists.freedesktop.org>; Mon, 11 Apr 2022 01:52:44 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=x-gm-message-state:message-id:date:mime-version:user-agent:to
- :content-language:from:subject:content-transfer-encoding;
- bh=3vF22tUUU5mQz2MMbsVAqGRpsABBDO2J9NhzUkzJrNw=;
- b=tCaWxe2cj5IxWp4eqCn0ymP0sehALSbYSYurdsujB1QbtJWy74kJpkaKndsTNCJ768
- VcPF5oYvZ/Xnv2+qDt7RPYeGllssGdPPAniIEpDD5jT95XJRawXfbveHTS9yEwjC9X4M
- /kdvd77xAJbU4mbptW6EsyFZsmE4k16wkTZgVBjawglpmqUlmwJA5mW5byTySfeUlRY7
- j9VpDba4J1UHkG9Rsn7BtnDItosfSOhPnxVzsGVWc0CKiN18EaNHg2rNMA2b6j5Lohae
- zphXSLsfx4mTHUG7FIFVBfoxR7kKBLDDXiGSN0Ja83+k0IxQhd9NEBtGxEhnz8G4PTNI
- kq2w==
-X-Gm-Message-State: AOAM530k4ukx7fuA/HEYkNi+w/4VprIJdAdBQ1m3jU2hTbqwvuOJ2Za7
- B1MeLIox4fJekr8T2p8rLA/3YCTEZrvXMmEPK4sdj2c3b6g/S0p/OgwMPLD/kURrGc58CP9INTh
- mNexxWQI0axsR8odFK4xULXNCmcaC
-X-Received: by 2002:aa7:d543:0:b0:416:13eb:6fec with SMTP id
- u3-20020aa7d543000000b0041613eb6fecmr32613452edr.348.1649667163803; 
- Mon, 11 Apr 2022 01:52:43 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJxk6gMCM8hNzyJd6iz1CEcJcPZ6bA4l4Q1eoDTZQZEir4whNxpF03iCABMMNp4xK8HhmQnN8w==
-X-Received: by 2002:aa7:d543:0:b0:416:13eb:6fec with SMTP id
- u3-20020aa7d543000000b0041613eb6fecmr32613436edr.348.1649667163483; 
- Mon, 11 Apr 2022 01:52:43 -0700 (PDT)
-Received: from [10.40.98.142] ([78.108.130.194])
- by smtp.gmail.com with ESMTPSA id
- z21-20020a05640240d500b0041d7f66a9cesm1055757edb.41.2022.04.11.01.52.42
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Mon, 11 Apr 2022 01:52:43 -0700 (PDT)
-Message-ID: <2bd4b06e-7577-d7d7-5f2e-264005b316a1@redhat.com>
-Date: Mon, 11 Apr 2022 10:52:42 +0200
+Received: from mga09.intel.com (mga09.intel.com [134.134.136.24])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 088E610ECEB;
+ Mon, 11 Apr 2022 08:56:23 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+ t=1649667384; x=1681203384;
+ h=from:to:cc:subject:date:message-id:mime-version:
+ content-transfer-encoding;
+ bh=13OQdWSkuLJXaieCDniu3qU6nviMycszqyYxsKu5FfY=;
+ b=EqCNsNO9zYsuW56mhp+aolhcF9LHgOtU5U28xpSISO28T0wYX7VLnH5o
+ WIfFhJpI4DF+XekgGDLZxGIziF9XlZgnoggJTrgg+SYW70zaghzNuhY7c
+ V29YYLFN/3d+0AVLFHKpK3PttJ1O5HIuj4E84XuY09dxdzxoCIrELT3rx
+ dpT5nshIWtnciDRoK/UbA+4w++cUVEBX8Wf7pw8gqSkbmjOahkG6m4yKT
+ WOrslT+BF24epgAjRUHKXKOUxjLJWCl45N6JR+Ad8tXDCZVWJT5Ep2Yrl
+ 3e4mpDoLQsRf7WStQ6vaaoI941kVWg9MtaI1vQy8htSzA/o/lTza5+YnH g==;
+X-IronPort-AV: E=McAfee;i="6400,9594,10313"; a="261508504"
+X-IronPort-AV: E=Sophos;i="5.90,251,1643702400"; d="scan'208";a="261508504"
+Received: from orsmga004.jf.intel.com ([10.7.209.38])
+ by orsmga102.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 11 Apr 2022 01:56:23 -0700
+X-IronPort-AV: E=Sophos;i="5.90,251,1643702400"; d="scan'208";a="659971031"
+Received: from dxharrix-mobl.ger.corp.intel.com (HELO mwauld-desk1.intel.com)
+ ([10.252.1.119])
+ by orsmga004-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 11 Apr 2022 01:56:21 -0700
+From: Matthew Auld <matthew.auld@intel.com>
+To: intel-gfx@lists.freedesktop.org
+Subject: [PATCH] drm/ttm: stop passing NULL fence in ttm_bo_move_sync_cleanup
+Date: Mon, 11 Apr 2022 09:56:03 +0100
+Message-Id: <20220411085603.58156-1-matthew.auld@intel.com>
+X-Mailer: git-send-email 2.34.1
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.7.0
-To: regressions@lists.linux.dev,
- VMware Graphics <linux-graphics-maintainer@vmware.com>,
- Zack Rusin <zackr@vmware.com>,
- "dri-devel@lists.freedesktop.org" <dri-devel@lists.freedesktop.org>
-From: Hans de Goede <hdegoede@redhat.com>
-Subject: 5.18 vmwgfx seems to break booting VirtualBox VMs
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=hdegoede@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Language: en-US
 Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -86,24 +55,126 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
+Cc: =?UTF-8?q?Thomas=20Hellstr=C3=B6m?= <thomas.hellstrom@linux.intel.com>,
+ Lucas De Marchi <lucas.demarchi@intel.com>,
+ =?UTF-8?q?Christian=20K=C3=B6nig?= <christian.koenig@amd.com>,
+ dri-devel@lists.freedesktop.org, Nirmoy Das <nirmoy.das@linux.intel.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi All,
+If we hit the sync case, like when skipping clearing for kernel internal
+objects, or when falling back to cpu clearing, like in i915, we end up
+trying to add a NULL fence, but with some recent changes in this area
+this now just results in NULL deref in dma_resv_add_fence:
 
-Fedora has received a bug report here:
+<1>[    5.466383] BUG: kernel NULL pointer dereference, address: 0000000000000008
+<1>[    5.466384] #PF: supervisor read access in kernel mode
+<1>[    5.466385] #PF: error_code(0x0000) - not-present page
+<6>[    5.466386] PGD 0 P4D 0
+<4>[    5.466387] Oops: 0000 [#1] PREEMPT SMP NOPTI
+<4>[    5.466389] CPU: 5 PID: 267 Comm: modprobe Not tainted 5.18.0-rc2-CI-CI_DRM_11481+ #1
+<4>[    5.466391] RIP: 0010:dma_resv_add_fence+0x63/0x260
+<4>[    5.466395] Code: 38 85 c0 0f 84 df 01 00 00 0f 88 e8 01 00 00 83 c0 01 0f 88 df 01 00 00 8b 05 35 89 10 01 49 8d 5e 68 85 c0 0f 85 45 01 00 00 <48> 8b 45 08 48 3d c0 a5 0a 82 0f 84 5c 01 00 00 48 3d 60 a5 0a 82
+<4>[    5.466396] RSP: 0018:ffffc90000e974f8 EFLAGS: 00010202
+<4>[    5.466397] RAX: 0000000000000001 RBX: ffff888123e88b28 RCX: 00000000ffffffff
+<4>[    5.466398] RDX: 0000000000000001 RSI: ffffffff822e4f50 RDI: ffffffff8233f087
+<4>[    5.466399] RBP: 0000000000000000 R08: ffff8881313dbc80 R09: 0000000000000001
+<4>[    5.466399] R10: 0000000000000001 R11: 00000000da354294 R12: 0000000000000000
+<4>[    5.466400] R13: ffff88810927dc58 R14: ffff888123e88ac0 R15: ffff88810a88d600
+<4>[    5.466401] FS:  00007f5fa1193540(0000) GS:ffff88845d880000(0000) knlGS:0000000000000000
+<4>[    5.466402] CS:  0010 DS: 0000 ES: 0000 CR0: 0000000080050033
+<4>[    5.466402] CR2: 0000000000000008 CR3: 0000000106dd6003 CR4: 00000000003706e0
+<4>[    5.466403] DR0: 0000000000000000 DR1: 0000000000000000 DR2: 0000000000000000
+<4>[    5.466404] DR3: 0000000000000000 DR6: 00000000fffe0ff0 DR7: 0000000000000400
+<4>[    5.466404] Call Trace:
+<4>[    5.466405]  <TASK>
+<4>[    5.466406]  ttm_bo_move_accel_cleanup+0x62/0x270 [ttm]
+<4>[    5.466411]  ? i915_rsgt_from_buddy_resource+0x185/0x1e0 [i915]
+<4>[    5.466529]  i915_ttm_move+0xfd/0x430 [i915]
+<4>[    5.466833]  ? dma_resv_reserve_fences+0x4e/0x320
+<4>[    5.466836]  ? ttm_bo_add_move_fence.constprop.20+0xf7/0x140 [ttm]
+<4>[    5.466841]  ttm_bo_handle_move_mem+0xa1/0x140 [ttm]
+<4>[    5.466845]  ttm_bo_validate+0xee/0x160 [ttm]
+<4>[    5.466849]  __i915_ttm_get_pages+0x4f/0x210 [i915]
+<4>[    5.466976]  i915_ttm_get_pages+0xad/0x140 [i915]
+<4>[    5.467094]  ____i915_gem_object_get_pages+0x32/0xf0 [i915]
+<4>[    5.467210]  __i915_gem_object_get_pages+0x89/0xa0 [i915]
+<4>[    5.467323]  i915_vma_get_pages+0x114/0x1d0 [i915]
+<4>[    5.467446]  i915_vma_pin_ww+0xd3/0xa90 [i915]
+<4>[    5.467570]  i915_vma_pin.constprop.10+0x119/0x1b0 [i915]
+<4>[    5.467700]  ? __mutex_unlock_slowpath+0x3e/0x2b0
+<4>[    5.467704]  intel_alloc_initial_plane_obj.isra.6+0x1a9/0x390 [i915]
+<4>[    5.467833]  intel_crtc_initial_plane_config+0x83/0x340 [i915]
 
-https://bugzilla.redhat.com/show_bug.cgi?id=2072556
+In the ttm_bo_move_sync_cleanup() case it seems we only really care
+about calling ttm_bo_wait_free_node(), so let's instead just call that
+directly.
 
-That Fedora rawhide VMs no longer boot under the VirtualBox hypervisor
-after the VM has been updated to a 5.18-rc# kernel.
+Signed-off-by: Matthew Auld <matthew.auld@intel.com>
+Cc: Thomas Hellström <thomas.hellstrom@linux.intel.com>
+Cc: Christian König <christian.koenig@amd.com>
+Cc: Lucas De Marchi <lucas.demarchi@intel.com>
+Cc: Nirmoy Das <nirmoy.das@linux.intel.com>
+---
+ drivers/gpu/drm/ttm/ttm_bo_util.c | 15 +++++++++++++++
+ include/drm/ttm/ttm_bo_driver.h   | 11 +++--------
+ 2 files changed, 18 insertions(+), 8 deletions(-)
 
-Switching the emulated GPU from vmwaregfx to VirtualBoxSVGA fixes
-this, so this seems to be a vmwgfx driver regression.
-
-Note I've not investigated/reproduced this myself due to -ENOTIME.
-
-Regards,
-
-Hans
+diff --git a/drivers/gpu/drm/ttm/ttm_bo_util.c b/drivers/gpu/drm/ttm/ttm_bo_util.c
+index bc5190340b9c..1cbfb00c1d65 100644
+--- a/drivers/gpu/drm/ttm/ttm_bo_util.c
++++ b/drivers/gpu/drm/ttm/ttm_bo_util.c
+@@ -572,6 +572,21 @@ int ttm_bo_move_accel_cleanup(struct ttm_buffer_object *bo,
+ }
+ EXPORT_SYMBOL(ttm_bo_move_accel_cleanup);
+ 
++void ttm_bo_move_sync_cleanup(struct ttm_buffer_object *bo,
++			      struct ttm_resource *new_mem)
++{
++	struct ttm_device *bdev = bo->bdev;
++	struct ttm_resource_manager *man = ttm_manager_type(bdev, new_mem->mem_type);
++	int ret;
++
++	ret = ttm_bo_wait_free_node(bo, man->use_tt);
++	if (WARN_ON(ret))
++		return;
++
++	ttm_bo_assign_mem(bo, new_mem);
++}
++EXPORT_SYMBOL(ttm_bo_move_sync_cleanup);
++
+ /**
+  * ttm_bo_pipeline_gutting - purge the contents of a bo
+  * @bo: The buffer object
+diff --git a/include/drm/ttm/ttm_bo_driver.h b/include/drm/ttm/ttm_bo_driver.h
+index 059a595e14e5..897b88f0bd59 100644
+--- a/include/drm/ttm/ttm_bo_driver.h
++++ b/include/drm/ttm/ttm_bo_driver.h
+@@ -245,7 +245,7 @@ int ttm_bo_move_accel_cleanup(struct ttm_buffer_object *bo,
+ 			      struct ttm_resource *new_mem);
+ 
+ /**
+- * ttm_bo_move_accel_cleanup.
++ * ttm_bo_move_sync_cleanup.
+  *
+  * @bo: A pointer to a struct ttm_buffer_object.
+  * @new_mem: struct ttm_resource indicating where to move.
+@@ -253,13 +253,8 @@ int ttm_bo_move_accel_cleanup(struct ttm_buffer_object *bo,
+  * Special case of ttm_bo_move_accel_cleanup where the bo is guaranteed
+  * by the caller to be idle. Typically used after memcpy buffer moves.
+  */
+-static inline void ttm_bo_move_sync_cleanup(struct ttm_buffer_object *bo,
+-					    struct ttm_resource *new_mem)
+-{
+-	int ret = ttm_bo_move_accel_cleanup(bo, NULL, true, false, new_mem);
+-
+-	WARN_ON(ret);
+-}
++void ttm_bo_move_sync_cleanup(struct ttm_buffer_object *bo,
++			      struct ttm_resource *new_mem);
+ 
+ /**
+  * ttm_bo_pipeline_gutting.
+-- 
+2.34.1
 
