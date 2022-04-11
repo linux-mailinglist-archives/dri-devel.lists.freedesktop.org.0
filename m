@@ -2,69 +2,69 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4EF144FB2FD
-	for <lists+dri-devel@lfdr.de>; Mon, 11 Apr 2022 06:41:24 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 5DD624FB300
+	for <lists+dri-devel@lfdr.de>; Mon, 11 Apr 2022 06:41:29 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id A052210EB82;
-	Mon, 11 Apr 2022 04:41:06 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 0D03F10EB94;
+	Mon, 11 Apr 2022 04:41:08 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from wout1-smtp.messagingengine.com (wout1-smtp.messagingengine.com
  [64.147.123.24])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 0578610EB82
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 1712F10EB85
  for <dri-devel@lists.freedesktop.org>; Mon, 11 Apr 2022 04:41:05 +0000 (UTC)
-Received: from compute2.internal (compute2.nyi.internal [10.202.2.46])
- by mailout.west.internal (Postfix) with ESMTP id 8B2083201F24;
- Mon, 11 Apr 2022 00:34:45 -0400 (EDT)
+Received: from compute4.internal (compute4.nyi.internal [10.202.2.44])
+ by mailout.west.internal (Postfix) with ESMTP id DEAF13201F43;
+ Mon, 11 Apr 2022 00:34:48 -0400 (EDT)
 Received: from mailfrontend2 ([10.202.2.163])
- by compute2.internal (MEProxy); Mon, 11 Apr 2022 00:34:46 -0400
+ by compute4.internal (MEProxy); Mon, 11 Apr 2022 00:34:49 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=sholland.org; h=
  cc:cc:content-transfer-encoding:date:date:from:from:in-reply-to
  :in-reply-to:message-id:mime-version:references:reply-to:sender
- :subject:subject:to:to; s=fm2; t=1649651685; x=1649738085; bh=dV
- 6axH3/ykmO8vUfS4KlQCnk6Z++gzInmDF0xTlcbdk=; b=gp5qekperI4VFnl6Me
- RmvGnnnZEKAzcp6PuSYfi+rzeLj3ZtH5G5qGDz32qtAYEqWSaZa/eo4Tnf/EoxwA
- +rd62xGKF8WiYGcklanb5/090dwWhDcmClcvJCkAkzOiLdvydayMslZMacpN5Ky/
- aDZepD1df+7qBHhn1P48ltuZGQuW2LCgRWdlnsGj/uWueFml/GGtz2iFy3NObRUD
- +EdYptcpYQL9cUCE5zGmGyKq/+lsYW/negEnMvaSxJN7pdJgw8f9f4tkLCLy0/WB
- ty2yJOJRgpT39sHIWilHHKykQrgzwl2Hitt8NEt+jjM3jGWGxBHXf1k/ig7YmBZz
- Z4sg==
+ :subject:subject:to:to; s=fm2; t=1649651688; x=1649738088; bh=N4
+ owQ9/Cd3nixi2R9mF9dun/uhDiVSwowfRJ5Lt96QU=; b=wYGxErcydPByZPckw1
+ FGP092owOmC8xV7Lj+e2uCLfXDitkHg1SrOMc6FBAGfvwpB1nPaggjKO3Hm1GoqC
+ Oim9JbETWrQETP+nZaGD/Et9mBTb2H9o6eckU58aF5YrLZ9d7VYS+ns89H8vYcDC
+ VTZQMNzU35JFCSGasNv19qimSoXNH7laIegMZqsgTEQuohuh0SuAYfjSoxkJPPpM
+ 9uCWmt7KTpPQeggSv9sPojfAg6yuIJXu4tl3Ck/i+kmmrA3o06M3u8LrKrsCagPH
+ IJx0/Wg/ZOfcxLH0vLFAbBbeWmCOrVch+pPEY0o9j3QC5nur+EzkdmlTjAiXRIVx
+ ldqw==
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
  messagingengine.com; h=cc:cc:content-transfer-encoding:date:date
  :from:from:in-reply-to:in-reply-to:message-id:mime-version
  :references:reply-to:sender:subject:subject:to:to:x-me-proxy
  :x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=fm3; t=
- 1649651685; x=1649738085; bh=dV6axH3/ykmO8vUfS4KlQCnk6Z++gzInmDF
- 0xTlcbdk=; b=jsjVoBhU1ztzQyOb8kQ61N3J1gp1NWoAet2nMt55WG31Xj8vzLr
- SBDwFQ8Wt+GVY34GLH2KTO7rFGYqQ01mllZUhU4ntnlfKEoocT/idKAu62i3IvDx
- OK/ua8HllVJaBd9T3NrevcIYHKIkSG/Ad769+dnnkSaFL5jgJx6nquX6t0My5it0
- o/iTFyLyIL9ASXTFXAHlSBR8KVuW+4jkmUcWz+ad8QeZdW3D2og/FERGSMmzVPRn
- x04Enmz2tb7qc+AIarnMgYY0AD5GUjSmYHrvlhhiykMJbc/pMJzLLxEF47mj7gbd
- Tc/pohZKT4APsbODmzZLFcW5o+nzWjzo9Vg==
-X-ME-Sender: <xms:5a9TYnQt7yezjhW54d1yEH4Zmhg2wbvMjx-8avdKHGgcTu2aVCjEzg>
- <xme:5a9TYoyukqq3L74xehmGpALxOh-Et_fIFHVS7pU-R3Zk6ZTBEyIsUWxhBzsQTlMMo
- JwKagEtDtQNKkpWCQ>
-X-ME-Received: <xmr:5a9TYs1xtrHrE7Pg_YqOBK3qFgd61m5Ltm-X1iPluZGtwqVzxOQ-VdIAK6hl8fW-7eyJoBw7f5mmNPIfhRH2STvEyFoOoXSg8c8U6dP0rcCUKm_0f-coE6DtRN2zpxNDL9vAIA>
-X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvvddrudekhedgkedtucetufdoteggodetrfdotf
+ 1649651688; x=1649738088; bh=N4owQ9/Cd3nixi2R9mF9dun/uhDiVSwowfR
+ J5Lt96QU=; b=XaHpD8jZEslw3zz6Z+6Mnjw8n/TBt6U5gP370/WKVPYYJXGZp9C
+ cyNJQjYnjLDyuxCQImaL4V1h4GAqpN0cceqjALV+DnGkUffNkqjefqOsfGu/P0WN
+ II7vln8mfQqA/BCwjbdaMX0zNEBgK9Y/rCEni5dhNBBtRDFVA37Ru6heeLh3m1th
+ Vq4sMTMt5qcAAVfCN9UuOo1nW9j/udenuRy7nKnq5APROG6CsT/MVna/8cEBcyny
+ EinDdYoLuB6jBQp/AUP5pzuOnOl19xuHcpJAtSR0sSjWzA9mT49JLltaVc+kuC6U
+ JgLqz2vj7jv8kmqvpY56PszijaJ2TGI1B7w==
+X-ME-Sender: <xms:6K9TYqTk3WjS9aSTninm4CGzkFH6rz9F_4bmNwgulWs1-Al9Gde1MQ>
+ <xme:6K9TYvzNC0nA_JKd4LnPPaNPYKKicfHhuZQdo8z6h85-DlKgcXvIFpJuAxLdiCI_L
+ Kr-MHGtw3sEclNxdw>
+X-ME-Received: <xmr:6K9TYn10xxhZXXHrRxPKiXZR1lm34dwOek2qIydVOmPrJun9aGNn4adgh50vsigmwDztNSoPM5KzLa8Lkw-T5idl_3QqyjzMIS6_tV7eHMuj4QPkAIng3iKYhu-nVLfzIqYF6A>
+X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvvddrudekhedgjeelucetufdoteggodetrfdotf
  fvucfrrhhofhhilhgvmecuhfgrshhtofgrihhlpdfqfgfvpdfurfetoffkrfgpnffqhgen
  uceurghilhhouhhtmecufedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmne
  cujfgurhephffvufffkffojghfggfgsedtkeertdertddtnecuhfhrohhmpefurghmuhgv
  lhcujfholhhlrghnugcuoehsrghmuhgvlhesshhhohhllhgrnhgurdhorhhgqeenucggtf
  frrghtthgvrhhnpeduhfejfedvhffgfeehtefghfeiiefgfeehgfdvvdevfeegjeehjedv
- gfejheeuieenucevlhhushhtvghrufhiiigvpedunecurfgrrhgrmhepmhgrihhlfhhroh
+ gfejheeuieenucevlhhushhtvghrufhiiigvpedtnecurfgrrhgrmhepmhgrihhlfhhroh
  hmpehsrghmuhgvlhesshhhohhllhgrnhgurdhorhhg
-X-ME-Proxy: <xmx:5a9TYnAOzIgYCUBUlXLdfx38nwQLru6OZG8MMOAHSUzAesQm6cBrIw>
- <xmx:5a9TYgiKXj-TV7UihJsBXjYU_eFkBkYYfsLiWGA3iVr8iLjnAppS0g>
- <xmx:5a9TYrqRipuU9pchi6va5UXHLggYI3XfiSnVeMJf5UYW2W5EzjLJ3w>
- <xmx:5a9TYvqGMJqX62nfra0nf5nuFtE01jweIpvVYO0DimRigkMjEN2sAA>
+X-ME-Proxy: <xmx:6K9TYmBTtM0RSC-UeXdlnxiYQouvctD7MHU8YaaEnzJgk9Ip7QRZ6Q>
+ <xmx:6K9TYjiEc_Ht3i06sJMMEpRfPED4mIjPwpKtiJYYlhMvGRqTYJ7j9w>
+ <xmx:6K9TYio4gIsLVRxwrJN5tPP3flw0HTgGUHy1sX2fqFmYRkLXMWpCpg>
+ <xmx:6K9TYmqpnN1UnVSEXNJEZRQ5UpbVgQxG1vJPuU7bIaJKTUNLdj0Nqw>
 Received: by mail.messagingengine.com (Postfix) with ESMTPA; Mon,
- 11 Apr 2022 00:34:44 -0400 (EDT)
+ 11 Apr 2022 00:34:47 -0400 (EDT)
 From: Samuel Holland <samuel@sholland.org>
 To: Chen-Yu Tsai <wens@csie.org>, Jernej Skrabec <jernej.skrabec@gmail.com>,
  Maxime Ripard <mripard@kernel.org>
-Subject: [PATCH 06/10] drm/sun4i: Allow VI layers to be primary planes
-Date: Sun, 10 Apr 2022 23:34:18 -0500
-Message-Id: <20220411043423.37333-7-samuel@sholland.org>
+Subject: [PATCH 07/10] drm/sun4i: Add support for D1 mixers
+Date: Sun, 10 Apr 2022 23:34:19 -0500
+Message-Id: <20220411043423.37333-8-samuel@sholland.org>
 X-Mailer: git-send-email 2.35.1
 In-Reply-To: <20220411043423.37333-1-samuel@sholland.org>
 References: <20220411043423.37333-1-samuel@sholland.org>
@@ -90,83 +90,60 @@ Cc: devicetree@vger.kernel.org, Samuel Holland <samuel@sholland.org>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-D1's mixer 1 has no UI layers, only a single VI layer. That means the
-mixer can only be used if the primary plane comes from this VI layer.
-Add the code to handle this case, setting the mixer's global registers
-in the same way as when the primary plane comes from a UI layer.
+D1 has a display engine with the usual pair of mixers, albeit with
+relatively few layers. In fact, D1 appears to be the first SoC to have
+a mixer without any UI layers. Add support for these new variants.
 
 Signed-off-by: Samuel Holland <samuel@sholland.org>
 ---
 
- drivers/gpu/drm/sun4i/sun8i_vi_layer.c | 36 +++++++++++++++++++++++++-
- 1 file changed, 35 insertions(+), 1 deletion(-)
+ drivers/gpu/drm/sun4i/sun8i_mixer.c | 26 ++++++++++++++++++++++++++
+ 1 file changed, 26 insertions(+)
 
-diff --git a/drivers/gpu/drm/sun4i/sun8i_vi_layer.c b/drivers/gpu/drm/sun4i/sun8i_vi_layer.c
-index bb7c43036dfa..86212cb2098c 100644
---- a/drivers/gpu/drm/sun4i/sun8i_vi_layer.c
-+++ b/drivers/gpu/drm/sun4i/sun8i_vi_layer.c
-@@ -146,6 +146,36 @@ static int sun8i_vi_layer_update_coord(struct sun8i_mixer *mixer, int channel,
- 	insize = SUN8I_MIXER_SIZE(src_w, src_h);
- 	outsize = SUN8I_MIXER_SIZE(dst_w, dst_h);
+diff --git a/drivers/gpu/drm/sun4i/sun8i_mixer.c b/drivers/gpu/drm/sun4i/sun8i_mixer.c
+index f5e8aeaa3cdf..49c0d17c6f0a 100644
+--- a/drivers/gpu/drm/sun4i/sun8i_mixer.c
++++ b/drivers/gpu/drm/sun4i/sun8i_mixer.c
+@@ -585,6 +585,24 @@ static const struct sun8i_mixer_cfg sun8i_v3s_mixer_cfg = {
+ 	.mod_rate = 150000000,
+ };
  
-+	if (plane->type == DRM_PLANE_TYPE_PRIMARY) {
-+		bool interlaced = false;
-+		u32 val;
++static const struct sun8i_mixer_cfg sun20i_d1_mixer0_cfg = {
++	.ccsc		= 2,
++	.mod_rate	= 297000000,
++	.scaler_mask	= 0x3,
++	.scanline_yuv	= 2048,
++	.ui_num		= 1,
++	.vi_num		= 1,
++};
 +
-+		DRM_DEBUG_DRIVER("Primary layer, updating global size W: %u H: %u\n",
-+				 dst_w, dst_h);
-+		regmap_write(mixer->engine.regs,
-+			     SUN8I_MIXER_GLOBAL_SIZE,
-+			     outsize);
-+		regmap_write(mixer->engine.regs,
-+			     SUN8I_MIXER_BLEND_OUTSIZE(bld_base), outsize);
++static const struct sun8i_mixer_cfg sun20i_d1_mixer1_cfg = {
++	.ccsc		= 1,
++	.mod_rate	= 297000000,
++	.scaler_mask	= 0x1,
++	.scanline_yuv	= 1024,
++	.ui_num		= 0,
++	.vi_num		= 1,
++};
 +
-+		if (state->crtc)
-+			interlaced = state->crtc->state->adjusted_mode.flags
-+				& DRM_MODE_FLAG_INTERLACE;
-+
-+		if (interlaced)
-+			val = SUN8I_MIXER_BLEND_OUTCTL_INTERLACED;
-+		else
-+			val = 0;
-+
-+		regmap_update_bits(mixer->engine.regs,
-+				   SUN8I_MIXER_BLEND_OUTCTL(bld_base),
-+				   SUN8I_MIXER_BLEND_OUTCTL_INTERLACED,
-+				   val);
-+
-+		DRM_DEBUG_DRIVER("Switching display mixer interlaced mode %s\n",
-+				 interlaced ? "on" : "off");
-+	}
-+
- 	/* Set height and width */
- 	DRM_DEBUG_DRIVER("Layer source offset X: %d Y: %d\n",
- 			 (state->src.x1 >> 16) & ~(format->hsub - 1),
-@@ -542,6 +572,7 @@ struct sun8i_vi_layer *sun8i_vi_layer_init_one(struct drm_device *drm,
- 					       struct sun8i_mixer *mixer,
- 					       int index)
- {
-+	enum drm_plane_type type = DRM_PLANE_TYPE_OVERLAY;
- 	u32 supported_encodings, supported_ranges;
- 	unsigned int plane_cnt, format_count;
- 	struct sun8i_vi_layer *layer;
-@@ -560,12 +591,15 @@ struct sun8i_vi_layer *sun8i_vi_layer_init_one(struct drm_device *drm,
- 		format_count = ARRAY_SIZE(sun8i_vi_layer_formats);
- 	}
- 
-+	if (!mixer->cfg->ui_num && index == 0)
-+		type = DRM_PLANE_TYPE_PRIMARY;
-+
- 	/* possible crtcs are set later */
- 	ret = drm_universal_plane_init(drm, &layer->plane, 0,
- 				       &sun8i_vi_layer_funcs,
- 				       formats, format_count,
- 				       sun8i_layer_modifiers,
--				       DRM_PLANE_TYPE_OVERLAY, NULL);
-+				       type, NULL);
- 	if (ret) {
- 		dev_err(drm->dev, "Couldn't initialize layer\n");
- 		return ERR_PTR(ret);
+ static const struct sun8i_mixer_cfg sun50i_a64_mixer0_cfg = {
+ 	.ccsc		= 0,
+ 	.mod_rate	= 297000000,
+@@ -638,6 +656,14 @@ static const struct of_device_id sun8i_mixer_of_table[] = {
+ 		.compatible = "allwinner,sun8i-v3s-de2-mixer",
+ 		.data = &sun8i_v3s_mixer_cfg,
+ 	},
++	{
++		.compatible = "allwinner,sun20i-d1-de2-mixer-0",
++		.data = &sun20i_d1_mixer0_cfg,
++	},
++	{
++		.compatible = "allwinner,sun20i-d1-de2-mixer-1",
++		.data = &sun20i_d1_mixer1_cfg,
++	},
+ 	{
+ 		.compatible = "allwinner,sun50i-a64-de2-mixer-0",
+ 		.data = &sun50i_a64_mixer0_cfg,
 -- 
 2.35.1
 
