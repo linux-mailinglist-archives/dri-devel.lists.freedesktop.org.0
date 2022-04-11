@@ -1,77 +1,54 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id C0BCA4FC671
-	for <lists+dri-devel@lfdr.de>; Mon, 11 Apr 2022 23:13:07 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id D53F04FC692
+	for <lists+dri-devel@lfdr.de>; Mon, 11 Apr 2022 23:16:04 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 263BC10F776;
-	Mon, 11 Apr 2022 21:13:01 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 4974410F78F;
+	Mon, 11 Apr 2022 21:16:01 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from us-smtp-delivery-124.mimecast.com
- (us-smtp-delivery-124.mimecast.com [170.10.129.124])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 317B510F775
- for <dri-devel@lists.freedesktop.org>; Mon, 11 Apr 2022 21:12:59 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1649711578;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=M95WJfrMn4Zy07mhQ4y0daSPzPIFGxeBWEMZH1/VxdI=;
- b=BpGfVoKEG1m4keDLsWztMAfGepnzqN/O+DsXlTM05DzBWPrcgz9Myj4+kZi18AO8q2ABXA
- 1kMuig69kTUz8MGhhQlmfE2uf0eaSBo6mEmEPKPwPfW2lQGo5occAAROSr4urMEuQwpqnC
- 5pdEiJL97fIZhVF47XmqGGuvBcIA2cU=
-Received: from mail-wm1-f72.google.com (mail-wm1-f72.google.com
- [209.85.128.72]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-43-h2ESJ5KRNrCm71iq2zoMNg-1; Mon, 11 Apr 2022 17:12:57 -0400
-X-MC-Unique: h2ESJ5KRNrCm71iq2zoMNg-1
-Received: by mail-wm1-f72.google.com with SMTP id
- i184-20020a1c3bc1000000b0038e4c5968b5so227131wma.0
- for <dri-devel@lists.freedesktop.org>; Mon, 11 Apr 2022 14:12:56 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
- :references:mime-version:content-transfer-encoding;
- bh=M95WJfrMn4Zy07mhQ4y0daSPzPIFGxeBWEMZH1/VxdI=;
- b=GeaEAlkWRqFOE8KlHUPrF4qVAv+cC2aJmSLisCdRUymIzv2Dwl9FJPZ1qLhKJ5UWIg
- ucEO5McXufiGZfebR7Zin7iqtWonoJdghhrrRjNm4130XJuJ4gOilJsUtCo5W+A9nbuz
- QmG5gTDMJ2xg6iDIUauTR5YOXUvNW8a7m926s2p9wn6MnafG61TKv4yH45JPmYdcRdFE
- SPnTQ6cxBmCkjxOC28lFalsLOtojlXETphcgLYW91H7RMy9MF0IwPYhq3RxGdYQ/djPz
- Q5GPWKvtnXCV2ZbJPjsBeQxegpGOTGFPsXZXTfED9jGCwpiagd+1y7kLwD71Ev+x1DSP
- Aqfg==
-X-Gm-Message-State: AOAM533Sb4SzqaGucpPm0KDUERzUaw4uPQPSDtOvCvX2oISPsuZBQl0Q
- FZhg2hC7+evGoYV5ZN7EqT+SyRxFl6krzdkjgFkZLvcb7RxKViFX8y5mkPJcmvZ+y7IKD/CBjCw
- 3O2LaNrdc5ttqjkbf+ZCMShR/RwZH
-X-Received: by 2002:adf:eb86:0:b0:1e6:8c92:af6b with SMTP id
- t6-20020adfeb86000000b001e68c92af6bmr26342333wrn.116.1649711575768; 
- Mon, 11 Apr 2022 14:12:55 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJwxvx0POEPQt1rNQq1OQWSMr6MX6jGMvV5y/3zA8cOpvVB60dnM/YE1MmkCed4WruaERKY1fQ==
-X-Received: by 2002:adf:eb86:0:b0:1e6:8c92:af6b with SMTP id
- t6-20020adfeb86000000b001e68c92af6bmr26342319wrn.116.1649711575506; 
- Mon, 11 Apr 2022 14:12:55 -0700 (PDT)
-Received: from minerva.home ([92.176.231.205])
- by smtp.gmail.com with ESMTPSA id
- l9-20020a5d6d89000000b00203d62072c4sm28723722wrs.43.2022.04.11.14.12.54
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 11 Apr 2022 14:12:55 -0700 (PDT)
-From: Javier Martinez Canillas <javierm@redhat.com>
-To: linux-kernel@vger.kernel.org
-Subject: [PATCH v2 5/5] drm/solomon: Add SSD130x OLED displays SPI support
-Date: Mon, 11 Apr 2022 23:12:43 +0200
-Message-Id: <20220411211243.11121-6-javierm@redhat.com>
-X-Mailer: git-send-email 2.35.1
-In-Reply-To: <20220411211243.11121-1-javierm@redhat.com>
-References: <20220411211243.11121-1-javierm@redhat.com>
+Received: from mga07.intel.com (mga07.intel.com [134.134.136.100])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 59A1C10F78F
+ for <dri-devel@lists.freedesktop.org>; Mon, 11 Apr 2022 21:15:59 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+ t=1649711759; x=1681247759;
+ h=date:from:to:cc:subject:message-id:references:
+ mime-version:in-reply-to;
+ bh=5x2VQ9HU/v0yZ3qoFFue9KWN+qZAjMg8ZLZUP+AvOiA=;
+ b=AxyJ+li+3alQx3RWpTgCsRdH8B8tGfQCn4HfsNE1YGMKWPuiuD8/rhGG
+ TqcvaKdN7EKSpeqY4xAY1Xbprx8tGgsQ/LKIIEW1LpFkPrFBFrCxUXmGK
+ eWfvzee/sCkldH12Mwqm5hsAVmXXobImZG4Z98h3stCK4mwj6Fmo51NfS
+ 7fNBpCRK1VBuyv2yZzJ+4INcFFnRBX9MpLbRU8hlhohW8NYizY5iFqMaj
+ pZJe+KtPdDft67eZ3ZD9bqx4o89h/PgGF5zSfBgQZqp/gz0sUBeHD+viE
+ TX342d2CAFduCVoiToXYR1ectXbECo9h37FI4DmRENB7cUbbY5q9jvbMD Q==;
+X-IronPort-AV: E=McAfee;i="6400,9594,10314"; a="325129706"
+X-IronPort-AV: E=Sophos;i="5.90,252,1643702400"; d="scan'208";a="325129706"
+Received: from fmsmga005.fm.intel.com ([10.253.24.32])
+ by orsmga105.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 11 Apr 2022 14:15:58 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.90,252,1643702400"; d="scan'208";a="854082902"
+Received: from lkp-server02.sh.intel.com (HELO d3fc50ef50de) ([10.239.97.151])
+ by fmsmga005.fm.intel.com with ESMTP; 11 Apr 2022 14:15:54 -0700
+Received: from kbuild by d3fc50ef50de with local (Exim 4.95)
+ (envelope-from <lkp@intel.com>) id 1ne1O5-0002DR-Th;
+ Mon, 11 Apr 2022 21:15:53 +0000
+Date: Tue, 12 Apr 2022 05:15:06 +0800
+From: kernel test robot <lkp@intel.com>
+To: Samuel Holland <samuel@sholland.org>, Chen-Yu Tsai <wens@csie.org>,
+ Jernej Skrabec <jernej.skrabec@gmail.com>,
+ Maxime Ripard <mripard@kernel.org>
+Subject: Re: [PATCH 04/10] drm/sun4i: Allow building the driver on RISC-V
+Message-ID: <202204120528.TRFC7Ywj-lkp@intel.com>
+References: <20220411043423.37333-5-samuel@sholland.org>
 MIME-Version: 1.0
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=javierm@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Transfer-Encoding: 8bit
-Content-Type: text/plain; charset="US-ASCII"; x-default=true
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20220411043423.37333-5-samuel@sholland.org>
+User-Agent: Mutt/1.10.1 (2018-07-13)
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -84,256 +61,106 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Chen-Yu Tsai <wens@kernel.org>, Neil Armstrong <narmstrong@baylibre.com>,
- David Airlie <airlied@linux.ie>, YueHaibing <yuehaibing@huawei.com>,
- Javier Martinez Canillas <javierm@redhat.com>, dri-devel@lists.freedesktop.org,
- Chen-Yu Tsai <wens@csie.org>, Mark Brown <broonie@kernel.org>,
- Geert Uytterhoeven <geert@linux-m68k.org>, Maxime Ripard <maxime@cerno.tech>,
- Andy Shevchenko <andriy.shevchenko@linux.intel.com>
+Cc: devicetree@vger.kernel.org, kbuild-all@lists.01.org,
+ Samuel Holland <samuel@sholland.org>, David Airlie <airlied@linux.ie>,
+ linux-kernel@vger.kernel.org, Krzysztof Kozlowski <krzk@kernel.org>,
+ Rob Herring <robh+dt@kernel.org>, dri-devel@lists.freedesktop.org,
+ linux-sunxi@lists.linux.dev, linux-arm-kernel@lists.infradead.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-The ssd130x driver only provides the core support for these devices but it
-does not have any bus transport logic. Add a driver to interface over SPI.
+Hi Samuel,
 
-There is a difference in the communication protocol when using 4-wire SPI
-instead of I2C. For the latter, a control byte that contains a D/C# field
-has to be sent. This field tells the controller whether the data has to be
-written to the command register or to the graphics display data memory.
+I love your patch! Yet something to improve:
 
-But for 4-wire SPI that control byte is not used, instead a real D/C# line
-must be pulled HIGH for commands data and LOW for graphics display data.
+[auto build test ERROR on sunxi/sunxi/for-next]
+[also build test ERROR on drm/drm-next linus/master v5.18-rc2 next-20220411]
+[cannot apply to mripard/sunxi/for-next]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch]
 
-For this reason the standard SPI regmap can't be used and a custom .write
-bus handler is needed.
+url:    https://github.com/intel-lab-lkp/linux/commits/Samuel-Holland/drm-sun4i-Allwinner-D1-Display-Engine-2-0-Support/20220411-123701
+base:   https://git.kernel.org/pub/scm/linux/kernel/git/sunxi/linux.git sunxi/for-next
+config: alpha-allyesconfig (https://download.01.org/0day-ci/archive/20220412/202204120528.TRFC7Ywj-lkp@intel.com/config)
+compiler: alpha-linux-gcc (GCC) 11.2.0
+reproduce (this is a W=1 build):
+        wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbin/make.cross -O ~/bin/make.cross
+        chmod +x ~/bin/make.cross
+        # https://github.com/intel-lab-lkp/linux/commit/829dac8ee2cbb6d1b7bda1c513cc2ad1939fca53
+        git remote add linux-review https://github.com/intel-lab-lkp/linux
+        git fetch --no-tags linux-review Samuel-Holland/drm-sun4i-Allwinner-D1-Display-Engine-2-0-Support/20220411-123701
+        git checkout 829dac8ee2cbb6d1b7bda1c513cc2ad1939fca53
+        # save the config file to linux build tree
+        mkdir build_dir
+        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-11.2.0 make.cross O=build_dir ARCH=alpha SHELL=/bin/bash
 
-Signed-off-by: Javier Martinez Canillas <javierm@redhat.com>
-Acked-by: Mark Brown <broonie@kernel.org>
----
+If you fix the issue, kindly add following tag as appropriate
+Reported-by: kernel test robot <lkp@intel.com>
 
-(no changes since v1)
+All errors (new ones prefixed by >>):
 
- drivers/gpu/drm/solomon/Kconfig       |   9 ++
- drivers/gpu/drm/solomon/Makefile      |   1 +
- drivers/gpu/drm/solomon/ssd130x-spi.c | 184 ++++++++++++++++++++++++++
- 3 files changed, 194 insertions(+)
- create mode 100644 drivers/gpu/drm/solomon/ssd130x-spi.c
+   drivers/gpu/drm/sun4i/sun4i_hdmi_i2c.c: In function 'fifo_transfer':
+>> drivers/gpu/drm/sun4i/sun4i_hdmi_i2c.c:59:17: error: implicit declaration of function 'readsb'; did you mean 'readb'? [-Werror=implicit-function-declaration]
+      59 |                 readsb(hdmi->base + hdmi->variant->ddc_fifo_reg, buf, len);
+         |                 ^~~~~~
+         |                 readb
+>> drivers/gpu/drm/sun4i/sun4i_hdmi_i2c.c:61:17: error: implicit declaration of function 'writesb'; did you mean 'writeb'? [-Werror=implicit-function-declaration]
+      61 |                 writesb(hdmi->base + hdmi->variant->ddc_fifo_reg, buf, len);
+         |                 ^~~~~~~
+         |                 writeb
+   cc1: some warnings being treated as errors
 
-diff --git a/drivers/gpu/drm/solomon/Kconfig b/drivers/gpu/drm/solomon/Kconfig
-index 8c0a0c788385..e170716d976b 100644
---- a/drivers/gpu/drm/solomon/Kconfig
-+++ b/drivers/gpu/drm/solomon/Kconfig
-@@ -20,3 +20,12 @@ config DRM_SSD130X_I2C
- 	  I2C bus.
- 
- 	  If M is selected the module will be called ssd130x-i2c.
-+
-+config DRM_SSD130X_SPI
-+	tristate "DRM support for Solomon SSD130X OLED displays (SPI bus)"
-+	depends on DRM_SSD130X && SPI
-+	select REGMAP
-+	help
-+	  Say Y here if the SSD130x OLED display is connected via SPI bus.
-+
-+	  If M is selected the module will be called ssd130x-spi.
-diff --git a/drivers/gpu/drm/solomon/Makefile b/drivers/gpu/drm/solomon/Makefile
-index 4bfc5acb0447..b5fc792257d7 100644
---- a/drivers/gpu/drm/solomon/Makefile
-+++ b/drivers/gpu/drm/solomon/Makefile
-@@ -1,2 +1,3 @@
- obj-$(CONFIG_DRM_SSD130X)	+= ssd130x.o
- obj-$(CONFIG_DRM_SSD130X_I2C)	+= ssd130x-i2c.o
-+obj-$(CONFIG_DRM_SSD130X_SPI)	+= ssd130x-spi.o
-diff --git a/drivers/gpu/drm/solomon/ssd130x-spi.c b/drivers/gpu/drm/solomon/ssd130x-spi.c
-new file mode 100644
-index 000000000000..b6fee66a0c01
---- /dev/null
-+++ b/drivers/gpu/drm/solomon/ssd130x-spi.c
-@@ -0,0 +1,184 @@
-+// SPDX-License-Identifier: GPL-2.0-only
-+/*
-+ * DRM driver for Solomon SSD130X OLED displays (SPI bus)
-+ *
-+ * Copyright 2022 Red Hat Inc.
-+ * Authors: Javier Martinez Canillas <javierm@redhat.com>
-+ */
-+#include <linux/spi/spi.h>
-+#include <linux/module.h>
-+
-+#include "ssd130x.h"
-+
-+#define DRIVER_NAME	"ssd130x-spi"
-+#define DRIVER_DESC	"DRM driver for Solomon SSD130X OLED displays (SPI)"
-+
-+struct ssd130x_spi_transport {
-+	struct spi_device *spi;
-+	struct gpio_desc *dc;
-+};
-+
-+static const struct regmap_config ssd130x_spi_regmap_config = {
-+	.reg_bits = 8,
-+	.val_bits = 8,
-+};
-+
-+/*
-+ * The regmap bus .write handler, it is just a wrapper around spi_write()
-+ * but toggling the Data/Command control pin (D/C#). Since for 4-wire SPI
-+ * a D/C# pin is used, in contrast with I2C where a control byte is sent,
-+ * prior to every data byte, that contains a bit with the D/C# value.
-+ *
-+ * These control bytes are considered registers by the ssd130x core driver
-+ * and can be used by the ssd130x SPI driver to determine if the data sent
-+ * is for a command register or for the Graphic Display Data RAM (GDDRAM).
-+ */
-+static int ssd130x_spi_write(void *context, const void *data, size_t count)
-+{
-+	struct ssd130x_spi_transport *t = context;
-+	struct spi_device *spi = t->spi;
-+	const u8 *reg = data;
-+
-+	if (*reg == SSD130X_COMMAND)
-+		gpiod_set_value_cansleep(t->dc, 0);
-+
-+	if (*reg == SSD130X_DATA)
-+		gpiod_set_value_cansleep(t->dc, 1);
-+
-+	/* Remove the control byte since is not used by the 4-wire SPI */
-+	return spi_write(spi, ((u8 *)data) + 1, count - 1);
-+}
-+
-+/* The ssd130x driver does not read registers but regmap expects a .read */
-+static int ssd130x_spi_read(void *context, const void *reg, size_t reg_size,
-+			    void *val, size_t val_size)
-+{
-+	return -EOPNOTSUPP;
-+}
-+
-+/*
-+ * A custom bus is needed due the special write that toggles a D/C# pin,
-+ * another option could be to just have a .reg_write() callback but that
-+ * will prevent to do data writes in bulk.
-+ *
-+ * Once the regmap API is extended to support defining a bulk write handler
-+ * in the struct regmap_config, this can be simplified and the bus dropped.
-+ */
-+static struct regmap_bus regmap_ssd130x_spi_bus = {
-+	.write = ssd130x_spi_write,
-+	.read = ssd130x_spi_read,
-+};
-+
-+static struct gpio_desc *ssd130x_spi_get_dc(struct device *dev)
-+{
-+	struct gpio_desc *dc = devm_gpiod_get(dev, "dc", GPIOD_OUT_LOW);
-+
-+	if (IS_ERR(dc))
-+		return ERR_PTR(dev_err_probe(dev, PTR_ERR(dc), "Failed to get dc gpio\n"));
-+
-+	return dc;
-+}
-+
-+static int ssd130x_spi_probe(struct spi_device *spi)
-+{
-+	struct ssd130x_spi_transport *t;
-+	struct ssd130x_device *ssd130x;
-+	struct regmap *regmap;
-+	struct device *dev = &spi->dev;
-+
-+	t = devm_kzalloc(dev, sizeof(*t), GFP_KERNEL);
-+	if (!t)
-+		return dev_err_probe(dev, -ENOMEM,
-+				     "Failed to allocate SPI transport data\n");
-+
-+	t->spi = spi;
-+
-+	t->dc = ssd130x_spi_get_dc(&spi->dev);
-+	if (IS_ERR(t->dc))
-+		return PTR_ERR(t->dc);
-+
-+	regmap = devm_regmap_init(dev, &regmap_ssd130x_spi_bus, t,
-+				  &ssd130x_spi_regmap_config);
-+	if (IS_ERR(regmap))
-+		return PTR_ERR(regmap);
-+
-+	ssd130x = ssd130x_probe(dev, regmap);
-+	if (IS_ERR(ssd130x))
-+		return PTR_ERR(ssd130x);
-+
-+	spi_set_drvdata(spi, ssd130x);
-+
-+	return 0;
-+}
-+
-+static void ssd130x_spi_remove(struct spi_device *spi)
-+{
-+	struct ssd130x_device *ssd130x = spi_get_drvdata(spi);
-+
-+	ssd130x_remove(ssd130x);
-+}
-+
-+static void ssd130x_spi_shutdown(struct spi_device *spi)
-+{
-+	struct ssd130x_device *ssd130x = spi_get_drvdata(spi);
-+
-+	ssd130x_shutdown(ssd130x);
-+}
-+
-+static const struct of_device_id ssd130x_of_match[] = {
-+	{
-+		.compatible = "sinowealth,sh1106",
-+		.data = (void *)SH1106_ID,
-+	},
-+	{
-+		.compatible = "solomon,ssd1305",
-+		.data = (void *)SSD1305_ID,
-+	},
-+	{
-+		.compatible = "solomon,ssd1306",
-+		.data =  (void *)SSD1306_ID,
-+	},
-+	{
-+		.compatible = "solomon,ssd1307",
-+		.data =  (void *)SSD1307_ID,
-+	},
-+	{
-+		.compatible = "solomon,ssd1309",
-+		.data =  (void *)SSD1309_ID,
-+	},
-+	{ /* sentinel */ }
-+};
-+MODULE_DEVICE_TABLE(of, ssd130x_of_match);
-+
-+/*
-+ * The SPI core always reports a MODALIAS uevent of the form "spi:<dev>", even
-+ * if the device was registered via OF. This means that the module will not be
-+ * auto loaded, unless it contains an alias that matches the MODALIAS reported.
-+ *
-+ * To workaround this issue, add a SPI device ID table. Even when this should
-+ * not be needed for this driver to match the registered SPI devices.
-+ */
-+static const struct spi_device_id ssd130x_spi_table[] = {
-+	{ "sh1106",  SH1106_ID },
-+	{ "ssd1305", SSD1305_ID },
-+	{ "ssd1306", SSD1306_ID },
-+	{ "ssd1307", SSD1307_ID },
-+	{ "ssd1309", SSD1309_ID },
-+	{ /* sentinel */ }
-+};
-+MODULE_DEVICE_TABLE(spi, ssd130x_spi_table);
-+
-+static struct spi_driver ssd130x_spi_driver = {
-+	.driver = {
-+		.name = DRIVER_NAME,
-+		.of_match_table = ssd130x_of_match,
-+	},
-+	.probe = ssd130x_spi_probe,
-+	.remove = ssd130x_spi_remove,
-+	.shutdown = ssd130x_spi_shutdown,
-+};
-+module_spi_driver(ssd130x_spi_driver);
-+
-+MODULE_DESCRIPTION(DRIVER_DESC);
-+MODULE_AUTHOR("Javier Martinez Canillas <javierm@redhat.com>");
-+MODULE_LICENSE("GPL");
+
+vim +59 drivers/gpu/drm/sun4i/sun4i_hdmi_i2c.c
+
+f0a3dd33ba685b Jonathan Liu 2017-07-02  24  
+f0a3dd33ba685b Jonathan Liu 2017-07-02  25  static int fifo_transfer(struct sun4i_hdmi *hdmi, u8 *buf, int len, bool read)
+f0a3dd33ba685b Jonathan Liu 2017-07-02  26  {
+f0a3dd33ba685b Jonathan Liu 2017-07-02  27  	/*
+f0a3dd33ba685b Jonathan Liu 2017-07-02  28  	 * 1 byte takes 9 clock cycles (8 bits + 1 ACK) = 90 us for 100 kHz
+f0a3dd33ba685b Jonathan Liu 2017-07-02  29  	 * clock. As clock rate is fixed, just round it up to 100 us.
+f0a3dd33ba685b Jonathan Liu 2017-07-02  30  	 */
+f0a3dd33ba685b Jonathan Liu 2017-07-02  31  	const unsigned long byte_time_ns = 100;
+f0a3dd33ba685b Jonathan Liu 2017-07-02  32  	const u32 mask = SUN4I_HDMI_DDC_INT_STATUS_ERROR_MASK |
+f0a3dd33ba685b Jonathan Liu 2017-07-02  33  			 SUN4I_HDMI_DDC_INT_STATUS_FIFO_REQUEST |
+f0a3dd33ba685b Jonathan Liu 2017-07-02  34  			 SUN4I_HDMI_DDC_INT_STATUS_TRANSFER_COMPLETE;
+f0a3dd33ba685b Jonathan Liu 2017-07-02  35  	u32 reg;
+939d749ad6649c Chen-Yu Tsai 2017-10-10  36  	/*
+939d749ad6649c Chen-Yu Tsai 2017-10-10  37  	 * If threshold is inclusive, then the FIFO may only have
+939d749ad6649c Chen-Yu Tsai 2017-10-10  38  	 * RX_THRESHOLD number of bytes, instead of RX_THRESHOLD + 1.
+939d749ad6649c Chen-Yu Tsai 2017-10-10  39  	 */
+939d749ad6649c Chen-Yu Tsai 2017-10-10  40  	int read_len = RX_THRESHOLD +
+939d749ad6649c Chen-Yu Tsai 2017-10-10  41  		(hdmi->variant->ddc_fifo_thres_incl ? 0 : 1);
+f0a3dd33ba685b Jonathan Liu 2017-07-02  42  
+939d749ad6649c Chen-Yu Tsai 2017-10-10  43  	/*
+939d749ad6649c Chen-Yu Tsai 2017-10-10  44  	 * Limit transfer length by FIFO threshold or FIFO size.
+939d749ad6649c Chen-Yu Tsai 2017-10-10  45  	 * For TX the threshold is for an empty FIFO.
+939d749ad6649c Chen-Yu Tsai 2017-10-10  46  	 */
+939d749ad6649c Chen-Yu Tsai 2017-10-10  47  	len = min_t(int, len, read ? read_len : SUN4I_HDMI_DDC_FIFO_SIZE);
+f0a3dd33ba685b Jonathan Liu 2017-07-02  48  
+f0a3dd33ba685b Jonathan Liu 2017-07-02  49  	/* Wait until error, FIFO request bit set or transfer complete */
+939d749ad6649c Chen-Yu Tsai 2017-10-10  50  	if (regmap_field_read_poll_timeout(hdmi->field_ddc_int_status, reg,
+939d749ad6649c Chen-Yu Tsai 2017-10-10  51  					   reg & mask, len * byte_time_ns,
+939d749ad6649c Chen-Yu Tsai 2017-10-10  52  					   100000))
+f0a3dd33ba685b Jonathan Liu 2017-07-02  53  		return -ETIMEDOUT;
+f0a3dd33ba685b Jonathan Liu 2017-07-02  54  
+f0a3dd33ba685b Jonathan Liu 2017-07-02  55  	if (reg & SUN4I_HDMI_DDC_INT_STATUS_ERROR_MASK)
+f0a3dd33ba685b Jonathan Liu 2017-07-02  56  		return -EIO;
+f0a3dd33ba685b Jonathan Liu 2017-07-02  57  
+f0a3dd33ba685b Jonathan Liu 2017-07-02  58  	if (read)
+939d749ad6649c Chen-Yu Tsai 2017-10-10 @59  		readsb(hdmi->base + hdmi->variant->ddc_fifo_reg, buf, len);
+f0a3dd33ba685b Jonathan Liu 2017-07-02  60  	else
+939d749ad6649c Chen-Yu Tsai 2017-10-10 @61  		writesb(hdmi->base + hdmi->variant->ddc_fifo_reg, buf, len);
+f0a3dd33ba685b Jonathan Liu 2017-07-02  62  
+939d749ad6649c Chen-Yu Tsai 2017-10-10  63  	/* Clear FIFO request bit by forcing a write to that bit */
+939d749ad6649c Chen-Yu Tsai 2017-10-10  64  	regmap_field_force_write(hdmi->field_ddc_int_status,
+939d749ad6649c Chen-Yu Tsai 2017-10-10  65  				 SUN4I_HDMI_DDC_INT_STATUS_FIFO_REQUEST);
+f0a3dd33ba685b Jonathan Liu 2017-07-02  66  
+f0a3dd33ba685b Jonathan Liu 2017-07-02  67  	return len;
+f0a3dd33ba685b Jonathan Liu 2017-07-02  68  }
+f0a3dd33ba685b Jonathan Liu 2017-07-02  69  
+
 -- 
-2.35.1
-
+0-DAY CI Kernel Test Service
+https://01.org/lkp
