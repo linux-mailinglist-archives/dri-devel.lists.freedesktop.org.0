@@ -2,54 +2,70 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id CD8384FBA7E
-	for <lists+dri-devel@lfdr.de>; Mon, 11 Apr 2022 13:06:19 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id BB6234FBA83
+	for <lists+dri-devel@lfdr.de>; Mon, 11 Apr 2022 13:08:16 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 6031410E23A;
-	Mon, 11 Apr 2022 11:06:17 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id E4AF410E3DB;
+	Mon, 11 Apr 2022 11:08:12 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-X-Greylist: delayed 309 seconds by postgrey-1.36 at gabe;
- Mon, 11 Apr 2022 11:06:15 UTC
-Received: from mout.kundenserver.de (mout.kundenserver.de [212.227.126.135])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 5DC0910E23A
- for <dri-devel@lists.freedesktop.org>; Mon, 11 Apr 2022 11:06:15 +0000 (UTC)
-Received: from [192.168.1.107] ([37.4.249.94]) by mrelayeu.kundenserver.de
- (mreue010 [212.227.15.167]) with ESMTPSA (Nemesis) id
- 1N6sWd-1o22ho2xCx-018I52; Mon, 11 Apr 2022 13:00:59 +0200
-Message-ID: <16571256-de30-db4e-6eea-268b0ef00103@i2se.com>
-Date: Mon, 11 Apr 2022 13:00:56 +0200
-MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.7.0
-Subject: Re: vc4: Couldn't stop firmware display driver during boot
-Content-Language: en-US
-To: Maxime Ripard <maxime@cerno.tech>
-References: <69c4f25d-7b48-081b-f609-8e1fd5f950cb@i2se.com>
- <df9d739d-7dff-4e2b-d1cd-66a5c5887cab@i2se.com>
- <42f24a68-391a-e6c8-25a7-511e91a5c7f9@i2se.com>
- <20220411073511.l5v7aqwbg6sdedjf@houat>
-From: Stefan Wahren <stefan.wahren@i2se.com>
-In-Reply-To: <20220411073511.l5v7aqwbg6sdedjf@houat>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
-X-Provags-ID: V03:K1:O3DK9dqHik7awro2UrEn5DRvftkl0gQ88HzMn/4EMvLzgkpMlQl
- PrBlWnpqcSw28gBkwERc0Y825yWrg1xDZyjBEqkELO8ER4BFYguio/tDsqeBsHk8gbHVr0o
- Rze3kYXi+71cCESstxTA5MLLni0eNHXbJZ6DPKKXYqnMlZvG7x8BnI4YQAb9JCUX1NboIsr
- ElsdvrqMqSMimQzznVXsQ==
-X-Spam-Flag: NO
-X-UI-Out-Filterresults: notjunk:1;V03:K0:D5hcTX9sAxw=:9K14kVkmAKmpANVeATBFxm
- vz/saPnAFC5VzY3zWSCB/XncdNuavDq06laLqXQy+gYe17ZJLsyLrulalXyN3P/fP2tVPHBM1
- Wpsli1taxIZe9NSmP4oSzo/D4z8N5J0P/MMDe0S0F84VxFn62UpJ+iAWlX+GpZPGVMN+iJ0jN
- uAscXRt+nsOZT9Wp22Nv3muSm//CX4Tbu7PUwnEh3OkHYEt431vFggnu53zj/t4IsB+3BPbeJ
- HRjmJt23umeJIYdehf0IC7ovIdBjQByEXRfqn60W6yR/+zuGODAkc6W14X2XyfmHs2HKs3+5g
- zk6R48rPhsA7/WVnbtD2eg4VI95VYdJ9rQ7+yhNiW3FwuH87/cWCxaHaHbip94Rg1FAmvtMzM
- H/pkKTXwILdCJcq/K6kryFShrKJcqXQ+bWZ/rZLTzO6WNsrCpyMycqx55lQcJDzhb2CyiXNAT
- nsugrrrBc6qmLATZx8SlvXoK7wvHyTiaTM52U3QI9YsGBqfP4jut9Qg6uqu0Z+flrgsMcSen0
- AHeCEhOhMd6+SHE9+SiTRIlZsSAX9cgcn5zGEH/GvDvzs6VfOPCKWzMW8VROTjQ6hhBhVErUx
- RZ9pQZu35PiBwFJjrviZPApzlvzWmPIyZ1Mp711LF8YaEwP+Fypq2PbkcImKA9chbHsNne9QP
- EA0OAijqxEbF8a9qFKoukvIy0JJoYeWrbhsPecidTq4ziJ8g0Br1X/g3OPEFNgu/yYWp8dhyi
- OHbANPG/G2/LGScc
+Received: from mail-lj1-x233.google.com (mail-lj1-x233.google.com
+ [IPv6:2a00:1450:4864:20::233])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id C2E1710E277
+ for <dri-devel@lists.freedesktop.org>; Mon, 11 Apr 2022 11:08:10 +0000 (UTC)
+Received: by mail-lj1-x233.google.com with SMTP id h11so19644791ljb.2
+ for <dri-devel@lists.freedesktop.org>; Mon, 11 Apr 2022 04:08:10 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
+ h=mime-version:subject:from:in-reply-to:date:cc
+ :content-transfer-encoding:message-id:references:to;
+ bh=faBBlyWvdU7yWxcYTLif+sdsFzOCEToIOx9hvvHptcQ=;
+ b=bKtcLKsVNv/AnDUlN7XBfbv28lbGbwcpV24AYOZZR49Y7t8W9yiE6J81v0axX9Hlt+
+ zHk8G4MDDbtAMLQ5bh7Jhc2p5bzSmsjtHYVcpclXp5hGUvmBW5QjmJb3J0pxJ4QVzQ1p
+ gMuVPRdKXpPwxW3GWBDhpdcd/hBuyIsa9RcVniFb8KPC6aGvUkpQ65ivSkdMDSCrlCfF
+ uKaY/NFLQ+ZjxZskiKDIltI0irbwD0D+xs534Ba5tLrLR3lbUyDa+9UYkRqEsrbCq8em
+ TGHkIAkQ/+oVhy1cpqkeyS8le9sj/+N45KEQTmgZbxsIbXg+SgoLGOBmeMGo4AHKCqAg
+ Kzlw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=x-gm-message-state:mime-version:subject:from:in-reply-to:date:cc
+ :content-transfer-encoding:message-id:references:to;
+ bh=faBBlyWvdU7yWxcYTLif+sdsFzOCEToIOx9hvvHptcQ=;
+ b=Kz8sewLwcMFHNfdWkWnXuo/9zZGtF+b0GNbBweBtLicKziJOcogPWypae1MYdmMbQ5
+ hTbhI0HIkjdA76jh0OujOA4WNEnDvjcMx6XlDub4SOW/c/EJI0CKUryEsF3JaXcLwX3T
+ sXz/ioHis7g8Dn+l2QnKYOcix36WJhXFYp74NclFfoY9lCyaUPI73r9kWx/fY4q8qIFF
+ WkNsEeRJdpMSr+weK2yNx6tFjBb9j3wh3PzfpBg2Ek84tWOiCzlxYh2+Jbt54yTmgaFd
+ UuyJG5ih7L2LHRZhwlFNb1WwA1Sy0Zef6yW3kQf8ieTbstWtN+mwlHHtUfOKpq/Jw1NT
+ +13w==
+X-Gm-Message-State: AOAM531sRXHWER3Ecqatja9O2pHlXae4ZmUHQ4mdjF2Xvf6gdG6YAj5r
+ O2vYdTNi25LUqNdAFrfqpvY=
+X-Google-Smtp-Source: ABdhPJyIDqXD/37WNNPE4CEUiXkndnW/9dwYG4nxizIei1KKVdssg7C6CA8N3ii5HMAAGRoc5f8ydg==
+X-Received: by 2002:a2e:9c94:0:b0:24b:3df5:64c with SMTP id
+ x20-20020a2e9c94000000b0024b3df5064cmr13872145lji.324.1649675288917; 
+ Mon, 11 Apr 2022 04:08:08 -0700 (PDT)
+Received: from smtpclient.apple (31-178-191-245.dynamic.chello.pl.
+ [31.178.191.245]) by smtp.gmail.com with ESMTPSA id
+ j29-20020a056512029d00b0046ba6e0cc32sm259161lfp.300.2022.04.11.04.08.04
+ (version=TLS1_2 cipher=ECDHE-ECDSA-AES128-GCM-SHA256 bits=128/128);
+ Mon, 11 Apr 2022 04:08:08 -0700 (PDT)
+Content-Type: text/plain;
+	charset=utf-8
+Mime-Version: 1.0 (Mac OS X Mail 14.0 \(3654.120.0.1.13\))
+Subject: Re: [PATCH v9 00/23] drm/rockchip: RK356x VOP2 support
+From: Piotr Oniszczuk <piotr.oniszczuk@gmail.com>
+In-Reply-To: <20220411090800.GR4012@pengutronix.de>
+Date: Mon, 11 Apr 2022 13:07:56 +0200
+Content-Transfer-Encoding: quoted-printable
+Message-Id: <5929E7A7-776E-4BCB-92C8-A1CE05774FE3@gmail.com>
+References: <20220328151116.2034635-1-s.hauer@pengutronix.de>
+ <FB201567-AE5A-4242-82F1-7C55D8F111EA@gmail.com>
+ <20220401125205.GL4012@pengutronix.de>
+ <5420D26D-34FD-4637-B602-F6271E38BB8D@gmail.com>
+ <BA4C591F-D115-43D2-BF59-A75B29889E50@gmail.com>
+ <20220408080748.GA2387@pengutronix.de> <20220408120021.GO4012@pengutronix.de>
+ <B3E76A7A-9B62-4E6F-9472-00B6298689C5@gmail.com>
+ <20220411090800.GR4012@pengutronix.de>
+To: Sascha Hauer <s.hauer@pengutronix.de>
+X-Mailer: Apple Mail (2.3654.120.0.1.13)
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -62,63 +78,279 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Dave Stevenson <dave.stevenson@raspberrypi.com>,
- David Airlie <airlied@linux.ie>, Daniel Vetter <daniel.vetter@ffwll.ch>,
- Javier Martinez Canillas <javierm@redhat.com>,
- DRI Development <dri-devel@lists.freedesktop.org>,
- Thomas Zimmermann <tzimmermann@suse.de>, Phil Elwell <phil@raspberrypi.com>
+Cc: "devicetree@vger.kernel.org" <devicetree@vger.kernel.org>,
+ Benjamin Gaignard <benjamin.gaignard@collabora.com>,
+ Peter Geis <pgwipeout@gmail.com>, Sandy Huang <hjc@rock-chips.com>,
+ dri-devel@lists.freedesktop.org,
+ "open list:ARM/Rockchip SoC..." <linux-rockchip@lists.infradead.org>,
+ Michael Riesch <michael.riesch@wolfvision.net>, kernel@pengutronix.de,
+ Andy Yan <andy.yan@rock-chips.com>,
+ "linux-arm-kernel@lists.infradead.org" <linux-arm-kernel@lists.infradead.org>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi Maxime,
 
-Am 11.04.22 um 09:35 schrieb Maxime Ripard:
-> Hi Stefan,
->
-> On Sun, Apr 10, 2022 at 02:32:02AM +0200, Stefan Wahren wrote:
->> Am 09.04.22 um 21:25 schrieb Stefan Wahren:
->>> Hi,
->>>
->>> today i tested Linux 5.18-rc1 on my Raspberry Pi 400 connected to my
->>> HDMI display (multi_v7_defconfig + CONFIG_ARM_LPAE, firmware:
->>> 2021-01-08T14:31:16) and i'm getting these strange errors from
->>> raspberrypi-firmware driver / vc4 during boot:
->>>
->>> [   13.094733] fb0: switching to vc4 from simple
->>> [   13.110759] Console: switching to colour dummy device 80x30
->>> [   13.120691] raspberrypi-firmware soc:firmware: Request 0x00030066
->>> returned status 0x80000001
->>> [   13.120715] vc4-drm gpu: [drm] Couldn't stop firmware display driver:
->>> -22
->> This is a new error which was introduced with Linux 5.18-rc1 (c406ad5e4a85
->> "drm/vc4: Notify the firmware when DRM is in charge"). 0x00030066 stands for
->> the new firmware property RPI_FIRMWARE_NOTIFY_DISPLAY_DONE. And i guess the
->> firmware from January 2021 doesn't support it?
-> If I remember well, this was added some time in the middle of last year,
-> so it wouldn't surprise me that your firmware doesn't support it.
->
-> It's not really harmful, but it might still be a good idea to upgrade
-> your firmware. The display pipeline has an unflushable FIFO between
-> devices and if we don't take special care when disabling all the devices
-> in that pipeline, we end up with a shift of one pixel for the rest of
-> the system's life.
->
-> We have some code to deal with the transition between the firmware and
-> the kernel, but we couldn't make it work reliably so we ended up asking
-> the firmware instead.
->
-> So.. Yeah, it's bad if you want to use the displays output, but it not
-> critical either.
 
-I understand. I think it would be nice to give the user a more helpful 
-warning how to possible fix this, because we cannot assume that every 
-system has the latest firmware.
+> Wiadomo=C5=9B=C4=87 napisana przez Sascha Hauer =
+<s.hauer@pengutronix.de> w dniu 11.04.2022, o godz. 11:08:
+>=20
+> Ok, so #37 for video, #43 for GUI.
+>=20
+> Where is the OSD rendered? Is it rendered on the GUI layer?
 
-Also i'm not sure if should give this warning once or on every probing 
-attempt.
+Yes
 
-Best regards
-Stefan
+>=20
+>> .......
+>>=20
+>>=20
+>> playback:
+>> .....
+>> 2022-04-08 17:48:55.457823 I DRMVideo: Using Plane #37 for video
+>> .....
+>>=20
+>> DRI state with zpos=3D0, kms_id=3D0 and ongoing playback:
+>>=20
+>> root@Myth-Frontend-06c7e973c2f1:~ # cat /sys/kernel/debug/dri/0/state
+>> plane[31]: Smart0-win0
+>>        crtc=3Dvideo_port0
+>>        fb=3D58
+>>                allocated by =3D mythfrontend
+>>                refcount=3D2
+>>                format=3DXR24 little-endian (0x34325258)
+>>                modifier=3D0x0
+>>                size=3D1920x1080
+>>                layers:
+>>                        size[0]=3D1920x1080
+>>                        pitch[0]=3D7680
+>>                        offset[0]=3D0
+>>                        obj[0]:
+>>                                name=3D0
+>>                                refcount=3D4
+>>                                start=3D00000000
+>>                                size=3D8294400
+>>                                imported=3Dno
+>>        crtc-pos=3D1920x1080+0+0
+>>        src-pos=3D1920.000000x1080.000000+0.000000+0.000000
+>>        rotation=3D1
+>>        normalized-zpos=3D0
+>>        color-encoding=3DITU-R BT.601 YCbCr
+>>        color-range=3DYCbCr limited range
+>=20
+> Base plane.
+>=20
+>> plane[37]: Esmart0-win0
+>>        crtc=3Dvideo_port0
+>>        fb=3D65
+>>                allocated by =3D mythfrontend
+>>                refcount=3D2
+>>                format=3DNV12 little-endian (0x3231564e)
+>>                modifier=3D0x0
+>>                size=3D1920x1080
+>>                layers:
+>>                        size[0]=3D1920x1080
+>>                        pitch[0]=3D1920
+>>                        offset[0]=3D0
+>>                        obj[0]:
+>>                                name=3D0
+>>                                refcount=3D3
+>>                                start=3D00000000
+>>                                size=3D3657728
+>>                                imported=3Dyes
+>>                        size[1]=3D960x540
+>>                        pitch[1]=3D1920
+>>                        offset[1]=3D2088960
+>>                        obj[1]:
+>>                                name=3D0
+>>                                refcount=3D3
+>>                                start=3D00000000
+>>                                size=3D3657728
+>>                                imported=3Dyes
+>>        crtc-pos=3D1920x1080+0+0
+>>        src-pos=3D1920.000000x1080.000000+0.000000+0.000000
+>>        rotation=3D1
+>>        normalized-zpos=3D1
+>>        color-encoding=3DITU-R BT.601 YCbCr
+>>        color-range=3DYCbCr limited range
+>=20
+> Video plane, rendered full screen above the base plane without alpha.
+>=20
+>> plane[43]: Cluster0-win0
+>>        crtc=3D(null)
+>>        fb=3D0
+>>        crtc-pos=3D0x0+0+0
+>>        src-pos=3D0.000000x0.000000+0.000000+0.000000
+>>        rotation=3D1
+>>        normalized-zpos=3D0
+>>        color-encoding=3DITU-R BT.601 YCbCr
+>>        color-range=3DYCbCr limited range
+>=20
+> Here should be the GUI, but this plane is not active.
 
->
-> Maxime
+I suspect this is because above DRI state report was with user-forced Qt =
+vars.
+This was because to get UI non-black screen.
+I done this by request to provide DRI state with video playback. (to get =
+playback I need UI to navigate)
+By this DRI state report might misleading as i'm manually forcing Qt =
+KMS_Index/Zpos.=20
+
+>=20
+> With this state I would expect to see a full screen video without
+> anything on it. Is that the case? If yes, then fine.
+
+yes. this is a case.
+so this is fine.
+
+So I think non-visible OSD issue is side effect of other, root cause =
+issue: issue causing user to force Qt vars to get UI on VOP2
+
+Context: (my view):
+
+We have stack of 3 components interacting:
+1.player (draws video to DRM plane)
+2.Qt (draws UI to GL to DRM plane)
+3.DRM (mixing planes+displaying)=20
+
+Stack coperation:
+a. DRM reports available planes+attributes to player
+b. player - accordingly to above report - sets Qt (KMS/Zpos, etc).
+c. user starting player. player uses Qt for drawing UI=20
+d. user asks for playback
+e. player draws (by Qt) OSD  and directly video (accordingly to Qt setup =
+in (b)
+
+With VOP2 i have issue at (c): screen is black.
+Above procedure works fully automated on all other platforms i =
+have/supporting.=20
+
+For me most probable hypothesis:
+
+1\
+- In steep (b) Qt is set (or configured to use DRM) in way that UI =
+resulting with black screen
+- this is because in (a) player receives (wrong?) DRM report - and by =
+this Qt is wrongly set
+This may explain we have issue at (c)
+
+2\
+- In steep (b) Qt is set & using DRM in way that UI should work ok
+- but VOP2 draws black screen (by some reason)
+This may explain we have issue at (c)
+
+
+Alternative hypothesis:
+DRM properly realises (a)
+Player wrongly realises (b)
+This hypothesis is way less probable (for me) because:
+1. procedure (a)...(e) works well on all other SoC. No need from user to =
+overwrite automatically detected/set of Qt vars.
+2. vop2 is single requiring from user overwrite of autodetected Qt vars. =
+to get non-black screen UI.
+
+I'm a bit out of ideas how to progress with this.
+
+As (a)...(e) concept works ok (and afaik also is used by other players =
+exploiting DRM planes rendering) - i'm not sure should I play with (b) =
+because of VOP2 black-screen?
+
+
+  =20
+BTW:
+this is DRI state when there is no any Qt.vars overwrites.
+(so all is autodetected/setup like in other  working SoCs; VOP2 gives =
+here black screen UI):
+
+2022-04-08 17:47:57.035668 I /dev/dri/card0 Qt EGLFS/KMS Fd:5 Crtc id:49 =
+Connector id:51 Atomic: 1
+2022-04-08 17:47:57.035806 I /dev/dri/card0: Authenticated
+2022-04-08 17:47:57.145447 I /dev/dri/card0: Found 3 planes; 3 for this =
+CRTC
+2022-04-08 17:47:57.145469 I /dev/dri/card0: Selected Plane #37 Overlay =
+for video
+2022-04-08 17:47:57.145515 I /dev/dri/card0: Supported DRM video =
+formats: NV12,NV16,NV24,YVYU,VYUY
+2022-04-08 17:47:57.145523 I /dev/dri/card0: Selected Plane #43 Overlay =
+for GUI
+2022-04-08 17:47:57.145567 I /dev/dri/card0: DRM device retrieved from =
+Qt
+2022-04-08 17:47:57.145574 I /dev/dri/card0: Multi-plane setup: =
+Requested: 1 Setup: 1
+
+plane[31]: Smart0-win0
+        crtc=3Dvideo_port0
+        fb=3D53
+                allocated by =3D [fbcon]
+                refcount=3D2
+                format=3DXR24 little-endian (0x34325258)
+                modifier=3D0x0
+                size=3D1920x1080
+                layers:
+                        size[0]=3D1920x1080
+                        pitch[0]=3D7680
+                        offset[0]=3D0
+                        obj[0]:
+                                name=3D0
+                                refcount=3D3
+                                start=3D00000000
+                                size=3D8294400
+                                imported=3Dno
+        crtc-pos=3D1920x1080+0+0
+        src-pos=3D1920.000000x1080.000000+0.000000+0.000000
+        rotation=3D1
+        normalized-zpos=3D0
+        color-encoding=3DITU-R BT.601 YCbCr
+        color-range=3DYCbCr limited range
+plane[37]: Esmart0-win0
+        crtc=3D(null)
+        fb=3D0
+        crtc-pos=3D0x0+0+0
+        src-pos=3D0.000000x0.000000+0.000000+0.000000
+        rotation=3D1
+        normalized-zpos=3D0
+        color-encoding=3DITU-R BT.601 YCbCr
+        color-range=3DYCbCr limited range
+plane[43]: Cluster0-win0
+        crtc=3Dvideo_port0
+        fb=3D58
+                allocated by =3D mythfrontend
+                refcount=3D2
+                format=3DAR24 little-endian (0x34325241)
+                modifier=3D0x0
+                size=3D1920x1080
+                layers:
+                        size[0]=3D1920x1080
+                        pitch[0]=3D7680
+                        offset[0]=3D0
+                        obj[0]:
+                                name=3D0
+                                refcount=3D4
+                                start=3D00000000
+                                size=3D8294400
+                                imported=3Dno
+        crtc-pos=3D1920x1080+0+0
+        src-pos=3D1920.000000x1080.000000+0.000000+0.000000
+        rotation=3D1
+        normalized-zpos=3D1
+        color-encoding=3DITU-R BT.601 YCbCr
+        color-range=3DYCbCr limited range
+crtc[49]: video_port0
+        enable=3D1
+        active=3D1
+        self_refresh_active=3D0
+        planes_changed=3D1
+        mode_changed=3D0
+        active_changed=3D0
+        connectors_changed=3D0
+        color_mgmt_changed=3D0
+        plane_mask=3D5
+        connector_mask=3D1
+        encoder_mask=3D1
+        mode: "1920x1080": 60 148500 1920 2008 2052 2200 1080 1084 1089 =
+1125 0x48 0x5
+connector[51]: HDMI-A-1
+        crtc=3Dvideo_port0
+        self_refresh_aware=3D0 =20
+
+
+
