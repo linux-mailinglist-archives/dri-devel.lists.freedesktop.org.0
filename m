@@ -1,46 +1,56 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id A8ADD4FB6EE
-	for <lists+dri-devel@lfdr.de>; Mon, 11 Apr 2022 11:07:46 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 061094FB6F0
+	for <lists+dri-devel@lfdr.de>; Mon, 11 Apr 2022 11:08:08 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 4EA7710F320;
-	Mon, 11 Apr 2022 09:07:42 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 4010610F290;
+	Mon, 11 Apr 2022 09:08:06 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from bhuna.collabora.co.uk (bhuna.collabora.co.uk [46.235.227.227])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 4B4D410F320
- for <dri-devel@lists.freedesktop.org>; Mon, 11 Apr 2022 09:07:40 +0000 (UTC)
-Received: from [127.0.0.1] (localhost [127.0.0.1])
- (Authenticated sender: kholk11) with ESMTPSA id 3E1291F43465
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
- s=mail; t=1649668058;
- bh=/BxB8I3hVWgWdEz3fBOpIt5kSfdx7FY5Q3jtn/JageQ=;
- h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
- b=iP8/l6eZFGMBCI+fYqrI9frunX10G/bsIaDU5ibF43HYTwGMg/eZrlGuS7KNvP77y
- M4BrjilcLZd8g+DFp6+yyyCUqRa6SnZN6PtuPBdsGtP6jVkXqV+zeL+w7EnLIj0WaC
- illhVbc+nbX0wwQqbS/uL20X+VwCyHmQFy/sJJTpx8/8gZCNZ6HT5UxiOWdbLpe5tg
- Y83tnFtNMIzJHLEPLJJTbtXAVMQt8n6nuNBAAqGXut6PYTr7CHhyCMSAY72Xasjz4g
- v2dlo1xwHlcYiCbGx/sBByiIr5n341sEMhspVpxMk8nITcHzhWZpVFQ5IWjbgfTnRQ
- aQ5DyS10zKz4A==
-Message-ID: <7a4e5afb-6947-ed7f-8555-c7402aaa3a29@collabora.com>
-Date: Mon, 11 Apr 2022 11:07:35 +0200
+Received: from metis.ext.pengutronix.de (metis.ext.pengutronix.de
+ [IPv6:2001:67c:670:201:290:27ff:fe1d:cc33])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id C3A5F10F290
+ for <dri-devel@lists.freedesktop.org>; Mon, 11 Apr 2022 09:08:04 +0000 (UTC)
+Received: from ptx.hi.pengutronix.de ([2001:67c:670:100:1d::c0])
+ by metis.ext.pengutronix.de with esmtps
+ (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256) (Exim 4.92)
+ (envelope-from <sha@pengutronix.de>)
+ id 1ndq1j-0001v6-0U; Mon, 11 Apr 2022 11:08:03 +0200
+Received: from sha by ptx.hi.pengutronix.de with local (Exim 4.92)
+ (envelope-from <sha@pengutronix.de>)
+ id 1ndq1g-0005KI-Mn; Mon, 11 Apr 2022 11:08:00 +0200
+Date: Mon, 11 Apr 2022 11:08:00 +0200
+From: Sascha Hauer <s.hauer@pengutronix.de>
+To: Piotr Oniszczuk <piotr.oniszczuk@gmail.com>
+Subject: Re: [PATCH v9 00/23] drm/rockchip: RK356x VOP2 support
+Message-ID: <20220411090800.GR4012@pengutronix.de>
+References: <20220328151116.2034635-1-s.hauer@pengutronix.de>
+ <FB201567-AE5A-4242-82F1-7C55D8F111EA@gmail.com>
+ <20220401125205.GL4012@pengutronix.de>
+ <5420D26D-34FD-4637-B602-F6271E38BB8D@gmail.com>
+ <BA4C591F-D115-43D2-BF59-A75B29889E50@gmail.com>
+ <20220408080748.GA2387@pengutronix.de>
+ <20220408120021.GO4012@pengutronix.de>
+ <B3E76A7A-9B62-4E6F-9472-00B6298689C5@gmail.com>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.7.0
-Subject: Re: [PATCH v4, 3/4] drm/mediatek: keep dsi as LP00 before dcs cmds
- transfer
-Content-Language: en-US
-To: xinlei.lee@mediatek.com, chunkuang.hu@kernel.org, p.zabel@pengutronix.de, 
- airlied@linux.ie, daniel@ffwll.ch, matthias.bgg@gmail.com,
- rex-bc.chen@mediatek.com
-References: <1649644308-8455-1-git-send-email-xinlei.lee@mediatek.com>
- <1649644308-8455-4-git-send-email-xinlei.lee@mediatek.com>
-From: AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>
-In-Reply-To: <1649644308-8455-4-git-send-email-xinlei.lee@mediatek.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <B3E76A7A-9B62-4E6F-9472-00B6298689C5@gmail.com>
+X-Sent-From: Pengutronix Hildesheim
+X-URL: http://www.pengutronix.de/
+X-IRC: #ptxdist @freenode
+X-Accept-Language: de,en
+X-Accept-Content-Type: text/plain
+X-Uptime: 10:49:33 up 11 days, 21:19, 65 users,  load average: 0.27, 0.21, 0.19
+User-Agent: Mutt/1.10.1 (2018-07-13)
+X-SA-Exim-Connect-IP: 2001:67c:670:100:1d::c0
+X-SA-Exim-Mail-From: sha@pengutronix.de
+X-SA-Exim-Scanned: No (on metis.ext.pengutronix.de);
+ SAEximRunCond expanded to false
+X-PTX-Original-Recipient: dri-devel@lists.freedesktop.org
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -53,85 +63,151 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: jitao.shi@mediatek.com, linux-kernel@vger.kernel.org,
+Cc: "devicetree@vger.kernel.org" <devicetree@vger.kernel.org>,
+ Benjamin Gaignard <benjamin.gaignard@collabora.com>,
+ Peter Geis <pgwipeout@gmail.com>, Sandy Huang <hjc@rock-chips.com>,
  dri-devel@lists.freedesktop.org,
- Project_Global_Chrome_Upstream_Group@mediatek.com,
- linux-mediatek@lists.infradead.org, linux-arm-kernel@lists.infradead.org
+ "open list:ARM/Rockchip SoC..." <linux-rockchip@lists.infradead.org>,
+ Michael Riesch <michael.riesch@wolfvision.net>, kernel@pengutronix.de,
+ Andy Yan <andy.yan@rock-chips.com>,
+ "linux-arm-kernel@lists.infradead.org" <linux-arm-kernel@lists.infradead.org>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Il 11/04/22 04:31, xinlei.lee@mediatek.com ha scritto:
-> From: Jitao Shi <jitao.shi@mediatek.com>
+On Fri, Apr 08, 2022 at 05:54:24PM +0200, Piotr Oniszczuk wrote:
 > 
-> To comply with the panel sequence, hold the mipi signal to LP00 before the dcs cmds transmission,
-> and pull the mipi signal high from LP00 to LP11 until the start of the dcs cmds transmission.
-> The normal panel timing is :
-> (1) pp1800 DC pull up
-> (2) avdd & avee AC pull high
-> (3) lcm_reset pull high -> pull low -> pull high
-> (4) Pull MIPI signal high (LP11) -> initial code -> send video data(HS mode)
-> The power-off sequence is reversed.
-> If dsi is not in cmd mode, then dsi will pull the mipi signal high in the mtk_output_dsi_enable function.
 > 
-> Fixes: 2dd8075d2185 ("drm/mediatek: mtk_dsi: Use the drm_panel_bridge API")
+> > Wiadomość napisana przez Sascha Hauer <s.hauer@pengutronix.de> w dniu 08.04.2022, o godz. 14:00:
+> > 
+> >> That turned out to be simpler than I thought it would be. The zpos
+> >> values were never actually written to the hardware. Please try the
+> >> following fixup, it should fix this issue.
+> > 
+> > Or better try v10 which I have just sent.
+> > 
 > 
-> Signed-off-by: Jitao Shi <jitao.shi@mediatek.com>
-> Signed-off-by: Xinlei Lee <xinlei.lee@mediatek.com>
-> ---
->   drivers/gpu/drm/mediatek/mtk_dsi.c | 28 +++++++++++++++++++++-------
->   1 file changed, 21 insertions(+), 7 deletions(-)
+> Sascha,
 > 
-> diff --git a/drivers/gpu/drm/mediatek/mtk_dsi.c b/drivers/gpu/drm/mediatek/mtk_dsi.c
-> index cf76c53a1af6..9ad6f08c8bfe 100644
-> --- a/drivers/gpu/drm/mediatek/mtk_dsi.c
-> +++ b/drivers/gpu/drm/mediatek/mtk_dsi.c
-> @@ -203,6 +203,7 @@ struct mtk_dsi {
->   	struct mtk_phy_timing phy_timing;
->   	int refcount;
->   	bool enabled;
-> +	bool lanes_ready;
->   	u32 irq_data;
->   	wait_queue_head_t irq_wait_queue;
->   	const struct mtk_dsi_driver_data *driver_data;
-> @@ -654,13 +655,6 @@ static int mtk_dsi_poweron(struct mtk_dsi *dsi)
->   	mtk_dsi_config_vdo_timing(dsi);
->   	mtk_dsi_set_interrupt_enable(dsi);
->   
-> -	mtk_dsi_rxtx_control(dsi);
-> -	usleep_range(30, 100);
-> -	mtk_dsi_reset_dphy(dsi);
-> -	mtk_dsi_clk_ulp_mode_leave(dsi);
-> -	mtk_dsi_lane0_ulp_mode_leave(dsi);
-> -	mtk_dsi_clk_hs_mode(dsi, 0);
-> -
->   	return 0;
->   err_disable_engine_clk:
->   	clk_disable_unprepare(dsi->engine_clk);
-> @@ -689,6 +683,23 @@ static void mtk_dsi_poweroff(struct mtk_dsi *dsi)
->   	clk_disable_unprepare(dsi->digital_clk);
->   
->   	phy_power_off(dsi->phy);
-> +
-> +	dsi->lanes_ready = false;
-> +}
-> +
-> +static void mtk_dsi_lane_ready(struct mtk_dsi *dsi)
-> +{
-> +	if (!dsi->lanes_ready) {
-> +		dsi->lanes_ready = true;
-> +		mtk_dsi_rxtx_control(dsi);
-> +		usleep_range(30, 100);
-> +		mtk_dsi_reset_dphy(dsi);
-> +		mtk_dsi_clk_ulp_mode_leave(dsi);
-> +		mtk_dsi_lane0_ulp_mode_leave(dsi);
-> +		mtk_dsi_clk_hs_mode(dsi, 0);
-> +		msleep(20);
+> I applied v10 on 5.17.2 and...can't see difference.
+> I still need to play with zpos to get ui screen.
+> if i have playback - no OSD.
+> If I have OSD - no playback.
+> 
+> Maybe fix needs some adjustments for 3566?
 
-This is a very long sleep, which wasn't present before this change.
-Please document the reasons why we need this 20ms sleep with a comment
-in the code.
+I don't think so.
 
-Regards,
-Angelo
+> player launch:
+> .......
+> 2022-04-08 17:47:57.035668 I /dev/dri/card0 Qt EGLFS/KMS Fd:5 Crtc id:49 Connector id:51 Atomic: 1
+> 2022-04-08 17:47:57.035806 I /dev/dri/card0: Authenticated
+> 2022-04-08 17:47:57.145447 I /dev/dri/card0: Found 3 planes; 3 for this CRTC
+> 2022-04-08 17:47:57.145469 I /dev/dri/card0: Selected Plane #37 Overlay for video
+> 2022-04-08 17:47:57.145515 I /dev/dri/card0: Supported DRM video formats: NV12,NV16,NV24,YVYU,VYUY
+> 2022-04-08 17:47:57.145523 I /dev/dri/card0: Selected Plane #43 Overlay for GUI
+> 2022-04-08 17:47:57.145567 I /dev/dri/card0: DRM device retrieved from Qt
+> 2022-04-08 17:47:57.145574 I /dev/dri/card0: Multi-plane setup: Requested: 1 Setup: 1
 
+Ok, so #37 for video, #43 for GUI.
 
+Where is the OSD rendered? Is it rendered on the GUI layer?
+
+> .......
+> 
+> 
+> playback:
+> .....
+> 2022-04-08 17:48:55.457823 I DRMVideo: Using Plane #37 for video
+> .....
+> 
+> DRI state with zpos=0, kms_id=0 and ongoing playback:
+> 
+> root@Myth-Frontend-06c7e973c2f1:~ # cat /sys/kernel/debug/dri/0/state
+> plane[31]: Smart0-win0
+>         crtc=video_port0
+>         fb=58
+>                 allocated by = mythfrontend
+>                 refcount=2
+>                 format=XR24 little-endian (0x34325258)
+>                 modifier=0x0
+>                 size=1920x1080
+>                 layers:
+>                         size[0]=1920x1080
+>                         pitch[0]=7680
+>                         offset[0]=0
+>                         obj[0]:
+>                                 name=0
+>                                 refcount=4
+>                                 start=00000000
+>                                 size=8294400
+>                                 imported=no
+>         crtc-pos=1920x1080+0+0
+>         src-pos=1920.000000x1080.000000+0.000000+0.000000
+>         rotation=1
+>         normalized-zpos=0
+>         color-encoding=ITU-R BT.601 YCbCr
+>         color-range=YCbCr limited range
+
+Base plane.
+
+> plane[37]: Esmart0-win0
+>         crtc=video_port0
+>         fb=65
+>                 allocated by = mythfrontend
+>                 refcount=2
+>                 format=NV12 little-endian (0x3231564e)
+>                 modifier=0x0
+>                 size=1920x1080
+>                 layers:
+>                         size[0]=1920x1080
+>                         pitch[0]=1920
+>                         offset[0]=0
+>                         obj[0]:
+>                                 name=0
+>                                 refcount=3
+>                                 start=00000000
+>                                 size=3657728
+>                                 imported=yes
+>                         size[1]=960x540
+>                         pitch[1]=1920
+>                         offset[1]=2088960
+>                         obj[1]:
+>                                 name=0
+>                                 refcount=3
+>                                 start=00000000
+>                                 size=3657728
+>                                 imported=yes
+>         crtc-pos=1920x1080+0+0
+>         src-pos=1920.000000x1080.000000+0.000000+0.000000
+>         rotation=1
+>         normalized-zpos=1
+>         color-encoding=ITU-R BT.601 YCbCr
+>         color-range=YCbCr limited range
+
+Video plane, rendered full screen above the base plane without alpha.
+
+> plane[43]: Cluster0-win0
+>         crtc=(null)
+>         fb=0
+>         crtc-pos=0x0+0+0
+>         src-pos=0.000000x0.000000+0.000000+0.000000
+>         rotation=1
+>         normalized-zpos=0
+>         color-encoding=ITU-R BT.601 YCbCr
+>         color-range=YCbCr limited range
+
+Here should be the GUI, but this plane is not active.
+
+With this state I would expect to see a full screen video without
+anything on it. Is that the case? If yes, then fine.
+
+Could you post a state where you expect something else than is actually
+seen?
+
+Sascha
+
+-- 
+Pengutronix e.K.                           |                             |
+Steuerwalder Str. 21                       | http://www.pengutronix.de/  |
+31137 Hildesheim, Germany                  | Phone: +49-5121-206917-0    |
+Amtsgericht Hildesheim, HRA 2686           | Fax:   +49-5121-206917-5555 |
