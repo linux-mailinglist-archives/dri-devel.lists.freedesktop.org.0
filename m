@@ -1,54 +1,46 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id E95964FB7CF
-	for <lists+dri-devel@lfdr.de>; Mon, 11 Apr 2022 11:38:30 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 93FA74FB7FE
+	for <lists+dri-devel@lfdr.de>; Mon, 11 Apr 2022 11:46:49 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 5C1A210ECD4;
-	Mon, 11 Apr 2022 09:38:22 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 3B80810F7CD;
+	Mon, 11 Apr 2022 09:46:46 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mga18.intel.com (mga18.intel.com [134.134.136.126])
- by gabe.freedesktop.org (Postfix) with ESMTPS id CC96B10E251;
- Mon, 11 Apr 2022 09:38:20 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1649669900; x=1681205900;
- h=message-id:date:mime-version:subject:to:cc:references:
- from:in-reply-to:content-transfer-encoding;
- bh=kKbbke492EzRbRfZlhH+2jPB+ZJRnLG0d0q9Sk2IEw4=;
- b=jST+4cH4S0hN93jlm6lbbszTMc20GlIYvnX+82ZCfncccWz780g7JAXy
- hj7WyZLFkSQdmnkqMDUSK2O2oJUX1F62w5DFrXtaM0OLsj/ZXTeBK9Wwc
- MLLWOl/JHVdHiYuZiM+hhN7WsU6pLc0q90l60L2uL3imXeqLLinaLipYC
- Uxw0mQ1Kg/EtPF/ejR/9eAjG+Ns6OJQ+5YxMme/MqhPBSWHm4uMb0jrZ5
- bxPzQUEe67TshoJ2JeT/WHMIUt0+Jo+HYoHSyapNMH72Rsk2gioPcFzXX
- oxZtp3ruDhKvemv3Yh3IeQDu+DA3qJpcxl6FsU5ie63Lh4adSLvaGWCwe A==;
-X-IronPort-AV: E=McAfee;i="6400,9594,10313"; a="243960824"
-X-IronPort-AV: E=Sophos;i="5.90,251,1643702400"; d="scan'208";a="243960824"
-Received: from fmsmga003.fm.intel.com ([10.253.24.29])
- by orsmga106.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 11 Apr 2022 02:38:20 -0700
-X-IronPort-AV: E=Sophos;i="5.90,251,1643702400"; d="scan'208";a="644021016"
-Received: from dxharrix-mobl.ger.corp.intel.com (HELO [10.252.1.119])
- ([10.252.1.119])
- by fmsmga003-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 11 Apr 2022 02:38:18 -0700
-Message-ID: <5b8cc915-3549-06a6-f994-3304bca536ef@intel.com>
-Date: Mon, 11 Apr 2022 10:38:16 +0100
+Received: from metis.ext.pengutronix.de (metis.ext.pengutronix.de
+ [IPv6:2001:67c:670:201:290:27ff:fe1d:cc33])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 9A2BF10F7CD
+ for <dri-devel@lists.freedesktop.org>; Mon, 11 Apr 2022 09:46:44 +0000 (UTC)
+Received: from gallifrey.ext.pengutronix.de
+ ([2001:67c:670:201:5054:ff:fe8d:eefb] helo=[IPv6:::1])
+ by metis.ext.pengutronix.de with esmtps
+ (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256) (Exim 4.92)
+ (envelope-from <l.stach@pengutronix.de>)
+ id 1ndqd9-000758-2H; Mon, 11 Apr 2022 11:46:43 +0200
+Message-ID: <83fdef763a46987423acc31c7e82c7dca9f04553.camel@pengutronix.de>
+Subject: Re: [PATCH v2 4/7] drm: mxsfb: Move mxsfb_get_fb_paddr() away from
+ register IO functions
+From: Lucas Stach <l.stach@pengutronix.de>
+To: Marek Vasut <marex@denx.de>, dri-devel@lists.freedesktop.org
+Date: Mon, 11 Apr 2022 11:46:40 +0200
+In-Reply-To: <141af457-18df-13c5-a6d4-08ea1fd2f511@denx.de>
+References: <20220311170601.50995-1-marex@denx.de>
+ <20220311170601.50995-4-marex@denx.de>
+ <5f7eb7a214ec0f219c4c9ce87e6c8c87bc7f0aeb.camel@pengutronix.de>
+ <2e038048-c3ac-4c33-fb98-ba6bec705d5b@denx.de>
+ <ef4d8f36a16edda8abf9b6d818cd17f15b0b67cf.camel@pengutronix.de>
+ <141af457-18df-13c5-a6d4-08ea1fd2f511@denx.de>
+Content-Type: text/plain; charset="UTF-8"
+User-Agent: Evolution 3.40.4 (3.40.4-1.fc34) 
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.7.0
-Subject: Re: [PATCH] tests/drm_buddy: Add drm buddy test cases
-Content-Language: en-GB
-To: Arunpravin Paneer Selvam <Arunpravin.PaneerSelvam@amd.com>,
- igt-dev@lists.freedesktop.org, intel-gfx@lists.freedesktop.org,
- amd-gfx@lists.freedesktop.org, dri-devel@lists.freedesktop.org
-References: <20220411072801.15097-1-Arunpravin.PaneerSelvam@amd.com>
-From: Matthew Auld <matthew.auld@intel.com>
-In-Reply-To: <20220411072801.15097-1-Arunpravin.PaneerSelvam@amd.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 8bit
+X-SA-Exim-Connect-IP: 2001:67c:670:201:5054:ff:fe8d:eefb
+X-SA-Exim-Mail-From: l.stach@pengutronix.de
+X-SA-Exim-Scanned: No (on metis.ext.pengutronix.de);
+ SAEximRunCond expanded to false
+X-PTX-Original-Recipient: dri-devel@lists.freedesktop.org
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -61,58 +53,56 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: alexander.deucher@amd.com, christian.koenig@amd.com
+Cc: Peng Fan <peng.fan@nxp.com>,
+ Alexander Stein <alexander.stein@ew.tq-group.com>,
+ Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
+ Sam Ravnborg <sam@ravnborg.org>, Robby Cai <robby.cai@nxp.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 11/04/2022 08:28, Arunpravin Paneer Selvam wrote:
-> Add a set of drm buddy test cases to validate the
-> drm/drm_buddy.c memory allocator.
+Am Montag, dem 11.04.2022 um 00:17 +0200 schrieb Marek Vasut:
+> On 4/7/22 11:47, Lucas Stach wrote:
+> > Am Donnerstag, dem 07.04.2022 um 00:05 +0200 schrieb Marek Vasut:
+> > > On 4/6/22 21:45, Lucas Stach wrote:
+> > > > Am Freitag, dem 11.03.2022 um 18:05 +0100 schrieb Marek Vasut:
+> > > > > Move mxsfb_get_fb_paddr() out of the way, away from register IO functions.
+> > > > > This is a clean up. No functional change.
+> > > > > 
+> > > > > Signed-off-by: Marek Vasut <marex@denx.de>
+> > > > > Cc: Alexander Stein <alexander.stein@ew.tq-group.com>
+> > > > > Cc: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+> > > > > Cc: Lucas Stach <l.stach@pengutronix.de>
+> > > > > Cc: Peng Fan <peng.fan@nxp.com>
+> > > > > Cc: Robby Cai <robby.cai@nxp.com>
+> > > > > Cc: Sam Ravnborg <sam@ravnborg.org>
+> > > > > Cc: Stefan Agner <stefan@agner.ch>
+> > > > 
+> > > > Hm, I don't see any real benefit, but I also fail to see why it
+> > > > shouldn't be done so:
+> > > 
+> > > The entire point of this series is to clean up the mxsfb and isolate
+> > > lcdif (the original lcdif) from any of the common code.
+> > 
+> > Actually, just use drm_fb_cma_get_gem_addr() instead?
 > 
-> Signed-off-by: Arunpravin Paneer Selvam <Arunpravin.PaneerSelvam@amd.com>
-> ---
->   tests/drm_buddy.c | 14 ++++++++++++++
->   tests/meson.build |  1 +
->   2 files changed, 15 insertions(+)
->   create mode 100644 tests/drm_buddy.c
+> That function seems to add only extra code that is executed, 
 > 
-> diff --git a/tests/drm_buddy.c b/tests/drm_buddy.c
-> new file mode 100644
-> index 00000000..06876e0c
-> --- /dev/null
-> +++ b/tests/drm_buddy.c
-> @@ -0,0 +1,14 @@
-> +// SPDX-License-Identifier: MIT
-> +/*
-> + * Copyright © 2019 Intel Corporation
-> + */
-> +
-> +#include "igt.h"
-> +#include "igt_kmod.h"
-> +
-> +IGT_TEST_DESCRIPTION("Basic sanity check of DRM's buddy allocator (struct drm_buddy)");
-> +
-> +igt_main
-> +{
-> +	igt_kselftests("test-drm_buddy", NULL, NULL, NULL);
-> +}
-> diff --git a/tests/meson.build b/tests/meson.build
-> index b0eab3d6..4ed8e610 100644
-> --- a/tests/meson.build
-> +++ b/tests/meson.build
-> @@ -10,6 +10,7 @@ test_progs = [
->   	'device_reset',
->   	'drm_import_export',
->   	'drm_mm',
-> +	'drm_buddy',
+Yep, and thus it is the correct way to do it, as it actually takes into
+account the FB offset parameter. Currently mxsfb seems to just do the
+wrong thing when the FB is not at offset 0 in the GEM object.
 
-Nit: Should be kept sorted. No need to resend though.
-
-Reviewed-by: Matthew Auld <matthew.auld@intel.com>
-
-
->   	'drm_read',
->   	'fbdev',
->   	'feature_discovery',
+> but does not do away with the !fb check anyway. 
 > 
-> base-commit: 016a7169e66b710a6720ed8ff94815a7e8076541
+And that one seems bogus. If you have no FB there is no way you can
+reasonably start scanout or flip to the next buffer. What would you
+scan out in that case? Random memory? FB should never be NULL in those
+code paths.
+
+> So, why ? (Also, seems unrelated to this patch)
+
+Because you aim to clean up the driver and make the code reusable, so
+why not use the reusable and correct DRM helper?
+
+Regards,
+Lucas
+
