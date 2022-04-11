@@ -1,44 +1,43 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id BEBFF4FC7CA
-	for <lists+dri-devel@lfdr.de>; Tue, 12 Apr 2022 00:43:42 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 969084FC7CD
+	for <lists+dri-devel@lfdr.de>; Tue, 12 Apr 2022 00:43:46 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id DAB2E10E400;
-	Mon, 11 Apr 2022 22:43:28 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 1C0CE10E414;
+	Mon, 11 Apr 2022 22:43:31 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from mga02.intel.com (mga02.intel.com [134.134.136.20])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 4736F10E379;
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 848B010E0FC;
  Mon, 11 Apr 2022 22:43:25 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
  t=1649717005; x=1681253005;
  h=from:to:cc:subject:date:message-id:in-reply-to:
  references:mime-version:content-transfer-encoding;
- bh=dcSY5IP003nbOlqOZlQNe6xKjLghyjwIfUU7O6kgB8M=;
- b=Iakzm4u0aPgRkkw0KI9vOTMIp2F1VKYLPZVExlynaEwrQzDiaArJ87wn
- Ml0FeS13OVVr9c0G8GD6ocfJPyz5op4pyyL6ONFJ2dedOMO8RtTweijyk
- 0LCMWnM198quLHnib1a8s8Ue21SLZxsciEPIV6RX2swwrCxtYxXv8pZSh
- 9GMovnwX60K86gJ4nUyP2fM8/ShfdIPX/DNGfbRj/H8NINOqdUHk15g/H
- IynE1lJdSWcoY6sv5CLtCTqKGbxhd2OCtQ0WEtH4gDHW81Taa/76BkWVq
- ep0PgfoSI8NBAB6ZWQqv6zah4GHAUgNksRhh+VkGyvuVBZbzlP1QCW7pz g==;
-X-IronPort-AV: E=McAfee;i="6400,9594,10314"; a="249513170"
-X-IronPort-AV: E=Sophos;i="5.90,252,1643702400"; d="scan'208";a="249513170"
+ bh=q0IAn+1+/DcmLaHcG9wId5Ak9o3EYK1AC1U+YefCK3E=;
+ b=Av47VM5qVjk2i3LQgsm4zX8kx4uCDGqvYc9pIQw5qz71/GXdCCfo7TuB
+ IThN4EPfFrQAVj7/FAWLwZeKsHawjugTPXfbr/sa6YKvb3UoZ719F9k1f
+ wGYW0is0CbeCoSo+o0dk+6wd2nPluU46lzi5H1QUmC2ddfCCzPjM220+A
+ BUiVWs3UKoLbB0nZjwjTK6WRGQd85L/Kj8dSP0BfocIGqvXafqAlkuoko
+ JP0e/gU/YSIzK8iFD7dWdh62o5DPTZG/maGt+cWDBK2pfg/X7FA2iNJPE
+ 3dkOZ8ItCVQNJHNkNsi3o6o/5iPdnuzKTtEiCV1zUCZZtJ3cS46ti4SQd A==;
+X-IronPort-AV: E=McAfee;i="6400,9594,10314"; a="249513171"
+X-IronPort-AV: E=Sophos;i="5.90,252,1643702400"; d="scan'208";a="249513171"
 Received: from orsmga007.jf.intel.com ([10.7.209.58])
  by orsmga101.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
  11 Apr 2022 15:43:24 -0700
-X-IronPort-AV: E=Sophos;i="5.90,252,1643702400"; d="scan'208";a="551432086"
+X-IronPort-AV: E=Sophos;i="5.90,252,1643702400"; d="scan'208";a="551432089"
 Received: from mdroper-desk1.fm.intel.com ([10.1.27.134])
  by orsmga007-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
  11 Apr 2022 15:43:24 -0700
 From: Matt Roper <matthew.d.roper@intel.com>
 To: intel-gfx@lists.freedesktop.org
-Subject: [PATCH 1/4] drm/i915/doc: Convert drm_i915_query_topology_info
- comment to kerneldoc
-Date: Mon, 11 Apr 2022 15:43:16 -0700
-Message-Id: <20220411224319.467166-2-matthew.d.roper@intel.com>
+Subject: [PATCH 2/4] drm/i915/doc: Convert perf UAPI comments to kerneldoc
+Date: Mon, 11 Apr 2022 15:43:17 -0700
+Message-Id: <20220411224319.467166-3-matthew.d.roper@intel.com>
 X-Mailer: git-send-email 2.34.1
 In-Reply-To: <20220411224319.467166-1-matthew.d.roper@intel.com>
 References: <20220411224319.467166-1-matthew.d.roper@intel.com>
@@ -60,166 +59,184 @@ Cc: dri-devel@lists.freedesktop.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-This structure has a great comment describing the fields, but it's not
-currently in kerneldoc form and does not show up in the generated
-documentation.  Let's fix that and also clarify the description of what
-"subslice" refers to on gen12 platforms and beyond and that "slice" is
-no longer meaningful on Xe_HP and beyond.
+Convert the comments for  drm_i915_query_perf_config and
+drm_i915_perf_oa_config to kerneldoc so that they will show up in the
+generated documentation.  Also correct a couple places that referred to
+query_id when they actually meant to refer to query_item.flags.
 
 Signed-off-by: Matt Roper <matthew.d.roper@intel.com>
 ---
- include/uapi/drm/i915_drm.h | 110 +++++++++++++++++++++++++-----------
- 1 file changed, 78 insertions(+), 32 deletions(-)
+ include/uapi/drm/i915_drm.h | 116 ++++++++++++++++++++++++++----------
+ 1 file changed, 86 insertions(+), 30 deletions(-)
 
 diff --git a/include/uapi/drm/i915_drm.h b/include/uapi/drm/i915_drm.h
-index 9ab021c4d632..73e1c6180ddb 100644
+index 73e1c6180ddb..787dab98f7b0 100644
 --- a/include/uapi/drm/i915_drm.h
 +++ b/include/uapi/drm/i915_drm.h
-@@ -2775,66 +2775,112 @@ struct drm_i915_query {
- 	__u64 items_ptr;
+@@ -2657,24 +2657,65 @@ enum drm_i915_perf_record_type {
+ 	DRM_I915_PERF_RECORD_MAX /* non-ABI */
  };
  
 -/*
-- * Data written by the kernel with query DRM_I915_QUERY_TOPOLOGY_INFO :
-- *
-- * data: contains the 3 pieces of information :
-- *
-- * - the slice mask with one bit per slice telling whether a slice is
-- *   available. The availability of slice X can be queried with the following
-- *   formula :
-- *
-- *           (data[X / 8] >> (X % 8)) & 1
-- *
-- * - the subslice mask for each slice with one bit per subslice telling
-- *   whether a subslice is available. Gen12 has dual-subslices, which are
-- *   similar to two gen11 subslices. For gen12, this array represents dual-
-- *   subslices. The availability of subslice Y in slice X can be queried
-- *   with the following formula :
-- *
-- *           (data[subslice_offset +
-- *                 X * subslice_stride +
-- *                 Y / 8] >> (Y % 8)) & 1
-- *
-- * - the EU mask for each subslice in each slice with one bit per EU telling
-- *   whether an EU is available. The availability of EU Z in subslice Y in
-- *   slice X can be queried with the following formula :
 +/**
-+ * struct drm_i915_query_topology_info
-  *
-- *           (data[eu_offset +
-- *                 (X * max_subslices + Y) * eu_stride +
-- *                 Z / 8] >> (Z % 8)) & 1
-+ * Describes slice/subslice/EU information queried by
-+ * %DRM_I915_QUERY_TOPOLOGY_INFO
++ * struct drm_i915_perf_oa_config
++ *
+  * Structure to upload perf dynamic configuration into the kernel.
   */
- struct drm_i915_query_topology_info {
+ struct drm_i915_perf_oa_config {
+-	/** String formatted like "%08x-%04x-%04x-%04x-%012x" */
++	/**
++	 * @uuid:
++	 *
++	 * String formatted like "%\08x-%\04x-%\04x-%\04x-%\012x"
++	 */
+ 	char uuid[36];
+ 
++	/**
++	 * @n_mux_regs:
++	 *
++	 * Number of mux regs in &mux_regs_ptr.
++	 */
+ 	__u32 n_mux_regs;
++
++	/**
++	 * @n_boolean_regs:
++	 *
++	 * Number of boolean regs in &boolean_regs_ptr.
++	 */
+ 	__u32 n_boolean_regs;
++
++	/**
++	 * @n_flex_regs:
++	 *
++	 * Number of flex regs in &flex_regs_ptr.
++	 */
+ 	__u32 n_flex_regs;
+ 
+-	/*
+-	 * These fields are pointers to tuples of u32 values (register address,
+-	 * value). For example the expected length of the buffer pointed by
+-	 * mux_regs_ptr is (2 * sizeof(u32) * n_mux_regs).
++	/**
++	 * @mux_regs_ptr:
++	 *
++	 * Pointer to tuples of u32 values (register address, value) for mux
++	 * registers.  Expected length of buffer is (2 * sizeof(u32) *
++	 * &n_mux_regs).
+ 	 */
+ 	__u64 mux_regs_ptr;
++
++	/**
++	 * @boolean_regs_ptr:
++	 *
++	 * Pointer to tuples of u32 values (register address, value) for mux
++	 * registers.  Expected length of buffer is (2 * sizeof(u32) *
++	 * &n_boolean_regs).
++	 */
+ 	__u64 boolean_regs_ptr;
++
++	/**
++	 * @flex_regs_ptr:
++	 *
++	 * Pointer to tuples of u32 values (register address, value) for mux
++	 * registers.  Expected length of buffer is (2 * sizeof(u32) *
++	 * &n_flex_regs).
++	 */
+ 	__u64 flex_regs_ptr;
+ };
+ 
+@@ -3001,52 +3042,67 @@ struct drm_i915_query_engine_info {
+ 	struct drm_i915_engine_info engines[];
+ };
+ 
+-/*
+- * Data written by the kernel with query DRM_I915_QUERY_PERF_CONFIG.
++/**
++ * struct drm_i915_query_perf_config
++ *
++ * Data written by the kernel with query %DRM_I915_QUERY_PERF_CONFIG.
+  */
+ struct drm_i915_query_perf_config {
+ 	union {
+-		/*
+-		 * When query_item.flags == DRM_I915_QUERY_PERF_CONFIG_LIST, i915 sets
+-		 * this fields to the number of configurations available.
++		/**
++		 * @n_configs:
++		 *
++		 * When &drm_i915_query_item.flags ==
++		 * %DRM_I915_QUERY_PERF_CONFIG_LIST, i915 sets this fields to
++		 * the number of configurations available.
+ 		 */
+ 		__u64 n_configs;
+ 
+-		/*
+-		 * When query_id == DRM_I915_QUERY_PERF_CONFIG_DATA_FOR_ID,
+-		 * i915 will use the value in this field as configuration
+-		 * identifier to decide what data to write into config_ptr.
++		/**
++		 * @config:
++		 *
++		 * When &drm_i915_query_item.flags ==
++		 * %DRM_I915_QUERY_PERF_CONFIG_DATA_FOR_ID, i915 will use the
++		 * value in this field as configuration identifier to decide
++		 * what data to write into config_ptr.
+ 		 */
+ 		__u64 config;
+ 
+-		/*
+-		 * When query_id == DRM_I915_QUERY_PERF_CONFIG_DATA_FOR_UUID,
+-		 * i915 will use the value in this field as configuration
+-		 * identifier to decide what data to write into config_ptr.
++		/**
++		 * @uuid:
++		 *
++		 * When &drm_i915_query_item.flags ==
++		 * %DRM_I915_QUERY_PERF_CONFIG_DATA_FOR_UUID, i915 will use the
++		 * value in this field as configuration identifier to decide
++		 * what data to write into config_ptr.
+ 		 *
+ 		 * String formatted like "%08x-%04x-%04x-%04x-%012x"
+ 		 */
+ 		char uuid[36];
+ 	};
+ 
 -	/*
 +	/**
 +	 * @flags:
 +	 *
  	 * Unused for now. Must be cleared to zero.
  	 */
- 	__u16 flags;
- 
-+	/**
-+	 * @max_slices:
-+	 *
-+	 * The number of bits used to express the slice mask.
-+	 */
- 	__u16 max_slices;
-+
-+	/**
-+	 * @max_subslices:
-+	 *
-+	 * The number of bits used to express the subslice mask.
-+	 */
- 	__u16 max_subslices;
-+
-+	/**
-+	 * @max_eus_per_subslice:
-+	 *
-+	 * The number of bits in the EU mask that correspond to a single
-+	 * subslice's EUs.
-+	 */
- 	__u16 max_eus_per_subslice;
+ 	__u32 flags;
  
 -	/*
-+	/**
-+	 * @subslice_offset:
-+	 *
- 	 * Offset in data[] at which the subslice masks are stored.
- 	 */
- 	__u16 subslice_offset;
- 
--	/*
-+	/**
-+	 * @subslice_stride:
-+	 *
- 	 * Stride at which each of the subslice masks for each slice are
- 	 * stored.
- 	 */
- 	__u16 subslice_stride;
- 
--	/*
-+	/**
-+	 * @eu_offset:
-+	 *
- 	 * Offset in data[] at which the EU masks are stored.
- 	 */
- 	__u16 eu_offset;
- 
--	/*
-+	/**
-+	 * @eu_stride:
-+	 *
- 	 * Stride at which each of the EU masks for each subslice are stored.
- 	 */
- 	__u16 eu_stride;
- 
+-	 * When query_item.flags == DRM_I915_QUERY_PERF_CONFIG_LIST, i915 will
+-	 * write an array of __u64 of configuration identifiers.
 +	/**
 +	 * @data:
 +	 *
-+	 * Contains 3 pieces of information :
-+	 *
-+	 * - The slice mask with one bit per slice telling whether a slice is
-+	 *   available. The availability of slice X can be queried with the
-+	 *   following formula :
-+	 *
-+	 *   .. code:: c
-+	 *
-+	 *      (data[X / 8] >> (X % 8)) & 1
-+	 *
-+	 *   Starting with Xe_HP platforms, Intel hardware no longer has
-+	 *   traditional slices so i915 will always report a single slice
-+	 *   (hardcoded slicemask = 0x1) which contains all of the platform's
-+	 *   subslices.  I.e., the mask here does not reflect any of the newer
-+	 *   hardware concepts such as "gslices" or "cslices" since userspace
-+	 *   is capable of inferring those from the subslice mask.
-+	 *
-+	 * - The subslice mask for each slice with one bit per subslice telling
-+	 *   whether a subslice is available.  Starting with Gen12 we use the
-+	 *   term "subslice" to refer to what the hardware documentation
-+	 *   describes as a "dual-subslices."  The availability of subslice Y
-+	 *   in slice X can be queried with the following formula :
-+	 *
-+	 *   .. code:: c
-+	 *
-+	 *      (data[subslice_offset + X * subslice_stride + Y / 8] >> (Y % 8)) & 1
-+	 *
-+	 * - The EU mask for each subslice in each slice, with one bit per EU
-+	 *   telling whether an EU is available. The availability of EU Z in
-+	 *   subslice Y in slice X can be queried with the following formula :
-+	 *
-+	 *   .. code:: c
-+	 *
-+	 *      (data[eu_offset +
-+	 *            (X * max_subslices + Y) * eu_stride +
-+	 *            Z / 8
-+	 *       ] >> (Z % 8)) & 1
-+	 */
++	 * When &drm_i915_query_item.flags == %DRM_I915_QUERY_PERF_CONFIG_LIST,
++	 * i915 will write an array of __u64 of configuration identifiers.
+ 	 *
+-	 * When query_item.flags == DRM_I915_QUERY_PERF_CONFIG_DATA, i915 will
+-	 * write a struct drm_i915_perf_oa_config. If the following fields of
+-	 * drm_i915_perf_oa_config are set not set to 0, i915 will write into
+-	 * the associated pointers the values of submitted when the
++	 * When &drm_i915_query_item.flags == %DRM_I915_QUERY_PERF_CONFIG_DATA,
++	 * i915 will write a struct drm_i915_perf_oa_config. If the following
++	 * fields of struct drm_i915_perf_oa_config are not set to 0, i915 will
++	 * write into the associated pointers the values of submitted when the
+ 	 * configuration was created :
+ 	 *
+-	 *         - n_mux_regs
+-	 *         - n_boolean_regs
+-	 *         - n_flex_regs
++	 *  - &drm_i915_perf_oa_config.n_mux_regs
++	 *  - &drm_i915_perf_oa_config.n_boolean_regs
++	 *  - &drm_i915_perf_oa_config.n_flex_regs
+ 	 */
  	__u8 data[];
  };
- 
 -- 
 2.34.1
 
