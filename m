@@ -1,50 +1,146 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4920B4FB61A
-	for <lists+dri-devel@lfdr.de>; Mon, 11 Apr 2022 10:34:27 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id EE4CA4FB642
+	for <lists+dri-devel@lfdr.de>; Mon, 11 Apr 2022 10:43:09 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id CE38010F1DE;
-	Mon, 11 Apr 2022 08:34:24 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id F370710F763;
+	Mon, 11 Apr 2022 08:43:05 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mga14.intel.com (mga14.intel.com [192.55.52.115])
- by gabe.freedesktop.org (Postfix) with ESMTPS id E7D7010F160
- for <dri-devel@lists.freedesktop.org>; Mon, 11 Apr 2022 08:34:23 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1649666063; x=1681202063;
- h=from:to:cc:subject:in-reply-to:references:date:
- message-id:mime-version;
- bh=H0zPUd6SqeY0SP/ZrmvMhMcUPe0MxxUMdu5O8GFwUeE=;
- b=Yg3W6j1kxkbUOYIq8bVZp+O7Sq9KMZZKn7iTkNc4kuRQC5L5x+iRPaxE
- 4nwCSOkuZIzVIxlrVMIQkW56H15cFTubMCXLKqgsJ8ZZ9r6isKtc4i9M4
- X4YvaQdJoMt2NlfV7tnaDnwxB44ESqWuSOoFTOenvi4hKUNrvmRVAYG51
- EHiLN6o4qEQ2TX0l3SQrmIsfPUtZ53DTCkBkh4EmzZm55GigNMrzCQiZ4
- /LaeSOi1LVqE8OsG0vpT15m2WOaCZU15fRfbF552NJElXFbpAPpEnvapR
- Ry17h7r8kzdn8gGkC3jrOsnxkE8SGdhwYFigZ8ASJpWaeTOpwGNJ+kLqn Q==;
-X-IronPort-AV: E=McAfee;i="6400,9594,10313"; a="262246327"
-X-IronPort-AV: E=Sophos;i="5.90,251,1643702400"; d="scan'208";a="262246327"
-Received: from orsmga008.jf.intel.com ([10.7.209.65])
- by fmsmga103.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 11 Apr 2022 01:34:23 -0700
-X-IronPort-AV: E=Sophos;i="5.90,251,1643702400"; d="scan'208";a="572028817"
-Received: from lwit-desk1.ger.corp.intel.com (HELO localhost) ([10.249.143.43])
- by orsmga008-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 11 Apr 2022 01:34:18 -0700
-From: Jani Nikula <jani.nikula@linux.intel.com>
-To: Douglas Anderson <dianders@chromium.org>, dri-devel@lists.freedesktop.org
-Subject: Re: [RFC PATCH 1/6] drm/dp: Helpers to make it easier for drivers
- to use DP AUX bus properly
-In-Reply-To: <20220408193536.RFC.1.I4182ae27e00792842cb86f1433990a0ef9c0a073@changeid>
-Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
-References: <20220409023628.2104952-1-dianders@chromium.org>
- <20220408193536.RFC.1.I4182ae27e00792842cb86f1433990a0ef9c0a073@changeid>
-Date: Mon, 11 Apr 2022 11:34:16 +0300
-Message-ID: <87o818hvcn.fsf@intel.com>
+Received: from mx0b-00069f02.pphosted.com (mx0b-00069f02.pphosted.com
+ [205.220.177.32])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 5C85F10F76C
+ for <dri-devel@lists.freedesktop.org>; Mon, 11 Apr 2022 08:43:04 +0000 (UTC)
+Received: from pps.filterd (m0246632.ppops.net [127.0.0.1])
+ by mx0b-00069f02.pphosted.com (8.16.1.2/8.16.1.2) with SMTP id 23B7dmnD029074; 
+ Mon, 11 Apr 2022 08:42:54 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=oracle.com;
+ h=date : from : to : cc
+ : subject : message-id : content-type : in-reply-to : mime-version;
+ s=corp-2021-07-09; bh=THljS7IE0rHClMNsGiAeOItb3wQqnXaZUkV88izLPeI=;
+ b=Nl1P6eoe8km2NtkgnsUNEvNFk61mf85NUbjxZWMdLP2bI+3cmNqu2g2pBmo/IRF8dFKC
+ JeKMXU/5Z5N2AWrbG49r1JJ6gxUe1rREviBsiljTsUd5IfO1aokfhs1NRpL/PDM9Y+e4
+ ZIG4UbtcpwNFxf7n8HJffaxzo1VjhnveF8dy+1512Aj4ORwjAZiu2/5/ih2SwmdG9H/W
+ uEk6uj75387kUyYCDedfmglm9TvduBY1KMu5+1R+JDuY8necRaa4lqzcgjD/Wj7KXChC
+ jFOq4XqjIUARgNhT0uFa3l08RGVpQnmUXROobihYffO+CKZzrmpYdKgMlyZ2WrUpjPMr Dw== 
+Received: from iadpaimrmta01.imrmtpd1.prodappiadaev1.oraclevcn.com
+ (iadpaimrmta01.appoci.oracle.com [130.35.100.223])
+ by mx0b-00069f02.pphosted.com with ESMTP id 3fb1rs2xr0-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+ Mon, 11 Apr 2022 08:42:53 +0000
+Received: from pps.filterd
+ (iadpaimrmta01.imrmtpd1.prodappiadaev1.oraclevcn.com [127.0.0.1])
+ by iadpaimrmta01.imrmtpd1.prodappiadaev1.oraclevcn.com (8.16.1.2/8.16.1.2)
+ with SMTP id 23B8fIYd024947; Mon, 11 Apr 2022 08:42:52 GMT
+Received: from nam11-co1-obe.outbound.protection.outlook.com
+ (mail-co1nam11lp2175.outbound.protection.outlook.com [104.47.56.175])
+ by iadpaimrmta01.imrmtpd1.prodappiadaev1.oraclevcn.com with ESMTP id
+ 3fb0k1gj11-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+ Mon, 11 Apr 2022 08:42:52 +0000
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=W1XWtw1xz/aOy5/A8kzl+897HHnm+nbcHxcuftI+9oaB7zxEJ3TZdHIkmkv8/3EE/Zi1RVfzbMOAlgIuNhxpCfi45BYwVd7PX72y+jw0niiT4n2lS57wCnRLlzYAzNrFtFdXgjyZRtHgPaQbguIKILcFrWWVNsBQYL18pFJxz9n2uUUefQYa6dM3bTuZ3pY01VDS0NnHSwUoB6APQo1HFf7IWHA+L3KYNJllvSV80lzGi5LYMv1grFJXoF9KcyseL/IuVr5UeThRBPPnDE8u9d//ulOKjCJmYXw7qD2SVqMTkeIuQ6yRJT5ywxvDZR7quVE7XDPQ8QCnkOAoshEUzg==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=THljS7IE0rHClMNsGiAeOItb3wQqnXaZUkV88izLPeI=;
+ b=FTOSQCIPM9H/01E+m4GTdoT+Skua/Pzc7XqqiPAWkzhTPNFrqoXguZF+RAdaRAH2DrAquPcZAZhik31loSE11v7qfv47/m6h8tWhwXPFHiJmglqG4N9b/ipguInMTmpzopTttwOkOESDglY2rbU5ubwaaeIGsYlg2azNRx4/laBmOpf0F7TTJ2LX9B6PcnvSiXd7In5zOIN1NqS4S684KEgj57HsrfWfkhZ60GVpPYTMOG6pqokIUD1nY3fg1xIjSx2sQOyH/zkUs5I/iKMK0hGC0QVeyLGMbiJEsg8R9bcD2zJuOHZopDmOeYeCQy7381HzSEslkwNwzE3UVNDTqQ==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=oracle.com; dmarc=pass action=none header.from=oracle.com;
+ dkim=pass header.d=oracle.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=oracle.onmicrosoft.com; s=selector2-oracle-onmicrosoft-com;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=THljS7IE0rHClMNsGiAeOItb3wQqnXaZUkV88izLPeI=;
+ b=Rrybs21Rz72lVjfR8BpOUViD/D1ASh5idmi7gIs6gQ3l9aKhnSGyy6oNAG5Il42m1gkebevrR/pgQyQ287Xu+OnK0lL8a06Au2An5hQcVknCCa2NgOrJ50aGkxmXSmhfkF5NHq12yNB8az+HPUb1zcCo4IrPoAhuBUWAw+NheLw=
+Received: from MWHPR1001MB2365.namprd10.prod.outlook.com
+ (2603:10b6:301:2d::28) by DM6PR10MB3194.namprd10.prod.outlook.com
+ (2603:10b6:5:1b0::27) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.5144.29; Mon, 11 Apr
+ 2022 08:42:49 +0000
+Received: from MWHPR1001MB2365.namprd10.prod.outlook.com
+ ([fe80::b5d5:7b39:ca2d:1b87]) by MWHPR1001MB2365.namprd10.prod.outlook.com
+ ([fe80::b5d5:7b39:ca2d:1b87%5]) with mapi id 15.20.5144.022; Mon, 11 Apr 2022
+ 08:42:49 +0000
+Date: Mon, 11 Apr 2022 11:42:24 +0300
+From: Dan Carpenter <dan.carpenter@oracle.com>
+To: kbuild@lists.01.org, Marek Vasut <marex@denx.de>,
+ dri-devel@lists.freedesktop.org
+Subject: Re: [PATCH] drm: mxsfb: Implement LCDIF scanout CRC32 support
+Message-ID: <202204111055.ETeht46W-lkp@intel.com>
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20220409231040.344801-1-marex@denx.de>
+User-Agent: Mutt/1.9.4 (2018-02-28)
+X-ClientProxiedBy: JN2P275CA0013.ZAFP275.PROD.OUTLOOK.COM (2603:1086:0:3::25)
+ To MWHPR1001MB2365.namprd10.prod.outlook.com
+ (2603:10b6:301:2d::28)
 MIME-Version: 1.0
-Content-Type: text/plain
+X-MS-PublicTrafficType: Email
+X-MS-Office365-Filtering-Correlation-Id: 255d9587-df7f-49f3-953c-08da1b97423c
+X-MS-TrafficTypeDiagnostic: DM6PR10MB3194:EE_
+X-Microsoft-Antispam-PRVS: <DM6PR10MB3194C9DA746107D6F9C2BE728EEA9@DM6PR10MB3194.namprd10.prod.outlook.com>
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: BCL:0;
+X-Microsoft-Antispam-Message-Info: l9MpdKBFQS0jOFIEu8k3E9p/kpk0tYu5BbAk5i/E+EOF+u4EhM65qyqHqLkgH1qVup4jRqMoGEGb7NUyDm6l753KlvsUk9GnoMreIrUIs7uDQgHiGewVBJR1KUiejSEjn1Pfb8fNDO7OxmsGFIkNLC88T1otsvvUPeSTL9tZPf9D6E1tBv3DC1qQdJ+je+dQxdbklj1vBzy5T/3uvaxjp5KfLhtcaNSC7WsWG6zULjlE3TwlzRfLnnGeTJCPyA0quAaI8zhEIWKNjJxzI9NsxZLg4hEm2gCVdYp7xl4TiAx+okztAz4LgQSjXkcGkpJFSKaj8QBlb840h5iMqL+otyOUQ9J5yJaWyOFa32dyHqu/DZJ35eu3BnfxtJhqF1gaQCFasHaflbp94S0rJ6WAnD5Vke8+WnG3UXu2IN7IY2Rn/ZAvua9AjSZ5jKEGNreXrVaC+pK0ZZ/Wwck655ooBf62HU9o1M/A9mv3wIaUfJ1nGzF47BJ1z2fXtw/Bz1JOA1mTFEkxFksC7m2Hiqn8t7BdvriHKlLPVyyM6XIxFVNJkLqDBzO7bMew3Fqg9EcbQ/bJV3DAtSgPNrfHo+OeLlO+EZj16WFBJ8uYYHJiMAwmbAPUnXDp7u+nodDnbJTOP4gUtxUn3Iy6tclXxOQAyHh8oCrW/DOpFNJm07z/2hTQ34aNDCejZIuwaU2z2PB8eZjUAroD4qkSK8Utus9jkdU+9XMIQLKjrIsHYEWAHC72z2yLMlTMrZbQzZr8lEFS2Jh0WuMC48cw+5aOXmoevkXqR7FWPwqusWzeSghPwOAhByHaODpJ7/HWu5CA26e5Cn1Ne9ty/ldY6atKaPnnkQ==
+X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
+ IPV:NLI; SFV:NSPM; H:MWHPR1001MB2365.namprd10.prod.outlook.com; PTR:; CAT:NONE;
+ SFS:(13230001)(366004)(966005)(6486002)(508600001)(5660300002)(44832011)(54906003)(1076003)(186003)(8676002)(4326008)(66946007)(36756003)(26005)(66476007)(86362001)(66556008)(8936002)(7416002)(2906002)(83380400001)(6506007)(52116002)(316002)(6666004)(9686003)(6512007)(38350700002)(38100700002);
+ DIR:OUT; SFP:1101; 
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0: =?us-ascii?Q?cKs2II48wAvfkywwexv1w7uTPduqKFC4oWbRiBTB17f1oJ6/DyzaINV5ybJ2?=
+ =?us-ascii?Q?75OmL2QoMvhewKTjfDRFjG1pswJ8MFEOah5UCu1iPB5TaB4KtBhJKuFWN7mn?=
+ =?us-ascii?Q?LZaHUuIhiG5XI7+C7uQkHP4CqInib+2XtfqIiHkMdKAR1ZAjDozhJ4aDnT+I?=
+ =?us-ascii?Q?oa2n+gbBwHdVP9V1QFuTSbWNg2KZzI5zDcb32TTzkVJBLnwRGdnXe+L4L43+?=
+ =?us-ascii?Q?KlaI4nZVRs2YZX7KIAC3a9s+4hGud+bSkS+PI7y/u/smiP5RVb5PMarwHkho?=
+ =?us-ascii?Q?KWDBUvIFup4leQN0H9s+wVDne4lyr3iQWQ2iNX0hPUITE9RIoeJwUAXorbwM?=
+ =?us-ascii?Q?rZrJpKtGNtimNfqLHs3YGSKh2TIGnhGwrPZpH/cDSZ/p5Rf2GjqLmjoD+shz?=
+ =?us-ascii?Q?aUBj3C3gmxYV4pDhwFV9x+atnY193Zx77Tgyj/pZ+npwnzsWEDVwwQHEBI/C?=
+ =?us-ascii?Q?+rDZCh37ThIWgAJAFkSm8euA3h5wF/KHvtC+LLTY9wYeCRYhlY7MzydfkOS9?=
+ =?us-ascii?Q?fztkdzdgFiinLXSakn6n5Xm+e4Mm67EAjHWGVIiaRSyMITMloh+7PC6oP/fo?=
+ =?us-ascii?Q?/AYwsNzhuwRxH+WmQWDX2+EUXa7Vj/JUh9WW4n3ZDTqk/O9hfDXOOrkMIqQQ?=
+ =?us-ascii?Q?kS5yYu8Ix+18t1cVaM21w9WA3aqv3ftQunvqII09UJn6eWjz5l7k+A5PbVHT?=
+ =?us-ascii?Q?wDDLnfcyvp2GRK8gf8IGtZ+Nw7DJtGfKW2eaor8SaNEPWv+4L+ANldNQwOwG?=
+ =?us-ascii?Q?Uy51YGlpLuQlYf3D/6sra3ycxO+dw/7EtMi+bGk9O+ySBbjwnotVKJpJC+H0?=
+ =?us-ascii?Q?qzVZnAbxiHdvS9d91G/Ri0uLNOgvOQZNh2hffbQoblky5cxfVrrO18z/rz0T?=
+ =?us-ascii?Q?GMa/2GEV0Jk5pX2jPiBDShyBx7eMlkmREaZ9uutqzCO1aXxRqQcour9HTysQ?=
+ =?us-ascii?Q?DS4sT0UzeTaR4meH/v0ibBgj6S9GWlmbV2grayUdhNCHYggEU5JU3TcbMvVg?=
+ =?us-ascii?Q?9PdrO8pGd8qnbOsZi/xjp4FyF/InZGxpjNzjF1G1qb+j5a6bTyGRNSJDNxf5?=
+ =?us-ascii?Q?7Bpc/FSBymvdcp6IRPCIr0DHVXV1UNxwFoz71V+y/4lXDAip3EoqmNZ7c6lQ?=
+ =?us-ascii?Q?rcPPIlXaHMyYBQsaQHxL5g8vdxL5rUQ3NGQm+RvsYlnzuxvv3R5f3AbUW7Rh?=
+ =?us-ascii?Q?Q7gXapP3xwznZJpWGeL0Jq3QLEoipF2gQfLuUJhrT39qmONohsPtFezdyxL9?=
+ =?us-ascii?Q?XSPvInJsmoHNoOil1MXTnizQ4ReazIj4wbniH+378c+y6yVLlTerz6E2vLNr?=
+ =?us-ascii?Q?J6s5XICy7CvMz945d1oUw7sC2r6SVjZyUa5GGKncwD1Y5LtxBCSsBikaYH9S?=
+ =?us-ascii?Q?DPebdReLgKuaXOUYoCOB6hMgQmNnTVXqXZCrCsbNXCYy4yShcWNgdD6/Nebz?=
+ =?us-ascii?Q?+kYJbcnyZLnFSDH/u+nA32vibrbP+KoqsrjF6L64oH14OtwMlfEJ4LzZiwrI?=
+ =?us-ascii?Q?gCBPmel/ByQ9OjXQ14AXOLVC11BT/LL/3UkI9QM4XFVncYTeYwOP8sgMKFPj?=
+ =?us-ascii?Q?gR0ZL9ikSxfZ8HPw++WY3dUlmxvtRyL9/0UIjMJg67B+TXVONugxMaqudoeX?=
+ =?us-ascii?Q?x10r/sO3ZphWIQr0yiX5mvLmDrpmqsQyN1+HeouSMB4VIrQ77zUS4lWKjPQr?=
+ =?us-ascii?Q?TKoE0GmezfGpFr09EbvwX8ayfsZwxBKEqpQRHsNsHVrtVqrqdFvbTpR6bWbT?=
+ =?us-ascii?Q?fO+XUe+I5vlOSnT5XSI7gAL7wlbB/eM=3D?=
+X-OriginatorOrg: oracle.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 255d9587-df7f-49f3-953c-08da1b97423c
+X-MS-Exchange-CrossTenant-AuthSource: MWHPR1001MB2365.namprd10.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 11 Apr 2022 08:42:49.6155 (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 4e2c6054-71cb-48f1-bd6c-3a9705aca71b
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: ok+6ZAOQWwbcQ1+qgfaI/O0gm1UXpBkEJZcbE3L3JMOtdC2nt8v38b4cY6RoC1d856okw9/pnPqxusuzDMPq38doi+yB5hZEBrIvCkwJrcA=
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: DM6PR10MB3194
+X-Proofpoint-Virus-Version: vendor=fsecure engine=2.50.10434:6.0.425, 18.0.858
+ definitions=2022-04-11_03:2022-04-08,
+ 2022-04-11 signatures=0
+X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 adultscore=0
+ malwarescore=0 bulkscore=0
+ suspectscore=0 mlxlogscore=999 mlxscore=0 spamscore=0 phishscore=0
+ classifier=spam adjust=0 reason=mlx scancount=1 engine=8.12.0-2202240000
+ definitions=main-2204110048
+X-Proofpoint-ORIG-GUID: euYts9bH-fBCM6VGzI1UFSszm7VBTSzR
+X-Proofpoint-GUID: euYts9bH-fBCM6VGzI1UFSszm7VBTSzR
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -57,320 +153,55 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Sankeerth Billakanti <quic_sbillaka@quicinc.com>,
- Philip Chen <philipchen@chromium.org>,
- Abhinav Kumar <quic_abhinavk@quicinc.com>, David Airlie <airlied@linux.ie>,
- Douglas Anderson <dianders@chromium.org>, Robert Foss <robert.foss@linaro.org>,
- linux-kernel@vger.kernel.org, Thomas Zimmermann <tzimmermann@suse.de>,
- Hsin-Yi Wang <hsinyi@chromium.org>,
- Dmitry Baryshkov <dmitry.baryshkov@linaro.org>,
- Stephen Boyd <swboyd@chromium.org>
+Cc: Marek Vasut <marex@denx.de>, Peng Fan <peng.fan@nxp.com>,
+ kbuild-all@lists.01.org, lkp@intel.com,
+ Alexander Stein <alexander.stein@ew.tq-group.com>, robert.foss@linaro.org,
+ Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
+ Sam Ravnborg <sam@ravnborg.org>, Robby Cai <robby.cai@nxp.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Fri, 08 Apr 2022, Douglas Anderson <dianders@chromium.org> wrote:
-> As talked about in the kerneldoc for "struct dp_aux_ep_client" in this
-> patch and also in the past in commit a1e3667a9835 ("drm/bridge:
-> ti-sn65dsi86: Promote the AUX channel to its own sub-dev"), to use the
-> DP AUX bus properly we really need two "struct device"s. One "struct
-> device" is in charge of providing the DP AUX bus and the other is
-> where we'll try to get a reference to the newly probed endpoint
-> devices.
->
-> In ti-sn65dsi86 this wasn't too difficult to accomplish. That driver
-> is already broken up into several "struct devices" anyway because it
-> also provides a PWM and some GPIOs. Adding one more wasn't that
-> difficult / ugly.
->
-> When I tried to do the same solution in parade-ps8640, it felt like I
-> was copying too much boilerplate code. I made the realization that I
-> didn't _really_ need a separate "driver" for each person that wanted
-> to do the same thing. By putting all the "driver" related code in a
-> common place then we could save a bit of hassle. This change
-> effectively adds a new "ep_client" driver that can be used by
-> anyone. The devices instantiated by this driver will just call through
-> to the probe/remove/shutdown calls provided.
->
-> At the moment, the "ep_client" driver is backed by the Linux auxiliary
-> bus (unfortunate naming--this has nothing to do with DP AUX). I didn't
-> want to expose this to clients, though, so as far as clients are
-> concerned they get a vanilla "struct device".
->
-> Signed-off-by: Douglas Anderson <dianders@chromium.org>
+Hi Marek,
 
-What is an "EP" client or device?
+url:    https://github.com/intel-lab-lkp/linux/commits/Marek-Vasut/drm-mxsfb-Implement-LCDIF-scanout-CRC32-support/20220410-071222
+base:   git://anongit.freedesktop.org/drm/drm drm-next
+config: i386-randconfig-m021-20220411 (https://download.01.org/0day-ci/archive/20220411/202204111055.ETeht46W-lkp@intel.com/config)
+compiler: gcc-11 (Debian 11.2.0-19) 11.2.0
 
-BR,
-Jani.
+If you fix the issue, kindly add following tag as appropriate
+Reported-by: kernel test robot <lkp@intel.com>
+Reported-by: Dan Carpenter <dan.carpenter@oracle.com>
+
+smatch warnings:
+drivers/gpu/drm/mxsfb/mxsfb_kms.c:444 mxsfb_crtc_set_crc_source() warn: variable dereferenced before check 'crtc' (see line 442)
+
+vim +/crtc +444 drivers/gpu/drm/mxsfb/mxsfb_kms.c
+
+5797982b2ba894 Marek Vasut      2022-04-10  440  static int mxsfb_crtc_set_crc_source(struct drm_crtc *crtc, const char *source)
+5797982b2ba894 Marek Vasut      2022-04-10  441  {
+5797982b2ba894 Marek Vasut      2022-04-10 @442  	struct mxsfb_drm_private *mxsfb = to_mxsfb_drm_private(crtc->dev);
+                                                                                                               ^^^^^^^^^
+Dereference
+
+5797982b2ba894 Marek Vasut      2022-04-10  443  
+5797982b2ba894 Marek Vasut      2022-04-10 @444  	if (!crtc)
+                                                            ^^^^^
+Checked too late
 
 
-> ---
->
->  drivers/gpu/drm/dp/drm_dp_aux_bus.c | 165 +++++++++++++++++++++++++++-
->  include/drm/dp/drm_dp_aux_bus.h     |  58 ++++++++++
->  2 files changed, 222 insertions(+), 1 deletion(-)
->
-> diff --git a/drivers/gpu/drm/dp/drm_dp_aux_bus.c b/drivers/gpu/drm/dp/drm_dp_aux_bus.c
-> index 415afce3cf96..5386ceacf133 100644
-> --- a/drivers/gpu/drm/dp/drm_dp_aux_bus.c
-> +++ b/drivers/gpu/drm/dp/drm_dp_aux_bus.c
-> @@ -12,6 +12,7 @@
->   * to perform transactions on that bus.
->   */
->  
-> +#include <linux/auxiliary_bus.h>
->  #include <linux/init.h>
->  #include <linux/kernel.h>
->  #include <linux/module.h>
-> @@ -299,6 +300,163 @@ void dp_aux_dp_driver_unregister(struct dp_aux_ep_driver *drv)
->  }
->  EXPORT_SYMBOL_GPL(dp_aux_dp_driver_unregister);
->  
-> +/* -----------------------------------------------------------------------------
-> + * DP AUX EP Client
-> + */
-> +
-> +struct dp_aux_ep_client_data {
-> +	struct dp_aux_ep_client *client;
-> +	struct auxiliary_device adev;
-> +};
-> +
-> +static int dp_aux_ep_client_probe(struct auxiliary_device *adev,
-> +				  const struct auxiliary_device_id *id)
-> +{
-> +	struct dp_aux_ep_client_data *data =
-> +		container_of(adev, struct dp_aux_ep_client_data, adev);
-> +
-> +	if (!data->client->probe)
-> +		return 0;
-> +
-> +	return data->client->probe(&adev->dev, data->client);
-> +}
-> +
-> +static void dp_aux_ep_client_remove(struct auxiliary_device *adev)
-> +{
-> +	struct dp_aux_ep_client_data *data =
-> +		container_of(adev, struct dp_aux_ep_client_data, adev);
-> +
-> +	if (data->client->remove)
-> +		data->client->remove(&adev->dev, data->client);
-> +}
-> +
-> +static void dp_aux_ep_client_shutdown(struct auxiliary_device *adev)
-> +{
-> +	struct dp_aux_ep_client_data *data =
-> +		container_of(adev, struct dp_aux_ep_client_data, adev);
-> +
-> +	if (data->client->shutdown)
-> +		data->client->shutdown(&adev->dev, data->client);
-> +}
-> +
-> +static void dp_aux_ep_client_dev_release(struct device *dev)
-> +{
-> +	struct auxiliary_device *adev = to_auxiliary_dev(dev);
-> +	struct dp_aux_ep_client_data *data =
-> +		container_of(adev, struct dp_aux_ep_client_data, adev);
-> +
-> +	kfree(data);
-> +}
-> +
-> +/**
-> + * dp_aux_register_ep_client() - Register an DP AUX EP client
-> + * @client: The structure describing the client. It's the client's
-> + *          responsibility to keep this memory around until
-> + *          dp_aux_unregister_ep_client() is called, either explicitly or
-> + *          implicitly via devm.
-> + *
-> + * See the description of "struct dp_aux_ep_client" for a full explanation
-> + * of when you should use this and why.
-> + *
-> + * Return: 0 if no error or negative error code.
-> + */
-> +int dp_aux_register_ep_client(struct dp_aux_ep_client *client)
-> +{
-> +	struct dp_aux_ep_client_data *data;
-> +	int ret;
-> +
-> +	data = kzalloc(sizeof(*data), GFP_KERNEL);
-> +	if (!data)
-> +		return -ENOMEM;
-> +
-> +	data->client = client;
-> +	data->adev.name = "ep_client";
-> +	data->adev.dev.parent = client->aux->dev;
-> +	data->adev.dev.release = dp_aux_ep_client_dev_release;
-> +	device_set_of_node_from_dev(&data->adev.dev, client->aux->dev);
-> +
-> +	ret = auxiliary_device_init(&data->adev);
-> +	if (ret) {
-> +		/*
-> +		 * NOTE: if init doesn't fail then it takes ownership
-> +		 * of memory and this kfree() is magically part of
-> +		 * auxiliary_device_uninit().
-> +		 */
-> +		kfree(data);
-> +		return ret;
-> +	}
-> +
-> +	ret = auxiliary_device_add(&data->adev);
-> +	if (ret)
-> +		goto err_did_init;
-> +
-> +	client->_opaque = data;
-> +
-> +	return 0;
-> +
-> +err_did_init:
-> +	auxiliary_device_uninit(&data->adev);
-> +	return ret;
-> +}
-> +
-> +/**
-> + * dp_aux_unregister_ep_client() - Inverse of dp_aux_register_ep_client()
-> + * @client: The structure describing the client.
-> + *
-> + * If dp_aux_register_ep_client() returns no error then you should call this
-> + * to free resources.
-> + */
-> +void dp_aux_unregister_ep_client(struct dp_aux_ep_client *client)
-> +{
-> +	struct dp_aux_ep_client_data *data = client->_opaque;
-> +
-> +	auxiliary_device_delete(&data->adev);
-> +	auxiliary_device_uninit(&data->adev);
-> +}
-> +
-> +static void dp_aux_unregister_ep_client_void(void *data)
-> +{
-> +	dp_aux_unregister_ep_client(data);
-> +}
-> +
-> +/**
-> + * devm_dp_aux_register_ep_client() - devm wrapper for dp_aux_register_ep_client()
-> + * @client: The structure describing the client.
-> + *
-> + * Handles freeing w/ devm on the device "client->aux->dev".
-> + *
-> + * Return: 0 if no error or negative error code.
-> + */
-> +int devm_dp_aux_register_ep_client(struct dp_aux_ep_client *client)
-> +{
-> +	int ret;
-> +
-> +	ret = dp_aux_register_ep_client(client);
-> +	if (ret)
-> +		return ret;
-> +
-> +	return devm_add_action_or_reset(client->aux->dev,
-> +					dp_aux_unregister_ep_client_void,
-> +					client);
-> +}
-> +
-> +static const struct auxiliary_device_id dp_aux_ep_client_id_table[] = {
-> +	{ .name = "drm_dp_aux_bus.ep_client", },
-> +	{},
-> +};
-> +
-> +static struct auxiliary_driver dp_aux_ep_client_driver = {
-> +	.name = "ep_client",
-> +	.probe = dp_aux_ep_client_probe,
-> +	.remove = dp_aux_ep_client_remove,
-> +	.shutdown = dp_aux_ep_client_shutdown,
-> +	.id_table = dp_aux_ep_client_id_table,
-> +};
-> +
-> +/* -----------------------------------------------------------------------------
-> + * Module init
-> + */
-> +
->  static int __init dp_aux_bus_init(void)
->  {
->  	int ret;
-> @@ -307,11 +465,16 @@ static int __init dp_aux_bus_init(void)
->  	if (ret)
->  		return ret;
->  
-> -	return 0;
-> +	ret = auxiliary_driver_register(&dp_aux_ep_client_driver);
-> +	if (ret)
-> +		bus_unregister(&dp_aux_bus_type);
-> +
-> +	return ret;
->  }
->  
->  static void __exit dp_aux_bus_exit(void)
->  {
-> +	auxiliary_driver_unregister(&dp_aux_ep_client_driver);
->  	bus_unregister(&dp_aux_bus_type);
->  }
->  
-> diff --git a/include/drm/dp/drm_dp_aux_bus.h b/include/drm/dp/drm_dp_aux_bus.h
-> index 4f19b20b1dd6..ecf68b6873bd 100644
-> --- a/include/drm/dp/drm_dp_aux_bus.h
-> +++ b/include/drm/dp/drm_dp_aux_bus.h
-> @@ -54,4 +54,62 @@ int __dp_aux_dp_driver_register(struct dp_aux_ep_driver *aux_ep_drv,
->  				struct module *owner);
->  void dp_aux_dp_driver_unregister(struct dp_aux_ep_driver *aux_ep_drv);
->  
-> +/**
-> + * struct dp_aux_ep_device - Helper for clients of DP AUX EP devices
-> + *
-> + * The DP AUX bus can be a bit tricky to use properly. Usually, the way
-> + * things work is that:
-> + * - The DP controller driver provides the DP AUX bus and would like to probe
-> + *   the endpoints on the DP AUX bus (AKA the panel) as part of its probe
-> + *   routine.
-> + * - The DP controller driver would also like to acquire a reference to the
-> + *   DP AUX endpoints (AKA the panel) as part of its probe.
-> + *
-> + * The problem is that the DP AUX endpoints aren't guaranteed to complete their
-> + * probe right away. They could be probing asynchronously or they simply might
-> + * fail to acquire some resource and return -EPROBE_DEFER.
-> + *
-> + * The best way to solve this is to break the DP controller's probe into
-> + * two parts. The first part will create the DP AUX bus. The second part will
-> + * acquire the reference to the DP AUX endpoint. The first part can complete
-> + * finish with no problems and be "done" even if the second part ends up
-> + * deferring while waiting for the DP AUX endpoint.
-> + *
-> + * The dp_aux_ep_client structure and associated functions help with managing
-> + * this common case. They will create/add a second "struct device" for you.
-> + * In the probe for this second "struct device" (known as the "clientdev" here)
-> + * you can acquire references to the AUX DP endpoints and can freely return
-> + * -EPROBE_DEFER if they're not ready yet.
-> + *
-> + * A few notes:
-> + * - The parent of the clientdev is guaranteed to be aux->dev
-> + * - The of_node of the clientdev is guaranteed to be the same as the of_node
-> + *   of aux->dev, copied with device_set_of_node_from_dev().
-> + * - If you're doing "devm" type things in the clientdev's probe you should
-> + *   use the clientdev. This makes lifetimes be managed properly.
-> + *
-> + * NOTE: there's no requirement to use these helpers if you have solved the
-> + * problem described above in some other way.
-> + */
-> +struct dp_aux_ep_client {
-> +	/** @probe: The second half of the probe */
-> +	int (*probe)(struct device *clientdev, struct dp_aux_ep_client *client);
-> +
-> +	/** @remove: Remove function corresponding to the probe */
-> +	void (*remove)(struct device *clientdev, struct dp_aux_ep_client *client);
-> +
-> +	/** @shutdown: Shutdown function corresponding to the probe */
-> +	void (*shutdown)(struct device *clientdev, struct dp_aux_ep_client *client);
-> +
-> +	/** @aux: The AUX bus */
-> +	struct drm_dp_aux *aux;
-> +
-> +	/** @_opaque: Used by the implementation */
-> +	void *_opaque;
-> +};
-> +
-> +int dp_aux_register_ep_client(struct dp_aux_ep_client *client);
-> +void dp_aux_unregister_ep_client(struct dp_aux_ep_client *client);
-> +int devm_dp_aux_register_ep_client(struct dp_aux_ep_client *client);
-> +
->  #endif /* _DP_AUX_BUS_H_ */
+5797982b2ba894 Marek Vasut      2022-04-10  445  		return -ENODEV;
+5797982b2ba894 Marek Vasut      2022-04-10  446  
+5797982b2ba894 Marek Vasut      2022-04-10  447  	if (source && strcmp(source, "auto") == 0)
+5797982b2ba894 Marek Vasut      2022-04-10  448  		mxsfb->crc_active = true;
+5797982b2ba894 Marek Vasut      2022-04-10  449  	else if (!source)
+5797982b2ba894 Marek Vasut      2022-04-10  450  		mxsfb->crc_active = false;
+5797982b2ba894 Marek Vasut      2022-04-10  451  	else
+5797982b2ba894 Marek Vasut      2022-04-10  452  		return -EINVAL;
+5797982b2ba894 Marek Vasut      2022-04-10  453  
+5797982b2ba894 Marek Vasut      2022-04-10  454  	return 0;
+5797982b2ba894 Marek Vasut      2022-04-10  455  }
 
 -- 
-Jani Nikula, Intel Open Source Graphics Center
+0-DAY CI Kernel Test Service
+https://01.org/lkp
+
