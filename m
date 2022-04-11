@@ -1,51 +1,50 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0BD554FB829
-	for <lists+dri-devel@lfdr.de>; Mon, 11 Apr 2022 11:49:22 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 1E5664FB896
+	for <lists+dri-devel@lfdr.de>; Mon, 11 Apr 2022 11:53:43 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 0472610F898;
-	Mon, 11 Apr 2022 09:49:19 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id D893610EBB1;
+	Mon, 11 Apr 2022 09:53:38 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mga02.intel.com (mga02.intel.com [134.134.136.20])
- by gabe.freedesktop.org (Postfix) with ESMTPS id ABC5B10F9B4;
- Mon, 11 Apr 2022 09:49:17 +0000 (UTC)
+Received: from mga11.intel.com (mga11.intel.com [192.55.52.93])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 3446610E344;
+ Mon, 11 Apr 2022 09:53:37 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1649670557; x=1681206557;
- h=from:to:cc:subject:in-reply-to:references:date:
- message-id:mime-version:content-transfer-encoding;
- bh=Xc8HJhx6TiFMEzj+nn9vz9BJf5t1MwI00mE9RmbVtaA=;
- b=AzcaS5Ve7UiNdYAJi6a18qjestnE8SMzyKqcfdmYNi+noOFOUPqhMgDM
- +0zUsVgMFptsU+9QYN8aory/9Ed27+iOU3wp74ZUqKdYSR5HzqlWvBDbx
- FFIbt55Xyp+et2+X3wgn+ZX0F7O5sz+OXXLr9+kcFb2BFxQshnXhSQuE2
- zuAboG0SKpW9k0qZ37FZVQjTjyZv2NhAQhQ/yY847e7cTV0JMVL5VQ3Xh
- LCAmuPHUR4/36zMTtshtTCM3VzbAPIiRb72m1cqZISpMDV2dBL8F2jG/6
- HFf6CZRQhwnnrnWa3z0GVpF0sdUFQEq6h4AiVUGk4lSpk0mBdq85G9HEU A==;
-X-IronPort-AV: E=McAfee;i="6400,9594,10313"; a="249359890"
-X-IronPort-AV: E=Sophos;i="5.90,251,1643702400"; d="scan'208";a="249359890"
-Received: from orsmga003.jf.intel.com ([10.7.209.27])
- by orsmga101.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 11 Apr 2022 02:49:17 -0700
-X-IronPort-AV: E=Sophos;i="5.90,251,1643702400"; d="scan'208";a="507045740"
-Received: from lwit-desk1.ger.corp.intel.com (HELO localhost) ([10.249.143.43])
- by orsmga003-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 11 Apr 2022 02:49:15 -0700
-From: Jani Nikula <jani.nikula@intel.com>
-To: Ville =?utf-8?B?U3lyasOkbMOk?= <ville.syrjala@linux.intel.com>
-Subject: Re: [PATCH 03/12] drm/edid: refactor EDID block status printing
-In-Reply-To: <Yk7Q5fJoe7Dv/XOB@intel.com>
-Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
-References: <cover.1649322799.git.jani.nikula@intel.com>
- <012d5b007a6a3771540499fb1273882d631887b3.1649322799.git.jani.nikula@intel.com>
- <Yk7Q5fJoe7Dv/XOB@intel.com>
-Date: Mon, 11 Apr 2022 12:49:12 +0300
-Message-ID: <87ilrghrvr.fsf@intel.com>
+ t=1649670817; x=1681206817;
+ h=from:to:cc:subject:date:message-id:mime-version:
+ content-transfer-encoding;
+ bh=FSibAL3MvWjIr1YAtYjlscBQwpddrhbzKlDAvMnbOUA=;
+ b=VIOkoT6qwKIj6Fi6yB9pvaxWFFnYMEnX9DoWT6PTAXbKsUhVLIQ80OHb
+ 83I49vOVqx+yr68GJG7DBwqLCHbMlE3r5NZ35xrKPqOTsI58GlIVDUhSG
+ d/MHpbSI4l3/ThUc+f0qOhwX+/YomtLwb1qbvtamjQ3fPbGeXp0xmxSPA
+ AuFSu7jY28vAzohJKzByeR9eNggQhiXrJiOcF8WszjX57SB0Qhn3adFns
+ qVXfFz8nwbS5ixNdfjzuAhNajpDcQpQ4mwfFzui/Fzu3rzc3zIWKKZQCA
+ ARFvMfiixUy+BaE6MsRU9n9itRZFnmNj6Yawb+jIpv2oblEtw6XXkrmV8 Q==;
+X-IronPort-AV: E=McAfee;i="6400,9594,10313"; a="259673783"
+X-IronPort-AV: E=Sophos;i="5.90,251,1643702400"; d="scan'208";a="259673783"
+Received: from orsmga004.jf.intel.com ([10.7.209.38])
+ by fmsmga102.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 11 Apr 2022 02:53:36 -0700
+X-IronPort-AV: E=Sophos;i="5.90,251,1643702400"; d="scan'208";a="659985316"
+Received: from bhanu-nuclab.iind.intel.com ([10.145.162.173])
+ by orsmga004-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 11 Apr 2022 02:53:33 -0700
+From: Bhanuprakash Modem <bhanuprakash.modem@intel.com>
+To: intel-gfx@lists.freedesktop.org, dri-devel@lists.freedesktop.org,
+ amd-gfx@lists.freedesktop.org, jani.nikula@linux.intel.com,
+ ville.syrjala@linux.intel.com, harry.wentland@amd.com,
+ swati2.sharma@intel.com
+Subject: [V2 0/3] Expose max and current bpc via debugfs
+Date: Mon, 11 Apr 2022 15:21:26 +0530
+Message-Id: <20220411095129.1652096-1-bhanuprakash.modem@intel.com>
+X-Mailer: git-send-email 2.35.1
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -58,141 +57,28 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: intel-gfx@lists.freedesktop.org, dri-devel@lists.freedesktop.org
+Cc: Bhanuprakash Modem <bhanuprakash.modem@intel.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Thu, 07 Apr 2022, Ville Syrj=C3=A4l=C3=A4 <ville.syrjala@linux.intel.com=
-> wrote:
-> On Thu, Apr 07, 2022 at 12:14:29PM +0300, Jani Nikula wrote:
->> Split out a function to log EDID block status. The printouts get changed
->> slightly.
->>=20
->> Unfortunately, not all users will have struct drm_device available, so
->> we convert to pr_* debug logging instead of drm device based logging.
->>=20
->> Signed-off-by: Jani Nikula <jani.nikula@intel.com>
->> ---
->>  drivers/gpu/drm/drm_edid.c | 75 ++++++++++++++++++++++++++------------
->>  1 file changed, 51 insertions(+), 24 deletions(-)
->>=20
->> diff --git a/drivers/gpu/drm/drm_edid.c b/drivers/gpu/drm/drm_edid.c
->> index f062d1715ec3..3d04d63464ba 100644
->> --- a/drivers/gpu/drm/drm_edid.c
->> +++ b/drivers/gpu/drm/drm_edid.c
->> @@ -1729,6 +1729,50 @@ static bool edid_block_valid(const void *block, b=
-ool base)
->>  				       edid_block_tag(block));
->>  }
->>=20=20
->> +static void edid_block_status_print(enum edid_block_status status,
->> +				    const struct edid *block,
->> +				    int block_num)
->> +{
->> +	switch (status) {
->> +	case EDID_BLOCK_OK:
->> +		break;
->> +	case EDID_BLOCK_NULL:
->> +		pr_debug("EDID block %d pointer is NULL\n", block_num);
->> +		break;
->> +	case EDID_BLOCK_ZERO:
->> +		pr_notice("EDID block %d is all zeroes\n", block_num);
->> +		break;
->> +	case EDID_BLOCK_HEADER_CORRUPT:
->> +		pr_notice("EDID has corrupt header\n");
->> +		break;
->> +	case EDID_BLOCK_HEADER_REPAIR:
->> +		pr_debug("EDID corrupt header needs repair\n");
->> +		break;
->> +	case EDID_BLOCK_HEADER_FIXED:
->> +		pr_debug("EDID corrupt header fixed\n");
->> +		break;
->> +	case EDID_BLOCK_CHECKSUM:
->> +		if (edid_block_status_valid(status, edid_block_tag(block))) {
->> +			pr_debug("EDID block %d (tag 0x%02x) checksum is invalid, remainder =
-is %d, ignoring\n",
->> +				 block_num, edid_block_tag(block),
->> +				 edid_block_compute_checksum(block));
->> +		} else {
->> +			pr_notice("EDID block %d (tag 0x%02x) checksum is invalid, remainder=
- is %d\n",
->> +				  block_num, edid_block_tag(block),
->> +				  edid_block_compute_checksum(block));
->> +		}
->> +		break;
->> +	case EDID_BLOCK_VERSION:
->> +		pr_notice("EDID has major version %d, instead of 1\n",
->> +			  block->version);
->> +		break;
->> +	default:
->> +		pr_debug("EDID block %d unknown edid block status code %d\n",
->> +			 block_num, status);
->
-> Maybe this should complaing a bit more loudly. Indicates a bug in the
-> code no?
+This series will expose the Connector's max supported bpc via connector
+debugfs and Crtc's current bpc via crtc debugfs. Also move the existing
+vendor specific "output_bpc" logic to drm.
 
-Sent v2 with WARN().
+Test-with: 20220411094147.1650859-2-bhanuprakash.modem@intel.com
 
-Thanks,
-Jani
+Bhanuprakash Modem (3):
+  drm/debug: Expose connector's max supported bpc via debugfs
+  drm/i915/display/debug: Expose crtc current bpc via debugfs
+  drm/amd/display: Move connector debugfs to drm
 
+ .../gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.c |  4 --
+ .../amd/display/amdgpu_dm/amdgpu_dm_debugfs.c | 38 +++++++------------
+ .../amd/display/amdgpu_dm/amdgpu_dm_debugfs.h |  2 -
+ drivers/gpu/drm/drm_debugfs.c                 | 21 ++++++++++
+ .../drm/i915/display/intel_display_debugfs.c  | 28 ++++++++++++++
+ 5 files changed, 62 insertions(+), 31 deletions(-)
 
->
-> Reviewed-by: Ville Syrj=C3=A4l=C3=A4 <ville.syrjala@linux.intel.com>
->
->> +		break;
->> +	}
->> +}
->> +
->>  /**
->>   * drm_edid_block_valid - Sanity check the EDID block (base or extensio=
-n)
->>   * @raw_edid: pointer to raw EDID block
->> @@ -1775,33 +1819,16 @@ bool drm_edid_block_valid(u8 *_block, int block_=
-num, bool print_bad_edid,
->>  			*edid_corrupt =3D true;
->>  	}
->>=20=20
->> +	edid_block_status_print(status, block, block_num);
->> +
->>  	/* Determine whether we can use this block with this status. */
->>  	valid =3D edid_block_status_valid(status, edid_block_tag(block));
->>=20=20
->> -	/* Some fairly random status printouts. */
->> -	if (status =3D=3D EDID_BLOCK_CHECKSUM) {
->> -		if (valid) {
->> -			DRM_DEBUG("EDID block checksum is invalid, remainder is %d\n",
->> -				  edid_block_compute_checksum(block));
->> -			DRM_DEBUG("Assuming a KVM switch modified the block but left the ori=
-ginal checksum\n");
->> -		} else if (print_bad_edid) {
->> -			DRM_NOTE("EDID block checksum is invalid, remainder is %d\n",
->> -				 edid_block_compute_checksum(block));
->> -		}
->> -	} else if (status =3D=3D EDID_BLOCK_VERSION) {
->> -		DRM_NOTE("EDID has major version %d, instead of 1\n",
->> -			 block->version);
->> -	}
->> -
->> -	if (!valid && print_bad_edid) {
->> -		if (status =3D=3D EDID_BLOCK_ZERO) {
->> -			pr_notice("EDID block is all zeroes\n");
->> -		} else {
->> -			pr_notice("Raw EDID:\n");
->> -			print_hex_dump(KERN_NOTICE,
->> -				       " \t", DUMP_PREFIX_NONE, 16, 1,
->> -				       block, EDID_LENGTH, false);
->> -		}
->> +	if (!valid && print_bad_edid && status !=3D EDID_BLOCK_ZERO) {
->> +		pr_notice("Raw EDID:\n");
->> +		print_hex_dump(KERN_NOTICE,
->> +			       " \t", DUMP_PREFIX_NONE, 16, 1,
->> +			       block, EDID_LENGTH, false);
->>  	}
->>=20=20
->>  	return valid;
->> --=20
->> 2.30.2
+--
+2.35.1
 
---=20
-Jani Nikula, Intel Open Source Graphics Center
