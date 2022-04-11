@@ -1,50 +1,40 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id B48354FB561
-	for <lists+dri-devel@lfdr.de>; Mon, 11 Apr 2022 09:54:06 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id D5C054FB566
+	for <lists+dri-devel@lfdr.de>; Mon, 11 Apr 2022 09:56:00 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 6371C10F34E;
-	Mon, 11 Apr 2022 07:54:04 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id EBC7010F271;
+	Mon, 11 Apr 2022 07:55:57 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from metis.ext.pengutronix.de (metis.ext.pengutronix.de
- [IPv6:2001:67c:670:201:290:27ff:fe1d:cc33])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 4330B10EBB1
- for <dri-devel@lists.freedesktop.org>; Mon, 11 Apr 2022 07:54:02 +0000 (UTC)
-Received: from ptx.hi.pengutronix.de ([2001:67c:670:100:1d::c0])
- by metis.ext.pengutronix.de with esmtps
- (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256) (Exim 4.92)
- (envelope-from <sha@pengutronix.de>)
- id 1ndos4-00080i-BK; Mon, 11 Apr 2022 09:54:00 +0200
-Received: from sha by ptx.hi.pengutronix.de with local (Exim 4.92)
- (envelope-from <sha@pengutronix.de>)
- id 1ndos1-0007qZ-Jk; Mon, 11 Apr 2022 09:53:57 +0200
-Date: Mon, 11 Apr 2022 09:53:57 +0200
-From: Sascha Hauer <s.hauer@pengutronix.de>
-To: Alex Bee <knaerzche@gmail.com>
-Subject: Re: [PATCH v10 12/24] drm/rockchip: dw_hdmi: drop mode_valid hook
-Message-ID: <20220411075357.GQ4012@pengutronix.de>
-References: <20220408112238.1274817-1-s.hauer@pengutronix.de>
- <20220408112238.1274817-13-s.hauer@pengutronix.de>
- <8fac5d72-c635-521c-e7d1-a3980a4ed719@gmail.com>
+Received: from linux.microsoft.com (linux.microsoft.com [13.77.154.182])
+ by gabe.freedesktop.org (Postfix) with ESMTP id 7B36A10F271
+ for <dri-devel@lists.freedesktop.org>; Mon, 11 Apr 2022 07:55:56 +0000 (UTC)
+Received: by linux.microsoft.com (Postfix, from userid 1127)
+ id EF7EA205657E; Mon, 11 Apr 2022 00:55:55 -0700 (PDT)
+DKIM-Filter: OpenDKIM Filter v2.11.0 linux.microsoft.com EF7EA205657E
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linux.microsoft.com;
+ s=default; t=1649663755;
+ bh=2hqdJe2z5thDY+V/BIGSxpcl+9YoCnMAkDESTCF9xJQ=;
+ h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+ b=gmBaCO43MEeaINcc6CWCMzgY6Zvh99f+2wobY/cTP0Z2sMzuBVznCAZDOddmQkzjp
+ GoZgLolr4cwFzP82BmphuKjEsvSG5Vy/2JwLep3CXHr9WKDpUEiiAgukhv0wnBKc7F
+ sTxi9iNizaNafkdNfYw4zMfiHrZMSuyxunKP5IMI=
+Date: Mon, 11 Apr 2022 00:55:55 -0700
+From: Saurabh Singh Sengar <ssengar@linux.microsoft.com>
+To: Dexuan Cui <decui@microsoft.com>
+Subject: Re: [PATCH v3] drm/hyperv: Added error message for fb size greater
+ than allocated
+Message-ID: <20220411075555.GA15355@linuxonhyperv3.guj3yctzbm1etfxqx2vob5hsef.xx.internal.cloudapp.net>
+References: <1649650437-17977-1-git-send-email-ssengar@linux.microsoft.com>
+ <BYAPR21MB1270B3CFBE674EB0A7537180BFEA9@BYAPR21MB1270.namprd21.prod.outlook.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <8fac5d72-c635-521c-e7d1-a3980a4ed719@gmail.com>
-X-Sent-From: Pengutronix Hildesheim
-X-URL: http://www.pengutronix.de/
-X-IRC: #ptxdist @freenode
-X-Accept-Language: de,en
-X-Accept-Content-Type: text/plain
-X-Uptime: 09:14:52 up 11 days, 19:44, 70 users,  load average: 0.07, 0.26, 0.26
-User-Agent: Mutt/1.10.1 (2018-07-13)
-X-SA-Exim-Connect-IP: 2001:67c:670:100:1d::c0
-X-SA-Exim-Mail-From: sha@pengutronix.de
-X-SA-Exim-Scanned: No (on metis.ext.pengutronix.de);
- SAEximRunCond expanded to false
-X-PTX-Original-Recipient: dri-devel@lists.freedesktop.org
+In-Reply-To: <BYAPR21MB1270B3CFBE674EB0A7537180BFEA9@BYAPR21MB1270.namprd21.prod.outlook.com>
+User-Agent: Mutt/1.5.21 (2010-09-15)
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -57,75 +47,67 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: devicetree@vger.kernel.org,
- Benjamin Gaignard <benjamin.gaignard@collabora.com>,
- Peter Geis <pgwipeout@gmail.com>, Sandy Huang <hjc@rock-chips.com>,
- dri-devel@lists.freedesktop.org, linux-rockchip@lists.infradead.org,
- Michael Riesch <michael.riesch@wolfvision.net>, kernel@pengutronix.de,
- Andy Yan <andy.yan@rock-chips.com>, linux-arm-kernel@lists.infradead.org
+Cc: "linux-hyperv@vger.kernel.org" <linux-hyperv@vger.kernel.org>,
+ "airlied@linux.ie" <airlied@linux.ie>,
+ Saurabh Singh Sengar <ssengar@microsoft.com>,
+ "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
+ "dri-devel@lists.freedesktop.org" <dri-devel@lists.freedesktop.org>,
+ "Michael Kelley \(LINUX\)" <mikelley@microsoft.com>,
+ "drawat.floss@gmail.com" <drawat.floss@gmail.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Sun, Apr 10, 2022 at 01:31:23PM +0200, Alex Bee wrote:
-> Am 08.04.22 um 13:22 schrieb Sascha Hauer:
-> > The driver checks if the pixel clock of the given mode matches an entry
-> > in the mpll config table. The frequencies in the mpll table are meant as
-> > a frequency range up to which the entry works, not as a frequency that
-> > must match the pixel clock. The downstream Kernel also does not have
-> > this check, so drop it to allow for more display resolutions.
+On Mon, Apr 11, 2022 at 06:40:38AM +0000, Dexuan Cui wrote:
+> > Subject: [PATCH v3] drm/hyperv: Added error message for fb size greater than
+> > allocated
 > > 
-> > Signed-off-by: Sascha Hauer <s.hauer@pengutronix.de>
-> > ---
+> > Added error message when the size of requested framebuffer is more than
+> > the allocated size by vmbus mmio region for framebuffer
+> 
+> "Added" --> "Add"? My impression is that we don't use past tense in the 
+
+Ok.
+
+> Subject and the commit message. See
+> "git log drivers/gpu/drm/hyperv/hyperv_drm_modeset.c".
+>  
+> > --- a/drivers/gpu/drm/hyperv/hyperv_drm_modeset.c
+> > +++ b/drivers/gpu/drm/hyperv/hyperv_drm_modeset.c
+> > @@ -123,8 +123,11 @@ static int hyperv_pipe_check(struct
+> > drm_simple_display_pipe *pipe,
+> >  	if (fb->format->format != DRM_FORMAT_XRGB8888)
+> >  		return -EINVAL;
 > > 
-> You're correct: That frequency is meant to be greater or equal. But I'm
-> not sure if it makes sense to completely drop it - what happens for
-> clocks rates > 600 MHz which might be supported by later generation
-> sinks (HDMI 2.1 or later)?
-> As these are not supported by the IPs/PHYs currently supported by that
-> driver a reason a simple
-> 
->         int i;
-> 
-> 
-> 
->         for (i = 0; mpll_cfg[i].mpixelclock != (~0UL); i++) {
-> 
-> -               if (pclk == mpll_cfg[i].mpixelclock) {
-> 
-> +               if (pclk >= mpll_cfg[i].mpixelclock) {
+> > -	if (fb->pitches[0] * fb->height > hv->fb_size)
+> > +	if (fb->pitches[0] * fb->height > hv->fb_size) {
+> > +		drm_err(&hv->dev, "hv->hdev, fb size requested by process %s
+> > for %d X %d (pitch %d) is greater than allocated size %ld\n",
+> Should we use drm_err_ratelimited() instead of drm_err()?
 
-Should be <=
-
-No other user currently in the tree has this check.
-hdmi_phy_configure_dwc_hdmi_3d_tx() has this:
-
-> 	/* PLL/MPLL Cfg - always match on final entry */
-> 	for (; mpll_config->mpixelclock != ~0UL; mpll_config++)
-> 		if (mpixelclock <= mpll_config->mpixelclock)
-> 			break;
-> 
-> 	for (; curr_ctrl->mpixelclock != ~0UL; curr_ctrl++)
-> 		if (mpixelclock <= curr_ctrl->mpixelclock)
-> 			break;
-> 
-> 	for (; phy_config->mpixelclock != ~0UL; phy_config++)
-> 		if (mpixelclock <= phy_config->mpixelclock)
-> 			break;
-> 
-> 	if (mpll_config->mpixelclock == ~0UL ||
-> 	    curr_ctrl->mpixelclock == ~0UL ||
-> 	    phy_config->mpixelclock == ~0UL)
-> 		return -EINVAL;
-
-This means we already have this check and others already in the generic
-part of the dw-hdmi driver. Should we maybe do the above in
-dw_hdmi_bridge_mode_valid() instead of doing it in the users?
-
-Sascha
+The error is not produced in good cases, for every resolution change which is violating this error should print once.
+I suggest having it print every time some application tries to violate the policy set at boot time.
+If we use ratelimit many resolutions error change will be suppressed. Please let me know your thoughts.
 
 
--- 
-Pengutronix e.K.                           |                             |
-Steuerwalder Str. 21                       | http://www.pengutronix.de/  |
-31137 Hildesheim, Germany                  | Phone: +49-5121-206917-0    |
-Amtsgericht Hildesheim, HRA 2686           | Fax:   +49-5121-206917-5555 |
+> 
+> The line exceeds 80 chars.
+
+At first I tried braking the line to respect 80 character boundary, but checkpatch.pl reported it as a problem.
+And these new lines are suggested by checkpatch.pl itself.
+Looks the recent rule realted to 80 charachters are changed. Ref : https://www.theregister.com/2020/06/01/linux_5_7/#:~:text=Linux%20kernel%20overlord%20Linus%20Torvalds,the%20topic%20of%20line%20lengths.
+
+> 
+> > +		current->comm, fb->width, fb->height, fb->pitches[0], hv->fb_size);
+> >  		return -EINVAL;
+> > +	}
+> 
+> Maybe we can use the below:
+> 	drm_err_ratelimited(&hv->dev, "%s: requested %dX%d (pitch %d) "
+>                      "exceeds fb_size %ld\n",
+>                      current->comm, fb->width, fb->height,
+>                      fb->pitches[0], hv->fb_size);
+> 
+> Note: the first chars of last 3 lines should align with the "&" in the
+> same column. Please run "scripts/checkpatch.pl" against the patch.
+
+I have tested checkpatch.pl before sending, for the current patch there is no problem from checkpatch.pl
