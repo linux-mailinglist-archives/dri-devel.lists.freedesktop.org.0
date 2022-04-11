@@ -1,71 +1,125 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id BB6234FBA83
-	for <lists+dri-devel@lfdr.de>; Mon, 11 Apr 2022 13:08:16 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id DAEF44FBA99
+	for <lists+dri-devel@lfdr.de>; Mon, 11 Apr 2022 13:11:52 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id E4AF410E3DB;
-	Mon, 11 Apr 2022 11:08:12 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 97B9610E354;
+	Mon, 11 Apr 2022 11:11:46 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-lj1-x233.google.com (mail-lj1-x233.google.com
- [IPv6:2a00:1450:4864:20::233])
- by gabe.freedesktop.org (Postfix) with ESMTPS id C2E1710E277
- for <dri-devel@lists.freedesktop.org>; Mon, 11 Apr 2022 11:08:10 +0000 (UTC)
-Received: by mail-lj1-x233.google.com with SMTP id h11so19644791ljb.2
- for <dri-devel@lists.freedesktop.org>; Mon, 11 Apr 2022 04:08:10 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
- h=mime-version:subject:from:in-reply-to:date:cc
- :content-transfer-encoding:message-id:references:to;
- bh=faBBlyWvdU7yWxcYTLif+sdsFzOCEToIOx9hvvHptcQ=;
- b=bKtcLKsVNv/AnDUlN7XBfbv28lbGbwcpV24AYOZZR49Y7t8W9yiE6J81v0axX9Hlt+
- zHk8G4MDDbtAMLQ5bh7Jhc2p5bzSmsjtHYVcpclXp5hGUvmBW5QjmJb3J0pxJ4QVzQ1p
- gMuVPRdKXpPwxW3GWBDhpdcd/hBuyIsa9RcVniFb8KPC6aGvUkpQ65ivSkdMDSCrlCfF
- uKaY/NFLQ+ZjxZskiKDIltI0irbwD0D+xs534Ba5tLrLR3lbUyDa+9UYkRqEsrbCq8em
- TGHkIAkQ/+oVhy1cpqkeyS8le9sj/+N45KEQTmgZbxsIbXg+SgoLGOBmeMGo4AHKCqAg
- Kzlw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=x-gm-message-state:mime-version:subject:from:in-reply-to:date:cc
- :content-transfer-encoding:message-id:references:to;
- bh=faBBlyWvdU7yWxcYTLif+sdsFzOCEToIOx9hvvHptcQ=;
- b=Kz8sewLwcMFHNfdWkWnXuo/9zZGtF+b0GNbBweBtLicKziJOcogPWypae1MYdmMbQ5
- hTbhI0HIkjdA76jh0OujOA4WNEnDvjcMx6XlDub4SOW/c/EJI0CKUryEsF3JaXcLwX3T
- sXz/ioHis7g8Dn+l2QnKYOcix36WJhXFYp74NclFfoY9lCyaUPI73r9kWx/fY4q8qIFF
- WkNsEeRJdpMSr+weK2yNx6tFjBb9j3wh3PzfpBg2Ek84tWOiCzlxYh2+Jbt54yTmgaFd
- UuyJG5ih7L2LHRZhwlFNb1WwA1Sy0Zef6yW3kQf8ieTbstWtN+mwlHHtUfOKpq/Jw1NT
- +13w==
-X-Gm-Message-State: AOAM531sRXHWER3Ecqatja9O2pHlXae4ZmUHQ4mdjF2Xvf6gdG6YAj5r
- O2vYdTNi25LUqNdAFrfqpvY=
-X-Google-Smtp-Source: ABdhPJyIDqXD/37WNNPE4CEUiXkndnW/9dwYG4nxizIei1KKVdssg7C6CA8N3ii5HMAAGRoc5f8ydg==
-X-Received: by 2002:a2e:9c94:0:b0:24b:3df5:64c with SMTP id
- x20-20020a2e9c94000000b0024b3df5064cmr13872145lji.324.1649675288917; 
- Mon, 11 Apr 2022 04:08:08 -0700 (PDT)
-Received: from smtpclient.apple (31-178-191-245.dynamic.chello.pl.
- [31.178.191.245]) by smtp.gmail.com with ESMTPSA id
- j29-20020a056512029d00b0046ba6e0cc32sm259161lfp.300.2022.04.11.04.08.04
- (version=TLS1_2 cipher=ECDHE-ECDSA-AES128-GCM-SHA256 bits=128/128);
- Mon, 11 Apr 2022 04:08:08 -0700 (PDT)
-Content-Type: text/plain;
-	charset=utf-8
-Mime-Version: 1.0 (Mac OS X Mail 14.0 \(3654.120.0.1.13\))
-Subject: Re: [PATCH v9 00/23] drm/rockchip: RK356x VOP2 support
-From: Piotr Oniszczuk <piotr.oniszczuk@gmail.com>
-In-Reply-To: <20220411090800.GR4012@pengutronix.de>
-Date: Mon, 11 Apr 2022 13:07:56 +0200
-Content-Transfer-Encoding: quoted-printable
-Message-Id: <5929E7A7-776E-4BCB-92C8-A1CE05774FE3@gmail.com>
-References: <20220328151116.2034635-1-s.hauer@pengutronix.de>
- <FB201567-AE5A-4242-82F1-7C55D8F111EA@gmail.com>
- <20220401125205.GL4012@pengutronix.de>
- <5420D26D-34FD-4637-B602-F6271E38BB8D@gmail.com>
- <BA4C591F-D115-43D2-BF59-A75B29889E50@gmail.com>
- <20220408080748.GA2387@pengutronix.de> <20220408120021.GO4012@pengutronix.de>
- <B3E76A7A-9B62-4E6F-9472-00B6298689C5@gmail.com>
- <20220411090800.GR4012@pengutronix.de>
-To: Sascha Hauer <s.hauer@pengutronix.de>
-X-Mailer: Apple Mail (2.3654.120.0.1.13)
+Received: from NAM04-DM6-obe.outbound.protection.outlook.com
+ (mail-dm6nam08on2050.outbound.protection.outlook.com [40.107.102.50])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 4229010E354;
+ Mon, 11 Apr 2022 11:11:45 +0000 (UTC)
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=P1kjP0O9zZR9s4Q5plZljZ+oSaaN0XfcJYnCMLoWO6SO5tkOZQ4pQo23DkOnkAp7dq9kZpaCEwjhzwy6zan8g0uKH5QXG1wRt20jC+ewfi7Og3kfOm0RMCWRQ5ZBWTYqELMjKDpgGsJsM/w4gqBrRdAg2EoRlLJtlC9SDLKQzLb738cJP0QAtaQYZxLBUs9lDRkHvxWHiq9KBaMnR98tPGL3qHGrfV51IY+7UKIgXgoSK+sliC7wIEKJFOdO8kqr8kG8bpbvHbtTN3ML4SAmjSSNdCkOVr6uG1fcn6AqBA742CWo0yd9eurzAK+yqkkV6VsBl43a101yYw7Y+CytNw==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=7oZZjbFQB8W6ZvzAqpszRz4W73EpjWLsCs7ERX8p2jk=;
+ b=S8yj04t0K900JgaWf3Awfkfo/+uyifxcOiXkN6ULznkt5XSYWLRRoOQ2FSwYqRNf+BGW4PTujTYFz/xNttyv7MYywVUuRJtNCXrGmeqQL2d+RLFyfiPZlQmDbb0KIaNRP4XiaLqEeyN0MjxoQxqH40jG9MGSts8HE5rd0jaVCpKa9pW1nDxq2dEtylGxZoRV5pNhWPRYxmFxXrvSjATHXC0j4cyUKqLd9XWMBd0pFgbcouL/Uwsrudhk+mk5RTHUs60viZfYJ3yx50IplauTPwectrkFcxft/uTiae8poHQDsGC9t5htoQmlP0CA2lpjSve6agjJcCYhHtYe1bHp6A==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=amd.com; dmarc=pass action=none header.from=amd.com; dkim=pass
+ header.d=amd.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1; 
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=7oZZjbFQB8W6ZvzAqpszRz4W73EpjWLsCs7ERX8p2jk=;
+ b=dmjafpFvObapVOpRmsG7PRh/a0u9HKpLx84hWT17snTgf77/6TyViy2uLd17/qleM0bVby5wam313lzu1ZYWU8zKHoxZw1NvfYijchVJOSDcK3PHbQ5kIssCEUGjZswVZti3GNe/1Xd9IUXZCFK11aFCRy4i1am27wp4DzkbwCI=
+Authentication-Results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=amd.com;
+Received: from SA0PR12MB4526.namprd12.prod.outlook.com (2603:10b6:806:98::23)
+ by DM6PR12MB4500.namprd12.prod.outlook.com (2603:10b6:5:28f::13) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.5144.29; Mon, 11 Apr
+ 2022 11:11:43 +0000
+Received: from SA0PR12MB4526.namprd12.prod.outlook.com
+ ([fe80::7ceb:a37c:cd60:9d5f]) by SA0PR12MB4526.namprd12.prod.outlook.com
+ ([fe80::7ceb:a37c:cd60:9d5f%7]) with mapi id 15.20.5144.029; Mon, 11 Apr 2022
+ 11:11:42 +0000
+Message-ID: <7775829f-b612-19dd-277b-aed2e9cca991@amd.com>
+Date: Mon, 11 Apr 2022 06:11:39 -0500
+User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:91.0) Gecko/20100101
+ Thunderbird/91.2.0
+Subject: Re: [PATCHv2] drm/amdgpu: disable ASPM on Intel AlderLake based
+ systems
+Content-Language: en-US
+To: "Lazar, Lijo" <lijo.lazar@amd.com>, alexander.deucher@amd.com,
+ christian.koenig@amd.com, xinhui.pan@amd.com, airlied@linux.ie,
+ daniel@ffwll.ch
+References: <20220408190502.4103670-1-richard.gong@amd.com>
+ <2c1e5bf0-6952-12c3-6e6f-62cb44fe1490@amd.com>
+From: "Gong, Richard" <richard.gong@amd.com>
+In-Reply-To: <2c1e5bf0-6952-12c3-6e6f-62cb44fe1490@amd.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
+X-ClientProxiedBy: CH2PR18CA0055.namprd18.prod.outlook.com
+ (2603:10b6:610:55::35) To SA0PR12MB4526.namprd12.prod.outlook.com
+ (2603:10b6:806:98::23)
+MIME-Version: 1.0
+X-MS-PublicTrafficType: Email
+X-MS-Office365-Filtering-Correlation-Id: 2544e1cb-5a5e-4ec7-f269-08da1bac0f06
+X-MS-TrafficTypeDiagnostic: DM6PR12MB4500:EE_
+X-Microsoft-Antispam-PRVS: <DM6PR12MB4500ADBD61653B5FF9CBE2ED95EA9@DM6PR12MB4500.namprd12.prod.outlook.com>
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: BCL:0;
+X-Microsoft-Antispam-Message-Info: dBXCWbtpeIbSbKpAdQE3vkS70UAY5oA8oWjrfN1Nc0AkNDXSEtjCdw+v+G0B5CNWFYhaJNyCy29/noMHc1KXR7ZIwVqAej909rDtkwuUJZL4eN0Mmn3IhvpStNMexySNQ4jCTb1CDisut7wrF9a/58U6YSERoKyMwyR4sSJpF3dDCnFT2or66fDuC89EjVY03yDoMX0BS8ku8ePtWB4f8vQZ5gJNZQ/629GYdRIMmq2CeAqvXfS6YQbf7j0TDk6+Qp91lmvgSjdCyr2fAbgTnPGgi0BdiTigJ4p1tGQDJAxt1rgUyk9UMuydJ4/qBiKrPk3q9nY7uOBex1FBkBMSCCroCPYaL/4uReH/txPl3ztUTdWIFmexZ4EHi5J0n4SIsmG8AiU8e1NMFNr5wMR7zAkXicoPYaYBrNzJKh47Oo4FIxORVnp849cfWZXsiYfdSwzr9WIlMkHsul3q9LpbP/CkPZPijE0v4UItB0u+65mEI2QzCZbqvE/dP/MEhrVrYM/6gKbYBVUQ4IThTxq5qKjDOnGn7DZENUaLOnd6DKz3zKoebS4xfz2Ihc4NfZhmxanTxLof0bly9BMQx9COlZfr2nTreWzSGdgRWxKiJso4WfRSCs/Zu+DCuPYvfe+oBOcqShZYLiJDJU+vEHF72CyIblSQ351XB+XQ7zOWr89uINMz5vp5QEWNpHoxaWdzUNOGB47ZJZHzHIstH16aVc49FxAx2CGR0+PGAegtYyM=
+X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
+ IPV:NLI; SFV:NSPM; H:SA0PR12MB4526.namprd12.prod.outlook.com; PTR:; CAT:NONE;
+ SFS:(13230001)(4636009)(366004)(36756003)(31686004)(2906002)(26005)(186003)(2616005)(66946007)(66556008)(6486002)(38100700002)(66476007)(6512007)(8936002)(5660300002)(508600001)(4326008)(8676002)(6506007)(83380400001)(86362001)(316002)(6666004)(31696002)(53546011)(966005)(45980500001)(43740500002);
+ DIR:OUT; SFP:1101; 
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0: =?utf-8?B?Sm9TbGRoSk02Rk4vaVdad3pxWXBwTlZaZ1hsTUZEREtKS1c2RUZPL09GMFdr?=
+ =?utf-8?B?aFJhV2ZvdHZwUm90SmNrbzZXY2tsZHhYM3ZxTW0reHdGUkJLdk02YXVTYnFv?=
+ =?utf-8?B?NldUdGtHVm9VSlQ0MlptYUF3RENyd0EzV0cwT2V1akNRNlMzSE1BUStUL28w?=
+ =?utf-8?B?VWJvdmR6RW9aVThhcGIwakk1blpZaFI5S0g4THF4NmNWUFQxeFcyNit3WW1J?=
+ =?utf-8?B?RW9sN2xXNkZ3d09HajR0bGdQbmdNMEFWTlNhTzZJaUFMUGFUN1FadERnNnNH?=
+ =?utf-8?B?bUdsemVvM0FSZTRCUHR6bVMvUDZIU011MnQwanMzQWcxUS90MTBCeGM0OGRw?=
+ =?utf-8?B?V3dVdmloWTZnVnZUc2FYL1lnaEYrSC9UMjA4RjJjei9ITkFIUE13eTFMTkFh?=
+ =?utf-8?B?TU1lZW92RUpET0NOMExNeXFKbHFIKy9IajRSbUxKZlNyUjhoU0tXb0JmRnpW?=
+ =?utf-8?B?OGRabFZGcjltVTlBb1h6UGM3a05tTnBZYTRUVldpQmZjLzlCUGlNMHh5L3NN?=
+ =?utf-8?B?SjV2cXVnWjlCV2NXbHdkWUsrTEVZUFN1U3hLUXlNWHBmRUNhemZXbzdUZWxN?=
+ =?utf-8?B?OWNWM2k3R0cwc3ZKa09KSWpMOEZ0UGZxMjVscXQvK2w3TnhLK0RqeXM0Mndo?=
+ =?utf-8?B?ekVtRkRyS0tTaldrb0ZjNUdJODVZRWtSN0pzQkk1T1VJVWhldjlsdEgyWmFP?=
+ =?utf-8?B?Wm5ibGZYaUFybWI5OWlQQ1IwTk1zcklsUjA2dXJiUHd0ajNpUjNCbFBjdUl0?=
+ =?utf-8?B?ZVFWVFI5TWpJYWVtM3hBNXdQa3JVRUJKNUhQVDBYeTJaYUVRVGlDU1NRd2J5?=
+ =?utf-8?B?VTdqTHNibXdlTUhUanhRVDB4OHpMdEpKckF4WjZsVCtZa2cvUVVZeUJEZ3hh?=
+ =?utf-8?B?L1N0RlVTRGtQaFgvQ01zclZqV0l6UjdNNndIOWJXTjlKNFpLQVI3UkNOeno4?=
+ =?utf-8?B?Q0Q2RVlHdWJsZTdDSmVpZVdwTnhhWGFVYWxMTnVGTDlYdFlwUmVOaWlhaGh0?=
+ =?utf-8?B?QkNqaHFMZ215Z0dHMWF1NldHWE5SZHk4UUtWNGl5VzRlaktyRWxXaDErVnhK?=
+ =?utf-8?B?TjVkVkp5ajBMcHJud0owMjNPSGI1U2gwbWpwb2NRQ1NoeXBZK1NGb25sTmt3?=
+ =?utf-8?B?cjRKVlk5Zi9qOHNEZTRnN0ZjRkM1SEZaaWJNMGtnRVZNU0M2aVNHbGZiRHlR?=
+ =?utf-8?B?L3Qvb3V0enFJVm9LcWFEQnZ2ZThYdE81QnFoQ0liSzl0a2ZBeTR2VkVCc1FG?=
+ =?utf-8?B?c3NXMzdjYzl3czJMUlJBd0NUdFl4azYwY1VycE9ubko2U1hscXFrWTdyVG9x?=
+ =?utf-8?B?TnFvNXVoY0p4TGxMdXZDaDA2dEtSODNTeDVWMktKUEs1d2RaeDdXdFY3RHJF?=
+ =?utf-8?B?cVpHZEdMeVdILzNjdG1CZUVlY3YyTklkQ1VpK0ZycFpqV014Y0IvdHIwYm55?=
+ =?utf-8?B?aHk3OVd1WHhENWFhdWZjalF6b2ZKSlo4b0J2RnZ6WFV4REJqN3J5T3hxMFBH?=
+ =?utf-8?B?SmltZDZva1R0enJPOGRtODIzVEhQOFQ3Z0QrU2R4VnZzaVlCSTE0RDFtQUxr?=
+ =?utf-8?B?ZmN0bDAxTWFHL2NEZVQ1cVVlWmJlWmQwQURER3JObm4xZXRLZ2J2REp2R2Zp?=
+ =?utf-8?B?RE5QazRaZFMrelRiclJxeVVTVGpaRGhQZGZ5Q3RpZncyZ3QxMkd1QjlGVVJH?=
+ =?utf-8?B?Ri83b00zM1ZVL2l0c29qbGNTdTRvOG43T200YWZjblJrN043R0ZiNkdUTDdn?=
+ =?utf-8?B?SDlHWXJmb3BLRFlrVzRiOWJnUEU4bnpaZm9iY1dodXl6SDNSNWsrR096RzVs?=
+ =?utf-8?B?WmhQZlJFbzRVd2Z6NlBUc29FWE4zRmpWcG00dnJlSGo3UEV6VGsyelpsY3Y3?=
+ =?utf-8?B?TS9Qd1VhZ2syNWtSMVQ4b3VOam9xS0djK0xpQlF6OW5UUHVSS2dGYU9NYXpY?=
+ =?utf-8?B?N2ZsWjVzVDhQbHlYTk9DKy9ibGtIUkQ1NlBTOTRrZjZpQ1JWZTFwRnFzNDJE?=
+ =?utf-8?B?L211R1VJdGYzd0R6dkxQYXFVQ0FIUXhPL2FwdkdPNkE0R1FzT0ZhRHM2Y2xN?=
+ =?utf-8?B?alJvU29tWDJRaWdpMEh5L09NQXdvdnExRFIrd3l0blJZSWtUd2I1eVlRU2Rp?=
+ =?utf-8?B?OTNnbTFqeW9FeWgzVzZUcm9NNVlPaCtPMFl6aXdMWjNhVk1XWkNkazRUVG04?=
+ =?utf-8?B?ZkFRUWpKRHZrMGE2VDF1cERuTUF2RFpwbStxSTUxOTQrL0hTcmFoSCtiUzlI?=
+ =?utf-8?B?QTZZMGJBTVN1UUZnSjgrb3E5SCt6UURqZmg5WGdqM3U1QXRGVVRlVVZmbzhJ?=
+ =?utf-8?B?S1F1ZmV4N3dnZjdYd2pnUmVoazQwNThrZ2pTekFkUWtJVzQxRkg3QT09?=
+X-OriginatorOrg: amd.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 2544e1cb-5a5e-4ec7-f269-08da1bac0f06
+X-MS-Exchange-CrossTenant-AuthSource: SA0PR12MB4526.namprd12.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 11 Apr 2022 11:11:42.8190 (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: zevk86Bul4qy7vWDblNey4ZCDh0eDHCjIr7NMa4FShXR26uUbXbg7CAwo191TuQNX6n7JxzvBsN125otkU51ug==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: DM6PR12MB4500
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -78,279 +132,89 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: "devicetree@vger.kernel.org" <devicetree@vger.kernel.org>,
- Benjamin Gaignard <benjamin.gaignard@collabora.com>,
- Peter Geis <pgwipeout@gmail.com>, Sandy Huang <hjc@rock-chips.com>,
- dri-devel@lists.freedesktop.org,
- "open list:ARM/Rockchip SoC..." <linux-rockchip@lists.infradead.org>,
- Michael Riesch <michael.riesch@wolfvision.net>, kernel@pengutronix.de,
- Andy Yan <andy.yan@rock-chips.com>,
- "linux-arm-kernel@lists.infradead.org" <linux-arm-kernel@lists.infradead.org>
+Cc: amd-gfx@lists.freedesktop.org, mario.limonciello@amd.com,
+ dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
+Hi Lijo,
 
+On 4/10/2022 11:15 PM, Lazar, Lijo wrote:
+>
+>
+> On 4/9/2022 12:35 AM, Richard Gong wrote:
+>> Active State Power Management (ASPM) feature is enabled since kernel 
+>> 5.14.
+>> There are some AMD GFX cards (such as WX3200 and RX640) that cannot be
+>> used with Intel AlderLake based systems to enable ASPM. Using these GFX
+>> cards as video/display output, Intel Alder Lake based systems will hang
+>> during suspend/resume.
+>>
+>> Add extra check to disable ASPM on Intel AlderLake based systems.
+>>
+>> Fixes: 0064b0ce85bb ("drm/amd/pm: enable ASPM by default")
+>> Link: https://gitlab.freedesktop.org/drm/amd/-/issues/1885
+>> Signed-off-by: Richard Gong <richard.gong@amd.com>
+>> ---
+>> v2: correct commit description
+>>      move the check from chip family to problematic platform
+>> ---
+>>   drivers/gpu/drm/amd/amdgpu/vi.c | 17 ++++++++++++++++-
+>>   1 file changed, 16 insertions(+), 1 deletion(-)
+>>
+>> diff --git a/drivers/gpu/drm/amd/amdgpu/vi.c 
+>> b/drivers/gpu/drm/amd/amdgpu/vi.c
+>> index 039b90cdc3bc..8b4eaf54b23e 100644
+>> --- a/drivers/gpu/drm/amd/amdgpu/vi.c
+>> +++ b/drivers/gpu/drm/amd/amdgpu/vi.c
+>> @@ -81,6 +81,10 @@
+>>   #include "mxgpu_vi.h"
+>>   #include "amdgpu_dm.h"
+>>   +#if IS_ENABLED(CONFIG_X86_64)
+>> +#include <asm/intel-family.h>
+>> +#endif
+>> +
+>>   #define ixPCIE_LC_L1_PM_SUBSTATE    0x100100C6
+>>   #define PCIE_LC_L1_PM_SUBSTATE__LC_L1_SUBSTATES_OVERRIDE_EN_MASK 
+>> 0x00000001L
+>>   #define PCIE_LC_L1_PM_SUBSTATE__LC_PCI_PM_L1_2_OVERRIDE_MASK 
+>> 0x00000002L
+>> @@ -1134,13 +1138,24 @@ static void vi_enable_aspm(struct 
+>> amdgpu_device *adev)
+>>           WREG32_PCIE(ixPCIE_LC_CNTL, data);
+>>   }
+>>   +static bool intel_core_apsm_chk(void)
+>
+> If this is only for Dell systems, use DMI_SYS_VENDOR/DMI_PRODUCT_NAME 
+> to identify the platform information from SMBIOS.
+Not sure, the report issue was originally for Dell system but may occur 
+with others. This is why I just check CPU info.
+>
+> Better to rename to aspm_support_quirk_check() or similar, and return 
+> false on is_alderlake() or is_dell_xyz();
+>
+Ok, will rename to aspm_support_quick_check in the next versin.
 
-> Wiadomo=C5=9B=C4=87 napisana przez Sascha Hauer =
-<s.hauer@pengutronix.de> w dniu 11.04.2022, o godz. 11:08:
->=20
-> Ok, so #37 for video, #43 for GUI.
->=20
-> Where is the OSD rendered? Is it rendered on the GUI layer?
-
-Yes
-
->=20
->> .......
->>=20
->>=20
->> playback:
->> .....
->> 2022-04-08 17:48:55.457823 I DRMVideo: Using Plane #37 for video
->> .....
->>=20
->> DRI state with zpos=3D0, kms_id=3D0 and ongoing playback:
->>=20
->> root@Myth-Frontend-06c7e973c2f1:~ # cat /sys/kernel/debug/dri/0/state
->> plane[31]: Smart0-win0
->>        crtc=3Dvideo_port0
->>        fb=3D58
->>                allocated by =3D mythfrontend
->>                refcount=3D2
->>                format=3DXR24 little-endian (0x34325258)
->>                modifier=3D0x0
->>                size=3D1920x1080
->>                layers:
->>                        size[0]=3D1920x1080
->>                        pitch[0]=3D7680
->>                        offset[0]=3D0
->>                        obj[0]:
->>                                name=3D0
->>                                refcount=3D4
->>                                start=3D00000000
->>                                size=3D8294400
->>                                imported=3Dno
->>        crtc-pos=3D1920x1080+0+0
->>        src-pos=3D1920.000000x1080.000000+0.000000+0.000000
->>        rotation=3D1
->>        normalized-zpos=3D0
->>        color-encoding=3DITU-R BT.601 YCbCr
->>        color-range=3DYCbCr limited range
->=20
-> Base plane.
->=20
->> plane[37]: Esmart0-win0
->>        crtc=3Dvideo_port0
->>        fb=3D65
->>                allocated by =3D mythfrontend
->>                refcount=3D2
->>                format=3DNV12 little-endian (0x3231564e)
->>                modifier=3D0x0
->>                size=3D1920x1080
->>                layers:
->>                        size[0]=3D1920x1080
->>                        pitch[0]=3D1920
->>                        offset[0]=3D0
->>                        obj[0]:
->>                                name=3D0
->>                                refcount=3D3
->>                                start=3D00000000
->>                                size=3D3657728
->>                                imported=3Dyes
->>                        size[1]=3D960x540
->>                        pitch[1]=3D1920
->>                        offset[1]=3D2088960
->>                        obj[1]:
->>                                name=3D0
->>                                refcount=3D3
->>                                start=3D00000000
->>                                size=3D3657728
->>                                imported=3Dyes
->>        crtc-pos=3D1920x1080+0+0
->>        src-pos=3D1920.000000x1080.000000+0.000000+0.000000
->>        rotation=3D1
->>        normalized-zpos=3D1
->>        color-encoding=3DITU-R BT.601 YCbCr
->>        color-range=3DYCbCr limited range
->=20
-> Video plane, rendered full screen above the base plane without alpha.
->=20
->> plane[43]: Cluster0-win0
->>        crtc=3D(null)
->>        fb=3D0
->>        crtc-pos=3D0x0+0+0
->>        src-pos=3D0.000000x0.000000+0.000000+0.000000
->>        rotation=3D1
->>        normalized-zpos=3D0
->>        color-encoding=3DITU-R BT.601 YCbCr
->>        color-range=3DYCbCr limited range
->=20
-> Here should be the GUI, but this plane is not active.
-
-I suspect this is because above DRI state report was with user-forced Qt =
-vars.
-This was because to get UI non-black screen.
-I done this by request to provide DRI state with video playback. (to get =
-playback I need UI to navigate)
-By this DRI state report might misleading as i'm manually forcing Qt =
-KMS_Index/Zpos.=20
-
->=20
-> With this state I would expect to see a full screen video without
-> anything on it. Is that the case? If yes, then fine.
-
-yes. this is a case.
-so this is fine.
-
-So I think non-visible OSD issue is side effect of other, root cause =
-issue: issue causing user to force Qt vars to get UI on VOP2
-
-Context: (my view):
-
-We have stack of 3 components interacting:
-1.player (draws video to DRM plane)
-2.Qt (draws UI to GL to DRM plane)
-3.DRM (mixing planes+displaying)=20
-
-Stack coperation:
-a. DRM reports available planes+attributes to player
-b. player - accordingly to above report - sets Qt (KMS/Zpos, etc).
-c. user starting player. player uses Qt for drawing UI=20
-d. user asks for playback
-e. player draws (by Qt) OSD  and directly video (accordingly to Qt setup =
-in (b)
-
-With VOP2 i have issue at (c): screen is black.
-Above procedure works fully automated on all other platforms i =
-have/supporting.=20
-
-For me most probable hypothesis:
-
-1\
-- In steep (b) Qt is set (or configured to use DRM) in way that UI =
-resulting with black screen
-- this is because in (a) player receives (wrong?) DRM report - and by =
-this Qt is wrongly set
-This may explain we have issue at (c)
-
-2\
-- In steep (b) Qt is set & using DRM in way that UI should work ok
-- but VOP2 draws black screen (by some reason)
-This may explain we have issue at (c)
-
-
-Alternative hypothesis:
-DRM properly realises (a)
-Player wrongly realises (b)
-This hypothesis is way less probable (for me) because:
-1. procedure (a)...(e) works well on all other SoC. No need from user to =
-overwrite automatically detected/set of Qt vars.
-2. vop2 is single requiring from user overwrite of autodetected Qt vars. =
-to get non-black screen UI.
-
-I'm a bit out of ideas how to progress with this.
-
-As (a)...(e) concept works ok (and afaik also is used by other players =
-exploiting DRM planes rendering) - i'm not sure should I play with (b) =
-because of VOP2 black-screen?
-
-
-  =20
-BTW:
-this is DRI state when there is no any Qt.vars overwrites.
-(so all is autodetected/setup like in other  working SoCs; VOP2 gives =
-here black screen UI):
-
-2022-04-08 17:47:57.035668 I /dev/dri/card0 Qt EGLFS/KMS Fd:5 Crtc id:49 =
-Connector id:51 Atomic: 1
-2022-04-08 17:47:57.035806 I /dev/dri/card0: Authenticated
-2022-04-08 17:47:57.145447 I /dev/dri/card0: Found 3 planes; 3 for this =
-CRTC
-2022-04-08 17:47:57.145469 I /dev/dri/card0: Selected Plane #37 Overlay =
-for video
-2022-04-08 17:47:57.145515 I /dev/dri/card0: Supported DRM video =
-formats: NV12,NV16,NV24,YVYU,VYUY
-2022-04-08 17:47:57.145523 I /dev/dri/card0: Selected Plane #43 Overlay =
-for GUI
-2022-04-08 17:47:57.145567 I /dev/dri/card0: DRM device retrieved from =
-Qt
-2022-04-08 17:47:57.145574 I /dev/dri/card0: Multi-plane setup: =
-Requested: 1 Setup: 1
-
-plane[31]: Smart0-win0
-        crtc=3Dvideo_port0
-        fb=3D53
-                allocated by =3D [fbcon]
-                refcount=3D2
-                format=3DXR24 little-endian (0x34325258)
-                modifier=3D0x0
-                size=3D1920x1080
-                layers:
-                        size[0]=3D1920x1080
-                        pitch[0]=3D7680
-                        offset[0]=3D0
-                        obj[0]:
-                                name=3D0
-                                refcount=3D3
-                                start=3D00000000
-                                size=3D8294400
-                                imported=3Dno
-        crtc-pos=3D1920x1080+0+0
-        src-pos=3D1920.000000x1080.000000+0.000000+0.000000
-        rotation=3D1
-        normalized-zpos=3D0
-        color-encoding=3DITU-R BT.601 YCbCr
-        color-range=3DYCbCr limited range
-plane[37]: Esmart0-win0
-        crtc=3D(null)
-        fb=3D0
-        crtc-pos=3D0x0+0+0
-        src-pos=3D0.000000x0.000000+0.000000+0.000000
-        rotation=3D1
-        normalized-zpos=3D0
-        color-encoding=3DITU-R BT.601 YCbCr
-        color-range=3DYCbCr limited range
-plane[43]: Cluster0-win0
-        crtc=3Dvideo_port0
-        fb=3D58
-                allocated by =3D mythfrontend
-                refcount=3D2
-                format=3DAR24 little-endian (0x34325241)
-                modifier=3D0x0
-                size=3D1920x1080
-                layers:
-                        size[0]=3D1920x1080
-                        pitch[0]=3D7680
-                        offset[0]=3D0
-                        obj[0]:
-                                name=3D0
-                                refcount=3D4
-                                start=3D00000000
-                                size=3D8294400
-                                imported=3Dno
-        crtc-pos=3D1920x1080+0+0
-        src-pos=3D1920.000000x1080.000000+0.000000+0.000000
-        rotation=3D1
-        normalized-zpos=3D1
-        color-encoding=3DITU-R BT.601 YCbCr
-        color-range=3DYCbCr limited range
-crtc[49]: video_port0
-        enable=3D1
-        active=3D1
-        self_refresh_active=3D0
-        planes_changed=3D1
-        mode_changed=3D0
-        active_changed=3D0
-        connectors_changed=3D0
-        color_mgmt_changed=3D0
-        plane_mask=3D5
-        connector_mask=3D1
-        encoder_mask=3D1
-        mode: "1920x1080": 60 148500 1920 2008 2052 2200 1080 1084 1089 =
-1125 0x48 0x5
-connector[51]: HDMI-A-1
-        crtc=3Dvideo_port0
-        self_refresh_aware=3D0 =20
-
-
-
+> Thanks,
+> Lijo
+>
+>> +{
+>> +#if IS_ENABLED(CONFIG_X86_64)
+>> +    struct cpuinfo_x86 *c = &cpu_data(0);
+>> +
+>> +    return (c->x86 == 6 && c->x86_model == INTEL_FAM6_ALDERLAKE);
+>> +#else
+>> +    return false;
+>> +#endif
+>> +}
+>> +
+>>   static void vi_program_aspm(struct amdgpu_device *adev)
+>>   {
+>>       u32 data, data1, orig;
+>>       bool bL1SS = false;
+>>       bool bClkReqSupport = true;
+>>   -    if (!amdgpu_device_should_use_aspm(adev))
+>> +    if (!amdgpu_device_should_use_aspm(adev) || intel_core_apsm_chk())
+>>           return;
+>>         if (adev->flags & AMD_IS_APU ||
+>>
