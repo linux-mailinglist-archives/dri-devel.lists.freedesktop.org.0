@@ -2,29 +2,28 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id D38BC4FC73B
-	for <lists+dri-devel@lfdr.de>; Tue, 12 Apr 2022 00:00:54 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 0AFAF4FC72D
+	for <lists+dri-devel@lfdr.de>; Tue, 12 Apr 2022 00:00:36 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id D908610E3D1;
-	Mon, 11 Apr 2022 22:00:49 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id E8AAF10E357;
+	Mon, 11 Apr 2022 22:00:33 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from bhuna.collabora.co.uk (bhuna.collabora.co.uk
- [IPv6:2a00:1098:0:82:1000:25:2eeb:e3e3])
- by gabe.freedesktop.org (Postfix) with ESMTPS id CB99710E366
- for <dri-devel@lists.freedesktop.org>; Mon, 11 Apr 2022 22:00:30 +0000 (UTC)
+Received: from bhuna.collabora.co.uk (bhuna.collabora.co.uk [46.235.227.227])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 8116010E357
+ for <dri-devel@lists.freedesktop.org>; Mon, 11 Apr 2022 22:00:32 +0000 (UTC)
 Received: from [127.0.0.1] (localhost [127.0.0.1])
- (Authenticated sender: dmitry.osipenko) with ESMTPSA id 36C7E1F43C7E
+ (Authenticated sender: dmitry.osipenko) with ESMTPSA id DB2AE1F43C82
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
- s=mail; t=1649714429;
- bh=1ir1kXOoDBYMTq2gw1c/hNFv88UQm29tKUM6x3KBBGE=;
+ s=mail; t=1649714431;
+ bh=rykbT46970dnwG8XD3/7UFJ4mDKmg/KtVkYLQH0qBew=;
  h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
- b=Rq9PS5kCEv+DC4Qzk/V8M7LTxLVNjUw6NtCNHBxIicMLSquM3gmFjfJ50UFUObwSR
- phhOp/VgAHafTnQ2Gt8W2HOQ9NO3QwSAmxu6pMAmTb7lJaJ/hb+GBGH7cw0qhRtOML
- iRpgWEVaWkEPXR3boR8YIMc8RDx0AC4ls7D98mIO39U5aEZPe4zkldxImrOQyjOTOr
- eNmnv2Q1Z1SYvHOw2py931IbsvaBgk09u0HBXv0vPk4jeowvGaZAnidfg54kRnRc7R
- vX1cvRPURWlCUw+RuJvXGa3tlFEosHaH6eaAi5fFcX8zmTWWZANfChOdd3KKQORbDs
- qHt4IAJtAu5QQ==
+ b=Ynz54hlDD9OMiT6vTyY2rs246aLEQ6s85f9REUWTafcGadzyFiOoKAPgh1085Vxde
+ xh48RRmftrJRm0bxOHSpO6oCIdshqXcROjyBO2HKNoEpcOgzdciVW2py4O3fwqHIvT
+ kPuOqFKs3jLEgbnreRC5er2ffUz4zz/a5Ugw9UkEZL2UAfdjA5fQLzcAPSWDHidFz5
+ Ykx25wi36RZWuR9zGT174kJDEaUEHJhvHeuVI/sciCZkVdW+EjVaTw5ZBh3rBYmZdE
+ pmSEvKwUF0cdmn5eJPq/0PWsY+rEqG5KqIrwwUcZkYmXtjIBUM3qnBUwV+I6FKKII5
+ 9k9a50GhP6obA==
 From: Dmitry Osipenko <dmitry.osipenko@collabora.com>
 To: David Airlie <airlied@linux.ie>, Gerd Hoffmann <kraxel@redhat.com>,
  Gurchetan Singh <gurchetansingh@chromium.org>,
@@ -38,9 +37,10 @@ To: David Airlie <airlied@linux.ie>, Gerd Hoffmann <kraxel@redhat.com>,
  Steven Price <steven.price@arm.com>,
  Alyssa Rosenzweig <alyssa.rosenzweig@collabora.com>,
  Rob Clark <robdclark@gmail.com>
-Subject: [PATCH v3 08/15] drm/virtio: Use dev_is_pci()
-Date: Tue, 12 Apr 2022 00:59:30 +0300
-Message-Id: <20220411215937.281655-9-dmitry.osipenko@collabora.com>
+Subject: [PATCH v3 09/15] drm/shmem-helper: Correct doc-comment of
+ drm_gem_shmem_get_sg_table()
+Date: Tue, 12 Apr 2022 00:59:31 +0300
+Message-Id: <20220411215937.281655-10-dmitry.osipenko@collabora.com>
 X-Mailer: git-send-email 2.35.1
 In-Reply-To: <20220411215937.281655-1-dmitry.osipenko@collabora.com>
 References: <20220411215937.281655-1-dmitry.osipenko@collabora.com>
@@ -66,27 +66,37 @@ Cc: linux-kernel@vger.kernel.org, virtualization@lists.linux-foundation.org,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Use common dev_is_pci() helper to replace the strcmp("pci") used by driver.
+drm_gem_shmem_get_sg_table() never returns NULL on error, but a ERR_PTR.
+Correct the doc comment which says that it returns NULL on error.
 
-Suggested-by: Robin Murphy <robin.murphy@arm.com>
 Signed-off-by: Dmitry Osipenko <dmitry.osipenko@collabora.com>
 ---
- drivers/gpu/drm/virtio/virtgpu_drv.c | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+ drivers/gpu/drm/drm_gem_shmem_helper.c | 5 +++--
+ 1 file changed, 3 insertions(+), 2 deletions(-)
 
-diff --git a/drivers/gpu/drm/virtio/virtgpu_drv.c b/drivers/gpu/drm/virtio/virtgpu_drv.c
-index 0141b7df97ec..0035affc3e59 100644
---- a/drivers/gpu/drm/virtio/virtgpu_drv.c
-+++ b/drivers/gpu/drm/virtio/virtgpu_drv.c
-@@ -87,7 +87,7 @@ static int virtio_gpu_probe(struct virtio_device *vdev)
- 		return PTR_ERR(dev);
- 	vdev->priv = dev;
- 
--	if (!strcmp(vdev->dev.parent->bus->name, "pci")) {
-+	if (dev_is_pci(vdev->dev.parent)) {
- 		ret = virtio_gpu_pci_quirk(dev);
- 		if (ret)
- 			goto err_free;
+diff --git a/drivers/gpu/drm/drm_gem_shmem_helper.c b/drivers/gpu/drm/drm_gem_shmem_helper.c
+index 8ad0e02991ca..30ee46348a99 100644
+--- a/drivers/gpu/drm/drm_gem_shmem_helper.c
++++ b/drivers/gpu/drm/drm_gem_shmem_helper.c
+@@ -662,7 +662,7 @@ EXPORT_SYMBOL(drm_gem_shmem_print_info);
+  * drm_gem_shmem_get_pages_sgt() instead.
+  *
+  * Returns:
+- * A pointer to the scatter/gather table of pinned pages or NULL on failure.
++ * A pointer to the scatter/gather table of pinned pages or errno on failure.
+  */
+ struct sg_table *drm_gem_shmem_get_sg_table(struct drm_gem_shmem_object *shmem)
+ {
+@@ -688,7 +688,8 @@ EXPORT_SYMBOL_GPL(drm_gem_shmem_get_sg_table);
+  * drm_gem_shmem_get_sg_table() should not be directly called by drivers.
+  *
+  * Returns:
+- * A pointer to the scatter/gather table of pinned pages or errno on failure.
++ * A pointer to the scatter/gather table of pinned pages ERR_PTR()-encoded
++ * error code on failure.
+  */
+ struct sg_table *drm_gem_shmem_get_pages_sgt(struct drm_gem_shmem_object *shmem)
+ {
 -- 
 2.35.1
 
