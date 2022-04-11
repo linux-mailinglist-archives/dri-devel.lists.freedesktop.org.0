@@ -1,70 +1,76 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1DD9C4FB2FE
-	for <lists+dri-devel@lfdr.de>; Mon, 11 Apr 2022 06:41:26 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 8487C4FB2FA
+	for <lists+dri-devel@lfdr.de>; Mon, 11 Apr 2022 06:41:16 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 0AD5710EB85;
-	Mon, 11 Apr 2022 04:41:08 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 8BFE010EB66;
+	Mon, 11 Apr 2022 04:41:06 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
+X-Greylist: delayed 393 seconds by postgrey-1.36 at gabe;
+ Mon, 11 Apr 2022 04:41:04 UTC
 Received: from wout1-smtp.messagingengine.com (wout1-smtp.messagingengine.com
  [64.147.123.24])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 6929710EB85
- for <dri-devel@lists.freedesktop.org>; Mon, 11 Apr 2022 04:41:05 +0000 (UTC)
-Received: from compute2.internal (compute2.nyi.internal [10.202.2.46])
- by mailout.west.internal (Postfix) with ESMTP id E7D4D3200D78;
- Mon, 11 Apr 2022 00:34:26 -0400 (EDT)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id E38A810E9E9
+ for <dri-devel@lists.freedesktop.org>; Mon, 11 Apr 2022 04:41:04 +0000 (UTC)
+Received: from compute5.internal (compute5.nyi.internal [10.202.2.45])
+ by mailout.west.internal (Postfix) with ESMTP id 5842032009EF;
+ Mon, 11 Apr 2022 00:34:30 -0400 (EDT)
 Received: from mailfrontend2 ([10.202.2.163])
- by compute2.internal (MEProxy); Mon, 11 Apr 2022 00:34:27 -0400
+ by compute5.internal (MEProxy); Mon, 11 Apr 2022 00:34:31 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=sholland.org; h=
  cc:cc:content-transfer-encoding:date:date:from:from:in-reply-to
- :message-id:mime-version:reply-to:sender:subject:subject:to:to;
- s=fm2; t=1649651666; x=1649738066; bh=UADj43RFHZwY34uGNWFBbRbPs
- ti5GL31jj1csV2jv00=; b=d9sIXm3fZjepfsUk1yqvaRFb2lrDthNzo/KLQoROC
- 6o5jt28hQBuvSMy76jkX+CMUOj0iLNAaSZhC4eL5jarzZ2/xaAe+QcN1l1dnY2Z+
- ZygA/KEdHYZ9Y/lGrFxud+aQAxGYjiEXtmVvu4/p+YykyOi9MZfodx9HX/vSvldg
- ttPuQ+mNOIO0xCzncr5NcUuiksAvs1SNceQpFsuTZ1DbotOAbQ+Mml4ko0RjEb6j
- JCYnix5fJIiKmUwDG4T2gQdQuve4RKUQ6N74jfL6OnGeGlQ+gP4Dtpt9/BPxFTa8
- BxHSENmfaWg7qZK6bxiI5VYFQi9foUogDAofopK1PCwQA==
+ :in-reply-to:message-id:mime-version:references:reply-to:sender
+ :subject:subject:to:to; s=fm2; t=1649651669; x=1649738069; bh=uz
+ 54NS14e7zXJlOyUIZUVcf4KVhO2+zporksnlKNjNk=; b=BfRzkMNNWIIqQOHr7M
+ EagAAanZ6v0dbW1NZlqfLio5ABfsz33OThVXdL7mfZZd+jwddxHEuTwQjHy2m/LJ
+ 6BwYzaPYic3iKoQtKp5tu0iZVQCN2JtI5+aZa737D6sq395S0cpMclqaaMdpuOQU
+ UCqyT20WTf9h+Dg1Lc6Gj5EYAybGUAxON5bvNjeJn8Tl/spdBIgq6UeXIATIS7EJ
+ 7n0R6rkYVPoccXOYvrGTQxzWTn09cgYJqvT6FV9t07rLK+FzYk4S2YWMO9ddFVBE
+ CU1I9Ty2egK758D4D6gn4COLLJ+i5KlaQOwpxwRTPMAdP759bhcs9CAK/0WBaHP+
+ 1GKA==
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
  messagingengine.com; h=cc:cc:content-transfer-encoding:date:date
- :from:from:in-reply-to:message-id:mime-version:reply-to:sender
- :subject:subject:to:to:x-me-proxy:x-me-proxy:x-me-sender
- :x-me-sender:x-sasl-enc; s=fm3; t=1649651666; x=1649738066; bh=U
- ADj43RFHZwY34uGNWFBbRbPsti5GL31jj1csV2jv00=; b=YYz7e9VAgM1dCGVTV
- /uK6eUgwClFPFYcNmNkwRyn7gKopKOYIAcZTFtS/tGm7uI4Nh+1Fy3Y+0RoD1qDq
- dRhTs3ja8m8jutojKg+GLZPUtfdhIsv35IVcWn8vSbjDGmw119+gSe7SOqexonQn
- zLcAsE8vSBNXfj4nQV1uZlIXB1TnnidSKcCzSNnSh4+IpSaf5vGmJNRBH7xoc53I
- 5R5/b2p5xvRnEWJsteszHCj1B0LeuaUVLNmuCvu9WWaUcA+1tX8P8XuCcbpSdzH2
- 26KSkkYKGigk9UTcbBe0uXV5rHmEcK15LnUzeXoetgmk/4SaBiFk8MVvqkw8wH6I
- 8rUMQ==
-X-ME-Sender: <xms:0a9TYv-p6Q5nuleDPFcP87OHhxG2kU9zyfAs8LPWhEjD4OZS8FUXTQ>
- <xme:0a9TYruXQmmlRW4rKYGRqO-hFy-mWInFpsWpp_hK6aw58jwQtR94jaMTYW3AFQ7Is
- SzL8LBqMZ9wQGIYPw>
-X-ME-Received: <xmr:0a9TYtD0cKdslGAxW1FwNE8Bv-SZsr7aaEmKUaJl4_IHp1-bB1JYbibt0G4HHqFuS2snWPgbtQR36bP2L8KZdNuahAgflwXvnnHzl-rDAeYGnkzkFzfpf074dOW4wwIg5atnmA>
-X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvvddrudekhedgkedtucetufdoteggodetrfdotf
+ :from:from:in-reply-to:in-reply-to:message-id:mime-version
+ :references:reply-to:sender:subject:subject:to:to:x-me-proxy
+ :x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=fm3; t=
+ 1649651669; x=1649738069; bh=uz54NS14e7zXJlOyUIZUVcf4KVhO2+zpork
+ snlKNjNk=; b=XTFrVSgraIw5wg8qxb+I9ZAh8b59dMn/i+5rkW6jIB1W69xQsOf
+ WpmcuEA54SaMn+M1rirJxd9QIv5n6S+ghA2amo2epQ1FDF43WtDRbS1iQX2Nzv0i
+ YtSC+gNSuxqe2LZdyKStVnWzmt4Bz0d48/7qUp1dXV6Hi0BnrZdi3wAjJIFtNje+
+ 6AqVh9CY5q6gEhE4z1kRLVygHm4lkF97KZkFTTbaTnf6Lcdw57nXss45Vvu5k5Gs
+ SoHdXOiqLxj2e+Ob4WD4RjNT7MO95aQM64nMNv4ssUmBMxkchiBC7viNH0/Et6Ex
+ mkoh2j0n+KSrcB/WuDcR+zDug5o0fQiLCPw==
+X-ME-Sender: <xms:1a9TYpGSPtSQTSSuwjYTpGo2ajfV71tzSRmQ0_XeDs4q_9__0rkJMw>
+ <xme:1a9TYuXJ9LlLNXQdhYlrfGVoSEil6g-Yxl4CDnCgaXFqN_b1m52wr1o-WY7wuh5mK
+ PhWFPpHmBpsjT-fYw>
+X-ME-Received: <xmr:1a9TYrIMGseNYjC_jPCnE6wUe_sjjk772tGOAoVdraJZoy_Cqik9ivreVttI9M4QW8fKDuzliJzJ6cDLiDTbeICcOhVIcgfyKOkfs1w3GGzYCIyNxQqrjz2SL6IRNMG7VsZy8Q>
+X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvvddrudekhedgjeelucetufdoteggodetrfdotf
  fvucfrrhhofhhilhgvmecuhfgrshhtofgrihhlpdfqfgfvpdfurfetoffkrfgpnffqhgen
  uceurghilhhouhhtmecufedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmne
- cujfgurhephffvufffkffoggfgsedtkeertdertddtnecuhfhrohhmpefurghmuhgvlhcu
- jfholhhlrghnugcuoehsrghmuhgvlhesshhhohhllhgrnhgurdhorhhgqeenucggtffrrg
- htthgvrhhnpeeiteekhfehuddugfeltddufeejjeefgeevheekueffhffhjeekheeiffdt
- vedtveenucevlhhushhtvghrufhiiigvpedtnecurfgrrhgrmhepmhgrihhlfhhrohhmpe
- hsrghmuhgvlhesshhhohhllhgrnhgurdhorhhg
-X-ME-Proxy: <xmx:0a9TYreIrhsxN46nReyzw4kSGGcCxNwQ7RKO5eK8fzGiDXg6r4z7_w>
- <xmx:0a9TYkNkHI9965TaJKmaUG9kmGG7VwOfxO3ijqEkhusPmAtaKN33NA>
- <xmx:0a9TYtl-1XkY6jNrt8ECdRTW2Tv2FpLcshbeNEJKMHUj4U6529nPtQ>
- <xmx:0q9TYtn5HLMATeVFiRfwfR27Ml3yplO4ZtHnYUk8p9Ojiw_5enLb1w>
+ cujfgurhephffvufffkffojghfggfgsedtkeertdertddtnecuhfhrohhmpefurghmuhgv
+ lhcujfholhhlrghnugcuoehsrghmuhgvlhesshhhohhllhgrnhgurdhorhhgqeenucggtf
+ frrghtthgvrhhnpeduhfejfedvhffgfeehtefghfeiiefgfeehgfdvvdevfeegjeehjedv
+ gfejheeuieenucevlhhushhtvghrufhiiigvpedtnecurfgrrhgrmhepmhgrihhlfhhroh
+ hmpehsrghmuhgvlhesshhhohhllhgrnhgurdhorhhg
+X-ME-Proxy: <xmx:1a9TYvG_eoLFcDNCsIHdkFhpB3PY_G1-iYTkLof7MmQqCTPyCFDvVQ>
+ <xmx:1a9TYvUDJgMXS5bRQVHpaYsJefuoxBcNZz-cafJ5MNtZJe4Zkvc_OA>
+ <xmx:1a9TYqNpgBtKfJ9NMS3atu07VoLd7-3lUExv2Oso1DiXy3PdkPNMXA>
+ <xmx:1a9TYiMr4DjmxHjztURPW3onnndcoHDijs06OLVQ8JYuRC4p3tPllg>
 Received: by mail.messagingengine.com (Postfix) with ESMTPA; Mon,
- 11 Apr 2022 00:34:24 -0400 (EDT)
+ 11 Apr 2022 00:34:28 -0400 (EDT)
 From: Samuel Holland <samuel@sholland.org>
 To: Chen-Yu Tsai <wens@csie.org>, Jernej Skrabec <jernej.skrabec@gmail.com>,
  Maxime Ripard <mripard@kernel.org>
-Subject: [PATCH 00/10] drm/sun4i: Allwinner D1 Display Engine 2.0 Support
-Date: Sun, 10 Apr 2022 23:34:12 -0500
-Message-Id: <20220411043423.37333-1-samuel@sholland.org>
+Subject: [PATCH 01/10] dt-bindings: display: Separate clock item lists by
+ compatible
+Date: Sun, 10 Apr 2022 23:34:13 -0500
+Message-Id: <20220411043423.37333-2-samuel@sholland.org>
 X-Mailer: git-send-email 2.35.1
+In-Reply-To: <20220411043423.37333-1-samuel@sholland.org>
+References: <20220411043423.37333-1-samuel@sholland.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
@@ -87,42 +93,158 @@ Cc: devicetree@vger.kernel.org, Samuel Holland <samuel@sholland.org>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-This series adds binding and driver support for Display Engine 2.0
-variant found in the Allwinner D1.
+So far, the binding and driver have relied on the fact that the H6
+clocks are both a prefix and a subset of the R40 clocks. This allows
+them to share the clocks/clock-names items and the clock-output-names
+order between the hardware variants.
 
-So far it has only been tested with HDMI. I will be sending the HDMI
-support series separately, because the hardware comes with a brand new
-custom HDMI PHY, which requires some refactoring to support cleanly.
+However, the D1 hardware has TCON TV0 and DSI, but no TCON TV1. This
+cannot be supported by the existing scheme because it puts a gap in the
+middle of the item lists. To prepare for adding D1 support, use separate
+lists for variants with different combinations of clocks.
 
+Signed-off-by: Samuel Holland <samuel@sholland.org>
+---
 
-Samuel Holland (10):
-  dt-bindings: display: Separate clock item lists by compatible
-  dt-bindings: display: Add D1 display engine compatibles
-  drm/sun4i: Remove obsolete references to PHYS_OFFSET
-  drm/sun4i: Allow building the driver on RISC-V
-  drm/sun4i: csc: Add support for the new MMIO layout
-  drm/sun4i: Allow VI layers to be primary planes
-  drm/sun4i: Add support for D1 mixers
-  drm/sun4i: Add support for D1 TCON TOP
-  drm/sun4i: Add support for D1 TCONs
-  drm/sun4i: Add compatible for D1 display engine
+ .../display/allwinner,sun8i-r40-tcon-top.yaml | 111 +++++++++++-------
+ 1 file changed, 67 insertions(+), 44 deletions(-)
 
- .../allwinner,sun4i-a10-display-engine.yaml   |   1 +
- .../display/allwinner,sun4i-a10-tcon.yaml     |   2 +
- .../allwinner,sun8i-a83t-de2-mixer.yaml       |   2 +
- .../display/allwinner,sun8i-r40-tcon-top.yaml | 145 ++++++++++++------
- drivers/gpu/drm/sun4i/Kconfig                 |   2 +-
- drivers/gpu/drm/sun4i/sun4i_drv.c             |   1 +
- drivers/gpu/drm/sun4i/sun4i_frontend.c        |   3 -
- drivers/gpu/drm/sun4i/sun4i_tcon.c            |   8 +
- drivers/gpu/drm/sun4i/sun8i_csc.c             |   3 +-
- drivers/gpu/drm/sun4i/sun8i_csc.h             |   1 +
- drivers/gpu/drm/sun4i/sun8i_mixer.c           |  26 ++++
- drivers/gpu/drm/sun4i/sun8i_mixer.h           |   6 +-
- drivers/gpu/drm/sun4i/sun8i_tcon_top.c        |  15 +-
- drivers/gpu/drm/sun4i/sun8i_vi_layer.c        |  36 ++++-
- 14 files changed, 196 insertions(+), 55 deletions(-)
-
+diff --git a/Documentation/devicetree/bindings/display/allwinner,sun8i-r40-tcon-top.yaml b/Documentation/devicetree/bindings/display/allwinner,sun8i-r40-tcon-top.yaml
+index 61ef7b337218..784b267635fb 100644
+--- a/Documentation/devicetree/bindings/display/allwinner,sun8i-r40-tcon-top.yaml
++++ b/Documentation/devicetree/bindings/display/allwinner,sun8i-r40-tcon-top.yaml
+@@ -48,31 +48,15 @@ properties:
+ 
+   clocks:
+     minItems: 2
+-    items:
+-      - description: The TCON TOP interface clock
+-      - description: The TCON TOP TV0 clock
+-      - description: The TCON TOP TVE0 clock
+-      - description: The TCON TOP TV1 clock
+-      - description: The TCON TOP TVE1 clock
+-      - description: The TCON TOP MIPI DSI clock
++    maxItems: 6
+ 
+   clock-names:
+     minItems: 2
+-    items:
+-      - const: bus
+-      - const: tcon-tv0
+-      - const: tve0
+-      - const: tcon-tv1
+-      - const: tve1
+-      - const: dsi
++    maxItems: 6
+ 
+   clock-output-names:
+     minItems: 1
+     maxItems: 3
+-    description: >
+-      The first item is the name of the clock created for the TV0
+-      channel, the second item is the name of the TCON TV1 channel
+-      clock and the third one is the name of the DSI channel clock.
+ 
+   resets:
+     maxItems: 1
+@@ -129,32 +113,71 @@ required:
+ 
+ additionalProperties: false
+ 
+-if:
+-  properties:
+-    compatible:
+-      contains:
+-        const: allwinner,sun50i-h6-tcon-top
+-
+-then:
+-  properties:
+-    clocks:
+-      maxItems: 2
+-
+-    clock-output-names:
+-      maxItems: 1
+-
+-else:
+-  properties:
+-    clocks:
+-      minItems: 6
+-
+-    clock-output-names:
+-      minItems: 3
+-
+-    ports:
+-      required:
+-        - port@2
+-        - port@3
++allOf:
++  - if:
++      properties:
++        compatible:
++          contains:
++            const: allwinner,sun8i-r40-tcon-top
++
++    then:
++      properties:
++        clocks:
++          minItems: 6
++          items:
++            - description: The TCON TOP interface clock
++            - description: The TCON TOP TV0 clock
++            - description: The TCON TOP TVE0 clock
++            - description: The TCON TOP TV1 clock
++            - description: The TCON TOP TVE1 clock
++            - description: The TCON TOP MIPI DSI clock
++
++        clock-names:
++          minItems: 6
++          items:
++            - const: bus
++            - const: tcon-tv0
++            - const: tve0
++            - const: tcon-tv1
++            - const: tve1
++            - const: dsi
++
++        clock-output-names:
++          minItems: 3
++          items:
++            - description: TCON TV0 output clock name
++            - description: TCON TV1 output clock name
++            - description: DSI output clock name
++
++        ports:
++          required:
++            - port@2
++            - port@3
++
++  - if:
++      properties:
++        compatible:
++          contains:
++            const: allwinner,sun50i-h6-tcon-top
++
++    then:
++      properties:
++        clocks:
++          maxItems: 2
++          items:
++            - description: The TCON TOP interface clock
++            - description: The TCON TOP TV0 clock
++
++        clock-names:
++          maxItems: 2
++          items:
++            - const: bus
++            - const: tcon-tv0
++
++        clock-output-names:
++          maxItems: 1
++          items:
++            - description: TCON TV0 output clock name
+ 
+ examples:
+   - |
 -- 
 2.35.1
 
