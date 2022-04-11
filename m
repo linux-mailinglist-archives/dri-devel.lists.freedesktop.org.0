@@ -1,50 +1,77 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7B34A4FBE34
-	for <lists+dri-devel@lfdr.de>; Mon, 11 Apr 2022 16:02:15 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 02EBD4FBE5D
+	for <lists+dri-devel@lfdr.de>; Mon, 11 Apr 2022 16:08:09 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 496ED10F749;
-	Mon, 11 Apr 2022 14:02:13 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 98F6A10F267;
+	Mon, 11 Apr 2022 14:08:04 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mga09.intel.com (mga09.intel.com [134.134.136.24])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 353B010F748;
- Mon, 11 Apr 2022 14:02:12 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1649685732; x=1681221732;
- h=from:to:cc:subject:date:message-id:in-reply-to:
- references:mime-version:content-transfer-encoding;
- bh=8I4SSzmngspo0Z8Lz1kRe+dzgDyTF6F0PtgW/6Fxe+c=;
- b=Fi8G7ujLv4O8PqASFzrdpAJYFPV7e33ei49PxE10vbTn2Xq/PH7LRIuZ
- XXm8R66OMM6EO95deakvR6pGsSROwMOeyvHa4uAqk6SKqcwSp8oxxnH3P
- WuVUzLU3SGohuvadZb/nuzs3d9dB6khJXzqC4981EfETEWtwbNkfxI7UT
- +arhJtl7poq7VOKfSlw8bS+UO87LEpqZd5jeZPfGBZpIdCoy1f7C+N1iF
- dlnyhvt6mnoCRz/e2xrBrphSQQLCyI0qaQVGI1xBY75SWHluQMVzBzu/j
- 4v6gwi2Zr4PWAEI1Y6wb7yZ3Hnuc/A/NEeOvKxOHG5WHVcaV8ybLho0rV Q==;
-X-IronPort-AV: E=McAfee;i="6400,9594,10313"; a="261560293"
-X-IronPort-AV: E=Sophos;i="5.90,252,1643702400"; d="scan'208";a="261560293"
-Received: from orsmga004.jf.intel.com ([10.7.209.38])
- by orsmga102.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 11 Apr 2022 07:01:42 -0700
-X-IronPort-AV: E=Sophos;i="5.90,252,1643702400"; d="scan'208";a="660059218"
-Received: from lwit-desk1.ger.corp.intel.com (HELO localhost) ([10.249.143.43])
- by orsmga004-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 11 Apr 2022 07:01:40 -0700
-From: Jani Nikula <jani.nikula@intel.com>
-To: dri-devel@lists.freedesktop.org
-Subject: [CI v3 12/12] drm/edid: add EDID block count and size helpers
-Date: Mon, 11 Apr 2022 17:00:35 +0300
-Message-Id: <dc7b0850293d837439fb3914c8a9d81e39018b4b.1649685475.git.jani.nikula@intel.com>
-X-Mailer: git-send-email 2.30.2
-In-Reply-To: <cover.1649685475.git.jani.nikula@intel.com>
-References: <cover.1649685475.git.jani.nikula@intel.com>
+Received: from out4-smtp.messagingengine.com (out4-smtp.messagingengine.com
+ [66.111.4.28])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 7E2A110F267
+ for <dri-devel@lists.freedesktop.org>; Mon, 11 Apr 2022 14:08:02 +0000 (UTC)
+Received: from compute5.internal (compute5.nyi.internal [10.202.2.45])
+ by mailout.nyi.internal (Postfix) with ESMTP id 7BD5B5C0154;
+ Mon, 11 Apr 2022 10:08:01 -0400 (EDT)
+Received: from mailfrontend1 ([10.202.2.162])
+ by compute5.internal (MEProxy); Mon, 11 Apr 2022 10:08:01 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=cerno.tech; h=cc
+ :cc:content-type:date:date:from:from:in-reply-to:in-reply-to
+ :message-id:mime-version:references:reply-to:sender:subject
+ :subject:to:to; s=fm3; t=1649686081; x=1649772481; bh=bfGmTzu1G0
+ if/R4EHfaxRpk9Qy8B+I+nG3pBPzlqFag=; b=JdmWs+aEl8IxiRNNWYk9R5xve3
+ mn5Kk8gzoj6qobT8pmp4SEFHkZlRQKRCrA5Rm2sjGbVCdkaF/3K4CGm/C9VUCtA+
+ Wzz+gEEhZx5m6ySFmxHM5ODMnG94ruxvd1j5n1oE6IXb7PTspBeECWTp+qAwzyCn
+ Jfpi5eC6D1cnZSnkarrVwTb4SjBUEfCkMIUMBj3S1C6sq7Pgxe/pedBrBqivdyL5
+ 3iJDJYjp71xe3zNTWpjvSu6O1WVIhi2kjbglOo5JZoSZeGaowgkXcgi8Q6Bk83ol
+ wWquLahChUqjocDWkTg9w9pVmpy0N48pR0imbuE78Eb3dwrNVwuVTvoq7yZA==
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
+ messagingengine.com; h=cc:cc:content-type:date:date:from:from
+ :in-reply-to:in-reply-to:message-id:mime-version:references
+ :reply-to:sender:subject:subject:to:to:x-me-proxy:x-me-proxy
+ :x-me-sender:x-me-sender:x-sasl-enc; s=fm3; t=1649686081; x=
+ 1649772481; bh=bfGmTzu1G0if/R4EHfaxRpk9Qy8B+I+nG3pBPzlqFag=; b=E
+ VYUwVpFxYA88MGSnoFdp8OPDMfY5E9q8V/62/xdVPZ2Ql0KopoBxj6t47lAoBR7u
+ 7osSWga8kbNqhos5sNgKiM47fs34Shpr/zwYXGJPvtGMyaVEdRYsnWPW9oGzx0mU
+ iE+92cw+NRfMCxLvmhOJXFmnMaGknsOo+kX3MVvk0iL041sms8Bdi90ngYJ05aqw
+ piiGtsPDzgkoLRZVHlZ7nxJOyy62WzQOwWYSc0RQu4e67UxB0yxPynPg+eIWGQ2Y
+ CwzDaPgav2yC7gAEKeo8fjESrnMb5+zU6J8+ZoVZb6L79m8ZIzWS2M9midx1ZiyN
+ BnsPu+ghBSWAfQBHFS4NQ==
+X-ME-Sender: <xms:QDZUYp3nwm85wCVc_m4CdsZH7rXabu7yGLLgS4V5UAETgJEBpbDMKw>
+ <xme:QDZUYgHIxaQ7OhfxmZ6IMsb1Q9X1xcACins1FKIFTXS9JjEsO87nftcxuA_Dv2ski
+ cedQpanbfeD_gm_qHY>
+X-ME-Received: <xmr:QDZUYp5mMxAOV7-Z4DNBYg8dPHk-JbE8nZcgvxw4AvRMWSZrnlPdjT2AMgYZBGTGGXOPd96yYSF4rX7gkFx-4vu2GOPLFbL98Ot-ADI>
+X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvvddrudekiedgjeefucetufdoteggodetrfdotf
+ fvucfrrhhofhhilhgvmecuhfgrshhtofgrihhlpdfqfgfvpdfurfetoffkrfgpnffqhgen
+ uceurghilhhouhhtmecufedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmne
+ cujfgurhepfffhvffukfhfgggtuggjsehgtderredttddvnecuhfhrohhmpeforgigihhm
+ vgcutfhiphgrrhguuceomhgrgihimhgvsegtvghrnhhordhtvggthheqnecuggftrfgrth
+ htvghrnhepveevfeffudeviedtgeethffhteeuffetfeffvdehvedvheetteehvdelfffg
+ jedvnecuffhomhgrihhnpehkvghrnhgvlhdrohhrghenucevlhhushhtvghrufhiiigvpe
+ dtnecurfgrrhgrmhepmhgrihhlfhhrohhmpehmrgigihhmvgestggvrhhnohdrthgvtghh
+X-ME-Proxy: <xmx:QDZUYm0RoPZY2LUUC-pzvEmlDfePjsuSmTqqW5Kz9V_9UEoqbDqqdA>
+ <xmx:QDZUYsEdj6TZTxI07NIkf5amiU56yvlQub9PjAEUBtxY1LW91-gY6Q>
+ <xmx:QDZUYn-tffKVY8MYtPn0WZz18jwLuuE0eVPWVhasGXv3AGCnpDOQwA>
+ <xmx:QTZUYqULYUv5HwP4xaL6gktaHMrVkiS6EGGhXrDFqD-7rgO76lcWrA>
+Received: by mail.messagingengine.com (Postfix) with ESMTPA; Mon,
+ 11 Apr 2022 10:08:00 -0400 (EDT)
+Date: Mon, 11 Apr 2022 16:07:57 +0200
+From: Maxime Ripard <maxime@cerno.tech>
+To: Lucas Stach <l.stach@pengutronix.de>
+Subject: Re: [PATCH v0 07/10] phy: freescale: add Samsung HDMI PHY
+Message-ID: <20220411140757.724qo6w3pxoihgwd@houat>
+References: <20220406160123.1272911-1-l.stach@pengutronix.de>
+ <20220406160123.1272911-8-l.stach@pengutronix.de>
+ <20220411115922.luv2gyutdecvsxa3@houat>
+ <f2fc68f6c2034546009c96658da0e63f191978d1.camel@pengutronix.de>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
-Content-Transfer-Encoding: 8bit
+Content-Type: multipart/signed; micalg=pgp-sha512;
+ protocol="application/pgp-signature"; boundary="buxh2zhgj6qtfcrc"
+Content-Disposition: inline
+In-Reply-To: <f2fc68f6c2034546009c96658da0e63f191978d1.camel@pengutronix.de>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -57,204 +84,76 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: jani.nikula@intel.com, intel-gfx@lists.freedesktop.org
+Cc: devicetree@vger.kernel.org, Pengutronix Kernel Team <kernel@pengutronix.de>,
+ Neil Armstrong <narmstrong@baylibre.com>, Shawn Guo <shawnguo@kernel.org>,
+ dri-devel@lists.freedesktop.org, Vinod Koul <vkoul@kernel.org>,
+ Robert Foss <robert.foss@linaro.org>, Kishon Vijay Abraham I <kishon@ti.com>,
+ Andrzej Hajda <andrzej.hajda@intel.com>, Rob Herring <robh+dt@kernel.org>,
+ NXP Linux Team <linux-imx@nxp.com>, linux-phy@lists.infradead.org,
+ Krzysztof Kozlowski <krzk+dt@kernel.org>, patchwork-lst@pengutronix.de,
+ linux-arm-kernel@lists.infradead.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Add some helpers to figure out the EDID extension block count, block
-count, size, pointers to blocks.
 
-Unfortunately, we'll need to cast away the const in a few places where
-we actually need to access the data.
+--buxh2zhgj6qtfcrc
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
-v3: fix (!edid_extension_block_count(edid) == 0) (kernel test robot)
+On Mon, Apr 11, 2022 at 02:20:22PM +0200, Lucas Stach wrote:
+> Hi Maxime,
+>=20
+> Am Montag, dem 11.04.2022 um 13:59 +0200 schrieb Maxime Ripard:
+> > Hi Lucas,
+> >=20
+> > On Wed, Apr 06, 2022 at 06:01:20PM +0200, Lucas Stach wrote:
+> > > +static unsigned long phy_clk_recalc_rate(struct clk_hw *hw,
+> > > +					 unsigned long parent_rate)
+> > > +{
+> > > +	struct fsl_samsung_hdmi_phy *phy =3D to_fsl_samsung_hdmi_phy(hw);
+> > > +
+> > > +	if (!phy->cur_cfg)
+> > > +		return 0;
+> > > +
+> > > +	return phy->cur_cfg->clk_rate;
+> > > +}
+> >=20
+> > This means that the clock will return 0 at initialization, which will
+> > throw the rate accounting in the CCF off.
+> >=20
+> > Returning 0 here isn't valid. Surely that phy has a default
+> > configuration at boot that you could use to initialize a rate?
+> >=20
+> > See https://lore.kernel.org/linux-clk/20220408091037.2041955-1-maxime@c=
+erno.tech/
+>=20
+> Thanks for the hint. I don't know the full history of this and surely I
+> can use the register reset defaults to initialize the clock rate, but
+> it still seems odd. A powered down clock generator, like the PLL in
+> this PHY, is not actually putting out a clock at any rate, so 0 for the
+> rate seems natural, so it's kind of a bad pitfall if the CCF can't deal
+> with that.
 
-v2: fix s/j/i/ introduced in a rebase
+Yeah, it's what that whole discussion has been about, but my
+understanding is that clk_get_rate() (and thus .recalc_rate) don't
+necessarily return the actual output rate in hardware, but the rate that
+would be output if the clock was enabled.
 
-Signed-off-by: Jani Nikula <jani.nikula@intel.com>
-Reviewed-by: Ville Syrjälä <ville.syrjala@linux.intel.com>
----
- drivers/gpu/drm/drm_edid.c | 80 +++++++++++++++++++++++++++-----------
- 1 file changed, 57 insertions(+), 23 deletions(-)
+Anyway, I've ping'd Stephen on IRC to see if he can clarifies this, we
+won't have an issue on this before then I'm afraid :)
 
-diff --git a/drivers/gpu/drm/drm_edid.c b/drivers/gpu/drm/drm_edid.c
-index 0933a5c44998..e2739f06d72b 100644
---- a/drivers/gpu/drm/drm_edid.c
-+++ b/drivers/gpu/drm/drm_edid.c
-@@ -1568,6 +1568,38 @@ static const struct drm_display_mode edid_4k_modes[] = {
- 
- /*** DDC fetch and block validation ***/
- 
-+static int edid_extension_block_count(const struct edid *edid)
-+{
-+	return edid->extensions;
-+}
-+
-+static int edid_block_count(const struct edid *edid)
-+{
-+	return edid_extension_block_count(edid) + 1;
-+}
-+
-+static int edid_size_by_blocks(int num_blocks)
-+{
-+	return num_blocks * EDID_LENGTH;
-+}
-+
-+static int edid_size(const struct edid *edid)
-+{
-+	return edid_size_by_blocks(edid_block_count(edid));
-+}
-+
-+static const void *edid_block_data(const struct edid *edid, int index)
-+{
-+	BUILD_BUG_ON(sizeof(*edid) != EDID_LENGTH);
-+
-+	return edid + index;
-+}
-+
-+static const void *edid_extension_block_data(const struct edid *edid, int index)
-+{
-+	return edid_block_data(edid, index + 1);
-+}
-+
- static const u8 edid_header[] = {
- 	0x00, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0x00
- };
-@@ -1654,8 +1686,8 @@ bool drm_edid_are_equal(const struct edid *edid1, const struct edid *edid2)
- 		return false;
- 
- 	if (edid1) {
--		edid1_len = EDID_LENGTH * (1 + edid1->extensions);
--		edid2_len = EDID_LENGTH * (1 + edid2->extensions);
-+		edid1_len = edid_size(edid1);
-+		edid2_len = edid_size(edid2);
- 
- 		if (edid1_len != edid2_len)
- 			return false;
-@@ -1865,14 +1897,16 @@ EXPORT_SYMBOL(drm_edid_block_valid);
- bool drm_edid_is_valid(struct edid *edid)
- {
- 	int i;
--	u8 *raw = (u8 *)edid;
- 
- 	if (!edid)
- 		return false;
- 
--	for (i = 0; i <= edid->extensions; i++)
--		if (!drm_edid_block_valid(raw + i * EDID_LENGTH, i, true, NULL))
-+	for (i = 0; i < edid_block_count(edid); i++) {
-+		void *block = (void *)edid_block_data(edid, i);
-+
-+		if (!drm_edid_block_valid(block, i, true, NULL))
- 			return false;
-+	}
- 
- 	return true;
- }
-@@ -1885,13 +1919,13 @@ static struct edid *edid_filter_invalid_blocks(const struct edid *edid,
- 	int valid_extensions = edid->extensions - invalid_blocks;
- 	int i;
- 
--	new = kmalloc_array(valid_extensions + 1, EDID_LENGTH, GFP_KERNEL);
-+	new = kmalloc(edid_size_by_blocks(valid_extensions + 1), GFP_KERNEL);
- 	if (!new)
- 		goto out;
- 
- 	dest_block = new;
--	for (i = 0; i <= edid->extensions; i++) {
--		const void *block = edid + i;
-+	for (i = 0; i < edid_block_count(edid); i++) {
-+		const void *block = edid_block_data(edid, i);
- 
- 		if (edid_block_valid(block, i == 0))
- 			memcpy(dest_block++, block, EDID_LENGTH);
-@@ -2101,7 +2135,7 @@ struct edid *drm_do_get_edid(struct drm_connector *connector,
- 			     void *context)
- {
- 	enum edid_block_status status;
--	int j, invalid_blocks = 0;
-+	int i, invalid_blocks = 0;
- 	struct edid *edid, *new;
- 
- 	edid = drm_get_override_edid(connector);
-@@ -2133,20 +2167,20 @@ struct edid *drm_do_get_edid(struct drm_connector *connector,
- 		goto fail;
- 	}
- 
--	if (edid->extensions == 0)
-+	if (!edid_extension_block_count(edid))
- 		goto ok;
- 
--	new = krealloc(edid, (edid->extensions + 1) * EDID_LENGTH, GFP_KERNEL);
-+	new = krealloc(edid, edid_size(edid), GFP_KERNEL);
- 	if (!new)
- 		goto fail;
- 	edid = new;
- 
--	for (j = 1; j <= edid->extensions; j++) {
--		void *block = edid + j;
-+	for (i = 1; i < edid_block_count(edid); i++) {
-+		void *block = (void *)edid_block_data(edid, i);
- 
--		status = edid_block_read(block, j, read_block, context);
-+		status = edid_block_read(block, i, read_block, context);
- 
--		edid_block_status_print(status, block, j);
-+		edid_block_status_print(status, block, i);
- 
- 		if (!edid_block_status_valid(status, edid_block_tag(block))) {
- 			if (status == EDID_BLOCK_READ_FAIL)
-@@ -2156,7 +2190,7 @@ struct edid *drm_do_get_edid(struct drm_connector *connector,
- 	}
- 
- 	if (invalid_blocks) {
--		connector_bad_edid(connector, edid, edid->extensions + 1);
-+		connector_bad_edid(connector, edid, edid_block_count(edid));
- 
- 		edid = edid_filter_invalid_blocks(edid, invalid_blocks);
- 	}
-@@ -2321,7 +2355,7 @@ EXPORT_SYMBOL(drm_get_edid_switcheroo);
-  */
- struct edid *drm_edid_duplicate(const struct edid *edid)
- {
--	return kmemdup(edid, (edid->extensions + 1) * EDID_LENGTH, GFP_KERNEL);
-+	return kmemdup(edid, edid_size(edid), GFP_KERNEL);
- }
- EXPORT_SYMBOL(drm_edid_duplicate);
- 
-@@ -2505,8 +2539,8 @@ drm_for_each_detailed_block(const struct edid *edid, detailed_cb *cb, void *clos
- 	for (i = 0; i < EDID_DETAILED_TIMINGS; i++)
- 		cb(&(edid->detailed_timings[i]), closure);
- 
--	for (i = 1; i <= edid->extensions; i++) {
--		const u8 *ext = (const u8 *)edid + (i * EDID_LENGTH);
-+	for (i = 0; i < edid_extension_block_count(edid); i++) {
-+		const u8 *ext = edid_extension_block_data(edid, i);
- 
- 		switch (*ext) {
- 		case CEA_EXT:
-@@ -3476,17 +3510,17 @@ const u8 *drm_find_edid_extension(const struct edid *edid,
- 	int i;
- 
- 	/* No EDID or EDID extensions */
--	if (edid == NULL || edid->extensions == 0)
-+	if (!edid || !edid_extension_block_count(edid))
- 		return NULL;
- 
- 	/* Find CEA extension */
--	for (i = *ext_index; i < edid->extensions; i++) {
--		edid_ext = (const u8 *)edid + EDID_LENGTH * (i + 1);
-+	for (i = *ext_index; i < edid_extension_block_count(edid); i++) {
-+		edid_ext = edid_extension_block_data(edid, i);
- 		if (edid_block_tag(edid_ext) == ext_id)
- 			break;
- 	}
- 
--	if (i >= edid->extensions)
-+	if (i >= edid_extension_block_count(edid))
- 		return NULL;
- 
- 	*ext_index = i + 1;
--- 
-2.30.2
+Maxime
 
+--buxh2zhgj6qtfcrc
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iHUEABYKAB0WIQRcEzekXsqa64kGDp7j7w1vZxhRxQUCYlQ2PQAKCRDj7w1vZxhR
+xXDkAP93cwLcJdeklDCJsSAldhyh0WAGg/JE7pBpAEEjGffTAgEAgZpfIhFD672z
+t+oxtMzXL0GHXKdzUY6Kch6Jn3vVtwc=
+=QPPB
+-----END PGP SIGNATURE-----
+
+--buxh2zhgj6qtfcrc--
