@@ -1,48 +1,50 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id ED46D4FB5F9
-	for <lists+dri-devel@lfdr.de>; Mon, 11 Apr 2022 10:29:13 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 4920B4FB61A
+	for <lists+dri-devel@lfdr.de>; Mon, 11 Apr 2022 10:34:27 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id DF97710EF6B;
-	Mon, 11 Apr 2022 08:29:11 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id CE38010F1DE;
+	Mon, 11 Apr 2022 08:34:24 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from ams.source.kernel.org (ams.source.kernel.org [145.40.68.75])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 3622A10EE8D
- for <dri-devel@lists.freedesktop.org>; Mon, 11 Apr 2022 08:29:10 +0000 (UTC)
-Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
- (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
- (No client certificate requested)
- by ams.source.kernel.org (Postfix) with ESMTPS id B5AD2B81128;
- Mon, 11 Apr 2022 08:29:08 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 04495C385A5;
- Mon, 11 Apr 2022 08:29:06 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linuxfoundation.org;
- s=korg; t=1649665747;
- bh=oDjiPHzF839XHAw2xbm1Q8hXBfkvpEMnySzOftrrJu8=;
- h=Subject:To:Cc:From:Date:From;
- b=RjWi5r3DpSS7SBWcg2SJJVD4fhZpf2KNh76LEVpuZxdGF+W2gCs1yjIY0SYJV4zNX
- 7gx2n6d7Qr7H8PNtlBi+5UfvmpDhq0F50ZNPwfSVpgUDAUQhlcB0D6r4/4ApDpPHMD
- RlSD1xTS3DNKsdcUw+iYr3r4OYJiELnSj4jqma8o=
-Subject: Patch "fbdev: Fix unregistering of framebuffers without device" has
- been added to the 5.17-stable tree
-To: alexander.deucher@amd.com, daniel.vetter@ffwll.ch, deller@gmx.de,
- dri-devel@lists.freedesktop.org, gregkh@linuxfoundation.org,
- hdegoede@redhat.com, javierm@redhat.com, linux@roeck-us.net,
- penguin-kernel@i-love.sakura.ne.jp, sam@ravnborg.org,
- sudip.mukherjee@codethink.co.uk, sudipm.mukherjee@gmail.com,
- thunder.leizhen@huawei.com, tzimmermann@suse.de, willy@infradead.org,
- xiyuyang19@fudan.edu.cn, zackr@vmware.com, zheyuma97@gmail.com
-From: <gregkh@linuxfoundation.org>
-Date: Mon, 11 Apr 2022 10:27:44 +0200
-Message-ID: <164966566472255@kroah.com>
+Received: from mga14.intel.com (mga14.intel.com [192.55.52.115])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id E7D7010F160
+ for <dri-devel@lists.freedesktop.org>; Mon, 11 Apr 2022 08:34:23 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+ t=1649666063; x=1681202063;
+ h=from:to:cc:subject:in-reply-to:references:date:
+ message-id:mime-version;
+ bh=H0zPUd6SqeY0SP/ZrmvMhMcUPe0MxxUMdu5O8GFwUeE=;
+ b=Yg3W6j1kxkbUOYIq8bVZp+O7Sq9KMZZKn7iTkNc4kuRQC5L5x+iRPaxE
+ 4nwCSOkuZIzVIxlrVMIQkW56H15cFTubMCXLKqgsJ8ZZ9r6isKtc4i9M4
+ X4YvaQdJoMt2NlfV7tnaDnwxB44ESqWuSOoFTOenvi4hKUNrvmRVAYG51
+ EHiLN6o4qEQ2TX0l3SQrmIsfPUtZ53DTCkBkh4EmzZm55GigNMrzCQiZ4
+ /LaeSOi1LVqE8OsG0vpT15m2WOaCZU15fRfbF552NJElXFbpAPpEnvapR
+ Ry17h7r8kzdn8gGkC3jrOsnxkE8SGdhwYFigZ8ASJpWaeTOpwGNJ+kLqn Q==;
+X-IronPort-AV: E=McAfee;i="6400,9594,10313"; a="262246327"
+X-IronPort-AV: E=Sophos;i="5.90,251,1643702400"; d="scan'208";a="262246327"
+Received: from orsmga008.jf.intel.com ([10.7.209.65])
+ by fmsmga103.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 11 Apr 2022 01:34:23 -0700
+X-IronPort-AV: E=Sophos;i="5.90,251,1643702400"; d="scan'208";a="572028817"
+Received: from lwit-desk1.ger.corp.intel.com (HELO localhost) ([10.249.143.43])
+ by orsmga008-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 11 Apr 2022 01:34:18 -0700
+From: Jani Nikula <jani.nikula@linux.intel.com>
+To: Douglas Anderson <dianders@chromium.org>, dri-devel@lists.freedesktop.org
+Subject: Re: [RFC PATCH 1/6] drm/dp: Helpers to make it easier for drivers
+ to use DP AUX bus properly
+In-Reply-To: <20220408193536.RFC.1.I4182ae27e00792842cb86f1433990a0ef9c0a073@changeid>
+Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
+References: <20220409023628.2104952-1-dianders@chromium.org>
+ <20220408193536.RFC.1.I4182ae27e00792842cb86f1433990a0ef9c0a073@changeid>
+Date: Mon, 11 Apr 2022 11:34:16 +0300
+Message-ID: <87o818hvcn.fsf@intel.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=ANSI_X3.4-1968
-Content-Transfer-Encoding: 8bit
-X-stable: commit
-X-Patchwork-Hint: ignore 
+Content-Type: text/plain
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -55,128 +57,320 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: stable-commits@vger.kernel.org
+Cc: Sankeerth Billakanti <quic_sbillaka@quicinc.com>,
+ Philip Chen <philipchen@chromium.org>,
+ Abhinav Kumar <quic_abhinavk@quicinc.com>, David Airlie <airlied@linux.ie>,
+ Douglas Anderson <dianders@chromium.org>, Robert Foss <robert.foss@linaro.org>,
+ linux-kernel@vger.kernel.org, Thomas Zimmermann <tzimmermann@suse.de>,
+ Hsin-Yi Wang <hsinyi@chromium.org>,
+ Dmitry Baryshkov <dmitry.baryshkov@linaro.org>,
+ Stephen Boyd <swboyd@chromium.org>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
+On Fri, 08 Apr 2022, Douglas Anderson <dianders@chromium.org> wrote:
+> As talked about in the kerneldoc for "struct dp_aux_ep_client" in this
+> patch and also in the past in commit a1e3667a9835 ("drm/bridge:
+> ti-sn65dsi86: Promote the AUX channel to its own sub-dev"), to use the
+> DP AUX bus properly we really need two "struct device"s. One "struct
+> device" is in charge of providing the DP AUX bus and the other is
+> where we'll try to get a reference to the newly probed endpoint
+> devices.
+>
+> In ti-sn65dsi86 this wasn't too difficult to accomplish. That driver
+> is already broken up into several "struct devices" anyway because it
+> also provides a PWM and some GPIOs. Adding one more wasn't that
+> difficult / ugly.
+>
+> When I tried to do the same solution in parade-ps8640, it felt like I
+> was copying too much boilerplate code. I made the realization that I
+> didn't _really_ need a separate "driver" for each person that wanted
+> to do the same thing. By putting all the "driver" related code in a
+> common place then we could save a bit of hassle. This change
+> effectively adds a new "ep_client" driver that can be used by
+> anyone. The devices instantiated by this driver will just call through
+> to the probe/remove/shutdown calls provided.
+>
+> At the moment, the "ep_client" driver is backed by the Linux auxiliary
+> bus (unfortunate naming--this has nothing to do with DP AUX). I didn't
+> want to expose this to clients, though, so as far as clients are
+> concerned they get a vanilla "struct device".
+>
+> Signed-off-by: Douglas Anderson <dianders@chromium.org>
 
-This is a note to let you know that I've just added the patch titled
+What is an "EP" client or device?
 
-    fbdev: Fix unregistering of framebuffers without device
-
-to the 5.17-stable tree which can be found at:
-    http://www.kernel.org/git/?p=linux/kernel/git/stable/stable-queue.git;a=summary
-
-The filename of the patch is:
-     fbdev-fix-unregistering-of-framebuffers-without-device.patch
-and it can be found in the queue-5.17 subdirectory.
-
-If you, or anyone else, feels it should not be added to the stable tree,
-please let <stable@vger.kernel.org> know about it.
-
-
-From 0f525289ff0ddeb380813bd81e0f9bdaaa1c9078 Mon Sep 17 00:00:00 2001
-From: Thomas Zimmermann <tzimmermann@suse.de>
-Date: Mon, 4 Apr 2022 21:44:02 +0200
-Subject: fbdev: Fix unregistering of framebuffers without device
-
-From: Thomas Zimmermann <tzimmermann@suse.de>
-
-commit 0f525289ff0ddeb380813bd81e0f9bdaaa1c9078 upstream.
-
-OF framebuffers do not have an underlying device in the Linux
-device hierarchy. Do a regular unregister call instead of hot
-unplugging such a non-existing device. Fixes a NULL dereference.
-An example error message on ppc64le is shown below.
-
-  BUG: Kernel NULL pointer dereference on read at 0x00000060
-  Faulting instruction address: 0xc00000000080dfa4
-  Oops: Kernel access of bad area, sig: 11 [#1]
-  LE PAGE_SIZE=64K MMU=Hash SMP NR_CPUS=2048 NUMA pSeries
-  [...]
-  CPU: 2 PID: 139 Comm: systemd-udevd Not tainted 5.17.0-ae085d7f9365 #1
-  NIP:  c00000000080dfa4 LR: c00000000080df9c CTR: c000000000797430
-  REGS: c000000004132fe0 TRAP: 0300   Not tainted  (5.17.0-ae085d7f9365)
-  MSR:  8000000002009033 <SF,VEC,EE,ME,IR,DR,RI,LE>  CR: 28228282  XER: 20000000
-  CFAR: c00000000000c80c DAR: 0000000000000060 DSISR: 40000000 IRQMASK: 0
-  GPR00: c00000000080df9c c000000004133280 c00000000169d200 0000000000000029
-  GPR04: 00000000ffffefff c000000004132f90 c000000004132f88 0000000000000000
-  GPR08: c0000000015658f8 c0000000015cd200 c0000000014f57d0 0000000048228283
-  GPR12: 0000000000000000 c00000003fffe300 0000000020000000 0000000000000000
-  GPR16: 0000000000000000 0000000113fc4a40 0000000000000005 0000000113fcfb80
-  GPR20: 000001000f7283b0 0000000000000000 c000000000e4a588 c000000000e4a5b0
-  GPR24: 0000000000000001 00000000000a0000 c008000000db0168 c0000000021f6ec0
-  GPR28: c0000000016d65a8 c000000004b36460 0000000000000000 c0000000016d64b0
-  NIP [c00000000080dfa4] do_remove_conflicting_framebuffers+0x184/0x1d0
-  [c000000004133280] [c00000000080df9c] do_remove_conflicting_framebuffers+0x17c/0x1d0 (unreliable)
-  [c000000004133350] [c00000000080e4d0] remove_conflicting_framebuffers+0x60/0x150
-  [c0000000041333a0] [c00000000080e6f4] remove_conflicting_pci_framebuffers+0x134/0x1b0
-  [c000000004133450] [c008000000e70438] drm_aperture_remove_conflicting_pci_framebuffers+0x90/0x100 [drm]
-  [c000000004133490] [c008000000da0ce4] bochs_pci_probe+0x6c/0xa64 [bochs]
-  [...]
-  [c000000004133db0] [c00000000002aaa0] system_call_exception+0x170/0x2d0
-  [c000000004133e10] [c00000000000c3cc] system_call_common+0xec/0x250
-
-The bug [1] was introduced by commit 27599aacbaef ("fbdev: Hot-unplug
-firmware fb devices on forced removal"). Most firmware framebuffers
-have an underlying platform device, which can be hot-unplugged
-before loading the native graphics driver. OF framebuffers do not
-(yet) have that device. Fix the code by unregistering the framebuffer
-as before without a hot unplug.
-
-Tested with 5.17 on qemu ppc64le emulation.
-
-Signed-off-by: Thomas Zimmermann <tzimmermann@suse.de>
-Fixes: 27599aacbaef ("fbdev: Hot-unplug firmware fb devices on forced removal")
-Reported-by: Sudip Mukherjee <sudipm.mukherjee@gmail.com>
-Reviewed-by: Daniel Vetter <daniel.vetter@ffwll.ch>
-Reviewed-by: Javier Martinez Canillas <javierm@redhat.com>
-Tested-by: Sudip Mukherjee <sudip.mukherjee@codethink.co.uk>
-Cc: Zack Rusin <zackr@vmware.com>
-Cc: Javier Martinez Canillas <javierm@redhat.com>
-Cc: Hans de Goede <hdegoede@redhat.com>
-Cc: stable@vger.kernel.org # v5.11+
-Cc: Helge Deller <deller@gmx.de>
-Cc: Daniel Vetter <daniel.vetter@ffwll.ch>
-Cc: Sam Ravnborg <sam@ravnborg.org>
-Cc: Zheyu Ma <zheyuma97@gmail.com>
-Cc: Xiyu Yang <xiyuyang19@fudan.edu.cn>
-Cc: Zhen Lei <thunder.leizhen@huawei.com>
-Cc: Matthew Wilcox <willy@infradead.org>
-Cc: Alex Deucher <alexander.deucher@amd.com>
-Cc: Tetsuo Handa <penguin-kernel@i-love.sakura.ne.jp>
-Cc: Guenter Roeck <linux@roeck-us.net>
-Cc: linux-fbdev@vger.kernel.org
-Cc: dri-devel@lists.freedesktop.org
-Link: https://lore.kernel.org/all/YkHXO6LGHAN0p1pq@debian/ # [1]
-Link: https://patchwork.freedesktop.org/patch/msgid/20220404194402.29974-1-tzimmermann@suse.de
-Signed-off-by: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
----
- drivers/video/fbdev/core/fbmem.c |    9 ++++++++-
- 1 file changed, 8 insertions(+), 1 deletion(-)
-
---- a/drivers/video/fbdev/core/fbmem.c
-+++ b/drivers/video/fbdev/core/fbmem.c
-@@ -1583,7 +1583,14 @@ static void do_remove_conflicting_frameb
- 			 * If it's not a platform device, at least print a warning. A
- 			 * fix would add code to remove the device from the system.
- 			 */
--			if (dev_is_platform(device)) {
-+			if (!device) {
-+				/* TODO: Represent each OF framebuffer as its own
-+				 * device in the device hierarchy. For now, offb
-+				 * doesn't have such a device, so unregister the
-+				 * framebuffer as before without warning.
-+				 */
-+				do_unregister_framebuffer(registered_fb[i]);
-+			} else if (dev_is_platform(device)) {
- 				registered_fb[i]->forced_out = true;
- 				platform_device_unregister(to_platform_device(device));
- 			} else {
+BR,
+Jani.
 
 
-Patches currently in stable-queue which might be from tzimmermann@suse.de are
+> ---
+>
+>  drivers/gpu/drm/dp/drm_dp_aux_bus.c | 165 +++++++++++++++++++++++++++-
+>  include/drm/dp/drm_dp_aux_bus.h     |  58 ++++++++++
+>  2 files changed, 222 insertions(+), 1 deletion(-)
+>
+> diff --git a/drivers/gpu/drm/dp/drm_dp_aux_bus.c b/drivers/gpu/drm/dp/drm_dp_aux_bus.c
+> index 415afce3cf96..5386ceacf133 100644
+> --- a/drivers/gpu/drm/dp/drm_dp_aux_bus.c
+> +++ b/drivers/gpu/drm/dp/drm_dp_aux_bus.c
+> @@ -12,6 +12,7 @@
+>   * to perform transactions on that bus.
+>   */
+>  
+> +#include <linux/auxiliary_bus.h>
+>  #include <linux/init.h>
+>  #include <linux/kernel.h>
+>  #include <linux/module.h>
+> @@ -299,6 +300,163 @@ void dp_aux_dp_driver_unregister(struct dp_aux_ep_driver *drv)
+>  }
+>  EXPORT_SYMBOL_GPL(dp_aux_dp_driver_unregister);
+>  
+> +/* -----------------------------------------------------------------------------
+> + * DP AUX EP Client
+> + */
+> +
+> +struct dp_aux_ep_client_data {
+> +	struct dp_aux_ep_client *client;
+> +	struct auxiliary_device adev;
+> +};
+> +
+> +static int dp_aux_ep_client_probe(struct auxiliary_device *adev,
+> +				  const struct auxiliary_device_id *id)
+> +{
+> +	struct dp_aux_ep_client_data *data =
+> +		container_of(adev, struct dp_aux_ep_client_data, adev);
+> +
+> +	if (!data->client->probe)
+> +		return 0;
+> +
+> +	return data->client->probe(&adev->dev, data->client);
+> +}
+> +
+> +static void dp_aux_ep_client_remove(struct auxiliary_device *adev)
+> +{
+> +	struct dp_aux_ep_client_data *data =
+> +		container_of(adev, struct dp_aux_ep_client_data, adev);
+> +
+> +	if (data->client->remove)
+> +		data->client->remove(&adev->dev, data->client);
+> +}
+> +
+> +static void dp_aux_ep_client_shutdown(struct auxiliary_device *adev)
+> +{
+> +	struct dp_aux_ep_client_data *data =
+> +		container_of(adev, struct dp_aux_ep_client_data, adev);
+> +
+> +	if (data->client->shutdown)
+> +		data->client->shutdown(&adev->dev, data->client);
+> +}
+> +
+> +static void dp_aux_ep_client_dev_release(struct device *dev)
+> +{
+> +	struct auxiliary_device *adev = to_auxiliary_dev(dev);
+> +	struct dp_aux_ep_client_data *data =
+> +		container_of(adev, struct dp_aux_ep_client_data, adev);
+> +
+> +	kfree(data);
+> +}
+> +
+> +/**
+> + * dp_aux_register_ep_client() - Register an DP AUX EP client
+> + * @client: The structure describing the client. It's the client's
+> + *          responsibility to keep this memory around until
+> + *          dp_aux_unregister_ep_client() is called, either explicitly or
+> + *          implicitly via devm.
+> + *
+> + * See the description of "struct dp_aux_ep_client" for a full explanation
+> + * of when you should use this and why.
+> + *
+> + * Return: 0 if no error or negative error code.
+> + */
+> +int dp_aux_register_ep_client(struct dp_aux_ep_client *client)
+> +{
+> +	struct dp_aux_ep_client_data *data;
+> +	int ret;
+> +
+> +	data = kzalloc(sizeof(*data), GFP_KERNEL);
+> +	if (!data)
+> +		return -ENOMEM;
+> +
+> +	data->client = client;
+> +	data->adev.name = "ep_client";
+> +	data->adev.dev.parent = client->aux->dev;
+> +	data->adev.dev.release = dp_aux_ep_client_dev_release;
+> +	device_set_of_node_from_dev(&data->adev.dev, client->aux->dev);
+> +
+> +	ret = auxiliary_device_init(&data->adev);
+> +	if (ret) {
+> +		/*
+> +		 * NOTE: if init doesn't fail then it takes ownership
+> +		 * of memory and this kfree() is magically part of
+> +		 * auxiliary_device_uninit().
+> +		 */
+> +		kfree(data);
+> +		return ret;
+> +	}
+> +
+> +	ret = auxiliary_device_add(&data->adev);
+> +	if (ret)
+> +		goto err_did_init;
+> +
+> +	client->_opaque = data;
+> +
+> +	return 0;
+> +
+> +err_did_init:
+> +	auxiliary_device_uninit(&data->adev);
+> +	return ret;
+> +}
+> +
+> +/**
+> + * dp_aux_unregister_ep_client() - Inverse of dp_aux_register_ep_client()
+> + * @client: The structure describing the client.
+> + *
+> + * If dp_aux_register_ep_client() returns no error then you should call this
+> + * to free resources.
+> + */
+> +void dp_aux_unregister_ep_client(struct dp_aux_ep_client *client)
+> +{
+> +	struct dp_aux_ep_client_data *data = client->_opaque;
+> +
+> +	auxiliary_device_delete(&data->adev);
+> +	auxiliary_device_uninit(&data->adev);
+> +}
+> +
+> +static void dp_aux_unregister_ep_client_void(void *data)
+> +{
+> +	dp_aux_unregister_ep_client(data);
+> +}
+> +
+> +/**
+> + * devm_dp_aux_register_ep_client() - devm wrapper for dp_aux_register_ep_client()
+> + * @client: The structure describing the client.
+> + *
+> + * Handles freeing w/ devm on the device "client->aux->dev".
+> + *
+> + * Return: 0 if no error or negative error code.
+> + */
+> +int devm_dp_aux_register_ep_client(struct dp_aux_ep_client *client)
+> +{
+> +	int ret;
+> +
+> +	ret = dp_aux_register_ep_client(client);
+> +	if (ret)
+> +		return ret;
+> +
+> +	return devm_add_action_or_reset(client->aux->dev,
+> +					dp_aux_unregister_ep_client_void,
+> +					client);
+> +}
+> +
+> +static const struct auxiliary_device_id dp_aux_ep_client_id_table[] = {
+> +	{ .name = "drm_dp_aux_bus.ep_client", },
+> +	{},
+> +};
+> +
+> +static struct auxiliary_driver dp_aux_ep_client_driver = {
+> +	.name = "ep_client",
+> +	.probe = dp_aux_ep_client_probe,
+> +	.remove = dp_aux_ep_client_remove,
+> +	.shutdown = dp_aux_ep_client_shutdown,
+> +	.id_table = dp_aux_ep_client_id_table,
+> +};
+> +
+> +/* -----------------------------------------------------------------------------
+> + * Module init
+> + */
+> +
+>  static int __init dp_aux_bus_init(void)
+>  {
+>  	int ret;
+> @@ -307,11 +465,16 @@ static int __init dp_aux_bus_init(void)
+>  	if (ret)
+>  		return ret;
+>  
+> -	return 0;
+> +	ret = auxiliary_driver_register(&dp_aux_ep_client_driver);
+> +	if (ret)
+> +		bus_unregister(&dp_aux_bus_type);
+> +
+> +	return ret;
+>  }
+>  
+>  static void __exit dp_aux_bus_exit(void)
+>  {
+> +	auxiliary_driver_unregister(&dp_aux_ep_client_driver);
+>  	bus_unregister(&dp_aux_bus_type);
+>  }
+>  
+> diff --git a/include/drm/dp/drm_dp_aux_bus.h b/include/drm/dp/drm_dp_aux_bus.h
+> index 4f19b20b1dd6..ecf68b6873bd 100644
+> --- a/include/drm/dp/drm_dp_aux_bus.h
+> +++ b/include/drm/dp/drm_dp_aux_bus.h
+> @@ -54,4 +54,62 @@ int __dp_aux_dp_driver_register(struct dp_aux_ep_driver *aux_ep_drv,
+>  				struct module *owner);
+>  void dp_aux_dp_driver_unregister(struct dp_aux_ep_driver *aux_ep_drv);
+>  
+> +/**
+> + * struct dp_aux_ep_device - Helper for clients of DP AUX EP devices
+> + *
+> + * The DP AUX bus can be a bit tricky to use properly. Usually, the way
+> + * things work is that:
+> + * - The DP controller driver provides the DP AUX bus and would like to probe
+> + *   the endpoints on the DP AUX bus (AKA the panel) as part of its probe
+> + *   routine.
+> + * - The DP controller driver would also like to acquire a reference to the
+> + *   DP AUX endpoints (AKA the panel) as part of its probe.
+> + *
+> + * The problem is that the DP AUX endpoints aren't guaranteed to complete their
+> + * probe right away. They could be probing asynchronously or they simply might
+> + * fail to acquire some resource and return -EPROBE_DEFER.
+> + *
+> + * The best way to solve this is to break the DP controller's probe into
+> + * two parts. The first part will create the DP AUX bus. The second part will
+> + * acquire the reference to the DP AUX endpoint. The first part can complete
+> + * finish with no problems and be "done" even if the second part ends up
+> + * deferring while waiting for the DP AUX endpoint.
+> + *
+> + * The dp_aux_ep_client structure and associated functions help with managing
+> + * this common case. They will create/add a second "struct device" for you.
+> + * In the probe for this second "struct device" (known as the "clientdev" here)
+> + * you can acquire references to the AUX DP endpoints and can freely return
+> + * -EPROBE_DEFER if they're not ready yet.
+> + *
+> + * A few notes:
+> + * - The parent of the clientdev is guaranteed to be aux->dev
+> + * - The of_node of the clientdev is guaranteed to be the same as the of_node
+> + *   of aux->dev, copied with device_set_of_node_from_dev().
+> + * - If you're doing "devm" type things in the clientdev's probe you should
+> + *   use the clientdev. This makes lifetimes be managed properly.
+> + *
+> + * NOTE: there's no requirement to use these helpers if you have solved the
+> + * problem described above in some other way.
+> + */
+> +struct dp_aux_ep_client {
+> +	/** @probe: The second half of the probe */
+> +	int (*probe)(struct device *clientdev, struct dp_aux_ep_client *client);
+> +
+> +	/** @remove: Remove function corresponding to the probe */
+> +	void (*remove)(struct device *clientdev, struct dp_aux_ep_client *client);
+> +
+> +	/** @shutdown: Shutdown function corresponding to the probe */
+> +	void (*shutdown)(struct device *clientdev, struct dp_aux_ep_client *client);
+> +
+> +	/** @aux: The AUX bus */
+> +	struct drm_dp_aux *aux;
+> +
+> +	/** @_opaque: Used by the implementation */
+> +	void *_opaque;
+> +};
+> +
+> +int dp_aux_register_ep_client(struct dp_aux_ep_client *client);
+> +void dp_aux_unregister_ep_client(struct dp_aux_ep_client *client);
+> +int devm_dp_aux_register_ep_client(struct dp_aux_ep_client *client);
+> +
+>  #endif /* _DP_AUX_BUS_H_ */
 
-queue-5.17/drm-sprd-fix-potential-null-dereference.patch
-queue-5.17/drm-sprd-check-the-platform_get_resource-return-valu.patch
-queue-5.17/fbdev-fix-unregistering-of-framebuffers-without-device.patch
+-- 
+Jani Nikula, Intel Open Source Graphics Center
