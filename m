@@ -2,59 +2,66 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id AE43C4FBD3D
-	for <lists+dri-devel@lfdr.de>; Mon, 11 Apr 2022 15:35:52 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 586914FBD4D
+	for <lists+dri-devel@lfdr.de>; Mon, 11 Apr 2022 15:38:14 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id C4BA510F074;
-	Mon, 11 Apr 2022 13:35:49 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 9DE6510F23A;
+	Mon, 11 Apr 2022 13:38:11 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-qk1-f178.google.com (mail-qk1-f178.google.com
- [209.85.222.178])
- by gabe.freedesktop.org (Postfix) with ESMTPS id D79AB10F074
- for <dri-devel@lists.freedesktop.org>; Mon, 11 Apr 2022 13:35:48 +0000 (UTC)
-Received: by mail-qk1-f178.google.com with SMTP id 141so1012836qkf.3
- for <dri-devel@lists.freedesktop.org>; Mon, 11 Apr 2022 06:35:48 -0700 (PDT)
+Received: from mail-ej1-x630.google.com (mail-ej1-x630.google.com
+ [IPv6:2a00:1450:4864:20::630])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id ABEA310F23A
+ for <dri-devel@lists.freedesktop.org>; Mon, 11 Apr 2022 13:38:10 +0000 (UTC)
+Received: by mail-ej1-x630.google.com with SMTP id p15so30924107ejc.7
+ for <dri-devel@lists.freedesktop.org>; Mon, 11 Apr 2022 06:38:10 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=chromium.org; s=google;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc; bh=yJY5oOKjorrHxmexlsMH/Hti9QwhC0oVd/Eyc2mbwG0=;
+ b=OmKUnwvfhDqcpiaKjTQbI6Qnu8Sf+6VZ9D9C9+11QRZJ8UM4bw5KC4TRF+VX2MyUlF
+ tjcQu6vqOm9Z7CfqQs46eZM9lBwaV/9IXtigcyYK6aTz2mXIUEvaBEQKyVtZFvwOhIdC
+ Qg5hbGJLnbUj4QPBxZJqO4hZPQyc+NFdJgUmE=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:mime-version:references:in-reply-to:from:date
  :message-id:subject:to:cc;
- bh=6S8S+a0YX9xrAM7ZLPpu+Eb5jo+Pr1Yp9P1ijuzXncc=;
- b=bCpErw4dSh4TxlxDG/yS/ySIkzLNhC5cXeFdHWJCGGex56FNtD9dgiPPStVMzAxm2Y
- DHteAwvDBUjmfHfmhdcBkGqFaG23dGupRyXPFvEVAGoD5aDDOImFyzrQyKDuyLJOskEZ
- 72jqeIEJjbRMlZODazYVFTAbLP3AhgYcAbAdvXKXbPL5dqYrPcjZnBKIyaaS3N3Q1DM9
- IsiunPYV9HnWitw/l15jdnGR/pXHtgNca9AXEEfeRkHlIZM/CpmI9CSMiCWxeP90V4p8
- IkdrWzrVjNHfs74D+f6ob/MXxXYCegAMYJOhSYoA/8xsZVq8zNuO2EW8U5LPvzk7QUXi
- E3dg==
-X-Gm-Message-State: AOAM533DaJ3vQuQYW2rpyrKuQQParfRvb/g4erHVLP+SUS481pZxAcrR
- Nl2zHAjDbqmOx2myNZP4hKhRh+fM3wi9dw==
-X-Google-Smtp-Source: ABdhPJz0jf7Wy6EbhznprtEoReBNd/cjwCKdoqtKRemIWG1eH4dDgpDRsZy23CVoniURlZVRlVpzbw==
-X-Received: by 2002:a05:620a:13f9:b0:69a:17b:7a0a with SMTP id
- h25-20020a05620a13f900b0069a017b7a0amr14256147qkl.67.1649684147579; 
- Mon, 11 Apr 2022 06:35:47 -0700 (PDT)
-Received: from mail-yw1-f175.google.com (mail-yw1-f175.google.com.
- [209.85.128.175]) by smtp.gmail.com with ESMTPSA id
- k189-20020a3788c6000000b0069c10860b10sm3039398qkd.107.2022.04.11.06.35.47
+ bh=yJY5oOKjorrHxmexlsMH/Hti9QwhC0oVd/Eyc2mbwG0=;
+ b=0qK4zlx7j6mQ3rS2sHjF5tv5lof5qIEsMcMsJqt0y+9/3WVKyQd52dguZZdYWwQNr3
+ CcJNvcC3veiG7awdGBXWLQUh/Wx22MJKFiOugGvD43YAgyK3utHN1AjeQd8SD5uiYGhq
+ D+66N/1csrt9Ug4ExwSeD5Ny11cGt2GkniB6fHMPfzoUYEriCyYsU7NIS9AW96Et1ywd
+ x+hEgIeiXGE0WgcoSBkP1vCxIV4JZytBC6N6OBjPEOz59fJZ/00KY1dtFR7vQOIcwInv
+ PYcBs3lXjCOsVnO5/9hbjEnGZNVj22/mKBsXerFK6/zabMxUP9Wsulf0v+frawOP3Wyv
+ P/xw==
+X-Gm-Message-State: AOAM533NBnPd53IabQ5YMTtWNqA/n8eu+3hIfP4XjXsyKu/+VXHXiyUW
+ 95rTqAQr6aZUjb71J5x0ksrD/vHolK21lQ==
+X-Google-Smtp-Source: ABdhPJzJoBdkZzby7piQR6Z5yCTufOhoSMDUnKsfH+3wGsxj6srCAMymFWQbdLtxBUNFYBVeuzqThg==
+X-Received: by 2002:a17:906:a0ce:b0:6d1:cb30:3b3b with SMTP id
+ bh14-20020a170906a0ce00b006d1cb303b3bmr29611040ejb.582.1649684288981; 
+ Mon, 11 Apr 2022 06:38:08 -0700 (PDT)
+Received: from mail-wm1-f51.google.com (mail-wm1-f51.google.com.
+ [209.85.128.51]) by smtp.gmail.com with ESMTPSA id
+ d1-20020a50fe81000000b004197f2ecdc2sm15056678edt.89.2022.04.11.06.38.07
  for <dri-devel@lists.freedesktop.org>
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Mon, 11 Apr 2022 06:35:47 -0700 (PDT)
-Received: by mail-yw1-f175.google.com with SMTP id
- 00721157ae682-2db2add4516so165678507b3.1
- for <dri-devel@lists.freedesktop.org>; Mon, 11 Apr 2022 06:35:47 -0700 (PDT)
-X-Received: by 2002:a0d:e743:0:b0:2eb:3106:9b32 with SMTP id
- q64-20020a0de743000000b002eb31069b32mr26595858ywe.512.1649684146995; Mon, 11
- Apr 2022 06:35:46 -0700 (PDT)
+ Mon, 11 Apr 2022 06:38:07 -0700 (PDT)
+Received: by mail-wm1-f51.google.com with SMTP id
+ n126-20020a1c2784000000b0038e8af3e788so8530309wmn.1
+ for <dri-devel@lists.freedesktop.org>; Mon, 11 Apr 2022 06:38:07 -0700 (PDT)
+X-Received: by 2002:a05:600c:3ca4:b0:38e:54d0:406d with SMTP id
+ bg36-20020a05600c3ca400b0038e54d0406dmr28939846wmb.199.1649684286640; Mon, 11
+ Apr 2022 06:38:06 -0700 (PDT)
 MIME-Version: 1.0
-References: <20220406172956.3953-1-wens@kernel.org>
- <20220406172956.3953-3-wens@kernel.org>
-In-Reply-To: <20220406172956.3953-3-wens@kernel.org>
-From: Geert Uytterhoeven <geert@linux-m68k.org>
-Date: Mon, 11 Apr 2022 15:35:36 +0200
-X-Gmail-Original-Message-ID: <CAMuHMdUMc35MrWwbDXvsRNx9qSRf1bACNrhsGpeFcLCETsL4dw@mail.gmail.com>
-Message-ID: <CAMuHMdUMc35MrWwbDXvsRNx9qSRf1bACNrhsGpeFcLCETsL4dw@mail.gmail.com>
-Subject: Re: [PATCH v2 2/4] dt-bindings: display: ssd1307fb: Add entry for
- SINO WEALTH SH1106
-To: Chen-Yu Tsai <wens@kernel.org>
+References: <20220409023628.2104952-1-dianders@chromium.org>
+ <20220408193536.RFC.1.I4182ae27e00792842cb86f1433990a0ef9c0a073@changeid>
+ <87o818hvcn.fsf@intel.com>
+In-Reply-To: <87o818hvcn.fsf@intel.com>
+From: Doug Anderson <dianders@chromium.org>
+Date: Mon, 11 Apr 2022 06:37:54 -0700
+X-Gmail-Original-Message-ID: <CAD=FV=Uzp7wm3gs0pROw_e_-61tphTeXD_6wEP1AOs=Kfdgh7A@mail.gmail.com>
+Message-ID: <CAD=FV=Uzp7wm3gs0pROw_e_-61tphTeXD_6wEP1AOs=Kfdgh7A@mail.gmail.com>
+Subject: Re: [RFC PATCH 1/6] drm/dp: Helpers to make it easier for drivers to
+ use DP AUX bus properly
+To: Jani Nikula <jani.nikula@linux.intel.com>
 Content-Type: text/plain; charset="UTF-8"
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -68,55 +75,60 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: "open list:OPEN FIRMWARE AND FLATTENED DEVICE TREE BINDINGS"
- <devicetree@vger.kernel.org>, David Airlie <airlied@linux.ie>,
- Javier Martinez Canillas <javierm@redhat.com>,
- Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
- Chen-Yu Tsai <wens@csie.org>, Rob Herring <robh+dt@kernel.org>,
- DRI Development <dri-devel@lists.freedesktop.org>,
- Krzysztof Kozlowski <krzk+dt@kernel.org>
+Cc: Sankeerth Billakanti <quic_sbillaka@quicinc.com>,
+ Philip Chen <philipchen@chromium.org>, David Airlie <airlied@linux.ie>,
+ Abhinav Kumar <quic_abhinavk@quicinc.com>,
+ Robert Foss <robert.foss@linaro.org>, LKML <linux-kernel@vger.kernel.org>,
+ dri-devel <dri-devel@lists.freedesktop.org>,
+ Thomas Zimmermann <tzimmermann@suse.de>, Hsin-Yi Wang <hsinyi@chromium.org>,
+ Dmitry Baryshkov <dmitry.baryshkov@linaro.org>,
+ Stephen Boyd <swboyd@chromium.org>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi Chen-Yu,
+Hi,
 
-On Wed, Apr 6, 2022 at 10:13 PM Chen-Yu Tsai <wens@kernel.org> wrote:
-> From: Chen-Yu Tsai <wens@csie.org>
+On Mon, Apr 11, 2022 at 1:34 AM Jani Nikula <jani.nikula@linux.intel.com> wrote:
 >
-> The SINO WEALTH SH1106 is an OLED display driver that is somewhat
-> compatible with the SSD1306. It supports a slightly wider display,
-> at 132 instead of 128 pixels. The basic commands are the same, but
-> the SH1106 doesn't support the horizontal or vertical address modes.
+> On Fri, 08 Apr 2022, Douglas Anderson <dianders@chromium.org> wrote:
+> > As talked about in the kerneldoc for "struct dp_aux_ep_client" in this
+> > patch and also in the past in commit a1e3667a9835 ("drm/bridge:
+> > ti-sn65dsi86: Promote the AUX channel to its own sub-dev"), to use the
+> > DP AUX bus properly we really need two "struct device"s. One "struct
+> > device" is in charge of providing the DP AUX bus and the other is
+> > where we'll try to get a reference to the newly probed endpoint
+> > devices.
+> >
+> > In ti-sn65dsi86 this wasn't too difficult to accomplish. That driver
+> > is already broken up into several "struct devices" anyway because it
+> > also provides a PWM and some GPIOs. Adding one more wasn't that
+> > difficult / ugly.
+> >
+> > When I tried to do the same solution in parade-ps8640, it felt like I
+> > was copying too much boilerplate code. I made the realization that I
+> > didn't _really_ need a separate "driver" for each person that wanted
+> > to do the same thing. By putting all the "driver" related code in a
+> > common place then we could save a bit of hassle. This change
+> > effectively adds a new "ep_client" driver that can be used by
+> > anyone. The devices instantiated by this driver will just call through
+> > to the probe/remove/shutdown calls provided.
+> >
+> > At the moment, the "ep_client" driver is backed by the Linux auxiliary
+> > bus (unfortunate naming--this has nothing to do with DP AUX). I didn't
+> > want to expose this to clients, though, so as far as clients are
+> > concerned they get a vanilla "struct device".
+> >
+> > Signed-off-by: Douglas Anderson <dianders@chromium.org>
 >
-> Add a compatible string for it.
->
-> Signed-off-by: Chen-Yu Tsai <wens@csie.org>
+> What is an "EP" client or device?
 
-Thanks for your patch!
+The DP AUX EndPoint (or DP AUX EP) is just the generic name I called
+the thing on the other side of the DP AUX bus, AKA the "panel".
 
-> --- a/Documentation/devicetree/bindings/display/solomon,ssd1307fb.yaml
-> +++ b/Documentation/devicetree/bindings/display/solomon,ssd1307fb.yaml
-> @@ -13,6 +13,7 @@ maintainers:
->  properties:
->    compatible:
->      enum:
-> +      - sinowealth,sh1106-i2c
+The "DP AUX EP client" (ep_client) is the code that needs a reference
+to the panel.
 
-Please don't introduce new compatible values including the bus type.
-There is no need for that, and this will only lead to more deprecated
-compatible values soon...
+I'll beef up the patch description and the comments around the
+structure to try to make this clearer.
 
-Oops, this is already commit 97a40c23cda5d64a ("dt-bindings:
-display: ssd1307fb: Add entry for SINO WEALTH SH1106") in
-drm-misc/for-linux-next...
-
-Gr{oetje,eeting}s,
-
-                        Geert
-
---
-Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k.org
-
-In personal conversations with technical people, I call myself a hacker. But
-when I'm talking to journalists I just say "programmer" or something like that.
-                                -- Linus Torvalds
+-Doug
