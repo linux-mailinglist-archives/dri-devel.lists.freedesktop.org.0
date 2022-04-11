@@ -1,43 +1,43 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6CE644FBE0C
-	for <lists+dri-devel@lfdr.de>; Mon, 11 Apr 2022 16:01:02 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 910514FBE0F
+	for <lists+dri-devel@lfdr.de>; Mon, 11 Apr 2022 16:01:06 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 5D87F10F269;
-	Mon, 11 Apr 2022 14:01:00 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 016BE10F285;
+	Mon, 11 Apr 2022 14:01:04 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mga11.intel.com (mga11.intel.com [192.55.52.93])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 9E7FE10F269;
- Mon, 11 Apr 2022 14:00:59 +0000 (UTC)
+Received: from mga06.intel.com (mga06b.intel.com [134.134.136.31])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 0A41710F281;
+ Mon, 11 Apr 2022 14:01:02 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1649685659; x=1681221659;
+ t=1649685663; x=1681221663;
  h=from:to:cc:subject:date:message-id:in-reply-to:
  references:mime-version:content-transfer-encoding;
- bh=J291T5B0/vg+PlwHYdwNEhO3zaCOD4WT+HRAmm3cbTo=;
- b=KGEYyQTMndzugFYW3ITvjlotw8lGM7lqnyj4iJxB2i+UvwPOSjRDpwHY
- gq6dYx34Di6JTvsyHG1kioBMr6nuwGaM+pYimzeuhJSQtd3FNox7i14fy
- 4nDQopt5UNl7havUZI1v0qxMHVp+L41MvRMoyEbrZWOSX5kyXFtXRaS8M
- i7HQNiWM5OZPa5pygGZruHmFqdw8abGGhefKU5nzW/xPptg48DNyOObMp
- TGoJlMDS2VTiCtAVsdD6OrwX17nXAG3dBd9J9Nq3KfPXGdLS3c0FTPBEE
- b0wm7Jb6wgu6HkqPXScvX+dEcS4TRYh2J6L53KGxbqiWqCCmCetph6KVv Q==;
-X-IronPort-AV: E=McAfee;i="6400,9594,10313"; a="259716410"
-X-IronPort-AV: E=Sophos;i="5.90,252,1643702400"; d="scan'208";a="259716410"
-Received: from orsmga006.jf.intel.com ([10.7.209.51])
- by fmsmga102.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 11 Apr 2022 07:00:57 -0700
-X-IronPort-AV: E=Sophos;i="5.90,252,1643702400"; d="scan'208";a="525987380"
+ bh=U2HYEl9bv7sv51IVHuvFJdKHUkR5uVLHIJV8jKO3kg8=;
+ b=fhIyhmZIYcTNzDMC6sGtgJpiiXM2qaH2zzMsUknMsbFSKf03TdYP0r00
+ Kx4FX8Mfk0wM3HbG0FcVSE8ao7tETeqfmDYtGEsiDmXRaErpil+cUZv/Y
+ G7rvDiGaR32PImF58cb8j4taCf0bQWnmipYKTNU8ZdHs1K6Wx2Xe0XrAx
+ DnJMi+gncWNjF8ZNoMKJg1jTdoVkBrX6ppAOoO5kfMTNNNrdyEbiy+Mws
+ FgjGg7/cAfmu5RU0Zwu9WV+NrRhBW2gNtWaJ9bmL9/b9Bvaaqfv2O4ZLa
+ Naa04h5lgPZ8TUvg9rEGRUfnXfdSNr0aeLIu3m64Y4fn0awwS01NaZvhM w==;
+X-IronPort-AV: E=McAfee;i="6400,9594,10313"; a="322565585"
+X-IronPort-AV: E=Sophos;i="5.90,252,1643702400"; d="scan'208";a="322565585"
+Received: from orsmga005.jf.intel.com ([10.7.209.41])
+ by orsmga104.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 11 Apr 2022 07:01:02 -0700
+X-IronPort-AV: E=Sophos;i="5.90,252,1643702400"; d="scan'208";a="723980025"
 Received: from lwit-desk1.ger.corp.intel.com (HELO localhost) ([10.249.143.43])
- by orsmga006-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 11 Apr 2022 07:00:54 -0700
+ by orsmga005-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 11 Apr 2022 07:01:00 -0700
 From: Jani Nikula <jani.nikula@intel.com>
 To: dri-devel@lists.freedesktop.org
-Subject: [CI v3 03/12] drm/edid: refactor EDID block status printing
-Date: Mon, 11 Apr 2022 17:00:26 +0300
-Message-Id: <98d12db95e55e2e18548822078ec3b16ae006732.1649685475.git.jani.nikula@intel.com>
+Subject: [CI v3 04/12] drm/edid: add a helper to log dump an EDID block
+Date: Mon, 11 Apr 2022 17:00:27 +0300
+Message-Id: <b56f120a26f54b0defc43faa6d49e26f072d4d8f.1649685475.git.jani.nikula@intel.com>
 X-Mailer: git-send-email 2.30.2
 In-Reply-To: <cover.1649685475.git.jani.nikula@intel.com>
 References: <cover.1649685475.git.jani.nikula@intel.com>
@@ -61,116 +61,74 @@ Cc: jani.nikula@intel.com, intel-gfx@lists.freedesktop.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Split out a function to log EDID block status. The printouts get changed
-slightly.
-
-Unfortunately, not all users will have struct drm_device available, so
-we convert to pr_* debug logging instead of drm device based logging.
-
-v2: Complain more loudly about unknown status codes (Ville)
+Unify debug log dumping. There's duplication in the error paths for EDID
+block validity checks, but this should be neglible.
 
 Signed-off-by: Jani Nikula <jani.nikula@intel.com>
 Reviewed-by: Ville Syrjälä <ville.syrjala@linux.intel.com>
 ---
- drivers/gpu/drm/drm_edid.c | 75 ++++++++++++++++++++++++++------------
- 1 file changed, 51 insertions(+), 24 deletions(-)
+ drivers/gpu/drm/drm_edid.c | 33 +++++++++++++++++++--------------
+ 1 file changed, 19 insertions(+), 14 deletions(-)
 
 diff --git a/drivers/gpu/drm/drm_edid.c b/drivers/gpu/drm/drm_edid.c
-index f062d1715ec3..88e8f906a229 100644
+index 88e8f906a229..0b8098e34236 100644
 --- a/drivers/gpu/drm/drm_edid.c
 +++ b/drivers/gpu/drm/drm_edid.c
-@@ -1729,6 +1729,50 @@ static bool edid_block_valid(const void *block, bool base)
- 				       edid_block_tag(block));
+@@ -1773,6 +1773,23 @@ static void edid_block_status_print(enum edid_block_status status,
+ 	}
  }
  
-+static void edid_block_status_print(enum edid_block_status status,
-+				    const struct edid *block,
-+				    int block_num)
++static void edid_block_dump(const char *level, const void *block, int block_num)
 +{
-+	switch (status) {
-+	case EDID_BLOCK_OK:
-+		break;
-+	case EDID_BLOCK_NULL:
-+		pr_debug("EDID block %d pointer is NULL\n", block_num);
-+		break;
-+	case EDID_BLOCK_ZERO:
-+		pr_notice("EDID block %d is all zeroes\n", block_num);
-+		break;
-+	case EDID_BLOCK_HEADER_CORRUPT:
-+		pr_notice("EDID has corrupt header\n");
-+		break;
-+	case EDID_BLOCK_HEADER_REPAIR:
-+		pr_debug("EDID corrupt header needs repair\n");
-+		break;
-+	case EDID_BLOCK_HEADER_FIXED:
-+		pr_debug("EDID corrupt header fixed\n");
-+		break;
-+	case EDID_BLOCK_CHECKSUM:
-+		if (edid_block_status_valid(status, edid_block_tag(block))) {
-+			pr_debug("EDID block %d (tag 0x%02x) checksum is invalid, remainder is %d, ignoring\n",
-+				 block_num, edid_block_tag(block),
-+				 edid_block_compute_checksum(block));
-+		} else {
-+			pr_notice("EDID block %d (tag 0x%02x) checksum is invalid, remainder is %d\n",
-+				  block_num, edid_block_tag(block),
-+				  edid_block_compute_checksum(block));
-+		}
-+		break;
-+	case EDID_BLOCK_VERSION:
-+		pr_notice("EDID has major version %d, instead of 1\n",
-+			  block->version);
-+		break;
-+	default:
-+		WARN(1, "EDID block %d unknown edid block status code %d\n",
-+		     block_num, status);
-+		break;
-+	}
++	enum edid_block_status status;
++	char prefix[20];
++
++	status = edid_block_check(block, block_num == 0);
++	if (status == EDID_BLOCK_ZERO)
++		sprintf(prefix, "\t[%02x] ZERO ", block_num);
++	else if (!edid_block_status_valid(status, edid_block_tag(block)))
++		sprintf(prefix, "\t[%02x] BAD  ", block_num);
++	else
++		sprintf(prefix, "\t[%02x] GOOD ", block_num);
++
++	print_hex_dump(level, prefix, DUMP_PREFIX_NONE, 16, 1,
++		       block, EDID_LENGTH, false);
 +}
 +
  /**
   * drm_edid_block_valid - Sanity check the EDID block (base or extension)
   * @raw_edid: pointer to raw EDID block
-@@ -1775,33 +1819,16 @@ bool drm_edid_block_valid(u8 *_block, int block_num, bool print_bad_edid,
- 			*edid_corrupt = true;
- 	}
+@@ -1826,9 +1843,7 @@ bool drm_edid_block_valid(u8 *_block, int block_num, bool print_bad_edid,
  
-+	edid_block_status_print(status, block, block_num);
-+
- 	/* Determine whether we can use this block with this status. */
- 	valid = edid_block_status_valid(status, edid_block_tag(block));
- 
--	/* Some fairly random status printouts. */
--	if (status == EDID_BLOCK_CHECKSUM) {
--		if (valid) {
--			DRM_DEBUG("EDID block checksum is invalid, remainder is %d\n",
--				  edid_block_compute_checksum(block));
--			DRM_DEBUG("Assuming a KVM switch modified the block but left the original checksum\n");
--		} else if (print_bad_edid) {
--			DRM_NOTE("EDID block checksum is invalid, remainder is %d\n",
--				 edid_block_compute_checksum(block));
--		}
--	} else if (status == EDID_BLOCK_VERSION) {
--		DRM_NOTE("EDID has major version %d, instead of 1\n",
--			 block->version);
--	}
--
--	if (!valid && print_bad_edid) {
--		if (status == EDID_BLOCK_ZERO) {
--			pr_notice("EDID block is all zeroes\n");
--		} else {
--			pr_notice("Raw EDID:\n");
--			print_hex_dump(KERN_NOTICE,
--				       " \t", DUMP_PREFIX_NONE, 16, 1,
--				       block, EDID_LENGTH, false);
--		}
-+	if (!valid && print_bad_edid && status != EDID_BLOCK_ZERO) {
-+		pr_notice("Raw EDID:\n");
-+		print_hex_dump(KERN_NOTICE,
-+			       " \t", DUMP_PREFIX_NONE, 16, 1,
-+			       block, EDID_LENGTH, false);
+ 	if (!valid && print_bad_edid && status != EDID_BLOCK_ZERO) {
+ 		pr_notice("Raw EDID:\n");
+-		print_hex_dump(KERN_NOTICE,
+-			       " \t", DUMP_PREFIX_NONE, 16, 1,
+-			       block, EDID_LENGTH, false);
++		edid_block_dump(KERN_NOTICE, block, block_num);
  	}
  
  	return valid;
+@@ -1976,18 +1991,8 @@ static void connector_bad_edid(struct drm_connector *connector,
+ 	drm_dbg_kms(connector->dev, "%s: EDID is invalid:\n", connector->name);
+ 	for (i = 0; i < num_blocks; i++) {
+ 		u8 *block = edid + i * EDID_LENGTH;
+-		char prefix[20];
+-
+-		if (edid_block_is_zero(block))
+-			sprintf(prefix, "\t[%02x] ZERO ", i);
+-		else if (!drm_edid_block_valid(block, i, false, NULL))
+-			sprintf(prefix, "\t[%02x] BAD  ", i);
+-		else
+-			sprintf(prefix, "\t[%02x] GOOD ", i);
+ 
+-		print_hex_dump(KERN_DEBUG,
+-			       prefix, DUMP_PREFIX_NONE, 16, 1,
+-			       block, EDID_LENGTH, false);
++		edid_block_dump(KERN_DEBUG, block, i);
+ 	}
+ }
+ 
 -- 
 2.30.2
 
