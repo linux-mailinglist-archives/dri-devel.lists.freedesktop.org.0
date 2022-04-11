@@ -2,29 +2,28 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id DFE814FC72C
-	for <lists+dri-devel@lfdr.de>; Tue, 12 Apr 2022 00:00:31 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id E4C7B4FC733
+	for <lists+dri-devel@lfdr.de>; Tue, 12 Apr 2022 00:00:50 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 3F7EF10E339;
-	Mon, 11 Apr 2022 22:00:27 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id A4C5410E3AA;
+	Mon, 11 Apr 2022 22:00:48 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from bhuna.collabora.co.uk (bhuna.collabora.co.uk
- [IPv6:2a00:1098:0:82:1000:25:2eeb:e3e3])
- by gabe.freedesktop.org (Postfix) with ESMTPS id C5F8B10E31C
- for <dri-devel@lists.freedesktop.org>; Mon, 11 Apr 2022 22:00:25 +0000 (UTC)
+Received: from bhuna.collabora.co.uk (bhuna.collabora.co.uk [46.235.227.227])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 84EAA10E366
+ for <dri-devel@lists.freedesktop.org>; Mon, 11 Apr 2022 22:00:27 +0000 (UTC)
 Received: from [127.0.0.1] (localhost [127.0.0.1])
- (Authenticated sender: dmitry.osipenko) with ESMTPSA id 306EB1F43C86
+ (Authenticated sender: dmitry.osipenko) with ESMTPSA id D792A1F43C8A
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
- s=mail; t=1649714424;
- bh=H5TVWLdKQBunPI+41h2cAjj6IZ6UbyVtXydAliQEN5M=;
+ s=mail; t=1649714426;
+ bh=isR8z997diym4El61jLlrCRI0NqP4AALskkuO0PNVVE=;
  h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
- b=ghRkbXF8rhL12mWU1KFreAJI9IWMEWq2ZRIsd90oRUbv2Hi22nfvWlGYPyx1iO2Im
- lLepkN8foGV3yYTi/kthftgh9ENBp8b7zqRqle9F6fYOnHDfVSbhI8GzOT2hwaGSGS
- /A9STdZ5CD57NoJuhmSH9+3wm4N/Rbnd3gwu2JHh/UaekEDaQbVEtZW2zIbMnuK+Ei
- vJ9nKFF0g73jEi//GPA6LAidI0lgOOscDFiB2ovh753SJpGMgB78FCJdtcr6okk34Z
- iERUQs1LXIUQrYCJxf7S+GhF4m+eVHXZ6hnye92nR2xg0sDYgozC5onFTpl7k71MfR
- JkzMscCGSUXlg==
+ b=ZfozwM/HK56q10iKKu5vijkB8jdQhCiLnu0RjdNLKEEE+vf+aMn0/WSBDd0LJemTJ
+ 4x6e6EDkGtKdqnenPJ/JSIuSy6Bo8zjjz/lHzYYsG+iGiHBGsA3jGfdeps3w3KFyfk
+ giknpGGCGO5K59+dxZKDN0Ec2Dlh7tJtmHdME4XBxil9KL9HPsbBxMO0AGnqp8iL3q
+ qAyo7o4Y++ZrTba4PnDbrJNhB5ecNpFXgvbioGs6irG85Ew34g7xjR0u2KNNfqNhr6
+ DDpay9Q1nK/mYCPYmTMVuH9g/1aHiCzbCkkra+Yu1WTToPgtLyzS2Qfzav4iuQT+oL
+ Vcn77bJ8Zv/gw==
 From: Dmitry Osipenko <dmitry.osipenko@collabora.com>
 To: David Airlie <airlied@linux.ie>, Gerd Hoffmann <kraxel@redhat.com>,
  Gurchetan Singh <gurchetansingh@chromium.org>,
@@ -38,10 +37,10 @@ To: David Airlie <airlied@linux.ie>, Gerd Hoffmann <kraxel@redhat.com>,
  Steven Price <steven.price@arm.com>,
  Alyssa Rosenzweig <alyssa.rosenzweig@collabora.com>,
  Rob Clark <robdclark@gmail.com>
-Subject: [PATCH v3 05/15] drm/virtio: Use appropriate atomic state in
- virtio_gpu_plane_cleanup_fb()
-Date: Tue, 12 Apr 2022 00:59:27 +0300
-Message-Id: <20220411215937.281655-6-dmitry.osipenko@collabora.com>
+Subject: [PATCH v3 06/15] drm/virtio: Simplify error handling of
+ virtio_gpu_object_create()
+Date: Tue, 12 Apr 2022 00:59:28 +0300
+Message-Id: <20220411215937.281655-7-dmitry.osipenko@collabora.com>
 X-Mailer: git-send-email 2.35.1
 In-Reply-To: <20220411215937.281655-1-dmitry.osipenko@collabora.com>
 References: <20220411215937.281655-1-dmitry.osipenko@collabora.com>
@@ -67,39 +66,52 @@ Cc: linux-kernel@vger.kernel.org, virtualization@lists.linux-foundation.org,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Make virtio_gpu_plane_cleanup_fb() to clean the state which DRM core
-wants to clean up and not the current plane's state. Normally the older
-atomic state is cleaned up, but the newer state could also be cleaned up
-in case of aborted commits.
+Change the order of SHMEM initialization and reservation locking to
+make code cleaner a tad and to prepare to transitioning of the common
+GEM SHMEM code to use the GEM's reservation lock instead of the
+shmem.page_lock.
 
-Cc: stable@vger.kernel.org
+There is no need to lock reservation during allocation of the SHMEM pages
+because the lock is needed only to avoid racing with the async host-side
+allocation. Hence we can safely move the SHMEM initialization out of the
+reservation lock.
+
 Signed-off-by: Dmitry Osipenko <dmitry.osipenko@collabora.com>
 ---
- drivers/gpu/drm/virtio/virtgpu_plane.c | 6 +++---
- 1 file changed, 3 insertions(+), 3 deletions(-)
+ drivers/gpu/drm/virtio/virtgpu_object.c | 13 ++++---------
+ 1 file changed, 4 insertions(+), 9 deletions(-)
 
-diff --git a/drivers/gpu/drm/virtio/virtgpu_plane.c b/drivers/gpu/drm/virtio/virtgpu_plane.c
-index 6d3cc9e238a4..7148f3813d8b 100644
---- a/drivers/gpu/drm/virtio/virtgpu_plane.c
-+++ b/drivers/gpu/drm/virtio/virtgpu_plane.c
-@@ -266,14 +266,14 @@ static int virtio_gpu_plane_prepare_fb(struct drm_plane *plane,
- }
+diff --git a/drivers/gpu/drm/virtio/virtgpu_object.c b/drivers/gpu/drm/virtio/virtgpu_object.c
+index 21c19cdedce0..18f70ef6b4d0 100644
+--- a/drivers/gpu/drm/virtio/virtgpu_object.c
++++ b/drivers/gpu/drm/virtio/virtgpu_object.c
+@@ -236,6 +236,10 @@ int virtio_gpu_object_create(struct virtio_gpu_device *vgdev,
  
- static void virtio_gpu_plane_cleanup_fb(struct drm_plane *plane,
--					struct drm_plane_state *old_state)
-+					struct drm_plane_state *state)
- {
- 	struct virtio_gpu_framebuffer *vgfb;
+ 	bo->dumb = params->dumb;
  
--	if (!plane->state->fb)
-+	if (!state->fb)
- 		return;
++	ret = virtio_gpu_object_shmem_init(vgdev, bo, &ents, &nents);
++	if (ret != 0)
++		goto err_put_id;
++
+ 	if (fence) {
+ 		ret = -ENOMEM;
+ 		objs = virtio_gpu_array_alloc(1);
+@@ -248,15 +252,6 @@ int virtio_gpu_object_create(struct virtio_gpu_device *vgdev,
+ 			goto err_put_objs;
+ 	}
  
--	vgfb = to_virtio_gpu_framebuffer(plane->state->fb);
-+	vgfb = to_virtio_gpu_framebuffer(state->fb);
- 	if (vgfb->fence) {
- 		dma_fence_put(&vgfb->fence->f);
- 		vgfb->fence = NULL;
+-	ret = virtio_gpu_object_shmem_init(vgdev, bo, &ents, &nents);
+-	if (ret != 0) {
+-		if (fence)
+-			virtio_gpu_array_unlock_resv(objs);
+-		virtio_gpu_array_put_free(objs);
+-		virtio_gpu_free_object(&shmem_obj->base);
+-		return ret;
+-	}
+-
+ 	if (params->blob) {
+ 		if (params->blob_mem == VIRTGPU_BLOB_MEM_GUEST)
+ 			bo->guest_blob = true;
 -- 
 2.35.1
 
