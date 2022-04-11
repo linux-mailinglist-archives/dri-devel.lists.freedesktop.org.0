@@ -2,43 +2,43 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0B9FF4FBE05
-	for <lists+dri-devel@lfdr.de>; Mon, 11 Apr 2022 16:00:56 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 44D884FBE07
+	for <lists+dri-devel@lfdr.de>; Mon, 11 Apr 2022 16:00:58 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 6D6DF10F25F;
-	Mon, 11 Apr 2022 14:00:53 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 08FAB10F265;
+	Mon, 11 Apr 2022 14:00:56 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mga09.intel.com (mga09.intel.com [134.134.136.24])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 4C43810F25F;
- Mon, 11 Apr 2022 14:00:49 +0000 (UTC)
+Received: from mga11.intel.com (mga11.intel.com [192.55.52.93])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 4359F10F265;
+ Mon, 11 Apr 2022 14:00:55 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1649685649; x=1681221649;
+ t=1649685655; x=1681221655;
  h=from:to:cc:subject:date:message-id:in-reply-to:
  references:mime-version:content-transfer-encoding;
- bh=OtDkyGNJI75dSVKuN1HxN3qyhIDQs0bLdtAi38sFg5A=;
- b=DwUnHwilhdOmYs23fY1HwVYDrGC/IXTNA48Xg0l3ZntBN9qcsA2fb8ol
- 6MXzvl3naLgpgOkXpk7t6glYHo2J1mD22POuzpYm/CHORH/+eSP3yzPYW
- m3F0rWvZ2THhUanT1nfbanILsuzIWEGze9RRnwNOwwS8vbLlVTSqOC//v
- pfcDNZM1IpqsnpEgVkoFDzz/fqwXF0N5/a2mbZO7ySa40iTaPV3DEPHV7
- o7JzVGObwj26p0v/6g3X+iDFq4zRU0Yvqfra0UUKyIBih3GkWm6BhvaD0
- wNsRoQ486GJIY/ynHrM7Jn+gUDXoj2dtMCpb1UZhcnQQYj7nZFbW5993A Q==;
-X-IronPort-AV: E=McAfee;i="6400,9594,10313"; a="261560005"
-X-IronPort-AV: E=Sophos;i="5.90,252,1643702400"; d="scan'208";a="261560005"
-Received: from orsmga007.jf.intel.com ([10.7.209.58])
- by orsmga102.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 11 Apr 2022 07:00:49 -0700
-X-IronPort-AV: E=Sophos;i="5.90,252,1643702400"; d="scan'208";a="551151115"
+ bh=QNHoFBBWXtSyPpVQnFiac5kJ6TlTbdTmJH/pL2VOBH8=;
+ b=gNuQFH75xc8JDq7HfR+rzcyPF7iHTQ5Y8QGXzQ58D1QdOeuUfHKb0iGi
+ tJbEaqEpp5m611rFf4Cf2FbsmUYk2M1gNiad5mvGHKMN0SbTo0Ctopeqn
+ WAQbctdRTd5ROk33zc4Jt6GSOCKm6k5bmFPNKxNt8TtAOE29Gl4gL3SV2
+ yZeE3pj6x53LJiWdixg2U3F9HP2b+IQIvAmiVQTMFMXxFG/AGjqfVDj9J
+ 4hKoC/FqyYV972kFDU+HL6x2JQl9ZO9dILc3HKv26GUGrDOEMv0uGmUD/
+ ibGMcWHTHuNymll4liIuv4p9KitxHLAY47pUlWaFCqV/80gM1bqvc8aNq A==;
+X-IronPort-AV: E=McAfee;i="6400,9594,10313"; a="259716374"
+X-IronPort-AV: E=Sophos;i="5.90,252,1643702400"; d="scan'208";a="259716374"
+Received: from orsmga006.jf.intel.com ([10.7.209.51])
+ by fmsmga102.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 11 Apr 2022 07:00:52 -0700
+X-IronPort-AV: E=Sophos;i="5.90,252,1643702400"; d="scan'208";a="525987335"
 Received: from lwit-desk1.ger.corp.intel.com (HELO localhost) ([10.249.143.43])
- by orsmga007-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 11 Apr 2022 07:00:44 -0700
+ by orsmga006-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 11 Apr 2022 07:00:49 -0700
 From: Jani Nikula <jani.nikula@intel.com>
 To: dri-devel@lists.freedesktop.org
-Subject: [CI v3 01/12] drm/edid: convert edid_is_zero() to
- edid_block_is_zero() for blocks
-Date: Mon, 11 Apr 2022 17:00:24 +0300
-Message-Id: <5cc9387e22b4a61243df4053d1ebcc14b0007dc8.1649685475.git.jani.nikula@intel.com>
+Subject: [CI v3 02/12] drm/edid: have edid_block_check() detect blocks that
+ are all zero
+Date: Mon, 11 Apr 2022 17:00:25 +0300
+Message-Id: <f9ad302e6b7dbcd1dff98d94ec5500ce27bebe10.1649685475.git.jani.nikula@intel.com>
 X-Mailer: git-send-email 2.30.2
 In-Reply-To: <cover.1649685475.git.jani.nikula@intel.com>
 References: <cover.1649685475.git.jani.nikula@intel.com>
@@ -62,58 +62,64 @@ Cc: jani.nikula@intel.com, intel-gfx@lists.freedesktop.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-As edid_is_zero() is only ever used on EDID blocks, convert it to
-edid_block_is_zero() with implicit block size.
+We have the check function, have it also detect blocks that are all zero
+instead of leaving that to callers.
 
 Signed-off-by: Jani Nikula <jani.nikula@intel.com>
 Reviewed-by: Ville Syrjälä <ville.syrjala@linux.intel.com>
 ---
- drivers/gpu/drm/drm_edid.c | 10 +++++-----
- 1 file changed, 5 insertions(+), 5 deletions(-)
+ drivers/gpu/drm/drm_edid.c | 19 ++++++++++++++-----
+ 1 file changed, 14 insertions(+), 5 deletions(-)
 
 diff --git a/drivers/gpu/drm/drm_edid.c b/drivers/gpu/drm/drm_edid.c
-index 04e818ecd662..f4da3f92f41b 100644
+index f4da3f92f41b..f062d1715ec3 100644
 --- a/drivers/gpu/drm/drm_edid.c
 +++ b/drivers/gpu/drm/drm_edid.c
-@@ -1632,9 +1632,9 @@ static int edid_block_tag(const void *_block)
- 	return block[0];
- }
+@@ -1671,6 +1671,7 @@ EXPORT_SYMBOL(drm_edid_are_equal);
+ enum edid_block_status {
+ 	EDID_BLOCK_OK = 0,
+ 	EDID_BLOCK_NULL,
++	EDID_BLOCK_ZERO,
+ 	EDID_BLOCK_HEADER_CORRUPT,
+ 	EDID_BLOCK_HEADER_REPAIR,
+ 	EDID_BLOCK_HEADER_FIXED,
+@@ -1689,15 +1690,23 @@ static enum edid_block_status edid_block_check(const void *_block,
+ 	if (is_base_block) {
+ 		int score = drm_edid_header_is_valid(block);
  
--static bool edid_is_zero(const void *edid, int length)
-+static bool edid_block_is_zero(const void *edid)
- {
--	return !memchr_inv(edid, 0, length);
-+	return !memchr_inv(edid, 0, EDID_LENGTH);
- }
+-		if (score < clamp(edid_fixup, 0, 8))
+-			return EDID_BLOCK_HEADER_CORRUPT;
++		if (score < clamp(edid_fixup, 0, 8)) {
++			if (edid_block_is_zero(block))
++				return EDID_BLOCK_ZERO;
++			else
++				return EDID_BLOCK_HEADER_CORRUPT;
++		}
  
- /**
-@@ -1785,7 +1785,7 @@ bool drm_edid_block_valid(u8 *_block, int block_num, bool print_bad_edid,
+ 		if (score < 8)
+ 			return EDID_BLOCK_HEADER_REPAIR;
+ 	}
+ 
+-	if (edid_block_compute_checksum(block) != edid_block_get_checksum(block))
+-		return EDID_BLOCK_CHECKSUM;
++	if (edid_block_compute_checksum(block) != edid_block_get_checksum(block)) {
++		if (edid_block_is_zero(block))
++			return EDID_BLOCK_ZERO;
++		else
++			return EDID_BLOCK_CHECKSUM;
++	}
+ 
+ 	if (is_base_block) {
+ 		if (block->version != 1)
+@@ -1785,7 +1794,7 @@ bool drm_edid_block_valid(u8 *_block, int block_num, bool print_bad_edid,
  	}
  
  	if (!valid && print_bad_edid) {
--		if (edid_is_zero(block, EDID_LENGTH)) {
-+		if (edid_block_is_zero(block)) {
+-		if (edid_block_is_zero(block)) {
++		if (status == EDID_BLOCK_ZERO) {
  			pr_notice("EDID block is all zeroes\n");
  		} else {
  			pr_notice("Raw EDID:\n");
-@@ -1942,7 +1942,7 @@ static void connector_bad_edid(struct drm_connector *connector,
- 		u8 *block = edid + i * EDID_LENGTH;
- 		char prefix[20];
- 
--		if (edid_is_zero(block, EDID_LENGTH))
-+		if (edid_block_is_zero(block))
- 			sprintf(prefix, "\t[%02x] ZERO ", i);
- 		else if (!drm_edid_block_valid(block, i, false, NULL))
- 			sprintf(prefix, "\t[%02x] BAD  ", i);
-@@ -2019,7 +2019,7 @@ static struct edid *drm_do_get_edid_base_block(struct drm_connector *connector,
- 			goto out;
- 		if (drm_edid_block_valid(edid, 0, false, edid_corrupt))
- 			break;
--		if (try == 0 && edid_is_zero(edid, EDID_LENGTH)) {
-+		if (try == 0 && edid_block_is_zero(edid)) {
- 			if (null_edid_counter)
- 				(*null_edid_counter)++;
- 			goto carp;
 -- 
 2.30.2
 
