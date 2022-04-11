@@ -2,67 +2,44 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 33F444FB150
-	for <lists+dri-devel@lfdr.de>; Mon, 11 Apr 2022 03:20:21 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id BFB4A4FB1D9
+	for <lists+dri-devel@lfdr.de>; Mon, 11 Apr 2022 04:32:17 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 965EF10E455;
-	Mon, 11 Apr 2022 01:20:16 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id AED4210EB09;
+	Mon, 11 Apr 2022 02:32:13 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-lf1-x12b.google.com (mail-lf1-x12b.google.com
- [IPv6:2a00:1450:4864:20::12b])
- by gabe.freedesktop.org (Postfix) with ESMTPS id DB55410E455
- for <dri-devel@lists.freedesktop.org>; Mon, 11 Apr 2022 01:20:15 +0000 (UTC)
-Received: by mail-lf1-x12b.google.com with SMTP id d40so16472639lfv.11
- for <dri-devel@lists.freedesktop.org>; Sun, 10 Apr 2022 18:20:15 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=message-id:date:mime-version:user-agent:subject:content-language
- :from:to:cc:references:in-reply-to:content-transfer-encoding;
- bh=05X/pQBV2MI76IjGX7fSWAPTcXgd+Vfg/z1tUXGVcQc=;
- b=HL6xtEPacsZ6zEKa4xgS6WpIIMLbpOvanq1tH1R7pc6+fIzJsqF2GEV5pG2IK8elON
- hsvsroTmMu2x5m6FPVW5qBKhOYyboosL2EwPqiYVFTS0jKuLzouTo1KtofUzvDfkD4cs
- xL4TYxCEuMsVT4bKCXdH+iC0gQLvWGlE8UbgE/VycNqIfEchp1SI7lntYmR437jI/5qy
- PkYk45rDiQT6d9iXs7Ub/EwEvcr3AmZ8U60Qn8oScXCXO00MkqUaTkU0MRXRw1mygVbw
- QjrFj7UF2xCBo+z2qiy9CNBAqj9VWhvR7o0CcSEuWatpe88mc5YfMKKWYZ9/DaVqB5d7
- KWfg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
- :content-language:from:to:cc:references:in-reply-to
- :content-transfer-encoding;
- bh=05X/pQBV2MI76IjGX7fSWAPTcXgd+Vfg/z1tUXGVcQc=;
- b=cwQ13nNqBA1VEU5bJk3BeC7zAA1T4kvgKX0wcD7wPJj2kkZbAlaQ8d0dM30KGxwyqk
- daL0aXiX0AkzMXSoojgI32b6bf8aPmx5VcliNCjdQ6TCh6Kl6UXzVHq6EdthX15mCOT0
- XQKqL/7tVVjQuf2FCFIDDD59OYVeXqpVadUb7dDAIoDtPp7PZEmhdmuoxFRv6hqyAOW0
- Eok7dk0qBnE9LRINQbn/FO8770YTvKmOQI0+ynfu2pZQRAAeGCzjMMDPBBAZK6D+nlA9
- DQZcnW0VZbFhtKZD3PCj6NVYtzI/xvZgi311U1F8rD3IyxZxKjtsAN3M6mLnTSnaBmo2
- XDog==
-X-Gm-Message-State: AOAM530QvJOPjVjZ4YIAa5CaB0Y9z8aDRlSmiJFfFuo4U9ZcIiY+ouvC
- ZBfRdjvTg7PF/5H+OnkTJz2SdQ==
-X-Google-Smtp-Source: ABdhPJwgOvDStoVkU5PcymcKMDfs/8Fh2oeLos5hkTOAv/lK50CRFRy3NioQSwXdvc/8q7VUKZrx6g==
-X-Received: by 2002:a05:6512:3994:b0:44a:7125:c689 with SMTP id
- j20-20020a056512399400b0044a7125c689mr20002136lfu.166.1649640014132; 
- Sun, 10 Apr 2022 18:20:14 -0700 (PDT)
-Received: from [192.168.1.211] ([37.153.55.125])
- by smtp.gmail.com with ESMTPSA id
- b16-20020a2ebc10000000b0024b63f0da2csm154707ljf.13.2022.04.10.18.20.13
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Sun, 10 Apr 2022 18:20:13 -0700 (PDT)
-Message-ID: <7e0592bc-1e8f-0981-cea2-f74402ab5886@linaro.org>
-Date: Mon, 11 Apr 2022 04:20:12 +0300
+Received: from mailgw01.mediatek.com (unknown [60.244.123.138])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id C4B0310EB05
+ for <dri-devel@lists.freedesktop.org>; Mon, 11 Apr 2022 02:32:11 +0000 (UTC)
+X-UUID: 11a07f499158492cbaa165a6a730aa74-20220411
+X-UUID: 11a07f499158492cbaa165a6a730aa74-20220411
+Received: from mtkmbs10n1.mediatek.inc [(172.21.101.34)] by
+ mailgw01.mediatek.com (envelope-from <xinlei.lee@mediatek.com>)
+ (Generic MTA with TLSv1.2 ECDHE-RSA-AES256-GCM-SHA384 256/256)
+ with ESMTP id 1892440418; Mon, 11 Apr 2022 10:32:05 +0800
+Received: from MTKMBS34N1.mediatek.inc (172.27.4.172) by
+ mtkmbs10n2.mediatek.inc (172.21.101.183) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_CBC_SHA384) id 15.2.792.3; 
+ Mon, 11 Apr 2022 10:32:03 +0800
+Received: from MTKCAS36.mediatek.inc (172.27.4.186) by MTKMBS34N1.mediatek.inc
+ (172.27.4.172) with Microsoft SMTP Server (TLS) id 15.0.1497.2;
+ Mon, 11 Apr 2022 10:31:59 +0800
+Received: from mszsdaap41.gcn.mediatek.inc (10.16.6.141) by
+ MTKCAS36.mediatek.inc (172.27.4.170) with Microsoft SMTP Server id
+ 15.0.1497.2 via Frontend Transport; Mon, 11 Apr 2022 10:31:52 +0800
+From: <xinlei.lee@mediatek.com>
+To: <chunkuang.hu@kernel.org>, <p.zabel@pengutronix.de>, <airlied@linux.ie>,
+ <daniel@ffwll.ch>, <matthias.bgg@gmail.com>, <rex-bc.chen@mediatek.com>
+Subject: [PATCH v4,
+ 0/4] Cooperate with DSI RX devices to modify dsi funcs and delay mipi
+ high to cooperate with panel sequence
+Date: Mon, 11 Apr 2022 10:31:44 +0800
+Message-ID: <1649644308-8455-1-git-send-email-xinlei.lee@mediatek.com>
+X-Mailer: git-send-email 2.6.4
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.7.0
-Subject: Re: [PATCH] dpu1: dpu_encoder: fix a missing check on list iterator
-Content-Language: en-GB
-From: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
-To: Xiaomeng Tong <xiam0nd.tong@gmail.com>, robdclark@gmail.com,
- sean@poorly.run, airlied@linux.ie, daniel@ffwll.ch
-References: <20220327073252.10871-1-xiam0nd.tong@gmail.com>
- <0788b245-ee8f-25de-dde3-7ff10f6c688c@linaro.org>
-In-Reply-To: <0788b245-ee8f-25de-dde3-7ff10f6c688c@linaro.org>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain
+X-MTK: N
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -75,80 +52,45 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: quic_kalyant@quicinc.com, linux-arm-msm@vger.kernel.org,
- swboyd@chromium.org, quic_abhinavk@quicinc.com,
- dri-devel@lists.freedesktop.org, quic_khsieh@quicinc.com,
- stable@vger.kernel.org, jsanka@codeaurora.org, bjorn.andersson@linaro.org,
- freedreno@lists.freedesktop.org, linux-kernel@vger.kernel.org,
- markyacoub@google.com
+Cc: jitao.shi@mediatek.com, Xinlei Lee <xinlei.lee@mediatek.com>,
+ linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
+ Project_Global_Chrome_Upstream_Group@mediatek.com,
+ linux-mediatek@lists.infradead.org, linux-arm-kernel@lists.infradead.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 11/04/2022 03:56, Dmitry Baryshkov wrote:
-> On 27/03/2022 10:32, Xiaomeng Tong wrote:
->> The bug is here:
->>      cstate = to_dpu_crtc_state(drm_crtc->state);
->>
->> For the drm_for_each_crtc(), just like list_for_each_entry(),
->> the list iterator 'drm_crtc' will point to a bogus position
->> containing HEAD if the list is empty or no element is found.
->> This case must be checked before any use of the iterator,
->> otherwise it will lead to a invalid memory access.
->>
->> To fix this bug, use a new variable 'iter' as the list iterator,
->> while use the origin variable 'drm_crtc' as a dedicated pointer
->> to point to the found element.
->>
->> Cc: stable@vger.kernel.org
->> Fixes: b107603b4ad0f ("drm/msm/dpu: map mixer/ctl hw blocks in encoder 
->> modeset")
->> Signed-off-by: Xiaomeng Tong <xiam0nd.tong@gmail.com>
-> 
-> Reviewed-by: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
+From: Xinlei Lee <xinlei.lee@mediatek.com>
 
-On the other hand, this code has been removed in 5.18-rc1 in the commit 
-764332bf96244cbc8baf08aa35844b29106da312.
+In upstream-v5.8, dsi_enable will operate panel_enable, but this
+modification has been moved in v5.9. In order to ensure the timing of
+dsi_power_on/off and the timing of pulling up/down the MIPI signal,
+the modification of v5.9 is synchronized in this series of patches.
 
-> 
->> ---
->>   drivers/gpu/drm/msm/disp/dpu1/dpu_encoder.c | 11 ++++++++---
->>   1 file changed, 8 insertions(+), 3 deletions(-)
->>
->> diff --git a/drivers/gpu/drm/msm/disp/dpu1/dpu_encoder.c 
->> b/drivers/gpu/drm/msm/disp/dpu1/dpu_encoder.c
->> index 1e648db439f9..d3fdb18e96f9 100644
->> --- a/drivers/gpu/drm/msm/disp/dpu1/dpu_encoder.c
->> +++ b/drivers/gpu/drm/msm/disp/dpu1/dpu_encoder.c
->> @@ -965,7 +965,7 @@ static void dpu_encoder_virt_mode_set(struct 
->> drm_encoder *drm_enc,
->>       struct dpu_kms *dpu_kms;
->>       struct list_head *connector_list;
->>       struct drm_connector *conn = NULL, *conn_iter;
->> -    struct drm_crtc *drm_crtc;
->> +    struct drm_crtc *drm_crtc = NULL, *iter;
->>       struct dpu_crtc_state *cstate;
->>       struct dpu_global_state *global_state;
->>       struct dpu_hw_blk *hw_pp[MAX_CHANNELS_PER_ENC];
->> @@ -1007,9 +1007,14 @@ static void dpu_encoder_virt_mode_set(struct 
->> drm_encoder *drm_enc,
->>           return;
->>       }
->> -    drm_for_each_crtc(drm_crtc, drm_enc->dev)
->> -        if (drm_crtc->state->encoder_mask & drm_encoder_mask(drm_enc))
->> +    drm_for_each_crtc(iter, drm_enc->dev)
->> +        if (iter->state->encoder_mask & drm_encoder_mask(drm_enc)) {
->> +            drm_crtc = iter;
->>               break;
->> +        }
->> +
->> +    if (!drm_crtc)
->> +        return;
->>       /* Query resource that have been reserved in atomic check step. */
->>       num_pp = dpu_rm_get_assigned_resources(&dpu_kms->rm, global_state,
-> 
-> 
+Changes since v3:
+1. Rebase kernel-5.18-rc1.
+2. Added dsi_enable protection.
+3. Encapsulates the dsi_lane_ready function.
 
+Changes since v2:
+1. Rebase linux-next.
+
+Changes since v1:
+1. Dsi sequence marked with patch adjustment.
+2. Fixes: mtk_dsi: Use the drm_panel_bridge.
+
+Jitao Shi (3):
+  drm/mediatek: Adjust the timing of mipi signal from LP00 to LP11
+  drm/mediatek: Separate poweron/poweroff from enable/disable and define
+    new funcs
+  drm/mediatek: keep dsi as LP00 before dcs cmds transfer
+
+Xinlei Lee (1):
+  drm/mediatek: Add pull-down MIPI operation in mtk_dsi_poweroff
+    function
+
+ drivers/gpu/drm/mediatek/mtk_dsi.c | 81 ++++++++++++++++++++----------
+ 1 file changed, 55 insertions(+), 26 deletions(-)
 
 -- 
-With best wishes
-Dmitry
+2.18.0
+
