@@ -1,84 +1,55 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6F10B4FB9CA
-	for <lists+dri-devel@lfdr.de>; Mon, 11 Apr 2022 12:35:33 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 5F3234FB9F1
+	for <lists+dri-devel@lfdr.de>; Mon, 11 Apr 2022 12:46:01 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 17D9E10EC0D;
-	Mon, 11 Apr 2022 10:35:27 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 4BE0C10F632;
+	Mon, 11 Apr 2022 10:45:58 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from us-smtp-delivery-124.mimecast.com
- (us-smtp-delivery-124.mimecast.com [170.10.133.124])
- by gabe.freedesktop.org (Postfix) with ESMTPS id D9BFC10E3E9
- for <dri-devel@lists.freedesktop.org>; Mon, 11 Apr 2022 10:35:24 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1649673323;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=RHjWAOjwe9YkFe6B/qf2TjGc0rmWAclWS07SRUnQH5Q=;
- b=hZLM2u/RdmqutKIZQ1KBU1FNKaLh/jaEpnv8HDpgdJORgsyWM8mAgaKZZ0kT6fGEU3rbSs
- 57efXR9qLOH939AJ3vAzAD9w+FHhYW4ZiXkXjv43Sx9xURrEgdHQfwKGDJ0DpKrXNpmZhp
- CukX/mte2cX//Gwd0OL77LBdg+M+68k=
-Received: from mail-ej1-f69.google.com (mail-ej1-f69.google.com
- [209.85.218.69]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-634-QlaT0IQaOF2aplJRoJ4rPA-1; Mon, 11 Apr 2022 06:35:22 -0400
-X-MC-Unique: QlaT0IQaOF2aplJRoJ4rPA-1
-Received: by mail-ej1-f69.google.com with SMTP id
- ne8-20020a1709077b8800b006e87e97d2e7so869964ejc.3
- for <dri-devel@lists.freedesktop.org>; Mon, 11 Apr 2022 03:35:22 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
- :content-language:to:cc:references:from:in-reply-to
- :content-transfer-encoding;
- bh=RHjWAOjwe9YkFe6B/qf2TjGc0rmWAclWS07SRUnQH5Q=;
- b=UMr8vzvSU0kS/q+kLlSHAlLzVzEaihydpPaoxHLmpt1o/mai+UHZmhAEzs1Wk0pzXQ
- 8bwwQHbWfvRwa/f8z46ih7ck389UeI2vORfe2bXhCqJnD1qZpde0GgFYh4VEiw/b+w9X
- NzLryebET0Q1Hs5hhfpP81bsx/MTGDbyiDH9Rqd6BsF2yjM/WatWQ1BU5EuIl7hWn1fG
- f2zAnPdOhahtnCSZP5CPfKqVE4Ftu5UuOYy98VBTXgzQVPjTX8yPsduOBgIFp/xCtIAl
- sxWX2wIhd7eYy2ibs9k4j1y5CFMLRf/ScZQOeGKbkaFDyHgA5lpA0C4zyS5V72PlHn8c
- U/Kg==
-X-Gm-Message-State: AOAM530rfpDLZ3jPRsb1oy9yaA//Xoa/vC36UueplzK4kwOq6GfzUA0k
- fqz6teu9J2NokWsEsbpO0RE4Ciw8g5Vn2c0Qas4QeSDWHXKzxpV5PWvAcyuK8yjqUGo9sJsR7t9
- 8LJG7uSAd5d2D5Ac3Kplk+Fwym4fw
-X-Received: by 2002:a17:906:68c2:b0:6b4:9f26:c099 with SMTP id
- y2-20020a17090668c200b006b49f26c099mr29948748ejr.41.1649673321426; 
- Mon, 11 Apr 2022 03:35:21 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJwcRdi/M6S5Y5OJuGSqWCzHZdci2ybAZwXF/CV/YDh2QPPfWjQoO8j+qEbmxE+t4fRnBwsscA==
-X-Received: by 2002:a17:906:68c2:b0:6b4:9f26:c099 with SMTP id
- y2-20020a17090668c200b006b49f26c099mr29948731ejr.41.1649673321238; 
- Mon, 11 Apr 2022 03:35:21 -0700 (PDT)
-Received: from [10.40.98.142] ([78.108.130.194])
- by smtp.gmail.com with ESMTPSA id
- j4-20020a509d44000000b0041cdc7ffda4sm10356306edk.59.2022.04.11.03.35.20
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Mon, 11 Apr 2022 03:35:20 -0700 (PDT)
-Message-ID: <2e4963f6-6746-082d-c516-6fb73307cd18@redhat.com>
-Date: Mon, 11 Apr 2022 12:35:20 +0200
+Received: from mga14.intel.com (mga14.intel.com [192.55.52.115])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 4B17110F638;
+ Mon, 11 Apr 2022 10:45:56 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+ t=1649673956; x=1681209956;
+ h=message-id:date:mime-version:subject:to:cc:references:
+ from:in-reply-to:content-transfer-encoding;
+ bh=xAIaFaRxRb/y7SJ/yOei69L1F7DrUcF025DiXtQgjhc=;
+ b=RnI/ELuwZEcSqcKFS6xgZRzcTSgh8bdCIWy1K1WmIjSxs9BZt51g+N2P
+ nBgwvsj6UySFBdsqqyoVV613PbtROaP5aOjMx7+nzD/qqYNcXI2yX+9YJ
+ yUR0/uKHJhc5fSpMrQYp8QQy8GDo3n92OpABg2vYEwPSDnxIhBoa2f2uZ
+ QNm3m+cU2ZTdYi9wob0Rzje6Yf7s8VqExCFiubpcd+iuGJ3MIlGfQX8sb
+ J4Cy2fjpRo8hY6tz1j4ErUWtK7v7tzAw9d8sKR7v7VN2TVSGYfFkRDGgn
+ 9wHZULAtku6OGlZ6GqfTp4OxSivfHwQXwonw5A/7vzLZZYfOay1sKdxl+ w==;
+X-IronPort-AV: E=McAfee;i="6400,9594,10313"; a="262265413"
+X-IronPort-AV: E=Sophos;i="5.90,251,1643702400"; d="scan'208";a="262265413"
+Received: from orsmga004.jf.intel.com ([10.7.209.38])
+ by fmsmga103.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 11 Apr 2022 03:45:55 -0700
+X-IronPort-AV: E=Sophos;i="5.90,251,1643702400"; d="scan'208";a="659998478"
+Received: from melhebea-mobl1.amr.corp.intel.com (HELO [10.249.254.167])
+ ([10.249.254.167])
+ by orsmga004-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 11 Apr 2022 03:45:53 -0700
+Message-ID: <271fa83e-029e-a0d2-ecc3-5583722c7320@linux.intel.com>
+Date: Mon, 11 Apr 2022 12:45:51 +0200
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
  Thunderbird/91.7.0
-Subject: Re: [RFC] drm/kms: control display brightness through drm_connector
- properties
-To: Simon Ser <contact@emersion.fr>
-References: <0d188965-d809-81b5-74ce-7d30c49fee2d@redhat.com>
- <dP36CeeNjDVKgcJzbBAdkNM0HzB3N5Uzd6cgBcmrb5mA6xzWs9AKMmRdMKG2y6c1geMhZ1i8hONKQmxYYHN-ZhRLGT_TXz5IhtqnJSWBD9Q=@emersion.fr>
- <0e1cffc1-e8b6-dc58-56ff-53f911f33e60@redhat.com>
- <XwpYE-RK1zRFJfojeMJV5ddsxHnHg4HRTXd4fZ_7yUMBZRCy3ARRIPC6Y-eCJ5Ag9Fin8FGLz6t-L8Ix4P7ykQlrJ6dH4LYye20kyHKtVaI=@emersion.fr>
-From: Hans de Goede <hdegoede@redhat.com>
-In-Reply-To: <XwpYE-RK1zRFJfojeMJV5ddsxHnHg4HRTXd4fZ_7yUMBZRCy3ARRIPC6Y-eCJ5Ag9Fin8FGLz6t-L8Ix4P7ykQlrJ6dH4LYye20kyHKtVaI=@emersion.fr>
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=hdegoede@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
+Subject: Re: [PATCH] drm/ttm: stop passing NULL fence in
+ ttm_bo_move_sync_cleanup
 Content-Language: en-US
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+To: Matthew Auld <matthew.auld@intel.com>, intel-gfx@lists.freedesktop.org
+References: <20220411085603.58156-1-matthew.auld@intel.com>
+ <11835204-fd38-ef91-8e55-2b3e15aaaacd@linux.intel.com>
+ <dd38bc4f-33ea-eb29-6192-fe04578f90f6@intel.com>
+From: =?UTF-8?Q?Thomas_Hellstr=c3=b6m?= <thomas.hellstrom@linux.intel.com>
+In-Reply-To: <dd38bc4f-33ea-eb29-6192-fe04578f90f6@intel.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -91,103 +62,128 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Sebastian Wick <sebastian.wick@redhat.com>,
- Martin Roukala <martin.roukala@mupuf.org>,
- Christoph Grenz <christophg+lkml@grenz-bonn.de>,
- wayland <wayland-devel@lists.freedesktop.org>,
- "dri-devel@lists.freedesktop.org" <dri-devel@lists.freedesktop.org>,
- Yusuf Khan <yusisamerican@gmail.com>
+Cc: Nirmoy Das <nirmoy.das@linux.intel.com>,
+ Lucas De Marchi <lucas.demarchi@intel.com>,
+ =?UTF-8?Q?Christian_K=c3=b6nig?= <christian.koenig@amd.com>,
+ dri-devel@lists.freedesktop.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi Simon,
 
-On 4/8/22 10:22, Simon Ser wrote:
-> Hi Hans,
-> 
-> Thanks for your details replies!
-> 
-> On Thursday, April 7th, 2022 at 19:43, Hans de Goede <hdegoede@redhat.com> wrote:
-> 
->>> On Thursday, April 7th, 2022 at 17:38, Hans de Goede <hdegoede@redhat.com> wrote:
->>>
->>>> The drm_connector brightness properties
->>>> =======================================
->>>>
->>>> bl_brightness: rw 0-int32_max property controlling the brightness setting
->>>> of the connected display. The actual maximum of this will be less then
->>>> int32_max and is given in bl_brightness_max.
->>>
->>> Do we need to split this up into two props for sw/hw state? The privacy screen
->>> stuff needed this, but you're pretty familiar with that. :)
+On 4/11/22 12:06, Matthew Auld wrote:
+> On 11/04/2022 10:56, Thomas Hellström wrote:
+>> Hi, Matthew
 >>
->> Luckily that won't be necessary, since the privacy-screen is a security
->> feature the firmware/embedded-controller may refuse our requests
->> (may temporarily lock-out changes) and/or may make changes without
->> us requesting them itself. Neither is really the case with the
->> brightness setting of displays.
-> 
-> Cool, makes sense to me!
-> 
->>>> bl_brightness_max: ro 0-int32_max property giving the actual maximum
->>>> of the display's brightness setting. This will report 0 when brightness
->>>> control is not available (yet).
+>> On 4/11/22 10:56, Matthew Auld wrote:
+>>> If we hit the sync case, like when skipping clearing for kernel 
+>>> internal
+>>> objects, or when falling back to cpu clearing, like in i915, we end up
+>>> trying to add a NULL fence, but with some recent changes in this area
+>>> this now just results in NULL deref in dma_resv_add_fence:
 >>>
->>> I don't think we actually need that one. Integer KMS props all have a
->>> range which can be fetched via drmModeGetProperty. The max can be
->>> exposed via this range. Example with the existing alpha prop:
+>>> <1>[    5.466383] BUG: kernel NULL pointer dereference, address: 
+>>> 0000000000000008
+>>> <1>[    5.466384] #PF: supervisor read access in kernel mode
+>>> <1>[    5.466385] #PF: error_code(0x0000) - not-present page
+>>> <6>[    5.466386] PGD 0 P4D 0
+>>> <4>[    5.466387] Oops: 0000 [#1] PREEMPT SMP NOPTI
+>>> <4>[    5.466389] CPU: 5 PID: 267 Comm: modprobe Not tainted 
+>>> 5.18.0-rc2-CI-CI_DRM_11481+ #1
+>>> <4>[    5.466391] RIP: 0010:dma_resv_add_fence+0x63/0x260
+>>> <4>[    5.466395] Code: 38 85 c0 0f 84 df 01 00 00 0f 88 e8 01 00 00 
+>>> 83 c0 01 0f 88 df 01 00 00 8b 05 35 89 10 01 49 8d 5e 68 85 c0 0f 85 
+>>> 45 01 00 00 <48> 8b 45 08 48 3d c0 a5 0a 82 0f 84 5c 01 00 00 48 3d 
+>>> 60 a5 0a 82
+>>> <4>[    5.466396] RSP: 0018:ffffc90000e974f8 EFLAGS: 00010202
+>>> <4>[    5.466397] RAX: 0000000000000001 RBX: ffff888123e88b28 RCX: 
+>>> 00000000ffffffff
+>>> <4>[    5.466398] RDX: 0000000000000001 RSI: ffffffff822e4f50 RDI: 
+>>> ffffffff8233f087
+>>> <4>[    5.466399] RBP: 0000000000000000 R08: ffff8881313dbc80 R09: 
+>>> 0000000000000001
+>>> <4>[    5.466399] R10: 0000000000000001 R11: 00000000da354294 R12: 
+>>> 0000000000000000
+>>> <4>[    5.466400] R13: ffff88810927dc58 R14: ffff888123e88ac0 R15: 
+>>> ffff88810a88d600
+>>> <4>[    5.466401] FS:  00007f5fa1193540(0000) 
+>>> GS:ffff88845d880000(0000) knlGS:0000000000000000
+>>> <4>[    5.466402] CS:  0010 DS: 0000 ES: 0000 CR0: 0000000080050033
+>>> <4>[    5.466402] CR2: 0000000000000008 CR3: 0000000106dd6003 CR4: 
+>>> 00000000003706e0
+>>> <4>[    5.466403] DR0: 0000000000000000 DR1: 0000000000000000 DR2: 
+>>> 0000000000000000
+>>> <4>[    5.466404] DR3: 0000000000000000 DR6: 00000000fffe0ff0 DR7: 
+>>> 0000000000000400
+>>> <4>[    5.466404] Call Trace:
+>>> <4>[    5.466405]  <TASK>
+>>> <4>[    5.466406]  ttm_bo_move_accel_cleanup+0x62/0x270 [ttm]
+>>> <4>[    5.466411]  ? i915_rsgt_from_buddy_resource+0x185/0x1e0 [i915]
+>>> <4>[    5.466529]  i915_ttm_move+0xfd/0x430 [i915]
+>>> <4>[    5.466833]  ? dma_resv_reserve_fences+0x4e/0x320
+>>> <4>[    5.466836]  ? ttm_bo_add_move_fence.constprop.20+0xf7/0x140 
+>>> [ttm]
+>>> <4>[    5.466841]  ttm_bo_handle_move_mem+0xa1/0x140 [ttm]
+>>> <4>[    5.466845]  ttm_bo_validate+0xee/0x160 [ttm]
+>>> <4>[    5.466849]  __i915_ttm_get_pages+0x4f/0x210 [i915]
+>>> <4>[    5.466976]  i915_ttm_get_pages+0xad/0x140 [i915]
+>>> <4>[    5.467094] ____i915_gem_object_get_pages+0x32/0xf0 [i915]
+>>> <4>[    5.467210]  __i915_gem_object_get_pages+0x89/0xa0 [i915]
+>>> <4>[    5.467323]  i915_vma_get_pages+0x114/0x1d0 [i915]
+>>> <4>[    5.467446]  i915_vma_pin_ww+0xd3/0xa90 [i915]
+>>> <4>[    5.467570]  i915_vma_pin.constprop.10+0x119/0x1b0 [i915]
+>>> <4>[    5.467700]  ? __mutex_unlock_slowpath+0x3e/0x2b0
+>>> <4>[    5.467704] intel_alloc_initial_plane_obj.isra.6+0x1a9/0x390 
+>>> [i915]
+>>> <4>[    5.467833] intel_crtc_initial_plane_config+0x83/0x340 [i915]
 >>>
->>>     "alpha": range [0, UINT16_MAX] = 65535
+>>> In the ttm_bo_move_sync_cleanup() case it seems we only really care
+>>> about calling ttm_bo_wait_free_node(), so let's instead just call that
+>>> directly.
+>>>
+>>> Signed-off-by: Matthew Auld <matthew.auld@intel.com>
+>>> Cc: Thomas Hellström <thomas.hellstrom@linux.intel.com>
+>>> Cc: Christian König <christian.koenig@amd.com>
+>>> Cc: Lucas De Marchi <lucas.demarchi@intel.com>
+>>> Cc: Nirmoy Das <nirmoy.das@linux.intel.com>
+>>> ---
+>>>   drivers/gpu/drm/ttm/ttm_bo_util.c | 15 +++++++++++++++
+>>>   include/drm/ttm/ttm_bo_driver.h   | 11 +++--------
+>>>   2 files changed, 18 insertions(+), 8 deletions(-)
+>>>
+>>> diff --git a/drivers/gpu/drm/ttm/ttm_bo_util.c 
+>>> b/drivers/gpu/drm/ttm/ttm_bo_util.c
+>>> index bc5190340b9c..1cbfb00c1d65 100644
+>>> --- a/drivers/gpu/drm/ttm/ttm_bo_util.c
+>>> +++ b/drivers/gpu/drm/ttm/ttm_bo_util.c
+>>> @@ -572,6 +572,21 @@ int ttm_bo_move_accel_cleanup(struct 
+>>> ttm_buffer_object *bo,
+>>>   }
+>>>   EXPORT_SYMBOL(ttm_bo_move_accel_cleanup);
+>>> +void ttm_bo_move_sync_cleanup(struct ttm_buffer_object *bo,
+>>> +                  struct ttm_resource *new_mem)
+>>> +{
+>>> +    struct ttm_device *bdev = bo->bdev;
+>>> +    struct ttm_resource_manager *man = ttm_manager_type(bdev, 
+>>> new_mem->mem_type);
+>>> +    int ret;
+>>> +
+>>> +    ret = ttm_bo_wait_free_node(bo, man->use_tt);
+>>> +    if (WARN_ON(ret))
+>>> +        return;
+>>> +
+>>> +    ttm_bo_assign_mem(bo, new_mem);
+>>> +}
+>>> +EXPORT_SYMBOL(ttm_bo_move_sync_cleanup);
 >>
->> Right, I already knew that, which is why I explicitly added a range
->> to the props already. The problem is that the range must be set
->> before registering the connector and when the backlight driver
->> only shows up (much) later during boot then we don't know the
->> range when registering the connector. I guess we could "patch-up"
->> the range later. But AFAIK that would be a bit of abuse of the
->> property API as the range is intended to never change, not
->> even after hotplug uevents. At least atm there is no infra
->> in the kernel to change the range later.
->>
->> Which is why I added an explicit bl_brightness_max property
->> of which the value gives the actual effective maximum of the
->> brightness.
->>
->> I did consider using the range for this and updating it
->> on the fly I think nothing is really preventing us from
->> doing so, but it very much feels like abusing the generic
->> properties API.
-> 
-> Since this is new uAPI there's no concern about backwards compat here. So it's
-> pretty much a matter of how we want the uAPI to look like. I was suggesting
-> using a range because it's self-describing, but maybe it's an abuse.
-> 
-> Daniel Vetter, what do you think? If a property's range is going to be updated
-> on the fly, should we go for it, or should we use a separate prop to describe
-> the max value?
+>> I don't think this will help in the case where we call 
+>> ttm_bo_move_accel_cleanup() with a NULL fence....
+>
+> Hmm, do you know if that case actually exists? I thought the only 
+> current user passing fence == NULL was ttm_bo_move_sync_cleanup().
 
-Daniel, as explained in my replies to you, I do believe that dynamically
-updating the range is unavoidable. Especially once we also add support
-for setting a monitor's brightness over DDC/CI.
 
-Since external monitors (with/without DDC/CI support) can come and go and
-since properties cannot be added/removed after connector registration, we
-need a way to let userspace know if brightness control is actually available
-or not and what the range is. We can use a max value of 0 for not available
-and other values for the actual range, which I believe is a sane API.
+Yes, indeed, you're right. Not sure if any other driver hits that, though.
 
-But the question from Simon then still remains, do we update the range
-of the property on the fly, followed by a connector hotplug uevent; or
-do we use a separate brightness_max property for this?
-
-Note that as Rasterman indicated that with DDC/CI support we could also
-offer other properties (for which I see no reason atm) and if we do
-say also add a contrast property over DDC/CI then if we go the
-separate brightness_max route that would mean adding 2 props for
-each setting which we want to support.
-
-Regards,
-
-Hans
+/Thomas
 
 
