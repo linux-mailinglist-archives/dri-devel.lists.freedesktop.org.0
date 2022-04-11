@@ -1,57 +1,83 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 696CD4FBF5F
-	for <lists+dri-devel@lfdr.de>; Mon, 11 Apr 2022 16:40:00 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 331914FBF85
+	for <lists+dri-devel@lfdr.de>; Mon, 11 Apr 2022 16:48:36 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id A27B110EAA7;
-	Mon, 11 Apr 2022 14:39:57 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id BE47110E2FA;
+	Mon, 11 Apr 2022 14:48:30 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-ed1-x530.google.com (mail-ed1-x530.google.com
- [IPv6:2a00:1450:4864:20::530])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 449F310EAA7
- for <dri-devel@lists.freedesktop.org>; Mon, 11 Apr 2022 14:39:56 +0000 (UTC)
-Received: by mail-ed1-x530.google.com with SMTP id t25so6039460edt.9
- for <dri-devel@lists.freedesktop.org>; Mon, 11 Apr 2022 07:39:56 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=RGN9dUJYj47JXi0a+41k06MGWJnJyWFM/qMvB07kZsg=;
- b=VxSsL0wEXbboLeOf2wmpHxXFgzdjwQ2liqKeQ0Wa8wPsAjiLD/84l8L8pNF/DdFI/P
- nEYEQgVyTR4y+ZFDUa7G7+w1548IZWDT6rfrXZiv6VC5kPRXRvqkqzBuntY0f45Mz8nr
- W8jV7goLTKnn2d9vYhj7DN1a6bxAMbkAFYfn+yNbCTDK8rwifQf0oKDBuj+sZoHEq59H
- pWHO+IyqQWm9MJ+WPQx75yGSCc42GEo3yPgQ6Dcm1GDOdz7WgUI5n0i9CodaajRSUaFJ
- PAduKSisg7qEozDjtk96LGac/tNitPOejdAFJAxgwlJ9WYQUST8JtCCbJnGgGbBjdzjD
- U+lA==
+Received: from us-smtp-delivery-124.mimecast.com
+ (us-smtp-delivery-124.mimecast.com [170.10.133.124])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 0C2CD10E2FA
+ for <dri-devel@lists.freedesktop.org>; Mon, 11 Apr 2022 14:48:29 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1649688508;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=23gHevVrroOIYzFgSputvPyAa/4Ktzn0dvOFX/eCoLE=;
+ b=Qgrt3Vw3tS4rEkoeTR5heiMS4f9OVzhIOJD5EdgvhOci6RAq9F0HcBfX/R3Z7ZRn0Bvlxo
+ h1s8Uqj6jq6F+wMh4Z7w8DJ/Tu1FQ2YXQIwBE/b3YyvUUCTS8iYifx5RtT+4gBHSI8QkRg
+ H/RZedPyFw9OqqbuFEkJtlgkTvfasSE=
+Received: from mail-wm1-f71.google.com (mail-wm1-f71.google.com
+ [209.85.128.71]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ us-mta-290-hvpRa0SZP_aG-VZmzsS_Sg-1; Mon, 11 Apr 2022 10:48:28 -0400
+X-MC-Unique: hvpRa0SZP_aG-VZmzsS_Sg-1
+Received: by mail-wm1-f71.google.com with SMTP id
+ m3-20020a05600c3b0300b0038e74402cb6so8779096wms.8
+ for <dri-devel@lists.freedesktop.org>; Mon, 11 Apr 2022 07:48:27 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=RGN9dUJYj47JXi0a+41k06MGWJnJyWFM/qMvB07kZsg=;
- b=mhBemjqEkKzSmcRHVS1WZ0sX/k0ct6uyak1+tfgRec8o/MiSA4RHtReu1UvyjdpixN
- 0/0+1o2lrxCZ8v7kR1QA3tO84AfMnwkJ2gy3i919FYCP8F7VttBbmx7T+TbXKQK1oo/3
- /HGwIZMGVPvIgSdBwpB6iibkiyxhBY3EJkNkxTQw8NGU5XMcKN1M6LoCQHsaagNIRidM
- VcrHARxUyqgvsLXLfXfC/OguwS70m+ZEPVLYF5QmeCt41yuCe5Xe1g7Elf2hkziLfInc
- tKIjkLJO5LgOp2u+ZPnlv9jhSzbanlxDEfjlndlyyzI5STVLt9RgejjwRq/UZREx7r6C
- 1guA==
-X-Gm-Message-State: AOAM530OF2+d5lOo74tz4SyggPf4UCmvLZX6AvqC5opMX3POCKMk7RvA
- BNr28GrMxvLJj3opKpGT5BXajoQxfQsZma0qizQ=
-X-Google-Smtp-Source: ABdhPJwwgcOrCgzva5OHLdgmGhUkVRkz1EOhBjroc03r3EyT8eRz+X7v727q27f23vS1qHhjpn/8fDRQ0xyrx+vrUSs=
-X-Received: by 2002:a05:6402:2142:b0:413:6531:bd9e with SMTP id
- bq2-20020a056402214200b004136531bd9emr33389701edb.5.1649687994494; Mon, 11
- Apr 2022 07:39:54 -0700 (PDT)
+ h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
+ :content-language:to:cc:references:from:in-reply-to
+ :content-transfer-encoding;
+ bh=23gHevVrroOIYzFgSputvPyAa/4Ktzn0dvOFX/eCoLE=;
+ b=eU7XdpDN1U5y9+BBHgWf5ZJm0MiLJxZ8vuQeFhDp2g9m3iGZDq3yFuIQvsX34TIZCV
+ kdPhxwDuqOmtGNWZMk4822lgR6j4SObUDDjnm19Mjz0LjEl4moIwkfRdw4xj8806BcC7
+ W5Yck/xFLJlHtXVr+OYEn8G1SVZ1Vzw/MN0JN7ghSwdIjS6P4Uu8hEsZ1WdqQ82B88Ox
+ rbQyxQ+3l09USBIZVNk4iqLkL2WzVoy8rPv/vY27jJzoaBT4UGkLz8ZyXhobQ06NHW+b
+ oZnP//gBu3sMEM/vYU/BwjMAVgaY+JoLSEtFIDR8meQRulDLhGi41nwrkqK1SifimkJc
+ YEsA==
+X-Gm-Message-State: AOAM533f/EYvTHfr/YB8UzVP2GvGogTPGxC5p0qTj+nGN+7XP9lOlqK2
+ tQwwNZKMZLr4p2jLNq3XnhD8uuY7mrThUOGY5OZy2Twd1XIDbZDtBi0aMvtfiPbuVcYrmKFvV5c
+ pwRJHh0d5FbQSmGkkpAoSKjzF1UcP
+X-Received: by 2002:a05:600c:25cd:b0:38e:715e:d9b6 with SMTP id
+ 13-20020a05600c25cd00b0038e715ed9b6mr29405427wml.63.1649688506632; 
+ Mon, 11 Apr 2022 07:48:26 -0700 (PDT)
+X-Google-Smtp-Source: ABdhPJxulV+PmBoci9B8dGS1eRwND5+wEOgNayliPAYXAVTwZj2JV3nKrI1I662hg1YD8X6EMDanug==
+X-Received: by 2002:a05:600c:25cd:b0:38e:715e:d9b6 with SMTP id
+ 13-20020a05600c25cd00b0038e715ed9b6mr29405403wml.63.1649688506398; 
+ Mon, 11 Apr 2022 07:48:26 -0700 (PDT)
+Received: from [192.168.1.102] ([92.176.231.205])
+ by smtp.gmail.com with ESMTPSA id
+ s1-20020adfb781000000b002060d4a8bd9sm22107168wre.17.2022.04.11.07.48.25
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Mon, 11 Apr 2022 07:48:25 -0700 (PDT)
+Message-ID: <a422b984-6d2a-a307-7b4d-a4fec08e87c2@redhat.com>
+Date: Mon, 11 Apr 2022 16:48:24 +0200
 MIME-Version: 1.0
-References: <CGME20220408162213eucas1p158d7c7ee27006a61d4af95d3c72c58e3@eucas1p1.samsung.com>
- <20220408162108.184583-1-jagan@amarulasolutions.com>
- <4c693c6e-512b-a568-948a-4a1af6a1313a@samsung.com>
-In-Reply-To: <4c693c6e-512b-a568-948a-4a1af6a1313a@samsung.com>
-From: Adam Ford <aford173@gmail.com>
-Date: Mon, 11 Apr 2022 09:39:43 -0500
-Message-ID: <CAHCN7xK_H-nLA5Z6hJW5V0Bpo8bDKPU6UpN05kMBkG+PXmwBBw@mail.gmail.com>
-Subject: Re: [PATCH 00/11] drm: bridge: Add Samsung MIPI DSIM bridge
-To: Marek Szyprowski <m.szyprowski@samsung.com>
-Content-Type: text/plain; charset="UTF-8"
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.7.0
+Subject: Re: [PATCH 1/5] dt-bindings: display: ssd1307fb: Deprecate fbdev
+ compatible strings
+To: Geert Uytterhoeven <geert@linux-m68k.org>
+References: <20220407200205.28838-1-javierm@redhat.com>
+ <20220407200205.28838-2-javierm@redhat.com>
+ <CAMuHMdUGQ6qabs_xD6kQeDruQLG-OX17UEVrgeGu3Eo6C2dEgw@mail.gmail.com>
+From: Javier Martinez Canillas <javierm@redhat.com>
+In-Reply-To: <CAMuHMdUGQ6qabs_xD6kQeDruQLG-OX17UEVrgeGu3Eo6C2dEgw@mail.gmail.com>
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=javierm@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Language: en-US
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -64,99 +90,80 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: dri-devel <dri-devel@lists.freedesktop.org>,
- devicetree <devicetree@vger.kernel.org>,
- linux-samsung-soc <linux-samsung-soc@vger.kernel.org>,
- Joonyoung Shim <jy0922.shim@samsung.com>,
- Neil Armstrong <narmstrong@baylibre.com>, Robert Foss <robert.foss@linaro.org>,
- Seung-Woo Kim <sw0312.kim@samsung.com>, NXP Linux Team <linux-imx@nxp.com>,
- Frieder Schrempf <frieder.schrempf@kontron.de>,
- Kyungmin Park <kyungmin.park@samsung.com>, Rob Herring <robh+dt@kernel.org>,
- Jagan Teki <jagan@amarulasolutions.com>,
- Andrzej Hajda <andrzej.hajda@intel.com>, Fancy Fang <chen.fang@nxp.com>,
- Michael Nazzareno Trimarchi <michael@amarulasolutions.com>,
- linux-amarula <linux-amarula@amarulasolutions.com>,
- arm-soc <linux-arm-kernel@lists.infradead.org>,
- Laurent Pinchart <Laurent.pinchart@ideasonboard.com>
+Cc: "open list:OPEN FIRMWARE AND FLATTENED DEVICE TREE BINDINGS"
+ <devicetree@vger.kernel.org>,
+ Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
+ David Airlie <airlied@linux.ie>,
+ Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
+ DRI Development <dri-devel@lists.freedesktop.org>,
+ Rob Herring <robh+dt@kernel.org>, Mark Brown <broonie@kernel.org>,
+ Krzysztof Kozlowski <krzk+dt@kernel.org>, Chen-Yu Tsai <wens@kernel.org>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Mon, Apr 11, 2022 at 8:56 AM Marek Szyprowski
-<m.szyprowski@samsung.com> wrote:
->
-> On 08.04.2022 18:20, Jagan Teki wrote:
-> > This series supports common bridge support for Samsung MIPI DSIM
-> > which is used in Exynos and i.MX8MM SoC's.
-> >
-> > Previous RFC can be available here [1].
-> >
-> > The final bridge supports both the Exynos and i.MX8MM DSI devices.
-> >
-> > On, summary this patch-set break the entire DSIM driver into
-> > - platform specific glue code for platform ops, component_ops.
-> > - common bridge driver which handle platform glue init and invoke.
-> >
-> > Patch 0000:   Samsung DSIM bridge
-> >
-> > Patch 0001:   platform init flag via driver_data
-> >
-> > Patch 0002/9:   bridge fixes, atomic API's
-> >
-> > Patch 0010:   document fsl,imx8mm-mipi-dsim
-> >
-> > Patch 0011:   add i.MX8MM DSIM support
-> >
-> > Tested in Engicam i.Core MX8M Mini SoM.
-> >
-> > Anyone interested, please have a look on this repo [2]
-> >
-> > [2] https://protect2.fireeye.com/v1/url?k=930e329a-f28527b5-930fb9d5-74fe485cbfe7-b0c53e2d688ddbc5&q=1&e=e6aa727d-5ae2-4ca5-bff3-7f62d8fae87e&u=https%3A%2F%2Fgithub.com%2Fopenedev%2Fkernel%2Ftree%2Fimx8mm-dsi-v1
-> > [1] https://lore.kernel.org/linux-arm-kernel/YP2j9k5SrZ2%2Fo2%2F5@ravnborg.org/T/
-> >
-> > Any inputs?
->
-> I wanted to test this on the Exynos, but I wasn't able to find what base
-> should I apply this patchset. I've tried linux-next as well as
-> 95a2441e4347 ("drm: exynos: dsi: Switch to atomic funcs").
->
-> Please note that pointing a proper base for the patchset is really
-> essential if you really want others to test it.
+Hello Geert,
 
-Can you clone his repo and test that?  He posted it above.  I was
-going to clone it at some point this week to give it a try.
+On 4/11/22 15:47, Geert Uytterhoeven wrote:
+> Hi Javier,
+> 
+> On Thu, Apr 7, 2022 at 10:03 PM Javier Martinez Canillas
+> <javierm@redhat.com> wrote:
+>> The current compatible strings for SSD130x I2C controllers contain an -fb
+>> suffix, this seems to indicate that are for a fbdev driver. But the DT is
+>> supposed to describe the hardware and not Linux implementation details.
+>>
+>> Let's deprecate those compatible strings and add a new enum that contains
+>> compatible strings that don't have a -fb suffix. These will be matched by
+>> the ssd130x-i2c DRM driver.
+>>
+>> Signed-off-by: Javier Martinez Canillas <javierm@redhat.com>
+> 
+>> --- a/Documentation/devicetree/bindings/display/solomon,ssd1307fb.yaml
+>> +++ b/Documentation/devicetree/bindings/display/solomon,ssd1307fb.yaml
+>> @@ -12,12 +12,24 @@ maintainers:
+>>
+>>  properties:
+>>    compatible:
+>> -    enum:
+>> -      - sinowealth,sh1106-i2c
+>> -      - solomon,ssd1305fb-i2c
+>> -      - solomon,ssd1306fb-i2c
+>> -      - solomon,ssd1307fb-i2c
+>> -      - solomon,ssd1309fb-i2c
+>> +    oneOf:
+>> +      # Deprecated compatible strings
+>> +      - items:
+>> +          - enum:
+>> +              - solomon,ssd1305fb-i2c
+>> +              - solomon,ssd1306fb-i2c
+>> +              - solomon,ssd1307fb-i2c
+>> +              - solomon,ssd1309fb-i2c
+> 
+> Please drop the "-i2c" suffixes, too.
+> We already have plenty of IIO sensors and audio codecs using the
+> same compatible value for spi and i2c, cfr.
+> 'git grep compatible -- "*-[si][p2][ic].c"'
+>
 
-adam
->
->
-> > Jagan.
-> >
-> > Jagan Teki (11):
-> >    drm: bridge: Add Samsung DSIM bridge driver
-> >    drm: bridge: samsung-dsim: Handle platform init via driver_data
-> >    drm: bridge: samsung-dsim: Mark PHY as optional
-> >    drm: bridge: samsung-dsim: Add DSI init in bridge pre_enable()
-> >    drm: bridge: samsung-dsim: Fix PLL_P (PMS_P) offset
-> >    drm: bridge: samsung-dsim: Add module init, exit
-> >    drm: bridge: samsung-dsim: Add atomic_check
-> >    drm: bridge: samsung-dsim: Add atomic_get_input_bus_fmts
-> >    drm: bridge: samsung-dsim: Add input_bus_flags
-> >    dt-bindings: display: exynos: dsim: Add NXP i.MX8MM support
-> >    drm: bridge: samsung-dsim: Add i.MX8MM support
-> >
-> >   .../bindings/display/exynos/exynos_dsim.txt   |    1 +
-> >   MAINTAINERS                                   |   12 +
-> >   drivers/gpu/drm/bridge/Kconfig                |   12 +
-> >   drivers/gpu/drm/bridge/Makefile               |    1 +
-> >   drivers/gpu/drm/bridge/samsung-dsim.c         | 1803 +++++++++++++++++
-> >   drivers/gpu/drm/exynos/Kconfig                |    1 +
-> >   drivers/gpu/drm/exynos/exynos_drm_dsi.c       | 1704 +---------------
-> >   include/drm/bridge/samsung-dsim.h             |   97 +
-> >   8 files changed, 1982 insertions(+), 1649 deletions(-)
-> >   create mode 100644 drivers/gpu/drm/bridge/samsung-dsim.c
-> >   create mode 100644 include/drm/bridge/samsung-dsim.h
-> >
-> Best regards
-> --
-> Marek Szyprowski, PhD
-> Samsung R&D Institute Poland
->
+Yes, I know but was worried about the potential issues that mentioned in a
+previous email in this thread. But after the discussion we had over IRC, I
+think that is safe to assume that the SPI subsystem won't change how the
+modaliases are reported, so there won't be conflict between I2C and SPI.
+
+And if that is ever changed, there's a plan to add the bus type to the data
+reported by the modalias uevent so user-space could figure out what to load.
+
+So I'll go ahead with Rob and yours suggestion, and just deprecate the old
+ones and drop both the "fb" and "-i2c" part of the compatible strings, to
+use the same compatible strings for both the I2C and SPI drivers.
+
+After all, that's the correct way to describe the hardware and not encode
+any Linux implementation details in the DT binding.
+
+-- 
+Best regards,
+
+Javier Martinez Canillas
+Linux Engineering
+Red Hat
+
