@@ -2,52 +2,59 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id C11354FD29D
-	for <lists+dri-devel@lfdr.de>; Tue, 12 Apr 2022 09:26:24 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id EDF934FD2A9
+	for <lists+dri-devel@lfdr.de>; Tue, 12 Apr 2022 09:31:27 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 8341410E675;
-	Tue, 12 Apr 2022 07:26:21 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 5C11110E78E;
+	Tue, 12 Apr 2022 07:31:23 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mga05.intel.com (mga05.intel.com [192.55.52.43])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 47BDA10E675
- for <dri-devel@lists.freedesktop.org>; Tue, 12 Apr 2022 07:26:20 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1649748380; x=1681284380;
- h=date:from:to:cc:subject:message-id:references:
- mime-version:in-reply-to;
- bh=G7L8YOlj6LR17aw3DxvsUkt4nUXPEbDep2GdA0mNRfg=;
- b=HOd4kcWkq2SmJszXndlin+qzdnLKb7iPN6aU34RV/NxnGXhxE82IXarW
- +TP/aXf0yQUb1WPGku6tDl9/kcAIFsu6l7I0T8HzDH3rHaR9Ql7Ga0gF8
- 9brabcXqBqTSUCCSn+VOTq6borjtCUDVQ/7Dkl948jBvhMuNfUL8nxXai
- xGpFQvOD6cHvZnzJCcUCy4b1MctoFolxpeohe6Uu2ZdvQ+g+nunuHaNF0
- k0NYFm5yzmY0ZiCijIBbaPK/hwqNY/f/HTXOSwI6gHFqeRDSdrCdbUTPe
- FSUlZ5lyLZbFCC0Vzek3wQQwl9CeOW7GcJD8TapQDkh7R5ZdFz+Phjivb w==;
-X-IronPort-AV: E=McAfee;i="6400,9594,10314"; a="348736567"
-X-IronPort-AV: E=Sophos;i="5.90,253,1643702400"; d="scan'208";a="348736567"
-Received: from fmsmga001.fm.intel.com ([10.253.24.23])
- by fmsmga105.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 12 Apr 2022 00:26:19 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.90,253,1643702400"; d="scan'208";a="699706997"
-Received: from lkp-server02.sh.intel.com (HELO d3fc50ef50de) ([10.239.97.151])
- by fmsmga001.fm.intel.com with ESMTP; 12 Apr 2022 00:26:17 -0700
-Received: from kbuild by d3fc50ef50de with local (Exim 4.95)
- (envelope-from <lkp@intel.com>) id 1neAum-0002co-Sc;
- Tue, 12 Apr 2022 07:26:16 +0000
-Date: Tue, 12 Apr 2022 15:25:56 +0800
-From: kernel test robot <lkp@intel.com>
-To: Javier Martinez Canillas <javierm@redhat.com>, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH v2 4/5] drm/solomon: Move device info from ssd130x-i2c to
- the core driver
-Message-ID: <202204121542.aU2BiYXN-lkp@intel.com>
-References: <20220411211243.11121-5-javierm@redhat.com>
+Received: from mail-qt1-f178.google.com (mail-qt1-f178.google.com
+ [209.85.160.178])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id A162B10E78E
+ for <dri-devel@lists.freedesktop.org>; Tue, 12 Apr 2022 07:31:22 +0000 (UTC)
+Received: by mail-qt1-f178.google.com with SMTP id z19so18527509qtw.2
+ for <dri-devel@lists.freedesktop.org>; Tue, 12 Apr 2022 00:31:22 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=vPZwLQHFGbE+YddKPiwbAMBD+8+olRhnFPT9yzLHixE=;
+ b=IgmFf5jVWjM4pSz5t2GAJJkA81SHpSHf94lmR0DncoyPIzkbni+JlQTNtgT/RnYHzc
+ j+w9lmSvJucJ3MwE2l8QWL5zDmdsh1BlkNk8Ts3AOP+DWR3HhO8Uieuc1REXe+w2fsOC
+ cUfFlrMjxUPsmks0orWZ0h0KRP51OhfuiQlcc237jTDDWWxh9xTvhbwN/lt/L8CBRyXz
+ igDBxY+9En3qvkLlUSzZz5p5YnxoAgq22i1UrYDcJJTlFWrombJJhDp93objnTryKc4i
+ /kZ5cHc6DIOovlegNK0zwBowhVaA+/0PmF9GH1zQndDVlXO66o+jcP1dkAVI3x939bBW
+ blGw==
+X-Gm-Message-State: AOAM533sbzenMJJFpypJ3og8kYn0+ZgfWmmIOa+uSFo38OPXIZvjYtH7
+ pipfpC4tR7M2tI1EUn/i8iuvBmVyD/jcMWP5
+X-Google-Smtp-Source: ABdhPJznQQZGuBTFsCX5uNuDJAW6LoVuI+Awk0nfsJZgUsn7e9Z5Jt4suelUICkP4y2kU6BAj0oV7A==
+X-Received: by 2002:ac8:7c55:0:b0:2e1:d535:d881 with SMTP id
+ o21-20020ac87c55000000b002e1d535d881mr2307373qtv.188.1649748681602; 
+ Tue, 12 Apr 2022 00:31:21 -0700 (PDT)
+Received: from mail-yw1-f178.google.com (mail-yw1-f178.google.com.
+ [209.85.128.178]) by smtp.gmail.com with ESMTPSA id
+ c3-20020ac87d83000000b002e1d1b3df15sm28020958qtd.44.2022.04.12.00.31.21
+ for <dri-devel@lists.freedesktop.org>
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Tue, 12 Apr 2022 00:31:21 -0700 (PDT)
+Received: by mail-yw1-f178.google.com with SMTP id
+ 00721157ae682-2ebd70a4cf5so132986177b3.3
+ for <dri-devel@lists.freedesktop.org>; Tue, 12 Apr 2022 00:31:21 -0700 (PDT)
+X-Received: by 2002:a81:4f0d:0:b0:2ec:1556:815 with SMTP id
+ d13-20020a814f0d000000b002ec15560815mr8100148ywb.256.1649748680829; Tue, 12
+ Apr 2022 00:31:20 -0700 (PDT)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20220411211243.11121-5-javierm@redhat.com>
-User-Agent: Mutt/1.10.1 (2018-07-13)
+References: <20220411211243.11121-1-javierm@redhat.com>
+ <20220411211243.11121-6-javierm@redhat.com>
+In-Reply-To: <20220411211243.11121-6-javierm@redhat.com>
+From: Geert Uytterhoeven <geert@linux-m68k.org>
+Date: Tue, 12 Apr 2022 09:31:09 +0200
+X-Gmail-Original-Message-ID: <CAMuHMdWsmtBdcV=LL4yqprtbum4f9cSu8orjoPACECa5QENmsg@mail.gmail.com>
+Message-ID: <CAMuHMdWsmtBdcV=LL4yqprtbum4f9cSu8orjoPACECa5QENmsg@mail.gmail.com>
+Subject: Re: [PATCH v2 5/5] drm/solomon: Add SSD130x OLED displays SPI support
+To: Javier Martinez Canillas <javierm@redhat.com>
+Content-Type: text/plain; charset="UTF-8"
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -60,116 +67,80 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
- kbuild-all@lists.01.org, Neil Armstrong <narmstrong@baylibre.com>,
- David Airlie <airlied@linux.ie>, llvm@lists.linux.dev,
- Javier Martinez Canillas <javierm@redhat.com>, dri-devel@lists.freedesktop.org,
- Mark Brown <broonie@kernel.org>, Geert Uytterhoeven <geert@linux-m68k.org>,
- Chen-Yu Tsai <wens@kernel.org>
+Cc: Chen-Yu Tsai <wens@kernel.org>, Neil Armstrong <narmstrong@baylibre.com>,
+ David Airlie <airlied@linux.ie>, YueHaibing <yuehaibing@huawei.com>,
+ Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
+ DRI Development <dri-devel@lists.freedesktop.org>,
+ Chen-Yu Tsai <wens@csie.org>, Mark Brown <broonie@kernel.org>,
+ Maxime Ripard <maxime@cerno.tech>,
+ Andy Shevchenko <andriy.shevchenko@linux.intel.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 Hi Javier,
 
-I love your patch! Perhaps something to improve:
+On Mon, Apr 11, 2022 at 11:12 PM Javier Martinez Canillas
+<javierm@redhat.com> wrote:
+> The ssd130x driver only provides the core support for these devices but it
+> does not have any bus transport logic. Add a driver to interface over SPI.
+>
+> There is a difference in the communication protocol when using 4-wire SPI
+> instead of I2C. For the latter, a control byte that contains a D/C# field
+> has to be sent. This field tells the controller whether the data has to be
+> written to the command register or to the graphics display data memory.
+>
+> But for 4-wire SPI that control byte is not used, instead a real D/C# line
+> must be pulled HIGH for commands data and LOW for graphics display data.
+>
+> For this reason the standard SPI regmap can't be used and a custom .write
+> bus handler is needed.
+>
+> Signed-off-by: Javier Martinez Canillas <javierm@redhat.com>
+> Acked-by: Mark Brown <broonie@kernel.org>
 
-[auto build test WARNING on drm-tip/drm-tip]
-[also build test WARNING on next-20220411]
-[cannot apply to drm/drm-next drm-exynos/exynos-drm-next drm-intel/for-linux-next tegra-drm/drm/tegra/for-next linus/master linux/master v5.18-rc2]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch]
+Thanks for your patch!
 
-url:    https://github.com/intel-lab-lkp/linux/commits/Javier-Martinez-Canillas/drm-solomon-Add-SSD130x-OLED-displays-SPI-support/20220412-051518
-base:   git://anongit.freedesktop.org/drm/drm-tip drm-tip
-config: x86_64-randconfig-a001-20220411 (https://download.01.org/0day-ci/archive/20220412/202204121542.aU2BiYXN-lkp@intel.com/config)
-compiler: clang version 15.0.0 (https://github.com/llvm/llvm-project fe2478d44e4f7f191c43fef629ac7a23d0251e72)
-reproduce (this is a W=1 build):
-        wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbin/make.cross -O ~/bin/make.cross
-        chmod +x ~/bin/make.cross
-        # https://github.com/intel-lab-lkp/linux/commit/ac5a07cda8a0f8d4948e6a01d0b3bb6ce9fe7830
-        git remote add linux-review https://github.com/intel-lab-lkp/linux
-        git fetch --no-tags linux-review Javier-Martinez-Canillas/drm-solomon-Add-SSD130x-OLED-displays-SPI-support/20220412-051518
-        git checkout ac5a07cda8a0f8d4948e6a01d0b3bb6ce9fe7830
-        # save the config file to linux build tree
-        mkdir build_dir
-        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=clang make.cross W=1 O=build_dir ARCH=x86_64 SHELL=/bin/bash drivers/gpu/drm/solomon/
+> --- /dev/null
+> +++ b/drivers/gpu/drm/solomon/ssd130x-spi.c
 
-If you fix the issue, kindly add following tag as appropriate
-Reported-by: kernel test robot <lkp@intel.com>
+> +static struct gpio_desc *ssd130x_spi_get_dc(struct device *dev)
+> +{
+> +       struct gpio_desc *dc = devm_gpiod_get(dev, "dc", GPIOD_OUT_LOW);
+> +
+> +       if (IS_ERR(dc))
+> +               return ERR_PTR(dev_err_probe(dev, PTR_ERR(dc), "Failed to get dc gpio\n"));
+> +
+> +       return dc;
+> +}
+> +
+> +static int ssd130x_spi_probe(struct spi_device *spi)
+> +{
+> +       struct ssd130x_spi_transport *t;
+> +       struct ssd130x_device *ssd130x;
+> +       struct regmap *regmap;
+> +       struct device *dev = &spi->dev;
+> +
+> +       t = devm_kzalloc(dev, sizeof(*t), GFP_KERNEL);
+> +       if (!t)
+> +               return dev_err_probe(dev, -ENOMEM,
+> +                                    "Failed to allocate SPI transport data\n");
+> +
+> +       t->spi = spi;
+> +
+> +       t->dc = ssd130x_spi_get_dc(&spi->dev);
+> +       if (IS_ERR(t->dc))
+> +               return PTR_ERR(t->dc);
 
-All warnings (new ones prefixed by >>):
+This can be simplified (no need for the PTR_ERR(ERR_PTR(...) dance)
+by open-coding ssd130x_spi_get_dc() here.
 
->> drivers/gpu/drm/solomon/ssd130x.c:894:12: warning: cast to smaller integer type 'enum ssd130x_variants' from 'const void *' [-Wvoid-pointer-to-enum-cast]
-           variant = (enum ssd130x_variants)device_get_match_data(dev);
-                     ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   1 warning generated.
+Gr{oetje,eeting}s,
 
+                        Geert
 
-vim +894 drivers/gpu/drm/solomon/ssd130x.c
+--
+Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k.org
 
-   874	
-   875	struct ssd130x_device *ssd130x_probe(struct device *dev, struct regmap *regmap)
-   876	{
-   877		struct ssd130x_device *ssd130x;
-   878		enum ssd130x_variants variant;
-   879		struct backlight_device *bl;
-   880		struct drm_device *drm;
-   881		int ret;
-   882	
-   883		ssd130x = devm_drm_dev_alloc(dev, &ssd130x_drm_driver,
-   884					     struct ssd130x_device, drm);
-   885		if (IS_ERR(ssd130x))
-   886			return ERR_PTR(dev_err_probe(dev, PTR_ERR(ssd130x),
-   887						     "Failed to allocate DRM device\n"));
-   888	
-   889		drm = &ssd130x->drm;
-   890	
-   891		ssd130x->dev = dev;
-   892		ssd130x->regmap = regmap;
-   893	
- > 894		variant = (enum ssd130x_variants)device_get_match_data(dev);
-   895	
-   896		if (variant >= NR_SSD130X_VARIANTS)
-   897			return ERR_PTR(dev_err_probe(dev, -EINVAL,
-   898						     "Invalid SSD130x variant\n"));
-   899	
-   900		ssd130x->device_info = &ssd130x_variants[variant];
-   901	
-   902		if (ssd130x->device_info->page_mode_only)
-   903			ssd130x->page_address_mode = 1;
-   904	
-   905		ssd130x_parse_properties(ssd130x);
-   906	
-   907		ret = ssd130x_get_resources(ssd130x);
-   908		if (ret)
-   909			return ERR_PTR(ret);
-   910	
-   911		bl = devm_backlight_device_register(dev, dev_name(dev), dev, ssd130x,
-   912						    &ssd130xfb_bl_ops, NULL);
-   913		if (IS_ERR(bl))
-   914			return ERR_PTR(dev_err_probe(dev, PTR_ERR(bl),
-   915						     "Unable to register backlight device\n"));
-   916	
-   917		bl->props.brightness = ssd130x->contrast;
-   918		bl->props.max_brightness = MAX_CONTRAST;
-   919		ssd130x->bl_dev = bl;
-   920	
-   921		ret = ssd130x_init_modeset(ssd130x);
-   922		if (ret)
-   923			return ERR_PTR(ret);
-   924	
-   925		ret = drm_dev_register(drm, 0);
-   926		if (ret)
-   927			return ERR_PTR(dev_err_probe(dev, ret, "DRM device register failed\n"));
-   928	
-   929		drm_fbdev_generic_setup(drm, 0);
-   930	
-   931		return ssd130x;
-   932	}
-   933	EXPORT_SYMBOL_GPL(ssd130x_probe);
-   934	
-
--- 
-0-DAY CI Kernel Test Service
-https://01.org/lkp
+In personal conversations with technical people, I call myself a hacker. But
+when I'm talking to journalists I just say "programmer" or something like that.
+                                -- Linus Torvalds
