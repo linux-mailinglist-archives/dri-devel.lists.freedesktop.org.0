@@ -1,62 +1,55 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id EE24D4FC942
-	for <lists+dri-devel@lfdr.de>; Tue, 12 Apr 2022 02:29:48 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 2BA404FC948
+	for <lists+dri-devel@lfdr.de>; Tue, 12 Apr 2022 02:31:13 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 06E0F10FA92;
-	Tue, 12 Apr 2022 00:29:46 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id D7DB310FA97;
+	Tue, 12 Apr 2022 00:31:09 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from alexa-out.qualcomm.com (alexa-out.qualcomm.com [129.46.98.28])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 571D310FA90;
- Tue, 12 Apr 2022 00:29:44 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=quicinc.com; i=@quicinc.com; q=dns/txt; s=qcdkim;
- t=1649723384; x=1681259384;
- h=message-id:date:mime-version:subject:to:cc:references:
- from:in-reply-to:content-transfer-encoding;
- bh=sTXpV5DW8lvf+IzZXjWtfGRdgfLj3MQBE9SGJw2TAZQ=;
- b=Y/yrn0LLSx6CsqCRCOeF8pBJokYmVJA1Gi0LGH8d4oA1fchN877dnoP0
- 5Zptp/aUBnfuniTp+dSF/MO1XN/xf0prdP0HPvfbjcDrBylOaNq/fkL/n
- HIT+wcBzLPND6XGSLa4sZmQosblV1qWkcfTMyN5QxKQ0rKNMFL1TloR5S E=;
-Received: from ironmsg07-lv.qualcomm.com ([10.47.202.151])
- by alexa-out.qualcomm.com with ESMTP; 11 Apr 2022 17:29:44 -0700
-X-QCInternal: smtphost
-Received: from nasanex01c.na.qualcomm.com ([10.47.97.222])
- by ironmsg07-lv.qualcomm.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 11 Apr 2022 17:29:43 -0700
-Received: from nalasex01a.na.qualcomm.com (10.47.209.196) by
- nasanex01c.na.qualcomm.com (10.47.97.222) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.2.986.22; Mon, 11 Apr 2022 17:29:22 -0700
-Received: from [10.111.166.27] (10.80.80.8) by nalasex01a.na.qualcomm.com
- (10.47.209.196) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.986.22; Mon, 11 Apr
- 2022 17:29:19 -0700
-Message-ID: <dcdae9ca-1896-e632-17f3-ffd4de7c9c1b@quicinc.com>
-Date: Mon, 11 Apr 2022 17:29:17 -0700
+Received: from mga14.intel.com (mga14.intel.com [192.55.52.115])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 377E010FA94;
+ Tue, 12 Apr 2022 00:31:08 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+ t=1649723468; x=1681259468;
+ h=date:from:to:cc:subject:message-id:references:
+ mime-version:in-reply-to;
+ bh=Agc/9Y7wOfxwFujbzIMC+t72NgHYwPEL9fQAInAnmBk=;
+ b=I3I+0NnwNtEG7ujk75y7G7ClvzMr5YcnRUQ87gaTh+RYxNmrj/22kN4P
+ 9auiSQs4KOXfN6RUi1Yrr3wSysJGAJgMzfeVZEh/DKA7DK3RD73BMGGuc
+ xEik2zqhemP5G96nb7AEpc1h/vsVlWGvgo+Hn91h82No42W5bbkZY7XaZ
+ jFy1074i6df0mxdsQKjKMHf1NhsmvemBVq3I1j+EiVz7d7Q+64RaCU1Ie
+ kRMdHZwzERvfTCgsZUEdAV9o+rwFMNhqhui++acENelEy5qnI1Xtd6aoD
+ h6XEEYk1XSGKbf3KpD/s/HgfHlcR5PTaaZqJmLFM583gWGGA38sq/8ay2 w==;
+X-IronPort-AV: E=McAfee;i="6400,9594,10314"; a="262425743"
+X-IronPort-AV: E=Sophos;i="5.90,252,1643702400"; d="scan'208";a="262425743"
+Received: from fmsmga003.fm.intel.com ([10.253.24.29])
+ by fmsmga103.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 11 Apr 2022 17:31:07 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.90,252,1643702400"; d="scan'208";a="644495956"
+Received: from lkp-server02.sh.intel.com (HELO d3fc50ef50de) ([10.239.97.151])
+ by FMSMGA003.fm.intel.com with ESMTP; 11 Apr 2022 17:31:04 -0700
+Received: from kbuild by d3fc50ef50de with local (Exim 4.95)
+ (envelope-from <lkp@intel.com>) id 1ne4Qx-0002Mc-Hi;
+ Tue, 12 Apr 2022 00:31:03 +0000
+Date: Tue, 12 Apr 2022 08:30:39 +0800
+From: kernel test robot <lkp@intel.com>
+To: Sean Paul <sean@poorly.run>, dri-devel@lists.freedesktop.org,
+ jani.nikula@intel.com, intel-gfx@lists.freedesktop.org,
+ freedreno@lists.freedesktop.org, rodrigo.vivi@intel.com
+Subject: Re: [PATCH v5 10/10] drm/msm: Implement HDCP 1.x using the new drm
+ HDCP helpers
+Message-ID: <202204120815.MYwHtGG5-lkp@intel.com>
+References: <20220411204741.1074308-11-sean@poorly.run>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:91.0) Gecko/20100101
- Thunderbird/91.6.2
-Subject: Re: [PATCH] drm/msm/dp: stop event kernel thread when DP unbind
-Content-Language: en-US
-To: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>, Stephen Boyd
- <swboyd@chromium.org>, Kuogee Hsieh <quic_khsieh@quicinc.com>,
- <agross@kernel.org>, <airlied@linux.ie>, <bjorn.andersson@linaro.org>,
- <daniel@ffwll.ch>, <robdclark@gmail.com>, <sean@poorly.run>,
- <vkoul@kernel.org>
-References: <1649722129-12542-1-git-send-email-quic_khsieh@quicinc.com>
- <CAE-0n53zYpqJL9GCoqZRwMptCne+4Dk4thz-7rCDac7H98dm=A@mail.gmail.com>
- <7529d921-0b12-d162-416d-3542933a0aed@linaro.org>
-From: Abhinav Kumar <quic_abhinavk@quicinc.com>
-In-Reply-To: <7529d921-0b12-d162-416d-3542933a0aed@linaro.org>
-Content-Type: text/plain; charset="UTF-8"; format=flowed
-Content-Transfer-Encoding: 8bit
-X-Originating-IP: [10.80.80.8]
-X-ClientProxiedBy: nasanex01b.na.qualcomm.com (10.46.141.250) To
- nalasex01a.na.qualcomm.com (10.47.209.196)
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20220411204741.1074308-11-sean@poorly.run>
+User-Agent: Mutt/1.10.1 (2018-07-13)
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -69,105 +62,61 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: quic_sbillaka@quicinc.com, linux-arm-msm@vger.kernel.org,
- linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
- quic_aravindh@quicinc.com, freedreno@lists.freedesktop.org
+Cc: kbuild-all@lists.01.org, David Airlie <airlied@linux.ie>,
+ markyacoub@chromium.org, Abhinav Kumar <quic_abhinavk@quicinc.com>,
+ abhinavk@codeaurora.org, swboyd@chromium.org,
+ Sean Paul <seanpaul@chromium.org>, linux-arm-msm@vger.kernel.org,
+ bjorn.andersson@linaro.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
+Hi Sean,
+
+I love your patch! Yet something to improve:
+
+[auto build test ERROR on drm-tip/drm-tip]
+[also build test ERROR on v5.18-rc2 next-20220411]
+[cannot apply to drm/drm-next drm-intel/for-linux-next robh/for-next]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/Sean-Paul/drm-hdcp-Pull-HDCP-auth-exchange-check-into-helpers/20220412-045000
+base:   git://anongit.freedesktop.org/drm/drm-tip drm-tip
+config: parisc-buildonly-randconfig-r003-20220411 (https://download.01.org/0day-ci/archive/20220412/202204120815.MYwHtGG5-lkp@intel.com/config)
+compiler: hppa-linux-gcc (GCC) 11.2.0
+reproduce (this is a W=1 build):
+        wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbin/make.cross -O ~/bin/make.cross
+        chmod +x ~/bin/make.cross
+        # https://github.com/intel-lab-lkp/linux/commit/ba0d7728b853712a831745c4fddff8d72be1c9c8
+        git remote add linux-review https://github.com/intel-lab-lkp/linux
+        git fetch --no-tags linux-review Sean-Paul/drm-hdcp-Pull-HDCP-auth-exchange-check-into-helpers/20220412-045000
+        git checkout ba0d7728b853712a831745c4fddff8d72be1c9c8
+        # save the config file to linux build tree
+        mkdir build_dir
+        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-11.2.0 make.cross O=build_dir ARCH=parisc SHELL=/bin/bash drivers/gpu/drm/msm/
+
+If you fix the issue, kindly add following tag as appropriate
+Reported-by: kernel test robot <lkp@intel.com>
+
+All errors (new ones prefixed by >>):
+
+>> drivers/gpu/drm/msm/msm_atomic.c:10:10: fatal error: dp_drm.h: No such file or directory
+      10 | #include "dp_drm.h"
+         |          ^~~~~~~~~~
+   compilation terminated.
 
 
-On 4/11/2022 5:22 PM, Dmitry Baryshkov wrote:
-> On 12/04/2022 03:21, Stephen Boyd wrote:
->> Quoting Kuogee Hsieh (2022-04-11 17:08:49)
->>> Current DP driver implementation, event thread is kept running
->>> after DP display is unbind. This patch fix this problem by disabling
->>> DP irq and stop event thread to exit gracefully at dp_display_unbind().
->>>
->>> Fixes: e91e3065a806 ("drm/msm/dp: Add DP compliance tests on 
->>> Snapdragon Chipsets")
->>> Signed-off-by: Kuogee Hsieh <quic_khsieh@quicinc.com>
->>
->> Should add a Reported-by tag from Dmitry here.
->>
->>> ---
->>>   drivers/gpu/drm/msm/dp/dp_display.c | 24 ++++++++++++++++++++++--
->>>   1 file changed, 22 insertions(+), 2 deletions(-)
->>>
->>> diff --git a/drivers/gpu/drm/msm/dp/dp_display.c 
->>> b/drivers/gpu/drm/msm/dp/dp_display.c
->>> index 01453db..fa1ef8e 100644
->>> --- a/drivers/gpu/drm/msm/dp/dp_display.c
->>> +++ b/drivers/gpu/drm/msm/dp/dp_display.c
->>> @@ -273,6 +274,8 @@ static int dp_display_bind(struct device *dev, 
->>> struct device *master,
->>>          return rc;
->>>   }
->>>
->>> +static void dp_hpd_event_stop(struct dp_display_private *dp_priv);
->>
->> Why can't the function be defined here?
->>
->>> +
->>>   static void dp_display_unbind(struct device *dev, struct device 
->>> *master,
->>>                                void *data)
->>>   {
->>> @@ -280,6 +283,8 @@ static void dp_display_unbind(struct device *dev, 
->>> struct device *master,
->>>          struct drm_device *drm = dev_get_drvdata(master);
->>>          struct msm_drm_private *priv = drm->dev_private;
->>>
->>> +       disable_irq(dp->irq);
->>> +       dp_hpd_event_stop(dp);
->>>          dp_power_client_deinit(dp->power);
->>>          dp_aux_unregister(dp->aux);
->>>          priv->dp[dp->id] = NULL;
->>> @@ -1054,7 +1059,7 @@ static int hpd_event_thread(void *data)
->>>
->>>          dp_priv = (struct dp_display_private *)data;
->>>
->>> -       while (1) {
->>> +       while (!kthread_should_stop()) {
->>>                  if (timeout_mode) {
->>>                          wait_event_timeout(dp_priv->event_q,
->>>                                  (dp_priv->event_pndx == 
->>> dp_priv->event_gndx),
->>> @@ -1137,7 +1142,22 @@ static void dp_hpd_event_setup(struct 
->>> dp_display_private *dp_priv)
->>>          init_waitqueue_head(&dp_priv->event_q);
->>>          spin_lock_init(&dp_priv->event_lock);
->>>
->>> -       kthread_run(hpd_event_thread, dp_priv, "dp_hpd_handler");
->>> +       dp_priv->ev_tsk = kthread_run(hpd_event_thread, dp_priv, 
->>> "dp_hpd_handler");
->>> +
->>> +       if (IS_ERR(dp_priv->ev_tsk))
->>> +               DRM_ERROR("failed to create DP event thread\n");
->>
->> Why can't we error out? Why can't this kthread be started in probe?
-> 
-> Just my 2c. I don't think starting it in probe is a good idea. The 
-> driver uses components, so, in my opinion, the thread should be started 
-> from bind and stopped in unbind.
+vim +10 drivers/gpu/drm/msm/msm_atomic.c
 
-Yes, I also agree it should be started in bind and stopped in unbind.
+     9	
+  > 10	#include "dp_drm.h"
+    11	#include "msm_atomic_trace.h"
+    12	#include "msm_drv.h"
+    13	#include "msm_gem.h"
+    14	#include "msm_kms.h"
+    15	
 
-> 
->>
->>> +}
->>> +
->>> +static void dp_hpd_event_stop(struct dp_display_private *dp_priv)
->>> +{
->>> +       if (IS_ERR(dp_priv->ev_tsk))
->>> +               return;
->>> +
->>> +       kthread_stop(dp_priv->ev_tsk);
->>> +
->>> +       /* reset event q to empty */
->>> +       dp_priv->event_gndx = 0;
->>> +       dp_priv->event_pndx = 0;
->>>   }
->>>
-> 
-> 
+-- 
+0-DAY CI Kernel Test Service
+https://01.org/lkp
