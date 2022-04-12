@@ -1,39 +1,59 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 14D2F4FD0D7
-	for <lists+dri-devel@lfdr.de>; Tue, 12 Apr 2022 08:52:18 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 983584FD1BE
+	for <lists+dri-devel@lfdr.de>; Tue, 12 Apr 2022 09:05:15 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 4BA2C10FCAB;
-	Tue, 12 Apr 2022 06:52:15 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 28AA010FEB1;
+	Tue, 12 Apr 2022 07:05:13 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mx1.molgen.mpg.de (mx3.molgen.mpg.de [141.14.17.11])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 6CEAB10FC9C;
- Tue, 12 Apr 2022 06:52:13 +0000 (UTC)
-Received: from [192.168.0.2] (ip5f5aef95.dynamic.kabel-deutschland.de
- [95.90.239.149])
- (using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
- key-exchange X25519 server-signature RSA-PSS (2048 bits))
- (No client certificate requested) (Authenticated sender: pmenzel)
- by mx.molgen.mpg.de (Postfix) with ESMTPSA id 83B6261EA1929;
- Tue, 12 Apr 2022 08:52:11 +0200 (CEST)
-Message-ID: <42d34e82-3c15-c33a-5cd4-a0d2436e44d2@molgen.mpg.de>
-Date: Tue, 12 Apr 2022 08:52:11 +0200
-MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.8.0
-Subject: AMD Display Core (DC) patches (was: [PATCH 13/16] drm/amd/display:
- Revert FEC check in validation)
-Content-Language: en-US
-To: Alex Hung <alex.hung@amd.com>
-References: <20220325225402.469841-1-alex.hung@amd.com>
- <20220325225402.469841-14-alex.hung@amd.com>
-From: Paul Menzel <pmenzel@molgen.mpg.de>
-In-Reply-To: <20220325225402.469841-14-alex.hung@amd.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
+Received: from mail-pf1-x435.google.com (mail-pf1-x435.google.com
+ [IPv6:2607:f8b0:4864:20::435])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 41D0610FEB1
+ for <dri-devel@lists.freedesktop.org>; Tue, 12 Apr 2022 07:05:11 +0000 (UTC)
+Received: by mail-pf1-x435.google.com with SMTP id w7so16667499pfu.11
+ for <dri-devel@lists.freedesktop.org>; Tue, 12 Apr 2022 00:05:11 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
+ h=from:to:cc:subject:date:message-id;
+ bh=MD2PafPOZxiALVxRANZJtJfxFryFkWiYa4P1WpagSvo=;
+ b=ZoOMT2yrxzYBvfqKLstICxEU5NbOmIO81l0gvJWERON+OxWRK9IFg6/vpoIDfHAmJ6
+ da4UtAu84n6WCPrn+3LyAlAG0NQpdiYQ/ZFWe0Mkr8XAUamFWjfPlLZXXOH7CNFHLSce
+ HdTeQ/7o4hGeRPtNWJicF3vceIB245SwJfEbiHvo7jCiS/tdmWQctHtuWoPU2aiTWoQs
+ kLfgB7c+Ov+MCQob3dYAwrmLFhxkyEIX1WBG9+aNyDcqQE0BPqgKQk7xj9t88gPlLqYY
+ h4Sbw4WnxiVcPdlWg1emSanSfT8WyjqvAh701hPQqAQR+GLqZGU+hJ9oYwKMbM25KNGo
+ PqCA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=x-gm-message-state:from:to:cc:subject:date:message-id;
+ bh=MD2PafPOZxiALVxRANZJtJfxFryFkWiYa4P1WpagSvo=;
+ b=oM23/cLrTLtkleT8Qi0Eu6orwG0AtMMVv8sEmpTU6OKsqoreUqjqgusARokpXQzn6u
+ 9ON3NQqTuT1euWDVPseCejeQ7doWwfTjO5ex4mc3jTej90rOS8Jd4nn5atEoc7srpDyw
+ mNVfvT64ZmRoNGRoYGhpZGNazNzfcmWbWYDYTUJ7olWomuAVWtvaSvjSGuuPMWFt60ux
+ emgT+6XgJ1AJfymN0r6pjaNmjhbiEkIn0vcx2XzscGKo8UxHMkuwFntDb8mBVfw3e7wY
+ 68PU3B5ZFELf2zoJHY99T+4WUWK4zyZE4QZoBVQZPV33EqeG9v1080Tg0OyatAd5vxeV
+ p1lw==
+X-Gm-Message-State: AOAM532Hlqtzu1GQQT0DVjjF3g5+aXL0bb3Xi6B98Ccok+qjsMn6jpO5
+ awu5pXii//SdHpWKoo1Gak4=
+X-Google-Smtp-Source: ABdhPJycADu1O3trds1gUcEXHablNZlIDVa1C9T6c102ZVWQucGUgPEoS5U0EZJPhuOsxr9sEPWpgw==
+X-Received: by 2002:a65:6956:0:b0:399:1f0e:6172 with SMTP id
+ w22-20020a656956000000b003991f0e6172mr29157318pgq.286.1649747110823; 
+ Tue, 12 Apr 2022 00:05:10 -0700 (PDT)
+Received: from localhost.localdomain ([159.226.95.43])
+ by smtp.googlemail.com with ESMTPSA id
+ g15-20020a056a000b8f00b004fa9dbf27desm38059686pfj.55.2022.04.12.00.05.08
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Tue, 12 Apr 2022 00:05:10 -0700 (PDT)
+From: Miaoqian Lin <linmq006@gmail.com>
+To: Emma Anholt <emma@anholt.net>, Maxime Ripard <mripard@kernel.org>,
+ David Airlie <airlied@linux.ie>, Daniel Vetter <daniel@ffwll.ch>,
+ Eric Anholt <eric@anholt.net>, dri-devel@lists.freedesktop.org,
+ linux-kernel@vger.kernel.org
+Subject: [PATCH] drm/vc4: Fix pm_runtime_get_sync() error checking
+Date: Tue, 12 Apr 2022 07:04:57 +0000
+Message-Id: <20220412070458.21819-1-linmq006@gmail.com>
+X-Mailer: git-send-email 2.17.1
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -46,98 +66,33 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: stylon.wang@amd.com, wayne.lin@amd.com, Sunpeng.Li@amd.com,
- Bhawanpreet.Lakha@amd.com, qingqing.zhuo@amd.com,
- Martin Leung <Martin.Leung@amd.com>, Rodrigo.Siqueira@amd.com,
- roman.li@amd.com, amd-gfx@lists.freedesktop.org, solomon.chiu@amd.com,
- Aurabindo.Pillai@amd.com, Greg KH <gregkh@linuxfoundation.org>,
- dri-devel@lists.freedesktop.org, George Shen <George.Shen@amd.com>,
- Alexander Deucher <Alexander.Deucher@amd.com>, agustin.gutierrez@amd.com,
- pavle.kotarac@amd.com
+Cc: linmq006@gmail.com
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-[Cc: +dri-devel@lists.freedesktop.org, +Daniel Vetter, +Alexander 
-Deucher, +Greg KH]
+If the device is already in a runtime PM enabled state
+pm_runtime_get_sync() will return 1, so a test for negative
+value should be used to check for errors.
 
+Fixes: 4078f5757144 ("drm/vc4: Add DSI driver")
+Signed-off-by: Miaoqian Lin <linmq006@gmail.com>
+---
+ drivers/gpu/drm/vc4/vc4_dsi.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-Dear Alex,
+diff --git a/drivers/gpu/drm/vc4/vc4_dsi.c b/drivers/gpu/drm/vc4/vc4_dsi.c
+index 752f921735c6..26aa7d1fa421 100644
+--- a/drivers/gpu/drm/vc4/vc4_dsi.c
++++ b/drivers/gpu/drm/vc4/vc4_dsi.c
+@@ -847,7 +847,7 @@ static void vc4_dsi_encoder_enable(struct drm_encoder *encoder)
+ 	int ret;
+ 
+ 	ret = pm_runtime_get_sync(dev);
+-	if (ret) {
++	if (ret < 0) {
+ 		DRM_ERROR("Failed to runtime PM enable on DSI%d\n", dsi->variant->port);
+ 		return;
+ 	}
+-- 
+2.17.1
 
-
-I am a little confused and upset about how Display Core patches are 
-handled in the Linux kernel.
-
-
-Am 25.03.22 um 23:53 schrieb Alex Hung:
-> From: Martin Leung <Martin.Leung@amd.com>
-
-git puts a line “This reverts commit …” into the commit message, when 
-something is reverted. Why isn’t this here? Right now, commit 
-7d56a154e22f, reverted here, is proposed for the stable series. I guess, 
-because these indicators and meta data are missing.
-
-> why and how:
-> causes failure on install on certain machines
-
-Why are such kind of commit messages accepted? What does “failure on 
-install” even mean? Why can’t the machine configuration be documented so 
-it can be reproduced, when necessary.
-
-No less confusing, the date you posted it on amd-gfx is from March 25th, 
-2022, but the author date of the commit in agd5f/amd-staging-drm-next is 
-`Fri Mar 18 11:12:36 2022 -0400`. Why is the patch missing the Date 
-field then?
-
-> Reviewed-by: George Shen <George.Shen@amd.com>
-> Acked-by: Alex Hung <alex.hung@amd.com>
-> Signed-off-by: Martin Leung <Martin.Leung@amd.com>
-
-Shouldn’t the Signed-off-by line by the author go first?
-
-You committed this on `Mon Mar 28 08:26:48 2022 -0600`, while you posted 
-the patch on amd-gfx on Friday. How should *proper* review happen over 
-the weekend?
-
-> ---
->   drivers/gpu/drm/amd/display/dc/core/dc.c | 4 ----
->   1 file changed, 4 deletions(-)
-> 
-> diff --git a/drivers/gpu/drm/amd/display/dc/core/dc.c b/drivers/gpu/drm/amd/display/dc/core/dc.c
-> index f2ad8f58e69c..c436db416708 100644
-> --- a/drivers/gpu/drm/amd/display/dc/core/dc.c
-> +++ b/drivers/gpu/drm/amd/display/dc/core/dc.c
-> @@ -1496,10 +1496,6 @@ bool dc_validate_boot_timing(const struct dc *dc,
->   	if (!link->link_enc->funcs->is_dig_enabled(link->link_enc))
->   		return false;
->   
-> -	/* Check for FEC status*/
-> -	if (link->link_enc->funcs->fec_is_active(link->link_enc))
-> -		return false;
-> -
->   	enc_inst = link->link_enc->funcs->get_dig_frontend(link->link_enc);
->   
->   	if (enc_inst == ENGINE_ID_UNKNOWN)
-
-The patch reverted here, also lacked proper review, had a to-be desired 
-commit message, did not follow the Linux kernel coding style (missing 
-space before the comment terminator), so should not have been committed 
-in the first place.
-
-Seeing how many people are in the Cc list, I would have hoped, that 
-somebody noticed and commented. The current state also makes it really 
-hard for non-AMD employees to get the necessary information to do proper 
-reviews as the needed documentation and information is non-public. So 
-good/excellent commit messages are a must. I think to remember, you 
-replied to me once, that Display Core patches are shared also with the 
-Microsoft Windows driver, restricting the workflow options. But I think 
-the issues I mentioned are unrelated. I know graphics hardware is very 
-complex, but if quality of the commits and review would be improved, 
-hopefully it saves time for everyone in the end, as less bugs are 
-introduced.
-
-Could AMD team please address these issues as soon as possible?
-
-
-Kind regards,
-
-Paul
