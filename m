@@ -1,42 +1,46 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 151F34FC9B9
-	for <lists+dri-devel@lfdr.de>; Tue, 12 Apr 2022 02:47:06 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id A395E4FC9BF
+	for <lists+dri-devel@lfdr.de>; Tue, 12 Apr 2022 02:47:11 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id B8BD810FAC6;
-	Tue, 12 Apr 2022 00:47:03 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 2621310FAC9;
+	Tue, 12 Apr 2022 00:47:09 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from sin.source.kernel.org (sin.source.kernel.org [145.40.73.55])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 24B7F10FAC6;
- Tue, 12 Apr 2022 00:47:02 +0000 (UTC)
+Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 54CF110FAC8;
+ Tue, 12 Apr 2022 00:47:07 +0000 (UTC)
 Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
  (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
  (No client certificate requested)
- by sin.source.kernel.org (Postfix) with ESMTPS id 76001CE185D;
- Tue, 12 Apr 2022 00:47:00 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id D03CEC385A3;
- Tue, 12 Apr 2022 00:46:57 +0000 (UTC)
+ by dfw.source.kernel.org (Postfix) with ESMTPS id BCA85617DA;
+ Tue, 12 Apr 2022 00:47:06 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 2DC6AC385A4;
+ Tue, 12 Apr 2022 00:47:04 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1649724418;
- bh=tGzXzQhqgL+alx1Q6zWeqj7q4zL1AuwH2it+jAec/5w=;
- h=From:To:Cc:Subject:Date:From;
- b=FJqsObSSqdImu/Rbsb2PfiLEu0T71oUSnmXi2EP3/XpM1HK0z1W6rTHj6odggFLBU
- hnXurwctwugxyqOIXw4cIw1+3v7ke/wjd0TSKpWOgFTQ3WLRgTlrrSTiNC9umIMS/5
- 99o46LVWiC0TvWUB3tIhMmCVJsqQ+C4ZmYyOP8+G0G66s1datUQ+yyw0DqJaoJ020I
- 3HgdndBBxRuHhGC/v8UJDtVia/8Uw1nNCQExCrIlIgbhhgO8RJFV8NEnZz4GXNLRBt
- +1YRcN9qpc3YXeF4SuC2J3iJ8ImLqeG173ywVAUMDx0go7V0YS6nJ/0SWpCfVfpjIi
- ucHCoLtknXcrQ==
+ s=k20201202; t=1649724425;
+ bh=Ya7afj+D7KNw3CZW5DvBGMDCxih98osk7a0l9Chxy6M=;
+ h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
+ b=DV+O8Irp9YF2IgjeaGxbv4JANpP/Lx5MZBNEEfYkloazEvJWfrS1XP1BORKe42KJ1
+ hodtfXpaz4mN6tieHD4BXEogJRBgGd59uabQ4wML8NM4F6dQqQAm1giaAIoGKbTPVU
+ r8ZSy2k7KHcGlLvb5mlvHEdUjHyDtvBPsAlbK6sHEMGTOTSV8Ky9EnhrMPXnqBNL2J
+ 6D2itHh5qbzrszvr4zu3iPHJvXhctzARaaCHxrQF35CD71E05yL+zZtiHeBIR/rR7M
+ +Ici/YAE5wc0JC5mZ/jMnHnrDqdkv/97bIKksXgCCO+Ow4hXT8T+bHnxVPn2nU6bJC
+ 7KO8p+QRDAU6w==
 From: Sasha Levin <sashal@kernel.org>
 To: linux-kernel@vger.kernel.org,
 	stable@vger.kernel.org
-Subject: [PATCH AUTOSEL 5.15 01/41] drm/amd: Add USBC connector ID
-Date: Mon, 11 Apr 2022 20:46:13 -0400
-Message-Id: <20220412004656.350101-1-sashal@kernel.org>
+Subject: [PATCH AUTOSEL 5.15 04/41] drm/amdgpu: conduct a proper cleanup of
+ PDB bo
+Date: Mon, 11 Apr 2022 20:46:16 -0400
+Message-Id: <20220412004656.350101-4-sashal@kernel.org>
 X-Mailer: git-send-email 2.35.1
+In-Reply-To: <20220412004656.350101-1-sashal@kernel.org>
+References: <20220412004656.350101-1-sashal@kernel.org>
 MIME-Version: 1.0
+Content-Type: text/plain; charset=UTF-8
 X-stable: review
 X-Patchwork-Hint: Ignore
 Content-Transfer-Encoding: 8bit
@@ -52,40 +56,46 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Sasha Levin <sashal@kernel.org>, airlied@linux.ie, Xinhui.Pan@amd.com,
- amd-gfx@lists.freedesktop.org, Aurabindo Pillai <aurabindo.pillai@amd.com>,
+Cc: Sasha Levin <sashal@kernel.org>, tao.zhou1@amd.com,
+ Guchun Chen <guchun.chen@amd.com>, airlied@linux.ie, Xinhui.Pan@amd.com,
+ amd-gfx@lists.freedesktop.org, YiPeng.Chai@amd.com,
  dri-devel@lists.freedesktop.org, Alex Deucher <alexander.deucher@amd.com>,
- christian.koenig@amd.com
+ victor.skvortsov@amd.com, john.clements@amd.com,
+ =?UTF-8?q?Christian=20K=C3=B6nig?= <christian.koenig@amd.com>,
+ Hawking.Zhang@amd.com
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-From: Aurabindo Pillai <aurabindo.pillai@amd.com>
+From: Guchun Chen <guchun.chen@amd.com>
 
-[ Upstream commit c5c948aa894a831f96fccd025e47186b1ee41615 ]
+[ Upstream commit 2d505453f38e18d42ba7d5428aaa17aaa7752c65 ]
 
-[Why&How] Add a dedicated AMDGPU specific ID for use with
-newer ASICs that support USB-C output
+Use amdgpu_bo_free_kernel instead of amdgpu_bo_unref to
+perform a proper cleanup of PDB bo.
 
-Signed-off-by: Aurabindo Pillai <aurabindo.pillai@amd.com>
-Reviewed-by: Alex Deucher <alexander.deucher@amd.com>
+v2: update subject to be more accurate
+
+Signed-off-by: Guchun Chen <guchun.chen@amd.com>
+Reviewed-by: Christian König <christian.koenig@amd.com>
 Signed-off-by: Alex Deucher <alexander.deucher@amd.com>
 Signed-off-by: Sasha Levin <sashal@kernel.org>
 ---
- drivers/gpu/drm/amd/amdgpu/ObjectID.h | 1 +
- 1 file changed, 1 insertion(+)
+ drivers/gpu/drm/amd/amdgpu/gmc_v9_0.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/drivers/gpu/drm/amd/amdgpu/ObjectID.h b/drivers/gpu/drm/amd/amdgpu/ObjectID.h
-index 5b393622f592..a0f0a17e224f 100644
---- a/drivers/gpu/drm/amd/amdgpu/ObjectID.h
-+++ b/drivers/gpu/drm/amd/amdgpu/ObjectID.h
-@@ -119,6 +119,7 @@
- #define CONNECTOR_OBJECT_ID_eDP                   0x14
- #define CONNECTOR_OBJECT_ID_MXM                   0x15
- #define CONNECTOR_OBJECT_ID_LVDS_eDP              0x16
-+#define CONNECTOR_OBJECT_ID_USBC                  0x17
+diff --git a/drivers/gpu/drm/amd/amdgpu/gmc_v9_0.c b/drivers/gpu/drm/amd/amdgpu/gmc_v9_0.c
+index c67e21244342..6dc16ccf6c81 100644
+--- a/drivers/gpu/drm/amd/amdgpu/gmc_v9_0.c
++++ b/drivers/gpu/drm/amd/amdgpu/gmc_v9_0.c
+@@ -1652,7 +1652,7 @@ static int gmc_v9_0_sw_fini(void *handle)
+ 	amdgpu_gem_force_release(adev);
+ 	amdgpu_vm_manager_fini(adev);
+ 	amdgpu_gart_table_vram_free(adev);
+-	amdgpu_bo_unref(&adev->gmc.pdb0_bo);
++	amdgpu_bo_free_kernel(&adev->gmc.pdb0_bo, NULL, &adev->gmc.ptr_pdb0);
+ 	amdgpu_bo_fini(adev);
  
- /* deleted */
- 
+ 	return 0;
 -- 
 2.35.1
 
