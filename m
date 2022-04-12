@@ -2,76 +2,127 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 376DD4FE5D0
-	for <lists+dri-devel@lfdr.de>; Tue, 12 Apr 2022 18:28:10 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id F2E6F4FE655
+	for <lists+dri-devel@lfdr.de>; Tue, 12 Apr 2022 18:52:05 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 51DE110E6A1;
-	Tue, 12 Apr 2022 16:28:05 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id F2E6B10E538;
+	Tue, 12 Apr 2022 16:52:01 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from us-smtp-delivery-124.mimecast.com
- (us-smtp-delivery-124.mimecast.com [170.10.133.124])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 44C5010E69A
- for <dri-devel@lists.freedesktop.org>; Tue, 12 Apr 2022 16:27:57 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1649780876;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=fiitAF+obi/0SZz4a7WRaAtgx4DdchhRvhz/qzB643E=;
- b=SHJoMDjqlC/KZtg3eDQemaCqUvImvUjth4VCoQ02Qwh4pGhzYNgwHG7jZy/2Alm5K9dKu8
- L/MXXfIsh4k3Z0a30U8TqELdmKWl7cA3wVvpejDYIXGa/6jBpg/S7cDnn3z6wCYNwyES+y
- y9oRKhXKDCiniZDrV7ywPv2GvXvi18U=
-Received: from mail-wm1-f72.google.com (mail-wm1-f72.google.com
- [209.85.128.72]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-558-xr094tmDOdmSKLhmUi8nKw-1; Tue, 12 Apr 2022 12:27:55 -0400
-X-MC-Unique: xr094tmDOdmSKLhmUi8nKw-1
-Received: by mail-wm1-f72.google.com with SMTP id
- r127-20020a1c4485000000b0038eaca2b8c9so1469831wma.7
- for <dri-devel@lists.freedesktop.org>; Tue, 12 Apr 2022 09:27:55 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
- :references:mime-version:content-transfer-encoding;
- bh=fiitAF+obi/0SZz4a7WRaAtgx4DdchhRvhz/qzB643E=;
- b=VxP4nwp+4uAwoPplBDEr/lXoulYooxzcWYmYxANjpTday40VdHep1927AxuJ+taCyY
- 9yJJtJGfKbx7nbrJNTAhrKleWcNLkAVnzFXBo4hhi3jdsLmpIHBxGXRwYR/3ApagK6Vj
- m8rL61wx0LQfmc/VZlec+d8fhKiVvDoHMH6qHY6DpVDPnQ9HNhpjUwaaBceV1NLqYFWm
- w6FZ2WjLtyYyfAiiHAkAN988ic+JcMinqXtSWGSgrSvEF9Zl3H7knFfAzUf/dfLjeeHa
- v28+R78Qj6kKidOku6p6sqb33DzdA2jt8dKyS+PphDAW41r/QPJ+0EQNqs8t5UzuGAij
- VGvQ==
-X-Gm-Message-State: AOAM530K01dT05k2JpwySdMfZP5v72LoM/W10SQxSCa3kmz8RFLk/6/5
- 99Yz2SIh1Cf4UGXLdk361v0D4XO+nB37ZwSSpWdPqLWdLrsq711WzHde29rCFxNFPtNKmpgdHgK
- CDR4BnFCnnIMPRJkOxbVFUWW8WS62
-X-Received: by 2002:a05:6000:1566:b0:204:20d9:a5b0 with SMTP id
- 6-20020a056000156600b0020420d9a5b0mr31136650wrz.207.1649780873951; 
- Tue, 12 Apr 2022 09:27:53 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJzZk0MWTuuvHqtVROhBDnTpdj23O58Hyyzt/iYLuFJGH3Qm6i0aohCcnZ+MQb5YSi1vkdpJ4w==
-X-Received: by 2002:a05:6000:1566:b0:204:20d9:a5b0 with SMTP id
- 6-20020a056000156600b0020420d9a5b0mr31136615wrz.207.1649780873653; 
- Tue, 12 Apr 2022 09:27:53 -0700 (PDT)
-Received: from minerva.home ([92.176.231.205])
- by smtp.gmail.com with ESMTPSA id
- g8-20020a5d4888000000b00207a49fa6a1sm7700358wrq.81.2022.04.12.09.27.52
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 12 Apr 2022 09:27:53 -0700 (PDT)
-From: Javier Martinez Canillas <javierm@redhat.com>
-To: linux-kernel@vger.kernel.org
-Subject: [PATCH v3 5/5] drm/solomon: Add SSD130x OLED displays SPI support
-Date: Tue, 12 Apr 2022 18:27:29 +0200
-Message-Id: <20220412162729.184783-6-javierm@redhat.com>
-X-Mailer: git-send-email 2.35.1
-In-Reply-To: <20220412162729.184783-1-javierm@redhat.com>
-References: <20220412162729.184783-1-javierm@redhat.com>
+Received: from NAM02-DM3-obe.outbound.protection.outlook.com
+ (mail-dm3nam07on2088.outbound.protection.outlook.com [40.107.95.88])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id B1D3510E538
+ for <dri-devel@lists.freedesktop.org>; Tue, 12 Apr 2022 16:52:00 +0000 (UTC)
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=IplYyP5pgOnsEqj9CWureOr1m3sKbPGNhj0yelTI00qKL5uyL98jj1syf3+cLfj2/GC1iiUEhGBQ48eBde4r1PYlfc3cKPBqpl2HFUDq9nQ6QJ99Z0fdGpO2jvFB4WekX48SWvKaFJl+YjhwIGt6E4NBIjyZvSh/TSpZGbdPzDCrZz6xo4kW9dMI/py/EIxmYgidzQ4g63TzDj2Cst8U3UDwvCgQf+jIWtblqpSJoNPMkrCu723XXfzAHyYDdAMVbkZZf2u/D+pEHhDpzO9JOE20IffSfzID8+pn5/IidJ8nv5RIEfEC9FJAm5o+WFycJGp8YnBs6apK4jv5avuNcA==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=i9+VxQ0kdK53D7JJkJZSl6Tvgt8DhDj5tBw8ovM0yCs=;
+ b=ejrdjT79wXuO1qVezBLnxLjEuHmQBd9kzbfP9kaI1bDCbNn04z1Oe/d3SZ1ukrCTfUIjztnpLrjtTIpm8ma5CqO2QFpmPV1sg3i0rNMFHKCmKgZXhh6khj2WttVqu+pSFQ5Ph/v9DBwXT0iCATOfiZ4CbvwCYtBXrZ7c9YoxZWyb9ULSy+GnpTagYeF1s7Mqy7paMV2UwEjKBufwDClsXK6AGG08A0X7cNSqpJe+JGm3VBsX2mtlYToH8X4G4Yz5Q1jv65KfcePmk5AH6gASipP2JwwzXj8ch/Qv37+CL7N5jy0AWOhK7qqqCZpg61qqx0cHklKHFO5jw2aitx2gig==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=amd.com; dmarc=pass action=none header.from=amd.com; dkim=pass
+ header.d=amd.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1; 
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=i9+VxQ0kdK53D7JJkJZSl6Tvgt8DhDj5tBw8ovM0yCs=;
+ b=n4ucZ4dO3/7J85GFuS7KZqFtUWo0RlJxT1NhPLpRp+mcgxPzS54KQtsUXaeTjc+y6RCql2CSWa0ilx7TiO9naghHUaZVpFhl2dWU+IHbc+EsVIlaHpfOZa+YZRC1jvhuADawISPbsUNkViNK1qu/5HtJyQl1PEtfidM6t8woOHM=
+Authentication-Results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=amd.com;
+Received: from DM5PR12MB1947.namprd12.prod.outlook.com (2603:10b6:3:111::23)
+ by DM5PR12MB1867.namprd12.prod.outlook.com (2603:10b6:3:10d::7) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.5144.29; Tue, 12 Apr
+ 2022 16:51:58 +0000
+Received: from DM5PR12MB1947.namprd12.prod.outlook.com
+ ([fe80::4967:ac3d:d5eb:ebb4]) by DM5PR12MB1947.namprd12.prod.outlook.com
+ ([fe80::4967:ac3d:d5eb:ebb4%9]) with mapi id 15.20.5144.029; Tue, 12 Apr 2022
+ 16:51:58 +0000
+Message-ID: <064d8958-a288-64e1-b2a4-c2302a456d5b@amd.com>
+Date: Tue, 12 Apr 2022 12:51:56 -0400
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.7.0
+Subject: Re: [PATCH v1] drm/scheduler: Don't kill jobs in interrupt context
+Content-Language: en-US
+To: Dmitry Osipenko <dmitry.osipenko@collabora.com>,
+ David Airlie <airlied@linux.ie>, Daniel Vetter <daniel@ffwll.ch>,
+ Tomeu Vizoso <tomeu.vizoso@collabora.com>,
+ Steven Price <steven.price@arm.com>, Rob Herring <robh@kernel.org>,
+ Alyssa Rosenzweig <alyssa.rosenzweig@collabora.com>,
+ Rob Clark <robdclark@gmail.com>
+References: <20220411221536.283312-1-dmitry.osipenko@collabora.com>
+From: Andrey Grodzovsky <andrey.grodzovsky@amd.com>
+In-Reply-To: <20220411221536.283312-1-dmitry.osipenko@collabora.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
+X-ClientProxiedBy: YT1PR01CA0113.CANPRD01.PROD.OUTLOOK.COM
+ (2603:10b6:b01:2c::22) To DM5PR12MB1947.namprd12.prod.outlook.com
+ (2603:10b6:3:111::23)
 MIME-Version: 1.0
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=javierm@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Transfer-Encoding: 8bit
-Content-Type: text/plain; charset="US-ASCII"; x-default=true
+X-MS-PublicTrafficType: Email
+X-MS-Office365-Filtering-Correlation-Id: e5d502b5-ec87-46dd-72f2-08da1ca4c242
+X-MS-TrafficTypeDiagnostic: DM5PR12MB1867:EE_
+X-Microsoft-Antispam-PRVS: <DM5PR12MB186750308282B26D13CD2F22EAED9@DM5PR12MB1867.namprd12.prod.outlook.com>
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: BCL:0;
+X-Microsoft-Antispam-Message-Info: YUW2hc+J1W9hrY/V+ZkZwEM4Nkm11vxvMoj+p923LEVUpBW1JJULzdwml4gwGdDWWNQaCUU4xwwhWtxtRHuPqSrEzYEp8rdr5oV74T13CQwUz6NGZkZUAhf/r6FmMkGvz6O6vKs81MVf/2mGeNBF0rNTLv42IUXzf0JmrGu4i01iXbQi5LEsZgF/56gxi0PaxSdh0XoRZhUrFNuvgr1aeKQPBQy4o6zWZmY07XnJIyI1KpLeINAIUawI9TIb/IZXaO8Nv+drGSr3yGkNWBXbBDEw8nrWimdGWftgVoJhZQo658cBxOrSd4TLPsHUwRos34SWcuWPqE+MoHQYedeBKosPFnirMWJfVhEDh5PAKhXSpXSCKa9ScQS3f8NgYH0tbWI/uy4V1ozvTICqdfxY33M+0ZtTRpYIKNdeRApiJCKng4B9JPZXpMLtqpalXl+pv0mdaz2kFkuooaPWCYPPYy4uCSzddXIC94Qvsvywg42YOS6iYThIiVJW0Qc1iqtu6Onzy95g25YYILZTpaEZcsoLbITkGGZHTIx8cCdoaWroLfXf2G2RthORr66F5GiZm56fGya1AbsiYrxGrzIwttW67zn5QwpJlqigQT212Tupmx5OuyyIpclPRzIZX0TRtUWnZIB3UxDaU0lXPwFCAV00gynyk6u64oKdLWi9j6m6erHWIuWW3mAEDdC0HoWzNWjR46jPMOzoIXDoiDav6KPURPw/uobxR9UkcyUvXKc=
+X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
+ IPV:NLI; SFV:NSPM; H:DM5PR12MB1947.namprd12.prod.outlook.com; PTR:; CAT:NONE;
+ SFS:(13230001)(4636009)(366004)(31696002)(186003)(7416002)(5660300002)(31686004)(36756003)(8676002)(4326008)(66556008)(316002)(83380400001)(66946007)(110136005)(66476007)(8936002)(86362001)(6512007)(508600001)(2616005)(38100700002)(6486002)(6506007)(53546011)(2906002)(44832011)(45980500001)(43740500002);
+ DIR:OUT; SFP:1101; 
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 2
+X-MS-Exchange-AntiSpam-MessageData-0: =?utf-8?B?UC9WYkd3dzl3K0huSlpvUDJwanJaOHpDaHZoYmpldTNMMmkxaU4rdkNyZDdt?=
+ =?utf-8?B?eVhzbTNJZ0s0RGlncVJWTW9sZGxvWDRUZFVTUjAxMGdDaFVqTTM3TFR5eWdm?=
+ =?utf-8?B?QTdCc1ZRaFk4VDZGekhzYWpyaFQ3aklzT0cvN2JNa2l3ZytSRHZRb21iaU1M?=
+ =?utf-8?B?NlI3dHJtTThwdUgvU3IreHFJV09TNlFqUWZ3dG1ibS9naVQrK2trZldaczRz?=
+ =?utf-8?B?NlZKUlFVdmRObzhiNEVnSWMyOFpnakdhQkg4WGwyR0lzSVRsb1dqbWF3RkN5?=
+ =?utf-8?B?RVBkS2FFQ3JMRkYzcXZsdldCRGRLREE0WHZyOGE0TWF1OXNTME1NQmw4YXNF?=
+ =?utf-8?B?dDJtVXQ3ZHRvRXZHOGk2OFc5cnQvWHI2cml0am5SWUdNRldCbFArU0M3a1Jz?=
+ =?utf-8?B?Z2I0Tnd6OTh0V0t0bmJYL1VaQmxGT3VWRUhvUlgrTmtwWVBsaVZhUDhwbmxF?=
+ =?utf-8?B?NjFva3lBWjNncTBTUFJGRmcyWCtyZG5XTi9WUUEyeFVkVlFwTVJrYkthK0NQ?=
+ =?utf-8?B?b0R4TGE3S0IvSlhmaTBGNXM4RCtsL3RRKzE3bWtjUmVpL0Y1UkI3b3hpUExW?=
+ =?utf-8?B?R2pTS1l5NUxXODhJdGpuUHR1UXhRaXNJRldFbWFEcS8yQU9xa0ZZbEtidHdM?=
+ =?utf-8?B?MG5xbVBWeDc1R1B0eUYyMHZpalU1OXBkbVB2ZC8rMExGT3FmdDRFSUNaV1hM?=
+ =?utf-8?B?c3dxUVV1eitDbDlzZ1JyYWVDK1drMVNwOXpxbGlHOUtJVzVkL0lpNlFvdGNi?=
+ =?utf-8?B?WUpPaHdMc0lPb0RzTTcrZWJCdkc5VkREdkR2dGV2Vk44eVJNcWUxV3hWbDV2?=
+ =?utf-8?B?WkEyU1lieEw1TkxQSEF3dVNoRHVkMC85Zm9tWkpZWkg3TTlKQnFCZmJPc3h0?=
+ =?utf-8?B?NDlKUWZvRUxNM3dsUWMzNGVXalc1QTZNTVh1WGRZOGpUSHNjUW5RRmZ6LzlY?=
+ =?utf-8?B?bEl1Nk9MWGZIZThJdXdkTkJubHJyYkRzOXc5VVBteG80cWUyMjkwbXZiVTNL?=
+ =?utf-8?B?b1ZaeGRhRGZQWHRES2wzclZCRnZKSzljaFBHU1hKQ1pVRUlNZVRncTJUUzFr?=
+ =?utf-8?B?RC9mdVhncmo0RDBqMkhJbjZrTmV4YVVITEd1aXhVbVdwMlB4RW1tT0xFeUtL?=
+ =?utf-8?B?NFV6Ym8zZHdtS3QxN3lsQURaVHZzakNVS1FPeDlQNUw0dHhvcVdqWUl4UXNy?=
+ =?utf-8?B?Qzg0ZDg4eXA4ZVNMQTd0Ky9UdE5ZalMzclFiS2dodGRMSXg3bHFBT3BRa0NW?=
+ =?utf-8?B?Mi92dHNkaGJWYnpaQUlFTk5uN0hHanV3cFlXM3l1Ly9uQnpocXpEc0ZGWGNE?=
+ =?utf-8?B?ZU1yL29FUDNlWE0wNk5YZnZDWWpQNEo2aXhib3BHNXVEOVFIaTh5RWJFcEMv?=
+ =?utf-8?B?eEhocnV4WHdhbktCSy9KS0tIaGNJWEtzbmpPOUZBYkNhMmEyR045bThNWFcx?=
+ =?utf-8?B?bjZKdEtJcmRYOWJLUEllcURiWHZ1clNlcGdVL3hnajdzcVhGSCtGUC9KYW5x?=
+ =?utf-8?B?Q1hrRnFGRStxQzJteTZTb2V0bmJLWEV3WGlneHNRVTczM1BURU5GdDk1RUx5?=
+ =?utf-8?B?d043aTJ5RXRVY2lsdHdIYUJXcExNWThydXBQdzZVRVB6N1FNU2hQNXlHSi8z?=
+ =?utf-8?B?OTgxYXhkbmk0cXdKZVpBWjQwMGZPNm5sREY2SnM2WDBsbzN6d3VBNVBwU0tp?=
+ =?utf-8?B?ZW5PN0EwdkYxcEhuNVhSQUxmcXR4dDFkZ1E1QmJmeFVEQnI5ZkswSzlveFI0?=
+ =?utf-8?B?NGQwRGV2aWkvOERDaHNXRGFDV2lCWjVzZ1VaelFrTU9wMlVEMmxERWN1UlZ6?=
+ =?utf-8?B?T09jZ3JNZkhVckFlb0JFUmNMdnM4emVwNVVUNytLaEJ3cjdlV01HYzJQZFRT?=
+ =?utf-8?B?N1g0VWIwb0JtMVJpeERmbVpkTEZOSStLYXY5WlVNblhXZDFoV0hSeW82VzZv?=
+ =?utf-8?B?eFVQVVVPbklTYXNsV1FsRFZXeEpoSzJzemt3SWhLSkE5WTNzaVVLWi9HYkM1?=
+ =?utf-8?B?Tnk1RCtrT1h3aVo4c1MxLzRmc0lNLzQ2YmRGQWY2ZllabTJqTWk1cUR4Ynh3?=
+ =?utf-8?B?NTdwV2h5YnZVNENrWTMwVlRpWHRzS3pRWUxKOG9FMFpFRXpncmhFTmJwSzZt?=
+ =?utf-8?B?MFk0eHJlUHFFYTdWWFFLZlpOb05kKzFXRHRtZTRjTXNPd0VBMHJaQ3hma0lQ?=
+ =?utf-8?B?bVVnQ2tXMWlPZEw2eWFIaEJNVDJJUnpPNDhyQXlPTitSTkRGOEpxMERjUHoz?=
+ =?utf-8?B?SHh0dHJ5OTJJOXBzVXVEWFBhaDdrcnhoemNjMUtkQnd2VkNxL2Z5allMUzZJ?=
+ =?utf-8?B?Q1puMlg4WEtzZVFKQW45dzhWdDRLM3RRK0NjY2hPTS95dEFYQnpKZlRpcmJk?=
+ =?utf-8?Q?9gXyTbM562m2Q6+8COHdYd57xnjE4xAJETUiVQg8ZqQhi?=
+X-MS-Exchange-AntiSpam-MessageData-1: pPzzlXIi0E3/cg==
+X-OriginatorOrg: amd.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: e5d502b5-ec87-46dd-72f2-08da1ca4c242
+X-MS-Exchange-CrossTenant-AuthSource: DM5PR12MB1947.namprd12.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 12 Apr 2022 16:51:58.8039 (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: TsUg8JufNfV45AVNHGMNP5hcTqbmxq62TUV0I8/OYaW/K0WzkLImU1dPns/PTnpTohQGaOyeYlI2JaGDPWdfeQ==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: DM5PR12MB1867
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -84,254 +135,83 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Chen-Yu Tsai <wens@kernel.org>, Neil Armstrong <narmstrong@baylibre.com>,
- David Airlie <airlied@linux.ie>, YueHaibing <yuehaibing@huawei.com>,
- Javier Martinez Canillas <javierm@redhat.com>, dri-devel@lists.freedesktop.org,
- Chen-Yu Tsai <wens@csie.org>, Mark Brown <broonie@kernel.org>,
- Geert Uytterhoeven <geert@linux-m68k.org>, Maxime Ripard <maxime@cerno.tech>,
- Andy Shevchenko <andriy.shevchenko@linux.intel.com>
+Cc: Dmitry Osipenko <digetx@gmail.com>, linux-kernel@vger.kernel.org,
+ dri-devel@lists.freedesktop.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-The ssd130x driver only provides the core support for these devices but it
-does not have any bus transport logic. Add a driver to interface over SPI.
 
-There is a difference in the communication protocol when using 4-wire SPI
-instead of I2C. For the latter, a control byte that contains a D/C# field
-has to be sent. This field tells the controller whether the data has to be
-written to the command register or to the graphics display data memory.
+On 2022-04-11 18:15, Dmitry Osipenko wrote:
+> Interrupt context can't sleep. Drivers like Panfrost and MSM are taking
+> mutex when job is released, and thus, that code can sleep. This results
+> into "BUG: scheduling while atomic" if locks are contented while job is
+> freed. There is no good reason for releasing scheduler's jobs in IRQ
+> context, hence use normal context to fix the trouble.
 
-But for 4-wire SPI that control byte is not used, instead a real D/C# line
-must be pulled HIGH for commands data and LOW for graphics display data.
 
-For this reason the standard SPI regmap can't be used and a custom .write
-bus handler is needed.
+I am not sure this is the beast Idea to leave job's sw fence signalling 
+to be
+executed in system_wq context which is prone to delays of executing
+various work items from around the system. Seems better to me to leave the
+fence signaling within the IRQ context and offload only the job freeing or,
+maybe handle rescheduling to thread context within drivers implemention
+of .free_job cb. Not really sure which is the better.
 
-Signed-off-by: Javier Martinez Canillas <javierm@redhat.com>
-Acked-by: Mark Brown <broonie@kernel.org>
----
+Andrey
 
-Changes in v3:
-- Drop ssd130x_spi_get_dc() helper and open code it (Geert Uytterhoeven)
-- Export variants array and use &info[ID] in device table (Andy Shevchenko)
 
-Changes in v2:
-- Add the same compatible strings than I2C (Geert Uytterhoeven)
-
- drivers/gpu/drm/solomon/Kconfig       |   9 ++
- drivers/gpu/drm/solomon/Makefile      |   1 +
- drivers/gpu/drm/solomon/ssd130x-spi.c | 177 ++++++++++++++++++++++++++
- 3 files changed, 187 insertions(+)
- create mode 100644 drivers/gpu/drm/solomon/ssd130x-spi.c
-
-diff --git a/drivers/gpu/drm/solomon/Kconfig b/drivers/gpu/drm/solomon/Kconfig
-index 8c0a0c788385..e170716d976b 100644
---- a/drivers/gpu/drm/solomon/Kconfig
-+++ b/drivers/gpu/drm/solomon/Kconfig
-@@ -20,3 +20,12 @@ config DRM_SSD130X_I2C
- 	  I2C bus.
- 
- 	  If M is selected the module will be called ssd130x-i2c.
-+
-+config DRM_SSD130X_SPI
-+	tristate "DRM support for Solomon SSD130X OLED displays (SPI bus)"
-+	depends on DRM_SSD130X && SPI
-+	select REGMAP
-+	help
-+	  Say Y here if the SSD130x OLED display is connected via SPI bus.
-+
-+	  If M is selected the module will be called ssd130x-spi.
-diff --git a/drivers/gpu/drm/solomon/Makefile b/drivers/gpu/drm/solomon/Makefile
-index 4bfc5acb0447..b5fc792257d7 100644
---- a/drivers/gpu/drm/solomon/Makefile
-+++ b/drivers/gpu/drm/solomon/Makefile
-@@ -1,2 +1,3 @@
- obj-$(CONFIG_DRM_SSD130X)	+= ssd130x.o
- obj-$(CONFIG_DRM_SSD130X_I2C)	+= ssd130x-i2c.o
-+obj-$(CONFIG_DRM_SSD130X_SPI)	+= ssd130x-spi.o
-diff --git a/drivers/gpu/drm/solomon/ssd130x-spi.c b/drivers/gpu/drm/solomon/ssd130x-spi.c
-new file mode 100644
-index 000000000000..4fda420ae0a6
---- /dev/null
-+++ b/drivers/gpu/drm/solomon/ssd130x-spi.c
-@@ -0,0 +1,177 @@
-+// SPDX-License-Identifier: GPL-2.0-only
-+/*
-+ * DRM driver for Solomon SSD130X OLED displays (SPI bus)
-+ *
-+ * Copyright 2022 Red Hat Inc.
-+ * Authors: Javier Martinez Canillas <javierm@redhat.com>
-+ */
-+#include <linux/spi/spi.h>
-+#include <linux/module.h>
-+
-+#include "ssd130x.h"
-+
-+#define DRIVER_NAME	"ssd130x-spi"
-+#define DRIVER_DESC	"DRM driver for Solomon SSD130X OLED displays (SPI)"
-+
-+struct ssd130x_spi_transport {
-+	struct spi_device *spi;
-+	struct gpio_desc *dc;
-+};
-+
-+static const struct regmap_config ssd130x_spi_regmap_config = {
-+	.reg_bits = 8,
-+	.val_bits = 8,
-+};
-+
-+/*
-+ * The regmap bus .write handler, it is just a wrapper around spi_write()
-+ * but toggling the Data/Command control pin (D/C#). Since for 4-wire SPI
-+ * a D/C# pin is used, in contrast with I2C where a control byte is sent,
-+ * prior to every data byte, that contains a bit with the D/C# value.
-+ *
-+ * These control bytes are considered registers by the ssd130x core driver
-+ * and can be used by the ssd130x SPI driver to determine if the data sent
-+ * is for a command register or for the Graphic Display Data RAM (GDDRAM).
-+ */
-+static int ssd130x_spi_write(void *context, const void *data, size_t count)
-+{
-+	struct ssd130x_spi_transport *t = context;
-+	struct spi_device *spi = t->spi;
-+	const u8 *reg = data;
-+
-+	if (*reg == SSD130X_COMMAND)
-+		gpiod_set_value_cansleep(t->dc, 0);
-+
-+	if (*reg == SSD130X_DATA)
-+		gpiod_set_value_cansleep(t->dc, 1);
-+
-+	/* Remove the control byte since is not used by the 4-wire SPI */
-+	return spi_write(spi, ((u8 *)data) + 1, count - 1);
-+}
-+
-+/* The ssd130x driver does not read registers but regmap expects a .read */
-+static int ssd130x_spi_read(void *context, const void *reg, size_t reg_size,
-+			    void *val, size_t val_size)
-+{
-+	return -EOPNOTSUPP;
-+}
-+
-+/*
-+ * A custom bus is needed due the special write that toggles a D/C# pin,
-+ * another option could be to just have a .reg_write() callback but that
-+ * will prevent to do data writes in bulk.
-+ *
-+ * Once the regmap API is extended to support defining a bulk write handler
-+ * in the struct regmap_config, this can be simplified and the bus dropped.
-+ */
-+static struct regmap_bus regmap_ssd130x_spi_bus = {
-+	.write = ssd130x_spi_write,
-+	.read = ssd130x_spi_read,
-+};
-+
-+static int ssd130x_spi_probe(struct spi_device *spi)
-+{
-+	struct ssd130x_spi_transport *t;
-+	struct ssd130x_device *ssd130x;
-+	struct regmap *regmap;
-+	struct gpio_desc *dc;
-+	struct device *dev = &spi->dev;
-+
-+	dc = devm_gpiod_get(dev, "dc", GPIOD_OUT_LOW);
-+	if (IS_ERR(dc))
-+		return dev_err_probe(dev, PTR_ERR(dc),
-+				     "Failed to get dc gpio\n");
-+
-+	t = devm_kzalloc(dev, sizeof(*t), GFP_KERNEL);
-+	if (!t)
-+		return dev_err_probe(dev, -ENOMEM,
-+				     "Failed to allocate SPI transport data\n");
-+
-+	t->spi = spi;
-+	t->dc = dc;
-+
-+	regmap = devm_regmap_init(dev, &regmap_ssd130x_spi_bus, t,
-+				  &ssd130x_spi_regmap_config);
-+	if (IS_ERR(regmap))
-+		return PTR_ERR(regmap);
-+
-+	ssd130x = ssd130x_probe(dev, regmap);
-+	if (IS_ERR(ssd130x))
-+		return PTR_ERR(ssd130x);
-+
-+	spi_set_drvdata(spi, ssd130x);
-+
-+	return 0;
-+}
-+
-+static void ssd130x_spi_remove(struct spi_device *spi)
-+{
-+	struct ssd130x_device *ssd130x = spi_get_drvdata(spi);
-+
-+	ssd130x_remove(ssd130x);
-+}
-+
-+static void ssd130x_spi_shutdown(struct spi_device *spi)
-+{
-+	struct ssd130x_device *ssd130x = spi_get_drvdata(spi);
-+
-+	ssd130x_shutdown(ssd130x);
-+}
-+
-+static const struct of_device_id ssd130x_of_match[] = {
-+	{
-+		.compatible = "sinowealth,sh1106",
-+		.data = &ssd130x_variants[SH1106_ID],
-+	},
-+	{
-+		.compatible = "solomon,ssd1305",
-+		.data = &ssd130x_variants[SSD1305_ID],
-+	},
-+	{
-+		.compatible = "solomon,ssd1306",
-+		.data = &ssd130x_variants[SSD1306_ID],
-+	},
-+	{
-+		.compatible = "solomon,ssd1307",
-+		.data = &ssd130x_variants[SSD1307_ID],
-+	},
-+	{
-+		.compatible = "solomon,ssd1309",
-+		.data = &ssd130x_variants[SSD1309_ID],
-+	},
-+	{ /* sentinel */ }
-+};
-+MODULE_DEVICE_TABLE(of, ssd130x_of_match);
-+
-+/*
-+ * The SPI core always reports a MODALIAS uevent of the form "spi:<dev>", even
-+ * if the device was registered via OF. This means that the module will not be
-+ * auto loaded, unless it contains an alias that matches the MODALIAS reported.
-+ *
-+ * To workaround this issue, add a SPI device ID table. Even when this should
-+ * not be needed for this driver to match the registered SPI devices.
-+ */
-+static const struct spi_device_id ssd130x_spi_table[] = {
-+	{ "sh1106",  SH1106_ID },
-+	{ "ssd1305", SSD1305_ID },
-+	{ "ssd1306", SSD1306_ID },
-+	{ "ssd1307", SSD1307_ID },
-+	{ "ssd1309", SSD1309_ID },
-+	{ /* sentinel */ }
-+};
-+MODULE_DEVICE_TABLE(spi, ssd130x_spi_table);
-+
-+static struct spi_driver ssd130x_spi_driver = {
-+	.driver = {
-+		.name = DRIVER_NAME,
-+		.of_match_table = ssd130x_of_match,
-+	},
-+	.probe = ssd130x_spi_probe,
-+	.remove = ssd130x_spi_remove,
-+	.shutdown = ssd130x_spi_shutdown,
-+};
-+module_spi_driver(ssd130x_spi_driver);
-+
-+MODULE_DESCRIPTION(DRIVER_DESC);
-+MODULE_AUTHOR("Javier Martinez Canillas <javierm@redhat.com>");
-+MODULE_LICENSE("GPL");
--- 
-2.35.1
-
+>
+> Cc: stable@vger.kernel.org
+> Fixes: 542cff7893a3 ("drm/sched: Avoid lockdep spalt on killing a processes")
+> Signed-off-by: Dmitry Osipenko <dmitry.osipenko@collabora.com>
+> ---
+>   drivers/gpu/drm/scheduler/sched_entity.c | 6 +++---
+>   include/drm/gpu_scheduler.h              | 4 ++--
+>   2 files changed, 5 insertions(+), 5 deletions(-)
+>
+> diff --git a/drivers/gpu/drm/scheduler/sched_entity.c b/drivers/gpu/drm/scheduler/sched_entity.c
+> index 191c56064f19..6b25b2f4f5a3 100644
+> --- a/drivers/gpu/drm/scheduler/sched_entity.c
+> +++ b/drivers/gpu/drm/scheduler/sched_entity.c
+> @@ -190,7 +190,7 @@ long drm_sched_entity_flush(struct drm_sched_entity *entity, long timeout)
+>   }
+>   EXPORT_SYMBOL(drm_sched_entity_flush);
+>   
+> -static void drm_sched_entity_kill_jobs_irq_work(struct irq_work *wrk)
+> +static void drm_sched_entity_kill_jobs_work(struct work_struct *wrk)
+>   {
+>   	struct drm_sched_job *job = container_of(wrk, typeof(*job), work);
+>   
+> @@ -207,8 +207,8 @@ static void drm_sched_entity_kill_jobs_cb(struct dma_fence *f,
+>   	struct drm_sched_job *job = container_of(cb, struct drm_sched_job,
+>   						 finish_cb);
+>   
+> -	init_irq_work(&job->work, drm_sched_entity_kill_jobs_irq_work);
+> -	irq_work_queue(&job->work);
+> +	INIT_WORK(&job->work, drm_sched_entity_kill_jobs_work);
+> +	schedule_work(&job->work);
+>   }
+>   
+>   static struct dma_fence *
+> diff --git a/include/drm/gpu_scheduler.h b/include/drm/gpu_scheduler.h
+> index 0fca8f38bee4..addb135eeea6 100644
+> --- a/include/drm/gpu_scheduler.h
+> +++ b/include/drm/gpu_scheduler.h
+> @@ -28,7 +28,7 @@
+>   #include <linux/dma-fence.h>
+>   #include <linux/completion.h>
+>   #include <linux/xarray.h>
+> -#include <linux/irq_work.h>
+> +#include <linux/workqueue.h>
+>   
+>   #define MAX_WAIT_SCHED_ENTITY_Q_EMPTY msecs_to_jiffies(1000)
+>   
+> @@ -295,7 +295,7 @@ struct drm_sched_job {
+>   	 */
+>   	union {
+>   		struct dma_fence_cb		finish_cb;
+> -		struct irq_work 		work;
+> +		struct work_struct 		work;
+>   	};
+>   
+>   	uint64_t			id;
