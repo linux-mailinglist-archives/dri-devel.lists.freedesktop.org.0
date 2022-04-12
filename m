@@ -2,59 +2,67 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id ECD144FD2FF
-	for <lists+dri-devel@lfdr.de>; Tue, 12 Apr 2022 10:30:10 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id A26024FD321
+	for <lists+dri-devel@lfdr.de>; Tue, 12 Apr 2022 10:57:59 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 74E6A10FDD3;
-	Tue, 12 Apr 2022 08:30:08 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 20DE710FF9C;
+	Tue, 12 Apr 2022 08:57:56 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-pf1-x436.google.com (mail-pf1-x436.google.com
- [IPv6:2607:f8b0:4864:20::436])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 702F310FC23
- for <dri-devel@lists.freedesktop.org>; Tue, 12 Apr 2022 08:30:07 +0000 (UTC)
-Received: by mail-pf1-x436.google.com with SMTP id s2so16870473pfh.6
- for <dri-devel@lists.freedesktop.org>; Tue, 12 Apr 2022 01:30:07 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=XWETclwf6JoUIZg5dlEwqaDblFeTlFItFp0Uo6O8hgA=;
- b=DbmUl8o/ELO24qYZcr1EjyCqfOmLogZnBKgh6+F+dnfnI6Ehteres7i2KeD2aNPpyy
- qXoJeE+weKzNTV+nfi/axUfIpPQnEIf5Vv6nCu6gnFA+9xKKN2mYrE2Vu90DkFRiwYNn
- t2xrQhuzZVrOssviGmVZ6OBXy4+qi/r2s1PF39cb+zJZuW/Zi70RyXox6I1CCm9k6wbY
- AHX2/yFxwVGdlv6csXfQJFb4vbtNzk9DdFVTqOrvEPvi9lIhlwqP7Da4TcBbK6sXTIri
- iNsZLka25gxyDS/LYMebCsARRfosbo1cXn9QNP3GSi7ptCz6P/Wf4C9Z4zsOB3ZUiqXJ
- bVmA==
+Received: from mail-oi1-x22c.google.com (mail-oi1-x22c.google.com
+ [IPv6:2607:f8b0:4864:20::22c])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 59E6C10FF99
+ for <dri-devel@lists.freedesktop.org>; Tue, 12 Apr 2022 08:57:55 +0000 (UTC)
+Received: by mail-oi1-x22c.google.com with SMTP id 12so18336720oix.12
+ for <dri-devel@lists.freedesktop.org>; Tue, 12 Apr 2022 01:57:55 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=baylibre-com.20210112.gappssmtp.com; s=20210112;
+ h=from:user-agent:references:in-reply-to:mime-version:date:message-id
+ :subject:to:cc;
+ bh=4FpzyyLj/OdDU3ZmpUpstG+y8CAFSWZd/AR4b2PM65Y=;
+ b=O4uumP51JcV7qBCLnK0EA1pkMY6sGD/pTvzvNjou2PgcdwHOFuibGIptBgZ3zJNPCO
+ HNcpOraxajhSfH6FKpX+oohFsR9+cAmNzr3raUAIRjIXsDz70WJRGRPe0sBzCtIorZSn
+ jwU9hlWq8nhRQgCL+0BDauOseU08SQ6kHBE39slH9gyCacBPIRunwbgJFwT4MEAkgB4u
+ XOLgBEcCs1r6ODorwmX7IF0ZhAGaeOSeAxRCXAcIUN8mXCyKnW+FU3R/7MlScEWkf0VY
+ ZvjB33mZDqS56xB5bdfVu9Bjy/qdU0l0vvxbk6G4z6AorUZE6E2dkUcfig1wxL70aOEU
+ PS7A==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=XWETclwf6JoUIZg5dlEwqaDblFeTlFItFp0Uo6O8hgA=;
- b=mHBltM+/sVMurg9IfNoo190278DERJqjQcT0SJhFApD0mGqauboV4lHAIDCMXQ5BQx
- rNeVzVAbdQVniLdXtdKQDUvPBvVN7kJVLTmiFMiE6EdG8qAb2ni2VxGdPJkFv0haPhwC
- DBfdv3mankyGiud3ZjgubhRt8tpETvFTBHLj7S3wBzjSb9FzWMgks6HfXFeZGisLc3CU
- uPL6p6atbd1LAGy6PWFUIEJ0wnYbahhboiNPw12X7+A2CgGYdWxR0QFOiXym6l/xhopg
- Px9UY7KhBPzWl/OZe/JWxNWFMJ4oXXnOUGhKLm/3r8fnaX/aymZQUQYev/F46NcKoT/b
- XptA==
-X-Gm-Message-State: AOAM5331TD//0S3TftwVHVBbRdul2F3cUpvLFPLTSeorJqYoolkPz/i1
- zrkPcZkgo3n4b9RHegXWEgMikaLyri1qUim6aQwG1Lmk
-X-Google-Smtp-Source: ABdhPJzlX7vyFTNnPifHlAXzBIE9Hdhxk5KyGpsJjbvDXHYtJW17Ksieg2HCtZnhyQCGQjh74BBTgBur/+0ydWZO02I=
-X-Received: by 2002:a63:e20:0:b0:385:fe08:52f9 with SMTP id
- d32-20020a630e20000000b00385fe0852f9mr29891822pgl.99.1649752206929; Tue, 12
- Apr 2022 01:30:06 -0700 (PDT)
+ h=x-gm-message-state:from:user-agent:references:in-reply-to
+ :mime-version:date:message-id:subject:to:cc;
+ bh=4FpzyyLj/OdDU3ZmpUpstG+y8CAFSWZd/AR4b2PM65Y=;
+ b=KQxt/PXsTaupo/EFTY5l4+fjgbFJeMs2bW6a+/EWYh4JkJFta/2oRpeweQkuc8VW3o
+ EEuQMGNCCxXFT0TtcLd3APBov+QOVEkrxegD3Z4COnuqq1mm12GR6J0D65acQmZBdqML
+ ig7T3snU7omwx7T5uGGcGcv7iQUj+T5IRDziaoauBBKe8CLSyEvY+NCU6Pzof96IAHTb
+ zMbwl+2akS8hSVoUgXdkVLS76LvV+ozGh7skhcD8Zpu7Mp8UEVxAmz4Gymb1gwdX+QZm
+ F7tnl73cZjedbf9kJb2mx7VlUf1YFYMvM+6xl1mD5lqf2QqD45OdA+n5vo61wVsDuZdW
+ aTEg==
+X-Gm-Message-State: AOAM533my7SXhXNzmpu9CVgwcMhjwsw1kfyornVSmIil1+5VhBxPWQdw
+ wfjANp2bg6Nd1xaEgiiKJs3q7P+++Gn5f7MO1rsK7w==
+X-Google-Smtp-Source: ABdhPJyGsXSnBb0OrYJzuxK+lplYEUvtBMZUA3XN/6JoCjC1Dfht5xOEuqQ6v8izMrWtfTdYVEwhffLY26AWeFbXjVU=
+X-Received: by 2002:a05:6808:159d:b0:2da:3946:ab3d with SMTP id
+ t29-20020a056808159d00b002da3946ab3dmr1258843oiw.248.1649753874382; Tue, 12
+ Apr 2022 01:57:54 -0700 (PDT)
+Received: from 753933720722 named unknown by gmailapi.google.com with
+ HTTPREST; Tue, 12 Apr 2022 01:57:53 -0700
+From: Guillaume Ranquet <granquet@baylibre.com>
+User-Agent: meli 0.7.2
+References: <20220327223927.20848-1-granquet@baylibre.com>
+ <20220327223927.20848-5-granquet@baylibre.com>
+ <0c523ad5-6a71-5c71-17b8-1f15c1860d89@collabora.com>
+In-Reply-To: <0c523ad5-6a71-5c71-17b8-1f15c1860d89@collabora.com>
 MIME-Version: 1.0
-References: <20220409042321.3184493-1-james.hilliard1@gmail.com>
- <CAMeQTsanEow=zq=MuZLjMqpzybdS=5S0=JrkxuCdT7d5MxpEWQ@mail.gmail.com>
- <CADvTj4rBKzGFch8iVzHu1s+6=P0PcLEwoFi74xd_ormEX+2rMA@mail.gmail.com>
- <CAMeQTsaM363n5F=--xhSTayFqOMNvjTQjqz_aEhby6i-KRVBKQ@mail.gmail.com>
- <CADvTj4o_zyVZxaBz0+kRUF30OW3SKFMuo87r6FE9Qkfn1dVsBw@mail.gmail.com>
- <CAMeQTsbKMxQcDsDRqHsMwqU1BnrcOLwtU7uOrB-1E0z65P79-w@mail.gmail.com>
- <CADvTj4rR5zt5iFTDrrYfNQ267KV896dHnjJHx6yq=e10+V_Okg@mail.gmail.com>
-In-Reply-To: <CADvTj4rR5zt5iFTDrrYfNQ267KV896dHnjJHx6yq=e10+V_Okg@mail.gmail.com>
-From: Patrik Jakobsson <patrik.r.jakobsson@gmail.com>
-Date: Tue, 12 Apr 2022 10:29:55 +0200
-Message-ID: <CAMeQTsZyp40ybkNxnYDCR=pvXRzWvtBLkT+i4VPyjNiwwWg0-A@mail.gmail.com>
-Subject: Re: [PATCH v3] drm/gma500: depend on framebuffer
-To: James Hilliard <james.hilliard1@gmail.com>
+Date: Tue, 12 Apr 2022 01:57:53 -0700
+Message-ID: <CABnWg9vxnLqAsoLOSHekwa9q3v=atLJEXpXADMc-bj+z1mkQHA@mail.gmail.com>
+Subject: Re: [PATCH v9 04/22] drm/edid: Convert cea_sad helper struct to
+ kernelDoc
+To: AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>,
+ vkoul@kernel.org, 
+ airlied@linux.ie, chunfeng.yun@mediatek.com, chunkuang.hu@kernel.org, 
+ ck.hu@mediatek.com, daniel@ffwll.ch, deller@gmx.de, jitao.shi@mediatek.com, 
+ kishon@ti.com, krzk+dt@kernel.org, maarten.lankhorst@linux.intel.com, 
+ matthias.bgg@gmail.com, mripard@kernel.org, p.zabel@pengutronix.de, 
+ robh+dt@kernel.org, tzimmermann@suse.de
 Content-Type: text/plain; charset="UTF-8"
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -68,65 +76,52 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: David Airlie <airlied@linux.ie>, Randy Dunlap <rdunlap@infradead.org>,
- dri-devel <dri-devel@lists.freedesktop.org>,
- linux-kernel <linux-kernel@vger.kernel.org>
+Cc: devicetree@vger.kernel.org, linux-fbdev@vger.kernel.org,
+ linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
+ linux-mediatek@lists.infradead.org, linux-phy@lists.infradead.org,
+ linux-arm-kernel@lists.infradead.org, markyacoub@google.com
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Tue, Apr 12, 2022 at 3:48 AM James Hilliard
-<james.hilliard1@gmail.com> wrote:
+On Mon, 28 Mar 2022 10:04, AngeloGioacchino Del Regno
+<angelogioacchino.delregno@collabora.com> wrote:
+>Il 28/03/22 00:39, Guillaume Ranquet ha scritto:
+>> Signed-off-by: Guillaume Ranquet <granquet@baylibre.com>
+>> ---
+>>   include/drm/drm_edid.h | 11 ++++++++---
+>>   1 file changed, 8 insertions(+), 3 deletions(-)
+>>
+>> diff --git a/include/drm/drm_edid.h b/include/drm/drm_edid.h
+>> index 144c495b99c4..5d4d840b9904 100644
+>> --- a/include/drm/drm_edid.h
+>> +++ b/include/drm/drm_edid.h
+>> @@ -359,12 +359,17 @@ struct edid {
+>>
+>>   #define EDID_PRODUCT_ID(e) ((e)->prod_code[0] | ((e)->prod_code[1] << 8))
+>>
+>> -/* Short Audio Descriptor */
 >
-> On Mon, Apr 11, 2022 at 3:27 AM Patrik Jakobsson
-> <patrik.r.jakobsson@gmail.com> wrote:
-> >
-> > On Sun, Apr 10, 2022 at 10:05 PM James Hilliard
-> > <james.hilliard1@gmail.com> wrote:
-> > >
-> > > On Sun, Apr 10, 2022 at 1:52 PM Patrik Jakobsson
-> > > <patrik.r.jakobsson@gmail.com> wrote:
-> > > >
-> > > > On Sun, Apr 10, 2022 at 9:40 PM James Hilliard
-> > > > <james.hilliard1@gmail.com> wrote:
-> > > > >
-> > > > > On Sun, Apr 10, 2022 at 1:36 PM Patrik Jakobsson
-> > > > > <patrik.r.jakobsson@gmail.com> wrote:
-> > > > > >
-> > > > > > On Sat, Apr 9, 2022 at 6:23 AM James Hilliard <james.hilliard1@gmail.com> wrote:
-> > > > > > >
-> > > > > > > Select the efi framebuffer if efi is enabled.
-> > > > > > >
-> > > > > > > This appears to be needed for video output to function correctly.
-> > > > > > >
-> > > > > > > Signed-off-by: James Hilliard <james.hilliard1@gmail.com>
-> > > > > >
-> > > > > > Hi James,
-> > > > > > EFI_FB is its own driver and not needed by gma500 to drive its
-> > > > > > hardware. What makes you think it's required?
-> > > > >
-> > > > > I wasn't getting any HDMI video output without it enabled for some reason,
-> > > > > I assume it is doing some sort of initialization needed by gma500
-> > > > > during startup.
-> > > >
-> > > > Then it sounds like you might just be using EFI_FB and not gma500. Can
-> > > > you provide the kernel log with drm.debug=0x1f set on kernel
-> > > > command-line.
-> > >
-> > > Seems efifb loads first and then hands off to gma500
-> >
-> > That is how it normally works but efifb shouldn't change the state of
-> > the currently set mode so shouldn't affect gma500.
-> > From the logs I can see that you have LVDS (internal panel), HDMI and
-> > DP (3 displays in total) connected. This sounds wrong. Your version of
-> > gma500 (Cedarview) doesn't support more than 2 crtcs/pipes. This might
-> > be a problem.
+>Hello Guillaume,
 >
-> Yeah, there's a bug there with the connector status, only DVI-D-1 is actually
-> connected, I have DP-2 and LVDS-1 turned off in weston.
+>> +/* struct cea_sad - Short Audio Descriptor.
+>> +	@format: See HDMI_AUDIO_CODING_TYPE_*.
+>> +	@channels: max number of channels - 1.
+>> +	@freq: See CEA_SAD_FREQ_*.
+>> +	@byte2: meaning depends on format.
+>> +*/
+>
+>I appreciate the effort, but this is not valid kerneldoc.
+>
+>Please refer to https://docs.kernel.org/doc-guide/kernel-doc.html
+>
+>Regards,
+>Angelo
 
-Ok, but are the connectors physically connected to anything?
-Regardless of what you do in Weston, the connectors shouldn't be
-getting modes if they aren't used. LVDS might be from VBIOS but I'm
-not sure where the DP modes come from. It would help if you also
-provide kernel logs with drm.debug=0x1f when the outputs doesn't work
-so I have something to compare with.
+Hello Angelo,
+
+Thx for your review.
+I'm sorry I posted this v9 in a bit of a rush...
+but I promise we will get there... eventually :D
+
+Thx,
+Guillaume.
