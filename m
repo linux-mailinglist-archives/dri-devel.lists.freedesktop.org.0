@@ -1,39 +1,41 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1E0984FCD27
-	for <lists+dri-devel@lfdr.de>; Tue, 12 Apr 2022 05:35:52 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id DE69C4FCD28
+	for <lists+dri-devel@lfdr.de>; Tue, 12 Apr 2022 05:35:53 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 4A38910FB75;
-	Tue, 12 Apr 2022 03:35:43 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 72FE010FB71;
+	Tue, 12 Apr 2022 03:35:46 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from letterbox.kde.org (letterbox.kde.org [46.43.1.242])
- by gabe.freedesktop.org (Postfix) with ESMTPS id A450610FB4A;
- Tue, 12 Apr 2022 03:35:37 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id E2AE810FB4E;
+ Tue, 12 Apr 2022 03:35:38 +0000 (UTC)
 Received: from vertex.localdomain (pool-108-36-85-85.phlapa.fios.verizon.net
  [108.36.85.85]) (Authenticated sender: zack)
- by letterbox.kde.org (Postfix) with ESMTPSA id 65429283884;
- Tue, 12 Apr 2022 04:35:35 +0100 (BST)
+ by letterbox.kde.org (Postfix) with ESMTPSA id BF9A928384A;
+ Tue, 12 Apr 2022 04:35:36 +0100 (BST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kde.org; s=users;
- t=1649734536; bh=EMav8tC5+SYVEEBmZtmVZXFia3Bz7qzOggBZLqun0Xw=;
+ t=1649734537; bh=Nh5GIWhbYavhYAJ2lM1dTmT1hu102mSZDvX1E9H0yoM=;
  h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
- b=fXS/BGr1gmTLBue2OJ6ze0qgzMa/Wa0xoVqulfkDUQkAdXySlUZJUVYKlrP6Hpczs
- gdw6KBWFo9cRMMEp6Jt8imrNzfwK4ZAFauTmI7liAZ7vsbezIfSbyulTw6Rep5YKo5
- EWLyy2QcZL2m9kjEi2IJShWH7pHEgKW+wMGs/6DkeXMPI0WnPmyOp21n00K6SMIWLt
- wF7YczJC0OOyC+oWKC2taNT+RrrZ4Ka5uqmZikXLNVgbZKZ6RYOLx1O+bUuLPRhPzd
- S/pd/AalJjIdKFH/sQ5I/+PsQY/VWCOZuxO9EUdrrd1SYWVyR7uvnApkCwVdvH9yGx
- N5m5XdwvRaCEw==
+ b=MobUAWlBaoQwv6v7q238iOxMJ/UF4KO3CedZ+8NI6ZV69WRr2H7kUNbZnazIAkS15
+ Q6ksU85luE5oGZmCALGo6GvPnQLz4RLGF2fvm26fZQ6kvRws2mJBN0lxoqCpp4Hfn+
+ 6x3mjYcSB1qsYSoVeWEKEMR4vZfvCYTbZRnwRzK6f2GC3yxjYNL+Mif1a1j1blrT2t
+ UxP2/7xwgYHqUuwkwH+iLLBw823x6w9Q+WtgyFGKnDwkiLqbAwh06TW+9NvkioSj6K
+ ysBjhgzfafTpcW3yyYRu9mavLoTTX2ViOqmRmvS1qcqD/r620STUVgGkqhU54z6N7w
+ +nLQIlcAJnygA==
 From: Zack Rusin <zack@kde.org>
 To: dri-devel@lists.freedesktop.org
-Subject: [PATCH v2 4/5] drm/qxl: Use TTM builtin resource manager debugfs code
-Date: Mon, 11 Apr 2022 23:35:25 -0400
-Message-Id: <20220412033526.369115-5-zack@kde.org>
+Subject: [PATCH v2 5/5] drm/radeon: Use TTM builtin resource manager debugfs
+ code
+Date: Mon, 11 Apr 2022 23:35:26 -0400
+Message-Id: <20220412033526.369115-6-zack@kde.org>
 X-Mailer: git-send-email 2.32.0
 In-Reply-To: <20220412033526.369115-1-zack@kde.org>
 References: <20220412033526.369115-1-zack@kde.org>
 MIME-Version: 1.0
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -48,11 +50,10 @@ List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
 Reply-To: Zack Rusin <zackr@vmware.com>
-Cc: David Airlie <airlied@linux.ie>, virtualization@lists.linux-foundation.org,
- krastevm@vmware.com, Huang Rui <ray.huang@amd.com>,
- spice-devel@lists.freedesktop.org, Dave Airlie <airlied@redhat.com>,
- Christian Koenig <christian.koenig@amd.com>, mombasawalam@vmware.com,
- Gerd Hoffmann <kraxel@redhat.com>
+Cc: David Airlie <airlied@linux.ie>, "Pan, Xinhui" <Xinhui.Pan@amd.com>,
+ amd-gfx@lists.freedesktop.org, krastevm@vmware.com,
+ Huang Rui <ray.huang@amd.com>, Alex Deucher <alexander.deucher@amd.com>,
+ Christian Koenig <christian.koenig@amd.com>, mombasawalam@vmware.com
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
@@ -64,65 +65,78 @@ The TTM resource managers need to stay valid for as long as the
 drm debugfs_root is valid.
 
 Signed-off-by: Zack Rusin <zackr@vmware.com>
-Cc: Dave Airlie <airlied@redhat.com>
-Cc: Gerd Hoffmann <kraxel@redhat.com>
+Cc: Alex Deucher <alexander.deucher@amd.com>
+Cc: "Christian König" <christian.koenig@amd.com>
+Cc: "Pan, Xinhui" <Xinhui.Pan@amd.com>
+Cc: David Airlie <airlied@linux.ie>
 Cc: Daniel Vetter <daniel@ffwll.ch>
-Cc: virtualization@lists.linux-foundation.org
-Cc: spice-devel@lists.freedesktop.org
+Cc: amd-gfx@lists.freedesktop.org
 ---
- drivers/gpu/drm/qxl/qxl_ttm.c | 39 ++++++-----------------------------
- 1 file changed, 6 insertions(+), 33 deletions(-)
+ drivers/gpu/drm/radeon/radeon_ttm.c | 36 +++++------------------------
+ 1 file changed, 6 insertions(+), 30 deletions(-)
 
-diff --git a/drivers/gpu/drm/qxl/qxl_ttm.c b/drivers/gpu/drm/qxl/qxl_ttm.c
-index 95df5750f47f..0dfdbfc8f6af 100644
---- a/drivers/gpu/drm/qxl/qxl_ttm.c
-+++ b/drivers/gpu/drm/qxl/qxl_ttm.c
-@@ -222,41 +222,14 @@ void qxl_ttm_fini(struct qxl_device *qdev)
- 	DRM_INFO("qxl: ttm finalized\n");
- }
+diff --git a/drivers/gpu/drm/radeon/radeon_ttm.c b/drivers/gpu/drm/radeon/radeon_ttm.c
+index 44594d16611f..d33fec488713 100644
+--- a/drivers/gpu/drm/radeon/radeon_ttm.c
++++ b/drivers/gpu/drm/radeon/radeon_ttm.c
+@@ -781,17 +781,6 @@ void radeon_ttm_set_active_vram_size(struct radeon_device *rdev, u64 size)
  
--#define QXL_DEBUGFS_MEM_TYPES 2
--
--#if defined(CONFIG_DEBUG_FS)
--static int qxl_mm_dump_table(struct seq_file *m, void *data)
+ #if defined(CONFIG_DEBUG_FS)
+ 
+-static int radeon_mm_vram_dump_table_show(struct seq_file *m, void *unused)
 -{
--	struct drm_info_node *node = (struct drm_info_node *)m->private;
--	struct ttm_resource_manager *man = (struct ttm_resource_manager *)node->info_ent->data;
+-	struct radeon_device *rdev = (struct radeon_device *)m->private;
+-	struct ttm_resource_manager *man = ttm_manager_type(&rdev->mman.bdev,
+-							    TTM_PL_VRAM);
 -	struct drm_printer p = drm_seq_file_printer(m);
 -
 -	ttm_resource_manager_debug(man, &p);
 -	return 0;
 -}
--#endif
 -
- void qxl_ttm_debugfs_init(struct qxl_device *qdev)
+ static int radeon_ttm_page_pool_show(struct seq_file *m, void *data)
  {
- #if defined(CONFIG_DEBUG_FS)
--	static struct drm_info_list qxl_mem_types_list[QXL_DEBUGFS_MEM_TYPES];
--	static char qxl_mem_types_names[QXL_DEBUGFS_MEM_TYPES][32];
--	unsigned int i;
+ 	struct radeon_device *rdev = (struct radeon_device *)m->private;
+@@ -799,19 +788,6 @@ static int radeon_ttm_page_pool_show(struct seq_file *m, void *data)
+ 	return ttm_pool_debugfs(&rdev->mman.bdev.pool, m);
+ }
+ 
+-static int radeon_mm_gtt_dump_table_show(struct seq_file *m, void *unused)
+-{
+-	struct radeon_device *rdev = (struct radeon_device *)m->private;
+-	struct ttm_resource_manager *man = ttm_manager_type(&rdev->mman.bdev,
+-							    TTM_PL_TT);
+-	struct drm_printer p = drm_seq_file_printer(m);
 -
--	for (i = 0; i < QXL_DEBUGFS_MEM_TYPES; i++) {
--		if (i == 0)
--			sprintf(qxl_mem_types_names[i], "qxl_mem_mm");
--		else
--			sprintf(qxl_mem_types_names[i], "qxl_surf_mm");
--		qxl_mem_types_list[i].name = qxl_mem_types_names[i];
--		qxl_mem_types_list[i].show = &qxl_mm_dump_table;
--		qxl_mem_types_list[i].driver_features = 0;
--		if (i == 0)
--			qxl_mem_types_list[i].data = ttm_manager_type(&qdev->mman.bdev, TTM_PL_VRAM);
--		else
--			qxl_mem_types_list[i].data = ttm_manager_type(&qdev->mman.bdev, TTM_PL_PRIV);
+-	ttm_resource_manager_debug(man, &p);
+-	return 0;
+-}
 -
--	}
--	qxl_debugfs_add_files(qdev, qxl_mem_types_list, i);
-+	ttm_resource_manager_create_debugfs(ttm_manager_type(&qdev->mman.bdev,
+-DEFINE_SHOW_ATTRIBUTE(radeon_mm_vram_dump_table);
+-DEFINE_SHOW_ATTRIBUTE(radeon_mm_gtt_dump_table);
+ DEFINE_SHOW_ATTRIBUTE(radeon_ttm_page_pool);
+ 
+ static int radeon_ttm_vram_open(struct inode *inode, struct file *filep)
+@@ -930,15 +906,15 @@ static void radeon_ttm_debugfs_init(struct radeon_device *rdev)
+ 
+ 	debugfs_create_file("radeon_vram", 0444, root, rdev,
+ 			    &radeon_ttm_vram_fops);
+-
+ 	debugfs_create_file("radeon_gtt", 0444, root, rdev,
+ 			    &radeon_ttm_gtt_fops);
+-
+-	debugfs_create_file("radeon_vram_mm", 0444, root, rdev,
+-			    &radeon_mm_vram_dump_table_fops);
+-	debugfs_create_file("radeon_gtt_mm", 0444, root, rdev,
+-			    &radeon_mm_gtt_dump_table_fops);
+ 	debugfs_create_file("ttm_page_pool", 0444, root, rdev,
+ 			    &radeon_ttm_page_pool_fops);
++	ttm_resource_manager_create_debugfs(ttm_manager_type(&rdev->mman.bdev,
 +							     TTM_PL_VRAM),
-+					    qdev->ddev.primary->debugfs_root, "qxl_mem_mm");
-+	ttm_resource_manager_create_debugfs(ttm_manager_type(&qdev->mman.bdev,
-+							     TTM_PL_PRIV),
-+					    qdev->ddev.primary->debugfs_root, "qxl_surf_mm");
++					    root, "radeon_vram_mm");
++	ttm_resource_manager_create_debugfs(ttm_manager_type(&rdev->mman.bdev,
++							     TTM_PL_TT),
++					    root, "radeon_gtt_mm");
  #endif
  }
 -- 
