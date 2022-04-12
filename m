@@ -1,60 +1,64 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 735BD4FD29B
-	for <lists+dri-devel@lfdr.de>; Tue, 12 Apr 2022 09:23:55 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id C31E94FD29F
+	for <lists+dri-devel@lfdr.de>; Tue, 12 Apr 2022 09:26:28 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 6E8A910E7E3;
-	Tue, 12 Apr 2022 07:23:53 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 5B49C10EBC6;
+	Tue, 12 Apr 2022 07:26:24 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-qt1-f173.google.com (mail-qt1-f173.google.com
- [209.85.160.173])
- by gabe.freedesktop.org (Postfix) with ESMTPS id DECB910E7E3
- for <dri-devel@lists.freedesktop.org>; Tue, 12 Apr 2022 07:23:52 +0000 (UTC)
-Received: by mail-qt1-f173.google.com with SMTP id t2so18424584qtw.9
- for <dri-devel@lists.freedesktop.org>; Tue, 12 Apr 2022 00:23:52 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=h09al9GPNRGrgzoVRTG5PYUk3CouyOtKbjw7IpJLnEw=;
- b=t+tP1C4k0ZZ9JuxoXlVxe1DDS2TTgX/857+/u2z/ZEeqwqR+2JraVgc0ovV7XGwKKQ
- FqcWv4tOAYf1ZJm87l8gHL+hTP1zaliQSBrW5Yu7lO1hnBLfYXNJKikPUnSOHeohShcm
- /cyTXKuSyrNz34dTMiFaZtHWLfCNj4oRHbfNtcuFCmOk5qG2p2fNVCjb0uCnHFHxVaFc
- Yh2JLIDO6Nb1z0/zLVjYx0dxRdv9CPsTdLaT9uwbIZhWVgdfepZf9+bpJSf7hGPww8/F
- b5OUcz6ucigwTtyrTMLH5Y+CLuqaOV4imIUqDSwD1Aa8DW/+7excGCy9P4XW/W76vCJC
- Jhnw==
-X-Gm-Message-State: AOAM530whyFwMypfLJO/N2au3NZ7uvFIuxf5HKh+9qt93K+5r4yKNBkB
- xvnziAxHReqOFMiv7YgBupNqdc5wbEss0FGE
-X-Google-Smtp-Source: ABdhPJy+bJAbYcKRV9BtpAJWezOBXPN9dbkXPi5xJjBHJMb68cgDRgHKGv6/yxbdGUZt1HCg5LPAxg==
-X-Received: by 2002:ac8:66cc:0:b0:2e2:160d:7e06 with SMTP id
- m12-20020ac866cc000000b002e2160d7e06mr2271107qtp.673.1649748230708; 
- Tue, 12 Apr 2022 00:23:50 -0700 (PDT)
-Received: from mail-yb1-f170.google.com (mail-yb1-f170.google.com.
- [209.85.219.170]) by smtp.gmail.com with ESMTPSA id
- v3-20020a05622a188300b002ec90a0ecc7sm10597700qtc.59.2022.04.12.00.23.49
- for <dri-devel@lists.freedesktop.org>
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Tue, 12 Apr 2022 00:23:50 -0700 (PDT)
-Received: by mail-yb1-f170.google.com with SMTP id i20so10421061ybj.7
- for <dri-devel@lists.freedesktop.org>; Tue, 12 Apr 2022 00:23:49 -0700 (PDT)
-X-Received: by 2002:a25:29c2:0:b0:641:224f:17d6 with SMTP id
- p185-20020a2529c2000000b00641224f17d6mr10498662ybp.546.1649748229732; Tue, 12
- Apr 2022 00:23:49 -0700 (PDT)
+Received: from mga11.intel.com (mga11.intel.com [192.55.52.93])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 0843810E9C9
+ for <dri-devel@lists.freedesktop.org>; Tue, 12 Apr 2022 07:26:23 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+ t=1649748382; x=1681284382;
+ h=date:from:to:cc:subject:message-id:references:
+ mime-version:in-reply-to;
+ bh=5OyqKZ2t12lVTvKw/fJWrzDUz4nPfGALPPcWHIJFgN8=;
+ b=foUSQxINNwZ5YLHEkUWhKQjzqPpHoJze6bUMk1/8EZO9TDZVulowEplr
+ 2T7LTGAU5S36RChxhKhlIV45jtdRG4LmS4Ncf2cClLG7x0vAH2rOQTfE8
+ JfjEnVXOqviULzauuz1U3Y5vEw5lpXG12HJN7OnAiVGgZGjKCzbw7j0Kp
+ ThI/DiJaHzKPFuEeHskRiurqzaJZsBCCnfgL7kHQYKtxvrvZjj7m4GqLD
+ CelDz7O8I6JbkzWdcMA3xdmtCGlVGuUjq+VoBtrqPqIcmBO/+S0h7xPIM
+ gictYcS74WsN2ZmDJ4pvGapWg0vaAjjQgLiQ6zcKKPl7QSQouGVfHjD2e g==;
+X-IronPort-AV: E=McAfee;i="6400,9594,10314"; a="259893988"
+X-IronPort-AV: E=Sophos;i="5.90,253,1643702400"; d="scan'208";a="259893988"
+Received: from fmsmga003.fm.intel.com ([10.253.24.29])
+ by fmsmga102.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 12 Apr 2022 00:26:22 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.90,253,1643702400"; d="scan'208";a="644602157"
+Received: from lkp-server02.sh.intel.com (HELO d3fc50ef50de) ([10.239.97.151])
+ by FMSMGA003.fm.intel.com with ESMTP; 12 Apr 2022 00:26:17 -0700
+Received: from kbuild by d3fc50ef50de with local (Exim 4.95)
+ (envelope-from <lkp@intel.com>) id 1neAun-0002cr-5k;
+ Tue, 12 Apr 2022 07:26:17 +0000
+Date: Tue, 12 Apr 2022 15:25:46 +0800
+From: kernel test robot <lkp@intel.com>
+To: Dmitry Osipenko <dmitry.osipenko@collabora.com>,
+ David Airlie <airlied@linux.ie>, Gerd Hoffmann <kraxel@redhat.com>,
+ Gurchetan Singh <gurchetansingh@chromium.org>,
+ Chia-I Wu <olvaffe@gmail.com>, Daniel Vetter <daniel@ffwll.ch>,
+ Daniel Almeida <daniel.almeida@collabora.com>,
+ Gert Wollny <gert.wollny@collabora.com>,
+ Tomeu Vizoso <tomeu.vizoso@collabora.com>,
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+ Maxime Ripard <mripard@kernel.org>,
+ Thomas Zimmermann <tzimmermann@suse.de>,
+ Rob Herring <robh@kernel.org>, Steven Price <steven.price@arm.com>,
+ Alyssa Rosenzweig <alyssa.rosenzweig@collabora.com>,
+ Rob Clark <robdclark@gmail.com>
+Subject: Re: [PATCH v3 11/15] drm/shmem-helper: Add generic memory shrinker
+Message-ID: <202204121523.qVMxOvZg-lkp@intel.com>
+References: <20220411215937.281655-12-dmitry.osipenko@collabora.com>
 MIME-Version: 1.0
-References: <20220411211243.11121-1-javierm@redhat.com>
- <20220411211243.11121-5-javierm@redhat.com>
-In-Reply-To: <20220411211243.11121-5-javierm@redhat.com>
-From: Geert Uytterhoeven <geert@linux-m68k.org>
-Date: Tue, 12 Apr 2022 09:23:38 +0200
-X-Gmail-Original-Message-ID: <CAMuHMdVSsAtRLob5fLoBMNu-DRXJOaBrEHYEwG5iCA03XR5JSw@mail.gmail.com>
-Message-ID: <CAMuHMdVSsAtRLob5fLoBMNu-DRXJOaBrEHYEwG5iCA03XR5JSw@mail.gmail.com>
-Subject: Re: [PATCH v2 4/5] drm/solomon: Move device info from ssd130x-i2c to
- the core driver
-To: Javier Martinez Canillas <javierm@redhat.com>
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20220411215937.281655-12-dmitry.osipenko@collabora.com>
+User-Agent: Mutt/1.10.1 (2018-07-13)
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -67,74 +71,85 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Chen-Yu Tsai <wens@kernel.org>, Neil Armstrong <narmstrong@baylibre.com>,
- David Airlie <airlied@linux.ie>,
- Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
- DRI Development <dri-devel@lists.freedesktop.org>,
- Mark Brown <broonie@kernel.org>,
- Andy Shevchenko <andriy.shevchenko@linux.intel.com>
+Cc: kbuild-all@lists.01.org, llvm@lists.linux.dev, linux-kernel@vger.kernel.org,
+ dri-devel@lists.freedesktop.org, virtualization@lists.linux-foundation.org,
+ Gustavo Padovan <gustavo.padovan@collabora.com>,
+ Dmitry Osipenko <dmitry.osipenko@collabora.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi Javier,
+Hi Dmitry,
 
-Thanks for your patch!
+I love your patch! Perhaps something to improve:
 
-On Mon, Apr 11, 2022 at 11:12 PM Javier Martinez Canillas
-<javierm@redhat.com> wrote:
-> These are declared in the ssd130x-i2c transport driver but the information
-> is not I2C specific, and could be used by other SSD130x transport drivers.
->
-> Move them to the ssd130x core driver and just set the OF device entries to
-> an ID that could be used to lookup the correct device info from an array.
->
-> While being there, also move the SSD130X_DATA and SSD130X_COMMAND control
-> bytes. Since even though are used by the I2C interface, it could also be
+[auto build test WARNING on next-20220411]
+[cannot apply to drm/drm-next v5.18-rc2 v5.18-rc1 v5.17 v5.18-rc2]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch]
 
-though they are ... they could
+url:    https://github.com/intel-lab-lkp/linux/commits/Dmitry-Osipenko/Add-generic-memory-shrinker-to-VirtIO-GPU-and-Panfrost-DRM-drivers/20220412-060325
+base:    d12d7e1cfe38e0c36d28c7a9fbbc436ad0d17c14
+config: i386-randconfig-a005-20220411 (https://download.01.org/0day-ci/archive/20220412/202204121523.qVMxOvZg-lkp@intel.com/config)
+compiler: clang version 15.0.0 (https://github.com/llvm/llvm-project fe2478d44e4f7f191c43fef629ac7a23d0251e72)
+reproduce (this is a W=1 build):
+        wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbin/make.cross -O ~/bin/make.cross
+        chmod +x ~/bin/make.cross
+        # https://github.com/intel-lab-lkp/linux/commit/683ba8a9d72ba7770a61a9266a2b33949f3874f2
+        git remote add linux-review https://github.com/intel-lab-lkp/linux
+        git fetch --no-tags linux-review Dmitry-Osipenko/Add-generic-memory-shrinker-to-VirtIO-GPU-and-Panfrost-DRM-drivers/20220412-060325
+        git checkout 683ba8a9d72ba7770a61a9266a2b33949f3874f2
+        # save the config file to linux build tree
+        mkdir build_dir
+        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=clang make.cross W=1 O=build_dir ARCH=i386 SHELL=/bin/bash drivers/gpu/drm/
 
-> useful for other transport protocols such as SPI.
->
-> Suggested-by: Chen-Yu Tsai <wens@kernel.org>
-> Signed-off-by: Javier Martinez Canillas <javierm@redhat.com>
+If you fix the issue, kindly add following tag as appropriate
+Reported-by: kernel test robot <lkp@intel.com>
 
-> --- a/drivers/gpu/drm/solomon/ssd130x.c
-> +++ b/drivers/gpu/drm/solomon/ssd130x.c
+All warnings (new ones prefixed by >>):
 
-> @@ -860,7 +890,14 @@ struct ssd130x_device *ssd130x_probe(struct device *dev, struct regmap *regmap)
->
->         ssd130x->dev = dev;
->         ssd130x->regmap = regmap;
-> -       ssd130x->device_info = device_get_match_data(dev);
-> +
-> +       variant = (enum ssd130x_variants)device_get_match_data(dev);
+>> drivers/gpu/drm/drm_gem_shmem_helper.c:289:11: warning: variable 'new_state' is used uninitialized whenever 'if' condition is false [-Wsometimes-uninitialized]
+           else if (shmem->madv < 0)
+                    ^~~~~~~~~~~~~~~
+   drivers/gpu/drm/drm_gem_shmem_helper.c:292:46: note: uninitialized use occurs here
+           drm_gem_shmem_set_pages_state_locked(shmem, new_state);
+                                                       ^~~~~~~~~
+   drivers/gpu/drm/drm_gem_shmem_helper.c:289:7: note: remove the 'if' if its condition is always true
+           else if (shmem->madv < 0)
+                ^~~~~~~~~~~~~~~~~~~~
+   drivers/gpu/drm/drm_gem_shmem_helper.c:278:2: note: variable 'new_state' is declared here
+           enum drm_gem_shmem_pages_state new_state;
+           ^
+   1 warning generated.
 
-(uintptr_t), to avoid a cast from pointer to integer of different
-size warning.
 
-> +
+vim +289 drivers/gpu/drm/drm_gem_shmem_helper.c
 
-Please drop the blank line.
+   273	
+   274	static void drm_gem_shmem_update_pages_state_locked(struct drm_gem_shmem_object *shmem)
+   275	{
+   276		struct drm_gem_object *obj = &shmem->base;
+   277		struct drm_gem_shmem_shrinker *gem_shrinker = obj->dev->shmem_shrinker;
+   278		enum drm_gem_shmem_pages_state new_state;
+   279	
+   280		if (!gem_shrinker || obj->import_attach)
+   281			return;
+   282	
+   283		mutex_lock(&gem_shrinker->lock);
+   284	
+   285		if (!shmem->madv)
+   286			new_state = DRM_GEM_SHMEM_PAGES_STATE_ACTIVE;
+   287		else if (shmem->madv > 0)
+   288			new_state = DRM_GEM_SHMEM_PAGES_STATE_PURGEABLE;
+ > 289		else if (shmem->madv < 0)
+   290			new_state = DRM_GEM_SHMEM_PAGES_STATE_PURGED;
+   291	
+   292		drm_gem_shmem_set_pages_state_locked(shmem, new_state);
+   293	
+   294		mutex_unlock(&gem_shrinker->lock);
+   295	}
+   296	
 
-> +       if (variant >= NR_SSD130X_VARIANTS)
-> +               return ERR_PTR(dev_err_probe(dev, -EINVAL,
-> +                                            "Invalid SSD130x variant\n"));
-> +
-> +       ssd130x->device_info = &ssd130x_variants[variant];
->
->         if (ssd130x->device_info->page_mode_only)
->                 ssd130x->page_address_mode = 1;
-
-With the above fixed:
-Reviewed-by: Geert Uytterhoeven <geert+renesas@glider.be>
-
-Gr{oetje,eeting}s,
-
-                        Geert
-
---
-Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k.org
-
-In personal conversations with technical people, I call myself a hacker. But
-when I'm talking to journalists I just say "programmer" or something like that.
-                                -- Linus Torvalds
+-- 
+0-DAY CI Kernel Test Service
+https://01.org/lkp
