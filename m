@@ -1,57 +1,54 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2BD494FE141
-	for <lists+dri-devel@lfdr.de>; Tue, 12 Apr 2022 14:56:20 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 4E3434FE171
+	for <lists+dri-devel@lfdr.de>; Tue, 12 Apr 2022 15:00:11 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id CED8910E940;
-	Tue, 12 Apr 2022 12:56:15 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 9D1A810E74C;
+	Tue, 12 Apr 2022 13:00:08 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from mailgw01.mediatek.com (unknown [60.244.123.138])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 1464A10E940
- for <dri-devel@lists.freedesktop.org>; Tue, 12 Apr 2022 12:56:13 +0000 (UTC)
-X-UUID: 195961d0d3824634bd16168e6558019d-20220412
+ by gabe.freedesktop.org (Postfix) with ESMTPS id E4E2910E74C
+ for <dri-devel@lists.freedesktop.org>; Tue, 12 Apr 2022 13:00:06 +0000 (UTC)
+X-UUID: 531277d26e9140148876557592f4919b-20220412
 X-CID-P-RULE: Release_Ham
-X-CID-O-INFO: VERSION:1.1.4, REQID:c7eac565-ae39-4f72-bfa8-f628effbda32, OB:0,
+X-CID-O-INFO: VERSION:1.1.4, REQID:6ea4f665-8ca7-474d-8654-f176e9ffd863, OB:0,
  LO
- B:0,IP:0,URL:0,TC:0,Content:2,EDM:0,RT:0,SF:45,FILE:0,RULE:Release_Ham,ACT
- ION:release,TS:47
-X-CID-INFO: VERSION:1.1.4, REQID:c7eac565-ae39-4f72-bfa8-f628effbda32, OB:0,
+ B:0,IP:0,URL:8,TC:0,Content:3,EDM:0,RT:0,SF:50,FILE:0,RULE:Release_Ham,ACT
+ ION:release,TS:61
+X-CID-INFO: VERSION:1.1.4, REQID:6ea4f665-8ca7-474d-8654-f176e9ffd863, OB:0,
  LOB:
- 0,IP:0,URL:0,TC:0,Content:2,EDM:0,RT:0,SF:45,FILE:0,RULE:Release_Ham,ACTIO
- N:release,TS:47
-X-CID-META: VersionHash:faefae9, CLOUDID:5f41e8a8-d103-4e36-82b9-b0e86991b3df,
+ 0,IP:0,URL:8,TC:0,Content:3,EDM:0,RT:0,SF:50,FILE:0,RULE:Spam_GS981B3D,ACT
+ ION:quarantine,TS:61
+X-CID-META: VersionHash:faefae9, CLOUDID:6f4ee8a8-d103-4e36-82b9-b0e86991b3df,
  C
- OID:IGNORED,Recheck:0,SF:13|15|28|17|19|48,TC:nil,Content:4,EDM:-3,File:ni
- l,QS:0,BEC:nil
-X-UUID: 195961d0d3824634bd16168e6558019d-20220412
-Received: from mtkcas10.mediatek.inc [(172.21.101.39)] by mailgw01.mediatek.com
- (envelope-from <xinlei.lee@mediatek.com>)
- (Generic MTA with TLSv1.2 ECDHE-RSA-AES256-SHA384 256/256)
- with ESMTP id 784011843; Tue, 12 Apr 2022 20:56:09 +0800
-Received: from mtkexhb01.mediatek.inc (172.21.101.102) by
- mtkmbs07n2.mediatek.inc (172.21.101.141) with Microsoft SMTP Server (TLS) id
- 15.0.1497.2; Tue, 12 Apr 2022 20:56:07 +0800
-Received: from mtkcas11.mediatek.inc (172.21.101.40) by mtkexhb01.mediatek.inc
- (172.21.101.102) with Microsoft SMTP Server (TLS) id 15.0.1497.2;
- Tue, 12 Apr 2022 20:56:07 +0800
+ OID:bc718b94bef8,Recheck:0,SF:13|15|28|17|19|48,TC:nil,Content:4,EDM:-3,Fi
+ le:nil,QS:0,BEC:nil
+X-UUID: 531277d26e9140148876557592f4919b-20220412
+Received: from mtkmbs10n1.mediatek.inc [(172.21.101.34)] by
+ mailgw01.mediatek.com (envelope-from <xinlei.lee@mediatek.com>)
+ (Generic MTA with TLSv1.2 ECDHE-RSA-AES256-GCM-SHA384 256/256)
+ with ESMTP id 558646684; Tue, 12 Apr 2022 21:00:00 +0800
+Received: from mtkcas11.mediatek.inc (172.21.101.40) by
+ mtkmbs07n1.mediatek.inc (172.21.101.16) with Microsoft SMTP Server (TLS) id
+ 15.0.1497.2; Tue, 12 Apr 2022 20:59:58 +0800
 Received: from mszsdhlt06 (10.16.6.206) by mtkcas11.mediatek.inc
  (172.21.101.73) with Microsoft SMTP Server id 15.0.1497.2 via Frontend
- Transport; Tue, 12 Apr 2022 20:56:05 +0800
-Message-ID: <07f7e011dce0f443df3f259b9e1a8b4db90dc803.camel@mediatek.com>
-Subject: Re: [PATCH v4,2/2] drm/mediatek: Add mt8186 dpi compatible to
- mtk_dpi.c
+ Transport; Tue, 12 Apr 2022 20:59:44 +0800
+Message-ID: <42bad059798a9367bbd08fc24fe09d2cc46e96f6.camel@mediatek.com>
+Subject: Re: [PATCH v4, 1/3] dt-bindings: display: mediatek: dsi: Convert
+ dsi_dtbinding to .yaml
 From: xinlei.lee <xinlei.lee@mediatek.com>
 To: CK Hu <ck.hu@mediatek.com>, <chunkuang.hu@kernel.org>,
  <p.zabel@pengutronix.de>, <airlied@linux.ie>, <daniel@ffwll.ch>,
  <robh+dt@kernel.org>, <matthias.bgg@gmail.com>
-Date: Tue, 12 Apr 2022 20:56:36 +0800
-In-Reply-To: <17f8b17fee57115fb885e86a4b9aab4e7ed2df86.camel@mediatek.com>
-References: <1649645584-13186-1-git-send-email-xinlei.lee@mediatek.com>
- <1649645584-13186-3-git-send-email-xinlei.lee@mediatek.com>
- <17f8b17fee57115fb885e86a4b9aab4e7ed2df86.camel@mediatek.com>
+Date: Tue, 12 Apr 2022 21:00:12 +0800
+In-Reply-To: <0500c72cd1fd8e0c374dbd85dffc6ead4dad2467.camel@mediatek.com>
+References: <1649495514-25746-1-git-send-email-xinlei.lee@mediatek.com>
+ <1649495514-25746-2-git-send-email-xinlei.lee@mediatek.com>
+ <0500c72cd1fd8e0c374dbd85dffc6ead4dad2467.camel@mediatek.com>
 Content-Type: text/plain; charset="UTF-8"
 X-Mailer: Evolution 3.28.5-0ubuntu0.18.04.2 
 MIME-Version: 1.0
@@ -77,74 +74,265 @@ Cc: devicetree@vger.kernel.org, jitao.shi@mediatek.com,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Tue, 2022-04-12 at 16:20 +0800, CK Hu wrote:
+On Tue, 2022-04-12 at 17:17 +0800, CK Hu wrote:
 > Hi, Xinlei:
 > 
-> On Mon, 2022-04-11 at 10:53 +0800, xinlei.lee@mediatek.com wrote:
+> On Sat, 2022-04-09 at 17:11 +0800, xinlei.lee@mediatek.com wrote:
 > > From: Xinlei Lee <xinlei.lee@mediatek.com>
 > > 
-> > Add the compatible because use different .data in mt8186.
+> > Convert mediatek,dsi.txt to mediatek,dsi.yaml format
 > > 
 > > Signed-off-by: Xinlei Lee <xinlei.lee@mediatek.com>
 > > ---
-> >  drivers/gpu/drm/mediatek/mtk_dpi.c | 11 +++++++++++
-> >  1 file changed, 11 insertions(+)
+> >  .../display/mediatek/mediatek,dsi.txt         |  62 ---------
+> >  .../display/mediatek/mediatek,dsi.yaml        | 118
+> > ++++++++++++++++++
+> >  2 files changed, 118 insertions(+), 62 deletions(-)
+> >  delete mode 100644
+> > Documentation/devicetree/bindings/display/mediatek/mediatek,dsi.txt
+> >  create mode 100644
+> > Documentation/devicetree/bindings/display/mediatek/mediatek,dsi.yam
+> > l
 > > 
-> > diff --git a/drivers/gpu/drm/mediatek/mtk_dpi.c
-> > b/drivers/gpu/drm/mediatek/mtk_dpi.c
-> > index 4554e2de1430..824d7da41c6a 100644
-> > --- a/drivers/gpu/drm/mediatek/mtk_dpi.c
-> > +++ b/drivers/gpu/drm/mediatek/mtk_dpi.c
-> > @@ -815,6 +815,14 @@ static const struct mtk_dpi_conf mt8183_conf =
-> > {
-> >  	.num_output_fmts = ARRAY_SIZE(mt8183_output_fmts),
-> >  };
+> > diff --git
+> > a/Documentation/devicetree/bindings/display/mediatek/mediatek,dsi.t
+> > xt
+> > b/Documentation/devicetree/bindings/display/mediatek/mediatek,dsi.t
+> > xt
+> > deleted file mode 100644
+> > index 36b01458f45c..000000000000
+> > ---
+> > a/Documentation/devicetree/bindings/display/mediatek/mediatek,dsi.t
+> > xt
+> > +++ /dev/null
+> > @@ -1,62 +0,0 @@
+> > -Mediatek DSI Device
+> > -===================
+> > -
+> > -The Mediatek DSI function block is a sink of the display subsystem
+> > and can
+> > -drive up to 4-lane MIPI DSI output. Two DSIs can be synchronized
+> > for
+> > dual-
+> > -channel output.
+> > -
+> > -Required properties:
+> > -- compatible: "mediatek,<chip>-dsi"
+> > -- the supported chips are mt2701, mt7623, mt8167, mt8173 and
+> > mt8183.
+> > -- reg: Physical base address and length of the controller's
+> > registers
+> > -- interrupts: The interrupt signal from the function block.
+> > -- clocks: device clocks
+> > -  See Documentation/devicetree/bindings/clock/clock-bindings.txt
+> > for
+> > details.
+> > -- clock-names: must contain "engine", "digital", and "hs"
+> > -- phys: phandle link to the MIPI D-PHY controller.
+> > -- phy-names: must contain "dphy"
+> > -- port: Output port node with endpoint definitions as described in
+> > -  Documentation/devicetree/bindings/graph.txt. This port should be
+> > connected
+> > -  to the input port of an attached DSI panel or DSI-to-eDP encoder
+> > chip.
+> > -
+> > -Optional properties:
+> > -- resets: list of phandle + reset specifier pair, as described in
+> > [1].
+> > -
+> > -[1] Documentation/devicetree/bindings/reset/reset.txt
+> > -
+> > -MIPI TX Configuration Module
+> > -============================
+> > -
+> > -See phy/mediatek,dsi-phy.yaml
+> > -
+> > -Example:
+> > -
+> > -mipi_tx0: mipi-dphy@10215000 {
+> > -	compatible = "mediatek,mt8173-mipi-tx";
+> > -	reg = <0 0x10215000 0 0x1000>;
+> > -	clocks = <&clk26m>;
+> > -	clock-output-names = "mipi_tx0_pll";
+> > -	#clock-cells = <0>;
+> > -	#phy-cells = <0>;
+> > -	drive-strength-microamp = <4600>;
+> > -	nvmem-cells= <&mipi_tx_calibration>;
+> > -	nvmem-cell-names = "calibration-data";
+> > -};
+> > -
+> > -dsi0: dsi@1401b000 {
+> > -	compatible = "mediatek,mt8173-dsi";
+> > -	reg = <0 0x1401b000 0 0x1000>;
+> > -	interrupts = <GIC_SPI 192 IRQ_TYPE_LEVEL_LOW>;
+> > -	clocks = <&mmsys MM_DSI0_ENGINE>, <&mmsys MM_DSI0_DIGITAL>,
+> > -		 <&mipi_tx0>;
+> > -	clock-names = "engine", "digital", "hs";
+> > -	resets = <&mmsys MT8173_MMSYS_SW0_RST_B_DISP_DSI0>;
+> > -	phys = <&mipi_tx0>;
+> > -	phy-names = "dphy";
+> > -
+> > -	port {
+> > -		dsi0_out: endpoint {
+> > -			remote-endpoint = <&panel_in>;
+> > -		};
+> > -	};
+> > -};
+> > diff --git
+> > a/Documentation/devicetree/bindings/display/mediatek/mediatek,dsi.y
+> > am
+> > l
+> > b/Documentation/devicetree/bindings/display/mediatek/mediatek,dsi.y
+> > am
+> > l
+> > new file mode 100644
+> > index 000000000000..431bb981394f
+> > --- /dev/null
+> > +++
+> > b/Documentation/devicetree/bindings/display/mediatek/mediatek,dsi.y
+> > am
+> > l
+> > @@ -0,0 +1,118 @@
+> > +# SPDX-License-Identifier: (GPL-2.0-only OR BSD-2-Clause)
+> > +%YAML 1.2
+> > +---
+> > +$id: 
+> > 
+https://urldefense.com/v3/__http://devicetree.org/schemas/display/mediatek/mediatek,dsi.yaml*__;Iw!!CTRNKA9wMg0ARbw!1nUf3PGHra5nGo845exNyAn1KxdDMSV2ISukRJ6hQejfVta1JOIVoNEZ5BleoA$
 > >  
-> > +static const struct mtk_dpi_conf mt8186_conf = {
-> > +	.cal_factor =  mt8183_calculate_factor,
-> > +	.reg_h_fre_con = 0xe0,
-> > +	.max_clock_khz = 150000,
-> > +	.output_fmts = mt8183_output_fmts,
-> > +	.num_output_fmts = ARRAY_SIZE(mt8183_output_fmts),
-> > +};
+> > +$schema: 
+> > 
+https://urldefense.com/v3/__http://devicetree.org/meta-schemas/core.yaml*__;Iw!!CTRNKA9wMg0ARbw!1nUf3PGHra5nGo845exNyAn1KxdDMSV2ISukRJ6hQejfVta1JOIVoNHzl2rp1Q$
+> >  
 > > +
-> >  static const struct mtk_dpi_conf mt8192_conf = {
-> >  	.cal_factor = mt8183_calculate_factor,
-> >  	.reg_h_fre_con = 0xe0,
-> > @@ -942,6 +950,9 @@ static const struct of_device_id
-> > mtk_dpi_of_ids[]
-> > = {
-> >  	{ .compatible = "mediatek,mt8183-dpi",
-> >  	  .data = &mt8183_conf,
-> >  	},
-> > +	{ .compatible = "mediatek,mt8186-dpi",
-> > +	  .data = &mt8186_conf,
+> > +title: MediaTek DSI Controller Device Tree Bindings
+> > +
+> > +maintainers:
+> > +  - CK Hu <ck.hu@mediatek.com>
 > 
-> If Nicolas' patch [1] is correct, this should be
+> Replace 'CK Hu' with MediaTek DRM driver maintainer:
 > 
-> .data = &mt8192_conf,
+> 	Chun-Kuang Hu <chunkuang.hu@kernel.org>
+> 	Philipp Zabel <p.zabel@pengutronix.de>
 > 
-> Could you help to comfirm patch [1] is correct or not?
-> 
-> [1] 
-> 
-https://patchwork.kernel.org/project/linux-mediatek/patch/20220408013950.674477-1-nfraprado@collabora.com/
-> 
-> Regards,
-> CK
-> 
-> > +	},
-> >  	{ .compatible = "mediatek,mt8192-dpi",
-> >  	  .data = &mt8192_conf,
-> >  	},
+> > +  - Jitao Shi <jitao.shi@mediatek.com>
+> > +  - Xinlei Lee <xinlei.lee@mediatek.com>
+> > +
+> > +description: |
+> > +  The MediaTek DSI function block is a sink of the display
+> > subsystem
+> > and can
+> > +  drive up to 4-lane MIPI DSI output. Two DSIs can be synchronized
+> > for dual-
+> > +  channel output.
+> > +
+> > +properties:
+> > +  compatible:
+> > +    enum:
+> > +      - mediatek,mt2701-dsi
+> > +      - mediatek,mt7623-dsi
+> > +      - mediatek,mt8167-dsi
+> > +      - mediatek,mt8173-dsi
+> > +      - mediatek,mt8183-dsi
+> > +
+> > +  reg:
+> > +    maxItems: 1
+> > +
+> > +  interrupts:
+> > +    maxItems: 1
+> > +
+> > +  power-domains:
+> > +    maxItems: 1
+> > +
+> > +  clocks:
+> > +    items:
+> > +      - description: Engine Clock
+> > +      - description: Digital Clock
+> > +      - description: HS Clock
+> > +
+> > +  clock-names:
+> > +    items:
+> > +      - const: engine
+> > +      - const: digital
+> > +      - const: hs
+> > +
+> > +  resets:
+> > +    maxItems: 1
+> > +
+> > +  phys:
+> > +    maxItems: 1
+> > +
+> > +  phy-names:
+> > +    items:
+> > +      - const: dphy
+> > +
+> > +  port:
+> > +    $ref: /schemas/graph.yaml#/properties/port
+> > +    description:
+> > +      Output port node. This port should be connected to the input
+> > +      port of an attached DSI panel or DSI-to-eDP encoder chip.
+> > +
+> > +
+> > +  "#address-cells":
+> > +    const: 2
+> > +
+> > +  "#size-cells":
+> > +    const: 2
+> > +
+> > +required:
+> > +  - compatible
+> > +  - reg
+> > +  - interrupts
+> > +  - power-domains
+> > +  - clocks
+> > +  - clock-names
+> > +  - phys
+> > +  - phy-names
+> > +  - port
+> > +
+> > +additionalProperties: false
+> > +
+> > +examples:
+> > +  - |
+> > +    #include <dt-bindings/clock/mt8183-clk.h>
+> > +    #include <dt-bindings/interrupt-controller/arm-gic.h>
+> > +    #include <dt-bindings/interrupt-controller/irq.h>
+> > +    #include <dt-bindings/power/mt8183-power.h>
+> > +    #include <dt-bindings/phy/phy.h>
+> > +    #include <dt-bindings/reset/mt8183-resets.h>
+> > +
+> > +    soc {
+> > +        #address-cells = <2>;
+> > +        #size-cells = <2>;
+> > +
+> > +        dsi0: dsi@14014000 {
+> > +            compatible = "mediatek,mt8183-dsi";
+> > +            reg = <0 0x14014000 0 0x1000>;
+> > +            interrupts = <GIC_SPI 236 IRQ_TYPE_LEVEL_LOW>;
+> > +            power-domains = <&spm MT8183_POWER_DOMAIN_DISP>;
+> > +            clocks = <&mmsys CLK_MM_DSI0_MM>,
+> > +                <&mmsys CLK_MM_DSI0_IF>,
+> > +                <&mipi_tx0>;
+> > +            clock-names = "engine", "digital", "hs";
+> > +            resets = <&mmsys MT8183_MMSYS_SW0_RST_B_DISP_DSI0>;
+> > +            phys = <&mipi_tx0>;
+> > +            phy-names = "dphy";
+> > +            port {
+> > +                dsi0_out: endpoint {
+> > +                    remote-endpoint = <&panel_in>;
+> > +                };
+> > +            };
+> > +        };
+> > +    };
+> > +
+> > +...
 > 
 > 
 
 Hi CK:
 
 Thanks for your review.
-I checked that mt8186_conf & mt8192_conf are the same.
-In the next version, I will remove mt8186_conf and reuse mt8192_conf.
+I will replace in the next version.
 
 Best Regards!
 xinlei
