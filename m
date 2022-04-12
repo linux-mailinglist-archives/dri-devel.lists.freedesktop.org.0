@@ -2,81 +2,50 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id ACC984FD2D3
-	for <lists+dri-devel@lfdr.de>; Tue, 12 Apr 2022 10:07:59 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 79EE74FD2D6
+	for <lists+dri-devel@lfdr.de>; Tue, 12 Apr 2022 10:11:07 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id C667E10FEFE;
-	Tue, 12 Apr 2022 08:07:57 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id CC31E10FC21;
+	Tue, 12 Apr 2022 08:11:02 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from us-smtp-delivery-124.mimecast.com
- (us-smtp-delivery-124.mimecast.com [170.10.129.124])
- by gabe.freedesktop.org (Postfix) with ESMTPS id EF19E10FEFE
- for <dri-devel@lists.freedesktop.org>; Tue, 12 Apr 2022 08:07:55 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1649750875;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=c1YyOBaSlUAB1FecJdXpHWi3Q4lLTndl19zr2Spu2No=;
- b=eRdoo+y+hlBPwFuOePOY7KPDNS1muoytKvzxkWfK3R+LLM9GNbUhr/TaIqCa0/fjr91+s+
- IZwFYrPEYnlT7XQ6H3y9Mdz5YXJG121ksTRaW9B/Jg4QxR0Zy0BRC286pCmzM4G8s7Iq+q
- fGzb76fKUWw4XEoCon+tcgy2e5QoKds=
-Received: from mail-wm1-f69.google.com (mail-wm1-f69.google.com
- [209.85.128.69]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-193-Y9_p0mIpNNa8FA6kOV6gxA-1; Tue, 12 Apr 2022 04:07:54 -0400
-X-MC-Unique: Y9_p0mIpNNa8FA6kOV6gxA-1
-Received: by mail-wm1-f69.google.com with SMTP id
- o35-20020a05600c512300b0038e83a52c71so5646675wms.7
- for <dri-devel@lists.freedesktop.org>; Tue, 12 Apr 2022 01:07:54 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
- :content-language:to:cc:references:from:in-reply-to
- :content-transfer-encoding;
- bh=c1YyOBaSlUAB1FecJdXpHWi3Q4lLTndl19zr2Spu2No=;
- b=tuHl0IDkmXFy2lf3UGBEwVKQIsY02jODnyECFM4WGQ9PuyLL/FdlOKhW8ZnQGpJJxo
- oopZzofwQxHOuVDJBs5bK4UqFHcmuzXddLig0CzE3jdcox62s0jyJJzwlHHZIWmHtqcN
- qDM+I5BLrdeVuYHpHACVuL10hTouCUNYBOB3mGL/Jwj1rI9aJEv/UiJP/xmp/PNbl3Xl
- jSsRQF9OG+c2Qs83pCtiuIuvC157CiB1UCg+Ch4J4M09Ffstvw6t5v9hT5B76fYN9iXl
- lconwbDj08gKSf+nQAe35WCFa1u41U/BUHnRGuyW1Di2E9Fv8g7m/Z84f4+NNsifPqrU
- 1BkQ==
-X-Gm-Message-State: AOAM5336h2TNBM5E09OH+1u2ReMQIngV5EDZlaAjWsJKTAHcXtwqYhGX
- gRXNv0CpQSnf6vlRf7IgSkT0d/RfozJahGiOK6SFV0scklRx/RVGhB2fJd1SlM5z0ff8qzn4Wss
- 3Fe0AwlDr/vfi+VIbehhrRFiAtXZm
-X-Received: by 2002:a05:600c:3487:b0:38c:9a42:4d49 with SMTP id
- a7-20020a05600c348700b0038c9a424d49mr2952292wmq.29.1649750872749; 
- Tue, 12 Apr 2022 01:07:52 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJzDglW+gKXgj96dHt92B2SeHkQs0c4KFSOD9iFaRTxgb+0c2t9/xh8a8ox8ht2X97EXHVi9og==
-X-Received: by 2002:a05:600c:3487:b0:38c:9a42:4d49 with SMTP id
- a7-20020a05600c348700b0038c9a424d49mr2952269wmq.29.1649750872365; 
- Tue, 12 Apr 2022 01:07:52 -0700 (PDT)
-Received: from [192.168.1.102] ([92.176.231.205])
- by smtp.gmail.com with ESMTPSA id
- z5-20020a05600c0a0500b0037fa93193a8sm1922805wmp.44.2022.04.12.01.07.51
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Tue, 12 Apr 2022 01:07:51 -0700 (PDT)
-Message-ID: <6be74110-a65b-7b77-ceac-9da640964ba0@redhat.com>
-Date: Tue, 12 Apr 2022 10:07:51 +0200
+Received: from metis.ext.pengutronix.de (metis.ext.pengutronix.de
+ [IPv6:2001:67c:670:201:290:27ff:fe1d:cc33])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id A524310FC21
+ for <dri-devel@lists.freedesktop.org>; Tue, 12 Apr 2022 08:11:01 +0000 (UTC)
+Received: from gallifrey.ext.pengutronix.de
+ ([2001:67c:670:201:5054:ff:fe8d:eefb] helo=[IPv6:::1])
+ by metis.ext.pengutronix.de with esmtps
+ (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256) (Exim 4.92)
+ (envelope-from <l.stach@pengutronix.de>)
+ id 1neBc3-0005U7-QB; Tue, 12 Apr 2022 10:10:59 +0200
+Message-ID: <e2ef484b60fe9c5fc077240a26bd18275974dc4a.camel@pengutronix.de>
+Subject: Re: [PATCH v9 00/23] drm/rockchip: RK356x VOP2 support
+From: Lucas Stach <l.stach@pengutronix.de>
+To: Sascha Hauer <s.hauer@pengutronix.de>, Piotr Oniszczuk
+ <piotr.oniszczuk@gmail.com>
+Date: Tue, 12 Apr 2022 10:10:57 +0200
+In-Reply-To: <20220412075034.GS4012@pengutronix.de>
+References: <20220328151116.2034635-1-s.hauer@pengutronix.de>
+ <FB201567-AE5A-4242-82F1-7C55D8F111EA@gmail.com>
+ <20220401125205.GL4012@pengutronix.de>
+ <5420D26D-34FD-4637-B602-F6271E38BB8D@gmail.com>
+ <BA4C591F-D115-43D2-BF59-A75B29889E50@gmail.com>
+ <20220408080748.GA2387@pengutronix.de>
+ <20220408120021.GO4012@pengutronix.de>
+ <B3E76A7A-9B62-4E6F-9472-00B6298689C5@gmail.com>
+ <20220411090800.GR4012@pengutronix.de>
+ <5929E7A7-776E-4BCB-92C8-A1CE05774FE3@gmail.com>
+ <20220412075034.GS4012@pengutronix.de>
+Content-Type: text/plain; charset="UTF-8"
+User-Agent: Evolution 3.40.4 (3.40.4-1.fc34) 
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.7.0
-Subject: Re: [PATCH v2 5/5] drm/solomon: Add SSD130x OLED displays SPI support
-To: Geert Uytterhoeven <geert@linux-m68k.org>
-References: <20220411211243.11121-1-javierm@redhat.com>
- <20220411211243.11121-6-javierm@redhat.com>
- <CAMuHMdWsmtBdcV=LL4yqprtbum4f9cSu8orjoPACECa5QENmsg@mail.gmail.com>
-From: Javier Martinez Canillas <javierm@redhat.com>
-In-Reply-To: <CAMuHMdWsmtBdcV=LL4yqprtbum4f9cSu8orjoPACECa5QENmsg@mail.gmail.com>
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=javierm@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Language: en-US
-Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 7bit
+X-SA-Exim-Connect-IP: 2001:67c:670:201:5054:ff:fe8d:eefb
+X-SA-Exim-Mail-From: l.stach@pengutronix.de
+X-SA-Exim-Scanned: No (on metis.ext.pengutronix.de);
+ SAEximRunCond expanded to false
+X-PTX-Original-Recipient: dri-devel@lists.freedesktop.org
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -89,37 +58,164 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Chen-Yu Tsai <wens@kernel.org>, Neil Armstrong <narmstrong@baylibre.com>,
- David Airlie <airlied@linux.ie>, YueHaibing <yuehaibing@huawei.com>,
- Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
- DRI Development <dri-devel@lists.freedesktop.org>,
- Chen-Yu Tsai <wens@csie.org>, Mark Brown <broonie@kernel.org>,
- Maxime Ripard <maxime@cerno.tech>,
- Andy Shevchenko <andriy.shevchenko@linux.intel.com>
+Cc: "devicetree@vger.kernel.org" <devicetree@vger.kernel.org>,
+ Benjamin Gaignard <benjamin.gaignard@collabora.com>,
+ Peter Geis <pgwipeout@gmail.com>, Sandy Huang <hjc@rock-chips.com>,
+ dri-devel@lists.freedesktop.org,
+ "open list:ARM/Rockchip SoC..." <linux-rockchip@lists.infradead.org>,
+ Lucas Stach <lst@pengutronix.de>,
+ Michael Riesch <michael.riesch@wolfvision.net>, kernel@pengutronix.de,
+ Andy Yan <andy.yan@rock-chips.com>,
+ "linux-arm-kernel@lists.infradead.org" <linux-arm-kernel@lists.infradead.org>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 4/12/22 09:31, Geert Uytterhoeven wrote:
-
-[snip]
-
->> +
->> +       t->spi = spi;
->> +
->> +       t->dc = ssd130x_spi_get_dc(&spi->dev);
->> +       if (IS_ERR(t->dc))
->> +               return PTR_ERR(t->dc);
+Am Dienstag, dem 12.04.2022 um 09:50 +0200 schrieb Sascha Hauer:
+> On Mon, Apr 11, 2022 at 01:07:56PM +0200, Piotr Oniszczuk wrote:
+> > this is DRI state when there is no any Qt.vars overwrites.
+> > (so all is autodetected/setup like in other  working SoCs; VOP2 gives here black screen UI):
+> > 
+> > 2022-04-08 17:47:57.035668 I /dev/dri/card0 Qt EGLFS/KMS Fd:5 Crtc id:49 Connector id:51 Atomic: 1
+> > 2022-04-08 17:47:57.035806 I /dev/dri/card0: Authenticated
+> > 2022-04-08 17:47:57.145447 I /dev/dri/card0: Found 3 planes; 3 for this CRTC
+> > 2022-04-08 17:47:57.145469 I /dev/dri/card0: Selected Plane #37 Overlay for video
+> > 2022-04-08 17:47:57.145515 I /dev/dri/card0: Supported DRM video formats: NV12,NV16,NV24,YVYU,VYUY
+> > 2022-04-08 17:47:57.145523 I /dev/dri/card0: Selected Plane #43 Overlay for GUI
+> > 2022-04-08 17:47:57.145567 I /dev/dri/card0: DRM device retrieved from Qt
+> > 2022-04-08 17:47:57.145574 I /dev/dri/card0: Multi-plane setup: Requested: 1 Setup: 1
+> > 
+> > plane[31]: Smart0-win0
+> >         crtc=video_port0
+> >         fb=53
+> >                 allocated by = [fbcon]
+> >                 refcount=2
+> >                 format=XR24 little-endian (0x34325258)
+> >                 modifier=0x0
+> >                 size=1920x1080
+> >                 layers:
+> >                         size[0]=1920x1080
+> >                         pitch[0]=7680
+> >                         offset[0]=0
+> >                         obj[0]:
+> >                                 name=0
+> >                                 refcount=3
+> >                                 start=00000000
+> >                                 size=8294400
+> >                                 imported=no
+> >         crtc-pos=1920x1080+0+0
+> >         src-pos=1920.000000x1080.000000+0.000000+0.000000
+> >         rotation=1
+> >         normalized-zpos=0
+> >         color-encoding=ITU-R BT.601 YCbCr
+> >         color-range=YCbCr limited range
+> > plane[37]: Esmart0-win0
+> >         crtc=(null)
+> >         fb=0
+> >         crtc-pos=0x0+0+0
+> >         src-pos=0.000000x0.000000+0.000000+0.000000
+> >         rotation=1
+> >         normalized-zpos=0
+> >         color-encoding=ITU-R BT.601 YCbCr
+> >         color-range=YCbCr limited range
+> > plane[43]: Cluster0-win0
+> >         crtc=video_port0
+> >         fb=58
+> >                 allocated by = mythfrontend
+> >                 refcount=2
+> >                 format=AR24 little-endian (0x34325241)
 > 
-> This can be simplified (no need for the PTR_ERR(ERR_PTR(...) dance)
-> by open-coding ssd130x_spi_get_dc() here.
->
+> Here is your problem. The cluster windows only allow AFBC compressed
+> formats. AR24 is supported by the cluster windows, but not by the GPU,
+> see panfrost_afbc_format() in Mesa:
+> 
+> > enum pipe_format
+> > panfrost_afbc_format(const struct panfrost_device *dev, enum pipe_format format)
+> > {
+> >         /* Don't allow swizzled formats on v7 */
+> >         switch (format) {
+> >         case PIPE_FORMAT_B8G8R8A8_UNORM:
+> >         case PIPE_FORMAT_B8G8R8X8_UNORM:
+> >         case PIPE_FORMAT_A8R8G8B8_UNORM:
+> >         case PIPE_FORMAT_X8R8G8B8_UNORM:
+> >         case PIPE_FORMAT_X8B8G8R8_UNORM:
+> >         case PIPE_FORMAT_A8B8G8R8_UNORM:
+> >         case PIPE_FORMAT_B8G8R8_UNORM:
+> >         case PIPE_FORMAT_B5G6R5_UNORM:
+> >                 if (dev->arch >= 7)
+> >                         return PIPE_FORMAT_NONE;
+> > 
+> >                 break;
+> >         default:
+> >                 break;
+> >         }
+> > 
+> 
+> Somehow negotiation of the format goes wrong. Applications shouldn't
+> pick these formats when the GPU is used for rendering. I don't know how
+> and where this should be fixed properly, but your application should use
+> DRM_FORMAT_ABGR8888 aka AB24 aka PIPE_FORMAT_R8G8B8A8_UNORM instead of
+> DRM_FORMAT_ARGB8888 aka AR24 aka PIPE_FORMAT_B8G8R8A8_UNORM.
+> 
+This could be both a Mesa/Panfrost or application issue. The
+application is supposed to try to allocate with a arbitrary chosen
+format and the valid modifiers queried from the plane it wants to put
+the surface on. However I'm not sure if all applications have a
+fallback path in place to try another format swizzling if the surface
+allocation fails. Now there are two possible failures here:
 
-Right, that will be better indeed.
+1. The application feeds a wrong modifier list to the GBM
+implementation, as it may have queried another plane in the assumption
+that supported modifiers are uniform across all planes.
 
--- 
-Best regards,
+2. The GBM implementation (Panfrost) actually allocates a surface
+instead of failing the allocation, even if it does not support any
+combination of the provided format and modifier list.
 
-Javier Martinez Canillas
-Linux Engineering
-Red Hat
+Regards,
+Lucas
+
+> Could you try the following patch? It removed the formats in question
+> from the list of supported formats in the hope that your application
+> then picks one of the supported formats.
+> 
+> Sascha
+> 
+> -----------------------8<-----------------------------
+> 
+> From 7427109cfd16803902b55cd5536b9212abd09665 Mon Sep 17 00:00:00 2001
+> From: Sascha Hauer <s.hauer@pengutronix.de>
+> Date: Tue, 12 Apr 2022 09:42:32 +0200
+> Subject: [PATCH] fixup! drm: rockchip: Add VOP2 driver
+> 
+> The cluster windows only allow AFBC compressed formats. Not all of the
+> offered formats are supported by the GPU though. Applications pick one
+> of the formats and assume that this is also supported by the GPU they
+> use to render on them, but this is not the case for all formats.
+> Particularly DRM_FORMAT_XRGB8888 and DRM_FORMAT_ARGB8888 are not
+> supported by the GPU and choosing them results in a black screen.
+> Drop these formats for now.
+> 
+> Signed-off-by: Sascha Hauer <s.hauer@pengutronix.de>
+> ---
+>  drivers/gpu/drm/rockchip/rockchip_vop2_reg.c | 2 --
+>  1 file changed, 2 deletions(-)
+> 
+> diff --git a/drivers/gpu/drm/rockchip/rockchip_vop2_reg.c b/drivers/gpu/drm/rockchip/rockchip_vop2_reg.c
+> index 9bf0637bf8e26..38412766e3659 100644
+> --- a/drivers/gpu/drm/rockchip/rockchip_vop2_reg.c
+> +++ b/drivers/gpu/drm/rockchip/rockchip_vop2_reg.c
+> @@ -16,8 +16,6 @@
+>  #include "rockchip_drm_vop2.h"
+>  
+>  static const uint32_t formats_win_full_10bit[] = {
+> -	DRM_FORMAT_XRGB8888,
+> -	DRM_FORMAT_ARGB8888,
+>  	DRM_FORMAT_XBGR8888,
+>  	DRM_FORMAT_ABGR8888,
+>  	DRM_FORMAT_RGB888,
+> -- 
+> 2.30.2
+> 
+> 
+
 
