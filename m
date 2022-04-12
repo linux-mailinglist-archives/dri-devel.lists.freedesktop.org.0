@@ -1,40 +1,41 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5EA664FC9FB
-	for <lists+dri-devel@lfdr.de>; Tue, 12 Apr 2022 02:48:05 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id A9EC14FC9FD
+	for <lists+dri-devel@lfdr.de>; Tue, 12 Apr 2022 02:48:35 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 3385310FAE3;
-	Tue, 12 Apr 2022 00:48:03 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 43AD110FADC;
+	Tue, 12 Apr 2022 00:48:33 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from ams.source.kernel.org (ams.source.kernel.org [145.40.68.75])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 1540010FAE3
- for <dri-devel@lists.freedesktop.org>; Tue, 12 Apr 2022 00:48:02 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 6EC8210FADC;
+ Tue, 12 Apr 2022 00:48:31 +0000 (UTC)
 Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
  (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
  (No client certificate requested)
- by ams.source.kernel.org (Postfix) with ESMTPS id B162BB819C4;
- Tue, 12 Apr 2022 00:48:00 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 856F8C385AA;
- Tue, 12 Apr 2022 00:47:58 +0000 (UTC)
+ by ams.source.kernel.org (Postfix) with ESMTPS id 1385DB8186F;
+ Tue, 12 Apr 2022 00:48:30 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 9110BC385A4;
+ Tue, 12 Apr 2022 00:48:25 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1649724479;
- bh=h3/4h0H471UJtADRLo2a8XhpcTHhAAbQKbJpOEoncW4=;
+ s=k20201202; t=1649724508;
+ bh=Xg4vLCR+8uD4OJD8sOL//NBYyh+xlZRQfw9zes0BGw4=;
  h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
- b=K0SxcDv24cOUPqmlcxvjC7tJUlIGKSZy0LbNghbRVTBvAxN1gozh3tPz866I6W8Sy
- q7X0b3FyQr//PC44vlcFVukR7Jf7e2eeUJVY4DE7uj7s8vKTPh5bx4wEe1pp+HPrgp
- 6nG8UA5aTVF+9ET4BzAvQ73bBi5JCaTTwoy6czmHaEvIal/xnACBFceVYCfHcDsV2F
- 46rUwtSuCnxVS0lYhlEQMVO9mHcSXSkLQDyi+wdKt6VaUsMgcsbk1ncQMzvtTzRJX7
- zbCdtW1PgpL4G0GFAlKtN/O95izlJG25rJQg2cfC86cJAgmS84nVYIFET+sZdePo6e
- zO3qEng1BOVNQ==
+ b=kvYMvHvHLjeN5adFnMYIDWbxeRvBQEGkdB7lQJu8RTWUrjPbJ8URLq5Pfu61VaJv6
+ gUu4ZPkPHelnwvYJQHcjQZr+FVP4yizGkVfpPYEv1/ykqXkQJhXsrleNeeUanwbDKr
+ wOpReizY3y81KvBPYxul7an+b2WYXmOKUcM6LgAQCjzy5Czf1OvitJe1qsWkBGwmJR
+ IJ8kgpMidCym/t+VQ/IG+VFdfMUF66WysdoVKya27wKtmP0xHsGClKNdRNvQyvG4Cg
+ dNMngtRhqvutP6KX86NO0UlQXeEkw2HQiHr4Z1QUtGqU0LmbqDcE4gbaO0zDUY43Fp
+ AGyBf2cE8wBHA==
 From: Sasha Levin <sashal@kernel.org>
 To: linux-kernel@vger.kernel.org,
 	stable@vger.kernel.org
-Subject: [PATCH AUTOSEL 5.15 20/41] gpu: ipu-v3: Fix dev_dbg frequency output
-Date: Mon, 11 Apr 2022 20:46:32 -0400
-Message-Id: <20220412004656.350101-20-sashal@kernel.org>
+Subject: [PATCH AUTOSEL 5.15 29/41] drm/amd/display: Enable power gating
+ before init_pipes
+Date: Mon, 11 Apr 2022 20:46:41 -0400
+Message-Id: <20220412004656.350101-29-sashal@kernel.org>
 X-Mailer: git-send-email 2.35.1
 In-Reply-To: <20220412004656.350101-1-sashal@kernel.org>
 References: <20220412004656.350101-1-sashal@kernel.org>
@@ -54,57 +55,118 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Sasha Levin <sashal@kernel.org>, Leo Ruan <tingquan.ruan@cn.bosch.com>,
- airlied@linux.ie, dri-devel@lists.freedesktop.org,
- Mark Jonas <mark.jonas@de.bosch.com>
+Cc: Anson.Jacob@amd.com, haonan.wang2@amd.com, airlied@linux.ie,
+ dri-devel@lists.freedesktop.org, Yi-Ling.Chen2@amd.com, wyatt.wood@amd.com,
+ Jun.Lei@amd.com, Anthony Koo <Anthony.Koo@amd.com>, hanghong.ma@amd.com,
+ Sasha Levin <sashal@kernel.org>, Josip.Pavic@amd.com, Rodrigo.Siqueira@amd.com,
+ amd-gfx@lists.freedesktop.org, sunpeng.li@amd.com, Jerry.Zuo@amd.com,
+ Alex Hung <alex.hung@amd.com>, Daniel Wheeler <daniel.wheeler@amd.com>,
+ Martin.Leung@amd.com, paul.hsieh@amd.com, Bhawanpreet.Lakha@amd.com,
+ agustin.gutierrez@amd.com, Derek.Lai@amd.com, Eric Yang <Eric.Yang2@amd.com>,
+ Wesley.Chalmers@amd.com, Xinhui.Pan@amd.com, Roman Li <Roman.Li@amd.com>,
+ nicholas.kazlauskas@amd.com, Alex Deucher <alexander.deucher@amd.com>,
+ roy.chan@amd.com, christian.koenig@amd.com
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-From: Leo Ruan <tingquan.ruan@cn.bosch.com>
+From: Roman Li <Roman.Li@amd.com>
 
-[ Upstream commit 070a88fd4a03f921b73a2059e97d55faaa447dab ]
+[ Upstream commit 58e16c752e9540b28a873c44c3bee83e022007c1 ]
 
-This commit corrects the printing of the IPU clock error percentage if
-it is between -0.1% to -0.9%. For example, if the pixel clock requested
-is 27.2 MHz but only 27.0 MHz can be achieved the deviation is -0.8%.
-But the fixed point math had a flaw and calculated error of 0.2%.
+[Why]
+In init_hw() we call init_pipes() before enabling power gating.
+init_pipes() tries to power gate dsc but it may fail because
+required force-ons are not released yet.
+As a result with dsc config the following errors observed on resume:
+"REG_WAIT timeout 1us * 1000 tries - dcn20_dsc_pg_control"
+"REG_WAIT timeout 1us * 1000 tries - dcn20_dpp_pg_control"
+"REG_WAIT timeout 1us * 1000 tries - dcn20_hubp_pg_control"
 
-Before:
-  Clocks: IPU 270000000Hz DI 24716667Hz Needed 27200000Hz
-  IPU clock can give 27000000 with divider 10, error 0.2%
-  Want 27200000Hz IPU 270000000Hz DI 24716667Hz using IPU, 27000000Hz
+[How]
+Move enable_power_gating_plane() before init_pipes() in init_hw()
 
-After:
-  Clocks: IPU 270000000Hz DI 24716667Hz Needed 27200000Hz
-  IPU clock can give 27000000 with divider 10, error -0.8%
-  Want 27200000Hz IPU 270000000Hz DI 24716667Hz using IPU, 27000000Hz
-
-Signed-off-by: Leo Ruan <tingquan.ruan@cn.bosch.com>
-Signed-off-by: Mark Jonas <mark.jonas@de.bosch.com>
-Reviewed-by: Philipp Zabel <p.zabel@pengutronix.de>
-Signed-off-by: Philipp Zabel <p.zabel@pengutronix.de>
-Link: https://lore.kernel.org/r/20220207151411.5009-1-mark.jonas@de.bosch.com
+Reviewed-by: Anthony Koo <Anthony.Koo@amd.com>
+Reviewed-by: Eric Yang <Eric.Yang2@amd.com>
+Acked-by: Alex Hung <alex.hung@amd.com>
+Signed-off-by: Roman Li <Roman.Li@amd.com>
+Tested-by: Daniel Wheeler <daniel.wheeler@amd.com>
+Signed-off-by: Alex Deucher <alexander.deucher@amd.com>
 Signed-off-by: Sasha Levin <sashal@kernel.org>
 ---
- drivers/gpu/ipu-v3/ipu-di.c | 5 +++--
- 1 file changed, 3 insertions(+), 2 deletions(-)
+ drivers/gpu/drm/amd/display/dc/dcn10/dcn10_hw_sequencer.c | 5 +++--
+ drivers/gpu/drm/amd/display/dc/dcn30/dcn30_hwseq.c        | 5 +++--
+ drivers/gpu/drm/amd/display/dc/dcn31/dcn31_hwseq.c        | 5 +++--
+ 3 files changed, 9 insertions(+), 6 deletions(-)
 
-diff --git a/drivers/gpu/ipu-v3/ipu-di.c b/drivers/gpu/ipu-v3/ipu-di.c
-index 666223c6bec4..0a34e0ab4fe6 100644
---- a/drivers/gpu/ipu-v3/ipu-di.c
-+++ b/drivers/gpu/ipu-v3/ipu-di.c
-@@ -447,8 +447,9 @@ static void ipu_di_config_clock(struct ipu_di *di,
+diff --git a/drivers/gpu/drm/amd/display/dc/dcn10/dcn10_hw_sequencer.c b/drivers/gpu/drm/amd/display/dc/dcn10/dcn10_hw_sequencer.c
+index 3af49cdf89eb..174dd149fee7 100644
+--- a/drivers/gpu/drm/amd/display/dc/dcn10/dcn10_hw_sequencer.c
++++ b/drivers/gpu/drm/amd/display/dc/dcn10/dcn10_hw_sequencer.c
+@@ -1435,6 +1435,9 @@ void dcn10_init_hw(struct dc *dc)
+ 		}
+ 	}
  
- 		error = rate / (sig->mode.pixelclock / 1000);
++	if (hws->funcs.enable_power_gating_plane)
++		hws->funcs.enable_power_gating_plane(dc->hwseq, true);
++
+ 	/* If taking control over from VBIOS, we may want to optimize our first
+ 	 * mode set, so we need to skip powering down pipes until we know which
+ 	 * pipes we want to use.
+@@ -1487,8 +1490,6 @@ void dcn10_init_hw(struct dc *dc)
  
--		dev_dbg(di->ipu->dev, "  IPU clock can give %lu with divider %u, error %d.%u%%\n",
--			rate, div, (signed)(error - 1000) / 10, error % 10);
-+		dev_dbg(di->ipu->dev, "  IPU clock can give %lu with divider %u, error %c%d.%d%%\n",
-+			rate, div, error < 1000 ? '-' : '+',
-+			abs(error - 1000) / 10, abs(error - 1000) % 10);
+ 		REG_UPDATE(DCFCLK_CNTL, DCFCLK_GATE_DIS, 0);
+ 	}
+-	if (hws->funcs.enable_power_gating_plane)
+-		hws->funcs.enable_power_gating_plane(dc->hwseq, true);
  
- 		/* Allow a 1% error */
- 		if (error < 1010 && error >= 990) {
+ 	if (dc->clk_mgr->funcs->notify_wm_ranges)
+ 		dc->clk_mgr->funcs->notify_wm_ranges(dc->clk_mgr);
+diff --git a/drivers/gpu/drm/amd/display/dc/dcn30/dcn30_hwseq.c b/drivers/gpu/drm/amd/display/dc/dcn30/dcn30_hwseq.c
+index 0950784bafa4..f83457375811 100644
+--- a/drivers/gpu/drm/amd/display/dc/dcn30/dcn30_hwseq.c
++++ b/drivers/gpu/drm/amd/display/dc/dcn30/dcn30_hwseq.c
+@@ -570,6 +570,9 @@ void dcn30_init_hw(struct dc *dc)
+ 		}
+ 	}
+ 
++	if (hws->funcs.enable_power_gating_plane)
++		hws->funcs.enable_power_gating_plane(dc->hwseq, true);
++
+ 	/* If taking control over from VBIOS, we may want to optimize our first
+ 	 * mode set, so we need to skip powering down pipes until we know which
+ 	 * pipes we want to use.
+@@ -647,8 +650,6 @@ void dcn30_init_hw(struct dc *dc)
+ 
+ 		REG_UPDATE(DCFCLK_CNTL, DCFCLK_GATE_DIS, 0);
+ 	}
+-	if (hws->funcs.enable_power_gating_plane)
+-		hws->funcs.enable_power_gating_plane(dc->hwseq, true);
+ 
+ 	if (!dcb->funcs->is_accelerated_mode(dcb) && dc->res_pool->hubbub->funcs->init_watermarks)
+ 		dc->res_pool->hubbub->funcs->init_watermarks(dc->res_pool->hubbub);
+diff --git a/drivers/gpu/drm/amd/display/dc/dcn31/dcn31_hwseq.c b/drivers/gpu/drm/amd/display/dc/dcn31/dcn31_hwseq.c
+index 3afa1159a5f7..b72d080b302a 100644
+--- a/drivers/gpu/drm/amd/display/dc/dcn31/dcn31_hwseq.c
++++ b/drivers/gpu/drm/amd/display/dc/dcn31/dcn31_hwseq.c
+@@ -204,6 +204,9 @@ void dcn31_init_hw(struct dc *dc)
+ 		}
+ 	}
+ 
++	if (hws->funcs.enable_power_gating_plane)
++		hws->funcs.enable_power_gating_plane(dc->hwseq, true);
++
+ 	/* If taking control over from VBIOS, we may want to optimize our first
+ 	 * mode set, so we need to skip powering down pipes until we know which
+ 	 * pipes we want to use.
+@@ -287,8 +290,6 @@ void dcn31_init_hw(struct dc *dc)
+ 
+ 		REG_UPDATE(DCFCLK_CNTL, DCFCLK_GATE_DIS, 0);
+ 	}
+-	if (hws->funcs.enable_power_gating_plane)
+-		hws->funcs.enable_power_gating_plane(dc->hwseq, true);
+ 
+ 	if (!dcb->funcs->is_accelerated_mode(dcb) && dc->res_pool->hubbub->funcs->init_watermarks)
+ 		dc->res_pool->hubbub->funcs->init_watermarks(dc->res_pool->hubbub);
 -- 
 2.35.1
 
