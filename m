@@ -1,59 +1,60 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 983584FD1BE
-	for <lists+dri-devel@lfdr.de>; Tue, 12 Apr 2022 09:05:15 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id D79954FD279
+	for <lists+dri-devel@lfdr.de>; Tue, 12 Apr 2022 09:13:40 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 28AA010FEB1;
-	Tue, 12 Apr 2022 07:05:13 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 7D19B10E953;
+	Tue, 12 Apr 2022 07:13:38 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-pf1-x435.google.com (mail-pf1-x435.google.com
- [IPv6:2607:f8b0:4864:20::435])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 41D0610FEB1
- for <dri-devel@lists.freedesktop.org>; Tue, 12 Apr 2022 07:05:11 +0000 (UTC)
-Received: by mail-pf1-x435.google.com with SMTP id w7so16667499pfu.11
- for <dri-devel@lists.freedesktop.org>; Tue, 12 Apr 2022 00:05:11 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
- h=from:to:cc:subject:date:message-id;
- bh=MD2PafPOZxiALVxRANZJtJfxFryFkWiYa4P1WpagSvo=;
- b=ZoOMT2yrxzYBvfqKLstICxEU5NbOmIO81l0gvJWERON+OxWRK9IFg6/vpoIDfHAmJ6
- da4UtAu84n6WCPrn+3LyAlAG0NQpdiYQ/ZFWe0Mkr8XAUamFWjfPlLZXXOH7CNFHLSce
- HdTeQ/7o4hGeRPtNWJicF3vceIB245SwJfEbiHvo7jCiS/tdmWQctHtuWoPU2aiTWoQs
- kLfgB7c+Ov+MCQob3dYAwrmLFhxkyEIX1WBG9+aNyDcqQE0BPqgKQk7xj9t88gPlLqYY
- h4Sbw4WnxiVcPdlWg1emSanSfT8WyjqvAh701hPQqAQR+GLqZGU+hJ9oYwKMbM25KNGo
- PqCA==
+Received: from mail-qv1-f47.google.com (mail-qv1-f47.google.com
+ [209.85.219.47])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 5838110E87F
+ for <dri-devel@lists.freedesktop.org>; Tue, 12 Apr 2022 07:13:37 +0000 (UTC)
+Received: by mail-qv1-f47.google.com with SMTP id b17so15465553qvf.12
+ for <dri-devel@lists.freedesktop.org>; Tue, 12 Apr 2022 00:13:37 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=x-gm-message-state:from:to:cc:subject:date:message-id;
- bh=MD2PafPOZxiALVxRANZJtJfxFryFkWiYa4P1WpagSvo=;
- b=oM23/cLrTLtkleT8Qi0Eu6orwG0AtMMVv8sEmpTU6OKsqoreUqjqgusARokpXQzn6u
- 9ON3NQqTuT1euWDVPseCejeQ7doWwfTjO5ex4mc3jTej90rOS8Jd4nn5atEoc7srpDyw
- mNVfvT64ZmRoNGRoYGhpZGNazNzfcmWbWYDYTUJ7olWomuAVWtvaSvjSGuuPMWFt60ux
- emgT+6XgJ1AJfymN0r6pjaNmjhbiEkIn0vcx2XzscGKo8UxHMkuwFntDb8mBVfw3e7wY
- 68PU3B5ZFELf2zoJHY99T+4WUWK4zyZE4QZoBVQZPV33EqeG9v1080Tg0OyatAd5vxeV
- p1lw==
-X-Gm-Message-State: AOAM532Hlqtzu1GQQT0DVjjF3g5+aXL0bb3Xi6B98Ccok+qjsMn6jpO5
- awu5pXii//SdHpWKoo1Gak4=
-X-Google-Smtp-Source: ABdhPJycADu1O3trds1gUcEXHablNZlIDVa1C9T6c102ZVWQucGUgPEoS5U0EZJPhuOsxr9sEPWpgw==
-X-Received: by 2002:a65:6956:0:b0:399:1f0e:6172 with SMTP id
- w22-20020a656956000000b003991f0e6172mr29157318pgq.286.1649747110823; 
- Tue, 12 Apr 2022 00:05:10 -0700 (PDT)
-Received: from localhost.localdomain ([159.226.95.43])
- by smtp.googlemail.com with ESMTPSA id
- g15-20020a056a000b8f00b004fa9dbf27desm38059686pfj.55.2022.04.12.00.05.08
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 12 Apr 2022 00:05:10 -0700 (PDT)
-From: Miaoqian Lin <linmq006@gmail.com>
-To: Emma Anholt <emma@anholt.net>, Maxime Ripard <mripard@kernel.org>,
- David Airlie <airlied@linux.ie>, Daniel Vetter <daniel@ffwll.ch>,
- Eric Anholt <eric@anholt.net>, dri-devel@lists.freedesktop.org,
- linux-kernel@vger.kernel.org
-Subject: [PATCH] drm/vc4: Fix pm_runtime_get_sync() error checking
-Date: Tue, 12 Apr 2022 07:04:57 +0000
-Message-Id: <20220412070458.21819-1-linmq006@gmail.com>
-X-Mailer: git-send-email 2.17.1
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=b40J74AZXHQx3F3Kvksxnsm3IoWKYudmg3ktvmskBdg=;
+ b=WaLc2Au2YbHOHeTL1tw2HzzO/XexflDPqyrLEkqsasuhDDsPBzB2egRw8/Mb1kpQPr
+ IwGDR8MitazGyJCi9qrLug3qC2j4wNkksBlq1YnwmhLfKlyEPwBo24zPpfpymWuhKgKb
+ Cuhp/E32I9b2OI0vWTxI4cAxPwlyvJZyNMuVrwuZT7BpyzV6njlMnSeRPTkOKvDeL0YH
+ 2rKVju2lsqh8wW/YMshRYKEssgEoVBjrqwYLMoVhg/F9F5csBew2HT8bMTBOOKddZv99
+ qpqR1fuWa/j86MxFoK7URRFksGDJv0i64rGUUqcrE57wpyDc1SPjCF5pceQKA6c/l2TL
+ k/Lg==
+X-Gm-Message-State: AOAM530XOPynci/FT3oN2txfkbUKEody6O/SlCEZlMxHkTiYObYvHZ/J
+ y4+eXEpod7AxRHoMqwVc4dn/JO4NEMZi+BQP
+X-Google-Smtp-Source: ABdhPJzolqcXXHbizEe0RhmbomAAvVMaomfzfcpT1li1zvLVr4ITVYJUALobt5yutbXeY+5tseEFpQ==
+X-Received: by 2002:a05:6214:2349:b0:444:2a7b:cd5c with SMTP id
+ hu9-20020a056214234900b004442a7bcd5cmr2564486qvb.77.1649747615731; 
+ Tue, 12 Apr 2022 00:13:35 -0700 (PDT)
+Received: from mail-yb1-f172.google.com (mail-yb1-f172.google.com.
+ [209.85.219.172]) by smtp.gmail.com with ESMTPSA id
+ v12-20020a05622a130c00b002e1b3ccd9adsm26293243qtk.79.2022.04.12.00.13.34
+ for <dri-devel@lists.freedesktop.org>
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Tue, 12 Apr 2022 00:13:35 -0700 (PDT)
+Received: by mail-yb1-f172.google.com with SMTP id v77so13441058ybi.12
+ for <dri-devel@lists.freedesktop.org>; Tue, 12 Apr 2022 00:13:34 -0700 (PDT)
+X-Received: by 2002:a25:9e89:0:b0:63c:ad37:a5de with SMTP id
+ p9-20020a259e89000000b0063cad37a5demr24883011ybq.342.1649747614630; Tue, 12
+ Apr 2022 00:13:34 -0700 (PDT)
+MIME-Version: 1.0
+References: <20220411211243.11121-1-javierm@redhat.com>
+ <20220411211243.11121-2-javierm@redhat.com>
+In-Reply-To: <20220411211243.11121-2-javierm@redhat.com>
+From: Geert Uytterhoeven <geert@linux-m68k.org>
+Date: Tue, 12 Apr 2022 09:13:23 +0200
+X-Gmail-Original-Message-ID: <CAMuHMdU+ieUSv1sjOX-fks3o+J3Eicg-prCK2+roTq-MFKTHBg@mail.gmail.com>
+Message-ID: <CAMuHMdU+ieUSv1sjOX-fks3o+J3Eicg-prCK2+roTq-MFKTHBg@mail.gmail.com>
+Subject: Re: [PATCH v2 1/5] dt-bindings: display: ssd1307fb: Deprecate "-i2c"
+ compatible strings
+To: Javier Martinez Canillas <javierm@redhat.com>
+Content-Type: text/plain; charset="UTF-8"
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -66,33 +67,43 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: linmq006@gmail.com
+Cc: Chen-Yu Tsai <wens@kernel.org>, Neil Armstrong <narmstrong@baylibre.com>,
+ David Airlie <airlied@linux.ie>,
+ Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
+ DRI Development <dri-devel@lists.freedesktop.org>,
+ Rob Herring <robh+dt@kernel.org>,
+ "open list:OPEN FIRMWARE AND FLATTENED DEVICE TREE BINDINGS"
+ <devicetree@vger.kernel.org>, Mark Brown <broonie@kernel.org>,
+ Krzysztof Kozlowski <krzk+dt@kernel.org>,
+ Andy Shevchenko <andriy.shevchenko@linux.intel.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-If the device is already in a runtime PM enabled state
-pm_runtime_get_sync() will return 1, so a test for negative
-value should be used to check for errors.
+On Mon, Apr 11, 2022 at 11:12 PM Javier Martinez Canillas
+<javierm@redhat.com> wrote:
+> The current compatible strings for SSD130x I2C controllers contain both an
+> "fb" and "-i2c" suffixes. It seems to indicate that are for a fbdev driver
+> and also that are for devices that can be accessed over an I2C bus.
+>
+> But a DT is supposed to describe the hardware and not Linux implementation
+> details. So let's deprecate those compatible strings and add new ones that
+> only contain the vendor and device name, without any of these suffixes.
+>
+> These will just describe the device and can be matched by both I2C and SPI
+> DRM drivers.
+>
+> Signed-off-by: Javier Martinez Canillas <javierm@redhat.com>
+> Acked-by: Mark Brown <broonie@kernel.org>
 
-Fixes: 4078f5757144 ("drm/vc4: Add DSI driver")
-Signed-off-by: Miaoqian Lin <linmq006@gmail.com>
----
- drivers/gpu/drm/vc4/vc4_dsi.c | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+Reviewed-by: Geert Uytterhoeven <geert+renesas@glider.be>
 
-diff --git a/drivers/gpu/drm/vc4/vc4_dsi.c b/drivers/gpu/drm/vc4/vc4_dsi.c
-index 752f921735c6..26aa7d1fa421 100644
---- a/drivers/gpu/drm/vc4/vc4_dsi.c
-+++ b/drivers/gpu/drm/vc4/vc4_dsi.c
-@@ -847,7 +847,7 @@ static void vc4_dsi_encoder_enable(struct drm_encoder *encoder)
- 	int ret;
- 
- 	ret = pm_runtime_get_sync(dev);
--	if (ret) {
-+	if (ret < 0) {
- 		DRM_ERROR("Failed to runtime PM enable on DSI%d\n", dsi->variant->port);
- 		return;
- 	}
--- 
-2.17.1
+Gr{oetje,eeting}s,
 
+                        Geert
+
+--
+Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k.org
+
+In personal conversations with technical people, I call myself a hacker. But
+when I'm talking to journalists I just say "programmer" or something like that.
+                                -- Linus Torvalds
