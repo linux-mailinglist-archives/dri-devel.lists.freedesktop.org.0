@@ -1,61 +1,61 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id A26024FD321
-	for <lists+dri-devel@lfdr.de>; Tue, 12 Apr 2022 10:57:59 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 02B364FD328
+	for <lists+dri-devel@lfdr.de>; Tue, 12 Apr 2022 10:59:09 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 20DE710FF9C;
-	Tue, 12 Apr 2022 08:57:56 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id EEB8D10FB97;
+	Tue, 12 Apr 2022 08:59:06 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-oi1-x22c.google.com (mail-oi1-x22c.google.com
- [IPv6:2607:f8b0:4864:20::22c])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 59E6C10FF99
- for <dri-devel@lists.freedesktop.org>; Tue, 12 Apr 2022 08:57:55 +0000 (UTC)
-Received: by mail-oi1-x22c.google.com with SMTP id 12so18336720oix.12
- for <dri-devel@lists.freedesktop.org>; Tue, 12 Apr 2022 01:57:55 -0700 (PDT)
+Received: from mail-oa1-x29.google.com (mail-oa1-x29.google.com
+ [IPv6:2001:4860:4864:20::29])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id AC12C10EA07
+ for <dri-devel@lists.freedesktop.org>; Tue, 12 Apr 2022 08:59:05 +0000 (UTC)
+Received: by mail-oa1-x29.google.com with SMTP id
+ 586e51a60fabf-de3eda6b5dso20164157fac.0
+ for <dri-devel@lists.freedesktop.org>; Tue, 12 Apr 2022 01:59:05 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=baylibre-com.20210112.gappssmtp.com; s=20210112;
  h=from:user-agent:references:in-reply-to:mime-version:date:message-id
  :subject:to:cc;
- bh=4FpzyyLj/OdDU3ZmpUpstG+y8CAFSWZd/AR4b2PM65Y=;
- b=O4uumP51JcV7qBCLnK0EA1pkMY6sGD/pTvzvNjou2PgcdwHOFuibGIptBgZ3zJNPCO
- HNcpOraxajhSfH6FKpX+oohFsR9+cAmNzr3raUAIRjIXsDz70WJRGRPe0sBzCtIorZSn
- jwU9hlWq8nhRQgCL+0BDauOseU08SQ6kHBE39slH9gyCacBPIRunwbgJFwT4MEAkgB4u
- XOLgBEcCs1r6ODorwmX7IF0ZhAGaeOSeAxRCXAcIUN8mXCyKnW+FU3R/7MlScEWkf0VY
- ZvjB33mZDqS56xB5bdfVu9Bjy/qdU0l0vvxbk6G4z6AorUZE6E2dkUcfig1wxL70aOEU
- PS7A==
+ bh=61Zhp6cmoUliim9YwiwcZpLzWn635tX3xmuezZ/XE1Q=;
+ b=i+E8+24eJSPuwFpWwnhwRcMosCQtTEQoU0qVumPFd1B/5vOrb43OnnM06scRAF73Yq
+ oMByED8vyfj7h/juyKz0L3ed4WqHpCgSlskOcx+kVCwtlWgCiSRQA57g1AuGyhRftLkn
+ PMcblX+TbX+MHeKj3cpATLc7zfvBTrR1JonUwOgFtW9kUMKobrEyLRFKbEi6WgtAtS6n
+ FCB8ilN1nAxUZedW0P+Azc/J+6dpMpBO/s4qN2MMBBKOQNBC+cNRVDAa2Xi5cUNXXxIm
+ UJfzvicRT62Wq64zodMNVExN+Gzy0MnFtlZGEVwjmhUqQKDk5bd3GuHqulcLVnv1AYsL
+ SMSg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:from:user-agent:references:in-reply-to
  :mime-version:date:message-id:subject:to:cc;
- bh=4FpzyyLj/OdDU3ZmpUpstG+y8CAFSWZd/AR4b2PM65Y=;
- b=KQxt/PXsTaupo/EFTY5l4+fjgbFJeMs2bW6a+/EWYh4JkJFta/2oRpeweQkuc8VW3o
- EEuQMGNCCxXFT0TtcLd3APBov+QOVEkrxegD3Z4COnuqq1mm12GR6J0D65acQmZBdqML
- ig7T3snU7omwx7T5uGGcGcv7iQUj+T5IRDziaoauBBKe8CLSyEvY+NCU6Pzof96IAHTb
- zMbwl+2akS8hSVoUgXdkVLS76LvV+ozGh7skhcD8Zpu7Mp8UEVxAmz4Gymb1gwdX+QZm
- F7tnl73cZjedbf9kJb2mx7VlUf1YFYMvM+6xl1mD5lqf2QqD45OdA+n5vo61wVsDuZdW
- aTEg==
-X-Gm-Message-State: AOAM533my7SXhXNzmpu9CVgwcMhjwsw1kfyornVSmIil1+5VhBxPWQdw
- wfjANp2bg6Nd1xaEgiiKJs3q7P+++Gn5f7MO1rsK7w==
-X-Google-Smtp-Source: ABdhPJyGsXSnBb0OrYJzuxK+lplYEUvtBMZUA3XN/6JoCjC1Dfht5xOEuqQ6v8izMrWtfTdYVEwhffLY26AWeFbXjVU=
-X-Received: by 2002:a05:6808:159d:b0:2da:3946:ab3d with SMTP id
- t29-20020a056808159d00b002da3946ab3dmr1258843oiw.248.1649753874382; Tue, 12
- Apr 2022 01:57:54 -0700 (PDT)
+ bh=61Zhp6cmoUliim9YwiwcZpLzWn635tX3xmuezZ/XE1Q=;
+ b=J2HM97opxdISBShJN1HPtYxUZRCH2nMaqrl5mUVgAqnWz0/mfUg0aRk9KO7b85BdOU
+ FmsZaCqnNDdfVTSSR00gazuNJZP391yEcC0+QEDljQgHwRSbP3HiWh13aR+cA+5Ebx3l
+ g/EE4RAED9OPuUBaXU4fDe9bAsfzuZihOlCQVEjqIo32z6S7f6w0Zz9lhsN/jdljv+wK
+ gGZF2S0qQ4VEis1zeInU1Ik/A5nT0OaYTB9YZvxTGml4LvVudpUkU1N3YFjcxHlYqUNZ
+ cF/B/DWZEj04P/xQ8YoQgo/vRAAIf0dhhzNzXDfpoZ2EoPW+UgJFX/sYWvb+RRrc8kxY
+ hiwA==
+X-Gm-Message-State: AOAM530PDkWVYUbV3yYPgz2PAtO2E9YhHnXYlqH0y9ssAOktFUrs+iU8
+ Iv6wFhvIOABR0dgDoipo68ZiJuhQgOBOIJ/QNFl1JA==
+X-Google-Smtp-Source: ABdhPJzgcHEvPZCp6gdbg7kDhJKlxditkMSAtxr85wga0tldVXhcDC3GVMdHj7CuZ6MWQrtRrZ1EySnMvRiS1vE8OqA=
+X-Received: by 2002:a05:6870:f21a:b0:dd:9bec:caf8 with SMTP id
+ t26-20020a056870f21a00b000dd9beccaf8mr1592268oao.78.1649753944968; Tue, 12
+ Apr 2022 01:59:04 -0700 (PDT)
 Received: from 753933720722 named unknown by gmailapi.google.com with
- HTTPREST; Tue, 12 Apr 2022 01:57:53 -0700
+ HTTPREST; Tue, 12 Apr 2022 01:59:04 -0700
 From: Guillaume Ranquet <granquet@baylibre.com>
 User-Agent: meli 0.7.2
 References: <20220327223927.20848-1-granquet@baylibre.com>
- <20220327223927.20848-5-granquet@baylibre.com>
- <0c523ad5-6a71-5c71-17b8-1f15c1860d89@collabora.com>
-In-Reply-To: <0c523ad5-6a71-5c71-17b8-1f15c1860d89@collabora.com>
+ <20220327223927.20848-7-granquet@baylibre.com>
+ <33212024-ae93-32c3-7890-09006057ff49@collabora.com>
+In-Reply-To: <33212024-ae93-32c3-7890-09006057ff49@collabora.com>
 MIME-Version: 1.0
-Date: Tue, 12 Apr 2022 01:57:53 -0700
-Message-ID: <CABnWg9vxnLqAsoLOSHekwa9q3v=atLJEXpXADMc-bj+z1mkQHA@mail.gmail.com>
-Subject: Re: [PATCH v9 04/22] drm/edid: Convert cea_sad helper struct to
- kernelDoc
+Date: Tue, 12 Apr 2022 01:59:04 -0700
+Message-ID: <CABnWg9sckU58Ga-qUgd+pk2M75H4=XZyAyP69e5QJP0+dvsusg@mail.gmail.com>
+Subject: Re: [PATCH v9 06/22] video/hdmi: Add audio_infoframe packing for DP
 To: AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>,
  vkoul@kernel.org, 
  airlied@linux.ie, chunfeng.yun@mediatek.com, chunkuang.hu@kernel.org, 
@@ -78,50 +78,62 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
 Cc: devicetree@vger.kernel.org, linux-fbdev@vger.kernel.org,
  linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
+ Markus Schneider-Pargmann <msp@baylibre.com>,
  linux-mediatek@lists.infradead.org, linux-phy@lists.infradead.org,
  linux-arm-kernel@lists.infradead.org, markyacoub@google.com
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Mon, 28 Mar 2022 10:04, AngeloGioacchino Del Regno
+On Mon, 28 Mar 2022 10:09, AngeloGioacchino Del Regno
 <angelogioacchino.delregno@collabora.com> wrote:
 >Il 28/03/22 00:39, Guillaume Ranquet ha scritto:
+>> From: Markus Schneider-Pargmann <msp@baylibre.com>
+>>
+>> Similar to HDMI, DP uses audio infoframes as well which are structured
+>> very similar to the HDMI ones.
+>>
+>> This patch adds a helper function to pack the HDMI audio infoframe for
+>> DP, called hdmi_audio_infoframe_pack_for_dp().
+>> hdmi_audio_infoframe_pack_only() is split into two parts. One of them
+>> packs the payload only and can be used for HDMI and DP.
+>>
+>> Signed-off-by: Markus Schneider-Pargmann <msp@baylibre.com>
 >> Signed-off-by: Guillaume Ranquet <granquet@baylibre.com>
 >> ---
->>   include/drm/drm_edid.h | 11 ++++++++---
->>   1 file changed, 8 insertions(+), 3 deletions(-)
+>>   drivers/video/hdmi.c           | 82 ++++++++++++++++++++++++++--------
+>>   include/drm/dp/drm_dp_helper.h |  2 +
+>>   include/linux/hdmi.h           |  7 ++-
+>>   3 files changed, 71 insertions(+), 20 deletions(-)
 >>
->> diff --git a/include/drm/drm_edid.h b/include/drm/drm_edid.h
->> index 144c495b99c4..5d4d840b9904 100644
->> --- a/include/drm/drm_edid.h
->> +++ b/include/drm/drm_edid.h
->> @@ -359,12 +359,17 @@ struct edid {
+>> diff --git a/drivers/video/hdmi.c b/drivers/video/hdmi.c
+>> index 947be761dfa4..5f50237554ed 100644
+>> --- a/drivers/video/hdmi.c
+>> +++ b/drivers/video/hdmi.c
+>> @@ -21,6 +21,7 @@
+>>    * DEALINGS IN THE SOFTWARE.
+>>    */
 >>
->>   #define EDID_PRODUCT_ID(e) ((e)->prod_code[0] | ((e)->prod_code[1] << 8))
->>
->> -/* Short Audio Descriptor */
+>> +#include <drm/dp/drm_dp_helper.h>
+>>   #include <linux/bitops.h>
+>>   #include <linux/bug.h>
+>>   #include <linux/errno.h>
+>> @@ -381,12 +382,34 @@ static int hdmi_audio_infoframe_check_only(const struct hdmi_audio_infoframe *fr
+>>    *
+>>    * Returns 0 on success or a negative error code on failure.
+>>    */
+>> -int hdmi_audio_infoframe_check(struct hdmi_audio_infoframe *frame)
+>> +int hdmi_audio_infoframe_check(const struct hdmi_audio_infoframe *frame)
 >
->Hello Guillaume,
+>I agree with this change, as hdmi_audio_infoframe_check_only()'s param is a const,
+>but you really should mention that you're constifying this one in your commit
+>description, or do that in a separate commit.
 >
->> +/* struct cea_sad - Short Audio Descriptor.
->> +	@format: See HDMI_AUDIO_CODING_TYPE_*.
->> +	@channels: max number of channels - 1.
->> +	@freq: See CEA_SAD_FREQ_*.
->> +	@byte2: meaning depends on format.
->> +*/
->
->I appreciate the effort, but this is not valid kerneldoc.
->
->Please refer to https://docs.kernel.org/doc-guide/kernel-doc.html
+>Either of the two is fine.
 >
 >Regards,
 >Angelo
 
-Hello Angelo,
-
-Thx for your review.
-I'm sorry I posted this v9 in a bit of a rush...
-but I promise we will get there... eventually :D
+Noted, I'll add it to the commit message.
 
 Thx,
 Guillaume.
