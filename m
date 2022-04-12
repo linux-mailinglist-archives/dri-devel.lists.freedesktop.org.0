@@ -1,68 +1,73 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6A8244FD33F
-	for <lists+dri-devel@lfdr.de>; Tue, 12 Apr 2022 11:18:41 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 2EF4D4FD34D
+	for <lists+dri-devel@lfdr.de>; Tue, 12 Apr 2022 11:28:11 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 282BD10E9EC;
-	Tue, 12 Apr 2022 09:18:39 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id EB4AD10E82D;
+	Tue, 12 Apr 2022 09:28:06 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mx1.tq-group.com (mx1.tq-group.com [93.104.207.81])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 8DDFF10E9EC
- for <dri-devel@lists.freedesktop.org>; Tue, 12 Apr 2022 09:18:37 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=tq-group.com; i=@tq-group.com; q=dns/txt; s=key1;
- t=1649755117; x=1681291117;
- h=from:to:cc:subject:date:message-id:in-reply-to:
- references:mime-version:content-transfer-encoding;
- bh=wllcvgbH0tVMOp4P3a8Ug7HpQsdqWo0Kq9vLghsmuEc=;
- b=HmLHcjR8btorLIAvq24yOGctC5iFx4jgBo/w7XavgKKKwYjRNkANpA7U
- e8QDIdQQqxgnrg3Nkta5fQjMZsIHmFTpUUfp6lNxb+EOmUV12v+T9kjxt
- hbQDzLEFiSi59fQgKRGe1du8c04xwS3yg22QWVTLKyi8o8aqw0G0WccjL
- k1gnDguFHN+xB6gUIYoQmGlyDKMozQ96eIdqWuxkd7N8HOiiDzCIN0WOd
- Kc6sl0bKKl4XigleE177KVOlJJLFs38IHQuVpEk8brATwBIbOwIx67GQR
- a33UD4eKMbENFc76BCgEL5wS21CUBj9JbBsWEHKX1qZkncOeV6v7r9mrh A==;
-X-IronPort-AV: E=Sophos;i="5.90,253,1643670000"; d="scan'208";a="23243933"
-Received: from unknown (HELO tq-pgp-pr1.tq-net.de) ([192.168.6.15])
- by mx1-pgp.tq-group.com with ESMTP; 12 Apr 2022 11:18:35 +0200
-Received: from mx1.tq-group.com ([192.168.6.7])
- by tq-pgp-pr1.tq-net.de (PGP Universal service);
- Tue, 12 Apr 2022 11:18:35 +0200
-X-PGP-Universal: processed;
- by tq-pgp-pr1.tq-net.de on Tue, 12 Apr 2022 11:18:35 +0200
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=tq-group.com; i=@tq-group.com; q=dns/txt; s=key1;
- t=1649755115; x=1681291115;
- h=from:to:cc:subject:date:message-id:in-reply-to:
- references:mime-version:content-transfer-encoding;
- bh=wllcvgbH0tVMOp4P3a8Ug7HpQsdqWo0Kq9vLghsmuEc=;
- b=Tf5L0LxbU/NkPHHoWu8bLs1eTREnL7w5LVdrR3HOy3PZaVJn+3olcbmv
- 00+4h7FzXjfiSEvZ6RrDPuRO07UNTNS3biyaSlux3c2o4HXU+0ExcOYBJ
- xuwB4QBhjOpjvO4oLCkr/ymCszwb04HS5+Wdydgu8LXF49XZuhTkm/wfx
- L38yrHxUlny1x2WibC1ryQh9Yhw7wriv94SOeUsf20pU/JrNSEPqq+Yv8
- Jg2RHsaaG7Xb0rAoveR1+g2Rv83J79dIbjrGZhqyCnHTiPdIIDzH11tF4
- EpawZyY5vRI32/kCb7uRMrjE/UfrjVxiUNgan6RW/WoojPNFtOodWfhih Q==;
-X-IronPort-AV: E=Sophos;i="5.90,253,1643670000"; d="scan'208";a="23243932"
-Received: from vtuxmail01.tq-net.de ([10.115.0.20])
- by mx1.tq-group.com with ESMTP; 12 Apr 2022 11:18:35 +0200
-Received: from steina-w.localnet (unknown [10.123.49.12])
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits))
- (No client certificate requested)
- by vtuxmail01.tq-net.de (Postfix) with ESMTPSA id C650C280070;
- Tue, 12 Apr 2022 11:18:34 +0200 (CEST)
-From: Alexander Stein <alexander.stein@ew.tq-group.com>
-To: Lucas Stach <l.stach@pengutronix.de>
-Subject: Re: [PATCH v0 00/10] i.MX8MP HDMI support
-Date: Tue, 12 Apr 2022 11:18:32 +0200
-Message-ID: <3484598.R56niFO833@steina-w>
-Organization: TQ-Systems GmbH
-In-Reply-To: <20220406160123.1272911-1-l.stach@pengutronix.de>
-References: <20220406160123.1272911-1-l.stach@pengutronix.de>
-MIME-Version: 1.0
-Content-Transfer-Encoding: 7Bit
-Content-Type: text/plain; charset="us-ascii"
+Received: from mail-lj1-x22a.google.com (mail-lj1-x22a.google.com
+ [IPv6:2a00:1450:4864:20::22a])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 376E510E82D
+ for <dri-devel@lists.freedesktop.org>; Tue, 12 Apr 2022 09:28:06 +0000 (UTC)
+Received: by mail-lj1-x22a.google.com with SMTP id q189so6713065ljb.13
+ for <dri-devel@lists.freedesktop.org>; Tue, 12 Apr 2022 02:28:06 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
+ h=mime-version:subject:from:in-reply-to:date:cc
+ :content-transfer-encoding:message-id:references:to;
+ bh=turZnB5n/CzolNSuA1M6dvnR84HpAEYW+xCag97801o=;
+ b=LLpP//XqcCWJbA7PKJ/iNKGZM7a/+mCZCyu/q5r/dhGWNinAOtWglqZZw4AmZ4v16n
+ tD4SZ/IjuZK7eUKTVDLQeH3BCO5njAy7Hvy8BN51ygyDVOxaX1P90IyzZVlMxvgCEvMV
+ H0lc6FnP98SA6xfTlopEbcdxWwQ6lb86w0+NqyPkeJfiXenhix3ZhgR8fABWpeWKuLR+
+ 8BJSLY/CQantZvQqTVlLrmpGSwVc/V6yqVpzLv2fzAWxK2KACSr363O7J+VFAIqVtM/K
+ yEFBQ49PnSJgQuj9wseT7qD6eX0PTfWWR02dBNugGi18ClGko/syLvbnjx/p89gnUaU0
+ wQ0Q==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=x-gm-message-state:mime-version:subject:from:in-reply-to:date:cc
+ :content-transfer-encoding:message-id:references:to;
+ bh=turZnB5n/CzolNSuA1M6dvnR84HpAEYW+xCag97801o=;
+ b=qIzhxVTOtBXYDqBlpSoxgzmkYheoY9CtTs3sC1lIjkWI1nlNc6MQO33XGg/na8aooS
+ hDU+SRGJOAJSSVQWp6GsmGmBB4cwslGV8vd6IWEXvJjxuQwMEID6G8KxvszfuM39+a4X
+ wj+jHPsBFP+hVdZyhh+uTd/CBLEmb8svQ/EE0e0BgzhjuXJx7ByGGXkFSJtur6TELMQp
+ dF3FaMQfOPYxxWZKD37HsunB9W7UaUjGdMpbq82UWnVUv0VYJhcTxnUAOQINvuFZEAdH
+ Q55/w5uONfmqsfmwZ36agWlzvGgm7ul4f0t94WSyaKEVrRNdf5pnko7nn/T9Szr8dC7u
+ Z54g==
+X-Gm-Message-State: AOAM531qDsNhMplb8dBvJYUE897lNX4+YJ6UCm2ylILXGJKH8lqDC49p
+ 8Jbjv5Q0mWaVRu3d7pdrfpw=
+X-Google-Smtp-Source: ABdhPJzmTly0C01dv1dnFZBkivb7+onAaRQNmLX6/Q6cwjdDqEB6rqDUmd6996XnBZPaUD96eXGIQA==
+X-Received: by 2002:a05:651c:17a1:b0:247:dc02:69b9 with SMTP id
+ bn33-20020a05651c17a100b00247dc0269b9mr22661983ljb.437.1649755684369; 
+ Tue, 12 Apr 2022 02:28:04 -0700 (PDT)
+Received: from smtpclient.apple (31-178-191-245.dynamic.chello.pl.
+ [31.178.191.245]) by smtp.gmail.com with ESMTPSA id
+ m8-20020a2e9348000000b0024b47e7dda5sm1457065ljh.65.2022.04.12.02.28.02
+ (version=TLS1_2 cipher=ECDHE-ECDSA-AES128-GCM-SHA256 bits=128/128);
+ Tue, 12 Apr 2022 02:28:03 -0700 (PDT)
+Content-Type: text/plain;
+	charset=utf-8
+Mime-Version: 1.0 (Mac OS X Mail 14.0 \(3654.120.0.1.13\))
+Subject: Re: [PATCH v9 00/23] drm/rockchip: RK356x VOP2 support
+From: Piotr Oniszczuk <piotr.oniszczuk@gmail.com>
+In-Reply-To: <20220412075034.GS4012@pengutronix.de>
+Date: Tue, 12 Apr 2022 11:28:01 +0200
+Content-Transfer-Encoding: quoted-printable
+Message-Id: <006DD91F-E4D2-4A45-80BC-5B38A4FEBF0A@gmail.com>
+References: <20220328151116.2034635-1-s.hauer@pengutronix.de>
+ <FB201567-AE5A-4242-82F1-7C55D8F111EA@gmail.com>
+ <20220401125205.GL4012@pengutronix.de>
+ <5420D26D-34FD-4637-B602-F6271E38BB8D@gmail.com>
+ <BA4C591F-D115-43D2-BF59-A75B29889E50@gmail.com>
+ <20220408080748.GA2387@pengutronix.de> <20220408120021.GO4012@pengutronix.de>
+ <B3E76A7A-9B62-4E6F-9472-00B6298689C5@gmail.com>
+ <20220411090800.GR4012@pengutronix.de>
+ <5929E7A7-776E-4BCB-92C8-A1CE05774FE3@gmail.com>
+ <20220412075034.GS4012@pengutronix.de>
+To: Sascha Hauer <s.hauer@pengutronix.de>
+X-Mailer: Apple Mail (2.3654.120.0.1.13)
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -75,128 +80,112 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: devicetree@vger.kernel.org, Pengutronix Kernel Team <kernel@pengutronix.de>,
- Neil Armstrong <narmstrong@baylibre.com>, dri-devel@lists.freedesktop.org,
- Vinod Koul <vkoul@kernel.org>, Robert Foss <robert.foss@linaro.org>,
- Kishon Vijay Abraham I <kishon@ti.com>,
- Andrzej Hajda <andrzej.hajda@intel.com>, Rob Herring <robh+dt@kernel.org>,
- NXP Linux Team <linux-imx@nxp.com>, linux-phy@lists.infradead.org,
- Krzysztof Kozlowski <krzk+dt@kernel.org>, patchwork-lst@pengutronix.de,
- Shawn Guo <shawnguo@kernel.org>, linux-arm-kernel@lists.infradead.org
+Cc: "devicetree@vger.kernel.org" <devicetree@vger.kernel.org>,
+ Benjamin Gaignard <benjamin.gaignard@collabora.com>,
+ Peter Geis <pgwipeout@gmail.com>, Sandy Huang <hjc@rock-chips.com>,
+ dri-devel@lists.freedesktop.org,
+ "open list:ARM/Rockchip SoC..." <linux-rockchip@lists.infradead.org>,
+ Lucas Stach <lst@pengutronix.de>,
+ Michael Riesch <michael.riesch@wolfvision.net>, kernel@pengutronix.de,
+ Andy Yan <andy.yan@rock-chips.com>,
+ "linux-arm-kernel@lists.infradead.org" <linux-arm-kernel@lists.infradead.org>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hello Lucas,
 
-Am Mittwoch, 6. April 2022, 18:01:13 CEST schrieb Lucas Stach:
-> Hi all,
-> 
-> this adds support for the HDMI output pipeline on the i.MX8MP.
-> It currently depends on the i.MX8MP HDMI power domain series [1]
-> and support for the new LCDIF [2] in the i.MX8MP. I guess the
-> implementation presented here also still has some warts that
-> require fixing and the individual patches most likely need to go
-> through different maintainer trees, so I don't expect this series
-> to be applied right away.
-> 
-> However this complete series should allow people to test it more
-> easily and provide feedback on the implementation with the full
-> picture available.
-> 
-> Compared to downstream this implementation actually allows to
-> power down the separate HDMI PHY power domain when the display
-> is inactive or no HDMI cable is connected.
 
-Thanks for these patches.
-I tried using them on my imx8mp based board (TQMa8MPxL + MBa8MPxL) but failed 
-to get the display showing anything. I noticed several things though:
+> Wiadomo=C5=9B=C4=87 napisana przez Sascha Hauer =
+<s.hauer@pengutronix.de> w dniu 12.04.2022, o godz. 09:50:
+>=20
+>=20
+> Somehow negotiation of the format goes wrong. Applications shouldn't
+> pick these formats when the GPU is used for rendering. I don't know =
+how
+> and where this should be fixed properly, but your application should =
+use
+> DRM_FORMAT_ABGR8888 aka AB24 aka PIPE_FORMAT_R8G8B8A8_UNORM instead of
+> DRM_FORMAT_ARGB8888 aka AR24 aka PIPE_FORMAT_B8G8R8A8_UNORM.
+>=20
+Applied :-)
+Results: pls see below
 
-* For some reason the HDMI PHY PLL does not lock. I get the error
-> fsl-samsung-hdmi-phy 32fdff00.phy: PLL failed to lock
-Increasing timeout does not change anything.
+> Could you try the following patch? It removed the formats in question
+> from the list of supported formats in the hope that your application
+> then picks one of the supported formats.
+>=20
+> Sascha
+>=20
+> -----------------------8<-----------------------------
+>=20
+> =46rom 7427109cfd16803902b55cd5536b9212abd09665 Mon Sep 17 00:00:00 =
+2001
+> From: Sascha Hauer <s.hauer@pengutronix.de>
+> Date: Tue, 12 Apr 2022 09:42:32 +0200
+> Subject: [PATCH] fixup! drm: rockchip: Add VOP2 driver
+>=20
+> The cluster windows only allow AFBC compressed formats. Not all of the
+> offered formats are supported by the GPU though. Applications pick one
+> of the formats and assume that this is also supported by the GPU they
+> use to render on them, but this is not the case for all formats.
+> Particularly DRM_FORMAT_XRGB8888 and DRM_FORMAT_ARGB8888 are not
+> supported by the GPU and choosing them results in a black screen.
+> Drop these formats for now.
+>=20
+> Signed-off-by: Sascha Hauer <s.hauer@pengutronix.de>
+> ---
+> drivers/gpu/drm/rockchip/rockchip_vop2_reg.c | 2 --
+> 1 file changed, 2 deletions(-)
+>=20
+> diff --git a/drivers/gpu/drm/rockchip/rockchip_vop2_reg.c =
+b/drivers/gpu/drm/rockchip/rockchip_vop2_reg.c
+> index 9bf0637bf8e26..38412766e3659 100644
+> --- a/drivers/gpu/drm/rockchip/rockchip_vop2_reg.c
+> +++ b/drivers/gpu/drm/rockchip/rockchip_vop2_reg.c
+> @@ -16,8 +16,6 @@
+> #include "rockchip_drm_vop2.h"
+>=20
+> static const uint32_t formats_win_full_10bit[] =3D {
+> -	DRM_FORMAT_XRGB8888,
+> -	DRM_FORMAT_ARGB8888,
+> 	DRM_FORMAT_XBGR8888,
+> 	DRM_FORMAT_ABGR8888,
+> 	DRM_FORMAT_RGB888,
+> --=20
+>=20
 
-* The HDMI bridge wants to use bus format 0x200f which is not supported by 
-lcdif.
-> lcdif 32fc6000.display-controller: Unknown media bus format 0x200f
-I wonder which part in the DRM chain choses to use this.
-But even hard limiting to 0x100a the screen stayed in suspend
+With above patch app select expected format (i think):
 
-* If the drivers are built as modules I get a hard lockup during boot. Using 
-built-in drivers or 'clk_ignore_unused' workarounds this.
+1970-01-01 01:00:31.074643 I /dev/dri/card0: Authenticated
+1970-01-01 01:00:31.189420 I /dev/dri/card0: Found 3 planes; 3 for this =
+CRTC
+1970-01-01 01:00:31.189444 I /dev/dri/card0: Selected Plane #37 Overlay =
+for video
+1970-01-01 01:00:31.189528 I /dev/dri/card0: Supported DRM video =
+formats: NV12,NV16,NV24,YVYU,VYUY
+1970-01-01 01:00:31.189536 I /dev/dri/card0: Selected Plane #43 Overlay =
+for GUI
+1970-01-01 01:00:31.190279 I Wrote =
+/home/minimyth/.mythtv/eglfs_kms_config.json:=20
+{
+"device": "/dev/dri/card0",
+"outputs": [ { "name": "HDMI1", "format": "abgr8888", "mode": "current" =
+} ]
+}
 
-* DDC does actually work. The display is detected and EDID can be read.
+(file eglfs_kms_config.json is generated by app to configure Qt; it is =
+steep (b) in yesterday's email)=20
+I see format abgr8888 is now selected by app (this is expected t think)
 
-* Sometimes I get the following error:
-------------[ cut here ]------------
-[CRTC:33:crtc-0] vblank wait timed out
-WARNING: CPU: 2 PID: 151 at drivers/gpu/drm/drm_atomic_helper.c:1529 
-drm_atomic_helper_wait_for_vblanks.part.0+0x2ac/0x2fc
-Modules linked in: caamhash_desc caamalg_desc crypto_engine rng_core mcp320x 
-dw_hdmi_cec authenc libdes dw100 videobuf2_dma_contig lcdif crct10dif_ce 
-phy_fsl_samsung_hdmi v4l2_mem2mem imx_sdma flexcan imx8mm_thermal can_dev caam 
-error pwm_fan fuse ipv6
-CPU: 2 PID: 151 Comm: kworker/u8:7 Not tainted 5.18.0-rc2-next-20220412+ #165 
-d226098cac46ded24901c7090f909ca8f5098eb0
-Hardware name: TQ-Systems i.MX8MPlus TQMa8MPxL on MBa8MPxL (DT)
-Workqueue: events_unbound deferred_probe_work_func
-pstate: 60000005 (nZCv daif -PAN -UAO -TCO -DIT -SSBS BTYPE=--)
-pc : drm_atomic_helper_wait_for_vblanks.part.0+0x2ac/0x2fc
-lr : drm_atomic_helper_wait_for_vblanks.part.0+0x2ac/0x2fc
-sp : ffff80000a133430
-x29: ffff80000a133430 x28: 0000000000000000 x27: 0000000000000000
-x26: 0000000000000000 x25: 0000000000000001 x24: ffff80000935f030
-x23: ffff00000433e000 x22: ffff0000029e7000 x21: 0000000000000001
-x20: ffff000002e7fb48 x19: 0000000000000000 x18: 0000000000000001
-x17: 4d554e5145530065 x16: 6c75646f6d3d4d45 x15: 5453595342555300
-x14: 0000000000000000 x13: 0a74756f2064656d x12: 6974207469617720
-x11: 0000000000000000 x10: 000000000000003a x9 : ffff80000a133430
-x8 : 00000000ffffffff x7 : 6974207469617720 x6 : 6b6e616c6276205d
-x5 : ffff00007fb91b00 x4 : 0000000000000000 x3 : 0000000000000027
-x2 : 0000000000000023 x1 : 0000000000000000 x0 : 0000000000000000
-Call trace:
- drm_atomic_helper_wait_for_vblanks.part.0+0x2ac/0x2fc
- drm_atomic_helper_commit_tail_rpm+0x80/0xa0
- commit_tail+0xcc/0x1f0
- drm_atomic_helper_commit+0x13c/0x370
- drm_atomic_commit+0xa4/0xe0
- drm_client_modeset_commit_atomic+0x1fc/0x250
- drm_client_modeset_commit_locked+0x58/0xa0
- drm_client_modeset_commit+0x2c/0x50
- __drm_fb_helper_restore_fbdev_mode_unlocked+0xec/0x140
- drm_fb_helper_set_par+0x38/0x6c
- fbcon_init+0x264/0x5e4
- visual_init+0xc8/0x15c
- do_bind_con_driver.isra.0+0x20c/0x470
- do_take_over_console+0x44/0x60
- do_fbcon_takeover+0x80/0x140
- fbcon_fb_registered+0x1c4/0x260
- do_register_framebuffer+0x1e0/0x2d0
- register_framebuffer+0x2c/0x50
- __drm_fb_helper_initial_config_and_unlock+0x9c/0x130
- drm_fbdev_client_hotplug+0x1a8/0x20c
- drm_fbdev_generic_setup+0xc0/0x1d0
- lcdif_probe+0x7c/0xa0 [lcdif e756925430e957a7bc9e6376ad5964e4b1cb143e]
- platform_probe+0x64/0x100
- call_driver_probe+0x28/0x130
- really_probe+0x178/0x310
- __driver_probe_device+0xfc/0x144
- driver_probe_device+0x38/0x12c
- __device_attach_driver+0xd4/0x180
- bus_for_each_drv+0x74/0xc4
- __device_attach+0xd8/0x1e0
- device_initial_probe+0x10/0x20
- bus_probe_device+0x90/0xa0
- deferred_probe_work_func+0x9c/0xf0
- process_one_work+0x1d0/0x330
- worker_thread+0x68/0x390
- kthread+0xec/0xfc
- ret_from_fork+0x10/0x20
----[ end trace 0000000000000000 ]---
 
-But given that the PLL did not lock I assume this is not too surprising.
 
-Best regards,
-Alexander
+but later Qt says:
 
+1970-01-01 01:00:34.985215 I Qt: EGL Error : Could not create the egl =
+surface: error =3D 0x3009
+Handling Aborted
+Aborted
+=20
+I suspect Qt tries with this format talk to GLES provider - but it =
+wasn't somehow accepted by underlying EGL provider (mesa GLES)?
 
 
