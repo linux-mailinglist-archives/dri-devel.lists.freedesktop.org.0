@@ -2,58 +2,59 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 67B674FD334
-	for <lists+dri-devel@lfdr.de>; Tue, 12 Apr 2022 11:11:02 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 4B0694FD337
+	for <lists+dri-devel@lfdr.de>; Tue, 12 Apr 2022 11:12:21 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id F07F910EE50;
-	Tue, 12 Apr 2022 09:10:58 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 1896510FB7C;
+	Tue, 12 Apr 2022 09:12:19 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-oi1-x235.google.com (mail-oi1-x235.google.com
- [IPv6:2607:f8b0:4864:20::235])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 04F8210EE50
- for <dri-devel@lists.freedesktop.org>; Tue, 12 Apr 2022 09:10:58 +0000 (UTC)
-Received: by mail-oi1-x235.google.com with SMTP id q189so18352101oia.9
- for <dri-devel@lists.freedesktop.org>; Tue, 12 Apr 2022 02:10:57 -0700 (PDT)
+Received: from mail-oa1-x35.google.com (mail-oa1-x35.google.com
+ [IPv6:2001:4860:4864:20::35])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 7D6B610FB7C
+ for <dri-devel@lists.freedesktop.org>; Tue, 12 Apr 2022 09:12:17 +0000 (UTC)
+Received: by mail-oa1-x35.google.com with SMTP id
+ 586e51a60fabf-dacc470e03so20130164fac.5
+ for <dri-devel@lists.freedesktop.org>; Tue, 12 Apr 2022 02:12:17 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=baylibre-com.20210112.gappssmtp.com; s=20210112;
  h=from:user-agent:references:in-reply-to:mime-version:date:message-id
  :subject:to:cc;
- bh=j2d9wMZ4Dn70FczQLj2pbuSIpYNajn+KjBgUPeahz9Y=;
- b=d755dZcyw/9BFIYn9owbsElgR43HZUII7AXXDY9tgTYi25X+lHEpWnybc6V10B24OF
- jw/gXtzNLOpJm4uxhAttWKWyfMGC3Z2CSY+fY7o7n2eWXqXzhL9FvCO9ACzTeo70vHMC
- /Php1/74zEKlV5WcAULJMdgq3V11wZdSRDdei59ZTV0QNjWeNngX1P8Oq3nhgHWgMVDh
- mHh7xBqp/cgasJY7SK5ZNVQRty2yjwfnZPKSCGN0gWpJ9hEVZHzHLEbua1NV5Zgc2kxl
- juU1Z7MWstxc2gPgXIDheBqNoGWXTxWU9JKU84IYmPeBpFb3G71Bw7pF1+rMFlw7dEAq
- k8Kw==
+ bh=D37fpu9MYMGrVM4sHogQhQQf9RiEPpYgXDKjNghtvEc=;
+ b=PJWwOM5gbJeRumlTztAxPWMSrtF8tKhqiVbN1FyLXxomE8pQ8m9aRKCVnwJbJ1T4Gx
+ hyGbtG3DXtXIgyvXRhntDRSwRqX3eaAmqUoA4OX1+mR9GM/wxzrB3foS/ToVi5I1fSBP
+ RGSL9EiNHKLHZfgLeAfowDz/TgsNPFT96RdDOjd5blB7A5WnCk6a4AwWGIX3uJktHWp9
+ oDtPrbFZuZj4359knqmh0mTjUINynCbZk9A92hIB0RZ1HDiVrnwDQWYm4KjERtJ8XB6X
+ Yl7BSZ/4fa1eVX9CP+cdf5BN9nfpLXAJTkxvPA7GDP0GoKlCcr1Q6JQ7DuEjZnjPuPUl
+ BQRQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:from:user-agent:references:in-reply-to
  :mime-version:date:message-id:subject:to:cc;
- bh=j2d9wMZ4Dn70FczQLj2pbuSIpYNajn+KjBgUPeahz9Y=;
- b=ydMQmIEp4KV/2ZIm1NxLfvgbnAEEWFz+UjDZW5fD8+3WoJE2fqy9P8YWQZrCZNa0h8
- JOduirPE5XiXEUU1RCweKP9sHXdGrcYypXDDnzzRhVtrjW8THrS0g6SPyPk7pwtvdDp3
- koqN4IfvQGwr71NHT1SoauvdpR6T+110UMBghkyFmqiYqw935cSnd2t7EzrRtLo/Lhl0
- m9ynb7yYsKT4Cs9dcLqjsN7W7mO4nhYqbqawgP83RtTXG6SRafdmSSDm+syiABEP2UzY
- LBLC7XpJOFF8sXFnva/HIbxM7bdEog0ciLvgrRTzb5vGhMafGRXe/XFRHG3w1w7Sw/QC
- 971g==
-X-Gm-Message-State: AOAM532eTVaTbhm6jGbaKVkM3i04uDFTACaX70giW7xU7DXjkGmNaMoJ
- +vCocJqyEZPX8HEpVY7CyIhIiw+WvzY7DicwrY0o2g==
-X-Google-Smtp-Source: ABdhPJym0wUH56xDasZZcT8vh3C+x/PVUlFJ7UG6Mj8R3MXY3by/qXsmyvnSEZT+6tIIruxfg75z3l91ME8OPr9nDHA=
-X-Received: by 2002:a05:6808:159d:b0:2da:3946:ab3d with SMTP id
- t29-20020a056808159d00b002da3946ab3dmr1272829oiw.248.1649754657107; Tue, 12
- Apr 2022 02:10:57 -0700 (PDT)
+ bh=D37fpu9MYMGrVM4sHogQhQQf9RiEPpYgXDKjNghtvEc=;
+ b=lzn2yEwoMW5qKf2u2NuHz9AD0mAcQUhAG9Myu6qazYioK3PQhfXniMMmgcth0M43lr
+ 2MUCwZLbOuKkHyynnYVU2VTadpU4u2viMlc0pfclup/Wvk4ASzzMAQbSQN77vJU5zkFK
+ KX/1h6c+CYt5Y8rM4jcYfmaP/FZw4QpKzyLBBWuoiMchZVGnG4dOKsUpinN0g6E19Jam
+ liMiphGGuJ1ZbFWUQXgpHfGwu2R08crH/wNiXCGU+3t+1t0qr4WqT520+D/zmQpamwbN
+ S2tsctBuhVrAvwB6atWDHTVF8uggaU8/V+Myxlz7Gkv5yYopKN6o1zDP7WC4e/JUf1PO
+ XkvQ==
+X-Gm-Message-State: AOAM5318I0KVpptpIIsc0FeGhhnxfltbDGX8dhMxR7BY0GghNW4SrHfu
+ Xe3hqyWHCW0M3SoJAguQUvLOP+Wx0VYAYk+3GtcB4A==
+X-Google-Smtp-Source: ABdhPJygxqmgs1C51eoxJmvwDXwGHKS/2sSPlL+b26E+6Tl1+WKvDOY/onHe+ZyNWJjLgLOirlY+CCLTpGtYWtuFalc=
+X-Received: by 2002:a05:6870:d191:b0:dd:a91e:82dc with SMTP id
+ a17-20020a056870d19100b000dda91e82dcmr1564506oac.248.1649754736694; Tue, 12
+ Apr 2022 02:12:16 -0700 (PDT)
 Received: from 753933720722 named unknown by gmailapi.google.com with
- HTTPREST; Tue, 12 Apr 2022 02:10:56 -0700
+ HTTPREST; Tue, 12 Apr 2022 02:12:16 -0700
 From: Guillaume Ranquet <granquet@baylibre.com>
 User-Agent: meli 0.7.2
 References: <20220327223927.20848-1-granquet@baylibre.com>
  <20220327223927.20848-16-granquet@baylibre.com>
- <032e690ba56f646a12d68c5fcb8de35f74ce9b25.camel@mediatek.com>
-In-Reply-To: <032e690ba56f646a12d68c5fcb8de35f74ce9b25.camel@mediatek.com>
+ <b308f2b37f6e9768fb3b5d85b906a3961ca8419a.camel@mediatek.com>
+In-Reply-To: <b308f2b37f6e9768fb3b5d85b906a3961ca8419a.camel@mediatek.com>
 MIME-Version: 1.0
-Date: Tue, 12 Apr 2022 02:10:56 -0700
-Message-ID: <CABnWg9shORfLvk3sNQL4-dZyYAEZzwUmbgPm7pX8E1mdRpaDTw@mail.gmail.com>
+Date: Tue, 12 Apr 2022 02:12:15 -0700
+Message-ID: <CABnWg9sQFd8_ZyXCwQjgjRKAMEiKv_6anG77Pc6jyv0fAh62vQ@mail.gmail.com>
 Subject: Re: [PATCH v9 15/22] drm/mediatek: dpi: Add dpintf support
 To: Rex-BC Chen <rex-bc.chen@mediatek.com>, vkoul@kernel.org, airlied@linux.ie,
  angelogioacchino.delregno@collabora.com, chunfeng.yun@mediatek.com, 
@@ -82,11 +83,7 @@ Cc: devicetree@vger.kernel.org, linux-fbdev@vger.kernel.org,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Mon, 28 Mar 2022 10:38, Rex-BC Chen <rex-bc.chen@mediatek.com> wrote:
->Hello Guillaume,
->
->Thanks for your patch, but I have some questions for this patch:
->
+On Tue, 29 Mar 2022 05:16, Rex-BC Chen <rex-bc.chen@mediatek.com> wrote:
 >On Mon, 2022-03-28 at 00:39 +0200, Guillaume Ranquet wrote:
 >> dpintf is the displayport interface hardware unit. This unit is
 >> similar
@@ -199,19 +196,6 @@ On Mon, 28 Mar 2022 10:38, Rex-BC Chen <rex-bc.chen@mediatek.com> wrote:
 >>  	mtk_dpi_sw_reset(dpi, false);
 >>
 >> +	mtk_dpi_enable(dpi);
->
->Why do we need to add mtk_dpi_enable() here?
->Will this change the power on sequence?
->
-
-I have been told that this is to avoid artifacts on screen, the
-mtk_dpi_enable() is done
-in mtk_dpi_set_display_mode() instead of mtk_dpi_power_on();
-
-I will try to convey that explanation in a separate patch for v10
-
->BRs,
->Rex
 >> +
 >>  	return 0;
 >>  }
@@ -481,6 +465,20 @@ I will try to convey that explanation in a separate patch for v10
 >> -		    comp_type == MTK_DSI) {
 >> +		    comp_type == MTK_DPI ||
 >> +		    comp_type == MTK_DP_INTF) {
+>
+>Hello Guillaume,
+>
+>Is this modification correct?
+>MTK_DPI appears twice and MTK_DSI is removed.
+>
+This is not correct, I've messed up my rebase it seems.
+
+Thx for your review.
+
+>
+>BRs,
+>Rex
+>
 >>  			dev_info(dev, "Adding component match for
 >> %pOF\n",
 >>  				 node);
