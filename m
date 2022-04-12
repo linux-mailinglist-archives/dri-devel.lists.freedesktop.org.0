@@ -2,47 +2,56 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 94E944FD2B7
-	for <lists+dri-devel@lfdr.de>; Tue, 12 Apr 2022 09:43:45 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 0AF894FD2BF
+	for <lists+dri-devel@lfdr.de>; Tue, 12 Apr 2022 09:50:44 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 3250110E4CC;
-	Tue, 12 Apr 2022 07:43:43 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 4554A10FB98;
+	Tue, 12 Apr 2022 07:50:41 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mailgw02.mediatek.com (unknown [210.61.82.184])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 5563010E9C9
- for <dri-devel@lists.freedesktop.org>; Tue, 12 Apr 2022 07:43:41 +0000 (UTC)
-X-UUID: cadb30c01bd247c69b4ac5647a7994d9-20220412
-X-UUID: cadb30c01bd247c69b4ac5647a7994d9-20220412
-Received: from mtkexhb01.mediatek.inc [(172.21.101.102)] by
- mailgw02.mediatek.com (envelope-from <rex-bc.chen@mediatek.com>)
- (Generic MTA with TLSv1.2 ECDHE-RSA-AES256-SHA384 256/256)
- with ESMTP id 254130138; Tue, 12 Apr 2022 15:43:35 +0800
-Received: from mtkcas11.mediatek.inc (172.21.101.40) by
- mtkmbs10n2.mediatek.inc (172.21.101.183) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_CBC_SHA384) id 15.2.792.3; 
- Tue, 12 Apr 2022 15:43:34 +0800
-Received: from mtksdccf07 (172.21.84.99) by mtkcas11.mediatek.inc
- (172.21.101.73) with Microsoft SMTP Server id 15.0.1497.2 via Frontend
- Transport; Tue, 12 Apr 2022 15:43:34 +0800
-Message-ID: <3c9140fbba123550b5532f9917dae4ef10ed5611.camel@mediatek.com>
-Subject: Re: [PATCH v4, 3/4] drm/mediatek: keep dsi as LP00 before dcs cmds
- transfer
-From: Rex-BC Chen <rex-bc.chen@mediatek.com>
-To: AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>,
- <xinlei.lee@mediatek.com>, <chunkuang.hu@kernel.org>,
- <p.zabel@pengutronix.de>, <airlied@linux.ie>, <daniel@ffwll.ch>,
- <matthias.bgg@gmail.com>
-Date: Tue, 12 Apr 2022 15:43:34 +0800
-In-Reply-To: <7a4e5afb-6947-ed7f-8555-c7402aaa3a29@collabora.com>
-References: <1649644308-8455-1-git-send-email-xinlei.lee@mediatek.com>
- <1649644308-8455-4-git-send-email-xinlei.lee@mediatek.com>
- <7a4e5afb-6947-ed7f-8555-c7402aaa3a29@collabora.com>
-Content-Type: text/plain; charset="UTF-8"
-X-Mailer: Evolution 3.28.5-0ubuntu0.18.04.2 
+Received: from metis.ext.pengutronix.de (metis.ext.pengutronix.de
+ [IPv6:2001:67c:670:201:290:27ff:fe1d:cc33])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 87B6210FB8F
+ for <dri-devel@lists.freedesktop.org>; Tue, 12 Apr 2022 07:50:39 +0000 (UTC)
+Received: from ptx.hi.pengutronix.de ([2001:67c:670:100:1d::c0])
+ by metis.ext.pengutronix.de with esmtps
+ (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256) (Exim 4.92)
+ (envelope-from <sha@pengutronix.de>)
+ id 1neBIL-0001w7-Eo; Tue, 12 Apr 2022 09:50:37 +0200
+Received: from sha by ptx.hi.pengutronix.de with local (Exim 4.92)
+ (envelope-from <sha@pengutronix.de>)
+ id 1neBII-0007M1-Dw; Tue, 12 Apr 2022 09:50:34 +0200
+Date: Tue, 12 Apr 2022 09:50:34 +0200
+From: Sascha Hauer <s.hauer@pengutronix.de>
+To: Piotr Oniszczuk <piotr.oniszczuk@gmail.com>
+Subject: Re: [PATCH v9 00/23] drm/rockchip: RK356x VOP2 support
+Message-ID: <20220412075034.GS4012@pengutronix.de>
+References: <20220328151116.2034635-1-s.hauer@pengutronix.de>
+ <FB201567-AE5A-4242-82F1-7C55D8F111EA@gmail.com>
+ <20220401125205.GL4012@pengutronix.de>
+ <5420D26D-34FD-4637-B602-F6271E38BB8D@gmail.com>
+ <BA4C591F-D115-43D2-BF59-A75B29889E50@gmail.com>
+ <20220408080748.GA2387@pengutronix.de>
+ <20220408120021.GO4012@pengutronix.de>
+ <B3E76A7A-9B62-4E6F-9472-00B6298689C5@gmail.com>
+ <20220411090800.GR4012@pengutronix.de>
+ <5929E7A7-776E-4BCB-92C8-A1CE05774FE3@gmail.com>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 7bit
-X-MTK: N
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <5929E7A7-776E-4BCB-92C8-A1CE05774FE3@gmail.com>
+X-Sent-From: Pengutronix Hildesheim
+X-URL: http://www.pengutronix.de/
+X-IRC: #ptxdist @freenode
+X-Accept-Language: de,en
+X-Accept-Content-Type: text/plain
+X-Uptime: 09:28:34 up 12 days, 19:58, 64 users,  load average: 0.17, 0.16, 0.17
+User-Agent: Mutt/1.10.1 (2018-07-13)
+X-SA-Exim-Connect-IP: 2001:67c:670:100:1d::c0
+X-SA-Exim-Mail-From: sha@pengutronix.de
+X-SA-Exim-Scanned: No (on metis.ext.pengutronix.de);
+ SAEximRunCond expanded to false
+X-PTX-Original-Recipient: dri-devel@lists.freedesktop.org
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -55,108 +64,148 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: jitao.shi@mediatek.com, linux-kernel@vger.kernel.org,
+Cc: "devicetree@vger.kernel.org" <devicetree@vger.kernel.org>,
+ Benjamin Gaignard <benjamin.gaignard@collabora.com>,
+ Peter Geis <pgwipeout@gmail.com>, Sandy Huang <hjc@rock-chips.com>,
  dri-devel@lists.freedesktop.org,
- Project_Global_Chrome_Upstream_Group@mediatek.com,
- linux-mediatek@lists.infradead.org, linux-arm-kernel@lists.infradead.org
+ "open list:ARM/Rockchip SoC..." <linux-rockchip@lists.infradead.org>,
+ Lucas Stach <lst@pengutronix.de>,
+ Michael Riesch <michael.riesch@wolfvision.net>, kernel@pengutronix.de,
+ Andy Yan <andy.yan@rock-chips.com>,
+ "linux-arm-kernel@lists.infradead.org" <linux-arm-kernel@lists.infradead.org>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Mon, 2022-04-11 at 11:07 +0200, AngeloGioacchino Del Regno wrote:
-> Il 11/04/22 04:31, xinlei.lee@mediatek.com ha scritto:
-> > From: Jitao Shi <jitao.shi@mediatek.com>
-> > 
-> > To comply with the panel sequence, hold the mipi signal to LP00
-> > before the dcs cmds transmission,
-> > and pull the mipi signal high from LP00 to LP11 until the start of
-> > the dcs cmds transmission.
-> > The normal panel timing is :
-> > (1) pp1800 DC pull up
-> > (2) avdd & avee AC pull high
-> > (3) lcm_reset pull high -> pull low -> pull high
-> > (4) Pull MIPI signal high (LP11) -> initial code -> send video
-> > data(HS mode)
-> > The power-off sequence is reversed.
-> > If dsi is not in cmd mode, then dsi will pull the mipi signal high
-> > in the mtk_output_dsi_enable function.
-> > 
-> > Fixes: 2dd8075d2185 ("drm/mediatek: mtk_dsi: Use the
-> > drm_panel_bridge API")
-> > 
-> > Signed-off-by: Jitao Shi <jitao.shi@mediatek.com>
-> > Signed-off-by: Xinlei Lee <xinlei.lee@mediatek.com>
-> > ---
-> >   drivers/gpu/drm/mediatek/mtk_dsi.c | 28 +++++++++++++++++++++--
-> > -----
-> >   1 file changed, 21 insertions(+), 7 deletions(-)
-> > 
-> > diff --git a/drivers/gpu/drm/mediatek/mtk_dsi.c
-> > b/drivers/gpu/drm/mediatek/mtk_dsi.c
-> > index cf76c53a1af6..9ad6f08c8bfe 100644
-> > --- a/drivers/gpu/drm/mediatek/mtk_dsi.c
-> > +++ b/drivers/gpu/drm/mediatek/mtk_dsi.c
-> > @@ -203,6 +203,7 @@ struct mtk_dsi {
-> >   	struct mtk_phy_timing phy_timing;
-> >   	int refcount;
-> >   	bool enabled;
-> > +	bool lanes_ready;
-> >   	u32 irq_data;
-> >   	wait_queue_head_t irq_wait_queue;
-> >   	const struct mtk_dsi_driver_data *driver_data;
-> > @@ -654,13 +655,6 @@ static int mtk_dsi_poweron(struct mtk_dsi
-> > *dsi)
-> >   	mtk_dsi_config_vdo_timing(dsi);
-> >   	mtk_dsi_set_interrupt_enable(dsi);
-> >   
-> > -	mtk_dsi_rxtx_control(dsi);
-> > -	usleep_range(30, 100);
-> > -	mtk_dsi_reset_dphy(dsi);
-> > -	mtk_dsi_clk_ulp_mode_leave(dsi);
-> > -	mtk_dsi_lane0_ulp_mode_leave(dsi);
-> > -	mtk_dsi_clk_hs_mode(dsi, 0);
-> > -
-> >   	return 0;
-> >   err_disable_engine_clk:
-> >   	clk_disable_unprepare(dsi->engine_clk);
-> > @@ -689,6 +683,23 @@ static void mtk_dsi_poweroff(struct mtk_dsi
-> > *dsi)
-> >   	clk_disable_unprepare(dsi->digital_clk);
-> >   
-> >   	phy_power_off(dsi->phy);
-> > +
-> > +	dsi->lanes_ready = false;
-> > +}
-> > +
-> > +static void mtk_dsi_lane_ready(struct mtk_dsi *dsi)
-> > +{
-> > +	if (!dsi->lanes_ready) {
-> > +		dsi->lanes_ready = true;
-> > +		mtk_dsi_rxtx_control(dsi);
-> > +		usleep_range(30, 100);
-> > +		mtk_dsi_reset_dphy(dsi);
-> > +		mtk_dsi_clk_ulp_mode_leave(dsi);
-> > +		mtk_dsi_lane0_ulp_mode_leave(dsi);
-> > +		mtk_dsi_clk_hs_mode(dsi, 0);
-> > +		msleep(20);
+On Mon, Apr 11, 2022 at 01:07:56PM +0200, Piotr Oniszczuk wrote:
+> this is DRI state when there is no any Qt.vars overwrites.
+> (so all is autodetected/setup like in other  working SoCs; VOP2 gives here black screen UI):
 > 
-> This is a very long sleep, which wasn't present before this change.
-> Please document the reasons why we need this 20ms sleep with a
-> comment
-> in the code.
+> 2022-04-08 17:47:57.035668 I /dev/dri/card0 Qt EGLFS/KMS Fd:5 Crtc id:49 Connector id:51 Atomic: 1
+> 2022-04-08 17:47:57.035806 I /dev/dri/card0: Authenticated
+> 2022-04-08 17:47:57.145447 I /dev/dri/card0: Found 3 planes; 3 for this CRTC
+> 2022-04-08 17:47:57.145469 I /dev/dri/card0: Selected Plane #37 Overlay for video
+> 2022-04-08 17:47:57.145515 I /dev/dri/card0: Supported DRM video formats: NV12,NV16,NV24,YVYU,VYUY
+> 2022-04-08 17:47:57.145523 I /dev/dri/card0: Selected Plane #43 Overlay for GUI
+> 2022-04-08 17:47:57.145567 I /dev/dri/card0: DRM device retrieved from Qt
+> 2022-04-08 17:47:57.145574 I /dev/dri/card0: Multi-plane setup: Requested: 1 Setup: 1
 > 
-> Regards,
-> Angelo
+> plane[31]: Smart0-win0
+>         crtc=video_port0
+>         fb=53
+>                 allocated by = [fbcon]
+>                 refcount=2
+>                 format=XR24 little-endian (0x34325258)
+>                 modifier=0x0
+>                 size=1920x1080
+>                 layers:
+>                         size[0]=1920x1080
+>                         pitch[0]=7680
+>                         offset[0]=0
+>                         obj[0]:
+>                                 name=0
+>                                 refcount=3
+>                                 start=00000000
+>                                 size=8294400
+>                                 imported=no
+>         crtc-pos=1920x1080+0+0
+>         src-pos=1920.000000x1080.000000+0.000000+0.000000
+>         rotation=1
+>         normalized-zpos=0
+>         color-encoding=ITU-R BT.601 YCbCr
+>         color-range=YCbCr limited range
+> plane[37]: Esmart0-win0
+>         crtc=(null)
+>         fb=0
+>         crtc-pos=0x0+0+0
+>         src-pos=0.000000x0.000000+0.000000+0.000000
+>         rotation=1
+>         normalized-zpos=0
+>         color-encoding=ITU-R BT.601 YCbCr
+>         color-range=YCbCr limited range
+> plane[43]: Cluster0-win0
+>         crtc=video_port0
+>         fb=58
+>                 allocated by = mythfrontend
+>                 refcount=2
+>                 format=AR24 little-endian (0x34325241)
+
+Here is your problem. The cluster windows only allow AFBC compressed
+formats. AR24 is supported by the cluster windows, but not by the GPU,
+see panfrost_afbc_format() in Mesa:
+
+> enum pipe_format
+> panfrost_afbc_format(const struct panfrost_device *dev, enum pipe_format format)
+> {
+>         /* Don't allow swizzled formats on v7 */
+>         switch (format) {
+>         case PIPE_FORMAT_B8G8R8A8_UNORM:
+>         case PIPE_FORMAT_B8G8R8X8_UNORM:
+>         case PIPE_FORMAT_A8R8G8B8_UNORM:
+>         case PIPE_FORMAT_X8R8G8B8_UNORM:
+>         case PIPE_FORMAT_X8B8G8R8_UNORM:
+>         case PIPE_FORMAT_A8B8G8R8_UNORM:
+>         case PIPE_FORMAT_B8G8R8_UNORM:
+>         case PIPE_FORMAT_B5G6R5_UNORM:
+>                 if (dev->arch >= 7)
+>                         return PIPE_FORMAT_NONE;
 > 
+>                 break;
+>         default:
+>                 break;
+>         }
 > 
 
-Hello Xinlei,
+Somehow negotiation of the format goes wrong. Applications shouldn't
+pick these formats when the GPU is used for rendering. I don't know how
+and where this should be fixed properly, but your application should use
+DRM_FORMAT_ABGR8888 aka AB24 aka PIPE_FORMAT_R8G8B8A8_UNORM instead of
+DRM_FORMAT_ARGB8888 aka AR24 aka PIPE_FORMAT_B8G8R8A8_UNORM.
 
-As Angelo mentioned.
-I think you should add this in commit message and driver comments.
-(Your reply in v3.)
-"The 20ms delay in mtk_dsi_lane_ready() is because dsi needs to give
-dsi_rx(panel) a reaction time after pulling up the mipi signal."
+Could you try the following patch? It removed the formats in question
+from the list of supported formats in the hope that your application
+then picks one of the supported formats.
 
-BRs,
-Rex
+Sascha
 
+-----------------------8<-----------------------------
+
+From 7427109cfd16803902b55cd5536b9212abd09665 Mon Sep 17 00:00:00 2001
+From: Sascha Hauer <s.hauer@pengutronix.de>
+Date: Tue, 12 Apr 2022 09:42:32 +0200
+Subject: [PATCH] fixup! drm: rockchip: Add VOP2 driver
+
+The cluster windows only allow AFBC compressed formats. Not all of the
+offered formats are supported by the GPU though. Applications pick one
+of the formats and assume that this is also supported by the GPU they
+use to render on them, but this is not the case for all formats.
+Particularly DRM_FORMAT_XRGB8888 and DRM_FORMAT_ARGB8888 are not
+supported by the GPU and choosing them results in a black screen.
+Drop these formats for now.
+
+Signed-off-by: Sascha Hauer <s.hauer@pengutronix.de>
+---
+ drivers/gpu/drm/rockchip/rockchip_vop2_reg.c | 2 --
+ 1 file changed, 2 deletions(-)
+
+diff --git a/drivers/gpu/drm/rockchip/rockchip_vop2_reg.c b/drivers/gpu/drm/rockchip/rockchip_vop2_reg.c
+index 9bf0637bf8e26..38412766e3659 100644
+--- a/drivers/gpu/drm/rockchip/rockchip_vop2_reg.c
++++ b/drivers/gpu/drm/rockchip/rockchip_vop2_reg.c
+@@ -16,8 +16,6 @@
+ #include "rockchip_drm_vop2.h"
+ 
+ static const uint32_t formats_win_full_10bit[] = {
+-	DRM_FORMAT_XRGB8888,
+-	DRM_FORMAT_ARGB8888,
+ 	DRM_FORMAT_XBGR8888,
+ 	DRM_FORMAT_ABGR8888,
+ 	DRM_FORMAT_RGB888,
+-- 
+2.30.2
+
+
+-- 
+Pengutronix e.K.                           |                             |
+Steuerwalder Str. 21                       | http://www.pengutronix.de/  |
+31137 Hildesheim, Germany                  | Phone: +49-5121-206917-0    |
+Amtsgericht Hildesheim, HRA 2686           | Fax:   +49-5121-206917-5555 |
