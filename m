@@ -2,64 +2,64 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3DCEF4FE0BD
-	for <lists+dri-devel@lfdr.de>; Tue, 12 Apr 2022 14:45:49 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 589584FE0C3
+	for <lists+dri-devel@lfdr.de>; Tue, 12 Apr 2022 14:47:59 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id B1B3010E9DD;
-	Tue, 12 Apr 2022 12:45:46 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id E5DD510E9F2;
+	Tue, 12 Apr 2022 12:47:56 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from us-smtp-delivery-124.mimecast.com
- (us-smtp-delivery-124.mimecast.com [170.10.129.124])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 501E310E9DD
- for <dri-devel@lists.freedesktop.org>; Tue, 12 Apr 2022 12:45:45 +0000 (UTC)
+ (us-smtp-delivery-124.mimecast.com [170.10.133.124])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 9257D10E9F2
+ for <dri-devel@lists.freedesktop.org>; Tue, 12 Apr 2022 12:47:54 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1649767543;
+ s=mimecast20190719; t=1649767673;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=tZ33BjHrDwv5LDhGjdBOryVj91womQA/19SWnvr7iKo=;
- b=bbgXXAh86V+ylP/asKm03NUTzSY6X1ywgR9AN9kBLX4qolvAAgYpN7fZoJnHDFvbOJ4K+R
- 5fukNzoXaAFHdv4FmsNd62JU1gC+l+SaNxHcc9+nwU494DcN1sUg50E45i6sNIzbNC6ki/
- UqqpPzZwaGbAVxMnO7XoDn8qHHqeA+M=
-Received: from mail-wr1-f71.google.com (mail-wr1-f71.google.com
- [209.85.221.71]) by relay.mimecast.com with ESMTP with STARTTLS
+ bh=FMp2oMMI19CzMX6iZstGkcYLomzwrXcccsJxHhfXPhs=;
+ b=Vv0RjNhXo/LGNqdDqpjSpu4e7WoEv57/I6JlpspI3GHhU/VIRsgOHAkhigJxCvxOWPQNCu
+ zL4K+ZE+ET76Aq0bFR4IDeViZU7+m3sQlTFIdJQJ02B2uJuvqTvPE0xE01CP3QU+XlRtdc
+ vVAU1ol/5hYvSDeik44AumjtgDPiYUM=
+Received: from mail-wm1-f70.google.com (mail-wm1-f70.google.com
+ [209.85.128.70]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-107-cHlOf1wYPraPXKCcmnbfKA-1; Tue, 12 Apr 2022 08:45:42 -0400
-X-MC-Unique: cHlOf1wYPraPXKCcmnbfKA-1
-Received: by mail-wr1-f71.google.com with SMTP id
- v3-20020adf8b43000000b00205e463b017so3992772wra.10
- for <dri-devel@lists.freedesktop.org>; Tue, 12 Apr 2022 05:45:42 -0700 (PDT)
+ us-mta-104-tNxZR67EMwO5hK-VMDDJJQ-1; Tue, 12 Apr 2022 08:47:52 -0400
+X-MC-Unique: tNxZR67EMwO5hK-VMDDJJQ-1
+Received: by mail-wm1-f70.google.com with SMTP id
+ r83-20020a1c4456000000b0038ebc45dbfcso1729150wma.2
+ for <dri-devel@lists.freedesktop.org>; Tue, 12 Apr 2022 05:47:52 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
  :content-language:to:cc:references:from:in-reply-to
  :content-transfer-encoding;
- bh=tZ33BjHrDwv5LDhGjdBOryVj91womQA/19SWnvr7iKo=;
- b=r6ZlkWWQxssTRFcZHie1JYKDpKhh7Yl+u+vTD6l6ATnUBQSfBBKSLlrbjPX0Sfh9Iq
- g2ppSJfKPH+cF4ZLZPnVBkORpQsFmV7gvhwk0kBSHg/EzkGJ86Om+FZS5G5F/o3Y4w+X
- DrDQu+i3uUsrUUU5hgieg3s1AQwNhbajuPwY2SczxoHSm/sUpHSajFHNN06hOB7HTBav
- kl3n666FjMUhrnTt175dq3fPicgCMwdMp8s1Y1N9RhJZzOG0zgzgAdRPQ49SXRSfdOsq
- VHH3gXKAGxf+FklHNHjMT0rVmkCYvnaCMHgFKWBQboboxkv+0xibxfGjUjEKx5eITG9J
- I+cw==
-X-Gm-Message-State: AOAM5331ga9j6dw33fwrTed5EegSmFblw/uRVpm8qvIpAqKnPqEy1NVA
- imQkJb84PU4648biPhKbITyk1FZZPWvD4nrgUVXmVsbk/XRZ8tsRJebopel5nLzqFGclLZkzSRD
- Mo21Qm65uUne/2FEFiURdVTxOFTpG
-X-Received: by 2002:a5d:6b4c:0:b0:1e6:8ece:62e8 with SMTP id
- x12-20020a5d6b4c000000b001e68ece62e8mr29078284wrw.201.1649767541787; 
- Tue, 12 Apr 2022 05:45:41 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJyUqWO+Fp2x3i5NTSt5YGXdfhi1f+8zoD8yvWBy27pRBGSkplwJquSYzx/QHYB7zw1nrfYm3Q==
-X-Received: by 2002:a5d:6b4c:0:b0:1e6:8ece:62e8 with SMTP id
- x12-20020a5d6b4c000000b001e68ece62e8mr29078264wrw.201.1649767541566; 
- Tue, 12 Apr 2022 05:45:41 -0700 (PDT)
+ bh=FMp2oMMI19CzMX6iZstGkcYLomzwrXcccsJxHhfXPhs=;
+ b=jXSYqUMOBwNBjAIX9ti7r+/0zd4lVhB3inKHrP+ZszFXb3SknzRJC6P2/nhXc0GhPm
+ jzUY0QRKiZSA4d6hNeAqBHyW2VdZmlXwCfktLSPoQUyzBKEwWzSQJ3Og41LvhYG0kd4F
+ g2ceYQutabreIyaQMac0/4KIEXo7EErrs9NiPI0u4MF5fczfElKhDPi/86N8n89Px2ap
+ 7OOnf0WGXusHvHAye00Z/oBJtaN6D7zWeLJVSU/CmsXIsewvAPjUqtUQDRz+JIhXQA46
+ 7TkV5fWJW0x0L8LdCO+ggFzt+ravcL78zNEavXukRyKdEn3mHOCeBf/s8qeVurTEW49s
+ lwwg==
+X-Gm-Message-State: AOAM531Q7O9QQp1PhyJJqDOUd9UXbg6HyfpHXjZw5WLUGtK1Gdh23PLt
+ GO78k9YgeCNr9hyjDt+gisTqZUpn+U8fN8lRpHYZXf+iWN6mLZQMiFUHfeA1FPFqnrDspizv5Vn
+ /iVCW+Srm0zzXSYv3nZEME09iSctw
+X-Received: by 2002:a05:600c:1e11:b0:38c:b316:e6f5 with SMTP id
+ ay17-20020a05600c1e1100b0038cb316e6f5mr3957217wmb.93.1649767671357; 
+ Tue, 12 Apr 2022 05:47:51 -0700 (PDT)
+X-Google-Smtp-Source: ABdhPJxSkWhDIignmxXyAnDO0ScbN/QuD6EP6hkvM1u+QuSX0qwvbJHTPBW68CS/aavtXCIxO1Rnvw==
+X-Received: by 2002:a05:600c:1e11:b0:38c:b316:e6f5 with SMTP id
+ ay17-20020a05600c1e1100b0038cb316e6f5mr3957202wmb.93.1649767671079; 
+ Tue, 12 Apr 2022 05:47:51 -0700 (PDT)
 Received: from [192.168.1.102] ([92.176.231.205])
  by smtp.gmail.com with ESMTPSA id
- q16-20020a1ce910000000b0038eabd31749sm2641252wmc.32.2022.04.12.05.45.40
+ g7-20020a5d64e7000000b00204a13925dcsm31349422wri.11.2022.04.12.05.47.50
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Tue, 12 Apr 2022 05:45:41 -0700 (PDT)
-Message-ID: <eb49332b-876a-0bd6-cefe-863f03903745@redhat.com>
-Date: Tue, 12 Apr 2022 14:45:40 +0200
+ Tue, 12 Apr 2022 05:47:50 -0700 (PDT)
+Message-ID: <dd918de6-aaf3-a9d1-0504-4b6a3f3d4e9c@redhat.com>
+Date: Tue, 12 Apr 2022 14:47:49 +0200
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
  Thunderbird/91.7.0
@@ -70,9 +70,9 @@ References: <20220411211243.11121-1-javierm@redhat.com>
  <20220411211243.11121-5-javierm@redhat.com>
  <CAMuHMdVSsAtRLob5fLoBMNu-DRXJOaBrEHYEwG5iCA03XR5JSw@mail.gmail.com>
  <4128b288-2b9a-f9cd-01f3-a1d50d3e10bb@redhat.com>
- <YlVgpHqqqFy43L37@smile.fi.intel.com>
+ <YlVgpHqqqFy43L37@smile.fi.intel.com> <YlVg8PE6SBzhmqjI@smile.fi.intel.com>
 From: Javier Martinez Canillas <javierm@redhat.com>
-In-Reply-To: <YlVgpHqqqFy43L37@smile.fi.intel.com>
+In-Reply-To: <YlVg8PE6SBzhmqjI@smile.fi.intel.com>
 Authentication-Results: relay.mimecast.com;
  auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=javierm@redhat.com
 X-Mimecast-Spam-Score: 0
@@ -100,36 +100,38 @@ Cc: Neil Armstrong <narmstrong@baylibre.com>, David Airlie <airlied@linux.ie>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hello Andy,
-
-Thanks for your feedback.
-
-On 4/12/22 13:21, Andy Shevchenko wrote:
-> On Tue, Apr 12, 2022 at 10:07:02AM +0200, Javier Martinez Canillas wrote:
->> On 4/12/22 09:23, Geert Uytterhoeven wrote:
->>> On Mon, Apr 11, 2022 at 11:12 PM Javier Martinez Canillas
->>> <javierm@redhat.com> wrote:
+On 4/12/22 13:22, Andy Shevchenko wrote:
+> On Tue, Apr 12, 2022 at 02:21:08PM +0300, Andy Shevchenko wrote:
+>> On Tue, Apr 12, 2022 at 10:07:02AM +0200, Javier Martinez Canillas wrote:
+>>> On 4/12/22 09:23, Geert Uytterhoeven wrote:
+>>>> On Mon, Apr 11, 2022 at 11:12 PM Javier Martinez Canillas
+>>>> <javierm@redhat.com> wrote:
 > 
 > ...
 > 
->>>> -       ssd130x->device_info = device_get_match_data(dev);
->>>> +
->>>> +       variant = (enum ssd130x_variants)device_get_match_data(dev);
+>>>>> -       ssd130x->device_info = device_get_match_data(dev);
+>>>>> +
+>>>>> +       variant = (enum ssd130x_variants)device_get_match_data(dev);
+>>>>
+>>>> (uintptr_t), to avoid a cast from pointer to integer of different
+>>>> size warning.
+>>>>
 >>>
->>> (uintptr_t), to avoid a cast from pointer to integer of different
->>> size warning.
->>>
+>>> Indeed. The kernel test robot reported the same.
 >>
->> Indeed. The kernel test robot reported the same.
+>> Not only because of this, but also with the non-NULL pointers I prefer the old
+>> style without ugly castings.
+>>
+>> Instead, you may export the array (in the driver's namespace) and use
+>> &info[ID] pointer for the specific device info.
 > 
-> Not only because of this, but also with the non-NULL pointers I prefer the old
-> style without ugly castings.
-> 
-> Instead, you may export the array (in the driver's namespace) and use
-> &info[ID] pointer for the specific device info.
-> 
+> Note that device_get_match_data() has no clue if the data is absent or
+> data == (void *)0.
+>
 
-That's a great idea! I'll do that in v3.
+Yep, we could make the enum start at 1 and check for !variant but that's
+something that will also be prevented by your suggestion to just use the
+&info[ID] instead.
 
 -- 
 Best regards,
