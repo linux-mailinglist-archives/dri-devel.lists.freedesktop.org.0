@@ -1,69 +1,55 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id BF8074FDDA7
-	for <lists+dri-devel@lfdr.de>; Tue, 12 Apr 2022 13:31:04 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id BDA4A4FDF43
+	for <lists+dri-devel@lfdr.de>; Tue, 12 Apr 2022 14:07:25 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 4663C10E214;
-	Tue, 12 Apr 2022 11:31:01 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 366B510E61F;
+	Tue, 12 Apr 2022 12:07:22 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-yb1-xb2a.google.com (mail-yb1-xb2a.google.com
- [IPv6:2607:f8b0:4864:20::b2a])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 7198F10E214
- for <dri-devel@lists.freedesktop.org>; Tue, 12 Apr 2022 11:30:59 +0000 (UTC)
-Received: by mail-yb1-xb2a.google.com with SMTP id x200so8821202ybe.13
- for <dri-devel@lists.freedesktop.org>; Tue, 12 Apr 2022 04:30:59 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=fooishbar-org.20210112.gappssmtp.com; s=20210112;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc:content-transfer-encoding;
- bh=MNFVKn/6sR+qJy1xjZwLhojWhMEBJZkIZm88XzONGOA=;
- b=SUoVFIXk4pDqXz8Tq1K1xwH2XlZWTHANCuN+6KitrpI3nIKG2d0pu7xkhSg3nBrfI1
- xVAsTmxL6vqGZiOkavmCI6X3wsKyuvOWGmaVW/5JeMpyFInytcQCF0+0d3TOJ8s8cWs+
- DmhJpIgUZaoR1eoFXp+Wx000g1S4y1ogcfs+LUkGiRk/HbbCK6L7bNdGtnaToRIBcqnv
- 77YlMyPmmeMDT8v5adrU7oLY65D6kKA2h4gXNcN+2tRNM9EBaCux4UH8aRvls9E4W1Fp
- vNd63tq9B6dDowT6+YHjNQ5t+wBQHDRsbRxaQrNy4PZC4Rca7YV8JlIqyFVgjpL3/c4+
- ILUg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc:content-transfer-encoding;
- bh=MNFVKn/6sR+qJy1xjZwLhojWhMEBJZkIZm88XzONGOA=;
- b=n2q7QjmImmWZsveDN6jW5LghPFZMGp4yTOZkfz1FlUjCUgWs3C6cZn0ximAHDhBNCg
- jze9Z2YYnaAa8oy+F3dzOKdsNdZdSMr4U6IOoTLsKJ0O4IKjuwocVzcsSVBAHYz9tfuf
- Cw4n6Z5EtsPuznT4nDHM9EE1jva7kTeocVo9p7k5pwBRCcrrN+xrdQ7EjyV3kyVfKn/C
- AwMmuGMmZAzEnl0DSfDriP9cxu8AhsrrHWZ/HsjIHIy83beH6ykPWQ1u8WayBSMJhGc9
- HoxFAZ5RpkIPSPoEqO4ZDs5IMkXbnh82nHt9eTQWaZNlxe7moMR0DUUVE0hOcxi/16h+
- bKQg==
-X-Gm-Message-State: AOAM5330yKEJevb7mZPbsv5enCIKPszCfRGkkQP4WTtoz58ZkxpMhcvL
- ZtoumPZHnJlGbTgO3L2Tg03ZvWwIoK/bB5Qog9/64A==
-X-Google-Smtp-Source: ABdhPJzaCS5ELmQS0Du4Km9AA/DbhyZFWNBRY9Z4RZEpdJfWE7QMeMYVpX+cQLO72zcuzJ6OCR7NHEZH7VJR/v4kpAU=
-X-Received: by 2002:a25:b7c8:0:b0:633:5650:781e with SMTP id
- u8-20020a25b7c8000000b006335650781emr25046546ybj.466.1649763058611; Tue, 12
- Apr 2022 04:30:58 -0700 (PDT)
+Received: from ams.source.kernel.org (ams.source.kernel.org
+ [IPv6:2604:1380:4601:e00::1])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id F27C310E61F
+ for <dri-devel@lists.freedesktop.org>; Tue, 12 Apr 2022 12:07:19 +0000 (UTC)
+Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
+ (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+ (No client certificate requested)
+ by ams.source.kernel.org (Postfix) with ESMTPS id 43BA7B81D06
+ for <dri-devel@lists.freedesktop.org>; Tue, 12 Apr 2022 12:07:18 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 5B944C385AD
+ for <dri-devel@lists.freedesktop.org>; Tue, 12 Apr 2022 12:07:16 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+ s=k20201202; t=1649765236;
+ bh=ogE5ybnNzjbeaUs8XfhvgUoIApTax4ov6E7K92asMNs=;
+ h=References:In-Reply-To:Reply-To:From:Date:Subject:To:Cc:From;
+ b=D0eLDKVUOEryqXyU30wgT0oTEy0cz/IBaKwg4xHwd+6zv6MHtDFJdDgz5RoGilSzn
+ wtTvZ9lQMiF/VuljH7jAAEFKCiUKlWUH0htyeFlif5dgbPJlc5jbaAiIy8/Wual4pY
+ dt/zfJWayDw6bcWo3oxKz8ku+NdWPo8xHTOWSAWh5fk47gtku9hhwzxwbvpME1k28g
+ sF/MepEwB7/h7R4oHkMDGRrMF2/EGQ9oJJ0pM/fcJ710znASgvZfTpTAV9V46bH07Z
+ ybe7bKFYcKiK8Om358xyiV67yCbz1YdOWEWwt3OAZ6mKejFeiNZLkB2fRoM5gkpcxY
+ 8ErR7+RY+Bf+A==
+Received: by mail-vs1-f45.google.com with SMTP id e11so16005287vso.7
+ for <dri-devel@lists.freedesktop.org>; Tue, 12 Apr 2022 05:07:16 -0700 (PDT)
+X-Gm-Message-State: AOAM533dWLDqCFF+cFSlzYjWRrVXid4wVgiRwIXAeyPkqJybo5BnJuPZ
+ 19FgHAzu49wCavjxY/TXfnwY9YoLWCDrIuC26Z4=
+X-Google-Smtp-Source: ABdhPJzjEEHJ1j3lKpjqp/WFdHMDZcR/5QTgBJgXwmPXWsXCZQHuWZkG7PxraL3PSeHLZ50+5phOm6ZKNJy+juNEIBM=
+X-Received: by 2002:a05:6102:3098:b0:328:1825:61f8 with SMTP id
+ l24-20020a056102309800b00328182561f8mr7138726vsb.39.1649765235208; Tue, 12
+ Apr 2022 05:07:15 -0700 (PDT)
 MIME-Version: 1.0
-References: <20220328151116.2034635-1-s.hauer@pengutronix.de>
- <FB201567-AE5A-4242-82F1-7C55D8F111EA@gmail.com>
- <20220401125205.GL4012@pengutronix.de>
- <5420D26D-34FD-4637-B602-F6271E38BB8D@gmail.com>
- <BA4C591F-D115-43D2-BF59-A75B29889E50@gmail.com>
- <20220408080748.GA2387@pengutronix.de> <20220408120021.GO4012@pengutronix.de>
- <B3E76A7A-9B62-4E6F-9472-00B6298689C5@gmail.com>
- <20220411090800.GR4012@pengutronix.de>
- <5929E7A7-776E-4BCB-92C8-A1CE05774FE3@gmail.com>
- <20220412075034.GS4012@pengutronix.de>
- <e2ef484b60fe9c5fc077240a26bd18275974dc4a.camel@pengutronix.de>
- <EF0F8E87-2618-4E5E-807D-259FEEC0FB24@gmail.com>
-In-Reply-To: <EF0F8E87-2618-4E5E-807D-259FEEC0FB24@gmail.com>
-From: Daniel Stone <daniel@fooishbar.org>
-Date: Tue, 12 Apr 2022 12:30:46 +0100
-Message-ID: <CAPj87rNatQ9KjDSnYQTh4+FOUcPTerbzH3m8AuAF_BPbM1xxGg@mail.gmail.com>
-Subject: Re: [PATCH v9 00/23] drm/rockchip: RK356x VOP2 support
-To: Piotr Oniszczuk <piotr.oniszczuk@gmail.com>
+References: <20220411211243.11121-1-javierm@redhat.com>
+ <20220411211243.11121-2-javierm@redhat.com>
+In-Reply-To: <20220411211243.11121-2-javierm@redhat.com>
+From: Chen-Yu Tsai <wens@kernel.org>
+Date: Tue, 12 Apr 2022 20:07:03 +0800
+X-Gmail-Original-Message-ID: <CAGb2v65CBZp3DZFGX0GMTaQQPYMKJTJMNoU2V5u7MxsLN7ONKQ@mail.gmail.com>
+Message-ID: <CAGb2v65CBZp3DZFGX0GMTaQQPYMKJTJMNoU2V5u7MxsLN7ONKQ@mail.gmail.com>
+Subject: Re: [PATCH v2 1/5] dt-bindings: display: ssd1307fb: Deprecate "-i2c"
+ compatible strings
+To: Javier Martinez Canillas <javierm@redhat.com>
 Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -76,51 +62,62 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: "devicetree@vger.kernel.org" <devicetree@vger.kernel.org>,
- Benjamin Gaignard <benjamin.gaignard@collabora.com>, kernel@pengutronix.de,
- Sascha Hauer <s.hauer@pengutronix.de>, Sandy Huang <hjc@rock-chips.com>,
- dri-devel@lists.freedesktop.org,
- "open list:ARM/Rockchip SoC..." <linux-rockchip@lists.infradead.org>,
- Lucas Stach <lst@pengutronix.de>,
- Michael Riesch <michael.riesch@wolfvision.net>,
- Peter Geis <pgwipeout@gmail.com>, Andy Yan <andy.yan@rock-chips.com>,
- "linux-arm-kernel@lists.infradead.org" <linux-arm-kernel@lists.infradead.org>
+Reply-To: wens@kernel.org
+Cc: Neil Armstrong <narmstrong@baylibre.com>, David Airlie <airlied@linux.ie>,
+ linux-kernel <linux-kernel@vger.kernel.org>,
+ dri-devel <dri-devel@lists.freedesktop.org>, Rob Herring <robh+dt@kernel.org>,
+ devicetree <devicetree@vger.kernel.org>, Mark Brown <broonie@kernel.org>,
+ Geert Uytterhoeven <geert@linux-m68k.org>,
+ Krzysztof Kozlowski <krzk+dt@kernel.org>,
+ Andy Shevchenko <andriy.shevchenko@linux.intel.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Tue, 12 Apr 2022 at 11:14, Piotr Oniszczuk <piotr.oniszczuk@gmail.com> w=
-rote:
-> > Wiadomo=C5=9B=C4=87 napisana przez Lucas Stach <l.stach@pengutronix.de>=
- w dniu 12.04.2022, o godz. 10:10:
-> > 1. The application feeds a wrong modifier list to the GBM
-> > implementation, as it may have queried another plane in the assumption
-> > that supported modifiers are uniform across all planes.
+On Tue, Apr 12, 2022 at 5:12 AM Javier Martinez Canillas
+<javierm@redhat.com> wrote:
 >
-> This will be cardinal design error.
-> (keeping in mind we have multiple producers (GPU/video decoder) and multi=
-ple consumers (base & overlay DRM planes)
+> The current compatible strings for SSD130x I2C controllers contain both an
+> "fb" and "-i2c" suffixes. It seems to indicate that are for a fbdev driver
+> and also that are for devices that can be accessed over an I2C bus.
 >
+> But a DT is supposed to describe the hardware and not Linux implementation
+> details. So let's deprecate those compatible strings and add new ones that
+> only contain the vendor and device name, without any of these suffixes.
 >
-> > 2. The GBM implementation (Panfrost) actually allocates a surface
-> > instead of failing the allocation, even if it does not support any
-> > combination of the provided format and modifier list.
+> These will just describe the device and can be matched by both I2C and SPI
+> DRM drivers.
 >
-> Testing Sacha patch (see today's email from Sascha) i'm getting
+> Signed-off-by: Javier Martinez Canillas <javierm@redhat.com>
+> Acked-by: Mark Brown <broonie@kernel.org>
+> ---
 >
-> Qt: EGL Error : Could not create the egl surface: error =3D 0x3009
+> Changes in v2:
+> - Drop the -i2c suffixes from the compatible strings too (Geert Uytterhoeven).
 >
-> i'm reading this as: Qt tries allocate EGL surface and EGL returns error.
-> or i'm wrong?
+>  .../bindings/display/solomon,ssd1307fb.yaml   | 37 ++++++++++++-------
+>  1 file changed, 24 insertions(+), 13 deletions(-)
+>
+> diff --git a/Documentation/devicetree/bindings/display/solomon,ssd1307fb.yaml b/Documentation/devicetree/bindings/display/solomon,ssd1307fb.yaml
+> index ade61d502edd..6b9d0c72739a 100644
+> --- a/Documentation/devicetree/bindings/display/solomon,ssd1307fb.yaml
+> +++ b/Documentation/devicetree/bindings/display/solomon,ssd1307fb.yaml
+> @@ -12,12 +12,23 @@ maintainers:
+>
+>  properties:
+>    compatible:
+> -    enum:
+> -      - sinowealth,sh1106-i2c
+> -      - solomon,ssd1305fb-i2c
+> -      - solomon,ssd1306fb-i2c
+> -      - solomon,ssd1307fb-i2c
+> -      - solomon,ssd1309fb-i2c
+> +    oneOf:
+> +      # Deprecated compatible strings
+> +      - items:
+> +          - enum:
+> +              - sinowealth,sh1106-i2c
 
-Correct, that's EGL_BAD_MATCH. There are very few ways that can
-happen; by far the most likely is that Qt has chosen an EGLConfig
-which does not correctly correspond to the format. (If it was an
-impossible format/modifier combination, then this would be already
-caught when allocating the gbm_surface.)
+I think you can just drop this one, since it was just merged and isn't
+part of any release yet. It's not even in -rc.
 
-Either way, it seems quite clear that the VOP2 driver is totally fine
-here, and that you have a Qt (likely) or Mesa (tbh less likely) issue
-to debug to get the app working.
-
-Cheers,
-Daniel
+ChenYu
