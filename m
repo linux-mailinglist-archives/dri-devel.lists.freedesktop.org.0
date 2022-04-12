@@ -2,69 +2,69 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 650D44FCDDA
-	for <lists+dri-devel@lfdr.de>; Tue, 12 Apr 2022 06:28:36 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 598A74FCDDC
+	for <lists+dri-devel@lfdr.de>; Tue, 12 Apr 2022 06:28:42 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id B4E3489581;
-	Tue, 12 Apr 2022 04:28:22 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id B456B10E6B1;
+	Tue, 12 Apr 2022 04:28:31 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from wout5-smtp.messagingengine.com (wout5-smtp.messagingengine.com
  [64.147.123.21])
- by gabe.freedesktop.org (Postfix) with ESMTPS id AFE3989286
- for <dri-devel@lists.freedesktop.org>; Tue, 12 Apr 2022 04:28:20 +0000 (UTC)
-Received: from compute2.internal (compute2.nyi.internal [10.202.2.46])
- by mailout.west.internal (Postfix) with ESMTP id 42B863202053;
- Tue, 12 Apr 2022 00:28:19 -0400 (EDT)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id C85708982C
+ for <dri-devel@lists.freedesktop.org>; Tue, 12 Apr 2022 04:28:23 +0000 (UTC)
+Received: from compute5.internal (compute5.nyi.internal [10.202.2.45])
+ by mailout.west.internal (Postfix) with ESMTP id 4D4CB3200E89;
+ Tue, 12 Apr 2022 00:28:22 -0400 (EDT)
 Received: from mailfrontend1 ([10.202.2.162])
- by compute2.internal (MEProxy); Tue, 12 Apr 2022 00:28:20 -0400
+ by compute5.internal (MEProxy); Tue, 12 Apr 2022 00:28:23 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=sholland.org; h=
  cc:cc:content-transfer-encoding:date:date:from:from:in-reply-to
  :in-reply-to:message-id:mime-version:references:reply-to:sender
- :subject:subject:to:to; s=fm2; t=1649737698; x=1649824098; bh=se
- q0O/JjDWLm3q7ZpJodrcTjPueq2LdslcJSA34pQRY=; b=NswCqMMABkzxFXUa6a
- RgsTGXItBtqlhJCFUicWr2+ordV/20MFWnj99AHWReG192o6qa6muKnA8UeqxvZQ
- kGigjpmOlkeUmNwjYFCEaUGx7RiiKStfy2V/C3p0adazV4CFdDWsPwJ9Da4gT4tC
- Ez1C+zgfG3jBtn44N3ptCpmIakycpMozhFt4hRWFD98CvZwaLduIEHLW4fxThIUn
- d7PbIW/7jGkODqOQWRqiiQ5Wgmt18UTbOhYcrtDXhogtoZcyUfDd0iJWIfaaSXZn
- b5o9lOu5Hf3OLdhz/PX9wUIfPfZsjGzszCr0dBPdRQMv8Vz22eroGpIFNHKjk/pw
- Pxog==
+ :subject:subject:to:to; s=fm2; t=1649737701; x=1649824101; bh=ge
+ Qfxs48cSAJkRFMna6Z0Fdczf6CgFCi9zuHYoygHMw=; b=GtpDag5RYt9P8bKYyl
+ D14O6dWAhHxdj2V0jskaPMK9Ai9JT6i51/lRI78LsuuMGsS1dy22VXXZC4P2M60A
+ d9s4WfMvFDhnWnuIdJn+IM3cZEHHLzgdBdQbEoX8o5whIlUlr1FVQVoxCntpA0IT
+ ZPHyH961iz2sFwvyPCCQH6EeSOoEWyXTK8QnaBVYOGFFNpzn9GcZPQnCpElr1BDf
+ xPj6AarVIIjoSMPBjog/cNCy4s2fLqtY+y6HdhV3eiQkb9keYkbR3QhGK+YZ/yqF
+ oogn9GZ5j8QXMCwH5Y2EBw4bUMXuwpcZejAenJTgMQaDqIKOsvdRo/y62URIe+DF
+ eOtA==
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
  messagingengine.com; h=cc:cc:content-transfer-encoding:date:date
  :from:from:in-reply-to:in-reply-to:message-id:mime-version
  :references:reply-to:sender:subject:subject:to:to:x-me-proxy
  :x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=fm3; t=
- 1649737698; x=1649824098; bh=seq0O/JjDWLm3q7ZpJodrcTjPueq2LdslcJ
- SA34pQRY=; b=V/iTfovQEVmr7B4ZoKhO0AymwIkV0OWSiLrpT4auI10iecL+bl2
- hOFmSdtJoLAa6eaTZXRQIJ62bugwRHEgFhVyv5lu+IAVeb1hnRYZAvoDuQkXPX1w
- c9LYoa0RzIvnTN0LsIbJHezFTn7qTabdMkL+VtE6vo6rD7L1rq/3cE61qm8sjES+
- Gguo6doOvr5J5PXrdHhQ4DK6ifZU3ODufGU3iCG4FJAAhdCUlBYHX83e3Em2Bjjj
- ptqBdIvPMHLx2U91ugzrt3TXDZuo8cXVjgTmVZMvSrWQ0BOY5Yj71/1XouPEXHUU
- zkVPlc5/G8YAzHJoxdPKyusbcCbg+b91g3Q==
-X-ME-Sender: <xms:4v9UYptnpIEQjRbU7enWV2vrxFfcGTNU55B6XsYwKlTbjz5tFp4QQg>
- <xme:4v9UYid77xwOtc2FUPM0tmWTAbV-VZJ7OGG2vM9Btb-DuCtbls5ATbMQLjcseQM-r
- 8C9pThWE3ZjRwp1ZQ>
-X-ME-Received: <xmr:4v9UYszR8MtC6bvK5af9YymSpF9oGnRHrMQ8sKbjdCnebp6I08RF76WsSEoLnbFb80YDdYIiIW-dlcvEjj3496d7Pz37HDYeAS1oEG6JbM6tFjzMrDX3wL6DrXUJi37kdGs_2g>
+ 1649737701; x=1649824101; bh=geQfxs48cSAJkRFMna6Z0Fdczf6CgFCi9zu
+ HYoygHMw=; b=nVJV/tjO6GTR+KsYhsWfwfS4dJnGq/7VRITyb8p7kF4oCuPJvQf
+ IfvswxQjna+D9HBNwMff/6cob8er9o4qGFtsYWEx+JnDaH84JIdRlz71Eg4DfDBy
+ /+t1AjljnNiX2LaafeW5tUyC6xUs28H/8uftdCNZnRBMRG7vhzFedY/0sC76kSYA
+ +mIrJYnLsg/bW5DIAMZG8Y3Ikre/UKv55tfOvoWjRBWJcm4BpiEPjmcpTYneJkN6
+ 6L7LaWzAXJRMDzrEbH/N/H4AwqfyPwN/xDVcYLR562uYJBTn5tU4mCUphbpjGT0v
+ PtaU5li2S/vqo8EcKHsp7+t8XkMls4mfGfw==
+X-ME-Sender: <xms:5f9UYhFLR2kC1d6Wn6Ht9vo3utn79iszlo1lNHb-uCI8VlWMX2IcSw>
+ <xme:5f9UYmVYbhoRBCw9BkQiu6BUrlEpqKOFWlXZ5jZkhrjSicKu_PUSUOHgUWYu4kDJA
+ w4IfmWpEPyfqpNrLg>
+X-ME-Received: <xmr:5f9UYjK54m4t5WmoHsLy2rqJKSAPCmLhyU37uyXYPMsqEqWlExwiivUseZPeE9-6NWbGciTT8HxpM0KLIp02-pAbIE4aidBlm1NKZil-e6THHn-7ynLZS-FALp0UcHYmjPxgYg>
 X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvvddrudekjedgkeduucetufdoteggodetrfdotf
  fvucfrrhhofhhilhgvmecuhfgrshhtofgrihhlpdfqfgfvpdfurfetoffkrfgpnffqhgen
  uceurghilhhouhhtmecufedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmne
  cujfgurhephffvufffkffojghfggfgsedtkeertdertddtnecuhfhrohhmpefurghmuhgv
  lhcujfholhhlrghnugcuoehsrghmuhgvlhesshhhohhllhgrnhgurdhorhhgqeenucggtf
  frrghtthgvrhhnpeduhfejfedvhffgfeehtefghfeiiefgfeehgfdvvdevfeegjeehjedv
- gfejheeuieenucevlhhushhtvghrufhiiigvpedtnecurfgrrhgrmhepmhgrihhlfhhroh
+ gfejheeuieenucevlhhushhtvghrufhiiigvpedunecurfgrrhgrmhepmhgrihhlfhhroh
  hmpehsrghmuhgvlhesshhhohhllhgrnhgurdhorhhg
-X-ME-Proxy: <xmx:4v9UYgMI-sYsn7mi_JrXpNgKa9LUClrfP-jQO1S9_Lo7UBPkF9kQaw>
- <xmx:4v9UYp_fr5T3-yj5LjgdekbnLqXRIe4VpL-D9bIhZlWMXaxVke4sMA>
- <xmx:4v9UYgWtRdsKbrO9es1Dtd-MNrZdNbbgE1ckIDkVYwyGrrZj7tAptg>
- <xmx:4v9UYgUL5bz3WFGj10Gm9_O3nOOUg4OCUzIZ8AHHYBdYHy66OR9e3A>
+X-ME-Proxy: <xmx:5f9UYnEy50MfNtL9FfVzEZYErBJ_6cYreILV3waGVqkarQ0WZz3UBA>
+ <xmx:5f9UYnXEMVsXyJ86C414DsqVXrQ6d2rQxhvlQbbNTm1p_dVlxukNnw>
+ <xmx:5f9UYiNgdJ3elanGlNDDsANRm13tSRY4JOLPqm1prTdaTQ212C-Enw>
+ <xmx:5f9UYgtoP3VUE06Q-munE0CZVAhVlcI3oRNypYROat4YiETKBqUdbg>
 Received: by mail.messagingengine.com (Postfix) with ESMTPA; Tue,
- 12 Apr 2022 00:28:17 -0400 (EDT)
+ 12 Apr 2022 00:28:21 -0400 (EDT)
 From: Samuel Holland <samuel@sholland.org>
 To: Chen-Yu Tsai <wens@csie.org>, Jernej Skrabec <jernej.skrabec@gmail.com>,
  Maxime Ripard <mripard@kernel.org>
-Subject: [PATCH v2 03/14] drm/sun4i: Remove obsolete references to PHYS_OFFSET
-Date: Mon, 11 Apr 2022 23:27:55 -0500
-Message-Id: <20220412042807.47519-4-samuel@sholland.org>
+Subject: [PATCH v2 04/14] drm/sun4i: hdmi: Use more portable I/O helpers
+Date: Mon, 11 Apr 2022 23:27:56 -0500
+Message-Id: <20220412042807.47519-5-samuel@sholland.org>
 X-Mailer: git-send-email 2.35.1
 In-Reply-To: <20220412042807.47519-1-samuel@sholland.org>
 References: <20220412042807.47519-1-samuel@sholland.org>
@@ -82,67 +82,44 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: devicetree@vger.kernel.org, Samuel Holland <samuel@sholland.org>,
- David Airlie <airlied@linux.ie>, linux-kernel@vger.kernel.org,
- dri-devel@lists.freedesktop.org, Rob Herring <robh+dt@kernel.org>,
- Krzysztof Kozlowski <krzk+dt@kernel.org>, linux-sunxi@lists.linux.dev,
- linux-arm-kernel@lists.infradead.org
+Cc: devicetree@vger.kernel.org, kernel test robot <lkp@intel.com>,
+ Samuel Holland <samuel@sholland.org>, David Airlie <airlied@linux.ie>,
+ linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
+ Rob Herring <robh+dt@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>,
+ linux-sunxi@lists.linux.dev, linux-arm-kernel@lists.infradead.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-commit b4bdc4fbf8d0 ("soc: sunxi: Deal with the MBUS DMA offsets in a
-central place") added a platform device notifier that sets the DMA
-offset for all of the display engine frontend and backend devices.
+readsb/writesb are unavailable on some architectures. In preparation for
+removing the Kconfig architecture dependency, switch to the equivalent
+but more portable ioread/write8_rep helpers.
 
-The code applying the offset to DMA buffer physical addresses was then
-removed from the backend driver in commit 756668ba682e ("drm/sun4i:
-backend: Remove the MBUS quirks"), but the code subtracting PHYS_OFFSET
-was left in the frontend driver.
-
-As a result, the offset was applied twice in the frontend driver. This
-likely went unnoticed because it only affects specific configurations
-(scaling or certain pixel formats) where the frontend is used, on boards
-with both one of these older SoCs and more than 1 GB of DRAM.
-
-In addition, the references to PHYS_OFFSET prevent compiling the driver
-on architectures where PHYS_OFFSET is not defined.
-
-Fixes: b4bdc4fbf8d0 ("soc: sunxi: Deal with the MBUS DMA offsets in a central place")
-Reviewed-by: Jernej Skrabec <jernej.skrabec@gmail.com>
+Reported-by: kernel test robot <lkp@intel.com>
 Signed-off-by: Samuel Holland <samuel@sholland.org>
 ---
 
-(no changes since v1)
+Changes in v2:
+ - New patch: I/O helper portability
 
- drivers/gpu/drm/sun4i/sun4i_frontend.c | 3 ---
- 1 file changed, 3 deletions(-)
+ drivers/gpu/drm/sun4i/sun4i_hdmi_i2c.c | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
 
-diff --git a/drivers/gpu/drm/sun4i/sun4i_frontend.c b/drivers/gpu/drm/sun4i/sun4i_frontend.c
-index 56ae38389db0..462fae73eae9 100644
---- a/drivers/gpu/drm/sun4i/sun4i_frontend.c
-+++ b/drivers/gpu/drm/sun4i/sun4i_frontend.c
-@@ -222,13 +222,11 @@ void sun4i_frontend_update_buffer(struct sun4i_frontend *frontend,
+diff --git a/drivers/gpu/drm/sun4i/sun4i_hdmi_i2c.c b/drivers/gpu/drm/sun4i/sun4i_hdmi_i2c.c
+index b66fa27fe6ea..c7d7e9fff91c 100644
+--- a/drivers/gpu/drm/sun4i/sun4i_hdmi_i2c.c
++++ b/drivers/gpu/drm/sun4i/sun4i_hdmi_i2c.c
+@@ -56,9 +56,9 @@ static int fifo_transfer(struct sun4i_hdmi *hdmi, u8 *buf, int len, bool read)
+ 		return -EIO;
  
- 	/* Set the physical address of the buffer in memory */
- 	paddr = drm_fb_cma_get_gem_addr(fb, state, 0);
--	paddr -= PHYS_OFFSET;
- 	DRM_DEBUG_DRIVER("Setting buffer #0 address to %pad\n", &paddr);
- 	regmap_write(frontend->regs, SUN4I_FRONTEND_BUF_ADDR0_REG, paddr);
+ 	if (read)
+-		readsb(hdmi->base + hdmi->variant->ddc_fifo_reg, buf, len);
++		ioread8_rep(hdmi->base + hdmi->variant->ddc_fifo_reg, buf, len);
+ 	else
+-		writesb(hdmi->base + hdmi->variant->ddc_fifo_reg, buf, len);
++		iowrite8_rep(hdmi->base + hdmi->variant->ddc_fifo_reg, buf, len);
  
- 	if (fb->format->num_planes > 1) {
- 		paddr = drm_fb_cma_get_gem_addr(fb, state, swap ? 2 : 1);
--		paddr -= PHYS_OFFSET;
- 		DRM_DEBUG_DRIVER("Setting buffer #1 address to %pad\n", &paddr);
- 		regmap_write(frontend->regs, SUN4I_FRONTEND_BUF_ADDR1_REG,
- 			     paddr);
-@@ -236,7 +234,6 @@ void sun4i_frontend_update_buffer(struct sun4i_frontend *frontend,
- 
- 	if (fb->format->num_planes > 2) {
- 		paddr = drm_fb_cma_get_gem_addr(fb, state, swap ? 1 : 2);
--		paddr -= PHYS_OFFSET;
- 		DRM_DEBUG_DRIVER("Setting buffer #2 address to %pad\n", &paddr);
- 		regmap_write(frontend->regs, SUN4I_FRONTEND_BUF_ADDR2_REG,
- 			     paddr);
+ 	/* Clear FIFO request bit by forcing a write to that bit */
+ 	regmap_field_force_write(hdmi->field_ddc_int_status,
 -- 
 2.35.1
 
