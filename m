@@ -1,40 +1,40 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3428E4FD0DA
-	for <lists+dri-devel@lfdr.de>; Tue, 12 Apr 2022 08:52:25 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id C0A074FD1CB
+	for <lists+dri-devel@lfdr.de>; Tue, 12 Apr 2022 09:07:12 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 7A53010FCB7;
-	Tue, 12 Apr 2022 06:52:22 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id B438C10FECC;
+	Tue, 12 Apr 2022 07:07:10 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 1376510FCAF;
- Tue, 12 Apr 2022 06:52:18 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 3C7C610FEC5
+ for <dri-devel@lists.freedesktop.org>; Tue, 12 Apr 2022 07:07:09 +0000 (UTC)
 Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
  (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
  (No client certificate requested)
- by dfw.source.kernel.org (Postfix) with ESMTPS id 6887461045;
- Tue, 12 Apr 2022 06:52:17 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 5337BC385A1;
- Tue, 12 Apr 2022 06:52:16 +0000 (UTC)
+ by dfw.source.kernel.org (Postfix) with ESMTPS id 7AB0B616E4;
+ Tue, 12 Apr 2022 07:07:08 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id BFC52C385A8;
+ Tue, 12 Apr 2022 07:07:07 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linuxfoundation.org;
- s=korg; t=1649746336;
- bh=sXMl2ZYE8rt5NfFeBPGIcHAYJuUylPNTH8SOiNKZ7n8=;
+ s=korg; t=1649747228;
+ bh=sXplmjtci3GWzKPGj7qmndHKq1WQI2fvhmgLsZ33CEY=;
  h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
- b=k1YRz/10U/v+kTdtnD8Z6F8W7S6sBDSePnzWreeJbPn3oV4yRdqED7qG/ApQc80sY
- Nd9YjVLtnzTjPYR6mEj3DPThe6IRmdLa7oizw5GnnNDEheqfN4eBZZDR10EgRrWwrK
- lRpbQqyKqcoASjqIuPsw/vzaieiIub/4T087GX3E=
+ b=Ya39TrhC7pOQ5dpmI0Ywg74BhsGI+zqKBPjvQh0+8MaElBhMIFRKoTzwDuoerDDoi
+ JeUrkx6Cmc1g8VrL7R4+hpJXxdCEyTq1XmSEqAj5F1gw7I8WTLOxDefkbKBi+S+9CB
+ oRHSoHA/2WN5pcGUDBBPU+ThFJH6QIrWDgX6fPzI=
 From: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
 To: linux-kernel@vger.kernel.org
-Subject: [PATCH 5.15 246/277] drm/amdkfd: Create file descriptor after client
- is added to smi_clients list
-Date: Tue, 12 Apr 2022 08:30:49 +0200
-Message-Id: <20220412062949.161563012@linuxfoundation.org>
+Subject: [PATCH 5.16 249/285] fbdev: Fix unregistering of framebuffers without
+ device
+Date: Tue, 12 Apr 2022 08:31:46 +0200
+Message-Id: <20220412062950.845598901@linuxfoundation.org>
 X-Mailer: git-send-email 2.35.1
-In-Reply-To: <20220412062942.022903016@linuxfoundation.org>
-References: <20220412062942.022903016@linuxfoundation.org>
+In-Reply-To: <20220412062943.670770901@linuxfoundation.org>
+References: <20220412062943.670770901@linuxfoundation.org>
 User-Agent: quilt/0.66
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
@@ -51,79 +51,113 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: dri-devel@lists.freedesktop.org, David Airlie <airlied@linux.ie>,
+Cc: Zhen Lei <thunder.leizhen@huawei.com>, dri-devel@lists.freedesktop.org,
+ Xiyu Yang <xiyuyang19@fudan.edu.cn>, Guenter Roeck <linux@roeck-us.net>,
+ Tetsuo Handa <penguin-kernel@i-love.sakura.ne.jp>,
+ Daniel Vetter <daniel.vetter@ffwll.ch>, Helge Deller <deller@gmx.de>,
+ Zheyu Ma <zheyuma97@gmail.com>, Javier Martinez Canillas <javierm@redhat.com>,
+ stable@vger.kernel.org, linux-fbdev@vger.kernel.org,
+ Hans de Goede <hdegoede@redhat.com>, Matthew Wilcox <willy@infradead.org>,
+ Thomas Zimmermann <tzimmermann@suse.de>,
  Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
- Felix Kuehling <Felix.Kuehling@amd.com>, "Pan, Xinhui" <Xinhui.Pan@amd.com>,
- stable@vger.kernel.org, amd-gfx@lists.freedesktop.org,
- Alex Deucher <alexander.deucher@amd.com>, Lee Jones <lee.jones@linaro.org>,
- =?UTF-8?q?Christian=20K=C3=B6nig?= <christian.koenig@amd.com>
+ Alex Deucher <alexander.deucher@amd.com>,
+ Sudip Mukherjee <sudip.mukherjee@codethink.co.uk>,
+ Sam Ravnborg <sam@ravnborg.org>, Sudip Mukherjee <sudipm.mukherjee@gmail.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-From: Lee Jones <lee.jones@linaro.org>
+From: Thomas Zimmermann <tzimmermann@suse.de>
 
-commit e79a2398e1b2d47060474dca291542368183bc0f upstream.
+commit 0f525289ff0ddeb380813bd81e0f9bdaaa1c9078 upstream.
 
-This ensures userspace cannot prematurely clean-up the client before
-it is fully initialised which has been proven to cause issues in the
-past.
+OF framebuffers do not have an underlying device in the Linux
+device hierarchy. Do a regular unregister call instead of hot
+unplugging such a non-existing device. Fixes a NULL dereference.
+An example error message on ppc64le is shown below.
 
-Cc: Felix Kuehling <Felix.Kuehling@amd.com>
+  BUG: Kernel NULL pointer dereference on read at 0x00000060
+  Faulting instruction address: 0xc00000000080dfa4
+  Oops: Kernel access of bad area, sig: 11 [#1]
+  LE PAGE_SIZE=64K MMU=Hash SMP NR_CPUS=2048 NUMA pSeries
+  [...]
+  CPU: 2 PID: 139 Comm: systemd-udevd Not tainted 5.17.0-ae085d7f9365 #1
+  NIP:  c00000000080dfa4 LR: c00000000080df9c CTR: c000000000797430
+  REGS: c000000004132fe0 TRAP: 0300   Not tainted  (5.17.0-ae085d7f9365)
+  MSR:  8000000002009033 <SF,VEC,EE,ME,IR,DR,RI,LE>  CR: 28228282  XER: 20000000
+  CFAR: c00000000000c80c DAR: 0000000000000060 DSISR: 40000000 IRQMASK: 0
+  GPR00: c00000000080df9c c000000004133280 c00000000169d200 0000000000000029
+  GPR04: 00000000ffffefff c000000004132f90 c000000004132f88 0000000000000000
+  GPR08: c0000000015658f8 c0000000015cd200 c0000000014f57d0 0000000048228283
+  GPR12: 0000000000000000 c00000003fffe300 0000000020000000 0000000000000000
+  GPR16: 0000000000000000 0000000113fc4a40 0000000000000005 0000000113fcfb80
+  GPR20: 000001000f7283b0 0000000000000000 c000000000e4a588 c000000000e4a5b0
+  GPR24: 0000000000000001 00000000000a0000 c008000000db0168 c0000000021f6ec0
+  GPR28: c0000000016d65a8 c000000004b36460 0000000000000000 c0000000016d64b0
+  NIP [c00000000080dfa4] do_remove_conflicting_framebuffers+0x184/0x1d0
+  [c000000004133280] [c00000000080df9c] do_remove_conflicting_framebuffers+0x17c/0x1d0 (unreliable)
+  [c000000004133350] [c00000000080e4d0] remove_conflicting_framebuffers+0x60/0x150
+  [c0000000041333a0] [c00000000080e6f4] remove_conflicting_pci_framebuffers+0x134/0x1b0
+  [c000000004133450] [c008000000e70438] drm_aperture_remove_conflicting_pci_framebuffers+0x90/0x100 [drm]
+  [c000000004133490] [c008000000da0ce4] bochs_pci_probe+0x6c/0xa64 [bochs]
+  [...]
+  [c000000004133db0] [c00000000002aaa0] system_call_exception+0x170/0x2d0
+  [c000000004133e10] [c00000000000c3cc] system_call_common+0xec/0x250
+
+The bug [1] was introduced by commit 27599aacbaef ("fbdev: Hot-unplug
+firmware fb devices on forced removal"). Most firmware framebuffers
+have an underlying platform device, which can be hot-unplugged
+before loading the native graphics driver. OF framebuffers do not
+(yet) have that device. Fix the code by unregistering the framebuffer
+as before without a hot unplug.
+
+Tested with 5.17 on qemu ppc64le emulation.
+
+Signed-off-by: Thomas Zimmermann <tzimmermann@suse.de>
+Fixes: 27599aacbaef ("fbdev: Hot-unplug firmware fb devices on forced removal")
+Reported-by: Sudip Mukherjee <sudipm.mukherjee@gmail.com>
+Reviewed-by: Daniel Vetter <daniel.vetter@ffwll.ch>
+Reviewed-by: Javier Martinez Canillas <javierm@redhat.com>
+Tested-by: Sudip Mukherjee <sudip.mukherjee@codethink.co.uk>
+Cc: Zack Rusin <zackr@vmware.com>
+Cc: Javier Martinez Canillas <javierm@redhat.com>
+Cc: Hans de Goede <hdegoede@redhat.com>
+Cc: stable@vger.kernel.org # v5.11+
+Cc: Helge Deller <deller@gmx.de>
+Cc: Daniel Vetter <daniel.vetter@ffwll.ch>
+Cc: Sam Ravnborg <sam@ravnborg.org>
+Cc: Zheyu Ma <zheyuma97@gmail.com>
+Cc: Xiyu Yang <xiyuyang19@fudan.edu.cn>
+Cc: Zhen Lei <thunder.leizhen@huawei.com>
+Cc: Matthew Wilcox <willy@infradead.org>
 Cc: Alex Deucher <alexander.deucher@amd.com>
-Cc: "Christian König" <christian.koenig@amd.com>
-Cc: "Pan, Xinhui" <Xinhui.Pan@amd.com>
-Cc: David Airlie <airlied@linux.ie>
-Cc: Daniel Vetter <daniel@ffwll.ch>
-Cc: amd-gfx@lists.freedesktop.org
+Cc: Tetsuo Handa <penguin-kernel@i-love.sakura.ne.jp>
+Cc: Guenter Roeck <linux@roeck-us.net>
+Cc: linux-fbdev@vger.kernel.org
 Cc: dri-devel@lists.freedesktop.org
-Signed-off-by: Lee Jones <lee.jones@linaro.org>
-Reviewed-by: Felix Kuehling <Felix.Kuehling@amd.com>
-Signed-off-by: Felix Kuehling <Felix.Kuehling@amd.com>
-Signed-off-by: Alex Deucher <alexander.deucher@amd.com>
-Cc: stable@vger.kernel.org
+Link: https://lore.kernel.org/all/YkHXO6LGHAN0p1pq@debian/ # [1]
+Link: https://patchwork.freedesktop.org/patch/msgid/20220404194402.29974-1-tzimmermann@suse.de
 Signed-off-by: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
 ---
- drivers/gpu/drm/amd/amdkfd/kfd_smi_events.c |   24 +++++++++++++++---------
- 1 file changed, 15 insertions(+), 9 deletions(-)
+ drivers/video/fbdev/core/fbmem.c |    9 ++++++++-
+ 1 file changed, 8 insertions(+), 1 deletion(-)
 
---- a/drivers/gpu/drm/amd/amdkfd/kfd_smi_events.c
-+++ b/drivers/gpu/drm/amd/amdkfd/kfd_smi_events.c
-@@ -270,15 +270,6 @@ int kfd_smi_event_open(struct kfd_dev *d
- 		return ret;
- 	}
- 
--	ret = anon_inode_getfd(kfd_smi_name, &kfd_smi_ev_fops, (void *)client,
--			       O_RDWR);
--	if (ret < 0) {
--		kfifo_free(&client->fifo);
--		kfree(client);
--		return ret;
--	}
--	*fd = ret;
--
- 	init_waitqueue_head(&client->wait_queue);
- 	spin_lock_init(&client->lock);
- 	client->events = 0;
-@@ -288,5 +279,20 @@ int kfd_smi_event_open(struct kfd_dev *d
- 	list_add_rcu(&client->list, &dev->smi_clients);
- 	spin_unlock(&dev->smi_lock);
- 
-+	ret = anon_inode_getfd(kfd_smi_name, &kfd_smi_ev_fops, (void *)client,
-+			       O_RDWR);
-+	if (ret < 0) {
-+		spin_lock(&dev->smi_lock);
-+		list_del_rcu(&client->list);
-+		spin_unlock(&dev->smi_lock);
-+
-+		synchronize_rcu();
-+
-+		kfifo_free(&client->fifo);
-+		kfree(client);
-+		return ret;
-+	}
-+	*fd = ret;
-+
- 	return 0;
- }
+--- a/drivers/video/fbdev/core/fbmem.c
++++ b/drivers/video/fbdev/core/fbmem.c
+@@ -1581,7 +1581,14 @@ static void do_remove_conflicting_frameb
+ 			 * If it's not a platform device, at least print a warning. A
+ 			 * fix would add code to remove the device from the system.
+ 			 */
+-			if (dev_is_platform(device)) {
++			if (!device) {
++				/* TODO: Represent each OF framebuffer as its own
++				 * device in the device hierarchy. For now, offb
++				 * doesn't have such a device, so unregister the
++				 * framebuffer as before without warning.
++				 */
++				do_unregister_framebuffer(registered_fb[i]);
++			} else if (dev_is_platform(device)) {
+ 				registered_fb[i]->forced_out = true;
+ 				platform_device_unregister(to_platform_device(device));
+ 			} else {
 
 
