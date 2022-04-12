@@ -2,40 +2,41 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2A80B4FC98B
-	for <lists+dri-devel@lfdr.de>; Tue, 12 Apr 2022 02:45:36 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id E441F4FC9AE
+	for <lists+dri-devel@lfdr.de>; Tue, 12 Apr 2022 02:46:01 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 2980110FAA4;
-	Tue, 12 Apr 2022 00:45:34 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id AD05010FABA;
+	Tue, 12 Apr 2022 00:45:59 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from dfw.source.kernel.org (dfw.source.kernel.org
  [IPv6:2604:1380:4641:c500::1])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 5657A10FAA4
- for <dri-devel@lists.freedesktop.org>; Tue, 12 Apr 2022 00:45:32 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 1637310FAB9;
+ Tue, 12 Apr 2022 00:45:58 +0000 (UTC)
 Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
  (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
  (No client certificate requested)
- by dfw.source.kernel.org (Postfix) with ESMTPS id D7A67617E8;
- Tue, 12 Apr 2022 00:45:31 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 2BBFBC385A3;
- Tue, 12 Apr 2022 00:45:30 +0000 (UTC)
+ by dfw.source.kernel.org (Postfix) with ESMTPS id 97FF4612A8;
+ Tue, 12 Apr 2022 00:45:57 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id EAC8CC385AC;
+ Tue, 12 Apr 2022 00:45:54 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1649724331;
- bh=h3/4h0H471UJtADRLo2a8XhpcTHhAAbQKbJpOEoncW4=;
+ s=k20201202; t=1649724357;
+ bh=FFtHTLViO7Kk3k4dRDhJk2ARFMqmxQ2ReCqBcHvNwIw=;
  h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
- b=uoKOTF0c/rY6TGKH5m7wi8z61ao7Qjn0+/f5wl5zgC/hG0YOlutMKHNuZn5h3kDGg
- Fa5dczroqySFdyhIoy3CYmODvEgemYnHvNQ5QW4CnOx14TmOSzlWhDq7irPJrrYZLB
- +Hu75xrHkiqsTdbvonww//pb4xobn/tnjlKcX2EpPuvLIKd3DroYdG+YmBGz3/YYmQ
- V39utCVxanEPyusjxFNwq/DyzYq6R9IcAi9AIn/h4LDG+zChCG7etQrDcvgGOjABtc
- 4grBOTRKuUeusHQ709qcVX82avqOno5KD41wuyOJ7Q1W+aIPxfcjGsOBTwfyg+eRE7
- Ksn3mg7ka1D9w==
+ b=o9ful9W01zJvCky67lrNLXbqXSbvaaKX2naQ3QiC4+70A1Rvj5oEdAV4jp5B0Dv4R
+ gGUKdlzU6VTcJemSVFWXXJ7K94T444bzK8m+NsWqnY8Ru8M5lDLB/HWLKx6tw011Hh
+ OI87oTIJYmAX6bsAQP3mMXFWlmYYfAatafoKbNZc6SFAbcKK8ys0w5AD1M2Vs10CSf
+ jAzgVES3ML9qlbl4AU5fEwHSLF5/w6jbzGXgrpvB4aZK+V5bOx5zpE3S/x49PnF5SF
+ GWDpSigZtwr8zE/WfYrORl9QWrReSsRXD2HhSzCA5muhkOWqwpy2GpRKo8T/t/lBSa
+ 1P0tUhz2TmavQ==
 From: Sasha Levin <sashal@kernel.org>
 To: linux-kernel@vger.kernel.org,
 	stable@vger.kernel.org
-Subject: [PATCH AUTOSEL 5.17 24/49] gpu: ipu-v3: Fix dev_dbg frequency output
-Date: Mon, 11 Apr 2022 20:43:42 -0400
-Message-Id: <20220412004411.349427-24-sashal@kernel.org>
+Subject: [PATCH AUTOSEL 5.17 35/49] drm/amd/display: Correct Slice reset
+ calculation
+Date: Mon, 11 Apr 2022 20:43:53 -0400
+Message-Id: <20220412004411.349427-35-sashal@kernel.org>
 X-Mailer: git-send-email 2.35.1
 In-Reply-To: <20220412004411.349427-1-sashal@kernel.org>
 References: <20220412004411.349427-1-sashal@kernel.org>
@@ -55,57 +56,60 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Sasha Levin <sashal@kernel.org>, Leo Ruan <tingquan.ruan@cn.bosch.com>,
- airlied@linux.ie, dri-devel@lists.freedesktop.org,
- Mark Jonas <mark.jonas@de.bosch.com>
+Cc: Sasha Levin <sashal@kernel.org>, MarkAlbert.Morra@amd.com,
+ Chris Park <Chris.Park@amd.com>, tzimmermann@suse.de,
+ Alex Hung <alex.hung@amd.com>, Rodrigo.Siqueira@amd.com, airlied@linux.ie,
+ Xinhui.Pan@amd.com, wenjing.liu@amd.com, amd-gfx@lists.freedesktop.org,
+ sunpeng.li@amd.com, Daniel Wheeler <daniel.wheeler@amd.com>,
+ dri-devel@lists.freedesktop.org, wayne.lin@amd.com,
+ Alex Deucher <alexander.deucher@amd.com>, mikita.lipski@amd.com,
+ christian.koenig@amd.com
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-From: Leo Ruan <tingquan.ruan@cn.bosch.com>
+From: Chris Park <Chris.Park@amd.com>
 
-[ Upstream commit 070a88fd4a03f921b73a2059e97d55faaa447dab ]
+[ Upstream commit 862a876c3a6372f2fa9d0c6510f1976ac94fc857 ]
 
-This commit corrects the printing of the IPU clock error percentage if
-it is between -0.1% to -0.9%. For example, if the pixel clock requested
-is 27.2 MHz but only 27.0 MHz can be achieved the deviation is -0.8%.
-But the fixed point math had a flaw and calculated error of 0.2%.
+[Why]
+Once DSC slice cannot fit pixel clock, we incorrectly
+reset min slices to 0 and allow max slice to operate,
+even when max slice itself cannot fit the pixel clock
+properly.
 
-Before:
-  Clocks: IPU 270000000Hz DI 24716667Hz Needed 27200000Hz
-  IPU clock can give 27000000 with divider 10, error 0.2%
-  Want 27200000Hz IPU 270000000Hz DI 24716667Hz using IPU, 27000000Hz
+[How]
+Change the sequence such that we correctly determine
+DSC is not possible when both min slices and max
+slices cannot fit pixel clock per slice.
 
-After:
-  Clocks: IPU 270000000Hz DI 24716667Hz Needed 27200000Hz
-  IPU clock can give 27000000 with divider 10, error -0.8%
-  Want 27200000Hz IPU 270000000Hz DI 24716667Hz using IPU, 27000000Hz
-
-Signed-off-by: Leo Ruan <tingquan.ruan@cn.bosch.com>
-Signed-off-by: Mark Jonas <mark.jonas@de.bosch.com>
-Reviewed-by: Philipp Zabel <p.zabel@pengutronix.de>
-Signed-off-by: Philipp Zabel <p.zabel@pengutronix.de>
-Link: https://lore.kernel.org/r/20220207151411.5009-1-mark.jonas@de.bosch.com
+Reviewed-by: Wenjing Liu <Wenjing.Liu@amd.com>
+Acked-by: Alex Hung <alex.hung@amd.com>
+Signed-off-by: Chris Park <Chris.Park@amd.com>
+Tested-by: Daniel Wheeler <daniel.wheeler@amd.com>
+Signed-off-by: Alex Deucher <alexander.deucher@amd.com>
 Signed-off-by: Sasha Levin <sashal@kernel.org>
 ---
- drivers/gpu/ipu-v3/ipu-di.c | 5 +++--
- 1 file changed, 3 insertions(+), 2 deletions(-)
+ drivers/gpu/drm/amd/display/dc/dsc/dc_dsc.c | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
 
-diff --git a/drivers/gpu/ipu-v3/ipu-di.c b/drivers/gpu/ipu-v3/ipu-di.c
-index 666223c6bec4..0a34e0ab4fe6 100644
---- a/drivers/gpu/ipu-v3/ipu-di.c
-+++ b/drivers/gpu/ipu-v3/ipu-di.c
-@@ -447,8 +447,9 @@ static void ipu_di_config_clock(struct ipu_di *di,
+diff --git a/drivers/gpu/drm/amd/display/dc/dsc/dc_dsc.c b/drivers/gpu/drm/amd/display/dc/dsc/dc_dsc.c
+index 9c74564cbd8d..8973d3a38f9c 100644
+--- a/drivers/gpu/drm/amd/display/dc/dsc/dc_dsc.c
++++ b/drivers/gpu/drm/amd/display/dc/dsc/dc_dsc.c
+@@ -864,11 +864,11 @@ static bool setup_dsc_config(
+ 		min_slices_h = inc_num_slices(dsc_common_caps.slice_caps, min_slices_h);
+ 	}
  
- 		error = rate / (sig->mode.pixelclock / 1000);
++	is_dsc_possible = (min_slices_h <= max_slices_h);
++
+ 	if (pic_width % min_slices_h != 0)
+ 		min_slices_h = 0; // DSC TODO: Maybe try increasing the number of slices first?
  
--		dev_dbg(di->ipu->dev, "  IPU clock can give %lu with divider %u, error %d.%u%%\n",
--			rate, div, (signed)(error - 1000) / 10, error % 10);
-+		dev_dbg(di->ipu->dev, "  IPU clock can give %lu with divider %u, error %c%d.%d%%\n",
-+			rate, div, error < 1000 ? '-' : '+',
-+			abs(error - 1000) / 10, abs(error - 1000) % 10);
+-	is_dsc_possible = (min_slices_h <= max_slices_h);
+-
+ 	if (min_slices_h == 0 && max_slices_h == 0)
+ 		is_dsc_possible = false;
  
- 		/* Allow a 1% error */
- 		if (error < 1010 && error >= 990) {
 -- 
 2.35.1
 
