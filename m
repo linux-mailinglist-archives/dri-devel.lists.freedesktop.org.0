@@ -2,44 +2,40 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 721384FCA8A
-	for <lists+dri-devel@lfdr.de>; Tue, 12 Apr 2022 02:52:16 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id EBA864FCA8D
+	for <lists+dri-devel@lfdr.de>; Tue, 12 Apr 2022 02:52:29 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 3799510FB2E;
-	Tue, 12 Apr 2022 00:52:14 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 58B4010FB24;
+	Tue, 12 Apr 2022 00:52:27 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from dfw.source.kernel.org (dfw.source.kernel.org
- [IPv6:2604:1380:4641:c500::1])
- by gabe.freedesktop.org (Postfix) with ESMTPS id D254310FB2A;
- Tue, 12 Apr 2022 00:52:12 +0000 (UTC)
+Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 4912210FB2C;
+ Tue, 12 Apr 2022 00:52:26 +0000 (UTC)
 Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
  (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
  (No client certificate requested)
- by dfw.source.kernel.org (Postfix) with ESMTPS id 5FB2E60C20;
- Tue, 12 Apr 2022 00:52:12 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id DB858C385A3;
- Tue, 12 Apr 2022 00:52:09 +0000 (UTC)
+ by dfw.source.kernel.org (Postfix) with ESMTPS id BDE076066C;
+ Tue, 12 Apr 2022 00:52:25 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 20DC6C385A3;
+ Tue, 12 Apr 2022 00:52:24 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1649724731;
- bh=N4oe4JkYZBbeeXFs6huyORVN6GlF6ckNaIQ+O7KQhT4=;
- h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
- b=OA7VeqKKY+X9A6aWbzEloSJJwqbUhrQBE0dbmTAJGomE79yq0rs6T4pWEDw++P3mV
- Gaj0QLXOSY0rGjmgsPgz5gMcAOb6aQ8N92p9NSF5gBKWFFEb7HLgwFTdsNfY4HDnS5
- 8dYDOwOl94gxErXe8cVQzymeMBLyVXriJ7wP2U12+OnPt8VfzafFyK/vKr7u0rxh5j
- vWJw9rEtJsbnEWI8jc5vqbqP54xQnZLmmlyC8AoalR3MxGIQprLkPbf2yepR6NGsny
- CFlMhCkL3047Lt3HY3eKvl6K8H7yMM1RT7ZanoHxMdhcf5svyUFNur4X4DXUgM4/UL
- WdGF6Odb2LhNA==
+ s=k20201202; t=1649724745;
+ bh=8izZmIi/7hbCcZoHg+80ftWIaNQCjxG8Xs8F0wpo7EI=;
+ h=From:To:Cc:Subject:Date:From;
+ b=PgjcAka2x4eba1MUp/3bl3KdG6SB24Z2X25nYjFf3hd0mDT2u+2RO2l3a8dTb8zAO
+ XqVBZfEBq6RpKm7HGeFCTnJZGNX4hoAiC2cAqnboQ8ItyHaZXPrppUrJACec5UCnph
+ yHAeFTIXps6/2nDbXKywrt3QiXY0XVGN0hUE6joD9D2uj6abxtdZOQ3TF05Wm0SGNr
+ 2/Eb77cWL1+bxTBu7bZ7+XTIDpZODQtfVFYiQw3SmRaaoM6iPOh/08BFI5L7P1xyCL
+ B13QQVP5E8V8xGHLel0uwFEUXc6H8mBw119PrcoIm83rGqeXNNifdIWHA1P1JFOI2i
+ 1Jar0rRG6TbZA==
 From: Sasha Levin <sashal@kernel.org>
 To: linux-kernel@vger.kernel.org,
 	stable@vger.kernel.org
-Subject: [PATCH AUTOSEL 4.19 10/12] drm/amd/display: Fix allocate_mst_payload
- assert on resume
-Date: Mon, 11 Apr 2022 20:51:43 -0400
-Message-Id: <20220412005148.351391-10-sashal@kernel.org>
+Subject: [PATCH AUTOSEL 4.14 01/11] drm/amd: Add USBC connector ID
+Date: Mon, 11 Apr 2022 20:52:10 -0400
+Message-Id: <20220412005222.351554-1-sashal@kernel.org>
 X-Mailer: git-send-email 2.35.1
-In-Reply-To: <20220412005148.351391-1-sashal@kernel.org>
-References: <20220412005148.351391-1-sashal@kernel.org>
 MIME-Version: 1.0
 X-stable: review
 X-Patchwork-Hint: Ignore
@@ -56,54 +52,40 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Sasha Levin <sashal@kernel.org>, Alex Hung <alex.hung@amd.com>,
- airlied@linux.ie, Xinhui.Pan@amd.com, Rodrigo.Siqueira@amd.com,
- Roman Li <Roman.Li@amd.com>, amd-gfx@lists.freedesktop.org,
- nicholas.kazlauskas@amd.com, sunpeng.li@amd.com,
- Daniel Wheeler <daniel.wheeler@amd.com>, dri-devel@lists.freedesktop.org,
- Wayne Lin <Wayne.Lin@amd.com>, Alex Deucher <alexander.deucher@amd.com>,
- qingqing.zhuo@amd.com, christian.koenig@amd.com, shenshih@amd.com
+Cc: Sasha Levin <sashal@kernel.org>, airlied@linux.ie, Xinhui.Pan@amd.com,
+ amd-gfx@lists.freedesktop.org, Aurabindo Pillai <aurabindo.pillai@amd.com>,
+ dri-devel@lists.freedesktop.org, Alex Deucher <alexander.deucher@amd.com>,
+ christian.koenig@amd.com
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-From: Roman Li <Roman.Li@amd.com>
+From: Aurabindo Pillai <aurabindo.pillai@amd.com>
 
-[ Upstream commit f4346fb3edf7720db3f7f5e1cab1f667cd024280 ]
+[ Upstream commit c5c948aa894a831f96fccd025e47186b1ee41615 ]
 
-[Why]
-On resume we do link detection for all non-MST connectors.
-MST is handled separately. However the condition for telling
-if connector is on mst branch is not enough for mst hub case.
-Link detection for mst branch link leads to mst topology reset.
-That causes assert in dc_link_allocate_mst_payload()
+[Why&How] Add a dedicated AMDGPU specific ID for use with
+newer ASICs that support USB-C output
 
-[How]
-Use link type as indicator for mst link.
-
-Reviewed-by: Wayne Lin <Wayne.Lin@amd.com>
-Acked-by: Alex Hung <alex.hung@amd.com>
-Signed-off-by: Roman Li <Roman.Li@amd.com>
-Tested-by: Daniel Wheeler <daniel.wheeler@amd.com>
+Signed-off-by: Aurabindo Pillai <aurabindo.pillai@amd.com>
+Reviewed-by: Alex Deucher <alexander.deucher@amd.com>
 Signed-off-by: Alex Deucher <alexander.deucher@amd.com>
 Signed-off-by: Sasha Levin <sashal@kernel.org>
 ---
- drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.c | 3 ++-
- 1 file changed, 2 insertions(+), 1 deletion(-)
+ drivers/gpu/drm/amd/amdgpu/ObjectID.h | 1 +
+ 1 file changed, 1 insertion(+)
 
-diff --git a/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.c b/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.c
-index ed02bb6b2cd0..1d1183c47beb 100644
---- a/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.c
-+++ b/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.c
-@@ -777,7 +777,8 @@ static int dm_resume(void *handle)
- 		 * this is the case when traversing through already created
- 		 * MST connectors, should be skipped
- 		 */
--		if (aconnector->mst_port)
-+		if (aconnector->dc_link &&
-+		    aconnector->dc_link->type == dc_connection_mst_branch)
- 			continue;
+diff --git a/drivers/gpu/drm/amd/amdgpu/ObjectID.h b/drivers/gpu/drm/amd/amdgpu/ObjectID.h
+index 06192698bd96..c90567de8bf7 100644
+--- a/drivers/gpu/drm/amd/amdgpu/ObjectID.h
++++ b/drivers/gpu/drm/amd/amdgpu/ObjectID.h
+@@ -119,6 +119,7 @@
+ #define CONNECTOR_OBJECT_ID_eDP                   0x14
+ #define CONNECTOR_OBJECT_ID_MXM                   0x15
+ #define CONNECTOR_OBJECT_ID_LVDS_eDP              0x16
++#define CONNECTOR_OBJECT_ID_USBC                  0x17
  
- 		mutex_lock(&aconnector->hpd_lock);
+ /* deleted */
+ 
 -- 
 2.35.1
 
