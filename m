@@ -1,68 +1,145 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4B0694FD337
-	for <lists+dri-devel@lfdr.de>; Tue, 12 Apr 2022 11:12:21 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 202D74FD339
+	for <lists+dri-devel@lfdr.de>; Tue, 12 Apr 2022 11:15:39 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 1896510FB7C;
-	Tue, 12 Apr 2022 09:12:19 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 1DA4E10FC83;
+	Tue, 12 Apr 2022 09:15:35 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-oa1-x35.google.com (mail-oa1-x35.google.com
- [IPv6:2001:4860:4864:20::35])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 7D6B610FB7C
- for <dri-devel@lists.freedesktop.org>; Tue, 12 Apr 2022 09:12:17 +0000 (UTC)
-Received: by mail-oa1-x35.google.com with SMTP id
- 586e51a60fabf-dacc470e03so20130164fac.5
- for <dri-devel@lists.freedesktop.org>; Tue, 12 Apr 2022 02:12:17 -0700 (PDT)
+Received: from mx0b-00069f02.pphosted.com (mx0b-00069f02.pphosted.com
+ [205.220.177.32])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id F093510EE6C
+ for <dri-devel@lists.freedesktop.org>; Tue, 12 Apr 2022 09:15:32 +0000 (UTC)
+Received: from pps.filterd (m0246630.ppops.net [127.0.0.1])
+ by mx0b-00069f02.pphosted.com (8.16.1.2/8.16.1.2) with SMTP id 23C8lHW6029741; 
+ Tue, 12 Apr 2022 09:15:31 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=oracle.com;
+ h=date : from : to : cc
+ : subject : message-id : content-type : mime-version; s=corp-2021-07-09;
+ bh=QMMB1FaxCvvXG/7zxw1zn+y1rAVNvkTXDGjSq+j7TQM=;
+ b=zw5HhisGdwdWzfn9OjW4J0kB3mgAaMVGZv14m0lW7rR1qRcZQ2CtgoOyrtKq01FUC3WE
+ ke5gWLfR0Q9P2IiFv/VdwXas2yrsECsXyhSCi9tCyPpRH/d0OZqToP9EaiIncgEJplSZ
+ 85Htv+W2WuVl4lH1CVqOT7f4dxQ32DIulrvNrNtnwsGRHIzLZd0XJStYDEQcV3XqlzPc
+ nJVFuUx0b9oSm4wDzgdvo9NtMgwAN0O4our+tPV1Sfl4h5o0ivUMar1AwNyvmzc7swX8
+ H074NWicUiSlYM29iTPhulW7QuODP894d9sGQ3rwpruUVXGNbz+1ETBM4oo8numDsJ7t 7w== 
+Received: from phxpaimrmta03.imrmtpd1.prodappphxaev1.oraclevcn.com
+ (phxpaimrmta03.appoci.oracle.com [138.1.37.129])
+ by mx0b-00069f02.pphosted.com with ESMTP id 3fb0jd62fy-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+ Tue, 12 Apr 2022 09:15:30 +0000
+Received: from pps.filterd
+ (phxpaimrmta03.imrmtpd1.prodappphxaev1.oraclevcn.com [127.0.0.1])
+ by phxpaimrmta03.imrmtpd1.prodappphxaev1.oraclevcn.com (8.16.1.2/8.16.1.2)
+ with SMTP id 23C9FK16033629; Tue, 12 Apr 2022 09:15:29 GMT
+Received: from nam04-bn8-obe.outbound.protection.outlook.com
+ (mail-bn8nam08lp2046.outbound.protection.outlook.com [104.47.74.46])
+ by phxpaimrmta03.imrmtpd1.prodappphxaev1.oraclevcn.com with ESMTP id
+ 3fb0k2y0ee-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+ Tue, 12 Apr 2022 09:15:29 +0000
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=UMsj06P1ByrdfCNRYYf4MikQOJ8Zu5Dwu+7SRa4kbYcGHlLDxH6IpWOhEDE4cnHT8sn0QVIPP5Pn6r/dnDRy0s2MMb0SUcN1TxtDkVzfCgfVn1fl6TA7RpzfLcrhpt5NCX81ryDHNQuC9NT2hKSMauu+13P35uzo43tXLpWSeGmz82e4/cxThUyrL3UTPQr6XXtmPcHvl34Z8wRWETkBJw5rCvVE54Yn2wANyLiFvBiNLobXVcLigb2mF85Dck4jgUYGSEsNeKOZR0ExHWFdEUnhv3h3wpIiqhmsAqdJsJZTqYNIlVQ362Tp3j7d/Hb9iE5ajUmVYP4+lynloDSZ6g==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=QMMB1FaxCvvXG/7zxw1zn+y1rAVNvkTXDGjSq+j7TQM=;
+ b=m0e453l1rIxoS91jNIjXCopu3pshPl44P5HphGo7OIKw3CftcK6FH1W2W2WjUVfvv+C1n4pIXQI/o/PbPZ5GMaNO3piN/DSGaQjea6vI8Y3MfiHEBvgL9NHWoSH5oj0b5Dl2WjqIyW/uIGTj1SKC0J4+hXz2cw0y9uc0aAhGJcFEkPp+Rwj9u0NX1rhM/FpMOf3lLlj+YWJKzd07ADkp1jWk/RXLOeprrje5LEuTAh21DfIH+gwLLVMzAVB+kmoKjCsRhiGDorPMkXIAovRaNmLpUHwXAtlUjJKaNAuHxXK9xVdehgs4KIcv57VnD3z9YZmz2sJ5uwx98rQ/iz8bWw==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=oracle.com; dmarc=pass action=none header.from=oracle.com;
+ dkim=pass header.d=oracle.com; arc=none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=baylibre-com.20210112.gappssmtp.com; s=20210112;
- h=from:user-agent:references:in-reply-to:mime-version:date:message-id
- :subject:to:cc;
- bh=D37fpu9MYMGrVM4sHogQhQQf9RiEPpYgXDKjNghtvEc=;
- b=PJWwOM5gbJeRumlTztAxPWMSrtF8tKhqiVbN1FyLXxomE8pQ8m9aRKCVnwJbJ1T4Gx
- hyGbtG3DXtXIgyvXRhntDRSwRqX3eaAmqUoA4OX1+mR9GM/wxzrB3foS/ToVi5I1fSBP
- RGSL9EiNHKLHZfgLeAfowDz/TgsNPFT96RdDOjd5blB7A5WnCk6a4AwWGIX3uJktHWp9
- oDtPrbFZuZj4359knqmh0mTjUINynCbZk9A92hIB0RZ1HDiVrnwDQWYm4KjERtJ8XB6X
- Yl7BSZ/4fa1eVX9CP+cdf5BN9nfpLXAJTkxvPA7GDP0GoKlCcr1Q6JQ7DuEjZnjPuPUl
- BQRQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=x-gm-message-state:from:user-agent:references:in-reply-to
- :mime-version:date:message-id:subject:to:cc;
- bh=D37fpu9MYMGrVM4sHogQhQQf9RiEPpYgXDKjNghtvEc=;
- b=lzn2yEwoMW5qKf2u2NuHz9AD0mAcQUhAG9Myu6qazYioK3PQhfXniMMmgcth0M43lr
- 2MUCwZLbOuKkHyynnYVU2VTadpU4u2viMlc0pfclup/Wvk4ASzzMAQbSQN77vJU5zkFK
- KX/1h6c+CYt5Y8rM4jcYfmaP/FZw4QpKzyLBBWuoiMchZVGnG4dOKsUpinN0g6E19Jam
- liMiphGGuJ1ZbFWUQXgpHfGwu2R08crH/wNiXCGU+3t+1t0qr4WqT520+D/zmQpamwbN
- S2tsctBuhVrAvwB6atWDHTVF8uggaU8/V+Myxlz7Gkv5yYopKN6o1zDP7WC4e/JUf1PO
- XkvQ==
-X-Gm-Message-State: AOAM5318I0KVpptpIIsc0FeGhhnxfltbDGX8dhMxR7BY0GghNW4SrHfu
- Xe3hqyWHCW0M3SoJAguQUvLOP+Wx0VYAYk+3GtcB4A==
-X-Google-Smtp-Source: ABdhPJygxqmgs1C51eoxJmvwDXwGHKS/2sSPlL+b26E+6Tl1+WKvDOY/onHe+ZyNWJjLgLOirlY+CCLTpGtYWtuFalc=
-X-Received: by 2002:a05:6870:d191:b0:dd:a91e:82dc with SMTP id
- a17-20020a056870d19100b000dda91e82dcmr1564506oac.248.1649754736694; Tue, 12
- Apr 2022 02:12:16 -0700 (PDT)
-Received: from 753933720722 named unknown by gmailapi.google.com with
- HTTPREST; Tue, 12 Apr 2022 02:12:16 -0700
-From: Guillaume Ranquet <granquet@baylibre.com>
-User-Agent: meli 0.7.2
-References: <20220327223927.20848-1-granquet@baylibre.com>
- <20220327223927.20848-16-granquet@baylibre.com>
- <b308f2b37f6e9768fb3b5d85b906a3961ca8419a.camel@mediatek.com>
-In-Reply-To: <b308f2b37f6e9768fb3b5d85b906a3961ca8419a.camel@mediatek.com>
+ d=oracle.onmicrosoft.com; s=selector2-oracle-onmicrosoft-com;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=QMMB1FaxCvvXG/7zxw1zn+y1rAVNvkTXDGjSq+j7TQM=;
+ b=VPQ4OwydTIGnWUaFynoinEODrrt68KACplL4UR/tK0Pxo8qyepgwgQtJxLaRzHDSbNxy9NCpdQgbgPiiFjpbCt6bQRqBEYL+BRxdOr1H1XbU3IFhEsaK+uf+HrAfsdIVWc2omCsWZBPqZHef9CxXLVLjaJo4XpKk8cM4wymXXP4=
+Received: from MWHPR1001MB2365.namprd10.prod.outlook.com
+ (2603:10b6:301:2d::28) by MWHPR10MB1471.namprd10.prod.outlook.com
+ (2603:10b6:300:23::12) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.5144.29; Tue, 12 Apr
+ 2022 09:15:27 +0000
+Received: from MWHPR1001MB2365.namprd10.prod.outlook.com
+ ([fe80::b5d5:7b39:ca2d:1b87]) by MWHPR1001MB2365.namprd10.prod.outlook.com
+ ([fe80::b5d5:7b39:ca2d:1b87%5]) with mapi id 15.20.5144.022; Tue, 12 Apr 2022
+ 09:15:27 +0000
+Date: Tue, 12 Apr 2022 12:15:16 +0300
+From: Dan Carpenter <dan.carpenter@oracle.com>
+To: Zack Rusin <zackr@vmware.com>
+Subject: [PATCH] drm/vmwgfx: remove bogus NULL check
+Message-ID: <20220412091516.GA3229@kili>
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+X-Mailer: git-send-email haha only kidding
+User-Agent: Mutt/1.10.1 (2018-07-13)
+X-ClientProxiedBy: ZR0P278CA0013.CHEP278.PROD.OUTLOOK.COM
+ (2603:10a6:910:16::23) To MWHPR1001MB2365.namprd10.prod.outlook.com
+ (2603:10b6:301:2d::28)
 MIME-Version: 1.0
-Date: Tue, 12 Apr 2022 02:12:15 -0700
-Message-ID: <CABnWg9sQFd8_ZyXCwQjgjRKAMEiKv_6anG77Pc6jyv0fAh62vQ@mail.gmail.com>
-Subject: Re: [PATCH v9 15/22] drm/mediatek: dpi: Add dpintf support
-To: Rex-BC Chen <rex-bc.chen@mediatek.com>, vkoul@kernel.org, airlied@linux.ie,
- angelogioacchino.delregno@collabora.com, chunfeng.yun@mediatek.com, 
- chunkuang.hu@kernel.org, ck.hu@mediatek.com, daniel@ffwll.ch, deller@gmx.de, 
- jitao.shi@mediatek.com, kishon@ti.com, krzk+dt@kernel.org, 
- maarten.lankhorst@linux.intel.com, matthias.bgg@gmail.com, mripard@kernel.org, 
- p.zabel@pengutronix.de, robh+dt@kernel.org, tzimmermann@suse.de
-Content-Type: text/plain; charset="UTF-8"
+X-MS-PublicTrafficType: Email
+X-MS-Office365-Filtering-Correlation-Id: f5b3f4bc-b1e6-474a-5d26-08da1c64fbee
+X-MS-TrafficTypeDiagnostic: MWHPR10MB1471:EE_
+X-Microsoft-Antispam-PRVS: <MWHPR10MB14716E1B40E5F76D8D2B054E8EED9@MWHPR10MB1471.namprd10.prod.outlook.com>
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: BCL:0;
+X-Microsoft-Antispam-Message-Info: 43xPT5guaXNKTVwT9xKxWGrQbfBUyqq7RAhRccHKtUhZ8Ezbt232ktuWirMs+W32Q5CawBG12tbYoh1woMfeqoApeuLwnbiZtz81aAsme0tE0ZqiFGzndpY+fzEuxPv5gFbx3DFEyNUQd2qiiOZi8SL10pvx3uQlu/AeVI0tqZWUrjaulLw0ViDBh6CkJkEfMFZyqPtMWUbK0yot8DY3emaNKOErX65GDdLo/mBSfCKrCkHksx2fSXNLdRi2+Kzo8PdYRcC63NnJvYApkGXgkHqBp5s4Uw9aJ607OJgBgCmHj3cpy6u3X9Nx6aKiliwxuJSj5LjE45mc0dsgaD9xAXbtuncQBAmUUQZVTMtM2/d4ZloeHGb5lOvQDkVc2NszWQSt9jmwmXY6vqHfNL7wxyIePKd6rirDI/94gr2RovJ5b3SO6VTRH7MPtFCYgVKSv48+7ooW6k4W6rlEOBE3iVzEOLO0xeWiytHnd+KmtwfA1TDPoSoYKKR/CJyCCf3sViUyHlttGfaPHC5EL3GG5hKDjrg/cFPnKwX2bCPpvjIFP+Cfqad0Nokifbi3XQ9utoeFdXEIqmpym/86HRtK94mTnpiJRRSTy1yVgeoOpkFmkHbMp/CsJLx6rsJZ63XjlxkknP+HOJ03ZJx7uyWmr/tNXwg0Fb+lZx+5wKRdBJCL7/gaI+om35qdS/ys/MoQNh8cMi6ycACWGahlUex0GA==
+X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
+ IPV:NLI; SFV:NSPM; H:MWHPR1001MB2365.namprd10.prod.outlook.com; PTR:; CAT:NONE;
+ SFS:(13230001)(7916004)(366004)(33716001)(5660300002)(33656002)(6486002)(1076003)(54906003)(66556008)(508600001)(8676002)(6916009)(4326008)(66946007)(66476007)(38100700002)(44832011)(38350700002)(316002)(186003)(83380400001)(2906002)(26005)(86362001)(6512007)(6506007)(9686003)(6666004)(52116002)(8936002);
+ DIR:OUT; SFP:1101; 
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0: =?us-ascii?Q?/nLwSFWJOvYskTLXf7cVy3BdFMar9HuQO54tMFjBUbPlKE9MamJxkQmCp9fg?=
+ =?us-ascii?Q?3CVr3K5xP1ortoMdAn1iUfMtYUY6BsM/hAMs7H9CmcOxffg0ArNFxzOUWa2T?=
+ =?us-ascii?Q?jjpMSLXE8x8VCtsWbej8KMoBGbKps+GtuaPUWducIlL8pQ90IYQpSc9Pmp6b?=
+ =?us-ascii?Q?n6DVMkvELcWo/sBnzeo6DsHFymfObcWeCwXxYkG3O+4S+L+Sn4xG2yVXUy7M?=
+ =?us-ascii?Q?jRoLd7KG32AgofHUAcb04GRv28Wmtj45jQwXitukfZfh1Y6dmEvLw+pyls/0?=
+ =?us-ascii?Q?NOvMUEvZv4d3WvIzZL2XQ85JpDdBBw+Y5al9z4DhaXbhY3+4v/ZFd0zq7dwk?=
+ =?us-ascii?Q?w6/dhhgo+MoE9icFTHmdwCxRe3NkwPwcP7Q6VW6X2x63Wl/fKpbbLOnJxBLH?=
+ =?us-ascii?Q?RnfJurUcJQgbLEtHnERC8xhiHooEcaI11bN+wLH0kD0WbvRoRppnWm/b0W/6?=
+ =?us-ascii?Q?Maqo3YZhzRb0m44qrH6c7xlGeO9os0hMeoGXyPX6ZDTSDnwkm0MQ6tisvVO/?=
+ =?us-ascii?Q?pZqogZz7mJkGQcGaZBHMYGy3fN3Fy/13Jc2MVmSZcA4gcXQZNYjl1SBjyTWK?=
+ =?us-ascii?Q?UhGkHpJIdWT0qCoZfZTbm281bKgWuqj948zYsGrHRDK1Vyqv/DBHPKL0jvLX?=
+ =?us-ascii?Q?WnJ8J/DB/I346dv82Mmcir+hYpGkOBRabyEKzTF/1odfly7bglLt3HBgtwpy?=
+ =?us-ascii?Q?q3JBdJ2nqouOb01zODJ1a1vt4cPAzvYqFBeJ8Mz4csocZLdC8eUKZhz0/RMH?=
+ =?us-ascii?Q?oWb0ltIOD6kdP1kRREpfRXX3DP5ksqn88VNf1LfrlEYoCSvLIYZSAN+eSiGa?=
+ =?us-ascii?Q?OW1wwwp2RT5rRsKKHlyFXPGfbOfiBLL/0bFbgnAjusKxeyDYWLyf5EOc3XzD?=
+ =?us-ascii?Q?bxTyCzXc4CIzlDVGqt+V5UBKO+/GMhno6EWU0eAlpWlaGApsI/PfjG8tx9Tb?=
+ =?us-ascii?Q?lxf3qKtrz7PfchK+jhh84CcuzhYHwxkqZNOa5jAuIVncYxLPFCQZI4c1luIh?=
+ =?us-ascii?Q?QSBMJPdt+Hyo9Z1QANr5dvCz50W/asJ4ze8qF3/8L71piK01lkbtW2v5ASjX?=
+ =?us-ascii?Q?PU0opP6Vn4iaFZ6/nZcip3i/2lCyOp0RTF+c0PrN9xdA9T4HrzW2h1OdcTwO?=
+ =?us-ascii?Q?5Z6+WnmoVdYXz9V7V0e1KxdvlpK3Q8oxdSPpVQtq/+zkyvscytrBMlecMnXH?=
+ =?us-ascii?Q?DpN/wDEFsQG86kDZAF1s3tbvUaEPEu/8W7UHhbTJoXVI2/Kxl/OjbCSgthM9?=
+ =?us-ascii?Q?Hwg9v0U1PalurFHsQ8Ms12hGV8HSMv1oS8yzWemX/gzB37qB5kavoLaA4DO2?=
+ =?us-ascii?Q?o4pBDGTwhoJANkt+hxzgVLY6uT747sVmckRASdSSZEI1xo0ktHqZyO1KhZE0?=
+ =?us-ascii?Q?S9RMlgDq3sxDGueCzBgOnIT42hYeBIQ2A7s0k2e8BjWqbVBM1acTLnfp7Ia2?=
+ =?us-ascii?Q?rdfqJ6TgNyDWn3Qhg55X9TtMK6Fsd17F3uDHu+Ie0+HAxCaqU4RTb0g8EkaW?=
+ =?us-ascii?Q?FwZVGk5pJThaVUnXm9/yVO2owKrm72y6o1sXMTwUFVQy61eUC0LGSwsYgYqL?=
+ =?us-ascii?Q?8m2vuoUf8o3OuMY7b2CAYIv+IDGc6CUXOyi1axuWqodQA9JutBE+9GHNpzcw?=
+ =?us-ascii?Q?45ghZBj9N/G9CXCdgqUuqhM50JNMg1VOgnzEsMX8GMIvtu8jbh/4z6Ornpnr?=
+ =?us-ascii?Q?y7cDw77LR8UkW0GubQtI3GwAMFcGpTK5n4nKeOizEDfuuFShFo3qwqyHSscO?=
+ =?us-ascii?Q?VHh7NXhBDGMP5OCU9ZQtCPRr8BxhGd0=3D?=
+X-OriginatorOrg: oracle.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: f5b3f4bc-b1e6-474a-5d26-08da1c64fbee
+X-MS-Exchange-CrossTenant-AuthSource: MWHPR1001MB2365.namprd10.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 12 Apr 2022 09:15:27.6762 (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 4e2c6054-71cb-48f1-bd6c-3a9705aca71b
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: AdS192OT6ZKsymYxvc/TJBJlQo7d9L1PqbjvYRSZ4k597/zLB1jR1uHaJdmhW1ywZKjroN2b5n+qVoB4A49f6dlRsFZQXPJ/eOmsKn6HgiM=
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: MWHPR10MB1471
+X-Proofpoint-Virus-Version: vendor=fsecure engine=2.50.10434:6.0.425, 18.0.858
+ definitions=2022-04-12_03:2022-04-11,
+ 2022-04-12 signatures=0
+X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 bulkscore=0
+ suspectscore=0
+ malwarescore=0 mlxlogscore=999 spamscore=0 adultscore=0 phishscore=0
+ mlxscore=0 classifier=spam adjust=0 reason=mlx scancount=1
+ engine=8.12.0-2202240000 definitions=main-2204120043
+X-Proofpoint-ORIG-GUID: 88SnPnmBTrd2qQ1U30iaxowWcEi5ucg1
+X-Proofpoint-GUID: 88SnPnmBTrd2qQ1U30iaxowWcEi5ucg1
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -75,427 +152,44 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: devicetree@vger.kernel.org, linux-fbdev@vger.kernel.org,
- linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
- Markus Schneider-Pargmann <msp@baylibre.com>,
- linux-mediatek@lists.infradead.org, linux-phy@lists.infradead.org,
- linux-arm-kernel@lists.infradead.org, markyacoub@google.com
+Cc: David Airlie <airlied@linux.ie>, kernel-janitors@vger.kernel.org,
+ VMware Graphics Reviewers <linux-graphics-maintainer@vmware.com>,
+ dri-devel@lists.freedesktop.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Tue, 29 Mar 2022 05:16, Rex-BC Chen <rex-bc.chen@mediatek.com> wrote:
->On Mon, 2022-03-28 at 00:39 +0200, Guillaume Ranquet wrote:
->> dpintf is the displayport interface hardware unit. This unit is
->> similar
->> to dpi and can reuse most of the code.
->>
->> This patch adds support for mt8195-dpintf to this dpi driver. Main
->> differences are:
->>  - Some features/functional components are not available for dpintf
->>    which are now excluded from code execution once is_dpintf is set
->>  - dpintf can and needs to choose between different clockdividers
->> based
->>    on the clockspeed. This is done by choosing a different clock
->> parent.
->>  - There are two additional clocks that need to be managed. These are
->>    only set for dpintf and will be set to NULL if not supplied. The
->>    clk_* calls handle these as normal clocks then.
->>  - Some register contents differ slightly between the two components.
->> To
->>    work around this I added register bits/masks with a DPINTF_ prefix
->>    and use them where different.
->>
->> Based on a separate driver for dpintf created by
->> Jason-JH.Lin <jason-jh.lin@mediatek.com>.
->>
->> Signed-off-by: Markus Schneider-Pargmann <msp@baylibre.com>
->> Signed-off-by: Guillaume Ranquet <granquet@baylibre.com>
->> Reviewed-by: AngeloGioacchino Del Regno <
->> angelogioacchino.delregno@collabora.com>
->> ---
->>  drivers/gpu/drm/mediatek/mtk_dpi.c          | 78 ++++++++++++++++++-
->> --
->>  drivers/gpu/drm/mediatek/mtk_dpi_regs.h     | 38 ++++++++++
->>  drivers/gpu/drm/mediatek/mtk_drm_ddp_comp.c |  8 +++
->>  drivers/gpu/drm/mediatek/mtk_drm_ddp_comp.h |  1 +
->>  drivers/gpu/drm/mediatek/mtk_drm_drv.c      |  5 +-
->>  include/linux/soc/mediatek/mtk-mmsys.h      |  2 +
->>  6 files changed, 120 insertions(+), 12 deletions(-)
->>
->> diff --git a/drivers/gpu/drm/mediatek/mtk_dpi.c
->> b/drivers/gpu/drm/mediatek/mtk_dpi.c
->> index eb969c5c5c2e..8198d3cf23ac 100644
->> --- a/drivers/gpu/drm/mediatek/mtk_dpi.c
->> +++ b/drivers/gpu/drm/mediatek/mtk_dpi.c
->> @@ -126,6 +126,7 @@ struct mtk_dpi_conf {
->>  	const u32 *output_fmts;
->>  	u32 num_output_fmts;
->>  	bool is_ck_de_pol;
->> +	bool is_dpintf;
->>  	bool swap_input_support;
->>  	/* Mask used for HWIDTH, HPORCH, VSYNC_WIDTH and VSYNC_PORCH
->> (no shift) */
->>  	u32 dimension_mask;
->> @@ -498,11 +499,11 @@ static int mtk_dpi_set_display_mode(struct
->> mtk_dpi *dpi,
->>
->>  	vm.pixelclock = pll_rate / factor;
->>  	if ((dpi->output_fmt == MEDIA_BUS_FMT_RGB888_2X12_LE) ||
->> -	    (dpi->output_fmt == MEDIA_BUS_FMT_RGB888_2X12_BE))
->> +		 (dpi->output_fmt == MEDIA_BUS_FMT_RGB888_2X12_BE)) {
->>  		clk_set_rate(dpi->pixel_clk, vm.pixelclock * 2);
->> -	else
->> +	} else {
->>  		clk_set_rate(dpi->pixel_clk, vm.pixelclock);
->> -
->> +	}
->>
->>  	vm.pixelclock = clk_get_rate(dpi->pixel_clk);
->>
->> @@ -515,9 +516,15 @@ static int mtk_dpi_set_display_mode(struct
->> mtk_dpi *dpi,
->>  			    MTK_DPI_POLARITY_FALLING :
->> MTK_DPI_POLARITY_RISING;
->>  	dpi_pol.vsync_pol = vm.flags & DISPLAY_FLAGS_VSYNC_HIGH ?
->>  			    MTK_DPI_POLARITY_FALLING :
->> MTK_DPI_POLARITY_RISING;
->> -	hsync.sync_width = vm.hsync_len;
->> -	hsync.back_porch = vm.hback_porch;
->> -	hsync.front_porch = vm.hfront_porch;
->> +	if (dpi->conf->is_dpintf) {
->> +		hsync.sync_width = vm.hsync_len / 4;
->> +		hsync.back_porch = vm.hback_porch / 4;
->> +		hsync.front_porch = vm.hfront_porch / 4;
->> +	} else {
->> +		hsync.sync_width = vm.hsync_len;
->> +		hsync.back_porch = vm.hback_porch;
->> +		hsync.front_porch = vm.hfront_porch;
->> +	}
->>  	hsync.shift_half_line = false;
->>  	vsync_lodd.sync_width = vm.vsync_len;
->>  	vsync_lodd.back_porch = vm.vback_porch;
->> @@ -559,13 +566,20 @@ static int mtk_dpi_set_display_mode(struct
->> mtk_dpi *dpi,
->>  	mtk_dpi_config_channel_limit(dpi);
->>  	mtk_dpi_config_bit_num(dpi, dpi->bit_num);
->>  	mtk_dpi_config_channel_swap(dpi, dpi->channel_swap);
->> -	mtk_dpi_config_yc_map(dpi, dpi->yc_map);
->>  	mtk_dpi_config_color_format(dpi, dpi->color_format);
->> -	mtk_dpi_config_2n_h_fre(dpi);
->> -	mtk_dpi_dual_edge(dpi);
->> -	mtk_dpi_config_disable_edge(dpi);
->> +	if (dpi->conf->is_dpintf) {
->> +		mtk_dpi_mask(dpi, DPI_CON, DPINTF_INPUT_2P_EN,
->> +			     DPINTF_INPUT_2P_EN);
->> +	} else {
->> +		mtk_dpi_config_yc_map(dpi, dpi->yc_map);
->> +		mtk_dpi_config_2n_h_fre(dpi);
->> +		mtk_dpi_dual_edge(dpi);
->> +		mtk_dpi_config_disable_edge(dpi);
->> +	}
->>  	mtk_dpi_sw_reset(dpi, false);
->>
->> +	mtk_dpi_enable(dpi);
->> +
->>  	return 0;
->>  }
->>
->> @@ -642,7 +656,10 @@ static int mtk_dpi_bridge_atomic_check(struct
->> drm_bridge *bridge,
->>  	dpi->bit_num = MTK_DPI_OUT_BIT_NUM_8BITS;
->>  	dpi->channel_swap = MTK_DPI_OUT_CHANNEL_SWAP_RGB;
->>  	dpi->yc_map = MTK_DPI_OUT_YC_MAP_RGB;
->> -	dpi->color_format = MTK_DPI_COLOR_FORMAT_RGB;
->> +	if (out_bus_format == MEDIA_BUS_FMT_YUYV8_1X16)
->> +		dpi->color_format =
->> MTK_DPI_COLOR_FORMAT_YCBCR_422_FULL;
->> +	else
->> +		dpi->color_format = MTK_DPI_COLOR_FORMAT_RGB;
->>
->>  	return 0;
->>  }
->> @@ -801,6 +818,16 @@ static unsigned int mt8183_calculate_factor(int
->> clock)
->>  		return 2;
->>  }
->>
->> +static unsigned int mt8195_dpintf_calculate_factor(int clock)
->> +{
->> +	if (clock < 70000)
->> +		return 4;
->> +	else if (clock < 200000)
->> +		return 2;
->> +	else
->> +		return 1;
->> +}
->> +
->>  static const u32 mt8173_output_fmts[] = {
->>  	MEDIA_BUS_FMT_RGB888_1X24,
->>  };
->> @@ -810,6 +837,12 @@ static const u32 mt8183_output_fmts[] = {
->>  	MEDIA_BUS_FMT_RGB888_2X12_BE,
->>  };
->>
->> +static const u32 mt8195_output_fmts[] = {
->> +	MEDIA_BUS_FMT_RGB888_1X24,
->> +	MEDIA_BUS_FMT_YUV8_1X24,
->> +	MEDIA_BUS_FMT_YUYV8_1X16,
->> +};
->> +
->>  static const struct mtk_dpi_yc_limit mtk_dpi_limit = {
->>  	.c_bottom = 0x0010,
->>  	.c_top = 0x0FE0,
->> @@ -817,6 +850,13 @@ static const struct mtk_dpi_yc_limit
->> mtk_dpi_limit = {
->>  	.y_top = 0x0FE0,
->>  };
->>
->> +static const struct mtk_dpi_yc_limit mtk_dpintf_limit = {
->> +	.c_bottom = 0x0000,
->> +	.c_top = 0xFFF,
->> +	.y_bottom = 0x0000,
->> +	.y_top = 0xFFF,
->> +};
->> +
->>  static const struct mtk_dpi_conf mt8173_conf = {
->>  	.cal_factor = mt8173_calculate_factor,
->>  	.reg_h_fre_con = 0xe0,
->> @@ -882,6 +922,19 @@ static const struct mtk_dpi_conf mt8192_conf = {
->>  	.limit = &mtk_dpi_limit,
->>  };
->>
->> +static const struct mtk_dpi_conf mt8195_dpintf_conf = {
->> +	.cal_factor = mt8195_dpintf_calculate_factor,
->> +	.output_fmts = mt8195_output_fmts,
->> +	.num_output_fmts = ARRAY_SIZE(mt8195_output_fmts),
->> +	.is_dpintf = true,
->> +	.dimension_mask = DPINTF_HPW_MASK,
->> +	.hvsize_mask = DPINTF_HSIZE_MASK,
->> +	.channel_swap_shift = DPINTF_CH_SWAP,
->> +	.yuv422_en_bit = DPINTF_YUV422_EN,
->> +	.csc_enable_bit = DPINTF_CSC_ENABLE,
->> +	.limit = &mtk_dpintf_limit,
->> +};
->> +
->>  static int mtk_dpi_probe(struct platform_device *pdev)
->>  {
->>  	struct device *dev = &pdev->dev;
->> @@ -1004,6 +1057,9 @@ static const struct of_device_id
->> mtk_dpi_of_ids[] = {
->>  	{ .compatible = "mediatek,mt8192-dpi",
->>  	  .data = &mt8192_conf,
->>  	},
->> +	{ .compatible = "mediatek,mt8195-dpintf",
->> +	  .data = &mt8195_dpintf_conf,
->> +	},
->>  	{ },
->>  };
->>  MODULE_DEVICE_TABLE(of, mtk_dpi_of_ids);
->> diff --git a/drivers/gpu/drm/mediatek/mtk_dpi_regs.h
->> b/drivers/gpu/drm/mediatek/mtk_dpi_regs.h
->> index 3a02fabe1662..91b32dfffced 100644
->> --- a/drivers/gpu/drm/mediatek/mtk_dpi_regs.h
->> +++ b/drivers/gpu/drm/mediatek/mtk_dpi_regs.h
->> @@ -40,10 +40,15 @@
->>  #define FAKE_DE_LEVEN			BIT(21)
->>  #define FAKE_DE_RODD			BIT(22)
->>  #define FAKE_DE_REVEN			BIT(23)
->> +#define DPINTF_YUV422_EN		BIT(24)
->> +#define DPINTF_CSC_ENABLE		BIT(26)
->> +#define DPINTF_INPUT_2P_EN		BIT(29)
->>
->>  #define DPI_OUTPUT_SETTING	0x14
->>  #define CH_SWAP				0
->> +#define DPINTF_CH_SWAP			BIT(1)
->>  #define CH_SWAP_MASK			(0x7 << 0)
->> +#define DPINTF_CH_SWAP_MASK		(0x7 << 1)
->>  #define SWAP_RGB			0x00
->>  #define SWAP_GBR			0x01
->>  #define SWAP_BRG			0x02
->> @@ -80,8 +85,10 @@
->>  #define DPI_SIZE		0x18
->>  #define HSIZE				0
->>  #define HSIZE_MASK			(0x1FFF << 0)
->> +#define DPINTF_HSIZE_MASK		(0xFFFF << 0)
->>  #define VSIZE				16
->>  #define VSIZE_MASK			(0x1FFF << 16)
->> +#define DPINTF_VSIZE_MASK		(0xFFFF << 16)
->>
->>  #define DPI_DDR_SETTING		0x1C
->>  #define DDR_EN				BIT(0)
->> @@ -93,24 +100,30 @@
->>  #define DPI_TGEN_HWIDTH		0x20
->>  #define HPW				0
->>  #define HPW_MASK			(0xFFF << 0)
->> +#define DPINTF_HPW_MASK			(0xFFFF << 0)
->>
->>  #define DPI_TGEN_HPORCH		0x24
->>  #define HBP				0
->>  #define HBP_MASK			(0xFFF << 0)
->> +#define DPINTF_HBP_MASK			(0xFFFF << 0)
->>  #define HFP				16
->>  #define HFP_MASK			(0xFFF << 16)
->> +#define DPINTF_HFP_MASK			(0xFFFF << 16)
->>
->>  #define DPI_TGEN_VWIDTH		0x28
->>  #define DPI_TGEN_VPORCH		0x2C
->>
->>  #define VSYNC_WIDTH_SHIFT		0
->>  #define VSYNC_WIDTH_MASK		(0xFFF << 0)
->> +#define DPINTF_VSYNC_WIDTH_MASK		(0xFFFF << 0)
->>  #define VSYNC_HALF_LINE_SHIFT		16
->>  #define VSYNC_HALF_LINE_MASK		BIT(16)
->>  #define VSYNC_BACK_PORCH_SHIFT		0
->>  #define VSYNC_BACK_PORCH_MASK		(0xFFF << 0)
->> +#define DPINTF_VSYNC_BACK_PORCH_MASK	(0xFFFF << 0)
->>  #define VSYNC_FRONT_PORCH_SHIFT		16
->>  #define VSYNC_FRONT_PORCH_MASK		(0xFFF << 16)
->> +#define DPINTF_VSYNC_FRONT_PORCH_MASK	(0xFFFF << 16)
->>
->>  #define DPI_BG_HCNTL		0x30
->>  #define BG_RIGHT			(0x1FFF << 0)
->> @@ -217,4 +230,29 @@
->>
->>  #define EDGE_SEL_EN			BIT(5)
->>  #define H_FRE_2N			BIT(25)
->> +
->> +#define DPI_MATRIX_SET	0xB4
->> +#define INT_MATRIX_SEL			BIT(0)
->> +#define INT_MATRIX_SEL_MASK		(0x1F << 0)
->> +#define RGB_TO_JPEG			0x00
->> +#define RGB_TO_FULL709			0x01
->> +#define RGB_TO_BT601			0x02
->> +#define RGB_TO_BT709			0x03
->> +#define JPEG_TO_RGB			0x04
->> +#define FULL709_TO_RGB			0x05
->> +#define BT601_TO_RGB			0x06
->> +#define BT709_TO_RGB			0x07
->> +#define JPEG_TO_BT601			0x08
->> +#define JPEG_TO_BT709			0x09
->> +#define BT601_TO_JPEG			0xA
->> +#define BT709_TO_JPEG			0xB
->> +#define BT709_TO_BT601			0xC
->> +#define BT601_TO_BT709			0xD
->> +#define JPEG_TO_CERGB			0x14
->> +#define FULL709_TO_CERGB		0x15
->> +#define BT601_TO_CERGB			0x16
->> +#define BT709_TO_CERGB			0x17
->> +#define RGB_TO_CERGB			0x1C
->> +#define MATRIX_BIT			BIT(8)
->> +#define EXT_MATRIX_EN			BIT(12)
->>  #endif /* __MTK_DPI_REGS_H */
->> diff --git a/drivers/gpu/drm/mediatek/mtk_drm_ddp_comp.c
->> b/drivers/gpu/drm/mediatek/mtk_drm_ddp_comp.c
->> index 2e99aee13dfe..558fc2733358 100644
->> --- a/drivers/gpu/drm/mediatek/mtk_drm_ddp_comp.c
->> +++ b/drivers/gpu/drm/mediatek/mtk_drm_ddp_comp.c
->> @@ -351,6 +351,11 @@ static const char * const
->> mtk_ddp_comp_stem[MTK_DDP_COMP_TYPE_MAX] = {
->>  	[MTK_DISP_WDMA] = "wdma",
->>  	[MTK_DPI] = "dpi",
->>  	[MTK_DSI] = "dsi",
->> +	[MTK_DP_INTF] = "dp-intf",
->> +	[MTK_DISP_PWM] = "pwm",
->> +	[MTK_DISP_MUTEX] = "mutex",
->> +	[MTK_DISP_OD] = "od",
->> +	[MTK_DISP_BLS] = "bls",
->>  };
->>
->>  struct mtk_ddp_comp_match {
->> @@ -369,6 +374,8 @@ static const struct mtk_ddp_comp_match
->> mtk_ddp_matches[DDP_COMPONENT_ID_MAX] = {
->>  	[DDP_COMPONENT_DITHER]		= { MTK_DISP_DITHER,	0,
->> &ddp_dither },
->>  	[DDP_COMPONENT_DPI0]		= { MTK_DPI,		0,
->> &ddp_dpi },
->>  	[DDP_COMPONENT_DPI1]		= { MTK_DPI,		1,
->> &ddp_dpi },
->> +	[DDP_COMPONENT_DP_INTF0]	= { MTK_DP_INTF,	0, &ddp_dpi
->> },
->> +	[DDP_COMPONENT_DP_INTF1]	= { MTK_DP_INTF,	1, &ddp_dpi
->> },
->>  	[DDP_COMPONENT_DSI0]		= { MTK_DSI,		0,
->> &ddp_dsi },
->>  	[DDP_COMPONENT_DSI1]		= { MTK_DSI,		1,
->> &ddp_dsi },
->>  	[DDP_COMPONENT_DSI2]		= { MTK_DSI,		2,
->> &ddp_dsi },
->> @@ -481,6 +488,7 @@ int mtk_ddp_comp_init(struct device_node *node,
->> struct mtk_ddp_comp *comp,
->>  	    type == MTK_DISP_PWM ||
->>  	    type == MTK_DISP_RDMA ||
->>  	    type == MTK_DPI ||
->> +	    type == MTK_DP_INTF ||
->>  	    type == MTK_DSI)
->>  		return 0;
->>
->> diff --git a/drivers/gpu/drm/mediatek/mtk_drm_ddp_comp.h
->> b/drivers/gpu/drm/mediatek/mtk_drm_ddp_comp.h
->> index ad267bb8fc9b..43ad74be509e 100644
->> --- a/drivers/gpu/drm/mediatek/mtk_drm_ddp_comp.h
->> +++ b/drivers/gpu/drm/mediatek/mtk_drm_ddp_comp.h
->> @@ -34,6 +34,7 @@ enum mtk_ddp_comp_type {
->>  	MTK_DISP_UFOE,
->>  	MTK_DISP_WDMA,
->>  	MTK_DPI,
->> +	MTK_DP_INTF,
->>  	MTK_DSI,
->>  	MTK_DDP_COMP_TYPE_MAX,
->>  };
->> diff --git a/drivers/gpu/drm/mediatek/mtk_drm_drv.c
->> b/drivers/gpu/drm/mediatek/mtk_drm_drv.c
->> index 247c6ff277ef..c8a233f609f0 100644
->> --- a/drivers/gpu/drm/mediatek/mtk_drm_drv.c
->> +++ b/drivers/gpu/drm/mediatek/mtk_drm_drv.c
->> @@ -509,6 +509,8 @@ static const struct of_device_id
->> mtk_ddp_comp_dt_ids[] = {
->>  	  .data = (void *)MTK_DPI },
->>  	{ .compatible = "mediatek,mt8183-dpi",
->>  	  .data = (void *)MTK_DPI },
->> +	{ .compatible = "mediatek,mt8195-dpintf",
->> +	  .data = (void *)MTK_DP_INTF },
->>  	{ .compatible = "mediatek,mt2701-dsi",
->>  	  .data = (void *)MTK_DSI },
->>  	{ .compatible = "mediatek,mt8173-dsi",
->> @@ -609,7 +611,8 @@ static int mtk_drm_probe(struct platform_device
->> *pdev)
->>  		    comp_type == MTK_DISP_OVL_2L ||
->>  		    comp_type == MTK_DISP_RDMA ||
->>  		    comp_type == MTK_DPI ||
->> -		    comp_type == MTK_DSI) {
->> +		    comp_type == MTK_DPI ||
->> +		    comp_type == MTK_DP_INTF) {
->
->Hello Guillaume,
->
->Is this modification correct?
->MTK_DPI appears twice and MTK_DSI is removed.
->
-This is not correct, I've messed up my rebase it seems.
+The IS_ERR_OR_NULL() check in vmw_translate_mob_ptr() should just be
+an IS_ERR() check.
 
-Thx for your review.
+The NULL check is confusing because vmw_user_bo_noref_lookup() can never
+return NULL.  A NULL return here would only lead to bugs and crashing.
+For example, Smatch complains that it would lead to an uninitialized
+variable in the caller.
 
->
->BRs,
->Rex
->
->>  			dev_info(dev, "Adding component match for
->> %pOF\n",
->>  				 node);
->>  			drm_of_component_match_add(dev, &match,
->> component_compare_of,
->> diff --git a/include/linux/soc/mediatek/mtk-mmsys.h
->> b/include/linux/soc/mediatek/mtk-mmsys.h
->> index 4bba275e235a..56ed2fa5f59e 100644
->> --- a/include/linux/soc/mediatek/mtk-mmsys.h
->> +++ b/include/linux/soc/mediatek/mtk-mmsys.h
->> @@ -19,6 +19,8 @@ enum mtk_ddp_comp_id {
->>  	DDP_COMPONENT_DITHER,
->>  	DDP_COMPONENT_DPI0,
->>  	DDP_COMPONENT_DPI1,
->> +	DDP_COMPONENT_DP_INTF0,
->> +	DDP_COMPONENT_DP_INTF1,
->>  	DDP_COMPONENT_DSI0,
->>  	DDP_COMPONENT_DSI1,
->>  	DDP_COMPONENT_DSI2,
->
+    drivers/gpu/drm/vmwgfx/vmwgfx_execbuf.c:1314 vmw_cmd_dx_bind_query()
+    error: uninitialized symbol 'vmw_bo'.
+
+So clean this code up and silence then static checker warnings by
+removing the bogus NULL check.
+
+Signed-off-by: Dan Carpenter <dan.carpenter@oracle.com>
+---
+ drivers/gpu/drm/vmwgfx/vmwgfx_execbuf.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+
+diff --git a/drivers/gpu/drm/vmwgfx/vmwgfx_execbuf.c b/drivers/gpu/drm/vmwgfx/vmwgfx_execbuf.c
+index d49de4905efa..8072c053be97 100644
+--- a/drivers/gpu/drm/vmwgfx/vmwgfx_execbuf.c
++++ b/drivers/gpu/drm/vmwgfx/vmwgfx_execbuf.c
+@@ -1172,7 +1172,7 @@ static int vmw_translate_mob_ptr(struct vmw_private *dev_priv,
+ 
+ 	vmw_validation_preload_bo(sw_context->ctx);
+ 	vmw_bo = vmw_user_bo_noref_lookup(sw_context->filp, handle);
+-	if (IS_ERR_OR_NULL(vmw_bo)) {
++	if (IS_ERR(vmw_bo)) {
+ 		VMW_DEBUG_USER("Could not find or use MOB buffer.\n");
+ 		return PTR_ERR(vmw_bo);
+ 	}
+-- 
+2.20.1
+
