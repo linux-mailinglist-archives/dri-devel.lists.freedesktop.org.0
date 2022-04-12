@@ -2,82 +2,61 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 537904FE0C7
-	for <lists+dri-devel@lfdr.de>; Tue, 12 Apr 2022 14:49:38 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 2BD494FE141
+	for <lists+dri-devel@lfdr.de>; Tue, 12 Apr 2022 14:56:20 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 09AF910E73C;
-	Tue, 12 Apr 2022 12:49:36 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id CED8910E940;
+	Tue, 12 Apr 2022 12:56:15 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from us-smtp-delivery-124.mimecast.com
- (us-smtp-delivery-124.mimecast.com [170.10.129.124])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 835E910E945
- for <dri-devel@lists.freedesktop.org>; Tue, 12 Apr 2022 12:49:34 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1649767773;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=6aZBKTB5BdnestxMdj/07bW+IS1GqohyMIbIwvT48vw=;
- b=WHuZBdrokSJ+Qlz0hzQYsEXGsa7kr2s522yjSMAuwa9qjSOk7wECwxISIreNbPMPfEt8A+
- /wKABg1B8EstxjGv6qWE2QyiprTU5DfC99i9N+k9IdZ7eRdgFzXLDa4KYNYJmfuAARZktJ
- kbXQ1RP5vRpQEa6KlTItzOuLtt9CI7I=
-Received: from mail-wr1-f69.google.com (mail-wr1-f69.google.com
- [209.85.221.69]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-527-hzklTC9XMXiRVDCEfxVbuQ-1; Tue, 12 Apr 2022 08:49:32 -0400
-X-MC-Unique: hzklTC9XMXiRVDCEfxVbuQ-1
-Received: by mail-wr1-f69.google.com with SMTP id
- f2-20020a056000036200b00207a14a1f96so1499930wrf.3
- for <dri-devel@lists.freedesktop.org>; Tue, 12 Apr 2022 05:49:32 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
- :content-language:to:cc:references:from:in-reply-to
- :content-transfer-encoding;
- bh=6aZBKTB5BdnestxMdj/07bW+IS1GqohyMIbIwvT48vw=;
- b=BBBDNb195l32VLYY09QoL2Q62d9YwmUUABCV+fccz08Ega1wSO4tLzvuG9UQLa3sJd
- q0m7pOV9EAGvZRo5JMHGJP6UzHugzNSyH05udIDFp++EZL+0sMzAQjvjMNqoUPK0Tp97
- Wir/GGSPhdJREL363s0jnK/y/ySicLmhk1MxHwBQN2rlHrouoiHkVT/GZwwoFNUkihnO
- ooijUrYfDiL0kNe/Sick88cStpq0TDRLTIEq1qT3FYmr31i25tv7ALJ3Am53XG1evvqR
- rw5/1H8l9ZValqHWbxXcXdDfeRf/1cCA9knjjBcN7mW5FiVJsOfRrOLKLFz8bOjyc9Fr
- K/cQ==
-X-Gm-Message-State: AOAM532D6TLBMLVFxmfCkMLu8T/9EvDtsDrO2RImBVZyxqcAJVX3t3jr
- vAcN1czYeHVu731keYb04Vu8xu39YcpVX3/20jfHrdXrKIBkAqXQscpZH6GkR+SnJyCkVoYLAVp
- kO6bjcWmUGdveuYQdsCMsmygM4xr5
-X-Received: by 2002:a1c:35c2:0:b0:38e:c75d:90a3 with SMTP id
- c185-20020a1c35c2000000b0038ec75d90a3mr3401930wma.98.1649767771389; 
- Tue, 12 Apr 2022 05:49:31 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJygjYoMGC2lgYeBF5Ke4bl1SzKCjpQSFH5jCLjSKYAGIYkoI4H+oTt5pffQRoaBBQWPPpiY7w==
-X-Received: by 2002:a1c:35c2:0:b0:38e:c75d:90a3 with SMTP id
- c185-20020a1c35c2000000b0038ec75d90a3mr3401912wma.98.1649767771190; 
- Tue, 12 Apr 2022 05:49:31 -0700 (PDT)
-Received: from [192.168.1.102] ([92.176.231.205])
- by smtp.gmail.com with ESMTPSA id
- 2-20020a056000154200b00203ee1fd1desm31172443wry.64.2022.04.12.05.49.30
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Tue, 12 Apr 2022 05:49:30 -0700 (PDT)
-Message-ID: <60bfa30c-35d7-7853-5741-b7a1ec9e0441@redhat.com>
-Date: Tue, 12 Apr 2022 14:49:29 +0200
+Received: from mailgw01.mediatek.com (unknown [60.244.123.138])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 1464A10E940
+ for <dri-devel@lists.freedesktop.org>; Tue, 12 Apr 2022 12:56:13 +0000 (UTC)
+X-UUID: 195961d0d3824634bd16168e6558019d-20220412
+X-CID-P-RULE: Release_Ham
+X-CID-O-INFO: VERSION:1.1.4, REQID:c7eac565-ae39-4f72-bfa8-f628effbda32, OB:0,
+ LO
+ B:0,IP:0,URL:0,TC:0,Content:2,EDM:0,RT:0,SF:45,FILE:0,RULE:Release_Ham,ACT
+ ION:release,TS:47
+X-CID-INFO: VERSION:1.1.4, REQID:c7eac565-ae39-4f72-bfa8-f628effbda32, OB:0,
+ LOB:
+ 0,IP:0,URL:0,TC:0,Content:2,EDM:0,RT:0,SF:45,FILE:0,RULE:Release_Ham,ACTIO
+ N:release,TS:47
+X-CID-META: VersionHash:faefae9, CLOUDID:5f41e8a8-d103-4e36-82b9-b0e86991b3df,
+ C
+ OID:IGNORED,Recheck:0,SF:13|15|28|17|19|48,TC:nil,Content:4,EDM:-3,File:ni
+ l,QS:0,BEC:nil
+X-UUID: 195961d0d3824634bd16168e6558019d-20220412
+Received: from mtkcas10.mediatek.inc [(172.21.101.39)] by mailgw01.mediatek.com
+ (envelope-from <xinlei.lee@mediatek.com>)
+ (Generic MTA with TLSv1.2 ECDHE-RSA-AES256-SHA384 256/256)
+ with ESMTP id 784011843; Tue, 12 Apr 2022 20:56:09 +0800
+Received: from mtkexhb01.mediatek.inc (172.21.101.102) by
+ mtkmbs07n2.mediatek.inc (172.21.101.141) with Microsoft SMTP Server (TLS) id
+ 15.0.1497.2; Tue, 12 Apr 2022 20:56:07 +0800
+Received: from mtkcas11.mediatek.inc (172.21.101.40) by mtkexhb01.mediatek.inc
+ (172.21.101.102) with Microsoft SMTP Server (TLS) id 15.0.1497.2;
+ Tue, 12 Apr 2022 20:56:07 +0800
+Received: from mszsdhlt06 (10.16.6.206) by mtkcas11.mediatek.inc
+ (172.21.101.73) with Microsoft SMTP Server id 15.0.1497.2 via Frontend
+ Transport; Tue, 12 Apr 2022 20:56:05 +0800
+Message-ID: <07f7e011dce0f443df3f259b9e1a8b4db90dc803.camel@mediatek.com>
+Subject: Re: [PATCH v4,2/2] drm/mediatek: Add mt8186 dpi compatible to
+ mtk_dpi.c
+From: xinlei.lee <xinlei.lee@mediatek.com>
+To: CK Hu <ck.hu@mediatek.com>, <chunkuang.hu@kernel.org>,
+ <p.zabel@pengutronix.de>, <airlied@linux.ie>, <daniel@ffwll.ch>,
+ <robh+dt@kernel.org>, <matthias.bgg@gmail.com>
+Date: Tue, 12 Apr 2022 20:56:36 +0800
+In-Reply-To: <17f8b17fee57115fb885e86a4b9aab4e7ed2df86.camel@mediatek.com>
+References: <1649645584-13186-1-git-send-email-xinlei.lee@mediatek.com>
+ <1649645584-13186-3-git-send-email-xinlei.lee@mediatek.com>
+ <17f8b17fee57115fb885e86a4b9aab4e7ed2df86.camel@mediatek.com>
+Content-Type: text/plain; charset="UTF-8"
+X-Mailer: Evolution 3.28.5-0ubuntu0.18.04.2 
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.7.0
-Subject: Re: [PATCH v2 1/5] dt-bindings: display: ssd1307fb: Deprecate "-i2c"
- compatible strings
-To: wens@kernel.org
-References: <20220411211243.11121-1-javierm@redhat.com>
- <20220411211243.11121-2-javierm@redhat.com>
- <CAGb2v65CBZp3DZFGX0GMTaQQPYMKJTJMNoU2V5u7MxsLN7ONKQ@mail.gmail.com>
-From: Javier Martinez Canillas <javierm@redhat.com>
-In-Reply-To: <CAGb2v65CBZp3DZFGX0GMTaQQPYMKJTJMNoU2V5u7MxsLN7ONKQ@mail.gmail.com>
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=javierm@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Language: en-US
-Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 7bit
+X-MTK: N
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -90,38 +69,83 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: devicetree <devicetree@vger.kernel.org>,
- Neil Armstrong <narmstrong@baylibre.com>, David Airlie <airlied@linux.ie>,
- Mark Brown <broonie@kernel.org>, linux-kernel <linux-kernel@vger.kernel.org>,
- dri-devel <dri-devel@lists.freedesktop.org>, Rob Herring <robh+dt@kernel.org>,
- Geert Uytterhoeven <geert@linux-m68k.org>,
- Krzysztof Kozlowski <krzk+dt@kernel.org>,
- Andy Shevchenko <andriy.shevchenko@linux.intel.com>
+Cc: devicetree@vger.kernel.org, jitao.shi@mediatek.com,
+ linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
+ Project_Global_Chrome_Upstream_Group@mediatek.com,
+ linux-mediatek@lists.infradead.org, rex-bc.chen@mediatek.com,
+ linux-arm-kernel@lists.infradead.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hello Chen-Yu,
-
-On 4/12/22 14:07, Chen-Yu Tsai wrote:
-> On Tue, Apr 12, 2022 at 5:12 AM Javier Martinez Canillas
-> <javierm@redhat.com> wrote:
-
-[snip]
-
+On Tue, 2022-04-12 at 16:20 +0800, CK Hu wrote:
+> Hi, Xinlei:
 > 
-> I think you can just drop this one, since it was just merged and isn't
-> part of any release yet. It's not even in -rc.
->
-
-I believe you are correct and we could just drop that one.
- 
-> ChenYu
+> On Mon, 2022-04-11 at 10:53 +0800, xinlei.lee@mediatek.com wrote:
+> > From: Xinlei Lee <xinlei.lee@mediatek.com>
+> > 
+> > Add the compatible because use different .data in mt8186.
+> > 
+> > Signed-off-by: Xinlei Lee <xinlei.lee@mediatek.com>
+> > ---
+> >  drivers/gpu/drm/mediatek/mtk_dpi.c | 11 +++++++++++
+> >  1 file changed, 11 insertions(+)
+> > 
+> > diff --git a/drivers/gpu/drm/mediatek/mtk_dpi.c
+> > b/drivers/gpu/drm/mediatek/mtk_dpi.c
+> > index 4554e2de1430..824d7da41c6a 100644
+> > --- a/drivers/gpu/drm/mediatek/mtk_dpi.c
+> > +++ b/drivers/gpu/drm/mediatek/mtk_dpi.c
+> > @@ -815,6 +815,14 @@ static const struct mtk_dpi_conf mt8183_conf =
+> > {
+> >  	.num_output_fmts = ARRAY_SIZE(mt8183_output_fmts),
+> >  };
+> >  
+> > +static const struct mtk_dpi_conf mt8186_conf = {
+> > +	.cal_factor =  mt8183_calculate_factor,
+> > +	.reg_h_fre_con = 0xe0,
+> > +	.max_clock_khz = 150000,
+> > +	.output_fmts = mt8183_output_fmts,
+> > +	.num_output_fmts = ARRAY_SIZE(mt8183_output_fmts),
+> > +};
+> > +
+> >  static const struct mtk_dpi_conf mt8192_conf = {
+> >  	.cal_factor = mt8183_calculate_factor,
+> >  	.reg_h_fre_con = 0xe0,
+> > @@ -942,6 +950,9 @@ static const struct of_device_id
+> > mtk_dpi_of_ids[]
+> > = {
+> >  	{ .compatible = "mediatek,mt8183-dpi",
+> >  	  .data = &mt8183_conf,
+> >  	},
+> > +	{ .compatible = "mediatek,mt8186-dpi",
+> > +	  .data = &mt8186_conf,
+> 
+> If Nicolas' patch [1] is correct, this should be
+> 
+> .data = &mt8192_conf,
+> 
+> Could you help to comfirm patch [1] is correct or not?
+> 
+> [1] 
+> 
+https://patchwork.kernel.org/project/linux-mediatek/patch/20220408013950.674477-1-nfraprado@collabora.com/
+> 
+> Regards,
+> CK
+> 
+> > +	},
+> >  	{ .compatible = "mediatek,mt8192-dpi",
+> >  	  .data = &mt8192_conf,
+> >  	},
+> 
 > 
 
--- 
-Best regards,
+Hi CK:
 
-Javier Martinez Canillas
-Linux Engineering
-Red Hat
+Thanks for your review.
+I checked that mt8186_conf & mt8192_conf are the same.
+In the next version, I will remove mt8186_conf and reuse mt8192_conf.
+
+Best Regards!
+xinlei
 
