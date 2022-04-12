@@ -1,54 +1,51 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id B25124FC919
-	for <lists+dri-devel@lfdr.de>; Tue, 12 Apr 2022 02:09:04 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 58CFA4FC920
+	for <lists+dri-devel@lfdr.de>; Tue, 12 Apr 2022 02:13:16 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 02B0210E179;
-	Tue, 12 Apr 2022 00:09:02 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 39BAD10E1A3;
+	Tue, 12 Apr 2022 00:13:11 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from alexa-out-sd-01.qualcomm.com (alexa-out-sd-01.qualcomm.com
- [199.106.114.38])
- by gabe.freedesktop.org (Postfix) with ESMTPS id B3DE710E16C;
- Tue, 12 Apr 2022 00:08:59 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=quicinc.com; i=@quicinc.com; q=dns/txt; s=qcdkim;
- t=1649722139; x=1681258139;
- h=from:to:cc:subject:date:message-id:mime-version;
- bh=DLDI2IJxrURbomnkYSPFOqTi3nETLpUA42/90O1WM0Q=;
- b=fuSdXIR7sgk2pUetmlZeHwJVEj6Rsxf0WNnSL5QAVaPt3UcBBpQGFVLj
- QjiWmdMHJeOydtiPXE7AljLUAtjFyKYuRXL5Q0DKY5lOrOV2hB+6Jivcm
- Hr0VmfCfeW3b/BOEk8BHDBGj4cxTXv2puKOVYlYllW3g5BSjjYfgoD+rO Q=;
-Received: from unknown (HELO ironmsg03-sd.qualcomm.com) ([10.53.140.143])
- by alexa-out-sd-01.qualcomm.com with ESMTP; 11 Apr 2022 17:08:59 -0700
-X-QCInternal: smtphost
-Received: from nasanex01c.na.qualcomm.com ([10.47.97.222])
- by ironmsg03-sd.qualcomm.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 11 Apr 2022 17:08:58 -0700
-Received: from nalasex01a.na.qualcomm.com (10.47.209.196) by
- nasanex01c.na.qualcomm.com (10.47.97.222) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.2.986.22; Mon, 11 Apr 2022 17:08:57 -0700
-Received: from khsieh-linux1.qualcomm.com (10.80.80.8) by
- nalasex01a.na.qualcomm.com (10.47.209.196) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.2.986.22; Mon, 11 Apr 2022 17:08:56 -0700
-From: Kuogee Hsieh <quic_khsieh@quicinc.com>
-To: <robdclark@gmail.com>, <sean@poorly.run>, <swboyd@chromium.org>,
- <vkoul@kernel.org>, <daniel@ffwll.ch>, <airlied@linux.ie>,
- <agross@kernel.org>, <dmitry.baryshkov@linaro.org>,
- <bjorn.andersson@linaro.org>
-Subject: [PATCH] drm/msm/dp: stop event kernel thread when DP unbind
-Date: Mon, 11 Apr 2022 17:08:49 -0700
-Message-ID: <1649722129-12542-1-git-send-email-quic_khsieh@quicinc.com>
-X-Mailer: git-send-email 2.7.4
+Received: from mga17.intel.com (mga17.intel.com [192.55.52.151])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id CC03510E18C;
+ Tue, 12 Apr 2022 00:13:09 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+ t=1649722389; x=1681258389;
+ h=date:from:to:cc:subject:message-id:references:
+ mime-version:in-reply-to;
+ bh=ZrA6IPSlpMeV5apEVTbTswcV8UyOWEgiAiQFjIRQHGM=;
+ b=SJYfIGb27DOQy3CQE1sbn59/iIT7i4SqVTiVEOi+COdSAWog5Wi2hmVN
+ BD/3lwbSFClDV5vU+2T+OXkd9MYpG8v5hVZpav8yqfOdXweJYKXVcxjIM
+ n8kjwK/Kc9ISVHKj8PvdJLB6vvvYF1a7Ns/oQVDHY23l/oWtWj9QGKDA3
+ BMqJDXsZNNlYB1ZPuq0P4aQ21ATkKanad6rX+LcBJOQqhde/moLQtXDHe
+ N2DHkZgUV2WCEpCmaiIlxsCuZqgCrLul4Ulr+cEBW/9BGkss2UY1HvBnj
+ 7MNuwK3XCpUuy6ZAQXhsz7pFsC3tDDXMEkoWLN2TSx6TonN6rNaswWIBv Q==;
+X-IronPort-AV: E=McAfee;i="6400,9594,10314"; a="242830493"
+X-IronPort-AV: E=Sophos;i="5.90,252,1643702400"; d="scan'208";a="242830493"
+Received: from fmsmga003.fm.intel.com ([10.253.24.29])
+ by fmsmga107.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 11 Apr 2022 17:13:09 -0700
+X-IronPort-AV: E=Sophos;i="5.90,252,1643702400"; d="scan'208";a="644489923"
+Received: from mdroper-desk1.fm.intel.com (HELO
+ mdroper-desk1.amr.corp.intel.com) ([10.1.27.134])
+ by fmsmga003-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 11 Apr 2022 17:13:09 -0700
+Date: Mon, 11 Apr 2022 17:13:08 -0700
+From: Matt Roper <matthew.d.roper@intel.com>
+To: Francisco Jerez <currojerez@riseup.net>
+Subject: Re: [PATCH v4 RFC] drm/i915/uapi: Add
+ DRM_I915_QUERY_GEOMETRY_SUBSLICES
+Message-ID: <YlTEFJicjghWYed+@mdroper-desk1.amr.corp.intel.com>
+References: <20220330215311.21849-1-matthew.s.atwood@intel.com>
+ <YkX7hTrEZN53MN+z@phenom.ffwll.local> <87czi0fnv5.fsf@riseup.net>
 MIME-Version: 1.0
-Content-Type: text/plain
-X-Originating-IP: [10.80.80.8]
-X-ClientProxiedBy: nasanex01a.na.qualcomm.com (10.52.223.231) To
- nalasex01a.na.qualcomm.com (10.47.209.196)
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <87czi0fnv5.fsf@riseup.net>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -61,87 +58,90 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: quic_sbillaka@quicinc.com, linux-arm-msm@vger.kernel.org,
- quic_abhinavk@quicinc.com, dri-devel@lists.freedesktop.org,
- quic_khsieh@quicinc.com, quic_aravindh@quicinc.com,
- freedreno@lists.freedesktop.org, linux-kernel@vger.kernel.org
+Cc: vrtko.ursulin@linux.intel.com, intel-gfx@lists.freedesktop.org,
+ Matt Atwood <matthew.s.atwood@intel.com>, dri-devel@lists.freedesktop.org,
+ Ashutosh Dixit <ashutosh.dixit@intel.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Current DP driver implementation, event thread is kept running
-after DP display is unbind. This patch fix this problem by disabling
-DP irq and stop event thread to exit gracefully at dp_display_unbind().
+On Fri, Apr 01, 2022 at 03:19:26PM -0700, Francisco Jerez wrote:
+> Daniel Vetter <daniel@ffwll.ch> writes:
+> 
+> > On Wed, Mar 30, 2022 at 02:53:11PM -0700, Matt Atwood wrote:
+...
+> >> @@ -2718,6 +2719,9 @@ struct drm_i915_query_item {
+> >>  	 *	- DRM_I915_QUERY_PERF_CONFIG_LIST
+> >>  	 *      - DRM_I915_QUERY_PERF_CONFIG_DATA_FOR_UUID
+> >>  	 *      - DRM_I915_QUERY_PERF_CONFIG_FOR_UUID
+> >> +	 *
+> >> +	 * When query_id == DRM_I915_QUERY_GEOMETRY_SUBSLICES must have a valid
+> >> +	 * i915_engine_class_instance struct.
+> 
+> It would also be worth adding to the documentation that the specified engine
+> must be a render engine instance.
+> 
+> >>  	 */
+> >>  	__u32 flags;
+> >>  #define DRM_I915_QUERY_PERF_CONFIG_LIST          1
+> >> @@ -2776,16 +2780,20 @@ struct drm_i915_query {
+> >>  };
+> >>  
+> >>  /*
+> >
+> > Can we please include this in the kerneldoc, and also make sure that the
+> > queries are nicely all listed somewhere and link to each respective
+> > information structure?
+> >
+> > Most of the doc for queries is there now, but the presentation and linking
+> > lacks still a lot.
+> > -Daniel
 
-Fixes: e91e3065a806 ("drm/msm/dp: Add DP compliance tests on Snapdragon Chipsets")
-Signed-off-by: Kuogee Hsieh <quic_khsieh@quicinc.com>
----
- drivers/gpu/drm/msm/dp/dp_display.c | 24 ++++++++++++++++++++++--
- 1 file changed, 22 insertions(+), 2 deletions(-)
+MattA is out at the moment, so I've picked this up in his absence; I
+sent a new series here that includes various kerneldoc updates in
+addition to his patch:
 
-diff --git a/drivers/gpu/drm/msm/dp/dp_display.c b/drivers/gpu/drm/msm/dp/dp_display.c
-index 01453db..fa1ef8e 100644
---- a/drivers/gpu/drm/msm/dp/dp_display.c
-+++ b/drivers/gpu/drm/msm/dp/dp_display.c
-@@ -113,6 +113,7 @@ struct dp_display_private {
- 	u32 hpd_state;
- 	u32 event_pndx;
- 	u32 event_gndx;
-+	struct task_struct *ev_tsk;
- 	struct dp_event event_list[DP_EVENT_Q_MAX];
- 	spinlock_t event_lock;
- 
-@@ -273,6 +274,8 @@ static int dp_display_bind(struct device *dev, struct device *master,
- 	return rc;
- }
- 
-+static void dp_hpd_event_stop(struct dp_display_private *dp_priv);
-+
- static void dp_display_unbind(struct device *dev, struct device *master,
- 			      void *data)
- {
-@@ -280,6 +283,8 @@ static void dp_display_unbind(struct device *dev, struct device *master,
- 	struct drm_device *drm = dev_get_drvdata(master);
- 	struct msm_drm_private *priv = drm->dev_private;
- 
-+	disable_irq(dp->irq);
-+	dp_hpd_event_stop(dp);
- 	dp_power_client_deinit(dp->power);
- 	dp_aux_unregister(dp->aux);
- 	priv->dp[dp->id] = NULL;
-@@ -1054,7 +1059,7 @@ static int hpd_event_thread(void *data)
- 
- 	dp_priv = (struct dp_display_private *)data;
- 
--	while (1) {
-+	while (!kthread_should_stop()) {
- 		if (timeout_mode) {
- 			wait_event_timeout(dp_priv->event_q,
- 				(dp_priv->event_pndx == dp_priv->event_gndx),
-@@ -1137,7 +1142,22 @@ static void dp_hpd_event_setup(struct dp_display_private *dp_priv)
- 	init_waitqueue_head(&dp_priv->event_q);
- 	spin_lock_init(&dp_priv->event_lock);
- 
--	kthread_run(hpd_event_thread, dp_priv, "dp_hpd_handler");
-+	dp_priv->ev_tsk = kthread_run(hpd_event_thread, dp_priv, "dp_hpd_handler");
-+
-+	if (IS_ERR(dp_priv->ev_tsk))
-+		DRM_ERROR("failed to create DP event thread\n");
-+}
-+
-+static void dp_hpd_event_stop(struct dp_display_private *dp_priv)
-+{
-+	if (IS_ERR(dp_priv->ev_tsk))
-+		return;
-+
-+	kthread_stop(dp_priv->ev_tsk);
-+
-+	/* reset event q to empty */
-+	dp_priv->event_gndx = 0;
-+	dp_priv->event_pndx = 0;
- }
- 
- static irqreturn_t dp_display_irq_handler(int irq, void *dev_id)
+   https://patchwork.freedesktop.org/series/102553/
+
+Let me know if that's more along the lines of what you guys were looking
+for.
+
+
+Matt
+
+> >
+> >> - * Data written by the kernel with query DRM_I915_QUERY_TOPOLOGY_INFO :
+> >> + * Data written by the kernel with query DRM_I915_QUERY_TOPOLOGY_INFO,
+> >> + * DRM_I915_QUERY_GEOMETRY_SUBSLICE:
+> >>   *
+> >>   * data: contains the 3 pieces of information :
+> >>   *
+> >> - * - the slice mask with one bit per slice telling whether a slice is
+> >> - *   available. The availability of slice X can be queried with the following
+> >> - *   formula :
+> >> + * - For DRM_I915_QUERY_TOPOLOGY_INFO the slice mask with one bit per slice
+> >> + *   telling whether a slice is available. The availability of slice X can be
+> >> + *   queried with the following formula :
+> >>   *
+> >>   *           (data[X / 8] >> (X % 8)) & 1
+> >>   *
+> >> + * - For DRM_I915_QUERY_GEOMETRY_SUBSLICES Slices are equal to 1 and this field
+> >> + *   is not used.
+> >> + *
+> >>   * - the subslice mask for each slice with one bit per subslice telling
+> >>   *   whether a subslice is available. Gen12 has dual-subslices, which are
+> >>   *   similar to two gen11 subslices. For gen12, this array represents dual-
+> >> -- 
+> >> 2.21.3
+> >> 
+> >
+> > -- 
+> > Daniel Vetter
+> > Software Engineer, Intel Corporation
+> > http://blog.ffwll.ch
+
 -- 
-The Qualcomm Innovation Center, Inc. is a member of the Code Aurora Forum,
-a Linux Foundation Collaborative Project
-
+Matt Roper
+Graphics Software Engineer
+VTT-OSGC Platform Enablement
+Intel Corporation
+(916) 356-2795
