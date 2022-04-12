@@ -1,51 +1,76 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3E58F4FE234
-	for <lists+dri-devel@lfdr.de>; Tue, 12 Apr 2022 15:20:31 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 3F5594FE264
+	for <lists+dri-devel@lfdr.de>; Tue, 12 Apr 2022 15:23:39 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 141A610E965;
-	Tue, 12 Apr 2022 13:20:27 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id EF68910E9C2;
+	Tue, 12 Apr 2022 13:23:35 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mga11.intel.com (mga11.intel.com [192.55.52.93])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 7538610E965;
- Tue, 12 Apr 2022 13:20:25 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1649769625; x=1681305625;
- h=date:from:to:cc:subject:message-id:references:
- mime-version:in-reply-to;
- bh=F5DrwCYc4rg9n8kivlBj3MPhar/heY2mgeWZA41LUfs=;
- b=OE3e5rFognvKZtP7wuTcOG6cK+gDmhaUM6erabulTA+D44+YdqdX8wce
- LPpcuUBlqdhntZwTngfI2DuVRCi7Omlr4QqBbHvj9CAYw5tG6EDetXXhx
- usBx0BAKXaq24XEthSnWT0e0y4qLGUZMGPkV0P1U5psW/9KVGZPB5GBfj
- gWc0QNJtKbdCn0qiBJ8AhkdwHXdPxVaXgeVka1J4pX1sBE6Wn/XdRBRot
- Pqhwa8Neef38If/f2+iVmw9yzuGfn7LU2YqwbZ7eFJHcM55uCzFCk0xf+
- +c2p6SyiMiz3nLJqv1pmcjVDGCrvpf3eBBFT21GuW4LMqV3Gh5bhOVNKb A==;
-X-IronPort-AV: E=McAfee;i="6400,9594,10314"; a="259967508"
-X-IronPort-AV: E=Sophos;i="5.90,253,1643702400"; d="scan'208";a="259967508"
-Received: from orsmga003.jf.intel.com ([10.7.209.27])
- by fmsmga102.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 12 Apr 2022 06:20:24 -0700
-X-IronPort-AV: E=Sophos;i="5.90,253,1643702400"; d="scan'208";a="507540868"
-Received: from aguzmanb-mobl.amr.corp.intel.com (HELO intel.com)
- ([10.255.33.149])
- by orsmga003-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 12 Apr 2022 06:20:20 -0700
-Date: Tue, 12 Apr 2022 09:20:18 -0400
-From: Rodrigo Vivi <rodrigo.vivi@intel.com>
-To: Sean Paul <sean@poorly.run>
-Subject: Re: [PATCH v5 02/10] drm/hdcp: Avoid changing crtc state in hdcp
- atomic check
-Message-ID: <YlV8ki79h9jYj3Dw@intel.com>
-References: <20220411204741.1074308-1-sean@poorly.run>
- <20220411204741.1074308-3-sean@poorly.run>
+Received: from wout4-smtp.messagingengine.com (wout4-smtp.messagingengine.com
+ [64.147.123.20])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 51CE110E9C2
+ for <dri-devel@lists.freedesktop.org>; Tue, 12 Apr 2022 13:23:33 +0000 (UTC)
+Received: from compute5.internal (compute5.nyi.internal [10.202.2.45])
+ by mailout.west.internal (Postfix) with ESMTP id 816853200D53;
+ Tue, 12 Apr 2022 09:23:29 -0400 (EDT)
+Received: from mailfrontend1 ([10.202.2.162])
+ by compute5.internal (MEProxy); Tue, 12 Apr 2022 09:23:30 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=cerno.tech; h=cc
+ :cc:content-type:date:date:from:from:in-reply-to:in-reply-to
+ :message-id:mime-version:references:reply-to:sender:subject
+ :subject:to:to; s=fm3; t=1649769809; x=1649856209; bh=SCBBhq7C9q
+ 0Z6mR7hQqmWZHCx1ZocRttm3x1QobmTTg=; b=QA+HwR/CwtCKhYGOcy9Z1ZwoEP
+ inlBN2ws97HMBG/hMwgNWmPRguDSmiKr0/BZNLpGZUA8q5ZZCuIQ07806K+Nu8wK
+ sFbKZrqUeDstfgwZTC+R4v6zdbx4vlk3ZLRrp50BiJbTKDZcN+5R4ZVMkMytFjC1
+ j0aRg9WwXSzK6BUX5BBSlPccQb7upozo37NR6jADtIuiCrT/MDR8rq3sRjYQ81Da
+ jVt9cJTzhOhyjoIaKbmAA6hWnYpIjqYvhyN5SNZ8ZY5Q18bozkYlKQpzAjAMOutM
+ b6lWyAhYUXat95dTmFq0KxIGGxhb/UYp2ngsxEe2SxxR14VDQS6omEEcYDTw==
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
+ messagingengine.com; h=cc:cc:content-type:date:date:from:from
+ :in-reply-to:in-reply-to:message-id:mime-version:references
+ :reply-to:sender:subject:subject:to:to:x-me-proxy:x-me-proxy
+ :x-me-sender:x-me-sender:x-sasl-enc; s=fm3; t=1649769809; x=
+ 1649856209; bh=SCBBhq7C9q0Z6mR7hQqmWZHCx1ZocRttm3x1QobmTTg=; b=e
+ XPnv5AadguhgwzimhsdMBgjPMrSYdpp+TnjGKJ4FJw+68TnBXeDKp1wbAPQhwJrg
+ K/C7vrPZq2y6WiPh1geWoz8vSpJGyL1qFCezZ9ULBCyrnE3juylOkeuPXZkueFLi
+ SBbUrb3o4BxGDlAMsGG+RB5pwzrqpXOTNgt8cMkhVT/BAiZMAJwkbQP+fEE6Qz59
+ ZqrKt1mbCiKLFOqx153EnIupjOT+iU+yK1ThDi7GJ5WAJr3P7aJ+OFXaRvBRf+ED
+ qceJbixeumR4D7sPffWhD2bcwhTi2OGVv0Da1w0dKLouFLZ3uymsTE5NvD99FxoU
+ O9UiIrisktUT7HPhd0DNA==
+X-ME-Sender: <xms:T31VYjxvmgYuCr3LCP8dbUYvbIy12F6BOyo9oB-EnrCzzjaSsAYRSg>
+ <xme:T31VYrRg92peaIZ7uheflRnWYbEHTtGfHQjXyaM_ivlHOW7RNd6Pg-NHUb8OeMTQu
+ _v3p7PVidw281g4Ya4>
+X-ME-Received: <xmr:T31VYtU8hgF9-XI-3K1rx2WT7SHTotivfOEnsFyC2KDn6HfNnFXmlJ1ri1qayx5-v-n2vhR9BBAEyTkGYnD0Q8YjNQ-APRaioXS1HZ8>
+X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvvddrudekkedgiedvucetufdoteggodetrfdotf
+ fvucfrrhhofhhilhgvmecuhfgrshhtofgrihhlpdfqfgfvpdfurfetoffkrfgpnffqhgen
+ uceurghilhhouhhtmecufedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmne
+ cujfgurhepfffhvffukfhfgggtuggjsehgtderredttddvnecuhfhrohhmpeforgigihhm
+ vgcutfhiphgrrhguuceomhgrgihimhgvsegtvghrnhhordhtvggthheqnecuggftrfgrth
+ htvghrnhepleekgeehhfdutdeljefgleejffehfffgieejhffgueefhfdtveetgeehieeh
+ gedunecuvehluhhsthgvrhfuihiivgeptdenucfrrghrrghmpehmrghilhhfrhhomhepmh
+ grgihimhgvsegtvghrnhhordhtvggthh
+X-ME-Proxy: <xmx:T31VYtiwDlD-FHeWW_X7sJVeK5cH0-h8wzxzt1fl3TPdzROvFMu8Jw>
+ <xmx:T31VYlAgh9wQZI8_87yrpoaPOvI-qXfIXviGKhuy2UTDtWpIKY5kOQ>
+ <xmx:T31VYmI-N_eCzYBWNcuua5_5sJlp7KWQs8Vq1rTNGIYMxTwvvA9CvQ>
+ <xmx:UX1VYp0EwhfrWJuYbbmgn1LBahUqSxO5llrF7oJ1VJ8tFQx_KLGdSA>
+Received: by mail.messagingengine.com (Postfix) with ESMTPA; Tue,
+ 12 Apr 2022 09:23:27 -0400 (EDT)
+Date: Tue, 12 Apr 2022 15:23:25 +0200
+From: Maxime Ripard <maxime@cerno.tech>
+To: Samuel Holland <samuel@sholland.org>
+Subject: Re: [PATCH 3/6] drm/sun4i: sun8i-hdmi-phy: Used device-managed
+ clocks/resets
+Message-ID: <20220412132325.bq2c3g2fskckfgpz@houat>
+References: <20220412043512.49364-1-samuel@sholland.org>
+ <20220412043512.49364-4-samuel@sholland.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
+Content-Type: multipart/signed; micalg=pgp-sha512;
+ protocol="application/pgp-signature"; boundary="542vfuzlbowtb4mg"
 Content-Disposition: inline
-In-Reply-To: <20220411204741.1074308-3-sean@poorly.run>
+In-Reply-To: <20220412043512.49364-4-samuel@sholland.org>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -58,156 +83,148 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Tvrtko Ursulin <tvrtko.ursulin@linux.intel.com>, jani.nikula@intel.com,
- markyacoub@chromium.org, intel-gfx@lists.freedesktop.org,
- dri-devel@lists.freedesktop.org, swboyd@chromium.org,
- David Airlie <airlied@linux.ie>, Sean Paul <seanpaul@chromium.org>,
- abhinavk@codeaurora.org, Thomas Zimmermann <tzimmermann@suse.de>,
- bjorn.andersson@linaro.org, freedreno@lists.freedesktop.org
+Cc: David Airlie <airlied@linux.ie>, linux-kernel@vger.kernel.org,
+ dri-devel@lists.freedesktop.org, Chen-Yu Tsai <wens@csie.org>,
+ Jernej Skrabec <jernej.skrabec@gmail.com>, linux-sunxi@lists.linux.dev,
+ linux-arm-kernel@lists.infradead.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Mon, Apr 11, 2022 at 08:47:31PM +0000, Sean Paul wrote:
-> From: Sean Paul <seanpaul@chromium.org>
-> 
-> Instead of forcing a modeset in the hdcp atomic check, simply return
-> true if the content protection value is changing and let the driver
-> decide whether a modeset is required or not.
-> 
-> Acked-by: Jani Nikula <jani.nikula@intel.com>
-> Signed-off-by: Sean Paul <seanpaul@chromium.org>
-> Link: https://patchwork.freedesktop.org/patch/msgid/20210913175747.47456-3-sean@poorly.run #v1
-> Link: https://patchwork.freedesktop.org/patch/msgid/20210915203834.1439-3-sean@poorly.run #v2
-> Link: https://patchwork.freedesktop.org/patch/msgid/20211001151145.55916-3-sean@poorly.run #v3
-> Link: https://patchwork.freedesktop.org/patch/msgid/20211105030434.2828845-3-sean@poorly.run #v4
-> 
-> Changes in v2:
-> -None
-> Changes in v3:
-> -None
-> Changes in v4:
-> -None
-> Changes in v5:
-> -None
+
+--542vfuzlbowtb4mg
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
+
+Hi,
+
+On Mon, Apr 11, 2022 at 11:35:08PM -0500, Samuel Holland wrote:
+> Now that the HDMI PHY is using a platform driver, it can use device-
+> managed resources. Use these, as well as the dev_err_probe helper, to
+> simplify the probe function and get rid of the remove function.
+>=20
+> Signed-off-by: Samuel Holland <samuel@sholland.org>
 > ---
->  drivers/gpu/drm/drm_hdcp.c                  | 33 +++++++++++++++------
->  drivers/gpu/drm/i915/display/intel_atomic.c |  5 ++--
->  include/drm/drm_hdcp.h                      |  2 +-
->  3 files changed, 27 insertions(+), 13 deletions(-)
-> 
-> diff --git a/drivers/gpu/drm/drm_hdcp.c b/drivers/gpu/drm/drm_hdcp.c
-> index 522326b03e66..dd8fa91c51d6 100644
-> --- a/drivers/gpu/drm/drm_hdcp.c
-> +++ b/drivers/gpu/drm/drm_hdcp.c
-> @@ -430,11 +430,14 @@ EXPORT_SYMBOL(drm_hdcp_update_content_protection);
->   * @connector: drm_connector on which content protection state needs an update
->   *
->   * This function can be used by display drivers to perform an atomic check on the
-> - * hdcp state elements. If hdcp state has changed, this function will set
-> - * mode_changed on the crtc driving the connector so it can update its hardware
-> - * to match the hdcp state.
-> + * hdcp state elements. If hdcp state has changed in a manner which requires the
-> + * driver to enable or disable content protection, this function will return
-> + * true.
-> + *
-> + * Returns:
-> + * true if the driver must enable/disable hdcp, false otherwise
->   */
-> -void drm_hdcp_atomic_check(struct drm_connector *connector,
-> +bool drm_hdcp_atomic_check(struct drm_connector *connector,
->  			   struct drm_atomic_state *state)
+>=20
+>  drivers/gpu/drm/sun4i/sun8i_hdmi_phy.c | 100 ++++++++-----------------
+>  1 file changed, 30 insertions(+), 70 deletions(-)
+>=20
+> diff --git a/drivers/gpu/drm/sun4i/sun8i_hdmi_phy.c b/drivers/gpu/drm/sun=
+4i/sun8i_hdmi_phy.c
+> index 1effa30bfe62..1351e633d485 100644
+> --- a/drivers/gpu/drm/sun4i/sun8i_hdmi_phy.c
+> +++ b/drivers/gpu/drm/sun4i/sun8i_hdmi_phy.c
+> @@ -673,10 +673,8 @@ int sun8i_hdmi_phy_get(struct sun8i_dw_hdmi *hdmi, s=
+truct device_node *node)
+>  static int sun8i_hdmi_phy_probe(struct platform_device *pdev)
 >  {
->  	struct drm_connector_state *new_conn_state, *old_conn_state;
-> @@ -452,10 +455,12 @@ void drm_hdcp_atomic_check(struct drm_connector *connector,
->  		 * If the connector is being disabled with CP enabled, mark it
->  		 * desired so it's re-enabled when the connector is brought back
->  		 */
-> -		if (old_hdcp == DRM_MODE_CONTENT_PROTECTION_ENABLED)
-> +		if (old_hdcp == DRM_MODE_CONTENT_PROTECTION_ENABLED) {
->  			new_conn_state->content_protection =
->  				DRM_MODE_CONTENT_PROTECTION_DESIRED;
-> -		return;
-> +			return true;
-> +		}
-> +		return false;
->  	}
->  
->  	new_crtc_state = drm_atomic_get_new_crtc_state(state,
-> @@ -467,9 +472,19 @@ void drm_hdcp_atomic_check(struct drm_connector *connector,
->  	*/
->  	if (drm_atomic_crtc_needs_modeset(new_crtc_state) &&
->  	    (old_hdcp == DRM_MODE_CONTENT_PROTECTION_ENABLED &&
-> -	     new_hdcp != DRM_MODE_CONTENT_PROTECTION_UNDESIRED))
-> +	     new_hdcp != DRM_MODE_CONTENT_PROTECTION_UNDESIRED)) {
->  		new_conn_state->content_protection =
->  			DRM_MODE_CONTENT_PROTECTION_DESIRED;
-> +		return true;
-> +	}
-> +
-> +	/*
-> +	 * Coming back from disable or changing CRTC with DESIRED state requires
-> +	 * that the driver try CP enable.
-> +	 */
-> +	if (new_hdcp == DRM_MODE_CONTENT_PROTECTION_DESIRED &&
-> +	    new_conn_state->crtc != old_conn_state->crtc)
-> +		return true;
-
-I'm with the feeling that this chunk should deserve a separated patch.
-But the reason looks correct so anyway
-
-Reviewed-by: Rodrigo Vivi <rodrigo.vivi@intel.com>
-
->  
->  	/*
->  	 * Nothing to do if content type is unchanged and one of:
-> @@ -484,9 +499,9 @@ void drm_hdcp_atomic_check(struct drm_connector *connector,
->  	     new_hdcp == DRM_MODE_CONTENT_PROTECTION_DESIRED)) {
->  		if (old_conn_state->hdcp_content_type ==
->  				new_conn_state->hdcp_content_type)
-> -			return;
-> +			return false;
->  	}
->  
-> -	new_crtc_state->mode_changed = true;
-> +	return true;
->  }
->  EXPORT_SYMBOL(drm_hdcp_atomic_check);
-> diff --git a/drivers/gpu/drm/i915/display/intel_atomic.c b/drivers/gpu/drm/i915/display/intel_atomic.c
-> index b301a4d1017e..6d24b3450399 100644
-> --- a/drivers/gpu/drm/i915/display/intel_atomic.c
-> +++ b/drivers/gpu/drm/i915/display/intel_atomic.c
-> @@ -124,8 +124,6 @@ int intel_digital_connector_atomic_check(struct drm_connector *conn,
->  		to_intel_digital_connector_state(old_state);
->  	struct drm_crtc_state *crtc_state;
->  
-> -	drm_hdcp_atomic_check(conn, state);
+>  	struct device *dev =3D &pdev->dev;
+> -	struct device_node *node =3D dev->of_node;
+>  	struct sun8i_hdmi_phy *phy;
+>  	void __iomem *regs;
+> -	int ret;
+> =20
+>  	phy =3D devm_kzalloc(dev, sizeof(*phy), GFP_KERNEL);
+>  	if (!phy)
+> @@ -686,88 +684,50 @@ static int sun8i_hdmi_phy_probe(struct platform_dev=
+ice *pdev)
+>  	phy->dev =3D dev;
+> =20
+>  	regs =3D devm_platform_ioremap_resource(pdev, 0);
+> -	if (IS_ERR(regs)) {
+> -		dev_err(dev, "Couldn't map the HDMI PHY registers\n");
+> -		return PTR_ERR(regs);
+> -	}
+> +	if (IS_ERR(regs))
+> +		return dev_err_probe(dev, PTR_ERR(regs),
+> +				     "Couldn't map the HDMI PHY registers\n");
+> =20
+>  	phy->regs =3D devm_regmap_init_mmio(dev, regs,
+>  					  &sun8i_hdmi_phy_regmap_config);
+> -	if (IS_ERR(phy->regs)) {
+> -		dev_err(dev, "Couldn't create the HDMI PHY regmap\n");
+> -		return PTR_ERR(phy->regs);
+> -	}
+> +	if (IS_ERR(phy->regs))
+> +		return dev_err_probe(dev, PTR_ERR(phy->regs),
+> +				     "Couldn't create the HDMI PHY regmap\n");
+> =20
+> -	phy->clk_bus =3D of_clk_get_by_name(node, "bus");
+> -	if (IS_ERR(phy->clk_bus)) {
+> -		dev_err(dev, "Could not get bus clock\n");
+> -		return PTR_ERR(phy->clk_bus);
+> -	}
 > -
->  	if (!new_state->crtc)
->  		return 0;
->  
-> @@ -142,7 +140,8 @@ int intel_digital_connector_atomic_check(struct drm_connector *conn,
->  	    new_conn_state->base.content_type != old_conn_state->base.content_type ||
->  	    new_conn_state->base.scaling_mode != old_conn_state->base.scaling_mode ||
->  	    new_conn_state->base.privacy_screen_sw_state != old_conn_state->base.privacy_screen_sw_state ||
-> -	    !drm_connector_atomic_hdr_metadata_equal(old_state, new_state))
-> +	    !drm_connector_atomic_hdr_metadata_equal(old_state, new_state) ||
-> +	    drm_hdcp_atomic_check(conn, state))
->  		crtc_state->mode_changed = true;
->  
->  	return 0;
-> diff --git a/include/drm/drm_hdcp.h b/include/drm/drm_hdcp.h
-> index d49977a042e1..e6e3d16bc7d3 100644
-> --- a/include/drm/drm_hdcp.h
-> +++ b/include/drm/drm_hdcp.h
-> @@ -301,7 +301,7 @@ int drm_connector_attach_content_protection_property(
->  		struct drm_connector *connector, bool hdcp_content_type);
->  void drm_hdcp_update_content_protection(struct drm_connector *connector,
->  					u64 val);
-> -void drm_hdcp_atomic_check(struct drm_connector *connector,
-> +bool drm_hdcp_atomic_check(struct drm_connector *connector,
->  			   struct drm_atomic_state *state);
->  
->  /* Content Type classification for HDCP2.2 vs others */
-> -- 
-> Sean Paul, Software Engineer, Google / Chromium OS
-> 
+> -	phy->clk_mod =3D of_clk_get_by_name(node, "mod");
+> -	if (IS_ERR(phy->clk_mod)) {
+> -		dev_err(dev, "Could not get mod clock\n");
+> -		ret =3D PTR_ERR(phy->clk_mod);
+> -		goto err_put_clk_bus;
+> -	}
+> +	phy->clk_bus =3D devm_clk_get(dev, "bus");
+> +	if (IS_ERR(phy->clk_bus))
+> +		return dev_err_probe(dev, PTR_ERR(phy->clk_bus),
+> +				     "Could not get bus clock\n");
+> =20
+> -	if (phy->variant->has_phy_clk) {
+> -		phy->clk_pll0 =3D of_clk_get_by_name(node, "pll-0");
+> -		if (IS_ERR(phy->clk_pll0)) {
+> -			dev_err(dev, "Could not get pll-0 clock\n");
+> -			ret =3D PTR_ERR(phy->clk_pll0);
+> -			goto err_put_clk_mod;
+> -		}
+> -
+> -		if (phy->variant->has_second_pll) {
+> -			phy->clk_pll1 =3D of_clk_get_by_name(node, "pll-1");
+> -			if (IS_ERR(phy->clk_pll1)) {
+> -				dev_err(dev, "Could not get pll-1 clock\n");
+> -				ret =3D PTR_ERR(phy->clk_pll1);
+> -				goto err_put_clk_pll0;
+> -			}
+> -		}
+> -	}
+> +	phy->clk_mod =3D devm_clk_get(dev, "mod");
+> +	if (IS_ERR(phy->clk_mod))
+> +		return dev_err_probe(dev, PTR_ERR(phy->clk_mod),
+> +				     "Could not get mod clock\n");
+> =20
+> -	phy->rst_phy =3D of_reset_control_get_shared(node, "phy");
+> -	if (IS_ERR(phy->rst_phy)) {
+> -		dev_err(dev, "Could not get phy reset control\n");
+> -		ret =3D PTR_ERR(phy->rst_phy);
+> -		goto err_put_clk_pll1;
+> -	}
+> +	if (phy->variant->has_phy_clk)
+> +		phy->clk_pll0 =3D devm_clk_get(dev, "pll-0");
+> +	if (IS_ERR(phy->clk_pll0))
+> +		return dev_err_probe(dev, PTR_ERR(phy->clk_pll0),
+> +				     "Could not get pll-0 clock\n");
+> +
+> +	if (phy->variant->has_second_pll)
+> +		phy->clk_pll1 =3D devm_clk_get(dev, "pll-1");
+> +	if (IS_ERR(phy->clk_pll1))
+> +		return dev_err_probe(dev, PTR_ERR(phy->clk_pll1),
+> +				     "Could not get pll-1 clock\n");
+> +
+> +	phy->rst_phy =3D devm_reset_control_get_shared(dev, "phy");
+> +	if (IS_ERR(phy->rst_phy))
+> +		return dev_err_probe(dev, PTR_ERR(phy->rst_phy),
+> +				     "Could not get phy reset control\n");
+
+I find the old construct clearer with the imbricated blocks.
+
+Otherwise, the rest of the series looks fine, thanks!
+Maxime
+
+--542vfuzlbowtb4mg
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iHUEABYKAB0WIQRcEzekXsqa64kGDp7j7w1vZxhRxQUCYlV9TQAKCRDj7w1vZxhR
+xXz3AQCLd+iM9nW9TMjH67uErKUxeCFePEosuu47NlHJp2MjHQD/dC1dKOtp1lTu
+FRHk3m7R4Cr2sMERznd+wOMkOdpzjQk=
+=f6v7
+-----END PGP SIGNATURE-----
+
+--542vfuzlbowtb4mg--
