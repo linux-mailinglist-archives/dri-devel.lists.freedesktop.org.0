@@ -1,159 +1,114 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5E5154FCADC
-	for <lists+dri-devel@lfdr.de>; Tue, 12 Apr 2022 02:58:07 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 458D04FCAD6
+	for <lists+dri-devel@lfdr.de>; Tue, 12 Apr 2022 02:55:29 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 3936410FB3B;
-	Tue, 12 Apr 2022 00:58:03 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 3A72F10E0FE;
+	Tue, 12 Apr 2022 00:55:26 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mga18.intel.com (mga18.intel.com [134.134.136.126])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 4A9C510E0A4;
- Tue, 12 Apr 2022 00:58:01 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1649725081; x=1681261081;
- h=message-id:date:subject:to:cc:references:from:
- in-reply-to:content-transfer-encoding:mime-version;
- bh=U7imTKCdymQJOTExUz7UZ2SWQQaf2fFHk8IcEclUG4k=;
- b=LrO1TAsIIf3hIVB8m6vfm/WOvv6jg6e6fHCNMZj7KCQVDqpjnVrTr3EC
- yk5IIcHPb6N2VKywtni7EhR6MsJdVPfqbItnMUftkmOOate6vMbVT7TAU
- UwcNyN94pWkoGcCoeMhCmoVQLvROI65ANHME9mqEwqAkX9R+V5GVlnnYL
- CJAmna1FtsH8cbDFl22UKjV+QpVj2GXPPyIkcZT+ePNlZi8rvl29mqkcg
- ZSMEi8ezBhMxKW9oUimTjOqJRBmNx5NHTcdvhObvXqt5JyWhidJgin1G4
- LDopCWABKmzGTy5wUPeWBOJEoL9sKixr2AAaUMhh2wVkBTxAoZUO4DFlu g==;
-X-IronPort-AV: E=McAfee;i="6400,9594,10314"; a="244132554"
-X-IronPort-AV: E=Sophos;i="5.90,252,1643702400"; d="scan'208";a="244132554"
-Received: from orsmga005.jf.intel.com ([10.7.209.41])
- by orsmga106.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 11 Apr 2022 17:57:56 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.90,252,1643702400"; d="scan'208";a="724218787"
-Received: from orsmsx604.amr.corp.intel.com ([10.22.229.17])
- by orsmga005.jf.intel.com with ESMTP; 11 Apr 2022 17:57:56 -0700
-Received: from orsmsx612.amr.corp.intel.com (10.22.229.25) by
- ORSMSX604.amr.corp.intel.com (10.22.229.17) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2308.27; Mon, 11 Apr 2022 17:57:56 -0700
-Received: from orsmsx612.amr.corp.intel.com (10.22.229.25) by
- ORSMSX612.amr.corp.intel.com (10.22.229.25) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2308.27; Mon, 11 Apr 2022 17:57:55 -0700
-Received: from ORSEDG602.ED.cps.intel.com (10.7.248.7) by
- orsmsx612.amr.corp.intel.com (10.22.229.25) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2308.27 via Frontend Transport; Mon, 11 Apr 2022 17:57:55 -0700
-Received: from NAM11-BN8-obe.outbound.protection.outlook.com (104.47.58.169)
- by edgegateway.intel.com (134.134.137.103) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.1.2308.27; Mon, 11 Apr 2022 17:57:55 -0700
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=Jf7KED2FPN00bf4c8bkGNiAGds5s/lYlSzYtQuIwqlBvfrjA9t1BPJoxFsIeEuA+5wyRLuptIY97KKevm/6AK4wKsovhqzUUoNC5v31Gc//MHEKHvFC/gXSuBgURSVjjs94Q0bFVZzoLkAvB8WmTNFfDRFBQnZdJ3zcdA5imXxrL22K3wIsDQxEW8pIPkjZcle6I1/6b91DDnb6+5X4T6Xt2+d1aRBawgVgx2lYw+i20tA2ZJjRkW77vZWWJxbeyXyrZiUlMQ0lNqlLMEgzG4R+HWhpnRkw2ZNmb6Aamg61uFU2X7F4WUj7RLdmJNbxitaRPwPpV9aGIVMLMNNi+bA==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=TZBBsewXxn6awT1bePXLmyGtvLJnrg1D1gun01Q6LlQ=;
- b=HjE8wOwETNPWghM4tSAu3OIrnX/nmYxQaRnjXpkNlQBsQ/IpAVqqmFpovcPM9+ux6b4LM7sa8KA4VNeKjO7YDomnV4ITfgpwAweZ8BHv1dV8Y9vKy0DdcIzXiV0JDaULWeXrwyNOnKxs+DkOmpk9psmiH2H3AJa9v+JzVd/0tQS5WhM6eQ5dYPdutZykh9L4+IEMvr/2VixT3gy88SFx5lWZFb2EghLRayqsFuU+PMhhax6QzkVmuPMMp2Hw5Pv1IgUCbRHuk7Hl3AwR74qUbfITciS7Rj2cvmwsTh8eEgb8c8anShfJWWXHm/pY8VAgiI65+gMUfdNld8sziNRIAQ==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=intel.com; dmarc=pass action=none header.from=intel.com;
- dkim=pass header.d=intel.com; arc=none
-Authentication-Results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=intel.com;
-Received: from DM4PR11MB5488.namprd11.prod.outlook.com (2603:10b6:5:39d::5) by
- CH0PR11MB5283.namprd11.prod.outlook.com (2603:10b6:610:be::8) with
- Microsoft
- SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.20.5144.29; Tue, 12 Apr 2022 00:57:53 +0000
-Received: from DM4PR11MB5488.namprd11.prod.outlook.com
- ([fe80::b561:17d8:3112:913f]) by DM4PR11MB5488.namprd11.prod.outlook.com
- ([fe80::b561:17d8:3112:913f%7]) with mapi id 15.20.5144.029; Tue, 12 Apr 2022
- 00:57:53 +0000
-Message-ID: <8b00cd3b-5c63-de62-6bb1-6f4372048489@intel.com>
-Date: Mon, 11 Apr 2022 17:57:50 -0700
-User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:91.0) Gecko/20100101
- Thunderbird/91.7.0
-Subject: Re: [Intel-gfx] [PATCH v2 4/7] drm/i915/guc: use the memcpy_from_wc
- call from the drm
-Content-Language: en-US
-To: Lucas De Marchi <lucas.demarchi@intel.com>, Balasubramani Vivekanandan
- <balasubramani.vivekanandan@intel.com>
-References: <20220303180013.512219-1-balasubramani.vivekanandan@intel.com>
- <20220303180013.512219-5-balasubramani.vivekanandan@intel.com>
- <20220321211407.ujlokc44jx4kbtvo@ldmartin-desk2>
-From: "Ceraolo Spurio, Daniele" <daniele.ceraolospurio@intel.com>
-In-Reply-To: <20220321211407.ujlokc44jx4kbtvo@ldmartin-desk2>
-Content-Type: text/plain; charset="UTF-8"; format=flowed
-Content-Transfer-Encoding: 8bit
-X-ClientProxiedBy: BYAPR05CA0055.namprd05.prod.outlook.com
- (2603:10b6:a03:74::32) To DM4PR11MB5488.namprd11.prod.outlook.com
- (2603:10b6:5:39d::5)
+X-Greylist: delayed 382 seconds by postgrey-1.36 at gabe;
+ Tue, 12 Apr 2022 00:55:25 UTC
+Received: from mailout1.samsung.com (mailout1.samsung.com [203.254.224.24])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 1B32F10E0FE
+ for <dri-devel@lists.freedesktop.org>; Tue, 12 Apr 2022 00:55:24 +0000 (UTC)
+Received: from epcas1p2.samsung.com (unknown [182.195.41.46])
+ by mailout1.samsung.com (KnoxPortal) with ESMTP id
+ 20220412004900epoutp01bf0858cd540278afa55ad9596eb3f58c~k-7qLN5Vi2848628486epoutp01i
+ for <dri-devel@lists.freedesktop.org>; Tue, 12 Apr 2022 00:49:00 +0000 (GMT)
+DKIM-Filter: OpenDKIM Filter v2.11.0 mailout1.samsung.com
+ 20220412004900epoutp01bf0858cd540278afa55ad9596eb3f58c~k-7qLN5Vi2848628486epoutp01i
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=samsung.com;
+ s=mail20170921; t=1649724540;
+ bh=bM4sT/dgihgAzz88a52hmeLcMkFadU2IK7Fg+HHouf4=;
+ h=Date:Subject:To:Cc:From:In-Reply-To:References:From;
+ b=snAocxfmpBJk6AAnwd97sXKQQEkS+b+e8iIavrHNbuXmpr8/9smoRaINGNOJXX0/s
+ BFLZ703PHf1oCTE5LCSpD0LxRvrMPBLp1h6xsuoOTvbPtVqTCICgEZnoQe2BomJ6Q4
+ YM93gRjoh8Vue0WTlddots3fi75IyK594dXsBZyQ=
+Received: from epsnrtp2.localdomain (unknown [182.195.42.163]) by
+ epcas1p2.samsung.com (KnoxPortal) with ESMTP id
+ 20220412004859epcas1p2b08431c5bfb6bf8408bc99d361f5e549~k-7pdA3Xk0880608806epcas1p2I;
+ Tue, 12 Apr 2022 00:48:59 +0000 (GMT)
+Received: from epsmges1p5.samsung.com (unknown [182.195.36.132]) by
+ epsnrtp2.localdomain (Postfix) with ESMTP id 4KcnCt2bs2z4x9QM; Tue, 12 Apr
+ 2022 00:48:58 +0000 (GMT)
+Received: from epcas1p2.samsung.com ( [182.195.41.46]) by
+ epsmges1p5.samsung.com (Symantec Messaging Gateway) with SMTP id
+ 06.6D.28648.A7CC4526; Tue, 12 Apr 2022 09:48:58 +0900 (KST)
+Received: from epsmtrp2.samsung.com (unknown [182.195.40.14]) by
+ epcas1p4.samsung.com (KnoxPortal) with ESMTPA id
+ 20220412004857epcas1p4f8308bd4193fba5c5bbca9ca0871aa2c~k-7n_cJxX1381013810epcas1p4E;
+ Tue, 12 Apr 2022 00:48:57 +0000 (GMT)
+Received: from epsmgms1p2.samsung.com (unknown [182.195.42.42]) by
+ epsmtrp2.samsung.com (KnoxPortal) with ESMTP id
+ 20220412004857epsmtrp2d28372a02549585bf90ed0ffed134509~k-7n9jlJH0240402404epsmtrp2J;
+ Tue, 12 Apr 2022 00:48:57 +0000 (GMT)
+X-AuditID: b6c32a39-003ff70000006fe8-3a-6254cc7a4a81
+Received: from epsmtip2.samsung.com ( [182.195.34.31]) by
+ epsmgms1p2.samsung.com (Symantec Messaging Gateway) with SMTP id
+ 10.FD.03370.97CC4526; Tue, 12 Apr 2022 09:48:57 +0900 (KST)
+Received: from [10.113.221.211] (unknown [10.113.221.211]) by
+ epsmtip2.samsung.com (KnoxPortal) with ESMTPA id
+ 20220412004857epsmtip2f72ae4de545bc88eb275a287cf6aa42b~k-7ngG_RV0321303213epsmtip2L;
+ Tue, 12 Apr 2022 00:48:57 +0000 (GMT)
+Message-ID: <c7606920-b5c9-f8e3-3026-631a796c195a@samsung.com>
+Date: Tue, 12 Apr 2022 10:01:20 +0900
 MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-Office365-Filtering-Correlation-Id: 272c0018-a67b-4dc1-bef7-08da1c1f794e
-X-MS-TrafficTypeDiagnostic: CH0PR11MB5283:EE_
-X-LD-Processed: 46c98d88-e344-4ed4-8496-4ed7712e255d,ExtAddr
-X-Microsoft-Antispam-PRVS: <CH0PR11MB52836CBED1DC973DAF457671F4ED9@CH0PR11MB5283.namprd11.prod.outlook.com>
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: BYIfeE78W2Z7k/rEl0Zl3HW11z3diBedMP2RBCxevq2LVPiCwmzdp9COwZb6x/lqU4dvhKgcU7q8kcY1MncPrqDP6c/ddv04xMHzYbyUYgbr41Q0O6jrYjSzOBqFtjjX9PszOu3NG2hzbLI5xwErxhMbnEPTerh1OBLZiHc76m3G1IzJk4MUO6swsfNgnE0QN0Xx4ic9fM35ywaeEY1gr419TOksZmWow9ar7Xg9gNtCIZ09n+H8jNE7hcHoyx7jeqGRuJsDSsJk/tD7K++Qe0DfA+lWV4jR+/3tf6o+BV1wf/+Jxn7uSsmRruq3vIVi67GcAX0uj9v9UBr2F1NBOdlGmEQ64LL7vYUC+UgHi9Ef+1FQJWo1BjOU8FTxd5CuAAgrTdlFZCMXDWEZZuJqF/GSGvSj3dP/vcZazOJErrG9LmMtuCbClzYEFv9UgCGCYGc+0GG1jGHV4TkoPZo4GuNarlaiSk9IV0pQwmPZHN3gTOrl1q8bKeN611QkgDJiMAROuw939Zt21xzI7m5bGu6ON7qhxCXy/UJWX0Wp5VCCUpdCq3kDuXN4G3wdAL4ZCAfngOmi4H6ypXhJkixwKIkM9SPXo2cqtsTRVRZ6ny0YLcPhLZwXiiJrYt9B3DdRR5ZdlQimZKXrU0RncHQiKL2/1DqI84piu5Xrs1trejBTO/m0awajdMAqx12SSqHw4jvX/Y+p94O5q729wqUKPQ2QPKJkQ72FtuO2LS5NZFCZBKB2TBwFZnHlMhqiFBLc
-X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
- IPV:NLI; SFV:NSPM; H:DM4PR11MB5488.namprd11.prod.outlook.com; PTR:; CAT:NONE;
- SFS:(13230001)(366004)(31696002)(5660300002)(6636002)(82960400001)(2906002)(2616005)(26005)(8676002)(8936002)(86362001)(4326008)(66946007)(38100700002)(6512007)(83380400001)(53546011)(6506007)(450100002)(6486002)(66476007)(66556008)(316002)(107886003)(110136005)(508600001)(31686004)(36756003)(186003)(45980500001)(43740500002);
- DIR:OUT; SFP:1102; 
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: =?utf-8?B?WDBkbTlhVnh2LzJSODRkVFlQWXVENnhnNElqY1JhVXJWd1pyTDZkQ01hSThu?=
- =?utf-8?B?UHlNN2tLR3FyM3owSEJTbm1hRHQ5ZFc2Q3EzbTdoTWc1T1JnckNna0RGZFZi?=
- =?utf-8?B?Q3hJSXg2UFdaVG1JN2JBZ0hSZjRBTG5JYmVwZjlXbnRQYnVYTEZERld0bW5G?=
- =?utf-8?B?TlBjdUtkbUc3bjJTSkxlSEt3VHZBMyt0V1BLRkVydzBNaG5ZK05TOWRQWjNW?=
- =?utf-8?B?OHZZK3RacFR5b210OGRtMUdJSDM1SUtua2k1b0pPenllaVp1eGZxNDhncHV1?=
- =?utf-8?B?YzF2YnVBdG9ZQW51MGpiTjJ0VU5yTHdZSGJERG42eXZEalBsa3lEYSsvRVMw?=
- =?utf-8?B?OEt4VGNLMDZqQXZqTHJyWWlqdHdCWk5VOXhnc3ZPdHRTZmhTMzl0bzdZeHd0?=
- =?utf-8?B?Ylk1TStOdkxXK2RuVmRjU25hckRjVlV2R2FWbmtmWURvbXpld29DQzRMRHNj?=
- =?utf-8?B?UFduU1BPYkxLNTJyU3pxbWhCUDl4dkZiNXR5dGlsVWdZY1c5VDlwK3E3MDAr?=
- =?utf-8?B?eUkrcWlQeW9xUUpFSGYyV0xyQzJVTE9wZkNTR25MOUlydEViTDdtclBKNE11?=
- =?utf-8?B?YkR2NklEQUk3b2F3M3c3b0FkcGZrVWYrdkt3NjliZXZiSmlES3ZLUUhmaDg0?=
- =?utf-8?B?QlA5ajQvMHhVbHJVRy9qZjVtbEd2bmlXMXBkSU9HSW9aR0xZbmJCWjdhMCsv?=
- =?utf-8?B?elJHK2J5cW1PcEZvdGluV1V0dTdLZnpOUVV4blhyMHdFTjFBM2RUY1VWZ0ZG?=
- =?utf-8?B?YytaVms1TzMzRmZrTWJTRHFkamxXTDJxR1YzY0FycWd4NTBMOGVRQ2ZnblQr?=
- =?utf-8?B?YXBHTElYVEhGdGxRd3pxTHJOOThCU0cxUGpsWTFFNzhXSFY2UUdUYVU2aGZF?=
- =?utf-8?B?bHZRbFZsU1BRUC9yZktnZkN0c1N1eTZFU3BkOWIvcXRPR3hQdHY5aHQyWTM0?=
- =?utf-8?B?cXo5Um5NYnUzcUIzMmJ3c0FucjV2M3Jjcms0N0VoZG1JLzlDemlER3AvRnVD?=
- =?utf-8?B?eUtmVXpwR3BrZ1ArNWRBLzFmZWpOWmE5WHBIOWdUaTdlbjBzTW9NQXdDanR6?=
- =?utf-8?B?T1U0TXZ0RGlDQjRYZDdtY28rcENWa2lBeXZGcVMrN1BWNUh6TDBSbzVyMCtS?=
- =?utf-8?B?TEdwd1lOU1BKWGVseG1KNDFPZFV0TG9jemZBb1VJQkZ1L2lJUjZpeUVOaHV1?=
- =?utf-8?B?WnJETTBwN1I1bUZJVTl6VDNSRzBmd1NuVHF4OGpIbVRkSGl1UTQwRWV4dW1I?=
- =?utf-8?B?blIwRzFZdGNncUh4MFFEcmtEZEJHT09qSTdIdE9FYllSendkK2dzQlBuZXZI?=
- =?utf-8?B?YndLdkIvMDU0cDZxTXZEQVdKOEVoUWw2NzNmaWFIMlkyMjhlU0MvQjFBYm5W?=
- =?utf-8?B?dnJOS0RSWC9OdDNocFJuRnQwMWhJcGRLNGpEV29vUm1YaUVvQXl1aTBQU2M5?=
- =?utf-8?B?WlJzVVE3cDZQUlppSEhkQW5uMnhOMlV0YjV4aG9TYXMzZEI3ODdEQmZieEs5?=
- =?utf-8?B?OFd3RVZwNEtxb0l3elZkOGF3bUIxT3ZsZW8wZk1HRkNrSjBacjV6Y0VZMllK?=
- =?utf-8?B?a2gyRm94K3hVT1BleTRib1U3dVNMWG1TLzFiOWd4cTBidzYzdTlHUGxiUEFF?=
- =?utf-8?B?dFVNb3YzdjZhUTlOMFhLQjFmRXVwNzBGUnhrSk1tN0hERG9vcGlTTWswRFA1?=
- =?utf-8?B?RnVCVWVlc1pETCtoekRUUzhFUTFKN0lpaDFFRUdzbzI2elpmUzZaenJUcWhB?=
- =?utf-8?B?NzdpbThueWxmMHNKbG45SFk0aVRac2JlUVZaa3IwUVlPWVRqOHQ5cEtkREhK?=
- =?utf-8?B?NENuem9tNUE1aGQvZmgzTEFjSXlzb3JhU24vd2hOM2drVlVBL0ZyaHYyazQw?=
- =?utf-8?B?N1phVVFrUFl4TnZlUHBHeFhmL3A3cmZvWmgrcGl4S09sb0hXVThKYVlSMk5k?=
- =?utf-8?B?cEpvd3BWTnRrUzdLYnozbWNsMFBjT2xXNFAvTWRBZjNJcnovdWhoR09EeXNR?=
- =?utf-8?B?dnQ5Qi9NR0NaNVlqZXlGWUpHV2gwQXJIYmxBM0JwUFAvVG13YjVDd2RvWjhU?=
- =?utf-8?B?c0ZPSEwrM3E1YlhCSzBjZWxMS3J4MC8wdEZ2OE9qMVpsZENMRi9OTlUwam81?=
- =?utf-8?B?VHZRUnk0ampIa1RzVzJMaWxUcitQZUp3Qk9QdjFLak5UVlVZQ0xJazY1UDBa?=
- =?utf-8?B?WVNYb3B0RW05bzkyN0czQlFaaWFZa3pmUlBPaUdMbFR0QXFseGlwVXd3MUJB?=
- =?utf-8?B?bjZOalllY0hRRWFGeVB2R1hqUGdlK2wrSWcxNXp0NmYwN3RSZ3J6bUVMekl0?=
- =?utf-8?B?V1RYNnc4MlVZdWsyVVlJbE1BV0VacmRaL2lYNWFlR09kTGYrTmk2M2xKQlB3?=
- =?utf-8?Q?eyUMZPGEh1x5uJWR+VuVONn8pWuvBsTd612ss?=
-X-MS-Exchange-CrossTenant-Network-Message-Id: 272c0018-a67b-4dc1-bef7-08da1c1f794e
-X-MS-Exchange-CrossTenant-AuthSource: DM4PR11MB5488.namprd11.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 12 Apr 2022 00:57:53.2520 (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 46c98d88-e344-4ed4-8496-4ed7712e255d
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: fb7MSIVgD9VX1JPYG6x7kDciNOYM9xK+b8nEJKgPecZU9xTnQuewEqrETd1b6LHPtRk3IRrsH+JSWxhX10VwDEh7WpXjWqX+iUmCbVY6X9c=
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: CH0PR11MB5283
-X-OriginatorOrg: intel.com
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.7.0
+Subject: Re: [PATCH] drm/exynos: fix IS_ERR() vs NULL check in probe
+Content-Language: en-US
+To: Dan Carpenter <dan.carpenter@oracle.com>, Jagan Teki
+ <jagan@amarulasolutions.com>
+From: Inki Dae <inki.dae@samsung.com>
+In-Reply-To: <20220408102134.GA14120@kili>
+Content-Transfer-Encoding: 8bit
+X-Brightmail-Tracker: H4sIAAAAAAAAA+NgFjrKJsWRmVeSWpSXmKPExsWy7bCmnm7VmZAkg513BS16z51ksngwbxub
+ xet/01ks/m+byGxx5et7NosvmyawWWy9JW2x9/VWdouzTW/YLWac38dksfbIXXaLT7MeMlvM
+ mPySzYHXY+3H+6wee78tYPG4c20Pm8f2bw9YPe53H2fy+Pj0FotH35ZVjB6fN8kFcERl22Sk
+ JqakFimk5iXnp2TmpdsqeQfHO8ebmhkY6hpaWpgrKeQl5qbaKrn4BOi6ZeYAnaykUJaYUwoU
+ CkgsLlbSt7Mpyi8tSVXIyC8usVVKLUjJKTAt0CtOzC0uzUvXy0stsTI0MDAyBSpMyM6Y9XYh
+ e8EHzopTf+cyNjBO5+hi5OSQEDCReLlkKVsXIxeHkMAORomOxYsYIZxPjBL75nxkh3A+M0q8
+ O3GGCabl+M0jrBCJXYwSO6fMZIFw3jNKPHxwgxGkilfATuJK/x+gwRwcLAKqEk/nJ0OEBSVO
+ znzCAmKLCkRI/Lr1iB3EFhZwkdi2tJMZxGYWEJe49WQ+2DIRgXCJBdubwe5jFnjELLF+9new
+ +WxAMyeuuM8GYnMKaEmcanvDCNEsL9G8dTYzxKU3OCRefyiFsF0kTt5+BRUXlnh1fAs7hC0l
+ 8fndXrAFEgKTGSXuXF/BAuHMYJQ4/PM6I0SVscT+pZOZQL5hFtCUWL9LHyKsKLHz91yoxXwS
+ 7772sIKUSAjwSnS0CUGUKEkcu3gDaoqExIUlE9kgbA+JmXd/s01gVJyFFC6zkPw/C8k7sxAW
+ L2BkWcUollpQnJueWmxYYAqP7uT83E2M4PSsZbmDcfrbD3qHGJk4GA8xSnAwK4nwPgsLSRLi
+ TUmsrEotyo8vKs1JLT7EaAqMnInMUqLJ+cAMkVcSb2hiaWBiZmRsYmFoZqgkzrtq2ulEIYH0
+ xJLU7NTUgtQimD4mDk6pBqZYhbm8QefLvmzwXPl1/13Zjw2vPu7QTee783aZwNGbUnenVrTx
+ njhzgyF9u0Ff7P+rq0QDnulNuGb98erXnrYvSzfKiBetnCu2O+Pn8wOCf7Jnq11tlzTNZvWp
+ 41oUnbTT+m5Y8drItOaEC1edZ54POtwo2biK/2O2Jc/bNaXu0q0um5c5hQjInQi5l8a47viZ
+ lY6b/mQa72SfwLRB5RN7drC58/a/Ehq3l1vf/zhF727F4+ScNMvfnxc/LfuTWzgxcZsid1p4
+ 9AGVpM4iZS3en7m33ukuyV4RVftr3ef0lcUzi13Z1296HBai4K78NLnUZ6Ug75Z8o5Msk997
+ OqzoNQ/2cLm29X2zT0iPWJASS3FGoqEWc1FxIgCn2tW7WAQAAA==
+X-Brightmail-Tracker: H4sIAAAAAAAAA+NgFlrMIsWRmVeSWpSXmKPExsWy7bCSvG7lmZAkg/2zdCx6z51ksngwbxub
+ xet/01ks/m+byGxx5et7NosvmyawWby4d5HFYustaYu9r7eyW5xtesNuMeP8PiaLtUfuslt8
+ mvWQ2WLG5JdsDnweaz/eZ/XY+20Bi8eda3vYPLZ/e8Dqcb/7OJPHx6e3WDz6tqxi9Pi8SS6A
+ I4rLJiU1J7MstUjfLoErY9bbhewFHzgrTv2dy9jAOJ2ji5GTQ0LAROL4zSOsXYxcHEICOxgl
+ jrTeZ+pi5ABKSEhs2coBYQpLHD5cDFIuJPCWUWL68lAQm1fATuJK/x82kBIWAVWJp/OTIcKC
+ EidnPmEBsUUFIiSW7ZoKZgsLuEhsW9rJDGIzC4hL3HoynwnEFhEIl5jydBI7yAXMAs+YJVqu
+ T2GD2FUr0d+6A6yIDWj+xBX3weKcAloSp9reMILsZRZQl1g/TwhiprxE89bZzBMYhWYhOWMW
+ knWzEDpmIelYwMiyilEytaA4Nz232LDAKC+1XK84Mbe4NC9dLzk/dxMjOB61tHYw7ln1Qe8Q
+ IxMH4yFGCQ5mJRHeZ2EhSUK8KYmVValF+fFFpTmpxYcYpTlYlMR5L3SdjBcSSE8sSc1OTS1I
+ LYLJMnFwSjUwqa3wuNYawymQkFRo2mvjEi7Fe+9NdaTWwn8uuwOf3rXJ75T3FF4evPt/gv/0
+ cw6VM0IOT+I4XND9cGX0yskJJ/R2JOxiz9LJ0vrgeVZ49rL2HVnrFO8eaeJd5b9t18/H25du
+ ZnoZ7+34v+aW0F2mWXZij14lnX314smbz2VT9/9TujE995yFSVLBB/4F7/xnfV7TIJB+sIql
+ IN9HZLZIk8+mwrk5varrpCZ9X3DJ1SUjzKVL/XOEzeruzEX+05sTlBL/H37VlHr5/1WBz8cK
+ THI/6lneTm8/67P75/PLxlm8S2bOn7o/USRr+9HozaavsyOzl7ze9idAcLG+fdTMrm3+LSL5
+ ngvLS1wCGX+5K7EUZyQaajEXFScCANdao2o2AwAA
+X-CMS-MailID: 20220412004857epcas1p4f8308bd4193fba5c5bbca9ca0871aa2c
+X-Msg-Generator: CA
+Content-Type: text/plain; charset="utf-8"
+X-Sendblock-Type: SVC_REQ_APPROVE
+CMS-TYPE: 101P
+DLP-Filter: Pass
+X-CFilter-Loop: Reflected
+X-CMS-RootMailID: 20220408102327epcas1p409b13bf2da7e19b0a24571ce50e3ea92
+References: <CGME20220408102327epcas1p409b13bf2da7e19b0a24571ce50e3ea92@epcas1p4.samsung.com>
+ <20220408102134.GA14120@kili>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -166,132 +121,51 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: siva.mullati@intel.com, intel-gfx@lists.freedesktop.org,
- michael.cheng@intel.com, dri-devel@lists.freedesktop.org
+Cc: linux-samsung-soc@vger.kernel.org, Joonyoung Shim <jy0922.shim@samsung.com>,
+ David Airlie <airlied@linux.ie>, kernel-janitors@vger.kernel.org,
+ Seung-Woo Kim <sw0312.kim@samsung.com>,
+ Kyungmin Park <kyungmin.park@samsung.com>,
+ Robert Foss <robert.foss@linaro.org>,
+ Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>,
+ dri-devel@lists.freedesktop.org, Alim Akhtar <alim.akhtar@samsung.com>,
+ Marek Szyprowski <m.szyprowski@samsung.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
+Hi Dan Carpenter.
 
+Same patch[1] was posted so I will pick it up. 
 
-On 3/21/2022 2:14 PM, Lucas De Marchi wrote:
-> On Thu, Mar 03, 2022 at 11:30:10PM +0530, Balasubramani Vivekanandan 
-> wrote:
->> memcpy_from_wc functions in i915_memcpy.c will be removed and replaced
->> by the implementation in drm_cache.c.
->> Updated to use the functions provided by drm_cache.c.
->>
->> v2: Check if the log object allocated from local memory or system memory
->>    and according setup the iosys_map (Lucas)
->>
->> Cc: Lucas De Marchi <lucas.demarchi@intel.com>
->>
->> Signed-off-by: Balasubramani Vivekanandan 
->> <balasubramani.vivekanandan@intel.com>
->> ---
->> drivers/gpu/drm/i915/gt/uc/intel_guc_log.c | 15 ++++++++++++---
->> 1 file changed, 12 insertions(+), 3 deletions(-)
->>
->> diff --git a/drivers/gpu/drm/i915/gt/uc/intel_guc_log.c 
->> b/drivers/gpu/drm/i915/gt/uc/intel_guc_log.c
->> index a24dc6441872..b9db765627ea 100644
->> --- a/drivers/gpu/drm/i915/gt/uc/intel_guc_log.c
->> +++ b/drivers/gpu/drm/i915/gt/uc/intel_guc_log.c
->> @@ -3,6 +3,7 @@
->>  * Copyright © 2014-2019 Intel Corporation
->>  */
->>
->> +#include <drm/drm_cache.h>
->> #include <linux/debugfs.h>
->> #include <linux/string_helpers.h>
->>
->> @@ -206,6 +207,7 @@ static void guc_read_update_log_buffer(struct 
->> intel_guc_log *log)
->>     enum guc_log_buffer_type type;
->>     void *src_data, *dst_data;
->>     bool new_overflow;
->> +    struct iosys_map src_map;
->>
->>     mutex_lock(&log->relay.lock);
->>
->> @@ -282,14 +284,21 @@ static void guc_read_update_log_buffer(struct 
->> intel_guc_log *log)
->>         }
->>
->>         /* Just copy the newly written data */
->> +        if (i915_gem_object_is_lmem(log->vma->obj))
->> +            iosys_map_set_vaddr_iomem(&src_map, (void __iomem 
->> *)src_data);
->> +        else
->> +            iosys_map_set_vaddr(&src_map, src_data);
->
-> It would be better to keep this outside of the loop. So inside the loop
-> we can use only iosys_map_incr(&src_map, buffer_size). However you'd
-> also have to handle the read_offset. The iosys_map_ API has both a
-> src_offset and dst_offset due to situations like that. Maybe this is
-> missing in the new drm_memcpy_* function you're adding?
->
-> This function was not correct wrt to IO memory access with the other
-> 2 places in this function doing plain memcpy(). Since we are starting to
-> use iosys_map here, we probably should handle this commit as "migrate to
-> iosys_map", and convert those. In your current final state
-> we have 3 variables aliasing the same memory location. IMO it will be
-> error prone to keep it like that
->
-> +Michal, some questions:
->
-> - I'm not very familiar with the relayfs API. Is the `dst_data += 
-> PAGE_SIZE;`
-> really correct?
+[1] https://www.spinics.net/lists/arm-kernel/msg967488.html
 
-This is a bit weird due to how i915 uses the relay for the GuC logs, but 
-it should be functionally correct. Each relay buffer is the same size of 
-the GuC log buffer in i915 (which is guaranteed to be greater than 
-PAGE_SIZE) and we always switch to a new relay buffer each time we dump 
-new data, so we're guaranteed to have the space we need. We do some 
-pointer magic because instead of just blindly copying the whole local 
-log buffer to the relay buffer, we copy the header (which is in the 
-first page) first, then we copy the rest of the logs (2nd page and 
-onwards) based on what the header tells us has been filled out.
+Thanks,
+Inki Dae
 
->
-> - Could you double check this patch and ack if ok?
-
-The approach looks good to me, but I agree that at this point we might 
-as well do a full conversion to iosys map. As you already mentioned, the 
-memcpy that copies the header would also need to be updated for that, 
-because it accesses the same memory as src_data, while the other memcpy 
-is from the local copy of the header to the relay, so it should be safe 
-to not convert.
-
-Daniele
-
->
-> Heads up that since the log buffer is potentially in lmem, we will need
-> to convert this function to take that into account. All those accesses
-> to log_buf_state need to use the proper kernel abstraction for system vs
-> I/O memory.
->
-> thanks
-> Lucas De Marchi
->
->> +
->>         if (read_offset > write_offset) {
->> -            i915_memcpy_from_wc(dst_data, src_data, write_offset);
->> +            drm_memcpy_from_wc_vaddr(dst_data, &src_map,
->> +                         write_offset);
->>             bytes_to_copy = buffer_size - read_offset;
->>         } else {
->>             bytes_to_copy = write_offset - read_offset;
->>         }
->> -        i915_memcpy_from_wc(dst_data + read_offset,
->> -                    src_data + read_offset, bytes_to_copy);
->> +        iosys_map_incr(&src_map, read_offset);
->> +        drm_memcpy_from_wc_vaddr(dst_data + read_offset, &src_map,
->> +                     bytes_to_copy);
->>
->>         src_data += buffer_size;
->>         dst_data += buffer_size;
->> -- 
->> 2.25.1
->>
-
+22. 4. 8. 19:21에 Dan Carpenter 이(가) 쓴 글:
+> The of_drm_find_bridge() does not return error pointers, it returns
+> NULL on error.
+> 
+> Fixes: dd8b6803bc49 ("exynos: drm: dsi: Attach in_bridge in MIC driver")
+> Signed-off-by: Dan Carpenter <dan.carpenter@oracle.com>
+> ---
+> -EPROBE_DEFER is the correct return, right?
+> 
+>  drivers/gpu/drm/exynos/exynos_drm_mic.c | 4 ++--
+>  1 file changed, 2 insertions(+), 2 deletions(-)
+> 
+> diff --git a/drivers/gpu/drm/exynos/exynos_drm_mic.c b/drivers/gpu/drm/exynos/exynos_drm_mic.c
+> index 9e06f8e2a863..07e04ceb2476 100644
+> --- a/drivers/gpu/drm/exynos/exynos_drm_mic.c
+> +++ b/drivers/gpu/drm/exynos/exynos_drm_mic.c
+> @@ -434,9 +434,9 @@ static int exynos_mic_probe(struct platform_device *pdev)
+>  
+>  	remote = of_graph_get_remote_node(dev->of_node, 1, 0);
+>  	mic->next_bridge = of_drm_find_bridge(remote);
+> -	if (IS_ERR(mic->next_bridge)) {
+> +	if (!mic->next_bridge) {
+>  		DRM_DEV_ERROR(dev, "mic: Failed to find next bridge\n");
+> -		ret = PTR_ERR(mic->next_bridge);
+> +		ret = -EPROBE_DEFER;
+>  		goto err;
+>  	}
+>  
