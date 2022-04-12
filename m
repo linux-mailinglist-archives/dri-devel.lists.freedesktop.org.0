@@ -2,59 +2,58 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id EDF934FD2A9
-	for <lists+dri-devel@lfdr.de>; Tue, 12 Apr 2022 09:31:27 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 29C914FD2AF
+	for <lists+dri-devel@lfdr.de>; Tue, 12 Apr 2022 09:38:00 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 5C11110E78E;
-	Tue, 12 Apr 2022 07:31:23 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 6093C10E497;
+	Tue, 12 Apr 2022 07:37:57 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-qt1-f178.google.com (mail-qt1-f178.google.com
- [209.85.160.178])
- by gabe.freedesktop.org (Postfix) with ESMTPS id A162B10E78E
- for <dri-devel@lists.freedesktop.org>; Tue, 12 Apr 2022 07:31:22 +0000 (UTC)
-Received: by mail-qt1-f178.google.com with SMTP id z19so18527509qtw.2
- for <dri-devel@lists.freedesktop.org>; Tue, 12 Apr 2022 00:31:22 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=vPZwLQHFGbE+YddKPiwbAMBD+8+olRhnFPT9yzLHixE=;
- b=IgmFf5jVWjM4pSz5t2GAJJkA81SHpSHf94lmR0DncoyPIzkbni+JlQTNtgT/RnYHzc
- j+w9lmSvJucJ3MwE2l8QWL5zDmdsh1BlkNk8Ts3AOP+DWR3HhO8Uieuc1REXe+w2fsOC
- cUfFlrMjxUPsmks0orWZ0h0KRP51OhfuiQlcc237jTDDWWxh9xTvhbwN/lt/L8CBRyXz
- igDBxY+9En3qvkLlUSzZz5p5YnxoAgq22i1UrYDcJJTlFWrombJJhDp93objnTryKc4i
- /kZ5cHc6DIOovlegNK0zwBowhVaA+/0PmF9GH1zQndDVlXO66o+jcP1dkAVI3x939bBW
- blGw==
-X-Gm-Message-State: AOAM533sbzenMJJFpypJ3og8kYn0+ZgfWmmIOa+uSFo38OPXIZvjYtH7
- pipfpC4tR7M2tI1EUn/i8iuvBmVyD/jcMWP5
-X-Google-Smtp-Source: ABdhPJznQQZGuBTFsCX5uNuDJAW6LoVuI+Awk0nfsJZgUsn7e9Z5Jt4suelUICkP4y2kU6BAj0oV7A==
-X-Received: by 2002:ac8:7c55:0:b0:2e1:d535:d881 with SMTP id
- o21-20020ac87c55000000b002e1d535d881mr2307373qtv.188.1649748681602; 
- Tue, 12 Apr 2022 00:31:21 -0700 (PDT)
-Received: from mail-yw1-f178.google.com (mail-yw1-f178.google.com.
- [209.85.128.178]) by smtp.gmail.com with ESMTPSA id
- c3-20020ac87d83000000b002e1d1b3df15sm28020958qtd.44.2022.04.12.00.31.21
- for <dri-devel@lists.freedesktop.org>
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Tue, 12 Apr 2022 00:31:21 -0700 (PDT)
-Received: by mail-yw1-f178.google.com with SMTP id
- 00721157ae682-2ebd70a4cf5so132986177b3.3
- for <dri-devel@lists.freedesktop.org>; Tue, 12 Apr 2022 00:31:21 -0700 (PDT)
-X-Received: by 2002:a81:4f0d:0:b0:2ec:1556:815 with SMTP id
- d13-20020a814f0d000000b002ec15560815mr8100148ywb.256.1649748680829; Tue, 12
- Apr 2022 00:31:20 -0700 (PDT)
-MIME-Version: 1.0
-References: <20220411211243.11121-1-javierm@redhat.com>
- <20220411211243.11121-6-javierm@redhat.com>
-In-Reply-To: <20220411211243.11121-6-javierm@redhat.com>
-From: Geert Uytterhoeven <geert@linux-m68k.org>
-Date: Tue, 12 Apr 2022 09:31:09 +0200
-X-Gmail-Original-Message-ID: <CAMuHMdWsmtBdcV=LL4yqprtbum4f9cSu8orjoPACECa5QENmsg@mail.gmail.com>
-Message-ID: <CAMuHMdWsmtBdcV=LL4yqprtbum4f9cSu8orjoPACECa5QENmsg@mail.gmail.com>
-Subject: Re: [PATCH v2 5/5] drm/solomon: Add SSD130x OLED displays SPI support
-To: Javier Martinez Canillas <javierm@redhat.com>
+Received: from mailgw01.mediatek.com (unknown [60.244.123.138])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id CCE8E10EB5F
+ for <dri-devel@lists.freedesktop.org>; Tue, 12 Apr 2022 07:37:55 +0000 (UTC)
+X-UUID: a112a8e74bcc4e8cafd2fe0dbea82415-20220412
+X-CID-P-RULE: Release_Ham
+X-CID-O-INFO: VERSION:1.1.4, REQID:0009f623-99a6-4f2d-b87c-b7bf1ad04e0d, OB:0,
+ LO
+ B:10,IP:0,URL:0,TC:0,Content:14,EDM:0,RT:0,SF:45,FILE:0,RULE:Release_Ham,A
+ CTION:release,TS:59
+X-CID-INFO: VERSION:1.1.4, REQID:0009f623-99a6-4f2d-b87c-b7bf1ad04e0d, OB:0,
+ LOB:
+ 10,IP:0,URL:0,TC:0,Content:14,EDM:0,RT:0,SF:45,FILE:0,RULE:Release_Ham,ACT
+ ION:release,TS:59
+X-CID-META: VersionHash:faefae9, CLOUDID:d549dea8-d103-4e36-82b9-b0e86991b3df,
+ C
+ OID:6db2902810e7,Recheck:0,SF:13|15|28|17|19|48,TC:nil,Content:3,EDM:-3,Fi
+ le:nil,QS:0,BEC:nil
+X-UUID: a112a8e74bcc4e8cafd2fe0dbea82415-20220412
+Received: from mtkmbs10n1.mediatek.inc [(172.21.101.34)] by
+ mailgw01.mediatek.com (envelope-from <rex-bc.chen@mediatek.com>)
+ (Generic MTA with TLSv1.2 ECDHE-RSA-AES256-GCM-SHA384 256/256)
+ with ESMTP id 204760330; Tue, 12 Apr 2022 15:37:49 +0800
+Received: from mtkcas11.mediatek.inc (172.21.101.40) by
+ mtkmbs10n2.mediatek.inc (172.21.101.183) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_CBC_SHA384) id 15.2.792.3; 
+ Tue, 12 Apr 2022 15:37:48 +0800
+Received: from mtksdccf07 (172.21.84.99) by mtkcas11.mediatek.inc
+ (172.21.101.73) with Microsoft SMTP Server id 15.0.1497.2 via Frontend
+ Transport; Tue, 12 Apr 2022 15:37:48 +0800
+Message-ID: <db475c5f8ff801ca0e48d89f5257de491f173b0b.camel@mediatek.com>
+Subject: Re: [PATCH v4,1/4] drm/mediatek: Adjust the timing of mipi signal
+ from LP00 to LP11
+From: Rex-BC Chen <rex-bc.chen@mediatek.com>
+To: <xinlei.lee@mediatek.com>, <chunkuang.hu@kernel.org>,
+ <p.zabel@pengutronix.de>, <airlied@linux.ie>, <daniel@ffwll.ch>,
+ <matthias.bgg@gmail.com>
+Date: Tue, 12 Apr 2022 15:37:48 +0800
+In-Reply-To: <1649644308-8455-2-git-send-email-xinlei.lee@mediatek.com>
+References: <1649644308-8455-1-git-send-email-xinlei.lee@mediatek.com>
+ <1649644308-8455-2-git-send-email-xinlei.lee@mediatek.com>
 Content-Type: text/plain; charset="UTF-8"
+X-Mailer: Evolution 3.28.5-0ubuntu0.18.04.2 
+MIME-Version: 1.0
+Content-Transfer-Encoding: 7bit
+X-MTK: N
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -67,80 +66,60 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Chen-Yu Tsai <wens@kernel.org>, Neil Armstrong <narmstrong@baylibre.com>,
- David Airlie <airlied@linux.ie>, YueHaibing <yuehaibing@huawei.com>,
- Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
- DRI Development <dri-devel@lists.freedesktop.org>,
- Chen-Yu Tsai <wens@csie.org>, Mark Brown <broonie@kernel.org>,
- Maxime Ripard <maxime@cerno.tech>,
- Andy Shevchenko <andriy.shevchenko@linux.intel.com>
+Cc: jitao.shi@mediatek.com, linux-kernel@vger.kernel.org,
+ dri-devel@lists.freedesktop.org,
+ Project_Global_Chrome_Upstream_Group@mediatek.com,
+ linux-mediatek@lists.infradead.org, linux-arm-kernel@lists.infradead.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi Javier,
+On Mon, 2022-04-11 at 10:31 +0800, xinlei.lee@mediatek.com wrote:
+> From: Jitao Shi <jitao.shi@mediatek.com>
+> 
+> Old sequence:
+> 1. Pull the MIPI signal high
+> 2. Delay & Dsi_reset
+> 3. Set the dsi timing register
+> 4. dsi clk & lanes leave ulp mode and enter hs mode
+> 
+> The sequence after patching is:
+> 1. Set the dsi timing register
+> 2. Pull the MIPI signal high
+> 3. Delay & Dsi_reset
+> 4. dsi clk & lanes leave ulp mode and enter hs mode
+> 
+> Fixes: 2dd8075d2185 ("drm/mediatek: mtk_dsi: Use the drm_panel_bridge
+> API")
+> 
+> Signed-off-by: Jitao Shi <jitao.shi@mediatek.com>
+> Signed-off-by: Xinlei Lee <xinlei.lee@mediatek.com>
+> ---
+>  drivers/gpu/drm/mediatek/mtk_dsi.c | 6 +++---
+>  1 file changed, 3 insertions(+), 3 deletions(-)
+> 
+> diff --git a/drivers/gpu/drm/mediatek/mtk_dsi.c
+> b/drivers/gpu/drm/mediatek/mtk_dsi.c
+> index ccb0511b9cd5..262c027d8c2f 100644
+> --- a/drivers/gpu/drm/mediatek/mtk_dsi.c
+> +++ b/drivers/gpu/drm/mediatek/mtk_dsi.c
+> @@ -649,14 +649,14 @@ static int mtk_dsi_poweron(struct mtk_dsi *dsi)
+>  	mtk_dsi_reset_engine(dsi);
+>  	mtk_dsi_phy_timconfig(dsi);
+>  
+> -	mtk_dsi_rxtx_control(dsi);
+> -	usleep_range(30, 100);
+> -	mtk_dsi_reset_dphy(dsi);
+>  	mtk_dsi_ps_control_vact(dsi);
+>  	mtk_dsi_set_vm_cmd(dsi);
+>  	mtk_dsi_config_vdo_timing(dsi);
+>  	mtk_dsi_set_interrupt_enable(dsi);
+>  
+> +	mtk_dsi_rxtx_control(dsi);
+> +	usleep_range(30, 100);
+> +	mtk_dsi_reset_dphy(dsi);
+>  	mtk_dsi_clk_ulp_mode_leave(dsi);
+>  	mtk_dsi_lane0_ulp_mode_leave(dsi);
+>  	mtk_dsi_clk_hs_mode(dsi, 0);
 
-On Mon, Apr 11, 2022 at 11:12 PM Javier Martinez Canillas
-<javierm@redhat.com> wrote:
-> The ssd130x driver only provides the core support for these devices but it
-> does not have any bus transport logic. Add a driver to interface over SPI.
->
-> There is a difference in the communication protocol when using 4-wire SPI
-> instead of I2C. For the latter, a control byte that contains a D/C# field
-> has to be sent. This field tells the controller whether the data has to be
-> written to the command register or to the graphics display data memory.
->
-> But for 4-wire SPI that control byte is not used, instead a real D/C# line
-> must be pulled HIGH for commands data and LOW for graphics display data.
->
-> For this reason the standard SPI regmap can't be used and a custom .write
-> bus handler is needed.
->
-> Signed-off-by: Javier Martinez Canillas <javierm@redhat.com>
-> Acked-by: Mark Brown <broonie@kernel.org>
+Reviewed-by: Rex-BC Chen <rex-bc.chen@mediatek.com>
 
-Thanks for your patch!
-
-> --- /dev/null
-> +++ b/drivers/gpu/drm/solomon/ssd130x-spi.c
-
-> +static struct gpio_desc *ssd130x_spi_get_dc(struct device *dev)
-> +{
-> +       struct gpio_desc *dc = devm_gpiod_get(dev, "dc", GPIOD_OUT_LOW);
-> +
-> +       if (IS_ERR(dc))
-> +               return ERR_PTR(dev_err_probe(dev, PTR_ERR(dc), "Failed to get dc gpio\n"));
-> +
-> +       return dc;
-> +}
-> +
-> +static int ssd130x_spi_probe(struct spi_device *spi)
-> +{
-> +       struct ssd130x_spi_transport *t;
-> +       struct ssd130x_device *ssd130x;
-> +       struct regmap *regmap;
-> +       struct device *dev = &spi->dev;
-> +
-> +       t = devm_kzalloc(dev, sizeof(*t), GFP_KERNEL);
-> +       if (!t)
-> +               return dev_err_probe(dev, -ENOMEM,
-> +                                    "Failed to allocate SPI transport data\n");
-> +
-> +       t->spi = spi;
-> +
-> +       t->dc = ssd130x_spi_get_dc(&spi->dev);
-> +       if (IS_ERR(t->dc))
-> +               return PTR_ERR(t->dc);
-
-This can be simplified (no need for the PTR_ERR(ERR_PTR(...) dance)
-by open-coding ssd130x_spi_get_dc() here.
-
-Gr{oetje,eeting}s,
-
-                        Geert
-
---
-Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k.org
-
-In personal conversations with technical people, I call myself a hacker. But
-when I'm talking to journalists I just say "programmer" or something like that.
-                                -- Linus Torvalds
