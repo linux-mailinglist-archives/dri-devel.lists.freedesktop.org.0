@@ -1,41 +1,40 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id F19B64FC9EB
-	for <lists+dri-devel@lfdr.de>; Tue, 12 Apr 2022 02:47:51 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 5EA664FC9FB
+	for <lists+dri-devel@lfdr.de>; Tue, 12 Apr 2022 02:48:05 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 9EA6B10FADE;
-	Tue, 12 Apr 2022 00:47:49 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 3385310FAE3;
+	Tue, 12 Apr 2022 00:48:03 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from ams.source.kernel.org (ams.source.kernel.org [145.40.68.75])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 08E9310FADB;
- Tue, 12 Apr 2022 00:47:47 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 1540010FAE3
+ for <dri-devel@lists.freedesktop.org>; Tue, 12 Apr 2022 00:48:02 +0000 (UTC)
 Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
  (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
  (No client certificate requested)
- by ams.source.kernel.org (Postfix) with ESMTPS id A1063B819C2;
- Tue, 12 Apr 2022 00:47:45 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 2BE31C385AB;
- Tue, 12 Apr 2022 00:47:43 +0000 (UTC)
+ by ams.source.kernel.org (Postfix) with ESMTPS id B162BB819C4;
+ Tue, 12 Apr 2022 00:48:00 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 856F8C385AA;
+ Tue, 12 Apr 2022 00:47:58 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1649724464;
- bh=vrvMolG8lo4JH3qqZt9EOT/wyieZIrN3a3HPwwGwYl8=;
+ s=k20201202; t=1649724479;
+ bh=h3/4h0H471UJtADRLo2a8XhpcTHhAAbQKbJpOEoncW4=;
  h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
- b=MhccxxbAuJQw5JAeD0Wsz+Dr18PrAieLmA3nVn6jXYP/EylvnPPd5CAN12DWtJEgt
- elzjtW4Figai3Txies5Ro7Kil80+rBKRCpLdsQlQ43ZFlRSPuyu7Ha0/sxBYZ7T7FT
- UOVT/8PBQhD1AZXUWhJhs3+bNPk3aOl19eGt3agmCsvCVppIollaSxtPQyO+WadmFE
- 3A5HCRcg7ncNtvTDQZMKxpsEpSil25Q1I67tnvb/4cjLJ2z40wGF4uuM2AsUpBS5CF
- 0Mdf9BgJn84AGEq7idRBDNZ6A0oO/qp+1vTCah9wJU/WS16x7wDJ3sxkPfofSv4nse
- oaOz87lB8aQ+Q==
+ b=K0SxcDv24cOUPqmlcxvjC7tJUlIGKSZy0LbNghbRVTBvAxN1gozh3tPz866I6W8Sy
+ q7X0b3FyQr//PC44vlcFVukR7Jf7e2eeUJVY4DE7uj7s8vKTPh5bx4wEe1pp+HPrgp
+ 6nG8UA5aTVF+9ET4BzAvQ73bBi5JCaTTwoy6czmHaEvIal/xnACBFceVYCfHcDsV2F
+ 46rUwtSuCnxVS0lYhlEQMVO9mHcSXSkLQDyi+wdKt6VaUsMgcsbk1ncQMzvtTzRJX7
+ zbCdtW1PgpL4G0GFAlKtN/O95izlJG25rJQg2cfC86cJAgmS84nVYIFET+sZdePo6e
+ zO3qEng1BOVNQ==
 From: Sasha Levin <sashal@kernel.org>
 To: linux-kernel@vger.kernel.org,
 	stable@vger.kernel.org
-Subject: [PATCH AUTOSEL 5.15 11/41] drm/amdkfd: Check for potential null
- return of kmalloc_array()
-Date: Mon, 11 Apr 2022 20:46:23 -0400
-Message-Id: <20220412004656.350101-11-sashal@kernel.org>
+Subject: [PATCH AUTOSEL 5.15 20/41] gpu: ipu-v3: Fix dev_dbg frequency output
+Date: Mon, 11 Apr 2022 20:46:32 -0400
+Message-Id: <20220412004656.350101-20-sashal@kernel.org>
 X-Mailer: git-send-email 2.35.1
 In-Reply-To: <20220412004656.350101-1-sashal@kernel.org>
 References: <20220412004656.350101-1-sashal@kernel.org>
@@ -55,40 +54,57 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Sasha Levin <sashal@kernel.org>, airlied@linux.ie, Felix.Kuehling@amd.com,
- Xinhui.Pan@amd.com, amd-gfx@lists.freedesktop.org,
- QintaoShen <unSimple1993@163.com>, dri-devel@lists.freedesktop.org,
- Alex Deucher <alexander.deucher@amd.com>, christian.koenig@amd.com
+Cc: Sasha Levin <sashal@kernel.org>, Leo Ruan <tingquan.ruan@cn.bosch.com>,
+ airlied@linux.ie, dri-devel@lists.freedesktop.org,
+ Mark Jonas <mark.jonas@de.bosch.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-From: QintaoShen <unSimple1993@163.com>
+From: Leo Ruan <tingquan.ruan@cn.bosch.com>
 
-[ Upstream commit ebbb7bb9e80305820dc2328a371c1b35679f2667 ]
+[ Upstream commit 070a88fd4a03f921b73a2059e97d55faaa447dab ]
 
-As the kmalloc_array() may return null, the 'event_waiters[i].wait' would lead to null-pointer dereference.
-Therefore, it is better to check the return value of kmalloc_array() to avoid this confusion.
+This commit corrects the printing of the IPU clock error percentage if
+it is between -0.1% to -0.9%. For example, if the pixel clock requested
+is 27.2 MHz but only 27.0 MHz can be achieved the deviation is -0.8%.
+But the fixed point math had a flaw and calculated error of 0.2%.
 
-Signed-off-by: QintaoShen <unSimple1993@163.com>
-Signed-off-by: Alex Deucher <alexander.deucher@amd.com>
+Before:
+  Clocks: IPU 270000000Hz DI 24716667Hz Needed 27200000Hz
+  IPU clock can give 27000000 with divider 10, error 0.2%
+  Want 27200000Hz IPU 270000000Hz DI 24716667Hz using IPU, 27000000Hz
+
+After:
+  Clocks: IPU 270000000Hz DI 24716667Hz Needed 27200000Hz
+  IPU clock can give 27000000 with divider 10, error -0.8%
+  Want 27200000Hz IPU 270000000Hz DI 24716667Hz using IPU, 27000000Hz
+
+Signed-off-by: Leo Ruan <tingquan.ruan@cn.bosch.com>
+Signed-off-by: Mark Jonas <mark.jonas@de.bosch.com>
+Reviewed-by: Philipp Zabel <p.zabel@pengutronix.de>
+Signed-off-by: Philipp Zabel <p.zabel@pengutronix.de>
+Link: https://lore.kernel.org/r/20220207151411.5009-1-mark.jonas@de.bosch.com
 Signed-off-by: Sasha Levin <sashal@kernel.org>
 ---
- drivers/gpu/drm/amd/amdkfd/kfd_events.c | 2 ++
- 1 file changed, 2 insertions(+)
+ drivers/gpu/ipu-v3/ipu-di.c | 5 +++--
+ 1 file changed, 3 insertions(+), 2 deletions(-)
 
-diff --git a/drivers/gpu/drm/amd/amdkfd/kfd_events.c b/drivers/gpu/drm/amd/amdkfd/kfd_events.c
-index 3eea4edee355..b8bdd796cd91 100644
---- a/drivers/gpu/drm/amd/amdkfd/kfd_events.c
-+++ b/drivers/gpu/drm/amd/amdkfd/kfd_events.c
-@@ -531,6 +531,8 @@ static struct kfd_event_waiter *alloc_event_waiters(uint32_t num_events)
- 	event_waiters = kmalloc_array(num_events,
- 					sizeof(struct kfd_event_waiter),
- 					GFP_KERNEL);
-+	if (!event_waiters)
-+		return NULL;
+diff --git a/drivers/gpu/ipu-v3/ipu-di.c b/drivers/gpu/ipu-v3/ipu-di.c
+index 666223c6bec4..0a34e0ab4fe6 100644
+--- a/drivers/gpu/ipu-v3/ipu-di.c
++++ b/drivers/gpu/ipu-v3/ipu-di.c
+@@ -447,8 +447,9 @@ static void ipu_di_config_clock(struct ipu_di *di,
  
- 	for (i = 0; (event_waiters) && (i < num_events) ; i++) {
- 		init_wait(&event_waiters[i].wait);
+ 		error = rate / (sig->mode.pixelclock / 1000);
+ 
+-		dev_dbg(di->ipu->dev, "  IPU clock can give %lu with divider %u, error %d.%u%%\n",
+-			rate, div, (signed)(error - 1000) / 10, error % 10);
++		dev_dbg(di->ipu->dev, "  IPU clock can give %lu with divider %u, error %c%d.%d%%\n",
++			rate, div, error < 1000 ? '-' : '+',
++			abs(error - 1000) / 10, abs(error - 1000) % 10);
+ 
+ 		/* Allow a 1% error */
+ 		if (error < 1010 && error >= 990) {
 -- 
 2.35.1
 
