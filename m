@@ -2,41 +2,41 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id C31E94FD29F
-	for <lists+dri-devel@lfdr.de>; Tue, 12 Apr 2022 09:26:28 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 723B14FD2A1
+	for <lists+dri-devel@lfdr.de>; Tue, 12 Apr 2022 09:26:31 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 5B49C10EBC6;
+	by gabe.freedesktop.org (Postfix) with ESMTP id 83BF110EDED;
 	Tue, 12 Apr 2022 07:26:24 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mga11.intel.com (mga11.intel.com [192.55.52.93])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 0843810E9C9
- for <dri-devel@lists.freedesktop.org>; Tue, 12 Apr 2022 07:26:23 +0000 (UTC)
+Received: from mga05.intel.com (mga05.intel.com [192.55.52.43])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 3150410E98A
+ for <dri-devel@lists.freedesktop.org>; Tue, 12 Apr 2022 07:26:22 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
  t=1649748382; x=1681284382;
  h=date:from:to:cc:subject:message-id:references:
  mime-version:in-reply-to;
- bh=5OyqKZ2t12lVTvKw/fJWrzDUz4nPfGALPPcWHIJFgN8=;
- b=foUSQxINNwZ5YLHEkUWhKQjzqPpHoJze6bUMk1/8EZO9TDZVulowEplr
- 2T7LTGAU5S36RChxhKhlIV45jtdRG4LmS4Ncf2cClLG7x0vAH2rOQTfE8
- JfjEnVXOqviULzauuz1U3Y5vEw5lpXG12HJN7OnAiVGgZGjKCzbw7j0Kp
- ThI/DiJaHzKPFuEeHskRiurqzaJZsBCCnfgL7kHQYKtxvrvZjj7m4GqLD
- CelDz7O8I6JbkzWdcMA3xdmtCGlVGuUjq+VoBtrqPqIcmBO/+S0h7xPIM
- gictYcS74WsN2ZmDJ4pvGapWg0vaAjjQgLiQ6zcKKPl7QSQouGVfHjD2e g==;
-X-IronPort-AV: E=McAfee;i="6400,9594,10314"; a="259893988"
-X-IronPort-AV: E=Sophos;i="5.90,253,1643702400"; d="scan'208";a="259893988"
-Received: from fmsmga003.fm.intel.com ([10.253.24.29])
- by fmsmga102.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ bh=gkhGiepzPyOKcCmGXkN+87sWY6kjgK6MU99iQQlt3gs=;
+ b=NXh9KL+Lnh5xXomo0MM/dubFP8Spng5qWL8P/sV/w1l3+Xcikx5kDkAt
+ t4V2WOVrE6wlq29T9AGZvlaeWxZlKEJzKIiKQL3xkRmIPmwjY42gFi7Dk
+ 6K61CXeICeHu1MnKwI1qJgbCxN+2NYlh/i5la8fBIQXOP8lJ9+BhxhJF/
+ BfkJR/dgzPVfoFreP2t8rNWNFhS41MKCsno7DBE4eu7lwAM8gY3ExcQjI
+ wm1fitK3QoysVQz42uYfuDVv/gnVEFFyhEEaC2y5Q1AJfBXyMZTtzP0IZ
+ 5Sr1/Hrs4yS7qoz2JZLoaANpEwC1aHyzsPd9an+FquE0yDDe+j3eGr8By Q==;
+X-IronPort-AV: E=McAfee;i="6400,9594,10314"; a="348736576"
+X-IronPort-AV: E=Sophos;i="5.90,253,1643702400"; d="scan'208";a="348736576"
+Received: from fmsmga006.fm.intel.com ([10.253.24.20])
+ by fmsmga105.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
  12 Apr 2022 00:26:22 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.90,253,1643702400"; d="scan'208";a="644602157"
+X-IronPort-AV: E=Sophos;i="5.90,253,1643702400"; d="scan'208";a="802118281"
 Received: from lkp-server02.sh.intel.com (HELO d3fc50ef50de) ([10.239.97.151])
- by FMSMGA003.fm.intel.com with ESMTP; 12 Apr 2022 00:26:17 -0700
+ by fmsmga006.fm.intel.com with ESMTP; 12 Apr 2022 00:26:17 -0700
 Received: from kbuild by d3fc50ef50de with local (Exim 4.95)
- (envelope-from <lkp@intel.com>) id 1neAun-0002cr-5k;
- Tue, 12 Apr 2022 07:26:17 +0000
-Date: Tue, 12 Apr 2022 15:25:46 +0800
+ (envelope-from <lkp@intel.com>) id 1neAum-0002ci-L0;
+ Tue, 12 Apr 2022 07:26:16 +0000
+Date: Tue, 12 Apr 2022 15:25:51 +0800
 From: kernel test robot <lkp@intel.com>
 To: Dmitry Osipenko <dmitry.osipenko@collabora.com>,
  David Airlie <airlied@linux.ie>, Gerd Hoffmann <kraxel@redhat.com>,
@@ -52,7 +52,7 @@ To: Dmitry Osipenko <dmitry.osipenko@collabora.com>,
  Alyssa Rosenzweig <alyssa.rosenzweig@collabora.com>,
  Rob Clark <robdclark@gmail.com>
 Subject: Re: [PATCH v3 11/15] drm/shmem-helper: Add generic memory shrinker
-Message-ID: <202204121523.qVMxOvZg-lkp@intel.com>
+Message-ID: <202204121504.gLR3FHQe-lkp@intel.com>
 References: <20220411215937.281655-12-dmitry.osipenko@collabora.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
@@ -90,7 +90,7 @@ https://git-scm.com/docs/git-format-patch]
 
 url:    https://github.com/intel-lab-lkp/linux/commits/Dmitry-Osipenko/Add-generic-memory-shrinker-to-VirtIO-GPU-and-Panfrost-DRM-drivers/20220412-060325
 base:    d12d7e1cfe38e0c36d28c7a9fbbc436ad0d17c14
-config: i386-randconfig-a005-20220411 (https://download.01.org/0day-ci/archive/20220412/202204121523.qVMxOvZg-lkp@intel.com/config)
+config: hexagon-randconfig-r045-20220411 (https://download.01.org/0day-ci/archive/20220412/202204121504.gLR3FHQe-lkp@intel.com/config)
 compiler: clang version 15.0.0 (https://github.com/llvm/llvm-project fe2478d44e4f7f191c43fef629ac7a23d0251e72)
 reproduce (this is a W=1 build):
         wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbin/make.cross -O ~/bin/make.cross
@@ -101,7 +101,7 @@ reproduce (this is a W=1 build):
         git checkout 683ba8a9d72ba7770a61a9266a2b33949f3874f2
         # save the config file to linux build tree
         mkdir build_dir
-        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=clang make.cross W=1 O=build_dir ARCH=i386 SHELL=/bin/bash drivers/gpu/drm/
+        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=clang make.cross W=1 O=build_dir ARCH=hexagon SHELL=/bin/bash drivers/gpu/drm/
 
 If you fix the issue, kindly add following tag as appropriate
 Reported-by: kernel test robot <lkp@intel.com>
