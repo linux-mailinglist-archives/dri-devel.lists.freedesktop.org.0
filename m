@@ -2,73 +2,53 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id D7DD14FD5BD
-	for <lists+dri-devel@lfdr.de>; Tue, 12 Apr 2022 12:14:48 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 3D4534FD7D2
+	for <lists+dri-devel@lfdr.de>; Tue, 12 Apr 2022 12:31:39 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 6E6E310E02A;
-	Tue, 12 Apr 2022 10:14:46 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id E690A10E53C;
+	Tue, 12 Apr 2022 10:31:27 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-lf1-x131.google.com (mail-lf1-x131.google.com
- [IPv6:2a00:1450:4864:20::131])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 6127910E02A
- for <dri-devel@lists.freedesktop.org>; Tue, 12 Apr 2022 10:14:45 +0000 (UTC)
-Received: by mail-lf1-x131.google.com with SMTP id k5so1235540lfg.9
- for <dri-devel@lists.freedesktop.org>; Tue, 12 Apr 2022 03:14:45 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
- h=mime-version:subject:from:in-reply-to:date:cc
- :content-transfer-encoding:message-id:references:to;
- bh=0Umzz/3orNHQpIevU9VMNB3lNCISCl1rxzO7PoUg9Jg=;
- b=frXOkEGTVdQfOBPfLo6/U0msIHVopok9BHPAtF9BQG1TpY/8Z9un/BUw3V1HIweJtQ
- W6cwDOA4s0H5XvVvDw9BGqxg4jzaE0YSB3GzP/jCtgDxNAOxuTmfnQJDVmGGozoPHeMP
- kaz0p8cgw2KUhZ5WDmsEE8oO62rgooT0CNAVJBL7X9KzGr4HNRwzn/PawukIcVGVgs/l
- SwykZ/+EX7cx0wWI38cyz1IYSSL80HQmf7P6nI9LxqevAeYqMfolVrMhsSHPJpJj9liT
- IcLv92fLQTmCKZzXOVSn4xnDP9gfrRMONo4NXJ0d2NgTAXFo1cVpizBH3I56rwNZZsU1
- aOGQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=x-gm-message-state:mime-version:subject:from:in-reply-to:date:cc
- :content-transfer-encoding:message-id:references:to;
- bh=0Umzz/3orNHQpIevU9VMNB3lNCISCl1rxzO7PoUg9Jg=;
- b=GyNXq0ozsVALdTlropzu0qmrVbq35MbTPn/E5Vp4qBsoOlBL34Q7qvHtQw7V1y9H0u
- GBzKTbFU831+pK/0D/JBxw1e4ddRzcAk8JzxiL7SBoM9f4hlf8p9zD/DZvWsYk0hOtY0
- 2DrE7gdGtkRx5CRNDnJCtbgSv3Ao5n66cOGh46/Al4qYwpd9fwLXcaTMVzkVKQtlWp/T
- bNZ9nDOuV4fonPUkOl8sPaIoX9BydxAXnpKfEFQEQHt4s7UjJHp43Ib1IzP/ty+Btk7D
- tuWHt/8Mh9CCFbn5irvqvRlROqedjv5gt8AJ0XSI1Q71Azc39cDLfbAFCz2xYfkyk0F+
- qqDQ==
-X-Gm-Message-State: AOAM531VPnepA+8DjpJ8HNYkrrlg12vwqRSNL5Yaggt06k7r5nPfe1Ls
- LODJke1a/9fN+lJIma4WhLc=
-X-Google-Smtp-Source: ABdhPJyjygbNhDD5y/Nf2J02dsGMY17yvI0Q9aBaT9AoENk7aTCfqMn5oHs0B7C5tuon17rQnB7g3Q==
-X-Received: by 2002:a05:6512:3403:b0:448:5f92:7b0c with SMTP id
- i3-20020a056512340300b004485f927b0cmr23864868lfr.237.1649758483494; 
- Tue, 12 Apr 2022 03:14:43 -0700 (PDT)
-Received: from smtpclient.apple (31-178-191-245.dynamic.chello.pl.
- [31.178.191.245]) by smtp.gmail.com with ESMTPSA id
- y14-20020a2eb00e000000b0024b55cda2eesm1119589ljk.30.2022.04.12.03.14.41
- (version=TLS1_2 cipher=ECDHE-ECDSA-AES128-GCM-SHA256 bits=128/128);
- Tue, 12 Apr 2022 03:14:42 -0700 (PDT)
-Content-Type: text/plain;
-	charset=utf-8
-Mime-Version: 1.0 (Mac OS X Mail 14.0 \(3654.120.0.1.13\))
-Subject: Re: [PATCH v9 00/23] drm/rockchip: RK356x VOP2 support
-From: Piotr Oniszczuk <piotr.oniszczuk@gmail.com>
-In-Reply-To: <e2ef484b60fe9c5fc077240a26bd18275974dc4a.camel@pengutronix.de>
-Date: Tue, 12 Apr 2022 12:14:41 +0200
-Content-Transfer-Encoding: quoted-printable
-Message-Id: <EF0F8E87-2618-4E5E-807D-259FEEC0FB24@gmail.com>
-References: <20220328151116.2034635-1-s.hauer@pengutronix.de>
- <FB201567-AE5A-4242-82F1-7C55D8F111EA@gmail.com>
- <20220401125205.GL4012@pengutronix.de>
- <5420D26D-34FD-4637-B602-F6271E38BB8D@gmail.com>
- <BA4C591F-D115-43D2-BF59-A75B29889E50@gmail.com>
- <20220408080748.GA2387@pengutronix.de> <20220408120021.GO4012@pengutronix.de>
- <B3E76A7A-9B62-4E6F-9472-00B6298689C5@gmail.com>
- <20220411090800.GR4012@pengutronix.de>
- <5929E7A7-776E-4BCB-92C8-A1CE05774FE3@gmail.com>
- <20220412075034.GS4012@pengutronix.de>
- <e2ef484b60fe9c5fc077240a26bd18275974dc4a.camel@pengutronix.de>
-To: Lucas Stach <l.stach@pengutronix.de>
-X-Mailer: Apple Mail (2.3654.120.0.1.13)
+Received: from mailgw01.mediatek.com (unknown [60.244.123.138])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 1A79C10E0F8
+ for <dri-devel@lists.freedesktop.org>; Tue, 12 Apr 2022 10:31:24 +0000 (UTC)
+X-UUID: e659a3fc45874180a708f0f95b2cc348-20220412
+X-CID-P-RULE: Release_Ham
+X-CID-O-INFO: VERSION:1.1.4, REQID:0a257262-8f46-471c-8281-226a8d8468f2, OB:40,
+ L
+ OB:40,IP:0,URL:0,TC:0,Content:0,EDM:0,RT:0,SF:100,FILE:0,RULE:Release_Ham,
+ ACTION:release,TS:100
+X-CID-INFO: VERSION:1.1.4, REQID:0a257262-8f46-471c-8281-226a8d8468f2, OB:40,
+ LOB
+ :40,IP:0,URL:0,TC:0,Content:0,EDM:0,RT:0,SF:100,FILE:0,RULE:Spam_GS981B3D,
+ ACTION:quarantine,TS:100
+X-CID-META: VersionHash:faefae9, CLOUDID:e0102278-0afa-4dca-bdec-ca54c998425a,
+ C
+ OID:e31c88b20976,Recheck:0,SF:13|15|28|16|19|48,TC:nil,Content:0,EDM:-3,Fi
+ le:nil,QS:0,BEC:nil
+X-UUID: e659a3fc45874180a708f0f95b2cc348-20220412
+Received: from mtkmbs10n1.mediatek.inc [(172.21.101.34)] by
+ mailgw01.mediatek.com (envelope-from <jason-jh.lin@mediatek.com>)
+ (Generic MTA with TLSv1.2 ECDHE-RSA-AES256-GCM-SHA384 256/256)
+ with ESMTP id 1501167657; Tue, 12 Apr 2022 18:31:16 +0800
+Received: from mtkcas11.mediatek.inc (172.21.101.40) by
+ mtkmbs07n2.mediatek.inc (172.21.101.141) with Microsoft SMTP Server (TLS) id
+ 15.0.1497.2; Tue, 12 Apr 2022 18:31:15 +0800
+Received: from mtksdccf07.mediatek.inc (172.21.84.99) by mtkcas11.mediatek.inc
+ (172.21.101.73) with Microsoft SMTP Server id 15.0.1497.2 via
+ Frontend Transport; Tue, 12 Apr 2022 18:31:15 +0800
+From: jason-jh.lin <jason-jh.lin@mediatek.com>
+To: Rob Herring <robh+dt@kernel.org>, Krzysztof Kozlowski
+ <krzk+dt@kernel.org>, Matthias Brugger <matthias.bgg@gmail.com>, Chun-Kuang
+ Hu <chunkuang.hu@kernel.org>, AngeloGioacchino Del Regno
+ <angelogioacchino.delregno@collabora.com>
+Subject: [PATCH v18 00/10] Add Mediatek Soc DRM (vdosys0) support for mt8195
+Date: Tue, 12 Apr 2022 18:31:04 +0800
+Message-ID: <20220412103114.19922-1-jason-jh.lin@mediatek.com>
+X-Mailer: git-send-email 2.18.0
+MIME-Version: 1.0
+Content-Type: text/plain
+X-MTK: N
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -81,80 +61,157 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: "devicetree@vger.kernel.org" <devicetree@vger.kernel.org>,
- Benjamin Gaignard <benjamin.gaignard@collabora.com>,
- Peter Geis <pgwipeout@gmail.com>, Sascha Hauer <s.hauer@pengutronix.de>,
- Sandy Huang <hjc@rock-chips.com>, dri-devel@lists.freedesktop.org,
- "open list:ARM/Rockchip SoC..." <linux-rockchip@lists.infradead.org>,
- Lucas Stach <lst@pengutronix.de>,
- Michael Riesch <michael.riesch@wolfvision.net>, kernel@pengutronix.de,
- Andy Yan <andy.yan@rock-chips.com>,
- "linux-arm-kernel@lists.infradead.org" <linux-arm-kernel@lists.infradead.org>
+Cc: fshao@chromium.org, David Airlie <airlied@linux.ie>,
+ singo.chang@mediatek.com, dri-devel@lists.freedesktop.org,
+ Fabien Parent <fparent@baylibre.com>, linux-stm32@st-md-mailman.stormreply.com,
+ roy-cw.yeh@mediatek.com, Project_Global_Chrome_Upstream_Group@mediatek.com,
+ Yongqiang Niu <yongqiang.niu@mediatek.com>,
+ Rex-BC Chen <rex-bc.chen@mediatek.com>, devicetree@vger.kernel.org,
+ nancy.lin@mediatek.com, linux-mediatek@lists.infradead.org,
+ hsinyi@chromium.org, linux-arm-kernel@lists.infradead.org,
+ jason-jhlin <jason-jh.lin@mediatek.corp-partner.google.com>,
+ "jason-jh . lin" <jason-jh.lin@mediatek.com>, linux-kernel@vger.kernel.org,
+ moudy.ho@mediatek.com, Maxime Coquelin <mcoquelin.stm32@gmail.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
+From: jason-jhlin <jason-jh.lin@mediatek.corp-partner.google.com>
 
+Change in v18:
+- change get driver data by io_start and wrap mmsys driver data into
+  mmsys match data structure to support identifying multi mmsys driver
+  data with the same compatible name
+- change DDP_COMPONENT_DITHER to DDP_CONPONENT_DITHER0
 
-> Wiadomo=C5=9B=C4=87 napisana przez Lucas Stach =
-<l.stach@pengutronix.de> w dniu 12.04.2022, o godz. 10:10:
->=20
-> This could be both a Mesa/Panfrost or application issue. The
-> application is supposed to try to allocate with a arbitrary chosen
-> format and the valid modifiers queried from the plane it wants to put
-> the surface on. However I'm not sure if all applications have a
-> fallback path in place to try another format swizzling if the surface
-> allocation fails.
+Change in v17:
+- change compatible name from 2 vdosys to 1 mmsys
+- add get driver data by clk name function to get corresponding
+  driver data for mt8195 vdosys0
+- add all routing table setting for mt8195 vdosys0
+- remove useless mutex define
 
-This is good remark imho.
-I think we have this fallback.
-I'll try verify this.
+Change in v16:
+- rebase on linu-next tag: 'next-20220303'
+- rebase on series: 'Fix MediaTek display dt-bindings issues'
 
-Generalising a bit - I think we my consider following cases:
+Change in v15:
+- remove mt8195-mmsys.h comment for mux settings
+- define the mask macro to replace using value as mask
+  to fix zero mask problem
+- add EOF setting comment for MUTEX sof register
 
-a\ format is correctly negotiated and signalled to consumer/provider but =
-we don't see expected results (=3Dcorrect screen seen by user)
-b\ format was correctly negotiated but consumer/provider failed using =
-signalled format (i.e. due bug in implementation)
-c\ consumer or provider advertising - in reality unsupported format =
-(false positive) - so negotiation resulting with signalling efficiently =
-non-working format
- =20
-Sascha says (in today's email):
+Change in v14:
+- rebase on mediatek-drm-next-5.17
+- rebase on "Add mmsys and mutex support for MDP" series
+- rebase on "media: mediatek: support mdp3 on mt8183 platform" series
 
-"Here is your problem. The cluster windows only allow AFBC compressed
-formats. AR24 is supported by the cluster windows, but not by the GPU,
-see panfrost_afbc_format() in Mesa:"
+Change in v13:
+- remove dts patch
+- rebase on kernel-5.16-rc1
+- rebase on mediatek-drm-next
 
-I'm reading this as case c\ as Sascha said "negotiated format is not =
-supported by GPU" ....but this format was negotiated.
+Change in v12:
+- add clock-names property to merge yaml
+- using BIT(nr) macro to define the settings of mmsys routing table
+- fix clk_get and clk_prepare_enable error handling issue
 
-......but for sure Sascha is much better than me here in subject - so =
-i'm might be wrong here
-   =20
+Change in v11:
+- rebase on kernel-5.15-rc1
+- change mbox label to gce0 for dts node of vdosys0
+- change ovl compatibale to mt8192 to set smi_id_en=true in driver data
+- move common module from display folder to common folder,
+  such as AAL, COCLOR, CCORR and MUTEX
 
-> Now there are two possible failures here:
->=20
-> 1. The application feeds a wrong modifier list to the GBM
-> implementation, as it may have queried another plane in the assumption
-> that supported modifiers are uniform across all planes.
->=20
+Change in v10:
+- rebase on "drm/mediatek: add support for mediatek SOC MT8192" series
+- rebase on "soc: mediatek: mmsys: add mt8192 mmsys support" series
+- fix some typo and "mediatek" start with capital in every dt-bindings
+- move mutex yaml from dfisplay folder to soc folder
+- separate merge additional propoerties to an individual dt-bindings patch
 
-This will be cardinal design error.
-(keeping in mind we have multiple producers (GPU/video decoder) and =
-multiple consumers (base & overlay DRM planes)
- =20
+Change in v9:
+- separate power and gce properties of mmsys into another dt-binding patch
+- rebase on "Separate aal module" series
+- keep mtk_ddp_clk_enable/disable in the same place
+- change mtk_dsc_start config register to mtk_drm_ddp_write_mask
+- remove the 0 setting of merge fifo config function
+- add CCORR driver data for mt8195
 
-> 2. The GBM implementation (Panfrost) actually allocates a surface
-> instead of failing the allocation, even if it does not support any
-> combination of the provided format and modifier list.
->=20
+Change in v8:
+- add DP_INTF0 mux into mmsys routing table
+- add DP_INTF0 mutex mod and enum into add/remove comp function
+- remove bypass DSC enum in mtk_ddp_comp_init
 
-Testing Sacha patch (see today's email from Sascha) i'm getting
+Change in v7:
+- add dt=binding of mmsys and disp path into this series
+- separate th modidfication of alphabetic order, remove unused define and
+  rename the define of register offset to individual patch
+- add comment for MERGE ultra and preultra setting
 
-Qt: EGL Error : Could not create the egl surface: error =3D 0x3009
+Change in v6:
+- adjust alphabetic order for mediatek-drm
+- move the patch that add mt8195 support for mediatek-drm as
+  the lastest patch
+- add MERGE define for const varriable 
 
-i'm reading this as: Qt tries allocate EGL surface and EGL returns =
-error.
+Change in v5:
+- add power-domain property into vdosys0 and vdosys1 dts node.
+- add MT8195 prifix and remove unused VDO1 define in mt8195-mmsys.h
 
-or i'm wrong?
+Change in v4:
+- extract dt-binding patches to another patch series
+- squash DSC module into mtk_drm_ddp_comp.c
+- add coment and simplify MERGE config function
+
+Change in v3:
+- change mmsys and display dt-bindings document from txt to yaml
+- add MERGE additional description in display dt-bindings document
+- fix mboxes-cells number of vdosys0 node in dts
+- drop mutex eof convert define
+- remove pm_runtime apis in DSC and MERGE
+- change DSC and MERGE enum to alphabetic order
+
+Change in v2:
+- add DSC yaml file
+- add mt8195 drm driver porting parts in to one patch
+- remove useless define, variable, structure member and function
+- simplify DSC and MERGE file and switch threre order
+
+jason-jh.lin (10):
+  dt-bindings: arm: mediatek: mmsys: add power and gce properties
+  dt-bindings: arm: mediatek: mmsys: add mt8195 SoC binding
+  soc: mediatek: add mtk-mmsys support for mt8195 vdosys0
+  soc: mediatek: add mtk-mutex support for mt8195 vdosys0
+  drm/mediatek: add DSC support for mediatek-drm
+  drm/mediatek: add MERGE support for mediatek-drm
+  drm/mediatek: add mediatek-drm of vdosys0 support for mt8195
+  soc: mediatek: add DDP_DOMPONENT_DITHER0 enum for mt8195 vdosys0
+  drm/mediatek: add postfix 0 to DDP_COMPONENT_DITHER for mt8195 vdosys0
+  soc: mediatek: remove DDP_DOMPONENT_DITHER enum
+
+ .../bindings/arm/mediatek/mediatek,mmsys.yaml |  32 ++
+ drivers/gpu/drm/mediatek/Makefile             |   1 +
+ drivers/gpu/drm/mediatek/mtk_disp_drv.h       |   8 +
+ drivers/gpu/drm/mediatek/mtk_disp_merge.c     | 246 ++++++++++++
+ drivers/gpu/drm/mediatek/mtk_disp_rdma.c      |   6 +
+ drivers/gpu/drm/mediatek/mtk_drm_ddp_comp.c   |  65 ++-
+ drivers/gpu/drm/mediatek/mtk_drm_ddp_comp.h   |   2 +
+ drivers/gpu/drm/mediatek/mtk_drm_drv.c        | 136 ++++++-
+ drivers/gpu/drm/mediatek/mtk_drm_drv.h        |   7 +
+ drivers/soc/mediatek/mt8167-mmsys.h           |   2 +-
+ drivers/soc/mediatek/mt8183-mmsys.h           |   2 +-
+ drivers/soc/mediatek/mt8186-mmsys.h           |   4 +-
+ drivers/soc/mediatek/mt8192-mmsys.h           |   4 +-
+ drivers/soc/mediatek/mt8195-mmsys.h           | 370 ++++++++++++++++++
+ drivers/soc/mediatek/mt8365-mmsys.h           |   4 +-
+ drivers/soc/mediatek/mtk-mmsys.c              | 152 ++++++-
+ drivers/soc/mediatek/mtk-mmsys.h              |   6 +
+ drivers/soc/mediatek/mtk-mutex.c              |  95 ++++-
+ include/linux/soc/mediatek/mtk-mmsys.h        |  13 +-
+ 19 files changed, 1122 insertions(+), 33 deletions(-)
+ create mode 100644 drivers/gpu/drm/mediatek/mtk_disp_merge.c
+ create mode 100644 drivers/soc/mediatek/mt8195-mmsys.h
+
+-- 
+2.18.0
 
