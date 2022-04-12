@@ -2,40 +2,40 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 396B74FCD25
-	for <lists+dri-devel@lfdr.de>; Tue, 12 Apr 2022 05:35:49 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 8C69B4FCD29
+	for <lists+dri-devel@lfdr.de>; Tue, 12 Apr 2022 05:35:55 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id AFFF910FB6E;
-	Tue, 12 Apr 2022 03:35:40 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id D4F1810FB78;
+	Tue, 12 Apr 2022 03:35:46 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from letterbox.kde.org (letterbox.kde.org
- [IPv6:2001:41c9:1:41e::242])
- by gabe.freedesktop.org (Postfix) with ESMTPS id DB3BA10FB44
- for <dri-devel@lists.freedesktop.org>; Tue, 12 Apr 2022 03:35:34 +0000 (UTC)
+Received: from letterbox.kde.org (letterbox.kde.org [46.43.1.242])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 4B8FC10FB4A;
+ Tue, 12 Apr 2022 03:35:36 +0000 (UTC)
 Received: from vertex.localdomain (pool-108-36-85-85.phlapa.fios.verizon.net
  [108.36.85.85]) (Authenticated sender: zack)
- by letterbox.kde.org (Postfix) with ESMTPSA id E02F128BCA8;
- Tue, 12 Apr 2022 04:35:32 +0100 (BST)
+ by letterbox.kde.org (Postfix) with ESMTPSA id E123028BCA7;
+ Tue, 12 Apr 2022 04:35:33 +0100 (BST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kde.org; s=users;
- t=1649734533; bh=Kc1YR85+rTevyEOzlzbztaezisc4i8wryY7gfmkxCmA=;
+ t=1649734535; bh=zkzByDrF26DGWLnIirOSAU1WUQF3cJVg6KcINgo2HtU=;
  h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
- b=ecSX3nFTvLvG9KzW83JDFwm5Dhp5xUmbsrwY2IKTTKsvzsH2XtpMCGeZe16rJT74Y
- Why71CEDavkm0HO/gKM+5qZQu6IcWYEbr8ekE4Vd6TLCODqDu9gwV/YiApLLgdjON5
- O1DSZP9Ub5+ylrxuMG8EEyMDSR7qigTjaOREV/qwH6lSq/jDIAe1xNIG4+hIVpODIF
- /B1pS5Ami1q82OgTJDY2eBTIuhutp32UyUvBy66174qlyUGKqSyaiOlu/gJnih/Dpy
- 4XzJ+WUaTYnOtRqlyj4+t7dVP6ULZir1p6ngcmcvN2aX0v/yq06JE5KW6Ca32dy3wT
- abNTKYVL4+Vgg==
+ b=MLRuC6IWahayVU4T8MFfoduNEA3dEpScOZ4SscRiBPe03TxXlq6ekEObY661LsJzX
+ i7DICK5EqavCQZlWUuZ1epnVrRkcgTVpNd7kBn208nBUGo3jG4Sx5YQdo3G/2aaTLC
+ 7G2yCVhIgURKWBEEYg6Bn4gC0rrRpn68vVULqItf3o1oF1WiLx8lN0vnCgsW8g/fYy
+ ogRUoXLwEK82wXZVS28hcneOYRlCfma+rtHnSwUHSs5d1LWLmJOnGNgKERbGwbZ2tp
+ pKdLWZZGIuy86sxFalKWFpcnWyHV1h9f0/Uohwj3z+SL8Odrm7PlOwF2YqeHj8CyMm
+ xLIin4n2z4Wrg==
 From: Zack Rusin <zack@kde.org>
 To: dri-devel@lists.freedesktop.org
-Subject: [PATCH v2 2/5] drm/vmwgfx: Add debugfs entries for various ttm
- resource managers
-Date: Mon, 11 Apr 2022 23:35:23 -0400
-Message-Id: <20220412033526.369115-3-zack@kde.org>
+Subject: [PATCH v2 3/5] drm/amdgpu: Use TTM builtin resource manager debugfs
+ code
+Date: Mon, 11 Apr 2022 23:35:24 -0400
+Message-Id: <20220412033526.369115-4-zack@kde.org>
 X-Mailer: git-send-email 2.32.0
 In-Reply-To: <20220412033526.369115-1-zack@kde.org>
 References: <20220412033526.369115-1-zack@kde.org>
 MIME-Version: 1.0
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -50,60 +50,150 @@ List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
 Reply-To: Zack Rusin <zackr@vmware.com>
-Cc: David Airlie <airlied@linux.ie>, krastevm@vmware.com,
- Huang Rui <ray.huang@amd.com>, Christian Koenig <christian.koenig@amd.com>,
- mombasawalam@vmware.com
+Cc: Thomas Zimmermann <tzimmermann@suse.de>, David Airlie <airlied@linux.ie>,
+ Felix Kuehling <Felix.Kuehling@amd.com>, "Pan, Xinhui" <Xinhui.Pan@amd.com>,
+ Nirmoy Das <nirmoy.das@amd.com>, amd-gfx@lists.freedesktop.org,
+ krastevm@vmware.com, Huang Rui <ray.huang@amd.com>,
+ Alex Deucher <alexander.deucher@amd.com>,
+ Christian Koenig <christian.koenig@amd.com>, mombasawalam@vmware.com
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 From: Zack Rusin <zackr@vmware.com>
 
-Use the newly added TTM's ability to automatically create debugfs entries
-for specified placements. This creates debugfs files that can be read to
-get information about various TTM resource managers which are used by
-vmwgfx.
+Switch to using the TTM resource manager debugfs helpers. It's
+exactly the same functionality but the debugfs code is shared with
+other drivers.
+
+The TTM resource managers need to stay valid for as long as the
+drm debugfs_root is valid.
 
 Signed-off-by: Zack Rusin <zackr@vmware.com>
+Cc: Alex Deucher <alexander.deucher@amd.com>
+Cc: "Christian König" <christian.koenig@amd.com>
+Cc: "Pan, Xinhui" <Xinhui.Pan@amd.com>
+Cc: David Airlie <airlied@linux.ie>
+Cc: Daniel Vetter <daniel@ffwll.ch>
+Cc: Felix Kuehling <Felix.Kuehling@amd.com>
+Cc: Nirmoy Das <nirmoy.das@amd.com>
+Cc: Thomas Zimmermann <tzimmermann@suse.de>
+Cc: amd-gfx@lists.freedesktop.org
 ---
- drivers/gpu/drm/vmwgfx/vmwgfx_drv.c | 18 ++++++++++++++++++
- 1 file changed, 18 insertions(+)
+ drivers/gpu/drm/amd/amdgpu/amdgpu_ttm.c | 86 +++++--------------------
+ 1 file changed, 16 insertions(+), 70 deletions(-)
 
-diff --git a/drivers/gpu/drm/vmwgfx/vmwgfx_drv.c b/drivers/gpu/drm/vmwgfx/vmwgfx_drv.c
-index decd54b8333d..5c4d999f8cd3 100644
---- a/drivers/gpu/drm/vmwgfx/vmwgfx_drv.c
-+++ b/drivers/gpu/drm/vmwgfx/vmwgfx_drv.c
-@@ -1410,6 +1410,23 @@ static void vmw_remove(struct pci_dev *pdev)
- 	vmw_driver_unload(dev);
+diff --git a/drivers/gpu/drm/amd/amdgpu/amdgpu_ttm.c b/drivers/gpu/drm/amd/amdgpu/amdgpu_ttm.c
+index 57ac118fc266..37fe9fb3f8e5 100644
+--- a/drivers/gpu/drm/amd/amdgpu/amdgpu_ttm.c
++++ b/drivers/gpu/drm/amd/amdgpu/amdgpu_ttm.c
+@@ -2079,17 +2079,6 @@ int amdgpu_ttm_evict_resources(struct amdgpu_device *adev, int mem_type)
+ 
+ #if defined(CONFIG_DEBUG_FS)
+ 
+-static int amdgpu_mm_vram_table_show(struct seq_file *m, void *unused)
+-{
+-	struct amdgpu_device *adev = (struct amdgpu_device *)m->private;
+-	struct ttm_resource_manager *man = ttm_manager_type(&adev->mman.bdev,
+-							    TTM_PL_VRAM);
+-	struct drm_printer p = drm_seq_file_printer(m);
+-
+-	ttm_resource_manager_debug(man, &p);
+-	return 0;
+-}
+-
+ static int amdgpu_ttm_page_pool_show(struct seq_file *m, void *unused)
+ {
+ 	struct amdgpu_device *adev = (struct amdgpu_device *)m->private;
+@@ -2097,55 +2086,6 @@ static int amdgpu_ttm_page_pool_show(struct seq_file *m, void *unused)
+ 	return ttm_pool_debugfs(&adev->mman.bdev.pool, m);
  }
  
-+static void vmw_debugfs_resource_managers_init(struct vmw_private *vmw)
-+{
-+	struct drm_minor *minor = vmw->drm.primary;
-+	struct dentry *root = minor->debugfs_root;
-+
-+	ttm_resource_manager_create_debugfs(ttm_manager_type(&vmw->bdev, TTM_PL_SYSTEM),
-+					    root, "system_ttm");
-+	ttm_resource_manager_create_debugfs(ttm_manager_type(&vmw->bdev, TTM_PL_VRAM),
-+					    root, "vram_ttm");
-+	ttm_resource_manager_create_debugfs(ttm_manager_type(&vmw->bdev, VMW_PL_GMR),
-+					    root, "gmr_ttm");
-+	ttm_resource_manager_create_debugfs(ttm_manager_type(&vmw->bdev, VMW_PL_MOB),
-+					    root, "mob_ttm");
-+	ttm_resource_manager_create_debugfs(ttm_manager_type(&vmw->bdev, VMW_PL_SYSTEM),
-+					    root, "system_mob_ttm");
-+}
-+
- static unsigned long
- vmw_get_unmapped_area(struct file *file, unsigned long uaddr,
- 		      unsigned long len, unsigned long pgoff,
-@@ -1657,6 +1674,7 @@ static int vmw_probe(struct pci_dev *pdev, const struct pci_device_id *ent)
- 		goto out_unload;
+-static int amdgpu_mm_tt_table_show(struct seq_file *m, void *unused)
+-{
+-	struct amdgpu_device *adev = (struct amdgpu_device *)m->private;
+-	struct ttm_resource_manager *man = ttm_manager_type(&adev->mman.bdev,
+-							    TTM_PL_TT);
+-	struct drm_printer p = drm_seq_file_printer(m);
+-
+-	ttm_resource_manager_debug(man, &p);
+-	return 0;
+-}
+-
+-static int amdgpu_mm_gds_table_show(struct seq_file *m, void *unused)
+-{
+-	struct amdgpu_device *adev = (struct amdgpu_device *)m->private;
+-	struct ttm_resource_manager *man = ttm_manager_type(&adev->mman.bdev,
+-							    AMDGPU_PL_GDS);
+-	struct drm_printer p = drm_seq_file_printer(m);
+-
+-	ttm_resource_manager_debug(man, &p);
+-	return 0;
+-}
+-
+-static int amdgpu_mm_gws_table_show(struct seq_file *m, void *unused)
+-{
+-	struct amdgpu_device *adev = (struct amdgpu_device *)m->private;
+-	struct ttm_resource_manager *man = ttm_manager_type(&adev->mman.bdev,
+-							    AMDGPU_PL_GWS);
+-	struct drm_printer p = drm_seq_file_printer(m);
+-
+-	ttm_resource_manager_debug(man, &p);
+-	return 0;
+-}
+-
+-static int amdgpu_mm_oa_table_show(struct seq_file *m, void *unused)
+-{
+-	struct amdgpu_device *adev = (struct amdgpu_device *)m->private;
+-	struct ttm_resource_manager *man = ttm_manager_type(&adev->mman.bdev,
+-							    AMDGPU_PL_OA);
+-	struct drm_printer p = drm_seq_file_printer(m);
+-
+-	ttm_resource_manager_debug(man, &p);
+-	return 0;
+-}
+-
+-DEFINE_SHOW_ATTRIBUTE(amdgpu_mm_vram_table);
+-DEFINE_SHOW_ATTRIBUTE(amdgpu_mm_tt_table);
+-DEFINE_SHOW_ATTRIBUTE(amdgpu_mm_gds_table);
+-DEFINE_SHOW_ATTRIBUTE(amdgpu_mm_gws_table);
+-DEFINE_SHOW_ATTRIBUTE(amdgpu_mm_oa_table);
+ DEFINE_SHOW_ATTRIBUTE(amdgpu_ttm_page_pool);
  
- 	vmw_debugfs_gem_init(vmw);
-+	vmw_debugfs_resource_managers_init(vmw);
- 
- 	return 0;
- out_unload:
+ /*
+@@ -2355,17 +2295,23 @@ void amdgpu_ttm_debugfs_init(struct amdgpu_device *adev)
+ 				 &amdgpu_ttm_vram_fops, adev->gmc.mc_vram_size);
+ 	debugfs_create_file("amdgpu_iomem", 0444, root, adev,
+ 			    &amdgpu_ttm_iomem_fops);
+-	debugfs_create_file("amdgpu_vram_mm", 0444, root, adev,
+-			    &amdgpu_mm_vram_table_fops);
+-	debugfs_create_file("amdgpu_gtt_mm", 0444, root, adev,
+-			    &amdgpu_mm_tt_table_fops);
+-	debugfs_create_file("amdgpu_gds_mm", 0444, root, adev,
+-			    &amdgpu_mm_gds_table_fops);
+-	debugfs_create_file("amdgpu_gws_mm", 0444, root, adev,
+-			    &amdgpu_mm_gws_table_fops);
+-	debugfs_create_file("amdgpu_oa_mm", 0444, root, adev,
+-			    &amdgpu_mm_oa_table_fops);
+ 	debugfs_create_file("ttm_page_pool", 0444, root, adev,
+ 			    &amdgpu_ttm_page_pool_fops);
++	ttm_resource_manager_create_debugfs(ttm_manager_type(&adev->mman.bdev,
++							     TTM_PL_VRAM),
++					    root, "amdgpu_vram_mm");
++	ttm_resource_manager_create_debugfs(ttm_manager_type(&adev->mman.bdev,
++							     TTM_PL_TT),
++					    root, "amdgpu_gtt_mm");
++	ttm_resource_manager_create_debugfs(ttm_manager_type(&adev->mman.bdev,
++							     AMDGPU_PL_GDS),
++					    root, "amdgpu_gds_mm");
++	ttm_resource_manager_create_debugfs(ttm_manager_type(&adev->mman.bdev,
++							     AMDGPU_PL_GWS),
++					    root, "amdgpu_gws_mm");
++	ttm_resource_manager_create_debugfs(ttm_manager_type(&adev->mman.bdev,
++							     AMDGPU_PL_OA),
++					    root, "amdgpu_oa_mm");
++
+ #endif
+ }
 -- 
 2.32.0
 
