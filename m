@@ -2,39 +2,42 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 637584FD2B2
-	for <lists+dri-devel@lfdr.de>; Tue, 12 Apr 2022 09:39:44 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 94E944FD2B7
+	for <lists+dri-devel@lfdr.de>; Tue, 12 Apr 2022 09:43:45 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 3262210E560;
-	Tue, 12 Apr 2022 07:39:42 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 3250110E4CC;
+	Tue, 12 Apr 2022 07:43:43 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from mailgw02.mediatek.com (unknown [210.61.82.184])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 0C11D10E560
- for <dri-devel@lists.freedesktop.org>; Tue, 12 Apr 2022 07:39:40 +0000 (UTC)
-X-UUID: 476df98acc14430c9712202fa00f6542-20220412
-X-UUID: 476df98acc14430c9712202fa00f6542-20220412
-Received: from mtkcas10.mediatek.inc [(172.21.101.39)] by mailgw02.mediatek.com
- (envelope-from <rex-bc.chen@mediatek.com>)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 5563010E9C9
+ for <dri-devel@lists.freedesktop.org>; Tue, 12 Apr 2022 07:43:41 +0000 (UTC)
+X-UUID: cadb30c01bd247c69b4ac5647a7994d9-20220412
+X-UUID: cadb30c01bd247c69b4ac5647a7994d9-20220412
+Received: from mtkexhb01.mediatek.inc [(172.21.101.102)] by
+ mailgw02.mediatek.com (envelope-from <rex-bc.chen@mediatek.com>)
  (Generic MTA with TLSv1.2 ECDHE-RSA-AES256-SHA384 256/256)
- with ESMTP id 1947215072; Tue, 12 Apr 2022 15:39:31 +0800
+ with ESMTP id 254130138; Tue, 12 Apr 2022 15:43:35 +0800
 Received: from mtkcas11.mediatek.inc (172.21.101.40) by
- mtkmbs07n2.mediatek.inc (172.21.101.141) with Microsoft SMTP Server (TLS) id
- 15.0.1497.2; Tue, 12 Apr 2022 15:39:30 +0800
+ mtkmbs10n2.mediatek.inc (172.21.101.183) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_CBC_SHA384) id 15.2.792.3; 
+ Tue, 12 Apr 2022 15:43:34 +0800
 Received: from mtksdccf07 (172.21.84.99) by mtkcas11.mediatek.inc
  (172.21.101.73) with Microsoft SMTP Server id 15.0.1497.2 via Frontend
- Transport; Tue, 12 Apr 2022 15:39:30 +0800
-Message-ID: <152363cfcfe240f9249fb08f06442d2ab9286900.camel@mediatek.com>
-Subject: Re: [PATCH v4,4/4] drm/mediatek: Add pull-down MIPI operation in
- mtk_dsi_poweroff function
+ Transport; Tue, 12 Apr 2022 15:43:34 +0800
+Message-ID: <3c9140fbba123550b5532f9917dae4ef10ed5611.camel@mediatek.com>
+Subject: Re: [PATCH v4, 3/4] drm/mediatek: keep dsi as LP00 before dcs cmds
+ transfer
 From: Rex-BC Chen <rex-bc.chen@mediatek.com>
-To: <xinlei.lee@mediatek.com>, <chunkuang.hu@kernel.org>,
+To: AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>,
+ <xinlei.lee@mediatek.com>, <chunkuang.hu@kernel.org>,
  <p.zabel@pengutronix.de>, <airlied@linux.ie>, <daniel@ffwll.ch>,
  <matthias.bgg@gmail.com>
-Date: Tue, 12 Apr 2022 15:39:30 +0800
-In-Reply-To: <1649644308-8455-5-git-send-email-xinlei.lee@mediatek.com>
+Date: Tue, 12 Apr 2022 15:43:34 +0800
+In-Reply-To: <7a4e5afb-6947-ed7f-8555-c7402aaa3a29@collabora.com>
 References: <1649644308-8455-1-git-send-email-xinlei.lee@mediatek.com>
- <1649644308-8455-5-git-send-email-xinlei.lee@mediatek.com>
+ <1649644308-8455-4-git-send-email-xinlei.lee@mediatek.com>
+ <7a4e5afb-6947-ed7f-8555-c7402aaa3a29@collabora.com>
 Content-Type: text/plain; charset="UTF-8"
 X-Mailer: Evolution 3.28.5-0ubuntu0.18.04.2 
 MIME-Version: 1.0
@@ -59,41 +62,101 @@ Cc: jitao.shi@mediatek.com, linux-kernel@vger.kernel.org,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Mon, 2022-04-11 at 10:31 +0800, xinlei.lee@mediatek.com wrote:
-> From: Xinlei Lee <xinlei.lee@mediatek.com>
+On Mon, 2022-04-11 at 11:07 +0200, AngeloGioacchino Del Regno wrote:
+> Il 11/04/22 04:31, xinlei.lee@mediatek.com ha scritto:
+> > From: Jitao Shi <jitao.shi@mediatek.com>
+> > 
+> > To comply with the panel sequence, hold the mipi signal to LP00
+> > before the dcs cmds transmission,
+> > and pull the mipi signal high from LP00 to LP11 until the start of
+> > the dcs cmds transmission.
+> > The normal panel timing is :
+> > (1) pp1800 DC pull up
+> > (2) avdd & avee AC pull high
+> > (3) lcm_reset pull high -> pull low -> pull high
+> > (4) Pull MIPI signal high (LP11) -> initial code -> send video
+> > data(HS mode)
+> > The power-off sequence is reversed.
+> > If dsi is not in cmd mode, then dsi will pull the mipi signal high
+> > in the mtk_output_dsi_enable function.
+> > 
+> > Fixes: 2dd8075d2185 ("drm/mediatek: mtk_dsi: Use the
+> > drm_panel_bridge API")
+> > 
+> > Signed-off-by: Jitao Shi <jitao.shi@mediatek.com>
+> > Signed-off-by: Xinlei Lee <xinlei.lee@mediatek.com>
+> > ---
+> >   drivers/gpu/drm/mediatek/mtk_dsi.c | 28 +++++++++++++++++++++--
+> > -----
+> >   1 file changed, 21 insertions(+), 7 deletions(-)
+> > 
+> > diff --git a/drivers/gpu/drm/mediatek/mtk_dsi.c
+> > b/drivers/gpu/drm/mediatek/mtk_dsi.c
+> > index cf76c53a1af6..9ad6f08c8bfe 100644
+> > --- a/drivers/gpu/drm/mediatek/mtk_dsi.c
+> > +++ b/drivers/gpu/drm/mediatek/mtk_dsi.c
+> > @@ -203,6 +203,7 @@ struct mtk_dsi {
+> >   	struct mtk_phy_timing phy_timing;
+> >   	int refcount;
+> >   	bool enabled;
+> > +	bool lanes_ready;
+> >   	u32 irq_data;
+> >   	wait_queue_head_t irq_wait_queue;
+> >   	const struct mtk_dsi_driver_data *driver_data;
+> > @@ -654,13 +655,6 @@ static int mtk_dsi_poweron(struct mtk_dsi
+> > *dsi)
+> >   	mtk_dsi_config_vdo_timing(dsi);
+> >   	mtk_dsi_set_interrupt_enable(dsi);
+> >   
+> > -	mtk_dsi_rxtx_control(dsi);
+> > -	usleep_range(30, 100);
+> > -	mtk_dsi_reset_dphy(dsi);
+> > -	mtk_dsi_clk_ulp_mode_leave(dsi);
+> > -	mtk_dsi_lane0_ulp_mode_leave(dsi);
+> > -	mtk_dsi_clk_hs_mode(dsi, 0);
+> > -
+> >   	return 0;
+> >   err_disable_engine_clk:
+> >   	clk_disable_unprepare(dsi->engine_clk);
+> > @@ -689,6 +683,23 @@ static void mtk_dsi_poweroff(struct mtk_dsi
+> > *dsi)
+> >   	clk_disable_unprepare(dsi->digital_clk);
+> >   
+> >   	phy_power_off(dsi->phy);
+> > +
+> > +	dsi->lanes_ready = false;
+> > +}
+> > +
+> > +static void mtk_dsi_lane_ready(struct mtk_dsi *dsi)
+> > +{
+> > +	if (!dsi->lanes_ready) {
+> > +		dsi->lanes_ready = true;
+> > +		mtk_dsi_rxtx_control(dsi);
+> > +		usleep_range(30, 100);
+> > +		mtk_dsi_reset_dphy(dsi);
+> > +		mtk_dsi_clk_ulp_mode_leave(dsi);
+> > +		mtk_dsi_lane0_ulp_mode_leave(dsi);
+> > +		mtk_dsi_clk_hs_mode(dsi, 0);
+> > +		msleep(20);
 > 
-> In the dsi_enable function, mtk_dsi_rxtx_control is to
-> pull up the MIPI signal operation. Before dsi_disable,
-> MIPI should also be pulled down by writing a register 
-> instead of disabling dsi.
+> This is a very long sleep, which wasn't present before this change.
+> Please document the reasons why we need this 20ms sleep with a
+> comment
+> in the code.
 > 
-> If disable dsi without pulling the mipi signal low, the value of
-> the register will still maintain the setting of the mipi signal being
-> pulled high.
-> After resume, even if the mipi signal is not pulled high, it will
-> still
-> be in the high state.
+> Regards,
+> Angelo
 > 
-> Signed-off-by: Jitao Shi <jitao.shi@mediatek.com>
-> Signed-off-by: Xinlei Lee <xinlei.lee@mediatek.com>
-> ---
->  drivers/gpu/drm/mediatek/mtk_dsi.c | 2 ++
->  1 file changed, 2 insertions(+)
 > 
-> diff --git a/drivers/gpu/drm/mediatek/mtk_dsi.c
-> b/drivers/gpu/drm/mediatek/mtk_dsi.c
-> index 9ad6f08c8bfe..e35343357f90 100644
-> --- a/drivers/gpu/drm/mediatek/mtk_dsi.c
-> +++ b/drivers/gpu/drm/mediatek/mtk_dsi.c
-> @@ -676,6 +676,8 @@ static void mtk_dsi_poweroff(struct mtk_dsi *dsi)
->  	mtk_dsi_reset_engine(dsi);
->  	mtk_dsi_lane0_ulp_mode_enter(dsi);
->  	mtk_dsi_clk_ulp_mode_enter(dsi);
-> +	/* set the lane number as 0 to pull down mipi */
-> +	writel(0, dsi->regs + DSI_TXRX_CTRL);
->  
->  	mtk_dsi_disable(dsi);
->  
 
-Reviewed-by: Rex-BC Chen <rex-bc.chen@mediatek.com>
+Hello Xinlei,
+
+As Angelo mentioned.
+I think you should add this in commit message and driver comments.
+(Your reply in v3.)
+"The 20ms delay in mtk_dsi_lane_ready() is because dsi needs to give
+dsi_rx(panel) a reaction time after pulling up the mipi signal."
+
+BRs,
+Rex
 
