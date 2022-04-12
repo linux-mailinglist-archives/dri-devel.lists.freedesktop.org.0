@@ -2,69 +2,69 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6DFCE4FCDDB
-	for <lists+dri-devel@lfdr.de>; Tue, 12 Apr 2022 06:28:40 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 4C64E4FCDE6
+	for <lists+dri-devel@lfdr.de>; Tue, 12 Apr 2022 06:28:45 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id B4FC710E734;
-	Tue, 12 Apr 2022 04:28:28 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 8F7CA10E773;
+	Tue, 12 Apr 2022 04:28:32 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from wout5-smtp.messagingengine.com (wout5-smtp.messagingengine.com
  [64.147.123.21])
- by gabe.freedesktop.org (Postfix) with ESMTPS id DDAF610E734
- for <dri-devel@lists.freedesktop.org>; Tue, 12 Apr 2022 04:28:26 +0000 (UTC)
-Received: from compute1.internal (compute1.nyi.internal [10.202.2.41])
- by mailout.west.internal (Postfix) with ESMTP id 6BAE33200E89;
- Tue, 12 Apr 2022 00:28:25 -0400 (EDT)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 48DBF10E930
+ for <dri-devel@lists.freedesktop.org>; Tue, 12 Apr 2022 04:28:30 +0000 (UTC)
+Received: from compute4.internal (compute4.nyi.internal [10.202.2.44])
+ by mailout.west.internal (Postfix) with ESMTP id 7C5A03201F24;
+ Tue, 12 Apr 2022 00:28:28 -0400 (EDT)
 Received: from mailfrontend1 ([10.202.2.162])
- by compute1.internal (MEProxy); Tue, 12 Apr 2022 00:28:26 -0400
+ by compute4.internal (MEProxy); Tue, 12 Apr 2022 00:28:29 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=sholland.org; h=
  cc:cc:content-transfer-encoding:date:date:from:from:in-reply-to
  :in-reply-to:message-id:mime-version:references:reply-to:sender
- :subject:subject:to:to; s=fm2; t=1649737705; x=1649824105; bh=rT
- me4gsdReTHZYq9dpsHcO27YtJUVs0qzpd+cDg5ggo=; b=G+N6Zs7JCoYiGdmbR3
- Rwf8otMzwqj5blzxGACkhQj2pu5MCAe7gJEJ5c/Mz8AdnskUVugJJRXL2odJeMxs
- eGVTQC9/nQn6GnDESbn7me3zAcmHLaDGjBIuvadnhnFMxuPg8U6vsInLTyvw6fUa
- EJ4MlQNg+yQR4ptrFuux6aNDk+ppL+0JyNf/t35L2lGzNpkhajokQKUJ2/sFvuUR
- jgf38ScgYwhpB6NUF2ERJe20dCLO2y02oG17z9QK9ZCogSxiYRBxWSKkoR+he4+Y
- fTt0+xAd/DWcT3jtAUhTqxnGEHadrmdZaQZbU5zRF85Yvq8vUE6jiL7Cm4+O/do4
- +e5Q==
+ :subject:subject:to:to; s=fm2; t=1649737708; x=1649824108; bh=4n
+ wYaXxDyOycdxQgOz6ehxTPViKo4RhrkjN+WH6iVtY=; b=qvraaC7W7woakTPyuM
+ dDp0M4+H5ECMAk7SP/ZtytJHc38AXNatMR/0f3QYSOnjj969Wz9T1QF8H1mqiaUC
+ tpDMnXAbFTQpVketbx51dJmVj5Vi3QZeAGJ2Ch6eS06ewjkQGU6HgWm9VlxTR4bD
+ 8U+yLQ9oDTzt40oJwuI5A4eoZw7ydIwlqB4DTUy/0w7GWk7ifX2un3o2OTdGRl/1
+ TjzJP9Rb09EHWIsoEBgsX3FqCdV7g1U//oZZusR663EtnvK94hv6/VcgNjwPdi3A
+ oJ2LyFm1HSrqzcF05EknqvIyUBCquIHcJxTDl6qjWZpkI0l0haMX/YbgUEBCRpzj
+ KqBw==
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
  messagingengine.com; h=cc:cc:content-transfer-encoding:date:date
  :from:from:in-reply-to:in-reply-to:message-id:mime-version
  :references:reply-to:sender:subject:subject:to:to:x-me-proxy
  :x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=fm3; t=
- 1649737705; x=1649824105; bh=rTme4gsdReTHZYq9dpsHcO27YtJUVs0qzpd
- +cDg5ggo=; b=jyKlhTmrOMwsc2JvquM2gixmZn2SvbeJwwU8J9pVHEhDQKobzl9
- gXmAkbg7t/q0udzVrBwTUHT2Lk/JpE8WMlvnIPz1/g3F3RjQ3vhpHMdH5/NQh9d6
- gUogd4SdiXaTAFZERClBXsvMzeqsNAJlx8Mu/CvXCUFy01utDAgGfCryeACjJYtQ
- /SuShvNzI2L2Kx909Yf96J/Gz6A0y+46yX9fgPTTSEY8NDYECoflRLc0Wxx3Jeji
- qS/P4n8jBZ9Bnq+7Fr9Bk3Lk7h5ZAA5Dopjzh+LAoZnDlmpW2iJShN5Ne4Hmpg06
- JL9vmXuVDCLaE+a1uoLvpFEfmEA6zKw9y4w==
-X-ME-Sender: <xms:6P9UYl-POP1U2JWe_wXqMdm2P8xbQEXj-iXWXq43yUCjE1eRL_MWqw>
- <xme:6P9UYpuBbnfzCPznh_wUzGeLNYn-EqvAW4WtCUv5bxFzjmIbuC_GFJQaByRagydxD
- IHA80tBkvk--unWNQ>
-X-ME-Received: <xmr:6P9UYjDJwv6OLIPhaH653aKdqEW9kM-XXftDHMaE-ZU0OFMGcV_mUIq2Rct2BTyXz8piOiRLdNaJX_XByt7hxmSby2LVvQ1OskMP80YRoGks2j6Ewt0hY7lZp4VqqrK3uF0AzQ>
+ 1649737708; x=1649824108; bh=4nwYaXxDyOycdxQgOz6ehxTPViKo4RhrkjN
+ +WH6iVtY=; b=ZMhxt6q5rqlrseSb5/1nLbuHOKYd2FSnU4QASLlC/43n/H5HFFU
+ pjcUHTTWj5fBmoAY6OiAv3kGpJ9VE9dtuXJ6Xp/Cfh9vUYgiZd0Sxin5FXaBkLyM
+ aERWITzaVcQ3frkNOcjzCy1pkYhuTRSx0GvmcxVvmZCRKOPU7WJEI8zHRebkOORi
+ mPjsRH5onSfoM2qKf/c8jvt97biyLnlZQUKWw2SxCvcmwXsoytvwxP29y2/JHuK5
+ /ECgL9bEgyu37kOAoi9xQqYGB3gGPcogiBYI2GUlDXqFxLmmSFnE4AH1Z9GFPQZY
+ KuHnHakljkMHhOV/810C/YX7jytmOU3nqZA==
+X-ME-Sender: <xms:6_9UYhhOc9T__b-4fn_IL-3zexro7NDz8urmSJMctELMU4FVBNSjEw>
+ <xme:6_9UYmDsVyOsr2evmxdvoDtqr6B0lgrbXBjYbZ9VU9-Yp1QTWkw0_xs0NAw1-g6BM
+ kD4zfvvEQkNBK5xPw>
+X-ME-Received: <xmr:6_9UYhE9rioYz4bufuf-83zrXMwiG6XTZhUXClHcWIZJ6fVHDzHZN1v_SubTRMLOjBKdcNky2CS5EHflO2KZdC6LIkGDGsCy9pXpOJE7ljVdtQqK6QKJT125OHdxvYokOTccuA>
 X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvvddrudekjedgkeduucetufdoteggodetrfdotf
  fvucfrrhhofhhilhgvmecuhfgrshhtofgrihhlpdfqfgfvpdfurfetoffkrfgpnffqhgen
  uceurghilhhouhhtmecufedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmne
  cujfgurhephffvufffkffojghfggfgsedtkeertdertddtnecuhfhrohhmpefurghmuhgv
  lhcujfholhhlrghnugcuoehsrghmuhgvlhesshhhohhllhgrnhgurdhorhhgqeenucggtf
  frrghtthgvrhhnpeduhfejfedvhffgfeehtefghfeiiefgfeehgfdvvdevfeegjeehjedv
- gfejheeuieenucevlhhushhtvghrufhiiigvpedtnecurfgrrhgrmhepmhgrihhlfhhroh
+ gfejheeuieenucevlhhushhtvghrufhiiigvpedunecurfgrrhgrmhepmhgrihhlfhhroh
  hmpehsrghmuhgvlhesshhhohhllhgrnhgurdhorhhg
-X-ME-Proxy: <xmx:6P9UYpc11NbbJf8bvJ42BGRU4ezdiujA533xGNdxrFUOYgEQ9OuYMw>
- <xmx:6P9UYqM_-LUIjwtpHLUijEuNf_75avUblg1z-VZ0W-7JwlB3Z-kIUg>
- <xmx:6P9UYrkmCgnmRV0ilkXxjNGJM5egzTO1pad7aBkqVaLvp0qWeWKlUQ>
- <xmx:6f9UYrlZS4prjzKImk2j9_eiYe1BOO7RmiSuRpIKNW8gZdBj6ieqhQ>
+X-ME-Proxy: <xmx:7P9UYmSynAWhJW-9d24rvzsGcSIB5mr4gmKUVcVbSb36Dvt8g2zEmQ>
+ <xmx:7P9UYuyQcZRHKuYL5Su9ED6LCHr1sfswWbYh6hSvLsWEyverZa1-DA>
+ <xmx:7P9UYs5YBf--WHCx_WCndKqtfpZzjWs1jGxa8xn7LnuIdcEJTBpXkg>
+ <xmx:7P9UYg47-4afUBMi-EtU2vzc619369SSnY2-o7wxdqPduXeEf2T8fw>
 Received: by mail.messagingengine.com (Postfix) with ESMTPA; Tue,
- 12 Apr 2022 00:28:24 -0400 (EDT)
+ 12 Apr 2022 00:28:27 -0400 (EDT)
 From: Samuel Holland <samuel@sholland.org>
 To: Chen-Yu Tsai <wens@csie.org>, Jernej Skrabec <jernej.skrabec@gmail.com>,
  Maxime Ripard <mripard@kernel.org>
-Subject: [PATCH v2 05/14] drm/sun4i: Allow building the driver on RISC-V
-Date: Mon, 11 Apr 2022 23:27:57 -0500
-Message-Id: <20220412042807.47519-6-samuel@sholland.org>
+Subject: [PATCH v2 06/14] sun4i/drm: engine: Add mode_set callback
+Date: Mon, 11 Apr 2022 23:27:58 -0500
+Message-Id: <20220412042807.47519-7-samuel@sholland.org>
 X-Mailer: git-send-email 2.35.1
 In-Reply-To: <20220412042807.47519-1-samuel@sholland.org>
 References: <20220412042807.47519-1-samuel@sholland.org>
@@ -90,32 +90,89 @@ Cc: devicetree@vger.kernel.org, Samuel Holland <samuel@sholland.org>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Allwinner D1 is a RISC-V SoC which contains a DE 2.0 engine. Let's
-remove the dependency on a specific CPU architecture, so the driver can
-be built wherever ARCH_SUNXI is selected.
+From: Jernej Skrabec <jernej.skrabec@gmail.com>
 
-Acked-by: Jernej Skrabec <jernej.skrabec@gmail.com>
+This optional callback is useful for setting properties which depends
+only on current mode. Such properties are width, height and interlaced
+output.
+
+These properties are currently set in update layer callback for primary
+plane which is less than ideal. More about that in follow up patches,
+which will migrate that code to this newly defined callback.
+
+Signed-off-by: Jernej Skrabec <jernej.skrabec@gmail.com>
 Signed-off-by: Samuel Holland <samuel@sholland.org>
 ---
 
-(no changes since v1)
+Changes in v2:
+ - Use Jernej's patches for mixer mode setting.
 
- drivers/gpu/drm/sun4i/Kconfig | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+ drivers/gpu/drm/sun4i/sun4i_crtc.c   |  1 +
+ drivers/gpu/drm/sun4i/sunxi_engine.h | 27 +++++++++++++++++++++++++++
+ 2 files changed, 28 insertions(+)
 
-diff --git a/drivers/gpu/drm/sun4i/Kconfig b/drivers/gpu/drm/sun4i/Kconfig
-index befc5a80222d..3a43c436c74a 100644
---- a/drivers/gpu/drm/sun4i/Kconfig
-+++ b/drivers/gpu/drm/sun4i/Kconfig
-@@ -1,7 +1,7 @@
- # SPDX-License-Identifier: GPL-2.0-only
- config DRM_SUN4I
- 	tristate "DRM Support for Allwinner A10 Display Engine"
--	depends on DRM && (ARM || ARM64) && COMMON_CLK
-+	depends on DRM && COMMON_CLK
- 	depends on ARCH_SUNXI || COMPILE_TEST
- 	select DRM_GEM_CMA_HELPER
- 	select DRM_KMS_HELPER
+diff --git a/drivers/gpu/drm/sun4i/sun4i_crtc.c b/drivers/gpu/drm/sun4i/sun4i_crtc.c
+index 45d9eb552d86..c06d7cd45388 100644
+--- a/drivers/gpu/drm/sun4i/sun4i_crtc.c
++++ b/drivers/gpu/drm/sun4i/sun4i_crtc.c
+@@ -146,6 +146,7 @@ static void sun4i_crtc_mode_set_nofb(struct drm_crtc *crtc)
+ 	struct sun4i_crtc *scrtc = drm_crtc_to_sun4i_crtc(crtc);
+ 
+ 	sun4i_tcon_mode_set(scrtc->tcon, encoder, mode);
++	sunxi_engine_mode_set(scrtc->engine, mode);
+ }
+ 
+ static const struct drm_crtc_helper_funcs sun4i_crtc_helper_funcs = {
+diff --git a/drivers/gpu/drm/sun4i/sunxi_engine.h b/drivers/gpu/drm/sun4i/sunxi_engine.h
+index 548710a936d5..ec8cf9b2bda4 100644
+--- a/drivers/gpu/drm/sun4i/sunxi_engine.h
++++ b/drivers/gpu/drm/sun4i/sunxi_engine.h
+@@ -9,6 +9,7 @@
+ struct drm_plane;
+ struct drm_device;
+ struct drm_crtc_state;
++struct drm_display_mode;
+ 
+ struct sunxi_engine;
+ 
+@@ -108,6 +109,17 @@ struct sunxi_engine_ops {
+ 	 * This function is optional.
+ 	 */
+ 	void (*vblank_quirk)(struct sunxi_engine *engine);
++
++	/**
++	 * @mode_set
++	 *
++	 * This callback is used to set mode related parameters
++	 * like interlacing, screen size, etc. once per mode set.
++	 *
++	 * This function is optional.
++	 */
++	void (*mode_set)(struct sunxi_engine *engine,
++			 const struct drm_display_mode *mode);
+ };
+ 
+ /**
+@@ -181,4 +193,19 @@ sunxi_engine_disable_color_correction(struct sunxi_engine *engine)
+ 	if (engine->ops && engine->ops->disable_color_correction)
+ 		engine->ops->disable_color_correction(engine);
+ }
++
++/**
++ * sunxi_engine_mode_set - Inform engine of a new mode
++ * @engine:	pointer to the engine
++ * @mode:	new mode
++ *
++ * Engine can use this functionality to set specifics once per mode change.
++ */
++static inline void
++sunxi_engine_mode_set(struct sunxi_engine *engine,
++		      const struct drm_display_mode *mode)
++{
++	if (engine->ops && engine->ops->mode_set)
++		engine->ops->mode_set(engine, mode);
++}
+ #endif /* _SUNXI_ENGINE_H_ */
 -- 
 2.35.1
 
