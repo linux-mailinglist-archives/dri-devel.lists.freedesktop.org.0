@@ -1,61 +1,60 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 02B364FD328
-	for <lists+dri-devel@lfdr.de>; Tue, 12 Apr 2022 10:59:09 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 7F2884FD32D
+	for <lists+dri-devel@lfdr.de>; Tue, 12 Apr 2022 11:04:07 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id EEB8D10FB97;
-	Tue, 12 Apr 2022 08:59:06 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 40F8910E5BB;
+	Tue, 12 Apr 2022 09:04:05 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-oa1-x29.google.com (mail-oa1-x29.google.com
- [IPv6:2001:4860:4864:20::29])
- by gabe.freedesktop.org (Postfix) with ESMTPS id AC12C10EA07
- for <dri-devel@lists.freedesktop.org>; Tue, 12 Apr 2022 08:59:05 +0000 (UTC)
-Received: by mail-oa1-x29.google.com with SMTP id
- 586e51a60fabf-de3eda6b5dso20164157fac.0
- for <dri-devel@lists.freedesktop.org>; Tue, 12 Apr 2022 01:59:05 -0700 (PDT)
+Received: from mail-oi1-x22b.google.com (mail-oi1-x22b.google.com
+ [IPv6:2607:f8b0:4864:20::22b])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 8D52E10E5BB
+ for <dri-devel@lists.freedesktop.org>; Tue, 12 Apr 2022 09:04:03 +0000 (UTC)
+Received: by mail-oi1-x22b.google.com with SMTP id z8so18381686oix.3
+ for <dri-devel@lists.freedesktop.org>; Tue, 12 Apr 2022 02:04:03 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=baylibre-com.20210112.gappssmtp.com; s=20210112;
  h=from:user-agent:references:in-reply-to:mime-version:date:message-id
  :subject:to:cc;
- bh=61Zhp6cmoUliim9YwiwcZpLzWn635tX3xmuezZ/XE1Q=;
- b=i+E8+24eJSPuwFpWwnhwRcMosCQtTEQoU0qVumPFd1B/5vOrb43OnnM06scRAF73Yq
- oMByED8vyfj7h/juyKz0L3ed4WqHpCgSlskOcx+kVCwtlWgCiSRQA57g1AuGyhRftLkn
- PMcblX+TbX+MHeKj3cpATLc7zfvBTrR1JonUwOgFtW9kUMKobrEyLRFKbEi6WgtAtS6n
- FCB8ilN1nAxUZedW0P+Azc/J+6dpMpBO/s4qN2MMBBKOQNBC+cNRVDAa2Xi5cUNXXxIm
- UJfzvicRT62Wq64zodMNVExN+Gzy0MnFtlZGEVwjmhUqQKDk5bd3GuHqulcLVnv1AYsL
- SMSg==
+ bh=TaVLZyoZEENt9mm6XHe8rhxlLaPeM8tk8R1AgC2794g=;
+ b=sesqj42IAFm9WSWsTOqHdYA5Rorjo3bfN3YoTtq6JHYKWQqX1WmBP4uULeeni1uzGm
+ /hfuD40g58GgUJw3f9vzeM8X+LkiE2vXLWO6yolkj181V2nTWeGDiebzZ91tyH5BpGPv
+ zoQIBLJLMpiNHlQdyQc9zrY059t+bgc1gIWC7WwGslbm7t2nXtJJ5k723Eh4DT8Tb0QL
+ GFGKkRRWR16wjNsMJ07818rU6oJfnetWzWgQauQeYKQj0z3lhi3ue8MXM9rZPV19+9rQ
+ zqEOHIBojyGpj0ozyivfpOgZ5YZi4XuapP//Puf3rnOnvV42BlenzwpudpXnFaFyKAcx
+ bC8Q==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:from:user-agent:references:in-reply-to
  :mime-version:date:message-id:subject:to:cc;
- bh=61Zhp6cmoUliim9YwiwcZpLzWn635tX3xmuezZ/XE1Q=;
- b=J2HM97opxdISBShJN1HPtYxUZRCH2nMaqrl5mUVgAqnWz0/mfUg0aRk9KO7b85BdOU
- FmsZaCqnNDdfVTSSR00gazuNJZP391yEcC0+QEDljQgHwRSbP3HiWh13aR+cA+5Ebx3l
- g/EE4RAED9OPuUBaXU4fDe9bAsfzuZihOlCQVEjqIo32z6S7f6w0Zz9lhsN/jdljv+wK
- gGZF2S0qQ4VEis1zeInU1Ik/A5nT0OaYTB9YZvxTGml4LvVudpUkU1N3YFjcxHlYqUNZ
- cF/B/DWZEj04P/xQ8YoQgo/vRAAIf0dhhzNzXDfpoZ2EoPW+UgJFX/sYWvb+RRrc8kxY
- hiwA==
-X-Gm-Message-State: AOAM530PDkWVYUbV3yYPgz2PAtO2E9YhHnXYlqH0y9ssAOktFUrs+iU8
- Iv6wFhvIOABR0dgDoipo68ZiJuhQgOBOIJ/QNFl1JA==
-X-Google-Smtp-Source: ABdhPJzgcHEvPZCp6gdbg7kDhJKlxditkMSAtxr85wga0tldVXhcDC3GVMdHj7CuZ6MWQrtRrZ1EySnMvRiS1vE8OqA=
-X-Received: by 2002:a05:6870:f21a:b0:dd:9bec:caf8 with SMTP id
- t26-20020a056870f21a00b000dd9beccaf8mr1592268oao.78.1649753944968; Tue, 12
- Apr 2022 01:59:04 -0700 (PDT)
+ bh=TaVLZyoZEENt9mm6XHe8rhxlLaPeM8tk8R1AgC2794g=;
+ b=I+Cu2MSi9o8m6ME/9PdG1+zkRkzLvEZoFL686cTr1GuGsaj4gzGUc/sFWDctbwfxqP
+ x4WQtwL/vYrs8r+LFoE7hsx/BqhPbvsl0ENXcwbikzUr2KJWaRUQ837VrgI3M96F9pJJ
+ bUB4GrtroEuKCc7hAxTiEoHE6mQKoG+0wIZcFBnsI4SuO3IAuLiAq3MSKYZnQ7oHM1bR
+ TpgEwhVScIpegY8k9ln9HOMKnDkKJMIwyjVmG6vC25izbC5GW29/Fzf6xGp7sygK+O+1
+ Pyb2xginyl9CpdqbvHIGTWcDrkVK30B440l2J9oOGI/T3svSs5Bw7vysQ092N82joZMM
+ lwtg==
+X-Gm-Message-State: AOAM533qQUUI2+9Edw1f2jUSpah5H3NQvM7bnJwfrgSIcuREeFtjeyPs
+ RJ4js8CG92zBgcu32W3PSzI69ZiaJRYQJFQWbcOncQ==
+X-Google-Smtp-Source: ABdhPJzzWwf0u6lyl2/9u7EvJbdiNju6WRex6OFE3yBhD7hT45+S39d1b5mmEOgGvzLwyVK+y4+UdItaHwgA6/SFgm8=
+X-Received: by 2002:a05:6808:159d:b0:2da:3946:ab3d with SMTP id
+ t29-20020a056808159d00b002da3946ab3dmr1265654oiw.248.1649754242818; Tue, 12
+ Apr 2022 02:04:02 -0700 (PDT)
 Received: from 753933720722 named unknown by gmailapi.google.com with
- HTTPREST; Tue, 12 Apr 2022 01:59:04 -0700
+ HTTPREST; Tue, 12 Apr 2022 02:04:02 -0700
 From: Guillaume Ranquet <granquet@baylibre.com>
 User-Agent: meli 0.7.2
 References: <20220327223927.20848-1-granquet@baylibre.com>
- <20220327223927.20848-7-granquet@baylibre.com>
- <33212024-ae93-32c3-7890-09006057ff49@collabora.com>
-In-Reply-To: <33212024-ae93-32c3-7890-09006057ff49@collabora.com>
+ <20220327223927.20848-18-granquet@baylibre.com>
+ <4697e3af-86f7-83e0-1737-3f5000fc8d30@collabora.com>
+In-Reply-To: <4697e3af-86f7-83e0-1737-3f5000fc8d30@collabora.com>
 MIME-Version: 1.0
-Date: Tue, 12 Apr 2022 01:59:04 -0700
-Message-ID: <CABnWg9sckU58Ga-qUgd+pk2M75H4=XZyAyP69e5QJP0+dvsusg@mail.gmail.com>
-Subject: Re: [PATCH v9 06/22] video/hdmi: Add audio_infoframe packing for DP
+Date: Tue, 12 Apr 2022 02:04:02 -0700
+Message-ID: <CABnWg9s7MN_21CEYVJV9=udfYkYQ_huJjQvLf+Jcb3Dmc8pNCA@mail.gmail.com>
+Subject: Re: [PATCH v9 17/22] phy: phy-mtk-dp: Add driver for DP phy
 To: AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>,
  vkoul@kernel.org, 
  airlied@linux.ie, chunfeng.yun@mediatek.com, chunkuang.hu@kernel.org, 
@@ -84,56 +83,107 @@ Cc: devicetree@vger.kernel.org, linux-fbdev@vger.kernel.org,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Mon, 28 Mar 2022 10:09, AngeloGioacchino Del Regno
+On Mon, 28 Mar 2022 10:20, AngeloGioacchino Del Regno
 <angelogioacchino.delregno@collabora.com> wrote:
 >Il 28/03/22 00:39, Guillaume Ranquet ha scritto:
 >> From: Markus Schneider-Pargmann <msp@baylibre.com>
 >>
->> Similar to HDMI, DP uses audio infoframes as well which are structured
->> very similar to the HDMI ones.
+>> This is a new driver that supports the integrated DisplayPort phy for
+>> mediatek SoCs, especially the mt8195. The phy is integrated into the
+>> DisplayPort controller and will be created by the mtk-dp driver. This
+>> driver expects a struct regmap to be able to work on the same registers
+>> as the DisplayPort controller. It sets the device data to be the struct
+>> phy so that the DisplayPort controller can easily work with it.
 >>
->> This patch adds a helper function to pack the HDMI audio infoframe for
->> DP, called hdmi_audio_infoframe_pack_for_dp().
->> hdmi_audio_infoframe_pack_only() is split into two parts. One of them
->> packs the payload only and can be used for HDMI and DP.
+>> The driver does not have any devicetree bindings because the datasheet
+>> does not list the controller and the phy as distinct units.
+>>
+>> The interaction with the controller can be covered by the configure
+>> callback of the phy framework and its displayport parameters.
 >>
 >> Signed-off-by: Markus Schneider-Pargmann <msp@baylibre.com>
 >> Signed-off-by: Guillaume Ranquet <granquet@baylibre.com>
 >> ---
->>   drivers/video/hdmi.c           | 82 ++++++++++++++++++++++++++--------
->>   include/drm/dp/drm_dp_helper.h |  2 +
->>   include/linux/hdmi.h           |  7 ++-
->>   3 files changed, 71 insertions(+), 20 deletions(-)
+>>   MAINTAINERS                       |   1 +
+>>   drivers/phy/mediatek/Kconfig      |   8 ++
+>>   drivers/phy/mediatek/Makefile     |   1 +
+>>   drivers/phy/mediatek/phy-mtk-dp.c | 201 ++++++++++++++++++++++++++++++
+>>   4 files changed, 211 insertions(+)
+>>   create mode 100644 drivers/phy/mediatek/phy-mtk-dp.c
 >>
->> diff --git a/drivers/video/hdmi.c b/drivers/video/hdmi.c
->> index 947be761dfa4..5f50237554ed 100644
->> --- a/drivers/video/hdmi.c
->> +++ b/drivers/video/hdmi.c
->> @@ -21,6 +21,7 @@
->>    * DEALINGS IN THE SOFTWARE.
->>    */
->>
->> +#include <drm/dp/drm_dp_helper.h>
->>   #include <linux/bitops.h>
->>   #include <linux/bug.h>
->>   #include <linux/errno.h>
->> @@ -381,12 +382,34 @@ static int hdmi_audio_infoframe_check_only(const struct hdmi_audio_infoframe *fr
->>    *
->>    * Returns 0 on success or a negative error code on failure.
->>    */
->> -int hdmi_audio_infoframe_check(struct hdmi_audio_infoframe *frame)
->> +int hdmi_audio_infoframe_check(const struct hdmi_audio_infoframe *frame)
 >
->I agree with this change, as hdmi_audio_infoframe_check_only()'s param is a const,
->but you really should mention that you're constifying this one in your commit
->description, or do that in a separate commit.
+>..snip..
 >
->Either of the two is fine.
+>> diff --git a/drivers/phy/mediatek/phy-mtk-dp.c b/drivers/phy/mediatek/phy-mtk-dp.c
+>> new file mode 100644
+>> index 000000000000..e5c5494f3636
+>> --- /dev/null
+>> +++ b/drivers/phy/mediatek/phy-mtk-dp.c
 >
+>..snip..
+>
+>> +
+>> +static int mtk_dp_phy_probe(struct platform_device *pdev)
+>> +{
+>> +	struct device *dev = &pdev->dev;
+>> +	struct mtk_dp_phy *dp_phy;
+>> +	struct phy *phy;
+>> +	struct regmap *regs;
+>> +
+>> +	regs = syscon_regmap_lookup_by_phandle(dev->of_node, "mediatek,dp-syscon");
+>> +
+>
+>Please drop this blank line
+>
+>> +	if (IS_ERR(regs))
+>> +		return PTR_ERR(regs);
+>> +
+>> +	dp_phy = devm_kzalloc(dev, sizeof(*dp_phy), GFP_KERNEL);
+>> +	if (!dp_phy)
+>> +		return -ENOMEM;
+>> +
+>> +	dp_phy->regs = regs;
+>> +
+>> +	phy = devm_phy_create(dev, NULL, &mtk_dp_phy_dev_ops);
+>> +
+>
+>Same here
+>
+>> +	if (IS_ERR(phy))
+>> +		return dev_err_probe(dev, PTR_ERR(phy), "Failed to create DP PHY: %ld\n", PTR_ERR(phy));
+>> +
+>
+>Using dev_err_probe automates printing the error, so the correct usage is:
+>
+>return dev_err_probe(dev, PTR_ERR(phy), "Failed to create DP PHY\n");
+>
+>> +	phy_set_drvdata(phy, dp_phy);
+>> +
+>> +	return 0;
+>> +}
+>> +
+>> +struct platform_driver mtk_dp_phy_driver = {
+>> +	.probe = mtk_dp_phy_probe,
+>> +	.driver = {
+>> +		.name = "mediatek-dp-phy",
+>> +	},
+>> +};
+>> +module_platform_driver(mtk_dp_phy_driver);
+>
+>Also, in your dt-binding, you mention a compatible for this driver, but I don't see
+>any, here. This means that you do know what to do, so please do it.
+>
+
+Following the comments from rob [1], I'll revert back to using
+platform_device_register_data() from v8.
+
+[1] https://lore.kernel.org/linux-mediatek/YkOPB5W7uXkOc72%2F@robh.at.kernel.org/
+
 >Regards,
 >Angelo
-
-Noted, I'll add it to the commit message.
-
-Thx,
-Guillaume.
+>
+>> +
+>> +MODULE_AUTHOR("Markus Schneider-Pargmann <msp@baylibre.com>");
+>> +MODULE_DESCRIPTION("MediaTek DP PHY Driver");
+>> +MODULE_LICENSE("GPL");
+>
