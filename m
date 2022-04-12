@@ -1,50 +1,50 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id D61444FCE08
-	for <lists+dri-devel@lfdr.de>; Tue, 12 Apr 2022 06:35:24 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id E71BF4FCE09
+	for <lists+dri-devel@lfdr.de>; Tue, 12 Apr 2022 06:35:27 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id BFB6110EDEA;
-	Tue, 12 Apr 2022 04:35:20 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 0B84710EDEE;
+	Tue, 12 Apr 2022 04:35:25 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from wout5-smtp.messagingengine.com (wout5-smtp.messagingengine.com
  [64.147.123.21])
- by gabe.freedesktop.org (Postfix) with ESMTPS id EA0FC10EDEA
- for <dri-devel@lists.freedesktop.org>; Tue, 12 Apr 2022 04:35:18 +0000 (UTC)
-Received: from compute2.internal (compute2.nyi.internal [10.202.2.46])
- by mailout.west.internal (Postfix) with ESMTP id A220F3201F1D;
- Tue, 12 Apr 2022 00:35:17 -0400 (EDT)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id C594710EDEE
+ for <dri-devel@lists.freedesktop.org>; Tue, 12 Apr 2022 04:35:21 +0000 (UTC)
+Received: from compute4.internal (compute4.nyi.internal [10.202.2.44])
+ by mailout.west.internal (Postfix) with ESMTP id 7A387320187F;
+ Tue, 12 Apr 2022 00:35:20 -0400 (EDT)
 Received: from mailfrontend1 ([10.202.2.162])
- by compute2.internal (MEProxy); Tue, 12 Apr 2022 00:35:18 -0400
+ by compute4.internal (MEProxy); Tue, 12 Apr 2022 00:35:21 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=sholland.org; h=
  cc:cc:content-transfer-encoding:date:date:from:from:in-reply-to
  :in-reply-to:message-id:mime-version:references:reply-to:sender
- :subject:subject:to:to; s=fm2; t=1649738117; x=1649824517; bh=1I
- qQYnRka1Fn2JNjNzWi/7Wa2m9c8upmD64g6JA+rj4=; b=tHSEbpYszKFAdbvQ+C
- X3IUFwhjNvr+nGM/B08iwfWNRk+CoDNpjHcxBA4yPiIMi60bgA62HlZrpPqOhOJH
- 3hggWmelLXYbyp4iibiLgsQG0AGyAN4q03YA1Gx5lpaLZxiGKgDF3Te8kTBc7O8H
- n0TC7sw9P5ECBKc/tL8V101tyfxrWybnF1yw6xtL9oo2C76BhSQkWORYtHrKi3In
- FBe3P8jfpxB2RdQ24f7xN1y7q418UGuSnmxQ3t5o+hLT0EzF777Tz8r1/oPwd6v2
- IQyvaA756ocWM+nK+0N7Hqk45G8+gMnfsQ0Ge1RH8wcyKgKie/bjOTnI/45M7ykQ
- 0U+A==
+ :subject:subject:to:to; s=fm2; t=1649738120; x=1649824520; bh=nm
+ KRP/ABfQcqmBycE/L70lVGYqQcz1ma/r1ejzxPxFk=; b=BYQzVtuZ/yZ6tZvfZv
+ shuOdxt9Hl7tqebK/azOKm0dPdUnMNJbi4qjYDY2e7H7rUR7xR0BqoFqr+7oXLPh
+ ELXW81sNHoLsXMR2POkSe7gcK4wKSVD0MGKg5yVU31bz5cDhpHchLDTf4z8N5aVU
+ 3kw4QSHotf8TV3HOhkvijmeGjluWctz6eNOu1qdIKPPS8Aa1kHMWZrTqUiQjVmYL
+ /TN6uYZ8pVtDHAiUfQC2wMhqR87fJ2CoA3PPx7PTOTGTFAOBZNtEPI5zi7g/hJ7i
+ fU34jP764fsWrfjqqHJHU8NHestJbMr0apj/7HiYIyODFJFEi98lpBF1DzfAQiAl
+ hJxQ==
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
  messagingengine.com; h=cc:cc:content-transfer-encoding:date:date
  :from:from:in-reply-to:in-reply-to:message-id:mime-version
  :references:reply-to:sender:subject:subject:to:to:x-me-proxy
  :x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=fm3; t=
- 1649738117; x=1649824517; bh=1IqQYnRka1Fn2JNjNzWi/7Wa2m9c8upmD64
- g6JA+rj4=; b=SmOp4SrM0CtJFG07PVzxpCQWkRdBIu9HxlTUXxGbaiZ3fqE/CJy
- qFZ8zvW5wp3vfaD+YjZe9kQ+rT4cNncB4TGtvSvn7V669KUtB7Yn2gqD5YU9WsLp
- gcZYEByB9Fj0Fpo9b72wQs4VwDfpfsDedl1y+Fo/TV4zy6Jkc/Kzvh2S/GoBCExc
- 2bHVTy2ca4MFnlyiPdz1rQqvNiLZEQo7X+JYO8BCvxXV4qcwuv7oRsQDoni8KAyh
- GijDYlY+skkJkfp00ZIy2Nv82MUm3JcfXt038vY7pTG3v776JTBHtGYvV16MmN+D
- Kc8XDP1jZJaOj+i9rq650VCDKw4r3HDFcBQ==
-X-ME-Sender: <xms:hQFVYvh0wmUKifSiE31SPlelqruADGVVOusLTCK4c03oXerYMJemog>
- <xme:hQFVYsC5eDXWNAKpfCm31wuUPy6S-nsqMP49eHuRHT2bIIQTRf5zyzDFJJ2y6PORc
- -qdJPiAWPS0P9_suw>
-X-ME-Received: <xmr:hQFVYvHuqe9BOdCCqKA0gbSNb32hZZ1VbaF5unAd50Hpn50XGgaksNAO-gwFk_oWyaEuFPeiCMbgOu31Ywsiu2eRm_oNNrVkqOX1zIq8WjCwXxX74fTmufg1BJCHQHiUpq39-A>
+ 1649738120; x=1649824520; bh=nmKRP/ABfQcqmBycE/L70lVGYqQcz1ma/r1
+ ejzxPxFk=; b=GXkXgMvujAqVu9e0v4TEt22iTDNW+TdLkDsNq4Wx1YovbftmwOX
+ l4UtwWBpQiAiADpU4wOMPHYdJx421/DTPB6S8MgszZdrCCrWlI5Xi1jAD0md08Ej
+ rji/57y0DiuY8d+gjMthPpJPUlqrx2S5Jb4tSPcsRbh8b1+5MERdof2c3ZMb/Akz
+ buA87E6Z0Ailrf689Dkdca9WM4QKhbXwkhO1qAD8Dp2utyQvSs2dj/Ur4snQQW3Z
+ Ny5X2eGV62A4K2IIs/Gb/9BWFdPANgb2UCJKbRdR0cpPZY4xlNvNPbEM86Rb8ZoW
+ 9A8LYbXDFhY/W7PJPdPJQJxEiNosqR0giGA==
+X-ME-Sender: <xms:hwFVYmgEfW2h3AAcLg8Qid1I8BVvChcW4SQD-_Ncxbq7HKLRSnYMYw>
+ <xme:hwFVYnBsBng5-v6GJp1k5x_xZIycGq0R3OKKPhTXt6pAY0aLRkgI-z3nB6Be5OkLf
+ Yup6E_MB7JMOJZSFQ>
+X-ME-Received: <xmr:hwFVYuEjye447cgcu0ibCAJuxBjUsVkAg8xJrfv2AkQSflA4DgwKGO5lFL3AHUoXigWYQVTbTV_vUr2LA0Mh9WIDUHFr0OqaitymejrcV77XQ_ttsVmlseZa3pchieDQ9Dm_BA>
 X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvvddrudekjedgkeefucetufdoteggodetrfdotf
  fvucfrrhhofhhilhgvmecuhfgrshhtofgrihhlpdfqfgfvpdfurfetoffkrfgpnffqhgen
  uceurghilhhouhhtmecufedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmne
@@ -53,18 +53,19 @@ X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvvddrudekjedgkeefucetufdoteggod
  frrghtthgvrhhnpeduhfejfedvhffgfeehtefghfeiiefgfeehgfdvvdevfeegjeehjedv
  gfejheeuieenucevlhhushhtvghrufhiiigvpedtnecurfgrrhgrmhepmhgrihhlfhhroh
  hmpehsrghmuhgvlhesshhhohhllhgrnhgurdhorhhg
-X-ME-Proxy: <xmx:hQFVYsSuFkEkkqtIQCLkYyOsg21Xu0o6XePNql3lzc5sYcakFV18UA>
- <xmx:hQFVYsxFoGhU-XqtwRMDE6ePFBmo3DYUA9dPE3vpUbNPWqAXmg7eHA>
- <xmx:hQFVYi6c6UuA8SaLODKsJWCNaMiNWF0eCOkrh5uXGq7I4L8CXhJg6g>
- <xmx:hQFVYocIBYLiHwbzV5qj1jpVoyffd1WOBPkgPbGvXYnIkc5yT7bb3A>
+X-ME-Proxy: <xmx:iAFVYvTYL9jIQ7FHjrJLlJ64u70T-bySOboi5myiVeS4Lwtz9-NNIg>
+ <xmx:iAFVYjxcft4fL-CZNfD16vOAbSCySs1rUUbn2Ow2cvxvunaymKSbvA>
+ <xmx:iAFVYt7J4dKa49vXgglHZ-vmjak2uX9_VBQreKgwMcl3lILevtyLFg>
+ <xmx:iAFVYrcefS-904kF0U9OdKmEK3shv8Rf_u2yeobFCUObJr2TQhpIoA>
 Received: by mail.messagingengine.com (Postfix) with ESMTPA; Tue,
- 12 Apr 2022 00:35:16 -0400 (EDT)
+ 12 Apr 2022 00:35:19 -0400 (EDT)
 From: Samuel Holland <samuel@sholland.org>
 To: Chen-Yu Tsai <wens@csie.org>, Jernej Skrabec <jernej.skrabec@gmail.com>,
  Maxime Ripard <mripard@kernel.org>
-Subject: [PATCH 1/6] drm/sun4i: sun8i-hdmi-phy: Use of_device_get_match_data
-Date: Mon, 11 Apr 2022 23:35:06 -0500
-Message-Id: <20220412043512.49364-2-samuel@sholland.org>
+Subject: [PATCH 2/6] drm/sun4i: sun8i-hdmi-phy: Use
+ devm_platform_ioremap_resource
+Date: Mon, 11 Apr 2022 23:35:07 -0500
+Message-Id: <20220412043512.49364-3-samuel@sholland.org>
 X-Mailer: git-send-email 2.35.1
 In-Reply-To: <20220412043512.49364-1-samuel@sholland.org>
 References: <20220412043512.49364-1-samuel@sholland.org>
@@ -88,69 +89,42 @@ Cc: Samuel Holland <samuel@sholland.org>, David Airlie <airlied@linux.ie>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Now that the HDMI PHY is using a platform driver, we can use the usual
-helper function for getting the variant structure.
+The struct resource is not used for anything else, so we can simplify
+the code a bit by using the helper function.
 
 Signed-off-by: Samuel Holland <samuel@sholland.org>
 ---
 
- drivers/gpu/drm/sun4i/sun8i_dw_hdmi.h  |  2 +-
- drivers/gpu/drm/sun4i/sun8i_hdmi_phy.c | 11 ++---------
- 2 files changed, 3 insertions(+), 10 deletions(-)
+ drivers/gpu/drm/sun4i/sun8i_hdmi_phy.c | 9 +--------
+ 1 file changed, 1 insertion(+), 8 deletions(-)
 
-diff --git a/drivers/gpu/drm/sun4i/sun8i_dw_hdmi.h b/drivers/gpu/drm/sun4i/sun8i_dw_hdmi.h
-index bffe1b9cd3dc..0adbfac6eb31 100644
---- a/drivers/gpu/drm/sun4i/sun8i_dw_hdmi.h
-+++ b/drivers/gpu/drm/sun4i/sun8i_dw_hdmi.h
-@@ -173,7 +173,7 @@ struct sun8i_hdmi_phy {
- 	unsigned int			rcal;
- 	struct regmap			*regs;
- 	struct reset_control		*rst_phy;
--	struct sun8i_hdmi_phy_variant	*variant;
-+	const struct sun8i_hdmi_phy_variant *variant;
- };
- 
- struct sun8i_dw_hdmi_quirks {
 diff --git a/drivers/gpu/drm/sun4i/sun8i_hdmi_phy.c b/drivers/gpu/drm/sun4i/sun8i_hdmi_phy.c
-index 5e2b0175df36..7b901aef789a 100644
+index 7b901aef789a..1effa30bfe62 100644
 --- a/drivers/gpu/drm/sun4i/sun8i_hdmi_phy.c
 +++ b/drivers/gpu/drm/sun4i/sun8i_hdmi_phy.c
-@@ -565,7 +565,7 @@ void sun8i_hdmi_phy_deinit(struct sun8i_hdmi_phy *phy)
- void sun8i_hdmi_phy_set_ops(struct sun8i_hdmi_phy *phy,
- 			    struct dw_hdmi_plat_data *plat_data)
- {
--	struct sun8i_hdmi_phy_variant *variant = phy->variant;
-+	const struct sun8i_hdmi_phy_variant *variant = phy->variant;
- 
- 	if (variant->is_custom_phy) {
- 		plat_data->phy_ops = &sun8i_hdmi_phy_ops;
-@@ -672,7 +672,6 @@ int sun8i_hdmi_phy_get(struct sun8i_dw_hdmi *hdmi, struct device_node *node)
- 
- static int sun8i_hdmi_phy_probe(struct platform_device *pdev)
- {
--	const struct of_device_id *match;
+@@ -675,7 +675,6 @@ static int sun8i_hdmi_phy_probe(struct platform_device *pdev)
  	struct device *dev = &pdev->dev;
  	struct device_node *node = dev->of_node;
  	struct sun8i_hdmi_phy *phy;
-@@ -680,17 +679,11 @@ static int sun8i_hdmi_phy_probe(struct platform_device *pdev)
+-	struct resource res;
  	void __iomem *regs;
  	int ret;
  
--	match = of_match_node(sun8i_hdmi_phy_of_table, node);
--	if (!match) {
--		dev_err(dev, "Incompatible HDMI PHY\n");
--		return -EINVAL;
--	}
--
- 	phy = devm_kzalloc(dev, sizeof(*phy), GFP_KERNEL);
- 	if (!phy)
- 		return -ENOMEM;
- 
--	phy->variant = (struct sun8i_hdmi_phy_variant *)match->data;
-+	phy->variant = of_device_get_match_data(dev);
+@@ -686,13 +685,7 @@ static int sun8i_hdmi_phy_probe(struct platform_device *pdev)
+ 	phy->variant = of_device_get_match_data(dev);
  	phy->dev = dev;
  
- 	ret = of_address_to_resource(node, 0, &res);
+-	ret = of_address_to_resource(node, 0, &res);
+-	if (ret) {
+-		dev_err(dev, "phy: Couldn't get our resources\n");
+-		return ret;
+-	}
+-
+-	regs = devm_ioremap_resource(dev, &res);
++	regs = devm_platform_ioremap_resource(pdev, 0);
+ 	if (IS_ERR(regs)) {
+ 		dev_err(dev, "Couldn't map the HDMI PHY registers\n");
+ 		return PTR_ERR(regs);
 -- 
 2.35.1
 
