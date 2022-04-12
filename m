@@ -2,54 +2,54 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id BDA4A4FDF43
-	for <lists+dri-devel@lfdr.de>; Tue, 12 Apr 2022 14:07:25 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 6A6A64FDF45
+	for <lists+dri-devel@lfdr.de>; Tue, 12 Apr 2022 14:09:04 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 366B510E61F;
-	Tue, 12 Apr 2022 12:07:22 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 1E37F10E73E;
+	Tue, 12 Apr 2022 12:09:02 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from ams.source.kernel.org (ams.source.kernel.org
- [IPv6:2604:1380:4601:e00::1])
- by gabe.freedesktop.org (Postfix) with ESMTPS id F27C310E61F
- for <dri-devel@lists.freedesktop.org>; Tue, 12 Apr 2022 12:07:19 +0000 (UTC)
-Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
- (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
- (No client certificate requested)
- by ams.source.kernel.org (Postfix) with ESMTPS id 43BA7B81D06
- for <dri-devel@lists.freedesktop.org>; Tue, 12 Apr 2022 12:07:18 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 5B944C385AD
- for <dri-devel@lists.freedesktop.org>; Tue, 12 Apr 2022 12:07:16 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1649765236;
- bh=ogE5ybnNzjbeaUs8XfhvgUoIApTax4ov6E7K92asMNs=;
- h=References:In-Reply-To:Reply-To:From:Date:Subject:To:Cc:From;
- b=D0eLDKVUOEryqXyU30wgT0oTEy0cz/IBaKwg4xHwd+6zv6MHtDFJdDgz5RoGilSzn
- wtTvZ9lQMiF/VuljH7jAAEFKCiUKlWUH0htyeFlif5dgbPJlc5jbaAiIy8/Wual4pY
- dt/zfJWayDw6bcWo3oxKz8ku+NdWPo8xHTOWSAWh5fk47gtku9hhwzxwbvpME1k28g
- sF/MepEwB7/h7R4oHkMDGRrMF2/EGQ9oJJ0pM/fcJ710znASgvZfTpTAV9V46bH07Z
- ybe7bKFYcKiK8Om358xyiV67yCbz1YdOWEWwt3OAZ6mKejFeiNZLkB2fRoM5gkpcxY
- 8ErR7+RY+Bf+A==
-Received: by mail-vs1-f45.google.com with SMTP id e11so16005287vso.7
- for <dri-devel@lists.freedesktop.org>; Tue, 12 Apr 2022 05:07:16 -0700 (PDT)
-X-Gm-Message-State: AOAM533dWLDqCFF+cFSlzYjWRrVXid4wVgiRwIXAeyPkqJybo5BnJuPZ
- 19FgHAzu49wCavjxY/TXfnwY9YoLWCDrIuC26Z4=
-X-Google-Smtp-Source: ABdhPJzjEEHJ1j3lKpjqp/WFdHMDZcR/5QTgBJgXwmPXWsXCZQHuWZkG7PxraL3PSeHLZ50+5phOm6ZKNJy+juNEIBM=
-X-Received: by 2002:a05:6102:3098:b0:328:1825:61f8 with SMTP id
- l24-20020a056102309800b00328182561f8mr7138726vsb.39.1649765235208; Tue, 12
- Apr 2022 05:07:15 -0700 (PDT)
+Received: from mga18.intel.com (mga18.intel.com [134.134.136.126])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 7EB1210E752;
+ Tue, 12 Apr 2022 12:09:01 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+ t=1649765341; x=1681301341;
+ h=message-id:date:mime-version:subject:to:cc:references:
+ from:in-reply-to:content-transfer-encoding;
+ bh=Twva8QYPcCCaw8vJb69pw2JOe6koW3y4xKgl9f/GKbw=;
+ b=MXN/nL8Sie2jnRuJCronvnZ4p5YA4tdnjO3EDnKd5vJ56Ljjh/KBqI3O
+ 0U4Pqn3DHJZNdEJ2A4bEFgAB9q2dfxCfZI8J3XOtL9J7BZ/3nJ+r+yo6D
+ ZZ8BXlxxOuNx6WmSPPHKsPhS/Jvkdm3Vr0XkgJ13+7mMGrblzOhvF8Qxq
+ amCRWV3y8FznRPVhIEfZgj0lSikYsGlJNm094W2Vz8Wd2Or1eSJU9ffiz
+ 1eYGH4axmo5lTW8Q9D+aifjt3eUks4AVwYJA1i0f6CvXTK8rg84XZUDnY
+ fhjXVP2BtoO3wE3HRN5pA/2jOJTPs/IgQw2GJl73K7hK+0vPRpt8o1YB8 w==;
+X-IronPort-AV: E=McAfee;i="6400,9594,10314"; a="244243134"
+X-IronPort-AV: E=Sophos;i="5.90,253,1643702400"; d="scan'208";a="244243134"
+Received: from orsmga007.jf.intel.com ([10.7.209.58])
+ by orsmga106.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 12 Apr 2022 05:09:01 -0700
+X-IronPort-AV: E=Sophos;i="5.90,253,1643702400"; d="scan'208";a="551687259"
+Received: from kfmccaff-mobl.amr.corp.intel.com (HELO [10.252.1.66])
+ ([10.252.1.66])
+ by orsmga007-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 12 Apr 2022 05:08:59 -0700
+Message-ID: <be054395-5562-8298-f706-4645c935ef41@intel.com>
+Date: Tue, 12 Apr 2022 13:08:57 +0100
 MIME-Version: 1.0
-References: <20220411211243.11121-1-javierm@redhat.com>
- <20220411211243.11121-2-javierm@redhat.com>
-In-Reply-To: <20220411211243.11121-2-javierm@redhat.com>
-From: Chen-Yu Tsai <wens@kernel.org>
-Date: Tue, 12 Apr 2022 20:07:03 +0800
-X-Gmail-Original-Message-ID: <CAGb2v65CBZp3DZFGX0GMTaQQPYMKJTJMNoU2V5u7MxsLN7ONKQ@mail.gmail.com>
-Message-ID: <CAGb2v65CBZp3DZFGX0GMTaQQPYMKJTJMNoU2V5u7MxsLN7ONKQ@mail.gmail.com>
-Subject: Re: [PATCH v2 1/5] dt-bindings: display: ssd1307fb: Deprecate "-i2c"
- compatible strings
-To: Javier Martinez Canillas <javierm@redhat.com>
-Content-Type: text/plain; charset="UTF-8"
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.7.0
+Subject: Re: [PATCH] drm/ttm: stop passing NULL fence in
+ ttm_bo_move_sync_cleanup
+Content-Language: en-GB
+To: =?UTF-8?Q?Christian_K=c3=b6nig?= <christian.koenig@amd.com>,
+ intel-gfx@lists.freedesktop.org
+References: <20220411085603.58156-1-matthew.auld@intel.com>
+ <83a5b082-32f4-a6c2-d3b7-a4253b47a529@amd.com>
+From: Matthew Auld <matthew.auld@intel.com>
+In-Reply-To: <83a5b082-32f4-a6c2-d3b7-a4253b47a529@amd.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -62,62 +62,152 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Reply-To: wens@kernel.org
-Cc: Neil Armstrong <narmstrong@baylibre.com>, David Airlie <airlied@linux.ie>,
- linux-kernel <linux-kernel@vger.kernel.org>,
- dri-devel <dri-devel@lists.freedesktop.org>, Rob Herring <robh+dt@kernel.org>,
- devicetree <devicetree@vger.kernel.org>, Mark Brown <broonie@kernel.org>,
- Geert Uytterhoeven <geert@linux-m68k.org>,
- Krzysztof Kozlowski <krzk+dt@kernel.org>,
- Andy Shevchenko <andriy.shevchenko@linux.intel.com>
+Cc: =?UTF-8?Q?Thomas_Hellstr=c3=b6m?= <thomas.hellstrom@linux.intel.com>,
+ Lucas De Marchi <lucas.demarchi@intel.com>, dri-devel@lists.freedesktop.org,
+ Nirmoy Das <nirmoy.das@linux.intel.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Tue, Apr 12, 2022 at 5:12 AM Javier Martinez Canillas
-<javierm@redhat.com> wrote:
->
-> The current compatible strings for SSD130x I2C controllers contain both an
-> "fb" and "-i2c" suffixes. It seems to indicate that are for a fbdev driver
-> and also that are for devices that can be accessed over an I2C bus.
->
-> But a DT is supposed to describe the hardware and not Linux implementation
-> details. So let's deprecate those compatible strings and add new ones that
-> only contain the vendor and device name, without any of these suffixes.
->
-> These will just describe the device and can be matched by both I2C and SPI
-> DRM drivers.
->
-> Signed-off-by: Javier Martinez Canillas <javierm@redhat.com>
-> Acked-by: Mark Brown <broonie@kernel.org>
-> ---
->
-> Changes in v2:
-> - Drop the -i2c suffixes from the compatible strings too (Geert Uytterhoeven).
->
->  .../bindings/display/solomon,ssd1307fb.yaml   | 37 ++++++++++++-------
->  1 file changed, 24 insertions(+), 13 deletions(-)
->
-> diff --git a/Documentation/devicetree/bindings/display/solomon,ssd1307fb.yaml b/Documentation/devicetree/bindings/display/solomon,ssd1307fb.yaml
-> index ade61d502edd..6b9d0c72739a 100644
-> --- a/Documentation/devicetree/bindings/display/solomon,ssd1307fb.yaml
-> +++ b/Documentation/devicetree/bindings/display/solomon,ssd1307fb.yaml
-> @@ -12,12 +12,23 @@ maintainers:
->
->  properties:
->    compatible:
-> -    enum:
-> -      - sinowealth,sh1106-i2c
-> -      - solomon,ssd1305fb-i2c
-> -      - solomon,ssd1306fb-i2c
-> -      - solomon,ssd1307fb-i2c
-> -      - solomon,ssd1309fb-i2c
-> +    oneOf:
-> +      # Deprecated compatible strings
-> +      - items:
-> +          - enum:
-> +              - sinowealth,sh1106-i2c
+On 11/04/2022 13:39, Christian König wrote:
+> Am 11.04.22 um 10:56 schrieb Matthew Auld:
+>> If we hit the sync case, like when skipping clearing for kernel internal
+>> objects, or when falling back to cpu clearing, like in i915, we end up
+>> trying to add a NULL fence, but with some recent changes in this area
+>> this now just results in NULL deref in dma_resv_add_fence:
+>>
+>> <1>[    5.466383] BUG: kernel NULL pointer dereference, address: 
+>> 0000000000000008
+>> <1>[    5.466384] #PF: supervisor read access in kernel mode
+>> <1>[    5.466385] #PF: error_code(0x0000) - not-present page
+>> <6>[    5.466386] PGD 0 P4D 0
+>> <4>[    5.466387] Oops: 0000 [#1] PREEMPT SMP NOPTI
+>> <4>[    5.466389] CPU: 5 PID: 267 Comm: modprobe Not tainted 
+>> 5.18.0-rc2-CI-CI_DRM_11481+ #1
+>> <4>[    5.466391] RIP: 0010:dma_resv_add_fence+0x63/0x260
+>> <4>[    5.466395] Code: 38 85 c0 0f 84 df 01 00 00 0f 88 e8 01 00 00 
+>> 83 c0 01 0f 88 df 01 00 00 8b 05 35 89 10 01 49 8d 5e 68 85 c0 0f 85 
+>> 45 01 00 00 <48> 8b 45 08 48 3d c0 a5 0a 82 0f 84 5c 01 00 00 48 3d 60 
+>> a5 0a 82
+>> <4>[    5.466396] RSP: 0018:ffffc90000e974f8 EFLAGS: 00010202
+>> <4>[    5.466397] RAX: 0000000000000001 RBX: ffff888123e88b28 RCX: 
+>> 00000000ffffffff
+>> <4>[    5.466398] RDX: 0000000000000001 RSI: ffffffff822e4f50 RDI: 
+>> ffffffff8233f087
+>> <4>[    5.466399] RBP: 0000000000000000 R08: ffff8881313dbc80 R09: 
+>> 0000000000000001
+>> <4>[    5.466399] R10: 0000000000000001 R11: 00000000da354294 R12: 
+>> 0000000000000000
+>> <4>[    5.466400] R13: ffff88810927dc58 R14: ffff888123e88ac0 R15: 
+>> ffff88810a88d600
+>> <4>[    5.466401] FS:  00007f5fa1193540(0000) 
+>> GS:ffff88845d880000(0000) knlGS:0000000000000000
+>> <4>[    5.466402] CS:  0010 DS: 0000 ES: 0000 CR0: 0000000080050033
+>> <4>[    5.466402] CR2: 0000000000000008 CR3: 0000000106dd6003 CR4: 
+>> 00000000003706e0
+>> <4>[    5.466403] DR0: 0000000000000000 DR1: 0000000000000000 DR2: 
+>> 0000000000000000
+>> <4>[    5.466404] DR3: 0000000000000000 DR6: 00000000fffe0ff0 DR7: 
+>> 0000000000000400
+>> <4>[    5.466404] Call Trace:
+>> <4>[    5.466405]  <TASK>
+>> <4>[    5.466406]  ttm_bo_move_accel_cleanup+0x62/0x270 [ttm]
+>> <4>[    5.466411]  ? i915_rsgt_from_buddy_resource+0x185/0x1e0 [i915]
+>> <4>[    5.466529]  i915_ttm_move+0xfd/0x430 [i915]
+>> <4>[    5.466833]  ? dma_resv_reserve_fences+0x4e/0x320
+>> <4>[    5.466836]  ? ttm_bo_add_move_fence.constprop.20+0xf7/0x140 [ttm]
+>> <4>[    5.466841]  ttm_bo_handle_move_mem+0xa1/0x140 [ttm]
+>> <4>[    5.466845]  ttm_bo_validate+0xee/0x160 [ttm]
+>> <4>[    5.466849]  __i915_ttm_get_pages+0x4f/0x210 [i915]
+>> <4>[    5.466976]  i915_ttm_get_pages+0xad/0x140 [i915]
+>> <4>[    5.467094]  ____i915_gem_object_get_pages+0x32/0xf0 [i915]
+>> <4>[    5.467210]  __i915_gem_object_get_pages+0x89/0xa0 [i915]
+>> <4>[    5.467323]  i915_vma_get_pages+0x114/0x1d0 [i915]
+>> <4>[    5.467446]  i915_vma_pin_ww+0xd3/0xa90 [i915]
+>> <4>[    5.467570]  i915_vma_pin.constprop.10+0x119/0x1b0 [i915]
+>> <4>[    5.467700]  ? __mutex_unlock_slowpath+0x3e/0x2b0
+>> <4>[    5.467704]  intel_alloc_initial_plane_obj.isra.6+0x1a9/0x390 
+>> [i915]
+>> <4>[    5.467833]  intel_crtc_initial_plane_config+0x83/0x340 [i915]
+>>
+>> In the ttm_bo_move_sync_cleanup() case it seems we only really care
+>> about calling ttm_bo_wait_free_node(), so let's instead just call that
+>> directly.
+>>
+>> Signed-off-by: Matthew Auld <matthew.auld@intel.com>
+>> Cc: Thomas Hellström <thomas.hellstrom@linux.intel.com>
+>> Cc: Christian König <christian.koenig@amd.com>
+>> Cc: Lucas De Marchi <lucas.demarchi@intel.com>
+>> Cc: Nirmoy Das <nirmoy.das@linux.intel.com>
+> 
+> Ideally we wouldn't export that to drivers, but that's a different problem.
+> 
+> Reviewed-by: Christian König <christian.koenig@amd.com>
 
-I think you can just drop this one, since it was just merged and isn't
-part of any release yet. It's not even in -rc.
+Thanks. Would you be able to merge this?
 
-ChenYu
+> 
+>> ---
+>>   drivers/gpu/drm/ttm/ttm_bo_util.c | 15 +++++++++++++++
+>>   include/drm/ttm/ttm_bo_driver.h   | 11 +++--------
+>>   2 files changed, 18 insertions(+), 8 deletions(-)
+>>
+>> diff --git a/drivers/gpu/drm/ttm/ttm_bo_util.c 
+>> b/drivers/gpu/drm/ttm/ttm_bo_util.c
+>> index bc5190340b9c..1cbfb00c1d65 100644
+>> --- a/drivers/gpu/drm/ttm/ttm_bo_util.c
+>> +++ b/drivers/gpu/drm/ttm/ttm_bo_util.c
+>> @@ -572,6 +572,21 @@ int ttm_bo_move_accel_cleanup(struct 
+>> ttm_buffer_object *bo,
+>>   }
+>>   EXPORT_SYMBOL(ttm_bo_move_accel_cleanup);
+>> +void ttm_bo_move_sync_cleanup(struct ttm_buffer_object *bo,
+>> +                  struct ttm_resource *new_mem)
+>> +{
+>> +    struct ttm_device *bdev = bo->bdev;
+>> +    struct ttm_resource_manager *man = ttm_manager_type(bdev, 
+>> new_mem->mem_type);
+>> +    int ret;
+>> +
+>> +    ret = ttm_bo_wait_free_node(bo, man->use_tt);
+>> +    if (WARN_ON(ret))
+>> +        return;
+>> +
+>> +    ttm_bo_assign_mem(bo, new_mem);
+>> +}
+>> +EXPORT_SYMBOL(ttm_bo_move_sync_cleanup);
+>> +
+>>   /**
+>>    * ttm_bo_pipeline_gutting - purge the contents of a bo
+>>    * @bo: The buffer object
+>> diff --git a/include/drm/ttm/ttm_bo_driver.h 
+>> b/include/drm/ttm/ttm_bo_driver.h
+>> index 059a595e14e5..897b88f0bd59 100644
+>> --- a/include/drm/ttm/ttm_bo_driver.h
+>> +++ b/include/drm/ttm/ttm_bo_driver.h
+>> @@ -245,7 +245,7 @@ int ttm_bo_move_accel_cleanup(struct 
+>> ttm_buffer_object *bo,
+>>                     struct ttm_resource *new_mem);
+>>   /**
+>> - * ttm_bo_move_accel_cleanup.
+>> + * ttm_bo_move_sync_cleanup.
+>>    *
+>>    * @bo: A pointer to a struct ttm_buffer_object.
+>>    * @new_mem: struct ttm_resource indicating where to move.
+>> @@ -253,13 +253,8 @@ int ttm_bo_move_accel_cleanup(struct 
+>> ttm_buffer_object *bo,
+>>    * Special case of ttm_bo_move_accel_cleanup where the bo is guaranteed
+>>    * by the caller to be idle. Typically used after memcpy buffer moves.
+>>    */
+>> -static inline void ttm_bo_move_sync_cleanup(struct ttm_buffer_object 
+>> *bo,
+>> -                        struct ttm_resource *new_mem)
+>> -{
+>> -    int ret = ttm_bo_move_accel_cleanup(bo, NULL, true, false, new_mem);
+>> -
+>> -    WARN_ON(ret);
+>> -}
+>> +void ttm_bo_move_sync_cleanup(struct ttm_buffer_object *bo,
+>> +                  struct ttm_resource *new_mem);
+>>   /**
+>>    * ttm_bo_pipeline_gutting.
+> 
