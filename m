@@ -1,50 +1,50 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4C3C54FCE0A
-	for <lists+dri-devel@lfdr.de>; Tue, 12 Apr 2022 06:35:30 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id C335E4FCE0B
+	for <lists+dri-devel@lfdr.de>; Tue, 12 Apr 2022 06:35:32 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 0C67410EE1D;
-	Tue, 12 Apr 2022 04:35:27 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 6076A10EE22;
+	Tue, 12 Apr 2022 04:35:30 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from wout5-smtp.messagingengine.com (wout5-smtp.messagingengine.com
  [64.147.123.21])
- by gabe.freedesktop.org (Postfix) with ESMTPS id A4C3C10EDEE
- for <dri-devel@lists.freedesktop.org>; Tue, 12 Apr 2022 04:35:24 +0000 (UTC)
-Received: from compute1.internal (compute1.nyi.internal [10.202.2.41])
- by mailout.west.internal (Postfix) with ESMTP id 5CD47320204A;
- Tue, 12 Apr 2022 00:35:23 -0400 (EDT)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 7D9C010EE27
+ for <dri-devel@lists.freedesktop.org>; Tue, 12 Apr 2022 04:35:27 +0000 (UTC)
+Received: from compute5.internal (compute5.nyi.internal [10.202.2.45])
+ by mailout.west.internal (Postfix) with ESMTP id 34E1E320187F;
+ Tue, 12 Apr 2022 00:35:26 -0400 (EDT)
 Received: from mailfrontend1 ([10.202.2.162])
- by compute1.internal (MEProxy); Tue, 12 Apr 2022 00:35:24 -0400
+ by compute5.internal (MEProxy); Tue, 12 Apr 2022 00:35:27 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=sholland.org; h=
  cc:cc:content-transfer-encoding:date:date:from:from:in-reply-to
  :in-reply-to:message-id:mime-version:references:reply-to:sender
- :subject:subject:to:to; s=fm2; t=1649738122; x=1649824522; bh=fZ
- Acb5pqlhT+bOuovHsyfK9Q+AB2e6Nd/iXBeFymNSE=; b=WMoJA/pUssaG/5x/jp
- avnCw4sOHupQGBsE0208z+JlyTbzbgJOIM8WW7Pulq8lgBwiq71klZ2cWUotATms
- XKDnENznVHwjjXvzQMxLDNMJFdj4tH3o5HmSysOn/bMhZxAxOW5HyC7oL7Yb3mQC
- 3ln8+naE7+akLVVsDHFUIuSytLbn/zfYnpdLYupBvCvxLT7RZKihzq5kzN9cJaAR
- qDO1p4PJPteTUtdK9FYPIZvs0O+48bWOswy5LqM6usGdwMM43TUtmJLa9cITz8ft
- dMWE0hysC7yLoitaKeVc92N4M4r6yhKmihF/j/3zseDvPr7+RxKzUNB9n+p4mWbY
- N7+w==
+ :subject:subject:to:to; s=fm2; t=1649738125; x=1649824525; bh=po
+ 1u18MMNswH4cvKo16gtsd+jdi6t7nk240OGXF6/mc=; b=VTO/cBA0IyWJoApth6
+ DjTKgtmbAgh9LJ6C/bVvZ3Rj0gnFVEiZHKDt1R5I8qd2Gz+7KM580jeAL/d1zeYw
+ BX0JztCYOOs6CvgDj2AYXcrO7DrEgHm8SQukDoy1LOcWxSUoD7uSboEMLUAAVebj
+ jcCnAd6jrEHVV76QbJrvOjpvqmr6VE3OZW2q/mubPPP5Kazdfykj7DeTFR7w3cRi
+ FJYptEUG2bSspvbzUJluII1mrGV9PuIG8EVFgv0rbkrgsiWoKtgGFRss0mikYxB6
+ Mvv2gOCNNogLD2M6vq63VJsfFdIRRXmaCYrjVVWSl6ipTWeOHwFSsQgSq3PmemfE
+ TsFw==
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
  messagingengine.com; h=cc:cc:content-transfer-encoding:date:date
  :from:from:in-reply-to:in-reply-to:message-id:mime-version
  :references:reply-to:sender:subject:subject:to:to:x-me-proxy
  :x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=fm3; t=
- 1649738122; x=1649824522; bh=fZAcb5pqlhT+bOuovHsyfK9Q+AB2e6Nd/iX
- BeFymNSE=; b=Q/38zzqveOF3iT+MXQaBdIqVdSqvuvID+AivUPqjCrYLZDzDzkf
- mdRjkhLh8qrY8507rF/SrgVaIzH/BcDB3G3MY+6+o+Cr0od+eeuL7VDd9okjcc8i
- YCNPymCKqzs3jKUu2I6oc3OR/w2zBPx8IE+bMgzFZDT227WiWayhGo/fZY3UnjdH
- 3LP1xUA3Ox4Wsjw075SMZ/ZjTUbo9nDPjrxcoTO80Peu0ma1PE0Lf8GhB19hh7gq
- ZmEDXpxh5ZNqkRnJMEdwBeSJOyrIG13CDYWB+Df3NOheBeg6XF8gC8YPIfEZ2gs9
- ycrz48e/Ds3i/VhB6jqEohtV86BlZ4z775A==
-X-ME-Sender: <xms:igFVYloWKz91H7HRE9IRA01JFRUfiUD1-x-LoWAD6t25jhFnM7wbyQ>
- <xme:igFVYnp8W4pGz3HMoAy27m0zB12-H-dPCbOdal5L2HiI1hvw9VBinSffR3NJ0pbiJ
- yXxEAwbHio6C5ZDhQ>
-X-ME-Received: <xmr:igFVYiP0oZ7wnaczWu06a7tiP_f_Skwuf3L1c3K4UgkHuIKbplSMWwbnkqqV67incbMM6HZnFeaTrUY-f-Okmr-1LFnNXIH-ekKXhMQwL3zIV8J7C_DjcuCT6eJo9tlKX-SRfg>
+ 1649738125; x=1649824525; bh=po1u18MMNswH4cvKo16gtsd+jdi6t7nk240
+ OGXF6/mc=; b=Ce3k0/N+s9Stu6mPKa+3tEDbO9TW1KX286BYWz7ur3G3f/21oqr
+ 0IVGXy5v6acIQzgD6ghdh3wk5+byRDhmv8rMk31j08xUT237M311IF9ZDTU9hmvz
+ 6mfgNCG/u0bH7lFLE/YU2M604ZFB/jRA55RxDVM6wB2pRPUCfmVU7YpsToIwtjOW
+ GW1eC7vop7Ay4E2hOnWMYskqugWJPs9ME6cqaCvBct6vhDqbgAHmfsI32NQ31ICE
+ TI9EISmsffMgB8yhkdwX/kA1EGqp2BWZbev73srfsSiKfNJZyVh3rsbEw1hMW7N1
+ 6/41TaVT9OkVU2/InBo/OCCVab1dj/pkurg==
+X-ME-Sender: <xms:jQFVYuq_Ixpl0S-OcxEs_vaG7Tam7f-4oJvr4lz697HGd0Mvk9YqEA>
+ <xme:jQFVYsoOU1_mFeyhz2EFzXM9HJBEPb8iLK1NLqcnM4yDylqro6mAafKyz8YUE6UlF
+ 9r2GI3vWeHRoV1zyg>
+X-ME-Received: <xmr:jQFVYjMgP_skeMPVurX1GQ3_DJcht6QUxRFmuCwTn9SVD0cIXUtN968-5AnnRhc7rSx5-aEDDzPec_XwX_qYWezXXcnO2YFtvK3j2xPhbrNvnR11qP58Ykl5PZJ-htHqciD46A>
 X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvvddrudekjedgkedvucetufdoteggodetrfdotf
  fvucfrrhhofhhilhgvmecuhfgrshhtofgrihhlpdfqfgfvpdfurfetoffkrfgpnffqhgen
  uceurghilhhouhhtmecufedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmne
@@ -53,19 +53,18 @@ X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvvddrudekjedgkedvucetufdoteggod
  frrghtthgvrhhnpeduhfejfedvhffgfeehtefghfeiiefgfeehgfdvvdevfeegjeehjedv
  gfejheeuieenucevlhhushhtvghrufhiiigvpedtnecurfgrrhgrmhepmhgrihhlfhhroh
  hmpehsrghmuhgvlhesshhhohhllhgrnhgurdhorhhg
-X-ME-Proxy: <xmx:igFVYg7Rc7vIlvGpmv77-mHwOaGtFeRjtKOX3lCKFARt3D-vBqTC9w>
- <xmx:igFVYk5bTvdHASwwfrcDMWB-FaksuiU4LFWwjndgiu_ivhBsTz-18Q>
- <xmx:igFVYoiQMwOvP4YFlb50FQ0AXmzBYHay7fO_OS05_Hvz63goSGZBWA>
- <xmx:igFVYlFRd5evRHLq0qzNtLf6s0HtDV2iCHfPeMU-hQRfR1HO-w2J_w>
+X-ME-Proxy: <xmx:jQFVYt7ztd77EaYOZGeLm8DuijWiT4CMa9sUM8g3xRNxqoyPf7ksWA>
+ <xmx:jQFVYt4Nft1vlYZdkOVQkyOsc9t6OqBvHCvGQgkrtY2FtfuDxAFzaA>
+ <xmx:jQFVYtj3r1z9En4gyrB4o-0b_nEDj2DsckQisfz6_6mX9QsNJZDY1w>
+ <xmx:jQFVYiHIx9WUPKCqNZ194QRpVBfd9wqcPXcAnEDl0AUsuDqODSSeBw>
 Received: by mail.messagingengine.com (Postfix) with ESMTPA; Tue,
- 12 Apr 2022 00:35:22 -0400 (EDT)
+ 12 Apr 2022 00:35:25 -0400 (EDT)
 From: Samuel Holland <samuel@sholland.org>
 To: Chen-Yu Tsai <wens@csie.org>, Jernej Skrabec <jernej.skrabec@gmail.com>,
  Maxime Ripard <mripard@kernel.org>
-Subject: [PATCH 3/6] drm/sun4i: sun8i-hdmi-phy: Used device-managed
- clocks/resets
-Date: Mon, 11 Apr 2022 23:35:08 -0500
-Message-Id: <20220412043512.49364-4-samuel@sholland.org>
+Subject: [PATCH 4/6] drm/sun4i: sun8i-hdmi-phy: Support multiple custom PHY ops
+Date: Mon, 11 Apr 2022 23:35:09 -0500
+Message-Id: <20220412043512.49364-5-samuel@sholland.org>
 X-Mailer: git-send-email 2.35.1
 In-Reply-To: <20220412043512.49364-1-samuel@sholland.org>
 References: <20220412043512.49364-1-samuel@sholland.org>
@@ -89,150 +88,85 @@ Cc: Samuel Holland <samuel@sholland.org>, David Airlie <airlied@linux.ie>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Now that the HDMI PHY is using a platform driver, it can use device-
-managed resources. Use these, as well as the dev_err_probe helper, to
-simplify the probe function and get rid of the remove function.
+The D1 SoC comes with a new custom HDMI PHY, which does not share any
+registers with the existing custom PHY. So it needs a new set of ops.
+Instead of providing a flag in the variant structure, provide the ops
+themselves.
 
 Signed-off-by: Samuel Holland <samuel@sholland.org>
 ---
 
- drivers/gpu/drm/sun4i/sun8i_hdmi_phy.c | 100 ++++++++-----------------
- 1 file changed, 30 insertions(+), 70 deletions(-)
+ drivers/gpu/drm/sun4i/sun8i_dw_hdmi.h  |  2 +-
+ drivers/gpu/drm/sun4i/sun8i_hdmi_phy.c | 12 ++++++------
+ 2 files changed, 7 insertions(+), 7 deletions(-)
 
+diff --git a/drivers/gpu/drm/sun4i/sun8i_dw_hdmi.h b/drivers/gpu/drm/sun4i/sun8i_dw_hdmi.h
+index 0adbfac6eb31..f0b1aaad27d9 100644
+--- a/drivers/gpu/drm/sun4i/sun8i_dw_hdmi.h
++++ b/drivers/gpu/drm/sun4i/sun8i_dw_hdmi.h
+@@ -151,10 +151,10 @@ struct sun8i_hdmi_phy;
+ struct sun8i_hdmi_phy_variant {
+ 	bool has_phy_clk;
+ 	bool has_second_pll;
+-	unsigned int is_custom_phy : 1;
+ 	const struct dw_hdmi_curr_ctrl *cur_ctr;
+ 	const struct dw_hdmi_mpll_config *mpll_cfg;
+ 	const struct dw_hdmi_phy_config *phy_cfg;
++	const struct dw_hdmi_phy_ops *phy_ops;
+ 	void (*phy_init)(struct sun8i_hdmi_phy *phy);
+ 	void (*phy_disable)(struct dw_hdmi *hdmi,
+ 			    struct sun8i_hdmi_phy *phy);
 diff --git a/drivers/gpu/drm/sun4i/sun8i_hdmi_phy.c b/drivers/gpu/drm/sun4i/sun8i_hdmi_phy.c
-index 1effa30bfe62..1351e633d485 100644
+index 1351e633d485..71062e4e8666 100644
 --- a/drivers/gpu/drm/sun4i/sun8i_hdmi_phy.c
 +++ b/drivers/gpu/drm/sun4i/sun8i_hdmi_phy.c
-@@ -673,10 +673,8 @@ int sun8i_hdmi_phy_get(struct sun8i_dw_hdmi *hdmi, struct device_node *node)
- static int sun8i_hdmi_phy_probe(struct platform_device *pdev)
+@@ -567,8 +567,8 @@ void sun8i_hdmi_phy_set_ops(struct sun8i_hdmi_phy *phy,
  {
- 	struct device *dev = &pdev->dev;
--	struct device_node *node = dev->of_node;
- 	struct sun8i_hdmi_phy *phy;
- 	void __iomem *regs;
--	int ret;
+ 	const struct sun8i_hdmi_phy_variant *variant = phy->variant;
  
- 	phy = devm_kzalloc(dev, sizeof(*phy), GFP_KERNEL);
- 	if (!phy)
-@@ -686,88 +684,50 @@ static int sun8i_hdmi_phy_probe(struct platform_device *pdev)
- 	phy->dev = dev;
+-	if (variant->is_custom_phy) {
+-		plat_data->phy_ops = &sun8i_hdmi_phy_ops;
++	if (variant->phy_ops) {
++		plat_data->phy_ops = variant->phy_ops;
+ 		plat_data->phy_name = "sun8i_dw_hdmi_phy";
+ 		plat_data->phy_data = phy;
+ 	} else {
+@@ -587,7 +587,7 @@ static const struct regmap_config sun8i_hdmi_phy_regmap_config = {
+ };
  
- 	regs = devm_platform_ioremap_resource(pdev, 0);
--	if (IS_ERR(regs)) {
--		dev_err(dev, "Couldn't map the HDMI PHY registers\n");
--		return PTR_ERR(regs);
--	}
-+	if (IS_ERR(regs))
-+		return dev_err_probe(dev, PTR_ERR(regs),
-+				     "Couldn't map the HDMI PHY registers\n");
+ static const struct sun8i_hdmi_phy_variant sun8i_a83t_hdmi_phy = {
+-	.is_custom_phy = true,
++	.phy_ops = &sun8i_hdmi_phy_ops,
+ 	.phy_init = &sun8i_hdmi_phy_init_a83t,
+ 	.phy_disable = &sun8i_hdmi_phy_disable_a83t,
+ 	.phy_config = &sun8i_hdmi_phy_config_a83t,
+@@ -595,7 +595,7 @@ static const struct sun8i_hdmi_phy_variant sun8i_a83t_hdmi_phy = {
  
- 	phy->regs = devm_regmap_init_mmio(dev, regs,
- 					  &sun8i_hdmi_phy_regmap_config);
--	if (IS_ERR(phy->regs)) {
--		dev_err(dev, "Couldn't create the HDMI PHY regmap\n");
--		return PTR_ERR(phy->regs);
--	}
-+	if (IS_ERR(phy->regs))
-+		return dev_err_probe(dev, PTR_ERR(phy->regs),
-+				     "Couldn't create the HDMI PHY regmap\n");
+ static const struct sun8i_hdmi_phy_variant sun8i_h3_hdmi_phy = {
+ 	.has_phy_clk = true,
+-	.is_custom_phy = true,
++	.phy_ops = &sun8i_hdmi_phy_ops,
+ 	.phy_init = &sun8i_hdmi_phy_init_h3,
+ 	.phy_disable = &sun8i_hdmi_phy_disable_h3,
+ 	.phy_config = &sun8i_hdmi_phy_config_h3,
+@@ -604,7 +604,7 @@ static const struct sun8i_hdmi_phy_variant sun8i_h3_hdmi_phy = {
+ static const struct sun8i_hdmi_phy_variant sun8i_r40_hdmi_phy = {
+ 	.has_phy_clk = true,
+ 	.has_second_pll = true,
+-	.is_custom_phy = true,
++	.phy_ops = &sun8i_hdmi_phy_ops,
+ 	.phy_init = &sun8i_hdmi_phy_init_h3,
+ 	.phy_disable = &sun8i_hdmi_phy_disable_h3,
+ 	.phy_config = &sun8i_hdmi_phy_config_h3,
+@@ -612,7 +612,7 @@ static const struct sun8i_hdmi_phy_variant sun8i_r40_hdmi_phy = {
  
--	phy->clk_bus = of_clk_get_by_name(node, "bus");
--	if (IS_ERR(phy->clk_bus)) {
--		dev_err(dev, "Could not get bus clock\n");
--		return PTR_ERR(phy->clk_bus);
--	}
--
--	phy->clk_mod = of_clk_get_by_name(node, "mod");
--	if (IS_ERR(phy->clk_mod)) {
--		dev_err(dev, "Could not get mod clock\n");
--		ret = PTR_ERR(phy->clk_mod);
--		goto err_put_clk_bus;
--	}
-+	phy->clk_bus = devm_clk_get(dev, "bus");
-+	if (IS_ERR(phy->clk_bus))
-+		return dev_err_probe(dev, PTR_ERR(phy->clk_bus),
-+				     "Could not get bus clock\n");
- 
--	if (phy->variant->has_phy_clk) {
--		phy->clk_pll0 = of_clk_get_by_name(node, "pll-0");
--		if (IS_ERR(phy->clk_pll0)) {
--			dev_err(dev, "Could not get pll-0 clock\n");
--			ret = PTR_ERR(phy->clk_pll0);
--			goto err_put_clk_mod;
--		}
--
--		if (phy->variant->has_second_pll) {
--			phy->clk_pll1 = of_clk_get_by_name(node, "pll-1");
--			if (IS_ERR(phy->clk_pll1)) {
--				dev_err(dev, "Could not get pll-1 clock\n");
--				ret = PTR_ERR(phy->clk_pll1);
--				goto err_put_clk_pll0;
--			}
--		}
--	}
-+	phy->clk_mod = devm_clk_get(dev, "mod");
-+	if (IS_ERR(phy->clk_mod))
-+		return dev_err_probe(dev, PTR_ERR(phy->clk_mod),
-+				     "Could not get mod clock\n");
- 
--	phy->rst_phy = of_reset_control_get_shared(node, "phy");
--	if (IS_ERR(phy->rst_phy)) {
--		dev_err(dev, "Could not get phy reset control\n");
--		ret = PTR_ERR(phy->rst_phy);
--		goto err_put_clk_pll1;
--	}
-+	if (phy->variant->has_phy_clk)
-+		phy->clk_pll0 = devm_clk_get(dev, "pll-0");
-+	if (IS_ERR(phy->clk_pll0))
-+		return dev_err_probe(dev, PTR_ERR(phy->clk_pll0),
-+				     "Could not get pll-0 clock\n");
-+
-+	if (phy->variant->has_second_pll)
-+		phy->clk_pll1 = devm_clk_get(dev, "pll-1");
-+	if (IS_ERR(phy->clk_pll1))
-+		return dev_err_probe(dev, PTR_ERR(phy->clk_pll1),
-+				     "Could not get pll-1 clock\n");
-+
-+	phy->rst_phy = devm_reset_control_get_shared(dev, "phy");
-+	if (IS_ERR(phy->rst_phy))
-+		return dev_err_probe(dev, PTR_ERR(phy->rst_phy),
-+				     "Could not get phy reset control\n");
- 
- 	platform_set_drvdata(pdev, phy);
- 
- 	return 0;
--
--err_put_clk_pll1:
--	clk_put(phy->clk_pll1);
--err_put_clk_pll0:
--	clk_put(phy->clk_pll0);
--err_put_clk_mod:
--	clk_put(phy->clk_mod);
--err_put_clk_bus:
--	clk_put(phy->clk_bus);
--
--	return ret;
--}
--
--static int sun8i_hdmi_phy_remove(struct platform_device *pdev)
--{
--	struct sun8i_hdmi_phy *phy = platform_get_drvdata(pdev);
--
--	reset_control_put(phy->rst_phy);
--
--	clk_put(phy->clk_pll0);
--	clk_put(phy->clk_pll1);
--	clk_put(phy->clk_mod);
--	clk_put(phy->clk_bus);
--	return 0;
- }
- 
- struct platform_driver sun8i_hdmi_phy_driver = {
- 	.probe  = sun8i_hdmi_phy_probe,
--	.remove = sun8i_hdmi_phy_remove,
- 	.driver = {
- 		.name = "sun8i-hdmi-phy",
- 		.of_match_table = sun8i_hdmi_phy_of_table,
+ static const struct sun8i_hdmi_phy_variant sun50i_a64_hdmi_phy = {
+ 	.has_phy_clk = true,
+-	.is_custom_phy = true,
++	.phy_ops = &sun8i_hdmi_phy_ops,
+ 	.phy_init = &sun8i_hdmi_phy_init_h3,
+ 	.phy_disable = &sun8i_hdmi_phy_disable_h3,
+ 	.phy_config = &sun8i_hdmi_phy_config_h3,
 -- 
 2.35.1
 
