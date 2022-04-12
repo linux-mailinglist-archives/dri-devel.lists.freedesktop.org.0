@@ -1,60 +1,53 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id CE3B44FE7BD
-	for <lists+dri-devel@lfdr.de>; Tue, 12 Apr 2022 20:17:01 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 26B2F4FE7CD
+	for <lists+dri-devel@lfdr.de>; Tue, 12 Apr 2022 20:20:39 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id AA94810E539;
-	Tue, 12 Apr 2022 18:16:59 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 03C1B10E790;
+	Tue, 12 Apr 2022 18:20:36 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-oi1-f170.google.com (mail-oi1-f170.google.com
- [209.85.167.170])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 0B30D10E539
- for <dri-devel@lists.freedesktop.org>; Tue, 12 Apr 2022 18:16:59 +0000 (UTC)
-Received: by mail-oi1-f170.google.com with SMTP id q189so19836580oia.9
- for <dri-devel@lists.freedesktop.org>; Tue, 12 Apr 2022 11:16:59 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=x-gm-message-state:date:from:to:cc:subject:message-id:references
- :mime-version:content-disposition:in-reply-to;
- bh=B/dD6BxwqxnSz+VcY4c2wabU7PRBtQ+7ZYvEK2V/n/0=;
- b=WkWzSxMEQrZnTHuKb6h466q6k00krr0YEt7IKyQMoR07OyiRAR2OwVZzj+SGGdF3u6
- KJUCC6QA6JFVseAm/TfeSlRcHjfrnLZ81wkjOgaznb/FJE0GhLHAxliEt0VPdOQyNimV
- WEYij41zxLi5OCZHgZORpYMgMWYfAQEz1UAaMdu3MdRWNpJbcF2kfae8QBiBkKE8LHvK
- QiO7aY7Tvemht03gLc9zyqc2TEwPPFSWVhtJaZkCPZJZ/A6IeBfOFUAII7KoKiFtS/qf
- KKBqB2aR0xlvoSW7/YKK7XSC6Ud5I03aAGjdtJsiN/3RCwn9KkaemH9kPR8BfMJ5OHWY
- 7krw==
-X-Gm-Message-State: AOAM530qfRgZTPkraCs8NgJzbYgtZBsAmlU7hQdtZ0cLMbSuc7xM0b0Z
- eRAIzGVcDrX/jumBlch/qg==
-X-Google-Smtp-Source: ABdhPJyWiCDJPCkWuVz9Fx0GQ1Bg4Kblx5fgblku4RjTzvAtN+tPP/TaP+yKykeEeMtxSKbgz9oFUw==
-X-Received: by 2002:a05:6808:1592:b0:2f7:3095:b7fd with SMTP id
- t18-20020a056808159200b002f73095b7fdmr2485382oiw.190.1649787418243; 
- Tue, 12 Apr 2022 11:16:58 -0700 (PDT)
-Received: from robh.at.kernel.org (66-90-144-107.dyn.grandenetworks.net.
- [66.90.144.107]) by smtp.gmail.com with ESMTPSA id
- x18-20020a056830245200b005ce01c28c77sm13599954otr.1.2022.04.12.11.16.57
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 12 Apr 2022 11:16:57 -0700 (PDT)
-Received: (nullmailer pid 566579 invoked by uid 1000);
- Tue, 12 Apr 2022 18:16:57 -0000
-Date: Tue, 12 Apr 2022 13:16:57 -0500
-From: Rob Herring <robh@kernel.org>
-To: Javier Martinez Canillas <javierm@redhat.com>
-Subject: Re: [PATCH v2 2/5] dt-bindings: display: ssd1307fb: Extend schema
- for SPI controllers
-Message-ID: <YlXCGfA7DUbPPiXw@robh.at.kernel.org>
-References: <20220411211243.11121-1-javierm@redhat.com>
- <20220411211243.11121-3-javierm@redhat.com>
- <CAMuHMdVuivPSRooR5CqTX6GQtxO6RQYwKUqfOK36zsiN8-v6kg@mail.gmail.com>
- <d37de4b1-55f7-ff4d-6230-6f0b6e65799c@redhat.com>
- <CAMuHMdV_4Gp2fqfCTeUigVxK=J4NF=SqJVd1hKAWpyuUv0Pnzw@mail.gmail.com>
- <c3287f86-636d-33dc-c763-1f28803704f5@redhat.com>
+Received: from bhuna.collabora.co.uk (bhuna.collabora.co.uk [46.235.227.227])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 09DFF10E790
+ for <dri-devel@lists.freedesktop.org>; Tue, 12 Apr 2022 18:20:35 +0000 (UTC)
+Received: from [IPV6:2a00:5f00:102:0:10b3:10ff:fe5d:4ec1] (unknown
+ [IPv6:2a00:5f00:102:0:10b3:10ff:fe5d:4ec1])
+ (using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+ (No client certificate requested)
+ (Authenticated sender: dmitry.osipenko)
+ by bhuna.collabora.co.uk (Postfix) with ESMTPSA id AD94E1F44A65;
+ Tue, 12 Apr 2022 19:20:32 +0100 (BST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
+ s=mail; t=1649787633;
+ bh=89nEyLETtUj6qse1DGp0rsGFjY9owVYpHqNxsQzbbW4=;
+ h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
+ b=QDGr51ksXmI4Pez4M+ze9AcF+g/sAdJ+SZL2gaA3ylgszoig0/IJrP9uj05T9dIT0
+ MwFBfhb3F5TPRfV3ObzCq+OInxq4oPo5sjvB81gxcIiz0r/5Z0DzndxXHgxu9F7Gew
+ 5W3k7l7L1GMN4OoJM3a8pnfsfIGdAiK7gY2TZJPObBj6sfPU20AWjRfw+BJHjTY2GA
+ GT953VvXgw61UZPXPW2Kp7qmrx49cXR9G6gpk0FDQDQr5AX4nmzJrDcgEd2cGY26TS
+ xMT4x+/yxUrqrJ838NWNOVRs4f3B2XFIGaJtPS6tnm4iTn1jjf6rnK2GmtbCFe+Aam
+ oy/edFnVBz7tg==
+Message-ID: <a04733af-5ff1-a1b4-527d-68b28a037231@collabora.com>
+Date: Tue, 12 Apr 2022 21:20:29 +0300
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <c3287f86-636d-33dc-c763-1f28803704f5@redhat.com>
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.7.0
+Subject: Re: [PATCH v1] drm/scheduler: Don't kill jobs in interrupt context
+Content-Language: en-US
+To: Andrey Grodzovsky <andrey.grodzovsky@amd.com>,
+ David Airlie <airlied@linux.ie>, Daniel Vetter <daniel@ffwll.ch>,
+ Tomeu Vizoso <tomeu.vizoso@collabora.com>,
+ Steven Price <steven.price@arm.com>, Rob Herring <robh@kernel.org>,
+ Alyssa Rosenzweig <alyssa.rosenzweig@collabora.com>,
+ Rob Clark <robdclark@gmail.com>
+References: <20220411221536.283312-1-dmitry.osipenko@collabora.com>
+ <064d8958-a288-64e1-b2a4-c2302a456d5b@amd.com>
+From: Dmitry Osipenko <dmitry.osipenko@collabora.com>
+In-Reply-To: <064d8958-a288-64e1-b2a4-c2302a456d5b@amd.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -67,38 +60,30 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: "open list:OPEN FIRMWARE AND FLATTENED DEVICE TREE BINDINGS"
- <devicetree@vger.kernel.org>, Chen-Yu Tsai <wens@kernel.org>,
- Neil Armstrong <narmstrong@baylibre.com>, David Airlie <airlied@linux.ie>,
- Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
- DRI Development <dri-devel@lists.freedesktop.org>,
- Mark Brown <broonie@kernel.org>, Geert Uytterhoeven <geert@linux-m68k.org>,
- Krzysztof Kozlowski <krzk+dt@kernel.org>,
- Andy Shevchenko <andriy.shevchenko@linux.intel.com>
+Cc: Dmitry Osipenko <digetx@gmail.com>, linux-kernel@vger.kernel.org,
+ dri-devel@lists.freedesktop.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Tue, Apr 12, 2022 at 10:12:32AM +0200, Javier Martinez Canillas wrote:
-> On 4/12/22 10:07, Geert Uytterhoeven wrote:
-> > Hi Javier,
+On 4/12/22 19:51, Andrey Grodzovsky wrote:
 > 
-> [snip]
+> On 2022-04-11 18:15, Dmitry Osipenko wrote:
+>> Interrupt context can't sleep. Drivers like Panfrost and MSM are taking
+>> mutex when job is released, and thus, that code can sleep. This results
+>> into "BUG: scheduling while atomic" if locks are contented while job is
+>> freed. There is no good reason for releasing scheduler's jobs in IRQ
+>> context, hence use normal context to fix the trouble.
 > 
-> >>
-> >> Do you have any hints here on how I should enforce this in the schema ?
-> >>
-> >> Or if you think that a comment is enough, then I will add it in v3.
-> > 
-> > I don't know how to make it required for SPI, if possible at all.
-> >
 > 
-> I see. Let's go with a comment then and we can later enforce it, if someone
-> knows if is possible / how to do it.
+> I am not sure this is the beast Idea to leave job's sw fence signalling
+> to be
+> executed in system_wq context which is prone to delays of executing
+> various work items from around the system. Seems better to me to leave the
+> fence signaling within the IRQ context and offload only the job freeing or,
+> maybe handle rescheduling to thread context within drivers implemention
+> of .free_job cb. Not really sure which is the better.
 
-It's not possible unless we annotate child nodes with something from the 
-parent. '$nodename' is the one and only example of that. 
-
-Really, this falls below the bar of what I'm concerned about checking. 
-Ask me again when the conversions are all done (only ~2K to go :( ).
-
-Rob
+We're talking here about killing jobs when driver destroys context,
+which doesn't feel like it needs to be a fast path. I could move the
+signalling into drm_sched_entity_kill_jobs_cb() and use unbound wq, but
+do we really need this for a slow path?
