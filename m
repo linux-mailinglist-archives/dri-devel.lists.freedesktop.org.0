@@ -1,54 +1,67 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5C8BC4FF519
-	for <lists+dri-devel@lfdr.de>; Wed, 13 Apr 2022 12:49:56 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 1AB294FF51B
+	for <lists+dri-devel@lfdr.de>; Wed, 13 Apr 2022 12:50:25 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 2DCDC10E15B;
-	Wed, 13 Apr 2022 10:49:54 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 1693D10E22F;
+	Wed, 13 Apr 2022 10:50:23 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mga01.intel.com (mga01.intel.com [192.55.52.88])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 5ADDF10E15B
- for <dri-devel@lists.freedesktop.org>; Wed, 13 Apr 2022 10:49:53 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1649846993; x=1681382993;
- h=date:from:to:cc:subject:message-id:references:
- mime-version:in-reply-to;
- bh=24MmeEn2Cbl39Z9DZndnyl+5AVJ6TfhTumGasuy47do=;
- b=RXGzdzhYnFaVpUIy1yzy8plxhIdK+6QiBaOkcYw9Jsf4v+ig42Y3rTrt
- /XQai0ST/BK6vOxpAdjDvDOWHNI2TBsGlKPQnJfobf0DFtxYWnZFtZ8LZ
- Yqr7YvEMduerAfj0RQqb9E4a7SmjVX1ObWFLR5LvG0Jp3O5SpdRO0Vzyw
- tQ/0cHqMu3fr4WS9IhKaKVZnfQE9BX0SLf6IvDQUoL6ih8GDetTM0iYDU
- YQxtnsb4xDS0ww/s6Y856QXE2Cly2KLjNUeOnPtrGwuuO+8MIcFSY0C7q
- jHbJA6SY75dsfkpf3W19tmaDsJ4zJuyINNRQwCFfWBK1/S2HoOdiomlld w==;
-X-IronPort-AV: E=McAfee;i="6400,9594,10315"; a="287661449"
-X-IronPort-AV: E=Sophos;i="5.90,256,1643702400"; d="scan'208";a="287661449"
-Received: from orsmga004.jf.intel.com ([10.7.209.38])
- by fmsmga101.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 13 Apr 2022 03:49:52 -0700
-X-IronPort-AV: E=Sophos;i="5.90,256,1643702400"; d="scan'208";a="660883901"
-Received: from smile.fi.intel.com ([10.237.72.54])
- by orsmga004-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 13 Apr 2022 03:49:49 -0700
-Received: from andy by smile.fi.intel.com with local (Exim 4.95)
- (envelope-from <andriy.shevchenko@linux.intel.com>)
- id 1neaVm-001nR0-8j; Wed, 13 Apr 2022 13:46:10 +0300
-Date: Wed, 13 Apr 2022 13:46:10 +0300
-From: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
-To: Javier Martinez Canillas <javierm@redhat.com>
-Subject: Re: [PATCH v3 4/5] drm/solomon: Move device info from ssd130x-i2c to
- the core driver
-Message-ID: <Ylap8rTKbXp80Woc@smile.fi.intel.com>
-References: <20220412162729.184783-1-javierm@redhat.com>
- <20220412162729.184783-5-javierm@redhat.com>
+Received: from smtp-out2.suse.de (smtp-out2.suse.de [195.135.220.29])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id DBA7D10E3B2
+ for <dri-devel@lists.freedesktop.org>; Wed, 13 Apr 2022 10:50:21 +0000 (UTC)
+Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+ key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
+ (No client certificate requested)
+ by smtp-out2.suse.de (Postfix) with ESMTPS id 6C46D1F38D;
+ Wed, 13 Apr 2022 10:50:20 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+ t=1649847020; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+ mime-version:mime-version:content-type:content-type:
+ in-reply-to:in-reply-to:references:references;
+ bh=wt6yq80z8rw+PuUvFymcUW7ayTMDf6vscJkJZ6LgEhM=;
+ b=ty2HOgYpwuK67mB6WnHt/XymuiCCjXOtC9cCxPv1MmVlyQ99aMaAYUomZ0xBF5OjKr2/sd
+ UNHquqIWuLSYxpV+KITPoqBzQH/2rEPz8dDjDSSXgF40OHuoEd9BDhW7HaRovyiuv9h63Y
+ 0kZYdcKBJmn+MiFH6slcUJyJPgDKdLs=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+ s=susede2_ed25519; t=1649847020;
+ h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+ mime-version:mime-version:content-type:content-type:
+ in-reply-to:in-reply-to:references:references;
+ bh=wt6yq80z8rw+PuUvFymcUW7ayTMDf6vscJkJZ6LgEhM=;
+ b=/Ncrqr6UqataV5PATT69skisn6CDfB9MAv8wcQQXji3nYBywv9Axm5VtAdh2I8nKQ+8XOi
+ U98NtyCV8kLrWaAw==
+Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+ key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
+ (No client certificate requested)
+ by imap2.suse-dmz.suse.de (Postfix) with ESMTPS id 248A213AB8;
+ Wed, 13 Apr 2022 10:50:20 +0000 (UTC)
+Received: from dovecot-director2.suse.de ([192.168.254.65])
+ by imap2.suse-dmz.suse.de with ESMTPSA id sKbfB+yqVmJvOwAAMHmgww
+ (envelope-from <tzimmermann@suse.de>); Wed, 13 Apr 2022 10:50:20 +0000
+Message-ID: <b7b5f75c-bf04-8bb6-9628-2790adfe61fc@suse.de>
+Date: Wed, 13 Apr 2022 12:49:02 +0200
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20220412162729.184783-5-javierm@redhat.com>
-Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.6.1
+Subject: Re: [PATCH 1/2] of: Create platform devices for OF framebuffers
+Content-Language: en-US
+To: Javier Martinez Canillas <javierm@redhat.com>, robh+dt@kernel.org,
+ frowand.list@gmail.com, daniel@ffwll.ch, deller@gmx.de, sam@ravnborg.org,
+ linux@roeck-us.net, mpe@ellerman.id.au, benh@kernel.crashing.org,
+ paulus@samba.org
+References: <20220413092454.1073-1-tzimmermann@suse.de>
+ <20220413092454.1073-2-tzimmermann@suse.de>
+ <23060462-5700-e17a-0abe-a4c5123abe29@redhat.com>
+From: Thomas Zimmermann <tzimmermann@suse.de>
+In-Reply-To: <23060462-5700-e17a-0abe-a4c5123abe29@redhat.com>
+Content-Type: multipart/signed; micalg=pgp-sha256;
+ protocol="application/pgp-signature";
+ boundary="------------XJByYlM1P0mJ0Gpo2sk9x306"
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -61,34 +74,103 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Geert Uytterhoeven <geert+renesas@glider.be>,
- Neil Armstrong <narmstrong@baylibre.com>, David Airlie <airlied@linux.ie>,
- linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
- Mark Brown <broonie@kernel.org>, Geert Uytterhoeven <geert@linux-m68k.org>,
- Chen-Yu Tsai <wens@kernel.org>
+Cc: devicetree@vger.kernel.org, linux-fbdev@vger.kernel.org,
+ linuxppc-dev@lists.ozlabs.org, dri-devel@lists.freedesktop.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Tue, Apr 12, 2022 at 06:27:28PM +0200, Javier Martinez Canillas wrote:
-> These are declared in the ssd130x-i2c transport driver but the information
-> is not I2C specific, and could be used by other SSD130x transport drivers.
-> 
-> Move them to the ssd130x core driver and just set the OF device entries to
-> an ID that could be used to lookup the correct device info from an array.
-> 
-> While being there, also move the SSD130X_DATA and SSD130X_COMMAND control
-> bytes. Since even though they are used by the I2C interface, they could
-> also be useful for other transport protocols such as SPI.
+This is an OpenPGP/MIME signed message (RFC 4880 and 3156)
+--------------XJByYlM1P0mJ0Gpo2sk9x306
+Content-Type: multipart/mixed; boundary="------------F53BndD9Jie3zMIk9lZWAXep";
+ protected-headers="v1"
+From: Thomas Zimmermann <tzimmermann@suse.de>
+To: Javier Martinez Canillas <javierm@redhat.com>, robh+dt@kernel.org,
+ frowand.list@gmail.com, daniel@ffwll.ch, deller@gmx.de, sam@ravnborg.org,
+ linux@roeck-us.net, mpe@ellerman.id.au, benh@kernel.crashing.org,
+ paulus@samba.org
+Cc: devicetree@vger.kernel.org, linux-fbdev@vger.kernel.org,
+ linuxppc-dev@lists.ozlabs.org, dri-devel@lists.freedesktop.org
+Message-ID: <b7b5f75c-bf04-8bb6-9628-2790adfe61fc@suse.de>
+Subject: Re: [PATCH 1/2] of: Create platform devices for OF framebuffers
+References: <20220413092454.1073-1-tzimmermann@suse.de>
+ <20220413092454.1073-2-tzimmermann@suse.de>
+ <23060462-5700-e17a-0abe-a4c5123abe29@redhat.com>
+In-Reply-To: <23060462-5700-e17a-0abe-a4c5123abe29@redhat.com>
 
-...
+--------------F53BndD9Jie3zMIk9lZWAXep
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: base64
 
-> +EXPORT_SYMBOL_GPL(ssd130x_variants);
+SGkNCg0KQW0gMTMuMDQuMjIgdW0gMTI6NDUgc2NocmllYiBKYXZpZXIgTWFydGluZXogQ2Fu
+aWxsYXM6DQo+IEhlbGxvIFRob21hcywNCj4gDQo+IFRoYW5rcyBmb3Igd29ya2luZyBvbiB0
+aGlzLg0KPiANCj4gT24gNC8xMy8yMiAxMToyNCwgVGhvbWFzIFppbW1lcm1hbm4gd3JvdGU6
+DQo+PiBDcmVhdGUgYSBwbGF0Zm9ybSBkZXZpY2UgZm9yIGVhY2ggT0YtZGVjbGFyZWQgZnJh
+bWVidWZmZXIgYW5kIGhhdmUNCj4+IG9mZmIgYmluZCB0byB0aGVzZSBkZXZpY2VzLiBBbGxv
+d3MgZm9yIHJlYWwgaG90LXVucGx1Z2dpbmcgYW5kIG90aGVyDQo+PiBkcml2ZXJzIGJlc2lk
+ZXMgb2ZmYi4NCj4+DQo+PiBPcmlnaW5hbGx5LCBvZmZiIGNyZWF0ZWQgZnJhbWVidWZmZXIg
+ZGV2aWNlcyB3aGlsZSBpbml0aWFsaXppbmcgaXRzDQo+PiBtb2R1bGUgYnkgcGFyc2luZyB0
+aGUgT0YgZGV2aWNlIHRyZWUuIE5vIGFjdHVhbCBMaW51eCBkZXZpY2Ugd2FzIHNldA0KPj4g
+dXAuIFRoaXMgdGllZCBPRiBmcmFtZWJ1ZmZlcnMgdG8gb2ZmYiBhbmQgbWFrZXMgd3JpdGlu
+ZyBvdGhlciBkcml2ZXJzDQo+PiBmb3IgdGhlIE9GIGZyYW1lYnVmZmVycyBjb21wbGljYXRl
+ZC4gVGhlIGFic2VuY2Ugb2YgYSBMaW51eCBkZXZpY2UNCj4+IHByZXZlbnRlZCByZWFsIGhv
+dC11bnBsdWdnaW5nLiBBZGRpbmcgYSBkaXN0aW5jdCBwbGF0Zm9ybSBkZXZpY2UgZm9yDQo+
+PiBlYWNoIE9GIGZyYW1lYnVmZmVyIHNvbHZlcyBib3RoIHByb2JsZW1zLiBTcGVjaWZpY2Fs
+bHksIGEgRFJNIGRyaXZlcnMNCj4+IGNhbiBub3cgcHJvdmlkZSBncmFwaGljcyBvdXRwdXQg
+d2l0aCBtb2Rlcm4gdXNlcnNwYWNlLg0KPj4NCj4+IFNvbWUgb2YgdGhlIG9mZmIgaW5pdCBj
+b2RlIGlzIG5vdyBsb2NhdGVkIGluIHRoZSBPRiBpbml0aWFsaXphdGlvbi4NCj4+IFRoZXJl
+J3Mgbm93IGFsc28gYW4gaW1wbGVtZW50YXRpb24gb2Ygb2ZfcGxhdGZvcm1fZGVmYXVsdF9w
+b3B1bGF0ZV9pbml0KCksDQo+PiB3aGljaCB3YXMgbWlzc2luZyBiZWZvcmUuIFRoZSBPRiBz
+aWRlIGNyZWF0ZXMgZGlmZmVyZW50IGRldmljZXMgZm9yDQo+PiBlaXRoZXIgT0YgZGlzcGxh
+eSBub2RlcyBvciBib290eCBkaXNwbGF5cyBhcyB0aGV5IHJlcXVpcmUgZGlmZmVyZW50DQo+
+PiBoYW5kbGluZyBieSB0aGUgZHJpdmVyLiBUaGUgb2ZmYiBkcml2ZXJzIHBpY2tzIHVwIGVh
+Y2ggdHlwZSBvZiBkZXZpY2UNCj4+IGFuZCBydW5zIHRoZSBhcHByb3ByaWF0ZSBmYmRldiBp
+bml0aWFsaXphdGlvbi4NCj4+DQo+PiBUZXN0ZWQgd2l0aCBPRiBkaXNwbGF5IG5vZGVzIG9u
+IHFlbXUncyBwcGM2NGxlIHRhcmdldC4NCj4+DQo+PiBTaWduZWQtb2ZmLWJ5OiBUaG9tYXMg
+WmltbWVybWFubiA8dHppbW1lcm1hbm5Ac3VzZS5kZT4NCj4+IC0tLQ0KPiANCj4gW3NuaXBd
+DQo+IA0KPj4gKwlmb3JfZWFjaF9ub2RlX2J5X3R5cGUobm9kZSwgImRpc3BsYXkiKSB7DQo+
+PiArCQlpZiAoIW9mX2dldF9wcm9wZXJ0eShub2RlLCAibGludXgsb3BlbmVkIiwgTlVMTCkg
+fHwNCj4+ICsJCSAgICAhb2ZfZ2V0X3Byb3BlcnR5KG5vZGUsICJsaW51eCxib290LWRpc3Bs
+YXkiLCBOVUxMKSkNCj4+ICsJCQljb250aW51ZTsNCj4+ICsJCWRldiA9IG9mX3BsYXRmb3Jt
+X2RldmljZV9jcmVhdGUobm9kZSwgIm9mLWRpc3BsYXkiLCBOVUxMKTsNCj4+ICsJCWlmIChX
+QVJOX09OKCFkZXYpKQ0KPj4gKwkJCXJldHVybiAtRU5PTUVNOw0KPj4gKwkJYm9vdF9kaXNw
+bGF5ID0gbm9kZTsNCj4+ICsJCWJyZWFrOw0KPj4gKwl9DQo+PiArCWZvcl9lYWNoX25vZGVf
+YnlfdHlwZShub2RlLCAiZGlzcGxheSIpIHsNCj4+ICsJCWlmICghb2ZfZ2V0X3Byb3BlcnR5
+KG5vZGUsICJsaW51eCxvcGVuZWQiLCBOVUxMKSB8fCBub2RlID09IGJvb3RfZGlzcGxheSkN
+Cj4+ICsJCQljb250aW51ZTsNCj4+ICsJCW9mX3BsYXRmb3JtX2RldmljZV9jcmVhdGUobm9k
+ZSwgIm9mLWRpc3BsYXkiLCBOVUxMKTsNCj4gDQo+IFNob3VsZG4ndCBjaGVjayBmb3IgdGhl
+IHJldHVybiB2YWx1ZSBoZXJlIHRvbyA/DQoNCkZhaWxpbmcgaXMgcHJvYmFibHkgbm90IHVz
+ZWZ1bCwgYXMgaXQncyBub3QgdGhlIG1haW4gRkIgdXNlZCBmb3IgDQpib290aW5nLiBQcmlu
+dGluZyBhbiBlcnJvciBtZXNzYWdlIHdvdWxkbid0IGh1cnQsIEkgZ3Vlc3MuIEknbGwgYWxz
+byANCnVwZGF0ZSB0aGUgbmV3IGRyaXZlciByZWdpc3RyYXRpb24gaW4gb2ZmYiB3aXRoIGFu
+IGVycm9yIG1lc3NhZ2UuDQoNCj4gDQo+IE90aGVyIHRoYW4gdGhpcyBzbWFsbCBuaXQsIGl0
+IGxvb2tzIGdvb2QgdG8gbWUuDQo+IA0KPiBSZXZpZXdlZC1ieTogSmF2aWVyIE1hcnRpbmV6
+IENhbmlsbGFzIDxqYXZpZXJtQHJlZGhhdC5jb20+DQo+IA0KDQpUaGFua3MuDQoNCkJlc3Qg
+cmVnYXJkcw0KVGhvbWFzDQoNCi0tIA0KVGhvbWFzIFppbW1lcm1hbm4NCkdyYXBoaWNzIERy
+aXZlciBEZXZlbG9wZXINClNVU0UgU29mdHdhcmUgU29sdXRpb25zIEdlcm1hbnkgR21iSA0K
+TWF4ZmVsZHN0ci4gNSwgOTA0MDkgTsO8cm5iZXJnLCBHZXJtYW55DQooSFJCIDM2ODA5LCBB
+RyBOw7xybmJlcmcpDQpHZXNjaMOkZnRzZsO8aHJlcjogSXZvIFRvdGV2DQo=
 
-What I meant is to use EXPORT_SYMBOL_NS_GPL() here. It might require a separate
-patch to move other exports to that namespace first.
+--------------F53BndD9Jie3zMIk9lZWAXep--
 
--- 
-With Best Regards,
-Andy Shevchenko
+--------------XJByYlM1P0mJ0Gpo2sk9x306
+Content-Type: application/pgp-signature; name="OpenPGP_signature.asc"
+Content-Description: OpenPGP digital signature
+Content-Disposition: attachment; filename="OpenPGP_signature"
 
+-----BEGIN PGP SIGNATURE-----
 
+wsF5BAABCAAjFiEExndm/fpuMUdwYFFolh/E3EQov+AFAmJWqp4FAwAAAAAACgkQlh/E3EQov+Bl
+Pw/+KI3InyL3PFmLMwV0DyxWJrmSFbZ+faHHIObiD3JtS4PU0DPCvYwab61BoSdSYdLIl9Lhfvd2
+kUsW4u6FuIF7CMK4YIri7W6ku6tuJnsstZUu4qjMQ+SwV69yFHmcWZD9HC3wXKPagCOb2pF7eQZs
+IMt1lhl/UB8Gu1CKZV129sRshdDGLsDlzqScte67QHkAWRkoK0Bmwoq4diQcK5VvJSwEB+AhpqrI
+6AMRfywnrEDe/JTggpcFCMVkZvOrfnqyyHmcVc2b3Yx/nWjn62sI9E/+SDPXzHKIC3FRsff4ontR
+ijnG8gIVv+JnoJSjGlkKwCYSvOmWcM/AXybHbCi7oziaprx8GrtVEXD1IneHhqE7W+uUcuBRlIm5
+6LNJs7Eqa7aBxulx56FECOQ8j4H5m2c/Bq/fR5Mjxjbe/CfnL+C+EVNVY6/ns2/Cj08BGlovyYGS
+r6f5l3X3MuoxG4TBRti377kv6u4Jt4ceGYJRLP37FVntZnbcs1nNWaTfbqS4v7ei7kkaiJKW2WiD
+cAvPP4lT1H/JOe5afe7RiWfmegKFQRY4icpCAY1ezlf2K3KefwXz2SrjS+MIWpMovuh9PxuHejnb
+RvYffarcZuf1nBgQv4nQmDDoUGlmo0yI4KfB6N2C/yHzteT5uk68QcyyMlYH49stq453IA4bPHun
+AU0=
+=kM7Z
+-----END PGP SIGNATURE-----
+
+--------------XJByYlM1P0mJ0Gpo2sk9x306--
