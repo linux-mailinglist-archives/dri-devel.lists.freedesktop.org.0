@@ -1,67 +1,48 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1AB294FF51B
-	for <lists+dri-devel@lfdr.de>; Wed, 13 Apr 2022 12:50:25 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 381694FF518
+	for <lists+dri-devel@lfdr.de>; Wed, 13 Apr 2022 12:49:49 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 1693D10E22F;
-	Wed, 13 Apr 2022 10:50:23 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 225C710E0AB;
+	Wed, 13 Apr 2022 10:49:47 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from smtp-out2.suse.de (smtp-out2.suse.de [195.135.220.29])
- by gabe.freedesktop.org (Postfix) with ESMTPS id DBA7D10E3B2
- for <dri-devel@lists.freedesktop.org>; Wed, 13 Apr 2022 10:50:21 +0000 (UTC)
-Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
- key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
+Received: from ams.source.kernel.org (ams.source.kernel.org
+ [IPv6:2604:1380:4601:e00::1])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 4CBDD10E0AB
+ for <dri-devel@lists.freedesktop.org>; Wed, 13 Apr 2022 10:49:46 +0000 (UTC)
+Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
+ (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
  (No client certificate requested)
- by smtp-out2.suse.de (Postfix) with ESMTPS id 6C46D1F38D;
- Wed, 13 Apr 2022 10:50:20 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
- t=1649847020; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
- mime-version:mime-version:content-type:content-type:
- in-reply-to:in-reply-to:references:references;
- bh=wt6yq80z8rw+PuUvFymcUW7ayTMDf6vscJkJZ6LgEhM=;
- b=ty2HOgYpwuK67mB6WnHt/XymuiCCjXOtC9cCxPv1MmVlyQ99aMaAYUomZ0xBF5OjKr2/sd
- UNHquqIWuLSYxpV+KITPoqBzQH/2rEPz8dDjDSSXgF40OHuoEd9BDhW7HaRovyiuv9h63Y
- 0kZYdcKBJmn+MiFH6slcUJyJPgDKdLs=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
- s=susede2_ed25519; t=1649847020;
- h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
- mime-version:mime-version:content-type:content-type:
- in-reply-to:in-reply-to:references:references;
- bh=wt6yq80z8rw+PuUvFymcUW7ayTMDf6vscJkJZ6LgEhM=;
- b=/Ncrqr6UqataV5PATT69skisn6CDfB9MAv8wcQQXji3nYBywv9Axm5VtAdh2I8nKQ+8XOi
- U98NtyCV8kLrWaAw==
-Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
- key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
- (No client certificate requested)
- by imap2.suse-dmz.suse.de (Postfix) with ESMTPS id 248A213AB8;
- Wed, 13 Apr 2022 10:50:20 +0000 (UTC)
-Received: from dovecot-director2.suse.de ([192.168.254.65])
- by imap2.suse-dmz.suse.de with ESMTPSA id sKbfB+yqVmJvOwAAMHmgww
- (envelope-from <tzimmermann@suse.de>); Wed, 13 Apr 2022 10:50:20 +0000
-Message-ID: <b7b5f75c-bf04-8bb6-9628-2790adfe61fc@suse.de>
-Date: Wed, 13 Apr 2022 12:49:02 +0200
+ by ams.source.kernel.org (Postfix) with ESMTPS id 5B3DCB821D0;
+ Wed, 13 Apr 2022 10:49:44 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 123A0C385A3;
+ Wed, 13 Apr 2022 10:49:42 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+ s=k20201202; t=1649846983;
+ bh=VDGB/KJSlTMibmr2TQXtFBBBCfJ+ZcdIshcLLBSAR5o=;
+ h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+ b=cv1SACWWU4qnSElLqbRyqTd9sqZZoC8tL3tevlnNSQ8NF0+HQs10pOYjdO7d+0GnK
+ zEezfyQLCpaWR5cr5SDc+gy8U5OWT6KJMhyvPCocpylJZB7ZoevuiErxb7fFqxvt9G
+ j2p/Szm2ihMjJ8lkHXScuLdnwdKkD4NJC77tW+wdV53FLIcSiqu9GqbxTWZrP+ILru
+ 7bFgECFlLh7IAxF3+Bj5M92HZHlOcaR+EIdVdZ6uroq5oeOIVI+9NvVzLnaIHyD7cc
+ 8LMzXVxrX7LrhD7aVHY0NkgtnwdEEU1D4l3cJpDiU+iTfjYRGZPlOXRprg9QRYVlRT
+ a16Pxf3i5g4+g==
+Date: Wed, 13 Apr 2022 16:19:38 +0530
+From: Vinod Koul <vkoul@kernel.org>
+To: Liu Ying <victor.liu@nxp.com>
+Subject: Re: [PATCH v6 resend 2/5] phy: Add LVDS configuration options
+Message-ID: <YlaqwoFCfusFgIIe@matsya>
+References: <20220402052451.2517469-1-victor.liu@nxp.com>
+ <20220402052451.2517469-3-victor.liu@nxp.com>
+ <YlZpnrKt9NbHZv26@matsya>
+ <d77b41d911e126331138ddaca146a581d316bd09.camel@nxp.com>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.6.1
-Subject: Re: [PATCH 1/2] of: Create platform devices for OF framebuffers
-Content-Language: en-US
-To: Javier Martinez Canillas <javierm@redhat.com>, robh+dt@kernel.org,
- frowand.list@gmail.com, daniel@ffwll.ch, deller@gmx.de, sam@ravnborg.org,
- linux@roeck-us.net, mpe@ellerman.id.au, benh@kernel.crashing.org,
- paulus@samba.org
-References: <20220413092454.1073-1-tzimmermann@suse.de>
- <20220413092454.1073-2-tzimmermann@suse.de>
- <23060462-5700-e17a-0abe-a4c5123abe29@redhat.com>
-From: Thomas Zimmermann <tzimmermann@suse.de>
-In-Reply-To: <23060462-5700-e17a-0abe-a4c5123abe29@redhat.com>
-Content-Type: multipart/signed; micalg=pgp-sha256;
- protocol="application/pgp-signature";
- boundary="------------XJByYlM1P0mJ0Gpo2sk9x306"
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <d77b41d911e126331138ddaca146a581d316bd09.camel@nxp.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -74,103 +55,140 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: devicetree@vger.kernel.org, linux-fbdev@vger.kernel.org,
- linuxppc-dev@lists.ozlabs.org, dri-devel@lists.freedesktop.org
+Cc: narmstrong@baylibre.com, airlied@linux.ie, agx@sigxcpu.org,
+ dri-devel@lists.freedesktop.org, Laurent.pinchart@ideasonboard.com,
+ andrzej.hajda@intel.com, linux-phy@lists.infradead.org,
+ martin.kepplinger@puri.sm, jernej.skrabec@gmail.com, kishon@ti.com,
+ linux-imx@nxp.com, robert.chiras@nxp.com, devicetree@vger.kernel.org,
+ kernel@pengutronix.de, jonas@kwiboo.se, s.hauer@pengutronix.de,
+ robh+dt@kernel.org, linux-arm-kernel@lists.infradead.org,
+ linux-kernel@vger.kernel.org, robert.foss@linaro.org, shawnguo@kernel.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-This is an OpenPGP/MIME signed message (RFC 4880 and 3156)
---------------XJByYlM1P0mJ0Gpo2sk9x306
-Content-Type: multipart/mixed; boundary="------------F53BndD9Jie3zMIk9lZWAXep";
- protected-headers="v1"
-From: Thomas Zimmermann <tzimmermann@suse.de>
-To: Javier Martinez Canillas <javierm@redhat.com>, robh+dt@kernel.org,
- frowand.list@gmail.com, daniel@ffwll.ch, deller@gmx.de, sam@ravnborg.org,
- linux@roeck-us.net, mpe@ellerman.id.au, benh@kernel.crashing.org,
- paulus@samba.org
-Cc: devicetree@vger.kernel.org, linux-fbdev@vger.kernel.org,
- linuxppc-dev@lists.ozlabs.org, dri-devel@lists.freedesktop.org
-Message-ID: <b7b5f75c-bf04-8bb6-9628-2790adfe61fc@suse.de>
-Subject: Re: [PATCH 1/2] of: Create platform devices for OF framebuffers
-References: <20220413092454.1073-1-tzimmermann@suse.de>
- <20220413092454.1073-2-tzimmermann@suse.de>
- <23060462-5700-e17a-0abe-a4c5123abe29@redhat.com>
-In-Reply-To: <23060462-5700-e17a-0abe-a4c5123abe29@redhat.com>
+On 13-04-22, 18:04, Liu Ying wrote:
+> Hi Vinod,
+> 
+> On Wed, 2022-04-13 at 11:41 +0530, Vinod Koul wrote:
+> > On 02-04-22, 13:24, Liu Ying wrote:
+> > > This patch allows LVDS PHYs to be configured through
+> > > the generic functions and through a custom structure
+> > > added to the generic union.
+> > > 
+> > > The parameters added here are based on common LVDS PHY
+> > > implementation practices.  The set of parameters
+> > > should cover all potential users.
+> > > 
+> > > Cc: Kishon Vijay Abraham I <kishon@ti.com>
+> > > Cc: Vinod Koul <vkoul@kernel.org>
+> > > Cc: NXP Linux Team <linux-imx@nxp.com>
+> > > Signed-off-by: Liu Ying <victor.liu@nxp.com>
+> > > ---
+> > > v5->v6:
+> > > * Rebase upon v5.17-rc1.
+> > > 
+> > > v4->v5:
+> > > * Align kernel-doc style to include/linux/phy/phy.h. (Vinod)
+> > > * Trivial tweaks.
+> > > * Drop Robert's R-b tag.
+> > > 
+> > > v3->v4:
+> > > * Add Robert's R-b tag.
+> > > 
+> > > v2->v3:
+> > > * No change.
+> > > 
+> > > v1->v2:
+> > > * No change.
+> > > 
+> > >  include/linux/phy/phy-lvds.h | 32 ++++++++++++++++++++++++++++++++
+> > >  include/linux/phy/phy.h      |  4 ++++
+> > >  2 files changed, 36 insertions(+)
+> > >  create mode 100644 include/linux/phy/phy-lvds.h
+> > > 
+> > > diff --git a/include/linux/phy/phy-lvds.h b/include/linux/phy/phy-
+> > > lvds.h
+> > > new file mode 100644
+> > > index 000000000000..7a2f4747f624
+> > > --- /dev/null
+> > > +++ b/include/linux/phy/phy-lvds.h
+> > > @@ -0,0 +1,32 @@
+> > > +/* SPDX-License-Identifier: GPL-2.0 */
+> > > +/*
+> > > + * Copyright 2020 NXP
+> > 
+> > 2022 now
+> 
+> I may change it to 'Copyright 2020,2022 NXP'.
+> 
+> > 
+> > > + */
+> > > +
+> > > +#ifndef __PHY_LVDS_H_
+> > > +#define __PHY_LVDS_H_
+> > > +
+> > > +/**
+> > > + * struct phy_configure_opts_lvds - LVDS configuration set
+> > > + * @bits_per_lane_and_dclk_cycle:	Number of bits per data lane
+> > > and
+> > > + *					differential clock cycle.
+> > 
+> > What does it mean by bits per data lane and differential clock cycle?
+> 
+> Please check Documentation/devicetree/bindings/display/panel/lvds.yaml.
+> lvds.yaml metions slot.  'bits_per_lane_and_dclk_cycle' means the
+> number of slots.  But, I don't find the word 'slot' in my lvds relevant
+> specs which mentioned in lvds.yaml, so 'slots' is probably not a
+> generic name(lvds.yaml is for display panel).  So, I use
+> 'bits_per_lane_and_dclk_cycle' as the name tells what it means.
 
---------------F53BndD9Jie3zMIk9lZWAXep
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: base64
+variable name is fine, explanation for bit per lane and differential
+clock cycle didnt help, maybe add better explanation of what this
+variable means
 
-SGkNCg0KQW0gMTMuMDQuMjIgdW0gMTI6NDUgc2NocmllYiBKYXZpZXIgTWFydGluZXogQ2Fu
-aWxsYXM6DQo+IEhlbGxvIFRob21hcywNCj4gDQo+IFRoYW5rcyBmb3Igd29ya2luZyBvbiB0
-aGlzLg0KPiANCj4gT24gNC8xMy8yMiAxMToyNCwgVGhvbWFzIFppbW1lcm1hbm4gd3JvdGU6
-DQo+PiBDcmVhdGUgYSBwbGF0Zm9ybSBkZXZpY2UgZm9yIGVhY2ggT0YtZGVjbGFyZWQgZnJh
-bWVidWZmZXIgYW5kIGhhdmUNCj4+IG9mZmIgYmluZCB0byB0aGVzZSBkZXZpY2VzLiBBbGxv
-d3MgZm9yIHJlYWwgaG90LXVucGx1Z2dpbmcgYW5kIG90aGVyDQo+PiBkcml2ZXJzIGJlc2lk
-ZXMgb2ZmYi4NCj4+DQo+PiBPcmlnaW5hbGx5LCBvZmZiIGNyZWF0ZWQgZnJhbWVidWZmZXIg
-ZGV2aWNlcyB3aGlsZSBpbml0aWFsaXppbmcgaXRzDQo+PiBtb2R1bGUgYnkgcGFyc2luZyB0
-aGUgT0YgZGV2aWNlIHRyZWUuIE5vIGFjdHVhbCBMaW51eCBkZXZpY2Ugd2FzIHNldA0KPj4g
-dXAuIFRoaXMgdGllZCBPRiBmcmFtZWJ1ZmZlcnMgdG8gb2ZmYiBhbmQgbWFrZXMgd3JpdGlu
-ZyBvdGhlciBkcml2ZXJzDQo+PiBmb3IgdGhlIE9GIGZyYW1lYnVmZmVycyBjb21wbGljYXRl
-ZC4gVGhlIGFic2VuY2Ugb2YgYSBMaW51eCBkZXZpY2UNCj4+IHByZXZlbnRlZCByZWFsIGhv
-dC11bnBsdWdnaW5nLiBBZGRpbmcgYSBkaXN0aW5jdCBwbGF0Zm9ybSBkZXZpY2UgZm9yDQo+
-PiBlYWNoIE9GIGZyYW1lYnVmZmVyIHNvbHZlcyBib3RoIHByb2JsZW1zLiBTcGVjaWZpY2Fs
-bHksIGEgRFJNIGRyaXZlcnMNCj4+IGNhbiBub3cgcHJvdmlkZSBncmFwaGljcyBvdXRwdXQg
-d2l0aCBtb2Rlcm4gdXNlcnNwYWNlLg0KPj4NCj4+IFNvbWUgb2YgdGhlIG9mZmIgaW5pdCBj
-b2RlIGlzIG5vdyBsb2NhdGVkIGluIHRoZSBPRiBpbml0aWFsaXphdGlvbi4NCj4+IFRoZXJl
-J3Mgbm93IGFsc28gYW4gaW1wbGVtZW50YXRpb24gb2Ygb2ZfcGxhdGZvcm1fZGVmYXVsdF9w
-b3B1bGF0ZV9pbml0KCksDQo+PiB3aGljaCB3YXMgbWlzc2luZyBiZWZvcmUuIFRoZSBPRiBz
-aWRlIGNyZWF0ZXMgZGlmZmVyZW50IGRldmljZXMgZm9yDQo+PiBlaXRoZXIgT0YgZGlzcGxh
-eSBub2RlcyBvciBib290eCBkaXNwbGF5cyBhcyB0aGV5IHJlcXVpcmUgZGlmZmVyZW50DQo+
-PiBoYW5kbGluZyBieSB0aGUgZHJpdmVyLiBUaGUgb2ZmYiBkcml2ZXJzIHBpY2tzIHVwIGVh
-Y2ggdHlwZSBvZiBkZXZpY2UNCj4+IGFuZCBydW5zIHRoZSBhcHByb3ByaWF0ZSBmYmRldiBp
-bml0aWFsaXphdGlvbi4NCj4+DQo+PiBUZXN0ZWQgd2l0aCBPRiBkaXNwbGF5IG5vZGVzIG9u
-IHFlbXUncyBwcGM2NGxlIHRhcmdldC4NCj4+DQo+PiBTaWduZWQtb2ZmLWJ5OiBUaG9tYXMg
-WmltbWVybWFubiA8dHppbW1lcm1hbm5Ac3VzZS5kZT4NCj4+IC0tLQ0KPiANCj4gW3NuaXBd
-DQo+IA0KPj4gKwlmb3JfZWFjaF9ub2RlX2J5X3R5cGUobm9kZSwgImRpc3BsYXkiKSB7DQo+
-PiArCQlpZiAoIW9mX2dldF9wcm9wZXJ0eShub2RlLCAibGludXgsb3BlbmVkIiwgTlVMTCkg
-fHwNCj4+ICsJCSAgICAhb2ZfZ2V0X3Byb3BlcnR5KG5vZGUsICJsaW51eCxib290LWRpc3Bs
-YXkiLCBOVUxMKSkNCj4+ICsJCQljb250aW51ZTsNCj4+ICsJCWRldiA9IG9mX3BsYXRmb3Jt
-X2RldmljZV9jcmVhdGUobm9kZSwgIm9mLWRpc3BsYXkiLCBOVUxMKTsNCj4+ICsJCWlmIChX
-QVJOX09OKCFkZXYpKQ0KPj4gKwkJCXJldHVybiAtRU5PTUVNOw0KPj4gKwkJYm9vdF9kaXNw
-bGF5ID0gbm9kZTsNCj4+ICsJCWJyZWFrOw0KPj4gKwl9DQo+PiArCWZvcl9lYWNoX25vZGVf
-YnlfdHlwZShub2RlLCAiZGlzcGxheSIpIHsNCj4+ICsJCWlmICghb2ZfZ2V0X3Byb3BlcnR5
-KG5vZGUsICJsaW51eCxvcGVuZWQiLCBOVUxMKSB8fCBub2RlID09IGJvb3RfZGlzcGxheSkN
-Cj4+ICsJCQljb250aW51ZTsNCj4+ICsJCW9mX3BsYXRmb3JtX2RldmljZV9jcmVhdGUobm9k
-ZSwgIm9mLWRpc3BsYXkiLCBOVUxMKTsNCj4gDQo+IFNob3VsZG4ndCBjaGVjayBmb3IgdGhl
-IHJldHVybiB2YWx1ZSBoZXJlIHRvbyA/DQoNCkZhaWxpbmcgaXMgcHJvYmFibHkgbm90IHVz
-ZWZ1bCwgYXMgaXQncyBub3QgdGhlIG1haW4gRkIgdXNlZCBmb3IgDQpib290aW5nLiBQcmlu
-dGluZyBhbiBlcnJvciBtZXNzYWdlIHdvdWxkbid0IGh1cnQsIEkgZ3Vlc3MuIEknbGwgYWxz
-byANCnVwZGF0ZSB0aGUgbmV3IGRyaXZlciByZWdpc3RyYXRpb24gaW4gb2ZmYiB3aXRoIGFu
-IGVycm9yIG1lc3NhZ2UuDQoNCj4gDQo+IE90aGVyIHRoYW4gdGhpcyBzbWFsbCBuaXQsIGl0
-IGxvb2tzIGdvb2QgdG8gbWUuDQo+IA0KPiBSZXZpZXdlZC1ieTogSmF2aWVyIE1hcnRpbmV6
-IENhbmlsbGFzIDxqYXZpZXJtQHJlZGhhdC5jb20+DQo+IA0KDQpUaGFua3MuDQoNCkJlc3Qg
-cmVnYXJkcw0KVGhvbWFzDQoNCi0tIA0KVGhvbWFzIFppbW1lcm1hbm4NCkdyYXBoaWNzIERy
-aXZlciBEZXZlbG9wZXINClNVU0UgU29mdHdhcmUgU29sdXRpb25zIEdlcm1hbnkgR21iSA0K
-TWF4ZmVsZHN0ci4gNSwgOTA0MDkgTsO8cm5iZXJnLCBHZXJtYW55DQooSFJCIDM2ODA5LCBB
-RyBOw7xybmJlcmcpDQpHZXNjaMOkZnRzZsO8aHJlcjogSXZvIFRvdGV2DQo=
+> 
+> > 
+> > > + * @differential_clk_rate:		Clock rate, in Hertz, of the
+> > > LVDS
+> > > + *					differential clock.
+> > > + * @lanes:				Number of active, consecutive,
+> > > + *					data lanes, starting from lane
+> > > 0,
+> > > + *					used for the transmissions.
+> > > + * @is_slave:				Boolean, true if the
+> > > phy is a slave
+> > > + *					which works together with a
+> > > master
+> > > + *					phy to support dual link
+> > > transmission,
+> > > + *					otherwise a regular phy or a
+> > > master phy.
+> > > + *
+> > > + * This structure is used to represent the configuration state of
+> > > a LVDS phy.
+> > > + */
+> > > +struct phy_configure_opts_lvds {
+> > > +	unsigned int	bits_per_lane_and_dclk_cycle;
+> > > +	unsigned long	differential_clk_rate;
+> > > +	unsigned int	lanes;
+> > > +	bool		is_slave;
+> > > +};
+> > 
+> > Where is the user of this new configuration? Can you post that patch
+> > for
+> > reference as well please
+> 
+> Patch 5/5 uses it. Also, I posted two drm bridge drivers[1][2] which
+> use it.
 
---------------F53BndD9Jie3zMIk9lZWAXep--
+That is phy driver not the user
+> 
+> [1] 
+> https://patchwork.kernel.org/project/dri-devel/patch/1617172405-12962-13-git-send-email-victor.liu@nxp.com/
+> [2] 
+> https://patchwork.kernel.org/project/dri-devel/patch/1617172405-12962-14-git-send-email-victor.liu@nxp.com/
 
---------------XJByYlM1P0mJ0Gpo2sk9x306
-Content-Type: application/pgp-signature; name="OpenPGP_signature.asc"
-Content-Description: OpenPGP digital signature
-Content-Disposition: attachment; filename="OpenPGP_signature"
+this is helpful, thanks
 
------BEGIN PGP SIGNATURE-----
-
-wsF5BAABCAAjFiEExndm/fpuMUdwYFFolh/E3EQov+AFAmJWqp4FAwAAAAAACgkQlh/E3EQov+Bl
-Pw/+KI3InyL3PFmLMwV0DyxWJrmSFbZ+faHHIObiD3JtS4PU0DPCvYwab61BoSdSYdLIl9Lhfvd2
-kUsW4u6FuIF7CMK4YIri7W6ku6tuJnsstZUu4qjMQ+SwV69yFHmcWZD9HC3wXKPagCOb2pF7eQZs
-IMt1lhl/UB8Gu1CKZV129sRshdDGLsDlzqScte67QHkAWRkoK0Bmwoq4diQcK5VvJSwEB+AhpqrI
-6AMRfywnrEDe/JTggpcFCMVkZvOrfnqyyHmcVc2b3Yx/nWjn62sI9E/+SDPXzHKIC3FRsff4ontR
-ijnG8gIVv+JnoJSjGlkKwCYSvOmWcM/AXybHbCi7oziaprx8GrtVEXD1IneHhqE7W+uUcuBRlIm5
-6LNJs7Eqa7aBxulx56FECOQ8j4H5m2c/Bq/fR5Mjxjbe/CfnL+C+EVNVY6/ns2/Cj08BGlovyYGS
-r6f5l3X3MuoxG4TBRti377kv6u4Jt4ceGYJRLP37FVntZnbcs1nNWaTfbqS4v7ei7kkaiJKW2WiD
-cAvPP4lT1H/JOe5afe7RiWfmegKFQRY4icpCAY1ezlf2K3KefwXz2SrjS+MIWpMovuh9PxuHejnb
-RvYffarcZuf1nBgQv4nQmDDoUGlmo0yI4KfB6N2C/yHzteT5uk68QcyyMlYH49stq453IA4bPHun
-AU0=
-=kM7Z
------END PGP SIGNATURE-----
-
---------------XJByYlM1P0mJ0Gpo2sk9x306--
+-- 
+~Vinod
