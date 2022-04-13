@@ -1,63 +1,48 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id B5AB24FF27E
-	for <lists+dri-devel@lfdr.de>; Wed, 13 Apr 2022 10:45:39 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 855634FF2B7
+	for <lists+dri-devel@lfdr.de>; Wed, 13 Apr 2022 10:51:51 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 36CC210FC31;
-	Wed, 13 Apr 2022 08:45:37 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 35E0910E0AA;
+	Wed, 13 Apr 2022 08:51:47 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-ej1-x62e.google.com (mail-ej1-x62e.google.com
- [IPv6:2a00:1450:4864:20::62e])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 58DC610FC31
- for <dri-devel@lists.freedesktop.org>; Wed, 13 Apr 2022 08:45:36 +0000 (UTC)
-Received: by mail-ej1-x62e.google.com with SMTP id u15so2438509ejf.11
- for <dri-devel@lists.freedesktop.org>; Wed, 13 Apr 2022 01:45:36 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ffwll.ch; s=google;
- h=date:from:to:cc:subject:message-id:references:mime-version
- :content-disposition:content-transfer-encoding:in-reply-to;
- bh=tZhPfwDbxlQnkc3jGt7bxNL3Y9fEa92AT11Pl+Gt15A=;
- b=kQdV93Fv0YXgsV7ic1ESrNoJ6grRx0zGL57zR5h9vAhYro4fn4zjaM37lZ6jYjK8nx
- xPwBQPwwfGot73GLNAd4vAmWVUNg1g0IFkOnOogz/8dyHKgC0YL5seT2ERgVHkEKZyJQ
- CRQhf9VZtZD6TJD3VbXeeXgyYZ2NxCGLzDXTU=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=x-gm-message-state:date:from:to:cc:subject:message-id:references
- :mime-version:content-disposition:content-transfer-encoding
- :in-reply-to;
- bh=tZhPfwDbxlQnkc3jGt7bxNL3Y9fEa92AT11Pl+Gt15A=;
- b=NjL6sH2//Eur5E3jX9j0nkoCk6uMjZMkZpxdqEt7TQ5aHgG0aVMgio7EehGkXD751E
- PEjn+TiKCBw3O57OAepAxcgEQJbMHwiwlF0m2xHk4JiYeAUZDWFJVlAUliTQhupOCinH
- fhuQ7G3aP4VE5B5D3RuBipWVUsaQFmI6A/vwPhu6Mt/6jztL7XkQLqEmgX/mOMx3i+j7
- G3BwusuH4ieeuPf6sjSPMgfp/41KoxD1MvBMKWIyhjzuY5y0CtiH+x7yDKTOZrqAodCx
- ga+t28K3xi26qLCasoom7IOK9/HpQuBT00iJ81q46O6QrpUDGA7uZhVgh9+mJlT61/gE
- RY7A==
-X-Gm-Message-State: AOAM532r05AcW01mdoGClZrIOxpYaUOuiZbrwJGs9LlMr2F0XClNbmhU
- NgnpPR66E/6ELgIQTSqJI7hJCA==
-X-Google-Smtp-Source: ABdhPJzkuJrhjFVVaD+FeicC/JAGdUCgjuoCz93N0QjJQdbUTp1w0sllPG0kwR9VfLovGbAk5IHcCg==
-X-Received: by 2002:a17:907:7e84:b0:6e8:b7ce:22b5 with SMTP id
- qb4-20020a1709077e8400b006e8b7ce22b5mr5255734ejc.763.1649839534887; 
- Wed, 13 Apr 2022 01:45:34 -0700 (PDT)
-Received: from phenom.ffwll.local ([2a02:168:57f4:0:efd0:b9e5:5ae6:c2fa])
- by smtp.gmail.com with ESMTPSA id
- w22-20020a056402269600b004194f4eb3e7sm934803edd.19.2022.04.13.01.45.34
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 13 Apr 2022 01:45:34 -0700 (PDT)
-Date: Wed, 13 Apr 2022 10:45:32 +0200
-From: Daniel Vetter <daniel@ffwll.ch>
-To: Christian =?iso-8859-1?Q?K=F6nig?= <christian.koenig@amd.com>
-Subject: Re: [PATCH] drm/ttm: fixup ttm_bo_add_move_fence
-Message-ID: <YlaNrDxQOY3QfoUu@phenom.ffwll.local>
-References: <20220413082133.272445-1-matthew.auld@intel.com>
- <7c9f767f-60c4-6276-a3b2-7d77b7050e22@amd.com>
+Received: from mga02.intel.com (mga02.intel.com [134.134.136.20])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 4204010E0AA;
+ Wed, 13 Apr 2022 08:51:46 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+ t=1649839906; x=1681375906;
+ h=from:to:cc:subject:date:message-id:mime-version:
+ content-transfer-encoding;
+ bh=vpiItvpgaFPmgHy1U3lf9GHP58gLjqtFS+hfWWpE+zQ=;
+ b=e8fsZJte9V4Xxn1KQ/7+PzMAa+H0rXHuFISxvb6LQuZzzYYx5rQ35xzB
+ 02t1taVon2OUzA574lfyO21juBanStIOeTTKnLR7gzXEyj5+dIiRe/diI
+ D5yqOXb18KmiAp+bVm6i7cBU6qzB883skw6rSvkbjISXQxX5Vz/VLlWEf
+ VOFhwXU2AWmqRI3sQWxBcmT+jTMFFhgWdKmX3L0kgiM0HW0iH/989tC6r
+ eAnKmDPFkFoLSbNLM5JvSoeqyDFV47vVXwiQuujx3LQVnt2X7/mq3vG2K
+ MaFq0fDD/X/nG+g2+E2+gsiSAK92U//n3z4i/Gekl9/sE/k5JjLUbnS7M A==;
+X-IronPort-AV: E=McAfee;i="6400,9594,10315"; a="249900189"
+X-IronPort-AV: E=Sophos;i="5.90,256,1643702400"; d="scan'208";a="249900189"
+Received: from orsmga003.jf.intel.com ([10.7.209.27])
+ by orsmga101.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 13 Apr 2022 01:51:45 -0700
+X-IronPort-AV: E=Sophos;i="5.90,256,1643702400"; d="scan'208";a="507899289"
+Received: from jomolloy-mobl.ger.corp.intel.com (HELO mwauld-desk1.intel.com)
+ ([10.252.23.209])
+ by orsmga003-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 13 Apr 2022 01:51:44 -0700
+From: Matthew Auld <matthew.auld@intel.com>
+To: intel-gfx@lists.freedesktop.org
+Subject: [PATCH v2] drm/ttm: fixup ttm_bo_add_move_fence
+Date: Wed, 13 Apr 2022 09:51:33 +0100
+Message-Id: <20220413085133.275290-1-matthew.auld@intel.com>
+X-Mailer: git-send-email 2.34.1
 MIME-Version: 1.0
-Content-Type: text/plain; charset=iso-8859-1
-Content-Disposition: inline
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-In-Reply-To: <7c9f767f-60c4-6276-a3b2-7d77b7050e22@amd.com>
-X-Operating-System: Linux phenom 5.10.0-8-amd64 
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -70,56 +55,48 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Daniel Vetter <daniel.vetter@ffwll.ch>, intel-gfx@lists.freedesktop.org,
- Matthew Auld <matthew.auld@intel.com>, dri-devel@lists.freedesktop.org
+Cc: Daniel Vetter <daniel.vetter@ffwll.ch>,
+ =?UTF-8?q?Christian=20K=C3=B6nig?= <christian.koenig@amd.com>,
+ dri-devel@lists.freedesktop.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Wed, Apr 13, 2022 at 10:43:02AM +0200, Christian König wrote:
-> Am 13.04.22 um 10:21 schrieb Matthew Auld:
-> > It looks like we still need to call dma_fence_put() on the man->move,
-> > otherwise we just end up leaking it, leading to fireworks later.
-> > 
-> > Closes: https://nam11.safelinks.protection.outlook.com/?url=https%3A%2F%2Fgitlab.freedesktop.org%2Fdrm%2Fintel%2F-%2Fissues%2F5689&amp;data=04%7C01%7Cchristian.koenig%40amd.com%7C2c316b01285b4deacfda08da1d26a778%7C3dd8961fe4884e608e11a82d994e183d%7C0%7C0%7C637854349105267939%7CUnknown%7CTWFpbGZsb3d8eyJWIjoiMC4wLjAwMDAiLCJQIjoiV2luMzIiLCJBTiI6Ik1haWwiLCJXVCI6Mn0%3D%7C3000&amp;sdata=bWuQuQm6N5Lf183uo%2BsEw%2FxMWQFYVkyfYnB6SH61fto%3D&amp;reserved=0
-> > Fixes: 8bb31587820a ("drm/ttm: remove bo->moving")
-> > Cc: Christian König <christian.koenig@amd.com>
-> > Cc: Daniel Vetter <daniel.vetter@ffwll.ch>
-> > Signed-off-by: Matthew Auld <matthew.auld@intel.com>
-> 
-> Ah, yes! Previously we added the fence reference to bo->moving. I was
-> already searching for that one as well.
-> 
-> Reviewed-by: Christian König <christian.koenig@amd.com>
-> 
-> Going to push it to drm-misc-next in a minute.
+It looks like we still need to call dma_fence_put() on the man->move,
+otherwise we just end up leaking it, leading to fireworks later.
 
-If you haven't pushed yet, pls also check my bikeshed, the code looks a
-bit funny with this patch applied :-)
--Daniel
+v2(Daniel):
+  - Simplify the function tail
 
-> 
-> Thanks,
-> Christian.
-> 
-> > ---
-> >   drivers/gpu/drm/ttm/ttm_bo.c | 2 ++
-> >   1 file changed, 2 insertions(+)
-> > 
-> > diff --git a/drivers/gpu/drm/ttm/ttm_bo.c b/drivers/gpu/drm/ttm/ttm_bo.c
-> > index 015a94f766de..b15b77e10383 100644
-> > --- a/drivers/gpu/drm/ttm/ttm_bo.c
-> > +++ b/drivers/gpu/drm/ttm/ttm_bo.c
-> > @@ -744,6 +744,8 @@ static int ttm_bo_add_move_fence(struct ttm_buffer_object *bo,
-> >   		dma_fence_put(fence);
-> >   		return ret;
-> >   	}
-> > +
-> > +	dma_fence_put(fence);
-> >   	return 0;
-> >   }
-> 
+Closes: https://gitlab.freedesktop.org/drm/intel/-/issues/5689
+Fixes: 8bb31587820a ("drm/ttm: remove bo->moving")
+Cc: Christian KÃ¶nig <christian.koenig@amd.com>
+Cc: Daniel Vetter <daniel.vetter@ffwll.ch>
+Signed-off-by: Matthew Auld <matthew.auld@intel.com>
+Reviewed-by: Christian KÃ¶nig <christian.koenig@amd.com>
+Reviewed-by: Daniel Vetter <daniel.vetter@ffwll.ch>
+---
+ drivers/gpu/drm/ttm/ttm_bo.c | 8 +++-----
+ 1 file changed, 3 insertions(+), 5 deletions(-)
 
+diff --git a/drivers/gpu/drm/ttm/ttm_bo.c b/drivers/gpu/drm/ttm/ttm_bo.c
+index 015a94f766de..f7fbf162ce41 100644
+--- a/drivers/gpu/drm/ttm/ttm_bo.c
++++ b/drivers/gpu/drm/ttm/ttm_bo.c
+@@ -740,11 +740,9 @@ static int ttm_bo_add_move_fence(struct ttm_buffer_object *bo,
+ 	dma_resv_add_fence(bo->base.resv, fence, DMA_RESV_USAGE_KERNEL);
+ 
+ 	ret = dma_resv_reserve_fences(bo->base.resv, 1);
+-	if (unlikely(ret)) {
+-		dma_fence_put(fence);
+-		return ret;
+-	}
+-	return 0;
++
++	dma_fence_put(fence);
++	return ret;
+ }
+ 
+ /*
 -- 
-Daniel Vetter
-Software Engineer, Intel Corporation
-http://blog.ffwll.ch
+2.34.1
+
