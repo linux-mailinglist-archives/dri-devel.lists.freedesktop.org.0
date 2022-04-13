@@ -2,52 +2,59 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8749E4FF720
-	for <lists+dri-devel@lfdr.de>; Wed, 13 Apr 2022 14:52:16 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id C00954FF74F
+	for <lists+dri-devel@lfdr.de>; Wed, 13 Apr 2022 15:01:08 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 06E4910FBF5;
-	Wed, 13 Apr 2022 12:52:13 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 0B22F10E37E;
+	Wed, 13 Apr 2022 13:01:04 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 6CFC610FBF5
- for <dri-devel@lists.freedesktop.org>; Wed, 13 Apr 2022 12:52:12 +0000 (UTC)
-Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
- (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
- (No client certificate requested)
- by dfw.source.kernel.org (Postfix) with ESMTPS id 2487061752
- for <dri-devel@lists.freedesktop.org>; Wed, 13 Apr 2022 12:52:11 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 84E03C385AE
- for <dri-devel@lists.freedesktop.org>; Wed, 13 Apr 2022 12:52:10 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1649854330;
- bh=+sQUQHAMr60oibMcSb+X1heh23Rmrdns5Ug52FcWZis=;
- h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
- b=nHieiynxTKUOZ+/GgQbKN0LsqKZRjZxrh+7eXt+9WJEEf0DBzz444TIxgXoEmaaiK
- Yfu4UbnumxFYrMTZ3ph2I6cgbNCCp0yGYxuwqOjPZUkbKTSW08ESSg0sReURKkhkBP
- XAdCHi7MbsUHELaQYQ0Kp4wHWHxR1gBwDs+3i8rIXouiK4Up6BFCX205c0q++YQOTj
- aO+1X5DE/GJo/1vfeeSWKErbxW9tU78sAKxqz3SR76bqdA8qTrBwZU9G7Bcnkm813T
- 4s3b16NSarLsZbNM8OPIvzYSIOJy58BrXj0cTAIgpXRB9DiZtYKhZPGnEdfqTQsSvO
- A19loAMfcGwBg==
-Received: by mail-il1-f176.google.com with SMTP id b5so1053255ile.0
- for <dri-devel@lists.freedesktop.org>; Wed, 13 Apr 2022 05:52:10 -0700 (PDT)
-X-Gm-Message-State: AOAM530EofAPjrZyUmWSb456o1Mr2bvRT4MS4pmdh1znzg9DkMsFTYaL
- 28qOtXJoLc0lFT3NkUb68dqUFh86GTOrVfoHKg==
-X-Google-Smtp-Source: ABdhPJwbRYO1nv4ZLeWNM6dbn6sh8AG/4Kjt3a50tl385H2g3r9fNB8qWeSivwG1d+EYScK/dc9o6SVMic7J4HVFBnU=
-X-Received: by 2002:a92:dd86:0:b0:2bc:805c:23c7 with SMTP id
- g6-20020a92dd86000000b002bc805c23c7mr17319621iln.279.1649854329414; Wed, 13
- Apr 2022 05:52:09 -0700 (PDT)
+Received: from mail-oa1-x2e.google.com (mail-oa1-x2e.google.com
+ [IPv6:2001:4860:4864:20::2e])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 9051210E37E;
+ Wed, 13 Apr 2022 13:01:02 +0000 (UTC)
+Received: by mail-oa1-x2e.google.com with SMTP id
+ 586e51a60fabf-e2442907a1so1894867fac.8; 
+ Wed, 13 Apr 2022 06:01:02 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc:content-transfer-encoding;
+ bh=gZDaCj8hTLM0bP/l9w7YSO7g2qnbuNgNCn+DCFEd6aI=;
+ b=FEv0kyLo3VMIFAfqBNf2vyglxgp+UTUwDsIRZrjJplezgnISwnlye+51pCD+/BwS2H
+ B1016hY0GDvBfJCqcJZjHjdT4OzviCPT11gyZw9see9RLuMyS1uV+xeJuc+LL/6r8P9V
+ LWDPRVRuD4Nd34JqBPuQfy7uesTk2i37Lhm0/wgvJ8dz/beuac7vETgMBiDWAy5BZsrQ
+ NMYsTTfI9x99CKEa3NoeDcRPYklNpjxymFE0eG8Z09wVdQNW5FijH3YxurMWtL5JB0kN
+ zXDVLK9EXg8ENwB1X436vunz2P/dHcSD6SX8dpxVqW1lCPZYHtZ/K8D371ILyPyI4W2q
+ W8CQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc:content-transfer-encoding;
+ bh=gZDaCj8hTLM0bP/l9w7YSO7g2qnbuNgNCn+DCFEd6aI=;
+ b=u1LvJfNk7X+Xa2eWe0fNwRbsGlAKFX+kJXCTsZJ1HhF7qCVG6vqseQqVHj0M8Cq1pH
+ NGEPA2q4nrwjAKtqPGATlWdYIh2N0l38LWfcFx/bQQ2Tm8zua9ZkP4xfLbV4AlVf/h1W
+ SFWbXjW34Mz61TBC9ZDhDxq8jU6fOyV3Y/HdpYQZNmQpsyTw7d9yxYtoD+B2bxRR6FsC
+ TLRWKS3HzeQL6vkWvA/AuV6qvQU3r2YEODC0tmAgwJGwXVcBu4FuWIhN+ZmlruHu1cJq
+ 72lplIuYnMOYS02OC+Mi7mJMoMDhsXmajYVnjPzh+W4aNS5cc1X+5WyED3tKjOctm6Bb
+ vF7g==
+X-Gm-Message-State: AOAM531nqjVTJdFJPz37e6cjVfkyrbfPnVxBWUmaYrFtnvmjFFs9RoZs
+ ZjoNmTP4cioHqRwZTc1woxgw01ZyB/SwGNg/FL8=
+X-Google-Smtp-Source: ABdhPJyxWqtPubtjVsfln8tW3NJZa00U2bWV6SGBrTscpzYvBAsPghZG5gshfaDwslYztZlR+9ZObVa2eOzU4UoTulU=
+X-Received: by 2002:a05:6870:311d:b0:de:9b6c:362b with SMTP id
+ v29-20020a056870311d00b000de9b6c362bmr3978609oaa.200.1649854861731; Wed, 13
+ Apr 2022 06:01:01 -0700 (PDT)
 MIME-Version: 1.0
-References: <20220413092454.1073-1-tzimmermann@suse.de>
- <20220413092454.1073-2-tzimmermann@suse.de>
-In-Reply-To: <20220413092454.1073-2-tzimmermann@suse.de>
-From: Rob Herring <robh+dt@kernel.org>
-Date: Wed, 13 Apr 2022 07:51:58 -0500
-X-Gmail-Original-Message-ID: <CAL_JsqK4oT47Q=XFTZ0a=g3-DiB1JsW7_j9M1qRzpeahhz0muA@mail.gmail.com>
-Message-ID: <CAL_JsqK4oT47Q=XFTZ0a=g3-DiB1JsW7_j9M1qRzpeahhz0muA@mail.gmail.com>
-Subject: Re: [PATCH 1/2] of: Create platform devices for OF framebuffers
-To: Thomas Zimmermann <tzimmermann@suse.de>
+References: <20220412215000.897344-1-richard.gong@amd.com>
+ <d4ba3998-34aa-86d2-bde9-bc6ae9d8d08d@molgen.mpg.de>
+In-Reply-To: <d4ba3998-34aa-86d2-bde9-bc6ae9d8d08d@molgen.mpg.de>
+From: Alex Deucher <alexdeucher@gmail.com>
+Date: Wed, 13 Apr 2022 09:00:50 -0400
+Message-ID: <CADnq5_MgvcGPWf2gYn_3qCr+Gq1P39tvv-W-o8NhivvMpMwUBA@mail.gmail.com>
+Subject: Re: [PATCHv4] drm/amdgpu: disable ASPM on Intel Alder Lake based
+ systems
+To: Paul Menzel <pmenzel@molgen.mpg.de>
 Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -60,157 +67,126 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: devicetree@vger.kernel.org,
- Linux Fbdev development list <linux-fbdev@vger.kernel.org>,
- Frank Rowand <frowand.list@gmail.com>, Helge Deller <deller@gmx.de>,
- linuxppc-dev <linuxppc-dev@lists.ozlabs.org>,
- dri-devel <dri-devel@lists.freedesktop.org>, Paul Mackerras <paulus@samba.org>,
- Michael Ellerman <mpe@ellerman.id.au>, Sam Ravnborg <sam@ravnborg.org>,
- Guenter Roeck <linux@roeck-us.net>
+Cc: kernel test robot <lkp@intel.com>, Dave Airlie <airlied@linux.ie>,
+ Richard Gong <richard.gong@amd.com>, xinhui pan <xinhui.pan@amd.com>,
+ LKML <linux-kernel@vger.kernel.org>,
+ amd-gfx list <amd-gfx@lists.freedesktop.org>,
+ Maling list - DRI developers <dri-devel@lists.freedesktop.org>, "Deucher,
+ Alexander" <alexander.deucher@amd.com>,
+ Christian Koenig <christian.koenig@amd.com>, "Limonciello,
+ Mario" <mario.limonciello@amd.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Wed, Apr 13, 2022 at 4:24 AM Thomas Zimmermann <tzimmermann@suse.de> wrote:
+On Wed, Apr 13, 2022 at 3:43 AM Paul Menzel <pmenzel@molgen.mpg.de> wrote:
 >
-> Create a platform device for each OF-declared framebuffer and have
-> offb bind to these devices. Allows for real hot-unplugging and other
-> drivers besides offb.
+> Dear Richard,
 >
-> Originally, offb created framebuffer devices while initializing its
-> module by parsing the OF device tree. No actual Linux device was set
-> up. This tied OF framebuffers to offb and makes writing other drivers
-> for the OF framebuffers complicated. The absence of a Linux device
-> prevented real hot-unplugging. Adding a distinct platform device for
-> each OF framebuffer solves both problems. Specifically, a DRM drivers
-> can now provide graphics output with modern userspace.
 >
-> Some of the offb init code is now located in the OF initialization.
-> There's now also an implementation of of_platform_default_populate_init(),
-> which was missing before. The OF side creates different devices for
-> either OF display nodes or bootx displays as they require different
-> handling by the driver. The offb drivers picks up each type of device
-> and runs the appropriate fbdev initialization.
+> Thank you for sending out v4.
 >
-> Tested with OF display nodes on qemu's ppc64le target.
+> Am 12.04.22 um 23:50 schrieb Richard Gong:
+> > Active State Power Management (ASPM) feature is enabled since kernel 5.=
+14.
+> > There are some AMD GFX cards (such as WX3200 and RX640) that won't work
+> > with ASPM-enabled Intel Alder Lake based systems. Using these GFX cards=
+ as
+> > video/display output, Intel Alder Lake based systems will hang during
+> > suspend/resume.
 >
-> Signed-off-by: Thomas Zimmermann <tzimmermann@suse.de>
-> ---
->  drivers/of/platform.c      | 73 ++++++++++++++++++++++++++--
->  drivers/video/fbdev/offb.c | 98 +++++++++++++++++++++++++-------------
->  2 files changed, 134 insertions(+), 37 deletions(-)
+> I am still not clear, what =E2=80=9Chang during suspend/resume=E2=80=9D m=
+eans. I guess
+> suspending works fine? During resume (S3 or S0ix?), where does it hang?
+> The system is functional, but there are only display problems?
 >
-> diff --git a/drivers/of/platform.c b/drivers/of/platform.c
-> index a16b74f32aa9..4c63b9a73587 100644
-> --- a/drivers/of/platform.c
-> +++ b/drivers/of/platform.c
-> @@ -447,6 +447,60 @@ int of_platform_bus_probe(struct device_node *root,
->  }
->  EXPORT_SYMBOL(of_platform_bus_probe);
+> > The issue was initially reported on one system (Dell Precision 3660 wit=
+h
+> > BIOS version 0.14.81), but was later confirmed to affect at least 4 Ald=
+er
+> > Lake based systems.
+> >
+> > Add extra check to disable ASPM on Intel Alder Lake based systems.
+> >
+> > Fixes: 0064b0ce85bb ("drm/amd/pm: enable ASPM by default")
+> > Link: https://gitlab.freedesktop.org/drm/amd/-/issues/1885
+> > Reported-by: kernel test robot <lkp@intel.com>
 >
-> +static int __init of_platform_populate_framebuffers(void)
-> +{
-> +       struct device_node *boot_display = NULL;
-> +       struct device_node *node;
-> +       struct platform_device *dev;
-> +       int ret;
-> +
-> +       node = of_get_compatible_child(of_chosen, "simple-framebuffer");
-> +       of_platform_device_create(node, NULL, NULL);
-> +       of_node_put(node);
-> +
+> This tag is a little confusing. Maybe clarify that it was for an issue
+> in a previous patch iteration?
+>
+> > Signed-off-by: Richard Gong <richard.gong@amd.com>
+> > ---
+> > v4: s/CONFIG_X86_64/CONFIG_X86
+> >      enhanced check logic
+> > v3: s/intel_core_asom_chk/aspm_support_quirk_check
+> >      correct build error with W=3D1 option
+> > v2: correct commit description
+> >      move the check from chip family to problematic platform
+> > ---
+> >   drivers/gpu/drm/amd/amdgpu/vi.c | 17 ++++++++++++++++-
+> >   1 file changed, 16 insertions(+), 1 deletion(-)
+> >
+> > diff --git a/drivers/gpu/drm/amd/amdgpu/vi.c b/drivers/gpu/drm/amd/amdg=
+pu/vi.c
+> > index 039b90cdc3bc..b33e0a9bee65 100644
+> > --- a/drivers/gpu/drm/amd/amdgpu/vi.c
+> > +++ b/drivers/gpu/drm/amd/amdgpu/vi.c
+> > @@ -81,6 +81,10 @@
+> >   #include "mxgpu_vi.h"
+> >   #include "amdgpu_dm.h"
+> >
+> > +#if IS_ENABLED(CONFIG_X86)
+> > +#include <asm/intel-family.h>
+> > +#endif
+> > +
+> >   #define ixPCIE_LC_L1_PM_SUBSTATE    0x100100C6
+> >   #define PCIE_LC_L1_PM_SUBSTATE__LC_L1_SUBSTATES_OVERRIDE_EN_MASK    0=
+x00000001L
+> >   #define PCIE_LC_L1_PM_SUBSTATE__LC_PCI_PM_L1_2_OVERRIDE_MASK        0=
+x00000002L
+> > @@ -1134,13 +1138,24 @@ static void vi_enable_aspm(struct amdgpu_device=
+ *adev)
+> >               WREG32_PCIE(ixPCIE_LC_CNTL, data);
+> >   }
+> >
+> > +static bool aspm_support_quirk_check(void)
+> > +{
+> > +     if (IS_ENABLED(CONFIG_X86)) {
+> > +             struct cpuinfo_x86 *c =3D &cpu_data(0);
+> > +
+> > +             return !(c->x86 =3D=3D 6 && c->x86_model =3D=3D INTEL_FAM=
+6_ALDERLAKE);
+> > +     }
+> > +
+> > +     return true;
+> > +}
+> > +
+> >   static void vi_program_aspm(struct amdgpu_device *adev)
+> >   {
+> >       u32 data, data1, orig;
+> >       bool bL1SS =3D false;
+> >       bool bClkReqSupport =3D true;
+> >
+> > -     if (!amdgpu_device_should_use_aspm(adev))
+> > +     if (!amdgpu_device_should_use_aspm(adev) || !aspm_support_quirk_c=
+heck())
+> >               return;
+>
+> Can users still forcefully enable ASPM with the parameter `amdgpu.aspm`?
+>
+> >
+> >       if (adev->flags & AMD_IS_APU ||
+>
+> If I remember correctly, there were also newer cards, where ASPM worked
+> with Intel Alder Lake, right? Can only the problematic generations for
+> WX3200 and RX640 be excluded from ASPM?
 
-The rest is PPC only, so bail out here if !PPC.
+This patch only disables it for the generation that was problematic.
 
-> +       /* Check if we have a MacOS display without a node spec */
-> +       if (of_get_property(of_chosen, "linux,bootx-noscreen", NULL)) {
-> +               /*
-> +                * The old code tried to work out which node was the MacOS
-> +                * display based on the address. I'm dropping that since the
-> +                * lack of a node spec only happens with old BootX versions
-> +                * (users can update) and with this code, they'll still get
-> +                * a display (just not the palette hacks).
-> +                */
-> +               dev = platform_device_alloc("bootx-noscreen", 0);
-> +               if (WARN_ON(!dev))
-> +                       return -ENOMEM;
-> +               ret = platform_device_add(dev);
-> +               if (WARN_ON(ret)) {
-> +                       platform_device_put(dev);
-> +                       return ret;
-> +               }
-> +       }
-> +
-> +       /*
-> +        * For OF framebuffers, first create the device for the boot display,
-> +        * then for the other framebuffers. Only fail for the boot display;
-> +        * ignore errors for the rest.
-> +        */
-> +       for_each_node_by_type(node, "display") {
-> +               if (!of_get_property(node, "linux,opened", NULL) ||
-> +                   !of_get_property(node, "linux,boot-display", NULL))
-> +                       continue;
-> +               dev = of_platform_device_create(node, "of-display", NULL);
-> +               if (WARN_ON(!dev))
-> +                       return -ENOMEM;
-> +               boot_display = node;
-> +               break;
-> +       }
-> +       for_each_node_by_type(node, "display") {
-> +               if (!of_get_property(node, "linux,opened", NULL) || node == boot_display)
-> +                       continue;
-> +               of_platform_device_create(node, "of-display", NULL);
-> +       }
-> +
-> +       return 0;
-> +}
-> +
->  /**
->   * of_platform_populate() - Populate platform_devices from device tree data
->   * @root: parent of the first level to probe or NULL for the root of the tree
-> @@ -541,9 +595,7 @@ static int __init of_platform_default_populate_init(void)
->                 of_node_put(node);
->         }
->
-> -       node = of_get_compatible_child(of_chosen, "simple-framebuffer");
-> -       of_platform_device_create(node, NULL, NULL);
-> -       of_node_put(node);
-> +       of_platform_populate_framebuffers();
->
->         /* Populate everything else. */
->         of_platform_default_populate(NULL, NULL, NULL);
+Alex
 
-I'm pretty sure it's just this call that's the problem for PPC though
-none of the above existed when adding this caused a regression. Can we
-remove the ifdef and just make this call conditional on
-!IS_ENABLED(CONFIG_PPC).
-
-
-> @@ -551,6 +603,20 @@ static int __init of_platform_default_populate_init(void)
->         return 0;
->  }
->  arch_initcall_sync(of_platform_default_populate_init);
-> +#else
-> +static int __init of_platform_default_populate_init(void)
-> +{
-> +       device_links_supplier_sync_state_pause();
-> +
-> +       if (!of_have_populated_dt())
-> +               return -ENODEV;
-> +
-> +       of_platform_populate_framebuffers();
-> +
-> +       return 0;
-> +}
-> +arch_initcall_sync(of_platform_default_populate_init);
-> +#endif
 >
->  static int __init of_platform_sync_state_init(void)
->  {
-> @@ -558,7 +624,6 @@ static int __init of_platform_sync_state_init(void)
->         return 0;
->  }
->  late_initcall_sync(of_platform_sync_state_init);
-> -#endif
 >
->  int of_platform_device_destroy(struct device *dev, void *data)
->  {
+> Kind regards,
+>
+> Paul
