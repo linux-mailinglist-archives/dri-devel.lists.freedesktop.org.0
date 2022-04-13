@@ -1,49 +1,38 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id DDC054FF097
-	for <lists+dri-devel@lfdr.de>; Wed, 13 Apr 2022 09:31:41 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id D25594FF0C0
+	for <lists+dri-devel@lfdr.de>; Wed, 13 Apr 2022 09:43:53 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 820691123CB;
-	Wed, 13 Apr 2022 07:31:39 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 2B19A10FCC2;
+	Wed, 13 Apr 2022 07:43:50 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mailgw02.mediatek.com (unknown [210.61.82.184])
- by gabe.freedesktop.org (Postfix) with ESMTPS id A599F1123CB
- for <dri-devel@lists.freedesktop.org>; Wed, 13 Apr 2022 07:31:37 +0000 (UTC)
-X-UUID: eb95d7c3a1684443be2db332da7ebe50-20220413
-X-UUID: eb95d7c3a1684443be2db332da7ebe50-20220413
-Received: from mtkexhb01.mediatek.inc [(172.21.101.102)] by
- mailgw02.mediatek.com (envelope-from <ck.hu@mediatek.com>)
- (Generic MTA with TLSv1.2 ECDHE-RSA-AES256-SHA384 256/256)
- with ESMTP id 1754399769; Wed, 13 Apr 2022 15:31:33 +0800
-Received: from mtkexhb01.mediatek.inc (172.21.101.102) by
- mtkmbs10n1.mediatek.inc (172.21.101.34) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_CBC_SHA384) id
- 15.2.792.15; Wed, 13 Apr 2022 15:31:32 +0800
-Received: from mtkcas11.mediatek.inc (172.21.101.40) by mtkexhb01.mediatek.inc
- (172.21.101.102) with Microsoft SMTP Server (TLS) id 15.0.1497.2;
- Wed, 13 Apr 2022 15:31:31 +0800
-Received: from mtksdccf07 (172.21.84.99) by mtkcas11.mediatek.inc
- (172.21.101.73) with Microsoft SMTP Server id 15.0.1497.2 via Frontend
- Transport; Wed, 13 Apr 2022 15:31:31 +0800
-Message-ID: <b1edb995f5dba2f8e313192a79cfc0972b7c832f.camel@mediatek.com>
-Subject: Re: [PATCH v4, 2/4] drm/mediatek: Separate poweron/poweroff from
- enable/disable and define new funcs
-From: CK Hu <ck.hu@mediatek.com>
-To: <xinlei.lee@mediatek.com>, <chunkuang.hu@kernel.org>,
- <p.zabel@pengutronix.de>, <airlied@linux.ie>, <daniel@ffwll.ch>,
- <matthias.bgg@gmail.com>, <rex-bc.chen@mediatek.com>
-Date: Wed, 13 Apr 2022 15:31:31 +0800
-In-Reply-To: <1649644308-8455-3-git-send-email-xinlei.lee@mediatek.com>
-References: <1649644308-8455-1-git-send-email-xinlei.lee@mediatek.com>
- <1649644308-8455-3-git-send-email-xinlei.lee@mediatek.com>
-Content-Type: text/plain; charset="UTF-8"
-X-Mailer: Evolution 3.28.5-0ubuntu0.18.04.2 
+Received: from mx1.molgen.mpg.de (mx3.molgen.mpg.de [141.14.17.11])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 6A1DB10FB9A;
+ Wed, 13 Apr 2022 07:43:48 +0000 (UTC)
+Received: from [192.168.0.2] (ip5f5ae908.dynamic.kabel-deutschland.de
+ [95.90.233.8])
+ (using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
+ key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
+ (No client certificate requested) (Authenticated sender: pmenzel)
+ by mx.molgen.mpg.de (Postfix) with ESMTPSA id 9BE2661EA192C;
+ Wed, 13 Apr 2022 09:43:46 +0200 (CEST)
+Message-ID: <d4ba3998-34aa-86d2-bde9-bc6ae9d8d08d@molgen.mpg.de>
+Date: Wed, 13 Apr 2022 09:43:46 +0200
 MIME-Version: 1.0
-Content-Transfer-Encoding: 7bit
-X-MTK: N
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.8.0
+Subject: Re: [PATCHv4] drm/amdgpu: disable ASPM on Intel Alder Lake based
+ systems
+Content-Language: en-US
+To: Richard Gong <richard.gong@amd.com>
+References: <20220412215000.897344-1-richard.gong@amd.com>
+From: Paul Menzel <pmenzel@molgen.mpg.de>
+In-Reply-To: <20220412215000.897344-1-richard.gong@amd.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -56,148 +45,104 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: jitao.shi@mediatek.com, linux-kernel@vger.kernel.org,
- dri-devel@lists.freedesktop.org,
- Project_Global_Chrome_Upstream_Group@mediatek.com,
- linux-mediatek@lists.infradead.org, linux-arm-kernel@lists.infradead.org
+Cc: kernel test robot <lkp@intel.com>, airlied@linux.ie, xinhui.pan@amd.com,
+ linux-kernel@vger.kernel.org, amd-gfx@lists.freedesktop.org,
+ dri-devel@lists.freedesktop.org, alexander.deucher@amd.com,
+ christian.koenig@amd.com, mario.limonciello@amd.com
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi, Xinlei:
+Dear Richard,
 
-On Mon, 2022-04-11 at 10:31 +0800, xinlei.lee@mediatek.com wrote:
-> From: Jitao Shi <jitao.shi@mediatek.com>
+
+Thank you for sending out v4.
+
+Am 12.04.22 um 23:50 schrieb Richard Gong:
+> Active State Power Management (ASPM) feature is enabled since kernel 5.14.
+> There are some AMD GFX cards (such as WX3200 and RX640) that won't work
+> with ASPM-enabled Intel Alder Lake based systems. Using these GFX cards as
+> video/display output, Intel Alder Lake based systems will hang during
+> suspend/resume.
+
+I am still not clear, what “hang during suspend/resume” means. I guess 
+suspending works fine? During resume (S3 or S0ix?), where does it hang? 
+The system is functional, but there are only display problems?
+
+> The issue was initially reported on one system (Dell Precision 3660 with
+> BIOS version 0.14.81), but was later confirmed to affect at least 4 Alder
+> Lake based systems.
 > 
-> In order to match the changes of "Use the drm_panel_bridge API",
-> the poweron/poweroff of dsi is extracted from enable/disable and
-> defined as new funcs (pre_enable/post_disable).
+> Add extra check to disable ASPM on Intel Alder Lake based systems.
 > 
-> Fixes: 2dd8075d2185 ("drm/mediatek: mtk_dsi: Use the drm_panel_bridge
-> API")
-> 
-> Signed-off-by: Jitao Shi <jitao.shi@mediatek.com>
-> Signed-off-by: Xinlei Lee <xinlei.lee@mediatek.com>
+> Fixes: 0064b0ce85bb ("drm/amd/pm: enable ASPM by default")
+> Link: https://gitlab.freedesktop.org/drm/amd/-/issues/1885
+> Reported-by: kernel test robot <lkp@intel.com>
+
+This tag is a little confusing. Maybe clarify that it was for an issue 
+in a previous patch iteration?
+
+> Signed-off-by: Richard Gong <richard.gong@amd.com>
 > ---
->  drivers/gpu/drm/mediatek/mtk_dsi.c | 51 +++++++++++++++++++---------
-> --
->  1 file changed, 32 insertions(+), 19 deletions(-)
+> v4: s/CONFIG_X86_64/CONFIG_X86
+>      enhanced check logic
+> v3: s/intel_core_asom_chk/aspm_support_quirk_check
+>      correct build error with W=1 option
+> v2: correct commit description
+>      move the check from chip family to problematic platform
+> ---
+>   drivers/gpu/drm/amd/amdgpu/vi.c | 17 ++++++++++++++++-
+>   1 file changed, 16 insertions(+), 1 deletion(-)
 > 
-> diff --git a/drivers/gpu/drm/mediatek/mtk_dsi.c
-> b/drivers/gpu/drm/mediatek/mtk_dsi.c
-> index 262c027d8c2f..cf76c53a1af6 100644
-> --- a/drivers/gpu/drm/mediatek/mtk_dsi.c
-> +++ b/drivers/gpu/drm/mediatek/mtk_dsi.c
-> @@ -679,16 +679,6 @@ static void mtk_dsi_poweroff(struct mtk_dsi
-> *dsi)
->  	if (--dsi->refcount != 0)
->  		return;
->  
-> -	/*
-> -	 * mtk_dsi_stop() and mtk_dsi_start() is asymmetric, since
-> -	 * mtk_dsi_stop() should be called after
-> mtk_drm_crtc_atomic_disable(),
-> -	 * which needs irq for vblank, and mtk_dsi_stop() will disable
-> irq.
-> -	 * mtk_dsi_start() needs to be called in
-> mtk_output_dsi_enable(),
-> -	 * after dsi is fully set.
-> -	 */
-> -	mtk_dsi_stop(dsi);
-> -
-> -	mtk_dsi_switch_to_cmd_mode(dsi, VM_DONE_INT_FLAG, 500);
->  	mtk_dsi_reset_engine(dsi);
->  	mtk_dsi_lane0_ulp_mode_enter(dsi);
->  	mtk_dsi_clk_ulp_mode_enter(dsi);
-> @@ -703,17 +693,9 @@ static void mtk_dsi_poweroff(struct mtk_dsi
-> *dsi)
->  
->  static void mtk_output_dsi_enable(struct mtk_dsi *dsi)
->  {
-> -	int ret;
-> -
->  	if (dsi->enabled)
->  		return;
->  
-> -	ret = mtk_dsi_poweron(dsi);
-> -	if (ret < 0) {
-> -		DRM_ERROR("failed to power on dsi\n");
-> -		return;
-> -	}
-> -
->  	mtk_dsi_set_mode(dsi);
->  	mtk_dsi_clk_hs_mode(dsi, 1);
->  
-> @@ -727,7 +709,16 @@ static void mtk_output_dsi_disable(struct
-> mtk_dsi *dsi)
->  	if (!dsi->enabled)
->  		return;
->  
-> -	mtk_dsi_poweroff(dsi);
-> +	/*
-> +	 * mtk_dsi_stop() and mtk_dsi_start() is asymmetric, since
-> +	 * mtk_dsi_stop() should be called after
-> mtk_drm_crtc_atomic_disable(),
-> +	 * which needs irq for vblank, and mtk_dsi_stop() will disable
-> irq.
-> +	 * mtk_dsi_start() needs to be called in
-> mtk_output_dsi_enable(),
-> +	 * after dsi is fully set.
-> +	 */
-> +	mtk_dsi_stop(dsi);
+> diff --git a/drivers/gpu/drm/amd/amdgpu/vi.c b/drivers/gpu/drm/amd/amdgpu/vi.c
+> index 039b90cdc3bc..b33e0a9bee65 100644
+> --- a/drivers/gpu/drm/amd/amdgpu/vi.c
+> +++ b/drivers/gpu/drm/amd/amdgpu/vi.c
+> @@ -81,6 +81,10 @@
+>   #include "mxgpu_vi.h"
+>   #include "amdgpu_dm.h"
+>   
+> +#if IS_ENABLED(CONFIG_X86)
+> +#include <asm/intel-family.h>
+> +#endif
 > +
-> +	mtk_dsi_switch_to_cmd_mode(dsi, VM_DONE_INT_FLAG, 500);
->  
->  	dsi->enabled = false;
->  }
-> @@ -762,13 +753,35 @@ static void mtk_dsi_bridge_enable(struct
-> drm_bridge *bridge)
->  {
->  	struct mtk_dsi *dsi = bridge_to_dsi(bridge);
->  
-> +	if (dsi->refcount == 0)
-> +		return;
-> +
->  	mtk_output_dsi_enable(dsi);
->  }
->  
-> +static void mtk_dsi_bridge_pre_enable(struct drm_bridge *bridge)
+>   #define ixPCIE_LC_L1_PM_SUBSTATE	0x100100C6
+>   #define PCIE_LC_L1_PM_SUBSTATE__LC_L1_SUBSTATES_OVERRIDE_EN_MASK	0x00000001L
+>   #define PCIE_LC_L1_PM_SUBSTATE__LC_PCI_PM_L1_2_OVERRIDE_MASK	0x00000002L
+> @@ -1134,13 +1138,24 @@ static void vi_enable_aspm(struct amdgpu_device *adev)
+>   		WREG32_PCIE(ixPCIE_LC_CNTL, data);
+>   }
+>   
+> +static bool aspm_support_quirk_check(void)
 > +{
-> +	struct mtk_dsi *dsi = bridge_to_dsi(bridge);
-> +	int ret;
+> +	if (IS_ENABLED(CONFIG_X86)) {
+> +		struct cpuinfo_x86 *c = &cpu_data(0);
 > +
-> +	ret = mtk_dsi_poweron(dsi);
-> +	if (ret < 0)
-> +		DRM_ERROR("failed to power on dsi\n");
+> +		return !(c->x86 == 6 && c->x86_model == INTEL_FAM6_ALDERLAKE);
+> +	}
+> +
+> +	return true;
 > +}
 > +
-> +static void mtk_dsi_bridge_post_disable(struct drm_bridge *bridge)
-> +{
-> +	struct mtk_dsi *dsi = bridge_to_dsi(bridge);
-> +
-> +	mtk_dsi_poweroff(dsi);
-> +}
-> +
->  static const struct drm_bridge_funcs mtk_dsi_bridge_funcs = {
->  	.attach = mtk_dsi_bridge_attach,
->  	.disable = mtk_dsi_bridge_disable,
->  	.enable = mtk_dsi_bridge_enable,
-> +	.pre_enable = mtk_dsi_bridge_pre_enable,
+>   static void vi_program_aspm(struct amdgpu_device *adev)
+>   {
+>   	u32 data, data1, orig;
+>   	bool bL1SS = false;
+>   	bool bClkReqSupport = true;
+>   
+> -	if (!amdgpu_device_should_use_aspm(adev))
+> +	if (!amdgpu_device_should_use_aspm(adev) || !aspm_support_quirk_check())
+>   		return;
 
-The flow looks good to me, but according to [1], pre_enable is
-deprecated. Use atomic_pre_enable instead.
+Can users still forcefully enable ASPM with the parameter `amdgpu.aspm`?
 
-[1] 
-https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git/tree/include/drm/drm_bridge.h?h=v5.18-rc2#n235
+>   
+>   	if (adev->flags & AMD_IS_APU ||
+
+If I remember correctly, there were also newer cards, where ASPM worked 
+with Intel Alder Lake, right? Can only the problematic generations for 
+WX3200 and RX640 be excluded from ASPM?
 
 
-> +	.post_disable = mtk_dsi_bridge_post_disable,
+Kind regards,
 
-Ditto.
-
-Regards,
-CK
-
->  	.mode_set = mtk_dsi_bridge_mode_set,
->  };
->  
-
+Paul
