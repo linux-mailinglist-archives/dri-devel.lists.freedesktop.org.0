@@ -2,82 +2,66 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7A7144FFD65
-	for <lists+dri-devel@lfdr.de>; Wed, 13 Apr 2022 20:02:41 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 20EB04FFD81
+	for <lists+dri-devel@lfdr.de>; Wed, 13 Apr 2022 20:09:08 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 413D710E174;
-	Wed, 13 Apr 2022 18:02:39 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 757A010E170;
+	Wed, 13 Apr 2022 18:09:05 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from us-smtp-delivery-124.mimecast.com
- (us-smtp-delivery-124.mimecast.com [170.10.129.124])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 4AE5C10E174
- for <dri-devel@lists.freedesktop.org>; Wed, 13 Apr 2022 18:02:38 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1649872957;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
+Received: from smtp-out1.suse.de (smtp-out1.suse.de [195.135.220.28])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id B2F5510E170
+ for <dri-devel@lists.freedesktop.org>; Wed, 13 Apr 2022 18:09:03 +0000 (UTC)
+Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+ key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
+ (No client certificate requested)
+ by smtp-out1.suse.de (Postfix) with ESMTPS id D27642160D;
+ Wed, 13 Apr 2022 18:09:01 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+ t=1649873341; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+ mime-version:mime-version:content-type:content-type:
  in-reply-to:in-reply-to:references:references;
- bh=nJWkT3KWnGWrqppu3kqAfeI4Ej96CICMiq977YBg7eE=;
- b=BYFpyLuQD5jqUQkobcLvRckvRgVKrFSSHbYqWXGXOrFWHVsg3vPjPmCVk12JdKTV/cW4Jj
- 9lHtyHTD+RwvkDwlNoLQT06l7/vDhX2OIEAkrPMiTwGPfS2/n86wd7GVkGHAhcUDrTFVTy
- s0KUVuSLwZv/Suc0y0KXYwABrZnJYGo=
-Received: from mail-wr1-f69.google.com (mail-wr1-f69.google.com
- [209.85.221.69]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-275-t_eZg6MIP1WD0cXJfzFlTQ-1; Wed, 13 Apr 2022 14:02:30 -0400
-X-MC-Unique: t_eZg6MIP1WD0cXJfzFlTQ-1
-Received: by mail-wr1-f69.google.com with SMTP id
- t15-20020adfdc0f000000b001ef93643476so571738wri.2
- for <dri-devel@lists.freedesktop.org>; Wed, 13 Apr 2022 11:02:28 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
- :content-language:to:cc:references:from:in-reply-to
- :content-transfer-encoding;
- bh=nJWkT3KWnGWrqppu3kqAfeI4Ej96CICMiq977YBg7eE=;
- b=bnfiUPFbN4XPeI25l/MfCeuVqcP7JZUy9IvoXC44noYmDaTVVp238+BM0azTyOpQlg
- BTWC622IOLzUlsM7wKEHy2qZeLHTuWHyx+EPvBHzmQWXZSbs8K1TnpRaaSOYsyEdbGKa
- yBDw1YxD8Gqpwe4VEWI/0W8nCBjadqXwekY2ft3PCdYt/fYr4JxceEIn49xN2hrqKB7E
- QmXsmwUzq2ig5pNMenAE7y6HnC66Qt/B+jZqH1eWCJd+ifnCWVb+qCEUiblA2Aw32Sao
- dYBxYLDA4GqfYjhOf/VzuhFtLSB3h0zdgPGJxcAlWE/uilfJp+l/si6XhTBxrLhbWn5G
- 57Vw==
-X-Gm-Message-State: AOAM533n8SvJsqie+m5pPZ+vC49u6Iy93Ug6MtaaEUok4NEPIgo2MISx
- /MR8tcDZnCwEdh86tgK+1c6QsXFD42u+HUg3jLira4oLvYQjWvmJerkwXyDZImUuyMPuxcbF3li
- rd+NBBA7/53Lat9H7PY/m4dWopSVd
-X-Received: by 2002:a5d:59a3:0:b0:207:b776:7924 with SMTP id
- p3-20020a5d59a3000000b00207b7767924mr54738wrr.363.1649872947500; 
- Wed, 13 Apr 2022 11:02:27 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJzvH1Xn8NYsnwMxq76QG9Rz4vg2r2qKIf9mBmAj8qsiBdVFiqoPbb1VQsA9a3+gGAnK5+WoNg==
-X-Received: by 2002:a5d:59a3:0:b0:207:b776:7924 with SMTP id
- p3-20020a5d59a3000000b00207b7767924mr54720wrr.363.1649872947260; 
- Wed, 13 Apr 2022 11:02:27 -0700 (PDT)
-Received: from [192.168.1.102] ([92.176.231.205])
- by smtp.gmail.com with ESMTPSA id
- t12-20020a05600001cc00b00207aac5d595sm6816744wrx.38.2022.04.13.11.02.26
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Wed, 13 Apr 2022 11:02:26 -0700 (PDT)
-Message-ID: <e76a4599-8644-15f6-5d06-288caaa687c9@redhat.com>
-Date: Wed, 13 Apr 2022 20:02:25 +0200
+ bh=/xSqIm15UUHBxwwqMSdhCX8Bdk86MUM3KIMa8CaDG6o=;
+ b=GHT6yjiL6oakbG0GDeZiJW4qlUvmJSY3TwhqfEgC2Dz+JFlZuoWRlT3A3MopCWeRd6pnFn
+ eejn6y3Od93dT/I2iuxaVz4LHIMzGDi4tkCeLw9No26T9CUtBXdwXyVbTjpuarC6kS6TpA
+ xuyVE1JGM8fnpxQr1CqtHgFnxPsy6Bg=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+ s=susede2_ed25519; t=1649873341;
+ h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+ mime-version:mime-version:content-type:content-type:
+ in-reply-to:in-reply-to:references:references;
+ bh=/xSqIm15UUHBxwwqMSdhCX8Bdk86MUM3KIMa8CaDG6o=;
+ b=PH+Ba93kHiNgLZ5NuQlHIApJMDAoFGIAuXnDb4knpTfa8d0yhISaibOc1O3e4jLw38OgtT
+ /y7g66r1j7jCVWCw==
+Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+ key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
+ (No client certificate requested)
+ by imap2.suse-dmz.suse.de (Postfix) with ESMTPS id 8AA0713AB8;
+ Wed, 13 Apr 2022 18:09:01 +0000 (UTC)
+Received: from dovecot-director2.suse.de ([192.168.254.65])
+ by imap2.suse-dmz.suse.de with ESMTPSA id Dt58IL0RV2ILbgAAMHmgww
+ (envelope-from <tzimmermann@suse.de>); Wed, 13 Apr 2022 18:09:01 +0000
+Message-ID: <9d4599d9-e094-e7dd-5b91-282c2679aae4@suse.de>
+Date: Wed, 13 Apr 2022 20:09:00 +0200
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.7.0
-Subject: Re: [PATCH 1/2] of: Create platform devices for OF framebuffers
-To: Thomas Zimmermann <tzimmermann@suse.de>, Rob Herring <robh+dt@kernel.org>
-References: <20220413092454.1073-1-tzimmermann@suse.de>
- <20220413092454.1073-2-tzimmermann@suse.de>
- <CAL_JsqK4oT47Q=XFTZ0a=g3-DiB1JsW7_j9M1qRzpeahhz0muA@mail.gmail.com>
- <b31df06c-6cce-37dd-5ec1-661fdc8151da@suse.de>
-From: Javier Martinez Canillas <javierm@redhat.com>
-In-Reply-To: <b31df06c-6cce-37dd-5ec1-661fdc8151da@suse.de>
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=javierm@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
+ Thunderbird/91.6.1
+Subject: Re: [PATCH 2/2] fbdev: Remove hot-unplug workaround for framebuffers
+ without device
 Content-Language: en-US
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+To: Daniel Vetter <daniel@ffwll.ch>,
+ Javier Martinez Canillas <javierm@redhat.com>
+References: <20220413092454.1073-1-tzimmermann@suse.de>
+ <20220413092454.1073-3-tzimmermann@suse.de>
+ <2e183cc9-603d-f038-54aa-5601f11b0484@redhat.com>
+ <Ylb0316ABOhOe1Rb@phenom.ffwll.local>
+From: Thomas Zimmermann <tzimmermann@suse.de>
+In-Reply-To: <Ylb0316ABOhOe1Rb@phenom.ffwll.local>
+Content-Type: multipart/signed; micalg=pgp-sha256;
+ protocol="application/pgp-signature";
+ boundary="------------xBs0UgV8K6Ld1iE06EpBr7qw"
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -90,44 +74,120 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: devicetree@vger.kernel.org,
- Linux Fbdev development list <linux-fbdev@vger.kernel.org>,
- Sam Ravnborg <sam@ravnborg.org>, Frank Rowand <frowand.list@gmail.com>,
- Helge Deller <deller@gmx.de>, dri-devel <dri-devel@lists.freedesktop.org>,
- Paul Mackerras <paulus@samba.org>, Michael Ellerman <mpe@ellerman.id.au>,
- linuxppc-dev <linuxppc-dev@lists.ozlabs.org>,
- Guenter Roeck <linux@roeck-us.net>
+Cc: devicetree@vger.kernel.org, linux-fbdev@vger.kernel.org, sam@ravnborg.org,
+ frowand.list@gmail.com, deller@gmx.de, dri-devel@lists.freedesktop.org,
+ robh+dt@kernel.org, paulus@samba.org, mpe@ellerman.id.au,
+ linuxppc-dev@lists.ozlabs.org, linux@roeck-us.net
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 4/13/22 19:58, Thomas Zimmermann wrote:
-> Hi
+This is an OpenPGP/MIME signed message (RFC 4880 and 3156)
+--------------xBs0UgV8K6Ld1iE06EpBr7qw
+Content-Type: multipart/mixed; boundary="------------XNH9RfXI1PyYuHJ0PkMtgwSX";
+ protected-headers="v1"
+From: Thomas Zimmermann <tzimmermann@suse.de>
+To: Daniel Vetter <daniel@ffwll.ch>,
+ Javier Martinez Canillas <javierm@redhat.com>
+Cc: devicetree@vger.kernel.org, linux-fbdev@vger.kernel.org,
+ frowand.list@gmail.com, deller@gmx.de, linuxppc-dev@lists.ozlabs.org,
+ dri-devel@lists.freedesktop.org, robh+dt@kernel.org, paulus@samba.org,
+ mpe@ellerman.id.au, sam@ravnborg.org, linux@roeck-us.net
+Message-ID: <9d4599d9-e094-e7dd-5b91-282c2679aae4@suse.de>
+Subject: Re: [PATCH 2/2] fbdev: Remove hot-unplug workaround for framebuffers
+ without device
+References: <20220413092454.1073-1-tzimmermann@suse.de>
+ <20220413092454.1073-3-tzimmermann@suse.de>
+ <2e183cc9-603d-f038-54aa-5601f11b0484@redhat.com>
+ <Ylb0316ABOhOe1Rb@phenom.ffwll.local>
+In-Reply-To: <Ylb0316ABOhOe1Rb@phenom.ffwll.local>
 
-[snip]
+--------------XNH9RfXI1PyYuHJ0PkMtgwSX
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: base64
 
->>>
->>>          /* Populate everything else. */
->>>          of_platform_default_populate(NULL, NULL, NULL);
->>
->> I'm pretty sure it's just this call that's the problem for PPC though
->> none of the above existed when adding this caused a regression. Can we
->> remove the ifdef and just make this call conditional on
->> !IS_ENABLED(CONFIG_PPC).
-> 
-> Together with the changes in of_platform_populate_framebuffers(), the 
-> code is more or less an "if-else" depending on PPC. I'll drop 
-> of_platform_populate_framebuffers() from the patch and make a separate 
-> implementation of of_platform_default_populate_init for PPC. Seems like 
-> the easiest solution to me.
->
+SGkNCg0KQW0gMTMuMDQuMjIgdW0gMTg6MDUgc2NocmllYiBEYW5pZWwgVmV0dGVyOg0KPiBP
+biBXZWQsIEFwciAxMywgMjAyMiBhdCAxMjo1MDo1MFBNICswMjAwLCBKYXZpZXIgTWFydGlu
+ZXogQ2FuaWxsYXMgd3JvdGU6DQo+PiBPbiA0LzEzLzIyIDExOjI0LCBUaG9tYXMgWmltbWVy
+bWFubiB3cm90ZToNCj4+PiBBIHdvcmthcm91bmQgbWFrZXMgZmJkZXYgaG90LXVucGx1Z2dp
+bmcgd29yayBmb3IgZnJhbWVidWZmZXJzIHdpdGhvdXQNCj4+PiBkZXZpY2UuIFRoZSBvbmx5
+IHVzZXIgZm9yIHRoaXMgZmVhdHVyZSB3YXMgb2ZmYi4gQXMgZWFjaCBPRiBmcmFtZWJ1ZmZl
+cg0KPj4+IG5vdyBoYXMgYW4gYXNzb2NpYXRlZCBwbGF0Zm9ybSBkZXZpY2UsIHRoZSB3b3Jr
+YXJvdW5kIGlzIG5vIGxvbmdlcg0KPj4+IG5lZWRlZC4gUmVtb3ZlIGl0LiBFZmZlY3RpdmVs
+eSByZXZlcnRzIGNvbW1pdCAwZjUyNTI4OWZmMGQgKCJmYmRldjogRml4DQo+Pj4gdW5yZWdp
+c3RlcmluZyBvZiBmcmFtZWJ1ZmZlcnMgd2l0aG91dCBkZXZpY2UiKS4NCj4+Pg0KPj4+IFNp
+Z25lZC1vZmYtYnk6IFRob21hcyBaaW1tZXJtYW5uIDx0emltbWVybWFubkBzdXNlLmRlPg0K
+Pj4+IC0tLQ0KPj4+ICAgZHJpdmVycy92aWRlby9mYmRldi9jb3JlL2ZibWVtLmMgfCA5ICst
+LS0tLS0tLQ0KPj4+ICAgMSBmaWxlIGNoYW5nZWQsIDEgaW5zZXJ0aW9uKCspLCA4IGRlbGV0
+aW9ucygtKQ0KPj4+DQo+Pj4gZGlmZiAtLWdpdCBhL2RyaXZlcnMvdmlkZW8vZmJkZXYvY29y
+ZS9mYm1lbS5jIGIvZHJpdmVycy92aWRlby9mYmRldi9jb3JlL2ZibWVtLmMNCj4+PiBpbmRl
+eCBiYzZlZDc1MGU5MTUuLmJkZDAwZDM4MWJiYyAxMDA2NDQNCj4+PiAtLS0gYS9kcml2ZXJz
+L3ZpZGVvL2ZiZGV2L2NvcmUvZmJtZW0uYw0KPj4+ICsrKyBiL2RyaXZlcnMvdmlkZW8vZmJk
+ZXYvY29yZS9mYm1lbS5jDQo+Pj4gQEAgLTE1NzksMTQgKzE1NzksNyBAQCBzdGF0aWMgdm9p
+ZCBkb19yZW1vdmVfY29uZmxpY3RpbmdfZnJhbWVidWZmZXJzKHN0cnVjdCBhcGVydHVyZXNf
+c3RydWN0ICphLA0KPj4+ICAgCQkJICogSWYgaXQncyBub3QgYSBwbGF0Zm9ybSBkZXZpY2Us
+IGF0IGxlYXN0IHByaW50IGEgd2FybmluZy4gQQ0KPj4+ICAgCQkJICogZml4IHdvdWxkIGFk
+ZCBjb2RlIHRvIHJlbW92ZSB0aGUgZGV2aWNlIGZyb20gdGhlIHN5c3RlbS4NCj4+PiAgIAkJ
+CSAqLw0KPj4+IC0JCQlpZiAoIWRldmljZSkgew0KPj4+IC0JCQkJLyogVE9ETzogUmVwcmVz
+ZW50IGVhY2ggT0YgZnJhbWVidWZmZXIgYXMgaXRzIG93bg0KPj4+IC0JCQkJICogZGV2aWNl
+IGluIHRoZSBkZXZpY2UgaGllcmFyY2h5LiBGb3Igbm93LCBvZmZiDQo+Pj4gLQkJCQkgKiBk
+b2Vzbid0IGhhdmUgc3VjaCBhIGRldmljZSwgc28gdW5yZWdpc3RlciB0aGUNCj4+PiAtCQkJ
+CSAqIGZyYW1lYnVmZmVyIGFzIGJlZm9yZSB3aXRob3V0IHdhcm5pbmcuDQo+Pj4gLQkJCQkg
+Ki8NCj4+PiAtCQkJCWRvX3VucmVnaXN0ZXJfZnJhbWVidWZmZXIocmVnaXN0ZXJlZF9mYltp
+XSk7DQo+Pg0KPj4gTWF5YmUgd2UgY291bGQgc3RpbGwga2VlcCB0aGlzIGZvciBhIGNvdXBs
+ZSBvZiByZWxlYXNlcyBidXQgd2l0aCBhIGJpZw0KPj4gd2FybmluZyB0aGF0J3Mgbm90IHN1
+cHBvcnRlZCBpbiBjYXNlIHRoZXJlIGFyZSBvdXQtb2YtdHJlZSBkcml2ZXJzIG91dA0KPj4g
+dGhlcmUgdGhhdCBzdGlsbCBkbyB0aGlzID8NCj4+DQo+PiBPciBhdCBsZWFzdCBhIHdhcm5p
+bmcgaWYgdGhlIGRvX3VucmVnaXN0ZXJfZnJhbWVidWZmZXIoKSBjYWxsIGlzIHJlbW92ZWQu
+DQo+IA0KPiBZZWFoIGR5aW5nIHdoaWxlIGhvbGRpbmcgY29uc29sZV9sb2NrIGlzbid0IGZ1
+biwgYW5kIG5vdCBoYXZpbmcgYSBXQVJOX09ODQo+ICsgYmFpbC1vdXQgY29kZSBwcmV0dHkg
+bXVjaCBmb3JjZXMgYnVnIHJlcG9ydGVycyB0byBkbyBhIGJpc2VjdCBoZXJlIHRvDQo+IGdp
+dmUgdXMgc29tZXRoaW5nIG1vcmUgdGhhbiAibWFjaGluZSBkaWVzIGF0IGJvb3Qgd2l0aCBu
+byBtZXNzYWdlcyIuDQo+IA0KPiBJJ2QganVzdCBvdXRyaWdodCBrZWVwIHRoZSBXQVJOX09O
+IGhlcmUgZm9yIDEtMiB5ZWFycyBldmVuIHRvIHJlYWxseSBtYWtlDQo+IHN1cmUgd2UgZ290
+IGFsbCB0aGUgYnVnIHJlcG9ydHMsIHNpbmNlIG9mdGVuIHRoZXNlIG9sZGVyIG1hY2hpbmVz
+IG9ubHkNCj4gdXBkYXRlIG9udG8gTFRTIHJlbGVhc2VzLg0KDQpJZiB0aGF0J3Mgd2hhdCB0
+aGUgY29uc2VudCBpcywgSSdsbCBnbyB3aXRoIGl0Lg0KDQpJJ20ganVzdCBub3Qgc3VyZSBp
+ZiB3ZSB0YWxrIGFib3V0IHRoZSBzYW1lIHByb2JsZW0uIG9mZmIgZGlkbid0IGhhdmUgYSAN
+CnBsYXRmb3JtIGRldmljZSwgc28gd2UgcmVjZW50bHkgYWRkZWQgdGhpcyB3b3JrYXJvdW5k
+IHdpdGggJ2lmIA0KKCFkZXZpY2UpJy4gIEFsbCB0aGUgb3RoZXIgZmJkZXYgZHJpdmVycyBo
+YXZlIGEgcGxhdGZvcm0gZGV2aWNlOyBhbmQgDQphbnl0aGluZyBlbHNlIHRoYXQgY291bGQg
+ZmFpbCBpcyBvdXQtb2YtdHJlZS4gV2UgZG9uJ3QgcmVhbGx5IGNhcmUgYWJvdXQgDQp0aG9z
+ZSBBRkFJSy4NCg0KV2l0aCBvZmZiIGNvbnZlcnRlZCwgd2UgY291bGQgcHJhY3RpY2FsbHkg
+cmVtb3ZlIGFsbCBvZiB0aGUgY2hlY2tzIGhlcmUgDQphbmQgY2FsbCBwbGF0Zm9ybV9kZXZp
+Y2VfdW5yZWdpc3RlcigpIHVuY29uZGl0aW9uYWxseS4NCg0KQmVzdCByZWdhcmRzDQpUaG9t
+YXMNCg0KPiANCj4gQW5kIGl0IG5lZWRzIHRvIGJlIGEgV0FSTl9PTiArIGJhaWwgb3V0IHNp
+bmNlIEJVR19PTiBpcyBhcyBiYWQgYXMganVzdA0KPiBvb3BzaW5nLg0KPiAtRGFuaWVsDQo+
+IA0KPj4NCj4+IFJlZ2FyZGxlc3Mgb2Ygd2hhdCB5b3UgY2hvc2UgdG8gZG8sIHRoZSBwYXRj
+aCBsb29rcyBnb29kIHRvIG1lLg0KPj4NCj4+IFJldmlld2VkLWJ5OiBKYXZpZXIgTWFydGlu
+ZXogQ2FuaWxsYXMgPGphdmllcm1AcmVkaGF0LmNvbT4NCj4+DQo+PiAtLSANCj4+IEJlc3Qg
+cmVnYXJkcywNCj4+DQo+PiBKYXZpZXIgTWFydGluZXogQ2FuaWxsYXMNCj4+IExpbnV4IEVu
+Z2luZWVyaW5nDQo+PiBSZWQgSGF0DQo+Pg0KPiANCg0KLS0gDQpUaG9tYXMgWmltbWVybWFu
+bg0KR3JhcGhpY3MgRHJpdmVyIERldmVsb3Blcg0KU1VTRSBTb2Z0d2FyZSBTb2x1dGlvbnMg
+R2VybWFueSBHbWJIDQpNYXhmZWxkc3RyLiA1LCA5MDQwOSBOw7xybmJlcmcsIEdlcm1hbnkN
+CihIUkIgMzY4MDksIEFHIE7DvHJuYmVyZykNCkdlc2Now6RmdHNmw7xocmVyOiBJdm8gVG90
+ZXYNCg==
 
-That sounds reasonable to me as well. Feel free to retain my R-B tag
-when posting v2.
+--------------XNH9RfXI1PyYuHJ0PkMtgwSX--
 
--- 
-Best regards,
+--------------xBs0UgV8K6Ld1iE06EpBr7qw
+Content-Type: application/pgp-signature; name="OpenPGP_signature.asc"
+Content-Description: OpenPGP digital signature
+Content-Disposition: attachment; filename="OpenPGP_signature"
 
-Javier Martinez Canillas
-Linux Engineering
-Red Hat
+-----BEGIN PGP SIGNATURE-----
 
+wsF5BAABCAAjFiEExndm/fpuMUdwYFFolh/E3EQov+AFAmJXEbwFAwAAAAAACgkQlh/E3EQov+BV
+7g//WLLPfVRsElxV0IpWC9EUSq2GXnKoXHDzuulQ5/3zyJLkgpx0aJUX3K3HFc5fxkISlCIYJQcO
+WgmT6r0Y7L5PqhHlIhocHuZgKUPRnKOsEfD0xhifyL5Cv7QGFhtdMBb85JEkeU2V3q/MNQ7BrLQV
+JaG5dl0xyE+FFcE7jSK0aLsLJTediZdxWZ27fiO3W54lPG7IEgwPKIRuUjMscWudISg/kDZ5h6Ez
+uoIdittCO3HUp0SUFoScEfpj2OwODYYfcTHy/B6BZEEI1NccWFPknwLAjyeTRxvpdj5EYthlGyKF
+gMOTABOCPWlCoWR7l9F6xtoaZzlEXSAmy7qEOPJzt2Dt2c69bOUJVDEE2nEiSaBZU1L52KfSIxEz
+9Dxy1F6isKBl+Vcy35alEJOPKuy9kgn3e05ptmb/kRSiHQulGq3rbyHSz3bovJcx8rHEutimfvpE
+IRK+7H+BsJWKkx3ChW2+wm23Wb3E5TqqizM1KR1Gu2VTFCLaiOy1ys7wBZAbd+RwYN0nB8NQlQ5I
+gznMTE6+NCugEsle+2KL41TUBKbRjGhFuuA3IkCnPQ0ShJB52QC9XwHqG9ePnYQGRJ2R0S7oCui3
+dAnQnR1sV4jvtRoE5Q/h6U71lC28Nzm7JAz+YfZWfwpBdRoFLnLuAJS77yxOgdIaQrG6BASANg3r
+EeM=
+=QIWW
+-----END PGP SIGNATURE-----
+
+--------------xBs0UgV8K6Ld1iE06EpBr7qw--
