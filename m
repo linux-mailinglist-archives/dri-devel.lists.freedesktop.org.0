@@ -1,60 +1,58 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8EE304FF36F
-	for <lists+dri-devel@lfdr.de>; Wed, 13 Apr 2022 11:25:11 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 91E834FF3A0
+	for <lists+dri-devel@lfdr.de>; Wed, 13 Apr 2022 11:35:43 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 5319A10FB44;
-	Wed, 13 Apr 2022 09:25:08 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 5E02510E44A;
+	Wed, 13 Apr 2022 09:35:39 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-ed1-x529.google.com (mail-ed1-x529.google.com
- [IPv6:2a00:1450:4864:20::529])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 59E7210F12C
- for <dri-devel@lists.freedesktop.org>; Wed, 13 Apr 2022 09:25:06 +0000 (UTC)
-Received: by mail-ed1-x529.google.com with SMTP id b24so1582786edu.10
- for <dri-devel@lists.freedesktop.org>; Wed, 13 Apr 2022 02:25:06 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ffwll.ch; s=google;
- h=date:from:to:cc:subject:message-id:references:mime-version
- :content-disposition:in-reply-to;
- bh=4a+KwZ9O7ePc1lJlI7Aul+JRsitXWR/8aN0R46dtP1g=;
- b=d5++MrZ49m3/7hfX8bHqQn1ZwneBnzCFt+huh+QmSz7czye923xn+t0niWJyEXc1N3
- RIa3RBWXx5nGU+w32dxGUWxGmwKkbF6+DK3s4yAJsyNubZIfHNWhqJ/Lnhj7bMzgJd2L
- ZKdW1p/lTN1EmOcTHz2cZ15LqxoIVRsaGybrU=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=x-gm-message-state:date:from:to:cc:subject:message-id:references
- :mime-version:content-disposition:in-reply-to;
- bh=4a+KwZ9O7ePc1lJlI7Aul+JRsitXWR/8aN0R46dtP1g=;
- b=Lq2OhyNPFtDtlSYhwyzbGq/kPGsNAIWTSSFwCauuWHqnrCXK3U7g0jQhtrfP/Mrv9m
- 4BL1LQy1RqTxBko/1pVp3MwnAIhrCwiSNnXsaxmmbnfFVI01xLPotp/+n3rWMi6GJ5Qk
- rG0AU5KTIpk1YHRdywdhpx2xeS9mpbfW71bSnC1rFdqU9p28mBTEXzkZcwn5KdX4MAYW
- tQ4o+u81xiXb8Mb4OSPhO/37zIXIWi1Tf8rasF41WNOtiFXKM9Dq5NsSWwplZw8KiS3c
- SUUkdduyZ/7KypLSnvzGDi+Y7+bpCoJe5gR0R5mBQFPuaocTZHAQO+HoGniswMQbp5zB
- rKaA==
-X-Gm-Message-State: AOAM5317UYfpdIOdE91yeAjmnIRmfhFQzZbFec/2xp5yfFvlm7uwHeAe
- UNeac8E3jmJ7GpgL2eMrXzwVuRyb2Vz+wuBA
-X-Google-Smtp-Source: ABdhPJxMfrNLcHwSkWqBAyaWOKHQCj1lJBLsPAFGNtXSvqojqiOSV5Tnb2nI+vJvSdN4FufjNogQEQ==
-X-Received: by 2002:aa7:db0f:0:b0:41d:7b44:2613 with SMTP id
- t15-20020aa7db0f000000b0041d7b442613mr14222034eds.126.1649841904607; 
- Wed, 13 Apr 2022 02:25:04 -0700 (PDT)
-Received: from phenom.ffwll.local ([2a02:168:57f4:0:efd0:b9e5:5ae6:c2fa])
- by smtp.gmail.com with ESMTPSA id
- gj3-20020a170906e10300b006e8ac161bcfsm1980889ejb.203.2022.04.13.02.25.03
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 13 Apr 2022 02:25:04 -0700 (PDT)
-Date: Wed, 13 Apr 2022 11:25:02 +0200
-From: Daniel Vetter <daniel@ffwll.ch>
-To: DRI Development <dri-devel@lists.freedesktop.org>
-Subject: Re: [PATCH] fbcon: Fix delayed takeover locking
-Message-ID: <YlaW7mq/LbHMN7AZ@phenom.ffwll.local>
-References: <20220413082128.348186-1-daniel.vetter@ffwll.ch>
+Received: from mga06.intel.com (mga06b.intel.com [134.134.136.31])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 8E61F10E138;
+ Wed, 13 Apr 2022 09:35:37 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+ t=1649842537; x=1681378537;
+ h=from:to:cc:subject:in-reply-to:references:date:
+ message-id:mime-version:content-transfer-encoding;
+ bh=MT1Kf7edS218qgu1PUr9mXSGIu5bS3fCzq8ZJBUhQT4=;
+ b=Lhnk/ynlFZSwPdOUratlwLW0vcSUsxEr3YpRFIXMAev668XfIWLJGgXb
+ Kh5iVYwzhw4/lisJ1I2N2lyf00LcHWd3v+EIapo2Y04ZUTZ8l9EcIZhco
+ OGRu4kencH+Y3bWrLqkcEaPsis15MNfvBKIgBI2PHJbcyXpBEyuCchGTb
+ ZUbTYo31WFeC1B6rBYq15J7u3ee1mv+2W3QsztjZl9kfiCId9J1+zYAx9
+ iptko6a1bajFKC8eIX0iEEoERjh4m5pGZp0pbM7aYtcoJZ80SRJGVKviT
+ ongPZinGqwub/nL6bQgFdBHV33Y04LgMGASMsM9DfJsduPIKQIKD/kISF g==;
+X-IronPort-AV: E=McAfee;i="6400,9594,10315"; a="323067113"
+X-IronPort-AV: E=Sophos;i="5.90,256,1643702400"; d="scan'208";a="323067113"
+Received: from orsmga008.jf.intel.com ([10.7.209.65])
+ by orsmga104.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 13 Apr 2022 02:31:13 -0700
+X-IronPort-AV: E=Sophos;i="5.90,256,1643702400"; d="scan'208";a="573192674"
+Received: from psoltysi-mobl.ger.corp.intel.com (HELO localhost)
+ ([10.249.149.160])
+ by orsmga008-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 13 Apr 2022 02:31:09 -0700
+From: Jani Nikula <jani.nikula@linux.intel.com>
+To: "Wang, Zhi A" <zhi.a.wang@intel.com>, Zhi Wang
+ <zhi.wang.linux@gmail.com>, "dri-devel@lists.freedesktop.org"
+ <dri-devel@lists.freedesktop.org>, "linux-kernel@vger.kernel.org"
+ <linux-kernel@vger.kernel.org>, "intel-gfx@lists.freedesktop.org"
+ <intel-gfx@lists.freedesktop.org>, "intel-gvt-dev@lists.freedesktop.org"
+ <intel-gvt-dev@lists.freedesktop.org>
+Subject: Re: [PATCH v9 1/3] i915/gvt: Separate the MMIO tracking table from
+ GVT-g
+In-Reply-To: <986b8ff0-d0de-437c-8a56-c54aafb6159a@intel.com>
+Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
+References: <20220407071945.72148-1-zhi.a.wang@intel.com>
+ <20220407071945.72148-2-zhi.a.wang@intel.com> <874k35541h.fsf@intel.com>
+ <986b8ff0-d0de-437c-8a56-c54aafb6159a@intel.com>
+Date: Wed, 13 Apr 2022 12:31:07 +0300
+Message-ID: <87h76xgwis.fsf@intel.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20220413082128.348186-1-daniel.vetter@ffwll.ch>
-X-Operating-System: Linux phenom 5.10.0-8-amd64 
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: quoted-printable
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -67,140 +65,128 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Du Cheng <ducheng2@gmail.com>,
- Tetsuo Handa <penguin-kernel@i-love.sakura.ne.jp>,
- Daniel Vetter <daniel.vetter@ffwll.ch>,
- Intel Graphics Development <intel-gfx@lists.freedesktop.org>,
- Zheyu Ma <zheyuma97@gmail.com>, Javier Martinez Canillas <javierm@redhat.com>,
- Matthew Wilcox <willy@infradead.org>, Nathan Chancellor <nathan@kernel.org>,
- Claudio Suarez <cssk@net-c.es>, Daniel Vetter <daniel.vetter@intel.com>,
- Thomas Zimmermann <tzimmermann@suse.de>,
- Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
- Geert Uytterhoeven <geert@linux-m68k.org>, Sam Ravnborg <sam@ravnborg.org>,
- Helge Deller <deller@gmx.de>, Guenter Roeck <linux@roeck-us.net>
+Cc: Zhi Wang <zhi.a.wang@gmail.com>, Jason Gunthorpe <jgg@nvidia.com>, "Vivi,
+ Rodrigo" <rodrigo.vivi@intel.com>, Christoph Hellwig <hch@lst.de>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Wed, Apr 13, 2022 at 10:21:28AM +0200, Daniel Vetter wrote:
-> I messed up the delayed takover path in the locking conversion in
-> 6e7da3af008b ("fbcon: Move console_lock for register/unlink/unregister").
-> 
-> Fix it by re-extracting the lockless function and using it in the
-> delayed takeover path, where we need to hold the lock already to
-> iterate over the list of already registered fb. Well the current code
-> still is broken in there (since the list is protected by a
-> registration_lock, which we can't take here because it nests the other
-> way round with console_lock), but in the future this will be a list
-> protected by console_lock when this is all sorted out.
-> 
-> Reported-by: Nathan Chancellor <nathan@kernel.org>
-> Cc: Nathan Chancellor <nathan@kernel.org>
+On Fri, 08 Apr 2022, "Wang, Zhi A" <zhi.a.wang@intel.com> wrote:
+> Hi Jani:
+>
+> Thanks so much for the help. Can you generate a new tag on
+> drm-intel-next? I noticed that there was one patch moving the DMC
+> related registers into display/intel_dmc_regs.h, which is not included
+> in the latest tag on drm-intel-next.
 
-Nathan, if you can supply a tested-by today still I could push it before I
-disappear into easter w/e. I'm pretty sure this is it, but better safe
-than sorry.
--Daniel
+Sorry, I'm not sure what you're asking exactly. We do tags when we
+create pull requests for drm-next, but I don't see the connection to
+gvt.
 
-> Fixes: 6e7da3af008b ("fbcon: Move console_lock for register/unlink/unregister")
-> Cc: Sam Ravnborg <sam@ravnborg.org>
-> Cc: Thomas Zimmermann <tzimmermann@suse.de>
-> Cc: Du Cheng <ducheng2@gmail.com>
-> Cc: Claudio Suarez <cssk@net-c.es>
-> Cc: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-> Cc: Tetsuo Handa <penguin-kernel@I-love.SAKURA.ne.jp>
-> Cc: Matthew Wilcox <willy@infradead.org>
-> Cc: Zheyu Ma <zheyuma97@gmail.com>
-> Cc: Guenter Roeck <linux@roeck-us.net>
-> Cc: Helge Deller <deller@gmx.de>
-> Cc: Geert Uytterhoeven <geert@linux-m68k.org>
-> Cc: Javier Martinez Canillas <javierm@redhat.com>
-> Signed-off-by: Daniel Vetter <daniel.vetter@intel.com>
-> ---
->  drivers/video/fbdev/core/fbcon.c | 28 ++++++++++++++++++----------
->  1 file changed, 18 insertions(+), 10 deletions(-)
-> 
-> diff --git a/drivers/video/fbdev/core/fbcon.c b/drivers/video/fbdev/core/fbcon.c
-> index 6a7d470beec7..b4e43b39d9a8 100644
-> --- a/drivers/video/fbdev/core/fbcon.c
-> +++ b/drivers/video/fbdev/core/fbcon.c
-> @@ -2772,7 +2772,6 @@ static void fbcon_unbind(void)
->  static inline void fbcon_unbind(void) {}
->  #endif /* CONFIG_VT_HW_CONSOLE_BINDING */
->  
-> -/* called with console_lock held */
->  void fbcon_fb_unbind(struct fb_info *info)
->  {
->  	int i, new_idx = -1;
-> @@ -2822,7 +2821,6 @@ void fbcon_fb_unbind(struct fb_info *info)
->  	console_unlock();
->  }
->  
-> -/* called with console_lock held */
->  void fbcon_fb_unregistered(struct fb_info *info)
->  {
->  	int i, idx;
-> @@ -2928,14 +2926,11 @@ MODULE_PARM_DESC(lockless_register_fb,
->  	"Lockless framebuffer registration for debugging [default=off]");
->  
->  /* called with console_lock held */
-> -int fbcon_fb_registered(struct fb_info *info)
-> +static int do_fb_registered(struct fb_info *info)
->  {
->  	int ret = 0, i, idx;
->  
-> -	if (!lockless_register_fb)
-> -		console_lock();
-> -	else
-> -		atomic_inc(&ignore_console_lock_warning);
-> +	WARN_CONSOLE_UNLOCKED();
->  
->  	fbcon_registered_fb[info->node] = info;
->  	fbcon_num_registered_fb++;
-> @@ -2945,7 +2940,7 @@ int fbcon_fb_registered(struct fb_info *info)
->  
->  	if (deferred_takeover) {
->  		pr_info("fbcon: Deferring console take-over\n");
-> -		goto out;
-> +		return 0;
->  	}
->  
->  	if (info_idx == -1) {
-> @@ -2965,7 +2960,20 @@ int fbcon_fb_registered(struct fb_info *info)
->  		}
->  	}
->  
-> -out:
-> +	return ret;
-> +}
-> +
-> +int fbcon_fb_registered(struct fb_info *info)
-> +{
-> +	int ret;
-> +
-> +	if (!lockless_register_fb)
-> +		console_lock();
-> +	else
-> +		atomic_inc(&ignore_console_lock_warning);
-> +
-> +	ret = do_fb_registered(info);
-> +
->  	if (!lockless_register_fb)
->  		console_unlock();
->  	else
-> @@ -3280,7 +3288,7 @@ static void fbcon_register_existing_fbs(struct work_struct *work)
->  	logo_shown = FBCON_LOGO_DONTSHOW;
->  
->  	fbcon_for_each_registered_fb(i)
-> -		fbcon_fb_registered(fbcon_registered_fb[i]);
-> +		do_fb_registered(fbcon_registered_fb[i]);
->  
->  	console_unlock();
->  }
-> -- 
-> 2.34.1
-> 
+BR,
+Jani.
 
--- 
-Daniel Vetter
-Software Engineer, Intel Corporation
-http://blog.ffwll.ch
+>
+> Guess it would be better that I can change this patch according to it
+> when checking in. This would prevent a conflict in future.
+>
+> Thanks,
+> Zhi.
+>
+> On 4/7/22 3:03 PM, Jani Nikula wrote:
+>> On Thu, 07 Apr 2022, Zhi Wang <zhi.wang.linux@gmail.com> wrote:
+>>> diff --git a/drivers/gpu/drm/i915/intel_gvt.h b/drivers/gpu/drm/i915/in=
+tel_gvt.h
+>>> index d7d3fb6186fd..7665d7cf0bdd 100644
+>>> --- a/drivers/gpu/drm/i915/intel_gvt.h
+>>> +++ b/drivers/gpu/drm/i915/intel_gvt.h
+>>> @@ -26,7 +26,17 @@
+>>>=20=20
+>>>  struct drm_i915_private;
+>>>=20=20
+>>> +#include <linux/kernel.h>
+>>=20
+>> You only need <linux/types.h>. Please add it before the forward
+>> declaration above.
+>>=20
+>>> +
+>>>  #ifdef CONFIG_DRM_I915_GVT
+>>> +
+>>> +struct intel_gvt_mmio_table_iter {
+>>> +	struct drm_i915_private *i915;
+>>> +	void *data;
+>>> +	int (*handle_mmio_cb)(struct intel_gvt_mmio_table_iter *iter,
+>>> +			      u32 offset, u32 size);
+>>> +};
+>>> +
+>>>  int intel_gvt_init(struct drm_i915_private *dev_priv);
+>>>  void intel_gvt_driver_remove(struct drm_i915_private *dev_priv);
+>>>  int intel_gvt_init_device(struct drm_i915_private *dev_priv);
+>>> @@ -34,6 +44,7 @@ void intel_gvt_clean_device(struct drm_i915_private *=
+dev_priv);
+>>>  int intel_gvt_init_host(void);
+>>>  void intel_gvt_sanitize_options(struct drm_i915_private *dev_priv);
+>>>  void intel_gvt_resume(struct drm_i915_private *dev_priv);
+>>> +int intel_gvt_iterate_mmio_table(struct intel_gvt_mmio_table_iter *ite=
+r);
+>>>  #else
+>>>  static inline int intel_gvt_init(struct drm_i915_private *dev_priv)
+>>>  {
+>>> @@ -51,6 +62,16 @@ static inline void intel_gvt_sanitize_options(struct=
+ drm_i915_private *dev_priv)
+>>>  static inline void intel_gvt_resume(struct drm_i915_private *dev_priv)
+>>>  {
+>>>  }
+>>> +
+>>> +unsigned long intel_gvt_get_device_type(struct drm_i915_private *i915)
+>>> +{
+>>> +	return 0;
+>>> +}
+>>=20
+>> The CONFIG_DRM_I915_GVT=3Dy counterpart for this is in mmio.h. Should be
+>> both in the same header.
+>>=20
+>>> +
+>>> +int intel_gvt_iterate_mmio_table(struct intel_gvt_mmio_table_iter *ite=
+r)
+>>> +{
+>>> +	return 0;
+>>> +}
+>>>  #endif
+>>>=20=20
+>>>  #endif /* _INTEL_GVT_H_ */
+>>> diff --git a/drivers/gpu/drm/i915/intel_gvt_mmio_table.c b/drivers/gpu/=
+drm/i915/intel_gvt_mmio_table.c
+>>> new file mode 100644
+>>> index 000000000000..d29491a6d209
+>>> --- /dev/null
+>>> +++ b/drivers/gpu/drm/i915/intel_gvt_mmio_table.c
+>>> @@ -0,0 +1,1290 @@
+>>> +// SPDX-License-Identifier: MIT
+>>> +/*
+>>> + * Copyright =C2=A9 2020 Intel Corporation
+>>> + */
+>>> +
+>>> +#include "i915_drv.h"
+>>> +#include "i915_reg.h"
+>>> +#include "display/vlv_dsi_pll_regs.h"
+>>> +#include "gt/intel_gt_regs.h"
+>>> +#include "intel_mchbar_regs.h"
+>>> +#include "i915_pvinfo.h"
+>>> +#include "intel_gvt.h"
+>>> +#include "gvt/gvt.h"
+>>=20
+>> Generally we have the include lists sorted.
+>>=20
+>> Other than the nitpicks above, the series is
+>>=20
+>> Acked-by: Jani Nikula <jani.nikula@intel.com>
+>>=20
+>>=20
+>> BR,
+>> Jani.
+>>=20
+>>=20
+>
+
+--=20
+Jani Nikula, Intel Open Source Graphics Center
