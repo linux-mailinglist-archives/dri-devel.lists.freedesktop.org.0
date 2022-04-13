@@ -2,55 +2,40 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id C85DC4FF45C
-	for <lists+dri-devel@lfdr.de>; Wed, 13 Apr 2022 12:02:21 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 858404FF463
+	for <lists+dri-devel@lfdr.de>; Wed, 13 Apr 2022 12:05:04 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 3331810FCCB;
-	Wed, 13 Apr 2022 10:02:17 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 81DBE10E2BB;
+	Wed, 13 Apr 2022 10:05:02 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mga07.intel.com (mga07.intel.com [134.134.136.100])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 30CE810FCC7;
- Wed, 13 Apr 2022 10:02:15 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1649844135; x=1681380135;
- h=date:from:to:cc:subject:message-id:references:
- mime-version:content-transfer-encoding:in-reply-to;
- bh=5+14AAUAftgvOxibycMkjF+4+WI8JBErSzFkggUwUAI=;
- b=eULT1E1KPUxc/lhG2U5hg5kvkQCQunE1KgHeSWJUFspi4RTvDTcnRqzE
- B4S31oThqLbcDeM1e1LMaFlJPiMb/WQzlNRsLMsTadISt5rI33IMSwaCZ
- YOkMHGCg1HMl9rYpPQBeiybnl9kgDbHx9NohfTc3LiXY7+bUfwtDVnnXO
- 3Dt9eCmiMJIAYdSzCeMXMcCQCRrH3Lc7LGjOnBfN2iGdH5DtGehXcOdxO
- gg95o6YhJQ1tX8vl35MghsdqaxVr0O+znLyjTnasNSTX7cBwuLk1jZE8U
- LDqyFEBEBMHbPf/4dQCOKixKHBdzjqt+PQaxtZ3DsxOc5dqd3q/dK2MBi A==;
-X-IronPort-AV: E=McAfee;i="6400,9594,10315"; a="325532906"
-X-IronPort-AV: E=Sophos;i="5.90,256,1643702400"; d="scan'208";a="325532906"
-Received: from orsmga007.jf.intel.com ([10.7.209.58])
- by orsmga105.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 13 Apr 2022 03:02:14 -0700
-X-IronPort-AV: E=Sophos;i="5.90,256,1643702400"; d="scan'208";a="552138895"
-Received: from ramaling-i9x.iind.intel.com (HELO intel.com) ([10.203.144.108])
- by orsmga007-auth.jf.intel.com with
- ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 13 Apr 2022 03:02:12 -0700
-Date: Wed, 13 Apr 2022 15:33:01 +0530
-From: Ramalingam C <ramalingam.c@intel.com>
-To: Joonas Lahtinen <joonas.lahtinen@linux.intel.com>
-Subject: Re: [PATCH v7 7/9] drm/ttm: Add a parameter to add extra pages into
- ttm_tt
-Message-ID: <20220413100300.GA25695@intel.com>
-References: <20220401123751.27771-1-ramalingam.c@intel.com>
- <20220401123751.27771-8-ramalingam.c@intel.com>
- <20220401142853.GF12046@intel.com>
- <7517726e-c828-ace8-9968-e542e23d97f1@amd.com>
- <20220402030237.GA29661@intel.com>
- <164983850800.14850.12943794917384272373@jlahtine-mobl.ger.corp.intel.com>
+Received: from foss.arm.com (foss.arm.com [217.140.110.172])
+ by gabe.freedesktop.org (Postfix) with ESMTP id 0DC1810E2BB
+ for <dri-devel@lists.freedesktop.org>; Wed, 13 Apr 2022 10:05:00 +0000 (UTC)
+Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
+ by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id EE69613D5;
+ Wed, 13 Apr 2022 03:04:59 -0700 (PDT)
+Received: from [10.57.41.233] (unknown [10.57.41.233])
+ by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id 6FAA53F73B;
+ Wed, 13 Apr 2022 03:04:58 -0700 (PDT)
+Message-ID: <a78343c8-2a6d-b223-4219-6b6b0a4fcb1f@arm.com>
+Date: Wed, 13 Apr 2022 11:04:56 +0100
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <164983850800.14850.12943794917384272373@jlahtine-mobl.ger.corp.intel.com>
-User-Agent: Mutt/1.10.1 (2018-07-13)
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.7.0
+Subject: Re: [PATCH v1] drm/scheduler: Don't kill jobs in interrupt context
+Content-Language: en-GB
+To: Dmitry Osipenko <dmitry.osipenko@collabora.com>,
+ David Airlie <airlied@linux.ie>, Daniel Vetter <daniel@ffwll.ch>,
+ Tomeu Vizoso <tomeu.vizoso@collabora.com>, Rob Herring <robh@kernel.org>,
+ Alyssa Rosenzweig <alyssa.rosenzweig@collabora.com>,
+ Rob Clark <robdclark@gmail.com>,
+ Andrey Grodzovsky <andrey.grodzovsky@amd.com>
+References: <20220411221536.283312-1-dmitry.osipenko@collabora.com>
+From: Steven Price <steven.price@arm.com>
+In-Reply-To: <20220411221536.283312-1-dmitry.osipenko@collabora.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -63,194 +48,73 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Tvrtko Ursulin <tvrtko.ursulin@linux.intel.com>,
- intel-gfx <intel-gfx@lists.freedesktop.org>,
- dri-devel <dri-devel@lists.freedesktop.org>, rodrigo.vivi@intel.com,
- Christian =?utf-8?B?S8O2bmln?= <christian.koenig@amd.com>
+Cc: Dmitry Osipenko <digetx@gmail.com>, linux-kernel@vger.kernel.org,
+ dri-devel@lists.freedesktop.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 2022-04-13 at 11:28:28 +0300, Joonas Lahtinen wrote:
-> (+ Tvrtko and Jani)
+On 11/04/2022 23:15, Dmitry Osipenko wrote:
+> Interrupt context can't sleep. Drivers like Panfrost and MSM are taking
+> mutex when job is released, and thus, that code can sleep. This results
+> into "BUG: scheduling while atomic" if locks are contented while job is
+> freed. There is no good reason for releasing scheduler's jobs in IRQ
+> context, hence use normal context to fix the trouble.
 > 
-> Quoting Ramalingam C (2022-04-02 06:02:38)
-> > On 2022-04-01 at 16:31:19 +0200, Christian König wrote:
-> > > I would be nicer to push this through drm-misc-next, but the intel branch
-> > > works for me as well.
-> > Hi Christian
-> > 
-> > I have pushed this patch into drm-misc-next.
-> 
-> I've now backmerged drm-next containing this commit to drm-intel-gt-next
-> in order to unblock merging the rest of the series.
-> 
-> > Regards,
-> > Ram.
-> > > 
-> > > Regards,
-> > > Christian.
-> > > 
-> > > Am 01.04.22 um 16:28 schrieb Ramalingam C:
-> > > > Christian, Joonas and vivi
-> > > > 
-> > > > Once the premerge results are greeen, if this patch can be merged into
-> > > > drm-intel-gt-next along with other patches could you please ack the
-> > > > request to merge into drm-intel-gt-next?
-> 
-> For future reference, when in doubt who are the right ones to handle,
-> add all the maintainers and wait for them to reply before proceeding.
-> 
-> Then we can avoid some unnecessary churn where there are more
-> straightforward options like here: merge via drm-intel-gt-next as
-> nobody else needs the new functions yet.
-Sure Joonas! thank you for backmerging!
+> Cc: stable@vger.kernel.org
+> Fixes: 542cff7893a3 ("drm/sched: Avoid lockdep spalt on killing a processes")
+> Signed-off-by: Dmitry Osipenko <dmitry.osipenko@collabora.com>
 
-Ram
+Reviewed-by: Steven Price <steven.price@arm.com>
+
+> ---
+>  drivers/gpu/drm/scheduler/sched_entity.c | 6 +++---
+>  include/drm/gpu_scheduler.h              | 4 ++--
+>  2 files changed, 5 insertions(+), 5 deletions(-)
 > 
-> Regards, Joonas
-> 
-> > > > Thanks
-> > > > Ram
-> > > > 
-> > > > On 2022-04-01 at 18:07:49 +0530, Ramalingam C wrote:
-> > > > > Add a parameter called "extra_pages" for ttm_tt_init, to indicate that
-> > > > > driver needs extra pages in ttm_tt.
-> > > > > 
-> > > > > v2:
-> > > > >    Used imperative wording [Thomas and Christian]
-> > > > > 
-> > > > > Signed-off-by: Ramalingam C <ramalingam.c@intel.com>
-> > > > > cc: Christian Koenig <christian.koenig@amd.com>
-> > > > > cc: Hellstrom Thomas <thomas.hellstrom@intel.com>
-> > > > > Reviewed-by: Thomas Hellstrom <thomas.hellstrom@linux.intel.com>
-> > > > > Reviewed-by: Christian Konig <christian.koenig@amd.com>
-> > > > > Reviewed-by: Nirmoy Das <nirmoy.das@intel.com>
-> > > > > ---
-> > > > >   drivers/gpu/drm/drm_gem_vram_helper.c      |  2 +-
-> > > > >   drivers/gpu/drm/i915/gem/i915_gem_ttm.c    |  2 +-
-> > > > >   drivers/gpu/drm/qxl/qxl_ttm.c              |  2 +-
-> > > > >   drivers/gpu/drm/ttm/ttm_agp_backend.c      |  2 +-
-> > > > >   drivers/gpu/drm/ttm/ttm_tt.c               | 12 +++++++-----
-> > > > >   drivers/gpu/drm/vmwgfx/vmwgfx_ttm_buffer.c |  2 +-
-> > > > >   include/drm/ttm/ttm_tt.h                   |  4 +++-
-> > > > >   7 files changed, 15 insertions(+), 11 deletions(-)
-> > > > > 
-> > > > > diff --git a/drivers/gpu/drm/drm_gem_vram_helper.c b/drivers/gpu/drm/drm_gem_vram_helper.c
-> > > > > index dc7f938bfff2..123045b58fec 100644
-> > > > > --- a/drivers/gpu/drm/drm_gem_vram_helper.c
-> > > > > +++ b/drivers/gpu/drm/drm_gem_vram_helper.c
-> > > > > @@ -867,7 +867,7 @@ static struct ttm_tt *bo_driver_ttm_tt_create(struct ttm_buffer_object *bo,
-> > > > >           if (!tt)
-> > > > >                   return NULL;
-> > > > > - ret = ttm_tt_init(tt, bo, page_flags, ttm_cached);
-> > > > > + ret = ttm_tt_init(tt, bo, page_flags, ttm_cached, 0);
-> > > > >           if (ret < 0)
-> > > > >                   goto err_ttm_tt_init;
-> > > > > diff --git a/drivers/gpu/drm/i915/gem/i915_gem_ttm.c b/drivers/gpu/drm/i915/gem/i915_gem_ttm.c
-> > > > > index c40aca99442f..a878910a563c 100644
-> > > > > --- a/drivers/gpu/drm/i915/gem/i915_gem_ttm.c
-> > > > > +++ b/drivers/gpu/drm/i915/gem/i915_gem_ttm.c
-> > > > > @@ -293,7 +293,7 @@ static struct ttm_tt *i915_ttm_tt_create(struct ttm_buffer_object *bo,
-> > > > >                   i915_tt->is_shmem = true;
-> > > > >           }
-> > > > > - ret = ttm_tt_init(&i915_tt->ttm, bo, page_flags, caching);
-> > > > > + ret = ttm_tt_init(&i915_tt->ttm, bo, page_flags, caching, 0);
-> > > > >           if (ret)
-> > > > >                   goto err_free;
-> > > > > diff --git a/drivers/gpu/drm/qxl/qxl_ttm.c b/drivers/gpu/drm/qxl/qxl_ttm.c
-> > > > > index 95df5750f47f..9ba871bd19b1 100644
-> > > > > --- a/drivers/gpu/drm/qxl/qxl_ttm.c
-> > > > > +++ b/drivers/gpu/drm/qxl/qxl_ttm.c
-> > > > > @@ -113,7 +113,7 @@ static struct ttm_tt *qxl_ttm_tt_create(struct ttm_buffer_object *bo,
-> > > > >           ttm = kzalloc(sizeof(struct ttm_tt), GFP_KERNEL);
-> > > > >           if (ttm == NULL)
-> > > > >                   return NULL;
-> > > > > - if (ttm_tt_init(ttm, bo, page_flags, ttm_cached)) {
-> > > > > + if (ttm_tt_init(ttm, bo, page_flags, ttm_cached, 0)) {
-> > > > >                   kfree(ttm);
-> > > > >                   return NULL;
-> > > > >           }
-> > > > > diff --git a/drivers/gpu/drm/ttm/ttm_agp_backend.c b/drivers/gpu/drm/ttm/ttm_agp_backend.c
-> > > > > index 6ddc16f0fe2b..d27691f2e451 100644
-> > > > > --- a/drivers/gpu/drm/ttm/ttm_agp_backend.c
-> > > > > +++ b/drivers/gpu/drm/ttm/ttm_agp_backend.c
-> > > > > @@ -134,7 +134,7 @@ struct ttm_tt *ttm_agp_tt_create(struct ttm_buffer_object *bo,
-> > > > >           agp_be->mem = NULL;
-> > > > >           agp_be->bridge = bridge;
-> > > > > - if (ttm_tt_init(&agp_be->ttm, bo, page_flags, ttm_write_combined)) {
-> > > > > + if (ttm_tt_init(&agp_be->ttm, bo, page_flags, ttm_write_combined, 0)) {
-> > > > >                   kfree(agp_be);
-> > > > >                   return NULL;
-> > > > >           }
-> > > > > diff --git a/drivers/gpu/drm/ttm/ttm_tt.c b/drivers/gpu/drm/ttm/ttm_tt.c
-> > > > > index d234aab800a0..1a66d9fc589a 100644
-> > > > > --- a/drivers/gpu/drm/ttm/ttm_tt.c
-> > > > > +++ b/drivers/gpu/drm/ttm/ttm_tt.c
-> > > > > @@ -134,9 +134,10 @@ void ttm_tt_destroy(struct ttm_device *bdev, struct ttm_tt *ttm)
-> > > > >   static void ttm_tt_init_fields(struct ttm_tt *ttm,
-> > > > >                                  struct ttm_buffer_object *bo,
-> > > > >                                  uint32_t page_flags,
-> > > > > -                        enum ttm_caching caching)
-> > > > > +                        enum ttm_caching caching,
-> > > > > +                        unsigned long extra_pages)
-> > > > >   {
-> > > > > - ttm->num_pages = PAGE_ALIGN(bo->base.size) >> PAGE_SHIFT;
-> > > > > + ttm->num_pages = (PAGE_ALIGN(bo->base.size) >> PAGE_SHIFT) + extra_pages;
-> > > > >           ttm->caching = ttm_cached;
-> > > > >           ttm->page_flags = page_flags;
-> > > > >           ttm->dma_address = NULL;
-> > > > > @@ -146,9 +147,10 @@ static void ttm_tt_init_fields(struct ttm_tt *ttm,
-> > > > >   }
-> > > > >   int ttm_tt_init(struct ttm_tt *ttm, struct ttm_buffer_object *bo,
-> > > > > -         uint32_t page_flags, enum ttm_caching caching)
-> > > > > +         uint32_t page_flags, enum ttm_caching caching,
-> > > > > +         unsigned long extra_pages)
-> > > > >   {
-> > > > > - ttm_tt_init_fields(ttm, bo, page_flags, caching);
-> > > > > + ttm_tt_init_fields(ttm, bo, page_flags, caching, extra_pages);
-> > > > >           if (ttm_tt_alloc_page_directory(ttm)) {
-> > > > >                   pr_err("Failed allocating page table\n");
-> > > > > @@ -180,7 +182,7 @@ int ttm_sg_tt_init(struct ttm_tt *ttm, struct ttm_buffer_object *bo,
-> > > > >   {
-> > > > >           int ret;
-> > > > > - ttm_tt_init_fields(ttm, bo, page_flags, caching);
-> > > > > + ttm_tt_init_fields(ttm, bo, page_flags, caching, 0);
-> > > > >           if (page_flags & TTM_TT_FLAG_EXTERNAL)
-> > > > >                   ret = ttm_sg_tt_alloc_page_directory(ttm);
-> > > > > diff --git a/drivers/gpu/drm/vmwgfx/vmwgfx_ttm_buffer.c b/drivers/gpu/drm/vmwgfx/vmwgfx_ttm_buffer.c
-> > > > > index b84ecc6d6611..4e3938e62c08 100644
-> > > > > --- a/drivers/gpu/drm/vmwgfx/vmwgfx_ttm_buffer.c
-> > > > > +++ b/drivers/gpu/drm/vmwgfx/vmwgfx_ttm_buffer.c
-> > > > > @@ -517,7 +517,7 @@ static struct ttm_tt *vmw_ttm_tt_create(struct ttm_buffer_object *bo,
-> > > > >                                        ttm_cached);
-> > > > >           else
-> > > > >                   ret = ttm_tt_init(&vmw_be->dma_ttm, bo, page_flags,
-> > > > > -                           ttm_cached);
-> > > > > +                           ttm_cached, 0);
-> > > > >           if (unlikely(ret != 0))
-> > > > >                   goto out_no_init;
-> > > > > diff --git a/include/drm/ttm/ttm_tt.h b/include/drm/ttm/ttm_tt.h
-> > > > > index f20832139815..17a0310e8aaa 100644
-> > > > > --- a/include/drm/ttm/ttm_tt.h
-> > > > > +++ b/include/drm/ttm/ttm_tt.h
-> > > > > @@ -140,6 +140,7 @@ int ttm_tt_create(struct ttm_buffer_object *bo, bool zero_alloc);
-> > > > >    * @bo: The buffer object we create the ttm for.
-> > > > >    * @page_flags: Page flags as identified by TTM_TT_FLAG_XX flags.
-> > > > >    * @caching: the desired caching state of the pages
-> > > > > + * @extra_pages: Extra pages needed for the driver.
-> > > > >    *
-> > > > >    * Create a struct ttm_tt to back data with system memory pages.
-> > > > >    * No pages are actually allocated.
-> > > > > @@ -147,7 +148,8 @@ int ttm_tt_create(struct ttm_buffer_object *bo, bool zero_alloc);
-> > > > >    * NULL: Out of memory.
-> > > > >    */
-> > > > >   int ttm_tt_init(struct ttm_tt *ttm, struct ttm_buffer_object *bo,
-> > > > > -         uint32_t page_flags, enum ttm_caching caching);
-> > > > > +         uint32_t page_flags, enum ttm_caching caching,
-> > > > > +         unsigned long extra_pages);
-> > > > >   int ttm_sg_tt_init(struct ttm_tt *ttm_dma, struct ttm_buffer_object *bo,
-> > > > >                      uint32_t page_flags, enum ttm_caching caching);
-> > > > > -- 
-> > > > > 2.20.1
-> > > > > 
-> > > 
+> diff --git a/drivers/gpu/drm/scheduler/sched_entity.c b/drivers/gpu/drm/scheduler/sched_entity.c
+> index 191c56064f19..6b25b2f4f5a3 100644
+> --- a/drivers/gpu/drm/scheduler/sched_entity.c
+> +++ b/drivers/gpu/drm/scheduler/sched_entity.c
+> @@ -190,7 +190,7 @@ long drm_sched_entity_flush(struct drm_sched_entity *entity, long timeout)
+>  }
+>  EXPORT_SYMBOL(drm_sched_entity_flush);
+>  
+> -static void drm_sched_entity_kill_jobs_irq_work(struct irq_work *wrk)
+> +static void drm_sched_entity_kill_jobs_work(struct work_struct *wrk)
+>  {
+>  	struct drm_sched_job *job = container_of(wrk, typeof(*job), work);
+>  
+> @@ -207,8 +207,8 @@ static void drm_sched_entity_kill_jobs_cb(struct dma_fence *f,
+>  	struct drm_sched_job *job = container_of(cb, struct drm_sched_job,
+>  						 finish_cb);
+>  
+> -	init_irq_work(&job->work, drm_sched_entity_kill_jobs_irq_work);
+> -	irq_work_queue(&job->work);
+> +	INIT_WORK(&job->work, drm_sched_entity_kill_jobs_work);
+> +	schedule_work(&job->work);
+>  }
+>  
+>  static struct dma_fence *
+> diff --git a/include/drm/gpu_scheduler.h b/include/drm/gpu_scheduler.h
+> index 0fca8f38bee4..addb135eeea6 100644
+> --- a/include/drm/gpu_scheduler.h
+> +++ b/include/drm/gpu_scheduler.h
+> @@ -28,7 +28,7 @@
+>  #include <linux/dma-fence.h>
+>  #include <linux/completion.h>
+>  #include <linux/xarray.h>
+> -#include <linux/irq_work.h>
+> +#include <linux/workqueue.h>
+>  
+>  #define MAX_WAIT_SCHED_ENTITY_Q_EMPTY msecs_to_jiffies(1000)
+>  
+> @@ -295,7 +295,7 @@ struct drm_sched_job {
+>  	 */
+>  	union {
+>  		struct dma_fence_cb		finish_cb;
+> -		struct irq_work 		work;
+> +		struct work_struct 		work;
+>  	};
+>  
+>  	uint64_t			id;
+
