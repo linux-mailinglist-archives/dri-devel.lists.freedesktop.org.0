@@ -2,62 +2,56 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 134884FF187
-	for <lists+dri-devel@lfdr.de>; Wed, 13 Apr 2022 10:13:20 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 5CB064FF1AC
+	for <lists+dri-devel@lfdr.de>; Wed, 13 Apr 2022 10:21:42 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id B6F1810FCA6;
-	Wed, 13 Apr 2022 08:13:13 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 3881A10FBD6;
+	Wed, 13 Apr 2022 08:21:37 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-ed1-x536.google.com (mail-ed1-x536.google.com
- [IPv6:2a00:1450:4864:20::536])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 121F610FCD4
- for <dri-devel@lists.freedesktop.org>; Wed, 13 Apr 2022 08:13:12 +0000 (UTC)
-Received: by mail-ed1-x536.google.com with SMTP id v15so1369901edb.12
- for <dri-devel@lists.freedesktop.org>; Wed, 13 Apr 2022 01:13:11 -0700 (PDT)
+Received: from mail-ej1-x633.google.com (mail-ej1-x633.google.com
+ [IPv6:2a00:1450:4864:20::633])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 140DC10FBD8
+ for <dri-devel@lists.freedesktop.org>; Wed, 13 Apr 2022 08:21:36 +0000 (UTC)
+Received: by mail-ej1-x633.google.com with SMTP id bg10so2386176ejb.4
+ for <dri-devel@lists.freedesktop.org>; Wed, 13 Apr 2022 01:21:35 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ffwll.ch; s=google;
- h=date:from:to:cc:subject:message-id:references:mime-version
- :content-disposition:in-reply-to;
- bh=COYmy9WSgxhyW6JEptJgXqC1UQEHgsiPzrBZVjfxvVs=;
- b=OJn63GHKsd5dju0BmHXHVv2HhZQsQo3PBeKyMiueIcr7zOwc7LrYuA6j87V4c0o1B0
- /8zF3+5Y7rxLR0VEn38g3J3wzrbZm546uzNfDCih/zUb8aszzv3C3zH83pUXCTfPYDLP
- jeWlFN2bCL+pL+zYd890puilgRdSGtz6+AXgI=
+ h=from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=BKZXPHDbLQHuKJfs7znC9XTnIpDbBVqjUV5L1wEwf1o=;
+ b=JtJsa9dFkMFrvqg8c23eMWyE8lZuCAZzjjGetSuEInIN0FR44dqAAEJ5TOCbz1vGLM
+ FgIwxprTfAqGKHrYG0GBwHZXzOGsigY7/RILwvcegx8QCLnktmOT7yTo9HEGjAubaIdE
+ TT1VbsS+vlvvFc/Rg9tkZPDWTJwPmSM+oAdwc=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=x-gm-message-state:date:from:to:cc:subject:message-id:references
- :mime-version:content-disposition:in-reply-to;
- bh=COYmy9WSgxhyW6JEptJgXqC1UQEHgsiPzrBZVjfxvVs=;
- b=Vd4RUy55VXiHeQOi7nIGYEMlhwOqBeGgKH3CuTFPZIOx++lwOEUjkPCWCib+6te9ww
- Ia+vOCQSF0iWd7v6jSRF0/1ZeWIDFz1azAvo4MSo2yq5d0kAo66mfd+dU8l9vGsodXRg
- hrQLR/fA7mFnL1WXf4VJxeuifUKG4uXnPLp3be9J+9TzUB4ywfcZDda2l99pHFDvISrv
- iVkd5XberLshbxI72+kIRUQetlBMV7NgaOiFRVP/8ilqOrss0zOmN54ytx68b6d9jxd3
- WIog1QW/fjtimi7kTlAMwpQ8QvFgeXhzBTWbyhMyZLNJIm1/F/yCWIrHx8Ykd3TqeN4B
- 8o0w==
-X-Gm-Message-State: AOAM532XyB1327oPWvW5BzyVaxZr9mcGnlVgrspbmmR1tco3wVkYwZ0T
- uFk4N8Femu8cG1ARxq0RhKUrqA==
-X-Google-Smtp-Source: ABdhPJy6TWQdaAulZQsPdXvlWVHTY42LcIP31ec5zmHVAUZSHLN+f6feRDRuYyromHuJ+9UEFZwhXg==
-X-Received: by 2002:a05:6402:1d51:b0:41f:cf6c:35a5 with SMTP id
- dz17-20020a0564021d5100b0041fcf6c35a5mr676665edb.25.1649837590569; 
- Wed, 13 Apr 2022 01:13:10 -0700 (PDT)
+ h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=BKZXPHDbLQHuKJfs7znC9XTnIpDbBVqjUV5L1wEwf1o=;
+ b=SgHMIsc+im192qJEqM6KomdXbvgKuoZBPm7OR8yfPoK/X3UtdNs9xDzZOsWufIkM8f
+ JR4pu+Cvjwdiv6yG7cxWytEGraIvZqt/p+aJ+VtQcdIPXNdC1K/rPKGn3BDf1h6xxrWn
+ EoQmIFr3EN95pgEVUHeY0lgThxUrbktgFtR9tB1D28QMdEHtOSBDMuQceTcXJ77bZCK6
+ YGx6PkhKVrmTfdjeFktABAWPdANjCosnvwVDRioe22miLjdBixndZGKzzukB1GtJdjja
+ N1iVKWpfnCuAinN/KrP7npxBFCFIkqshjfyzyVD+kWUOlVxu13i8BUiulfzD0Gcgedj1
+ whYg==
+X-Gm-Message-State: AOAM533YSjCqDs5dt1yWXcUEASUmSj8D4h5rUeB9Rv9sesZlvGJeSYxS
+ VjciR5h6mUIMYww2mRHz3bWkgZ2oo7Kagv43
+X-Google-Smtp-Source: ABdhPJyPn0jhQa6CEYpj8JLZaCCKkUv1FfmRu/W0awpMowsCGhrJX1sBukvSwvO964KSgncGmCSw4g==
+X-Received: by 2002:a17:907:7296:b0:6e8:97c1:a7ef with SMTP id
+ dt22-20020a170907729600b006e897c1a7efmr10804550ejc.262.1649838094459; 
+ Wed, 13 Apr 2022 01:21:34 -0700 (PDT)
 Received: from phenom.ffwll.local ([2a02:168:57f4:0:efd0:b9e5:5ae6:c2fa])
  by smtp.gmail.com with ESMTPSA id
- do8-20020a170906c10800b006dfe4d1edc6sm13805690ejc.61.2022.04.13.01.13.09
+ u6-20020a170906408600b006e87d654270sm4234564ejj.44.2022.04.13.01.21.33
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 13 Apr 2022 01:13:09 -0700 (PDT)
-Date: Wed, 13 Apr 2022 10:13:08 +0200
-From: Daniel Vetter <daniel@ffwll.ch>
-To: Nathan Chancellor <nathan@kernel.org>
-Subject: Re: [PATCH v3 14/17] fbcon: Move console_lock for
- register/unlink/unregister
-Message-ID: <YlaGFJTkM85CqXX9@phenom.ffwll.local>
-References: <20220405210335.3434130-1-daniel.vetter@ffwll.ch>
- <20220405210335.3434130-15-daniel.vetter@ffwll.ch>
- <YlSrYyVlcq/gHV5T@dev-arch.thelio-3990X>
+ Wed, 13 Apr 2022 01:21:33 -0700 (PDT)
+From: Daniel Vetter <daniel.vetter@ffwll.ch>
+To: DRI Development <dri-devel@lists.freedesktop.org>
+Subject: [PATCH] fbcon: Fix delayed takeover locking
+Date: Wed, 13 Apr 2022 10:21:28 +0200
+Message-Id: <20220413082128.348186-1-daniel.vetter@ffwll.ch>
+X-Mailer: git-send-email 2.34.1
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <YlSrYyVlcq/gHV5T@dev-arch.thelio-3990X>
-X-Operating-System: Linux phenom 5.10.0-8-amd64 
+Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -70,96 +64,128 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Xiyu Yang <xiyuyang19@fudan.edu.cn>, Du Cheng <ducheng2@gmail.com>,
- Tetsuo Handa <penguin-kernel@i-love.sakura.ne.jp>,
+Cc: Du Cheng <ducheng2@gmail.com>,
+ Tetsuo Handa <penguin-kernel@I-love.SAKURA.ne.jp>,
  Daniel Vetter <daniel.vetter@ffwll.ch>,
  Intel Graphics Development <intel-gfx@lists.freedesktop.org>,
- Zheyu Ma <zheyuma97@gmail.com>,
+ Zheyu Ma <zheyuma97@gmail.com>, Javier Martinez Canillas <javierm@redhat.com>,
+ Matthew Wilcox <willy@infradead.org>, Nathan Chancellor <nathan@kernel.org>,
+ Claudio Suarez <cssk@net-c.es>, Daniel Vetter <daniel.vetter@intel.com>,
+ Thomas Zimmermann <tzimmermann@suse.de>,
  Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
- DRI Development <dri-devel@lists.freedesktop.org>,
- Claudio Suarez <cssk@net-c.es>, Matthew Wilcox <willy@infradead.org>,
- Thomas Zimmermann <tzimmermann@suse.de>, Zhen Lei <thunder.leizhen@huawei.com>,
- Alex Deucher <alexander.deucher@amd.com>,
- Daniel Vetter <daniel.vetter@intel.com>, Sam Ravnborg <sam@ravnborg.org>,
- Guenter Roeck <linux@roeck-us.net>
+ Geert Uytterhoeven <geert@linux-m68k.org>, Sam Ravnborg <sam@ravnborg.org>,
+ Helge Deller <deller@gmx.de>, Guenter Roeck <linux@roeck-us.net>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Mon, Apr 11, 2022 at 03:27:47PM -0700, Nathan Chancellor wrote:
-> Hi Daniel,
-> 
-> On Tue, Apr 05, 2022 at 11:03:32PM +0200, Daniel Vetter wrote:
-> > Ideally console_lock becomes an implementation detail of fbcon.c and
-> > doesn't show up anywhere in fbmem.c. We're still pretty far from that,
-> > but at least the register/unregister code is there now.
-> > 
-> > With this the do_fb_ioctl() handler is the only code in fbmem.c still
-> > calling console_lock().
-> > 
-> > Acked-by: Sam Ravnborg <sam@ravnborg.org>
-> > Signed-off-by: Daniel Vetter <daniel.vetter@intel.com>
-> > Cc: Daniel Vetter <daniel@ffwll.ch>
-> > Cc: Thomas Zimmermann <tzimmermann@suse.de>
-> > Cc: Du Cheng <ducheng2@gmail.com>
-> > Cc: Claudio Suarez <cssk@net-c.es>
-> > Cc: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-> > Cc: Tetsuo Handa <penguin-kernel@I-love.SAKURA.ne.jp>
-> > Cc: Matthew Wilcox <willy@infradead.org>
-> > Cc: Sam Ravnborg <sam@ravnborg.org>
-> > Cc: Zheyu Ma <zheyuma97@gmail.com>
-> > Cc: Guenter Roeck <linux@roeck-us.net>
-> > Cc: Alex Deucher <alexander.deucher@amd.com>
-> > Cc: Zhen Lei <thunder.leizhen@huawei.com>
-> > Cc: Xiyu Yang <xiyuyang19@fudan.edu.cn>
-> 
-> This patch as commit 6e7da3af008b ("fbcon: Move console_lock for
-> register/unlink/unregister") in next-20220411 causes a lock up on my
-> test Intel desktop; I get no output on my display and I cannot ssh into
-> the machine. Bisect log below. If back out of this patch and the ones
-> that follow in this series on top of next-20220411, everything works
-> properly (i.e. 'git diff 6e7da3af008b^..efc3acbc105a | git apply -R').
-> 
-> What information would be helpful for debugging this? The system has an
-> i7-11700 in it and it is booting under UEFI, so I assume it should be
-> using EFI_FB. I am happy to offer any debugging information or test any
-> patches.
+I messed up the delayed takover path in the locking conversion in
+6e7da3af008b ("fbcon: Move console_lock for register/unlink/unregister").
 
-I think I got it, typing a patch now for you to test. Thanks a lot for the
-bug report and bisect!
--Daniel
+Fix it by re-extracting the lockless function and using it in the
+delayed takeover path, where we need to hold the lock already to
+iterate over the list of already registered fb. Well the current code
+still is broken in there (since the list is protected by a
+registration_lock, which we can't take here because it nests the other
+way round with console_lock), but in the future this will be a list
+protected by console_lock when this is all sorted out.
 
-> 
-> # bad: [d12d7e1cfe38e0c36d28c7a9fbbc436ad0d17c14] Add linux-next specific files for 20220411
-> # good: [8b57b3046107b50ebecb65537a172ef3d6cec673] Merge tag 'tty-5.18-rc2' of git://git.kernel.org/pub/scm/linux/kernel/git/gregkh/tty
-> git bisect start 'd12d7e1cfe38e0c36d28c7a9fbbc436ad0d17c14' '8b57b3046107b50ebecb65537a172ef3d6cec673'
-> # bad: [8f0b3ef070bd35e80da1caa85824fc344fb6b82e] Merge branch 'for-linux-next' of git://anongit.freedesktop.org/drm/drm-misc
-> git bisect bad 8f0b3ef070bd35e80da1caa85824fc344fb6b82e
-> # good: [69ae2d6587df089ec1c21bddddc7852df403d3ce] Merge branch 'for-next' of git://git.kernel.org/pub/scm/linux/kernel/git/hid/hid.git
-> git bisect good 69ae2d6587df089ec1c21bddddc7852df403d3ce
-> # good: [43ffc7321ed6ce13e5424fa687576f4442c25f9d] Merge branch 'master' of git://git.kernel.org/pub/scm/linux/kernel/git/bluetooth/bluetooth-next.git
-> git bisect good 43ffc7321ed6ce13e5424fa687576f4442c25f9d
-> # good: [d44c2642c40b6c11e4a0afc76d491287c074376c] drm/gem: Delete gem array fencing helpers
-> git bisect good d44c2642c40b6c11e4a0afc76d491287c074376c
-> # good: [3223e922ccf8b5c3dd0b05faeaba407655ee0774] orinoco: Prepare cleanup of powerpc's asm/prom.h
-> git bisect good 3223e922ccf8b5c3dd0b05faeaba407655ee0774
-> # good: [689333136327b6cd618df85d83d79f2aa620d585] fbcon: Move fbcon_bmove(_rec) functions
-> git bisect good 689333136327b6cd618df85d83d79f2aa620d585
-> # good: [840db0076b05a1dd4c2ded8d08f8481e0297d09f] Merge branch 'master' of git://git.kernel.org/pub/scm/linux/kernel/git/herbert/cryptodev-2.6.git
-> git bisect good 840db0076b05a1dd4c2ded8d08f8481e0297d09f
-> # bad: [6e7da3af008b72520f5318507f455f344b27f022] fbcon: Move console_lock for register/unlink/unregister
-> git bisect bad 6e7da3af008b72520f5318507f455f344b27f022
-> # good: [6b2060cf9138a2cd5f3468a949d3869abed049ef] fb: Delete fb_info->queue
-> git bisect good 6b2060cf9138a2cd5f3468a949d3869abed049ef
-> # good: [d443d93864726ad68c0a741d1e7b03934a9af143] fbcon: move more common code into fb_open()
-> git bisect good d443d93864726ad68c0a741d1e7b03934a9af143
-> # good: [43553559121ca90965b572cf8a1d6d0fd618b449] fbcon: Consistently protect deferred_takeover with console_lock()
-> git bisect good 43553559121ca90965b572cf8a1d6d0fd618b449
-> # first bad commit: [6e7da3af008b72520f5318507f455f344b27f022] fbcon: Move console_lock for register/unlink/unregister
-> 
-> Cheers,
-> Nathan
+Reported-by: Nathan Chancellor <nathan@kernel.org>
+Cc: Nathan Chancellor <nathan@kernel.org>
+Fixes: 6e7da3af008b ("fbcon: Move console_lock for register/unlink/unregister")
+Cc: Sam Ravnborg <sam@ravnborg.org>
+Cc: Thomas Zimmermann <tzimmermann@suse.de>
+Cc: Du Cheng <ducheng2@gmail.com>
+Cc: Claudio Suarez <cssk@net-c.es>
+Cc: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+Cc: Tetsuo Handa <penguin-kernel@I-love.SAKURA.ne.jp>
+Cc: Matthew Wilcox <willy@infradead.org>
+Cc: Zheyu Ma <zheyuma97@gmail.com>
+Cc: Guenter Roeck <linux@roeck-us.net>
+Cc: Helge Deller <deller@gmx.de>
+Cc: Geert Uytterhoeven <geert@linux-m68k.org>
+Cc: Javier Martinez Canillas <javierm@redhat.com>
+Signed-off-by: Daniel Vetter <daniel.vetter@intel.com>
+---
+ drivers/video/fbdev/core/fbcon.c | 28 ++++++++++++++++++----------
+ 1 file changed, 18 insertions(+), 10 deletions(-)
 
+diff --git a/drivers/video/fbdev/core/fbcon.c b/drivers/video/fbdev/core/fbcon.c
+index 6a7d470beec7..b4e43b39d9a8 100644
+--- a/drivers/video/fbdev/core/fbcon.c
++++ b/drivers/video/fbdev/core/fbcon.c
+@@ -2772,7 +2772,6 @@ static void fbcon_unbind(void)
+ static inline void fbcon_unbind(void) {}
+ #endif /* CONFIG_VT_HW_CONSOLE_BINDING */
+ 
+-/* called with console_lock held */
+ void fbcon_fb_unbind(struct fb_info *info)
+ {
+ 	int i, new_idx = -1;
+@@ -2822,7 +2821,6 @@ void fbcon_fb_unbind(struct fb_info *info)
+ 	console_unlock();
+ }
+ 
+-/* called with console_lock held */
+ void fbcon_fb_unregistered(struct fb_info *info)
+ {
+ 	int i, idx;
+@@ -2928,14 +2926,11 @@ MODULE_PARM_DESC(lockless_register_fb,
+ 	"Lockless framebuffer registration for debugging [default=off]");
+ 
+ /* called with console_lock held */
+-int fbcon_fb_registered(struct fb_info *info)
++static int do_fb_registered(struct fb_info *info)
+ {
+ 	int ret = 0, i, idx;
+ 
+-	if (!lockless_register_fb)
+-		console_lock();
+-	else
+-		atomic_inc(&ignore_console_lock_warning);
++	WARN_CONSOLE_UNLOCKED();
+ 
+ 	fbcon_registered_fb[info->node] = info;
+ 	fbcon_num_registered_fb++;
+@@ -2945,7 +2940,7 @@ int fbcon_fb_registered(struct fb_info *info)
+ 
+ 	if (deferred_takeover) {
+ 		pr_info("fbcon: Deferring console take-over\n");
+-		goto out;
++		return 0;
+ 	}
+ 
+ 	if (info_idx == -1) {
+@@ -2965,7 +2960,20 @@ int fbcon_fb_registered(struct fb_info *info)
+ 		}
+ 	}
+ 
+-out:
++	return ret;
++}
++
++int fbcon_fb_registered(struct fb_info *info)
++{
++	int ret;
++
++	if (!lockless_register_fb)
++		console_lock();
++	else
++		atomic_inc(&ignore_console_lock_warning);
++
++	ret = do_fb_registered(info);
++
+ 	if (!lockless_register_fb)
+ 		console_unlock();
+ 	else
+@@ -3280,7 +3288,7 @@ static void fbcon_register_existing_fbs(struct work_struct *work)
+ 	logo_shown = FBCON_LOGO_DONTSHOW;
+ 
+ 	fbcon_for_each_registered_fb(i)
+-		fbcon_fb_registered(fbcon_registered_fb[i]);
++		do_fb_registered(fbcon_registered_fb[i]);
+ 
+ 	console_unlock();
+ }
 -- 
-Daniel Vetter
-Software Engineer, Intel Corporation
-http://blog.ffwll.ch
+2.34.1
+
