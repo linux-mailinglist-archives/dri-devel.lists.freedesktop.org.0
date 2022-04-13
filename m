@@ -1,78 +1,87 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0CF444FF3FF
-	for <lists+dri-devel@lfdr.de>; Wed, 13 Apr 2022 11:44:43 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id BDC904FF400
+	for <lists+dri-devel@lfdr.de>; Wed, 13 Apr 2022 11:44:51 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 0104610EFF0;
-	Wed, 13 Apr 2022 09:44:41 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 21AC910F13C;
+	Wed, 13 Apr 2022 09:44:48 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from us-smtp-delivery-124.mimecast.com
- (us-smtp-delivery-124.mimecast.com [170.10.129.124])
- by gabe.freedesktop.org (Postfix) with ESMTPS id C049510EFF0
- for <dri-devel@lists.freedesktop.org>; Wed, 13 Apr 2022 09:44:39 +0000 (UTC)
+ (us-smtp-delivery-124.mimecast.com [170.10.133.124])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 06FE410F164
+ for <dri-devel@lists.freedesktop.org>; Wed, 13 Apr 2022 09:44:46 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1649843078;
+ s=mimecast20190719; t=1649843086;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=foBzhikXuCLjtC6Ari8RZkx+1wS4aS+fCUlhb35KDqw=;
- b=Hf4WPju10aDAb66s2Oc1qy0BqI77Gr5qouUqoorPrI5aXXhkrtXDGRI708J50tG4A4+QK+
- IGxbD5H8SrN7pxonv3gCek/y+o4WfshjM837diJx61k5M8ZBrJRX0bHRCpMsoFIQS2l539
- okFWW4129fW/TmYILB3ba7K9Izzcids=
-Received: from mail-wm1-f70.google.com (mail-wm1-f70.google.com
- [209.85.128.70]) by relay.mimecast.com with ESMTP with STARTTLS
+ bh=vCOpbsA3LWLEDxxS1pTEGRyO16+At2GXelay3+kPStQ=;
+ b=L6MNJn+gni3F5nAt1EsBqTihvVR6MpApCpOxaWCIuQPPcXHUZ6yjx6Q4Pu9LuS8qovnTCr
+ SS4JECh1o4+5+4Qzsttd/ogAy1r4ZpyP0EHKCTqP+N60gbjY/MUXu+JU4Wi1kL2B0oKQiN
+ s5RKAEznIRDGIQOToqsajGv1YPg3nNw=
+Received: from mail-ed1-f71.google.com (mail-ed1-f71.google.com
+ [209.85.208.71]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-209-D-Tdha59PEKUY0-2p3WKHg-1; Wed, 13 Apr 2022 05:44:37 -0400
-X-MC-Unique: D-Tdha59PEKUY0-2p3WKHg-1
-Received: by mail-wm1-f70.google.com with SMTP id
- r132-20020a1c448a000000b0038eaca2b8c9so232217wma.7
- for <dri-devel@lists.freedesktop.org>; Wed, 13 Apr 2022 02:44:37 -0700 (PDT)
+ us-mta-302-OjmuCedjO5K8oMSJ5r9UmQ-1; Wed, 13 Apr 2022 05:44:43 -0400
+X-MC-Unique: OjmuCedjO5K8oMSJ5r9UmQ-1
+Received: by mail-ed1-f71.google.com with SMTP id
+ dm27-20020a05640222db00b0041d76d4f795so829084edb.2
+ for <dri-devel@lists.freedesktop.org>; Wed, 13 Apr 2022 02:44:42 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
  :content-language:to:cc:references:from:in-reply-to
  :content-transfer-encoding;
- bh=foBzhikXuCLjtC6Ari8RZkx+1wS4aS+fCUlhb35KDqw=;
- b=0xzbLwmSub+AJkEBSLVAwsTryl6WE7ABays8Rdth8RDsACKNBUjRXhoOrkkuZ3cVNA
- VifMhWX96nOjLASzKpZ1j6EpbxbM4+4qPgQHZ8RgmU8J5Mb6YtKXT/+5CigK/1GMJmWO
- BvxP+VwmUVZ58nzBzQGgFmMossiPJ/XWJXCTFBKZqrXWLS3B5GVqs3Yn6qfn8Wks8bbe
- 3Qb/tKMnOLsZ/P5EN+LPp4vcGk3oS9WCC1S0ulK1HLizjU1SfkOM59NakpuYcPEYk5WG
- bjHIfXqs54V+5ARA7dTJrPAeQPujXswejGmjPcVskIrjsYfT4ldZFx/7nuSWLH6mExHi
- RTUQ==
-X-Gm-Message-State: AOAM531HseVLHufjhFWu8IVjZga7IE6KsvhTo7bIntAzTfOsYABEuKLS
- kdhxmDDSEXfTB4mF2djQJHYSqVLbehMXkOX3D0Ij0V/FqugHeu/e+S+Lys9gulccUd4f/AnO+GT
- NPmZi3/Jj/ykQkQeoimREhZk7cP/D
-X-Received: by 2002:a05:600c:3ca4:b0:38e:54d0:406d with SMTP id
- bg36-20020a05600c3ca400b0038e54d0406dmr7706530wmb.199.1649843076508; 
- Wed, 13 Apr 2022 02:44:36 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJw0HXRzJbUNXpEFfAtNGvrG9B9JzK/eHK2ZSXSccHuCPbF3oaO1WosnYsBkWkBzF47eXcT4NQ==
-X-Received: by 2002:a05:600c:3ca4:b0:38e:54d0:406d with SMTP id
- bg36-20020a05600c3ca400b0038e54d0406dmr7706513wmb.199.1649843076247; 
- Wed, 13 Apr 2022 02:44:36 -0700 (PDT)
-Received: from [192.168.1.102] ([92.176.231.205])
+ bh=vCOpbsA3LWLEDxxS1pTEGRyO16+At2GXelay3+kPStQ=;
+ b=yapFN4HlN5tESlR2TGKYzqzNiwunBj7381u3q07lR1sMJPxtu366hXDUkpIQAdMFIu
+ r44R2+AX24kajU506rHMQBRxaIbAt9TjaaKyUtpMvoOdUZythavS6uj2y0VUFjo1Ja99
+ NHnXA9vj7W86ePXefAafA3T63iijqSLzHS8bxk/qQRFWOu+nv5nO9igIsCKXuyNJhReU
+ e3P4eLZZ+eZqsJ4QQmEXsaB3x/gt10qFNtbeHe2JQy2WaMnc8rZwbXP1SIIRO/MlG1s4
+ vcPrsUmzaCFc4ALBb2qxUlNNvAZrH+0E4TG2WP/CeF0QnFdQ3oc744HzJbL2Fwlod8eH
+ shdQ==
+X-Gm-Message-State: AOAM5327WqMBt3O2w28MsxSTy0CxYu992aEuTz6/WCODmq8f6kRJuAJ3
+ YPZYYGbuAaWv5C0xA5qNQUhtrcTFbuct29XhPuz8iERfuDm5KwAhv4JOZiYx6bO8vErcDDSrPj0
+ +CNsWM64aRkhQPH4tFZagrGdQfgV9
+X-Received: by 2002:a17:906:d552:b0:6e8:4edc:f2ee with SMTP id
+ cr18-20020a170906d55200b006e84edcf2eemr22449897ejc.572.1649843081948; 
+ Wed, 13 Apr 2022 02:44:41 -0700 (PDT)
+X-Google-Smtp-Source: ABdhPJy7OL6NbfTlsQblE4Qhaw7FA8v5Nvb1u8uq+ijuGSr14aSd37woA3OxOsKeUC1w4fsFQyHxXA==
+X-Received: by 2002:a17:906:d552:b0:6e8:4edc:f2ee with SMTP id
+ cr18-20020a170906d55200b006e84edcf2eemr22449887ejc.572.1649843081692; 
+ Wed, 13 Apr 2022 02:44:41 -0700 (PDT)
+Received: from ?IPV6:2001:1c00:c1e:bf00:1db8:22d3:1bc9:8ca1?
+ (2001-1c00-0c1e-bf00-1db8-22d3-1bc9-8ca1.cable.dynamic.v6.ziggo.nl.
+ [2001:1c00:c1e:bf00:1db8:22d3:1bc9:8ca1])
  by smtp.gmail.com with ESMTPSA id
- o10-20020a5d47ca000000b00203fb25165esm37150569wrc.6.2022.04.13.02.44.35
+ cb25-20020a170906a45900b006e87e5f9c4asm4355010ejb.140.2022.04.13.02.44.40
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Wed, 13 Apr 2022 02:44:35 -0700 (PDT)
-Message-ID: <ddf107c7-5108-f366-45a8-e7244cdcd209@redhat.com>
-Date: Wed, 13 Apr 2022 11:44:34 +0200
+ Wed, 13 Apr 2022 02:44:41 -0700 (PDT)
+Message-ID: <3b467446-95de-3773-eb4b-8090eab27daf@redhat.com>
+Date: Wed, 13 Apr 2022 11:44:40 +0200
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
  Thunderbird/91.7.0
-Subject: Re: [PATCH v3 2/5] dt-bindings: display: ssd1307fb: Extend schema for
- SPI controllers
-To: Geert Uytterhoeven <geert@linux-m68k.org>
-References: <20220412162729.184783-1-javierm@redhat.com>
- <20220412162729.184783-3-javierm@redhat.com>
- <CAMuHMdUDxexqsGjb3B37jW_xZU1TBLq8gK5hctA+PKjL+LhQGQ@mail.gmail.com>
-From: Javier Martinez Canillas <javierm@redhat.com>
-In-Reply-To: <CAMuHMdUDxexqsGjb3B37jW_xZU1TBLq8gK5hctA+PKjL+LhQGQ@mail.gmail.com>
+Subject: Re: [RFC] drm/kms: control display brightness through drm_connector
+ properties
+To: Daniel Vetter <daniel@ffwll.ch>
+References: <0d188965-d809-81b5-74ce-7d30c49fee2d@redhat.com>
+ <dP36CeeNjDVKgcJzbBAdkNM0HzB3N5Uzd6cgBcmrb5mA6xzWs9AKMmRdMKG2y6c1geMhZ1i8hONKQmxYYHN-ZhRLGT_TXz5IhtqnJSWBD9Q=@emersion.fr>
+ <0e1cffc1-e8b6-dc58-56ff-53f911f33e60@redhat.com>
+ <CADnq5_OGtERRYUPLskgjVD4eLbb2PxKdzcr+xmR2mRMAK73Log@mail.gmail.com>
+ <Yk/tOG+iga/wj/Gt@phenom.ffwll.local>
+ <acd0c8b6-b045-bab7-dc92-ea166b22c1c6@redhat.com>
+ <dc3754a4-3f74-95bb-adae-56000a3756f5@redhat.com>
+ <AQ3YD3wm6m_Knso5FAW-CKcokQqjDweExgrnV-f84VGkcOk8B0UcaooLiNqFMsHLOnhVnsnxC9kJMh_gY7z6rHlFaIx1OAZxSUfrOnd2jtY=@emersion.fr>
+ <ca6eead3-13e7-2973-657d-48798c6cf89f@redhat.com>
+ <YlaKnRY/aON+EUOx@phenom.ffwll.local>
+From: Hans de Goede <hdegoede@redhat.com>
+In-Reply-To: <YlaKnRY/aON+EUOx@phenom.ffwll.local>
 Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=javierm@redhat.com
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=hdegoede@redhat.com
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
 Content-Language: en-US
@@ -90,70 +99,90 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Chen-Yu Tsai <wens@kernel.org>,
- Geert Uytterhoeven <geert+renesas@glider.be>,
- Neil Armstrong <narmstrong@baylibre.com>, David Airlie <airlied@linux.ie>,
- Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
- DRI Development <dri-devel@lists.freedesktop.org>,
- Rob Herring <robh+dt@kernel.org>,
- "open list:OPEN FIRMWARE AND FLATTENED DEVICE TREE BINDINGS"
- <devicetree@vger.kernel.org>, Mark Brown <broonie@kernel.org>,
- Krzysztof Kozlowski <krzk+dt@kernel.org>,
- Andy Shevchenko <andriy.shevchenko@linux.intel.com>
+Cc: Sebastian Wick <sebastian.wick@redhat.com>,
+ Martin Roukala <martin.roukala@mupuf.org>,
+ Christoph Grenz <christophg+lkml@grenz-bonn.de>,
+ wayland <wayland-devel@lists.freedesktop.org>,
+ "dri-devel@lists.freedesktop.org" <dri-devel@lists.freedesktop.org>,
+ Yusuf Khan <yusisamerican@gmail.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hello Geert,
+Hi,
 
-On 4/13/22 10:04, Geert Uytterhoeven wrote:
-> Hi Javier,
-> 
-> On Tue, Apr 12, 2022 at 6:27 PM Javier Martinez Canillas
-> <javierm@redhat.com> wrote:
->> The Solomon SSD130x OLED displays can either have an I2C or SPI interface,
->> add to the schema the properties and examples for OLED devices under SPI.
+On 4/13/22 10:32, Daniel Vetter wrote:
+> On Fri, Apr 08, 2022 at 12:26:24PM +0200, Hans de Goede wrote:
+>> Hi,
 >>
->> Signed-off-by: Javier Martinez Canillas <javierm@redhat.com>
->> Acked-by: Mark Brown <broonie@kernel.org>
->> Reviewed-by: Geert Uytterhoeven <geert+renesas@glider.be>
->> ---
+>> On 4/8/22 12:16, Simon Ser wrote:
+>>> Would it be an option to only support the KMS prop for Good devices,
+>>> and continue using the suboptimal existing sysfs API for Bad devices?
+>>>
+>>> (I'm just throwing ideas around to see what sticks, feel free to ignore.)
 >>
->> Changes in v3:
->> - Add a comment to the properties required for SPI (Geert Uytterhoeven)
+>> Currently suid-root or pkexec helpers are used to deal with the
+>> /sys/class/backlight requires root rights issue. I really want to
+>> be able to disable these helpers at build time in e.g. GNOME once
+>> the new properties are supported in GNOME.  So that distros with
+>> a new enough kernel can reduce their attack surface this way.
 > 
-> Thanks for the update!
+> Yeah but otoh perpetuating a bad interface forever isn't a great idea
+> either. I think the pragmatic plan here is
+> - Implement this properly on good devices, i.e. anything new.
+> - Do some runtime disabling in the pkexec helpers if they detect a modern
+>   system (we should be able to put a proper symlink into the drm sysfs
+>   connector directories, to make this easy to detect). It's not as great
+>   as doing this at compile time, but it's a step.
+> - Figure out a solution for the old crap. We can't really change anything
+>   with the load ordering for existing systems, so if the hacked-up compat
+>   libbacklight-backlight isn't an option then I guess we need some quirk
+>   list/extracted code which makes i915/nouveau/radeon driver load fail
+>   until the right backlight shows up. And that needs to be behind a
+>   Kconfig to avoid breaking existing systems.
 > 
->> --- a/Documentation/devicetree/bindings/display/solomon,ssd1307fb.yaml
->> +++ b/Documentation/devicetree/bindings/display/solomon,ssd1307fb.yaml
->> @@ -38,9 +38,16 @@ properties:
->>    reset-gpios:
->>      maxItems: 1
->>
->> +  # Only required for SPI
->> +  dc-gpios:
->> +    maxItems: 1
-> 
-> Actually I meant to also add a description, like for vbat-supply below,
-> to explain the meaning of "dc".
->
+> Inflicting hotplug complications on all userspace (including uevent
+> handling for this hotpluggable backlight and everything) just because
+> fixing the old crap systems is work is imo really not a good idea. Much
+> better if we get to the correct future step-by-step.
 
-Ahh, sorry for misunderstanding you! Something like the following looks good ?
+This assumes that we only use the new brightness properties for laptop
+internal LCD panels.
 
-  # Only required for SPI
-  dc-gpios:
-    description:
-      GPIO connected to the controller's D/C# (Data/Command) pin,
-      that is needed for 4-wire SPI to tell the controller if the
-      data sent is for a command register or the display data RAM
-    maxItems: 1
+But what about controlling the brightness of external monitors through
+DDC/CI? If we do that we need hotplug support for this regardless since
+external monitors can be hotplugged.
 
-If you agree with that, then can squash before pushing or add it to a v4
-if another revision is needed.
+As I mentioned in other parts of the thread one of the reasons why
+I've started looking into this again is because of people being
+interested in this (1).
 
--- 
-Best regards,
+And even just taking internal LCD panels into account, there are
+hybrid GPU laptops where the backlight is directly controlled by
+the GPU (native type backlight driver) connected to the panel(2),
+if we runtime switch the GPU attached to the panel there, then we
+will get an actual hotplug of the LCD connector and I'm not sure if
+we can always detect the maximum value of the brightness on the GPU
+which is not connected to the panel at boot. So in this case we
+need userspace to support re-reading the brightness max at
+a hotplug event regardless.
 
-Javier Martinez Canillas
-Linux Engineering
-Red Hat
+So in all in all I feel that supporting hotplug events is
+unavoidable here.
+
+Regards,
+
+Hans
+
+
+1) Including attempting to do this through the old /sys/class/backlight
+interface which IMHO would be quite bad to do:
+https://lore.kernel.org/lkml/20220403230850.2986-1-yusisamerican@gmail.com/
+
+2) E.g. gnome-settings-daemon has special code to detect which native
+backlight interface to use if there are 2 native backlight devices on
+a single laptop, see:
+https://gitlab.gnome.org/GNOME/gnome-settings-daemon/-/blob/master/plugins/power/gsd-backlight.c#L95
+
+
+
 
