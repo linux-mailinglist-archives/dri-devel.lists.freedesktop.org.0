@@ -1,44 +1,59 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id B81C94FEBCF
-	for <lists+dri-devel@lfdr.de>; Wed, 13 Apr 2022 02:10:22 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 3DCA04FECAA
+	for <lists+dri-devel@lfdr.de>; Wed, 13 Apr 2022 03:59:55 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 80BC210E821;
-	Wed, 13 Apr 2022 00:10:18 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 46E9510EE61;
+	Wed, 13 Apr 2022 01:59:52 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from gandalf.ozlabs.org (mail.ozlabs.org
- [IPv6:2404:9400:2221:ea00::3])
- by gabe.freedesktop.org (Postfix) with ESMTPS id EA74210E809;
- Wed, 13 Apr 2022 00:10:16 +0000 (UTC)
-Received: from authenticated.ozlabs.org (localhost [127.0.0.1])
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
- key-exchange ECDHE (P-256) server-signature RSA-PSS (4096 bits) server-digest
- SHA256) (No client certificate requested)
- by mail.ozlabs.org (Postfix) with ESMTPSA id 4KdNJl28pNz4xLS;
- Wed, 13 Apr 2022 10:10:15 +1000 (AEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=canb.auug.org.au;
- s=201702; t=1649808615;
- bh=EVFOUzA5JLcwY6/XtoHPpmTyw16RQs66BduNRGsxnto=;
- h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
- b=hZmPURVpaqAizSN2J/qnu61+GG3pjrcIdSEY9iXhe0YiKNwG2UIq7x0Gyjp4s2/Av
- fO4a+VCShDMTG/PxIZXt0bsKvGYiEO988nv3ahbvj+nZzvpnRj//uwK3mYskAmLkHb
- rON07DYWhnU8zBBUHIi6ty803Ffv4RrkOQ28ThDw9v8Rus1aHch4xfjZ+5pw2s+noc
- PvoiN8CS86paQ7uYWJ/0LziOFcmXG42Dk/3nKODbLFokOWiE15NSrS1o7mxz8fWOfs
- szO8IC1AYAOLkquES6QRJ0tcB12p6sQV+8g26Y5fgTyPBEwVHyxJDQwlPAnPi582iY
- w/23HrAwhWcRg==
-Date: Wed, 13 Apr 2022 10:10:14 +1000
-From: Stephen Rothwell <sfr@canb.auug.org.au>
-To: Alex Deucher <alexdeucher@gmail.com>, Dave Airlie <airlied@linux.ie>
-Subject: Re: linux-next: manual merge of the amdgpu tree with the drm-misc tree
-Message-ID: <20220413101014.6b6c4db2@canb.auug.org.au>
-In-Reply-To: <20220406103405.299c06b9@canb.auug.org.au>
-References: <20220406103405.299c06b9@canb.auug.org.au>
+Received: from mailgw01.mediatek.com (unknown [60.244.123.138])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 2F70710EE61
+ for <dri-devel@lists.freedesktop.org>; Wed, 13 Apr 2022 01:59:49 +0000 (UTC)
+X-UUID: ca0c66fc92ec45dea805913229f322ed-20220413
+X-CID-P-RULE: Release_Ham
+X-CID-O-INFO: VERSION:1.1.4, REQID:a2dc3060-ee44-4995-b2c9-ebf8a1b67e6d, OB:0,
+ LO
+ B:0,IP:0,URL:0,TC:0,Content:0,EDM:0,RT:0,SF:50,FILE:0,RULE:Release_Ham,ACT
+ ION:release,TS:50
+X-CID-INFO: VERSION:1.1.4, REQID:a2dc3060-ee44-4995-b2c9-ebf8a1b67e6d, OB:0,
+ LOB:
+ 0,IP:0,URL:0,TC:0,Content:0,EDM:0,RT:0,SF:50,FILE:0,RULE:Release_Ham,ACTIO
+ N:release,TS:50
+X-CID-META: VersionHash:faefae9, CLOUDID:72833078-0afa-4dca-bdec-ca54c998425a,
+ C
+ OID:IGNORED,Recheck:0,SF:13|15|28|17|19|48,TC:nil,Content:0,EDM:-3,File:ni
+ l,QS:0,BEC:nil
+X-UUID: ca0c66fc92ec45dea805913229f322ed-20220413
+Received: from mtkcas11.mediatek.inc [(172.21.101.40)] by mailgw01.mediatek.com
+ (envelope-from <ck.hu@mediatek.com>)
+ (Generic MTA with TLSv1.2 ECDHE-RSA-AES256-SHA384 256/256)
+ with ESMTP id 1022785704; Wed, 13 Apr 2022 09:59:43 +0800
+Received: from mtkcas11.mediatek.inc (172.21.101.40) by
+ mtkmbs10n2.mediatek.inc (172.21.101.183) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_CBC_SHA384) id 15.2.792.3; 
+ Wed, 13 Apr 2022 09:59:42 +0800
+Received: from mtksdccf07 (172.21.84.99) by mtkcas11.mediatek.inc
+ (172.21.101.73) with Microsoft SMTP Server id 15.0.1497.2 via Frontend
+ Transport; Wed, 13 Apr 2022 09:59:42 +0800
+Message-ID: <12c7587db24f0f72e8f7d30c294c7b3eac241a83.camel@mediatek.com>
+Subject: Re: [PATCH v4, 1/4] drm/mediatek: Adjust the timing of mipi signal
+ from LP00 to LP11
+From: CK Hu <ck.hu@mediatek.com>
+To: <xinlei.lee@mediatek.com>, <chunkuang.hu@kernel.org>,
+ <p.zabel@pengutronix.de>, <airlied@linux.ie>, <daniel@ffwll.ch>,
+ <matthias.bgg@gmail.com>, <rex-bc.chen@mediatek.com>
+Date: Wed, 13 Apr 2022 09:59:42 +0800
+In-Reply-To: <1649644308-8455-2-git-send-email-xinlei.lee@mediatek.com>
+References: <1649644308-8455-1-git-send-email-xinlei.lee@mediatek.com>
+ <1649644308-8455-2-git-send-email-xinlei.lee@mediatek.com>
+Content-Type: text/plain; charset="UTF-8"
+X-Mailer: Evolution 3.28.5-0ubuntu0.18.04.2 
 MIME-Version: 1.0
-Content-Type: multipart/signed; boundary="Sig_/W0BVo/W6EWR0DXAkkUO0Fz0";
- protocol="application/pgp-signature"; micalg=pgp-sha256
+Content-Transfer-Encoding: 7bit
+X-MTK: N
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -51,109 +66,74 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Daniel Vetter <daniel.vetter@ffwll.ch>,
- Intel Graphics <intel-gfx@lists.freedesktop.org>,
- Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
- DRI <dri-devel@lists.freedesktop.org>,
- Linux Next Mailing List <linux-next@vger.kernel.org>,
- Alex Deucher <alexander.deucher@amd.com>,
- Christian =?UTF-8?B?S8O2bmln?= <christian.koenig@amd.com>
+Cc: jitao.shi@mediatek.com, linux-kernel@vger.kernel.org,
+ dri-devel@lists.freedesktop.org,
+ Project_Global_Chrome_Upstream_Group@mediatek.com,
+ linux-mediatek@lists.infradead.org, linux-arm-kernel@lists.infradead.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
---Sig_/W0BVo/W6EWR0DXAkkUO0Fz0
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: quoted-printable
+Hi, Xinlei:
 
-Hi all,
+On Mon, 2022-04-11 at 10:31 +0800, xinlei.lee@mediatek.com wrote:
+> From: Jitao Shi <jitao.shi@mediatek.com>
+> 
+> Old sequence:
+> 1. Pull the MIPI signal high
+> 2. Delay & Dsi_reset
+> 3. Set the dsi timing register
+> 4. dsi clk & lanes leave ulp mode and enter hs mode
+> 
+> The sequence after patching is:
+> 1. Set the dsi timing register
+> 2. Pull the MIPI signal high
+> 3. Delay & Dsi_reset
+> 4. dsi clk & lanes leave ulp mode and enter hs mode
 
-On Wed, 6 Apr 2022 10:34:05 +1000 Stephen Rothwell <sfr@canb.auug.org.au> w=
-rote:
->
-> Today's linux-next merge of the amdgpu tree got a conflict in:
->=20
->   drivers/gpu/drm/amd/amdgpu/amdgpu_vm.c
->=20
-> between commit:
->=20
->   fee2ede15542 ("drm/ttm: rework bulk move handling v5")
->=20
-> from the drm-misc tree and commit:
->=20
->   184a69ca4d41 ("drm/amdgpu: separate VM PT handling into amdgpu_vm_pt.c")
->=20
-> from the amdgpu tree.
->=20
-> I fixed it up (I used this file from the latter and added the following
-> patch) and can carry the fix as necessary. This is now fixed as far as
-> linux-next is concerned, but any non trivial conflicts should be mentioned
-> to your upstream maintainer when your tree is submitted for merging.
-> You may also want to consider cooperating with the maintainer of the
-> conflicting tree to minimise any particularly complex conflicts.
->=20
-> From: Stephen Rothwell <sfr@canb.auug.org.au>
-> Date: Wed, 6 Apr 2022 10:28:53 +1000
-> Subject: [PATCH] fix up for "drm/ttm: rework bulk move handling v5"
->=20
-> Signed-off-by: Stephen Rothwell <sfr@canb.auug.org.au>
+You just describe WHAT this patch do, but WHY this patch do? Does this
+patch reorder sequence to follow any spec?
+
+> 
+> Fixes: 2dd8075d2185 ("drm/mediatek: mtk_dsi: Use the drm_panel_bridge
+> API")
+> 
+> Signed-off-by: Jitao Shi <jitao.shi@mediatek.com>
+> Signed-off-by: Xinlei Lee <xinlei.lee@mediatek.com>
 > ---
->  drivers/gpu/drm/amd/amdgpu/amdgpu_vm_pt.c | 9 +++++++--
->  1 file changed, 7 insertions(+), 2 deletions(-)
->=20
-> diff --git a/drivers/gpu/drm/amd/amdgpu/amdgpu_vm_pt.c b/drivers/gpu/drm/=
-amd/amdgpu/amdgpu_vm_pt.c
-> index 958d7ed97882..a29933fa001f 100644
-> --- a/drivers/gpu/drm/amd/amdgpu/amdgpu_vm_pt.c
-> +++ b/drivers/gpu/drm/amd/amdgpu/amdgpu_vm_pt.c
-> @@ -630,7 +630,14 @@ static void amdgpu_vm_pt_free(struct amdgpu_vm_bo_ba=
-se *entry)
-> =20
->  	if (!entry->bo)
->  		return;
-> +
->  	shadow =3D amdgpu_bo_shadowed(entry->bo);
-> +	if (shadow) {
-> +		ttm_bo_set_bulk_move(&shadow->tbo, NULL);
-> +		amdgpu_bo_unref(&shadow);
-> +	}
-> +
-> +	ttm_bo_set_bulk_move(&entry->bo->tbo, NULL);
->  	entry->bo->vm_bo =3D NULL;
->  	list_del(&entry->vm_status);
->  	amdgpu_bo_unref(&shadow);
-> @@ -653,8 +660,6 @@ static void amdgpu_vm_pt_free_dfs(struct amdgpu_devic=
-e *adev,
->  	struct amdgpu_vm_pt_cursor cursor;
->  	struct amdgpu_vm_bo_base *entry;
-> =20
-> -	vm->bulk_moveable =3D false;
-> -
->  	for_each_amdgpu_vm_pt_dfs_safe(adev, vm, start, cursor, entry)
->  		amdgpu_vm_pt_free(entry);
-> =20
-> --=20
-> 2.35.1
+>  drivers/gpu/drm/mediatek/mtk_dsi.c | 6 +++---
+>  1 file changed, 3 insertions(+), 3 deletions(-)
+> 
+> diff --git a/drivers/gpu/drm/mediatek/mtk_dsi.c
+> b/drivers/gpu/drm/mediatek/mtk_dsi.c
+> index ccb0511b9cd5..262c027d8c2f 100644
+> --- a/drivers/gpu/drm/mediatek/mtk_dsi.c
+> +++ b/drivers/gpu/drm/mediatek/mtk_dsi.c
+> @@ -649,14 +649,14 @@ static int mtk_dsi_poweron(struct mtk_dsi *dsi)
+>  	mtk_dsi_reset_engine(dsi);
+>  	mtk_dsi_phy_timconfig(dsi);
+>  
+> -	mtk_dsi_rxtx_control(dsi);
+> -	usleep_range(30, 100);
+> -	mtk_dsi_reset_dphy(dsi);
+>  	mtk_dsi_ps_control_vact(dsi);
+>  	mtk_dsi_set_vm_cmd(dsi);
+>  	mtk_dsi_config_vdo_timing(dsi);
+>  	mtk_dsi_set_interrupt_enable(dsi);
+>  
+> +	mtk_dsi_rxtx_control(dsi);
+> +	usleep_range(30, 100);
+> +	mtk_dsi_reset_dphy(dsi);
 
-This is now a conflict between the drm tree and the amdgpu tree.
+The original sequence is done by patch [1] not the patch in the Fixes
+tag. So modify the Fixes tag.
 
---=20
-Cheers,
-Stephen Rothwell
+[1] 
+https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git/commit/drivers/gpu/drm/mediatek/mtk_dsi.c?h=v5.18-rc2&id=75374fc2c152ef42c45c6bf716743d5f5bb6d24d
 
---Sig_/W0BVo/W6EWR0DXAkkUO0Fz0
-Content-Type: application/pgp-signature
-Content-Description: OpenPGP digital signature
+Regards,
+CK
 
------BEGIN PGP SIGNATURE-----
+>  	mtk_dsi_clk_ulp_mode_leave(dsi);
+>  	mtk_dsi_lane0_ulp_mode_leave(dsi);
+>  	mtk_dsi_clk_hs_mode(dsi, 0);
 
-iQEzBAEBCAAdFiEENIC96giZ81tWdLgKAVBC80lX0GwFAmJWFOYACgkQAVBC80lX
-0GzHYQf/XJ/uqXCJmI1AIMq26uOLqPK6VhkK1DAd6t9xFJZM9ypVmQjTt/N42TwZ
-xKbjN0FTHuSJiPbe4/0K+5691bAFKDkxdnNGecK9qa1WiWpLtC6b+rTd6HMA2K/r
-APSeLxmpxjPEHFDyeEyxzLh+1IOt+tvHOetc+wSs1nXyQfPHjFpyoOvmEj94bW6h
-Pc/oxxdtIvIZOeKjP5dD0/d3B8vGLl0ph5zr4OXc2ojo7cgcZ6Ijm3zvRnN9xtsB
-hi0I6e2V+9lu20NMU4ryXp4iTr1aMYS4JuUvFDECuj1wuJ37N6vmccC4rt7IvbQI
-bvxsI7ECfG3h6bdwUdgYk5147a4dgw==
-=5tNt
------END PGP SIGNATURE-----
-
---Sig_/W0BVo/W6EWR0DXAkkUO0Fz0--
