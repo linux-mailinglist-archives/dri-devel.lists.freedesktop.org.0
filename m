@@ -2,59 +2,62 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 67B764FF494
-	for <lists+dri-devel@lfdr.de>; Wed, 13 Apr 2022 12:18:36 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id D352E4FF4E9
+	for <lists+dri-devel@lfdr.de>; Wed, 13 Apr 2022 12:38:43 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 6D3BB10E34A;
-	Wed, 13 Apr 2022 10:18:33 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 2692010E06C;
+	Wed, 13 Apr 2022 10:38:41 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mga04.intel.com (mga04.intel.com [192.55.52.120])
- by gabe.freedesktop.org (Postfix) with ESMTPS id C0AA410E1B9;
- Wed, 13 Apr 2022 10:18:31 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1649845111; x=1681381111;
- h=from:to:cc:subject:in-reply-to:references:date:
- message-id:mime-version:content-transfer-encoding;
- bh=2Lzx5jk0JTXePgAYgCvddmJ1pcUn+U5GQV3wzqruP10=;
- b=bqeb1+WJcG2KcSCLPmdaeeCYQi+HALiT+x2grNDPjn+RsQDbPXIHDPBt
- d5EKck7v8aYOz2lgh/+WAIPD4jB1YkATj3XPvRW33tHLn0UKvjLvlVEsV
- bTaxPu8uIgakAVanweZmEVu2FAi1xJlHWfrcajDNJiZNvBQu7WlMiWux+
- bLZliYKTcGEbbqmi4DnZLZJ7YDHqfKttQmSAcqYpAvl9d/9pLctrhd7WY
- NcPVPl9m+HS1CvoQveLpGy8G/HC7C8oevIpfeIMJptQHmRi4d89Oq2JeL
- jY3ej2ASv96DpIh8lEeIFde6KL6VTboD1g5ssTnXc+U1iu6Yqj5qOWK0Z g==;
-X-IronPort-AV: E=McAfee;i="6400,9594,10315"; a="261477764"
-X-IronPort-AV: E=Sophos;i="5.90,256,1643702400"; d="scan'208";a="261477764"
-Received: from orsmga008.jf.intel.com ([10.7.209.65])
- by fmsmga104.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 13 Apr 2022 03:18:31 -0700
-X-IronPort-AV: E=Sophos;i="5.90,256,1643702400"; d="scan'208";a="573207523"
-Received: from psoltysi-mobl.ger.corp.intel.com (HELO localhost)
- ([10.249.149.160])
- by orsmga008-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 13 Apr 2022 03:18:27 -0700
-From: Jani Nikula <jani.nikula@linux.intel.com>
-To: "Wang, Zhi A" <zhi.a.wang@intel.com>, Zhi Wang
- <zhi.wang.linux@gmail.com>, "dri-devel@lists.freedesktop.org"
- <dri-devel@lists.freedesktop.org>, "linux-kernel@vger.kernel.org"
- <linux-kernel@vger.kernel.org>, "intel-gfx@lists.freedesktop.org"
- <intel-gfx@lists.freedesktop.org>, "intel-gvt-dev@lists.freedesktop.org"
- <intel-gvt-dev@lists.freedesktop.org>
-Subject: Re: [PATCH v9 1/3] i915/gvt: Separate the MMIO tracking table from
- GVT-g
-In-Reply-To: <60f369bf-c631-99e9-4bde-f5d200aa388a@intel.com>
-Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
-References: <20220407071945.72148-1-zhi.a.wang@intel.com>
- <20220407071945.72148-2-zhi.a.wang@intel.com> <874k35541h.fsf@intel.com>
- <986b8ff0-d0de-437c-8a56-c54aafb6159a@intel.com>
- <87h76xgwis.fsf@intel.com>
- <60f369bf-c631-99e9-4bde-f5d200aa388a@intel.com>
-Date: Wed, 13 Apr 2022 13:18:25 +0300
-Message-ID: <87czhlguby.fsf@intel.com>
+Received: from mail-qv1-f51.google.com (mail-qv1-f51.google.com
+ [209.85.219.51])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 9527610E06C
+ for <dri-devel@lists.freedesktop.org>; Wed, 13 Apr 2022 10:38:39 +0000 (UTC)
+Received: by mail-qv1-f51.google.com with SMTP id a10so1245811qvm.8
+ for <dri-devel@lists.freedesktop.org>; Wed, 13 Apr 2022 03:38:39 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=3iDGAJ5ErJY5+DCJE/DoojvcRcjppzMgRco5mDjRgB4=;
+ b=0KnJxLgLVWXjL9c+RgxOwUXVzlqlzP9Q2Bvu7CHprjLTJYtzrAfNnR+H/cw6Ju2AGI
+ ZiBKDaiPsE4up1WR/WXeyCfxc+awREbM/5dVSTDmc/yQQB8OFCPFI++M+qejj+b4uKLg
+ cgu2hIdu0ijslbQakQcAspxRh2Ab8DvGyDcKYasUuMjoRXx4F+kZ9Wl1Werbz95eU0vB
+ tdPS542wA5piMUGA6MhSaF1V9czuUNfPuG6K2jclr9H3ZrUpRKv5ONY2icbv4XSFJ2Or
+ 6DzUdq11mH4oQrQZDQ29J76aBOSpcX3ZA+olh4gdTnjaDGVti7319tFlzje1lfIHGdHi
+ wmSA==
+X-Gm-Message-State: AOAM532SE6/PdQjQzDJaxtqw2eORWovS+xC/lc8LfzyyFZmEkS0zbPAg
+ ual63PFJzFdokJksUhNrnhpUOnlkDXpdNw==
+X-Google-Smtp-Source: ABdhPJxKqOhfxe5T6ZqnKvSnMLnbCbPPFnUHSC9jCafR1ar+5H/sxnAJMJosRpep5vc3vrNHV4+lNg==
+X-Received: by 2002:a05:6214:d4a:b0:444:39bc:dfbd with SMTP id
+ 10-20020a0562140d4a00b0044439bcdfbdmr16016497qvr.81.1649846318098; 
+ Wed, 13 Apr 2022 03:38:38 -0700 (PDT)
+Received: from mail-yw1-f169.google.com (mail-yw1-f169.google.com.
+ [209.85.128.169]) by smtp.gmail.com with ESMTPSA id
+ g72-20020a379d4b000000b0069c0f9b1325sm6507217qke.21.2022.04.13.03.38.37
+ for <dri-devel@lists.freedesktop.org>
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Wed, 13 Apr 2022 03:38:37 -0700 (PDT)
+Received: by mail-yw1-f169.google.com with SMTP id
+ 00721157ae682-2ec05db3dfbso17073077b3.7
+ for <dri-devel@lists.freedesktop.org>; Wed, 13 Apr 2022 03:38:37 -0700 (PDT)
+X-Received: by 2002:a81:c703:0:b0:2d0:cc6b:3092 with SMTP id
+ m3-20020a81c703000000b002d0cc6b3092mr33591611ywi.449.1649846317128; Wed, 13
+ Apr 2022 03:38:37 -0700 (PDT)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: quoted-printable
+References: <20220412162729.184783-1-javierm@redhat.com>
+ <20220412162729.184783-3-javierm@redhat.com>
+ <CAMuHMdUDxexqsGjb3B37jW_xZU1TBLq8gK5hctA+PKjL+LhQGQ@mail.gmail.com>
+ <ddf107c7-5108-f366-45a8-e7244cdcd209@redhat.com>
+In-Reply-To: <ddf107c7-5108-f366-45a8-e7244cdcd209@redhat.com>
+From: Geert Uytterhoeven <geert@linux-m68k.org>
+Date: Wed, 13 Apr 2022 12:38:26 +0200
+X-Gmail-Original-Message-ID: <CAMuHMdVTPquOXGwf3YcMDHYyW9=UjRyk7Qhy+HNVThbk355wcQ@mail.gmail.com>
+Message-ID: <CAMuHMdVTPquOXGwf3YcMDHYyW9=UjRyk7Qhy+HNVThbk355wcQ@mail.gmail.com>
+Subject: Re: [PATCH v3 2/5] dt-bindings: display: ssd1307fb: Extend schema for
+ SPI controllers
+To: Javier Martinez Canillas <javierm@redhat.com>
+Content-Type: text/plain; charset="UTF-8"
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -67,179 +70,75 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Zhi Wang <zhi.a.wang@gmail.com>, Jason Gunthorpe <jgg@nvidia.com>, "Vivi,
- Rodrigo" <rodrigo.vivi@intel.com>, Christoph Hellwig <hch@lst.de>
+Cc: Chen-Yu Tsai <wens@kernel.org>,
+ Geert Uytterhoeven <geert+renesas@glider.be>,
+ Neil Armstrong <narmstrong@baylibre.com>, David Airlie <airlied@linux.ie>,
+ Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
+ DRI Development <dri-devel@lists.freedesktop.org>,
+ Rob Herring <robh+dt@kernel.org>,
+ "open list:OPEN FIRMWARE AND FLATTENED DEVICE TREE BINDINGS"
+ <devicetree@vger.kernel.org>, Mark Brown <broonie@kernel.org>,
+ Krzysztof Kozlowski <krzk+dt@kernel.org>,
+ Andy Shevchenko <andriy.shevchenko@linux.intel.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Wed, 13 Apr 2022, "Wang, Zhi A" <zhi.a.wang@intel.com> wrote:
-> Hi Jani:
->
-> Previously when I sent a pull request, it will be top of a tag in drm-int=
-el-next. The following patches move the DMC related registers, which is use=
-d by GVT-g into intel_dmc_regs.h and it is not included in the latest tag.=
-=20
->
-> commit 9c67d9e84c7d4a3a2371a54ee2dddc4699002000
-> Author: Jani Nikula <jani.nikula@intel.com>
-> Date:   Wed Mar 30 14:34:17 2022 +0300
->
->     drm/i915/dmc: split out dmc registers to a separate file
->=20=20=20=20=20
->     Clean up the massive i915_reg.h a bit with this isolated set of
->     registers.
->=20=20=20=20=20
->     v2: Remove stale comment (Lucas)
->=20=20=20=20=20
->     Signed-off-by: Jani Nikula <jani.nikula@intel.com>
->     Reviewed-by: Lucas De Marchi <lucas.demarchi@intel.com>
->     Link: https://patchwork.freedesktop.org/patch/msgid/20220330113417.22=
-0964-3-jani.nikula@intel.com
->
-> If I still sent the pull request based on the latest tag, after the pull =
-got merged, the compiling of the GVT-g module will be broken, as a new head=
-er needs to be included.
->
-> Can I sent my pull request not based on a tag in drm-intel-next, just the=
- latest drm-intel-next?
+Hi Javier,
 
-Yes.
-
-I think you can also backmerge drm-intel-next to your branch whenever
-there's a dependency you need, or otherwise want to sync up. (Please do
-*not* backmerge drm-intel-gt-next or drm-next directly.)
-
-
-BR,
-Jani.
-
+On Wed, Apr 13, 2022 at 11:44 AM Javier Martinez Canillas
+<javierm@redhat.com> wrote:
+> On 4/13/22 10:04, Geert Uytterhoeven wrote:
+> > On Tue, Apr 12, 2022 at 6:27 PM Javier Martinez Canillas
+> > <javierm@redhat.com> wrote:
+> >> The Solomon SSD130x OLED displays can either have an I2C or SPI interface,
+> >> add to the schema the properties and examples for OLED devices under SPI.
+> >>
+> >> Signed-off-by: Javier Martinez Canillas <javierm@redhat.com>
+> >> Acked-by: Mark Brown <broonie@kernel.org>
+> >> Reviewed-by: Geert Uytterhoeven <geert+renesas@glider.be>
+> >> ---
+> >>
+> >> Changes in v3:
+> >> - Add a comment to the properties required for SPI (Geert Uytterhoeven)
+> >
+> > Thanks for the update!
+> >
+> >> --- a/Documentation/devicetree/bindings/display/solomon,ssd1307fb.yaml
+> >> +++ b/Documentation/devicetree/bindings/display/solomon,ssd1307fb.yaml
+> >> @@ -38,9 +38,16 @@ properties:
+> >>    reset-gpios:
+> >>      maxItems: 1
+> >>
+> >> +  # Only required for SPI
+> >> +  dc-gpios:
+> >> +    maxItems: 1
+> >
+> > Actually I meant to also add a description, like for vbat-supply below,
+> > to explain the meaning of "dc".
+> >
 >
-> Thanks,
-> Zhi.
+> Ahh, sorry for misunderstanding you! Something like the following looks good ?
 >
-> On 4/13/22 9:31 AM, Jani Nikula wrote:
->> On Fri, 08 Apr 2022, "Wang, Zhi A" <zhi.a.wang@intel.com> wrote:
->>> Hi Jani:
->>>
->>> Thanks so much for the help. Can you generate a new tag on
->>> drm-intel-next? I noticed that there was one patch moving the DMC
->>> related registers into display/intel_dmc_regs.h, which is not included
->>> in the latest tag on drm-intel-next.
->>=20
->> Sorry, I'm not sure what you're asking exactly. We do tags when we
->> create pull requests for drm-next, but I don't see the connection to
->> gvt.
->>=20
->> BR,
->> Jani.
->>=20
->>>
->>> Guess it would be better that I can change this patch according to it
->>> when checking in. This would prevent a conflict in future.
->>>
->>> Thanks,
->>> Zhi.
->>>
->>> On 4/7/22 3:03 PM, Jani Nikula wrote:
->>>> On Thu, 07 Apr 2022, Zhi Wang <zhi.wang.linux@gmail.com> wrote:
->>>>> diff --git a/drivers/gpu/drm/i915/intel_gvt.h b/drivers/gpu/drm/i915/=
-intel_gvt.h
->>>>> index d7d3fb6186fd..7665d7cf0bdd 100644
->>>>> --- a/drivers/gpu/drm/i915/intel_gvt.h
->>>>> +++ b/drivers/gpu/drm/i915/intel_gvt.h
->>>>> @@ -26,7 +26,17 @@
->>>>>=20=20
->>>>>  struct drm_i915_private;
->>>>>=20=20
->>>>> +#include <linux/kernel.h>
->>>>
->>>> You only need <linux/types.h>. Please add it before the forward
->>>> declaration above.
->>>>
->>>>> +
->>>>>  #ifdef CONFIG_DRM_I915_GVT
->>>>> +
->>>>> +struct intel_gvt_mmio_table_iter {
->>>>> +	struct drm_i915_private *i915;
->>>>> +	void *data;
->>>>> +	int (*handle_mmio_cb)(struct intel_gvt_mmio_table_iter *iter,
->>>>> +			      u32 offset, u32 size);
->>>>> +};
->>>>> +
->>>>>  int intel_gvt_init(struct drm_i915_private *dev_priv);
->>>>>  void intel_gvt_driver_remove(struct drm_i915_private *dev_priv);
->>>>>  int intel_gvt_init_device(struct drm_i915_private *dev_priv);
->>>>> @@ -34,6 +44,7 @@ void intel_gvt_clean_device(struct drm_i915_private=
- *dev_priv);
->>>>>  int intel_gvt_init_host(void);
->>>>>  void intel_gvt_sanitize_options(struct drm_i915_private *dev_priv);
->>>>>  void intel_gvt_resume(struct drm_i915_private *dev_priv);
->>>>> +int intel_gvt_iterate_mmio_table(struct intel_gvt_mmio_table_iter *i=
-ter);
->>>>>  #else
->>>>>  static inline int intel_gvt_init(struct drm_i915_private *dev_priv)
->>>>>  {
->>>>> @@ -51,6 +62,16 @@ static inline void intel_gvt_sanitize_options(stru=
-ct drm_i915_private *dev_priv)
->>>>>  static inline void intel_gvt_resume(struct drm_i915_private *dev_pri=
-v)
->>>>>  {
->>>>>  }
->>>>> +
->>>>> +unsigned long intel_gvt_get_device_type(struct drm_i915_private *i91=
-5)
->>>>> +{
->>>>> +	return 0;
->>>>> +}
->>>>
->>>> The CONFIG_DRM_I915_GVT=3Dy counterpart for this is in mmio.h. Should =
-be
->>>> both in the same header.
->>>>
->>>>> +
->>>>> +int intel_gvt_iterate_mmio_table(struct intel_gvt_mmio_table_iter *i=
-ter)
->>>>> +{
->>>>> +	return 0;
->>>>> +}
->>>>>  #endif
->>>>>=20=20
->>>>>  #endif /* _INTEL_GVT_H_ */
->>>>> diff --git a/drivers/gpu/drm/i915/intel_gvt_mmio_table.c b/drivers/gp=
-u/drm/i915/intel_gvt_mmio_table.c
->>>>> new file mode 100644
->>>>> index 000000000000..d29491a6d209
->>>>> --- /dev/null
->>>>> +++ b/drivers/gpu/drm/i915/intel_gvt_mmio_table.c
->>>>> @@ -0,0 +1,1290 @@
->>>>> +// SPDX-License-Identifier: MIT
->>>>> +/*
->>>>> + * Copyright =C2=A9 2020 Intel Corporation
->>>>> + */
->>>>> +
->>>>> +#include "i915_drv.h"
->>>>> +#include "i915_reg.h"
->>>>> +#include "display/vlv_dsi_pll_regs.h"
->>>>> +#include "gt/intel_gt_regs.h"
->>>>> +#include "intel_mchbar_regs.h"
->>>>> +#include "i915_pvinfo.h"
->>>>> +#include "intel_gvt.h"
->>>>> +#include "gvt/gvt.h"
->>>>
->>>> Generally we have the include lists sorted.
->>>>
->>>> Other than the nitpicks above, the series is
->>>>
->>>> Acked-by: Jani Nikula <jani.nikula@intel.com>
->>>>
->>>>
->>>> BR,
->>>> Jani.
->>>>
->>>>
->>>
->>=20
+>   # Only required for SPI
+>   dc-gpios:
+>     description:
+>       GPIO connected to the controller's D/C# (Data/Command) pin,
+>       that is needed for 4-wire SPI to tell the controller if the
+>       data sent is for a command register or the display data RAM
+>     maxItems: 1
 >
+> If you agree with that, then can squash before pushing or add it to a v4
+> if another revision is needed.
 
---=20
-Jani Nikula, Intel Open Source Graphics Center
+Thanks, LGTM.
+
+Gr{oetje,eeting}s,
+
+                        Geert
+
+--
+Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k.org
+
+In personal conversations with technical people, I call myself a hacker. But
+when I'm talking to journalists I just say "programmer" or something like that.
+                                -- Linus Torvalds
