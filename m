@@ -1,148 +1,64 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id E0EE750025A
-	for <lists+dri-devel@lfdr.de>; Thu, 14 Apr 2022 01:13:23 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 12932500264
+	for <lists+dri-devel@lfdr.de>; Thu, 14 Apr 2022 01:16:48 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id F02A210F1A0;
-	Wed, 13 Apr 2022 23:13:19 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id D7F0110F1B4;
+	Wed, 13 Apr 2022 23:16:44 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mga09.intel.com (mga09.intel.com [134.134.136.24])
- by gabe.freedesktop.org (Postfix) with ESMTPS id D909D10F19F;
- Wed, 13 Apr 2022 23:13:17 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1649891598; x=1681427598;
- h=from:to:cc:subject:date:message-id:references:
- in-reply-to:content-id:content-transfer-encoding: mime-version;
- bh=WKtoaTdB/VilQ7GVz9x87oEP7s4Y0VtZRknJYiBH0aE=;
- b=MBkSkQz9Xfu6m528b/lx6/kjHnbYDC5fGqME9tOGjTzo3Q8j+YkIbYU7
- AO5gD3EV9L8uZPGfkjn3N2Iho1JxrZveZIYq6zVx4J6g4nQLyvB0mBsza
- xAUDBjTnemMNsZFXEudj5OSq9AGfK6dEJ420zJa6TI2RedwkJCHGszMHu
- p4Lu8erzMkETTJvXP7QU5Pe11zhJkrP9UkN4W12WZLz0bTbzjEHDuDeoK
- VLiGmrcZ+fMjyMJvyr8J/K20+NSYibM1pL5XmR5fPE3xaK0Sb40nQTnLr
- Zwtr9bBNxCmEmeTzufTceZ1gflMmwuG/eC0MKp1A0qtm6iI2E5HNj/HkP Q==;
-X-IronPort-AV: E=McAfee;i="6400,9594,10316"; a="262240769"
-X-IronPort-AV: E=Sophos;i="5.90,258,1643702400"; d="scan'208";a="262240769"
-Received: from orsmga007.jf.intel.com ([10.7.209.58])
- by orsmga102.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 13 Apr 2022 16:13:17 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.90,258,1643702400"; d="scan'208";a="552404276"
-Received: from fmsmsx601.amr.corp.intel.com ([10.18.126.81])
- by orsmga007.jf.intel.com with ESMTP; 13 Apr 2022 16:13:14 -0700
-Received: from fmsmsx603.amr.corp.intel.com (10.18.126.83) by
- fmsmsx601.amr.corp.intel.com (10.18.126.81) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2308.27; Wed, 13 Apr 2022 16:13:12 -0700
-Received: from fmsedg602.ED.cps.intel.com (10.1.192.136) by
- fmsmsx603.amr.corp.intel.com (10.18.126.83) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2308.27 via Frontend Transport; Wed, 13 Apr 2022 16:13:12 -0700
-Received: from NAM11-DM6-obe.outbound.protection.outlook.com (104.47.57.170)
- by edgegateway.intel.com (192.55.55.71) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.1.2308.27; Wed, 13 Apr 2022 16:13:12 -0700
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=c+p9b+z34Jbkp35+F9uLYZohgMOOTnIGN+0GmcpA/wKooofBTXajtirN2K0Ek9NPley3li5yQwTre+wZ5Ig2Se3wT+Od5noAwKv/E2vmmuwr/HWX/7wnCHKwk8s8psurbyNgV0FaXsebFipBnxZC7mXLaVvcgzKE93DxHfSPYiTId6M16ClusEl03eWxNemG9TWlKykhi9/q3A+K5OOPyLLeTuQlpfIeHDeRumaJfNCmlOT7tW1K9rc9U47jeA00NnHwMD56Rkg2SWplsxcvipmBb3j/5UK5RN9vg1kovNxZoz2MR2uMHa6zFgQr82whAPbfejVsrHGn9NcopPwb7g==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=JHgSEdJW9y0IcKSpxXo7NRIeoWPV8KKsssVuAzSsTTU=;
- b=T15Knq6NzqRwaI86k2BgokWA+fvnzviBlEftBnYtH/INtdt0Zd/zj6p/PYV+JK5q01MmPx7cVLKC1t2AHNsBNIdjaSz56hRROPcUajDg6uXLVw+DOAA6c2+UPwMJdjAohdpYeJfRcSKTVdJQyVgzTxhrvnOn45jp7sYhy7z3sYws9vxaQOC+4cCF1d6bpT9v/5CSXgkHSuEuYUV1P0Jse48a/hi1AlU/WUZeF/81HlxJpwkMSrkGf22CrsO7tkV5/W7atEBz77rvr6fNMU6JsKtzJGOeaFVhu4D/z6k8jSZBql7vKbbgEj1Ta53uXhmxNVwczZCBjE7yD4wRYXy0tQ==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=intel.com; dmarc=pass action=none header.from=intel.com;
- dkim=pass header.d=intel.com; arc=none
-Received: from CH0PR11MB5538.namprd11.prod.outlook.com (2603:10b6:610:d5::23)
- by DM6PR11MB2602.namprd11.prod.outlook.com (2603:10b6:5:c0::22) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.5144.29; Wed, 13 Apr
- 2022 23:13:11 +0000
-Received: from CH0PR11MB5538.namprd11.prod.outlook.com
- ([fe80::5dce:f83f:1192:73ba]) by CH0PR11MB5538.namprd11.prod.outlook.com
- ([fe80::5dce:f83f:1192:73ba%7]) with mapi id 15.20.5164.018; Wed, 13 Apr 2022
- 23:13:06 +0000
-From: "Wang, Zhi A" <zhi.a.wang@intel.com>
-To: Jani Nikula <jani.nikula@linux.intel.com>, Christoph Hellwig <hch@lst.de>
-Subject: Re: refactor the i915 GVT support and move to the modern mdev API v3
-Thread-Topic: refactor the i915 GVT support and move to the modern mdev API v3
-Thread-Index: AQHYTa50HopuXX46aU+QxtIWwnq/0azt3o0AgAAhbQCAAANggIAAeVIA
-Date: Wed, 13 Apr 2022 23:13:06 +0000
-Message-ID: <5af7726e-920e-603a-bad3-8adb09d2ba89@intel.com>
-References: <20220411141403.86980-1-hch@lst.de>
- <82c13d8e-1cb4-2873-86e9-16fd38e15b27@intel.com>
- <20220413154642.GA28095@lst.de> <871qy1geko.fsf@intel.com>
-In-Reply-To: <871qy1geko.fsf@intel.com>
-Accept-Language: en-FI, en-US
-Content-Language: aa
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-user-agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.14.0
-authentication-results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=intel.com;
-x-ms-publictraffictype: Email
-x-ms-office365-filtering-correlation-id: d2776576-7881-4653-710a-08da1da32b49
-x-ms-traffictypediagnostic: DM6PR11MB2602:EE_
-x-ld-processed: 46c98d88-e344-4ed4-8496-4ed7712e255d,ExtAddr
-x-microsoft-antispam-prvs: <DM6PR11MB260258533D3FE0DFD154F842CAEC9@DM6PR11MB2602.namprd11.prod.outlook.com>
-x-ms-exchange-senderadcheck: 1
-x-ms-exchange-antispam-relay: 0
-x-microsoft-antispam: BCL:0;
-x-microsoft-antispam-message-info: 0J/rcaAw2rbosG4lYUigArGvVTrAaJsuJktn32nCvvaplOdvGIxlvoJcdVlvDN2DSwphEMxQ0wyRsHmbsUSdO0b0py7yaBTjhii2vudMzdh/kzQSbeeBYkWUFDuZZZj0hkp9ARwxYOaeONwzWyyb/l1hDf3xg/go8d0hA2K2UjndckQW0dS4T6s3mUWmAV4rZyyggsXVwNZs5yYQHHQMYWWVnQvn5arLcwc++XzEaI7dEPmjUjg6BEX+vLS4wvGiuMRNA2cvNcn3q0csSqlhTajcL6qqG9hioGRm6Ko+jWImlMyfcQBXlSVI09+v/dDWi/XeEPYCHA/XJydkFvwfsllO/yk0Qfj3TD8jRW3OnPk5waD15W3JaWBPoGrYq5w4RzBmALzPHlasXN1N4yPFNn53xp/VTjWVcanvYt8Bwgc9aAWqwmBRK7PaM47h47sX6YALTxLe5edhfQm5FtrtPnHaru4wji7Ih87HkdsveJyZ+/EFPwvmJvzt9HZxrDOyATy52G1PloSME6cRS0ZHxsuf+U1Bn3y3QWl9ctDut997YNePcnLFqmH9UWhBrb6w31ubVnCiotx+xzlwwrZU9XDVyeJZy6jaZ0Dz/qEf/HpUhvb+mNx9wS4S8voMGyGb9fP/mmLQqjrF07Ux2zjup4WH9kT6fR2DQxK5DJ8CwgaBMKNL9dbRpSw+58hx7hxFQSgtPH6GGMTDVTBweifh9uqtblQWh/Mcp3ydje8cWW5qFZpCurIzAGvKcPRSGPEniZowAFasrT5R/l8aEvVG9DYpB3ZIF3uutoHizr60RmnhpkO/XUogPRGPrN8Mqt8Imc3D+sVC1ECKRpOg0U+V5l35IjkwJQSH97b+NX6bvxk=
-x-forefront-antispam-report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
- IPV:NLI; SFV:NSPM; H:CH0PR11MB5538.namprd11.prod.outlook.com; PTR:; CAT:NONE;
- SFS:(13230001)(366004)(110136005)(64756008)(8676002)(66946007)(66556008)(66476007)(66446008)(6512007)(7416002)(5660300002)(6506007)(31696002)(71200400001)(83380400001)(91956017)(316002)(2906002)(8936002)(82960400001)(38100700002)(122000001)(76116006)(2616005)(38070700005)(36756003)(31686004)(4326008)(54906003)(53546011)(26005)(86362001)(186003)(6486002)(966005)(508600001)(43740500002)(45980500001);
- DIR:OUT; SFP:1102; 
-x-ms-exchange-antispam-messagedata-chunkcount: 1
-x-ms-exchange-antispam-messagedata-0: =?Windows-1252?Q?y7YNuNols25zL1JX54F/y/Q6qhIiVXt5npLdvDgqZlPxJzpXLhGtVFqH?=
- =?Windows-1252?Q?Xof7TnDkbSvAd1RoFvY5e84Ea8P7B+AFE/I4Mi5FyJ3Ml7FywjZ1+Pcx?=
- =?Windows-1252?Q?p8YonwoBBnrcpGbS8pHbKXhhBddT54/tOx5iWpaECErjRGrHxZjwkLB/?=
- =?Windows-1252?Q?GnKuOncSm7r0VDlmaG1yFZtlKGyqt2GVSaDOOTe8LNCmxsEfVjEwZiZK?=
- =?Windows-1252?Q?3ohG+p0ggfVlSLS1Ni2DSMHLwctl5iSUsjNwrKQsh3wFy0RJqwHZwY0r?=
- =?Windows-1252?Q?bAhOyaSHcxpVlq+h5UKAtkAZhLyJv0VCKLtUPPXwBkmMw4AHXk2Ws3YT?=
- =?Windows-1252?Q?gZzNlLQa9w6e0oSMKc8MhUc3+SNs9T8+ryN0DznspKtz8f8ZsJJ0s8A2?=
- =?Windows-1252?Q?mw2+PjttlYtNKDz1dsMx78cDhIsZ5yy+dbk0UctEZQZgtWg/dfQD8s1r?=
- =?Windows-1252?Q?vKuSJwvSAFYYACJDwT8dyOWcR6z1jL60HadG1IBU5Bj/NPqzH2EVw/W9?=
- =?Windows-1252?Q?2JoUj8fo3AsIGFg/tyB1vIGgKVobI27mBf1NhlwSDqQqqghEfh57ZWVM?=
- =?Windows-1252?Q?IJCeCECTyhJ7oo1DH6fvp8PjThemwdWRTIvrq3Mi3nYMBu7J4I9IGY71?=
- =?Windows-1252?Q?5FSKm2Sj4OgnhtBCAu2vPx1JCvualyqgpxCyTzGavqnzu/YLyJLoocFK?=
- =?Windows-1252?Q?73wCvsM9KKs/3eoPj2PsnIrZhwm/UfXToRmAHywnRMZa4MDmkBiZyPOi?=
- =?Windows-1252?Q?SX3Jwjd0iaIoiDANfeF+3jkCy5aPYmvIB/dOzUI58WTEJNCRtaOPjOIu?=
- =?Windows-1252?Q?TpVdddEINqQEeayDDNdFZcORgbrYz1/iS3EuOOlBdlH78Do5ZZ+mL6D3?=
- =?Windows-1252?Q?ZuHNcSMAaZXtPPUtR5YL6QHARjkBaSjkEevDTpHTvBEthVSfZ/QB0OcB?=
- =?Windows-1252?Q?RhlBcTBkEyFapA7dpdLZstfksT9cbCVZIQVDCNGL7KnrXJESysY0MWTf?=
- =?Windows-1252?Q?T42zg3RGj3Lm2QItDyYvFavrStEpWnLvSwsA0ckwB377SbMI6hz0C1Q/?=
- =?Windows-1252?Q?hwORAnn36Q9B6agqLa+kY7O2c1RKKeWqXF5NCtPawvkbcAa/ta90d/Ux?=
- =?Windows-1252?Q?XOXioybwbgoCjp4wW/bAD4UGxy9aSUdkxMguwrC7PdIJl6TzDdME3NM9?=
- =?Windows-1252?Q?6vPAFRB4f1s5h4MeLLd2YPmQV60ovnOR3DGlVH5P8iqBYBEiLf+zgEjU?=
- =?Windows-1252?Q?VxNxGjuzLc2KuacCKNZ+9ME4FYRSrxh6I1IxAtHyKVfYlyQmcziSY63T?=
- =?Windows-1252?Q?adKdtJAV4WtHPGuEsUvp9ywozWUfp1RSapjRRUomMEOaDgjy9OcSctnl?=
- =?Windows-1252?Q?fDizZ/UGNyegFY2uFflNUgtZsMIegsInQC7cRtiJ9FdiAPNQRfKNH+rz?=
- =?Windows-1252?Q?mAqMmy0wqbDj67XVl06nCisvOW9r+P0iyjpuEUbYTsy2cUTXmI5yLoAw?=
- =?Windows-1252?Q?Hf/U+uu9obuve/vpbYEWzL3feH1IYjjSHCg+w/bJhsYUJDkLi+yOAR44?=
- =?Windows-1252?Q?dVCfwG9xTz+d4MLO2dZpgnRHLMwp2XFatKl7814RupEL3GL14Vqwb3Gd?=
- =?Windows-1252?Q?+HUea2u2fU/NsPOwiO7R0mLWHdrIbR8xihOZdyyE37fuMLj5vYC//Bpk?=
- =?Windows-1252?Q?I1zoNzYpKl/Uwet0UN2/k5BhVsm2uaMGy2fXCoGC4gAudMOqxOOieuul?=
- =?Windows-1252?Q?4wRC+q7O8+7K9x4R4ZZF50Kb0Twrn7dhZm0SwWUfH0UEPkr9CVjMQ+gb?=
- =?Windows-1252?Q?0R17k9NBrV7KmpHqruFYbA87PIDi1QUYE6tIYKeWgXeSJIgjfTlSlgop?=
- =?Windows-1252?Q?8eQCRe9WlEjmRg=3D=3D?=
-Content-Type: text/plain; charset="Windows-1252"
-Content-ID: <C976F833AFE46547B003FF1CE7108250@namprd11.prod.outlook.com>
+Received: from ams.source.kernel.org (ams.source.kernel.org [145.40.68.75])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 28BEC10F1B4
+ for <dri-devel@lists.freedesktop.org>; Wed, 13 Apr 2022 23:16:43 +0000 (UTC)
+Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
+ (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+ (No client certificate requested)
+ by ams.source.kernel.org (Postfix) with ESMTPS id 01324B825E3
+ for <dri-devel@lists.freedesktop.org>; Wed, 13 Apr 2022 23:16:40 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPS id 9F791C385A3
+ for <dri-devel@lists.freedesktop.org>; Wed, 13 Apr 2022 23:16:38 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+ s=k20201202; t=1649891798;
+ bh=1cEfSCb3SkDZTxMHF1ru1Mw4D+YaIm+4guekayjIV/8=;
+ h=From:To:Subject:Date:In-Reply-To:References:From;
+ b=VPsvfkUqOvNVCGOrLjAkuFu68VVifCya487UHmX4X/s9eUaY0kpvBj4Vm9AG125cB
+ L0k/bXKCvg4IbcbA3wXDVcq7VyKYyaYDHi2Sh1go1ZOar+QSTag3qt8M9WXASk71Tv
+ Awmd9F/bYCDZjeFAtGebtpQpn26olgNuo2I3JZYspFxs+kI4gnEwwfQV9s61g+EYIN
+ 5/VfrItsbR5WKwhzESWvmu8NQL+NRsdFqAJJvAJ9HORynRLGXobNcS6Rzb+XqM2RC5
+ wOHupCfKqxfGlAUfjefy1Cv2iJ3eKpxM2IrQOJix/plb8HhsFrtvkMtux9HI7CmlXU
+ /j/0VM/0FWGfA==
+Received: by aws-us-west-2-korg-bugzilla-1.web.codeaurora.org (Postfix,
+ from userid 48) id 84995C05FD6; Wed, 13 Apr 2022 23:16:38 +0000 (UTC)
+From: bugzilla-daemon@kernel.org
+To: dri-devel@lists.freedesktop.org
+Subject: [Bug 215618] vblank related lockup during start of SteamVR using
+ Valve Index HMD
+Date: Wed, 13 Apr 2022 23:16:38 +0000
+X-Bugzilla-Reason: None
+X-Bugzilla-Type: changed
+X-Bugzilla-Watch-Reason: AssignedTo drivers_video-dri@kernel-bugs.osdl.org
+X-Bugzilla-Product: Drivers
+X-Bugzilla-Component: Video(DRI - non Intel)
+X-Bugzilla-Version: 2.5
+X-Bugzilla-Keywords: 
+X-Bugzilla-Severity: normal
+X-Bugzilla-Who: ct.lrn@peuc.net
+X-Bugzilla-Status: NEW
+X-Bugzilla-Resolution: 
+X-Bugzilla-Priority: P1
+X-Bugzilla-Assigned-To: drivers_video-dri@kernel-bugs.osdl.org
+X-Bugzilla-Flags: 
+X-Bugzilla-Changed-Fields: cc
+Message-ID: <bug-215618-2300-hjPogOQFQY@https.bugzilla.kernel.org/>
+In-Reply-To: <bug-215618-2300@https.bugzilla.kernel.org/>
+References: <bug-215618-2300@https.bugzilla.kernel.org/>
+Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
+X-Bugzilla-URL: https://bugzilla.kernel.org/
+Auto-Submitted: auto-generated
 MIME-Version: 1.0
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-AuthSource: CH0PR11MB5538.namprd11.prod.outlook.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: d2776576-7881-4653-710a-08da1da32b49
-X-MS-Exchange-CrossTenant-originalarrivaltime: 13 Apr 2022 23:13:06.8985 (UTC)
-X-MS-Exchange-CrossTenant-fromentityheader: Hosted
-X-MS-Exchange-CrossTenant-id: 46c98d88-e344-4ed4-8496-4ed7712e255d
-X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
-X-MS-Exchange-CrossTenant-userprincipalname: oS6ktr8CSHXuxVFCyUarafC3DMMEg/ykXPo14R32gi2RMiWh6op0cGFeMsNHINi76/ItXB1P8J1dbpePpzTj/A==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: DM6PR11MB2602
-X-OriginatorOrg: intel.com
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -155,73 +71,96 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: "intel-gfx@lists.freedesktop.org" <intel-gfx@lists.freedesktop.org>,
- "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
- "dri-devel@lists.freedesktop.org" <dri-devel@lists.freedesktop.org>,
- Alex Williamson <alex.williamson@redhat.com>, Jason
- Gunthorpe <jgg@nvidia.com>, "Vivi, Rodrigo" <rodrigo.vivi@intel.com>,
- "intel-gvt-dev@lists.freedesktop.org" <intel-gvt-dev@lists.freedesktop.org>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi folks:
+https://bugzilla.kernel.org/show_bug.cgi?id=3D215618
 
-Thanks so much for the efforts. I prepared a branch which contains all our =
-patches.The aim of the branch is for the VFIO maintainers to pull the whole=
- bunch easily after the drm-intel-next got merged through drm (as one of th=
-e MMIO patches depends on a patch in drm-intel-next).
+Pierre Choffet (ct.lrn@peuc.net) changed:
 
-I dropped patch 4 and patch 5 as they have been covered by Jani's patches. =
-Some conflicts was solved.
-QA is going to test it today.=20
+           What    |Removed                     |Added
+----------------------------------------------------------------------------
+                 CC|                            |ct.lrn@peuc.net
 
-You can find it here:
+--- Comment #1 from Pierre Choffet (ct.lrn@peuc.net) ---
+I can reproduce the crash with a Radeon 6800XT in 5.17.1. GPU is then unsta=
+ble
+after it resets and system must be rebooted.
 
-git clone https://github.com/intel/gvt-linux -b for-christoph
+Here is my callstack - it's almost the same as the previous one:
 
-Thanks,
-Zhi.
+> [drm:dm_vblank_get_counter [amdgpu]] *ERROR* dc_stream_state is NULL for =
+crtc '1'!
+> [drm:dm_crtc_get_scanoutpos [amdgpu]] *ERROR* dc_stream_state is NULL for=
+ crtc '1'!
+> [drm:dm_vblank_get_counter [amdgpu]] *ERROR* dc_stream_state is NULL for =
+crtc '1'!
+> ------------[ cut here ]------------
+> amdgpu 0000:0b:00.0: drm_WARN_ON_ONCE(drm_drv_uses_atomic_modeset(dev))
+> WARNING: CPU: 3 PID: 2263 at drivers/gpu/drm/drm_vblank.c:728 drm_crtc_vb=
+lank_helper_get_vblank_timestamp_internal+0x369/0x380
+> Modules linked in: nf_tables nfnetlink snd_seq_dummy snd_hrtimer snd_seq =
+cfg80211 8021q garp mrp stp llc nct6775 hwmon_vid eeepc_wmi intel_ra>
+>  crct10dif_pclmul crc32_pclmul crc32c_intel ghash_clmulni_intel aesni_int=
+el ccp sr_mod xhci_pci crypto_simd cryptd rng_core cdrom xhci_pci_re>
+> CPU: 3 PID: 2263 Comm: VulkanVblankThr Not tainted 5.17.1-arch1-1 #1 0ea9=
+33cb6bfe82a8dc16ab834a4bccdd297f98b7
+> Hardware name: ASUS System Product Name/ROG CROSSHAIR VIII DARK HERO, BIO=
+S 3601 05/26/2021
+> RIP: 0010:drm_crtc_vblank_helper_get_vblank_timestamp_internal+0x369/0x380
+> Code: 4c 8b 6f 50 4d 85 ed 75 03 4c 8b 2f e8 f0 6b 01 00 48 c7 c1 40 f3 d=
+1 ad 4c 89 ea 48 c7 c7 c2 5d d1 ad 48 89 c6 e8 a3 43 3d 00 <0f> 0b e>
+> RSP: 0018:ffff9beb86303b20 EFLAGS: 00010082
+> RAX: 0000000000000000 RBX: ffffffffc0b7e840 RCX: 0000000000000027
+> RDX: ffff8dca0eae1728 RSI: 0000000000000001 RDI: ffff8dca0eae1720
+> RBP: ffff9beb86303b90 R08: 0000000000000000 R09: ffff9beb86303950
+> R10: ffff9beb86303948 R11: ffff8dca2f2a9b28 R12: 0000000000000000
+> R13: ffff8dc3023dae30 R14: 0000000000000000 R15: ffff8dc3376b21d8
+> FS:  00007fa79444b640(0000) GS:ffff8dca0eac0000(0000) knlGS:0000000000000=
+000
+> CS:  0010 DS: 0000 ES: 0000 CR0: 0000000080050033
+> CR2: 00007fa6ec001278 CR3: 00000001e6984000 CR4: 0000000000750ee0
+> PKRU: 55555554
+> Call Trace:
+>  <TASK>
+>  drm_get_last_vbltimestamp+0xb2/0xc0
+>  drm_update_vblank_count+0x91/0x3d0
+>  drm_vblank_enable+0x14b/0x180
+>  drm_vblank_get+0x95/0xe0
+>  drm_crtc_queue_sequence_ioctl+0xfd/0x2d0
+>  ? __check_object_size+0x46/0x140
+>  ? drm_crtc_get_sequence_ioctl+0x1a0/0x1a0
+>  drm_ioctl_kernel+0xb8/0x140
+>  drm_ioctl+0x22a/0x3d0
+>  ? drm_crtc_get_sequence_ioctl+0x1a0/0x1a0
+>  amdgpu_drm_ioctl+0x49/0x80 [amdgpu 08a70cd20fdf14582ce9165e3698aeaecdd8c=
+8f8]
+>  __x64_sys_ioctl+0x82/0xb0
+>  do_syscall_64+0x5c/0x80
+>  ? do_user_addr_fault+0x1d7/0x690
+>  ? do_syscall_64+0x69/0x80
+>  ? exc_page_fault+0x72/0x170
+>  entry_SYSCALL_64_after_hwframe+0x44/0xae
+> RIP: 0033:0x7fa7ac2a7e6f
+> Code: 00 48 89 44 24 18 31 c0 48 8d 44 24 60 c7 04 24 10 00 00 00 48 89 4=
+4 24 08 48 8d 44 24 20 48 89 44 24 10 b8 10 00 00 00 0f 05 <41> 89 c>
+> RSP: 002b:00007fa79444ab00 EFLAGS: 00000246 ORIG_RAX: 0000000000000010
+> RAX: ffffffffffffffda RBX: 00007fa79444ab90 RCX: 00007fa7ac2a7e6f
+> RDX: 00007fa79444ab90 RSI: 00000000c018643c RDI: 000000000000004a
+> RBP: 00000000c018643c R08: 0000000000000000 R09: 00007fa6ec000be0
+> R10: 000000000000006e R11: 0000000000000246 R12: 000055d760b895b8
+> R13: 000000000000004a R14: 000055d760c41d00 R15: 0000000000000000
+>  </TASK>
+> ---[ end trace 0000000000000000 ]---
+> [drm:dm_vblank_get_counter [amdgpu]] *ERROR* dc_stream_state is NULL for =
+crtc '1'!
+> [drm:dm_crtc_get_scanoutpos [amdgpu]] *ERROR* dc_stream_state is NULL for=
+ crtc '1'!
+> [drm:dm_vblank_get_counter [amdgpu]] *ERROR* dc_stream_state is NULL for =
+crtc '1'!
 
-On 4/13/22 3:58 PM, Jani Nikula wrote:
-> On Wed, 13 Apr 2022, Christoph Hellwig <hch@lst.de> wrote:
->> On Wed, Apr 13, 2022 at 01:47:05PM +0000, Wang, Zhi A wrote:
->>>> the GVT code in the i915 is a bit of a mess right now due to strange
->>>> abstractions and lots of indirect calls.  This series refactors variou=
-s
->>>> bits to clean that up.  The main user visible change is that almost al=
-l
->>>> of the GVT code moves out of the main i915 driver and into the kvmgt
->>>> module.
->>>
->>> Hi Christoph:
->>>
->>> Do you want me to merge the GVT-g patches in this series? Or you want t=
-hem to get merged from your side?
->>
->> The two option here are drm tree via gvt and i915 trees or the vfio
->> tree, neither of which really is my tree.
->>
->> We already have a fair bit of vfio changes at the tail end of the series=
-,
->> and Jason has some more that should sit on top of it, and I have some
->> more that I haven't sent yet.
->>
->> So if we could get the MMIO table and Makefile cleanups into a topic
->> branch that we could pull into the vfio tree and merge it through that
->> that would seem easiest to me, assuming that is ok with the i915, drm
->> and vfio maintainers.
->=20
-> AFAICS the changes are mostly to gvt/, and at least I'm fine with the
-> minor changes to i915 (in this series and in my two patches) being
-> merged via whichever tree you all see fit.
->=20
-> Acked-by: Jani Nikula <jani.nikula@intel.com>
->=20
-> Joonas, Tvrtko, Rodrigo, chime in now if you have any issues with that.
->=20
->=20
-> BR,
-> Jani.
->=20
->=20
+--=20
+You may reply to this email to add a comment.
 
+You are receiving this mail because:
+You are watching the assignee of the bug.=
