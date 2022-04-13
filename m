@@ -2,76 +2,46 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id A3E325001AF
-	for <lists+dri-devel@lfdr.de>; Thu, 14 Apr 2022 00:20:02 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 601BB5001EB
+	for <lists+dri-devel@lfdr.de>; Thu, 14 Apr 2022 00:34:36 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id F315110F155;
-	Wed, 13 Apr 2022 22:19:59 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 997F010F173;
+	Wed, 13 Apr 2022 22:34:32 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from out5-smtp.messagingengine.com (out5-smtp.messagingengine.com
- [66.111.4.29])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 5403710F155
- for <dri-devel@lists.freedesktop.org>; Wed, 13 Apr 2022 22:19:54 +0000 (UTC)
-Received: from compute2.internal (compute2.nyi.internal [10.202.2.46])
- by mailout.nyi.internal (Postfix) with ESMTP id A2E4E5C034D;
- Wed, 13 Apr 2022 18:19:53 -0400 (EDT)
-Received: from mailfrontend1 ([10.202.2.162])
- by compute2.internal (MEProxy); Wed, 13 Apr 2022 18:19:53 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=sholland.org; h=
- cc:cc:content-transfer-encoding:content-type:date:date:from:from
- :in-reply-to:in-reply-to:message-id:mime-version:references
- :reply-to:sender:subject:subject:to:to; s=fm2; t=1649888393; x=
- 1649974793; bh=hsDsSOvCiPnQ5iI1qwr559UylC5AhqoZAQgmwuaC8k8=; b=k
- Xb3zpUzSFboY38A9QsINY8zApMK7WgMQOw4Ng9USwQlBfyE0MVR1tylfrDy1I+qT
- g6Ae3V2zcIx2tvVyWavFpOefn02gLujLxskrpAgB2ouD6bVYY/TyCEtU75OJgzuQ
- CtDJ1zFxURn+0MoLRdIN9C5oEb8rS2PPEtEpqdLe9pzkjMDfbS3gbsHqCpwyVtr3
- wkSz6DEc0SZGuSDZdhgr84lkYnQBSwUn0BiU2neopyrN2eKfYhL7P8/EGsNz5vgo
- g3LS5Q5MwFtxZK393zFQkVhuycwBfDKjq6aUHmXoKC26Z9uZCOxMyUUcQG0H4Pir
- 6UwhlIZrILTqi9yBgtJzQ==
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
- messagingengine.com; h=cc:cc:content-transfer-encoding
- :content-type:date:date:from:from:in-reply-to:in-reply-to
- :message-id:mime-version:references:reply-to:sender:subject
- :subject:to:to:x-me-proxy:x-me-proxy:x-me-sender:x-me-sender
- :x-sasl-enc; s=fm1; t=1649888393; x=1649974793; bh=hsDsSOvCiPnQ5
- iI1qwr559UylC5AhqoZAQgmwuaC8k8=; b=n79GBWEz27CFo3CUyVTIM2mlJvVB4
- GWqkXbvRylHmhP1oBQmf9fho/teYBHdDOG4ciwUJa76OD4mn4/2Vhv88prKdzsW0
- zJZZJ90LMSOxjMeMr3hYVNwNmiyuzpPExJw5afj7suKgWw1VCOJyy/makbfugb+K
- At/hXMNATMZE+gAq/ptOXpa5IUQeFYzeaphTCFZw6othu5L1LkG/H4rnOPr816Lq
- +BWxhlisnGN2dshkh4kdJYtxilmZRcY4DX37I3Jn2eIzIVZ1xcauxjM8hy8VMMca
- mSptsN/8SF34KnI+sG6ZJsOzf3i1xJmQ9kB6W3R0ecCzGd4JlhpKzLmhg==
-X-ME-Sender: <xms:iUxXYgSbu83lW-FusmWhDNn1xp4p3JJL4SMK3lYZlvQC7VtBNTKfQQ>
- <xme:iUxXYty0zM1tfOCIY0Dx0V9K30inxIO9vvPdHjWC3XXK90PkznD-4cFmFBMq0Tqg7
- gmdymYHbIedqknF3g>
-X-ME-Received: <xmr:iUxXYt0B1wQVfsntMAb2AoiKqdRfoDQTv16_LRggZCoMxh6uA63f8KtSakvfFewAM1o5ZjZ89td24YB5jowZTKUaIjNK8yHpJzhn2smqRiNOAvW5Va9qRFte94GjPmKjbA0jew>
-X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvvddrudelvddguddtucetufdoteggodetrfdotf
- fvucfrrhhofhhilhgvmecuhfgrshhtofgrihhlpdfqfgfvpdfurfetoffkrfgpnffqhgen
- uceurghilhhouhhtmecufedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmne
- cujfgurhephffvufffkffojghfgggtgfesthekredtredtjeenucfhrhhomhepufgrmhhu
- vghlucfjohhllhgrnhguuceoshgrmhhuvghlsehshhholhhlrghnugdrohhrgheqnecugg
- ftrfgrthhtvghrnhepfedvffetgeduiedtfffgleelvdfhheekkeduffetuddvgeeffedu
- fefhgeehueejnecuvehluhhsthgvrhfuihiivgeptdenucfrrghrrghmpehmrghilhhfrh
- homhepshgrmhhuvghlsehshhholhhlrghnugdrohhrgh
-X-ME-Proxy: <xmx:iUxXYkDF191GxSw6_CviUvn75FZDJqFmn1I70ugGY9FnrvQx_qJbvg>
- <xmx:iUxXYphAWuNOnJL-oPswsx6CO0P-zhyCyG1WGz_lE-8DtOWJdz7Dzw>
- <xmx:iUxXYgqtfMBa34tVIA184caUhC4WeVe81paCYPoFaQ8rfllnQT8aEA>
- <xmx:iUxXYtRCub4d5reKlxmAsasjqljRGRzUuc1UmKA3p15Lc-E7Q376bg>
-Received: by mail.messagingengine.com (Postfix) with ESMTPA; Wed,
- 13 Apr 2022 18:19:52 -0400 (EDT)
-From: Samuel Holland <samuel@sholland.org>
-To: =?UTF-8?q?Heiko=20St=C3=BCbner?= <heiko@sntech.de>,
- Sandy Huang <hjc@rock-chips.com>, dri-devel@lists.freedesktop.org
-Subject: [RFC PATCH 16/16] [DO NOT MERGE] arm64: dts: rockchip: pinenote:
- Enable EBC display pipeline
-Date: Wed, 13 Apr 2022 17:19:16 -0500
-Message-Id: <20220413221916.50995-17-samuel@sholland.org>
-X-Mailer: git-send-email 2.35.1
-In-Reply-To: <20220413221916.50995-1-samuel@sholland.org>
-References: <20220413221916.50995-1-samuel@sholland.org>
+Received: from bhuna.collabora.co.uk (bhuna.collabora.co.uk [46.235.227.227])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 9636910F173
+ for <dri-devel@lists.freedesktop.org>; Wed, 13 Apr 2022 22:34:31 +0000 (UTC)
+Received: from [IPV6:2a00:5f00:102:0:10b3:10ff:fe5d:4ec1] (unknown
+ [IPv6:2a00:5f00:102:0:10b3:10ff:fe5d:4ec1])
+ (using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+ (No client certificate requested)
+ (Authenticated sender: dmitry.osipenko)
+ by bhuna.collabora.co.uk (Postfix) with ESMTPSA id 982E31F4762C;
+ Wed, 13 Apr 2022 23:34:29 +0100 (BST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
+ s=mail; t=1649889270;
+ bh=YG/XPhnWizXt3303tJt/IxDGAZVOLwxkOEcrQ7Z9X1I=;
+ h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
+ b=WuInoSFqyOdJAlFL2xvC3Fd06QpZKkwfuYrjwHkZTkD3PIQmFEM6al0EmXS+wSFGn
+ JZoeP7y+9bvcUjK4SH7oYB9OEMOqkZTMeDzVxNGmHqkgDa0QqmsiVLGnrJ+zRtX1C9
+ MUV82xVcb7MhPRF/M/j7O56roc/EOLNaJoQERHg6lx1P5tE8M0+rZDp7etRC029xfg
+ MyoxvhheqezqCf0zOF5inflSCSTNOoB7aeRKetuaBlY7nhTNK9cIHW9vowIHJy0odE
+ Bd4L9c6oS5vzxekRzWMhDNn/jwlaq7YcrmLPUn7Nmrj6LLiYUOvXQzQnQBs9KBmAG9
+ 2EMXQRqKGBMYA==
+Message-ID: <9bb76a5b-d5d7-6f43-ed8a-e6782dda8568@collabora.com>
+Date: Thu, 14 Apr 2022 01:34:26 +0300
 MIME-Version: 1.0
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.7.0
+Subject: Re: [PATCH v2] drm/tegra: Stop using iommu_present()
+Content-Language: en-US
+To: Robin Murphy <robin.murphy@arm.com>, thierry.reding@gmail.com
+References: <1f7c304a79b8b8dd5d4716786cae7502a0cc31f5.1649684782.git.robin.murphy@arm.com>
+From: Dmitry Osipenko <dmitry.osipenko@collabora.com>
+In-Reply-To: <1f7c304a79b8b8dd5d4716786cae7502a0cc31f5.1649684782.git.robin.murphy@arm.com>
 Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
+Content-Transfer-Encoding: 7bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -84,142 +54,84 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: David Airlie <airlied@linux.ie>,
- =?UTF-8?q?Ond=C5=99ej=20Jirman?= <x@xff.cz>,
- Thierry Reding <thierry.reding@gmail.com>,
- Michael Riesch <michael.riesch@wolfvision.net>,
- Sam Ravnborg <sam@ravnborg.org>, Samuel Holland <samuel@sholland.org>,
- Nicolas Frattaroli <frattaroli.nicolas@gmail.com>,
- linux-rockchip@lists.infradead.org, Andreas Kemnade <andreas@kemnade.info>,
- Geert Uytterhoeven <geert@linux-m68k.org>, Liang Chen <cl@rock-chips.com>,
- devicetree@vger.kernel.org, Thomas Zimmermann <tzimmermann@suse.de>,
- Alistair Francis <alistair@alistair23.me>, Rob Herring <robh+dt@kernel.org>,
- linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org,
- Peter Geis <pgwipeout@gmail.com>, Krzysztof Kozlowski <krzk+dt@kernel.org>
+Cc: linux-tegra@vger.kernel.org, iommu@lists.linux-foundation.org,
+ dri-devel@lists.freedesktop.org, jonathanh@nvidia.com
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-The PineNote contains an eInk ED103TC2 panel connected to the EBC,
-powered by a TI TPS651851 PMIC.
+On 4/11/22 16:46, Robin Murphy wrote:
+> Refactor the confusing logic to make it both clearer and more robust. If
+> the host1x parent device does have an IOMMU domain then iommu_present()
+> is redundantly true, while otherwise for the 32-bit DMA mask case it
+> still doesn't say whether the IOMMU driver actually knows about the DRM
+> device or not.
+> 
+> Signed-off-by: Robin Murphy <robin.murphy@arm.com>
+> ---
+> 
+> v2: Fix logic for older SoCs and clarify.
+> 
+>  drivers/gpu/drm/tegra/drm.c | 28 ++++++++++++++++++++--------
+>  1 file changed, 20 insertions(+), 8 deletions(-)
+> 
+> diff --git a/drivers/gpu/drm/tegra/drm.c b/drivers/gpu/drm/tegra/drm.c
+> index 9464f522e257..4f2bdab31064 100644
+> --- a/drivers/gpu/drm/tegra/drm.c
+> +++ b/drivers/gpu/drm/tegra/drm.c
+> @@ -1092,6 +1092,19 @@ static bool host1x_drm_wants_iommu(struct host1x_device *dev)
+>  	struct host1x *host1x = dev_get_drvdata(dev->dev.parent);
+>  	struct iommu_domain *domain;
+>  
+> +	/* For starters, this is moot if no IOMMU is available */
+> +	if (!device_iommu_mapped(&dev->dev))
+> +		return false;
+> +
+> +	/*
+> +	 * Tegra20 and Tegra30 don't support addressing memory beyond the
+> +	 * 32-bit boundary, so the regular GATHER opcodes will always be
+> +	 * sufficient and whether or not the host1x is attached to an IOMMU
+> +	 * doesn't matter.
+> +	 */
+> +	if (host1x_get_dma_mask(host1x) <= DMA_BIT_MASK(32))
+> +		return true;
+> +
+>  	/*
+>  	 * If the Tegra DRM clients are backed by an IOMMU, push buffers are
+>  	 * likely to be allocated beyond the 32-bit boundary if sufficient
+> @@ -1122,14 +1135,13 @@ static bool host1x_drm_wants_iommu(struct host1x_device *dev)
+>  	domain = iommu_get_domain_for_dev(dev->dev.parent);
+>  
+>  	/*
+> -	 * Tegra20 and Tegra30 don't support addressing memory beyond the
+> -	 * 32-bit boundary, so the regular GATHER opcodes will always be
+> -	 * sufficient and whether or not the host1x is attached to an IOMMU
+> -	 * doesn't matter.
+> +	 * At the moment, the exact type of domain doesn't actually matter.
+> +	 * Only for 64-bit kernels might this be a managed DMA API domain, and
+> +	 * then only on newer SoCs using arm-smmu, since tegra-smmu doesn't
+> +	 * support default domains at all, and since those SoCs are the same
+> +	 * ones with extended GATHER support, even if it's a passthrough domain
+> +	 * it can still work out OK.
+>  	 */
+> -	if (!domain && host1x_get_dma_mask(host1x) <= DMA_BIT_MASK(32))
+> -		return true;
+> -
+>  	return domain != NULL;
+>  }
+>  
+> @@ -1149,7 +1161,7 @@ static int host1x_drm_probe(struct host1x_device *dev)
+>  		goto put;
+>  	}
+>  
+> -	if (host1x_drm_wants_iommu(dev) && iommu_present(&platform_bus_type)) {
+> +	if (host1x_drm_wants_iommu(dev)) {
+>  		tegra->domain = iommu_domain_alloc(&platform_bus_type);
+>  		if (!tegra->domain) {
+>  			err = -ENOMEM;
 
-Signed-off-by: Samuel Holland <samuel@sholland.org>
----
+Robin, thank you for the updated version. The patch looks okay to me.
 
- .../boot/dts/rockchip/rk3566-pinenote.dtsi    | 80 +++++++++++++++++++
- 1 file changed, 80 insertions(+)
+Reviewed-by: Dmitry Osipenko <dmitry.osipenko@collabora.com>
 
-diff --git a/arch/arm64/boot/dts/rockchip/rk3566-pinenote.dtsi b/arch/arm64/boot/dts/rockchip/rk3566-pinenote.dtsi
-index fea748adfa90..4a53931c3f92 100644
---- a/arch/arm64/boot/dts/rockchip/rk3566-pinenote.dtsi
-+++ b/arch/arm64/boot/dts/rockchip/rk3566-pinenote.dtsi
-@@ -72,6 +72,16 @@ led-0 {
- 		};
- 	};
- 
-+	panel {
-+		compatible = "eink,ed103tc2";
-+
-+		port {
-+			panel_in_ebc: endpoint {
-+				remote-endpoint = <&ebc_out_panel>;
-+			};
-+		};
-+	};
-+
- 	sdio_pwrseq: sdio-pwrseq {
- 		compatible = "mmc-pwrseq-simple";
- 		clocks = <&rk817 1>;
-@@ -213,6 +223,20 @@ &cpu3 {
- 	cpu-supply = <&vdd_cpu>;
- };
- 
-+&ebc {
-+	io-channels = <&ebc_pmic 0>;
-+	panel-supply = <&v3p3>;
-+	vcom-supply = <&vcom>;
-+	vdrive-supply = <&vdrive>;
-+	status = "okay";
-+
-+	port {
-+		ebc_out_panel: endpoint {
-+			remote-endpoint = <&panel_in_ebc>;
-+		};
-+	};
-+};
-+
- &i2c0 {
- 	status = "okay";
- 
-@@ -466,6 +490,47 @@ led@1 {
- 			default-brightness = <0>;
- 		};
- 	};
-+
-+	/* TODO: write binding */
-+	ebc_pmic: pmic@68 {
-+		compatible = "ti,tps65185";
-+		reg = <0x68>;
-+		interrupt-parent = <&gpio3>;
-+		interrupts = <RK_PA6 IRQ_TYPE_LEVEL_LOW>;
-+		#io-channel-cells = <1>;
-+		pinctrl-0 = <&ebc_pmic_pins>;
-+		pinctrl-names = "default";
-+		powerup-gpios = <&gpio3 RK_PB0 GPIO_ACTIVE_HIGH>;
-+		pwr_good-gpios = <&gpio3 RK_PA7 GPIO_ACTIVE_HIGH>;
-+		vcom_ctrl-gpios = <&gpio4 RK_PB2 GPIO_ACTIVE_HIGH>;
-+		vin-supply = <&vcc_bat>;
-+		vin3p3-supply = <&vcc_3v3>;
-+		wakeup-gpios = <&gpio3 RK_PA5 GPIO_ACTIVE_HIGH>;
-+		ti,up-sequence = <1>, <0>, <2>, <3>;
-+		ti,up-delay-ms = <3>, <3>, <3>, <3>;
-+		ti,down-sequence = <2>, <3>, <1>, <0>;
-+		ti,down-delay-ms = <3>, <6>, <6>, <6>;
-+
-+		regulators {
-+			v3p3: v3p3 {
-+				regulator-name = "v3p3";
-+				regulator-always-on;
-+				regulator-min-microvolt = <3300000>;
-+				regulator-max-microvolt = <3300000>;
-+			};
-+
-+			vcom: vcom {
-+				regulator-name = "vcom";
-+				/* voltage range is board-specific */
-+			};
-+
-+			vdrive: vdrive {
-+				regulator-name = "vdrive";
-+				regulator-min-microvolt = <15000000>;
-+				regulator-max-microvolt = <15000000>;
-+			};
-+		};
-+	};
- };
- 
- &i2s1_8ch {
-@@ -508,6 +573,21 @@ bt_wake_h: bt-wake-h {
- 		};
- 	};
- 
-+	ebc-pmic {
-+		ebc_pmic_pins: ebc-pmic-pins {
-+			rockchip,pins = /* wakeup */
-+					<3 RK_PA5 RK_FUNC_GPIO &pcfg_pull_none>,
-+					/* int */
-+					<3 RK_PA6 RK_FUNC_GPIO &pcfg_pull_up>,
-+					/* pwr_good */
-+					<3 RK_PA7 RK_FUNC_GPIO &pcfg_pull_none>,
-+					/* pwrup */
-+					<3 RK_PB0 RK_FUNC_GPIO &pcfg_pull_none>,
-+					/* vcom_ctrl */
-+					<4 RK_PB2 RK_FUNC_GPIO &pcfg_pull_none>;
-+		};
-+	};
-+
- 	led {
- 		led_pin: led-pin {
- 			rockchip,pins = <3 RK_PC5 RK_FUNC_GPIO &pcfg_pull_none>;
--- 
-2.35.1
-
+A bit later I'll also will give it a test, just to be sure because we
+had problems with that function in the past.
