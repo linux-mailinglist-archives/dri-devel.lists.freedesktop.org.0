@@ -1,58 +1,82 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 91E834FF3A0
-	for <lists+dri-devel@lfdr.de>; Wed, 13 Apr 2022 11:35:43 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 4FA6D4FF387
+	for <lists+dri-devel@lfdr.de>; Wed, 13 Apr 2022 11:31:32 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 5E02510E44A;
-	Wed, 13 Apr 2022 09:35:39 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 8B9A210FB66;
+	Wed, 13 Apr 2022 09:31:25 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mga06.intel.com (mga06b.intel.com [134.134.136.31])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 8E61F10E138;
- Wed, 13 Apr 2022 09:35:37 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1649842537; x=1681378537;
- h=from:to:cc:subject:in-reply-to:references:date:
- message-id:mime-version:content-transfer-encoding;
- bh=MT1Kf7edS218qgu1PUr9mXSGIu5bS3fCzq8ZJBUhQT4=;
- b=Lhnk/ynlFZSwPdOUratlwLW0vcSUsxEr3YpRFIXMAev668XfIWLJGgXb
- Kh5iVYwzhw4/lisJ1I2N2lyf00LcHWd3v+EIapo2Y04ZUTZ8l9EcIZhco
- OGRu4kencH+Y3bWrLqkcEaPsis15MNfvBKIgBI2PHJbcyXpBEyuCchGTb
- ZUbTYo31WFeC1B6rBYq15J7u3ee1mv+2W3QsztjZl9kfiCId9J1+zYAx9
- iptko6a1bajFKC8eIX0iEEoERjh4m5pGZp0pbM7aYtcoJZ80SRJGVKviT
- ongPZinGqwub/nL6bQgFdBHV33Y04LgMGASMsM9DfJsduPIKQIKD/kISF g==;
-X-IronPort-AV: E=McAfee;i="6400,9594,10315"; a="323067113"
-X-IronPort-AV: E=Sophos;i="5.90,256,1643702400"; d="scan'208";a="323067113"
-Received: from orsmga008.jf.intel.com ([10.7.209.65])
- by orsmga104.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 13 Apr 2022 02:31:13 -0700
-X-IronPort-AV: E=Sophos;i="5.90,256,1643702400"; d="scan'208";a="573192674"
-Received: from psoltysi-mobl.ger.corp.intel.com (HELO localhost)
- ([10.249.149.160])
- by orsmga008-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 13 Apr 2022 02:31:09 -0700
-From: Jani Nikula <jani.nikula@linux.intel.com>
-To: "Wang, Zhi A" <zhi.a.wang@intel.com>, Zhi Wang
- <zhi.wang.linux@gmail.com>, "dri-devel@lists.freedesktop.org"
- <dri-devel@lists.freedesktop.org>, "linux-kernel@vger.kernel.org"
- <linux-kernel@vger.kernel.org>, "intel-gfx@lists.freedesktop.org"
- <intel-gfx@lists.freedesktop.org>, "intel-gvt-dev@lists.freedesktop.org"
- <intel-gvt-dev@lists.freedesktop.org>
-Subject: Re: [PATCH v9 1/3] i915/gvt: Separate the MMIO tracking table from
- GVT-g
-In-Reply-To: <986b8ff0-d0de-437c-8a56-c54aafb6159a@intel.com>
-Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
-References: <20220407071945.72148-1-zhi.a.wang@intel.com>
- <20220407071945.72148-2-zhi.a.wang@intel.com> <874k35541h.fsf@intel.com>
- <986b8ff0-d0de-437c-8a56-c54aafb6159a@intel.com>
-Date: Wed, 13 Apr 2022 12:31:07 +0300
-Message-ID: <87h76xgwis.fsf@intel.com>
+Received: from us-smtp-delivery-124.mimecast.com
+ (us-smtp-delivery-124.mimecast.com [170.10.129.124])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 863F110FB89
+ for <dri-devel@lists.freedesktop.org>; Wed, 13 Apr 2022 09:31:23 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1649842282;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=IAMVXndxW0OtvIwRqL0hyfDoLN2+4Iki0eZzZOShd7A=;
+ b=S8d+nHy8yEQ9ZAvQ/c33KDe8A8+zkv5SmEQvVAj07Fx+mvrNnQGuXjrpnuRyk7SQgUGHSd
+ BouJOUb1Q7vhWtNIOIB8wloVn1wnN7CYVlwERiB39s/VL9S315LeQQ3PY31Ws7SZqCGE/f
+ LteY4sLwKcEds50owMFzEByEe6KvLRY=
+Received: from mail-wm1-f70.google.com (mail-wm1-f70.google.com
+ [209.85.128.70]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ us-mta-551-zaXtkIJCOgqL3TnSs06chw-1; Wed, 13 Apr 2022 05:31:21 -0400
+X-MC-Unique: zaXtkIJCOgqL3TnSs06chw-1
+Received: by mail-wm1-f70.google.com with SMTP id
+ p31-20020a05600c1d9f00b0038ed0964a90so600824wms.4
+ for <dri-devel@lists.freedesktop.org>; Wed, 13 Apr 2022 02:31:20 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
+ :content-language:to:cc:references:from:in-reply-to
+ :content-transfer-encoding;
+ bh=IAMVXndxW0OtvIwRqL0hyfDoLN2+4Iki0eZzZOShd7A=;
+ b=o0FUXoZA/d6hdETZIngOWRzytHv6vU471wUnCi6Oxl4A/JCU7QHO//IodhPBweDNWX
+ HtzWoNWV366hJOCN7ShmNW+my3YrSIHrA9wdCX7NWek97nUa4tvNDald34nj1EurNEls
+ pfsik6Z/B4NtTxhxebnZq74KMSk3wikHkFI2UGA9uG2IFa8s3JPYmmyvThnxLb1CeB2Q
+ U3MctQxNCIGjOsnfeD53CmfZrPvGqYFgcXVVR2Wwdo5+2dLBIPWPGxJ7a689ynr4X59J
+ 1YFAXFcGPi0Xjt6jm1EF2zCTUTpX2vdpgu24Ht4j4bOAslKRc8274L6weYI4KbcI4UVx
+ n0EQ==
+X-Gm-Message-State: AOAM530Lm++kczQLOP3chqBY6AWlogv9GSqWKFVu6DepCtL3zPM2q9uf
+ Bywi8luekbdUg1sYHHpEmK/OViAUIXzTbjxY3ahdoq1b/FQJgdJsZQ/6Y2cNb53Nu8AMevofB7o
+ Mdfi64begbSITXnT0jgx8StM/2YT1
+X-Received: by 2002:a5d:4303:0:b0:207:a7d8:4ce6 with SMTP id
+ h3-20020a5d4303000000b00207a7d84ce6mr10638947wrq.101.1649842279850; 
+ Wed, 13 Apr 2022 02:31:19 -0700 (PDT)
+X-Google-Smtp-Source: ABdhPJwUm1vydojlfWe/H1ysZrMzcrbEN1Uf13kLtCOmU70SI8wmq4v7NO1wCDHQORMytmlOINcbNA==
+X-Received: by 2002:a5d:4303:0:b0:207:a7d8:4ce6 with SMTP id
+ h3-20020a5d4303000000b00207a7d84ce6mr10638931wrq.101.1649842279662; 
+ Wed, 13 Apr 2022 02:31:19 -0700 (PDT)
+Received: from [192.168.1.102] ([92.176.231.205])
+ by smtp.gmail.com with ESMTPSA id
+ m1-20020a1ca301000000b0038ea15d5f75sm1932109wme.38.2022.04.13.02.31.18
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Wed, 13 Apr 2022 02:31:19 -0700 (PDT)
+Message-ID: <85a3bd58-7c7c-051d-665d-68d00e4b3ee0@redhat.com>
+Date: Wed, 13 Apr 2022 11:31:17 +0200
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: quoted-printable
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.7.0
+Subject: Re: [PATCH] fbcon: Fix delayed takeover locking
+To: Daniel Vetter <daniel@ffwll.ch>
+References: <20220413082128.348186-1-daniel.vetter@ffwll.ch>
+ <955400a5-a785-57af-92d4-42710c55ce99@redhat.com>
+ <YlaWE+/YBtcrnLHY@phenom.ffwll.local>
+From: Javier Martinez Canillas <javierm@redhat.com>
+In-Reply-To: <YlaWE+/YBtcrnLHY@phenom.ffwll.local>
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=javierm@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Language: en-US
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -65,128 +89,64 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Zhi Wang <zhi.a.wang@gmail.com>, Jason Gunthorpe <jgg@nvidia.com>, "Vivi,
- Rodrigo" <rodrigo.vivi@intel.com>, Christoph Hellwig <hch@lst.de>
+Cc: Daniel Vetter <daniel.vetter@intel.com>, Du Cheng <ducheng2@gmail.com>,
+ Tetsuo Handa <penguin-kernel@i-love.sakura.ne.jp>,
+ Daniel Vetter <daniel.vetter@ffwll.ch>,
+ Intel Graphics Development <intel-gfx@lists.freedesktop.org>,
+ Zheyu Ma <zheyuma97@gmail.com>,
+ DRI Development <dri-devel@lists.freedesktop.org>,
+ Nathan Chancellor <nathan@kernel.org>, Claudio Suarez <cssk@net-c.es>,
+ Matthew Wilcox <willy@infradead.org>, Thomas Zimmermann <tzimmermann@suse.de>,
+ Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+ Geert Uytterhoeven <geert@linux-m68k.org>, Sam Ravnborg <sam@ravnborg.org>,
+ Helge Deller <deller@gmx.de>, Guenter Roeck <linux@roeck-us.net>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Fri, 08 Apr 2022, "Wang, Zhi A" <zhi.a.wang@intel.com> wrote:
-> Hi Jani:
->
-> Thanks so much for the help. Can you generate a new tag on
-> drm-intel-next? I noticed that there was one patch moving the DMC
-> related registers into display/intel_dmc_regs.h, which is not included
-> in the latest tag on drm-intel-next.
+On 4/13/22 11:21, Daniel Vetter wrote:
+> On Wed, Apr 13, 2022 at 11:16:08AM +0200, Javier Martinez Canillas wrote:
+>> Hello Daniel,
+>>
+>> On 4/13/22 10:21, Daniel Vetter wrote:
+>>> I messed up the delayed takover path in the locking conversion in
+>>> 6e7da3af008b ("fbcon: Move console_lock for register/unlink/unregister").
+>>>
+>>
+>> Maybe a few more words of what the issue is ? Something like the following:
+>>
+>> If CONFIG_FRAMEBUFFER_CONSOLE_DEFERRED_TAKEOVER is enabled, fbcon take-over
+>> doesn't take place when calling fbcon_fb_registered(). Instead, is deferred
+>> using a workqueue and its fbcon_register_existing_fbs() function calls to
+>> fbcon_fb_registered() again for each registered fbcon fb.
+>>
+>> This leads to the console_lock tried to be held twice, causing a deadlock.
+> 
+> Will add.
+>>
 
-Sorry, I'm not sure what you're asking exactly. We do tags when we
-create pull requests for drm-next, but I don't see the connection to
-gvt.
+Thanks.
 
-BR,
-Jani.
+[snip]  
 
->
-> Guess it would be better that I can change this patch according to it
-> when checking in. This would prevent a conflict in future.
->
-> Thanks,
-> Zhi.
->
-> On 4/7/22 3:03 PM, Jani Nikula wrote:
->> On Thu, 07 Apr 2022, Zhi Wang <zhi.wang.linux@gmail.com> wrote:
->>> diff --git a/drivers/gpu/drm/i915/intel_gvt.h b/drivers/gpu/drm/i915/in=
-tel_gvt.h
->>> index d7d3fb6186fd..7665d7cf0bdd 100644
->>> --- a/drivers/gpu/drm/i915/intel_gvt.h
->>> +++ b/drivers/gpu/drm/i915/intel_gvt.h
->>> @@ -26,7 +26,17 @@
->>>=20=20
->>>  struct drm_i915_private;
->>>=20=20
->>> +#include <linux/kernel.h>
->>=20
->> You only need <linux/types.h>. Please add it before the forward
->> declaration above.
->>=20
->>> +
->>>  #ifdef CONFIG_DRM_I915_GVT
->>> +
->>> +struct intel_gvt_mmio_table_iter {
->>> +	struct drm_i915_private *i915;
->>> +	void *data;
->>> +	int (*handle_mmio_cb)(struct intel_gvt_mmio_table_iter *iter,
->>> +			      u32 offset, u32 size);
->>> +};
->>> +
->>>  int intel_gvt_init(struct drm_i915_private *dev_priv);
->>>  void intel_gvt_driver_remove(struct drm_i915_private *dev_priv);
->>>  int intel_gvt_init_device(struct drm_i915_private *dev_priv);
->>> @@ -34,6 +44,7 @@ void intel_gvt_clean_device(struct drm_i915_private *=
-dev_priv);
->>>  int intel_gvt_init_host(void);
->>>  void intel_gvt_sanitize_options(struct drm_i915_private *dev_priv);
->>>  void intel_gvt_resume(struct drm_i915_private *dev_priv);
->>> +int intel_gvt_iterate_mmio_table(struct intel_gvt_mmio_table_iter *ite=
-r);
->>>  #else
->>>  static inline int intel_gvt_init(struct drm_i915_private *dev_priv)
->>>  {
->>> @@ -51,6 +62,16 @@ static inline void intel_gvt_sanitize_options(struct=
- drm_i915_private *dev_priv)
->>>  static inline void intel_gvt_resume(struct drm_i915_private *dev_priv)
->>>  {
->>>  }
->>> +
->>> +unsigned long intel_gvt_get_device_type(struct drm_i915_private *i915)
->>> +{
->>> +	return 0;
->>> +}
->>=20
->> The CONFIG_DRM_I915_GVT=3Dy counterpart for this is in mmio.h. Should be
->> both in the same header.
->>=20
->>> +
->>> +int intel_gvt_iterate_mmio_table(struct intel_gvt_mmio_table_iter *ite=
-r)
->>> +{
->>> +	return 0;
->>> +}
->>>  #endif
->>>=20=20
->>>  #endif /* _INTEL_GVT_H_ */
->>> diff --git a/drivers/gpu/drm/i915/intel_gvt_mmio_table.c b/drivers/gpu/=
-drm/i915/intel_gvt_mmio_table.c
->>> new file mode 100644
->>> index 000000000000..d29491a6d209
->>> --- /dev/null
->>> +++ b/drivers/gpu/drm/i915/intel_gvt_mmio_table.c
->>> @@ -0,0 +1,1290 @@
->>> +// SPDX-License-Identifier: MIT
->>> +/*
->>> + * Copyright =C2=A9 2020 Intel Corporation
->>> + */
->>> +
->>> +#include "i915_drv.h"
->>> +#include "i915_reg.h"
->>> +#include "display/vlv_dsi_pll_regs.h"
->>> +#include "gt/intel_gt_regs.h"
->>> +#include "intel_mchbar_regs.h"
->>> +#include "i915_pvinfo.h"
->>> +#include "intel_gvt.h"
->>> +#include "gvt/gvt.h"
->>=20
->> Generally we have the include lists sorted.
->>=20
->> Other than the nitpicks above, the series is
->>=20
->> Acked-by: Jani Nikula <jani.nikula@intel.com>
->>=20
->>=20
->> BR,
->> Jani.
->>=20
->>=20
->
+>> Removing these comments feels like should be in a separate patch or at least
+>> mention in the patch description that should had been removed in the commit
+>> 6e7da3af008b ("fbcon: Move console_lock for register/unlink/unregister"),
+>> that made these functions to be called without the console_lock being held.
+> 
+> Yeah I forgot to mention that in the commit message - while reviewing all
+> the locking to figure out the bug I also noticed that I didn't update the
+> comments, and since it's all issues in the same patch I figured I'll do it
+> all in one go.
+> 
+> Ok if I explain that and then keep the comment removals?
+Yes, I'm OK with that and agreed that all changes are to fix the same commit.
 
---=20
-Jani Nikula, Intel Open Source Graphics Center
+It's just that it took me some time to figure out why you were removing those.
+
+-- 
+Best regards,
+
+Javier Martinez Canillas
+Linux Engineering
+Red Hat
+
