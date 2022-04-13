@@ -2,82 +2,51 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id ADB414FFC2B
-	for <lists+dri-devel@lfdr.de>; Wed, 13 Apr 2022 19:12:14 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id DC95A4FFC34
+	for <lists+dri-devel@lfdr.de>; Wed, 13 Apr 2022 19:12:43 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 5980C10E008;
-	Wed, 13 Apr 2022 17:12:12 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 6788C10E138;
+	Wed, 13 Apr 2022 17:12:40 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from us-smtp-delivery-124.mimecast.com
- (us-smtp-delivery-124.mimecast.com [170.10.129.124])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 078C410E008
- for <dri-devel@lists.freedesktop.org>; Wed, 13 Apr 2022 17:12:10 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1649869930;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=YJ72N2/GrlRUJ/thxMpQZyE2ELbmhrFrZFQ/W3EawNk=;
- b=bHW/msb7GNBVwc09bWTw7btjaJHx57Qfbtg0V8FyUC0/mQ8/QjavIHV381Vd/poWRWIh7s
- y8s62NRxi/2hbj8Cjew3/xhR4ePw7K/L9s3sBdsrV+KL7vGQPmVP9hj1vS8Ny5SRviRCBo
- QaxGpbq9ahou+A153PIeFgCAnqmelOw=
-Received: from mail-wr1-f72.google.com (mail-wr1-f72.google.com
- [209.85.221.72]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-581-ohohXr7KPZGeoZ2KMYuyUQ-1; Wed, 13 Apr 2022 13:12:08 -0400
-X-MC-Unique: ohohXr7KPZGeoZ2KMYuyUQ-1
-Received: by mail-wr1-f72.google.com with SMTP id
- j67-20020adf9149000000b00203e6b7d151so533116wrj.13
- for <dri-devel@lists.freedesktop.org>; Wed, 13 Apr 2022 10:12:08 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
- :content-language:to:cc:references:from:in-reply-to
- :content-transfer-encoding;
- bh=YJ72N2/GrlRUJ/thxMpQZyE2ELbmhrFrZFQ/W3EawNk=;
- b=ooPNAIjVUjMVYuR68aMzMJVkYEbH7STpgtbRI4R2odk9CC2PcLZIWxgKsLrydFUGVm
- skIAvrdmjX5rx3xHs6TxwJVcNhrchZr0Q6Qd7TkuqNfIxCetDVUFwXr1kHnsgaJxZCab
- ZPqX2m0kpwhtW26tAfMQ8I3fwNNX4bmFU0DuRap/+H9lMGWQF+wHLhLBQWIfpMkuTpSO
- bXCaoC0IxGF6/fyDMsnePJQlVdf0kJeqxUvSutzORSDMvQ/naqEOZCMEPyxa6497uRQw
- HpDpkBYCZAXfyK4Rcu95XOLFTp6tN8BhBkK/1UsOIiRLamSYTOuGRqnhpE6ZPAotPf43
- URRA==
-X-Gm-Message-State: AOAM532vFEvGDgV9L2qDta6VNeqE5QjGxD+ynSSamhxnEO51pT6WrrDx
- ZMKdrXjg7sxgQjUxhkTk2BypnYFwq8VNrlw3jZPCfamcyXpKPwTOAs4ORnup2j7F8syfrQJ3KLB
- fUJyBWc2E8TwSvFc+E4TRHZaOhRl+
-X-Received: by 2002:a5d:47cc:0:b0:204:1c9d:2157 with SMTP id
- o12-20020a5d47cc000000b002041c9d2157mr32488638wrc.294.1649869927674; 
- Wed, 13 Apr 2022 10:12:07 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJzarKNWqHMOXtjJXHfCHXYpL7/O0TZGX0CRZAp0JslWTZbGjWFUGAPY0CcHHwuyyFWpDVNUHA==
-X-Received: by 2002:a5d:47cc:0:b0:204:1c9d:2157 with SMTP id
- o12-20020a5d47cc000000b002041c9d2157mr32488619wrc.294.1649869927436; 
- Wed, 13 Apr 2022 10:12:07 -0700 (PDT)
-Received: from [192.168.1.102] ([92.176.231.205])
- by smtp.gmail.com with ESMTPSA id
- m3-20020a5d6243000000b001e33760776fsm31623645wrv.10.2022.04.13.10.12.06
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Wed, 13 Apr 2022 10:12:07 -0700 (PDT)
-Message-ID: <e81c5902-e401-c6d5-0e03-6984e7d4a547@redhat.com>
-Date: Wed, 13 Apr 2022 19:12:06 +0200
+Received: from mga14.intel.com (mga14.intel.com [192.55.52.115])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id C5D7F10E138;
+ Wed, 13 Apr 2022 17:12:39 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+ t=1649869959; x=1681405959;
+ h=from:to:cc:subject:in-reply-to:references:date:
+ message-id:mime-version:content-transfer-encoding;
+ bh=3GHeqODc1hevgvCDKZ/t/z2DG0jedAb4Veh9wJu2RrY=;
+ b=K0R2ZeMwXEey0oYAUGJmqRObDkgjFrMi3HAXZUkbrTVDJy7Jvbbo/QOK
+ YI0FRwEH0KI54b+JPONWAoOu84qUvt5HcbjcPyLk8nhTT0T072/RGatRd
+ xmwcPcgrkEk4mjH1dROptcpCJcG81bv0OEOAYR0N+SEV37FKyPENtFYNC
+ dsOnqIBG7VT4GUXjmrfwIKi8rl0JD5dWCO18ozzmNpx+HkVdkEDgxngSm
+ bK++A80gP7J+TISzBJ7cHhg6gTqaKyj9MOfHQC+GRhvIMrRsl6x/rbOL5
+ QzDQ8x01C9QUU/bvcn5Q+/SjTr0HBzaVAZbt8ZdGoDO/W/doDydpJi+ql A==;
+X-IronPort-AV: E=McAfee;i="6400,9594,10316"; a="262902765"
+X-IronPort-AV: E=Sophos;i="5.90,257,1643702400"; d="scan'208";a="262902765"
+Received: from orsmga008.jf.intel.com ([10.7.209.65])
+ by fmsmga103.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 13 Apr 2022 10:12:25 -0700
+X-IronPort-AV: E=Sophos;i="5.90,257,1643702400"; d="scan'208";a="573361082"
+Received: from jardanow-mobl1.ger.corp.intel.com (HELO localhost)
+ ([10.249.150.86])
+ by orsmga008-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 13 Apr 2022 10:12:22 -0700
+From: Jani Nikula <jani.nikula@linux.intel.com>
+To: =?utf-8?Q?Fran=C3=A7ois?= Valenduc <francoisvalenduc@gmail.com>,
+ intel-gfx@lists.freedesktop.org, dri-devel@lists.freedesktop.org
+Subject: Re: commit 15512021eb3975a8c2366e3883337e252bb0eee5 causes white
+ spots in console screens
+In-Reply-To: <0da21aec-d299-1834-99f3-9a598e4649f7@gmail.com>
+Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
+References: <0da21aec-d299-1834-99f3-9a598e4649f7@gmail.com>
+Date: Wed, 13 Apr 2022 20:12:20 +0300
+Message-ID: <87v8vcgb63.fsf@intel.com>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.7.0
-Subject: Re: [PATCH v4 4/5] drm/solomon: Move device info from ssd130x-i2c to
- the core driver
-To: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
-References: <20220413162359.325021-1-javierm@redhat.com>
- <20220413162359.325021-5-javierm@redhat.com>
- <YlcCEP8ADyJNxd/Z@smile.fi.intel.com>
-From: Javier Martinez Canillas <javierm@redhat.com>
-In-Reply-To: <YlcCEP8ADyJNxd/Z@smile.fi.intel.com>
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=javierm@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Language: en-US
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: quoted-printable
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -90,45 +59,40 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Geert Uytterhoeven <geert+renesas@glider.be>,
- Neil Armstrong <narmstrong@baylibre.com>, David Airlie <airlied@linux.ie>,
- linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
- Mark Brown <broonie@kernel.org>, Geert Uytterhoeven <geert@linux-m68k.org>,
- Chen-Yu Tsai <wens@kernel.org>
+Cc: Stanislav Lisovskiy <stanislav.lisovskiy@intel.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 4/13/22 19:02, Andy Shevchenko wrote:
-> On Wed, Apr 13, 2022 at 06:23:57PM +0200, Javier Martinez Canillas wrote:
->> These are declared in the ssd130x-i2c transport driver but the information
->> is not I2C specific, and could be used by other SSD130x transport drivers.
->>
->> Move them to the ssd130x core driver and just set the OF device entries to
->> an ID that could be used to lookup the correct device info from an array.
->>
->> While being there, also move the SSD130X_DATA and SSD130X_COMMAND control
->> bytes. Since even though they are used by the I2C interface, they could
->> also be useful for other transport protocols such as SPI.
-> 
-> Thanks!
-> 
-> ...
-> 
->> @@ -139,6 +106,8 @@ static struct i2c_driver ssd130x_i2c_driver = {
->>  };
->>  module_i2c_driver(ssd130x_i2c_driver);
->>  
->> +
-> 
-> Seems stray change. Dunno if maintainers can fix this when applying.
+On Wed, 13 Apr 2022, Fran=C3=A7ois Valenduc <francoisvalenduc@gmail.com> wr=
+ote:
+> Commit 15512021eb3975a8c2366e3883337e252bb0eee5=20
+> (15512021eb3975a8c2366e3883337e252bb0eee5) causes a lof of white spots=20
+> to appears on the right upper corner of all console screens (see=20
+> https://drive.google.com/file/d/13GabEvOIKSAj5yox6ybAZEDu3Ixncw5Q/view).=
+=20
+> git-bisect shows that this is the offending commit and if I revert it,=20
+> the problem goes away. The problem still occurs with kernel 5.18-rc2 and=
+=20
+> to all stable trees where it was applied.
+> Can somebody explains what happens ?
 >
+> The video card is the following: VGA compatible controller: Intel=20
+> Corporation WhiskeyLake-U GT2 [UHD Graphics 620] (rev 02) (prog-if 00=20
+> [VGA controller])
+>
+> Please tell me if you need more info.
 
-Ups, indeed. I can fix it when applying.
+That's commit 15512021eb39 ("drm/i915: Workaround broken BIOS DBUF
+configuration on TGL/RKL"), adding Cc's.
 
--- 
-Best regards,
+Please file a report at fdo gitlab [1] and attach dmesg etc. there.
 
-Javier Martinez Canillas
-Linux Engineering
-Red Hat
+Thanks,
+Jani.
 
+
+[1] https://gitlab.freedesktop.org/drm/intel/wikis/How-to-file-i915-bugs
+
+
+--=20
+Jani Nikula, Intel Open Source Graphics Center
