@@ -1,127 +1,56 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id CAB094FF1C0
-	for <lists+dri-devel@lfdr.de>; Wed, 13 Apr 2022 10:24:48 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 77B124FF1E1
+	for <lists+dri-devel@lfdr.de>; Wed, 13 Apr 2022 10:28:40 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id ED09610FC90;
-	Wed, 13 Apr 2022 08:24:46 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 5E89E10F143;
+	Wed, 13 Apr 2022 08:28:34 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from NAM12-MW2-obe.outbound.protection.outlook.com
- (mail-mw2nam12on2081.outbound.protection.outlook.com [40.107.244.81])
- by gabe.freedesktop.org (Postfix) with ESMTPS id A0B7610FC90;
- Wed, 13 Apr 2022 08:24:45 +0000 (UTC)
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=fHHp4PvgdfdUKeuZo6ty3HpZ6aqtc/ccQYLBWTjmhsdbFiya+1/S1eaUKjOdzUcRt2ZB+LscTWhGOo/SWu15VRe4C9MYKtjNMndCnXKNDjKt/CR5O4q9UIwz8T0K7Dv2mWL66Bzu2AJvbjL3HQGXp5jn4ZC3tl4TmaUYMV8VvH92RcC5W7bFcRWYtwf5hVsONxCcBgngpAYpUXOSw9cvk/4oMen0dK2t77c7nacCJxrOlsmTWnGCzan2/rWf8KgWNitvP9V1aQGqy4TArCC79UZ0GRFSLhtI0juhzE1CX5qsGPBBXys7hhoFyYm4jbbXCJWAJxL2aIe6rP20CXgaSQ==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=hzOjtAX8RkT1f/OMndfoeoUNoRMkLaZXAAR3wFWZoYM=;
- b=igzCWfgqKV0dSLP5yHGkRwHFYeSx2dOZRcZ46e8Bw14fo1vkRo8JhZLVyltpR2lACYXiWmk965kfycw/vCo2NatYNpuJaEFCANAF65hHYjG79xao5VXEP9/YHd0ReJE1VZkySq5USddnAHgkhCkWjM7/4dZVBcLg0eReZCFFfxDs8DHb+Bu4WmmCGEYEflxgoT7oyTckDvs5gQULPfcgxgk1EdcCDIkcOZjeeNYcIwzsjRNldzhHoeXDlnkV7WrfqK+FJ/CyZLd7ZC0cHx1raqcW2SOH5hNRDS5dSGBefTGW/HDpL3z28x7dNDR46PrTK0VYBUAnytNzqBAcyBqqcw==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=amd.com; dmarc=pass action=none header.from=amd.com; dkim=pass
- header.d=amd.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1; 
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=hzOjtAX8RkT1f/OMndfoeoUNoRMkLaZXAAR3wFWZoYM=;
- b=agnQIwnlyBwehUJyNz5CUrakNe5Y3DwiH0fXGs2JFlu/1Hsd0Acj0/O0ipXTPmVdDKsIkcX4O5sLbQ6hP2Jo4FRLdi23jTWNwKfOlIe72/IvoxB/dS1YBZLXD6rJKnqX7pN/pMUTm8jUb1ZuKq/HEW4X1VagAYo+WToZg9qnG8w=
-Authentication-Results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=amd.com;
-Received: from BN8PR12MB3587.namprd12.prod.outlook.com (2603:10b6:408:43::13)
- by SN1PR12MB2382.namprd12.prod.outlook.com (2603:10b6:802:2e::30)
- with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.5164.18; Wed, 13 Apr
- 2022 08:24:43 +0000
-Received: from BN8PR12MB3587.namprd12.prod.outlook.com
- ([fe80::a5fb:7137:5e64:cf8]) by BN8PR12MB3587.namprd12.prod.outlook.com
- ([fe80::a5fb:7137:5e64:cf8%5]) with mapi id 15.20.5144.030; Wed, 13 Apr 2022
- 08:24:43 +0000
-Message-ID: <b6eee576-b950-c1a9-74d1-fe91468faba4@amd.com>
-Date: Wed, 13 Apr 2022 10:24:37 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.7.0
-Subject: Re: linux-next: build warning after merge of the drm-misc tree
-Content-Language: en-US
-To: Stephen Rothwell <sfr@canb.auug.org.au>, Dave Airlie <airlied@linux.ie>,
- Intel Graphics <intel-gfx@lists.freedesktop.org>,
- DRI <dri-devel@lists.freedesktop.org>,
- Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
- Linux Next Mailing List <linux-next@vger.kernel.org>
-References: <20220406155030.0dacf051@canb.auug.org.au>
- <20220413100448.6f5f4de7@canb.auug.org.au>
- <YlaIgxknwmPbsg1h@phenom.ffwll.local>
-From: =?UTF-8?Q?Christian_K=c3=b6nig?= <christian.koenig@amd.com>
-In-Reply-To: <YlaIgxknwmPbsg1h@phenom.ffwll.local>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
-X-ClientProxiedBy: AM5PR04CA0035.eurprd04.prod.outlook.com
- (2603:10a6:206:1::48) To BN8PR12MB3587.namprd12.prod.outlook.com
- (2603:10b6:408:43::13)
+Received: from mga14.intel.com (mga14.intel.com [192.55.52.115])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 1820410F143;
+ Wed, 13 Apr 2022 08:28:33 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+ t=1649838513; x=1681374513;
+ h=mime-version:content-transfer-encoding:in-reply-to:
+ references:subject:to:cc:from:message-id:date;
+ bh=L+OZNj90+AdPcJBQS0p2Z5B16rtPE3u9y8tyW5Ki0Ng=;
+ b=bQuMGn3lrkKEzju8Q8Ht0EqCGHf8va56784KYZLhXwYBIiLPDVvuAWW6
+ 4OigxJluw77FJtyQEleMOGd0VHj7rde6JhIJbkJs5w2Dkc6Fw4uXqeGFx
+ od7b5zCW0YocASGBeknzDLgZM/AUcaPTmVp/SH4QbmoNGgWiDcVYUGitL
+ rQlhI5H0gJso27ULVNidU2/1hyQr5FQSyhXsQktGIbFC7s7iJcFbL+eSv
+ 6sjj6rVx+EDzQvdZQsGtBKgq9/2/KImyax0ZC0RWJMDZZRTiblfWHtZxI
+ UtIo301TB/BirEpsEKW3ZnM1VxbsS7AR5eJznSVJFHxV5FQpp/WlzWBw8 g==;
+X-IronPort-AV: E=McAfee;i="6400,9594,10315"; a="262787310"
+X-IronPort-AV: E=Sophos;i="5.90,256,1643702400"; d="scan'208";a="262787310"
+Received: from orsmga005.jf.intel.com ([10.7.209.41])
+ by fmsmga103.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 13 Apr 2022 01:28:32 -0700
+X-IronPort-AV: E=Sophos;i="5.90,256,1643702400"; d="scan'208";a="724809778"
+Received: from ebruchet-mobl1.ger.corp.intel.com (HELO localhost)
+ ([10.252.45.44])
+ by orsmga005-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 13 Apr 2022 01:28:30 -0700
+Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-Office365-Filtering-Correlation-Id: 7cd17b0c-0737-45b0-4147-08da1d270f93
-X-MS-TrafficTypeDiagnostic: SN1PR12MB2382:EE_
-X-Microsoft-Antispam-PRVS: <SN1PR12MB2382B50F2A2583DCC318179383EC9@SN1PR12MB2382.namprd12.prod.outlook.com>
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: xelbPXWCmiSAEzcP5FehVg5YTcnpXaUY233+fHS/JFkOQ7V1NbxyT7n8R3lZz26Fial1f3f89N4F6NJEvYHHIyhFTHv6Kz71LhVckoyR3azlEKQ/STxHc0fNj0tJaHaQBMj79hcMBtRh6B8IeQFKaUWtJXFX3sculf559GUiF3qjX+gLIJunv2BgIl4poPG+ZZjiTU3iZLCwpKAip1gwykS0LviurACJxTzSpxPwqEiih8n+dN96T2RXmYxerSr/2BDx5a816/Fx7LkFuAdkStC0job+DANjAYryiY61SjlThmbSGqvK1gVhJwBS7gBeQ0MUParHqa0CdiOUw5RTCXQcAMkNHCgclI9rdO0Xzh4rUNj2nWTXTKlDvDpUiV01IYxO/9Wdf8Ky0iXKCg2DxeVGEO8X21mz8WDSYsbksY0GTUqfV0LBMx7KGReSbEpx0fKJnC0AdRoOTqg/fYYBcR6Miof0947X58n9xxpuXykWUwOxgUILB+uiCsoMYTSMY1FER1VrmXLDTYQ2HEmOlGPEpPoWleoi+Fn04BCQPC4RoQbCNG2HcV/cfItjSxuvE3iSGGttjG5f6lxOzkGvyKTHXaH+R89k2NqPUtijLqUJjSUZKp0p7RU3ZGvCRSPw51PK2MU5Pl+rOg7yF8jFMSPMaoSeP9O0IYH95gdqfZNeK5RitOyF7FOX66/AxB+OG9cjXDjT0Tm56sMrTHZt80fjCrshSDFW6v0up4v1ODk=
-X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
- IPV:NLI; SFV:NSPM; H:BN8PR12MB3587.namprd12.prod.outlook.com; PTR:; CAT:NONE;
- SFS:(13230001)(4636009)(366004)(36756003)(5660300002)(31686004)(83380400001)(26005)(2906002)(4744005)(2616005)(186003)(66556008)(86362001)(66476007)(8676002)(6486002)(31696002)(6666004)(8936002)(110136005)(316002)(6512007)(6506007)(508600001)(38100700002)(66946007)(45980500001)(43740500002);
- DIR:OUT; SFP:1101; 
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: =?utf-8?B?ZXBRZFVVeVl6R2czN2pnN01zNGZBTzhTL3MrOFFPYU5Rc3BQUkp2NVFKajZo?=
- =?utf-8?B?RjlhcEVZNjNSRjI3T3I4NVk1eldVRTBJYlNOV24zbU9HTU1UeFpadUdFd3Ew?=
- =?utf-8?B?eGpsdVNFQWk5N1lCLzY2ZWlkNllLOGNld1BCT29iRUNDZ1RtTzNja1F1dmJ2?=
- =?utf-8?B?QWZqRnlFNkZJaDRaOVJ3c3hhR1czbGtxb2I2VDAxSGQwU3VUYks0U0tCaFRF?=
- =?utf-8?B?WURKbWswc0NXOXVHbG9pTWR1WlJ0bDFoYmJ3MXJ5L0djSUZxd0hwQkc5KzlT?=
- =?utf-8?B?czdEWlBpVWJlWmhVN3RIeGp6RFhvL2dRUTkzK1VaaHlteVdKeEdjNDBRWFRM?=
- =?utf-8?B?c2RUUmFVMlcvaHNsWS9LZzIwNCtlR0hwMXN6emJ2U3JaNUJYei94dVUrL0J6?=
- =?utf-8?B?anJncmpUTWg3aGdjbFVybDl2TzBGS1BQY3VMNXduYStOVllwaXNRZUpzbWln?=
- =?utf-8?B?SCtZVGhVVFAyV2pKd1VLZHlGc25yQ3hoK3JkVThYTzlZODZaNG04dzlhaHIx?=
- =?utf-8?B?RGh5RUZIUENsSG1DbU9LUGNsdm80d0dodTlEb2pDUHVNeVJ3UGdOQ09IQmVE?=
- =?utf-8?B?bFJTNUtpektrTHVEWnhNT0xZWDBWNndkdm9xRGZURUdEQUFtU0pPOUV5TFd1?=
- =?utf-8?B?eHFiRmJMNnNhVUg1ZmN6emRLMG5EdXZIUXRmbG1DZ2M5VDBkWHZwSTdKT1dE?=
- =?utf-8?B?SjhkL20vMjdYTWRPeE1xK2Uzby9pazFUT3RWTUJmdGJqNk9kU0VnTWVMN2JG?=
- =?utf-8?B?aGMvSFVtWHh4Vk5Ocm1PYkVGcDV1RXJsMmhOMkdYTXRsY2k4Qi9iTVVhdHJ5?=
- =?utf-8?B?RzAzL2RobEZZYndycy9rcWJYMUY1d0xjOXRMVU9VaW5NSzFWSURPQVR2eDhC?=
- =?utf-8?B?elZkYjRvNGRmaFIvRk50eXZRcTRIaHlEN1lPMEk4dzVFZklPOEtlQk1QUzNa?=
- =?utf-8?B?dUxYV2VpYitPNnJmaWNrSlNvSUpOSUYyU2Nkc2lKZHBzMFB3MVc0RjEzUXJa?=
- =?utf-8?B?NndoY2lndDcxYVMwaWpESTVkTTVOSjM5ZTlGeU91eFB6Wms1d0V4ZldnZXpB?=
- =?utf-8?B?cG04UnZxOWZaaGZEck93MUU4M28wK3ZYTGhTUitvWDNKM0ZaVmdkL0kraUpQ?=
- =?utf-8?B?eTNHZk8ycldtaEwyMVdQR2tMcldHSUdPTmZJQXdKcC9ldkhscVB1aTRmcnVi?=
- =?utf-8?B?ZTVxVytrZEh1M2ZLcHRRRGd3cUhlbmxMektsQ1g1WE92azVMWEUvekZFc2c5?=
- =?utf-8?B?dk5HUzJOSXcxQnNxdjYvd0hCd3hCU01lTWk4Q1djNVdOMDd4VmtyT1pPajV2?=
- =?utf-8?B?N3h0Uk96TldweUdmWnJ0RTY1RHBabmxiUzRwN1lrcHhrKzA5QzlRRU1sMWpj?=
- =?utf-8?B?bXBZVlBibzRUaUNTMmgvMG1sdjBEc2lueEFrVmFkbFdHU2o0RG1DQnFXOTBo?=
- =?utf-8?B?eFFuRHhQWVI1RkNDVFNSWWVOeG9tK2NTUFRybU1mVzRUQ1Y3WE43ZmU4L3Nl?=
- =?utf-8?B?bkQ4Nk14dDF1TjRyRGV5OXdqRDRTZ2xHdXRBTlFyY2tBTWxUR3J3Ym9EQ1pj?=
- =?utf-8?B?MVZnUWtFT1dsNlNJa2ZaNisvbUVFNWR0VHV3SXVnZlA1dXF2eFJ5akxBZVhI?=
- =?utf-8?B?aThsSk9YZzRGNWNiVHlaMlRJbjZhSmZqME1KSHppdVRDMEZ1L0ZqU0k0ZkJo?=
- =?utf-8?B?UDFWZVQ0WGl0QXVpTFU4TW13WWtNVkR2NG9vK3k3bnFiRGl1Qm5TZFRrMkdC?=
- =?utf-8?B?SFVjbWp1VU5nQnB4TXRsNkRWUVNhblRMM1hJMTZ4V3N2bmVFM1piZWgxNGFt?=
- =?utf-8?B?ZHA5MGNhaDVZYTAvU1hZTnFZWUhsbnpRRHlQRUZwYk5MZEZuRStFV0Nqb0V1?=
- =?utf-8?B?aU9iakZjam92Y0MxcTJjTjFiVUJUZGhrY1M4R005TjNvV3dQZnBZdkJuL1kz?=
- =?utf-8?B?QjVPTFpYY1hlWUFlb2JOSmRPNkNFWHVFckNaSU9OZWtnbEwvdVJZbGNkc1ps?=
- =?utf-8?B?cGtxRVBQdG5kcjgrMXR6NFozVmJTQTdsWjFMY1RWdlRBZUR6SjY2cjdpelZl?=
- =?utf-8?B?K0pCSkg5UElmQjlWV3VGRWRtcDFOVHVpQ09RZ3hTS28xc3lnckk5SzhaSWlv?=
- =?utf-8?B?dDJXQkNMbTJBZW8vckN4NG50Z1JaQ0JtNzRaY0J3SDVVL1NKRXdEZHhmVndS?=
- =?utf-8?B?ZEVkUlZuMEhkTDYxYTIzdGtxVHNQRlRMcUhWMWpsVkRWb1BSWkdvTldDVG9z?=
- =?utf-8?B?NW9zaWxjb2tPMTlxSEc5cHJuSHhPWDBVVE1URUNWQ21LdENiMCtyT29tQStx?=
- =?utf-8?B?ZWFaeVc3WjU4aU00RS9CL0NsVFJsT2cwYkN5NVVKL0lWQVhuTE81UT09?=
-X-OriginatorOrg: amd.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 7cd17b0c-0737-45b0-4147-08da1d270f93
-X-MS-Exchange-CrossTenant-AuthSource: BN8PR12MB3587.namprd12.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 13 Apr 2022 08:24:43.1866 (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: /v6Xj87fD+WN4EKhabh0YmskrXbf4ixoR/Vtvac0TSISASiTgozZ0IXQdqlGFGMP
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: SN1PR12MB2382
+Content-Transfer-Encoding: quoted-printable
+In-Reply-To: <20220402030237.GA29661@intel.com>
+References: <20220401123751.27771-1-ramalingam.c@intel.com>
+ <20220401123751.27771-8-ramalingam.c@intel.com>
+ <20220401142853.GF12046@intel.com>
+ <7517726e-c828-ace8-9968-e542e23d97f1@amd.com>
+ <20220402030237.GA29661@intel.com>
+Subject: Re: [PATCH v7 7/9] drm/ttm: Add a parameter to add extra pages into
+ ttm_tt
+To: Christian König <christian.koenig@amd.com>, Ramalingam C <ramalingam.c@intel.com>
+From: Joonas Lahtinen <joonas.lahtinen@linux.intel.com>
+Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
+Message-ID: <164983850800.14850.12943794917384272373@jlahtine-mobl.ger.corp.intel.com>
+User-Agent: alot/0.8.1
+Date: Wed, 13 Apr 2022 11:28:28 +0300
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -134,29 +63,212 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
+Cc: Tvrtko Ursulin <tvrtko.ursulin@linux.intel.com>,
+ intel-gfx <intel-gfx@lists.freedesktop.org>,
+ dri-devel <dri-devel@lists.freedesktop.org>, rodrigo.vivi@intel.com
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Am 13.04.22 um 10:23 schrieb Daniel Vetter:
-> On Wed, Apr 13, 2022 at 10:04:48AM +1000, Stephen Rothwell wrote:
->> Hi all,
->>
->> On Wed, 6 Apr 2022 15:50:30 +1000 Stephen Rothwell <sfr@canb.auug.org.au> wrote:
->>> After merging the drm-misc tree, today's linux-next build (htmldocs)
->>> produced this warning:
->>>
->>> include/drm/ttm/ttm_resource.h:226: warning: Function parameter or member 'pos' not described in 'ttm_lru_bulk_move'
->>>
->>> Introduced by commit
->>>
->>>    b0e2c9ea5afc ("drm/ttm: allow bulk moves for all domains")
->> This warning is now produced by the drm tree.
-> Christian, do you have a patch to fix this?
+(+ Tvrtko and Jani)
 
-Yeah, already on the TODO list. Just a few to much things coming in at 
-the same time here.
+Quoting Ramalingam C (2022-04-02 06:02:38)
+> On 2022-04-01 at 16:31:19 +0200, Christian K=C3=B6nig wrote:
+> > I would be nicer to push this through drm-misc-next, but the intel bran=
+ch
+> > works for me as well.
+> Hi Christian
+>=20
+> I have pushed this patch into drm-misc-next.
 
-Christian.
+I've now backmerged drm-next containing this commit to drm-intel-gt-next
+in order to unblock merging the rest of the series.
 
-> -Daniel
+> Regards,
+> Ram.
+> >=20
+> > Regards,
+> > Christian.
+> >=20
+> > Am 01.04.22 um 16:28 schrieb Ramalingam C:
+> > > Christian, Joonas and vivi
+> > >=20
+> > > Once the premerge results are greeen, if this patch can be merged into
+> > > drm-intel-gt-next along with other patches could you please ack the
+> > > request to merge into drm-intel-gt-next?
 
+For future reference, when in doubt who are the right ones to handle,
+add all the maintainers and wait for them to reply before proceeding.
+
+Then we can avoid some unnecessary churn where there are more
+straightforward options like here: merge via drm-intel-gt-next as
+nobody else needs the new functions yet.
+
+Regards, Joonas
+
+> > > Thanks
+> > > Ram
+> > >=20
+> > > On 2022-04-01 at 18:07:49 +0530, Ramalingam C wrote:
+> > > > Add a parameter called "extra_pages" for ttm_tt_init, to indicate t=
+hat
+> > > > driver needs extra pages in ttm_tt.
+> > > >=20
+> > > > v2:
+> > > >    Used imperative wording [Thomas and Christian]
+> > > >=20
+> > > > Signed-off-by: Ramalingam C <ramalingam.c@intel.com>
+> > > > cc: Christian Koenig <christian.koenig@amd.com>
+> > > > cc: Hellstrom Thomas <thomas.hellstrom@intel.com>
+> > > > Reviewed-by: Thomas Hellstrom <thomas.hellstrom@linux.intel.com>
+> > > > Reviewed-by: Christian Konig <christian.koenig@amd.com>
+> > > > Reviewed-by: Nirmoy Das <nirmoy.das@intel.com>
+> > > > ---
+> > > >   drivers/gpu/drm/drm_gem_vram_helper.c      |  2 +-
+> > > >   drivers/gpu/drm/i915/gem/i915_gem_ttm.c    |  2 +-
+> > > >   drivers/gpu/drm/qxl/qxl_ttm.c              |  2 +-
+> > > >   drivers/gpu/drm/ttm/ttm_agp_backend.c      |  2 +-
+> > > >   drivers/gpu/drm/ttm/ttm_tt.c               | 12 +++++++-----
+> > > >   drivers/gpu/drm/vmwgfx/vmwgfx_ttm_buffer.c |  2 +-
+> > > >   include/drm/ttm/ttm_tt.h                   |  4 +++-
+> > > >   7 files changed, 15 insertions(+), 11 deletions(-)
+> > > >=20
+> > > > diff --git a/drivers/gpu/drm/drm_gem_vram_helper.c b/drivers/gpu/dr=
+m/drm_gem_vram_helper.c
+> > > > index dc7f938bfff2..123045b58fec 100644
+> > > > --- a/drivers/gpu/drm/drm_gem_vram_helper.c
+> > > > +++ b/drivers/gpu/drm/drm_gem_vram_helper.c
+> > > > @@ -867,7 +867,7 @@ static struct ttm_tt *bo_driver_ttm_tt_create(s=
+truct ttm_buffer_object *bo,
+> > > >           if (!tt)
+> > > >                   return NULL;
+> > > > - ret =3D ttm_tt_init(tt, bo, page_flags, ttm_cached);
+> > > > + ret =3D ttm_tt_init(tt, bo, page_flags, ttm_cached, 0);
+> > > >           if (ret < 0)
+> > > >                   goto err_ttm_tt_init;
+> > > > diff --git a/drivers/gpu/drm/i915/gem/i915_gem_ttm.c b/drivers/gpu/=
+drm/i915/gem/i915_gem_ttm.c
+> > > > index c40aca99442f..a878910a563c 100644
+> > > > --- a/drivers/gpu/drm/i915/gem/i915_gem_ttm.c
+> > > > +++ b/drivers/gpu/drm/i915/gem/i915_gem_ttm.c
+> > > > @@ -293,7 +293,7 @@ static struct ttm_tt *i915_ttm_tt_create(struct=
+ ttm_buffer_object *bo,
+> > > >                   i915_tt->is_shmem =3D true;
+> > > >           }
+> > > > - ret =3D ttm_tt_init(&i915_tt->ttm, bo, page_flags, caching);
+> > > > + ret =3D ttm_tt_init(&i915_tt->ttm, bo, page_flags, caching, 0);
+> > > >           if (ret)
+> > > >                   goto err_free;
+> > > > diff --git a/drivers/gpu/drm/qxl/qxl_ttm.c b/drivers/gpu/drm/qxl/qx=
+l_ttm.c
+> > > > index 95df5750f47f..9ba871bd19b1 100644
+> > > > --- a/drivers/gpu/drm/qxl/qxl_ttm.c
+> > > > +++ b/drivers/gpu/drm/qxl/qxl_ttm.c
+> > > > @@ -113,7 +113,7 @@ static struct ttm_tt *qxl_ttm_tt_create(struct =
+ttm_buffer_object *bo,
+> > > >           ttm =3D kzalloc(sizeof(struct ttm_tt), GFP_KERNEL);
+> > > >           if (ttm =3D=3D NULL)
+> > > >                   return NULL;
+> > > > - if (ttm_tt_init(ttm, bo, page_flags, ttm_cached)) {
+> > > > + if (ttm_tt_init(ttm, bo, page_flags, ttm_cached, 0)) {
+> > > >                   kfree(ttm);
+> > > >                   return NULL;
+> > > >           }
+> > > > diff --git a/drivers/gpu/drm/ttm/ttm_agp_backend.c b/drivers/gpu/dr=
+m/ttm/ttm_agp_backend.c
+> > > > index 6ddc16f0fe2b..d27691f2e451 100644
+> > > > --- a/drivers/gpu/drm/ttm/ttm_agp_backend.c
+> > > > +++ b/drivers/gpu/drm/ttm/ttm_agp_backend.c
+> > > > @@ -134,7 +134,7 @@ struct ttm_tt *ttm_agp_tt_create(struct ttm_buf=
+fer_object *bo,
+> > > >           agp_be->mem =3D NULL;
+> > > >           agp_be->bridge =3D bridge;
+> > > > - if (ttm_tt_init(&agp_be->ttm, bo, page_flags, ttm_write_combined)=
+) {
+> > > > + if (ttm_tt_init(&agp_be->ttm, bo, page_flags, ttm_write_combined,=
+ 0)) {
+> > > >                   kfree(agp_be);
+> > > >                   return NULL;
+> > > >           }
+> > > > diff --git a/drivers/gpu/drm/ttm/ttm_tt.c b/drivers/gpu/drm/ttm/ttm=
+_tt.c
+> > > > index d234aab800a0..1a66d9fc589a 100644
+> > > > --- a/drivers/gpu/drm/ttm/ttm_tt.c
+> > > > +++ b/drivers/gpu/drm/ttm/ttm_tt.c
+> > > > @@ -134,9 +134,10 @@ void ttm_tt_destroy(struct ttm_device *bdev, s=
+truct ttm_tt *ttm)
+> > > >   static void ttm_tt_init_fields(struct ttm_tt *ttm,
+> > > >                                  struct ttm_buffer_object *bo,
+> > > >                                  uint32_t page_flags,
+> > > > -                        enum ttm_caching caching)
+> > > > +                        enum ttm_caching caching,
+> > > > +                        unsigned long extra_pages)
+> > > >   {
+> > > > - ttm->num_pages =3D PAGE_ALIGN(bo->base.size) >> PAGE_SHIFT;
+> > > > + ttm->num_pages =3D (PAGE_ALIGN(bo->base.size) >> PAGE_SHIFT) + ex=
+tra_pages;
+> > > >           ttm->caching =3D ttm_cached;
+> > > >           ttm->page_flags =3D page_flags;
+> > > >           ttm->dma_address =3D NULL;
+> > > > @@ -146,9 +147,10 @@ static void ttm_tt_init_fields(struct ttm_tt *=
+ttm,
+> > > >   }
+> > > >   int ttm_tt_init(struct ttm_tt *ttm, struct ttm_buffer_object *bo,
+> > > > -         uint32_t page_flags, enum ttm_caching caching)
+> > > > +         uint32_t page_flags, enum ttm_caching caching,
+> > > > +         unsigned long extra_pages)
+> > > >   {
+> > > > - ttm_tt_init_fields(ttm, bo, page_flags, caching);
+> > > > + ttm_tt_init_fields(ttm, bo, page_flags, caching, extra_pages);
+> > > >           if (ttm_tt_alloc_page_directory(ttm)) {
+> > > >                   pr_err("Failed allocating page table\n");
+> > > > @@ -180,7 +182,7 @@ int ttm_sg_tt_init(struct ttm_tt *ttm, struct t=
+tm_buffer_object *bo,
+> > > >   {
+> > > >           int ret;
+> > > > - ttm_tt_init_fields(ttm, bo, page_flags, caching);
+> > > > + ttm_tt_init_fields(ttm, bo, page_flags, caching, 0);
+> > > >           if (page_flags & TTM_TT_FLAG_EXTERNAL)
+> > > >                   ret =3D ttm_sg_tt_alloc_page_directory(ttm);
+> > > > diff --git a/drivers/gpu/drm/vmwgfx/vmwgfx_ttm_buffer.c b/drivers/g=
+pu/drm/vmwgfx/vmwgfx_ttm_buffer.c
+> > > > index b84ecc6d6611..4e3938e62c08 100644
+> > > > --- a/drivers/gpu/drm/vmwgfx/vmwgfx_ttm_buffer.c
+> > > > +++ b/drivers/gpu/drm/vmwgfx/vmwgfx_ttm_buffer.c
+> > > > @@ -517,7 +517,7 @@ static struct ttm_tt *vmw_ttm_tt_create(struct =
+ttm_buffer_object *bo,
+> > > >                                        ttm_cached);
+> > > >           else
+> > > >                   ret =3D ttm_tt_init(&vmw_be->dma_ttm, bo, page_fl=
+ags,
+> > > > -                           ttm_cached);
+> > > > +                           ttm_cached, 0);
+> > > >           if (unlikely(ret !=3D 0))
+> > > >                   goto out_no_init;
+> > > > diff --git a/include/drm/ttm/ttm_tt.h b/include/drm/ttm/ttm_tt.h
+> > > > index f20832139815..17a0310e8aaa 100644
+> > > > --- a/include/drm/ttm/ttm_tt.h
+> > > > +++ b/include/drm/ttm/ttm_tt.h
+> > > > @@ -140,6 +140,7 @@ int ttm_tt_create(struct ttm_buffer_object *bo,=
+ bool zero_alloc);
+> > > >    * @bo: The buffer object we create the ttm for.
+> > > >    * @page_flags: Page flags as identified by TTM_TT_FLAG_XX flags.
+> > > >    * @caching: the desired caching state of the pages
+> > > > + * @extra_pages: Extra pages needed for the driver.
+> > > >    *
+> > > >    * Create a struct ttm_tt to back data with system memory pages.
+> > > >    * No pages are actually allocated.
+> > > > @@ -147,7 +148,8 @@ int ttm_tt_create(struct ttm_buffer_object *bo,=
+ bool zero_alloc);
+> > > >    * NULL: Out of memory.
+> > > >    */
+> > > >   int ttm_tt_init(struct ttm_tt *ttm, struct ttm_buffer_object *bo,
+> > > > -         uint32_t page_flags, enum ttm_caching caching);
+> > > > +         uint32_t page_flags, enum ttm_caching caching,
+> > > > +         unsigned long extra_pages);
+> > > >   int ttm_sg_tt_init(struct ttm_tt *ttm_dma, struct ttm_buffer_obje=
+ct *bo,
+> > > >                      uint32_t page_flags, enum ttm_caching caching);
+> > > > --=20
+> > > > 2.20.1
+> > > >=20
+> >=20
