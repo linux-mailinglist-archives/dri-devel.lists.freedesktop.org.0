@@ -1,77 +1,81 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3B4614FFB27
-	for <lists+dri-devel@lfdr.de>; Wed, 13 Apr 2022 18:24:36 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 97C174FFB20
+	for <lists+dri-devel@lfdr.de>; Wed, 13 Apr 2022 18:24:21 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id DF05210E5EB;
-	Wed, 13 Apr 2022 16:24:33 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 90CA810E4DB;
+	Wed, 13 Apr 2022 16:24:17 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from us-smtp-delivery-124.mimecast.com
  (us-smtp-delivery-124.mimecast.com [170.10.133.124])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 08E5F10E629
- for <dri-devel@lists.freedesktop.org>; Wed, 13 Apr 2022 16:24:30 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 4620110E4DB
+ for <dri-devel@lists.freedesktop.org>; Wed, 13 Apr 2022 16:24:16 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1649867070;
+ s=mimecast20190719; t=1649867055;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=vT3qGhdQjfehGHhWMMA/PSxHxvxcnWmgzyvpoMXaxY4=;
- b=hkZysQg5QjloHco4BCrYS6FmTATcDvNHCFF3gKj2l5zctsZowp+0qaDDKK9kOIbzo9t73L
- drcaj3HJJ4XfkY6bmDhq/mWQiunPNk+MqxHsblD0eY0cmpVe1wzTjiDMJi6/m+/dCQJuSl
- rDiZlxTOS2zC+58ajkpXRldqYOvQmm4=
-Received: from mail-wm1-f71.google.com (mail-wm1-f71.google.com
- [209.85.128.71]) by relay.mimecast.com with ESMTP with STARTTLS
+ content-transfer-encoding:content-transfer-encoding;
+ bh=BIpdW5kOzRDP9nhLtZbUUPw9Qw38NoG700S91+yMq6k=;
+ b=gZi0L0sZXCRO7WSGj+rkDS80MMLK8QeVRyiKxU+a7k4P7DYrm/IhE3VUc6hJODa9V/CSSg
+ lPlG8o5xnOSkMAeNKg3qS1Lse6rUY6E4q5Y3lj85IkDjU+RHUvidDwCfzNEDvqbJ/2FYZL
+ MiDOxMXyFP6nq6sp2aComEtS6ficM/s=
+Received: from mail-ed1-f70.google.com (mail-ed1-f70.google.com
+ [209.85.208.70]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-30-Di9A-MuuOHiL660bgqtkNg-1; Wed, 13 Apr 2022 12:24:27 -0400
-X-MC-Unique: Di9A-MuuOHiL660bgqtkNg-1
-Received: by mail-wm1-f71.google.com with SMTP id
- n21-20020a05600c4f9500b0038e3b0aa367so2079781wmq.1
- for <dri-devel@lists.freedesktop.org>; Wed, 13 Apr 2022 09:24:26 -0700 (PDT)
+ us-mta-610-NCR5S8-FNhORTQceaNRR5Q-1; Wed, 13 Apr 2022 12:24:13 -0400
+X-MC-Unique: NCR5S8-FNhORTQceaNRR5Q-1
+Received: by mail-ed1-f70.google.com with SMTP id
+ cm1-20020a0564020c8100b0041d6b9cf07eso1343416edb.14
+ for <dri-devel@lists.freedesktop.org>; Wed, 13 Apr 2022 09:24:13 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
- :references:mime-version:content-transfer-encoding;
- bh=vT3qGhdQjfehGHhWMMA/PSxHxvxcnWmgzyvpoMXaxY4=;
- b=6EEWjUctttKzbDCR+b/NuoqHV+Xqcx8ny1HfNzpv5f8NFKPCN74pRW2gRPLjXElegj
- i0lpuAo1yXY8lktcsWB6E2uZzg2OMTA9TF7kdY/zLNrE3JLzJTIHNNObz+6ZplIoa3DA
- 2sJJqOEia/xOAiJ3RlQqsEsI1KVRp1KhqWXAXpCDdbluB2JTwuWPtKgwup+lzE6y3yvh
- lSJI61hvDauJGppOKNoDLdl7fbUlmpE+xM6e+rYojjjb+Af9wcXBMdCX7MfyW3aCUBpH
- qr9sZpKWsf/HK2DnMGAWDVKOOH8FLfmq0mYYCWyFQluVbMkZno0w5rJcyNDAnQONNWVd
- nxEg==
-X-Gm-Message-State: AOAM532OsWy8AYO4ZFtYSXw/DGs7cdgyjTpBqld10btlGgviyE7LNiJH
- ZCXxi8YyTHdIZ4ztSKkXlgAbBIBOdipiWz+aSgsRgdbmXWrFc28oQhibTZXT4MQnyTx50c2GQan
- c0PBwiFQNb5ExuZLu3/dfaJNNubyG
-X-Received: by 2002:a7b:c8cd:0:b0:38e:c2c1:5219 with SMTP id
- f13-20020a7bc8cd000000b0038ec2c15219mr9119935wml.151.1649867065723; 
- Wed, 13 Apr 2022 09:24:25 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJzV6ZCJi9p1JvOzvuZMyVvp1n2LAn9t2OyFPmaw9Q/nskwT4EpL/rGoRB3/lHhNYNgYGlINGw==
-X-Received: by 2002:a7b:c8cd:0:b0:38e:c2c1:5219 with SMTP id
- f13-20020a7bc8cd000000b0038ec2c15219mr9119899wml.151.1649867065384; 
- Wed, 13 Apr 2022 09:24:25 -0700 (PDT)
-Received: from minerva.home ([92.176.231.205])
+ h=x-gm-message-state:message-id:date:mime-version:user-agent:from
+ :subject:to:cc:content-language:content-transfer-encoding;
+ bh=BIpdW5kOzRDP9nhLtZbUUPw9Qw38NoG700S91+yMq6k=;
+ b=6Xe43r1bASeM6zcDg2LWxNJQkiDfRsOI8FHdeAZDwTCQmlnCbEgERwIQ7N+JvRPOuf
+ NEEKtb62BqXL7JhoWVdOSHhxEj0NfaiTQmKwoqIyzL91e31YvEXZq+FVACr3LvdXZvDZ
+ dRUrsjEjx8pMoBKH0Z8bc9K3hvC8IL3aUeyViAsbbfIHK4/MEqXGX+6Df49bzIvHA76g
+ IEDc5R1t9nxt/wzraPMcJlkctjlNBtlBX11dSQclKsWyGfOr1urYFbxzCQUsALonUo3b
+ Sa/IS7s8DG6Pmpsz1cALNvXU8i4z6Hbm5vrn8ACvc9GTH0T0bQHP1ijmAIo1sxhSIe3G
+ mNLQ==
+X-Gm-Message-State: AOAM530AKMR1mFgI8ffjwOVLcMH6VsHqVJ5ma2Bm0Rm77LsbbhWTFdW5
+ wXdWGGtQpI7Kr+FICYXLfAyapNUUnWWVDGgS5m1mgK0PM1QIUsOSM9j7Pt/bHhmfmqaZNjV0TaS
+ vaEroO7RG1d89TPubum/1B+sBmN2NIWT3lZCSc6vTsWNG0K+fau/XLLJr7PyVtf3XR78s37b7xL
+ O5vgiA
+X-Received: by 2002:a17:907:724a:b0:6e8:4f12:b6fd with SMTP id
+ ds10-20020a170907724a00b006e84f12b6fdmr23305393ejc.198.1649867051948; 
+ Wed, 13 Apr 2022 09:24:11 -0700 (PDT)
+X-Google-Smtp-Source: ABdhPJz8Gai42abr3xZ9EsAIiNdcPrXoZfCLq2iDVtdEds1gvMKjogOqRrGuO3wC9DTI+g9bnzwq6Q==
+X-Received: by 2002:a17:907:724a:b0:6e8:4f12:b6fd with SMTP id
+ ds10-20020a170907724a00b006e84f12b6fdmr23305362ejc.198.1649867051533; 
+ Wed, 13 Apr 2022 09:24:11 -0700 (PDT)
+Received: from ?IPV6:2001:1c00:c1e:bf00:1db8:22d3:1bc9:8ca1?
+ (2001-1c00-0c1e-bf00-1db8-22d3-1bc9-8ca1.cable.dynamic.v6.ziggo.nl.
+ [2001:1c00:c1e:bf00:1db8:22d3:1bc9:8ca1])
  by smtp.gmail.com with ESMTPSA id
- t9-20020adfa2c9000000b002061561d4a7sm25446096wra.96.2022.04.13.09.24.24
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 13 Apr 2022 09:24:25 -0700 (PDT)
-From: Javier Martinez Canillas <javierm@redhat.com>
-To: linux-kernel@vger.kernel.org
-Subject: [PATCH v4 5/5] drm/solomon: Add SSD130x OLED displays SPI support
-Date: Wed, 13 Apr 2022 18:23:58 +0200
-Message-Id: <20220413162359.325021-6-javierm@redhat.com>
-X-Mailer: git-send-email 2.35.1
-In-Reply-To: <20220413162359.325021-1-javierm@redhat.com>
-References: <20220413162359.325021-1-javierm@redhat.com>
+ a13-20020a50858d000000b0041d71502d2dsm1376617edh.13.2022.04.13.09.24.10
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Wed, 13 Apr 2022 09:24:10 -0700 (PDT)
+Message-ID: <98519ba0-7f18-201a-ea34-652f50343158@redhat.com>
+Date: Wed, 13 Apr 2022 18:24:09 +0200
 MIME-Version: 1.0
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.8.0
+From: Hans de Goede <hdegoede@redhat.com>
+Subject: [RFC] drm/kms: Stop registering multiple /sys/class/backlight devs
+ for a single display
+To: "dri-devel@lists.freedesktop.org" <dri-devel@lists.freedesktop.org>,
+ wayland <wayland-devel@lists.freedesktop.org>
 Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=javierm@redhat.com
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=hdegoede@redhat.com
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
-Content-Transfer-Encoding: 8bit
-Content-Type: text/plain; charset="US-ASCII"; x-default=true
+Content-Language: en-US
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -84,258 +88,130 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Chen-Yu Tsai <wens@kernel.org>, Neil Armstrong <narmstrong@baylibre.com>,
- David Airlie <airlied@linux.ie>, YueHaibing <yuehaibing@huawei.com>,
- Javier Martinez Canillas <javierm@redhat.com>, dri-devel@lists.freedesktop.org,
- Chen-Yu Tsai <wens@csie.org>, Mark Brown <broonie@kernel.org>,
- Geert Uytterhoeven <geert@linux-m68k.org>, Maxime Ripard <maxime@cerno.tech>,
- Andy Shevchenko <andriy.shevchenko@linux.intel.com>
+Cc: Sebastian Wick <sebastian.wick@redhat.com>,
+ Martin Roukala <martin.roukala@mupuf.org>,
+ Christoph Grenz <christophg+lkml@grenz-bonn.de>,
+ Yusuf Khan <yusisamerican@gmail.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-The ssd130x driver only provides the core support for these devices but it
-does not have any bus transport logic. Add a driver to interface over SPI.
+Hi All,
 
-There is a difference in the communication protocol when using 4-wire SPI
-instead of I2C. For the latter, a control byte that contains a D/C# field
-has to be sent. This field tells the controller whether the data has to be
-written to the command register or to the graphics display data memory.
+As discussed in the "[RFC] drm/kms: control display brightness through
+drm_connector properties" thread, step 1 of the plan is to stop
+registering multiple /sys/class/backlight devs for a single display.
 
-But for 4-wire SPI that control byte is not used, instead a real D/C# line
-must be pulled HIGH for commands data and LOW for graphics display data.
+On x86 there can be multiple firmware + direct-hw-access methods
+for controlling the backlight and in some cases the kernel registers
+multiple backlight-devices for a single internal laptop LCD panel,
+2 common scenarios where this happens are:
 
-For this reason the standard SPI regmap can't be used and a custom .write
-bus handler is needed.
+1) i915 and nouveau unconditionally register their "native" backlight dev
+   even on devices where /sys/class/backlight/acpi_video0 must be used
+   to control the backlight, relying on userspace to prefer the "firmware"
+   acpi_video0 device over "native" devices.
 
-Signed-off-by: Javier Martinez Canillas <javierm@redhat.com>
-Acked-by: Mark Brown <broonie@kernel.org>
----
+2) amdgpu and nouveau rely on the acpi_video driver initializing before
+   them, which currently causes /sys/class/backlight/acpi_video0 to usually
+   show up and then they register their own native backlight driver after
+   which the drivers/acpi/video_detect.c code unregisters the acpi_video0
+   device. This means that userspace briefly sees 2 devices and the
+   disappearing of acpi_video0 after a brief time confuses the systemd
+   backlight level save/restore code, see e.g.:
+   https://bbs.archlinux.org/viewtopic.php?id=269920
 
-Changes in v4:
-- Use MODULE_IMPORT_NS(DRM_SSD130X) in the ssd130x-spi driver (Andy Shevchenko)
 
-Changes in v3:
-- Drop ssd130x_spi_get_dc() helper and open code it (Geert Uytterhoeven)
-- Export variants array and use &info[ID] in device table (Andy Shevchenko)
+Fixing kms driver unconditionally register their "native" backlight dev
+=======================================================================
 
-Changes in v2:
-- Add the same compatible strings than I2C (Geert Uytterhoeven)
+The plan for fixing 1) is to add a "bool native_backlight_available"
+parameter to acpi_video_get_backlight_type(), which will be set to
+true when called by e.g. the i915 code to check if it should register
+its native backlight-device. This way acpi_video_get_backlight_type()
+will know that a native backlight-device is (will be) available even
+though it has not been registered yet and then it can return
+acpi_backlight_native if that is the best option.
 
- drivers/gpu/drm/solomon/Kconfig       |   9 ++
- drivers/gpu/drm/solomon/Makefile      |   1 +
- drivers/gpu/drm/solomon/ssd130x-spi.c | 178 ++++++++++++++++++++++++++
- 3 files changed, 188 insertions(+)
- create mode 100644 drivers/gpu/drm/solomon/ssd130x-spi.c
+And then the i915 code will only actually register its native
+backlight when acpi_backlight_native gets returned, thus hiding it
+in scenario 1.
 
-diff --git a/drivers/gpu/drm/solomon/Kconfig b/drivers/gpu/drm/solomon/Kconfig
-index 8c0a0c788385..e170716d976b 100644
---- a/drivers/gpu/drm/solomon/Kconfig
-+++ b/drivers/gpu/drm/solomon/Kconfig
-@@ -20,3 +20,12 @@ config DRM_SSD130X_I2C
- 	  I2C bus.
- 
- 	  If M is selected the module will be called ssd130x-i2c.
-+
-+config DRM_SSD130X_SPI
-+	tristate "DRM support for Solomon SSD130X OLED displays (SPI bus)"
-+	depends on DRM_SSD130X && SPI
-+	select REGMAP
-+	help
-+	  Say Y here if the SSD130x OLED display is connected via SPI bus.
-+
-+	  If M is selected the module will be called ssd130x-spi.
-diff --git a/drivers/gpu/drm/solomon/Makefile b/drivers/gpu/drm/solomon/Makefile
-index 4bfc5acb0447..b5fc792257d7 100644
---- a/drivers/gpu/drm/solomon/Makefile
-+++ b/drivers/gpu/drm/solomon/Makefile
-@@ -1,2 +1,3 @@
- obj-$(CONFIG_DRM_SSD130X)	+= ssd130x.o
- obj-$(CONFIG_DRM_SSD130X_I2C)	+= ssd130x-i2c.o
-+obj-$(CONFIG_DRM_SSD130X_SPI)	+= ssd130x-spi.o
-diff --git a/drivers/gpu/drm/solomon/ssd130x-spi.c b/drivers/gpu/drm/solomon/ssd130x-spi.c
-new file mode 100644
-index 000000000000..c94bbaa731da
---- /dev/null
-+++ b/drivers/gpu/drm/solomon/ssd130x-spi.c
-@@ -0,0 +1,178 @@
-+// SPDX-License-Identifier: GPL-2.0-only
-+/*
-+ * DRM driver for Solomon SSD130X OLED displays (SPI bus)
-+ *
-+ * Copyright 2022 Red Hat Inc.
-+ * Authors: Javier Martinez Canillas <javierm@redhat.com>
-+ */
-+#include <linux/spi/spi.h>
-+#include <linux/module.h>
-+
-+#include "ssd130x.h"
-+
-+#define DRIVER_NAME	"ssd130x-spi"
-+#define DRIVER_DESC	"DRM driver for Solomon SSD130X OLED displays (SPI)"
-+
-+struct ssd130x_spi_transport {
-+	struct spi_device *spi;
-+	struct gpio_desc *dc;
-+};
-+
-+static const struct regmap_config ssd130x_spi_regmap_config = {
-+	.reg_bits = 8,
-+	.val_bits = 8,
-+};
-+
-+/*
-+ * The regmap bus .write handler, it is just a wrapper around spi_write()
-+ * but toggling the Data/Command control pin (D/C#). Since for 4-wire SPI
-+ * a D/C# pin is used, in contrast with I2C where a control byte is sent,
-+ * prior to every data byte, that contains a bit with the D/C# value.
-+ *
-+ * These control bytes are considered registers by the ssd130x core driver
-+ * and can be used by the ssd130x SPI driver to determine if the data sent
-+ * is for a command register or for the Graphic Display Data RAM (GDDRAM).
-+ */
-+static int ssd130x_spi_write(void *context, const void *data, size_t count)
-+{
-+	struct ssd130x_spi_transport *t = context;
-+	struct spi_device *spi = t->spi;
-+	const u8 *reg = data;
-+
-+	if (*reg == SSD130X_COMMAND)
-+		gpiod_set_value_cansleep(t->dc, 0);
-+
-+	if (*reg == SSD130X_DATA)
-+		gpiod_set_value_cansleep(t->dc, 1);
-+
-+	/* Remove the control byte since is not used by the 4-wire SPI */
-+	return spi_write(spi, ((u8 *)data) + 1, count - 1);
-+}
-+
-+/* The ssd130x driver does not read registers but regmap expects a .read */
-+static int ssd130x_spi_read(void *context, const void *reg, size_t reg_size,
-+			    void *val, size_t val_size)
-+{
-+	return -EOPNOTSUPP;
-+}
-+
-+/*
-+ * A custom bus is needed due the special write that toggles a D/C# pin,
-+ * another option could be to just have a .reg_write() callback but that
-+ * will prevent to do data writes in bulk.
-+ *
-+ * Once the regmap API is extended to support defining a bulk write handler
-+ * in the struct regmap_config, this can be simplified and the bus dropped.
-+ */
-+static struct regmap_bus regmap_ssd130x_spi_bus = {
-+	.write = ssd130x_spi_write,
-+	.read = ssd130x_spi_read,
-+};
-+
-+static int ssd130x_spi_probe(struct spi_device *spi)
-+{
-+	struct ssd130x_spi_transport *t;
-+	struct ssd130x_device *ssd130x;
-+	struct regmap *regmap;
-+	struct gpio_desc *dc;
-+	struct device *dev = &spi->dev;
-+
-+	dc = devm_gpiod_get(dev, "dc", GPIOD_OUT_LOW);
-+	if (IS_ERR(dc))
-+		return dev_err_probe(dev, PTR_ERR(dc),
-+				     "Failed to get dc gpio\n");
-+
-+	t = devm_kzalloc(dev, sizeof(*t), GFP_KERNEL);
-+	if (!t)
-+		return dev_err_probe(dev, -ENOMEM,
-+				     "Failed to allocate SPI transport data\n");
-+
-+	t->spi = spi;
-+	t->dc = dc;
-+
-+	regmap = devm_regmap_init(dev, &regmap_ssd130x_spi_bus, t,
-+				  &ssd130x_spi_regmap_config);
-+	if (IS_ERR(regmap))
-+		return PTR_ERR(regmap);
-+
-+	ssd130x = ssd130x_probe(dev, regmap);
-+	if (IS_ERR(ssd130x))
-+		return PTR_ERR(ssd130x);
-+
-+	spi_set_drvdata(spi, ssd130x);
-+
-+	return 0;
-+}
-+
-+static void ssd130x_spi_remove(struct spi_device *spi)
-+{
-+	struct ssd130x_device *ssd130x = spi_get_drvdata(spi);
-+
-+	ssd130x_remove(ssd130x);
-+}
-+
-+static void ssd130x_spi_shutdown(struct spi_device *spi)
-+{
-+	struct ssd130x_device *ssd130x = spi_get_drvdata(spi);
-+
-+	ssd130x_shutdown(ssd130x);
-+}
-+
-+static const struct of_device_id ssd130x_of_match[] = {
-+	{
-+		.compatible = "sinowealth,sh1106",
-+		.data = &ssd130x_variants[SH1106_ID],
-+	},
-+	{
-+		.compatible = "solomon,ssd1305",
-+		.data = &ssd130x_variants[SSD1305_ID],
-+	},
-+	{
-+		.compatible = "solomon,ssd1306",
-+		.data = &ssd130x_variants[SSD1306_ID],
-+	},
-+	{
-+		.compatible = "solomon,ssd1307",
-+		.data = &ssd130x_variants[SSD1307_ID],
-+	},
-+	{
-+		.compatible = "solomon,ssd1309",
-+		.data = &ssd130x_variants[SSD1309_ID],
-+	},
-+	{ /* sentinel */ }
-+};
-+MODULE_DEVICE_TABLE(of, ssd130x_of_match);
-+
-+/*
-+ * The SPI core always reports a MODALIAS uevent of the form "spi:<dev>", even
-+ * if the device was registered via OF. This means that the module will not be
-+ * auto loaded, unless it contains an alias that matches the MODALIAS reported.
-+ *
-+ * To workaround this issue, add a SPI device ID table. Even when this should
-+ * not be needed for this driver to match the registered SPI devices.
-+ */
-+static const struct spi_device_id ssd130x_spi_table[] = {
-+	{ "sh1106",  SH1106_ID },
-+	{ "ssd1305", SSD1305_ID },
-+	{ "ssd1306", SSD1306_ID },
-+	{ "ssd1307", SSD1307_ID },
-+	{ "ssd1309", SSD1309_ID },
-+	{ /* sentinel */ }
-+};
-+MODULE_DEVICE_TABLE(spi, ssd130x_spi_table);
-+
-+static struct spi_driver ssd130x_spi_driver = {
-+	.driver = {
-+		.name = DRIVER_NAME,
-+		.of_match_table = ssd130x_of_match,
-+	},
-+	.probe = ssd130x_spi_probe,
-+	.remove = ssd130x_spi_remove,
-+	.shutdown = ssd130x_spi_shutdown,
-+};
-+module_spi_driver(ssd130x_spi_driver);
-+
-+MODULE_DESCRIPTION(DRIVER_DESC);
-+MODULE_AUTHOR("Javier Martinez Canillas <javierm@redhat.com>");
-+MODULE_LICENSE("GPL");
-+MODULE_IMPORT_NS(DRM_SSD130X);
--- 
-2.35.1
+
+Fixing acpi_video0 getting registered for a brief time
+======================================================
+
+ATM the acpi_video code will delay parsing the ACPI video extensions
+when an i915 opregion is present and will immediately parse these
++ register an acpi_video backlight device on laptops without Intel
+integrated graphics. On laptops with i915 gfx the i915 driver calls
+acpi_video_register() near the end of its probe() function when things
+are ready for the acpi_video code to run, avoiding scenario 2.
+
+Where as on systems without i915 gfx acpi_video's module_init()
+immediately calls acpi_video_register() and then later the ACPI 
+video_detect code calls acpi_video_unregister_backlight() to hide
+the acpi_video# backlight-device on systems where the native
+backlight-device should be used. The plan to fix this is to add
+an acpi_video_register_backlight() and to make acpi_video_register()
+do all the usual ACPI video extension probing, but have it skip
+the actual registering of the backlight devices and have drivers
+explicitly call acpi_video_register() after they have setup their
+own native backlight-device. This way acpi_video_get_backlight_type()
+already will know that a native backlight-device is available
+(and preferred) when acpi_video_register_backlight() runs and
+the registering of the acpi_video# device will then be skipped,
+removing it briefly showing up and disappearing again.
+
+One problem with this approach is that this relies on the GPU
+driver to call acpi_video_register_backlight() when it is done.
+One could argue that this is actually a feature, we have had
+issues with some desktops where acpi_video falsely registers
+its backlight (even though there is no internal LCD panel), but
+this will likely cause issues on some systems (1). So the plan is
+to queue a delayed work with an 8 second (1) delay from
+acpi_video_register() and have that register the backlight-device
+if not done already.
+
+
+Other issues
+============
+
+The above only takes native vs acpi_video backlight issues into
+account, there are also a couple of other scenarios which may
+lead to multiple backlight-devices getting registered:
+
+1) Apple laptops using the apple_gmux driver
+2) Nvidia laptops using the (new) nvidia-wmi-ec-backlight driver
+3) drivers/platform/x86 drivers calling acpi_video_set_dmi_backlight_type()
+   to override the normal acpi_video_get_backlight_type() heuristics after
+   the native/acpi_video drivers have already loaded
+
+The plan for 1) + 2) is to extend the acpi_backlight_type enum with
+acpi_backlight_gmux and acpi_backlight_nvidia_wmi_ec values and to add
+detection of these 2 to acpi_video_get_backlight_type().
+
+The plan for 3) is to move the DMI quirks from drivers/platform/x86
+drivers which call acpi_video_set_dmi_backlight_type() in to the
+existing DMI quirk table in drivers/acpi/video_detect.c, so that they
+will be available during the first/every call of
+acpi_video_get_backlight_type() and then remove
+acpi_video_set_dmi_backlight_type()
+
+Regards,
+
+Hans
+
+
+Footnotes:
+
+1) E.g. systems using the nvidia binary driver, esp. systems using
+the legacy nvidia binary driver versions. I at least expect the current
+nvidia binary driver versions to get updated to actually call
+acpi_video_register_backlight() when necessary.
+
+2) The 8 second delay is the timeout plymouth uses waiting for a kms
+device to show up when showing the bootsplash. This is based on the
+amdgpu driver taking 5 seconds to initialize on some systems +
+margin.
+
 
