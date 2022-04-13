@@ -1,63 +1,84 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id D352E4FF4E9
-	for <lists+dri-devel@lfdr.de>; Wed, 13 Apr 2022 12:38:43 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id AEF464FF50C
+	for <lists+dri-devel@lfdr.de>; Wed, 13 Apr 2022 12:45:18 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 2692010E06C;
-	Wed, 13 Apr 2022 10:38:41 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 4605410E08C;
+	Wed, 13 Apr 2022 10:45:16 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-qv1-f51.google.com (mail-qv1-f51.google.com
- [209.85.219.51])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 9527610E06C
- for <dri-devel@lists.freedesktop.org>; Wed, 13 Apr 2022 10:38:39 +0000 (UTC)
-Received: by mail-qv1-f51.google.com with SMTP id a10so1245811qvm.8
- for <dri-devel@lists.freedesktop.org>; Wed, 13 Apr 2022 03:38:39 -0700 (PDT)
+Received: from us-smtp-delivery-124.mimecast.com
+ (us-smtp-delivery-124.mimecast.com [170.10.129.124])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 582F210E08C
+ for <dri-devel@lists.freedesktop.org>; Wed, 13 Apr 2022 10:45:14 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1649846713;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=iFhpaO4flQWRHjopPtTFPWapfyKNAixT16D8GlIdtis=;
+ b=ZM1AOWhcS4FhGt9/TpXInt2jAAsMUmeOZ1/UXueWi2G0Ui7qadUkIQJ5YxaAJTcw1mp41j
+ K6c+CD65iOftVuPujhGjmd3adU1BsscwDmX77wUYHzIoksmKOKfZ9h9zdEdJzRbZ3m/WcZ
+ Nz3OILNG6CXkelRNCVbJcYsSax51mJ8=
+Received: from mail-wr1-f71.google.com (mail-wr1-f71.google.com
+ [209.85.221.71]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ us-mta-369-e3-nUXG6PwyMWY3PEG19Qw-1; Wed, 13 Apr 2022 06:45:12 -0400
+X-MC-Unique: e3-nUXG6PwyMWY3PEG19Qw-1
+Received: by mail-wr1-f71.google.com with SMTP id
+ i64-20020adf90c6000000b00203f2b5e090so252928wri.9
+ for <dri-devel@lists.freedesktop.org>; Wed, 13 Apr 2022 03:45:11 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=3iDGAJ5ErJY5+DCJE/DoojvcRcjppzMgRco5mDjRgB4=;
- b=0KnJxLgLVWXjL9c+RgxOwUXVzlqlzP9Q2Bvu7CHprjLTJYtzrAfNnR+H/cw6Ju2AGI
- ZiBKDaiPsE4up1WR/WXeyCfxc+awREbM/5dVSTDmc/yQQB8OFCPFI++M+qejj+b4uKLg
- cgu2hIdu0ijslbQakQcAspxRh2Ab8DvGyDcKYasUuMjoRXx4F+kZ9Wl1Werbz95eU0vB
- tdPS542wA5piMUGA6MhSaF1V9czuUNfPuG6K2jclr9H3ZrUpRKv5ONY2icbv4XSFJ2Or
- 6DzUdq11mH4oQrQZDQ29J76aBOSpcX3ZA+olh4gdTnjaDGVti7319tFlzje1lfIHGdHi
- wmSA==
-X-Gm-Message-State: AOAM532SE6/PdQjQzDJaxtqw2eORWovS+xC/lc8LfzyyFZmEkS0zbPAg
- ual63PFJzFdokJksUhNrnhpUOnlkDXpdNw==
-X-Google-Smtp-Source: ABdhPJxKqOhfxe5T6ZqnKvSnMLnbCbPPFnUHSC9jCafR1ar+5H/sxnAJMJosRpep5vc3vrNHV4+lNg==
-X-Received: by 2002:a05:6214:d4a:b0:444:39bc:dfbd with SMTP id
- 10-20020a0562140d4a00b0044439bcdfbdmr16016497qvr.81.1649846318098; 
- Wed, 13 Apr 2022 03:38:38 -0700 (PDT)
-Received: from mail-yw1-f169.google.com (mail-yw1-f169.google.com.
- [209.85.128.169]) by smtp.gmail.com with ESMTPSA id
- g72-20020a379d4b000000b0069c0f9b1325sm6507217qke.21.2022.04.13.03.38.37
- for <dri-devel@lists.freedesktop.org>
+ h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
+ :content-language:to:cc:references:from:in-reply-to
+ :content-transfer-encoding;
+ bh=iFhpaO4flQWRHjopPtTFPWapfyKNAixT16D8GlIdtis=;
+ b=txW96t29SvlzOuQmg2mlOFgtKCez4iDoKQBeBJnTbgBUe24uZByzSA8xSK5M+hbYDR
+ GIKvZt8MLJHyGxGgcyxchhh5gT33rd3xyRJOcYLs8vxvF5Q4qq1aJSHs6nx/kKKfz2vz
+ xRLRkdNSNK4pjQHGH0YzGf/gWObCHd8hT9/NBaAZMTlFdqaaI9GLpXp1QAYyCCtxwSVn
+ ryMTRbHsR55fdzJuK9GbGUOVsbQGjybUduSovVU31lfTmrx8rOQaA87U8y18W2163AkJ
+ FwU2ySbz0G1Be7zFFu8BmyFB3wM8ezhUpfNrXYSjglPOfsQ7Htvxzt/2vO9vtYylPwUs
+ iUOg==
+X-Gm-Message-State: AOAM533939TvOYegeTS2sJf2ZALl+b5HMfHgeBxOAhcuQ1qrXDjEp4nU
+ 7iviN1TrgQVJIwDx+UZuyfUUGf84Bfd7ixgkuZX+btN5WxNYDlXJp1eDxWTbxAt0UfU/f2kV/ML
+ Lx5viif1BVk51O/IgjvTnVIlEC8NX
+X-Received: by 2002:a7b:c350:0:b0:38c:6d3c:6c8 with SMTP id
+ l16-20020a7bc350000000b0038c6d3c06c8mr7843237wmj.45.1649846710857; 
+ Wed, 13 Apr 2022 03:45:10 -0700 (PDT)
+X-Google-Smtp-Source: ABdhPJxrABkEapBmyT3q0GmcVo1LIayLaVhccVgfexcQ/xcAqoykIRQcU/wRPqN7irY6KO22Ca1QDg==
+X-Received: by 2002:a7b:c350:0:b0:38c:6d3c:6c8 with SMTP id
+ l16-20020a7bc350000000b0038c6d3c06c8mr7843206wmj.45.1649846710486; 
+ Wed, 13 Apr 2022 03:45:10 -0700 (PDT)
+Received: from [192.168.1.102] ([92.176.231.205])
+ by smtp.gmail.com with ESMTPSA id
+ i7-20020a5d5587000000b00207a8cde900sm6685468wrv.19.2022.04.13.03.45.09
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Wed, 13 Apr 2022 03:38:37 -0700 (PDT)
-Received: by mail-yw1-f169.google.com with SMTP id
- 00721157ae682-2ec05db3dfbso17073077b3.7
- for <dri-devel@lists.freedesktop.org>; Wed, 13 Apr 2022 03:38:37 -0700 (PDT)
-X-Received: by 2002:a81:c703:0:b0:2d0:cc6b:3092 with SMTP id
- m3-20020a81c703000000b002d0cc6b3092mr33591611ywi.449.1649846317128; Wed, 13
- Apr 2022 03:38:37 -0700 (PDT)
+ Wed, 13 Apr 2022 03:45:10 -0700 (PDT)
+Message-ID: <23060462-5700-e17a-0abe-a4c5123abe29@redhat.com>
+Date: Wed, 13 Apr 2022 12:45:09 +0200
 MIME-Version: 1.0
-References: <20220412162729.184783-1-javierm@redhat.com>
- <20220412162729.184783-3-javierm@redhat.com>
- <CAMuHMdUDxexqsGjb3B37jW_xZU1TBLq8gK5hctA+PKjL+LhQGQ@mail.gmail.com>
- <ddf107c7-5108-f366-45a8-e7244cdcd209@redhat.com>
-In-Reply-To: <ddf107c7-5108-f366-45a8-e7244cdcd209@redhat.com>
-From: Geert Uytterhoeven <geert@linux-m68k.org>
-Date: Wed, 13 Apr 2022 12:38:26 +0200
-X-Gmail-Original-Message-ID: <CAMuHMdVTPquOXGwf3YcMDHYyW9=UjRyk7Qhy+HNVThbk355wcQ@mail.gmail.com>
-Message-ID: <CAMuHMdVTPquOXGwf3YcMDHYyW9=UjRyk7Qhy+HNVThbk355wcQ@mail.gmail.com>
-Subject: Re: [PATCH v3 2/5] dt-bindings: display: ssd1307fb: Extend schema for
- SPI controllers
-To: Javier Martinez Canillas <javierm@redhat.com>
-Content-Type: text/plain; charset="UTF-8"
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.7.0
+Subject: Re: [PATCH 1/2] of: Create platform devices for OF framebuffers
+To: Thomas Zimmermann <tzimmermann@suse.de>, robh+dt@kernel.org,
+ frowand.list@gmail.com, daniel@ffwll.ch, deller@gmx.de, sam@ravnborg.org,
+ linux@roeck-us.net, mpe@ellerman.id.au, benh@kernel.crashing.org,
+ paulus@samba.org
+References: <20220413092454.1073-1-tzimmermann@suse.de>
+ <20220413092454.1073-2-tzimmermann@suse.de>
+From: Javier Martinez Canillas <javierm@redhat.com>
+In-Reply-To: <20220413092454.1073-2-tzimmermann@suse.de>
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=javierm@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Language: en-US
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -70,75 +91,67 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Chen-Yu Tsai <wens@kernel.org>,
- Geert Uytterhoeven <geert+renesas@glider.be>,
- Neil Armstrong <narmstrong@baylibre.com>, David Airlie <airlied@linux.ie>,
- Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
- DRI Development <dri-devel@lists.freedesktop.org>,
- Rob Herring <robh+dt@kernel.org>,
- "open list:OPEN FIRMWARE AND FLATTENED DEVICE TREE BINDINGS"
- <devicetree@vger.kernel.org>, Mark Brown <broonie@kernel.org>,
- Krzysztof Kozlowski <krzk+dt@kernel.org>,
- Andy Shevchenko <andriy.shevchenko@linux.intel.com>
+Cc: devicetree@vger.kernel.org, linux-fbdev@vger.kernel.org,
+ linuxppc-dev@lists.ozlabs.org, dri-devel@lists.freedesktop.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi Javier,
+Hello Thomas,
 
-On Wed, Apr 13, 2022 at 11:44 AM Javier Martinez Canillas
-<javierm@redhat.com> wrote:
-> On 4/13/22 10:04, Geert Uytterhoeven wrote:
-> > On Tue, Apr 12, 2022 at 6:27 PM Javier Martinez Canillas
-> > <javierm@redhat.com> wrote:
-> >> The Solomon SSD130x OLED displays can either have an I2C or SPI interface,
-> >> add to the schema the properties and examples for OLED devices under SPI.
-> >>
-> >> Signed-off-by: Javier Martinez Canillas <javierm@redhat.com>
-> >> Acked-by: Mark Brown <broonie@kernel.org>
-> >> Reviewed-by: Geert Uytterhoeven <geert+renesas@glider.be>
-> >> ---
-> >>
-> >> Changes in v3:
-> >> - Add a comment to the properties required for SPI (Geert Uytterhoeven)
-> >
-> > Thanks for the update!
-> >
-> >> --- a/Documentation/devicetree/bindings/display/solomon,ssd1307fb.yaml
-> >> +++ b/Documentation/devicetree/bindings/display/solomon,ssd1307fb.yaml
-> >> @@ -38,9 +38,16 @@ properties:
-> >>    reset-gpios:
-> >>      maxItems: 1
-> >>
-> >> +  # Only required for SPI
-> >> +  dc-gpios:
-> >> +    maxItems: 1
-> >
-> > Actually I meant to also add a description, like for vbat-supply below,
-> > to explain the meaning of "dc".
-> >
->
-> Ahh, sorry for misunderstanding you! Something like the following looks good ?
->
->   # Only required for SPI
->   dc-gpios:
->     description:
->       GPIO connected to the controller's D/C# (Data/Command) pin,
->       that is needed for 4-wire SPI to tell the controller if the
->       data sent is for a command register or the display data RAM
->     maxItems: 1
->
-> If you agree with that, then can squash before pushing or add it to a v4
-> if another revision is needed.
+Thanks for working on this.
 
-Thanks, LGTM.
+On 4/13/22 11:24, Thomas Zimmermann wrote:
+> Create a platform device for each OF-declared framebuffer and have
+> offb bind to these devices. Allows for real hot-unplugging and other
+> drivers besides offb.
+> 
+> Originally, offb created framebuffer devices while initializing its
+> module by parsing the OF device tree. No actual Linux device was set
+> up. This tied OF framebuffers to offb and makes writing other drivers
+> for the OF framebuffers complicated. The absence of a Linux device
+> prevented real hot-unplugging. Adding a distinct platform device for
+> each OF framebuffer solves both problems. Specifically, a DRM drivers
+> can now provide graphics output with modern userspace.
+> 
+> Some of the offb init code is now located in the OF initialization.
+> There's now also an implementation of of_platform_default_populate_init(),
+> which was missing before. The OF side creates different devices for
+> either OF display nodes or bootx displays as they require different
+> handling by the driver. The offb drivers picks up each type of device
+> and runs the appropriate fbdev initialization.
+> 
+> Tested with OF display nodes on qemu's ppc64le target.
+> 
+> Signed-off-by: Thomas Zimmermann <tzimmermann@suse.de>
+> ---
 
-Gr{oetje,eeting}s,
+[snip]
 
-                        Geert
+> +	for_each_node_by_type(node, "display") {
+> +		if (!of_get_property(node, "linux,opened", NULL) ||
+> +		    !of_get_property(node, "linux,boot-display", NULL))
+> +			continue;
+> +		dev = of_platform_device_create(node, "of-display", NULL);
+> +		if (WARN_ON(!dev))
+> +			return -ENOMEM;
+> +		boot_display = node;
+> +		break;
+> +	}
+> +	for_each_node_by_type(node, "display") {
+> +		if (!of_get_property(node, "linux,opened", NULL) || node == boot_display)
+> +			continue;
+> +		of_platform_device_create(node, "of-display", NULL);
 
---
-Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k.org
+Shouldn't check for the return value here too ?
 
-In personal conversations with technical people, I call myself a hacker. But
-when I'm talking to journalists I just say "programmer" or something like that.
-                                -- Linus Torvalds
+Other than this small nit, it looks good to me.
+
+Reviewed-by: Javier Martinez Canillas <javierm@redhat.com>
+
+-- 
+Best regards,
+
+Javier Martinez Canillas
+Linux Engineering
+Red Hat
+
