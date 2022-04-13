@@ -1,75 +1,74 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6F20A50019C
-	for <lists+dri-devel@lfdr.de>; Thu, 14 Apr 2022 00:19:29 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 825155001A1
+	for <lists+dri-devel@lfdr.de>; Thu, 14 Apr 2022 00:19:36 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 0934810F131;
-	Wed, 13 Apr 2022 22:19:26 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id F021B10F134;
+	Wed, 13 Apr 2022 22:19:28 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from out5-smtp.messagingengine.com (out5-smtp.messagingengine.com
  [66.111.4.29])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 048BB10F12E
- for <dri-devel@lists.freedesktop.org>; Wed, 13 Apr 2022 22:19:23 +0000 (UTC)
-Received: from compute4.internal (compute4.nyi.internal [10.202.2.44])
- by mailout.nyi.internal (Postfix) with ESMTP id 6EF305C0206;
- Wed, 13 Apr 2022 18:19:21 -0400 (EDT)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 2770A10F12E
+ for <dri-devel@lists.freedesktop.org>; Wed, 13 Apr 2022 22:19:25 +0000 (UTC)
+Received: from compute5.internal (compute5.nyi.internal [10.202.2.45])
+ by mailout.nyi.internal (Postfix) with ESMTP id 773CB5C01F8;
+ Wed, 13 Apr 2022 18:19:24 -0400 (EDT)
 Received: from mailfrontend1 ([10.202.2.162])
- by compute4.internal (MEProxy); Wed, 13 Apr 2022 18:19:21 -0400
+ by compute5.internal (MEProxy); Wed, 13 Apr 2022 18:19:24 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=sholland.org; h=
- cc:cc:content-transfer-encoding:content-type:date:date:from:from
- :in-reply-to:message-id:mime-version:reply-to:sender:subject
- :subject:to:to; s=fm2; t=1649888361; x=1649974761; bh=4F4QQcRRlZ
- YIapkRQlPgm4sk3ZuAy/xWtrj9YKjirkk=; b=bTgG6D3xrOI/dfximJqr+91MVV
- BVDLw0BMyy751BtrVRDifb9KpzEdPdgvvE9fLi/9nP0ktnC0mqh6HsogGGXBUA30
- mNAvztlI6P6pThTXTJKYIKSPuFZAIspnFym6mixQ3sawzFwkes65p015j3qe146k
- 8TGJdTF9FHI2Wo3nsyAK5DmgWduk7TaFFWuguTmz8RaMLOWBuDJpCkgcuyfkPTcB
- G9lJ6ze7HL2bZWoxDLTrEfi+ansS5w3x/SHHmhiBqvNSMoNEbUV8tfakdWfxmKWc
- M0FLWcHl9usJ9GFr5wEaTdv91y4o9AStr8wMqo4meI4MGkD8pAWwxHP+6xsQ==
+ cc:cc:content-transfer-encoding:date:date:from:from:in-reply-to
+ :in-reply-to:message-id:mime-version:references:reply-to:sender
+ :subject:subject:to:to; s=fm2; t=1649888364; x=1649974764; bh=t3
+ R9K4RmpPHgFV2MCz+ahY35ugv1/r5JX9ttGYH/p/s=; b=N+/kv28XEg7cqCbiqW
+ +pxb2lwnBU9wmAVqImOnBSGM6WsUogv+MVcj58IxCD0hv22fukH8eyBCi0+tkGAy
+ zL5gGcPeF8rkgjdpTJlVjvNKfPu29vfnuj0o86hhvi1tHfCzx4mgtcSGRCUmG/Zz
+ b7LhKiXdEJMT+gGqOnC4YDiPWMJR+MFgVkwDLeCdqF5qz2cAoXIyzzCp7ByF9DaE
+ JkmoslCswHsptydVxVyqpDn+JiJBlDRtcSBrefLO5iMViqA/shxPf0x8+h2kY6X/
+ vkiRO/YJBWVZt5V+72gAvHlcmgoi5bjc5TC0dNuTZhoVOcKFd9bdpl6WB+6lwUWJ
+ KAzw==
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
- messagingengine.com; h=cc:cc:content-transfer-encoding
- :content-type:date:date:from:from:in-reply-to:message-id
- :mime-version:reply-to:sender:subject:subject:to:to:x-me-proxy
+ messagingengine.com; h=cc:cc:content-transfer-encoding:date:date
+ :from:from:in-reply-to:in-reply-to:message-id:mime-version
+ :references:reply-to:sender:subject:subject:to:to:x-me-proxy
  :x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=fm1; t=
- 1649888361; x=1649974761; bh=4F4QQcRRlZYIapkRQlPgm4sk3ZuAy/xWtrj
- 9YKjirkk=; b=smGwbZcHNNEfrS/26hB4cnIIHyqucdHAzQYPqf9H9wYuC8Sx9bS
- WZr1bMr2BoFR6MF39o8QAgmWJ4KdqRRuOYcdIM5g3y0dqg8GDe62LeYgJHe2Lp9m
- NH7EoRMdAJzGjE0oA3S8MVpBAzMzT11QgEd9StzyMugRDrOnmwZ7bbBV4MA6YI8u
- IXIcIhIocdIhX4KrGVNcbm2EyZ5PMxlDov+ubu2rLTNCEj9KI1zQfhDWxh68HAf2
- nKTokjSkAp9zht9pk7U21BNr9wQ9R6c1S30SqD4gMTK9e/OCdmOdK9FbaKns5szn
- 5RLnHTsHGdQWwClZmxyLKAs2BJgkQXsZxtQ==
-X-ME-Sender: <xms:ZkxXYnzVoxmfSX2kbH8wxD4vk0H3W69g49j2BB2UO6dxJN8lWztfdg>
- <xme:ZkxXYvRp1boIS5iHfDYSjbvwGcN8wV7Ltw9mL9qbAmXi6KkzGQdWh6pYXGGXvqyr6
- 4is5PlBqg-3Dh3oLQ>
-X-ME-Received: <xmr:ZkxXYhWtX4auHsGeTEpvl8pWiIoJm-QNvE43jUhoPEg_DyM3Ro_rFzGaAMRaEPEMq-aN1G9zjLJfhx0lXsE9KSTTVeW05KJLnM4Oj9NjQEMnvjr7IYwMlTG0CFjHw8Qnld96QQ>
+ 1649888364; x=1649974764; bh=t3R9K4RmpPHgFV2MCz+ahY35ugv1/r5JX9t
+ tGYH/p/s=; b=hEfVZV3vugr1D11KTaj8Wdd4Be/EOWwCeBqZW5PuCcqls8jxMWL
+ X96i3gmapN05hcJ1xKnz6ce8RPbitCbIiCY4VaKFQ4A0uRJG7xuWxYFM90WAzXbG
+ E5GbOn1djKtTI26X3Q5NdwzKcTzXm4ZNGsDbBJm10iJ3WQ5DXkurqG69CvwyQdup
+ 0sSajJIDZrr6wDeszGG2SgCeBygrW04M3MEQdk9Ji3dRhvy9rahZR4cAepDiBrps
+ 3Rw0OrUFbqxUSXNhaoOD1f1jgBWlfyDi9MByhETjQ1ii2SNQUVEyGP8PpVILeP9I
+ GiTXcIklWmXxhDBRLrlTM9GBiC2lvSHR4Dw==
+X-ME-Sender: <xms:a0xXYp3qAkBdV8T0ckkml-6adAqBjjsXrm43OHqAXyXzxtze35_VIQ>
+ <xme:a0xXYgEPuZa9SzXlwkJT7mLTbrsaAr76GxYps8c_J2vKuwVl-DVRdbes70lhOgMuQ
+ ZiN9Des0rUP7l-liA>
+X-ME-Received: <xmr:a0xXYp6hkhohSO40gKU9DNPvL98i7GSJGcYpfYv9bO0072yaMjX-81cYOb2E_26imtmqVyd6euDIukxdUR3Uxb3PLRiUEAyZjPAaM71CoR3-pi5gt8LC6f_RyWmqhLw8FOTSZg>
 X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvvddrudelvddgtdelucetufdoteggodetrfdotf
  fvucfrrhhofhhilhgvmecuhfgrshhtofgrihhlpdfqfgfvpdfurfetoffkrfgpnffqhgen
  uceurghilhhouhhtmecufedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmne
- cujfgurhephffvufffkffogggtgfesthekredtredtjeenucfhrhhomhepufgrmhhuvghl
- ucfjohhllhgrnhguuceoshgrmhhuvghlsehshhholhhlrghnugdrohhrgheqnecuggftrf
- grthhtvghrnhepjeettddvfeffudelveegteffieetgfffveevveevvddvgeelieekgedv
- geehleeunecuffhomhgrihhnpehrrggugigrrdgtohhmpdhpihhnvgeigedrohhrghdpkh
- gvrhhnvghlrdhorhhgpdhgihhthhhusgdrtghomhenucevlhhushhtvghrufhiiigvpedt
- necurfgrrhgrmhepmhgrihhlfhhrohhmpehsrghmuhgvlhesshhhohhllhgrnhgurdhorh
- hg
-X-ME-Proxy: <xmx:ZkxXYhj8fDaZr8o-SjjJxNhQ8ly6kduf5_OyeqwgYC4HusBopFqJIQ>
- <xmx:ZkxXYpCqGPBwebJ_Qk7FAJraWnCbCkCS4DqaCVE_T39lJWPiCRh_sg>
- <xmx:ZkxXYqKbZAEbQ_yEQxlE1BtL_zD53JMEiBdrY5Fa-4KgP_71_IxXTQ>
- <xmx:aUxXYuxjenUhZrV7WTTJJ6yXWcunMDmW65mJx9JzPxDJPjS5Ejfk1g>
+ cujfgurhephffvufffkffojghfggfgsedtkeertdertddtnecuhfhrohhmpefurghmuhgv
+ lhcujfholhhlrghnugcuoehsrghmuhgvlhesshhhohhllhgrnhgurdhorhhgqeenucggtf
+ frrghtthgvrhhnpeduhfejfedvhffgfeehtefghfeiiefgfeehgfdvvdevfeegjeehjedv
+ gfejheeuieenucevlhhushhtvghrufhiiigvpedtnecurfgrrhgrmhepmhgrihhlfhhroh
+ hmpehsrghmuhgvlhesshhhohhllhgrnhgurdhorhhg
+X-ME-Proxy: <xmx:a0xXYm0wLlRystZJxa_5gqHJYiVGRpkJgHMFXhm6MllGqFuE5g08zA>
+ <xmx:a0xXYsFQ7L2V8A9a773xBg2WdCURSGHYzXfo3eTsnMIRHXenAqDHSQ>
+ <xmx:a0xXYn9k_n7EQ7O7hIhXovn9oPLzcEX8NeErxfMy-0H6xZiAHc1CAQ>
+ <xmx:bExXYnmTHhsPEK5AfNsSpfEcwWPdYP_szi2NE7mrITg0qjGdlz39fQ>
 Received: by mail.messagingengine.com (Postfix) with ESMTPA; Wed,
- 13 Apr 2022 18:19:17 -0400 (EDT)
+ 13 Apr 2022 18:19:22 -0400 (EDT)
 From: Samuel Holland <samuel@sholland.org>
 To: =?UTF-8?q?Heiko=20St=C3=BCbner?= <heiko@sntech.de>,
  Sandy Huang <hjc@rock-chips.com>, dri-devel@lists.freedesktop.org
-Subject: [RFC PATCH 00/16] drm/rockchip: Rockchip EBC ("E-Book Controller")
- display driver
-Date: Wed, 13 Apr 2022 17:19:00 -0500
-Message-Id: <20220413221916.50995-1-samuel@sholland.org>
+Subject: [RFC PATCH 01/16] drm: Add a helper library for EPD drivers
+Date: Wed, 13 Apr 2022 17:19:01 -0500
+Message-Id: <20220413221916.50995-2-samuel@sholland.org>
 X-Mailer: git-send-email 2.35.1
+In-Reply-To: <20220413221916.50995-1-samuel@sholland.org>
+References: <20220413221916.50995-1-samuel@sholland.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -98,267 +97,834 @@ Cc: David Airlie <airlied@linux.ie>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-This series adds a DRM driver for the electrophoretic display controller
-found in a few different Rockchip SoCs, specifically the RK3566/RK3568
-variant[0] used by the PineNote tablet[1].
+Currently, this library is focused on LUTs and LUT files, specifically
+the PVI wbf-format files shipped with E-Ink displays. It provides
+helpers to load and validate LUT files, and extract LUTs from them.
 
-This is my first real involvement with the DRM subsystem, so please let
-me know where I am misunderstanding things.
+Since EPD controllers need the LUTs in various formats, this library
+allows drivers to declare their desired format. It will then convert
+LUTs to that format before returning them.
 
-This is now the second SoC-integrated EPD controller with a DRM driver
-submission -- the first one being the i.MX6 EPDC[2]. I want to thank
-Andreas for sending that series, and for his advice while writing this
-driver.
+Signed-off-by: Samuel Holland <samuel@sholland.org>
+---
 
-One goal I have with sending this series is to discuss how to support
-EPDs more generally within the DRM subsystem, so the interfaces with
-panels and PMICs and waveform LUTs can be controller-independent.
-
-My understanding is that the i.MX6 EPDC series is at least partly based
-on the downstream vendor driver. This driver is a clean-sheet design for
-hardware with different (read: fewer) capabilities, so we took some
-different design paths, but we ran into many of the same sharp edges.
-
-Here are some of the areas I would like input on:
-
-Panel Lifecycle
-===============
-Panels use prepare/unprepare callbacks for their power supply. EPDs
-should only be powered up when the display contents are changed. Should
-the controller call both drm_panel_(un)prepare during each atomic update
-when the framebuffer is dirty?
-
-Similarly, panel enable/disable callbacks are tied to backlight state.
-For an EPD, it makes sense to have the backlight enabled while the panel
-is powered down (because the contents are static). Is it acceptable to
-call drm_panel_{en,dis}able while the panel is not prepared?
-
-With panel_bridge, the "normal" callback ordering is enforced, and tied
-to the atomic state, so neither of these is possible.
-
-As a result, neither the backlight nor the voltage regulators are tied
-to the panel. The panel's regulators are consumed by the EBC itself.
-
-Panel Timing Parameters
-=======================
-EPDs have more timing parameters than LCDs, and there are several
-different ways of labeling these parameters. See for example the timing
-diagrams on pp. 2237-2239 of the RK3568 TRM[0], the descriptions in the
-ED103TC2 panel datasheet[3], and the submitted EPDC bindings[2].
-
-Both the EPDC and EBC vendor drivers put all of the timing parameters in
-the controller's OF node. There is no panel device/node.
-
-I was able to squeeze everything needed for my specific case into a
-struct drm_display_mode (see patches 5 and 14), but I don't know if this
-is an acceptable use of those fields, or if will work with other
-controllers. Is adding more fields to drm_display_mode an option?
-
-See also the discussion of "dumb" LCD TCONs below.
-
-Panel Connector Type / Media Bus Format
-=======================================
-The EBC supports either an 8-bit or 16-bit wide data bus, where each
-pair of data lines represents the source driver polarity (positive,
-negative, or neutral) for a pixel.
-
-The only effect of the data bus width is the number of pixels that are
-transferred per clock cycle. It has no impact on the number of possible
-grayscale levels.
-
-How does that translate to DRM_MODE_CONNECTOR_* or MEDIA_BUS_FMT_*?
-
-Panel Reflection
-================
-The ED103TC2 panel scans from right to left. Currently, there is no API
-or OF property to represent this. I can add something similar to
-drm_panel_orientation.
-
-Should this be exposed to userspace? It is acceptable for the kernel
-driver to flip the image when blitting from the framebuffer?
-
-CRTC "active" and "enabled" states
-==================================
-What do these states mean in the context of an EPD? Currently, the
-driver ignores "active" and clears the screen to solid white when the
-CRTC is disabled.
-
-The vendor drivers can switch to a user-provided image when the CRTC is
-disabled. Is this something that can/should be supported upstream? If
-so, how? Would userspace provide the image to the kernel, or just tell
-the kernel not to clear the screen?
-
-VBLANK Events and Asynchronous Commits
-======================================
-When should the VBLANK event complete? When the pixels have been blitted
-to the kernel's shadow buffer? When the first frame of the waveform is
-sent to the panel? When the last frame is sent to the panel?
-
-Currently, the driver is taking the first option, letting
-drm_atomic_helper_fake_vblank() send the VBLANK event without waiting on
-the refresh thread. This is the only way I was able to get good
-performance with existing userspace.
-
-Waveform Loading
-================
-Waveform files are calibrated for each batch of panels. So while a
-single waveform file may be "good enough" for all panels of a certain
-model, the correctly-calibrated file will have better image quality.
-
-I don't know of a good way to choose the calibrated file. Even the
-board's compatible string may not be specific enough, if the board is
-manufactured with multiple batches of panels.
-
-Maybe the filename should just be the panel compatible, and the user is
-responsible for putting the right file there? In that case, how should I
-get the compatible string from the panel_bridge? Traverse the OF graph
-myself?
-
-There is also the issue that different controllers need the waveform
-data in different formats. ".wbf" appears to be the format provided by
-PVI/eInk, the panel manufacturer. The Rockchip EBC hardware expects a
-single waveform in a flat array, so the driver has to extract/decompress
-that from the .wbf file (this is done in patch 1). On the other hand,
-the i.MX EPDC expects a ".wrf" file containing multiple waveforms[8].
-
-I propose that the waveform file on disk should always be what was
-shipped with the panel -- the .wbf file -- and any extracting or
-reformatting is done in the kernel.
-
-Waveform Selection From Userspace
-=================================
-EPDs use different waveforms for different purposes: high-quality
-grayscale vs. monochrome text vs. dithered monochrome video. How can
-userspace select which waveform to use? Should this be a plane property?
-
-It is also likely that userspace will want to use different waveforms at
-the same time for different parts of the screen, for example a fast
-monochrome waveform for the drawing area of a note-taking app, but a
-grayscale waveform for surrounding UI and window manager.
-
-I believe the i.MX6 EPDC supports multiple planes, each with their own
-waveform choice. That seems like a good abstraction, but the EBC only
-supports one plane in hardware. So using this abstraction with the EBC
-would require blending pixels and doing waveform lookups in software.
-
-Blitting/Blending in Software
-=============================
-There are multiple layers to this topic (pun slightly intended):
- 1) Today's userspace does not expect a grayscale framebuffer.
-    Currently, the driver advertises XRGB8888 and converts to Y4
-    in software. This seems to match other drivers (e.g. repaper).
-
- 2) Ignoring what userspace "wants", the closest existing format is
-    DRM_FORMAT_R8. Geert sent a series[4] adding DRM_FORMAT_R1 through
-    DRM_FORMAT_R4 (patch 9), which I believe are the "correct" formats
-    to use.
-
- 3) The RK356x SoCs have an "RGA" hardware block that can do the
-    RGB-to-grayscale conversion, and also RGB-to-dithered-monochrome
-    which is needed for animation/video. Currently this is exposed with
-    a V4L2 platform driver. Can this be inserted into the pipeline in a
-    way that is transparent to userspace? Or must some userspace library
-    be responsible for setting up the RGA => EBC pipeline?
-
- 4) Supporting multiple planes (for multiple concurrent waveforms)
-    implies blending in software. Is that acceptable?
-
- 5) Thoughts on SIMD-optimized blitting and waveform lookup functions?
-
- 5) Currently the driver uses kmalloc() and dma_sync_single_for_device()
-    for its buffers, because it needs both fast reads and fast writes to
-    several of them. Maybe cma_alloc() or dma_alloc_from_contiguous()
-    would be more appropriate, but I don't see any drivers using those
-    directly.
-
-EPDs connected to "dumb" LCD TCONs
-==================================
-This topic is mostly related to my first patch. Some boards exist that
-hook up an EPD to a normal LCD TCON, not a dedicated EPD controller. For
-example, there's the reMarkable 2[5] and some PocketBook models[6][7].
-
-I have some concerns about this:
- 1) If we put EPD panel timings in panel drivers (e.g. panel-simple),
-    can the same timings work with LCD TCONs and EPD controllers?
-
-    For example: one cycle of the 16-bit data bus is "one pixel" to an
-    LCD controller, but is "8 pixels" to an EPD controller. So there is
-    a factor-of-8 difference in horizontal resolution depending on your
-    perspective. Should we have the "number of pixel clock cycles" or
-    "number of pixels" in .hdisplay/.htotal in the panel timings?
-
-    Patch 14 adds a panel with "number of pixels" horizontal resolution,
-    so the correct resolution is reported to userspace, but the existing
-    eink_vb3300_kca_timing in panel-simple.c appears to use "number of
-    pixel clocks" for its horizontal resolution. This makes the panel
-    timing definitions incompatible across controllers.
-
- 2) Using fbdev/fbcon with an EPD hooked up to an LCD TCON will have
-    unintended consequences, and possibly damage the panel. Currently,
-    there is no way to mark the framebuffer as expecting "source driver
-    polarity waveforms" and not pixel data. Is there a specific
-    DRM_FORMAT_* we should use for these cases to prevent accidental use
-    by userspace?
-
-    Or should we disallow this entirely, and have some wrapper layer to
-    do the waveform lookups in kernelspace?
-
-    I like the wrapper layer idea because it allows normal userspace and
-    fbcon to work. It would not be much new code, especially since this
-    driver already supports doing the whole pipeline in software. So
-    that's why I wrote a separate helper library; I hope this code can
-    be reused.
-
-Thanks for any input!
-Samuel
-
-[0]: https://dl.radxa.com/rock3/docs/hw/datasheet/Rockchip%20RK3568%20TRM%20Part2%20V1.1-20210301.pdf
-[1]: https://wiki.pine64.org/wiki/PineNote
-[2]: https://lore.kernel.org/lkml/20220206080016.796556-1-andreas@kemnade.info/T/
-[3]: https://files.pine64.org/doc/quartz64/Eink%20P-511-828-V1_ED103TC2%20Formal%20Spec%20V1.0_20190514.pdf
-[4]: https://lore.kernel.org/lkml/cover.1646683502.git.geert@linux-m68k.org/T/
-[5]: https://lore.kernel.org/lkml/20220330094126.30252-1-alistair@alistair23.me/T/
-[6]: https://github.com/megous/linux/commits/pb-5.17
-[7]: https://github.com/megous/linux/commit/3cdf84388959
-[8]: https://github.com/fread-ink/inkwave
-
-
-Samuel Holland (16):
-  drm: Add a helper library for EPD drivers
-  dt-bindings: display: rockchip: Add EBC binding
-  drm/rockchip: Add EBC platform driver skeleton
-  drm/rockchip: ebc: Add DRM driver skeleton
-  drm/rockchip: ebc: Add CRTC mode setting
-  drm/rockchip: ebc: Add CRTC refresh thread
-  drm/rockchip: ebc: Add CRTC buffer management
-  drm/rockchip: ebc: Add LUT loading
-  drm/rockchip: ebc: Implement global refreshes
-  drm/rockchip: ebc: Implement partial refreshes
-  drm/rockchip: ebc: Enable diff mode for partial refreshes
-  drm/rockchip: ebc: Add support for direct mode
-  drm/rockchip: ebc: Add a panel reflection option
-  drm/panel-simple: Add eInk ED103TC2
-  arm64: dts: rockchip: rk356x: Add EBC node
-  [DO NOT MERGE] arm64: dts: rockchip: pinenote: Enable EBC display
-    pipeline
-
- .../display/rockchip/rockchip,rk3568-ebc.yaml |  106 ++
- .../boot/dts/rockchip/rk3566-pinenote.dtsi    |   80 +
- arch/arm64/boot/dts/rockchip/rk356x.dtsi      |   14 +
- drivers/gpu/drm/Kconfig                       |    6 +
- drivers/gpu/drm/Makefile                      |    4 +-
- drivers/gpu/drm/drm_epd_helper.c              |  663 +++++++
- drivers/gpu/drm/panel/panel-simple.c          |   31 +
- drivers/gpu/drm/rockchip/Kconfig              |   12 +
- drivers/gpu/drm/rockchip/Makefile             |    2 +
- drivers/gpu/drm/rockchip/rockchip_ebc.c       | 1586 +++++++++++++++++
- include/drm/drm_epd_helper.h                  |  104 ++
- 11 files changed, 2607 insertions(+), 1 deletion(-)
- create mode 100644 Documentation/devicetree/bindings/display/rockchip/rockchip,rk3568-ebc.yaml
+ drivers/gpu/drm/Kconfig          |   6 +
+ drivers/gpu/drm/Makefile         |   2 +
+ drivers/gpu/drm/drm_epd_helper.c | 663 +++++++++++++++++++++++++++++++
+ include/drm/drm_epd_helper.h     | 104 +++++
+ 4 files changed, 775 insertions(+)
  create mode 100644 drivers/gpu/drm/drm_epd_helper.c
- create mode 100644 drivers/gpu/drm/rockchip/rockchip_ebc.c
  create mode 100644 include/drm/drm_epd_helper.h
 
+diff --git a/drivers/gpu/drm/Kconfig b/drivers/gpu/drm/Kconfig
+index f1422bee3dcc..ad96cf605444 100644
+--- a/drivers/gpu/drm/Kconfig
++++ b/drivers/gpu/drm/Kconfig
+@@ -198,6 +198,12 @@ config DRM_DP_CEC
+ 	  Note: not all adapters support this feature, and even for those
+ 	  that do support this they often do not hook up the CEC pin.
+ 
++config DRM_EPD_HELPER
++	tristate
++	depends on DRM
++	help
++	  Choose this if you need the EPD (LUT, etc.) helper functions
++
+ config DRM_TTM
+ 	tristate
+ 	depends on DRM && MMU
+diff --git a/drivers/gpu/drm/Makefile b/drivers/gpu/drm/Makefile
+index c2ef5f9fce54..49380ccfe9d6 100644
+--- a/drivers/gpu/drm/Makefile
++++ b/drivers/gpu/drm/Makefile
+@@ -33,6 +33,8 @@ drm-$(CONFIG_DRM_PRIVACY_SCREEN) += drm_privacy_screen.o drm_privacy_screen_x86.
+ 
+ obj-$(CONFIG_DRM_NOMODESET) += drm_nomodeset.o
+ 
++obj-$(CONFIG_DRM_EPD_HELPER) += drm_epd_helper.o
++
+ drm_cma_helper-y := drm_gem_cma_helper.o
+ drm_cma_helper-$(CONFIG_DRM_KMS_HELPER) += drm_fb_cma_helper.o
+ obj-$(CONFIG_DRM_GEM_CMA_HELPER) += drm_cma_helper.o
+diff --git a/drivers/gpu/drm/drm_epd_helper.c b/drivers/gpu/drm/drm_epd_helper.c
+new file mode 100644
+index 000000000000..433a6728ef3e
+--- /dev/null
++++ b/drivers/gpu/drm/drm_epd_helper.c
+@@ -0,0 +1,663 @@
++// SPDX-License-Identifier: GPL-2.0 OR MIT
++/*
++ * Electrophoretic Display Helper Library
++ *
++ * Copyright (C) 2022 Samuel Holland <samuel@sholland.org>
++ *
++ * Permission is hereby granted, free of charge, to any person obtaining a
++ * copy of this software and associated documentation files (the
++ * "Software"), to deal in the Software without restriction, including
++ * without limitation the rights to use, copy, modify, merge, publish,
++ * distribute, sub license, and/or sell copies of the Software, and to
++ * permit persons to whom the Software is furnished to do so, subject to
++ * the following conditions:
++ *
++ * The above copyright notice and this permission notice (including the
++ * next paragraph) shall be included in all copies or substantial portions
++ * of the Software.
++ *
++ * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
++ * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
++ * FITNESS FOR A PARTICULAR PURPOSE AND NON-INFRINGEMENT. IN NO EVENT SHALL
++ * THE COPYRIGHT HOLDERS, AUTHORS AND/OR ITS SUPPLIERS BE LIABLE FOR ANY CLAIM,
++ * DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR
++ * OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE
++ * USE OR OTHER DEALINGS IN THE SOFTWARE.
++ */
++
++#include <linux/firmware.h>
++#include <linux/module.h>
++#include <linux/vmalloc.h>
++
++#include <drm/drm_device.h>
++#include <drm/drm_epd_helper.h>
++#include <drm/drm_managed.h>
++#include <drm/drm_print.h>
++
++/**
++ * DOC: overview
++ *
++ * This library provides functions for working with the lookup tables (LUTs)
++ * used by electrophoretic displays (EPDs). It fills in a LUT buffer based on
++ * the selected waveform, the panel temperature, and the buffer format needed
++ * by the driver.
++ */
++
++struct pvi_wbf_offset {
++	u8			b[3];
++};
++
++struct pvi_wbf_pointer {
++	struct pvi_wbf_offset	offset;
++	u8			checksum;
++};
++
++struct pvi_wbf_file_header {
++	__le32			checksum;		// 0x00
++	__le32			file_size;		// 0x04
++	__le32			serial;			// 0x08
++	u8			run_type;		// 0x0c
++	u8			fpl_platform;		// 0x0d
++	__le16			fpl_lot;		// 0x0e
++	u8			mode_version;		// 0x10
++	u8			wf_version;		// 0x11
++	u8			wf_subversion;		// 0x12
++	u8			wf_type;		// 0x13
++	u8			panel_size;		// 0x14
++	u8			amepd_part_number;	// 0x15
++	u8			wf_rev;			// 0x16
++	u8			frame_rate_bcd;		// 0x17
++	u8			frame_rate_hex;		// 0x18
++	u8			vcom_offset;		// 0x19
++	u8			unknown[2];		// 0x1a
++	struct pvi_wbf_offset	xwia;			// 0x1c
++	u8			cs1;			// 0x1f
++	struct pvi_wbf_offset	wmta;			// 0x20
++	u8			fvsn;			// 0x23
++	u8			luts;			// 0x24
++	u8			mode_count;		// 0x25
++	u8			temp_range_count;	// 0x26
++	u8			advanced_wf_flags;	// 0x27
++	u8			eb;			// 0x28
++	u8			sb;			// 0x29
++	u8			reserved[5];		// 0x2a
++	u8			cs2;			// 0x2f
++	u8			temp_range_table[];	// 0x30
++};
++static_assert(sizeof(struct pvi_wbf_file_header) == 0x30);
++
++struct pvi_wbf_mode_info {
++	u8			versions[2];
++	u8			format;
++	u8			modes[DRM_EPD_WF_MAX];
++};
++
++static const struct pvi_wbf_mode_info pvi_wbf_mode_info_table[] = {
++	{
++		.versions = {
++			0x09,
++		},
++		.format = DRM_EPD_LUT_4BIT_PACKED,
++		.modes = {
++			[DRM_EPD_WF_RESET]	= 0,
++			[DRM_EPD_WF_DU]		= 1,
++			[DRM_EPD_WF_DU4]	= 1,
++			[DRM_EPD_WF_GC16]	= 2,
++			[DRM_EPD_WF_GL16]	= 3,
++			[DRM_EPD_WF_GLR16]	= 3,
++			[DRM_EPD_WF_GLD16]	= 3,
++			[DRM_EPD_WF_A2]		= 4,
++			[DRM_EPD_WF_GCC16]	= 3,
++		},
++	},
++	{
++		.versions = {
++			0x12,
++		},
++		.format = DRM_EPD_LUT_4BIT_PACKED,
++		.modes = {
++			[DRM_EPD_WF_RESET]	= 0,
++			[DRM_EPD_WF_DU]		= 1,
++			[DRM_EPD_WF_DU4]	= 7,
++			[DRM_EPD_WF_GC16]	= 3,
++			[DRM_EPD_WF_GL16]	= 3,
++			[DRM_EPD_WF_GLR16]	= 5,
++			[DRM_EPD_WF_GLD16]	= 6,
++			[DRM_EPD_WF_A2]		= 4,
++			[DRM_EPD_WF_GCC16]	= 5,
++		},
++	},
++	{
++		.versions = {
++			0x16,
++		},
++		.format = DRM_EPD_LUT_5BIT_PACKED,
++		.modes = {
++			[DRM_EPD_WF_RESET]	= 0,
++			[DRM_EPD_WF_DU]		= 1,
++			[DRM_EPD_WF_DU4]	= 1,
++			[DRM_EPD_WF_GC16]	= 2,
++			[DRM_EPD_WF_GL16]	= 3,
++			[DRM_EPD_WF_GLR16]	= 4,
++			[DRM_EPD_WF_GLD16]	= 4,
++			[DRM_EPD_WF_A2]		= 6,
++			[DRM_EPD_WF_GCC16]	= 5,
++		},
++	},
++	{
++		.versions = {
++			0x18,
++			0x20,
++		},
++		.format = DRM_EPD_LUT_5BIT_PACKED,
++		.modes = {
++			[DRM_EPD_WF_RESET]	= 0,
++			[DRM_EPD_WF_DU]		= 1,
++			[DRM_EPD_WF_DU4]	= 1,
++			[DRM_EPD_WF_GC16]	= 2,
++			[DRM_EPD_WF_GL16]	= 3,
++			[DRM_EPD_WF_GLR16]	= 4,
++			[DRM_EPD_WF_GLD16]	= 5,
++			[DRM_EPD_WF_A2]		= 6,
++			[DRM_EPD_WF_GCC16]	= 4,
++		},
++	},
++	{
++		.versions = {
++			0x19,
++			0x43,
++		},
++		.format = DRM_EPD_LUT_5BIT_PACKED,
++		.modes = {
++			[DRM_EPD_WF_RESET]	= 0,
++			[DRM_EPD_WF_DU]		= 1,
++			[DRM_EPD_WF_DU4]	= 7,
++			[DRM_EPD_WF_GC16]	= 2,
++			[DRM_EPD_WF_GL16]	= 3,
++			[DRM_EPD_WF_GLR16]	= 4,
++			[DRM_EPD_WF_GLD16]	= 5,
++			[DRM_EPD_WF_A2]		= 6,
++			[DRM_EPD_WF_GCC16]	= 4,
++		},
++	},
++	{
++		.versions = {
++			0x23,
++		},
++		.format = DRM_EPD_LUT_4BIT_PACKED,
++		.modes = {
++			[DRM_EPD_WF_RESET]	= 0,
++			[DRM_EPD_WF_DU]		= 1,
++			[DRM_EPD_WF_DU4]	= 5,
++			[DRM_EPD_WF_GC16]	= 2,
++			[DRM_EPD_WF_GL16]	= 3,
++			[DRM_EPD_WF_GLR16]	= 3,
++			[DRM_EPD_WF_GLD16]	= 3,
++			[DRM_EPD_WF_A2]		= 4,
++			[DRM_EPD_WF_GCC16]	= 3,
++		},
++	},
++	{
++		.versions = {
++			0x54,
++		},
++		.format = DRM_EPD_LUT_4BIT_PACKED,
++		.modes = {
++			[DRM_EPD_WF_RESET]	= 0,
++			[DRM_EPD_WF_DU]		= 1,
++			[DRM_EPD_WF_DU4]	= 1,
++			[DRM_EPD_WF_GC16]	= 2,
++			[DRM_EPD_WF_GL16]	= 3,
++			[DRM_EPD_WF_GLR16]	= 4,
++			[DRM_EPD_WF_GLD16]	= 4,
++			[DRM_EPD_WF_A2]		= 5,
++			[DRM_EPD_WF_GCC16]	= 4,
++		},
++	},
++};
++
++static const void *pvi_wbf_apply_offset(const struct drm_epd_lut_file *file,
++					const struct pvi_wbf_offset *offset)
++{
++	u32 bytes = offset->b[0] | offset->b[1] << 8 | offset->b[2] << 16;
++
++	if (bytes >= file->fw->size)
++		return NULL;
++
++	return (const void *)file->header + bytes;
++}
++
++static const void *pvi_wbf_dereference(const struct drm_epd_lut_file *file,
++				       const struct pvi_wbf_pointer *ptr)
++{
++	u8 sum = ptr->offset.b[0] + ptr->offset.b[1] + ptr->offset.b[2];
++
++	if (ptr->checksum != sum)
++		return NULL;
++
++	return pvi_wbf_apply_offset(file, &ptr->offset);
++}
++
++static int pvi_wbf_get_mode_index(const struct drm_epd_lut_file *file,
++				  enum drm_epd_waveform waveform)
++{
++	if (waveform >= DRM_EPD_WF_MAX)
++		return -EINVAL;
++
++	return file->mode_info->modes[waveform];
++}
++
++static int pvi_wbf_get_mode_info(struct drm_epd_lut_file *file)
++{
++	u8 mode_version = file->header->mode_version;
++	const struct pvi_wbf_mode_info *mode_info;
++	int i, v;
++
++	for (i = 0; i < ARRAY_SIZE(pvi_wbf_mode_info_table); i++) {
++		mode_info = &pvi_wbf_mode_info_table[i];
++
++		for (v = 0; v < ARRAY_SIZE(mode_info->versions); v++) {
++			if (mode_info->versions[v] == mode_version) {
++				file->mode_info = mode_info;
++				return 0;
++			}
++		}
++	}
++
++	drm_err(file->dev, "Unknown PVI waveform version 0x%02x\n",
++		mode_version);
++
++	return -EOPNOTSUPP;
++}
++
++static int pvi_wbf_get_temp_index(const struct drm_epd_lut_file *file,
++				  int temperature)
++{
++	const struct pvi_wbf_file_header *header = file->header;
++	int i;
++
++	for (i = 0; i < header->temp_range_count; i++)
++		if (temperature < header->temp_range_table[i])
++			return i - 1;
++
++	return header->temp_range_count - 1;
++}
++
++static int pvi_wbf_validate_header(struct drm_epd_lut_file *file)
++{
++	const struct pvi_wbf_file_header *header = file->header;
++	int ret;
++
++	if (le32_to_cpu(header->file_size) > file->fw->size)
++		return -EINVAL;
++
++	ret = pvi_wbf_get_mode_info(file);
++	if (ret)
++		return ret;
++
++	drm_info(file->dev, "Loaded %d-bit PVI waveform version 0x%02x\n",
++		 file->mode_info->format == DRM_EPD_LUT_5BIT_PACKED ? 5 : 4,
++		 header->mode_version);
++
++	return 0;
++}
++
++static void drm_epd_lut_file_free(struct drm_device *dev, void *res)
++{
++	struct drm_epd_lut_file *file = res;
++
++	release_firmware(file->fw);
++}
++
++/**
++ * drmm_epd_lut_file_init - Initialize a managed EPD LUT file
++ *
++ * @dev: The DRM device owning this LUT file
++ * @file: The LUT file to initialize
++ * @file_name: The filesystem name of the LUT file
++ *
++ * Return: negative errno on failure, 0 otherwise
++ */
++int drmm_epd_lut_file_init(struct drm_device *dev,
++			   struct drm_epd_lut_file *file,
++			   const char *file_name)
++{
++	int ret;
++
++	ret = request_firmware(&file->fw, file_name, dev->dev);
++	if (ret)
++		return ret;
++
++	ret = drmm_add_action_or_reset(dev, drm_epd_lut_file_free, file);
++	if (ret)
++		return ret;
++
++	file->dev = dev;
++	file->header = (const void *)file->fw->data;
++
++	ret = pvi_wbf_validate_header(file);
++	if (ret)
++		return ret;
++
++	/* Only 5-bit waveform files are supported by drm_epd_lut_convert. */
++	if (file->mode_info->format != DRM_EPD_LUT_5BIT_PACKED)
++		return -EOPNOTSUPP;
++
++	return 0;
++}
++EXPORT_SYMBOL(drmm_epd_lut_file_init);
++
++/**
++ * drm_epd_lut_size_shift - Get the size of a LUT phase in power-of-2 bytes
++ *
++ * @format: One of the LUT buffer formats
++ *
++ * Return: buffer size shift amount
++ */
++static int drm_epd_lut_size_shift(enum drm_epd_lut_format format)
++{
++	switch (format) {
++	case DRM_EPD_LUT_4BIT:
++		/* (4 bits/pixel)^2 / 1 pixel/byte */
++		return 4 + 4;
++	case DRM_EPD_LUT_4BIT_PACKED:
++		/* (4 bits/pixel)^2 / 4 pixels/byte */
++		return 4 + 4 - 2;
++	case DRM_EPD_LUT_5BIT:
++		/* (5 bits/pixel)^2 / 1 pixel/byte */
++		return 5 + 5;
++	case DRM_EPD_LUT_5BIT_PACKED:
++		/* (5 bits/pixel)^2 / 4 pixels/byte */
++		return 5 + 5 - 2;
++	}
++
++	unreachable();
++}
++
++static int pvi_wbf_decode_lut(struct drm_epd_lut *lut, const u8 *lut_data)
++{
++
++	unsigned int copies, max_bytes, size_shift, state, total_bytes;
++	struct drm_device *dev = lut->file->dev;
++	const u8 *in = lut_data;
++	u8 *out = lut->buf;
++	u8 token;
++
++	size_shift = drm_epd_lut_size_shift(lut->file->mode_info->format);
++	max_bytes = lut->max_phases << size_shift;
++	total_bytes = 0;
++	state = 1;
++
++	/* Read tokens until reaching the end-of-input marker. */
++	while ((token = *in++) != 0xff) {
++		/* Special handling for the state switch token. */
++		if (token == 0xfc) {
++			state = !state;
++			token = *in++;
++		}
++
++		/*
++		 * State 0 is a sequence of data bytes.
++		 * State 1 is a sequence of [data byte, extra copies] pairs.
++		 */
++		copies = 1 + (state ? *in++ : 0);
++
++		total_bytes += copies;
++		if (total_bytes > max_bytes) {
++			drm_err(dev, "LUT contains too many phases\n");
++			lut->num_phases = 0;
++			return -EILSEQ;
++		}
++
++		while (copies--)
++			*out++ = token;
++	}
++
++	lut->num_phases = total_bytes >> size_shift;
++	if (total_bytes != lut->num_phases << size_shift) {
++		drm_err(dev, "LUT contains a partial phase\n");
++		lut->num_phases = 0;
++		return -EILSEQ;
++	}
++
++	drm_dbg_core(dev, "LUT contains %d phases (%ld => %ld bytes)\n",
++		     lut->num_phases, in - lut_data, out - lut->buf);
++
++	return 0;
++}
++
++static int pvi_wbf_get_lut(struct drm_epd_lut *lut,
++			   int mode_index, int temp_index)
++{
++	const struct pvi_wbf_pointer *mode_table, *temp_table;
++	const struct drm_epd_lut_file *file = lut->file;
++	const u8 *lut_data;
++	int ret;
++
++	mode_table = pvi_wbf_apply_offset(file, &file->header->wmta);
++	if (!mode_table)
++		return -EFAULT;
++
++	temp_table = pvi_wbf_dereference(file, &mode_table[mode_index]);
++	if (!temp_table)
++		return -EFAULT;
++
++	lut_data = pvi_wbf_dereference(file, &temp_table[temp_index]);
++	if (!lut_data)
++		return -EFAULT;
++
++	ret = pvi_wbf_decode_lut(lut, lut_data);
++	if (ret)
++		return ret;
++
++	return 0;
++}
++
++static void drm_epd_lut_convert(const struct drm_epd_lut *lut)
++{
++	enum drm_epd_lut_format from = lut->file->mode_info->format;
++	enum drm_epd_lut_format to = lut->format;
++	u8 *buf = lut->buf;
++	size_t x, y;
++
++	if (to == from)
++		return;
++
++	switch (to) {
++	case DRM_EPD_LUT_4BIT:
++		for (y = 0; y < 16 * lut->num_phases; ++y) {
++			for (x = 8; x--;) {
++				u8 byte = buf[16 * y + x];
++
++				buf[16 * y + 2 * x + 0] = (byte >> 0) & 0x03;
++				buf[16 * y + 2 * x + 1] = (byte >> 4) & 0x03;
++			}
++		}
++		for (; y < 16 * lut->max_phases; ++y) {
++			for (x = 8; x--;) {
++				buf[16 * y + 2 * x + 0] = 0;
++				buf[16 * y + 2 * x + 1] = 0;
++			}
++		}
++		break;
++	case DRM_EPD_LUT_4BIT_PACKED:
++		for (y = 0; y < 16 * lut->num_phases; ++y) {
++			for (x = 4; x--;) {
++				u8 lo_byte = buf[16 * y + 2 * x + 0] & 0x33;
++				u8 hi_byte = buf[16 * y + 2 * x + 1] & 0x33;
++
++				/* Copy bits 4:5 => bits 2:3. */
++				lo_byte |= lo_byte >> 2;
++				hi_byte |= hi_byte >> 2;
++
++				buf[4 * y + x] = (lo_byte & 0xf) |
++						 (hi_byte << 4);
++			}
++		}
++		for (; y < 16 * lut->max_phases; ++y) {
++			for (x = 4; x--;)
++				buf[4 * y + x] = 0;
++		}
++		break;
++	case DRM_EPD_LUT_5BIT:
++		memset(buf + 256 * lut->num_phases, 0,
++		       256 * (lut->max_phases - lut->num_phases));
++		for (x = 256 * lut->num_phases; x--;) {
++			u8 byte = buf[x];
++
++			buf[4 * x + 0] = (byte >> 0) & 0x03;
++			buf[4 * x + 1] = (byte >> 2) & 0x03;
++			buf[4 * x + 2] = (byte >> 4) & 0x03;
++			buf[4 * x + 3] = (byte >> 6) & 0x03;
++		}
++		break;
++	case DRM_EPD_LUT_5BIT_PACKED:
++		/* Nothing to do. */
++		break;
++	}
++}
++
++static int drm_epd_lut_update(struct drm_epd_lut *lut,
++			      int mode_index, int temp_index)
++{
++	int ret;
++
++	ret = pvi_wbf_get_lut(lut, mode_index, temp_index);
++	if (ret)
++		return ret;
++
++	drm_epd_lut_convert(lut);
++
++	return 0;
++}
++
++/**
++ * drm_epd_lut_set_temperature - Update the LUT due to panel temperature change
++ *
++ * @lut: The LUT structure
++ * @temperateure: The current panel temperature in degrees Celsius
++ *
++ * Return: negative errno on failure, 1 if LUT was changed, 0 otherwise
++ */
++int drm_epd_lut_set_temperature(struct drm_epd_lut *lut,
++				int temperature)
++{
++	int temp_index;
++	int ret;
++
++	temp_index = pvi_wbf_get_temp_index(lut->file, temperature);
++	if (temp_index < 0)
++		return -ENOENT;
++
++	if (temp_index == lut->temp_index)
++		return 0;
++
++	drm_dbg_core(lut->file->dev, "LUT temperature changed (%d)\n",
++		     temperature);
++
++	ret = drm_epd_lut_update(lut, lut->mode_index, temp_index);
++	if (ret)
++		return ret;
++
++	lut->temp_index = temp_index;
++
++	return 1;
++}
++EXPORT_SYMBOL(drm_epd_lut_set_temperature);
++
++/**
++ * drm_epd_lut_set_waveform - Update the LUT due to waveform selection change
++ *
++ * @lut: The LUT structure
++ * @waveform: The desired waveform
++ *
++ * Return: negative errno on failure, 1 if LUT was changed, 0 otherwise
++ */
++int drm_epd_lut_set_waveform(struct drm_epd_lut *lut,
++			     enum drm_epd_waveform waveform)
++{
++	int mode_index;
++	int ret;
++
++	mode_index = pvi_wbf_get_mode_index(lut->file, waveform);
++	if (mode_index < 0)
++		return -ENOENT;
++
++	if (mode_index == lut->mode_index)
++		return 0;
++
++	drm_dbg_core(lut->file->dev, "LUT waveform changed (%d)\n",
++		     waveform);
++
++	ret = drm_epd_lut_update(lut, mode_index, lut->temp_index);
++	if (ret)
++		return ret;
++
++	lut->mode_index = mode_index;
++
++	return 1;
++}
++EXPORT_SYMBOL(drm_epd_lut_set_waveform);
++
++static void drm_epd_lut_free(struct drm_device *dev, void *res)
++{
++	struct drm_epd_lut *lut = res;
++
++	vfree(lut->buf);
++}
++
++/**
++ * drmm_epd_lut_init - Initialize a managed EPD LUT from a LUT file
++ *
++ * @dev: The DRM device owning this LUT
++ * @lut: The LUT to initialize
++ * @file_name: The file name of the waveform firmware
++ * @format: The LUT buffer format needed by the driver
++ * @max_phases: The maximum number of waveform phases supported by the driver
++ *
++ * Return: negative errno on failure, 0 otherwise
++ */
++int drmm_epd_lut_init(struct drm_epd_lut_file *file,
++		      struct drm_epd_lut *lut,
++		      enum drm_epd_lut_format format,
++		      unsigned int max_phases)
++{
++	size_t max_order;
++	int ret;
++
++	/* Allocate a buffer large enough to convert the LUT in place. */
++	max_order = max(drm_epd_lut_size_shift(file->mode_info->format),
++			drm_epd_lut_size_shift(format));
++	lut->buf = vmalloc(max_phases << max_order);
++	if (!lut->buf)
++		return -ENOMEM;
++
++	ret = drmm_add_action_or_reset(file->dev, drm_epd_lut_free, lut);
++	if (ret)
++		return ret;
++
++	lut->file	= file;
++	lut->format	= format;
++	lut->max_phases	= max_phases;
++	lut->num_phases	= 0;
++
++	/* Set sane initial values for the waveform and temperature. */
++	lut->mode_index = pvi_wbf_get_mode_index(file, DRM_EPD_WF_RESET);
++	if (lut->mode_index < 0)
++		return -ENOENT;
++
++	lut->temp_index = pvi_wbf_get_temp_index(file, 25);
++	if (lut->temp_index < 0)
++		return -ENOENT;
++
++	ret = drm_epd_lut_update(lut, lut->mode_index, lut->temp_index);
++	if (ret)
++		return ret;
++
++	return 0;
++}
++EXPORT_SYMBOL(drmm_epd_lut_init);
++
++MODULE_AUTHOR("Samuel Holland <samuel@sholland.org>");
++MODULE_DESCRIPTION("DRM EPD waveform LUT library");
++MODULE_LICENSE("Dual MIT/GPL");
+diff --git a/include/drm/drm_epd_helper.h b/include/drm/drm_epd_helper.h
+new file mode 100644
+index 000000000000..290f5d48c0cb
+--- /dev/null
++++ b/include/drm/drm_epd_helper.h
+@@ -0,0 +1,104 @@
++/* SPDX-License-Identifier: GPL-2.0 OR MIT */
++
++#ifndef __DRM_EPD_HELPER_H__
++#define __DRM_EPD_HELPER_H__
++
++#define DRM_EPD_DEFAULT_TEMPERATURE	25
++
++struct drm_device;
++struct firmware;
++struct pvi_wbf_file_header;
++struct pvi_wbf_mode_info;
++
++/**
++ * enum drm_epd_waveform - Identifiers for waveforms used to drive EPD pixels
++ *
++ * @DRM_EPD_WF_RESET: Used to initialize the panel, ends with white
++ * @DRM_EPD_WF_A2: Fast transitions between black and white only
++ * @DRM_EPD_WF_DU: Transitions 16-level grayscale to monochrome
++ * @DRM_EPD_WF_DU4: Transitions 16-level grayscale to 4-level grayscale
++ * @DRM_EPD_WF_GC16: High-quality but flashy 16-level grayscale
++ * @DRM_EPD_WF_GCC16: Less flashy 16-level grayscale
++ * @DRM_EPD_WF_GL16: Less flashy 16-level grayscale
++ * @DRM_EPD_WF_GLR16: Less flashy 16-level grayscale, plus anti-ghosting
++ * @DRM_EPD_WF_GLD16: Less flashy 16-level grayscale, plus anti-ghosting
++ */
++enum drm_epd_waveform {
++	DRM_EPD_WF_RESET,
++	DRM_EPD_WF_A2,
++	DRM_EPD_WF_DU,
++	DRM_EPD_WF_DU4,
++	DRM_EPD_WF_GC16,
++	DRM_EPD_WF_GCC16,
++	DRM_EPD_WF_GL16,
++	DRM_EPD_WF_GLR16,
++	DRM_EPD_WF_GLD16,
++	DRM_EPD_WF_MAX
++};
++
++/**
++ * enum drm_epd_lut_format - EPD LUT buffer format
++ *
++ * @DRM_EPD_LUT_4BIT: 4-bit grayscale indexes, 1 byte per element
++ * @DRM_EPD_LUT_4BIT_PACKED: 4-bit grayscale indexes, 2 bits per element
++ * @DRM_EPD_LUT_5BIT: 5-bit grayscale indexes, 1 byte per element
++ * @DRM_EPD_LUT_5BIT_PACKED: 5-bit grayscale indexes, 2 bits per element
++ */
++enum drm_epd_lut_format {
++	DRM_EPD_LUT_4BIT,
++	DRM_EPD_LUT_4BIT_PACKED,
++	DRM_EPD_LUT_5BIT,
++	DRM_EPD_LUT_5BIT_PACKED,
++};
++
++/**
++ * struct drm_epd_lut_file - Describes a file containing EPD LUTs
++ *
++ * @dev: The DRM device owning this LUT file
++ * @fw: The firmware object holding the raw file contents
++ * @header: Vendor-specific LUT file header
++ * @mode_info: Vendor-specific information about available waveforms
++ */
++struct drm_epd_lut_file {
++	struct drm_device			*dev;
++	const struct firmware			*fw;
++	const struct pvi_wbf_file_header	*header;
++	const struct pvi_wbf_mode_info		*mode_info;
++};
++
++/**
++ * struct drm_epd_lut - Describes a particular LUT buffer
++ *
++ * @buf: The LUT, in the format requested by the driver
++ * @file: The file where this LUT was loaded from
++ * @format: The LUT buffer format needed by the driver
++ * @max_phases: The maximum number of waveform phases supported by the driver
++ * @num_phases: The number of waveform phases in the current LUT
++ * @mode_index: Private identifier for the current waveform
++ * @temp_index: Private identifier for the current temperature
++ */
++struct drm_epd_lut {
++	u8				*buf;
++	const struct drm_epd_lut_file	*file;
++	enum drm_epd_lut_format		format;
++	unsigned int			max_phases;
++	unsigned int			num_phases;
++	int				mode_index;
++	int				temp_index;
++};
++
++int drmm_epd_lut_file_init(struct drm_device *dev,
++			   struct drm_epd_lut_file *file,
++			   const char *file_name);
++
++int drmm_epd_lut_init(struct drm_epd_lut_file *file,
++		      struct drm_epd_lut *lut,
++		      enum drm_epd_lut_format format,
++		      unsigned int max_phases);
++
++int drm_epd_lut_set_temperature(struct drm_epd_lut *lut,
++				int temperature);
++int drm_epd_lut_set_waveform(struct drm_epd_lut *lut,
++			     enum drm_epd_waveform waveform);
++
++#endif /* __DRM_EPD_HELPER_H__ */
 -- 
 2.35.1
 
