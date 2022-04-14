@@ -2,70 +2,51 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 19F2C5007EA
-	for <lists+dri-devel@lfdr.de>; Thu, 14 Apr 2022 10:04:45 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 4A12050080D
+	for <lists+dri-devel@lfdr.de>; Thu, 14 Apr 2022 10:13:10 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 0B53310E287;
-	Thu, 14 Apr 2022 08:04:43 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id CD53F10F239;
+	Thu, 14 Apr 2022 08:13:05 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-wr1-x430.google.com (mail-wr1-x430.google.com
- [IPv6:2a00:1450:4864:20::430])
- by gabe.freedesktop.org (Postfix) with ESMTPS id D35A010E287;
- Thu, 14 Apr 2022 08:04:41 +0000 (UTC)
-Received: by mail-wr1-x430.google.com with SMTP id p18so4967205wru.5;
- Thu, 14 Apr 2022 01:04:41 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
- h=message-id:date:mime-version:user-agent:subject:content-language:to
- :cc:references:from:in-reply-to:content-transfer-encoding;
- bh=2+GUwQFWQVz+FoO085UrDoEMf+chgpjpjyV/JrIb7Ao=;
- b=HfZXRNuodyWoeuKjI+Mc1RLcX2b1VMSXlNhIBN6Y4pfbcDkla45bwnya2Gibcn7AqH
- rzkrKua95RVVf3+4QRzn1YWn8K5rNKn4mrVNE0EzXZIRU4W4PNJD2FySsm0RMaK+8TlY
- btOR+h3umo66QJlEsbIug+V+E6Ar7Nx+nvv1iZPxpWsni9cSj0D35Bt2M8wGe5aY9bX3
- 4FnxLQNvF5I8Me9I7skz8DjZrHuNaI/38otknjbRm2irmjJXnT7jTkbISucnlzkBVPEw
- oDopbC0IVqIamokwHucvV307qwA1nRs9VuhLfAgqbaO01FuWcGcmakM4U+s7xinY6Xar
- AtyQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
- :content-language:to:cc:references:from:in-reply-to
- :content-transfer-encoding;
- bh=2+GUwQFWQVz+FoO085UrDoEMf+chgpjpjyV/JrIb7Ao=;
- b=hSKPkLvQ29MytPmWbg2xlNpM7PAyick68+EFC0z2Y63avwB7tY5tBZ84GMxt/PQgZr
- zEfwv366ICgm4KYFK9g+ecVPuJRghv8dxTdYcyZ6AX71wEDIc3QN2Zosoube75ZfVr4c
- hffDZtoS4t7fonYS56Spu3P1yAH8Ou7ls9NEnLHwpmeaMEYAv4ZBDwR7Y4oUILNn3xZa
- yslUM2n6bqKgdkOchI21MUeeIsjRrzC3F7zeA3nZ2lSxE90NlhLS3tgmpgxC+xKqliXp
- aUkFivCnl4+ND7z7H3ATrUMfHsrsMX9cPtlTGFP48Un1X4/rL5vYpMeI1ZLZh4DIQYWs
- RBgw==
-X-Gm-Message-State: AOAM533pJIY4BLYfeR0UUKoWsfTWUBQM4IwztKMNScz/gA1yt9uia8j+
- mrkXt9no8BH4VCiGXkxUOrf1fQ2FO7lPVHbU7VA=
-X-Google-Smtp-Source: ABdhPJxXAAvwLMFpOKpNtbM5+OY+DSZNWXGQEd1Y8OMhkLmnVW8ynTE8zuSlw/P4gmIScXaAnih5wQ==
-X-Received: by 2002:a5d:47cf:0:b0:207:ac31:4175 with SMTP id
- o15-20020a5d47cf000000b00207ac314175mr1131077wrc.228.1649923480235; 
- Thu, 14 Apr 2022 01:04:40 -0700 (PDT)
-Received: from ?IPV6:2a02:a03f:be69:3200:82e8:2cff:fe51:d2c8?
- ([2a02:a03f:be69:3200:82e8:2cff:fe51:d2c8])
- by smtp.gmail.com with ESMTPSA id
- v8-20020a05600c214800b0038ec51d544csm1383043wml.27.2022.04.14.01.04.39
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Thu, 14 Apr 2022 01:04:39 -0700 (PDT)
-Message-ID: <1bcb195c-8c84-3641-7784-e7b7578bb40f@gmail.com>
-Date: Thu, 14 Apr 2022 10:04:38 +0200
+Received: from metis.ext.pengutronix.de (metis.ext.pengutronix.de
+ [IPv6:2001:67c:670:201:290:27ff:fe1d:cc33])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 054E110F239
+ for <dri-devel@lists.freedesktop.org>; Thu, 14 Apr 2022 08:13:04 +0000 (UTC)
+Received: from ptx.hi.pengutronix.de ([2001:67c:670:100:1d::c0])
+ by metis.ext.pengutronix.de with esmtps
+ (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256) (Exim 4.92)
+ (envelope-from <sha@pengutronix.de>)
+ id 1neub8-0005xp-0N; Thu, 14 Apr 2022 10:13:02 +0200
+Received: from sha by ptx.hi.pengutronix.de with local (Exim 4.92)
+ (envelope-from <sha@pengutronix.de>)
+ id 1neub6-0002oL-38; Thu, 14 Apr 2022 10:13:00 +0200
+Date: Thu, 14 Apr 2022 10:13:00 +0200
+From: Sascha Hauer <s.hauer@pengutronix.de>
+To: Alex Bee <knaerzche@gmail.com>
+Subject: Re: [PATCH v10 12/24] drm/rockchip: dw_hdmi: drop mode_valid hook
+Message-ID: <20220414081300.GI4012@pengutronix.de>
+References: <20220408112238.1274817-1-s.hauer@pengutronix.de>
+ <20220408112238.1274817-13-s.hauer@pengutronix.de>
+ <8fac5d72-c635-521c-e7d1-a3980a4ed719@gmail.com>
+ <20220411075357.GQ4012@pengutronix.de>
+ <2b0f0eba-87fe-e2c4-d951-2b090b827ca6@gmail.com>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.7.0
-Subject: Re: commit 15512021eb3975a8c2366e3883337e252bb0eee5 causes white
- spots in console screens
-Content-Language: fr-moderne
-To: "Lisovskiy, Stanislav" <stanislav.lisovskiy@intel.com>
-References: <0da21aec-d299-1834-99f3-9a598e4649f7@gmail.com>
- <87v8vcgb63.fsf@intel.com> <20220414063139.GA31013@intel.com>
- <9d497fb9-4504-9e64-1d7f-9353cf96624c@gmail.com>
- <20220414080312.GA31389@intel.com>
-From: =?UTF-8?Q?Fran=c3=a7ois_Valenduc?= <francoisvalenduc@gmail.com>
-In-Reply-To: <20220414080312.GA31389@intel.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <2b0f0eba-87fe-e2c4-d951-2b090b827ca6@gmail.com>
+X-Sent-From: Pengutronix Hildesheim
+X-URL: http://www.pengutronix.de/
+X-IRC: #ptxdist @freenode
+X-Accept-Language: de,en
+X-Accept-Content-Type: text/plain
+X-Uptime: 10:11:46 up 14 days, 20:41, 60 users,  load average: 0.48, 0.29, 0.21
+User-Agent: Mutt/1.10.1 (2018-07-13)
+X-SA-Exim-Connect-IP: 2001:67c:670:100:1d::c0
+X-SA-Exim-Mail-From: sha@pengutronix.de
+X-SA-Exim-Scanned: No (on metis.ext.pengutronix.de);
+ SAEximRunCond expanded to false
+X-PTX-Original-Recipient: dri-devel@lists.freedesktop.org
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -78,66 +59,94 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: intel-gfx@lists.freedesktop.org, dri-devel@lists.freedesktop.org
+Cc: devicetree@vger.kernel.org,
+ Benjamin Gaignard <benjamin.gaignard@collabora.com>,
+ Peter Geis <pgwipeout@gmail.com>, Sandy Huang <hjc@rock-chips.com>,
+ dri-devel@lists.freedesktop.org, linux-rockchip@lists.infradead.org,
+ Michael Riesch <michael.riesch@wolfvision.net>, kernel@pengutronix.de,
+ Andy Yan <andy.yan@rock-chips.com>, linux-arm-kernel@lists.infradead.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
+On Mon, Apr 11, 2022 at 07:00:51PM +0200, Alex Bee wrote:
+> Am 11.04.22 um 09:53 schrieb Sascha Hauer:
+> > On Sun, Apr 10, 2022 at 01:31:23PM +0200, Alex Bee wrote:
+> >> Am 08.04.22 um 13:22 schrieb Sascha Hauer:
+> >>> The driver checks if the pixel clock of the given mode matches an entry
+> >>> in the mpll config table. The frequencies in the mpll table are meant as
+> >>> a frequency range up to which the entry works, not as a frequency that
+> >>> must match the pixel clock. The downstream Kernel also does not have
+> >>> this check, so drop it to allow for more display resolutions.
+> >>>
+> >>> Signed-off-by: Sascha Hauer <s.hauer@pengutronix.de>
+> >>> ---
+> >>>
+> >> You're correct: That frequency is meant to be greater or equal. But I'm
+> >> not sure if it makes sense to completely drop it - what happens for
+> >> clocks rates > 600 MHz which might be supported by later generation
+> >> sinks (HDMI 2.1 or later)?
+> >> As these are not supported by the IPs/PHYs currently supported by that
+> >> driver a reason a simple
+> >>
+> >>         int i;
+> >>
+> >>
+> >>
+> >>         for (i = 0; mpll_cfg[i].mpixelclock != (~0UL); i++) {
+> >>
+> >> -               if (pclk == mpll_cfg[i].mpixelclock) {
+> >>
+> >> +               if (pclk >= mpll_cfg[i].mpixelclock) {
+> > 
+> > Should be <=
+> 
+> Sure, sorry 'bout that.
+> > 
+> > No other user currently in the tree has this check.
+> I dont't think that's true - it might not be checked against mpll table,
+> but max pixelclocks are checked in meson_encoder_hdmi_mode_valid for
+> amlogic, in sun8i_dw_hdmi_mode_valid_a83t and
+> sun8i_dw_hdmi_mode_valid_h6 for allwinner and rcar_hdmi_mode_valid for
+> rcar platform. There is no other point in rockchip dw-hdmi platform
+> driver where this is currently checked.
+> 
+> > hdmi_phy_configure_dwc_hdmi_3d_tx() has this:
+> > 
+> >> 	/* PLL/MPLL Cfg - always match on final entry */
+> >> 	for (; mpll_config->mpixelclock != ~0UL; mpll_config++)
+> >> 		if (mpixelclock <= mpll_config->mpixelclock)
+> >> 			break;
+> >>
+> >> 	for (; curr_ctrl->mpixelclock != ~0UL; curr_ctrl++)
+> >> 		if (mpixelclock <= curr_ctrl->mpixelclock)
+> >> 			break;
+> >>
+> >> 	for (; phy_config->mpixelclock != ~0UL; phy_config++)
+> >> 		if (mpixelclock <= phy_config->mpixelclock)
+> >> 			break;
+> >>
+> >> 	if (mpll_config->mpixelclock == ~0UL ||
+> >> 	    curr_ctrl->mpixelclock == ~0UL ||
+> >> 	    phy_config->mpixelclock == ~0UL)
+> >> 		return -EINVAL;
+> > 
+> > This means we already have this check and others already in the generic
+> > part of the dw-hdmi driver. Should we maybe do the above in
+> > dw_hdmi_bridge_mode_valid() instead of doing it in the users?
+> I guess that's not possible, due to the different kind of phys which are
+> used for dw-hdmi. The checks you are refering to, are only done for dw
+> hdmi tx phys, but not for "vendor phys" (like for RK3328 and RK3228, for
+> example) - those have have own drivers which are handled only in dw-hdmi
+> platform driver.
+> Therefore this check should remain here for Rockchip also.
 
-Le 14/04/22 à 10:03, Lisovskiy, Stanislav a écrit :
-> On Thu, Apr 14, 2022 at 08:33:35AM +0200, François Valenduc wrote:
->> Le 14/04/22 à 08:31, Lisovskiy, Stanislav a écrit :
->>> On Wed, Apr 13, 2022 at 08:12:20PM +0300, Jani Nikula wrote:
->>>> On Wed, 13 Apr 2022, François Valenduc <francoisvalenduc@gmail.com> wrote:
->>>>> Commit 15512021eb3975a8c2366e3883337e252bb0eee5
->>>>> (15512021eb3975a8c2366e3883337e252bb0eee5) causes a lof of white spots
->>>>> to appears on the right upper corner of all console screens (see
->>>>> https://drive.google.com/file/d/13GabEvOIKSAj5yox6ybAZEDu3Ixncw5Q/view).
->>>>> git-bisect shows that this is the offending commit and if I revert it,
->>>>> the problem goes away. The problem still occurs with kernel 5.18-rc2 and
->>>>> to all stable trees where it was applied.
->>>>> Can somebody explains what happens ?
->>>>>
->>>>> The video card is the following: VGA compatible controller: Intel
->>>>> Corporation WhiskeyLake-U GT2 [UHD Graphics 620] (rev 02) (prog-if 00
->>>>> [VGA controller])
->>>>>
->>>>> Please tell me if you need more info.
->>>> That's commit 15512021eb39 ("drm/i915: Workaround broken BIOS DBUF
->>>> configuration on TGL/RKL"), adding Cc's.
->>>>
->>>> Please file a report at fdo gitlab [1] and attach dmesg etc. there.
->>> That commit looks like it is just disabling all the planes, if wrong
->>> dbuf/wm configuration is detected.
->>> However it should do that only once during boot as I understand.
->>>
->>> Are you sure that is exactly this commit which is causing this?
->>> Does the issue appear always?
->>>
->>> Ville Syrjälä, thoughts?
->>>
->>> Stan
->>>
->>>> Thanks,
->>>> Jani.
->>>>
->>>>
->>>> [1] https://gitlab.freedesktop.org/drm/intel/wikis/How-to-file-i915-bugs
->>>>
->>>>
->>>> -- 
->>>> Jani Nikula, Intel Open Source Graphics Center
->> As I said, git-bisect shows it's the offending commit and if I revert it,
->> the problem doesn't happens. Otherwise, it always occurs.
->>
->> François
->>
-> Does it just happen all the time or some steps/certain circumstances needed
-> for it to happen?
->
-> Only suspicion after looking briefly is that once suspend/resume is done
-> it might be messing something up. Just a quick guess..
->
-> Stan
+Ok, agreed. I'll keep the check for the next round and just replace
+the == with <=.
 
-It occurs permantently as soon as I boot my computer.
+Sascha
 
+-- 
+Pengutronix e.K.                           |                             |
+Steuerwalder Str. 21                       | http://www.pengutronix.de/  |
+31137 Hildesheim, Germany                  | Phone: +49-5121-206917-0    |
+Amtsgericht Hildesheim, HRA 2686           | Fax:   +49-5121-206917-5555 |
