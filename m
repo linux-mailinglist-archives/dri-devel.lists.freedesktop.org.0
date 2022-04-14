@@ -1,43 +1,53 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id F06D1500C68
-	for <lists+dri-devel@lfdr.de>; Thu, 14 Apr 2022 13:51:15 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id A7A71500CF3
+	for <lists+dri-devel@lfdr.de>; Thu, 14 Apr 2022 14:19:53 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 2E35310FCA8;
-	Thu, 14 Apr 2022 11:51:13 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 05D3A10E29C;
+	Thu, 14 Apr 2022 12:19:49 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from bhuna.collabora.co.uk (bhuna.collabora.co.uk [46.235.227.227])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 51DB010FCA7
- for <dri-devel@lists.freedesktop.org>; Thu, 14 Apr 2022 11:51:11 +0000 (UTC)
-Received: from [127.0.0.1] (localhost [127.0.0.1])
- (Authenticated sender: kholk11) with ESMTPSA id 1EEEC1F47996
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
- s=mail; t=1649937067;
- bh=FQo3+DfDK/439bMdjsIJSbbQW7m+3RsLgRDDfki4H+U=;
- h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
- b=YtZBD7RNl720F69+xtlmXyfdDxjpi1ksA1V3yHN1HBA6AEH5w+VeB7DI9ibavjKHp
- ZjGwaDwxN6p4gy8x8MbJRnoAamqkn+diH9XzFHyDYHLNqyUhI5IkEXRuv1V9yIzUDU
- AYKcVdlaGGJYKVZd0ruW3n8o5eHJ/KA0XifmgbWE0Zi+B8mz0QSBmBpFmHyQTnPCGV
- qiWeXeq4ZGX5n+lMeRiDzj4II7gDE09xt+ks3FgMSN1jDl1LJ5P3bgAvEVMRBgwHdA
- 5FFEZ0UDm6uyqdjercTqlpjz0C2WX369JjI3QCtFbS/aax9x7MO9bYwmNdz+pG65OE
- re3ANfGXiXIIA==
-Message-ID: <ee2f0819-8c9e-4160-c4ae-fb4ad0da3f3b@collabora.com>
-Date: Thu, 14 Apr 2022 13:51:04 +0200
+Received: from alexa-out-sd-02.qualcomm.com (alexa-out-sd-02.qualcomm.com
+ [199.106.114.39])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 6AA5410E2FB;
+ Thu, 14 Apr 2022 12:19:47 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=quicinc.com; i=@quicinc.com; q=dns/txt; s=qcdkim;
+ t=1649938787; x=1681474787;
+ h=from:to:cc:subject:date:message-id:mime-version;
+ bh=xeX6+HL2SQOoMJysbvX6WPtRbMbbT3Zr8sr+zMM2zQA=;
+ b=xPUrfU0tsoA82wkXZlZwd/2UeC4+4Yr8LCueLrgfr5Aod6IgqXd4aoOo
+ 1MA+vUy+JvsBnJb7pifrXP3B3yCwn+n7/trbONMQqh1RvZk6k1pfoRwiv
+ DUXvUqz+xrocUjFPaNQbDZVvSdFs15GqU15L0CPMUAkrivv4om0gBlHWc Q=;
+Received: from unknown (HELO ironmsg-SD-alpha.qualcomm.com) ([10.53.140.30])
+ by alexa-out-sd-02.qualcomm.com with ESMTP; 14 Apr 2022 05:19:45 -0700
+X-QCInternal: smtphost
+Received: from nasanex01c.na.qualcomm.com ([10.47.97.222])
+ by ironmsg-SD-alpha.qualcomm.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 14 Apr 2022 05:19:45 -0700
+Received: from nalasex01a.na.qualcomm.com (10.47.209.196) by
+ nasanex01c.na.qualcomm.com (10.47.97.222) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.2.986.22; Thu, 14 Apr 2022 05:19:45 -0700
+Received: from sbillaka-linux.qualcomm.com (10.80.80.8) by
+ nalasex01a.na.qualcomm.com (10.47.209.196) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.2.986.22; Thu, 14 Apr 2022 05:19:38 -0700
+From: Sankeerth Billakanti <quic_sbillaka@quicinc.com>
+To: <dri-devel@lists.freedesktop.org>, <linux-arm-msm@vger.kernel.org>,
+ <freedreno@lists.freedesktop.org>, <linux-kernel@vger.kernel.org>,
+ <devicetree@vger.kernel.org>
+Subject: [PATCH v7 0/4] Add support for the eDP panel over aux_bus
+Date: Thu, 14 Apr 2022 17:49:22 +0530
+Message-ID: <1649938766-6768-1-git-send-email-quic_sbillaka@quicinc.com>
+X-Mailer: git-send-email 2.7.4
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.7.0
-Subject: Re: [PATCH v6 1/2] dt-bindings: Add DT schema for Arm Mali Valhall GPU
-Content-Language: en-US
-To: Nick Fan <Nick.Fan@mediatek.com>, Rob Herring <robh+dt@kernel.org>,
- Matthias Brugger <matthias.bgg@gmail.com>
-References: <20220414025023.11516-1-Nick.Fan@mediatek.com>
-From: AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>
-In-Reply-To: <20220414025023.11516-1-Nick.Fan@mediatek.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain
+X-Originating-IP: [10.80.80.8]
+X-ClientProxiedBy: nasanex01b.na.qualcomm.com (10.46.141.250) To
+ nalasex01a.na.qualcomm.com (10.47.209.196)
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -50,35 +60,36 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: devicetree@vger.kernel.org, srv_heupstream@mediatek.com,
- David Airlie <airlied@linux.ie>, linux-kernel@vger.kernel.org,
- dri-devel@lists.freedesktop.org,
- Project_Global_Chrome_Upstream_Group@mediatek.com,
- linux-mediatek@lists.infradead.org, alyssa.rosenzweig@collabora.com,
- wenst@chromium.org, linux-arm-kernel@lists.infradead.org
+Cc: quic_kalyant@quicinc.com, Sankeerth Billakanti <quic_sbillaka@quicinc.com>,
+ dianders@chromium.org, bjorn.andersson@linaro.org, quic_vproddut@quicinc.com,
+ airlied@linux.ie, quic_abhinavk@quicinc.com, steev@kali.org,
+ swboyd@chromium.org, seanpaul@chromium.org, dmitry.baryshkov@linaro.org,
+ quic_aravindh@quicinc.com, quic_khsieh@quicinc.com, sean@poorly.run
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Il 14/04/22 04:50, Nick Fan ha scritto:
-> Add devicetree schema for Arm Mali Valhall GPU
-> 
-> Define a compatible string for the Mali Valhall GPU
-> for MediaTek's SoC platform.
-> 
-> Signed-off-by: Nick Fan <Nick.Fan@mediatek.com>
+This series adds support for generic eDP panel over aux_bus.
 
-Hello Nick,
-Unfortunately, this binding is completely wrong.
+These changes are dependent on the following series:
+https://patchwork.kernel.org/project/linux-arm-msm/list/?series=613654&state=*
 
-First of all, there's no arm,mali-valhall driver upstream - this will be managed
-by panfrost later, yes, but right now there's no support.
-Then, you're also setting opp-microvolt in a way that will never (or, at least,
-not anytime soon) be supported by the upstream driver, as it manages only one
-supply for devfreq scaling.
+Sankeerth Billakanti (4):
+  drm/msm/dp: Add eDP support via aux_bus
+  drm/msm/dp: Support only IRQ_HPD and REPLUG interrupts for eDP
+  drm/msm/dp: wait for hpd high before aux transaction
+  Support the eDP modes given by panel
 
-Besides, please don't push bindings that have no upstream driver, especially if
-these are for downstream drivers requiring proprietary components, while a
-completely open source implementation is in the works.
+ drivers/gpu/drm/msm/dp/dp_aux.c     |  21 +++++++-
+ drivers/gpu/drm/msm/dp/dp_aux.h     |   3 +-
+ drivers/gpu/drm/msm/dp/dp_catalog.c |  22 +++++---
+ drivers/gpu/drm/msm/dp/dp_catalog.h |   1 +
+ drivers/gpu/drm/msm/dp/dp_display.c | 100 +++++++++++++++++++++++++++++++++---
+ drivers/gpu/drm/msm/dp/dp_display.h |   1 +
+ drivers/gpu/drm/msm/dp/dp_drm.c     |  10 ++--
+ drivers/gpu/drm/msm/dp/dp_parser.c  |  23 +--------
+ drivers/gpu/drm/msm/dp/dp_parser.h  |  13 ++++-
+ 9 files changed, 154 insertions(+), 40 deletions(-)
 
-Regards,
-Angelo
+-- 
+2.7.4
+
