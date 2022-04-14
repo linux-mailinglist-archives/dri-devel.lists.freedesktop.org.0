@@ -2,50 +2,57 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8CE1C5008F4
-	for <lists+dri-devel@lfdr.de>; Thu, 14 Apr 2022 10:56:32 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id D1E2750091B
+	for <lists+dri-devel@lfdr.de>; Thu, 14 Apr 2022 11:00:27 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id AF6F410FCC6;
-	Thu, 14 Apr 2022 08:56:27 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id CE90810FD5C;
+	Thu, 14 Apr 2022 09:00:24 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mout-p-202.mailbox.org (mout-p-202.mailbox.org [80.241.56.172])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 8A9B710FCC7
- for <dri-devel@lists.freedesktop.org>; Thu, 14 Apr 2022 08:56:26 +0000 (UTC)
-Received: from smtp1.mailbox.org (smtp1.mailbox.org [80.241.60.240])
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
- key-exchange ECDHE (P-384) server-signature RSA-PSS (4096 bits) server-digest
- SHA256) (No client certificate requested)
- by mout-p-202.mailbox.org (Postfix) with ESMTPS id 4KfCxM4tkkz9sR6;
- Thu, 14 Apr 2022 10:56:23 +0200 (CEST)
-Message-ID: <2bd105a2-9e55-f6f1-9d62-c4533470b05b@mailbox.org>
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=mailbox.org;
- s=mail20150812; t=1649926581;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=g1ZNldq/EyB3mNJsRKqgMP8pcQ4qEP3WnTy07X0W1ek=;
- b=edpTTMLBlCs71+gtLUa5JE5qq4dai3UjdycEZQASCY6Zu4Mz3pK3JCoyRdieXSRU3ZJ7WZ
- cGPlODtsz8SNt7XuSqFb9qjhWpfBTHe/fmvqusco7X1H+NW9Nuas15RKBpxQGsF4NRj7Zs
- ltXuK/pQm9eqzSXWT6ifvdZH963vk0OCAenA9w3vE63mZt7ym+pb2pAy9Et9HuCinET8/+
- JILXzGmWuuhDzCdAIfuPX5IqPcpJ/jGHne4rQBS8+ebj6ehfSoW13KpEY9R5E8fV8T6PVb
- CqobR+2exmpkIHHz2blD11mwuWAdWyG/4du8Tf9TdFDHZiKY0cNXtok4j7uWPw==
-Date: Thu, 14 Apr 2022 10:56:15 +0200
+Received: from mail-pl1-x632.google.com (mail-pl1-x632.google.com
+ [IPv6:2607:f8b0:4864:20::632])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 0D6BF10FD4F
+ for <dri-devel@lists.freedesktop.org>; Thu, 14 Apr 2022 09:00:17 +0000 (UTC)
+Received: by mail-pl1-x632.google.com with SMTP id p10so4119557plf.9
+ for <dri-devel@lists.freedesktop.org>; Thu, 14 Apr 2022 02:00:17 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=chromium.org; s=google;
+ h=from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=Bm6j4Sj81g1kNoBEMCttfjxLkn0RWePq1WSEM7XPmtI=;
+ b=fxHH32p5j0e+cdXaMKgpfUspQX84794ZwP+Pf19RC5R0BLWEj+NyAaWz8nz7IPUrOW
+ 1NOs4YA249O7wbPC0KZzR/8lHcPHtMGBkjJ456cIFSglWwHyTuq4jY81Y6MBvG2fiyY+
+ nt8oLvp/huyt+32y5hg6RHMqA9v2+w3OteeRA=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=Bm6j4Sj81g1kNoBEMCttfjxLkn0RWePq1WSEM7XPmtI=;
+ b=jf7UEsyjgEj3n+iXokx5vUbTZsBM4JKu0kM/jRdB3Nj37XEHLiierbDKq/J368D0t5
+ O6l2dFHQkP8KOG31rno50tRmCCqe7+tZdeoBfWgJc6H094LUY5UkgoACiY1I3LzU5uCM
+ uxWyZahjs9Eh2BP/lmgk910woC3wp0FQy7tV7QCW3Jfw3BbJXCkWwuFaOncEcPuzI7fW
+ 5up/3PXUAl0Sn+hAFCTlLwS//S9PD+7VkHbFtYQxI9B6lSlZuViswTi5cqUKGR9DxM15
+ vI9wwjUnMP8EOL0x6xPB6hRGzjqEaRit0L9zOM64RlBlVg1iBJ155cZPldWJrj+DBzWX
+ TjAw==
+X-Gm-Message-State: AOAM532sZVA2GPUH7kRJlg42otC7LEWp+lM26FFIfLDDd+h4IOxpEAKr
+ tEjIOl+aMwcobliXblzUF7VaEA==
+X-Google-Smtp-Source: ABdhPJx7X+z3T7obGlkfwniBmq4ySimshUk0QxfezcyPmQw82MV8mGhksCsy7itbjwsr0JNQdzeAVg==
+X-Received: by 2002:a17:90b:4b11:b0:1cb:2a65:f275 with SMTP id
+ lx17-20020a17090b4b1100b001cb2a65f275mr3229394pjb.33.1649926816349; 
+ Thu, 14 Apr 2022 02:00:16 -0700 (PDT)
+Received: from hsinyi-z840.tpe.corp.google.com
+ ([2401:fa00:1:10:b53a:7315:ec5:64b0])
+ by smtp.gmail.com with ESMTPSA id
+ q9-20020a638c49000000b00398677b6f25sm1340942pgn.70.2022.04.14.02.00.14
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Thu, 14 Apr 2022 02:00:15 -0700 (PDT)
+From: Hsin-Yi Wang <hsinyi@chromium.org>
+To: Robert Foss <robert.foss@linaro.org>,
+	Xin Ji <xji@analogixsemi.com>
+Subject: [PATCH] drm/bridge: anx7625: Fill in empty ELD when no connector
+Date: Thu, 14 Apr 2022 17:00:04 +0800
+Message-Id: <20220414090003.1806535-1-hsinyi@chromium.org>
+X-Mailer: git-send-email 2.35.1.1178.g4f1659d476-goog
 MIME-Version: 1.0
-Subject: Re: [PATCH] drm/radeon: Add build directory to include path
-Content-Language: en-CA
-To: =?UTF-8?Q?Christian_K=c3=b6nig?= <ckoenig.leichtzumerken@gmail.com>,
- Alex Deucher <alexander.deucher@amd.com>,
- =?UTF-8?Q?Christian_K=c3=b6nig?= <christian.koenig@amd.com>,
- Xinhui Pan <Xinhui.Pan@amd.com>
-References: <20220413161450.1854370-1-michel@daenzer.net>
- <f425b789-5081-fa70-555f-7553d7cc5bd5@gmail.com>
- <ca5ca8ab-9c48-8d81-2dd6-fbdfface6519@mailbox.org>
- <abd87438-3ff4-6b62-81b4-6162d167348a@gmail.com>
-From: =?UTF-8?Q?Michel_D=c3=a4nzer?= <michel.daenzer@mailbox.org>
-In-Reply-To: <abd87438-3ff4-6b62-81b4-6162d167348a@gmail.com>
-Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -59,38 +66,48 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: amd-gfx@lists.freedesktop.org, dri-devel@lists.freedesktop.org
+Cc: Jonas Karlman <jonas@kwiboo.se>, David Airlie <airlied@linux.ie>,
+ dri-devel@lists.freedesktop.org, Neil Armstrong <narmstrong@baylibre.com>,
+ linux-kernel@vger.kernel.org, Jernej Skrabec <jernej.skrabec@gmail.com>,
+ Laurent Pinchart <Laurent.pinchart@ideasonboard.com>,
+ Andrzej Hajda <andrzej.hajda@intel.com>, Maxime Ripard <maxime@cerno.tech>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 2022-04-14 10:44, Christian König wrote:
-> Am 14.04.22 um 09:37 schrieb Michel Dänzer:
->> On 2022-04-14 08:24, Christian König wrote:
->>> Am 13.04.22 um 18:14 schrieb Michel Dänzer:
->>>> From: Michel Dänzer <mdaenzer@redhat.com>
->>>>
->>>> Fixes compile errors with out-of-tree builds, e.g.
->>>>
->>>> ../drivers/gpu/drm/radeon/r420.c:38:10: fatal error: r420_reg_safe.h: No such file or directory
->>>>      38 | #include "r420_reg_safe.h"
->>>>         |          ^~~~~~~~~~~~~~~~~
->>>
->>> Well stuff like that usually points to a broken build environment.
->> Just a separate build directory. Specifically, I'm hitting the errors with
->>
->>   make -C build-amd64 M=drivers/gpu/drm
->>
->> Generated headers such as r420_reg_safe.h reside in the build directory, so source files in the source directory can't find them without an explicit search path.
-> 
-> I'm trying to swap back into my brain how all of this used to work, but that's a really long time ago that I tried this as well.
-> 
->> Are you saying that should get added automagically somehow?
-> 
-> Yes, exactly that. I'm like 95% sure that used to work, but I don't know why exactly either.
+Speaker may share I2S with DP and .get_eld callback will be called when
+speaker is playing. When HDMI wans't connected, the connector will be
+null. Instead of return an error, fill in empty ELD.
 
-Maybe it worked at some point, but regressed in the meantime? I only just switched to a separate build directory (so that I can easily build-test for other architectures).
+Signed-off-by: Hsin-Yi Wang <hsinyi@chromium.org>
+---
+ drivers/gpu/drm/bridge/analogix/anx7625.c | 12 ++++++------
+ 1 file changed, 6 insertions(+), 6 deletions(-)
 
-
+diff --git a/drivers/gpu/drm/bridge/analogix/anx7625.c b/drivers/gpu/drm/bridge/analogix/anx7625.c
+index 6516f9570b86..f2bc30c98c77 100644
+--- a/drivers/gpu/drm/bridge/analogix/anx7625.c
++++ b/drivers/gpu/drm/bridge/analogix/anx7625.c
+@@ -1932,14 +1932,14 @@ static int anx7625_audio_get_eld(struct device *dev, void *data,
+ 	struct anx7625_data *ctx = dev_get_drvdata(dev);
+ 
+ 	if (!ctx->connector) {
+-		dev_err(dev, "connector not initial\n");
+-		return -EINVAL;
++		/* Pass en empty ELD if connector not available */
++		memset(buf, 0, len);
++	} else {
++		dev_dbg(dev, "audio copy eld\n");
++		memcpy(buf, ctx->connector->eld,
++		       min(sizeof(ctx->connector->eld), len));
+ 	}
+ 
+-	dev_dbg(dev, "audio copy eld\n");
+-	memcpy(buf, ctx->connector->eld,
+-	       min(sizeof(ctx->connector->eld), len));
+-
+ 	return 0;
+ }
+ 
 -- 
-Earthling Michel Dänzer            |                  https://redhat.com
-Libre software enthusiast          |         Mesa and Xwayland developer
+2.35.1.1178.g4f1659d476-goog
+
