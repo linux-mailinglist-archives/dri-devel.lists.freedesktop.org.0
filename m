@@ -1,111 +1,121 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id D5651500699
-	for <lists+dri-devel@lfdr.de>; Thu, 14 Apr 2022 09:09:15 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 27B6E50069A
+	for <lists+dri-devel@lfdr.de>; Thu, 14 Apr 2022 09:09:24 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 6293410F235;
-	Thu, 14 Apr 2022 07:09:13 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 2BC4010FBD1;
+	Thu, 14 Apr 2022 07:09:21 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from EUR05-AM6-obe.outbound.protection.outlook.com
- (mail-am6eur05on2089.outbound.protection.outlook.com [40.107.22.89])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 5B98210F235
- for <dri-devel@lists.freedesktop.org>; Thu, 14 Apr 2022 07:09:12 +0000 (UTC)
+ (mail-am6eur05on2040.outbound.protection.outlook.com [40.107.22.40])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 13D5D10F237
+ for <dri-devel@lists.freedesktop.org>; Thu, 14 Apr 2022 07:09:20 +0000 (UTC)
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=Kc53NfyL2UIIZnhyeYkTdovegj/BSylCcgqxcuLNSH7OWUg1/hdyoXU3s++3lzAtoCAeeyEeLmXfYt6nAnBYTq1at07aBJ3QkGxDzlECNGDPm8x7f2MCXHBwGpWbRNGon0NzZUG6U092noGWlSiL5IxS8/WvHli74BNjSl2XQ8bv3vmUqBBMaxyHApobZuMBDJ6bUgkI51I/VJj+nIy7HHvVXKQKXBqbSFHYNW9WvjzzvrjdiKOulavOjWN01fycUTNRqLf3m3z1QdJYdsurYGcrGd4vevzaQgtXD8Ww5poNAuWO5s8KixOhn+JISU5bGrhmvswkOUdtNjQKJjnkYA==
+ b=NTDZ1cCotbZd0IydRa/S2wTNipNbYDF5z9GsgvvnRzjjTxuggEhPFL2cOGsEp5O77c8nktdzOwd/+BAzd1d1LB+zES+hV8gnfyM6Fiqg/p868b6wRkW3NDau5OHihqpstxJ4o7gh/WNfl43L+xf3m6ettrYwLelWyY1tlehiL7R+0NpZcB1nUzc+EmWYD52za0msAlap7QHsctb8aiWVMURX6Kly3wYEdut5eQt1jzoGb9upuYBPvEmvxWhp6Yt/4LoAKFqRASVE/Ki584/FVnkU/WBWIvlnKbuAoeCmBdb6pSZ4Z/FMr2obsRZqIC2V6DQzBQfZIhCJJVJRnxMjCA==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
  s=arcselector9901;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=zikVNYi3cS+FrIsX3tOfjPXYjapqrG9gbDqBXBxuQPQ=;
- b=jcVebgU/DDUPtnQIbZ7I95X5rPHU6pYB3lymJI5kNod+4S0gkbfy/XmtFfPaC8cSB91tccgE1knUX1Utv/CMBsIULt+Q4fy8sCUShmd4yYHVXcHT9v4DA0Lg5Udki92KrRqgOBjpvTKDy7VbIDLShercJNbEuV8flUxdCW//gsSuKk7CHtYlKZ4ydYm13MDydguiQfddjFB9O5oPSA0evLzrDyJdYLQjXnRzLRuaO2/iSmhmAFH6YZYmsAHjRolqfbABrRiftjchHuk+qqZBaONLEEBiI8+LA4d5veYx7DQr7V7DlVdwdp6aHl9vilQqAqZhMnRJ0FzDUM7TgKHZNA==
+ bh=J2oGElILzCk+igiUTrOVzfcg+9IEz0ALDeKTJRlftv0=;
+ b=oVBKG9lfzKYiLoAaOzGU3bsw1OqtpE5QGOwzo9CkjxXD2jU5TMtInuPoFtH6uUAInhMV/Gkrbh2eNVeXCEqgcYTkdVI3Gbock5pmukwDnJy88LuVkacEFOtD/qCdPra1q8Hun9aPEgD7I17MxL7fLeYI05TdHgqJRoatDnxYPc6DpRa4ac3JGD5uQIq5dRpuM4mP10M5gh0ejF4Kkgk9M8f2w1u0eDe8LVAZMnxuf36U/gb+AD4KDscSv5VGCXNvHnJdejHqrdXDrr1dX4jpF4yOY1g6k7kQE60aWUNeJLxhrsHbbIFMtSt8PEj1ExjLeCZgzsLOF9jQ5tVl2Njd1w==
 ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
  smtp.mailfrom=nxp.com; dmarc=pass action=none header.from=nxp.com; dkim=pass
  header.d=nxp.com; arc=none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nxp.com; s=selector2; 
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=zikVNYi3cS+FrIsX3tOfjPXYjapqrG9gbDqBXBxuQPQ=;
- b=s6ne/lnwLa79o4AaeJXpSXngLuCZvvXfpJwm6P13ysBoK6ry5KI33nU31duVoex1kYOMkoHICFlUwfmjClny7NJ1ePgCdO8xnsJTMRvdAK4mHphmdg5gS8Cl1+emLu2jt4+Fidzz0BUHeWjcAgcBubhrfrVl6Dz1l0m1CKtz0Eo=
+ bh=J2oGElILzCk+igiUTrOVzfcg+9IEz0ALDeKTJRlftv0=;
+ b=E0rMaOWdOiZuXIiy8vZFLGScTMmEtjd4nD5h9yM/XiJMl7jtSDY77HZnQBW/dEvukqQ1X0GCHTtYXn7wl6wGT1gwhll9m3ie23fxJX0tWy9wi7BQ6mGVR8cSeObhDF96ddIrqdBPFIOp/w+FimUDqafb+c8UwsAZaZ8yizEdtrs=
 Authentication-Results: dkim=none (message not signed)
  header.d=none;dmarc=none action=none header.from=nxp.com;
 Received: from AM7PR04MB7046.eurprd04.prod.outlook.com (2603:10a6:20b:113::22)
  by DB8PR04MB6714.eurprd04.prod.outlook.com (2603:10a6:10:10e::15)
  with Microsoft SMTP Server (version=TLS1_2,
  cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.5164.20; Thu, 14 Apr
- 2022 07:09:09 +0000
+ 2022 07:09:17 +0000
 Received: from AM7PR04MB7046.eurprd04.prod.outlook.com
  ([fe80::b09c:8ffe:8e02:7387]) by AM7PR04MB7046.eurprd04.prod.outlook.com
  ([fe80::b09c:8ffe:8e02:7387%9]) with mapi id 15.20.5164.018; Thu, 14 Apr 2022
- 07:09:09 +0000
+ 07:09:17 +0000
 From: Liu Ying <victor.liu@nxp.com>
 To: linux-phy@lists.infradead.org, devicetree@vger.kernel.org,
  linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
  linux-arm-kernel@lists.infradead.org
-Subject: [PATCH v8 2/5] phy: Add LVDS configuration options
-Date: Thu, 14 Apr 2022 15:10:36 +0800
-Message-Id: <20220414071039.423271-3-victor.liu@nxp.com>
+Subject: [PATCH v8 3/5] dt-bindings: phy: Convert mixel,
+ mipi-dsi-phy to json-schema
+Date: Thu, 14 Apr 2022 15:10:37 +0800
+Message-Id: <20220414071039.423271-4-victor.liu@nxp.com>
 X-Mailer: git-send-email 2.25.1
 In-Reply-To: <20220414071039.423271-1-victor.liu@nxp.com>
 References: <20220414071039.423271-1-victor.liu@nxp.com>
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Content-Type: text/plain
 X-ClientProxiedBy: SI2PR06CA0005.apcprd06.prod.outlook.com
  (2603:1096:4:186::12) To AM7PR04MB7046.eurprd04.prod.outlook.com
  (2603:10a6:20b:113::22)
 MIME-Version: 1.0
 X-MS-PublicTrafficType: Email
-X-MS-Office365-Filtering-Correlation-Id: 4fc22ae9-9c6d-40b9-7895-08da1de5abf5
+X-MS-Office365-Filtering-Correlation-Id: 2a2d7bcc-db4c-4fad-865c-08da1de5b07c
 X-MS-TrafficTypeDiagnostic: DB8PR04MB6714:EE_
-X-Microsoft-Antispam-PRVS: <DB8PR04MB6714267B15EF2D6869AF292998EF9@DB8PR04MB6714.eurprd04.prod.outlook.com>
+X-Microsoft-Antispam-PRVS: <DB8PR04MB671449B9E53B8DD21557969498EF9@DB8PR04MB6714.eurprd04.prod.outlook.com>
 X-MS-Exchange-SenderADCheck: 1
 X-MS-Exchange-AntiSpam-Relay: 0
 X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: c8k4ZHvr9e8mt7JKbAplSYiHuA1t/+ItDbdk3avWVqLr9iDNJnnS3hcq1mP9nmsTIFGRMghOT8eQ9WdkT9kA4SaIafrMkHYyP1rhivwqjQwBqb0SKD9fJlqcjlqi6QvdSqeLzL2Y9/1Ngpji/i1NZPsgVpkHqp3sW8HF12XYqE1JwNFnsbzo2Gf/XhUP8gOsf+QDalb25eQwXUkp5ebktTImUxPI/VjvPhPVQfNRuNXnImyw094hnNJ5zENzUoZAwJWbH9HFFejLFIuptrltopET5QyOAkHW85i5lLtZlvrOOTTgO8KIV14btRFhlUKOMnigogScEEM8Gj8zQmyE5B1uY144myQ55MYjZeooL8BzKV6jsxmQQZi3Xl5nE9HR8+UQn8wG5KM8rx+4rhEGwPXIsyju4uRsBh3D6yP0azKAlJsZeY/0CMYZdvfAQtB/wa3ncUj8EMRJREVt7cl0GLDcxTcd3x1x9ysqxqfaHZzHX9Qh9GOkpQZ7urTE7xhCnlzk9oCt/gmYUQDpbFRUmlwsEYQuSWlukvz76xARUnRlrthmv8AB5Im0UwswlJKcNZZLoy4HJcWiWoR/m8L3GkMikfl2bQSyFXyzcsY1ImzzmaWtrIesmDpVv7EEEKptawL2qR8vDSZGV1J/HxuUYbA77WuRX431EOXshNp2hdcUiPRyv0oNKC1vAJntAKlfgqaQCsW1TodTgkNuRtU0nA==
+X-Microsoft-Antispam-Message-Info: qE9My7+/runUOCq5/SMZOCu4wIFby4/MlKm0Fe9okNN6IYCnL+1txMcWwQdwn8FA/u/2yAtW5z5T5qxYmNSXxN0HatmpbU+qTtyQMzUp4vXW8sFJVWJM7JGv5CHgtDCKE+u8nMZPF/1cLtY3FyflMnZKvbWuOLAnGhrHGIhLFta5pgrhvnIehUCR8aWw76T747U2XDEXSzaKHxsbnztumpKo8oPwBupqv+PFdzQY/LUgDlGMoXyvOtcemEoeCA1Dd6/LHBbJ1A6ErYUdgeWZKZY4yZxbXoiE8A6LH9/gC4MK7QHMkXucnRGAeevezv4wf78vmuHNyjr+6xnAUftOfaYNldLMhLHE3g5M917yUCGrQiS2Y2iXvslI8JBAL83n+/wr1JNGTCDE5JVSQ6JCViGr9Jsiomlc2Rbj5quBfx1jmsR2r/oiC9kOFL4rJAIeQIPje/GqEUFEPVQ/D81VNwLtxstxFuaN952synGCwWC/kZda+Rdym2Ykx43wlYMNs2JVM5nEDqzPKTYfKp2Lc8Oqn2xxjZhvg+FFCcaP83G9qQS3Xq4LYK0ctSwTWjlk1cYw1Uklew0ZSJizZg2MrNdEHIbC/5mcIphlJu35An76J3c0MNeBAJ1SbVHmGLPRUJRSHSn2+JCkILoEPzLzHeBplJ7OKZ2ouqFyBBhIYw0fDeY0n6hHST83NpBNi2OkUjwpRFtdzMXR3FDmxYXyoM1A0l1achCWwJ6Efnd28aNQJyPv+UvwOz4IEVvG05k82zWYHqIkX7x1ARg5gqTlRjwumuFbVaptHfFGoD1EYqQWu5xNiylyZq93ST6Eb3KCpkCXcUvzAv6XDrCDzBlQLw==
 X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
  IPV:NLI; SFV:NSPM; H:AM7PR04MB7046.eurprd04.prod.outlook.com; PTR:; CAT:NONE;
- SFS:(13230001)(4636009)(366004)(6486002)(1076003)(38100700002)(38350700002)(66556008)(316002)(66946007)(4326008)(66476007)(508600001)(8676002)(86362001)(2616005)(26005)(6666004)(6512007)(52116002)(6506007)(186003)(7416002)(2906002)(5660300002)(36756003)(8936002)(83380400001);
+ SFS:(13230001)(4636009)(366004)(966005)(6486002)(1076003)(38100700002)(38350700002)(66556008)(316002)(66946007)(4326008)(66476007)(508600001)(8676002)(86362001)(2616005)(26005)(6666004)(6512007)(52116002)(6506007)(186003)(7416002)(2906002)(5660300002)(36756003)(8936002)(83380400001)(66574015);
  DIR:OUT; SFP:1101; 
 X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: =?us-ascii?Q?eRBz+psjArZcniD5VQOrVRXhQZ12IUU2HqFq6DF2ljz/S9KYaQuU00hx9FjR?=
- =?us-ascii?Q?mBfSlpEZWtbSMN2DlyCqFu5PG/eIOGMLLlYiInIKnjIBszMczxNps+VNeD65?=
- =?us-ascii?Q?QPLM9bwuoJtfzygI+/LA9JgAuXmGlrIOmTlL8h5N72muHdSwuw2GgJVvquvw?=
- =?us-ascii?Q?cekB0+IncsHCFhJ1u6tESf2BFB2+k+LcXLHfibmnPuY85e4yzeiBoYvEx5CR?=
- =?us-ascii?Q?cVBh4oaMiXizuJ8NK4vAizieRUAMnI59BXWG5rFoOpq+1ln3LwcAogj4univ?=
- =?us-ascii?Q?kTfaA94M7MEoElqqcAGuKAR+k2tbaM9Znr/vEeXJt/i71Ny6R80VlglhCPYx?=
- =?us-ascii?Q?JIeFzDe5RWfFfJZojuuttNVOW8BPoSAGB3z0pzSiT80+sygAIgWzbEhjNgPy?=
- =?us-ascii?Q?+ku9aK4WAr50cZ5Chdp+RZD2eacBl8EmkvmoY/edhxywX0ZEsfoFCvtWka4M?=
- =?us-ascii?Q?KSmOzqJ22HvJnWpd5BXmAvramDanZlwaAOC0pB0iVWzDI49sbLKMW8g1VrVQ?=
- =?us-ascii?Q?WRce7C8w+ifY7XK3ENiWyerOg10qX25MmZlYf7nJMElCR1QT8xH5JPFVd4K6?=
- =?us-ascii?Q?0M6QOJvLi8wEQIIJLAWIB4JXZyn3fImbvIVG9BLEgak0jKdyvk3vQlyZEeJU?=
- =?us-ascii?Q?12/BdX91yMfnsncSj9D68zP8peAiv3vC0AJvZVc2/IWUk4FzWoZgiOCTKQtl?=
- =?us-ascii?Q?tkHBC5uiCGYqM8pn1X76NuZkmcoDOs/fto3obIh6ClVqWXh15mkkdsW6jsGn?=
- =?us-ascii?Q?enyFUwNokQmHr2FJm+SZsu+6gfwk+NrpuAwMw39nbLG0XxB+EnTBRSRHcUEO?=
- =?us-ascii?Q?SlP+HjlJshv71wyaZqDzWxpkxLcSMHugitm1v+gR8iA4UZJm/2iYuWQh9V7W?=
- =?us-ascii?Q?HMvrXqYuUcYq558IuaLH93o6v4PN+G2b2T0KiJA/wMJoYmWgMGhpEu/R8i31?=
- =?us-ascii?Q?xQoBNSBJxJwT8VY/yU1eFt2m1py2B5eOB5s8Jw1j8uFI5AGTklHJ5VGt7HZk?=
- =?us-ascii?Q?+B422FESOKXnwYq0LZmtElQyxrl4Xppjd90q54fltO9dXDugnrL0b3t1mst8?=
- =?us-ascii?Q?ue5NuUbd2Dw582lAeA3/G7BRhsB0bQjFZJUmmFLUdArsFk6sVX8Ts3iRRH+/?=
- =?us-ascii?Q?lWfbV38JpU4kbaXUIwVQo92TTVP3Xfpn2+rWg/EFCK0nhhyNImG1bG0KW7tO?=
- =?us-ascii?Q?CCylzqrETOeHLvWxXh1bkTaHE61PxkyPAeh9GeAf9yqRnFTuQANgzhqgHLiV?=
- =?us-ascii?Q?FoYVkfS4zQ0gXy/Am2+7eUa5s/bhHLiAQcXg7mZgjEnM5Q6y1CwLSUjMxgtN?=
- =?us-ascii?Q?0hqrdiKooUxDrhTw4u5h+1lkaQP4bxq5ik77OtFy3n5TIcCxmBhJqFbowkLT?=
- =?us-ascii?Q?IDWpQyrqMeT8EbUhK1UNFMJbMKy2CL+qQ77YUe4Sv9urUGYz4HWODD0PEXkY?=
- =?us-ascii?Q?rT75Tn6DZ+hu9w9boW+H+wW8t1oKc55H6u9PmjSYRSfHJlVEPFRycrd7kTkW?=
- =?us-ascii?Q?3DWZGYRvB7l8w0Y62WLEh5xWzm9lMF/e8WC2T+61u3w5LG0BA+AEry+NTVeq?=
- =?us-ascii?Q?5NGuzSY3B5aujazhPdDsQ0eom9c9p+nSqNph4OUdTMDUpchCtBO77Iks7wOa?=
- =?us-ascii?Q?vkHX8ZkmGx73rn+/zH9aAoy7ogNpv50m+bBFBzqLHUUCGb/+vY8otORFTlKm?=
- =?us-ascii?Q?cwRJwj66OxLqZZxty2XC/xd2ZgOSsQPjA8iquNsVLX+Ns4/Ep3G7eegoHtEd?=
- =?us-ascii?Q?ApY0xK8Ixg=3D=3D?=
+X-MS-Exchange-AntiSpam-MessageData-0: =?utf-8?B?U3NPNEdBTnR5TTUvVnZkOFlVdjhnUTY1WktKVHp3MVBVMEpWRndQcU94bUxJ?=
+ =?utf-8?B?Vi9BZHVzM0lPMVd0RFY2TDFCNkNvNHdERUdOSnFQVHh1RDFXQzhuSUU2SkFx?=
+ =?utf-8?B?N1BMeURXVStqcEUrcUZ2Umw0T1FUK0IrYU5kVW5WeFdJL2p6NnFKeWE0d1pL?=
+ =?utf-8?B?QytjNWhvdE1GZU5IYTFjbG82dS9mUDRuOEJFRkVIK25vaFBJVzNFa0srOGkw?=
+ =?utf-8?B?L3NoZjBwOGF6bGkxRnZva3N6YnRFVVQ5QmpwTUo2dmRIMWlqTmFpQWV3SGtS?=
+ =?utf-8?B?QmprMTg5TjNDdnZaaDBZcU1Ka3UwWEV4UUljWjVEV0dHZGx1Rk1VN1QrQUs5?=
+ =?utf-8?B?Z0kzMnhNNUU2cmxnclVUenM1QXFEK0tUUzN6YXhCempMZVFkeEdUQ0JYbS9y?=
+ =?utf-8?B?VUFLV0ZIcXVXSWdlVWhlaDV6dFhrdzJpMHZjekQ4djU2NXY2SU9kdjREUDFh?=
+ =?utf-8?B?RkVVR3Z5RVRjeThzb0pNVFQ3QmJ3SkFCQ0Z5eWRPSGV0MUJLQ3BYZEpIL3lM?=
+ =?utf-8?B?SEM5bUZ6T294eFBMWHNSdmJsT3pLbk5KOVBRbEEveEFXZGg2M0VMaEFYbjZx?=
+ =?utf-8?B?UTR0dUNuSkhKTEhQOWV4VWhpMGo4SGpRSmd6UW1pMDdBRVVuMGJaLzNmejlG?=
+ =?utf-8?B?eE5hWjViN3V3dHExYURNZ2tGV0FuZ2M2c1dPN3ZpNWFEZm5zKzNYeklJMFR0?=
+ =?utf-8?B?NjIrYWcwN0plbGVlWTdHVmdyczZtWTZvYk5EMHNtSFQ1VU5KQUJhZUdpWmsw?=
+ =?utf-8?B?VjJUa25vYlFCWHlZd3YzTWFBRUVmWk5oU3U5aWE5WmdCSGtXSlhwY211TFJr?=
+ =?utf-8?B?OGlVMWZ1TTNEVmRNRmZNaG1QbC81ek5ZVnBJcHVScCtET3pmbWxOS3RTd2Va?=
+ =?utf-8?B?UStpSHR5elFpbGdwWXo1azFoVTBRUUJzVXZDSHhOZWtiNjBYRGpXaEtYS05i?=
+ =?utf-8?B?SFZaV1FVL1VXcVFuU3JFaVpPRzBPTEJBRGJEV2d1cHBKMnNlYjFOQ1M4Q25o?=
+ =?utf-8?B?SVhTcjRWVzUxT09PZDl6c0ZYZENkUnZGaWQrbHNNNkZMKzlVRmc0UTJ1eGFE?=
+ =?utf-8?B?QVNLOVl6ZzhITTB2RWtkRTNCQmE2eFRCeThWc0cxMnlwSmk2cWk2bGFMU0Mx?=
+ =?utf-8?B?UUNMVFczOVdlbm9WQXZoaGFRaXJ3THZJOFBQR2lDSVVuVmoxalFobkZDbnY4?=
+ =?utf-8?B?L3Q3VXNxcWRjVmlFVVRFTHZCaXh1MnBHOEhGYUxNRmJON1liMnpVYTRJSUtj?=
+ =?utf-8?B?VFJuaVR1RTZITEdncFNtWnlWcWNmejhwa0UxaDdVQmVBNXlVeWVsOCtNYVB4?=
+ =?utf-8?B?ME5tZERxa1c3bHhUbUtEdGdaTCtENGoxSE1kSTRVNUhLYktoWVR4TDg3a1c4?=
+ =?utf-8?B?QXZhb1d0Uks3bmM2V21wdm5uTWFQcGk0ME9VNWw0VEpTTWRmMU9mbEVKMjgz?=
+ =?utf-8?B?bmhLNU5wWkdMa0JUcUEzbGlGOHJrbXV5dTVxS004OFVvQis4bWdWYy9JTk1Z?=
+ =?utf-8?B?YjF0VXBlQXlRY05KVFZJQzQ4NDFFMHRPNVg1a2Frc3p0UnlYbjdmS3Q2MFNn?=
+ =?utf-8?B?ejdSbjNEUnRGeFBlOWRtMUJCUU1rODhEbFNRSlc2SXBpdU02aXRoMG45UUp4?=
+ =?utf-8?B?QU82eDRYd1pWcXFrM0JVdnRaSS9ZcExDY2NwMW8yZ3psZVVCVDRaOGFUSG5J?=
+ =?utf-8?B?TE1pbGVCbHdaa2hvSzl1TzFqcmphWGtFS1JwNmpad3Q5cnBuZEV4aDd5WlRT?=
+ =?utf-8?B?ZUR0RDdDOFd5QXlnM2YrN2N4MmxycHJRL3JWUUJnYS9ZcnBkd1E5RGMwMXZy?=
+ =?utf-8?B?NHdLaFhFSi9rRTgzb1htSVVLMGlmby9nRFVyYjhuRWw4VTF4UFl1aXdBT01o?=
+ =?utf-8?B?NjI2TTRPQWpLdnRTN1YxUWNrWlpTc3oyVTVybkJOcEZzeUI3S2Z4cmovNFQ1?=
+ =?utf-8?B?ZEhoQjFrWVlpbEVEWXlyblNKZkg1bmNwaThCby91ZDVyczJqUXFZMFB6aGIy?=
+ =?utf-8?B?cmVMbGhxeXY2dVdycHpQSFRsMlhBdkR4Vm1mRVJ1dUxrY0tHR2V0d1oyYU4z?=
+ =?utf-8?B?aUZ0M1NYclRBQStiUzR0L0F1ay9DTEF5VEVzSGYreFB3b3E5OEN5TzltNGd3?=
+ =?utf-8?B?YmZ2bGp6Ukx2UTJXdnFjc1VDNjYwYWRFNncxRFcrTjdYdUdsZW9wZEV4dlB0?=
+ =?utf-8?B?NHFPdkJ0Y09yTE5NTTRkd2tBb0FyWWN4NGhKU1psUGl2bkJFMkNBdUd6ZDN1?=
+ =?utf-8?B?ZjJKc0FwTEJ0d0d6NzhoTi9kbHlvT1FORUhqVmJ4cHA3YzZuOGU4VkpHUkxR?=
+ =?utf-8?B?Y2lxRHlHMUY0M3Q4QytLYVhSdTlPOGVxdDJwQk5RaHMzT3ZHQ0M3QT09?=
 X-OriginatorOrg: nxp.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 4fc22ae9-9c6d-40b9-7895-08da1de5abf5
+X-MS-Exchange-CrossTenant-Network-Message-Id: 2a2d7bcc-db4c-4fad-865c-08da1de5b07c
 X-MS-Exchange-CrossTenant-AuthSource: AM7PR04MB7046.eurprd04.prod.outlook.com
 X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 14 Apr 2022 07:09:09.8709 (UTC)
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 14 Apr 2022 07:09:17.3888 (UTC)
 X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
 X-MS-Exchange-CrossTenant-Id: 686ea1d3-bc2b-4c6f-a92c-d99c5c301635
 X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: LVrZKrCYZ2Vbjp5IkuQVHeGDsdv9/RVT5fZ/B9lksi58+cuSDBsXy0krixUKRGlpvtw5fBpSQxDQYn2wLK6PGg==
+X-MS-Exchange-CrossTenant-UserPrincipalName: sbCC5JmQ1gSmWSGMYgUYd4lph0heVRfW4Qc0uWmGlNFoOZxspTuhg9pr4bfZmziKpM34NrH9tMHUHllfxYTc7Q==
 X-MS-Exchange-Transport-CrossTenantHeadersStamped: DB8PR04MB6714
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -128,112 +138,167 @@ Cc: martin.kepplinger@puri.sm, agx@sigxcpu.org, jernej.skrabec@gmail.com,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-This patch allows LVDS PHYs to be configured through
-the generic functions and through a custom structure
-added to the generic union.
+This patch converts the mixel,mipi-dsi-phy binding to
+DT schema format using json-schema.
 
-The parameters added here are based on common LVDS PHY
-implementation practices.  The set of parameters
-should cover all potential users.
+Comparing to the plain text version, the new binding adds
+the 'assigned-clocks', 'assigned-clock-parents' and
+'assigned-clock-rates' properites, otherwise 'make dtbs_check'
+would complain that there are mis-matches.  Also, the new
+binding requires the 'power-domains' property since all potential
+SoCs that embed this PHY would provide a power domain for it.
+The example of the new binding takes reference to the latest
+dphy node in imx8mq.dtsi.
 
+Cc: Guido Günther <agx@sigxcpu.org>
 Cc: Kishon Vijay Abraham I <kishon@ti.com>
 Cc: Vinod Koul <vkoul@kernel.org>
+Cc: Rob Herring <robh+dt@kernel.org>
 Cc: NXP Linux Team <linux-imx@nxp.com>
+Reviewed-by: Rob Herring <robh@kernel.org>
+Reviewed-by: Guido Günther <agx@sigxcpu.org>
 Signed-off-by: Liu Ying <victor.liu@nxp.com>
 ---
 v7->v8:
-* Trivial kernel doc style fix - add '*'.
+* No change.
 
 v6->v7:
-* Update the year of copyright.
-* Better variable explanation for bits_per_lane_and_dclk_cycle.
+* No change.
 
 v5->v6:
-* Rebase upon v5.17-rc1.
+* No change.
 
 v4->v5:
-* Align kernel-doc style to include/linux/phy/phy.h. (Vinod)
-* Trivial tweaks.
-* Drop Robert's R-b tag.
+* No change.
 
 v3->v4:
-* Add Robert's R-b tag.
+* Add Rob's and Guido's R-b tags.
 
 v2->v3:
-* No change.
+* Improve the 'clock-names' property by dropping 'items:'.
 
 v1->v2:
-* No change.
+* Newly introduced in v2.  (Guido)
 
- include/linux/phy/phy-lvds.h | 32 ++++++++++++++++++++++++++++++++
- include/linux/phy/phy.h      |  4 ++++
- 2 files changed, 36 insertions(+)
- create mode 100644 include/linux/phy/phy-lvds.h
+ .../bindings/phy/mixel,mipi-dsi-phy.txt       | 29 --------
+ .../bindings/phy/mixel,mipi-dsi-phy.yaml      | 72 +++++++++++++++++++
+ 2 files changed, 72 insertions(+), 29 deletions(-)
+ delete mode 100644 Documentation/devicetree/bindings/phy/mixel,mipi-dsi-phy.txt
+ create mode 100644 Documentation/devicetree/bindings/phy/mixel,mipi-dsi-phy.yaml
 
-diff --git a/include/linux/phy/phy-lvds.h b/include/linux/phy/phy-lvds.h
+diff --git a/Documentation/devicetree/bindings/phy/mixel,mipi-dsi-phy.txt b/Documentation/devicetree/bindings/phy/mixel,mipi-dsi-phy.txt
+deleted file mode 100644
+index 9b23407233c0..000000000000
+--- a/Documentation/devicetree/bindings/phy/mixel,mipi-dsi-phy.txt
++++ /dev/null
+@@ -1,29 +0,0 @@
+-Mixel DSI PHY for i.MX8
+-
+-The Mixel MIPI-DSI PHY IP block is e.g. found on i.MX8 platforms (along the
+-MIPI-DSI IP from Northwest Logic). It represents the physical layer for the
+-electrical signals for DSI.
+-
+-Required properties:
+-- compatible: Must be:
+-  - "fsl,imx8mq-mipi-dphy"
+-- clocks: Must contain an entry for each entry in clock-names.
+-- clock-names: Must contain the following entries:
+-  - "phy_ref": phandle and specifier referring to the DPHY ref clock
+-- reg: the register range of the PHY controller
+-- #phy-cells: number of cells in PHY, as defined in
+-  Documentation/devicetree/bindings/phy/phy-bindings.txt
+-  this must be <0>
+-
+-Optional properties:
+-- power-domains: phandle to power domain
+-
+-Example:
+-	dphy: dphy@30a0030 {
+-		compatible = "fsl,imx8mq-mipi-dphy";
+-		clocks = <&clk IMX8MQ_CLK_DSI_PHY_REF>;
+-		clock-names = "phy_ref";
+-		reg = <0x30a00300 0x100>;
+-		power-domains = <&pd_mipi0>;
+-		#phy-cells = <0>;
+-        };
+diff --git a/Documentation/devicetree/bindings/phy/mixel,mipi-dsi-phy.yaml b/Documentation/devicetree/bindings/phy/mixel,mipi-dsi-phy.yaml
 new file mode 100644
-index 000000000000..09931d080a6d
+index 000000000000..c34f2e6d6bd5
 --- /dev/null
-+++ b/include/linux/phy/phy-lvds.h
-@@ -0,0 +1,32 @@
-+/* SPDX-License-Identifier: GPL-2.0 */
-+/*
-+ * Copyright 2020,2022 NXP
-+ */
++++ b/Documentation/devicetree/bindings/phy/mixel,mipi-dsi-phy.yaml
+@@ -0,0 +1,72 @@
++# SPDX-License-Identifier: (GPL-2.0-only OR BSD-2-Clause)
++%YAML 1.2
++---
++$id: http://devicetree.org/schemas/phy/mixel,mipi-dsi-phy.yaml#
++$schema: http://devicetree.org/meta-schemas/core.yaml#
 +
-+#ifndef __PHY_LVDS_H_
-+#define __PHY_LVDS_H_
++title: Mixel DSI PHY for i.MX8
 +
-+/**
-+ * struct phy_configure_opts_lvds - LVDS configuration set
-+ * @bits_per_lane_and_dclk_cycle:	Number of bits per lane per differential
-+ *					clock cycle.
-+ * @differential_clk_rate:		Clock rate, in Hertz, of the LVDS
-+ *					differential clock.
-+ * @lanes:				Number of active, consecutive,
-+ *					data lanes, starting from lane 0,
-+ *					used for the transmissions.
-+ * @is_slave:				Boolean, true if the phy is a slave
-+ *					which works together with a master
-+ *					phy to support dual link transmission,
-+ *					otherwise a regular phy or a master phy.
-+ *
-+ * This structure is used to represent the configuration state of a LVDS phy.
-+ */
-+struct phy_configure_opts_lvds {
-+	unsigned int	bits_per_lane_and_dclk_cycle;
-+	unsigned long	differential_clk_rate;
-+	unsigned int	lanes;
-+	bool		is_slave;
-+};
++maintainers:
++  - Guido Günther <agx@sigxcpu.org>
 +
-+#endif /* __PHY_LVDS_H_ */
-diff --git a/include/linux/phy/phy.h b/include/linux/phy/phy.h
-index f3286f4cd306..b1413757fcc3 100644
---- a/include/linux/phy/phy.h
-+++ b/include/linux/phy/phy.h
-@@ -17,6 +17,7 @@
- #include <linux/regulator/consumer.h>
- 
- #include <linux/phy/phy-dp.h>
-+#include <linux/phy/phy-lvds.h>
- #include <linux/phy/phy-mipi-dphy.h>
- 
- struct phy;
-@@ -57,10 +58,13 @@ enum phy_media {
-  *		the MIPI_DPHY phy mode.
-  * @dp:		Configuration set applicable for phys supporting
-  *		the DisplayPort protocol.
-+ * @lvds:	Configuration set applicable for phys supporting
-+ *		the LVDS phy mode.
-  */
- union phy_configure_opts {
- 	struct phy_configure_opts_mipi_dphy	mipi_dphy;
- 	struct phy_configure_opts_dp		dp;
-+	struct phy_configure_opts_lvds		lvds;
- };
- 
- /**
++description: |
++  The Mixel MIPI-DSI PHY IP block is e.g. found on i.MX8 platforms (along the
++  MIPI-DSI IP from Northwest Logic). It represents the physical layer for the
++  electrical signals for DSI.
++
++properties:
++  compatible:
++    enum:
++      - fsl,imx8mq-mipi-dphy
++
++  reg:
++    maxItems: 1
++
++  clocks:
++    maxItems: 1
++
++  clock-names:
++    const: phy_ref
++
++  assigned-clocks:
++    maxItems: 1
++
++  assigned-clock-parents:
++    maxItems: 1
++
++  assigned-clock-rates:
++    maxItems: 1
++
++  "#phy-cells":
++    const: 0
++
++  power-domains:
++    maxItems: 1
++
++required:
++  - compatible
++  - reg
++  - clocks
++  - clock-names
++  - assigned-clocks
++  - assigned-clock-parents
++  - assigned-clock-rates
++  - "#phy-cells"
++  - power-domains
++
++additionalProperties: false
++
++examples:
++  - |
++    #include <dt-bindings/clock/imx8mq-clock.h>
++    dphy: dphy@30a0030 {
++        compatible = "fsl,imx8mq-mipi-dphy";
++        reg = <0x30a00300 0x100>;
++        clocks = <&clk IMX8MQ_CLK_DSI_PHY_REF>;
++        clock-names = "phy_ref";
++        assigned-clocks = <&clk IMX8MQ_CLK_DSI_PHY_REF>;
++        assigned-clock-parents = <&clk IMX8MQ_VIDEO_PLL1_OUT>;
++        assigned-clock-rates = <24000000>;
++        #phy-cells = <0>;
++        power-domains = <&pgc_mipi>;
++    };
 -- 
 2.25.1
 
