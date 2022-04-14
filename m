@@ -2,44 +2,44 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8664F501283
-	for <lists+dri-devel@lfdr.de>; Thu, 14 Apr 2022 17:08:51 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 04F74501287
+	for <lists+dri-devel@lfdr.de>; Thu, 14 Apr 2022 17:08:55 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 2CF9110FD16;
-	Thu, 14 Apr 2022 15:08:49 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id CF81810FD3E;
+	Thu, 14 Apr 2022 15:08:52 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mga04.intel.com (mga04.intel.com [192.55.52.120])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 83E0210FD1C;
- Thu, 14 Apr 2022 15:08:44 +0000 (UTC)
+Received: from mga11.intel.com (mga11.intel.com [192.55.52.93])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 5017E10FD1C;
+ Thu, 14 Apr 2022 15:08:49 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1649948924; x=1681484924;
+ t=1649948929; x=1681484929;
  h=from:to:cc:subject:date:message-id:in-reply-to:
  references:mime-version:content-transfer-encoding;
- bh=+3KbuO80w+41ggY16yuNxZOwj8s6ASjwQ6mJRFgjV/0=;
- b=KxYRDm0AStwfXSOeg/ONb18CAmDvzTIbyng+gSuuoMMiV7g8V29en310
- ZQe0vn/0cLCTvF8fIgB4q+syaCIzs3YKJkUAOEs7tafKROB7FcQMBBcIG
- J36Gz5xCVB0iKtxz7vrbfPH0CZaEd4mrennUi0yawgdjEEDurryQ/nrJZ
- tp6vKn6TPHvoGayBbGjJiY1sJIPYRQisIM3L/CcOlRlglDL0L9y/fojI1
- Wb0WQIDyuSYd1SvpswG44E2cWo0Tbjcd8kVUkN+IcmTQ75aOovRUEA1iQ
- FT/VOwAfScSZTBXX+Bl09PY+LuyCz2/m0NF4KxORxpkoLL/XqkNh7NJXi A==;
-X-IronPort-AV: E=McAfee;i="6400,9594,10317"; a="261796005"
-X-IronPort-AV: E=Sophos;i="5.90,260,1643702400"; d="scan'208";a="261796005"
-Received: from fmsmga007.fm.intel.com ([10.253.24.52])
- by fmsmga104.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 14 Apr 2022 08:08:43 -0700
-X-IronPort-AV: E=Sophos;i="5.90,260,1643702400"; d="scan'208";a="560231949"
+ bh=WhkRvqSjUK+4Bze5RBWlBpCZK5hGkqBoL+126PYT728=;
+ b=OQ2EipxXkyn1eZBuJ0O0eQO/UDsR8VVYzNkxkRbPh07eSe8WLb7QY84E
+ svgLTnPEL1FQsC3Xi50OpAeXTQYgQyj1X50qJKxYdO2OMY8bZRlMxFlQx
+ ZuKYuu9hlKrsNPRGXlpHdVAgEtXMQe+UcuJfc9Z16ms5ugp+gVnsNJJXM
+ i1HRt67gZXjSbK1J0HEow/joOfqkpOUwgEh6n34+n1lvjnpFxcFaDwy7A
+ hWFeQlZ1VJTfgtrsHFEwm/zb4DpZYMSvFPvsVBXzdVoPkc+7pp9O7toVb
+ GLxV0XXFcBf8qspfuojTmNgpkCYj7GG9PnMAHEQD4y0RHC0ERwL0snTgX g==;
+X-IronPort-AV: E=McAfee;i="6400,9594,10317"; a="260546312"
+X-IronPort-AV: E=Sophos;i="5.90,260,1643702400"; d="scan'208";a="260546312"
+Received: from fmsmga002.fm.intel.com ([10.253.24.26])
+ by fmsmga102.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 14 Apr 2022 08:08:48 -0700
+X-IronPort-AV: E=Sophos;i="5.90,260,1643702400"; d="scan'208";a="656039577"
 Received: from nplaweck-mobl.ger.corp.intel.com (HELO localhost)
  ([10.249.149.236])
- by fmsmga007-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 14 Apr 2022 08:08:41 -0700
+ by fmsmga002-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 14 Apr 2022 08:08:47 -0700
 From: Jani Nikula <jani.nikula@intel.com>
 To: dri-devel@lists.freedesktop.org
-Subject: [PATCH 17/19] drm/edid: detect color formats and CTA revision in all
- CTA extensions
-Date: Thu, 14 Apr 2022 18:07:00 +0300
-Message-Id: <36d99eacfa84fe880e76b7510fefc341437a9f3b.1649948563.git.jani.nikula@intel.com>
+Subject: [PATCH 18/19] drm/edid: skip CTA extension scan in drm_edid_to_eld()
+ just for CTA rev
+Date: Thu, 14 Apr 2022 18:07:01 +0300
+Message-Id: <c9fbbc367c0b4ce9f770e12395ec9da4de570c51.1649948563.git.jani.nikula@intel.com>
 X-Mailer: git-send-email 2.30.2
 In-Reply-To: <cover.1649948562.git.jani.nikula@intel.com>
 References: <cover.1649948562.git.jani.nikula@intel.com>
@@ -63,71 +63,76 @@ Cc: jani.nikula@intel.com, intel-gfx@lists.freedesktop.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Convert drm_find_cea_extension() to EDID block iterator in color format
-and CTA revision detection. Detect them in all CTA extensions.
+The DisplayID CTA data block version does not necessarily match the CTA
+revision. Simplify by postponing drm_edid_to_eld() slightly, and reusing
+the CTA revision extracted by drm_parse_cea_ext().
 
-Also parse CTA Data Blocks in DisplayID even if there's no CTA EDID
-extension.
+By not bailing out early in drm_edid_to_eld() we may end up filling
+meaningless data to the ELD. However, the main decision for audio is not
+the ELD, but rather drm_detect_monitor_audio() called by drivers.
+
+(Arguably a future cleanup could do that in drm_add_edid_modes() and
+cache the result in the connector.)
 
 Cc: Ville Syrjälä <ville.syrjala@linux.intel.com>
 Signed-off-by: Jani Nikula <jani.nikula@intel.com>
 ---
- drivers/gpu/drm/drm_edid.c | 24 ++++++++++++++++--------
- 1 file changed, 16 insertions(+), 8 deletions(-)
+ drivers/gpu/drm/drm_edid.c | 15 +++++----------
+ 1 file changed, 5 insertions(+), 10 deletions(-)
 
 diff --git a/drivers/gpu/drm/drm_edid.c b/drivers/gpu/drm/drm_edid.c
-index 091f68102f77..fad9fd13937b 100644
+index fad9fd13937b..ccd7d075eeb8 100644
 --- a/drivers/gpu/drm/drm_edid.c
 +++ b/drivers/gpu/drm/drm_edid.c
-@@ -5470,32 +5470,40 @@ static void drm_parse_cea_ext(struct drm_connector *connector,
- 			      const struct edid *edid)
+@@ -4887,10 +4887,10 @@ static void clear_eld(struct drm_connector *connector)
+ static void drm_edid_to_eld(struct drm_connector *connector,
+ 			    const struct edid *edid)
  {
- 	struct drm_display_info *info = &connector->display_info;
-+	struct drm_edid_iter edid_iter;
++	const struct drm_display_info *info = &connector->display_info;
  	const struct cea_db *db;
  	struct cea_db_iter iter;
- 	const u8 *edid_ext;
+ 	uint8_t *eld = connector->eld;
+-	const u8 *cea;
+ 	int total_sad_count = 0;
+ 	int mnl;
  
--	edid_ext = drm_find_cea_extension(edid);
--	if (!edid_ext)
+@@ -4899,16 +4899,10 @@ static void drm_edid_to_eld(struct drm_connector *connector,
+ 	if (!edid)
+ 		return;
+ 
+-	cea = drm_find_cea_extension(edid);
+-	if (!cea) {
+-		DRM_DEBUG_KMS("ELD: no CEA Extension found\n");
 -		return;
-+	drm_edid_iter_begin(edid, &edid_iter);
-+	drm_edid_iter_for_each(edid_ext, &edid_iter) {
-+		if (edid_ext[0] != CEA_EXT)
-+			continue;
+-	}
+-
+ 	mnl = get_monitor_name(edid, &eld[DRM_ELD_MONITOR_NAME_STRING]);
+ 	DRM_DEBUG_KMS("ELD monitor %s\n", &eld[DRM_ELD_MONITOR_NAME_STRING]);
  
--	info->cea_rev = edid_ext[1];
-+		if (!info->cea_rev)
-+			info->cea_rev = edid_ext[1];
+-	eld[DRM_ELD_CEA_EDID_VER_MNL] = cea[1] << DRM_ELD_CEA_EDID_VER_SHIFT;
++	eld[DRM_ELD_CEA_EDID_VER_MNL] = info->cea_rev << DRM_ELD_CEA_EDID_VER_SHIFT;
+ 	eld[DRM_ELD_CEA_EDID_VER_MNL] |= mnl;
  
--	/* The existence of a CEA block should imply RGB support */
--	info->color_formats = DRM_COLOR_FORMAT_RGB444;
-+		if (info->cea_rev != edid_ext[1])
-+			DRM_DEBUG_KMS("CEA extension version mismatch %u != %u\n",
-+				      info->cea_rev, edid_ext[1]);
- 
--	/* CTA DisplayID Data Block does not have byte #3 */
--	if (edid_ext[0] == CEA_EXT) {
-+		/* The existence of a CTA extension should imply RGB support */
-+		info->color_formats = DRM_COLOR_FORMAT_RGB444;
- 		if (edid_ext[3] & EDID_CEA_YCRCB444)
- 			info->color_formats |= DRM_COLOR_FORMAT_YCBCR444;
- 		if (edid_ext[3] & EDID_CEA_YCRCB422)
- 			info->color_formats |= DRM_COLOR_FORMAT_YCBCR422;
+ 	eld[DRM_ELD_VER] = DRM_ELD_VER_CEA861D;
+@@ -5847,8 +5841,6 @@ static int drm_edid_connector_update(struct drm_connector *connector,
+ 		return 0;
  	}
-+	drm_edid_iter_end(&edid_iter);
  
- 	cea_db_iter_edid_begin(edid, &iter);
- 	cea_db_iter_for_each(db, &iter) {
- 		/* FIXME: convert parsers to use struct cea_db */
- 		const u8 *data = (const u8 *)db;
+-	drm_edid_to_eld(connector, edid);
+-
+ 	/*
+ 	 * CEA-861-F adds ycbcr capability map block, for HDMI 2.0 sinks.
+ 	 * To avoid multiple parsing of same block, lets parse that map
+@@ -5856,6 +5848,9 @@ static int drm_edid_connector_update(struct drm_connector *connector,
+ 	 */
+ 	quirks = drm_add_display_info(connector, edid);
  
-+		/* The existence of a CTA block should imply RGB support */
-+		info->color_formats = DRM_COLOR_FORMAT_RGB444;
++	/* Depends on info->cea_rev set by drm_add_display_info() above */
++	drm_edid_to_eld(connector, edid);
 +
- 		if (cea_db_is_hdmi_vsdb(db))
- 			drm_parse_hdmi_vsdb_video(connector, data);
- 		if (cea_db_is_hdmi_forum_vsdb(db) ||
+ 	/*
+ 	 * EDID spec says modes should be preferred in this order:
+ 	 * - preferred detailed mode
 -- 
 2.30.2
 
