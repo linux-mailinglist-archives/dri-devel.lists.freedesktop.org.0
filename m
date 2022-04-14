@@ -2,72 +2,67 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 82E6F501C52
-	for <lists+dri-devel@lfdr.de>; Thu, 14 Apr 2022 22:03:41 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 2ABA6501C6F
+	for <lists+dri-devel@lfdr.de>; Thu, 14 Apr 2022 22:14:44 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id BBF3810E208;
-	Thu, 14 Apr 2022 20:03:38 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 2DC6A10E225;
+	Thu, 14 Apr 2022 20:14:42 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-lj1-x231.google.com (mail-lj1-x231.google.com
- [IPv6:2a00:1450:4864:20::231])
- by gabe.freedesktop.org (Postfix) with ESMTPS id CB62510E203
- for <dri-devel@lists.freedesktop.org>; Thu, 14 Apr 2022 20:03:36 +0000 (UTC)
-Received: by mail-lj1-x231.google.com with SMTP id q14so7355595ljc.12
- for <dri-devel@lists.freedesktop.org>; Thu, 14 Apr 2022 13:03:36 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=message-id:date:mime-version:user-agent:subject:content-language:to
- :cc:references:from:in-reply-to:content-transfer-encoding;
- bh=beqqQMdRDQ9RUWQqne39QWiVSV/dlCi62JNsxM9+crs=;
- b=tGi1B2Kx0rNnAyl3InWnsf/q3MTIoRbgwNYozMzh2/GDAhUhX/iPuUhSdKNqcjl8ym
- WaKCTbUIkFORkXGPAUaiv82SDHUJWmhW1y1Y8RpXig6VzkNG2Xyjey+SVAKCWDfLR8zZ
- lUC3CGaxZI28q+i9ZxPHo7Ig8ELXwRRIL7MSA2BuLlUDnFJ3EzjyqMV3Z/hZ9/hVlEaL
- QnXBqnlKWI3+kZHauGmY1NQLScQoC1GgSONcDo9VQr4bp3GohNPlX/+UeYOZd+uVXVNC
- t9ap9ngZR4yFUKz+o7v8NgtZJ6lFtF8++cBrJva0onfGV01qYph3tGbiSiA8psbX6R4t
- Kxsg==
+Received: from mail-ed1-x536.google.com (mail-ed1-x536.google.com
+ [IPv6:2a00:1450:4864:20::536])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id AACCE10E225
+ for <dri-devel@lists.freedesktop.org>; Thu, 14 Apr 2022 20:14:40 +0000 (UTC)
+Received: by mail-ed1-x536.google.com with SMTP id t25so7732912edt.9
+ for <dri-devel@lists.freedesktop.org>; Thu, 14 Apr 2022 13:14:40 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=chromium.org; s=google;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc; bh=qgSOXhOj6eX2tVbThvNfdYmtN+IYIYkknh8Kxb94j9s=;
+ b=oM2qYDjzsXJDUAHNx6vFqnV1+qnLdL1Xe5C3dzmC66+quS3wWWGkaNIQsO9Yy8nXam
+ YG0sUWZXbEJhoHkK57/0Iw5a6LpPk/LwtPQH0w6pgdrknxCmSrmIE74V2aZZjHJfEvdO
+ 3quH4CB8aG16ID9RExDHT4l4sF/8MSw6AwssM=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
- :content-language:to:cc:references:from:in-reply-to
- :content-transfer-encoding;
- bh=beqqQMdRDQ9RUWQqne39QWiVSV/dlCi62JNsxM9+crs=;
- b=d1oq6PyXPKfPxXpPdBnauL+vljsEtAGczPb3Om7Px8iJn4SnBoYIkkZljprhwxsMb2
- cNpd5sxIl0/BRcTPj0QvIxwk33RSpBgC8LSun/9sB9jXV0vMD3lnPms4X0wLPu3FOeyp
- qoQo+AHUpbFpuxM0g9OFDv7XKTvnSJbgMi+SkwVl5dXG2NY0LUhAybDuwm8DmIJ08W7k
- NVd+tGOpFRlo4aftJFtOSGp5Kdp19hC2EI77iruZbuzoQ5AE5BDy+BA8kNmJzy/ip6hq
- BCSIp/01FDZ2dUYSLr318Lq1FCjfgFMYrlJyMUF1Z217d8j9i7e8btenNPhFtKav9JUI
- D88g==
-X-Gm-Message-State: AOAM5338DbOyPRbpCLOygMpZrPPxXxcRAqrP3UHavFCq5+uMYHYX1mdG
- MkGW72GboC6Z5p+VFwHkGrSg2A==
-X-Google-Smtp-Source: ABdhPJwAs9fOjjGshqLg5XWviayRGs5Tm3QRuhmlg02hwi9L+QMiaB5VyBAX43z8HwLdTai9w0U2FA==
-X-Received: by 2002:a2e:302:0:b0:24a:c997:d34c with SMTP id
- 2-20020a2e0302000000b0024ac997d34cmr2538120ljd.445.1649966615179; 
- Thu, 14 Apr 2022 13:03:35 -0700 (PDT)
-Received: from [192.168.1.211] ([37.153.55.125])
- by smtp.gmail.com with ESMTPSA id
- b19-20020a196713000000b0046b911a2ccdsm93716lfc.214.2022.04.14.13.03.34
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=qgSOXhOj6eX2tVbThvNfdYmtN+IYIYkknh8Kxb94j9s=;
+ b=c6NvhTizEsRttzpeIrbnVSBmC7mWGehlur0Qxrpg8sSTsBqtPg6Y4w0Cy4R7lDyeu+
+ IlBwrUvfCv/pgyvMEVTT1733FwB4nD17nYpdZ37wNpLhANxW4VUd2IPvOy23a/QhXL9U
+ v2jVopMpM8AN1kvYK5+2nYH81o+zA4EwLyG2IyWkCxNI4dSybOs3rklybC5dctSX6S93
+ pi5Mr3gLGpszHpiwHo1mqda7cL71ggqwa6CUbxMu8yv8HhezSzI5KE55aRVyB94sunJg
+ BhUTDR3C/ItxPB22YrL/GVXFgW0MNp+Pb1YK9Wi5KQrARPUk9IzUECw+t6zKcQcmxXv4
+ 4Yhw==
+X-Gm-Message-State: AOAM530ke9C6XqhNtVnMzkQAW4G6+KhgbxYJ18O2WK5daJZNKFqavfPy
+ SLCOYKIaoRmbGSc55DWW7la0PsmQesO/IS/Tqk8=
+X-Google-Smtp-Source: ABdhPJycVg5H4qqhEuqj7Y01MF14H/dY0TZfqInIPn/9N2z5QnknIsiLo89OdUDEc0v7OvX9HO+hKQ==
+X-Received: by 2002:a05:6402:190d:b0:41b:a70d:1367 with SMTP id
+ e13-20020a056402190d00b0041ba70d1367mr4819271edz.155.1649967278874; 
+ Thu, 14 Apr 2022 13:14:38 -0700 (PDT)
+Received: from mail-ej1-f42.google.com (mail-ej1-f42.google.com.
+ [209.85.218.42]) by smtp.gmail.com with ESMTPSA id
+ jl28-20020a17090775dc00b006e05cdf3a95sm987254ejc.163.2022.04.14.13.14.38
+ for <dri-devel@lists.freedesktop.org>
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Thu, 14 Apr 2022 13:03:34 -0700 (PDT)
-Message-ID: <2fd4a157-a9de-ca0e-7a47-7bb85199ae91@linaro.org>
-Date: Thu, 14 Apr 2022 23:03:33 +0300
+ Thu, 14 Apr 2022 13:14:38 -0700 (PDT)
+Received: by mail-ej1-f42.google.com with SMTP id s18so12201146ejr.0
+ for <dri-devel@lists.freedesktop.org>; Thu, 14 Apr 2022 13:14:38 -0700 (PDT)
+X-Received: by 2002:a05:6000:1c15:b0:207:849a:648b with SMTP id
+ ba21-20020a0560001c1500b00207849a648bmr3122026wrb.513.1649966957865; Thu, 14
+ Apr 2022 13:09:17 -0700 (PDT)
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.8.0
-Subject: Re: [Freedreno] [PATCH v7 0/4] Add support for the eDP panel over
- aux_bus
-Content-Language: en-GB
-To: Abhinav Kumar <quic_abhinavk@quicinc.com>,
- Stephen Boyd <swboyd@chromium.org>, Doug Anderson <dianders@chromium.org>,
- Sankeerth Billakanti <quic_sbillaka@quicinc.com>
 References: <1649938766-6768-1-git-send-email-quic_sbillaka@quicinc.com>
- <CAD=FV=Ui6BAsnTaJ2_TMh1Tnjtaw7FR92aWoUysS+UT=c0qB3Q@mail.gmail.com>
- <20afcd97-4b8d-f770-151a-268b893b7c5a@linaro.org>
- <CAE-0n51fc-b-8VF7XP29=o8Xi86HQALGB-1u8n3b_3NjVyyJYw@mail.gmail.com>
- <e3154f3b-aea4-6961-b409-6b20ff8bf18e@quicinc.com>
-From: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
-In-Reply-To: <e3154f3b-aea4-6961-b409-6b20ff8bf18e@quicinc.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
+ <1649938766-6768-2-git-send-email-quic_sbillaka@quicinc.com>
+ <CAD=FV=Wmiv2WGhFCLYmXbWESNOh5FfobjNme85aU6YtN1SLVDA@mail.gmail.com>
+ <81c3a9fb-4c92-6969-c715-ca085322f9c6@linaro.org>
+ <CAE-0n50obe_aqzwQY-X1yH4emjjOErOJ_wj9sQe=HoWEZ3vjTw@mail.gmail.com>
+In-Reply-To: <CAE-0n50obe_aqzwQY-X1yH4emjjOErOJ_wj9sQe=HoWEZ3vjTw@mail.gmail.com>
+From: Doug Anderson <dianders@chromium.org>
+Date: Thu, 14 Apr 2022 13:09:05 -0700
+X-Gmail-Original-Message-ID: <CAD=FV=U4qtst5q--_1794Pdjsc7b_JMRAh+X_vr-9qJx5NtOrw@mail.gmail.com>
+Message-ID: <CAD=FV=U4qtst5q--_1794Pdjsc7b_JMRAh+X_vr-9qJx5NtOrw@mail.gmail.com>
+Subject: Re: [PATCH v7 1/4] drm/msm/dp: Add eDP support via aux_bus
+To: Stephen Boyd <swboyd@chromium.org>
+Content-Type: text/plain; charset="UTF-8"
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -80,70 +75,88 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: quic_kalyant <quic_kalyant@quicinc.com>, devicetree@vger.kernel.org,
+Cc: quic_kalyant <quic_kalyant@quicinc.com>,
+ "open list:OPEN FIRMWARE AND FLATTENED DEVICE TREE BINDINGS"
+ <devicetree@vger.kernel.org>, Sankeerth Billakanti <quic_sbillaka@quicinc.com>,
+ Bjorn Andersson <bjorn.andersson@linaro.org>,
  quic_vproddut <quic_vproddut@quicinc.com>, David Airlie <airlied@linux.ie>,
  linux-arm-msm <linux-arm-msm@vger.kernel.org>,
- freedreno <freedreno@lists.freedesktop.org>,
  LKML <linux-kernel@vger.kernel.org>,
  dri-devel <dri-devel@lists.freedesktop.org>,
- Bjorn Andersson <bjorn.andersson@linaro.org>,
+ Abhinav Kumar <quic_abhinavk@quicinc.com>, Sean Paul <sean@poorly.run>,
  Sean Paul <seanpaul@chromium.org>, Steev Klimaszewski <steev@kali.org>,
+ Dmitry Baryshkov <dmitry.baryshkov@linaro.org>,
  Aravind Venkateswaran <quic_aravindh@quicinc.com>,
- Kuogee Hsieh <quic_khsieh@quicinc.com>, Sean Paul <sean@poorly.run>
+ Kuogee Hsieh <quic_khsieh@quicinc.com>,
+ freedreno <freedreno@lists.freedesktop.org>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 14/04/2022 23:00, Abhinav Kumar wrote:
-> Hi Dmitry
-> 
-> On 4/14/2022 12:43 PM, Stephen Boyd wrote:
->> Quoting Dmitry Baryshkov (2022-04-14 12:20:31)
->>> On 14/04/2022 19:40, Doug Anderson wrote:
->>>> Hi,
->>>>
->>>> On Thu, Apr 14, 2022 at 5:19 AM Sankeerth Billakanti
->>>> <quic_sbillaka@quicinc.com> wrote:
->>>>>
->>>>> This series adds support for generic eDP panel over aux_bus.
->>>>>
->>>>> These changes are dependent on the following series:
->>>>> https://patchwork.kernel.org/project/linux-arm-msm/list/?series=613654&state=* 
->>>>>
->>>>
->>>> You're basically depending on the last two patches of that series.
->>>> What's the plan there? In patchwork they're marked as "Not
->>>> Applicable". If they're good to go, maybe we should land them? If not,
->>>> maybe you should include them (with Dmitry as the author, of course)
->>>> at the beginning of your series?
->>>
->>> No, please do not resend patches. The patches in question are marked as
->>> 'Not applicable' as they are really not applicable to Bjorn's tree.
->>> It would be better to point to the correct patchwork:
->>>
->>> https://patchwork.freedesktop.org/series/98585/
->>>
->>> Note those patches still lack the R-B tag. I can include them anyway,
->>> basing on Sankeerth's Tested-by tag, but the formal R-B would also be 
->>> good.
->>>
->>
->> Can you resend those as not RFC?
-> 
-> Yes, please resend these, I can ack them.
-> 
-> Previously I held off my ack, as kuogee ran into some issues testing 
-> them which was later concluded to be a mismatch in QC internal trees due 
-> to different versions of the changes.( another reason why we should get 
-> these landed ).
-> 
-> Now, that Sankeerth has tested these, if you can remove RFC and post 
-> them, I can ack the.
+Hi,
 
-Well, you can ack those patches without them being resent. You have 
-already added your Reviewed-by to first three patches (which were merged 
-during last window).
+On Thu, Apr 14, 2022 at 12:40 PM Stephen Boyd <swboyd@chromium.org> wrote:
+>
+> Quoting Dmitry Baryshkov (2022-04-14 12:16:14)
+> >
+> > I think it's too verbose and a bit incorrect.
+
+Not sure which part you're asserting is incorrect, but shorter is OK w/ me too.
 
 
--- 
-With best wishes
-Dmitry
+> > This is a bit saner:
+> > /*
+> >   * These ops do not make sense for eDP, since they are provided
+> >   * by the panel-bridge corresponding to the attached eDP panel.
+> >   */
+> >
+> > My question was whether we really need to disable them for eDP since for
+> > eDP the detect and and get_modes will be overridden anyway.
+
+Hmm, interesting. Probably for DRM_BRIDGE_OP_MODES that will work?
+It's definitely worth confirming but from my reading of the code it
+_probably_ wouldn't hurt.
+
+One thing someone would want to confirm would be what would happen if
+we move this code and the panel code to implement DRM_BRIDGE_OP_EDID
+properly. It looks as if both actually ought to be implementing that
+instead of DRM_BRIDGE_OP_MODES, at least in some cases. A fix for a
+future day. Could we get into trouble if one moved before the other?
+Then the panel would no longer override the eDP controller and the eDP
+controller would try to read from a possibly unpowered panel?
+
+So I guess in the end my preference would be that we know that driving
+the EDID read from the controller isn't a great idea for eDP (since we
+have no way to ensure that the panel is powered) so why risk it and
+set the bit saying we can do it?
+
+
+For hotplug/detect I'm even less confident that setting the bits would
+be harmless. I haven't sat down and traced everything, but from what I
+can see the panel _doesn't_ set these bits, does it? I believe that
+the rule is that when every bridge in the chain _doesn't_ implement
+detect/hotplug that the panel is always present. The moment someone
+says "hey, I can detect" then it suddenly becomes _not_ always
+present. Yes, I guess we could have the panel implement "detect" and
+return true, but I'm not convinced that's actually better...
+
+
+> And to go further, I'd expect that a bridge should expose the
+> functionality that it supports, regardless of what is connected down the
+> chain. Otherwise we won't be able to mix and match bridges because the
+> code is brittle, making assumptions about what is connected.
+
+From my point of view the bridge simply doesn't support any of the
+three things when we're in eDP mode. Yes, it's the same driver. Yes,
+eDP and DP share nearly the same signalling on the wire. Yes, it's
+easily possible to make a single controller that supports DP and eDP.
+...but the rules around detection and power sequencing are simply
+different for the two cases. The controller simply _cannot_ detect
+whether the panel is connected in the eDP case and it _must_ assume
+that the panel is always connected. Yes, it has an HPD pin. No, that
+HPD pin doesn't tell when the panel is present. The panel is always
+present. The panel is always present.
+
+So, IMO, it is _incorrect_ to say we can support HPD and DETECT if we
+know we're in eDP mode.
+
+-Doug
