@@ -1,157 +1,57 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3A2DF50126C
-	for <lists+dri-devel@lfdr.de>; Thu, 14 Apr 2022 17:08:23 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 5E58A5014A5
+	for <lists+dri-devel@lfdr.de>; Thu, 14 Apr 2022 17:32:48 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 04A1E10FBDE;
-	Thu, 14 Apr 2022 15:08:21 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 6946B10FC2F;
+	Thu, 14 Apr 2022 15:32:46 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mga09.intel.com (mga09.intel.com [134.134.136.24])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 1B10989EF7;
- Thu, 14 Apr 2022 15:08:19 +0000 (UTC)
+Received: from mga01.intel.com (mga01.intel.com [192.55.52.88])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 90D0710FC2F
+ for <dri-devel@lists.freedesktop.org>; Thu, 14 Apr 2022 15:32:44 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1649948900; x=1681484900;
- h=message-id:date:subject:to:cc:references:from:
- in-reply-to:content-transfer-encoding:mime-version;
- bh=TfT8uWhXugh590FD0S8C8weAFhSq+LbcB4q9UT+N2xc=;
- b=OGJdL37RJNNIFlnyfw6tiOURq9pJpGv5S0RyLHxFCCDD6RiWGaR1CgRQ
- DiYxmRwpwODUHqqgmptNdcZ3YHZ8nJ0GWNo53PKFxGOMIdGeJxJlwvSrA
- qBGEz4IDGccdexp4yOOQY0AYWL8iX+lb2bjALdmAsf3QIkcLgpEHyCB4b
- D6mM1YXCGIcmWRbgA+Kb/nX2vgq9VD3xl4szmXEOn8HphjZ5cVI8aX08d
- Bi1pYpWOSlvgOD9vH4szIPN+zkk+/2xeqezwHAn7OldyaM9JulcWZAotv
- iATRDQkFg8sGZMnJVE5dRtU4sHawozK0vKSQl62qTAtuPwaGQiremQz/e Q==;
-X-IronPort-AV: E=McAfee;i="6400,9594,10317"; a="262394716"
-X-IronPort-AV: E=Sophos;i="5.90,260,1643702400"; d="scan'208";a="262394716"
-Received: from fmsmga005.fm.intel.com ([10.253.24.32])
- by orsmga102.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 14 Apr 2022 08:08:19 -0700
+ t=1649950364; x=1681486364;
+ h=date:from:to:cc:subject:message-id:references:
+ mime-version:in-reply-to;
+ bh=GWVpvaE0Wgi4ximav1D+j4xQUb5aXMCEWIKwKCiRekw=;
+ b=Bq0euIiQNRNnCXI90uglW4OzKJEipw4BZZ+lY6T8xJ/kEFgMjOE6U+ui
+ kIOxF9wqkuTKKUw0cprO4uiUaUFBq6XenWkDwk8ER7guAbvM05KO2AtrB
+ KBEwnl43DEQQHlWdkQ558DftbJWu7HrvH2mVWImNskpMBp5Rz4pZ8g1SL
+ mNrOpqHje1aSU8Jy9urKTmySA3O8nsTcOAZBWnNcCyCWcKkmiy37UsXgQ
+ d7wHXkCnz1k5QTjg80NxGt5JqBvi15m3i8RKIdtjOi5Pi0+rWKnmFBChk
+ RDOY1hvwG4SiQYcMDcbd/BiFTfymTY3eoh8/povnuuWQZIZdoq0PRDRBR w==;
+X-IronPort-AV: E=McAfee;i="6400,9594,10317"; a="288012488"
+X-IronPort-AV: E=Sophos;i="5.90,260,1643702400"; d="scan'208";a="288012488"
+Received: from orsmga007.jf.intel.com ([10.7.209.58])
+ by fmsmga101.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 14 Apr 2022 08:32:21 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.90,260,1643702400"; d="scan'208";a="855314206"
-Received: from fmsmsx605.amr.corp.intel.com ([10.18.126.85])
- by fmsmga005.fm.intel.com with ESMTP; 14 Apr 2022 08:08:19 -0700
-Received: from fmsmsx611.amr.corp.intel.com (10.18.126.91) by
- fmsmsx605.amr.corp.intel.com (10.18.126.85) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2308.27; Thu, 14 Apr 2022 08:08:18 -0700
-Received: from fmsmsx610.amr.corp.intel.com (10.18.126.90) by
- fmsmsx611.amr.corp.intel.com (10.18.126.91) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2308.27; Thu, 14 Apr 2022 08:08:18 -0700
-Received: from FMSEDG603.ED.cps.intel.com (10.1.192.133) by
- fmsmsx610.amr.corp.intel.com (10.18.126.90) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2308.27 via Frontend Transport; Thu, 14 Apr 2022 08:08:18 -0700
-Received: from NAM12-MW2-obe.outbound.protection.outlook.com (104.47.66.41) by
- edgegateway.intel.com (192.55.55.68) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.1.2308.27; Thu, 14 Apr 2022 08:08:18 -0700
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=f01uLI5Zh3l2Mk3xKjc+J39/Nsmud4hVDyvYhEwpACYVuP7symiu549KJNf87pFxDod99m3QLxALMSGnaQv2KQ5t8rYcdrlptpovPD1lpXVoSSHK3eL3d2vfhyYmH9ul/gVq1IqaQEzFHkswwQ7RhIU/74DuXSB4Qx5BEAcJx91YS5XC2/uLaxUzMdbWb3E0oUl0u/feeDsPdDl9q40tR/HKBFS5oYdaYGwei2DRgPyp58Jo75/B/AH/vb6mzUjW3nng/fDvoDZFYFgJ7YvXtXZvcInjj1Nj4x3XP49ktu0mmqar9c7tP3Tt4SXgsnGH8ogYJJtTHq2LSdTInz8+cg==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=faHLUiLqSmlLGSJpbAXnD14lCMP/YO3BgVSMCb5Tp2Y=;
- b=iWDOiQmL6LrcdjbNOzdhEjPMgeZtR2LeTraTqNDat6J+9jY3C2Wfq++ZuF1DM9PNn+BE3+zT3k9Tu7QuTaroQK+5HuHTj5ocQBiXeYZWU1IUWmmhaTqEVuhgAcY2FQQEpMPiunopc2z+Bwx7k+KBb5hRaD02wTxu4VyoQXMzPtEPIkDilbSjJDv0tXp9ydjCTw/GNYqUek4BWpFNpbFqVTwXPgnLDaF2MPueqEWVYP2EDcXpLoXZ1SClNPxKsse6TPufFNb14NCVrPtSp5303rl4iOKJzJJPcJ4pV3IeL1jpbuOAgqEpGuGfYW0w6pB4IsTDc1Dbbrk793HjSeEqag==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=intel.com; dmarc=pass action=none header.from=intel.com;
- dkim=pass header.d=intel.com; arc=none
-Authentication-Results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=intel.com;
-Received: from BY5PR11MB4274.namprd11.prod.outlook.com (2603:10b6:a03:1c1::23)
- by SN6PR11MB2927.namprd11.prod.outlook.com (2603:10b6:805:cc::18)
- with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.5144.29; Thu, 14 Apr
- 2022 15:08:11 +0000
-Received: from BY5PR11MB4274.namprd11.prod.outlook.com
- ([fe80::a1ca:7908:ea2b:719d]) by BY5PR11MB4274.namprd11.prod.outlook.com
- ([fe80::a1ca:7908:ea2b:719d%7]) with mapi id 15.20.5164.018; Thu, 14 Apr 2022
- 15:08:11 +0000
-Message-ID: <5853d85e-da43-5eb7-abda-a475283ff6e1@intel.com>
-Date: Thu, 14 Apr 2022 08:08:09 -0700
-User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:91.0) Gecko/20100101
- Thunderbird/91.7.0
-Subject: Re: [Intel-gfx] [PATCH] drm/i915/guc/slpc: Use i915_probe_error
- instead of drm_err
-Content-Language: en-US
-To: Anshuman Gupta <anshuman.gupta@intel.com>
-References: <20220412224852.21501-1-vinay.belgaumkar@intel.com>
- <20220414064143.GE28908@intel.com>
-From: "Belgaumkar, Vinay" <vinay.belgaumkar@intel.com>
-In-Reply-To: <20220414064143.GE28908@intel.com>
-Content-Type: text/plain; charset="UTF-8"; format=flowed
-Content-Transfer-Encoding: 7bit
-X-ClientProxiedBy: SJ0PR03CA0347.namprd03.prod.outlook.com
- (2603:10b6:a03:39c::22) To BY5PR11MB4274.namprd11.prod.outlook.com
- (2603:10b6:a03:1c1::23)
+X-IronPort-AV: E=Sophos;i="5.90,260,1643702400"; d="scan'208";a="552728132"
+Received: from lkp-server01.sh.intel.com (HELO 3abc53900bec) ([10.239.97.150])
+ by orsmga007.jf.intel.com with ESMTP; 14 Apr 2022 08:32:15 -0700
+Received: from kbuild by 3abc53900bec with local (Exim 4.95)
+ (envelope-from <lkp@intel.com>) id 1nf1SA-00014v-Sw;
+ Thu, 14 Apr 2022 15:32:14 +0000
+Date: Thu, 14 Apr 2022 23:31:34 +0800
+From: kernel test robot <lkp@intel.com>
+To: "jason-jh.lin" <jason-jh.lin@mediatek.com>,
+ Rob Herring <robh+dt@kernel.org>, Krzysztof Kozlowski <krzk@kernel.org>,
+ Matthias Brugger <matthias.bgg@gmail.com>,
+ Chun-Kuang Hu <chunkuang.hu@kernel.org>,
+ AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>
+Subject: Re: [PATCH v18 07/10] drm/mediatek: add mediatek-drm of vdosys0
+ support for mt8195
+Message-ID: <202204142333.qXgcGMI1-lkp@intel.com>
+References: <20220412103114.19922-8-jason-jh.lin@mediatek.com>
 MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-Office365-Filtering-Correlation-Id: f47037b6-da60-4c50-da93-08da1e289752
-X-MS-TrafficTypeDiagnostic: SN6PR11MB2927:EE_
-X-LD-Processed: 46c98d88-e344-4ed4-8496-4ed7712e255d,ExtAddr
-X-Microsoft-Antispam-PRVS: <SN6PR11MB2927E89F3D8AAB4324BBBF7785EF9@SN6PR11MB2927.namprd11.prod.outlook.com>
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: Abn2OjqitFIIZewz9DXeE61SVyxsrGsx9HRVvRGWmUaDCC4RfCRmib23PxYG/n7Jo3RFMM4wnuDfPB6q6HfydHH2iNDdHb7cASJtSWfgKmhN+u/thiHQly5Sh7WOY2KrwEbmlOXo8tsLyaRf+zQ4jdQ0BDdi5tU++Ev+9jo/btaKX73KU1hInohtj9yojXcoK9CugNy6JK5XbBwwBJLYZbYlpULcbAdUcsqIxdYQsDME+f+uDzYltPLxuk1nqEImqRQLw9yGvt17J/kSBxyakHXpKofagy9QvmDksaMKSq1AAN5x1W7YNT4sQ/TfopYrmS0nfZd7qCbE9ir7fvbwcxbDbf3jC1m1qWikAOR4fcDjQ+S0z3CjnMx+C5+FsC+jPgJ/g6vaHj/QuvtskkEEGV1ydLn3JkUTG0UfhOGYEI4fxeysV7xCzB2BBrMoX8WvbzkClRFT3Df6gikhFAk8VorptqXQBPBhZ18MzxvMlLSb2ae0azeXAYDGYvxfvDw5vwryDLuCHOcvzBKs0wK1Oxk/fjTBqeP12Do2MoCXnM34MJv7SXl+Lxs2/uxbmRn4Rr556wPQBRCmnpRwPzASipicBKiN95C9v4CZ3edkIOXy/cy0SWBegA5FzGz4RLd93LcjvjzYGAG82iCS0RpjTFumJ91HF9YJKG9gsA0HGL8bTNVsX8o68OrykyGz86C1uvwi0Inelv7SZ1hNqv4pjbYiqhPcNwzlfwSfk9LmXHM=
-X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
- IPV:NLI; SFV:NSPM; H:BY5PR11MB4274.namprd11.prod.outlook.com; PTR:; CAT:NONE;
- SFS:(13230001)(366004)(31686004)(6636002)(82960400001)(54906003)(5660300002)(66556008)(508600001)(6512007)(316002)(8936002)(2906002)(36756003)(66946007)(38100700002)(53546011)(2616005)(6506007)(37006003)(186003)(26005)(66476007)(6862004)(4326008)(450100002)(83380400001)(86362001)(8676002)(31696002)(6486002)(43740500002)(45980500001);
- DIR:OUT; SFP:1102; 
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: =?utf-8?B?MzlRNCtpby9uRFVwODF3NnNTTUs3RUNqSnh2L0lOeStIY01sMWZ5WERZSFdv?=
- =?utf-8?B?UzE5QVF1SkRLOHQ1RHM4T3ZoS0JqYUF4aGZ3MUhTUVdycURscjByTUpFSFBH?=
- =?utf-8?B?Y1ZjenFGRFJnZjFvUXlYM0s4SVFxaEUvM3htQ3k2TWZQYkFSMEdBTk9xalhi?=
- =?utf-8?B?bjlVbHFtYmQrOHFJQ0ZUNzhnYmhqc2xldEJ6dnY5UDl6ZGpDMzE1YW9WeGRS?=
- =?utf-8?B?UFVGSFJoWFRhNmRDQnFKRUxDRVB6WFFvWWRUWkwxczQyQ2lLSWtWaE1raER2?=
- =?utf-8?B?LzdoeGdHamdiTURLWGpjb0g1UnJYODZIMHVQSndLb0pQeklYRWlDa0MyWkd0?=
- =?utf-8?B?Y3RJbHpnODhKODVJREFwM1hsUVRyUmhkUDFWbEFORWZpMk56cEszZ3craHFH?=
- =?utf-8?B?TWNEaWxwcEJ3TXB3cUFUR3lBV2J2c3k4TjdGODBXNlJodlJzWFA0K3FpS3dm?=
- =?utf-8?B?U2pld29sL2lna0t5RDdBRW51cG5NL1JQeXVFTUw3SzFQazl3VzFYZDQ0RmlF?=
- =?utf-8?B?STM1a0NJOGFEVHB3ZkVMNFRCc2xBanNBclhEbDhyV3pteGU5a002KzlBS1Vp?=
- =?utf-8?B?UEl1S25Xa2ZuZjMxTlFrbDNTUStCc3gzTCt0MkZrenozWXV5bk9xY256Z1NS?=
- =?utf-8?B?alhYS1paTEpQdnpEU2xxcm1sL2l0SStFTWVOeWR4QzRCTWhEdkZ3N3RtdGRM?=
- =?utf-8?B?bSt4SitGVmlhV0U1ZTFJaFZkc01UcVFLeGNxTnIyQ0R4Rk9KODY3VytKMy9j?=
- =?utf-8?B?QTd4emNCZVhsTzlUNHROZ1ZrQmJjVUVjTkM0dVBVRjNIaVNRZWR4KzIwbUxP?=
- =?utf-8?B?TVhXY0MyanZERlhIWGhmdXBQZm9OL21IakpQNU1lNG5IUCs4andPWHhVd0VX?=
- =?utf-8?B?QkNXN3RsQlR6Ny8xa0dnaE5GRTJVdTltWEhRQnVBcWU5OWMwbUM4ZWdXVzJW?=
- =?utf-8?B?Mit2VVBXODlCdk54bk44bnQ0K0YzN2RzMVMvNmIvM25mODdhUGg4ZTlBSERV?=
- =?utf-8?B?NFhhQjM2bWtWNTZobEk5YUxKUnhHMGhDc25DR3pPbElHM0x5aFozL0g0ZDZi?=
- =?utf-8?B?Z1VzT3VCZ0lvU0V3Nkg4WG9kZ3FXZFE2a3FXYUFJRW4zbFY4QWxpNzQ5ZFZo?=
- =?utf-8?B?N1QzM2xiNnorWTcrYy9mN0NiN09QOTJFQU9SZU9JM09aWWhremc2ZEVaK2RU?=
- =?utf-8?B?Q3p5d211VSt5bkZHMFg0SysvMnVMYjA2UkczbnlWZVpKamcxN3RjVXl2a0h5?=
- =?utf-8?B?MkxDMGJINTl6TGpIcG9Hb3BFeGpHNU5YVENTMFJMSFhRWElGQXV3ZHdLb1FV?=
- =?utf-8?B?VitMV3BPRFRMNEU4NC95NGZ6U01La1dnNEtrVTNkcFdqYytFWGdoZWdtTzBO?=
- =?utf-8?B?ekM4T3BKWDhBK1AranlPMVRScGF4QTJNenBSNVMvNWgyTzBjd25ZMTdrWXRO?=
- =?utf-8?B?YW5NUHVOTmF1VlVTaThLbE9ySmVkM0xUN2x2MHNHNm9LdklzUHlJL2VYV29W?=
- =?utf-8?B?dEcyMmgwdWMxVktmL0NobHEwc1BZN1FvS1FCQlJTY1kyeXB0OFJIWXJ5VU9Q?=
- =?utf-8?B?SE5uNjl5aHdSVjN6Q0hEU3hlVlQxeVFRZnA5NkJ0SWowYnBueEpPMUo2U2JE?=
- =?utf-8?B?QkNGT0cvK1I1TEtTUmFSalpkQWpnZThBVm0yZlBhYlBGb3hrRW9GbGpabXBP?=
- =?utf-8?B?aGZFL0NGN0FNSUlERzhpQktLZnJPcm1KUERlOFpCZ25lTW1SdUhoS1BONUY1?=
- =?utf-8?B?Rm1mQnZMc0QzVmh6cVFnMkdkNE0wa25LSTc4aGxLQUJ3VU4wbTBWc3VkeHEr?=
- =?utf-8?B?dWI4cmFsUE44Ri9BWXhvS24yZW9tTUwyRGFaU3ZKL0dHRGx5UWdEdFlaTWVk?=
- =?utf-8?B?WmsyOUtvVDB3S2JyNWRKcGJNT0FiNzRVNmlYR2NQT0lpaWk2WGxZODVZek5H?=
- =?utf-8?B?L0ppbFJHbGk4ZjlKR2VyTktVbWcyZ1UrY3dLODRlakN5M3hjSi9DME42dW9w?=
- =?utf-8?B?cm9mN3BVVm1KVURveElUQ3U1LzRXR2hnTGl3ZWlSQW1LbXJKUkxOMHpKYjdE?=
- =?utf-8?B?blBvZVpMczVSRlNIWjZpWkVFTW9DQ3JCb1ZCK1psc21uQ1RkdGhxRkRIcmhX?=
- =?utf-8?B?WWhTRzA5ZTQwbkZqY0lKNnA2NEp4d21UQXloWXNBVzNWMEVWRlY4NWx1MGNi?=
- =?utf-8?B?TFFZQUxWV2RWVVFNN1VSSzR5TWRwQmNXRWhOQnUzWW9Jb2ZUcFp0UVpodHFn?=
- =?utf-8?B?Z29mVzNWVlYyRDNpa0dlZFFOcDE0d1FEVnp1Y0tSSDhvMmNGUDFrTlh3U1Fn?=
- =?utf-8?B?Vk9xNnE3ZE5tblVHeWd3TkN6RWtXRVVUZmlUNWF1Um9NK0YyY3Q3cWF4UURx?=
- =?utf-8?Q?wA/TaqmZnsvht2HQ=3D?=
-X-MS-Exchange-CrossTenant-Network-Message-Id: f47037b6-da60-4c50-da93-08da1e289752
-X-MS-Exchange-CrossTenant-AuthSource: BY5PR11MB4274.namprd11.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 14 Apr 2022 15:08:11.4223 (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 46c98d88-e344-4ed4-8496-4ed7712e255d
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: KTf4SRLJBRmGd9R91YkzNdL3ZcJnbW/aGoEAFV8EiRHpx6KD5pVrXIUayEIuQYSCvoS01iMu5dM13wsiiQtSPie3IJKiKM0bgDnk6vJ1YQ4=
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: SN6PR11MB2927
-X-OriginatorOrg: intel.com
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20220412103114.19922-8-jason-jh.lin@mediatek.com>
+User-Agent: Mutt/1.10.1 (2018-07-13)
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -164,149 +64,195 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: "intel-gfx@lists.freedesktop.org" <intel-gfx@lists.freedesktop.org>,
- "dri-devel@lists.freedesktop.org" <dri-devel@lists.freedesktop.org>
+Cc: devicetree@vger.kernel.org, moudy.ho@mediatek.com, kbuild-all@lists.01.org,
+ Maxime Coquelin <mcoquelin.stm32@gmail.com>, fshao@chromium.org,
+ David Airlie <airlied@linux.ie>, "jason-jh . lin" <jason-jh.lin@mediatek.com>,
+ singo.chang@mediatek.com, llvm@lists.linux.dev, roy-cw.yeh@mediatek.com,
+ dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org,
+ Project_Global_Chrome_Upstream_Group@mediatek.com,
+ Fabien Parent <fparent@baylibre.com>, nancy.lin@mediatek.com,
+ linux-mediatek@lists.infradead.org, Yongqiang Niu <yongqiang.niu@mediatek.com>,
+ hsinyi@chromium.org, Rex-BC Chen <rex-bc.chen@mediatek.com>,
+ linux-stm32@st-md-mailman.stormreply.com, linux-arm-kernel@lists.infradead.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
+Hi "jason-jh.lin",
 
-On 4/13/2022 11:41 PM, Anshuman Gupta wrote:
-> On 2022-04-13 at 04:18:52 +0530, Vinay Belgaumkar wrote:
->> This will ensure we don't have false positives when we run
->> error injection tests.
->>
->> Signed-off-by: Vinay Belgaumkar <vinay.belgaumkar@intel.com>
->> ---
->>   drivers/gpu/drm/i915/gt/uc/intel_guc_slpc.c | 42 ++++++++++-----------
->>   1 file changed, 21 insertions(+), 21 deletions(-)
->>
->> diff --git a/drivers/gpu/drm/i915/gt/uc/intel_guc_slpc.c b/drivers/gpu/drm/i915/gt/uc/intel_guc_slpc.c
->> index b170238aa15c..639de3c10545 100644
->> --- a/drivers/gpu/drm/i915/gt/uc/intel_guc_slpc.c
->> +++ b/drivers/gpu/drm/i915/gt/uc/intel_guc_slpc.c
->> @@ -152,8 +152,8 @@ static int slpc_query_task_state(struct intel_guc_slpc *slpc)
->>   
->>   	ret = guc_action_slpc_query(guc, offset);
->>   	if (unlikely(ret))
-> As commit logs describe, this code patch can hit, when we run error injection test.
-> Do we need unlikely() here?
-> Br,
-> Anshuman Gupta.
+Thank you for the patch! Perhaps something to improve:
 
-I think we still need the unlikely(). Majority of the time, we still 
-need the compiler optimization.
+[auto build test WARNING on drm/drm-next]
+[also build test WARNING on robh/for-next krzk/for-next linus/master v5.18-rc2 next-20220414]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch]
 
-Only in the rare case of running the error injection test will it not be 
-needed.
+url:    https://github.com/intel-lab-lkp/linux/commits/jason-jh-lin/Add-Mediatek-Soc-DRM-vdosys0-support-for-mt8195/20220412-183359
+base:   git://anongit.freedesktop.org/drm/drm drm-next
+config: arm64-buildonly-randconfig-r001-20220413 (https://download.01.org/0day-ci/archive/20220414/202204142333.qXgcGMI1-lkp@intel.com/config)
+compiler: clang version 15.0.0 (https://github.com/llvm/llvm-project 6b7e6ea489f6dd45a9b0da9ac20871560917b9b0)
+reproduce (this is a W=1 build):
+        wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbin/make.cross -O ~/bin/make.cross
+        chmod +x ~/bin/make.cross
+        # install arm64 cross compiling tool for clang build
+        # apt-get install binutils-aarch64-linux-gnu
+        # https://github.com/intel-lab-lkp/linux/commit/7c175317aa80bbc885609a730214448147a46b47
+        git remote add linux-review https://github.com/intel-lab-lkp/linux
+        git fetch --no-tags linux-review jason-jh-lin/Add-Mediatek-Soc-DRM-vdosys0-support-for-mt8195/20220412-183359
+        git checkout 7c175317aa80bbc885609a730214448147a46b47
+        # save the config file to linux build tree
+        mkdir build_dir
+        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=clang make.cross W=1 O=build_dir ARCH=arm64 SHELL=/bin/bash drivers/gpu/drm/mediatek/
 
-Thanks,
+If you fix the issue, kindly add following tag as appropriate
+Reported-by: kernel test robot <lkp@intel.com>
 
-Vinay.
+All warnings (new ones prefixed by >>):
 
->> -		drm_err(&i915->drm, "Failed to query task state (%pe)\n",
->> -			ERR_PTR(ret));
->> +		i915_probe_error(i915, "Failed to query task state (%pe)\n",
->> +				 ERR_PTR(ret));
->>   
->>   	drm_clflush_virt_range(slpc->vaddr, SLPC_PAGE_SIZE_BYTES);
->>   
->> @@ -170,8 +170,8 @@ static int slpc_set_param(struct intel_guc_slpc *slpc, u8 id, u32 value)
->>   
->>   	ret = guc_action_slpc_set_param(guc, id, value);
->>   	if (ret)
->> -		drm_err(&i915->drm, "Failed to set param %d to %u (%pe)\n",
->> -			id, value, ERR_PTR(ret));
->> +		i915_probe_error(i915, "Failed to set param %d to %u (%pe)\n",
->> +				 id, value, ERR_PTR(ret));
->>   
->>   	return ret;
->>   }
->> @@ -211,8 +211,8 @@ static int slpc_force_min_freq(struct intel_guc_slpc *slpc, u32 freq)
->>   				     SLPC_PARAM_GLOBAL_MIN_GT_UNSLICE_FREQ_MHZ,
->>   				     freq);
->>   		if (ret)
->> -			drm_err(&i915->drm, "Unable to force min freq to %u: %d",
->> -				freq, ret);
->> +			i915_probe_error(i915, "Unable to force min freq to %u: %d",
->> +					 freq, ret);
->>   	}
->>   
->>   	return ret;
->> @@ -247,9 +247,9 @@ int intel_guc_slpc_init(struct intel_guc_slpc *slpc)
->>   
->>   	err = intel_guc_allocate_and_map_vma(guc, size, &slpc->vma, (void **)&slpc->vaddr);
->>   	if (unlikely(err)) {
->> -		drm_err(&i915->drm,
->> -			"Failed to allocate SLPC struct (err=%pe)\n",
->> -			ERR_PTR(err));
->> +		i915_probe_error(i915,
->> +				 "Failed to allocate SLPC struct (err=%pe)\n",
->> +				 ERR_PTR(err));
->>   		return err;
->>   	}
->>   
->> @@ -316,15 +316,15 @@ static int slpc_reset(struct intel_guc_slpc *slpc)
->>   	ret = guc_action_slpc_reset(guc, offset);
->>   
->>   	if (unlikely(ret < 0)) {
->> -		drm_err(&i915->drm, "SLPC reset action failed (%pe)\n",
->> -			ERR_PTR(ret));
->> +		i915_probe_error(i915, "SLPC reset action failed (%pe)\n",
->> +				 ERR_PTR(ret));
->>   		return ret;
->>   	}
->>   
->>   	if (!ret) {
->>   		if (wait_for(slpc_is_running(slpc), SLPC_RESET_TIMEOUT_MS)) {
->> -			drm_err(&i915->drm, "SLPC not enabled! State = %s\n",
->> -				slpc_get_state_string(slpc));
->> +			i915_probe_error(i915, "SLPC not enabled! State = %s\n",
->> +					 slpc_get_state_string(slpc));
->>   			return -EIO;
->>   		}
->>   	}
->> @@ -616,8 +616,8 @@ int intel_guc_slpc_enable(struct intel_guc_slpc *slpc)
->>   
->>   	ret = slpc_reset(slpc);
->>   	if (unlikely(ret < 0)) {
->> -		drm_err(&i915->drm, "SLPC Reset event returned (%pe)\n",
->> -			ERR_PTR(ret));
->> +		i915_probe_error(i915, "SLPC Reset event returned (%pe)\n",
->> +				 ERR_PTR(ret));
->>   		return ret;
->>   	}
->>   
->> @@ -632,24 +632,24 @@ int intel_guc_slpc_enable(struct intel_guc_slpc *slpc)
->>   	/* Ignore efficient freq and set min to platform min */
->>   	ret = slpc_ignore_eff_freq(slpc, true);
->>   	if (unlikely(ret)) {
->> -		drm_err(&i915->drm, "Failed to set SLPC min to RPn (%pe)\n",
->> -			ERR_PTR(ret));
->> +		i915_probe_error(i915, "Failed to set SLPC min to RPn (%pe)\n",
->> +				 ERR_PTR(ret));
->>   		return ret;
->>   	}
->>   
->>   	/* Set SLPC max limit to RP0 */
->>   	ret = slpc_use_fused_rp0(slpc);
->>   	if (unlikely(ret)) {
->> -		drm_err(&i915->drm, "Failed to set SLPC max to RP0 (%pe)\n",
->> -			ERR_PTR(ret));
->> +		i915_probe_error(i915, "Failed to set SLPC max to RP0 (%pe)\n",
->> +				 ERR_PTR(ret));
->>   		return ret;
->>   	}
->>   
->>   	/* Revert SLPC min/max to softlimits if necessary */
->>   	ret = slpc_set_softlimits(slpc);
->>   	if (unlikely(ret)) {
->> -		drm_err(&i915->drm, "Failed to set SLPC softlimits (%pe)\n",
->> -			ERR_PTR(ret));
->> +		i915_probe_error(i915, "Failed to set SLPC softlimits (%pe)\n",
->> +				 ERR_PTR(ret));
->>   		return ret;
->>   	}
->>   
->> -- 
->> 2.35.1
->>
+   drivers/gpu/drm/mediatek/mtk_drm_drv.c:707:15: warning: cast to smaller integer type 'enum mtk_ddp_comp_type' from 'const void *' [-Wvoid-pointer-to-enum-cast]
+                   comp_type = (enum mtk_ddp_comp_type)of_id->data;
+                               ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+>> drivers/gpu/drm/mediatek/mtk_drm_drv.c:203:42: warning: unused variable 'mt2701_mmsys_match_data' [-Wunused-const-variable]
+   static const struct mtk_mmsys_match_data mt2701_mmsys_match_data = {
+                                            ^
+>> drivers/gpu/drm/mediatek/mtk_drm_drv.c:218:42: warning: unused variable 'mt7623_mmsys_match_data' [-Wunused-const-variable]
+   static const struct mtk_mmsys_match_data mt7623_mmsys_match_data = {
+                                            ^
+>> drivers/gpu/drm/mediatek/mtk_drm_drv.c:234:42: warning: unused variable 'mt2712_mmsys_match_data' [-Wunused-const-variable]
+   static const struct mtk_mmsys_match_data mt2712_mmsys_match_data = {
+                                            ^
+>> drivers/gpu/drm/mediatek/mtk_drm_drv.c:246:42: warning: unused variable 'mt8167_mmsys_match_data' [-Wunused-const-variable]
+   static const struct mtk_mmsys_match_data mt8167_mmsys_match_data = {
+                                            ^
+>> drivers/gpu/drm/mediatek/mtk_drm_drv.c:260:42: warning: unused variable 'mt8173_mmsys_match_data' [-Wunused-const-variable]
+   static const struct mtk_mmsys_match_data mt8173_mmsys_match_data = {
+                                            ^
+>> drivers/gpu/drm/mediatek/mtk_drm_drv.c:274:42: warning: unused variable 'mt8183_mmsys_match_data' [-Wunused-const-variable]
+   static const struct mtk_mmsys_match_data mt8183_mmsys_match_data = {
+                                            ^
+>> drivers/gpu/drm/mediatek/mtk_drm_drv.c:288:42: warning: unused variable 'mt8192_mmsys_match_data' [-Wunused-const-variable]
+   static const struct mtk_mmsys_match_data mt8192_mmsys_match_data = {
+                                            ^
+>> drivers/gpu/drm/mediatek/mtk_drm_drv.c:305:42: warning: unused variable 'mt8195_mmsys_match_data' [-Wunused-const-variable]
+   static const struct mtk_mmsys_match_data mt8195_mmsys_match_data = {
+                                            ^
+   9 warnings generated.
+
+
+vim +/mt2701_mmsys_match_data +203 drivers/gpu/drm/mediatek/mtk_drm_drv.c
+
+   202	
+ > 203	static const struct mtk_mmsys_match_data mt2701_mmsys_match_data = {
+   204		.num_drv_data = 1,
+   205		.drv_data = {
+   206			&mt2701_mmsys_driver_data,
+   207		},
+   208	};
+   209	
+   210	static const struct mtk_mmsys_driver_data mt7623_mmsys_driver_data = {
+   211		.main_path = mt7623_mtk_ddp_main,
+   212		.main_len = ARRAY_SIZE(mt7623_mtk_ddp_main),
+   213		.ext_path = mt7623_mtk_ddp_ext,
+   214		.ext_len = ARRAY_SIZE(mt7623_mtk_ddp_ext),
+   215		.shadow_register = true,
+   216	};
+   217	
+ > 218	static const struct mtk_mmsys_match_data mt7623_mmsys_match_data = {
+   219		.num_drv_data = 1,
+   220		.drv_data = {
+   221			&mt7623_mmsys_driver_data,
+   222		},
+   223	};
+   224	
+   225	static const struct mtk_mmsys_driver_data mt2712_mmsys_driver_data = {
+   226		.main_path = mt2712_mtk_ddp_main,
+   227		.main_len = ARRAY_SIZE(mt2712_mtk_ddp_main),
+   228		.ext_path = mt2712_mtk_ddp_ext,
+   229		.ext_len = ARRAY_SIZE(mt2712_mtk_ddp_ext),
+   230		.third_path = mt2712_mtk_ddp_third,
+   231		.third_len = ARRAY_SIZE(mt2712_mtk_ddp_third),
+   232	};
+   233	
+ > 234	static const struct mtk_mmsys_match_data mt2712_mmsys_match_data = {
+   235		.num_drv_data = 1,
+   236		.drv_data = {
+   237			&mt2712_mmsys_driver_data,
+   238		},
+   239	};
+   240	
+   241	static const struct mtk_mmsys_driver_data mt8167_mmsys_driver_data = {
+   242		.main_path = mt8167_mtk_ddp_main,
+   243		.main_len = ARRAY_SIZE(mt8167_mtk_ddp_main),
+   244	};
+   245	
+ > 246	static const struct mtk_mmsys_match_data mt8167_mmsys_match_data = {
+   247		.num_drv_data = 1,
+   248		.drv_data = {
+   249			&mt8167_mmsys_driver_data,
+   250		},
+   251	};
+   252	
+   253	static const struct mtk_mmsys_driver_data mt8173_mmsys_driver_data = {
+   254		.main_path = mt8173_mtk_ddp_main,
+   255		.main_len = ARRAY_SIZE(mt8173_mtk_ddp_main),
+   256		.ext_path = mt8173_mtk_ddp_ext,
+   257		.ext_len = ARRAY_SIZE(mt8173_mtk_ddp_ext),
+   258	};
+   259	
+ > 260	static const struct mtk_mmsys_match_data mt8173_mmsys_match_data = {
+   261		.num_drv_data = 1,
+   262		.drv_data = {
+   263			&mt8173_mmsys_driver_data,
+   264		},
+   265	};
+   266	
+   267	static const struct mtk_mmsys_driver_data mt8183_mmsys_driver_data = {
+   268		.main_path = mt8183_mtk_ddp_main,
+   269		.main_len = ARRAY_SIZE(mt8183_mtk_ddp_main),
+   270		.ext_path = mt8183_mtk_ddp_ext,
+   271		.ext_len = ARRAY_SIZE(mt8183_mtk_ddp_ext),
+   272	};
+   273	
+ > 274	static const struct mtk_mmsys_match_data mt8183_mmsys_match_data = {
+   275		.num_drv_data = 1,
+   276		.drv_data = {
+   277			&mt8183_mmsys_driver_data,
+   278		},
+   279	};
+   280	
+   281	static const struct mtk_mmsys_driver_data mt8192_mmsys_driver_data = {
+   282		.main_path = mt8192_mtk_ddp_main,
+   283		.main_len = ARRAY_SIZE(mt8192_mtk_ddp_main),
+   284		.ext_path = mt8192_mtk_ddp_ext,
+   285		.ext_len = ARRAY_SIZE(mt8192_mtk_ddp_ext),
+   286	};
+   287	
+ > 288	static const struct mtk_mmsys_match_data mt8192_mmsys_match_data = {
+   289		.num_drv_data = 1,
+   290		.drv_data = {
+   291			&mt8192_mmsys_driver_data,
+   292		},
+   293	};
+   294	
+   295	static const struct mtk_mmsys_driver_data mt8195_vdosys0_driver_data = {
+   296		.io_start = 0x1c01a000,
+   297		.main_path = mt8195_mtk_ddp_main,
+   298		.main_len = ARRAY_SIZE(mt8195_mtk_ddp_main),
+   299	};
+   300	
+   301	static const struct mtk_mmsys_driver_data mt8195_vdosys1_driver_data = {
+   302		.io_start = 0x1c100000,
+   303	};
+   304	
+ > 305	static const struct mtk_mmsys_match_data mt8195_mmsys_match_data = {
+   306		.num_drv_data = 1,
+   307		.drv_data = {
+   308			&mt8195_vdosys0_driver_data,
+   309			&mt8195_vdosys1_driver_data,
+   310		},
+   311	};
+   312	
+
+-- 
+0-DAY CI Kernel Test Service
+https://01.org/lkp
