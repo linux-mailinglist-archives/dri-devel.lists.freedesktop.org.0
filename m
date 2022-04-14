@@ -1,44 +1,45 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9A477501258
-	for <lists+dri-devel@lfdr.de>; Thu, 14 Apr 2022 17:08:02 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 4D228501255
+	for <lists+dri-devel@lfdr.de>; Thu, 14 Apr 2022 17:07:58 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 5168E10FF7E;
-	Thu, 14 Apr 2022 15:08:00 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 9861E10FF6A;
+	Thu, 14 Apr 2022 15:07:55 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mga01.intel.com (mga01.intel.com [192.55.52.88])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 390A910FF7D;
- Thu, 14 Apr 2022 15:07:59 +0000 (UTC)
+Received: from mga11.intel.com (mga11.intel.com [192.55.52.93])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 8D52D10FF68;
+ Thu, 14 Apr 2022 15:07:53 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1649948879; x=1681484879;
+ t=1649948873; x=1681484873;
  h=from:to:cc:subject:date:message-id:in-reply-to:
  references:mime-version:content-transfer-encoding;
- bh=gnraO2dCuv7+v6vhSze4bgoJU3ziQkKy8SDyC3/QoOM=;
- b=mqgOE9abf3kDWjntFeoU/tSXcdfALXCeCRrbMwmnm7XuSREJ41y8ZJ8g
- Qw1HWEvYml34Lot9hhX++dj+nlVsjs+kYpWUe8hZ73WDv/AP6CHGa8EfJ
- 0NMPWSB5hcAfNjxQpmnncsgclQEVn40G5leWsin0jjIqYsVq/tm1RmsU1
- O8VdwkqaUEdue0SzsOBMJmtXs7ohZcoRsGAuMT/McL7PtECJtBMohsrFt
- PmDSrkyqY2iNH8Zke6SVUqse91+58VekfwX/W2yMG11T4/FfVIXrew86a
- qnBZdsXtO2hswS+DHiZf6PzbpoG2kMbq7cSELNk09DmUpgsbyyaP+Sdf1 g==;
-X-IronPort-AV: E=McAfee;i="6400,9594,10317"; a="288006843"
-X-IronPort-AV: E=Sophos;i="5.90,260,1643702400"; d="scan'208";a="288006843"
-Received: from orsmga004.jf.intel.com ([10.7.209.38])
- by fmsmga101.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 14 Apr 2022 08:07:47 -0700
-X-IronPort-AV: E=Sophos;i="5.90,260,1643702400"; d="scan'208";a="661408656"
+ bh=hzxxfU9IqWVKA3HbGfrOvk/5vocPktq/B9AcQl5fWVA=;
+ b=Gf/EYQbWoAEXgbonlhl3XcHzkXG4YHxJukkk3MyQW/q8wJwp44tOGMUT
+ L3B/dFjd2ByhfyIrus1pwrvN/w3sSH+GFE5+B2pnRWf+TfEVp8viL/PWB
+ Z6R2mcfWYUG1myjdyb5dNe8AE7/d0e+zEclJktwdSDzQmGY0W1oZA5OJp
+ ITYGCqqI/AwM3t9wJh8VEsf70wNlUVFdsSk7a9tSKJaHRGQ94w2N/PR/c
+ 2OFPWmi7E65/zNxPMAGuG8QQBHP658FMql1C5tgLzlKGgHbMMO4QVBG0i
+ QqlFo63/IiJeMF9vX71F75mOMQcVWl2yy9L1NVgyi/EqNV0rscKBz2jSS g==;
+X-IronPort-AV: E=McAfee;i="6400,9594,10317"; a="260546025"
+X-IronPort-AV: E=Sophos;i="5.90,260,1643702400"; d="scan'208";a="260546025"
+Received: from orsmga003.jf.intel.com ([10.7.209.27])
+ by fmsmga102.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 14 Apr 2022 08:07:52 -0700
+X-IronPort-AV: E=Sophos;i="5.90,260,1643702400"; d="scan'208";a="508439407"
 Received: from nplaweck-mobl.ger.corp.intel.com (HELO localhost)
  ([10.249.149.236])
- by orsmga004-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 14 Apr 2022 08:07:45 -0700
+ by orsmga003-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 14 Apr 2022 08:07:50 -0700
 From: Jani Nikula <jani.nikula@intel.com>
 To: dri-devel@lists.freedesktop.org
-Subject: [PATCH 07/19] drm/edid: convert add_cea_modes() to use cea db iter
-Date: Thu, 14 Apr 2022 18:06:50 +0300
-Message-Id: <98d48a8c33108ae065944ae70a7f1052967fc8d1.1649948562.git.jani.nikula@intel.com>
+Subject: [PATCH 08/19] drm/edid: convert drm_edid_to_speaker_allocation() to
+ use cea db iter
+Date: Thu, 14 Apr 2022 18:06:51 +0300
+Message-Id: <2a2c1ae2e5a1856a4d914e591a31f3faaf5ea4ab.1649948562.git.jani.nikula@intel.com>
 X-Mailer: git-send-email 2.30.2
 In-Reply-To: <cover.1649948562.git.jani.nikula@intel.com>
 References: <cover.1649948562.git.jani.nikula@intel.com>
@@ -62,96 +63,77 @@ Cc: jani.nikula@intel.com, intel-gfx@lists.freedesktop.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Iterate through all CTA EDID extension blocks and DisplayID CTA data
-blocks to add CEA modes.
+Use the cea db iterator for speaker allocation. We'll still stop at the
+first speaker data block, but not at the first CTA extension if that
+doesn't have the info.
 
 Cc: Ville Syrjälä <ville.syrjala@linux.intel.com>
 Signed-off-by: Jani Nikula <jani.nikula@intel.com>
 ---
- drivers/gpu/drm/drm_edid.c | 67 ++++++++++++++++++--------------------
- 1 file changed, 31 insertions(+), 36 deletions(-)
+ drivers/gpu/drm/drm_edid.c | 47 ++++++++++++--------------------------
+ 1 file changed, 15 insertions(+), 32 deletions(-)
 
 diff --git a/drivers/gpu/drm/drm_edid.c b/drivers/gpu/drm/drm_edid.c
-index 34897b1417a5..d02588637879 100644
+index d02588637879..dac6a400905b 100644
 --- a/drivers/gpu/drm/drm_edid.c
 +++ b/drivers/gpu/drm/drm_edid.c
-@@ -4713,46 +4713,41 @@ static void drm_parse_y420cmdb_bitmap(struct drm_connector *connector,
- static int
- add_cea_modes(struct drm_connector *connector, const struct edid *edid)
+@@ -5093,42 +5093,25 @@ EXPORT_SYMBOL(drm_edid_to_sad);
+  */
+ int drm_edid_to_speaker_allocation(const struct edid *edid, u8 **sadb)
  {
--	const u8 *cea = drm_find_cea_extension(edid);
--	const u8 *db, *hdmi = NULL, *video = NULL;
--	u8 dbl, hdmi_len, video_len = 0;
 +	const struct cea_db *db;
 +	struct cea_db_iter iter;
- 	int modes = 0;
+ 	int count = 0;
+-	int i, start, end, dbl;
+-	const u8 *cea;
  
--	if (cea && cea_revision(cea) >= 3) {
--		int i, start, end;
+-	cea = drm_find_cea_extension(edid);
+-	if (!cea) {
+-		DRM_DEBUG_KMS("SAD: no CEA Extension found\n");
+-		return 0;
+-	}
 -
--		if (cea_db_offsets(cea, &start, &end))
--			return 0;
+-	if (cea_revision(cea) < 3) {
+-		DRM_DEBUG_KMS("SAD: wrong CEA revision\n");
+-		return 0;
+-	}
 -
--		for_each_cea_db(cea, i, start, end) {
--			db = &cea[i];
+-	if (cea_db_offsets(cea, &start, &end)) {
+-		DRM_DEBUG_KMS("SAD: invalid data block offsets\n");
+-		return -EPROTO;
+-	}
+-
+-	for_each_cea_db(cea, i, start, end) {
+-		const u8 *db = &cea[i];
+-
+-		if (cea_db_tag(db) == CTA_DB_SPEAKER) {
 -			dbl = cea_db_payload_len(db);
 -
--			if (cea_db_tag(db) == CTA_DB_VIDEO) {
--				video = db + 1;
--				video_len = dbl;
--				modes += do_cea_modes(connector, video, dbl);
--			} else if (cea_db_is_hdmi_vsdb(db)) {
--				hdmi = db;
--				hdmi_len = dbl;
--			} else if (cea_db_is_y420vdb(db)) {
--				const u8 *vdb420 = &db[2];
--
--				/* Add 4:2:0(only) modes present in EDID */
--				modes += do_y420vdb_modes(connector,
--							  vdb420,
--							  dbl - 1);
+-			/* Speaker Allocation Data Block */
+-			if (dbl == 3) {
+-				*sadb = kmemdup(&db[1], dbl, GFP_KERNEL);
+-				if (!*sadb)
+-					return -ENOMEM;
+-				count = dbl;
+-				break;
 -			}
 +	cea_db_iter_edid_begin(edid, &iter);
 +	cea_db_iter_for_each(db, &iter) {
-+		const u8 *hdmi = NULL, *video = NULL;
-+		u8 hdmi_len = 0, video_len = 0;
-+
-+		if (cea_db_tag(db) == CTA_DB_VIDEO) {
-+			video = cea_db_data(db);
-+			video_len = cea_db_payload_len(db);
-+			modes += do_cea_modes(connector, video, video_len);
-+		} else if (cea_db_is_hdmi_vsdb(db)) {
-+			/* FIXME: Switch to use cea_db_data() */
-+			hdmi = (const u8 *)db;
-+			hdmi_len = cea_db_payload_len(db);
-+		} else if (cea_db_is_y420vdb(db)) {
-+			const u8 *vdb420 = cea_db_data(db) + 1;
-+
-+			/* Add 4:2:0(only) modes present in EDID */
-+			modes += do_y420vdb_modes(connector, vdb420,
-+						  cea_db_payload_len(db) - 1);
++		if (cea_db_tag(db) == CTA_DB_SPEAKER &&
++		    cea_db_payload_len(db) == 3) {
++			*sadb = kmemdup(db->data, cea_db_payload_len(db),
++					GFP_KERNEL);
++			if (!*sadb)
++				return -ENOMEM;
++			count = cea_db_payload_len(db);
++			break;
  		}
--	}
- 
--	/*
--	 * We parse the HDMI VSDB after having added the cea modes as we will
--	 * be patching their flags when the sink supports stereo 3D.
--	 */
--	if (hdmi)
--		modes += do_hdmi_vsdb_modes(connector, hdmi, hdmi_len, video,
--					    video_len);
-+		/*
-+		 * We parse the HDMI VSDB after having added the cea modes as we
-+		 * will be patching their flags when the sink supports stereo
-+		 * 3D.
-+		 */
-+		if (hdmi)
-+			modes += do_hdmi_vsdb_modes(connector, hdmi, hdmi_len,
-+						    video, video_len);
-+	}
+ 	}
 +	cea_db_iter_end(&iter);
++
++	DRM_DEBUG_KMS("Found %d Speaker Allocation Data Blocks\n", count);
  
- 	return modes;
+ 	return count;
  }
 -- 
 2.30.2
