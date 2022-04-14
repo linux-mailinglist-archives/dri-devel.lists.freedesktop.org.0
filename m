@@ -2,74 +2,61 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id EFE2B501C8E
-	for <lists+dri-devel@lfdr.de>; Thu, 14 Apr 2022 22:21:08 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 4823A501CB3
+	for <lists+dri-devel@lfdr.de>; Thu, 14 Apr 2022 22:38:06 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 716C010E2C1;
-	Thu, 14 Apr 2022 20:21:06 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 7D07710E2C6;
+	Thu, 14 Apr 2022 20:38:02 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-lj1-x233.google.com (mail-lj1-x233.google.com
- [IPv6:2a00:1450:4864:20::233])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 2138710E2C1
- for <dri-devel@lists.freedesktop.org>; Thu, 14 Apr 2022 20:21:05 +0000 (UTC)
-Received: by mail-lj1-x233.google.com with SMTP id bn33so7426879ljb.6
- for <dri-devel@lists.freedesktop.org>; Thu, 14 Apr 2022 13:21:05 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=message-id:date:mime-version:user-agent:subject:content-language:to
- :cc:references:from:in-reply-to:content-transfer-encoding;
- bh=W3Tk74L2ir68zakq4v8zlWdg5BrR7HZyOAvpDgySkc4=;
- b=ABYSQIEkXuWiJt6eDgMBaIhFrF6vy5f62wq+5X9uwXzBujfUD/V+Frqyu4X5V62jSS
- TXd3MAa0wYWVU/7nqaJE+DHSyQovq/bDUk+COAF1qJp8Om9bT+2iPdrzkVmO6Ad/FfAI
- kDWkkcR97WyhvBhJTIZZxBIPpqAFGsWM5bn1Sx0tHFPg7VIRmRu68yu7i1Ms3Q2z1aqD
- XGXuFd3V7EL1qBt/mkun8X3lEX3paECWJ+FVAOcs+BNcohR21jvuLTxNCpALXSQZeWpK
- qnG8cxwAslWb77Qy1NHvpoCwHnWaqUtXM+1fHb6R4BT0z9OHQdmHHqFW6xDPo/FrACb7
- Scsg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
- :content-language:to:cc:references:from:in-reply-to
- :content-transfer-encoding;
- bh=W3Tk74L2ir68zakq4v8zlWdg5BrR7HZyOAvpDgySkc4=;
- b=Dr8jG2fH8AbVVnnp5EInJNPnpZy0PJ5cG5daGKyXkg0a/EX9Zn/hFLcHKRFGHWFu4P
- 104n9yksBWVqLi9boOCkyXN+9rEGzas2jp3uPrDlH3JtSuPIWCHv/lbELjZ2I539VVjE
- HNg0ZnbIkIlo4eZTnNITFjo5INA1yDDxzuTeRFNH+dbadSrwhuWteMNXEBvhMK/tNvOG
- NyZK34s1EDSeOFfYpRqnqYUKw2NKglyIzNZ4Bqm6hVYLC6bvpau6F/hpLwUYtYWDGnso
- gJXiduH4mh8MPbirX9qtRsDh3sWsLh63pKQMWH1tlKfG5hBbArhFVTgxUyZaCND9d3Cy
- PsoA==
-X-Gm-Message-State: AOAM532S3gc1WdVqu7VvdYpa2DPEzRlOdeFoNLUusahK7Y/frQ8jHDYn
- 6CDl0idRKsPB/AZ+fXmfkNndYQ==
-X-Google-Smtp-Source: ABdhPJwq6E9Dm9JeRvDM83qfLCCNL3VKPy7UV1MWmncbBh5UHeTupvI8MtlR29m8KOd7amcA61BLDA==
-X-Received: by 2002:a2e:97d2:0:b0:24b:5802:9ebc with SMTP id
- m18-20020a2e97d2000000b0024b58029ebcmr2544323ljj.521.1649967663374; 
- Thu, 14 Apr 2022 13:21:03 -0700 (PDT)
-Received: from [192.168.1.211] ([37.153.55.125])
- by smtp.gmail.com with ESMTPSA id
- k40-20020a0565123da800b0044aa117f1aasm99577lfv.119.2022.04.14.13.21.02
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Thu, 14 Apr 2022 13:21:03 -0700 (PDT)
-Message-ID: <71582688-d26a-04f0-350b-38a4fcaf86c2@linaro.org>
-Date: Thu, 14 Apr 2022 23:21:02 +0300
+Received: from mout.gmx.net (mout.gmx.net [212.227.17.22])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id E32B810E213
+ for <dri-devel@lists.freedesktop.org>; Thu, 14 Apr 2022 20:38:00 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=gmx.net;
+ s=badeba3b8450; t=1649968678;
+ bh=TH68cw0yAw4HKgOCoqtJycb5tXT+WeVSIGdb/V6cqnM=;
+ h=X-UI-Sender-Class:Date:To:From:Subject;
+ b=HG2HrLo9wio3erouLzZqzWvMBuOTvscPAH9Pp8GufwN3okk2ropbPk9oMa4FBdnmm
+ O52roUK1y8fZGeufB4KeSR2aLmDinBmeKd0KRdwCKwOL/RVoefua3eJneuwlayhS8M
+ JQhVj20GV2rxtnzrW3MpDKV+Axy+8mxzpszA/0So=
+X-UI-Sender-Class: 01bb95c1-4bf8-414a-932a-4f6e2808ef9c
+Received: from [192.168.20.60] ([92.116.186.43]) by mail.gmx.net (mrgmx104
+ [212.227.17.168]) with ESMTPSA (Nemesis) id 1MY6Cb-1nRCXI3s33-00YTHp; Thu, 14
+ Apr 2022 22:37:57 +0200
+Message-ID: <c79789fb-642d-ee9e-32a6-fc7f79d9e3b4@gmx.de>
+Date: Thu, 14 Apr 2022 22:37:55 +0200
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.8.0
-Subject: Re: [Freedreno] [PATCH v7 0/4] Add support for the eDP panel over
- aux_bus
-Content-Language: en-GB
-To: Abhinav Kumar <quic_abhinavk@quicinc.com>,
- Stephen Boyd <swboyd@chromium.org>, Doug Anderson <dianders@chromium.org>,
- Sankeerth Billakanti <quic_sbillaka@quicinc.com>
-References: <1649938766-6768-1-git-send-email-quic_sbillaka@quicinc.com>
- <CAD=FV=Ui6BAsnTaJ2_TMh1Tnjtaw7FR92aWoUysS+UT=c0qB3Q@mail.gmail.com>
- <20afcd97-4b8d-f770-151a-268b893b7c5a@linaro.org>
- <CAE-0n51fc-b-8VF7XP29=o8Xi86HQALGB-1u8n3b_3NjVyyJYw@mail.gmail.com>
- <e3154f3b-aea4-6961-b409-6b20ff8bf18e@quicinc.com>
- <2fd4a157-a9de-ca0e-7a47-7bb85199ae91@linaro.org>
- <bc3a3162-b34d-bff3-2109-e2fd0bc65bb4@quicinc.com>
-From: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
-In-Reply-To: <bc3a3162-b34d-bff3-2109-e2fd0bc65bb4@quicinc.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
+ Thunderbird/91.7.0
+To: dri-devel@lists.freedesktop.org, Daniel Vetter <daniel@ffwll.ch>,
+ Thomas Zimmermann <tzimmermann@suse.de>
+Content-Language: en-US
+From: Helge Deller <deller@gmx.de>
+Subject: dim question: How to revert patches?
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: quoted-printable
+X-Provags-ID: V03:K1:x7AtGWJ8s0hayBt82t4dnWEK8T5FkcGDljWjkJr7j7V/khYpk20
+ vjcnRa6C/Ew+KXg+YEs3w13WNqWcDIB4gXy5BrvDLTmpxRyIvM460aaPGbNk7uax0lnRdeq
+ p9eDlF8kaXIxV9iRQLK/FVaLDU4Naxz+Kkj8/Zpmgg/pbYs/ihZ+9mwk3EF9xkumziPDldW
+ Gig2bo16wKKxto7mgZzDw==
+X-Spam-Flag: NO
+X-UI-Out-Filterresults: notjunk:1;V03:K0:vxPYGa1rL/o=:bzsvcIf6yTTlGGKQXdGgii
+ eVPZq2vZG02GwmXbKb8huQs2PNPR65WIA03z+/+bDYJ+9au4mWF0o+1YYYd9/mVVw03vNTp5G
+ QuZIcXzwn5/cgc1UwepdIhXLYOFl2CHuBH5hlSdCwe38eoo7yGqA3/03XdmbSxHHg1WORbU/F
+ V+/JiTVwfv5K/ZKQXMxyYFYfJgU4FEdwZ6hme8i33CYeNX9dFHJdwCZEE0Ch5CrrDXL2YGxw1
+ ZXpMVyi17sRXsvlEl7HQst49SgluvHUvCgy++/9iWVWO//FkqXzEpECs0OxKt1Yj8mEk+xD8m
+ fW8sjK9knFb6XEGvPu+R7pn/R3Smnq91wp08h/m1MhaUCXa/Yt7pJfE5RL5lZhp7UcfanMBA+
+ QZvXuu3R4dvZs4rF4vhuSYFZie6tZZeFY9rXvOtWWQ9ODwmYdq+uiY0Q4VNTi3kNvoApB0Seu
+ 1aZ4vyI8nvpfO4GFAfrrqS09xu3jSmTezSVaF/9dHhA0O+oelLYXG8WzLgE/w46Rab52yaxwp
+ 51qGEpo3AU0ePV+prYyeDMMhPiY04S8J1+0gwxHiSVT1XyRXP4vtnzTpts8Ji6UBecEQsEIDT
+ iBno73oTZxknFau33egRApKn6ou5PqoK7A6h+n1JBcpjXmNkKMWYzrJQuzObHIivCH4bvS0H0
+ KzQtQSHC9fkhXLWbVhh8liWkMvKb9IP0r0RPrPl1JbY3V6dCAiG1csmKmPf66+0opo/u0ZU4Q
+ aKN+HF+xDgpb8C+p6aPf0i4Hkf9YLcKSU6pNLxo3Mk7y9gAmQBgqqIxrkhIfDyxbmYjmFANQK
+ EfHyFXd0Qsqj03k2sGsfDvEpYELnMorBik4YvLrn2o5krLID1bBCNrH1GcfogFmoPE+zC9zA0
+ qVyyKpQcCN5H03GFfy8XSoMXnJR8IXW6SBev3KqVolZ+VjGcpqnuTr+rK6KiU+09jIAxS+7N2
+ G2ruUJsn7mbhXy4yp8Fy60fb0wmiM4KGVbAxDIW6/XCxMO1v9lRPbSnEHBRPPoPkVSAbV4dgH
+ N73FqwqySay96Dl34478XJSvTid01EyAO8tSDdyqbf4eR/9PmL3nUcAi4/uQrieJxbshYgZVo
+ RZF+n9inN5Yw6w=
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -82,82 +69,37 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: quic_kalyant <quic_kalyant@quicinc.com>, devicetree@vger.kernel.org,
- quic_vproddut <quic_vproddut@quicinc.com>, David Airlie <airlied@linux.ie>,
- linux-arm-msm <linux-arm-msm@vger.kernel.org>,
- freedreno <freedreno@lists.freedesktop.org>,
- LKML <linux-kernel@vger.kernel.org>,
- dri-devel <dri-devel@lists.freedesktop.org>,
- Bjorn Andersson <bjorn.andersson@linaro.org>,
- Sean Paul <seanpaul@chromium.org>, Steev Klimaszewski <steev@kali.org>,
- Aravind Venkateswaran <quic_aravindh@quicinc.com>,
- Kuogee Hsieh <quic_khsieh@quicinc.com>, Sean Paul <sean@poorly.run>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 14/04/2022 23:19, Abhinav Kumar wrote:
-> 
-> 
-> On 4/14/2022 1:03 PM, Dmitry Baryshkov wrote:
->> On 14/04/2022 23:00, Abhinav Kumar wrote:
->>> Hi Dmitry
->>>
->>> On 4/14/2022 12:43 PM, Stephen Boyd wrote:
->>>> Quoting Dmitry Baryshkov (2022-04-14 12:20:31)
->>>>> On 14/04/2022 19:40, Doug Anderson wrote:
->>>>>> Hi,
->>>>>>
->>>>>> On Thu, Apr 14, 2022 at 5:19 AM Sankeerth Billakanti
->>>>>> <quic_sbillaka@quicinc.com> wrote:
->>>>>>>
->>>>>>> This series adds support for generic eDP panel over aux_bus.
->>>>>>>
->>>>>>> These changes are dependent on the following series:
->>>>>>> https://patchwork.kernel.org/project/linux-arm-msm/list/?series=613654&state=* 
->>>>>>>
->>>>>>
->>>>>> You're basically depending on the last two patches of that series.
->>>>>> What's the plan there? In patchwork they're marked as "Not
->>>>>> Applicable". If they're good to go, maybe we should land them? If 
->>>>>> not,
->>>>>> maybe you should include them (with Dmitry as the author, of course)
->>>>>> at the beginning of your series?
->>>>>
->>>>> No, please do not resend patches. The patches in question are 
->>>>> marked as
->>>>> 'Not applicable' as they are really not applicable to Bjorn's tree.
->>>>> It would be better to point to the correct patchwork:
->>>>>
->>>>> https://patchwork.freedesktop.org/series/98585/
->>>>>
->>>>> Note those patches still lack the R-B tag. I can include them anyway,
->>>>> basing on Sankeerth's Tested-by tag, but the formal R-B would also 
->>>>> be good.
->>>>>
->>>>
->>>> Can you resend those as not RFC?
->>>
->>> Yes, please resend these, I can ack them.
->>>
->>> Previously I held off my ack, as kuogee ran into some issues testing 
->>> them which was later concluded to be a mismatch in QC internal trees 
->>> due to different versions of the changes.( another reason why we 
->>> should get these landed ).
->>>
->>> Now, that Sankeerth has tested these, if you can remove RFC and post 
->>> them, I can ack the.
->>
->> Well, you can ack those patches without them being resent. You have 
->> already added your Reviewed-by to first three patches (which were 
->> merged during last window).
->>
-> I thought you might have to rebase them :) that way you could have 
-> resent the rebased patch with the RFC tag removed.
-> 
-> If you dont, you now have my R-b.
+Hello dri-devel & dim users,
 
-Thank you!
+I committed this patch to the drm-misc-next branch:
 
--- 
-With best wishes
-Dmitry
+commit d6cd978f7e6b6f6895f8d0c4ce6e5d2c8e979afe
+    video: fbdev: fbmem: fix pointer reference to null device field
+
+then I noticed that it was fixed already in another branch which led to th=
+is error:
+
+Merging drm-misc/drm-misc-next... dim:
+dim: FAILURE: Could not merge drm-misc/drm-misc-next
+dim: See the section "Resolving Conflicts when Rebuilding drm-tip"
+dim: in the drm-tip.rst documentation for how to handle this situation.
+
+I fixed it by reverting that patch above with this new commit in the drm-m=
+isc-next branch:
+
+commit cabfa2bbe617ddf0a0cc4d01f72b584dae4939ad (HEAD -> drm-misc-next, dr=
+m-misc/for-linux-next, drm-misc/drm-misc-next)
+Author: Helge Deller <deller@gmx.de>
+    Revert "video: fbdev: fbmem: fix pointer reference to null device fiel=
+d"
+
+My question (as "dim" newbie):
+Was that the right solution?
+Is there a possibility to drop those two patches from the drm-misc-next br=
+anch before it gets pushed upstream?
+
+TIA,
+Helge
