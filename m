@@ -2,44 +2,43 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 04F74501287
-	for <lists+dri-devel@lfdr.de>; Thu, 14 Apr 2022 17:08:55 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 58DBE50128A
+	for <lists+dri-devel@lfdr.de>; Thu, 14 Apr 2022 17:08:58 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id CF81810FD3E;
-	Thu, 14 Apr 2022 15:08:52 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id C311410FD6B;
+	Thu, 14 Apr 2022 15:08:55 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mga11.intel.com (mga11.intel.com [192.55.52.93])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 5017E10FD1C;
- Thu, 14 Apr 2022 15:08:49 +0000 (UTC)
+Received: from mga01.intel.com (mga01.intel.com [192.55.52.88])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id E329310FD49;
+ Thu, 14 Apr 2022 15:08:54 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1649948929; x=1681484929;
+ t=1649948935; x=1681484935;
  h=from:to:cc:subject:date:message-id:in-reply-to:
  references:mime-version:content-transfer-encoding;
- bh=WhkRvqSjUK+4Bze5RBWlBpCZK5hGkqBoL+126PYT728=;
- b=OQ2EipxXkyn1eZBuJ0O0eQO/UDsR8VVYzNkxkRbPh07eSe8WLb7QY84E
- svgLTnPEL1FQsC3Xi50OpAeXTQYgQyj1X50qJKxYdO2OMY8bZRlMxFlQx
- ZuKYuu9hlKrsNPRGXlpHdVAgEtXMQe+UcuJfc9Z16ms5ugp+gVnsNJJXM
- i1HRt67gZXjSbK1J0HEow/joOfqkpOUwgEh6n34+n1lvjnpFxcFaDwy7A
- hWFeQlZ1VJTfgtrsHFEwm/zb4DpZYMSvFPvsVBXzdVoPkc+7pp9O7toVb
- GLxV0XXFcBf8qspfuojTmNgpkCYj7GG9PnMAHEQD4y0RHC0ERwL0snTgX g==;
-X-IronPort-AV: E=McAfee;i="6400,9594,10317"; a="260546312"
-X-IronPort-AV: E=Sophos;i="5.90,260,1643702400"; d="scan'208";a="260546312"
-Received: from fmsmga002.fm.intel.com ([10.253.24.26])
- by fmsmga102.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 14 Apr 2022 08:08:48 -0700
-X-IronPort-AV: E=Sophos;i="5.90,260,1643702400"; d="scan'208";a="656039577"
+ bh=PSmCGpI4V2XUEzVPKSZ/AeQaowaL4fYKgovF4licUd0=;
+ b=SCFtQUk9Vqgga9yOk9fzsMzt/o0b3bkLCW2m3jrOwnLp1kBMGG2CfskM
+ BVEqSqVEKgqDAxb4cfhKXKYoGAG/fdqJKHYsO4Et2AGpkPV2qqKi9F9uR
+ mJzoeuBL6MZGqFFkAIJen0UPXSwQeWbX91A3Nvl0WvHB2X/7DOXLEN05V
+ IM+YhVU7gZw800QABtXgJgHZejVOVfBVj4hXVPlJaauIIQwHF3aflS901
+ hG9n0lGaci6QAjbcNYdM9vij6FT5wu6p0G74ML8Quwk3pZXKjAG1HMjuZ
+ wn9bvxt+MsXkr5xeu/Lhn/6D3eW8MxEUlhtn1Ms774MG85dc68RFDvT9D A==;
+X-IronPort-AV: E=McAfee;i="6400,9594,10317"; a="288007217"
+X-IronPort-AV: E=Sophos;i="5.90,260,1643702400"; d="scan'208";a="288007217"
+Received: from fmsmga008.fm.intel.com ([10.253.24.58])
+ by fmsmga101.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 14 Apr 2022 08:08:54 -0700
+X-IronPort-AV: E=Sophos;i="5.90,260,1643702400"; d="scan'208";a="612365657"
 Received: from nplaweck-mobl.ger.corp.intel.com (HELO localhost)
  ([10.249.149.236])
- by fmsmga002-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 14 Apr 2022 08:08:47 -0700
+ by fmsmga008-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 14 Apr 2022 08:08:52 -0700
 From: Jani Nikula <jani.nikula@intel.com>
 To: dri-devel@lists.freedesktop.org
-Subject: [PATCH 18/19] drm/edid: skip CTA extension scan in drm_edid_to_eld()
- just for CTA rev
-Date: Thu, 14 Apr 2022 18:07:01 +0300
-Message-Id: <c9fbbc367c0b4ce9f770e12395ec9da4de570c51.1649948563.git.jani.nikula@intel.com>
+Subject: [PATCH 19/19] drm/edid: sunset drm_find_cea_extension()
+Date: Thu, 14 Apr 2022 18:07:02 +0300
+Message-Id: <f1ed69ad142d6dcf26d8715de4ea8a6e97a9484d.1649948563.git.jani.nikula@intel.com>
 X-Mailer: git-send-email 2.30.2
 In-Reply-To: <cover.1649948562.git.jani.nikula@intel.com>
 References: <cover.1649948562.git.jani.nikula@intel.com>
@@ -63,76 +62,69 @@ Cc: jani.nikula@intel.com, intel-gfx@lists.freedesktop.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-The DisplayID CTA data block version does not necessarily match the CTA
-revision. Simplify by postponing drm_edid_to_eld() slightly, and reusing
-the CTA revision extracted by drm_parse_cea_ext().
-
-By not bailing out early in drm_edid_to_eld() we may end up filling
-meaningless data to the ELD. However, the main decision for audio is not
-the ELD, but rather drm_detect_monitor_audio() called by drivers.
-
-(Arguably a future cleanup could do that in drm_add_edid_modes() and
-cache the result in the connector.)
+Convert drm_find_cea_extension() to a predicate function to check if the
+EDID has a CTA extension or a DisplayID CTA data block. This is mainly
+to avoid adding new users that only find the first CTA extension.
 
 Cc: Ville Syrjälä <ville.syrjala@linux.intel.com>
 Signed-off-by: Jani Nikula <jani.nikula@intel.com>
 ---
- drivers/gpu/drm/drm_edid.c | 15 +++++----------
- 1 file changed, 5 insertions(+), 10 deletions(-)
+ drivers/gpu/drm/drm_edid.c | 19 +++++++++----------
+ 1 file changed, 9 insertions(+), 10 deletions(-)
 
 diff --git a/drivers/gpu/drm/drm_edid.c b/drivers/gpu/drm/drm_edid.c
-index fad9fd13937b..ccd7d075eeb8 100644
+index ccd7d075eeb8..4eeea4212f3a 100644
 --- a/drivers/gpu/drm/drm_edid.c
 +++ b/drivers/gpu/drm/drm_edid.c
-@@ -4887,10 +4887,10 @@ static void clear_eld(struct drm_connector *connector)
- static void drm_edid_to_eld(struct drm_connector *connector,
- 			    const struct edid *edid)
+@@ -3582,30 +3582,29 @@ const u8 *drm_find_edid_extension(const struct edid *edid,
+ 	return edid_ext;
+ }
+ 
+-static const u8 *drm_find_cea_extension(const struct edid *edid)
++/* Return true if the EDID has a CTA extension or a DisplayID CTA data block */
++static bool drm_edid_has_cta_extension(const struct edid *edid)
  {
-+	const struct drm_display_info *info = &connector->display_info;
- 	const struct cea_db *db;
- 	struct cea_db_iter iter;
- 	uint8_t *eld = connector->eld;
+ 	const struct displayid_block *block;
+ 	struct displayid_iter iter;
 -	const u8 *cea;
- 	int total_sad_count = 0;
- 	int mnl;
+ 	int ext_index = 0;
++	bool found = false;
  
-@@ -4899,16 +4899,10 @@ static void drm_edid_to_eld(struct drm_connector *connector,
- 	if (!edid)
- 		return;
+ 	/* Look for a top level CEA extension block */
+-	/* FIXME: make callers iterate through multiple CEA ext blocks? */
+-	cea = drm_find_edid_extension(edid, CEA_EXT, &ext_index);
+-	if (cea)
+-		return cea;
++	if (drm_find_edid_extension(edid, CEA_EXT, &ext_index))
++		return true;
  
--	cea = drm_find_cea_extension(edid);
--	if (!cea) {
--		DRM_DEBUG_KMS("ELD: no CEA Extension found\n");
--		return;
--	}
--
- 	mnl = get_monitor_name(edid, &eld[DRM_ELD_MONITOR_NAME_STRING]);
- 	DRM_DEBUG_KMS("ELD monitor %s\n", &eld[DRM_ELD_MONITOR_NAME_STRING]);
- 
--	eld[DRM_ELD_CEA_EDID_VER_MNL] = cea[1] << DRM_ELD_CEA_EDID_VER_SHIFT;
-+	eld[DRM_ELD_CEA_EDID_VER_MNL] = info->cea_rev << DRM_ELD_CEA_EDID_VER_SHIFT;
- 	eld[DRM_ELD_CEA_EDID_VER_MNL] |= mnl;
- 
- 	eld[DRM_ELD_VER] = DRM_ELD_VER_CEA861D;
-@@ -5847,8 +5841,6 @@ static int drm_edid_connector_update(struct drm_connector *connector,
- 		return 0;
+ 	/* CEA blocks can also be found embedded in a DisplayID block */
+ 	displayid_iter_edid_begin(edid, &iter);
+ 	displayid_iter_for_each(block, &iter) {
+ 		if (block->tag == DATA_BLOCK_CTA) {
+-			cea = (const u8 *)block;
++			found = true;
+ 			break;
+ 		}
  	}
+ 	displayid_iter_end(&iter);
  
--	drm_edid_to_eld(connector, edid);
--
- 	/*
- 	 * CEA-861-F adds ycbcr capability map block, for HDMI 2.0 sinks.
- 	 * To avoid multiple parsing of same block, lets parse that map
-@@ -5856,6 +5848,9 @@ static int drm_edid_connector_update(struct drm_connector *connector,
- 	 */
- 	quirks = drm_add_display_info(connector, edid);
+-	return cea;
++	return found;
+ }
  
-+	/* Depends on info->cea_rev set by drm_add_display_info() above */
-+	drm_edid_to_eld(connector, edid);
-+
+ static __always_inline const struct drm_display_mode *cea_mode_for_vic(u8 vic)
+@@ -3878,8 +3877,8 @@ add_alternate_cea_modes(struct drm_connector *connector, const struct edid *edid
+ 	LIST_HEAD(list);
+ 	int modes = 0;
+ 
+-	/* Don't add CEA modes if the CEA extension block is missing */
+-	if (!drm_find_cea_extension(edid))
++	/* Don't add CTA modes if the CTA extension block is missing */
++	if (!drm_edid_has_cta_extension(edid))
+ 		return 0;
+ 
  	/*
- 	 * EDID spec says modes should be preferred in this order:
- 	 * - preferred detailed mode
 -- 
 2.30.2
 
