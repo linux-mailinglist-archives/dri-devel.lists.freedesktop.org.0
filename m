@@ -1,61 +1,49 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 74FBB501354
-	for <lists+dri-devel@lfdr.de>; Thu, 14 Apr 2022 17:18:36 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 22874501236
+	for <lists+dri-devel@lfdr.de>; Thu, 14 Apr 2022 17:07:26 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 87ACA10F232;
-	Thu, 14 Apr 2022 15:18:33 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 5E96810FEEE;
+	Thu, 14 Apr 2022 15:07:20 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-X-Greylist: delayed 535 seconds by postgrey-1.36 at gabe;
- Thu, 14 Apr 2022 15:18:32 UTC
-Received: from condef-04.nifty.com (condef-04.nifty.com [202.248.20.69])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 0772A10FE07;
- Thu, 14 Apr 2022 15:18:31 +0000 (UTC)
-Received: from conssluserg-06.nifty.com ([10.126.8.85])by condef-04.nifty.com
- with ESMTP id 23EF5ZTg016163; Fri, 15 Apr 2022 00:05:35 +0900
-Received: from mail-pg1-f171.google.com (mail-pg1-f171.google.com
- [209.85.215.171]) (authenticated)
- by conssluserg-06.nifty.com with ESMTP id 23EF5DnO006890;
- Fri, 15 Apr 2022 00:05:14 +0900
-DKIM-Filter: OpenDKIM Filter v2.10.3 conssluserg-06.nifty.com 23EF5DnO006890
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nifty.com;
- s=dec2015msa; t=1649948714;
- bh=D3Fvf0k0js+J3eM+fukVsmdW0E7pfYlBg42jAXKI77c=;
- h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
- b=wRJ5hAUSwWQKd+XyHf08ogKdcUjXyXvPZMOmvUZPezU/qi9D/pn02VYoEojgzirRo
- PhBpwIyxhwdaiZPtiJ4n+ZE10n5rS5wp/rNX6q85Wiq1eYFGFWjRgywdtdemYKS/lg
- tOiX42Wfrbt4Tt3QdfgUbm7NAvV4MZPfhef+h/ipyv/hRndBFGeecQc+rFuDRnYgCw
- fOdNso255ncmxMYs0XD6cANMOlOULnVW0nz3L92wkdZEECP5GQY2IWglR5zp8SfpGb
- xY65+7ZmaYAWDRxkuEOUS1f6/nndGJ2P6ZEHTnq8vyNfDS9qY6Jgo6XTE0/6aZZLhG
- +K81mTfcYeJrw==
-X-Nifty-SrcIP: [209.85.215.171]
-Received: by mail-pg1-f171.google.com with SMTP id i184so4534345pgc.2;
- Thu, 14 Apr 2022 08:05:14 -0700 (PDT)
-X-Gm-Message-State: AOAM533gGjkSUBQXcJBZ3lVdlM2tokTqGlpSHBSpFypzCu0Uwg4jruAQ
- 0Hv71IqOtQHvJJuSlEd799fPfERoEd6BkhVlSus=
-X-Google-Smtp-Source: ABdhPJx45QVB/oxoHuDprognzCExgs/0kbaStC9ZvwOrB//qQnEGRovgPPBrNlyhNKkQDLKn0inVvrDhcl1xQApvueg=
-X-Received: by 2002:a65:60c1:0:b0:39d:9c28:909a with SMTP id
- r1-20020a6560c1000000b0039d9c28909amr2668928pgv.352.1649948713160; Thu, 14
- Apr 2022 08:05:13 -0700 (PDT)
+Received: from mga11.intel.com (mga11.intel.com [192.55.52.93])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 6B77210FEAB;
+ Thu, 14 Apr 2022 15:07:18 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+ t=1649948838; x=1681484838;
+ h=from:to:cc:subject:date:message-id:mime-version:
+ content-transfer-encoding;
+ bh=tq6g9TUYU6cilRnhCVU8XsklaIbrEZocMrSoAwf2ldk=;
+ b=B3KCnMy5QYhnOriVR1zpkUDMRanfvWFugv0zGtBfGYgPd6Z3uxYESK/e
+ UMRycdXPXRiYaZ9mSKSQK6eHon/Twawu3QXkKnvbpYy7F+VTWv7CsvEyt
+ NnDlSi30g+m/l/walm+FDIi/wgsOvuC0eKGy1bCd32KIhb2WU9p9mGmOW
+ +sktXo9DmvtlOAOH8+1WWfHbsrxwl7etOIqOsQ2aGMiR9NuqSYx3Ob6Q2
+ GlqqiBi493i4d5Jtsya8+i5f9j0oZJqhML/mMvM5f8NNPXlVjCWWK1fRZ
+ AgAtByIveZdmmfWiSDGlZp147OWOs/X9gCWpAS0EB5W89hUinTQq2vUHY w==;
+X-IronPort-AV: E=McAfee;i="6400,9594,10317"; a="260545820"
+X-IronPort-AV: E=Sophos;i="5.90,260,1643702400"; d="scan'208";a="260545820"
+Received: from orsmga007.jf.intel.com ([10.7.209.58])
+ by fmsmga102.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 14 Apr 2022 08:07:06 -0700
+X-IronPort-AV: E=Sophos;i="5.90,260,1643702400"; d="scan'208";a="552718728"
+Received: from nplaweck-mobl.ger.corp.intel.com (HELO localhost)
+ ([10.249.149.236])
+ by orsmga007-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 14 Apr 2022 08:07:03 -0700
+From: Jani Nikula <jani.nikula@intel.com>
+To: dri-devel@lists.freedesktop.org
+Subject: [PATCH 00/19] drm/edid: CEA data block iterators, and more
+Date: Thu, 14 Apr 2022 18:06:43 +0300
+Message-Id: <cover.1649948562.git.jani.nikula@intel.com>
+X-Mailer: git-send-email 2.30.2
 MIME-Version: 1.0
-References: <20220413161450.1854370-1-michel@daenzer.net>
- <f425b789-5081-fa70-555f-7553d7cc5bd5@gmail.com>
- <ca5ca8ab-9c48-8d81-2dd6-fbdfface6519@mailbox.org>
- <abd87438-3ff4-6b62-81b4-6162d167348a@gmail.com>
- <CADnq5_Npy02mWVMOs-TMQ9t6OLV8XFaSQFZ5iB=Y2q3OQgiQvw@mail.gmail.com>
- <fe499d20-2667-5953-831a-d7668c5a3d18@mailbox.org>
-In-Reply-To: <fe499d20-2667-5953-831a-d7668c5a3d18@mailbox.org>
-From: Masahiro Yamada <masahiroy@kernel.org>
-Date: Fri, 15 Apr 2022 00:04:17 +0900
-X-Gmail-Original-Message-ID: <CAK7LNATdTaY6+FD4TuFgmb00=Qbx=7mmCi9onHv0zi=pdZysBQ@mail.gmail.com>
-Message-ID: <CAK7LNATdTaY6+FD4TuFgmb00=Qbx=7mmCi9onHv0zi=pdZysBQ@mail.gmail.com>
-Subject: Re: [PATCH] drm/radeon: Add build directory to include path
-To: =?UTF-8?Q?Michel_D=C3=A4nzer?= <michel.daenzer@mailbox.org>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=UTF-8
+Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
+Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -68,125 +56,45 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: =?UTF-8?Q?Christian_K=C3=B6nig?= <ckoenig.leichtzumerken@gmail.com>,
- Xinhui Pan <Xinhui.Pan@amd.com>,
- Maling list - DRI developers <dri-devel@lists.freedesktop.org>,
- Alex Deucher <alexander.deucher@amd.com>,
- amd-gfx list <amd-gfx@lists.freedesktop.org>,
- =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>
+Cc: jani.nikula@intel.com, intel-gfx@lists.freedesktop.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi.
+Get back to the CEA data block iterator stuff now that a bunch of prep
+work has landed.
 
-On Thu, Apr 14, 2022 at 10:50 PM Michel D=C3=A4nzer
-<michel.daenzer@mailbox.org> wrote:
->
-> On 2022-04-14 15:34, Alex Deucher wrote:
-> > On Thu, Apr 14, 2022 at 4:44 AM Christian K=C3=B6nig
-> > <ckoenig.leichtzumerken@gmail.com> wrote:
-> >> Am 14.04.22 um 09:37 schrieb Michel D=C3=A4nzer:
-> >>> On 2022-04-14 08:24, Christian K=C3=B6nig wrote:
-> >>>> Am 13.04.22 um 18:14 schrieb Michel D=C3=A4nzer:
-> >>>>> From: Michel D=C3=A4nzer <mdaenzer@redhat.com>
-> >>>>>
-> >>>>> Fixes compile errors with out-of-tree builds, e.g.
-> >>>>>
-> >>>>> ../drivers/gpu/drm/radeon/r420.c:38:10: fatal error: r420_reg_safe.=
-h: No such file or directory
-> >>>>>      38 | #include "r420_reg_safe.h"
-> >>>>>         |          ^~~~~~~~~~~~~~~~~
-> >>>>
-> >>>> Well stuff like that usually points to a broken build environment.
-> >>> Just a separate build directory. Specifically, I'm hitting the errors=
- with
-> >>>
-> >>>   make -C build-amd64 M=3Ddrivers/gpu/drm
+My git repo at [1], branch edid-hfeeodb-2022-04-14, contains where this
+is all headed after this.
 
+[1] https://cgit.freedesktop.org/~jani/drm/log/?h=edid-hfeeodb-2022-04-14
 
-Maybe
+Jani Nikula (18):
+  drm/edid: reset display info in drm_add_edid_modes() for NULL edid
+  drm/edid: clean up CTA data block tag definitions
+  drm/edid: add iterator for EDID base and extension blocks
+  drm/edid: add iterator for CTA data blocks
+  drm/edid: clean up cea_db_is_*() functions
+  drm/edid: convert add_cea_modes() to use cea db iter
+  drm/edid: convert drm_edid_to_speaker_allocation() to use cea db iter
+  drm/edid: convert drm_edid_to_sad() to use cea db iter
+  drm/edid: convert drm_detect_hdmi_monitor() to use cea db iter
+  drm/edid: convert drm_detect_monitor_audio() to use cea db iter
+  drm/edid: convert drm_parse_cea_ext() to use cea db iter
+  drm/edid: convert drm_edid_to_eld() to use cea db iter
+  drm/edid: sunset the old unused cea data block iterators
+  drm/edid: restore some type safety to cea_db_*() functions
+  drm/edid: detect basic audio in all CEA extensions
+  drm/edid: detect color formats and CTA revision in all CTA extensions
+  drm/edid: skip CTA extension scan in drm_edid_to_eld() just for CTA
+    rev
+  drm/edid: sunset drm_find_cea_extension()
 
-        make  O=3Dbuild-arm64   drivers/gpu/drm/
+Lee Shawn C (1):
+  drm/edid: check for HF-SCDB block
 
-is the way you were searching for.
+ drivers/gpu/drm/drm_edid.c | 760 +++++++++++++++++++++----------------
+ 1 file changed, 438 insertions(+), 322 deletions(-)
 
-It builds only drivers/gpu/drm/
-in the separate directory.
+-- 
+2.30.2
 
-
-
-
-> >>>
-> >>> Generated headers such as r420_reg_safe.h reside in the build directo=
-ry, so source files in the source directory can't find them without an expl=
-icit search path.
-> >>
-> >> I'm trying to swap back into my brain how all of this used to work, bu=
-t
-> >> that's a really long time ago that I tried this as well.
-> >>
-> >>> Are you saying that should get added automagically somehow?
-
-
-For the kernel tree, yes, it is done automatically.
-
-See the code in scripts/Makefile.lib:
-
-# $(srctree)/$(src) for including checkin headers from generated source fil=
-es
-# $(objtree)/$(obj) for including generated headers from checkin source fil=
-es
-ifeq ($(KBUILD_EXTMOD),)
-ifdef building_out_of_srctree
-_c_flags   +=3D -I $(srctree)/$(src) -I $(objtree)/$(obj)
-_a_flags   +=3D -I $(srctree)/$(src) -I $(objtree)/$(obj)
-_cpp_flags +=3D -I $(srctree)/$(src) -I $(objtree)/$(obj)
-endif
-endif
-
-
-
-
-But, you used M=3Ddrivers/gpu/drm.
-So, it did not work.
-
-
-
-M=3D is intended for building external modules.
-
-I do not recommend it for in-tree drivers.
-
-
-
-
-
-
-> >>
-> >> Yes, exactly that. I'm like 95% sure that used to work, but I don't kn=
-ow
-> >> why exactly either.
-> >>
-> >>> FWIW, this is pretty common in the kernel according to git grep.
-> >>
-> >> Maybe Alex or somebody else with some more background in the kernel
-> >> Makefiles could jump in and help here.
-> >
-> > I don't remember either.  I vaguely recall the build support for the
-> > mkregtable stuff being reworked a while ago.  A quick zip through the
-> > git logs shows a series from Masahiro Yamada from 2020.
->
-> Yamada-san, can you help us? :)
->
-> See https://patchwork.freedesktop.org/patch/482011/ for my patch.
->
->
-> --
-> Earthling Michel D=C3=A4nzer            |                  https://redhat=
-.com
-> Libre software enthusiast          |         Mesa and Xwayland developer
-
-
-
---
-Best Regards
-Masahiro Yamada
