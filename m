@@ -2,121 +2,113 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1A58E50069E
-	for <lists+dri-devel@lfdr.de>; Thu, 14 Apr 2022 09:09:42 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id C17705006BC
+	for <lists+dri-devel@lfdr.de>; Thu, 14 Apr 2022 09:13:28 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 01F9810FC87;
-	Thu, 14 Apr 2022 07:09:40 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id E18D010E240;
+	Thu, 14 Apr 2022 07:13:22 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from EUR03-AM5-obe.outbound.protection.outlook.com
- (mail-eopbgr30087.outbound.protection.outlook.com [40.107.3.87])
- by gabe.freedesktop.org (Postfix) with ESMTPS id D915910FC87
- for <dri-devel@lists.freedesktop.org>; Thu, 14 Apr 2022 07:09:38 +0000 (UTC)
+Received: from JPN01-TYC-obe.outbound.protection.outlook.com
+ (mail-tycjpn01on2106.outbound.protection.outlook.com [40.107.114.106])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 6C2BA10E240
+ for <dri-devel@lists.freedesktop.org>; Thu, 14 Apr 2022 07:13:21 +0000 (UTC)
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=Pr5uYfoSaBf1QdByodfh/vfKeIxcsNTjf6rQiJAWogrL7Her0Im/omOONJAYF59ncS3TKFkDa60i8TjutvQDdF74iK7H4U5BWDzHRBOcdM37yW0Lvccz6V283T/9XfTxntcTCdpF0VvavxoiX5ApNvf/sgWl4sorww+xup5d4PouUGlkNj7thcFcW8YUo2FaFSqNUqmNY0bPYRs5BczSjKWgKyGDLJEJrpne+9kyhyhsQqCuwpnDJEigBcP//+ftRgmOKdLf4GKCSac6p4bGlMYhucqCeJnILefaTj+uBp/HZyStjbKvnjuzPPeayH4EhxU3oLuwEXnBRp/sbVDF4w==
+ b=BT+WdA/a0w6DKFL19RR3iH5VDPThwTPtL5u7OkyL7d/RdP6JfDsGAi3EXDMQz+3qVvqtkSUJnJiShDz/hWjPFzxk6ZFVkvIofBSE8EtSspAKw7/UCnCsFnp1vu/7/yzkTNbbzalJGy5W8SIUfnLD+fDpORUe3auLTkfS5l+DUuBG7gByvFh6dI/Pzm3YhA9hoMwSLVbXya9so14ejogF5hhKwfFtXtuILiaBBn3jAKMxnJGxvoUKobVSkJsLBBLKPZrZoRXFtQbfASLEeqQBDdq9x0NcEjdFT3KlIZQp2mk6Gj1EowTIQa9lGAvd3QU1xxibRdeLHeo18h67DcijIw==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
  s=arcselector9901;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=0L4vMIUf1mDanswpJo8fhPsQYyiOeSJQ+w6SBa7SJpo=;
- b=jqo7KkJ0TLJ/Dny2WltxeGKYw8BXpGUlHU24ZvpYUy5K2x2MmEYw1yrPyDMB8zBizKvwfg0FRjOOqXj0nMX1XK5hGIMMETSIBeONn5jgK/q0jkHHwjjNgP5buX0EFPHDsSnnnZuuDty7gGsRZTosB9PUTl2hknNNin402u29lUCbrALFj4dUxhxP68Mn5bCjNkKqy9fCDqOcWXnhf6zR1GRmc7EOWg62TDc4WFWgmGje8uiHvH4Am3opwRliGoKdYlHMaaepMDat5J2gZxucwb0VefVTTIdH1N2amG/4KSm8q47/nPAFkbeiohWm183MIfc0SziWehSk1DX/PwHWmA==
+ bh=perhVsqWBRyTIQEGAbeKyszuRRchJjkt9kKFDUT88JM=;
+ b=hrzTsqwTHTIHv+Y9qo401pK/WXZFzIPK+GrTgMBEOyUnEp2kuMqsJeDY7x6zETiwcjCSyLafc6j3eKwi4iLPdSIqoe4aMyOGnV1QUSUabqjTVaNqCiIAduC9DAE0NwiD6EpzH8tuXfIQz+7F3GnYRmIydf2fx1oGiKVKRVemRCUJ8v0CPA6GOm76wf+Mx4Qg0BeZUIiGMt3Bao4L36L9Lr65W26tq61wBkSrrnM62y8s1obnayiV1TGPchKxLNnfeQbHx9WRAI5qFzl9Z1xpTxuieNDpRHq+Frq+mGY1PHWTyNmfF4caTCToIFm13x9Zh/82eM9LnzGc9PbG2TyNYg==
 ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=nxp.com; dmarc=pass action=none header.from=nxp.com; dkim=pass
- header.d=nxp.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nxp.com; s=selector2; 
+ smtp.mailfrom=bp.renesas.com; dmarc=pass action=none
+ header.from=bp.renesas.com; dkim=pass header.d=bp.renesas.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bp.renesas.com;
+ s=selector1;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=0L4vMIUf1mDanswpJo8fhPsQYyiOeSJQ+w6SBa7SJpo=;
- b=f0CJA6bzdNcM4Ct7ZC5N1RXly0heC5qZZ0LA6b3mTdaAOuwhslHEXrMSjJSwpoQX+ZMGoMtk/UjymuN/WjuXO+O2q0jjLFtF4N/DCESV4jtkAWjuWYXAUoUL42TbFjR+WRiIDPcD/csA6t1Zf5rJmA9hLsZWGppVJtUWtEmvclU=
-Authentication-Results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=nxp.com;
-Received: from AM7PR04MB7046.eurprd04.prod.outlook.com (2603:10a6:20b:113::22)
- by AM5PR04MB3027.eurprd04.prod.outlook.com (2603:10a6:206:b::14) with
+ bh=perhVsqWBRyTIQEGAbeKyszuRRchJjkt9kKFDUT88JM=;
+ b=ECZlMAjKESXW5eKFELgE4CorJ5TsV7XXwqJVVTGn1dSvlKFVOVrzTnL48KhZ2BudUP812qKmvI7EhvPnIIEkdznyKUpjulmsg+XciOR+sVOW90MAG2Y2TemHx0xESqkDlKE3+ld5ifwJTJWC1hLyrEJT6P+z4qe9EikXADgvY/g=
+Received: from OS0PR01MB5922.jpnprd01.prod.outlook.com (2603:1096:604:bb::5)
+ by TYCPR01MB9601.jpnprd01.prod.outlook.com (2603:1096:400:192::7) with
  Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.5164.20; Thu, 14 Apr
- 2022 07:09:32 +0000
-Received: from AM7PR04MB7046.eurprd04.prod.outlook.com
- ([fe80::b09c:8ffe:8e02:7387]) by AM7PR04MB7046.eurprd04.prod.outlook.com
- ([fe80::b09c:8ffe:8e02:7387%9]) with mapi id 15.20.5164.018; Thu, 14 Apr 2022
- 07:09:31 +0000
-From: Liu Ying <victor.liu@nxp.com>
-To: linux-phy@lists.infradead.org, devicetree@vger.kernel.org,
- linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
- linux-arm-kernel@lists.infradead.org
-Subject: [PATCH v8 5/5] phy: freescale: phy-fsl-imx8-mipi-dphy: Add i.MX8qxp
- LVDS PHY mode support
-Date: Thu, 14 Apr 2022 15:10:39 +0800
-Message-Id: <20220414071039.423271-6-victor.liu@nxp.com>
-X-Mailer: git-send-email 2.25.1
-In-Reply-To: <20220414071039.423271-1-victor.liu@nxp.com>
-References: <20220414071039.423271-1-victor.liu@nxp.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
-X-ClientProxiedBy: SI2PR06CA0005.apcprd06.prod.outlook.com
- (2603:1096:4:186::12) To AM7PR04MB7046.eurprd04.prod.outlook.com
- (2603:10a6:20b:113::22)
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.5144.29; Thu, 14 Apr
+ 2022 07:13:18 +0000
+Received: from OS0PR01MB5922.jpnprd01.prod.outlook.com
+ ([fe80::b129:a6f3:c39e:98db]) by OS0PR01MB5922.jpnprd01.prod.outlook.com
+ ([fe80::b129:a6f3:c39e:98db%4]) with mapi id 15.20.5144.030; Thu, 14 Apr 2022
+ 07:13:18 +0000
+From: Biju Das <biju.das.jz@bp.renesas.com>
+To: Biju Das <biju.das.jz@bp.renesas.com>, David Airlie <airlied@linux.ie>,
+ Daniel Vetter <daniel@ffwll.ch>, Rob Herring <robh+dt@kernel.org>
+Subject: RE: [PATCH v2 0/7] Add RZ/G2L Display support
+Thread-Topic: [PATCH v2 0/7] Add RZ/G2L Display support
+Thread-Index: AQHYOTdMes34AyJXZke2fdKSEJXJZazvK6Dg
+Date: Thu, 14 Apr 2022 07:13:18 +0000
+Message-ID: <OS0PR01MB5922F835EA2DE122DAABAD8586EF9@OS0PR01MB5922.jpnprd01.prod.outlook.com>
+References: <20220316131100.30685-1-biju.das.jz@bp.renesas.com>
+In-Reply-To: <20220316131100.30685-1-biju.das.jz@bp.renesas.com>
+Accept-Language: en-GB, en-US
+Content-Language: en-US
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+authentication-results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=bp.renesas.com;
+x-ms-publictraffictype: Email
+x-ms-office365-filtering-correlation-id: 8b9028d5-e7fe-4e94-27c4-08da1de64035
+x-ms-traffictypediagnostic: TYCPR01MB9601:EE_
+x-microsoft-antispam-prvs: <TYCPR01MB9601DCB4A039AF4899A9C2B886EF9@TYCPR01MB9601.jpnprd01.prod.outlook.com>
+x-ms-exchange-senderadcheck: 1
+x-ms-exchange-antispam-relay: 0
+x-microsoft-antispam: BCL:0;
+x-microsoft-antispam-message-info: Tu4lszYD1L3mSNDakGS2w4wLpHQZEa3iHp+etGBM1RA0gxw/hQWMBXKxC/YG64VDKt3Fczxl1J8N93SWb7/XI2Z2uCU5k+VEQ8y89QT55pR2IVHd6wqADny4/6XNZuMiSWGFHsFwHQuuxSAZoUG0BMsHu73ACeVNpY97A2tC8lTlVBNILwKinJnTjRg9tFUlLLQrBroPC3CAt/n2OnJqURNS9lFx5uZlNhO5jZB1Uz0WsUOcbf4x7woep4wibXoN+3PPPqw2N4TAFgHJ1yTv8pcbVlWvHxk71oHDdXrHLTLFc/+ko5NOGE8tSxGs8FA4pSyKZxrt/LUY0UhR+Tfgbov865ougliciCxcRsxEZWGQiKBiZxvrDhNIN91r2+NKOufIxv27/v/wNylyA7IxNpQW/ngcZvc6DBBv7yjHTCmUB9qscH0drAa6tu4zEubrDG97d521Zxqa9rT8mz0c4aa+QA88CHOMR9Op5fZ8ft2hjWeaRGh3HYmtxmY04cX+bXHIyrZf0kFtCRdC+ipHMmncMfrz8sPqri73j7D7PuClO35vrEM2RLY7F4B/3zVMVcvEIFxhiK2uOO/W4xT2N6JqHENQ9NuEZqq+p3XT34jTigPaHhafBYCCFDFwXiDavUJDTGYYugVs/Iz3cJ9YRWmr33LWaIGwxaYFjHqbCytjTaAiTdS2rILKVbJwh92HgSFyi1cvtQZmhhPY0D9rH8qV98w7g46wkCoEqXavfaJykVu3c7FPPEluY+IzrloOw7FV3KK131cBm3pDC+9TZj3DXj8KOqmuCf9hBnfVsVU=
+x-forefront-antispam-report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
+ IPV:NLI; SFV:NSPM; H:OS0PR01MB5922.jpnprd01.prod.outlook.com; PTR:; CAT:NONE;
+ SFS:(13230001)(4636009)(366004)(26005)(71200400001)(107886003)(316002)(186003)(86362001)(4326008)(52536014)(38100700002)(8936002)(8676002)(38070700005)(6506007)(9686003)(7696005)(83380400001)(5660300002)(122000001)(66446008)(55016003)(66946007)(2906002)(64756008)(66476007)(66556008)(54906003)(110136005)(76116006)(45080400002)(508600001)(33656002)(966005);
+ DIR:OUT; SFP:1102; 
+x-ms-exchange-antispam-messagedata-chunkcount: 1
+x-ms-exchange-antispam-messagedata-0: =?us-ascii?Q?NpV9S1NGri9/o6G9ZWwL9ixGoqeXtVzMFh70EfFhYz2y+2vfwjoc7s00R6wX?=
+ =?us-ascii?Q?u+I0yHMq+eAnm9gscYQMUnAT3xUmIclnJODVRzpL9fkTGUb8PgkVEnyaZpfS?=
+ =?us-ascii?Q?5mLF58b/rL07jJ5KHLvetENCA6pMWSgzD34MIDwLwsfZjfF560TPp4fh3Riu?=
+ =?us-ascii?Q?PH9/Y1oChGf+wsomFPFcaPt2usRWyBFhfWVcUT5rp5948yO/SDbOzQS05DKR?=
+ =?us-ascii?Q?KZ8mY2myImDg8vWQeYpJzwL2/GClHhTsaFi5v5+CybaIS50dvQP4ifxDpdpw?=
+ =?us-ascii?Q?XxQp3BHi39ZlRZUWCN3YSuRkUC6/OqwNrwR6zthl+IDUt7cw7AWv3X7d0k8R?=
+ =?us-ascii?Q?fBm9rew63frVha57pD7PkORC45nEpBIt/mZzMghe3kiFYwp72iCCypLPj+Iy?=
+ =?us-ascii?Q?hXw10KrPUliq+isodsgtvzNCey52VM62+IBwfHnk4p0TY8iNyuFMIczpB6zQ?=
+ =?us-ascii?Q?H6MS21tscQ6ARW78oyT9Vc3kw69N7VsVNlBfHVqS4QMVEMSLM4gfa90FKWPL?=
+ =?us-ascii?Q?Up1CdanXgPTXFwsYecnvFEYX2e9kdB6+T+SKywQ74Cc5/wz/kGzmzkYRXROL?=
+ =?us-ascii?Q?EoiKuCUBWq6ccTAEEl0kvHoFIr23Ym4MTFsIa4uM6W/Pgi0l6oiqpou6eT4h?=
+ =?us-ascii?Q?/4tZWddc5v5W/dZOfISF0v1L4v2Y5Te4qykn9osfAnOUrLfQeblrf1gTWVgl?=
+ =?us-ascii?Q?RATwT/E1YZDnufHhV+39adnsJ26+fZ2SH4R5HmXCwL2DsS9tTwuyg7WPa3cL?=
+ =?us-ascii?Q?gnU1bpwrSZh/O7wrJx8m62izswm37ffHb0ds8O57irxabkoIJlPpAJwUAAMA?=
+ =?us-ascii?Q?6mK4bfqsxJR2fwZvZITKdBSWNN81KErYeEOyKyBjSJcsCrhOVDmcE4+D7aad?=
+ =?us-ascii?Q?dD57vGq8lB35u5t+9OilwR7pSrscEVZ5y71kudwa/HGSNsOwCq9zEavshqIa?=
+ =?us-ascii?Q?jH+dDk+deuH9UBlLdJI6zBnpYRaK/lgCUcfdv2ubZXWZjT9h3c1FyVuE8xI2?=
+ =?us-ascii?Q?64W2SY4wFvjoQZnkiTT6GmvRn7vvicnQg5AAK+Am1Fs45Uv1iQaY9QyrVMyY?=
+ =?us-ascii?Q?mjEmeQUbRXnu3L8D1sPUWWk9sCwNlBkuqjQOWy4Pim4qM8HI2T1g0HECclwu?=
+ =?us-ascii?Q?E5lakGSASF+QAqVcXxxtqeungqpIBirBaDcb5mfVu3kekkiijmhe/+cwmXEj?=
+ =?us-ascii?Q?QAcRL7DWDHG8O6chTj88Kxtq+pmhr/3o6RXcbX94kKaWagnqT/lYaijuEK71?=
+ =?us-ascii?Q?B/YRNjHtJBft5pcXmJqtymPSS4XlobOQfTL/9Nm6olKYI1DSc1ObwBH32zsa?=
+ =?us-ascii?Q?GBjfExdI2K7/Kb2ZJWDzM/KfnEDbpCxJaEED54UjQoPYYeJwvpxVUkG4kEll?=
+ =?us-ascii?Q?AnsHRtwoSu57HZTSdcxCWDxP9bUmppnjjmivPC7Z8y9POQbPac8bLWHGV1yp?=
+ =?us-ascii?Q?xK605RgGDpJ8XO9q25c+4zjoIQidzaO39KQ4XjU7YEgK0hftVhFKXsTU59gD?=
+ =?us-ascii?Q?Mh0xUckvfTZ6nOJwHsEeUxMrhvif1KwK/sC/+X9o5xwp8zTV0Ih02yBjCjfG?=
+ =?us-ascii?Q?RCC9TCArq723C0Uvd6P3fgwS5EpYxSLrBQXQ/F7jbXZZRjOtOjtgyPpbaS3C?=
+ =?us-ascii?Q?d81c7CPCdI1plJQJrbYt596Xe3lOhHZgjg+gZMk8mJC2aXiUmkxrYbPY1iTA?=
+ =?us-ascii?Q?aN84VflXhzywwJwwX6Th0F1+tg+WTbwaf8b1nD6b3DACaVM17e8o3PcUUaWb?=
+ =?us-ascii?Q?rDxunuHhUy0QJ3akIe63eJLiEfEYtsI=3D?=
+Content-Type: text/plain; charset="us-ascii"
+Content-Transfer-Encoding: quoted-printable
 MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-Office365-Filtering-Correlation-Id: 4231c9ce-e569-4f99-c831-08da1de5b917
-X-MS-TrafficTypeDiagnostic: AM5PR04MB3027:EE_
-X-Microsoft-Antispam-PRVS: <AM5PR04MB30279075F6FD164BA8483A7A98EF9@AM5PR04MB3027.eurprd04.prod.outlook.com>
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: 71+iB3LFxeml02siSB9JJMbxXqAcA7flVoLuhYqItQX8IsTSSC67j/4123JW2cDYEhAqQdnAa5IFML32wr6Xy7MhGrmyHNGzLU08G8xf4SexaOQ83FD+c8XH43URpVx9bOPX2PwaeWlkJRhDtJ04NTYO0QCPpfgLBZwAE51qeRojyks4/Zb8VDcMOFNf8/PcLW2bY0qC3ab/8azTYFheR5sI1EUJl150g1l5BRw0D5KL8BdIarPp4TBlfGF1kKd4EQUg8OKDjowhi+mZHJXlhJ1YxbzMcHDtQmFw+ioZal9aTinUrveRk2Hv86o2IwbCCjBGlPoKpmLYeLhIMAwrBvipDn9qaMW4rNymRB4ZXchgNmmt/HbMHtRHrubulebTsJsgqAEWxHMCkq/xJXPFwB1IvhcHgdUf33CJOEIJHj4gkAAqTGZW0cDQoFy+ZJypQGnkPYPy6deHVi6zcm7Vjn6qj/l+1rozr0oiNPyQePhW5alc2xEidA+wWqRDoTJ4vdu+wrpD4oiKRRCVOR5H6zTicCKNFtyrD3sVLC8eJE+JDBX3CRDsM8f6/DYGifcX3nTqr4W/+kOwJYM8N1101V/KgZWBqvH3cOkpPsyVWI/yDsA4Ky7CTMrzbHA5b7Csf/P0kmWvujwg2OM/LydUwygUHC1mdmM3gg6MfRXd4ArqmferDW00W7Y0Y34Uxb+Q3lbDJUVtETA6c7mG95AvcA==
-X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
- IPV:NLI; SFV:NSPM; H:AM7PR04MB7046.eurprd04.prod.outlook.com; PTR:; CAT:NONE;
- SFS:(13230001)(4636009)(366004)(2906002)(316002)(8936002)(7416002)(66476007)(4326008)(508600001)(8676002)(66946007)(36756003)(38100700002)(38350700002)(66556008)(6486002)(83380400001)(52116002)(5660300002)(6512007)(2616005)(26005)(66574015)(30864003)(186003)(86362001)(6506007)(1076003);
- DIR:OUT; SFP:1101; 
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: =?utf-8?B?b0pqVG1ta2FybndhTzNQeXRjdkxDNVFYYk11Tk9KSTN6V3BDN1l2UW0xR01U?=
- =?utf-8?B?a1lMakp5enowRUFVWjRzOUF3ellFWlVNdlp4VTFzbkk4UlRJUTA5dXQvVnY3?=
- =?utf-8?B?UzZCODZQaHFlTW1ZNUZDMUhVbHR0SzZZclFVRjVtbzRhanlwY2lyNDZXUE43?=
- =?utf-8?B?Y2JONEJhQmdjcm9Kcmd0YURwbm02NjZRaG1rd3kvZVcrWERCU1RoMlg4V2o3?=
- =?utf-8?B?ZWppWldPU3BRdmxqTDNBZDRzWHN5REgyaXhvSEQ4MHMyNnVSS3VkVGl6RFN4?=
- =?utf-8?B?SUtvUWoyUFJCWGxxZUh4SDJhZTJKTDZIcEI2ZG5NV0l1VXljNTFBUXZyZmhX?=
- =?utf-8?B?ZmFhUHBRQjh0UG5YZExERXdBeVNIdUFvNXdCUUlJaFVsSVMzczd6MlZqdzhH?=
- =?utf-8?B?Ry9tUm1MSzRGcVQ2SzB1WFUxT3MvNDdHN0RyMXg4K05qYktoTk1laE5Ya0tl?=
- =?utf-8?B?VlZJMEVVMm1UQ1RPQ1RjVUtzK0x0UnZuQzRaR01BVEhiZVZPa3VOcHVwMVhO?=
- =?utf-8?B?QXR4UGFzME1Sb3hRa3pxME1xc1hqblNWWkRzWWVkUXY3NGM1YUhzVmYvNFZO?=
- =?utf-8?B?LytlSGdWWkx0YnlLQjhQd29HaWZpY0k0WmNydnFIczZzSDRRZVllckpXcG5H?=
- =?utf-8?B?Mk9iRGNyU2F2VnNQRUdhOG5sRTJSeEpxNGFkNWRhZDJQUTlpMDY4Ny9aU1VM?=
- =?utf-8?B?cE1iK3RsL25FbkR1OFd5bzd0NFJKVjhvTEFjVUZBK0xnaUpNQWtmd3czQ0xM?=
- =?utf-8?B?a01ySnRPcUhiTzAzTUgwbWduMnNoYkdwVWdsL203MUZWUFVMVFRTY0MzK1Ba?=
- =?utf-8?B?aFVSVktONzh2VW91dkQvdTRXdG5sa1BRMHNXWHZXVFBBdzFOVDZzRkgwRk9S?=
- =?utf-8?B?TzY1Y2JKMHlJVXNVRlFDQm1aby9Fb1BYOS9ZZVJRS2M0OHR6QVZVMDJNNTJI?=
- =?utf-8?B?TWJlSFo4c2lJeUJkMEFMOW5Ccm5ubnJkOUtveUtwQUpqNi9hb3NSd25sanJH?=
- =?utf-8?B?WGhwMGtjT3FLbWE2OWNuMjJXL2NEMW9RcEdYVGxhR1hvSGlqL3dwcWU1WlJF?=
- =?utf-8?B?WHE3ZTAxQUJHa0hGRTVXTkJMLy9xemNqVHY0WVlkMDRqbEx1M0prdWFZV0ZG?=
- =?utf-8?B?UG5vSW5RN1BHTjdwTFRBUjMwSE1obmp3L1FKSm4xRnVEbzhzVVRYdWYzZ1NB?=
- =?utf-8?B?UHMwcVltU1lYWnpqblZzVEhuZ1R4Yjdya1RNcU1yb0NuNlV5aVNIdkg2ME01?=
- =?utf-8?B?M0pCM2pWY2FjbWFtQldIRGovWWw4Wm9uQU1heDBsU0ZIVnhwNXhYMDBDQjQw?=
- =?utf-8?B?aHZWOTR1Mkt6T3g0TTB1NUZqWndHOXNnK2dZNG9MMnZ5cFRpTnVLNVhSdVRy?=
- =?utf-8?B?cjlYV1JWMHNjMGJLZXM4SFNrN1praFJFdkhVUzBibktRcHZhemJaNGFnaWhi?=
- =?utf-8?B?cmEzdTRlaTZHd2VPQXpQM0hnYU8xd2ZOMU1PNVVMMVNldGFSaHVYYlBvc2tL?=
- =?utf-8?B?dklnaUduRlpiRUpJQll3dzNTYnU5RXB6NEo4eDZEaXJMSnF2ZXhWZ09xcndR?=
- =?utf-8?B?YS9PV0UvTm5Uc1VJQm45QU5DOUdZaXdlNG85c016eDNZMUFRQ3BlbS9GQVVU?=
- =?utf-8?B?ZUt2WmVScTRQaTNidjQremU1U2FiamhVTWhLY3VOTWJ2aWZRWlJwUDhFUzFi?=
- =?utf-8?B?MURLbmlBaVpzeXp2dStyK1JUaVpvU29OaVp5YjNKVzFLKzAwRk1VcFlIOTBM?=
- =?utf-8?B?QkRaRE94U0lLRThMdFpWR2pGUXJhcEpHMFN3aFR2VEs1TDhZKzFVb0VQZ2Fo?=
- =?utf-8?B?TXhxZ1FzaXlXZVdOUkFITGNQSnpVcTZkL0VybDRPSE5wVnhSSHBHK3FLaGNU?=
- =?utf-8?B?clZsWmRxK1F1SjF6cGIzZVg0T0JsYmNYVVNwSWVGd3VPY01SOEtpd0NRSFZ6?=
- =?utf-8?B?VzB4MTBNQTJhTnd0ejFZUHU1U1FJOURvb2RmdVhFZTNRNzlXbWpjenhIM3Z6?=
- =?utf-8?B?WWpGN0hiY05GTjdnbVNQVFNETm9JZVNvaGQ1ZUNWNmdybVkybHpTeCtXSVFa?=
- =?utf-8?B?Nm1uZzVsMStCU1ZhTXJ0ODJmN0grQ0krNzNKdUh6SjEzZ3hWdlJJblBQZHIy?=
- =?utf-8?B?Zmx1WGZONjBwMEE4aFBGMmNXMzlGVlV1VkJnODZZNFlkcVorWU1BTklJck4v?=
- =?utf-8?B?YTVWRFpDTXhpcktpTDJlQm5OK0Q0OW0xVzBPSmlHVStDdWVncG5DS1JPa2Rr?=
- =?utf-8?B?MWExYUdFUmFybVAwSVltVnZaVkFDRkI0YXVOWnZheVcxVWVWLzFDaVNpMVNP?=
- =?utf-8?B?ZUxabEM5MnhqOUlHdWc2dzFydm1JaVRkbzVpTTZqbHlYNTVWTWt6QT09?=
-X-OriginatorOrg: nxp.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 4231c9ce-e569-4f99-c831-08da1de5b917
-X-MS-Exchange-CrossTenant-AuthSource: AM7PR04MB7046.eurprd04.prod.outlook.com
+X-OriginatorOrg: bp.renesas.com
 X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 14 Apr 2022 07:09:31.8905 (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 686ea1d3-bc2b-4c6f-a92c-d99c5c301635
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: Oig5/gaXJnSAFwS/uQdpnU9GlM7Uj84eAFpdaF4NVwewUu/oUB8nCK4gPtZvg752AdEDpb6wTlFbvM8ojY0/kw==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: AM5PR04MB3027
+X-MS-Exchange-CrossTenant-AuthSource: OS0PR01MB5922.jpnprd01.prod.outlook.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 8b9028d5-e7fe-4e94-27c4-08da1de64035
+X-MS-Exchange-CrossTenant-originalarrivaltime: 14 Apr 2022 07:13:18.2318 (UTC)
+X-MS-Exchange-CrossTenant-fromentityheader: Hosted
+X-MS-Exchange-CrossTenant-id: 53d82571-da19-47e4-9cb4-625a166a4a2a
+X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
+X-MS-Exchange-CrossTenant-userprincipalname: Bhzni2c/eI0zvbwpIKuA2KUSFA5RTo3eV3epyMj+YyaCzJcH9arqHdGzGndaFVvRikeoBuAWBLuUL19WfBRLWZNgmCUGEzqpQ+CKVquREcU=
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: TYCPR01MB9601
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -129,472 +121,164 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: martin.kepplinger@puri.sm, agx@sigxcpu.org, jernej.skrabec@gmail.com,
- narmstrong@baylibre.com, airlied@linux.ie, s.hauer@pengutronix.de,
- jonas@kwiboo.se, robert.foss@linaro.org, kishon@ti.com, vkoul@kernel.org,
- robh+dt@kernel.org, Laurent.pinchart@ideasonboard.com, andrzej.hajda@intel.com,
- robert.chiras@nxp.com, krzk+dt@kernel.org, shawnguo@kernel.org,
- kernel@pengutronix.de, linux-imx@nxp.com
+Cc: "devicetree@vger.kernel.org" <devicetree@vger.kernel.org>,
+ Chris Paterson <Chris.Paterson2@renesas.com>,
+ Geert Uytterhoeven <geert+renesas@glider.be>,
+ Prabhakar Mahadev Lad <prabhakar.mahadev-lad.rj@bp.renesas.com>,
+ "dri-devel@lists.freedesktop.org" <dri-devel@lists.freedesktop.org>,
+ Biju Das <biju.das@bp.renesas.com>,
+ "linux-renesas-soc@vger.kernel.org" <linux-renesas-soc@vger.kernel.org>,
+ Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>,
+ Laurent Pinchart <laurent.pinchart@ideasonboard.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-i.MX8qxp SoC embeds a Mixel MIPI DPHY + LVDS PHY combo which supports
-either a MIPI DSI display or a LVDS display.  The PHY mode is controlled
-by SCU firmware and the driver would call a SCU firmware function to
-configure the PHY mode.  The single LVDS PHY has 4 data lanes to support
-a LVDS display.  Also, with a master LVDS PHY and a slave LVDS PHY, they
-may work together to support a LVDS display with 8 data lanes(usually, dual
-LVDS link display).  Note that this patch supports the LVDS PHY mode only
-for the i.MX8qxp Mixel combo PHY, i.e., the MIPI DPHY mode is yet to be
-supported, so for now error would be returned from ->set_mode() if MIPI
-DPHY mode is passed over to it for the combo PHY.
+Hi All,
 
-Cc: Guido Günther <agx@sigxcpu.org>
-Cc: Robert Chiras <robert.chiras@nxp.com>
-Cc: Kishon Vijay Abraham I <kishon@ti.com>
-Cc: Vinod Koul <vkoul@kernel.org>
-Cc: Shawn Guo <shawnguo@kernel.org>
-Cc: Sascha Hauer <s.hauer@pengutronix.de>
-Cc: Pengutronix Kernel Team <kernel@pengutronix.de>
-Cc: Fabio Estevam <festevam@gmail.com>
-Cc: NXP Linux Team <linux-imx@nxp.com>
-Reviewed-by: Guido Günther <agx@sigxcpu.org>
-Signed-off-by: Liu Ying <victor.liu@nxp.com>
----
-v7->v8:
-* No change.
+Gentle ping, Are we happy with this patch series?
 
-v6->v7:
-* Use marco instead of magic number for CCM and CA values.
-* Suppress 'checkpatch --strict' warnings.
-* Check !opts in mixel_dphy_configure().
+Cheers,
+Biju
 
-v5->v6:
-* No change.
-
-v4->v5:
-* No change.
-
-v3->v4:
-* Add Guido's R-b tag.
-
-v2->v3:
-* Improve readability of mixel_dphy_set_mode(). (Guido)
-
-v1->v2:
-* Print invalid PHY mode in dmesg. (Guido)
-
- .../phy/freescale/phy-fsl-imx8-mipi-dphy.c    | 276 +++++++++++++++++-
- 1 file changed, 265 insertions(+), 11 deletions(-)
-
-diff --git a/drivers/phy/freescale/phy-fsl-imx8-mipi-dphy.c b/drivers/phy/freescale/phy-fsl-imx8-mipi-dphy.c
-index a95572b397ca..e625b32889bf 100644
---- a/drivers/phy/freescale/phy-fsl-imx8-mipi-dphy.c
-+++ b/drivers/phy/freescale/phy-fsl-imx8-mipi-dphy.c
-@@ -4,17 +4,33 @@
-  * Copyright 2019 Purism SPC
-  */
- 
-+#include <linux/bitfield.h>
- #include <linux/clk.h>
- #include <linux/clk-provider.h>
- #include <linux/delay.h>
-+#include <linux/firmware/imx/ipc.h>
-+#include <linux/firmware/imx/svc/misc.h>
- #include <linux/io.h>
- #include <linux/kernel.h>
-+#include <linux/mfd/syscon.h>
- #include <linux/module.h>
- #include <linux/of.h>
- #include <linux/of_platform.h>
- #include <linux/phy/phy.h>
- #include <linux/platform_device.h>
- #include <linux/regmap.h>
-+#include <dt-bindings/firmware/imx/rsrc.h>
-+
-+/* Control and Status Registers(CSR) */
-+#define PHY_CTRL			0x00
-+#define  CCM_MASK			GENMASK(7, 5)
-+#define  CCM(n)				FIELD_PREP(CCM_MASK, (n))
-+#define  CCM_1_2V			0x5
-+#define  CA_MASK			GENMASK(4, 2)
-+#define  CA_3_51MA			0x4
-+#define  CA(n)				FIELD_PREP(CA_MASK, (n))
-+#define  RFB				BIT(1)
-+#define  LVDS_EN			BIT(0)
- 
- /* DPHY registers */
- #define DPHY_PD_DPHY			0x00
-@@ -55,8 +71,15 @@
- #define PWR_ON	0
- #define PWR_OFF	1
- 
-+#define MIN_VCO_FREQ 640000000
-+#define MAX_VCO_FREQ 1500000000
-+
-+#define MIN_LVDS_REFCLK_FREQ 24000000
-+#define MAX_LVDS_REFCLK_FREQ 150000000
-+
- enum mixel_dphy_devtype {
- 	MIXEL_IMX8MQ,
-+	MIXEL_IMX8QXP,
- };
- 
- struct mixel_dphy_devdata {
-@@ -65,6 +88,7 @@ struct mixel_dphy_devdata {
- 	u8 reg_rxlprp;
- 	u8 reg_rxcdrp;
- 	u8 reg_rxhs_settle;
-+	bool is_combo;	/* MIPI DPHY and LVDS PHY combo */
- };
- 
- static const struct mixel_dphy_devdata mixel_dphy_devdata[] = {
-@@ -74,6 +98,10 @@ static const struct mixel_dphy_devdata mixel_dphy_devdata[] = {
- 		.reg_rxlprp = 0x40,
- 		.reg_rxcdrp = 0x44,
- 		.reg_rxhs_settle = 0x48,
-+		.is_combo = false,
-+	},
-+	[MIXEL_IMX8QXP] = {
-+		.is_combo = true,
- 	},
- };
- 
-@@ -95,8 +123,12 @@ struct mixel_dphy_cfg {
- struct mixel_dphy_priv {
- 	struct mixel_dphy_cfg cfg;
- 	struct regmap *regmap;
-+	struct regmap *lvds_regmap;
- 	struct clk *phy_ref_clk;
- 	const struct mixel_dphy_devdata *devdata;
-+	struct imx_sc_ipc *ipc_handle;
-+	bool is_slave;
-+	int id;
- };
- 
- static const struct regmap_config mixel_dphy_regmap_config = {
-@@ -317,7 +349,8 @@ static int mixel_dphy_set_pll_params(struct phy *phy)
- 	return 0;
- }
- 
--static int mixel_dphy_configure(struct phy *phy, union phy_configure_opts *opts)
-+static int
-+mixel_dphy_configure_mipi_dphy(struct phy *phy, union phy_configure_opts *opts)
- {
- 	struct mixel_dphy_priv *priv = phy_get_drvdata(phy);
- 	struct mixel_dphy_cfg cfg = { 0 };
-@@ -345,15 +378,126 @@ static int mixel_dphy_configure(struct phy *phy, union phy_configure_opts *opts)
- 	return 0;
- }
- 
-+static int
-+mixel_dphy_configure_lvds_phy(struct phy *phy, union phy_configure_opts *opts)
-+{
-+	struct mixel_dphy_priv *priv = phy_get_drvdata(phy);
-+	struct phy_configure_opts_lvds *lvds_opts = &opts->lvds;
-+	unsigned long data_rate;
-+	unsigned long fvco;
-+	u32 rsc;
-+	u32 co;
-+	int ret;
-+
-+	priv->is_slave = lvds_opts->is_slave;
-+
-+	/* LVDS interface pins */
-+	regmap_write(priv->lvds_regmap, PHY_CTRL,
-+		     CCM(CCM_1_2V) | CA(CA_3_51MA) | RFB);
-+
-+	/* enable MODE8 only for slave LVDS PHY */
-+	rsc = priv->id ? IMX_SC_R_MIPI_1 : IMX_SC_R_MIPI_0;
-+	ret = imx_sc_misc_set_control(priv->ipc_handle, rsc, IMX_SC_C_DUAL_MODE,
-+				      lvds_opts->is_slave);
-+	if (ret) {
-+		dev_err(&phy->dev, "Failed to configure MODE8: %d\n", ret);
-+		return ret;
-+	}
-+
-+	/*
-+	 * Choose an appropriate divider ratio to meet the requirement of
-+	 * PLL VCO frequency range.
-+	 *
-+	 *  -----  640MHz ~ 1500MHz   ------------      ---------------
-+	 * | VCO | ----------------> | CO divider | -> | LVDS data rate|
-+	 *  -----       FVCO          ------------      ---------------
-+	 *                            1/2/4/8 div     7 * differential_clk_rate
-+	 */
-+	data_rate = 7 * lvds_opts->differential_clk_rate;
-+	for (co = 1; co <= 8; co *= 2) {
-+		fvco = data_rate * co;
-+
-+		if (fvco >= MIN_VCO_FREQ)
-+			break;
-+	}
-+
-+	if (fvco < MIN_VCO_FREQ || fvco > MAX_VCO_FREQ) {
-+		dev_err(&phy->dev, "VCO frequency %lu is out of range\n", fvco);
-+		return -ERANGE;
-+	}
-+
-+	/*
-+	 * CO is configurable, while CN and CM are not,
-+	 * as fixed ratios 1 and 7 are applied respectively.
-+	 */
-+	phy_write(phy, __ffs(co), DPHY_CO);
-+
-+	/* set reference clock rate */
-+	clk_set_rate(priv->phy_ref_clk, lvds_opts->differential_clk_rate);
-+
-+	return ret;
-+}
-+
-+static int mixel_dphy_configure(struct phy *phy, union phy_configure_opts *opts)
-+{
-+	if (!opts) {
-+		dev_err(&phy->dev, "No configuration options\n");
-+		return -EINVAL;
-+	}
-+
-+	if (phy->attrs.mode == PHY_MODE_MIPI_DPHY)
-+		return mixel_dphy_configure_mipi_dphy(phy, opts);
-+	else if (phy->attrs.mode == PHY_MODE_LVDS)
-+		return mixel_dphy_configure_lvds_phy(phy, opts);
-+
-+	dev_err(&phy->dev,
-+		"Failed to configure PHY with invalid PHY mode: %d\n", phy->attrs.mode);
-+
-+	return -EINVAL;
-+}
-+
-+static int
-+mixel_dphy_validate_lvds_phy(struct phy *phy, union phy_configure_opts *opts)
-+{
-+	struct phy_configure_opts_lvds *lvds_cfg = &opts->lvds;
-+
-+	if (lvds_cfg->bits_per_lane_and_dclk_cycle != 7) {
-+		dev_err(&phy->dev, "Invalid bits per LVDS data lane: %u\n",
-+			lvds_cfg->bits_per_lane_and_dclk_cycle);
-+		return -EINVAL;
-+	}
-+
-+	if (lvds_cfg->lanes != 4) {
-+		dev_err(&phy->dev, "Invalid LVDS data lanes: %u\n", lvds_cfg->lanes);
-+		return -EINVAL;
-+	}
-+
-+	if (lvds_cfg->differential_clk_rate < MIN_LVDS_REFCLK_FREQ ||
-+	    lvds_cfg->differential_clk_rate > MAX_LVDS_REFCLK_FREQ) {
-+		dev_err(&phy->dev,
-+			"Invalid LVDS differential clock rate: %lu\n",
-+			lvds_cfg->differential_clk_rate);
-+		return -EINVAL;
-+	}
-+
-+	return 0;
-+}
-+
- static int mixel_dphy_validate(struct phy *phy, enum phy_mode mode, int submode,
- 			       union phy_configure_opts *opts)
- {
--	struct mixel_dphy_cfg cfg = { 0 };
-+	if (mode == PHY_MODE_MIPI_DPHY) {
-+		struct mixel_dphy_cfg mipi_dphy_cfg = { 0 };
- 
--	if (mode != PHY_MODE_MIPI_DPHY)
--		return -EINVAL;
-+		return mixel_dphy_config_from_opts(phy, &opts->mipi_dphy,
-+						   &mipi_dphy_cfg);
-+	} else if (mode == PHY_MODE_LVDS) {
-+		return mixel_dphy_validate_lvds_phy(phy, opts);
-+	}
- 
--	return mixel_dphy_config_from_opts(phy, &opts->mipi_dphy, &cfg);
-+	dev_err(&phy->dev,
-+		"Failed to validate PHY with invalid PHY mode: %d\n", mode);
-+	return -EINVAL;
- }
- 
- static int mixel_dphy_init(struct phy *phy)
-@@ -373,26 +517,74 @@ static int mixel_dphy_exit(struct phy *phy)
- 	return 0;
- }
- 
--static int mixel_dphy_power_on(struct phy *phy)
-+static int mixel_dphy_power_on_mipi_dphy(struct phy *phy)
- {
- 	struct mixel_dphy_priv *priv = phy_get_drvdata(phy);
- 	u32 locked;
- 	int ret;
- 
--	ret = clk_prepare_enable(priv->phy_ref_clk);
--	if (ret < 0)
--		return ret;
+> Subject: [PATCH v2 0/7] Add RZ/G2L Display support
+>=20
+> RZ/G2L LCD controller composed of Frame compression Processor(FCPVD),
+> Video signal processor (VSPD) and Display unit(DU). The output of LCDC is
+> connected to Display parallel interface and MIPI link video interface.
+>=20
+> This patch series aims to add basic display support on RZ/G2L SMARC EVK
+> platform. The output from DSI is connected to ADV7535.
+>=20
+> The DU controller is similar to R-Car as it is connected to VSPD, so
+> reusing most of R-Car code with new CRTC driver specific to RZ/G2L
+>=20
+> v1->v2:
+>  * Based on [1], all references to 'rzg2l_lcdc' replaced with 'rzg2l_du'
+>  * Updated commit description for bindings
+>  * Removed LCDC references from bindings
+>  * Changed clock name from du.0->aclk from bindings
+>  * Changed reset name from du.0->du from bindings
+>  * Replaced crtc_helper_funcs->rcar_crtc_helper_funcs
+>  * Updated macro DRM_RZG2L_LCDC->DRM_RZG2L_DU
+>  * Replaced rzg2l-lcdc-drm->rzg2l-du-drm
+>  * Added forward declaration for struct reset_control
+>=20
+> [1]
+> https://jpn01.safelinks.protection.outlook.com/?url=3Dhttps%3A%2F%2Fpatch=
+wor
+> k.kernel.org%2Fproject%2Flinux-renesas-soc%2Fpatch%2F20220312084205.31462=
 -
- 	phy_write(phy, PWR_ON, DPHY_PD_PLL);
- 	ret = regmap_read_poll_timeout(priv->regmap, DPHY_LOCK, locked,
- 				       locked, PLL_LOCK_SLEEP,
- 				       PLL_LOCK_TIMEOUT);
- 	if (ret < 0) {
- 		dev_err(&phy->dev, "Could not get DPHY lock (%d)!\n", ret);
--		goto clock_disable;
-+		return ret;
- 	}
- 	phy_write(phy, PWR_ON, DPHY_PD_DPHY);
- 
-+	return 0;
-+}
-+
-+static int mixel_dphy_power_on_lvds_phy(struct phy *phy)
-+{
-+	struct mixel_dphy_priv *priv = phy_get_drvdata(phy);
-+	u32 locked;
-+	int ret;
-+
-+	regmap_update_bits(priv->lvds_regmap, PHY_CTRL, LVDS_EN, LVDS_EN);
-+
-+	phy_write(phy, PWR_ON, DPHY_PD_DPHY);
-+	phy_write(phy, PWR_ON, DPHY_PD_PLL);
-+
-+	/* do not wait for slave LVDS PHY being locked */
-+	if (priv->is_slave)
-+		return 0;
-+
-+	ret = regmap_read_poll_timeout(priv->regmap, DPHY_LOCK, locked,
-+				       locked, PLL_LOCK_SLEEP,
-+				       PLL_LOCK_TIMEOUT);
-+	if (ret < 0) {
-+		dev_err(&phy->dev, "Could not get LVDS PHY lock (%d)!\n", ret);
-+		return ret;
-+	}
-+
-+	return 0;
-+}
-+
-+static int mixel_dphy_power_on(struct phy *phy)
-+{
-+	struct mixel_dphy_priv *priv = phy_get_drvdata(phy);
-+	int ret;
-+
-+	ret = clk_prepare_enable(priv->phy_ref_clk);
-+	if (ret < 0)
-+		return ret;
-+
-+	if (phy->attrs.mode == PHY_MODE_MIPI_DPHY) {
-+		ret = mixel_dphy_power_on_mipi_dphy(phy);
-+	} else if (phy->attrs.mode == PHY_MODE_LVDS) {
-+		ret = mixel_dphy_power_on_lvds_phy(phy);
-+	} else {
-+		dev_err(&phy->dev,
-+			"Failed to power on PHY with invalid PHY mode: %d\n",
-+							phy->attrs.mode);
-+		ret = -EINVAL;
-+	}
-+
-+	if (ret)
-+		goto clock_disable;
-+
- 	return 0;
- clock_disable:
- 	clk_disable_unprepare(priv->phy_ref_clk);
-@@ -406,16 +598,51 @@ static int mixel_dphy_power_off(struct phy *phy)
- 	phy_write(phy, PWR_OFF, DPHY_PD_PLL);
- 	phy_write(phy, PWR_OFF, DPHY_PD_DPHY);
- 
-+	if (phy->attrs.mode == PHY_MODE_LVDS)
-+		regmap_update_bits(priv->lvds_regmap, PHY_CTRL, LVDS_EN, 0);
-+
- 	clk_disable_unprepare(priv->phy_ref_clk);
- 
- 	return 0;
- }
- 
-+static int mixel_dphy_set_mode(struct phy *phy, enum phy_mode mode, int submode)
-+{
-+	struct mixel_dphy_priv *priv = phy_get_drvdata(phy);
-+	int ret;
-+
-+	if (priv->devdata->is_combo && mode != PHY_MODE_LVDS) {
-+		dev_err(&phy->dev, "Failed to set PHY mode for combo PHY\n");
-+		return -EINVAL;
-+	}
-+
-+	if (!priv->devdata->is_combo && mode != PHY_MODE_MIPI_DPHY) {
-+		dev_err(&phy->dev, "Failed to set PHY mode to MIPI DPHY\n");
-+		return -EINVAL;
-+	}
-+
-+	if (priv->devdata->is_combo) {
-+		u32 rsc = priv->id ? IMX_SC_R_MIPI_1 : IMX_SC_R_MIPI_0;
-+
-+		ret = imx_sc_misc_set_control(priv->ipc_handle,
-+					      rsc, IMX_SC_C_MODE,
-+					      mode == PHY_MODE_LVDS);
-+		if (ret) {
-+			dev_err(&phy->dev,
-+				"Failed to set PHY mode via SCU ipc: %d\n", ret);
-+			return ret;
-+		}
-+	}
-+
-+	return 0;
-+}
-+
- static const struct phy_ops mixel_dphy_phy_ops = {
- 	.init = mixel_dphy_init,
- 	.exit = mixel_dphy_exit,
- 	.power_on = mixel_dphy_power_on,
- 	.power_off = mixel_dphy_power_off,
-+	.set_mode = mixel_dphy_set_mode,
- 	.configure = mixel_dphy_configure,
- 	.validate = mixel_dphy_validate,
- 	.owner = THIS_MODULE,
-@@ -424,6 +651,8 @@ static const struct phy_ops mixel_dphy_phy_ops = {
- static const struct of_device_id mixel_dphy_of_match[] = {
- 	{ .compatible = "fsl,imx8mq-mipi-dphy",
- 	  .data = &mixel_dphy_devdata[MIXEL_IMX8MQ] },
-+	{ .compatible = "fsl,imx8qxp-mipi-dphy",
-+	  .data = &mixel_dphy_devdata[MIXEL_IMX8QXP] },
- 	{ /* sentinel */ },
- };
- MODULE_DEVICE_TABLE(of, mixel_dphy_of_match);
-@@ -436,6 +665,7 @@ static int mixel_dphy_probe(struct platform_device *pdev)
- 	struct mixel_dphy_priv *priv;
- 	struct phy *phy;
- 	void __iomem *base;
-+	int ret;
- 
- 	if (!np)
- 		return -ENODEV;
-@@ -467,6 +697,30 @@ static int mixel_dphy_probe(struct platform_device *pdev)
- 	dev_dbg(dev, "phy_ref clock rate: %lu\n",
- 		clk_get_rate(priv->phy_ref_clk));
- 
-+	if (priv->devdata->is_combo) {
-+		priv->lvds_regmap =
-+			syscon_regmap_lookup_by_phandle(np, "fsl,syscon");
-+		if (IS_ERR(priv->lvds_regmap)) {
-+			ret = PTR_ERR(priv->lvds_regmap);
-+			dev_err_probe(dev, ret, "Failed to get LVDS regmap\n");
-+			return ret;
-+		}
-+
-+		priv->id = of_alias_get_id(np, "mipi_dphy");
-+		if (priv->id < 0) {
-+			dev_err(dev, "Failed to get phy node alias id: %d\n",
-+				priv->id);
-+			return priv->id;
-+		}
-+
-+		ret = imx_scu_get_handle(&priv->ipc_handle);
-+		if (ret) {
-+			dev_err_probe(dev, ret,
-+				      "Failed to get SCU ipc handle\n");
-+			return ret;
-+		}
-+	}
-+
- 	dev_set_drvdata(dev, priv);
- 
- 	phy = devm_phy_create(dev, np, &mixel_dphy_phy_ops);
--- 
-2.25.1
+> 2-
+> biju.das.jz%40bp.renesas.com%2F&amp;data=3D04%7C01%7Cbiju.das.jz%40bp.ren=
+esa
+> s.com%7C619fcf75486d47a9954408da074e6e1b%7C53d82571da1947e49cb4625a166a4a=
+2
+> a%7C0%7C0%7C637830330678043182%7CUnknown%7CTWFpbGZsb3d8eyJWIjoiMC4wLjAwMD=
+A
+> iLCJQIjoiV2luMzIiLCJBTiI6Ik1haWwiLCJXVCI6Mn0%3D%7C3000&amp;sdata=3D3zlHOf=
+dKJ
+> XLmDLGaMbbw%2BDUxQreKIEtvGUHNSuukDmg%3D&amp;reserved=3D0
+>=20
+> RFC->v1:
+>  * Changed  minItems->maxItems for renesas,vsps.
+>  * Added RZ/G2L LCDC driver with special handling for CRTC reusing
+>    most of RCar DU code
+>  * Fixed the comments for num_rpf from rpf's->RPFs/ and vsp->VSP.
+> RFC:
+>=20
+> https://jpn01.safelinks.protection.outlook.com/?url=3Dhttps%3A%2F%2Fpatch=
+wor
+> k.kernel.org%2Fproject%2Flinux-renesas-soc%2Fpatch%2F20220112174612.10773=
+-
+> 18-
+> biju.das.jz%40bp.renesas.com%2F&amp;data=3D04%7C01%7Cbiju.das.jz%40bp.ren=
+esa
+> s.com%7C619fcf75486d47a9954408da074e6e1b%7C53d82571da1947e49cb4625a166a4a=
+2
+> a%7C0%7C0%7C637830330678043182%7CUnknown%7CTWFpbGZsb3d8eyJWIjoiMC4wLjAwMD=
+A
+> iLCJQIjoiV2luMzIiLCJBTiI6Ik1haWwiLCJXVCI6Mn0%3D%7C3000&amp;sdata=3DSXadiM=
+Rg%
+> 2Fw%2Fnt3R6K02Zke67CSFqIQtt34si2RCqyH0%3D&amp;reserved=3D0
+>=20
+> https://jpn01.safelinks.protection.outlook.com/?url=3Dhttps%3A%2F%2Fpatch=
+wor
+> k.kernel.org%2Fproject%2Flinux-renesas-soc%2Fpatch%2F20220112174612.10773=
+-
+> 12-
+> biju.das.jz%40bp.renesas.com%2F&amp;data=3D04%7C01%7Cbiju.das.jz%40bp.ren=
+esa
+> s.com%7C619fcf75486d47a9954408da074e6e1b%7C53d82571da1947e49cb4625a166a4a=
+2
+> a%7C0%7C0%7C637830330678043182%7CUnknown%7CTWFpbGZsb3d8eyJWIjoiMC4wLjAwMD=
+A
+> iLCJQIjoiV2luMzIiLCJBTiI6Ik1haWwiLCJXVCI6Mn0%3D%7C3000&amp;sdata=3DuRkp8h=
+imf
+> 53knLtbWBxfRa4HGY3SxmyLT5FBrpmFtqg%3D&amp;reserved=3D0
+>=20
+> https://jpn01.safelinks.protection.outlook.com/?url=3Dhttps%3A%2F%2Fpatch=
+wor
+> k.kernel.org%2Fproject%2Flinux-renesas-soc%2Fpatch%2F20220112174612.10773=
+-
+> 13-
+> biju.das.jz%40bp.renesas.com%2F&amp;data=3D04%7C01%7Cbiju.das.jz%40bp.ren=
+esa
+> s.com%7C619fcf75486d47a9954408da074e6e1b%7C53d82571da1947e49cb4625a166a4a=
+2
+> a%7C0%7C0%7C637830330678043182%7CUnknown%7CTWFpbGZsb3d8eyJWIjoiMC4wLjAwMD=
+A
+> iLCJQIjoiV2luMzIiLCJBTiI6Ik1haWwiLCJXVCI6Mn0%3D%7C3000&amp;sdata=3DMQAEyp=
+28C
+> rxHTvdHtarXlO6j0CkpCXZuqVHcbNWkXYI%3D&amp;reserved=3D0
+>=20
+> https://jpn01.safelinks.protection.outlook.com/?url=3Dhttps%3A%2F%2Fpatch=
+wor
+> k.kernel.org%2Fproject%2Flinux-renesas-soc%2Fpatch%2F20220112174612.10773=
+-
+> 19-
+> biju.das.jz%40bp.renesas.com%2F&amp;data=3D04%7C01%7Cbiju.das.jz%40bp.ren=
+esa
+> s.com%7C619fcf75486d47a9954408da074e6e1b%7C53d82571da1947e49cb4625a166a4a=
+2
+> a%7C0%7C0%7C637830330678043182%7CUnknown%7CTWFpbGZsb3d8eyJWIjoiMC4wLjAwMD=
+A
+> iLCJQIjoiV2luMzIiLCJBTiI6Ik1haWwiLCJXVCI6Mn0%3D%7C3000&amp;sdata=3D1y%2Bd=
+5Yb
+> UoXnMZL97%2F4LTcG8IDtze%2FW%2BwzHRXBEbUgSw%3D&amp;reserved=3D0
+>=20
+> Biju Das (7):
+>   dt-bindings: display: renesas,du: Document r9a07g044l bindings
+>   drm: rcar-du: Add num_rpf to struct rcar_du_device_info
+>   drm: rcar-du: Add max_width and max_height to struct
+>     rcar_du_device_info
+>   drm: rcar-du: Move rcar_du_output_name() to rcar_du_common.c
+>   drm: rcar-du: Factorise rcar_du_{atomic_check,modeset_init}
+>   drm: rcar-du: Factorise
+>     rcar_du_vsp{complete,enable,plane_atomic_check}
+>   drm: rcar-du: Add RZ/G2L DU Support
+>=20
+>  .../bindings/display/renesas,du.yaml          |  54 ++
+>  drivers/gpu/drm/rcar-du/Kconfig               |  18 +-
+>  drivers/gpu/drm/rcar-du/Makefile              |  13 +
+>  drivers/gpu/drm/rcar-du/rcar_du_common.c      |  30 +
+>  drivers/gpu/drm/rcar-du/rcar_du_crtc.h        |   8 +
+>  drivers/gpu/drm/rcar-du/rcar_du_drv.c         | 100 ++-
+>  drivers/gpu/drm/rcar-du/rcar_du_drv.h         |  31 +
+>  drivers/gpu/drm/rcar-du/rcar_du_kms.c         |  23 +-
+>  drivers/gpu/drm/rcar-du/rcar_du_plane.h       |  12 +
+>  drivers/gpu/drm/rcar-du/rcar_du_vsp.c         |  18 +-
+>  drivers/gpu/drm/rcar-du/rzg2l_du_crtc.c       | 705 ++++++++++++++++++
+>  drivers/gpu/drm/rcar-du/rzg2l_du_drv.c        | 221 ++++++
+>  drivers/gpu/drm/rcar-du/rzg2l_du_plane.c      |  82 ++
+>  drivers/gpu/drm/rcar-du/rzg2l_du_regs.h       |  64 ++
+>  14 files changed, 1334 insertions(+), 45 deletions(-)  create mode 10064=
+4
+> drivers/gpu/drm/rcar-du/rcar_du_common.c
+>  create mode 100644 drivers/gpu/drm/rcar-du/rzg2l_du_crtc.c
+>  create mode 100644 drivers/gpu/drm/rcar-du/rzg2l_du_drv.c
+>  create mode 100644 drivers/gpu/drm/rcar-du/rzg2l_du_plane.c
+>  create mode 100644 drivers/gpu/drm/rcar-du/rzg2l_du_regs.h
+>=20
+> --
+> 2.17.1
 
