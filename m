@@ -2,61 +2,45 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4823A501CB3
-	for <lists+dri-devel@lfdr.de>; Thu, 14 Apr 2022 22:38:06 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id DD15E501CFD
+	for <lists+dri-devel@lfdr.de>; Thu, 14 Apr 2022 22:59:14 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 7D07710E2C6;
-	Thu, 14 Apr 2022 20:38:02 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 46D5510E387;
+	Thu, 14 Apr 2022 20:59:12 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mout.gmx.net (mout.gmx.net [212.227.17.22])
- by gabe.freedesktop.org (Postfix) with ESMTPS id E32B810E213
- for <dri-devel@lists.freedesktop.org>; Thu, 14 Apr 2022 20:38:00 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=gmx.net;
- s=badeba3b8450; t=1649968678;
- bh=TH68cw0yAw4HKgOCoqtJycb5tXT+WeVSIGdb/V6cqnM=;
- h=X-UI-Sender-Class:Date:To:From:Subject;
- b=HG2HrLo9wio3erouLzZqzWvMBuOTvscPAH9Pp8GufwN3okk2ropbPk9oMa4FBdnmm
- O52roUK1y8fZGeufB4KeSR2aLmDinBmeKd0KRdwCKwOL/RVoefua3eJneuwlayhS8M
- JQhVj20GV2rxtnzrW3MpDKV+Axy+8mxzpszA/0So=
-X-UI-Sender-Class: 01bb95c1-4bf8-414a-932a-4f6e2808ef9c
-Received: from [192.168.20.60] ([92.116.186.43]) by mail.gmx.net (mrgmx104
- [212.227.17.168]) with ESMTPSA (Nemesis) id 1MY6Cb-1nRCXI3s33-00YTHp; Thu, 14
- Apr 2022 22:37:57 +0200
-Message-ID: <c79789fb-642d-ee9e-32a6-fc7f79d9e3b4@gmx.de>
-Date: Thu, 14 Apr 2022 22:37:55 +0200
+Received: from fanzine2.igalia.com (fanzine.igalia.com [178.60.130.6])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id A4E2E10E387
+ for <dri-devel@lists.freedesktop.org>; Thu, 14 Apr 2022 20:59:11 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=igalia.com; 
+ s=20170329;
+ h=In-Reply-To:Content-Type:MIME-Version:References:Message-ID:
+ Subject:Cc:To:From:Date:Sender:Reply-To:Content-Transfer-Encoding:Content-ID:
+ Content-Description:Resent-Date:Resent-From:Resent-Sender:Resent-To:Resent-Cc
+ :Resent-Message-ID:List-Id:List-Help:List-Unsubscribe:List-Subscribe:
+ List-Post:List-Owner:List-Archive;
+ bh=gXaGmOOsB9TGzqUB1QimCayH4bdRjVTZzE3nk7Y91u4=; b=mWmv74Vv0CmWoCcAqKhK+rJDdn
+ TwLeWuS5l0Kf6mCLiWcZD90YM48bvXd8abATpVborWSIN+12/iieJYNfS3ivp5YEaBXbZHJAgfJHt
+ ykpQyBmBVAua+XjyWVZmyQwiaIsb9GPlZvDZXdrR/MHbFAYCsrLtIvkDwrj08ByW70+DWtDFOJQJT
+ QSrYHzvZw8qwh+4WGtd1OaOVorKjSMSf55Zn4drvXnOY6ECo4glHKQ4RTT6/Mazml/3hzUJf6T9tO
+ ahFWWPvArkx4yZ7hvAgb8VRKucNiGVltdNnJIDhHyZJdM5sLEVS8Yh6JG+nikSCXJC2VXHdoR3g/p
+ 5i7lnVfg==;
+Received: from [165.90.126.25] (helo=mail.igalia.com)
+ by fanzine2.igalia.com with esmtpsa 
+ (Cipher TLS1.3:ECDHE_SECP256R1__RSA_PSS_RSAE_SHA256__AES_256_GCM:256) (Exim)
+ id 1nf6YU-0000ac-Gw; Thu, 14 Apr 2022 22:59:06 +0200
+Date: Thu, 14 Apr 2022 19:58:51 -0100
+From: Melissa Wen <mwen@igalia.com>
+To: Tales Lelo da Aparecida <tales.aparecida@gmail.com>
+Subject: Re: [PATCH 1/1] drm/vkms: check plane_composer->map[0] before using it
+Message-ID: <20220414205802.f4nkh43por2ohnqo@mail.igalia.com>
+References: <20220411233801.36297-1-tales.aparecida@gmail.com>
+ <20220411233801.36297-2-tales.aparecida@gmail.com>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.7.0
-To: dri-devel@lists.freedesktop.org, Daniel Vetter <daniel@ffwll.ch>,
- Thomas Zimmermann <tzimmermann@suse.de>
-Content-Language: en-US
-From: Helge Deller <deller@gmx.de>
-Subject: dim question: How to revert patches?
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: quoted-printable
-X-Provags-ID: V03:K1:x7AtGWJ8s0hayBt82t4dnWEK8T5FkcGDljWjkJr7j7V/khYpk20
- vjcnRa6C/Ew+KXg+YEs3w13WNqWcDIB4gXy5BrvDLTmpxRyIvM460aaPGbNk7uax0lnRdeq
- p9eDlF8kaXIxV9iRQLK/FVaLDU4Naxz+Kkj8/Zpmgg/pbYs/ihZ+9mwk3EF9xkumziPDldW
- Gig2bo16wKKxto7mgZzDw==
-X-Spam-Flag: NO
-X-UI-Out-Filterresults: notjunk:1;V03:K0:vxPYGa1rL/o=:bzsvcIf6yTTlGGKQXdGgii
- eVPZq2vZG02GwmXbKb8huQs2PNPR65WIA03z+/+bDYJ+9au4mWF0o+1YYYd9/mVVw03vNTp5G
- QuZIcXzwn5/cgc1UwepdIhXLYOFl2CHuBH5hlSdCwe38eoo7yGqA3/03XdmbSxHHg1WORbU/F
- V+/JiTVwfv5K/ZKQXMxyYFYfJgU4FEdwZ6hme8i33CYeNX9dFHJdwCZEE0Ch5CrrDXL2YGxw1
- ZXpMVyi17sRXsvlEl7HQst49SgluvHUvCgy++/9iWVWO//FkqXzEpECs0OxKt1Yj8mEk+xD8m
- fW8sjK9knFb6XEGvPu+R7pn/R3Smnq91wp08h/m1MhaUCXa/Yt7pJfE5RL5lZhp7UcfanMBA+
- QZvXuu3R4dvZs4rF4vhuSYFZie6tZZeFY9rXvOtWWQ9ODwmYdq+uiY0Q4VNTi3kNvoApB0Seu
- 1aZ4vyI8nvpfO4GFAfrrqS09xu3jSmTezSVaF/9dHhA0O+oelLYXG8WzLgE/w46Rab52yaxwp
- 51qGEpo3AU0ePV+prYyeDMMhPiY04S8J1+0gwxHiSVT1XyRXP4vtnzTpts8Ji6UBecEQsEIDT
- iBno73oTZxknFau33egRApKn6ou5PqoK7A6h+n1JBcpjXmNkKMWYzrJQuzObHIivCH4bvS0H0
- KzQtQSHC9fkhXLWbVhh8liWkMvKb9IP0r0RPrPl1JbY3V6dCAiG1csmKmPf66+0opo/u0ZU4Q
- aKN+HF+xDgpb8C+p6aPf0i4Hkf9YLcKSU6pNLxo3Mk7y9gAmQBgqqIxrkhIfDyxbmYjmFANQK
- EfHyFXd0Qsqj03k2sGsfDvEpYELnMorBik4YvLrn2o5krLID1bBCNrH1GcfogFmoPE+zC9zA0
- qVyyKpQcCN5H03GFfy8XSoMXnJR8IXW6SBev3KqVolZ+VjGcpqnuTr+rK6KiU+09jIAxS+7N2
- G2ruUJsn7mbhXy4yp8Fy60fb0wmiM4KGVbAxDIW6/XCxMO1v9lRPbSnEHBRPPoPkVSAbV4dgH
- N73FqwqySay96Dl34478XJSvTid01EyAO8tSDdyqbf4eR/9PmL3nUcAi4/uQrieJxbshYgZVo
- RZF+n9inN5Yw6w=
+Content-Type: multipart/signed; micalg=pgp-sha512;
+ protocol="application/pgp-signature"; boundary="wmzy4nunyg3yxory"
+Content-Disposition: inline
+In-Reply-To: <20220411233801.36297-2-tales.aparecida@gmail.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -69,37 +53,85 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
+Cc: Haneen Mohammed <hamohammed.sa@gmail.com>,
+ Rodrigo Siqueira <rodrigosiqueiramelo@gmail.com>,
+ David Airlie <airlied@linux.ie>, linux-kernel@vger.kernel.org,
+ dri-devel@lists.freedesktop.org, Melissa Wen <melissa.srw@gmail.com>,
+ andrealmeid@riseup.net
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hello dri-devel & dim users,
 
-I committed this patch to the drm-misc-next branch:
+--wmzy4nunyg3yxory
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
-commit d6cd978f7e6b6f6895f8d0c4ce6e5d2c8e979afe
-    video: fbdev: fbmem: fix pointer reference to null device field
+On 04/11, Tales Lelo da Aparecida wrote:
+> Fix a copypasta error, which resulted in checking repeatedly if the
+> primary_composer->map[0] was null, instead of checking each
+> plane_composer while composing planes.
+>=20
+> Signed-off-by: Tales Lelo da Aparecida <tales.aparecida@gmail.com>
 
-then I noticed that it was fixed already in another branch which led to th=
-is error:
+Hi Tales,
 
-Merging drm-misc/drm-misc-next... dim:
-dim: FAILURE: Could not merge drm-misc/drm-misc-next
-dim: See the section "Resolving Conflicts when Rebuilding drm-tip"
-dim: in the drm-tip.rst documentation for how to handle this situation.
+Nice catch!
 
-I fixed it by reverting that patch above with this new commit in the drm-m=
-isc-next branch:
+I suggest you detail this issue with more information. The caller of
+compose_plane() already checks primary_composer->map. In constrast,
+plane_composer->map is never verified here before handling.
+Also, add the 'Fixes' tag pointing to the commit that introduced this
+issue.
 
-commit cabfa2bbe617ddf0a0cc4d01f72b584dae4939ad (HEAD -> drm-misc-next, dr=
-m-misc/for-linux-next, drm-misc/drm-misc-next)
-Author: Helge Deller <deller@gmx.de>
-    Revert "video: fbdev: fbmem: fix pointer reference to null device fiel=
-d"
+Can you send a next version addressing these suggestions and already
+adding Andre's reviewed-by tag?
 
-My question (as "dim" newbie):
-Was that the right solution?
-Is there a possibility to drop those two patches from the drm-misc-next br=
-anch before it gets pushed upstream?
+Thanks for your patch.
 
-TIA,
-Helge
+Melissa
+
+> ---
+>  drivers/gpu/drm/vkms/vkms_composer.c | 2 +-
+>  1 file changed, 1 insertion(+), 1 deletion(-)
+>=20
+> diff --git a/drivers/gpu/drm/vkms/vkms_composer.c b/drivers/gpu/drm/vkms/=
+vkms_composer.c
+> index c6a1036bf2ea..b47ac170108c 100644
+> --- a/drivers/gpu/drm/vkms/vkms_composer.c
+> +++ b/drivers/gpu/drm/vkms/vkms_composer.c
+> @@ -157,7 +157,7 @@ static void compose_plane(struct vkms_composer *prima=
+ry_composer,
+>  	void *vaddr;
+>  	void (*pixel_blend)(const u8 *p_src, u8 *p_dst);
+> =20
+> -	if (WARN_ON(iosys_map_is_null(&primary_composer->map[0])))
+> +	if (WARN_ON(iosys_map_is_null(&plane_composer->map[0])))
+>  		return;
+> =20
+>  	vaddr =3D plane_composer->map[0].vaddr;
+> --=20
+> 2.35.1
+>=20
+
+--wmzy4nunyg3yxory
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iQIzBAABCgAdFiEEd8WOo/JViG+Tu+XIwqF3j0dLehwFAmJYiwoACgkQwqF3j0dL
+ehxEIxAApmAQvIXxU9r0qhgFR0GUE1pY1DkBT0gjMowhRzC2fMlb4ifORJHu+R4k
+ibQZKK/gqC+0ktD+q7vAur5l5zuc2T/4TlLbobxH8utVVpjPiVvGy0dMkEwQFmP8
+PqQStNt367sai+DY7wZc5XfYwuv39ilOdr9HUV5Q9iwuqRrL8r2gun6ugBw4lzDb
+mTpmO+iWVT5KhMJbcmsa2XHUEQrIkqZN7vm73XBgbw40ebvBhJe1YVLBqIwrGkvh
+CGughFZfmncvz17yURvneI0bO8Lzek1AUBm5KKHdyFT4ZCtKKKEpUzMlr2LHqqnc
+EPqdtCXDogQt0SL+DMCxviy4tP+flzOJVsKOKGei6/U6YnTGgwVCaQfHL3iVI3U/
+o/Fu5eoczG7tKMt8ZL9JJ+aDa03rf0oWQsliQiqde3fCuP4cLyRlPMni20VLUwHd
+iJMK6tdM5VjQOUck3+WRe29LcVi2dKEzJyL1WeiBBHgV6EonBq1M9g5Nm6rZWjvG
+4HPNtDR/oa9dLRy77SWQzXUTng6oZgVtK6LGkDR+NCh7f38b7uDmpk34qE/6Z9Ao
+mN5w0TVcV05IeUh9RIIeuC2C7/HWSIArMwP3L4SLmERte9YWYCkplDeDoEHlONmX
+zVe6DB5uEcizY0ax67QB9Azya60lExPHHnK83gPNdQweaam5+0A=
+=7LhH
+-----END PGP SIGNATURE-----
+
+--wmzy4nunyg3yxory--
