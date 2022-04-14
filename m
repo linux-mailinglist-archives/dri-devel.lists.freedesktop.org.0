@@ -2,52 +2,50 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8766B5019FF
-	for <lists+dri-devel@lfdr.de>; Thu, 14 Apr 2022 19:25:53 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 1C5805019F7
+	for <lists+dri-devel@lfdr.de>; Thu, 14 Apr 2022 19:23:19 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 68E4A10FC75;
-	Thu, 14 Apr 2022 17:25:51 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id D468210E021;
+	Thu, 14 Apr 2022 17:23:12 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from alexa-out.qualcomm.com (alexa-out.qualcomm.com [129.46.98.28])
- by gabe.freedesktop.org (Postfix) with ESMTPS id F2B9410FCB4;
- Thu, 14 Apr 2022 17:25:49 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=quicinc.com; i=@quicinc.com; q=dns/txt; s=qcdkim;
- t=1649957150; x=1681493150;
- h=from:to:cc:subject:date:message-id:mime-version;
- bh=tu03tytOL47ULrreLW7ygMVuHjx60bNs3bbQnN2icPE=;
- b=rNeH4/pSaZAZ8oSUKFtzFFfTwBrXXdYsZqFLoFEsj2bCkMiXog9QowMl
- DbBdTi8TuDXCSuU0DHX+AzIWBVqpfoJVcY4Yn7b6dnQjwb7tPDOhRWSaE
- mX/9jKmv/a/Hfl9yw3kvdVYkuk4v6uJ2QFLUuelIKuZ2xyCysLMeBxL9J 4=;
-Received: from ironmsg09-lv.qualcomm.com ([10.47.202.153])
- by alexa-out.qualcomm.com with ESMTP; 14 Apr 2022 10:25:49 -0700
-X-QCInternal: smtphost
-Received: from nasanex01c.na.qualcomm.com ([10.47.97.222])
- by ironmsg09-lv.qualcomm.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 14 Apr 2022 10:25:48 -0700
-Received: from nalasex01a.na.qualcomm.com (10.47.209.196) by
- nasanex01c.na.qualcomm.com (10.47.97.222) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.2.986.22; Thu, 14 Apr 2022 10:25:48 -0700
-Received: from khsieh-linux1.qualcomm.com (10.80.80.8) by
- nalasex01a.na.qualcomm.com (10.47.209.196) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.2.986.22; Thu, 14 Apr 2022 10:25:47 -0700
-From: Kuogee Hsieh <quic_khsieh@quicinc.com>
-To: <robdclark@gmail.com>, <sean@poorly.run>, <swboyd@chromium.org>,
- <vkoul@kernel.org>, <daniel@ffwll.ch>, <airlied@linux.ie>,
- <agross@kernel.org>, <dmitry.baryshkov@linaro.org>,
- <bjorn.andersson@linaro.org>
-Subject: [PATCH v3] drm/msm/dp: stop event kernel thread when DP unbind
-Date: Thu, 14 Apr 2022 10:25:37 -0700
-Message-ID: <1649957137-24620-1-git-send-email-quic_khsieh@quicinc.com>
-X-Mailer: git-send-email 2.7.4
+Received: from bhuna.collabora.co.uk (bhuna.collabora.co.uk
+ [IPv6:2a00:1098:0:82:1000:25:2eeb:e3e3])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 6DAFF10E140;
+ Thu, 14 Apr 2022 17:23:11 +0000 (UTC)
+Received: from [127.0.0.1] (localhost [127.0.0.1])
+ (Authenticated sender: bbeckett) with ESMTPSA id B79D21F47BCE
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
+ s=mail; t=1649956990;
+ bh=D3Guilrkks6V/1hTwTRFRrqejHfbyPr22LWaBmWvToo=;
+ h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
+ b=KhEWKrc5jpdpnlEan/SJ5+kGF26hEhzLFsX6DVMxJLGi7R7KpgAMDEYPQJotCaaWo
+ uIjlI/MD0FDOyWmglK4Bi4Hy59l9zTdy1cPQZn9lA3euRlaRBBBQAzcuwPj+uUCCdw
+ S3wAiqfaQoVYB0G2jzHVZ5llQJCLsva2bCHU/uetz5eis8/YZpOl0FiBd0Mxtdzd8G
+ OTfzlMLHdHKlP/rKTgpr7UjcAZ+ni5VCtJPpJ+EjFEjRotb/AiwQHPMa0iVx0F1RsS
+ /xWFCgcHZJa9aqNb64gZra/RxZ0455Ef4v8X+NMJyPmLSPY+4iPrhdDBnJXDBP2c7x
+ ZrF4tqzg5GgHw==
+Message-ID: <2f71160e-01cc-40a5-4661-b998b3acd153@collabora.com>
+Date: Thu, 14 Apr 2022 18:29:03 +0100
 MIME-Version: 1.0
-Content-Type: text/plain
-X-Originating-IP: [10.80.80.8]
-X-ClientProxiedBy: nasanex01b.na.qualcomm.com (10.46.141.250) To
- nalasex01a.na.qualcomm.com (10.47.209.196)
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.7.0
+Subject: Re: [PATCH v3 5/5] drm/i915: stolen memory use ttm backend
+Content-Language: en-US
+To: =?UTF-8?Q?Thomas_Hellstr=c3=b6m?= <thomas.hellstrom@linux.intel.com>,
+ dri-devel@lists.freedesktop.org, intel-gfx@lists.freedesktop.org,
+ Jani Nikula <jani.nikula@linux.intel.com>,
+ Joonas Lahtinen <joonas.lahtinen@linux.intel.com>,
+ Rodrigo Vivi <rodrigo.vivi@intel.com>,
+ Tvrtko Ursulin <tvrtko.ursulin@linux.intel.com>,
+ David Airlie <airlied@linux.ie>, Daniel Vetter <daniel@ffwll.ch>
+References: <20220412193817.2098308-1-bob.beckett@collabora.com>
+ <20220412193817.2098308-6-bob.beckett@collabora.com>
+ <94ddf51a-90ae-dee8-5d6a-45ee2cd1e584@linux.intel.com>
+From: Robert Beckett <bob.beckett@collabora.com>
+In-Reply-To: <94ddf51a-90ae-dee8-5d6a-45ee2cd1e584@linux.intel.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -60,138 +58,56 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: quic_sbillaka@quicinc.com, linux-arm-msm@vger.kernel.org,
- quic_abhinavk@quicinc.com, dri-devel@lists.freedesktop.org,
- quic_khsieh@quicinc.com, quic_aravindh@quicinc.com,
- freedreno@lists.freedesktop.org, linux-kernel@vger.kernel.org
+Cc: Matthew Auld <matthew.auld@intel.com>, linux-kernel@vger.kernel.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Current DP driver implementation, event thread is kept running
-after DP display is unbind. This patch fix this problem by disabling
-DP irq and stop event thread to exit gracefully at dp_display_unbind().
 
-Changes in v2:
--- start event thread at dp_display_bind()
 
-Changes in v3:
--- disable all HDP interrupts at unbind
--- replace dp_hpd_event_setup() with dp_hpd_event_thread_start()
--- replace dp_hpd_event_stop() with dp_hpd_event_thread_stop()
--- move init_waitqueue_head(&dp->event_q) to probe()
--- move spin_lock_init(&dp->event_lock) to probe()
+On 14/04/2022 15:41, Thomas Hellström wrote:
+> Hi,
+> 
+> 
+> On 4/12/22 21:38, Robert Beckett wrote:
+>> +struct ttm_resource *
+>> +i915_gem_stolen_reserve_range(struct drm_i915_private *i915,
+>> +                  resource_size_t size,
+>> +                  u64 start, u64 end)
+>>   {
+>> -    int ret;
+>> +    struct intel_memory_region *mem = i915->mm.stolen_region;
+>> -    if (!drm_mm_initialized(&i915->mm.stolen))
+>> -        return -ENODEV;
+>> -
+>> -    /* WaSkipStolenMemoryFirstPage:bdw+ */
+>> -    if (GRAPHICS_VER(i915) >= 8 && start < 4096)
+>> -        start = 4096;
+> 
+> Did we lose this Workaround?
 
-Fixes: e91e3065a806 ("drm/msm/dp: Add DP compliance tests on Snapdragon Chipsets")
-Signed-off-by: Kuogee Hsieh <quic_khsieh@quicinc.com>
-Reported-by: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
----
- drivers/gpu/drm/msm/dp/dp_display.c | 42 ++++++++++++++++++++++++++++---------
- 1 file changed, 32 insertions(+), 10 deletions(-)
+woops, looks like we did. Nice catch.
+I'll add a reservation at start of day if wa is needed when I issue v4.
 
-diff --git a/drivers/gpu/drm/msm/dp/dp_display.c b/drivers/gpu/drm/msm/dp/dp_display.c
-index 01453db..0b9a96f 100644
---- a/drivers/gpu/drm/msm/dp/dp_display.c
-+++ b/drivers/gpu/drm/msm/dp/dp_display.c
-@@ -113,6 +113,7 @@ struct dp_display_private {
- 	u32 hpd_state;
- 	u32 event_pndx;
- 	u32 event_gndx;
-+	struct task_struct *ev_tsk;
- 	struct dp_event event_list[DP_EVENT_Q_MAX];
- 	spinlock_t event_lock;
- 
-@@ -230,6 +231,29 @@ void dp_display_signal_audio_complete(struct msm_dp *dp_display)
- 	complete_all(&dp->audio_comp);
- }
- 
-+static int hpd_event_thread(void *data);
-+
-+static int dp_hpd_event_thread_start(struct dp_display_private *dp_priv)
-+{
-+	int err = 0;
-+
-+	dp_priv->ev_tsk = kthread_run(hpd_event_thread, dp_priv, "dp_hpd_handler");
-+	if (IS_ERR(dp_priv->ev_tsk)) {
-+		DRM_ERROR("failed to create DP event thread\n");
-+		err = PTR_ERR(dp_priv->ev_tsk);
-+	}
-+	return err;
-+}
-+
-+static void dp_hpd_event_thread_stop(struct dp_display_private *dp_priv)
-+{
-+	kthread_stop(dp_priv->ev_tsk);
-+
-+	/* reset event q to empty */
-+	dp_priv->event_gndx = 0;
-+	dp_priv->event_pndx = 0;
-+}
-+
- static int dp_display_bind(struct device *dev, struct device *master,
- 			   void *data)
- {
-@@ -269,6 +293,7 @@ static int dp_display_bind(struct device *dev, struct device *master,
- 	if (rc)
- 		DRM_ERROR("Audio registration Dp failed\n");
- 
-+	rc = dp_hpd_event_thread_start(dp);
- end:
- 	return rc;
- }
-@@ -280,6 +305,9 @@ static void dp_display_unbind(struct device *dev, struct device *master,
- 	struct drm_device *drm = dev_get_drvdata(master);
- 	struct msm_drm_private *priv = drm->dev_private;
- 
-+	/* disable all HPD interrupts */
-+	dp_catalog_hpd_config_intr(dp->catalog, DP_DP_HPD_INT_MASK, false);
-+	dp_hpd_event_thread_stop(dp);
- 	dp_power_client_deinit(dp->power);
- 	dp_aux_unregister(dp->aux);
- 	priv->dp[dp->id] = NULL;
-@@ -1054,7 +1082,7 @@ static int hpd_event_thread(void *data)
- 
- 	dp_priv = (struct dp_display_private *)data;
- 
--	while (1) {
-+	while (!kthread_should_stop()) {
- 		if (timeout_mode) {
- 			wait_event_timeout(dp_priv->event_q,
- 				(dp_priv->event_pndx == dp_priv->event_gndx),
-@@ -1132,13 +1160,6 @@ static int hpd_event_thread(void *data)
- 	return 0;
- }
- 
--static void dp_hpd_event_setup(struct dp_display_private *dp_priv)
--{
--	init_waitqueue_head(&dp_priv->event_q);
--	spin_lock_init(&dp_priv->event_lock);
--
--	kthread_run(hpd_event_thread, dp_priv, "dp_hpd_handler");
--}
- 
- static irqreturn_t dp_display_irq_handler(int irq, void *dev_id)
- {
-@@ -1266,7 +1287,10 @@ static int dp_display_probe(struct platform_device *pdev)
- 		return -EPROBE_DEFER;
- 	}
- 
-+	/* setup event q */
- 	mutex_init(&dp->event_mutex);
-+	init_waitqueue_head(&dp->event_q);
-+	spin_lock_init(&dp->event_lock);
- 
- 	/* Store DP audio handle inside DP display */
- 	dp->dp_display.dp_audio = dp->audio;
-@@ -1441,8 +1465,6 @@ void msm_dp_irq_postinstall(struct msm_dp *dp_display)
- 
- 	dp = container_of(dp_display, struct dp_display_private, dp_display);
- 
--	dp_hpd_event_setup(dp);
--
- 	dp_add_event(dp, EV_HPD_INIT_SETUP, 0, 100);
- }
- 
--- 
-The Qualcomm Innovation Center, Inc. is a member of the Code Aurora Forum,
-a Linux Foundation Collaborative Project
-
+> 
+> Need to continue reviewing this patchnext week.
+> 
+> 
+> Thx,
+> 
+> Thomas
+> 
+> 
+> 
+> 
+>> -
+>> -    mutex_lock(&i915->mm.stolen_lock);
+>> -    ret = drm_mm_insert_node_in_range(&i915->mm.stolen, node,
+>> -                      size, alignment, 0,
+>> -                      start, end, DRM_MM_INSERT_BEST);
+>> -    mutex_unlock(&i915->mm.stolen_lock);
+>> +    if (!mem)
+>> +        return ERR_PTR(-ENODEV);
+>> +    return intel_region_ttm_resource_alloc(mem, size, start, end, 
+>> I915_BO_ALLOC_CONTIGUOUS);
+>> +}
+>> -
