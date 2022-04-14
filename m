@@ -1,70 +1,52 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7ADDC500608
-	for <lists+dri-devel@lfdr.de>; Thu, 14 Apr 2022 08:24:56 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 6193A50061F
+	for <lists+dri-devel@lfdr.de>; Thu, 14 Apr 2022 08:31:04 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 1DF0810FBA4;
-	Thu, 14 Apr 2022 06:24:54 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 187EE10FCF7;
+	Thu, 14 Apr 2022 06:30:59 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-ed1-x533.google.com (mail-ed1-x533.google.com
- [IPv6:2a00:1450:4864:20::533])
- by gabe.freedesktop.org (Postfix) with ESMTPS id A548C10FBA4;
- Thu, 14 Apr 2022 06:24:53 +0000 (UTC)
-Received: by mail-ed1-x533.google.com with SMTP id t25so5048806edt.9;
- Wed, 13 Apr 2022 23:24:53 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
- h=message-id:date:mime-version:user-agent:subject:content-language:to
- :cc:references:from:in-reply-to:content-transfer-encoding;
- bh=p/NPkCOAH3unLhMBFHm3OP1bFIXJxVGLed+i2DDTQWg=;
- b=WBRomlPFpRbRhLOL59ejAbCco1Br1tL2HXxi4eRl0RVEEl7v8+ZEeqxl6fyN3IMoit
- mnezTmrpFjdjvkXmuya56tfVdzpvD9SgDv5RDQxH9/Z9qqdqJBCcPkwwVCkSEKeLRK5F
- 9ntCyOPTmtotn6gJiZMOHjRMso5x4C8DNEsCQW4yjVhLB4mDhztLe281ZWAYWlhzPyMD
- PntJ+lWRevWHxmZSluhQjWddgvHLj9j2JY1/jY2JZVOg6azStTajKACa/XEWt8a51L3B
- exkUPmsRV75ESk6oQLQvdOuA9qppLantRFzODhxTgtoZwK9t5eARDB0/sOXf0aLqUz8f
- 5ddA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
- :content-language:to:cc:references:from:in-reply-to
- :content-transfer-encoding;
- bh=p/NPkCOAH3unLhMBFHm3OP1bFIXJxVGLed+i2DDTQWg=;
- b=N9z+YQzH8iu1CJDFm3QnXM9vL2AcXQLCGnonFteVkPIxLENbpV1qiO5PYDMwBgm4mE
- eVF1FtI+6l58HGk0ve1E6aRAN9TdQeFQCZmnJ433Y8XzCbiNod0ocstZ2oxxDV9VLcLl
- bH7TS/UdRaMU/BgDbt7lwvUNb/kk+wz7VAP6oeNGMY9k6ILVE+1DZlkfvs/JNgMPXD5Y
- Im0IJMNKW/wsGZrEvBKja8hg/RDdY6K9TChiPDqfEj4K25K/SdyKnguOMAMAdWTv/hE8
- Ui7n+p/HvueT2uprM1YxxcXsV7xwlP18CxSH0Q5IYNAmIGWch7tX/sN2HfKLZqGbhtaf
- jzkQ==
-X-Gm-Message-State: AOAM532kXcwd69+SuWsVbr/4l1Ip7uSmekSSsijuIjk2a15pgEOg12GU
- LZM7LUEsjR+fGPcJ0cFfDsmgc6lb72Q=
-X-Google-Smtp-Source: ABdhPJwIxe6ZKHjY6JKmGU/fZIyqgw27A8iONcX8lypRsTnqm4UXensR7LsQ5yx7+CMUjQTRNhWZew==
-X-Received: by 2002:a05:6402:26cf:b0:41e:41b7:3e7e with SMTP id
- x15-20020a05640226cf00b0041e41b73e7emr1363626edd.0.1649917492174; 
- Wed, 13 Apr 2022 23:24:52 -0700 (PDT)
-Received: from ?IPV6:2a02:908:1252:fb60:3d68:590f:61e0:5f10?
- ([2a02:908:1252:fb60:3d68:590f:61e0:5f10])
- by smtp.gmail.com with ESMTPSA id
- b11-20020a50be8b000000b0041cdd4a7bf6sm566536edk.58.2022.04.13.23.24.50
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Wed, 13 Apr 2022 23:24:51 -0700 (PDT)
-Message-ID: <f425b789-5081-fa70-555f-7553d7cc5bd5@gmail.com>
-Date: Thu, 14 Apr 2022 08:24:50 +0200
+Received: from mga18.intel.com (mga18.intel.com [134.134.136.126])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 00E2A10FCA2;
+ Thu, 14 Apr 2022 06:30:57 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+ t=1649917858; x=1681453858;
+ h=date:from:to:cc:subject:message-id:references:
+ mime-version:content-transfer-encoding:in-reply-to;
+ bh=DZzHK51pJYRSdJGq2ZuFG5xDG05xMqmcM20l9ST/1BQ=;
+ b=ei2f+IwWWdGPzwQwTpdZIX0fsSyPC3dXi+cW1pZ+tDYeBDZ2zA8koy3w
+ HyVVpXbQ7JyjvyntiSGV5x0vmLLXhdqiHSk6bch6dn7vbe8Q9RMpebyEL
+ dxTbMrxbuXouGVotQItAvkYEXqfVg9Uo2MT2KPjNxji9pe6wMcsxKhEa/
+ LD1g3errG7eVzASuuvyK7AJxegbw3sCCDmJvvq6/6kBA+bqFZrk6OLCir
+ +23c2l4+gILn0nT+Tl8QiWD+0+RkwXKsHGWud1yDx1mlwyS8XBv5gVYpE
+ IiYCbwdzzmixj7jpqR9lvz5roJNAvfcx/jT2klm1iYr05kazViwOXMEHT Q==;
+X-IronPort-AV: E=McAfee;i="6400,9594,10316"; a="244745765"
+X-IronPort-AV: E=Sophos;i="5.90,259,1643702400"; d="scan'208";a="244745765"
+Received: from orsmga004.jf.intel.com ([10.7.209.38])
+ by orsmga106.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 13 Apr 2022 23:30:57 -0700
+X-IronPort-AV: E=Sophos;i="5.90,259,1643702400"; d="scan'208";a="661241635"
+Received: from unknown (HELO intel.com) ([10.237.72.65])
+ by orsmga004-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 13 Apr 2022 23:30:55 -0700
+Date: Thu, 14 Apr 2022 09:31:39 +0300
+From: "Lisovskiy, Stanislav" <stanislav.lisovskiy@intel.com>
+To: Jani Nikula <jani.nikula@linux.intel.com>
+Subject: Re: commit 15512021eb3975a8c2366e3883337e252bb0eee5 causes white
+ spots in console screens
+Message-ID: <20220414063139.GA31013@intel.com>
+References: <0da21aec-d299-1834-99f3-9a598e4649f7@gmail.com>
+ <87v8vcgb63.fsf@intel.com>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.7.0
-Subject: Re: [PATCH] drm/radeon: Add build directory to include path
-Content-Language: en-US
-To: =?UTF-8?Q?Michel_D=c3=a4nzer?= <michel@daenzer.net>,
- Alex Deucher <alexander.deucher@amd.com>,
- =?UTF-8?Q?Christian_K=c3=b6nig?= <christian.koenig@amd.com>,
- Xinhui Pan <Xinhui.Pan@amd.com>
-References: <20220413161450.1854370-1-michel@daenzer.net>
-From: =?UTF-8?Q?Christian_K=c3=b6nig?= <ckoenig.leichtzumerken@gmail.com>
-In-Reply-To: <20220413161450.1854370-1-michel@daenzer.net>
-Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Type: text/plain; charset=iso-8859-1
+Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
+In-Reply-To: <87v8vcgb63.fsf@intel.com>
+User-Agent: Mutt/1.9.4 (2018-02-28)
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -77,41 +59,51 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: amd-gfx@lists.freedesktop.org, dri-devel@lists.freedesktop.org
+Cc: intel-gfx@lists.freedesktop.org, dri-devel@lists.freedesktop.org,
+ =?iso-8859-1?Q?Fran=E7ois?= Valenduc <francoisvalenduc@gmail.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Am 13.04.22 um 18:14 schrieb Michel DÃ¤nzer:
-> From: Michel DÃ¤nzer <mdaenzer@redhat.com>
->
-> Fixes compile errors with out-of-tree builds, e.g.
->
-> ../drivers/gpu/drm/radeon/r420.c:38:10: fatal error: r420_reg_safe.h: No such file or directory
->     38 | #include "r420_reg_safe.h"
->        |          ^~~~~~~~~~~~~~~~~
+On Wed, Apr 13, 2022 at 08:12:20PM +0300, Jani Nikula wrote:
+> On Wed, 13 Apr 2022, François Valenduc <francoisvalenduc@gmail.com> wrote:
+> > Commit 15512021eb3975a8c2366e3883337e252bb0eee5 
+> > (15512021eb3975a8c2366e3883337e252bb0eee5) causes a lof of white spots 
+> > to appears on the right upper corner of all console screens (see 
+> > https://drive.google.com/file/d/13GabEvOIKSAj5yox6ybAZEDu3Ixncw5Q/view). 
+> > git-bisect shows that this is the offending commit and if I revert it, 
+> > the problem goes away. The problem still occurs with kernel 5.18-rc2 and 
+> > to all stable trees where it was applied.
+> > Can somebody explains what happens ?
+> >
+> > The video card is the following: VGA compatible controller: Intel 
+> > Corporation WhiskeyLake-U GT2 [UHD Graphics 620] (rev 02) (prog-if 00 
+> > [VGA controller])
+> >
+> > Please tell me if you need more info.
+> 
+> That's commit 15512021eb39 ("drm/i915: Workaround broken BIOS DBUF
+> configuration on TGL/RKL"), adding Cc's.
+> 
+> Please file a report at fdo gitlab [1] and attach dmesg etc. there.
 
+That commit looks like it is just disabling all the planes, if wrong
+dbuf/wm configuration is detected.
+However it should do that only once during boot as I understand.
 
-Well stuff like that usually points to a broken build environment.
+Are you sure that is exactly this commit which is causing this?
+Does the issue appear always?
 
-Christian.
+Ville Syrjälä, thoughts?
 
->
-> Signed-off-by: Michel DÃ¤nzer <mdaenzer@redhat.com>
-> ---
->   drivers/gpu/drm/radeon/Makefile | 2 ++
->   1 file changed, 2 insertions(+)
->
-> diff --git a/drivers/gpu/drm/radeon/Makefile b/drivers/gpu/drm/radeon/Makefile
-> index 11c97edde54d..37caf5236048 100644
-> --- a/drivers/gpu/drm/radeon/Makefile
-> +++ b/drivers/gpu/drm/radeon/Makefile
-> @@ -3,6 +3,8 @@
->   # Makefile for the drm device driver.  This driver provides support for the
->   # Direct Rendering Infrastructure (DRI) in XFree86 4.1.0 and higher.
->   
-> +ccflags-y += -I$(src)
-> +
->   hostprogs := mkregtable
->   targets := rn50_reg_safe.h r100_reg_safe.h r200_reg_safe.h rv515_reg_safe.h r300_reg_safe.h r420_reg_safe.h rs600_reg_safe.h r600_reg_safe.h evergreen_reg_safe.h cayman_reg_safe.h
->   
+Stan
 
+> 
+> Thanks,
+> Jani.
+> 
+> 
+> [1] https://gitlab.freedesktop.org/drm/intel/wikis/How-to-file-i915-bugs
+> 
+> 
+> -- 
+> Jani Nikula, Intel Open Source Graphics Center
