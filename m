@@ -1,67 +1,53 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 819C0501D5D
-	for <lists+dri-devel@lfdr.de>; Thu, 14 Apr 2022 23:23:22 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id D8F2D501D69
+	for <lists+dri-devel@lfdr.de>; Thu, 14 Apr 2022 23:27:28 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id B49CD89B49;
-	Thu, 14 Apr 2022 21:23:19 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id B250210E337;
+	Thu, 14 Apr 2022 21:27:25 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-lj1-x22e.google.com (mail-lj1-x22e.google.com
- [IPv6:2a00:1450:4864:20::22e])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 55C7D10E247
- for <dri-devel@lists.freedesktop.org>; Thu, 14 Apr 2022 21:23:18 +0000 (UTC)
-Received: by mail-lj1-x22e.google.com with SMTP id h11so7604283ljb.2
- for <dri-devel@lists.freedesktop.org>; Thu, 14 Apr 2022 14:23:18 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=message-id:date:mime-version:user-agent:subject:content-language:to
- :cc:references:from:in-reply-to:content-transfer-encoding;
- bh=VQIdnqaToAeSGi4V4hfwlWUa2yYv1KhMo/84wlTI9mM=;
- b=SqXH32j9vQgeD7fKz53XGDlqOxBaWGIGIl3mdRsppSndrFjmM2rnEZOUh84Q+fUr4b
- wqFKhykSwViGZaybyZp6SaJLlDBH36DNAkUEqEd3gP5atU7Q0HRIAgnw5F+wE8HlxIZQ
- 6saNqVtAoh1lTsOKuQm9XTbu7/PMYx2OvPKRpIWsCtA2TA7nM8kmepRkNjKMHozZ6NEx
- dBtmEkAYQzj2+0fpS1kRxT1y99XKdICjn0Bc93d4wyDq7mGeMaTAR34rCgmGdVl4+vDA
- WhV5XAWj5Q4BpYvKBKGm1WH559V4WLdmT7R6romA9ejGpkW8kmioX0lkuF34y4wEGv4I
- NGuA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
- :content-language:to:cc:references:from:in-reply-to
- :content-transfer-encoding;
- bh=VQIdnqaToAeSGi4V4hfwlWUa2yYv1KhMo/84wlTI9mM=;
- b=QL9d/Fc3GjQtwMWQC19gtHIzec2ZfdOT5DqRvDxNPi6r98+ip+7+1piI1mIATh0EXC
- VcO6SrRhWZbrqBV7R+VN+2IdSbrz0vykiIFKep9KH8g+pUBA/zThjugxSqSPEAD8lFPy
- +RV69aZsdw86zvZUmShrOEyR+r8UL9Cbmm/lA5MPxTrFqmXQS/vvMVMWailip8hiQaCD
- w+sEblnkE8wu9IgNzzpAGXPtq87w0RKq3NIkhZ0RL/MTdaNPQ7J5wXHS2SYSF9TDlf66
- K6oERDxUPViFdElA6ukCjwrtuij5Ru1d/jUTaAMxypcEtW+kLAJRUibiohfbcPmHGcW/
- P8eA==
-X-Gm-Message-State: AOAM5311CeHtGXPS09vBj4KBM9dxDb/vs+20hfJ31kXziqFqzU6Vl8lL
- JQ7wEncH0Nw2CitQACWGnLZW1g==
-X-Google-Smtp-Source: ABdhPJz8jxuXsHCJ+G/fkprknn54Q1j8E7uXYzDfmJDesdXBgFmBraJZoVV9pXyXAc7Goo4XpLFvOA==
-X-Received: by 2002:a2e:90d6:0:b0:246:e44:bcf6 with SMTP id
- o22-20020a2e90d6000000b002460e44bcf6mr2590313ljg.501.1649971396661; 
- Thu, 14 Apr 2022 14:23:16 -0700 (PDT)
-Received: from [192.168.1.211] ([37.153.55.125])
- by smtp.gmail.com with ESMTPSA id
- d30-20020a19385e000000b0046d16dbebebsm115076lfj.39.2022.04.14.14.23.15
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Thu, 14 Apr 2022 14:23:16 -0700 (PDT)
-Message-ID: <a3c87373-1b7e-7b30-3b03-7a87f517b7b3@linaro.org>
-Date: Fri, 15 Apr 2022 00:23:15 +0300
+Received: from alexa-out.qualcomm.com (alexa-out.qualcomm.com [129.46.98.28])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 5F4B110E324;
+ Thu, 14 Apr 2022 21:27:24 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=quicinc.com; i=@quicinc.com; q=dns/txt; s=qcdkim;
+ t=1649971645; x=1681507645;
+ h=from:to:cc:subject:date:message-id:mime-version;
+ bh=//glgVSChT5juCXaTh42nIMVNEGTrXnv41/u1+Iu/uI=;
+ b=b8KYg3ei3SMw4QcefNOGNQmLtW5igOIvc6XdskiifwrfIxVypC0zFEOf
+ Ym3E+8HpqbEoeUQ+LsNd56lQIS8SpIcFcIqc7niBZThnwlPRf6GVvSA+p
+ tD1t0jbQXTF9+iwgDopuVuKWyvV1m233l2xjI6jLVhO9rDNjwtvQq2CAE Y=;
+Received: from ironmsg09-lv.qualcomm.com ([10.47.202.153])
+ by alexa-out.qualcomm.com with ESMTP; 14 Apr 2022 14:27:24 -0700
+X-QCInternal: smtphost
+Received: from nasanex01c.na.qualcomm.com ([10.47.97.222])
+ by ironmsg09-lv.qualcomm.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 14 Apr 2022 14:27:23 -0700
+Received: from nalasex01a.na.qualcomm.com (10.47.209.196) by
+ nasanex01c.na.qualcomm.com (10.47.97.222) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.2.986.22; Thu, 14 Apr 2022 14:26:42 -0700
+Received: from khsieh-linux1.qualcomm.com (10.80.80.8) by
+ nalasex01a.na.qualcomm.com (10.47.209.196) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.2.986.22; Thu, 14 Apr 2022 14:26:42 -0700
+From: Kuogee Hsieh <quic_khsieh@quicinc.com>
+To: <robdclark@gmail.com>, <sean@poorly.run>, <swboyd@chromium.org>,
+ <vkoul@kernel.org>, <daniel@ffwll.ch>, <airlied@linux.ie>,
+ <agross@kernel.org>, <dmitry.baryshkov@linaro.org>,
+ <bjorn.andersson@linaro.org>
+Subject: [PATCH v4] drm/msm/dp: stop event kernel thread when DP unbind
+Date: Thu, 14 Apr 2022 14:26:32 -0700
+Message-ID: <1649971592-14240-1-git-send-email-quic_khsieh@quicinc.com>
+X-Mailer: git-send-email 2.7.4
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.8.0
-Subject: Re: [PATCH v4 04/10] drm/msm/gem: Split out inuse helper
-Content-Language: en-GB
-To: Rob Clark <robdclark@gmail.com>, dri-devel@lists.freedesktop.org
-References: <20220411215849.297838-1-robdclark@gmail.com>
- <20220411215849.297838-5-robdclark@gmail.com>
-From: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
-In-Reply-To: <20220411215849.297838-5-robdclark@gmail.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain
+X-Originating-IP: [10.80.80.8]
+X-ClientProxiedBy: nasanex01b.na.qualcomm.com (10.46.141.250) To
+ nalasex01a.na.qualcomm.com (10.47.209.196)
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -74,90 +60,440 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Rob Clark <robdclark@chromium.org>, freedreno@lists.freedesktop.org,
- David Airlie <airlied@linux.ie>, linux-arm-msm@vger.kernel.org,
- Abhinav Kumar <quic_abhinavk@quicinc.com>,
- open list <linux-kernel@vger.kernel.org>,
- Dmitry Osipenko <dmitry.osipenko@collabora.com>, Sean Paul <sean@poorly.run>
+Cc: quic_sbillaka@quicinc.com, linux-arm-msm@vger.kernel.org,
+ quic_abhinavk@quicinc.com, dri-devel@lists.freedesktop.org,
+ quic_khsieh@quicinc.com, quic_aravindh@quicinc.com,
+ freedreno@lists.freedesktop.org, linux-kernel@vger.kernel.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 12/04/2022 00:58, Rob Clark wrote:
-> From: Rob Clark <robdclark@chromium.org>
-> 
-> Prep for a following patch, where it gets a bit more complicated.
-> 
-> Signed-off-by: Rob Clark <robdclark@chromium.org>
+Current DP driver implementation, event thread is kept running
+after DP display is unbind. This patch fix this problem by disabling
+DP irq and stop event thread to exit gracefully at dp_display_unbind().
 
-Reviewed-by: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
+Changes in v2:
+-- start event thread at dp_display_bind()
 
-> ---
->   drivers/gpu/drm/msm/msm_gem.c     | 2 +-
->   drivers/gpu/drm/msm/msm_gem.h     | 1 +
->   drivers/gpu/drm/msm/msm_gem_vma.c | 9 +++++++--
->   3 files changed, 9 insertions(+), 3 deletions(-)
-> 
-> diff --git a/drivers/gpu/drm/msm/msm_gem.c b/drivers/gpu/drm/msm/msm_gem.c
-> index a4f61972667b..f96d1dc72021 100644
-> --- a/drivers/gpu/drm/msm/msm_gem.c
-> +++ b/drivers/gpu/drm/msm/msm_gem.c
-> @@ -938,7 +938,7 @@ void msm_gem_describe(struct drm_gem_object *obj, struct seq_file *m,
->   				name, comm ? ":" : "", comm ? comm : "",
->   				vma->aspace, vma->iova,
->   				vma->mapped ? "mapped" : "unmapped",
-> -				vma->inuse);
-> +				msm_gem_vma_inuse(vma));
->   			kfree(comm);
->   		}
->   
-> diff --git a/drivers/gpu/drm/msm/msm_gem.h b/drivers/gpu/drm/msm/msm_gem.h
-> index 947ff7d9b471..1b7f0f0b88bf 100644
-> --- a/drivers/gpu/drm/msm/msm_gem.h
-> +++ b/drivers/gpu/drm/msm/msm_gem.h
-> @@ -61,6 +61,7 @@ struct msm_gem_vma {
->   int msm_gem_init_vma(struct msm_gem_address_space *aspace,
->   		struct msm_gem_vma *vma, int npages,
->   		u64 range_start, u64 range_end);
-> +bool msm_gem_vma_inuse(struct msm_gem_vma *vma);
->   void msm_gem_purge_vma(struct msm_gem_address_space *aspace,
->   		struct msm_gem_vma *vma);
->   void msm_gem_unmap_vma(struct msm_gem_address_space *aspace,
-> diff --git a/drivers/gpu/drm/msm/msm_gem_vma.c b/drivers/gpu/drm/msm/msm_gem_vma.c
-> index 64906594fc65..dc2ae097805e 100644
-> --- a/drivers/gpu/drm/msm/msm_gem_vma.c
-> +++ b/drivers/gpu/drm/msm/msm_gem_vma.c
-> @@ -37,6 +37,11 @@ msm_gem_address_space_get(struct msm_gem_address_space *aspace)
->   	return aspace;
->   }
->   
-> +bool msm_gem_vma_inuse(struct msm_gem_vma *vma)
-> +{
-> +	return !!vma->inuse;
-> +}
-> +
->   /* Actually unmap memory for the vma */
->   void msm_gem_purge_vma(struct msm_gem_address_space *aspace,
->   		struct msm_gem_vma *vma)
-> @@ -44,7 +49,7 @@ void msm_gem_purge_vma(struct msm_gem_address_space *aspace,
->   	unsigned size = vma->node.size << PAGE_SHIFT;
->   
->   	/* Print a message if we try to purge a vma in use */
-> -	if (GEM_WARN_ON(vma->inuse > 0))
-> +	if (GEM_WARN_ON(msm_gem_vma_inuse(vma)))
->   		return;
->   
->   	/* Don't do anything if the memory isn't mapped */
-> @@ -100,7 +105,7 @@ msm_gem_map_vma(struct msm_gem_address_space *aspace,
->   void msm_gem_close_vma(struct msm_gem_address_space *aspace,
->   		struct msm_gem_vma *vma)
->   {
-> -	if (GEM_WARN_ON(vma->inuse > 0 || vma->mapped))
-> +	if (GEM_WARN_ON(msm_gem_vma_inuse(vma) || vma->mapped))
->   		return;
->   
->   	spin_lock(&aspace->lock);
+Changes in v3:
+-- disable all HDP interrupts at unbind
+-- replace dp_hpd_event_setup() with dp_hpd_event_thread_start()
+-- replace dp_hpd_event_stop() with dp_hpd_event_thread_stop()
+-- move init_waitqueue_head(&dp->event_q) to probe()
+-- move spin_lock_init(&dp->event_lock) to probe()
 
+Changes in v4:
+-- relocate both dp_display_bind() and dp_display_unbind() to bottom of file
 
+Fixes: e91e3065a806 ("drm/msm/dp: Add DP compliance tests on Snapdragon Chipsets")
+Signed-off-by: Kuogee Hsieh <quic_khsieh@quicinc.com>
+Reported-by: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
+---
+ drivers/gpu/drm/msm/dp/dp_display.c | 345 +++++++++++++++++++-----------------
+ 1 file changed, 182 insertions(+), 163 deletions(-)
+
+diff --git a/drivers/gpu/drm/msm/dp/dp_display.c b/drivers/gpu/drm/msm/dp/dp_display.c
+index 01453db..198df6b 100644
+--- a/drivers/gpu/drm/msm/dp/dp_display.c
++++ b/drivers/gpu/drm/msm/dp/dp_display.c
+@@ -113,6 +113,7 @@ struct dp_display_private {
+ 	u32 hpd_state;
+ 	u32 event_pndx;
+ 	u32 event_gndx;
++	struct task_struct *ev_tsk;
+ 	struct dp_event event_list[DP_EVENT_Q_MAX];
+ 	spinlock_t event_lock;
+ 
+@@ -230,65 +231,6 @@ void dp_display_signal_audio_complete(struct msm_dp *dp_display)
+ 	complete_all(&dp->audio_comp);
+ }
+ 
+-static int dp_display_bind(struct device *dev, struct device *master,
+-			   void *data)
+-{
+-	int rc = 0;
+-	struct dp_display_private *dp = dev_get_dp_display_private(dev);
+-	struct msm_drm_private *priv;
+-	struct drm_device *drm;
+-
+-	drm = dev_get_drvdata(master);
+-
+-	dp->dp_display.drm_dev = drm;
+-	priv = drm->dev_private;
+-	priv->dp[dp->id] = &dp->dp_display;
+-
+-	rc = dp->parser->parse(dp->parser, dp->dp_display.connector_type);
+-	if (rc) {
+-		DRM_ERROR("device tree parsing failed\n");
+-		goto end;
+-	}
+-
+-	dp->dp_display.panel_bridge = dp->parser->panel_bridge;
+-
+-	dp->aux->drm_dev = drm;
+-	rc = dp_aux_register(dp->aux);
+-	if (rc) {
+-		DRM_ERROR("DRM DP AUX register failed\n");
+-		goto end;
+-	}
+-
+-	rc = dp_power_client_init(dp->power);
+-	if (rc) {
+-		DRM_ERROR("Power client create failed\n");
+-		goto end;
+-	}
+-
+-	rc = dp_register_audio_driver(dev, dp->audio);
+-	if (rc)
+-		DRM_ERROR("Audio registration Dp failed\n");
+-
+-end:
+-	return rc;
+-}
+-
+-static void dp_display_unbind(struct device *dev, struct device *master,
+-			      void *data)
+-{
+-	struct dp_display_private *dp = dev_get_dp_display_private(dev);
+-	struct drm_device *drm = dev_get_drvdata(master);
+-	struct msm_drm_private *priv = drm->dev_private;
+-
+-	dp_power_client_deinit(dp->power);
+-	dp_aux_unregister(dp->aux);
+-	priv->dp[dp->id] = NULL;
+-}
+-
+-static const struct component_ops dp_display_comp_ops = {
+-	.bind = dp_display_bind,
+-	.unbind = dp_display_unbind,
+-};
+ 
+ static bool dp_display_is_ds_bridge(struct dp_panel *panel)
+ {
+@@ -1054,7 +996,7 @@ static int hpd_event_thread(void *data)
+ 
+ 	dp_priv = (struct dp_display_private *)data;
+ 
+-	while (1) {
++	while (!kthread_should_stop()) {
+ 		if (timeout_mode) {
+ 			wait_event_timeout(dp_priv->event_q,
+ 				(dp_priv->event_pndx == dp_priv->event_gndx),
+@@ -1132,14 +1074,6 @@ static int hpd_event_thread(void *data)
+ 	return 0;
+ }
+ 
+-static void dp_hpd_event_setup(struct dp_display_private *dp_priv)
+-{
+-	init_waitqueue_head(&dp_priv->event_q);
+-	spin_lock_init(&dp_priv->event_lock);
+-
+-	kthread_run(hpd_event_thread, dp_priv, "dp_hpd_handler");
+-}
+-
+ static irqreturn_t dp_display_irq_handler(int irq, void *dev_id)
+ {
+ 	struct dp_display_private *dp = dev_id;
+@@ -1237,65 +1171,6 @@ static const struct msm_dp_desc *dp_display_get_desc(struct platform_device *pde
+ 	return NULL;
+ }
+ 
+-static int dp_display_probe(struct platform_device *pdev)
+-{
+-	int rc = 0;
+-	struct dp_display_private *dp;
+-	const struct msm_dp_desc *desc;
+-
+-	if (!pdev || !pdev->dev.of_node) {
+-		DRM_ERROR("pdev not found\n");
+-		return -ENODEV;
+-	}
+-
+-	dp = devm_kzalloc(&pdev->dev, sizeof(*dp), GFP_KERNEL);
+-	if (!dp)
+-		return -ENOMEM;
+-
+-	desc = dp_display_get_desc(pdev, &dp->id);
+-	if (!desc)
+-		return -EINVAL;
+-
+-	dp->pdev = pdev;
+-	dp->name = "drm_dp";
+-	dp->dp_display.connector_type = desc->connector_type;
+-
+-	rc = dp_init_sub_modules(dp);
+-	if (rc) {
+-		DRM_ERROR("init sub module failed\n");
+-		return -EPROBE_DEFER;
+-	}
+-
+-	mutex_init(&dp->event_mutex);
+-
+-	/* Store DP audio handle inside DP display */
+-	dp->dp_display.dp_audio = dp->audio;
+-
+-	init_completion(&dp->audio_comp);
+-
+-	platform_set_drvdata(pdev, &dp->dp_display);
+-
+-	rc = component_add(&pdev->dev, &dp_display_comp_ops);
+-	if (rc) {
+-		DRM_ERROR("component add failed, rc=%d\n", rc);
+-		dp_display_deinit_sub_modules(dp);
+-	}
+-
+-	return rc;
+-}
+-
+-static int dp_display_remove(struct platform_device *pdev)
+-{
+-	struct dp_display_private *dp = dev_get_dp_display_private(&pdev->dev);
+-
+-	dp_display_deinit_sub_modules(dp);
+-
+-	component_del(&pdev->dev, &dp_display_comp_ops);
+-	platform_set_drvdata(pdev, NULL);
+-
+-	return 0;
+-}
+-
+ static int dp_pm_resume(struct device *dev)
+ {
+ 	struct platform_device *pdev = to_platform_device(dev);
+@@ -1398,40 +1273,6 @@ static void dp_pm_complete(struct device *dev)
+ 
+ }
+ 
+-static const struct dev_pm_ops dp_pm_ops = {
+-	.suspend = dp_pm_suspend,
+-	.resume =  dp_pm_resume,
+-	.prepare = dp_pm_prepare,
+-	.complete = dp_pm_complete,
+-};
+-
+-static struct platform_driver dp_display_driver = {
+-	.probe  = dp_display_probe,
+-	.remove = dp_display_remove,
+-	.driver = {
+-		.name = "msm-dp-display",
+-		.of_match_table = dp_dt_match,
+-		.suppress_bind_attrs = true,
+-		.pm = &dp_pm_ops,
+-	},
+-};
+-
+-int __init msm_dp_register(void)
+-{
+-	int ret;
+-
+-	ret = platform_driver_register(&dp_display_driver);
+-	if (ret)
+-		DRM_ERROR("Dp display driver register failed");
+-
+-	return ret;
+-}
+-
+-void __exit msm_dp_unregister(void)
+-{
+-	platform_driver_unregister(&dp_display_driver);
+-}
+-
+ void msm_dp_irq_postinstall(struct msm_dp *dp_display)
+ {
+ 	struct dp_display_private *dp;
+@@ -1441,8 +1282,6 @@ void msm_dp_irq_postinstall(struct msm_dp *dp_display)
+ 
+ 	dp = container_of(dp_display, struct dp_display_private, dp_display);
+ 
+-	dp_hpd_event_setup(dp);
+-
+ 	dp_add_event(dp, EV_HPD_INIT_SETUP, 0, 100);
+ }
+ 
+@@ -1640,3 +1479,183 @@ void msm_dp_display_mode_set(struct msm_dp *dp, struct drm_encoder *encoder,
+ 	dp_display->dp_mode.h_active_low =
+ 		!!(dp_display->dp_mode.drm_mode.flags & DRM_MODE_FLAG_NHSYNC);
+ }
++
++static int dp_hpd_event_thread_start(struct dp_display_private *dp_priv)
++{
++	dp_priv->ev_tsk = kthread_run(hpd_event_thread, dp_priv, "dp_hpd_handler");
++	if (IS_ERR(dp_priv->ev_tsk)) {
++		DRM_ERROR("failed to create DP event thread\n");
++		return PTR_ERR(dp_priv->ev_tsk);
++	}
++
++	return 0;
++}
++
++static void dp_hpd_event_thread_stop(struct dp_display_private *dp_priv)
++{
++	kthread_stop(dp_priv->ev_tsk);
++
++	/* reset event q to empty */
++	dp_priv->event_gndx = 0;
++	dp_priv->event_pndx = 0;
++}
++
++static int dp_display_bind(struct device *dev, struct device *master,
++			   void *data)
++{
++	int rc = 0;
++	struct dp_display_private *dp = dev_get_dp_display_private(dev);
++	struct msm_drm_private *priv;
++	struct drm_device *drm;
++
++	drm = dev_get_drvdata(master);
++
++	dp->dp_display.drm_dev = drm;
++	priv = drm->dev_private;
++	priv->dp[dp->id] = &dp->dp_display;
++
++	rc = dp->parser->parse(dp->parser, dp->dp_display.connector_type);
++	if (rc) {
++		DRM_ERROR("device tree parsing failed\n");
++		goto end;
++	}
++
++	dp->dp_display.panel_bridge = dp->parser->panel_bridge;
++
++	dp->aux->drm_dev = drm;
++	rc = dp_aux_register(dp->aux);
++	if (rc) {
++		DRM_ERROR("DRM DP AUX register failed\n");
++		goto end;
++	}
++
++	rc = dp_power_client_init(dp->power);
++	if (rc) {
++		DRM_ERROR("Power client create failed\n");
++		goto end;
++	}
++
++	rc = dp_register_audio_driver(dev, dp->audio);
++	if (rc)
++		DRM_ERROR("Audio registration Dp failed\n");
++
++	rc = dp_hpd_event_thread_start(dp);
++end:
++	return rc;
++}
++
++static void dp_display_unbind(struct device *dev, struct device *master,
++			      void *data)
++{
++	struct dp_display_private *dp = dev_get_dp_display_private(dev);
++	struct drm_device *drm = dev_get_drvdata(master);
++	struct msm_drm_private *priv = drm->dev_private;
++
++	/* disable all HPD interrupts */
++	dp_catalog_hpd_config_intr(dp->catalog, DP_DP_HPD_INT_MASK, false);
++	dp_hpd_event_thread_stop(dp);
++	dp_power_client_deinit(dp->power);
++	dp_aux_unregister(dp->aux);
++	priv->dp[dp->id] = NULL;
++}
++
++static const struct component_ops dp_display_comp_ops = {
++	.bind = dp_display_bind,
++	.unbind = dp_display_unbind,
++};
++
++static int dp_display_probe(struct platform_device *pdev)
++{
++	int rc = 0;
++	struct dp_display_private *dp;
++	const struct msm_dp_desc *desc;
++
++	if (!pdev || !pdev->dev.of_node) {
++		DRM_ERROR("pdev not found\n");
++		return -ENODEV;
++	}
++
++	dp = devm_kzalloc(&pdev->dev, sizeof(*dp), GFP_KERNEL);
++	if (!dp)
++		return -ENOMEM;
++
++	desc = dp_display_get_desc(pdev, &dp->id);
++	if (!desc)
++		return -EINVAL;
++
++	dp->pdev = pdev;
++	dp->name = "drm_dp";
++	dp->dp_display.connector_type = desc->connector_type;
++
++	rc = dp_init_sub_modules(dp);
++	if (rc) {
++		DRM_ERROR("init sub module failed\n");
++		return -EPROBE_DEFER;
++	}
++
++	/* setup event q */
++	mutex_init(&dp->event_mutex);
++	init_waitqueue_head(&dp->event_q);
++	spin_lock_init(&dp->event_lock);
++
++	/* Store DP audio handle inside DP display */
++	dp->dp_display.dp_audio = dp->audio;
++
++	init_completion(&dp->audio_comp);
++
++	platform_set_drvdata(pdev, &dp->dp_display);
++
++	rc = component_add(&pdev->dev, &dp_display_comp_ops);
++	if (rc) {
++		DRM_ERROR("component add failed, rc=%d\n", rc);
++		dp_display_deinit_sub_modules(dp);
++	}
++
++	return rc;
++}
++
++static int dp_display_remove(struct platform_device *pdev)
++{
++	struct dp_display_private *dp = dev_get_dp_display_private(&pdev->dev);
++
++	dp_display_deinit_sub_modules(dp);
++
++	component_del(&pdev->dev, &dp_display_comp_ops);
++	platform_set_drvdata(pdev, NULL);
++
++	return 0;
++}
++
++static const struct dev_pm_ops dp_pm_ops = {
++	.suspend = dp_pm_suspend,
++	.resume =  dp_pm_resume,
++	.prepare = dp_pm_prepare,
++	.complete = dp_pm_complete,
++};
++
++static struct platform_driver dp_display_driver = {
++	.probe  = dp_display_probe,
++	.remove = dp_display_remove,
++	.driver = {
++		.name = "msm-dp-display",
++		.of_match_table = dp_dt_match,
++		.suppress_bind_attrs = true,
++		.pm = &dp_pm_ops,
++	},
++};
++
++int __init msm_dp_register(void)
++{
++	int ret;
++
++	ret = platform_driver_register(&dp_display_driver);
++	if (ret)
++		DRM_ERROR("Dp display driver register failed");
++
++	return ret;
++}
++
++void __exit msm_dp_unregister(void)
++{
++	platform_driver_unregister(&dp_display_driver);
++}
 -- 
-With best wishes
-Dmitry
+The Qualcomm Innovation Center, Inc. is a member of the Code Aurora Forum,
+a Linux Foundation Collaborative Project
+
