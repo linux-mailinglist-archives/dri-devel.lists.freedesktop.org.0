@@ -2,40 +2,39 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id DB65D500FB9
-	for <lists+dri-devel@lfdr.de>; Thu, 14 Apr 2022 15:43:45 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 9B1CE500F65
+	for <lists+dri-devel@lfdr.de>; Thu, 14 Apr 2022 15:25:39 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id C787F10FCA7;
-	Thu, 14 Apr 2022 13:43:43 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 7013910FC29;
+	Thu, 14 Apr 2022 13:25:37 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from ams.source.kernel.org (ams.source.kernel.org
- [IPv6:2604:1380:4601:e00::1])
- by gabe.freedesktop.org (Postfix) with ESMTPS id E555710FCA7
- for <dri-devel@lists.freedesktop.org>; Thu, 14 Apr 2022 13:43:41 +0000 (UTC)
+Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 5BC6910FC29
+ for <dri-devel@lists.freedesktop.org>; Thu, 14 Apr 2022 13:25:36 +0000 (UTC)
 Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
  (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
  (No client certificate requested)
- by ams.source.kernel.org (Postfix) with ESMTPS id 76DA0B828E6;
- Thu, 14 Apr 2022 13:43:40 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 63734C385A1;
- Thu, 14 Apr 2022 13:43:38 +0000 (UTC)
+ by dfw.source.kernel.org (Postfix) with ESMTPS id CC39761B51;
+ Thu, 14 Apr 2022 13:25:35 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id D9FA9C385A5;
+ Thu, 14 Apr 2022 13:25:34 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linuxfoundation.org;
- s=korg; t=1649943818;
+ s=korg; t=1649942735;
  bh=qW1x31HnZxqlWv9yLK7leVGiHSRFHxjgpFRqN+3ePM4=;
  h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
- b=PXVXIxzAvtHchW0FkkxBxXghPGngTvTevvgpoLKt7H8TYaJL4EERJ3Dgntg9p6XGD
- F8jnAGItwvPxLmCVKtj1QHvPK7EKGtuTCf89O0l2/RYI5wBBdzsoj1jqFJQD45PR3C
- uawEtHIEDUCkrDd6tKg+QRmHCnJu4h0Kc7QgzDyA=
+ b=VUsLUZ6CRxkl/cGhY9RnGhQmB/hMUL7IurCuuebNHBlf7stzFyVDe5+biHKfxlNQZ
+ KMAw/wicnnbUmMLTqbjCOHI6sb2HJTkhrVgiykgkdiqt7PQnPNm4+npreJrNGf/0Uj
+ GFmMin026F5npt8ldGvQ7nOzDEO6+JtEw8TLrWbU=
 From: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
 To: linux-kernel@vger.kernel.org
-Subject: [PATCH 5.4 291/475] video: fbdev: nvidiafb: Use strscpy() to prevent
+Subject: [PATCH 4.19 202/338] video: fbdev: nvidiafb: Use strscpy() to prevent
  buffer overflow
-Date: Thu, 14 Apr 2022 15:11:16 +0200
-Message-Id: <20220414110903.240399141@linuxfoundation.org>
+Date: Thu, 14 Apr 2022 15:11:45 +0200
+Message-Id: <20220414110844.643873453@linuxfoundation.org>
 X-Mailer: git-send-email 2.35.2
-In-Reply-To: <20220414110855.141582785@linuxfoundation.org>
-References: <20220414110855.141582785@linuxfoundation.org>
+In-Reply-To: <20220414110838.883074566@linuxfoundation.org>
+References: <20220414110838.883074566@linuxfoundation.org>
 User-Agent: quilt/0.66
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
