@@ -2,43 +2,43 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id AF1A1501273
-	for <lists+dri-devel@lfdr.de>; Thu, 14 Apr 2022 17:08:29 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 61F7B501277
+	for <lists+dri-devel@lfdr.de>; Thu, 14 Apr 2022 17:08:35 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 0731210E00B;
-	Thu, 14 Apr 2022 15:08:26 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 2391510FD05;
+	Thu, 14 Apr 2022 15:08:33 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mga18.intel.com (mga18.intel.com [134.134.136.126])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 46ED710E00B;
- Thu, 14 Apr 2022 15:08:23 +0000 (UTC)
+Received: from mga03.intel.com (mga03.intel.com [134.134.136.65])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 573D610FD0B;
+ Thu, 14 Apr 2022 15:08:28 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1649948903; x=1681484903;
+ t=1649948908; x=1681484908;
  h=from:to:cc:subject:date:message-id:in-reply-to:
  references:mime-version:content-transfer-encoding;
- bh=sMkCARBdbCjp9/ZHyaRd0YEGcFQeDShNiROgCIOc9YA=;
- b=BEDuryfM4S8VobklGIpeXRfOKW0Rz+a2OFFAKgcmAUCP22zUKwKq2PLt
- ozPaC9WRNBTj/il4ENlWQBicCyaSZtLVRkBMGYMMtezLkVjhYrS4UCcj+
- 7DO4nojAyr6xW2wJwK8Hx7KVkgTb/WNjnNMFqaVLaGvz0qwpFnD6YLxjJ
- A/JtfyXrGUuaNcqU74EZbdDOwkqDI87Gopu3PdhlreLRrymPj+rQ4wKtf
- ChLc9RkKV5XBznrrBpY/57zprIjzPSicRAo/V6NQdcdv3qyU7ykSxb5Kh
- 9zc3fxXIcpTVcoPTnkcOaH470N1Ls/1qgxIUC/2CgK+Cs6Y5zl9uhvHJ3 Q==;
-X-IronPort-AV: E=McAfee;i="6400,9594,10317"; a="244836265"
-X-IronPort-AV: E=Sophos;i="5.90,260,1643702400"; d="scan'208";a="244836265"
-Received: from fmsmga003.fm.intel.com ([10.253.24.29])
- by orsmga106.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 14 Apr 2022 08:08:22 -0700
-X-IronPort-AV: E=Sophos;i="5.90,260,1643702400"; d="scan'208";a="645654848"
+ bh=9dWIYS/Zq0MooZlJI02jCKibqQBa2XtW4YOPMiPAiDs=;
+ b=bWxU4ZA+aa3NqTwlISV/RtlWLEHiyJowTxxeDLf6c/KGwu9pxzwDMtOl
+ S6jM+ywEDGhlRk406Qe5bXdZv/YMo7PS7QA5JkTfKNaPhF5BhmteCHbqJ
+ e2kFMe2nmRInyKqCnlmGvnJQkOsf+iCcxrS6YC5743Pc6Lv2DDNVEY0B6
+ VglgRX9HSkkDetvXMnH71UZIDV8OX3P3xxi3wyTkYgJ5giIyxdcPgJyx+
+ RZPmEwRk/53djs5F3isQip7Bq+SkLIJ8YPhpw4hLtQwp+NDoCtAOAssNh
+ 9xyLC55N/rHimWAbYr6HKcUtptvRMbahmASmHHIdwuQKuop/TPgqDOVoX A==;
+X-IronPort-AV: E=McAfee;i="6400,9594,10317"; a="262703146"
+X-IronPort-AV: E=Sophos;i="5.90,260,1643702400"; d="scan'208";a="262703146"
+Received: from orsmga002.jf.intel.com ([10.7.209.21])
+ by orsmga103.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 14 Apr 2022 08:08:27 -0700
+X-IronPort-AV: E=Sophos;i="5.90,260,1643702400"; d="scan'208";a="526946873"
 Received: from nplaweck-mobl.ger.corp.intel.com (HELO localhost)
  ([10.249.149.236])
- by fmsmga003-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 14 Apr 2022 08:08:20 -0700
+ by orsmga002-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 14 Apr 2022 08:08:25 -0700
 From: Jani Nikula <jani.nikula@intel.com>
 To: dri-devel@lists.freedesktop.org
-Subject: [PATCH 13/19] drm/edid: convert drm_edid_to_eld() to use cea db iter
-Date: Thu, 14 Apr 2022 18:06:56 +0300
-Message-Id: <89b7d83488d7b0dd252efb9b66cbc2da27ab34a7.1649948563.git.jani.nikula@intel.com>
+Subject: [PATCH 14/19] drm/edid: sunset the old unused cea data block iterators
+Date: Thu, 14 Apr 2022 18:06:57 +0300
+Message-Id: <1f5abce2064c6eeaa6fb03c39ce9fcc6c7eb6765.1649948563.git.jani.nikula@intel.com>
 X-Mailer: git-send-email 2.30.2
 In-Reply-To: <cover.1649948562.git.jani.nikula@intel.com>
 References: <cover.1649948562.git.jani.nikula@intel.com>
@@ -62,106 +62,78 @@ Cc: jani.nikula@intel.com, intel-gfx@lists.freedesktop.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Iterate through all CTA data blocks across all CTA extensions and
-DisplayID data blocks. This may gather more data than before, and if
-there's duplicated data, some is overwritten by whichever comes last.
+All CTA data block iteration has now been converted to the new cea db
+iterators.
 
 Cc: Ville Syrjälä <ville.syrjala@linux.intel.com>
 Signed-off-by: Jani Nikula <jani.nikula@intel.com>
 ---
- drivers/gpu/drm/drm_edid.c | 64 +++++++++++++++++---------------------
- 1 file changed, 29 insertions(+), 35 deletions(-)
+ drivers/gpu/drm/drm_edid.c | 45 --------------------------------------
+ 1 file changed, 45 deletions(-)
 
 diff --git a/drivers/gpu/drm/drm_edid.c b/drivers/gpu/drm/drm_edid.c
-index 91f15b561d78..fa7f2bf68da3 100644
+index fa7f2bf68da3..7ed0258c0edf 100644
 --- a/drivers/gpu/drm/drm_edid.c
 +++ b/drivers/gpu/drm/drm_edid.c
-@@ -4935,12 +4935,12 @@ static void clear_eld(struct drm_connector *connector)
- static void drm_edid_to_eld(struct drm_connector *connector,
- 			    const struct edid *edid)
+@@ -4373,48 +4373,6 @@ cea_revision(const u8 *cea)
+ 	return cea[1];
+ }
+ 
+-static int
+-cea_db_offsets(const u8 *cea, int *start, int *end)
+-{
+-	/* DisplayID CTA extension blocks and top-level CEA EDID
+-	 * block header definitions differ in the following bytes:
+-	 *   1) Byte 2 of the header specifies length differently,
+-	 *   2) Byte 3 is only present in the CEA top level block.
+-	 *
+-	 * The different definitions for byte 2 follow.
+-	 *
+-	 * DisplayID CTA extension block defines byte 2 as:
+-	 *   Number of payload bytes
+-	 *
+-	 * CEA EDID block defines byte 2 as:
+-	 *   Byte number (decimal) within this block where the 18-byte
+-	 *   DTDs begin. If no non-DTD data is present in this extension
+-	 *   block, the value should be set to 04h (the byte after next).
+-	 *   If set to 00h, there are no DTDs present in this block and
+-	 *   no non-DTD data.
+-	 */
+-	if (cea[0] == DATA_BLOCK_CTA) {
+-		/*
+-		 * for_each_displayid_db() has already verified
+-		 * that these stay within expected bounds.
+-		 */
+-		*start = 3;
+-		*end = *start + cea[2];
+-	} else if (cea[0] == CEA_EXT) {
+-		/* Data block offset in CEA extension block */
+-		*start = 4;
+-		*end = cea[2];
+-		if (*end == 0)
+-			*end = 127;
+-		if (*end < 4 || *end > 127)
+-			return -ERANGE;
+-	} else {
+-		return -EOPNOTSUPP;
+-	}
+-
+-	return 0;
+-}
+-
+ /*
+  * CTA Data Block iterator.
+  *
+@@ -4667,9 +4625,6 @@ static bool cea_db_is_hdmi_hdr_metadata_block(const void *db)
+ 		cea_db_payload_len(db) >= 3;
+ }
+ 
+-#define for_each_cea_db(cea, i, start, end) \
+-	for ((i) = (start); (i) < (end) && (i) + cea_db_payload_len(&(cea)[(i)]) < (end); (i) += cea_db_payload_len(&(cea)[(i)]) + 1)
+-
+ static void drm_parse_y420cmdb_bitmap(struct drm_connector *connector,
+ 				      const u8 *db)
  {
-+	const struct cea_db *db;
-+	struct cea_db_iter iter;
- 	uint8_t *eld = connector->eld;
- 	const u8 *cea;
--	const u8 *db;
- 	int total_sad_count = 0;
- 	int mnl;
--	int dbl;
- 
- 	clear_eld(connector);
- 
-@@ -4966,43 +4966,37 @@ static void drm_edid_to_eld(struct drm_connector *connector,
- 	eld[DRM_ELD_PRODUCT_CODE0] = edid->prod_code[0];
- 	eld[DRM_ELD_PRODUCT_CODE1] = edid->prod_code[1];
- 
--	if (cea_revision(cea) >= 3) {
--		int i, start, end;
-+	cea_db_iter_edid_begin(edid, &iter);
-+	cea_db_iter_for_each(db, &iter) {
-+		const u8 *data = cea_db_data(db);
-+		int len = cea_db_payload_len(db);
- 		int sad_count;
- 
--		if (cea_db_offsets(cea, &start, &end)) {
--			start = 0;
--			end = 0;
--		}
--
--		for_each_cea_db(cea, i, start, end) {
--			db = &cea[i];
--			dbl = cea_db_payload_len(db);
--
--			switch (cea_db_tag(db)) {
--			case CTA_DB_AUDIO:
--				/* Audio Data Block, contains SADs */
--				sad_count = min(dbl / 3, 15 - total_sad_count);
--				if (sad_count >= 1)
--					memcpy(&eld[DRM_ELD_CEA_SAD(mnl, total_sad_count)],
--					       &db[1], sad_count * 3);
--				total_sad_count += sad_count;
--				break;
--			case CTA_DB_SPEAKER:
--				/* Speaker Allocation Data Block */
--				if (dbl >= 1)
--					eld[DRM_ELD_SPEAKER] = db[1];
--				break;
--			case CTA_DB_VENDOR:
--				/* HDMI Vendor-Specific Data Block */
--				if (cea_db_is_hdmi_vsdb(db))
--					drm_parse_hdmi_vsdb_audio(connector, db);
--				break;
--			default:
--				break;
--			}
-+		switch (cea_db_tag(db)) {
-+		case CTA_DB_AUDIO:
-+			/* Audio Data Block, contains SADs */
-+			sad_count = min(len / 3, 15 - total_sad_count);
-+			if (sad_count >= 1)
-+				memcpy(&eld[DRM_ELD_CEA_SAD(mnl, total_sad_count)],
-+				       data, sad_count * 3);
-+			total_sad_count += sad_count;
-+			break;
-+		case CTA_DB_SPEAKER:
-+			/* Speaker Allocation Data Block */
-+			if (len >= 1)
-+				eld[DRM_ELD_SPEAKER] = data[0];
-+			break;
-+		case CTA_DB_VENDOR:
-+			/* HDMI Vendor-Specific Data Block */
-+			if (cea_db_is_hdmi_vsdb(db))
-+				drm_parse_hdmi_vsdb_audio(connector, (const u8 *)db);
-+			break;
-+		default:
-+			break;
- 		}
- 	}
-+	cea_db_iter_end(&iter);
-+
- 	eld[DRM_ELD_SAD_COUNT_CONN_TYPE] |= total_sad_count << DRM_ELD_SAD_COUNT_SHIFT;
- 
- 	if (connector->connector_type == DRM_MODE_CONNECTOR_DisplayPort ||
 -- 
 2.30.2
 
