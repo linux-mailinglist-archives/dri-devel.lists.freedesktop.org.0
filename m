@@ -2,41 +2,42 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 84D1E500B5B
-	for <lists+dri-devel@lfdr.de>; Thu, 14 Apr 2022 12:44:21 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id F06D1500C68
+	for <lists+dri-devel@lfdr.de>; Thu, 14 Apr 2022 13:51:15 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id E6AF710F552;
-	Thu, 14 Apr 2022 10:44:18 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 2E35310FCA8;
+	Thu, 14 Apr 2022 11:51:13 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 796C410F552;
- Thu, 14 Apr 2022 10:44:17 +0000 (UTC)
-Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
- (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
- (No client certificate requested)
- by dfw.source.kernel.org (Postfix) with ESMTPS id 2941C61F48;
- Thu, 14 Apr 2022 10:44:16 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 9448BC385A8;
- Thu, 14 Apr 2022 10:44:15 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linuxfoundation.org;
- s=korg; t=1649933056;
- bh=Mz94gdoUDNEkJ85Gh/in1p/zmuHeIqMJnDLSXV/KynE=;
- h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
- b=QGj2p6iDaSHx+PqsENx5PQ5oERzG81jT5Ta95i5OYiBm/YzhQdDE0WnuP29/4c+KN
- clTwqpVZedAwK/N+/3Wa2XIkOMTmlLxgYZmjSNsDMxHv9EedbyHHKzO3PiNk/El1Tz
- mMqmZ+ZaSfYeHG8rvA+YKociRQlSKaPWrAxZ+IaE=
-Date: Thu, 14 Apr 2022 12:44:13 +0200
-From: Greg KH <gregkh@linuxfoundation.org>
-To: Lee Jones <lee.jones@linaro.org>
-Subject: Re: [PATCH 4.19 1/2] drm/amdgpu: Check if fd really is an amdgpu fd.
-Message-ID: <Ylf6/aejnw+FWZUc@kroah.com>
-References: <20220412153529.1173412-1-lee.jones@linaro.org>
+Received: from bhuna.collabora.co.uk (bhuna.collabora.co.uk [46.235.227.227])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 51DB010FCA7
+ for <dri-devel@lists.freedesktop.org>; Thu, 14 Apr 2022 11:51:11 +0000 (UTC)
+Received: from [127.0.0.1] (localhost [127.0.0.1])
+ (Authenticated sender: kholk11) with ESMTPSA id 1EEEC1F47996
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
+ s=mail; t=1649937067;
+ bh=FQo3+DfDK/439bMdjsIJSbbQW7m+3RsLgRDDfki4H+U=;
+ h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
+ b=YtZBD7RNl720F69+xtlmXyfdDxjpi1ksA1V3yHN1HBA6AEH5w+VeB7DI9ibavjKHp
+ ZjGwaDwxN6p4gy8x8MbJRnoAamqkn+diH9XzFHyDYHLNqyUhI5IkEXRuv1V9yIzUDU
+ AYKcVdlaGGJYKVZd0ruW3n8o5eHJ/KA0XifmgbWE0Zi+B8mz0QSBmBpFmHyQTnPCGV
+ qiWeXeq4ZGX5n+lMeRiDzj4II7gDE09xt+ks3FgMSN1jDl1LJ5P3bgAvEVMRBgwHdA
+ 5FFEZ0UDm6uyqdjercTqlpjz0C2WX369JjI3QCtFbS/aax9x7MO9bYwmNdz+pG65OE
+ re3ANfGXiXIIA==
+Message-ID: <ee2f0819-8c9e-4160-c4ae-fb4ad0da3f3b@collabora.com>
+Date: Thu, 14 Apr 2022 13:51:04 +0200
 MIME-Version: 1.0
-Content-Type: text/plain; charset=iso-8859-1
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <20220412153529.1173412-1-lee.jones@linaro.org>
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.7.0
+Subject: Re: [PATCH v6 1/2] dt-bindings: Add DT schema for Arm Mali Valhall GPU
+Content-Language: en-US
+To: Nick Fan <Nick.Fan@mediatek.com>, Rob Herring <robh+dt@kernel.org>,
+ Matthias Brugger <matthias.bgg@gmail.com>
+References: <20220414025023.11516-1-Nick.Fan@mediatek.com>
+From: AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>
+In-Reply-To: <20220414025023.11516-1-Nick.Fan@mediatek.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -49,38 +50,35 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: dri-devel@lists.freedesktop.org, David Airlie <airlied@linux.ie>,
- Felix Kuehling <Felix.Kuehling@amd.com>, stable@vger.kernel.org,
- amd-gfx@lists.freedesktop.org, Alex Deucher <alexander.deucher@amd.com>,
- Christian =?iso-8859-1?Q?K=F6nig?= <christian.koenig@amd.com>
+Cc: devicetree@vger.kernel.org, srv_heupstream@mediatek.com,
+ David Airlie <airlied@linux.ie>, linux-kernel@vger.kernel.org,
+ dri-devel@lists.freedesktop.org,
+ Project_Global_Chrome_Upstream_Group@mediatek.com,
+ linux-mediatek@lists.infradead.org, alyssa.rosenzweig@collabora.com,
+ wenst@chromium.org, linux-arm-kernel@lists.infradead.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Tue, Apr 12, 2022 at 04:35:28PM +0100, Lee Jones wrote:
-> From: Bas Nieuwenhuizen <bas@basnieuwenhuizen.nl>
+Il 14/04/22 04:50, Nick Fan ha scritto:
+> Add devicetree schema for Arm Mali Valhall GPU
 > 
-> [ Upstream commit 021830d24ba55a578f602979274965344c8e6284 ]
+> Define a compatible string for the Mali Valhall GPU
+> for MediaTek's SoC platform.
 > 
-> Otherwise we interpret the file private data as drm & amdgpu data
-> while it might not be, possibly allowing one to get memory corruption.
-> 
-> Cc: Felix Kuehling <Felix.Kuehling@amd.com>
-> Cc: Alex Deucher <alexander.deucher@amd.com>
-> Cc: "Christian König" <christian.koenig@amd.com>
-> Cc: David Airlie <airlied@linux.ie>
-> Cc: Daniel Vetter <daniel@ffwll.ch>
-> Cc: amd-gfx@lists.freedesktop.org
-> Cc: dri-devel@lists.freedesktop.org
-> Signed-off-by: Bas Nieuwenhuizen <bas@basnieuwenhuizen.nl>
-> Reviewed-by: Christian König <christian.koenig@amd.com>
-> Signed-off-by: Alex Deucher <alexander.deucher@amd.com>
-> Signed-off-by: Lee Jones <lee.jones@linaro.org>
-> ---
->  drivers/gpu/drm/amd/amdgpu/amdgpu.h       |  2 ++
->  drivers/gpu/drm/amd/amdgpu/amdgpu_drv.c   | 16 ++++++++++++++++
->  drivers/gpu/drm/amd/amdgpu/amdgpu_sched.c | 10 +++++++---
->  3 files changed, 25 insertions(+), 3 deletions(-)
+> Signed-off-by: Nick Fan <Nick.Fan@mediatek.com>
 
-Both now queued up, thanks.
+Hello Nick,
+Unfortunately, this binding is completely wrong.
 
-greg k-h
+First of all, there's no arm,mali-valhall driver upstream - this will be managed
+by panfrost later, yes, but right now there's no support.
+Then, you're also setting opp-microvolt in a way that will never (or, at least,
+not anytime soon) be supported by the upstream driver, as it manages only one
+supply for devfreq scaling.
+
+Besides, please don't push bindings that have no upstream driver, especially if
+these are for downstream drivers requiring proprietary components, while a
+completely open source implementation is in the works.
+
+Regards,
+Angelo
