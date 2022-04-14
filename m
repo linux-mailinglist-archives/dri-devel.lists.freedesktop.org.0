@@ -1,53 +1,61 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id B18DB50194E
-	for <lists+dri-devel@lfdr.de>; Thu, 14 Apr 2022 18:57:33 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id DA8155019D6
+	for <lists+dri-devel@lfdr.de>; Thu, 14 Apr 2022 19:16:01 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id CB46A10E01F;
-	Thu, 14 Apr 2022 16:57:28 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 9BF3710E069;
+	Thu, 14 Apr 2022 17:15:57 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mout-p-202.mailbox.org (mout-p-202.mailbox.org [80.241.56.172])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 4F1EB10E0A6
- for <dri-devel@lists.freedesktop.org>; Thu, 14 Apr 2022 16:57:27 +0000 (UTC)
-Received: from smtp1.mailbox.org (smtp1.mailbox.org
- [IPv6:2001:67c:2050:105:465:1:1:0])
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
- key-exchange ECDHE (P-384) server-signature RSA-PSS (4096 bits) server-digest
- SHA256) (No client certificate requested)
- by mout-p-202.mailbox.org (Postfix) with ESMTPS id 4KfQcN2btFz9sTs;
- Thu, 14 Apr 2022 18:57:24 +0200 (CEST)
-Message-ID: <8beac4f5-f7e8-31ab-bbf3-36a917979bfc@mailbox.org>
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=mailbox.org;
- s=mail20150812; t=1649955442;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=eG4fr6KaK9wJjPn6IgnoPpbLB0fNk3TGRun99bZICFc=;
- b=Hwt9vgEZt55t2XFeqBxImuEt9n1U79cHMORvnvODTbMD/sdVxEhFJi6xgZgJA/QdDGQzZN
- sYkV+EMmGVnIGzG2rfj1QcdXfvd1QiA3N4F+lKhyFjlkJDFAnwlUKIG+yHk8Jyp4Rs9es6
- kr/eSS/ZgtfhwIeSw3Q0PJY64GvQn2b55wFe7VEvZVn0Uw/JGjOE464P4nH+WTFbKCdyx5
- XNnHs4g+MNQkAmgpSeFvVwNXbGM5C87RpTGq9MPCSa+mfRdKTKGc7I24ytoco6YDQ4iZaX
- k74eug7yZlPZefWYX78rc596yGyOLU7Rope49XoB+qIxmlcEMA4QL8y8WBcv0g==
-Date: Thu, 14 Apr 2022 18:57:18 +0200
+Received: from alexa-out-sd-01.qualcomm.com (alexa-out-sd-01.qualcomm.com
+ [199.106.114.38])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id EE46910E021;
+ Thu, 14 Apr 2022 17:15:55 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=quicinc.com; i=@quicinc.com; q=dns/txt; s=qcdkim;
+ t=1649956556; x=1681492556;
+ h=message-id:date:mime-version:subject:to:cc:references:
+ from:in-reply-to:content-transfer-encoding;
+ bh=BF7u36Wb73cxpkjy9bfZRgOS+0WolmnhOmyAdga/rCk=;
+ b=yQ4Tcv0+65RY+21QZCDpaj3hY5on4zoMDWYtWuORrtzclTgpqubBlhGf
+ sJQ5kqVYfH7Y0nTjFNHKVTy1EXU1fXvwAB6djW1Pr5w8kypoNXEbQ/7k7
+ zyhdjjlgZI5/UZHybHnKNPPGkeQ7cm6vxaa9iobufIZhi9BC7JjiGV8Gc 8=;
+Received: from unknown (HELO ironmsg05-sd.qualcomm.com) ([10.53.140.145])
+ by alexa-out-sd-01.qualcomm.com with ESMTP; 14 Apr 2022 10:15:55 -0700
+X-QCInternal: smtphost
+Received: from nasanex01c.na.qualcomm.com ([10.47.97.222])
+ by ironmsg05-sd.qualcomm.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 14 Apr 2022 10:15:55 -0700
+Received: from nalasex01a.na.qualcomm.com (10.47.209.196) by
+ nasanex01c.na.qualcomm.com (10.47.97.222) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.2.986.22; Thu, 14 Apr 2022 10:15:53 -0700
+Received: from [10.110.19.13] (10.80.80.8) by nalasex01a.na.qualcomm.com
+ (10.47.209.196) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.986.22; Thu, 14 Apr
+ 2022 10:15:52 -0700
+Message-ID: <02faf872-8fef-342a-d070-67b68953b5f8@quicinc.com>
+Date: Thu, 14 Apr 2022 10:15:51 -0700
 MIME-Version: 1.0
-Subject: Re: [PATCH] drm/radeon: Add build directory to include path
-Content-Language: en-CA
-To: Masahiro Yamada <masahiroy@kernel.org>
-References: <20220413161450.1854370-1-michel@daenzer.net>
- <f425b789-5081-fa70-555f-7553d7cc5bd5@gmail.com>
- <ca5ca8ab-9c48-8d81-2dd6-fbdfface6519@mailbox.org>
- <abd87438-3ff4-6b62-81b4-6162d167348a@gmail.com>
- <CADnq5_Npy02mWVMOs-TMQ9t6OLV8XFaSQFZ5iB=Y2q3OQgiQvw@mail.gmail.com>
- <fe499d20-2667-5953-831a-d7668c5a3d18@mailbox.org>
- <CAK7LNATdTaY6+FD4TuFgmb00=Qbx=7mmCi9onHv0zi=pdZysBQ@mail.gmail.com>
-From: =?UTF-8?Q?Michel_D=c3=a4nzer?= <michel.daenzer@mailbox.org>
-In-Reply-To: <CAK7LNATdTaY6+FD4TuFgmb00=Qbx=7mmCi9onHv0zi=pdZysBQ@mail.gmail.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
+User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:91.0) Gecko/20100101
+ Thunderbird/91.7.0
+Subject: Re: [PATCH v2] drm/msm/dp: stop event kernel thread when DP unbind
+Content-Language: en-US
+To: Stephen Boyd <swboyd@chromium.org>, <agross@kernel.org>,
+ <airlied@linux.ie>, <bjorn.andersson@linaro.org>, <daniel@ffwll.ch>,
+ <dmitry.baryshkov@linaro.org>, <robdclark@gmail.com>, <sean@poorly.run>,
+ <vkoul@kernel.org>
+References: <1649883865-9012-1-git-send-email-quic_khsieh@quicinc.com>
+ <CAE-0n5259qjMj12LXRp=7kQ7zT3bRMaHpSpwKMwZ8HL6rq7fbw@mail.gmail.com>
+From: Kuogee Hsieh <quic_khsieh@quicinc.com>
+In-Reply-To: <CAE-0n5259qjMj12LXRp=7kQ7zT3bRMaHpSpwKMwZ8HL6rq7fbw@mail.gmail.com>
+Content-Type: text/plain; charset="UTF-8"; format=flowed
+Content-Transfer-Encoding: 7bit
+X-Originating-IP: [10.80.80.8]
+X-ClientProxiedBy: nasanex01a.na.qualcomm.com (10.52.223.231) To
+ nalasex01a.na.qualcomm.com (10.47.209.196)
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -60,90 +68,106 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: =?UTF-8?Q?Christian_K=c3=b6nig?= <ckoenig.leichtzumerken@gmail.com>,
- Xinhui Pan <Xinhui.Pan@amd.com>, amd-gfx list <amd-gfx@lists.freedesktop.org>,
- Maling list - DRI developers <dri-devel@lists.freedesktop.org>,
- Alex Deucher <alexander.deucher@amd.com>,
- =?UTF-8?Q?Christian_K=c3=b6nig?= <christian.koenig@amd.com>
+Cc: quic_sbillaka@quicinc.com, linux-arm-msm@vger.kernel.org,
+ quic_abhinavk@quicinc.com, dri-devel@lists.freedesktop.org,
+ linux-kernel@vger.kernel.org, quic_aravindh@quicinc.com,
+ freedreno@lists.freedesktop.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 2022-04-14 17:04, Masahiro Yamada wrote:
-> On Thu, Apr 14, 2022 at 10:50 PM Michel Dänzer
-> <michel.daenzer@mailbox.org> wrote:
->> On 2022-04-14 15:34, Alex Deucher wrote:
->>> On Thu, Apr 14, 2022 at 4:44 AM Christian König
->>> <ckoenig.leichtzumerken@gmail.com> wrote:
->>>> Am 14.04.22 um 09:37 schrieb Michel Dänzer:
->>>>> On 2022-04-14 08:24, Christian König wrote:
->>>>>> Am 13.04.22 um 18:14 schrieb Michel Dänzer:
->>>>>>> From: Michel Dänzer <mdaenzer@redhat.com>
->>>>>>>
->>>>>>> Fixes compile errors with out-of-tree builds, e.g.
->>>>>>>
->>>>>>> ../drivers/gpu/drm/radeon/r420.c:38:10: fatal error: r420_reg_safe.h: No such file or directory
->>>>>>>      38 | #include "r420_reg_safe.h"
->>>>>>>         |          ^~~~~~~~~~~~~~~~~
->>>>>>
->>>>>> Well stuff like that usually points to a broken build environment.
->>>>> Just a separate build directory. Specifically, I'm hitting the errors with
->>>>>
->>>>>   make -C build-amd64 M=drivers/gpu/drm
-> 
-> 
-> Maybe
-> 
->         make  O=build-arm64   drivers/gpu/drm/
-> 
-> is the way you were searching for.
-> 
-> It builds only drivers/gpu/drm/
-> in the separate directory.
 
-Indeed, that works.
-
-
->>>>> Generated headers such as r420_reg_safe.h reside in the build directory, so source files in the source directory can't find them without an explicit search path.
->>>>
->>>> I'm trying to swap back into my brain how all of this used to work, but
->>>> that's a really long time ago that I tried this as well.
->>>>
->>>>> Are you saying that should get added automagically somehow?
-> 
-> 
-> For the kernel tree, yes, it is done automatically.
-> 
-> See the code in scripts/Makefile.lib:
-> 
-> # $(srctree)/$(src) for including checkin headers from generated source files
-> # $(objtree)/$(obj) for including generated headers from checkin source files
-> ifeq ($(KBUILD_EXTMOD),)
-> ifdef building_out_of_srctree
-> _c_flags   += -I $(srctree)/$(src) -I $(objtree)/$(obj)
-> _a_flags   += -I $(srctree)/$(src) -I $(objtree)/$(obj)
-> _cpp_flags += -I $(srctree)/$(src) -I $(objtree)/$(obj)
-> endif
-> endif
-> 
-> 
-> 
-> 
-> But, you used M=drivers/gpu/drm.
-> So, it did not work.
-> 
-> 
-> 
-> M= is intended for building external modules.
-> 
-> I do not recommend it for in-tree drivers.
-
-So I've been doing it wrong for all these years... Happened to always work for in-tree builds.
-
-Thank you so much for your help, Yamada-san!
-
-I am retracting this patch.
-
-
--- 
-Earthling Michel Dänzer            |                  https://redhat.com
-Libre software enthusiast          |         Mesa and Xwayland developer
+On 4/13/2022 4:19 PM, Stephen Boyd wrote:
+> Quoting Kuogee Hsieh (2022-04-13 14:04:25)
+>> Current DP driver implementation, event thread is kept running
+>> after DP display is unbind. This patch fix this problem by disabling
+>> DP irq and stop event thread to exit gracefully at dp_display_unbind().
+>>
+>> Changes in v2:
+>> -- start event thread at dp_display_bind()
+>>
+>> Fixes: e91e3065a806 ("drm/msm/dp: Add DP compliance tests on Snapdragon Chipsets")
+>> Signed-off-by: Kuogee Hsieh <quic_khsieh@quicinc.com>
+>> Reported-by: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
+>> ---
+>>   drivers/gpu/drm/msm/dp/dp_display.c | 40 +++++++++++++++++++++++++++----------
+>>   1 file changed, 30 insertions(+), 10 deletions(-)
+>>
+>> diff --git a/drivers/gpu/drm/msm/dp/dp_display.c b/drivers/gpu/drm/msm/dp/dp_display.c
+>> index 01453db..943e4f1 100644
+>> --- a/drivers/gpu/drm/msm/dp/dp_display.c
+>> +++ b/drivers/gpu/drm/msm/dp/dp_display.c
+>> @@ -113,6 +113,7 @@ struct dp_display_private {
+>>          u32 hpd_state;
+>>          u32 event_pndx;
+>>          u32 event_gndx;
+>> +       struct task_struct *ev_tsk;
+>>          struct dp_event event_list[DP_EVENT_Q_MAX];
+>>          spinlock_t event_lock;
+>>
+>> @@ -230,6 +231,31 @@ void dp_display_signal_audio_complete(struct msm_dp *dp_display)
+>>          complete_all(&dp->audio_comp);
+>>   }
+>>
+>> +static int hpd_event_thread(void *data);
+> Is there a reason why this is needed vs. defining the kthread start
+> function after hpd_event_thread()?
+too many code need to be relocated.
+>
+>> +
+>> +static void dp_hpd_event_setup(struct dp_display_private *dp_priv)
+> Maybe dp_hpd_event_thread_start()?
+>
+>> +{
+>> +       init_waitqueue_head(&dp_priv->event_q);
+>> +       spin_lock_init(&dp_priv->event_lock);
+>> +
+>> +       dp_priv->ev_tsk = kthread_run(hpd_event_thread, dp_priv, "dp_hpd_handler");
+>> +
+>> +       if (IS_ERR(dp_priv->ev_tsk))
+>> +               DRM_ERROR("failed to create DP event thread\n");
+> Can we return an error from this function?
+>
+>> +}
+>> +
+>> +static void dp_hpd_event_stop(struct dp_display_private *dp_priv)
+> Maybe dp_hpd_event_thread_stop()?
+>
+>> +{
+>> +       if (IS_ERR(dp_priv->ev_tsk))
+>> +               return;
+> If we handled the error then this check becomes impossible.
+>
+>> +
+>> +       kthread_stop(dp_priv->ev_tsk);
+>> +
+>> +       /* reset event q to empty */
+>> +       dp_priv->event_gndx = 0;
+>> +       dp_priv->event_pndx = 0;
+>> +}
+>> +
+>>   static int dp_display_bind(struct device *dev, struct device *master,
+>>                             void *data)
+>>   {
+>> @@ -269,6 +295,7 @@ static int dp_display_bind(struct device *dev, struct device *master,
+>>          if (rc)
+>>                  DRM_ERROR("Audio registration Dp failed\n");
+>>
+>> +       dp_hpd_event_setup(dp); /* start event thread */
+> The comment is useless, please remove.
+>
+>>   end:
+>>          return rc;
+>>   }
+>> @@ -280,6 +307,8 @@ static void dp_display_unbind(struct device *dev, struct device *master,
+>>          struct drm_device *drm = dev_get_drvdata(master);
+>>          struct msm_drm_private *priv = drm->dev_private;
+>>
+>> +       disable_irq(dp->irq);
+> Is the disable_irq() necessary? It would be nicer to silence the
+> hardware and remove the disable_irq() so that we can reason about the
+> code assuming the irq is always enabled after it is requested.
+>
+>> +       dp_hpd_event_stop(dp); /* stop event thread */
+>>          dp_power_client_deinit(dp->power);
+>>          dp_aux_unregister(dp->aux);
+>>          priv->dp[dp->id] = NULL;
