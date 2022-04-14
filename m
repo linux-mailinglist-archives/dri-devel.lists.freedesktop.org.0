@@ -2,51 +2,52 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2C7ED501833
-	for <lists+dri-devel@lfdr.de>; Thu, 14 Apr 2022 18:07:35 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 345FF501867
+	for <lists+dri-devel@lfdr.de>; Thu, 14 Apr 2022 18:13:58 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 4D4BD10E0A9;
-	Thu, 14 Apr 2022 16:07:31 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id C54B110E293;
+	Thu, 14 Apr 2022 16:13:52 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from bhuna.collabora.co.uk (bhuna.collabora.co.uk
- [IPv6:2a00:1098:0:82:1000:25:2eeb:e3e3])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 2752C10E0A9;
- Thu, 14 Apr 2022 16:07:30 +0000 (UTC)
-Received: from [127.0.0.1] (localhost [127.0.0.1])
- (Authenticated sender: bbeckett) with ESMTPSA id 682F01F47BE5
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
- s=mail; t=1649952448;
- bh=Iek+toYCvXLe1eOTOtIkFNeoWkFZlRKogy0n340asiA=;
- h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
- b=H5sP3u2ittdXz4vA6z0mQpfkiKT5+a37TwykspSQgu3DZjC7Dv0Z2Pj7sq6X9TKbE
- +lzpdz21l0SSMTI/BpxhImBrAP3v+mByNlwS3onEqGLKtfheYXuWfUlzIC2Qt16HTQ
- MlqcifTu9Yz9KPYRKpvSBp/0iegrQrodj1RVfBtD6FwOv2klSE4MIAN8EdiefiEl2e
- AgbETo469gAbb2qXgkzGIqFHY1JZ1a7z+ehID6zhBoEpcn2b28BxqKuGv3VBXWWTSR
- wBABSvihWog65lHHGEczZnxNbJBvtkTxEu14zKnCSOtye5uYVogp13FtbVvBmwvQ/c
- XFHud1nzBDh1Q==
-Message-ID: <cc56e644-f20f-27ae-7a21-e40c173dfe1e@collabora.com>
-Date: Thu, 14 Apr 2022 17:13:21 +0100
+Received: from mga06.intel.com (mga06b.intel.com [134.134.136.31])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 4006410E1E0;
+ Thu, 14 Apr 2022 16:13:51 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+ t=1649952831; x=1681488831;
+ h=from:to:cc:subject:in-reply-to:references:date:
+ message-id:mime-version;
+ bh=2PerYRLeWmwNN2upOwLhrGPtggRCe+TPP8aRS1u8aSM=;
+ b=hnZ0w1LzILFqIeVdREhTnLoRx6vbGO54reHUzTYcPRlnxozxw9iKSozq
+ Tynm1dNbeSq55zOitCEBDNRhzo751eBO/zt/xXj/AghQCztfIr/kAO8QO
+ Nl9FCr2L62LRTH35OWDuzPFv0hNx+ZYyD8tVVGNyHQUCySqh23yDYDs+L
+ zQoDknsHJjRdj6wfN2f9Q+RX8WkHw6h0iJIf4t09S54lk2rvAygZ8UQpL
+ bGy6aynqM3NxAh4PES0HFFs3JeJ/LZoYwM6VzxxS58PMETC90T3pK6hM2
+ as7l2SgtNFZNv+HYvbYBG0NIGVjDj76oqDkfR3FOSMTfpypFvEZOwbvbj A==;
+X-IronPort-AV: E=McAfee;i="6400,9594,10317"; a="323411459"
+X-IronPort-AV: E=Sophos;i="5.90,260,1643702400"; d="scan'208";a="323411459"
+Received: from orsmga005.jf.intel.com ([10.7.209.41])
+ by orsmga104.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 14 Apr 2022 09:13:50 -0700
+X-IronPort-AV: E=Sophos;i="5.90,260,1643702400"; d="scan'208";a="725419679"
+Received: from nplaweck-mobl.ger.corp.intel.com (HELO localhost)
+ ([10.249.149.236])
+ by orsmga005-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 14 Apr 2022 09:13:48 -0700
+From: Jani Nikula <jani.nikula@linux.intel.com>
+To: "Belgaumkar, Vinay" <vinay.belgaumkar@intel.com>, Anshuman Gupta
+ <anshuman.gupta@intel.com>
+Subject: Re: [Intel-gfx] [PATCH] drm/i915/guc/slpc: Use i915_probe_error
+ instead of drm_err
+In-Reply-To: <5853d85e-da43-5eb7-abda-a475283ff6e1@intel.com>
+Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
+References: <20220412224852.21501-1-vinay.belgaumkar@intel.com>
+ <20220414064143.GE28908@intel.com>
+ <5853d85e-da43-5eb7-abda-a475283ff6e1@intel.com>
+Date: Thu, 14 Apr 2022 19:13:49 +0300
+Message-ID: <875ynbej7m.fsf@intel.com>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.7.0
-Subject: Re: [PATCH v2 4/5] drm/i915: ttm backend dont provide mmap_offset for
- kernel buffers
-Content-Language: en-US
-To: =?UTF-8?Q?Thomas_Hellstr=c3=b6m?= <thomas.hellstrom@linux.intel.com>,
- dri-devel@lists.freedesktop.org, intel-gfx@lists.freedesktop.org,
- Jani Nikula <jani.nikula@linux.intel.com>,
- Joonas Lahtinen <joonas.lahtinen@linux.intel.com>,
- Rodrigo Vivi <rodrigo.vivi@intel.com>,
- Tvrtko Ursulin <tvrtko.ursulin@linux.intel.com>,
- David Airlie <airlied@linux.ie>, Daniel Vetter <daniel@ffwll.ch>
-References: <20220412151838.1298956-1-bob.beckett@collabora.com>
- <20220412151838.1298956-5-bob.beckett@collabora.com>
- <07e5b1dc442e0b318ee0314f90a433216ed38dcb.camel@linux.intel.com>
-From: Robert Beckett <bob.beckett@collabora.com>
-In-Reply-To: <07e5b1dc442e0b318ee0314f90a433216ed38dcb.camel@linux.intel.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -59,133 +60,168 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Matthew Auld <matthew.auld@intel.com>, linux-kernel@vger.kernel.org
+Cc: "intel-gfx@lists.freedesktop.org" <intel-gfx@lists.freedesktop.org>,
+ "dri-devel@lists.freedesktop.org" <dri-devel@lists.freedesktop.org>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
+On Thu, 14 Apr 2022, "Belgaumkar, Vinay" <vinay.belgaumkar@intel.com> wrote:
+> On 4/13/2022 11:41 PM, Anshuman Gupta wrote:
+>> On 2022-04-13 at 04:18:52 +0530, Vinay Belgaumkar wrote:
+>>> This will ensure we don't have false positives when we run
+>>> error injection tests.
+>>>
+>>> Signed-off-by: Vinay Belgaumkar <vinay.belgaumkar@intel.com>
+>>> ---
+>>>   drivers/gpu/drm/i915/gt/uc/intel_guc_slpc.c | 42 ++++++++++-----------
+>>>   1 file changed, 21 insertions(+), 21 deletions(-)
+>>>
+>>> diff --git a/drivers/gpu/drm/i915/gt/uc/intel_guc_slpc.c b/drivers/gpu/drm/i915/gt/uc/intel_guc_slpc.c
+>>> index b170238aa15c..639de3c10545 100644
+>>> --- a/drivers/gpu/drm/i915/gt/uc/intel_guc_slpc.c
+>>> +++ b/drivers/gpu/drm/i915/gt/uc/intel_guc_slpc.c
+>>> @@ -152,8 +152,8 @@ static int slpc_query_task_state(struct intel_guc_slpc *slpc)
+>>>   
+>>>   	ret = guc_action_slpc_query(guc, offset);
+>>>   	if (unlikely(ret))
+>> As commit logs describe, this code patch can hit, when we run error injection test.
+>> Do we need unlikely() here?
+>> Br,
+>> Anshuman Gupta.
+>
+> I think we still need the unlikely(). Majority of the time, we still 
+> need the compiler optimization.
+>
+> Only in the rare case of running the error injection test will it not be 
+> needed.
+
+IMO most uses of likely/unlikely (and inline for that matter) are
+premature optimization that just shouldn't be there. They're a
+distraction to human readers, and a style that all too easily gets cargo
+culted all over the place. In most cases, please just let the compiler
+do what it does best.
+
+And *then* if you still need to squeeze extra cycles out of the code,
+and can quantify it, by all means optimize. But in that case, maybe the
+root cause is somewhere other than a missing likely/unlikely/inline?
 
 
-On 14/04/2022 15:05, Thomas Hellström wrote:
-> On Tue, 2022-04-12 at 15:18 +0000, Robert Beckett wrote:
->> stolen/kernel buffers should not be mmapable by userland.
->> do not provide callbacks to facilitate this for these buffers.
->>
->> Signed-off-by: Robert Beckett <bob.beckett@collabora.com>
->> ---
->>   drivers/gpu/drm/i915/gem/i915_gem_ttm.c | 32 +++++++++++++++++++++--
->> --
->>   1 file changed, 27 insertions(+), 5 deletions(-)
->>
->> diff --git a/drivers/gpu/drm/i915/gem/i915_gem_ttm.c
->> b/drivers/gpu/drm/i915/gem/i915_gem_ttm.c
->> index a878910a563c..b20f81836c54 100644
->> --- a/drivers/gpu/drm/i915/gem/i915_gem_ttm.c
->> +++ b/drivers/gpu/drm/i915/gem/i915_gem_ttm.c
->> @@ -1092,8 +1092,8 @@ static void i915_ttm_unmap_virtual(struct
->> drm_i915_gem_object *obj)
->>          ttm_bo_unmap_virtual(i915_gem_to_ttm(obj));
->>   }
->>   
->> -static const struct drm_i915_gem_object_ops i915_gem_ttm_obj_ops = {
->> -       .name = "i915_gem_object_ttm",
->> +static const struct drm_i915_gem_object_ops
->> i915_gem_ttm_user_obj_ops = {
->> +       .name = "i915_gem_object_ttm_user",
->>          .flags = I915_GEM_OBJECT_IS_SHRINKABLE |
->>                   I915_GEM_OBJECT_SELF_MANAGED_SHRINK_LIST,
->>   
->> @@ -1111,6 +1111,21 @@ static const struct drm_i915_gem_object_ops
->> i915_gem_ttm_obj_ops = {
->>          .mmap_ops = &vm_ops_ttm,
->>   };
->>   
->> +static const struct drm_i915_gem_object_ops
->> i915_gem_ttm_kern_obj_ops = {
->> +       .name = "i915_gem_object_ttm_kern",
->> +       .flags = I915_GEM_OBJECT_IS_SHRINKABLE |
->> +                I915_GEM_OBJECT_SELF_MANAGED_SHRINK_LIST,
->> +
->> +       .get_pages = i915_ttm_get_pages,
->> +       .put_pages = i915_ttm_put_pages,
->> +       .truncate = i915_ttm_truncate,
->> +       .shrink = i915_ttm_shrink,
->> +
->> +       .adjust_lru = i915_ttm_adjust_lru,
->> +       .delayed_free = i915_ttm_delayed_free,
->> +       .migrate = i915_ttm_migrate,
->> +};
-> 
-> Do we really need two different ops here?
-> 
-> Since if we don't have mmap ops, basically that tells GEM it should do
-> the mmapping rather than TTM.
-> 
-> That might of course come in handy for the shmem backend, but I don't
-> fully follow why we need this for stolen.
+BR,
+Jani.
 
-the main rationale for doing this was to avoid 
-drivers/gpu/drm/i915/gem/selftests/i915_gem_mman.c:can_mmap() presuming 
-that is can use I915_MMAP_TYPE_FIXED
 
-As the original backend also did not have mmap_offset handlers for 
-stolen, this seemed like a reasonable design.
+>
+> Thanks,
+>
+> Vinay.
+>
+>>> -		drm_err(&i915->drm, "Failed to query task state (%pe)\n",
+>>> -			ERR_PTR(ret));
+>>> +		i915_probe_error(i915, "Failed to query task state (%pe)\n",
+>>> +				 ERR_PTR(ret));
+>>>   
+>>>   	drm_clflush_virt_range(slpc->vaddr, SLPC_PAGE_SIZE_BYTES);
+>>>   
+>>> @@ -170,8 +170,8 @@ static int slpc_set_param(struct intel_guc_slpc *slpc, u8 id, u32 value)
+>>>   
+>>>   	ret = guc_action_slpc_set_param(guc, id, value);
+>>>   	if (ret)
+>>> -		drm_err(&i915->drm, "Failed to set param %d to %u (%pe)\n",
+>>> -			id, value, ERR_PTR(ret));
+>>> +		i915_probe_error(i915, "Failed to set param %d to %u (%pe)\n",
+>>> +				 id, value, ERR_PTR(ret));
+>>>   
+>>>   	return ret;
+>>>   }
+>>> @@ -211,8 +211,8 @@ static int slpc_force_min_freq(struct intel_guc_slpc *slpc, u32 freq)
+>>>   				     SLPC_PARAM_GLOBAL_MIN_GT_UNSLICE_FREQ_MHZ,
+>>>   				     freq);
+>>>   		if (ret)
+>>> -			drm_err(&i915->drm, "Unable to force min freq to %u: %d",
+>>> -				freq, ret);
+>>> +			i915_probe_error(i915, "Unable to force min freq to %u: %d",
+>>> +					 freq, ret);
+>>>   	}
+>>>   
+>>>   	return ret;
+>>> @@ -247,9 +247,9 @@ int intel_guc_slpc_init(struct intel_guc_slpc *slpc)
+>>>   
+>>>   	err = intel_guc_allocate_and_map_vma(guc, size, &slpc->vma, (void **)&slpc->vaddr);
+>>>   	if (unlikely(err)) {
+>>> -		drm_err(&i915->drm,
+>>> -			"Failed to allocate SLPC struct (err=%pe)\n",
+>>> -			ERR_PTR(err));
+>>> +		i915_probe_error(i915,
+>>> +				 "Failed to allocate SLPC struct (err=%pe)\n",
+>>> +				 ERR_PTR(err));
+>>>   		return err;
+>>>   	}
+>>>   
+>>> @@ -316,15 +316,15 @@ static int slpc_reset(struct intel_guc_slpc *slpc)
+>>>   	ret = guc_action_slpc_reset(guc, offset);
+>>>   
+>>>   	if (unlikely(ret < 0)) {
+>>> -		drm_err(&i915->drm, "SLPC reset action failed (%pe)\n",
+>>> -			ERR_PTR(ret));
+>>> +		i915_probe_error(i915, "SLPC reset action failed (%pe)\n",
+>>> +				 ERR_PTR(ret));
+>>>   		return ret;
+>>>   	}
+>>>   
+>>>   	if (!ret) {
+>>>   		if (wait_for(slpc_is_running(slpc), SLPC_RESET_TIMEOUT_MS)) {
+>>> -			drm_err(&i915->drm, "SLPC not enabled! State = %s\n",
+>>> -				slpc_get_state_string(slpc));
+>>> +			i915_probe_error(i915, "SLPC not enabled! State = %s\n",
+>>> +					 slpc_get_state_string(slpc));
+>>>   			return -EIO;
+>>>   		}
+>>>   	}
+>>> @@ -616,8 +616,8 @@ int intel_guc_slpc_enable(struct intel_guc_slpc *slpc)
+>>>   
+>>>   	ret = slpc_reset(slpc);
+>>>   	if (unlikely(ret < 0)) {
+>>> -		drm_err(&i915->drm, "SLPC Reset event returned (%pe)\n",
+>>> -			ERR_PTR(ret));
+>>> +		i915_probe_error(i915, "SLPC Reset event returned (%pe)\n",
+>>> +				 ERR_PTR(ret));
+>>>   		return ret;
+>>>   	}
+>>>   
+>>> @@ -632,24 +632,24 @@ int intel_guc_slpc_enable(struct intel_guc_slpc *slpc)
+>>>   	/* Ignore efficient freq and set min to platform min */
+>>>   	ret = slpc_ignore_eff_freq(slpc, true);
+>>>   	if (unlikely(ret)) {
+>>> -		drm_err(&i915->drm, "Failed to set SLPC min to RPn (%pe)\n",
+>>> -			ERR_PTR(ret));
+>>> +		i915_probe_error(i915, "Failed to set SLPC min to RPn (%pe)\n",
+>>> +				 ERR_PTR(ret));
+>>>   		return ret;
+>>>   	}
+>>>   
+>>>   	/* Set SLPC max limit to RP0 */
+>>>   	ret = slpc_use_fused_rp0(slpc);
+>>>   	if (unlikely(ret)) {
+>>> -		drm_err(&i915->drm, "Failed to set SLPC max to RP0 (%pe)\n",
+>>> -			ERR_PTR(ret));
+>>> +		i915_probe_error(i915, "Failed to set SLPC max to RP0 (%pe)\n",
+>>> +				 ERR_PTR(ret));
+>>>   		return ret;
+>>>   	}
+>>>   
+>>>   	/* Revert SLPC min/max to softlimits if necessary */
+>>>   	ret = slpc_set_softlimits(slpc);
+>>>   	if (unlikely(ret)) {
+>>> -		drm_err(&i915->drm, "Failed to set SLPC softlimits (%pe)\n",
+>>> -			ERR_PTR(ret));
+>>> +		i915_probe_error(i915, "Failed to set SLPC softlimits (%pe)\n",
+>>> +				 ERR_PTR(ret));
+>>>   		return ret;
+>>>   	}
+>>>   
+>>> -- 
+>>> 2.35.1
+>>>
 
-If desired, we could add a special case for the testing logic, but those 
-special cases have tendency to multiply.
-
-> 
-> Also for the framebuffer handed over from BIOS to fbdev, Does that need
-> mmapping and if so, how do we handle that?
-> 
-
-I'm not sure of the usecase there. Do you know of any igt test that 
-tests this? I can investigate further if you do not.
-
-> 
-> /Thomas
-> 
-> 
-> 
-> 
->> +
->>   void i915_ttm_bo_destroy(struct ttm_buffer_object *bo)
->>   {
->>          struct drm_i915_gem_object *obj = i915_ttm_to_gem(bo);
->> @@ -1165,10 +1180,19 @@ int __i915_gem_ttm_object_init(struct
->> intel_memory_region *mem,
->>                  .no_wait_gpu = false,
->>          };
->>          enum ttm_bo_type bo_type;
->> +       const struct drm_i915_gem_object_ops *ops;
->>          int ret;
->>   
->>          drm_gem_private_object_init(&i915->drm, &obj->base, size);
->> -       i915_gem_object_init(obj, &i915_gem_ttm_obj_ops, &lock_class,
->> flags);
->> +
->> +       if (flags & I915_BO_ALLOC_USER &&
->> intel_region_to_ttm_type(mem) != I915_PL_STOLEN) {
->> +               bo_type = ttm_bo_type_device;
->> +               ops = &i915_gem_ttm_user_obj_ops;
->> +       } else {
->> +               bo_type = ttm_bo_type_kernel;
->> +               ops = &i915_gem_ttm_kern_obj_ops;
->> +       }
->> +       i915_gem_object_init(obj, ops, &lock_class, flags);
->>   
->>          obj->bo_offset = offset;
->>   
->> @@ -1178,8 +1202,6 @@ int __i915_gem_ttm_object_init(struct
->> intel_memory_region *mem,
->>   
->>          INIT_RADIX_TREE(&obj->ttm.get_io_page.radix, GFP_KERNEL |
->> __GFP_NOWARN);
->>          mutex_init(&obj->ttm.get_io_page.lock);
->> -       bo_type = (obj->flags & I915_BO_ALLOC_USER) ?
->> ttm_bo_type_device :
->> -               ttm_bo_type_kernel;
->>   
->>          obj->base.vma_node.driver_private = i915_gem_to_ttm(obj);
->>   
-> 
-> 
+-- 
+Jani Nikula, Intel Open Source Graphics Center
