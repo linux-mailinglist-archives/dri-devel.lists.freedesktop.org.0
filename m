@@ -1,68 +1,111 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7ADC1501BB3
-	for <lists+dri-devel@lfdr.de>; Thu, 14 Apr 2022 21:20:37 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id A758F501C0F
+	for <lists+dri-devel@lfdr.de>; Thu, 14 Apr 2022 21:41:29 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 585EE10E10C;
-	Thu, 14 Apr 2022 19:20:35 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 44C7510E336;
+	Thu, 14 Apr 2022 19:41:27 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-lf1-x134.google.com (mail-lf1-x134.google.com
- [IPv6:2a00:1450:4864:20::134])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 810DE10E10C
- for <dri-devel@lists.freedesktop.org>; Thu, 14 Apr 2022 19:20:34 +0000 (UTC)
-Received: by mail-lf1-x134.google.com with SMTP id x33so10813112lfu.1
- for <dri-devel@lists.freedesktop.org>; Thu, 14 Apr 2022 12:20:34 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=message-id:date:mime-version:user-agent:subject:content-language:to
- :cc:references:from:in-reply-to:content-transfer-encoding;
- bh=vp0QTlQ+Ul12qwBiTeo6WQhXUXb0oDOX5cKNXB8aPjA=;
- b=vtTVHj80EGxNxKDlWGtszG3FwMg4Ey5uQHChZ2COAtQ3UUZTlIFf0z5PGKPiraBznp
- nlnwtsO3/u7tW7hBz/zuev7xxyVez2a1UV4nWJzEA+tbDF+toFxvgf3oS+Ph+MAcVJqx
- 6pLvnc9UJe5jn4SBNdLYPN5Qax2ShWH+dQdCyYir+zNtxeCkS/MloXri0Byr1k6CWrQn
- DIvXAWCR+AUnhw9m8COyU5g0yWa8VV81TuALFXgSzmLsSb/ODZY/kz9XdUipaRxtpkJK
- cqtoJaVQNx9rfchIoRjAhYaGI2BQb5x1lxq0/4EC3hHEbQsLJBz8UJhBvQ6QjuJxevF5
- 4v5A==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
- :content-language:to:cc:references:from:in-reply-to
- :content-transfer-encoding;
- bh=vp0QTlQ+Ul12qwBiTeo6WQhXUXb0oDOX5cKNXB8aPjA=;
- b=t4slPqWAikkLwJ+4aVdaHFg6VGDHanE4rOUNDt+PmN0ZNZMuNUOQ78kPLVNAFmRyJV
- M+U4kVq4CSz++HBwX6momv71nGO2Y+qoKhpUFMxukl5aAnX69a9CKjdO5hGePUvpUnTs
- A6d55SaWDt6FoziDi4lza3Fz/1GlUG2/11UASaVbOl80MhEY+G4dWC2trdnq1A0tduaH
- 0N1yFZTnOojODWaGYD5CBs2iFMk738sD04sQVo3U6Ie+3GIztK15DIFa4N0sn7P6+yFD
- MNQPohfEtXK/KAMrxpW2M2+t0VcnX+/PZojRgdTZku9bmEfpiOQlslWtpVOYUnx39pFs
- yz6A==
-X-Gm-Message-State: AOAM531CDWWlRW0rkObgxFAmwOAuYtd9in/PiZlEr58PUDVKfGMXK2NZ
- 4tulk/TNqTr1HTzrdafCKd1ZmA==
-X-Google-Smtp-Source: ABdhPJxo5MHFE963Dq+Wyme7Ct5D7t+GPbOhgBQl/OVd4GpTcR+TbNjtlAMv2Dy5gtjdWO+O9T8iPA==
-X-Received: by 2002:a05:6512:4024:b0:46b:fc7e:a455 with SMTP id
- br36-20020a056512402400b0046bfc7ea455mr2937396lfb.156.1649964032785; 
- Thu, 14 Apr 2022 12:20:32 -0700 (PDT)
-Received: from [192.168.1.211] ([37.153.55.125])
- by smtp.gmail.com with ESMTPSA id
- t1-20020a19dc01000000b0046ba600f866sm83561lfg.180.2022.04.14.12.20.32
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Thu, 14 Apr 2022 12:20:32 -0700 (PDT)
-Message-ID: <20afcd97-4b8d-f770-151a-268b893b7c5a@linaro.org>
-Date: Thu, 14 Apr 2022 22:20:31 +0300
-MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.8.0
-Subject: Re: [PATCH v7 0/4] Add support for the eDP panel over aux_bus
-Content-Language: en-GB
-To: Doug Anderson <dianders@chromium.org>,
- Sankeerth Billakanti <quic_sbillaka@quicinc.com>
-References: <1649938766-6768-1-git-send-email-quic_sbillaka@quicinc.com>
- <CAD=FV=Ui6BAsnTaJ2_TMh1Tnjtaw7FR92aWoUysS+UT=c0qB3Q@mail.gmail.com>
-From: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
-In-Reply-To: <CAD=FV=Ui6BAsnTaJ2_TMh1Tnjtaw7FR92aWoUysS+UT=c0qB3Q@mail.gmail.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
+X-Greylist: delayed 935 seconds by postgrey-1.36 at gabe;
+ Thu, 14 Apr 2022 19:41:26 UTC
+Received: from mx0a-001b2d01.pphosted.com (mx0a-001b2d01.pphosted.com
+ [148.163.156.1])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 55E1510E336;
+ Thu, 14 Apr 2022 19:41:26 +0000 (UTC)
+Received: from pps.filterd (m0098393.ppops.net [127.0.0.1])
+ by mx0a-001b2d01.pphosted.com (8.16.1.2/8.16.1.2) with SMTP id 23EHWO3l000742; 
+ Thu, 14 Apr 2022 19:25:45 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ibm.com;
+ h=message-id : subject :
+ from : to : cc : date : in-reply-to : references : content-type :
+ mime-version : content-transfer-encoding; s=pp1;
+ bh=6voXg6UJ37Slw5c2433ALac3YaZLhIHAeNPFo+rCtE0=;
+ b=qyeNXe7XQ9c99v50SXcpVEVbiVmLr9y5a7+fpm9US+bmHgTzf7Uxbpv31i9sc0PjHk8Y
+ AOkStCS+zJ9XfroCqFfmdb6npWUc2tOHMQW0EMIVgBkP3UWlowUFSbMINghiU6Pbjfcb
+ mrNpa93I+xzLw5NiRnO0IQ/u5ZvdXp8Hh4vhjYW74ldt7czbMvV3ZEXH+8YjVVXkcLfA
+ Bls/Qyz5GBo1r84ncS1bo65TZFxcdmb0UxhTp+u/HGsHJFAh5HnJ1/GbNAd05pSLTsme
+ WzfiyNL9hx+9RjUM63VgQbdyR8+KOihd4yqOECxHFnGQlUqa8G3LUHkdRCJ6jsyHXZr+ iw== 
+Received: from pps.reinject (localhost [127.0.0.1])
+ by mx0a-001b2d01.pphosted.com with ESMTP id 3feeunec17-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Thu, 14 Apr 2022 19:25:45 +0000
+Received: from m0098393.ppops.net (m0098393.ppops.net [127.0.0.1])
+ by pps.reinject (8.16.0.43/8.16.0.43) with SMTP id 23EJLEIP012872;
+ Thu, 14 Apr 2022 19:25:44 GMT
+Received: from ppma03dal.us.ibm.com (b.bd.3ea9.ip4.static.sl-reverse.com
+ [169.62.189.11])
+ by mx0a-001b2d01.pphosted.com with ESMTP id 3feeunec0w-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Thu, 14 Apr 2022 19:25:44 +0000
+Received: from pps.filterd (ppma03dal.us.ibm.com [127.0.0.1])
+ by ppma03dal.us.ibm.com (8.16.1.2/8.16.1.2) with SMTP id 23EJIVHR020356;
+ Thu, 14 Apr 2022 19:25:43 GMT
+Received: from b03cxnp07027.gho.boulder.ibm.com
+ (b03cxnp07027.gho.boulder.ibm.com [9.17.130.14])
+ by ppma03dal.us.ibm.com with ESMTP id 3fb1sakghp-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Thu, 14 Apr 2022 19:25:43 +0000
+Received: from b03ledav001.gho.boulder.ibm.com
+ (b03ledav001.gho.boulder.ibm.com [9.17.130.232])
+ by b03cxnp07027.gho.boulder.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id
+ 23EJPfjU36897238
+ (version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+ Thu, 14 Apr 2022 19:25:42 GMT
+Received: from b03ledav001.gho.boulder.ibm.com (unknown [127.0.0.1])
+ by IMSVA (Postfix) with ESMTP id D78E16E04E;
+ Thu, 14 Apr 2022 19:25:41 +0000 (GMT)
+Received: from b03ledav001.gho.boulder.ibm.com (unknown [127.0.0.1])
+ by IMSVA (Postfix) with ESMTP id 198436E054;
+ Thu, 14 Apr 2022 19:25:39 +0000 (GMT)
+Received: from farman-thinkpad-t470p (unknown [9.211.52.116])
+ by b03ledav001.gho.boulder.ibm.com (Postfix) with ESMTP;
+ Thu, 14 Apr 2022 19:25:38 +0000 (GMT)
+Message-ID: <93a1c84e3a3df7ecce0b2039d56c12007edbf6eb.camel@linux.ibm.com>
+Subject: Re: [PATCH 1/9] vfio: Make vfio_(un)register_notifier accept a
+ vfio_device
+From: Eric Farman <farman@linux.ibm.com>
+To: Jason Gunthorpe <jgg@nvidia.com>, Alexander Gordeev
+ <agordeev@linux.ibm.com>, David Airlie <airlied@linux.ie>, Tony Krowiak
+ <akrowiak@linux.ibm.com>, Alex Williamson <alex.williamson@redhat.com>,
+ Christian Borntraeger <borntraeger@linux.ibm.com>, Cornelia Huck
+ <cohuck@redhat.com>, Jonathan Corbet <corbet@lwn.net>, Daniel Vetter
+ <daniel@ffwll.ch>, dri-devel@lists.freedesktop.org, Harald Freudenberger
+ <freude@linux.ibm.com>, Vasily Gorbik <gor@linux.ibm.com>, Heiko Carstens
+ <hca@linux.ibm.com>,
+ intel-gfx@lists.freedesktop.org, intel-gvt-dev@lists.freedesktop.org,
+ Jani Nikula <jani.nikula@linux.intel.com>,
+ Jason Herne <jjherne@linux.ibm.com>, Joonas
+ Lahtinen <joonas.lahtinen@linux.intel.com>, kvm@vger.kernel.org, Kirti
+ Wankhede <kwankhede@nvidia.com>,
+ linux-doc@vger.kernel.org, linux-s390@vger.kernel.org,
+ Matthew Rosato <mjrosato@linux.ibm.com>, Peter
+ Oberparleiter <oberpar@linux.ibm.com>, Halil Pasic <pasic@linux.ibm.com>,
+ Rodrigo Vivi <rodrigo.vivi@intel.com>, Sven Schnelle <svens@linux.ibm.com>,
+ Tvrtko Ursulin <tvrtko.ursulin@linux.intel.com>, Vineeth Vijayan
+ <vneethv@linux.ibm.com>, Zhenyu Wang <zhenyuw@linux.intel.com>, Zhi Wang
+ <zhi.a.wang@intel.com>
+Date: Thu, 14 Apr 2022 15:25:38 -0400
+In-Reply-To: <1-v1-a8faf768d202+125dd-vfio_mdev_no_group_jgg@nvidia.com>
+References: <1-v1-a8faf768d202+125dd-vfio_mdev_no_group_jgg@nvidia.com>
+Content-Type: text/plain; charset="UTF-8"
+X-Mailer: Evolution 3.28.5 (3.28.5-18.el8) 
+Mime-Version: 1.0
 Content-Transfer-Encoding: 7bit
+X-TM-AS-GCONF: 00
+X-Proofpoint-ORIG-GUID: UGJDPH5J0etjlNSULokiRRuvMhGcLlSR
+X-Proofpoint-GUID: v5AKuG7iN8qWGZBSFobc5mPOwYhBrEwz
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.205,Aquarius:18.0.858,Hydra:6.0.486,FMLib:17.11.64.514
+ definitions=2022-04-14_05,2022-04-14_02,2022-02-23_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
+ lowpriorityscore=0
+ adultscore=0 spamscore=0 clxscore=1011 suspectscore=0 mlxscore=0
+ priorityscore=1501 impostorscore=0 mlxlogscore=941 phishscore=0
+ bulkscore=0 malwarescore=0 classifier=spam adjust=0 reason=mlx scancount=1
+ engine=8.12.0-2202240000 definitions=main-2204140100
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -75,64 +118,342 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: quic_kalyant <quic_kalyant@quicinc.com>,
- "open list:OPEN FIRMWARE AND FLATTENED DEVICE TREE BINDINGS"
- <devicetree@vger.kernel.org>, Bjorn Andersson <bjorn.andersson@linaro.org>,
- "Abhinav Kumar \(QUIC\)" <quic_abhinavk@quicinc.com>,
- quic_vproddut <quic_vproddut@quicinc.com>, David Airlie <airlied@linux.ie>,
- linux-arm-msm <linux-arm-msm@vger.kernel.org>,
- LKML <linux-kernel@vger.kernel.org>,
- dri-devel <dri-devel@lists.freedesktop.org>,
- Stephen Boyd <swboyd@chromium.org>, Sean Paul <sean@poorly.run>,
- Sean Paul <seanpaul@chromium.org>, Steev Klimaszewski <steev@kali.org>,
- "Aravind Venkateswaran \(QUIC\)" <quic_aravindh@quicinc.com>,
- "Kuogee Hsieh \(QUIC\)" <quic_khsieh@quicinc.com>,
- freedreno <freedreno@lists.freedesktop.org>
+Cc: "Tian, Kevin" <kevin.tian@intel.com>, "Liu, Yi L" <yi.l.liu@intel.com>,
+ Christoph Hellwig <hch@lst.de>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 14/04/2022 19:40, Doug Anderson wrote:
-> Hi,
+On Tue, 2022-04-12 at 12:53 -0300, Jason Gunthorpe wrote:
+> All callers have a struct vfio_device trivially available, pass it in
+> directly and avoid calling the expensive vfio_group_get_from_dev().
 > 
-> On Thu, Apr 14, 2022 at 5:19 AM Sankeerth Billakanti
-> <quic_sbillaka@quicinc.com> wrote:
->>
->> This series adds support for generic eDP panel over aux_bus.
->>
->> These changes are dependent on the following series:
->> https://patchwork.kernel.org/project/linux-arm-msm/list/?series=613654&state=*
+> To support the unconverted kvmgt mdev driver add
+> mdev_legacy_get_vfio_device() which will return the vfio_device
+> pointer
+> vfio_mdev.c puts in the drv_data.
 > 
-> You're basically depending on the last two patches of that series.
-> What's the plan there? In patchwork they're marked as "Not
-> Applicable". If they're good to go, maybe we should land them? If not,
-> maybe you should include them (with Dmitry as the author, of course)
-> at the beginning of your series?
+> Signed-off-by: Jason Gunthorpe <jgg@nvidia.com>
+> ---
+>  drivers/gpu/drm/i915/gvt/kvmgt.c  | 15 +++++++++------
+>  drivers/s390/cio/vfio_ccw_ops.c   |  7 +++----
+>  drivers/s390/crypto/vfio_ap_ops.c | 14 +++++++-------
+>  drivers/vfio/mdev/vfio_mdev.c     | 12 ++++++++++++
+>  drivers/vfio/vfio.c               | 25 +++++++------------------
+>  include/linux/mdev.h              |  1 +
+>  include/linux/vfio.h              |  4 ++--
+>  7 files changed, 41 insertions(+), 37 deletions(-)
 
-No, please do not resend patches. The patches in question are marked as 
-'Not applicable' as they are really not applicable to Bjorn's tree.
-It would be better to point to the correct patchwork:
+For the -ccw bits:
 
-https://patchwork.freedesktop.org/series/98585/
-
-Note those patches still lack the R-B tag. I can include them anyway, 
-basing on Sankeerth's Tested-by tag, but the formal R-B would also be good.
-
+Acked-by: Eric Farman <farman@linux.ibm.com>
 
 > 
-> 
->> Sankeerth Billakanti (4):
->>    drm/msm/dp: Add eDP support via aux_bus
->>    drm/msm/dp: Support only IRQ_HPD and REPLUG interrupts for eDP
->>    drm/msm/dp: wait for hpd high before aux transaction
->>    Support the eDP modes given by panel
-> 
-> One of these things is not like the others. One of these things just
-> doesn't belong. Can you spot which patch is missing the prefix by
-> looking at the subject line of all 4 patches? ;-)
+> diff --git a/drivers/gpu/drm/i915/gvt/kvmgt.c
+> b/drivers/gpu/drm/i915/gvt/kvmgt.c
+> index 057ec449010458..bb59d21cf898ab 100644
+> --- a/drivers/gpu/drm/i915/gvt/kvmgt.c
+> +++ b/drivers/gpu/drm/i915/gvt/kvmgt.c
+> @@ -904,6 +904,7 @@ static int intel_vgpu_group_notifier(struct
+> notifier_block *nb,
+>  
+>  static int intel_vgpu_open_device(struct mdev_device *mdev)
+>  {
+> +	struct vfio_device *vfio_dev =
+> mdev_legacy_get_vfio_device(mdev);
+>  	struct intel_vgpu *vgpu = mdev_get_drvdata(mdev);
+>  	struct kvmgt_vdev *vdev = kvmgt_vdev(vgpu);
+>  	unsigned long events;
+> @@ -914,7 +915,7 @@ static int intel_vgpu_open_device(struct
+> mdev_device *mdev)
+>  	vdev->group_notifier.notifier_call = intel_vgpu_group_notifier;
+>  
+>  	events = VFIO_IOMMU_NOTIFY_DMA_UNMAP;
+> -	ret = vfio_register_notifier(mdev_dev(mdev), VFIO_IOMMU_NOTIFY,
+> &events,
+> +	ret = vfio_register_notifier(vfio_dev, VFIO_IOMMU_NOTIFY,
+> &events,
+>  				&vdev->iommu_notifier);
+>  	if (ret != 0) {
+>  		gvt_vgpu_err("vfio_register_notifier for iommu failed:
+> %d\n",
+> @@ -923,7 +924,7 @@ static int intel_vgpu_open_device(struct
+> mdev_device *mdev)
+>  	}
+>  
+>  	events = VFIO_GROUP_NOTIFY_SET_KVM;
+> -	ret = vfio_register_notifier(mdev_dev(mdev), VFIO_GROUP_NOTIFY,
+> &events,
+> +	ret = vfio_register_notifier(vfio_dev, VFIO_GROUP_NOTIFY,
+> &events,
+>  				&vdev->group_notifier);
+>  	if (ret != 0) {
+>  		gvt_vgpu_err("vfio_register_notifier for group failed:
+> %d\n",
+> @@ -961,11 +962,11 @@ static int intel_vgpu_open_device(struct
+> mdev_device *mdev)
+>  	vdev->vfio_group = NULL;
+>  
+>  undo_register:
+> -	vfio_unregister_notifier(mdev_dev(mdev), VFIO_GROUP_NOTIFY,
+> +	vfio_unregister_notifier(vfio_dev, VFIO_GROUP_NOTIFY,
+>  					&vdev->group_notifier);
+>  
+>  undo_iommu:
+> -	vfio_unregister_notifier(mdev_dev(mdev), VFIO_IOMMU_NOTIFY,
+> +	vfio_unregister_notifier(vfio_dev, VFIO_IOMMU_NOTIFY,
+>  					&vdev->iommu_notifier);
+>  out:
+>  	return ret;
+> @@ -988,6 +989,7 @@ static void __intel_vgpu_release(struct
+> intel_vgpu *vgpu)
+>  	struct kvmgt_vdev *vdev = kvmgt_vdev(vgpu);
+>  	struct drm_i915_private *i915 = vgpu->gvt->gt->i915;
+>  	struct kvmgt_guest_info *info;
+> +	struct vfio_device *vfio_dev;
+>  	int ret;
+>  
+>  	if (!handle_valid(vgpu->handle))
+> @@ -998,12 +1000,13 @@ static void __intel_vgpu_release(struct
+> intel_vgpu *vgpu)
+>  
+>  	intel_gvt_ops->vgpu_release(vgpu);
+>  
+> -	ret = vfio_unregister_notifier(mdev_dev(vdev->mdev),
+> VFIO_IOMMU_NOTIFY,
+> +	vfio_dev = mdev_legacy_get_vfio_device(vdev->mdev);
+> +	ret = vfio_unregister_notifier(vfio_dev, VFIO_IOMMU_NOTIFY,
+>  					&vdev->iommu_notifier);
+>  	drm_WARN(&i915->drm, ret,
+>  		 "vfio_unregister_notifier for iommu failed: %d\n",
+> ret);
+>  
+> -	ret = vfio_unregister_notifier(mdev_dev(vdev->mdev),
+> VFIO_GROUP_NOTIFY,
+> +	ret = vfio_unregister_notifier(vfio_dev, VFIO_GROUP_NOTIFY,
+>  					&vdev->group_notifier);
+>  	drm_WARN(&i915->drm, ret,
+>  		 "vfio_unregister_notifier for group failed: %d\n",
+> ret);
+> diff --git a/drivers/s390/cio/vfio_ccw_ops.c
+> b/drivers/s390/cio/vfio_ccw_ops.c
+> index d8589afac272f1..e1ce24d8fb2555 100644
+> --- a/drivers/s390/cio/vfio_ccw_ops.c
+> +++ b/drivers/s390/cio/vfio_ccw_ops.c
+> @@ -183,7 +183,7 @@ static int vfio_ccw_mdev_open_device(struct
+> vfio_device *vdev)
+>  
+>  	private->nb.notifier_call = vfio_ccw_mdev_notifier;
+>  
+> -	ret = vfio_register_notifier(vdev->dev, VFIO_IOMMU_NOTIFY,
+> +	ret = vfio_register_notifier(vdev, VFIO_IOMMU_NOTIFY,
+>  				     &events, &private->nb);
+>  	if (ret)
+>  		return ret;
+> @@ -204,8 +204,7 @@ static int vfio_ccw_mdev_open_device(struct
+> vfio_device *vdev)
+>  
+>  out_unregister:
+>  	vfio_ccw_unregister_dev_regions(private);
+> -	vfio_unregister_notifier(vdev->dev, VFIO_IOMMU_NOTIFY,
+> -				 &private->nb);
+> +	vfio_unregister_notifier(vdev, VFIO_IOMMU_NOTIFY, &private-
+> >nb);
+>  	return ret;
+>  }
+>  
+> @@ -223,7 +222,7 @@ static void vfio_ccw_mdev_close_device(struct
+> vfio_device *vdev)
+>  
+>  	cp_free(&private->cp);
+>  	vfio_ccw_unregister_dev_regions(private);
+> -	vfio_unregister_notifier(vdev->dev, VFIO_IOMMU_NOTIFY,
+> &private->nb);
+> +	vfio_unregister_notifier(vdev, VFIO_IOMMU_NOTIFY, &private-
+> >nb);
+>  }
+>  
+>  static ssize_t vfio_ccw_mdev_read_io_region(struct vfio_ccw_private
+> *private,
+> diff --git a/drivers/s390/crypto/vfio_ap_ops.c
+> b/drivers/s390/crypto/vfio_ap_ops.c
+> index 6e08d04b605d6e..69768061cd7bd9 100644
+> --- a/drivers/s390/crypto/vfio_ap_ops.c
+> +++ b/drivers/s390/crypto/vfio_ap_ops.c
+> @@ -1406,21 +1406,21 @@ static int vfio_ap_mdev_open_device(struct
+> vfio_device *vdev)
+>  	matrix_mdev->group_notifier.notifier_call =
+> vfio_ap_mdev_group_notifier;
+>  	events = VFIO_GROUP_NOTIFY_SET_KVM;
+>  
+> -	ret = vfio_register_notifier(vdev->dev, VFIO_GROUP_NOTIFY,
+> -				     &events, &matrix_mdev-
+> >group_notifier);
+> +	ret = vfio_register_notifier(vdev, VFIO_GROUP_NOTIFY, &events,
+> +				     &matrix_mdev->group_notifier);
+>  	if (ret)
+>  		return ret;
+>  
+>  	matrix_mdev->iommu_notifier.notifier_call =
+> vfio_ap_mdev_iommu_notifier;
+>  	events = VFIO_IOMMU_NOTIFY_DMA_UNMAP;
+> -	ret = vfio_register_notifier(vdev->dev, VFIO_IOMMU_NOTIFY,
+> -				     &events, &matrix_mdev-
+> >iommu_notifier);
+> +	ret = vfio_register_notifier(vdev, VFIO_IOMMU_NOTIFY, &events,
+> +				     &matrix_mdev->iommu_notifier);
+>  	if (ret)
+>  		goto out_unregister_group;
+>  	return 0;
+>  
+>  out_unregister_group:
+> -	vfio_unregister_notifier(vdev->dev, VFIO_GROUP_NOTIFY,
+> +	vfio_unregister_notifier(vdev, VFIO_GROUP_NOTIFY,
+>  				 &matrix_mdev->group_notifier);
+>  	return ret;
+>  }
+> @@ -1430,9 +1430,9 @@ static void vfio_ap_mdev_close_device(struct
+> vfio_device *vdev)
+>  	struct ap_matrix_mdev *matrix_mdev =
+>  		container_of(vdev, struct ap_matrix_mdev, vdev);
+>  
+> -	vfio_unregister_notifier(vdev->dev, VFIO_IOMMU_NOTIFY,
+> +	vfio_unregister_notifier(vdev, VFIO_IOMMU_NOTIFY,
+>  				 &matrix_mdev->iommu_notifier);
+> -	vfio_unregister_notifier(vdev->dev, VFIO_GROUP_NOTIFY,
+> +	vfio_unregister_notifier(vdev, VFIO_GROUP_NOTIFY,
+>  				 &matrix_mdev->group_notifier);
+>  	vfio_ap_mdev_unset_kvm(matrix_mdev);
+>  }
+> diff --git a/drivers/vfio/mdev/vfio_mdev.c
+> b/drivers/vfio/mdev/vfio_mdev.c
+> index a90e24b0c851d3..91605c1e8c8f94 100644
+> --- a/drivers/vfio/mdev/vfio_mdev.c
+> +++ b/drivers/vfio/mdev/vfio_mdev.c
+> @@ -17,6 +17,18 @@
+>  
+>  #include "mdev_private.h"
+>  
+> +/*
+> + * Return the struct vfio_device for the mdev when using the legacy
+> + * vfio_mdev_dev_ops path. No new callers to this function should be
+> added.
+> + */
+> +struct vfio_device *mdev_legacy_get_vfio_device(struct mdev_device
+> *mdev)
+> +{
+> +	if (WARN_ON(mdev->dev.driver != &vfio_mdev_driver.driver))
+> +		return NULL;
+> +	return dev_get_drvdata(&mdev->dev);
+> +}
+> +EXPORT_SYMBOL_GPL(mdev_legacy_get_vfio_device);
+> +
+>  static int vfio_mdev_open_device(struct vfio_device *core_vdev)
+>  {
+>  	struct mdev_device *mdev = to_mdev_device(core_vdev->dev);
+> diff --git a/drivers/vfio/vfio.c b/drivers/vfio/vfio.c
+> index a4555014bd1e72..8a5c46aa2bef61 100644
+> --- a/drivers/vfio/vfio.c
+> +++ b/drivers/vfio/vfio.c
+> @@ -2484,19 +2484,15 @@ static int
+> vfio_unregister_group_notifier(struct vfio_group *group,
+>  	return ret;
+>  }
+>  
+> -int vfio_register_notifier(struct device *dev, enum vfio_notify_type
+> type,
+> +int vfio_register_notifier(struct vfio_device *dev, enum
+> vfio_notify_type type,
+>  			   unsigned long *events, struct notifier_block
+> *nb)
+>  {
+> -	struct vfio_group *group;
+> +	struct vfio_group *group = dev->group;
+>  	int ret;
+>  
+> -	if (!dev || !nb || !events || (*events == 0))
+> +	if (!nb || !events || (*events == 0))
+>  		return -EINVAL;
+>  
+> -	group = vfio_group_get_from_dev(dev);
+> -	if (!group)
+> -		return -ENODEV;
+> -
+>  	switch (type) {
+>  	case VFIO_IOMMU_NOTIFY:
+>  		ret = vfio_register_iommu_notifier(group, events, nb);
+> @@ -2507,25 +2503,20 @@ int vfio_register_notifier(struct device
+> *dev, enum vfio_notify_type type,
+>  	default:
+>  		ret = -EINVAL;
+>  	}
+> -
+> -	vfio_group_put(group);
+>  	return ret;
+>  }
+>  EXPORT_SYMBOL(vfio_register_notifier);
+>  
+> -int vfio_unregister_notifier(struct device *dev, enum
+> vfio_notify_type type,
+> +int vfio_unregister_notifier(struct vfio_device *dev,
+> +			     enum vfio_notify_type type,
+>  			     struct notifier_block *nb)
+>  {
+> -	struct vfio_group *group;
+> +	struct vfio_group *group = dev->group;
+>  	int ret;
+>  
+> -	if (!dev || !nb)
+> +	if (!nb)
+>  		return -EINVAL;
+>  
+> -	group = vfio_group_get_from_dev(dev);
+> -	if (!group)
+> -		return -ENODEV;
+> -
+>  	switch (type) {
+>  	case VFIO_IOMMU_NOTIFY:
+>  		ret = vfio_unregister_iommu_notifier(group, nb);
+> @@ -2536,8 +2527,6 @@ int vfio_unregister_notifier(struct device
+> *dev, enum vfio_notify_type type,
+>  	default:
+>  		ret = -EINVAL;
+>  	}
+> -
+> -	vfio_group_put(group);
+>  	return ret;
+>  }
+>  EXPORT_SYMBOL(vfio_unregister_notifier);
+> diff --git a/include/linux/mdev.h b/include/linux/mdev.h
+> index 15d03f6532d073..67d07220a28f29 100644
+> --- a/include/linux/mdev.h
+> +++ b/include/linux/mdev.h
+> @@ -29,6 +29,7 @@ static inline struct mdev_device
+> *to_mdev_device(struct device *dev)
+>  unsigned int mdev_get_type_group_id(struct mdev_device *mdev);
+>  unsigned int mtype_get_type_group_id(struct mdev_type *mtype);
+>  struct device *mtype_get_parent_dev(struct mdev_type *mtype);
+> +struct vfio_device *mdev_legacy_get_vfio_device(struct mdev_device
+> *mdev);
+>  
+>  /**
+>   * struct mdev_parent_ops - Structure to be registered for each
+> parent device to
+> diff --git a/include/linux/vfio.h b/include/linux/vfio.h
+> index 66dda06ec42d1b..748ec0e0293aea 100644
+> --- a/include/linux/vfio.h
+> +++ b/include/linux/vfio.h
+> @@ -178,11 +178,11 @@ enum vfio_notify_type {
+>  /* events for VFIO_GROUP_NOTIFY */
+>  #define VFIO_GROUP_NOTIFY_SET_KVM	BIT(0)
+>  
+> -extern int vfio_register_notifier(struct device *dev,
+> +extern int vfio_register_notifier(struct vfio_device *dev,
+>  				  enum vfio_notify_type type,
+>  				  unsigned long *required_events,
+>  				  struct notifier_block *nb);
+> -extern int vfio_unregister_notifier(struct device *dev,
+> +extern int vfio_unregister_notifier(struct vfio_device *dev,
+>  				    enum vfio_notify_type type,
+>  				    struct notifier_block *nb);
+>  
 
-:-)
-
-
--- 
-With best wishes
-Dmitry
