@@ -1,58 +1,49 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 497CD500FD7
-	for <lists+dri-devel@lfdr.de>; Thu, 14 Apr 2022 16:05:13 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 71ACC500FDB
+	for <lists+dri-devel@lfdr.de>; Thu, 14 Apr 2022 16:09:48 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id BF9C210FDEE;
-	Thu, 14 Apr 2022 14:05:08 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 5F2B210FDFA;
+	Thu, 14 Apr 2022 14:09:43 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mga12.intel.com (mga12.intel.com [192.55.52.136])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 14E9D10FDEE;
- Thu, 14 Apr 2022 14:05:07 +0000 (UTC)
+Received: from mga17.intel.com (mga17.intel.com [192.55.52.151])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 6D18C10FDEC;
+ Thu, 14 Apr 2022 14:09:41 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1649945107; x=1681481107;
- h=message-id:subject:from:to:cc:date:in-reply-to:
- references:mime-version:content-transfer-encoding;
- bh=89/dz+Osr1QwvheHjAyZOBd+b+PSggqKY7BVPhCMc/4=;
- b=eA+DqHzkbwEGDr9oMrdcLg8Ne9+uyzt+Okkto6dN10JwAIRzBvcqNSxM
- Pr2mmsB9a+07W/W8PGVcyVvvWq7A2WXHi0WAyYx7MWNU0xJyxkbDyzoX6
- jHrVSjTVSChgzitQAZ6EWvBo1c4QpfSucrkLOGcCb4IcPii3WdAha8bK0
- 2/ItcRCIUrgU/u/GBeALrT+1lBeE2KFuusKZlXfHTwFugsPRRftRChpJ9
- yrUcLRb3G4QJM6gGCERZBw1zpyUlkCsZsWrmq3kCZXnekQLhcSthmZi6o
- S1Xxt83wx3x+JRE09/yYSSAZayoouJA5oM/LvsfQpknTUz+mb8b+1yhen w==;
-X-IronPort-AV: E=McAfee;i="6400,9594,10316"; a="242868470"
-X-IronPort-AV: E=Sophos;i="5.90,259,1643702400"; d="scan'208";a="242868470"
-Received: from fmsmga003.fm.intel.com ([10.253.24.29])
- by fmsmga106.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 14 Apr 2022 07:05:06 -0700
-X-IronPort-AV: E=Sophos;i="5.90,259,1643702400"; d="scan'208";a="645634913"
-Received: from aviljane-mobl.ger.corp.intel.com (HELO [10.249.254.86])
- ([10.249.254.86])
- by fmsmga003-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 14 Apr 2022 07:05:03 -0700
-Message-ID: <07e5b1dc442e0b318ee0314f90a433216ed38dcb.camel@linux.intel.com>
-Subject: Re: [PATCH v2 4/5] drm/i915: ttm backend dont provide mmap_offset
- for kernel buffers
-From: Thomas =?ISO-8859-1?Q?Hellstr=F6m?= <thomas.hellstrom@linux.intel.com>
-To: Robert Beckett <bob.beckett@collabora.com>, 
- dri-devel@lists.freedesktop.org, intel-gfx@lists.freedesktop.org, Jani
- Nikula <jani.nikula@linux.intel.com>, Joonas Lahtinen
- <joonas.lahtinen@linux.intel.com>,  Rodrigo Vivi <rodrigo.vivi@intel.com>,
- Tvrtko Ursulin <tvrtko.ursulin@linux.intel.com>, David Airlie
- <airlied@linux.ie>, Daniel Vetter <daniel@ffwll.ch>
-Date: Thu, 14 Apr 2022 16:05:00 +0200
-In-Reply-To: <20220412151838.1298956-5-bob.beckett@collabora.com>
-References: <20220412151838.1298956-1-bob.beckett@collabora.com>
- <20220412151838.1298956-5-bob.beckett@collabora.com>
-Organization: Intel Sweden AB, Registration Number: 556189-6027
-Content-Type: text/plain; charset="UTF-8"
-User-Agent: Evolution 3.40.4 (3.40.4-3.fc34) 
+ t=1649945381; x=1681481381;
+ h=from:to:cc:subject:in-reply-to:references:date:
+ message-id:mime-version;
+ bh=ZixLvq69wV1HP4tGVkxZizyHBG+4ewVmZ7tL4YextgI=;
+ b=m4e0DQHHxBYRHmsxOOnkPc255YLqsFnIivU49Sib4pYCmRJsQTc0Jgmm
+ AsICeRPzAIoAfobiwMDO3rY9BW68+Cu0UVq9eHhojz/4n7Y7YtD0tIMBt
+ MUxQX8swLlR3xTvzwokF3hnROTKqXEZKLUwzVhonxD/SqpBauLy8UMtPp
+ UAX7q7N8vXTNFOw6Xq4YZpKs+BpoIoux8/XfKFqgifnKv0TUT/KU0pdca
+ F4ILP9mTDPgp9g4Jsqhd7+QhZ0U1z7SwR3/9TvdU4f3JyWVVW7cObrYiI
+ zpAYivn/toOyNzopr2a8W16qVsXCYmXBNh6IPig+sxgLM1xBow9wcJEAA w==;
+X-IronPort-AV: E=McAfee;i="6400,9594,10316"; a="243523581"
+X-IronPort-AV: E=Sophos;i="5.90,259,1643702400"; d="scan'208";a="243523581"
+Received: from orsmga007.jf.intel.com ([10.7.209.58])
+ by fmsmga107.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 14 Apr 2022 07:09:27 -0700
+X-IronPort-AV: E=Sophos;i="5.90,259,1643702400"; d="scan'208";a="552696215"
+Received: from nplaweck-mobl.ger.corp.intel.com (HELO localhost)
+ ([10.249.149.236])
+ by orsmga007-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 14 Apr 2022 07:09:25 -0700
+From: Jani Nikula <jani.nikula@intel.com>
+To: dri-devel@lists.freedesktop.org
+Subject: Re: [CI v3 00/12] drm/edid: low level EDID block read refactoring etc.
+In-Reply-To: <cover.1649685475.git.jani.nikula@intel.com>
+Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
+References: <cover.1649685475.git.jani.nikula@intel.com>
+Date: Thu, 14 Apr 2022 17:09:26 +0300
+Message-ID: <87czhjeoyx.fsf@intel.com>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -65,115 +56,44 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Matthew Auld <matthew.auld@intel.com>, linux-kernel@vger.kernel.org
+Cc: intel-gfx@lists.freedesktop.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Tue, 2022-04-12 at 15:18 +0000, Robert Beckett wrote:
-> stolen/kernel buffers should not be mmapable by userland.
-> do not provide callbacks to facilitate this for these buffers.
-> 
-> Signed-off-by: Robert Beckett <bob.beckett@collabora.com>
-> ---
->  drivers/gpu/drm/i915/gem/i915_gem_ttm.c | 32 +++++++++++++++++++++--
-> --
->  1 file changed, 27 insertions(+), 5 deletions(-)
-> 
-> diff --git a/drivers/gpu/drm/i915/gem/i915_gem_ttm.c
-> b/drivers/gpu/drm/i915/gem/i915_gem_ttm.c
-> index a878910a563c..b20f81836c54 100644
-> --- a/drivers/gpu/drm/i915/gem/i915_gem_ttm.c
-> +++ b/drivers/gpu/drm/i915/gem/i915_gem_ttm.c
-> @@ -1092,8 +1092,8 @@ static void i915_ttm_unmap_virtual(struct
-> drm_i915_gem_object *obj)
->         ttm_bo_unmap_virtual(i915_gem_to_ttm(obj));
->  }
->  
-> -static const struct drm_i915_gem_object_ops i915_gem_ttm_obj_ops = {
-> -       .name = "i915_gem_object_ttm",
-> +static const struct drm_i915_gem_object_ops
-> i915_gem_ttm_user_obj_ops = {
-> +       .name = "i915_gem_object_ttm_user",
->         .flags = I915_GEM_OBJECT_IS_SHRINKABLE |
->                  I915_GEM_OBJECT_SELF_MANAGED_SHRINK_LIST,
->  
-> @@ -1111,6 +1111,21 @@ static const struct drm_i915_gem_object_ops
-> i915_gem_ttm_obj_ops = {
->         .mmap_ops = &vm_ops_ttm,
->  };
->  
-> +static const struct drm_i915_gem_object_ops
-> i915_gem_ttm_kern_obj_ops = {
-> +       .name = "i915_gem_object_ttm_kern",
-> +       .flags = I915_GEM_OBJECT_IS_SHRINKABLE |
-> +                I915_GEM_OBJECT_SELF_MANAGED_SHRINK_LIST,
-> +
-> +       .get_pages = i915_ttm_get_pages,
-> +       .put_pages = i915_ttm_put_pages,
-> +       .truncate = i915_ttm_truncate,
-> +       .shrink = i915_ttm_shrink,
-> +
-> +       .adjust_lru = i915_ttm_adjust_lru,
-> +       .delayed_free = i915_ttm_delayed_free,
-> +       .migrate = i915_ttm_migrate,
-> +};
+On Mon, 11 Apr 2022, Jani Nikula <jani.nikula@intel.com> wrote:
+> v3 of [1] fixing the (!x == 0) mistake. Resending the entire thing with
+> hopes the test robot picks up the baseline better; I haven't had much
+> luck with --in-reply-to for that.
 
-Do we really need two different ops here?
+There were some issues with our CI, but I'm pretty sure they were not
+caused by the series. Fingers crossed. Thanks for the reviews, pushed.
 
-Since if we don't have mmap ops, basically that tells GEM it should do
-the mmapping rather than TTM. 
-
-That might of course come in handy for the shmem backend, but I don't
-fully follow why we need this for stolen.
-
-Also for the framebuffer handed over from BIOS to fbdev, Does that need
-mmapping and if so, how do we handle that?
+BR,
+Jani.
 
 
-/Thomas
+>
+> BR,
+> Jani.
+>
+> [1] https://patchwork.freedesktop.org/series/102329/
+>
+> Jani Nikula (12):
+>   drm/edid: convert edid_is_zero() to edid_block_is_zero() for blocks
+>   drm/edid: have edid_block_check() detect blocks that are all zero
+>   drm/edid: refactor EDID block status printing
+>   drm/edid: add a helper to log dump an EDID block
+>   drm/edid: pass struct edid to connector_bad_edid()
+>   drm/edid: add typedef for block read function
+>   drm/edid: abstract an EDID block read helper
+>   drm/edid: use EDID block read helper in drm_do_get_edid()
+>   drm/edid: convert extension block read to EDID block read helper
+>   drm/edid: drop extra local var
+>   drm/edid: add single point of return to drm_do_get_edid()
+>   drm/edid: add EDID block count and size helpers
+>
+>  drivers/gpu/drm/drm_edid.c | 350 ++++++++++++++++++++++++-------------
+>  1 file changed, 225 insertions(+), 125 deletions(-)
 
-
-
-
-> +
->  void i915_ttm_bo_destroy(struct ttm_buffer_object *bo)
->  {
->         struct drm_i915_gem_object *obj = i915_ttm_to_gem(bo);
-> @@ -1165,10 +1180,19 @@ int __i915_gem_ttm_object_init(struct
-> intel_memory_region *mem,
->                 .no_wait_gpu = false,
->         };
->         enum ttm_bo_type bo_type;
-> +       const struct drm_i915_gem_object_ops *ops;
->         int ret;
->  
->         drm_gem_private_object_init(&i915->drm, &obj->base, size);
-> -       i915_gem_object_init(obj, &i915_gem_ttm_obj_ops, &lock_class,
-> flags);
-> +
-> +       if (flags & I915_BO_ALLOC_USER &&
-> intel_region_to_ttm_type(mem) != I915_PL_STOLEN) {
-> +               bo_type = ttm_bo_type_device;
-> +               ops = &i915_gem_ttm_user_obj_ops;
-> +       } else {
-> +               bo_type = ttm_bo_type_kernel;
-> +               ops = &i915_gem_ttm_kern_obj_ops;
-> +       }
-> +       i915_gem_object_init(obj, ops, &lock_class, flags);
->  
->         obj->bo_offset = offset;
->  
-> @@ -1178,8 +1202,6 @@ int __i915_gem_ttm_object_init(struct
-> intel_memory_region *mem,
->  
->         INIT_RADIX_TREE(&obj->ttm.get_io_page.radix, GFP_KERNEL |
-> __GFP_NOWARN);
->         mutex_init(&obj->ttm.get_io_page.lock);
-> -       bo_type = (obj->flags & I915_BO_ALLOC_USER) ?
-> ttm_bo_type_device :
-> -               ttm_bo_type_kernel;
->  
->         obj->base.vma_node.driver_private = i915_gem_to_ttm(obj);
->  
-
-
+-- 
+Jani Nikula, Intel Open Source Graphics Center
