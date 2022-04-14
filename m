@@ -1,64 +1,53 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 654FD5018ED
-	for <lists+dri-devel@lfdr.de>; Thu, 14 Apr 2022 18:40:35 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id B18DB50194E
+	for <lists+dri-devel@lfdr.de>; Thu, 14 Apr 2022 18:57:33 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 9A57210FF3A;
-	Thu, 14 Apr 2022 16:40:33 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id CB46A10E01F;
+	Thu, 14 Apr 2022 16:57:28 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-ed1-x529.google.com (mail-ed1-x529.google.com
- [IPv6:2a00:1450:4864:20::529])
- by gabe.freedesktop.org (Postfix) with ESMTPS id CD81010FF3A
- for <dri-devel@lists.freedesktop.org>; Thu, 14 Apr 2022 16:40:32 +0000 (UTC)
-Received: by mail-ed1-x529.google.com with SMTP id t25so7070979edt.9
- for <dri-devel@lists.freedesktop.org>; Thu, 14 Apr 2022 09:40:32 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=chromium.org; s=google;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=zX+0Rp8KeI1bu36+dWYbiIQtitTDuR4Sdzxg17DTCMM=;
- b=N693k4tshoimUMR7PJSOzCwUrqo6jmdbynTTZ5/gGXiI4BUH5YFaTyhChlD1qYPwIv
- Kh7ugHtuZ2uky5ruCQ6mniUIioKbVQxsbZ/Rnh06noLFOOH9Mi+acFsRtex2XGvkaG4R
- Q3VlTKcErFU8W0iVIIxODoppOuI9yIftPOgPA=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=zX+0Rp8KeI1bu36+dWYbiIQtitTDuR4Sdzxg17DTCMM=;
- b=z6Sc2h7L5/fpdV3JgJFygqwfbHaEDCFQrk8Fgqa2Lu9GXJsoPCR4m2LGbfGjAFDtee
- DxsetUvDvVJpeJ+1esabxqb5+HVofecqmXqKARfqDdH3odcjJ82cQ6BLwqMVF41c6TZt
- qdSXksqfCEoZhl3TTi1DuKrMIvmwQP2kavMICYF25XFSyu2IAQS0q9BqRY+3reVaksUk
- fWCYtfUC8tquMt1jIgi4RjxBbhCp76gDeL00QmykR7Yc3s/gEYiEVxIPHPA7B9nA0GJT
- iY7FjTp3/TbpdvxOjZfvmDqgaQzs1gjqH/ZHnytqRXg6ZDysljKzZknTgYG+LreBLEJ7
- GlUw==
-X-Gm-Message-State: AOAM5317b/YVO21Tzp4CHDvRn+47/frl7oGUaJBTv1Y0J6iUqM0s3/i6
- YCcrN3A+uVlyoq/Z1qAnGlAGaL1ig2PB0CUE
-X-Google-Smtp-Source: ABdhPJy2eD8P92okM1EQQibr77CAmnHT69xvk90FhKrfK6z++NuAMxKzEA0eyETX2w/MjooDtPXTuA==
-X-Received: by 2002:a05:6402:35d2:b0:421:36a0:1bc8 with SMTP id
- z18-20020a05640235d200b0042136a01bc8mr3052806edc.28.1649954431001; 
- Thu, 14 Apr 2022 09:40:31 -0700 (PDT)
-Received: from mail-wr1-f49.google.com (mail-wr1-f49.google.com.
- [209.85.221.49]) by smtp.gmail.com with ESMTPSA id
- bw3-20020a170906c1c300b006e88cdfbc32sm796496ejb.45.2022.04.14.09.40.29
- for <dri-devel@lists.freedesktop.org>
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Thu, 14 Apr 2022 09:40:30 -0700 (PDT)
-Received: by mail-wr1-f49.google.com with SMTP id c7so7758019wrd.0
- for <dri-devel@lists.freedesktop.org>; Thu, 14 Apr 2022 09:40:29 -0700 (PDT)
-X-Received: by 2002:a5d:47cf:0:b0:207:ac31:c2ce with SMTP id
- o15-20020a5d47cf000000b00207ac31c2cemr2734623wrc.422.1649954428907; Thu, 14
- Apr 2022 09:40:28 -0700 (PDT)
+Received: from mout-p-202.mailbox.org (mout-p-202.mailbox.org [80.241.56.172])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 4F1EB10E0A6
+ for <dri-devel@lists.freedesktop.org>; Thu, 14 Apr 2022 16:57:27 +0000 (UTC)
+Received: from smtp1.mailbox.org (smtp1.mailbox.org
+ [IPv6:2001:67c:2050:105:465:1:1:0])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+ key-exchange ECDHE (P-384) server-signature RSA-PSS (4096 bits) server-digest
+ SHA256) (No client certificate requested)
+ by mout-p-202.mailbox.org (Postfix) with ESMTPS id 4KfQcN2btFz9sTs;
+ Thu, 14 Apr 2022 18:57:24 +0200 (CEST)
+Message-ID: <8beac4f5-f7e8-31ab-bbf3-36a917979bfc@mailbox.org>
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=mailbox.org;
+ s=mail20150812; t=1649955442;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=eG4fr6KaK9wJjPn6IgnoPpbLB0fNk3TGRun99bZICFc=;
+ b=Hwt9vgEZt55t2XFeqBxImuEt9n1U79cHMORvnvODTbMD/sdVxEhFJi6xgZgJA/QdDGQzZN
+ sYkV+EMmGVnIGzG2rfj1QcdXfvd1QiA3N4F+lKhyFjlkJDFAnwlUKIG+yHk8Jyp4Rs9es6
+ kr/eSS/ZgtfhwIeSw3Q0PJY64GvQn2b55wFe7VEvZVn0Uw/JGjOE464P4nH+WTFbKCdyx5
+ XNnHs4g+MNQkAmgpSeFvVwNXbGM5C87RpTGq9MPCSa+mfRdKTKGc7I24ytoco6YDQ4iZaX
+ k74eug7yZlPZefWYX78rc596yGyOLU7Rope49XoB+qIxmlcEMA4QL8y8WBcv0g==
+Date: Thu, 14 Apr 2022 18:57:18 +0200
 MIME-Version: 1.0
-References: <1649938766-6768-1-git-send-email-quic_sbillaka@quicinc.com>
-In-Reply-To: <1649938766-6768-1-git-send-email-quic_sbillaka@quicinc.com>
-From: Doug Anderson <dianders@chromium.org>
-Date: Thu, 14 Apr 2022 09:40:15 -0700
-X-Gmail-Original-Message-ID: <CAD=FV=Ui6BAsnTaJ2_TMh1Tnjtaw7FR92aWoUysS+UT=c0qB3Q@mail.gmail.com>
-Message-ID: <CAD=FV=Ui6BAsnTaJ2_TMh1Tnjtaw7FR92aWoUysS+UT=c0qB3Q@mail.gmail.com>
-Subject: Re: [PATCH v7 0/4] Add support for the eDP panel over aux_bus
-To: Sankeerth Billakanti <quic_sbillaka@quicinc.com>
-Content-Type: text/plain; charset="UTF-8"
+Subject: Re: [PATCH] drm/radeon: Add build directory to include path
+Content-Language: en-CA
+To: Masahiro Yamada <masahiroy@kernel.org>
+References: <20220413161450.1854370-1-michel@daenzer.net>
+ <f425b789-5081-fa70-555f-7553d7cc5bd5@gmail.com>
+ <ca5ca8ab-9c48-8d81-2dd6-fbdfface6519@mailbox.org>
+ <abd87438-3ff4-6b62-81b4-6162d167348a@gmail.com>
+ <CADnq5_Npy02mWVMOs-TMQ9t6OLV8XFaSQFZ5iB=Y2q3OQgiQvw@mail.gmail.com>
+ <fe499d20-2667-5953-831a-d7668c5a3d18@mailbox.org>
+ <CAK7LNATdTaY6+FD4TuFgmb00=Qbx=7mmCi9onHv0zi=pdZysBQ@mail.gmail.com>
+From: =?UTF-8?Q?Michel_D=c3=a4nzer?= <michel.daenzer@mailbox.org>
+In-Reply-To: <CAK7LNATdTaY6+FD4TuFgmb00=Qbx=7mmCi9onHv0zi=pdZysBQ@mail.gmail.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -71,46 +60,90 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: quic_kalyant <quic_kalyant@quicinc.com>,
- "open list:OPEN FIRMWARE AND FLATTENED DEVICE TREE BINDINGS"
- <devicetree@vger.kernel.org>, Bjorn Andersson <bjorn.andersson@linaro.org>,
- "Abhinav Kumar \(QUIC\)" <quic_abhinavk@quicinc.com>,
- quic_vproddut <quic_vproddut@quicinc.com>, David Airlie <airlied@linux.ie>,
- linux-arm-msm <linux-arm-msm@vger.kernel.org>,
- LKML <linux-kernel@vger.kernel.org>,
- dri-devel <dri-devel@lists.freedesktop.org>,
- Stephen Boyd <swboyd@chromium.org>, Sean Paul <sean@poorly.run>,
- Sean Paul <seanpaul@chromium.org>, Steev Klimaszewski <steev@kali.org>,
- Dmitry Baryshkov <dmitry.baryshkov@linaro.org>,
- "Aravind Venkateswaran \(QUIC\)" <quic_aravindh@quicinc.com>,
- "Kuogee Hsieh \(QUIC\)" <quic_khsieh@quicinc.com>,
- freedreno <freedreno@lists.freedesktop.org>
+Cc: =?UTF-8?Q?Christian_K=c3=b6nig?= <ckoenig.leichtzumerken@gmail.com>,
+ Xinhui Pan <Xinhui.Pan@amd.com>, amd-gfx list <amd-gfx@lists.freedesktop.org>,
+ Maling list - DRI developers <dri-devel@lists.freedesktop.org>,
+ Alex Deucher <alexander.deucher@amd.com>,
+ =?UTF-8?Q?Christian_K=c3=b6nig?= <christian.koenig@amd.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi,
+On 2022-04-14 17:04, Masahiro Yamada wrote:
+> On Thu, Apr 14, 2022 at 10:50 PM Michel Dänzer
+> <michel.daenzer@mailbox.org> wrote:
+>> On 2022-04-14 15:34, Alex Deucher wrote:
+>>> On Thu, Apr 14, 2022 at 4:44 AM Christian König
+>>> <ckoenig.leichtzumerken@gmail.com> wrote:
+>>>> Am 14.04.22 um 09:37 schrieb Michel Dänzer:
+>>>>> On 2022-04-14 08:24, Christian König wrote:
+>>>>>> Am 13.04.22 um 18:14 schrieb Michel Dänzer:
+>>>>>>> From: Michel Dänzer <mdaenzer@redhat.com>
+>>>>>>>
+>>>>>>> Fixes compile errors with out-of-tree builds, e.g.
+>>>>>>>
+>>>>>>> ../drivers/gpu/drm/radeon/r420.c:38:10: fatal error: r420_reg_safe.h: No such file or directory
+>>>>>>>      38 | #include "r420_reg_safe.h"
+>>>>>>>         |          ^~~~~~~~~~~~~~~~~
+>>>>>>
+>>>>>> Well stuff like that usually points to a broken build environment.
+>>>>> Just a separate build directory. Specifically, I'm hitting the errors with
+>>>>>
+>>>>>   make -C build-amd64 M=drivers/gpu/drm
+> 
+> 
+> Maybe
+> 
+>         make  O=build-arm64   drivers/gpu/drm/
+> 
+> is the way you were searching for.
+> 
+> It builds only drivers/gpu/drm/
+> in the separate directory.
 
-On Thu, Apr 14, 2022 at 5:19 AM Sankeerth Billakanti
-<quic_sbillaka@quicinc.com> wrote:
->
-> This series adds support for generic eDP panel over aux_bus.
->
-> These changes are dependent on the following series:
-> https://patchwork.kernel.org/project/linux-arm-msm/list/?series=613654&state=*
-
-You're basically depending on the last two patches of that series.
-What's the plan there? In patchwork they're marked as "Not
-Applicable". If they're good to go, maybe we should land them? If not,
-maybe you should include them (with Dmitry as the author, of course)
-at the beginning of your series?
+Indeed, that works.
 
 
-> Sankeerth Billakanti (4):
->   drm/msm/dp: Add eDP support via aux_bus
->   drm/msm/dp: Support only IRQ_HPD and REPLUG interrupts for eDP
->   drm/msm/dp: wait for hpd high before aux transaction
->   Support the eDP modes given by panel
+>>>>> Generated headers such as r420_reg_safe.h reside in the build directory, so source files in the source directory can't find them without an explicit search path.
+>>>>
+>>>> I'm trying to swap back into my brain how all of this used to work, but
+>>>> that's a really long time ago that I tried this as well.
+>>>>
+>>>>> Are you saying that should get added automagically somehow?
+> 
+> 
+> For the kernel tree, yes, it is done automatically.
+> 
+> See the code in scripts/Makefile.lib:
+> 
+> # $(srctree)/$(src) for including checkin headers from generated source files
+> # $(objtree)/$(obj) for including generated headers from checkin source files
+> ifeq ($(KBUILD_EXTMOD),)
+> ifdef building_out_of_srctree
+> _c_flags   += -I $(srctree)/$(src) -I $(objtree)/$(obj)
+> _a_flags   += -I $(srctree)/$(src) -I $(objtree)/$(obj)
+> _cpp_flags += -I $(srctree)/$(src) -I $(objtree)/$(obj)
+> endif
+> endif
+> 
+> 
+> 
+> 
+> But, you used M=drivers/gpu/drm.
+> So, it did not work.
+> 
+> 
+> 
+> M= is intended for building external modules.
+> 
+> I do not recommend it for in-tree drivers.
 
-One of these things is not like the others. One of these things just
-doesn't belong. Can you spot which patch is missing the prefix by
-looking at the subject line of all 4 patches? ;-)
+So I've been doing it wrong for all these years... Happened to always work for in-tree builds.
+
+Thank you so much for your help, Yamada-san!
+
+I am retracting this patch.
+
+
+-- 
+Earthling Michel Dänzer            |                  https://redhat.com
+Libre software enthusiast          |         Mesa and Xwayland developer
