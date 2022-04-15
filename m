@@ -1,47 +1,50 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id A082E502DB1
-	for <lists+dri-devel@lfdr.de>; Fri, 15 Apr 2022 18:26:09 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id C1AB3502DB2
+	for <lists+dri-devel@lfdr.de>; Fri, 15 Apr 2022 18:26:11 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id B23BF10E249;
-	Fri, 15 Apr 2022 16:26:00 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 40D8310E245;
+	Fri, 15 Apr 2022 16:26:04 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mout.kundenserver.de (mout.kundenserver.de [212.227.17.13])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 6371710E20C
- for <dri-devel@lists.freedesktop.org>; Fri, 15 Apr 2022 16:25:58 +0000 (UTC)
+Received: from mout.kundenserver.de (mout.kundenserver.de [217.72.192.74])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 4D1F210E20C
+ for <dri-devel@lists.freedesktop.org>; Fri, 15 Apr 2022 16:25:59 +0000 (UTC)
 Received: from localhost.localdomain ([37.4.249.94]) by
  mrelayeu.kundenserver.de (mreue107 [212.227.15.183]) with ESMTPSA (Nemesis)
- id 1MzyAy-1nu9vu2c1G-00x4PR; Fri, 15 Apr 2022 18:25:48 +0200
+ id 1N7hw4-1o1ti31ybK-014oAX; Fri, 15 Apr 2022 18:25:49 +0200
 From: Stefan Wahren <stefan.wahren@i2se.com>
 To: Thierry Reding <thierry.reding@gmail.com>, Sam Ravnborg <sam@ravnborg.org>,
  David Airlie <airlied@linux.ie>, Daniel Vetter <daniel@ffwll.ch>,
  Maxime Ripard <maxime@cerno.tech>
-Subject: [PATCH 0/2] drm/panel/raspberrypi-touchscreen: Fix minor issues
-Date: Fri, 15 Apr 2022 18:25:11 +0200
-Message-Id: <20220415162513.42190-1-stefan.wahren@i2se.com>
+Subject: [PATCH 1/2] drm/panel/raspberrypi-touchscreen: Avoid NULL deref if
+ not initialised
+Date: Fri, 15 Apr 2022 18:25:12 +0200
+Message-Id: <20220415162513.42190-2-stefan.wahren@i2se.com>
 X-Mailer: git-send-email 2.25.1
+In-Reply-To: <20220415162513.42190-1-stefan.wahren@i2se.com>
+References: <20220415162513.42190-1-stefan.wahren@i2se.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-X-Provags-ID: V03:K1:RqDG6XW8CnCTszDGcwr4FlT9cIcXW4pIv+/wZy44wqzqakfrJXR
- Lo+eJnEeNROd7e1QKEfX0KnkcskTJuTrYMIcnVTku2OiPMzu4+MJUOqPthHOxITymAQN96F
- r9t8ReqdVHzN1CimXNlO8B0Ni2T9Ehur/VDEy3BB7pBdkw7pMoyPTZtW+wd9SYJv+fXTkV2
- 5ME0AZhiL0D+CyJkjsKmw==
+X-Provags-ID: V03:K1:EYMVcLrb9H+Ys80yT6gFs2ZIdoUSwACQps7CMLFV5G87zLTOyFG
+ hfnoSvzEpyVFuJd3Cf3Zs7Y2ETgFBhX8MQdZjyF5J5NWGdOHetgiX1P2+ExWo6/GBx+7faq
+ kSFqs7g89+lXEpU0084yfRzecLjzSRRqW0dhCH+yHYabTHMqd6rijzPa/7c1TWhiofiPqHK
+ l4vKPHl6yR6G8wpPCo0Kg==
 X-Spam-Flag: NO
-X-UI-Out-Filterresults: notjunk:1;V03:K0:76mRmkmr76Q=:Kn1NOJMopeWg2UnETeqso3
- l/9W0SAl5k0WP5v5SGlV4TtnHVWeuLAoBiPGZO9AdajST7Phblbvce426hfbceW57Bp/MYfq1
- kexVhVRUUOkETgi39HTqjdSEdslAu8+2/DYrc//48HeiW1XPlVLccVK1CYmYBJKPiCl072qFU
- iX2dE4UuhRq9RkZiUXRrm9VCguQHtZ/hlLY4WaQOc6+jLzVruj0SA2q4feriMp9xQNk5iKqgf
- rZhvwYMRKmL5crg+1zqeci5NsVs0xq6+JAJGYnetrj/3O2HYrhxmX6sXtFRJWDE69rLklUDTl
- SUyY+i5LzM8c5YF1IW5WLInCuJDRcMONQWBPD8D/BDK7mAK+fnGiZWQDuJcl+rBK0rTlMEquV
- dghPhHHILowqan9yENow2clkzDGaaPRMz8M8Q3wE4uUrAUbX5JF609HN6SSaw4zPE390NLW8e
- +jnKS0szervP4Zi1nPYC162Em+4xN7U3YKSZJQ1lAj8Sdr4ls0m+0VJEE2KOEuaetQsmg8WJm
- jAjITYGF+FMO/txGH3Es5rhPN24+laaIzI3rhnvMz6NOQbo9al3wpjOTbNFmsamIwSSYkFVdd
- AlXID3QGVJUe2SLAMbz4sKHbWGu3Gc3gzZYYulTK4d6vOB6jHBJIsdizwGF52yxQdodIzNQvU
- kwOFDYCD7u8uEfSiGXhpnk8HZ/HB3zW58r6a6f3x+6Z+H3mY/9rQx41KvT4ZAA7iGkCdw4pF+
- Dfl4xLxkioH6NOa0
+X-UI-Out-Filterresults: notjunk:1;V03:K0:gzkemWTVne4=:2D2sOLPTpBkviaDJLnda9M
+ /ePyFTbB0C9ekj87YF7SXhtjWVuz9Hl+Svo4d5zDSCaZ84zwbaQbJ+b4Dc+Q+Ny7hcfev5Y6Z
+ 7QGBZn/OgskqUe+9AqWIjlj1g3CFaROyOVsOSYVzCmjz5ulngu1tvGzDp7gFwGPdCb1E+ljkI
+ 4dPf68qRfJ+AAFAGxb+YuAlEn6IUPqfPaZ+mbfPbZHI8f5U3uK1Y/r2LEkJZ4KGnZiiR/kGHo
+ 6mSj4BUolweS6guUBWKDLC74fkWuXQBJ0M1tCtbiV1jKpxuy/YBYBaahZLXjM0bH+okFsgQTB
+ E4iIPg+OOVleoybd1LkUfa9iiIYZgh9zHx67YYQrBvivXWd8u2MCtuaLgATjdmilrnWdMLUK4
+ Rsq0lEHntAKWZQ6H0roQPLByzS1Co9JtT4yftUiF5rj2IOeHO3Oltc2crh6oPa9F2IboCeGzZ
+ /74Lvhqls/KaMOJwAjXuzS+Ny8mX4va/lFG58q7ntMTfm9PIJkG555GwV/IYZRXctlfjkWUWw
+ Ya+kZ8bN9KE1G1r7FTJD1FAT/HENxyuT8U9cJOteIF0dzE7wAUJ3pykkVQVlCOGs1PzarZFJG
+ 5qMmWl8ghyTA8/zmKWE61m1zEElR+8esB5J6UCBtyhR4nS9HZWoFarlQei1oYnhKkgu9bPBlY
+ PBP1FFX7WktoErhpnHTDm4QNCUSKeLHSaOIEkooqAJXY5P3zoSX9GjTT+pPqx2CxfzkkNyDKU
+ gyNgBvyd3aLO7jVJ
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -55,20 +58,40 @@ List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
 Cc: Stefan Wahren <stefan.wahren@i2se.com>, linux-kernel@vger.kernel.org,
- dri-devel@lists.freedesktop.org
+ dri-devel@lists.freedesktop.org,
+ Dave Stevenson <dave.stevenson@raspberrypi.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-This small patch series tries to upstream 2 minor issues which has been
-fixed in the vendor tree by Dave Stevenson.
+From: Dave Stevenson <dave.stevenson@raspberrypi.com>
 
-Dave Stevenson (2):
-  drm/panel/raspberrypi-touchscreen: Avoid NULL deref if not initialised
-  drm/panel/raspberrypi-touchscreen: Initialise the bridge in prepare
+If a call to rpi_touchscreen_i2c_write from rpi_touchscreen_probe
+fails before mipi_dsi_device_register_full is called, then
+in trying to log the error message if uses ts->dsi->dev when
+it is still NULL.
 
- .../gpu/drm/panel/panel-raspberrypi-touchscreen.c   | 13 ++++++++++---
- 1 file changed, 10 insertions(+), 3 deletions(-)
+Use ts->i2c->dev instead, which is initialised earlier in probe.
 
+Fixes: 2f733d6194bd ("drm/panel: Add support for the Raspberry Pi 7" Touchscreen.")
+Signed-off-by: Dave Stevenson <dave.stevenson@raspberrypi.com>
+Signed-off-by: Stefan Wahren <stefan.wahren@i2se.com>
+---
+ drivers/gpu/drm/panel/panel-raspberrypi-touchscreen.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+
+diff --git a/drivers/gpu/drm/panel/panel-raspberrypi-touchscreen.c b/drivers/gpu/drm/panel/panel-raspberrypi-touchscreen.c
+index 46029c5610c8..1f805eb8fdb5 100644
+--- a/drivers/gpu/drm/panel/panel-raspberrypi-touchscreen.c
++++ b/drivers/gpu/drm/panel/panel-raspberrypi-touchscreen.c
+@@ -229,7 +229,7 @@ static void rpi_touchscreen_i2c_write(struct rpi_touchscreen *ts,
+ 
+ 	ret = i2c_smbus_write_byte_data(ts->i2c, reg, val);
+ 	if (ret)
+-		dev_err(&ts->dsi->dev, "I2C write failed: %d\n", ret);
++		dev_err(&ts->i2c->dev, "I2C write failed: %d\n", ret);
+ }
+ 
+ static int rpi_touchscreen_write(struct rpi_touchscreen *ts, u16 reg, u32 val)
 -- 
 2.25.1
 
