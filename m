@@ -1,63 +1,76 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1E5B650258D
-	for <lists+dri-devel@lfdr.de>; Fri, 15 Apr 2022 08:27:58 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 633B15025FF
+	for <lists+dri-devel@lfdr.de>; Fri, 15 Apr 2022 09:09:05 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 845E710EF6C;
-	Fri, 15 Apr 2022 06:27:53 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id BA37A10E531;
+	Fri, 15 Apr 2022 07:09:02 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mailgw01.mediatek.com (unknown [60.244.123.138])
- by gabe.freedesktop.org (Postfix) with ESMTPS id E24B910EF6A
- for <dri-devel@lists.freedesktop.org>; Fri, 15 Apr 2022 06:27:51 +0000 (UTC)
-X-UUID: 037575d748144b85a8b83871af7e718a-20220415
-X-CID-P-RULE: Release_Ham
-X-CID-O-INFO: VERSION:1.1.4, REQID:3eab5806-633f-4f1d-9991-14a74b903715, OB:0,
- LO
- B:0,IP:0,URL:0,TC:0,Content:0,EDM:0,RT:0,SF:27,FILE:0,RULE:Release_Ham,ACT
- ION:release,TS:27
-X-CID-INFO: VERSION:1.1.4, REQID:3eab5806-633f-4f1d-9991-14a74b903715, OB:0,
- LOB:
- 0,IP:0,URL:0,TC:0,Content:0,EDM:0,RT:0,SF:27,FILE:0,RULE:Release_UHam,ACTI
- ON:release,TS:27
-X-CID-META: VersionHash:faefae9, CLOUDID:6a1a3ba9-d103-4e36-82b9-b0e86991b3df,
- C
- OID:IGNORED,Recheck:0,SF:13|15|28|100|16|18|48|101,TC:nil,Content:0,EDM:-3
- ,File:nil,QS:0,BEC:nil
-X-UUID: 037575d748144b85a8b83871af7e718a-20220415
-Received: from mtkcas11.mediatek.inc [(172.21.101.40)] by mailgw01.mediatek.com
- (envelope-from <jason-jh.lin@mediatek.com>)
- (Generic MTA with TLSv1.2 ECDHE-RSA-AES256-SHA384 256/256)
- with ESMTP id 297101346; Fri, 15 Apr 2022 14:27:46 +0800
-Received: from mtkexhb01.mediatek.inc (172.21.101.102) by
- mtkmbs10n2.mediatek.inc (172.21.101.183) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_CBC_SHA384) id 15.2.792.3; 
- Fri, 15 Apr 2022 14:27:45 +0800
-Received: from mtkcas11.mediatek.inc (172.21.101.40) by mtkexhb01.mediatek.inc
- (172.21.101.102) with Microsoft SMTP Server (TLS) id 15.0.1497.2;
- Fri, 15 Apr 2022 14:27:44 +0800
-Received: from mtksdccf07 (172.21.84.99) by mtkcas11.mediatek.inc
- (172.21.101.73) with Microsoft SMTP Server id 15.0.1497.2 via Frontend
- Transport; Fri, 15 Apr 2022 14:27:44 +0800
-Message-ID: <48380a5b06ce48c4538e6c89bc6399ba1f425718.camel@mediatek.com>
-Subject: Re: [PATCH v18 07/10] drm/mediatek: add mediatek-drm of vdosys0
- support for mt8195
-From: Jason-JH Lin <jason-jh.lin@mediatek.com>
-To: kernel test robot <lkp@intel.com>, Rob Herring <robh+dt@kernel.org>,
- Krzysztof Kozlowski <krzk@kernel.org>, Matthias Brugger
- <matthias.bgg@gmail.com>, Chun-Kuang Hu <chunkuang.hu@kernel.org>,
- AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>
-Date: Fri, 15 Apr 2022 14:27:44 +0800
-In-Reply-To: <202204142333.qXgcGMI1-lkp@intel.com>
-References: <20220412103114.19922-8-jason-jh.lin@mediatek.com>
- <202204142333.qXgcGMI1-lkp@intel.com>
-Content-Type: text/plain; charset="UTF-8"
-X-Mailer: Evolution 3.28.5-0ubuntu0.18.04.2 
+Received: from mail-wm1-x334.google.com (mail-wm1-x334.google.com
+ [IPv6:2a00:1450:4864:20::334])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 0CC0910E531
+ for <dri-devel@lists.freedesktop.org>; Fri, 15 Apr 2022 07:09:01 +0000 (UTC)
+Received: by mail-wm1-x334.google.com with SMTP id
+ n126-20020a1c2784000000b0038e8af3e788so4547428wmn.1
+ for <dri-devel@lists.freedesktop.org>; Fri, 15 Apr 2022 00:09:00 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=baylibre-com.20210112.gappssmtp.com; s=20210112;
+ h=message-id:date:mime-version:user-agent:subject:content-language:to
+ :cc:references:from:organization:in-reply-to
+ :content-transfer-encoding;
+ bh=TRdg950Mi7asbD+Hg99qC5L9J8U55Ud01eS+T2DqwmQ=;
+ b=b0+1f2xc7m7CjeDoQMzPHxKjrSXdOUjqEkCfMg+y1sGq6kXGPJr8m3/wyXSMyVhZpT
+ xAIU8EjoxEyp2nn2iFhFRx0PqvuJNA6xNvtv9CEchU+RJHEa1CBBBRGczvFfsN8lYF8I
+ YkAfr45naK3B59yr/QlcWho37BmgS2sWcRWWovtUOfPrlyiGrCRrmSPfvcHyAG/KSa+b
+ iarrHqyaIhlgzqgGQRdm8MQ3qkYOpobugBblglGy26UEqYP5ugK9aTmPy+C4jm5zLCiQ
+ ln1ZMP8dpWCLbHBo2fWzqR92cJS76HBykUd33VUm+8qGPTjhY7z0PqNdIWW4snFP1zs0
+ 0k4Q==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
+ :content-language:to:cc:references:from:organization:in-reply-to
+ :content-transfer-encoding;
+ bh=TRdg950Mi7asbD+Hg99qC5L9J8U55Ud01eS+T2DqwmQ=;
+ b=Xk1pwQAOngZ2fl2DAx5IhI/PP62RY93vr2jZwYCMKD8jat0DBOiKoTlWcsNGHlLSI0
+ RCZ8i7pf7ZJGK/9I9+NhkDdA850hc4+vCRXzMTLmbOwkfarhXdpR6UIJzvFudxnGuEVp
+ QIcbgRw5NzLYJG2mMm1YuqDwUzYyRdJqyDRx21MwO+zXrKcsyxQZ8Bm69QPj9w72vO0y
+ rGt4JlY1TcI6DqIPZ85dJTIkfy2xXpFN3CRUDmgKCoeidVWUiyN4VN3xPaMJs2OnIX3b
+ JSL2TOq0Wd6YVmDGzEW4ugKdWxm4rkFvUhsFSLxiqXbiyqto2GxZaY1tTnM9Qe4Q7hbh
+ WcAw==
+X-Gm-Message-State: AOAM533FdQlE3II8/716nOYeWfed7ZLD3VL8/OEmKPONVcBv5Vrynwjp
+ 96E0qlkcTnybS8/wrTOFd/q6rw==
+X-Google-Smtp-Source: ABdhPJxRpom9zkd3rr9FaT4PGAI1AGHg/uy5fbHtwQ00mv0NQMtBdpODztu1bNq8QwekcCxeOTnJ0g==
+X-Received: by 2002:a05:600c:5126:b0:38e:d475:de0e with SMTP id
+ o38-20020a05600c512600b0038ed475de0emr1950877wms.169.1650006539205; 
+ Fri, 15 Apr 2022 00:08:59 -0700 (PDT)
+Received: from ?IPV6:2001:861:44c0:66c0:fc5c:ffc8:c900:53c9?
+ ([2001:861:44c0:66c0:fc5c:ffc8:c900:53c9])
+ by smtp.gmail.com with ESMTPSA id
+ l9-20020a1c7909000000b0038eb8171fa5sm4233081wme.1.2022.04.15.00.08.58
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Fri, 15 Apr 2022 00:08:58 -0700 (PDT)
+Message-ID: <e38e8450-94c5-90f6-207e-07af972f3ed0@baylibre.com>
+Date: Fri, 15 Apr 2022 09:08:58 +0200
 MIME-Version: 1.0
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.7.0
+Subject: Re: [PATCH v3 2/4] drm: bridge: dw_hdmi: Enable GCP only for Deep
+ Color
+Content-Language: en-US
+To: Sandor.yu@nxp.com, dri-devel@lists.freedesktop.org,
+ linux-kernel@vger.kernel.org, andrzej.hajda@intel.com,
+ robert.foss@linaro.org, Laurent.pinchart@ideasonboard.com, jonas@kwiboo.se,
+ jernej.skrabec@gmail.com, hverkuil-cisco@xs4all.nl
+References: <cover.1649989179.git.Sandor.yu@nxp.com>
+ <78fa41e4fb3d3d53354034bc221fcf870dbac617.1649989179.git.Sandor.yu@nxp.com>
+From: Neil Armstrong <narmstrong@baylibre.com>
+Organization: Baylibre
+In-Reply-To: <78fa41e4fb3d3d53354034bc221fcf870dbac617.1649989179.git.Sandor.yu@nxp.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 7bit
-X-MTK: N
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -70,138 +83,89 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: devicetree@vger.kernel.org, kbuild-all@lists.01.org,
- Yongqiang Niu <yongqiang.niu@mediatek.com>, David Airlie <airlied@linux.ie>,
- singo.chang@mediatek.com, llvm@lists.linux.dev, roy-cw.yeh@mediatek.com,
- dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org,
- Project_Global_Chrome_Upstream_Group@mediatek.com,
- Fabien Parent <fparent@baylibre.com>, moudy.ho@mediatek.com,
- linux-mediatek@lists.infradead.org,
- Maxime Coquelin <mcoquelin.stm32@gmail.com>, hsinyi@chromium.org,
- Rex-BC Chen <rex-bc.chen@mediatek.com>, nancy.lin@mediatek.com,
- linux-stm32@st-md-mailman.stormreply.com, linux-arm-kernel@lists.infradead.org
+Cc: shengjiu.wang@nxp.com, cai.huoqing@linux.dev, maxime@cerno.tech
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi "kernel test robot",
+On 15/04/2022 04:42, Sandor.yu@nxp.com wrote:
+> From: Sandor Yu <Sandor.yu@nxp.com>
+> 
+> HDMI1.4b specification section 6.5.3:
+> Source shall only send GCPs with non-zero CD to sinks
+> that indicate support for Deep Color.
+> 
+> DW HDMI GCP default enabled, but only transmit CD
+> and do not handle AVMUTE, PP norDefault_Phase (yet).
+> Disable Auto GCP when 24-bit color for sinks that not support Deep Color.
+> 
+> Signed-off-by: Sandor Yu <Sandor.yu@nxp.com>
+> ---
+>   drivers/gpu/drm/bridge/synopsys/dw-hdmi.c | 17 +++++++++++++++++
+>   drivers/gpu/drm/bridge/synopsys/dw-hdmi.h |  3 +++
+>   2 files changed, 20 insertions(+)
+> 
+> diff --git a/drivers/gpu/drm/bridge/synopsys/dw-hdmi.c b/drivers/gpu/drm/bridge/synopsys/dw-hdmi.c
+> index 02d8f7e08814..312500921754 100644
+> --- a/drivers/gpu/drm/bridge/synopsys/dw-hdmi.c
+> +++ b/drivers/gpu/drm/bridge/synopsys/dw-hdmi.c
+> @@ -1108,6 +1108,8 @@ static void hdmi_video_packetize(struct dw_hdmi *hdmi)
+>   	unsigned int output_select = HDMI_VP_CONF_OUTPUT_SELECTOR_PP;
+>   	struct hdmi_data_info *hdmi_data = &hdmi->hdmi_data;
+>   	u8 val, vp_conf;
+> +	u8 clear_gcp_auto = 0;
+> +
+>   
+>   	if (hdmi_bus_fmt_is_rgb(hdmi->hdmi_data.enc_out_bus_format) ||
+>   	    hdmi_bus_fmt_is_yuv444(hdmi->hdmi_data.enc_out_bus_format) ||
+> @@ -1117,6 +1119,7 @@ static void hdmi_video_packetize(struct dw_hdmi *hdmi)
+>   		case 8:
+>   			color_depth = 4;
+>   			output_select = HDMI_VP_CONF_OUTPUT_SELECTOR_BYPASS;
+> +			clear_gcp_auto = 1;
+>   			break;
+>   		case 10:
+>   			color_depth = 5;
+> @@ -1136,6 +1139,7 @@ static void hdmi_video_packetize(struct dw_hdmi *hdmi)
+>   		case 0:
+>   		case 8:
+>   			remap_size = HDMI_VP_REMAP_YCC422_16bit;
+> +			clear_gcp_auto = 1;
+>   			break;
+>   		case 10:
+>   			remap_size = HDMI_VP_REMAP_YCC422_20bit;
+> @@ -1160,6 +1164,19 @@ static void hdmi_video_packetize(struct dw_hdmi *hdmi)
+>   		HDMI_VP_PR_CD_DESIRED_PR_FACTOR_MASK);
+>   	hdmi_writeb(hdmi, val, HDMI_VP_PR_CD);
+>   
+> +	/* HDMI1.4b specification section 6.5.3:
+> +	 * Source shall only send GCPs with non-zero CD to sinks
+> +	 * that indicate support for Deep Color.
+> +	 * GCP only transmit CD and do not handle AVMUTE, PP norDefault_Phase (yet).
+> +	 * Disable Auto GCP when 24-bit color for sinks that not support Deep Color.
+> +	 */
+> +	val = hdmi_readb(hdmi, HDMI_FC_DATAUTO3);
+> +	if (clear_gcp_auto == 1)
+> +		val &= ~HDMI_FC_DATAUTO3_GCP_AUTO;
+> +	else
+> +		val |= HDMI_FC_DATAUTO3_GCP_AUTO;
+> +	hdmi_writeb(hdmi, val, HDMI_FC_DATAUTO3);
+> +
+>   	hdmi_modb(hdmi, HDMI_VP_STUFF_PR_STUFFING_STUFFING_MODE,
+>   		  HDMI_VP_STUFF_PR_STUFFING_MASK, HDMI_VP_STUFF);
+>   
+> diff --git a/drivers/gpu/drm/bridge/synopsys/dw-hdmi.h b/drivers/gpu/drm/bridge/synopsys/dw-hdmi.h
+> index 1999db05bc3b..18df3e119553 100644
+> --- a/drivers/gpu/drm/bridge/synopsys/dw-hdmi.h
+> +++ b/drivers/gpu/drm/bridge/synopsys/dw-hdmi.h
+> @@ -850,6 +850,9 @@ enum {
+>   	HDMI_FC_DATAUTO0_VSD_MASK = 0x08,
+>   	HDMI_FC_DATAUTO0_VSD_OFFSET = 3,
+>   
+> +/* FC_DATAUTO3 field values */
+> +	HDMI_FC_DATAUTO3_GCP_AUTO = 0x04,
+> +
+>   /* PHY_CONF0 field values */
+>   	HDMI_PHY_CONF0_PDZ_MASK = 0x80,
+>   	HDMI_PHY_CONF0_PDZ_OFFSET = 7,
 
-Thanks for the reviews.
-
-On Thu, 2022-04-14 at 23:31 +0800, kernel test robot wrote:
-> Hi "jason-jh.lin",
-> 
-> Thank you for the patch! Perhaps something to improve:
-> 
-> [auto build test WARNING on drm/drm-next]
-> [also build test WARNING on robh/for-next krzk/for-next linus/master
-> v5.18-rc2 next-20220414]
-> [If your patch is applied to the wrong git tree, kindly drop us a
-> note.
-> And when submitting patch, we suggest to use '--base' as documented
-> in
-> 
-https://urldefense.com/v3/__https://git-scm.com/docs/git-format-patch__;!!CTRNKA9wMg0ARbw!1fp3H7fjidBzBzfT64rjyCv4-HN-czQi_52IEZTo18hsph4srdLAEfrGamKBaGS9DHJM$
->  ]
-> 
-> url:    
-> https://urldefense.com/v3/__https://github.com/intel-lab-lkp/linux/commits/jason-jh-lin/Add-Mediatek-Soc-DRM-vdosys0-support-for-mt8195/20220412-183359__;!!CTRNKA9wMg0ARbw!1fp3H7fjidBzBzfT64rjyCv4-HN-czQi_52IEZTo18hsph4srdLAEfrGamKBaP5NY9rw$
->  
-> base:   git://anongit.freedesktop.org/drm/drm drm-next
-> config: arm64-buildonly-randconfig-r001-20220413 (
-> https://urldefense.com/v3/__https://download.01.org/0day-ci/archive/20220414/202204142333.qXgcGMI1-lkp@intel.com/config__;!!CTRNKA9wMg0ARbw!1fp3H7fjidBzBzfT64rjyCv4-HN-czQi_52IEZTo18hsph4srdLAEfrGamKBaMatHhNq$
->  )
-> compiler: clang version 15.0.0 (
-> https://urldefense.com/v3/__https://github.com/llvm/llvm-project__;!!CTRNKA9wMg0ARbw!1fp3H7fjidBzBzfT64rjyCv4-HN-czQi_52IEZTo18hsph4srdLAEfrGamKBaED4pz5K$
-> $  6b7e6ea489f6dd45a9b0da9ac20871560917b9b0)
-> reproduce (this is a W=1 build):
->         wget 
-> https://urldefense.com/v3/__https://raw.githubusercontent.com/intel/lkp-tests/master/sbin/make.cross__;!!CTRNKA9wMg0ARbw!1fp3H7fjidBzBzfT64rjyCv4-HN-czQi_52IEZTo18hsph4srdLAEfrGamKBaGF0WqUy$
->   -O ~/bin/make.cross
->         chmod +x ~/bin/make.cross
->         # install arm64 cross compiling tool for clang build
->         # apt-get install binutils-aarch64-linux-gnu
->         # 
-> https://urldefense.com/v3/__https://github.com/intel-lab-lkp/linux/commit/7c175317aa80bbc885609a730214448147a46b47__;!!CTRNKA9wMg0ARbw!1fp3H7fjidBzBzfT64rjyCv4-HN-czQi_52IEZTo18hsph4srdLAEfrGamKBaN_w7rr0$
->  
->         git remote add linux-review 
-> https://urldefense.com/v3/__https://github.com/intel-lab-lkp/linux__;!!CTRNKA9wMg0ARbw!1fp3H7fjidBzBzfT64rjyCv4-HN-czQi_52IEZTo18hsph4srdLAEfrGamKBaMen_Lno$
->  
->         git fetch --no-tags linux-review jason-jh-lin/Add-Mediatek-
-> Soc-DRM-vdosys0-support-for-mt8195/20220412-183359
->         git checkout 7c175317aa80bbc885609a730214448147a46b47
->         # save the config file to linux build tree
->         mkdir build_dir
->         COMPILER_INSTALL_PATH=$HOME/0day COMPILER=clang make.cross
-> W=1 O=build_dir ARCH=arm64 SHELL=/bin/bash drivers/gpu/drm/mediatek/
-> 
-> If you fix the issue, kindly add following tag as appropriate
-> Reported-by: kernel test robot <lkp@intel.com>
-> 
-> All warnings (new ones prefixed by >>):
-> 
->    drivers/gpu/drm/mediatek/mtk_drm_drv.c:707:15: warning: cast to
-> smaller integer type 'enum mtk_ddp_comp_type' from 'const void *' [-
-> Wvoid-pointer-to-enum-cast]
->                    comp_type = (enum mtk_ddp_comp_type)of_id->data;
->                                ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-I can't reproduce this build warning in my platform, but I'd found the 
-same warning fixed patch: 20210928154620.11181-4-cgzones@googlemail.com
-
-It should not be fixed at this series. So I'll fixed this warning in
-another fixed patch.
-
-> > > drivers/gpu/drm/mediatek/mtk_drm_drv.c:203:42: warning: unused
-> > > variable 'mt2701_mmsys_match_data' [-Wunused-const-variable]
-> 
->    static const struct mtk_mmsys_match_data mt2701_mmsys_match_data =
-> {
->                                             ^
-> > > drivers/gpu/drm/mediatek/mtk_drm_drv.c:218:42: warning: unused
-> > > variable 'mt7623_mmsys_match_data' [-Wunused-const-variable]
-> 
->    static const struct mtk_mmsys_match_data mt7623_mmsys_match_data =
-> {
->                                             ^
-> > > drivers/gpu/drm/mediatek/mtk_drm_drv.c:234:42: warning: unused
-> > > variable 'mt2712_mmsys_match_data' [-Wunused-const-variable]
-> 
->    static const struct mtk_mmsys_match_data mt2712_mmsys_match_data =
-> {
->                                             ^
-> > > drivers/gpu/drm/mediatek/mtk_drm_drv.c:246:42: warning: unused
-> > > variable 'mt8167_mmsys_match_data' [-Wunused-const-variable]
-> 
->    static const struct mtk_mmsys_match_data mt8167_mmsys_match_data =
-> {
->                                             ^
-> > > drivers/gpu/drm/mediatek/mtk_drm_drv.c:260:42: warning: unused
-> > > variable 'mt8173_mmsys_match_data' [-Wunused-const-variable]
-> 
->    static const struct mtk_mmsys_match_data mt8173_mmsys_match_data =
-> {
->                                             ^
-> > > drivers/gpu/drm/mediatek/mtk_drm_drv.c:274:42: warning: unused
-> > > variable 'mt8183_mmsys_match_data' [-Wunused-const-variable]
-> 
->    static const struct mtk_mmsys_match_data mt8183_mmsys_match_data =
-> {
->                                             ^
-> > > drivers/gpu/drm/mediatek/mtk_drm_drv.c:288:42: warning: unused
-> > > variable 'mt8192_mmsys_match_data' [-Wunused-const-variable]
-> 
->    static const struct mtk_mmsys_match_data mt8192_mmsys_match_data =
-> {
->                                             ^
-> > > drivers/gpu/drm/mediatek/mtk_drm_drv.c:305:42: warning: unused
-> > > variable 'mt8195_mmsys_match_data' [-Wunused-const-variable]
-> 
->    static const struct mtk_mmsys_match_data mt8195_mmsys_match_data =
-> {
-
-Oh, I forgot to replace the driver_data to match_data in mtk_drm_of_ids
-table. I'll fix them at the next version.
-
-Regards,
-Jason-JH.Lin
-
-
+Reviewed-by: Neil Armstrong <narmstrong@baylibre.com>
