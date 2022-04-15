@@ -2,51 +2,50 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 277AE50209F
-	for <lists+dri-devel@lfdr.de>; Fri, 15 Apr 2022 04:43:58 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 6361B5020A1
+	for <lists+dri-devel@lfdr.de>; Fri, 15 Apr 2022 04:44:03 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id E6AF810E202;
-	Fri, 15 Apr 2022 02:43:55 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 237CF10E2F7;
+	Fri, 15 Apr 2022 02:44:01 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from EUR05-VI1-obe.outbound.protection.outlook.com
- (mail-vi1eur05on2074.outbound.protection.outlook.com [40.107.21.74])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 7B63B10E37D
- for <dri-devel@lists.freedesktop.org>; Fri, 15 Apr 2022 02:43:54 +0000 (UTC)
+Received: from EUR04-VI1-obe.outbound.protection.outlook.com
+ (mail-eopbgr80048.outbound.protection.outlook.com [40.107.8.48])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 96C1110E2FE
+ for <dri-devel@lists.freedesktop.org>; Fri, 15 Apr 2022 02:43:59 +0000 (UTC)
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=Jg6QvygHmr3N5lHXXCQBhWMuzzbJfbHOngD+OBPnLUDlSVtnAHBN+C0z7oX9IpR+BzlSQv1+MYLkmk2NDEIRujf1oIImGaAEDIMoH6tfdimQYlZ2avPc6MMNY8gYLOiQtL0tFJJvXy6RjAI7sGoeExvoirFTOxBrTwOJurIr+TmJxoTzXLxZqRZLQN3JJY5JPGVdJorzo1MaEbjKI4NnAVr9wlPfsYmSbnCovGMjJfvl9ZK3CzwzMmNbcnVL6//SIgYyOPGUgY/0VpPkfH22GGW7+eFmgYtjH+8EbX4Uf6kAVauvETHEUUFRKGtS4+xXKut5hgpNaRkQfxn3R2vKNA==
+ b=KkKNmLINe+2J7euduTrxnZnfPPAAvb6sJsAJ4Y2Ye5WY8k8xlD0Z2Bs3LQ526OoIDjTFMJD5W1BKhBHHWkW16jkql1ULACvl/qVkXzkzwBo9ktXyGv+D7miQ0DMCUYf3CuoEzlliX6sbR6mOw0OmGkW4sLOQYU2IS0dhu3JJDShorSt1R4N0mewk6sb8rll68VGp7BQl2BnPy1UkLx/THRJt/tNE9ZJdmjR2TIIBCFfh70XLGqDNc23+smYBC3SHeH5yEXz8huPMtkUdkrWvnpbXOi7ax+6D1sZxm9ZfL/Q07Kzn5ZhkUnHRrK4P13sc7xRgam9z2FFxVoRJf75cWg==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
  s=arcselector9901;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=CqBJQSA9E0WGVeLfPfjJYljmppdDVBVI74FcicKmHHs=;
- b=AoXLRC4PXlzM9TS99hsArhIH53f/WOywKXYMC4X5artXkPZjcAJVoGQOEqDenrU/sgy9xUfQtA3knAwnYcAg5liIevFh5M8u626KSGOa1hURMPSvFfJv9I41ZoXBC44PZ0HRpr7MlCeiPPgdCEUj9cMkvU9bcyE6LCTZJmjAfMhP0EzuQunfiyEIDvcfsz/8mEVYg645DxWZMyVdMTia6R6KzxCtpLxhDqLH7cjBXECYwBNqS85pJ6SW40x1OhdTxwF7AYihhOD6rWVSDnExfT40obZfJxWcDncOUt1cLpCT02YA58gD4zM717AZe9FmxY1TPhCawyXo3x1nrcZudA==
+ bh=VrU20bF+mQVqWwDSOStpYw2NvS4T7OG8L+C7AKwydEQ=;
+ b=ijKBYSd4riTMkB85Y5SXyUIx/uZslmtaoPE7NWejtglQE4sAPiWBtaZ0RIVvgaejTHAGSp09FW8fs6m3w83jE6AFgLqPrwDoUpM30L60oKXTW4pwZeogRAxYQFAUVOb+rx7IWaZwxj0UCpV+BiP/5Jk30GBtKKDw6A01AH/KwpP62PQIbpj7ePHhzfiLZZRThsDIc4Tf4k4OwLtlRp1pqsZg8PojggNFYTkL4IGWT49uCywjphqfuv6U7HvnYFsqTOtuMPoDp44H5z09V8qiqHRS/pdLhlKp1zlZmfDBLjB5E+X3hQ+3SYzyv5FP6RHv48eELKmisYxIbeDyVJKFWA==
 ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
  smtp.mailfrom=nxp.com; dmarc=pass action=none header.from=nxp.com; dkim=pass
  header.d=nxp.com; arc=none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nxp.com; s=selector2; 
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=CqBJQSA9E0WGVeLfPfjJYljmppdDVBVI74FcicKmHHs=;
- b=XA0jigT8fcaquypKtdHDVUWfp5DNRQHNAqCBzm0zAWNlD4PxWdpTp4gPaDKS0SeZsgm830olPWbEseHTaqLbIC3QefKnBEWjW3dVpD4nF2I4RzYQhmFtXeZTsKum2DWI+fbk6lXxmuDYExGytYkLmhnbn6wgWfCoxnEPT9xKaLE=
+ bh=VrU20bF+mQVqWwDSOStpYw2NvS4T7OG8L+C7AKwydEQ=;
+ b=QuPU2dQM0ij8nZdeaDb/qwKiUHkYGyJ+sHD2U2X24Hf9CKLoExkgNPYPXr4ObGLqZUoKPtRsUT0Gqn9xSQFH0c2vWJYfXAdPtXrJzyfs5zFw7TRv1+O9My6MU4WZcahP+ney5TwkpIzaQxUmDTcaywqS6RrDdKNxzOlKe3onqPA=
 Authentication-Results: dkim=none (message not signed)
  header.d=none;dmarc=none action=none header.from=nxp.com;
 Received: from DB7PR04MB5450.eurprd04.prod.outlook.com (2603:10a6:10:86::11)
  by DU2PR04MB9132.eurprd04.prod.outlook.com (2603:10a6:10:2f7::18) with
  Microsoft SMTP Server (version=TLS1_2,
  cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.5164.20; Fri, 15 Apr
- 2022 02:43:51 +0000
+ 2022 02:43:55 +0000
 Received: from DB7PR04MB5450.eurprd04.prod.outlook.com
  ([fe80::7997:2892:d230:2430]) by DB7PR04MB5450.eurprd04.prod.outlook.com
  ([fe80::7997:2892:d230:2430%7]) with mapi id 15.20.5144.030; Fri, 15 Apr 2022
- 02:43:51 +0000
+ 02:43:55 +0000
 From: Sandor.yu@nxp.com
 To: dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org,
  andrzej.hajda@intel.com, narmstrong@baylibre.com, robert.foss@linaro.org,
  Laurent.pinchart@ideasonboard.com, jonas@kwiboo.se,
  jernej.skrabec@gmail.com, hverkuil-cisco@xs4all.nl
-Subject: [PATCH v3 1/4] drm: bridge: dw_hdmi: default enable workaround to
- clear the overflow
-Date: Fri, 15 Apr 2022 10:42:47 +0800
-Message-Id: <561951005a85574dcdd108e5d6a3a87df930ea3d.1649989179.git.Sandor.yu@nxp.com>
+Subject: [PATCH v3 2/4] drm: bridge: dw_hdmi: Enable GCP only for Deep Color
+Date: Fri, 15 Apr 2022 10:42:48 +0800
+Message-Id: <78fa41e4fb3d3d53354034bc221fcf870dbac617.1649989179.git.Sandor.yu@nxp.com>
 X-Mailer: git-send-email 2.25.1
 In-Reply-To: <cover.1649989179.git.Sandor.yu@nxp.com>
 References: <cover.1649989179.git.Sandor.yu@nxp.com>
@@ -56,57 +55,57 @@ X-ClientProxiedBy: SG2P153CA0013.APCP153.PROD.OUTLOOK.COM (2603:1096::23) To
  DB7PR04MB5450.eurprd04.prod.outlook.com (2603:10a6:10:86::11)
 MIME-Version: 1.0
 X-MS-PublicTrafficType: Email
-X-MS-Office365-Filtering-Correlation-Id: 92d782b2-645c-438f-3e55-08da1e89c610
+X-MS-Office365-Filtering-Correlation-Id: 9c4b4e44-a86a-4b3f-778b-08da1e89c89d
 X-MS-TrafficTypeDiagnostic: DU2PR04MB9132:EE_
-X-Microsoft-Antispam-PRVS: <DU2PR04MB91323D118A8D603A1E66A7C2F4EE9@DU2PR04MB9132.eurprd04.prod.outlook.com>
+X-Microsoft-Antispam-PRVS: <DU2PR04MB91323D8DC12B2406A4142329F4EE9@DU2PR04MB9132.eurprd04.prod.outlook.com>
 X-MS-Exchange-SenderADCheck: 1
 X-MS-Exchange-AntiSpam-Relay: 0
 X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: g+r4Bb3bdFliFz9qkNCr59rn0eXa+Canj7Bf1ghZg0pTrEJ54SyihMb8u4cC9E2rsevetxmCVTdMA5NSmRjrAKRWcFirPXy+ZOtFQG4UqgHDmt7o6JlL3ZQAo2G77R7FHWVxHeNtqwC4xm/x2O6DwFi0YS6dRLmRc1yblw5L+tCH0cjwTORIzYMB3hicG68FBedBFidZd747j5XfNllImTVrHKzb/45XWJkBHo0sJnPcGgki4Q4Na1fU2h/Pa/sg1Qek7VnOKiJecTtcal8cBqLBJar/fz/uyuw6MuR9kaV4lZJyjdjkXJbvjfi1uQlI2OvywC3x7kEVC1tUZtoYurPX+0E57AkImhfoD6gHqRI3nCJZ6A+1qJdzYm+Z3ZsQ5Ck6m+YNte6zw+8hZMED6W7DPNm23ituNmX7honF0+IE0yHPIGcBXebFDljHBL+3wwH6XkYbRoOhafm4f+93Nt2yF1V2q7q9WkV2apUtYbtuMg9NrT3XSK9tnLj7p8xMZ+GSlrqr5ZG9R9gczp1Q1ygUkHqOK6AomhfjZYzPINDwsVHMlQ1JJHOZ4ChzlYn83NCGYLTemxZRL7kzXp7afuqwPIyRIdfst+uli8WgSW8kph9j5QuFRi1RO0ZTs7bhm2jVqdnXejuB03A/Mm4Aie8eemQsk2QppXVe4jfvqPiu1WlWD8c7Jqxe27CgJ9xJ/uOEp8lo9XGILyBVTK+6EQ==
+X-Microsoft-Antispam-Message-Info: qWCGiZRY9+iisX+UhPEHGo/1Rp+0ZWQ+P2QyYoWT/5LU5l9N/8JcVKNaln+N56oVcqefRp4ixQPZPRDI1h/GF9Pt3UMU9XfMIon9KS753HN9Ea6cv3PgObR6ghGuF9XhGB9Ipolv2ztyQZZoD6nDpZ6OMl6dffMg9Nwa2VSc9tdvl53O2uosBoUncavSJUcgfhVv7nSZLYwbxNZmzurTLuDNajg6JvXStHQHWso5IYfoRdFIrPV2cXwsU09TzaiNax7LyYg+w4g7WV9+ZUGr9gXvHeBp30Zhb+kqO/xwiXsezXpLIIjfTegjAQrgPNo1c8jBzQZEyLdrk7skKQ/3LCC/4lkG8WBtbPJzhGTgiqOhmqeEFqFaWtaIPkR5sMnEA4r68NnRoELWwTQpvw1FG02fGb8MHVLUb7LG+cIjSSNXRXD8uUP859E8idJWMvCuTj1HeVzEblx5LVmiG20eYaY+LDnDeGcgy8caWlyVAzounx+kNzDIwawamask+c9i4f0D3vl+KJpqBnijZWmFE4NEZXCP4v7pVSWLjaXMXqbpCbkKAOrT+3Zv39rjOZIg0sP5Ct3vKjkBiEYS4j+FGZ9t5KvoRA7OYz5HbIYmz2MQaQKkslJkq1ESZlAvw4At4VkKLrlDQzHZMEZ3Yn9o/cYs6Zwo2bCktPuus7eU9D0kmtCP0iPjU5mCI0Anz5n3Z6eRI5xKb/u4IVFox+lkbA==
 X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
  IPV:NLI; SFV:NSPM; H:DB7PR04MB5450.eurprd04.prod.outlook.com; PTR:; CAT:NONE;
- SFS:(13230001)(4636009)(366004)(83380400001)(2906002)(6512007)(26005)(2616005)(9686003)(186003)(6506007)(38100700002)(38350700002)(86362001)(66476007)(66556008)(66946007)(4326008)(7416002)(508600001)(8676002)(316002)(5660300002)(6486002)(36756003)(8936002)(52116002)(6666004);
+ SFS:(13230001)(4636009)(366004)(2906002)(6512007)(26005)(2616005)(9686003)(186003)(6506007)(38100700002)(38350700002)(86362001)(66476007)(66556008)(66946007)(4326008)(7416002)(508600001)(8676002)(316002)(5660300002)(6486002)(36756003)(8936002)(52116002)(6666004);
  DIR:OUT; SFP:1101; 
 X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: =?us-ascii?Q?KAHpQI/yj1rKb/z+HeyPh4/L0LhAbTZfJmBbFOLW5ifK9DLnrkqIxmBh5iV9?=
- =?us-ascii?Q?jKOpyOLUk2FoSg8PSkIjvOxMACpVc4h8PxYWHDWFeLXdXW48LNTc2F7DPqj1?=
- =?us-ascii?Q?AkwPJKF1w6zkjhuR2kkb9RpAau5O2zoiWXXukR2EzDHG1jQEYI+cJVSyXdts?=
- =?us-ascii?Q?qIXQwxyq+/+Qfi7EFvghwoO89C/B7mYge23lfglmbVU6gUWaqf0QKPa2m78r?=
- =?us-ascii?Q?QVCx91Kkx7OuVZw8MWA9xQTBi1fHijh/tpD3XAHuv/mbMRksb9g1BaJKc2oG?=
- =?us-ascii?Q?Vj02XmeLn31QbHm8aUe3XEFIYctwECdvbWIeOxFPXZV4SdxBeEaszBlZqooZ?=
- =?us-ascii?Q?1+Ny8i3AB62FyCCLGVk9eouoIfLIusCZWB6U31Ox/eXgwvdq7rzXgIS4Q8Bt?=
- =?us-ascii?Q?RNbtc3vu4D8FdVcCRGLlS8morIYMEGM5x79YDwlWd6lP7QYzQoQT+GonEzhe?=
- =?us-ascii?Q?uZmjP8Mpf0KEdOXCUfVNfBSvid+D7v/rCp40nWGpR/qYEZnvXY7JnCa+v3B9?=
- =?us-ascii?Q?8snwVgakOBn5snVJwS5YiQkn5bptcLusCoV2NwFKOuhUYqbsxZ5Mr97io2F6?=
- =?us-ascii?Q?WlgwCt2hol6dWV4zToNRnp1/Kt0TQXsrrSs1tcbvDiU0AG53qXY70QNFtD7+?=
- =?us-ascii?Q?RGNbykTF8itHQhM5gE+cqzQFwleZmd04WVami4ouPhYgqZvXxRGVfe3nGc49?=
- =?us-ascii?Q?1WjViL48c4TzTx2CkxoJmNM7+ivONTHNDg7zBWQMxnM1wTusbFhwMixxK1Bf?=
- =?us-ascii?Q?NXm9SKsXIRLCWujAh2EvxuXNZaxSchnDh/WWSdTS2byxonabGigys5Lj+qSx?=
- =?us-ascii?Q?LDy5v7zCWZ2egczDopshqtWqfnMsTm8/jCqDlTGssPCDZJSwCxYUXRUApuzS?=
- =?us-ascii?Q?pDlKPXE8HGCkDBBeO7lGXtCniS1+vpmsLnuuWdWK9Jf+DmACzB7Njr4G81wj?=
- =?us-ascii?Q?zpHWlovJMhK/Xmmr99QTuL6J4HWAmMpfxwSeuvESJMHcTPYt1ZKITazrpXBT?=
- =?us-ascii?Q?XM4n+qOcSk+Syr3/tthLzQHbx36+QHmKpOnjxjlBue2G5aX390BOBifhYfmH?=
- =?us-ascii?Q?D/iYDdBZNFYSk7Jsw42rMgAnE36gIO3nEQTmPpwPCluSn0xMfy/G5YyhZAS3?=
- =?us-ascii?Q?J+6V+ZCFEh/+4eRuZUcwRF9wVSDn7tMnqJlZOutvhkKCe1zHlumadCwEBl5U?=
- =?us-ascii?Q?FdtwWjYaWKzaLJAe93dQB60NDwB2rFW9kAgExNaBscKO+dxGqlCZ6N96tNii?=
- =?us-ascii?Q?zWw/OThgOj7NYn9Sh38Q/CApJ6QX8DljxNt+piXUTdmt40micQKkbMLXRKdr?=
- =?us-ascii?Q?N7TVMyaYWWf3Vf5iX5TMCR+t5U0MGxZul704VxrnmnuAHkBEFBJDjHczEgop?=
- =?us-ascii?Q?8tE3RAM3yWkEIRwnCGR8++tRbn5DDmwnQJAyH9cTnHfajVzMBjoFpQYzpI7j?=
- =?us-ascii?Q?JH9WnPGD7UzBvYPPLRvKURapr8DDg/s9OahrRVugcsw8O9bo8V0dFS64q/lF?=
- =?us-ascii?Q?q+V0qzkWhV3oWZFvAgJ6wp3k4pU6ALRsSh02jagyurwAX2ohqnfRC3YFigZu?=
- =?us-ascii?Q?b0wws9Kot7tX1L8CVBuMcXMmYJivsKJN/3lPSdwk/YMAU7l8wQlRmclrJPgc?=
- =?us-ascii?Q?kLkNNjGd0qXikeiVoqUdJLMyx8XGSEKt8EbWjNQpNY3Cv2TcM872wvHpMtdZ?=
- =?us-ascii?Q?G8yOdUihke2MfdTyMUXlYz3XZUCpy7G2ywf5GJlvQqWgAPJej66cQVEpG16P?=
- =?us-ascii?Q?r94lBhjDaA=3D=3D?=
+X-MS-Exchange-AntiSpam-MessageData-0: =?us-ascii?Q?5Fcy9m8uAD+9Z4nwifG0KUfPYDis8OCB5iNoGjZwuX401ttiP6anwBXEqTLd?=
+ =?us-ascii?Q?GZKHi4op8uh4xxqElVFgE1gB0Jej6Xh94eyqAX7+p8z2dHta36lo+n/gl3sO?=
+ =?us-ascii?Q?6M/Hy+1x0AayP8lFLRjfg7jxqCm8pglpQwixpUDcuqcIVGWKZTASxaTydnHq?=
+ =?us-ascii?Q?2S/ykaxqbsoVZXJmCvVNgS1aiLHx8w6Dqxw0Yp0bGRM1odqXmFS3W7LQk05i?=
+ =?us-ascii?Q?yh4WuSdWG1ApfObDw6eZSpf8i0sKuRkcIoNfUuDbIyq1McDISLUooRW/s7z1?=
+ =?us-ascii?Q?SA6yoXiTq9nA/zskC2+dWIPXbd4yTzcCMQBGmGiPRDzFOd+W2Tkkv0g6dQGz?=
+ =?us-ascii?Q?qJRhQWAr469Ta51YnQdNFkjv2/twdA7z0jx+b+7WmnhER99HNE6TF3Wm02Hc?=
+ =?us-ascii?Q?cVDpZ5Uf6d54jpPiRUMYUQLxqHmdqiogN5nhNc0112FGgbf4stVfOGCX3yjj?=
+ =?us-ascii?Q?/wjiWxAmvgycLA1ft4OLs8v9BhzFKh35NrYJbwUNID43Ku+d/hr2Sn2eLZXz?=
+ =?us-ascii?Q?egTMZY9tYvb4tNKd8qze+WLm8sGbLuM5wV3EMy1vdj5RhdapyXj4zagmCGck?=
+ =?us-ascii?Q?/L2rsHG4FcTsbq+iN1hWhP3DalcMsjEXt/E5HhO7+4foIW5LIptdlWA39m5f?=
+ =?us-ascii?Q?g4YZa9nv3zbUf//6qX9qm+x0cPhdjq+mMMYboYzFPUcypVevzCtRmz+AsuHi?=
+ =?us-ascii?Q?qT9WjSYmvXP7/MmXeaC8Z62QxZ5134j93hDjMwQaJ4b8cfyfREGcRALNyE9g?=
+ =?us-ascii?Q?c08Ik8KJIl/fnHwkqbe/XdQS0fIzvvLYy7ju0c2DYlcfD/QW+k/rfZW9ZhfU?=
+ =?us-ascii?Q?QNej53lL6ewDm5D4b7yG4EHEttoYSDc4Xt9s3b6h2yt5aHe8iG4Sl/6N1MPn?=
+ =?us-ascii?Q?buCa7YB80iN2OTb4k5cJWlhDz+62vykqh66pqi7dvATtgNiohEeWF9m/eHMP?=
+ =?us-ascii?Q?mnW0MAYJb50sh6nknTHoRdjxDwRKIjGIceGEp9aAlIpXSk6P89gPe3R2AwTW?=
+ =?us-ascii?Q?5AuB0ybYPndI1tOzkuX5NyXdLMYUuuIDFNOqB5/1w/d39LaX9yNou2IaU5JH?=
+ =?us-ascii?Q?m/BTFuUA5npIuPghB84PFYmuPXxLYBO0W+yoOShFCW1HDFard97KOaRDhDM6?=
+ =?us-ascii?Q?eLq2C9dLIAH5lDQP278ncfO8o98PYhaC+W5yWYK2FnDmUXamlBtEXdVo95sc?=
+ =?us-ascii?Q?mkEJwkbUJrqEeCICvC+CmSpx+ldRDyOt04cDy9zGIRfPAReSlZHWV2DnJH3v?=
+ =?us-ascii?Q?WkhwXkCywUObK9DrpTbNrmP+szLDUxHOg1GJseBRA5ZrZQp9paO/qKnTOzxS?=
+ =?us-ascii?Q?oat2aHQ6QW+b0tIUClfIpSnnkFH60fI4aUcWeqTuKlLdp5NQv7w9SNuu5Zi3?=
+ =?us-ascii?Q?y1XdQkbUQ3I+AitRNKB5tRPMEOhzoHm3n18KIrk2DJhQo6Gu2yu/1NLFI0La?=
+ =?us-ascii?Q?JllumfNGmgfd3Fogao/URsL43F0JWynNV1LZ9D0qt9WgqwHqKENtkLzkUG7K?=
+ =?us-ascii?Q?63N+jfBWAb3oUoFIHmhFISG1XkHoOFjxFGl+PTcChoXYsSjLLJ8t3OQXdDe0?=
+ =?us-ascii?Q?uHzCvH4IWjEekciMd6t1pg0qqbZV8uAeA50hXv7kZaX57mMpfnyp4ccqV+Xq?=
+ =?us-ascii?Q?7I++jklgp8luREDHtxrO7PbyFeYNelZRG5t6cBpQtBzqxT4eEUM9A9lI1qFT?=
+ =?us-ascii?Q?BajMNqj5o3/dFXm/nCT80U5dUb3lExR3fCG/+ayQheHOKl5pSbxnVKNO6YJE?=
+ =?us-ascii?Q?NRKs/StY0w=3D=3D?=
 X-OriginatorOrg: nxp.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 92d782b2-645c-438f-3e55-08da1e89c610
+X-MS-Exchange-CrossTenant-Network-Message-Id: 9c4b4e44-a86a-4b3f-778b-08da1e89c89d
 X-MS-Exchange-CrossTenant-AuthSource: DB7PR04MB5450.eurprd04.prod.outlook.com
 X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 15 Apr 2022 02:43:51.0527 (UTC)
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 15 Apr 2022 02:43:55.2868 (UTC)
 X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
 X-MS-Exchange-CrossTenant-Id: 686ea1d3-bc2b-4c6f-a92c-d99c5c301635
 X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: Veqyv3uHf8sSQcz0+VaG/7eoa8YfQdZ1ashtRDdPMtxwhKCwZI2IkaObQP/FMQcYD2uAoze4eLJOKmdIyZIPvg==
+X-MS-Exchange-CrossTenant-UserPrincipalName: zPtB/DhPrAv6rWi2H53ithVpFwZFgCF9VY+Re808pUxPttLGO58HjRZtD/jnjjLcqtnKMOA303f8EayZGua7xQ==
 X-MS-Exchange-Transport-CrossTenantHeadersStamped: DU2PR04MB9132
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -127,63 +126,83 @@ Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 From: Sandor Yu <Sandor.yu@nxp.com>
 
-i.MX8MPlus (v2.13a) has verified need the workaround to clear the
-overflow with one iteration.
-Only i.MX6Q(v1.30a) need the workaround with 4 iterations,
-the others versions later than v1.3a have been identified as needing
-the workaround with a single iteration.
+HDMI1.4b specification section 6.5.3:
+Source shall only send GCPs with non-zero CD to sinks
+that indicate support for Deep Color.
 
-Default enable the workaround with one iteration for all versions
-later than v1.30a.
+DW HDMI GCP default enabled, but only transmit CD
+and do not handle AVMUTE, PP norDefault_Phase (yet).
+Disable Auto GCP when 24-bit color for sinks that not support Deep Color.
 
 Signed-off-by: Sandor Yu <Sandor.yu@nxp.com>
-Acked-by: Neil Armstrong <narmstrong@baylibre.com>
 ---
- drivers/gpu/drm/bridge/synopsys/dw-hdmi.c | 23 +++++++----------------
- 1 file changed, 7 insertions(+), 16 deletions(-)
+ drivers/gpu/drm/bridge/synopsys/dw-hdmi.c | 17 +++++++++++++++++
+ drivers/gpu/drm/bridge/synopsys/dw-hdmi.h |  3 +++
+ 2 files changed, 20 insertions(+)
 
 diff --git a/drivers/gpu/drm/bridge/synopsys/dw-hdmi.c b/drivers/gpu/drm/bridge/synopsys/dw-hdmi.c
-index 4befc104d220..02d8f7e08814 100644
+index 02d8f7e08814..312500921754 100644
 --- a/drivers/gpu/drm/bridge/synopsys/dw-hdmi.c
 +++ b/drivers/gpu/drm/bridge/synopsys/dw-hdmi.c
-@@ -2086,30 +2086,21 @@ static void dw_hdmi_clear_overflow(struct dw_hdmi *hdmi)
- 	 * then write one of the FC registers several times.
- 	 *
- 	 * The number of iterations matters and depends on the HDMI TX revision
--	 * (and possibly on the platform). So far i.MX6Q (v1.30a), i.MX6DL
--	 * (v1.31a) and multiple Allwinner SoCs (v1.32a) have been identified
--	 * as needing the workaround, with 4 iterations for v1.30a and 1
--	 * iteration for others.
--	 * The Amlogic Meson GX SoCs (v2.01a) have been identified as needing
--	 * the workaround with a single iteration.
--	 * The Rockchip RK3288 SoC (v2.00a) and RK3328/RK3399 SoCs (v2.11a) have
--	 * been identified as needing the workaround with a single iteration.
-+	 * (and possibly on the platform).
-+	 * 4 iterations for i.MX6Q(v1.30a) and 1 iteration for others.
-+	 * i.MX6DL (v1.31a), Allwinner SoCs (v1.32a), Rockchip RK3288 SoC (v2.00a),
-+	 * Amlogic Meson GX SoCs (v2.01a), RK3328/RK3399 SoCs (v2.11a)
-+	 * and i.MX8MPlus (v2.13a) have been identified as needing the workaround
-+	 * with a single iteration.
- 	 */
+@@ -1108,6 +1108,8 @@ static void hdmi_video_packetize(struct dw_hdmi *hdmi)
+ 	unsigned int output_select = HDMI_VP_CONF_OUTPUT_SELECTOR_PP;
+ 	struct hdmi_data_info *hdmi_data = &hdmi->hdmi_data;
+ 	u8 val, vp_conf;
++	u8 clear_gcp_auto = 0;
++
  
- 	switch (hdmi->version) {
- 	case 0x130a:
- 		count = 4;
- 		break;
--	case 0x131a:
--	case 0x132a:
--	case 0x200a:
--	case 0x201a:
--	case 0x211a:
--	case 0x212a:
-+	default:
- 		count = 1;
- 		break;
--	default:
--		return;
- 	}
+ 	if (hdmi_bus_fmt_is_rgb(hdmi->hdmi_data.enc_out_bus_format) ||
+ 	    hdmi_bus_fmt_is_yuv444(hdmi->hdmi_data.enc_out_bus_format) ||
+@@ -1117,6 +1119,7 @@ static void hdmi_video_packetize(struct dw_hdmi *hdmi)
+ 		case 8:
+ 			color_depth = 4;
+ 			output_select = HDMI_VP_CONF_OUTPUT_SELECTOR_BYPASS;
++			clear_gcp_auto = 1;
+ 			break;
+ 		case 10:
+ 			color_depth = 5;
+@@ -1136,6 +1139,7 @@ static void hdmi_video_packetize(struct dw_hdmi *hdmi)
+ 		case 0:
+ 		case 8:
+ 			remap_size = HDMI_VP_REMAP_YCC422_16bit;
++			clear_gcp_auto = 1;
+ 			break;
+ 		case 10:
+ 			remap_size = HDMI_VP_REMAP_YCC422_20bit;
+@@ -1160,6 +1164,19 @@ static void hdmi_video_packetize(struct dw_hdmi *hdmi)
+ 		HDMI_VP_PR_CD_DESIRED_PR_FACTOR_MASK);
+ 	hdmi_writeb(hdmi, val, HDMI_VP_PR_CD);
  
- 	/* TMDS software reset */
++	/* HDMI1.4b specification section 6.5.3:
++	 * Source shall only send GCPs with non-zero CD to sinks
++	 * that indicate support for Deep Color.
++	 * GCP only transmit CD and do not handle AVMUTE, PP norDefault_Phase (yet).
++	 * Disable Auto GCP when 24-bit color for sinks that not support Deep Color.
++	 */
++	val = hdmi_readb(hdmi, HDMI_FC_DATAUTO3);
++	if (clear_gcp_auto == 1)
++		val &= ~HDMI_FC_DATAUTO3_GCP_AUTO;
++	else
++		val |= HDMI_FC_DATAUTO3_GCP_AUTO;
++	hdmi_writeb(hdmi, val, HDMI_FC_DATAUTO3);
++
+ 	hdmi_modb(hdmi, HDMI_VP_STUFF_PR_STUFFING_STUFFING_MODE,
+ 		  HDMI_VP_STUFF_PR_STUFFING_MASK, HDMI_VP_STUFF);
+ 
+diff --git a/drivers/gpu/drm/bridge/synopsys/dw-hdmi.h b/drivers/gpu/drm/bridge/synopsys/dw-hdmi.h
+index 1999db05bc3b..18df3e119553 100644
+--- a/drivers/gpu/drm/bridge/synopsys/dw-hdmi.h
++++ b/drivers/gpu/drm/bridge/synopsys/dw-hdmi.h
+@@ -850,6 +850,9 @@ enum {
+ 	HDMI_FC_DATAUTO0_VSD_MASK = 0x08,
+ 	HDMI_FC_DATAUTO0_VSD_OFFSET = 3,
+ 
++/* FC_DATAUTO3 field values */
++	HDMI_FC_DATAUTO3_GCP_AUTO = 0x04,
++
+ /* PHY_CONF0 field values */
+ 	HDMI_PHY_CONF0_PDZ_MASK = 0x80,
+ 	HDMI_PHY_CONF0_PDZ_OFFSET = 7,
 -- 
 2.25.1
 
