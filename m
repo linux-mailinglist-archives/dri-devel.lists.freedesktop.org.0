@@ -1,63 +1,55 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9E2E5502035
-	for <lists+dri-devel@lfdr.de>; Fri, 15 Apr 2022 03:50:29 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id CA7D2502042
+	for <lists+dri-devel@lfdr.de>; Fri, 15 Apr 2022 03:58:27 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 51B0910E083;
-	Fri, 15 Apr 2022 01:50:24 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 7B2DB10E089;
+	Fri, 15 Apr 2022 01:58:20 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from alexa-out-sd-01.qualcomm.com (alexa-out-sd-01.qualcomm.com
- [199.106.114.38])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 9322F10E083;
- Fri, 15 Apr 2022 01:50:23 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=quicinc.com; i=@quicinc.com; q=dns/txt; s=qcdkim;
- t=1649987423; x=1681523423;
- h=message-id:date:mime-version:subject:to:cc:references:
- from:in-reply-to:content-transfer-encoding;
- bh=Pg/gisp5zSlm/8HZotOwissyFmYbSGvEHkLO2Yt21G8=;
- b=m+cOxC7QhjQdlcagNZI/nnrXR0uvN8Mz7WX6iRoXE83GV3FXGKLA5OJD
- P2itLgb5LIoKdPR6JmkuxXVX11O2PUN4mVAZ+VIV9mZC9TXEC9RWJNHjF
- xgHPxPhbYZ1mliysAG/QzB+2yQndPW6pQNutN7REcXM7NC02bWa0IK272 g=;
-Received: from unknown (HELO ironmsg03-sd.qualcomm.com) ([10.53.140.143])
- by alexa-out-sd-01.qualcomm.com with ESMTP; 14 Apr 2022 18:50:23 -0700
-X-QCInternal: smtphost
-Received: from nasanex01c.na.qualcomm.com ([10.47.97.222])
- by ironmsg03-sd.qualcomm.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 14 Apr 2022 18:50:22 -0700
-Received: from nalasex01a.na.qualcomm.com (10.47.209.196) by
- nasanex01c.na.qualcomm.com (10.47.97.222) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.2.986.22; Thu, 14 Apr 2022 18:50:21 -0700
-Received: from [10.111.169.145] (10.80.80.8) by nalasex01a.na.qualcomm.com
- (10.47.209.196) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.986.22; Thu, 14 Apr
- 2022 18:50:19 -0700
-Message-ID: <261d5551-0fdb-ccf5-5108-fd7521c7c93b@quicinc.com>
-Date: Thu, 14 Apr 2022 18:50:17 -0700
+Received: from mailgw01.mediatek.com (unknown [60.244.123.138])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 0EC6C882C2
+ for <dri-devel@lists.freedesktop.org>; Fri, 15 Apr 2022 01:58:18 +0000 (UTC)
+X-UUID: 0fda98fdb8e645a9aebac2409babf2a0-20220415
+X-CID-P-RULE: Release_Ham
+X-CID-O-INFO: VERSION:1.1.4, REQID:5f3e3bc4-443c-4ad5-a391-5c896fdd2cff, OB:0,
+ LO
+ B:0,IP:0,URL:0,TC:0,Content:2,EDM:0,RT:0,SF:0,FILE:0,RULE:Release_Ham,ACTI
+ ON:release,TS:2
+X-CID-META: VersionHash:faefae9, CLOUDID:22c96e78-0afa-4dca-bdec-ca54c998425a,
+ C
+ OID:IGNORED,Recheck:0,SF:nil,TC:nil,Content:4,EDM:-3,File:nil,QS:0,BEC:nil
+X-UUID: 0fda98fdb8e645a9aebac2409babf2a0-20220415
+Received: from mtkexhb01.mediatek.inc [(172.21.101.102)] by
+ mailgw01.mediatek.com (envelope-from <xinlei.lee@mediatek.com>)
+ (Generic MTA with TLSv1.2 ECDHE-RSA-AES256-SHA384 256/256)
+ with ESMTP id 83114607; Fri, 15 Apr 2022 09:58:11 +0800
+Received: from mtkcas11.mediatek.inc (172.21.101.40) by
+ mtkmbs10n1.mediatek.inc (172.21.101.34) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_CBC_SHA384) id
+ 15.2.792.15; Fri, 15 Apr 2022 09:58:09 +0800
+Received: from mszsdhlt06 (10.16.6.206) by mtkcas11.mediatek.inc
+ (172.21.101.73) with Microsoft SMTP Server id 15.0.1497.2 via Frontend
+ Transport; Fri, 15 Apr 2022 09:58:09 +0800
+Message-ID: <7a1f4de98a349d0910d45a92d09d112773cd5fc0.camel@mediatek.com>
+Subject: Re: [PATCH v4, 3/4] drm/mediatek: keep dsi as LP00 before dcs cmds
+ transfer
+From: xinlei.lee <xinlei.lee@mediatek.com>
+To: CK Hu <ck.hu@mediatek.com>, <chunkuang.hu@kernel.org>,
+ <p.zabel@pengutronix.de>, <airlied@linux.ie>, <daniel@ffwll.ch>,
+ <matthias.bgg@gmail.com>, <rex-bc.chen@mediatek.com>
+Date: Fri, 15 Apr 2022 09:58:40 +0800
+In-Reply-To: <fb3d631cd1e86ee12dff5ee3bc1b82b12cb2cb10.camel@mediatek.com>
+References: <1649644308-8455-1-git-send-email-xinlei.lee@mediatek.com>
+ <1649644308-8455-4-git-send-email-xinlei.lee@mediatek.com>
+ <fb3d631cd1e86ee12dff5ee3bc1b82b12cb2cb10.camel@mediatek.com>
+Content-Type: text/plain; charset="UTF-8"
+X-Mailer: Evolution 3.28.5-0ubuntu0.18.04.2 
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:91.0) Gecko/20100101
- Thunderbird/91.6.2
-Subject: Re: [PATCH 11/12] drm/msm/dpu: gracefully handle null fb commits for
- writeback
-Content-Language: en-US
-To: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>,
- <dri-devel@lists.freedesktop.org>
-References: <1644009445-17320-1-git-send-email-quic_abhinavk@quicinc.com>
- <1644009445-17320-12-git-send-email-quic_abhinavk@quicinc.com>
- <28766af1-58c8-5930-9433-e6b1e3f5f284@linaro.org>
- <7a0d0584-3d86-8ec3-e1a7-cf8fccf8a882@quicinc.com>
- <62e5b7c9-21cb-74ec-2b5f-5d85538a95c3@linaro.org>
-From: Abhinav Kumar <quic_abhinavk@quicinc.com>
-In-Reply-To: <62e5b7c9-21cb-74ec-2b5f-5d85538a95c3@linaro.org>
-Content-Type: text/plain; charset="UTF-8"; format=flowed
-Content-Transfer-Encoding: 8bit
-X-Originating-IP: [10.80.80.8]
-X-ClientProxiedBy: nasanex01b.na.qualcomm.com (10.46.141.250) To
- nalasex01a.na.qualcomm.com (10.47.209.196)
+Content-Transfer-Encoding: 7bit
+X-MTK: N
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -70,244 +62,164 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: linux-arm-msm@vger.kernel.org, swboyd@chromium.org, nganji@codeaurora.org,
- seanpaul@chromium.org, markyacoub@chromium.org, quic_jesszhan@quicinc.com,
- aravindh@codeaurora.org, freedreno@lists.freedesktop.org
+Cc: jitao.shi@mediatek.com, linux-kernel@vger.kernel.org,
+ dri-devel@lists.freedesktop.org,
+ Project_Global_Chrome_Upstream_Group@mediatek.com,
+ linux-mediatek@lists.infradead.org, linux-arm-kernel@lists.infradead.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-
-
-On 4/14/2022 5:36 PM, Dmitry Baryshkov wrote:
-> On 15/04/2022 02:17, Abhinav Kumar wrote:
->>
->>
->> On 2/4/2022 2:43 PM, Dmitry Baryshkov wrote:
->>> On 05/02/2022 00:17, Abhinav Kumar wrote:
->>>> kms_writeback test cases also verify with a null fb for the
->>>> writeback connector job. In addition there are also other
->>>> commit paths which can result in kickoffs without a valid
->>>> framebuffer like while closing the fb which results in the
->>>> callback to drm_atomic_helper_dirtyfb() which internally
->>>> triggers a commit.
->>>>
->>>> Add protection in the dpu driver to ensure that commits for
->>>> writeback encoders without a valid fb are gracefully skipped.
->>>>
->>>> Signed-off-by: Abhinav Kumar <quic_abhinavk@quicinc.com>
->>>> ---
->>>>   drivers/gpu/drm/msm/disp/dpu1/dpu_crtc.c            |  9 +++++++++
->>>>   drivers/gpu/drm/msm/disp/dpu1/dpu_encoder.c         | 21 
->>>> +++++++++++++++++++++
->>>>   drivers/gpu/drm/msm/disp/dpu1/dpu_encoder.h         |  6 ++++++
->>>>   drivers/gpu/drm/msm/disp/dpu1/dpu_encoder_phys.h    |  1 +
->>>>   drivers/gpu/drm/msm/disp/dpu1/dpu_encoder_phys_wb.c | 12 ++++++++++++
->>>>   5 files changed, 49 insertions(+)
->>>>
->>>> diff --git a/drivers/gpu/drm/msm/disp/dpu1/dpu_crtc.c 
->>>> b/drivers/gpu/drm/msm/disp/dpu1/dpu_crtc.c
->>>> index e7c9fe1..f7963b0 100644
->>>> --- a/drivers/gpu/drm/msm/disp/dpu1/dpu_crtc.c
->>>> +++ b/drivers/gpu/drm/msm/disp/dpu1/dpu_crtc.c
->>>> @@ -869,6 +869,13 @@ void dpu_crtc_commit_kickoff(struct drm_crtc 
->>>> *crtc)
->>>>       DPU_ATRACE_BEGIN("crtc_commit");
->>>> +    drm_for_each_encoder_mask(encoder, crtc->dev,
->>>> +            crtc->state->encoder_mask) {
->>>> +        if (!dpu_encoder_has_valid_fb(encoder)) {
->>>
->>> Two small comments here. First, let's probably rename the function to 
->>> dpu_encoder_is_valid() or dpu_encoder_is_valid_for_commit() (ugh, too 
->>> long). There might be other cases (in theory), why encoder is invalid 
->>> at this moment.
->>
->> dpu_encoder_is_valid_for_commit() seems fine to me even if long.
+On Wed, 2022-04-13 at 16:31 +0800, CK Hu wrote:
+> Hi, Xinlei:
 > 
-> Good!
+> On Mon, 2022-04-11 at 10:31 +0800, xinlei.lee@mediatek.com wrote:
+> > From: Jitao Shi <jitao.shi@mediatek.com>
+> > 
+> > To comply with the panel sequence, hold the mipi signal to LP00
+> > before the dcs cmds transmission,
+> > and pull the mipi signal high from LP00 to LP11 until the start of
+> > the dcs cmds transmission.
+> > The normal panel timing is :
+> > (1) pp1800 DC pull up
+> > (2) avdd & avee AC pull high
+> > (3) lcm_reset pull high -> pull low -> pull high
+> > (4) Pull MIPI signal high (LP11) -> initial code -> send video
+> > data(HS mode)
+> > The power-off sequence is reversed.
+> > If dsi is not in cmd mode, then dsi will pull the mipi signal high
+> > in
+> > the mtk_output_dsi_enable function.
+> > 
+> > Fixes: 2dd8075d2185 ("drm/mediatek: mtk_dsi: Use the
+> > drm_panel_bridge
+> > API")
+> > 
+> > Signed-off-by: Jitao Shi <jitao.shi@mediatek.com>
+> > Signed-off-by: Xinlei Lee <xinlei.lee@mediatek.com>
+> > ---
+> >  drivers/gpu/drm/mediatek/mtk_dsi.c | 28 +++++++++++++++++++++-----
+> > --
+> >  1 file changed, 21 insertions(+), 7 deletions(-)
+> > 
+> > diff --git a/drivers/gpu/drm/mediatek/mtk_dsi.c
+> > b/drivers/gpu/drm/mediatek/mtk_dsi.c
+> > index cf76c53a1af6..9ad6f08c8bfe 100644
+> > --- a/drivers/gpu/drm/mediatek/mtk_dsi.c
+> > +++ b/drivers/gpu/drm/mediatek/mtk_dsi.c
+> > @@ -203,6 +203,7 @@ struct mtk_dsi {
+> >  	struct mtk_phy_timing phy_timing;
+> >  	int refcount;
+> >  	bool enabled;
+> > +	bool lanes_ready;
+> >  	u32 irq_data;
+> >  	wait_queue_head_t irq_wait_queue;
+> >  	const struct mtk_dsi_driver_data *driver_data;
+> > @@ -654,13 +655,6 @@ static int mtk_dsi_poweron(struct mtk_dsi
+> > *dsi)
+> >  	mtk_dsi_config_vdo_timing(dsi);
+> >  	mtk_dsi_set_interrupt_enable(dsi);
+> >  
+> > -	mtk_dsi_rxtx_control(dsi);
+> > -	usleep_range(30, 100);
+> > -	mtk_dsi_reset_dphy(dsi);
+> > -	mtk_dsi_clk_ulp_mode_leave(dsi);
+> > -	mtk_dsi_lane0_ulp_mode_leave(dsi);
+> > -	mtk_dsi_clk_hs_mode(dsi, 0);
+> > -
+> >  	return 0;
+> >  err_disable_engine_clk:
+> >  	clk_disable_unprepare(dsi->engine_clk);
+> > @@ -689,6 +683,23 @@ static void mtk_dsi_poweroff(struct mtk_dsi
+> > *dsi)
+> >  	clk_disable_unprepare(dsi->digital_clk);
+> >  
+> >  	phy_power_off(dsi->phy);
+> > +
+> > +	dsi->lanes_ready = false;
+> > +}
+> > +
+> > +static void mtk_dsi_lane_ready(struct mtk_dsi *dsi)
+> > +{
+> > +	if (!dsi->lanes_ready) {
+> > +		dsi->lanes_ready = true;
+> > +		mtk_dsi_rxtx_control(dsi);
+> > +		usleep_range(30, 100);
+> > +		mtk_dsi_reset_dphy(dsi);
+> > +		mtk_dsi_clk_ulp_mode_leave(dsi);
+> > +		mtk_dsi_lane0_ulp_mode_leave(dsi);
+> > +		mtk_dsi_clk_hs_mode(dsi, 0);
+> > +		msleep(20);
+> > +	} else
+> > +		DRM_DEBUG("The dsi_lane is ready\n");
+> >  }
+> >  
+> >  static void mtk_output_dsi_enable(struct mtk_dsi *dsi)
+> > @@ -696,6 +707,7 @@ static void mtk_output_dsi_enable(struct
+> > mtk_dsi
+> > *dsi)
+> >  	if (dsi->enabled)
+> >  		return;
+> >  
+> > +	mtk_dsi_lane_ready(dsi);
+> >  	mtk_dsi_set_mode(dsi);
+> >  	mtk_dsi_clk_hs_mode(dsi, 1);
+> >  
+> > @@ -1001,6 +1013,8 @@ static ssize_t mtk_dsi_host_transfer(struct
+> > mipi_dsi_host *host,
+> >  	if (MTK_DSI_HOST_IS_READ(msg->type))
+> >  		irq_flag |= LPRX_RD_RDY_INT_FLAG;
+> >  
+> > +	mtk_dsi_lane_ready(dsi);
 > 
->>
->>>
->>> Also (a minor nit): I think that we should commit if at least one of 
->>> encoders is valid. So we might want to create an encoder_valid_mask 
->>> basing on the calls to dpu_encoder. And then use it later for calling 
->>> dpu_encoder_prepare_for_kickoff() and dpu_encoder_kickoff().
->>
->> Its not just these two calls. These can be easily skipped within the 
->> encoder itself. I had to bring this to the dpu_crtc level because of 
->> the frame_pending.
+> In [1], YT has move mtk_dsi_lane_ready() before panel prepare for
+> dsi-
+> > panel case. Now you move mtk_dsi_lane_ready() after panel prepare,
 > 
-> I see. Let's settle down on a question which should have been aksed 
-> initially. If we have a set of encoders, some of which are valid and 
-> others are not (for whatever reason), should we proceed with kickoff of 
-> the valid ones or should we skip it completely? Which encoder would call 
-> the frame_done callbacks, in the end decrementing the frame_pending?
-
-Well, to answer this question, lets consider two cases:
-
-1) If we are talking about only the encoder having a valid fb as the 
-criteria for validity, and lets say there are two encoders one having 
-valid fb and the other not having one. This is not possible.
-We map the same fb which is passed from the prepare_wb_job to both the 
-physical encoders today so such a case wont happen.
-
-2) In future, if we extend this valid check for other cases like you are 
-suggesting here, even in that case, lets say we have two physical 
-encoders, one master and the other slave. Even if one of them is 
-invalid, the frame is invalid in my opinion as it will end up displaying 
-corruption on the screen.
-
-I dont think we are missing any other case here.
-
-IF we just consider these two, then perhaps current approach is good 
-enough with just the renaming ofcourse from dpu_encoder_has_valid_fb 
----> dpu_encoder_is_valid_for_commit()
-
+> this may break dsi->panel case. Please provide a solution for both
+> case.
 > 
->>
->> The issue is atomic_inc_return(&dpu_crtc->frame_pending)
->>
->> We have to skip this call otherwise it leads to incorrect "frame done 
->> timeouts" because CRTC thinks frame was kicked off but it was actually 
->> skipped.
->>
->> Maybe, what we can do is first prepare the mask.
->>
->> if (hweight(crtc_encoder_mask)) {
->>      if (atomic_inc_return(&dpu_crtc->frame_pending) == 1) {
->>          /* acquire bandwidth and other resources */
->>          DRM_DEBUG_ATOMIC("crtc%d first commit\n", crtc->base.id);
->>          } else
->>              DRM_DEBUG_ATOMIC("crtc%d commit\n", crtc->base.id);
->>
->>        dpu_crtc->play_count++;
->>
->>          dpu_vbif_clear_errors(dpu_kms);
->> }
->>
->> do the encoder_kickoff
->>
->> if (hweight(crtc_encoder_mask))
->>      reinit_completion(&dpu_crtc->frame_done_comp);
->>
->> calls to dpu_encoder_prepare_for_kickoff() and dpu_encoder_kickoff() 
->> can be protected by dpu_encoder_is_valid_for_commit() checks.
->>
->> This is probably the best we can do here.
->>
->> Let me know what you think.
->>
->>>
->>>> +            DRM_DEBUG_ATOMIC("invalid FB not kicking off crtc\n");
->>>> +            goto end;
->>>> +        }
->>>> +    }
->>>>       /*
->>>>        * Encoder will flush/start now, unless it has a tx pending. 
->>>> If so, it
->>>>        * may delay and flush at an irq event (e.g. ppdone)
->>>> @@ -891,6 +898,8 @@ void dpu_crtc_commit_kickoff(struct drm_crtc *crtc)
->>>>           dpu_encoder_kickoff(encoder);
->>>>       reinit_completion(&dpu_crtc->frame_done_comp);
->>>> +
->>>> +end:
->>>>       DPU_ATRACE_END("crtc_commit");
->>>>   }
->>>> diff --git a/drivers/gpu/drm/msm/disp/dpu1/dpu_encoder.c 
->>>> b/drivers/gpu/drm/msm/disp/dpu1/dpu_encoder.c
->>>> index 3746432..e990dbc 100644
->>>> --- a/drivers/gpu/drm/msm/disp/dpu1/dpu_encoder.c
->>>> +++ b/drivers/gpu/drm/msm/disp/dpu1/dpu_encoder.c
->>>> @@ -1832,6 +1832,27 @@ void dpu_encoder_prepare_for_kickoff(struct 
->>>> drm_encoder *drm_enc)
->>>>       }
->>>>   }
->>>> +bool dpu_encoder_has_valid_fb(struct drm_encoder *drm_enc)
->>>> +{
->>>> +    struct dpu_encoder_virt *dpu_enc;
->>>> +    unsigned int i;
->>>> +    struct dpu_encoder_phys *phys;
->>>> +
->>>> +    dpu_enc = to_dpu_encoder_virt(drm_enc);
->>>> +
->>>> +    if (drm_enc->encoder_type == DRM_MODE_ENCODER_VIRTUAL) {
->>>> +        for (i = 0; i < dpu_enc->num_phys_encs; i++) {
->>>> +            phys = dpu_enc->phys_encs[i];
->>>> +            if (phys->ops.has_valid_output_fb && 
->>>> !phys->ops.has_valid_output_fb(phys)) {
->>>> +                DPU_DEBUG("invalid FB not kicking off\n");
->>>> +                return false;
->>>> +            }
->>>> +        }
->>>> +    }
->>>> +
->>>> +    return true;
->>>> +}
->>>> +
->>>>   void dpu_encoder_kickoff(struct drm_encoder *drm_enc)
->>>>   {
->>>>       struct dpu_encoder_virt *dpu_enc;
->>>> diff --git a/drivers/gpu/drm/msm/disp/dpu1/dpu_encoder.h 
->>>> b/drivers/gpu/drm/msm/disp/dpu1/dpu_encoder.h
->>>> index da5b6d6..63d90b8 100644
->>>> --- a/drivers/gpu/drm/msm/disp/dpu1/dpu_encoder.h
->>>> +++ b/drivers/gpu/drm/msm/disp/dpu1/dpu_encoder.h
->>>> @@ -187,4 +187,10 @@ void dpu_encoder_prepare_wb_job(struct 
->>>> drm_encoder *drm_enc,
->>>>   void dpu_encoder_cleanup_wb_job(struct drm_encoder *drm_enc,
->>>>           struct drm_writeback_job *job);
->>>> +/**
->>>> + * dpu_encoder_has_valid_fb - cleanup writeback job for the encoder.
->>>> + * @drm_enc:    Pointer to drm encoder structure
->>>> + */
->>>> +bool dpu_encoder_has_valid_fb(struct drm_encoder *drm_enc);
->>>> +
->>>>   #endif /* __DPU_ENCODER_H__ */
->>>> diff --git a/drivers/gpu/drm/msm/disp/dpu1/dpu_encoder_phys.h 
->>>> b/drivers/gpu/drm/msm/disp/dpu1/dpu_encoder_phys.h
->>>> index 80da0a9..5b45b3c 100644
->>>> --- a/drivers/gpu/drm/msm/disp/dpu1/dpu_encoder_phys.h
->>>> +++ b/drivers/gpu/drm/msm/disp/dpu1/dpu_encoder_phys.h
->>>> @@ -151,6 +151,7 @@ struct dpu_encoder_phys_ops {
->>>>               struct drm_writeback_job *job);
->>>>       void (*cleanup_wb_job)(struct dpu_encoder_phys *phys_enc,
->>>>               struct drm_writeback_job *job);
->>>> +    bool (*has_valid_output_fb)(struct dpu_encoder_phys *phys_enc);
->>>>   };
->>>>   /**
->>>> diff --git a/drivers/gpu/drm/msm/disp/dpu1/dpu_encoder_phys_wb.c 
->>>> b/drivers/gpu/drm/msm/disp/dpu1/dpu_encoder_phys_wb.c
->>>> index 783f83e..7eeed79 100644
->>>> --- a/drivers/gpu/drm/msm/disp/dpu1/dpu_encoder_phys_wb.c
->>>> +++ b/drivers/gpu/drm/msm/disp/dpu1/dpu_encoder_phys_wb.c
->>>> @@ -717,6 +717,16 @@ static void 
->>>> dpu_encoder_phys_wb_cleanup_wb_job(struct dpu_encoder_phys *phys_enc
->>>>       wb_enc->wb_conn = NULL;
->>>>   }
->>>> +static bool dpu_encoder_phys_wb_has_valid_fb(struct 
->>>> dpu_encoder_phys *phys_enc)
->>>> +{
->>>> +    struct dpu_encoder_phys_wb *wb_enc = 
->>>> to_dpu_encoder_phys_wb(phys_enc);
->>>> +
->>>> +    if (wb_enc->wb_job)
->>>> +        return true;
->>>> +    else
->>>> +        return false;
->>>> +}
->>>> +
->>>>   /**
->>>>    * dpu_encoder_phys_wb_init_ops - initialize writeback operations
->>>>    * @ops:    Pointer to encoder operation table
->>>> @@ -738,6 +748,8 @@ static void dpu_encoder_phys_wb_init_ops(struct 
->>>> dpu_encoder_phys_ops *ops)
->>>>       ops->prepare_wb_job = dpu_encoder_phys_wb_prepare_wb_job;
->>>>       ops->cleanup_wb_job = dpu_encoder_phys_wb_cleanup_wb_job;
->>>>       ops->irq_control = dpu_encoder_phys_wb_irq_ctrl;
->>>> +    ops->has_valid_output_fb = dpu_encoder_phys_wb_has_valid_fb;
->>>> +
->>>>   }
->>>>   /**
->>>
->>>
+> [1] 
+> 
+https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git/commit/drivers/gpu/drm/mediatek/mtk_dsi.c?h=v5.18-rc2&id=0707632b5bacc490f58dfbad741d586c06595ff3
+> 
+> Regards,
+> CK
+> 
+> > +
+> >  	ret = mtk_dsi_host_send_cmd(dsi, msg, irq_flag);
+> >  	if (ret)
+> >  		goto restore_dsi_mode;
 > 
 > 
+
+Hi CK:
+
+Because the order of dsi->panel in [1] is as follows (tv101 panel as an
+example):
+1. dsi_poweron (lane_ready)
+2. panel_prepare
+3. panel_prepare_power
+4. panel_init_cmd
+5. dsi_host_transfer (actually send panel initial code)
+
+This modified order:
+1. dsi_poweron
+2. panel_prepare
+3. panel_prepare_power
+4. panel_init_cmd
+5. dsi_host_transfer (lane_ready)
+
+It can be seen that the lane_ready is delayed closer to before sending
+the initial code, which is necessary for some panels with stricter
+timing requirements.
+And if this screen does not need to send initial code, it will also do
+lane_ready in output_dsi_enable, so that dsi can complete LP00->LP11-
+>HS mode.
+
+[1] 
+
+https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git/commit/drivers/gpu/drm/mediatek/mtk_dsi.c?h=v5.18-rc2&id=0707632b5bacc490f58dfbad741d586c06595ff3
+
+Best Regards!
+xinlei
+
