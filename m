@@ -1,66 +1,53 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 367A0502B8F
-	for <lists+dri-devel@lfdr.de>; Fri, 15 Apr 2022 16:14:08 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 8F543502D3A
+	for <lists+dri-devel@lfdr.de>; Fri, 15 Apr 2022 17:41:32 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id D96AF10E228;
-	Fri, 15 Apr 2022 14:14:05 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 7A86E10E1EC;
+	Fri, 15 Apr 2022 15:41:27 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-oi1-x232.google.com (mail-oi1-x232.google.com
- [IPv6:2607:f8b0:4864:20::232])
- by gabe.freedesktop.org (Postfix) with ESMTPS id CDD0810E20F
- for <dri-devel@lists.freedesktop.org>; Fri, 15 Apr 2022 14:14:03 +0000 (UTC)
-Received: by mail-oi1-x232.google.com with SMTP id q129so8501864oif.4
- for <dri-devel@lists.freedesktop.org>; Fri, 15 Apr 2022 07:14:03 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
- h=from:to:cc:subject:date:message-id:in-reply-to:references
- :mime-version:content-transfer-encoding;
- bh=Ne77m8cZZW0R7+jQl5DIOLbM38uI8W7ZFAvs8zlnbN8=;
- b=h1AEH94ksvbHDBFe3x+a7vmDgmwHtOTnxwprQwUj4X1Nmdvg1vWefYUVfwtkHjfOhv
- HDBUNoMaooGxk+7pisSLbT50fMO43493JfXXGe1JkBL4xDXrK1H5O0Xq3Z0rI1Np2Gum
- tGFZ+dFeiSq6PxqPTbRbrbbUyryHeeNaxHgPuJCF+jV80j6YnZG9lidImPuqYc4Fk1CU
- b8X7OOSzA5dXiqW6pqu7vLlfMTGvQ3i/W/m7avQlpXvChMg8bwMZR+5/+kybThxsGnTj
- HXopgsjM58efO1m+fJxy9vuEj+l0L6fRrn0ExSVCs/8UWenBQaE1wJhhUlcfW/LB9FL1
- QD2A==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
- :references:mime-version:content-transfer-encoding;
- bh=Ne77m8cZZW0R7+jQl5DIOLbM38uI8W7ZFAvs8zlnbN8=;
- b=79tv1AlbOLD+4Vlk+crz8uZA4Lm8qpfylGYg84Trv2pl90e4/nd4epKWOodkBdXIJx
- Usuc8eZhdYEKZuW2/MVwoFmvGF1asEOSUaPgGJ0CcDT08+7SiewXaPvLnHeY0le5Rkma
- W8UcZxiDcLfXo6vM9wqY0nsU5oCAsikNXc6d0PnX5qqSrq02RjTGssUnA7hO80iu+n9q
- JRfG4uK41fQGwFu4Cpj63DWtbiOC5Y5iooKBGGjYrksqq+1jk7UXUcWqUPMPbKlGQ99i
- lq/arhzuMHmnAy38CeeN1J1p7+M/91lLLyr4gkzXaEsLOI+NYhJpo1E7UcODKrmU2tbu
- mWnw==
-X-Gm-Message-State: AOAM533p2M2g0IAwMBXIavCPcOzzVDqCSfleuGkuVVIPaFjUekrbtlhA
- QLHEjil/xu7OLEmuYJM+mFI=
-X-Google-Smtp-Source: ABdhPJzmIliimBoMo5RTzw1NZHdZ598Yqfbe2K4rgL5RQgz1CujBydm9kLuTJhT4SOwwYRnQKEfqmA==
-X-Received: by 2002:a05:6808:d4c:b0:2f8:d0d2:d06c with SMTP id
- w12-20020a0568080d4c00b002f8d0d2d06cmr1672959oik.285.1650032043019; 
- Fri, 15 Apr 2022 07:14:03 -0700 (PDT)
-Received: from localhost.localdomain ([2804:14c:4c2:8a9b:dcc3:45ee:2581:b4cb])
- by smtp.gmail.com with ESMTPSA id
- x1-20020a4ae781000000b00320d5d238efsm1156189oov.3.2022.04.15.07.14.00
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Fri, 15 Apr 2022 07:14:02 -0700 (PDT)
-From: Tales Lelo da Aparecida <tales.aparecida@gmail.com>
-To: Rodrigo Siqueira <rodrigosiqueiramelo@gmail.com>,
- Melissa Wen <melissa.srw@gmail.com>,
- Haneen Mohammed <hamohammed.sa@gmail.com>, Daniel Vetter <daniel@ffwll.ch>,
- David Airlie <airlied@linux.ie>, dri-devel@lists.freedesktop.org,
- linux-kernel@vger.kernel.org, andrealmeid@riseup.net
-Subject: [PATCH v2 2/2] drm/vkms: return early if compose_plane fails
-Date: Fri, 15 Apr 2022 08:13:00 -0300
-Message-Id: <20220415111300.61013-3-tales.aparecida@gmail.com>
-X-Mailer: git-send-email 2.35.1
-In-Reply-To: <20220415111300.61013-1-tales.aparecida@gmail.com>
-References: <20220415111300.61013-1-tales.aparecida@gmail.com>
+Received: from alexa-out.qualcomm.com (alexa-out.qualcomm.com [129.46.98.28])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 85BF410E1EC;
+ Fri, 15 Apr 2022 15:41:26 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=quicinc.com; i=@quicinc.com; q=dns/txt; s=qcdkim;
+ t=1650037286; x=1681573286;
+ h=from:to:cc:subject:date:message-id:mime-version;
+ bh=vQmRn16K4xA0u142eDU+ulgweLDbuAZ9x7nuLXhsVcE=;
+ b=g4FESIKGlPDqRJFAWKHIi1BcUvn/lo6thijZFmpi9wPnjR8GuhytISiP
+ WJhX/PPFnMMYRcAQqQWe2OL5mTc+tIBDpfaaMEtZ7hJRL79HBuM4thn+W
+ Cg6DI37zNu5JCSdpEVCXxTxavQpiod6Y3VsaqHzSiKngXJoPgUes5gM0c c=;
+Received: from ironmsg08-lv.qualcomm.com ([10.47.202.152])
+ by alexa-out.qualcomm.com with ESMTP; 15 Apr 2022 08:41:25 -0700
+X-QCInternal: smtphost
+Received: from nasanex01c.na.qualcomm.com ([10.47.97.222])
+ by ironmsg08-lv.qualcomm.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 15 Apr 2022 08:41:25 -0700
+Received: from nalasex01a.na.qualcomm.com (10.47.209.196) by
+ nasanex01c.na.qualcomm.com (10.47.97.222) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.2.986.22; Fri, 15 Apr 2022 08:41:24 -0700
+Received: from khsieh-linux1.qualcomm.com (10.80.80.8) by
+ nalasex01a.na.qualcomm.com (10.47.209.196) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.2.986.22; Fri, 15 Apr 2022 08:41:23 -0700
+From: Kuogee Hsieh <quic_khsieh@quicinc.com>
+To: <robdclark@gmail.com>, <sean@poorly.run>, <swboyd@chromium.org>,
+ <vkoul@kernel.org>, <daniel@ffwll.ch>, <airlied@linux.ie>,
+ <agross@kernel.org>, <dmitry.baryshkov@linaro.org>,
+ <bjorn.andersson@linaro.org>
+Subject: [PATCH v6] drm/msm/dp: stop event kernel thread when DP unbind
+Date: Fri, 15 Apr 2022 08:41:16 -0700
+Message-ID: <1650037276-27812-1-git-send-email-quic_khsieh@quicinc.com>
+X-Mailer: git-send-email 2.7.4
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain
+X-Originating-IP: [10.80.80.8]
+X-ClientProxiedBy: nasanex01a.na.qualcomm.com (10.52.223.231) To
+ nalasex01a.na.qualcomm.com (10.47.209.196)
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -73,95 +60,143 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Tales Lelo da Aparecida <tales.aparecida@gmail.com>
+Cc: quic_sbillaka@quicinc.com, linux-arm-msm@vger.kernel.org,
+ quic_abhinavk@quicinc.com, dri-devel@lists.freedesktop.org,
+ quic_khsieh@quicinc.com, quic_aravindh@quicinc.com,
+ freedreno@lists.freedesktop.org, linux-kernel@vger.kernel.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Do not exit quietly from compose_plane. If any plane has an invalid
-map, propagate the error value upwards. While here, add log messages
-for the invalid index.
+Current DP driver implementation, event thread is kept running
+after DP display is unbind. This patch fix this problem by disabling
+DP irq and stop event thread to exit gracefully at dp_display_unbind().
 
-Signed-off-by: Tales Lelo da Aparecida <tales.aparecida@gmail.com>
+Changes in v2:
+-- start event thread at dp_display_bind()
+
+Changes in v3:
+-- disable all HDP interrupts at unbind
+-- replace dp_hpd_event_setup() with dp_hpd_event_thread_start()
+-- replace dp_hpd_event_stop() with dp_hpd_event_thread_stop()
+-- move init_waitqueue_head(&dp->event_q) to probe()
+-- move spin_lock_init(&dp->event_lock) to probe()
+
+Changes in v4:
+-- relocate both dp_display_bind() and dp_display_unbind() to bottom of file
+
+Changes in v5:
+-- cancel relocation of both dp_display_bind() and dp_display_unbind()
+
+Changes in v5:
+-- move empty event q to dp_event_thread_start()
+
+Fixes: e91e3065a806 ("drm/msm/dp: Add DP compliance tests on Snapdragon Chipsets")
+Signed-off-by: Kuogee Hsieh <quic_khsieh@quicinc.com>
+Reported-by: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
+Reviewed-by: Stephen Boyd <swboyd@chromium.org>
 ---
- drivers/gpu/drm/vkms/vkms_composer.c | 30 ++++++++++++++++++----------
- 1 file changed, 20 insertions(+), 10 deletions(-)
+ drivers/gpu/drm/msm/dp/dp_display.c | 35 ++++++++++++++++++++++++++++-------
+ 1 file changed, 28 insertions(+), 7 deletions(-)
 
-diff --git a/drivers/gpu/drm/vkms/vkms_composer.c b/drivers/gpu/drm/vkms/vkms_composer.c
-index b47ac170108c..c0a3b53cd155 100644
---- a/drivers/gpu/drm/vkms/vkms_composer.c
-+++ b/drivers/gpu/drm/vkms/vkms_composer.c
-@@ -149,16 +149,16 @@ static void blend(void *vaddr_dst, void *vaddr_src,
- 	}
+diff --git a/drivers/gpu/drm/msm/dp/dp_display.c b/drivers/gpu/drm/msm/dp/dp_display.c
+index 01453db..92c9819 100644
+--- a/drivers/gpu/drm/msm/dp/dp_display.c
++++ b/drivers/gpu/drm/msm/dp/dp_display.c
+@@ -113,6 +113,7 @@ struct dp_display_private {
+ 	u32 hpd_state;
+ 	u32 event_pndx;
+ 	u32 event_gndx;
++	struct task_struct *ev_tsk;
+ 	struct dp_event event_list[DP_EVENT_Q_MAX];
+ 	spinlock_t event_lock;
+ 
+@@ -230,6 +231,14 @@ void dp_display_signal_audio_complete(struct msm_dp *dp_display)
+ 	complete_all(&dp->audio_comp);
  }
  
--static void compose_plane(struct vkms_composer *primary_composer,
--			  struct vkms_composer *plane_composer,
--			  void *vaddr_out)
-+static int compose_plane(struct vkms_composer *primary_composer,
-+			 struct vkms_composer *plane_composer,
-+			 void *vaddr_out)
- {
- 	struct drm_framebuffer *fb = &plane_composer->fb;
- 	void *vaddr;
- 	void (*pixel_blend)(const u8 *p_src, u8 *p_dst);
- 
- 	if (WARN_ON(iosys_map_is_null(&plane_composer->map[0])))
--		return;
-+		return -EINVAL;
- 
- 	vaddr = plane_composer->map[0].vaddr;
- 
-@@ -168,6 +168,8 @@ static void compose_plane(struct vkms_composer *primary_composer,
- 		pixel_blend = &x_blend;
- 
- 	blend(vaddr_out, vaddr, primary_composer, plane_composer, pixel_blend);
++static void dp_hpd_event_thread_stop(struct dp_display_private *dp_priv)
++{
++	kthread_stop(dp_priv->ev_tsk);
 +
++}
++
++static int dp_hpd_event_thread_start(struct dp_display_private *dp_priv);
++
+ static int dp_display_bind(struct device *dev, struct device *master,
+ 			   void *data)
+ {
+@@ -269,6 +278,7 @@ static int dp_display_bind(struct device *dev, struct device *master,
+ 	if (rc)
+ 		DRM_ERROR("Audio registration Dp failed\n");
+ 
++	rc = dp_hpd_event_thread_start(dp);
+ end:
+ 	return rc;
+ }
+@@ -280,6 +290,9 @@ static void dp_display_unbind(struct device *dev, struct device *master,
+ 	struct drm_device *drm = dev_get_drvdata(master);
+ 	struct msm_drm_private *priv = drm->dev_private;
+ 
++	/* disable all HPD interrupts */
++	dp_catalog_hpd_config_intr(dp->catalog, DP_DP_HPD_INT_MASK, false);
++	dp_hpd_event_thread_stop(dp);
+ 	dp_power_client_deinit(dp->power);
+ 	dp_aux_unregister(dp->aux);
+ 	priv->dp[dp->id] = NULL;
+@@ -1054,7 +1067,7 @@ static int hpd_event_thread(void *data)
+ 
+ 	dp_priv = (struct dp_display_private *)data;
+ 
+-	while (1) {
++	while (!kthread_should_stop()) {
+ 		if (timeout_mode) {
+ 			wait_event_timeout(dp_priv->event_q,
+ 				(dp_priv->event_pndx == dp_priv->event_gndx),
+@@ -1132,12 +1145,19 @@ static int hpd_event_thread(void *data)
+ 	return 0;
+ }
+ 
+-static void dp_hpd_event_setup(struct dp_display_private *dp_priv)
++static int dp_hpd_event_thread_start(struct dp_display_private *dp_priv)
+ {
+-	init_waitqueue_head(&dp_priv->event_q);
+-	spin_lock_init(&dp_priv->event_lock);
++	/* set event q to empty */
++	dp_priv->event_gndx = 0;
++	dp_priv->event_pndx = 0;
++
++	dp_priv->ev_tsk = kthread_run(hpd_event_thread, dp_priv, "dp_hpd_handler");
++	if (IS_ERR(dp_priv->ev_tsk)) {
++		DRM_ERROR("failed to create DP event thread\n");
++		return PTR_ERR(dp_priv->ev_tsk);
++	}
+ 
+-	kthread_run(hpd_event_thread, dp_priv, "dp_hpd_handler");
 +	return 0;
  }
  
- static int compose_active_planes(void **vaddr_out,
-@@ -177,7 +179,7 @@ static int compose_active_planes(void **vaddr_out,
- 	struct drm_framebuffer *fb = &primary_composer->fb;
- 	struct drm_gem_object *gem_obj = drm_gem_fb_get_obj(fb, 0);
- 	const void *vaddr;
--	int i;
-+	int i, ret;
- 
- 	if (!*vaddr_out) {
- 		*vaddr_out = kzalloc(gem_obj->size, GFP_KERNEL);
-@@ -187,8 +189,10 @@ static int compose_active_planes(void **vaddr_out,
- 		}
+ static irqreturn_t dp_display_irq_handler(int irq, void *dev_id)
+@@ -1266,7 +1286,10 @@ static int dp_display_probe(struct platform_device *pdev)
+ 		return -EPROBE_DEFER;
  	}
  
--	if (WARN_ON(iosys_map_is_null(&primary_composer->map[0])))
-+	if (WARN_ON(iosys_map_is_null(&primary_composer->map[0]))) {
-+		DRM_DEBUG_DRIVER("Failed to compose. Invalid map in the primary plane.");
- 		return -EINVAL;
-+	}
++	/* setup event q */
+ 	mutex_init(&dp->event_mutex);
++	init_waitqueue_head(&dp->event_q);
++	spin_lock_init(&dp->event_lock);
  
- 	vaddr = primary_composer->map[0].vaddr;
+ 	/* Store DP audio handle inside DP display */
+ 	dp->dp_display.dp_audio = dp->audio;
+@@ -1441,8 +1464,6 @@ void msm_dp_irq_postinstall(struct msm_dp *dp_display)
  
-@@ -198,10 +202,16 @@ static int compose_active_planes(void **vaddr_out,
- 	 * planes should be in z-order and compose them associatively:
- 	 * ((primary <- overlay) <- cursor)
- 	 */
--	for (i = 1; i < crtc_state->num_active_planes; i++)
--		compose_plane(primary_composer,
--			      crtc_state->active_planes[i]->composer,
--			      *vaddr_out);
-+	for (i = 1; i < crtc_state->num_active_planes; i++) {
-+		ret = compose_plane(primary_composer,
-+				    crtc_state->active_planes[i]->composer,
-+				    *vaddr_out);
-+		if (ret) {
-+			DRM_DEBUG_DRIVER("Failed to compose. Invalid map in the active_planes[%d].",
-+					 i);
-+			return ret;
-+		}
-+	}
+ 	dp = container_of(dp_display, struct dp_display_private, dp_display);
  
- 	return 0;
+-	dp_hpd_event_setup(dp);
+-
+ 	dp_add_event(dp, EV_HPD_INIT_SETUP, 0, 100);
  }
+ 
 -- 
-2.35.1
+The Qualcomm Innovation Center, Inc. is a member of the Code Aurora Forum,
+a Linux Foundation Collaborative Project
 
