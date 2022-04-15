@@ -2,27 +2,40 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9A9E85026D5
-	for <lists+dri-devel@lfdr.de>; Fri, 15 Apr 2022 10:39:51 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 8E2CD5026CE
+	for <lists+dri-devel@lfdr.de>; Fri, 15 Apr 2022 10:39:33 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 43C75112119;
-	Fri, 15 Apr 2022 08:39:45 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 4972A11210B;
+	Fri, 15 Apr 2022 08:39:24 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mailgw02.mediatek.com (unknown [210.61.82.184])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 1A32111210C
- for <dri-devel@lists.freedesktop.org>; Fri, 15 Apr 2022 08:39:23 +0000 (UTC)
-X-UUID: 45bb9f1881b9483080935cafe9247f0c-20220415
-X-UUID: 45bb9f1881b9483080935cafe9247f0c-20220415
-Received: from mtkcas10.mediatek.inc [(172.21.101.39)] by mailgw02.mediatek.com
- (envelope-from <jason-jh.lin@mediatek.com>)
- (Generic MTA with TLSv1.2 ECDHE-RSA-AES256-SHA384 256/256)
- with ESMTP id 1157346516; Fri, 15 Apr 2022 16:39:15 +0800
-Received: from mtkexhb01.mediatek.inc (172.21.101.102) by
- mtkmbs07n1.mediatek.inc (172.21.101.16) with Microsoft SMTP Server (TLS) id
+Received: from mailgw01.mediatek.com (unknown [60.244.123.138])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 6D78311210C
+ for <dri-devel@lists.freedesktop.org>; Fri, 15 Apr 2022 08:39:22 +0000 (UTC)
+X-UUID: ee6d34eaf284476094c625c42a7d9326-20220415
+X-CID-P-RULE: Release_Ham
+X-CID-O-INFO: VERSION:1.1.4, REQID:7007f150-5338-47d8-811a-a6534b6daeba, OB:0,
+ LO
+ B:30,IP:0,URL:8,TC:0,Content:0,EDM:0,RT:0,SF:100,FILE:0,RULE:Release_Ham,A
+ CTION:release,TS:108
+X-CID-INFO: VERSION:1.1.4, REQID:7007f150-5338-47d8-811a-a6534b6daeba, OB:0,
+ LOB:
+ 30,IP:0,URL:8,TC:0,Content:0,EDM:0,RT:0,SF:100,FILE:0,RULE:Spam_GS981B3D,A
+ CTION:quarantine,TS:108
+X-CID-META: VersionHash:faefae9, CLOUDID:34a27b78-0afa-4dca-bdec-ca54c998425a,
+ C
+ OID:FAIL,Recheck:0,SF:13|15|28|16|19|48,TC:nil,Content:0,EDM:-3,File:nil,Q
+ S:0,BEC:nil
+X-UUID: ee6d34eaf284476094c625c42a7d9326-20220415
+Received: from mtkmbs10n2.mediatek.inc [(172.21.101.183)] by
+ mailgw01.mediatek.com (envelope-from <jason-jh.lin@mediatek.com>)
+ (Generic MTA with TLSv1.2 ECDHE-RSA-AES256-GCM-SHA384 256/256)
+ with ESMTP id 1257759621; Fri, 15 Apr 2022 16:39:15 +0800
+Received: from mtkexhb02.mediatek.inc (172.21.101.103) by
+ mtkmbs07n2.mediatek.inc (172.21.101.141) with Microsoft SMTP Server (TLS) id
  15.0.1497.2; Fri, 15 Apr 2022 16:39:14 +0800
-Received: from mtkcas11.mediatek.inc (172.21.101.40) by mtkexhb01.mediatek.inc
- (172.21.101.102) with Microsoft SMTP Server (TLS) id 15.0.1497.2;
+Received: from mtkcas11.mediatek.inc (172.21.101.40) by mtkexhb02.mediatek.inc
+ (172.21.101.103) with Microsoft SMTP Server (TLS) id 15.0.1497.2;
  Fri, 15 Apr 2022 16:39:13 +0800
 Received: from mtksdccf07.mediatek.inc (172.21.84.99) by mtkcas11.mediatek.inc
  (172.21.101.73) with Microsoft SMTP Server id 15.0.1497.2 via
@@ -32,10 +45,10 @@ To: Rob Herring <robh+dt@kernel.org>, Krzysztof Kozlowski
  <krzk+dt@kernel.org>, Matthias Brugger <matthias.bgg@gmail.com>, "Chun-Kuang
  Hu" <chunkuang.hu@kernel.org>, AngeloGioacchino Del Regno
  <angelogioacchino.delregno@collabora.com>
-Subject: [PATCH v19 01/10] dt-bindings: arm: mediatek: mmsys: add power and
- gce properties
-Date: Fri, 15 Apr 2022 16:39:02 +0800
-Message-ID: <20220415083911.5186-2-jason-jh.lin@mediatek.com>
+Subject: [PATCH v19 02/10] dt-bindings: arm: mediatek: mmsys: add mt8195 SoC
+ binding
+Date: Fri, 15 Apr 2022 16:39:03 +0800
+Message-ID: <20220415083911.5186-3-jason-jh.lin@mediatek.com>
 X-Mailer: git-send-email 2.18.0
 In-Reply-To: <20220415083911.5186-1-jason-jh.lin@mediatek.com>
 References: <20220415083911.5186-1-jason-jh.lin@mediatek.com>
@@ -63,72 +76,35 @@ Cc: devicetree@vger.kernel.org, "jason-jh . lin" <jason-jh.lin@mediatek.com>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Power:
-1. Add description for power-domains property.
+In the SoC before, such as mt8173, it has 2 pipelines binding to one
+mmsys with the same clock driver and the same power domain.
 
-GCE:
-1. Add description for mboxes property.
-2. Add description for mediatek,gce-client-reg property.
+In mt8195, there are 4 pipelines binding to 4 different mmsys, such as
+vdosys0, vdosys1, vppsys0 and vppsys1.
+Each mmsys uses different clock drivers and different power domain.
+
+Since each mmsys has its own mmio base address, they could be identified
+by their different address during probe time.
 
 Signed-off-by: jason-jh.lin <jason-jh.lin@mediatek.com>
-Reviewed-by: AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>
 Reviewed-by: CK Hu <ck.hu@mediatek.com>
+Reviewed-by: AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>
 ---
- .../bindings/arm/mediatek/mediatek,mmsys.yaml | 31 +++++++++++++++++++
- 1 file changed, 31 insertions(+)
+ .../devicetree/bindings/arm/mediatek/mediatek,mmsys.yaml         | 1 +
+ 1 file changed, 1 insertion(+)
 
 diff --git a/Documentation/devicetree/bindings/arm/mediatek/mediatek,mmsys.yaml b/Documentation/devicetree/bindings/arm/mediatek/mediatek,mmsys.yaml
-index b31d90dc9eb4..6c2c3edcd443 100644
+index 6c2c3edcd443..6ad023eec193 100644
 --- a/Documentation/devicetree/bindings/arm/mediatek/mediatek,mmsys.yaml
 +++ b/Documentation/devicetree/bindings/arm/mediatek/mediatek,mmsys.yaml
-@@ -41,6 +41,30 @@ properties:
-   reg:
-     maxItems: 1
- 
-+  power-domains:
-+    description:
-+      A phandle and PM domain specifier as defined by bindings
-+      of the power controller specified by phandle. See
-+      Documentation/devicetree/bindings/power/power-domain.yaml for details.
-+
-+  mboxes:
-+    description:
-+      Using mailbox to communicate with GCE, it should have this
-+      property and list of phandle, mailbox specifiers. See
-+      Documentation/devicetree/bindings/mailbox/mtk-gce.txt for details.
-+    $ref: /schemas/types.yaml#/definitions/phandle-array
-+
-+  mediatek,gce-client-reg:
-+    description:
-+      The register of client driver can be configured by gce with 4 arguments
-+      defined in this property, such as phandle of gce, subsys id,
-+      register offset and size.
-+      Each subsys id is mapping to a base address of display function blocks
-+      register which is defined in the gce header
-+      include/dt-bindings/gce/<chip>-gce.h.
-+    $ref: /schemas/types.yaml#/definitions/phandle-array
-+    maxItems: 1
-+
-   "#clock-cells":
-     const: 1
- 
-@@ -56,9 +80,16 @@ additionalProperties: false
- 
- examples:
-   - |
-+    #include <dt-bindings/power/mt8173-power.h>
-+    #include <dt-bindings/gce/mt8173-gce.h>
-+
-     mmsys: syscon@14000000 {
-         compatible = "mediatek,mt8173-mmsys", "syscon";
-         reg = <0x14000000 0x1000>;
-+        power-domains = <&spm MT8173_POWER_DOMAIN_MM>;
-         #clock-cells = <1>;
-         #reset-cells = <1>;
-+        mboxes = <&gce 0 CMDQ_THR_PRIO_HIGHEST>,
-+                 <&gce 1 CMDQ_THR_PRIO_HIGHEST>;
-+        mediatek,gce-client-reg = <&gce SUBSYS_1400XXXX 0 0x1000>;
-     };
+@@ -31,6 +31,7 @@ properties:
+               - mediatek,mt8183-mmsys
+               - mediatek,mt8186-mmsys
+               - mediatek,mt8192-mmsys
++              - mediatek,mt8195-mmsys
+               - mediatek,mt8365-mmsys
+           - const: syscon
+       - items:
 -- 
 2.18.0
 
