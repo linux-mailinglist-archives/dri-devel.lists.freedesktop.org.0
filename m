@@ -1,41 +1,48 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0C4D850280E
-	for <lists+dri-devel@lfdr.de>; Fri, 15 Apr 2022 12:17:05 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id C70B7502816
+	for <lists+dri-devel@lfdr.de>; Fri, 15 Apr 2022 12:18:51 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 20A4E10E864;
-	Fri, 15 Apr 2022 10:17:00 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id C518510E87E;
+	Fri, 15 Apr 2022 10:18:49 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from perceval.ideasonboard.com (perceval.ideasonboard.com
- [213.167.242.64])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 9ADA010E864
- for <dri-devel@lists.freedesktop.org>; Fri, 15 Apr 2022 10:16:58 +0000 (UTC)
-Received: from pendragon.ideasonboard.com (85-76-80-250-nat.elisa-mobile.fi
- [85.76.80.250])
- by perceval.ideasonboard.com (Postfix) with ESMTPSA id 32E9F482;
- Fri, 15 Apr 2022 12:16:56 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
- s=mail; t=1650017816;
- bh=N5czrActOay1ucRY4p9jaOGU8VLry60tUKy74HLwMug=;
- h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
- b=qtLK5EX95DnmHLF2fNvoiTXs0x6vnL7FQZn0NPAdBXSn/hBDuZ+OlsfYs6xcOSi3Q
- QLAe2SV/SVDkulc46fnjjeEXwU9ViQEffgR6eaWBzRZH4tycRMjXxB+6oYycpO89v9
- TuzjSYNz1yj+kWtwJ44FgHnrre9oY1w7K0dmfx1U=
-Date: Fri, 15 Apr 2022 13:16:53 +0300
-From: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-To: Biju Das <biju.das.jz@bp.renesas.com>
-Subject: Re: [PATCH v2 1/2] dt-bindings: display: bridge: Document RZ/G2L
- MIPI DSI TX bindings
-Message-ID: <YllGFRx3RZjJliTS@pendragon.ideasonboard.com>
-References: <20220328064931.11612-1-biju.das.jz@bp.renesas.com>
- <20220328064931.11612-2-biju.das.jz@bp.renesas.com>
+Received: from bhuna.collabora.co.uk (bhuna.collabora.co.uk
+ [IPv6:2a00:1098:0:82:1000:25:2eeb:e3e3])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 3408510E87E
+ for <dri-devel@lists.freedesktop.org>; Fri, 15 Apr 2022 10:18:48 +0000 (UTC)
+Received: from [127.0.0.1] (localhost [127.0.0.1])
+ (Authenticated sender: kholk11) with ESMTPSA id 1DA451F42643
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
+ s=mail; t=1650017926;
+ bh=3nskTfZWuZt2VYfDTgr6VDBD1IupgXRqxVExf8eBPqo=;
+ h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
+ b=oWz+8ZzASpEwN75z0H5uTPpshi0t04pw3CFLlWv3acCqEWSpUSoH7nX85QJ4TqtRM
+ PzcmmKGeHS61PhbSXOASlYe5hww5Bi5We9/cBVcKomj3w3u4KTGLt1RMZoNG63lxKl
+ +e1hY8vl9k11L0lCKQ2HyfQ3lufxPGQvnL/lCGTIwq41qjxZM7uwbObthIF3gr7Sab
+ mlQmyaiGM4dPvttuniDtFW0QSGSTiECAiRMGA0qVbJd+8mqF/J/Ys3SK5dMt6LpUd1
+ TOsvvEWwjJcYF2ni97/d/01YrjCZSKa/NXLEL4uqZodTqNHBJnWwjS8yX2/EXKKKML
+ SuX82+wPvJBEA==
+Message-ID: <3a905d21-26a7-654f-4ab7-7ad1fa1376c6@collabora.com>
+Date: Fri, 15 Apr 2022 12:18:43 +0200
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-In-Reply-To: <20220328064931.11612-2-biju.das.jz@bp.renesas.com>
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.7.0
+Subject: Re: [PATCH v19 03/10] soc: mediatek: add mtk-mmsys support for mt8195
+ vdosys0
+Content-Language: en-US
+To: "jason-jh.lin" <jason-jh.lin@mediatek.com>,
+ Rob Herring <robh+dt@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>,
+ Matthias Brugger <matthias.bgg@gmail.com>,
+ Chun-Kuang Hu <chunkuang.hu@kernel.org>
+References: <20220415083911.5186-1-jason-jh.lin@mediatek.com>
+ <20220415083911.5186-4-jason-jh.lin@mediatek.com>
+From: AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>
+In-Reply-To: <20220415083911.5186-4-jason-jh.lin@mediatek.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -48,237 +55,64 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: devicetree@vger.kernel.org, Chris Paterson <Chris.Paterson2@renesas.com>,
- Geert Uytterhoeven <geert+renesas@glider.be>, David Airlie <airlied@linux.ie>,
- Prabhakar Mahadev Lad <prabhakar.mahadev-lad.rj@bp.renesas.com>,
- dri-devel@lists.freedesktop.org, Biju Das <biju.das@bp.renesas.com>,
- linux-renesas-soc@vger.kernel.org, Rob Herring <robh+dt@kernel.org>
+Cc: devicetree@vger.kernel.org, Singo Chang <singo.chang@mediatek.com>,
+ linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
+ Project_Global_Chrome_Upstream_Group@mediatek.com,
+ Nancy Lin <nancy.lin@mediatek.com>, linux-mediatek@lists.infradead.org,
+ linux-arm-kernel@lists.infradead.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi Biju,
-
-Thank you for the patch.
-
-On Mon, Mar 28, 2022 at 07:49:30AM +0100, Biju Das wrote:
-> The RZ/G2L MIPI DSI TX is embedded in the Renesas RZ/G2L family SoC's. It
-> can operate in DSI mode, with up to four data lanes.
+Il 15/04/22 10:39, jason-jh.lin ha scritto:
+> 1. Add mt8195 mmsys compatible for 2 vdosys.
+> 2. Add io_start into each driver data of mt8195 vdosys.
+> 3. Add get match data function to identify mmsys by io_start.
+> 4. Add mt8195 routing table settings of vdosys0.
 > 
-> Signed-off-by: Biju Das <biju.das.jz@bp.renesas.com>
-> ---
-> v1->v2:
->  * Added full path for dsi-controller.yaml
->  * Modeled DSI + D-PHY as single block and updated reg property
->  * Fixed typo D_PHY->D-PHY
->  * Updated description
->  * Added interrupts and interrupt-names and updated the example 
-> RFC->v1:
->  * Added a ref to dsi-controller.yaml.
-> RFC:-
->  * https://patchwork.kernel.org/project/linux-renesas-soc/patch/20220112174612.10773-22-biju.das.jz@bp.renesas.com/
-> ---
->  .../bindings/display/bridge/renesas,dsi.yaml  | 175 ++++++++++++++++++
->  1 file changed, 175 insertions(+)
->  create mode 100644 Documentation/devicetree/bindings/display/bridge/renesas,dsi.yaml
+> Signed-off-by: jason-jh.lin <jason-jh.lin@mediatek.com>
+
+Unless anyone wants this commit to be split in two, one for the match data
+and one for the mt8195 addition, it looks almost good to me, apart one small
+change that has to be done, check below:
+
+
+> --- >   drivers/soc/mediatek/mt8195-mmsys.h    | 370 +++++++++++++++++++++++++
+>   drivers/soc/mediatek/mtk-mmsys.c       | 152 +++++++++-
+>   drivers/soc/mediatek/mtk-mmsys.h       |   6 +
+>   include/linux/soc/mediatek/mtk-mmsys.h |  11 +
+>   4 files changed, 528 insertions(+), 11 deletions(-)
+>   create mode 100644 drivers/soc/mediatek/mt8195-mmsys.h
 > 
-> diff --git a/Documentation/devicetree/bindings/display/bridge/renesas,dsi.yaml b/Documentation/devicetree/bindings/display/bridge/renesas,dsi.yaml
-> new file mode 100644
-> index 000000000000..eebbf617c484
-> --- /dev/null
-> +++ b/Documentation/devicetree/bindings/display/bridge/renesas,dsi.yaml
-> @@ -0,0 +1,175 @@
-> +# SPDX-License-Identifier: (GPL-2.0-only OR BSD-2-Clause)
-> +%YAML 1.2
-> +---
-> +$id: http://devicetree.org/schemas/display/bridge/renesas,dsi.yaml#
-> +$schema: http://devicetree.org/meta-schemas/core.yaml#
-> +
-> +title: Renesas RZ/G2L MIPI DSI Encoder
-> +
-> +maintainers:
-> +  - Biju Das <biju.das.jz@bp.renesas.com>
-> +
-> +description: |
-> +  This binding describes the MIPI DSI encoder embedded in the Renesas
-> +  RZ/G2L alike family of SoC's. The encoder can operate in DSI mode, with
-> +  up to four data lanes.
-> +
-> +allOf:
-> +  - $ref: /schemas/display/dsi-controller.yaml#
-> +
-> +properties:
-> +  compatible:
-> +    enum:
-> +      - renesas,rzg2l-mipi-dsi # RZ/G2L and RZ/V2L
-> +
-> +  reg:
-> +    maxItems: 1
-> +
-> +  interrupts:
-> +    items:
-> +      - description: Sequence operation channel 0 interrupt
-> +      - description: Sequence operation channel 1 interrupt
-> +      - description: Video-Input operation channel 1 interrupt
-> +      - description: DSI Packet Receive interrupt
-> +      - description: DSI Fatal Error interrupt
-> +      - description: DSI D-PHY PPI interrupt
-> +      - description: Debug interrupt
-> +
-> +  interrupt-names:
-> +    items:
-> +      - const: seq0
-> +      - const: seq1
-> +      - const: vin1
-> +      - const: rcv
-> +      - const: ferr
-> +      - const: ppi
-> +      - const: debug
-> +
-> +  clocks:
-> +    items:
-> +      - description: DSI D-PHY PLL multiplied clock
-> +      - description: DSI D-PHY system clock
-> +      - description: DSI AXI bus clock
-> +      - description: DSI Register access clock
-> +      - description: DSI Video clock
-> +      - description: DSI D-PHY Escape mode Receive clock
 
-Isn't this the escape mode *transmit* clock ?
+..snip..
 
-> +
-> +  clock-names:
-> +    items:
-> +      - const: pllclk
-> +      - const: sysclk
-> +      - const: aclk
-> +      - const: pclk
-> +      - const: vclk
-> +      - const: lpclk
-> +
-> +  resets:
-> +    items:
-> +      - description: MIPI_DSI_CMN_RSTB
-> +      - description: MIPI_DSI_ARESET_N
-> +      - description: MIPI_DSI_PRESET_N
-> +
-> +  reset-names:
-> +    items:
-> +      - const: rst
-> +      - const: arst
-> +      - const: prst
-> +
-> +  power-domains:
-> +    maxItems: 1
-> +
-> +  ports:
-> +    $ref: /schemas/graph.yaml#/properties/ports
-> +
-> +    properties:
-> +      port@0:
-> +        $ref: /schemas/graph.yaml#/properties/port
-> +        description: Parallel input port
-> +
-> +      port@1:
-> +        $ref: /schemas/graph.yaml#/$defs/port-base
-> +        unevaluatedProperties: false
-> +        description: DSI output port
-> +
-> +        properties:
-> +          endpoint:
-> +            $ref: /schemas/media/video-interfaces.yaml#
-> +            unevaluatedProperties: false
-> +
-> +            properties:
-> +              data-lanes:
-> +                minItems: 1
-> +                maxItems: 4
+> diff --git a/drivers/soc/mediatek/mtk-mmsys.h b/drivers/soc/mediatek/mtk-mmsys.h
+> index 77f37f8c715b..21cf300ba864 100644
+> --- a/drivers/soc/mediatek/mtk-mmsys.h
+> +++ b/drivers/soc/mediatek/mtk-mmsys.h
+> @@ -87,12 +87,18 @@ struct mtk_mmsys_routes {
+>   };
+>   
+>   struct mtk_mmsys_driver_data {
+> +	const u32 io_start;
 
-You should specify the acceptable values, especially given that the
-hardware doesn't seem to support lane reordering.
+I agree with you that this iostart is in 32bits boundaries, and that this will
+practically never change... and I was in doubt whether this would be acceptable
+or not, because of saving some memory.
 
-> +
-> +            required:
-> +              - data-lanes
-> +
-> +    required:
-> +      - port@0
-> +      - port@1
-> +
-> +required:
-> +  - compatible
-> +  - reg
-> +  - interrupts
-> +  - interrupt-names
-> +  - clocks
-> +  - clock-names
-> +  - resets
-> +  - reset-names
-> +  - power-domains
-> +  - ports
-> +
-> +additionalProperties: false
-> +
-> +examples:
-> +  - |
-> +    #include <dt-bindings/interrupt-controller/arm-gic.h>
-> +    #include <dt-bindings/clock/r9a07g044-cpg.h>
+Even though I would really love to have the savings, in order to avoid having any
+"surprises" in the future (any future breakage for "reasons"), we shall comply
+with the kernel types, so, this has to be...
 
-Could you please swap those two lines to get them sorted alphabetically
-?
+	const resource_size_t io_start;
 
-With these comments addressed,
+...and this is the same for both this file and mtk_drm_drv.h, which you modify in
+patch 07/10.
 
-Reviewed-by: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+After fixing that:
 
-> +
-> +    dsi0: dsi@10850000 {
-> +        compatible = "renesas,rzg2l-mipi-dsi";
-> +        reg = <0x10850000 0x20000>;
-> +        interrupts = <GIC_SPI 142 IRQ_TYPE_LEVEL_HIGH>,
-> +                     <GIC_SPI 143 IRQ_TYPE_LEVEL_HIGH>,
-> +                     <GIC_SPI 144 IRQ_TYPE_LEVEL_HIGH>,
-> +                     <GIC_SPI 145 IRQ_TYPE_LEVEL_HIGH>,
-> +                     <GIC_SPI 146 IRQ_TYPE_LEVEL_HIGH>,
-> +                     <GIC_SPI 147 IRQ_TYPE_LEVEL_HIGH>,
-> +                     <GIC_SPI 148 IRQ_TYPE_LEVEL_HIGH>;
-> +        interrupt-names = "seq0", "seq1", "vin1", "rcv",
-> +                          "ferr", "ppi", "debug";
-> +        clocks = <&cpg CPG_MOD R9A07G044_MIPI_DSI_PLLCLK>,
-> +                 <&cpg CPG_MOD R9A07G044_MIPI_DSI_SYSCLK>,
-> +                 <&cpg CPG_MOD R9A07G044_MIPI_DSI_ACLK>,
-> +                 <&cpg CPG_MOD R9A07G044_MIPI_DSI_PCLK>,
-> +                 <&cpg CPG_MOD R9A07G044_MIPI_DSI_VCLK>,
-> +                 <&cpg CPG_MOD R9A07G044_MIPI_DSI_LPCLK>;
-> +        clock-names = "pllclk", "sysclk", "aclk", "pclk", "vclk", "lpclk";
-> +        resets = <&cpg R9A07G044_MIPI_DSI_CMN_RSTB>,
-> +                 <&cpg R9A07G044_MIPI_DSI_ARESET_N>,
-> +                 <&cpg R9A07G044_MIPI_DSI_PRESET_N>;
-> +        reset-names = "rst", "arst", "prst";
-> +        power-domains = <&cpg>;
-> +
-> +        ports {
-> +            #address-cells = <1>;
-> +            #size-cells = <0>;
-> +
-> +            port@0 {
-> +                reg = <0>;
-> +                dsi0_in: endpoint {
-> +                    remote-endpoint = <&du_out_dsi0>;
-> +                };
-> +            };
-> +
-> +            port@1 {
-> +                reg = <1>;
-> +                dsi0_out: endpoint {
-> +                    data-lanes = <1 2 3 4>;
-> +                    remote-endpoint = <&adv7535_in>;
-> +                };
-> +            };
-> +        };
-> +    };
-> +...
+Reviewed-by: AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>
 
--- 
-Regards,
 
-Laurent Pinchart
+Cheers,
+Angelo
