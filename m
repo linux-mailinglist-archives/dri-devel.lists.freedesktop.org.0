@@ -1,65 +1,66 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7D005502FF2
-	for <lists+dri-devel@lfdr.de>; Fri, 15 Apr 2022 23:13:34 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 6748B502FF8
+	for <lists+dri-devel@lfdr.de>; Fri, 15 Apr 2022 23:17:46 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id BC77510E17E;
-	Fri, 15 Apr 2022 21:13:31 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 9767010E451;
+	Fri, 15 Apr 2022 21:17:41 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-ej1-x635.google.com (mail-ej1-x635.google.com
- [IPv6:2a00:1450:4864:20::635])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 0434F10E17E
- for <dri-devel@lists.freedesktop.org>; Fri, 15 Apr 2022 21:13:30 +0000 (UTC)
-Received: by mail-ej1-x635.google.com with SMTP id lc2so17080545ejb.12
- for <dri-devel@lists.freedesktop.org>; Fri, 15 Apr 2022 14:13:29 -0700 (PDT)
+Received: from mail-ed1-x52b.google.com (mail-ed1-x52b.google.com
+ [IPv6:2a00:1450:4864:20::52b])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 8128710E451
+ for <dri-devel@lists.freedesktop.org>; Fri, 15 Apr 2022 21:17:40 +0000 (UTC)
+Received: by mail-ed1-x52b.google.com with SMTP id s25so10641023edi.13
+ for <dri-devel@lists.freedesktop.org>; Fri, 15 Apr 2022 14:17:40 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=chromium.org; s=google;
  h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=y9/eIOcMzFXFy1UqdC2a9lha39G1K+4P4bzD5ljUCSQ=;
- b=jPU5vA6ZbtcrunKoRNu6bC3vOFR6SeSjDk+VsAVsUKEsIvsHA/5xgsx8E5ayCjXGDF
- J5XGvTMhhe+hbudmYeul0I59PtZnd3nSx5rKQRf4V6GAUbv43ITNf7kY4HhZS4Of8wLj
- tf58+zV5OWz+71wx/OPPt0WNeilQRJX/9GpgI=
+ :cc; bh=EfZB9gZ26i32vvI5wBO459/sXHKxXquhYVeMgZP1nIY=;
+ b=MNDq7I+E+p6wsMtvTjH7DSkPLNzz2b6A6JAJCsbbgqxQyaGG5VKeOkbWnr407BBF8Y
+ RRBhruC/M9VHiKDKPpJusoMXXIncG/YrsiTBGRIWnV8PMV4q2bD3ABWklQVcne2p9q47
+ ShfAUu/vn20kTQM02/YkUxqyhfoPZFVoPqCOs=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:mime-version:references:in-reply-to:from:date
  :message-id:subject:to:cc;
- bh=y9/eIOcMzFXFy1UqdC2a9lha39G1K+4P4bzD5ljUCSQ=;
- b=CCjWKX9rEsp2ptu/u9OcQLm+vp5mR1z/ypcNdhIrQbvGgpXesejiYi9uqNJDyGQi5M
- uvTbA/bVH6GzlpywQN+tgTb94RGf68wyfBWrbh7uRQBoI4w9+upPW/5+UJ+6Ek7P4IMk
- YXEqo4AAGvRoUXBYDbea6YTRUsIwtrr/0q0GDCH9zvZ1q4QlnmtViL/67iZc9TVYuRz3
- MgaZqj6TIdZfszKD9Jwtj2Mn+03q0bOwPV6dPcAqBf8usfTmXx9oeimx42uVbBL08ztM
- LlkSD8Amf9h3Ner5VSeWIqsvLMhzSpkYHEYu50VVVdiFQS2o9QbvOD2plCwvFBAmuPwr
- 5J3A==
-X-Gm-Message-State: AOAM533cfyz2ZZ2kwH4wM8YdmVC294NhOmra2sECfrJyuDy4rYfLqW+l
- IDF2WdJf7mZaZmWeh6bZWL2KuBezhSViFA==
-X-Google-Smtp-Source: ABdhPJwSS0wfeplN3mtPzxOAWsaVPNGxJERe7LRNKyqgSnZ+wtUnJ820pnAg52O3DyjXj7sSABrYCA==
-X-Received: by 2002:a17:907:2d08:b0:6e8:8e58:f70e with SMTP id
- gs8-20020a1709072d0800b006e88e58f70emr689578ejc.301.1650057207921; 
- Fri, 15 Apr 2022 14:13:27 -0700 (PDT)
-Received: from mail-wr1-f49.google.com (mail-wr1-f49.google.com.
- [209.85.221.49]) by smtp.gmail.com with ESMTPSA id
- q16-20020a056402519000b0041d77e14005sm3324056edd.82.2022.04.15.14.13.26
+ bh=EfZB9gZ26i32vvI5wBO459/sXHKxXquhYVeMgZP1nIY=;
+ b=SgvrrPbvzDGCK0E/gtztyRMP8Gq6qqAz3cNUxKpx2Hfi4Xaa/z8eY4tFHiLW5HF3tR
+ dpmGfZlsAe/22mx2QTysbI+TxRpEW2dDZh+B7vuBBokuixQtH0KYZt6/+EAV+K2a35mx
+ O6eypzexhcSTbS4fxayl+l6yAdXzMXkfhLx6KOhOxI+U0cHT77yVIPGtEHKbzp+Pgn4X
+ R3qvBg1ASs0THRJOpWan+/DwIrXEGdkaVhypYPUAGPf+A4rJ3EQpS8fXaoDZosdJ1408
+ faZsye+vkZALmA4i53B9v1HkgApL3zplpuF6FMocfNjBm0pADRqiX+OuRtHn0pDATznI
+ vwmA==
+X-Gm-Message-State: AOAM531nJdHOt7e4Pc5TJAgmDmnc3+P8kZ19PKmpJeRPVzVgiZzkj1tw
+ Q4w9W9kYNAFwOK6xVXOs1xIVlwhGh3WhXg==
+X-Google-Smtp-Source: ABdhPJy4Rao4/y6JmXuZwoRkLEQ+qAdLTVHMel6ozJorwoc0/4a9QvEJlEcixVw+6aoVkzOflUySYA==
+X-Received: by 2002:aa7:d543:0:b0:416:13eb:6fec with SMTP id
+ u3-20020aa7d543000000b0041613eb6fecmr1038477edr.348.1650057458627; 
+ Fri, 15 Apr 2022 14:17:38 -0700 (PDT)
+Received: from mail-wm1-f53.google.com (mail-wm1-f53.google.com.
+ [209.85.128.53]) by smtp.gmail.com with ESMTPSA id
+ u6-20020a17090626c600b006e74ef7f092sm2031047ejc.176.2022.04.15.14.17.37
  for <dri-devel@lists.freedesktop.org>
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Fri, 15 Apr 2022 14:13:26 -0700 (PDT)
-Received: by mail-wr1-f49.google.com with SMTP id b19so11848034wrh.11
- for <dri-devel@lists.freedesktop.org>; Fri, 15 Apr 2022 14:13:26 -0700 (PDT)
-X-Received: by 2002:a5d:47cf:0:b0:207:ac31:c2ce with SMTP id
- o15-20020a5d47cf000000b00207ac31c2cemr599612wrc.422.1650057205965; Fri, 15
- Apr 2022 14:13:25 -0700 (PDT)
+ Fri, 15 Apr 2022 14:17:37 -0700 (PDT)
+Received: by mail-wm1-f53.google.com with SMTP id
+ l62-20020a1c2541000000b0038e4570af2fso5626506wml.5
+ for <dri-devel@lists.freedesktop.org>; Fri, 15 Apr 2022 14:17:37 -0700 (PDT)
+X-Received: by 2002:a05:600c:3d0e:b0:38f:f83b:e7dc with SMTP id
+ bh14-20020a05600c3d0e00b0038ff83be7dcmr4734068wmb.29.1650057456890; Fri, 15
+ Apr 2022 14:17:36 -0700 (PDT)
 MIME-Version: 1.0
 References: <20220409023628.2104952-1-dianders@chromium.org>
- <20220408193536.RFC.1.I4182ae27e00792842cb86f1433990a0ef9c0a073@changeid>
- <a9a5dfb7-819b-d3a2-2c47-d5b239d21ad3@linaro.org>
-In-Reply-To: <a9a5dfb7-819b-d3a2-2c47-d5b239d21ad3@linaro.org>
+ <20220408193536.RFC.4.Icea616f57331fbaa3d48c529f300c9a8ebd37fb5@changeid>
+ <027b3ca1-fbd3-7bce-1ca0-ec92a5f23fee@linaro.org>
+In-Reply-To: <027b3ca1-fbd3-7bce-1ca0-ec92a5f23fee@linaro.org>
 From: Doug Anderson <dianders@chromium.org>
-Date: Fri, 15 Apr 2022 14:13:12 -0700
-X-Gmail-Original-Message-ID: <CAD=FV=WKwErpD7iCu+2jFvMutmmmgLUEhAnw8s=27wUxcpF-aQ@mail.gmail.com>
-Message-ID: <CAD=FV=WKwErpD7iCu+2jFvMutmmmgLUEhAnw8s=27wUxcpF-aQ@mail.gmail.com>
-Subject: Re: [RFC PATCH 1/6] drm/dp: Helpers to make it easier for drivers to
- use DP AUX bus properly
+Date: Fri, 15 Apr 2022 14:17:24 -0700
+X-Gmail-Original-Message-ID: <CAD=FV=Xu7b=t1C4JHF4U9BsD9wFy_x_GseJFNytHdCKvnS9DoA@mail.gmail.com>
+Message-ID: <CAD=FV=Xu7b=t1C4JHF4U9BsD9wFy_x_GseJFNytHdCKvnS9DoA@mail.gmail.com>
+Subject: Re: [RFC PATCH 4/6] drm/panel-edp: Take advantage of
+ is_hpd_asserted() in struct drm_dp_aux
 To: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
 Content-Type: text/plain; charset="UTF-8"
 X-BeenThere: dri-devel@lists.freedesktop.org
@@ -75,86 +76,87 @@ List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
 Cc: Sankeerth Billakanti <quic_sbillaka@quicinc.com>,
- Philip Chen <philipchen@chromium.org>, Thomas Zimmermann <tzimmermann@suse.de>,
- David Airlie <airlied@linux.ie>, LKML <linux-kernel@vger.kernel.org>,
- Abhinav Kumar <quic_abhinavk@quicinc.com>,
+ Philip Chen <philipchen@chromium.org>, David Airlie <airlied@linux.ie>,
+ LKML <linux-kernel@vger.kernel.org>, Abhinav Kumar <quic_abhinavk@quicinc.com>,
  Robert Foss <robert.foss@linaro.org>, Stephen Boyd <swboyd@chromium.org>,
+ Thierry Reding <thierry.reding@gmail.com>,
  dri-devel <dri-devel@lists.freedesktop.org>,
- Hsin-Yi Wang <hsinyi@chromium.org>
+ Hsin-Yi Wang <hsinyi@chromium.org>, Sam Ravnborg <sam@ravnborg.org>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 Hi,
 
-On Thu, Apr 14, 2022 at 5:47 PM Dmitry Baryshkov
+On Thu, Apr 14, 2022 at 5:51 PM Dmitry Baryshkov
 <dmitry.baryshkov@linaro.org> wrote:
 >
 > On 09/04/2022 05:36, Douglas Anderson wrote:
-> > As talked about in the kerneldoc for "struct dp_aux_ep_client" in this
-> > patch and also in the past in commit a1e3667a9835 ("drm/bridge:
-> > ti-sn65dsi86: Promote the AUX channel to its own sub-dev"), to use the
-> > DP AUX bus properly we really need two "struct device"s. One "struct
-> > device" is in charge of providing the DP AUX bus and the other is
-> > where we'll try to get a reference to the newly probed endpoint
-> > devices.
+> > Let's add support for being able to read the HPD pin even if it's
+> > hooked directly to the controller. This will allow us to get more
+> > accurate delays also lets us take away the waiting in the AUX transfer
+> > functions of the eDP controller drivers.
 > >
-> > In ti-sn65dsi86 this wasn't too difficult to accomplish. That driver
-> > is already broken up into several "struct devices" anyway because it
-> > also provides a PWM and some GPIOs. Adding one more wasn't that
-> > difficult / ugly.
+> > Signed-off-by: Douglas Anderson <dianders@chromium.org>
+> > ---
 > >
-> > When I tried to do the same solution in parade-ps8640, it felt like I
-> > was copying too much boilerplate code. I made the realization that I
-> > didn't _really_ need a separate "driver" for each person that wanted
-> > to do the same thing. By putting all the "driver" related code in a
-> > common place then we could save a bit of hassle. This change
-> > effectively adds a new "ep_client" driver that can be used by
-> > anyone. The devices instantiated by this driver will just call through
-> > to the probe/remove/shutdown calls provided.
+> >   drivers/gpu/drm/panel/panel-edp.c | 37 ++++++++++++++++++++++++++-----
+> >   1 file changed, 31 insertions(+), 6 deletions(-)
 > >
-> > At the moment, the "ep_client" driver is backed by the Linux auxiliary
-> > bus (unfortunate naming--this has nothing to do with DP AUX). I didn't
-> > want to expose this to clients, though, so as far as clients are
-> > concerned they get a vanilla "struct device".
+> > diff --git a/drivers/gpu/drm/panel/panel-edp.c b/drivers/gpu/drm/panel/panel-edp.c
+> > index 1732b4f56e38..4a143eb9544b 100644
+> > --- a/drivers/gpu/drm/panel/panel-edp.c
+> > +++ b/drivers/gpu/drm/panel/panel-edp.c
+> > @@ -417,6 +417,19 @@ static int panel_edp_get_hpd_gpio(struct device *dev, struct panel_edp *p)
+> >       return 0;
+> >   }
+> >
+> > +static bool panel_edp_can_read_hpd(struct panel_edp *p)
+> > +{
+> > +     return !p->no_hpd && (p->hpd_gpio || (p->aux && p->aux->is_hpd_asserted));
+> > +}
+> > +
+> > +static bool panel_edp_read_hpd(struct panel_edp *p)
+> > +{
+> > +     if (p->hpd_gpio)
+> > +             return gpiod_get_value_cansleep(p->hpd_gpio);
+> > +
+> > +     return p->aux->is_hpd_asserted(p->aux);
+> > +}
+> > +
+> >   static int panel_edp_prepare_once(struct panel_edp *p)
+> >   {
+> >       struct device *dev = p->base.dev;
+> > @@ -441,13 +454,21 @@ static int panel_edp_prepare_once(struct panel_edp *p)
+> >       if (delay)
+> >               msleep(delay);
+> >
+> > -     if (p->hpd_gpio) {
+> > +     if (panel_edp_can_read_hpd(p)) {
+> >               if (p->desc->delay.hpd_absent)
+> >                       hpd_wait_us = p->desc->delay.hpd_absent * 1000UL;
+> >               else
+> >                       hpd_wait_us = 2000000;
+> >
+> > -             err = readx_poll_timeout(gpiod_get_value_cansleep, p->hpd_gpio,
+> > +             /*
+> > +              * Extra max delay, mostly to account for ps8640. ps8640
+> > +              * is crazy and the bridge chip driver itself has over 200 ms
+> > +              * of delay if it needs to do the pm_runtime resume of the
+> > +              * bridge chip to read the HPD.
+> > +              */
+> > +             hpd_wait_us += 3000000;
 >
-> I have been thinking about your approach for quite some time. I think
-> that enforcing a use of auxilliary device is an overkill. What do we
-> really need is the the set callbacks in the bus struct or a notifier. We
-> have to notify the aux_bus controller side that the client has been
-> probed successfully or that the client is going to be removed.
+> I think this should come in a separate commit and ideally this should be
+> configurable somehow. Other hosts wouldn't need such 'additional' delay.
+>
+> With this change removed:
+>
+> Reviewed-by: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
 
-It seems like these new callbacks would be nearly the same as the
-probe/remove callbacks in my proposal except:
+What would you think about changing the API slightly? Instead of
+is_hpd_asserted(), we change it to wait_hpd_asserted() and it takes a
+timeout in microseconds. If you pass 0 for the timeout the function is
+defined to behave the same as is_hpd_asserted() today--AKA a single
+poll of the line.
 
-* They rely on there being exactly 1 AUX device, or we make it a rule
-that we wait for all AUX devices to probe (?)
-
-* We need to come up with a system for detecting when everything
-probes or is going to be removed, though that's probably not too hard.
-I guess the DP AUX bus could just replace the panel's probe function
-with its own and essentially "tail patch" it. I guess it could "head
-patch" the remove call? ...or is there some better way you were
-thinking of knowing when all our children probed?
-
-* The callback on the aux bus controller side would not be able to
-DEFER. In other words trying to acquire a reference to the panel can
-always be the last thing we do so we know there can be no reasons to
-defer after. This should be doable, but at least in the ps8640 case it
-will require changing the code a bit. I notice that today it actually
-tries to get the panel side _before_ it gets the MIPI side and it
-potentially can return -EPROBE_DEFER if it can't find the MIPI side. I
-guess I have a niggling feeling that we'll find some reason in the
-future that we can't be last, but we can probably ignore that. ;-)
-
-I can switch this all to normal callbacks if that's what everyone
-wants, but it doesn't feel significantly cleaner to me and does seem
-to have some (small) downsides.
-
-
-> And this
-> approach would make driver's life easier, since e.g. the bus code can
-> pm_get the EP device before calling callbacks/notifiers and
-> pm_put_autosuspend it afterwards.
-
-Not sure about doing the pm calls on behalf of the EP device. What's
-the goal there?
+-Doug
