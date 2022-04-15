@@ -1,56 +1,58 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 45FAF502F58
-	for <lists+dri-devel@lfdr.de>; Fri, 15 Apr 2022 21:41:16 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 3D1E5502F5B
+	for <lists+dri-devel@lfdr.de>; Fri, 15 Apr 2022 21:43:16 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 05CB910E22C;
-	Fri, 15 Apr 2022 19:41:12 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 3973110E2DB;
+	Fri, 15 Apr 2022 19:43:11 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-oi1-x229.google.com (mail-oi1-x229.google.com
- [IPv6:2607:f8b0:4864:20::229])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 069DD10E22C
- for <dri-devel@lists.freedesktop.org>; Fri, 15 Apr 2022 19:41:11 +0000 (UTC)
-Received: by mail-oi1-x229.google.com with SMTP id 12so9165509oix.12
- for <dri-devel@lists.freedesktop.org>; Fri, 15 Apr 2022 12:41:10 -0700 (PDT)
+Received: from mail-oo1-xc33.google.com (mail-oo1-xc33.google.com
+ [IPv6:2607:f8b0:4864:20::c33])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 7739E10E2DB
+ for <dri-devel@lists.freedesktop.org>; Fri, 15 Apr 2022 19:43:09 +0000 (UTC)
+Received: by mail-oo1-xc33.google.com with SMTP id
+ p34-20020a4a95e5000000b003248d73d460so1516585ooi.1
+ for <dri-devel@lists.freedesktop.org>; Fri, 15 Apr 2022 12:43:09 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=chromium.org; s=google;
  h=mime-version:in-reply-to:references:from:user-agent:date:message-id
  :subject:to:cc;
- bh=9F4ViBP1B5lwRe2e2GOjDx7R3bqEzOXyftxCKevZkTo=;
- b=djiFHbU71h427KMMGiu8O39Z5qNmrcZo7U8qtlL2H+qzkMAgoE3ZBXAywvKa96Fna4
- 4bVsWymVwZojVFq9YVAwHiVnjdEt24eKSIOuoQZoqLSdIWUnZDnAucNA/WNDDnhFJFvs
- XQ9u+xan4EH3Ox3JXCPkvzQVsp8yjFZMqC7qM=
+ bh=d8U0beeOnRgpffBKA26u/nuFILvGpJKtOOLZ6tEr+hI=;
+ b=OubeX/VjHjycjXmUUBY+EXLYUTjpyMeN0CjFecikN3Os5nY3jnDY+L58kLzteBD8dX
+ oqZ3xQmv29vpTtqEYXNB3e40dIGNWI+0MWGRrnEz0h4E1VFSePJpyva9XXw0HZl4abrM
+ TLeEKUhj9bEmKU6XZ/q3dcpwQAZtzq+Kgl2Ow=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:mime-version:in-reply-to:references:from
  :user-agent:date:message-id:subject:to:cc;
- bh=9F4ViBP1B5lwRe2e2GOjDx7R3bqEzOXyftxCKevZkTo=;
- b=suIDlKdiwPIASG/fmRuSZGgS5gwnlNjQuPUgpwWxjblXkPp8X0KGo/fy+Rlw7VC7/J
- yPRpO4ojXuhG/TzCx5500IjrkCYWIkFDQyoRTDynwA1ddfNys/blV69+MiElojiZCiJy
- LXZpnOH3a+Ei1WvSW/Brzy8GzfrA0k0+aZggCCBxxq6lPH4RK0TZQdqBBv+FbCAsHcWf
- NqbxnOtRdiWTx8XWmJusWFulSo3CI7CIiBwcqSWaNxNEEbJvgmYQC0WGzaKh/+mP2L9F
- RebEGysRZCeeC2PFnsUrYkeisvCTQgRobsWI2SSEP++SBVEd8XxbXXtPIipuZKfBGeGQ
- 4Kng==
-X-Gm-Message-State: AOAM532cL1RkTGKEmnT0B/Ud59p9a6W1GICOiZJcH+0isMQjrCV6DvsA
- 76tnFC69bVi4/AjrkWMyIcd0NK8pWaXEaMrYXOwVMg==
-X-Google-Smtp-Source: ABdhPJy9Jcxm6UCGAvjnJS200A66cR1gcelPmdS+jYEZAoTEUiln8LGRS79Rzd5M4yf03+OIX6kjS8zcPbz4n4TeoO8=
-X-Received: by 2002:aca:bd41:0:b0:2ec:ff42:814f with SMTP id
- n62-20020acabd41000000b002ecff42814fmr238562oif.63.1650051670191; Fri, 15 Apr
- 2022 12:41:10 -0700 (PDT)
+ bh=d8U0beeOnRgpffBKA26u/nuFILvGpJKtOOLZ6tEr+hI=;
+ b=DIOV0WShXxREny7dbXeroItFYbG2APFqhzAirP1OnSXFHz8AWEACgWvMx7gmQia9qH
+ XODOgb4E4wrVTo/nLioy++lO3drTktWjyqQwXqNlNq5xcZdU8Hag4k9UPXCrCjLegyv/
+ Qh/snDSdcNm6ADcHqC+mX3JWnMCt7Ih03x1mLTricdgoo+YEnwAvShp8KS8uF5FNxvL/
+ 4Aw+oP2sDZb1VIoXZUYdUN6EbxeiYp3O5EEa6bjLIg32J5XLhZM92obSr1loR033gTk7
+ 0L1sWTa4QL9hOL78YOvuDjulnrh2/1s5ok2874p4Qz0iMHbbI+lpIjGt4OTJmybfbrI0
+ fmtw==
+X-Gm-Message-State: AOAM531czcuO2Rk9XP364WUW5gPERKiCQxFkrkjQs6WLk3fmJjOasoxJ
+ 831u6jikzTpQd+CpI0AJKG3l0l2jlXj7fgLU5hmDdA==
+X-Google-Smtp-Source: ABdhPJwfzYrDMaHMqxqa+9iMCFn6F9al3KfQl7uVpDg7xlLlpCKzQ+uq2y0In5Wy24FshAbV42giP5SSmXcgRFrWLpY=
+X-Received: by 2002:a4a:6b49:0:b0:329:99cd:4fb8 with SMTP id
+ h9-20020a4a6b49000000b0032999cd4fb8mr196501oof.25.1650051788795; Fri, 15 Apr
+ 2022 12:43:08 -0700 (PDT)
 Received: from 753933720722 named unknown by gmailapi.google.com with
- HTTPREST; Fri, 15 Apr 2022 12:41:09 -0700
+ HTTPREST; Fri, 15 Apr 2022 12:43:08 -0700
 MIME-Version: 1.0
-In-Reply-To: <1650049782-8421-1-git-send-email-quic_abhinavk@quicinc.com>
-References: <1650049782-8421-1-git-send-email-quic_abhinavk@quicinc.com>
+In-Reply-To: <1650037276-27812-1-git-send-email-quic_khsieh@quicinc.com>
+References: <1650037276-27812-1-git-send-email-quic_khsieh@quicinc.com>
 From: Stephen Boyd <swboyd@chromium.org>
 User-Agent: alot/0.10
-Date: Fri, 15 Apr 2022 12:41:09 -0700
-Message-ID: <CAE-0n51MLxEoBegCj1eR2ee=ZP6cDqmp5tUAu+RM4XycNn3=mw@mail.gmail.com>
-Subject: Re: [PATCH] drm/msm: remove unused hotplug and edid macros from
- msm_drv.h
-To: Abhinav Kumar <quic_abhinavk@quicinc.com>, freedreno@lists.freedesktop.org
+Date: Fri, 15 Apr 2022 12:43:08 -0700
+Message-ID: <CAE-0n52aQdKUYojgGM+C-FEJeEzuRrHCNSBM8rUDxh+Qp-FUnA@mail.gmail.com>
+Subject: Re: [PATCH v6] drm/msm/dp: stop event kernel thread when DP unbind
+To: Kuogee Hsieh <quic_khsieh@quicinc.com>, agross@kernel.org, airlied@linux.ie,
+ bjorn.andersson@linaro.org, daniel@ffwll.ch, dmitry.baryshkov@linaro.org, 
+ robdclark@gmail.com, sean@poorly.run, vkoul@kernel.org
 Content-Type: text/plain; charset="UTF-8"
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -64,20 +66,45 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: dri-devel@lists.freedesktop.org, quic_khsieh@quicinc.com,
- seanpaul@chromium.org, dmitry.baryshkov@linaro.org, quic_jesszhan@quicinc.com,
- quic_aravindh@quicinc.com
+Cc: quic_sbillaka@quicinc.com, linux-arm-msm@vger.kernel.org,
+ quic_abhinavk@quicinc.com, dri-devel@lists.freedesktop.org,
+ linux-kernel@vger.kernel.org, quic_aravindh@quicinc.com,
+ freedreno@lists.freedesktop.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Quoting Abhinav Kumar (2022-04-15 12:09:42)
-> Remove unused MSM_DISPLAY_CAP_HOT_PLUG and MSM_DISPLAY_CAP_EDID
-> macros from msm_drv.h.
+Quoting Kuogee Hsieh (2022-04-15 08:41:16)
+> diff --git a/drivers/gpu/drm/msm/dp/dp_display.c b/drivers/gpu/drm/msm/dp/dp_display.c
+> index 01453db..92c9819 100644
+> --- a/drivers/gpu/drm/msm/dp/dp_display.c
+> +++ b/drivers/gpu/drm/msm/dp/dp_display.c
+> @@ -230,6 +231,14 @@ void dp_display_signal_audio_complete(struct msm_dp *dp_display)
+>         complete_all(&dp->audio_comp);
+>  }
 >
-> Even if we need these, there are drm equivalent ones present.
+> +static void dp_hpd_event_thread_stop(struct dp_display_private *dp_priv)
+> +{
+> +       kthread_stop(dp_priv->ev_tsk);
+> +
+> +}
+> +
+> +static int dp_hpd_event_thread_start(struct dp_display_private *dp_priv);
+> +
+>  static int dp_display_bind(struct device *dev, struct device *master,
+>                            void *data)
+>  {
+> @@ -280,6 +290,9 @@ static void dp_display_unbind(struct device *dev, struct device *master,
+>         struct drm_device *drm = dev_get_drvdata(master);
+>         struct msm_drm_private *priv = drm->dev_private;
 >
-> Reported-by: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
-> Signed-off-by: Abhinav Kumar <quic_abhinavk@quicinc.com>
-> ---
+> +       /* disable all HPD interrupts */
+> +       dp_catalog_hpd_config_intr(dp->catalog, DP_DP_HPD_INT_MASK, false);
+> +       dp_hpd_event_thread_stop(dp);
 
-Reviewed-by: Stephen Boyd <swboyd@chromium.org>
+It's a one line function. How about just
+
+	kthread_stop(dp->ev_tsk)
+
+>         dp_power_client_deinit(dp->power);
+>         dp_aux_unregister(dp->aux);
+>         priv->dp[dp->id] = NULL;
