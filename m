@@ -1,44 +1,45 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4739A502856
-	for <lists+dri-devel@lfdr.de>; Fri, 15 Apr 2022 12:32:48 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id D4C5A502858
+	for <lists+dri-devel@lfdr.de>; Fri, 15 Apr 2022 12:32:52 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 9DE6110F333;
-	Fri, 15 Apr 2022 10:32:45 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 57AAC10F330;
+	Fri, 15 Apr 2022 10:32:50 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from bhuna.collabora.co.uk (bhuna.collabora.co.uk [46.235.227.227])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 7F65310F332
- for <dri-devel@lists.freedesktop.org>; Fri, 15 Apr 2022 10:32:44 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id B740410F330
+ for <dri-devel@lists.freedesktop.org>; Fri, 15 Apr 2022 10:32:48 +0000 (UTC)
 Received: from [127.0.0.1] (localhost [127.0.0.1])
- (Authenticated sender: kholk11) with ESMTPSA id 528AC1F47E6A
+ (Authenticated sender: kholk11) with ESMTPSA id C85F21F47E6B
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
- s=mail; t=1650018763;
- bh=o3B0CJoa73EGtPrdPd8q/dHzTCP0JQ19PFMotaGHh2Q=;
+ s=mail; t=1650018767;
+ bh=nlyT9uQbkjzioWEO7W6j0Auq0HCeIzNo2fkjz3Pa5Bo=;
  h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
- b=YqgqgY818zgL/yZrmonREhd9kAKts0WzHOubFJUu6GJkIk56jwELmHZwGW5VYtRyN
- vk20W1Xz3jFZrrMXKKDlutccF5JiELA6uk2VtqhTeWAQpcHMlooYZnKuqHZdAKu0aI
- roIEvtF1YVIzj0EkC02uolZ1tMmxsSmUEZoUgr2MFmt0PpA5HONPJ3JFmBkrhUnrjx
- iLqX24u0djPJhCFfXhV2wg6BbnUdVRpjxLePK9fu95GRGHWrZu2cTd6k4ILRikTXTO
- fy3juF6JCaeYmbnKptYT/3SK+dqUws7nHZhwuaHwAmkv0KbVPW5IIUgWZVfCCi5b+W
- GMe2ZE3qfHHUw==
-Message-ID: <387ede3f-20be-cb84-f343-f68c75eaf5fd@collabora.com>
-Date: Fri, 15 Apr 2022 12:32:40 +0200
+ b=PhpUX9sJw3idQnExRhUN2jNHlw5zgo9InQmuXeIt/zr3f9kXox4eLopzl46snvjoK
+ PW44SeAuzTuIPuiCHcpCu9Wf0/7GrabvSMNLTqZs+oFp9f5P7qC5UcNb7i0UTn0U6r
+ G1c9zNMf1Bvjk79ml8RoYpQ3t8PmyU6ViAo0taWQCD92hkFrPAbj+5HZDvAcDmrPB4
+ cDDnyOpmn08p0cbZO06axCyBwNBbarJVSu5PP+ulbn5o1EKYBCdDIjOB5TPHf/mvwj
+ SvOnSkoXSgJhn24uopJkFOU6dDwq0lQm/eWYXmk1xYKTIqnBGCMTQDEoUpuj0wsR03
+ 8NoqlVfBgFyYQ==
+Message-ID: <7f5a4307-b28d-1072-ee1d-752b3761bc30@collabora.com>
+Date: Fri, 15 Apr 2022 12:32:43 +0200
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
  Thunderbird/91.7.0
-Subject: Re: [PATCH v19 10/10] soc: mediatek: remove DDP_DOMPONENT_DITHER enum
+Subject: Re: [PATCH v19 09/10] drm/mediatek: add postfix 0 to
+ DDP_COMPONENT_DITHER for mt8195 vdosys0
 Content-Language: en-US
 To: "jason-jh.lin" <jason-jh.lin@mediatek.com>,
  Rob Herring <robh+dt@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>,
  Matthias Brugger <matthias.bgg@gmail.com>,
  Chun-Kuang Hu <chunkuang.hu@kernel.org>
 References: <20220415083911.5186-1-jason-jh.lin@mediatek.com>
- <20220415083911.5186-11-jason-jh.lin@mediatek.com>
+ <20220415083911.5186-10-jason-jh.lin@mediatek.com>
 From: AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>
-In-Reply-To: <20220415083911.5186-11-jason-jh.lin@mediatek.com>
+In-Reply-To: <20220415083911.5186-10-jason-jh.lin@mediatek.com>
 Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 7bit
 X-BeenThere: dri-devel@lists.freedesktop.org
@@ -62,19 +63,17 @@ Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 Il 15/04/22 10:39, jason-jh.lin ha scritto:
-> After mmsys and drm change DITHER enum to DDP_COMPONENT_DITHER0,
-> mmsys header can remove the useless DDP_COMPONENT_DITHER enum.
+> Because mt8195 vdosys0 has 2 DITHER components,
+> so the postfix 0 need to be added to DDP_COMPONENT_DITHER.
+> 
+> Then DITHER enum will become:
+> DDP_COMPONENT_DITHER0 and DDP_COMPONENT_DITHER1.
 > 
 > Signed-off-by: jason-jh.lin <jason-jh.lin@mediatek.com>
 
-Can you please fix the commit title with:
-soc: mediatek: remove DDP_DOMPONENT_DITHER from enum
+I think that "postfix" should be "suffix" instead :)))
 
-that "from" is important, as you're not removing *an enum*, but *from an enum*.
-
-After that:
+In any case:
 
 Reviewed-by: AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>
 
-Thanks!
-Angelo
