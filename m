@@ -1,60 +1,53 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1DFD2503042
-	for <lists+dri-devel@lfdr.de>; Sat, 16 Apr 2022 00:12:11 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 225BC50304C
+	for <lists+dri-devel@lfdr.de>; Sat, 16 Apr 2022 00:34:41 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 3732110E274;
-	Fri, 15 Apr 2022 22:12:07 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 7422310E591;
+	Fri, 15 Apr 2022 22:34:37 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-yw1-x112c.google.com (mail-yw1-x112c.google.com
- [IPv6:2607:f8b0:4864:20::112c])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 20E7C10E274
- for <dri-devel@lists.freedesktop.org>; Fri, 15 Apr 2022 22:12:06 +0000 (UTC)
-Received: by mail-yw1-x112c.google.com with SMTP id
- 00721157ae682-2ef4a241cc5so87423957b3.2
- for <dri-devel@lists.freedesktop.org>; Fri, 15 Apr 2022 15:12:06 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=HsqXPexxYMVzLMlPpbKlOEvSDCYnqmBjUtOeVDxLnZs=;
- b=xhQ2AvW2Z1zqui2BTplZgbziBOulqJ1GuEv2l+ti0mytPxdwPTOduV9Lrd4EgKLZdZ
- vj5ZF1Q43oH0HPPhlIrcQRoilFOuoQgXAQYZSIaQJabLjs5hzu0wl1IDPDAgAuxVnyLa
- bz3LtuVl/3q62ZTWdbmPPYEV4Rsa8vuMAjxYIVi1dzDNcrIffKYS/QFyrZeg+N4c/EZQ
- JVZDNcplKTS6kZzFpXT+zas/cBQ7qUNYRWhMYcz652wAwfwVX2z6TwMiwoFRNsmvjR38
- tm7xFqAV7CjcM5ru5ce2mlRxMMR8gY/krWL7n1RMuLyGTX1O7lwAgPRUjb4uXkEwp+h9
- 7nUw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=HsqXPexxYMVzLMlPpbKlOEvSDCYnqmBjUtOeVDxLnZs=;
- b=quw4GaWkYH3gWcP50IKekjgCeo/3YtZ28dE+R0hEJXr7xhYAzqAbdWBENQ0qKHivob
- nSJHBvDsPjZX/qI1k1L8KhfI0ePHXxNAu9VvOkYXFyLxxb2R/hfqN8iiHPvH2CmVdJsy
- 0kFIX6h3b+uR6vvTY1Nk60h06Dplr7PiSixpP5AGyu1NtaFMo/lb4/+ooUKBpxTQU7wz
- hJ8wQjaWjNwog3+N/5S5lCCHrLDHocZNnHKrvHYMPTqFx1BNNZxyZUTl6u+BdcqAdVps
- 5YqFmXdVX+/n254FfTWd44wwz6mk+fQPYepIjeMoPHevX9R23BIp6YHD+VPcLRRf8u5l
- aO8g==
-X-Gm-Message-State: AOAM530h3erzflGNZo7zI8gJdV10XvWy/nZ4JLV1CUNMxAyL45tYk8km
- U49YoaS6dTPs4lPe9R5ZY1sjLWlopoZQyjEbqUCdDg==
-X-Google-Smtp-Source: ABdhPJzVoea4GIffohnCRr22ILa4ZrD82KPISDU+95GM4vH11cc3D6jmkGCqIQXE5NvprUoyY23DR23ZMd3mngkY9ts=
-X-Received: by 2002:a81:753:0:b0:2eb:ebe9:ff4f with SMTP id
- 80-20020a810753000000b002ebebe9ff4fmr886197ywh.255.1650060725233; Fri, 15 Apr
- 2022 15:12:05 -0700 (PDT)
+Received: from alexa-out.qualcomm.com (alexa-out.qualcomm.com [129.46.98.28])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 6476D10E58F;
+ Fri, 15 Apr 2022 22:34:35 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=quicinc.com; i=@quicinc.com; q=dns/txt; s=qcdkim;
+ t=1650062075; x=1681598075;
+ h=from:to:cc:subject:date:message-id:mime-version;
+ bh=o/HV9s9lv9zjgBZx+QtiLCFu/+L4N3sd59MWiWC0EbQ=;
+ b=SHWKq4Zn1xpt7tM7PxhRitzGN8NTUI0UeFj2EXEMRaPRTwT1sr6KOect
+ whDNbXpBb6WZ7Z7m45HiAmP8234RVn465ps/lGBlJNro0sUKlhBlQlBNx
+ eZcy8FCBv7wMCoJ/4e2U4tfRfGPuqaJdMPVJbQOTrlIyJbaWOd2+Q71Nc Y=;
+Received: from ironmsg07-lv.qualcomm.com ([10.47.202.151])
+ by alexa-out.qualcomm.com with ESMTP; 15 Apr 2022 15:34:34 -0700
+X-QCInternal: smtphost
+Received: from nasanex01c.na.qualcomm.com ([10.47.97.222])
+ by ironmsg07-lv.qualcomm.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 15 Apr 2022 15:34:34 -0700
+Received: from nalasex01a.na.qualcomm.com (10.47.209.196) by
+ nasanex01c.na.qualcomm.com (10.47.97.222) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.2.986.22; Fri, 15 Apr 2022 15:34:34 -0700
+Received: from khsieh-linux1.qualcomm.com (10.80.80.8) by
+ nalasex01a.na.qualcomm.com (10.47.209.196) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.2.986.22; Fri, 15 Apr 2022 15:34:33 -0700
+From: Kuogee Hsieh <quic_khsieh@quicinc.com>
+To: <robdclark@gmail.com>, <sean@poorly.run>, <swboyd@chromium.org>,
+ <vkoul@kernel.org>, <daniel@ffwll.ch>, <airlied@linux.ie>,
+ <agross@kernel.org>, <dmitry.baryshkov@linaro.org>,
+ <bjorn.andersson@linaro.org>
+Subject: [PATCH v7] drm/msm/dp: stop event kernel thread when DP unbind
+Date: Fri, 15 Apr 2022 15:34:24 -0700
+Message-ID: <1650062064-11838-1-git-send-email-quic_khsieh@quicinc.com>
+X-Mailer: git-send-email 2.7.4
 MIME-Version: 1.0
-References: <20220409023628.2104952-1-dianders@chromium.org>
- <20220408193536.RFC.4.Icea616f57331fbaa3d48c529f300c9a8ebd37fb5@changeid>
- <027b3ca1-fbd3-7bce-1ca0-ec92a5f23fee@linaro.org>
- <CAD=FV=Xu7b=t1C4JHF4U9BsD9wFy_x_GseJFNytHdCKvnS9DoA@mail.gmail.com>
-In-Reply-To: <CAD=FV=Xu7b=t1C4JHF4U9BsD9wFy_x_GseJFNytHdCKvnS9DoA@mail.gmail.com>
-From: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
-Date: Sat, 16 Apr 2022 01:11:54 +0300
-Message-ID: <CAA8EJppyBTDeFVztS2rTihAwEjJdmJf1Md-Qa3x3MijVvbzSUQ@mail.gmail.com>
-Subject: Re: [RFC PATCH 4/6] drm/panel-edp: Take advantage of
- is_hpd_asserted() in struct drm_dp_aux
-To: Doug Anderson <dianders@chromium.org>
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: text/plain
+X-Originating-IP: [10.80.80.8]
+X-ClientProxiedBy: nasanex01b.na.qualcomm.com (10.46.141.250) To
+ nalasex01a.na.qualcomm.com (10.47.209.196)
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -67,97 +60,142 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Sankeerth Billakanti <quic_sbillaka@quicinc.com>,
- Philip Chen <philipchen@chromium.org>, David Airlie <airlied@linux.ie>,
- LKML <linux-kernel@vger.kernel.org>, Abhinav Kumar <quic_abhinavk@quicinc.com>,
- Robert Foss <robert.foss@linaro.org>, Stephen Boyd <swboyd@chromium.org>,
- Thierry Reding <thierry.reding@gmail.com>,
- dri-devel <dri-devel@lists.freedesktop.org>,
- Hsin-Yi Wang <hsinyi@chromium.org>, Sam Ravnborg <sam@ravnborg.org>
+Cc: quic_sbillaka@quicinc.com, linux-arm-msm@vger.kernel.org,
+ quic_abhinavk@quicinc.com, dri-devel@lists.freedesktop.org,
+ quic_khsieh@quicinc.com, quic_aravindh@quicinc.com,
+ freedreno@lists.freedesktop.org, linux-kernel@vger.kernel.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Sat, 16 Apr 2022 at 00:17, Doug Anderson <dianders@chromium.org> wrote:
->
-> Hi,
->
-> On Thu, Apr 14, 2022 at 5:51 PM Dmitry Baryshkov
-> <dmitry.baryshkov@linaro.org> wrote:
-> >
-> > On 09/04/2022 05:36, Douglas Anderson wrote:
-> > > Let's add support for being able to read the HPD pin even if it's
-> > > hooked directly to the controller. This will allow us to get more
-> > > accurate delays also lets us take away the waiting in the AUX transfer
-> > > functions of the eDP controller drivers.
-> > >
-> > > Signed-off-by: Douglas Anderson <dianders@chromium.org>
-> > > ---
-> > >
-> > >   drivers/gpu/drm/panel/panel-edp.c | 37 ++++++++++++++++++++++++++-----
-> > >   1 file changed, 31 insertions(+), 6 deletions(-)
-> > >
-> > > diff --git a/drivers/gpu/drm/panel/panel-edp.c b/drivers/gpu/drm/panel/panel-edp.c
-> > > index 1732b4f56e38..4a143eb9544b 100644
-> > > --- a/drivers/gpu/drm/panel/panel-edp.c
-> > > +++ b/drivers/gpu/drm/panel/panel-edp.c
-> > > @@ -417,6 +417,19 @@ static int panel_edp_get_hpd_gpio(struct device *dev, struct panel_edp *p)
-> > >       return 0;
-> > >   }
-> > >
-> > > +static bool panel_edp_can_read_hpd(struct panel_edp *p)
-> > > +{
-> > > +     return !p->no_hpd && (p->hpd_gpio || (p->aux && p->aux->is_hpd_asserted));
-> > > +}
-> > > +
-> > > +static bool panel_edp_read_hpd(struct panel_edp *p)
-> > > +{
-> > > +     if (p->hpd_gpio)
-> > > +             return gpiod_get_value_cansleep(p->hpd_gpio);
-> > > +
-> > > +     return p->aux->is_hpd_asserted(p->aux);
-> > > +}
-> > > +
-> > >   static int panel_edp_prepare_once(struct panel_edp *p)
-> > >   {
-> > >       struct device *dev = p->base.dev;
-> > > @@ -441,13 +454,21 @@ static int panel_edp_prepare_once(struct panel_edp *p)
-> > >       if (delay)
-> > >               msleep(delay);
-> > >
-> > > -     if (p->hpd_gpio) {
-> > > +     if (panel_edp_can_read_hpd(p)) {
-> > >               if (p->desc->delay.hpd_absent)
-> > >                       hpd_wait_us = p->desc->delay.hpd_absent * 1000UL;
-> > >               else
-> > >                       hpd_wait_us = 2000000;
-> > >
-> > > -             err = readx_poll_timeout(gpiod_get_value_cansleep, p->hpd_gpio,
-> > > +             /*
-> > > +              * Extra max delay, mostly to account for ps8640. ps8640
-> > > +              * is crazy and the bridge chip driver itself has over 200 ms
-> > > +              * of delay if it needs to do the pm_runtime resume of the
-> > > +              * bridge chip to read the HPD.
-> > > +              */
-> > > +             hpd_wait_us += 3000000;
-> >
-> > I think this should come in a separate commit and ideally this should be
-> > configurable somehow. Other hosts wouldn't need such 'additional' delay.
-> >
-> > With this change removed:
-> >
-> > Reviewed-by: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
->
-> What would you think about changing the API slightly? Instead of
-> is_hpd_asserted(), we change it to wait_hpd_asserted() and it takes a
-> timeout in microseconds. If you pass 0 for the timeout the function is
-> defined to behave the same as is_hpd_asserted() today--AKA a single
-> poll of the line.
+Current DP driver implementation, event thread is kept running
+after DP display is unbind. This patch fix this problem by disabling
+DP irq and stop event thread to exit gracefully at dp_display_unbind().
 
-This might work. Can you check it, please?
+Changes in v2:
+-- start event thread at dp_display_bind()
 
-BTW: are these changes dependent on the first part of the patchset? It
-might be worth splitting the patchset into two parts.
+Changes in v3:
+-- disable all HDP interrupts at unbind
+-- replace dp_hpd_event_setup() with dp_hpd_event_thread_start()
+-- replace dp_hpd_event_stop() with dp_hpd_event_thread_stop()
+-- move init_waitqueue_head(&dp->event_q) to probe()
+-- move spin_lock_init(&dp->event_lock) to probe()
 
+Changes in v4:
+-- relocate both dp_display_bind() and dp_display_unbind() to bottom of file
+
+Changes in v5:
+-- cancel relocation of both dp_display_bind() and dp_display_unbind()
+
+Changes in v6:
+-- move empty event q to dp_event_thread_start()
+
+Changes in v7:
+-- call ktheread_stop() directly instead of dp_hpd_event_thread_stop() function
+
+Fixes: e91e3065a806 ("drm/msm/dp: Add DP compliance tests on Snapdragon Chipsets")
+Signed-off-by: Kuogee Hsieh <quic_khsieh@quicinc.com>
+Reported-by: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
+Reviewed-by: Stephen Boyd <swboyd@chromium.org>
+---
+ drivers/gpu/drm/msm/dp/dp_display.c | 31 ++++++++++++++++++++++++-------
+ 1 file changed, 24 insertions(+), 7 deletions(-)
+
+diff --git a/drivers/gpu/drm/msm/dp/dp_display.c b/drivers/gpu/drm/msm/dp/dp_display.c
+index 01453db..680e500 100644
+--- a/drivers/gpu/drm/msm/dp/dp_display.c
++++ b/drivers/gpu/drm/msm/dp/dp_display.c
+@@ -113,6 +113,7 @@ struct dp_display_private {
+ 	u32 hpd_state;
+ 	u32 event_pndx;
+ 	u32 event_gndx;
++	struct task_struct *ev_tsk;
+ 	struct dp_event event_list[DP_EVENT_Q_MAX];
+ 	spinlock_t event_lock;
+ 
+@@ -230,6 +231,8 @@ void dp_display_signal_audio_complete(struct msm_dp *dp_display)
+ 	complete_all(&dp->audio_comp);
+ }
+ 
++static int dp_hpd_event_thread_start(struct dp_display_private *dp_priv);
++
+ static int dp_display_bind(struct device *dev, struct device *master,
+ 			   void *data)
+ {
+@@ -269,6 +272,7 @@ static int dp_display_bind(struct device *dev, struct device *master,
+ 	if (rc)
+ 		DRM_ERROR("Audio registration Dp failed\n");
+ 
++	rc = dp_hpd_event_thread_start(dp);
+ end:
+ 	return rc;
+ }
+@@ -280,6 +284,11 @@ static void dp_display_unbind(struct device *dev, struct device *master,
+ 	struct drm_device *drm = dev_get_drvdata(master);
+ 	struct msm_drm_private *priv = drm->dev_private;
+ 
++	/* disable all HPD interrupts */
++	dp_catalog_hpd_config_intr(dp->catalog, DP_DP_HPD_INT_MASK, false);
++
++	kthread_stop(dp->ev_tsk);
++
+ 	dp_power_client_deinit(dp->power);
+ 	dp_aux_unregister(dp->aux);
+ 	priv->dp[dp->id] = NULL;
+@@ -1054,7 +1063,7 @@ static int hpd_event_thread(void *data)
+ 
+ 	dp_priv = (struct dp_display_private *)data;
+ 
+-	while (1) {
++	while (!kthread_should_stop()) {
+ 		if (timeout_mode) {
+ 			wait_event_timeout(dp_priv->event_q,
+ 				(dp_priv->event_pndx == dp_priv->event_gndx),
+@@ -1132,12 +1141,19 @@ static int hpd_event_thread(void *data)
+ 	return 0;
+ }
+ 
+-static void dp_hpd_event_setup(struct dp_display_private *dp_priv)
++static int dp_hpd_event_thread_start(struct dp_display_private *dp_priv)
+ {
+-	init_waitqueue_head(&dp_priv->event_q);
+-	spin_lock_init(&dp_priv->event_lock);
++	/* set event q to empty */
++	dp_priv->event_gndx = 0;
++	dp_priv->event_pndx = 0;
++
++	dp_priv->ev_tsk = kthread_run(hpd_event_thread, dp_priv, "dp_hpd_handler");
++	if (IS_ERR(dp_priv->ev_tsk)) {
++		DRM_ERROR("failed to create DP event thread\n");
++		return PTR_ERR(dp_priv->ev_tsk);
++	}
+ 
+-	kthread_run(hpd_event_thread, dp_priv, "dp_hpd_handler");
++	return 0;
+ }
+ 
+ static irqreturn_t dp_display_irq_handler(int irq, void *dev_id)
+@@ -1266,7 +1282,10 @@ static int dp_display_probe(struct platform_device *pdev)
+ 		return -EPROBE_DEFER;
+ 	}
+ 
++	/* setup event q */
+ 	mutex_init(&dp->event_mutex);
++	init_waitqueue_head(&dp->event_q);
++	spin_lock_init(&dp->event_lock);
+ 
+ 	/* Store DP audio handle inside DP display */
+ 	dp->dp_display.dp_audio = dp->audio;
+@@ -1441,8 +1460,6 @@ void msm_dp_irq_postinstall(struct msm_dp *dp_display)
+ 
+ 	dp = container_of(dp_display, struct dp_display_private, dp_display);
+ 
+-	dp_hpd_event_setup(dp);
+-
+ 	dp_add_event(dp, EV_HPD_INIT_SETUP, 0, 100);
+ }
+ 
 -- 
-With best wishes
-Dmitry
+The Qualcomm Innovation Center, Inc. is a member of the Code Aurora Forum,
+a Linux Foundation Collaborative Project
+
