@@ -2,78 +2,54 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2EE2A5020CF
-	for <lists+dri-devel@lfdr.de>; Fri, 15 Apr 2022 05:00:25 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id D1D92502585
+	for <lists+dri-devel@lfdr.de>; Fri, 15 Apr 2022 08:24:37 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id CE3B310E1D4;
-	Fri, 15 Apr 2022 03:00:20 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id ACFA910EF48;
+	Fri, 15 Apr 2022 06:24:35 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from out2-smtp.messagingengine.com (out2-smtp.messagingengine.com
- [66.111.4.26])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 8799510E1D4
- for <dri-devel@lists.freedesktop.org>; Fri, 15 Apr 2022 03:00:19 +0000 (UTC)
-Received: from compute4.internal (compute4.nyi.internal [10.202.2.44])
- by mailout.nyi.internal (Postfix) with ESMTP id 29FA15C041A;
- Thu, 14 Apr 2022 23:00:16 -0400 (EDT)
-Received: from mailfrontend1 ([10.202.2.162])
- by compute4.internal (MEProxy); Thu, 14 Apr 2022 23:00:16 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=sholland.org; h=
- cc:cc:content-transfer-encoding:content-type:date:date:from:from
- :in-reply-to:in-reply-to:message-id:mime-version:references
- :reply-to:sender:subject:subject:to:to; s=fm2; t=1649991616; x=
- 1650078016; bh=c81yb4gs4vPSvD09caO+6Yh4HWFmhE1EIrMR6dpWA9c=; b=t
- yGizZNogSZlwapKZkW4ul/XSusQCdTds7uhVdlmC7AqjVX83+bKQCCz8sg9TENlj
- aWcCoP/GhO7wX9h2etdwWJHbQOV3fzuWPHVlZEZn3idqTvT4p8pjYMtg883C0fCa
- wvjhYKnpA04UBKkM2REo9yTo3Q62cqRmk9UZM8mmoama2hmQTYEentAqClfFaHnh
- F73LI5cHoj+RSSsqOzul49X/0t/PXaxmPAuB/f4X18nzLWfWH1SHWJDbEFQuGFNS
- VYmWBHACBIVSEn7RX03Pafe++I84LGPfW3NZBFzFLEAL7abEmaN1FtwrzVzWVuzQ
- 2H5BkWFj6V2ab6Kg2NVSA==
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
- messagingengine.com; h=cc:cc:content-transfer-encoding
- :content-type:date:date:from:from:in-reply-to:in-reply-to
- :message-id:mime-version:references:reply-to:sender:subject
- :subject:to:to:x-me-proxy:x-me-proxy:x-me-sender:x-me-sender
- :x-sasl-enc; s=fm1; t=1649991616; x=1650078016; bh=c81yb4gs4vPSv
- D09caO+6Yh4HWFmhE1EIrMR6dpWA9c=; b=fY3/lAHe5+LXFHbnZ0Jgndtqzw/aj
- 6aceJj43ShQvYVUBeq33RVKuDbwdJKFuK09VJjIH0oJ6rxA5l1y/2bZ6RKOaoAh+
- kJtYARddl5AIc/a2lN7V6ZmaJS91YYEgWm/aMWAWs4ckrqefc+NKxZRYGpJFd4Kk
- GEhKeScQVBXRDbKh9Lij1jlooMLUnnqjvpoh+6WgxyTGPMmcVDuuvGjbTIlp24MV
- yt0lZ0LchhR3xf6keXRau9WYStEGNVqFgmUfbR17UmNs4YwRqr0k3zUEN1PGoKV3
- nqUX8qW1pkEX1ob7xTIo05zyjtAHu9TQ9FqJ3Tu6+kMBjoI4w+qgwx9kQ==
-X-ME-Sender: <xms:vd9YYr3fdwtncq4w3peEI4MlPNiaTJjTgXREm6_HnlNpwES_3nL_xQ>
- <xme:vd9YYqEtQAUk2vRE5PawjIFbxJ00glfQY7N9vLPuD7yuFVA2tUrF349v9Kyz8l2-z
- KgGq7M73Q6WffRwNQ>
-X-ME-Received: <xmr:vd9YYr5rHouGfjOujOG6gurE9f7cgGTOL61nh-1yx4kFVvfUscmkzYcL100KlvaaCaHvTv0DMhlZDsZCnfMO85hOiKMd51SG6YCWYdwRF5EjzZiVM73-U0W6cw>
-X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvvddrudelgedgieegucetufdoteggodetrfdotf
- fvucfrrhhofhhilhgvmecuhfgrshhtofgrihhlpdfqfgfvpdfurfetoffkrfgpnffqhgen
- uceurghilhhouhhtmecufedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmne
- cujfgurhepuffvfhfhkffffgggjggtgfesthejredttdefjeenucfhrhhomhepufgrmhhu
- vghlucfjohhllhgrnhguuceoshgrmhhuvghlsehshhholhhlrghnugdrohhrgheqnecugg
- ftrfgrthhtvghrnhepffefvdfhhefhkeefteeiheeftdevuddvleeileegtedtfeejhfej
- kedtffdtjeeknecuffhomhgrihhnpehkvghrnhgvlhdrohhrghenucevlhhushhtvghruf
- hiiigvpedtnecurfgrrhgrmhepmhgrihhlfhhrohhmpehsrghmuhgvlhesshhhohhllhgr
- nhgurdhorhhg
-X-ME-Proxy: <xmx:vd9YYg0AzOwwaOB0AjoWklyD3hn2NyhFl_Nt8ojypyDXj4eyPITPGg>
- <xmx:vd9YYuF3J6mrSwsKYP4lPb5tc52shr221YkRS53v4hpPwIAYBj6rjA>
- <xmx:vd9YYh_N1J2eCMsNOLmvfXn7DsEFGtm1bghrGmRY9Xxftq8YhqhXew>
- <xmx:wN9YYn2c0PSx7fI1dR7ordmD_RVUIGP7cEySgSlm4S-egPtkfDnSEQ>
-Received: by mail.messagingengine.com (Postfix) with ESMTPA; Thu,
- 14 Apr 2022 23:00:12 -0400 (EDT)
-Subject: Re: [RFC PATCH 02/16] dt-bindings: display: rockchip: Add EBC binding
-To: Andreas Kemnade <andreas@kemnade.info>
-References: <20220413221916.50995-1-samuel@sholland.org>
- <20220413221916.50995-3-samuel@sholland.org> <20220414101548.2b9c3dad@aktux>
-From: Samuel Holland <samuel@sholland.org>
-Message-ID: <d5bb060e-5964-db0d-ca93-5f73ee9277a3@sholland.org>
-Date: Thu, 14 Apr 2022 22:00:09 -0500
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.6.0
+Received: from mailgw01.mediatek.com (unknown [60.244.123.138])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 1DE7C10EF48
+ for <dri-devel@lists.freedesktop.org>; Fri, 15 Apr 2022 06:24:33 +0000 (UTC)
+X-UUID: c369b7a21df94190b3c90df84edf14b2-20220415
+X-CID-P-RULE: Release_Ham
+X-CID-O-INFO: VERSION:1.1.4, REQID:d153210b-98b8-4d6f-acbd-060d9b3d9432, OB:0,
+ LO
+ B:0,IP:0,URL:0,TC:0,Content:0,EDM:0,RT:0,SF:0,FILE:0,RULE:Release_Ham,ACTI
+ ON:release,TS:0
+X-CID-META: VersionHash:faefae9, CLOUDID:95ff3aa9-d103-4e36-82b9-b0e86991b3df,
+ C
+ OID:IGNORED,Recheck:0,SF:nil,TC:nil,Content:0,EDM:-3,File:nil,QS:0,BEC:nil
+X-UUID: c369b7a21df94190b3c90df84edf14b2-20220415
+Received: from mtkexhb01.mediatek.inc [(172.21.101.102)] by
+ mailgw01.mediatek.com (envelope-from <rex-bc.chen@mediatek.com>)
+ (Generic MTA with TLSv1.2 ECDHE-RSA-AES256-SHA384 256/256)
+ with ESMTP id 767713121; Fri, 15 Apr 2022 14:24:27 +0800
+Received: from mtkcas11.mediatek.inc (172.21.101.40) by
+ mtkmbs10n1.mediatek.inc (172.21.101.34) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_CBC_SHA384) id
+ 15.2.792.15; Fri, 15 Apr 2022 14:24:25 +0800
+Received: from mtksdccf07 (172.21.84.99) by mtkcas11.mediatek.inc
+ (172.21.101.73) with Microsoft SMTP Server id 15.0.1497.2 via Frontend
+ Transport; Fri, 15 Apr 2022 14:24:25 +0800
+Message-ID: <542a3946c33b4a2e7cbb160f0e3bd4479a863ddb.camel@mediatek.com>
+Subject: Re: [PATCH v18 08/10] soc: mediatek: add DDP_DOMPONENT_DITHER0 enum
+ for mt8195 vdosys0
+From: Rex-BC Chen <rex-bc.chen@mediatek.com>
+To: jason-jh.lin <jason-jh.lin@mediatek.com>, Rob Herring
+ <robh+dt@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>, "Matthias
+ Brugger" <matthias.bgg@gmail.com>, Chun-Kuang Hu <chunkuang.hu@kernel.org>,
+ AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>
+Date: Fri, 15 Apr 2022 14:24:25 +0800
+In-Reply-To: <20220412103114.19922-9-jason-jh.lin@mediatek.com>
+References: <20220412103114.19922-1-jason-jh.lin@mediatek.com>
+ <20220412103114.19922-9-jason-jh.lin@mediatek.com>
+Content-Type: text/plain; charset="UTF-8"
+X-Mailer: Evolution 3.28.5-0ubuntu0.18.04.2 
 MIME-Version: 1.0
-In-Reply-To: <20220414101548.2b9c3dad@aktux>
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
 Content-Transfer-Encoding: 7bit
+X-MTK: N
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -86,99 +62,43 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: David Airlie <airlied@linux.ie>, =?UTF-8?Q?Ond=c5=99ej_Jirman?= <x@xff.cz>,
- dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org,
- Thierry Reding <thierry.reding@gmail.com>,
- Michael Riesch <michael.riesch@wolfvision.net>,
- Sam Ravnborg <sam@ravnborg.org>,
- Nicolas Frattaroli <frattaroli.nicolas@gmail.com>,
- linux-rockchip@lists.infradead.org, Geert Uytterhoeven <geert@linux-m68k.org>,
- Liang Chen <cl@rock-chips.com>, devicetree@vger.kernel.org,
- Alistair Francis <alistair@alistair23.me>, Rob Herring <robh+dt@kernel.org>,
- Peter Geis <pgwipeout@gmail.com>, linux-arm-kernel@lists.infradead.org,
- Sandy Huang <hjc@rock-chips.com>, Thomas Zimmermann <tzimmermann@suse.de>,
- Krzysztof Kozlowski <krzk+dt@kernel.org>
+Cc: "devicetree@vger.kernel.org" <devicetree@vger.kernel.org>,
+ Maxime Coquelin <mcoquelin.stm32@gmail.com>,
+ "fshao@chromium.org" <fshao@chromium.org>, David Airlie <airlied@linux.ie>,
+ "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
+ Singo Chang =?UTF-8?Q?=28=E5=BC=B5=E8=88=88=E5=9C=8B=29?=
+ <Singo.Chang@mediatek.com>,
+ Roy-CW Yeh =?UTF-8?Q?=28=E8=91=89=E4=B8=AD=E7=91=8B=29?=
+ <Roy-CW.Yeh@mediatek.com>,
+ "dri-devel@lists.freedesktop.org" <dri-devel@lists.freedesktop.org>,
+ Yongqiang Niu =?UTF-8?Q?=28=E7=89=9B=E6=B0=B8=E5=BC=BA=29?=
+ <yongqiang.niu@mediatek.com>, Project_Global_Chrome_Upstream_Group
+ <Project_Global_Chrome_Upstream_Group@mediatek.com>,
+ Fabien Parent <fparent@baylibre.com>,
+ Moudy Ho =?UTF-8?Q?=28=E4=BD=95=E5=AE=97=E5=8E=9F=29?= <Moudy.Ho@mediatek.com>,
+ "linux-mediatek@lists.infradead.org" <linux-mediatek@lists.infradead.org>,
+ "hsinyi@chromium.org" <hsinyi@chromium.org>,
+ Nancy Lin =?UTF-8?Q?=28=E6=9E=97=E6=AC=A3=E8=9E=A2=29?=
+ <Nancy.Lin@mediatek.com>, "linux-stm32@st-md-mailman.stormreply.com"
+ <linux-stm32@st-md-mailman.stormreply.com>,
+ "linux-arm-kernel@lists.infradead.org" <linux-arm-kernel@lists.infradead.org>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi Andreas,
-
-Thanks for the comments.
-
-On 4/14/22 3:15 AM, Andreas Kemnade wrote:
-> Hi Samuel,
+On Tue, 2022-04-12 at 18:31 +0800, jason-jh.lin wrote:
+> The mmsys routing table of mt8195 vdosys0 has 2 DITHER components,
+> so mmsys need to add DDP_COMPONENT_DITHER1 and change all usages of
+> DITHER enum form DDP_COMPONENT_DITHER to DDP_COMPONENT_DITHER0.
 > 
-> for comparison, here is my submission for the IMX EPDC bindings:
-> 
-> https://lore.kernel.org/linux-devicetree/20220206080016.796556-2-andreas@kemnade.info/
-> 
-> On Wed, 13 Apr 2022 17:19:02 -0500
-> Samuel Holland <samuel@sholland.org> wrote:
-> 
-> [...]
-> we have sy7636a driver in kernel which should be suitable for powering a EPD
-> and temperature measurement. So I would expect that to be 
->> +  io-channels:
->> +    maxItems: 1
->> +    description: I/O channel for panel temperature measurement
->> +
-> so how would I reference the hwmon/thermal(-zone) of the sy7636a here?
+> But its header need to keep DDP_COMPONENT_DITHER enum
+> until drm/mediatek also changed it.
 
-It seems the consensus is to use a thermal zone for panel temperature, so I will
-need to change this.
+Hello Jason,
 
-I think it's best to reference the thermal zone by phandle, not by name, even if
-it requires extending the thermal zone API to support this.
+IMO, it's strange.
+In this case , I think you sholud squash [v18,08/10] and [v18,09/10].
+Therefore, you don't need to describe this here.
 
->> +  panel-supply:
->> +    description: Regulator supplying the panel's logic voltage
->> +
->> +  power-domains:
->> +    maxItems: 1
->> +
->> +  vcom-supply:
->> +    description: Regulator supplying the panel's compensation voltage
->> +
->> +  vdrive-supply:
->> +    description: Regulator supplying the panel's gate and source drivers
->> +
-> SY7636a has only one logical regulator in kernel for for the latter two.
+BRs,
+Rex
 
-Both properties could point to the same regulator node if there are more
-consumers than regulators. I don't know of a clean way to handle the opposite
-situation.
-
-The other benefit of separating out VCOM is that the controller or panel driver
-can set a calibrated voltage from e.g. NVMEM or the panel's DT node.
-
-> If we have a separate panel node, than maybe these regulators should go
-> there as they belong to the panel as they are powering the panel and
-> not the EBC.
-
-I agree on this. It doesn't work with panel-simple, but as Maxime points out, we
-have more flexibility with a custom panel driver.
-
->> +  port:
->> +    $ref: /schemas/graph.yaml#/properties/port
->> +    description: OF graph port for the attached display panel
->> +
-> In my approach for the IMX EPDC, (I will send a better commented one
-> soon) I have no separate subnode to avoid messing with additional
-> display parameters. Not sure what is really better here.
-
-I tried to match the existing abstractions as much as possible, and I saw there
-was already an "eink,vb3300-kca" display in panel-simple. I believe that one was
-added for the reMarkable 2, where the existing LCD controller driver already
-depends on the DRM panel code (although I have concerns about hooking that up to
-a driver that doesn't understand EPDs).
-
-My thought here is that the timings for a given panel should be the same across
-controllers, both dedicated EPD controllers and LCD controllers. Or at least it
-should be possible to derive the timings from some common set of parameters.
-
-The panel node also usually hooks up to the backlight, although I am not sure
-that is the right thing to do for EPDs. (And the PineNote has a separate issue
-of having two backlights [warm/cool] for one display.)
-
-Regards,
-Samuel
