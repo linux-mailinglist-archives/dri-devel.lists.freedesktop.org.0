@@ -1,109 +1,112 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id A319450209E
-	for <lists+dri-devel@lfdr.de>; Fri, 15 Apr 2022 04:43:53 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 277AE50209F
+	for <lists+dri-devel@lfdr.de>; Fri, 15 Apr 2022 04:43:58 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id ABA5C10E1D5;
-	Fri, 15 Apr 2022 02:43:50 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id E6AF810E202;
+	Fri, 15 Apr 2022 02:43:55 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from EUR05-DB8-obe.outbound.protection.outlook.com
- (mail-db8eur05on2045.outbound.protection.outlook.com [40.107.20.45])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 62CDA10E1D5
- for <dri-devel@lists.freedesktop.org>; Fri, 15 Apr 2022 02:43:49 +0000 (UTC)
+Received: from EUR05-VI1-obe.outbound.protection.outlook.com
+ (mail-vi1eur05on2074.outbound.protection.outlook.com [40.107.21.74])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 7B63B10E37D
+ for <dri-devel@lists.freedesktop.org>; Fri, 15 Apr 2022 02:43:54 +0000 (UTC)
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=J+FF9fDl5smCUaxLHdzzerEyq0GLxSZ3kYoOHK4EUi2DpqSjfbYNsjxceHy9t0Ip5ZElRqGyVn048mgs0RrL2SzEjGkXyHDnN2AciF1RZn1+3fzH4t8KDZUYmjsasTLCzvs+m6T5JTXeyUrW4tFJSco18xSfiqGucFkkpE2VJ23ZpKGYr7Oqo0KqybOjDIOj/yF4tLmq4V8t7bdi48wpZMbzxt3OIIyBK3fIVp/XiUvN8iSFMfRCkwuBWDXf9b87Y74EyAd/GBuPK6sZ76PAjDitwEWO3yAV7rCvvs0ZOpHscjdIpSmOKNWjcCWFi1mswP+R5v5z3+bTTBG9moKaZw==
+ b=Jg6QvygHmr3N5lHXXCQBhWMuzzbJfbHOngD+OBPnLUDlSVtnAHBN+C0z7oX9IpR+BzlSQv1+MYLkmk2NDEIRujf1oIImGaAEDIMoH6tfdimQYlZ2avPc6MMNY8gYLOiQtL0tFJJvXy6RjAI7sGoeExvoirFTOxBrTwOJurIr+TmJxoTzXLxZqRZLQN3JJY5JPGVdJorzo1MaEbjKI4NnAVr9wlPfsYmSbnCovGMjJfvl9ZK3CzwzMmNbcnVL6//SIgYyOPGUgY/0VpPkfH22GGW7+eFmgYtjH+8EbX4Uf6kAVauvETHEUUFRKGtS4+xXKut5hgpNaRkQfxn3R2vKNA==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
  s=arcselector9901;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=hAYBAL7+SzQueKdJpb+rBSVhKrelAtUcMRB/xGxq8bM=;
- b=jINVJsyVraUpscW3NXMnSj4Be68+9rdmNwz7sZUdt06ET6k/OGeTlcyWUsUyh9hGatA5OWHJEJ03W93f0Vf+1EQpLfIesf4MzHAUe6y6B4LcbYT/U2CICaVlMWHp3GoF4t7aO7wfNLY9KWG+05tBHbyTdKIWNWRrslVb2vr4UWjImpUw4m5UXbmdnnuRz5ToFZSXBTl8V5KA+eYvoDBfTV27wHrt1O95UNEgcCHxJuU2mOONS/U1dYIS8v8tkpv6N8lsxDP1zy/57Skzx40Luw2DhBLw0xxlJSfU4EE9rscLpu0n+C2eTo7aBxI4S+JUYwcVv2EkcZfKTD+Bf0Te2g==
+ bh=CqBJQSA9E0WGVeLfPfjJYljmppdDVBVI74FcicKmHHs=;
+ b=AoXLRC4PXlzM9TS99hsArhIH53f/WOywKXYMC4X5artXkPZjcAJVoGQOEqDenrU/sgy9xUfQtA3knAwnYcAg5liIevFh5M8u626KSGOa1hURMPSvFfJv9I41ZoXBC44PZ0HRpr7MlCeiPPgdCEUj9cMkvU9bcyE6LCTZJmjAfMhP0EzuQunfiyEIDvcfsz/8mEVYg645DxWZMyVdMTia6R6KzxCtpLxhDqLH7cjBXECYwBNqS85pJ6SW40x1OhdTxwF7AYihhOD6rWVSDnExfT40obZfJxWcDncOUt1cLpCT02YA58gD4zM717AZe9FmxY1TPhCawyXo3x1nrcZudA==
 ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
  smtp.mailfrom=nxp.com; dmarc=pass action=none header.from=nxp.com; dkim=pass
  header.d=nxp.com; arc=none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nxp.com; s=selector2; 
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=hAYBAL7+SzQueKdJpb+rBSVhKrelAtUcMRB/xGxq8bM=;
- b=IeTeU0xTSyu0vTEbxvpUhiaIemZFFzfrsYxk4SL0YAxuLFNCSHFFwxwTkooH0jsl1ivkKCwqA3KsPfnjnCG0isKYYxzIncgidIy228Euugq/QR2bUIAsBLiZUNpm8PQECmSPygVRAg1s/o/3tS9st/PdeDxRCk1ewCyiyx2Lssg=
+ bh=CqBJQSA9E0WGVeLfPfjJYljmppdDVBVI74FcicKmHHs=;
+ b=XA0jigT8fcaquypKtdHDVUWfp5DNRQHNAqCBzm0zAWNlD4PxWdpTp4gPaDKS0SeZsgm830olPWbEseHTaqLbIC3QefKnBEWjW3dVpD4nF2I4RzYQhmFtXeZTsKum2DWI+fbk6lXxmuDYExGytYkLmhnbn6wgWfCoxnEPT9xKaLE=
 Authentication-Results: dkim=none (message not signed)
  header.d=none;dmarc=none action=none header.from=nxp.com;
 Received: from DB7PR04MB5450.eurprd04.prod.outlook.com (2603:10a6:10:86::11)
  by DU2PR04MB9132.eurprd04.prod.outlook.com (2603:10a6:10:2f7::18) with
  Microsoft SMTP Server (version=TLS1_2,
  cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.5164.20; Fri, 15 Apr
- 2022 02:43:46 +0000
+ 2022 02:43:51 +0000
 Received: from DB7PR04MB5450.eurprd04.prod.outlook.com
  ([fe80::7997:2892:d230:2430]) by DB7PR04MB5450.eurprd04.prod.outlook.com
  ([fe80::7997:2892:d230:2430%7]) with mapi id 15.20.5144.030; Fri, 15 Apr 2022
- 02:43:46 +0000
+ 02:43:51 +0000
 From: Sandor.yu@nxp.com
 To: dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org,
  andrzej.hajda@intel.com, narmstrong@baylibre.com, robert.foss@linaro.org,
  Laurent.pinchart@ideasonboard.com, jonas@kwiboo.se,
  jernej.skrabec@gmail.com, hverkuil-cisco@xs4all.nl
-Subject: [PATCH v3 0/4] DRM: Bridge: DW_HDMI: Add new features and bug fix
-Date: Fri, 15 Apr 2022 10:42:46 +0800
-Message-Id: <cover.1649989179.git.Sandor.yu@nxp.com>
+Subject: [PATCH v3 1/4] drm: bridge: dw_hdmi: default enable workaround to
+ clear the overflow
+Date: Fri, 15 Apr 2022 10:42:47 +0800
+Message-Id: <561951005a85574dcdd108e5d6a3a87df930ea3d.1649989179.git.Sandor.yu@nxp.com>
 X-Mailer: git-send-email 2.25.1
+In-Reply-To: <cover.1649989179.git.Sandor.yu@nxp.com>
+References: <cover.1649989179.git.Sandor.yu@nxp.com>
 Content-Transfer-Encoding: 8bit
 Content-Type: text/plain
 X-ClientProxiedBy: SG2P153CA0013.APCP153.PROD.OUTLOOK.COM (2603:1096::23) To
  DB7PR04MB5450.eurprd04.prod.outlook.com (2603:10a6:10:86::11)
 MIME-Version: 1.0
 X-MS-PublicTrafficType: Email
-X-MS-Office365-Filtering-Correlation-Id: 5bfffed5-94be-41da-7fdd-08da1e89c33b
+X-MS-Office365-Filtering-Correlation-Id: 92d782b2-645c-438f-3e55-08da1e89c610
 X-MS-TrafficTypeDiagnostic: DU2PR04MB9132:EE_
-X-Microsoft-Antispam-PRVS: <DU2PR04MB913211B69FF2BC55CF26FB99F4EE9@DU2PR04MB9132.eurprd04.prod.outlook.com>
+X-Microsoft-Antispam-PRVS: <DU2PR04MB91323D118A8D603A1E66A7C2F4EE9@DU2PR04MB9132.eurprd04.prod.outlook.com>
 X-MS-Exchange-SenderADCheck: 1
 X-MS-Exchange-AntiSpam-Relay: 0
 X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: 5aQw3iBdXRHdHtwpDV56zX+D/ou1Lmq0RMJZTiC810TMrMDta2LTklQ1UTzTPdtwBiw8oICha9jLMw/VG7rvv/86IzvQe+URamk36qjGoRIf1DnDVpqkqqmq5S4k8gr+QO8F12eJ5GsabOk9wbrCDRLxJynC00uufN4eFAFGN0nfYRuMyFC33B//Nfjq670eVeGpFNEfuJ4jnQ6hqOqTwk9fh7V6t1r6HIwJyjHfbcR+bb23pgqapHYYLGs27TqUb8pxhKCQenjMlQWG0jVZQXMxQjxKsSMgp3CowoegCaRBLqd0ImrrlRlWTY6M6BrBlHypHtKVfuxphzqI6UymZu+XepZqiW0BoXNcLmSoVJkGwMA4HI2tYZ1x0jabyH5+MC/fswXlGO4OSTyEb6EePZ/E2WDpuSUgJ1wy/ywqz/M9RfiD1EuE+TzbTZYV/hC84QmkOfg0zGxBlF0s6PsOMBXhS/i+83PJ9SfQYbYsplbpWaEOX/mimaEig7i2iNRXx9zF4UJvvY5shPJziKqnbgzE+EYsa40xXjoND6g9FkDAN0ZQk5oi3O6Zh6HgJqSRqOVJt/47uYmiXCzwpU7tjE5B7NHMIybUAyurs0tQ5a1vK8xTgM9VgU+VaGRKmKCEJ3Z02FqJLQwP803swnN96jP/iqpOfCN8nh1yUTc8g+HxuebA0uhWQhpy7aqtpNKFfKGcVuzDf/k2TqJJ+4ikWQ==
+X-Microsoft-Antispam-Message-Info: g+r4Bb3bdFliFz9qkNCr59rn0eXa+Canj7Bf1ghZg0pTrEJ54SyihMb8u4cC9E2rsevetxmCVTdMA5NSmRjrAKRWcFirPXy+ZOtFQG4UqgHDmt7o6JlL3ZQAo2G77R7FHWVxHeNtqwC4xm/x2O6DwFi0YS6dRLmRc1yblw5L+tCH0cjwTORIzYMB3hicG68FBedBFidZd747j5XfNllImTVrHKzb/45XWJkBHo0sJnPcGgki4Q4Na1fU2h/Pa/sg1Qek7VnOKiJecTtcal8cBqLBJar/fz/uyuw6MuR9kaV4lZJyjdjkXJbvjfi1uQlI2OvywC3x7kEVC1tUZtoYurPX+0E57AkImhfoD6gHqRI3nCJZ6A+1qJdzYm+Z3ZsQ5Ck6m+YNte6zw+8hZMED6W7DPNm23ituNmX7honF0+IE0yHPIGcBXebFDljHBL+3wwH6XkYbRoOhafm4f+93Nt2yF1V2q7q9WkV2apUtYbtuMg9NrT3XSK9tnLj7p8xMZ+GSlrqr5ZG9R9gczp1Q1ygUkHqOK6AomhfjZYzPINDwsVHMlQ1JJHOZ4ChzlYn83NCGYLTemxZRL7kzXp7afuqwPIyRIdfst+uli8WgSW8kph9j5QuFRi1RO0ZTs7bhm2jVqdnXejuB03A/Mm4Aie8eemQsk2QppXVe4jfvqPiu1WlWD8c7Jqxe27CgJ9xJ/uOEp8lo9XGILyBVTK+6EQ==
 X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
  IPV:NLI; SFV:NSPM; H:DB7PR04MB5450.eurprd04.prod.outlook.com; PTR:; CAT:NONE;
- SFS:(13230001)(4636009)(366004)(83380400001)(2906002)(6512007)(26005)(2616005)(9686003)(186003)(6506007)(38100700002)(38350700002)(86362001)(66476007)(66556008)(66946007)(4326008)(7416002)(508600001)(8676002)(316002)(5660300002)(6486002)(36756003)(8936002)(52116002);
+ SFS:(13230001)(4636009)(366004)(83380400001)(2906002)(6512007)(26005)(2616005)(9686003)(186003)(6506007)(38100700002)(38350700002)(86362001)(66476007)(66556008)(66946007)(4326008)(7416002)(508600001)(8676002)(316002)(5660300002)(6486002)(36756003)(8936002)(52116002)(6666004);
  DIR:OUT; SFP:1101; 
 X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: =?us-ascii?Q?JSZi9RyNK6Z0t/IQBU7DFmyGZRacb7gQRsE1DrqTRab5KxAwrlbMH0X2XHJx?=
- =?us-ascii?Q?BrjpAsiCMqM4Q/BuG+nYjOpgs9hO4UVLOZqF3rrisPaKV5efrU6jPm5rx/Yz?=
- =?us-ascii?Q?RPXWbJ15vD+iRzHFm0mV4CFO3KzAcMT6xA1Oc8mDI4sG49i8TWJpOt60X0Nm?=
- =?us-ascii?Q?mS/u8k2pNWjiiScu52p93qV7D1giGSE783RjhLcIUS/XDKX/CnArZjmO1Gwd?=
- =?us-ascii?Q?HPXqm1cpVzBeg5smZykKN+zq0lNLWWNRmDHTQoVblgOPdM3Qm11xvlu/btTM?=
- =?us-ascii?Q?lz7wS15g2fUaKSqveHo88e+rOILD1Bab52la63XC5RrycmMrzQCrz164Tyn/?=
- =?us-ascii?Q?vOItwUhxAyNS1hO1txiFztsVMb9Sb8cZpyiRzyJM+M4tOLyN3pTE23uKTrUR?=
- =?us-ascii?Q?6mfxygRtw/76eHLUkbjXFHOnt2wDYKSkXxSBdObmcf/81YIVTaD6vEhxc3An?=
- =?us-ascii?Q?/EAsmInIs+DDygGPT82ReRG9eiwO3DGIcjqQXs807a5eQJPjTygqfbFtGOS/?=
- =?us-ascii?Q?07Ii7mqutOGYFBIAALXz19JsB9CZa14+c2/Sofh9oHLsyyQwBhnbqiaT18AB?=
- =?us-ascii?Q?3Mm3/aNdbfY9/YTFaEtPNEBmZIxy2RmUp0F63+moY8UcxXySHkfc0YfSr9Te?=
- =?us-ascii?Q?otDopTFr7T4bcbB1qrwNT4LCDZCl1KjAOxZfLFmG/4SXcT6tgxz80jeSgrsA?=
- =?us-ascii?Q?zvl0YNHhy4s1SkIA7XSluCXnQZDQoELaFuL3ink7YEgtSO6DGCgIFYnndU5C?=
- =?us-ascii?Q?TJNyhwqGPEayRhiECBCfVUYztOYgZdVi7YpVxs5sDtiR7YY3eg7sp+LPRW9P?=
- =?us-ascii?Q?NxdNc9HbP72nHEIU2ktpmEhd6uXiu0D68UFrAmVaBmZrppG/+bxKUCWoe0+g?=
- =?us-ascii?Q?j+P3nyv2896rrZxiTIcSEqKf4wiyTYD+tW10zfRrGhViamE9zRVM6Lqt1uGw?=
- =?us-ascii?Q?tFm2TEKwXqgxmQ4OOKdSQRvMqZFqci6D21Y9IfaR1f6/4VAHyv4CrYdC9uqU?=
- =?us-ascii?Q?4T3KDjmk5nax6GdgWMny8h6W6mmaxVzHxi+EhKyprUkkR7nvvGW25ER9t6xf?=
- =?us-ascii?Q?LUCu9jxjId1ozxJf9LZmiYlatm8HWXMQ46dMckQ18jpBvKz7V3NV+alRo316?=
- =?us-ascii?Q?BhmlNlZyt9HDSckEEHQCKcmv33svjLzYxoCsEyPVDrY6Ar04cegxinen3FmP?=
- =?us-ascii?Q?u/VOtsAdE6GjMX0xnoAX5F27jZZKcrlY3nkTipUr+t3knHBMOSIIWvpu21MT?=
- =?us-ascii?Q?2Xn3V2AmVXQE42vx3Gx/s07mBqvVDYf1qzS5EBfXUJbFaM2PQ/VWglKMCLa+?=
- =?us-ascii?Q?aDcczWZjqYXF1JGKEcitIrOwskCBBH8ARUn77yCMbod/F+BLtfGXBhGiOVI/?=
- =?us-ascii?Q?vb40U3/RYryjJ1GqUsZ/Dh/2DZTE7dFlW/41d6AwWUUk3biL4jG+2BLlNrmb?=
- =?us-ascii?Q?NuTELK9utYx1q2Pe3vw4YhyRmFoczggEASl0tXod9vDRDv91YFwtFPd/yPM6?=
- =?us-ascii?Q?YvlrPqRnfaAnO756rmubiMOYOrHjRsieAQHHcITq3272bY0t1QcKzYj/M17T?=
- =?us-ascii?Q?L25DGij+GKl6kikoInyAI7sNm+PlufdqbwcsIUunUKSaRKetp+DkZ7jUi7QO?=
- =?us-ascii?Q?HcGyiA0v/CwPSFUGO0bkS3O1dtqwa8nVOKXzyn4PVHYv20/Ypw53cHMrLifZ?=
- =?us-ascii?Q?ye90gHGqb3iY4mVWlvZmvEvymlwWHsrcmKqlNscY8/JsiBodLpjHaM5ZTs/y?=
- =?us-ascii?Q?v7jiwJFu2Q=3D=3D?=
+X-MS-Exchange-AntiSpam-MessageData-0: =?us-ascii?Q?KAHpQI/yj1rKb/z+HeyPh4/L0LhAbTZfJmBbFOLW5ifK9DLnrkqIxmBh5iV9?=
+ =?us-ascii?Q?jKOpyOLUk2FoSg8PSkIjvOxMACpVc4h8PxYWHDWFeLXdXW48LNTc2F7DPqj1?=
+ =?us-ascii?Q?AkwPJKF1w6zkjhuR2kkb9RpAau5O2zoiWXXukR2EzDHG1jQEYI+cJVSyXdts?=
+ =?us-ascii?Q?qIXQwxyq+/+Qfi7EFvghwoO89C/B7mYge23lfglmbVU6gUWaqf0QKPa2m78r?=
+ =?us-ascii?Q?QVCx91Kkx7OuVZw8MWA9xQTBi1fHijh/tpD3XAHuv/mbMRksb9g1BaJKc2oG?=
+ =?us-ascii?Q?Vj02XmeLn31QbHm8aUe3XEFIYctwECdvbWIeOxFPXZV4SdxBeEaszBlZqooZ?=
+ =?us-ascii?Q?1+Ny8i3AB62FyCCLGVk9eouoIfLIusCZWB6U31Ox/eXgwvdq7rzXgIS4Q8Bt?=
+ =?us-ascii?Q?RNbtc3vu4D8FdVcCRGLlS8morIYMEGM5x79YDwlWd6lP7QYzQoQT+GonEzhe?=
+ =?us-ascii?Q?uZmjP8Mpf0KEdOXCUfVNfBSvid+D7v/rCp40nWGpR/qYEZnvXY7JnCa+v3B9?=
+ =?us-ascii?Q?8snwVgakOBn5snVJwS5YiQkn5bptcLusCoV2NwFKOuhUYqbsxZ5Mr97io2F6?=
+ =?us-ascii?Q?WlgwCt2hol6dWV4zToNRnp1/Kt0TQXsrrSs1tcbvDiU0AG53qXY70QNFtD7+?=
+ =?us-ascii?Q?RGNbykTF8itHQhM5gE+cqzQFwleZmd04WVami4ouPhYgqZvXxRGVfe3nGc49?=
+ =?us-ascii?Q?1WjViL48c4TzTx2CkxoJmNM7+ivONTHNDg7zBWQMxnM1wTusbFhwMixxK1Bf?=
+ =?us-ascii?Q?NXm9SKsXIRLCWujAh2EvxuXNZaxSchnDh/WWSdTS2byxonabGigys5Lj+qSx?=
+ =?us-ascii?Q?LDy5v7zCWZ2egczDopshqtWqfnMsTm8/jCqDlTGssPCDZJSwCxYUXRUApuzS?=
+ =?us-ascii?Q?pDlKPXE8HGCkDBBeO7lGXtCniS1+vpmsLnuuWdWK9Jf+DmACzB7Njr4G81wj?=
+ =?us-ascii?Q?zpHWlovJMhK/Xmmr99QTuL6J4HWAmMpfxwSeuvESJMHcTPYt1ZKITazrpXBT?=
+ =?us-ascii?Q?XM4n+qOcSk+Syr3/tthLzQHbx36+QHmKpOnjxjlBue2G5aX390BOBifhYfmH?=
+ =?us-ascii?Q?D/iYDdBZNFYSk7Jsw42rMgAnE36gIO3nEQTmPpwPCluSn0xMfy/G5YyhZAS3?=
+ =?us-ascii?Q?J+6V+ZCFEh/+4eRuZUcwRF9wVSDn7tMnqJlZOutvhkKCe1zHlumadCwEBl5U?=
+ =?us-ascii?Q?FdtwWjYaWKzaLJAe93dQB60NDwB2rFW9kAgExNaBscKO+dxGqlCZ6N96tNii?=
+ =?us-ascii?Q?zWw/OThgOj7NYn9Sh38Q/CApJ6QX8DljxNt+piXUTdmt40micQKkbMLXRKdr?=
+ =?us-ascii?Q?N7TVMyaYWWf3Vf5iX5TMCR+t5U0MGxZul704VxrnmnuAHkBEFBJDjHczEgop?=
+ =?us-ascii?Q?8tE3RAM3yWkEIRwnCGR8++tRbn5DDmwnQJAyH9cTnHfajVzMBjoFpQYzpI7j?=
+ =?us-ascii?Q?JH9WnPGD7UzBvYPPLRvKURapr8DDg/s9OahrRVugcsw8O9bo8V0dFS64q/lF?=
+ =?us-ascii?Q?q+V0qzkWhV3oWZFvAgJ6wp3k4pU6ALRsSh02jagyurwAX2ohqnfRC3YFigZu?=
+ =?us-ascii?Q?b0wws9Kot7tX1L8CVBuMcXMmYJivsKJN/3lPSdwk/YMAU7l8wQlRmclrJPgc?=
+ =?us-ascii?Q?kLkNNjGd0qXikeiVoqUdJLMyx8XGSEKt8EbWjNQpNY3Cv2TcM872wvHpMtdZ?=
+ =?us-ascii?Q?G8yOdUihke2MfdTyMUXlYz3XZUCpy7G2ywf5GJlvQqWgAPJej66cQVEpG16P?=
+ =?us-ascii?Q?r94lBhjDaA=3D=3D?=
 X-OriginatorOrg: nxp.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 5bfffed5-94be-41da-7fdd-08da1e89c33b
+X-MS-Exchange-CrossTenant-Network-Message-Id: 92d782b2-645c-438f-3e55-08da1e89c610
 X-MS-Exchange-CrossTenant-AuthSource: DB7PR04MB5450.eurprd04.prod.outlook.com
 X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 15 Apr 2022 02:43:46.3186 (UTC)
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 15 Apr 2022 02:43:51.0527 (UTC)
 X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
 X-MS-Exchange-CrossTenant-Id: 686ea1d3-bc2b-4c6f-a92c-d99c5c301635
 X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: orfLpY02LBQPck1ftM2iOx/tiEv2nltiSjPv/vTyo72HGU60LZh/wKM4VoZXAtboDdx+f1XYIhVa0Juy5t9Rlw==
+X-MS-Exchange-CrossTenant-UserPrincipalName: Veqyv3uHf8sSQcz0+VaG/7eoa8YfQdZ1ashtRDdPMtxwhKCwZI2IkaObQP/FMQcYD2uAoze4eLJOKmdIyZIPvg==
 X-MS-Exchange-Transport-CrossTenantHeadersStamped: DU2PR04MB9132
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -124,46 +127,63 @@ Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 From: Sandor Yu <Sandor.yu@nxp.com>
 
-This is new features and bug fix patch set for DW_HDMI DRM bridge driver
-that has verified by NXP i.MX8MPlus.
-Two new feature added:
-1. Add GPA interface for DW_HDMI Audio.
-3. New API for reset PHY Gen1.
-Two bugs fixed:
-1. Enable overflow workaround for all IP versions later than v1.30a.
-2. Clear GCP_Auto bit for 24-bit color depth to pass CTS.
+i.MX8MPlus (v2.13a) has verified need the workaround to clear the
+overflow with one iteration.
+Only i.MX6Q(v1.30a) need the workaround with 4 iterations,
+the others versions later than v1.3a have been identified as needing
+the workaround with a single iteration.
 
-v1->v2:
-1. Save CEC interrupt registers in struct dw_hdmi_cec
-2. Restore CEC logical address register by cec->addresses.
-3. Default enable overflow workaround for all versions later than v1.30a.
-4. Add clear_gcp_auto flag to clear gcp_auto bit for all 24-bit color.
-5. Remove i.MX8MPlus specific reference.
+Default enable the workaround with one iteration for all versions
+later than v1.30a.
 
-v2->v3:
-1. Drop the patch of Add CEC Suspend/Resume to restore registers.
-Because it is not a general feature for other SOCs, their CEC engine are
-enabled in suspend for CEC wakeup.
-2. More detail comments for patch GCP only for Deep Color.
-3. Address coments for patch GPA driver and move enable_audio/disable_audio
-from dw_hdmi_phy_ops to dw_hdmi_plat_data.
+Signed-off-by: Sandor Yu <Sandor.yu@nxp.com>
+Acked-by: Neil Armstrong <narmstrong@baylibre.com>
+---
+ drivers/gpu/drm/bridge/synopsys/dw-hdmi.c | 23 +++++++----------------
+ 1 file changed, 7 insertions(+), 16 deletions(-)
 
-Sandor Yu (4):
-  drm: bridge: dw_hdmi: default enable workaround to clear the overflow
-  drm: bridge: dw_hdmi: Enable GCP only for Deep Color
-  drm: bridge: dw_hdmi: add reset function for PHY GEN1
-  drm: bridge: dw_hdmi: Audio: Add General Parallel Audio (GPA) driver
-
- drivers/gpu/drm/bridge/synopsys/Kconfig       |  10 +
- drivers/gpu/drm/bridge/synopsys/Makefile      |   1 +
- .../drm/bridge/synopsys/dw-hdmi-gp-audio.c    | 199 ++++++++++++++++++
- drivers/gpu/drm/bridge/synopsys/dw-hdmi.c     | 186 ++++++++++++++--
- drivers/gpu/drm/bridge/synopsys/dw-hdmi.h     |  16 +-
- drivers/gpu/drm/sun4i/sun8i_hdmi_phy.c        |   2 +-
- include/drm/bridge/dw_hdmi.h                  |  11 +-
- 7 files changed, 400 insertions(+), 25 deletions(-)
- create mode 100644 drivers/gpu/drm/bridge/synopsys/dw-hdmi-gp-audio.c
-
+diff --git a/drivers/gpu/drm/bridge/synopsys/dw-hdmi.c b/drivers/gpu/drm/bridge/synopsys/dw-hdmi.c
+index 4befc104d220..02d8f7e08814 100644
+--- a/drivers/gpu/drm/bridge/synopsys/dw-hdmi.c
++++ b/drivers/gpu/drm/bridge/synopsys/dw-hdmi.c
+@@ -2086,30 +2086,21 @@ static void dw_hdmi_clear_overflow(struct dw_hdmi *hdmi)
+ 	 * then write one of the FC registers several times.
+ 	 *
+ 	 * The number of iterations matters and depends on the HDMI TX revision
+-	 * (and possibly on the platform). So far i.MX6Q (v1.30a), i.MX6DL
+-	 * (v1.31a) and multiple Allwinner SoCs (v1.32a) have been identified
+-	 * as needing the workaround, with 4 iterations for v1.30a and 1
+-	 * iteration for others.
+-	 * The Amlogic Meson GX SoCs (v2.01a) have been identified as needing
+-	 * the workaround with a single iteration.
+-	 * The Rockchip RK3288 SoC (v2.00a) and RK3328/RK3399 SoCs (v2.11a) have
+-	 * been identified as needing the workaround with a single iteration.
++	 * (and possibly on the platform).
++	 * 4 iterations for i.MX6Q(v1.30a) and 1 iteration for others.
++	 * i.MX6DL (v1.31a), Allwinner SoCs (v1.32a), Rockchip RK3288 SoC (v2.00a),
++	 * Amlogic Meson GX SoCs (v2.01a), RK3328/RK3399 SoCs (v2.11a)
++	 * and i.MX8MPlus (v2.13a) have been identified as needing the workaround
++	 * with a single iteration.
+ 	 */
+ 
+ 	switch (hdmi->version) {
+ 	case 0x130a:
+ 		count = 4;
+ 		break;
+-	case 0x131a:
+-	case 0x132a:
+-	case 0x200a:
+-	case 0x201a:
+-	case 0x211a:
+-	case 0x212a:
++	default:
+ 		count = 1;
+ 		break;
+-	default:
+-		return;
+ 	}
+ 
+ 	/* TMDS software reset */
 -- 
 2.25.1
 
