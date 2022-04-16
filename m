@@ -1,72 +1,57 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7E6F2503219
-	for <lists+dri-devel@lfdr.de>; Sat, 16 Apr 2022 02:54:44 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id B602F50321C
+	for <lists+dri-devel@lfdr.de>; Sat, 16 Apr 2022 03:00:59 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 4FCCC10E0E5;
-	Sat, 16 Apr 2022 00:54:40 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id B11D310E527;
+	Sat, 16 Apr 2022 01:00:54 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-lj1-x233.google.com (mail-lj1-x233.google.com
- [IPv6:2a00:1450:4864:20::233])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 4BB7E10E0E5
- for <dri-devel@lists.freedesktop.org>; Sat, 16 Apr 2022 00:54:39 +0000 (UTC)
-Received: by mail-lj1-x233.google.com with SMTP id f5so3452120ljp.8
- for <dri-devel@lists.freedesktop.org>; Fri, 15 Apr 2022 17:54:39 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=message-id:date:mime-version:user-agent:subject:content-language:to
- :cc:references:from:in-reply-to:content-transfer-encoding;
- bh=myWuKLWYZJPpH3Qya2CDocZDX3GyC4L730OJLmNxeFg=;
- b=iJJ6OWJHtQpPHknPWP82QAwiG9p1e2AQVoe5ePhZZaDS1rE5fqmH2YIsYzBxYTDU9h
- P+xqVofrMT2LiWjyYiBo+iHxg+r1ucwcQqtNn/z715lTtAL1OUwwgdqqYubdg+VWfR8/
- qy+y6qv5kWoZ3qISYaGeuvmqcMzx7axrdQAraGzCiLs1zorCxs/NkTbd9dNvBMJfkA/T
- mk1WjrNNrMlX/xxmN/qKuG0O8uLxemSWaHhrc86iGWBEWjjeMfHIh4v2ebxba/G5DFP0
- V/c8CT7bqfnXoxR+woYB34c61068oz1YjbZwBnTjv+9MfloAA1illgrI0aw4/zaG+aw1
- Bvaw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
- :content-language:to:cc:references:from:in-reply-to
- :content-transfer-encoding;
- bh=myWuKLWYZJPpH3Qya2CDocZDX3GyC4L730OJLmNxeFg=;
- b=saaacRwWS2mXKQj/yk7PpH90ZLbeA/D55lfUc0YH9hvpxCOtLjN2BfcNPr8WTSyX9h
- eKX6nrVqnLjrIhGHnVbHxHRphcWixN+ASdymaBvSBl52U/gct7QnadEKi24bcElpuc6M
- 1HmI+U4MVw58nCrIowWqzCZNgNYA57EwwPlgfbkhhqO/haBjicV1jAX0OnJaOx1A9+hN
- 5e3dFOkNmPNi3wDD0xfVIyzlWgimwtpmKW9w5UY2A/JNM1RdCc44D6zX3lpBqITzRmjH
- XBirRiLN2CHZGxDqPxsxx2DDbd/sCB4AoZPW2gctjbymYOJ9Fm/p01xHbRz/bd3PmUvF
- Z2Uw==
-X-Gm-Message-State: AOAM533JYa/8/InEprhkxf4ORBBbtOqh5h5Wk00siGPyy9quJ0+u7eE3
- BEW3DRtu3n7lkANJhFnqPnAt6A==
-X-Google-Smtp-Source: ABdhPJwxHUNFS3mBZeQd9S8TvAUPJIW1xcbCc2tMdOTOOI9wHb3xANL7jUWDNClvu/EDW35aXuKvLw==
-X-Received: by 2002:a2e:99d9:0:b0:24b:64c4:a422 with SMTP id
- l25-20020a2e99d9000000b0024b64c4a422mr873335ljj.58.1650070477354; 
- Fri, 15 Apr 2022 17:54:37 -0700 (PDT)
-Received: from [192.168.1.211] ([37.153.55.125])
- by smtp.gmail.com with ESMTPSA id
- n8-20020a2e9048000000b0024b41a95675sm421635ljg.32.2022.04.15.17.54.36
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Fri, 15 Apr 2022 17:54:36 -0700 (PDT)
-Message-ID: <ddb8d8fa-89dc-268b-0505-9ee7df8c272e@linaro.org>
-Date: Sat, 16 Apr 2022 03:54:35 +0300
+Received: from mailgw01.mediatek.com (unknown [60.244.123.138])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 6DA3C10E526
+ for <dri-devel@lists.freedesktop.org>; Sat, 16 Apr 2022 01:00:52 +0000 (UTC)
+X-UUID: 6129419a2ddd422da82f3a42cdf5e1cd-20220416
+X-CID-P-RULE: Release_Ham
+X-CID-O-INFO: VERSION:1.1.4, REQID:5a3ca7f7-63f8-4caa-a17b-8d3f4032ee81, OB:0,
+ LO
+ B:0,IP:0,URL:0,TC:0,Content:0,EDM:0,RT:0,SF:0,FILE:0,RULE:Release_Ham,ACTI
+ ON:release,TS:0
+X-CID-META: VersionHash:faefae9, CLOUDID:503d12ef-06b0-4305-bfbf-554bfc9d151a,
+ C
+ OID:IGNORED,Recheck:0,SF:nil,TC:nil,Content:0,EDM:-3,File:nil,QS:0,BEC:nil
+X-UUID: 6129419a2ddd422da82f3a42cdf5e1cd-20220416
+Received: from mtkexhb02.mediatek.inc [(172.21.101.103)] by
+ mailgw01.mediatek.com (envelope-from <nancy.lin@mediatek.com>)
+ (Generic MTA with TLSv1.2 ECDHE-RSA-AES256-SHA384 256/256)
+ with ESMTP id 1958533984; Sat, 16 Apr 2022 09:00:45 +0800
+Received: from mtkcas11.mediatek.inc (172.21.101.40) by
+ mtkmbs10n2.mediatek.inc (172.21.101.183) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_CBC_SHA384) id 15.2.792.3; 
+ Sat, 16 Apr 2022 09:00:44 +0800
+Received: from mtksdccf07 (172.21.84.99) by mtkcas11.mediatek.inc
+ (172.21.101.73) with Microsoft SMTP Server id 15.0.1497.2 via Frontend
+ Transport; Sat, 16 Apr 2022 09:00:44 +0800
+Message-ID: <5b82c5b1791070c145a73047f42bba43bc636e55.camel@mediatek.com>
+Subject: Re: [PATCH v16 01/22] dt-bindings: mediatek: add vdosys1 RDMA
+ definition for mt8195
+From: Nancy.Lin <nancy.lin@mediatek.com>
+To: CK Hu <ck.hu@mediatek.com>, Rob Herring <robh+dt@kernel.org>, "Matthias
+ Brugger" <matthias.bgg@gmail.com>, Chun-Kuang Hu <chunkuang.hu@kernel.org>,
+ Philipp Zabel <p.zabel@pengutronix.de>, <wim@linux-watchdog.org>,
+ AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>,
+ <linux@roeck-us.net>
+Date: Sat, 16 Apr 2022 09:00:44 +0800
+In-Reply-To: <08f212f745ed5d1fde90b3d714c6f71b6f6f8f18.camel@mediatek.com>
+References: <20220318142009.2796-1-nancy.lin@mediatek.com>
+ <20220318142009.2796-2-nancy.lin@mediatek.com>
+ <08f212f745ed5d1fde90b3d714c6f71b6f6f8f18.camel@mediatek.com>
+Content-Type: text/plain; charset="UTF-8"
+X-Mailer: Evolution 3.28.5-0ubuntu0.18.04.2 
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.8.0
-Subject: Re: [RFC PATCH 1/6] drm/dp: Helpers to make it easier for drivers to
- use DP AUX bus properly
-Content-Language: en-GB
-To: Doug Anderson <dianders@chromium.org>
-References: <20220409023628.2104952-1-dianders@chromium.org>
- <20220408193536.RFC.1.I4182ae27e00792842cb86f1433990a0ef9c0a073@changeid>
- <a9a5dfb7-819b-d3a2-2c47-d5b239d21ad3@linaro.org>
- <CAD=FV=WKwErpD7iCu+2jFvMutmmmgLUEhAnw8s=27wUxcpF-aQ@mail.gmail.com>
- <CAA8EJppOVqaAEVeQY7p0EfCObJxfL591kbaYLYfbgOHHtmfhXw@mail.gmail.com>
- <CAD=FV=UmXzPyVOa-Y0gpY0qcukqW3ge5DBPx6ak88ydEqTsBiQ@mail.gmail.com>
-From: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
-In-Reply-To: <CAD=FV=UmXzPyVOa-Y0gpY0qcukqW3ge5DBPx6ak88ydEqTsBiQ@mail.gmail.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 7bit
+X-MTK: N
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -79,337 +64,180 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Sankeerth Billakanti <quic_sbillaka@quicinc.com>,
- Philip Chen <philipchen@chromium.org>, Thomas Zimmermann <tzimmermann@suse.de>,
- David Airlie <airlied@linux.ie>, LKML <linux-kernel@vger.kernel.org>,
- Abhinav Kumar <quic_abhinavk@quicinc.com>,
- Robert Foss <robert.foss@linaro.org>, Stephen Boyd <swboyd@chromium.org>,
- dri-devel <dri-devel@lists.freedesktop.org>,
- Hsin-Yi Wang <hsinyi@chromium.org>
+Cc: devicetree@vger.kernel.org, srv_heupstream@mediatek.com,
+ David Airlie <airlied@linux.ie>, "jason-jh . lin" <jason-jh.lin@mediatek.com>,
+ singo.chang@mediatek.com, llvm@lists.linux.dev,
+ Nick Desaulniers <ndesaulniers@google.com>, linux-kernel@vger.kernel.org,
+ dri-devel@lists.freedesktop.org,
+ Project_Global_Chrome_Upstream_Group@mediatek.com,
+ linux-mediatek@lists.infradead.org, Yongqiang Niu <yongqiang.niu@mediatek.com>,
+ Nathan Chancellor <nathan@kernel.org>, linux-arm-kernel@lists.infradead.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 16/04/2022 03:09, Doug Anderson wrote:
-> Hi,
+Hi CK,
+
+Thanks for the review.
+
+On Mon, 2022-03-21 at 17:52 +0800, CK Hu wrote:
+> Hi, Nancy:
 > 
-> On Fri, Apr 15, 2022 at 3:45 PM Dmitry Baryshkov
-> <dmitry.baryshkov@linaro.org> wrote:
->>
->> On Sat, 16 Apr 2022 at 00:13, Doug Anderson <dianders@chromium.org> wrote:
->>>
->>> Hi,
->>>
->>> On Thu, Apr 14, 2022 at 5:47 PM Dmitry Baryshkov
->>> <dmitry.baryshkov@linaro.org> wrote:
->>>>
->>>> On 09/04/2022 05:36, Douglas Anderson wrote:
->>>>> As talked about in the kerneldoc for "struct dp_aux_ep_client" in this
->>>>> patch and also in the past in commit a1e3667a9835 ("drm/bridge:
->>>>> ti-sn65dsi86: Promote the AUX channel to its own sub-dev"), to use the
->>>>> DP AUX bus properly we really need two "struct device"s. One "struct
->>>>> device" is in charge of providing the DP AUX bus and the other is
->>>>> where we'll try to get a reference to the newly probed endpoint
->>>>> devices.
->>>>>
->>>>> In ti-sn65dsi86 this wasn't too difficult to accomplish. That driver
->>>>> is already broken up into several "struct devices" anyway because it
->>>>> also provides a PWM and some GPIOs. Adding one more wasn't that
->>>>> difficult / ugly.
->>>>>
->>>>> When I tried to do the same solution in parade-ps8640, it felt like I
->>>>> was copying too much boilerplate code. I made the realization that I
->>>>> didn't _really_ need a separate "driver" for each person that wanted
->>>>> to do the same thing. By putting all the "driver" related code in a
->>>>> common place then we could save a bit of hassle. This change
->>>>> effectively adds a new "ep_client" driver that can be used by
->>>>> anyone. The devices instantiated by this driver will just call through
->>>>> to the probe/remove/shutdown calls provided.
->>>>>
->>>>> At the moment, the "ep_client" driver is backed by the Linux auxiliary
->>>>> bus (unfortunate naming--this has nothing to do with DP AUX). I didn't
->>>>> want to expose this to clients, though, so as far as clients are
->>>>> concerned they get a vanilla "struct device".
->>>>
->>>> I have been thinking about your approach for quite some time. I think
->>>> that enforcing a use of auxilliary device is an overkill. What do we
->>>> really need is the the set callbacks in the bus struct or a notifier. We
->>>> have to notify the aux_bus controller side that the client has been
->>>> probed successfully or that the client is going to be removed.
->>>
->>> It seems like these new callbacks would be nearly the same as the
->>> probe/remove callbacks in my proposal except:
->>>
->>> * They rely on there being exactly 1 AUX device, or we make it a rule
->>> that we wait for all AUX devices to probe (?)
->>
->> Is the backlight a separate device on an AUX bus? Judging from
->> drm_panel_dp_aux_backlight(), it isn't. I assumed that aux bus is just
->> a point-to-point bus, so there is always a single client.
+> On Fri, 2022-03-18 at 22:19 +0800, Nancy.Lin wrote:
+> > Add vdosys1 RDMA definition.
 > 
-> Define "device". ;-)
-
-"a device on the AUX bus" = the device, which lists dp_aux_bus_type as 
-dev->bus_type.
-
+> See my review comment in v14 [1].
 > 
-> It's a seperate "struct device" from a Linux point of view since it's
-> a backlight class device. Certainly it's highly correlated to the
-> display, but one can conceptually think of them as different devices,
-> sorta. ;-)
+> [1] 
 > 
-> I actually dug a tiny bit more into the whole "touchscreen over aux".
-> I guess DP 1.2 has a standard of "USB over DP AUX". No idea how that
-> would be modeled, of course.
-
-Ugh. Do you have any details of the standard itself? Like how does it 
-looks like from the host point of view. And if the AUX is required to be 
-powered for this USB bus to work?
-
-In other words: if we were to model it at this moment, would it be the 
-child of the panel device (like backlight) or a separate device sitting 
-on the same AUX bus?
-
+https://patchwork.kernel.org/project/linux-mediatek/patch/20220310035515.16881-2-nancy.lin@mediatek.com/
 > 
-> I guess the summary is that I'm OK w/ changing it to assume one device
-> for now, but I'm still not sure it's compelling to move to normal
-> callbacks. The API for callbacks is pretty much the same as the one I
-> proposed and IMO leaving it the way it is (with an extra struct
-> device) doesn't really add much complexity and has a few (small) nice
-> benefits.
-
-I think Stephen didn't like too many similarities between 
-dp_aux_ep_client and dp_aux_ep_device. And I'd second him here.
-
-
->>> * We need to come up with a system for detecting when everything
->>> probes or is going to be removed, though that's probably not too hard.
->>> I guess the DP AUX bus could just replace the panel's probe function
->>> with its own and essentially "tail patch" it. I guess it could "head
->>> patch" the remove call? ...or is there some better way you were
->>> thinking of knowing when all our children probed?
->>>
->>> * The callback on the aux bus controller side would not be able to
->>> DEFER. In other words trying to acquire a reference to the panel can
->>> always be the last thing we do so we know there can be no reasons to
->>> defer after. This should be doable, but at least in the ps8640 case it
->>> will require changing the code a bit. I notice that today it actually
->>> tries to get the panel side _before_ it gets the MIPI side and it
->>> potentially can return -EPROBE_DEFER if it can't find the MIPI side. I
->>> guess I have a niggling feeling that we'll find some reason in the
->>> future that we can't be last, but we can probably ignore that. ;-)
->>>
->>> I can switch this all to normal callbacks if that's what everyone
->>> wants, but it doesn't feel significantly cleaner to me and does seem
->>> to have some (small) downsides.
->>>
->>>
->>>> And this
->>>> approach would make driver's life easier, since e.g. the bus code can
->>>> pm_get the EP device before calling callbacks/notifiers and
->>>> pm_put_autosuspend it afterwards.
->>>
->>> Not sure about doing the pm calls on behalf of the EP device. What's
->>> the goal there?
->>
->> I think any driver can pm_runtime_get another device. The goal is to
->> let the 'post_probe' callback to power up the panel, read the EDID,
->> etc.
+> Regards,
+> CK
 > 
-> Right. I was hoping to keep this as a separate discussion since I
-> think it's largely unrelated to the probe ordering issue, but we can
-> talk about it here if you want.
+Sorry for missing your comment. The VDO1 MDP_RDMA is not totally
+compatible with mdp3-rdma[1]. Both compression support and tile size
+are different. I will move the binding yaml in the right place.
 
-As for me they are pretty much tired one to another. As reading EDID 
-(even if it is just to read the panel ID) is one of the main issue with 
-panel probe path. I just don't want to end up in a situation when we 
-refactor aux_bus probe to fix the ordering/race issue and then we have 
-to refactor it again for reading EDID.
+[1] 
 
-> 
-> There are a lot of open questions here and it's definitely hard to
-> wrap your head around all of it. Maybe I'll just spam some thoughts
-> and see if they all make sense together...
+https://patchwork.kernel.org/project/linux-mediatek/patch/20220117055254.9777-15-roy-cw.yeh@mediatek.com/
 
-Thank you for the lengthy explanation. And I should be your pardon for 
-partially ignoring DP/ dp bridges patches earlier.
+Regards,
+Nancy
 
-> 
-> 1. At the moment, there's no guarantee that a DP AUX Endpoint (AKA
-> panel) will use pm_runtime() to power itself up enough to do an AUX
-> transfer. At the moment the two eDP panels drivers I'm aware of use
-> pm_runtime, but that's actually a fairly new behavior. I guess we'd
-> have to codify it as "required" if we were going to rely on it.
-
-* document it as a "required"
-
-> 
-> 2. In general, panels have powered themselves enough to read the EDID
-> in their prepare() stage, which is equivalent to the bridge's
-> pre_enable(). During some of my early patches to try to support EDID
-> reading in ti-sn65dsi86 I actually relied upon it. It was like that in
-> v3 [1]. Personally I see this as the "official" interface to power on
-> the panel from the DP controller. As such I'm not sure we need to add
-> pm_runtime() as an equivalent option.
-> 
-> 3. In the cover letter of v4 of my ti-sn65dsi86 EDID patch series I
-> talked about why I switched to having EDID reading driven by the panel
-> instead of powering on the panel (via pre_enable) and reading the EDID
-> in the controller. One reason talked about there is that the "generic"
-> eDP panel driver actually needs the EDID, or at least enough of it to
-> get the panel ID, so that it can adjust its power sequence timings. If
-> the EDID reading is completely handled by the DP driver and the panel
-> can't do it then we'd need to figure out how to communicate it back.
-
-I think with the current drm_bridge_connector-based code this should be 
-handled properly. Anyway, it should be the panel, who reads the EDID, 
-not the DP core. Actually just a random idea that just came to my mind. 
-Maybe (!) we should break ties between msm dp core and the whole 
-EDID/HPD/dp_panel story. In other words, split the whole DP EDID reading 
-to the separate drm_bridge. Maybe I'm overengineering it here.
-
-> 
-> 4. In general, panels can be pretty persnickety about their power
-> sequencing. As far as I've been able to tell, the official spec
-> provides two things you can do:
-> 
-> 4a) You can power the panel up enough to do AUX transfers and then
-> power it back off.
-> 
-> 4b) You can power the panel up enough to do AUX transfers, then finish
-> powering it all the way up (turn on screen, backlight, etc). When you
-> turn the screen off, if you follow the spec strictly, you're also
-> _required_ to fully power the panel off. In other words, remove _all_
-> power from the display including any power that would be needed to do
-> AUX transfers.
-
-Ugh. It's a pity that we can not leave AUX enabled forever, while doing 
-all kinds of turning the screen off  and on again.
-
-> 
-> Now the generic eDP panel code doesn't currently follow the
-> "strict"ness of the spec and I'm not actually sure if that's how the
-> spec is intended to be interpreted anyway. There are two timing
-> diagrams, though. One for "aux transfer only" and the other for
-> "normal system operation". In the "normal system operation" the
-> diagram doesn't allow for the backlight to ever go off and on again.
-> 
-> Now, despite the fact that the generic eDP panel code doesn't follow
-> the "strict"ness I just described, the _other_ DP panel I worked on
-> recently (samsung-atna33xc20) does. In testing we found that this
-> panel would sometimes (like 1 in 20 times?) crash if you ever stopped
-> outputting data to the display and then started again. You absolutely
-> needed to fully power cycle the display each time. I tried to document
-> this to the best of my ability in atana33xc20_unprepare(). There's
-> also a WARN_ON() in atana33xc20_enable() trying to detect if someone
-> is doing something the panel driver doesn't expect. I've also been
-> trying to keep my eyes out to see if we need to do the same thing in
-> generic eDP panel code, either for everyone or via some type of
-> per-panel quirk. There's definitely a good reason to avoid the extra
-> cycling if possible since powering panels off and on again often
-> requires hundreds of milliseconds of delay in order to meet timing
-> diagrams. ...and we do this if we ever change panel "modes".
-
-Point noted.
-
-> 
-> ...OK, so why does this all matter? I guess my point here is I worry a
-> little bit about saying that the DP controller code can willy nilly
-> request the panel to be powered whenever it wants. If the DP
-> controller was trying to hold the panel powered and then we _needed_
-> to power the panel off then that would be bad. It doesn't mean we
-> can't be careful about it, of course...
-> 
-> Said another way, in my mental model these three sequences are allowed:
-> 
-> s1) prepare, unprepare
-> s2) prepare, enable, disable, unprepare
-> s3) prepare, enable, disable, unprepare, prepare, enable, disable, unprepare
-> 
-> ...and this sequence is _not_ allowed:
-> 
-> s4) prepare, enable, disable, enable, disable, unprepare
-
-A strange random question (for which there is probably an existing 
-obvious answer somwewhere, 4 a.m. here).
-
-Is there any reason why can't we drop prepare/unprepare for the eDP 
-panels and use the following sequence;
-
-- get_modes() = perform AUX-only transfer the first time we hit the 
-function to read the EDID. return cached copy afterwards.
-
-- a sequence of enable()/disable() calls doing a full powerup/powerdown?
-
-
-> 
-> ...and, in my mind, it's up to the panel driver to know whether in
-> sequence s3) it has to _force_ power off between the unprepare and a
-> prepare.
-> 
-> If pm_runtime() officially replaces prepare/unprepare then it's less
-> obvious (in my mind) that we have to coordinate with enable().
-
-I see
-
-> 
-> 5. In general I've been asserting that it should be up to the panel to
-> power things on and drive all AUX transactions. ...but clearly my
-> model isn't reality. We certainly do AUX transactions from the DP
-> driver because the DP driver needs to know things about the connected
-> device, like the number of lanes it has, the version of eDP it
-> supports, and the available bit rates to name a few. Those things all
-> work today by relying on the fact that pre-enable powers the panel on.
-> It's pretty easy to say that reading the EDID (and I guess AUX
-> backlight) is the odd one out. So right now I guess my model is:
-> 
-> 5a) If the panel code wants to access the AUX bus it can do so by
-> powering itself on and then just doing an AUX transaction and assuming
-> that the provider of the AUX bus can power itself on as needed.
-> 
-> 5b) If the DP code wants to access the AUX bus it should make sure
-> that the next bridge's pre_enable() has been called. It can then
-> assume that the device is powered on until the next bridge's
-> post_disable() has been called.
-> 
-> So I guess tl;dr: I'm not really a huge fan of the DP driver powering
-> the panel on by doing a pm_runtime_get() on it. I'd prefer to keep
-> with the interface that we have to pre_enable() the panel to turn it
-> on.
-
-Again, thank for the explanation. Your concerns make more sense now.
-As much as I hate writing docs, maybe we should put at least basic notes 
-(regarding panel requirements) somewhere to the DP/DP AUX documentation?
-
+> > 
+> > Signed-off-by: Nancy.Lin <nancy.lin@mediatek.com>
+> > Reviewed-by: AngeloGioacchino Del Regno <
+> > angelogioacchino.delregno@collabora.com>
+> > ---
+> >  .../arm/mediatek/mediatek,mdp-rdma.yaml       | 86
+> > +++++++++++++++++++
+> >  1 file changed, 86 insertions(+)
+> >  create mode 100644
+> > Documentation/devicetree/bindings/arm/mediatek/mediatek,mdp-
+> > rdma.yaml
+> > 
+> > diff --git
+> > a/Documentation/devicetree/bindings/arm/mediatek/mediatek,mdp-
+> > rdma.yaml
+> > b/Documentation/devicetree/bindings/arm/mediatek/mediatek,mdp-
+> > rdma.yaml
+> > new file mode 100644
+> > index 000000000000..6ab773569462
+> > --- /dev/null
+> > +++ b/Documentation/devicetree/bindings/arm/mediatek/mediatek,mdp-
+> > rdma.yaml
+> > @@ -0,0 +1,86 @@
+> > +# SPDX-License-Identifier: (GPL-2.0-only OR BSD-2-Clause)
+> > +%YAML 1.2
+> > +---
+> > +$id: 
+> > 
+https://urldefense.com/v3/__http://devicetree.org/schemas/arm/mediatek/mediatek,mdp-rdma.yaml*__;Iw!!CTRNKA9wMg0ARbw!wJXD2xhE7TC3ASmUW1ftsqaOyZ8KrCjFHeXywwGFdNi56kNKasQxnWfzt81DUQ$
+> >  
+> > +$schema: 
+> > 
+https://urldefense.com/v3/__http://devicetree.org/meta-schemas/core.yaml*__;Iw!!CTRNKA9wMg0ARbw!wJXD2xhE7TC3ASmUW1ftsqaOyZ8KrCjFHeXywwGFdNi56kNKasQxnWcP0BMRuw$
+> >  
+> > +
+> > +title: Mediatek MDP RDMA
+> > +
+> > +maintainers:
+> > +  - Matthias Brugger <matthias.bgg@gmail.com>
+> > +
+> > +description: |
+> > +  The mediatek MDP RDMA stands for Read Direct Memory Access.
+> > +  It provides real time data to the back-end panel driver, such as
+> > DSI,
+> > +  DPI and DP_INTF.
+> > +  It contains one line buffer to store the sufficient pixel data.
+> > +  RDMA device node must be siblings to the central MMSYS_CONFIG
+> > node.
+> > +  For a description of the MMSYS_CONFIG binding, see
+> > +  Documentation/devicetree/bindings/arm/mediatek/mediatek,mmsys.ya
+> > ml
+> > for details.
+> > +
+> > +properties:
+> > +  compatible:
+> > +    oneOf:
+> > +      - items:
+> > +          - const: mediatek,mt8195-vdo1-rdma
+> > +
+> > +  reg:
+> > +    maxItems: 1
+> > +
+> > +  interrupts:
+> > +    maxItems: 1
+> > +
+> > +  power-domains:
+> > +    description: A phandle and PM domain specifier as defined by
+> > bindings of
+> > +      the power controller specified by phandle. See
+> > +      Documentation/devicetree/bindings/power/power-domain.yaml
+> > for
+> > details.
+> > +
+> > +  clocks:
+> > +    items:
+> > +      - description: RDMA Clock
+> > +
+> > +  iommus:
+> > +    description:
+> > +      This property should point to the respective IOMMU block
+> > with
+> > master port as argument,
+> > +      see
+> > Documentation/devicetree/bindings/iommu/mediatek,iommu.yaml for
+> > details.
+> > +
+> > +  mediatek,gce-client-reg:
+> > +    description:
+> > +      The register of display function block to be set by gce.
+> > There
+> > are 4 arguments,
+> > +      such as gce node, subsys id, offset and register size. The
+> > subsys id that is
+> > +      mapping to the register of display function blocks is
+> > defined
+> > in the gce header
+> > +      include/include/dt-bindings/gce/<chip>-gce.h of each chips.
+> > +    $ref: /schemas/types.yaml#/definitions/phandle-array
+> > +    maxItems: 1
+> > +
+> > +required:
+> > +  - compatible
+> > +  - reg
+> > +  - power-domains
+> > +  - clocks
+> > +  - iommus
+> > +
+> > +additionalProperties: false
+> > +
+> > +examples:
+> > +  - |
+> > +    #include <dt-bindings/interrupt-controller/arm-gic.h>
+> > +    #include <dt-bindings/clock/mt8195-clk.h>
+> > +    #include <dt-bindings/power/mt8195-power.h>
+> > +    #include <dt-bindings/gce/mt8195-gce.h>
+> > +    #include <dt-bindings/memory/mt8195-memory-port.h>
+> > +
+> > +    soc {
+> > +        #address-cells = <2>;
+> > +        #size-cells = <2>;
+> > +
+> > +        vdo1_rdma0: mdp-rdma@1c104000 {
+> > +            compatible = "mediatek,mt8195-vdo1-rdma";
+> > +            reg = <0 0x1c104000 0 0x1000>;
+> > +            interrupts = <GIC_SPI 495 IRQ_TYPE_LEVEL_HIGH 0>;
+> > +            clocks = <&vdosys1 CLK_VDO1_MDP_RDMA0>;
+> > +            power-domains = <&spm MT8195_POWER_DOMAIN_VDOSYS1>;
+> > +            iommus = <&iommu_vdo M4U_PORT_L2_MDP_RDMA0>;
+> > +            mediatek,gce-client-reg = <&gce0 SUBSYS_1c10XXXX
+> > 0x4000
+> > 0x1000>;
+> > +        };
+> > +    };
 > 
 > 
-> [1] https://lore.kernel.org/r/20210402152701.v3.8.Ied721dc895156046ac523baa55a71da241cd09c7@changeid/
-> [2] https://lore.kernel.org/r/20210416223950.3586967-1-dianders@chromium.org/
-> 
-> 
->> BTW: as I'm slowly diving into DP vs eDP differences. Do we need to
->> write the EDID checksum like we do for DP?
-> 
-> Write the EDID checksum? I don't know what that means. You mean
-> dp_panel_get_edid_checksum()? I'm not 100% sure, a quick glance seems
-> to make me feel it has to do with DP compliance testing? I can dig
-> more if need be. The generic EDID reading code already calculates the
-> checksum, so unless you're doing some funny business you shouldn't
-> need to check it again...
 
-I was thinking about  dp_link_send_edid_checksum() / 
-drm_dp_send_real_edid_checksum().
-
-> 
-> 
->> Do you have any good summary for eDP vs DP differences?
-> 
-> I don't. :( Mostly stuff here is me trying to grok bits out of what
-> existing drivers were doing and trying to cross reference it with the
-> eDP spec that I have (which I don't believe I can share,
-> unfortunately).
-
-I'll check if I can get DP and eDP specs on my own.
-
--- 
-With best wishes
-Dmitry
