@@ -1,40 +1,40 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 634FB50321D
-	for <lists+dri-devel@lfdr.de>; Sat, 16 Apr 2022 03:03:31 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id CEDDE50321E
+	for <lists+dri-devel@lfdr.de>; Sat, 16 Apr 2022 03:06:39 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id F3F1110E532;
-	Sat, 16 Apr 2022 01:03:24 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id A638110E53D;
+	Sat, 16 Apr 2022 01:06:34 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from mailgw01.mediatek.com (unknown [60.244.123.138])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 0780E10E526
- for <dri-devel@lists.freedesktop.org>; Sat, 16 Apr 2022 01:03:22 +0000 (UTC)
-X-UUID: a7a9cc8ac24a4a94a4549e077688e8f5-20220416
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 0B02810E53D
+ for <dri-devel@lists.freedesktop.org>; Sat, 16 Apr 2022 01:06:32 +0000 (UTC)
+X-UUID: 45a59da02ae64a43842f07e5ec009415-20220416
 X-CID-P-RULE: Release_Ham
-X-CID-O-INFO: VERSION:1.1.4, REQID:0b0355d9-89cf-4c71-b2bb-d2d5a0201157, OB:0,
+X-CID-O-INFO: VERSION:1.1.4, REQID:7a822972-5385-417a-8e77-f34d29b91a33, OB:0,
  LO
  B:0,IP:0,URL:0,TC:0,Content:0,EDM:0,RT:0,SF:0,FILE:0,RULE:Release_Ham,ACTI
  ON:release,TS:0
-X-CID-META: VersionHash:faefae9, CLOUDID:8c4512ef-06b0-4305-bfbf-554bfc9d151a,
+X-CID-META: VersionHash:faefae9, CLOUDID:e886e8ef-da02-41b4-b6df-58f4ccd36682,
  C
  OID:IGNORED,Recheck:0,SF:nil,TC:nil,Content:0,EDM:-3,File:nil,QS:0,BEC:nil
-X-UUID: a7a9cc8ac24a4a94a4549e077688e8f5-20220416
+X-UUID: 45a59da02ae64a43842f07e5ec009415-20220416
 Received: from mtkexhb01.mediatek.inc [(172.21.101.102)] by
  mailgw01.mediatek.com (envelope-from <nancy.lin@mediatek.com>)
  (Generic MTA with TLSv1.2 ECDHE-RSA-AES256-SHA384 256/256)
- with ESMTP id 838796539; Sat, 16 Apr 2022 09:03:17 +0800
+ with ESMTP id 1412567693; Sat, 16 Apr 2022 09:06:27 +0800
 Received: from mtkcas11.mediatek.inc (172.21.101.40) by
  mtkmbs10n2.mediatek.inc (172.21.101.183) with Microsoft SMTP Server
  (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_CBC_SHA384) id 15.2.792.3; 
- Sat, 16 Apr 2022 09:03:15 +0800
+ Sat, 16 Apr 2022 09:06:26 +0800
 Received: from mtksdccf07 (172.21.84.99) by mtkcas11.mediatek.inc
  (172.21.101.73) with Microsoft SMTP Server id 15.0.1497.2 via Frontend
- Transport; Sat, 16 Apr 2022 09:03:15 +0800
-Message-ID: <3eaac61a834fedeaf2f8a54ad2f5d14ecda60194.camel@mediatek.com>
-Subject: Re: [PATCH v16 09/22] soc: mediatek: add mtk-mutex support for
+ Transport; Sat, 16 Apr 2022 09:06:25 +0800
+Message-ID: <8c4d4eb17f7b142d48a45eda10e2edd37d0ceabf.camel@mediatek.com>
+Subject: Re: [PATCH v16 05/22] soc: mediatek: add mtk-mmsys config API for
  mt8195 vdosys1
 From: Nancy.Lin <nancy.lin@mediatek.com>
 To: CK Hu <ck.hu@mediatek.com>, Rob Herring <robh+dt@kernel.org>, "Matthias
@@ -42,11 +42,11 @@ To: CK Hu <ck.hu@mediatek.com>, Rob Herring <robh+dt@kernel.org>, "Matthias
  Philipp Zabel <p.zabel@pengutronix.de>, <wim@linux-watchdog.org>,
  AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>,
  <linux@roeck-us.net>
-Date: Sat, 16 Apr 2022 09:03:15 +0800
-In-Reply-To: <088784fbbe5b42a4dd9e796f0cf75a928a3b5a40.camel@mediatek.com>
+Date: Sat, 16 Apr 2022 09:06:25 +0800
+In-Reply-To: <17ed6c2a5f40cabd8e39097213811a2149c37c90.camel@mediatek.com>
 References: <20220318142009.2796-1-nancy.lin@mediatek.com>
- <20220318142009.2796-10-nancy.lin@mediatek.com>
- <088784fbbe5b42a4dd9e796f0cf75a928a3b5a40.camel@mediatek.com>
+ <20220318142009.2796-6-nancy.lin@mediatek.com>
+ <17ed6c2a5f40cabd8e39097213811a2149c37c90.camel@mediatek.com>
 Content-Type: text/plain; charset="UTF-8"
 X-Mailer: Evolution 3.28.5-0ubuntu0.18.04.2 
 MIME-Version: 1.0
@@ -79,162 +79,297 @@ Hi CK,
 
 Thanks for the review.
 
-On Tue, 2022-03-22 at 10:27 +0800, CK Hu wrote:
+On Tue, 2022-03-22 at 11:13 +0800, CK Hu wrote:
 > Hi, Nancy:
 > 
 > On Fri, 2022-03-18 at 22:19 +0800, Nancy.Lin wrote:
-> > Add mtk-mutex support for mt8195 vdosys1.
-> > The vdosys1 path component contains ovl_adaptor, merge5,
-> > and dp_intf1. Ovl_adaptor is composed of several sub-elements.
+> > Add mmsys config API. The config API is used for config mmsys reg.
+> > Some mmsys regs need to be setting according to the HW engine
+> > binding
+> > to the mmsys simultaneously.
 > > 
 > > Signed-off-by: Nancy.Lin <nancy.lin@mediatek.com>
 > > Reviewed-by: AngeloGioacchino Del Regno <
 > > angelogioacchino.delregno@collabora.com>
 > > ---
-> >  drivers/soc/mediatek/mtk-mutex.c | 54
-> > ++++++++++++++++++++++++++++++++
-> >  1 file changed, 54 insertions(+)
+> >  drivers/soc/mediatek/mt8195-mmsys.h    | 62
+> > ++++++++++++++++++++++++++
+> >  drivers/soc/mediatek/mtk-mmsys.c       | 34 ++++++++++++++
+> >  drivers/soc/mediatek/mtk-mmsys.h       | 10 +++++
+> >  include/linux/soc/mediatek/mtk-mmsys.h | 16 +++++++
+> >  4 files changed, 122 insertions(+)
 > > 
-> > diff --git a/drivers/soc/mediatek/mtk-mutex.c
-> > b/drivers/soc/mediatek/mtk-mutex.c
-> > index cb791671d751..70e6043e99df 100644
-> > --- a/drivers/soc/mediatek/mtk-mutex.c
-> > +++ b/drivers/soc/mediatek/mtk-mutex.c
-> > @@ -129,6 +129,35 @@
-> >  #define MT8195_MUTEX_MOD_DISP_PWM0		BIT(27)
-> >  #define MT8195_MUTEX_MOD_DISP_PWM1		BIT(28)
+> > diff --git a/drivers/soc/mediatek/mt8195-mmsys.h
+> > b/drivers/soc/mediatek/mt8195-mmsys.h
+> > index 369fb0aab56d..8b7adbd22919 100644
+> > --- a/drivers/soc/mediatek/mt8195-mmsys.h
+> > +++ b/drivers/soc/mediatek/mt8195-mmsys.h
+> > @@ -139,6 +139,21 @@
+> >  #define MT8195_VDO1_MIXER_SOUT_SEL_IN				
+> > 0xf68
+> >  #define MT8195_MIXER_SOUT_SEL_IN_FROM_DISP_MIXER			
+> > 0
 > >  
-> > +#define MT8195_MUTEX_MOD_DISP1_MDP_RDMA0	BIT(0)
-> > +#define MT8195_MUTEX_MOD_DISP1_MDP_RDMA1	BIT(1)
-> > +#define MT8195_MUTEX_MOD_DISP1_MDP_RDMA2	BIT(2)
-> > +#define MT8195_MUTEX_MOD_DISP1_MDP_RDMA3	BIT(3)
-> > +#define MT8195_MUTEX_MOD_DISP1_MDP_RDMA4	BIT(4)
-> > +#define MT8195_MUTEX_MOD_DISP1_MDP_RDMA5	BIT(5)
-> > +#define MT8195_MUTEX_MOD_DISP1_MDP_RDMA6	BIT(6)
-> > +#define MT8195_MUTEX_MOD_DISP1_MDP_RDMA7	BIT(7)
-> > +#define MT8195_MUTEX_MOD_DISP1_VPP_MERGE0	BIT(8)
-> > +#define MT8195_MUTEX_MOD_DISP1_VPP_MERGE1	BIT(9)
-> > +#define MT8195_MUTEX_MOD_DISP1_VPP_MERGE2	BIT(10)
-> > +#define MT8195_MUTEX_MOD_DISP1_VPP_MERGE3	BIT(11)
-> > +#define MT8195_MUTEX_MOD_DISP1_VPP_MERGE4	BIT(12)
-> > +#define MT8195_MUTEX_MOD_DISP1_VPP2_DL_RELAY	BIT(13)
-> > +#define MT8195_MUTEX_MOD_DISP1_VPP3_DL_RELAY	BIT(14)
-> > +#define MT8195_MUTEX_MOD_DISP1_VDO0_DSC_DL_ASYNC	BIT(15)
-> > +#define MT8195_MUTEX_MOD_DISP1_VDO0_MERGE_DL_ASYNC	BIT(16)
-> > +#define MT8195_MUTEX_MOD_DISP1_VDO1_OUT_DL_RELAY	BIT(17)
-> > +#define MT8195_MUTEX_MOD_DISP1_DISP_MIXER	BIT(18)
-> > +#define MT8195_MUTEX_MOD_DISP1_HDR_VDO_FE0	BIT(19)
-> > +#define MT8195_MUTEX_MOD_DISP1_HDR_VDO_FE1	BIT(20)
-> > +#define MT8195_MUTEX_MOD_DISP1_HDR_GFX_FE0	BIT(21)
-> > +#define MT8195_MUTEX_MOD_DISP1_HDR_GFX_FE1	BIT(22)
-> > +#define MT8195_MUTEX_MOD_DISP1_HDR_VDO_BE0	BIT(23)
-> > +#define MT8195_MUTEX_MOD_DISP1_HDR_MLOAD	BIT(24)
-> > +#define MT8195_MUTEX_MOD_DISP1_DPI0		BIT(25)
-> > +#define MT8195_MUTEX_MOD_DISP1_DPI1		BIT(26)
-> > +#define MT8195_MUTEX_MOD_DISP1_DP_INTF0		BIT(27)
+> > +#define MT8195_VDO1_MERGE0_ASYNC_CFG_WD	0xe30
+> > +#define MT8195_VDO1_MERGE1_ASYNC_CFG_WD	0xe40
+> > +#define MT8195_VDO1_MERGE2_ASYNC_CFG_WD	0xe50
+> > +#define MT8195_VDO1_MERGE3_ASYNC_CFG_WD	0xe60
+> > +#define MT8195_VDO1_HDRBE_ASYNC_CFG_WD	0xe70
+> > +#define MT8195_VDO1_HDR_TOP_CFG		0xd00
+> > +#define MT8195_VDO1_MIXER_IN1_ALPHA	0xd30
+> > +#define MT8195_VDO1_MIXER_IN2_ALPHA	0xd34
+> > +#define MT8195_VDO1_MIXER_IN3_ALPHA	0xd38
+> > +#define MT8195_VDO1_MIXER_IN4_ALPHA	0xd3c
+> > +#define MT8195_VDO1_MIXER_IN1_PAD	0xd40
+> > +#define MT8195_VDO1_MIXER_IN2_PAD	0xd44
+> > +#define MT8195_VDO1_MIXER_IN3_PAD	0xd48
+> > +#define MT8195_VDO1_MIXER_IN4_PAD	0xd4c
 > > +
-> >  #define MT2712_MUTEX_MOD_DISP_PWM2		BIT(10)
-> >  #define MT2712_MUTEX_MOD_DISP_OVL0		BIT(11)
-> >  #define MT2712_MUTEX_MOD_DISP_OVL1		BIT(12)
-> > @@ -332,6 +361,27 @@ static const u64
-> > mt8195_mutex_mod[DDP_COMPONENT_ID_MAX] = {
-> >  	[DDP_COMPONENT_DSI0] = MT8195_MUTEX_MOD_DISP_DSI0,
-> >  	[DDP_COMPONENT_PWM0] = MT8195_MUTEX_MOD_DISP_PWM0,
-> >  	[DDP_COMPONENT_DP_INTF0] = MT8195_MUTEX_MOD_DISP_DP_INTF0,
-> > +	[DDP_COMPONENT_OVL_ADAPTOR] = MT8195_MUTEX_MOD_DISP1_MDP_RDMA0
-> > > 
+> >  static const struct mtk_mmsys_routes mmsys_mt8195_routing_table[]
+> > =
+> > {
+> >  	{
+> >  		DDP_COMPONENT_OVL0, DDP_COMPONENT_RDMA0,
+> > @@ -263,4 +278,51 @@ static const struct mtk_mmsys_routes
+> > mmsys_mt8195_routing_table[] = {
+> >  	}
+> >  };
+> >  
+> > +/*
+> > + * mtk_mmsys_config table is used for config mmsys reg in runtime.
+> > + * MMSYS_CONFIG_MERGE_ASYNC_WIDTH: config merge async width
+> > + * MMSYS_CONFIG_MERGE_ASYNC_HEIGHT: config merge async height
+> > + * MMSYS_CONFIG_HDR_BE_ASYNC_WIDTH: config hdr_be async width
+> > + * MMSYS_CONFIG_HDR_BE_ASYNC_HEIGHT: config hdr_be async height
+> > + * MMSYS_CONFIG_MIXER_IN_ALPHA_ODD: config mixer odd channel 9bit
+> > alpha value
+> > + * MMSYS_CONFIG_MIXER_IN_ALPHA_EVEN: config mixer even channel
+> > 9bit
+> > alpha value
+> > + * MMSYS_CONFIG_MIXER_IN_CH_SWAP: config mixer input RGB channel
+> > swap
+> > + * MMSYS_CONFIG_HDR_ALPHA_SEL: config alpha source
+> > + * MMSYS_CONFIG_MIXER_IN_MODE: config mixer pad mode(bypass/even
+> > extend mode)
+> > + * MMSYS_CONFIG_MIXER_IN_BIWIDTH: config mixer pad width. formula:
+> > width / 2 - 1
+> > + */
+> > +static const struct mtk_mmsys_config mmsys_mt8195_config_table[] =
+> > {
+> > +	{ MMSYS_CONFIG_MERGE_ASYNC_WIDTH, 0,
+> > MT8195_VDO1_MERGE0_ASYNC_CFG_WD, GENMASK(13, 0), 0},
+> > +	{ MMSYS_CONFIG_MERGE_ASYNC_HEIGHT, 0,
+> > MT8195_VDO1_MERGE0_ASYNC_CFG_WD, GENMASK(29, 16), 16},
+> > +	{ MMSYS_CONFIG_MERGE_ASYNC_WIDTH, 1,
+> > MT8195_VDO1_MERGE1_ASYNC_CFG_WD, GENMASK(13, 0), 0},
+> > +	{ MMSYS_CONFIG_MERGE_ASYNC_HEIGHT, 1,
+> > MT8195_VDO1_MERGE1_ASYNC_CFG_WD, GENMASK(29, 16), 16},
+> > +	{ MMSYS_CONFIG_MERGE_ASYNC_WIDTH, 2,
+> > MT8195_VDO1_MERGE2_ASYNC_CFG_WD, GENMASK(13, 0), 0},
+> > +	{ MMSYS_CONFIG_MERGE_ASYNC_HEIGHT, 2,
+> > MT8195_VDO1_MERGE2_ASYNC_CFG_WD, GENMASK(29, 16), 16},
+> > +	{ MMSYS_CONFIG_MERGE_ASYNC_WIDTH, 3,
+> > MT8195_VDO1_MERGE3_ASYNC_CFG_WD, GENMASK(13, 0), 0},
+> > +	{ MMSYS_CONFIG_MERGE_ASYNC_HEIGHT, 3,
+> > MT8195_VDO1_MERGE3_ASYNC_CFG_WD, GENMASK(29, 16), 16},
 > 
-> I would like to expose each mod instead of ovl adaptor. ovl adaptor
-> is
-> an application that combine these mod to achieve ovl function, maybe
-> another application would combine part of these mod to achieve
-> another
-> function. Let application to decide the combination.
+> I would like a function to set these value
+> 
+> mtk_mmsys_merge_async_config(int idx, int width, int height)
+> 
+> and describe what does the term 'async' mean.
+> 
+OK.
+
+> > +	{ MMSYS_CONFIG_HDR_BE_ASYNC_WIDTH, 0,
+> > MT8195_VDO1_HDRBE_ASYNC_CFG_WD, GENMASK(13, 0), 0},
+> > +	{ MMSYS_CONFIG_HDR_BE_ASYNC_HEIGHT, 0,
+> > MT8195_VDO1_HDRBE_ASYNC_CFG_WD, GENMASK(29, 16), 16},
+> 
+> mtk_mmsys_hdr_confing(int be_width, int be_height, bool alpha_en)
+> 
+
+OK.
+
+> > +	{ MMSYS_CONFIG_MIXER_IN_ALPHA_ODD, 1,
+> > MT8195_VDO1_MIXER_IN1_ALPHA, GENMASK(8, 0), 0},
+> > +	{ MMSYS_CONFIG_MIXER_IN_ALPHA_EVEN, 1,
+> > MT8195_VDO1_MIXER_IN1_ALPHA, GENMASK(24, 16), 16},
+> > +	{ MMSYS_CONFIG_MIXER_IN_ALPHA_ODD, 2,
+> > MT8195_VDO1_MIXER_IN2_ALPHA, GENMASK(8, 0), 0},
+> > +	{ MMSYS_CONFIG_MIXER_IN_ALPHA_EVEN, 2,
+> > MT8195_VDO1_MIXER_IN2_ALPHA, GENMASK(24, 16), 16},
+> > +	{ MMSYS_CONFIG_MIXER_IN_ALPHA_ODD, 3,
+> > MT8195_VDO1_MIXER_IN3_ALPHA, GENMASK(8, 0), 0},
+> > +	{ MMSYS_CONFIG_MIXER_IN_ALPHA_EVEN, 3,
+> > MT8195_VDO1_MIXER_IN3_ALPHA, GENMASK(24, 16), 16},
+> > +	{ MMSYS_CONFIG_MIXER_IN_ALPHA_ODD, 4,
+> > MT8195_VDO1_MIXER_IN4_ALPHA, GENMASK(8, 0), 0},
+> > +	{ MMSYS_CONFIG_MIXER_IN_ALPHA_EVEN, 4,
+> > MT8195_VDO1_MIXER_IN4_ALPHA, GENMASK(24, 16), 16},
+> > +	{ MMSYS_CONFIG_MIXER_IN_CH_SWAP, 4, MT8195_VDO1_MIXER_IN4_PAD,
+> > GENMASK(4, 4), 4},
+> > +	{ MMSYS_CONFIG_HDR_ALPHA_SEL, 1, MT8195_VDO1_HDR_TOP_CFG,
+> > GENMASK(20, 20), 20},
+> > +	{ MMSYS_CONFIG_HDR_ALPHA_SEL, 2, MT8195_VDO1_HDR_TOP_CFG,
+> > GENMASK(21, 21), 21},
+> > +	{ MMSYS_CONFIG_HDR_ALPHA_SEL, 3, MT8195_VDO1_HDR_TOP_CFG,
+> > GENMASK(22, 22), 22},
+> > +	{ MMSYS_CONFIG_HDR_ALPHA_SEL, 4, MT8195_VDO1_HDR_TOP_CFG,
+> > GENMASK(23, 23), 23},
+> > +	{ MMSYS_CONFIG_MIXER_IN_MODE, 1, MT8195_VDO1_MIXER_IN1_PAD,
+> > GENMASK(1, 0), 0},
+> > +	{ MMSYS_CONFIG_MIXER_IN_MODE, 2, MT8195_VDO1_MIXER_IN2_PAD,
+> > GENMASK(1, 0), 0},
+> > +	{ MMSYS_CONFIG_MIXER_IN_MODE, 3, MT8195_VDO1_MIXER_IN3_PAD,
+> > GENMASK(1, 0), 0},
+> > +	{ MMSYS_CONFIG_MIXER_IN_MODE, 4, MT8195_VDO1_MIXER_IN4_PAD,
+> > GENMASK(1, 0), 0},
+> > +	{ MMSYS_CONFIG_MIXER_IN_BIWIDTH, 1, MT8195_VDO1_MIXER_IN1_PAD,
+> > GENMASK(31, 16), 16},
+> > +	{ MMSYS_CONFIG_MIXER_IN_BIWIDTH, 2, MT8195_VDO1_MIXER_IN2_PAD,
+> > GENMASK(31, 16), 16},
+> > +	{ MMSYS_CONFIG_MIXER_IN_BIWIDTH, 3, MT8195_VDO1_MIXER_IN3_PAD,
+> > GENMASK(31, 16), 16},
+> > +	{ MMSYS_CONFIG_MIXER_IN_BIWIDTH, 4, MT8195_VDO1_MIXER_IN4_PAD,
+> > GENMASK(31, 16), 16},
+> 
+> mtk_mmsys_mixer_in_config(int idx, u16 alpha, bool channel_swap, u8
+> mode, u32 biwidth)
 > 
 > Regards,
 > CK
 > 
-OK, I will separate ovl_adaptor component in next revision.
+OK. I will separate it into four mmsys config APIs.
 
 Regards,
 Nancy
 
-> > +				      MT8195_MUTEX_MOD_DISP1_MDP_RDMA1
-> > > 
-> > 
-> > +				      MT8195_MUTEX_MOD_DISP1_MDP_RDMA2
-> > > 
-> > 
-> > +				      MT8195_MUTEX_MOD_DISP1_MDP_RDMA3
-> > > 
-> > 
-> > +				      MT8195_MUTEX_MOD_DISP1_MDP_RDMA4
-> > > 
-> > 
-> > +				      MT8195_MUTEX_MOD_DISP1_MDP_RDMA5
-> > > 
-> > 
-> > +				      MT8195_MUTEX_MOD_DISP1_MDP_RDMA6
-> > > 
-> > 
-> > +				      MT8195_MUTEX_MOD_DISP1_MDP_RDMA7
-> > > 
-> > 
-> > +				      MT8195_MUTEX_MOD_DISP1_VPP_MERGE0
-> > > 
-> > 
-> > +				      MT8195_MUTEX_MOD_DISP1_VPP_MERGE1
-> > > 
-> > 
-> > +				      MT8195_MUTEX_MOD_DISP1_VPP_MERGE2
-> > > 
-> > 
-> > +				      MT8195_MUTEX_MOD_DISP1_VPP_MERGE3
-> > > 
-> > 
-> > +				      MT8195_MUTEX_MOD_DISP1_HDR_VDO_FE
-> > 0 |
-> > +				      MT8195_MUTEX_MOD_DISP1_HDR_VDO_FE
-> > 1 |
-> > +				      MT8195_MUTEX_MOD_DISP1_HDR_GFX_FE
-> > 0 |
-> > +				      MT8195_MUTEX_MOD_DISP1_HDR_GFX_FE
-> > 1 |
-> > +				      MT8195_MUTEX_MOD_DISP1_HDR_VDO_BE
-> > 0 |
-> > +				      MT8195_MUTEX_MOD_DISP1_HDR_MLOAD
-> > > 
-> > 
-> > +				      MT8195_MUTEX_MOD_DISP1_DISP_MIXER
-> > ,
-> > +	[DDP_COMPONENT_MERGE5] = MT8195_MUTEX_MOD_DISP1_VPP_MERGE4,
-> > +	[DDP_COMPONENT_DP_INTF1] = MT8195_MUTEX_MOD_DISP1_DP_INTF0,
+> > +};
+> > +
+> >  #endif /* __SOC_MEDIATEK_MT8195_MMSYS_H */
+> > diff --git a/drivers/soc/mediatek/mtk-mmsys.c
+> > b/drivers/soc/mediatek/mtk-mmsys.c
+> > index 0b77624cf6ca..6dd68483012c 100644
+> > --- a/drivers/soc/mediatek/mtk-mmsys.c
+> > +++ b/drivers/soc/mediatek/mtk-mmsys.c
+> > @@ -83,6 +83,8 @@ static const struct mtk_mmsys_driver_data
+> > mt8195_vdosys1_driver_data = {
+> >  	.clk_driver = "clk-mt8195-vdo1",
+> >  	.routes = mmsys_mt8195_routing_table,
+> >  	.num_routes = ARRAY_SIZE(mmsys_mt8195_routing_table),
+> > +	.config = mmsys_mt8195_config_table,
+> > +	.num_configs = ARRAY_SIZE(mmsys_mt8195_config_table),
 > >  };
 > >  
-> >  static const unsigned int mt2712_mutex_sof[DDP_MUTEX_SOF_MAX] = {
-> > @@ -517,6 +567,9 @@ void mtk_mutex_add_comp(struct mtk_mutex
-> > *mutex,
-> >  	case DDP_COMPONENT_DP_INTF0:
-> >  		sof_id = MUTEX_SOF_DP_INTF0;
-> >  		break;
-> > +	case DDP_COMPONENT_DP_INTF1:
-> > +		sof_id = MUTEX_SOF_DP_INTF1;
-> > +		break;
-> >  	default:
-> >  		if (mtx->data->mutex_mod[id] <= BIT(31)) {
-> >  			offset = DISP_REG_MUTEX_MOD(mtx->data-
-> > > mutex_mod_reg,
+> >  static const struct mtk_mmsys_driver_data mt8365_mmsys_driver_data
+> > =
+> > {
+> > @@ -187,6 +189,38 @@ static const struct reset_control_ops
+> > mtk_mmsys_reset_ops = {
+> >  	.reset = mtk_mmsys_reset,
+> >  };
+> >  
+> > +void mtk_mmsys_ddp_config(struct device *dev, enum
+> > mtk_mmsys_config_type config,
+> > +			  u32 id, u32 val)
+> > +{
+> > +	struct mtk_mmsys *mmsys = dev_get_drvdata(dev);
+> > +	const struct mtk_mmsys_config *mmsys_config = mmsys->data-
+> > > config;
 > > 
-> > @@ -557,6 +610,7 @@ void mtk_mutex_remove_comp(struct mtk_mutex
-> > *mutex,
-> >  	case DDP_COMPONENT_DPI0:
-> >  	case DDP_COMPONENT_DPI1:
-> >  	case DDP_COMPONENT_DP_INTF0:
-> > +	case DDP_COMPONENT_DP_INTF1:
-> >  		writel_relaxed(MUTEX_SOF_SINGLE_MODE,
-> >  			       mtx->regs +
-> >  			       DISP_REG_MUTEX_SOF(mtx->data-
-> > > mutex_sof_reg,
+> > +	u32 reg_val;
+> > +	u32 mask;
+> > +	u32 offset;
+> > +	int i;
+> > +	u32 tmp;
+> > +
+> > +	if (!mmsys->data->num_configs)
+> > +		return;
+> > +
+> > +	for (i = 0; i < mmsys->data->num_configs; i++)
+> > +		if (config == mmsys_config[i].config && id ==
+> > mmsys_config[i].id)
+> > +			break;
+> > +
+> > +	if (i == mmsys->data->num_configs)
+> > +		return;
+> > +
+> > +	offset = mmsys_config[i].addr;
+> > +	mask = mmsys_config[i].mask;
+> > +	reg_val = val << mmsys_config[i].shift;
+> > +
+> > +	tmp = readl(mmsys->regs + offset);
+> > +
+> > +	tmp = (tmp & ~mask) | reg_val;
+> > +	writel(tmp, mmsys->regs + offset);
+> > +}
+> > +EXPORT_SYMBOL_GPL(mtk_mmsys_ddp_config);
+> > +
+> >  static int mtk_mmsys_probe(struct platform_device *pdev)
+> >  {
+> >  	struct device *dev = &pdev->dev;
+> > diff --git a/drivers/soc/mediatek/mtk-mmsys.h
+> > b/drivers/soc/mediatek/mtk-mmsys.h
+> > index 77f37f8c715b..78c7069bac0e 100644
+> > --- a/drivers/soc/mediatek/mtk-mmsys.h
+> > +++ b/drivers/soc/mediatek/mtk-mmsys.h
+> > @@ -86,11 +86,21 @@ struct mtk_mmsys_routes {
+> >  	u32 val;
+> >  };
+> >  
+> > +struct mtk_mmsys_config {
+> > +	enum mtk_mmsys_config_type config;
+> > +	u32 id;
+> > +	u32 addr;
+> > +	u32 mask;
+> > +	u32 shift;
+> > +};
+> > +
+> >  struct mtk_mmsys_driver_data {
+> >  	const char *clk_driver;
+> >  	const struct mtk_mmsys_routes *routes;
+> >  	const unsigned int num_routes;
+> >  	const u16 sw0_rst_offset;
+> > +	const struct mtk_mmsys_config *config;
+> > +	const unsigned int num_configs;
+> >  };
+> >  
+> >  /*
+> > diff --git a/include/linux/soc/mediatek/mtk-mmsys.h
+> > b/include/linux/soc/mediatek/mtk-mmsys.h
+> > index eaf7f7345519..b2d2310d7e7a 100644
+> > --- a/include/linux/soc/mediatek/mtk-mmsys.h
+> > +++ b/include/linux/soc/mediatek/mtk-mmsys.h
+> > @@ -56,6 +56,19 @@ enum mtk_ddp_comp_id {
+> >  	DDP_COMPONENT_ID_MAX,
+> >  };
+> >  
+> > +enum mtk_mmsys_config_type {
+> > +	MMSYS_CONFIG_MERGE_ASYNC_WIDTH,
+> > +	MMSYS_CONFIG_MERGE_ASYNC_HEIGHT,
+> > +	MMSYS_CONFIG_HDR_BE_ASYNC_WIDTH,
+> > +	MMSYS_CONFIG_HDR_BE_ASYNC_HEIGHT,
+> > +	MMSYS_CONFIG_HDR_ALPHA_SEL,
+> > +	MMSYS_CONFIG_MIXER_IN_ALPHA_ODD,
+> > +	MMSYS_CONFIG_MIXER_IN_ALPHA_EVEN,
+> > +	MMSYS_CONFIG_MIXER_IN_CH_SWAP,
+> > +	MMSYS_CONFIG_MIXER_IN_MODE,
+> > +	MMSYS_CONFIG_MIXER_IN_BIWIDTH,
+> > +};
+> > +
+> >  void mtk_mmsys_ddp_connect(struct device *dev,
+> >  			   enum mtk_ddp_comp_id cur,
+> >  			   enum mtk_ddp_comp_id next);
+> > @@ -64,4 +77,7 @@ void mtk_mmsys_ddp_disconnect(struct device *dev,
+> >  			      enum mtk_ddp_comp_id cur,
+> >  			      enum mtk_ddp_comp_id next);
+> >  
+> > +void mtk_mmsys_ddp_config(struct device *dev, enum
+> > mtk_mmsys_config_type config,
+> > +			  u32 id, u32 val);
+> > +
+> >  #endif /* __MTK_MMSYS_H */
 > 
 > 
 
