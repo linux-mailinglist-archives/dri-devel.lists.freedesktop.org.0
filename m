@@ -1,77 +1,58 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1C64D5037B4
-	for <lists+dri-devel@lfdr.de>; Sat, 16 Apr 2022 19:23:46 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 4030B5037D1
+	for <lists+dri-devel@lfdr.de>; Sat, 16 Apr 2022 20:10:42 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id C77CC10E3D8;
-	Sat, 16 Apr 2022 17:23:41 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id D331310E3DA;
+	Sat, 16 Apr 2022 18:10:38 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from us-smtp-delivery-124.mimecast.com
- (us-smtp-delivery-124.mimecast.com [170.10.129.124])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 4466610E3D8
- for <dri-devel@lists.freedesktop.org>; Sat, 16 Apr 2022 17:23:40 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1650129819;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding;
- bh=xZJdeEB7LRc/tdjD5XNMXjOZKOVeiea7oToBzOvG+54=;
- b=UnrU5u/btCYw5FZNi9V+YJ6IGdce7hqUTj3Ow/eQAv+gac4z0QYpttzKLIwxXiOkXlf8XO
- GfNKAQLt4p0F+KN6iMaZoFsH5SOTW4AY+iF4MVJ4tYlQrwG0mnRgG3d/5V7d8v+jq8h/Fj
- SHahKlVExYGYi4uG5mXkFpTbjbyaHWM=
-Received: from mail-qv1-f70.google.com (mail-qv1-f70.google.com
- [209.85.219.70]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-321-jd6WC18hOuei5m132dpfVA-1; Sat, 16 Apr 2022 13:23:37 -0400
-X-MC-Unique: jd6WC18hOuei5m132dpfVA-1
-Received: by mail-qv1-f70.google.com with SMTP id
- z12-20020a0ce60c000000b0044632eb79b3so4574673qvm.7
- for <dri-devel@lists.freedesktop.org>; Sat, 16 Apr 2022 10:23:37 -0700 (PDT)
+Received: from mail-yw1-x112f.google.com (mail-yw1-x112f.google.com
+ [IPv6:2607:f8b0:4864:20::112f])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id B7DF210E376
+ for <dri-devel@lists.freedesktop.org>; Sat, 16 Apr 2022 18:10:37 +0000 (UTC)
+Received: by mail-yw1-x112f.google.com with SMTP id
+ 00721157ae682-2db2add4516so109019237b3.1
+ for <dri-devel@lists.freedesktop.org>; Sat, 16 Apr 2022 11:10:37 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc; bh=TQyXa5N+5U7AWUvtU85FavtGdfF9qIW7BLvXU5Z3KBE=;
+ b=Vc0OiWKy7tLZQQEjqbdvpH5yJuYoNbTVn4rHHJX6BWbtkR5qJ2IxK8UY4IqUdmX1li
+ K2CrzBj7y+L0HRRFaRekYP4oQdmuHvLXGvTFpIrLF+rIkTYnRVePa4pDPwSbuTblt7/Z
+ n0RVgnNoKDU67iRf6gzyq9jVQfk1NlH7xBp/wHf2JoMqWu1fv3vZUiMESmBDaeq2yBFz
+ V6bADInIXHmEBA/49EfFyl5hQ2zUv60d7RNIfZpnezBwykBLgjEIBqOWGTjmSI5cKjrj
+ MVPw2EKPOjX4hjvAa9kneqMm+gIcR/JbO199SotXZ3pyJbrDkwtWFLx3WyR+Mbo+JDfa
+ J+VQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
- :content-transfer-encoding;
- bh=xZJdeEB7LRc/tdjD5XNMXjOZKOVeiea7oToBzOvG+54=;
- b=MU+wrUPYcEx5dq8D7pPoGX6B2BytE7D0cN+BG+V5XpHJr8k8L1aF2p8ErtMImzhRL1
- q+m50WaCfnQmddrikwZ/n4U1hQW9cvQAQlxotMsqznXu8DakB89dd5+dWmJzwKj0NkGF
- s3A81i5DHMUw55q07+2QsRWSO8dGLGorVjlwMw0gp4781xUQuIHOAhQDYgNmAGytLLWd
- qI0JQo6pv+QLNH+FwCpUfN3a0DtK8FXwP6tyovoEatVDRVExaKZL6r9Ci10qTMcLsq7h
- JvWDaEdwtN6d8rT4SLu9FyR+CtV0mkelhmPrdR7Ei9v061fXrM7YYXo0sM/NPGKmjzFE
- TCRw==
-X-Gm-Message-State: AOAM533JTMyd878i/d1Jv8lfKy9oHhqqBiUknhS6mIpJ6HS+jg/+Uio+
- eNg362d6RPdTRS6P8vgfysTjTD1kzUjTd+4b95Vy2z6ftCuZV87zirh9LC4PM5L+SlP6RMDduK/
- LqEOXd1rn5nr+MNd/okIdgvZd+1gS
-X-Received: by 2002:ac8:59d4:0:b0:2e1:f86d:b38c with SMTP id
- f20-20020ac859d4000000b002e1f86db38cmr2760716qtf.285.1650129817258; 
- Sat, 16 Apr 2022 10:23:37 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJxAEeXarJj7i8MC2Tcj5mB+1+LrS7bjnC2aeIcVvjZ6kbGfJHZPt0VaVk2XcNDtSL6OwKTS1g==
-X-Received: by 2002:ac8:59d4:0:b0:2e1:f86d:b38c with SMTP id
- f20-20020ac859d4000000b002e1f86db38cmr2760702qtf.285.1650129817011; 
- Sat, 16 Apr 2022 10:23:37 -0700 (PDT)
-Received: from dell-per740-01.7a2m.lab.eng.bos.redhat.com
- (nat-pool-bos-t.redhat.com. [66.187.233.206])
- by smtp.gmail.com with ESMTPSA id
- n186-20020a37bdc3000000b0069c218173e8sm4079598qkf.112.2022.04.16.10.23.36
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Sat, 16 Apr 2022 10:23:36 -0700 (PDT)
-From: Tom Rix <trix@redhat.com>
-To: jani.nikula@linux.intel.com, joonas.lahtinen@linux.intel.com,
- rodrigo.vivi@intel.com, tvrtko.ursulin@linux.intel.com, airlied@linux.ie,
- daniel@ffwll.ch
-Subject: [PATCH] drm/i915: change node clearing from memset to initialization
-Date: Sat, 16 Apr 2022 13:23:25 -0400
-Message-Id: <20220416172325.1039795-1-trix@redhat.com>
-X-Mailer: git-send-email 2.27.0
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=TQyXa5N+5U7AWUvtU85FavtGdfF9qIW7BLvXU5Z3KBE=;
+ b=3zRfXXvDpgg73s+X4B2SLYTwQXfQza8U02V0+coVvoS8ZUUVqRTE+O9TL7tniOVImg
+ z4uGp3vtC2F4vxB1fhb3cd6V2MO7bCdFTAH85WWJJXNN2V9S8ksyYifiACWdUy/gcCsK
+ 6JKvo0SC7rqPGPxsryrypEdvAkyH1DPkwgiWpw7KFLTS0XygCe9IRFTgKHG1ptQNpMtT
+ T+OEBOk3kEqdE9I6QQZhK9ejU0G3qRgjoIXW5WJBomIOIryS71k254Kg86Wf2nxLBBCq
+ bfMxzPXQiYaCnqyYbT7Al54pxVIXLm3pwQGaWGGzaRvGHk3tU3RjC9frzkNlrhBuC8i2
+ MWBg==
+X-Gm-Message-State: AOAM5322IKVlLvqo4mSUkBfL1AaFlUxshxLzbVuH/jMhE2d00cPX1DRg
+ WdhTvYwzWIQZ8618aQA6fxdaAifLFivDr6Hsyht1sw==
+X-Google-Smtp-Source: ABdhPJybbVGgDfVnqisaD6M45UdoMxT+mQttilTSKM57Uc1TnQMRMbmQhcdR5SYx5a4IYj/gzzmBTZMLmOrYhUXccF0=
+X-Received: by 2002:a81:753:0:b0:2eb:ebe9:ff4f with SMTP id
+ 80-20020a810753000000b002ebebe9ff4fmr3644787ywh.255.1650132636893; Sat, 16
+ Apr 2022 11:10:36 -0700 (PDT)
 MIME-Version: 1.0
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=trix@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Transfer-Encoding: 8bit
-Content-Type: text/plain; charset="US-ASCII"; x-default=true
+References: <20220401231104.967193-1-dmitry.baryshkov@linaro.org>
+ <20220416091229.pwek4wblroaabhio@SoMainline.org>
+In-Reply-To: <20220416091229.pwek4wblroaabhio@SoMainline.org>
+From: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
+Date: Sat, 16 Apr 2022 21:10:25 +0300
+Message-ID: <CAA8EJppnMesPJrqv=FxEQzuvNM0Xyk_aSg-FUh-smfWcO=Tr2g@mail.gmail.com>
+Subject: Re: drm/msm/dsi: fix error checks and return values for DSI xmit
+ functions
+To: Marijn Suijten <marijn.suijten@somainline.org>
+Content-Type: text/plain; charset="UTF-8"
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -84,66 +65,110 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Tom Rix <trix@redhat.com>, intel-gfx@lists.freedesktop.org,
- linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org
+Cc: freedreno@lists.freedesktop.org, David Airlie <airlied@linux.ie>,
+ linux-arm-msm@vger.kernel.org, Abhinav Kumar <quic_abhinavk@quicinc.com>,
+ dri-devel@lists.freedesktop.org, Bjorn Andersson <bjorn.andersson@linaro.org>,
+ Stephen Boyd <swboyd@chromium.org>, Sean Paul <sean@poorly.run>,
+ Dan Carpenter <dan.carpenter@oracle.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-In insert_mappable_node(), the parameter node is
-cleared late in node's use with memset.
-insert_mappable_node() is a singleton, called only
-from i915_gem_gtt_prepare() which itself is only
-called by i915_gem_gtt_pread() and
-i915_gem_gtt_pwrite_fast() where the definition of
-node originates.
+On Sat, 16 Apr 2022 at 12:12, Marijn Suijten
+<marijn.suijten@somainline.org> wrote:
+>
+> Hi Dmitry,
+>
+> On 2022-04-02 02:11:04, Dmitry Baryshkov wrote:
+> > As noticed by Dan ([1] an the followup thread) there are multiple issues
+> > with the return values for MSM DSI command transmission callback. In
+> > the error case it can easily return a positive value when it should
+> > have returned a proper error code.
+> >
+> > This commits attempts to fix these issues both in TX and in RX paths.
+> >
+> > [1]: https://lore.kernel.org/linux-arm-msm/20211001123617.GH2283@kili/
+> >
+> > Fixes: a689554ba6ed ("drm/msm: Initial add DSI connector support")
+> > Reported-by: Dan Carpenter <dan.carpenter@oracle.com>
+> > Signed-off-by: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
+> > Reviewed-by: Abhinav Kumar <quic_abhinavk@quicinc.com>
+>
+> Thank you for your patience waiting for the requested tests; this patch
+> seems to have no adverse effect on our cmdmode panels.
+>
+> Tested-by: Marijn Suijten <marijn.suijten@somainline.org>
+>
+> On the following devices:
+> - Sony Xperia X (Loire Suzu, MSM8976), on Linux 5.17;
+> - Sony Xperia 10 II (Seine PDX201, SM6125), on -next 20220318;
+> - Sony Xperia XA2 Ultra (Nile Discovery, SDM630), on Linux 5.16.
+>
+> Apologies for the older kernel versions, that's what happens when having
+> too many patches to dig through and too little hobby time to send them.
+> Let me know if there's a patch dependency that you like to be included.
 
-Instead of using memset, initialize node to 0 at it's
-definitions.  And remove unneeded clearing of the flags
-element.
+Thank you for the confirmation! No, no hidden dependencies.
 
-Signed-off-by: Tom Rix <trix@redhat.com>
----
- drivers/gpu/drm/i915/i915_gem.c | 6 ++----
- 1 file changed, 2 insertions(+), 4 deletions(-)
+>
+> - Marijn
+>
+> > ---
+> >  drivers/gpu/drm/msm/dsi/dsi_host.c | 21 ++++++++++++++-------
+> >  1 file changed, 14 insertions(+), 7 deletions(-)
+> >
+> > diff --git a/drivers/gpu/drm/msm/dsi/dsi_host.c b/drivers/gpu/drm/msm/dsi/dsi_host.c
+> > index d51e70fab93d..8925f60fd9ec 100644
+> > --- a/drivers/gpu/drm/msm/dsi/dsi_host.c
+> > +++ b/drivers/gpu/drm/msm/dsi/dsi_host.c
+> > @@ -1341,10 +1341,10 @@ static int dsi_cmds2buf_tx(struct msm_dsi_host *msm_host,
+> >                       dsi_get_bpp(msm_host->format) / 8;
+> >
+> >       len = dsi_cmd_dma_add(msm_host, msg);
+> > -     if (!len) {
+> > +     if (len < 0) {
+> >               pr_err("%s: failed to add cmd type = 0x%x\n",
+> >                       __func__,  msg->type);
+> > -             return -EINVAL;
+> > +             return len;
+> >       }
+> >
+> >       /* for video mode, do not send cmds more than
+> > @@ -1363,10 +1363,14 @@ static int dsi_cmds2buf_tx(struct msm_dsi_host *msm_host,
+> >       }
+> >
+> >       ret = dsi_cmd_dma_tx(msm_host, len);
+> > -     if (ret < len) {
+> > -             pr_err("%s: cmd dma tx failed, type=0x%x, data0=0x%x, len=%d\n",
+> > -                     __func__, msg->type, (*(u8 *)(msg->tx_buf)), len);
+> > -             return -ECOMM;
+> > +     if (ret < 0) {
+> > +             pr_err("%s: cmd dma tx failed, type=0x%x, data0=0x%x, len=%d, ret=%d\n",
+> > +                     __func__, msg->type, (*(u8 *)(msg->tx_buf)), len, ret);
+> > +             return ret;
+> > +     } else if (ret < len) {
+> > +             pr_err("%s: cmd dma tx failed, type=0x%x, data0=0x%x, ret=%d len=%d\n",
+> > +                     __func__, msg->type, (*(u8 *)(msg->tx_buf)), ret, len);
+> > +             return -EIO;
+> >       }
+> >
+> >       return len;
+> > @@ -2092,9 +2096,12 @@ int msm_dsi_host_cmd_rx(struct mipi_dsi_host *host,
+> >               }
+> >
+> >               ret = dsi_cmds2buf_tx(msm_host, msg);
+> > -             if (ret < msg->tx_len) {
+> > +             if (ret < 0) {
+> >                       pr_err("%s: Read cmd Tx failed, %d\n", __func__, ret);
+> >                       return ret;
+> > +             } else if (ret < msg->tx_len) {
+> > +                     pr_err("%s: Read cmd Tx failed, too short: %d\n", __func__, ret);
+> > +                     return -ECOMM;
+> >               }
+> >
+> >               /*
 
-diff --git a/drivers/gpu/drm/i915/i915_gem.c b/drivers/gpu/drm/i915/i915_gem.c
-index 2e10187cd0a0..7dbd0b325c43 100644
---- a/drivers/gpu/drm/i915/i915_gem.c
-+++ b/drivers/gpu/drm/i915/i915_gem.c
-@@ -69,7 +69,6 @@ insert_mappable_node(struct i915_ggtt *ggtt, struct drm_mm_node *node, u32 size)
- 	if (err)
- 		return err;
- 
--	memset(node, 0, sizeof(*node));
- 	err = drm_mm_insert_node_in_range(&ggtt->vm.mm, node,
- 					  size, 0, I915_COLOR_UNEVICTABLE,
- 					  0, ggtt->mappable_end,
-@@ -328,7 +327,6 @@ static struct i915_vma *i915_gem_gtt_prepare(struct drm_i915_gem_object *obj,
- 		goto err_ww;
- 	} else if (!IS_ERR(vma)) {
- 		node->start = i915_ggtt_offset(vma);
--		node->flags = 0;
- 	} else {
- 		ret = insert_mappable_node(ggtt, node, PAGE_SIZE);
- 		if (ret)
-@@ -381,7 +379,7 @@ i915_gem_gtt_pread(struct drm_i915_gem_object *obj,
- 	struct drm_i915_private *i915 = to_i915(obj->base.dev);
- 	struct i915_ggtt *ggtt = to_gt(i915)->ggtt;
- 	intel_wakeref_t wakeref;
--	struct drm_mm_node node;
-+	struct drm_mm_node node = {};
- 	void __user *user_data;
- 	struct i915_vma *vma;
- 	u64 remain, offset;
-@@ -538,7 +536,7 @@ i915_gem_gtt_pwrite_fast(struct drm_i915_gem_object *obj,
- 	struct i915_ggtt *ggtt = to_gt(i915)->ggtt;
- 	struct intel_runtime_pm *rpm = &i915->runtime_pm;
- 	intel_wakeref_t wakeref;
--	struct drm_mm_node node;
-+	struct drm_mm_node node = {};
- 	struct i915_vma *vma;
- 	u64 remain, offset;
- 	void __user *user_data;
+
+
 -- 
-2.27.0
-
+With best wishes
+Dmitry
