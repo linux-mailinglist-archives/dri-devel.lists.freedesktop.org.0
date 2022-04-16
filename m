@@ -1,77 +1,57 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4A8325036AC
-	for <lists+dri-devel@lfdr.de>; Sat, 16 Apr 2022 15:00:24 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 04CAD50370F
+	for <lists+dri-devel@lfdr.de>; Sat, 16 Apr 2022 16:20:58 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 2729610E10E;
-	Sat, 16 Apr 2022 13:00:20 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id EB4D010E4A6;
+	Sat, 16 Apr 2022 14:20:51 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-wm1-x329.google.com (mail-wm1-x329.google.com
- [IPv6:2a00:1450:4864:20::329])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 6017B10E10E;
- Sat, 16 Apr 2022 13:00:19 +0000 (UTC)
-Received: by mail-wm1-x329.google.com with SMTP id
- l62-20020a1c2541000000b0038e4570af2fso6355152wml.5; 
- Sat, 16 Apr 2022 06:00:19 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
- h=message-id:date:mime-version:user-agent:subject:content-language:to
- :references:from:in-reply-to:content-transfer-encoding;
- bh=XHVUz1b0D0ZF/noy7ANM+++7WGGRFc9oyw89kqgSdjE=;
- b=pahgvwHqu3mBCsoZTQUS0VrZeezjhxSrULviFF4Z6DP/WkzUOnWNVRxqVi49Wc/F5p
- n7aC1tvuXpoca3MQXAjK3yl29Y7zOoqTT8FZ+tdJvdedJiVqgeJ1fUcJtvnrSav3DXXn
- cMYZWSr5tCMYvbvI04uvOjYVBNfkToIX3Y35A7e0h01yRwjoygL4Kt5ZSkF6vWkDJtqq
- a/2ak1+iF10XYZXOlE+E7GMPc1nvxtWJ1nz43JAcpSrqerTOlEr1tV2wFJJddaWLHNX2
- PpAHmCs1sXGDYJsZki7EJGSir4SqZHeMm5q76Ck/Bg5ZmggfB98v/nMXSpnKaaGF/uET
- R+Yw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
- :content-language:to:references:from:in-reply-to
- :content-transfer-encoding;
- bh=XHVUz1b0D0ZF/noy7ANM+++7WGGRFc9oyw89kqgSdjE=;
- b=XDkbhEhdDgdfsydniChR+xPnnzO11M2aqCfvul+7lkRVbdDW966njp3ul/8H2atTXN
- JRlFp0h7GjdApBo/1Iyrf5Ny5GexLvkhdco7l2iCfFiTKKJWsP6deeOB0L0x+yJvKpbc
- scgiywNkQO6Hpfv8ei2SwCNOvV5Kd6KtgvtLTq3JwZSr8htgdF4vuHTLRt7QHreqpYQS
- eDwC1uwex/gG+2C93sl6monwl5DUj9mNNlxMW+yprD9Zw8VMPzusrau0n5E2gZWN2sk2
- /226J8247yRTBYKgqoJDCO2uM6j3u8gHbCazrKkuq0kYBSKRZg97LdmgMVgV2uX5B6YG
- bM/A==
-X-Gm-Message-State: AOAM532UlbKY4nPvas64lDcYS3tV7+EElVHo+uae6aN6M7OnovVuSXoW
- wbYUmHRZknMLNAaWm40wAEU=
-X-Google-Smtp-Source: ABdhPJx16Vt/FPuRxbRMNnFY/Wy6fGUSb4KuPuwz+aSvi4c9sLSD/2bBrV6IuJzISUMX0bRgFRijXw==
-X-Received: by 2002:a1c:f70e:0:b0:38c:6ca9:2f8f with SMTP id
- v14-20020a1cf70e000000b0038c6ca92f8fmr3153245wmh.162.1650114017834; 
- Sat, 16 Apr 2022 06:00:17 -0700 (PDT)
-Received: from ?IPV6:2a02:908:1252:fb60:dd4a:a17a:5566:43bc?
- ([2a02:908:1252:fb60:dd4a:a17a:5566:43bc])
- by smtp.gmail.com with ESMTPSA id
- a11-20020a056000188b00b00204109f7826sm6981250wri.28.2022.04.16.06.00.16
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Sat, 16 Apr 2022 06:00:17 -0700 (PDT)
-Message-ID: <0d065fd6-3fa5-c9cb-3248-6f29b2bdcb71@gmail.com>
-Date: Sat, 16 Apr 2022 15:00:16 +0200
+Received: from ams.source.kernel.org (ams.source.kernel.org
+ [IPv6:2604:1380:4601:e00::1])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 7124E10E4A6
+ for <dri-devel@lists.freedesktop.org>; Sat, 16 Apr 2022 14:20:50 +0000 (UTC)
+Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
+ (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+ (No client certificate requested)
+ by ams.source.kernel.org (Postfix) with ESMTPS id EE8DAB82412
+ for <dri-devel@lists.freedesktop.org>; Sat, 16 Apr 2022 14:20:48 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 90439C385AA
+ for <dri-devel@lists.freedesktop.org>; Sat, 16 Apr 2022 14:20:47 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+ s=k20201202; t=1650118847;
+ bh=cWFwLZ0gsVucA5Es4p84LruYFLWbrqoMEwSN0TuIkzU=;
+ h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
+ b=XDzfBSksXEI8qGNWOHFtln3WMB9rNV8dHxdESNVd28Tycyp8gxI14j+GAueK0vdoo
+ x52nmuvKOi1hSqYc4FyW+ZiFl8k9MsO6fSGIxXICkqa6xj2UgMJf5g8fpAvC7hc3Qm
+ 6rf3JtbNezGuA1rUkmYwsSVbkciLwK3jKixYXM7M3VFWOjiTTOM7OJuwHxIGmN6cKe
+ 7SmTLyrYHEoJrDm01TEbyaZQsSC4a+KXjSLcnqqvQOz2juxXRUqxltuzwlYBj2pg7S
+ jFrMzs+50pBrPEHMhJYcpE1TjyCDemN3Sd0etL4BxaocQo/aNlKeyMr6pZhU2jH7Rr
+ TxBv3XBppqQgA==
+Received: by mail-ed1-f48.google.com with SMTP id u18so12896570eda.3
+ for <dri-devel@lists.freedesktop.org>; Sat, 16 Apr 2022 07:20:47 -0700 (PDT)
+X-Gm-Message-State: AOAM533OkMuTzhkPCGIq57Eh4xl/zy3/mfwtvkoqqSHTM8YDijlfoV2d
+ VCs5+wkHQZ7NDl9Lr8gpRGULVWauHXDGN7u1Og==
+X-Google-Smtp-Source: ABdhPJwQkbTe35To395M3KGFQV4l935J7hGJqs1dYrMx9rEk+J0ELzSpWfOjk+VIW7myhFOyzkXfRd5cnptK29wlYcI=
+X-Received: by 2002:a05:6402:350d:b0:419:547f:134a with SMTP id
+ b13-20020a056402350d00b00419547f134amr3964452edd.405.1650118845815; Sat, 16
+ Apr 2022 07:20:45 -0700 (PDT)
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.7.0
-Subject: Re: [PATCH 0/2] Update AMDGPU glossary and MAINTAINERS
-Content-Language: en-US
-To: Tales Lelo da Aparecida <tales.aparecida@gmail.com>,
- Alex Deucher <alexander.deucher@amd.com>,
- =?UTF-8?Q?Christian_K=c3=b6nig?= <christian.koenig@amd.com>,
- "Pan, Xinhui" <Xinhui.Pan@amd.com>, David Airlie <airlied@linux.ie>,
- Daniel Vetter <daniel@ffwll.ch>,
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>,
- Jonathan Corbet <corbet@lwn.net>, amd-gfx@lists.freedesktop.org,
- dri-devel@lists.freedesktop.org, linux-doc@vger.kernel.org,
- linux-kernel@vger.kernel.org, andrealmeid@riseup.net
-References: <20220415195027.305019-1-tales.aparecida@gmail.com>
-From: =?UTF-8?Q?Christian_K=c3=b6nig?= <ckoenig.leichtzumerken@gmail.com>
-In-Reply-To: <20220415195027.305019-1-tales.aparecida@gmail.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
+References: <20220411035843.19847-1-rex-bc.chen@mediatek.com>
+ <20220411035843.19847-2-rex-bc.chen@mediatek.com>
+ <YldWhNA6SwNBGXa8@robh.at.kernel.org>
+In-Reply-To: <YldWhNA6SwNBGXa8@robh.at.kernel.org>
+From: Chun-Kuang Hu <chunkuang.hu@kernel.org>
+Date: Sat, 16 Apr 2022 22:20:38 +0800
+X-Gmail-Original-Message-ID: <CAAOTY_8L1EVvAOvD757o3kTq=AKf20yAsDGbuHFQ_mdkfoKwOg@mail.gmail.com>
+Message-ID: <CAAOTY_8L1EVvAOvD757o3kTq=AKf20yAsDGbuHFQ_mdkfoKwOg@mail.gmail.com>
+Subject: Re: [PATCH V2 1/3] dt-bindings: display: mediatek: Update disp_aal
+ binding for MT8183
+To: Rob Herring <robh@kernel.org>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -84,25 +64,54 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
+Cc: DTML <devicetree@vger.kernel.org>, allen-kh.cheng@mediatek.com,
+ Chun-Kuang Hu <chunkuang.hu@kernel.org>, David Airlie <airlied@linux.ie>,
+ Jason-JH Lin <jason-jh.lin@mediatek.com>,
+ linux-kernel <linux-kernel@vger.kernel.org>, Rob Herring <robh+dt@kernel.org>,
+ Project_Global_Chrome_Upstream_Group
+ <Project_Global_Chrome_Upstream_Group@mediatek.com>,
+ Matthias Brugger <matthias.bgg@gmail.com>, Nancy Lin <nancy.lin@mediatek.com>,
+ "moderated list:ARM/Mediatek SoC support" <linux-mediatek@lists.infradead.org>,
+ DRI Development <dri-devel@lists.freedesktop.org>,
+ Yongqiang Niu <yongqiang.niu@mediatek.com>,
+ Rex-BC Chen <rex-bc.chen@mediatek.com>, krzk+dt@kernel.org,
+ Linux ARM <linux-arm-kernel@lists.infradead.org>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Am 15.04.22 um 21:50 schrieb Tales Lelo da Aparecida:
-> I was handling the request from [0] and then I noticed that some AMD
-> developers were missing from get_maintainers output due to the lack of a
-> reference to their documentation in the MAINTAINERS file.
+Rob Herring <robh@kernel.org> =E6=96=BC 2022=E5=B9=B44=E6=9C=8814=E6=97=A5 =
+=E9=80=B1=E5=9B=9B =E4=B8=8A=E5=8D=887:02=E5=AF=AB=E9=81=93=EF=BC=9A
+>
+> On Mon, 11 Apr 2022 11:58:41 +0800, Rex-BC Chen wrote:
+> > The driver data of MT8183 and MT8173 are different.
+> >
+> > For MT8173, the gamma module is inside disp_aal. When we need to adjust
+> > gamma value, we need to use "has_gamma" to control gamma function
+> > inside disp_aal to adjust the gamma value.
+> >
+> > For successors like MT8183, disp_gamma is separated from disp_aal. We
+> > just need to control disp_gamma directly and don't need to control gamm=
+a
+> > function inside disp_aal.
+> >
+> > With this modification, the driver doesn't require any functional chang=
+es.
+> > We only update the dt-binding and DTS node to make it clear.
+> >
+> > Signed-off-by: Rex-BC Chen <rex-bc.chen@mediatek.com>
+> > Reviewed-by: AngeloGioacchino Del Regno <angelogioacchino.delregno@coll=
+abora.com>
+> > ---
+> >  .../devicetree/bindings/display/mediatek/mediatek,aal.yaml  | 6 +++---
+> >  1 file changed, 3 insertions(+), 3 deletions(-)
+> >
+>
+> Acked-by: Rob Herring <robh@kernel.org>
 
-Acked-by: Christian König <christian.koenig@amd.com>
+Applied to mediatek-drm-next [1], thanks.
 
->
-> [0] https://gitlab.freedesktop.org/drm/amd/-/issues/1939#note_1309737
->
-> Tales Lelo da Aparecida (2):
->    Documentation/gpu: Add entries to amdgpu glossary
->    MAINTAINERS: add docs entry to AMDGPU
->
->   Documentation/gpu/amdgpu/amdgpu-glossary.rst | 13 +++++++++++++
->   MAINTAINERS                                  |  1 +
->   2 files changed, 14 insertions(+)
->
+[1] https://git.kernel.org/pub/scm/linux/kernel/git/chunkuang.hu/linux.git/=
+log/?h=3Dmediatek-drm-next
 
+Regards,
+Chun-Kuang.
