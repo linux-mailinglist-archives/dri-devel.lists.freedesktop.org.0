@@ -1,41 +1,41 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 06C905035C9
-	for <lists+dri-devel@lfdr.de>; Sat, 16 Apr 2022 11:38:16 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 5F4C15035CB
+	for <lists+dri-devel@lfdr.de>; Sat, 16 Apr 2022 11:39:30 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id AB8BE10E748;
-	Sat, 16 Apr 2022 09:38:11 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 4C5F310E46C;
+	Sat, 16 Apr 2022 09:39:28 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from dfw.source.kernel.org (dfw.source.kernel.org
- [IPv6:2604:1380:4641:c500::1])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 4BF2110E748
- for <dri-devel@lists.freedesktop.org>; Sat, 16 Apr 2022 09:38:10 +0000 (UTC)
+Received: from sin.source.kernel.org (sin.source.kernel.org [145.40.73.55])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id BA20710E46C
+ for <dri-devel@lists.freedesktop.org>; Sat, 16 Apr 2022 09:39:27 +0000 (UTC)
 Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
  (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
  (No client certificate requested)
- by dfw.source.kernel.org (Postfix) with ESMTPS id 9A86660C04
- for <dri-devel@lists.freedesktop.org>; Sat, 16 Apr 2022 09:38:07 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPS id 0AC29C385A1
- for <dri-devel@lists.freedesktop.org>; Sat, 16 Apr 2022 09:38:07 +0000 (UTC)
+ by sin.source.kernel.org (Postfix) with ESMTPS id 41182CE320B
+ for <dri-devel@lists.freedesktop.org>; Sat, 16 Apr 2022 09:39:25 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPS id A24E9C385A1
+ for <dri-devel@lists.freedesktop.org>; Sat, 16 Apr 2022 09:39:23 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1650101887;
- bh=44Hy5dPtYDdykLV7/oKwU32IZrvnEOUQ12uQ33jjMJc=;
+ s=k20201202; t=1650101963;
+ bh=CnFYBTTbo0KWoCSaTGIFkxpsupexd0uThKPXvgCv+WE=;
  h=From:To:Subject:Date:In-Reply-To:References:From;
- b=pNKSEHxdymISccQYczW3LUP61XJGXjawGbuhHW81FUVq9YoBYJWYjnnATT55npdTg
- llrrqgL4E/1vZNC5VP0JwFD4aeviyPmG++zBXzOFORGj4me1GlSXPpQCi5qlOM1yod
- WxGuy46U5DK8OWe8QVe4qrRb+U8OHQ5EKgRIhmqpvfnqIy4maCdnK7D+UjUCBlddQ1
- pYJ30vd9HGGTLf9P+79ymWLx4k4n8/36C1Yu3Xtu7V9V9WBV3F2QmU2Mtrfe44MOmf
- Qbry+s58KGZseolH5RFOzJ/LU6jLdCxWzeAjT4CCBnmbfB2EMKcWRBvuMLIOukNvFf
- KgTD/NUBwBXSw==
+ b=j/JcN53+hTFfu0I+xRVR37egTvOBoKamYQo7XdH6LV5tZR4H3NI759UVrRFhdTz/x
+ rECpxXKwsRR+OVumBHBRUOhSJvOyMwsZpCgrqDmGgHUhLm6oo27smtuDH+6DstGbZQ
+ AcWUXa6zAL4mi6Zlhbgvt18DM0gN7bX1IgEbGURImhtnYfijlTVkwrDT9H1KWIrdmJ
+ FPq2aoCPSy4l3vkSKMUkACTYnG3e2PGX4S+Nu8UiEIi3OOpheTuWKqIcXcxgar5vrh
+ oA9ONvu137uRSJHvektNaG0xcf1M/fBlSbDmMBLj6wa8/fmTk8qvBClm2AjyWyx+M2
+ yku32Qc8UIN3w==
 Received: by aws-us-west-2-korg-bugzilla-1.web.codeaurora.org (Postfix,
- from userid 48) id E8014C05FD6; Sat, 16 Apr 2022 09:38:06 +0000 (UTC)
+ from userid 48) id 91E94CAC6E2; Sat, 16 Apr 2022 09:39:23 +0000 (UTC)
 From: bugzilla-daemon@kernel.org
 To: dri-devel@lists.freedesktop.org
-Subject: [Bug 215842] PC freeze sidn kernel 5.17.x
-Date: Sat, 16 Apr 2022 09:38:06 +0000
+Subject: [Bug 215839] distorted video playback with hybrid GPU (DRI_PRIME=1,
+ Radeon HD 6470M and Intel-GPU)
+Date: Sat, 16 Apr 2022 09:39:23 +0000
 X-Bugzilla-Reason: None
 X-Bugzilla-Type: changed
 X-Bugzilla-Watch-Reason: AssignedTo drivers_video-dri@kernel-bugs.osdl.org
@@ -43,7 +43,7 @@ X-Bugzilla-Product: Drivers
 X-Bugzilla-Component: Video(DRI - non Intel)
 X-Bugzilla-Version: 2.5
 X-Bugzilla-Keywords: 
-X-Bugzilla-Severity: blocking
+X-Bugzilla-Severity: normal
 X-Bugzilla-Who: aros@gmx.com
 X-Bugzilla-Status: RESOLVED
 X-Bugzilla-Resolution: ANSWERED
@@ -51,9 +51,9 @@ X-Bugzilla-Priority: P1
 X-Bugzilla-Assigned-To: drivers_video-dri@kernel-bugs.osdl.org
 X-Bugzilla-Flags: 
 X-Bugzilla-Changed-Fields: bug_status resolution
-Message-ID: <bug-215842-2300-bbAxuFc3YJ@https.bugzilla.kernel.org/>
-In-Reply-To: <bug-215842-2300@https.bugzilla.kernel.org/>
-References: <bug-215842-2300@https.bugzilla.kernel.org/>
+Message-ID: <bug-215839-2300-a7ny3j06tg@https.bugzilla.kernel.org/>
+In-Reply-To: <bug-215839-2300@https.bugzilla.kernel.org/>
+References: <bug-215839-2300@https.bugzilla.kernel.org/>
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 X-Bugzilla-URL: https://bugzilla.kernel.org/
@@ -74,7 +74,7 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-https://bugzilla.kernel.org/show_bug.cgi?id=3D215842
+https://bugzilla.kernel.org/show_bug.cgi?id=3D215839
 
 Artem S. Tashkinov (aros@gmx.com) changed:
 
@@ -82,13 +82,6 @@ Artem S. Tashkinov (aros@gmx.com) changed:
 ----------------------------------------------------------------------------
              Status|NEW                         |RESOLVED
          Resolution|---                         |ANSWERED
-
---- Comment #1 from Artem S. Tashkinov (aros@gmx.com) ---
-I presume your Radeon RX GPU is driving everything.
-
-Please refile here: https://gitlab.freedesktop.org/drm/amd/-/issues while
-providing all the necessary details. Also please search for existing bug
-reports, this could be already known.
 
 --=20
 You may reply to this email to add a comment.
