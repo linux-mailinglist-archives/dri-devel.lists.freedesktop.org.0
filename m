@@ -2,59 +2,76 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 428725037A9
-	for <lists+dri-devel@lfdr.de>; Sat, 16 Apr 2022 18:59:00 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 1C64D5037B4
+	for <lists+dri-devel@lfdr.de>; Sat, 16 Apr 2022 19:23:46 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id BCFC410E1B4;
-	Sat, 16 Apr 2022 16:58:54 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id C77CC10E3D8;
+	Sat, 16 Apr 2022 17:23:41 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-pj1-x102d.google.com (mail-pj1-x102d.google.com
- [IPv6:2607:f8b0:4864:20::102d])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 73CDB10E05D;
- Sat, 16 Apr 2022 16:58:53 +0000 (UTC)
-Received: by mail-pj1-x102d.google.com with SMTP id
- s14-20020a17090a880e00b001caaf6d3dd1so14045580pjn.3; 
- Sat, 16 Apr 2022 09:58:53 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc:content-transfer-encoding;
- bh=cMNohu7KsNouJa1UFb+K8nUtLwDTzTI/72r42ygiURM=;
- b=Y8b4kXsAn89yhrVM/0XlFxsROV32VWFrmhPy+SPB4NP+2xDJXqt4R86dGjkRoe9U8m
- MdmH0mXzpvpipacGFAnrRsCf4QgpcP1cYnBuT9lag8JDJjsD2dlukS2RXMXDJLzuySXQ
- mB37X0txV/IsQArkVEBpXZ/0ZCXwbyNt5ahBpKOjKGBQcmBF0GAPJiQ2WBRzPwvTGoX3
- LU7TsQQj2bxorSO/0vkvdY5yB2nfZSfM1Oq24eIKtsO3W8wn3bo3jY8DmN6YpSaJuQeA
- yExE3JgRYfb29zlkViY9mCgeL769ZMdiU6+g9Y04NXlt+LY5ISCZt5cv1VWww/NctZFz
- rWkg==
+Received: from us-smtp-delivery-124.mimecast.com
+ (us-smtp-delivery-124.mimecast.com [170.10.129.124])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 4466610E3D8
+ for <dri-devel@lists.freedesktop.org>; Sat, 16 Apr 2022 17:23:40 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1650129819;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding;
+ bh=xZJdeEB7LRc/tdjD5XNMXjOZKOVeiea7oToBzOvG+54=;
+ b=UnrU5u/btCYw5FZNi9V+YJ6IGdce7hqUTj3Ow/eQAv+gac4z0QYpttzKLIwxXiOkXlf8XO
+ GfNKAQLt4p0F+KN6iMaZoFsH5SOTW4AY+iF4MVJ4tYlQrwG0mnRgG3d/5V7d8v+jq8h/Fj
+ SHahKlVExYGYi4uG5mXkFpTbjbyaHWM=
+Received: from mail-qv1-f70.google.com (mail-qv1-f70.google.com
+ [209.85.219.70]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ us-mta-321-jd6WC18hOuei5m132dpfVA-1; Sat, 16 Apr 2022 13:23:37 -0400
+X-MC-Unique: jd6WC18hOuei5m132dpfVA-1
+Received: by mail-qv1-f70.google.com with SMTP id
+ z12-20020a0ce60c000000b0044632eb79b3so4574673qvm.7
+ for <dri-devel@lists.freedesktop.org>; Sat, 16 Apr 2022 10:23:37 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc:content-transfer-encoding;
- bh=cMNohu7KsNouJa1UFb+K8nUtLwDTzTI/72r42ygiURM=;
- b=Mn303RfNr4eXEzjSk3hmNr3hZamvD3AFOdBOQKJ+2LnTZrcUNKDi1sosF9aEDBQb1O
- u7eP9MmLT6Ef2+L1LRsZRttivkX1LLhLcgcwkwg2TXR6eqE8E2yDaWPte5W7bTF0M4S+
- xtrXe8GHAEMxZrNo5G57IbNUN+Efq1u/AxMA2yiyFZxLGrGQXo4EpeGJkmNgwP1AT4+W
- JcjwtJjODKz2ZNaWYso6YYQI9A//cxX25wIv1zFyqR51Nd3hXL96xmd676oB5rYHr0Om
- mhNfCUwVbvanL4DXU1Go06aq23REVT1GnUTJfZb4n/vrcgsSqtoTQUGlwDYdPY+pYPLA
- 6ysw==
-X-Gm-Message-State: AOAM5335nOpAXPPSNmt2XCPPF9YQYqDfsXOzrAWmkJRINBYzUzWoltiJ
- LHjIOWJPLxPgc11qFsJiPYiIeV2wWjppoa9m76DYsCmnEgLqKLjt
-X-Google-Smtp-Source: ABdhPJy7YB+IwrdQor5NjHuIZEoM/n6B3J0+rbXLoq4HAbBBdffaXFkJHbDhXcjRlqLQV7zffljEd7TTuM21G4CDAS8=
-X-Received: by 2002:a17:903:1246:b0:155:c376:e5a0 with SMTP id
- u6-20020a170903124600b00155c376e5a0mr3891686plh.167.1650128332785; Sat, 16
- Apr 2022 09:58:52 -0700 (PDT)
+ h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=xZJdeEB7LRc/tdjD5XNMXjOZKOVeiea7oToBzOvG+54=;
+ b=MU+wrUPYcEx5dq8D7pPoGX6B2BytE7D0cN+BG+V5XpHJr8k8L1aF2p8ErtMImzhRL1
+ q+m50WaCfnQmddrikwZ/n4U1hQW9cvQAQlxotMsqznXu8DakB89dd5+dWmJzwKj0NkGF
+ s3A81i5DHMUw55q07+2QsRWSO8dGLGorVjlwMw0gp4781xUQuIHOAhQDYgNmAGytLLWd
+ qI0JQo6pv+QLNH+FwCpUfN3a0DtK8FXwP6tyovoEatVDRVExaKZL6r9Ci10qTMcLsq7h
+ JvWDaEdwtN6d8rT4SLu9FyR+CtV0mkelhmPrdR7Ei9v061fXrM7YYXo0sM/NPGKmjzFE
+ TCRw==
+X-Gm-Message-State: AOAM533JTMyd878i/d1Jv8lfKy9oHhqqBiUknhS6mIpJ6HS+jg/+Uio+
+ eNg362d6RPdTRS6P8vgfysTjTD1kzUjTd+4b95Vy2z6ftCuZV87zirh9LC4PM5L+SlP6RMDduK/
+ LqEOXd1rn5nr+MNd/okIdgvZd+1gS
+X-Received: by 2002:ac8:59d4:0:b0:2e1:f86d:b38c with SMTP id
+ f20-20020ac859d4000000b002e1f86db38cmr2760716qtf.285.1650129817258; 
+ Sat, 16 Apr 2022 10:23:37 -0700 (PDT)
+X-Google-Smtp-Source: ABdhPJxAEeXarJj7i8MC2Tcj5mB+1+LrS7bjnC2aeIcVvjZ6kbGfJHZPt0VaVk2XcNDtSL6OwKTS1g==
+X-Received: by 2002:ac8:59d4:0:b0:2e1:f86d:b38c with SMTP id
+ f20-20020ac859d4000000b002e1f86db38cmr2760702qtf.285.1650129817011; 
+ Sat, 16 Apr 2022 10:23:37 -0700 (PDT)
+Received: from dell-per740-01.7a2m.lab.eng.bos.redhat.com
+ (nat-pool-bos-t.redhat.com. [66.187.233.206])
+ by smtp.gmail.com with ESMTPSA id
+ n186-20020a37bdc3000000b0069c218173e8sm4079598qkf.112.2022.04.16.10.23.36
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Sat, 16 Apr 2022 10:23:36 -0700 (PDT)
+From: Tom Rix <trix@redhat.com>
+To: jani.nikula@linux.intel.com, joonas.lahtinen@linux.intel.com,
+ rodrigo.vivi@intel.com, tvrtko.ursulin@linux.intel.com, airlied@linux.ie,
+ daniel@ffwll.ch
+Subject: [PATCH] drm/i915: change node clearing from memset to initialization
+Date: Sat, 16 Apr 2022 13:23:25 -0400
+Message-Id: <20220416172325.1039795-1-trix@redhat.com>
+X-Mailer: git-send-email 2.27.0
 MIME-Version: 1.0
-References: <20220415195027.305019-1-tales.aparecida@gmail.com>
- <20220415195027.305019-3-tales.aparecida@gmail.com>
- <4f4c8441-a144-6c2d-0f8b-b598905c2f3d@gmail.com>
-In-Reply-To: <4f4c8441-a144-6c2d-0f8b-b598905c2f3d@gmail.com>
-From: Tales <tales.aparecida@gmail.com>
-Date: Sat, 16 Apr 2022 13:58:12 -0300
-Message-ID: <CAGVoLp75WEWxk2uTz6AtomRo+5kNexqM-+aLHQe8pSp66PcHzQ@mail.gmail.com>
-Subject: Re: [PATCH 2/2] MAINTAINERS: add docs entry to AMDGPU
-To: Bagas Sanjaya <bagasdotme@gmail.com>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=trix@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset="US-ASCII"; x-default=true
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -67,28 +84,66 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Thomas Zimmermann <tzimmermann@suse.de>, Jonathan Corbet <corbet@lwn.net>,
- David Airlie <airlied@linux.ie>, dri-devel@lists.freedesktop.org, "Pan,
- Xinhui" <Xinhui.Pan@amd.com>, linux-kernel@vger.kernel.org,
- linux-doc@vger.kernel.org, amd-gfx@lists.freedesktop.org,
- Alex Deucher <alexander.deucher@amd.com>,
- =?UTF-8?Q?Andr=C3=A9_Almeida?= <andrealmeid@riseup.net>,
- =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>
+Cc: Tom Rix <trix@redhat.com>, intel-gfx@lists.freedesktop.org,
+ linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi Bagas Sanjaya,
+In insert_mappable_node(), the parameter node is
+cleared late in node's use with memset.
+insert_mappable_node() is a singleton, called only
+from i915_gem_gtt_prepare() which itself is only
+called by i915_gem_gtt_pread() and
+i915_gem_gtt_pwrite_fast() where the definition of
+node originates.
 
-Em s=C3=A1b., 16 de abr. de 2022 =C3=A0s 02:47, Bagas Sanjaya
-<bagasdotme@gmail.com> escreveu:
-> On 4/16/22 02:50, Tales Lelo da Aparecida wrote:
-> > To make sure maintainers of amdgpu drivers are aware of any changes
-> >  in their documentation, add its entry to MAINTAINERS.
-> >
->
-> Did you mean the Documentation/gpu/amdgpu/ is maintained by dri-devel?
+Instead of using memset, initialize node to 0 at it's
+definitions.  And remove unneeded clearing of the flags
+element.
 
-`Documentation/gpu/amdgpu/` should be maintained by "RADEON and AMDGPU
-DRM DRIVERS" developers, which are part of the dri-devel community.
+Signed-off-by: Tom Rix <trix@redhat.com>
+---
+ drivers/gpu/drm/i915/i915_gem.c | 6 ++----
+ 1 file changed, 2 insertions(+), 4 deletions(-)
 
-Kind regards
+diff --git a/drivers/gpu/drm/i915/i915_gem.c b/drivers/gpu/drm/i915/i915_gem.c
+index 2e10187cd0a0..7dbd0b325c43 100644
+--- a/drivers/gpu/drm/i915/i915_gem.c
++++ b/drivers/gpu/drm/i915/i915_gem.c
+@@ -69,7 +69,6 @@ insert_mappable_node(struct i915_ggtt *ggtt, struct drm_mm_node *node, u32 size)
+ 	if (err)
+ 		return err;
+ 
+-	memset(node, 0, sizeof(*node));
+ 	err = drm_mm_insert_node_in_range(&ggtt->vm.mm, node,
+ 					  size, 0, I915_COLOR_UNEVICTABLE,
+ 					  0, ggtt->mappable_end,
+@@ -328,7 +327,6 @@ static struct i915_vma *i915_gem_gtt_prepare(struct drm_i915_gem_object *obj,
+ 		goto err_ww;
+ 	} else if (!IS_ERR(vma)) {
+ 		node->start = i915_ggtt_offset(vma);
+-		node->flags = 0;
+ 	} else {
+ 		ret = insert_mappable_node(ggtt, node, PAGE_SIZE);
+ 		if (ret)
+@@ -381,7 +379,7 @@ i915_gem_gtt_pread(struct drm_i915_gem_object *obj,
+ 	struct drm_i915_private *i915 = to_i915(obj->base.dev);
+ 	struct i915_ggtt *ggtt = to_gt(i915)->ggtt;
+ 	intel_wakeref_t wakeref;
+-	struct drm_mm_node node;
++	struct drm_mm_node node = {};
+ 	void __user *user_data;
+ 	struct i915_vma *vma;
+ 	u64 remain, offset;
+@@ -538,7 +536,7 @@ i915_gem_gtt_pwrite_fast(struct drm_i915_gem_object *obj,
+ 	struct i915_ggtt *ggtt = to_gt(i915)->ggtt;
+ 	struct intel_runtime_pm *rpm = &i915->runtime_pm;
+ 	intel_wakeref_t wakeref;
+-	struct drm_mm_node node;
++	struct drm_mm_node node = {};
+ 	struct i915_vma *vma;
+ 	u64 remain, offset;
+ 	void __user *user_data;
+-- 
+2.27.0
+
