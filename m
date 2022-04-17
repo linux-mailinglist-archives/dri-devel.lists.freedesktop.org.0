@@ -1,76 +1,44 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id CA38C5048FB
-	for <lists+dri-devel@lfdr.de>; Sun, 17 Apr 2022 20:40:23 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id AFF795048F9
+	for <lists+dri-devel@lfdr.de>; Sun, 17 Apr 2022 20:40:19 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id BD80510E23D;
+	by gabe.freedesktop.org (Postfix) with ESMTP id 084A310E108;
 	Sun, 17 Apr 2022 18:40:15 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-pl1-x631.google.com (mail-pl1-x631.google.com
- [IPv6:2607:f8b0:4864:20::631])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 3592110E8A2;
- Sat, 16 Apr 2022 05:47:59 +0000 (UTC)
-Received: by mail-pl1-x631.google.com with SMTP id c23so8607155plo.0;
- Fri, 15 Apr 2022 22:47:59 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
- h=message-id:date:mime-version:user-agent:subject:content-language:to
- :references:from:in-reply-to:content-transfer-encoding;
- bh=hZc9zcmo/JWKOyzC5RRU+RQ67f92+BjrAId5apbjxx4=;
- b=BTmnZpEXjDVfSLT1f+xWT1/xn6sYOGBXR8vnDdrxz72m3mLd5ZTISc8FjWEHxbnZ0Q
- kJ7JUbXOpyyCJhdDcNb1py4wsDmm7KpjIfQP6GR8yEcaOYKFQYFO+2vWcNvXpiZKLMr3
- q/e6QdW02QmpwPIlnbLe3oX4WWCYdm2n/JyeS+GEd0Hp93xNjUuUpiis8JhOFyd2SMFN
- ay7peWdqRl0rrxVRxMOEZ+V2dJeDYrI9zRG6DJgh5g+qK1wueWuxmR5pDbJZt8lPtBd3
- j/RdN9aum+gG4YDDb8b+7ttaSuryetMAh4wDVL2BAlRjdQfCShj0B6C35DBcPCbMdm1W
- 78DA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
- :content-language:to:references:from:in-reply-to
- :content-transfer-encoding;
- bh=hZc9zcmo/JWKOyzC5RRU+RQ67f92+BjrAId5apbjxx4=;
- b=YgvXJkekjvzIpcJX+JVDZBzdNt3rOtmLbhBnFqqzp8g9eMg1VA3FL7N89dnmAx5SWe
- l/ADQ9tlJSk/Qjwde/+a0j+cRCSG2Qz5G1V1ycYQL/Trf20PSqRjl35tjz6m0PiKOPb6
- kCL0UDGLi8kiSP0IVQ4I0UfjvHaM+0nhn8imjadvs2ow/WDyCs7bSWCHA8D/Y6rDUCN3
- YgCZSRUPtzIOVma9H0dgLdj9LYAI6IqouAoO3Ot1mh72Xmy/93IUME2BfFsoaZv8W+XE
- NvELqeWl5GThECrXgFtRtvk76k8bsyfXMx6o3tkYcFWtRotrnFBjdtwScgtLENpVKCFg
- /QrQ==
-X-Gm-Message-State: AOAM530EQhsHwoxZNB9YSXfv5S5ZQGFT/x7S1NuP06TpWQnQQQM7VEF1
- 6m5FESc5YaSteZF3PPlx6bk=
-X-Google-Smtp-Source: ABdhPJzdHPNlkXPAZkSmp1NrPiHL6M/Utpy+7qlfUa98UuKLz8IjuFuaODr3HigacXCm/YRRaKqAOw==
-X-Received: by 2002:a17:90b:3889:b0:1c7:a31f:2a50 with SMTP id
- mu9-20020a17090b388900b001c7a31f2a50mr7764499pjb.193.1650088078753; 
- Fri, 15 Apr 2022 22:47:58 -0700 (PDT)
-Received: from [192.168.43.80] (subs03-180-214-233-90.three.co.id.
- [180.214.233.90]) by smtp.gmail.com with ESMTPSA id
- u22-20020a17090a891600b001cd498dc152sm7993070pjn.2.2022.04.15.22.47.54
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Fri, 15 Apr 2022 22:47:58 -0700 (PDT)
-Message-ID: <4f4c8441-a144-6c2d-0f8b-b598905c2f3d@gmail.com>
-Date: Sat, 16 Apr 2022 12:47:52 +0700
+X-Greylist: delayed 908 seconds by postgrey-1.36 at gabe;
+ Sun, 17 Apr 2022 13:44:51 UTC
+Received: from m12-13.163.com (m12-13.163.com [220.181.12.13])
+ by gabe.freedesktop.org (Postfix) with ESMTP id E22BC10E161
+ for <dri-devel@lists.freedesktop.org>; Sun, 17 Apr 2022 13:44:51 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=163.com;
+ s=s110527; h=From:Subject:Date:Message-Id:MIME-Version; bh=8xdy1
+ otSXW1cwfTIsLN61K8o+NtLtYS2/7RspgGPkFc=; b=WaktQzaNvApyYYQ3HqeLE
+ oJrH0VHDXzUSk9eqn4Sweu6M+/U73QAridWyhEm6N/T0iXbkI+sUQ8QSllnR4GQg
+ E/Jeajtx7eTWfW2a870TFPqO9WUEvL11ILiolkVp6FO2c3OotRVKDIyffplOIUZg
+ YGuspDxGJxTDLZyj84pgak=
+Received: from carlis (unknown [120.229.91.35])
+ by smtp9 (Coremail) with SMTP id DcCowABHu14vFlxikyJyBw--.4076S2;
+ Sun, 17 Apr 2022 21:29:20 +0800 (CST)
+From: Xuezhi Zhang <zhangxuezhi1@coolpad.com>
+To: liviu.dudau@arm.com, brian.starkey@arm.com, airlied@linux.ie,
+ daniel@ffwll.ch
+Subject: [PATCH] drm/malidp: convert sysfs snprintf to sysfs_emit
+Date: Sun, 17 Apr 2022 13:29:18 +0000
+Message-Id: <20220417132918.135795-1-zhangxuezhi1@coolpad.com>
+X-Mailer: git-send-email 2.25.1
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.8.0
-Subject: Re: [PATCH 2/2] MAINTAINERS: add docs entry to AMDGPU
-Content-Language: en-US
-To: Tales Lelo da Aparecida <tales.aparecida@gmail.com>,
- Alex Deucher <alexander.deucher@amd.com>,
- =?UTF-8?Q?Christian_K=c3=b6nig?= <christian.koenig@amd.com>,
- "Pan, Xinhui" <Xinhui.Pan@amd.com>, David Airlie <airlied@linux.ie>,
- Daniel Vetter <daniel@ffwll.ch>,
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>,
- Jonathan Corbet <corbet@lwn.net>, amd-gfx@lists.freedesktop.org,
- dri-devel@lists.freedesktop.org, linux-doc@vger.kernel.org,
- linux-kernel@vger.kernel.org, andrealmeid@riseup.net
-References: <20220415195027.305019-1-tales.aparecida@gmail.com>
- <20220415195027.305019-3-tales.aparecida@gmail.com>
-From: Bagas Sanjaya <bagasdotme@gmail.com>
-In-Reply-To: <20220415195027.305019-3-tales.aparecida@gmail.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+Content-Transfer-Encoding: 8bit
+X-CM-TRANSID: DcCowABHu14vFlxikyJyBw--.4076S2
+X-Coremail-Antispam: 1Uf129KBjvdXoW7GrWfXF1UWrWfGr1xZw1kZrb_yoWfWFb_CF
+ 10qrsrZrs2yF97uw1xCF4fZryIkayF9FZ5XrW8ta4fZrsFvrsrZ3s29ryvqryUJF47AF9r
+ Aa1kuF15J3ZrCjkaLaAFLSUrUUUU1b8apTn2vfkv8UJUUUU8Yxn0WfASr-VFAUDa7-sFnT
+ 9fnUUvcSsGvfC2KfnxnUUI43ZEXa7IUnpWlPUUUUU==
+X-Originating-IP: [120.229.91.35]
+X-CM-SenderInfo: xoo16iiqy6il2tof0z/1tbiQwjlhVc7Yte1mgABsc
 X-Mailman-Approved-At: Sun, 17 Apr 2022 18:40:14 +0000
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -84,15 +52,33 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
+Cc: linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
+ Xuezhi Zhang <zhangxuezhi1@coolpad.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 4/16/22 02:50, Tales Lelo da Aparecida wrote:
-> To make sure maintainers of amdgpu drivers are aware of any changes
->  in their documentation, add its entry to MAINTAINERS.
-> 
+Fix the following coccicheck warning:
+drivers/gpu/drm/arm/malidp_drv.c:658:8-16:
+WARNING: use scnprintf or sprintf
 
-Did you mean the Documentation/gpu/amdgpu/ is maintained by dri-devel?
+Signed-off-by: Xuezhi Zhang <zhangxuezhi1@coolpad.com>
+---
+ drivers/gpu/drm/arm/malidp_drv.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
+diff --git a/drivers/gpu/drm/arm/malidp_drv.c b/drivers/gpu/drm/arm/malidp_drv.c
+index d5aef21426cf..b1ffd5ba27d9 100644
+--- a/drivers/gpu/drm/arm/malidp_drv.c
++++ b/drivers/gpu/drm/arm/malidp_drv.c
+@@ -655,7 +655,7 @@ static ssize_t core_id_show(struct device *dev, struct device_attribute *attr,
+ 	struct drm_device *drm = dev_get_drvdata(dev);
+ 	struct malidp_drm *malidp = drm->dev_private;
+ 
+-	return snprintf(buf, PAGE_SIZE, "%08x\n", malidp->core_id);
++	return sysfs_emit(buf, "%08x\n", malidp->core_id);
+ }
+ 
+ static DEVICE_ATTR_RO(core_id);
 -- 
-An old man doll... just what I always wanted! - Clara
+2.25.1
+
