@@ -2,77 +2,51 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id AEACC5045B0
-	for <lists+dri-devel@lfdr.de>; Sun, 17 Apr 2022 00:34:20 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 34E325045E3
+	for <lists+dri-devel@lfdr.de>; Sun, 17 Apr 2022 03:04:48 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 99E4B10E0A0;
-	Sat, 16 Apr 2022 22:34:15 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 2AE8510E64A;
+	Sun, 17 Apr 2022 01:04:45 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from us-smtp-delivery-124.mimecast.com
- (us-smtp-delivery-124.mimecast.com [170.10.133.124])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 93D3E10E081
- for <dri-devel@lists.freedesktop.org>; Sat, 16 Apr 2022 22:34:13 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1650148452;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding;
- bh=4ouuJnJQp4IGN8I0+Gam0bFswWMP7CzxEr+ECX/m5CA=;
- b=YrR+E92hDxIfU5iBl+Zj+1xL58PmYlpgzj6nkvk8wekZ9FoKtmZa5oYqsqGHTETO+KbzxF
- TOD9a8HGhnScdLMB01a/URamns98+YgPdkW7c0v1v50ZSbO3QCfpUjRrNZpV3bRl3h4X5N
- AHV5yMvt2d3nB4eN1JeeUYXOul0EqF0=
-Received: from mail-qv1-f72.google.com (mail-qv1-f72.google.com
- [209.85.219.72]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-602-n_UCauZCNDuyNrvr-r0S7A-1; Sat, 16 Apr 2022 18:34:09 -0400
-X-MC-Unique: n_UCauZCNDuyNrvr-r0S7A-1
-Received: by mail-qv1-f72.google.com with SMTP id
- jr12-20020a0562142a8c00b0044429017bcbso9284096qvb.20
- for <dri-devel@lists.freedesktop.org>; Sat, 16 Apr 2022 15:34:09 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
- :content-transfer-encoding;
- bh=4ouuJnJQp4IGN8I0+Gam0bFswWMP7CzxEr+ECX/m5CA=;
- b=G3s3ePX/oyIsthsllpH6jdZanzOHY/fF4saDqWttnM0LT6pufgl4RmOnSFvJP9SI4I
- 2/M/kfdQ549hGadpEmCgWf31GN4X9fEkpxrasy7vcOhynDMqI2Lwsafq+lCBtm2qiLzH
- XB/KuV+Sr8VXKsVv0+ZCmWKmfPT4JmqN2daqKjVaMN4odIHw8fKLIbgKX3OARqUuRbFk
- 80Gm8aTh/0H3JnKeYdHEf9VdEwuNlkbtTxLdLFjon+aJfJ3mPasNPQUgGivfB2BLwF3b
- QHermcc0xW3cTY5LOvwGAY4fSWbjUU25OVuHBYbTbVcXFCVXOJk5jcJG8e8z5XqlLJkM
- Xkkg==
-X-Gm-Message-State: AOAM532p3I7uiqw0PfnCbHuut7OAikQOxUgA9PGKZtxuMBVfFhUuWGuZ
- qdHPR8CUHjMA4kdMjcZkNXU3bPre/IJW/0mQrfCPFAexTzEupRtk5Hx3G9Ml6OGDEK9qcZ889Kt
- BQozhpUxH6cG+fB8YvCgsms6mhT5h
-X-Received: by 2002:a05:620a:cf2:b0:69c:4dc4:8944 with SMTP id
- c18-20020a05620a0cf200b0069c4dc48944mr2940656qkj.553.1650148449024; 
- Sat, 16 Apr 2022 15:34:09 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJyCgSH8or87FJu0ZT9dvXV57n7uWYJZDIsex3cv5/l1u5s9UMBP5GIBcNqRLvUrEyps6t5lOQ==
-X-Received: by 2002:a05:620a:cf2:b0:69c:4dc4:8944 with SMTP id
- c18-20020a05620a0cf200b0069c4dc48944mr2940650qkj.553.1650148448824; 
- Sat, 16 Apr 2022 15:34:08 -0700 (PDT)
-Received: from dell-per740-01.7a2m.lab.eng.bos.redhat.com
- (nat-pool-bos-t.redhat.com. [66.187.233.206])
- by smtp.gmail.com with ESMTPSA id
- f11-20020a05620a12eb00b0069c88d15b6asm3422412qkl.68.2022.04.16.15.34.07
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Sat, 16 Apr 2022 15:34:08 -0700 (PDT)
-From: Tom Rix <trix@redhat.com>
-To: jani.nikula@linux.intel.com, joonas.lahtinen@linux.intel.com,
- rodrigo.vivi@intel.com, tvrtko.ursulin@linux.intel.com, airlied@linux.ie,
- daniel@ffwll.ch
-Subject: [PATCH v2] drm/i915: change node clearing from memset to
- initialization
-Date: Sat, 16 Apr 2022 18:34:01 -0400
-Message-Id: <20220416223401.1720193-1-trix@redhat.com>
-X-Mailer: git-send-email 2.27.0
+Received: from phobos.denx.de (phobos.denx.de [85.214.62.61])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 00FDB10E64A
+ for <dri-devel@lists.freedesktop.org>; Sun, 17 Apr 2022 01:04:43 +0000 (UTC)
+Received: from [127.0.0.1] (p578adb1c.dip0.t-ipconnect.de [87.138.219.28])
+ (using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits))
+ (No client certificate requested)
+ (Authenticated sender: marex@denx.de)
+ by phobos.denx.de (Postfix) with ESMTPSA id 225B183DB7;
+ Sun, 17 Apr 2022 03:04:41 +0200 (CEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=denx.de;
+ s=phobos-20191101; t=1650157481;
+ bh=PMZvZ4UOMxPHBhQTeX5OKVoNv3vHmTX+9mqQR3mAIYY=;
+ h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
+ b=zHPO07LXeWUv+7vyEQYItH6rXsThnQPp7ODyVX3FzClVC6+U8QhOJdv2MaTHAOIhG
+ FzBZo6/oaJn6JAw48aZEIrsxv0aFKkROUXKciXOw7BkyOr2c63tBGh/k0DqFHeuyEz
+ h1GdoIY1qo7nCFx2WfV5Rg9hvfPObdfaJW+EwOsmdKYQ42dxGXujgMOxYE1o9yt15R
+ xnmCNFKIOQA0GJyY69tq762BoYz0bjHBEUVe8lfQAAodCadukDXuLd0Mqs9ge3959z
+ Oybt2tG7F+QjELurJCdjI9UVzwojiazEUpSh//9nsdZAHoYUcvAzuh0LUvdXD/eI1n
+ QWgBYK1fb+0YA==
+Message-ID: <4f9948fb-c7d3-367f-48d0-3e44deee6188@denx.de>
+Date: Sun, 17 Apr 2022 03:04:40 +0200
 MIME-Version: 1.0
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=trix@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Transfer-Encoding: 8bit
-Content-Type: text/plain; charset="US-ASCII"; x-default=true
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.8.0
+Subject: Re: [PATCH v2 2/7] drm: mxsfb: Simplify LCDIF IRQ handling
+Content-Language: en-US
+To: Lucas Stach <l.stach@pengutronix.de>, dri-devel@lists.freedesktop.org
+References: <20220311170601.50995-1-marex@denx.de>
+ <20220311170601.50995-2-marex@denx.de>
+ <ffc23134df69d9fe6ba7229e6a3239ebd131e68e.camel@pengutronix.de>
+ <3f46927b-b458-81bf-0b9b-03171e9bbcb5@denx.de>
+ <b48364e7e0b0d9fc925ec8edf2b03adafe77a30b.camel@pengutronix.de>
+From: Marek Vasut <marex@denx.de>
+In-Reply-To: <b48364e7e0b0d9fc925ec8edf2b03adafe77a30b.camel@pengutronix.de>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
+X-Virus-Scanned: clamav-milter 0.103.5 at phobos.denx.de
+X-Virus-Status: Clean
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -85,59 +59,42 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Tom Rix <trix@redhat.com>, intel-gfx@lists.freedesktop.org,
- linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org
+Cc: Peng Fan <peng.fan@nxp.com>,
+ Alexander Stein <alexander.stein@ew.tq-group.com>,
+ Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
+ Sam Ravnborg <sam@ravnborg.org>, Robby Cai <robby.cai@nxp.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-In insert_mappable_node(), the parameter node is
-cleared late in node's use with memset.
-insert_mappable_node() is a singleton, called only
-from i915_gem_gtt_prepare() which itself is only
-called by i915_gem_gtt_pread() and
-i915_gem_gtt_pwrite_fast() where the definition of
-node originates.
+On 4/7/22 10:01, Lucas Stach wrote:
+> Am Donnerstag, dem 07.04.2022 um 00:03 +0200 schrieb Marek Vasut:
+>> On 4/6/22 21:41, Lucas Stach wrote:
+>>> Am Freitag, dem 11.03.2022 um 18:05 +0100 schrieb Marek Vasut:
+>>>> The call to drm_crtc_vblank_off(&lcdif->crtc); disables IRQ generation
+>>>> from the LCDIF block already and this is called in mxsfb_load() before
+>>>> request_irq(), so explicitly disabling IRQ using custom function like
+>>>> mxsfb_irq_disable() is not needed, remove it.
+>>>>
+>>>
+>>> Have you checked that the drm_vblank_off in probe actually results in a
+>>> call to mxsfb_crtc_disable_vblank? From my reading of the core code,
+>>> this should be a no-op without a previous drm_vblank_on, so it would
+>>> not result in the desired masking before the IRQ is requested.
+>>
+>> I must've missed the vblank->enabled check, but then, I am also not
+>> getting any interrupts, so presumably they are already disabled after
+>> the IP is reset.
+> 
+> Yep, it should be the default for every peripheral to not send any
+> unsolicited interrupts. But then I don't see explicit reset of the IP
+> in the driver probe. So maybe this is a workaround for situation where
+> something running before Linux has already enabled the display
+> controller and for whatever reason also enabled the interrupt
+> requests?
+> 
+> Either we should have a proper reset of the block in the probe path, or
+> this interrupt masking must be kept in one form or the other. My vote
+> would be on just masking the IRQs and dropping the useless
+> drm_vblank_off.
 
-Instead of using memset, initialize node to 0 at its
-definitions.
-
-Signed-off-by: Tom Rix <trix@redhat.com>
----
-v2: restore clearing of flags
-
- drivers/gpu/drm/i915/i915_gem.c | 5 ++---
- 1 file changed, 2 insertions(+), 3 deletions(-)
-
-diff --git a/drivers/gpu/drm/i915/i915_gem.c b/drivers/gpu/drm/i915/i915_gem.c
-index 2e10187cd0a0..268b1f66b873 100644
---- a/drivers/gpu/drm/i915/i915_gem.c
-+++ b/drivers/gpu/drm/i915/i915_gem.c
-@@ -69,7 +69,6 @@ insert_mappable_node(struct i915_ggtt *ggtt, struct drm_mm_node *node, u32 size)
- 	if (err)
- 		return err;
- 
--	memset(node, 0, sizeof(*node));
- 	err = drm_mm_insert_node_in_range(&ggtt->vm.mm, node,
- 					  size, 0, I915_COLOR_UNEVICTABLE,
- 					  0, ggtt->mappable_end,
-@@ -381,7 +380,7 @@ i915_gem_gtt_pread(struct drm_i915_gem_object *obj,
- 	struct drm_i915_private *i915 = to_i915(obj->base.dev);
- 	struct i915_ggtt *ggtt = to_gt(i915)->ggtt;
- 	intel_wakeref_t wakeref;
--	struct drm_mm_node node;
-+	struct drm_mm_node node = {};
- 	void __user *user_data;
- 	struct i915_vma *vma;
- 	u64 remain, offset;
-@@ -538,7 +537,7 @@ i915_gem_gtt_pwrite_fast(struct drm_i915_gem_object *obj,
- 	struct i915_ggtt *ggtt = to_gt(i915)->ggtt;
- 	struct intel_runtime_pm *rpm = &i915->runtime_pm;
- 	intel_wakeref_t wakeref;
--	struct drm_mm_node node;
-+	struct drm_mm_node node = {};
- 	struct i915_vma *vma;
- 	u64 remain, offset;
- 	void __user *user_data;
--- 
-2.27.0
-
+I can just discard this patch, OK.
