@@ -2,49 +2,41 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id CAB785045F3
-	for <lists+dri-devel@lfdr.de>; Sun, 17 Apr 2022 03:44:34 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 552405045F6
+	for <lists+dri-devel@lfdr.de>; Sun, 17 Apr 2022 03:46:27 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 22D2310E04F;
-	Sun, 17 Apr 2022 01:44:32 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 4145C10EBDF;
+	Sun, 17 Apr 2022 01:46:19 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from phobos.denx.de (phobos.denx.de [85.214.62.61])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 12BEF10E04F
- for <dri-devel@lists.freedesktop.org>; Sun, 17 Apr 2022 01:44:30 +0000 (UTC)
-Received: from [127.0.0.1] (p578adb1c.dip0.t-ipconnect.de [87.138.219.28])
- (using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits))
+Received: from phobos.denx.de (phobos.denx.de
+ [IPv6:2a01:238:438b:c500:173d:9f52:ddab:ee01])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 78EF310EBC8
+ for <dri-devel@lists.freedesktop.org>; Sun, 17 Apr 2022 01:46:17 +0000 (UTC)
+Received: from tr.lan (ip-86-49-12-201.net.upcbroadband.cz [86.49.12.201])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits))
  (No client certificate requested)
  (Authenticated sender: marex@denx.de)
- by phobos.denx.de (Postfix) with ESMTPSA id C2D9983DD4;
- Sun, 17 Apr 2022 03:44:27 +0200 (CEST)
+ by phobos.denx.de (Postfix) with ESMTPSA id F0B1583DD4;
+ Sun, 17 Apr 2022 03:46:14 +0200 (CEST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=denx.de;
- s=phobos-20191101; t=1650159868;
- bh=51zChSEyEIY05h2nvXl45XVNr+9ry2CLlIU/z+CEWew=;
- h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
- b=fl/UNHHFgJhTQrcAmq3DMAnZvyPIFpFbBCvv4UzQjrqw1K56Tu2BDkstaTPOzOF25
- dOYXesHFFFi/Bg9lyj3lTKk5MEtmsuf1T9kpfRwsticPwNvsu3AcfNxCBnOvH8HHR5
- nmqDa8B4KEvrcrZLLlDvSQFclpIc6Mt9Lsw/WjyeFzuWr5CMfcRs/YjRQFuR6JhGsC
- p1BUmuK+F2+JwTeeTNtDrvBCfQ5oM0c/+tqHzrsC4AFz+91HOOL0ETxD3o70OZQ+na
- YpGNpQ7/353R+Ew3Z/yhzJYxvDJtPggrmNBrEOzCEOqsIRxd0AgLa0p/wFluAGHYD2
- mMUzCefwqZyPw==
-Message-ID: <72cc674e-4bb3-6b14-aad8-f7d12cd5913e@denx.de>
-Date: Sun, 17 Apr 2022 03:44:27 +0200
-MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.8.0
-Subject: Re: [PATCH 2/2] drm: lcdif: Add support for i.MX8MP LCDIF variant
-Content-Language: en-US
-To: Lucas Stach <l.stach@pengutronix.de>, dri-devel@lists.freedesktop.org
-References: <20220322142853.125880-1-marex@denx.de>
- <20220322142853.125880-2-marex@denx.de>
- <97d0ed7496a65d70a79afed174a777d7d7abb4ae.camel@pengutronix.de>
- <0ba4a237-e8ac-485f-5291-5c23398ba6d7@denx.de>
- <41a531191aaaa880b9a44096b8e4c366f50d1f77.camel@pengutronix.de>
+ s=phobos-20191101; t=1650159975;
+ bh=lEbT4dO7y5t630eH2MqKOkOpu8ppY3RM4ap1vLg/OT0=;
+ h=From:To:Cc:Subject:Date:From;
+ b=fmXfeasHAjKpaiKOOuqI4lkG89s4tsPy5bMk3oz1h4qXLlwpb+Zu1/u4lbEoCIGnc
+ pjvS7Rh4lnISvDj+QLmqvO0x5uSd3soy10wtfmnXJVciEVxew/r/cWgrDpKcGepT+f
+ W48L1XtWULG+LhnaL1S8mxaDOoE5W8V28DC6RLGSRmBmJYUBeMmyYYJh0SVculLREs
+ /uD9LFuN6+k5vb0FHVJa6arZE6csjaOy/462zzOAyKWzlNKjk/gOex4vic7eGaiY2V
+ AQBwgQ5wfIY+xx1puSaKafZh7ybtFtiDoxPVDDVaIJvOJ6kJ7Sh5KuNGOVaehPtuOx
+ qeUAhB+GTm9Lw==
 From: Marek Vasut <marex@denx.de>
-In-Reply-To: <41a531191aaaa880b9a44096b8e4c366f50d1f77.camel@pengutronix.de>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
+To: dri-devel@lists.freedesktop.org
+Subject: [PATCH v2 1/2] dt-bindings: lcdif: Add compatible for i.MX8MP
+Date: Sun, 17 Apr 2022 03:45:49 +0200
+Message-Id: <20220417014550.293773-1-marex@denx.de>
+X-Mailer: git-send-email 2.35.1
+MIME-Version: 1.0
+Content-Transfer-Encoding: 8bit
 X-Virus-Scanned: clamav-milter 0.103.5 at phobos.denx.de
 X-Virus-Status: Clean
 X-BeenThere: dri-devel@lists.freedesktop.org
@@ -59,49 +51,49 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Peng Fan <peng.fan@nxp.com>,
- Alexander Stein <alexander.stein@ew.tq-group.com>,
+Cc: Marek Vasut <marex@denx.de>, devicetree@vger.kernel.org,
+ Peng Fan <peng.fan@nxp.com>, Alexander Stein <alexander.stein@ew.tq-group.com>,
+ Rob Herring <robh+dt@kernel.org>,
  Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
- Sam Ravnborg <sam@ravnborg.org>, Robby Cai <robby.cai@nxp.com>
+ Robby Cai <robby.cai@nxp.com>, Sam Ravnborg <sam@ravnborg.org>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 4/7/22 10:48, Lucas Stach wrote:
+Add compatible string for i.MX8MP LCDIF variant. This is called LCDIFv3
+and is completely different from the LCDIFv3 found in i.MX23 in that it
+has a completely scrambled register layout compared to all previous LCDIF
+variants. The new LCDIFv3 also supports 36bit address space. However,
+except for the complete bit reshuffling, this is still LCDIF and it still
+works like one.
 
-[...]
+Signed-off-by: Marek Vasut <marex@denx.de>
+Cc: Alexander Stein <alexander.stein@ew.tq-group.com>
+Cc: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+Cc: Lucas Stach <l.stach@pengutronix.de>
+Cc: Peng Fan <peng.fan@nxp.com>
+Cc: Rob Herring <robh+dt@kernel.org>
+Cc: Robby Cai <robby.cai@nxp.com>
+Cc: Sam Ravnborg <sam@ravnborg.org>
+Cc: Stefan Agner <stefan@agner.ch>
+Cc: devicetree@vger.kernel.org
+---
+V2: No change
+---
+ Documentation/devicetree/bindings/display/fsl,lcdif.yaml | 1 +
+ 1 file changed, 1 insertion(+)
 
->>>> +static void lcdif_set_mode(struct lcdif_drm_private *lcdif, u32 bus_flags)
->>>> +{
->>>> +	struct drm_display_mode *m = &lcdif->crtc.state->adjusted_mode;
->>>> +	u32 ctrl = 0;
->>>> +
->>>> +	if (m->flags & DRM_MODE_FLAG_PHSYNC)
->>>> +		ctrl |= CTRL_INV_HS;
->>>> +	if (m->flags & DRM_MODE_FLAG_PVSYNC)
->>>> +		ctrl |= CTRL_INV_VS;
->>>> +	/* Make sure Data Enable is high active by default */
->>>> +	if (!(bus_flags & DRM_BUS_FLAG_DE_LOW))
->>>> +		ctrl |= CTRL_INV_DE;
->>>
->>> The above three controls seems to have the wrong polarity. Bit set
->>> means low active according to the register documentation and the PVI in
->>> the HDMI path, which has configurable input signal polarity, seems to
->>> agree with that.
->>
->> I seem to recall seeing something about DE polarity being inverted in
->> odd way in the NXP downstream driver, and differently for each LCDIF
->> instance. Isn't that what you're seeing with HDMI ?
->>
-> Yes, there seems to be some funky business going on here. I guess for
-> the MIPI DSI path it's the same as on the i.MX8MM where the DSI core
-> always expects the sync to be low active IIRC. In the HDMI path there
-> is a block called PVI, which can be configured on what sync polarity to
-> expect on the input. My experiments show that if I program the PVI for
-> high active sync signals, the CTRL_INV_* bits must not be set in the
-> LCDIF for the PVI to pick up the signal, which is consistent with the
-> documentation of those bits in the LCDIF register map.
+diff --git a/Documentation/devicetree/bindings/display/fsl,lcdif.yaml b/Documentation/devicetree/bindings/display/fsl,lcdif.yaml
+index 900a56cae80e6..876015a44a1e6 100644
+--- a/Documentation/devicetree/bindings/display/fsl,lcdif.yaml
++++ b/Documentation/devicetree/bindings/display/fsl,lcdif.yaml
+@@ -20,6 +20,7 @@ properties:
+           - fsl,imx23-lcdif
+           - fsl,imx28-lcdif
+           - fsl,imx6sx-lcdif
++          - fsl,imx8mp-lcdif
+       - items:
+           - enum:
+               - fsl,imx6sl-lcdif
+-- 
+2.35.1
 
-In terms of DE invert, the downstream driver indicates it is needed for 
-both HDMI and DSI and not for LDB, and I already tested the later two 
-(DSI and LDB). Maybe the HDMI bridge driver needs DE polarity inverted 
-in one of the atomic callbacks ?
