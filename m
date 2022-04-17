@@ -2,41 +2,39 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4FE0D5045FD
-	for <lists+dri-devel@lfdr.de>; Sun, 17 Apr 2022 04:08:35 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 405E6504602
+	for <lists+dri-devel@lfdr.de>; Sun, 17 Apr 2022 04:10:32 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id BD34210E663;
-	Sun, 17 Apr 2022 02:08:29 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id CA16110EBD5;
+	Sun, 17 Apr 2022 02:10:28 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from phobos.denx.de (phobos.denx.de
  [IPv6:2a01:238:438b:c500:173d:9f52:ddab:ee01])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 396AB10E657
- for <dri-devel@lists.freedesktop.org>; Sun, 17 Apr 2022 02:08:23 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id A894F10EBD5
+ for <dri-devel@lists.freedesktop.org>; Sun, 17 Apr 2022 02:10:27 +0000 (UTC)
 Received: from tr.lan (ip-86-49-12-201.net.upcbroadband.cz [86.49.12.201])
  (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits))
  (No client certificate requested)
  (Authenticated sender: marex@denx.de)
- by phobos.denx.de (Postfix) with ESMTPSA id 816F883DF2;
- Sun, 17 Apr 2022 04:08:21 +0200 (CEST)
+ by phobos.denx.de (Postfix) with ESMTPSA id DEFF7839E7;
+ Sun, 17 Apr 2022 04:10:25 +0200 (CEST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=denx.de;
- s=phobos-20191101; t=1650161301;
- bh=RUVVRdMzZOISAj9DVEwUUux5WxlzTBd+JuFsbp7wah0=;
- h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
- b=ZcIMwx5L9m/cnukV7E74AjHNYCRsSc1tWtguhtMmGRNtFaoy1evuCIWOlSgslT+80
- 9aMQv16MuHz8z6tRSxb5stR11X+YOUAiK3VPTd3wMFojstxwrdnkedhDwEjABAR2Uz
- rk7z+SeA7D8XcKMdcO3e73N3ytHNTkU/P/7X3fgHg5aWpZykLFvosp3TdYUc4y5juY
- VNASGDilqLrBuT/MeOHgdyqc3/DLMRPbxl73eAV+g1TeUGYmVFOzqM+srn/iG5s8WW
- 7q1K17DvRVfpQwjK3kfSq0vlunDh67BNKm9gwpyty+JqwHMk6zLjeChYmVFzRVurOg
- bnDzb/WdDFrYg==
+ s=phobos-20191101; t=1650161426;
+ bh=2YbxAjB3qjYh4obROlq3NREaJRjWrR/Z6j1tKOUtIcc=;
+ h=From:To:Cc:Subject:Date:From;
+ b=n55NPL2rRURZL+74G8M09NA9rgXRvRnU29+qEHFBn0MppYDExpNcAMsgMgDiInsdP
+ e9FwcmUJ8Y6AjCrFfa/K/aW6Jvs9dbTBup6S7AadKVNMtD3gfO3KkheUE1yMaSWP0r
+ xFNSxJ0bGuX2CE+PumWXRPDZ5fAbcJQNOy8Jwxowejys11KW1lSRnH4j6DuBvRaxxD
+ 2TsCNAmftE8bA8juD/Va8u+vhQFJIQX/113OZ7EFRh3Avu3xEHXXO505ujfvBsYXu9
+ 1BnnMG42qVuAcS5CeTVZ4VPBVJ1xJMzAeqJ+ikwf8ddARWKZ7cnn2TyrSG5rXzqzWV
+ +iLxlqVgG2TCw==
 From: Marek Vasut <marex@denx.de>
 To: dri-devel@lists.freedesktop.org
-Subject: [PATCH v3 4/4] drm: mxsfb: Reorder mxsfb_crtc_mode_set_nofb()
-Date: Sun, 17 Apr 2022 04:08:00 +0200
-Message-Id: <20220417020800.336675-4-marex@denx.de>
+Subject: [PATCH v2] drm: mxsfb: Obtain bus flags from bridge state
+Date: Sun, 17 Apr 2022 04:10:11 +0200
+Message-Id: <20220417021011.337066-1-marex@denx.de>
 X-Mailer: git-send-email 2.35.1
-In-Reply-To: <20220417020800.336675-1-marex@denx.de>
-References: <20220417020800.336675-1-marex@denx.de>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 X-Virus-Scanned: clamav-milter 0.103.5 at phobos.denx.de
@@ -60,11 +58,11 @@ Cc: Marek Vasut <marex@denx.de>, Peng Fan <peng.fan@nxp.com>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Reorder mxsfb_crtc_mode_set_nofb() such that all functions which perform
-register IO are called from one single location in this function. This is
-a clean up. No functional change.
+In case the MXSFB is connected to a bridge, attempt to obtain bus flags
+from that bridge state too. The bus flags may specify e.g. the DE signal
+polarity.
 
-Reviewed-by: Lucas Stach <l.stach@pengutronix.de>
+Acked-by: Alexander Stein <alexander.stein@ew.tq-group.com>
 Signed-off-by: Marek Vasut <marex@denx.de>
 Cc: Alexander Stein <alexander.stein@ew.tq-group.com>
 Cc: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
@@ -74,48 +72,50 @@ Cc: Robby Cai <robby.cai@nxp.com>
 Cc: Sam Ravnborg <sam@ravnborg.org>
 Cc: Stefan Agner <stefan@agner.ch>
 ---
-V2: Add RB from Lucas
-V3: Rebase on latest next and discarded clock and irq cleanups
+V2: Add AB from Alexander
 ---
- drivers/gpu/drm/mxsfb/mxsfb_kms.c | 18 +++++++++---------
- 1 file changed, 9 insertions(+), 9 deletions(-)
+ drivers/gpu/drm/mxsfb/mxsfb_kms.c | 7 +++++--
+ 1 file changed, 5 insertions(+), 2 deletions(-)
 
 diff --git a/drivers/gpu/drm/mxsfb/mxsfb_kms.c b/drivers/gpu/drm/mxsfb/mxsfb_kms.c
-index 1f0f08eab8e74..b7c70d269d2cb 100644
+index b7c70d269d2cb..cd2a59e110c3a 100644
 --- a/drivers/gpu/drm/mxsfb/mxsfb_kms.c
 +++ b/drivers/gpu/drm/mxsfb/mxsfb_kms.c
-@@ -282,15 +282,6 @@ static void mxsfb_crtc_mode_set_nofb(struct mxsfb_drm_private *mxsfb,
- 	u32 bus_flags = mxsfb->connector->display_info.bus_flags;
- 	int err;
- 
--	/* Mandatory eLCDIF reset as per the Reference Manual */
--	err = mxsfb_reset_block(mxsfb);
--	if (err)
--		return;
--
--	mxsfb_set_formats(mxsfb, bus_format);
--
--	clk_set_rate(mxsfb->clk, m->crtc_clock * 1000);
--
- 	if (mxsfb->bridge && mxsfb->bridge->timings)
- 		bus_flags = mxsfb->bridge->timings->input_bus_flags;
- 
-@@ -301,6 +292,15 @@ static void mxsfb_crtc_mode_set_nofb(struct mxsfb_drm_private *mxsfb,
- 			     bus_flags);
- 	DRM_DEV_DEBUG_DRIVER(drm->dev, "Mode flags: 0x%08X\n", m->flags);
- 
-+	/* Mandatory eLCDIF reset as per the Reference Manual */
-+	err = mxsfb_reset_block(mxsfb);
-+	if (err)
-+		return;
-+
-+	mxsfb_set_formats(mxsfb, bus_format);
-+
-+	clk_set_rate(mxsfb->clk, m->crtc_clock * 1000);
-+
- 	mxsfb_set_mode(mxsfb, bus_flags);
+@@ -275,6 +275,7 @@ static int mxsfb_reset_block(struct mxsfb_drm_private *mxsfb)
  }
  
+ static void mxsfb_crtc_mode_set_nofb(struct mxsfb_drm_private *mxsfb,
++				     struct drm_bridge_state *bridge_state,
+ 				     const u32 bus_format)
+ {
+ 	struct drm_device *drm = mxsfb->crtc.dev;
+@@ -284,6 +285,8 @@ static void mxsfb_crtc_mode_set_nofb(struct mxsfb_drm_private *mxsfb,
+ 
+ 	if (mxsfb->bridge && mxsfb->bridge->timings)
+ 		bus_flags = mxsfb->bridge->timings->input_bus_flags;
++	else if (bridge_state)
++		bus_flags = bridge_state->input_bus_cfg.flags;
+ 
+ 	DRM_DEV_DEBUG_DRIVER(drm->dev, "Pixel clock: %dkHz (actual: %dkHz)\n",
+ 			     m->crtc_clock,
+@@ -345,7 +348,7 @@ static void mxsfb_crtc_atomic_enable(struct drm_crtc *crtc,
+ 	struct mxsfb_drm_private *mxsfb = to_mxsfb_drm_private(crtc->dev);
+ 	struct drm_plane_state *new_pstate = drm_atomic_get_new_plane_state(state,
+ 									    crtc->primary);
+-	struct drm_bridge_state *bridge_state;
++	struct drm_bridge_state *bridge_state = NULL;
+ 	struct drm_device *drm = mxsfb->drm;
+ 	u32 bus_format = 0;
+ 	dma_addr_t paddr;
+@@ -381,7 +384,7 @@ static void mxsfb_crtc_atomic_enable(struct drm_crtc *crtc,
+ 	if (!bus_format)
+ 		bus_format = MEDIA_BUS_FMT_RGB888_1X24;
+ 
+-	mxsfb_crtc_mode_set_nofb(mxsfb, bus_format);
++	mxsfb_crtc_mode_set_nofb(mxsfb, bridge_state, bus_format);
+ 
+ 	/* Write cur_buf as well to avoid an initial corrupt frame */
+ 	paddr = drm_fb_cma_get_gem_addr(new_pstate->fb, new_pstate, 0);
 -- 
 2.35.1
 
