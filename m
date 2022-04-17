@@ -1,47 +1,48 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 127535045E4
-	for <lists+dri-devel@lfdr.de>; Sun, 17 Apr 2022 03:05:34 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id CAB785045F3
+	for <lists+dri-devel@lfdr.de>; Sun, 17 Apr 2022 03:44:34 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 4FD6610E651;
-	Sun, 17 Apr 2022 01:05:32 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 22D2310E04F;
+	Sun, 17 Apr 2022 01:44:32 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from phobos.denx.de (phobos.denx.de [85.214.62.61])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 0D18F10E64F
- for <dri-devel@lists.freedesktop.org>; Sun, 17 Apr 2022 01:05:31 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 12BEF10E04F
+ for <dri-devel@lists.freedesktop.org>; Sun, 17 Apr 2022 01:44:30 +0000 (UTC)
 Received: from [127.0.0.1] (p578adb1c.dip0.t-ipconnect.de [87.138.219.28])
  (using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits))
  (No client certificate requested)
  (Authenticated sender: marex@denx.de)
- by phobos.denx.de (Postfix) with ESMTPSA id 45DBC83DB7;
- Sun, 17 Apr 2022 03:05:29 +0200 (CEST)
+ by phobos.denx.de (Postfix) with ESMTPSA id C2D9983DD4;
+ Sun, 17 Apr 2022 03:44:27 +0200 (CEST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=denx.de;
- s=phobos-20191101; t=1650157529;
- bh=Zw8uyHpdBvyNe/4pjFZsuknKBS9rcElGtu6vHQwHthE=;
+ s=phobos-20191101; t=1650159868;
+ bh=51zChSEyEIY05h2nvXl45XVNr+9ry2CLlIU/z+CEWew=;
  h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
- b=xmIDyyFLz8JUUxwPqo8QhurWFRb8EmW5wJqR/r3Gf2R2hZAN9z7hscJc8i7t+xWzI
- HHxHEie3T7LSfrYMtYbPj7MAQ6KhtDkNEbEJm5uLM3pTTH8KRIxq9ELKPqm7Hxxn/u
- Vs1RrkIf6sE+MxJYZ9yV8HMBXuYQDPvmca8rCdyDzH4pBZcS1CVMs9KfYN+StgPew+
- Y/fyKd4tvwP5A1bQazacJ8F37Fjk0OYG4G6S/RZhAGqSQRhHHSHh/zh2D/KuL16q1k
- wM3Tdz5QRV9IKrJBiNSgFj+4sX5LOrWi7bmFIOPXRoqnguT4cYMHqONSCaob4Y2IBP
- 0MNdV8sEZGrHQ==
-Message-ID: <d6ec333b-8be0-84ad-ee33-faedae624a24@denx.de>
-Date: Sun, 17 Apr 2022 03:05:28 +0200
+ b=fl/UNHHFgJhTQrcAmq3DMAnZvyPIFpFbBCvv4UzQjrqw1K56Tu2BDkstaTPOzOF25
+ dOYXesHFFFi/Bg9lyj3lTKk5MEtmsuf1T9kpfRwsticPwNvsu3AcfNxCBnOvH8HHR5
+ nmqDa8B4KEvrcrZLLlDvSQFclpIc6Mt9Lsw/WjyeFzuWr5CMfcRs/YjRQFuR6JhGsC
+ p1BUmuK+F2+JwTeeTNtDrvBCfQ5oM0c/+tqHzrsC4AFz+91HOOL0ETxD3o70OZQ+na
+ YpGNpQ7/353R+Ew3Z/yhzJYxvDJtPggrmNBrEOzCEOqsIRxd0AgLa0p/wFluAGHYD2
+ mMUzCefwqZyPw==
+Message-ID: <72cc674e-4bb3-6b14-aad8-f7d12cd5913e@denx.de>
+Date: Sun, 17 Apr 2022 03:44:27 +0200
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
  Thunderbird/91.8.0
-Subject: Re: [PATCH v2 1/7] drm: mxsfb: Simplify LCDIF clock handling
+Subject: Re: [PATCH 2/2] drm: lcdif: Add support for i.MX8MP LCDIF variant
 Content-Language: en-US
 To: Lucas Stach <l.stach@pengutronix.de>, dri-devel@lists.freedesktop.org
-References: <20220311170601.50995-1-marex@denx.de>
- <fe732f785a4c58f6225f72f5c420d4abc611553c.camel@pengutronix.de>
- <893aa689-d6f3-234f-693d-d31872697d92@denx.de>
- <2d0493d54f629608f014f6ffed4428fccde7a6a5.camel@pengutronix.de>
+References: <20220322142853.125880-1-marex@denx.de>
+ <20220322142853.125880-2-marex@denx.de>
+ <97d0ed7496a65d70a79afed174a777d7d7abb4ae.camel@pengutronix.de>
+ <0ba4a237-e8ac-485f-5291-5c23398ba6d7@denx.de>
+ <41a531191aaaa880b9a44096b8e4c366f50d1f77.camel@pengutronix.de>
 From: Marek Vasut <marex@denx.de>
-In-Reply-To: <2d0493d54f629608f014f6ffed4428fccde7a6a5.camel@pengutronix.de>
+In-Reply-To: <41a531191aaaa880b9a44096b8e4c366f50d1f77.camel@pengutronix.de>
 Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 7bit
 X-Virus-Scanned: clamav-milter 0.103.5 at phobos.denx.de
@@ -65,47 +66,42 @@ Cc: Peng Fan <peng.fan@nxp.com>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 4/7/22 09:57, Lucas Stach wrote:
-> Am Mittwoch, dem 06.04.2022 um 23:45 +0200 schrieb Marek Vasut:
->> On 4/6/22 21:32, Lucas Stach wrote:
->>> Hi Marek,
->>
->> Hi,
->>
->>> Am Freitag, dem 11.03.2022 um 18:05 +0100 schrieb Marek Vasut:
->>>> The current clock handling in the LCDIF driver is a convoluted mess.
->>>
->>> Here we agree...
->>>
->>>> Implement runtime PM ops which turn the clock ON and OFF and let the
->>>> pm_runtime_get_sync()/pm_runtime_put_sync() calls in .atomic_enable
->>>> and .atomic_disable callbacks turn the clock ON and OFF at the right
->>>> time.
->>>>
->>>> This requires slight reordering in mxsfb_crtc_atomic_enable() and
->>>> mxsfb_crtc_atomic_disable(), since all the register accesses must
->>>> happen only with clock enabled and clock frequency configuration
->>>> must happen with clock disabled.
->>>>
->>> ... on that one I don't. Please don't move the pixel clock into the RPM
->>> calls. We have a very well defined point between atomic enable/disable
->>> where the pixel clock is actually needed. All the other configuration
->>> accesses don't need the pixel clock to be active.
->>
->> On the other hand, "all the other" configuration happens during probe,
->> at which point all the clock are enabled anyway. And then during
->> runtime, the pixel clock of this IP are either enabled or this IP is
->> completely shut down.
->>
->> So, where exactly does this patch make the clock handling any worse than
->> it currently is ?
->>
-> There is an even stronger argument: runtime PM does not guarantee that
-> the runtime_suspend is actually called after you put your last
-> reference. A simple "echo on > /sys/your-device/power/control" will
-> prevent the device from ever entering runtime suspend. So if you have a
-> clock like the pixel clock that _needs_ to be disabled for
-> configuration purposes you _must_ not handle this clock via RPM, but
-> via explicit clock handling in the driver.
+On 4/7/22 10:48, Lucas Stach wrote:
 
-OK, patch discarded.
+[...]
+
+>>>> +static void lcdif_set_mode(struct lcdif_drm_private *lcdif, u32 bus_flags)
+>>>> +{
+>>>> +	struct drm_display_mode *m = &lcdif->crtc.state->adjusted_mode;
+>>>> +	u32 ctrl = 0;
+>>>> +
+>>>> +	if (m->flags & DRM_MODE_FLAG_PHSYNC)
+>>>> +		ctrl |= CTRL_INV_HS;
+>>>> +	if (m->flags & DRM_MODE_FLAG_PVSYNC)
+>>>> +		ctrl |= CTRL_INV_VS;
+>>>> +	/* Make sure Data Enable is high active by default */
+>>>> +	if (!(bus_flags & DRM_BUS_FLAG_DE_LOW))
+>>>> +		ctrl |= CTRL_INV_DE;
+>>>
+>>> The above three controls seems to have the wrong polarity. Bit set
+>>> means low active according to the register documentation and the PVI in
+>>> the HDMI path, which has configurable input signal polarity, seems to
+>>> agree with that.
+>>
+>> I seem to recall seeing something about DE polarity being inverted in
+>> odd way in the NXP downstream driver, and differently for each LCDIF
+>> instance. Isn't that what you're seeing with HDMI ?
+>>
+> Yes, there seems to be some funky business going on here. I guess for
+> the MIPI DSI path it's the same as on the i.MX8MM where the DSI core
+> always expects the sync to be low active IIRC. In the HDMI path there
+> is a block called PVI, which can be configured on what sync polarity to
+> expect on the input. My experiments show that if I program the PVI for
+> high active sync signals, the CTRL_INV_* bits must not be set in the
+> LCDIF for the PVI to pick up the signal, which is consistent with the
+> documentation of those bits in the LCDIF register map.
+
+In terms of DE invert, the downstream driver indicates it is needed for 
+both HDMI and DSI and not for LDB, and I already tested the later two 
+(DSI and LDB). Maybe the HDMI bridge driver needs DE polarity inverted 
+in one of the atomic callbacks ?
