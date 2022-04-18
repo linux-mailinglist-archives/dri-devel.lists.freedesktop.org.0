@@ -2,50 +2,51 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id E0E54504B6D
-	for <lists+dri-devel@lfdr.de>; Mon, 18 Apr 2022 05:54:18 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 35B3D504B75
+	for <lists+dri-devel@lfdr.de>; Mon, 18 Apr 2022 05:58:12 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id C51D310ED5D;
-	Mon, 18 Apr 2022 03:54:16 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 72EA110ED93;
+	Mon, 18 Apr 2022 03:58:08 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from mailgw01.mediatek.com (unknown [60.244.123.138])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 50CE510ED5D
- for <dri-devel@lists.freedesktop.org>; Mon, 18 Apr 2022 03:54:15 +0000 (UTC)
-X-UUID: b2b48544fd5a4912a59083dde5eec71e-20220418
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 09E3010ED90
+ for <dri-devel@lists.freedesktop.org>; Mon, 18 Apr 2022 03:58:06 +0000 (UTC)
+X-UUID: ea25a7d6522849c189a7d4e46361b833-20220418
 X-CID-P-RULE: Release_Ham
-X-CID-O-INFO: VERSION:1.1.4, REQID:a0d2538d-3199-4538-9d13-39c5f8326794, OB:0,
+X-CID-O-INFO: VERSION:1.1.4, REQID:69bdaea4-6cd1-41b2-ae35-f368e81d687d, OB:0,
  LO
  B:0,IP:0,URL:0,TC:0,Content:0,EDM:0,RT:0,SF:0,FILE:0,RULE:Release_Ham,ACTI
  ON:release,TS:0
-X-CID-META: VersionHash:faefae9, CLOUDID:1bc832ef-06b0-4305-bfbf-554bfc9d151a,
+X-CID-META: VersionHash:faefae9, CLOUDID:4e1509f0-da02-41b4-b6df-58f4ccd36682,
  C
  OID:IGNORED,Recheck:0,SF:nil,TC:nil,Content:0,EDM:-3,File:nil,QS:0,BEC:nil
-X-UUID: b2b48544fd5a4912a59083dde5eec71e-20220418
+X-UUID: ea25a7d6522849c189a7d4e46361b833-20220418
 Received: from mtkexhb02.mediatek.inc [(172.21.101.103)] by
  mailgw01.mediatek.com (envelope-from <jason-jh.lin@mediatek.com>)
  (Generic MTA with TLSv1.2 ECDHE-RSA-AES256-SHA384 256/256)
- with ESMTP id 1044070103; Mon, 18 Apr 2022 11:54:10 +0800
-Received: from mtkcas10.mediatek.inc (172.21.101.39) by
- mtkmbs10n2.mediatek.inc (172.21.101.183) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_CBC_SHA384) id 15.2.792.3; 
- Mon, 18 Apr 2022 11:54:09 +0800
+ with ESMTP id 1055210589; Mon, 18 Apr 2022 11:58:00 +0800
+Received: from mtkexhb01.mediatek.inc (172.21.101.102) by
+ mtkmbs07n2.mediatek.inc (172.21.101.141) with Microsoft SMTP Server (TLS) id
+ 15.0.1497.2; Mon, 18 Apr 2022 11:57:59 +0800
+Received: from mtkcas10.mediatek.inc (172.21.101.39) by mtkexhb01.mediatek.inc
+ (172.21.101.102) with Microsoft SMTP Server (TLS) id 15.0.1497.2;
+ Mon, 18 Apr 2022 11:57:59 +0800
 Received: from mtksdccf07 (172.21.84.99) by mtkcas10.mediatek.inc
  (172.21.101.73) with Microsoft SMTP Server id 15.0.1497.2 via Frontend
- Transport; Mon, 18 Apr 2022 11:54:09 +0800
-Message-ID: <7fd1afd02a488e1973fbe4c19ebf7a5c28a482e9.camel@mediatek.com>
-Subject: Re: [PATCH v19 09/10] drm/mediatek: add postfix 0 to
- DDP_COMPONENT_DITHER for mt8195 vdosys0
+ Transport; Mon, 18 Apr 2022 11:57:59 +0800
+Message-ID: <8ac63b04e66de3b1fb1a1ef4547982a345e24ed0.camel@mediatek.com>
+Subject: Re: [PATCH v19 10/10] soc: mediatek: remove DDP_DOMPONENT_DITHER enum
 From: Jason-JH Lin <jason-jh.lin@mediatek.com>
 To: AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>, "Rob
  Herring" <robh+dt@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>,
  Matthias Brugger <matthias.bgg@gmail.com>, Chun-Kuang Hu
  <chunkuang.hu@kernel.org>
-Date: Mon, 18 Apr 2022 11:54:09 +0800
-In-Reply-To: <7f5a4307-b28d-1072-ee1d-752b3761bc30@collabora.com>
+Date: Mon, 18 Apr 2022 11:57:59 +0800
+In-Reply-To: <387ede3f-20be-cb84-f343-f68c75eaf5fd@collabora.com>
 References: <20220415083911.5186-1-jason-jh.lin@mediatek.com>
- <20220415083911.5186-10-jason-jh.lin@mediatek.com>
- <7f5a4307-b28d-1072-ee1d-752b3761bc30@collabora.com>
+ <20220415083911.5186-11-jason-jh.lin@mediatek.com>
+ <387ede3f-20be-cb84-f343-f68c75eaf5fd@collabora.com>
 Content-Type: text/plain; charset="UTF-8"
 X-Mailer: Evolution 3.28.5-0ubuntu0.18.04.2 
 MIME-Version: 1.0
@@ -78,34 +79,31 @@ Thanks for the reviews.
 
 On Fri, 2022-04-15 at 12:32 +0200, AngeloGioacchino Del Regno wrote:
 > Il 15/04/22 10:39, jason-jh.lin ha scritto:
-> > Because mt8195 vdosys0 has 2 DITHER components,
-> > so the postfix 0 need to be added to DDP_COMPONENT_DITHER.
-> > 
-> > Then DITHER enum will become:
-> > DDP_COMPONENT_DITHER0 and DDP_COMPONENT_DITHER1.
+> > After mmsys and drm change DITHER enum to DDP_COMPONENT_DITHER0,
+> > mmsys header can remove the useless DDP_COMPONENT_DITHER enum.
 > > 
 > > Signed-off-by: jason-jh.lin <jason-jh.lin@mediatek.com>
 > 
-> I think that "postfix" should be "suffix" instead :)))
+> Can you please fix the commit title with:
+> soc: mediatek: remove DDP_DOMPONENT_DITHER from enum
 > 
-OK, I'll fix it.
+> that "from" is important, as you're not removing *an enum*, but *from
+> an enum*.
+> 
+Yes, I agree with you.
+I'll fix it in the next version.
 Thanks.
 
 Regards,
 Jason-JH.Lin
 
-> In any case:
+> After that:
 > 
 > Reviewed-by: AngeloGioacchino Del Regno <
 > angelogioacchino.delregno@collabora.com>
 > 
-> 
-> _______________________________________________
-> Linux-mediatek mailing list
-> Linux-mediatek@lists.infradead.org
-> 
-https://urldefense.com/v3/__http://lists.infradead.org/mailman/listinfo/linux-mediatek__;!!CTRNKA9wMg0ARbw!0VHqcu_Bx0oyxup8Fj2rgqHuGYhj6UYv4YNNbEr3K8CBkZNPEQxjbrjcw6OccXWGif6P$
->  
+> Thanks!
+> Angelo
 -- 
 Jason-JH Lin <jason-jh.lin@mediatek.com>
 
