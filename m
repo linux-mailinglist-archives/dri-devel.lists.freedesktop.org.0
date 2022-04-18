@@ -1,53 +1,48 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1E92B5049C2
-	for <lists+dri-devel@lfdr.de>; Mon, 18 Apr 2022 00:38:01 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 55A96504B67
+	for <lists+dri-devel@lfdr.de>; Mon, 18 Apr 2022 05:53:04 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 1B80C10E283;
-	Sun, 17 Apr 2022 22:37:58 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 517DA10ED5A;
+	Mon, 18 Apr 2022 03:53:00 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from bhuna.collabora.co.uk (bhuna.collabora.co.uk [46.235.227.227])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 11D3010E12D
- for <dri-devel@lists.freedesktop.org>; Sun, 17 Apr 2022 22:37:56 +0000 (UTC)
-Received: from [127.0.0.1] (localhost [127.0.0.1])
- (Authenticated sender: dmitry.osipenko) with ESMTPSA id 44C641F40EAA
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
- s=mail; t=1650235074;
- bh=AocJApo4ydFCVzv5kkL5J5T725jSrlmEEAg0KTvbJJ0=;
- h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
- b=XxYaf6SbIIT2JsBtHRD1b6DEtIV0jtTFZO33qLm0XQzbvV8nHNC/E3PAxvPMlj5un
- T5nz0IJ/0MMIMO6STTSRs/ZIhhPkPmwDEd024Uhg1nUKWCk69lkrdAccJ76O7YzJMb
- UQ0bnd7ZaU2ronhWuBgmHZ3XvIqDjEvl3fPFrVvnmBAdjDXKbYM1BA8aYHId3Da9mn
- xfk35CZfHFQQrCGCNEXlrx1j/2AiuLGjzPPtE3TSUs+Euc+KkC4QHerZDtd7+k87VV
- gCk+8gemnNqR7FVDNpq7G2+EHbgR2GJqYGtCllkFSNCLjT9/tbMSVkm1gCKEhY2KFa
- M3IzR3BN4qI1g==
-From: Dmitry Osipenko <dmitry.osipenko@collabora.com>
-To: David Airlie <airlied@linux.ie>, Gerd Hoffmann <kraxel@redhat.com>,
- Gurchetan Singh <gurchetansingh@chromium.org>,
- Chia-I Wu <olvaffe@gmail.com>, Daniel Vetter <daniel@ffwll.ch>,
- Daniel Almeida <daniel.almeida@collabora.com>,
- Gert Wollny <gert.wollny@collabora.com>,
- Gustavo Padovan <gustavo.padovan@collabora.com>,
- Daniel Stone <daniel@fooishbar.org>,
- Tomeu Vizoso <tomeu.vizoso@collabora.com>,
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Maxime Ripard <mripard@kernel.org>,
- Thomas Zimmermann <tzimmermann@suse.de>, Rob Herring <robh@kernel.org>,
- Steven Price <steven.price@arm.com>,
- Alyssa Rosenzweig <alyssa.rosenzweig@collabora.com>,
- Rob Clark <robdclark@gmail.com>, Emil Velikov <emil.l.velikov@gmail.com>,
- Robin Murphy <robin.murphy@arm.com>
-Subject: [PATCH v4 15/15] drm/shmem-helper: Remove drm_gem_shmem_purge()
-Date: Mon, 18 Apr 2022 01:37:07 +0300
-Message-Id: <20220417223707.157113-16-dmitry.osipenko@collabora.com>
-X-Mailer: git-send-email 2.35.1
-In-Reply-To: <20220417223707.157113-1-dmitry.osipenko@collabora.com>
-References: <20220417223707.157113-1-dmitry.osipenko@collabora.com>
+Received: from mailgw02.mediatek.com (unknown [210.61.82.184])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 11A7D10ED5A
+ for <dri-devel@lists.freedesktop.org>; Mon, 18 Apr 2022 03:52:57 +0000 (UTC)
+X-UUID: e6254cd210fd445cab5263b81add8c69-20220418
+X-UUID: e6254cd210fd445cab5263b81add8c69-20220418
+Received: from mtkcas11.mediatek.inc [(172.21.101.40)] by mailgw02.mediatek.com
+ (envelope-from <jason-jh.lin@mediatek.com>)
+ (Generic MTA with TLSv1.2 ECDHE-RSA-AES256-SHA384 256/256)
+ with ESMTP id 336577110; Mon, 18 Apr 2022 11:52:50 +0800
+Received: from mtkcas10.mediatek.inc (172.21.101.39) by
+ mtkmbs10n1.mediatek.inc (172.21.101.34) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_CBC_SHA384) id
+ 15.2.792.15; Mon, 18 Apr 2022 11:52:48 +0800
+Received: from mtksdccf07 (172.21.84.99) by mtkcas10.mediatek.inc
+ (172.21.101.73) with Microsoft SMTP Server id 15.0.1497.2 via Frontend
+ Transport; Mon, 18 Apr 2022 11:52:48 +0800
+Message-ID: <3bc291ef3b087ff1d45aa5a8eaf95b927c803dd6.camel@mediatek.com>
+Subject: Re: [PATCH v19 03/10] soc: mediatek: add mtk-mmsys support for
+ mt8195 vdosys0
+From: Jason-JH Lin <jason-jh.lin@mediatek.com>
+To: AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>, "Rob
+ Herring" <robh+dt@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>,
+ Matthias Brugger <matthias.bgg@gmail.com>, Chun-Kuang Hu
+ <chunkuang.hu@kernel.org>
+Date: Mon, 18 Apr 2022 11:52:48 +0800
+In-Reply-To: <3a905d21-26a7-654f-4ab7-7ad1fa1376c6@collabora.com>
+References: <20220415083911.5186-1-jason-jh.lin@mediatek.com>
+ <20220415083911.5186-4-jason-jh.lin@mediatek.com>
+ <3a905d21-26a7-654f-4ab7-7ad1fa1376c6@collabora.com>
+Content-Type: text/plain; charset="UTF-8"
+X-Mailer: Evolution 3.28.5-0ubuntu0.18.04.2 
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Transfer-Encoding: 7bit
+X-MTK: N
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -60,58 +55,89 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Dmitry Osipenko <digetx@gmail.com>,
- Dmitry Osipenko <dmitry.osipenko@collabora.com>, linux-kernel@vger.kernel.org,
- dri-devel@lists.freedesktop.org, virtualization@lists.linux-foundation.org
+Cc: devicetree@vger.kernel.org, Singo
+ Chang <singo.chang@mediatek.com>, linux-kernel@vger.kernel.org,
+ dri-devel@lists.freedesktop.org,
+ Project_Global_Chrome_Upstream_Group@mediatek.com,
+ Nancy Lin <nancy.lin@mediatek.com>, linux-mediatek@lists.infradead.org,
+ linux-arm-kernel@lists.infradead.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-The drm_gem_shmem_purge() was added back in 2019 and never had a user
-since then. GEM's purging is now managed by the generic shrinker and
-only the "locked" variant of the function is wanted. Remove the obsoleted
-function.
+Hi Angelo,
 
-Signed-off-by: Dmitry Osipenko <dmitry.osipenko@collabora.com>
----
- drivers/gpu/drm/drm_gem_shmem_helper.c | 11 -----------
- include/drm/drm_gem_shmem_helper.h     |  2 --
- 2 files changed, 13 deletions(-)
+Thanks for the reviews.
 
-diff --git a/drivers/gpu/drm/drm_gem_shmem_helper.c b/drivers/gpu/drm/drm_gem_shmem_helper.c
-index 6d83d11211fc..3695fdb24ac8 100644
---- a/drivers/gpu/drm/drm_gem_shmem_helper.c
-+++ b/drivers/gpu/drm/drm_gem_shmem_helper.c
-@@ -991,17 +991,6 @@ void drm_gem_shmem_purge_locked(struct drm_gem_shmem_object *shmem)
- }
- EXPORT_SYMBOL(drm_gem_shmem_purge_locked);
- 
--bool drm_gem_shmem_purge(struct drm_gem_shmem_object *shmem)
--{
--	if (!dma_resv_trylock(shmem->base.resv))
--		return false;
--	drm_gem_shmem_purge_locked(shmem);
--	dma_resv_unlock(shmem->base.resv);
--
--	return true;
--}
--EXPORT_SYMBOL(drm_gem_shmem_purge);
--
- /**
-  * drm_gem_shmem_dumb_create - Create a dumb shmem buffer object
-  * @file: DRM file structure to create the dumb buffer for
-diff --git a/include/drm/drm_gem_shmem_helper.h b/include/drm/drm_gem_shmem_helper.h
-index 84316c281292..91e97aa829a7 100644
---- a/include/drm/drm_gem_shmem_helper.h
-+++ b/include/drm/drm_gem_shmem_helper.h
-@@ -179,8 +179,6 @@ int drm_gem_shmem_swap_in_pages_locked(struct drm_gem_shmem_object *shmem);
- int drm_gem_shmem_swap_in_locked(struct drm_gem_shmem_object *shmem);
- 
- void drm_gem_shmem_evict_locked(struct drm_gem_shmem_object *shmem);
--
--bool drm_gem_shmem_purge(struct drm_gem_shmem_object *shmem);
- void drm_gem_shmem_purge_locked(struct drm_gem_shmem_object *shmem);
- 
- struct sg_table *drm_gem_shmem_get_sg_table(struct drm_gem_shmem_object *shmem);
+On Fri, 2022-04-15 at 12:18 +0200, AngeloGioacchino Del Regno wrote:
+> Il 15/04/22 10:39, jason-jh.lin ha scritto:
+> > 1. Add mt8195 mmsys compatible for 2 vdosys.
+> > 2. Add io_start into each driver data of mt8195 vdosys.
+> > 3. Add get match data function to identify mmsys by io_start.
+> > 4. Add mt8195 routing table settings of vdosys0.
+> > 
+> > Signed-off-by: jason-jh.lin <jason-jh.lin@mediatek.com>
+> 
+> Unless anyone wants this commit to be split in two, one for the match
+> data
+> and one for the mt8195 addition, it looks almost good to me, apart
+> one small
+> change that has to be done, check below:
+> 
+> 
+> > --- >   drivers/soc/mediatek/mt8195-mmsys.h    | 370
+> > +++++++++++++++++++++++++
+> >   drivers/soc/mediatek/mtk-mmsys.c       | 152 +++++++++-
+> >   drivers/soc/mediatek/mtk-mmsys.h       |   6 +
+> >   include/linux/soc/mediatek/mtk-mmsys.h |  11 +
+> >   4 files changed, 528 insertions(+), 11 deletions(-)
+> >   create mode 100644 drivers/soc/mediatek/mt8195-mmsys.h
+> > 
+> 
+> ..snip..
+> 
+> > diff --git a/drivers/soc/mediatek/mtk-mmsys.h
+> > b/drivers/soc/mediatek/mtk-mmsys.h
+> > index 77f37f8c715b..21cf300ba864 100644
+> > --- a/drivers/soc/mediatek/mtk-mmsys.h
+> > +++ b/drivers/soc/mediatek/mtk-mmsys.h
+> > @@ -87,12 +87,18 @@ struct mtk_mmsys_routes {
+> >   };
+> >   
+> >   struct mtk_mmsys_driver_data {
+> > +	const u32 io_start;
+> 
+> I agree with you that this iostart is in 32bits boundaries, and that
+> this will
+> practically never change... and I was in doubt whether this would be
+> acceptable
+> or not, because of saving some memory.
+> 
+> Even though I would really love to have the savings, in order to
+> avoid having any
+> "surprises" in the future (any future breakage for "reasons"), we
+> shall comply
+> with the kernel types, so, this has to be...
+> 
+> 	const resource_size_t io_start;
+> 
+> ...and this is the same for both this file and mtk_drm_drv.h, which
+> you modify in
+> patch 07/10.
+> 
+> After fixing that:
+> 
+> Reviewed-by: AngeloGioacchino Del Regno <
+> angelogioacchino.delregno@collabora.com>
+> 
+> 
+> Cheers,
+> Angelo
+
+OK, I'll fix them in the next version.
+Thanks.
+
+Regards,
+Jason-JH.Lin
 -- 
-2.35.1
+Jason-JH Lin <jason-jh.lin@mediatek.com>
 
