@@ -2,39 +2,64 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id D7287504CF7
-	for <lists+dri-devel@lfdr.de>; Mon, 18 Apr 2022 09:07:49 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 63626504E02
+	for <lists+dri-devel@lfdr.de>; Mon, 18 Apr 2022 10:52:00 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 3F84310E7C2;
-	Mon, 18 Apr 2022 07:07:45 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 07E9110EDB1;
+	Mon, 18 Apr 2022 08:51:56 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mx2.smtp.larsendata.com (mx2.smtp.larsendata.com
- [91.221.196.228])
- by gabe.freedesktop.org (Postfix) with ESMTPS id D2A7B10E7C2
- for <dri-devel@lists.freedesktop.org>; Mon, 18 Apr 2022 07:07:43 +0000 (UTC)
-Received: from mail01.mxhotel.dk (mail01.mxhotel.dk [91.221.196.236])
- by mx2.smtp.larsendata.com (Halon) with ESMTPS
- id 3e71f98d-bee6-11ec-9ac0-0050568cd888;
- Mon, 18 Apr 2022 07:07:44 +0000 (UTC)
-Received: from mailproxy3.cst.dirpod4-cph3.one.com
- (mailproxy3.pub.dirpod4-cph3.one.com [104.37.34.136])
+Received: from ams.source.kernel.org (ams.source.kernel.org [145.40.68.75])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 6CA3410EDB1
+ for <dri-devel@lists.freedesktop.org>; Mon, 18 Apr 2022 08:51:54 +0000 (UTC)
+Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
  (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
  (No client certificate requested)
- (Authenticated sender: sam@ravnborg.org)
- by mail01.mxhotel.dk (Postfix) with ESMTPSA id 5F784194B38;
- Mon, 18 Apr 2022 09:07:39 +0200 (CEST)
-Date: Mon, 18 Apr 2022 09:07:35 +0200
-X-Report-Abuse-To: abuse@mxhotel.dk
-From: Sam Ravnborg <sam@ravnborg.org>
-To: Paul Cercueil <paul@crapouillou.net>
-Subject: Re: [PATCH] drm/panel: newvision-nv3052c: Fix build
-Message-ID: <Yl0ON+E7bYluGIYG@ravnborg.org>
-References: <20220409100016.9337-1-paul@crapouillou.net>
+ by ams.source.kernel.org (Postfix) with ESMTPS id BD149B80E12
+ for <dri-devel@lists.freedesktop.org>; Mon, 18 Apr 2022 08:51:52 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPS id 70026C385A7
+ for <dri-devel@lists.freedesktop.org>; Mon, 18 Apr 2022 08:51:51 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+ s=k20201202; t=1650271911;
+ bh=RjYuzpf7UvV6jh0hSkINZfaPa/8cWHSmsNHx4WLNuwk=;
+ h=From:To:Subject:Date:In-Reply-To:References:From;
+ b=fhyV1d3Cmm7kC4DW7QadkMiWAOWrJt2jJoihleI6h8qAFug5ggXXPtLKKPWlXWQgw
+ DcW7YHx2tRlBX/Dc4iR5tZ86X5USciMEjXv82/eJ6L4nAqtc6QR3Nij0KqyzN67NTI
+ afpn7FJSrutXEX2BVIoL7F0FSIrkxIQRVb3prhQQ9uDRRTJT9OU9oI4lSO96stKW7c
+ 36xDS2afxrA50Ud7uJB1KhrWFWKNlgK68Cd9JYxeAfECY2Yhk3fEP5IzwnSE7y0j4R
+ uOR1qSn3GLsNtrPJXriNJS769DzXdk1AalPg9bDt8txI3GYoK0IBVWWB9hwycpIWPe
+ NSW3ASRbt99Eg==
+Received: by aws-us-west-2-korg-bugzilla-1.web.codeaurora.org (Postfix,
+ from userid 48) id 4C827C05FD0; Mon, 18 Apr 2022 08:51:51 +0000 (UTC)
+From: bugzilla-daemon@kernel.org
+To: dri-devel@lists.freedesktop.org
+Subject: [Bug 212635] nouveau 0000:04:00.0: fifo: fault 00 [READ] at
+ 0000000000380000 engine 00 [GR] client 14 [HUB/SCC] reason 02 [PTE] on
+ channel 5 [007fabf000 X[570]]
+Date: Mon, 18 Apr 2022 08:51:51 +0000
+X-Bugzilla-Reason: None
+X-Bugzilla-Type: changed
+X-Bugzilla-Watch-Reason: AssignedTo drivers_video-dri@kernel-bugs.osdl.org
+X-Bugzilla-Product: Drivers
+X-Bugzilla-Component: Video(DRI - non Intel)
+X-Bugzilla-Version: 2.5
+X-Bugzilla-Keywords: 
+X-Bugzilla-Severity: normal
+X-Bugzilla-Who: erhard_f@mailbox.org
+X-Bugzilla-Status: RESOLVED
+X-Bugzilla-Resolution: OBSOLETE
+X-Bugzilla-Priority: P1
+X-Bugzilla-Assigned-To: drivers_video-dri@kernel-bugs.osdl.org
+X-Bugzilla-Flags: 
+X-Bugzilla-Changed-Fields: bug_status resolution
+Message-ID: <bug-212635-2300-1n6W0HFAND@https.bugzilla.kernel.org/>
+In-Reply-To: <bug-212635-2300@https.bugzilla.kernel.org/>
+References: <bug-212635-2300@https.bugzilla.kernel.org/>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+X-Bugzilla-URL: https://bugzilla.kernel.org/
+Auto-Submitted: auto-generated
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20220409100016.9337-1-paul@crapouillou.net>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -47,50 +72,23 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Stephen Rothwell <sfr@canb.auug.org.au>,
- kbuild-all <kbuild-all@lists.01.org>, kernel test robot <lkp@intel.com>,
- linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
- Thierry Reding <thierry.reding@gmail.com>,
- Christophe Branchereau <cbranchereau@gmail.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Sat, Apr 09, 2022 at 11:00:16AM +0100, Paul Cercueil wrote:
-> The driver was compile-tested then rebased on drm-misc-next, and not
-> compile-tested after the rebase; unfortunately the driver didn't compile
-> anymore when it hit drm-misc-next.
-> 
-> Fixes: 49956b505c53 ("drm/panel: Add panel driver for NewVision NV3052C based LCDs")
-> Cc: Christophe Branchereau <cbranchereau@gmail.com>
-> Cc: kbuild-all <kbuild-all@lists.01.org>
-> Cc: Stephen Rothwell <sfr@canb.auug.org.au>
-> Reported-by: kernel test robot <lkp@intel.com>
-> Signed-off-by: Paul Cercueil <paul@crapouillou.net>
-Acked-by: Sam Ravnborg <sam@ravnborg.org>
-> ---
->  drivers/gpu/drm/panel/panel-newvision-nv3052c.c | 4 +---
->  1 file changed, 1 insertion(+), 3 deletions(-)
-> 
-> diff --git a/drivers/gpu/drm/panel/panel-newvision-nv3052c.c b/drivers/gpu/drm/panel/panel-newvision-nv3052c.c
-> index 127bcfdb59df..cf078f0d3cd3 100644
-> --- a/drivers/gpu/drm/panel/panel-newvision-nv3052c.c
-> +++ b/drivers/gpu/drm/panel/panel-newvision-nv3052c.c
-> @@ -416,15 +416,13 @@ static int nv3052c_probe(struct spi_device *spi)
->  	return 0;
->  }
->  
-> -static int nv3052c_remove(struct spi_device *spi)
-> +static void nv3052c_remove(struct spi_device *spi)
->  {
->  	struct nv3052c *priv = spi_get_drvdata(spi);
->  
->  	drm_panel_remove(&priv->panel);
->  	drm_panel_disable(&priv->panel);
->  	drm_panel_unprepare(&priv->panel);
-> -
-> -	return 0;
->  }
->  
->  static const struct drm_display_mode ltk035c5444t_modes[] = {
-> -- 
-> 2.35.1
+https://bugzilla.kernel.org/show_bug.cgi?id=3D212635
+
+Erhard F. (erhard_f@mailbox.org) changed:
+
+           What    |Removed                     |Added
+----------------------------------------------------------------------------
+             Status|NEW                         |RESOLVED
+         Resolution|---                         |OBSOLETE
+
+--- Comment #2 from Erhard F. (erhard_f@mailbox.org) ---
+Sold the hardware, no longer able to test.
+
+--=20
+You may reply to this email to add a comment.
+
+You are receiving this mail because:
+You are watching the assignee of the bug.=
