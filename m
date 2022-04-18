@@ -1,57 +1,56 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 801B1505D30
-	for <lists+dri-devel@lfdr.de>; Mon, 18 Apr 2022 18:58:47 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 7E492505D31
+	for <lists+dri-devel@lfdr.de>; Mon, 18 Apr 2022 18:58:50 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 28AAA10E272;
-	Mon, 18 Apr 2022 16:58:45 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 57BF610E295;
+	Mon, 18 Apr 2022 16:58:48 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-pj1-x1032.google.com (mail-pj1-x1032.google.com
- [IPv6:2607:f8b0:4864:20::1032])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 9C18E10E295
- for <dri-devel@lists.freedesktop.org>; Mon, 18 Apr 2022 16:58:38 +0000 (UTC)
-Received: by mail-pj1-x1032.google.com with SMTP id
- n33-20020a17090a5aa400b001d28f5ee3f9so3076241pji.4
- for <dri-devel@lists.freedesktop.org>; Mon, 18 Apr 2022 09:58:38 -0700 (PDT)
+Received: from mail-pl1-x632.google.com (mail-pl1-x632.google.com
+ [IPv6:2607:f8b0:4864:20::632])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 74F7510E272
+ for <dri-devel@lists.freedesktop.org>; Mon, 18 Apr 2022 16:58:40 +0000 (UTC)
+Received: by mail-pl1-x632.google.com with SMTP id v12so12816843plv.4
+ for <dri-devel@lists.freedesktop.org>; Mon, 18 Apr 2022 09:58:40 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=chromium.org; s=google;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=J1QFnxHD7U+Ao84z0nfTT0ExEc1/lOyohaOkN2UcR24=;
- b=CZbSmX/i5jES+5RWi+JOQsTJ2Htdbaoh7NlFmpocxP9XJuCHQj17CZXDzULn6D0fJG
- BXEBtnF6OUJcmQdxRkGDdkfYv2lUHKb2IGR8K4BpW7neWgAsyfcPK2xKLcEtZinPGwSy
- PnuNQocQ/bQF5MGtIvlphUKzBsHaJYDutd6TA=
+ bh=Dgl5eKn4iSzXB9l06M4fwVd6TIsHNtzaSHHFv1Wa9zw=;
+ b=BZQFA9pcqNGWWm/TFoYFFVZdh6KTVdcVLfXm/LYOkpxORHlZJkWyJzamzdep7WPyws
+ ZJPpjlwYhKtM38pYvGQB8OV5r2gkjnNdFrinAOXarjmIh5CKSeQ/Vs4R8ZuF+eIU37zE
+ vXeyRDrb56V0yWMcCRSp96qh6Aytunonn02UM=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=J1QFnxHD7U+Ao84z0nfTT0ExEc1/lOyohaOkN2UcR24=;
- b=1wwzOf9/bg2S0qUSp93gQ/6KpxEVnof3WvLS3fqquqqtCFwOo4t6GYKf45HEoZsjjS
- bfvuzaGcwFmMqhDD5oIgdvdPCjSwSGxsWQ+o2Ww/wJ1o7m657b1CqIGxjF5eRWn/oS8D
- pIPkAg4ndrAnBVgWIEO/WXPRJNMa5A/aCicu7W56ou7p4UqvkT+jB87Ai/ZWo9pmVZX6
- UrVkb0Jn5rQpAPiMLH4Z9Es17UDZSwK5cGQDfheCZguULQZJKHu4VbfknqZx5XUQsDpo
- mLzfl358wj9rCysOIWb0E9v+9gpCE1D4usEl1Lp6lOZ5vS0QCjuFQtSE8rPJ6KSuoQbT
- 1tag==
-X-Gm-Message-State: AOAM530CQmtum3/OZYCO4KIPYeVaRrt4cHCCP947GiFfw27eVmQIB/yl
- jzy+M/hOli51lM2q2aLKTX6TtCagSS18C1Y3
-X-Google-Smtp-Source: ABdhPJwLdYhma2u6XQc+ES5orztwhXRFtVhZ1lMWtpfsGvAB78t7vY39NXx+5ntfYDoatZnLspf7yw==
-X-Received: by 2002:a17:90b:1891:b0:1d2:66e1:62b2 with SMTP id
- mn17-20020a17090b189100b001d266e162b2mr11793459pjb.56.1650301118033; 
- Mon, 18 Apr 2022 09:58:38 -0700 (PDT)
+ bh=Dgl5eKn4iSzXB9l06M4fwVd6TIsHNtzaSHHFv1Wa9zw=;
+ b=21/tfdEzCSCksUEYmgDrGmfpxN+B4AnWxjSqe2D1BrwQwhYgOUz9EUgj91dB+uA/QV
+ q/i1DOkuK35GVcQX5kfmr4jNhkGug5XocXF/3L0FHj2dSa9F+hMM1e1mChiKnipDe/+h
+ S28436Jb7LbVtGJnoTeFwPH1RXhlUTReNk7TOuTFigfFVtUiPmW9fy1ECIvWjVXDrcR8
+ U2uhJqJ44yecZ1REj1/Xn6fT8Kw+QOLxGSIf93CW+UsaiM1eaXzEe64dMaFyup2ASfwf
+ HwUqjFC9kyQD81kgUuoy7OoY03qrZD/hDlTdKSyjL8dX1ZYDunbem/U/PNO6/yGQArmZ
+ mYrw==
+X-Gm-Message-State: AOAM532DL2nAcRiXHT9oJI50M6fYvXw8xFnwN1de0WwrXsr3MlLH1ku7
+ jAF01qnbkdebPlCcG3bUhhAennqzAvO0Dqlw
+X-Google-Smtp-Source: ABdhPJxQVsYC/f7eoCzdIS38t+LLRJmAkBiI96AdewmBzcUliQs0YJQ/uNxYdYHYGIw1Keing25HWQ==
+X-Received: by 2002:a17:90a:c781:b0:1d0:c23e:5842 with SMTP id
+ gn1-20020a17090ac78100b001d0c23e5842mr18487206pjb.182.1650301119843; 
+ Mon, 18 Apr 2022 09:58:39 -0700 (PDT)
 Received: from tictac2.mtv.corp.google.com
  ([2620:15c:202:201:94f4:f90:c59f:129b])
  by smtp.gmail.com with ESMTPSA id
- l8-20020a17090a150800b001cbaf536a3esm17700980pja.18.2022.04.18.09.58.36
+ l8-20020a17090a150800b001cbaf536a3esm17700980pja.18.2022.04.18.09.58.38
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 18 Apr 2022 09:58:37 -0700 (PDT)
+ Mon, 18 Apr 2022 09:58:39 -0700 (PDT)
 From: Douglas Anderson <dianders@chromium.org>
 To: dri-devel@lists.freedesktop.org
-Subject: [PATCH v2 3/4] drm/panel: atna33xc20: Take advantage of
- wait_hpd_asserted() in struct drm_dp_aux
-Date: Mon, 18 Apr 2022 09:56:41 -0700
-Message-Id: <20220418095557.v2.3.I9ee239f6b95b944c8fa030f300ad222a7af9899d@changeid>
+Subject: [PATCH v2 4/4] drm/bridge: parade-ps8640: Provide wait_hpd_asserted()
+ in struct drm_dp_aux
+Date: Mon, 18 Apr 2022 09:56:42 -0700
+Message-Id: <20220418095557.v2.4.Ie827321ce263be52fdb8c1276f6f8cc00d78029f@changeid>
 X-Mailer: git-send-email 2.36.0.rc0.470.gd361397f0d-goog
 In-Reply-To: <20220418165642.2218514-1-dianders@chromium.org>
 References: <20220418165642.2218514-1-dianders@chromium.org>
@@ -71,18 +70,32 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
 Cc: Douglas Anderson <dianders@chromium.org>,
  Sankeerth Billakanti <quic_sbillaka@quicinc.com>,
- Philip Chen <philipchen@chromium.org>, David Airlie <airlied@linux.ie>,
- linux-kernel@vger.kernel.org, Abhinav Kumar <quic_abhinavk@quicinc.com>,
+ Philip Chen <philipchen@chromium.org>, Jonas Karlman <jonas@kwiboo.se>,
+ David Airlie <airlied@linux.ie>, linux-kernel@vger.kernel.org,
+ Neil Armstrong <narmstrong@baylibre.com>,
+ Abhinav Kumar <quic_abhinavk@quicinc.com>,
  Robert Foss <robert.foss@linaro.org>, Stephen Boyd <swboyd@chromium.org>,
- Thierry Reding <thierry.reding@gmail.com>, Hsin-Yi Wang <hsinyi@chromium.org>,
+ Jernej Skrabec <jernej.skrabec@gmail.com>,
+ Andrzej Hajda <andrzej.hajda@intel.com>, Hsin-Yi Wang <hsinyi@chromium.org>,
  Dmitry Baryshkov <dmitry.baryshkov@linaro.org>,
- Sam Ravnborg <sam@ravnborg.org>
+ Laurent Pinchart <Laurent.pinchart@ideasonboard.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Let's add support for being able to read the HPD pin even if it's
-hooked directly to the controller. This will let us take away the
-waiting in the AUX transfer functions of the eDP controller drivers.
+This implements the callback added by the patch ("drm/dp: Add
+wait_hpd_asserted() callback to struct drm_dp_aux").
+
+With this change and all the two "DP AUX Endpoint" drivers changed to
+use wait_hpd_asserted(), we no longer need to have an long delay in
+the AUX transfer function. It's up to the panel code to make sure that
+the panel is powered now. If someone tried to call the aux transfer
+function without making sure the panel is powered we'll just get a
+normal transfer failure.
+
+We'll still keep the wait for HPD in the pre_enable() function. Though
+it's probably not actually needed there, this driver is used in the
+old mode (pre-DP AUX Endpoints) and it may be important for those
+cases. If nothing else, it shouldn't cause any big problems.
 
 Signed-off-by: Douglas Anderson <dianders@chromium.org>
 ---
@@ -90,80 +103,92 @@ Signed-off-by: Douglas Anderson <dianders@chromium.org>
 Changes in v2:
 - Change is_hpd_asserted() to wait_hpd_asserted()
 
- .../gpu/drm/panel/panel-samsung-atna33xc20.c  | 38 ++++++++++++-------
- 1 file changed, 25 insertions(+), 13 deletions(-)
+ drivers/gpu/drm/bridge/parade-ps8640.c | 34 ++++++++++++++++----------
+ 1 file changed, 21 insertions(+), 13 deletions(-)
 
-diff --git a/drivers/gpu/drm/panel/panel-samsung-atna33xc20.c b/drivers/gpu/drm/panel/panel-samsung-atna33xc20.c
-index 20666b6217e7..7f9af3e9aeb8 100644
---- a/drivers/gpu/drm/panel/panel-samsung-atna33xc20.c
-+++ b/drivers/gpu/drm/panel/panel-samsung-atna33xc20.c
-@@ -19,6 +19,10 @@
- #include <drm/drm_edid.h>
- #include <drm/drm_panel.h>
+diff --git a/drivers/gpu/drm/bridge/parade-ps8640.c b/drivers/gpu/drm/bridge/parade-ps8640.c
+index 9766cbbd62ad..2f19a8c89880 100644
+--- a/drivers/gpu/drm/bridge/parade-ps8640.c
++++ b/drivers/gpu/drm/bridge/parade-ps8640.c
+@@ -168,23 +168,30 @@ static bool ps8640_of_panel_on_aux_bus(struct device *dev)
+ 	return true;
+ }
  
-+/* T3 VCC to HPD high is max 200 ms */
-+#define HPD_MAX_MS	200
-+#define HPD_MAX_US	(HPD_MAX_MS * 1000)
+-static int ps8640_ensure_hpd(struct ps8640 *ps_bridge)
++static int _ps8640_wait_hpd_asserted(struct ps8640 *ps_bridge, unsigned long wait_us)
+ {
+ 	struct regmap *map = ps_bridge->regmap[PAGE2_TOP_CNTL];
+-	struct device *dev = &ps_bridge->page[PAGE2_TOP_CNTL]->dev;
+ 	int status;
+-	int ret;
+ 
+ 	/*
+ 	 * Apparently something about the firmware in the chip signals that
+ 	 * HPD goes high by reporting GPIO9 as high (even though HPD isn't
+ 	 * actually connected to GPIO9).
+ 	 */
+-	ret = regmap_read_poll_timeout(map, PAGE2_GPIO_H, status,
+-				       status & PS_GPIO9, 20 * 1000, 200 * 1000);
++	return regmap_read_poll_timeout(map, PAGE2_GPIO_H, status,
++					status & PS_GPIO9, wait_us / 10, wait_us);
++}
+ 
+-	if (ret < 0)
+-		dev_warn(dev, "HPD didn't go high: %d\n", ret);
++static int ps8640_wait_hpd_asserted(struct drm_dp_aux *aux, unsigned long wait_us)
++{
++	struct ps8640 *ps_bridge = aux_to_ps8640(aux);
++	struct device *dev = &ps_bridge->page[PAGE0_DP_CNTL]->dev;
++	int ret;
 +
- struct atana33xc20_panel {
- 	struct drm_panel base;
- 	bool prepared;
-@@ -30,6 +34,7 @@ struct atana33xc20_panel {
++	pm_runtime_get_sync(dev);
++	ret = _ps8640_wait_hpd_asserted(ps_bridge, wait_us);
++	pm_runtime_mark_last_busy(dev);
++	pm_runtime_put_autosuspend(dev);
  
- 	struct regulator *supply;
- 	struct gpio_desc *el_on3_gpio;
-+	struct drm_dp_aux *aux;
+ 	return ret;
+ }
+@@ -323,9 +330,7 @@ static ssize_t ps8640_aux_transfer(struct drm_dp_aux *aux,
+ 	int ret;
  
- 	struct edid *edid;
+ 	pm_runtime_get_sync(dev);
+-	ret = ps8640_ensure_hpd(ps_bridge);
+-	if (!ret)
+-		ret = ps8640_aux_transfer_msg(aux, msg);
++	ret = ps8640_aux_transfer_msg(aux, msg);
+ 	pm_runtime_mark_last_busy(dev);
+ 	pm_runtime_put_autosuspend(dev);
  
-@@ -90,20 +95,25 @@ static int atana33xc20_resume(struct device *dev)
- 		return ret;
- 	p->powered_on_time = ktime_get();
+@@ -369,8 +374,8 @@ static int __maybe_unused ps8640_resume(struct device *dev)
+ 	 * Mystery 200 ms delay for the "MCU to be ready". It's unclear if
+ 	 * this is truly necessary since the MCU will already signal that
+ 	 * things are "good to go" by signaling HPD on "gpio 9". See
+-	 * ps8640_ensure_hpd(). For now we'll keep this mystery delay just in
+-	 * case.
++	 * _ps8640_wait_hpd_asserted(). For now we'll keep this mystery delay
++	 * just in case.
+ 	 */
+ 	msleep(200);
  
--	/*
--	 * Handle HPD. Note: if HPD is hooked up to a dedicated pin on the
--	 * eDP controller then "no_hpd" will be false _and_ "hpd_gpio" will be
--	 * NULL. It's up to the controller driver to wait for HPD after
--	 * preparing the panel in that case.
--	 */
- 	if (p->no_hpd) {
--		/* T3 VCC to HPD high is max 200 ms */
--		msleep(200);
--	} else if (p->hpd_gpio) {
--		ret = readx_poll_timeout(gpiod_get_value_cansleep, p->hpd_gpio,
--					 hpd_asserted, hpd_asserted,
--					 1000, 200000);
--		if (!hpd_asserted)
-+		msleep(HPD_MAX_MS);
-+	} else {
-+		if (p->hpd_gpio)
-+			ret = readx_poll_timeout(gpiod_get_value_cansleep,
-+						 p->hpd_gpio, hpd_asserted,
-+						 hpd_asserted, 1000, HPD_MAX_US);
-+		else if (p->aux->wait_hpd_asserted)
-+			ret = p->aux->wait_hpd_asserted(p->aux, HPD_MAX_US);
-+
-+		/*
-+		 * Note that it's possible that no_hpd is false, hpd_gpio is
-+		 * NULL, and wait_hpd_asserted is NULL. This is because
-+		 * wait_hpd_asserted() is optional even if HPD is hooked up to
-+		 * a dedicated pin on the eDP controller. In this case we just
-+		 * assume that the controller driver will wait for HPD at the
-+		 * right times.
-+		 */
-+		if (!hpd_asserted && (p->hpd_gpio || p->aux->wait_hpd_asserted))
- 			dev_warn(dev, "Timeout waiting for HPD\n");
- 	}
+@@ -406,7 +411,9 @@ static void ps8640_pre_enable(struct drm_bridge *bridge)
+ 	int ret;
  
-@@ -263,6 +273,8 @@ static int atana33xc20_probe(struct dp_aux_ep_device *aux_ep)
- 		return -ENOMEM;
- 	dev_set_drvdata(dev, panel);
+ 	pm_runtime_get_sync(dev);
+-	ps8640_ensure_hpd(ps_bridge);
++	ret = _ps8640_wait_hpd_asserted(ps_bridge, 200 * 1000);
++	if (ret < 0)
++		dev_warn(dev, "HPD didn't go high: %d\n", ret);
  
-+	panel->aux = aux_ep->aux;
-+
- 	panel->supply = devm_regulator_get(dev, "power");
- 	if (IS_ERR(panel->supply))
- 		return dev_err_probe(dev, PTR_ERR(panel->supply),
+ 	/*
+ 	 * The Manufacturer Command Set (MCS) is a device dependent interface
+@@ -652,6 +659,7 @@ static int ps8640_probe(struct i2c_client *client)
+ 	ps_bridge->aux.name = "parade-ps8640-aux";
+ 	ps_bridge->aux.dev = dev;
+ 	ps_bridge->aux.transfer = ps8640_aux_transfer;
++	ps_bridge->aux.wait_hpd_asserted = ps8640_wait_hpd_asserted;
+ 	drm_dp_aux_init(&ps_bridge->aux);
+ 
+ 	pm_runtime_enable(dev);
 -- 
 2.36.0.rc0.470.gd361397f0d-goog
 
