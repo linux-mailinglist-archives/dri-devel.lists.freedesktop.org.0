@@ -2,39 +2,40 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 221E1507367
-	for <lists+dri-devel@lfdr.de>; Tue, 19 Apr 2022 18:40:57 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 0DA73507368
+	for <lists+dri-devel@lfdr.de>; Tue, 19 Apr 2022 18:41:03 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id E2D1610F026;
-	Tue, 19 Apr 2022 16:40:54 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 9CF1610F058;
+	Tue, 19 Apr 2022 16:41:00 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from ams.source.kernel.org (ams.source.kernel.org [145.40.68.75])
- by gabe.freedesktop.org (Postfix) with ESMTPS id B91E310F026
- for <dri-devel@lists.freedesktop.org>; Tue, 19 Apr 2022 16:40:52 +0000 (UTC)
+Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 0FAEE10F058
+ for <dri-devel@lists.freedesktop.org>; Tue, 19 Apr 2022 16:40:59 +0000 (UTC)
 Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
  (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
  (No client certificate requested)
- by ams.source.kernel.org (Postfix) with ESMTPS id 57A46B819F8;
- Tue, 19 Apr 2022 16:40:51 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id B8675C385AD;
- Tue, 19 Apr 2022 16:40:42 +0000 (UTC)
+ by dfw.source.kernel.org (Postfix) with ESMTPS id 84B5D6182E;
+ Tue, 19 Apr 2022 16:40:58 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 79E8DC385A5;
+ Tue, 19 Apr 2022 16:40:50 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1650386450;
- bh=jhDfr1ZWF3PO87dsTFnhjEgY7CrgFIhStoxQAjgbO8c=;
+ s=k20201202; t=1650386457;
+ bh=C2cC3nszzSR7Yg7EQ5FMtO6Bllai+VKT38Jvit2uDc8=;
  h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
- b=IQZbCphc2aVG/7nQPc8i6SmaXQBHDLcd8lu8VCmzfuxTE9zQ1fttSmG7EuqkoEKfV
- +AijdqGUGVaVV7Gc6JQtpvmfbM8oJLiqSVhH1EBaliC1N03xEc1T1smfyTfNlPQ+ci
- g7D2ubLO4DZSZbQ1S7mLLZAjhkr/Lf9nzpyNW7rUgW2JoDBYVacKhRiIFK/VFk/Xdk
- UDw/LuEvBj9xe6IYc/bXh3fl9uuuA9b3Lcl7FHH7ZpoOjUIFEYceuWcUa/cIuAsEha
- DxLdKbU1RVdss4xqHuQUN0IBiEAqCfNSmrZdnpLyeTBHr4KtQrWshWX4LLED0dDmoN
- GxgomaIMHhKEQ==
+ b=lJfs7uv7LS4DROe0ZEqAXf1BemzCSiR1n9q5pTBcQG14Rdk/Bok1Paom6lb0vD0cm
+ ije+/8ArHxRKJaRYvlbGz9m+iaPOzZmd1uwU5s0IOYZTrkkemNzH/kJBRzyHiOZkrG
+ KiVRrX/jL+JFZ87Q7XxHzop2CKv3G0/eQc4YVrjQsAOZ+/qLo79zDbsc5oxBF2efza
+ CDyrl5WnAOPpLGjznX6xQc+QWZhDWWihqtFWdy5w+aKST9Ab0KZIJBuMOTuHrbmZlA
+ 1xPy7xRAfOi3AMuZzwWBxP7QLOwG5d+HiSgT8IPJ4ta7k1PytjOW3TnkjqmjRoC/fm
+ 4YELVox8EX7Qw==
 From: Arnd Bergmann <arnd@kernel.org>
 To: robert.jarzmik@free.fr,
 	linux-arm-kernel@lists.infradead.org
-Subject: [PATCH 15/48] ARM: pxa: tosa: use gpio descriptor for audio
-Date: Tue, 19 Apr 2022 18:37:37 +0200
-Message-Id: <20220419163810.2118169-16-arnd@kernel.org>
+Subject: [PATCH 16/48] ARM: pxa: poodle: use platform data for poodle asoc
+ driver
+Date: Tue, 19 Apr 2022 18:37:38 +0200
+Message-Id: <20220419163810.2118169-17-arnd@kernel.org>
 X-Mailer: git-send-email 2.29.2
 In-Reply-To: <20220419163810.2118169-1-arnd@kernel.org>
 References: <20220419163810.2118169-1-arnd@kernel.org>
@@ -75,114 +76,236 @@ Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 From: Arnd Bergmann <arnd@arndb.de>
 
-The audio driver should not use a hardwired gpio number
-from the header. Change it to use a lookup table.
+The poodle audio driver shows its age by using a custom
+gpio api for the "locomo" support chip.
+
+In a perfect world, this would get converted to use gpiolib
+and a gpio lookup table.
+
+As the world is not perfect, just pass all the required data
+in a custom platform_data structure. to avoid the globally
+visible mach/poodle.h header.
 
 Acked-by: Mark Brown <broonie@kernel.org>
 Acked-by: Robert Jarzmik <robert.jarzmik@free.fr>
 Cc: alsa-devel@alsa-project.org
 Signed-off-by: Arnd Bergmann <arnd@arndb.de>
 ---
- arch/arm/mach-pxa/tosa.c | 12 ++++++++++++
- sound/soc/pxa/tosa.c     | 16 +++++++---------
- 2 files changed, 19 insertions(+), 9 deletions(-)
+ arch/arm/mach-pxa/poodle.c                    | 30 ++++++++----
+ arch/arm/mach-pxa/{include/mach => }/poodle.h |  4 +-
+ include/linux/platform_data/asoc-poodle.h     | 16 ++++++
+ sound/soc/pxa/poodle.c                        | 49 ++++++++++---------
+ 4 files changed, 63 insertions(+), 36 deletions(-)
+ rename arch/arm/mach-pxa/{include/mach => }/poodle.h (97%)
+ create mode 100644 include/linux/platform_data/asoc-poodle.h
 
-diff --git a/arch/arm/mach-pxa/tosa.c b/arch/arm/mach-pxa/tosa.c
-index 9476ed0f55e9..5a16a025192c 100644
---- a/arch/arm/mach-pxa/tosa.c
-+++ b/arch/arm/mach-pxa/tosa.c
-@@ -887,6 +887,17 @@ static struct platform_device wm9712_device = {
- 	.id	= -1,
+diff --git a/arch/arm/mach-pxa/poodle.c b/arch/arm/mach-pxa/poodle.c
+index ca52882433d4..7772a39430ed 100644
+--- a/arch/arm/mach-pxa/poodle.c
++++ b/arch/arm/mach-pxa/poodle.c
+@@ -39,11 +39,13 @@
+ #include <asm/mach/irq.h>
+ 
+ #include "pxa25x.h"
+-#include <linux/platform_data/mmc-pxamci.h>
+ #include "udc.h"
++#include "poodle.h"
++
++#include <linux/platform_data/mmc-pxamci.h>
+ #include <linux/platform_data/irda-pxaficp.h>
+-#include <mach/poodle.h>
+ #include <linux/platform_data/video-pxafb.h>
++#include <linux/platform_data/asoc-poodle.h>
+ 
+ #include <asm/hardware/scoop.h>
+ #include <asm/hardware/locomo.h>
+@@ -155,12 +157,6 @@ static struct scoop_pcmcia_config poodle_pcmcia_config = {
+ 
+ EXPORT_SYMBOL(poodle_scoop_device);
+ 
+-
+-static struct platform_device poodle_audio_device = {
+-	.name	= "poodle-audio",
+-	.id	= -1,
+-};
+-
+ /* LoCoMo device */
+ static struct resource locomo_resources[] = {
+ 	[0] = {
+@@ -179,7 +175,7 @@ static struct locomo_platform_data locomo_info = {
+ 	.irq_base	= IRQ_BOARD_START,
  };
  
-+static struct gpiod_lookup_table tosa_audio_gpio_table = {
-+	.dev_id = "tosa-audio",
-+	.table = {
-+		GPIO_LOOKUP("tc6393xb",
-+			    TOSA_GPIO_L_MUTE - TOSA_TC6393XB_GPIO_BASE,
-+			    "l-mute", GPIO_ACTIVE_HIGH),
-+		{ },
-+	},
+-struct platform_device poodle_locomo_device = {
++static struct platform_device poodle_locomo_device = {
+ 	.name		= "locomo",
+ 	.id		= 0,
+ 	.num_resources	= ARRAY_SIZE(locomo_resources),
+@@ -189,7 +185,21 @@ struct platform_device poodle_locomo_device = {
+ 	},
+ };
+ 
+-EXPORT_SYMBOL(poodle_locomo_device);
++static struct poodle_audio_platform_data poodle_audio_pdata = {
++	.locomo_dev	= &poodle_locomo_device.dev,
++
++	.gpio_amp_on   	= POODLE_LOCOMO_GPIO_AMP_ON,
++	.gpio_mute_l   	= POODLE_LOCOMO_GPIO_MUTE_L,
++	.gpio_mute_r   	= POODLE_LOCOMO_GPIO_MUTE_R,
++	.gpio_232vcc_on	= POODLE_LOCOMO_GPIO_232VCC_ON,
++	.gpio_jk_b     	= POODLE_LOCOMO_GPIO_JK_B,
 +};
 +
++static struct platform_device poodle_audio_device = {
++	.name	= "poodle-audio",
++	.id	= -1,
++	.dev.platform_data = &poodle_audio_pdata,
++};
+ 
+ #if defined(CONFIG_SPI_PXA2XX) || defined(CONFIG_SPI_PXA2XX_MODULE)
+ static struct pxa2xx_spi_controller poodle_spi_info = {
+diff --git a/arch/arm/mach-pxa/include/mach/poodle.h b/arch/arm/mach-pxa/poodle.h
+similarity index 97%
+rename from arch/arm/mach-pxa/include/mach/poodle.h
+rename to arch/arm/mach-pxa/poodle.h
+index b56b19351a03..e675a3d1aa18 100644
+--- a/arch/arm/mach-pxa/include/mach/poodle.h
++++ b/arch/arm/mach-pxa/poodle.h
+@@ -15,7 +15,7 @@
+ #ifndef __ASM_ARCH_POODLE_H
+ #define __ASM_ARCH_POODLE_H  1
+ 
+-#include "irqs.h" /* PXA_GPIO_TO_IRQ */
++#include <mach/irqs.h> /* PXA_GPIO_TO_IRQ */
+ 
+ /*
+  * GPIOs
+@@ -89,6 +89,4 @@
+ 
+ #define POODLE_NR_IRQS		(IRQ_BOARD_START + 4)	/* 4 for LoCoMo */
+ 
+-extern struct platform_device poodle_locomo_device;
+-
+ #endif /* __ASM_ARCH_POODLE_H  */
+diff --git a/include/linux/platform_data/asoc-poodle.h b/include/linux/platform_data/asoc-poodle.h
+new file mode 100644
+index 000000000000..2052fad55c5c
+--- /dev/null
++++ b/include/linux/platform_data/asoc-poodle.h
+@@ -0,0 +1,16 @@
++/* SPDX-License-Identifier: GPL-2.0 */
++#ifndef __LINUX_PLATFORM_DATA_POODLE_AUDIO
++#define __LINUX_PLATFORM_DATA_POODLE_AUDIO
 +
- static struct platform_device tosa_audio_device = {
- 	.name	= "tosa-audio",
- 	.id	= -1,
-@@ -944,6 +955,7 @@ static void __init tosa_init(void)
- 	PMCR = 0x01;
- 
- 	gpiod_add_lookup_table(&tosa_mci_gpio_table);
-+	gpiod_add_lookup_table(&tosa_audio_gpio_table);
- 	pxa_set_mci_info(&tosa_mci_platform_data);
- 	pxa_set_ficp_info(&tosa_ficp_platform_data);
- 	pxa_set_i2c_info(NULL);
-diff --git a/sound/soc/pxa/tosa.c b/sound/soc/pxa/tosa.c
-index 06226f9b863e..157e6bcacffd 100644
---- a/sound/soc/pxa/tosa.c
-+++ b/sound/soc/pxa/tosa.c
-@@ -16,14 +16,13 @@
- #include <linux/module.h>
- #include <linux/moduleparam.h>
- #include <linux/device.h>
--#include <linux/gpio.h>
-+#include <linux/gpio/consumer.h>
- 
- #include <sound/core.h>
- #include <sound/pcm.h>
- #include <sound/soc.h>
++/* locomo is not a proper gpio driver, and uses its own api */
++struct poodle_audio_platform_data {
++	struct device	*locomo_dev;
++
++	int		gpio_amp_on;
++	int		gpio_mute_l;
++	int		gpio_mute_r;
++	int		gpio_232vcc_on;
++	int		gpio_jk_b;
++};
++
++#endif
+diff --git a/sound/soc/pxa/poodle.c b/sound/soc/pxa/poodle.c
+index 176a0441235a..5fdaa477e85d 100644
+--- a/sound/soc/pxa/poodle.c
++++ b/sound/soc/pxa/poodle.c
+@@ -21,8 +21,8 @@
  
  #include <asm/mach-types.h>
--#include <mach/tosa.h>
+ #include <asm/hardware/locomo.h>
+-#include <mach/poodle.h>
  #include <linux/platform_data/asoc-pxa.h>
++#include <linux/platform_data/asoc-poodle.h>
  
- #define TOSA_HP        0
-@@ -35,6 +34,7 @@
+ #include "../codecs/wm8731.h"
+ #include "pxa2xx-i2s.h"
+@@ -38,21 +38,23 @@
+ static int poodle_jack_func;
+ static int poodle_spk_func;
  
- static int tosa_jack_func;
- static int tosa_spk_func;
-+static struct gpio_desc *l_mute_gpio;
- 
- static void tosa_ext_control(struct snd_soc_dapm_context *dapm)
++static struct poodle_audio_platform_data *poodle_pdata;
++
+ static void poodle_ext_control(struct snd_soc_dapm_context *dapm)
  {
-@@ -128,7 +128,7 @@ static int tosa_set_spk(struct snd_kcontrol *kcontrol,
- static int tosa_hp_event(struct snd_soc_dapm_widget *w,
+ 	/* set up jack connection */
+ 	if (poodle_jack_func == POODLE_HP) {
+ 		/* set = unmute headphone */
+-		locomo_gpio_write(&poodle_locomo_device.dev,
+-			POODLE_LOCOMO_GPIO_MUTE_L, 1);
+-		locomo_gpio_write(&poodle_locomo_device.dev,
+-			POODLE_LOCOMO_GPIO_MUTE_R, 1);
++		locomo_gpio_write(poodle_pdata->locomo_dev,
++			poodle_pdata->gpio_mute_l, 1);
++		locomo_gpio_write(poodle_pdata->locomo_dev,
++			poodle_pdata->gpio_mute_r, 1);
+ 		snd_soc_dapm_enable_pin(dapm, "Headphone Jack");
+ 	} else {
+-		locomo_gpio_write(&poodle_locomo_device.dev,
+-			POODLE_LOCOMO_GPIO_MUTE_L, 0);
+-		locomo_gpio_write(&poodle_locomo_device.dev,
+-			POODLE_LOCOMO_GPIO_MUTE_R, 0);
++		locomo_gpio_write(poodle_pdata->locomo_dev,
++			poodle_pdata->gpio_mute_l, 0);
++		locomo_gpio_write(poodle_pdata->locomo_dev,
++			poodle_pdata->gpio_mute_r, 0);
+ 		snd_soc_dapm_disable_pin(dapm, "Headphone Jack");
+ 	}
+ 
+@@ -80,10 +82,10 @@ static int poodle_startup(struct snd_pcm_substream *substream)
+ static void poodle_shutdown(struct snd_pcm_substream *substream)
+ {
+ 	/* set = unmute headphone */
+-	locomo_gpio_write(&poodle_locomo_device.dev,
+-		POODLE_LOCOMO_GPIO_MUTE_L, 1);
+-	locomo_gpio_write(&poodle_locomo_device.dev,
+-		POODLE_LOCOMO_GPIO_MUTE_R, 1);
++	locomo_gpio_write(poodle_pdata->locomo_dev,
++		poodle_pdata->gpio_mute_l, 1);
++	locomo_gpio_write(poodle_pdata->locomo_dev,
++		poodle_pdata->gpio_mute_r, 1);
+ }
+ 
+ static int poodle_hw_params(struct snd_pcm_substream *substream,
+@@ -174,11 +176,11 @@ static int poodle_amp_event(struct snd_soc_dapm_widget *w,
  	struct snd_kcontrol *k, int event)
  {
--	gpio_set_value(TOSA_GPIO_L_MUTE, SND_SOC_DAPM_EVENT_ON(event) ? 1 : 0);
-+	gpiod_set_value(l_mute_gpio, SND_SOC_DAPM_EVENT_ON(event) ? 1 : 0);
+ 	if (SND_SOC_DAPM_EVENT_ON(event))
+-		locomo_gpio_write(&poodle_locomo_device.dev,
+-			POODLE_LOCOMO_GPIO_AMP_ON, 0);
++		locomo_gpio_write(poodle_pdata->locomo_dev,
++			poodle_pdata->gpio_amp_on, 0);
+ 	else
+-		locomo_gpio_write(&poodle_locomo_device.dev,
+-			POODLE_LOCOMO_GPIO_AMP_ON, 1);
++		locomo_gpio_write(poodle_pdata->locomo_dev,
++			poodle_pdata->gpio_amp_on, 1);
+ 
  	return 0;
  }
- 
-@@ -222,25 +222,23 @@ static int tosa_probe(struct platform_device *pdev)
- 	struct snd_soc_card *card = &tosa;
+@@ -254,13 +256,14 @@ static int poodle_probe(struct platform_device *pdev)
+ 	struct snd_soc_card *card = &poodle;
  	int ret;
  
--	ret = gpio_request_one(TOSA_GPIO_L_MUTE, GPIOF_OUT_INIT_LOW,
--			       "Headphone Jack");
-+	l_mute_gpio = devm_gpiod_get(&pdev->dev, "l-mute", GPIOD_OUT_LOW);
-+	ret = PTR_ERR_OR_ZERO(l_mute_gpio);
- 	if (ret)
- 		return ret;
+-	locomo_gpio_set_dir(&poodle_locomo_device.dev,
+-		POODLE_LOCOMO_GPIO_AMP_ON, 0);
++	poodle_pdata = pdev->dev.platform_data;
++	locomo_gpio_set_dir(poodle_pdata->locomo_dev,
++		poodle_pdata->gpio_amp_on, 0);
+ 	/* should we mute HP at startup - burning power ?*/
+-	locomo_gpio_set_dir(&poodle_locomo_device.dev,
+-		POODLE_LOCOMO_GPIO_MUTE_L, 0);
+-	locomo_gpio_set_dir(&poodle_locomo_device.dev,
+-		POODLE_LOCOMO_GPIO_MUTE_R, 0);
++	locomo_gpio_set_dir(poodle_pdata->locomo_dev,
++		poodle_pdata->gpio_mute_l, 0);
++	locomo_gpio_set_dir(poodle_pdata->locomo_dev,
++		poodle_pdata->gpio_mute_r, 0);
  
  	card->dev = &pdev->dev;
- 
- 	ret = devm_snd_soc_register_card(&pdev->dev, card);
--	if (ret) {
-+	if (ret)
- 		dev_err(&pdev->dev, "snd_soc_register_card() failed: %d\n",
- 			ret);
--		gpio_free(TOSA_GPIO_L_MUTE);
--	}
-+
- 	return ret;
- }
- 
- static int tosa_remove(struct platform_device *pdev)
- {
--	gpio_free(TOSA_GPIO_L_MUTE);
- 	return 0;
- }
  
 -- 
 2.29.2
