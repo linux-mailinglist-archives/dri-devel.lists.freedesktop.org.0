@@ -2,39 +2,40 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6B9D2507371
-	for <lists+dri-devel@lfdr.de>; Tue, 19 Apr 2022 18:42:06 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 4D325507372
+	for <lists+dri-devel@lfdr.de>; Tue, 19 Apr 2022 18:42:12 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 677B010F09A;
-	Tue, 19 Apr 2022 16:42:04 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 3272A10F0A3;
+	Tue, 19 Apr 2022 16:42:10 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from ams.source.kernel.org (ams.source.kernel.org [145.40.68.75])
- by gabe.freedesktop.org (Postfix) with ESMTPS id EBF1B10F09A
- for <dri-devel@lists.freedesktop.org>; Tue, 19 Apr 2022 16:42:02 +0000 (UTC)
+Received: from dfw.source.kernel.org (dfw.source.kernel.org
+ [IPv6:2604:1380:4641:c500::1])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 0F40710F0A3
+ for <dri-devel@lists.freedesktop.org>; Tue, 19 Apr 2022 16:42:09 +0000 (UTC)
 Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
  (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
  (No client certificate requested)
- by ams.source.kernel.org (Postfix) with ESMTPS id 92706B819DE;
- Tue, 19 Apr 2022 16:42:01 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 08A17C385AE;
- Tue, 19 Apr 2022 16:41:52 +0000 (UTC)
+ by dfw.source.kernel.org (Postfix) with ESMTPS id 8045761868;
+ Tue, 19 Apr 2022 16:42:08 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id C61CCC385AC;
+ Tue, 19 Apr 2022 16:42:00 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1650386520;
- bh=vkbNMot1HaZLmF1XKNGCizpp67huD2tFJl0uD4gcruA=;
+ s=k20201202; t=1650386528;
+ bh=pMXP3tiz+pXmptnDBsvlTEJvLY7a6WjIQlAUDseVC7c=;
  h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
- b=FSCbZpV1Dc9c7lTc/j0AP0FhjBo0afHIiy8rSFm4J/COwse/hlE0MWtRdvFHeiMXM
- 4ksw2hp7kEcEo4tbc46HfPt8ZVavi3JNqVWlbeyRH559HmFG+FH+7d9mnWOqfvDYZM
- HN+N3F3N13povD3AscGRy7ycI594O9fAs0HfDIxVJbBSXoHKMaeZruEjL1amcbSbrI
- J9jkxz9AnOTZDgxht0kvzZJsFNe3GuYjqehOo7xje4o0kHt9NgweFyW0d+C0dKADlu
- BgMJln0qIyDqp4gJ2N6G44SYtjHA+7UbS+mSA0MqYyNc/qyiJmB+yOhR9A6R35UYyb
- 3Yf66fWoNuKNA==
+ b=WNtq6L7kYzLqPo1CgDnRfCSkhbU40rWot44wiH0w7KY5q5PTaeX6yBsSjejpCMIO5
+ 7YyF6BGgXkj9KCnK6hk1vKyGqJQqYGi0k986h/js2Dhzln1p0JAC3zoc9J0QoVPOEL
+ TweRk/7T+kSDIDXkf8Ls1dRyo2LMdJPLhNkThXg9d52y29Ru+lYVKiNP2G3UFkn5vQ
+ cGC7cmPNtQJ2U0GFsNug3uLKlp06uWSZX6uTKLJ1lTu+kvNpDykOw9NqOoWZtYj2UY
+ ruEFGMjX0RkqbWcX1HOwB0ciYaSwKKyyeA+rysBsucYttmfP/kQc1miV4a16y8Cds+
+ GVXQTXNlRlmpA==
 From: Arnd Bergmann <arnd@kernel.org>
 To: robert.jarzmik@free.fr,
 	linux-arm-kernel@lists.infradead.org
-Subject: [PATCH 24/48] ARM: pxa: mainstone-wm97xx: use gpio lookup table
-Date: Tue, 19 Apr 2022 18:37:46 +0200
-Message-Id: <20220419163810.2118169-25-arnd@kernel.org>
+Subject: [PATCH 25/48] ARM: pxa: zylonite: use gpio lookup instead mfp header
+Date: Tue, 19 Apr 2022 18:37:47 +0200
+Message-Id: <20220419163810.2118169-26-arnd@kernel.org>
 X-Mailer: git-send-email 2.29.2
 In-Reply-To: <20220419163810.2118169-1-arnd@kernel.org>
 References: <20220419163810.2118169-1-arnd@kernel.org>
@@ -75,210 +76,121 @@ Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 From: Arnd Bergmann <arnd@arndb.de>
 
-This driver hardcodes gpio numbers without a header file.
-Use lookup tables instead.
+The mach/mfp.h header is only used by this one driver
+for hardcoded gpio numbers. Change that to use a lookup
+table instead.
 
-Cc: Marek Vasut <marek.vasut@gmail.com>
-Acked-by: Dmitry Torokhov <dmitry.torokhov@gmail.com>
-Acked-by: Robert Jarzmik <robert.jarzmik@free.fr>
-Reviewed-by: Linus Walleij <linus.walleij@linaro.org>
+Cc: Dmitry Torokhov <dmitry.torokhov@gmail.com>
 Cc: linux-input@vger.kernel.org
+Acked-by: Robert Jarzmik <robert.jarzmik@free.fr>
+Acked-by: Linus Walleij <linus.walleij@linaro.org>
 Signed-off-by: Arnd Bergmann <arnd@arndb.de>
 ---
- arch/arm/mach-pxa/mainstone.c                |  9 +++++
- arch/arm/mach-pxa/palmld.c                   |  9 +++++
- arch/arm/mach-pxa/palmt5.c                   |  9 +++++
- arch/arm/mach-pxa/palmtx.c                   |  9 +++++
- drivers/input/touchscreen/mainstone-wm97xx.c | 35 ++++++++------------
- 5 files changed, 50 insertions(+), 21 deletions(-)
+ arch/arm/mach-pxa/zylonite.c                | 31 +++++++++++++++++++++
+ drivers/input/touchscreen/zylonite-wm97xx.c | 20 +++++++------
+ 2 files changed, 42 insertions(+), 9 deletions(-)
 
-diff --git a/arch/arm/mach-pxa/mainstone.c b/arch/arm/mach-pxa/mainstone.c
-index f0072e63b456..599736c93163 100644
---- a/arch/arm/mach-pxa/mainstone.c
-+++ b/arch/arm/mach-pxa/mainstone.c
-@@ -548,6 +548,14 @@ static struct gpiod_lookup_table mainstone_pcmcia_gpio_table = {
- 	},
- };
+diff --git a/arch/arm/mach-pxa/zylonite.c b/arch/arm/mach-pxa/zylonite.c
+index c48dd6d03df9..ba6dc86da855 100644
+--- a/arch/arm/mach-pxa/zylonite.c
++++ b/arch/arm/mach-pxa/zylonite.c
+@@ -32,6 +32,7 @@
+ #include <linux/platform_data/usb-ohci-pxa27x.h>
+ #include <linux/platform_data/keypad-pxa27x.h>
+ #include <linux/platform_data/mtd-nand-pxa3xx.h>
++#include <mach/mfp.h>
  
-+static struct gpiod_lookup_table mainstone_wm97xx_gpio_table = {
-+	.dev_id = "wm97xx-touch",
+ #include "devices.h"
+ #include "generic.h"
+@@ -425,6 +426,35 @@ static void __init zylonite_init_ohci(void)
+ static inline void zylonite_init_ohci(void) {}
+ #endif /* CONFIG_USB_OHCI_HCD || CONFIG_USB_OHCI_HCD_MODULE */
+ 
++static struct gpiod_lookup_table zylonite_wm97xx_touch_gpio15_table = {
++	.dev_id = "wm97xx-touch.0",
 +	.table = {
-+		GPIO_LOOKUP("gpio-pxa", 4, "touch", GPIO_ACTIVE_HIGH),
++		GPIO_LOOKUP("gpio-pxa", mfp_to_gpio(MFP_PIN_GPIO15),
++			    "touch", GPIO_ACTIVE_LOW),
 +		{ },
 +	},
 +};
 +
- static void __init mainstone_init(void)
++static struct gpiod_lookup_table zylonite_wm97xx_touch_gpio26_table = {
++	.dev_id = "wm97xx-touch.0",
++	.table = {
++		GPIO_LOOKUP("gpio-pxa", mfp_to_gpio(MFP_PIN_GPIO26),
++			    "touch", GPIO_ACTIVE_LOW),
++		{ },
++	},
++};
++
++static void __init zylonite_init_wm97xx_touch(void)
++{
++	if (!IS_ENABLED(CONFIG_TOUCHSCREEN_WM97XX_ZYLONITE))
++		return;
++
++	if (cpu_is_pxa320())
++		gpiod_add_lookup_table(&zylonite_wm97xx_touch_gpio15_table);
++	else
++		gpiod_add_lookup_table(&zylonite_wm97xx_touch_gpio26_table);
++}
++
+ static void __init zylonite_init(void)
  {
- 	int SW7 = 0;  /* FIXME: get from SCR (Mst doc section 3.2.1.1) */
-@@ -562,6 +570,7 @@ static void __init mainstone_init(void)
- 		      "mst-pcmcia1", MST_PCMCIA_INPUTS, 0, NULL,
- 		      NULL, mst_pcmcia1_irqs);
- 	gpiod_add_lookup_table(&mainstone_pcmcia_gpio_table);
-+	gpiod_add_lookup_table(&mainstone_wm97xx_gpio_table);
- 
  	pxa_set_ffuart_info(NULL);
- 	pxa_set_btuart_info(NULL);
-diff --git a/arch/arm/mach-pxa/palmld.c b/arch/arm/mach-pxa/palmld.c
-index d821606ce0b5..32308c63884e 100644
---- a/arch/arm/mach-pxa/palmld.c
-+++ b/arch/arm/mach-pxa/palmld.c
-@@ -347,6 +347,14 @@ static struct gpiod_lookup_table palmld_mci_gpio_table = {
- 	},
- };
+@@ -450,6 +480,7 @@ static void __init zylonite_init(void)
+ 	zylonite_init_nand();
+ 	zylonite_init_leds();
+ 	zylonite_init_ohci();
++	zylonite_init_wm97xx_touch();
+ }
  
-+static struct gpiod_lookup_table palmld_wm97xx_touch_gpio_table = {
-+	.dev_id = "wm97xx-touch",
-+	.table = {
-+		GPIO_LOOKUP("gpio-pxa", 27, "touch", GPIO_ACTIVE_HIGH),
-+		{ },
-+	},
-+};
-+
- static void __init palmld_init(void)
- {
- 	pxa2xx_mfp_config(ARRAY_AND_SIZE(palmld_pin_config));
-@@ -355,6 +363,7 @@ static void __init palmld_init(void)
- 	pxa_set_stuart_info(NULL);
- 
- 	palm27x_mmc_init(&palmld_mci_gpio_table);
-+	gpiod_add_lookup_table(&palmld_wm97xx_touch_gpio_table);
- 	palm27x_pm_init(PALMLD_STR_BASE);
- 	palm27x_lcd_init(-1, &palm_320x480_lcd_mode);
- 	palm27x_irda_init(GPIO_NR_PALMLD_IR_DISABLE);
-diff --git a/arch/arm/mach-pxa/palmt5.c b/arch/arm/mach-pxa/palmt5.c
-index 460a8b1043a5..463b62ec1b01 100644
---- a/arch/arm/mach-pxa/palmt5.c
-+++ b/arch/arm/mach-pxa/palmt5.c
-@@ -190,6 +190,14 @@ static struct gpiod_lookup_table palmt5_mci_gpio_table = {
- 	},
- };
- 
-+static struct gpiod_lookup_table palmt5_wm97xx_touch_gpio_table = {
-+	.dev_id = "wm97xx-touch",
-+	.table = {
-+		GPIO_LOOKUP("gpio-pxa", 27, "touch", GPIO_ACTIVE_HIGH),
-+		{ },
-+	},
-+};
-+
- static void __init palmt5_init(void)
- {
- 	pxa2xx_mfp_config(ARRAY_AND_SIZE(palmt5_pin_config));
-@@ -198,6 +206,7 @@ static void __init palmt5_init(void)
- 	pxa_set_stuart_info(NULL);
- 
- 	palm27x_mmc_init(&palmt5_mci_gpio_table);
-+	gpiod_add_lookup_table(&palmt5_wm97xx_touch_gpio_table);
- 	palm27x_pm_init(PALMT5_STR_BASE);
- 	palm27x_lcd_init(-1, &palm_320x480_lcd_mode);
- 	palm27x_udc_init(GPIO_NR_PALMT5_USB_DETECT_N,
-diff --git a/arch/arm/mach-pxa/palmtx.c b/arch/arm/mach-pxa/palmtx.c
-index 86460d6ea721..c0d0762540ab 100644
---- a/arch/arm/mach-pxa/palmtx.c
-+++ b/arch/arm/mach-pxa/palmtx.c
-@@ -345,6 +345,14 @@ static struct gpiod_lookup_table palmtx_mci_gpio_table = {
- 	},
- };
- 
-+static struct gpiod_lookup_table palmtx_wm97xx_touch_gpio_table = {
-+	.dev_id = "wm97xx-touch",
-+	.table = {
-+		GPIO_LOOKUP("gpio-pxa", 27, "touch", GPIO_ACTIVE_HIGH),
-+		{ },
-+	},
-+};
-+
- static void __init palmtx_init(void)
- {
- 	pxa2xx_mfp_config(ARRAY_AND_SIZE(palmtx_pin_config));
-@@ -353,6 +361,7 @@ static void __init palmtx_init(void)
- 	pxa_set_stuart_info(NULL);
- 
- 	palm27x_mmc_init(&palmtx_mci_gpio_table);
-+	gpiod_add_lookup_table(&palmtx_wm97xx_touch_gpio_table);
- 	palm27x_pm_init(PALMTX_STR_BASE);
- 	palm27x_lcd_init(-1, &palm_320x480_lcd_mode);
- 	palm27x_udc_init(GPIO_NR_PALMTX_USB_DETECT_N,
-diff --git a/drivers/input/touchscreen/mainstone-wm97xx.c b/drivers/input/touchscreen/mainstone-wm97xx.c
-index f8564b398eb3..87655105ef3a 100644
---- a/drivers/input/touchscreen/mainstone-wm97xx.c
-+++ b/drivers/input/touchscreen/mainstone-wm97xx.c
-@@ -21,6 +21,7 @@
+ MACHINE_START(ZYLONITE, "PXA3xx Platform Development Kit (aka Zylonite)")
+diff --git a/drivers/input/touchscreen/zylonite-wm97xx.c b/drivers/input/touchscreen/zylonite-wm97xx.c
+index f57bdf083188..cabdd6e3c6f8 100644
+--- a/drivers/input/touchscreen/zylonite-wm97xx.c
++++ b/drivers/input/touchscreen/zylonite-wm97xx.c
+@@ -17,14 +17,13 @@
  #include <linux/moduleparam.h>
  #include <linux/kernel.h>
  #include <linux/delay.h>
+-#include <linux/gpio.h>
 +#include <linux/gpio/consumer.h>
  #include <linux/irq.h>
  #include <linux/interrupt.h>
+ #include <linux/io.h>
+ #include <linux/soc/pxa/cpu.h>
  #include <linux/wm97xx.h>
-@@ -58,7 +59,7 @@ static const struct continuous cinfo[] = {
- /* continuous speed index */
- static int sp_idx;
- static u16 last, tries;
--static int irq;
-+static struct gpio_desc *gpiod_irq;
  
- /*
-  * Pen sampling frequency (Hz) in continuous mode.
-@@ -194,28 +195,21 @@ static int wm97xx_acc_startup(struct wm97xx *wm)
- 	/* IRQ driven touchscreen is used on Palm hardware */
- 	if (machine_is_palmt5() || machine_is_palmtx() || machine_is_palmld()) {
- 		pen_int = 1;
--		irq = 27;
- 		/* There is some obscure mutant of WM9712 interbred with WM9713
- 		 * used on Palm HW */
- 		wm->variant = WM97xx_WM1613;
--	} else if (machine_is_mainstone() && pen_int)
--		irq = 4;
--
--	if (irq) {
--		ret = gpio_request(irq, "Touchscreen IRQ");
--		if (ret)
--			goto out;
--
--		ret = gpio_direction_input(irq);
--		if (ret) {
--			gpio_free(irq);
--			goto out;
--		}
-+	}
-+
-+	if (pen_int) {
-+		gpiod_irq = gpiod_get(wm->dev, "touch", GPIOD_IN);
-+		if (IS_ERR(gpiod_irq))
-+			pen_int = 0;
-+	}
+-#include <mach/mfp.h>
+ #include <mach/regs-ac97.h>
  
--		wm->pen_irq = gpio_to_irq(irq);
-+	if (pen_int) {
-+		wm->pen_irq = gpiod_to_irq(gpiod_irq);
- 		irq_set_irq_type(wm->pen_irq, IRQ_TYPE_EDGE_BOTH);
--	} else /* pen irq not supported */
--		pen_int = 0;
-+	}
- 
- 	/* codec specific irq config */
- 	if (pen_int) {
-@@ -242,7 +236,6 @@ static int wm97xx_acc_startup(struct wm97xx *wm)
- 		}
- 	}
- 
--out:
- 	return ret;
- }
- 
-@@ -250,8 +243,8 @@ static void wm97xx_acc_shutdown(struct wm97xx *wm)
+ struct continuous {
+@@ -181,14 +180,17 @@ static struct wm97xx_mach_ops zylonite_mach_ops = {
+ static int zylonite_wm97xx_probe(struct platform_device *pdev)
  {
- 	/* codec specific deconfig */
- 	if (pen_int) {
--		if (irq)
--			gpio_free(irq);
-+		if (gpiod_irq)
-+			gpiod_put(gpiod_irq);
- 		wm->pen_irq = 0;
- 	}
- }
+ 	struct wm97xx *wm = platform_get_drvdata(pdev);
+-	int gpio_touch_irq;
+-
+-	if (cpu_is_pxa320())
+-		gpio_touch_irq = mfp_to_gpio(MFP_PIN_GPIO15);
+-	else
+-		gpio_touch_irq = mfp_to_gpio(MFP_PIN_GPIO26);
++	struct gpio_desc *gpio_touch_irq;
++	int err;
++
++	gpio_touch_irq = devm_gpiod_get(&pdev->dev, "touch", GPIOD_IN);
++	err = PTR_ERR_OR_ZERO(gpio_touch_irq);
++	if (err) {
++		dev_err(&pdev->dev, "Cannot get irq gpio: %d\n", err);
++		return err;
++	}
+ 
+-	wm->pen_irq = gpio_to_irq(gpio_touch_irq);
++	wm->pen_irq = gpiod_to_irq(gpio_touch_irq);
+ 	irq_set_irq_type(wm->pen_irq, IRQ_TYPE_EDGE_BOTH);
+ 
+ 	wm97xx_config_gpio(wm, WM97XX_GPIO_13, WM97XX_GPIO_IN,
 -- 
 2.29.2
 
