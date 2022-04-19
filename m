@@ -1,63 +1,68 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id A8B99507241
-	for <lists+dri-devel@lfdr.de>; Tue, 19 Apr 2022 17:54:08 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 68FDC507254
+	for <lists+dri-devel@lfdr.de>; Tue, 19 Apr 2022 17:57:19 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id A793A10EF2F;
-	Tue, 19 Apr 2022 15:53:58 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id D498610EEC8;
+	Tue, 19 Apr 2022 15:57:13 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-lf1-x134.google.com (mail-lf1-x134.google.com
- [IPv6:2a00:1450:4864:20::134])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 679C389A5C
- for <dri-devel@lists.freedesktop.org>; Tue, 19 Apr 2022 15:53:53 +0000 (UTC)
-Received: by mail-lf1-x134.google.com with SMTP id x17so30157141lfa.10
- for <dri-devel@lists.freedesktop.org>; Tue, 19 Apr 2022 08:53:53 -0700 (PDT)
+Received: from mail-lf1-x12a.google.com (mail-lf1-x12a.google.com
+ [IPv6:2a00:1450:4864:20::12a])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 8041410EEC8
+ for <dri-devel@lists.freedesktop.org>; Tue, 19 Apr 2022 15:57:12 +0000 (UTC)
+Received: by mail-lf1-x12a.google.com with SMTP id b21so30194950lfb.5
+ for <dri-devel@lists.freedesktop.org>; Tue, 19 Apr 2022 08:57:12 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=from:to:cc:subject:date:message-id:in-reply-to:references
- :mime-version:content-transfer-encoding;
- bh=UYpKqwvJGN9X1TiWApTeC2vyq9ZJfZlgM00A1QgZn8E=;
- b=I/Q99s30WIguvVCNPVBODeMiYEqr7Sgxp2qTFINHcSvfU9CQ/HoEwV4BrbUsxFJDTP
- uWtuhQy+kz0AMn8+huycejmGQF8DGcSqRb+wN4RoGV0RMzeec4idhIN0sonHmTJZB8Hs
- NEAzMSVj6OluP+ZqNaPZASPfM/IKUovaQAO61fsnHRjvroRwiGYEULfB1GKCU3g3w708
- nQvQ3sUtGW8IrxXTIkZHQRBT+HULDf2nym7qvsS+ahycSYqm322frwjd8k2PeRTBSIv7
- /0fyNbO9hhifn4Z9bR/gQ43UsA8P6amTuTGy0utX/7nJ7zx+MN0/Jr1S/aKMuKgQiyKg
- 5reA==
+ h=message-id:date:mime-version:user-agent:subject:content-language:to
+ :cc:references:from:in-reply-to:content-transfer-encoding;
+ bh=aBBlrcuINY/huqI+pmNpt7ezjRhcp+EsZeDz0RlBbYA=;
+ b=oYSRwbUAXncHSazO9/um5GURByFyEv/d1wSyWc52WIGTl0Dn2fBv7EVe8HLgBQaop2
+ q6XNg7gZCRjdwhctLljfU9EYI4JWF+aT2nXZ7JUtsuoqr1ldsayYtbNq56JtkDP+uHhs
+ EVISorbf2Qb+HvhQlrkODKLDY9lirkhtgzJ/Xp9UwuUAGHYsX3P8i3LoMKg1jBinFkGc
+ 8HpiDB+f+HYE+kRpEVCBQ5xYc8vGQWEVWZ3OwLaKUsKNSxOqcOQU93sfMiGB5Tj652i/
+ OfdAjRhzNoYxolGuewaXMjdRf8rgOo8zH/3YFgHzOnlP6v0Sq3248bwvXIKypJcU/bSv
+ YUOw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
- :references:mime-version:content-transfer-encoding;
- bh=UYpKqwvJGN9X1TiWApTeC2vyq9ZJfZlgM00A1QgZn8E=;
- b=qV9bAf+6YXmnIL1FGveCE0tZGwkoPSNfp8ZrAEh8Qgie8sSuS3y06O/7Zh2lurcaT1
- JxeG7U4X25n+h4IKnpSHp35ZxnYdRo4I1uMMWPkslNGgL5WTH60aeuzoxfJA/pwqCfTB
- mlD2yXIBqwtR4rZ8XVRjVEI8Z07q5KeQTAHdoFKLRr3OvnqiQNTwYsfNqTyk/MNQ6sKP
- XiWthWW8RSNsTRyEsqhD/H6BHVtpiOZkSCQExA+3M/nF8uzs3kkWIHVQGGfKYb6Pjv0E
- 4AR8xllf5t6qWeP9IqKXaEkMrJWoXNSqV3MfXHTiGO7T7ivMiy8UOogR8e3LZuntsiI+
- QdHQ==
-X-Gm-Message-State: AOAM532aUDifJ4ltumuCxnfY+4htOIwZlQMtr+EgxkPaLHBs7cRuHFrv
- G8Heb3gfUE+edSjOBUDC0pN1fw==
-X-Google-Smtp-Source: ABdhPJwjlao4JC7qtPQ6iwXmxsD5QuiOl2869LWnuw2BKrb6/xUhHq5ndn1dOktExa9PUMFu2VzuEg==
-X-Received: by 2002:a05:6512:15a4:b0:470:fbdf:83e8 with SMTP id
- bp36-20020a05651215a400b00470fbdf83e8mr9721768lfb.367.1650383631626; 
- Tue, 19 Apr 2022 08:53:51 -0700 (PDT)
-Received: from eriador.lan ([37.153.55.125]) by smtp.gmail.com with ESMTPSA id
- r25-20020ac25f99000000b00471a439838esm313911lfe.145.2022.04.19.08.53.50
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 19 Apr 2022 08:53:51 -0700 (PDT)
-From: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
-To: Bjorn Andersson <bjorn.andersson@linaro.org>,
- Rob Clark <robdclark@gmail.com>, Sean Paul <sean@poorly.run>,
- Abhinav Kumar <quic_abhinavk@quicinc.com>
-Subject: [PATCH v5 6/6] drm/msm: make mdp5/dpu devices master components
-Date: Tue, 19 Apr 2022 18:53:46 +0300
-Message-Id: <20220419155346.1272627-7-dmitry.baryshkov@linaro.org>
-X-Mailer: git-send-email 2.35.1
-In-Reply-To: <20220419155346.1272627-1-dmitry.baryshkov@linaro.org>
-References: <20220419155346.1272627-1-dmitry.baryshkov@linaro.org>
+ h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
+ :content-language:to:cc:references:from:in-reply-to
+ :content-transfer-encoding;
+ bh=aBBlrcuINY/huqI+pmNpt7ezjRhcp+EsZeDz0RlBbYA=;
+ b=z8yvuT89z0zmtwWbkBIPE+wBMjqR2rzYkqHV/yg89m8oj+Hn++xdl/p6bvAtWvtTSI
+ H5SoCMNlpD3f7m+zwlk3wNaIpUvJ6EOnPiwIwQW7CHsjIXjmLfYKS5YduuGszjwGEL4I
+ jdJZjlzQ7agdQ/Jf3A1juFx9ORvCIRSYIvAq5NNhe6ekrsIYLulmX9jrWWShpz+f1rf5
+ QhNC0z/8D/u1SoYhAcSJqpeGCI0Tj0XB+//cprpmjGCYv+FUjAsk+2YkA4FDlIf9OUWO
+ EYbi+TE8XtxTe6IYuevKMhh+ZjKL38yYar+bC9fsTrBfSz9d1sFNeVc2PSms4ejfNB5O
+ IkoQ==
+X-Gm-Message-State: AOAM532nHV0P5/VAFVrUs1NApvG0YG4oHYeEhZBnCi4JweVZT1qCChZ+
+ 5Hk6/+9qQ6v6G+Ud5RU5qh7e+A==
+X-Google-Smtp-Source: ABdhPJxIyRpDkdE3DsvHCugAEECr9Cihw3eu2sWWZa6oOoYWQV5BWYcP0qZa3q08lMbeYZwFMdbP3Q==
+X-Received: by 2002:ac2:4306:0:b0:46b:c41c:1478 with SMTP id
+ l6-20020ac24306000000b0046bc41c1478mr11760488lfh.559.1650383830827; 
+ Tue, 19 Apr 2022 08:57:10 -0700 (PDT)
+Received: from [192.168.1.211] ([37.153.55.125])
+ by smtp.gmail.com with ESMTPSA id
+ f20-20020a056512229400b0044a6ac1af69sm1546934lfu.181.2022.04.19.08.57.09
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Tue, 19 Apr 2022 08:57:10 -0700 (PDT)
+Message-ID: <aadad18c-5a55-ae30-6158-f6c584c59fae@linaro.org>
+Date: Tue, 19 Apr 2022 18:57:09 +0300
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.8.0
+Subject: Re: [PATCH] drm/msm/mdp5: Eliminate useless code
+Content-Language: en-GB
+To: Haowen Bai <baihaowen@meizu.com>, Rob Clark <robdclark@gmail.com>,
+ Sean Paul <sean@poorly.run>, Abhinav Kumar <quic_abhinavk@quicinc.com>,
+ David Airlie <airlied@linux.ie>, Daniel Vetter <daniel@ffwll.ch>
+References: <1650348980-19050-1-git-send-email-baihaowen@meizu.com>
+From: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
+In-Reply-To: <1650348980-19050-1-git-send-email-baihaowen@meizu.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -70,588 +75,38 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: David Airlie <airlied@linux.ie>, linux-arm-msm@vger.kernel.org,
- dri-devel@lists.freedesktop.org, Stephen Boyd <swboyd@chromium.org>,
- freedreno@lists.freedesktop.org
+Cc: linux-arm-msm@vger.kernel.org, freedreno@lists.freedesktop.org,
+ linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-The msm_mdss serves several roles at this moment. It provides IRQ domain
-used by MDP5 and DPU drivers but it also serves as a component master
-for both those usecases. MDP4 (which does not have separate MDSS device)
-is the component master on it's own.
-Remove this assymmetry and make both MDP5 and DPU component masters too.
-This removes a need to care about drm/components from msm_mdss driver,
-removes an mdss pointer from struct msm_drm_private and simplifies the
-interface between mdp5/dpu and msm_drv.
+On 19/04/2022 09:16, Haowen Bai wrote:
+> Since mdp5_state is initialized twice at the same time, so
+> we make code simple and easy to understand by delete one.
+> 
+> Signed-off-by: Haowen Bai <baihaowen@meizu.com>
 
-Reviewed-by: Stephen Boyd <swboyd@chromium.org>
-Signed-off-by: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
----
- drivers/gpu/drm/msm/disp/dpu1/dpu_kms.c  | 88 ++++++++++--------------
- drivers/gpu/drm/msm/disp/mdp4/mdp4_kms.c | 16 +----
- drivers/gpu/drm/msm/disp/mdp5/mdp5_kms.c | 50 +++++---------
- drivers/gpu/drm/msm/msm_drv.c            | 32 ++++-----
- drivers/gpu/drm/msm/msm_drv.h            |  6 +-
- drivers/gpu/drm/msm/msm_kms.h            |  3 -
- drivers/gpu/drm/msm/msm_mdss.c           | 67 +++---------------
- 7 files changed, 79 insertions(+), 183 deletions(-)
+Reviewed-by: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
 
-diff --git a/drivers/gpu/drm/msm/disp/dpu1/dpu_kms.c b/drivers/gpu/drm/msm/disp/dpu1/dpu_kms.c
-index 38627ccf3068..7672e1d28665 100644
---- a/drivers/gpu/drm/msm/disp/dpu1/dpu_kms.c
-+++ b/drivers/gpu/drm/msm/disp/dpu1/dpu_kms.c
-@@ -380,9 +380,13 @@ static int dpu_kms_parse_data_bus_icc_path(struct dpu_kms *dpu_kms)
- 	struct icc_path *path0;
- 	struct icc_path *path1;
- 	struct drm_device *dev = dpu_kms->dev;
-+	struct device *dpu_dev = dev->dev;
-+	struct device *mdss_dev = dpu_dev->parent;
- 
--	path0 = of_icc_get(dev->dev, "mdp0-mem");
--	path1 = of_icc_get(dev->dev, "mdp1-mem");
-+	/* Interconnects are a part of MDSS device tree binding, not the
-+	 * MDP/DPU device. */
-+	path0 = of_icc_get(mdss_dev, "mdp0-mem");
-+	path1 = of_icc_get(mdss_dev, "mdp1-mem");
- 
- 	if (IS_ERR_OR_NULL(path0))
- 		return PTR_ERR_OR_ZERO(path0);
-@@ -837,6 +841,9 @@ static void dpu_kms_destroy(struct msm_kms *kms)
- 	_dpu_kms_hw_destroy(dpu_kms);
- 
- 	msm_kms_destroy(&dpu_kms->base);
-+
-+	if (dpu_kms->rpm_enabled)
-+		pm_runtime_disable(&dpu_kms->pdev->dev);
- }
- 
- static irqreturn_t dpu_irq(struct msm_kms *kms)
-@@ -973,12 +980,16 @@ static int _dpu_kms_mmu_init(struct dpu_kms *dpu_kms)
- 	struct iommu_domain *domain;
- 	struct msm_gem_address_space *aspace;
- 	struct msm_mmu *mmu;
-+	struct device *dpu_dev = dpu_kms->dev->dev;
-+	struct device *mdss_dev = dpu_dev->parent;
- 
- 	domain = iommu_domain_alloc(&platform_bus_type);
- 	if (!domain)
- 		return 0;
- 
--	mmu = msm_iommu_new(dpu_kms->dev->dev, domain);
-+	/* IOMMUs are a part of MDSS device tree binding, not the
-+	 * MDP/DPU device. */
-+	mmu = msm_iommu_new(mdss_dev, domain);
- 	if (IS_ERR(mmu)) {
- 		iommu_domain_free(domain);
- 		return PTR_ERR(mmu);
-@@ -1172,40 +1183,15 @@ static int dpu_kms_hw_init(struct msm_kms *kms)
- 	return rc;
- }
- 
--static int dpu_kms_init(struct drm_device *dev)
--{
--	struct msm_drm_private *priv;
--	struct dpu_kms *dpu_kms;
--	int irq;
--
--	if (!dev) {
--		DPU_ERROR("drm device node invalid\n");
--		return -EINVAL;
--	}
--
--	priv = dev->dev_private;
--	dpu_kms = to_dpu_kms(priv->kms);
--
--	irq = irq_of_parse_and_map(dpu_kms->pdev->dev.of_node, 0);
--	if (irq < 0) {
--		DPU_ERROR("failed to get irq: %d\n", irq);
--		return irq;
--	}
--	dpu_kms->base.irq = irq;
--
--	return 0;
--}
--
--static int dpu_bind(struct device *dev, struct device *master, void *data)
-+static int dpu_kms_init(struct drm_device *ddev)
- {
--	struct msm_drm_private *priv = dev_get_drvdata(master);
-+	struct msm_drm_private *priv = ddev->dev_private;
-+	struct device *dev = ddev->dev;
- 	struct platform_device *pdev = to_platform_device(dev);
--	struct drm_device *ddev = priv->dev;
- 	struct dpu_kms *dpu_kms;
-+	int irq;
- 	int ret = 0;
- 
--	priv->kms_init = dpu_kms_init;
--
- 	dpu_kms = devm_kzalloc(&pdev->dev, sizeof(*dpu_kms), GFP_KERNEL);
- 	if (!dpu_kms)
- 		return -ENOMEM;
-@@ -1227,8 +1213,6 @@ static int dpu_bind(struct device *dev, struct device *master, void *data)
- 	}
- 	dpu_kms->num_clocks = ret;
- 
--	platform_set_drvdata(pdev, dpu_kms);
--
- 	ret = msm_kms_init(&dpu_kms->base, &kms_funcs);
- 	if (ret) {
- 		DPU_ERROR("failed to init kms, ret=%d\n", ret);
-@@ -1242,31 +1226,25 @@ static int dpu_bind(struct device *dev, struct device *master, void *data)
- 
- 	priv->kms = &dpu_kms->base;
- 
--	return ret;
--}
--
--static void dpu_unbind(struct device *dev, struct device *master, void *data)
--{
--	struct platform_device *pdev = to_platform_device(dev);
--	struct dpu_kms *dpu_kms = platform_get_drvdata(pdev);
-+	irq = irq_of_parse_and_map(dpu_kms->pdev->dev.of_node, 0);
-+	if (irq < 0) {
-+		DPU_ERROR("failed to get irq: %d\n", irq);
-+		return irq;
-+	}
-+	dpu_kms->base.irq = irq;
- 
--	if (dpu_kms->rpm_enabled)
--		pm_runtime_disable(&pdev->dev);
-+	return 0;
- }
- 
--static const struct component_ops dpu_ops = {
--	.bind   = dpu_bind,
--	.unbind = dpu_unbind,
--};
--
- static int dpu_dev_probe(struct platform_device *pdev)
- {
--	return component_add(&pdev->dev, &dpu_ops);
-+	return msm_drv_probe(&pdev->dev, dpu_kms_init);
- }
- 
- static int dpu_dev_remove(struct platform_device *pdev)
- {
--	component_del(&pdev->dev, &dpu_ops);
-+	component_master_del(&pdev->dev, &msm_drm_ops);
-+
- 	return 0;
- }
- 
-@@ -1274,7 +1252,8 @@ static int __maybe_unused dpu_runtime_suspend(struct device *dev)
- {
- 	int i;
- 	struct platform_device *pdev = to_platform_device(dev);
--	struct dpu_kms *dpu_kms = platform_get_drvdata(pdev);
-+	struct msm_drm_private *priv = platform_get_drvdata(pdev);
-+	struct dpu_kms *dpu_kms = to_dpu_kms(priv->kms);
- 
- 	/* Drop the performance state vote */
- 	dev_pm_opp_set_rate(dev, 0);
-@@ -1290,7 +1269,8 @@ static int __maybe_unused dpu_runtime_resume(struct device *dev)
- {
- 	int rc = -1;
- 	struct platform_device *pdev = to_platform_device(dev);
--	struct dpu_kms *dpu_kms = platform_get_drvdata(pdev);
-+	struct msm_drm_private *priv = platform_get_drvdata(pdev);
-+	struct dpu_kms *dpu_kms = to_dpu_kms(priv->kms);
- 	struct drm_encoder *encoder;
- 	struct drm_device *ddev;
- 	int i;
-@@ -1320,9 +1300,11 @@ static const struct dev_pm_ops dpu_pm_ops = {
- 	SET_RUNTIME_PM_OPS(dpu_runtime_suspend, dpu_runtime_resume, NULL)
- 	SET_SYSTEM_SLEEP_PM_OPS(pm_runtime_force_suspend,
- 				pm_runtime_force_resume)
-+	.prepare = msm_pm_prepare,
-+	.complete = msm_pm_complete,
- };
- 
--const struct of_device_id dpu_dt_match[] = {
-+static const struct of_device_id dpu_dt_match[] = {
- 	{ .compatible = "qcom,msm8998-dpu", },
- 	{ .compatible = "qcom,qcm2290-dpu", },
- 	{ .compatible = "qcom,sdm845-dpu", },
-diff --git a/drivers/gpu/drm/msm/disp/mdp4/mdp4_kms.c b/drivers/gpu/drm/msm/disp/mdp4/mdp4_kms.c
-index 1a14f1d3cdf7..834d16bced9d 100644
---- a/drivers/gpu/drm/msm/disp/mdp4/mdp4_kms.c
-+++ b/drivers/gpu/drm/msm/disp/mdp4/mdp4_kms.c
-@@ -577,21 +577,7 @@ static const struct dev_pm_ops mdp4_pm_ops = {
- 
- static int mdp4_probe(struct platform_device *pdev)
- {
--	struct msm_drm_private *priv;
--
--	priv = devm_kzalloc(&pdev->dev, sizeof(*priv), GFP_KERNEL);
--	if (!priv)
--		return -ENOMEM;
--
--	priv->kms_init = mdp4_kms_init;
--
--	platform_set_drvdata(pdev, priv);
--
--	/*
--	 * on MDP4 based platforms, the MDP platform device is the component
--	 * that adds other display interface components to itself.
--	 */
--	return msm_drv_probe(&pdev->dev, &pdev->dev);
-+	return msm_drv_probe(&pdev->dev, mdp4_kms_init);
- }
- 
- static int mdp4_remove(struct platform_device *pdev)
-diff --git a/drivers/gpu/drm/msm/disp/mdp5/mdp5_kms.c b/drivers/gpu/drm/msm/disp/mdp5/mdp5_kms.c
-index 0c78608832c3..7676b4d3620e 100644
---- a/drivers/gpu/drm/msm/disp/mdp5/mdp5_kms.c
-+++ b/drivers/gpu/drm/msm/disp/mdp5/mdp5_kms.c
-@@ -203,6 +203,8 @@ static int mdp5_set_split_display(struct msm_kms *kms,
- 							  slave_encoder);
- }
- 
-+static void mdp5_destroy(struct platform_device *pdev);
-+
- static void mdp5_kms_destroy(struct msm_kms *kms)
- {
- 	struct mdp5_kms *mdp5_kms = to_mdp5_kms(to_mdp_kms(kms));
-@@ -221,6 +223,7 @@ static void mdp5_kms_destroy(struct msm_kms *kms)
- 	}
- 
- 	mdp_kms_destroy(&mdp5_kms->base);
-+	mdp5_destroy(mdp5_kms->pdev);
- }
- 
- #ifdef CONFIG_DEBUG_FS
-@@ -544,6 +547,8 @@ static int get_clk(struct platform_device *pdev, struct clk **clkp,
- 	return 0;
- }
- 
-+static int mdp5_init(struct platform_device *pdev, struct drm_device *dev);
-+
- static int mdp5_kms_init(struct drm_device *dev)
- {
- 	struct msm_drm_private *priv = dev->dev_private;
-@@ -555,6 +560,8 @@ static int mdp5_kms_init(struct drm_device *dev)
- 	int irq, i, ret;
- 	struct device *iommu_dev;
- 
-+	ret = mdp5_init(to_platform_device(dev->dev), dev);
-+
- 	/* priv->kms would have been populated by the MDP5 driver */
- 	kms = priv->kms;
- 	if (!kms)
-@@ -804,8 +811,6 @@ static int mdp5_init(struct platform_device *pdev, struct drm_device *dev)
- 	u32 major, minor;
- 	int ret;
- 
--	priv->kms_init = mdp5_kms_init;
--
- 	mdp5_kms = devm_kzalloc(&pdev->dev, sizeof(*mdp5_kms), GFP_KERNEL);
- 	if (!mdp5_kms) {
- 		ret = -ENOMEM;
-@@ -915,35 +920,14 @@ static int mdp5_init(struct platform_device *pdev, struct drm_device *dev)
- 	return ret;
- }
- 
--static int mdp5_bind(struct device *dev, struct device *master, void *data)
--{
--	struct msm_drm_private *priv = dev_get_drvdata(master);
--	struct drm_device *ddev = priv->dev;
--	struct platform_device *pdev = to_platform_device(dev);
--
--	DBG("");
--
--	return mdp5_init(pdev, ddev);
--}
--
--static void mdp5_unbind(struct device *dev, struct device *master,
--			void *data)
--{
--	struct platform_device *pdev = to_platform_device(dev);
--
--	mdp5_destroy(pdev);
--}
--
--static const struct component_ops mdp5_ops = {
--	.bind   = mdp5_bind,
--	.unbind = mdp5_unbind,
--};
--
- static int mdp5_setup_interconnect(struct platform_device *pdev)
- {
--	struct icc_path *path0 = of_icc_get(&pdev->dev, "mdp0-mem");
--	struct icc_path *path1 = of_icc_get(&pdev->dev, "mdp1-mem");
--	struct icc_path *path_rot = of_icc_get(&pdev->dev, "rotator-mem");
-+	/* Interconnects are a part of MDSS device tree binding, not the
-+	 * MDP5 device. */
-+	struct device *mdss_dev = pdev->dev.parent;
-+	struct icc_path *path0 = of_icc_get(mdss_dev, "mdp0-mem");
-+	struct icc_path *path1 = of_icc_get(mdss_dev, "mdp1-mem");
-+	struct icc_path *path_rot = of_icc_get(mdss_dev, "rotator-mem");
- 
- 	if (IS_ERR(path0))
- 		return PTR_ERR(path0);
-@@ -979,13 +963,13 @@ static int mdp5_dev_probe(struct platform_device *pdev)
- 	if (ret)
- 		return ret;
- 
--	return component_add(&pdev->dev, &mdp5_ops);
-+	return msm_drv_probe(&pdev->dev, mdp5_kms_init);
- }
- 
- static int mdp5_dev_remove(struct platform_device *pdev)
- {
- 	DBG("");
--	component_del(&pdev->dev, &mdp5_ops);
-+	component_master_del(&pdev->dev, &msm_drm_ops);
- 	return 0;
- }
- 
-@@ -1011,9 +995,11 @@ static __maybe_unused int mdp5_runtime_resume(struct device *dev)
- 
- static const struct dev_pm_ops mdp5_pm_ops = {
- 	SET_RUNTIME_PM_OPS(mdp5_runtime_suspend, mdp5_runtime_resume, NULL)
-+	.prepare = msm_pm_prepare,
-+	.complete = msm_pm_complete,
- };
- 
--const struct of_device_id mdp5_dt_match[] = {
-+static const struct of_device_id mdp5_dt_match[] = {
- 	{ .compatible = "qcom,mdp5", },
- 	/* to support downstream DT files */
- 	{ .compatible = "qcom,mdss_mdp", },
-diff --git a/drivers/gpu/drm/msm/msm_drv.c b/drivers/gpu/drm/msm/msm_drv.c
-index c037b46da7f4..e2b5307b2360 100644
---- a/drivers/gpu/drm/msm/msm_drv.c
-+++ b/drivers/gpu/drm/msm/msm_drv.c
-@@ -986,10 +986,10 @@ static const struct dev_pm_ops msm_pm_ops = {
-  * is no external component that we need to add since LVDS is within MDP4
-  * itself.
-  */
--static int add_components_mdp(struct device *master_dev, struct device *mdp_dev,
-+static int add_components_mdp(struct device *master_dev,
- 			      struct component_match **matchptr)
- {
--	struct device_node *np = mdp_dev->of_node;
-+	struct device_node *np = master_dev->of_node;
- 	struct device_node *ep_node;
- 
- 	for_each_endpoint_of_node(np, ep_node) {
-@@ -999,7 +999,7 @@ static int add_components_mdp(struct device *master_dev, struct device *mdp_dev,
- 
- 		ret = of_graph_parse_endpoint(ep_node, &ep);
- 		if (ret) {
--			DRM_DEV_ERROR(mdp_dev, "unable to parse port endpoint\n");
-+			DRM_DEV_ERROR(master_dev, "unable to parse port endpoint\n");
- 			of_node_put(ep_node);
- 			return ret;
- 		}
-@@ -1076,17 +1076,23 @@ const struct component_master_ops msm_drm_ops = {
- 	.unbind = msm_drm_unbind,
- };
- 
--int msm_drv_probe(struct device *master_dev, struct device *mdp_dev)
-+int msm_drv_probe(struct device *master_dev,
-+	int (*kms_init)(struct drm_device *dev))
- {
-+	struct msm_drm_private *priv;
- 	struct component_match *match = NULL;
- 	int ret;
- 
--	if (mdp_dev) {
--		/* add the MDP component itself */
--		drm_of_component_match_add(master_dev, &match, component_compare_of,
--				mdp_dev->of_node);
-+	priv = devm_kzalloc(master_dev, sizeof(*priv), GFP_KERNEL);
-+	if (!priv)
-+		return -ENOMEM;
- 
--		ret = add_components_mdp(master_dev, mdp_dev, &match);
-+	priv->kms_init = kms_init;
-+	dev_set_drvdata(master_dev, priv);
-+
-+	/* Add mdp components if we have KMS. */
-+	if (kms_init) {
-+		ret = add_components_mdp(master_dev, &match);
- 		if (ret)
- 			return ret;
- 	}
-@@ -1116,14 +1122,6 @@ int msm_drv_probe(struct device *master_dev, struct device *mdp_dev)
- 
- static int msm_pdev_probe(struct platform_device *pdev)
- {
--	struct msm_drm_private *priv;
--
--	priv = devm_kzalloc(&pdev->dev, sizeof(*priv), GFP_KERNEL);
--	if (!priv)
--		return -ENOMEM;
--
--	platform_set_drvdata(pdev, priv);
--
- 	return msm_drv_probe(&pdev->dev, NULL);
- }
- 
-diff --git a/drivers/gpu/drm/msm/msm_drv.h b/drivers/gpu/drm/msm/msm_drv.h
-index bb821705399a..272fe4e6c04b 100644
---- a/drivers/gpu/drm/msm/msm_drv.h
-+++ b/drivers/gpu/drm/msm/msm_drv.h
-@@ -126,9 +126,6 @@ struct msm_drm_private {
- 	/* subordinate devices, if present: */
- 	struct platform_device *gpu_pdev;
- 
--	/* top level MDSS wrapper device (for MDP5/DPU only) */
--	struct msm_mdss *mdss;
--
- 	/* possibly this should be in the kms component, but it is
- 	 * shared by both mdp4 and mdp5..
- 	 */
-@@ -579,7 +576,8 @@ extern const struct component_master_ops msm_drm_ops;
- int msm_pm_prepare(struct device *dev);
- void msm_pm_complete(struct device *dev);
- 
--int msm_drv_probe(struct device *master_dev, struct device *mdp_dev);
-+int msm_drv_probe(struct device *dev,
-+	int (*kms_init)(struct drm_device *dev));
- void msm_drv_shutdown(struct platform_device *pdev);
- 
- 
-diff --git a/drivers/gpu/drm/msm/msm_kms.h b/drivers/gpu/drm/msm/msm_kms.h
-index 1f571372e928..ab25fff271f9 100644
---- a/drivers/gpu/drm/msm/msm_kms.h
-+++ b/drivers/gpu/drm/msm/msm_kms.h
-@@ -194,9 +194,6 @@ static inline void msm_kms_destroy(struct msm_kms *kms)
- 		msm_atomic_destroy_pending_timer(&kms->pending_timers[i]);
- }
- 
--extern const struct of_device_id dpu_dt_match[];
--extern const struct of_device_id mdp5_dt_match[];
--
- #define for_each_crtc_mask(dev, crtc, crtc_mask) \
- 	drm_for_each_crtc(crtc, dev) \
- 		for_each_if (drm_crtc_mask(crtc) & (crtc_mask))
-diff --git a/drivers/gpu/drm/msm/msm_mdss.c b/drivers/gpu/drm/msm/msm_mdss.c
-index 0af86fc1a130..f6f0d0fa5ab2 100644
---- a/drivers/gpu/drm/msm/msm_mdss.c
-+++ b/drivers/gpu/drm/msm/msm_mdss.c
-@@ -270,20 +270,20 @@ static struct msm_mdss *msm_mdss_init(struct platform_device *pdev, bool is_mdp5
- 
- static int __maybe_unused mdss_runtime_suspend(struct device *dev)
- {
--	struct msm_drm_private *priv = dev_get_drvdata(dev);
-+	struct msm_mdss *mdss = dev_get_drvdata(dev);
- 
- 	DBG("");
- 
--	return msm_mdss_disable(priv->mdss);
-+	return msm_mdss_disable(mdss);
- }
- 
- static int __maybe_unused mdss_runtime_resume(struct device *dev)
- {
--	struct msm_drm_private *priv = dev_get_drvdata(dev);
-+	struct msm_mdss *mdss = dev_get_drvdata(dev);
- 
- 	DBG("");
- 
--	return msm_mdss_enable(priv->mdss);
-+	return msm_mdss_enable(mdss);
- }
- 
- static int __maybe_unused mdss_pm_suspend(struct device *dev)
-@@ -306,31 +306,12 @@ static int __maybe_unused mdss_pm_resume(struct device *dev)
- static const struct dev_pm_ops mdss_pm_ops = {
- 	SET_SYSTEM_SLEEP_PM_OPS(mdss_pm_suspend, mdss_pm_resume)
- 	SET_RUNTIME_PM_OPS(mdss_runtime_suspend, mdss_runtime_resume, NULL)
--	.prepare = msm_pm_prepare,
--	.complete = msm_pm_complete,
- };
- 
--static int find_mdp_node(struct device *dev, void *data)
--{
--#ifdef CONFIG_DRM_MSM_DPU
--	if (of_match_node(dpu_dt_match, dev->of_node))
--		return true;
--#endif
--
--#ifdef CONFIG_DRM_MSM_MDP5
--	if (of_match_node(mdp5_dt_match, dev->of_node))
--		return true;
--#endif
--
--	return false;
--}
--
- static int mdss_probe(struct platform_device *pdev)
- {
- 	struct msm_mdss *mdss;
--	struct msm_drm_private *priv;
- 	bool is_mdp5 = of_device_is_compatible(pdev->dev.of_node, "qcom,mdss");
--	struct device *mdp_dev;
- 	struct device *dev = &pdev->dev;
- 	int ret;
- 
-@@ -338,14 +319,7 @@ static int mdss_probe(struct platform_device *pdev)
- 	if (IS_ERR(mdss))
- 		return PTR_ERR(mdss);
- 
--	priv = devm_kzalloc(&pdev->dev, sizeof(*priv), GFP_KERNEL);
--	if (!priv) {
--		ret = -ENOMEM;
--		goto fail;
--	}
--
--	priv->mdss = mdss;
--	platform_set_drvdata(pdev, priv);
-+	platform_set_drvdata(pdev, mdss);
- 
- 	/*
- 	 * MDP5/DPU based devices don't have a flat hierarchy. There is a top
-@@ -356,42 +330,17 @@ static int mdss_probe(struct platform_device *pdev)
- 	ret = of_platform_populate(dev->of_node, NULL, NULL, dev);
- 	if (ret) {
- 		DRM_DEV_ERROR(dev, "failed to populate children devices\n");
--		goto fail;
--	}
--
--	mdp_dev = device_find_child(dev, NULL, find_mdp_node);
--	if (!mdp_dev) {
--		DRM_DEV_ERROR(dev, "failed to find MDSS MDP node\n");
--		of_platform_depopulate(dev);
--		ret = -ENODEV;
--		goto fail;
-+		msm_mdss_destroy(mdss);
-+		return ret;
- 	}
- 
--	/*
--	 * on MDP5 based platforms, the MDSS platform device is the component
--	 * that adds MDP5 and other display interface components to
--	 * itself.
--	 */
--	ret = msm_drv_probe(dev, mdp_dev);
--	put_device(mdp_dev);
--	if (ret)
--		goto fail;
--
- 	return 0;
--
--fail:
--	of_platform_depopulate(dev);
--	msm_mdss_destroy(priv->mdss);
--
--	return ret;
- }
- 
- static int mdss_remove(struct platform_device *pdev)
- {
--	struct msm_drm_private *priv = platform_get_drvdata(pdev);
--	struct msm_mdss *mdss = priv->mdss;
-+	struct msm_mdss *mdss = platform_get_drvdata(pdev);
- 
--	component_master_del(&pdev->dev, &msm_drm_ops);
- 	of_platform_depopulate(&pdev->dev);
- 
- 	msm_mdss_destroy(mdss);
+> ---
+>   drivers/gpu/drm/msm/disp/mdp5/mdp5_plane.c | 2 --
+>   1 file changed, 2 deletions(-)
+> 
+> diff --git a/drivers/gpu/drm/msm/disp/mdp5/mdp5_plane.c b/drivers/gpu/drm/msm/disp/mdp5/mdp5_plane.c
+> index 428f88b786f9..406c34e9f3f8 100644
+> --- a/drivers/gpu/drm/msm/disp/mdp5/mdp5_plane.c
+> +++ b/drivers/gpu/drm/msm/disp/mdp5/mdp5_plane.c
+> @@ -386,8 +386,6 @@ static int mdp5_plane_atomic_async_check(struct drm_plane *plane,
+>   	if (!crtc_state->active)
+>   		return -EINVAL;
+>   
+> -	mdp5_state = to_mdp5_plane_state(new_plane_state);
+> -
+>   	/* don't use fast path if we don't have a hwpipe allocated yet */
+>   	if (!mdp5_state->hwpipe)
+>   		return -EINVAL;
+
+
 -- 
-2.35.1
-
+With best wishes
+Dmitry
