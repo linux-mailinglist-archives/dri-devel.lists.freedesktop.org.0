@@ -2,40 +2,40 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2C4DA506DB3
-	for <lists+dri-devel@lfdr.de>; Tue, 19 Apr 2022 15:40:07 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 7A049506DB4
+	for <lists+dri-devel@lfdr.de>; Tue, 19 Apr 2022 15:40:14 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id E7ACE10EF9A;
-	Tue, 19 Apr 2022 13:40:04 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id B502C10EFA9;
+	Tue, 19 Apr 2022 13:40:12 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from ams.source.kernel.org (ams.source.kernel.org
  [IPv6:2604:1380:4601:e00::1])
- by gabe.freedesktop.org (Postfix) with ESMTPS id E5F6F10EF9A
- for <dri-devel@lists.freedesktop.org>; Tue, 19 Apr 2022 13:40:02 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 8BAA510EFA9
+ for <dri-devel@lists.freedesktop.org>; Tue, 19 Apr 2022 13:40:10 +0000 (UTC)
 Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
  (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
  (No client certificate requested)
- by ams.source.kernel.org (Postfix) with ESMTPS id 71C44B81983;
- Tue, 19 Apr 2022 13:40:01 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id EC917C385AE;
- Tue, 19 Apr 2022 13:39:52 +0000 (UTC)
+ by ams.source.kernel.org (Postfix) with ESMTPS id 3746DB81982;
+ Tue, 19 Apr 2022 13:40:09 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 9990AC385AF;
+ Tue, 19 Apr 2022 13:40:00 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1650375600;
- bh=zW9EXgIwrT6e9se5HepqxV0X/iuSevgZPTTCehW8dB0=;
+ s=k20201202; t=1650375608;
+ bh=9+ljq5dQueH2G15TUC+ZLkwgSkKDWfTDa0M3UxfDvzI=;
  h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
- b=vHI0qQByX+c/7bvvFxsJDZg8Rk3Tmicri/PsugtdLSnLPggMHo6v2ctc+djyVus3N
- ui0ORHPtKfuy3WL0CumRMeBMzGHFm0UT+AP+rOrkATXgVT5fIgx6GErLIT2RrsL1Ec
- IZnzmJ8Dnh78euRrjLA7zfaPZJirZjn2+Ns06Fju3HP4p2eONLIleIC49bfNsZO5hd
- z5fjeKu5u4euWVq8Y01KsxQPT+uo12m/zcR2VMTIGaMdkSl1elVAK6Ja0/bpG1+umE
- 1lBMBmTCxncgj2s+VWFf/59RsmLfL2r5TKijMH37jw/Ys1Zb+TJYoC5rYrhTKbwaRm
- wVS3j8bExN97Q==
+ b=UZEWjobJJdf/97+RsHjNB+jMk4tP3Pl4vgk6cxlQnhU41tj2I/yINK+gRoMdoNOUR
+ Y7MRcUEAGnlNliwHS5DlBG2gtVRR+NX39wFuq/IGF0bnCo9HD4/Ko6wpnFF46X1ylv
+ iALan+QzhQpH4nbYopoyAajxQA2oBzcqItCFMpy/SY9vH4HlIcvpT8NRLMP54afeyx
+ u1+GxMJCkZOQYlBflCn6XehmD8eQEUOxgT0Tgy+CE5qdUt9iLLhEzYm8twoL8sueZd
+ +tmqfAeeno42q0iwsr0p6BakCbrKJuvbO2sq+/dI7pXW42969rnsk5HKJ4ZbkYUR14
+ LrA6BeSwSde3w==
 From: Arnd Bergmann <arnd@kernel.org>
 To: linux-omap@vger.kernel.org, tony@atomide.com, aaro.koskinen@iki.fi,
  jmkrzyszt@gmail.com
-Subject: [PATCH 19/41] ARM: omap: dma: make usb support optional
-Date: Tue, 19 Apr 2022 15:37:01 +0200
-Message-Id: <20220419133723.1394715-20-arnd@kernel.org>
+Subject: [PATCH 20/41] dma: omap: hide legacy interface
+Date: Tue, 19 Apr 2022 15:37:02 +0200
+Message-Id: <20220419133723.1394715-21-arnd@kernel.org>
 X-Mailer: git-send-email 2.29.2
 In-Reply-To: <20220419133723.1394715-1-arnd@kernel.org>
 References: <20220419133723.1394715-1-arnd@kernel.org>
@@ -73,154 +73,134 @@ Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 From: Arnd Bergmann <arnd@arndb.de>
 
-Most of the plat-omap/dma.c code is specific to the USB
-driver. Hide that code when it is not in use, to make it
-clearer which parts are actually still required.
+The legacy interface for omap-dma is only used on OMAP1, and the
+same is true for the non-DT case. Make both of these conditional on
+CONFIG_ARCH_OMAP1 being set to simplify the dependency.
+
+The non-OMAP stub functions in include/linux/omap-dma.h are note needed
+any more either now, because they are only called on OMAP1.
 
 Signed-off-by: Arnd Bergmann <arnd@arndb.de>
 ---
- arch/arm/plat-omap/dma.c       | 45 +++++++++++++++++-----------------
- drivers/usb/gadget/udc/Kconfig |  2 +-
- include/linux/omap-dma.h       |  5 +++-
- 3 files changed, 27 insertions(+), 25 deletions(-)
+ drivers/dma/ti/omap-dma.c | 19 +++++++++++++------
+ include/linux/omap-dma.h  | 22 ----------------------
+ 2 files changed, 13 insertions(+), 28 deletions(-)
 
-diff --git a/arch/arm/plat-omap/dma.c b/arch/arm/plat-omap/dma.c
-index 700ba9b600e7..b7757864d0aa 100644
---- a/arch/arm/plat-omap/dma.c
-+++ b/arch/arm/plat-omap/dma.c
-@@ -66,7 +66,6 @@ enum { DMA_CHAIN_STARTED, DMA_CHAIN_NOTSTARTED };
- 
- static struct omap_system_dma_plat_info *p;
- static struct omap_dma_dev_attr *d;
--static void omap_clear_dma(int lch);
- static int enable_1510_mode;
- static u32 errata;
- 
-@@ -90,19 +89,16 @@ static int omap_dma_reserve_channels;
- static DEFINE_SPINLOCK(dma_chan_lock);
- static struct omap_dma_lch *dma_chan;
- 
--static inline void disable_lnk(int lch);
--static void omap_disable_channel_irq(int lch);
--static inline void omap_enable_channel_irq(int lch);
--
--#ifdef CONFIG_ARCH_OMAP15XX
--/* Returns 1 if the DMA module is in OMAP1510-compatible mode, 0 otherwise */
--static int omap_dma_in_1510_mode(void)
-+static inline void omap_disable_channel_irq(int lch)
- {
--	return enable_1510_mode;
-+	/* disable channel interrupts */
-+	p->dma_write(0, CICR, lch);
-+	/* Clear CSR */
-+	if (dma_omap1())
-+		p->dma_read(CSR, lch);
-+	else
-+		p->dma_write(OMAP2_DMA_CSR_CLEAR_MASK, CSR, lch);
+diff --git a/drivers/dma/ti/omap-dma.c b/drivers/dma/ti/omap-dma.c
+index 8e52a0dc1f78..27f5019bdc1e 100644
+--- a/drivers/dma/ti/omap-dma.c
++++ b/drivers/dma/ti/omap-dma.c
+@@ -699,6 +699,11 @@ static void omap_dma_put_lch(struct omap_dmadev *od, int lch)
+ 	mutex_unlock(&od->lch_lock);
  }
--#else
--#define omap_dma_in_1510_mode()		0
--#endif
  
- #ifdef CONFIG_ARCH_OMAP1
- static inline void set_gdma_dev(int req, int dev)
-@@ -169,6 +165,17 @@ void omap_set_dma_priority(int lch, int dst_port, int priority)
- #endif
- EXPORT_SYMBOL(omap_set_dma_priority);
- 
-+#if IS_ENABLED(CONFIG_USB_OMAP)
-+#ifdef CONFIG_ARCH_OMAP15XX
-+/* Returns 1 if the DMA module is in OMAP1510-compatible mode, 0 otherwise */
-+static int omap_dma_in_1510_mode(void)
++static inline bool omap_dma_legacy(struct omap_dmadev *od)
 +{
-+	return enable_1510_mode;
++	return IS_ENABLED(CONFIG_ARCH_OMAP1) && od->legacy;
 +}
-+#else
-+#define omap_dma_in_1510_mode()		0
-+#endif
 +
- void omap_set_dma_transfer_params(int lch, int data_type, int elem_count,
- 				  int frame_count, int sync_mode,
- 				  int dma_trigger, int src_or_dst_synch)
-@@ -418,17 +425,6 @@ static inline void omap_enable_channel_irq(int lch)
- 	p->dma_write(dma_chan[lch].enabled_irqs, CICR, lch);
- }
- 
--static inline void omap_disable_channel_irq(int lch)
--{
--	/* disable channel interrupts */
--	p->dma_write(0, CICR, lch);
--	/* Clear CSR */
--	if (dma_omap1())
--		p->dma_read(CSR, lch);
--	else
--		p->dma_write(OMAP2_DMA_CSR_CLEAR_MASK, CSR, lch);
--}
--
- void omap_disable_dma_irq(int lch, u16 bits)
+ static int omap_dma_alloc_chan_resources(struct dma_chan *chan)
  {
- 	dma_chan[lch].enabled_irqs &= ~bits;
-@@ -473,6 +469,7 @@ static inline void disable_lnk(int lch)
- 	p->dma_write(l, CLNK_CTRL, lch);
- 	dma_chan[lch].flags &= ~OMAP_DMA_ACTIVE;
- }
-+#endif
+ 	struct omap_dmadev *od = to_omap_dma_dev(chan->device);
+@@ -706,7 +711,7 @@ static int omap_dma_alloc_chan_resources(struct dma_chan *chan)
+ 	struct device *dev = od->ddev.dev;
+ 	int ret;
  
- int omap_request_dma(int dev_id, const char *dev_name,
- 		     void (*callback)(int lch, u16 ch_status, void *data),
-@@ -572,6 +569,7 @@ static void omap_clear_dma(int lch)
- 	local_irq_restore(flags);
- }
+-	if (od->legacy) {
++	if (omap_dma_legacy(od)) {
+ 		ret = omap_request_dma(c->dma_sig, "DMA engine",
+ 				       omap_dma_callback, c, &c->dma_ch);
+ 	} else {
+@@ -718,7 +723,7 @@ static int omap_dma_alloc_chan_resources(struct dma_chan *chan)
+ 	if (ret >= 0) {
+ 		omap_dma_assign(od, c, c->dma_ch);
  
-+#if IS_ENABLED(CONFIG_USB_OMAP)
- void omap_start_dma(int lch)
- {
- 	u32 l;
-@@ -792,6 +790,7 @@ int omap_get_dma_active_status(int lch)
- 	return (p->dma_read(CCR, lch) & OMAP_DMA_CCR_EN) != 0;
- }
- EXPORT_SYMBOL(omap_get_dma_active_status);
-+#endif
+-		if (!od->legacy) {
++		if (!omap_dma_legacy(od)) {
+ 			unsigned val;
  
- int omap_dma_running(void)
- {
-diff --git a/drivers/usb/gadget/udc/Kconfig b/drivers/usb/gadget/udc/Kconfig
-index cee934dce4f0..69394dc1cdfb 100644
---- a/drivers/usb/gadget/udc/Kconfig
-+++ b/drivers/usb/gadget/udc/Kconfig
-@@ -128,7 +128,7 @@ config USB_GR_UDC
+ 			spin_lock_irq(&od->irq_lock);
+@@ -757,7 +762,7 @@ static void omap_dma_free_chan_resources(struct dma_chan *chan)
+ 	struct omap_dmadev *od = to_omap_dma_dev(chan->device);
+ 	struct omap_chan *c = to_omap_dma_chan(chan);
  
- config USB_OMAP
- 	tristate "OMAP USB Device Controller"
--	depends on ARCH_OMAP1 || (ARCH_OMAP && COMPILE_TEST)
-+	depends on ARCH_OMAP1
- 	depends on ISP1301_OMAP || !(MACH_OMAP_H2 || MACH_OMAP_H3)
- 	help
- 	   Many Texas Instruments OMAP processors have flexible full
+-	if (!od->legacy) {
++	if (!omap_dma_legacy(od)) {
+ 		spin_lock_irq(&od->irq_lock);
+ 		od->irq_enable_mask &= ~BIT(c->dma_ch);
+ 		omap_dma_glbl_write(od, IRQENABLE_L1, od->irq_enable_mask);
+@@ -768,7 +773,7 @@ static void omap_dma_free_chan_resources(struct dma_chan *chan)
+ 	od->lch_map[c->dma_ch] = NULL;
+ 	vchan_free_chan_resources(&c->vc);
+ 
+-	if (od->legacy)
++	if (omap_dma_legacy(od))
+ 		omap_free_dma(c->dma_ch);
+ 	else
+ 		omap_dma_put_lch(od, c->dma_ch);
+@@ -1674,12 +1679,14 @@ static int omap_dma_probe(struct platform_device *pdev)
+ 			dev_err(&pdev->dev, "omap_system_dma_plat_info is missing");
+ 			return -ENODEV;
+ 		}
+-	} else {
++	} else if (IS_ENABLED(CONFIG_ARCH_OMAP1)) {
+ 		od->cfg = &default_cfg;
+ 
+ 		od->plat = omap_get_plat_info();
+ 		if (!od->plat)
+ 			return -EPROBE_DEFER;
++	} else {
++		return -ENODEV;
+ 	}
+ 
+ 	od->reg_map = od->plat->reg_map;
+@@ -1855,7 +1862,7 @@ static int omap_dma_remove(struct platform_device *pdev)
+ 
+ 	dma_async_device_unregister(&od->ddev);
+ 
+-	if (!od->legacy) {
++	if (!omap_dma_legacy(od)) {
+ 		/* Disable all interrupts */
+ 		omap_dma_glbl_write(od, IRQENABLE_L0, 0);
+ 	}
 diff --git a/include/linux/omap-dma.h b/include/linux/omap-dma.h
-index 5e228428fda1..07fa58ae9902 100644
+index 07fa58ae9902..254b4e10511b 100644
 --- a/include/linux/omap-dma.h
 +++ b/include/linux/omap-dma.h
-@@ -299,8 +299,9 @@ extern void omap_set_dma_priority(int lch, int dst_port, int priority);
- extern int omap_request_dma(int dev_id, const char *dev_name,
- 			void (*callback)(int lch, u16 ch_status, void *data),
- 			void *data, int *dma_ch);
--extern void omap_disable_dma_irq(int ch, u16 irq_bits);
- extern void omap_free_dma(int ch);
-+#if IS_ENABLED(CONFIG_USB_OMAP)
-+extern void omap_disable_dma_irq(int ch, u16 irq_bits);
- extern void omap_start_dma(int lch);
- extern void omap_stop_dma(int lch);
- extern void omap_set_dma_transfer_params(int lch, int data_type,
-@@ -326,6 +327,8 @@ extern void omap_set_dma_dest_burst_mode(int lch,
- extern dma_addr_t omap_get_dma_src_pos(int lch);
- extern dma_addr_t omap_get_dma_dst_pos(int lch);
- extern int omap_get_dma_active_status(int lch);
-+#endif
-+
- extern int omap_dma_running(void);
+@@ -292,7 +292,6 @@ struct omap_system_dma_plat_info {
+ #define dma_omap15xx()	__dma_omap15xx(d)
+ #define dma_omap16xx()	__dma_omap16xx(d)
  
- #if IS_ENABLED(CONFIG_FB_OMAP)
+-#if defined(CONFIG_ARCH_OMAP)
+ extern struct omap_system_dma_plat_info *omap_get_plat_info(void);
+ 
+ extern void omap_set_dma_priority(int lch, int dst_port, int priority);
+@@ -340,25 +339,4 @@ static inline int omap_lcd_dma_running(void)
+ }
+ #endif
+ 
+-#else /* CONFIG_ARCH_OMAP */
+-static inline void omap_set_dma_priority(int lch, int dst_port, int priority)
+-{
+-}
+-
+-static inline struct omap_system_dma_plat_info *omap_get_plat_info(void)
+-{
+-	return NULL;
+-}
+-
+-static inline int omap_request_dma(int dev_id, const char *dev_name,
+-			void (*callback)(int lch, u16 ch_status, void *data),
+-			void *data, int *dma_ch)
+-{
+-	return -ENODEV;
+-}
+-
+-static inline void omap_free_dma(int ch) { }
+-
+-#endif /* CONFIG_ARCH_OMAP */
+-
+ #endif /* __LINUX_OMAP_DMA_H */
 -- 
 2.29.2
 
