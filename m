@@ -1,41 +1,40 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id BE95550736A
-	for <lists+dri-devel@lfdr.de>; Tue, 19 Apr 2022 18:41:19 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 10C9D50736B
+	for <lists+dri-devel@lfdr.de>; Tue, 19 Apr 2022 18:41:26 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id C16F610F06F;
-	Tue, 19 Apr 2022 16:41:17 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id DC29410F06C;
+	Tue, 19 Apr 2022 16:41:23 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from ams.source.kernel.org (ams.source.kernel.org
- [IPv6:2604:1380:4601:e00::1])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 0EFC110F06C
- for <dri-devel@lists.freedesktop.org>; Tue, 19 Apr 2022 16:41:16 +0000 (UTC)
+Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id AF53210F06C
+ for <dri-devel@lists.freedesktop.org>; Tue, 19 Apr 2022 16:41:22 +0000 (UTC)
 Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
  (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
  (No client certificate requested)
- by ams.source.kernel.org (Postfix) with ESMTPS id B4DF5B818E6;
- Tue, 19 Apr 2022 16:41:14 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 23064C385A5;
- Tue, 19 Apr 2022 16:41:05 +0000 (UTC)
+ by dfw.source.kernel.org (Postfix) with ESMTPS id 206396184A;
+ Tue, 19 Apr 2022 16:41:22 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id DBCD4C385A7;
+ Tue, 19 Apr 2022 16:41:13 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1650386473;
- bh=UmyAEDevE+rFHmIeeKFFlzSBscHHSEtR+AtXVKUZXjI=;
+ s=k20201202; t=1650386481;
+ bh=B/EPqKtpF/X7/qtDP9YwLKtvodaWStDsu3zudJ8kKz8=;
  h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
- b=VBOATLbRuYChK3MBgRX8mPip9VFQsTd4uM6E3FKAYou3P3IZa9nmev0mrBBoYpVGs
- Nl+voA7jYEZWdMuLiO7BEMPH+MVsDjnXXGALSLYw1w1AX0WnSQTPUBDuRtK63hpICj
- 8+5p1J7vvcJkBz7CuQogkh9GDU2SBWlcgjibaorUtjAG4DdHSgFg+dieu5I1H5UTwe
- yODr+X/HyGXAHTGbi4Lq4APNxVx4sfb3QJu3sbtv29oNO8I1LDZpvn7U0jmcS7bSjQ
- 9f0xIKo83CR6rz6qWgvk3LUsWMEix8qqKI0I+7fX418R/bEF9m0lgtwSh1l4J0GIYp
- y51mpx0B4pZoQ==
+ b=e/RYNgH/mBUlontysDvDDbQEl/w5JkQ9KERIge+TcJ551/XZYLOWdDTGCMdx+YKy7
+ Eo/SvJOdF5wgBq+JPCny5Iz4sfnm67vOL/aV3JDNF+eu3PEHxKh+sOrXkMuKManFEB
+ FvCJgeGTM+6w0HGQJbhRtyvAVvYZhIZUQzpHF2wCtgZokugnVX+Kwy6gFqN6W1IZJt
+ h6Z8zUzZzd2yynsmy/ykvebZNOmvxQfFa0IczJPaH1E/UzhZyrRLjpixBmukOAd097
+ r+a1YGs658YewbGmFKHNY8vaSw30yUPgx99OTD0iJIm65L2L+bhpmbdN90g/nC0hhO
+ aQjZ7EgUWchew==
 From: Arnd Bergmann <arnd@kernel.org>
 To: robert.jarzmik@free.fr,
 	linux-arm-kernel@lists.infradead.org
-Subject: [PATCH 18/48] ARM: pxa: hx4700: use gpio descriptors for audio
-Date: Tue, 19 Apr 2022 18:37:40 +0200
-Message-Id: <20220419163810.2118169-19-arnd@kernel.org>
+Subject: [PATCH 19/48] ARM: pxa: lubbock: pass udc irqs as resource
+Date: Tue, 19 Apr 2022 18:37:41 +0200
+Message-Id: <20220419163810.2118169-20-arnd@kernel.org>
 X-Mailer: git-send-email 2.29.2
 In-Reply-To: <20220419163810.2118169-1-arnd@kernel.org>
 References: <20220419163810.2118169-1-arnd@kernel.org>
@@ -65,205 +64,187 @@ Cc: Ulf Hansson <ulf.hansson@linaro.org>, linux-usb@vger.kernel.org,
  Arnd Bergmann <arnd@arndb.de>, linux-pm@vger.kernel.org,
  linux-input@vger.kernel.org, Haojian Zhuang <haojian.zhuang@gmail.com>,
  Lubomir Rintel <lkundrak@v3.sk>, Mark Brown <broonie@kernel.org>,
- dri-devel@lists.freedesktop.org,
+ dri-devel@lists.freedesktop.org, Felipe Balbi <balbi@kernel.org>,
  Thomas Bogendoerfer <tsbogend@alpha.franken.de>,
  Stephen Boyd <sboyd@kernel.org>, patches@opensource.cirrus.com,
  Dmitry Torokhov <dmitry.torokhov@gmail.com>, linux-mmc@vger.kernel.org,
  linux-kernel@vger.kernel.org, Michael Turquette <mturquette@baylibre.com>,
- alsa-devel@alsa-project.org, Daniel Mack <daniel@zonque.org>
+ Greg Kroah-Hartman <gregkh@linuxfoundation.org>, alsa-devel@alsa-project.org,
+ Daniel Mack <daniel@zonque.org>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 From: Arnd Bergmann <arnd@arndb.de>
 
-The audio driver should not use a hardwired gpio number
-from the header. Change it to use a lookup table.
+Lubbock is the only machine that has three IRQs for the UDC.
+These are currently hardcoded in the driver based on a
+machine header file.
 
-Cc: Philipp Zabel <philipp.zabel@gmail.com>
-Cc: Paul Parsons <lost.distance@yahoo.com>
-Acked-by: Mark Brown <broonie@kernel.org>
+Change this to use platform device resources as we use for
+the generic IRQ anyway.
+
+Cc: Felipe Balbi <balbi@kernel.org>
+Cc: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+Cc: linux-usb@vger.kernel.org
 Acked-by: Robert Jarzmik <robert.jarzmik@free.fr>
-Cc: alsa-devel@alsa-project.org
 Signed-off-by: Arnd Bergmann <arnd@arndb.de>
 ---
- arch/arm/mach-pxa/hx4700-pcmcia.c             |  2 +-
- arch/arm/mach-pxa/hx4700.c                    | 16 ++++++++-
- arch/arm/mach-pxa/{include/mach => }/hx4700.h |  2 +-
- sound/soc/pxa/hx4700.c                        | 34 ++++++++-----------
- 4 files changed, 31 insertions(+), 23 deletions(-)
- rename arch/arm/mach-pxa/{include/mach => }/hx4700.h (99%)
+ arch/arm/mach-pxa/lubbock.c                   | 12 +++++-
+ .../arm/mach-pxa/{include/mach => }/lubbock.h |  2 -
+ drivers/usb/gadget/udc/pxa25x_udc.c           | 37 ++++++++++---------
+ drivers/usb/gadget/udc/pxa25x_udc.h           |  7 +---
+ 4 files changed, 32 insertions(+), 26 deletions(-)
+ rename arch/arm/mach-pxa/{include/mach => }/lubbock.h (97%)
 
-diff --git a/arch/arm/mach-pxa/hx4700-pcmcia.c b/arch/arm/mach-pxa/hx4700-pcmcia.c
-index e8acbfc9ef6c..e2331dfe427d 100644
---- a/arch/arm/mach-pxa/hx4700-pcmcia.c
-+++ b/arch/arm/mach-pxa/hx4700-pcmcia.c
-@@ -10,7 +10,7 @@
- #include <linux/irq.h>
+diff --git a/arch/arm/mach-pxa/lubbock.c b/arch/arm/mach-pxa/lubbock.c
+index 46aef93c0615..201f89f49642 100644
+--- a/arch/arm/mach-pxa/lubbock.c
++++ b/arch/arm/mach-pxa/lubbock.c
+@@ -46,7 +46,7 @@
  
- #include <asm/mach-types.h>
--#include <mach/hx4700.h>
-+#include "hx4700.h"
- 
- #include <pcmcia/soc_common.h>
- 
-diff --git a/arch/arm/mach-pxa/hx4700.c b/arch/arm/mach-pxa/hx4700.c
-index 140a44cb2989..2b7f37172725 100644
---- a/arch/arm/mach-pxa/hx4700.c
-+++ b/arch/arm/mach-pxa/hx4700.c
-@@ -41,7 +41,7 @@
- 
- #include "pxa27x.h"
- #include "addr-map.h"
--#include <mach/hx4700.h>
-+#include "hx4700.h"
+ #include "pxa25x.h"
+ #include <linux/platform_data/asoc-pxa.h>
+-#include <mach/lubbock.h>
++#include "lubbock.h"
+ #include "udc.h"
  #include <linux/platform_data/irda-pxaficp.h>
- 
- #include <sound/ak4641.h>
-@@ -834,6 +834,19 @@ static struct i2c_board_info i2c_board_info[] __initdata = {
- 	},
+ #include <linux/platform_data/video-pxafb.h>
+@@ -131,6 +131,13 @@ static struct pxa2xx_udc_mach_info udc_info __initdata = {
+ 	// no D+ pullup; lubbock can't connect/disconnect in software
  };
  
-+static struct gpiod_lookup_table hx4700_audio_gpio_table = {
-+	.dev_id = "hx4700-audio",
-+	.table = {
-+		GPIO_LOOKUP("gpio-pxa", GPIO75_HX4700_EARPHONE_nDET,
-+			    "earphone-ndet", GPIO_ACTIVE_HIGH),
-+		GPIO_LOOKUP("gpio-pxa", GPIO92_HX4700_HP_DRIVER,
-+			    "hp-driver", GPIO_ACTIVE_HIGH),
-+		GPIO_LOOKUP("gpio-pxa", GPIO107_HX4700_SPK_nSD,
-+			    "spk-nsd", GPIO_ACTIVE_HIGH),
-+		{ },
-+	},
++static struct resource lubbock_udc_resources[] = {
++	DEFINE_RES_MEM(0x40600000, 0x10000),
++	DEFINE_RES_IRQ(IRQ_USB),
++	DEFINE_RES_IRQ(LUBBOCK_USB_IRQ),
++	DEFINE_RES_IRQ(LUBBOCK_USB_DISC_IRQ),
 +};
 +
- static struct platform_device audio = {
- 	.name	= "hx4700-audio",
- 	.id	= -1,
-@@ -895,6 +908,7 @@ static void __init hx4700_init(void)
+ /* GPIOs for SA1111 PCMCIA */
+ static struct gpiod_lookup_table sa1111_pcmcia_gpio_table = {
+ 	.dev_id = "1800",
+@@ -496,6 +503,9 @@ static void __init lubbock_init(void)
+ 	lubbock_init_pcmcia();
  
- 	gpiod_add_lookup_table(&bq24022_gpiod_table);
- 	gpiod_add_lookup_table(&gpio_vbus_gpiod_table);
-+	gpiod_add_lookup_table(&hx4700_audio_gpio_table);
- 	platform_add_devices(devices, ARRAY_SIZE(devices));
- 	pwm_add_table(hx4700_pwm_lookup, ARRAY_SIZE(hx4700_pwm_lookup));
+ 	clk_add_alias("SA1111_CLK", NULL, "GPIO11_CLK", NULL);
++	/* lubbock has two extra IRQs */
++	pxa25x_device_udc.resource = lubbock_udc_resources;
++	pxa25x_device_udc.num_resources = ARRAY_SIZE(lubbock_udc_resources);
+ 	pxa_set_udc_info(&udc_info);
+ 	pxa_set_fb_info(NULL, &sharp_lm8v31);
+ 	pxa_set_mci_info(&lubbock_mci_platform_data);
+diff --git a/arch/arm/mach-pxa/include/mach/lubbock.h b/arch/arm/mach-pxa/lubbock.h
+similarity index 97%
+rename from arch/arm/mach-pxa/include/mach/lubbock.h
+rename to arch/arm/mach-pxa/lubbock.h
+index a3af4a2f9446..8e3ff7d57121 100644
+--- a/arch/arm/mach-pxa/include/mach/lubbock.h
++++ b/arch/arm/mach-pxa/lubbock.h
+@@ -1,7 +1,5 @@
+ /* SPDX-License-Identifier: GPL-2.0-only */
+ /*
+- *  arch/arm/mach-pxa/include/mach/lubbock.h
+- *
+  *  Author:	Nicolas Pitre
+  *  Created:	Jun 15, 2001
+  *  Copyright:	MontaVista Software Inc.
+diff --git a/drivers/usb/gadget/udc/pxa25x_udc.c b/drivers/usb/gadget/udc/pxa25x_udc.c
+index 6c414c99d01c..c593fc383481 100644
+--- a/drivers/usb/gadget/udc/pxa25x_udc.c
++++ b/drivers/usb/gadget/udc/pxa25x_udc.c
+@@ -44,10 +44,6 @@
+ #include <linux/usb/gadget.h>
+ #include <linux/usb/otg.h>
  
-diff --git a/arch/arm/mach-pxa/include/mach/hx4700.h b/arch/arm/mach-pxa/hx4700.h
-similarity index 99%
-rename from arch/arm/mach-pxa/include/mach/hx4700.h
-rename to arch/arm/mach-pxa/hx4700.h
-index 0c30e6d9c660..ce2db33989e1 100644
---- a/arch/arm/mach-pxa/include/mach/hx4700.h
-+++ b/arch/arm/mach-pxa/hx4700.h
-@@ -10,7 +10,7 @@
- 
- #include <linux/gpio.h>
- #include <linux/mfd/asic3.h>
--#include "irqs.h" /* PXA_NR_BUILTIN_GPIO */
-+#include <mach/irqs.h> /* PXA_NR_BUILTIN_GPIO */
- 
- #define HX4700_ASIC3_GPIO_BASE	PXA_NR_BUILTIN_GPIO
- #define HX4700_EGPIO_BASE	(HX4700_ASIC3_GPIO_BASE + ASIC3_NUM_GPIOS)
-diff --git a/sound/soc/pxa/hx4700.c b/sound/soc/pxa/hx4700.c
-index 7334fac758de..e70dc38d9892 100644
---- a/sound/soc/pxa/hx4700.c
-+++ b/sound/soc/pxa/hx4700.c
-@@ -10,7 +10,7 @@
- #include <linux/interrupt.h>
- #include <linux/platform_device.h>
- #include <linux/delay.h>
--#include <linux/gpio.h>
-+#include <linux/gpio/consumer.h>
- 
- #include <sound/core.h>
- #include <sound/jack.h>
-@@ -18,10 +18,10 @@
- #include <sound/pcm_params.h>
- #include <sound/soc.h>
- 
--#include <mach/hx4700.h>
- #include <asm/mach-types.h>
- #include "pxa2xx-i2s.h"
- 
-+static struct gpio_desc *gpiod_hp_driver, *gpiod_spk_nsd;
- static struct snd_soc_jack hs_jack;
- 
- /* Headphones jack detection DAPM pin */
-@@ -40,9 +40,8 @@ static struct snd_soc_jack_pin hs_jack_pin[] = {
- 
- /* Headphones jack detection GPIO */
- static struct snd_soc_jack_gpio hs_jack_gpio = {
--	.gpio		= GPIO75_HX4700_EARPHONE_nDET,
- 	.invert		= true,
--	.name		= "hp-gpio",
-+	.name		= "earphone-ndet",
- 	.report		= SND_JACK_HEADPHONE,
- 	.debounce_time	= 200,
- };
-@@ -81,14 +80,14 @@ static const struct snd_soc_ops hx4700_ops = {
- static int hx4700_spk_power(struct snd_soc_dapm_widget *w,
- 			    struct snd_kcontrol *k, int event)
- {
--	gpio_set_value(GPIO107_HX4700_SPK_nSD, !!SND_SOC_DAPM_EVENT_ON(event));
-+	gpiod_set_value(gpiod_spk_nsd, !!SND_SOC_DAPM_EVENT_ON(event));
- 	return 0;
- }
- 
- static int hx4700_hp_power(struct snd_soc_dapm_widget *w,
- 			   struct snd_kcontrol *k, int event)
- {
--	gpio_set_value(GPIO92_HX4700_HP_DRIVER, !!SND_SOC_DAPM_EVENT_ON(event));
-+	gpiod_set_value(gpiod_hp_driver, !!SND_SOC_DAPM_EVENT_ON(event));
- 	return 0;
- }
- 
-@@ -162,11 +161,6 @@ static struct snd_soc_card snd_soc_card_hx4700 = {
- 	.fully_routed		= true,
- };
- 
--static struct gpio hx4700_audio_gpios[] = {
--	{ GPIO107_HX4700_SPK_nSD, GPIOF_OUT_INIT_HIGH, "SPK_POWER" },
--	{ GPIO92_HX4700_HP_DRIVER, GPIOF_OUT_INIT_LOW, "EP_POWER" },
--};
+-#ifdef CONFIG_ARCH_LUBBOCK
+-#include <mach/lubbock.h>
+-#endif
 -
- static int hx4700_audio_probe(struct platform_device *pdev)
- {
- 	int ret;
-@@ -174,26 +168,26 @@ static int hx4700_audio_probe(struct platform_device *pdev)
- 	if (!machine_is_h4700())
- 		return -ENODEV;
+ #define UDCCR	 0x0000 /* UDC Control Register */
+ #define UDC_RES1 0x0004 /* UDC Undocumented - Reserved1 */
+ #define UDC_RES2 0x0008 /* UDC Undocumented - Reserved2 */
+@@ -1578,18 +1574,15 @@ lubbock_vbus_irq(int irq, void *_dev)
+ 	int			vbus;
  
--	ret = gpio_request_array(hx4700_audio_gpios,
--				ARRAY_SIZE(hx4700_audio_gpios));
-+	gpiod_hp_driver = devm_gpiod_get(&pdev->dev, "hp-driver", GPIOD_OUT_HIGH);
-+	ret = PTR_ERR_OR_ZERO(gpiod_hp_driver);
-+	if (ret)
-+		return ret;
-+	gpiod_spk_nsd = devm_gpiod_get(&pdev->dev, "spk-nsd", GPIOD_OUT_HIGH);
-+	ret = PTR_ERR_OR_ZERO(gpiod_spk_nsd);
- 	if (ret)
- 		return ret;
+ 	dev->stats.irqs++;
+-	switch (irq) {
+-	case LUBBOCK_USB_IRQ:
++	if (irq == dev->usb_irq) {
+ 		vbus = 1;
+-		disable_irq(LUBBOCK_USB_IRQ);
+-		enable_irq(LUBBOCK_USB_DISC_IRQ);
+-		break;
+-	case LUBBOCK_USB_DISC_IRQ:
++		disable_irq(dev->usb_irq);
++		enable_irq(dev->usb_disc_irq);
++	} else if (irq == dev->usb_disc_irq) {
+ 		vbus = 0;
+-		disable_irq(LUBBOCK_USB_DISC_IRQ);
+-		enable_irq(LUBBOCK_USB_IRQ);
+-		break;
+-	default:
++		disable_irq(dev->usb_disc_irq);
++		enable_irq(dev->usb_irq);
++	} else {
+ 		return IRQ_NONE;
+ 	}
  
-+	hs_jack_gpio.gpiod_dev = &pdev->dev;
- 	snd_soc_card_hx4700.dev = &pdev->dev;
- 	ret = devm_snd_soc_register_card(&pdev->dev, &snd_soc_card_hx4700);
--	if (ret)
--		gpio_free_array(hx4700_audio_gpios,
--				ARRAY_SIZE(hx4700_audio_gpios));
+@@ -2422,20 +2415,28 @@ static int pxa25x_udc_probe(struct platform_device *pdev)
  
- 	return ret;
- }
+ #ifdef CONFIG_ARCH_LUBBOCK
+ 	if (machine_is_lubbock()) {
+-		retval = devm_request_irq(&pdev->dev, LUBBOCK_USB_DISC_IRQ,
++		dev->usb_irq = platform_get_irq(pdev, 1);
++		if (dev->usb_irq < 0)
++			return dev->usb_irq;
++
++		dev->usb_disc_irq = platform_get_irq(pdev, 2);
++		if (dev->usb_disc_irq < 0)
++			return dev->usb_disc_irq;
++
++		retval = devm_request_irq(&pdev->dev, dev->usb_disc_irq,
+ 					  lubbock_vbus_irq, 0, driver_name,
+ 					  dev);
+ 		if (retval != 0) {
+ 			pr_err("%s: can't get irq %i, err %d\n",
+-				driver_name, LUBBOCK_USB_DISC_IRQ, retval);
++				driver_name, dev->usb_disc_irq, retval);
+ 			goto err;
+ 		}
+-		retval = devm_request_irq(&pdev->dev, LUBBOCK_USB_IRQ,
++		retval = devm_request_irq(&pdev->dev, dev->usb_irq,
+ 					  lubbock_vbus_irq, 0, driver_name,
+ 					  dev);
+ 		if (retval != 0) {
+ 			pr_err("%s: can't get irq %i, err %d\n",
+-				driver_name, LUBBOCK_USB_IRQ, retval);
++				driver_name, dev->usb_irq, retval);
+ 			goto err;
+ 		}
+ 	} else
+diff --git a/drivers/usb/gadget/udc/pxa25x_udc.h b/drivers/usb/gadget/udc/pxa25x_udc.h
+index aa4b68fd9fc0..6ab6047edc83 100644
+--- a/drivers/usb/gadget/udc/pxa25x_udc.h
++++ b/drivers/usb/gadget/udc/pxa25x_udc.h
+@@ -117,16 +117,13 @@ struct pxa25x_udc {
+ 	u64					dma_mask;
+ 	struct pxa25x_ep			ep [PXA_UDC_NUM_ENDPOINTS];
+ 	void __iomem				*regs;
++	int					usb_irq;
++	int					usb_disc_irq;
+ };
+ #define to_pxa25x(g)	(container_of((g), struct pxa25x_udc, gadget))
  
- static int hx4700_audio_remove(struct platform_device *pdev)
- {
--	gpio_set_value(GPIO92_HX4700_HP_DRIVER, 0);
--	gpio_set_value(GPIO107_HX4700_SPK_nSD, 0);
+ /*-------------------------------------------------------------------------*/
+ 
+-#ifdef CONFIG_ARCH_LUBBOCK
+-#include <mach/lubbock.h>
+-/* lubbock can also report usb connect/disconnect irqs */
+-#endif
 -
--	gpio_free_array(hx4700_audio_gpios, ARRAY_SIZE(hx4700_audio_gpios));
-+	gpiod_set_value(gpiod_hp_driver, 0);
-+	gpiod_set_value(gpiod_spk_nsd, 0);
- 	return 0;
- }
+ static struct pxa25x_udc *the_controller;
  
+ /*-------------------------------------------------------------------------*/
 -- 
 2.29.2
 
