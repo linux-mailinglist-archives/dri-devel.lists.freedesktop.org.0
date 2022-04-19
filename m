@@ -1,41 +1,42 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4704B506DBE
-	for <lists+dri-devel@lfdr.de>; Tue, 19 Apr 2022 15:41:19 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 9F89F506DBF
+	for <lists+dri-devel@lfdr.de>; Tue, 19 Apr 2022 15:41:29 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 4E05910EFE0;
-	Tue, 19 Apr 2022 13:41:17 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 826E010EFE4;
+	Tue, 19 Apr 2022 13:41:27 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from dfw.source.kernel.org (dfw.source.kernel.org
- [IPv6:2604:1380:4641:c500::1])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 0843610EFE4
- for <dri-devel@lists.freedesktop.org>; Tue, 19 Apr 2022 13:41:16 +0000 (UTC)
+Received: from ams.source.kernel.org (ams.source.kernel.org
+ [IPv6:2604:1380:4601:e00::1])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id CA4A010EFF4
+ for <dri-devel@lists.freedesktop.org>; Tue, 19 Apr 2022 13:41:26 +0000 (UTC)
 Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
  (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
  (No client certificate requested)
- by dfw.source.kernel.org (Postfix) with ESMTPS id 89B76616A8;
+ by ams.source.kernel.org (Postfix) with ESMTPS id 2B942B8197F;
+ Tue, 19 Apr 2022 13:41:25 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id EDD10C385A5;
  Tue, 19 Apr 2022 13:41:15 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 9BA99C385AC;
- Tue, 19 Apr 2022 13:41:07 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1650375675;
- bh=Zu+s/Y6CPoLWnIUPjVgATnzi0v1z3Jhkw2fBKn8V10M=;
+ s=k20201202; t=1650375683;
+ bh=Lqql5jJ2TjMR0BVNQRp5+3ddwljyuhELVCm/kXj+7ik=;
  h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
- b=U5cHM84vrLY3O3eyj59RLMY2m4fa/fIXcrDCJ9kjqXW9XoISe3lQxXTO6L1dAaoQk
- oQoOecRjFl/5jFqnm0E7okbJ6ifMuDNAdWBOnlrkhp25WpgKIJYVTtI7PuyR0j44Wt
- 7VsEFwWnvRKUEPainDkDn9AuVbG7J1W7AlpltYmSzKoWeF58QXmvv/f82nxuMT/W8N
- aPUFb2G2ez74e0BV9D2X9qJaN5aJ9wiK14osJsk3UfjTmuRqz6tm7WcpnIOvwfOH1f
- Xlf8Y8XE35dK5tWzEayPKnnm9LQnhR2Mue+H9vmhX/9J78LZeH0skpwslSkMEsZyAj
- DLN5B2SpMEUCQ==
+ b=JIoRCZ5P7nywKXcKjFEeDGGEvckH/ddxelOi4sgLLOtXOcDjoGje3+bE947Tyfmia
+ 404OQdFoYPFkbzMHBsltzemOp8kG1cXvkIXl73jYoerRI3ggoObRe7dclw+jMSy9H8
+ F+o3O5viIo54fVXJj2D8nfZNTbQ86aaDw5H9fg3Kd6DLTGBA7lJG4+V5LTJULF9e+r
+ tvfzzSP4zoEJRSSCciMSDW0M3yqyLWUuAL26tBfmvTvd3LCp7oXzclqlFOfsHHkqez
+ QdbmAWEIjwpUIeKE0k/ZBNkPe/Zdvsshi18aHuPRwsuSu3oIE5fxAI7S7/ls1bYkDQ
+ VWwgVS/Bp5Amw==
 From: Arnd Bergmann <arnd@kernel.org>
 To: linux-omap@vger.kernel.org, tony@atomide.com, aaro.koskinen@iki.fi,
  jmkrzyszt@gmail.com
-Subject: [PATCH 29/41] ARM: omap1: fix build with no SoC selected
-Date: Tue, 19 Apr 2022 15:37:11 +0200
-Message-Id: <20220419133723.1394715-30-arnd@kernel.org>
+Subject: [PATCH 30/41] ARM: OMAP1: Prepare for conversion of OMAP1 clocks to
+ CCF
+Date: Tue, 19 Apr 2022 15:37:12 +0200
+Message-Id: <20220419133723.1394715-31-arnd@kernel.org>
 X-Mailer: git-send-email 2.29.2
 In-Reply-To: <20220419133723.1394715-1-arnd@kernel.org>
 References: <20220419133723.1394715-1-arnd@kernel.org>
@@ -71,99 +72,117 @@ Cc: Ulf Hansson <ulf.hansson@linaro.org>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-From: Arnd Bergmann <arnd@arndb.de>
+From: Janusz Krzysztofik <jmkrzyszt@gmail.com>
 
-In a multiplatform randconfig kernel, one can have
-CONFIG_ARCH_OMAP1 enabled, but none of the specific SoCs.
-This leads to some build issues as the code is not
-meant to deal with this configuration at the moment:
+In preparation for conversion of OMAP1 clocks to common clock framework,
+identify arch/arm/mach-omap1 local users of those clocks and update them
+to call clk_prepare_enable/clk_disable_unprepare() instead of just
+clk_enable/disable(), as required by CCF implementation of clock API.
 
-arch/arm/mach-omap1/io.c:86:20: error: unused function 'omap1_map_common_io' [-Werror,-Wunused-function]
-arch/arm/mach-omap1/pm.h:113:2: error: "Power management for this processor not implemented yet" [-Werror,-W#warnings]
-
-Use the same trick as on OMAP2 and guard the actual compilation
-of platform code with another Makefile ifdef check based
-on an option that depends on having at least one SoC enabled.
-
-The io.c file still needs to get compiled to allow building
-device drivers with a dependency on CONFIG_ARCH_OMAP1.
-
+Signed-off-by: Janusz Krzysztofik <jmkrzyszt@gmail.com>
 Signed-off-by: Arnd Bergmann <arnd@arndb.de>
 ---
- arch/arm/Kconfig                | 1 -
- arch/arm/mach-omap1/Kconfig     | 4 ++++
- arch/arm/mach-omap1/Makefile    | 4 ++++
- include/linux/soc/ti/omap1-io.h | 4 ++--
- 4 files changed, 10 insertions(+), 3 deletions(-)
+ arch/arm/mach-omap1/mcbsp.c    | 8 ++++----
+ arch/arm/mach-omap1/ocpi.c     | 4 ++--
+ arch/arm/mach-omap1/serial.c   | 6 +++---
+ arch/arm/mach-omap1/timer32k.c | 2 +-
+ 4 files changed, 10 insertions(+), 10 deletions(-)
 
-diff --git a/arch/arm/Kconfig b/arch/arm/Kconfig
-index fb6afa6bbc8f..a65f2c05f01c 100644
---- a/arch/arm/Kconfig
-+++ b/arch/arm/Kconfig
-@@ -485,7 +485,6 @@ config ARCH_S3C24XX
+diff --git a/arch/arm/mach-omap1/mcbsp.c b/arch/arm/mach-omap1/mcbsp.c
+index b7bc7e4b426c..05c25c432449 100644
+--- a/arch/arm/mach-omap1/mcbsp.c
++++ b/arch/arm/mach-omap1/mcbsp.c
+@@ -43,8 +43,8 @@ static void omap1_mcbsp_request(unsigned int id)
+ 			api_clk = clk_get(NULL, "api_ck");
+ 			dsp_clk = clk_get(NULL, "dsp_ck");
+ 			if (!IS_ERR(api_clk) && !IS_ERR(dsp_clk)) {
+-				clk_enable(api_clk);
+-				clk_enable(dsp_clk);
++				clk_prepare_enable(api_clk);
++				clk_prepare_enable(dsp_clk);
  
- config ARCH_OMAP1
- 	bool "TI OMAP1"
--	select ARCH_OMAP
- 	select CLKSRC_MMIO
- 	select FORCE_PCI if PCCARD
- 	select GENERIC_IRQ_CHIP
-diff --git a/arch/arm/mach-omap1/Kconfig b/arch/arm/mach-omap1/Kconfig
-index 93ea86954a84..d4b0cd91a4f9 100644
---- a/arch/arm/mach-omap1/Kconfig
-+++ b/arch/arm/mach-omap1/Kconfig
-@@ -28,6 +28,10 @@ config ARCH_OMAP16XX
- 	select CPU_ARM926T
- 	select OMAP_DM_TIMER
+ 				/*
+ 				 * DSP external peripheral reset
+@@ -62,11 +62,11 @@ static void omap1_mcbsp_free(unsigned int id)
+ 	if (id == 0 || id == 2) {
+ 		if (--dsp_use == 0) {
+ 			if (!IS_ERR(api_clk)) {
+-				clk_disable(api_clk);
++				clk_disable_unprepare(api_clk);
+ 				clk_put(api_clk);
+ 			}
+ 			if (!IS_ERR(dsp_clk)) {
+-				clk_disable(dsp_clk);
++				clk_disable_unprepare(dsp_clk);
+ 				clk_put(dsp_clk);
+ 			}
+ 		}
+diff --git a/arch/arm/mach-omap1/ocpi.c b/arch/arm/mach-omap1/ocpi.c
+index c4a33ace4a8b..d48f726571a4 100644
+--- a/arch/arm/mach-omap1/ocpi.c
++++ b/arch/arm/mach-omap1/ocpi.c
+@@ -73,7 +73,7 @@ static int __init omap_ocpi_init(void)
+ 	if (IS_ERR(ocpi_ck))
+ 		return PTR_ERR(ocpi_ck);
  
-+config ARCH_OMAP1_ANY
-+	select ARCH_OMAP
-+	def_bool ARCH_OMAP730 || ARCH_OMAP850 || ARCH_OMAP15XX || ARCH_OMAP16XX
-+
- config ARCH_OMAP
- 	bool
+-	clk_enable(ocpi_ck);
++	clk_prepare_enable(ocpi_ck);
+ 	ocpi_enable();
+ 	pr_info("OMAP OCPI interconnect driver loaded\n");
  
-diff --git a/arch/arm/mach-omap1/Makefile b/arch/arm/mach-omap1/Makefile
-index 0615cb0ba580..506074b86333 100644
---- a/arch/arm/mach-omap1/Makefile
-+++ b/arch/arm/mach-omap1/Makefile
-@@ -3,6 +3,8 @@
- # Makefile for the linux kernel.
- #
+@@ -87,7 +87,7 @@ static void __exit omap_ocpi_exit(void)
+ 	if (!cpu_is_omap16xx())
+ 		return;
  
-+ifdef CONFIG_ARCH_OMAP1_ANY
-+
- # Common support
- obj-y := io.o id.o sram-init.o sram.o time.o irq.o mux.o flash.o \
- 	 serial.o devices.o dma.o omap-dma.o fb.o
-@@ -57,3 +59,5 @@ obj-$(CONFIG_ARCH_OMAP730)		+= gpio7xx.o
- obj-$(CONFIG_ARCH_OMAP850)		+= gpio7xx.o
- obj-$(CONFIG_ARCH_OMAP15XX)		+= gpio15xx.o
- obj-$(CONFIG_ARCH_OMAP16XX)		+= gpio16xx.o
-+
-+endif
-diff --git a/include/linux/soc/ti/omap1-io.h b/include/linux/soc/ti/omap1-io.h
-index 9332c92690f4..f7f12728d4a6 100644
---- a/include/linux/soc/ti/omap1-io.h
-+++ b/include/linux/soc/ti/omap1-io.h
-@@ -5,7 +5,7 @@
- #ifndef __ASSEMBLER__
- #include <linux/types.h>
+-	clk_disable(ocpi_ck);
++	clk_disable_unprepare(ocpi_ck);
+ 	clk_put(ocpi_ck);
+ }
  
--#if defined(CONFIG_ARCH_OMAP) && defined(CONFIG_ARCH_OMAP1)
-+#ifdef CONFIG_ARCH_OMAP1_ANY
- /*
-  * NOTE: Please use ioremap + __raw_read/write where possible instead of these
-  */
-@@ -15,7 +15,7 @@ extern u32 omap_readl(u32 pa);
- extern void omap_writeb(u8 v, u32 pa);
- extern void omap_writew(u16 v, u32 pa);
- extern void omap_writel(u32 v, u32 pa);
--#elif defined(CONFIG_COMPILE_TEST)
-+#else
- static inline u8 omap_readb(u32 pa)  { return 0; }
- static inline u16 omap_readw(u32 pa) { return 0; }
- static inline u32 omap_readl(u32 pa) { return 0; }
+diff --git a/arch/arm/mach-omap1/serial.c b/arch/arm/mach-omap1/serial.c
+index d6d1843337a5..299ae1106187 100644
+--- a/arch/arm/mach-omap1/serial.c
++++ b/arch/arm/mach-omap1/serial.c
+@@ -142,7 +142,7 @@ void __init omap_serial_init(void)
+ 			if (IS_ERR(uart1_ck))
+ 				printk("Could not get uart1_ck\n");
+ 			else {
+-				clk_enable(uart1_ck);
++				clk_prepare_enable(uart1_ck);
+ 				if (cpu_is_omap15xx())
+ 					clk_set_rate(uart1_ck, 12000000);
+ 			}
+@@ -152,7 +152,7 @@ void __init omap_serial_init(void)
+ 			if (IS_ERR(uart2_ck))
+ 				printk("Could not get uart2_ck\n");
+ 			else {
+-				clk_enable(uart2_ck);
++				clk_prepare_enable(uart2_ck);
+ 				if (cpu_is_omap15xx())
+ 					clk_set_rate(uart2_ck, 12000000);
+ 				else
+@@ -164,7 +164,7 @@ void __init omap_serial_init(void)
+ 			if (IS_ERR(uart3_ck))
+ 				printk("Could not get uart3_ck\n");
+ 			else {
+-				clk_enable(uart3_ck);
++				clk_prepare_enable(uart3_ck);
+ 				if (cpu_is_omap15xx())
+ 					clk_set_rate(uart3_ck, 12000000);
+ 			}
+diff --git a/arch/arm/mach-omap1/timer32k.c b/arch/arm/mach-omap1/timer32k.c
+index 23952a85ac79..560cd16568a7 100644
+--- a/arch/arm/mach-omap1/timer32k.c
++++ b/arch/arm/mach-omap1/timer32k.c
+@@ -270,7 +270,7 @@ int __init omap_32k_timer_init(void)
+ 
+ 		sync32k_ick = clk_get(NULL, "omap_32ksync_ick");
+ 		if (!IS_ERR(sync32k_ick))
+-			clk_enable(sync32k_ick);
++			clk_prepare_enable(sync32k_ick);
+ 
+ 		ret = omap_init_clocksource_32k(base);
+ 	}
 -- 
 2.29.2
 
