@@ -1,60 +1,61 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id AC52F506CD8
-	for <lists+dri-devel@lfdr.de>; Tue, 19 Apr 2022 14:55:27 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 08065506D0F
+	for <lists+dri-devel@lfdr.de>; Tue, 19 Apr 2022 15:04:30 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 5166C10EE9E;
-	Tue, 19 Apr 2022 12:55:25 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 9D80610E84D;
+	Tue, 19 Apr 2022 13:04:27 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mailgw01.mediatek.com (unknown [60.244.123.138])
- by gabe.freedesktop.org (Postfix) with ESMTPS id DF5E810E8BF
- for <dri-devel@lists.freedesktop.org>; Tue, 19 Apr 2022 12:55:23 +0000 (UTC)
-X-UUID: af1877add5b14b25831dd53443f79ab6-20220419
-X-CID-P-RULE: Release_Ham
-X-CID-O-INFO: VERSION:1.1.4, REQID:159939a9-28dc-47ce-a547-4fa6e99c11a2, OB:0,
- LO
- B:10,IP:0,URL:8,TC:0,Content:0,EDM:0,RT:0,SF:45,FILE:0,RULE:Release_Ham,AC
- TION:release,TS:53
-X-CID-INFO: VERSION:1.1.4, REQID:159939a9-28dc-47ce-a547-4fa6e99c11a2, OB:0,
- LOB:
- 10,IP:0,URL:8,TC:0,Content:0,EDM:0,RT:0,SF:45,FILE:0,RULE:Release_Ham,ACTI
- ON:release,TS:53
-X-CID-META: VersionHash:faefae9, CLOUDID:15c838f0-da02-41b4-b6df-58f4ccd36682,
- C
- OID:e35b78a6d1fe,Recheck:0,SF:13|15|28|17|19|48,TC:nil,Content:0,EDM:-3,Fi
- le:nil,QS:0,BEC:nil
-X-UUID: af1877add5b14b25831dd53443f79ab6-20220419
-Received: from mtkcas11.mediatek.inc [(172.21.101.40)] by mailgw01.mediatek.com
- (envelope-from <rex-bc.chen@mediatek.com>)
- (Generic MTA with TLSv1.2 ECDHE-RSA-AES256-SHA384 256/256)
- with ESMTP id 1003386585; Tue, 19 Apr 2022 20:55:17 +0800
-Received: from mtkexhb01.mediatek.inc (172.21.101.102) by
- mtkmbs10n1.mediatek.inc (172.21.101.34) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_CBC_SHA384) id
- 15.2.792.15; Tue, 19 Apr 2022 20:55:16 +0800
-Received: from mtkcas11.mediatek.inc (172.21.101.40) by mtkexhb01.mediatek.inc
- (172.21.101.102) with Microsoft SMTP Server (TLS) id 15.0.1497.2;
- Tue, 19 Apr 2022 20:55:16 +0800
-Received: from mtksdccf07 (172.21.84.99) by mtkcas11.mediatek.inc
- (172.21.101.73) with Microsoft SMTP Server id 15.0.1497.2 via Frontend
- Transport; Tue, 19 Apr 2022 20:55:16 +0800
-Message-ID: <fe9f427ec28414b545ccdb2009ae16ad735628be.camel@mediatek.com>
-Subject: Re: [PATCH 5/5] dt-bindings: mediatek: add ethdr definition for mt8195
-From: Rex-BC Chen <rex-bc.chen@mediatek.com>
-To: Rob Herring <robh@kernel.org>
-Date: Tue, 19 Apr 2022 20:55:15 +0800
-In-Reply-To: <1650370363.563060.1977867.nullmailer@robh.at.kernel.org>
-References: <20220419033237.23405-1-rex-bc.chen@mediatek.com>
- <20220419033237.23405-6-rex-bc.chen@mediatek.com>
- <1650370363.563060.1977867.nullmailer@robh.at.kernel.org>
-Content-Type: text/plain; charset="UTF-8"
-X-Mailer: Evolution 3.28.5-0ubuntu0.18.04.2 
+Received: from mail-lj1-x22e.google.com (mail-lj1-x22e.google.com
+ [IPv6:2a00:1450:4864:20::22e])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 9E64510E84D
+ for <dri-devel@lists.freedesktop.org>; Tue, 19 Apr 2022 13:04:25 +0000 (UTC)
+Received: by mail-lj1-x22e.google.com with SMTP id q22so2181514ljh.10
+ for <dri-devel@lists.freedesktop.org>; Tue, 19 Apr 2022 06:04:25 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=51y0snB2GUgkqHni5/VdYz/z1Uks4JZTasXp07lWCwc=;
+ b=krgPmScwiYNT2fnOQoG+U/F5ZqZHDi1ZExMVupJiEUYyWrTMOMLk95Idi1CaQ+m8Vl
+ Cq6zd8hZJK+ilNjf5+y7WNiaJL5G7dHbxn8eWRnmOi9VLfDEWvTeb28BPd+x5sOHtkqt
+ MxksRdXGrrcsZd1ZJ0l23jw0M0uFjB09G2SSTdYA7OvnviTy3Gybljymww0kwr/gM4WT
+ BP5VccwpA9oB3qzvRuia5DxEz6Ca4GMKJRU1voaGuaI91fK/xXYW72MaYXnbJTzlOI18
+ UznWHujLlK+5f4Gw5g3xV9gbIWiVCucOyEGIATMJ0ofhcvgAeXsS/yfxFcJ8SsgCWnP5
+ OjGQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=51y0snB2GUgkqHni5/VdYz/z1Uks4JZTasXp07lWCwc=;
+ b=rqxjBpfxdShRjUtf1OvIo3OnWo13gD3Qm0dl/gx4kJpsvc/P6OLWRJZnKV+Y5IvOwl
+ YAjgafFuHkUqkvIv3ig7ApPmloszU8Yd8XpC6G5Ajcf6g+3d05kH27X1TEwoRvKd1U8I
+ +6um04j3iygzVqTSgjczvFMYGlHwF7+/B0q0+O6bksmap7nG3/iCocMoC97tu0QNm1jn
+ d/e5cRvMxF6+EjQTkPnVpa+r3t89neGc+yB8ddyO6Xt77bD2/82xLsi5V///X3DsHG/K
+ eu15B+5N0pNrctZc8TMWIHPiVl3GJNfng7v7p2gWFLrZDmTs9tUopI7MLO1gf5tbkR6V
+ rIng==
+X-Gm-Message-State: AOAM5324XLOuXHuHg1unBwlrf+DEYGPV1GpllIquf2HoVmau/mmN0WqM
+ PeEO3wUeY9ZgZ8kYktfXzNizfQ==
+X-Google-Smtp-Source: ABdhPJxvXRNA7D4IGqYmR84etmLXxAFjgH3awFAVSeFJZs7nF3oksNfIfkvKk0MYPRquOpK9ov50xw==
+X-Received: by 2002:a05:651c:103a:b0:24d:b8b1:b333 with SMTP id
+ w26-20020a05651c103a00b0024db8b1b333mr6957160ljm.460.1650373463640; 
+ Tue, 19 Apr 2022 06:04:23 -0700 (PDT)
+Received: from eriador.lan ([37.153.55.125]) by smtp.gmail.com with ESMTPSA id
+ h28-20020a056512055c00b0046bb80943a9sm1508810lfl.277.2022.04.19.06.04.22
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Tue, 19 Apr 2022 06:04:23 -0700 (PDT)
+From: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
+To: Bjorn Andersson <bjorn.andersson@linaro.org>,
+ Rob Clark <robdclark@gmail.com>, Sean Paul <sean@poorly.run>,
+ Abhinav Kumar <quic_abhinavk@quicinc.com>
+Subject: [PATCH] drm/msm: Revert "drm/msm: Stop using iommu_present()"
+Date: Tue, 19 Apr 2022 16:04:22 +0300
+Message-Id: <20220419130422.1033699-1-dmitry.baryshkov@linaro.org>
+X-Mailer: git-send-email 2.35.1
 MIME-Version: 1.0
-Content-Transfer-Encoding: 7bit
-X-MTK: N
+Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -67,93 +68,56 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: "chunkuang.hu@kernel.org" <chunkuang.hu@kernel.org>,
- "devicetree@vger.kernel.org" <devicetree@vger.kernel.org>,
- "airlied@linux.ie" <airlied@linux.ie>,
- Jason-JH Lin =?UTF-8?Q?=28=E6=9E=97=E7=9D=BF=E7=A5=A5=29?=
- <Jason-JH.Lin@mediatek.com>,
- "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
- "robh+dt@kernel.org" <robh+dt@kernel.org>,
- Project_Global_Chrome_Upstream_Group
- <Project_Global_Chrome_Upstream_Group@mediatek.com>,
- Nancy Lin =?UTF-8?Q?=28=E6=9E=97=E6=AC=A3=E8=9E=A2=29?=
- <Nancy.Lin@mediatek.com>,
- "linux-mediatek@lists.infradead.org" <linux-mediatek@lists.infradead.org>,
- "dri-devel@lists.freedesktop.org" <dri-devel@lists.freedesktop.org>,
- "krzysztof.kozlowski+dt@linaro.org" <krzysztof.kozlowski+dt@linaro.org>,
- "matthias.bgg@gmail.com" <matthias.bgg@gmail.com>,
- "linux-arm-kernel@lists.infradead.org" <linux-arm-kernel@lists.infradead.org>,
- "angelogioacchino.delregno@collabora.com"
- <angelogioacchino.delregno@collabora.com>
+Cc: David Airlie <airlied@linux.ie>, linux-arm-msm@vger.kernel.org,
+ Robin Murphy <robin.murphy@arm.com>, dri-devel@lists.freedesktop.org,
+ Stephen Boyd <swboyd@chromium.org>, freedreno@lists.freedesktop.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Tue, 2022-04-19 at 20:12 +0800, Rob Herring wrote:
-> On Tue, 19 Apr 2022 11:32:37 +0800, Rex-BC Chen wrote:
-> > From: "Nancy.Lin" <nancy.lin@mediatek.com>
-> > 
-> > Add vdosys1 ETHDR definition.
-> > 
-> > Signed-off-by: Nancy.Lin <nancy.lin@mediatek.com>
-> > Reviewed-by: Chun-Kuang Hu <chunkuang.hu@kernel.org>
-> > Reviewed-by: AngeloGioacchino Del Regno <
-> > angelogioacchino.delregno@collabora.com>
-> > ---
-> >  .../display/mediatek/mediatek,ethdr.yaml      | 158
-> > ++++++++++++++++++
-> >  1 file changed, 158 insertions(+)
-> >  create mode 100644
-> > Documentation/devicetree/bindings/display/mediatek/mediatek,ethdr.y
-> > aml
-> > 
-> 
-> My bot found errors running 'make DT_CHECKER_FLAGS=-m
-> dt_binding_check'
-> on your patch (DT_CHECKER_FLAGS is new in v5.13):
-> 
-> yamllint warnings/errors:
-> 
-> dtschema/dtc warnings/errors:
-> Documentation/devicetree/bindings/display/mediatek/mediatek,ethdr.exa
-> mple.dts:26:18: fatal error: dt-bindings/memory/mt8195-memory-port.h: 
-> No such file or directory
->    26 |         #include <dt-bindings/memory/mt8195-memory-port.h>
->       |                  ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-> compilation terminated.
-> make[1]: *** [scripts/Makefile.lib:364:
-> Documentation/devicetree/bindings/display/mediatek/mediatek,ethdr.exa
-> mple.dtb] Error 1
-> make[1]: *** Waiting for unfinished jobs....
-> make: *** [Makefile:1401: dt_binding_check] Error 2
-> 
-> doc reference errors (make refcheckdocs):
-> 
-> See 
-> https://urldefense.com/v3/__https://patchwork.ozlabs.org/patch/__;!!CTRNKA9wMg0ARbw!0_37wgtYvnR9SOpuvHJTNoD49ZH-H-8wVYtuCNFWbusuETEVY3vuSBeQz424H8e4_VNF3DOx4RmpXtN3gVegfPw1Hw$
->  
-> 
-> This check can fail if there are any dependencies. The base for a
-> patch
-> series is generally the most recent rc1.
-> 
-> If you already ran 'make dt_binding_check' and didn't see the above
-> error(s), then make sure 'yamllint' is installed and dt-schema is up
-> to
-> date:
-> 
-> pip3 install dtschema --upgrade
-> 
-> Please check and re-submit.
-> 
+This reverts commit e2a88eabb02410267519b838fb9b79f5206769be. The commit
+in question makes msm_use_mmu() check whether the DRM 'component master'
+device is translated by the IOMMU. At this moment it is the 'mdss'
+device.
+However on platforms using the MDP5 driver (e.g. MSM8916/APQ8016,
+MSM8996/APQ8096) it's the mdp5 device, which has the iommus property
+(and thus is "translated by the IOMMU"). This results in these devices
+being broken with the following lines in the dmesg.
 
-Hello Rob,
+[drm] Initialized msm 1.9.0 20130625 for 1a00000.mdss on minor 0
+msm 1a00000.mdss: [drm:adreno_request_fw] loaded qcom/a300_pm4.fw from new location
+msm 1a00000.mdss: [drm:adreno_request_fw] loaded qcom/a300_pfp.fw from new location
+msm 1a00000.mdss: [drm:get_pages] *ERROR* could not get pages: -28
+msm 1a00000.mdss: could not allocate stolen bo
+msm 1a00000.mdss: [drm:get_pages] *ERROR* could not get pages: -28
+msm 1a00000.mdss: [drm:msm_alloc_stolen_fb] *ERROR* failed to allocate buffer object
+msm 1a00000.mdss: [drm:msm_fbdev_create] *ERROR* failed to allocate fb
 
-As mentioned in [3/5], this patch is also basd on Yong's patch:
-message id: 20220407075726.17771-2-yong.wu@mediatek.com
-Without this patch, some patches of this series will build failed.
+Getting the mdp5 device pointer from this function is not that easy at
+this moment. Thus this patch is reverted till the MDSS rework [1] lands.
+It will make the mdp5/dpu1 device component master and the check will be
+legit.
 
-Thanks!
+[1] https://patchwork.freedesktop.org/series/98525/
 
-BRs,
-Rex
+Fixes: e2a88eabb024 ("drm/msm: Stop using iommu_present()")
+Signed-off-by: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
+---
+ drivers/gpu/drm/msm/msm_drv.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+
+diff --git a/drivers/gpu/drm/msm/msm_drv.c b/drivers/gpu/drm/msm/msm_drv.c
+index b6702b0fafcb..e2b5307b2360 100644
+--- a/drivers/gpu/drm/msm/msm_drv.c
++++ b/drivers/gpu/drm/msm/msm_drv.c
+@@ -263,7 +263,7 @@ bool msm_use_mmu(struct drm_device *dev)
+ 	struct msm_drm_private *priv = dev->dev_private;
+ 
+ 	/* a2xx comes with its own MMU */
+-	return priv->is_a2xx || device_iommu_mapped(dev->dev);
++	return priv->is_a2xx || iommu_present(&platform_bus_type);
+ }
+ 
+ static int msm_init_vram(struct drm_device *dev)
+-- 
+2.35.1
 
