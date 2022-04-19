@@ -1,41 +1,41 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 37D53506DC0
-	for <lists+dri-devel@lfdr.de>; Tue, 19 Apr 2022 15:41:38 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 23182506DC2
+	for <lists+dri-devel@lfdr.de>; Tue, 19 Apr 2022 15:41:46 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id D1F6910EFDC;
-	Tue, 19 Apr 2022 13:41:35 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 278D310EFF4;
+	Tue, 19 Apr 2022 13:41:42 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from ams.source.kernel.org (ams.source.kernel.org
- [IPv6:2604:1380:4601:e00::1])
- by gabe.freedesktop.org (Postfix) with ESMTPS id AB64310EFEA
- for <dri-devel@lists.freedesktop.org>; Tue, 19 Apr 2022 13:41:34 +0000 (UTC)
+Received: from dfw.source.kernel.org (dfw.source.kernel.org
+ [IPv6:2604:1380:4641:c500::1])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id E1E0A10EFEA
+ for <dri-devel@lists.freedesktop.org>; Tue, 19 Apr 2022 13:41:40 +0000 (UTC)
 Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
  (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
  (No client certificate requested)
- by ams.source.kernel.org (Postfix) with ESMTPS id 338E8B81980;
- Tue, 19 Apr 2022 13:41:33 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 7BB39C385A8;
- Tue, 19 Apr 2022 13:41:24 +0000 (UTC)
+ by dfw.source.kernel.org (Postfix) with ESMTPS id 6EC4D616D3;
+ Tue, 19 Apr 2022 13:41:40 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 85ADEC385B0;
+ Tue, 19 Apr 2022 13:41:32 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1650375692;
- bh=tnWw7oBH8X/XBSc06dB4T/Xrxth9FWCIgmXAbL0gUiI=;
+ s=k20201202; t=1650375699;
+ bh=UESTNhRpqCdmOp1XFvzi39fpM7sULzK7+yHauqukJgM=;
  h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
- b=l353b3xn7RP12XuOF9Cs9zO9tge/orX72WpKCH58E7muL7FyXckbWebpZVTgREpYO
- 94nj83AEJ8G4ma3/hGOjwiDA7u44mm32sOWTOmedTY1j9E754Khi/eBhNw7sZcR/fP
- sEELa4g6tqqCHlME51Brhwnr6YLWLyI8Af7wRGM8o8xD8amnnB09engI4zVkiclXXu
- mCNS0Sb+wp3+DZySStUMonTFolm2Ob9v/CLQNN4JWPX7Aweoh7N2XbyQM1ddcyBgBz
- 1g2qalhGNLlbW40TdlyWoLmDXnGz4w+LLuOQpSk9G4QwyJjZxE6HKbSgWD1lwNbvb3
- UwCXSJ2vUo86g==
+ b=qN9Y+eXIXoBe7y4TGwmSZZVExIPvDiGiWQet4fH81EnPncUzwHNWtwJGsY0JYakO5
+ ieE4QfHwXAynpvZYZ8I/rORqxFxxcrHC8uhh9dPC5cMy5EFTa1VMfxpra8+tJNdEGG
+ y/nxkofQTm0FspP0LVUYlssfbUKsMywSyPappcPTyOe/CcTltiL0WCa18tUiJ5htqe
+ P7yjD5xk7TGFmi/cCP8q3ujCRWlK/rt27yUduttq75nsmlB26koCVmVI39ToEeDgJ3
+ 4QYMXy9PKlQiS9e/fHPi6ZUa8bAMf16ReuxZRt8ni4Y+YGTV+WxebK/v6W2sjZcyA9
+ IDq9aNHMe6VJg==
 From: Arnd Bergmann <arnd@kernel.org>
 To: linux-omap@vger.kernel.org, tony@atomide.com, aaro.koskinen@iki.fi,
  jmkrzyszt@gmail.com
-Subject: [PATCH 31/41] ARM: OMAP1: clock: Fix early UART rate issues
-Date: Tue, 19 Apr 2022 15:37:13 +0200
-Message-Id: <20220419133723.1394715-32-arnd@kernel.org>
+Subject: [PATCH 32/41] ARM: OMAP1: clock: Fix UART rate reporting algorithm
+Date: Tue, 19 Apr 2022 15:37:14 +0200
+Message-Id: <20220419133723.1394715-33-arnd@kernel.org>
 X-Mailer: git-send-email 2.29.2
 In-Reply-To: <20220419133723.1394715-1-arnd@kernel.org>
 References: <20220419133723.1394715-1-arnd@kernel.org>
@@ -73,50 +73,29 @@ Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 From: Janusz Krzysztofik <jmkrzyszt@gmail.com>
 
-Commit ef772f2ee31e ("ARM: OMAP: Fix CONFIG_DEBUG_LL") was supposed to fix
-low level debugging, most possibly by early enabling UART clocks.  The fix
-actually introduced early reset of most bits of MOD_CONF_CTRL_0 register,
-with the exception of UART1 and UART2 clock related bits which were set
-high.  However, UART1 clock bit can play different roles on different
-OMAP1 variants.  On OMAP1610 it enables the clock as intended, but on
-OMAP1510 it switches the clock rate from 12 to 48 MHz.  Even worth, for
-UART2 the bit changes its clock rate also on OMAP1610.  As a result, UART
-rates set by a bootloader can be unintentionally changed early on kernel
-boot and low level debugging broken, not fixed.  Besides, reset of all
-other bits was not justified.
-
-Don't touch register bits not related to UART clocks.  Also, don't touch
-the bit of UART2 clock.  Make sure UART1 and UART3 are enabled early on
-relevant OMAP1610 machine types while preserving bootloader UART clock
-rates on others.
+Since its introduction to the mainline kernel, omap1_uart_recalc() helper
+makes incorrect use of clk->enable_bit as a ready to use bitmap mask while
+it only provides the bit number.  Fix it.
 
 Signed-off-by: Janusz Krzysztofik <jmkrzyszt@gmail.com>
 Signed-off-by: Arnd Bergmann <arnd@arndb.de>
 ---
- arch/arm/mach-omap1/clock_data.c | 10 +++++-----
- 1 file changed, 5 insertions(+), 5 deletions(-)
+ arch/arm/mach-omap1/clock.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/arch/arm/mach-omap1/clock_data.c b/arch/arm/mach-omap1/clock_data.c
-index 36f04da4b939..57d3752babf8 100644
---- a/arch/arm/mach-omap1/clock_data.c
-+++ b/arch/arm/mach-omap1/clock_data.c
-@@ -766,11 +766,11 @@ int __init omap1_clk_init(void)
- 	u32 reg;
+diff --git a/arch/arm/mach-omap1/clock.c b/arch/arm/mach-omap1/clock.c
+index 44877554eb41..42e094e781ce 100644
+--- a/arch/arm/mach-omap1/clock.c
++++ b/arch/arm/mach-omap1/clock.c
+@@ -41,7 +41,7 @@ static DEFINE_SPINLOCK(clockfw_lock);
+ unsigned long omap1_uart_recalc(struct clk *clk)
+ {
+ 	unsigned int val = __raw_readl(clk->enable_reg);
+-	return val & clk->enable_bit ? 48000000 : 12000000;
++	return val & 1 << clk->enable_bit ? 48000000 : 12000000;
+ }
  
- #ifdef CONFIG_DEBUG_LL
--	/*
--	 * Resets some clocks that may be left on from bootloader,
--	 * but leaves serial clocks on.
--	 */
--	omap_writel(0x3 << 29, MOD_CONF_CTRL_0);
-+	/* Make sure UART clocks are enabled early */
-+	if (cpu_is_omap16xx())
-+		omap_writel(omap_readl(MOD_CONF_CTRL_0) |
-+			    CONF_MOD_UART1_CLK_MODE_R |
-+			    CONF_MOD_UART3_CLK_MODE_R, MOD_CONF_CTRL_0);
- #endif
- 
- 	/* USB_REQ_EN will be disabled later if necessary (usb_dc_ck) */
+ unsigned long omap1_sossi_recalc(struct clk *clk)
 -- 
 2.29.2
 
