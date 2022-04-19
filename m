@@ -2,53 +2,53 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id ECCF8506BFE
-	for <lists+dri-devel@lfdr.de>; Tue, 19 Apr 2022 14:12:51 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 5EBA1506C01
+	for <lists+dri-devel@lfdr.de>; Tue, 19 Apr 2022 14:12:58 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id E20D610E2A0;
-	Tue, 19 Apr 2022 12:12:47 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id F009F10E156;
+	Tue, 19 Apr 2022 12:12:55 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-oa1-f54.google.com (mail-oa1-f54.google.com
- [209.85.160.54])
- by gabe.freedesktop.org (Postfix) with ESMTPS id DACCA10E2A0
- for <dri-devel@lists.freedesktop.org>; Tue, 19 Apr 2022 12:12:46 +0000 (UTC)
-Received: by mail-oa1-f54.google.com with SMTP id
- 586e51a60fabf-de3eda6b5dso17260622fac.0
- for <dri-devel@lists.freedesktop.org>; Tue, 19 Apr 2022 05:12:46 -0700 (PDT)
+Received: from mail-ot1-f43.google.com (mail-ot1-f43.google.com
+ [209.85.210.43])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 7535010E156
+ for <dri-devel@lists.freedesktop.org>; Tue, 19 Apr 2022 12:12:49 +0000 (UTC)
+Received: by mail-ot1-f43.google.com with SMTP id
+ t6-20020a056830224600b00605491a5cd7so4527154otd.13
+ for <dri-devel@lists.freedesktop.org>; Tue, 19 Apr 2022 05:12:49 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:from:to:cc:in-reply-to:references:subject:date
  :message-id;
- bh=0569YfmtjdqJ+2hyukw09AFuvfwmKEbwEGbKGweOpvI=;
- b=zM+rz10/Jy0DS1ljlAr744o14mg8Vzn0bGV3KbeBcGhFwScvES501tpdDfmj26CgvP
- smNWvnNWcyXozMvyRza1mT9cpK+Rb7O30q5ingzIfrXGSoOPrBhG2DdIGzqfVVAsoKxu
- 2FJa0EKUKajhd+xTvhsQGEwAnVFAf7A/s4CtObn0pfxYndCxsUrYbTgx2SAozOIBl83e
- kmGcrkw7k6hg8PQt+wEbufU0eL8fJ3E2c8UtYskzsX3khpqPsQAFlHxUQW8NZW8Pn/bn
- ecgGJOT5mUWSxyellIQZ6hOEm3DJWRePizy05wML1ceSBVBEjgPNTh66oeMa1IT/BnMg
- utZg==
-X-Gm-Message-State: AOAM5337B/eEa4w4FXtL2EYAqYNpc7tZXVQvq7HO0SfAXcfYpqehcBS9
- Gj65X8pmTg6MVPKBNLynYA==
-X-Google-Smtp-Source: ABdhPJx8LiBK0K4XkLwgCXtqriBYjWmQ7YGCbPJHV61zXAKBySQssJNDd/Khvosb+uQCNv6rnPT75g==
-X-Received: by 2002:a05:6870:9611:b0:df:200f:a6dd with SMTP id
- d17-20020a056870961100b000df200fa6ddmr6047417oaq.299.1650370366071; 
- Tue, 19 Apr 2022 05:12:46 -0700 (PDT)
+ bh=YeAeQ+jnrOWAEKYx6yVLIhj6nj1MTrMjb3kCp0yvejM=;
+ b=P8EbOednjbbQMOFk0xgQadRkLsn7BVrAu6mXvrnRnmqogwySVzs/kmRKPfRBflR28p
+ oSCT5V2S6PvRW1x3MQV4mqjXWKDVlgXQzMYIQB5I2VrrBGNjJEtgjWVNBaEveHmJny7G
+ f4BJ/VXeyojofB2DifoCu8Diwd+IJ/4255h/8o5sfXjqV6Sft9YONMGn0sMTXZhm51Z6
+ kT0Na1sZwFGzhqnBx5LuTzH1AqzGn4iUwDQAu8136p8XSk6k7T8D5XsQKlQLO3qmkINJ
+ dM/WWZ7HG4/RpT9ApVI6CQEl71iBLsnV56ptRHWLDiRjRdTbqBZa5OC+OBPr+duC8/OO
+ CkhA==
+X-Gm-Message-State: AOAM5323LCaE2W/h60tYcQyb3S7Pf9C6Nrig7hmLbF7PS0S/MMhupOhF
+ ioZD3Yfu6S781/f+vRPk+w==
+X-Google-Smtp-Source: ABdhPJwg4yHDT6X1rpfqMAom9LqkVyPVB09XL0HDMP6yioLKul+fCnEZLuA8Ej0AcX2iP5IaEGiPdQ==
+X-Received: by 2002:a9d:1928:0:b0:604:13d5:b114 with SMTP id
+ j40-20020a9d1928000000b0060413d5b114mr5557181ota.6.1650370368668; 
+ Tue, 19 Apr 2022 05:12:48 -0700 (PDT)
 Received: from robh.at.kernel.org (66-90-144-107.dyn.grandenetworks.net.
  [66.90.144.107]) by smtp.gmail.com with ESMTPSA id
- g25-20020a544f99000000b002da70c710b8sm5082428oiy.54.2022.04.19.05.12.45
+ x2-20020a4a2a42000000b0033a3c4392c3sm2302555oox.26.2022.04.19.05.12.47
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 19 Apr 2022 05:12:45 -0700 (PDT)
-Received: (nullmailer pid 1977866 invoked by uid 1000);
+ Tue, 19 Apr 2022 05:12:48 -0700 (PDT)
+Received: (nullmailer pid 1977870 invoked by uid 1000);
  Tue, 19 Apr 2022 12:12:43 -0000
 From: Rob Herring <robh@kernel.org>
-To: Rex-BC Chen <rex-bc.chen@mediatek.com>
-In-Reply-To: <20220419033237.23405-4-rex-bc.chen@mediatek.com>
-References: <20220419033237.23405-1-rex-bc.chen@mediatek.com>
- <20220419033237.23405-4-rex-bc.chen@mediatek.com>
-Subject: Re: [PATCH 3/5] dt-bindings: mediatek: add vdosys1 RDMA definition
- for mt8195
+To: Aradhya Bhatia <a-bhatia1@ti.com>
+In-Reply-To: <20220419070302.16502-2-a-bhatia1@ti.com>
+References: <20220419070302.16502-1-a-bhatia1@ti.com>
+ <20220419070302.16502-2-a-bhatia1@ti.com>
+Subject: Re: [PATCH 1/2] dt-bindings: display: ti,
+ am65x-dss: Add missing register & interrupt
 Date: Tue, 19 Apr 2022 07:12:43 -0500
-Message-Id: <1650370363.539386.1977865.nullmailer@robh.at.kernel.org>
+Message-Id: <1650370363.583109.1977869.nullmailer@robh.at.kernel.org>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -61,27 +61,26 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: devicetree@vger.kernel.org, chunkuang.hu@kernel.org, airlied@linux.ie,
- jason-jh.lin@mediatek.com, linux-kernel@vger.kernel.org,
- dri-devel@lists.freedesktop.org,
- Project_Global_Chrome_Upstream_Group@mediatek.com, robh+dt@kernel.org,
- nancy.lin@mediatek.com, linux-mediatek@lists.infradead.org,
- krzysztof.kozlowski+dt@linaro.org, matthias.bgg@gmail.com,
- linux-arm-kernel@lists.infradead.org, angelogioacchino.delregno@collabora.com
+Cc: Nishanth Menon <nm@ti.com>, Devicetree <devicetree@vger.kernel.org>,
+ Vignesh Raghavendra <vigneshr@ti.com>, Tomi Valkeinen <tomba@kernel.org>,
+ Linux Kernel <linux-kernel@vger.kernel.org>,
+ DRI Development <dri-devel@lists.freedesktop.org>,
+ Jyri Sarha <jyri.sarha@iki.fi>, Nikhil Devshatwar <nikhil.nd@ti.com>,
+ Linux ARM Kernel <linux-arm-kernel@lists.infradead.org>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Tue, 19 Apr 2022 11:32:35 +0800, Rex-BC Chen wrote:
-> From: "Nancy.Lin" <nancy.lin@mediatek.com>
+On Tue, 19 Apr 2022 12:33:01 +0530, Aradhya Bhatia wrote:
+> The DSS IP on the ti-am65x soc supports an additional register space,
+> named "common1". Further. the IP services a maximum number of 2
+> interrupts.
 > 
-> Add vdosys1 RDMA definition.
+> Add the missing register space "common1" and the additional interrupt.
 > 
-> Signed-off-by: Nancy.Lin <nancy.lin@mediatek.com>
-> Reviewed-by: AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>
+> Signed-off-by: Aradhya Bhatia <a-bhatia1@ti.com>
 > ---
->  .../display/mediatek/mediatek,mdp-rdma.yaml   | 86 +++++++++++++++++++
->  1 file changed, 86 insertions(+)
->  create mode 100644 Documentation/devicetree/bindings/display/mediatek/mediatek,mdp-rdma.yaml
+>  .../devicetree/bindings/display/ti/ti,am65x-dss.yaml   | 10 +++++++---
+>  1 file changed, 7 insertions(+), 3 deletions(-)
 > 
 
 My bot found errors running 'make DT_CHECKER_FLAGS=-m dt_binding_check'
@@ -90,13 +89,9 @@ on your patch (DT_CHECKER_FLAGS is new in v5.13):
 yamllint warnings/errors:
 
 dtschema/dtc warnings/errors:
-./Documentation/devicetree/bindings/display/mediatek/mediatek,mdp-rdma.yaml: $id: relative path/filename doesn't match actual path or filename
-	expected: http://devicetree.org/schemas/display/mediatek/mediatek,mdp-rdma.yaml#
-Documentation/devicetree/bindings/display/mediatek/mediatek,mdp-rdma.example.dts:27:18: fatal error: dt-bindings/memory/mt8195-memory-port.h: No such file or directory
-   27 |         #include <dt-bindings/memory/mt8195-memory-port.h>
-      |                  ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-compilation terminated.
-make[1]: *** [scripts/Makefile.lib:364: Documentation/devicetree/bindings/display/mediatek/mediatek,mdp-rdma.example.dtb] Error 1
+Error: Documentation/devicetree/bindings/display/ti/ti,am65x-dss.example.dts:30.17-18 syntax error
+FATAL ERROR: Unable to parse input tree
+make[1]: *** [scripts/Makefile.lib:364: Documentation/devicetree/bindings/display/ti/ti,am65x-dss.example.dtb] Error 1
 make[1]: *** Waiting for unfinished jobs....
 make: *** [Makefile:1401: dt_binding_check] Error 2
 
