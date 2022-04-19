@@ -1,59 +1,57 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id EB7335075B6
-	for <lists+dri-devel@lfdr.de>; Tue, 19 Apr 2022 19:01:04 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 17D5B507666
+	for <lists+dri-devel@lfdr.de>; Tue, 19 Apr 2022 19:21:04 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id EE19D10F043;
-	Tue, 19 Apr 2022 17:01:02 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id A885E10E2B1;
+	Tue, 19 Apr 2022 17:21:00 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-pj1-x1031.google.com (mail-pj1-x1031.google.com
- [IPv6:2607:f8b0:4864:20::1031])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 045E210F043
- for <dri-devel@lists.freedesktop.org>; Tue, 19 Apr 2022 17:01:02 +0000 (UTC)
-Received: by mail-pj1-x1031.google.com with SMTP id
- i24-20020a17090adc1800b001cd5529465aso2454832pjv.0
- for <dri-devel@lists.freedesktop.org>; Tue, 19 Apr 2022 10:01:01 -0700 (PDT)
+Received: from mail-pg1-x52e.google.com (mail-pg1-x52e.google.com
+ [IPv6:2607:f8b0:4864:20::52e])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 5E2AD10E2B1
+ for <dri-devel@lists.freedesktop.org>; Tue, 19 Apr 2022 17:20:59 +0000 (UTC)
+Received: by mail-pg1-x52e.google.com with SMTP id q19so24712317pgm.6
+ for <dri-devel@lists.freedesktop.org>; Tue, 19 Apr 2022 10:20:59 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc:content-transfer-encoding;
- bh=9jOurR+gBeTzso4yvaJAHtAS98sqnrl9e0cTwGxsGI0=;
- b=E5zCqZZl5R98J3+JPforMtTZJRUIte3wm1tfA/2uivf21uWK+9MWrmrODn7aQ0kLpi
- 6OdRo16lVgtm0pKfCt/vKx22BZgDhXwV4ARtMQRWqWIc62MXDTx6XJZc29PZYmb7fuV5
- fQFQdFTtSrmXUmWJyBmICA25mNPOsNQD5+15P2FZCbV74JUl/HCYebfkk0uUWIbSZpeN
- HZNP1oP6770RrKcEW1hioIPSFg4ldVg9/SOcTt6lkVaTjUENuH9lh6YXDanO9FNw3kNj
- 9GosekmXXKMnTw+URy39aEeXJ9VdZYY0UWf2cTgA6ipIRSEpjaj4krP4ohQ1PJcUEYf+
- yvVg==
+ :cc; bh=a+xGUYUShO/xhuZxiBUvJtrZcv8F78nOtSBH4jJeGyE=;
+ b=mnW/n3Hexi/ObHP4lg8cTz2JaM0/M1W/xjrvtyHofQcvmNsf/vFP+ZB2mJDEEZTgNT
+ 4d9EAnCCk8qhc+rQkVui+mi82mbrLbwU4xcgSuu0vERPvdz72cUmBHqsPUjz0JVfH8/s
+ vG4pyJ+W2p219F17NM5aXkhz5Vq8XTg9n1p8CExB8HfV2GdFkvrhAi7b285amdM7uiAk
+ WiD9UgH/LveP/N/HPNtN2domLnEc8S3uNCcK6UKnhlfvUV3WUslPBfZECy48U3q1P6ev
+ hJEc9yXZ6QrYMpoGzLjW6+8qvv+fFTjzJq/OROc3M3L8Y7lCEhTNv36bhKS09ByAPrOy
+ KrIw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc:content-transfer-encoding;
- bh=9jOurR+gBeTzso4yvaJAHtAS98sqnrl9e0cTwGxsGI0=;
- b=53UDVaJHGV1DnSybQ5YOK0JUxNNER67s+wwlait3IjziH2fcW+tW9MpM8De9KGeaFt
- O9KyZfdLzMJocfVgSLXqSts6VvBZvLJAs0FgAAXCFzReUo6fpYHf+k8g1CRSgxE9VbAT
- ZR0a1rMwtLc4kM1u9HNsHXFSd+64oB1CgsKL2LJFuObKiFm4W5kgXSbVluaZyjkm1ibl
- rVDo7rBu4SSnwUaVGTzCyCHNe9McFxDf+Mz2LsrROCCL97Cx4R2BPW3J9Mlj1la6nppf
- TKFDuZP+4AtvC1y2P9akMeSip68MfAIiYu+35cAt272Vbpka8nrNYSBwYERgLk1CQLs9
- geaQ==
-X-Gm-Message-State: AOAM533kJrvBhMWBt+iYeVG7tn/B0pkqR0HxADdakPnTj95ZCVOumexg
- xkWTQEYbTKqa/oHzefvVV0etrqmYXCrzsN/a4f4BEQ==
-X-Google-Smtp-Source: ABdhPJwm798+IVrQZxr/r+hyLACw0yUGxBuAo0d6wjGnSnNekXfq8Uj0LOHgkdJZ4cq0435fsCDFQ8o8c+sS+YW/ARM=
-X-Received: by 2002:a17:90b:3e84:b0:1d2:c015:2182 with SMTP id
- rj4-20020a17090b3e8400b001d2c0152182mr7222190pjb.232.1650387661577; Tue, 19
- Apr 2022 10:01:01 -0700 (PDT)
+ :message-id:subject:to:cc;
+ bh=a+xGUYUShO/xhuZxiBUvJtrZcv8F78nOtSBH4jJeGyE=;
+ b=u3xOfpmLjp5rSSOQf0YUXtTBhGp6V94uxY3BXM1vRrMNfbnH6r7H6WfUlZHLAPV2kE
+ 5e+pys1cup1Iqs48jVZn26O8shUn0A7V6MYtaSoCEaGrx5eItTZBWvBY6BLhBLdoKgvo
+ BefuSSuis+h3Nhxh0cuVmq3Zx1n82rdc4CkIEALtFSOQzmXhyvG9+o/NYfUC5bXo5sdN
+ kCuUtVBbJs3N9h2PcsKbUZXXfUrNwoabCtPKM/WH8y2WnFJ/B+MTa6Krvax3ohvTuOAd
+ 49C9qZBz76t8eTl37Gd/JnVAXMvGGE2/0gI382WffRhMUyOaNx2DT51zk4knC5uTNP8o
+ sRaw==
+X-Gm-Message-State: AOAM533lVPTrj/qt3EBkmsyhlev2j5REU7jWzWvJdLHj1I4uXsgWZvnE
+ Ps2mPXaO2lROTxi9hm0THcPSoedJH/PaC0I0i/K4BIXMHlA=
+X-Google-Smtp-Source: ABdhPJxMSv5wIWohPO0hFrRCJ/FbmXNtRS6yTiv2YhAkU8mcPDoOs+AlieexhMk+TupcYq0FrwPhK2yYFz7Q3v852io=
+X-Received: by 2002:a65:4b8f:0:b0:39c:c85d:7e7a with SMTP id
+ t15-20020a654b8f000000b0039cc85d7e7amr15617281pgq.324.1650388858912; Tue, 19
+ Apr 2022 10:20:58 -0700 (PDT)
 MIME-Version: 1.0
-References: <20220408013034.673418-1-nfraprado@collabora.com>
- <20848108-31bc-357c-224b-9cbdd465b195@collabora.com>
-In-Reply-To: <20848108-31bc-357c-224b-9cbdd465b195@collabora.com>
+References: <20220407185617.179573-1-marex@denx.de>
+ <20220407185617.179573-2-marex@denx.de>
+In-Reply-To: <20220407185617.179573-2-marex@denx.de>
 From: Robert Foss <robert.foss@linaro.org>
-Date: Tue, 19 Apr 2022 19:00:50 +0200
-Message-ID: <CAG3jFytRcM2bnKu0gLwZ9Wyn5eRvO16+OLJHt+a=pAAM9a=vww@mail.gmail.com>
-Subject: Re: [PATCH] drm/bridge: anx7625: Use uint8 for lane-swing arrays
-To: AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>
+Date: Tue, 19 Apr 2022 19:20:47 +0200
+Message-ID: <CAG3jFytsSTjOKoBC9rfymOr1GZ36MmSLLOcg4Nkxe338dRQF-Q@mail.gmail.com>
+Subject: Re: [PATCH 2/2] drm: bridge: icn6211: Add DSI lane count DT property
+ parsing
+To: Marek Vasut <marex@denx.de>
 Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -66,38 +64,76 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Andrzej Hajda <andrzej.hajda@intel.com>,
- =?UTF-8?B?TsOtY29sYXMgRi4gUi4gQS4gUHJhZG8=?= <nfraprado@collabora.com>,
- Neil Armstrong <narmstrong@baylibre.com>, David Airlie <airlied@linux.ie>,
- dri-devel@lists.freedesktop.org, Jonas Karlman <jonas@kwiboo.se>,
- linux-kernel@vger.kernel.org, Jernej Skrabec <jernej.skrabec@gmail.com>,
- Tzung-Bi Shih <tzungbi@google.com>, Pi-Hsun Shih <pihsun@chromium.org>,
- Laurent Pinchart <Laurent.pinchart@ideasonboard.com>,
- Hsin-Yi Wang <hsinyi@chromium.org>, kernel@collabora.com,
- Sam Ravnborg <sam@ravnborg.org>, Xin Ji <xji@analogixsemi.com>,
- Maxime Ripard <maxime@cerno.tech>
+Cc: Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
+ dri-devel@lists.freedesktop.org, Maxime Ripard <maxime@cerno.tech>,
+ Thomas Zimmermann <tzimmermann@suse.de>, Sam Ravnborg <sam@ravnborg.org>,
+ Jagan Teki <jagan@amarulasolutions.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Fri, 8 Apr 2022 at 10:21, AngeloGioacchino Del Regno
-<angelogioacchino.delregno@collabora.com> wrote:
+On Thu, 7 Apr 2022 at 20:56, Marek Vasut <marex@denx.de> wrote:
 >
-> Il 08/04/22 03:30, N=C3=ADcolas F. R. A. Prado ha scritto:
-> > As defined in the anx7625 dt-binding, the analogix,lane0-swing and
-> > analogix,lane1-swing properties are uint8 arrays. Yet, the driver was
-> > reading the array as if it were of uint32 and masking to 8-bit before
-> > writing to the registers. This means that a devicetree written in
-> > accordance to the dt-binding would have its values incorrectly parsed.
-> >
-> > Fix the issue by reading the array as uint8 and storing them as uint8
-> > internally, so that we can also drop the masking when writing the
-> > registers.
-> >
-> > Fixes: fd0310b6fe7d ("drm/bridge: anx7625: add MIPI DPI input feature")
-> > Signed-off-by: N=C3=ADcolas F. R. A. Prado <nfraprado@collabora.com>
-> >
+> The driver currently hard-codes DSI lane count to two, however the chip
+> is capable of operating in 1..4 DSI lanes mode. Parse 'data-lanes' DT
+> property and program the result into DSI_CTRL register.
 >
-> Reviewed-by: AngeloGioacchino Del Regno <angelogioacchino.delregno@collab=
-ora.com>
+> Signed-off-by: Marek Vasut <marex@denx.de>
+> Cc: Jagan Teki <jagan@amarulasolutions.com>
+> Cc: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+> Cc: Maxime Ripard <maxime@cerno.tech>
+> Cc: Robert Foss <robert.foss@linaro.org>
+> Cc: Sam Ravnborg <sam@ravnborg.org>
+> Cc: Thomas Zimmermann <tzimmermann@suse.de>
+> To: dri-devel@lists.freedesktop.org
+> ---
+>  drivers/gpu/drm/bridge/chipone-icn6211.c | 23 +++++++++++++++++++++--
+>  1 file changed, 21 insertions(+), 2 deletions(-)
+>
+> diff --git a/drivers/gpu/drm/bridge/chipone-icn6211.c b/drivers/gpu/drm/bridge/chipone-icn6211.c
+> index 6ce0633d4c089..e2b599a44275c 100644
+> --- a/drivers/gpu/drm/bridge/chipone-icn6211.c
+> +++ b/drivers/gpu/drm/bridge/chipone-icn6211.c
+> @@ -395,6 +395,11 @@ static void chipone_atomic_enable(struct drm_bridge *bridge,
+>         /* dsi specific sequence */
+>         chipone_writeb(icn, SYNC_EVENT_DLY, 0x80);
+>         chipone_writeb(icn, HFP_MIN, hfp & 0xff);
+> +
+> +       /* DSI data lane count */
+> +       chipone_writeb(icn, DSI_CTRL,
+> +                   DSI_CTRL_UNKNOWN | DSI_CTRL_DSI_LANES(icn->dsi->lanes - 1));
+> +
+>         chipone_writeb(icn, MIPI_PD_CK_LANE, 0xa0);
+>         chipone_writeb(icn, PLL_CTRL(12), 0xff);
+>         chipone_writeb(icn, MIPI_PN_SWAP, 0x00);
+> @@ -480,9 +485,23 @@ static void chipone_mode_set(struct drm_bridge *bridge,
+>  static int chipone_dsi_attach(struct chipone *icn)
+>  {
+>         struct mipi_dsi_device *dsi = icn->dsi;
+> -       int ret;
+> +       struct device *dev = icn->dev;
+> +       struct device_node *endpoint;
+> +       int dsi_lanes, ret;
+> +
+> +       endpoint = of_graph_get_endpoint_by_regs(dev->of_node, 0, 0);
+> +       dsi_lanes = of_property_count_u32_elems(endpoint, "data-lanes");
+> +       of_node_put(endpoint);
+> +
+> +       /*
+> +        * If the 'data-lanes' property does not exist in DT or is invalid,
+> +        * default to previously hard-coded behavior, which was 4 data lanes.
+> +        */
+> +       if (dsi_lanes >= 1 && dsi_lanes <= 4)
+> +               icn->dsi->lanes = dsi_lanes;
+> +       else
+> +               icn->dsi->lanes = 4;
+>
+> -       dsi->lanes = 4;
+>         dsi->format = MIPI_DSI_FMT_RGB888;
+>         dsi->mode_flags = MIPI_DSI_MODE_VIDEO | MIPI_DSI_MODE_VIDEO_BURST |
+>                           MIPI_DSI_MODE_LPM | MIPI_DSI_MODE_NO_EOT_PACKET;
 
-Applied to drm-misc-next
+Reviewed-by: Robert Foss <robert.foss@linaro.org>
+
+Fixed checkpatch --strict format warning & applied to drm-misc-next.
+
+Rob.
