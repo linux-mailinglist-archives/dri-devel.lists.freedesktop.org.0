@@ -1,55 +1,43 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 652A4506D79
-	for <lists+dri-devel@lfdr.de>; Tue, 19 Apr 2022 15:30:29 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 7AAE3506D9E
+	for <lists+dri-devel@lfdr.de>; Tue, 19 Apr 2022 15:37:50 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id D4D1810EFC6;
-	Tue, 19 Apr 2022 13:30:26 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id CD91C10EEB5;
+	Tue, 19 Apr 2022 13:37:45 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-oi1-f181.google.com (mail-oi1-f181.google.com
- [209.85.167.181])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 518EB10EFC6
- for <dri-devel@lists.freedesktop.org>; Tue, 19 Apr 2022 13:30:26 +0000 (UTC)
-Received: by mail-oi1-f181.google.com with SMTP id z2so13696602oic.6
- for <dri-devel@lists.freedesktop.org>; Tue, 19 Apr 2022 06:30:26 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=x-gm-message-state:date:from:to:cc:subject:message-id:references
- :mime-version:content-disposition:in-reply-to;
- bh=dC+9aknP1RLhEpg+1+Hw55vZvp/iuvE//q1Eib/rSk8=;
- b=KsB9z2Im78mHfdeEsHZyX+T+aONUJbYvGe+OwLqia52aQz/lAiz69vRhaQSASl83qv
- t1zxXuNdvyDMzc7GCt2056dEv0xk2a0zdDWJE1UTmrja/xg8LGXBTwqfpPrHeVqf8sz4
- PYkxpG65wy4Wg7awknXgBnVnSNFopAy9W/9ZbLFnNvHkBktoH/d6bbxB0Q52zp3rA9Ny
- mn13CtsuS+Ufysk3R07dxCdomkA6pw0dGmZemwbYcK11pNukclws4ZCxXMU4X9muxNeO
- e9dx3w/TLdip3WyofYDQFdkRWIUDNFC9BOnHC4leaZFxi7DJouuyBwUU43DOMo/Y7AQN
- gzVg==
-X-Gm-Message-State: AOAM531GO0UiqhhskKHzsGW5DXw88w6flJeTLYdEMVm/wmk/j8RY1Qtk
- MO0grdlkmUhYIBBFiKHUzQ==
-X-Google-Smtp-Source: ABdhPJz3NesdMOUrwAzr/eSC8Mx3RfAIAeIJyoJkAIHJpN1mFId4zSJtG69YtVQ1IuW9xS8FsHja1w==
-X-Received: by 2002:aca:1903:0:b0:322:68f1:79ca with SMTP id
- l3-20020aca1903000000b0032268f179camr6634474oii.189.1650375025388; 
- Tue, 19 Apr 2022 06:30:25 -0700 (PDT)
-Received: from robh.at.kernel.org (66-90-144-107.dyn.grandenetworks.net.
- [66.90.144.107]) by smtp.gmail.com with ESMTPSA id
- k8-20020a544688000000b002f90678740esm5102226oic.37.2022.04.19.06.30.24
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 19 Apr 2022 06:30:24 -0700 (PDT)
-Received: (nullmailer pid 2377875 invoked by uid 1000);
- Tue, 19 Apr 2022 13:30:23 -0000
-Date: Tue, 19 Apr 2022 08:30:23 -0500
-From: Rob Herring <robh@kernel.org>
-To: Thomas Zimmermann <tzimmermann@suse.de>
-Subject: Re: [PATCH v2 1/2] of: Create platform devices for OF framebuffers
-Message-ID: <Yl65by+ZjQdK8nIv@robh.at.kernel.org>
-References: <20220419100405.12600-1-tzimmermann@suse.de>
- <20220419100405.12600-2-tzimmermann@suse.de>
+Received: from ams.source.kernel.org (ams.source.kernel.org [145.40.68.75])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 700CD10EEB5
+ for <dri-devel@lists.freedesktop.org>; Tue, 19 Apr 2022 13:37:43 +0000 (UTC)
+Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
+ (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+ (No client certificate requested)
+ by ams.source.kernel.org (Postfix) with ESMTPS id 42B9BB81974;
+ Tue, 19 Apr 2022 13:37:41 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id BDFE9C385A7;
+ Tue, 19 Apr 2022 13:37:32 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+ s=k20201202; t=1650375459;
+ bh=8bW4Iiv+C0bRm2uxN+Ia7IY7tO4k+NC8BqozWsn2sFc=;
+ h=From:To:Cc:Subject:Date:From;
+ b=CidbhGJ1xKgASKGTmSslNTEI8J4ayXlBA8hkYmgMUSfxaZ12i9Ewu8aQkN+yHJ0DI
+ 4dw7qqWO9j1+2Hu4yInmI43rE2Bb9uRiPYXR5gyb0VouN0pllnbsaABlKiwHFQfJzQ
+ H0TgAvXRr42i27Ifje8SZg6Q0O1pJOgLNQ4bHgv4TVnfehJ0uOeWH2yMp8aRMzPg89
+ plLu+JIfLHyeg3Z9I0Z3styJCRVdQ43KXB5sDL4pCWafkUx+D7nHB6rVRAoyxuN2lG
+ OoSZZE6mcRicxtCBmBrVtpPHSWCpN88GwNtOw7iQTwfS7vvMDx5x8hoeGcFcn6uMcL
+ lzEz0oyBfpTfg==
+From: Arnd Bergmann <arnd@kernel.org>
+To: linux-omap@vger.kernel.org, tony@atomide.com, aaro.koskinen@iki.fi,
+ jmkrzyszt@gmail.com
+Subject: [PATCH 00/41] OMAP1 full multiplatform conversion
+Date: Tue, 19 Apr 2022 15:36:42 +0200
+Message-Id: <20220419133723.1394715-1-arnd@kernel.org>
+X-Mailer: git-send-email 2.29.2
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20220419100405.12600-2-tzimmermann@suse.de>
+Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -62,174 +50,272 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: devicetree@vger.kernel.org, linux-fbdev@vger.kernel.org,
- frowand.list@gmail.com, deller@gmx.de, linuxppc-dev@lists.ozlabs.org,
- javierm@redhat.com, dri-devel@lists.freedesktop.org, paulus@samba.org,
- mpe@ellerman.id.au, sam@ravnborg.org, linux@roeck-us.net
+Cc: Ulf Hansson <ulf.hansson@linaro.org>,
+ Dmitry Torokhov <dmitry.torokhov@gmail.com>, linux-fbdev@vger.kernel.org,
+ Dominik Brodowski <linux@dominikbrodowski.net>,
+ Lee Jones <lee.jones@linaro.org>, Daniel Thompson <daniel.thompson@linaro.org>,
+ Kevin Hilman <khilman@kernel.org>, Peter Ujfalusi <peter.ujfalusi@gmail.com>,
+ Helge Deller <deller@gmx.de>, Russell King <linux@armlinux.org.uk>,
+ Krzysztof Kozlowski <krzk@kernel.org>, Alan Stern <stern@rowland.harvard.edu>,
+ linux-serial@vger.kernel.org, linux-input@vger.kernel.org,
+ Arnd Bergmann <arnd@arndb.de>, Mark Brown <broonie@kernel.org>,
+ dri-devel@lists.freedesktop.org, linux-arm-kernel@lists.infradead.org,
+ Felipe Balbi <balbi@kernel.org>, Paul Walmsley <paul@pwsan.com>,
+ Jingoo Han <jingoohan1@gmail.com>, linux-usb@vger.kernel.org,
+ linux-mmc@vger.kernel.org, linux-kernel@vger.kernel.org,
+ Vinod Koul <vkoul@kernel.org>, dmaengine@vger.kernel.org,
+ alsa-devel@alsa-project.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Tue, Apr 19, 2022 at 12:04:04PM +0200, Thomas Zimmermann wrote:
-> Create a platform device for each OF-declared framebuffer and have
-> offb bind to these devices. Allows for real hot-unplugging and other
-> drivers besides offb.
-> 
-> Originally, offb created framebuffer devices while initializing its
-> module by parsing the OF device tree. No actual Linux device was set
-> up. This tied OF framebuffers to offb and makes writing other drivers
-> for the OF framebuffers complicated. The absence of a Linux device
-> further prevented real hot-unplugging. Adding a distinct platform
-> device for each OF framebuffer solves both problems. Specifically, a
-> DRM driver can now provide graphics output for modern userspace.
-> 
-> Some of the offb init code is now located in the OF initialization.
-> There's now also an implementation of of_platform_default_populate_init(),
-> which was missing before. The OF side creates different devices for
-> either OF display nodes or BootX displays as they require different
-> handling by the driver. The offb drivers picks up each type of device
-> and runs the appropriate fbdev initialization.
-> 
-> Tested with OF display nodes on qemu's ppc64le target.
-> 
-> v2:
-> 	* run PPC code as part of existing initialization (Rob)
-> 	* add a few more error warnings (Javier)
-> 
-> Signed-off-by: Thomas Zimmermann <tzimmermann@suse.de>
-> Reviewed-by: Javier Martinez Canillas <javierm@redhat.com>
-> ---
->  drivers/of/platform.c      | 88 ++++++++++++++++++++++++++--------
->  drivers/video/fbdev/offb.c | 98 +++++++++++++++++++++++++-------------
->  2 files changed, 132 insertions(+), 54 deletions(-)
-> 
-> diff --git a/drivers/of/platform.c b/drivers/of/platform.c
-> index a16b74f32aa9..738ba2e2838c 100644
-> --- a/drivers/of/platform.c
-> +++ b/drivers/of/platform.c
-> @@ -507,7 +507,6 @@ int of_platform_default_populate(struct device_node *root,
->  }
->  EXPORT_SYMBOL_GPL(of_platform_default_populate);
->  
-> -#ifndef CONFIG_PPC
->  static const struct of_device_id reserved_mem_matches[] = {
->  	{ .compatible = "qcom,rmtfs-mem" },
->  	{ .compatible = "qcom,cmd-db" },
-> @@ -520,33 +519,81 @@ static const struct of_device_id reserved_mem_matches[] = {
->  
->  static int __init of_platform_default_populate_init(void)
->  {
-> -	struct device_node *node;
-> -
+From: Arnd Bergmann <arnd@arndb.de>
 
-As both if/else clauses need 'node', I'd keep this declared here.
+This is the full series for converting OMAP1 to multiplatform, rebased
+from my 2019 attempt to do the same thing. The soc tree contains simpler
+patches to do the same for iop32x, ixp4xx, ep93xx and s3c24xx, which
+means we are getting closer to completing this for all ARMv5 platforms
+(I have patches for PXA, which is the last one remaining).
 
->  	device_links_supplier_sync_state_pause();
->  
->  	if (!of_have_populated_dt())
->  		return -ENODEV;
->  
-> -	/*
-> -	 * Handle certain compatibles explicitly, since we don't want to create
-> -	 * platform_devices for every node in /reserved-memory with a
-> -	 * "compatible",
-> -	 */
-> -	for_each_matching_node(node, reserved_mem_matches)
-> -		of_platform_device_create(node, NULL, NULL);
-> +	if (IS_ENABLED(CONFIG_PPC)) {
-> +		struct device_node *boot_display = NULL;
-> +		struct device_node *node;
-> +		struct platform_device *dev;
-> +		int ret;
-> +
-> +		/* Check if we have a MacOS display without a node spec */
-> +		if (of_get_property(of_chosen, "linux,bootx-noscreen", NULL)) {
-> +			/*
-> +			 * The old code tried to work out which node was the MacOS
-> +			 * display based on the address. I'm dropping that since the
-> +			 * lack of a node spec only happens with old BootX versions
-> +			 * (users can update) and with this code, they'll still get
-> +			 * a display (just not the palette hacks).
-> +			 */
-> +			dev = platform_device_alloc("bootx-noscreen", 0);
-> +			if (WARN_ON(!dev))
-> +				return -ENOMEM;
-> +			ret = platform_device_add(dev);
-> +			if (WARN_ON(ret)) {
-> +				platform_device_put(dev);
-> +				return ret;
-> +			}
-> +		}
->  
-> -	node = of_find_node_by_path("/firmware");
-> -	if (node) {
-> -		of_platform_populate(node, NULL, NULL, NULL);
-> -		of_node_put(node);
-> -	}
-> +		/*
-> +		 * For OF framebuffers, first create the device for the boot display,
-> +		 * then for the other framebuffers. Only fail for the boot display;
-> +		 * ignore errors for the rest.
-> +		 */
-> +		for_each_node_by_type(node, "display") {
-> +			if (!of_get_property(node, "linux,opened", NULL) ||
-> +			    !of_get_property(node, "linux,boot-display", NULL))
-> +				continue;
-> +			dev = of_platform_device_create(node, "of-display", NULL);
-> +			if (WARN_ON(!dev))
-> +				return -ENOMEM;
-> +			boot_display = node;
-> +			break;
-> +		}
-> +		for_each_node_by_type(node, "display") {
-> +			if (!of_get_property(node, "linux,opened", NULL) || node == boot_display)
-> +				continue;
-> +			of_platform_device_create(node, "of-display", NULL);
-> +		}
->  
-> -	node = of_get_compatible_child(of_chosen, "simple-framebuffer");
-> -	of_platform_device_create(node, NULL, NULL);
-> -	of_node_put(node);
-> +	} else {
-> +		struct device_node *node;
-> +
-> +		/*
-> +		 * Handle certain compatibles explicitly, since we don't want to create
-> +		 * platform_devices for every node in /reserved-memory with a
-> +		 * "compatible",
-> +		 */
-> +		for_each_matching_node(node, reserved_mem_matches)
-> +			of_platform_device_create(node, NULL, NULL);
->  
-> -	/* Populate everything else. */
-> -	of_platform_default_populate(NULL, NULL, NULL);
-> +		node = of_find_node_by_path("/firmware");
-> +		if (node) {
-> +			of_platform_populate(node, NULL, NULL, NULL);
-> +			of_node_put(node);
-> +		}
-> +
-> +		node = of_get_compatible_child(of_chosen, "simple-framebuffer");
-> +		of_platform_device_create(node, NULL, NULL);
-> +		of_node_put(node);
+Janusz already tested the branch separately and did the missing work
+for the common-clk conversion after my previous approach was broken.
 
-In v1, you supported "simple-framebuffer" on PPC. Don't we want to allow 
-that? Maybe no one cares ATM, but that could change. Either way:
+The fbdev, mmc and ASoC portion of Janusz' work already went into the
+corresponding maintainer tree, but I include them here for reference.
+Unless there are any objections, I would add the entire series to the
+for-next branch of the soc tree, but only send the first 36 patches early
+in the merge window. After everything else has made it in, I would rebase
+the last two patches and send them separately, which may or may not make
+it in the merge window.
 
-Reviewed-by: Rob Herring <robh@kernel.org>
+     Arnd
 
+Arnd Bergmann (30):
+  video: fbdev: omapfb: lcd_ams_delta: fix unused variable warning
+  ARM: omap1: innovator: pass lcd control address as pdata
+  ARM: omap1: move lcd_dma code into omapfb driver
+  ARM: omap1: declare a dummy omap_set_dma_priority
+  fbdev: omap: pass irqs as resource
+  ARM: omap1: ams-delta: remove camera leftovers
+  ARM: omap1: move mach/usb.h to include/linux/soc
+  ARM: omap1: move some headers to include/linux/soc
+  ARM: omap1: move perseus spi pinconf to board file
+  ARM: omap1: move CF chipselect setup to board file
+  fbdev: omap: avoid using mach/*.h files
+  usb: omap: avoid mach/*.h headers
+  clocksource: ti-dmtimer: avoid using mach/hardware.h
+  serial: 8250/omap1: include linux/soc/ti/omap1-soc.h
+  input: omap: void using mach/*.h headers
+  ARM: omap1: innovator: move ohci phy power handling to board file
+  ARM: omap1: move 32k counter from plat-omap to mach-omap1
+  ARM: omap: remove debug-leds driver
+  ARM: omap: dma: make usb support optional
+  dma: omap: hide legacy interface
+  ARM: omap1: dma: remove omap2 specific bits
+  ARM: omap1: move plat/dma.c to mach/omap-dma.c
+  ARM: omap: split up arch/arm/plat-omap/Kconfig
+  ARM: omap: un-merge plat/sram.c
+  ARM: omap: remove empty plat-omap directory
+  ARM: omap1: relocate static I/O mapping
+  ARM: omap1: use pci_remap_iospace() for omap_cf
+  ARM: omap1: move mach/*.h into mach directory
+  ARM: omap1: fix build with no SoC selected
+  [TO BE REBASED] ARM: omap1: enable multiplatform
 
-> +
-> +		/* Populate everything else. */
-> +		of_platform_default_populate(NULL, NULL, NULL);
-> +	}
->  
->  	return 0;
->  }
-> @@ -558,7 +605,6 @@ static int __init of_platform_sync_state_init(void)
->  	return 0;
->  }
->  late_initcall_sync(of_platform_sync_state_init);
-> -#endif
->  
->  int of_platform_device_destroy(struct device *dev, void *data)
->  {
+Janusz Krzysztofik (11):
+  ARM: OMAP1: Prepare for conversion of OMAP1 clocks to CCF
+  ARM: OMAP1: clock: Fix early UART rate issues
+  ARM: OMAP1: clock: Fix UART rate reporting algorithm
+  ARM: OMAP1: clock: Remove unused code
+  ARM: OMAP1: clock: Remove noop code
+  usb: host: ohci-omap: Make it CCF clk API compatible
+  usb: gadget: omap_udc: Make it CCF clk API compatible
+  [MERGED] video: fbdev: omap: Make it CCF clk API compatible
+  [MERGED] mmc: omap: Make it CCF clk API compatible
+  [MERGED] ASoC: ti: osk5912: Make it CCF clk API compatible
+  [TO BE REBASED] ARM: OMAP1: clock: Convert to CCF
+
+ arch/arm/Kconfig                              |  16 -
+ arch/arm/Kconfig.debug                        |   6 +-
+ arch/arm/Makefile                             |   1 -
+ arch/arm/configs/omap1_defconfig              |   3 +
+ arch/arm/mach-omap1/Kconfig                   |  72 ++
+ arch/arm/mach-omap1/Makefile                  |   6 +-
+ arch/arm/mach-omap1/ams-delta-fiq-handler.S   |   3 +-
+ arch/arm/mach-omap1/ams-delta-fiq.c           |   2 +
+ arch/arm/mach-omap1/ams-delta-fiq.h           |   2 +-
+ arch/arm/mach-omap1/board-ams-delta.c         |  18 +-
+ arch/arm/mach-omap1/board-fsample.c           |  10 +-
+ arch/arm/mach-omap1/board-generic.c           |   8 +-
+ arch/arm/mach-omap1/board-h2.c                |  14 +-
+ arch/arm/mach-omap1/board-h3.c                |  16 +-
+ arch/arm/mach-omap1/board-htcherald.c         |  10 +-
+ arch/arm/mach-omap1/board-innovator.c         |  34 +-
+ arch/arm/mach-omap1/board-nokia770.c          |   8 +-
+ arch/arm/mach-omap1/board-osk.c               |  49 +-
+ arch/arm/mach-omap1/board-palmte.c            |  14 +-
+ arch/arm/mach-omap1/board-palmtt.c            |  14 +-
+ arch/arm/mach-omap1/board-palmz71.c           |  14 +-
+ arch/arm/mach-omap1/board-perseus2.c          |  15 +-
+ arch/arm/mach-omap1/board-sx1-mmc.c           |   3 +-
+ arch/arm/mach-omap1/board-sx1.c               |  12 +-
+ arch/arm/mach-omap1/clock.c                   | 797 +++++++-----------
+ arch/arm/mach-omap1/clock.h                   | 191 ++---
+ arch/arm/mach-omap1/clock_data.c              | 508 +++++------
+ arch/arm/mach-omap1/common.h                  |   3 +-
+ arch/arm/mach-omap1/devices.c                 |  12 +-
+ arch/arm/mach-omap1/dma.c                     |   2 +-
+ arch/arm/mach-omap1/fb.c                      |  19 +-
+ arch/arm/mach-omap1/flash.c                   |   5 +-
+ arch/arm/mach-omap1/fpga.c                    |   3 +-
+ arch/arm/mach-omap1/gpio15xx.c                |   3 +-
+ arch/arm/mach-omap1/gpio16xx.c                |   5 +-
+ arch/arm/mach-omap1/gpio7xx.c                 |   3 +-
+ .../mach-omap1/{include/mach => }/hardware.h  | 136 +--
+ arch/arm/mach-omap1/i2c.c                     |   3 +-
+ arch/arm/mach-omap1/id.c                      |   5 +-
+ arch/arm/mach-omap1/include/mach/io.h         |  45 -
+ arch/arm/mach-omap1/include/mach/lcdc.h       |  44 -
+ arch/arm/mach-omap1/include/mach/memory.h     |  12 -
+ arch/arm/mach-omap1/include/mach/uncompress.h | 117 ---
+ arch/arm/mach-omap1/io.c                      |  12 +-
+ arch/arm/mach-omap1/irq.c                     |   4 +-
+ arch/arm/mach-omap1/{include/mach => }/irqs.h |   2 -
+ arch/arm/mach-omap1/mcbsp.c                   |  17 +-
+ .../mach-omap1/{include/mach => }/mtd-xip.h   |   3 +-
+ arch/arm/mach-omap1/mux.c                     |   6 +-
+ arch/arm/mach-omap1/mux.h                     | 144 ++++
+ arch/arm/mach-omap1/ocpi.c                    |   8 +-
+ .../dma.c => mach-omap1/omap-dma.c}           | 259 ++----
+ .../mach-omap1/{include/mach => }/omap1510.h  |   0
+ .../mach-omap1/{include/mach => }/omap16xx.h  |   0
+ .../mach-omap1/{include/mach => }/omap7xx.h   |   0
+ arch/arm/mach-omap1/pm.c                      |   9 +-
+ arch/arm/mach-omap1/pm.h                      |   2 +
+ arch/arm/mach-omap1/reset.c                   |   3 +-
+ arch/arm/mach-omap1/serial.c                  |  10 +-
+ .../mach-omap1/{include/mach => }/serial.h    |   0
+ arch/arm/mach-omap1/sleep.S                   |   2 +-
+ arch/arm/mach-omap1/soc.h                     |   6 +-
+ arch/arm/mach-omap1/sram-init.c               |  91 +-
+ arch/arm/mach-omap1/sram.S                    |   4 +-
+ arch/arm/mach-omap1/sram.h                    |   4 +-
+ arch/arm/mach-omap1/{include/mach => }/tc.h   |   2 -
+ arch/arm/mach-omap1/time.c                    |   7 +-
+ arch/arm/mach-omap1/timer.c                   |   1 +
+ arch/arm/mach-omap1/timer32k.c                | 100 ++-
+ arch/arm/mach-omap1/usb.c                     |   8 +-
+ arch/arm/mach-omap1/usb.h                     |  25 +
+ arch/arm/mach-omap2/Kconfig                   |  49 ++
+ arch/arm/mach-omap2/sram.c                    |  91 +-
+ arch/arm/mach-omap2/sram.h                    |   5 +-
+ arch/arm/plat-omap/Kconfig                    | 119 ---
+ arch/arm/plat-omap/Makefile                   |  13 -
+ arch/arm/plat-omap/counter_32k.c              | 114 ---
+ arch/arm/plat-omap/debug-leds.c               | 171 ----
+ arch/arm/plat-omap/include/plat/counter-32k.h |   1 -
+ arch/arm/plat-omap/include/plat/cpu.h         |  21 -
+ arch/arm/plat-omap/include/plat/sram.h        |   8 -
+ arch/arm/plat-omap/sram.c                     | 129 ---
+ drivers/clocksource/timer-ti-dm.c             |   2 +-
+ drivers/dma/ti/omap-dma.c                     |  19 +-
+ drivers/input/keyboard/omap-keypad.c          |   1 +
+ drivers/mmc/host/omap.c                       |  23 +-
+ drivers/pcmcia/Kconfig                        |   3 +-
+ drivers/pcmcia/omap_cf.c                      |  48 +-
+ drivers/spi/Kconfig                           |   2 +-
+ drivers/spi/spi-omap-uwire.c                  |  15 +-
+ drivers/tty/serial/8250/8250.h                |   1 +
+ drivers/usb/gadget/udc/omap_udc.c             |  19 +-
+ drivers/usb/host/Kconfig                      |   2 +-
+ drivers/usb/host/ohci-omap.c                  |  60 +-
+ drivers/usb/phy/Kconfig                       |   3 +-
+ drivers/usb/phy/phy-isp1301-omap.c            |   6 +-
+ drivers/video/backlight/Kconfig               |   4 +-
+ drivers/video/backlight/omap1_bl.c            |   4 +-
+ drivers/video/fbdev/Makefile                  |   2 +-
+ drivers/video/fbdev/omap/Kconfig              |   4 +-
+ drivers/video/fbdev/omap/Makefile             |   5 +
+ drivers/video/fbdev/omap/hwa742.c             |   6 +-
+ drivers/video/fbdev/omap/lcd_ams_delta.c      |   5 +-
+ .../video/fbdev/omap}/lcd_dma.c               |   7 +-
+ .../video/fbdev/omap}/lcd_dma.h               |   2 -
+ drivers/video/fbdev/omap/lcd_inn1510.c        |   9 +-
+ drivers/video/fbdev/omap/lcd_osk.c            |   4 +-
+ drivers/video/fbdev/omap/lcdc.c               |  16 +-
+ drivers/video/fbdev/omap/lcdc.h               |  35 +
+ drivers/video/fbdev/omap/omapfb.h             |   2 +
+ drivers/video/fbdev/omap/omapfb_main.c        |  19 +-
+ drivers/video/fbdev/omap/sossi.c              |   9 +-
+ include/linux/omap-dma.h                      |  28 +-
+ include/linux/platform_data/usb-omap1.h       |   2 +
+ include/linux/soc/ti/omap1-io.h               | 143 ++++
+ .../mux.h => include/linux/soc/ti/omap1-mux.h | 142 +---
+ .../soc.h => include/linux/soc/ti/omap1-soc.h |  22 -
+ .../usb.h => include/linux/soc/ti/omap1-usb.h |  28 +-
+ sound/soc/ti/osk5912.c                        |   4 +-
+ 119 files changed, 1809 insertions(+), 2610 deletions(-)
+ rename arch/arm/mach-omap1/{include/mach => }/hardware.h (59%)
+ delete mode 100644 arch/arm/mach-omap1/include/mach/io.h
+ delete mode 100644 arch/arm/mach-omap1/include/mach/lcdc.h
+ delete mode 100644 arch/arm/mach-omap1/include/mach/memory.h
+ delete mode 100644 arch/arm/mach-omap1/include/mach/uncompress.h
+ rename arch/arm/mach-omap1/{include/mach => }/irqs.h (99%)
+ rename arch/arm/mach-omap1/{include/mach => }/mtd-xip.h (97%)
+ create mode 100644 arch/arm/mach-omap1/mux.h
+ rename arch/arm/{plat-omap/dma.c => mach-omap1/omap-dma.c} (84%)
+ rename arch/arm/mach-omap1/{include/mach => }/omap1510.h (100%)
+ rename arch/arm/mach-omap1/{include/mach => }/omap16xx.h (100%)
+ rename arch/arm/mach-omap1/{include/mach => }/omap7xx.h (100%)
+ rename arch/arm/mach-omap1/{include/mach => }/serial.h (100%)
+ rename arch/arm/mach-omap1/{include/mach => }/tc.h (98%)
+ create mode 100644 arch/arm/mach-omap1/usb.h
+ delete mode 100644 arch/arm/plat-omap/Kconfig
+ delete mode 100644 arch/arm/plat-omap/Makefile
+ delete mode 100644 arch/arm/plat-omap/counter_32k.c
+ delete mode 100644 arch/arm/plat-omap/debug-leds.c
+ delete mode 100644 arch/arm/plat-omap/include/plat/counter-32k.h
+ delete mode 100644 arch/arm/plat-omap/include/plat/cpu.h
+ delete mode 100644 arch/arm/plat-omap/include/plat/sram.h
+ delete mode 100644 arch/arm/plat-omap/sram.c
+ rename {arch/arm/mach-omap1 => drivers/video/fbdev/omap}/lcd_dma.c (98%)
+ rename {arch/arm/mach-omap1/include/mach => drivers/video/fbdev/omap}/lcd_dma.h (98%)
+ create mode 100644 include/linux/soc/ti/omap1-io.h
+ rename arch/arm/mach-omap1/include/mach/mux.h => include/linux/soc/ti/omap1-mux.h (53%)
+ rename arch/arm/mach-omap1/include/mach/soc.h => include/linux/soc/ti/omap1-soc.h (90%)
+ rename arch/arm/mach-omap1/include/mach/usb.h => include/linux/soc/ti/omap1-usb.h (86%)
+
+-- 
+2.29.2
+
+Cc: Russell King <linux@armlinux.org.uk>
+Cc: Aaro Koskinen <aaro.koskinen@iki.fi>
+Cc: Tony Lindgren <tony@atomide.com>
+Cc: Paul Walmsley <paul@pwsan.com>
+Cc: Kevin Hilman <khilman@kernel.org>
+Cc: Peter Ujfalusi <peter.ujfalusi@gmail.com>
+Cc: Vinod Koul <vkoul@kernel.org>
+Cc: Dmitry Torokhov <dmitry.torokhov@gmail.com>
+Cc: Ulf Hansson <ulf.hansson@linaro.org>
+Cc: Dominik Brodowski <linux@dominikbrodowski.net>
+Cc: Mark Brown <broonie@kernel.org>
+Cc: Felipe Balbi <balbi@kernel.org>
+Cc: Alan Stern <stern@rowland.harvard.edu>
+Cc: Lee Jones <lee.jones@linaro.org>
+Cc: Daniel Thompson <daniel.thompson@linaro.org>
+Cc: Jingoo Han <jingoohan1@gmail.com>
+Cc: Helge Deller <deller@gmx.de>
+Cc: Arnd Bergmann <arnd@arndb.de>
+Cc: Linus Walleij <linus.walleij@linaro.org>
+Cc: Janusz Krzysztofik <jmkrzyszt@gmail.com>
+Cc: Krzysztof Kozlowski <krzk@kernel.org>
+Cc: linux-arm-kernel@lists.infradead.org
+Cc: linux-kernel@vger.kernel.org
+Cc: linux-omap@vger.kernel.org
+Cc: linux-usb@vger.kernel.org
+Cc: dmaengine@vger.kernel.org
+Cc: linux-input@vger.kernel.org
+Cc: linux-mmc@vger.kernel.org
+Cc: linux-serial@vger.kernel.org
+Cc: dri-devel@lists.freedesktop.org
+Cc: linux-fbdev@vger.kernel.org
+Cc: alsa-devel@alsa-project.org
