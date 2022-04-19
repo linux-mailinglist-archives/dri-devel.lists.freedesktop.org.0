@@ -1,43 +1,44 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 195995077BC
-	for <lists+dri-devel@lfdr.de>; Tue, 19 Apr 2022 20:15:57 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id E14745077BF
+	for <lists+dri-devel@lfdr.de>; Tue, 19 Apr 2022 20:16:22 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id B1AC810EFD0;
-	Tue, 19 Apr 2022 18:15:54 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id A8CEC10F095;
+	Tue, 19 Apr 2022 18:16:20 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from ams.source.kernel.org (ams.source.kernel.org [145.40.68.75])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 751BB10E177;
- Tue, 19 Apr 2022 18:15:53 +0000 (UTC)
+Received: from dfw.source.kernel.org (dfw.source.kernel.org
+ [IPv6:2604:1380:4641:c500::1])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 85F1910F095;
+ Tue, 19 Apr 2022 18:16:19 +0000 (UTC)
 Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
  (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
  (No client certificate requested)
- by ams.source.kernel.org (Postfix) with ESMTPS id 1F590B81866;
- Tue, 19 Apr 2022 18:15:52 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 53858C385A5;
- Tue, 19 Apr 2022 18:15:50 +0000 (UTC)
+ by dfw.source.kernel.org (Postfix) with ESMTPS id 1266A6135A;
+ Tue, 19 Apr 2022 18:16:19 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 5266CC385A5;
+ Tue, 19 Apr 2022 18:16:17 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1650392151;
- bh=XEncWXOOTgqkk9+t/TZHK1gvF3HW9nBti41MaEMdk0s=;
+ s=k20201202; t=1650392178;
+ bh=EX1IsrkM0zF2k65NZtSJkyhfT+wuZZjuxtcTS721YU0=;
  h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
- b=NtmV/WBMB4naKmpI+rhATPQWAJs6hovsOBoXWmDvX53LkXzKvPxLt8+natVEZFo+P
- 0QMLszaO3ChCgnomYZbFnEdVhQCvqd28bse45Rmnv0CrPxIT8MOzRbuLzi9l663t1p
- vmuShnq1Kgm+rlAlYDjsPYTT8AtD4crjKxFOYqZ7eHTHM4YOnxoJdE9QJfwNEl5BVd
- qJQ3v7SKhp7rb5nUVEARrBXiAu8k/Pe+IXg2rRR5eddekAJq+aMCthlAPgwKrzU2PE
- q9ZUG0uByDCO+Yc1hwJeUWYYSihRzHhvD0EM7sjn3tPinVIZOmcv9klICNV1T3/ABr
- Gf9w1kwvxrOvw==
+ b=m3AUGc9qragY8s3JERL6P5a6GO18RGuQyYCVgUOPzEa4UT65Ra0RkeTX+m8lu5qa7
+ ls8M10petEtAjn6wexQi7tOpmgicsppQzYt0FkVAgFkYx6GcELrUV9JanS35Yijkft
+ 3d8xv3tcK1VOqWg5CJawgstVY5pWexwYQhTrmDlk1O3el0tWywmeoSP+ineuoDDhAJ
+ jbBO9bbfZB3w1zuF0Sa4wRzO3G/KcJ9bC5kCbvuWaUY3xpAg/BpjmyIJYTbMUSgDDC
+ ZiCQv4Vg/f8T5wEEvHkzaQyHkNcn1yDPCQ5X4uGxSqZ+Gp4emIgxUWOKQjCraFvT+F
+ tbs41vI6PxAyQ==
 From: Sasha Levin <sashal@kernel.org>
 To: linux-kernel@vger.kernel.org,
 	stable@vger.kernel.org
-Subject: [PATCH AUTOSEL 4.19 10/12] drm/msm/mdp5: check the return of kzalloc()
-Date: Tue, 19 Apr 2022 14:15:23 -0400
-Message-Id: <20220419181525.486166-10-sashal@kernel.org>
+Subject: [PATCH AUTOSEL 4.14 7/9] drm/msm/mdp5: check the return of kzalloc()
+Date: Tue, 19 Apr 2022 14:15:55 -0400
+Message-Id: <20220419181557.486336-7-sashal@kernel.org>
 X-Mailer: git-send-email 2.35.1
-In-Reply-To: <20220419181525.486166-1-sashal@kernel.org>
-References: <20220419181525.486166-1-sashal@kernel.org>
+In-Reply-To: <20220419181557.486336-1-sashal@kernel.org>
+References: <20220419181557.486336-1-sashal@kernel.org>
 MIME-Version: 1.0
 X-stable: review
 X-Patchwork-Hint: Ignore
@@ -57,7 +58,7 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Cc: Rob Clark <robdclark@chromium.org>, Sasha Levin <sashal@kernel.org>,
  airlied@linux.ie, linux-arm-msm@vger.kernel.org,
  Xiaoke Wang <xkernel.wang@foxmail.com>, dri-devel@lists.freedesktop.org,
- maxime@cerno.tech, Dmitry Baryshkov <dmitry.baryshkov@linaro.org>,
+ Dmitry Baryshkov <dmitry.baryshkov@linaro.org>,
  freedreno@lists.freedesktop.org, sean@poorly.run
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
@@ -81,14 +82,14 @@ Signed-off-by: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
 Signed-off-by: Rob Clark <robdclark@chromium.org>
 Signed-off-by: Sasha Levin <sashal@kernel.org>
 ---
- drivers/gpu/drm/msm/disp/mdp5/mdp5_plane.c | 3 +++
+ drivers/gpu/drm/msm/mdp/mdp5/mdp5_plane.c | 3 +++
  1 file changed, 3 insertions(+)
 
-diff --git a/drivers/gpu/drm/msm/disp/mdp5/mdp5_plane.c b/drivers/gpu/drm/msm/disp/mdp5/mdp5_plane.c
-index 1ddf07514de6..3d8eaa25bea0 100644
---- a/drivers/gpu/drm/msm/disp/mdp5/mdp5_plane.c
-+++ b/drivers/gpu/drm/msm/disp/mdp5/mdp5_plane.c
-@@ -188,7 +188,10 @@ static void mdp5_plane_reset(struct drm_plane *plane)
+diff --git a/drivers/gpu/drm/msm/mdp/mdp5/mdp5_plane.c b/drivers/gpu/drm/msm/mdp/mdp5/mdp5_plane.c
+index 4b22ac3413a1..1f9e3c5ea47d 100644
+--- a/drivers/gpu/drm/msm/mdp/mdp5/mdp5_plane.c
++++ b/drivers/gpu/drm/msm/mdp/mdp5/mdp5_plane.c
+@@ -197,7 +197,10 @@ static void mdp5_plane_reset(struct drm_plane *plane)
  		drm_framebuffer_unreference(plane->state->fb);
  
  	kfree(to_mdp5_plane_state(plane->state));
