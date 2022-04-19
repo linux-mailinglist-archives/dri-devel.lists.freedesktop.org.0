@@ -2,55 +2,60 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6A3A4507225
-	for <lists+dri-devel@lfdr.de>; Tue, 19 Apr 2022 17:51:36 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 7DC1B507236
+	for <lists+dri-devel@lfdr.de>; Tue, 19 Apr 2022 17:53:52 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 0DD4B10EEAA;
-	Tue, 19 Apr 2022 15:51:33 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id B42A389B98;
+	Tue, 19 Apr 2022 15:53:49 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from ams.source.kernel.org (ams.source.kernel.org [145.40.68.75])
- by gabe.freedesktop.org (Postfix) with ESMTPS id E9B5610EEAA
- for <dri-devel@lists.freedesktop.org>; Tue, 19 Apr 2022 15:51:31 +0000 (UTC)
-Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
- (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
- (No client certificate requested)
- by ams.source.kernel.org (Postfix) with ESMTPS id 84261B81B60
- for <dri-devel@lists.freedesktop.org>; Tue, 19 Apr 2022 15:51:30 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 553DEC385AB
- for <dri-devel@lists.freedesktop.org>; Tue, 19 Apr 2022 15:51:29 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1650383489;
- bh=O4kGVoQeyYUokLkOOMtZf5WOtbhgJryyxOH96kgYGWg=;
- h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
- b=klJHKV5I+g2Y1d16IPc8lyj1aPp+9M5Mz4/MZb8GLEi2UzIvqnRpna2bs6GRg/RvB
- DIRSqYsV/a/EX4sbCleHHU5NWQUqS7OEu3dcDv6n0iWPz7gx2C58sfCyTqB8hstH2T
- V1v8Ccuy0wGWLTQIjc15N8ITf7AQKRYKDZuKuXkCmU194O32ViY4PClMNKd+yhH8p5
- HviGRNHbYUXKiGsfzeRocm5BCRBhVIc/95trLdt/hgYu2l41XA2QdYhlMxm45CVsmM
- Q4wUpVtraPwZ859xkSJkO5Fb5KcPTsgG8jEa0oK/SCJf8npZOsac3S26ihnoj5ohGx
- Zct9bEjLhlP6A==
-Received: by mail-ed1-f49.google.com with SMTP id c64so21815538edf.11
- for <dri-devel@lists.freedesktop.org>; Tue, 19 Apr 2022 08:51:29 -0700 (PDT)
-X-Gm-Message-State: AOAM530gmddJZ2A5b9wkDT33AIZahtP0LhRZdd+H+MbBSl/wjNHKr+cz
- fyVyk2CAxXoE3wQKy8EKcS33OpZSw+KFnvDg9g==
-X-Google-Smtp-Source: ABdhPJxRQq1KhhEnyhwExUKH5+pHmDmDmtEOzqa8MsO/Bzy4bhTSovBUc9c64I5QmB4PSBJ5skgDN0lf1caFPvqdiLw=
-X-Received: by 2002:a50:d4d9:0:b0:41d:6ee0:80d with SMTP id
- e25-20020a50d4d9000000b0041d6ee0080dmr17812286edj.254.1650383487528; Tue, 19
- Apr 2022 08:51:27 -0700 (PDT)
+Received: from mail-lf1-x135.google.com (mail-lf1-x135.google.com
+ [IPv6:2a00:1450:4864:20::135])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id E35DB89971
+ for <dri-devel@lists.freedesktop.org>; Tue, 19 Apr 2022 15:53:48 +0000 (UTC)
+Received: by mail-lf1-x135.google.com with SMTP id b21so30178128lfb.5
+ for <dri-devel@lists.freedesktop.org>; Tue, 19 Apr 2022 08:53:48 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=FIfb+gmCtEt5H98vB8ohAIXclb9xmDCzfNmIFKE2t9I=;
+ b=nUK0AjVJS5kb23t0P9yms6lOOOyCCFFf1w+fJiJrSGS1HknkpDLXh5IkvGOPC++L4b
+ PYNPaM88pEEvaDjuS6G0TIwuD1sEewsW+GOrelR0yrTLJaBUZGrvfPbYMdZagY6cO6dn
+ 7nduz2u9QHk8G/OMGMDzgGoepAZSnZTnAKIRNfksFbi0PgngAvChUn24EKGoHJqDOfby
+ cBTbRdS6zYRIDeiX2tB6TQ407bE7SVBDN9XEshiNF5roX4280q0nbAN3+nHFsGQ48iz9
+ rdpD9vVOsIooVdTAEW2/UIegwViu8265LYUluCdpCYRaTZ30M56Epzms4pqowoNU/Rdm
+ QBVA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=FIfb+gmCtEt5H98vB8ohAIXclb9xmDCzfNmIFKE2t9I=;
+ b=EAuTIm5zbc6DWyG3RzSKDaDj9f/CPKecMbwqozoN2Qksx9EFXTkHdlK35sEn2PTtyX
+ sJYk16MPGX310plB7+4oIVl5Rox0pDElyl1Zka0EIfG8qP15K5pndXcTB61cXfbJfU3l
+ 20CMTUprsUp3YFzHPSjZ+y7pgmJpkvVJ89txIiehHiQqDerrVZcn6R3EbMBCTPpy5j2k
+ gHk6IvTewZKmoWTO5iv8TX5CHS3rL4rVgOaqIrH7XyXUgh48A4Y+lAvsuY2Og9Ea+eNY
+ /D6pTaun4nSJQc76dlR8gMkP3Se+0JpOhoMBj3I9e8bFmxKHWyNdt5PzkqQVO80AFgaE
+ sY5A==
+X-Gm-Message-State: AOAM530BmbZuDZQEkP8HBwEVFf5S1kuFPy9sX8xVVoZ9Dk16qEj9MMlW
+ YRs5sTWvba/3HJCk+X9A7Ej32Q==
+X-Google-Smtp-Source: ABdhPJyd8FXgAg9xYtals42a2pylwxV1oZc/1iFaACU3eVNjANG7LKJG3MIS7WB02aYDM4ODBSnWCw==
+X-Received: by 2002:a19:8c4a:0:b0:46b:abba:2409 with SMTP id
+ i10-20020a198c4a000000b0046babba2409mr11920802lfj.88.1650383627193; 
+ Tue, 19 Apr 2022 08:53:47 -0700 (PDT)
+Received: from eriador.lan ([37.153.55.125]) by smtp.gmail.com with ESMTPSA id
+ r25-20020ac25f99000000b00471a439838esm313911lfe.145.2022.04.19.08.53.46
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Tue, 19 Apr 2022 08:53:46 -0700 (PDT)
+From: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
+To: Bjorn Andersson <bjorn.andersson@linaro.org>,
+ Rob Clark <robdclark@gmail.com>, Sean Paul <sean@poorly.run>,
+ Abhinav Kumar <quic_abhinavk@quicinc.com>
+Subject: [PATCH v5 0/6] drm/msm: rework MDSS drivers
+Date: Tue, 19 Apr 2022 18:53:40 +0300
+Message-Id: <20220419155346.1272627-1-dmitry.baryshkov@linaro.org>
+X-Mailer: git-send-email 2.35.1
 MIME-Version: 1.0
-References: <20220419033237.23405-1-rex-bc.chen@mediatek.com>
- <20220419033237.23405-4-rex-bc.chen@mediatek.com>
- <74b3f0e3-1d9f-de9e-ccf0-1f2174ba7c25@gmail.com>
-In-Reply-To: <74b3f0e3-1d9f-de9e-ccf0-1f2174ba7c25@gmail.com>
-From: Chun-Kuang Hu <chunkuang.hu@kernel.org>
-Date: Tue, 19 Apr 2022 23:51:16 +0800
-X-Gmail-Original-Message-ID: <CAAOTY__u3q1YcNwGpyEUpRbThsg6U1-gYtaqtGgy2J4jMwSOUg@mail.gmail.com>
-Message-ID: <CAAOTY__u3q1YcNwGpyEUpRbThsg6U1-gYtaqtGgy2J4jMwSOUg@mail.gmail.com>
-Subject: Re: [PATCH 3/5] dt-bindings: mediatek: add vdosys1 RDMA definition
- for mt8195
-To: Matthias Brugger <matthias.bgg@gmail.com>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -63,162 +68,86 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Chun-Kuang Hu <chunkuang.hu@kernel.org>, krzysztof.kozlowski+dt@linaro.org,
- DTML <devicetree@vger.kernel.org>, David Airlie <airlied@linux.ie>,
- Jason-JH Lin <jason-jh.lin@mediatek.com>,
- linux-kernel <linux-kernel@vger.kernel.org>,
- DRI Development <dri-devel@lists.freedesktop.org>,
- Project_Global_Chrome_Upstream_Group
- <Project_Global_Chrome_Upstream_Group@mediatek.com>,
- Rob Herring <robh+dt@kernel.org>,
- "moderated list:ARM/Mediatek SoC support" <linux-mediatek@lists.infradead.org>,
- Rex-BC Chen <rex-bc.chen@mediatek.com>, Nancy Lin <nancy.lin@mediatek.com>,
- Linux ARM <linux-arm-kernel@lists.infradead.org>,
- AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>
+Cc: David Airlie <airlied@linux.ie>, linux-arm-msm@vger.kernel.org,
+ dri-devel@lists.freedesktop.org, Stephen Boyd <swboyd@chromium.org>,
+ freedreno@lists.freedesktop.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Matthias Brugger <matthias.bgg@gmail.com> =E6=96=BC 2022=E5=B9=B44=E6=9C=88=
-19=E6=97=A5 =E9=80=B1=E4=BA=8C =E4=B8=8B=E5=8D=8810:57=E5=AF=AB=E9=81=93=EF=
-=BC=9A
->
->
->
-> On 19/04/2022 05:32, Rex-BC Chen wrote:
-> > From: "Nancy.Lin" <nancy.lin@mediatek.com>
-> >
-> > Add vdosys1 RDMA definition.
-> >
-> > Signed-off-by: Nancy.Lin <nancy.lin@mediatek.com>
-> > Reviewed-by: AngeloGioacchino Del Regno <angelogioacchino.delregno@coll=
-abora.com>
-> > ---
-> >   .../display/mediatek/mediatek,mdp-rdma.yaml   | 86 ++++++++++++++++++=
-+
-> >   1 file changed, 86 insertions(+)
-> >   create mode 100644 Documentation/devicetree/bindings/display/mediatek=
-/mediatek,mdp-rdma.yaml
-> >
-> > diff --git a/Documentation/devicetree/bindings/display/mediatek/mediate=
-k,mdp-rdma.yaml b/Documentation/devicetree/bindings/display/mediatek/mediat=
-ek,mdp-rdma.yaml
-> > new file mode 100644
-> > index 000000000000..6ab773569462
-> > --- /dev/null
-> > +++ b/Documentation/devicetree/bindings/display/mediatek/mediatek,mdp-r=
-dma.yaml
-> > @@ -0,0 +1,86 @@
-> > +# SPDX-License-Identifier: (GPL-2.0-only OR BSD-2-Clause)
-> > +%YAML 1.2
-> > +---
-> > +$id: http://devicetree.org/schemas/arm/mediatek/mediatek,mdp-rdma.yaml=
-#
-> > +$schema: http://devicetree.org/meta-schemas/core.yaml#
-> > +
-> > +title: MediaTek MDP RDMA
-> > +
-> > +maintainers:
-> > +  - Matthias Brugger <matthias.bgg@gmail.com>
->
-> I don't think I would be the correct person to maintain this. This should=
- be the
-> person that is maintaining the driver.
+These patches coninue work started by AngeloGioacchino Del Regno in the
+previous cycle by further decoupling and dissecting MDSS and MDP drivers
+probe/binding paths.
 
-Agree. This should be
+This removes code duplication between MDP5 and DPU1 MDSS drivers, by
+merging them and moving to the top level.
 
-Chun-Kuang Hu <chunkuang.hu@kernel.org>
-Philipp Zabel <p.zabel@pengutronix.de>
+Changes since v5:
+ - Fixed the issue with HW_REV access on MDP5 platforms
+ - Moved "mdss"/"mdss_phys" distinction from second patch to the first
+   one
 
-Regards,
-Chun-Kuang.
+Changes since v4:
+ - Fixed the issue with MODULE_DEVICE_TABLE reported by robot
+ - Fixed the comments accoring to suggestions of Stephen
+ - Removed extra goto (Stephen's suggestion)
+ - Break long kms->dev->dev->parent chains into cleaner dpu_dev/mdp_dev
+   and mdss_dev to document device tree bindings. Add related comments.
+   (Stephen's suggestion)
 
->
-> Regards,
-> Matthias
->
-> > +
-> > +description: |
-> > +  The mediatek MDP RDMA stands for Read Direct Memory Access.
-> > +  It provides real time data to the back-end panel driver, such as DSI=
-,
-> > +  DPI and DP_INTF.
-> > +  It contains one line buffer to store the sufficient pixel data.
-> > +  RDMA device node must be siblings to the central MMSYS_CONFIG node.
-> > +  For a description of the MMSYS_CONFIG binding, see
-> > +  Documentation/devicetree/bindings/arm/mediatek/mediatek,mmsys.yaml f=
-or details.
-> > +
-> > +properties:
-> > +  compatible:
-> > +    oneOf:
-> > +      - items:
-> > +          - const: mediatek,mt8195-vdo1-rdma
-> > +
-> > +  reg:
-> > +    maxItems: 1
-> > +
-> > +  interrupts:
-> > +    maxItems: 1
-> > +
-> > +  power-domains:
-> > +    description: A phandle and PM domain specifier as defined by bindi=
-ngs of
-> > +      the power controller specified by phandle. See
-> > +      Documentation/devicetree/bindings/power/power-domain.yaml for de=
-tails.
-> > +
-> > +  clocks:
-> > +    items:
-> > +      - description: RDMA Clock
-> > +
-> > +  iommus:
-> > +    description:
-> > +      This property should point to the respective IOMMU block with ma=
-ster port as argument,
-> > +      see Documentation/devicetree/bindings/iommu/mediatek,iommu.yaml =
-for details.
-> > +
-> > +  mediatek,gce-client-reg:
-> > +    description:
-> > +      The register of display function block to be set by gce. There a=
-re 4 arguments,
-> > +      such as gce node, subsys id, offset and register size. The subsy=
-s id that is
-> > +      mapping to the register of display function blocks is defined in=
- the gce header
-> > +      include/include/dt-bindings/gce/<chip>-gce.h of each chips.
-> > +    $ref: /schemas/types.yaml#/definitions/phandle-array
-> > +    maxItems: 1
-> > +
-> > +required:
-> > +  - compatible
-> > +  - reg
-> > +  - power-domains
-> > +  - clocks
-> > +  - iommus
-> > +
-> > +additionalProperties: false
-> > +
-> > +examples:
-> > +  - |
-> > +    #include <dt-bindings/interrupt-controller/arm-gic.h>
-> > +    #include <dt-bindings/clock/mt8195-clk.h>
-> > +    #include <dt-bindings/power/mt8195-power.h>
-> > +    #include <dt-bindings/gce/mt8195-gce.h>
-> > +    #include <dt-bindings/memory/mt8195-memory-port.h>
-> > +
-> > +    soc {
-> > +        #address-cells =3D <2>;
-> > +        #size-cells =3D <2>;
-> > +
-> > +        vdo1_rdma0: mdp-rdma@1c104000 {
-> > +            compatible =3D "mediatek,mt8195-vdo1-rdma";
-> > +            reg =3D <0 0x1c104000 0 0x1000>;
-> > +            interrupts =3D <GIC_SPI 495 IRQ_TYPE_LEVEL_HIGH 0>;
-> > +            clocks =3D <&vdosys1 CLK_VDO1_MDP_RDMA0>;
-> > +            power-domains =3D <&spm MT8195_POWER_DOMAIN_VDOSYS1>;
-> > +            iommus =3D <&iommu_vdo M4U_PORT_L2_MDP_RDMA0>;
-> > +            mediatek,gce-client-reg =3D <&gce0 SUBSYS_1c10XXXX 0x4000 =
-0x1000>;
-> > +        };
-> > +    };
+Changes since v3:
+ - Rebased on top of current msm/msm-next
+ - Fixed issue with enabling/disabling MDP4/MDP5 vs DSI driver (per
+   Stephen's suggestion)
+ - Reworked mdss_probe to remove extra platform_set_drvdata calls (per
+   Stephen's suggestion)
+ - Fixed a typo in the Kconfig (noted by Rob)
+ - Added a patch to move component mastership from mdss to mdp5/dpu1
+   devices
+
+Changes since v2:
+ - Rebased on top of current msm/msm-next(-staging)
+ - Allow disabling MDP4/MDP5/DPU/HDMI components (like we do for DP and
+   DSI)
+ - Made mdp5_mdss_parse_clock() static
+ - Changed mdp5 to is_mdp5 argument in several functions
+ - Dropped boolean device data from the mdss driver
+ - Reworked error handling in msm_pdev_probe()
+ - Removed unused header inclusion
+ - Dropped __init/__exit from function prototypes
+
+Changes since v1:
+ - Rebased on top of [2] and [1]
+
+[1] https://patchwork.freedesktop.org/series/99066/
+[2] https://patchwork.freedesktop.org/series/98521/
+
+
+Dmitry Baryshkov (6):
+  drm/msm: unify MDSS drivers
+  drm/msm: remove extra indirection for msm_mdss
+  drm/msm: split the main platform driver
+  drm/msm: stop using device's match data pointer
+  drm/msm: allow compile time selection of driver components
+  drm/msm: make mdp5/dpu devices master components
+
+ drivers/gpu/drm/msm/Kconfig                   |  50 ++-
+ drivers/gpu/drm/msm/Makefile                  |  25 +-
+ drivers/gpu/drm/msm/disp/dpu1/dpu_kms.c       |  86 ++--
+ drivers/gpu/drm/msm/disp/dpu1/dpu_mdss.c      | 260 ------------
+ .../gpu/drm/msm/disp/mdp4/mdp4_dsi_encoder.c  |   3 +
+ drivers/gpu/drm/msm/disp/mdp4/mdp4_kms.c      |  54 ++-
+ .../gpu/drm/msm/disp/mdp5/mdp5_cmd_encoder.c  |   3 +
+ drivers/gpu/drm/msm/disp/mdp5/mdp5_kms.c      |  57 ++-
+ drivers/gpu/drm/msm/disp/mdp5/mdp5_mdss.c     | 252 ------------
+ drivers/gpu/drm/msm/msm_drv.c                 | 261 ++----------
+ drivers/gpu/drm/msm/msm_drv.h                 |  61 ++-
+ drivers/gpu/drm/msm/msm_kms.h                 |  21 -
+ drivers/gpu/drm/msm/msm_mdss.c                | 384 ++++++++++++++++++
+ 13 files changed, 661 insertions(+), 856 deletions(-)
+ delete mode 100644 drivers/gpu/drm/msm/disp/dpu1/dpu_mdss.c
+ delete mode 100644 drivers/gpu/drm/msm/disp/mdp5/mdp5_mdss.c
+ create mode 100644 drivers/gpu/drm/msm/msm_mdss.c
+
+-- 
+2.35.1
+
