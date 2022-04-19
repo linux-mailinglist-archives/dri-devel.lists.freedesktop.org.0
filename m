@@ -1,58 +1,85 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 702CA506568
-	for <lists+dri-devel@lfdr.de>; Tue, 19 Apr 2022 09:11:44 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id EEE6E5065AB
+	for <lists+dri-devel@lfdr.de>; Tue, 19 Apr 2022 09:22:39 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 39DD710EECE;
-	Tue, 19 Apr 2022 07:11:40 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 8603510EE7E;
+	Tue, 19 Apr 2022 07:22:35 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-X-Greylist: delayed 463 seconds by postgrey-1.36 at gabe;
- Tue, 19 Apr 2022 07:11:38 UTC
-Received: from lelv0143.ext.ti.com (lelv0143.ext.ti.com [198.47.23.248])
- by gabe.freedesktop.org (Postfix) with ESMTPS id F017A10EECE
- for <dri-devel@lists.freedesktop.org>; Tue, 19 Apr 2022 07:11:38 +0000 (UTC)
-Received: from lelv0265.itg.ti.com ([10.180.67.224])
- by lelv0143.ext.ti.com (8.15.2/8.15.2) with ESMTP id 23J73ich090970;
- Tue, 19 Apr 2022 02:03:44 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ti.com;
- s=ti-com-17Q1; t=1650351824;
- bh=rQb5x+seCA/gRyaHh8ycHp7w1ZagLiW2Ocbe4cn0WE8=;
- h=From:To:CC:Subject:Date:In-Reply-To:References;
- b=FNu3cIpmQP2T3j6CKBtdoi23GtPDA+QFvlWI5fDl7zWaCEITM4XZG4r/kERHKh21h
- aEB3jwf9YRd5GVnGck4eOgO8sNYk/IVp/Lasx3m+dk5iDOq2ZvstCciXTs+Wo0nfqa
- 8Ja3MWfPnb5xEejkmUJqcZ8OfNDhg4wLBUJsTWgs=
-Received: from DFLE114.ent.ti.com (dfle114.ent.ti.com [10.64.6.35])
- by lelv0265.itg.ti.com (8.15.2/8.15.2) with ESMTPS id 23J73iUC031438
- (version=TLSv1.2 cipher=AES256-GCM-SHA384 bits=256 verify=FAIL);
- Tue, 19 Apr 2022 02:03:44 -0500
-Received: from DFLE100.ent.ti.com (10.64.6.21) by DFLE114.ent.ti.com
- (10.64.6.35) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256_P256) id 15.1.2308.14; Tue, 19
- Apr 2022 02:03:43 -0500
-Received: from lelv0327.itg.ti.com (10.180.67.183) by DFLE100.ent.ti.com
- (10.64.6.21) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256_P256) id 15.1.2308.14 via
- Frontend Transport; Tue, 19 Apr 2022 02:03:43 -0500
-Received: from localhost (ileax41-snat.itg.ti.com [10.172.224.153])
- by lelv0327.itg.ti.com (8.15.2/8.15.2) with ESMTP id 23J73hAJ105340;
- Tue, 19 Apr 2022 02:03:43 -0500
-From: Aradhya Bhatia <a-bhatia1@ti.com>
-To: Jyri Sarha <jyri.sarha@iki.fi>, Tomi Valkeinen <tomba@kernel.org>, Vignesh
- Raghavendra <vigneshr@ti.com>, Nishanth Menon <nm@ti.com>
-Subject: [PATCH 2/2] arm64: dts: ti: k3-am65: Add missing register & interrupt
- in DSS node
-Date: Tue, 19 Apr 2022 12:33:02 +0530
-Message-ID: <20220419070302.16502-3-a-bhatia1@ti.com>
-X-Mailer: git-send-email 2.35.3
-In-Reply-To: <20220419070302.16502-1-a-bhatia1@ti.com>
-References: <20220419070302.16502-1-a-bhatia1@ti.com>
+Received: from us-smtp-delivery-124.mimecast.com
+ (us-smtp-delivery-124.mimecast.com [170.10.133.124])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id E075F10EE7E
+ for <dri-devel@lists.freedesktop.org>; Tue, 19 Apr 2022 07:22:31 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1650352950;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=XE7bs+vMucrnxP7rX6KAEFBKjoWlCkL1ofuWPanz4ws=;
+ b=SFFrbTIix/vcyTcp9/1wj07gz7HCkbTkX2DUU5vZBKl+6/KmYO9x9ePDGVwPR9iTDW9hjF
+ XYzfwZmhWC/CQ0W3enat8717+6mrxGGm5X6CKHXk28QzIZReYVrvtEE6OIV1Sd6pdEJHVe
+ mv4nZDGB3gHDxSbdW208QuzAda4iJLw=
+Received: from mail-wm1-f69.google.com (mail-wm1-f69.google.com
+ [209.85.128.69]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ us-mta-580-PvGyrDZAOIKBgCJryBpP5w-1; Tue, 19 Apr 2022 03:22:27 -0400
+X-MC-Unique: PvGyrDZAOIKBgCJryBpP5w-1
+Received: by mail-wm1-f69.google.com with SMTP id
+ b12-20020a05600c4e0c00b003914432b970so797108wmq.8
+ for <dri-devel@lists.freedesktop.org>; Tue, 19 Apr 2022 00:22:27 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
+ :content-language:to:cc:references:from:in-reply-to
+ :content-transfer-encoding;
+ bh=XE7bs+vMucrnxP7rX6KAEFBKjoWlCkL1ofuWPanz4ws=;
+ b=3wsuBZtSCqi8fRAqqAOsAgJq1+5nL9U6GkdVwPbze3TrXvt6GTtpaTQySGdNsjwukb
+ W6X8+D6loamDGzYWkI4hXZnCzFd8XS6GuCbTHWRQu7KrBRila6lhH1Y3ebY/tQOLoeaN
+ A/GXVdeHEEsoWsyUugJn7TwhhAt585bftkTSt1RR4RclZS56YZl8VARUM/pGnfvG2CS+
+ PBJJ4cBWfvnAjdccXXr0IK8+zRwWICX9oGoCBW+YeDMjc6DA1t2sVBUFNZNd6KUljKCs
+ MRj4Vlgy67Sj0la758fa3v8FJMI3xZXggRRdexjEiOx4XHO6HwZS2cNqDDPAw4yx/XYP
+ f93Q==
+X-Gm-Message-State: AOAM530csI3OD2oAK83n487mh4p7nzGErM2SYvNrHydw8YqAEPC623Zv
+ wOaML4Fo4dZqSBKhtKuNmUnVlJ7pR4VnOMhno1TFw/nBqOBX3Fw4Hqf1KqRkdBWNqDCm9xrALn9
+ K9jypNotzaSAI09AEC8RsEC+MU83q
+X-Received: by 2002:a05:6000:1b08:b0:207:ad5b:83a0 with SMTP id
+ f8-20020a0560001b0800b00207ad5b83a0mr10619557wrz.564.1650352946330; 
+ Tue, 19 Apr 2022 00:22:26 -0700 (PDT)
+X-Google-Smtp-Source: ABdhPJxPE0Lfb8036FFd0ol7Vvhr6xWQ3rGpwS+oyiFhkfgu+5MXMGjFNhcWkb9aY1gomEOacxFDLg==
+X-Received: by 2002:a05:6000:1b08:b0:207:ad5b:83a0 with SMTP id
+ f8-20020a0560001b0800b00207ad5b83a0mr10619538wrz.564.1650352946065; 
+ Tue, 19 Apr 2022 00:22:26 -0700 (PDT)
+Received: from [192.168.1.129] ([92.176.231.205])
+ by smtp.gmail.com with ESMTPSA id
+ o6-20020a05600c378600b0038eca3cdbb3sm15128816wmr.13.2022.04.19.00.22.24
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Tue, 19 Apr 2022 00:22:25 -0700 (PDT)
+Message-ID: <fb7b8ca6-a252-c021-fe74-4e7ffbb3eb7e@redhat.com>
+Date: Tue, 19 Apr 2022 09:22:24 +0200
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-Content-Type: text/plain
-X-EXCLAIMER-MD-CONFIG: e1e8a2fd-e40a-4ac6-ac9b-f7e9cc9ee180
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.8.0
+Subject: Re: [PATCH 2/2] fbdev: Remove hot-unplug workaround for framebuffers
+ without device
+To: Thomas Zimmermann <tzimmermann@suse.de>, Daniel Vetter <daniel@ffwll.ch>
+References: <20220413092454.1073-1-tzimmermann@suse.de>
+ <20220413092454.1073-3-tzimmermann@suse.de>
+ <2e183cc9-603d-f038-54aa-5601f11b0484@redhat.com>
+ <Ylb0316ABOhOe1Rb@phenom.ffwll.local>
+ <9d4599d9-e094-e7dd-5b91-282c2679aae4@suse.de>
+From: Javier Martinez Canillas <javierm@redhat.com>
+In-Reply-To: <9d4599d9-e094-e7dd-5b91-282c2679aae4@suse.de>
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=javierm@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Language: en-US
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -65,55 +92,84 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Devicetree <devicetree@vger.kernel.org>, Aradhya Bhatia <a-bhatia1@ti.com>,
- Linux Kernel <linux-kernel@vger.kernel.org>,
- DRI Development <dri-devel@lists.freedesktop.org>,
- Nikhil Devshatwar <nikhil.nd@ti.com>,
- Linux ARM Kernel <linux-arm-kernel@lists.infradead.org>
+Cc: devicetree@vger.kernel.org, linux-fbdev@vger.kernel.org, sam@ravnborg.org,
+ frowand.list@gmail.com, deller@gmx.de, dri-devel@lists.freedesktop.org,
+ robh+dt@kernel.org, paulus@samba.org, mpe@ellerman.id.au,
+ linuxppc-dev@lists.ozlabs.org, linux@roeck-us.net
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-The DSS IP on the ti-am65x soc supports an additional register space
-named "common1". Further, it services a maximum of 2 interrupts.
+Hello Thomas,
 
-Add the missing register space "common1" and the additional interrupt in
-the dss DT node .
+On 4/13/22 20:09, Thomas Zimmermann wrote:
 
-Signed-off-by: Aradhya Bhatia <a-bhatia1@ti.com>
----
- arch/arm64/boot/dts/ti/k3-am65-main.dtsi | 6 ++++--
- 1 file changed, 4 insertions(+), 2 deletions(-)
+[snip]
 
-diff --git a/arch/arm64/boot/dts/ti/k3-am65-main.dtsi b/arch/arm64/boot/dts/ti/k3-am65-main.dtsi
-index e749343acced..1bafa3a98e71 100644
---- a/arch/arm64/boot/dts/ti/k3-am65-main.dtsi
-+++ b/arch/arm64/boot/dts/ti/k3-am65-main.dtsi
-@@ -830,13 +830,14 @@ csi2_0: port@0 {
- 	dss: dss@4a00000 {
- 		compatible = "ti,am65x-dss";
- 		reg =	<0x0 0x04a00000 0x0 0x1000>, /* common */
-+			<0x0 0x04a01000 0x0 0x1000>, /* common1 */
- 			<0x0 0x04a02000 0x0 0x1000>, /* vidl1 */
- 			<0x0 0x04a06000 0x0 0x1000>, /* vid */
- 			<0x0 0x04a07000 0x0 0x1000>, /* ovr1 */
- 			<0x0 0x04a08000 0x0 0x1000>, /* ovr2 */
- 			<0x0 0x04a0a000 0x0 0x1000>, /* vp1 */
- 			<0x0 0x04a0b000 0x0 0x1000>; /* vp2 */
--		reg-names = "common", "vidl1", "vid",
-+		reg-names = "common", "common1", "vidl1", "vid",
- 			"ovr1", "ovr2", "vp1", "vp2";
+>>>> index bc6ed750e915..bdd00d381bbc 100644
+>>>> --- a/drivers/video/fbdev/core/fbmem.c
+>>>> +++ b/drivers/video/fbdev/core/fbmem.c
+>>>> @@ -1579,14 +1579,7 @@ static void do_remove_conflicting_framebuffers(struct apertures_struct *a,
+>>>>   			 * If it's not a platform device, at least print a warning. A
+>>>>   			 * fix would add code to remove the device from the system.
+>>>>   			 */
+>>>> -			if (!device) {
+>>>> -				/* TODO: Represent each OF framebuffer as its own
+>>>> -				 * device in the device hierarchy. For now, offb
+>>>> -				 * doesn't have such a device, so unregister the
+>>>> -				 * framebuffer as before without warning.
+>>>> -				 */
+>>>> -				do_unregister_framebuffer(registered_fb[i]);
+>>>
+>>> Maybe we could still keep this for a couple of releases but with a big
+>>> warning that's not supported in case there are out-of-tree drivers out
+>>> there that still do this ?
+>>>
+>>> Or at least a warning if the do_unregister_framebuffer() call is removed.
+>>
+>> Yeah dying while holding console_lock isn't fun, and not having a WARN_ON
+>> + bail-out code pretty much forces bug reporters to do a bisect here to
+>> give us something more than "machine dies at boot with no messages".
+>>
+>> I'd just outright keep the WARN_ON here for 1-2 years even to really make
+>> sure we got all the bug reports, since often these older machines only
+>> update onto LTS releases.
+> 
+> If that's what the consent is, I'll go with it.
+> 
+> I'm just not sure if we talk about the same problem. offb didn't have a 
+> platform device, so we recently added this workaround with 'if 
+> (!device)'.  All the other fbdev drivers have a platform device; and 
+> anything else that could fail is out-of-tree. We don't really care about 
+> those AFAIK.
+>
+
+Yes, agreed on the offb change but I'm not really sure if we don't care
+about out-of-tree modules. I mean, you are right in theory but I still
+feel that we are changing a core behavior without giving people time to
+sort out if needed.
+
+Since before commit 27599aacbaef ("fbdev: Hot-unplug firmware fb devices
+on forced removal") registered FBs didn't need to have a device, but now
+that will lead to a NULL pointer dereference in dev_is_platform(device).
+
+And that change only landed in v5.18-rc1, so it is fairly recent.
+
+I know that we follow https://www.kernel.org/doc/Documentation/process/stable-api-nonsense.rst
+but still my opinion is that having a warning for a couple of releases
+if registered_fb[i]->device is NULL, instead of just crashing would be
+a better way to handle this.
  
- 		ti,am65x-oldi-io-ctrl = <&dss_oldi_io_ctrl>;
-@@ -856,7 +857,8 @@ dss: dss@4a00000 {
- 		assigned-clocks = <&k3_clks 67 2>;
- 		assigned-clock-parents = <&k3_clks 67 5>;
- 
--		interrupts = <GIC_SPI 166 IRQ_TYPE_EDGE_RISING>;
-+		interrupts = <GIC_SPI 166 IRQ_TYPE_EDGE_RISING>,
-+			     <GIC_SPI 167 IRQ_TYPE_EDGE_RISING>;
- 
- 		dma-coherent;
- 
+> With offb converted, we could practically remove all of the checks here 
+> and call platform_device_unregister() unconditionally.
+>
+
+Yes for mainline, but as mentioned I thought mostly about out-of-tree. If
+folks agree that we shouldn't care about these, I'm Ok with that as well.
+
 -- 
-2.35.3
+Best regards,
+
+Javier Martinez Canillas
+Linux Engineering
+Red Hat
 
