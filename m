@@ -2,54 +2,55 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6A38B506FE9
-	for <lists+dri-devel@lfdr.de>; Tue, 19 Apr 2022 16:15:42 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id CAD8B506FFC
+	for <lists+dri-devel@lfdr.de>; Tue, 19 Apr 2022 16:20:08 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 0AE4C10EF4F;
-	Tue, 19 Apr 2022 14:15:40 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 7A10110E55D;
+	Tue, 19 Apr 2022 14:20:06 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-lf1-x135.google.com (mail-lf1-x135.google.com
- [IPv6:2a00:1450:4864:20::135])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 7235F10EF4F
- for <dri-devel@lists.freedesktop.org>; Tue, 19 Apr 2022 14:15:38 +0000 (UTC)
-Received: by mail-lf1-x135.google.com with SMTP id p10so29610763lfa.12
- for <dri-devel@lists.freedesktop.org>; Tue, 19 Apr 2022 07:15:38 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=qxyAAJCwk86YjxNZvzK22H+Q1D0EYzqfXkSlEcQ3oGI=;
- b=U8TznkIEfkbn6wBOe66bedzDevL3UCKOj2LIyC+yTGFJGe6H3CAWKuIFxq5wvflo2M
- YPqSiNhdSo2UNK5R9O5lCdht+dpY1uQXmpjL/Z2JFciY07hF8cmoQIVlKVZcMQkrMdzh
- xQm2rYQ0y3EHpvQGdBCAJQhmqrJzsgMGbbKb5iv69GK1zwsTBUeeLrPf+fWbm8h+OHA8
- vn0GNOWufxa2UwVQxTLp7VsjdfB/OMoUd3kiZk3aI2ynnkLj6hV4IE9GaixWqYMB2hOy
- 2zvKaEDzVunsnL9lz2/5ZLP2otiiwePv+BwjP1+txAY9RzGc80diIVCJYeA3N5BV6gHd
- SN9g==
+Received: from mail-oi1-f174.google.com (mail-oi1-f174.google.com
+ [209.85.167.174])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id A91FB10E55D
+ for <dri-devel@lists.freedesktop.org>; Tue, 19 Apr 2022 14:20:04 +0000 (UTC)
+Received: by mail-oi1-f174.google.com with SMTP id t15so10600260oie.1
+ for <dri-devel@lists.freedesktop.org>; Tue, 19 Apr 2022 07:20:04 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=qxyAAJCwk86YjxNZvzK22H+Q1D0EYzqfXkSlEcQ3oGI=;
- b=USmG6lxAliS6Epzu3MG5JqXTRd6SkVFFOmGiPmm3EtVLlnL9Efm/rOXRGYkFXxVpGl
- 7DT9gLMeOrhZNedFoVfiAT12NbfWB/zZs76HnROPpnpms56FMYWg2W8Mh1AkrCGHIdVY
- axpS4B83pVaRBjlkLMct4XVA9nASwCNxuyX2RpDHeuqH++kCKKaAQbAkFBoJX7Mba2sh
- bQF2wctidvk2EQpqee3Q0h+oIeos70Jk0hWJvH+ymtWLMWuNUUdQcW3ow67YSXJPN+zj
- NR/aVP9YsBL0j5AbZNOOPgqqN+R5+Dcg6fRIZoDi++DS8Ela8Uk2vqArloQrLmrq5GWE
- LF5w==
-X-Gm-Message-State: AOAM531wjMCK+lRr5iX4arFSl++/Pj5GZherj2DCrs4AecwXcX6TtNTL
- iXKgWXOHoSVkLoGLV8Y9HYHNhG3FFcCzfzbbyxnWww==
-X-Google-Smtp-Source: ABdhPJxIT9MKS48QeVlFyb2PryH3hNOoBA+EcM/qYaYW4YqWA7WkuSzrRWCJdkdrX1W/EdQ0V2GdotZdJALOaahglbM=
-X-Received: by 2002:a05:6512:2627:b0:44a:f55c:ded9 with SMTP id
- bt39-20020a056512262700b0044af55cded9mr11491748lfb.373.1650377736569; Tue, 19
- Apr 2022 07:15:36 -0700 (PDT)
+ h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+ :mime-version:content-disposition:in-reply-to;
+ bh=VgdRnd9bpdceRif0299S3ykKHSVMUwPtZgbwTlR6fjI=;
+ b=c99QMJLgiQhup0uzrsXpjzfuHi/Q6WcP+UT/rU/KquV4IGf8cdTZI4OoZ3kz2NZRcJ
+ y86TVeYUZsYhW7BIDfPBRdW6bgdZHJVxVKZT4oSAbLwTNMcBieffLgIccVJB5JmLvLV2
+ kWlHgO2fRhQy/8n0c6xyZSB1HSE2kpDGa6xLs+YW3VexE0belvoA+1Em6RKc8S5qt5YP
+ sJWWSYmOEnPuc0R0EsCBym+B043PVuRRfBeeQltamZGqCXnRcwLYI58RQFyssQU/THKM
+ fAu5TChS2ZeEkqEhrEICZL8iiYwD9h7AOdkHjUaiFbg1UmNU/2pQEGPpuqpNjXQKmCHm
+ Fe4Q==
+X-Gm-Message-State: AOAM532WVh5yYl41tm8bxLx8o8SWvloNOrFzMymEm4nmkmA5MH3iuIFf
+ 8Yd28tCdVDxlRuf0bxK6wg==
+X-Google-Smtp-Source: ABdhPJz/8eHniA/MbQVrURiit4Y5m329UMTk5wqUlgVlgHQSwRcyGZcRmbiP8oSqsceOmAnEhLvLow==
+X-Received: by 2002:aca:c056:0:b0:322:4f77:517e with SMTP id
+ q83-20020acac056000000b003224f77517emr8250843oif.18.1650378003722; 
+ Tue, 19 Apr 2022 07:20:03 -0700 (PDT)
+Received: from robh.at.kernel.org (66-90-144-107.dyn.grandenetworks.net.
+ [66.90.144.107]) by smtp.gmail.com with ESMTPSA id
+ q6-20020a056870028600b000d9be0ee766sm5076841oaf.57.2022.04.19.07.20.02
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Tue, 19 Apr 2022 07:20:03 -0700 (PDT)
+Received: (nullmailer pid 2490554 invoked by uid 1000);
+ Tue, 19 Apr 2022 14:20:02 -0000
+Date: Tue, 19 Apr 2022 09:20:02 -0500
+From: Rob Herring <robh@kernel.org>
+To: Aradhya Bhatia <a-bhatia1@ti.com>
+Subject: Re: [PATCH 1/2] dt-bindings: display: ti,am65x-dss: Add missing
+ register & interrupt
+Message-ID: <Yl7FEuHEy66KUc5F@robh.at.kernel.org>
+References: <20220419070302.16502-1-a-bhatia1@ti.com>
+ <20220419070302.16502-2-a-bhatia1@ti.com>
 MIME-Version: 1.0
-References: <20220419133723.1394715-1-arnd@kernel.org>
-In-Reply-To: <20220419133723.1394715-1-arnd@kernel.org>
-From: Ulf Hansson <ulf.hansson@linaro.org>
-Date: Tue, 19 Apr 2022 16:15:00 +0200
-Message-ID: <CAPDyKFpNx9xt1xwO-EKAx_qYtfcM5RUC6=Kh9NZ5o+A=H5ut6A@mail.gmail.com>
-Subject: Re: [PATCH 00/41] OMAP1 full multiplatform conversion
-To: Arnd Bergmann <arnd@kernel.org>
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20220419070302.16502-2-a-bhatia1@ti.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -62,49 +63,92 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: linux-fbdev@vger.kernel.org, linux-usb@vger.kernel.org, tony@atomide.com,
- alsa-devel@alsa-project.org, Dominik Brodowski <linux@dominikbrodowski.net>,
- Lee Jones <lee.jones@linaro.org>, Daniel Thompson <daniel.thompson@linaro.org>,
- aaro.koskinen@iki.fi, Peter Ujfalusi <peter.ujfalusi@gmail.com>,
- Helge Deller <deller@gmx.de>, jmkrzyszt@gmail.com,
- Russell King <linux@armlinux.org.uk>, Krzysztof Kozlowski <krzk@kernel.org>,
- Alan Stern <stern@rowland.harvard.edu>, linux-serial@vger.kernel.org,
- linux-input@vger.kernel.org, Arnd Bergmann <arnd@arndb.de>,
- Mark Brown <broonie@kernel.org>, dri-devel@lists.freedesktop.org,
- linux-omap@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
- Felipe Balbi <balbi@kernel.org>, Paul Walmsley <paul@pwsan.com>,
- Jingoo Han <jingoohan1@gmail.com>, Dmitry Torokhov <dmitry.torokhov@gmail.com>,
- linux-mmc@vger.kernel.org, linux-kernel@vger.kernel.org,
- Kevin Hilman <khilman@kernel.org>, Vinod Koul <vkoul@kernel.org>,
- dmaengine@vger.kernel.org
+Cc: Nishanth Menon <nm@ti.com>, Devicetree <devicetree@vger.kernel.org>,
+ Vignesh Raghavendra <vigneshr@ti.com>, Tomi Valkeinen <tomba@kernel.org>,
+ Linux Kernel <linux-kernel@vger.kernel.org>,
+ DRI Development <dri-devel@lists.freedesktop.org>,
+ Jyri Sarha <jyri.sarha@iki.fi>, Nikhil Devshatwar <nikhil.nd@ti.com>,
+ Linux ARM Kernel <linux-arm-kernel@lists.infradead.org>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Tue, 19 Apr 2022 at 15:37, Arnd Bergmann <arnd@kernel.org> wrote:
->
-> From: Arnd Bergmann <arnd@arndb.de>
->
-> This is the full series for converting OMAP1 to multiplatform, rebased
-> from my 2019 attempt to do the same thing. The soc tree contains simpler
-> patches to do the same for iop32x, ixp4xx, ep93xx and s3c24xx, which
-> means we are getting closer to completing this for all ARMv5 platforms
-> (I have patches for PXA, which is the last one remaining).
->
-> Janusz already tested the branch separately and did the missing work
-> for the common-clk conversion after my previous approach was broken.
->
-> The fbdev, mmc and ASoC portion of Janusz' work already went into the
-> corresponding maintainer tree, but I include them here for reference.
-> Unless there are any objections, I would add the entire series to the
-> for-next branch of the soc tree, but only send the first 36 patches early
-> in the merge window. After everything else has made it in, I would rebase
-> the last two patches and send them separately, which may or may not make
-> it in the merge window.
+On Tue, Apr 19, 2022 at 12:33:01PM +0530, Aradhya Bhatia wrote:
+> The DSS IP on the ti-am65x soc supports an additional register space,
+> named "common1". Further. the IP services a maximum number of 2
+> interrupts.
+> 
+> Add the missing register space "common1" and the additional interrupt.
+> 
+> Signed-off-by: Aradhya Bhatia <a-bhatia1@ti.com>
+> ---
+>  .../devicetree/bindings/display/ti/ti,am65x-dss.yaml   | 10 +++++++---
+>  1 file changed, 7 insertions(+), 3 deletions(-)
+> 
+> diff --git a/Documentation/devicetree/bindings/display/ti/ti,am65x-dss.yaml b/Documentation/devicetree/bindings/display/ti/ti,am65x-dss.yaml
+> index 5c7d2cbc4aac..102059e9e0d5 100644
+> --- a/Documentation/devicetree/bindings/display/ti/ti,am65x-dss.yaml
+> +++ b/Documentation/devicetree/bindings/display/ti/ti,am65x-dss.yaml
+> @@ -26,6 +26,7 @@ properties:
+>        Addresses to each DSS memory region described in the SoC's TRM.
+>      items:
+>        - description: common DSS register area
+> +      - description: common1 DSS register area
 
-Sounds like a good plan to me. I usually send the MMC pull-request on
-Mondays, the first day of the merge window.
+You've just broken the ABI.
 
-[...]
+New entries have to go on the end.
 
-Kind regards
-Uffe
+>        - description: VIDL1 light video plane
+>        - description: VID video plane
+>        - description: OVR1 overlay manager for vp1
+> @@ -36,6 +37,7 @@ properties:
+>    reg-names:
+>      items:
+>        - const: common
+> +      - const: common1
+>        - const: vidl1
+>        - const: vid
+>        - const: ovr1
+> @@ -64,7 +66,7 @@ properties:
+>      maxItems: 3
+>  
+>    interrupts:
+> -    maxItems: 1
+> +    maxItems: 2
+
+Once there is more than 1, we need to know what each entry is and the 
+order.
+
+>  
+>    power-domains:
+>      maxItems: 1
+> @@ -122,13 +124,14 @@ examples:
+>      dss: dss@4a00000 {
+>              compatible = "ti,am65x-dss";
+>              reg =   <0x04a00000 0x1000>, /* common */
+> +            reg =   <0x04a01000 0x1000>, /* common1 */
+>                      <0x04a02000 0x1000>, /* vidl1 */
+>                      <0x04a06000 0x1000>, /* vid */
+>                      <0x04a07000 0x1000>, /* ovr1 */
+>                      <0x04a08000 0x1000>, /* ovr2 */
+>                      <0x04a0a000 0x1000>, /* vp1 */
+>                      <0x04a0b000 0x1000>; /* vp2 */
+> -            reg-names = "common", "vidl1", "vid",
+> +            reg-names = "common", "common1". "vidl1", "vid",
+>                      "ovr1", "ovr2", "vp1", "vp2";
+>              ti,am65x-oldi-io-ctrl = <&dss_oldi_io_ctrl>;
+>              power-domains = <&k3_pds 67 TI_SCI_PD_EXCLUSIVE>;
+> @@ -136,7 +139,8 @@ examples:
+>                              <&k3_clks 216 1>,
+>                              <&k3_clks 67 2>;
+>              clock-names = "fck", "vp1", "vp2";
+> -            interrupts = <GIC_SPI 166 IRQ_TYPE_EDGE_RISING>;
+> +            interrupts = <GIC_SPI 166 IRQ_TYPE_EDGE_RISING>,
+> +                         <GIC_SPI 167 IRQ_TYPE_EDGE_RISING>;
+>              ports {
+>                      #address-cells = <1>;
+>                      #size-cells = <0>;
+> -- 
+> 2.35.3
+> 
+> 
