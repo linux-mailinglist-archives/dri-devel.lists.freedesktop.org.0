@@ -2,39 +2,39 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 70293506DB7
-	for <lists+dri-devel@lfdr.de>; Tue, 19 Apr 2022 15:40:34 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 76A3D506DB8
+	for <lists+dri-devel@lfdr.de>; Tue, 19 Apr 2022 15:40:44 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 744C810EFAC;
-	Tue, 19 Apr 2022 13:40:32 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 458B010EFB7;
+	Tue, 19 Apr 2022 13:40:42 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 9752610EFCD
- for <dri-devel@lists.freedesktop.org>; Tue, 19 Apr 2022 13:40:31 +0000 (UTC)
+Received: from ams.source.kernel.org (ams.source.kernel.org [145.40.68.75])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 2F7F310EFB7
+ for <dri-devel@lists.freedesktop.org>; Tue, 19 Apr 2022 13:40:41 +0000 (UTC)
 Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
  (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
  (No client certificate requested)
- by dfw.source.kernel.org (Postfix) with ESMTPS id F10C06169B;
+ by ams.source.kernel.org (Postfix) with ESMTPS id 4F61EB81983;
+ Tue, 19 Apr 2022 13:40:39 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id DF713C385A7;
  Tue, 19 Apr 2022 13:40:30 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 9BA25C385AF;
- Tue, 19 Apr 2022 13:40:23 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1650375630;
- bh=Y28p7Ny9YomGZamqZAIMduIfzMd9ilwbgGj96GOTejs=;
+ s=k20201202; t=1650375638;
+ bh=oS0YRuMwauHV77a/RWwiH3yEgHRO8x+QFp2K7j65xos=;
  h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
- b=eUHAFjoiHuXtqZ4ZQCCCjrNWBObk3OpvdAoRndhAbYTT/dWpoD2ncZTLJ89QVYpaG
- E3ATSEWOwtxhMgdoVM3aoUvIYenIeLY8VecZ74Q1zfAO0JlMqhoBixhEDM2LhMCyTM
- Bg8EvhbdgtMjbcznvJxbbq6hNISkYGTTR4Tv2UoKdlOSU7hMkR/ruvdJ/iC72Zem7f
- i9ZFFfE2l05LHOqtf8V/dIsD5stadiF0iLdtFAAfv026f+K1DHAgxo/HxMLDoMG0LJ
- KlL7TLBkRPDFumi0yT4sk8TbBxJfJ8Zsfkwpvwn7UIjjyX9tWqdiDl36pA3xGyphWy
- 6yb1hp9ibLpEg==
+ b=QunDt7eWVmo28eUVZu9UHc5suCYpMGj+4JLni2IARp821nSt8uFbgl939uUCYSRpA
+ PxsB7GMbCapGsEMRTY921XMHJlFjFiFC5XgxN/yTQcpLOG0T87+wsAMhlPoTxVCTdy
+ qMkSm/O4UHq8I2m2twis5Ar3U2NmjNf8p78YGeW4zCXxTcTHqMO9dUCsp6/B4xUer2
+ xNwUIzAoowxi9QKFChZTh5g3bQExsAJAL9slz/9O+8JnLrPHq0BKOznGXx9LOrTTt1
+ nQc43BQvq0/NVCoUERTHShP9hv98faBOm1I2DUm8je01yVkrpUlWYNIDo6Kd2KpLqE
+ kN8JkbmkVLH9g==
 From: Arnd Bergmann <arnd@kernel.org>
 To: linux-omap@vger.kernel.org, tony@atomide.com, aaro.koskinen@iki.fi,
  jmkrzyszt@gmail.com
-Subject: [PATCH 23/41] ARM: omap: split up arch/arm/plat-omap/Kconfig
-Date: Tue, 19 Apr 2022 15:37:05 +0200
-Message-Id: <20220419133723.1394715-24-arnd@kernel.org>
+Subject: [PATCH 24/41] ARM: omap: un-merge plat/sram.c
+Date: Tue, 19 Apr 2022 15:37:06 +0200
+Message-Id: <20220419133723.1394715-25-arnd@kernel.org>
 X-Mailer: git-send-email 2.29.2
 In-Reply-To: <20220419133723.1394715-1-arnd@kernel.org>
 References: <20220419133723.1394715-1-arnd@kernel.org>
@@ -72,252 +72,492 @@ Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 From: Arnd Bergmann <arnd@arndb.de>
 
-All the remaining features in here are either omap1
-or omap2plus specific, so move them into the respective
-Kconfig files.
+The sram initialization code is the only shared omap1/2 code that
+is not a standalone driver, but it is very short. Having two copies
+of this code means some duplication of the sources, but actually
+saves object code size as it can be inlined better.
 
 Signed-off-by: Arnd Bergmann <arnd@arndb.de>
 ---
- arch/arm/Kconfig            |  2 -
- arch/arm/mach-omap1/Kconfig | 37 +++++++++++++++
- arch/arm/mach-omap2/Kconfig | 49 ++++++++++++++++++++
- arch/arm/plat-omap/Kconfig  | 92 -------------------------------------
- 4 files changed, 86 insertions(+), 94 deletions(-)
- delete mode 100644 arch/arm/plat-omap/Kconfig
+ arch/arm/mach-omap1/devices.c          |   2 +-
+ arch/arm/mach-omap1/sram-init.c        |  91 +++++++++++++++--
+ arch/arm/mach-omap1/sram.h             |   4 +-
+ arch/arm/mach-omap2/sram.c             |  91 ++++++++++++++++-
+ arch/arm/mach-omap2/sram.h             |   5 +-
+ arch/arm/plat-omap/Makefile            |   2 +-
+ arch/arm/plat-omap/include/plat/sram.h |   8 --
+ arch/arm/plat-omap/sram.c              | 129 -------------------------
+ 8 files changed, 182 insertions(+), 150 deletions(-)
+ delete mode 100644 arch/arm/plat-omap/include/plat/sram.h
+ delete mode 100644 arch/arm/plat-omap/sram.c
 
-diff --git a/arch/arm/Kconfig b/arch/arm/Kconfig
-index 2e8091e2d8a8..700655e31b04 100644
---- a/arch/arm/Kconfig
-+++ b/arch/arm/Kconfig
-@@ -656,8 +656,6 @@ source "arch/arm/mach-npcm/Kconfig"
+diff --git a/arch/arm/mach-omap1/devices.c b/arch/arm/mach-omap1/devices.c
+index eb0f09edb3d1..6bc32ebda7a7 100644
+--- a/arch/arm/mach-omap1/devices.c
++++ b/arch/arm/mach-omap1/devices.c
+@@ -356,7 +356,7 @@ static int __init omap1_init_devices(void)
+ 	if (!cpu_class_is_omap1())
+ 		return -ENODEV;
  
- source "arch/arm/mach-nspire/Kconfig"
+-	omap_sram_init();
++	omap1_sram_init();
+ 	omap1_clk_late_init();
  
--source "arch/arm/plat-omap/Kconfig"
--
- source "arch/arm/mach-omap1/Kconfig"
+ 	/* please keep these calls, and their implementations above,
+diff --git a/arch/arm/mach-omap1/sram-init.c b/arch/arm/mach-omap1/sram-init.c
+index 3bd60708c345..0e3ec32a008e 100644
+--- a/arch/arm/mach-omap1/sram-init.c
++++ b/arch/arm/mach-omap1/sram-init.c
+@@ -14,6 +14,7 @@
+ #include <asm/fncpy.h>
+ #include <asm/tlb.h>
+ #include <asm/cacheflush.h>
++#include <asm/set_memory.h>
  
- source "arch/arm/mach-omap2/Kconfig"
-diff --git a/arch/arm/mach-omap1/Kconfig b/arch/arm/mach-omap1/Kconfig
-index 04155b5ce978..93ea86954a84 100644
---- a/arch/arm/mach-omap1/Kconfig
-+++ b/arch/arm/mach-omap1/Kconfig
-@@ -28,6 +28,11 @@ config ARCH_OMAP16XX
- 	select CPU_ARM926T
- 	select OMAP_DM_TIMER
+ #include <asm/mach/map.h>
  
-+config ARCH_OMAP
-+	bool
-+
-+comment "OMAP Feature Selections"
-+
- config OMAP_MUX
- 	bool "OMAP multiplexing support"
- 	default y
-@@ -69,6 +74,38 @@ config OMAP_32K_TIMER
- 	  The actual timer selection is done in the board file
- 	  through the (DT_)MACHINE_START structure.
+@@ -22,18 +23,77 @@
  
-+config OMAP_MPU_TIMER
-+	bool "Use mpu timer"
-+	depends on ARCH_OMAP1
-+	help
-+	  Select this option if you want to use the OMAP mpu timer. This
-+	  timer provides more intra-tick resolution than the 32KHz timer,
-+	  but consumes more power.
+ #define OMAP1_SRAM_PA		0x20000000
+ #define SRAM_BOOTLOADER_SZ	0x80
++#define ROUND_DOWN(value,boundary)	((value) & (~((boundary)-1)))
 +
-+config OMAP_SERIAL_WAKE
-+	bool "Enable wake-up events for serial ports"
-+	depends on ARCH_OMAP1 && OMAP_MUX
-+	default y
-+	help
-+	  Select this option if you want to have your system wake up
-+	  to data on the serial RX line. This allows you to wake the
-+	  system from serial console.
++static void __iomem *omap_sram_base;
++static unsigned long omap_sram_start;
++static unsigned long omap_sram_skip;
++static unsigned long omap_sram_size;
++static void __iomem *omap_sram_ceil;
 +
-+config OMAP_RESET_CLOCKS
-+	bool "Reset unused clocks during boot"
-+	depends on ARCH_OMAP
-+	help
-+	  Say Y if you want to reset unused clocks during boot.
-+	  This option saves power, but assumes all drivers are
-+	  using the clock framework. Broken drivers that do not
-+	  yet use clock framework may not work with this option.
-+	  If you are booting from another operating system, you
-+	  probably do not want this option enabled until your
-+	  device drivers work properly.
++/*
++ * Memory allocator for SRAM: calculates the new ceiling address
++ * for pushing a function using the fncpy API.
++ *
++ * Note that fncpy requires the returned address to be aligned
++ * to an 8-byte boundary.
++ */
++static void *omap_sram_push_address(unsigned long size)
++{
++	unsigned long available, new_ceil = (unsigned long)omap_sram_ceil;
 +
-+config ARCH_OMAP_OTG
-+	bool
++	available = omap_sram_ceil - (omap_sram_base + omap_sram_skip);
 +
- comment "OMAP Board Type"
++	if (size > available) {
++		pr_err("Not enough space in SRAM\n");
++		return NULL;
++	}
++
++	new_ceil -= size;
++	new_ceil = ROUND_DOWN(new_ceil, FNCPY_ALIGN);
++	omap_sram_ceil = IOMEM(new_ceil);
++
++	return (void *)omap_sram_ceil;
++}
++
++void *omap_sram_push(void *funcp, unsigned long size)
++{
++	void *sram;
++	unsigned long base;
++	int pages;
++	void *dst = NULL;
++
++	sram = omap_sram_push_address(size);
++	if (!sram)
++		return NULL;
++
++	base = (unsigned long)sram & PAGE_MASK;
++	pages = PAGE_ALIGN(size) / PAGE_SIZE;
++
++	set_memory_rw(base, pages);
++
++	dst = fncpy(sram, funcp, size);
++
++	set_memory_ro(base, pages);
++	set_memory_x(base, pages);
++
++	return dst;
++}
  
- config MACH_OMAP_INNOVATOR
-diff --git a/arch/arm/mach-omap2/Kconfig b/arch/arm/mach-omap2/Kconfig
-index 02c253de9b6e..a8adbb4d478a 100644
---- a/arch/arm/mach-omap2/Kconfig
-+++ b/arch/arm/mach-omap2/Kconfig
-@@ -123,6 +123,8 @@ config OMAP_INTERCONNECT_BARRIER
- 	bool
- 	select ARM_HEAVY_MB
- 	
-+config ARCH_OMAP
-+	bool
+ /*
+  * The amount of SRAM depends on the core type.
+  * Note that we cannot try to test for SRAM here because writes
+  * to secure SRAM will hang the system. Also the SRAM is not
+  * yet mapped at this point.
++ * Note that we cannot use ioremap for SRAM, as clock init needs SRAM early.
+  */
+ static void __init omap_detect_and_map_sram(void)
+ {
+-	unsigned long omap_sram_skip = SRAM_BOOTLOADER_SZ;
+-	unsigned long omap_sram_start = OMAP1_SRAM_PA;
+-	unsigned long omap_sram_size;
++	unsigned long base;
++	int pages;
++
++	omap_sram_skip = SRAM_BOOTLOADER_SZ;
++	omap_sram_start = OMAP1_SRAM_PA;
  
- if ARCH_OMAP2PLUS
+ 	if (cpu_is_omap7xx())
+ 		omap_sram_size = 0x32000;	/* 200K */
+@@ -47,8 +107,27 @@ static void __init omap_detect_and_map_sram(void)
+ 		omap_sram_size = 0x4000;
+ 	}
  
-@@ -153,6 +155,53 @@ config SOC_HAS_REALTIME_COUNTER
- 	depends on SOC_OMAP5 || SOC_DRA7XX
- 	default y
+-	omap_map_sram(omap_sram_start, omap_sram_size,
+-		omap_sram_skip, 1);
++	omap_sram_start = ROUND_DOWN(omap_sram_start, PAGE_SIZE);
++	omap_sram_base = __arm_ioremap_exec(omap_sram_start, omap_sram_size, 1);
++	if (!omap_sram_base) {
++		pr_err("SRAM: Could not map\n");
++		return;
++	}
++
++	omap_sram_ceil = omap_sram_base + omap_sram_size;
++
++	/*
++	 * Looks like we need to preserve some bootloader code at the
++	 * beginning of SRAM for jumping to flash for reboot to work...
++	 */
++	memset_io(omap_sram_base + omap_sram_skip, 0,
++		  omap_sram_size - omap_sram_skip);
++
++	base = (unsigned long)omap_sram_base;
++	pages = PAGE_ALIGN(omap_sram_size) / PAGE_SIZE;
++
++	set_memory_ro(base, pages);
++	set_memory_x(base, pages);
+ }
  
-+config POWER_AVS_OMAP
-+	bool "AVS(Adaptive Voltage Scaling) support for OMAP IP versions 1&2"
-+	depends on (ARCH_OMAP3 || ARCH_OMAP4) && PM
-+	select POWER_SUPPLY
-+	help
-+	  Say Y to enable AVS(Adaptive Voltage Scaling)
-+	  support on OMAP containing the version 1 or
-+	  version 2 of the SmartReflex IP.
-+	  V1 is the 65nm version used in OMAP3430.
-+	  V2 is the update for the 45nm version of the IP used in OMAP3630
-+	  and OMAP4430
-+
-+	  Please note, that by default SmartReflex is only
-+	  initialized and not enabled. To enable the automatic voltage
-+	  compensation for vdd mpu and vdd core from user space,
-+	  user must write 1 to
-+		/debug/smartreflex/sr_<X>/autocomp,
-+	  where X is mpu_iva or core for OMAP3.
-+	  Optionally autocompensation can be enabled in the kernel
-+	  by default during system init via the enable_on_init flag
-+	  which an be passed as platform data to the smartreflex driver.
-+
-+config POWER_AVS_OMAP_CLASS3
-+	bool "Class 3 mode of Smartreflex Implementation"
-+	depends on POWER_AVS_OMAP && TWL4030_CORE
-+	help
-+	  Say Y to enable Class 3 implementation of Smartreflex
-+
-+	  Class 3 implementation of Smartreflex employs continuous hardware
-+	  voltage calibration.
-+
-+config OMAP3_L2_AUX_SECURE_SAVE_RESTORE
-+	bool "OMAP3 HS/EMU save and restore for L2 AUX control register"
-+	depends on ARCH_OMAP3 && PM
-+	help
-+	  Without this option, L2 Auxiliary control register contents are
-+	  lost during off-mode entry on HS/EMU devices. This feature
-+	  requires support from PPA / boot-loader in HS/EMU devices, which
-+	  currently does not exist by default.
-+
-+config OMAP3_L2_AUX_SECURE_SERVICE_SET_ID
-+	int "Service ID for the support routine to set L2 AUX control"
-+	depends on OMAP3_L2_AUX_SECURE_SAVE_RESTORE
-+	default 43
-+	help
-+	  PPA routine service ID for setting L2 auxiliary control register.
-+
- comment "OMAP Core Type"
- 	depends on ARCH_OMAP2
+ static void (*_omap_sram_reprogram_clock)(u32 dpllctl, u32 ckctl);
+@@ -62,7 +141,7 @@ void omap_sram_reprogram_clock(u32 dpllctl, u32 ckctl)
+ 	_omap_sram_reprogram_clock(dpllctl, ckctl);
+ }
  
-diff --git a/arch/arm/plat-omap/Kconfig b/arch/arm/plat-omap/Kconfig
+-int __init omap_sram_init(void)
++int __init omap1_sram_init(void)
+ {
+ 	omap_detect_and_map_sram();
+ 	_omap_sram_reprogram_clock =
+diff --git a/arch/arm/mach-omap1/sram.h b/arch/arm/mach-omap1/sram.h
+index 73efabd119e8..f45e6dd6d7e5 100644
+--- a/arch/arm/mach-omap1/sram.h
++++ b/arch/arm/mach-omap1/sram.h
+@@ -1,8 +1,10 @@
+ /* SPDX-License-Identifier: GPL-2.0 */
+-#include <plat/sram.h>
+ 
+ extern void omap_sram_reprogram_clock(u32 dpllctl, u32 ckctl);
+ 
++int omap1_sram_init(void);
++void *omap_sram_push(void *funcp, unsigned long size);
++
+ /* Do not use these */
+ extern void omap1_sram_reprogram_clock(u32 ckctl, u32 dpllctl);
+ extern unsigned long omap1_sram_reprogram_clock_sz;
+diff --git a/arch/arm/mach-omap2/sram.c b/arch/arm/mach-omap2/sram.c
+index c98855f5594b..c685afb8bd03 100644
+--- a/arch/arm/mach-omap2/sram.c
++++ b/arch/arm/mach-omap2/sram.c
+@@ -18,6 +18,7 @@
+ #include <asm/fncpy.h>
+ #include <asm/tlb.h>
+ #include <asm/cacheflush.h>
++#include <asm/set_memory.h>
+ 
+ #include <asm/mach/map.h>
+ 
+@@ -47,8 +48,68 @@
+ #define ROUND_DOWN(value,boundary)	((value) & (~((boundary)-1)))
+ 
+ static unsigned long omap_sram_start;
+-static unsigned long omap_sram_skip;
+ static unsigned long omap_sram_size;
++static void __iomem *omap_sram_base;
++static unsigned long omap_sram_skip;
++static void __iomem *omap_sram_ceil;
++
++/*
++ * Memory allocator for SRAM: calculates the new ceiling address
++ * for pushing a function using the fncpy API.
++ *
++ * Note that fncpy requires the returned address to be aligned
++ * to an 8-byte boundary.
++ */
++static void *omap_sram_push_address(unsigned long size)
++{
++	unsigned long available, new_ceil = (unsigned long)omap_sram_ceil;
++
++	available = omap_sram_ceil - (omap_sram_base + omap_sram_skip);
++
++	if (size > available) {
++		pr_err("Not enough space in SRAM\n");
++		return NULL;
++	}
++
++	new_ceil -= size;
++	new_ceil = ROUND_DOWN(new_ceil, FNCPY_ALIGN);
++	omap_sram_ceil = IOMEM(new_ceil);
++
++	return (void *)omap_sram_ceil;
++}
++
++void *omap_sram_push(void *funcp, unsigned long size)
++{
++	void *sram;
++	unsigned long base;
++	int pages;
++	void *dst = NULL;
++
++	sram = omap_sram_push_address(size);
++	if (!sram)
++		return NULL;
++
++	base = (unsigned long)sram & PAGE_MASK;
++	pages = PAGE_ALIGN(size) / PAGE_SIZE;
++
++	set_memory_rw(base, pages);
++
++	dst = fncpy(sram, funcp, size);
++
++	set_memory_ro(base, pages);
++	set_memory_x(base, pages);
++
++	return dst;
++}
++
++/*
++ * The SRAM context is lost during off-idle and stack
++ * needs to be reset.
++ */
++static void omap_sram_reset(void)
++{
++	omap_sram_ceil = omap_sram_base + omap_sram_size;
++}
+ 
+ /*
+  * Depending on the target RAMFS firewall setup, the public usable amount of
+@@ -119,6 +180,8 @@ static void __init omap_detect_sram(void)
+  */
+ static void __init omap2_map_sram(void)
+ {
++	unsigned long base;
++	int pages;
+ 	int cached = 1;
+ 
+ 	if (cpu_is_omap34xx()) {
+@@ -132,8 +195,30 @@ static void __init omap2_map_sram(void)
+ 		cached = 0;
+ 	}
+ 
+-	omap_map_sram(omap_sram_start, omap_sram_size,
+-			omap_sram_skip, cached);
++	if (omap_sram_size == 0)
++		return;
++
++	omap_sram_start = ROUND_DOWN(omap_sram_start, PAGE_SIZE);
++	omap_sram_base = __arm_ioremap_exec(omap_sram_start, omap_sram_size, cached);
++	if (!omap_sram_base) {
++		pr_err("SRAM: Could not map\n");
++		return;
++	}
++
++	omap_sram_reset();
++
++	/*
++	 * Looks like we need to preserve some bootloader code at the
++	 * beginning of SRAM for jumping to flash for reboot to work...
++	 */
++	memset_io(omap_sram_base + omap_sram_skip, 0,
++		  omap_sram_size - omap_sram_skip);
++
++	base = (unsigned long)omap_sram_base;
++	pages = PAGE_ALIGN(omap_sram_size) / PAGE_SIZE;
++
++	set_memory_ro(base, pages);
++	set_memory_x(base, pages);
+ }
+ 
+ static void (*_omap2_sram_ddr_init)(u32 *slow_dll_ctrl, u32 fast_dll_ctrl,
+diff --git a/arch/arm/mach-omap2/sram.h b/arch/arm/mach-omap2/sram.h
+index 447bd3eed0fd..271062f23482 100644
+--- a/arch/arm/mach-omap2/sram.h
++++ b/arch/arm/mach-omap2/sram.h
+@@ -4,7 +4,6 @@
+  */
+ 
+ #ifndef __ASSEMBLY__
+-#include <plat/sram.h>
+ 
+ extern void omap2_sram_ddr_init(u32 *slow_dll_ctrl, u32 fast_dll_ctrl,
+ 				u32 base_cs, u32 force_unlock);
+@@ -14,6 +13,10 @@ extern u32 omap2_set_prcm(u32 dpll_ctrl_val, u32 sdrc_rfr_val, int bypass);
+ 
+ extern void omap3_sram_restore_context(void);
+ 
++extern int __init omap_sram_init(void);
++
++extern void *omap_sram_push(void *funcp, unsigned long size);
++
+ /* Do not use these */
+ extern void omap24xx_sram_reprogram_clock(u32 ckctl, u32 dpllctl);
+ extern unsigned long omap24xx_sram_reprogram_clock_sz;
+diff --git a/arch/arm/plat-omap/Makefile b/arch/arm/plat-omap/Makefile
+index 5d55295a14ee..fefce2e1eaf3 100644
+--- a/arch/arm/plat-omap/Makefile
++++ b/arch/arm/plat-omap/Makefile
+@@ -6,4 +6,4 @@
+ ccflags-$(CONFIG_ARCH_MULTIPLATFORM) := -I$(srctree)/arch/arm/plat-omap/include
+ 
+ # Common support
+-obj-y := sram.o
++obj-y :=
+diff --git a/arch/arm/plat-omap/include/plat/sram.h b/arch/arm/plat-omap/include/plat/sram.h
 deleted file mode 100644
-index dc53ea8e5bbb..000000000000
---- a/arch/arm/plat-omap/Kconfig
+index 30a07730807a..000000000000
+--- a/arch/arm/plat-omap/include/plat/sram.h
 +++ /dev/null
-@@ -1,92 +0,0 @@
--# SPDX-License-Identifier: GPL-2.0
--config ARCH_OMAP
--	bool
+@@ -1,8 +0,0 @@
+-/* SPDX-License-Identifier: GPL-2.0 */
+-int omap_sram_init(void);
 -
--if ARCH_OMAP
+-void omap_map_sram(unsigned long start, unsigned long size,
+-			unsigned long skip, int cached);
+-void omap_sram_reset(void);
 -
--menu "TI OMAP Common Features"
+-extern void *omap_sram_push(void *funcp, unsigned long size);
+diff --git a/arch/arm/plat-omap/sram.c b/arch/arm/plat-omap/sram.c
+deleted file mode 100644
+index 0f1eacad7fe3..000000000000
+--- a/arch/arm/plat-omap/sram.c
++++ /dev/null
+@@ -1,129 +0,0 @@
+-// SPDX-License-Identifier: GPL-2.0-only
+-/*
+- * linux/arch/arm/plat-omap/sram.c
+- *
+- * OMAP SRAM detection and management
+- *
+- * Copyright (C) 2005 Nokia Corporation
+- * Written by Tony Lindgren <tony@atomide.com>
+- *
+- * Copyright (C) 2009-2012 Texas Instruments
+- * Added OMAP4/5 support - Santosh Shilimkar <santosh.shilimkar@ti.com>
+- */
+-#undef DEBUG
 -
--config ARCH_OMAP_OTG
--	bool
+-#include <linux/module.h>
+-#include <linux/kernel.h>
+-#include <linux/init.h>
+-#include <linux/io.h>
 -
--comment "OMAP Feature Selections"
+-#include <asm/fncpy.h>
+-#include <asm/tlb.h>
+-#include <asm/cacheflush.h>
+-#include <asm/set_memory.h>
 -
--config POWER_AVS_OMAP
--	bool "AVS(Adaptive Voltage Scaling) support for OMAP IP versions 1&2"
--	depends on (ARCH_OMAP3 || ARCH_OMAP4) && PM
--	select POWER_SUPPLY
--	help
--	  Say Y to enable AVS(Adaptive Voltage Scaling)
--	  support on OMAP containing the version 1 or
--	  version 2 of the SmartReflex IP.
--	  V1 is the 65nm version used in OMAP3430.
--	  V2 is the update for the 45nm version of the IP used in OMAP3630
--	  and OMAP4430
+-#include <asm/mach/map.h>
 -
--	  Please note, that by default SmartReflex is only
--	  initialized and not enabled. To enable the automatic voltage
--	  compensation for vdd mpu and vdd core from user space,
--	  user must write 1 to
--		/debug/smartreflex/sr_<X>/autocomp,
--	  where X is mpu_iva or core for OMAP3.
--	  Optionally autocompensation can be enabled in the kernel
--	  by default during system init via the enable_on_init flag
--	  which an be passed as platform data to the smartreflex driver.
+-#include <plat/sram.h>
 -
--config POWER_AVS_OMAP_CLASS3
--	bool "Class 3 mode of Smartreflex Implementation"
--	depends on POWER_AVS_OMAP && TWL4030_CORE
--	help
--	  Say Y to enable Class 3 implementation of Smartreflex
+-#define ROUND_DOWN(value,boundary)	((value) & (~((boundary)-1)))
 -
--	  Class 3 implementation of Smartreflex employs continuous hardware
--	  voltage calibration.
+-static void __iomem *omap_sram_base;
+-static unsigned long omap_sram_skip;
+-static unsigned long omap_sram_size;
+-static void __iomem *omap_sram_ceil;
 -
--config OMAP_RESET_CLOCKS
--	bool "Reset unused clocks during boot"
--	depends on ARCH_OMAP
--	help
--	  Say Y if you want to reset unused clocks during boot.
--	  This option saves power, but assumes all drivers are
--	  using the clock framework. Broken drivers that do not
--	  yet use clock framework may not work with this option.
--	  If you are booting from another operating system, you
--	  probably do not want this option enabled until your
--	  device drivers work properly.
+-/*
+- * Memory allocator for SRAM: calculates the new ceiling address
+- * for pushing a function using the fncpy API.
+- *
+- * Note that fncpy requires the returned address to be aligned
+- * to an 8-byte boundary.
+- */
+-static void *omap_sram_push_address(unsigned long size)
+-{
+-	unsigned long available, new_ceil = (unsigned long)omap_sram_ceil;
 -
--config OMAP_MPU_TIMER
--	bool "Use mpu timer"
--	depends on ARCH_OMAP1
--	help
--	  Select this option if you want to use the OMAP mpu timer. This
--	  timer provides more intra-tick resolution than the 32KHz timer,
--	  but consumes more power.
+-	available = omap_sram_ceil - (omap_sram_base + omap_sram_skip);
 -
--config OMAP3_L2_AUX_SECURE_SAVE_RESTORE
--	bool "OMAP3 HS/EMU save and restore for L2 AUX control register"
--	depends on ARCH_OMAP3 && PM
--	help
--	  Without this option, L2 Auxiliary control register contents are
--	  lost during off-mode entry on HS/EMU devices. This feature
--	  requires support from PPA / boot-loader in HS/EMU devices, which
--	  currently does not exist by default.
+-	if (size > available) {
+-		pr_err("Not enough space in SRAM\n");
+-		return NULL;
+-	}
 -
--config OMAP3_L2_AUX_SECURE_SERVICE_SET_ID
--	int "Service ID for the support routine to set L2 AUX control"
--	depends on OMAP3_L2_AUX_SECURE_SAVE_RESTORE
--	default 43
--	help
--	  PPA routine service ID for setting L2 auxiliary control register.
+-	new_ceil -= size;
+-	new_ceil = ROUND_DOWN(new_ceil, FNCPY_ALIGN);
+-	omap_sram_ceil = IOMEM(new_ceil);
 -
--config OMAP_SERIAL_WAKE
--	bool "Enable wake-up events for serial ports"
--	depends on ARCH_OMAP1 && OMAP_MUX
--	default y
--	help
--	  Select this option if you want to have your system wake up
--	  to data on the serial RX line. This allows you to wake the
--	  system from serial console.
+-	return (void *)omap_sram_ceil;
+-}
 -
--endmenu
+-void *omap_sram_push(void *funcp, unsigned long size)
+-{
+-	void *sram;
+-	unsigned long base;
+-	int pages;
+-	void *dst = NULL;
 -
--endif
+-	sram = omap_sram_push_address(size);
+-	if (!sram)
+-		return NULL;
+-
+-	base = (unsigned long)sram & PAGE_MASK;
+-	pages = PAGE_ALIGN(size) / PAGE_SIZE;
+-
+-	set_memory_rw(base, pages);
+-
+-	dst = fncpy(sram, funcp, size);
+-
+-	set_memory_ro(base, pages);
+-	set_memory_x(base, pages);
+-
+-	return dst;
+-}
+-
+-/*
+- * The SRAM context is lost during off-idle and stack
+- * needs to be reset.
+- */
+-void omap_sram_reset(void)
+-{
+-	omap_sram_ceil = omap_sram_base + omap_sram_size;
+-}
+-
+-/*
+- * Note that we cannot use ioremap for SRAM, as clock init needs SRAM early.
+- */
+-void __init omap_map_sram(unsigned long start, unsigned long size,
+-				 unsigned long skip, int cached)
+-{
+-	unsigned long base;
+-	int pages;
+-
+-	if (size == 0)
+-		return;
+-
+-	start = ROUND_DOWN(start, PAGE_SIZE);
+-	omap_sram_size = size;
+-	omap_sram_skip = skip;
+-	omap_sram_base = __arm_ioremap_exec(start, size, cached);
+-	if (!omap_sram_base) {
+-		pr_err("SRAM: Could not map\n");
+-		return;
+-	}
+-
+-	omap_sram_reset();
+-
+-	/*
+-	 * Looks like we need to preserve some bootloader code at the
+-	 * beginning of SRAM for jumping to flash for reboot to work...
+-	 */
+-	memset_io(omap_sram_base + omap_sram_skip, 0,
+-		  omap_sram_size - omap_sram_skip);
+-
+-	base = (unsigned long)omap_sram_base;
+-	pages = PAGE_ALIGN(omap_sram_size) / PAGE_SIZE;
+-
+-	set_memory_ro(base, pages);
+-	set_memory_x(base, pages);
+-}
 -- 
 2.29.2
 
