@@ -1,57 +1,57 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id E8542507133
-	for <lists+dri-devel@lfdr.de>; Tue, 19 Apr 2022 16:59:23 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id C2AB150715A
+	for <lists+dri-devel@lfdr.de>; Tue, 19 Apr 2022 17:06:44 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id CEF2410EF00;
-	Tue, 19 Apr 2022 14:59:21 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 4313D10E3A5;
+	Tue, 19 Apr 2022 15:06:40 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-oa1-x2d.google.com (mail-oa1-x2d.google.com
- [IPv6:2001:4860:4864:20::2d])
- by gabe.freedesktop.org (Postfix) with ESMTPS id BA65A10EED2;
- Tue, 19 Apr 2022 14:59:20 +0000 (UTC)
-Received: by mail-oa1-x2d.google.com with SMTP id
- 586e51a60fabf-e2afb80550so17798428fac.1; 
- Tue, 19 Apr 2022 07:59:20 -0700 (PDT)
+Received: from mail-oi1-x22f.google.com (mail-oi1-x22f.google.com
+ [IPv6:2607:f8b0:4864:20::22f])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 75D2D10E3A5;
+ Tue, 19 Apr 2022 15:06:39 +0000 (UTC)
+Received: by mail-oi1-x22f.google.com with SMTP id a10so955535oif.9;
+ Tue, 19 Apr 2022 08:06:39 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
  h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=txu5qF77kz021syUspWnSzVq95Qu7gMs2hI1GWgdN0g=;
- b=BDcVCy0mQEGbuXPpCkJme82wpCfSVxCgreSd1AQrcG8cDczRdYp6fo63Zl1UesunPw
- U+7T3oBEdXRDpEg2KWIKa7WShBAA+F6PTR1cIET+TL7hiJpdY5dcimQKuRMq/tT/LXan
- JqOlL1xYoi4+pfxn//1yfmGhfJKw41MR5D28CjSMGWBLL6EcSv7cebg4hlEdqKKDrDKl
- lHBIoE3gp2GlIZeRx8yEJThzNHeVJblMX9/2Dmo0yQ+3xRfcDzAErd6DCNTAISNfsAFw
- II1R2VA/PxqGjA52stjrt2fjgMj1ZAZmf2WHvwt8D3qOCAIPe6DyOldDy9ZLlQGvH95K
- /5xQ==
+ :cc:content-transfer-encoding;
+ bh=LO5D8IQiXerqDtltovMxrybBsDShYrVWcmmoOckwnnY=;
+ b=BYCn5F0XgInlZJxMgslo67sVMtt2pgaLsSywFeL7y0SzlubtCZN4KjtYRjeaE35OtQ
+ 27A/WKCMQLQnnodLLNZEfSVk5omkbUkpzzD+EzJauEG5yidJBrMhI8oP7GuWSsSyHIjg
+ r5/cEb9FOsvRsXXMQFdEx6sXCAWHqnxsK2GI0iMJOr/mSo9CGcTC14E09Mf0sxLpxduJ
+ 7uzpLcLyaKK5ZBONW0TnF6ciCj7Auuev7Bz0BFTduhnr3+3tXdM5dgql9D9HLWNV6Jjb
+ Bk6ifvWpSviwp8Gqxt6oQVUYwsAKxCh/9fEIo7a0/4dlVt4AXqw3KEJAKYXezHtqKozd
+ lc0Q==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=txu5qF77kz021syUspWnSzVq95Qu7gMs2hI1GWgdN0g=;
- b=kolq5eAbxDxgUE8OU622KPqjHK8uMhLalQnvxsNFgIDV9FSapnUNyIZIgGVA/0MLMZ
- CwGZtCBIKs8aCCkEDo9ptjJ3MEta5AcHeWEjEeXmQunQzKqvg3T2FGmS6r6mAtRn41O9
- 4UOAHdDIHOU/oDRBMiuU7Eb1haFXlRrwgVK9LBwzrINxDWmUSJhq0irVrJORcN0MTX8i
- HaYA4DEQ9UuIlrpEKmmM+iH53rJ/UioorVMcwukewEKFcRf5nQtHwMj7WXhug0ffxBPs
- 4RKQrphlogVIDVtcF9Ra3B8FeCPgG3afY5Mh2oVBzzDvt5Md9rz7TlUKekWlM4VgFSWE
- 0/1Q==
-X-Gm-Message-State: AOAM531SX6UvnsBQiv9yZFcC2i5ivRQdnQzB43Vrm01PYJQNfsMQsKgZ
- cmyW0pAkvhW7VfGEE6Y/ZmQ2T6BMPsUx4AfQZA8=
-X-Google-Smtp-Source: ABdhPJwkeTzLw742f1pLT1h5HcgounlwYPVNsuzflB54s8eFTAPlS5s6EXzaHdH41CdsZRH5FTve/PqKvS145BOY6YE=
-X-Received: by 2002:a05:6870:311d:b0:de:9b6c:362b with SMTP id
- v29-20020a056870311d00b000de9b6c362bmr8077760oaa.200.1650380360073; Tue, 19
- Apr 2022 07:59:20 -0700 (PDT)
+ :message-id:subject:to:cc:content-transfer-encoding;
+ bh=LO5D8IQiXerqDtltovMxrybBsDShYrVWcmmoOckwnnY=;
+ b=zbMbK8STEKS8tNCAGepy2EQrsZR9gdJURqazfVUhM9mYfm4mZsABx+6585ZztInYOY
+ lCzVaIMBnHmuZWK3s5qIRMSYm5HxSwzdeetHDMO7FOsaL1fjdqIzxghBNcOsuyVn4XD7
+ U+sAnOb1HAD6D17GANNmwlhCjSKRrfES00+84N51JAcWiRXx9SGZTT01PuvtBK7MAC7d
+ mLx/m89o4C4lqJ/2o86o/+C3fJZpn38qNeOBoOJpxBCq3ruzTWk/uDTBlxNoLBHBVG7v
+ T0PZcFGKl+cl3jLCt69eSRvILqmBMQJxW1cdcGBXGk8XDu9CAFCE0MbyB053ukonCjw2
+ n6kg==
+X-Gm-Message-State: AOAM5306t2SAgz7mR/6ej6ok/B0W5KxyQTh3cW6fH3NLCTINSZm2HIU4
+ hKRNY8hSLPGTaMy/46z2tR3wtvJTOGh7lNxveks=
+X-Google-Smtp-Source: ABdhPJw/9kNIDpUpFT0h8fEWyNrFgldUoKCfMk4FYkSedoqHAYOn3snP9dcAwic4oAGbzyN1EzSjxThP7jAiINQzwDw=
+X-Received: by 2002:a05:6808:1486:b0:2f9:e821:51d9 with SMTP id
+ e6-20020a056808148600b002f9e82151d9mr7614844oiw.253.1650380798833; Tue, 19
+ Apr 2022 08:06:38 -0700 (PDT)
 MIME-Version: 1.0
-References: <20220415195027.305019-1-tales.aparecida@gmail.com>
- <20220415195027.305019-2-tales.aparecida@gmail.com>
-In-Reply-To: <20220415195027.305019-2-tales.aparecida@gmail.com>
+References: <alpine.DEB.2.22.394.2204161738390.3501@hadrien>
+In-Reply-To: <alpine.DEB.2.22.394.2204161738390.3501@hadrien>
 From: Alex Deucher <alexdeucher@gmail.com>
-Date: Tue, 19 Apr 2022 10:59:09 -0400
-Message-ID: <CADnq5_O9rV+42=7Lyy7dAwVZkBoxJgmwn0oavzN1pVBmKFLfcA@mail.gmail.com>
-Subject: Re: [PATCH 1/2] Documentation/gpu: Add entries to amdgpu glossary
-To: Tales Lelo da Aparecida <tales.aparecida@gmail.com>
+Date: Tue, 19 Apr 2022 11:06:27 -0400
+Message-ID: <CADnq5_NgQ+wd174nD+fQi_uwaHhfbPbvpXd1pdnUYEOucmgPFg@mail.gmail.com>
+Subject: Re: [PATCH] drm/amdgpu/powerplay/vega10: fix minmax.cocci warnings
+To: Julia Lawall <julia.lawall@inria.fr>
 Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -64,69 +64,93 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Thomas Zimmermann <tzimmermann@suse.de>, Jonathan Corbet <corbet@lwn.net>,
+Cc: kbuild-all@lists.01.org, kernel test robot <lkp@intel.com>,
  David Airlie <airlied@linux.ie>,
- Maling list - DRI developers <dri-devel@lists.freedesktop.org>, "Pan,
- Xinhui" <Xinhui.Pan@amd.com>, LKML <linux-kernel@vger.kernel.org>,
- Linux Doc Mailing List <linux-doc@vger.kernel.org>,
+ Maling list - DRI developers <dri-devel@lists.freedesktop.org>,
+ LKML <linux-kernel@vger.kernel.org>, Denis Efremov <efremov@linux.com>,
  amd-gfx list <amd-gfx@lists.freedesktop.org>,
- Alex Deucher <alexander.deucher@amd.com>, andrealmeid@riseup.net,
+ Alex Deucher <alexander.deucher@amd.com>, Evan Quan <evan.quan@amd.com>,
  =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Applied the series with minor fix to capitalize the U in Compute Unit.  Thanks!
+On Sat, Apr 16, 2022 at 11:41 AM Julia Lawall <julia.lawall@inria.fr> wrote=
+:
+>
+> From: kernel test robot <lkp@intel.com>
+>
+> Use max to simplify the code.
+>
+> Generated by: scripts/coccinelle/misc/minmax.cocci
+>
+> CC: Denis Efremov <efremov@linux.com>
+> Reported-by: kernel test robot <lkp@intel.com>
+> Signed-off-by: kernel test robot <lkp@intel.com>
+> Signed-off-by: Julia Lawall <julia.lawall@inria.fr>
+
+This introduces a type comparison warning:
+
+drivers/gpu/drm/amd/amdgpu/../pm/powerplay/hwmgr/vega10_hwmgr.c: In
+function =E2=80=98vega10_odn_initial_default_setting=E2=80=99:
+./include/linux/minmax.h:20:35: warning: comparison of distinct
+pointer types lacks a cast
+   20 |         (!!(sizeof((typeof(x) *)1 =3D=3D (typeof(y) *)1)))
+      |                                   ^~
+./include/linux/minmax.h:26:18: note: in expansion of macro =E2=80=98__type=
+check=E2=80=99
+   26 |                 (__typecheck(x, y) && __no_side_effects(x, y))
+      |                  ^~~~~~~~~~~
+./include/linux/minmax.h:36:31: note: in expansion of macro =E2=80=98__safe=
+_cmp=E2=80=99
+   36 |         __builtin_choose_expr(__safe_cmp(x, y), \
+      |                               ^~~~~~~~~~
+./include/linux/minmax.h:52:25: note: in expansion of macro =E2=80=98__care=
+ful_cmp=E2=80=99
+   52 | #define max(x, y)       __careful_cmp(x, y, >)
+      |                         ^~~~~~~~~~~~~
+drivers/gpu/drm/amd/amdgpu/../pm/powerplay/hwmgr/vega10_hwmgr.c:350:40:
+note: in expansion of macro =E2=80=98max=E2=80=99
+  350 |         od_table[2]->entries[i].vddc =3D max(odn_table->max_vddc,
+      |                                        ^~~
 
 Alex
 
-On Fri, Apr 15, 2022 at 3:52 PM Tales Lelo da Aparecida
-<tales.aparecida@gmail.com> wrote:
 >
-> Add missing acronyms to the amdgppu glossary.
->
-> Closes: https://gitlab.freedesktop.org/drm/amd/-/issues/1939#note_1309737
-> Signed-off-by: Tales Lelo da Aparecida <tales.aparecida@gmail.com>
 > ---
->  Documentation/gpu/amdgpu/amdgpu-glossary.rst | 13 +++++++++++++
->  1 file changed, 13 insertions(+)
 >
-> diff --git a/Documentation/gpu/amdgpu/amdgpu-glossary.rst b/Documentation/gpu/amdgpu/amdgpu-glossary.rst
-> index 859dcec6c6f9..48829d097f40 100644
-> --- a/Documentation/gpu/amdgpu/amdgpu-glossary.rst
-> +++ b/Documentation/gpu/amdgpu/amdgpu-glossary.rst
-> @@ -8,12 +8,19 @@ we have a dedicated glossary for Display Core at
+> tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.gi=
+t master
+> head:   028192fea1de083f4f12bfb1eb7c4d7beb5c8ecd
+> commit: 5f66f73b9ff4dcabd4e2405ba9c32e80e02f9408 coccinelle: misc: add mi=
+nmax script
+> :::::: branch date: 17 hours ago
+> :::::: commit date: 12 months ago
 >
->  .. glossary::
+> Please take the patch only if it's a positive warning. Thanks!
 >
-> +    active_cu_number
-> +      The number of CUs that are active on the system.  The number of active
-> +      CUs may be less than SE * SH * CU depending on the board configuration.
-> +
->      CP
->        Command Processor
+>  drivers/gpu/drm/amd/pm/powerplay/hwmgr/vega10_hwmgr.c |   10 ++++------
+>  1 file changed, 4 insertions(+), 6 deletions(-)
 >
->      CPLIB
->        Content Protection Library
+> --- a/drivers/gpu/drm/amd/pm/powerplay/hwmgr/vega10_hwmgr.c
+> +++ b/drivers/gpu/drm/amd/pm/powerplay/hwmgr/vega10_hwmgr.c
+> @@ -345,12 +345,10 @@ static int vega10_odn_initial_default_se
+>                 odn_table->min_vddc =3D dep_table[0]->entries[0].vddc;
 >
-> +    CU
-> +      Compute unit
-> +
->      DFS
->        Digital Frequency Synthesizer
+>         i =3D od_table[2]->count - 1;
+> -       od_table[2]->entries[i].clk =3D hwmgr->platform_descriptor.overdr=
+iveLimit.memoryClock > od_table[2]->entries[i].clk ?
+> -                                       hwmgr->platform_descriptor.overdr=
+iveLimit.memoryClock :
+> -                                       od_table[2]->entries[i].clk;
+> -       od_table[2]->entries[i].vddc =3D odn_table->max_vddc > od_table[2=
+]->entries[i].vddc ?
+> -                                       odn_table->max_vddc :
+> -                                       od_table[2]->entries[i].vddc;
+> +       od_table[2]->entries[i].clk =3D max(hwmgr->platform_descriptor.ov=
+erdriveLimit.memoryClock,
+> +                                         od_table[2]->entries[i].clk);
+> +       od_table[2]->entries[i].vddc =3D max(odn_table->max_vddc,
+> +                                          od_table[2]->entries[i].vddc);
 >
-> @@ -74,6 +81,12 @@ we have a dedicated glossary for Display Core at
->      SDMA
->        System DMA
->
-> +    SE
-> +      Shader Engine
-> +
-> +    SH
-> +      SHader array
-> +
->      SMU
->        System Management Unit
->
-> --
-> 2.35.1
->
+>         return 0;
+>  }
