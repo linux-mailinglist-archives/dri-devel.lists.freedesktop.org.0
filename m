@@ -2,43 +2,42 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id BE5B2507782
-	for <lists+dri-devel@lfdr.de>; Tue, 19 Apr 2022 20:15:22 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 195995077BC
+	for <lists+dri-devel@lfdr.de>; Tue, 19 Apr 2022 20:15:57 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 73AE210EF8E;
-	Tue, 19 Apr 2022 18:15:20 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id B1AC810EFD0;
+	Tue, 19 Apr 2022 18:15:54 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from dfw.source.kernel.org (dfw.source.kernel.org
- [IPv6:2604:1380:4641:c500::1])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 7774110EF8E;
- Tue, 19 Apr 2022 18:15:19 +0000 (UTC)
+Received: from ams.source.kernel.org (ams.source.kernel.org [145.40.68.75])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 751BB10E177;
+ Tue, 19 Apr 2022 18:15:53 +0000 (UTC)
 Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
  (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
  (No client certificate requested)
- by dfw.source.kernel.org (Postfix) with ESMTPS id 6AE4561447;
- Tue, 19 Apr 2022 18:15:17 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 5EFD6C385AB;
- Tue, 19 Apr 2022 18:15:15 +0000 (UTC)
+ by ams.source.kernel.org (Postfix) with ESMTPS id 1F590B81866;
+ Tue, 19 Apr 2022 18:15:52 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 53858C385A5;
+ Tue, 19 Apr 2022 18:15:50 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1650392117;
- bh=9WL+ylVR4jrcqB//eMMexkdixOMruuuOM18tCDAJx8U=;
+ s=k20201202; t=1650392151;
+ bh=XEncWXOOTgqkk9+t/TZHK1gvF3HW9nBti41MaEMdk0s=;
  h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
- b=jEEuhnh7Byf0UmFdV+GZhCDUumBHvxH+w+eEn/FZmf6uEZSpcz5K+pYvnDuPpr+F9
- TXCtCildA9j8s2UCyTRfbz5iSXNDiPtCPk0YoAJ5NcjDFu/ELI4Rgbr2PZm5sfJ9Tq
- jPtjzqYeajdw/tnb31Ntpppr5zNwojyAFVKJ9+hrv7maPHLQ4RL63jjjXuniogGQ4I
- 0QcZ3wlZK+iMZrYmGLtQeLuDSAqQOrXdfmdz3qn5/oJ/rtWh33BRaNUPZCan3X7Nex
- FHyWMnWP/i3cDEE6w/qeHCc+CLpfsS+o3VpamqFz4woEQp0CQSBcc/IH+lMTRunLUP
- GNvB5qHuNEgPw==
+ b=NtmV/WBMB4naKmpI+rhATPQWAJs6hovsOBoXWmDvX53LkXzKvPxLt8+natVEZFo+P
+ 0QMLszaO3ChCgnomYZbFnEdVhQCvqd28bse45Rmnv0CrPxIT8MOzRbuLzi9l663t1p
+ vmuShnq1Kgm+rlAlYDjsPYTT8AtD4crjKxFOYqZ7eHTHM4YOnxoJdE9QJfwNEl5BVd
+ qJQ3v7SKhp7rb5nUVEARrBXiAu8k/Pe+IXg2rRR5eddekAJq+aMCthlAPgwKrzU2PE
+ q9ZUG0uByDCO+Yc1hwJeUWYYSihRzHhvD0EM7sjn3tPinVIZOmcv9klICNV1T3/ABr
+ Gf9w1kwvxrOvw==
 From: Sasha Levin <sashal@kernel.org>
 To: linux-kernel@vger.kernel.org,
 	stable@vger.kernel.org
-Subject: [PATCH AUTOSEL 5.4 11/14] drm/msm: Stop using iommu_present()
-Date: Tue, 19 Apr 2022 14:14:40 -0400
-Message-Id: <20220419181444.485959-11-sashal@kernel.org>
+Subject: [PATCH AUTOSEL 4.19 10/12] drm/msm/mdp5: check the return of kzalloc()
+Date: Tue, 19 Apr 2022 14:15:23 -0400
+Message-Id: <20220419181525.486166-10-sashal@kernel.org>
 X-Mailer: git-send-email 2.35.1
-In-Reply-To: <20220419181444.485959-1-sashal@kernel.org>
-References: <20220419181444.485959-1-sashal@kernel.org>
+In-Reply-To: <20220419181525.486166-1-sashal@kernel.org>
+References: <20220419181525.486166-1-sashal@kernel.org>
 MIME-Version: 1.0
 X-stable: review
 X-Patchwork-Hint: Ignore
@@ -56,44 +55,50 @@ List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
 Cc: Rob Clark <robdclark@chromium.org>, Sasha Levin <sashal@kernel.org>,
- airlied@linux.ie, sean@poorly.run, dri-devel@lists.freedesktop.org,
- linux-arm-msm@vger.kernel.org, Dmitry Baryshkov <dmitry.baryshkov@linaro.org>,
- freedreno@lists.freedesktop.org, Robin Murphy <robin.murphy@arm.com>
+ airlied@linux.ie, linux-arm-msm@vger.kernel.org,
+ Xiaoke Wang <xkernel.wang@foxmail.com>, dri-devel@lists.freedesktop.org,
+ maxime@cerno.tech, Dmitry Baryshkov <dmitry.baryshkov@linaro.org>,
+ freedreno@lists.freedesktop.org, sean@poorly.run
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-From: Robin Murphy <robin.murphy@arm.com>
+From: Xiaoke Wang <xkernel.wang@foxmail.com>
 
-[ Upstream commit e2a88eabb02410267519b838fb9b79f5206769be ]
+[ Upstream commit 047ae665577776b7feb11bd4f81f46627cff95e7 ]
 
-Even if some IOMMU has registered itself on the platform "bus", that
-doesn't necessarily mean it provides translation for the device we
-care about. Replace iommu_present() with a more appropriate check.
+kzalloc() is a memory allocation function which can return NULL when
+some internal memory errors happen. So it is better to check it to
+prevent potential wrong memory access.
 
-Signed-off-by: Robin Murphy <robin.murphy@arm.com>
-Reviewed-by: Rob Clark <robdclark@gmail.com>
-Patchwork: https://patchwork.freedesktop.org/patch/480707/
-Link: https://lore.kernel.org/r/5ab4f4574d7f3e042261da702d493ee40d003356.1649168268.git.robin.murphy@arm.com
+Besides, since mdp5_plane_reset() is void type, so we should better
+set `plane-state` to NULL after releasing it.
+
+Signed-off-by: Xiaoke Wang <xkernel.wang@foxmail.com>
+Reviewed-by: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
+Patchwork: https://patchwork.freedesktop.org/patch/481055/
+Link: https://lore.kernel.org/r/tencent_8E2A1C78140EE1784AB2FF4B2088CC0AB908@qq.com
 Signed-off-by: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
 Signed-off-by: Rob Clark <robdclark@chromium.org>
 Signed-off-by: Sasha Levin <sashal@kernel.org>
 ---
- drivers/gpu/drm/msm/msm_drv.c | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+ drivers/gpu/drm/msm/disp/mdp5/mdp5_plane.c | 3 +++
+ 1 file changed, 3 insertions(+)
 
-diff --git a/drivers/gpu/drm/msm/msm_drv.c b/drivers/gpu/drm/msm/msm_drv.c
-index 407b51cf6790..7322df9cf673 100644
---- a/drivers/gpu/drm/msm/msm_drv.c
-+++ b/drivers/gpu/drm/msm/msm_drv.c
-@@ -303,7 +303,7 @@ bool msm_use_mmu(struct drm_device *dev)
- 	struct msm_drm_private *priv = dev->dev_private;
+diff --git a/drivers/gpu/drm/msm/disp/mdp5/mdp5_plane.c b/drivers/gpu/drm/msm/disp/mdp5/mdp5_plane.c
+index 1ddf07514de6..3d8eaa25bea0 100644
+--- a/drivers/gpu/drm/msm/disp/mdp5/mdp5_plane.c
++++ b/drivers/gpu/drm/msm/disp/mdp5/mdp5_plane.c
+@@ -188,7 +188,10 @@ static void mdp5_plane_reset(struct drm_plane *plane)
+ 		drm_framebuffer_unreference(plane->state->fb);
  
- 	/* a2xx comes with its own MMU */
--	return priv->is_a2xx || iommu_present(&platform_bus_type);
-+	return priv->is_a2xx || device_iommu_mapped(dev->dev);
- }
+ 	kfree(to_mdp5_plane_state(plane->state));
++	plane->state = NULL;
+ 	mdp5_state = kzalloc(sizeof(*mdp5_state), GFP_KERNEL);
++	if (!mdp5_state)
++		return;
  
- static int msm_init_vram(struct drm_device *dev)
+ 	/* assign default blend parameters */
+ 	mdp5_state->alpha = 255;
 -- 
 2.35.1
 
