@@ -1,42 +1,41 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 88558507724
-	for <lists+dri-devel@lfdr.de>; Tue, 19 Apr 2022 20:11:21 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 386E1507726
+	for <lists+dri-devel@lfdr.de>; Tue, 19 Apr 2022 20:11:38 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 78C1310EDB4;
-	Tue, 19 Apr 2022 18:11:17 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 20EEB10EE98;
+	Tue, 19 Apr 2022 18:11:36 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from ams.source.kernel.org (ams.source.kernel.org
- [IPv6:2604:1380:4601:e00::1])
- by gabe.freedesktop.org (Postfix) with ESMTPS id A2B5610E805;
- Tue, 19 Apr 2022 18:11:16 +0000 (UTC)
+Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 4D4AC10E805;
+ Tue, 19 Apr 2022 18:11:34 +0000 (UTC)
 Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
  (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
  (No client certificate requested)
- by ams.source.kernel.org (Postfix) with ESMTPS id DF860B818E0;
- Tue, 19 Apr 2022 18:11:14 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id B3D3CC385A7;
- Tue, 19 Apr 2022 18:11:11 +0000 (UTC)
+ by dfw.source.kernel.org (Postfix) with ESMTPS id B5ABA60C90;
+ Tue, 19 Apr 2022 18:11:33 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 700E6C385A5;
+ Tue, 19 Apr 2022 18:11:31 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1650391873;
- bh=HHSBzrlIipK0nujA927z1nFCcxi1J+e1mhmEtz+5L5w=;
+ s=k20201202; t=1650391893;
+ bh=j2fWnchsZdK99kusfeZuzP3ZMiYvZ++rKX4EyqUwgpo=;
  h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
- b=Ryn/DSkLmpAHsC8Iuxb75603zqSRyl+Q7ZLW+qq7X9c2WPRhYVa63HYcX3K86342x
- n9m7zHphIWtGB5ePui9jGRoIGHnAzsKLKrUceGeOBE3ZzTA3j0wg/91OmsjgMWPCGl
- JBMIrJLFVInONfhZ05YVguiRKXk7L8IWP20wtuHJ5hvuR9hb/EHkJUsFGHdKU7VqFx
- YSqljwcyp5KYtVBs+joKnG7BN5BIKlyrppbDoGcPnGMJr2Zi0EGAv30m3SnQNcSvkf
- /qEVjdRtwISpm/LJH1gf4VIP6WCguIC5clVMeeXhIfagbyN3tL2uxCSIrfta7grSi8
- DB69XQP8QUcDQ==
+ b=SgNHZpus1HSMf8hmR4xe2BfEF+8U6Dml+ZT7dL7d32f2skcqCzA+OPGWn/LHg9/mT
+ 5thDpOEu5DHeOUF0AwwnRO8wpNctwdFSV994MD46lPOTD7/DUkfWysI9t2BCy5XdTQ
+ OI2E9dlNpPo68UdqiAmqEHCDEvJg+8KJhBMSNvjAqyoIItsVgVQgltUcM6lPdYpvOR
+ li/Dopbk+Jdf4LoqHVN9y9wyYPpi9Gfr+Hm4t3XyzAFxRcMeuetlL0Fl+BYpfD3f4y
+ lD8z9EfFYOV570Wixxdc++KLIeMcmwlC71LJHiD2LXypbZndHeEz9aKLTGhoopEknw
+ JM8A5wTWA6kPw==
 From: Sasha Levin <sashal@kernel.org>
 To: linux-kernel@vger.kernel.org,
 	stable@vger.kernel.org
-Subject: [PATCH AUTOSEL 5.17 02/34] drm/msm/gpu: Remove mutex from wait_event
- condition
-Date: Tue, 19 Apr 2022 14:10:29 -0400
-Message-Id: <20220419181104.484667-2-sashal@kernel.org>
+Subject: [PATCH AUTOSEL 5.17 08/34] drm/msm/disp: check the return value of
+ kzalloc()
+Date: Tue, 19 Apr 2022 14:10:35 -0400
+Message-Id: <20220419181104.484667-8-sashal@kernel.org>
 X-Mailer: git-send-email 2.35.1
 In-Reply-To: <20220419181104.484667-1-sashal@kernel.org>
 References: <20220419181104.484667-1-sashal@kernel.org>
@@ -57,58 +56,44 @@ List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
 Cc: Rob Clark <robdclark@chromium.org>, Sasha Levin <sashal@kernel.org>,
- jonathan@marek.ca, airlied@linux.ie, linux-arm-msm@vger.kernel.org,
- vladimir.lypak@gmail.com, dri-devel@lists.freedesktop.org,
- bjorn.andersson@linaro.org, nathan@kernel.org, quic_akhilpo@quicinc.com,
- freedreno@lists.freedesktop.org, sean@poorly.run,
- angelogioacchino.delregno@collabora.com
+ airlied@linux.ie, linux-arm-msm@vger.kernel.org,
+ freedreno@lists.freedesktop.org, Xiaoke Wang <xkernel.wang@foxmail.com>,
+ dri-devel@lists.freedesktop.org, Abhinav Kumar <quic_abhinavk@quicinc.com>,
+ dmitry.baryshkov@linaro.org, bjorn.andersson@linaro.org, sean@poorly.run,
+ greenfoo@u92.eu
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-From: Rob Clark <robdclark@chromium.org>
+From: Xiaoke Wang <xkernel.wang@foxmail.com>
 
-[ Upstream commit 7242795d520d3fb48e005e3c96ba54bb59639d6e ]
+[ Upstream commit f75e582b0c3ee8f0bddc2248cc8b9175f29c5937 ]
 
-The mutex wasn't really protecting anything before.  Before the previous
-patch we could still be racing with the scheduler's kthread, as that is
-not necessarily frozen yet.  Now that we've parked the sched threads,
-the only race is with jobs retiring, and that is harmless, ie.
+kzalloc() is a memory allocation function which can return NULL when
+some internal memory errors happen. So it is better to check it to
+prevent potential wrong memory access.
 
+Signed-off-by: Xiaoke Wang <xkernel.wang@foxmail.com>
+Reviewed-by: Abhinav Kumar <quic_abhinavk@quicinc.com>
+Link: https://lore.kernel.org/r/tencent_B3E19486FF39415098B572B7397C2936C309@qq.com
 Signed-off-by: Rob Clark <robdclark@chromium.org>
-Link: https://lore.kernel.org/r/20220310234611.424743-4-robdclark@gmail.com
 Signed-off-by: Sasha Levin <sashal@kernel.org>
 ---
- drivers/gpu/drm/msm/adreno/adreno_device.c | 11 +----------
- 1 file changed, 1 insertion(+), 10 deletions(-)
+ drivers/gpu/drm/msm/disp/msm_disp_snapshot_util.c | 2 ++
+ 1 file changed, 2 insertions(+)
 
-diff --git a/drivers/gpu/drm/msm/adreno/adreno_device.c b/drivers/gpu/drm/msm/adreno/adreno_device.c
-index b93de79000e1..e8a8240a6868 100644
---- a/drivers/gpu/drm/msm/adreno/adreno_device.c
-+++ b/drivers/gpu/drm/msm/adreno/adreno_device.c
-@@ -608,22 +608,13 @@ static int adreno_runtime_resume(struct device *dev)
- 	return gpu->funcs->pm_resume(gpu);
- }
+diff --git a/drivers/gpu/drm/msm/disp/msm_disp_snapshot_util.c b/drivers/gpu/drm/msm/disp/msm_disp_snapshot_util.c
+index 5d2ff6791058..acfe1b31e079 100644
+--- a/drivers/gpu/drm/msm/disp/msm_disp_snapshot_util.c
++++ b/drivers/gpu/drm/msm/disp/msm_disp_snapshot_util.c
+@@ -176,6 +176,8 @@ void msm_disp_snapshot_add_block(struct msm_disp_state *disp_state, u32 len,
+ 	va_list va;
  
--static int active_submits(struct msm_gpu *gpu)
--{
--	int active_submits;
--	mutex_lock(&gpu->active_lock);
--	active_submits = gpu->active_submits;
--	mutex_unlock(&gpu->active_lock);
--	return active_submits;
--}
--
- static int adreno_runtime_suspend(struct device *dev)
- {
- 	struct msm_gpu *gpu = dev_to_gpu(dev);
- 	int remaining;
+ 	new_blk = kzalloc(sizeof(struct msm_disp_state_block), GFP_KERNEL);
++	if (!new_blk)
++		return;
  
- 	remaining = wait_event_timeout(gpu->retire_event,
--				       active_submits(gpu) == 0,
-+				       gpu->active_submits == 0,
- 				       msecs_to_jiffies(1000));
- 	if (remaining == 0) {
- 		dev_err(dev, "Timeout waiting for GPU to suspend\n");
+ 	va_start(va, fmt);
+ 
 -- 
 2.35.1
 
