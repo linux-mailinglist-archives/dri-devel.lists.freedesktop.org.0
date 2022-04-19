@@ -1,68 +1,41 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 68FDC507254
-	for <lists+dri-devel@lfdr.de>; Tue, 19 Apr 2022 17:57:19 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id AECA25075AE
+	for <lists+dri-devel@lfdr.de>; Tue, 19 Apr 2022 18:59:01 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id D498610EEC8;
-	Tue, 19 Apr 2022 15:57:13 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id A370810E88A;
+	Tue, 19 Apr 2022 16:58:46 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-lf1-x12a.google.com (mail-lf1-x12a.google.com
- [IPv6:2a00:1450:4864:20::12a])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 8041410EEC8
- for <dri-devel@lists.freedesktop.org>; Tue, 19 Apr 2022 15:57:12 +0000 (UTC)
-Received: by mail-lf1-x12a.google.com with SMTP id b21so30194950lfb.5
- for <dri-devel@lists.freedesktop.org>; Tue, 19 Apr 2022 08:57:12 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=message-id:date:mime-version:user-agent:subject:content-language:to
- :cc:references:from:in-reply-to:content-transfer-encoding;
- bh=aBBlrcuINY/huqI+pmNpt7ezjRhcp+EsZeDz0RlBbYA=;
- b=oYSRwbUAXncHSazO9/um5GURByFyEv/d1wSyWc52WIGTl0Dn2fBv7EVe8HLgBQaop2
- q6XNg7gZCRjdwhctLljfU9EYI4JWF+aT2nXZ7JUtsuoqr1ldsayYtbNq56JtkDP+uHhs
- EVISorbf2Qb+HvhQlrkODKLDY9lirkhtgzJ/Xp9UwuUAGHYsX3P8i3LoMKg1jBinFkGc
- 8HpiDB+f+HYE+kRpEVCBQ5xYc8vGQWEVWZ3OwLaKUsKNSxOqcOQU93sfMiGB5Tj652i/
- OfdAjRhzNoYxolGuewaXMjdRf8rgOo8zH/3YFgHzOnlP6v0Sq3248bwvXIKypJcU/bSv
- YUOw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
- :content-language:to:cc:references:from:in-reply-to
- :content-transfer-encoding;
- bh=aBBlrcuINY/huqI+pmNpt7ezjRhcp+EsZeDz0RlBbYA=;
- b=z8yvuT89z0zmtwWbkBIPE+wBMjqR2rzYkqHV/yg89m8oj+Hn++xdl/p6bvAtWvtTSI
- H5SoCMNlpD3f7m+zwlk3wNaIpUvJ6EOnPiwIwQW7CHsjIXjmLfYKS5YduuGszjwGEL4I
- jdJZjlzQ7agdQ/Jf3A1juFx9ORvCIRSYIvAq5NNhe6ekrsIYLulmX9jrWWShpz+f1rf5
- QhNC0z/8D/u1SoYhAcSJqpeGCI0Tj0XB+//cprpmjGCYv+FUjAsk+2YkA4FDlIf9OUWO
- EYbi+TE8XtxTe6IYuevKMhh+ZjKL38yYar+bC9fsTrBfSz9d1sFNeVc2PSms4ejfNB5O
- IkoQ==
-X-Gm-Message-State: AOAM532nHV0P5/VAFVrUs1NApvG0YG4oHYeEhZBnCi4JweVZT1qCChZ+
- 5Hk6/+9qQ6v6G+Ud5RU5qh7e+A==
-X-Google-Smtp-Source: ABdhPJxIyRpDkdE3DsvHCugAEECr9Cihw3eu2sWWZa6oOoYWQV5BWYcP0qZa3q08lMbeYZwFMdbP3Q==
-X-Received: by 2002:ac2:4306:0:b0:46b:c41c:1478 with SMTP id
- l6-20020ac24306000000b0046bc41c1478mr11760488lfh.559.1650383830827; 
- Tue, 19 Apr 2022 08:57:10 -0700 (PDT)
-Received: from [192.168.1.211] ([37.153.55.125])
- by smtp.gmail.com with ESMTPSA id
- f20-20020a056512229400b0044a6ac1af69sm1546934lfu.181.2022.04.19.08.57.09
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Tue, 19 Apr 2022 08:57:10 -0700 (PDT)
-Message-ID: <aadad18c-5a55-ae30-6158-f6c584c59fae@linaro.org>
-Date: Tue, 19 Apr 2022 18:57:09 +0300
-MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.8.0
-Subject: Re: [PATCH] drm/msm/mdp5: Eliminate useless code
-Content-Language: en-GB
-To: Haowen Bai <baihaowen@meizu.com>, Rob Clark <robdclark@gmail.com>,
- Sean Paul <sean@poorly.run>, Abhinav Kumar <quic_abhinavk@quicinc.com>,
- David Airlie <airlied@linux.ie>, Daniel Vetter <daniel@ffwll.ch>
-References: <1650348980-19050-1-git-send-email-baihaowen@meizu.com>
-From: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
-In-Reply-To: <1650348980-19050-1-git-send-email-baihaowen@meizu.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
+Received: from mo-csw-fb.securemx.jp (mo-csw-fb1514.securemx.jp
+ [210.130.202.170])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 6343F10E09A
+ for <dri-devel@lists.freedesktop.org>; Tue, 19 Apr 2022 08:02:01 +0000 (UTC)
+Received: by mo-csw-fb.securemx.jp (mx-mo-csw-fb1514) id 23J7PlgV002291;
+ Tue, 19 Apr 2022 16:25:47 +0900
+Received: by mo-csw.securemx.jp (mx-mo-csw1516) id 23J7PdWU030637;
+ Tue, 19 Apr 2022 16:25:40 +0900
+X-Iguazu-Qid: 34trMBIs3Na1y4kWSk
+X-Iguazu-QSIG: v=2; s=0; t=1650353139; q=34trMBIs3Na1y4kWSk;
+ m=uXFWnbtiQ23UePFHNF7vTD0gPGLu65yRjXE5K8HzdWY=
+Received: from imx12-a.toshiba.co.jp (imx12-a.toshiba.co.jp [61.202.160.135])
+ by relay.securemx.jp (mx-mr1510) id 23J7Pcgu036787
+ (version=TLSv1.2 cipher=AES128-GCM-SHA256 bits=128 verify=NOT);
+ Tue, 19 Apr 2022 16:25:38 +0900
+X-SA-MID: 2667865
+From: Yuji Ishikawa <yuji2.ishikawa@toshiba.co.jp>
+To: Nobuhiro Iwamatsu <nobuhiro1.iwamatsu@toshiba.co.jp>,
+ Sumit Semwal <sumit.semwal@linaro.org>,
+ =?UTF-8?q?Christian=20K=C3=B6nig?= <christian.koenig@amd.com>
+Subject: [PATCH 0/4] Add Toshiba Visconti AFFINE image processing accelerator
+ driver
+Date: Tue, 19 Apr 2022 16:20:14 +0900
+X-TSB-HOP2: ON
+Message-Id: <20220419072018.30057-1-yuji2.ishikawa@toshiba.co.jp>
+X-Mailer: git-send-email 2.17.1
+X-Mailman-Approved-At: Tue, 19 Apr 2022 16:58:45 +0000
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -75,38 +48,60 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: linux-arm-msm@vger.kernel.org, freedreno@lists.freedesktop.org,
- linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org
+Cc: linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
+ linaro-mm-sig@lists.linaro.org, yuji2.ishikawa@toshiba.co.jp,
+ linux-arm-kernel@lists.infradead.org, linux-media@vger.kernel.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 19/04/2022 09:16, Haowen Bai wrote:
-> Since mdp5_state is initialized twice at the same time, so
-> we make code simple and easy to understand by delete one.
-> 
-> Signed-off-by: Haowen Bai <baihaowen@meizu.com>
+This series is the AFFINE image processing accelerator driver for Toshiba's ARM SoC, Visconti[0].
+This provides DT binding documentation, device driver, MAINTAINER files.
 
-Reviewed-by: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
+Best regards,
+Yuji
 
-> ---
->   drivers/gpu/drm/msm/disp/mdp5/mdp5_plane.c | 2 --
->   1 file changed, 2 deletions(-)
-> 
-> diff --git a/drivers/gpu/drm/msm/disp/mdp5/mdp5_plane.c b/drivers/gpu/drm/msm/disp/mdp5/mdp5_plane.c
-> index 428f88b786f9..406c34e9f3f8 100644
-> --- a/drivers/gpu/drm/msm/disp/mdp5/mdp5_plane.c
-> +++ b/drivers/gpu/drm/msm/disp/mdp5/mdp5_plane.c
-> @@ -386,8 +386,6 @@ static int mdp5_plane_atomic_async_check(struct drm_plane *plane,
->   	if (!crtc_state->active)
->   		return -EINVAL;
->   
-> -	mdp5_state = to_mdp5_plane_state(new_plane_state);
-> -
->   	/* don't use fast path if we don't have a hwpipe allocated yet */
->   	if (!mdp5_state->hwpipe)
->   		return -EINVAL;
+[0]: https://toshiba.semicon-storage.com/ap-en/semiconductor/product/image-recognition-processors-visconti.html
 
+Yuji Ishikawa (4):
+  dt-bindings: soc: visconti: Add Toshiba Visconti AFFINE image
+    processing accelerator bindings
+  soc: visconti: Add Toshiba Visconti image processing accelerator
+    common source
+  soc: visconti: Add Toshiba Visconti AFFINE image processing
+    accelerator
+  MAINTAINERS: Add entries for Toshiba Visconti AFFINE image processing
+    accelerator
+
+ .../soc/visconti/toshiba,visconti-affine.yaml |  53 ++
+ MAINTAINERS                                   |   2 +
+ drivers/soc/Kconfig                           |   1 +
+ drivers/soc/Makefile                          |   1 +
+ drivers/soc/visconti/Kconfig                  |   7 +
+ drivers/soc/visconti/Makefile                 |   8 +
+ drivers/soc/visconti/affine/Makefile          |   6 +
+ drivers/soc/visconti/affine/affine.c          | 451 ++++++++++++++++++
+ drivers/soc/visconti/affine/hwd_affine.c      | 207 ++++++++
+ drivers/soc/visconti/affine/hwd_affine.h      |  83 ++++
+ drivers/soc/visconti/affine/hwd_affine_reg.h  |  45 ++
+ drivers/soc/visconti/ipa_common.c             |  55 +++
+ drivers/soc/visconti/ipa_common.h             |  19 +
+ drivers/soc/visconti/uapi/affine.h            |  87 ++++
+ drivers/soc/visconti/uapi/ipa.h               |  87 ++++
+ 15 files changed, 1112 insertions(+)
+ create mode 100644 Documentation/devicetree/bindings/soc/visconti/toshiba,visconti-affine.yaml
+ create mode 100644 drivers/soc/visconti/Kconfig
+ create mode 100644 drivers/soc/visconti/Makefile
+ create mode 100644 drivers/soc/visconti/affine/Makefile
+ create mode 100644 drivers/soc/visconti/affine/affine.c
+ create mode 100644 drivers/soc/visconti/affine/hwd_affine.c
+ create mode 100644 drivers/soc/visconti/affine/hwd_affine.h
+ create mode 100644 drivers/soc/visconti/affine/hwd_affine_reg.h
+ create mode 100644 drivers/soc/visconti/ipa_common.c
+ create mode 100644 drivers/soc/visconti/ipa_common.h
+ create mode 100644 drivers/soc/visconti/uapi/affine.h
+ create mode 100644 drivers/soc/visconti/uapi/ipa.h
 
 -- 
-With best wishes
-Dmitry
+2.17.1
+
+
