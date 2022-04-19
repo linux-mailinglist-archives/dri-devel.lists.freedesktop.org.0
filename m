@@ -2,55 +2,44 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9F0D25070C5
-	for <lists+dri-devel@lfdr.de>; Tue, 19 Apr 2022 16:39:06 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 1066F5070C7
+	for <lists+dri-devel@lfdr.de>; Tue, 19 Apr 2022 16:40:24 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 5D61F10EE9A;
-	Tue, 19 Apr 2022 14:39:02 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id D72C210EEA6;
+	Tue, 19 Apr 2022 14:40:21 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-oa1-x34.google.com (mail-oa1-x34.google.com
- [IPv6:2001:4860:4864:20::34])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 18E6310EAC9;
- Tue, 19 Apr 2022 14:39:01 +0000 (UTC)
-Received: by mail-oa1-x34.google.com with SMTP id
- 586e51a60fabf-e5e433d66dso6358587fac.5; 
- Tue, 19 Apr 2022 07:39:01 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=1s42UKgWJ4Pw4SvGNmkzwP7DSmoxOCXsEkE3mMBdmkk=;
- b=bryyFja6G/AfZjaCCp3S0G0ceVcHhyW1VQrZVSljNUEwwov2BVcqUpiqzWWuUzKqiW
- 9rJzlHdS162QkPuOqWZq7UQ2VwiHR0xor0h0WIoSFyLZhJlv2+zectxrETiTHrAjY79E
- zvaLn+f9Sm9B8dmjE0Or93kQWpSpKq8AoM3n7JxTsgPapjJO/8m3TQ/iaLFyz1DG2xIq
- RiP7Bb6DpCXBOYWqJ6Jt2a/BXMLG9VaCGTBE7IW3ABkGUkYwH5Uo8gsuMe03xupp43CJ
- d8Hsw0jY3vd60CmLcfC6WgcMi3fzGpjUKBX5/aT2leGku3O/VYO4boI+1k75w43bNywb
- 4uvg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=1s42UKgWJ4Pw4SvGNmkzwP7DSmoxOCXsEkE3mMBdmkk=;
- b=IZIYqO239SbaOW/zEpQeswdnK8ybyJdX2JhWW7PVF5kAcy58hcIe8im6PDJLk/0tTL
- pUan6Wen1Y4n2Ew26fW3oOBxixMnZUBvWfNPCmevXsEdYWwmj3X94iD1Z3536hseeoxs
- 2yifAbIW4Z2FRmzFxZoED0YqwKbSuTb3ULdfAlgGgCs3PqiDTNKkTy/cVO4Adsb+8UmJ
- W6dsT+UioT1JdCyBCat3UBT+RB/yOXW1YHaPNx4QpwnPlhf5oYpgi4udiJYyuZhu3mt/
- JPss/m5V1XKrjmlo6vfQSyl10W2+n1dO+IsCIdgiTFEm6w6m9aQdwBTUBJ6LH8Vwus3/
- Jvww==
-X-Gm-Message-State: AOAM533qu0OP7Zi1xS3b2c36RgvFjnvXtbqnicjxHO5iRrIVQ7vwZ596
- Dxw5G4DZgp/bJ1cZnH8yL2W6DqBNfHzDHNqXepVXxMj7
-X-Google-Smtp-Source: ABdhPJxYRk2m9Utt9pJajmRXaqGutiUzLUudX5XJtfTMosQAR+UFtPG9su2APCdSuDKfZxLYGcxAh0AbE+xOcVMMHxQ=
-X-Received: by 2002:a05:6870:d683:b0:de:eaa2:3550 with SMTP id
- z3-20020a056870d68300b000deeaa23550mr6741761oap.253.1650379140409; Tue, 19
- Apr 2022 07:39:00 -0700 (PDT)
+Received: from phobos.denx.de (phobos.denx.de
+ [IPv6:2a01:238:438b:c500:173d:9f52:ddab:ee01])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id D66F110EEA7
+ for <dri-devel@lists.freedesktop.org>; Tue, 19 Apr 2022 14:40:20 +0000 (UTC)
+Received: from tr.lan (ip-86-49-12-201.net.upcbroadband.cz [86.49.12.201])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits))
+ (No client certificate requested)
+ (Authenticated sender: marex@denx.de)
+ by phobos.denx.de (Postfix) with ESMTPSA id D242F83CF3;
+ Tue, 19 Apr 2022 16:40:17 +0200 (CEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=denx.de;
+ s=phobos-20191101; t=1650379218;
+ bh=hDwfhY/HpPxbc/begCdgWtM53seWsGCI4w+qpBFpdVk=;
+ h=From:To:Cc:Subject:Date:From;
+ b=Uj9qcmf/ELviyuYREIY0CFcTCn77IAd/IPOIkP20AFmpGLbjB855SViux029w0csd
+ 7mbjpSbRCdeNHb2j2DQ/rFkEXArXrPACgrt9bzeE3ROINlE1nowUBagKGzsrel2Jgm
+ e3eJCpZ2gqC7ka+qyWwp3Hh7UBesrjKs9G/Dd5O76J+0dk7jWscRuf+l9F8qHr5Lpe
+ hXz/pS2FcSSXwWmcz9gS5N6bYFk8/E+L+09BNtwg94P3qtbPYU3cBb9UijWd/9CCbd
+ GslUvl+EGr+rBI/8747KnedN5F9P7zR7O+AMvGibJc96zfgJLPCjCSj2aQqqRkJGu1
+ De/oC6l0eSP2g==
+From: Marek Vasut <marex@denx.de>
+To: dri-devel@lists.freedesktop.org
+Subject: [PATCH v2 1/2] dt-bindings: display: bridge: lt9211: Add Lontium
+ LT9211 bridge driver
+Date: Tue, 19 Apr 2022 16:39:57 +0200
+Message-Id: <20220419143958.94873-1-marex@denx.de>
+X-Mailer: git-send-email 2.35.1
 MIME-Version: 1.0
-References: <20220419103721.4080045-1-keitasuzuki.park@sslab.ics.keio.ac.jp>
-In-Reply-To: <20220419103721.4080045-1-keitasuzuki.park@sslab.ics.keio.ac.jp>
-From: Alex Deucher <alexdeucher@gmail.com>
-Date: Tue, 19 Apr 2022 10:38:49 -0400
-Message-ID: <CADnq5_MfjrZvegj-4r4DhRR5FDe6casvfcy54G0tM8PZqbsHeg@mail.gmail.com>
-Subject: Re: [PATCH] drm/amd/pm: fix double free in si_parse_power_table()
-To: Keita Suzuki <keitasuzuki.park@sslab.ics.keio.ac.jp>
-Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 8bit
+X-Virus-Scanned: clamav-milter 0.103.5 at phobos.denx.de
+X-Virus-Status: Clean
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -63,79 +52,160 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: "Pan, Xinhui" <Xinhui.Pan@amd.com>, David Airlie <airlied@linux.ie>,
- =?UTF-8?B?TWHDrXJhIENhbmFs?= <maira.canal@usp.br>,
- Lijo Lazar <lijo.lazar@amd.com>, "Gustavo A. R. Silva" <gustavoars@kernel.org>,
- amd-gfx list <amd-gfx@lists.freedesktop.org>,
- LKML <linux-kernel@vger.kernel.org>,
- Maling list - DRI developers <dri-devel@lists.freedesktop.org>,
- Alex Deucher <alexander.deucher@amd.com>, Evan Quan <evan.quan@amd.com>,
- =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>,
- Hawking Zhang <Hawking.Zhang@amd.com>
+Cc: Marek Vasut <marex@denx.de>, devicetree@vger.kernel.org,
+ robert.foss@linaro.org, Rob Herring <robh+dt@kernel.org>,
+ Maxime Ripard <maxime@cerno.tech>, Thomas Zimmermann <tzimmermann@suse.de>,
+ Sam Ravnborg <sam@ravnborg.org>,
+ Laurent Pinchart <laurent.pinchart@ideasonboard.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Applied.  Thanks!
+Add bindings for Lontium LT9211 Single/Dual-Link DSI/LVDS or Single DPI to
+Single-link/Dual-Link DSI/LVDS or Single DPI bridge. This chip is highly
+capable at converting formats, but sadly it is also highly undocumented.
 
-On Tue, Apr 19, 2022 at 8:49 AM Keita Suzuki
-<keitasuzuki.park@sslab.ics.keio.ac.jp> wrote:
->
-> In function si_parse_power_table(), array adev->pm.dpm.ps and its member
-> is allocated. If the allocation of each member fails, the array itself
-> is freed and returned with an error code. However, the array is later
-> freed again in si_dpm_fini() function which is called when the function
-> returns an error.
->
-> This leads to potential double free of the array adev->pm.dpm.ps, as
-> well as leak of its array members, since the members are not freed in
-> the allocation function and the array is not nulled when freed.
-> In addition adev->pm.dpm.num_ps, which keeps track of the allocated
-> array member, is not updated until the member allocation is
-> successfully finished, this could also lead to either use after free,
-> or uninitialized variable access in si_dpm_fini().
->
-> Fix this by postponing the free of the array until si_dpm_fini() and
-> increment adev->pm.dpm.num_ps everytime the array member is allocated.
->
-> Signed-off-by: Keita Suzuki <keitasuzuki.park@sslab.ics.keio.ac.jp>
-> ---
->  drivers/gpu/drm/amd/pm/legacy-dpm/si_dpm.c | 8 +++-----
->  1 file changed, 3 insertions(+), 5 deletions(-)
->
-> diff --git a/drivers/gpu/drm/amd/pm/legacy-dpm/si_dpm.c b/drivers/gpu/drm/amd/pm/legacy-dpm/si_dpm.c
-> index caae54487f9c..079888229485 100644
-> --- a/drivers/gpu/drm/amd/pm/legacy-dpm/si_dpm.c
-> +++ b/drivers/gpu/drm/amd/pm/legacy-dpm/si_dpm.c
-> @@ -7331,17 +7331,15 @@ static int si_parse_power_table(struct amdgpu_device *adev)
->         if (!adev->pm.dpm.ps)
->                 return -ENOMEM;
->         power_state_offset = (u8 *)state_array->states;
-> -       for (i = 0; i < state_array->ucNumEntries; i++) {
-> +       for (adev->pm.dpm.num_ps = 0, i = 0; i < state_array->ucNumEntries; i++) {
->                 u8 *idx;
->                 power_state = (union pplib_power_state *)power_state_offset;
->                 non_clock_array_index = power_state->v2.nonClockInfoIndex;
->                 non_clock_info = (struct _ATOM_PPLIB_NONCLOCK_INFO *)
->                         &non_clock_info_array->nonClockInfo[non_clock_array_index];
->                 ps = kzalloc(sizeof(struct  si_ps), GFP_KERNEL);
-> -               if (ps == NULL) {
-> -                       kfree(adev->pm.dpm.ps);
-> +               if (ps == NULL)
->                         return -ENOMEM;
-> -               }
->                 adev->pm.dpm.ps[i].ps_priv = ps;
->                 si_parse_pplib_non_clock_info(adev, &adev->pm.dpm.ps[i],
->                                               non_clock_info,
-> @@ -7363,8 +7361,8 @@ static int si_parse_power_table(struct amdgpu_device *adev)
->                         k++;
->                 }
->                 power_state_offset += 2 + power_state->v2.ucNumDPMLevels;
-> +               adev->pm.dpm.num_ps++;
->         }
-> -       adev->pm.dpm.num_ps = state_array->ucNumEntries;
->
->         /* fill in the vce power states */
->         for (i = 0; i < adev->pm.dpm.num_of_vce_states; i++) {
-> --
-> 2.25.1
->
+Reviewed-by: Rob Herring <robh@kernel.org>
+Signed-off-by: Marek Vasut <marex@denx.de>
+Cc: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+Cc: Lucas Stach <l.stach@pengutronix.de>
+Cc: Maxime Ripard <maxime@cerno.tech>
+Cc: Rob Herring <robh+dt@kernel.org>
+Cc: Robert Foss <robert.foss@linaro.org>
+Cc: Sam Ravnborg <sam@ravnborg.org>
+Cc: Thomas Zimmermann <tzimmermann@suse.de>
+Cc: devicetree@vger.kernel.org
+To: dri-devel@lists.freedesktop.org
+---
+V2: - Fix up s@i2c10@i2c@ in binding example
+    - Add RB from Rob
+---
+ .../display/bridge/lontium,lt9211.yaml        | 117 ++++++++++++++++++
+ 1 file changed, 117 insertions(+)
+ create mode 100644 Documentation/devicetree/bindings/display/bridge/lontium,lt9211.yaml
+
+diff --git a/Documentation/devicetree/bindings/display/bridge/lontium,lt9211.yaml b/Documentation/devicetree/bindings/display/bridge/lontium,lt9211.yaml
+new file mode 100644
+index 0000000000000..9a6e9b25d14a9
+--- /dev/null
++++ b/Documentation/devicetree/bindings/display/bridge/lontium,lt9211.yaml
+@@ -0,0 +1,117 @@
++# SPDX-License-Identifier: (GPL-2.0-only OR BSD-2-Clause)
++%YAML 1.2
++---
++$id: http://devicetree.org/schemas/display/bridge/lontium,lt9211.yaml#
++$schema: http://devicetree.org/meta-schemas/core.yaml#
++
++title: Lontium LT9211 DSI/LVDS/DPI to DSI/LVDS/DPI bridge.
++
++maintainers:
++  - Marek Vasut <marex@denx.de>
++
++description: |
++  The LT9211 are bridge devices which convert Single/Dual-Link DSI/LVDS
++  or Single DPI to Single/Dual-Link DSI/LVDS or Single DPI.
++
++properties:
++  compatible:
++    enum:
++      - lontium,lt9211
++
++  reg:
++    maxItems: 1
++
++  interrupts:
++    maxItems: 1
++
++  reset-gpios:
++    maxItems: 1
++    description: GPIO connected to active high RESET pin.
++
++  vccio-supply:
++    description: Regulator for 1.8V IO power.
++
++  ports:
++    $ref: /schemas/graph.yaml#/properties/ports
++
++    properties:
++      port@0:
++        $ref: /schemas/graph.yaml#/properties/port
++        description:
++          Primary MIPI DSI port-1 for MIPI input or
++          LVDS port-1 for LVDS input or DPI input.
++
++      port@1:
++        $ref: /schemas/graph.yaml#/properties/port
++        description:
++          Additional MIPI port-2 for MIPI input or LVDS port-2
++          for LVDS input. Used in combination with primary
++          port-1 to drive higher resolution displays
++
++      port@2:
++        $ref: /schemas/graph.yaml#/properties/port
++        description:
++          Primary MIPI DSI port-1 for MIPI output or
++          LVDS port-1 for LVDS output or DPI output.
++
++      port@3:
++        $ref: /schemas/graph.yaml#/properties/port
++        description:
++          Additional MIPI port-2 for MIPI output or LVDS port-2
++          for LVDS output. Used in combination with primary
++          port-1 to drive higher resolution displays.
++
++    required:
++      - port@0
++      - port@2
++
++required:
++  - compatible
++  - reg
++  - vccio-supply
++  - ports
++
++additionalProperties: false
++
++examples:
++  - |
++    #include <dt-bindings/gpio/gpio.h>
++    #include <dt-bindings/interrupt-controller/irq.h>
++
++    i2c {
++      #address-cells = <1>;
++      #size-cells = <0>;
++
++      hdmi-bridge@3b {
++        compatible = "lontium,lt9211";
++        reg = <0x3b>;
++
++        reset-gpios = <&tlmm 128 GPIO_ACTIVE_HIGH>;
++        interrupts-extended = <&tlmm 84 IRQ_TYPE_EDGE_FALLING>;
++
++        vccio-supply = <&lt9211_1v8>;
++
++        ports {
++          #address-cells = <1>;
++          #size-cells = <0>;
++
++          port@0 {
++            reg = <0>;
++
++            endpoint {
++              remote-endpoint = <&dsi0_out>;
++            };
++          };
++
++          port@2 {
++            reg = <2>;
++
++            endpoint {
++              remote-endpoint = <&panel_in_lvds>;
++            };
++          };
++        };
++      };
++    };
++
++...
+-- 
+2.35.1
+
