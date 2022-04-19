@@ -2,58 +2,38 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id B73135067E8
-	for <lists+dri-devel@lfdr.de>; Tue, 19 Apr 2022 11:42:02 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 99095506819
+	for <lists+dri-devel@lfdr.de>; Tue, 19 Apr 2022 11:53:28 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 2249B10EEE5;
-	Tue, 19 Apr 2022 09:41:54 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id C1A4089664;
+	Tue, 19 Apr 2022 09:53:20 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mailgw01.mediatek.com (unknown [60.244.123.138])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 6998010EE92
- for <dri-devel@lists.freedesktop.org>; Tue, 19 Apr 2022 09:41:52 +0000 (UTC)
-X-UUID: 5f9f6aee4aa44450a5b6bdef06fd85b2-20220419
-X-CID-P-RULE: Release_Ham
-X-CID-O-INFO: VERSION:1.1.4, REQID:40a06a99-bd2a-4d53-96ac-2f17a6cb277b, OB:30,
- L
- OB:0,IP:0,URL:0,TC:0,Content:0,EDM:0,RT:0,SF:95,FILE:0,RULE:Release_Ham,AC
- TION:release,TS:95
-X-CID-INFO: VERSION:1.1.4, REQID:40a06a99-bd2a-4d53-96ac-2f17a6cb277b, OB:30,
- LOB
- :0,IP:0,URL:0,TC:0,Content:0,EDM:0,RT:0,SF:95,FILE:0,RULE:Spam_GS981B3D,AC
- TION:quarantine,TS:95
-X-CID-META: VersionHash:faefae9, CLOUDID:706f5eef-06b0-4305-bfbf-554bfc9d151a,
- C
- OID:87016cecdd16,Recheck:0,SF:13|15|28|17|19|48,TC:nil,Content:0,EDM:-3,Fi
- le:nil,QS:0,BEC:nil
-X-UUID: 5f9f6aee4aa44450a5b6bdef06fd85b2-20220419
-Received: from mtkcas10.mediatek.inc [(172.21.101.39)] by mailgw01.mediatek.com
- (envelope-from <jason-jh.lin@mediatek.com>)
- (Generic MTA with TLSv1.2 ECDHE-RSA-AES256-SHA384 256/256)
- with ESMTP id 1058074878; Tue, 19 Apr 2022 17:41:48 +0800
-Received: from mtkexhb01.mediatek.inc (172.21.101.102) by
- mtkmbs10n2.mediatek.inc (172.21.101.183) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_CBC_SHA384) id 15.2.792.3; 
- Tue, 19 Apr 2022 17:41:47 +0800
-Received: from mtkcas11.mediatek.inc (172.21.101.40) by mtkexhb01.mediatek.inc
- (172.21.101.102) with Microsoft SMTP Server (TLS) id 15.0.1497.2;
- Tue, 19 Apr 2022 17:41:46 +0800
-Received: from mtksdccf07.mediatek.inc (172.21.84.99) by mtkcas11.mediatek.inc
- (172.21.101.73) with Microsoft SMTP Server id 15.0.1497.2 via
- Frontend Transport; Tue, 19 Apr 2022 17:41:46 +0800
-From: jason-jh.lin <jason-jh.lin@mediatek.com>
-To: Matthias Brugger <matthias.bgg@gmail.com>, Chun-Kuang Hu
- <chunkuang.hu@kernel.org>, AngeloGioacchino Del Regno
- <angelogioacchino.delregno@collabora.com>
-Subject: [PATCH v20 8/8] soc: mediatek: remove DDP_DOMPONENT_DITHER from enum
-Date: Tue, 19 Apr 2022 17:41:43 +0800
-Message-ID: <20220419094143.9561-9-jason-jh.lin@mediatek.com>
-X-Mailer: git-send-email 2.18.0
-In-Reply-To: <20220419094143.9561-1-jason-jh.lin@mediatek.com>
-References: <20220419094143.9561-1-jason-jh.lin@mediatek.com>
+Received: from perceval.ideasonboard.com (perceval.ideasonboard.com
+ [213.167.242.64])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id C909D10E7FB
+ for <dri-devel@lists.freedesktop.org>; Tue, 19 Apr 2022 09:53:19 +0000 (UTC)
+Received: from pendragon.ideasonboard.com (85-76-66-170-nat.elisa-mobile.fi
+ [85.76.66.170])
+ by perceval.ideasonboard.com (Postfix) with ESMTPSA id D9310305;
+ Tue, 19 Apr 2022 11:53:16 +0200 (CEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
+ s=mail; t=1650361997;
+ bh=7VnxunzuLZRHUp1nxrXQJTtJRvr8b8nt1XRa95pFSm0=;
+ h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+ b=akqaKQVq5cW0ExxApAEnx83AmXS5oub4RDlWFjpyLGqlmQw2e4GuQBKMnQY5rwo8w
+ xesu1RICKtvCKndA8gMXpCsovVyKEj/Yx7Yk7AmuQS4WfaBPt2YAUb8StPBYVzpv/c
+ XUv3sIbMKsqBDZ6fGhQvPQ09olBaembtM9ILTQVc=
+Date: Tue, 19 Apr 2022 12:53:07 +0300
+From: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+To: Marek Vasut <marex@denx.de>
+Subject: Re: [PATCH v2] drm: mxsfb: Obtain bus flags from bridge state
+Message-ID: <Yl6Gg2+4KxBBTx1v@pendragon.ideasonboard.com>
+References: <20220417021011.337066-1-marex@denx.de>
 MIME-Version: 1.0
-Content-Type: text/plain
-X-MTK: N
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+In-Reply-To: <20220417021011.337066-1-marex@denx.de>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -66,38 +46,81 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: devicetree@vger.kernel.org, Jason-JH Lin <jason-jh.lin@mediatek.com>,
- Singo Chang <singo.chang@mediatek.com>, linux-kernel@vger.kernel.org,
- dri-devel@lists.freedesktop.org,
- Project_Global_Chrome_Upstream_Group@mediatek.com,
- Nancy Lin <nancy.lin@mediatek.com>, linux-mediatek@lists.infradead.org,
- linux-arm-kernel@lists.infradead.org
+Cc: Peng Fan <peng.fan@nxp.com>,
+ Alexander Stein <alexander.stein@ew.tq-group.com>,
+ dri-devel@lists.freedesktop.org, Sam Ravnborg <sam@ravnborg.org>,
+ Robby Cai <robby.cai@nxp.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-After mmsys and drm change DITHER enum to DDP_COMPONENT_DITHER0,
-mmsys header can remove the useless DDP_COMPONENT_DITHER enum.
+Hi Marek,
 
-Signed-off-by: jason-jh.lin <jason-jh.lin@mediatek.com>
-Reviewed-by: AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>
----
- include/linux/soc/mediatek/mtk-mmsys.h | 3 +--
- 1 file changed, 1 insertion(+), 2 deletions(-)
+Thank you for the patch.
 
-diff --git a/include/linux/soc/mediatek/mtk-mmsys.h b/include/linux/soc/mediatek/mtk-mmsys.h
-index 59117d970daf..fb719fd1281c 100644
---- a/include/linux/soc/mediatek/mtk-mmsys.h
-+++ b/include/linux/soc/mediatek/mtk-mmsys.h
-@@ -16,8 +16,7 @@ enum mtk_ddp_comp_id {
- 	DDP_COMPONENT_CCORR,
- 	DDP_COMPONENT_COLOR0,
- 	DDP_COMPONENT_COLOR1,
--	DDP_COMPONENT_DITHER,
--	DDP_COMPONENT_DITHER0 = DDP_COMPONENT_DITHER,
-+	DDP_COMPONENT_DITHER0,
- 	DDP_COMPONENT_DITHER1,
- 	DDP_COMPONENT_DP_INTF0,
- 	DDP_COMPONENT_DP_INTF1,
+On Sun, Apr 17, 2022 at 04:10:11AM +0200, Marek Vasut wrote:
+> In case the MXSFB is connected to a bridge, attempt to obtain bus flags
+> from that bridge state too. The bus flags may specify e.g. the DE signal
+> polarity.
+> 
+> Acked-by: Alexander Stein <alexander.stein@ew.tq-group.com>
+> Signed-off-by: Marek Vasut <marex@denx.de>
+> Cc: Alexander Stein <alexander.stein@ew.tq-group.com>
+> Cc: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+> Cc: Lucas Stach <l.stach@pengutronix.de>
+> Cc: Peng Fan <peng.fan@nxp.com>
+> Cc: Robby Cai <robby.cai@nxp.com>
+> Cc: Sam Ravnborg <sam@ravnborg.org>
+> Cc: Stefan Agner <stefan@agner.ch>
+
+Reviewed-by: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+
+> ---
+> V2: Add AB from Alexander
+> ---
+>  drivers/gpu/drm/mxsfb/mxsfb_kms.c | 7 +++++--
+>  1 file changed, 5 insertions(+), 2 deletions(-)
+> 
+> diff --git a/drivers/gpu/drm/mxsfb/mxsfb_kms.c b/drivers/gpu/drm/mxsfb/mxsfb_kms.c
+> index b7c70d269d2cb..cd2a59e110c3a 100644
+> --- a/drivers/gpu/drm/mxsfb/mxsfb_kms.c
+> +++ b/drivers/gpu/drm/mxsfb/mxsfb_kms.c
+> @@ -275,6 +275,7 @@ static int mxsfb_reset_block(struct mxsfb_drm_private *mxsfb)
+>  }
+>  
+>  static void mxsfb_crtc_mode_set_nofb(struct mxsfb_drm_private *mxsfb,
+> +				     struct drm_bridge_state *bridge_state,
+>  				     const u32 bus_format)
+>  {
+>  	struct drm_device *drm = mxsfb->crtc.dev;
+> @@ -284,6 +285,8 @@ static void mxsfb_crtc_mode_set_nofb(struct mxsfb_drm_private *mxsfb,
+>  
+>  	if (mxsfb->bridge && mxsfb->bridge->timings)
+>  		bus_flags = mxsfb->bridge->timings->input_bus_flags;
+> +	else if (bridge_state)
+> +		bus_flags = bridge_state->input_bus_cfg.flags;
+>  
+>  	DRM_DEV_DEBUG_DRIVER(drm->dev, "Pixel clock: %dkHz (actual: %dkHz)\n",
+>  			     m->crtc_clock,
+> @@ -345,7 +348,7 @@ static void mxsfb_crtc_atomic_enable(struct drm_crtc *crtc,
+>  	struct mxsfb_drm_private *mxsfb = to_mxsfb_drm_private(crtc->dev);
+>  	struct drm_plane_state *new_pstate = drm_atomic_get_new_plane_state(state,
+>  									    crtc->primary);
+> -	struct drm_bridge_state *bridge_state;
+> +	struct drm_bridge_state *bridge_state = NULL;
+>  	struct drm_device *drm = mxsfb->drm;
+>  	u32 bus_format = 0;
+>  	dma_addr_t paddr;
+> @@ -381,7 +384,7 @@ static void mxsfb_crtc_atomic_enable(struct drm_crtc *crtc,
+>  	if (!bus_format)
+>  		bus_format = MEDIA_BUS_FMT_RGB888_1X24;
+>  
+> -	mxsfb_crtc_mode_set_nofb(mxsfb, bus_format);
+> +	mxsfb_crtc_mode_set_nofb(mxsfb, bridge_state, bus_format);
+>  
+>  	/* Write cur_buf as well to avoid an initial corrupt frame */
+>  	paddr = drm_fb_cma_get_gem_addr(new_pstate->fb, new_pstate, 0);
+
 -- 
-2.18.0
+Regards,
 
+Laurent Pinchart
