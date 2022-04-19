@@ -1,41 +1,41 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id A1D74507752
-	for <lists+dri-devel@lfdr.de>; Tue, 19 Apr 2022 20:13:07 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id C8133507755
+	for <lists+dri-devel@lfdr.de>; Tue, 19 Apr 2022 20:13:30 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 5A72F10E069;
-	Tue, 19 Apr 2022 18:13:05 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id E644B10E1A7;
+	Tue, 19 Apr 2022 18:13:28 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from ams.source.kernel.org (ams.source.kernel.org [145.40.68.75])
- by gabe.freedesktop.org (Postfix) with ESMTPS id CD92910E069;
- Tue, 19 Apr 2022 18:13:03 +0000 (UTC)
+Received: from dfw.source.kernel.org (dfw.source.kernel.org
+ [IPv6:2604:1380:4641:c500::1])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 63F2D10E177;
+ Tue, 19 Apr 2022 18:13:27 +0000 (UTC)
 Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
  (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
  (No client certificate requested)
- by ams.source.kernel.org (Postfix) with ESMTPS id 2F921B818EE;
- Tue, 19 Apr 2022 18:13:02 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 34B6AC385A5;
- Tue, 19 Apr 2022 18:12:59 +0000 (UTC)
+ by dfw.source.kernel.org (Postfix) with ESMTPS id E3C206133A;
+ Tue, 19 Apr 2022 18:13:26 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id B60DEC385A5;
+ Tue, 19 Apr 2022 18:13:24 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1650391980;
- bh=T1EzDUfwjggOELHvvCTAYsHts3WIZamAMmLGdfdkNLA=;
+ s=k20201202; t=1650392006;
+ bh=rgM8kfe5zD9EZNfO/4CiOhR5Q/c5QFs9MDQG24jIl1Q=;
  h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
- b=IgC8pQu+sgDNaqY9Xc7f2jPJ5FJSiIoHj7Zrk2gu0hBJad8GgUSDM4l2YKuOfpYnx
- LV26XzkaZkaHJFI4B8YIoUkcSr2f3Trmt2ZM/drI8PzHmItpanUc7aUvpLAeqDH5ST
- pC6rTvhbMkfIV89ozhgUNLR9hwk1d8+vGRfdP0nfQlJpXIsNWp1ddr1imeTjqF7O7l
- m1hZRA7tbmtXXCFUJuo68QbDAA/YIfralG2joDoLT4LWf9G0/pUzj4zLzrKYXQAT07
- kFhAGad9UA3iQda/Jtt42USEcNC4o75kz6z/4MobNxjAtxxpNISAmgb8aJVS71HXG4
- 8fZsZI91YZwFg==
+ b=h1KCsVGpb1x9AmbRG7tRHHwtKYkDofWTPyhbQZdASHGuIYvoI0rR+9ATG0NFxRXky
+ x94GG10MV5cX2SAOlxeoQOvIWfOe4b7EVNCA64yG2oMdvhb/jE6jgi5Ur1cJAtuqJS
+ nApSVZI0pB0rhEdWHe+CEIAtYiyIPt99zrYdUavEaYbkK7nCczWWhgyyFcj3dxp1mt
+ M/2VCZpH6QSy/MzhiaFrZxw8drrV4yHaoulE9knlFKrSn8yFCR/awbdH6yDggUiqFk
+ 0HAdnN0N47wHzp9bmgrEtvNe5jt9oR5Dsau7mMk2AyqX1Amu+mXQD89sxMgnvaPL9y
+ uolfzDBvebRAg==
 From: Sasha Levin <sashal@kernel.org>
 To: linux-kernel@vger.kernel.org,
 	stable@vger.kernel.org
-Subject: [PATCH AUTOSEL 5.15 06/27] drm/msm/disp: check the return value of
- kzalloc()
-Date: Tue, 19 Apr 2022 14:12:21 -0400
-Message-Id: <20220419181242.485308-6-sashal@kernel.org>
+Subject: [PATCH AUTOSEL 5.15 14/27] drm/msm/mdp5: check the return of kzalloc()
+Date: Tue, 19 Apr 2022 14:12:29 -0400
+Message-Id: <20220419181242.485308-14-sashal@kernel.org>
 X-Mailer: git-send-email 2.35.1
 In-Reply-To: <20220419181242.485308-1-sashal@kernel.org>
 References: <20220419181242.485308-1-sashal@kernel.org>
@@ -57,43 +57,49 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
 Cc: Rob Clark <robdclark@chromium.org>, Sasha Levin <sashal@kernel.org>,
  airlied@linux.ie, linux-arm-msm@vger.kernel.org,
- freedreno@lists.freedesktop.org, Xiaoke Wang <xkernel.wang@foxmail.com>,
- dri-devel@lists.freedesktop.org, Abhinav Kumar <quic_abhinavk@quicinc.com>,
- dmitry.baryshkov@linaro.org, bjorn.andersson@linaro.org, sean@poorly.run,
- greenfoo@u92.eu
+ Xiaoke Wang <xkernel.wang@foxmail.com>, dri-devel@lists.freedesktop.org,
+ maxime@cerno.tech, Dmitry Baryshkov <dmitry.baryshkov@linaro.org>,
+ freedreno@lists.freedesktop.org, sean@poorly.run
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 From: Xiaoke Wang <xkernel.wang@foxmail.com>
 
-[ Upstream commit f75e582b0c3ee8f0bddc2248cc8b9175f29c5937 ]
+[ Upstream commit 047ae665577776b7feb11bd4f81f46627cff95e7 ]
 
 kzalloc() is a memory allocation function which can return NULL when
 some internal memory errors happen. So it is better to check it to
 prevent potential wrong memory access.
 
+Besides, since mdp5_plane_reset() is void type, so we should better
+set `plane-state` to NULL after releasing it.
+
 Signed-off-by: Xiaoke Wang <xkernel.wang@foxmail.com>
-Reviewed-by: Abhinav Kumar <quic_abhinavk@quicinc.com>
-Link: https://lore.kernel.org/r/tencent_B3E19486FF39415098B572B7397C2936C309@qq.com
+Reviewed-by: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
+Patchwork: https://patchwork.freedesktop.org/patch/481055/
+Link: https://lore.kernel.org/r/tencent_8E2A1C78140EE1784AB2FF4B2088CC0AB908@qq.com
+Signed-off-by: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
 Signed-off-by: Rob Clark <robdclark@chromium.org>
 Signed-off-by: Sasha Levin <sashal@kernel.org>
 ---
- drivers/gpu/drm/msm/disp/msm_disp_snapshot_util.c | 2 ++
- 1 file changed, 2 insertions(+)
+ drivers/gpu/drm/msm/disp/mdp5/mdp5_plane.c | 3 +++
+ 1 file changed, 3 insertions(+)
 
-diff --git a/drivers/gpu/drm/msm/disp/msm_disp_snapshot_util.c b/drivers/gpu/drm/msm/disp/msm_disp_snapshot_util.c
-index cabe15190ec1..369e57f73a47 100644
---- a/drivers/gpu/drm/msm/disp/msm_disp_snapshot_util.c
-+++ b/drivers/gpu/drm/msm/disp/msm_disp_snapshot_util.c
-@@ -169,6 +169,8 @@ void msm_disp_snapshot_add_block(struct msm_disp_state *disp_state, u32 len,
- 	va_list va;
+diff --git a/drivers/gpu/drm/msm/disp/mdp5/mdp5_plane.c b/drivers/gpu/drm/msm/disp/mdp5/mdp5_plane.c
+index c6b69afcbac8..50e854207c70 100644
+--- a/drivers/gpu/drm/msm/disp/mdp5/mdp5_plane.c
++++ b/drivers/gpu/drm/msm/disp/mdp5/mdp5_plane.c
+@@ -90,7 +90,10 @@ static void mdp5_plane_reset(struct drm_plane *plane)
+ 		__drm_atomic_helper_plane_destroy_state(plane->state);
  
- 	new_blk = kzalloc(sizeof(struct msm_disp_state_block), GFP_KERNEL);
-+	if (!new_blk)
+ 	kfree(to_mdp5_plane_state(plane->state));
++	plane->state = NULL;
+ 	mdp5_state = kzalloc(sizeof(*mdp5_state), GFP_KERNEL);
++	if (!mdp5_state)
 +		return;
  
- 	va_start(va, fmt);
- 
+ 	if (plane->type == DRM_PLANE_TYPE_PRIMARY)
+ 		mdp5_state->base.zpos = STAGE_BASE;
 -- 
 2.35.1
 
