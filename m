@@ -2,60 +2,54 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 08065506D0F
-	for <lists+dri-devel@lfdr.de>; Tue, 19 Apr 2022 15:04:30 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 652A4506D79
+	for <lists+dri-devel@lfdr.de>; Tue, 19 Apr 2022 15:30:29 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 9D80610E84D;
-	Tue, 19 Apr 2022 13:04:27 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id D4D1810EFC6;
+	Tue, 19 Apr 2022 13:30:26 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-lj1-x22e.google.com (mail-lj1-x22e.google.com
- [IPv6:2a00:1450:4864:20::22e])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 9E64510E84D
- for <dri-devel@lists.freedesktop.org>; Tue, 19 Apr 2022 13:04:25 +0000 (UTC)
-Received: by mail-lj1-x22e.google.com with SMTP id q22so2181514ljh.10
- for <dri-devel@lists.freedesktop.org>; Tue, 19 Apr 2022 06:04:25 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=from:to:cc:subject:date:message-id:mime-version
- :content-transfer-encoding;
- bh=51y0snB2GUgkqHni5/VdYz/z1Uks4JZTasXp07lWCwc=;
- b=krgPmScwiYNT2fnOQoG+U/F5ZqZHDi1ZExMVupJiEUYyWrTMOMLk95Idi1CaQ+m8Vl
- Cq6zd8hZJK+ilNjf5+y7WNiaJL5G7dHbxn8eWRnmOi9VLfDEWvTeb28BPd+x5sOHtkqt
- MxksRdXGrrcsZd1ZJ0l23jw0M0uFjB09G2SSTdYA7OvnviTy3Gybljymww0kwr/gM4WT
- BP5VccwpA9oB3qzvRuia5DxEz6Ca4GMKJRU1voaGuaI91fK/xXYW72MaYXnbJTzlOI18
- UznWHujLlK+5f4Gw5g3xV9gbIWiVCucOyEGIATMJ0ofhcvgAeXsS/yfxFcJ8SsgCWnP5
- OjGQ==
+Received: from mail-oi1-f181.google.com (mail-oi1-f181.google.com
+ [209.85.167.181])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 518EB10EFC6
+ for <dri-devel@lists.freedesktop.org>; Tue, 19 Apr 2022 13:30:26 +0000 (UTC)
+Received: by mail-oi1-f181.google.com with SMTP id z2so13696602oic.6
+ for <dri-devel@lists.freedesktop.org>; Tue, 19 Apr 2022 06:30:26 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
- :content-transfer-encoding;
- bh=51y0snB2GUgkqHni5/VdYz/z1Uks4JZTasXp07lWCwc=;
- b=rqxjBpfxdShRjUtf1OvIo3OnWo13gD3Qm0dl/gx4kJpsvc/P6OLWRJZnKV+Y5IvOwl
- YAjgafFuHkUqkvIv3ig7ApPmloszU8Yd8XpC6G5Ajcf6g+3d05kH27X1TEwoRvKd1U8I
- +6um04j3iygzVqTSgjczvFMYGlHwF7+/B0q0+O6bksmap7nG3/iCocMoC97tu0QNm1jn
- d/e5cRvMxF6+EjQTkPnVpa+r3t89neGc+yB8ddyO6Xt77bD2/82xLsi5V///X3DsHG/K
- eu15B+5N0pNrctZc8TMWIHPiVl3GJNfng7v7p2gWFLrZDmTs9tUopI7MLO1gf5tbkR6V
- rIng==
-X-Gm-Message-State: AOAM5324XLOuXHuHg1unBwlrf+DEYGPV1GpllIquf2HoVmau/mmN0WqM
- PeEO3wUeY9ZgZ8kYktfXzNizfQ==
-X-Google-Smtp-Source: ABdhPJxvXRNA7D4IGqYmR84etmLXxAFjgH3awFAVSeFJZs7nF3oksNfIfkvKk0MYPRquOpK9ov50xw==
-X-Received: by 2002:a05:651c:103a:b0:24d:b8b1:b333 with SMTP id
- w26-20020a05651c103a00b0024db8b1b333mr6957160ljm.460.1650373463640; 
- Tue, 19 Apr 2022 06:04:23 -0700 (PDT)
-Received: from eriador.lan ([37.153.55.125]) by smtp.gmail.com with ESMTPSA id
- h28-20020a056512055c00b0046bb80943a9sm1508810lfl.277.2022.04.19.06.04.22
+ h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+ :mime-version:content-disposition:in-reply-to;
+ bh=dC+9aknP1RLhEpg+1+Hw55vZvp/iuvE//q1Eib/rSk8=;
+ b=KsB9z2Im78mHfdeEsHZyX+T+aONUJbYvGe+OwLqia52aQz/lAiz69vRhaQSASl83qv
+ t1zxXuNdvyDMzc7GCt2056dEv0xk2a0zdDWJE1UTmrja/xg8LGXBTwqfpPrHeVqf8sz4
+ PYkxpG65wy4Wg7awknXgBnVnSNFopAy9W/9ZbLFnNvHkBktoH/d6bbxB0Q52zp3rA9Ny
+ mn13CtsuS+Ufysk3R07dxCdomkA6pw0dGmZemwbYcK11pNukclws4ZCxXMU4X9muxNeO
+ e9dx3w/TLdip3WyofYDQFdkRWIUDNFC9BOnHC4leaZFxi7DJouuyBwUU43DOMo/Y7AQN
+ gzVg==
+X-Gm-Message-State: AOAM531GO0UiqhhskKHzsGW5DXw88w6flJeTLYdEMVm/wmk/j8RY1Qtk
+ MO0grdlkmUhYIBBFiKHUzQ==
+X-Google-Smtp-Source: ABdhPJz3NesdMOUrwAzr/eSC8Mx3RfAIAeIJyoJkAIHJpN1mFId4zSJtG69YtVQ1IuW9xS8FsHja1w==
+X-Received: by 2002:aca:1903:0:b0:322:68f1:79ca with SMTP id
+ l3-20020aca1903000000b0032268f179camr6634474oii.189.1650375025388; 
+ Tue, 19 Apr 2022 06:30:25 -0700 (PDT)
+Received: from robh.at.kernel.org (66-90-144-107.dyn.grandenetworks.net.
+ [66.90.144.107]) by smtp.gmail.com with ESMTPSA id
+ k8-20020a544688000000b002f90678740esm5102226oic.37.2022.04.19.06.30.24
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 19 Apr 2022 06:04:23 -0700 (PDT)
-From: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
-To: Bjorn Andersson <bjorn.andersson@linaro.org>,
- Rob Clark <robdclark@gmail.com>, Sean Paul <sean@poorly.run>,
- Abhinav Kumar <quic_abhinavk@quicinc.com>
-Subject: [PATCH] drm/msm: Revert "drm/msm: Stop using iommu_present()"
-Date: Tue, 19 Apr 2022 16:04:22 +0300
-Message-Id: <20220419130422.1033699-1-dmitry.baryshkov@linaro.org>
-X-Mailer: git-send-email 2.35.1
+ Tue, 19 Apr 2022 06:30:24 -0700 (PDT)
+Received: (nullmailer pid 2377875 invoked by uid 1000);
+ Tue, 19 Apr 2022 13:30:23 -0000
+Date: Tue, 19 Apr 2022 08:30:23 -0500
+From: Rob Herring <robh@kernel.org>
+To: Thomas Zimmermann <tzimmermann@suse.de>
+Subject: Re: [PATCH v2 1/2] of: Create platform devices for OF framebuffers
+Message-ID: <Yl65by+ZjQdK8nIv@robh.at.kernel.org>
+References: <20220419100405.12600-1-tzimmermann@suse.de>
+ <20220419100405.12600-2-tzimmermann@suse.de>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20220419100405.12600-2-tzimmermann@suse.de>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -68,56 +62,174 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: David Airlie <airlied@linux.ie>, linux-arm-msm@vger.kernel.org,
- Robin Murphy <robin.murphy@arm.com>, dri-devel@lists.freedesktop.org,
- Stephen Boyd <swboyd@chromium.org>, freedreno@lists.freedesktop.org
+Cc: devicetree@vger.kernel.org, linux-fbdev@vger.kernel.org,
+ frowand.list@gmail.com, deller@gmx.de, linuxppc-dev@lists.ozlabs.org,
+ javierm@redhat.com, dri-devel@lists.freedesktop.org, paulus@samba.org,
+ mpe@ellerman.id.au, sam@ravnborg.org, linux@roeck-us.net
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-This reverts commit e2a88eabb02410267519b838fb9b79f5206769be. The commit
-in question makes msm_use_mmu() check whether the DRM 'component master'
-device is translated by the IOMMU. At this moment it is the 'mdss'
-device.
-However on platforms using the MDP5 driver (e.g. MSM8916/APQ8016,
-MSM8996/APQ8096) it's the mdp5 device, which has the iommus property
-(and thus is "translated by the IOMMU"). This results in these devices
-being broken with the following lines in the dmesg.
+On Tue, Apr 19, 2022 at 12:04:04PM +0200, Thomas Zimmermann wrote:
+> Create a platform device for each OF-declared framebuffer and have
+> offb bind to these devices. Allows for real hot-unplugging and other
+> drivers besides offb.
+> 
+> Originally, offb created framebuffer devices while initializing its
+> module by parsing the OF device tree. No actual Linux device was set
+> up. This tied OF framebuffers to offb and makes writing other drivers
+> for the OF framebuffers complicated. The absence of a Linux device
+> further prevented real hot-unplugging. Adding a distinct platform
+> device for each OF framebuffer solves both problems. Specifically, a
+> DRM driver can now provide graphics output for modern userspace.
+> 
+> Some of the offb init code is now located in the OF initialization.
+> There's now also an implementation of of_platform_default_populate_init(),
+> which was missing before. The OF side creates different devices for
+> either OF display nodes or BootX displays as they require different
+> handling by the driver. The offb drivers picks up each type of device
+> and runs the appropriate fbdev initialization.
+> 
+> Tested with OF display nodes on qemu's ppc64le target.
+> 
+> v2:
+> 	* run PPC code as part of existing initialization (Rob)
+> 	* add a few more error warnings (Javier)
+> 
+> Signed-off-by: Thomas Zimmermann <tzimmermann@suse.de>
+> Reviewed-by: Javier Martinez Canillas <javierm@redhat.com>
+> ---
+>  drivers/of/platform.c      | 88 ++++++++++++++++++++++++++--------
+>  drivers/video/fbdev/offb.c | 98 +++++++++++++++++++++++++-------------
+>  2 files changed, 132 insertions(+), 54 deletions(-)
+> 
+> diff --git a/drivers/of/platform.c b/drivers/of/platform.c
+> index a16b74f32aa9..738ba2e2838c 100644
+> --- a/drivers/of/platform.c
+> +++ b/drivers/of/platform.c
+> @@ -507,7 +507,6 @@ int of_platform_default_populate(struct device_node *root,
+>  }
+>  EXPORT_SYMBOL_GPL(of_platform_default_populate);
+>  
+> -#ifndef CONFIG_PPC
+>  static const struct of_device_id reserved_mem_matches[] = {
+>  	{ .compatible = "qcom,rmtfs-mem" },
+>  	{ .compatible = "qcom,cmd-db" },
+> @@ -520,33 +519,81 @@ static const struct of_device_id reserved_mem_matches[] = {
+>  
+>  static int __init of_platform_default_populate_init(void)
+>  {
+> -	struct device_node *node;
+> -
 
-[drm] Initialized msm 1.9.0 20130625 for 1a00000.mdss on minor 0
-msm 1a00000.mdss: [drm:adreno_request_fw] loaded qcom/a300_pm4.fw from new location
-msm 1a00000.mdss: [drm:adreno_request_fw] loaded qcom/a300_pfp.fw from new location
-msm 1a00000.mdss: [drm:get_pages] *ERROR* could not get pages: -28
-msm 1a00000.mdss: could not allocate stolen bo
-msm 1a00000.mdss: [drm:get_pages] *ERROR* could not get pages: -28
-msm 1a00000.mdss: [drm:msm_alloc_stolen_fb] *ERROR* failed to allocate buffer object
-msm 1a00000.mdss: [drm:msm_fbdev_create] *ERROR* failed to allocate fb
+As both if/else clauses need 'node', I'd keep this declared here.
 
-Getting the mdp5 device pointer from this function is not that easy at
-this moment. Thus this patch is reverted till the MDSS rework [1] lands.
-It will make the mdp5/dpu1 device component master and the check will be
-legit.
+>  	device_links_supplier_sync_state_pause();
+>  
+>  	if (!of_have_populated_dt())
+>  		return -ENODEV;
+>  
+> -	/*
+> -	 * Handle certain compatibles explicitly, since we don't want to create
+> -	 * platform_devices for every node in /reserved-memory with a
+> -	 * "compatible",
+> -	 */
+> -	for_each_matching_node(node, reserved_mem_matches)
+> -		of_platform_device_create(node, NULL, NULL);
+> +	if (IS_ENABLED(CONFIG_PPC)) {
+> +		struct device_node *boot_display = NULL;
+> +		struct device_node *node;
+> +		struct platform_device *dev;
+> +		int ret;
+> +
+> +		/* Check if we have a MacOS display without a node spec */
+> +		if (of_get_property(of_chosen, "linux,bootx-noscreen", NULL)) {
+> +			/*
+> +			 * The old code tried to work out which node was the MacOS
+> +			 * display based on the address. I'm dropping that since the
+> +			 * lack of a node spec only happens with old BootX versions
+> +			 * (users can update) and with this code, they'll still get
+> +			 * a display (just not the palette hacks).
+> +			 */
+> +			dev = platform_device_alloc("bootx-noscreen", 0);
+> +			if (WARN_ON(!dev))
+> +				return -ENOMEM;
+> +			ret = platform_device_add(dev);
+> +			if (WARN_ON(ret)) {
+> +				platform_device_put(dev);
+> +				return ret;
+> +			}
+> +		}
+>  
+> -	node = of_find_node_by_path("/firmware");
+> -	if (node) {
+> -		of_platform_populate(node, NULL, NULL, NULL);
+> -		of_node_put(node);
+> -	}
+> +		/*
+> +		 * For OF framebuffers, first create the device for the boot display,
+> +		 * then for the other framebuffers. Only fail for the boot display;
+> +		 * ignore errors for the rest.
+> +		 */
+> +		for_each_node_by_type(node, "display") {
+> +			if (!of_get_property(node, "linux,opened", NULL) ||
+> +			    !of_get_property(node, "linux,boot-display", NULL))
+> +				continue;
+> +			dev = of_platform_device_create(node, "of-display", NULL);
+> +			if (WARN_ON(!dev))
+> +				return -ENOMEM;
+> +			boot_display = node;
+> +			break;
+> +		}
+> +		for_each_node_by_type(node, "display") {
+> +			if (!of_get_property(node, "linux,opened", NULL) || node == boot_display)
+> +				continue;
+> +			of_platform_device_create(node, "of-display", NULL);
+> +		}
+>  
+> -	node = of_get_compatible_child(of_chosen, "simple-framebuffer");
+> -	of_platform_device_create(node, NULL, NULL);
+> -	of_node_put(node);
+> +	} else {
+> +		struct device_node *node;
+> +
+> +		/*
+> +		 * Handle certain compatibles explicitly, since we don't want to create
+> +		 * platform_devices for every node in /reserved-memory with a
+> +		 * "compatible",
+> +		 */
+> +		for_each_matching_node(node, reserved_mem_matches)
+> +			of_platform_device_create(node, NULL, NULL);
+>  
+> -	/* Populate everything else. */
+> -	of_platform_default_populate(NULL, NULL, NULL);
+> +		node = of_find_node_by_path("/firmware");
+> +		if (node) {
+> +			of_platform_populate(node, NULL, NULL, NULL);
+> +			of_node_put(node);
+> +		}
+> +
+> +		node = of_get_compatible_child(of_chosen, "simple-framebuffer");
+> +		of_platform_device_create(node, NULL, NULL);
+> +		of_node_put(node);
 
-[1] https://patchwork.freedesktop.org/series/98525/
+In v1, you supported "simple-framebuffer" on PPC. Don't we want to allow 
+that? Maybe no one cares ATM, but that could change. Either way:
 
-Fixes: e2a88eabb024 ("drm/msm: Stop using iommu_present()")
-Signed-off-by: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
----
- drivers/gpu/drm/msm/msm_drv.c | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+Reviewed-by: Rob Herring <robh@kernel.org>
 
-diff --git a/drivers/gpu/drm/msm/msm_drv.c b/drivers/gpu/drm/msm/msm_drv.c
-index b6702b0fafcb..e2b5307b2360 100644
---- a/drivers/gpu/drm/msm/msm_drv.c
-+++ b/drivers/gpu/drm/msm/msm_drv.c
-@@ -263,7 +263,7 @@ bool msm_use_mmu(struct drm_device *dev)
- 	struct msm_drm_private *priv = dev->dev_private;
- 
- 	/* a2xx comes with its own MMU */
--	return priv->is_a2xx || device_iommu_mapped(dev->dev);
-+	return priv->is_a2xx || iommu_present(&platform_bus_type);
- }
- 
- static int msm_init_vram(struct drm_device *dev)
--- 
-2.35.1
 
+> +
+> +		/* Populate everything else. */
+> +		of_platform_default_populate(NULL, NULL, NULL);
+> +	}
+>  
+>  	return 0;
+>  }
+> @@ -558,7 +605,6 @@ static int __init of_platform_sync_state_init(void)
+>  	return 0;
+>  }
+>  late_initcall_sync(of_platform_sync_state_init);
+> -#endif
+>  
+>  int of_platform_device_destroy(struct device *dev, void *data)
+>  {
