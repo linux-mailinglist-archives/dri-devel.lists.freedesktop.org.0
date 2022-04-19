@@ -1,40 +1,40 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6306A506DAA
-	for <lists+dri-devel@lfdr.de>; Tue, 19 Apr 2022 15:39:00 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id E16FE506DAB
+	for <lists+dri-devel@lfdr.de>; Tue, 19 Apr 2022 15:39:06 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 4C73F10EF1D;
-	Tue, 19 Apr 2022 13:38:58 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id DAC3110EF32;
+	Tue, 19 Apr 2022 13:39:04 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 1069B10EF1D
- for <dri-devel@lists.freedesktop.org>; Tue, 19 Apr 2022 13:38:57 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 302B710EF32
+ for <dri-devel@lists.freedesktop.org>; Tue, 19 Apr 2022 13:39:04 +0000 (UTC)
 Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
  (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
  (No client certificate requested)
- by dfw.source.kernel.org (Postfix) with ESMTPS id EABA5616A3;
+ by dfw.source.kernel.org (Postfix) with ESMTPS id F0639616B4;
+ Tue, 19 Apr 2022 13:39:01 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id D3AC2C385AE;
  Tue, 19 Apr 2022 13:38:54 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 2F1F3C385B0;
- Tue, 19 Apr 2022 13:38:46 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1650375534;
- bh=4iDu1ZR93Hpdk0ePDMtItzf+hxINHA/lI2UqgUNvzAk=;
+ s=k20201202; t=1650375541;
+ bh=Tabda3W6PeTGMPAu0M9QQqvhYHycL4TemoWy40qzXKo=;
  h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
- b=iYu4XDHn5LNc7q3bp0MnU+38E/Ct276pZyBclM70B5U7U15YheXM7tnLSDrpUiUFQ
- LOdrjAjpzyttsvLOqFC2b7tDcSoaZFMybnxyY5aUJrfJtURup3vbi2iY75ltYnDLuS
- R0BLoJT+6r95ZIXxT2lNCWCFV7jGVZ7Sde1XjlYMf9LdvnqvV4unQN9PnYwj+Xjx8X
- 7eBiNtO4k2iiNvODCKeMIIYXlu+l9Iz92DSuTWievPEejspI9ZHnElvJr2WOS2dbqw
- lFRLt6aXKxLOfia2VmyXNyqNDgSTrk89Sgbp424LQiBRKM9tKYyKriV+ZzqFh6k3u5
- x1pStxY//K6Sg==
+ b=LW0UoBnX9Hzd86LCuPcO6M26sjgPOlXq6jYIKYaqHJXq5bcL1DEHz6T4LiTtbxQ5V
+ rNq+KpgWJcQ+v3qqv0Osu2Bn1grzaUydyONyZK25cqWeeQyp6iiruSwB9jDhNJQi1H
+ rgGCt2NBVy+QTsRCYLzUIrmIhsPCty3jBIuS1+h2vprkrocgwhSJnxqWFEGI1m9XWb
+ Ra28W18ndsOK4QP3CQrCAQqyI2jbSWeW0BeZ7olszsizmclogqzyomgTeXxeiBgofD
+ EAYelDZWulsqVtmdDnpD9qbRdAr1E4/1sb4ACF1iwKSPghV+dWtF/UoVae683yoGUy
+ p4lP1qqtWoMfA==
 From: Arnd Bergmann <arnd@kernel.org>
 To: linux-omap@vger.kernel.org, tony@atomide.com, aaro.koskinen@iki.fi,
  jmkrzyszt@gmail.com
-Subject: [PATCH 10/41] ARM: omap1: move CF chipselect setup to board file
-Date: Tue, 19 Apr 2022 15:36:52 +0200
-Message-Id: <20220419133723.1394715-11-arnd@kernel.org>
+Subject: [PATCH 11/41] fbdev: omap: avoid using mach/*.h files
+Date: Tue, 19 Apr 2022 15:36:53 +0200
+Message-Id: <20220419133723.1394715-12-arnd@kernel.org>
 X-Mailer: git-send-email 2.29.2
 In-Reply-To: <20220419133723.1394715-1-arnd@kernel.org>
 References: <20220419133723.1394715-1-arnd@kernel.org>
@@ -60,198 +60,184 @@ Cc: Ulf Hansson <ulf.hansson@linaro.org>,
  Helge Deller <deller@gmx.de>, Russell King <linux@armlinux.org.uk>,
  Krzysztof Kozlowski <krzk@kernel.org>, Alan Stern <stern@rowland.harvard.edu>,
  linux-serial@vger.kernel.org, linux-input@vger.kernel.org,
- Arnd Bergmann <arnd@arndb.de>, Mark Brown <broonie@kernel.org>,
- dri-devel@lists.freedesktop.org, linux-arm-kernel@lists.infradead.org,
- Felipe Balbi <balbi@kernel.org>, Paul Walmsley <paul@pwsan.com>,
- Jingoo Han <jingoohan1@gmail.com>, linux-usb@vger.kernel.org,
- linux-mmc@vger.kernel.org, linux-kernel@vger.kernel.org,
- Vinod Koul <vkoul@kernel.org>, dmaengine@vger.kernel.org,
- alsa-devel@alsa-project.org
+ Arnd Bergmann <arnd@arndb.de>,
+ Bartlomiej Zolnierkiewicz <b.zolnierkie@samsung.com>,
+ Mark Brown <broonie@kernel.org>, dri-devel@lists.freedesktop.org,
+ linux-arm-kernel@lists.infradead.org, Felipe Balbi <balbi@kernel.org>,
+ Paul Walmsley <paul@pwsan.com>, Jingoo Han <jingoohan1@gmail.com>,
+ linux-usb@vger.kernel.org, linux-mmc@vger.kernel.org,
+ linux-kernel@vger.kernel.org, Vinod Koul <vkoul@kernel.org>,
+ dmaengine@vger.kernel.org, alsa-devel@alsa-project.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 From: Arnd Bergmann <arnd@arndb.de>
 
-There is only one board that uses the omap_cf driver, so
-moving the chipselect configuration there does not lead
-to code duplication but avoids the use of mach/tc.h
-in drivers.
+All the headers we actually need are now in include/linux/soc,
+so use those versions instead and allow compile-testing on
+other architectures.
 
+Acked-by: Bartlomiej Zolnierkiewicz <b.zolnierkie@samsung.com>
 Signed-off-by: Arnd Bergmann <arnd@arndb.de>
 ---
- arch/arm/mach-omap1/board-osk.c | 38 ++++++++++++++++++++++++++++-----
- drivers/pcmcia/Kconfig          |  3 ++-
- drivers/pcmcia/omap_cf.c        | 38 ++++++---------------------------
- 3 files changed, 42 insertions(+), 37 deletions(-)
+ drivers/video/backlight/Kconfig          | 4 ++--
+ drivers/video/backlight/omap1_bl.c       | 4 ++--
+ drivers/video/fbdev/omap/Kconfig         | 4 ++--
+ drivers/video/fbdev/omap/lcd_ams_delta.c | 2 +-
+ drivers/video/fbdev/omap/lcd_dma.c       | 3 ++-
+ drivers/video/fbdev/omap/lcd_inn1510.c   | 2 +-
+ drivers/video/fbdev/omap/lcd_osk.c       | 4 ++--
+ drivers/video/fbdev/omap/lcdc.c          | 2 ++
+ drivers/video/fbdev/omap/omapfb_main.c   | 3 +--
+ drivers/video/fbdev/omap/sossi.c         | 1 +
+ 10 files changed, 16 insertions(+), 13 deletions(-)
 
-diff --git a/arch/arm/mach-omap1/board-osk.c b/arch/arm/mach-omap1/board-osk.c
-index b627a4351cf0..5dbc8f109aa7 100644
---- a/arch/arm/mach-omap1/board-osk.c
-+++ b/arch/arm/mach-omap1/board-osk.c
-@@ -153,14 +153,14 @@ static struct resource osk5912_cf_resources[] = {
- 	[0] = {
- 		.flags	= IORESOURCE_IRQ,
- 	},
-+	[1] = {
-+		.flags = IORESOURCE_MEM,
-+	},
- };
+diff --git a/drivers/video/backlight/Kconfig b/drivers/video/backlight/Kconfig
+index e32694c13da5..a003e02e13ce 100644
+--- a/drivers/video/backlight/Kconfig
++++ b/drivers/video/backlight/Kconfig
+@@ -211,8 +211,8 @@ config BACKLIGHT_LOCOMO
  
- static struct platform_device osk5912_cf_device = {
- 	.name		= "omap_cf",
- 	.id		= -1,
--	.dev = {
--		.platform_data	= (void *) 2 /* CS2 */,
--	},
- 	.num_resources	= ARRAY_SIZE(osk5912_cf_resources),
- 	.resource	= osk5912_cf_resources,
- };
-@@ -275,13 +275,41 @@ static void __init osk_init_smc91x(void)
- 	omap_writel(l, EMIFS_CCS(1));
- }
- 
--static void __init osk_init_cf(void)
-+static void __init osk_init_cf(int seg)
- {
-+	struct resource *res = &osk5912_cf_resources[1];
-+
- 	omap_cfg_reg(M7_1610_GPIO62);
- 	if ((gpio_request(62, "cf_irq")) < 0) {
- 		printk("Error requesting gpio 62 for CF irq\n");
- 		return;
- 	}
-+
-+	switch (seg) {
-+	/* NOTE: CS0 could be configured too ... */
-+	case 1:
-+		res->start = OMAP_CS1_PHYS;
-+		break;
-+	case 2:
-+		res->start = OMAP_CS2_PHYS;
-+		break;
-+	case 3:
-+		res->start = omap_cs3_phys();
-+		break;
-+	}
-+
-+	res->end = res->start + SZ_8K - 1;
-+	osk5912_cf_device.dev.platform_data = (void *)(uintptr_t)seg;
-+
-+	/* NOTE:  better EMIFS setup might support more cards; but the
-+	 * TRM only shows how to affect regular flash signals, not their
-+	 * CF/PCMCIA variants...
-+	 */
-+	pr_debug("%s: cs%d, previous ccs %08x acs %08x\n", __func__,
-+		seg, omap_readl(EMIFS_CCS(seg)), omap_readl(EMIFS_ACS(seg)));
-+	omap_writel(0x0004a1b3, EMIFS_CCS(seg));	/* synch mode 4 etc */
-+	omap_writel(0x00000000, EMIFS_ACS(seg));	/* OE hold/setup */
-+
- 	/* the CF I/O IRQ is really active-low */
- 	irq_set_irq_type(gpio_to_irq(62), IRQ_TYPE_EDGE_FALLING);
- }
-@@ -580,7 +608,7 @@ static void __init osk_init(void)
- 	u32 l;
- 
- 	osk_init_smc91x();
--	osk_init_cf();
-+	osk_init_cf(2); /* CS2 */
- 
- 	/* Workaround for wrong CS3 (NOR flash) timing
- 	 * There are some U-Boot versions out there which configure
-diff --git a/drivers/pcmcia/Kconfig b/drivers/pcmcia/Kconfig
-index 2ce261cfff8e..ec977f031bc2 100644
---- a/drivers/pcmcia/Kconfig
-+++ b/drivers/pcmcia/Kconfig
-@@ -246,7 +246,8 @@ config PCMCIA_VRC4171
- 
- config OMAP_CF
- 	tristate "OMAP CompactFlash Controller"
--	depends on PCMCIA && ARCH_OMAP16XX
-+	depends on PCMCIA
-+	depends on ARCH_OMAP16XX || (ARM && COMPILE_TEST)
+ config BACKLIGHT_OMAP1
+ 	tristate "OMAP1 PWL-based LCD Backlight"
+-	depends on ARCH_OMAP1
+-	default y
++	depends on ARCH_OMAP1 || COMPILE_TEST
++	default ARCH_OMAP1
  	help
- 	  Say Y here to support the CompactFlash controller on OMAP.
- 	  Note that this doesn't support "True IDE" mode.
-diff --git a/drivers/pcmcia/omap_cf.c b/drivers/pcmcia/omap_cf.c
-index f0b2c2d03469..093022ce7d91 100644
---- a/drivers/pcmcia/omap_cf.c
-+++ b/drivers/pcmcia/omap_cf.c
-@@ -16,13 +16,12 @@
- 
- #include <pcmcia/ss.h>
+ 	  This driver controls the LCD backlight level and power for
+ 	  the PWL module of OMAP1 processors.  Say Y if your board
+diff --git a/drivers/video/backlight/omap1_bl.c b/drivers/video/backlight/omap1_bl.c
+index 74263021b1b3..69a49384b3de 100644
+--- a/drivers/video/backlight/omap1_bl.c
++++ b/drivers/video/backlight/omap1_bl.c
+@@ -14,8 +14,8 @@
+ #include <linux/slab.h>
+ #include <linux/platform_data/omap1_bl.h>
  
 -#include <mach/hardware.h>
- #include <asm/io.h>
- #include <linux/sizes.h>
- 
 -#include <mach/mux.h>
--#include <mach/tc.h>
--
 +#include <linux/soc/ti/omap1-io.h>
-+#include <linux/soc/ti/omap1-soc.h>
 +#include <linux/soc/ti/omap1-mux.h>
  
- /* NOTE:  don't expect this to support many I/O cards.  The 16xx chips have
-  * hard-wired timings to support Compact Flash memory cards; they won't work
-@@ -205,6 +204,7 @@ static int __init omap_cf_probe(struct platform_device *pdev)
- 	struct omap_cf_socket	*cf;
- 	int			irq;
- 	int			status;
-+	struct resource		*res;
+ #define OMAPBL_MAX_INTENSITY		0xff
  
- 	seg = (int) pdev->dev.platform_data;
- 	if (seg == 0 || seg > 3)
-@@ -215,6 +215,8 @@ static int __init omap_cf_probe(struct platform_device *pdev)
- 	if (irq < 0)
- 		return -EINVAL;
+diff --git a/drivers/video/fbdev/omap/Kconfig b/drivers/video/fbdev/omap/Kconfig
+index df2a5d0d4aa2..b1786cf1b486 100644
+--- a/drivers/video/fbdev/omap/Kconfig
++++ b/drivers/video/fbdev/omap/Kconfig
+@@ -2,7 +2,7 @@
+ config FB_OMAP
+ 	tristate "OMAP frame buffer support"
+ 	depends on FB
+-	depends on ARCH_OMAP1
++	depends on ARCH_OMAP1 || (ARM && COMPILE_TEST)
+ 	select FB_CFB_FILLRECT
+ 	select FB_CFB_COPYAREA
+ 	select FB_CFB_IMAGEBLIT
+@@ -42,7 +42,7 @@ config FB_OMAP_LCD_MIPID
  
-+	res = platform_get_resource(pdev, IORESOURCE_MEM, 0);
-+
- 	cf = kzalloc(sizeof *cf, GFP_KERNEL);
- 	if (!cf)
- 		return -ENOMEM;
-@@ -230,24 +232,7 @@ static int __init omap_cf_probe(struct platform_device *pdev)
- 		goto fail0;
- 	cf->irq = irq;
- 	cf->socket.pci_irq = irq;
+ config FB_OMAP_LCD_H3
+ 	bool "TPS65010 LCD controller on OMAP-H3"
+-	depends on MACH_OMAP_H3
++	depends on MACH_OMAP_H3 || COMPILE_TEST
+ 	depends on TPS65010=y
+ 	default y
+ 	help
+diff --git a/drivers/video/fbdev/omap/lcd_ams_delta.c b/drivers/video/fbdev/omap/lcd_ams_delta.c
+index 01944ce46aa1..414d0f074306 100644
+--- a/drivers/video/fbdev/omap/lcd_ams_delta.c
++++ b/drivers/video/fbdev/omap/lcd_ams_delta.c
+@@ -14,7 +14,7 @@
+ #include <linux/gpio/consumer.h>
+ #include <linux/lcd.h>
+ 
+-#include <mach/hardware.h>
++#include <linux/soc/ti/omap1-io.h>
+ 
+ #include "omapfb.h"
+ 
+diff --git a/drivers/video/fbdev/omap/lcd_dma.c b/drivers/video/fbdev/omap/lcd_dma.c
+index 867a63c06f42..f85817635a8c 100644
+--- a/drivers/video/fbdev/omap/lcd_dma.c
++++ b/drivers/video/fbdev/omap/lcd_dma.c
+@@ -25,7 +25,8 @@
+ 
+ #include <linux/omap-dma.h>
+ 
+-#include <mach/hardware.h>
++#include <linux/soc/ti/omap1-soc.h>
++#include <linux/soc/ti/omap1-io.h>
+ 
+ #include "lcdc.h"
+ #include "lcd_dma.h"
+diff --git a/drivers/video/fbdev/omap/lcd_inn1510.c b/drivers/video/fbdev/omap/lcd_inn1510.c
+index 37ed0c14aa5a..bb915637e9b6 100644
+--- a/drivers/video/fbdev/omap/lcd_inn1510.c
++++ b/drivers/video/fbdev/omap/lcd_inn1510.c
+@@ -10,7 +10,7 @@
+ #include <linux/platform_device.h>
+ #include <linux/io.h>
+ 
+-#include <mach/hardware.h>
++#include <linux/soc/ti/omap1-soc.h>
+ 
+ #include "omapfb.h"
+ 
+diff --git a/drivers/video/fbdev/omap/lcd_osk.c b/drivers/video/fbdev/omap/lcd_osk.c
+index 5d5762128c8d..8168ba0d47fd 100644
+--- a/drivers/video/fbdev/omap/lcd_osk.c
++++ b/drivers/video/fbdev/omap/lcd_osk.c
+@@ -11,8 +11,8 @@
+ #include <linux/platform_device.h>
+ #include <linux/gpio.h>
+ 
+-#include <mach/hardware.h>
+-#include <mach/mux.h>
++#include <linux/soc/ti/omap1-io.h>
++#include <linux/soc/ti/omap1-mux.h>
+ 
+ #include "omapfb.h"
+ 
+diff --git a/drivers/video/fbdev/omap/lcdc.c b/drivers/video/fbdev/omap/lcdc.c
+index d9731d12bd72..4c9091bd936d 100644
+--- a/drivers/video/fbdev/omap/lcdc.c
++++ b/drivers/video/fbdev/omap/lcdc.c
+@@ -17,6 +17,8 @@
+ #include <linux/clk.h>
+ #include <linux/gfp.h>
+ 
++#include <linux/soc/ti/omap1-io.h>
++#include <linux/soc/ti/omap1-soc.h>
+ #include <linux/omap-dma.h>
+ 
+ #include <asm/mach-types.h>
+diff --git a/drivers/video/fbdev/omap/omapfb_main.c b/drivers/video/fbdev/omap/omapfb_main.c
+index b8fd509f11e4..292fcb0a24fc 100644
+--- a/drivers/video/fbdev/omap/omapfb_main.c
++++ b/drivers/video/fbdev/omap/omapfb_main.c
+@@ -20,8 +20,7 @@
+ 
+ #include <linux/omap-dma.h>
+ 
+-#include <mach/hardware.h>
 -
--	switch (seg) {
--	/* NOTE: CS0 could be configured too ... */
--	case 1:
--		cf->phys_cf = OMAP_CS1_PHYS;
--		break;
--	case 2:
--		cf->phys_cf = OMAP_CS2_PHYS;
--		break;
--	case 3:
--		cf->phys_cf = omap_cs3_phys();
--		break;
--	default:
--		goto  fail1;
--	}
--	cf->iomem.start = cf->phys_cf;
--	cf->iomem.end = cf->iomem.end + SZ_8K - 1;
--	cf->iomem.flags = IORESOURCE_MEM;
-+	cf->phys_cf = res->start;
++#include <linux/soc/ti/omap1-soc.h>
+ #include "omapfb.h"
+ #include "lcdc.h"
  
- 	/* pcmcia layer only remaps "real" memory */
- 	cf->socket.io_offset = (unsigned long)
-@@ -273,15 +258,6 @@ static int __init omap_cf_probe(struct platform_device *pdev)
+diff --git a/drivers/video/fbdev/omap/sossi.c b/drivers/video/fbdev/omap/sossi.c
+index ade9d452254c..6b99d89fbe6e 100644
+--- a/drivers/video/fbdev/omap/sossi.c
++++ b/drivers/video/fbdev/omap/sossi.c
+@@ -13,6 +13,7 @@
+ #include <linux/interrupt.h>
  
- 	pr_info("%s: cs%d on irq %d\n", driver_name, seg, irq);
+ #include <linux/omap-dma.h>
++#include <linux/soc/ti/omap1-io.h>
  
--	/* NOTE:  better EMIFS setup might support more cards; but the
--	 * TRM only shows how to affect regular flash signals, not their
--	 * CF/PCMCIA variants...
--	 */
--	pr_debug("%s: cs%d, previous ccs %08x acs %08x\n", driver_name,
--		seg, omap_readl(EMIFS_CCS(seg)), omap_readl(EMIFS_ACS(seg)));
--	omap_writel(0x0004a1b3, EMIFS_CCS(seg));	/* synch mode 4 etc */
--	omap_writel(0x00000000, EMIFS_ACS(seg));	/* OE hold/setup */
--
- 	/* CF uses armxor_ck, which is "always" available */
- 
- 	pr_debug("%s: sts %04x cfg %04x control %04x %s\n", driver_name,
+ #include "omapfb.h"
+ #include "lcd_dma.h"
 -- 
 2.29.2
 
