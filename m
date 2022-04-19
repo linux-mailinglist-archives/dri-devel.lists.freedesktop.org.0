@@ -1,44 +1,56 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 27F225070AB
-	for <lists+dri-devel@lfdr.de>; Tue, 19 Apr 2022 16:36:05 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 9F0D25070C5
+	for <lists+dri-devel@lfdr.de>; Tue, 19 Apr 2022 16:39:06 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 37D3510EF24;
-	Tue, 19 Apr 2022 14:36:03 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 5D61F10EE9A;
+	Tue, 19 Apr 2022 14:39:02 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from out1.migadu.com (out1.migadu.com [91.121.223.63])
- by gabe.freedesktop.org (Postfix) with ESMTPS id E5B3010EF22
- for <dri-devel@lists.freedesktop.org>; Tue, 19 Apr 2022 14:36:01 +0000 (UTC)
-Date: Tue, 19 Apr 2022 22:35:29 +0800
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linux.dev; s=key1;
- t=1650378957;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=QawvvwMKEl52ui8qtXQSbeAZjXUbrb0qfB23spQfQ5o=;
- b=V2i84UtxHjyIILi/gKDecMrXxZHmNluIocH16r4VPQD6u4LEOHLM+hQg3Pt5MaSbts9s1F
- pIy1R8GpScNNC3spVtoSLh6JAQcD3kjT7l23TKEbJhDrTtWtr9vSsO1w/8ujxPTvCe0HN4
- KmQ5TaCHq+fTgMKN7hS57OFf0e/ApZk=
-X-Report-Abuse: Please report any abuse attempt to abuse@migadu.com and
- include these headers.
-From: Cai Huoqing <cai.huoqing@linux.dev>
-To: Christian =?utf-8?B?S8O2bmln?= <christian.koenig@amd.com>
-Subject: Re: [PATCH 2/2] drm/nvdla: Add driver support for NVDLA
-Message-ID: <20220419143529.GA44323@chq-T47>
-References: <20220419135908.39606-1-cai.huoqing@linux.dev>
- <20220419135908.39606-3-cai.huoqing@linux.dev>
- <20bac605-97e6-e5cd-c4e4-83a8121645d8@amd.com>
+Received: from mail-oa1-x34.google.com (mail-oa1-x34.google.com
+ [IPv6:2001:4860:4864:20::34])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 18E6310EAC9;
+ Tue, 19 Apr 2022 14:39:01 +0000 (UTC)
+Received: by mail-oa1-x34.google.com with SMTP id
+ 586e51a60fabf-e5e433d66dso6358587fac.5; 
+ Tue, 19 Apr 2022 07:39:01 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc; bh=1s42UKgWJ4Pw4SvGNmkzwP7DSmoxOCXsEkE3mMBdmkk=;
+ b=bryyFja6G/AfZjaCCp3S0G0ceVcHhyW1VQrZVSljNUEwwov2BVcqUpiqzWWuUzKqiW
+ 9rJzlHdS162QkPuOqWZq7UQ2VwiHR0xor0h0WIoSFyLZhJlv2+zectxrETiTHrAjY79E
+ zvaLn+f9Sm9B8dmjE0Or93kQWpSpKq8AoM3n7JxTsgPapjJO/8m3TQ/iaLFyz1DG2xIq
+ RiP7Bb6DpCXBOYWqJ6Jt2a/BXMLG9VaCGTBE7IW3ABkGUkYwH5Uo8gsuMe03xupp43CJ
+ d8Hsw0jY3vd60CmLcfC6WgcMi3fzGpjUKBX5/aT2leGku3O/VYO4boI+1k75w43bNywb
+ 4uvg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=1s42UKgWJ4Pw4SvGNmkzwP7DSmoxOCXsEkE3mMBdmkk=;
+ b=IZIYqO239SbaOW/zEpQeswdnK8ybyJdX2JhWW7PVF5kAcy58hcIe8im6PDJLk/0tTL
+ pUan6Wen1Y4n2Ew26fW3oOBxixMnZUBvWfNPCmevXsEdYWwmj3X94iD1Z3536hseeoxs
+ 2yifAbIW4Z2FRmzFxZoED0YqwKbSuTb3ULdfAlgGgCs3PqiDTNKkTy/cVO4Adsb+8UmJ
+ W6dsT+UioT1JdCyBCat3UBT+RB/yOXW1YHaPNx4QpwnPlhf5oYpgi4udiJYyuZhu3mt/
+ JPss/m5V1XKrjmlo6vfQSyl10W2+n1dO+IsCIdgiTFEm6w6m9aQdwBTUBJ6LH8Vwus3/
+ Jvww==
+X-Gm-Message-State: AOAM533qu0OP7Zi1xS3b2c36RgvFjnvXtbqnicjxHO5iRrIVQ7vwZ596
+ Dxw5G4DZgp/bJ1cZnH8yL2W6DqBNfHzDHNqXepVXxMj7
+X-Google-Smtp-Source: ABdhPJxYRk2m9Utt9pJajmRXaqGutiUzLUudX5XJtfTMosQAR+UFtPG9su2APCdSuDKfZxLYGcxAh0AbE+xOcVMMHxQ=
+X-Received: by 2002:a05:6870:d683:b0:de:eaa2:3550 with SMTP id
+ z3-20020a056870d68300b000deeaa23550mr6741761oap.253.1650379140409; Tue, 19
+ Apr 2022 07:39:00 -0700 (PDT)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <20bac605-97e6-e5cd-c4e4-83a8121645d8@amd.com>
-X-Migadu-Flow: FLOW_OUT
-X-Migadu-Auth-User: linux.dev
+References: <20220419103721.4080045-1-keitasuzuki.park@sslab.ics.keio.ac.jp>
+In-Reply-To: <20220419103721.4080045-1-keitasuzuki.park@sslab.ics.keio.ac.jp>
+From: Alex Deucher <alexdeucher@gmail.com>
+Date: Tue, 19 Apr 2022 10:38:49 -0400
+Message-ID: <CADnq5_MfjrZvegj-4r4DhRR5FDe6casvfcy54G0tM8PZqbsHeg@mail.gmail.com>
+Subject: Re: [PATCH] drm/amd/pm: fix double free in si_parse_power_table()
+To: Keita Suzuki <keitasuzuki.park@sslab.ics.keio.ac.jp>
+Content-Type: text/plain; charset="UTF-8"
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -51,31 +63,79 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Thomas Zimmermann <tzimmermann@suse.de>, David Airlie <airlied@linux.ie>,
- linux-kernel@vger.kernel.org, linaro-mm-sig@lists.linaro.org,
- dri-devel@lists.freedesktop.org, Sumit Semwal <sumit.semwal@linaro.org>,
- linux-media@vger.kernel.org
+Cc: "Pan, Xinhui" <Xinhui.Pan@amd.com>, David Airlie <airlied@linux.ie>,
+ =?UTF-8?B?TWHDrXJhIENhbmFs?= <maira.canal@usp.br>,
+ Lijo Lazar <lijo.lazar@amd.com>, "Gustavo A. R. Silva" <gustavoars@kernel.org>,
+ amd-gfx list <amd-gfx@lists.freedesktop.org>,
+ LKML <linux-kernel@vger.kernel.org>,
+ Maling list - DRI developers <dri-devel@lists.freedesktop.org>,
+ Alex Deucher <alexander.deucher@amd.com>, Evan Quan <evan.quan@amd.com>,
+ =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>,
+ Hawking Zhang <Hawking.Zhang@amd.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 19 4月 22 16:07:44, Christian König wrote:
-> Am 19.04.22 um 15:59 schrieb Cai Huoqing:
-> > The NVIDIA Deep Learning Accelerator (NVDLA) is an open source IP
-> > which is integrated into NVIDIA Jetson AGX Xavier,
-> > so add driver support for this accelerator.
-> > 
-> > Signed-off-by: Cai Huoqing <cai.huoqing@linux.dev>
-> > 
-> 
-> Well doesn't looks so bad on first glance (regarding coding style etc..)
-> 
-> But am I blind or isn't there any UAPI for the driver? I mean adding a DRM
-> driver without any change to include/uapi/drm is really odd.
-thanks for your reply, I will rename nvdla_ioctl.h which is UAPI headfile,
-then put it to include/uapi/drm.
+Applied.  Thanks!
 
-thanks,
-Cai
-> 
-> Regards,
-> Christian.
+On Tue, Apr 19, 2022 at 8:49 AM Keita Suzuki
+<keitasuzuki.park@sslab.ics.keio.ac.jp> wrote:
+>
+> In function si_parse_power_table(), array adev->pm.dpm.ps and its member
+> is allocated. If the allocation of each member fails, the array itself
+> is freed and returned with an error code. However, the array is later
+> freed again in si_dpm_fini() function which is called when the function
+> returns an error.
+>
+> This leads to potential double free of the array adev->pm.dpm.ps, as
+> well as leak of its array members, since the members are not freed in
+> the allocation function and the array is not nulled when freed.
+> In addition adev->pm.dpm.num_ps, which keeps track of the allocated
+> array member, is not updated until the member allocation is
+> successfully finished, this could also lead to either use after free,
+> or uninitialized variable access in si_dpm_fini().
+>
+> Fix this by postponing the free of the array until si_dpm_fini() and
+> increment adev->pm.dpm.num_ps everytime the array member is allocated.
+>
+> Signed-off-by: Keita Suzuki <keitasuzuki.park@sslab.ics.keio.ac.jp>
+> ---
+>  drivers/gpu/drm/amd/pm/legacy-dpm/si_dpm.c | 8 +++-----
+>  1 file changed, 3 insertions(+), 5 deletions(-)
+>
+> diff --git a/drivers/gpu/drm/amd/pm/legacy-dpm/si_dpm.c b/drivers/gpu/drm/amd/pm/legacy-dpm/si_dpm.c
+> index caae54487f9c..079888229485 100644
+> --- a/drivers/gpu/drm/amd/pm/legacy-dpm/si_dpm.c
+> +++ b/drivers/gpu/drm/amd/pm/legacy-dpm/si_dpm.c
+> @@ -7331,17 +7331,15 @@ static int si_parse_power_table(struct amdgpu_device *adev)
+>         if (!adev->pm.dpm.ps)
+>                 return -ENOMEM;
+>         power_state_offset = (u8 *)state_array->states;
+> -       for (i = 0; i < state_array->ucNumEntries; i++) {
+> +       for (adev->pm.dpm.num_ps = 0, i = 0; i < state_array->ucNumEntries; i++) {
+>                 u8 *idx;
+>                 power_state = (union pplib_power_state *)power_state_offset;
+>                 non_clock_array_index = power_state->v2.nonClockInfoIndex;
+>                 non_clock_info = (struct _ATOM_PPLIB_NONCLOCK_INFO *)
+>                         &non_clock_info_array->nonClockInfo[non_clock_array_index];
+>                 ps = kzalloc(sizeof(struct  si_ps), GFP_KERNEL);
+> -               if (ps == NULL) {
+> -                       kfree(adev->pm.dpm.ps);
+> +               if (ps == NULL)
+>                         return -ENOMEM;
+> -               }
+>                 adev->pm.dpm.ps[i].ps_priv = ps;
+>                 si_parse_pplib_non_clock_info(adev, &adev->pm.dpm.ps[i],
+>                                               non_clock_info,
+> @@ -7363,8 +7361,8 @@ static int si_parse_power_table(struct amdgpu_device *adev)
+>                         k++;
+>                 }
+>                 power_state_offset += 2 + power_state->v2.ucNumDPMLevels;
+> +               adev->pm.dpm.num_ps++;
+>         }
+> -       adev->pm.dpm.num_ps = state_array->ucNumEntries;
+>
+>         /* fill in the vce power states */
+>         for (i = 0; i < adev->pm.dpm.num_of_vce_states; i++) {
+> --
+> 2.25.1
+>
