@@ -1,58 +1,58 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0A1AB507B1F
-	for <lists+dri-devel@lfdr.de>; Tue, 19 Apr 2022 22:40:54 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 20834507B3A
+	for <lists+dri-devel@lfdr.de>; Tue, 19 Apr 2022 22:50:38 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 1742410E027;
-	Tue, 19 Apr 2022 20:40:50 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 111A810E208;
+	Tue, 19 Apr 2022 20:50:34 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from bhuna.collabora.co.uk (bhuna.collabora.co.uk [46.235.227.227])
- by gabe.freedesktop.org (Postfix) with ESMTPS id EFD1C10E027
- for <dri-devel@lists.freedesktop.org>; Tue, 19 Apr 2022 20:40:47 +0000 (UTC)
-Received: from [127.0.0.1] (localhost [127.0.0.1])
- (Authenticated sender: dmitry.osipenko) with ESMTPSA id D242A1F41C51
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
- s=mail; t=1650400846;
- bh=Rc2i+BQoYrwpgocGYrZDfDAk0Kijzh0pLg1e7NKVmVI=;
- h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
- b=HWIJdBjow/SXHOolXdJUHNUdWrSbBTMZWYg6juNNYdzqVAcRpPeW6uZXhUnT3Mt1y
- 6ivYvweLm03x4RUZEL4dUbYr38Rc9fuf5ROtKN8C5AytTyG0djV+xh+5bybD86qAfs
- 8WtiX5MN4GFpniCX4l0VtMNjAhb7GE3MU+5y8weSRuBFxMYZfA5GId02ipX1byUNNT
- u+1UTLtgE6m+DospAWqBX0dvEPAbU3kLRPYH2tG+EcnYAaAM6KSr1RjIHwcgVQ9Rh/
- Kc0UK9vLx5LdPCYJEk1jfgWUJwaY5oerNA/m1NwIDOYcZai8xYxTpEZGkNeGON/VZb
- LmdQINCw9St5Q==
-Message-ID: <7f497f99-f4c1-33d6-46cf-95bd90188fe3@collabora.com>
-Date: Tue, 19 Apr 2022 23:40:41 +0300
+Received: from alexa-out.qualcomm.com (alexa-out.qualcomm.com [129.46.98.28])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 87A6310E063;
+ Tue, 19 Apr 2022 20:50:32 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=quicinc.com; i=@quicinc.com; q=dns/txt; s=qcdkim;
+ t=1650401432; x=1681937432;
+ h=message-id:date:mime-version:subject:to:cc:references:
+ from:in-reply-to:content-transfer-encoding;
+ bh=Mxl40I/GVF4LYfYnv2CrUGvPyjKo5X9LbQFOPvAimOY=;
+ b=bvjQbMrlqNmENjrVbwCendq0ch5CGvA2YEArOj6eOdJ5lx0pmERLR/D+
+ eyOqsB2xznhDzDn1rsTgi0Xb/GbDeB1y115AJ/+NoHHUvi/r7HBe37cAW
+ Rv1yvF0SdfUhqgeLwD/HCsaI2qpb15nsv9dVgx6G1CvDq2czypOFYenvU g=;
+Received: from ironmsg09-lv.qualcomm.com ([10.47.202.153])
+ by alexa-out.qualcomm.com with ESMTP; 19 Apr 2022 13:50:32 -0700
+X-QCInternal: smtphost
+Received: from nasanex01c.na.qualcomm.com ([10.47.97.222])
+ by ironmsg09-lv.qualcomm.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 19 Apr 2022 13:50:32 -0700
+Received: from nalasex01a.na.qualcomm.com (10.47.209.196) by
+ nasanex01c.na.qualcomm.com (10.47.97.222) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.2.986.22; Tue, 19 Apr 2022 13:50:31 -0700
+Received: from [10.111.175.117] (10.80.80.8) by nalasex01a.na.qualcomm.com
+ (10.47.209.196) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.986.22; Tue, 19 Apr
+ 2022 13:50:28 -0700
+Message-ID: <e3b8dcea-2458-1a6b-7cfd-3818d029d548@quicinc.com>
+Date: Tue, 19 Apr 2022 13:50:26 -0700
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.7.0
-Subject: Re: [PATCH v4 11/15] drm/shmem-helper: Add generic memory shrinker
+User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:91.0) Gecko/20100101
+ Thunderbird/91.6.2
+Subject: Re: [PATCH v7 08/14] drm/msm/dpu: don't use merge_3d if DSC merge
+ topology is used
 Content-Language: en-US
-To: Thomas Zimmermann <tzimmermann@suse.de>, David Airlie <airlied@linux.ie>, 
- Gerd Hoffmann <kraxel@redhat.com>,
- Gurchetan Singh <gurchetansingh@chromium.org>, Chia-I Wu
- <olvaffe@gmail.com>, Daniel Vetter <daniel@ffwll.ch>,
- Daniel Almeida <daniel.almeida@collabora.com>,
- Gert Wollny <gert.wollny@collabora.com>,
- Gustavo Padovan <gustavo.padovan@collabora.com>,
- Daniel Stone <daniel@fooishbar.org>,
- Tomeu Vizoso <tomeu.vizoso@collabora.com>,
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Maxime Ripard <mripard@kernel.org>, Rob Herring <robh@kernel.org>,
- Steven Price <steven.price@arm.com>,
- Alyssa Rosenzweig <alyssa.rosenzweig@collabora.com>,
- Rob Clark <robdclark@gmail.com>, Emil Velikov <emil.l.velikov@gmail.com>,
- Robin Murphy <robin.murphy@arm.com>
-References: <20220417223707.157113-1-dmitry.osipenko@collabora.com>
- <20220417223707.157113-12-dmitry.osipenko@collabora.com>
- <ebe3dfdb-04ac-9ab1-64ff-9d54f96afe57@suse.de>
-From: Dmitry Osipenko <dmitry.osipenko@collabora.com>
-In-Reply-To: <ebe3dfdb-04ac-9ab1-64ff-9d54f96afe57@suse.de>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
+To: Vinod Koul <vkoul@kernel.org>, Rob Clark <robdclark@gmail.com>
+References: <20220406094031.1027376-1-vkoul@kernel.org>
+ <20220406094031.1027376-9-vkoul@kernel.org>
+From: Abhinav Kumar <quic_abhinavk@quicinc.com>
+In-Reply-To: <20220406094031.1027376-9-vkoul@kernel.org>
+Content-Type: text/plain; charset="UTF-8"; format=flowed
+Content-Transfer-Encoding: 7bit
+X-Originating-IP: [10.80.80.8]
+X-ClientProxiedBy: nasanex01b.na.qualcomm.com (10.46.141.250) To
+ nalasex01a.na.qualcomm.com (10.47.209.196)
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -65,218 +65,92 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Dmitry Osipenko <digetx@gmail.com>, linux-kernel@vger.kernel.org,
- dri-devel@lists.freedesktop.org, virtualization@lists.linux-foundation.org
+Cc: Jonathan Marek <jonathan@marek.ca>, David Airlie <airlied@linux.ie>,
+ linux-arm-msm@vger.kernel.org, linux-kernel@vger.kernel.org,
+ dri-devel@lists.freedesktop.org, Bjorn Andersson <bjorn.andersson@linaro.org>,
+ Dmitry Baryshkov <dmitry.baryshkov@linaro.org>,
+ freedreno@lists.freedesktop.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 4/19/22 10:22, Thomas Zimmermann wrote:
-> Hi
+
+
+On 4/6/2022 2:40 AM, Vinod Koul wrote:
+> From: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
 > 
-> Am 18.04.22 um 00:37 schrieb Dmitry Osipenko:
->> Introduce a common DRM SHMEM shrinker. It allows to reduce code
->> duplication among DRM drivers that implement theirs own shrinkers.
->> This is initial version of the shrinker that covers basic needs of
->> GPU drivers, both purging and eviction of shmem objects are supported.
->>
->> This patch is based on a couple ideas borrowed from Rob's Clark MSM
->> shrinker and Thomas' Zimmermann variant of SHMEM shrinker.
->>
->> In order to start using DRM SHMEM shrinker drivers should:
->>
->> 1. Implement new purge(), evict() + swap_in() GEM callbacks.
->> 2. Register shrinker using drm_gem_shmem_shrinker_register(drm_device).
->> 3. Use drm_gem_shmem_set_purgeable_and_evictable(shmem) and alike API
->>     functions to activate shrinking of GEMs.
->>
->> Signed-off-by: Daniel Almeida <daniel.almeida@collabora.com>
->> Signed-off-by: Dmitry Osipenko <dmitry.osipenko@collabora.com>
->> ---
->>   drivers/gpu/drm/drm_gem_shmem_helper.c | 765 ++++++++++++++++++++++++-
->>   include/drm/drm_device.h               |   4 +
->>   include/drm/drm_gem.h                  |  35 ++
->>   include/drm/drm_gem_shmem_helper.h     | 105 +++-
->>   4 files changed, 877 insertions(+), 32 deletions(-)
-...
->> @@ -172,6 +172,41 @@ struct drm_gem_object_funcs {
->>        * This is optional but necessary for mmap support.
->>        */
->>       const struct vm_operations_struct *vm_ops;
->> +
->> +    /**
->> +     * @purge:
->> +     *
->> +     * Releases the GEM object's allocated backing storage to the
->> system.
->> +     *
->> +     * Returns the number of pages that have been freed by purging
->> the GEM object.
->> +     *
->> +     * This callback is used by the GEM shrinker.
->> +     */
->> +    unsigned long (*purge)(struct drm_gem_object *obj);
->> +
->> +    /**
->> +     * @evict:
->> +     *
->> +     * Unpins the GEM object's allocated backing storage, allowing
->> shmem pages
->> +     * to be swapped out.
+> DPU supports different topologies for the case when multiple INTFs are
+> being driven by the single phys_enc. The driver defaults to using 3DMux
+> in such cases. Don't use it if DSC merge is used instead.
 > 
-> What's the difference to the existing unpin() callback?
+> Suggested-by: Abhinav Kumar <quic_abhinavk@quicinc.com>
+> Signed-off-by: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
+> Signed-off-by: Vinod Koul <vkoul@kernel.org>
 
-Drivers need to do more than just unpinning pages when GEMs are evicted.
-Unpinning is only a part of the eviction process. I'll improve the
-doc-comment in v5.
+Thank you for making the change generic as suggested.
 
-For example, for VirtIO-GPU driver we need to to detach host from the
-guest's memory before pages are evicted [1].
+Reviewed-by: Abhinav Kumar <quic_abhinavk@quicinc.com>
 
-[1]
-https://gitlab.collabora.com/dmitry.osipenko/linux-kernel-rd/-/blob/932eb03198bce3a21353b09ab71e95f1c19b84c2/drivers/gpu/drm/virtio/virtgpu_object.c#L145
-
-In case of Panfrost driver, we will need to remove mappings before pages
-are evicted.
-
->> +     *
->> +     * Returns the number of pages that have been unpinned.
->> +     *
->> +     * This callback is used by the GEM shrinker.
->> +     */
->> +    unsigned long (*evict)(struct drm_gem_object *obj);
->> +
->> +    /**
->> +     * @swap_in:
->> +     *
->> +     * Pins GEM object's allocated backing storage if it was
->> previously evicted,
->> +     * moving swapped out pages back to memory.
->> +     *
->> +     * Returns 0 on success, or -errno on error.
->> +     *
->> +     * This callback is used by the GEM shrinker.
->> +     */
->> +    int (*swap_in)(struct drm_gem_object *obj);
+> ---
+>   drivers/gpu/drm/msm/disp/dpu1/dpu_encoder.c      | 16 ++++++++++++++++
+>   drivers/gpu/drm/msm/disp/dpu1/dpu_encoder.h      |  6 ++++++
+>   drivers/gpu/drm/msm/disp/dpu1/dpu_encoder_phys.h |  4 +++-
+>   3 files changed, 25 insertions(+), 1 deletion(-)
 > 
-> Why do you need swap_in()? This can be done on-demand as part of a pin
-> or vmap operation.
-
-Similarly to the unpinning, the pining of pages is only a part of what
-needs to be done for GPU drivers. Besides of returning pages back to
-memory, we also need to make them accessible to GPU and this is a
-driver-specific process. This why we need the additional callbacks.
-
->>   };
->>     /**
->> diff --git a/include/drm/drm_gem_shmem_helper.h
->> b/include/drm/drm_gem_shmem_helper.h
->> index 70889533962a..a65557b446e6 100644
->> --- a/include/drm/drm_gem_shmem_helper.h
->> +++ b/include/drm/drm_gem_shmem_helper.h
->> @@ -6,6 +6,7 @@
->>   #include <linux/fs.h>
->>   #include <linux/mm.h>
->>   #include <linux/mutex.h>
->> +#include <linux/shrinker.h>
->>     #include <drm/drm_file.h>
->>   #include <drm/drm_gem.h>
->> @@ -15,8 +16,18 @@
->>   struct dma_buf_attachment;
->>   struct drm_mode_create_dumb;
->>   struct drm_printer;
->> +struct drm_device;
->>   struct sg_table;
->>   +enum drm_gem_shmem_pages_state {
->> +    DRM_GEM_SHMEM_PAGES_STATE_PURGED = -2,
->> +    DRM_GEM_SHMEM_PAGES_STATE_EVICTED = -1,
->> +    DRM_GEM_SHMEM_PAGES_STATE_UNPINNED = 0,
->> +    DRM_GEM_SHMEM_PAGES_STATE_PINNED = 1,
->> +    DRM_GEM_SHMEM_PAGES_STATE_EVICTABLE = 2,
->> +    DRM_GEM_SHMEM_PAGES_STATE_PURGEABLE = 3,
->> +};
-> 
-> These states can be detected by looking at the vmap and pin refcounts.
-> No need to store them explicitly.
-
-I'll try to revisit this, but I was finding that it's much more
-difficult to follow and debug code without the explicit states.
-
-> In your patch, they also come with a
-> big zoo of trivial helpers. None of that seems necessary AFAICT.
-
-There are couple functions which could be squashed, although this may
-hurt readability of the code a tad. I'll try to take another look at
-this for v5.
-
-> What's the difference between purge and evict BTW?
-
-The evicted pages are moved out from memory to a SWAP partition or file.
-
-The purged pages are destroyed permanently.
-
->> +
->>   /**
->>    * struct drm_gem_shmem_object - GEM object backed by shmem
->>    */
->> @@ -43,8 +54,8 @@ struct drm_gem_shmem_object {
->>        * @madv: State for madvise
->>        *
->>        * 0 is active/inuse.
->> +     * 1 is not-needed/can-be-purged
->>        * A negative value is the object is purged.
->> -     * Positive values are driver specific and not used by the helpers.
->>        */
->>       int madv;
->>   @@ -91,6 +102,40 @@ struct drm_gem_shmem_object {
->>        * @map_wc: map object write-combined (instead of using shmem
->> defaults).
->>        */
->>       bool map_wc;
->> +
->> +    /**
->> +     * @eviction_disable_count:
->> +     *
->> +     * The shmem pages are disallowed to be evicted by the memory
->> shrinker
->> +     * while count is non-zero. Used internally by memory shrinker.
->> +     */
->> +    unsigned int eviction_disable_count;
->> +
->> +    /**
->> +     * @purging_disable_count:
->> +     *
->> +     * The shmem pages are disallowed to be purged by the memory
->> shrinker
->> +     * while count is non-zero. Used internally by memory shrinker.
->> +     */
->> +    unsigned int purging_disable_count;
->> +
->> +    /**
->> +     * @pages_state: Current state of shmem pages. Used internally by
->> +     * memory shrinker.
->> +     */
->> +    enum drm_gem_shmem_pages_state pages_state;
->> +
->> +    /**
->> +     * @evicted: True if shmem pages were evicted by the memory
->> shrinker.
->> +     * Used internally by memory shrinker.
->> +     */
->> +    bool evicted;
->> +
->> +    /**
->> +     * @pages_shrinkable: True if shmem pages can be evicted or purged
->> +     * by the memory shrinker. Used internally by memory shrinker.
->> +     */
->> +    bool pages_shrinkable;
-> 
-> As commented before, this state can be foundby looking at existing
-> fields. No need to store it separately.
-
-When we're transitioning from "evictable" to a "purgeable" state, we
-must not add pages twice to the "shrinkable_count" variable. Hence this
-is not a state, but a variable which prevents the double accounting of
-the pages. Please see drm_gem_shmem_add_pages_to_shrinker() in this patch.
-
-Perhaps something like "pages_accounted_by_shrinker" could be a better
-name for the variable. I'll revisit this for v5.
+> diff --git a/drivers/gpu/drm/msm/disp/dpu1/dpu_encoder.c b/drivers/gpu/drm/msm/disp/dpu1/dpu_encoder.c
+> index 4052486f19d8..95d1588f3bb6 100644
+> --- a/drivers/gpu/drm/msm/disp/dpu1/dpu_encoder.c
+> +++ b/drivers/gpu/drm/msm/disp/dpu1/dpu_encoder.c
+> @@ -511,6 +511,22 @@ void dpu_encoder_helper_split_config(
+>   	}
+>   }
+>   
+> +bool dpu_encoder_use_dsc_merge(struct drm_encoder *drm_enc)
+> +{
+> +	struct dpu_encoder_virt *dpu_enc = to_dpu_encoder_virt(drm_enc);
+> +	int i, intf_count = 0, num_dsc = 0;
+> +
+> +	for (i = 0; i < MAX_PHYS_ENCODERS_PER_VIRTUAL; i++)
+> +		if (dpu_enc->phys_encs[i])
+> +			intf_count++;
+> +
+> +	/* See dpu_encoder_get_topology, we only support 2:2:1 topology */
+> +	if (dpu_enc->dsc)
+> +		num_dsc = 2;
+> +
+> +	return (num_dsc > 0) && (num_dsc > intf_count);
+> +}
+> +
+>   static struct msm_display_topology dpu_encoder_get_topology(
+>   			struct dpu_encoder_virt *dpu_enc,
+>   			struct dpu_kms *dpu_kms,
+> diff --git a/drivers/gpu/drm/msm/disp/dpu1/dpu_encoder.h b/drivers/gpu/drm/msm/disp/dpu1/dpu_encoder.h
+> index ef873e5285a0..084c5265d7e5 100644
+> --- a/drivers/gpu/drm/msm/disp/dpu1/dpu_encoder.h
+> +++ b/drivers/gpu/drm/msm/disp/dpu1/dpu_encoder.h
+> @@ -172,4 +172,10 @@ int dpu_encoder_get_linecount(struct drm_encoder *drm_enc);
+>    */
+>   int dpu_encoder_get_vsync_count(struct drm_encoder *drm_enc);
+>   
+> +/**
+> + * dpu_encoder_use_dsc_merge - returns true if the encoder uses DSC merge topology.
+> + * @drm_enc:    Pointer to previously created drm encoder structure
+> + */
+> +bool dpu_encoder_use_dsc_merge(struct drm_encoder *drm_enc);
+> +
+>   #endif /* __DPU_ENCODER_H__ */
+> diff --git a/drivers/gpu/drm/msm/disp/dpu1/dpu_encoder_phys.h b/drivers/gpu/drm/msm/disp/dpu1/dpu_encoder_phys.h
+> index 4842070fdfa8..b5ad43b8a19b 100644
+> --- a/drivers/gpu/drm/msm/disp/dpu1/dpu_encoder_phys.h
+> +++ b/drivers/gpu/drm/msm/disp/dpu1/dpu_encoder_phys.h
+> @@ -314,8 +314,10 @@ static inline enum dpu_3d_blend_mode dpu_encoder_helper_get_3d_blend_mode(
+>   
+>   	dpu_cstate = to_dpu_crtc_state(phys_enc->parent->crtc->state);
+>   
+> +	/* Use merge_3d unless DSC MERGE topology is used */
+>   	if (phys_enc->split_role == ENC_ROLE_SOLO &&
+> -	    dpu_cstate->num_mixers == CRTC_DUAL_MIXERS)
+> +	    dpu_cstate->num_mixers == CRTC_DUAL_MIXERS &&
+> +	    !dpu_encoder_use_dsc_merge(phys_enc->parent))
+>   		return BLEND_3D_H_ROW_INT;
+>   
+>   	return BLEND_3D_NONE;
