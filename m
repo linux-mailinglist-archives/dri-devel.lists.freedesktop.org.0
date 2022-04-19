@@ -1,75 +1,74 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id DA4D2506CAB
-	for <lists+dri-devel@lfdr.de>; Tue, 19 Apr 2022 14:42:09 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 6DEB9506CB0
+	for <lists+dri-devel@lfdr.de>; Tue, 19 Apr 2022 14:44:13 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id D9BE410E7FF;
-	Tue, 19 Apr 2022 12:42:05 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 7171110E2A2;
+	Tue, 19 Apr 2022 12:44:11 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from out2-smtp.messagingengine.com (out2-smtp.messagingengine.com
  [66.111.4.26])
- by gabe.freedesktop.org (Postfix) with ESMTPS id B0D9E10E7FF
- for <dri-devel@lists.freedesktop.org>; Tue, 19 Apr 2022 12:42:04 +0000 (UTC)
-Received: from compute4.internal (compute4.nyi.internal [10.202.2.44])
- by mailout.nyi.internal (Postfix) with ESMTP id 9E1765C0116;
- Tue, 19 Apr 2022 08:42:03 -0400 (EDT)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 0FF5A10E2A2
+ for <dri-devel@lists.freedesktop.org>; Tue, 19 Apr 2022 12:44:10 +0000 (UTC)
+Received: from compute3.internal (compute3.nyi.internal [10.202.2.43])
+ by mailout.nyi.internal (Postfix) with ESMTP id 621125C01E6;
+ Tue, 19 Apr 2022 08:44:09 -0400 (EDT)
 Received: from mailfrontend2 ([10.202.2.163])
- by compute4.internal (MEProxy); Tue, 19 Apr 2022 08:42:03 -0400
+ by compute3.internal (MEProxy); Tue, 19 Apr 2022 08:44:09 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=cerno.tech; h=cc
  :cc:content-type:date:date:from:from:in-reply-to:in-reply-to
  :message-id:mime-version:references:reply-to:sender:subject
- :subject:to:to; s=fm3; t=1650372123; x=1650458523; bh=2CW91igEwe
- PZegpDjL9foZp6k13ppbUBF40Tcqf+HVQ=; b=BOiHcyv2jJej6NpzNAjMwylAoo
- ZICE9iXbu8c3L+1t1WwuFdRwupaoBuSsj2dM56aXt7etOKRmOFN04XQjodC996lG
- nGwrTZvpEM/DArKXcVIREpjLWDw9b40O3EkVeW4wBU0Yk3dUUp/9Jy9uOq/LuWt8
- Gg+/4My4WNkClh3UMEVtWv44ihQYqZLGsKW8jONCCmGsuMHjLlFSL8Chf8Q+S8NO
- zEewGCwaGw2ct8dTBMsTQeGrMtc3KhQbcwlWzFKNLaKVg3qYhdTGOrvW94swIvSo
- k7xHZuqLCovoIersC8ypsGxnm578xSHd0Ck0CQTVL338q5ZuxNJrD9H5HP0g==
+ :subject:to:to; s=fm3; t=1650372249; x=1650458649; bh=Qq/UOm8yAY
+ qIo9R+oNyskcDN1bISCRnifsESqPXRXqM=; b=p201mqdZqtHqRbdRbaJon0PCjT
+ k613N+9JcNU/LhVygOZYbe9uIAU/pWoy+Df0P0Dvo/ji4gOdH9yV0GmAzgG5lbFF
+ PIPPFNZlQWr8wUFZpE8IlxVnT8ki7pLitSaewxBY2h4mzccKEI/GjzViXSd8A87w
+ jK/HB63MA75DZvaNZRxdsqGq//p7PFYZEXBSg9L/9rwdmA+wiNLjw4I5PbJkPzUz
+ QpDEcBIxcsiqVMjotwfaw66uzbZe0uVgxrFzoe07beC8cbffvysix9S9wj6Q7EB5
+ zu7fSd2qc//onBm+0DCz9y7M4PvY8U7edMoYnadT8Dxd4sywx8uaFnrnol/A==
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
  messagingengine.com; h=cc:cc:content-type:date:date:from:from
  :in-reply-to:in-reply-to:message-id:mime-version:references
  :reply-to:sender:subject:subject:to:to:x-me-proxy:x-me-proxy
- :x-me-sender:x-me-sender:x-sasl-enc; s=fm1; t=1650372123; x=
- 1650458523; bh=2CW91igEwePZegpDjL9foZp6k13ppbUBF40Tcqf+HVQ=; b=O
- JAR5WklXjDWJmAoYHjaTV+6Jf0iRSd4Xu5ghdjjl/ahAh9ZSTHHhSfl/nR+fK5HZ
- SesihjpeexQ2SdDo5qlG+wB0Znmex/0RUf1A5LA4PRbAFqYnVuGW0dYC6+7VuJIS
- iDHIE9O/0mRsivsivm4/BUDWdLB4hY+L3tiaiA2xSgJIXItZ6rltMrWFKcbZTOzB
- URLEjPOUEXlJ6jnBD8f0vMTuA9C481Y25hXCWZUrhnK48ybu0m+3tQ5UjfNB2Y64
- kdbyKEeJvCW/t75UQYJ7l/+hpWpGNuvFeRfy34ovfvKonTCulufreAlOLTPFUddg
- YU94oH5GEoya5eE7AUb2g==
-X-ME-Sender: <xms:G65eYm0T8jxf1CpeIZfxLXG00gR3QaPMHewDOUOxBriebLFvskQeGg>
- <xme:G65eYpFP-CYJN4OZlpGWCQBZZgZk1c1UiKjeDStgyXyzX_RfcWwINAA4NWt5FYucf
- fF5-hY75Bzr3fC6tvM>
-X-ME-Received: <xmr:G65eYu5-Qr4PZmLkKNIE_8tuzYeAejKWsFnfa8fxguwf3jG0za7AD6LOMIUIM66CiTSVu-9c21VTiiojlySt2NH-OgII1omn7CtHCBg>
-X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvvddrvddtfedgheegucetufdoteggodetrfdotf
+ :x-me-sender:x-me-sender:x-sasl-enc; s=fm1; t=1650372249; x=
+ 1650458649; bh=Qq/UOm8yAYqIo9R+oNyskcDN1bISCRnifsESqPXRXqM=; b=n
+ MnCkWXihgtITSTFysFLOA/Ux9ur3YAH8S8JC1BPrZv0Y4vzRIwEZkPMpTbPj60mD
+ vHtHOuX4Rc36Ht8UlqEmE1COTknqJosV2B2b4CFzgaFgXpIHimqVpq1UDIiRWvqr
+ YLW1nSBH0k3E7EwBVk7Tm6NuM6fDVDwBHbXlpLwxVZUbjeivsp2bMaoRqMSN+H3I
+ mTy8T2NTbITbynyj5pmzl4NidsO0Se19dDjo6nooyg1E2awWuZBVgyx/nFtugkHP
+ pJrXsiCSpqGuZaJYsKvVWpP8VAy1DznsZQs7jmFbt23Pl0ZzDkUL82P2Dl/CXhti
+ 1Mn7avsNW8gL+SHHeRxaQ==
+X-ME-Sender: <xms:ma5eYuBZy-kbm24E2L5IYoMA4bzvzR0D_CJ1GEa8AcNUjz7chOMSOQ>
+ <xme:ma5eYoigyqC1RLcSnfvfcXi9ieSDhgkxd7EpLQ5o0Pe4FXmW-DdiEc8964y_5Za1j
+ AP2v1qcMMWLEU3GNIw>
+X-ME-Received: <xmr:ma5eYhniQGdlSDqdeXmlHv84otLLEISPeeZXA23eW1QbXvfYEtO8_Sud473U8WblnibJ70yvW-ya1jBIlRkjnq70ij7l70lm7bhdKrs>
+X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvvddrvddtfedgheehucetufdoteggodetrfdotf
  fvucfrrhhofhhilhgvmecuhfgrshhtofgrihhlpdfqfgfvpdfurfetoffkrfgpnffqhgen
  uceurghilhhouhhtmecufedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmne
- cujfgurhepfffhvffukfhfgggtuggjsehgtderredttddunecuhfhrohhmpeforgigihhm
+ cujfgurhepfffhvffukfhfgggtuggjsehgtderredttddvnecuhfhrohhmpeforgigihhm
  vgcutfhiphgrrhguuceomhgrgihimhgvsegtvghrnhhordhtvggthheqnecuggftrfgrth
- htvghrnhepuddvudfhkeekhefgffetffelgffftdehffduffegveetffehueeivddvjedv
- gfevnecuvehluhhsthgvrhfuihiivgeptdenucfrrghrrghmpehmrghilhhfrhhomhepmh
+ htvghrnhepleekgeehhfdutdeljefgleejffehfffgieejhffgueefhfdtveetgeehieeh
+ gedunecuvehluhhsthgvrhfuihiivgeptdenucfrrghrrghmpehmrghilhhfrhhomhepmh
  grgihimhgvsegtvghrnhhordhtvggthh
-X-ME-Proxy: <xmx:G65eYn1LpWxGBED7QHhmyp7tFREdm3Y_NqcoAXAJGLphHBRCAdLAKQ>
- <xmx:G65eYpE2s_24hYdR44fMvc1ZlUJKWjJEy5VN2b-Jm2De0a12x2_ryw>
- <xmx:G65eYg8e55RB7egfaMLsy2ihAB3gcoruDZZ5r7B8C9OQRcESK7pTyg>
- <xmx:G65eYu4tb7a0I47S3e2vGAbTo15Xm2gphMXFu9nPJ-_TyauOERyBtw>
+X-ME-Proxy: <xmx:ma5eYswmsqMerwBfeqoxyNzAoX-GE28LukokYsP8VAwR-Qh59YgTLg>
+ <xmx:ma5eYjSRCapQpog9ZJhJhUh5q48xI1JaRJL17AdNi-C8lPArJCfegQ>
+ <xmx:ma5eYnYnXnOVYcAhios0YM2lhCnGzqerDHmReWdh1n_RTL-MSfHheA>
+ <xmx:ma5eYkKe1iqeSbGxt4zlNZx2b0jt3K3TJTsDwL5K-D7h8uXRiaEAWQ>
 Received: by mail.messagingengine.com (Postfix) with ESMTPA; Tue,
- 19 Apr 2022 08:42:02 -0400 (EDT)
-Date: Tue, 19 Apr 2022 14:41:59 +0200
+ 19 Apr 2022 08:44:08 -0400 (EDT)
+Date: Tue, 19 Apr 2022 14:44:07 +0200
 From: Maxime Ripard <maxime@cerno.tech>
-To: =?utf-8?B?Sm9zw6kgRXhww7NzaXRv?= <jose.exposito89@gmail.com>
-Subject: Re: [PATCH v2 2/2] drm/vc4: hdmi: Remove vc4_hdmi_encoder.hdmi_monitor
-Message-ID: <20220419124159.2fjadxdornszocrk@houat>
-References: <20220415154745.170597-1-jose.exposito89@gmail.com>
- <20220415154745.170597-3-jose.exposito89@gmail.com>
+To: Miaoqian Lin <linmq006@gmail.com>
+Subject: Re: [PATCH] drm/vc4: Fix pm_runtime_get_sync() error checking
+Message-ID: <20220419124407.ugzl7hknsytbhrmr@houat>
+References: <20220412070458.21819-1-linmq006@gmail.com>
 MIME-Version: 1.0
 Content-Type: multipart/signed; micalg=pgp-sha512;
- protocol="application/pgp-signature"; boundary="tlaqz3cdfyvvwz3z"
+ protocol="application/pgp-signature"; boundary="uztsba55upz7amoc"
 Content-Disposition: inline
-In-Reply-To: <20220415154745.170597-3-jose.exposito89@gmail.com>
+In-Reply-To: <20220412070458.21819-1-linmq006@gmail.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -82,160 +81,61 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: emma@anholt.net, airlied@linux.ie, linux-kernel@vger.kernel.org,
- dri-devel@lists.freedesktop.org, laurent.pinchart@ideasonboard.com
+Cc: Emma Anholt <emma@anholt.net>, David Airlie <airlied@linux.ie>,
+ linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
+ Eric Anholt <eric@anholt.net>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 
---tlaqz3cdfyvvwz3z
-Content-Type: text/plain; charset=iso-8859-1
+--uztsba55upz7amoc
+Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 Content-Transfer-Encoding: quoted-printable
 
 Hi,
 
-On Fri, Apr 15, 2022 at 05:47:45PM +0200, Jos=E9 Exp=F3sito wrote:
-> The vc4_hdmi_encoder.hdmi_monitor field was used to cache the value
-> returned by drm_detect_hdmi_monitor() in order to avoid calling it
-> multiple times.
+On Tue, Apr 12, 2022 at 07:04:57AM +0000, Miaoqian Lin wrote:
+> If the device is already in a runtime PM enabled state
+> pm_runtime_get_sync() will return 1, so a test for negative
+> value should be used to check for errors.
 >=20
-> Now that drm_detect_hdmi_monitor() has been replaced with
-> drm_display_info.is_hdmi, there is no need to cache it in the driver
-> encoder struct.
->=20
-> Remove vc4_hdmi_encoder.hdmi_monitor and use drm_display_info.is_hdmi
-> instead.
->=20
-> Signed-off-by: Jos=E9 Exp=F3sito <jose.exposito89@gmail.com>
+> Fixes: 4078f5757144 ("drm/vc4: Add DSI driver")
+> Signed-off-by: Miaoqian Lin <linmq006@gmail.com>
 > ---
->  drivers/gpu/drm/vc4/vc4_hdmi.c | 17 ++++++-----------
->  drivers/gpu/drm/vc4/vc4_hdmi.h |  1 -
->  2 files changed, 6 insertions(+), 12 deletions(-)
+>  drivers/gpu/drm/vc4/vc4_dsi.c | 2 +-
+>  1 file changed, 1 insertion(+), 1 deletion(-)
 >=20
-> diff --git a/drivers/gpu/drm/vc4/vc4_hdmi.c b/drivers/gpu/drm/vc4/vc4_hdm=
-i.c
-> index ecdb1ffc2023..9c73a211ae80 100644
-> --- a/drivers/gpu/drm/vc4/vc4_hdmi.c
-> +++ b/drivers/gpu/drm/vc4/vc4_hdmi.c
-> @@ -107,9 +107,9 @@ static bool vc4_hdmi_mode_needs_scrambling(const stru=
-ct drm_display_mode *mode)
->  static bool vc4_hdmi_is_full_range_rgb(struct vc4_hdmi *vc4_hdmi,
->  				       const struct drm_display_mode *mode)
->  {
-> -	struct vc4_hdmi_encoder *vc4_encoder =3D &vc4_hdmi->encoder;
-> +	struct drm_display_info *display =3D &vc4_hdmi->connector.display_info;
+> diff --git a/drivers/gpu/drm/vc4/vc4_dsi.c b/drivers/gpu/drm/vc4/vc4_dsi.c
+> index 752f921735c6..26aa7d1fa421 100644
+> --- a/drivers/gpu/drm/vc4/vc4_dsi.c
+> +++ b/drivers/gpu/drm/vc4/vc4_dsi.c
+> @@ -847,7 +847,7 @@ static void vc4_dsi_encoder_enable(struct drm_encoder=
+ *encoder)
+>  	int ret;
 > =20
-> -	return !vc4_encoder->hdmi_monitor ||
-> +	return !display->is_hdmi ||
->  		drm_default_rgb_quant_range(mode) =3D=3D HDMI_QUANTIZATION_RANGE_FULL;
->  }
-> =20
-> @@ -216,7 +216,6 @@ vc4_hdmi_connector_detect(struct drm_connector *conne=
-ctor, bool force)
-> =20
->  			if (edid) {
->  				cec_s_phys_addr_from_edid(vc4_hdmi->cec_adap, edid);
-> -				vc4_hdmi->encoder.hdmi_monitor =3D connector->display_info.is_hdmi;
-
-I think the first patch could be squashed into this one
-
->  				kfree(edid);
->  			}
->  		}
-> @@ -242,7 +241,6 @@ static void vc4_hdmi_connector_destroy(struct drm_con=
-nector *connector)
->  static int vc4_hdmi_connector_get_modes(struct drm_connector *connector)
->  {
->  	struct vc4_hdmi *vc4_hdmi =3D connector_to_vc4_hdmi(connector);
-> -	struct vc4_hdmi_encoder *vc4_encoder =3D &vc4_hdmi->encoder;
->  	int ret =3D 0;
->  	struct edid *edid;
-> =20
-> @@ -255,8 +253,6 @@ static int vc4_hdmi_connector_get_modes(struct drm_co=
-nnector *connector)
->  		goto out;
+>  	ret =3D pm_runtime_get_sync(dev);
+> -	if (ret) {
+> +	if (ret < 0) {
+>  		DRM_ERROR("Failed to runtime PM enable on DSI%d\n", dsi->variant->port=
+);
+>  		return;
 >  	}
-> =20
-> -	vc4_encoder->hdmi_monitor =3D connector->display_info.is_hdmi;
-> -
->  	drm_connector_update_edid_property(connector, edid);
->  	ret =3D drm_add_edid_modes(connector, edid);
->  	kfree(edid);
-> @@ -578,13 +574,12 @@ static void vc4_hdmi_set_infoframes(struct drm_enco=
-der *encoder)
->  static bool vc4_hdmi_supports_scrambling(struct drm_encoder *encoder,
->  					 struct drm_display_mode *mode)
->  {
-> -	struct vc4_hdmi_encoder *vc4_encoder =3D to_vc4_hdmi_encoder(encoder);
->  	struct vc4_hdmi *vc4_hdmi =3D encoder_to_vc4_hdmi(encoder);
->  	struct drm_display_info *display =3D &vc4_hdmi->connector.display_info;
-> =20
->  	lockdep_assert_held(&vc4_hdmi->mutex);
-> =20
-> -	if (!vc4_encoder->hdmi_monitor)
-> +	if (!display->is_hdmi)
->  		return false;
-> =20
->  	if (!display->hdmi.scdc.supported ||
-> @@ -1147,7 +1142,7 @@ static void vc4_hdmi_encoder_post_crtc_enable(struc=
-t drm_encoder *encoder,
->  {
->  	struct vc4_hdmi *vc4_hdmi =3D encoder_to_vc4_hdmi(encoder);
->  	struct drm_display_mode *mode =3D &vc4_hdmi->saved_adjusted_mode;
-> -	struct vc4_hdmi_encoder *vc4_encoder =3D to_vc4_hdmi_encoder(encoder);
-> +	struct drm_display_info *display =3D &vc4_hdmi->connector.display_info;
->  	bool hsync_pos =3D mode->flags & DRM_MODE_FLAG_PHSYNC;
->  	bool vsync_pos =3D mode->flags & DRM_MODE_FLAG_PVSYNC;
->  	unsigned long flags;
-> @@ -1168,7 +1163,7 @@ static void vc4_hdmi_encoder_post_crtc_enable(struc=
-t drm_encoder *encoder,
->  	HDMI_WRITE(HDMI_VID_CTL,
->  		   HDMI_READ(HDMI_VID_CTL) & ~VC4_HD_VID_CTL_BLANKPIX);
-> =20
-> -	if (vc4_encoder->hdmi_monitor) {
-> +	if (display->is_hdmi) {
->  		HDMI_WRITE(HDMI_SCHEDULER_CONTROL,
->  			   HDMI_READ(HDMI_SCHEDULER_CONTROL) |
->  			   VC4_HDMI_SCHEDULER_CONTROL_MODE_HDMI);
-> @@ -1195,7 +1190,7 @@ static void vc4_hdmi_encoder_post_crtc_enable(struc=
-t drm_encoder *encoder,
->  			  "!VC4_HDMI_SCHEDULER_CONTROL_HDMI_ACTIVE\n");
->  	}
-> =20
-> -	if (vc4_encoder->hdmi_monitor) {
-> +	if (display->is_hdmi) {
->  		spin_lock_irqsave(&vc4_hdmi->hw_lock, flags);
-> =20
->  		WARN_ON(!(HDMI_READ(HDMI_SCHEDULER_CONTROL) &
-> diff --git a/drivers/gpu/drm/vc4/vc4_hdmi.h b/drivers/gpu/drm/vc4/vc4_hdm=
-i.h
-> index 1076faeab616..44977002445f 100644
-> --- a/drivers/gpu/drm/vc4/vc4_hdmi.h
-> +++ b/drivers/gpu/drm/vc4/vc4_hdmi.h
-> @@ -11,7 +11,6 @@
->  /* VC4 HDMI encoder KMS struct */
->  struct vc4_hdmi_encoder {
->  	struct vc4_encoder base;
-> -	bool hdmi_monitor;
->  };
 
-And vc4_hdmi_encoder doesn't hold anything anymore now, so it can be
-removed as well. Doing it in a subsequent patch would probably be the
-most readable.
+We also don't put back our reference after an error. I think a better
+fix would be to switch to pm_runtime_resume_and_get.
 
-Thanks!
 Maxime
 
---tlaqz3cdfyvvwz3z
+--uztsba55upz7amoc
 Content-Type: application/pgp-signature; name="signature.asc"
 
 -----BEGIN PGP SIGNATURE-----
 
-iHUEABYKAB0WIQRcEzekXsqa64kGDp7j7w1vZxhRxQUCYl6uDAAKCRDj7w1vZxhR
-xb26AP4qmTCMJsoyhGfRmeNGezGrZz1LlSEaEoWXWFeq84ErQQD+LCu2JVg40UH6
-fqYdsSAZzRKTG0er8f0DZNdc6f4DWw4=
-=hGU/
+iHUEABYKAB0WIQRcEzekXsqa64kGDp7j7w1vZxhRxQUCYl6ulwAKCRDj7w1vZxhR
+xWMdAP0VKWdkPdp6eRfSc4/lPac9MGFErgPN7HCtHcYKnTtV6AEA7oCtUCIDSMHJ
+mfz5mdgSRKw8zc3op1i2em3Vr8h6kgQ=
+=Lm9X
 -----END PGP SIGNATURE-----
 
---tlaqz3cdfyvvwz3z--
+--uztsba55upz7amoc--
