@@ -1,71 +1,57 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0712A507119
-	for <lists+dri-devel@lfdr.de>; Tue, 19 Apr 2022 16:57:58 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id E8542507133
+	for <lists+dri-devel@lfdr.de>; Tue, 19 Apr 2022 16:59:23 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id E6AF310EF13;
-	Tue, 19 Apr 2022 14:57:55 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id CEF2410EF00;
+	Tue, 19 Apr 2022 14:59:21 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-wm1-x330.google.com (mail-wm1-x330.google.com
- [IPv6:2a00:1450:4864:20::330])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 2A93D10EF08
- for <dri-devel@lists.freedesktop.org>; Tue, 19 Apr 2022 14:57:54 +0000 (UTC)
-Received: by mail-wm1-x330.google.com with SMTP id
- c190-20020a1c35c7000000b0038e37907b5bso1776353wma.0
- for <dri-devel@lists.freedesktop.org>; Tue, 19 Apr 2022 07:57:54 -0700 (PDT)
+Received: from mail-oa1-x2d.google.com (mail-oa1-x2d.google.com
+ [IPv6:2001:4860:4864:20::2d])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id BA65A10EED2;
+ Tue, 19 Apr 2022 14:59:20 +0000 (UTC)
+Received: by mail-oa1-x2d.google.com with SMTP id
+ 586e51a60fabf-e2afb80550so17798428fac.1; 
+ Tue, 19 Apr 2022 07:59:20 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
- h=message-id:date:mime-version:user-agent:subject:content-language:to
- :cc:references:from:in-reply-to:content-transfer-encoding;
- bh=VSfNNxCMPbot3TUeMFQDYDmYhnDExeycdgTmMkPBSiw=;
- b=K89+PXfaCFu09OY7bsgh+7qQX9SHhTwwKvG8GnMvsy4nm507xqyK3sHZ67MuOBouWK
- 4rkUK91/51WwE/E/BbtbqNlYpk2W+/m+3Chgf1DgQ/4ZxSP0s1wqpSXNl7+UdgoWj+Xs
- DJy4bCzYn6/vlOL+ZNY9yNQOs/kv50OdjLzRncPuI5wSrw+ftTvwxvHd1FHSO3Lksu+l
- gBhsZjxwGFJya6sN2Lt1XOMX7olBrNleXGG5RLgiKeUMjp6130k6KNYzjV95UMRI84s7
- H+NLnzuto2Whpp86h7jTvQ96wMZQqVnrQDa2fWzSRA2L9LVCV6/K5Tlwf7tuM/Cl+x+g
- jazw==
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc; bh=txu5qF77kz021syUspWnSzVq95Qu7gMs2hI1GWgdN0g=;
+ b=BDcVCy0mQEGbuXPpCkJme82wpCfSVxCgreSd1AQrcG8cDczRdYp6fo63Zl1UesunPw
+ U+7T3oBEdXRDpEg2KWIKa7WShBAA+F6PTR1cIET+TL7hiJpdY5dcimQKuRMq/tT/LXan
+ JqOlL1xYoi4+pfxn//1yfmGhfJKw41MR5D28CjSMGWBLL6EcSv7cebg4hlEdqKKDrDKl
+ lHBIoE3gp2GlIZeRx8yEJThzNHeVJblMX9/2Dmo0yQ+3xRfcDzAErd6DCNTAISNfsAFw
+ II1R2VA/PxqGjA52stjrt2fjgMj1ZAZmf2WHvwt8D3qOCAIPe6DyOldDy9ZLlQGvH95K
+ /5xQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
- :content-language:to:cc:references:from:in-reply-to
- :content-transfer-encoding;
- bh=VSfNNxCMPbot3TUeMFQDYDmYhnDExeycdgTmMkPBSiw=;
- b=aziWO+nKvRaPLCMDv0vQcLfK6wdKi4NmauZ+RHLZY9p6Je/1USGM3t5rBzhaUtIM6f
- xsr1GmmCGbJy3pdMOdYVVOxc8cGIGNcZnNOiRbEJqrHkBXWjREDbC1WUWmeU1FlIZuiy
- 9BeLqV8yRcApfq7XHZpaw3EK0CQV7b0iDdM4W0xrnNPCp+vfa/QEOy+ApXshWNTd19z0
- zscyA8mICDwysGos4xs/MIbDMikUooXeboGX9qxnfkl5uPHZFm5ZmUEZa/Xnc2B9OCfP
- fYjvWxE+m1q2xfmpwztK3qG/TX6NCZ7FtbPDTrPPoXTmZVsW1reOL0IToboyIonmYq1e
- Q6Qw==
-X-Gm-Message-State: AOAM531NKOLIL6+5K+9H3Ek2WfC4VDCG7kKnVwxa6nyYFcM0kQlnTHvt
- CtTjgUvWXd9asOXko/jINgI=
-X-Google-Smtp-Source: ABdhPJwGtnkzLvabPxjsO/IdFw1I83x6czWqIQw5VNsuYzxUmENRbL2f1OWVQ5C8fTTybXwA29UdQg==
-X-Received: by 2002:a05:600c:2197:b0:38e:b80c:526a with SMTP id
- e23-20020a05600c219700b0038eb80c526amr19889290wme.76.1650380272642; 
- Tue, 19 Apr 2022 07:57:52 -0700 (PDT)
-Received: from [192.168.2.177] ([207.188.167.132])
- by smtp.gmail.com with ESMTPSA id
- o10-20020a5d47ca000000b0020a992ce36esm4933973wrc.1.2022.04.19.07.57.51
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Tue, 19 Apr 2022 07:57:51 -0700 (PDT)
-Message-ID: <db521557-09ea-2c34-24e5-3bf71961b4fe@gmail.com>
-Date: Tue, 19 Apr 2022 16:57:50 +0200
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=txu5qF77kz021syUspWnSzVq95Qu7gMs2hI1GWgdN0g=;
+ b=kolq5eAbxDxgUE8OU622KPqjHK8uMhLalQnvxsNFgIDV9FSapnUNyIZIgGVA/0MLMZ
+ CwGZtCBIKs8aCCkEDo9ptjJ3MEta5AcHeWEjEeXmQunQzKqvg3T2FGmS6r6mAtRn41O9
+ 4UOAHdDIHOU/oDRBMiuU7Eb1haFXlRrwgVK9LBwzrINxDWmUSJhq0irVrJORcN0MTX8i
+ HaYA4DEQ9UuIlrpEKmmM+iH53rJ/UioorVMcwukewEKFcRf5nQtHwMj7WXhug0ffxBPs
+ 4RKQrphlogVIDVtcF9Ra3B8FeCPgG3afY5Mh2oVBzzDvt5Md9rz7TlUKekWlM4VgFSWE
+ 0/1Q==
+X-Gm-Message-State: AOAM531SX6UvnsBQiv9yZFcC2i5ivRQdnQzB43Vrm01PYJQNfsMQsKgZ
+ cmyW0pAkvhW7VfGEE6Y/ZmQ2T6BMPsUx4AfQZA8=
+X-Google-Smtp-Source: ABdhPJwkeTzLw742f1pLT1h5HcgounlwYPVNsuzflB54s8eFTAPlS5s6EXzaHdH41CdsZRH5FTve/PqKvS145BOY6YE=
+X-Received: by 2002:a05:6870:311d:b0:de:9b6c:362b with SMTP id
+ v29-20020a056870311d00b000de9b6c362bmr8077760oaa.200.1650380360073; Tue, 19
+ Apr 2022 07:59:20 -0700 (PDT)
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.5.0
-Subject: Re: [PATCH 2/5] dt-bindings: arm: mediatek: mmsys: add mt8195 SoC
- binding
-Content-Language: en-US
-To: Rex-BC Chen <rex-bc.chen@mediatek.com>, robh+dt@kernel.org,
- krzysztof.kozlowski+dt@linaro.org, chunkuang.hu@kernel.org,
- p.zabel@pengutronix.de
-References: <20220419033237.23405-1-rex-bc.chen@mediatek.com>
- <20220419033237.23405-3-rex-bc.chen@mediatek.com>
-From: Matthias Brugger <matthias.bgg@gmail.com>
-In-Reply-To: <20220419033237.23405-3-rex-bc.chen@mediatek.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
+References: <20220415195027.305019-1-tales.aparecida@gmail.com>
+ <20220415195027.305019-2-tales.aparecida@gmail.com>
+In-Reply-To: <20220415195027.305019-2-tales.aparecida@gmail.com>
+From: Alex Deucher <alexdeucher@gmail.com>
+Date: Tue, 19 Apr 2022 10:59:09 -0400
+Message-ID: <CADnq5_O9rV+42=7Lyy7dAwVZkBoxJgmwn0oavzN1pVBmKFLfcA@mail.gmail.com>
+Subject: Re: [PATCH 1/2] Documentation/gpu: Add entries to amdgpu glossary
+To: Tales Lelo da Aparecida <tales.aparecida@gmail.com>
+Content-Type: text/plain; charset="UTF-8"
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -78,48 +64,69 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: devicetree@vger.kernel.org, airlied@linux.ie, jason-jh.lin@mediatek.com,
- linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
- Project_Global_Chrome_Upstream_Group@mediatek.com, nancy.lin@mediatek.com,
- linux-mediatek@lists.infradead.org, linux-arm-kernel@lists.infradead.org,
- angelogioacchino.delregno@collabora.com
+Cc: Thomas Zimmermann <tzimmermann@suse.de>, Jonathan Corbet <corbet@lwn.net>,
+ David Airlie <airlied@linux.ie>,
+ Maling list - DRI developers <dri-devel@lists.freedesktop.org>, "Pan,
+ Xinhui" <Xinhui.Pan@amd.com>, LKML <linux-kernel@vger.kernel.org>,
+ Linux Doc Mailing List <linux-doc@vger.kernel.org>,
+ amd-gfx list <amd-gfx@lists.freedesktop.org>,
+ Alex Deucher <alexander.deucher@amd.com>, andrealmeid@riseup.net,
+ =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
+Applied the series with minor fix to capitalize the U in Compute Unit.  Thanks!
 
+Alex
 
-On 19/04/2022 05:32, Rex-BC Chen wrote:
-> From: "jason-jh.lin" <jason-jh.lin@mediatek.com>
-> 
-> In the SoC before, such as mt8173, it has 2 pipelines binding to one
-> mmsys with the same clock driver and the same power domain.
-> 
-> In mt8195, there are 4 pipelines binding to 4 different mmsys, such as
-> vdosys0, vdosys1, vppsys0 and vppsys1.
-> Each mmsys uses different clock drivers and different power domain.
-> 
-> Since each mmsys has its own mmio base address, they could be identified
-> by their different address during probe time.
-> 
-> Signed-off-by: jason-jh.lin <jason-jh.lin@mediatek.com>
-> Reviewed-by: CK Hu <ck.hu@mediatek.com>
-> Reviewed-by: AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>
-
-Applied, thanks
-
+On Fri, Apr 15, 2022 at 3:52 PM Tales Lelo da Aparecida
+<tales.aparecida@gmail.com> wrote:
+>
+> Add missing acronyms to the amdgppu glossary.
+>
+> Closes: https://gitlab.freedesktop.org/drm/amd/-/issues/1939#note_1309737
+> Signed-off-by: Tales Lelo da Aparecida <tales.aparecida@gmail.com>
 > ---
->   .../devicetree/bindings/arm/mediatek/mediatek,mmsys.yaml         | 1 +
->   1 file changed, 1 insertion(+)
-> 
-> diff --git a/Documentation/devicetree/bindings/arm/mediatek/mediatek,mmsys.yaml b/Documentation/devicetree/bindings/arm/mediatek/mediatek,mmsys.yaml
-> index 6c2c3edcd443..6ad023eec193 100644
-> --- a/Documentation/devicetree/bindings/arm/mediatek/mediatek,mmsys.yaml
-> +++ b/Documentation/devicetree/bindings/arm/mediatek/mediatek,mmsys.yaml
-> @@ -31,6 +31,7 @@ properties:
->                 - mediatek,mt8183-mmsys
->                 - mediatek,mt8186-mmsys
->                 - mediatek,mt8192-mmsys
-> +              - mediatek,mt8195-mmsys
->                 - mediatek,mt8365-mmsys
->             - const: syscon
->         - items:
+>  Documentation/gpu/amdgpu/amdgpu-glossary.rst | 13 +++++++++++++
+>  1 file changed, 13 insertions(+)
+>
+> diff --git a/Documentation/gpu/amdgpu/amdgpu-glossary.rst b/Documentation/gpu/amdgpu/amdgpu-glossary.rst
+> index 859dcec6c6f9..48829d097f40 100644
+> --- a/Documentation/gpu/amdgpu/amdgpu-glossary.rst
+> +++ b/Documentation/gpu/amdgpu/amdgpu-glossary.rst
+> @@ -8,12 +8,19 @@ we have a dedicated glossary for Display Core at
+>
+>  .. glossary::
+>
+> +    active_cu_number
+> +      The number of CUs that are active on the system.  The number of active
+> +      CUs may be less than SE * SH * CU depending on the board configuration.
+> +
+>      CP
+>        Command Processor
+>
+>      CPLIB
+>        Content Protection Library
+>
+> +    CU
+> +      Compute unit
+> +
+>      DFS
+>        Digital Frequency Synthesizer
+>
+> @@ -74,6 +81,12 @@ we have a dedicated glossary for Display Core at
+>      SDMA
+>        System DMA
+>
+> +    SE
+> +      Shader Engine
+> +
+> +    SH
+> +      SHader array
+> +
+>      SMU
+>        System Management Unit
+>
+> --
+> 2.35.1
+>
