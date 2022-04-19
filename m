@@ -2,39 +2,40 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id CF2EE506DB2
-	for <lists+dri-devel@lfdr.de>; Tue, 19 Apr 2022 15:39:56 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 2C4DA506DB3
+	for <lists+dri-devel@lfdr.de>; Tue, 19 Apr 2022 15:40:07 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id E6D5A10EF95;
-	Tue, 19 Apr 2022 13:39:54 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id E7ACE10EF9A;
+	Tue, 19 Apr 2022 13:40:04 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 99F9410EF95
- for <dri-devel@lists.freedesktop.org>; Tue, 19 Apr 2022 13:39:53 +0000 (UTC)
+Received: from ams.source.kernel.org (ams.source.kernel.org
+ [IPv6:2604:1380:4601:e00::1])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id E5F6F10EF9A
+ for <dri-devel@lists.freedesktop.org>; Tue, 19 Apr 2022 13:40:02 +0000 (UTC)
 Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
  (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
  (No client certificate requested)
- by dfw.source.kernel.org (Postfix) with ESMTPS id 0C647616A3;
- Tue, 19 Apr 2022 13:39:53 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 356D1C385B0;
- Tue, 19 Apr 2022 13:39:45 +0000 (UTC)
+ by ams.source.kernel.org (Postfix) with ESMTPS id 71C44B81983;
+ Tue, 19 Apr 2022 13:40:01 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id EC917C385AE;
+ Tue, 19 Apr 2022 13:39:52 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1650375592;
- bh=8q6Kcm45o4hfMaS4KO2xUUwlzHF/dRLSCx2ycbmM2jM=;
+ s=k20201202; t=1650375600;
+ bh=zW9EXgIwrT6e9se5HepqxV0X/iuSevgZPTTCehW8dB0=;
  h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
- b=OgmmYGrmtBNTwP0hCIY2RRe2mYaIftLuJ9OAVdYZvDleZcdZ/6LPlvQThD8t4drPE
- e4GTt4uIWh8cT6kZaI5XpPeUyLnOtfrJOYRguM9hj4PAws3Nw6EJsErSkHU1o96SDp
- CJK1ClRy1PNIBDwJEdrTaAupJfBbsWzoUyxDI/TgIMrsKD8viQ8fdfp8EJGbT+yU0/
- 8XgF5eboJCt8z5/M3YL3N4OJjP2al4MR7iSjKD4PDfsLgdyuBVPNvGv/0iJ/g176J+
- GpCXmp/q9iOjw7VrGYG72DN9pQVr66GHwhD+MR1FtySUnjMsgDitc2xmLrwnqX0sN8
- yniK00Bea96aQ==
+ b=vHI0qQByX+c/7bvvFxsJDZg8Rk3Tmicri/PsugtdLSnLPggMHo6v2ctc+djyVus3N
+ ui0ORHPtKfuy3WL0CumRMeBMzGHFm0UT+AP+rOrkATXgVT5fIgx6GErLIT2RrsL1Ec
+ IZnzmJ8Dnh78euRrjLA7zfaPZJirZjn2+Ns06Fju3HP4p2eONLIleIC49bfNsZO5hd
+ z5fjeKu5u4euWVq8Y01KsxQPT+uo12m/zcR2VMTIGaMdkSl1elVAK6Ja0/bpG1+umE
+ 1lBMBmTCxncgj2s+VWFf/59RsmLfL2r5TKijMH37jw/Ys1Zb+TJYoC5rYrhTKbwaRm
+ wVS3j8bExN97Q==
 From: Arnd Bergmann <arnd@kernel.org>
 To: linux-omap@vger.kernel.org, tony@atomide.com, aaro.koskinen@iki.fi,
  jmkrzyszt@gmail.com
-Subject: [PATCH 18/41] ARM: omap: remove debug-leds driver
-Date: Tue, 19 Apr 2022 15:37:00 +0200
-Message-Id: <20220419133723.1394715-19-arnd@kernel.org>
+Subject: [PATCH 19/41] ARM: omap: dma: make usb support optional
+Date: Tue, 19 Apr 2022 15:37:01 +0200
+Message-Id: <20220419133723.1394715-20-arnd@kernel.org>
 X-Mailer: git-send-email 2.29.2
 In-Reply-To: <20220419133723.1394715-1-arnd@kernel.org>
 References: <20220419133723.1394715-1-arnd@kernel.org>
@@ -72,228 +73,154 @@ Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 From: Arnd Bergmann <arnd@arndb.de>
 
-It has been impossible to select this driver for six years
-without anyone noticing, so just kill it completely.
+Most of the plat-omap/dma.c code is specific to the USB
+driver. Hide that code when it is not in use, to make it
+clearer which parts are actually still required.
 
-Fixes: 54ea18e8866a ("ARM: OMAP2+: Remove board file for H4")
 Signed-off-by: Arnd Bergmann <arnd@arndb.de>
 ---
- arch/arm/plat-omap/Kconfig      |  10 --
- arch/arm/plat-omap/Makefile     |   4 -
- arch/arm/plat-omap/debug-leds.c | 171 --------------------------------
- 3 files changed, 185 deletions(-)
- delete mode 100644 arch/arm/plat-omap/debug-leds.c
+ arch/arm/plat-omap/dma.c       | 45 +++++++++++++++++-----------------
+ drivers/usb/gadget/udc/Kconfig |  2 +-
+ include/linux/omap-dma.h       |  5 +++-
+ 3 files changed, 27 insertions(+), 25 deletions(-)
 
-diff --git a/arch/arm/plat-omap/Kconfig b/arch/arm/plat-omap/Kconfig
-index dfa19d5030e3..dc53ea8e5bbb 100644
---- a/arch/arm/plat-omap/Kconfig
-+++ b/arch/arm/plat-omap/Kconfig
-@@ -11,16 +11,6 @@ config ARCH_OMAP_OTG
+diff --git a/arch/arm/plat-omap/dma.c b/arch/arm/plat-omap/dma.c
+index 700ba9b600e7..b7757864d0aa 100644
+--- a/arch/arm/plat-omap/dma.c
++++ b/arch/arm/plat-omap/dma.c
+@@ -66,7 +66,6 @@ enum { DMA_CHAIN_STARTED, DMA_CHAIN_NOTSTARTED };
  
- comment "OMAP Feature Selections"
+ static struct omap_system_dma_plat_info *p;
+ static struct omap_dma_dev_attr *d;
+-static void omap_clear_dma(int lch);
+ static int enable_1510_mode;
+ static u32 errata;
  
--config OMAP_DEBUG_DEVICES
--	bool
--	help
--	  For debug cards on TI reference boards.
--
--config OMAP_DEBUG_LEDS
--	def_bool y if NEW_LEDS
--	depends on OMAP_DEBUG_DEVICES
--	select LEDS_CLASS
--
- config POWER_AVS_OMAP
- 	bool "AVS(Adaptive Voltage Scaling) support for OMAP IP versions 1&2"
- 	depends on (ARCH_OMAP3 || ARCH_OMAP4) && PM
-diff --git a/arch/arm/plat-omap/Makefile b/arch/arm/plat-omap/Makefile
-index 98a7b607873a..68ccec9de106 100644
---- a/arch/arm/plat-omap/Makefile
-+++ b/arch/arm/plat-omap/Makefile
-@@ -7,7 +7,3 @@ ccflags-$(CONFIG_ARCH_MULTIPLATFORM) := -I$(srctree)/arch/arm/plat-omap/include
+@@ -90,19 +89,16 @@ static int omap_dma_reserve_channels;
+ static DEFINE_SPINLOCK(dma_chan_lock);
+ static struct omap_dma_lch *dma_chan;
  
- # Common support
- obj-y := sram.o dma.o
+-static inline void disable_lnk(int lch);
+-static void omap_disable_channel_irq(int lch);
+-static inline void omap_enable_channel_irq(int lch);
 -
--# omap_device support (OMAP2+ only at the moment)
--
--obj-$(CONFIG_OMAP_DEBUG_LEDS) += debug-leds.o
-diff --git a/arch/arm/plat-omap/debug-leds.c b/arch/arm/plat-omap/debug-leds.c
-deleted file mode 100644
-index 2b698d074874..000000000000
---- a/arch/arm/plat-omap/debug-leds.c
-+++ /dev/null
-@@ -1,171 +0,0 @@
--// SPDX-License-Identifier: GPL-2.0-only
--/*
-- * linux/arch/arm/plat-omap/debug-leds.c
-- *
-- * Copyright 2011 by Bryan Wu <bryan.wu@canonical.com>
-- * Copyright 2003 by Texas Instruments Incorporated
-- */
--
--#include <linux/kernel.h>
--#include <linux/init.h>
--#include <linux/platform_device.h>
--#include <linux/leds.h>
--#include <linux/io.h>
--#include <linux/platform_data/gpio-omap.h>
--#include <linux/slab.h>
--
--#include <asm/mach-types.h>
--
--/* Many OMAP development platforms reuse the same "debug board"; these
-- * platforms include H2, H3, H4, and Perseus2.  There are 16 LEDs on the
-- * debug board (all green), accessed through FPGA registers.
-- */
--
--/* NOTE:  most boards don't have a static mapping for the FPGA ... */
--struct h2p2_dbg_fpga {
--	/* offset 0x00 */
--	u16		smc91x[8];
--	/* offset 0x10 */
--	u16		fpga_rev;
--	u16		board_rev;
--	u16		gpio_outputs;
--	u16		leds;
--	/* offset 0x18 */
--	u16		misc_inputs;
--	u16		lan_status;
--	u16		lan_reset;
--	u16		reserved0;
--	/* offset 0x20 */
--	u16		ps2_data;
--	u16		ps2_ctrl;
--	/* plus also 4 rs232 ports ... */
--};
--
--static struct h2p2_dbg_fpga __iomem *fpga;
--
--static u16 fpga_led_state;
--
--struct dbg_led {
--	struct led_classdev	cdev;
--	u16			mask;
--};
--
--static const struct {
--	const char *name;
--	const char *trigger;
--} dbg_leds[] = {
--	{ "dbg:d4", "heartbeat", },
--	{ "dbg:d5", "cpu0", },
--	{ "dbg:d6", "default-on", },
--	{ "dbg:d7", },
--	{ "dbg:d8", },
--	{ "dbg:d9", },
--	{ "dbg:d10", },
--	{ "dbg:d11", },
--	{ "dbg:d12", },
--	{ "dbg:d13", },
--	{ "dbg:d14", },
--	{ "dbg:d15", },
--	{ "dbg:d16", },
--	{ "dbg:d17", },
--	{ "dbg:d18", },
--	{ "dbg:d19", },
--};
--
--/*
-- * The triggers lines up below will only be used if the
-- * LED triggers are compiled in.
-- */
--static void dbg_led_set(struct led_classdev *cdev,
--			      enum led_brightness b)
+-#ifdef CONFIG_ARCH_OMAP15XX
+-/* Returns 1 if the DMA module is in OMAP1510-compatible mode, 0 otherwise */
+-static int omap_dma_in_1510_mode(void)
++static inline void omap_disable_channel_irq(int lch)
+ {
+-	return enable_1510_mode;
++	/* disable channel interrupts */
++	p->dma_write(0, CICR, lch);
++	/* Clear CSR */
++	if (dma_omap1())
++		p->dma_read(CSR, lch);
++	else
++		p->dma_write(OMAP2_DMA_CSR_CLEAR_MASK, CSR, lch);
+ }
+-#else
+-#define omap_dma_in_1510_mode()		0
+-#endif
+ 
+ #ifdef CONFIG_ARCH_OMAP1
+ static inline void set_gdma_dev(int req, int dev)
+@@ -169,6 +165,17 @@ void omap_set_dma_priority(int lch, int dst_port, int priority)
+ #endif
+ EXPORT_SYMBOL(omap_set_dma_priority);
+ 
++#if IS_ENABLED(CONFIG_USB_OMAP)
++#ifdef CONFIG_ARCH_OMAP15XX
++/* Returns 1 if the DMA module is in OMAP1510-compatible mode, 0 otherwise */
++static int omap_dma_in_1510_mode(void)
++{
++	return enable_1510_mode;
++}
++#else
++#define omap_dma_in_1510_mode()		0
++#endif
++
+ void omap_set_dma_transfer_params(int lch, int data_type, int elem_count,
+ 				  int frame_count, int sync_mode,
+ 				  int dma_trigger, int src_or_dst_synch)
+@@ -418,17 +425,6 @@ static inline void omap_enable_channel_irq(int lch)
+ 	p->dma_write(dma_chan[lch].enabled_irqs, CICR, lch);
+ }
+ 
+-static inline void omap_disable_channel_irq(int lch)
 -{
--	struct dbg_led *led = container_of(cdev, struct dbg_led, cdev);
--	u16 reg;
--
--	reg = readw_relaxed(&fpga->leds);
--	if (b != LED_OFF)
--		reg |= led->mask;
+-	/* disable channel interrupts */
+-	p->dma_write(0, CICR, lch);
+-	/* Clear CSR */
+-	if (dma_omap1())
+-		p->dma_read(CSR, lch);
 -	else
--		reg &= ~led->mask;
--	writew_relaxed(reg, &fpga->leds);
+-		p->dma_write(OMAP2_DMA_CSR_CLEAR_MASK, CSR, lch);
 -}
 -
--static enum led_brightness dbg_led_get(struct led_classdev *cdev)
--{
--	struct dbg_led *led = container_of(cdev, struct dbg_led, cdev);
--	u16 reg;
--
--	reg = readw_relaxed(&fpga->leds);
--	return (reg & led->mask) ? LED_FULL : LED_OFF;
--}
--
--static int fpga_probe(struct platform_device *pdev)
--{
--	struct resource	*iomem;
--	int i;
--
--	iomem = platform_get_resource(pdev, IORESOURCE_MEM, 0);
--	if (!iomem)
--		return -ENODEV;
--
--	fpga = ioremap(iomem->start, resource_size(iomem));
--	writew_relaxed(0xff, &fpga->leds);
--
--	for (i = 0; i < ARRAY_SIZE(dbg_leds); i++) {
--		struct dbg_led *led;
--
--		led = kzalloc(sizeof(*led), GFP_KERNEL);
--		if (!led)
--			break;
--
--		led->cdev.name = dbg_leds[i].name;
--		led->cdev.brightness_set = dbg_led_set;
--		led->cdev.brightness_get = dbg_led_get;
--		led->cdev.default_trigger = dbg_leds[i].trigger;
--		led->mask = BIT(i);
--
--		if (led_classdev_register(NULL, &led->cdev) < 0) {
--			kfree(led);
--			break;
--		}
--	}
--
--	return 0;
--}
--
--static int fpga_suspend_noirq(struct device *dev)
--{
--	fpga_led_state = readw_relaxed(&fpga->leds);
--	writew_relaxed(0xff, &fpga->leds);
--
--	return 0;
--}
--
--static int fpga_resume_noirq(struct device *dev)
--{
--	writew_relaxed(~fpga_led_state, &fpga->leds);
--	return 0;
--}
--
--static const struct dev_pm_ops fpga_dev_pm_ops = {
--	.suspend_noirq = fpga_suspend_noirq,
--	.resume_noirq = fpga_resume_noirq,
--};
--
--static struct platform_driver led_driver = {
--	.driver.name	= "omap_dbg_led",
--	.driver.pm	= &fpga_dev_pm_ops,
--	.probe		= fpga_probe,
--};
--
--static int __init fpga_init(void)
--{
--	if (machine_is_omap_h4()
--			|| machine_is_omap_h3()
--			|| machine_is_omap_h2()
--			|| machine_is_omap_perseus2()
--			)
--		return platform_driver_register(&led_driver);
--	return 0;
--}
--fs_initcall(fpga_init);
+ void omap_disable_dma_irq(int lch, u16 bits)
+ {
+ 	dma_chan[lch].enabled_irqs &= ~bits;
+@@ -473,6 +469,7 @@ static inline void disable_lnk(int lch)
+ 	p->dma_write(l, CLNK_CTRL, lch);
+ 	dma_chan[lch].flags &= ~OMAP_DMA_ACTIVE;
+ }
++#endif
+ 
+ int omap_request_dma(int dev_id, const char *dev_name,
+ 		     void (*callback)(int lch, u16 ch_status, void *data),
+@@ -572,6 +569,7 @@ static void omap_clear_dma(int lch)
+ 	local_irq_restore(flags);
+ }
+ 
++#if IS_ENABLED(CONFIG_USB_OMAP)
+ void omap_start_dma(int lch)
+ {
+ 	u32 l;
+@@ -792,6 +790,7 @@ int omap_get_dma_active_status(int lch)
+ 	return (p->dma_read(CCR, lch) & OMAP_DMA_CCR_EN) != 0;
+ }
+ EXPORT_SYMBOL(omap_get_dma_active_status);
++#endif
+ 
+ int omap_dma_running(void)
+ {
+diff --git a/drivers/usb/gadget/udc/Kconfig b/drivers/usb/gadget/udc/Kconfig
+index cee934dce4f0..69394dc1cdfb 100644
+--- a/drivers/usb/gadget/udc/Kconfig
++++ b/drivers/usb/gadget/udc/Kconfig
+@@ -128,7 +128,7 @@ config USB_GR_UDC
+ 
+ config USB_OMAP
+ 	tristate "OMAP USB Device Controller"
+-	depends on ARCH_OMAP1 || (ARCH_OMAP && COMPILE_TEST)
++	depends on ARCH_OMAP1
+ 	depends on ISP1301_OMAP || !(MACH_OMAP_H2 || MACH_OMAP_H3)
+ 	help
+ 	   Many Texas Instruments OMAP processors have flexible full
+diff --git a/include/linux/omap-dma.h b/include/linux/omap-dma.h
+index 5e228428fda1..07fa58ae9902 100644
+--- a/include/linux/omap-dma.h
++++ b/include/linux/omap-dma.h
+@@ -299,8 +299,9 @@ extern void omap_set_dma_priority(int lch, int dst_port, int priority);
+ extern int omap_request_dma(int dev_id, const char *dev_name,
+ 			void (*callback)(int lch, u16 ch_status, void *data),
+ 			void *data, int *dma_ch);
+-extern void omap_disable_dma_irq(int ch, u16 irq_bits);
+ extern void omap_free_dma(int ch);
++#if IS_ENABLED(CONFIG_USB_OMAP)
++extern void omap_disable_dma_irq(int ch, u16 irq_bits);
+ extern void omap_start_dma(int lch);
+ extern void omap_stop_dma(int lch);
+ extern void omap_set_dma_transfer_params(int lch, int data_type,
+@@ -326,6 +327,8 @@ extern void omap_set_dma_dest_burst_mode(int lch,
+ extern dma_addr_t omap_get_dma_src_pos(int lch);
+ extern dma_addr_t omap_get_dma_dst_pos(int lch);
+ extern int omap_get_dma_active_status(int lch);
++#endif
++
+ extern int omap_dma_running(void);
+ 
+ #if IS_ENABLED(CONFIG_FB_OMAP)
 -- 
 2.29.2
 
