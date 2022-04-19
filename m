@@ -2,39 +2,39 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 10C9D50736B
-	for <lists+dri-devel@lfdr.de>; Tue, 19 Apr 2022 18:41:26 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id C129850736C
+	for <lists+dri-devel@lfdr.de>; Tue, 19 Apr 2022 18:41:34 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id DC29410F06C;
-	Tue, 19 Apr 2022 16:41:23 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 8BD9510F078;
+	Tue, 19 Apr 2022 16:41:32 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
- by gabe.freedesktop.org (Postfix) with ESMTPS id AF53210F06C
- for <dri-devel@lists.freedesktop.org>; Tue, 19 Apr 2022 16:41:22 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 6546010F073
+ for <dri-devel@lists.freedesktop.org>; Tue, 19 Apr 2022 16:41:30 +0000 (UTC)
 Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
  (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
  (No client certificate requested)
- by dfw.source.kernel.org (Postfix) with ESMTPS id 206396184A;
- Tue, 19 Apr 2022 16:41:22 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id DBCD4C385A7;
- Tue, 19 Apr 2022 16:41:13 +0000 (UTC)
+ by dfw.source.kernel.org (Postfix) with ESMTPS id DA72061841;
+ Tue, 19 Apr 2022 16:41:29 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 035C7C385AE;
+ Tue, 19 Apr 2022 16:41:21 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1650386481;
- bh=B/EPqKtpF/X7/qtDP9YwLKtvodaWStDsu3zudJ8kKz8=;
+ s=k20201202; t=1650386489;
+ bh=CV2DfOuzXf7kUPil8tZ7gZo9izvbbtgmXRdVGoTTjS0=;
  h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
- b=e/RYNgH/mBUlontysDvDDbQEl/w5JkQ9KERIge+TcJ551/XZYLOWdDTGCMdx+YKy7
- Eo/SvJOdF5wgBq+JPCny5Iz4sfnm67vOL/aV3JDNF+eu3PEHxKh+sOrXkMuKManFEB
- FvCJgeGTM+6w0HGQJbhRtyvAVvYZhIZUQzpHF2wCtgZokugnVX+Kwy6gFqN6W1IZJt
- h6Z8zUzZzd2yynsmy/ykvebZNOmvxQfFa0IczJPaH1E/UzhZyrRLjpixBmukOAd097
- r+a1YGs658YewbGmFKHNY8vaSw30yUPgx99OTD0iJIm65L2L+bhpmbdN90g/nC0hhO
- aQjZ7EgUWchew==
+ b=KP5D3/+gEbUNQwq4+2Dg5ZiO0/4UD7UBYxqQ+Yhzyb8rcMpQy8IwFnD3vc7nRThh9
+ 0S/UDwriRgtkpACByKJG0x9h6S5YK9TudrYKnkr6NhsX4J5fKn6ygewSDktxKDpnIv
+ tCIuO2FwqWl//65PEBymVPwNOmkUQYMSZ9p1GIJ8MV0q3d+ZIUxvSSsZsxbivMXbmX
+ rBvFb4Uy8VNcVIp7gUj0ZEUm+nWs62XeJSEZiKgu2W6BY2wI3KzjhVsDVg/3FFR+Sz
+ R7ffATntjCQqbOT5/L1YIUTX+OZ6M/ixyUEcIRbi2l9O7ozPWfqM11qZUjM90rXQq0
+ vHB3D8vED3y3w==
 From: Arnd Bergmann <arnd@kernel.org>
 To: robert.jarzmik@free.fr,
 	linux-arm-kernel@lists.infradead.org
-Subject: [PATCH 19/48] ARM: pxa: lubbock: pass udc irqs as resource
-Date: Tue, 19 Apr 2022 18:37:41 +0200
-Message-Id: <20220419163810.2118169-20-arnd@kernel.org>
+Subject: [PATCH 20/48] ARM: pxa: spitz: use gpio descriptors for audio
+Date: Tue, 19 Apr 2022 18:37:42 +0200
+Message-Id: <20220419163810.2118169-21-arnd@kernel.org>
 X-Mailer: git-send-email 2.29.2
 In-Reply-To: <20220419163810.2118169-1-arnd@kernel.org>
 References: <20220419163810.2118169-1-arnd@kernel.org>
@@ -64,187 +64,258 @@ Cc: Ulf Hansson <ulf.hansson@linaro.org>, linux-usb@vger.kernel.org,
  Arnd Bergmann <arnd@arndb.de>, linux-pm@vger.kernel.org,
  linux-input@vger.kernel.org, Haojian Zhuang <haojian.zhuang@gmail.com>,
  Lubomir Rintel <lkundrak@v3.sk>, Mark Brown <broonie@kernel.org>,
- dri-devel@lists.freedesktop.org, Felipe Balbi <balbi@kernel.org>,
+ dri-devel@lists.freedesktop.org,
  Thomas Bogendoerfer <tsbogend@alpha.franken.de>,
  Stephen Boyd <sboyd@kernel.org>, patches@opensource.cirrus.com,
  Dmitry Torokhov <dmitry.torokhov@gmail.com>, linux-mmc@vger.kernel.org,
  linux-kernel@vger.kernel.org, Michael Turquette <mturquette@baylibre.com>,
- Greg Kroah-Hartman <gregkh@linuxfoundation.org>, alsa-devel@alsa-project.org,
- Daniel Mack <daniel@zonque.org>
+ alsa-devel@alsa-project.org, Daniel Mack <daniel@zonque.org>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 From: Arnd Bergmann <arnd@arndb.de>
 
-Lubbock is the only machine that has three IRQs for the UDC.
-These are currently hardcoded in the driver based on a
-machine header file.
+The audio driver should not use a hardwired gpio number
+from the header. Change it to use a lookup table.
 
-Change this to use platform device resources as we use for
-the generic IRQ anyway.
-
-Cc: Felipe Balbi <balbi@kernel.org>
-Cc: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-Cc: linux-usb@vger.kernel.org
-Acked-by: Robert Jarzmik <robert.jarzmik@free.fr>
+Acked-by: Mark Brown <broonie@kernel.org>
+Cc: alsa-devel@alsa-project.org
 Signed-off-by: Arnd Bergmann <arnd@arndb.de>
 ---
- arch/arm/mach-pxa/lubbock.c                   | 12 +++++-
- .../arm/mach-pxa/{include/mach => }/lubbock.h |  2 -
- drivers/usb/gadget/udc/pxa25x_udc.c           | 37 ++++++++++---------
- drivers/usb/gadget/udc/pxa25x_udc.h           |  7 +---
- 4 files changed, 32 insertions(+), 26 deletions(-)
- rename arch/arm/mach-pxa/{include/mach => }/lubbock.h (97%)
+ arch/arm/mach-pxa/spitz.c                    | 33 ++++++++++-
+ arch/arm/mach-pxa/{include/mach => }/spitz.h |  2 +-
+ arch/arm/mach-pxa/spitz_pm.c                 |  2 +-
+ sound/soc/pxa/spitz.c                        | 58 ++++++++------------
+ 4 files changed, 57 insertions(+), 38 deletions(-)
+ rename arch/arm/mach-pxa/{include/mach => }/spitz.h (99%)
 
-diff --git a/arch/arm/mach-pxa/lubbock.c b/arch/arm/mach-pxa/lubbock.c
-index 46aef93c0615..201f89f49642 100644
---- a/arch/arm/mach-pxa/lubbock.c
-+++ b/arch/arm/mach-pxa/lubbock.c
-@@ -46,7 +46,7 @@
- 
- #include "pxa25x.h"
- #include <linux/platform_data/asoc-pxa.h>
--#include <mach/lubbock.h>
-+#include "lubbock.h"
- #include "udc.h"
- #include <linux/platform_data/irda-pxaficp.h>
+diff --git a/arch/arm/mach-pxa/spitz.c b/arch/arm/mach-pxa/spitz.c
+index a648e7094e84..cd8f00945373 100644
+--- a/arch/arm/mach-pxa/spitz.c
++++ b/arch/arm/mach-pxa/spitz.c
+@@ -44,7 +44,7 @@
+ #include <linux/platform_data/mmc-pxamci.h>
+ #include <linux/platform_data/usb-ohci-pxa27x.h>
  #include <linux/platform_data/video-pxafb.h>
-@@ -131,6 +131,13 @@ static struct pxa2xx_udc_mach_info udc_info __initdata = {
- 	// no D+ pullup; lubbock can't connect/disconnect in software
- };
+-#include <mach/spitz.h>
++#include "spitz.h"
+ #include "sharpsl_pm.h"
+ #include <mach/smemc.h>
  
-+static struct resource lubbock_udc_resources[] = {
-+	DEFINE_RES_MEM(0x40600000, 0x10000),
-+	DEFINE_RES_IRQ(IRQ_USB),
-+	DEFINE_RES_IRQ(LUBBOCK_USB_IRQ),
-+	DEFINE_RES_IRQ(LUBBOCK_USB_DISC_IRQ),
+@@ -962,11 +962,42 @@ static void __init spitz_i2c_init(void)
+ static inline void spitz_i2c_init(void) {}
+ #endif
+ 
++static struct gpiod_lookup_table spitz_audio_gpio_table = {
++	.dev_id = "spitz-audio",
++	.table = {
++		GPIO_LOOKUP("sharp-scoop.0", SPITZ_GPIO_MUTE_L - SPITZ_SCP_GPIO_BASE,
++			    "mute-l", GPIO_ACTIVE_HIGH),
++		GPIO_LOOKUP("sharp-scoop.0", SPITZ_GPIO_MUTE_R - SPITZ_SCP_GPIO_BASE,
++			    "mute-r", GPIO_ACTIVE_HIGH),
++		GPIO_LOOKUP("sharp-scoop.1", SPITZ_GPIO_MIC_BIAS - SPITZ_SCP2_GPIO_BASE,
++			    "mic", GPIO_ACTIVE_HIGH),
++		{ },
++	},
 +};
 +
- /* GPIOs for SA1111 PCMCIA */
- static struct gpiod_lookup_table sa1111_pcmcia_gpio_table = {
- 	.dev_id = "1800",
-@@ -496,6 +503,9 @@ static void __init lubbock_init(void)
- 	lubbock_init_pcmcia();
++static struct gpiod_lookup_table akita_audio_gpio_table = {
++	.dev_id = "spitz-audio",
++	.table = {
++		GPIO_LOOKUP("sharp-scoop.0", SPITZ_GPIO_MUTE_L - SPITZ_SCP_GPIO_BASE,
++			    "mute-l", GPIO_ACTIVE_HIGH),
++		GPIO_LOOKUP("sharp-scoop.0", SPITZ_GPIO_MUTE_R - SPITZ_SCP_GPIO_BASE,
++			    "mute-r", GPIO_ACTIVE_HIGH),
++		GPIO_LOOKUP("i2c-max7310", AKITA_GPIO_MIC_BIAS - AKITA_IOEXP_GPIO_BASE,
++			    "mic", GPIO_ACTIVE_HIGH),
++		{ },
++	},
++};
++
+ /******************************************************************************
+  * Audio devices
+  ******************************************************************************/
+ static inline void spitz_audio_init(void)
+ {
++	if (machine_is_akita())
++		gpiod_add_lookup_table(&akita_audio_gpio_table);
++	else
++		gpiod_add_lookup_table(&spitz_audio_gpio_table);
++
+ 	platform_device_register_simple("spitz-audio", -1, NULL, 0);
+ }
  
- 	clk_add_alias("SA1111_CLK", NULL, "GPIO11_CLK", NULL);
-+	/* lubbock has two extra IRQs */
-+	pxa25x_device_udc.resource = lubbock_udc_resources;
-+	pxa25x_device_udc.num_resources = ARRAY_SIZE(lubbock_udc_resources);
- 	pxa_set_udc_info(&udc_info);
- 	pxa_set_fb_info(NULL, &sharp_lm8v31);
- 	pxa_set_mci_info(&lubbock_mci_platform_data);
-diff --git a/arch/arm/mach-pxa/include/mach/lubbock.h b/arch/arm/mach-pxa/lubbock.h
-similarity index 97%
-rename from arch/arm/mach-pxa/include/mach/lubbock.h
-rename to arch/arm/mach-pxa/lubbock.h
-index a3af4a2f9446..8e3ff7d57121 100644
---- a/arch/arm/mach-pxa/include/mach/lubbock.h
-+++ b/arch/arm/mach-pxa/lubbock.h
-@@ -1,7 +1,5 @@
- /* SPDX-License-Identifier: GPL-2.0-only */
- /*
-- *  arch/arm/mach-pxa/include/mach/lubbock.h
-- *
-  *  Author:	Nicolas Pitre
-  *  Created:	Jun 15, 2001
-  *  Copyright:	MontaVista Software Inc.
-diff --git a/drivers/usb/gadget/udc/pxa25x_udc.c b/drivers/usb/gadget/udc/pxa25x_udc.c
-index 6c414c99d01c..c593fc383481 100644
---- a/drivers/usb/gadget/udc/pxa25x_udc.c
-+++ b/drivers/usb/gadget/udc/pxa25x_udc.c
-@@ -44,10 +44,6 @@
- #include <linux/usb/gadget.h>
- #include <linux/usb/otg.h>
+diff --git a/arch/arm/mach-pxa/include/mach/spitz.h b/arch/arm/mach-pxa/spitz.h
+similarity index 99%
+rename from arch/arm/mach-pxa/include/mach/spitz.h
+rename to arch/arm/mach-pxa/spitz.h
+index 04828d8918aa..f97e3ebd762d 100644
+--- a/arch/arm/mach-pxa/include/mach/spitz.h
++++ b/arch/arm/mach-pxa/spitz.h
+@@ -11,7 +11,7 @@
+ #define __ASM_ARCH_SPITZ_H  1
+ #endif
  
--#ifdef CONFIG_ARCH_LUBBOCK
--#include <mach/lubbock.h>
--#endif
--
- #define UDCCR	 0x0000 /* UDC Control Register */
- #define UDC_RES1 0x0004 /* UDC Undocumented - Reserved1 */
- #define UDC_RES2 0x0008 /* UDC Undocumented - Reserved2 */
-@@ -1578,18 +1574,15 @@ lubbock_vbus_irq(int irq, void *_dev)
- 	int			vbus;
+-#include "irqs.h" /* PXA_NR_BUILTIN_GPIO, PXA_GPIO_TO_IRQ */
++#include <mach/irqs.h> /* PXA_NR_BUILTIN_GPIO, PXA_GPIO_TO_IRQ */
+ #include <linux/fb.h>
  
- 	dev->stats.irqs++;
--	switch (irq) {
--	case LUBBOCK_USB_IRQ:
-+	if (irq == dev->usb_irq) {
- 		vbus = 1;
--		disable_irq(LUBBOCK_USB_IRQ);
--		enable_irq(LUBBOCK_USB_DISC_IRQ);
--		break;
--	case LUBBOCK_USB_DISC_IRQ:
-+		disable_irq(dev->usb_irq);
-+		enable_irq(dev->usb_disc_irq);
-+	} else if (irq == dev->usb_disc_irq) {
- 		vbus = 0;
--		disable_irq(LUBBOCK_USB_DISC_IRQ);
--		enable_irq(LUBBOCK_USB_IRQ);
--		break;
--	default:
-+		disable_irq(dev->usb_disc_irq);
-+		enable_irq(dev->usb_irq);
-+	} else {
- 		return IRQ_NONE;
+ /* Spitz/Akita GPIOs */
+diff --git a/arch/arm/mach-pxa/spitz_pm.c b/arch/arm/mach-pxa/spitz_pm.c
+index 201dabe883b6..6689b67f9ce5 100644
+--- a/arch/arm/mach-pxa/spitz_pm.c
++++ b/arch/arm/mach-pxa/spitz_pm.c
+@@ -19,7 +19,7 @@
+ #include <asm/irq.h>
+ #include <asm/mach-types.h>
+ 
+-#include <mach/spitz.h>
++#include "spitz.h"
+ #include "pxa27x.h"
+ #include "sharpsl_pm.h"
+ 
+diff --git a/sound/soc/pxa/spitz.c b/sound/soc/pxa/spitz.c
+index 7c1384a869ca..44303b6eb228 100644
+--- a/sound/soc/pxa/spitz.c
++++ b/sound/soc/pxa/spitz.c
+@@ -14,13 +14,12 @@
+ #include <linux/timer.h>
+ #include <linux/interrupt.h>
+ #include <linux/platform_device.h>
+-#include <linux/gpio.h>
++#include <linux/gpio/consumer.h>
+ #include <sound/core.h>
+ #include <sound/pcm.h>
+ #include <sound/soc.h>
+ 
+ #include <asm/mach-types.h>
+-#include <mach/spitz.h>
+ #include "../codecs/wm8750.h"
+ #include "pxa2xx-i2s.h"
+ 
+@@ -37,7 +36,7 @@
+ 
+ static int spitz_jack_func;
+ static int spitz_spk_func;
+-static int spitz_mic_gpio;
++static struct gpio_desc *gpiod_mic, *gpiod_mute_l, *gpiod_mute_r;
+ 
+ static void spitz_ext_control(struct snd_soc_dapm_context *dapm)
+ {
+@@ -56,8 +55,8 @@ static void spitz_ext_control(struct snd_soc_dapm_context *dapm)
+ 		snd_soc_dapm_disable_pin_unlocked(dapm, "Mic Jack");
+ 		snd_soc_dapm_disable_pin_unlocked(dapm, "Line Jack");
+ 		snd_soc_dapm_enable_pin_unlocked(dapm, "Headphone Jack");
+-		gpio_set_value(SPITZ_GPIO_MUTE_L, 1);
+-		gpio_set_value(SPITZ_GPIO_MUTE_R, 1);
++		gpiod_set_value(gpiod_mute_l, 1);
++		gpiod_set_value(gpiod_mute_r, 1);
+ 		break;
+ 	case SPITZ_MIC:
+ 		/* enable mic jack and bias, mute hp */
+@@ -65,8 +64,8 @@ static void spitz_ext_control(struct snd_soc_dapm_context *dapm)
+ 		snd_soc_dapm_disable_pin_unlocked(dapm, "Headset Jack");
+ 		snd_soc_dapm_disable_pin_unlocked(dapm, "Line Jack");
+ 		snd_soc_dapm_enable_pin_unlocked(dapm, "Mic Jack");
+-		gpio_set_value(SPITZ_GPIO_MUTE_L, 0);
+-		gpio_set_value(SPITZ_GPIO_MUTE_R, 0);
++		gpiod_set_value(gpiod_mute_l, 0);
++		gpiod_set_value(gpiod_mute_r, 0);
+ 		break;
+ 	case SPITZ_LINE:
+ 		/* enable line jack, disable mic bias and mute hp */
+@@ -74,8 +73,8 @@ static void spitz_ext_control(struct snd_soc_dapm_context *dapm)
+ 		snd_soc_dapm_disable_pin_unlocked(dapm, "Headset Jack");
+ 		snd_soc_dapm_disable_pin_unlocked(dapm, "Mic Jack");
+ 		snd_soc_dapm_enable_pin_unlocked(dapm, "Line Jack");
+-		gpio_set_value(SPITZ_GPIO_MUTE_L, 0);
+-		gpio_set_value(SPITZ_GPIO_MUTE_R, 0);
++		gpiod_set_value(gpiod_mute_l, 0);
++		gpiod_set_value(gpiod_mute_r, 0);
+ 		break;
+ 	case SPITZ_HEADSET:
+ 		/* enable and unmute headset jack enable mic bias, mute L hp */
+@@ -83,8 +82,8 @@ static void spitz_ext_control(struct snd_soc_dapm_context *dapm)
+ 		snd_soc_dapm_enable_pin_unlocked(dapm, "Mic Jack");
+ 		snd_soc_dapm_disable_pin_unlocked(dapm, "Line Jack");
+ 		snd_soc_dapm_enable_pin_unlocked(dapm, "Headset Jack");
+-		gpio_set_value(SPITZ_GPIO_MUTE_L, 0);
+-		gpio_set_value(SPITZ_GPIO_MUTE_R, 1);
++		gpiod_set_value(gpiod_mute_l, 0);
++		gpiod_set_value(gpiod_mute_r, 1);
+ 		break;
+ 	case SPITZ_HP_OFF:
+ 
+@@ -93,8 +92,8 @@ static void spitz_ext_control(struct snd_soc_dapm_context *dapm)
+ 		snd_soc_dapm_disable_pin_unlocked(dapm, "Headset Jack");
+ 		snd_soc_dapm_disable_pin_unlocked(dapm, "Mic Jack");
+ 		snd_soc_dapm_disable_pin_unlocked(dapm, "Line Jack");
+-		gpio_set_value(SPITZ_GPIO_MUTE_L, 0);
+-		gpio_set_value(SPITZ_GPIO_MUTE_R, 0);
++		gpiod_set_value(gpiod_mute_l, 0);
++		gpiod_set_value(gpiod_mute_r, 0);
+ 		break;
  	}
  
-@@ -2422,20 +2415,28 @@ static int pxa25x_udc_probe(struct platform_device *pdev)
+@@ -199,7 +198,7 @@ static int spitz_set_spk(struct snd_kcontrol *kcontrol,
+ static int spitz_mic_bias(struct snd_soc_dapm_widget *w,
+ 	struct snd_kcontrol *k, int event)
+ {
+-	gpio_set_value_cansleep(spitz_mic_gpio, SND_SOC_DAPM_EVENT_ON(event));
++	gpiod_set_value_cansleep(gpiod_mic, SND_SOC_DAPM_EVENT_ON(event));
+ 	return 0;
+ }
  
- #ifdef CONFIG_ARCH_LUBBOCK
- 	if (machine_is_lubbock()) {
--		retval = devm_request_irq(&pdev->dev, LUBBOCK_USB_DISC_IRQ,
-+		dev->usb_irq = platform_get_irq(pdev, 1);
-+		if (dev->usb_irq < 0)
-+			return dev->usb_irq;
-+
-+		dev->usb_disc_irq = platform_get_irq(pdev, 2);
-+		if (dev->usb_disc_irq < 0)
-+			return dev->usb_disc_irq;
-+
-+		retval = devm_request_irq(&pdev->dev, dev->usb_disc_irq,
- 					  lubbock_vbus_irq, 0, driver_name,
- 					  dev);
- 		if (retval != 0) {
- 			pr_err("%s: can't get irq %i, err %d\n",
--				driver_name, LUBBOCK_USB_DISC_IRQ, retval);
-+				driver_name, dev->usb_disc_irq, retval);
- 			goto err;
- 		}
--		retval = devm_request_irq(&pdev->dev, LUBBOCK_USB_IRQ,
-+		retval = devm_request_irq(&pdev->dev, dev->usb_irq,
- 					  lubbock_vbus_irq, 0, driver_name,
- 					  dev);
- 		if (retval != 0) {
- 			pr_err("%s: can't get irq %i, err %d\n",
--				driver_name, LUBBOCK_USB_IRQ, retval);
-+				driver_name, dev->usb_irq, retval);
- 			goto err;
- 		}
- 	} else
-diff --git a/drivers/usb/gadget/udc/pxa25x_udc.h b/drivers/usb/gadget/udc/pxa25x_udc.h
-index aa4b68fd9fc0..6ab6047edc83 100644
---- a/drivers/usb/gadget/udc/pxa25x_udc.h
-+++ b/drivers/usb/gadget/udc/pxa25x_udc.h
-@@ -117,16 +117,13 @@ struct pxa25x_udc {
- 	u64					dma_mask;
- 	struct pxa25x_ep			ep [PXA_UDC_NUM_ENDPOINTS];
- 	void __iomem				*regs;
-+	int					usb_irq;
-+	int					usb_disc_irq;
- };
- #define to_pxa25x(g)	(container_of((g), struct pxa25x_udc, gadget))
+@@ -287,39 +286,28 @@ static int spitz_probe(struct platform_device *pdev)
+ 	struct snd_soc_card *card = &snd_soc_spitz;
+ 	int ret;
  
- /*-------------------------------------------------------------------------*/
- 
--#ifdef CONFIG_ARCH_LUBBOCK
--#include <mach/lubbock.h>
--/* lubbock can also report usb connect/disconnect irqs */
--#endif
+-	if (machine_is_akita())
+-		spitz_mic_gpio = AKITA_GPIO_MIC_BIAS;
+-	else
+-		spitz_mic_gpio = SPITZ_GPIO_MIC_BIAS;
 -
- static struct pxa25x_udc *the_controller;
+-	ret = gpio_request(spitz_mic_gpio, "MIC GPIO");
+-	if (ret)
+-		goto err1;
+-
+-	ret = gpio_direction_output(spitz_mic_gpio, 0);
+-	if (ret)
+-		goto err2;
++	gpiod_mic = devm_gpiod_get(&pdev->dev, "mic", GPIOD_OUT_LOW);
++	if (IS_ERR(gpiod_mic))
++		return PTR_ERR(gpiod_mic);
++	gpiod_mute_l = devm_gpiod_get(&pdev->dev, "mute-l", GPIOD_OUT_LOW);
++	if (IS_ERR(gpiod_mute_l))
++		return PTR_ERR(gpiod_mute_l);
++	gpiod_mute_r = devm_gpiod_get(&pdev->dev, "mute-r", GPIOD_OUT_LOW);
++	if (IS_ERR(gpiod_mute_r))
++		return PTR_ERR(gpiod_mute_r);
  
- /*-------------------------------------------------------------------------*/
+ 	card->dev = &pdev->dev;
+ 
+ 	ret = devm_snd_soc_register_card(&pdev->dev, card);
+-	if (ret) {
++	if (ret)
+ 		dev_err(&pdev->dev, "snd_soc_register_card() failed: %d\n",
+ 			ret);
+-		goto err2;
+-	}
+-
+-	return 0;
+ 
+-err2:
+-	gpio_free(spitz_mic_gpio);
+-err1:
+ 	return ret;
+ }
+ 
+ static int spitz_remove(struct platform_device *pdev)
+ {
+-	gpio_free(spitz_mic_gpio);
+ 	return 0;
+ }
+ 
 -- 
 2.29.2
 
