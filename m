@@ -1,45 +1,56 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 26DE0506820
-	for <lists+dri-devel@lfdr.de>; Tue, 19 Apr 2022 11:57:01 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 5796750683E
+	for <lists+dri-devel@lfdr.de>; Tue, 19 Apr 2022 12:04:12 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 481B910E818;
-	Tue, 19 Apr 2022 09:56:56 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 8FD2110E74D;
+	Tue, 19 Apr 2022 10:04:09 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from relay1-d.mail.gandi.net (relay1-d.mail.gandi.net
- [IPv6:2001:4b98:dc4:8::221])
- by gabe.freedesktop.org (Postfix) with ESMTPS id D2EB410E818
- for <dri-devel@lists.freedesktop.org>; Tue, 19 Apr 2022 09:56:54 +0000 (UTC)
-Received: (Authenticated sender: paul.kocialkowski@bootlin.com)
- by mail.gandi.net (Postfix) with ESMTPSA id 5EC0F240004;
- Tue, 19 Apr 2022 09:56:51 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bootlin.com; s=gm1;
- t=1650362212;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- in-reply-to:in-reply-to:references:references;
- bh=Mq8173Yhb7PWseSDb2n4pQrTc0Fh+GdWcB9T/uTdM2M=;
- b=HpO7PHrughSJxpPdJhGONJgxyf/vZiM5hnkdHg2WbBKu/FgmsuQ4mxb7LXxMz7f3DhyuEN
- OTiDujbFsmL3Cu2rxisww3BxUdCbsTiOIs6J31m4sw3Uz5F0Y40B/XzOW/yP0QWwNNH9Ok
- uZqVLxS9/yCfLkhWUCUqiGC+QZp7pbAGqELsIbrnQ7DOd7NvBBs/eBKjwF/JS1Q9VsfscM
- eAtqgharoXWYaS+2+HR907QYRSIbXGf2gx99+xWVsGxpA1V24Wv6kqpJfagspDObipq29r
- GuKPPZFaXyCSYJ1gz9N1KRGml+dxDafact1+n36DXtCK4cGP5YNKpH1AzcERTg==
-Date: Tue, 19 Apr 2022 11:56:50 +0200
-From: Paul Kocialkowski <paul.kocialkowski@bootlin.com>
-To: Paul Cercueil <paul@crapouillou.net>
-Subject: Re: [PATCH v3] drm: of: Properly try all possible cases for
- bridge/panel detection
-Message-ID: <Yl6HYke4dJsrq9jj@aptenodytes>
-References: <20220329132732.628474-1-paul.kocialkowski@bootlin.com>
- <20220416222141.72321-1-paul@crapouillou.net>
+Received: from smtp-out2.suse.de (smtp-out2.suse.de [195.135.220.29])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id D3D7810E113
+ for <dri-devel@lists.freedesktop.org>; Tue, 19 Apr 2022 10:04:08 +0000 (UTC)
+Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+ key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
+ (No client certificate requested)
+ by smtp-out2.suse.de (Postfix) with ESMTPS id 6FDA91F38D;
+ Tue, 19 Apr 2022 10:04:07 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+ t=1650362647; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+ mime-version:mime-version: content-transfer-encoding:content-transfer-encoding;
+ bh=N77V+jXr47F61PbQqDhlOrLIprGwDW/pOVFQmREbCJw=;
+ b=g8PLhNnHLI91ksistfZBNBf8MO59yBn8DthIgxoVv362YrvNc/gDCF2sCnTRZzT1lv6nQM
+ QeftLtHNAFQKA0Sq7wHlKQZP0aVId7Rhu6llhs9N7dtOkti6tTOHWYzP8UaUJuMbiQuHVQ
+ hWkbdfVEGyVUqq6BIOSXGFKnleaxmUM=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+ s=susede2_ed25519; t=1650362647;
+ h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+ mime-version:mime-version: content-transfer-encoding:content-transfer-encoding;
+ bh=N77V+jXr47F61PbQqDhlOrLIprGwDW/pOVFQmREbCJw=;
+ b=BqbDfFerZPlucUA9awbpCZqaq+2h+kFM9Ueuo73fe9t6OsXpIbXciq3sj7eCXqZNuBhs8Y
+ MYCy+7MKq9/XZfCQ==
+Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+ key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
+ (No client certificate requested)
+ by imap2.suse-dmz.suse.de (Postfix) with ESMTPS id 2302B132E7;
+ Tue, 19 Apr 2022 10:04:07 +0000 (UTC)
+Received: from dovecot-director2.suse.de ([192.168.254.65])
+ by imap2.suse-dmz.suse.de with ESMTPSA id jNSVBxeJXmJzJQAAMHmgww
+ (envelope-from <tzimmermann@suse.de>); Tue, 19 Apr 2022 10:04:07 +0000
+From: Thomas Zimmermann <tzimmermann@suse.de>
+To: robh+dt@kernel.org, frowand.list@gmail.com, daniel@ffwll.ch, deller@gmx.de,
+ sam@ravnborg.org, linux@roeck-us.net, mpe@ellerman.id.au,
+ benh@kernel.crashing.org, paulus@samba.org, javierm@redhat.com
+Subject: [PATCH v2 0/2] of: Register platform device for each framebuffer
+Date: Tue, 19 Apr 2022 12:04:03 +0200
+Message-Id: <20220419100405.12600-1-tzimmermann@suse.de>
+X-Mailer: git-send-email 2.35.1
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha256;
- protocol="application/pgp-signature"; boundary="XgDB20WdwLjkKw76"
-Content-Disposition: inline
-In-Reply-To: <20220416222141.72321-1-paul@crapouillou.net>
+Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -52,66 +63,40 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: thomas.petazzoni@bootlin.com, airlied@linux.ie, tzimmermann@suse.de,
- linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
- jagan@amarulasolutions.com
+Cc: devicetree@vger.kernel.org, linux-fbdev@vger.kernel.org,
+ linuxppc-dev@lists.ozlabs.org, Thomas Zimmermann <tzimmermann@suse.de>,
+ dri-devel@lists.freedesktop.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
+Move the detection of OF framebuffers from fbdev into of platform code
+and register a Linux platform device for each framebuffer. Allows for
+DRM-based OF drivers and real hot-unplugging of the framebuffer.
 
---XgDB20WdwLjkKw76
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+This patchset has been tested with qemu's ppc64le emulation, which
+provides a framebuffer via OF display node. If someone has an older
+32-bit system with BootX available, please test.
 
-Hi Paul,
+v2:
+	* integrate PPC code into generic platform setup (Rob)
+	* keep !device workaround with a warning (Javier, Daniel)
 
-On Sat 16 Apr 22, 23:21, Paul Cercueil wrote:
-> Hi Paul,
->=20
-> This patch breaks the ingenic-drm driver.
->=20
-> It calls drm_of_find_panel_or_bridge(np, 0, i, ...) starting for i=3D0, u=
-ntil
-> -ENODEV is returned, which does not happen anymore.
->=20
-> The idea is to probe all the connected panels/bridges, should it be done
-> differently now?
+Thomas Zimmermann (2):
+  of: Create platform devices for OF framebuffers
+  fbdev: Warn in hot-unplug workaround for framebuffers without device
 
-I've sent out a different patch which restores -ENODEV at:
-https://patchwork.freedesktop.org/patch/481135/
+ drivers/of/platform.c            | 88 +++++++++++++++++++++-------
+ drivers/video/fbdev/core/fbmem.c | 10 ++--
+ drivers/video/fbdev/offb.c       | 98 +++++++++++++++++++++-----------
+ 3 files changed, 136 insertions(+), 60 deletions(-)
 
-Feel free to try it and reply with tested-by/reviewed-by there.
-I've also made a proposal in the thread to skip the "child node" mechanism
-as soon as an of graph is present, which would allow covering more legit
-cases with -ENODEV (the patch linked above doesn't cover all cases that
-need -ENODEV).
 
-Ideally we'd like to remove the child node mechanism entirely, but it may
-already be part of a device-tree binding spec.
+base-commit: d97978df553d768e457cb68c637b2b0a6188b87c
+prerequisite-patch-id: c2b2f08f0eccc9f5df0c0da49fa1d36267deb11d
+prerequisite-patch-id: c67e5d886a47b7d0266d81100837557fda34cb24
+prerequisite-patch-id: 6e1032c6302461624f33194c8b8f37103a3fa6ef
+prerequisite-patch-id: 3f204510fcbf9530d6540bd8e6128cce598988b6
+prerequisite-patch-id: ab7611d28d07723ab1dd392dcf9a6345de3b1040
+-- 
+2.35.1
 
-Cheers,
-
-Paul
-
---=20
-Paul Kocialkowski, Bootlin
-Embedded Linux and kernel engineering
-https://bootlin.com
-
---XgDB20WdwLjkKw76
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iQEzBAEBCAAdFiEEJZpWjZeIetVBefti3cLmz3+fv9EFAmJeh2IACgkQ3cLmz3+f
-v9GBKAf8DA/g/QCGdK6HmqooGT+X0CNX9NbaVBgCVkWL/wnG+MEsNTNY0g54m8h/
-yQexs7+ZudJ19RzZAtJFgj3zcc9u/VXYxipI5Q+zFp9Q7UEuNDfZLS1yxSN+hfr9
-fEK1YarFnb/uo/mCWiP2SAJiDtipJe+flEzyutHK6Jf1p2jyAbED4DlZTED8fN1X
-uBkMw63pnPdzJcdx0+sm8xLnbY/bkaMjJasIjmfiimQsI09g+TCu5bBlEJIuMDG9
-2XrTsUWWN7kex6f+cMakL4nhwL8EM1Hmysga6S4cODnhzJqEODXjMiKtCI+yB+hP
-UEUj0lqOrQcgo/RpuKQiFQZxCSkhFA==
-=RY5S
------END PGP SIGNATURE-----
-
---XgDB20WdwLjkKw76--
