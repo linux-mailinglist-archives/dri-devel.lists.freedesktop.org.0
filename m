@@ -1,51 +1,62 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1888950692F
-	for <lists+dri-devel@lfdr.de>; Tue, 19 Apr 2022 12:55:59 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 8318D506965
+	for <lists+dri-devel@lfdr.de>; Tue, 19 Apr 2022 13:05:29 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 70CCC10E9E7;
-	Tue, 19 Apr 2022 10:55:55 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 259A810EF30;
+	Tue, 19 Apr 2022 11:05:26 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mga17.intel.com (mga17.intel.com [192.55.52.151])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 2E51C10E9E7
- for <dri-devel@lists.freedesktop.org>; Tue, 19 Apr 2022 10:55:54 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1650365754; x=1681901754;
- h=date:from:to:cc:subject:message-id:mime-version:
- content-transfer-encoding;
- bh=gnCLH4lm2+rH4RGr2p3YES7i2mqlnp69sILQ57gm7V8=;
- b=OMKWA4tW18UMrWa0yIuYoxE1Anvn0zMP0fSQ2euhYuIEIW+/iTuCb5aA
- CXXy6r78+UW8UDaaC9+ejmyWgMNam9Sjv2OX4v/awAJavgkziy4cFBvdh
- NJIg7C9iVqEhA+ai+Xqj7xLZO4aF71TXys3dPVGPkRMdZewJ0IOvhdeci
- 4itmNDJeZCPssPQ0Bkn8QJSgoFF2OZYqD4sVzwqIoZn+h6tgdsa9qo/mr
- IzWbCQjd0PjiO++kv9jJ93SABCu+2ChpGgeOTmu9V0PhWL/BKJKe2LrSx
- 4mWYHwaAJ08EQP8OJ43+4QEqFikTcI45FGz7e/pxldqVGBzkK1dmrihjr w==;
-X-IronPort-AV: E=McAfee;i="6400,9594,10321"; a="244321145"
-X-IronPort-AV: E=Sophos;i="5.90,272,1643702400"; d="scan'208";a="244321145"
-Received: from fmsmga008.fm.intel.com ([10.253.24.58])
- by fmsmga107.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 19 Apr 2022 03:55:51 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.90,272,1643702400"; d="scan'208";a="613956926"
-Received: from lkp-server01.sh.intel.com (HELO 3abc53900bec) ([10.239.97.150])
- by fmsmga008.fm.intel.com with ESMTP; 19 Apr 2022 03:55:48 -0700
-Received: from kbuild by 3abc53900bec with local (Exim 4.95)
- (envelope-from <lkp@intel.com>) id 1nglWN-0005gE-Uv;
- Tue, 19 Apr 2022 10:55:47 +0000
-Date: Tue, 19 Apr 2022 18:54:55 +0800
-From: kernel test robot <lkp@intel.com>
-To: Andrew Morton <akpm@linux-foundation.org>
-Subject: [linux-next:pending-fixes] BUILD REGRESSION
- 4604e2bc18b6af1d84e18b4da451fac9bf70f952
-Message-ID: <625e94ff.voZpnIYfkSSS0rno%lkp@intel.com>
-User-Agent: Heirloom mailx 12.5 6/20/10
+Received: from mail-qv1-xf29.google.com (mail-qv1-xf29.google.com
+ [IPv6:2607:f8b0:4864:20::f29])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 3DACF10EF30;
+ Tue, 19 Apr 2022 11:05:25 +0000 (UTC)
+Received: by mail-qv1-xf29.google.com with SMTP id b17so12819227qvp.6;
+ Tue, 19 Apr 2022 04:05:25 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
+ h=from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=WypoIbYzDM3SGYr1aowM73aDQH7Omrk2x+2YoRxyVaU=;
+ b=a6OraGettVpXcTIsVDJpQy7a4jQLUXhbFvesUjA7jmnSNd85IR4GKqgvqZNABHG0m9
+ hn1WoKmmxl3+lDodvIJ9YsE/4OcAUL6hN4h7mGB559d3pQd6rFnx29F1T+IcdPn+ERad
+ pfNzxbsxXX4w0fZcIlmfWn6bKAuypvSukcL9ecHM+dRn7sxAcw/8LzT1mxm0EOr60k1o
+ sOR/yvTL/5ICWHcIzcRXoRtz5j3k2xyHwAwCS3+rH032Rpk6IeYoj0UrnIMy2fcBUcza
+ Tf9AU//r0dC1atNVpXt7xovE6CWTGQO7krq/Uwo6E7Flge3UBfFXTTmWGlv95GWIyZb/
+ Vcsg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=WypoIbYzDM3SGYr1aowM73aDQH7Omrk2x+2YoRxyVaU=;
+ b=c8muvnAHzX3C/H6MaevUnewHD2jCTd6D3tB/PHqwya/STh58rPGIId37G1+9LlOxcs
+ oWkvwsCvn7SHQGWG85M8mke5fkKRB5WmcRK2VJ4LAWUOW/LhsA7TilRfkpV13xJ6l6Q3
+ 0Tgv4bOaKcMblJRy5J4q2nFUPiW2fn02Wfx+/acFZSS3b8btLfMiW8xQf2vvfka7w9FV
+ XYlVKgNCLmtKvNh/uFMhTRlKYnYekn4FFfMhWKaEPNq5ZH01hTaUePkGna/8GDlX0PM1
+ Z+nkaQGNsnWAOxlPUxwe5AwCPilJEQ9GJbYS4t0pnM+A1i/HCh8mQ0oCq4N522GQY9UI
+ MQTg==
+X-Gm-Message-State: AOAM531r+SzmmEJ6CghF/EjxV3AOQ0mw2s2VyzmIiRoIaTNTnU/8nsvl
+ VHMJTUtLDLWwlMMi3TQVs9c=
+X-Google-Smtp-Source: ABdhPJw71zFUJUfEaL8h4nWaMzHBhFcHvhWClsius2kORwDAEjXL2UUVo6ziMXBa9ls10KuXylePWg==
+X-Received: by 2002:a05:6214:2309:b0:435:374d:4bbb with SMTP id
+ gc9-20020a056214230900b00435374d4bbbmr10758363qvb.105.1650366324179; 
+ Tue, 19 Apr 2022 04:05:24 -0700 (PDT)
+Received: from localhost.localdomain ([193.203.214.57])
+ by smtp.gmail.com with ESMTPSA id
+ x22-20020a05620a099600b0069e5db6be55sm6041254qkx.36.2022.04.19.04.05.21
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Tue, 19 Apr 2022 04:05:23 -0700 (PDT)
+From: cgel.zte@gmail.com
+X-Google-Original-From: chi.minghao@zte.com.cn
+To: l.stach@pengutronix.de
+Subject: [PATCH] drm/etnaviv: using pm_runtime_resume_and_get instead of
+ pm_runtime_get_sync
+Date: Tue, 19 Apr 2022 11:05:18 +0000
+Message-Id: <20220419110518.2574486-1-chi.minghao@zte.com.cn>
+X-Mailer: git-send-email 2.25.1
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Transfer-Encoding: 7bit
+Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -58,178 +69,42 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: linaro-mm-sig@lists.linaro.org,
- Linux Memory Management List <linux-mm@kvack.org>,
- dri-devel@lists.freedesktop.org, linux-media@vger.kernel.org
+Cc: Zeal Robot <zealci@zte.com.cn>, linux-kernel@vger.kernel.org,
+ Minghao Chi <chi.minghao@zte.com.cn>, etnaviv@lists.freedesktop.org,
+ dri-devel@lists.freedesktop.org, linux+etnaviv@armlinux.org.uk
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-tree/branch: https://git.kernel.org/pub/scm/linux/kernel/git/next/linux-next.git pending-fixes
-branch HEAD: 4604e2bc18b6af1d84e18b4da451fac9bf70f952  Merge branch 'for-linux-next-fixes' of git://anongit.freedesktop.org/drm/drm-misc
+From: Minghao Chi <chi.minghao@zte.com.cn>
 
-Unverified Error/Warning (likely false positive, please contact us if interested):
+Using pm_runtime_resume_and_get() to replace pm_runtime_get_sync and
+pm_runtime_put_noidle. This change is just to simplify the code, no
+actual functional changes.
 
-drivers/dma-buf/st-dma-fence-unwrap.c:261:1: internal compiler error: Segmentation fault
+Reported-by: Zeal Robot <zealci@zte.com.cn>
+Signed-off-by: Minghao Chi <chi.minghao@zte.com.cn>
+---
+ drivers/gpu/drm/etnaviv/etnaviv_gpu.c | 6 ++----
+ 1 file changed, 2 insertions(+), 4 deletions(-)
 
-Error/Warning ids grouped by kconfigs:
-
-gcc_recent_errors
-`-- riscv-randconfig-r042-20220417
-    `-- drivers-dma-buf-st-dma-fence-unwrap.c:internal-compiler-error:Segmentation-fault
-
-elapsed time: 722m
-
-configs tested: 142
-configs skipped: 3
-
-gcc tested configs:
-arm                                 defconfig
-arm                              allmodconfig
-arm                              allyesconfig
-arm64                               defconfig
-arm64                            allyesconfig
-i386                          randconfig-c001
-mips                 randconfig-c004-20220418
-i386                 randconfig-c001-20220418
-parisc                           allyesconfig
-alpha                            allyesconfig
-nios2                            allyesconfig
-arc                              allyesconfig
-h8300                       h8s-sim_defconfig
-m68k                       m5208evb_defconfig
-mips                     decstation_defconfig
-m68k                       m5475evb_defconfig
-arm                          exynos_defconfig
-powerpc                      ep88xc_defconfig
-sh                               alldefconfig
-xtensa                generic_kc705_defconfig
-sh                        sh7785lcr_defconfig
-sh                        edosk7705_defconfig
-arm                         vf610m4_defconfig
-m68k                          hp300_defconfig
-sh                   secureedge5410_defconfig
-sh                               j2_defconfig
-sh                            hp6xx_defconfig
-arm                         nhk8815_defconfig
-m68k                          amiga_defconfig
-mips                       capcella_defconfig
-powerpc                 mpc8540_ads_defconfig
-ia64                          tiger_defconfig
-sh                 kfr2r09-romimage_defconfig
-powerpc                     ep8248e_defconfig
-powerpc                         wii_defconfig
-powerpc                      ppc40x_defconfig
-ia64                             alldefconfig
-powerpc                       maple_defconfig
-riscv                               defconfig
-h8300                               defconfig
-m68k                        stmark2_defconfig
-arm                          badge4_defconfig
-mips                       bmips_be_defconfig
-sh                          urquell_defconfig
-arm                  randconfig-c002-20220418
-x86_64               randconfig-c001-20220418
-x86_64                        randconfig-c001
-arm                  randconfig-c002-20220419
-ia64                             allmodconfig
-ia64                             allyesconfig
-ia64                                defconfig
-m68k                                defconfig
-m68k                             allyesconfig
-m68k                             allmodconfig
-nios2                               defconfig
-csky                                defconfig
-alpha                               defconfig
-arc                                 defconfig
-sh                               allmodconfig
-h8300                            allyesconfig
-xtensa                           allyesconfig
-parisc                              defconfig
-parisc64                            defconfig
-s390                             allmodconfig
-s390                                defconfig
-s390                             allyesconfig
-i386                   debian-10.3-kselftests
-i386                              debian-10.3
-i386                                defconfig
-i386                             allyesconfig
-sparc                            allyesconfig
-sparc                               defconfig
-mips                             allyesconfig
-mips                             allmodconfig
-powerpc                          allyesconfig
-powerpc                           allnoconfig
-powerpc                          allmodconfig
-i386                 randconfig-a002-20220418
-i386                 randconfig-a004-20220418
-i386                 randconfig-a001-20220418
-i386                 randconfig-a006-20220418
-i386                 randconfig-a005-20220418
-i386                 randconfig-a003-20220418
-x86_64               randconfig-a003-20220418
-x86_64               randconfig-a004-20220418
-x86_64               randconfig-a006-20220418
-x86_64               randconfig-a001-20220418
-x86_64               randconfig-a002-20220418
-x86_64               randconfig-a005-20220418
-arc                  randconfig-r043-20220418
-arc                  randconfig-r043-20220417
-s390                 randconfig-r044-20220417
-riscv                randconfig-r042-20220417
-riscv                            allmodconfig
-riscv                    nommu_k210_defconfig
-riscv                    nommu_virt_defconfig
-riscv                             allnoconfig
-riscv                          rv32_defconfig
-riscv                            allyesconfig
-um                           x86_64_defconfig
-um                             i386_defconfig
-x86_64                              defconfig
-x86_64                           allyesconfig
-x86_64                    rhel-8.3-kselftests
-x86_64                                  kexec
-x86_64                          rhel-8.3-func
-x86_64                               rhel-8.3
-x86_64                         rhel-8.3-kunit
-
-clang tested configs:
-arm                  randconfig-c002-20220419
-powerpc              randconfig-c003-20220419
-x86_64                        randconfig-c007
-mips                 randconfig-c004-20220419
-i386                          randconfig-c001
-s390                 randconfig-c005-20220419
-riscv                randconfig-c006-20220419
-arm                           spitz_defconfig
-mips                            e55_defconfig
-mips                   sb1250_swarm_defconfig
-powerpc               mpc834x_itxgp_defconfig
-mips                         tb0219_defconfig
-i386                          randconfig-a002
-i386                          randconfig-a006
-i386                          randconfig-a004
-x86_64                        randconfig-a012
-x86_64                        randconfig-a014
-x86_64                        randconfig-a016
-x86_64               randconfig-a012-20220418
-x86_64               randconfig-a013-20220418
-x86_64               randconfig-a011-20220418
-x86_64               randconfig-a015-20220418
-x86_64               randconfig-a016-20220418
-x86_64               randconfig-a014-20220418
-i386                 randconfig-a011-20220418
-i386                 randconfig-a015-20220418
-i386                 randconfig-a016-20220418
-i386                 randconfig-a012-20220418
-i386                 randconfig-a013-20220418
-i386                 randconfig-a014-20220418
-riscv                randconfig-r042-20220418
-hexagon              randconfig-r041-20220417
-hexagon              randconfig-r041-20220418
-hexagon              randconfig-r045-20220417
-s390                 randconfig-r044-20220418
-hexagon              randconfig-r045-20220418
-
+diff --git a/drivers/gpu/drm/etnaviv/etnaviv_gpu.c b/drivers/gpu/drm/etnaviv/etnaviv_gpu.c
+index 37018bc55810..4ac009a1c4c0 100644
+--- a/drivers/gpu/drm/etnaviv/etnaviv_gpu.c
++++ b/drivers/gpu/drm/etnaviv/etnaviv_gpu.c
+@@ -1342,11 +1342,9 @@ struct dma_fence *etnaviv_gpu_submit(struct etnaviv_gem_submit *submit)
+ 	int ret;
+ 
+ 	if (!submit->runtime_resumed) {
+-		ret = pm_runtime_get_sync(gpu->dev);
+-		if (ret < 0) {
+-			pm_runtime_put_noidle(gpu->dev);
++		ret = pm_runtime_resume_and_get(gpu->dev);
++		if (ret < 0)
+ 			return NULL;
+-		}
+ 		submit->runtime_resumed = true;
+ 	}
+ 
 -- 
-0-DAY CI Kernel Test Service
-https://01.org/lkp
+2.25.1
+
