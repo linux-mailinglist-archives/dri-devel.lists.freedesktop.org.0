@@ -2,40 +2,40 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8D10C50737F
-	for <lists+dri-devel@lfdr.de>; Tue, 19 Apr 2022 18:43:38 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 9ABB8507380
+	for <lists+dri-devel@lfdr.de>; Tue, 19 Apr 2022 18:43:47 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 571AA10F0E6;
-	Tue, 19 Apr 2022 16:43:36 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 466A410F105;
+	Tue, 19 Apr 2022 16:43:45 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from dfw.source.kernel.org (dfw.source.kernel.org
- [IPv6:2604:1380:4641:c500::1])
- by gabe.freedesktop.org (Postfix) with ESMTPS id A742D10EF38
- for <dri-devel@lists.freedesktop.org>; Tue, 19 Apr 2022 16:43:34 +0000 (UTC)
+Received: from ams.source.kernel.org (ams.source.kernel.org [145.40.68.75])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 1621A10F11A
+ for <dri-devel@lists.freedesktop.org>; Tue, 19 Apr 2022 16:43:44 +0000 (UTC)
 Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
  (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
  (No client certificate requested)
- by dfw.source.kernel.org (Postfix) with ESMTPS id 2788C61871;
- Tue, 19 Apr 2022 16:43:34 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 4C435C385A5;
- Tue, 19 Apr 2022 16:43:26 +0000 (UTC)
+ by ams.source.kernel.org (Postfix) with ESMTPS id 8EE11B81BF1;
+ Tue, 19 Apr 2022 16:43:42 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 0D32AC385A7;
+ Tue, 19 Apr 2022 16:43:33 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1650386613;
- bh=1CznP/IcfkJndLnXKlEqV7YtwAE/0IZ23NVP7Os5Lbk=;
+ s=k20201202; t=1650386621;
+ bh=/Prqr04i1fpscHVDuVcgCmngsY3hyx249dIBGFreq2Y=;
  h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
- b=gkyeNvpegI/KQIRWnjwkEYCied4Du61ntShcs66DzkQFnJHkJWp70dBzOiTP/ZG6j
- n96w9hkpW3grm9KvPbPA2R8JMHGs0B28jY9iQ2TtUgdW5V+XoN0ZLiqkWwVdMXxfJ1
- g4lG/kC3swRcBOnkw50SSbGy5I/KjmkMOKQ/SlEhuKtrq2jtmRtW2c5FwToKh8BGwy
- tQTv4ia+QOAVOVszdbwIbLvRCF+TpW81A0z+kf9LYr2Zgm++jGTXkxtLEd4wDmJIYw
- XmyDe5w2feEiHmwvkFrvwJr16KElh9yxIpw5HNExil/VCLxaA6PWzlCybRgA8G+uZe
- V5QDp19UieVxQ==
+ b=Y3PA1gNBpWemWTKgXNfQE6gZ2lkQ2OFkd5OEDO01xwY7wK6BGc9IgzXVFUA0bOzmZ
+ IdxCFkit5T5OsWlQE5O+YIuaAvNKouAQPTTolrYkcjfQij7Q0LwfC8hhcM+pUKrArL
+ jV+yRfNhU4PQ+WoL1zX7EbhPcVQ14Zq9MQGKIATzI5hPOS5KUZWHKSLomaqNqAoJ56
+ IDOxvX2ZFZltZq/w38uCesi0fdH8Nymt/I05daQ0ly4mZIZ+Mu5zj4YzGfVJGkUh2W
+ 5EvHWtWx1sIW2sQh+QuJzgReXLIELwok/SAnSo1kypQDxD/mQa+4Sz3q3cq7wQQ5sQ
+ /4GyTOFmHOlXQ==
 From: Arnd Bergmann <arnd@kernel.org>
 To: robert.jarzmik@free.fr,
 	linux-arm-kernel@lists.infradead.org
-Subject: [PATCH 36/48] cpufreq: pxa3: move clk register access to clk driver
-Date: Tue, 19 Apr 2022 18:37:58 +0200
-Message-Id: <20220419163810.2118169-37-arnd@kernel.org>
+Subject: [PATCH 37/48] ARM: pxa: move smemc register access from clk to
+ platform
+Date: Tue, 19 Apr 2022 18:37:59 +0200
+Message-Id: <20220419163810.2118169-38-arnd@kernel.org>
 X-Mailer: git-send-email 2.29.2
 In-Reply-To: <20220419163810.2118169-1-arnd@kernel.org>
 References: <20220419163810.2118169-1-arnd@kernel.org>
@@ -76,230 +76,350 @@ Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 From: Arnd Bergmann <arnd@arndb.de>
 
-The driver needs some low-level register access for setting
-the core and bus frequencies. These registers are owned
-by the clk driver, so move the low-level access into that
-driver with a slightly higher-level interface and avoid
-any machine header file dependencies.
+The get_sdram_rows() and get_memclkdiv() helpers need smemc
+register that are separate from the clk registers, move
+them out of the clk driver, and use an extern declaration
+instead.
 
 Cc: Michael Turquette <mturquette@baylibre.com>
 Cc: Stephen Boyd <sboyd@kernel.org>
-Acked-by: Viresh Kumar <viresh.kumar@linaro.org>
 Cc: linux-clk@vger.kernel.org
-Cc: linux-pm@vger.kernel.org
+Link: https://lore.kernel.org/lkml/87pnielzo4.fsf@belgarion.home/
 Signed-off-by: Arnd Bergmann <arnd@arndb.de>
 ---
- arch/arm/mach-pxa/generic.h              |  1 -
- arch/arm/mach-pxa/include/mach/generic.h |  5 --
- arch/arm/mach-pxa/pxa3xx.c               |  1 +
- drivers/clk/pxa/clk-pxa3xx.c             | 16 ++++++
- drivers/cpufreq/pxa2xx-cpufreq.c         |  3 --
- drivers/cpufreq/pxa3xx-cpufreq.c         | 64 +++++++++++++-----------
- include/linux/clk/pxa.h                  |  9 ++++
- 7 files changed, 62 insertions(+), 37 deletions(-)
- delete mode 100644 arch/arm/mach-pxa/include/mach/generic.h
- create mode 100644 include/linux/clk/pxa.h
+ arch/arm/mach-pxa/generic.c   |  6 ++++++
+ arch/arm/mach-pxa/pxa2xx.c    | 25 +++++++++++++++++++++++++
+ arch/arm/mach-pxa/pxa3xx.c    |  4 ++++
+ arch/arm/mach-pxa/smemc.c     |  9 +++++++++
+ drivers/clk/pxa/clk-pxa.c     |  4 +++-
+ drivers/clk/pxa/clk-pxa.h     |  5 +++--
+ drivers/clk/pxa/clk-pxa25x.c  | 30 +++---------------------------
+ drivers/clk/pxa/clk-pxa27x.c  | 31 +++----------------------------
+ drivers/clk/pxa/clk-pxa3xx.c  |  8 +++-----
+ include/linux/soc/pxa/smemc.h |  3 +++
+ 10 files changed, 62 insertions(+), 63 deletions(-)
 
-diff --git a/arch/arm/mach-pxa/generic.h b/arch/arm/mach-pxa/generic.h
-index 2f706ef97357..487eadb0fc2a 100644
---- a/arch/arm/mach-pxa/generic.h
-+++ b/arch/arm/mach-pxa/generic.h
-@@ -7,7 +7,6 @@
-  */
- 
- #include <linux/reboot.h>
--#include <mach/generic.h>
- 
- struct irq_data;
- 
-diff --git a/arch/arm/mach-pxa/include/mach/generic.h b/arch/arm/mach-pxa/include/mach/generic.h
-deleted file mode 100644
-index 613f6a299d0d..000000000000
---- a/arch/arm/mach-pxa/include/mach/generic.h
-+++ /dev/null
-@@ -1,5 +0,0 @@
--#ifdef CONFIG_PXA3xx
--extern unsigned	pxa3xx_get_clk_frequency_khz(int);
--#else
--#define pxa3xx_get_clk_frequency_khz(x)		(0)
--#endif
-diff --git a/arch/arm/mach-pxa/pxa3xx.c b/arch/arm/mach-pxa/pxa3xx.c
-index 7881888107c7..f4657f4edb3b 100644
---- a/arch/arm/mach-pxa/pxa3xx.c
-+++ b/arch/arm/mach-pxa/pxa3xx.c
-@@ -25,6 +25,7 @@
- #include <linux/platform_data/i2c-pxa.h>
- #include <linux/platform_data/mmp_dma.h>
+diff --git a/arch/arm/mach-pxa/generic.c b/arch/arm/mach-pxa/generic.c
+index 2c2c82fcf9cb..971d25e95a1a 100644
+--- a/arch/arm/mach-pxa/generic.c
++++ b/arch/arm/mach-pxa/generic.c
+@@ -18,6 +18,7 @@
+ #include <linux/kernel.h>
+ #include <linux/init.h>
  #include <linux/soc/pxa/cpu.h>
-+#include <linux/clk/pxa.h>
++#include <linux/soc/pxa/smemc.h>
  
  #include <asm/mach/map.h>
- #include <asm/suspend.h>
-diff --git a/drivers/clk/pxa/clk-pxa3xx.c b/drivers/clk/pxa/clk-pxa3xx.c
-index 027b78183565..60a0db4f3790 100644
---- a/drivers/clk/pxa/clk-pxa3xx.c
-+++ b/drivers/clk/pxa/clk-pxa3xx.c
-@@ -16,6 +16,7 @@
- #include <linux/of.h>
- #include <linux/soc/pxa/cpu.h>
- #include <mach/smemc.h>
-+#include <linux/clk/pxa.h>
- #include <mach/pxa3xx-regs.h>
- 
- #include <dt-bindings/clock/pxa-clock.h>
-@@ -79,6 +80,21 @@ unsigned int pxa3xx_get_clk_frequency_khz(int info)
- 	return (unsigned int)clks[0] / KHz;
+ #include <asm/mach-types.h>
+@@ -84,6 +85,11 @@ void pxa_smemc_set_pcmcia_socket(int nr)
  }
+ EXPORT_SYMBOL_GPL(pxa_smemc_set_pcmcia_socket);
  
-+void pxa3xx_clk_update_accr(u32 disable, u32 enable, u32 xclkcfg, u32 mask)
++void __iomem *pxa_smemc_get_mdrefr(void)
 +{
-+	u32 accr = ACCR;
-+
-+	accr &= ~disable;
-+	accr |= enable;
-+
-+	ACCR = accr;
-+	if (xclkcfg)
-+		__asm__("mcr p14, 0, %0, c6, c0, 0\n" : : "r"(xclkcfg));
-+
-+	while ((ACSR & mask) != (accr & mask))
-+		cpu_relax();
++	return MDREFR;
 +}
 +
- static unsigned long clk_pxa3xx_ac97_get_rate(struct clk_hw *hw,
- 					     unsigned long parent_rate)
- {
-diff --git a/drivers/cpufreq/pxa2xx-cpufreq.c b/drivers/cpufreq/pxa2xx-cpufreq.c
-index e74d36d6f78d..ed1ae061a687 100644
---- a/drivers/cpufreq/pxa2xx-cpufreq.c
-+++ b/drivers/cpufreq/pxa2xx-cpufreq.c
-@@ -27,9 +27,6 @@
- #include <linux/soc/pxa/cpu.h>
- #include <linux/io.h>
+ /*
+  * Intel PXA2xx internal register mapping.
+  *
+diff --git a/arch/arm/mach-pxa/pxa2xx.c b/arch/arm/mach-pxa/pxa2xx.c
+index ac72acb43e26..f583759ac00d 100644
+--- a/arch/arm/mach-pxa/pxa2xx.c
++++ b/arch/arm/mach-pxa/pxa2xx.c
+@@ -15,6 +15,7 @@
+ #include <mach/pxa2xx-regs.h>
+ #include "mfp-pxa25x.h"
+ #include <mach/reset.h>
++#include <mach/smemc.h>
+ #include <linux/platform_data/irda-pxaficp.h>
  
--#include <mach/pxa2xx-regs.h>
+ void pxa2xx_clear_reset_status(unsigned int mask)
+@@ -50,3 +51,27 @@ void pxa2xx_transceiver_mode(struct device *dev, int mode)
+ 		BUG();
+ }
+ EXPORT_SYMBOL_GPL(pxa2xx_transceiver_mode);
++
++#define MDCNFG_DRAC2(mdcnfg)	(((mdcnfg) >> 21) & 0x3)
++#define MDCNFG_DRAC0(mdcnfg)	(((mdcnfg) >> 5) & 0x3)
++
++int pxa2xx_smemc_get_sdram_rows(void)
++{
++	static int sdram_rows;
++	unsigned int drac2 = 0, drac0 = 0;
++	u32 mdcnfg;
++
++	if (sdram_rows)
++		return sdram_rows;
++
++	mdcnfg = readl_relaxed(MDCNFG);
++
++	if (mdcnfg & (MDCNFG_DE2 | MDCNFG_DE3))
++		drac2 = MDCNFG_DRAC2(mdcnfg);
++
++	if (mdcnfg & (MDCNFG_DE0 | MDCNFG_DE1))
++		drac0 = MDCNFG_DRAC0(mdcnfg);
++
++	sdram_rows = 1 << (11 + max(drac0, drac2));
++	return sdram_rows;
++}
+diff --git a/arch/arm/mach-pxa/pxa3xx.c b/arch/arm/mach-pxa/pxa3xx.c
+index f4657f4edb3b..d486efb79dcd 100644
+--- a/arch/arm/mach-pxa/pxa3xx.c
++++ b/arch/arm/mach-pxa/pxa3xx.c
+@@ -52,6 +52,10 @@ extern void __init pxa_dt_irq_init(int (*fn)(struct irq_data *, unsigned int));
+ #define NDCR_ND_ARB_EN		(1 << 12)
+ #define NDCR_ND_ARB_CNTL	(1 << 19)
+ 
++#define CKEN_BOOT  		11      /* < Boot rom clock enable */
++#define CKEN_TPM   		19      /* < TPM clock enable */
++#define CKEN_HSIO2 		41      /* < HSIO2 clock enable */
++
+ #ifdef CONFIG_PM
+ 
+ #define ISRAM_START	0x5c000000
+diff --git a/arch/arm/mach-pxa/smemc.c b/arch/arm/mach-pxa/smemc.c
+index 47b99549d616..da0eeafdb5a0 100644
+--- a/arch/arm/mach-pxa/smemc.c
++++ b/arch/arm/mach-pxa/smemc.c
+@@ -69,4 +69,13 @@ static int __init smemc_init(void)
+ 	return 0;
+ }
+ subsys_initcall(smemc_init);
++
+ #endif
++
++static const unsigned int df_clkdiv[4] = { 1, 2, 4, 1 };
++unsigned int pxa3xx_smemc_get_memclkdiv(void)
++{
++	unsigned long memclkcfg = __raw_readl(MEMCLKCFG);
++
++	return	df_clkdiv[(memclkcfg >> 16) & 0x3];
++}
+diff --git a/drivers/clk/pxa/clk-pxa.c b/drivers/clk/pxa/clk-pxa.c
+index cfc79f942b07..831180360069 100644
+--- a/drivers/clk/pxa/clk-pxa.c
++++ b/drivers/clk/pxa/clk-pxa.c
+@@ -11,6 +11,7 @@
+ #include <linux/clkdev.h>
+ #include <linux/io.h>
+ #include <linux/of.h>
++#include <linux/soc/pxa/smemc.h>
+ 
+ #include <dt-bindings/clock/pxa-clock.h>
+ #include "clk-pxa.h"
+@@ -150,12 +151,13 @@ void pxa2xx_core_turbo_switch(bool on)
+ }
+ 
+ void pxa2xx_cpll_change(struct pxa2xx_freq *freq,
+-			u32 (*mdrefr_dri)(unsigned int), void __iomem *mdrefr,
++			u32 (*mdrefr_dri)(unsigned int),
+ 			void __iomem *cccr)
+ {
+ 	unsigned int clkcfg = freq->clkcfg;
+ 	unsigned int unused, preset_mdrefr, postset_mdrefr;
+ 	unsigned long flags;
++	void __iomem *mdrefr = pxa_smemc_get_mdrefr();
+ 
+ 	local_irq_save(flags);
+ 
+diff --git a/drivers/clk/pxa/clk-pxa.h b/drivers/clk/pxa/clk-pxa.h
+index 5768e0f728ce..bd688fdb7ecc 100644
+--- a/drivers/clk/pxa/clk-pxa.h
++++ b/drivers/clk/pxa/clk-pxa.h
+@@ -146,12 +146,13 @@ static inline int dummy_clk_set_parent(struct clk_hw *hw, u8 index)
+ 
+ extern void clkdev_pxa_register(int ckid, const char *con_id,
+ 				const char *dev_id, struct clk *clk);
+-extern int clk_pxa_cken_init(const struct desc_clk_cken *clks, int nb_clks);
++extern int clk_pxa_cken_init(const struct desc_clk_cken *clks,
++			     int nb_clks);
+ void clk_pxa_dt_common_init(struct device_node *np);
+ 
+ void pxa2xx_core_turbo_switch(bool on);
+ void pxa2xx_cpll_change(struct pxa2xx_freq *freq,
+-			u32 (*mdrefr_dri)(unsigned int), void __iomem *mdrefr,
++			u32 (*mdrefr_dri)(unsigned int),
+ 			void __iomem *cccr);
+ int pxa2xx_determine_rate(struct clk_rate_request *req,
+ 			  struct pxa2xx_freq *freqs,  int nb_freqs);
+diff --git a/drivers/clk/pxa/clk-pxa25x.c b/drivers/clk/pxa/clk-pxa25x.c
+index d0f957996acb..0837d59d7a67 100644
+--- a/drivers/clk/pxa/clk-pxa25x.c
++++ b/drivers/clk/pxa/clk-pxa25x.c
+@@ -15,7 +15,7 @@
+ #include <linux/io.h>
+ #include <linux/of.h>
+ #include <mach/pxa2xx-regs.h>
 -#include <mach/smemc.h>
++#include <linux/soc/pxa/smemc.h>
+ 
+ #include <dt-bindings/clock/pxa-clock.h>
+ #include "clk-pxa.h"
+@@ -33,9 +33,6 @@ enum {
+ 	 ((T) ? CLKCFG_TURBO : 0))
+ #define PXA25x_CCCR(N2, M, L) (N2 << 7 | M << 5 | L)
+ 
+-#define MDCNFG_DRAC2(mdcnfg)	(((mdcnfg) >> 21) & 0x3)
+-#define MDCNFG_DRAC0(mdcnfg)	(((mdcnfg) >> 5) & 0x3)
 -
- #ifdef DEBUG
- static unsigned int freq_debug;
- module_param(freq_debug, uint, 0);
-diff --git a/drivers/cpufreq/pxa3xx-cpufreq.c b/drivers/cpufreq/pxa3xx-cpufreq.c
-index d3b398b4aa6a..4afa48d172db 100644
---- a/drivers/cpufreq/pxa3xx-cpufreq.c
-+++ b/drivers/cpufreq/pxa3xx-cpufreq.c
-@@ -9,12 +9,10 @@
- #include <linux/init.h>
- #include <linux/cpufreq.h>
+ /* Define the refresh period in mSec for the SDRAM and the number of rows */
+ #define SDRAM_TREF	64	/* standard 64ms SDRAM */
+ 
+@@ -57,30 +54,9 @@ static const char * const get_freq_khz[] = {
+ 	"core", "run", "cpll", "memory"
+ };
+ 
+-static int get_sdram_rows(void)
+-{
+-	static int sdram_rows;
+-	unsigned int drac2 = 0, drac0 = 0;
+-	u32 mdcnfg;
+-
+-	if (sdram_rows)
+-		return sdram_rows;
+-
+-	mdcnfg = readl_relaxed(MDCNFG);
+-
+-	if (mdcnfg & (MDCNFG_DE2 | MDCNFG_DE3))
+-		drac2 = MDCNFG_DRAC2(mdcnfg);
+-
+-	if (mdcnfg & (MDCNFG_DE0 | MDCNFG_DE1))
+-		drac0 = MDCNFG_DRAC0(mdcnfg);
+-
+-	sdram_rows = 1 << (11 + max(drac0, drac2));
+-	return sdram_rows;
+-}
+-
+ static u32 mdrefr_dri(unsigned int freq_khz)
+ {
+-	u32 interval = freq_khz * SDRAM_TREF / get_sdram_rows();
++	u32 interval = freq_khz * SDRAM_TREF / pxa2xx_smemc_get_sdram_rows();
+ 
+ 	return interval / 32;
+ }
+@@ -268,7 +244,7 @@ static int clk_pxa25x_cpll_set_rate(struct clk_hw *hw, unsigned long rate,
+ 	if (i >= ARRAY_SIZE(pxa25x_freqs))
+ 		return -EINVAL;
+ 
+-	pxa2xx_cpll_change(&pxa25x_freqs[i], mdrefr_dri, MDREFR, CCCR);
++	pxa2xx_cpll_change(&pxa25x_freqs[i], mdrefr_dri, CCCR);
+ 
+ 	return 0;
+ }
+diff --git a/drivers/clk/pxa/clk-pxa27x.c b/drivers/clk/pxa/clk-pxa27x.c
+index 7b123105b5de..ba3aa63f2447 100644
+--- a/drivers/clk/pxa/clk-pxa27x.c
++++ b/drivers/clk/pxa/clk-pxa27x.c
+@@ -12,8 +12,7 @@
+ #include <linux/clk.h>
+ #include <linux/clkdev.h>
+ #include <linux/of.h>
+-
+-#include <mach/smemc.h>
++#include <linux/soc/pxa/smemc.h>
+ 
+ #include <dt-bindings/clock/pxa-clock.h>
+ #include "clk-pxa.h"
+@@ -50,9 +49,6 @@ enum {
+ 	 ((T)  ? CLKCFG_TURBO : 0))
+ #define PXA27x_CCCR(A, L, N2) (A << 25 | N2 << 7 | L)
+ 
+-#define MDCNFG_DRAC2(mdcnfg)	(((mdcnfg) >> 21) & 0x3)
+-#define MDCNFG_DRAC0(mdcnfg)	(((mdcnfg) >> 5) & 0x3)
+-
+ /* Define the refresh period in mSec for the SDRAM and the number of rows */
+ #define SDRAM_TREF	64	/* standard 64ms SDRAM */
+ 
+@@ -61,30 +57,9 @@ static const char * const get_freq_khz[] = {
+ 	"system_bus"
+ };
+ 
+-static int get_sdram_rows(void)
+-{
+-	static int sdram_rows;
+-	unsigned int drac2 = 0, drac0 = 0;
+-	u32 mdcnfg;
+-
+-	if (sdram_rows)
+-		return sdram_rows;
+-
+-	mdcnfg = readl_relaxed(MDCNFG);
+-
+-	if (mdcnfg & (MDCNFG_DE2 | MDCNFG_DE3))
+-		drac2 = MDCNFG_DRAC2(mdcnfg);
+-
+-	if (mdcnfg & (MDCNFG_DE0 | MDCNFG_DE1))
+-		drac0 = MDCNFG_DRAC0(mdcnfg);
+-
+-	sdram_rows = 1 << (11 + max(drac0, drac2));
+-	return sdram_rows;
+-}
+-
+ static u32 mdrefr_dri(unsigned int freq_khz)
+ {
+-	u32 interval = freq_khz * SDRAM_TREF / get_sdram_rows();
++	u32 interval = freq_khz * SDRAM_TREF / pxa2xx_smemc_get_sdram_rows();
+ 
+ 	return (interval - 31) / 32;
+ }
+@@ -260,7 +235,7 @@ static int clk_pxa27x_cpll_set_rate(struct clk_hw *hw, unsigned long rate,
+ 	if (i >= ARRAY_SIZE(pxa27x_freqs))
+ 		return -EINVAL;
+ 
+-	pxa2xx_cpll_change(&pxa27x_freqs[i], mdrefr_dri, MDREFR, CCCR);
++	pxa2xx_cpll_change(&pxa27x_freqs[i], mdrefr_dri, CCCR);
+ 	return 0;
+ }
+ 
+diff --git a/drivers/clk/pxa/clk-pxa3xx.c b/drivers/clk/pxa/clk-pxa3xx.c
+index 60a0db4f3790..08594fc899e2 100644
+--- a/drivers/clk/pxa/clk-pxa3xx.c
++++ b/drivers/clk/pxa/clk-pxa3xx.c
+@@ -15,7 +15,7 @@
+ #include <linux/clkdev.h>
+ #include <linux/of.h>
  #include <linux/soc/pxa/cpu.h>
-+#include <linux/clk/pxa.h>
- #include <linux/slab.h>
- #include <linux/io.h>
+-#include <mach/smemc.h>
++#include <linux/soc/pxa/smemc.h>
+ #include <linux/clk/pxa.h>
+ #include <mach/pxa3xx-regs.h>
  
--#include <mach/generic.h>
--#include <mach/pxa3xx-regs.h>
+@@ -41,8 +41,6 @@ static unsigned char hss_mult[4] = { 8, 12, 16, 24 };
+ 
+ /* crystal frequency to static memory controller multiplier (SMCFS) */
+ static unsigned int smcfs_mult[8] = { 6, 0, 8, 0, 0, 16, };
+-static unsigned int df_clkdiv[4] = { 1, 2, 4, 1 };
 -
- #define HSS_104M	(0)
- #define HSS_156M	(1)
- #define HSS_208M	(2)
-@@ -35,6 +33,28 @@
- #define DMCFS_26M	(0)
- #define DMCFS_260M	(3)
- 
-+#define ACCR_XPDIS		(1 << 31)	/* Core PLL Output Disable */
-+#define ACCR_SPDIS		(1 << 30)	/* System PLL Output Disable */
-+#define ACCR_D0CS		(1 << 26)	/* D0 Mode Clock Select */
-+#define ACCR_PCCE		(1 << 11)	/* Power Mode Change Clock Enable */
-+#define ACCR_DDR_D0CS		(1 << 7)	/* DDR SDRAM clock frequency in D0CS (PXA31x only) */
-+
-+#define ACCR_SMCFS_MASK		(0x7 << 23)	/* Static Memory Controller Frequency Select */
-+#define ACCR_SFLFS_MASK		(0x3 << 18)	/* Frequency Select for Internal Memory Controller */
-+#define ACCR_XSPCLK_MASK	(0x3 << 16)	/* Core Frequency during Frequency Change */
-+#define ACCR_HSS_MASK		(0x3 << 14)	/* System Bus-Clock Frequency Select */
-+#define ACCR_DMCFS_MASK		(0x3 << 12)	/* Dynamic Memory Controller Clock Frequency Select */
-+#define ACCR_XN_MASK		(0x7 << 8)	/* Core PLL Turbo-Mode-to-Run-Mode Ratio */
-+#define ACCR_XL_MASK		(0x1f)		/* Core PLL Run-Mode-to-Oscillator Ratio */
-+
-+#define ACCR_SMCFS(x)		(((x) & 0x7) << 23)
-+#define ACCR_SFLFS(x)		(((x) & 0x3) << 18)
-+#define ACCR_XSPCLK(x)		(((x) & 0x3) << 16)
-+#define ACCR_HSS(x)		(((x) & 0x3) << 14)
-+#define ACCR_DMCFS(x)		(((x) & 0x3) << 12)
-+#define ACCR_XN(x)		(((x) & 0x7) << 8)
-+#define ACCR_XL(x)		((x) & 0x1f)
-+
- struct pxa3xx_freq_info {
- 	unsigned int cpufreq_mhz;
- 	unsigned int core_xl : 5;
-@@ -112,41 +132,29 @@ static int setup_freqs_table(struct cpufreq_policy *policy,
- 
- static void __update_core_freq(struct pxa3xx_freq_info *info)
+ static const char * const get_freq_khz[] = {
+ 	"core", "ring_osc_60mhz", "run", "cpll", "system_bus"
+ };
+@@ -118,10 +116,10 @@ static unsigned long clk_pxa3xx_smemc_get_rate(struct clk_hw *hw,
+ 					      unsigned long parent_rate)
  {
--	uint32_t mask = ACCR_XN_MASK | ACCR_XL_MASK;
--	uint32_t accr = ACCR;
--	uint32_t xclkcfg;
--
--	accr &= ~(ACCR_XN_MASK | ACCR_XL_MASK | ACCR_XSPCLK_MASK);
--	accr |= ACCR_XN(info->core_xn) | ACCR_XL(info->core_xl);
-+	u32 mask, disable, enable, xclkcfg;
+ 	unsigned long acsr = ACSR;
+-	unsigned long memclkcfg = __raw_readl(MEMCLKCFG);
  
-+	mask	= ACCR_XN_MASK | ACCR_XL_MASK;
-+	disable = mask | ACCR_XSPCLK_MASK;
-+	enable  = ACCR_XN(info->core_xn) | ACCR_XL(info->core_xl);
- 	/* No clock until core PLL is re-locked */
--	accr |= ACCR_XSPCLK(XSPCLK_NONE);
--
-+	enable |= ACCR_XSPCLK(XSPCLK_NONE);
- 	xclkcfg = (info->core_xn == 2) ? 0x3 : 0x2;	/* turbo bit */
- 
--	ACCR = accr;
--	__asm__("mcr p14, 0, %0, c6, c0, 0\n" : : "r"(xclkcfg));
--
--	while ((ACSR & mask) != (accr & mask))
--		cpu_relax();
-+	pxa3xx_clk_update_accr(disable, enable, xclkcfg, mask);
- }
- 
- static void __update_bus_freq(struct pxa3xx_freq_info *info)
- {
--	uint32_t mask;
--	uint32_t accr = ACCR;
--
--	mask = ACCR_SMCFS_MASK | ACCR_SFLFS_MASK | ACCR_HSS_MASK |
--		ACCR_DMCFS_MASK;
--
--	accr &= ~mask;
--	accr |= ACCR_SMCFS(info->smcfs) | ACCR_SFLFS(info->sflfs) |
--		ACCR_HSS(info->hss) | ACCR_DMCFS(info->dmcfs);
-+	u32 mask, disable, enable;
- 
--	ACCR = accr;
-+	mask	= ACCR_SMCFS_MASK | ACCR_SFLFS_MASK | ACCR_HSS_MASK |
-+		  ACCR_DMCFS_MASK;
-+	disable = mask;
-+	enable	= ACCR_SMCFS(info->smcfs) | ACCR_SFLFS(info->sflfs) |
-+		  ACCR_HSS(info->hss) | ACCR_DMCFS(info->dmcfs);
- 
--	while ((ACSR & mask) != (accr & mask))
--		cpu_relax();
-+	pxa3xx_clk_update_accr(disable, enable, 0, mask);
- }
- 
- static unsigned int pxa3xx_cpufreq_get(unsigned int cpu)
-diff --git a/include/linux/clk/pxa.h b/include/linux/clk/pxa.h
-new file mode 100644
-index 000000000000..e5516c608c99
---- /dev/null
-+++ b/include/linux/clk/pxa.h
-@@ -0,0 +1,9 @@
-+/* SPDX-License-Identifier: GPL-2.0-only */
+ 	return (parent_rate / 48)  * smcfs_mult[(acsr >> 23) & 0x7] /
+-		df_clkdiv[(memclkcfg >> 16) & 0x3];
++		pxa3xx_smemc_get_memclkdiv();
 +
-+#ifdef CONFIG_PXA3xx
-+extern unsigned	pxa3xx_get_clk_frequency_khz(int);
-+extern void pxa3xx_clk_update_accr(u32 disable, u32 enable, u32 xclkcfg, u32 mask);
-+#else
-+#define pxa3xx_get_clk_frequency_khz(x)		(0)
-+#define pxa3xx_clk_update_accr(disable, enable, xclkcfg, mask) do { } while (0)
-+#endif
+ }
+ PARENTS(clk_pxa3xx_smemc) = { "spll_624mhz" };
+ RATE_RO_OPS(clk_pxa3xx_smemc, "smemc");
+diff --git a/include/linux/soc/pxa/smemc.h b/include/linux/soc/pxa/smemc.h
+index cbf1a2d8af29..f1ffea236c15 100644
+--- a/include/linux/soc/pxa/smemc.h
++++ b/include/linux/soc/pxa/smemc.h
+@@ -6,5 +6,8 @@
+ 
+ void pxa_smemc_set_pcmcia_timing(int sock, u32 mcmem, u32 mcatt, u32 mcio);
+ void pxa_smemc_set_pcmcia_socket(int nr);
++int pxa2xx_smemc_get_sdram_rows(void);
++unsigned int pxa3xx_smemc_get_memclkdiv(void);
++void __iomem *pxa_smemc_get_mdrefr(void);
+ 
+ #endif
 -- 
 2.29.2
 
