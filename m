@@ -1,39 +1,42 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9FD8F5067E6
-	for <lists+dri-devel@lfdr.de>; Tue, 19 Apr 2022 11:41:59 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id B73135067E8
+	for <lists+dri-devel@lfdr.de>; Tue, 19 Apr 2022 11:42:02 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id A0B7310EEE4;
-	Tue, 19 Apr 2022 09:41:53 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 2249B10EEE5;
+	Tue, 19 Apr 2022 09:41:54 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from mailgw01.mediatek.com (unknown [60.244.123.138])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 8E85910EEBA
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 6998010EE92
  for <dri-devel@lists.freedesktop.org>; Tue, 19 Apr 2022 09:41:52 +0000 (UTC)
-X-UUID: bb58470cef2a44e08364e28b5393714f-20220419
+X-UUID: 5f9f6aee4aa44450a5b6bdef06fd85b2-20220419
 X-CID-P-RULE: Release_Ham
-X-CID-O-INFO: VERSION:1.1.4, REQID:0e89a9e1-70be-4d1f-9110-fdf465bfdedb, OB:50,
+X-CID-O-INFO: VERSION:1.1.4, REQID:40a06a99-bd2a-4d53-96ac-2f17a6cb277b, OB:30,
  L
- OB:10,IP:0,URL:0,TC:0,Content:0,EDM:0,RT:0,SF:100,FILE:0,RULE:Release_Ham,
- ACTION:release,TS:100
-X-CID-INFO: VERSION:1.1.4, REQID:0e89a9e1-70be-4d1f-9110-fdf465bfdedb, OB:50,
+ OB:0,IP:0,URL:0,TC:0,Content:0,EDM:0,RT:0,SF:95,FILE:0,RULE:Release_Ham,AC
+ TION:release,TS:95
+X-CID-INFO: VERSION:1.1.4, REQID:40a06a99-bd2a-4d53-96ac-2f17a6cb277b, OB:30,
  LOB
- :10,IP:0,URL:0,TC:0,Content:0,EDM:0,RT:0,SF:100,FILE:0,RULE:Spam_GS981B3D,
- ACTION:quarantine,TS:100
-X-CID-META: VersionHash:faefae9, CLOUDID:756f5eef-06b0-4305-bfbf-554bfc9d151a,
+ :0,IP:0,URL:0,TC:0,Content:0,EDM:0,RT:0,SF:95,FILE:0,RULE:Spam_GS981B3D,AC
+ TION:quarantine,TS:95
+X-CID-META: VersionHash:faefae9, CLOUDID:706f5eef-06b0-4305-bfbf-554bfc9d151a,
  C
  OID:87016cecdd16,Recheck:0,SF:13|15|28|17|19|48,TC:nil,Content:0,EDM:-3,Fi
  le:nil,QS:0,BEC:nil
-X-UUID: bb58470cef2a44e08364e28b5393714f-20220419
+X-UUID: 5f9f6aee4aa44450a5b6bdef06fd85b2-20220419
 Received: from mtkcas10.mediatek.inc [(172.21.101.39)] by mailgw01.mediatek.com
  (envelope-from <jason-jh.lin@mediatek.com>)
  (Generic MTA with TLSv1.2 ECDHE-RSA-AES256-SHA384 256/256)
- with ESMTP id 35884743; Tue, 19 Apr 2022 17:41:48 +0800
-Received: from mtkcas11.mediatek.inc (172.21.101.40) by
+ with ESMTP id 1058074878; Tue, 19 Apr 2022 17:41:48 +0800
+Received: from mtkexhb01.mediatek.inc (172.21.101.102) by
  mtkmbs10n2.mediatek.inc (172.21.101.183) with Microsoft SMTP Server
  (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_CBC_SHA384) id 15.2.792.3; 
+ Tue, 19 Apr 2022 17:41:47 +0800
+Received: from mtkcas11.mediatek.inc (172.21.101.40) by mtkexhb01.mediatek.inc
+ (172.21.101.102) with Microsoft SMTP Server (TLS) id 15.0.1497.2;
  Tue, 19 Apr 2022 17:41:46 +0800
 Received: from mtksdccf07.mediatek.inc (172.21.84.99) by mtkcas11.mediatek.inc
  (172.21.101.73) with Microsoft SMTP Server id 15.0.1497.2 via
@@ -42,10 +45,9 @@ From: jason-jh.lin <jason-jh.lin@mediatek.com>
 To: Matthias Brugger <matthias.bgg@gmail.com>, Chun-Kuang Hu
  <chunkuang.hu@kernel.org>, AngeloGioacchino Del Regno
  <angelogioacchino.delregno@collabora.com>
-Subject: [PATCH v20 7/8] drm/mediatek: add suffix 0 to DDP_COMPONENT_DITHER
- for mt8195 vdosys0
-Date: Tue, 19 Apr 2022 17:41:42 +0800
-Message-ID: <20220419094143.9561-8-jason-jh.lin@mediatek.com>
+Subject: [PATCH v20 8/8] soc: mediatek: remove DDP_DOMPONENT_DITHER from enum
+Date: Tue, 19 Apr 2022 17:41:43 +0800
+Message-ID: <20220419094143.9561-9-jason-jh.lin@mediatek.com>
 X-Mailer: git-send-email 2.18.0
 In-Reply-To: <20220419094143.9561-1-jason-jh.lin@mediatek.com>
 References: <20220419094143.9561-1-jason-jh.lin@mediatek.com>
@@ -73,72 +75,29 @@ Cc: devicetree@vger.kernel.org, Jason-JH Lin <jason-jh.lin@mediatek.com>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Because mt8195 vdosys0 has 2 DITHER components,
-so the suffix 0 need to be added to DDP_COMPONENT_DITHER.
-
-Then DITHER enum will become:
-DDP_COMPONENT_DITHER0 and DDP_COMPONENT_DITHER1.
+After mmsys and drm change DITHER enum to DDP_COMPONENT_DITHER0,
+mmsys header can remove the useless DDP_COMPONENT_DITHER enum.
 
 Signed-off-by: jason-jh.lin <jason-jh.lin@mediatek.com>
 Reviewed-by: AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>
 ---
- drivers/gpu/drm/mediatek/mtk_drm_ddp_comp.c | 2 +-
- drivers/gpu/drm/mediatek/mtk_drm_drv.c      | 8 ++++----
- 2 files changed, 5 insertions(+), 5 deletions(-)
+ include/linux/soc/mediatek/mtk-mmsys.h | 3 +--
+ 1 file changed, 1 insertion(+), 2 deletions(-)
 
-diff --git a/drivers/gpu/drm/mediatek/mtk_drm_ddp_comp.c b/drivers/gpu/drm/mediatek/mtk_drm_ddp_comp.c
-index f683e768d61b..95722de4986b 100644
---- a/drivers/gpu/drm/mediatek/mtk_drm_ddp_comp.c
-+++ b/drivers/gpu/drm/mediatek/mtk_drm_ddp_comp.c
-@@ -420,7 +420,7 @@ static const struct mtk_ddp_comp_match mtk_ddp_matches[DDP_COMPONENT_ID_MAX] = {
- 	[DDP_COMPONENT_CCORR]		= { MTK_DISP_CCORR,	0, &ddp_ccorr },
- 	[DDP_COMPONENT_COLOR0]		= { MTK_DISP_COLOR,	0, &ddp_color },
- 	[DDP_COMPONENT_COLOR1]		= { MTK_DISP_COLOR,	1, &ddp_color },
--	[DDP_COMPONENT_DITHER]		= { MTK_DISP_DITHER,	0, &ddp_dither },
-+	[DDP_COMPONENT_DITHER0]		= { MTK_DISP_DITHER,	0, &ddp_dither },
- 	[DDP_COMPONENT_DPI0]		= { MTK_DPI,		0, &ddp_dpi },
- 	[DDP_COMPONENT_DPI1]		= { MTK_DPI,		1, &ddp_dpi },
- 	[DDP_COMPONENT_DSC0]		= { MTK_DISP_DSC,	0, &ddp_dsc },
-diff --git a/drivers/gpu/drm/mediatek/mtk_drm_drv.c b/drivers/gpu/drm/mediatek/mtk_drm_drv.c
-index a3d01940d4c6..f7c4fa10a235 100644
---- a/drivers/gpu/drm/mediatek/mtk_drm_drv.c
-+++ b/drivers/gpu/drm/mediatek/mtk_drm_drv.c
-@@ -118,7 +118,7 @@ static enum mtk_ddp_comp_id mt8167_mtk_ddp_main[] = {
+diff --git a/include/linux/soc/mediatek/mtk-mmsys.h b/include/linux/soc/mediatek/mtk-mmsys.h
+index 59117d970daf..fb719fd1281c 100644
+--- a/include/linux/soc/mediatek/mtk-mmsys.h
++++ b/include/linux/soc/mediatek/mtk-mmsys.h
+@@ -16,8 +16,7 @@ enum mtk_ddp_comp_id {
  	DDP_COMPONENT_CCORR,
- 	DDP_COMPONENT_AAL0,
- 	DDP_COMPONENT_GAMMA,
+ 	DDP_COMPONENT_COLOR0,
+ 	DDP_COMPONENT_COLOR1,
 -	DDP_COMPONENT_DITHER,
+-	DDP_COMPONENT_DITHER0 = DDP_COMPONENT_DITHER,
 +	DDP_COMPONENT_DITHER0,
- 	DDP_COMPONENT_RDMA0,
- 	DDP_COMPONENT_DSI0,
- };
-@@ -150,7 +150,7 @@ static const enum mtk_ddp_comp_id mt8183_mtk_ddp_main[] = {
- 	DDP_COMPONENT_CCORR,
- 	DDP_COMPONENT_AAL0,
- 	DDP_COMPONENT_GAMMA,
--	DDP_COMPONENT_DITHER,
-+	DDP_COMPONENT_DITHER0,
- 	DDP_COMPONENT_DSI0,
- };
- 
-@@ -169,7 +169,7 @@ static const enum mtk_ddp_comp_id mt8192_mtk_ddp_main[] = {
- 	DDP_COMPONENT_AAL0,
- 	DDP_COMPONENT_GAMMA,
- 	DDP_COMPONENT_POSTMASK0,
--	DDP_COMPONENT_DITHER,
-+	DDP_COMPONENT_DITHER0,
- 	DDP_COMPONENT_DSI0,
- };
- 
-@@ -186,7 +186,7 @@ static const enum mtk_ddp_comp_id mt8195_mtk_ddp_main[] = {
- 	DDP_COMPONENT_CCORR,
- 	DDP_COMPONENT_AAL0,
- 	DDP_COMPONENT_GAMMA,
--	DDP_COMPONENT_DITHER,
-+	DDP_COMPONENT_DITHER0,
- 	DDP_COMPONENT_DSC0,
- 	DDP_COMPONENT_MERGE0,
+ 	DDP_COMPONENT_DITHER1,
  	DDP_COMPONENT_DP_INTF0,
+ 	DDP_COMPONENT_DP_INTF1,
 -- 
 2.18.0
 
