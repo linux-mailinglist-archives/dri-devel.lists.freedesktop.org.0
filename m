@@ -1,41 +1,41 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id F0B9D50731A
-	for <lists+dri-devel@lfdr.de>; Tue, 19 Apr 2022 18:39:10 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 7CF5550732C
+	for <lists+dri-devel@lfdr.de>; Tue, 19 Apr 2022 18:39:18 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id D614010EF09;
-	Tue, 19 Apr 2022 16:39:08 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 6B8F210EF0E;
+	Tue, 19 Apr 2022 16:39:16 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from dfw.source.kernel.org (dfw.source.kernel.org
  [IPv6:2604:1380:4641:c500::1])
- by gabe.freedesktop.org (Postfix) with ESMTPS id E473110EF09
- for <dri-devel@lists.freedesktop.org>; Tue, 19 Apr 2022 16:39:06 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id BED0410EF0E
+ for <dri-devel@lists.freedesktop.org>; Tue, 19 Apr 2022 16:39:14 +0000 (UTC)
 Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
  (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
  (No client certificate requested)
- by dfw.source.kernel.org (Postfix) with ESMTPS id 714FA617D1;
+ by dfw.source.kernel.org (Postfix) with ESMTPS id 3D8E96183C;
+ Tue, 19 Apr 2022 16:39:14 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id B34BBC385A5;
  Tue, 19 Apr 2022 16:39:06 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id F23EEC385AB;
- Tue, 19 Apr 2022 16:38:58 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1650386346;
- bh=/w2/TuJUuh8aAeAb2m2RYQ0ha5XDa7wX5MqtonXBziw=;
+ s=k20201202; t=1650386354;
+ bh=iNfaqPXbxvJ8CzkrujTl+KTX1dXRxdfsCaFm+BFdUkw=;
  h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
- b=JSa8soCOWoHbvEvEMCJM5/utpcask8B1DWr5x2vp91tbyaynmX0rTSsEKOTeoQHXR
- xSRS3Xno7rnCUQ3pMwm4mb0C5Nn4Un3kthir4lze9lCf7arGoOqvJyX6s9isYF1BTg
- 81xrpPmbsNyOwda4gry9Su9QAWOc6aLDIvSCivZ6D7ALqa5hnnFk8qqp6WGo4H0jz/
- n3cmV2yg+Hsqp/2KBOQWv4OG8fsDhuMeF3RquJVsVmQ3r03jGQ5Jb/kE9Eg+MfTnPV
- 0fhh0N+QRSE/UK4kqmfvj+oYMYiI2cyul44m5sN6XHaZpuap2KcE/Ox9+lUvfY7liW
- OcEgijUbKxbQQ==
+ b=bfRkXwjMc9oek9+kpE3h7BCEd05AgRXzISzSv39xtx/qe6Q/2hxmd3obXTk9UB36X
+ +q4K5dVdjE3QggFgrTvjYnWJW1DdumolThYG/Etv/6l46iOKZpsTRoAEErpmmuzy/U
+ lUmHdvOnaZOz3V1CaFwc0LstSClQkNGYSguKhmK3DQNsD7u/0DwgzqR9wbmaqBeb3U
+ gj8yt11H4YBBVesxMPSkz9sQGyQQ2mEHodmsWtzBM5xh6K1SJLtjD+piWx4+Ajg4Jr
+ LtTB6YXt4UPB2SD8A7KAOdJAvbYsNgQ2Zzg1xKK1Z0QY63UFZvEjMGPJhE0gvn5f2x
+ 4UMXt0euV9HXA==
 From: Arnd Bergmann <arnd@kernel.org>
 To: robert.jarzmik@free.fr,
 	linux-arm-kernel@lists.infradead.org
-Subject: [PATCH 02/48] ARM: pxa: make mainstone.h private
-Date: Tue, 19 Apr 2022 18:37:24 +0200
-Message-Id: <20220419163810.2118169-3-arnd@kernel.org>
+Subject: [PATCH 03/48] ARM: pxa: make mach/regs-uart.h private
+Date: Tue, 19 Apr 2022 18:37:25 +0200
+Message-Id: <20220419163810.2118169-4-arnd@kernel.org>
 X-Mailer: git-send-email 2.29.2
 In-Reply-To: <20220419163810.2118169-1-arnd@kernel.org>
 References: <20220419163810.2118169-1-arnd@kernel.org>
@@ -76,44 +76,48 @@ Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 From: Arnd Bergmann <arnd@arndb.de>
 
-No driver includes this any more, so don't expose it globally.
+This is not used by any drivers, so make it private to the
+platform.
 
 Acked-by: Robert Jarzmik <robert.jarzmik@free.fr>
 Signed-off-by: Arnd Bergmann <arnd@arndb.de>
 ---
- arch/arm/mach-pxa/mainstone.c                    | 2 +-
- arch/arm/mach-pxa/{include/mach => }/mainstone.h | 2 --
- 2 files changed, 1 insertion(+), 3 deletions(-)
- rename arch/arm/mach-pxa/{include/mach => }/mainstone.h (99%)
+ arch/arm/mach-pxa/{include/mach => }/regs-uart.h | 0
+ arch/arm/mach-pxa/viper.c                        | 2 +-
+ arch/arm/mach-pxa/zeus.c                         | 2 +-
+ 3 files changed, 2 insertions(+), 2 deletions(-)
+ rename arch/arm/mach-pxa/{include/mach => }/regs-uart.h (100%)
 
-diff --git a/arch/arm/mach-pxa/mainstone.c b/arch/arm/mach-pxa/mainstone.c
-index d237bd030238..997f6e502201 100644
---- a/arch/arm/mach-pxa/mainstone.c
-+++ b/arch/arm/mach-pxa/mainstone.c
-@@ -45,7 +45,7 @@
- #include <asm/mach/flash.h>
- 
- #include "pxa27x.h"
--#include <mach/mainstone.h>
-+#include "mainstone.h"
+diff --git a/arch/arm/mach-pxa/include/mach/regs-uart.h b/arch/arm/mach-pxa/regs-uart.h
+similarity index 100%
+rename from arch/arm/mach-pxa/include/mach/regs-uart.h
+rename to arch/arm/mach-pxa/regs-uart.h
+diff --git a/arch/arm/mach-pxa/viper.c b/arch/arm/mach-pxa/viper.c
+index 3aa34e9a15d3..4b81c0117971 100644
+--- a/arch/arm/mach-pxa/viper.c
++++ b/arch/arm/mach-pxa/viper.c
+@@ -48,7 +48,7 @@
+ #include "pxa25x.h"
  #include <mach/audio.h>
  #include <linux/platform_data/video-pxafb.h>
+-#include <mach/regs-uart.h>
++#include "regs-uart.h"
+ #include <linux/platform_data/pcmcia-pxa2xx_viper.h>
+ #include "viper.h"
+ 
+diff --git a/arch/arm/mach-pxa/zeus.c b/arch/arm/mach-pxa/zeus.c
+index 97700429633e..5d02f10b5b5a 100644
+--- a/arch/arm/mach-pxa/zeus.c
++++ b/arch/arm/mach-pxa/zeus.c
+@@ -39,7 +39,7 @@
+ 
+ #include "pxa27x.h"
+ #include "devices.h"
+-#include <mach/regs-uart.h>
++#include "regs-uart.h"
+ #include <linux/platform_data/usb-ohci-pxa27x.h>
  #include <linux/platform_data/mmc-pxamci.h>
-diff --git a/arch/arm/mach-pxa/include/mach/mainstone.h b/arch/arm/mach-pxa/mainstone.h
-similarity index 99%
-rename from arch/arm/mach-pxa/include/mach/mainstone.h
-rename to arch/arm/mach-pxa/mainstone.h
-index 1698f2ffd7c7..ba003742e003 100644
---- a/arch/arm/mach-pxa/include/mach/mainstone.h
-+++ b/arch/arm/mach-pxa/mainstone.h
-@@ -1,7 +1,5 @@
- /* SPDX-License-Identifier: GPL-2.0-only */
- /*
-- *  arch/arm/mach-pxa/include/mach/mainstone.h
-- *
-  *  Author:	Nicolas Pitre
-  *  Created:	Nov 14, 2002
-  *  Copyright:	MontaVista Software Inc.
+ #include "pxa27x-udc.h"
 -- 
 2.29.2
 
