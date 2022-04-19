@@ -1,41 +1,41 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 695CE507319
-	for <lists+dri-devel@lfdr.de>; Tue, 19 Apr 2022 18:39:04 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id F0B9D50731A
+	for <lists+dri-devel@lfdr.de>; Tue, 19 Apr 2022 18:39:10 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 0619310EEAD;
-	Tue, 19 Apr 2022 16:39:02 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id D614010EF09;
+	Tue, 19 Apr 2022 16:39:08 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from dfw.source.kernel.org (dfw.source.kernel.org
  [IPv6:2604:1380:4641:c500::1])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 31D2810EEAD
- for <dri-devel@lists.freedesktop.org>; Tue, 19 Apr 2022 16:39:00 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id E473110EF09
+ for <dri-devel@lists.freedesktop.org>; Tue, 19 Apr 2022 16:39:06 +0000 (UTC)
 Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
  (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
  (No client certificate requested)
- by dfw.source.kernel.org (Postfix) with ESMTPS id B7B116182A;
- Tue, 19 Apr 2022 16:38:59 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 39045C385AD;
- Tue, 19 Apr 2022 16:38:51 +0000 (UTC)
+ by dfw.source.kernel.org (Postfix) with ESMTPS id 714FA617D1;
+ Tue, 19 Apr 2022 16:39:06 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id F23EEC385AB;
+ Tue, 19 Apr 2022 16:38:58 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1650386338;
- bh=KbcdSb50IQLQ5D4tI3ok5xmRy9ObZ3/EmRI64VTM1Ss=;
+ s=k20201202; t=1650386346;
+ bh=/w2/TuJUuh8aAeAb2m2RYQ0ha5XDa7wX5MqtonXBziw=;
  h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
- b=QdhTX8pdRbp03NZ9vJpKvlEH0f/LQ43kdIDE3RiWKCHCHI1TeOSV/h2lIhOb318AW
- qWgSeA57UjCVL2jEug5iXpiU3mmK/354NQ7BZZIb9uPi9MiVkVOeUEGuZsTOgD41GY
- JfVGfCCTpEMKv6X6RuFhSjWrhsQPeXXxyjFo/OdB8ASzElshH+x6UD5qpMCTWmAYC7
- AXB9H/drECTb92IRbZrdKrOOpeSOW8QoqDJbS5crGpQ7xd/widOORb3SdNeLR9EN9S
- ElsaYiojOripJNV5hRBJsghB+2VBpHBksg2eN/ab95uYvn/xZ0GoVDa0g9fnVVshoW
- 6HGGo/JgU6q3A==
+ b=JSa8soCOWoHbvEvEMCJM5/utpcask8B1DWr5x2vp91tbyaynmX0rTSsEKOTeoQHXR
+ xSRS3Xno7rnCUQ3pMwm4mb0C5Nn4Un3kthir4lze9lCf7arGoOqvJyX6s9isYF1BTg
+ 81xrpPmbsNyOwda4gry9Su9QAWOc6aLDIvSCivZ6D7ALqa5hnnFk8qqp6WGo4H0jz/
+ n3cmV2yg+Hsqp/2KBOQWv4OG8fsDhuMeF3RquJVsVmQ3r03jGQ5Jb/kE9Eg+MfTnPV
+ 0fhh0N+QRSE/UK4kqmfvj+oYMYiI2cyul44m5sN6XHaZpuap2KcE/Ox9+lUvfY7liW
+ OcEgijUbKxbQQ==
 From: Arnd Bergmann <arnd@kernel.org>
 To: robert.jarzmik@free.fr,
 	linux-arm-kernel@lists.infradead.org
-Subject: [PATCH 01/48] ARM: pxa: split mach/generic.h
-Date: Tue, 19 Apr 2022 18:37:23 +0200
-Message-Id: <20220419163810.2118169-2-arnd@kernel.org>
+Subject: [PATCH 02/48] ARM: pxa: make mainstone.h private
+Date: Tue, 19 Apr 2022 18:37:24 +0200
+Message-Id: <20220419163810.2118169-3-arnd@kernel.org>
 X-Mailer: git-send-email 2.29.2
 In-Reply-To: <20220419163810.2118169-1-arnd@kernel.org>
 References: <20220419163810.2118169-1-arnd@kernel.org>
@@ -76,49 +76,44 @@ Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 From: Arnd Bergmann <arnd@arndb.de>
 
-Only one declaration from this header is actually used in drivers,
-so move that one into the global location and leave everything else
-private.
+No driver includes this any more, so don't expose it globally.
 
 Acked-by: Robert Jarzmik <robert.jarzmik@free.fr>
 Signed-off-by: Arnd Bergmann <arnd@arndb.de>
 ---
- arch/arm/mach-pxa/generic.h              | 6 +-----
- arch/arm/mach-pxa/include/mach/generic.h | 6 +++++-
- 2 files changed, 6 insertions(+), 6 deletions(-)
+ arch/arm/mach-pxa/mainstone.c                    | 2 +-
+ arch/arm/mach-pxa/{include/mach => }/mainstone.h | 2 --
+ 2 files changed, 1 insertion(+), 3 deletions(-)
+ rename arch/arm/mach-pxa/{include/mach => }/mainstone.h (99%)
 
-diff --git a/arch/arm/mach-pxa/generic.h b/arch/arm/mach-pxa/generic.h
-index 3b7873f8e1f8..67925d3ea026 100644
---- a/arch/arm/mach-pxa/generic.h
-+++ b/arch/arm/mach-pxa/generic.h
-@@ -7,6 +7,7 @@
-  */
+diff --git a/arch/arm/mach-pxa/mainstone.c b/arch/arm/mach-pxa/mainstone.c
+index d237bd030238..997f6e502201 100644
+--- a/arch/arm/mach-pxa/mainstone.c
++++ b/arch/arm/mach-pxa/mainstone.c
+@@ -45,7 +45,7 @@
+ #include <asm/mach/flash.h>
  
- #include <linux/reboot.h>
-+#include <mach/generic.h>
- 
- struct irq_data;
- 
-@@ -71,8 +72,3 @@ extern unsigned pxa25x_get_clk_frequency_khz(int);
- #define pxa27x_get_clk_frequency_khz(x)		(0)
- #endif
- 
--#ifdef CONFIG_PXA3xx
--extern unsigned	pxa3xx_get_clk_frequency_khz(int);
--#else
--#define pxa3xx_get_clk_frequency_khz(x)		(0)
--#endif
-diff --git a/arch/arm/mach-pxa/include/mach/generic.h b/arch/arm/mach-pxa/include/mach/generic.h
-index 665542e0c9e2..613f6a299d0d 100644
---- a/arch/arm/mach-pxa/include/mach/generic.h
-+++ b/arch/arm/mach-pxa/include/mach/generic.h
-@@ -1 +1,5 @@
--#include "../../generic.h"
-+#ifdef CONFIG_PXA3xx
-+extern unsigned	pxa3xx_get_clk_frequency_khz(int);
-+#else
-+#define pxa3xx_get_clk_frequency_khz(x)		(0)
-+#endif
+ #include "pxa27x.h"
+-#include <mach/mainstone.h>
++#include "mainstone.h"
+ #include <mach/audio.h>
+ #include <linux/platform_data/video-pxafb.h>
+ #include <linux/platform_data/mmc-pxamci.h>
+diff --git a/arch/arm/mach-pxa/include/mach/mainstone.h b/arch/arm/mach-pxa/mainstone.h
+similarity index 99%
+rename from arch/arm/mach-pxa/include/mach/mainstone.h
+rename to arch/arm/mach-pxa/mainstone.h
+index 1698f2ffd7c7..ba003742e003 100644
+--- a/arch/arm/mach-pxa/include/mach/mainstone.h
++++ b/arch/arm/mach-pxa/mainstone.h
+@@ -1,7 +1,5 @@
+ /* SPDX-License-Identifier: GPL-2.0-only */
+ /*
+- *  arch/arm/mach-pxa/include/mach/mainstone.h
+- *
+  *  Author:	Nicolas Pitre
+  *  Created:	Nov 14, 2002
+  *  Copyright:	MontaVista Software Inc.
 -- 
 2.29.2
 
