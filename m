@@ -1,82 +1,61 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id C2F84506677
-	for <lists+dri-devel@lfdr.de>; Tue, 19 Apr 2022 10:02:43 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id A7E2150674A
+	for <lists+dri-devel@lfdr.de>; Tue, 19 Apr 2022 10:56:36 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 0434D10E09A;
-	Tue, 19 Apr 2022 08:02:39 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 3646D10E8F0;
+	Tue, 19 Apr 2022 08:56:33 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from us-smtp-delivery-124.mimecast.com
- (us-smtp-delivery-124.mimecast.com [170.10.133.124])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 781B110E09A
- for <dri-devel@lists.freedesktop.org>; Tue, 19 Apr 2022 08:02:38 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1650355357;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=jLbux2EHSPeAoMYJRPZNPjs6jbsNJeFhQg/FtKIUcjk=;
- b=chFAMNdA7nrHsRz+jWr9Hmi+/fS7gGbPA70OHTWybAPBdjQmtUvW9Qp7jwRb/LvscWpM5P
- YAWqNzFILp9fVxNymDZPf86mDz+cA4hyx0iibrtDdZHK8iD2Y4w0eq9vuWUD7N34k8nHMn
- vYaIAlAQzZnHGwZdHASED13ixNBpZU4=
-Received: from mail-wr1-f70.google.com (mail-wr1-f70.google.com
- [209.85.221.70]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-540-PIVMk98vNkSwCuLsqBGxkQ-1; Tue, 19 Apr 2022 04:02:36 -0400
-X-MC-Unique: PIVMk98vNkSwCuLsqBGxkQ-1
-Received: by mail-wr1-f70.google.com with SMTP id
- v9-20020adfc409000000b002079e379921so1714127wrf.5
- for <dri-devel@lists.freedesktop.org>; Tue, 19 Apr 2022 01:02:35 -0700 (PDT)
+Received: from mail-qt1-f175.google.com (mail-qt1-f175.google.com
+ [209.85.160.175])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 598BE10E8F0
+ for <dri-devel@lists.freedesktop.org>; Tue, 19 Apr 2022 08:56:32 +0000 (UTC)
+Received: by mail-qt1-f175.google.com with SMTP id x24so3282102qtq.11
+ for <dri-devel@lists.freedesktop.org>; Tue, 19 Apr 2022 01:56:32 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
- :content-language:to:cc:references:from:in-reply-to
- :content-transfer-encoding;
- bh=jLbux2EHSPeAoMYJRPZNPjs6jbsNJeFhQg/FtKIUcjk=;
- b=krAA/IdMEqlUUMNc6kRuUQuKOYYoXqOWf6lRFGdTzaC5uo6N9UFVIag603Hr4Fp1tk
- 480cZse4M/EUXfg9PzeExEXXQjF+rHntVbaS+1n3cbaRTPglPGLMGJL3VTC1LLr2n/wh
- Am/pQPRuciywoPGsiKtybfHjNNU/k9VCGlhFLBn9RVdEizNMsgnKJicoZlA85Y8zZkkU
- Lg77AEdV1emBIplYuiugAsAXQfaIgIcpr7YbTT4fDxsIEHYUNY/niIjjvK23lXcTxt28
- F1GT17/PSAZhT/lBjiG4hUPUs2IxxA/d7qElQAFE+2CwZ7HwdxETQnqmlv26e1aRy3TI
- VvuQ==
-X-Gm-Message-State: AOAM533fq4Q8tfwBhYU3Vbze4w/cAVORyIZZ5j7nSxWmKamSxNfb5wz8
- tmvRDgWVpLiGOnbAy8D++v6leOvdOZa4DWSDDPVHtA9+kCgftlqKOcLhOpwiUeRTLT7rbYNr46w
- Heyoh+ulqH7Y0IcdN9cW2S3ywJlx0
-X-Received: by 2002:a05:600c:3ca7:b0:38e:50d2:27fe with SMTP id
- bg39-20020a05600c3ca700b0038e50d227femr18789741wmb.159.1650355354957; 
- Tue, 19 Apr 2022 01:02:34 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJyoYFbDlizyT41mBRw7KoxJ7TK8LkCRHtUbAAn98T1/ev5GAkMLzD2inzodoQ48+/YZbjyOCg==
-X-Received: by 2002:a05:600c:3ca7:b0:38e:50d2:27fe with SMTP id
- bg39-20020a05600c3ca700b0038e50d227femr18789726wmb.159.1650355354671; 
- Tue, 19 Apr 2022 01:02:34 -0700 (PDT)
-Received: from [192.168.1.129] ([92.176.231.205])
- by smtp.gmail.com with ESMTPSA id
- p125-20020a1c2983000000b0038e6c62f527sm17599649wmp.14.2022.04.19.01.02.33
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=LjOeqfSZ1Rvs+3TDyOnSQqOYBJijn66+09FuaSFiHvE=;
+ b=VuTaN5N0a//ISboX4QP6Dzfbb2cQtLFILNkjYYZYs9OJD1OqmGyBHzpAGZzbGy8POe
+ 1yTwoMv7rIpUuooW2MbRwPHJdE26+x0H6NZkbn1DcUFSRZ8U+fG3nfFKisZdbMlX7xvc
+ p5eRiFLNtkSLLisKPQEOoRDrbockAgnchORg3/dwdXAcN+gj7iA+flFjeTrCJHHdpzL/
+ 9k0xH3UxVU+tadOwEPicE3qoj5rrjyZFnEmXcSdWDUUDn+oFnHsDlfOaZH1n3xYZY2fw
+ lMiuqWARlhArSvSIq6X0UiI64aHjvXK5DpwNNKe/+DTc8fByYb9p3pnrAN3AiI04coB0
+ ka3A==
+X-Gm-Message-State: AOAM531vUqBpQr9b+26BEWU9tP5VNz2eb43q4iLqGlHdJTTsriYwAvRO
+ THPkXCvmERMqowtPCdWrjsPHCTURToyAMg==
+X-Google-Smtp-Source: ABdhPJypQ7bbuI0sUtsTetwuP4Eygq2D890idzsb/n+IIVRfYXGnnu/nN4Ug2ICdIYCs6CbMBZcPlA==
+X-Received: by 2002:ac8:5d8c:0:b0:2e1:e196:326a with SMTP id
+ d12-20020ac85d8c000000b002e1e196326amr9517738qtx.475.1650358591027; 
+ Tue, 19 Apr 2022 01:56:31 -0700 (PDT)
+Received: from mail-yw1-f181.google.com (mail-yw1-f181.google.com.
+ [209.85.128.181]) by smtp.gmail.com with ESMTPSA id
+ d22-20020a05622a101600b002f1f139d83bsm6096870qte.84.2022.04.19.01.56.30
+ for <dri-devel@lists.freedesktop.org>
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Tue, 19 Apr 2022 01:02:34 -0700 (PDT)
-Message-ID: <ef51a171-790e-1c13-fc9a-a4c9a2ab5863@redhat.com>
-Date: Tue, 19 Apr 2022 10:02:33 +0200
+ Tue, 19 Apr 2022 01:56:30 -0700 (PDT)
+Received: by mail-yw1-f181.google.com with SMTP id
+ 00721157ae682-2ebf4b91212so164713367b3.8
+ for <dri-devel@lists.freedesktop.org>; Tue, 19 Apr 2022 01:56:30 -0700 (PDT)
+X-Received: by 2002:a0d:e743:0:b0:2eb:3106:9b32 with SMTP id
+ q64-20020a0de743000000b002eb31069b32mr14815567ywe.512.1650358590048; Tue, 19
+ Apr 2022 01:56:30 -0700 (PDT)
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.8.0
-Subject: Re: [PATCH v4 5/5] drm/solomon: Add SSD130x OLED displays SPI support
-To: Geert Uytterhoeven <geert@linux-m68k.org>
-References: <20220413162359.325021-1-javierm@redhat.com>
- <20220413162359.325021-6-javierm@redhat.com>
- <CAMuHMdX_myNcA1eG=-qOHhtCEMnnV_eMjQF3dWakd7O6JbXskQ@mail.gmail.com>
-From: Javier Martinez Canillas <javierm@redhat.com>
-In-Reply-To: <CAMuHMdX_myNcA1eG=-qOHhtCEMnnV_eMjQF3dWakd7O6JbXskQ@mail.gmail.com>
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=javierm@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Language: en-US
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+References: <20220328064931.11612-1-biju.das.jz@bp.renesas.com>
+ <20220328064931.11612-2-biju.das.jz@bp.renesas.com>
+In-Reply-To: <20220328064931.11612-2-biju.das.jz@bp.renesas.com>
+From: Geert Uytterhoeven <geert@linux-m68k.org>
+Date: Tue, 19 Apr 2022 10:56:18 +0200
+X-Gmail-Original-Message-ID: <CAMuHMdWcsJDbbVrh9Uoe7Fv4o55_T=yNKh_ZGxzRgLzwURmYrQ@mail.gmail.com>
+Message-ID: <CAMuHMdWcsJDbbVrh9Uoe7Fv4o55_T=yNKh_ZGxzRgLzwURmYrQ@mail.gmail.com>
+Subject: Re: [PATCH v2 1/2] dt-bindings: display: bridge: Document RZ/G2L MIPI
+ DSI TX bindings
+To: Biju Das <biju.das.jz@bp.renesas.com>
+Content-Type: text/plain; charset="UTF-8"
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -89,89 +68,67 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Chen-Yu Tsai <wens@kernel.org>, Neil Armstrong <narmstrong@baylibre.com>,
- David Airlie <airlied@linux.ie>, YueHaibing <yuehaibing@huawei.com>,
- Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
+Cc: "open list:OPEN FIRMWARE AND FLATTENED DEVICE TREE BINDINGS"
+ <devicetree@vger.kernel.org>, Chris Paterson <Chris.Paterson2@renesas.com>,
+ Geert Uytterhoeven <geert+renesas@glider.be>, David Airlie <airlied@linux.ie>,
+ Prabhakar Mahadev Lad <prabhakar.mahadev-lad.rj@bp.renesas.com>,
  DRI Development <dri-devel@lists.freedesktop.org>,
- Chen-Yu Tsai <wens@csie.org>, Mark Brown <broonie@kernel.org>,
- Maxime Ripard <maxime@cerno.tech>,
- Andy Shevchenko <andriy.shevchenko@linux.intel.com>
+ Biju Das <biju.das@bp.renesas.com>,
+ Linux-Renesas <linux-renesas-soc@vger.kernel.org>,
+ Rob Herring <robh+dt@kernel.org>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hello Geert,
+Hi Biju,
 
-Thanks a lot for your feedback.
-
-On 4/19/22 09:52, Geert Uytterhoeven wrote:
-
-[snip]
-
->> +static int ssd130x_spi_write(void *context, const void *data, size_t count)
->> +{
->> +       struct ssd130x_spi_transport *t = context;
->> +       struct spi_device *spi = t->spi;
->> +       const u8 *reg = data;
->> +
->> +       if (*reg == SSD130X_COMMAND)
->> +               gpiod_set_value_cansleep(t->dc, 0);
->> +
->> +       if (*reg == SSD130X_DATA)
->> +               gpiod_set_value_cansleep(t->dc, 1);
->> +
->> +       /* Remove the control byte since is not used by the 4-wire SPI */
->> +       return spi_write(spi, ((u8 *)data) + 1, count - 1);
-> 
-> As I don't like casts, perhaps
-> 
->     spi_write(spi, reg + 1, count - 1);
-> 
-> ? But this is up to you.
+On Mon, Mar 28, 2022 at 8:49 AM Biju Das <biju.das.jz@bp.renesas.com> wrote:
+> The RZ/G2L MIPI DSI TX is embedded in the Renesas RZ/G2L family SoC's. It
+> can operate in DSI mode, with up to four data lanes.
 >
+> Signed-off-by: Biju Das <biju.das.jz@bp.renesas.com>
 
-It's true that is easier to read. I just wanted to make it clear that we
-were removing one byte from the data but I believe the comment is enough.
+Thanks for your patch!
 
-Andy also pointed out an unnecessary blank line in patch 4/5, so I think
-these two changes + your R-b warrants a v5. I will post one later today.
- 
-[snip]
+> --- /dev/null
+> +++ b/Documentation/devicetree/bindings/display/bridge/renesas,dsi.yaml
+> @@ -0,0 +1,175 @@
+> +# SPDX-License-Identifier: (GPL-2.0-only OR BSD-2-Clause)
+> +%YAML 1.2
+> +---
+> +$id: http://devicetree.org/schemas/display/bridge/renesas,dsi.yaml#
+> +$schema: http://devicetree.org/meta-schemas/core.yaml#
+> +
+> +title: Renesas RZ/G2L MIPI DSI Encoder
+> +
+> +maintainers:
+> +  - Biju Das <biju.das.jz@bp.renesas.com>
+> +
+> +description: |
+> +  This binding describes the MIPI DSI encoder embedded in the Renesas
+> +  RZ/G2L alike family of SoC's. The encoder can operate in DSI mode, with
+> +  up to four data lanes.
+> +
+> +allOf:
+> +  - $ref: /schemas/display/dsi-controller.yaml#
+> +
+> +properties:
+> +  compatible:
+> +    enum:
+> +      - renesas,rzg2l-mipi-dsi # RZ/G2L and RZ/V2L
 
->> +static const struct spi_device_id ssd130x_spi_table[] = {
->> +       { "sh1106",  SH1106_ID },
->> +       { "ssd1305", SSD1305_ID },
->> +       { "ssd1306", SSD1306_ID },
->> +       { "ssd1307", SSD1307_ID },
->> +       { "ssd1309", SSD1309_ID },
->> +       { /* sentinel */ }
->> +};
->> +MODULE_DEVICE_TABLE(spi, ssd130x_spi_table);
-> 
-> I'm not sure about the need for this part, but as Mark provided his
-> Ac-ed--by, I assume it's correct.
->
+Do you want to define SoC-specific compatible values, or can the
+IP revision be read from the hardware?
 
-Right, I'm quite sure about this. See for example [0] vs [1]. The latter
-does of_device_uevent_modalias(dev, env) while the former always does
-add_uevent_var(env, "MODALIAS=%s%s", SPI_MODULE_PREFIX, spi->modalias)
-even for devices registered through OF.
+The rest LGTM (I'm no MIPI-DSI expert), so
+Reviewed-by: Geert Uytterhoeven <geert+renesas@glider.be>
 
-Also, commits 3ce6c9e2617e ("spi: add of_device_uevent_modalias support")
-and 96c8395e2166 ("spi: Revert modalias changes") have some more context.
+Gr{oetje,eeting}s,
 
-[0]: https://elixir.bootlin.com/linux/latest/source/drivers/spi/spi.c#L360
-[1]: https://elixir.bootlin.com/linux/latest/source/drivers/i2c/i2c-core-base.c#L139
- 
-> The rest LGTM, so
-> Reviewed-by: Geert Uytterhoeven <geert+renesas@glider.be>
->
+                        Geert
 
-Thanks!
+--
+Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k.org
 
--- 
-Best regards,
-
-Javier Martinez Canillas
-Linux Engineering
-Red Hat
-
+In personal conversations with technical people, I call myself a hacker. But
+when I'm talking to journalists I just say "programmer" or something like that.
+                                -- Linus Torvalds
