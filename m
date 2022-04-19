@@ -2,44 +2,63 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4E820506DCD
-	for <lists+dri-devel@lfdr.de>; Tue, 19 Apr 2022 15:42:52 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 3C425506DC1
+	for <lists+dri-devel@lfdr.de>; Tue, 19 Apr 2022 15:41:45 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 082C510F00B;
-	Tue, 19 Apr 2022 13:42:50 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 091AB10EFF3;
+	Tue, 19 Apr 2022 13:41:42 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from ams.source.kernel.org (ams.source.kernel.org [145.40.68.75])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 9163510F00B
- for <dri-devel@lists.freedesktop.org>; Tue, 19 Apr 2022 13:42:48 +0000 (UTC)
-Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
- (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from smtp-out1.suse.de (smtp-out1.suse.de [195.135.220.28])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 8E3A110EFEA
+ for <dri-devel@lists.freedesktop.org>; Tue, 19 Apr 2022 13:41:40 +0000 (UTC)
+Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+ key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
  (No client certificate requested)
- by ams.source.kernel.org (Postfix) with ESMTPS id 36F90B81986;
- Tue, 19 Apr 2022 13:42:47 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id EFC2AC385A8;
- Tue, 19 Apr 2022 13:42:38 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1650375765;
- bh=8SjzAPUXuyYdBuZeXZuWD8MKomlpKInJxereWCjPZ2I=;
- h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
- b=Bj8mAfqJbG9f8Tobba/toXaBDXDawlf39Zvj89ZdO7BT9DK41wGfqz76jTefdrSEI
- 5fvlfnruKntbjDgqHcKXFufc4Snzc7dab3DhYtrv1nLsbCXUbZu8wF7NzSJWMV5g9z
- AxX8EDmfEpWS0NSFAcK/h1N2dYbjZouOPvfBrRp8Yku0+eXnmTkJ0HgkOMpCkCFQVp
- RtpYkkA3hWaBy4EpijHEnvBQJhZIibL9D6mWCbs59B0bEmpOItzdFj3W5Xp78MvQ4S
- iDAJ8RELJYOIwSYN+G2TH4AZ+tiI+GOUOR2OqcabCyrQ6runsc7yurMih4Uk4KdqJr
- uD0LTru/eQVkw==
-From: Arnd Bergmann <arnd@kernel.org>
-To: linux-omap@vger.kernel.org, tony@atomide.com, aaro.koskinen@iki.fi,
- jmkrzyszt@gmail.com
-Subject: [PATCH 41/41] [TO BE REBASED] ARM: omap1: enable multiplatform
-Date: Tue, 19 Apr 2022 15:37:23 +0200
-Message-Id: <20220419133723.1394715-42-arnd@kernel.org>
-X-Mailer: git-send-email 2.29.2
-In-Reply-To: <20220419133723.1394715-1-arnd@kernel.org>
-References: <20220419133723.1394715-1-arnd@kernel.org>
+ by smtp-out1.suse.de (Postfix) with ESMTPS id 007BD2112B;
+ Tue, 19 Apr 2022 13:41:39 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+ t=1650375699; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+ mime-version:mime-version:content-type:content-type:
+ in-reply-to:in-reply-to:references:references;
+ bh=OU924VncPndQwLZyBXE5JWyC1rgAj1xobyIWoZiX7+w=;
+ b=fgboA1x+o5bDijssIofMI7BJHQYsy4PSPUIdBRcrfcLF0FI6qBXbLuvHF64hI2w+E4iSKu
+ dmMFNuwRfGrAEomEMe8gf7xYuU5rI/AgyjbDlD8LJcyLDtkvcmTtzW0S/+AO5P4tT32Cz1
+ Lg4o12K1srfbbY2Yy3wTPeaY9UsW4Uc=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+ s=susede2_ed25519; t=1650375699;
+ h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+ mime-version:mime-version:content-type:content-type:
+ in-reply-to:in-reply-to:references:references;
+ bh=OU924VncPndQwLZyBXE5JWyC1rgAj1xobyIWoZiX7+w=;
+ b=NbxbkNkBAUZOMG/8GB1TtbxlLg5awOQvOTbJZbeCA2bQfiu3Bm5wgJ/CdBGoUZm/L7sFbk
+ pdti2XXM+wk7uHBQ==
+Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+ key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
+ (No client certificate requested)
+ by imap2.suse-dmz.suse.de (Postfix) with ESMTPS id BB239139BE;
+ Tue, 19 Apr 2022 13:41:38 +0000 (UTC)
+Received: from dovecot-director2.suse.de ([192.168.254.65])
+ by imap2.suse-dmz.suse.de with ESMTPSA id jLLLLBK8XmIiDgAAMHmgww
+ (envelope-from <tzimmermann@suse.de>); Tue, 19 Apr 2022 13:41:38 +0000
+Message-ID: <5f7d1b9e-4c92-13b1-8556-ab67f17846cc@suse.de>
+Date: Tue, 19 Apr 2022 15:41:38 +0200
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.7.0
+Subject: Re: [PATCH v2 1/2] of: Create platform devices for OF framebuffers
+Content-Language: en-US
+To: Rob Herring <robh@kernel.org>
+References: <20220419100405.12600-1-tzimmermann@suse.de>
+ <20220419100405.12600-2-tzimmermann@suse.de>
+ <Yl65by+ZjQdK8nIv@robh.at.kernel.org>
+From: Thomas Zimmermann <tzimmermann@suse.de>
+In-Reply-To: <Yl65by+ZjQdK8nIv@robh.at.kernel.org>
+Content-Type: multipart/signed; micalg=pgp-sha256;
+ protocol="application/pgp-signature";
+ boundary="------------H2Ei4jFDsCdAEGbJSqAuxH3d"
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -52,286 +71,145 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Ulf Hansson <ulf.hansson@linaro.org>,
- Dmitry Torokhov <dmitry.torokhov@gmail.com>, linux-fbdev@vger.kernel.org,
- Dominik Brodowski <linux@dominikbrodowski.net>,
- Lee Jones <lee.jones@linaro.org>, Daniel Thompson <daniel.thompson@linaro.org>,
- Kevin Hilman <khilman@kernel.org>, Peter Ujfalusi <peter.ujfalusi@gmail.com>,
- Helge Deller <deller@gmx.de>, Russell King <linux@armlinux.org.uk>,
- Krzysztof Kozlowski <krzk@kernel.org>, Alan Stern <stern@rowland.harvard.edu>,
- linux-serial@vger.kernel.org, linux-input@vger.kernel.org,
- Arnd Bergmann <arnd@arndb.de>, Mark Brown <broonie@kernel.org>,
- dri-devel@lists.freedesktop.org, linux-arm-kernel@lists.infradead.org,
- Felipe Balbi <balbi@kernel.org>, Paul Walmsley <paul@pwsan.com>,
- Jingoo Han <jingoohan1@gmail.com>, linux-usb@vger.kernel.org,
- linux-mmc@vger.kernel.org, linux-kernel@vger.kernel.org,
- Vinod Koul <vkoul@kernel.org>, dmaengine@vger.kernel.org,
- alsa-devel@alsa-project.org
+Cc: devicetree@vger.kernel.org, linux-fbdev@vger.kernel.org, sam@ravnborg.org,
+ frowand.list@gmail.com, deller@gmx.de, javierm@redhat.com,
+ dri-devel@lists.freedesktop.org, paulus@samba.org, mpe@ellerman.id.au,
+ linuxppc-dev@lists.ozlabs.org, linux@roeck-us.net
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-From: Arnd Bergmann <arnd@arndb.de>
+This is an OpenPGP/MIME signed message (RFC 4880 and 3156)
+--------------H2Ei4jFDsCdAEGbJSqAuxH3d
+Content-Type: multipart/mixed; boundary="------------V6Ezpezy3p0yw0t0S0BNfgzr";
+ protected-headers="v1"
+From: Thomas Zimmermann <tzimmermann@suse.de>
+To: Rob Herring <robh@kernel.org>
+Cc: devicetree@vger.kernel.org, linux-fbdev@vger.kernel.org,
+ frowand.list@gmail.com, deller@gmx.de, linuxppc-dev@lists.ozlabs.org,
+ javierm@redhat.com, dri-devel@lists.freedesktop.org, paulus@samba.org,
+ mpe@ellerman.id.au, sam@ravnborg.org, linux@roeck-us.net
+Message-ID: <5f7d1b9e-4c92-13b1-8556-ab67f17846cc@suse.de>
+Subject: Re: [PATCH v2 1/2] of: Create platform devices for OF framebuffers
+References: <20220419100405.12600-1-tzimmermann@suse.de>
+ <20220419100405.12600-2-tzimmermann@suse.de>
+ <Yl65by+ZjQdK8nIv@robh.at.kernel.org>
+In-Reply-To: <Yl65by+ZjQdK8nIv@robh.at.kernel.org>
 
-With all the header files out of the way, and the clock driver
-converted to the common framework, nothing stops us from building
-OMAP together with the other platforms.
+--------------V6Ezpezy3p0yw0t0S0BNfgzr
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: base64
 
-As usual, the decompressor support is a victim here, and is
-only available when CONFIG_DEBUG_LL is configured for the
-particular board.
+SGkNCg0KQW0gMTkuMDQuMjIgdW0gMTU6MzAgc2NocmllYiBSb2IgSGVycmluZzoNCi4uLg0K
+Pj4gLSNpZm5kZWYgQ09ORklHX1BQQw0KPj4gICBzdGF0aWMgY29uc3Qgc3RydWN0IG9mX2Rl
+dmljZV9pZCByZXNlcnZlZF9tZW1fbWF0Y2hlc1tdID0gew0KPj4gICAJeyAuY29tcGF0aWJs
+ZSA9ICJxY29tLHJtdGZzLW1lbSIgfSwNCj4+ICAgCXsgLmNvbXBhdGlibGUgPSAicWNvbSxj
+bWQtZGIiIH0sDQo+PiBAQCAtNTIwLDMzICs1MTksODEgQEAgc3RhdGljIGNvbnN0IHN0cnVj
+dCBvZl9kZXZpY2VfaWQgcmVzZXJ2ZWRfbWVtX21hdGNoZXNbXSA9IHsNCj4+ICAgDQo+PiAg
+IHN0YXRpYyBpbnQgX19pbml0IG9mX3BsYXRmb3JtX2RlZmF1bHRfcG9wdWxhdGVfaW5pdCh2
+b2lkKQ0KPj4gICB7DQo+PiAtCXN0cnVjdCBkZXZpY2Vfbm9kZSAqbm9kZTsNCj4+IC0NCj4g
+DQo+IEFzIGJvdGggaWYvZWxzZSBjbGF1c2VzIG5lZWQgJ25vZGUnLCBJJ2Qga2VlcCB0aGlz
+IGRlY2xhcmVkIGhlcmUuDQoNCk9rLg0KDQo+IA0KPj4gICAJZGV2aWNlX2xpbmtzX3N1cHBs
+aWVyX3N5bmNfc3RhdGVfcGF1c2UoKTsNCj4+ICAgDQo+PiAgIAlpZiAoIW9mX2hhdmVfcG9w
+dWxhdGVkX2R0KCkpDQo+PiAgIAkJcmV0dXJuIC1FTk9ERVY7DQo+PiAgIA0KPj4gLQkvKg0K
+Pj4gLQkgKiBIYW5kbGUgY2VydGFpbiBjb21wYXRpYmxlcyBleHBsaWNpdGx5LCBzaW5jZSB3
+ZSBkb24ndCB3YW50IHRvIGNyZWF0ZQ0KPj4gLQkgKiBwbGF0Zm9ybV9kZXZpY2VzIGZvciBl
+dmVyeSBub2RlIGluIC9yZXNlcnZlZC1tZW1vcnkgd2l0aCBhDQo+PiAtCSAqICJjb21wYXRp
+YmxlIiwNCj4+IC0JICovDQo+PiAtCWZvcl9lYWNoX21hdGNoaW5nX25vZGUobm9kZSwgcmVz
+ZXJ2ZWRfbWVtX21hdGNoZXMpDQo+PiAtCQlvZl9wbGF0Zm9ybV9kZXZpY2VfY3JlYXRlKG5v
+ZGUsIE5VTEwsIE5VTEwpOw0KPj4gKwlpZiAoSVNfRU5BQkxFRChDT05GSUdfUFBDKSkgew0K
+Pj4gKwkJc3RydWN0IGRldmljZV9ub2RlICpib290X2Rpc3BsYXkgPSBOVUxMOw0KPj4gKwkJ
+c3RydWN0IGRldmljZV9ub2RlICpub2RlOw0KPj4gKwkJc3RydWN0IHBsYXRmb3JtX2Rldmlj
+ZSAqZGV2Ow0KPj4gKwkJaW50IHJldDsNCj4+ICsNCj4+ICsJCS8qIENoZWNrIGlmIHdlIGhh
+dmUgYSBNYWNPUyBkaXNwbGF5IHdpdGhvdXQgYSBub2RlIHNwZWMgKi8NCj4+ICsJCWlmIChv
+Zl9nZXRfcHJvcGVydHkob2ZfY2hvc2VuLCAibGludXgsYm9vdHgtbm9zY3JlZW4iLCBOVUxM
+KSkgew0KPj4gKwkJCS8qDQo+PiArCQkJICogVGhlIG9sZCBjb2RlIHRyaWVkIHRvIHdvcmsg
+b3V0IHdoaWNoIG5vZGUgd2FzIHRoZSBNYWNPUw0KPj4gKwkJCSAqIGRpc3BsYXkgYmFzZWQg
+b24gdGhlIGFkZHJlc3MuIEknbSBkcm9wcGluZyB0aGF0IHNpbmNlIHRoZQ0KPj4gKwkJCSAq
+IGxhY2sgb2YgYSBub2RlIHNwZWMgb25seSBoYXBwZW5zIHdpdGggb2xkIEJvb3RYIHZlcnNp
+b25zDQo+PiArCQkJICogKHVzZXJzIGNhbiB1cGRhdGUpIGFuZCB3aXRoIHRoaXMgY29kZSwg
+dGhleSdsbCBzdGlsbCBnZXQNCj4+ICsJCQkgKiBhIGRpc3BsYXkgKGp1c3Qgbm90IHRoZSBw
+YWxldHRlIGhhY2tzKS4NCj4+ICsJCQkgKi8NCj4+ICsJCQlkZXYgPSBwbGF0Zm9ybV9kZXZp
+Y2VfYWxsb2MoImJvb3R4LW5vc2NyZWVuIiwgMCk7DQo+PiArCQkJaWYgKFdBUk5fT04oIWRl
+dikpDQo+PiArCQkJCXJldHVybiAtRU5PTUVNOw0KPj4gKwkJCXJldCA9IHBsYXRmb3JtX2Rl
+dmljZV9hZGQoZGV2KTsNCj4+ICsJCQlpZiAoV0FSTl9PTihyZXQpKSB7DQo+PiArCQkJCXBs
+YXRmb3JtX2RldmljZV9wdXQoZGV2KTsNCj4+ICsJCQkJcmV0dXJuIHJldDsNCj4+ICsJCQl9
+DQo+PiArCQl9DQo+PiAgIA0KPj4gLQlub2RlID0gb2ZfZmluZF9ub2RlX2J5X3BhdGgoIi9m
+aXJtd2FyZSIpOw0KPj4gLQlpZiAobm9kZSkgew0KPj4gLQkJb2ZfcGxhdGZvcm1fcG9wdWxh
+dGUobm9kZSwgTlVMTCwgTlVMTCwgTlVMTCk7DQo+PiAtCQlvZl9ub2RlX3B1dChub2RlKTsN
+Cj4+IC0JfQ0KPj4gKwkJLyoNCj4+ICsJCSAqIEZvciBPRiBmcmFtZWJ1ZmZlcnMsIGZpcnN0
+IGNyZWF0ZSB0aGUgZGV2aWNlIGZvciB0aGUgYm9vdCBkaXNwbGF5LA0KPj4gKwkJICogdGhl
+biBmb3IgdGhlIG90aGVyIGZyYW1lYnVmZmVycy4gT25seSBmYWlsIGZvciB0aGUgYm9vdCBk
+aXNwbGF5Ow0KPj4gKwkJICogaWdub3JlIGVycm9ycyBmb3IgdGhlIHJlc3QuDQo+PiArCQkg
+Ki8NCj4+ICsJCWZvcl9lYWNoX25vZGVfYnlfdHlwZShub2RlLCAiZGlzcGxheSIpIHsNCj4+
+ICsJCQlpZiAoIW9mX2dldF9wcm9wZXJ0eShub2RlLCAibGludXgsb3BlbmVkIiwgTlVMTCkg
+fHwNCj4+ICsJCQkgICAgIW9mX2dldF9wcm9wZXJ0eShub2RlLCAibGludXgsYm9vdC1kaXNw
+bGF5IiwgTlVMTCkpDQo+PiArCQkJCWNvbnRpbnVlOw0KPj4gKwkJCWRldiA9IG9mX3BsYXRm
+b3JtX2RldmljZV9jcmVhdGUobm9kZSwgIm9mLWRpc3BsYXkiLCBOVUxMKTsNCj4+ICsJCQlp
+ZiAoV0FSTl9PTighZGV2KSkNCj4+ICsJCQkJcmV0dXJuIC1FTk9NRU07DQo+PiArCQkJYm9v
+dF9kaXNwbGF5ID0gbm9kZTsNCj4+ICsJCQlicmVhazsNCj4+ICsJCX0NCj4+ICsJCWZvcl9l
+YWNoX25vZGVfYnlfdHlwZShub2RlLCAiZGlzcGxheSIpIHsNCj4+ICsJCQlpZiAoIW9mX2dl
+dF9wcm9wZXJ0eShub2RlLCAibGludXgsb3BlbmVkIiwgTlVMTCkgfHwgbm9kZSA9PSBib290
+X2Rpc3BsYXkpDQo+PiArCQkJCWNvbnRpbnVlOw0KPj4gKwkJCW9mX3BsYXRmb3JtX2Rldmlj
+ZV9jcmVhdGUobm9kZSwgIm9mLWRpc3BsYXkiLCBOVUxMKTsNCj4+ICsJCX0NCj4+ICAgDQo+
+PiAtCW5vZGUgPSBvZl9nZXRfY29tcGF0aWJsZV9jaGlsZChvZl9jaG9zZW4sICJzaW1wbGUt
+ZnJhbWVidWZmZXIiKTsNCj4+IC0Jb2ZfcGxhdGZvcm1fZGV2aWNlX2NyZWF0ZShub2RlLCBO
+VUxMLCBOVUxMKTsNCj4+IC0Jb2Zfbm9kZV9wdXQobm9kZSk7DQo+PiArCX0gZWxzZSB7DQo+
+PiArCQlzdHJ1Y3QgZGV2aWNlX25vZGUgKm5vZGU7DQo+PiArDQo+PiArCQkvKg0KPj4gKwkJ
+ICogSGFuZGxlIGNlcnRhaW4gY29tcGF0aWJsZXMgZXhwbGljaXRseSwgc2luY2Ugd2UgZG9u
+J3Qgd2FudCB0byBjcmVhdGUNCj4+ICsJCSAqIHBsYXRmb3JtX2RldmljZXMgZm9yIGV2ZXJ5
+IG5vZGUgaW4gL3Jlc2VydmVkLW1lbW9yeSB3aXRoIGENCj4+ICsJCSAqICJjb21wYXRpYmxl
+IiwNCj4+ICsJCSAqLw0KPj4gKwkJZm9yX2VhY2hfbWF0Y2hpbmdfbm9kZShub2RlLCByZXNl
+cnZlZF9tZW1fbWF0Y2hlcykNCj4+ICsJCQlvZl9wbGF0Zm9ybV9kZXZpY2VfY3JlYXRlKG5v
+ZGUsIE5VTEwsIE5VTEwpOw0KPj4gICANCj4+IC0JLyogUG9wdWxhdGUgZXZlcnl0aGluZyBl
+bHNlLiAqLw0KPj4gLQlvZl9wbGF0Zm9ybV9kZWZhdWx0X3BvcHVsYXRlKE5VTEwsIE5VTEws
+IE5VTEwpOw0KPj4gKwkJbm9kZSA9IG9mX2ZpbmRfbm9kZV9ieV9wYXRoKCIvZmlybXdhcmUi
+KTsNCj4+ICsJCWlmIChub2RlKSB7DQo+PiArCQkJb2ZfcGxhdGZvcm1fcG9wdWxhdGUobm9k
+ZSwgTlVMTCwgTlVMTCwgTlVMTCk7DQo+PiArCQkJb2Zfbm9kZV9wdXQobm9kZSk7DQo+PiAr
+CQl9DQo+PiArDQo+PiArCQlub2RlID0gb2ZfZ2V0X2NvbXBhdGlibGVfY2hpbGQob2ZfY2hv
+c2VuLCAic2ltcGxlLWZyYW1lYnVmZmVyIik7DQo+PiArCQlvZl9wbGF0Zm9ybV9kZXZpY2Vf
+Y3JlYXRlKG5vZGUsIE5VTEwsIE5VTEwpOw0KPj4gKwkJb2Zfbm9kZV9wdXQobm9kZSk7DQo+
+IA0KPiBJbiB2MSwgeW91IHN1cHBvcnRlZCAic2ltcGxlLWZyYW1lYnVmZmVyIiBvbiBQUEMu
+IERvbid0IHdlIHdhbnQgdG8gYWxsb3cNCj4gdGhhdD8gTWF5YmUgbm8gb25lIGNhcmVzIEFU
+TSwgYnV0IHRoYXQgY291bGQgY2hhbmdlLiBFaXRoZXIgd2F5Og0KDQpTdXBwb3J0IGZvciB0
+aGVzZSBmcmFtZWJ1ZmZlcnMgaGFzIGFsd2F5cyBiZWVuIG11dHVhbGx5IGV4Y2x1c2l2ZS4g
+VGhlIA0Kb2ZmYiBkcml2ZXIsIHdoaWNoIG9yaWdpbmFsbHkgY29udGFpbmVkIHRoZSBjb2Rl
+LCBkZXBlbmRzIG9uIENPTkZJR19QUEMuIA0KQW5kIFBQQyBuZXZlciBzdXBwb3J0ZWQgc2lt
+cGxlLWZyYW1lYnVmZmVyIGFueXdoZXJlLg0KDQo+IA0KPiBSZXZpZXdlZC1ieTogUm9iIEhl
+cnJpbmcgPHJvYmhAa2VybmVsLm9yZz4NCg0KVGhhbmsgeW91Lg0KDQpCZXN0IHJlZ2FyZHMN
+ClRob21hcw0KDQo+IA0KPiANCj4+ICsNCj4+ICsJCS8qIFBvcHVsYXRlIGV2ZXJ5dGhpbmcg
+ZWxzZS4gKi8NCj4+ICsJCW9mX3BsYXRmb3JtX2RlZmF1bHRfcG9wdWxhdGUoTlVMTCwgTlVM
+TCwgTlVMTCk7DQo+PiArCX0NCj4+ICAgDQo+PiAgIAlyZXR1cm4gMDsNCj4+ICAgfQ0KPj4g
+QEAgLTU1OCw3ICs2MDUsNiBAQCBzdGF0aWMgaW50IF9faW5pdCBvZl9wbGF0Zm9ybV9zeW5j
+X3N0YXRlX2luaXQodm9pZCkNCj4+ICAgCXJldHVybiAwOw0KPj4gICB9DQo+PiAgIGxhdGVf
+aW5pdGNhbGxfc3luYyhvZl9wbGF0Zm9ybV9zeW5jX3N0YXRlX2luaXQpOw0KPj4gLSNlbmRp
+Zg0KPj4gICANCj4+ICAgaW50IG9mX3BsYXRmb3JtX2RldmljZV9kZXN0cm95KHN0cnVjdCBk
+ZXZpY2UgKmRldiwgdm9pZCAqZGF0YSkNCj4+ICAgew0KDQotLSANClRob21hcyBaaW1tZXJt
+YW5uDQpHcmFwaGljcyBEcml2ZXIgRGV2ZWxvcGVyDQpTVVNFIFNvZnR3YXJlIFNvbHV0aW9u
+cyBHZXJtYW55IEdtYkgNCk1heGZlbGRzdHIuIDUsIDkwNDA5IE7DvHJuYmVyZywgR2VybWFu
+eQ0KKEhSQiAzNjgwOSwgQUcgTsO8cm5iZXJnKQ0KR2VzY2jDpGZ0c2bDvGhyZXI6IEl2byBU
+b3Rldg0K
 
-Signed-off-by: Arnd Bergmann <arnd@arndb.de>
----
- arch/arm/Kconfig                              |  12 --
- arch/arm/configs/omap1_defconfig              |   3 +
- arch/arm/mach-omap1/Kconfig                   |  15 +++
- arch/arm/mach-omap1/hardware.h                |   2 +-
- arch/arm/mach-omap1/include/mach/uncompress.h | 117 ------------------
- arch/arm/mach-omap1/serial.c                  |   3 +-
- .../mach-omap1/{include/mach => }/serial.h    |   0
- 7 files changed, 20 insertions(+), 132 deletions(-)
- delete mode 100644 arch/arm/mach-omap1/include/mach/uncompress.h
- rename arch/arm/mach-omap1/{include/mach => }/serial.h (100%)
+--------------V6Ezpezy3p0yw0t0S0BNfgzr--
 
-diff --git a/arch/arm/Kconfig b/arch/arm/Kconfig
-index a65f2c05f01c..8794c6bee29b 100644
---- a/arch/arm/Kconfig
-+++ b/arch/arm/Kconfig
-@@ -483,18 +483,6 @@ config ARCH_S3C24XX
- 	  (<http://www.simtec.co.uk/products/EB110ITX/>), the IPAQ 1940 or the
- 	  Samsung SMDK2410 development board (and derivatives).
- 
--config ARCH_OMAP1
--	bool "TI OMAP1"
--	select CLKSRC_MMIO
--	select FORCE_PCI if PCCARD
--	select GENERIC_IRQ_CHIP
--	select GPIOLIB
--	select HAVE_LEGACY_CLK
--	select IRQ_DOMAIN
--	select SPARSE_IRQ
--	help
--	  Support for older TI OMAP1 (omap7xx, omap15xx or omap16xx)
--
- endchoice
- 
- menu "Multiple platform selection"
-diff --git a/arch/arm/configs/omap1_defconfig b/arch/arm/configs/omap1_defconfig
-index 3148567b66b6..14c17a218ec5 100644
---- a/arch/arm/configs/omap1_defconfig
-+++ b/arch/arm/configs/omap1_defconfig
-@@ -17,6 +17,9 @@ CONFIG_MODULES=y
- CONFIG_MODULE_UNLOAD=y
- CONFIG_MODULE_FORCE_UNLOAD=y
- # CONFIG_BLK_DEV_BSG is not set
-+CONFIG_ARCH_MULTI_V4T=y
-+CONFIG_ARCH_MULTI_V5=y
-+# CONFIG_ARCH_MULTI_V7 is not set
- CONFIG_ARCH_OMAP=y
- CONFIG_ARCH_OMAP1=y
- CONFIG_OMAP_RESET_CLOCKS=y
-diff --git a/arch/arm/mach-omap1/Kconfig b/arch/arm/mach-omap1/Kconfig
-index d4b0cd91a4f9..9a7e5460b36a 100644
---- a/arch/arm/mach-omap1/Kconfig
-+++ b/arch/arm/mach-omap1/Kconfig
-@@ -1,4 +1,15 @@
- # SPDX-License-Identifier: GPL-2.0-only
-+menuconfig ARCH_OMAP1
-+	bool "TI OMAP1"
-+	depends on ARCH_MULTI_V4T || ARCH_MULTI_V5
-+	select ARCH_HAS_HOLES_MEMORYMODEL
-+	select ARCH_OMAP
-+	select CLKSRC_MMIO
-+	select FORCE_PCI if PCCARD
-+	select GPIOLIB
-+	help
-+	  Support for older TI OMAP1 (omap7xx, omap15xx or omap16xx)
-+
- if ARCH_OMAP1
- 
- menu "TI OMAP1 specific features"
-@@ -6,23 +17,27 @@ menu "TI OMAP1 specific features"
- comment "OMAP Core Type"
- 
- config ARCH_OMAP730
-+	depends on ARCH_MULTI_V5
- 	bool "OMAP730 Based System"
- 	select ARCH_OMAP_OTG
- 	select CPU_ARM926T
- 	select OMAP_MPU_TIMER
- 
- config ARCH_OMAP850
-+	depends on ARCH_MULTI_V5
- 	bool "OMAP850 Based System"
- 	select ARCH_OMAP_OTG
- 	select CPU_ARM926T
- 
- config ARCH_OMAP15XX
-+	depends on ARCH_MULTI_V4T
- 	default y
- 	bool "OMAP15xx Based System"
- 	select CPU_ARM925T
- 	select OMAP_MPU_TIMER
- 
- config ARCH_OMAP16XX
-+	depends on ARCH_MULTI_V5
- 	bool "OMAP16xx Based System"
- 	select ARCH_OMAP_OTG
- 	select CPU_ARM926T
-diff --git a/arch/arm/mach-omap1/hardware.h b/arch/arm/mach-omap1/hardware.h
-index 1af0238f8c05..4c3920ba83e3 100644
---- a/arch/arm/mach-omap1/hardware.h
-+++ b/arch/arm/mach-omap1/hardware.h
-@@ -64,7 +64,7 @@ static inline u32 omap_cs3_phys(void)
- #define OMAP1_IO_OFFSET		0x00fb0000	/* Virtual IO = 0xff000000 */
- #define OMAP1_IO_ADDRESS(pa)	IOMEM((pa) - OMAP1_IO_OFFSET)
- 
--#include <mach/serial.h>
-+#include "serial.h"
- 
- /*
-  * ---------------------------------------------------------------------------
-diff --git a/arch/arm/mach-omap1/include/mach/uncompress.h b/arch/arm/mach-omap1/include/mach/uncompress.h
-deleted file mode 100644
-index 9cca6a56788f..000000000000
---- a/arch/arm/mach-omap1/include/mach/uncompress.h
-+++ /dev/null
-@@ -1,117 +0,0 @@
--/*
-- * arch/arm/plat-omap/include/mach/uncompress.h
-- *
-- * Serial port stubs for kernel decompress status messages
-- *
-- * Initially based on:
-- * linux-2.4.15-rmk1-dsplinux1.6/arch/arm/plat-omap/include/mach1510/uncompress.h
-- * Copyright (C) 2000 RidgeRun, Inc.
-- * Author: Greg Lonnon <glonnon@ridgerun.com>
-- *
-- * Rewritten by:
-- * Author: <source@mvista.com>
-- * 2004 (c) MontaVista Software, Inc.
-- *
-- * This file is licensed under the terms of the GNU General Public License
-- * version 2. This program is licensed "as is" without any warranty of any
-- * kind, whether express or implied.
-- */
--
--#include <linux/types.h>
--#include <linux/serial_reg.h>
--
--#include <asm/memory.h>
--#include <asm/mach-types.h>
--
--#include "serial.h"
--
--#define MDR1_MODE_MASK			0x07
--
--volatile u8 *uart_base;
--int uart_shift;
--
--/*
-- * Store the DEBUG_LL uart number into memory.
-- * See also debug-macro.S, and serial.c for related code.
-- */
--static void set_omap_uart_info(unsigned char port)
--{
--	/*
--	 * Get address of some.bss variable and round it down
--	 * a la CONFIG_AUTO_ZRELADDR.
--	 */
--	u32 ram_start = (u32)&uart_shift & 0xf8000000;
--	u32 *uart_info = (u32 *)(ram_start + OMAP_UART_INFO_OFS);
--	*uart_info = port;
--}
--
--static inline void putc(int c)
--{
--	if (!uart_base)
--		return;
--
--	/* Check for UART 16x mode */
--	if ((uart_base[UART_OMAP_MDR1 << uart_shift] & MDR1_MODE_MASK) != 0)
--		return;
--
--	while (!(uart_base[UART_LSR << uart_shift] & UART_LSR_THRE))
--		barrier();
--	uart_base[UART_TX << uart_shift] = c;
--}
--
--static inline void flush(void)
--{
--}
--
--/*
-- * Macros to configure UART1 and debug UART
-- */
--#define _DEBUG_LL_ENTRY(mach, dbg_uart, dbg_shft, dbg_id)		\
--	if (machine_is_##mach()) {					\
--		uart_base = (volatile u8 *)(dbg_uart);			\
--		uart_shift = (dbg_shft);				\
--		port = (dbg_id);					\
--		set_omap_uart_info(port);				\
--		break;							\
--	}
--
--#define DEBUG_LL_OMAP7XX(p, mach)					\
--	_DEBUG_LL_ENTRY(mach, OMAP1_UART##p##_BASE, OMAP7XX_PORT_SHIFT,	\
--		OMAP1UART##p)
--
--#define DEBUG_LL_OMAP1(p, mach)						\
--	_DEBUG_LL_ENTRY(mach, OMAP1_UART##p##_BASE, OMAP_PORT_SHIFT,	\
--		OMAP1UART##p)
--
--static inline void arch_decomp_setup(void)
--{
--	int port = 0;
--
--	/*
--	 * Initialize the port based on the machine ID from the bootloader.
--	 * Note that we're using macros here instead of switch statement
--	 * as machine_is functions are optimized out for the boards that
--	 * are not selected.
--	 */
--	do {
--		/* omap7xx/8xx based boards using UART1 with shift 0 */
--		DEBUG_LL_OMAP7XX(1, herald);
--		DEBUG_LL_OMAP7XX(1, omap_perseus2);
--
--		/* omap15xx/16xx based boards using UART1 */
--		DEBUG_LL_OMAP1(1, ams_delta);
--		DEBUG_LL_OMAP1(1, nokia770);
--		DEBUG_LL_OMAP1(1, omap_h2);
--		DEBUG_LL_OMAP1(1, omap_h3);
--		DEBUG_LL_OMAP1(1, omap_innovator);
--		DEBUG_LL_OMAP1(1, omap_osk);
--		DEBUG_LL_OMAP1(1, omap_palmte);
--		DEBUG_LL_OMAP1(1, omap_palmz71);
--
--		/* omap15xx/16xx based boards using UART2 */
--		DEBUG_LL_OMAP1(2, omap_palmtt);
--
--		/* omap15xx/16xx based boards using UART3 */
--		DEBUG_LL_OMAP1(3, sx1);
--	} while (0);
--}
-diff --git a/arch/arm/mach-omap1/serial.c b/arch/arm/mach-omap1/serial.c
-index 299ae1106187..88928fc33b2e 100644
---- a/arch/arm/mach-omap1/serial.c
-+++ b/arch/arm/mach-omap1/serial.c
-@@ -19,8 +19,7 @@
- 
- #include <asm/mach-types.h>
- 
--#include <mach/serial.h>
--
-+#include "serial.h"
- #include "mux.h"
- #include "pm.h"
- #include "soc.h"
-diff --git a/arch/arm/mach-omap1/include/mach/serial.h b/arch/arm/mach-omap1/serial.h
-similarity index 100%
-rename from arch/arm/mach-omap1/include/mach/serial.h
-rename to arch/arm/mach-omap1/serial.h
--- 
-2.29.2
+--------------H2Ei4jFDsCdAEGbJSqAuxH3d
+Content-Type: application/pgp-signature; name="OpenPGP_signature.asc"
+Content-Description: OpenPGP digital signature
+Content-Disposition: attachment; filename="OpenPGP_signature"
 
+-----BEGIN PGP SIGNATURE-----
+
+wsF5BAABCAAjFiEExndm/fpuMUdwYFFolh/E3EQov+AFAmJevBIFAwAAAAAACgkQlh/E3EQov+Cs
+nQ/+PjxVvHS4ZjtQ7GRnq5WdGi01qeBkHRyzBvlJv/+sAV8+440CNa5FhBIs6xnr4qXnnZn/U8Y5
+esGtU6VEVhKPsN9WRrwnpmzxJRHFnkg68Uxk9BRVJfnCkj4ajHlQeCJPvB8ibTeiY/E+b5bkQ098
+6DKFHE0Aypr3Drw7c633xlCJnjQ738I7xfcAvyI3DSjWdBC9ikZOU3Qx5p6gHoV/YW1fXmvmvZvf
+oGm+9fi2xfeu1k/K4NW52HqqPu8zjXQy8p0NGhq9aR7ayfQLYLijLMgaLOYRorKWX+F4gPfO1y4X
+AADeO++G5KyyNPNpA0N74GsaFVQ+R2N4a/xOHlBahj8HJSDrjfUOHH30P0rKfcZmi2iZ851nzRzn
+E7ZPN+BODCwHx2Y42Jl30dvNINNRDd9CeGCtNNeiBQ6jZqQt98MAPEmhvQ4d1rBOphIRYtm3QaY3
+LOz8BBWcekdEBQ+GoxiQYXV/XreJY/6VGQctesiwnwJfuWzvMzdr+s2mI3xX+jWWA+HIeZCgabk9
+zb5KMz2HbfhnIcg8Wl/mpCvkjH7MjMJNaMG/xu3LelH9iA5whwzClevDStMJ7au7ZY1Jqz03bB8T
+76vjPG/YP5tmvdSnUbErFsoYzfG25b2biIgRY4vm0g4RLCfejdMxi5CLmfw6gzAeC5v4zoHZiEsd
+on4=
+=16Z/
+-----END PGP SIGNATURE-----
+
+--------------H2Ei4jFDsCdAEGbJSqAuxH3d--
