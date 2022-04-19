@@ -2,40 +2,39 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7CE67507375
-	for <lists+dri-devel@lfdr.de>; Tue, 19 Apr 2022 18:42:35 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 239C9507376
+	for <lists+dri-devel@lfdr.de>; Tue, 19 Apr 2022 18:42:44 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 7A30510F0D3;
-	Tue, 19 Apr 2022 16:42:33 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 0614710F0DA;
+	Tue, 19 Apr 2022 16:42:42 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 7AAD610F0D3
- for <dri-devel@lists.freedesktop.org>; Tue, 19 Apr 2022 16:42:32 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 531E910F0DA
+ for <dri-devel@lists.freedesktop.org>; Tue, 19 Apr 2022 16:42:40 +0000 (UTC)
 Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
  (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
  (No client certificate requested)
- by dfw.source.kernel.org (Postfix) with ESMTPS id ED60461870;
+ by dfw.source.kernel.org (Postfix) with ESMTPS id AD2AB6186B;
+ Tue, 19 Apr 2022 16:42:39 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id D0C57C385AD;
  Tue, 19 Apr 2022 16:42:31 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 1A777C385AC;
- Tue, 19 Apr 2022 16:42:23 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1650386551;
- bh=ZitIFNWOGNclnWEkC5k5wKgP8LZADBB8lqdOWZNB8wQ=;
+ s=k20201202; t=1650386559;
+ bh=6qz24JeYkT/szoUulUC11ktMbSMxaia2ZM53W0WWa5k=;
  h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
- b=M+b/M4GGqpVoZ/vtuDGOrUAXIOp7QmnE+sliunl9FKuasZGbZF8J7WC0f5+dwHIfV
- QC+dZIBkk7Hf4pg+kZCT8EC/A41AqH2ENGG3vZIkxJLPpRBM+Aex4V3HjClb5ZY2s8
- QXyUz7wFF1e86cNx2J/LH32cIfYAT9jRVz/3EZvQYWNJDZXGGvuD5wmAvR7FCCQYz2
- NZPv5X3QIar8bWv9pUOFMdDuQHRolS5csdfPn4P7i2wmWxafJsowCMdw66MeqUo3e4
- 4cfMCEif39tK7z2xRA3fIStlRIiOkBAdJrgnC88utYEWooh/HHVaMdBdkWFUYWuz/m
- 6oQTHQqp34oXw==
+ b=OQbcZhU1YyaWiVoymRlCpzVRaDV6+oOUhic1Kg4DXMriEEdQTb3Ol248UgeiguRcV
+ AADXBOzx4zqgQNOk8kqSzTZHT8QIWeMxKyU23zO+RJE2VESVS0XI60vTW/g7muIAwS
+ 8PC9xUtDQIiLYabZtjUMpFcY4iEN8SE8ABotebLwqZt2mev8Theryu21oiciT6uNJG
+ jkegeWr772BxLlRDA+zY95CIesNGVFaK7EjAjyLas9VMV8jQ2YcKVPWTYE+Of1svA5
+ xXLxVX0vDq/uA9rastXjDbWACQcopxN6Tk8sAWc6oesLyUD/wEISCwtksws8Opfw6K
+ j1eP3Wy/Abdpw==
 From: Arnd Bergmann <arnd@kernel.org>
 To: robert.jarzmik@free.fr,
 	linux-arm-kernel@lists.infradead.org
-Subject: [PATCH 28/48] Input: touchscreen: use wrapper for pxa2xx ac97
- registers
-Date: Tue, 19 Apr 2022 18:37:50 +0200
-Message-Id: <20220419163810.2118169-29-arnd@kernel.org>
+Subject: [PATCH 29/48] Input: wm97xx - switch to using threaded IRQ
+Date: Tue, 19 Apr 2022 18:37:51 +0200
+Message-Id: <20220419163810.2118169-30-arnd@kernel.org>
 X-Mailer: git-send-email 2.29.2
 In-Reply-To: <20220419163810.2118169-1-arnd@kernel.org>
 References: <20220419163810.2118169-1-arnd@kernel.org>
@@ -74,178 +73,114 @@ Cc: Ulf Hansson <ulf.hansson@linaro.org>, linux-usb@vger.kernel.org,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-From: Arnd Bergmann <arnd@arndb.de>
+From: Dmitry Torokhov <dmitry.torokhov@gmail.com>
 
-To avoid a dependency on the pxa platform header files with
-hardcoded registers, change the driver to call a wrapper
-in the pxa2xx-ac97-lib that encapsulates all the other
-ac97 stuff.
+Instead of manually disabling and enabling interrupts and scheduling work
+to access the device, let's use threaded oneshot interrupt handler. It
+simplifies things.
 
-Acked-by: Dmitry Torokhov <dmitry.torokhov@gmail.com>
-Acked-by: Robert Jarzmik <robert.jarzmik@free.fr>
-Cc: linux-input@vger.kernel.org
-Cc: alsa-devel@alsa-project.org
+Signed-off-by: Dmitry Torokhov <dmitry.torokhov@gmail.com>
 Signed-off-by: Arnd Bergmann <arnd@arndb.de>
 ---
- drivers/input/touchscreen/Kconfig            |  2 ++
- drivers/input/touchscreen/mainstone-wm97xx.c | 16 ++++++++--------
- drivers/input/touchscreen/zylonite-wm97xx.c  | 12 ++++++------
- include/sound/pxa2xx-lib.h                   |  4 ++++
- sound/arm/pxa2xx-ac97-lib.c                  | 12 ++++++++++++
- 5 files changed, 32 insertions(+), 14 deletions(-)
+ drivers/input/touchscreen/wm97xx-core.c | 42 +++++--------------------
+ include/linux/wm97xx.h                  |  1 -
+ 2 files changed, 7 insertions(+), 36 deletions(-)
 
-diff --git a/drivers/input/touchscreen/Kconfig b/drivers/input/touchscreen/Kconfig
-index 43c7d6e5bdc0..2d70c945b20a 100644
---- a/drivers/input/touchscreen/Kconfig
-+++ b/drivers/input/touchscreen/Kconfig
-@@ -902,6 +902,7 @@ config TOUCHSCREEN_WM9713
- config TOUCHSCREEN_WM97XX_MAINSTONE
- 	tristate "WM97xx Mainstone/Palm accelerated touch"
- 	depends on TOUCHSCREEN_WM97XX && ARCH_PXA
-+	depends on SND_PXA2XX_LIB_AC97
- 	help
- 	  Say Y here for support for streaming mode with WM97xx touchscreens
- 	  on Mainstone, Palm Tungsten T5, TX and LifeDrive systems.
-@@ -914,6 +915,7 @@ config TOUCHSCREEN_WM97XX_MAINSTONE
- config TOUCHSCREEN_WM97XX_ZYLONITE
- 	tristate "Zylonite accelerated touch"
- 	depends on TOUCHSCREEN_WM97XX && MACH_ZYLONITE
-+	depends on SND_PXA2XX_LIB_AC97
- 	select TOUCHSCREEN_WM9713
- 	help
- 	  Say Y here for support for streaming mode with the touchscreen
-diff --git a/drivers/input/touchscreen/mainstone-wm97xx.c b/drivers/input/touchscreen/mainstone-wm97xx.c
-index 940d3c92b1f8..8f6fe68f1f99 100644
---- a/drivers/input/touchscreen/mainstone-wm97xx.c
-+++ b/drivers/input/touchscreen/mainstone-wm97xx.c
-@@ -28,7 +28,7 @@
- #include <linux/soc/pxa/cpu.h>
- #include <linux/wm97xx.h>
+diff --git a/drivers/input/touchscreen/wm97xx-core.c b/drivers/input/touchscreen/wm97xx-core.c
+index 1b58611c8084..2757c7768ffe 100644
+--- a/drivers/input/touchscreen/wm97xx-core.c
++++ b/drivers/input/touchscreen/wm97xx-core.c
+@@ -285,11 +285,12 @@ void wm97xx_set_suspend_mode(struct wm97xx *wm, u16 mode)
+ EXPORT_SYMBOL_GPL(wm97xx_set_suspend_mode);
  
--#include <mach/regs-ac97.h>
-+#include <sound/pxa2xx-lib.h>
+ /*
+- * Handle a pen down interrupt.
++ * Codec PENDOWN irq handler
++ *
+  */
+-static void wm97xx_pen_irq_worker(struct work_struct *work)
++static irqreturn_t wm97xx_pen_interrupt(int irq, void *dev_id)
+ {
+-	struct wm97xx *wm = container_of(work, struct wm97xx, pen_event_work);
++	struct wm97xx *wm = dev_id;
+ 	int pen_was_down = wm->pen_is_down;
  
- #include <asm/mach-types.h>
+ 	/* do we need to enable the touch panel reader */
+@@ -343,27 +344,6 @@ static void wm97xx_pen_irq_worker(struct work_struct *work)
+ 	if (!wm->pen_is_down && wm->mach_ops->acc_enabled)
+ 		wm->mach_ops->acc_pen_up(wm);
  
-@@ -104,11 +104,11 @@ static void wm97xx_acc_pen_up(struct wm97xx *wm)
- 	msleep(1);
- 
- 	if (cpu_is_pxa27x()) {
--		while (MISR & (1 << 2))
--			MODR;
-+		while (pxa2xx_ac97_read_misr() & (1 << 2))
-+			pxa2xx_ac97_read_modr();
- 	} else if (cpu_is_pxa3xx()) {
- 		for (count = 0; count < 16; count++)
--			MODR;
-+			pxa2xx_ac97_read_modr();
- 	}
+-	wm->mach_ops->irq_enable(wm, 1);
+-}
+-
+-/*
+- * Codec PENDOWN irq handler
+- *
+- * We have to disable the codec interrupt in the handler because it
+- * can take up to 1ms to clear the interrupt source. We schedule a task
+- * in a work queue to do the actual interaction with the chip.  The
+- * interrupt is then enabled again in the slow handler when the source
+- * has been cleared.
+- */
+-static irqreturn_t wm97xx_pen_interrupt(int irq, void *dev_id)
+-{
+-	struct wm97xx *wm = dev_id;
+-
+-	if (!work_pending(&wm->pen_event_work)) {
+-		wm->mach_ops->irq_enable(wm, 0);
+-		queue_work(wm->ts_workq, &wm->pen_event_work);
+-	}
+-
+ 	return IRQ_HANDLED;
  }
  
-@@ -130,7 +130,7 @@ static int wm97xx_acc_pen_down(struct wm97xx *wm)
- 		return RC_PENUP;
- 	}
+@@ -374,12 +354,9 @@ static int wm97xx_init_pen_irq(struct wm97xx *wm)
+ {
+ 	u16 reg;
  
--	x = MODR;
-+	x = pxa2xx_ac97_read_modr();
- 	if (x == last) {
- 		tries++;
- 		return RC_AGAIN;
-@@ -138,10 +138,10 @@ static int wm97xx_acc_pen_down(struct wm97xx *wm)
- 	last = x;
- 	do {
- 		if (reads)
--			x = MODR;
--		y = MODR;
-+			x = pxa2xx_ac97_read_modr();
-+		y = pxa2xx_ac97_read_modr();
- 		if (pressure)
--			p = MODR;
-+			p = pxa2xx_ac97_read_modr();
+-	/* If an interrupt is supplied an IRQ enable operation must also be
+-	 * provided. */
+-	BUG_ON(!wm->mach_ops->irq_enable);
+-
+-	if (request_irq(wm->pen_irq, wm97xx_pen_interrupt, IRQF_SHARED,
+-			"wm97xx-pen", wm)) {
++	if (request_threaded_irq(wm->pen_irq, NULL, wm97xx_pen_interrupt,
++				 IRQF_SHARED | IRQF_ONESHOT,
++				 "wm97xx-pen", wm)) {
+ 		dev_err(wm->dev,
+ 			"Failed to register pen down interrupt, polling");
+ 		wm->pen_irq = 0;
+@@ -509,7 +486,6 @@ static int wm97xx_ts_input_open(struct input_dev *idev)
+ 	wm->codec->dig_enable(wm, 1);
  
- 		dev_dbg(wm->dev, "Raw coordinates: x=%x, y=%x, p=%x\n",
- 			x, y, p);
-diff --git a/drivers/input/touchscreen/zylonite-wm97xx.c b/drivers/input/touchscreen/zylonite-wm97xx.c
-index cabdd6e3c6f8..ed7eae638713 100644
---- a/drivers/input/touchscreen/zylonite-wm97xx.c
-+++ b/drivers/input/touchscreen/zylonite-wm97xx.c
-@@ -24,7 +24,7 @@
- #include <linux/soc/pxa/cpu.h>
- #include <linux/wm97xx.h>
+ 	INIT_DELAYED_WORK(&wm->ts_reader, wm97xx_ts_reader);
+-	INIT_WORK(&wm->pen_event_work, wm97xx_pen_irq_worker);
  
--#include <mach/regs-ac97.h>
-+#include <sound/pxa2xx-lib.h>
+ 	wm->ts_reader_min_interval = HZ >= 100 ? HZ / 100 : 1;
+ 	if (wm->ts_reader_min_interval < 1)
+@@ -560,10 +536,6 @@ static void wm97xx_ts_input_close(struct input_dev *idev)
  
- struct continuous {
- 	u16 id;    /* codec id */
-@@ -79,7 +79,7 @@ static void wm97xx_acc_pen_up(struct wm97xx *wm)
- 	msleep(1);
+ 	wm->pen_is_down = 0;
  
- 	for (i = 0; i < 16; i++)
--		MODR;
-+		pxa2xx_ac97_read_modr();
- }
- 
- static int wm97xx_acc_pen_down(struct wm97xx *wm)
-@@ -100,7 +100,7 @@ static int wm97xx_acc_pen_down(struct wm97xx *wm)
- 		return RC_PENUP;
- 	}
- 
--	x = MODR;
-+	x = pxa2xx_ac97_read_modr();
- 	if (x == last) {
- 		tries++;
- 		return RC_AGAIN;
-@@ -108,10 +108,10 @@ static int wm97xx_acc_pen_down(struct wm97xx *wm)
- 	last = x;
- 	do {
- 		if (reads)
--			x = MODR;
--		y = MODR;
-+			x = pxa2xx_ac97_read_modr();
-+		y = pxa2xx_ac97_read_modr();
- 		if (pressure)
--			p = MODR;
-+			p = pxa2xx_ac97_read_modr();
- 
- 		dev_dbg(wm->dev, "Raw coordinates: x=%x, y=%x, p=%x\n",
- 			x, y, p);
-diff --git a/include/sound/pxa2xx-lib.h b/include/sound/pxa2xx-lib.h
-index 95100cff25d1..0a6f8dabf8c4 100644
---- a/include/sound/pxa2xx-lib.h
-+++ b/include/sound/pxa2xx-lib.h
-@@ -52,4 +52,8 @@ extern int pxa2xx_ac97_hw_resume(void);
- extern int pxa2xx_ac97_hw_probe(struct platform_device *dev);
- extern void pxa2xx_ac97_hw_remove(struct platform_device *dev);
- 
-+/* modem registers, used by touchscreen driver */
-+u32 pxa2xx_ac97_read_modr(void);
-+u32 pxa2xx_ac97_read_misr(void);
-+
- #endif
-diff --git a/sound/arm/pxa2xx-ac97-lib.c b/sound/arm/pxa2xx-ac97-lib.c
-index 8c79d224f03b..572b73d73762 100644
---- a/sound/arm/pxa2xx-ac97-lib.c
-+++ b/sound/arm/pxa2xx-ac97-lib.c
-@@ -428,6 +428,18 @@ void pxa2xx_ac97_hw_remove(struct platform_device *dev)
- }
- EXPORT_SYMBOL_GPL(pxa2xx_ac97_hw_remove);
- 
-+u32 pxa2xx_ac97_read_modr(void)
-+{
-+	return MODR;
-+}
-+EXPORT_SYMBOL_GPL(pxa2xx_ac97_read_modr);
-+
-+u32 pxa2xx_ac97_read_misr(void)
-+{
-+	return MISR;
-+}
-+EXPORT_SYMBOL_GPL(pxa2xx_ac97_read_misr);
-+
- MODULE_AUTHOR("Nicolas Pitre");
- MODULE_DESCRIPTION("Intel/Marvell PXA sound library");
- MODULE_LICENSE("GPL");
+-	/* Balance out interrupt disables/enables */
+-	if (cancel_work_sync(&wm->pen_event_work))
+-		wm->mach_ops->irq_enable(wm, 1);
+-
+ 	/* ts_reader rearms itself so we need to explicitly stop it
+ 	 * before we destroy the workqueue.
+ 	 */
+diff --git a/include/linux/wm97xx.h b/include/linux/wm97xx.h
+index 462854f4f286..85bd8dd3caea 100644
+--- a/include/linux/wm97xx.h
++++ b/include/linux/wm97xx.h
+@@ -281,7 +281,6 @@ struct wm97xx {
+ 	unsigned long ts_reader_min_interval; /* Minimum interval */
+ 	unsigned int pen_irq;		/* Pen IRQ number in use */
+ 	struct workqueue_struct *ts_workq;
+-	struct work_struct pen_event_work;
+ 	u16 acc_slot;			/* AC97 slot used for acc touch data */
+ 	u16 acc_rate;			/* acc touch data rate */
+ 	unsigned pen_is_down:1;		/* Pen is down */
 -- 
 2.29.2
 
