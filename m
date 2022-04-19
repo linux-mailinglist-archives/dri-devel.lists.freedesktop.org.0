@@ -1,41 +1,41 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id B8E13507369
-	for <lists+dri-devel@lfdr.de>; Tue, 19 Apr 2022 18:41:10 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id BE95550736A
+	for <lists+dri-devel@lfdr.de>; Tue, 19 Apr 2022 18:41:19 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 816BD10F067;
-	Tue, 19 Apr 2022 16:41:08 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id C16F610F06F;
+	Tue, 19 Apr 2022 16:41:17 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from dfw.source.kernel.org (dfw.source.kernel.org
- [IPv6:2604:1380:4641:c500::1])
- by gabe.freedesktop.org (Postfix) with ESMTPS id C30EF10F067
- for <dri-devel@lists.freedesktop.org>; Tue, 19 Apr 2022 16:41:06 +0000 (UTC)
+Received: from ams.source.kernel.org (ams.source.kernel.org
+ [IPv6:2604:1380:4601:e00::1])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 0EFC110F06C
+ for <dri-devel@lists.freedesktop.org>; Tue, 19 Apr 2022 16:41:16 +0000 (UTC)
 Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
  (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
  (No client certificate requested)
- by dfw.source.kernel.org (Postfix) with ESMTPS id 409DF60B34;
- Tue, 19 Apr 2022 16:41:06 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 63D13C385AB;
- Tue, 19 Apr 2022 16:40:58 +0000 (UTC)
+ by ams.source.kernel.org (Postfix) with ESMTPS id B4DF5B818E6;
+ Tue, 19 Apr 2022 16:41:14 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 23064C385A5;
+ Tue, 19 Apr 2022 16:41:05 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1650386465;
- bh=U6UXkGiba+IWPQ84YTVH8JdmB9ez+oeADVDoBoSMAeA=;
+ s=k20201202; t=1650386473;
+ bh=UmyAEDevE+rFHmIeeKFFlzSBscHHSEtR+AtXVKUZXjI=;
  h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
- b=Dx+/8hWSqP54Qj1bLqmbcjy7EOlZLK7fehRxrCDudwV6M9Fy7SO9kbeCNChaDPtyq
- nsffbT6io+sZXH1/7PSZ5lArW4jYfo9IEA5PA3ZHDbrheUIW4wgeNtLX6XxzXMp7NU
- dcGLlN+W9BezzkCXSsS0Z38Bztbsq5Tl/AIm+XmzC4ZeRrzAQBlu7Gz95MmYpNBKUO
- +zYF0K/ue6uCvMR2BqEUgUOzd4ohj0vXKRplH8aesj7MKBVuUE0XKQbk8x9Ts6ZZtj
- bQk4zfxsOkvz3MM9GolbI20rGgZi2As8q/AuQe5U6ARsz3ojSijMOH4RPSyzfZLrvr
- P0YR74cjlR93A==
+ b=VBOATLbRuYChK3MBgRX8mPip9VFQsTd4uM6E3FKAYou3P3IZa9nmev0mrBBoYpVGs
+ Nl+voA7jYEZWdMuLiO7BEMPH+MVsDjnXXGALSLYw1w1AX0WnSQTPUBDuRtK63hpICj
+ 8+5p1J7vvcJkBz7CuQogkh9GDU2SBWlcgjibaorUtjAG4DdHSgFg+dieu5I1H5UTwe
+ yODr+X/HyGXAHTGbi4Lq4APNxVx4sfb3QJu3sbtv29oNO8I1LDZpvn7U0jmcS7bSjQ
+ 9f0xIKo83CR6rz6qWgvk3LUsWMEix8qqKI0I+7fX418R/bEF9m0lgtwSh1l4J0GIYp
+ y51mpx0B4pZoQ==
 From: Arnd Bergmann <arnd@kernel.org>
 To: robert.jarzmik@free.fr,
 	linux-arm-kernel@lists.infradead.org
-Subject: [PATCH 17/48] ARM: pxa: corgi: use gpio descriptors for audio
-Date: Tue, 19 Apr 2022 18:37:39 +0200
-Message-Id: <20220419163810.2118169-18-arnd@kernel.org>
+Subject: [PATCH 18/48] ARM: pxa: hx4700: use gpio descriptors for audio
+Date: Tue, 19 Apr 2022 18:37:40 +0200
+Message-Id: <20220419163810.2118169-19-arnd@kernel.org>
 X-Mailer: git-send-email 2.29.2
 In-Reply-To: <20220419163810.2118169-1-arnd@kernel.org>
 References: <20220419163810.2118169-1-arnd@kernel.org>
@@ -79,206 +79,191 @@ From: Arnd Bergmann <arnd@arndb.de>
 The audio driver should not use a hardwired gpio number
 from the header. Change it to use a lookup table.
 
+Cc: Philipp Zabel <philipp.zabel@gmail.com>
+Cc: Paul Parsons <lost.distance@yahoo.com>
 Acked-by: Mark Brown <broonie@kernel.org>
-Cc: alsa-devel@alsa-project.org
 Acked-by: Robert Jarzmik <robert.jarzmik@free.fr>
+Cc: alsa-devel@alsa-project.org
 Signed-off-by: Arnd Bergmann <arnd@arndb.de>
 ---
- arch/arm/mach-pxa/corgi.c                    | 22 ++++++++++-
- arch/arm/mach-pxa/{include/mach => }/corgi.h |  2 +-
- arch/arm/mach-pxa/corgi_pm.c                 |  2 +-
- sound/soc/pxa/corgi.c                        | 41 +++++++++++++-------
- 4 files changed, 51 insertions(+), 16 deletions(-)
- rename arch/arm/mach-pxa/{include/mach => }/corgi.h (98%)
+ arch/arm/mach-pxa/hx4700-pcmcia.c             |  2 +-
+ arch/arm/mach-pxa/hx4700.c                    | 16 ++++++++-
+ arch/arm/mach-pxa/{include/mach => }/hx4700.h |  2 +-
+ sound/soc/pxa/hx4700.c                        | 34 ++++++++-----------
+ 4 files changed, 31 insertions(+), 23 deletions(-)
+ rename arch/arm/mach-pxa/{include/mach => }/hx4700.h (99%)
 
-diff --git a/arch/arm/mach-pxa/corgi.c b/arch/arm/mach-pxa/corgi.c
-index f897762c8b58..c546356d0f02 100644
---- a/arch/arm/mach-pxa/corgi.c
-+++ b/arch/arm/mach-pxa/corgi.c
-@@ -49,7 +49,7 @@
- #include <linux/platform_data/irda-pxaficp.h>
- #include <linux/platform_data/mmc-pxamci.h>
- #include "udc.h"
--#include <mach/corgi.h>
-+#include "corgi.h"
- #include "sharpsl_pm.h"
+diff --git a/arch/arm/mach-pxa/hx4700-pcmcia.c b/arch/arm/mach-pxa/hx4700-pcmcia.c
+index e8acbfc9ef6c..e2331dfe427d 100644
+--- a/arch/arm/mach-pxa/hx4700-pcmcia.c
++++ b/arch/arm/mach-pxa/hx4700-pcmcia.c
+@@ -10,7 +10,7 @@
+ #include <linux/irq.h>
  
- #include <asm/mach/sharpsl_param.h>
-@@ -472,6 +472,25 @@ static struct platform_device corgiled_device = {
+ #include <asm/mach-types.h>
+-#include <mach/hx4700.h>
++#include "hx4700.h"
+ 
+ #include <pcmcia/soc_common.h>
+ 
+diff --git a/arch/arm/mach-pxa/hx4700.c b/arch/arm/mach-pxa/hx4700.c
+index 140a44cb2989..2b7f37172725 100644
+--- a/arch/arm/mach-pxa/hx4700.c
++++ b/arch/arm/mach-pxa/hx4700.c
+@@ -41,7 +41,7 @@
+ 
+ #include "pxa27x.h"
+ #include "addr-map.h"
+-#include <mach/hx4700.h>
++#include "hx4700.h"
+ #include <linux/platform_data/irda-pxaficp.h>
+ 
+ #include <sound/ak4641.h>
+@@ -834,6 +834,19 @@ static struct i2c_board_info i2c_board_info[] __initdata = {
  	},
  };
  
-+static struct gpiod_lookup_table corgi_audio_gpio_table = {
-+	.dev_id = "corgi-audio",
++static struct gpiod_lookup_table hx4700_audio_gpio_table = {
++	.dev_id = "hx4700-audio",
 +	.table = {
-+		GPIO_LOOKUP("sharp-scoop",
-+			    CORGI_GPIO_MUTE_L - CORGI_SCOOP_GPIO_BASE,
-+			    "mute-l", GPIO_ACTIVE_HIGH),
-+		GPIO_LOOKUP("sharp-scoop",
-+			    CORGI_GPIO_MUTE_R - CORGI_SCOOP_GPIO_BASE,
-+			    "mute-r", GPIO_ACTIVE_HIGH),
-+		GPIO_LOOKUP("sharp-scoop",
-+			    CORGI_GPIO_APM_ON - CORGI_SCOOP_GPIO_BASE,
-+			    "apm-on", GPIO_ACTIVE_HIGH),
-+		GPIO_LOOKUP("sharp-scoop",
-+			    CORGI_GPIO_MIC_BIAS - CORGI_SCOOP_GPIO_BASE,
-+			    "mic-bias", GPIO_ACTIVE_HIGH),
++		GPIO_LOOKUP("gpio-pxa", GPIO75_HX4700_EARPHONE_nDET,
++			    "earphone-ndet", GPIO_ACTIVE_HIGH),
++		GPIO_LOOKUP("gpio-pxa", GPIO92_HX4700_HP_DRIVER,
++			    "hp-driver", GPIO_ACTIVE_HIGH),
++		GPIO_LOOKUP("gpio-pxa", GPIO107_HX4700_SPK_nSD,
++			    "spk-nsd", GPIO_ACTIVE_HIGH),
 +		{ },
 +	},
 +};
 +
- /*
-  * Corgi Audio
-  */
-@@ -744,6 +763,7 @@ static void __init corgi_init(void)
+ static struct platform_device audio = {
+ 	.name	= "hx4700-audio",
+ 	.id	= -1,
+@@ -895,6 +908,7 @@ static void __init hx4700_init(void)
  
-  	pxa_set_udc_info(&udc_info);
- 	gpiod_add_lookup_table(&corgi_mci_gpio_table);
-+	gpiod_add_lookup_table(&corgi_audio_gpio_table);
- 	pxa_set_mci_info(&corgi_mci_platform_data);
- 	pxa_set_ficp_info(&corgi_ficp_platform_data);
- 	pxa_set_i2c_info(NULL);
-diff --git a/arch/arm/mach-pxa/include/mach/corgi.h b/arch/arm/mach-pxa/corgi.h
-similarity index 98%
-rename from arch/arm/mach-pxa/include/mach/corgi.h
-rename to arch/arm/mach-pxa/corgi.h
-index b565ca7b8cda..fe2fcf6532b9 100644
---- a/arch/arm/mach-pxa/include/mach/corgi.h
-+++ b/arch/arm/mach-pxa/corgi.h
-@@ -9,7 +9,7 @@
- #ifndef __ASM_ARCH_CORGI_H
- #define __ASM_ARCH_CORGI_H  1
+ 	gpiod_add_lookup_table(&bq24022_gpiod_table);
+ 	gpiod_add_lookup_table(&gpio_vbus_gpiod_table);
++	gpiod_add_lookup_table(&hx4700_audio_gpio_table);
+ 	platform_add_devices(devices, ARRAY_SIZE(devices));
+ 	pwm_add_table(hx4700_pwm_lookup, ARRAY_SIZE(hx4700_pwm_lookup));
  
+diff --git a/arch/arm/mach-pxa/include/mach/hx4700.h b/arch/arm/mach-pxa/hx4700.h
+similarity index 99%
+rename from arch/arm/mach-pxa/include/mach/hx4700.h
+rename to arch/arm/mach-pxa/hx4700.h
+index 0c30e6d9c660..ce2db33989e1 100644
+--- a/arch/arm/mach-pxa/include/mach/hx4700.h
++++ b/arch/arm/mach-pxa/hx4700.h
+@@ -10,7 +10,7 @@
+ 
+ #include <linux/gpio.h>
+ #include <linux/mfd/asic3.h>
 -#include "irqs.h" /* PXA_NR_BUILTIN_GPIO */
 +#include <mach/irqs.h> /* PXA_NR_BUILTIN_GPIO */
  
- /*
-  * Corgi (Non Standard) GPIO Definitions
-diff --git a/arch/arm/mach-pxa/corgi_pm.c b/arch/arm/mach-pxa/corgi_pm.c
-index ff1ac9bf37cb..c6ddfc737644 100644
---- a/arch/arm/mach-pxa/corgi_pm.c
-+++ b/arch/arm/mach-pxa/corgi_pm.c
-@@ -20,7 +20,7 @@
- #include <asm/irq.h>
- #include <asm/mach-types.h>
+ #define HX4700_ASIC3_GPIO_BASE	PXA_NR_BUILTIN_GPIO
+ #define HX4700_EGPIO_BASE	(HX4700_ASIC3_GPIO_BASE + ASIC3_NUM_GPIOS)
+diff --git a/sound/soc/pxa/hx4700.c b/sound/soc/pxa/hx4700.c
+index 7334fac758de..e70dc38d9892 100644
+--- a/sound/soc/pxa/hx4700.c
++++ b/sound/soc/pxa/hx4700.c
+@@ -10,7 +10,7 @@
+ #include <linux/interrupt.h>
+ #include <linux/platform_device.h>
+ #include <linux/delay.h>
+-#include <linux/gpio.h>
++#include <linux/gpio/consumer.h>
  
--#include <mach/corgi.h>
-+#include "corgi.h"
- #include <mach/pxa2xx-regs.h>
- #include "sharpsl_pm.h"
- 
-diff --git a/sound/soc/pxa/corgi.c b/sound/soc/pxa/corgi.c
-index 8b83709431cb..4489d2c8b124 100644
---- a/sound/soc/pxa/corgi.c
-+++ b/sound/soc/pxa/corgi.c
-@@ -21,7 +21,6 @@
+ #include <sound/core.h>
+ #include <sound/jack.h>
+@@ -18,10 +18,10 @@
+ #include <sound/pcm_params.h>
  #include <sound/soc.h>
  
+-#include <mach/hx4700.h>
  #include <asm/mach-types.h>
--#include <mach/corgi.h>
- #include <linux/platform_data/asoc-pxa.h>
+ #include "pxa2xx-i2s.h"
  
- #include "../codecs/wm8731.h"
-@@ -41,6 +40,9 @@
- static int corgi_jack_func;
- static int corgi_spk_func;
++static struct gpio_desc *gpiod_hp_driver, *gpiod_spk_nsd;
+ static struct snd_soc_jack hs_jack;
  
-+static struct gpio_desc *gpiod_mute_l, *gpiod_mute_r,
-+			*gpiod_apm_on, *gpiod_mic_bias;
-+
- static void corgi_ext_control(struct snd_soc_dapm_context *dapm)
- {
- 	snd_soc_dapm_mutex_lock(dapm);
-@@ -49,8 +51,8 @@ static void corgi_ext_control(struct snd_soc_dapm_context *dapm)
- 	switch (corgi_jack_func) {
- 	case CORGI_HP:
- 		/* set = unmute headphone */
--		gpio_set_value(CORGI_GPIO_MUTE_L, 1);
--		gpio_set_value(CORGI_GPIO_MUTE_R, 1);
-+		gpiod_set_value(gpiod_mute_l, 1);
-+		gpiod_set_value(gpiod_mute_r, 1);
- 		snd_soc_dapm_disable_pin_unlocked(dapm, "Mic Jack");
- 		snd_soc_dapm_disable_pin_unlocked(dapm, "Line Jack");
- 		snd_soc_dapm_enable_pin_unlocked(dapm, "Headphone Jack");
-@@ -58,24 +60,24 @@ static void corgi_ext_control(struct snd_soc_dapm_context *dapm)
- 		break;
- 	case CORGI_MIC:
- 		/* reset = mute headphone */
--		gpio_set_value(CORGI_GPIO_MUTE_L, 0);
--		gpio_set_value(CORGI_GPIO_MUTE_R, 0);
-+		gpiod_set_value(gpiod_mute_l, 0);
-+		gpiod_set_value(gpiod_mute_r, 0);
- 		snd_soc_dapm_enable_pin_unlocked(dapm, "Mic Jack");
- 		snd_soc_dapm_disable_pin_unlocked(dapm, "Line Jack");
- 		snd_soc_dapm_disable_pin_unlocked(dapm, "Headphone Jack");
- 		snd_soc_dapm_disable_pin_unlocked(dapm, "Headset Jack");
- 		break;
- 	case CORGI_LINE:
--		gpio_set_value(CORGI_GPIO_MUTE_L, 0);
--		gpio_set_value(CORGI_GPIO_MUTE_R, 0);
-+		gpiod_set_value(gpiod_mute_l, 0);
-+		gpiod_set_value(gpiod_mute_r, 0);
- 		snd_soc_dapm_disable_pin_unlocked(dapm, "Mic Jack");
- 		snd_soc_dapm_enable_pin_unlocked(dapm, "Line Jack");
- 		snd_soc_dapm_disable_pin_unlocked(dapm, "Headphone Jack");
- 		snd_soc_dapm_disable_pin_unlocked(dapm, "Headset Jack");
- 		break;
- 	case CORGI_HEADSET:
--		gpio_set_value(CORGI_GPIO_MUTE_L, 0);
--		gpio_set_value(CORGI_GPIO_MUTE_R, 1);
-+		gpiod_set_value(gpiod_mute_l, 0);
-+		gpiod_set_value(gpiod_mute_r, 1);
- 		snd_soc_dapm_enable_pin_unlocked(dapm, "Mic Jack");
- 		snd_soc_dapm_disable_pin_unlocked(dapm, "Line Jack");
- 		snd_soc_dapm_disable_pin_unlocked(dapm, "Headphone Jack");
-@@ -108,8 +110,8 @@ static int corgi_startup(struct snd_pcm_substream *substream)
- static void corgi_shutdown(struct snd_pcm_substream *substream)
- {
- 	/* set = unmute headphone */
--	gpio_set_value(CORGI_GPIO_MUTE_L, 1);
--	gpio_set_value(CORGI_GPIO_MUTE_R, 1);
-+	gpiod_set_value(gpiod_mute_l, 1);
-+	gpiod_set_value(gpiod_mute_r, 1);
- }
+ /* Headphones jack detection DAPM pin */
+@@ -40,9 +40,8 @@ static struct snd_soc_jack_pin hs_jack_pin[] = {
  
- static int corgi_hw_params(struct snd_pcm_substream *substream,
-@@ -199,14 +201,14 @@ static int corgi_set_spk(struct snd_kcontrol *kcontrol,
- static int corgi_amp_event(struct snd_soc_dapm_widget *w,
- 	struct snd_kcontrol *k, int event)
+ /* Headphones jack detection GPIO */
+ static struct snd_soc_jack_gpio hs_jack_gpio = {
+-	.gpio		= GPIO75_HX4700_EARPHONE_nDET,
+ 	.invert		= true,
+-	.name		= "hp-gpio",
++	.name		= "earphone-ndet",
+ 	.report		= SND_JACK_HEADPHONE,
+ 	.debounce_time	= 200,
+ };
+@@ -81,14 +80,14 @@ static const struct snd_soc_ops hx4700_ops = {
+ static int hx4700_spk_power(struct snd_soc_dapm_widget *w,
+ 			    struct snd_kcontrol *k, int event)
  {
--	gpio_set_value(CORGI_GPIO_APM_ON, SND_SOC_DAPM_EVENT_ON(event));
-+	gpiod_set_value(gpiod_apm_on, SND_SOC_DAPM_EVENT_ON(event));
+-	gpio_set_value(GPIO107_HX4700_SPK_nSD, !!SND_SOC_DAPM_EVENT_ON(event));
++	gpiod_set_value(gpiod_spk_nsd, !!SND_SOC_DAPM_EVENT_ON(event));
  	return 0;
  }
  
- static int corgi_mic_event(struct snd_soc_dapm_widget *w,
- 	struct snd_kcontrol *k, int event)
+ static int hx4700_hp_power(struct snd_soc_dapm_widget *w,
+ 			   struct snd_kcontrol *k, int event)
  {
--	gpio_set_value(CORGI_GPIO_MIC_BIAS, SND_SOC_DAPM_EVENT_ON(event));
-+	gpiod_set_value(gpiod_mic_bias, SND_SOC_DAPM_EVENT_ON(event));
+-	gpio_set_value(GPIO92_HX4700_HP_DRIVER, !!SND_SOC_DAPM_EVENT_ON(event));
++	gpiod_set_value(gpiod_hp_driver, !!SND_SOC_DAPM_EVENT_ON(event));
  	return 0;
  }
  
-@@ -293,6 +295,19 @@ static int corgi_probe(struct platform_device *pdev)
+@@ -162,11 +161,6 @@ static struct snd_soc_card snd_soc_card_hx4700 = {
+ 	.fully_routed		= true,
+ };
  
- 	card->dev = &pdev->dev;
+-static struct gpio hx4700_audio_gpios[] = {
+-	{ GPIO107_HX4700_SPK_nSD, GPIOF_OUT_INIT_HIGH, "SPK_POWER" },
+-	{ GPIO92_HX4700_HP_DRIVER, GPIOF_OUT_INIT_LOW, "EP_POWER" },
+-};
+-
+ static int hx4700_audio_probe(struct platform_device *pdev)
+ {
+ 	int ret;
+@@ -174,26 +168,26 @@ static int hx4700_audio_probe(struct platform_device *pdev)
+ 	if (!machine_is_h4700())
+ 		return -ENODEV;
  
-+	gpiod_mute_l = devm_gpiod_get(&pdev->dev, "mute-l", GPIOD_OUT_HIGH);
-+	if (IS_ERR(gpiod_mute_l))
-+		return PTR_ERR(gpiod_mute_l);
-+	gpiod_mute_r = devm_gpiod_get(&pdev->dev, "mute-r", GPIOD_OUT_HIGH);
-+	if (IS_ERR(gpiod_mute_r))
-+		return PTR_ERR(gpiod_mute_r);
-+	gpiod_apm_on = devm_gpiod_get(&pdev->dev, "apm-on", GPIOD_OUT_LOW);
-+	if (IS_ERR(gpiod_apm_on))
-+		return PTR_ERR(gpiod_apm_on);
-+	gpiod_mic_bias = devm_gpiod_get(&pdev->dev, "mic-bias", GPIOD_OUT_LOW);
-+	if (IS_ERR(gpiod_mic_bias))
-+		return PTR_ERR(gpiod_mic_bias);
-+
- 	ret = devm_snd_soc_register_card(&pdev->dev, card);
+-	ret = gpio_request_array(hx4700_audio_gpios,
+-				ARRAY_SIZE(hx4700_audio_gpios));
++	gpiod_hp_driver = devm_gpiod_get(&pdev->dev, "hp-driver", GPIOD_OUT_HIGH);
++	ret = PTR_ERR_OR_ZERO(gpiod_hp_driver);
++	if (ret)
++		return ret;
++	gpiod_spk_nsd = devm_gpiod_get(&pdev->dev, "spk-nsd", GPIOD_OUT_HIGH);
++	ret = PTR_ERR_OR_ZERO(gpiod_spk_nsd);
  	if (ret)
- 		dev_err(&pdev->dev, "snd_soc_register_card() failed: %d\n",
+ 		return ret;
+ 
++	hs_jack_gpio.gpiod_dev = &pdev->dev;
+ 	snd_soc_card_hx4700.dev = &pdev->dev;
+ 	ret = devm_snd_soc_register_card(&pdev->dev, &snd_soc_card_hx4700);
+-	if (ret)
+-		gpio_free_array(hx4700_audio_gpios,
+-				ARRAY_SIZE(hx4700_audio_gpios));
+ 
+ 	return ret;
+ }
+ 
+ static int hx4700_audio_remove(struct platform_device *pdev)
+ {
+-	gpio_set_value(GPIO92_HX4700_HP_DRIVER, 0);
+-	gpio_set_value(GPIO107_HX4700_SPK_nSD, 0);
+-
+-	gpio_free_array(hx4700_audio_gpios, ARRAY_SIZE(hx4700_audio_gpios));
++	gpiod_set_value(gpiod_hp_driver, 0);
++	gpiod_set_value(gpiod_spk_nsd, 0);
+ 	return 0;
+ }
+ 
 -- 
 2.29.2
 
