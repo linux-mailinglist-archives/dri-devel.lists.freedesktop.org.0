@@ -2,51 +2,53 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id E6EAF506173
-	for <lists+dri-devel@lfdr.de>; Tue, 19 Apr 2022 03:07:20 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id D24BF506174
+	for <lists+dri-devel@lfdr.de>; Tue, 19 Apr 2022 03:07:24 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id E504810E158;
-	Tue, 19 Apr 2022 01:07:15 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id D6FBE10E1D6;
+	Tue, 19 Apr 2022 01:07:21 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from EUR05-VI1-obe.outbound.protection.outlook.com
- (mail-vi1eur05on2046.outbound.protection.outlook.com [40.107.21.46])
- by gabe.freedesktop.org (Postfix) with ESMTPS id ACDB210E158
- for <dri-devel@lists.freedesktop.org>; Tue, 19 Apr 2022 01:07:14 +0000 (UTC)
+ (mail-vi1eur05on2081.outbound.protection.outlook.com [40.107.21.81])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id D4A1510E186
+ for <dri-devel@lists.freedesktop.org>; Tue, 19 Apr 2022 01:07:19 +0000 (UTC)
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=bGrF1HSVnGgjwHNUnS1Q1MbSD/irRMF5Qlv0c9xFKpHXVKqAjswV06KgSKZxjrUhbidXxrlwAKVGCj9Jp/tl0p/TFQSeSChbGO3zMVxqfacq/VZDnk1oCZY2MTiQbs04v6rNbr+aXw+tdjwJsq+C9FMeqPiIf9F1j81DjSrEEbwbEdVZ3gz9Hq22iSHr1sOZG3v3ezCectmy3GuyEONwTe4c/Wiqe8J6s3Kqc1tRj/ij+ZMf8EiiBwUvVVScW8Vz68kdQUz/1buCCaIBJ52Fc6SvlgbdWsb8R2lYzrtpOaMgS24v+9tNrx6pNcHfAvyLOGu4mYHy3XQhMwju6Bltbg==
+ b=oQPxRp8iZzxMUzdZg6YDW7f0Nbp63RgVrWFHv7RZTMK2QMTER2eoHy4tdpTSiIBb9pEvmnvckTc6pJIpsljayrLEWO7l4D6Rz+ibiGxNFpAcsEm8RVPRrEs+z6hq/5NPc3CvadsnweglIQ+aK6ZANCPUB1ERQna1fiJL7cRXxXEgzv1hkUeGO5y9VvwYdn7BZPPjl0gnblCTKAth6xkeWVU/jAICdaxHMW8NP+jlMunSoH7pgryZRgoQ0RgvsCMtCA7FWfWC89TZy111PNxB0GSQG7giml97JToohc6mzaWIUt3grnFN/TapXGxDqlvQZ/gQN2hqARM67qacCdAOUA==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
  s=arcselector9901;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=b+wH+EVeQJsUnn8AdmBh/OojI/62kuhWmmCeeg7yWPc=;
- b=FmlLN5cA4dC/EJVk5rpvPFb74E9yFU3G/VglwlY+qkvU1N+aQrqTdSssRJfhwN06Eup9bbmqmx6CE+oDhiYar6cj+VQOh9zgzz1oxUdLG6vGmc0QfrBjX1DL9EA4O2OMPQmLLM8dsDxkpgUYuQbhRtH1ZuCAEwsmQ31I4KnnPqqa9sUKsCeudZsoQ6vpQONxmy4AjGT5Z2chnr6Fh+2O+MH7WTqHIO2NNPwhWfO5beJyHpt+afXS/+n1Pn7GvVjG+LTtG45fA9S8cd+SukSgiUodyNz42xCl9qz8gVJh0+ngYqHX3YSNYDJrn5eTSLY/RE3s4WrgtcQOWrk265jNrg==
+ bh=oslkYcgQ48zUnKLesDh+7ZOPuZ0okPDV5oPLB5C+n30=;
+ b=Dhg5xAWoTgq0yl3T6ffQEy2RuGYtvASonwr8m0GPZiECASxxe+1oJMGSioSA+I3QXbqfLr6j/333kf7Ph0YLUjp9Q0c7pNyokv6G2i8Oy8N2qIHr1ZYcDNEE3nj0BLCQgReso3fUeoiAW41whszNizwGJLGO9QtOCC0CxEnVbZ78XyypEdf5Dnt+FPxh+niGRqJSRfzznqNjNz9cMlOsoarO6fT3H8u6Dm1wGyYfkQWp2CBDQITpzCndrqpu8Bo8/g4ixmA0paE4OSn5SP8lmfphnisgbT5C5vuv+xmNRKMljekMkylRiwGOvSAk0IdmfoTmEs5F96mpJ1zK5OYNyg==
 ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
  smtp.mailfrom=nxp.com; dmarc=pass action=none header.from=nxp.com; dkim=pass
  header.d=nxp.com; arc=none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nxp.com; s=selector2; 
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=b+wH+EVeQJsUnn8AdmBh/OojI/62kuhWmmCeeg7yWPc=;
- b=SWmuIGCFst5vi1YUwW/T5DU2l/nTx5TEsYUNsYqVqFI2gPzqTyLAyaEdrnr9/hz6UIXAsfc92pOwNxnMRn/TV2Gnmia4QUbSALZOG+Cn8cP0aPgMZfRMCcFninTiUj6iLUPCBv4J+9+MsNarBHQwnhsP+jPgq7bREFZR/wJ8IOE=
+ bh=oslkYcgQ48zUnKLesDh+7ZOPuZ0okPDV5oPLB5C+n30=;
+ b=kOGoCGQ0ihKK169HgyeuWeODWSeLSUXnSwxpe3eAHVmTqYZgr7kFZOHPQlfYGGwU1VCiDMuCNNCUKdm3e5zq3ZY8HpvnRpmANbayPlPr+xZ6KSfSUwWznFANJrpbJRuvwkgrJNcIIFQMdd0VFXzJMLDsGFUCo71rQOmgyhTmDYk=
 Authentication-Results: dkim=none (message not signed)
  header.d=none;dmarc=none action=none header.from=nxp.com;
 Received: from AM7PR04MB7046.eurprd04.prod.outlook.com (2603:10a6:20b:113::22)
  by HE1PR04MB3291.eurprd04.prod.outlook.com (2603:10a6:7:18::31) with
  Microsoft SMTP Server (version=TLS1_2,
  cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.5164.20; Tue, 19 Apr
- 2022 01:07:10 +0000
+ 2022 01:07:17 +0000
 Received: from AM7PR04MB7046.eurprd04.prod.outlook.com
  ([fe80::b09c:8ffe:8e02:7387]) by AM7PR04MB7046.eurprd04.prod.outlook.com
  ([fe80::b09c:8ffe:8e02:7387%9]) with mapi id 15.20.5164.026; Tue, 19 Apr 2022
- 01:07:10 +0000
+ 01:07:16 +0000
 From: Liu Ying <victor.liu@nxp.com>
 To: linux-phy@lists.infradead.org, devicetree@vger.kernel.org,
  linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
  linux-arm-kernel@lists.infradead.org
-Subject: [PATCH resend v8 0/5] phy: phy-fsl-imx8-mipi-dphy: Add i.MX8qxp LVDS
- PHY mode support
-Date: Tue, 19 Apr 2022 09:08:47 +0800
-Message-Id: <20220419010852.452169-1-victor.liu@nxp.com>
+Subject: [PATCH resend v8 1/5] drm/bridge: nwl-dsi: Set PHY mode in
+ nwl_dsi_mode_set()
+Date: Tue, 19 Apr 2022 09:08:48 +0800
+Message-Id: <20220419010852.452169-2-victor.liu@nxp.com>
 X-Mailer: git-send-email 2.25.1
+In-Reply-To: <20220419010852.452169-1-victor.liu@nxp.com>
+References: <20220419010852.452169-1-victor.liu@nxp.com>
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 X-ClientProxiedBy: SI2P153CA0023.APCP153.PROD.OUTLOOK.COM (2603:1096:4:190::6)
@@ -54,66 +56,66 @@ X-ClientProxiedBy: SI2P153CA0023.APCP153.PROD.OUTLOOK.COM (2603:1096:4:190::6)
  (2603:10a6:20b:113::22)
 MIME-Version: 1.0
 X-MS-PublicTrafficType: Email
-X-MS-Office365-Filtering-Correlation-Id: 7aa87591-fb85-4813-fe76-08da21a0edf9
+X-MS-Office365-Filtering-Correlation-Id: 8bf39387-859e-435b-acf7-08da21a0f21a
 X-MS-TrafficTypeDiagnostic: HE1PR04MB3291:EE_
-X-Microsoft-Antispam-PRVS: <HE1PR04MB32919EF247F0CB3F21765E7498F29@HE1PR04MB3291.eurprd04.prod.outlook.com>
+X-Microsoft-Antispam-PRVS: <HE1PR04MB32913CA1D9C8BF5219AE665398F29@HE1PR04MB3291.eurprd04.prod.outlook.com>
 X-MS-Exchange-SenderADCheck: 1
 X-MS-Exchange-AntiSpam-Relay: 0
 X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: ndH2dJ+Y+JNhJPz+VM/TAQnFaQ0rMuVUW/cD6Dh9LabD9lPryp7OZ5/c2r2TURiHoKVvceuFgFd5my2anXbvfd4nwwrX/vv/rc2P22Rd1u3SJMm4gHtnY+h2kIYzObNyWj6zsbUJB6E5YMQmqCRG2WuK2Ru8v0HvCpeWHG4RooFQBQZ7Q5RLvx110nZHlzWFNU639r0JCPkV6hU8/VU+OwlGU0LMkh0Pjzgfqh6NoSz1qq36WoNmAKttM+cXbL3RujavNhsjfMEP7Js91zSHr9CBrhDZuCwhugxE8uTqMKafHgnrBuzaPklSvuMu8WE90okROu2WxT5wRzfcX5ZVhFL+K9jzsRtL9EOI1kGGS/hTxwo8owyYqmVTxqj1mQ0FXr6KlJP2FUKX1ox5UQzNFFzGdARwhdaxwOelLB35vUVCMK7/nwDgFvrEBUSC8m6kF7T/Nu4+lBo9Z8tPA/oHZLY1O498mweDGgTRVZRg94eouy25E7lT0dNouK5qCXAsYNlcsyKnrfRTjqC1YvRmi5wCj+JYpcmZs/KnKsbioVouNupTqbSjR8wwj0MHPbk4fUcSc4uuYanc8hawOc4/9QUYOgRv5Fnf0xCl9f40EoaRHfR33Q5tTLlIP1yx0cdGMbFTGUcwBdKcbTMmPCP3u5wmbXJ0K2F3lgpoNBvLBb5pkMebE07uaM4/V76+g3pn3sSayt5XFKrNlAp43rxr8A==
+X-Microsoft-Antispam-Message-Info: nL/pFJA02ZzuemXlJL3P1PATUtkJ5u/Lf4RIBp49gjaJK5t7us6zygQe56W2GUIqDJwBlk9bKc4XdqxQXdtYTsgtTScHdavchI47QBZY6LKOhyfPlKiBLupq/URltnYi7buWQ5G9oDDoZJHggB/5IxMBwPPijc4rvfPMzYZghpjuHWs7GeJGiFRNwMcEOmb4JGv2Zw3E/eUlPkclWLDPfVebO/5JmF7hTuiHGkm1g/e0vbhhPfjcbzlrMLzCMo/g+eIVBEd+du2au9TAzK62uuoE89EmeSTxPYpwFCOHhtLrsnipRBnoq+O9NsyfKqlvMrXcuXlkqkond/O7pKEdQkBwei02h72ydCGkWB8KGuKXZUwrCtiLI/+0V6qLGq6KuDxoAHBiGqzVvQ3YXsE6CgNxME3N91mq/xD4vadB9VsMCejbDPqM2+E40uYEgaBuHuuM3Bq5siFvgXUPYRKROta+VjE8gYgJ6yFRAW3Sz/2NiVzfJu92mRQnBH8ndatG4dLx7PoxxQ/8HgE04Xr55a4blRoxRYP8eT9YWXRKCMcdHLDhhBBLqgDsgCY8gnRJtxPiFmvDfduIvRbqSLYL3fFubNDmdWbb8pKkfTjWeZpmsyw9Bei1331AkkWkzAcjCCx6sjc140B164N59OUgu6GX5rfs9jHASAU3cIM5qHoCX7blo38gUMPfbf105ennBGzFAc+Pj3nImUC3tm4qZQ==
 X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
  IPV:NLI; SFV:NSPM; H:AM7PR04MB7046.eurprd04.prod.outlook.com; PTR:; CAT:NONE;
  SFS:(13230001)(4636009)(366004)(66946007)(508600001)(8676002)(4326008)(86362001)(6486002)(36756003)(52116002)(6512007)(6506007)(6666004)(316002)(66556008)(66476007)(2906002)(26005)(186003)(83380400001)(2616005)(1076003)(5660300002)(7416002)(8936002)(38100700002)(38350700002);
  DIR:OUT; SFP:1101; 
 X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: =?utf-8?B?Z2czMUxzeVNZOTAwd3c2Rm4zOWw2elhWUnZpc1pzWSs4VDJXQmFQZDRabVlk?=
- =?utf-8?B?a0hXeTNlRGNhQ2hJOVNFT2EzbThUL1BFdmxxbUFjeDdOUDUzaVZFcjUvNzJu?=
- =?utf-8?B?R3l0K3RlYVV3THdjR0czN0JSNG8rMi9hd1JCRWNkY1ovMlVzcXpwenVucEF2?=
- =?utf-8?B?eXc1aUNSZm9GZU5ZQ21IR0RmRjRKSENsaTloSVpYVDY1dkdQTm1LalhoZVRx?=
- =?utf-8?B?Ym9ibEk3VUFTOXNoQ2tMQUNBSnV2R0tIbDVFVVdZMHFvTEs4SXNOUkZBNXZx?=
- =?utf-8?B?Q1J5N0FkM2xsTDY4WlhORFJYa3FXVlpvVy9PSlRUWVdOMnB2Yi9yOHJFTTdI?=
- =?utf-8?B?dGpNRzRhWjJiNTQzZFE4SDRaZGJ5MHFLTExjaFluSDlGZzFtOThscTg3eXNX?=
- =?utf-8?B?MG45dHFUUEFmVWxUTk9Xb0U0WVdPL2hPb1djOWtYbzRXNmlhQlBWOU9IZzQw?=
- =?utf-8?B?Sy9DTUdDMW9kR3I1eksrR2szUFN2cU02R1o2c3kyaDA3c1lmNHFGOFkzbXFl?=
- =?utf-8?B?WlZtbGk0UitKdXJZb1A3Q1pQMEFlYm5YbjFOd0g1b3dIb3piejQ4SWM5ZlIz?=
- =?utf-8?B?WDZ6NHY4TXNlOGVtNXptaEcyZnVpdmhKUDFVRmhtQzRmd01Nb2JOTVk2SEd4?=
- =?utf-8?B?aWRkOXZCTmVTSGxqRlpRTm9aYmhUS01FOTdMUFpFRTBvbUR2ekFQem9reTE3?=
- =?utf-8?B?WGZPWEpyUzFLNHZ5YnhrS2ZmSXN6Wk9uUDg4eGtjZU1Dc2hTdW45UVplTk1R?=
- =?utf-8?B?eThOSVVFeFN2TnIydzRvZlVERTVPZkp6SHZWRWJOS3ZNWDVXU05RUzNiVW82?=
- =?utf-8?B?WndVcGQyWkpHVzk1Z1BsTnh4Y3dIdE1QODVqbTQ2aExMTEtRdUFIZ2ZORlRZ?=
- =?utf-8?B?UE1SUUo0TEFZekZONk9pQjVLbHFMT2tra2FvNnpGZ0RZUmgwWlFxbUdZMjlJ?=
- =?utf-8?B?SFBJMXdDZlZ1U081SHFMMXpVV1U2SSt6eU9FY0NSZDJpdkI2clRjRlM0U0pT?=
- =?utf-8?B?NDJHazU4Zk8zMFQ2aTJ3YUhJWXlnWEpSdzNQL1ZxSFhJUnp3RUNJaGZCaGRT?=
- =?utf-8?B?bk5aS3k2Sy9NZHl0bGN2UWlXU2RsRHZYSXNGUFNTdUhOcGpISlk0V21XYVgx?=
- =?utf-8?B?SVdQVm9XaFBKYVlwQ1FRejhHWjZYWkdaa0JkL2JzdUw0UmhRbTBBWVhMMnNE?=
- =?utf-8?B?dHBzQ0ZXVU9BM0dBWEJVYUlDNnM3R0RMOGFtWmtrOWlNS1FEYzJiUm1tS1dI?=
- =?utf-8?B?cFRueVdGVHE0UWUvVVRERDFCUUZnc2JRdWx1UUhhS3IxcmlKbFBSenVTZEo3?=
- =?utf-8?B?L1hLcndKcEFxTFF3Ty9iUUR2RS8vMVlHOC9WTjd4ZlMwRnNITytNY29RbnE3?=
- =?utf-8?B?Vm5CZjlFTG9xVTFDNVhCYUEyZ3A0TTVCRUp5K3FlbFFWa1hXaVNEQWZITFFp?=
- =?utf-8?B?T1N6NVhKYWNYWFFXcHpMdDlodElsdTJzOERReDN6VFVmNUhoMU10TjFpWk5x?=
- =?utf-8?B?YkM1UFU0TXhEd0c5V2t4cXM0OUF5dE81eFpEbnVNc1p0aVpjS0ZEaUxLWFpp?=
- =?utf-8?B?d0FHSGJTTzRtbjk4ekxaUVJlVFMzb1NhNWcvdmlNdy9XMkJzQjVOdXVuRU5t?=
- =?utf-8?B?N0NwOW9UL2k4bmdxVFU1UFN0aTFaelh5SThoN01aM0ZmQWs5V2dXSlZ1bTB3?=
- =?utf-8?B?UXQ2MzNubUFYK0l1NXdaem8rSjFNNFh5eWRQOWlRODU1S0k2b05DS1RIWVRu?=
- =?utf-8?B?VEJJOXByN0dUSVFVTUx3QzQxRXViOFZQWGwzVlU4eGo1Q21BNVB0Z0hJZWM1?=
- =?utf-8?B?NUt4UlY3V3Vnd01qai8xZE5VNXZLSU9jUlQ2VWtLeFprdzRGZkR2VlRCcFNZ?=
- =?utf-8?B?eEpKUDVveGo3VitHQSs0MDRKUFA5YlVXaTdTOXp5RUk3aUdXWVhrMGtwbExQ?=
- =?utf-8?B?RmN1TkF3bUo2RVVhZDNZTHBrekxTODdycFdvenVuaS9jWDNiektvQXdKd2JF?=
- =?utf-8?B?ZklXa3c3ZmV1VjdwdkNoa29vN2p0SXhXODN5TUw2VGsxQkhHY0xzZnVTekFY?=
- =?utf-8?B?bnJkNW1zZmNGcGo2QndMYTBNVXNlODh3cWZpQjBKc1VhQzU5UjNST2JPSldZ?=
- =?utf-8?B?V3ZJbmUyUEFYd1FGMGtzaWVzWEVjcnl6OC82Y1BDSzlvS2lqNEV2Z2dhUEVE?=
- =?utf-8?B?VXhQL1A5YzRXUDl2Ui92RGZDMFRaQ1dHNkRtR0ZqL3pwTnI4OVNrdTJ3VDQ0?=
- =?utf-8?B?THo4b2RzdTdjVTZtdmRVcFFudjVyWUg5cFkzSFA5Y1JTTU91b0J2TXlXVmtp?=
- =?utf-8?B?SE92eTl6MzM1VENCYVFBOFArVnZ6OTRNSW9nM2ZKZG56M3ZnNFZ3QT09?=
+X-MS-Exchange-AntiSpam-MessageData-0: =?utf-8?B?UVdOQkNOZVFhMjluSXJieEdvSmUySXJ1VjNqcks5bmhrc3U2d0g0UWlHMitm?=
+ =?utf-8?B?Z0UxOFlaek1PQ1dYOW9QTEk1ckJ1UGVnVEpwVHBoRDdXTVl0YmsxaHAwWVFn?=
+ =?utf-8?B?VXBoMW02Qnp6MnU0UGdtVHFaTjcxa01DZ3JrTGJPeEJDVDJVRkdPMm54VVZr?=
+ =?utf-8?B?SUNEcEhjK3lLeXpJbGdCVTloZHlJcTVZcFoyYTROOTF4V2lGd3liZ0lGQnQz?=
+ =?utf-8?B?Z1pjVHdUZFpGT0pIOU1xRTFoY04vekN5WnNvSkdVWHROVmMvUVZJNy8rUFJo?=
+ =?utf-8?B?UDVQM21uQnNKNFZrS0pTMnhLRjlVZWhiajZpcmVMUjZXYVVkVmpDWnhkMzJh?=
+ =?utf-8?B?QjQ1QnIrMFl6VzAyZlozYldFMCtyVkpUNTNWQ2pCNm1WeVovNDA0OXg2VDV3?=
+ =?utf-8?B?MUVoV0tUUHBXb0tyT1NuMzI4UmpUVEFBYVI0cFljdjNVNFlINmlndndKcU94?=
+ =?utf-8?B?QVFxSEZPeWVWNXYxRjNLTjdhR1RhVDNpS0xNZ2dRVnF0NE94b3JUakUrYW1W?=
+ =?utf-8?B?VVJBOEZpaEhkaVpPNnR6NzVqQ01WVWV1TmthR0tyTXRHUW92UVlLcCtzYjVY?=
+ =?utf-8?B?aysraUlFRnpRU1JJM0tNaFRJRlUzWEZldHplWitOYjljZFl6TjRJVkZZOVJa?=
+ =?utf-8?B?cUpiZk5NeitqK21XZVhPZldkZ1VGK2tWNkRoaHB6WGdGWm5uaGJwdWRFMHFz?=
+ =?utf-8?B?YUhiM2pYeFdyMS9xVzFGSWlZQzY0TUl3MTRLOHJyYkV3ZzI0QkV6QTlSdnFp?=
+ =?utf-8?B?dFh2cE91M2hPREs1OHdhVTlYbytEVzZWVjZCNlFIQkFvTXdKQXNDVXovb2Jw?=
+ =?utf-8?B?bm5kSEdCY0ZwQXRJeXhuQUdFeE5mMlRCQzVwZ2NWa0xtRHp0UnY5a2xvaXBs?=
+ =?utf-8?B?MU5FMmRsdDJKWHpUZUFtQm5YbW9nNU5RSDBTMGlJY09uM2tqa1ROUHBvTmN2?=
+ =?utf-8?B?UHlUMUh2c2NhRGVhaTNEMFVvalhYUENRTmhkR2ZTMnJLRFRybHJHZmVyZmkr?=
+ =?utf-8?B?bkJ2MXk5ay9QZmRrcjhjcUVlSzYrOFhaTFY1eEZhM2tnWHQwMFJ6L2pDMXZx?=
+ =?utf-8?B?RGZnYk9lT1hwUCtpRW5CaWEvNFNkNDBjRFBDVmJpSEFsamxvWnAySTQybi90?=
+ =?utf-8?B?bUh3cUV4bjZkclpxZVV6L3FUZ0doZ2JCYUppKzZ5TDRXNnRrbktoaUkvbFU3?=
+ =?utf-8?B?VkY3a2F0RnREZ3M3YlROVmFycEdUQ3VQWXNkWm94aENwTjFTSU9VMU9JeHNB?=
+ =?utf-8?B?NzF1OEkxODY3eVNLTUhucitFeVlCenVpa0JDQ3NCNWN6eVhzWXl5NlFJREQz?=
+ =?utf-8?B?S1kxY2hBeEtVdXBaTHlNcTg4K2lURk9NajNLVjNON3h3dHZMNnlmN1ZmV1Vy?=
+ =?utf-8?B?MWZBbncrUno5b3RWS3Rac1hucC9lckZodEc5QkVSSmJTeXN4cHQ1aHdBWDQ5?=
+ =?utf-8?B?bVFOY2YvV0c1THd4NDBOVVRZTUNlRkEzRE9jaGIxNXkzNjA0Y2xLbFJXbnpt?=
+ =?utf-8?B?QWxLZUNhZzZ1b2xMajIyQk40QXRTUjViZDBGVG1XbW1UYy9IY3hNOXVrNDdw?=
+ =?utf-8?B?UjRvYjdSM3pDRUF4ZnorblJrQnV1L3dYRjZpaWFDTllVeXZQOTY5ancrTjJ3?=
+ =?utf-8?B?OStpQlVEdHNTVXhpenhReFNHeWhqZnN4OFU2dWRNeUdxKzRpOEdSS0VwYTlq?=
+ =?utf-8?B?UFFaMWVyWDdNVVBMT00zRlhHditGWjRSWmhXQnBnVXZSNDViRUVyR25McFBM?=
+ =?utf-8?B?a1p0Y0dRcUZTS0VpVXdhbFJhT0x3SGdjUVdMTHVnQ2NscUlqZ0RJRFVPdjFj?=
+ =?utf-8?B?WFQwZEJLTDZpallVT1VFdGpTLy9tRER6VFNNTlI1d3RoNHFwMVU5dGwyZDB1?=
+ =?utf-8?B?VE1FMGFSeXduRUFLUjhQcWtmR2VDcHNJTkl1L1VnMWgrZlRDUXB2TTlYcGRp?=
+ =?utf-8?B?SCtFUlFsdndSb0V5TVNSMkVrOGVUaXRCQWdaZjV5cU1HVEFNMWgrZFlxSTdG?=
+ =?utf-8?B?dk9uVnJYVmZST21McDM0N1FwZDQwMFVncFoyZGdLMkU1TVV5aWRkalpaMWNU?=
+ =?utf-8?B?cnRmaDVObkMza3FGV3NZMkVPQ1Y3b282KytBdDNZWndsK0ViWkJlZEpHUndn?=
+ =?utf-8?B?dEFhc1Jyby9nTGIvQlZRUGlXTzNSU2dKQTIvYjc0Q2p1MDAxL0lVcTdyMjdN?=
+ =?utf-8?B?TnczTHp2TmV2U21LL2c1T01ldXRSRTdYZmRMWG00dVNPUHJ2U2xRaXhMNGx3?=
+ =?utf-8?B?aUpmRWtsWUFGUm05Si9rN2dwcmk0YU00T2ptWFpVUXFFVDBWQ2J3WTV5MGZ4?=
+ =?utf-8?B?YXBLZXZVRklacitEcEJTV2JWZGtxRUM3anp2MkpUajNLNXJTTDBxdz09?=
 X-OriginatorOrg: nxp.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 7aa87591-fb85-4813-fe76-08da21a0edf9
+X-MS-Exchange-CrossTenant-Network-Message-Id: 8bf39387-859e-435b-acf7-08da21a0f21a
 X-MS-Exchange-CrossTenant-AuthSource: AM7PR04MB7046.eurprd04.prod.outlook.com
 X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 19 Apr 2022 01:07:10.0226 (UTC)
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 19 Apr 2022 01:07:16.8227 (UTC)
 X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
 X-MS-Exchange-CrossTenant-Id: 686ea1d3-bc2b-4c6f-a92c-d99c5c301635
 X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: Zwp6fQl1iV6QsEz7pmNksnaUqxkm6kxJ1PLtkNeYZwm7cwQqMEM412rD9LH+dflFf8CZjcPJeegZHOXjnMOd9w==
+X-MS-Exchange-CrossTenant-UserPrincipalName: HLRPclahNG4QUxk7/OJ9RbHl+rWD3isTjXQ8yDJ2+o5cC1Kc+myJyHxpzVp5UWRO9R9hJY7JNN9Zlipv8Fu31A==
 X-MS-Exchange-Transport-CrossTenantHeadersStamped: HE1PR04MB3291
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -136,90 +138,69 @@ Cc: martin.kepplinger@puri.sm, agx@sigxcpu.org, jernej.skrabec@gmail.com,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi,
+The Northwest Logic MIPI DSI host controller embedded in i.MX8qxp
+works with a Mixel MIPI DPHY + LVDS PHY combo to support either
+a MIPI DSI display or a LVDS display.  So, this patch calls
+phy_set_mode() from nwl_dsi_mode_set() to set PHY mode to MIPI DPHY
+explicitly.
 
-This is the v8 series to add i.MX8qxp LVDS PHY mode support for the Mixel
-PHY in the Freescale i.MX8qxp SoC.
-
-The Mixel PHY is MIPI DPHY + LVDS PHY combo, which can works in either
-MIPI DPHY mode or LVDS PHY mode.  The PHY mode is controlled by i.MX8qxp
-SCU firmware.  The PHY driver would call a SCU function to configure the
-mode.
-
-The PHY driver is already supporting the Mixel MIPI DPHY in i.MX8mq SoC,
-where it appears to be a single MIPI DPHY.
-
-
-Patch 1/5 sets PHY mode in the Northwest Logic MIPI DSI host controller
-bridge driver, since i.MX8qxp SoC embeds this controller IP to support
-MIPI DSI displays together with the Mixel PHY.
-
-Patch 2/5 allows LVDS PHYs to be configured through the generic PHY functions
-and through a custom structure added to the generic PHY configuration union.
-
-Patch 3/5 converts mixel,mipi-dsi-phy plain text dt binding to json-schema.
-
-Patch 4/5 adds dt binding support for the Mixel combo PHY in i.MX8qxp SoC.
-
-Patch 5/5 adds the i.MX8qxp LVDS PHY mode support in the Mixel PHY driver.
-
-
-Welcome comments, thanks.
-
+Cc: Guido Günther <agx@sigxcpu.org>
+Cc: Robert Chiras <robert.chiras@nxp.com>
+Cc: Martin Kepplinger <martin.kepplinger@puri.sm>
+Cc: Andrzej Hajda <andrzej.hajda@intel.com>
+Cc: Neil Armstrong <narmstrong@baylibre.com>
+Cc: Laurent Pinchart <Laurent.pinchart@ideasonboard.com>
+Cc: Jonas Karlman <jonas@kwiboo.se>
+Cc: Jernej Skrabec <jernej.skrabec@gmail.com>
+Cc: David Airlie <airlied@linux.ie>
+Cc: Daniel Vetter <daniel@ffwll.ch>
+Cc: NXP Linux Team <linux-imx@nxp.com>
+Signed-off-by: Liu Ying <victor.liu@nxp.com>
+---
 v7->v8:
-* Trivial kernel doc style fix for patch 2/5 - add '*'.
-* Resend with reviewer mail addresses updated for patch 1/5.
+* Resend with Andrzej's and Jernej's mail addressed updated.
 
 v6->v7:
-* Update the year of copyright for patch 2/5.
-* Better variable explanation for bits_per_lane_and_dclk_cycle in patch 2/5.
-* Use marco instead of magic number for CCM and CA values for patch 5/5.
-* Suppress 'checkpatch --strict' warnings for patch 5/5.
+* No change.
 
 v5->v6:
 * Rebase the series upon v5.17-rc1.
 * Set PHY mode in ->mode_set() instead of ->pre_enable() in the nwl-dsi
-  bridge driver in patch 1/5 due to the rebase.
-* Drop Guido's R-b tag on patch 1/5 due to the rebase.
+  bridge driver due to the rebase.
+* Drop Guido's R-b tag due to the rebase.
 
 v4->v5:
-* Align kernel-doc style of include/linux/phy/phy-lvds.h to
-  include/linux/phy/phy.h for patch 2/5. (Vinod)
-* Trivial tweaks on patch 2/5.
-* Drop Robert's R-b tag on patch 2/5.
+* No change.
 
 v3->v4:
-* Add all R-b tags received from v3 on relevant patches and respin. (Robert)
+* No change.
 
 v2->v3:
-* Improve readability of mixel_dphy_set_mode() in the Mixel PHY driver. (Guido)
-* Improve the 'clock-names' property in the PHY dt binding.
+* No change.
 
 v1->v2:
-* Convert mixel,mipi-dsi-phy plain text dt binding to json-schema. (Guido)
-* Print invalid PHY mode in dmesg from the Mixel PHY driver. (Guido)
-* Add Guido's R-b tag on the patch for the nwl-dsi drm bridge driver.
+* Add Guido's R-b tag.
 
-Liu Ying (5):
-  drm/bridge: nwl-dsi: Set PHY mode in nwl_dsi_mode_set()
-  phy: Add LVDS configuration options
-  dt-bindings: phy: Convert mixel,mipi-dsi-phy to json-schema
-  dt-bindings: phy: mixel: mipi-dsi-phy: Add Mixel combo PHY support for
-    i.MX8qxp
-  phy: freescale: phy-fsl-imx8-mipi-dphy: Add i.MX8qxp LVDS PHY mode
-    support
+ drivers/gpu/drm/bridge/nwl-dsi.c | 6 ++++++
+ 1 file changed, 6 insertions(+)
 
- .../bindings/phy/mixel,mipi-dsi-phy.txt       |  29 --
- .../bindings/phy/mixel,mipi-dsi-phy.yaml      | 107 +++++++
- drivers/gpu/drm/bridge/nwl-dsi.c              |   6 +
- .../phy/freescale/phy-fsl-imx8-mipi-dphy.c    | 276 +++++++++++++++++-
- include/linux/phy/phy-lvds.h                  |  32 ++
- include/linux/phy/phy.h                       |   4 +
- 6 files changed, 414 insertions(+), 40 deletions(-)
- delete mode 100644 Documentation/devicetree/bindings/phy/mixel,mipi-dsi-phy.txt
- create mode 100644 Documentation/devicetree/bindings/phy/mixel,mipi-dsi-phy.yaml
- create mode 100644 include/linux/phy/phy-lvds.h
-
+diff --git a/drivers/gpu/drm/bridge/nwl-dsi.c b/drivers/gpu/drm/bridge/nwl-dsi.c
+index d5945501a5ee..85bab7372af1 100644
+--- a/drivers/gpu/drm/bridge/nwl-dsi.c
++++ b/drivers/gpu/drm/bridge/nwl-dsi.c
+@@ -666,6 +666,12 @@ static int nwl_dsi_mode_set(struct nwl_dsi *dsi)
+ 		return ret;
+ 	}
+ 
++	ret = phy_set_mode(dsi->phy, PHY_MODE_MIPI_DPHY);
++	if (ret < 0) {
++		DRM_DEV_ERROR(dev, "Failed to set DSI phy mode: %d\n", ret);
++		goto uninit_phy;
++	}
++
+ 	ret = phy_configure(dsi->phy, phy_cfg);
+ 	if (ret < 0) {
+ 		DRM_DEV_ERROR(dev, "Failed to configure DSI phy: %d\n", ret);
 -- 
 2.25.1
 
