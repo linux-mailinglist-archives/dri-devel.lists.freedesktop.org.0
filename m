@@ -1,63 +1,48 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0B86F5089CD
-	for <lists+dri-devel@lfdr.de>; Wed, 20 Apr 2022 15:50:18 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id A5932508ADE
+	for <lists+dri-devel@lfdr.de>; Wed, 20 Apr 2022 16:36:19 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id D767F10E301;
-	Wed, 20 Apr 2022 13:50:15 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 78E5F10E228;
+	Wed, 20 Apr 2022 14:36:16 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-pl1-x62b.google.com (mail-pl1-x62b.google.com
- [IPv6:2607:f8b0:4864:20::62b])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 0255B10E301
- for <dri-devel@lists.freedesktop.org>; Wed, 20 Apr 2022 13:50:13 +0000 (UTC)
-Received: by mail-pl1-x62b.google.com with SMTP id n18so1824865plg.5
- for <dri-devel@lists.freedesktop.org>; Wed, 20 Apr 2022 06:50:13 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
- h=from:to:cc:subject:date:message-id:in-reply-to:references;
- bh=hwpE4P0PAK++IoF87d4GxulRADSGpUtTFQUdjv5LNcw=;
- b=H45VCtXdf6GfWkzyk5L6TRFXA93Hkt+3Qy+nVISRnNytt384I4SE2Fa1cJNV6flsae
- 5bScYbioWdXQKuRDQICsrEfAWOx7e4txX64dN9pS9F8QqrFiG2e+oVchSv5vEelq8011
- gIABJAVN6Udx4mJ7uUArgP3/6lP8Q5TXh2besSwyX5ngw2VyMaSiQE6vxGcr6HNAyW5c
- g9ap4MsFPYuKnMCL6spP2RSFcM0UueI9jc+5r+6USDigMexmWADzq0TaoKKfzCKnAfpp
- weelRWGALLBQTs+e3YWi7mTRS9IuB5POun0yDQp/SA4N/fqVqXFD1klEptXWJSs4RAdl
- cNqg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
- :references;
- bh=hwpE4P0PAK++IoF87d4GxulRADSGpUtTFQUdjv5LNcw=;
- b=Ia7gYUXHuMxvdjgMTtBZpQOaNFMHWzJgFQ8rX8GFj1P/yX+pzyl/xdViJOcsFmLtmW
- CxkaG1M5o8H4BczDaUppllzU83O2pNeaM9iab7Ih9DYDaZLcjefPcmC5CASvznhqwzSZ
- JNfXWdUiphBew+E0goLNOxI/xlnOZgqD99Rw+pSwsDY+Hf3GvpHuUa1DLjGXKlYND92b
- Q7vSAe51ZkQOleTbpKiKtAwtKkPnD7YVQQJYnx2XNiOW2ld892vjVfyyRPrsB0e5+w5h
- YFN3HiRFfEIO8YB528b23W0qfjpadOLSvd8BN6ZYLNLXd+UOAkJz+Y0G3lDLoDPUYrqr
- NIsw==
-X-Gm-Message-State: AOAM532CvuKyQJkL+ggnEJDQWbjTFfteYoSm3ZTyYM+AY/S3c9h7AaVB
- mVMrBRq9ezkw/0XlKvppAjU=
-X-Google-Smtp-Source: ABdhPJwzRIaufinLodvQbo05m+YRV47g8bGZU9n2OpavHyOuPdouIljKB/BGuDv28AzfQiqjzEaTMQ==
-X-Received: by 2002:a17:90b:1e01:b0:1cf:573c:5625 with SMTP id
- pg1-20020a17090b1e0100b001cf573c5625mr4558482pjb.75.1650462613605; 
- Wed, 20 Apr 2022 06:50:13 -0700 (PDT)
-Received: from localhost.localdomain ([159.226.95.43])
- by smtp.googlemail.com with ESMTPSA id
- c30-20020a631c1e000000b003aa66be569csm2487949pgc.32.2022.04.20.06.50.11
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 20 Apr 2022 06:50:13 -0700 (PDT)
-From: Miaoqian Lin <linmq006@gmail.com>
-To: Emma Anholt <emma@anholt.net>, Maxime Ripard <mripard@kernel.org>,
- David Airlie <airlied@linux.ie>, Daniel Vetter <daniel@ffwll.ch>,
- Eric Anholt <eric@anholt.net>, dri-devel@lists.freedesktop.org,
- linux-kernel@vger.kernel.org
-Subject: [PATCH v3] drm/vc4: Use pm_runtime_resume_and_get to fix
- pm_runtime_get_sync() usage
-Date: Wed, 20 Apr 2022 21:50:07 +0800
-Message-Id: <20220420135008.2757-1-linmq006@gmail.com>
-X-Mailer: git-send-email 2.17.1
-In-Reply-To: <20220420132814.3sy2ojw3dxnd5tcz@houat>
-References: <20220420132814.3sy2ojw3dxnd5tcz@houat>
+Received: from metis.ext.pengutronix.de (metis.ext.pengutronix.de
+ [IPv6:2001:67c:670:201:290:27ff:fe1d:cc33])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 02AFD10E228
+ for <dri-devel@lists.freedesktop.org>; Wed, 20 Apr 2022 14:36:14 +0000 (UTC)
+Received: from drehscheibe.grey.stw.pengutronix.de ([2a0a:edc0:0:c01:1d::a2])
+ by metis.ext.pengutronix.de with esmtps
+ (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256) (Exim 4.92)
+ (envelope-from <ukl@pengutronix.de>)
+ id 1nhBRE-0003Xe-NM; Wed, 20 Apr 2022 16:36:12 +0200
+Received: from [2a0a:edc0:0:900:1d::77] (helo=ptz.office.stw.pengutronix.de)
+ by drehscheibe.grey.stw.pengutronix.de with esmtp (Exim 4.94.2)
+ (envelope-from <ukl@pengutronix.de>)
+ id 1nhBRD-004BQJ-A6; Wed, 20 Apr 2022 16:36:09 +0200
+Received: from ukl by ptz.office.stw.pengutronix.de with local (Exim 4.94.2)
+ (envelope-from <ukl@pengutronix.de>)
+ id 1nhBRB-004UqT-6h; Wed, 20 Apr 2022 16:36:09 +0200
+Date: Wed, 20 Apr 2022 16:36:08 +0200
+From: Uwe =?utf-8?Q?Kleine-K=C3=B6nig?= <u.kleine-koenig@pengutronix.de>
+To: Ian Cowan <ian@linux.cowan.aero>
+Subject: Re: [PATCH] Staging: fbtft: Fix style problem in header
+Message-ID: <20220420143608.yuxleiffs234dfog@pengutronix.de>
+References: <20220419192128.445023-1-ian@linux.cowan.aero>
+ <20220420064711.xuhuyhtgcrs3avhk@pengutronix.de>
+ <YmARR6+XQeVqlusK@fedora>
+MIME-Version: 1.0
+Content-Type: multipart/signed; micalg=pgp-sha512;
+ protocol="application/pgp-signature"; boundary="f7hoyxknyagqhwtl"
+Content-Disposition: inline
+In-Reply-To: <YmARR6+XQeVqlusK@fedora>
+X-SA-Exim-Connect-IP: 2a0a:edc0:0:c01:1d::a2
+X-SA-Exim-Mail-From: ukl@pengutronix.de
+X-SA-Exim-Scanned: No (on metis.ext.pengutronix.de);
+ SAEximRunCond expanded to false
+X-PTX-Original-Recipient: dri-devel@lists.freedesktop.org
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -70,41 +55,83 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: linmq006@gmail.com
+Cc: gregkh@linuxfoundation.org, linux-fbdev@vger.kernel.org,
+ linux-staging@lists.linux.dev, dri-devel@lists.freedesktop.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-If the device is already in a runtime PM enabled state
-pm_runtime_get_sync() will return 1.
 
-Also, we need to call pm_runtime_put_noidle() when pm_runtime_get_sync()
-fails, so use pm_runtime_resume_and_get() instead. this function
-will handle this.
+--f7hoyxknyagqhwtl
+Content-Type: text/plain; charset=iso-8859-1
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
-Fixes: 4078f5757144 ("drm/vc4: Add DSI driver")
-Signed-off-by: Miaoqian Lin <linmq006@gmail.com>
----
-change in v2:
-- switch to pm_runtime_resume_and_get() to fix refcount leak.
-changes in v3:
-- keep the original checking way for retval.
----
- drivers/gpu/drm/vc4/vc4_dsi.c | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+Hello Ian,
 
-diff --git a/drivers/gpu/drm/vc4/vc4_dsi.c b/drivers/gpu/drm/vc4/vc4_dsi.c
-index 752f921735c6..98308a17e4ed 100644
---- a/drivers/gpu/drm/vc4/vc4_dsi.c
-+++ b/drivers/gpu/drm/vc4/vc4_dsi.c
-@@ -846,7 +846,7 @@ static void vc4_dsi_encoder_enable(struct drm_encoder *encoder)
- 	unsigned long phy_clock;
- 	int ret;
- 
--	ret = pm_runtime_get_sync(dev);
-+	ret = pm_runtime_resume_and_get(dev);
- 	if (ret) {
- 		DRM_ERROR("Failed to runtime PM enable on DSI%d\n", dsi->variant->port);
- 		return;
--- 
-2.17.1
+On Wed, Apr 20, 2022 at 09:57:27AM -0400, Ian Cowan wrote:
+> On Wed, Apr 20, 2022 at 08:47:11AM +0200, Uwe Kleine-K=F6nig wrote:
+> > On Tue, Apr 19, 2022 at 03:21:28PM -0400, Ian Cowan wrote:
+> > > Removed an unnecessary semicolon at the end of a macro call
+> > >=20
+> > > Signed-off-by: Ian Cowan <ian@linux.cowan.aero>
+> > > ---
+> > >  drivers/staging/fbtft/fbtft.h | 2 +-
+> > >  1 file changed, 1 insertion(+), 1 deletion(-)
+> > >=20
+> > > diff --git a/drivers/staging/fbtft/fbtft.h b/drivers/staging/fbtft/fb=
+tft.h
+> > > index 2c2b5f1c1df3..aa66760e1a9c 100644
+> > > --- a/drivers/staging/fbtft/fbtft.h
+> > > +++ b/drivers/staging/fbtft/fbtft.h
+> > > @@ -277,7 +277,7 @@ static const struct of_device_id dt_ids[] =3D {		=
+			\
+> > >  	{ .compatible =3D _compatible },						\
+> > >  	{},									\
+> > >  };										\
+> > > -MODULE_DEVICE_TABLE(of, dt_ids);
+> > > +MODULE_DEVICE_TABLE(of, dt_ids)
+> >=20
+> > In fact the ; after MODULE_DEVICE_TABLE is necessary. There is only a
+> > single instance in the kernel without a semicolon[1]. That's in
+> > drivers/pci/controller/pcie-microchip-host.c and this only works because
+> > this driver cannot be compiled as a module and so MODULE_DEVICE_TABLE
+> > evaluates to nothing. Will send a patch for that one.
 
+FTR: Patch was sent: https://lore.kernel.org/linux-pci/20220420065832.14173=
+-1-u.kleine-koenig@pengutronix.de
+
+> When I built this, it appeared to succeed. I used the command "make
+> M=3D/drivers/staging/fbtft modules". Is this incorrect? For reference this
+> is my first patch so it's highly likely I did this incorrectly.
+
+I don't know for sure, but I'd have said that the M=3D stuff is for
+out-of-tree modules only.
+
+I'd recommend:
+
+	make allmodconfig
+	make drivers/staging/fbtft/
+
+Best regards
+Uwe
+
+--=20
+Pengutronix e.K.                           | Uwe Kleine-K=F6nig            |
+Industrial Linux Solutions                 | https://www.pengutronix.de/ |
+
+--f7hoyxknyagqhwtl
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iQEzBAABCgAdFiEEfnIqFpAYrP8+dKQLwfwUeK3K7AkFAmJgGlMACgkQwfwUeK3K
+7AkmVQf/ULc5C4BOsXhP5Yxd0efu3wQ7TGqRegYd/q3ZzvwzMwlc8g8VHCnSYBt1
+Ub1qvQ3EAzBn/vNsRfQb6zXcJxmNAB9OS999dzGLa7I0WS7/uosHvLJVLeoffXRR
+pJ0n3cmZGOBcO2abrhqBJPGOqfgTV/OMxEkFS3fRdjKrkWYMwBKl96Ckt0m/t7ai
+qbu9/771JLKH6L+vM3O8LoL53T1CA27qGrtS3JTNvhHOgNvVem9Rz1XCDQ5pTtHB
+rmBmZfhSWHyD/YFXm83L0iofqVJcOrDuysF329jBFYu1btc5h5S1X7Xk/nqeKf9N
+mNSwdVl2fdCS6r7ao2IdmdN6GGUrXQ==
+=se4c
+-----END PGP SIGNATURE-----
+
+--f7hoyxknyagqhwtl--
