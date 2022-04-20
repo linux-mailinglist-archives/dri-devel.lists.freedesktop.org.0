@@ -1,63 +1,129 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 15630508846
-	for <lists+dri-devel@lfdr.de>; Wed, 20 Apr 2022 14:36:41 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 6D0C250884B
+	for <lists+dri-devel@lfdr.de>; Wed, 20 Apr 2022 14:40:03 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 6F14610E127;
-	Wed, 20 Apr 2022 12:36:36 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 1AF0E10EDF5;
+	Wed, 20 Apr 2022 12:39:59 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-lj1-x234.google.com (mail-lj1-x234.google.com
- [IPv6:2a00:1450:4864:20::234])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 9F55610E127
- for <dri-devel@lists.freedesktop.org>; Wed, 20 Apr 2022 12:36:35 +0000 (UTC)
-Received: by mail-lj1-x234.google.com with SMTP id 17so1660087lji.1
- for <dri-devel@lists.freedesktop.org>; Wed, 20 Apr 2022 05:36:35 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
- h=date:from:to:cc:subject:message-id:in-reply-to:references
- :mime-version; bh=W6oHHYeKKO+vu42AlN0BG2uD/SvAFRdCfFRvB3c5+Io=;
- b=FrYejCu5K4EH8jB9BOnaGxgNlFHWq6Gmx6dugFaKHnTtTipEPoHN/07vT/CMXkhTzj
- 7xqeb5HwQ4cQtu/rJYPcxq8PObJU+PUFYVDerHZTruYcRwwofYrjge7XJLsI1bCgMdQa
- hQHpY/3jXfX+n4uhNT9s0iELTqmhwNXeUDY/fuVdiefReoTmn8q/aHbr5/gcmaWarZDc
- H94+d9yDDKw5IUdvo3HYjfZaYwgLn9yGwE6xdlayIpcBYfqZQSxPy0wzoVoCSPHbdqKc
- 2XWUZ/i3VjiHZqUqx1WsoXAYfjkAJbenkTLo1IQEX/r3T87FM6oTm/UgAjTlO+7VlviT
- 8Bqw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=x-gm-message-state:date:from:to:cc:subject:message-id:in-reply-to
- :references:mime-version;
- bh=W6oHHYeKKO+vu42AlN0BG2uD/SvAFRdCfFRvB3c5+Io=;
- b=RuNodhysMLskTNMfaTtU3j/KRDG5IJmxYKP4eKALLaLrYdzfd8KVLfrhj+mNh6QTgs
- aDroeY3+n1m7L3hwTy9lf8JycgQjaadlCmxjrXBnShGeB+a+bBksee7oEv7AAqGRPN6u
- RLnm+JHiSZxE+A7HQGNF1UWSNaUnvt5BI2KS00lDB5+v26HtuWYcrZVwAtmQslvlsuwm
- Ep3L1XoLitNOh8xHRkiiOOdPQEUVLxePhMCLc0d6VGBmjz0ztMlMroopsLGUd2tl7YG/
- OpBjTQYsT5C7CdC4tqLgiEw5lU8IF6HREa1wZN7h8rZ7cOlw7GIqQqJs+2iAO75G6aX2
- 3pPQ==
-X-Gm-Message-State: AOAM530+3Byu21FkO56KJKdyH1my51TiEXCdD6AjgYOdz1YRISpml7nO
- iOBUNRSTNEy8gOPbZFaYfpI=
-X-Google-Smtp-Source: ABdhPJz+njHDafjIunaVJmiJjB6fz4KiVy08wWVtzdGPsxzEA5v6T9eEHlnAdy/HtmybFozqI0de3Q==
-X-Received: by 2002:a2e:a273:0:b0:24d:b3a9:9471 with SMTP id
- k19-20020a2ea273000000b0024db3a99471mr11881138ljm.320.1650458193506; 
- Wed, 20 Apr 2022 05:36:33 -0700 (PDT)
-Received: from eldfell ([194.136.85.206]) by smtp.gmail.com with ESMTPSA id
- b16-20020a196710000000b00471a47b13f3sm572561lfc.255.2022.04.20.05.36.31
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 20 Apr 2022 05:36:33 -0700 (PDT)
-Date: Wed, 20 Apr 2022 15:36:28 +0300
-From: Pekka Paalanen <ppaalanen@gmail.com>
-To: Igor Torrente <igormtorrente@gmail.com>
-Subject: Re: [PATCH v5 6/9] drm: vkms: Refactor the plane composer to accept
- new formats
-Message-ID: <20220420153628.0a91fcb6@eldfell>
-In-Reply-To: <20220404204515.42144-7-igormtorrente@gmail.com>
-References: <20220404204515.42144-1-igormtorrente@gmail.com>
- <20220404204515.42144-7-igormtorrente@gmail.com>
-X-Mailer: Claws Mail 3.17.8 (GTK+ 2.24.33; x86_64-pc-linux-gnu)
+Received: from NAM10-BN7-obe.outbound.protection.outlook.com
+ (mail-bn7nam10on2048.outbound.protection.outlook.com [40.107.92.48])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id ABEBC10E864;
+ Wed, 20 Apr 2022 12:39:57 +0000 (UTC)
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=XSRvrd2QiqnJgD4+oAFZ6w7AQdscH/NDUnOEIA3xouwf2/7hawzM2jFrkKVHB01A8AXmZkSQSJBIsiFcPuIPzVJPH5S0FmZBYbUE7VYPnenCtkr6IvBBrCH3a4Aswy/sJKko41SnlNLU/uJpa/oHmflbEDk0aXgZZaxzjpdSVHVv2PEJz1/R7fl/hkHEmirUWDC0JZ8aAsbsq69DyB5yoLOGywnQYZG6r7eSpXh0T/Tuz+i/L8bS0vc/HYSQz52o2cnZJ2moKyg4pjEPcVcxDUSJj7DD4IyMuZsCk7QLavlo1+Wpq6nILqLbnrCOTM4xG8RUjB1u4fWH0v75T6/aSQ==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=74uSvR5y6PN5TRq6wTTd85i4oy+/Qk8u2aVBquhjpE4=;
+ b=DQQmwdjZvppNtOvQbYnmaR6eNUelZvfTUQ6gZehayqi2bRSMnLtrzqEw1sjY75H6BGQZAk7eQuEuL5aNghX+F46mC+UOHqc9OOObvoImdNP9FkWxv3jdCB0qh6FGnWeRizbZZBt0Kk1AgKY7jH6ClvnKVjBdIKEOFHB1o1ODRQIoR+YIl6sDvjUXETyYnQZVTqRoIrlxw6AduEs+9SaLks0kw+RLbiGiXM6uCARvU7oHLO5GAMk33sgNBKpdutOl2AU2gaFbojjkSLmtl1toUu/12h17prpHfQe1h712BReDnnQKtAHRgBbl8baKSh1YeWTC4m2F0VyaLglgtTvhdg==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=amd.com; dmarc=pass action=none header.from=amd.com; dkim=pass
+ header.d=amd.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1; 
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=74uSvR5y6PN5TRq6wTTd85i4oy+/Qk8u2aVBquhjpE4=;
+ b=pfix9RJvBtXViQhh5ome1ZQaLWAfOkiR85TCcHI4F04sfjKVpjbxYpIyM61dHwDfqPwqfVrGpehkPNnhrDGZiiKKbFcW67jmvBoaPMnZ9S0XCQQTKgq8okB97CKVDiv7rkM0bKGsrd53ieKrVk9vPBVYcKLYhBHTtxSPpO/oIi4=
+Received: from CO6PR12MB5473.namprd12.prod.outlook.com (2603:10b6:303:13e::8)
+ by DM5PR12MB2421.namprd12.prod.outlook.com (2603:10b6:4:b4::26) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.5164.20; Wed, 20 Apr
+ 2022 12:39:54 +0000
+Received: from CO6PR12MB5473.namprd12.prod.outlook.com
+ ([fe80::28df:431f:d965:e6ef]) by CO6PR12MB5473.namprd12.prod.outlook.com
+ ([fe80::28df:431f:d965:e6ef%7]) with mapi id 15.20.5186.013; Wed, 20 Apr 2022
+ 12:39:53 +0000
+From: "Wang, Yang(Kevin)" <KevinYang.Wang@amd.com>
+To: =?iso-8859-1?Q?Christian_K=F6nig?= <ckoenig.leichtzumerken@gmail.com>,
+ "Koenig, Christian" <Christian.Koenig@amd.com>,
+ "dri-devel@lists.freedesktop.org" <dri-devel@lists.freedesktop.org>,
+ "amd-gfx@lists.freedesktop.org" <amd-gfx@lists.freedesktop.org>
+Subject: Re: [PATCH] drm/ttm: fix ttm tt init fail when size exceeds kmalloc
+ limit
+Thread-Topic: [PATCH] drm/ttm: fix ttm tt init fail when size exceeds kmalloc
+ limit
+Thread-Index: AQHYVJSHP8/0hJsFF022HGuI3b/QKKz4gPOAgAAAasOAAB8mgIAAB9e4gAAJlwCAAAiMCA==
+Date: Wed, 20 Apr 2022 12:39:52 +0000
+Message-ID: <CO6PR12MB54735D4B8E05AB1C17D356AE82F59@CO6PR12MB5473.namprd12.prod.outlook.com>
+References: <20220420085612.1664787-1-KevinYang.Wang@amd.com>
+ <00dfec71-cf38-d6d9-8775-0ae88f59224e@amd.com>
+ <CO6PR12MB54733101E19842B59668482B82F59@CO6PR12MB5473.namprd12.prod.outlook.com>
+ <65ef352b-59c8-e802-5285-afc59e56fa9b@amd.com>
+ <CO6PR12MB547340CB065269B1731812B182F59@CO6PR12MB5473.namprd12.prod.outlook.com>
+ <572ed15c-b47e-e7b3-850a-cb0d5259af04@gmail.com>
+In-Reply-To: <572ed15c-b47e-e7b3-850a-cb0d5259af04@gmail.com>
+Accept-Language: en-US, zh-CN
+Content-Language: en-US
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+msip_labels: MSIP_Label_88914ebd-7e6c-4e12-a031-a9906be2db14_Enabled=True;
+ MSIP_Label_88914ebd-7e6c-4e12-a031-a9906be2db14_SiteId=3dd8961f-e488-4e60-8e11-a82d994e183d;
+ MSIP_Label_88914ebd-7e6c-4e12-a031-a9906be2db14_SetDate=2022-04-20T12:39:53.317Z;
+ MSIP_Label_88914ebd-7e6c-4e12-a031-a9906be2db14_Name=AMD
+ Official Use
+ Only; MSIP_Label_88914ebd-7e6c-4e12-a031-a9906be2db14_ContentBits=0;
+ MSIP_Label_88914ebd-7e6c-4e12-a031-a9906be2db14_Method=Standard; 
+authentication-results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=amd.com;
+x-ms-publictraffictype: Email
+x-ms-office365-filtering-correlation-id: f65de00a-9823-4471-486a-08da22cade6f
+x-ms-traffictypediagnostic: DM5PR12MB2421:EE_
+x-microsoft-antispam-prvs: <DM5PR12MB24213287BDE287A06AC73BD082F59@DM5PR12MB2421.namprd12.prod.outlook.com>
+x-ms-exchange-senderadcheck: 1
+x-ms-exchange-antispam-relay: 0
+x-microsoft-antispam: BCL:0;
+x-microsoft-antispam-message-info: oLBwdsY82pbsRicnUbcKjvNDexCOetarXjmrEUqQakpUojP9Cx72KmZQzYRhm+ncF0rrSkrowPWU2NI8aEypNUFwuD7Dr0LrercwZbzOGOCtTZ3r9VWlubGplkWvNo/DdPUH46RtgQ91uRTOVrDGsW8bg/I3xFsZV408jar5fx/BOR2bH3M8stsHP/zNE79AwJGxKcLDl72xNY7XWgj7nQ7QhqcBIaYkSqxeXe7Kr5UCs0NlxHj+OaTNG91UHqD8iRbfYJKLWoc87JHCmTXRwCQR/eUmK6Wgu8yeTHffQa4DQEofLfeYKqsVYHwur/DpvTJRcA1BlBWNcuqQWbXcg45tBCIJklUJP8glfaBzVC74JepPYqRmkzCPoZqcYAz1yJN30jZ6/XiP2zst9ML/lTsNLB5C83+DD74vtPZ5BNLqZ7xjwu0Bi4UwI8jKYywuJ8L7zU2NsvyQlsrA0Y/hX2FtKtfNyzh6chaITl8FxYR2ZNZUHwA7+nwlwTPH4dZWpW9gIGfyXYUZWpQTgpGZnritVT+BruwNruPZS0xoc7DJqb5uUeyEMVSJwLBP98DL3JiF9sGoEOlCm2oVyif+I0DvyyQ1G8YBhuTrHLDdfmAkhCdHFCWPWEzOlDd7H8zL8KfIYPyrD1iH3oYqLcbICqu7R3kxOh3GPqIA724uXxtwJRY0QvdEzMdh0Ile7Vxw28RT7rB6ltYNQ4J6x2JrF5Sh9G3HriEDhYi7ZTkpnoyen00qm0ajEW85aD6Lr/OV7oFB1avAFKF1Wnd6VhisNAmGT9H3M26uH7ymaNq6CPs=
+x-forefront-antispam-report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
+ IPV:NLI; SFV:NSPM; H:CO6PR12MB5473.namprd12.prod.outlook.com; PTR:; CAT:NONE;
+ SFS:(13230001)(4636009)(366004)(8676002)(83380400001)(26005)(122000001)(53546011)(110136005)(9686003)(66446008)(2906002)(19627405001)(38100700002)(316002)(6506007)(64756008)(33656002)(7696005)(186003)(55016003)(66476007)(166002)(38070700005)(76116006)(91956017)(66946007)(66556008)(86362001)(5660300002)(66574015)(71200400001)(508600001)(52536014)(8936002);
+ DIR:OUT; SFP:1101; 
+x-ms-exchange-antispam-messagedata-chunkcount: 1
+x-ms-exchange-antispam-messagedata-0: =?iso-8859-1?Q?qwNUWCpx6bxR2Pjlz0hmrxaM3/Gzstdvc+9iNJfgOc0hLAWa+VH/xx0Yqw?=
+ =?iso-8859-1?Q?wXJ6mOU6REm6s+cw8YPmksKiXYGcRqFQlFWGza6wPlxi5nrzdZjVG3nrfy?=
+ =?iso-8859-1?Q?fuQZ7N+v4BhCJGLJMrFUK963FQNtLcYd6UETxVLpA6PGxwj4q5GrjnmS9C?=
+ =?iso-8859-1?Q?dwg8GLyew9BdDSWaGwzPuA3z7LxOcdGBjaj0bd3lBL4fQVE5oHzkClBFU0?=
+ =?iso-8859-1?Q?uXXywmdXFwdUq1vWWkW1ZzvshvX1c8OBdmApc3g0cfk315kREw5jbtTA3h?=
+ =?iso-8859-1?Q?0W+q1vkyVC3FntBqPfCPA8klQjaMd2xdFUZQt7znozY7cMY/8ns2Uns8OL?=
+ =?iso-8859-1?Q?TH2Ker2CRLj+XIdQWCLAstNN80dEIwTRzXQHqbwawcNsfd+9RrpWS2ANtO?=
+ =?iso-8859-1?Q?SL8ecUkbrZUujqVoBOb7WqSCZe2xueEh5nOhFfmlpg/if6eGwA5RsYtkqT?=
+ =?iso-8859-1?Q?AnTULJPPV5ra7hoYDbLfBJ2fzUGueQzvHC1umsiiW4BzJp/mUgK1fgyA6C?=
+ =?iso-8859-1?Q?ddsg+58gfGSZiB+8FeuSGm0l1xqAiX6eAp3Q3f9wUYVkT3YoIi0hrSCc3y?=
+ =?iso-8859-1?Q?VAuUJMzj33e+9XYtsNmkBBtSAXwf4gav6wSCdBieFUCC5hL55JDZHm7gWP?=
+ =?iso-8859-1?Q?aPZe+hvLpceXuRDKZNhvKcOWZSRCzXYYDhLnfn8g4mRmjtiHDB4bVu1tfl?=
+ =?iso-8859-1?Q?SLUwoUhGfkmJ3kJnO37amhEAkI3NvJ142pjBLHcH3KlvgBcIpbaDMG6khK?=
+ =?iso-8859-1?Q?SMY37h2fCQPbuW1H4x3HXYIYotxb8W1SBH+mP9tUwlGroEXyQCmPDjn3Aq?=
+ =?iso-8859-1?Q?bdCR1pAdMY4E9DhrE0bX1nkGqE9ULjkqw6traMOiNiOIQk0dhbFjH+1Rzi?=
+ =?iso-8859-1?Q?lVLnFF3G1rLauMBq+67JY4/AsJYAC6v4mP3l9VniGFtRbZ57ytjqgHbpjf?=
+ =?iso-8859-1?Q?rTb3lRM5sPsOBzEgG/4vJwg09oGpMSZ8LAUHp99+WqPOV/z/i0wCFseVZT?=
+ =?iso-8859-1?Q?LEDgB6Xxo5IDZqQ6QoJaa9UBZ0QhftIsn9MyAh+nd+BM4xy2silePqW31A?=
+ =?iso-8859-1?Q?Qp40uK0Mn1yvgwobhGtdHKW/HwDJfhw4XFr9a/mkAsSpFobulRv4OWUGMM?=
+ =?iso-8859-1?Q?Fgb+zKZ9jvmHuOBaRNzdf7gIMC79PJ3FDoK4cpAEXOUFRODrDqQVm/db3r?=
+ =?iso-8859-1?Q?1y82921g8d1hsTZh31DAk3AJCu8TRyrX6DPZ0kN61r1Cyofr5HKxvR5EAC?=
+ =?iso-8859-1?Q?di1w6oZ1dzB/zAxiMQrefAvtGk+ieh/oCDTDzCqd6mq0QF99yubg252Ses?=
+ =?iso-8859-1?Q?T5V/i4oE4E8KUZ6iaxD+qPHmAqPihKxgUigNmdChylXD2Hkbat0rDXWF75?=
+ =?iso-8859-1?Q?J4XZSRkAoF2khaSv3T5hawi2ykisZsKimVVZHqaGqesu7zcRF70wz1mIZe?=
+ =?iso-8859-1?Q?hBKoStDQoNCmIZxrOOStOrvIV4OjJqAWJnsMGejGBceNYBZshjJgu9O3RI?=
+ =?iso-8859-1?Q?pKzI1ec2sQ0Wpu+7h0LKLRnCDsekMplUDILvwDEeCWYbvs6jDWeU4LrTU9?=
+ =?iso-8859-1?Q?6tqQeUDbhZCmFUxd94I6CfIHNOWlYkuk5k+riuAoE3FpytZWhQEes1N2U2?=
+ =?iso-8859-1?Q?19UscNcowYMYPgJ8M8kGnTA1P2EQexJJtk3/YrwrZ0aT6OYo+Z7MsNAIM3?=
+ =?iso-8859-1?Q?9y9wpAK4B3PnkYcQEXA/ehLhta208seuo/rzbWpyJyqXzgAq1uluM/S8j3?=
+ =?iso-8859-1?Q?Aq/6FsFKdD/WCLPypLmIj9GlgYGhl45Vtmjgo30jtCWnfq?=
+Content-Type: multipart/alternative;
+ boundary="_000_CO6PR12MB54735D4B8E05AB1C17D356AE82F59CO6PR12MB5473namp_"
 MIME-Version: 1.0
-Content-Type: multipart/signed; boundary="Sig_/H=H6_bDl00sY2FjKo_+5KSA";
- protocol="application/pgp-signature"; micalg=pgp-sha256
+X-OriginatorOrg: amd.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-AuthSource: CO6PR12MB5473.namprd12.prod.outlook.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: f65de00a-9823-4471-486a-08da22cade6f
+X-MS-Exchange-CrossTenant-originalarrivaltime: 20 Apr 2022 12:39:52.9721 (UTC)
+X-MS-Exchange-CrossTenant-fromentityheader: Hosted
+X-MS-Exchange-CrossTenant-id: 3dd8961f-e488-4e60-8e11-a82d994e183d
+X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
+X-MS-Exchange-CrossTenant-userprincipalname: AGwyvxmcqQftXtNPOffPjxOOl7t2a3dsnNyc3AmNZ39utdfoBMiyqlj0n0m0G4N9
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: DM5PR12MB2421
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -70,684 +136,810 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: hamohammed.sa@gmail.com, tzimmermann@suse.de, rodrigosiqueiramelo@gmail.com,
- airlied@linux.ie, leandro.ribeiro@collabora.com, melissa.srw@gmail.com,
- dri-devel@lists.freedesktop.org, tales.aparecida@gmail.com,
- ~lkcamp/patches@lists.sr.ht
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
---Sig_/H=H6_bDl00sY2FjKo_+5KSA
-Content-Type: text/plain; charset=US-ASCII
+--_000_CO6PR12MB54735D4B8E05AB1C17D356AE82F59CO6PR12MB5473namp_
+Content-Type: text/plain; charset="iso-8859-1"
 Content-Transfer-Encoding: quoted-printable
 
-On Mon,  4 Apr 2022 17:45:12 -0300
-Igor Torrente <igormtorrente@gmail.com> wrote:
+[AMD Official Use Only]
 
-> Currently the blend function only accepts XRGB_8888 and ARGB_8888
-> as a color input.
->=20
-> This patch refactors all the functions related to the plane composition
-> to overcome this limitation.
->=20
-> A new internal format(`struct pixel`) is introduced to deal with all
+Hi Chirs,
 
-Hi,
+yes, right, the amdgpu drive rwill use amdgpu_bo_validate_size() function t=
+o verify bo size,
+but when driver try to allocate VRAM domain bo fail, the amdgpu driver will=
+ fall back to allocate domain =3D (GTT | VRAM)  bo.
+please check following code, it will cause the 2nd time to allocate bo fail=
+ during allocate 256Mb buffer to store dma address (via kvmalloc()).
 
-struct pixel_argb_u16 was added in the previous patch.
+        initial_domain =3D (u32)(0xffffffff & args->in.domains);
+retry:
+        r =3D amdgpu_gem_object_create(adev, size, args->in.alignment,
+                                     initial_domain,
+                                     flags, ttm_bo_type_device, resv, &gobj=
+);
+        if (r && r !=3D -ERESTARTSYS) {
+                if (flags & AMDGPU_GEM_CREATE_CPU_ACCESS_REQUIRED) {
+                        flags &=3D ~AMDGPU_GEM_CREATE_CPU_ACCESS_REQUIRED;
+                        goto retry;
+                }
 
-> possible inputs. It consists of 16 bits fields that represent each of
-> the channels.
->=20
-> The pixels blend is done using this internal format. And new handlers
-> are being added to convert a specific format to/from this internal format.
->=20
-> So the blend operation depends on these handlers to convert to this common
-> format. The blended result, if necessary, is converted to the writeback
-> buffer format.
->=20
-> This patch introduces three major differences to the blend function.
-> 1 - All the planes are blended at once.
-> 2 - The blend calculus is done as per line instead of per pixel.
-> 3 - It is responsible to calculates the CRC and writing the writeback
-> buffer(if necessary).
->=20
-> These changes allow us to allocate way less memory in the intermediate
-> buffer to compute these operations. Because now we don't need to
-> have the entire intermediate image lines at once, just one line is
-> enough.
->=20
-> | Memory consumption (output dimensions) |
-> |:--------------------------------------:|
-> |       Current      |     This patch    |
-> |:------------------:|:-----------------:|
-> |   Width * Heigth   |     2 * Width     |
->=20
-> Beyond memory, we also have a minor performance benefit from all
-> these changes. Results running the IGT[1] test
-> `igt@kms_cursor_crc@pipe-a-cursor-512x512-onscreen` ten times:
->=20
-> |                 Frametime                  |
-> |:------------------------------------------:|
-> |  Implementation |  Current  |  This commit |
-> |:---------------:|:---------:|:------------:|
-> | frametime range |  9~22 ms  |    5~17 ms   |
-> |     Average     |  11.4 ms  |    7.8 ms    |
->=20
-> [1] IGT commit id: bc3f6833a12221a46659535dac06ebb312490eb4
->=20
-> V2: Improves the performance drastically, by performing the operations
->     per-line and not per-pixel(Pekka Paalanen).
->     Minor improvements(Pekka Paalanen).
-> V3: Changes the code to blend the planes all at once. This improves
->     performance, memory consumption, and removes much of the weirdness
->     of the V2(Pekka Paalanen and me).
->     Minor improvements(Pekka Paalanen and me).
-> V4: Rebase the code and adapt it to the new NUM_OVERLAY_PLANES constant.
-> V5: Minor checkpatch fixes and the removal of TO-DO item(Melissa Wen).
->     Several security/robustness improvents(Pekka Paalanen).
->     Removes check_planes_x_bounds function and allows partial
->     partly off-screen(Pekka Paalanen).
->=20
-> Signed-off-by: Igor Torrente <igormtorrente@gmail.com>
+                if (initial_domain =3D=3D AMDGPU_GEM_DOMAIN_VRAM) {
+                        initial_domain |=3D AMDGPU_GEM_DOMAIN_GTT;
+                        goto retry;
+                }
+                DRM_DEBUG("Failed to allocate GEM object (%llu, %d, %llu, %=
+d)\n",
+                                size, initial_domain, args->in.alignment, r=
+);
+        }
+
+Best Regards,
+Kevin
+
+________________________________
+From: Christian K=F6nig <ckoenig.leichtzumerken@gmail.com>
+Sent: Wednesday, April 20, 2022 7:55 PM
+To: Wang, Yang(Kevin) <KevinYang.Wang@amd.com>; Koenig, Christian <Christia=
+n.Koenig@amd.com>; dri-devel@lists.freedesktop.org <dri-devel@lists.freedes=
+ktop.org>; amd-gfx@lists.freedesktop.org <amd-gfx@lists.freedesktop.org>
+Subject: Re: [PATCH] drm/ttm: fix ttm tt init fail when size exceeds kmallo=
+c limit
+
+Hi Kevin,
+
+no, the test case should already fail in amdgpu_bo_validate_size().
+
+If we have a system with 2TiB of memory where the test case could succeed t=
+hen we should increase the requested size to something larger.
+
+And if the underlying core Linux kernel functions don't allow allocations a=
+s large as the requested one we should *NEVER* ever add workarounds like th=
+is.
+
+It is perfectly expected that this test case is not able to fulfill the des=
+ired allocation. That it fails during kvmalloc is unfortunate, but not a sh=
+ow stopper.
+
+Regards,
+Christian.
+
+
+Am 20.04.22 um 13:32 schrieb Wang, Yang(Kevin):
+
+[AMD Official Use Only]
+
+Hi Chris,
+
+you misunderstood background about this case.
+
+although we expect this test case to fail, it should fail at the location w=
+here the Bo actual memory is actually allocated. now the code logic will ca=
+use the failure to allocate memory to store DMA address.
+
+e.g: the case is failed in 2TB system ram machine, it should be allocated s=
+uccessful, but it is failed.
+
+allocate 1TB BO, the ttm should allocate 1TB/4k * 8 buffer to store allocat=
+e result (page address), this should not be failed usually.
+
+There is a similar fix in upstream kernel 5.18, before this fix entered the=
+ TTM code, this problem existed in TTM.
+
+kernel/git/torvalds/linux.git - Linux kernel source tree<https://nam11.safe=
+links.protection.outlook.com/?url=3Dhttps%3A%2F%2Fgit.kernel.org%2Fpub%2Fsc=
+m%2Flinux%2Fkernel%2Fgit%2Ftorvalds%2Flinux.git%2Fcommit%2F%3Fh%3Dv5.18-rc3=
+%26id%3Da421ef303008b0ceee2cfc625c3246fa7654b0ca&data=3D05%7C01%7CKevinYang=
+.Wang%40amd.com%7C2e9fd86a27d64a39432508da22c4b1f1%7C3dd8961fe4884e608e11a8=
+2d994e183d%7C0%7C0%7C637860525454702938%7CUnknown%7CTWFpbGZsb3d8eyJWIjoiMC4=
+wLjAwMDAiLCJQIjoiV2luMzIiLCJBTiI6Ik1haWwiLCJXVCI6Mn0%3D%7C3000%7C%7C%7C&sda=
+ta=3DCiP9x3grwQ2aXFZPjpsAtwLCpBVeJufbGngy%2BtXLFbM%3D&reserved=3D0>
+mm: allow !GFP_KERNEL allocations for kvmalloc
+
+Best Regards,
+Kevin
+
+________________________________
+From: Koenig, Christian <Christian.Koenig@amd.com><mailto:Christian.Koenig@=
+amd.com>
+Sent: Wednesday, April 20, 2022 6:53 PM
+To: Wang, Yang(Kevin) <KevinYang.Wang@amd.com><mailto:KevinYang.Wang@amd.co=
+m>; dri-devel@lists.freedesktop.org<mailto:dri-devel@lists.freedesktop.org>=
+ <dri-devel@lists.freedesktop.org><mailto:dri-devel@lists.freedesktop.org>;=
+ amd-gfx@lists.freedesktop.org<mailto:amd-gfx@lists.freedesktop.org> <amd-g=
+fx@lists.freedesktop.org><mailto:amd-gfx@lists.freedesktop.org>
+Subject: Re: [PATCH] drm/ttm: fix ttm tt init fail when size exceeds kmallo=
+c limit
+
+Am 20.04.22 um 11:07 schrieb Wang, Yang(Kevin):
+
+[AMD Official Use Only]
+
+
+________________________________
+From: Koenig, Christian <Christian.Koenig@amd.com><mailto:Christian.Koenig@=
+amd.com>
+Sent: Wednesday, April 20, 2022 5:00 PM
+To: Wang, Yang(Kevin) <KevinYang.Wang@amd.com><mailto:KevinYang.Wang@amd.co=
+m>; dri-devel@lists.freedesktop.org<mailto:dri-devel@lists.freedesktop.org>=
+ <dri-devel@lists.freedesktop.org><mailto:dri-devel@lists.freedesktop.org>;=
+ amd-gfx@lists.freedesktop.org<mailto:amd-gfx@lists.freedesktop.org> <amd-g=
+fx@lists.freedesktop.org><mailto:amd-gfx@lists.freedesktop.org>
+Subject: Re: [PATCH] drm/ttm: fix ttm tt init fail when size exceeds kmallo=
+c limit
+
+Am 20.04.22 um 10:56 schrieb Yang Wang:
+> if the __GFP_ZERO is set, the kvmalloc() can't fallback to use vmalloc()
+
+Hui what? Why should kvmalloc() not be able to fallback to vmalloc()
+when __GFP_ZERO is set?
+
+And even that is really the case then that sounds like a bug in kvmalloc().
+
+Regards,
+Christian.
+
+[kevin]:
+it is really test case from libdrm amdgpu test, which try to allocate a big=
+ BO which will cause ttm tt init fail.
+
+
+LOL! Guys, this test case is intended to fail!
+
+The test consists of allocating a buffer so ridiculous large that it should=
+ never succeed and be rejected by the kernel driver.
+
+This patch here is a really clear NAK.
+
+Regards,
+Christian.
+
+it may be a kvmalloc() bug, and this patch can as a workaround in ttm befor=
+e this issue fix.
+
+void *kvmalloc_node(size_t size, gfp_t flags, int node)
+{
+...
+        if ((flags & GFP_KERNEL) !=3D GFP_KERNEL)
+                return kmalloc_node(size, flags, node);
+...
+}
+
+Best Regards,
+Kevin
+
+> to allocate memory, when request size is exceeds kmalloc limit, it will
+> cause allocate memory fail.
+>
+> e.g: when ttm want to create a BO with 1TB size, it maybe fail.
+>
+> Signed-off-by: Yang Wang <KevinYang.Wang@amd.com><mailto:KevinYang.Wang@a=
+md.com>
 > ---
->  Documentation/gpu/vkms.rst            |   4 -
->  drivers/gpu/drm/vkms/Makefile         |   1 +
->  drivers/gpu/drm/vkms/vkms_composer.c  | 318 ++++++++++++--------------
->  drivers/gpu/drm/vkms/vkms_formats.c   | 151 ++++++++++++
->  drivers/gpu/drm/vkms/vkms_formats.h   |  12 +
->  drivers/gpu/drm/vkms/vkms_plane.c     |   3 +
->  drivers/gpu/drm/vkms/vkms_writeback.c |   3 +
->  7 files changed, 311 insertions(+), 181 deletions(-)
->  create mode 100644 drivers/gpu/drm/vkms/vkms_formats.c
->  create mode 100644 drivers/gpu/drm/vkms/vkms_formats.h
->=20
-> diff --git a/Documentation/gpu/vkms.rst b/Documentation/gpu/vkms.rst
-> index 973e2d43108b..a49e4ae92653 100644
-> --- a/Documentation/gpu/vkms.rst
-> +++ b/Documentation/gpu/vkms.rst
-> @@ -118,10 +118,6 @@ Add Plane Features
-> =20
->  There's lots of plane features we could add support for:
-> =20
-> -- Clearing primary plane: clear primary plane before plane composition (=
-at the
-> -  start) for correctness of pixel blend ops. It also guarantees alpha ch=
-annel
-> -  is cleared in the target buffer for stable crc. [Good to get started]
-> -
->  - ARGB format on primary plane: blend the primary plane into background =
-with
->    translucent alpha.
-> =20
-> diff --git a/drivers/gpu/drm/vkms/Makefile b/drivers/gpu/drm/vkms/Makefile
-> index 72f779cbfedd..1b28a6a32948 100644
-> --- a/drivers/gpu/drm/vkms/Makefile
-> +++ b/drivers/gpu/drm/vkms/Makefile
-> @@ -3,6 +3,7 @@ vkms-y :=3D \
->  	vkms_drv.o \
->  	vkms_plane.o \
->  	vkms_output.o \
-> +	vkms_formats.o \
->  	vkms_crtc.o \
->  	vkms_composer.o \
->  	vkms_writeback.o
-> diff --git a/drivers/gpu/drm/vkms/vkms_composer.c b/drivers/gpu/drm/vkms/=
-vkms_composer.c
-> index 95029d2ebcac..cf24015bf90f 100644
-> --- a/drivers/gpu/drm/vkms/vkms_composer.c
-> +++ b/drivers/gpu/drm/vkms/vkms_composer.c
-
-(For this file, I have removed all the minus diff lines from below to
-better see the new code.)
-
-
-> @@ -7,204 +7,186 @@
->  #include <drm/drm_fourcc.h>
->  #include <drm/drm_gem_framebuffer_helper.h>
->  #include <drm/drm_vblank.h>
-> +#include <linux/minmax.h>
-> =20
->  #include "vkms_drv.h"
-> =20
-> +static u16 pre_mul_blend_channel(u16 src, u16 dst, u16 alpha)
->  {
-> +	u32 new_color;
-> =20
-> +	new_color =3D (src * 0xffff + dst * (0xffff - alpha));
-> =20
-> +	return DIV_ROUND_CLOSEST(new_color, 0xffff);
-
-This looks good.
-
->  }
-> =20
->  /**
-> + * pre_mul_alpha_blend - alpha blending equation
-> + * @src_frame_info: source framebuffer's metadata
-> + * @stage_buffer: The line with the pixels from src_plane
-> + * @output_buffer: A line buffer that receives all the blends output
->   *
-> + * Using the information from the `frame_info`, this blends only the
-> + * necessary pixels from the `stage_buffer` to the `output_buffer`
-> + * using premultiplied blend formula.
->   *
-> + * The current DRM assumption is that pixel color values have been alrea=
-dy
-> + * pre-multiplied with the alpha channel values. See more
-> + * drm_plane_create_blend_mode_property(). Also, this formula assumes a
-> + * completely opaque background.
->   */
-> +static void pre_mul_alpha_blend(struct vkms_frame_info *frame_info,
-> +				struct line_buffer *stage_buffer,
-> +				struct line_buffer *output_buffer)
->  {
-> +	int x, x_dst =3D frame_info->dst.x1;
-> +	struct pixel_argb_u16 *out =3D output_buffer->pixels + x_dst;
-> +	struct pixel_argb_u16 *in =3D stage_buffer->pixels;
-> +	int x_limit =3D min_t(size_t, drm_rect_width(&frame_info->dst),
-> +			    stage_buffer->n_pixels);
+>   drivers/gpu/drm/ttm/ttm_tt.c | 14 +++++++++++---
+>   1 file changed, 11 insertions(+), 3 deletions(-)
+>
+> diff --git a/drivers/gpu/drm/ttm/ttm_tt.c b/drivers/gpu/drm/ttm/ttm_tt.c
+> index 79c870a3bef8..9f2f3e576b8d 100644
+> --- a/drivers/gpu/drm/ttm/ttm_tt.c
+> +++ b/drivers/gpu/drm/ttm/ttm_tt.c
+> @@ -97,9 +97,12 @@ int ttm_tt_create(struct ttm_buffer_object *bo, bool z=
+ero_alloc)
+>   static int ttm_tt_alloc_page_directory(struct ttm_tt *ttm)
+>   {
+>        ttm->pages =3D kvmalloc_array(ttm->num_pages, sizeof(void*),
+> -                     GFP_KERNEL | __GFP_ZERO);
+> +                                 GFP_KERNEL);
+>        if (!ttm->pages)
+>                return -ENOMEM;
 > +
-> +	for (x =3D 0; x < x_limit; x++) {
-> +		out[x].a =3D (u16)0xffff;
-> +		out[x].r =3D pre_mul_blend_channel(in[x].r, out[x].r, in[x].a);
-> +		out[x].g =3D pre_mul_blend_channel(in[x].g, out[x].g, in[x].a);
-> +		out[x].b =3D pre_mul_blend_channel(in[x].b, out[x].b, in[x].a);
->  	}
->  }
-> =20
-> +static bool check_y_limit(struct vkms_frame_info *frame_info, int y)
->  {
-> +	if (y >=3D frame_info->dst.y1 && y < frame_info->dst.y2)
-> +		return true;
-> =20
-> +	return false;
->  }
-> =20
->  /**
-> + * @wb_frame_info: The writeback frame buffer metadata
-> + * @crtc_state: The crtc state
-> + * @crc32: The crc output of the final frame
-> + * @output_buffer: A buffer of a row that will receive the result of the=
- blend(s)
-> + * @stage_buffer: The line with the pixels from plane being blend to the=
- output
->   *
-> + * This function blends the pixels (Using the `pre_mul_alpha_blend`)
-> + * from all planes, calculates the crc32 of the output from the former s=
-tep,
-> + * and, if necessary, convert and store the output to the writeback buff=
-er.
->   */
-> +static void blend(struct vkms_writeback_job *wb,
-> +		  struct vkms_crtc_state *crtc_state,
-> +		  u32 *crc32, struct line_buffer *stage_buffer,
-> +		  struct line_buffer *output_buffer, s64 row_size)
->  {
-> +	struct vkms_plane_state **plane =3D crtc_state->active_planes;
-> +	struct vkms_frame_info *primary_plane_info =3D plane[0]->frame_info;
-> +	u32 n_active_planes =3D crtc_state->num_active_planes;
+> +     memset(ttm->pages, 0, ttm->num_pages * sizeof(void *));
 > +
-> +	int y_dst =3D primary_plane_info->dst.y1;
-> +	int h_dst =3D drm_rect_height(&primary_plane_info->dst);
-> +	int y_limit =3D y_dst + h_dst;
-> +	int y, i;
+>        return 0;
+>   }
+>
+> @@ -108,10 +111,12 @@ static int ttm_dma_tt_alloc_page_directory(struct t=
+tm_tt *ttm)
+>        ttm->pages =3D kvmalloc_array(ttm->num_pages,
+>                                    sizeof(*ttm->pages) +
+>                                    sizeof(*ttm->dma_address),
+> -                                 GFP_KERNEL | __GFP_ZERO);
+> +                                 GFP_KERNEL);
+>        if (!ttm->pages)
+>                return -ENOMEM;
+>
+> +     memset(ttm->pages, 0, ttm->num_pages * (sizeof(*ttm->pages) + sizeo=
+f(*ttm->dma_address)));
 > +
-> +	for (y =3D y_dst; y < y_limit; y++) {
-> +		plane[0]->format_func(output_buffer, primary_plane_info, y);
-
-This is a bad assumption, but the next patch removes the need for this
-assumption. The primary plane may not be the bottom-most AFAIU.
-Overlays below the primary exist on real hardware.
-
+>        ttm->dma_address =3D (void *)(ttm->pages + ttm->num_pages);
+>        return 0;
+>   }
+> @@ -120,9 +125,12 @@ static int ttm_sg_tt_alloc_page_directory(struct ttm=
+_tt *ttm)
+>   {
+>        ttm->dma_address =3D kvmalloc_array(ttm->num_pages,
+>                                          sizeof(*ttm->dma_address),
+> -                                       GFP_KERNEL | __GFP_ZERO);
+> +                                       GFP_KERNEL);
+>        if (!ttm->dma_address)
+>                return -ENOMEM;
 > +
-> +		/* If there are other planes besides primary, we consider the active
-> +		 * planes should be in z-order and compose them associatively:
-> +		 * ((primary <- overlay) <- cursor)
-> +		 */
-> +		for (i =3D 1; i < n_active_planes; i++) {
-> +			if (!check_y_limit(plane[i]->frame_info, y))
-> +				continue;
+> +     memset(ttm->dma_address, 0, ttm->num_pages * sizeof(*ttm->dma_addre=
+ss));
 > +
-> +			plane[i]->format_func(stage_buffer, plane[i]->frame_info, y);
-> +			pre_mul_alpha_blend(plane[i]->frame_info, stage_buffer,
-> +					    output_buffer);
-> +		}
-> =20
-> +		*crc32 =3D crc32_le(*crc32, (void *)output_buffer->pixels, row_size);
-> =20
-> +		if (wb)
-> +			wb->format_func(&wb->frame_info, output_buffer, y);
->  	}
->  }
-> =20
-> +static int check_format_funcs(struct vkms_crtc_state *crtc_state,
-> +			      struct vkms_writeback_job *active_wb)
->  {
-> +	struct vkms_plane_state **planes =3D crtc_state->active_planes;
-> +	u32 n_active_planes =3D crtc_state->num_active_planes;
-> +	int i;
-> =20
-> +	for (i =3D 0; i < n_active_planes; i++)
-> +		if (!planes[i]->format_func)
-> +			return -1;
-> =20
-> +	if (active_wb && !active_wb->format_func)
-> +		return -1;
-> =20
-> +	return 0;
->  }
-> =20
-> +static int compose_active_planes(struct vkms_writeback_job *active_wb,
-> +				 struct vkms_crtc_state *crtc_state,
-> +				 u32 *crc32)
->  {
-> +	int line_width, ret =3D 0, pixel_size =3D sizeof(struct pixel_argb_u16);
-> +	struct vkms_frame_info *primary_plane_info =3D NULL;
-> +	struct line_buffer output_buffer, stage_buffer;
-> +	struct vkms_plane_state *act_plane =3D NULL;
-> +	u32 wb_format;
-> =20
-> +	if (WARN_ON(pixel_size !=3D 8))
-
-Isn't there a compile-time assert macro for this? Having to actually
-run VKMS to check for this reduces the chances of finding it early.
-What's the reason for this check anyway?
-
-> +		return -EINVAL;
-> +
-> +	if (crtc_state->num_active_planes >=3D 1) {
-> +		act_plane =3D crtc_state->active_planes[0];
-> +		if (act_plane->base.base.plane->type =3D=3D DRM_PLANE_TYPE_PRIMARY)
-> +			primary_plane_info =3D act_plane->frame_info;
-
-After the next patch, do you even need the primary plane for anything
-specifically? There is the map_is_null check below, but that should be
-done on all planes in the array, right?
-
-I suspect the next patch, or another patch in this series, should just
-delete this chunk.
-
->  	}
-> =20
-> +	if (!primary_plane_info)
-> +		return -EINVAL;
-> +
->  	if (WARN_ON(dma_buf_map_is_null(&primary_plane_info->map[0])))
->  		return -EINVAL;
-> =20
-> +	if (WARN_ON(check_format_funcs(crtc_state, active_wb)))
-> +		return -EINVAL;
-> =20
-> +	line_width =3D drm_rect_width(&primary_plane_info->dst);
-> +	stage_buffer.n_pixels =3D line_width;
-> +	output_buffer.n_pixels =3D line_width;
-> =20
-> +	stage_buffer.pixels =3D kvmalloc(line_width * pixel_size, GFP_KERNEL);
-> +	if (!stage_buffer.pixels) {
-> +		DRM_ERROR("Cannot allocate memory for the output line buffer");
-> +		return -ENOMEM;
-> +	}
-> =20
-> +	output_buffer.pixels =3D kvmalloc(line_width * pixel_size, GFP_KERNEL);
-> +	if (!output_buffer.pixels) {
-> +		DRM_ERROR("Cannot allocate memory for intermediate line buffer");
-> +		ret =3D -ENOMEM;
-> +		goto free_stage_buffer;
-> +	}
-> +
-> +	if (active_wb) {
-> +		struct vkms_frame_info *wb_frame_info =3D &active_wb->frame_info;
-> +
-> +		wb_format =3D wb_frame_info->fb->format->format;
-
-I don't see wb_format being used, is it?
-
-> +		wb_frame_info->src =3D primary_plane_info->src;
-> +		wb_frame_info->dst =3D primary_plane_info->dst;
-> +	}
-> +
-> +	blend(active_wb, crtc_state, crc32, &stage_buffer,
-> +	      &output_buffer, (s64)line_width * pixel_size);
-
-What's the (s64) doing here?
-
-Are byte sizes not usually expressed with size_t or ssize_t types, or
-is the kernel convention to use u64 and s64?
-
-This makes me suspect that pixel_offset() and friends in vkms_format.c
-are going to need fixing as well. int type overflows at 2G.
-
-> +
-> +	kvfree(output_buffer.pixels);
-> +free_stage_buffer:
-> +	kvfree(stage_buffer.pixels);
-> +
-> +	return ret;
->  }
-> =20
->  /**
-> @@ -222,13 +204,11 @@ void vkms_composer_worker(struct work_struct *work)
->  						struct vkms_crtc_state,
->  						composer_work);
->  	struct drm_crtc *crtc =3D crtc_state->base.crtc;
-> +	struct vkms_writeback_job *active_wb =3D crtc_state->active_writeback;
->  	struct vkms_output *out =3D drm_crtc_to_vkms_output(crtc);
->  	bool crc_pending, wb_pending;
->  	u64 frame_start, frame_end;
-> +	u32 crc32 =3D 0;
->  	int ret;
-> =20
->  	spin_lock_irq(&out->composer_lock);
-> @@ -248,35 +228,19 @@ void vkms_composer_worker(struct work_struct *work)
->  	if (!crc_pending)
->  		return;
-> =20
->  	if (wb_pending)
-> +		ret =3D compose_active_planes(active_wb, crtc_state, &crc32);
-> +	else
-> +		ret =3D compose_active_planes(NULL, crtc_state, &crc32);
-> =20
-> +	if (ret)
->  		return;
-> =20
->  	if (wb_pending) {
->  		drm_writeback_signal_completion(&out->wb_connector, 0);
->  		spin_lock_irq(&out->composer_lock);
->  		crtc_state->wb_pending =3D false;
->  		spin_unlock_irq(&out->composer_lock);
->  	}
-> =20
->  	/*
-> diff --git a/drivers/gpu/drm/vkms/vkms_formats.c b/drivers/gpu/drm/vkms/v=
-kms_formats.c
-> new file mode 100644
-> index 000000000000..931a61405d6a
-> --- /dev/null
-> +++ b/drivers/gpu/drm/vkms/vkms_formats.c
-> @@ -0,0 +1,151 @@
-> +// SPDX-License-Identifier: GPL-2.0+
-> +
-> +#include <drm/drm_rect.h>
-> +#include <linux/minmax.h>
-> +
-> +#include "vkms_formats.h"
-> +
-> +static int pixel_offset(const struct vkms_frame_info *frame_info, int x,=
- int y)
-> +{
-> +	return frame_info->offset + (y * frame_info->pitch)
-> +				  + (x * frame_info->cpp);
-> +}
-> +
-> +/*
-> + * packed_pixels_addr - Get the pointer to pixel of a given pair of coor=
-dinates
-> + *
-> + * @frame_info: Buffer metadata
-> + * @x: The x(width) coordinate of the 2D buffer
-> + * @y: The y(Heigth) coordinate of the 2D buffer
-> + *
-> + * Takes the information stored in the frame_info, a pair of coordinates=
-, and
-> + * returns the address of the first color channel.
-> + * This function assumes the channels are packed together, i.e. a color =
-channel
-> + * comes immediately after another in the memory. And therefore, this fu=
-nction
-> + * doesn't work for YUV with chroma subsampling (e.g. YUV420 and NV21).
-> + */
-> +static void *packed_pixels_addr(const struct vkms_frame_info *frame_info,
-> +				int x, int y)
-> +{
-> +	int offset =3D pixel_offset(frame_info, x, y);
-> +
-> +	return (u8 *)frame_info->map[0].vaddr + offset;
-> +}
-> +
-> +static void *get_packed_src_addr(const struct vkms_frame_info *frame_inf=
-o, int y)
-> +{
-> +	int x_src =3D frame_info->src.x1 >> 16;
-> +	int y_src =3D y - frame_info->dst.y1 + (frame_info->src.y1 >> 16);
-> +
-> +	return packed_pixels_addr(frame_info, x_src, y_src);
-> +}
-> +
-> +static void ARGB8888_to_argb_u16(struct line_buffer *stage_buffer,
-> +				 const struct vkms_frame_info *frame_info, int y)
-> +{
-> +	struct pixel_argb_u16 *out_pixels =3D stage_buffer->pixels;
-> +	u8 *src_pixels =3D get_packed_src_addr(frame_info, y);
-> +	int x, x_limit =3D min_t(size_t, drm_rect_width(&frame_info->dst),
-> +			       stage_buffer->n_pixels);
-> +
-> +	for (x =3D 0; x < x_limit; x++, src_pixels +=3D 4) {
-> +		/*
-> +		 * The 257 is the "conversion ratio". This number is obtained by the
-> +		 * (2^16 - 1) / (2^8 - 1) division. Which, in this case, tries to get
-> +		 * the best color value in a pixel format with more possibilities.
-> +		 * A similar idea applies to others RGB color conversions.
-> +		 */
-> +		out_pixels[x].a =3D (u16)src_pixels[3] * 257;
-> +		out_pixels[x].r =3D (u16)src_pixels[2] * 257;
-> +		out_pixels[x].g =3D (u16)src_pixels[1] * 257;
-> +		out_pixels[x].b =3D (u16)src_pixels[0] * 257;
-> +	}
-> +}
-> +
-> +static void XRGB8888_to_argb_u16(struct line_buffer *stage_buffer,
-> +				 const struct vkms_frame_info *frame_info, int y)
-> +{
-> +	struct pixel_argb_u16 *out_pixels =3D stage_buffer->pixels;
-> +	u8 *src_pixels =3D get_packed_src_addr(frame_info, y);
-> +	int x, x_limit =3D min_t(size_t, drm_rect_width(&frame_info->dst),
-> +			       stage_buffer->n_pixels);
-> +
-> +	for (x =3D 0; x < x_limit; x++, src_pixels +=3D 4) {
-> +		out_pixels[x].a =3D (u16)0xffff;
-> +		out_pixels[x].r =3D (u16)src_pixels[2] * 257;
-> +		out_pixels[x].g =3D (u16)src_pixels[1] * 257;
-> +		out_pixels[x].b =3D (u16)src_pixels[0] * 257;
-> +	}
-> +}
-> +
-> +/*
-> + * The following  functions take an line of argb_u16 pixels from the
-> + * src_buffer, convert them to a specific format, and store them in the
-> + * destination.
-> + *
-> + * They are used in the `compose_active_planes` to convert and store a l=
-ine
-> + * from the src_buffer to the writeback buffer.
-> + */
-> +static void argb_u16_to_ARGB8888(struct vkms_frame_info *frame_info,
-> +				 const struct line_buffer *src_buffer, int y)
-> +{
-> +	int x, x_dst =3D frame_info->dst.x1;
-> +	u8 *dst_pixels =3D packed_pixels_addr(frame_info, x_dst, y);
-> +	struct pixel_argb_u16 *in_pixels =3D src_buffer->pixels;
-> +	int x_limit =3D min_t(size_t, drm_rect_width(&frame_info->dst),
-> +			    src_buffer->n_pixels);
-> +
-> +	for (x =3D 0; x < x_limit; x++, dst_pixels +=3D 4) {
-> +		/*
-> +		 * This sequence below is important because the format's byte order is
-> +		 * in little-endian. In the case of the ARGB8888 the memory is
-> +		 * organized this way:
-> +		 *
-> +		 * | Addr     | =3D blue channel
-> +		 * | Addr + 1 | =3D green channel
-> +		 * | Addr + 2 | =3D Red channel
-> +		 * | Addr + 3 | =3D Alpha channel
-> +		 */
-> +		dst_pixels[3] =3D DIV_ROUND_CLOSEST(in_pixels[x].a, 257);
-> +		dst_pixels[2] =3D DIV_ROUND_CLOSEST(in_pixels[x].r, 257);
-> +		dst_pixels[1] =3D DIV_ROUND_CLOSEST(in_pixels[x].g, 257);
-> +		dst_pixels[0] =3D DIV_ROUND_CLOSEST(in_pixels[x].b, 257);
-> +	}
-> +}
-> +
-> +static void argb_u16_to_XRGB8888(struct vkms_frame_info *frame_info,
-> +				 const struct line_buffer *src_buffer, int y)
-> +{
-> +	int x, x_dst =3D frame_info->dst.x1;
-> +	u8 *dst_pixels =3D packed_pixels_addr(frame_info, x_dst, y);
-> +	struct pixel_argb_u16 *in_pixels =3D src_buffer->pixels;
-> +	int x_limit =3D min_t(size_t, drm_rect_width(&frame_info->dst),
-> +			    src_buffer->n_pixels);
-> +
-> +	for (x =3D 0; x < x_limit; x++, dst_pixels +=3D 4) {
-> +		dst_pixels[3] =3D (u8)0xff;
-
-When writing to XRGB, it's not necessary to ensure the X channel has
-any sensible value. Anyone reading from XRGB must ignore that value
-anyway. So why not write something wacky here, like 0xa1, that is far
-enough from both 0x00 or 0xff to not be confused with them even
-visually? Also not 0x7f or 0x80 which are close to half of 0xff.
-
-Or, you could save a whole function and just use argb_u16_to_ARGBxxxx()
-instead, even for XRGB destination.
-
-> +		dst_pixels[2] =3D DIV_ROUND_CLOSEST(in_pixels[x].r, 257);
-> +		dst_pixels[1] =3D DIV_ROUND_CLOSEST(in_pixels[x].g, 257);
-> +		dst_pixels[0] =3D DIV_ROUND_CLOSEST(in_pixels[x].b, 257);
-> +	}
-> +}
-> +
-> +plane_format_transform_func get_plane_fmt_transform_function(u32 format)
-> +{
-> +	if (format =3D=3D DRM_FORMAT_ARGB8888)
-> +		return &ARGB8888_to_argb_u16;
-> +	else if (format =3D=3D DRM_FORMAT_XRGB8888)
-> +		return &XRGB8888_to_argb_u16;
-> +	else
-> +		return NULL;
-
-This works for now, but when more formats are added, I'd think a switch
-statement would look better.
-
-> +}
-> +
-> +wb_format_transform_func get_wb_fmt_transform_function(u32 format)
-> +{
-> +	if (format =3D=3D DRM_FORMAT_ARGB8888)
-> +		return &argb_u16_to_ARGB8888;
-> +	else if (format =3D=3D DRM_FORMAT_XRGB8888)
-> +		return &argb_u16_to_XRGB8888;
-> +	else
-> +		return NULL;
-> +}
-> diff --git a/drivers/gpu/drm/vkms/vkms_formats.h b/drivers/gpu/drm/vkms/v=
-kms_formats.h
-> new file mode 100644
-> index 000000000000..adc5a17b9584
-> --- /dev/null
-> +++ b/drivers/gpu/drm/vkms/vkms_formats.h
-> @@ -0,0 +1,12 @@
-> +// SPDX-License-Identifier: GPL-2.0+
-> +
-> +#ifndef _VKMS_FORMATS_H_
-> +#define _VKMS_FORMATS_H_
-> +
-> +#include "vkms_drv.h"
-> +
-> +plane_format_transform_func get_plane_fmt_transform_function(u32 format);
-> +
-> +wb_format_transform_func get_wb_fmt_transform_function(u32 format);
-
-This is good, exposing only what is necessary.
+>        return 0;
+>   }
+>
 
 
-Thanks,
-pq
-
-> +
-> +#endif /* _VKMS_FORMATS_H_ */
-> diff --git a/drivers/gpu/drm/vkms/vkms_plane.c b/drivers/gpu/drm/vkms/vkm=
-s_plane.c
-> index 28752af0118c..798243837fd0 100644
-> --- a/drivers/gpu/drm/vkms/vkms_plane.c
-> +++ b/drivers/gpu/drm/vkms/vkms_plane.c
-> @@ -10,6 +10,7 @@
->  #include <drm/drm_plane_helper.h>
-> =20
->  #include "vkms_drv.h"
-> +#include "vkms_formats.h"
-> =20
->  static const u32 vkms_formats[] =3D {
->  	DRM_FORMAT_XRGB8888,
-> @@ -100,6 +101,7 @@ static void vkms_plane_atomic_update(struct drm_plane=
- *plane,
->  	struct drm_shadow_plane_state *shadow_plane_state;
->  	struct drm_framebuffer *fb =3D new_state->fb;
->  	struct vkms_frame_info *frame_info;
-> +	u32 fmt =3D fb->format->format;
-> =20
->  	if (!new_state->crtc || !fb)
->  		return;
-> @@ -116,6 +118,7 @@ static void vkms_plane_atomic_update(struct drm_plane=
- *plane,
->  	frame_info->offset =3D fb->offsets[0];
->  	frame_info->pitch =3D fb->pitches[0];
->  	frame_info->cpp =3D fb->format->cpp[0];
-> +	vkms_plane_state->format_func =3D get_plane_fmt_transform_function(fmt);
->  }
-> =20
->  static int vkms_plane_atomic_check(struct drm_plane *plane,
-> diff --git a/drivers/gpu/drm/vkms/vkms_writeback.c b/drivers/gpu/drm/vkms=
-/vkms_writeback.c
-> index ad4bb1fb37ca..97f71e784bbf 100644
-> --- a/drivers/gpu/drm/vkms/vkms_writeback.c
-> +++ b/drivers/gpu/drm/vkms/vkms_writeback.c
-> @@ -11,6 +11,7 @@
->  #include <drm/drm_gem_shmem_helper.h>
-> =20
->  #include "vkms_drv.h"
-> +#include "vkms_formats.h"
-> =20
->  static const u32 vkms_wb_formats[] =3D {
->  	DRM_FORMAT_XRGB8888,
-> @@ -123,6 +124,7 @@ static void vkms_wb_atomic_commit(struct drm_connecto=
-r *conn,
->  	struct drm_framebuffer *fb =3D connector_state->writeback_job->fb;
->  	struct vkms_writeback_job *active_wb;
->  	struct vkms_frame_info *wb_frame_info;
-> +	u32 wb_format =3D fb->format->format;
-> =20
->  	if (!conn_state)
->  		return;
-> @@ -140,6 +142,7 @@ static void vkms_wb_atomic_commit(struct drm_connecto=
-r *conn,
->  	crtc_state->wb_pending =3D true;
->  	spin_unlock_irq(&output->composer_lock);
->  	drm_writeback_queue_job(wb_conn, connector_state);
-> +	active_wb->format_func =3D get_wb_fmt_transform_function(wb_format);
->  }
-> =20
->  static const struct drm_connector_helper_funcs vkms_wb_conn_helper_funcs=
- =3D {
 
 
---Sig_/H=H6_bDl00sY2FjKo_+5KSA
-Content-Type: application/pgp-signature
-Content-Description: OpenPGP digital signature
+--_000_CO6PR12MB54735D4B8E05AB1C17D356AE82F59CO6PR12MB5473namp_
+Content-Type: text/html; charset="iso-8859-1"
+Content-Transfer-Encoding: quoted-printable
 
------BEGIN PGP SIGNATURE-----
+<html>
+<head>
+<meta http-equiv=3D"Content-Type" content=3D"text/html; charset=3Diso-8859-=
+1">
+<style type=3D"text/css" style=3D"display:none;"> P {margin-top:0;margin-bo=
+ttom:0;} </style>
+</head>
+<body dir=3D"ltr">
+<p style=3D"font-family:Arial;font-size:10pt;color:#0000FF;margin:5pt;" ali=
+gn=3D"Left">
+[AMD Official Use Only]<br>
+</p>
+<br>
+<div>
+<div style=3D"font-family: Calibri, Arial, Helvetica, sans-serif; font-size=
+: 12pt; color: rgb(0, 0, 0);" class=3D"elementToProof">
+<span style=3D"font-family: Calibri, Arial, Helvetica, sans-serif; font-siz=
+e: 12pt; color: rgb(0, 0, 0); background-color: rgba(0, 0, 0, 0);">Hi Chirs=
+,</span></div>
+<div style=3D"font-family: Calibri, Arial, Helvetica, sans-serif; font-size=
+: 12pt; color: rgb(0, 0, 0);" class=3D"elementToProof">
+<br>
+</div>
+<div style=3D"font-family: Calibri, Arial, Helvetica, sans-serif; font-size=
+: 12pt; color: rgb(0, 0, 0);" class=3D"elementToProof">
+<span style=3D"font-family: Calibri, Arial, Helvetica, sans-serif; font-siz=
+e: 12pt; color: rgb(0, 0, 0); background-color: rgba(0, 0, 0, 0);">yes, rig=
+ht, the amdgpu drive rwill use&nbsp;</span><span style=3D"font-family: Cali=
+bri, Arial, Helvetica, sans-serif; font-size: 12pt; background-color: rgba(=
+0, 0, 0, 0); color: rgb(0, 0, 0); display: inline !important;">amdgpu_bo_va=
+lidate_size()
+ function to verify bo size,</span></div>
+<div style=3D"font-family: Calibri, Arial, Helvetica, sans-serif; font-size=
+: 12pt; color: rgb(0, 0, 0);" class=3D"elementToProof">
+<span style=3D"font-family: Calibri, Arial, Helvetica, sans-serif; font-siz=
+e: 12pt; background-color: rgba(0, 0, 0, 0); display: inline !important; co=
+lor: rgb(0, 0, 0);">but when driver try to allocate VRAM domain bo fail, th=
+e amdgpu driver will fall back to
+ allocate domain =3D (GTT | VRAM)&nbsp; bo.</span></div>
+<div style=3D"font-family: Calibri, Arial, Helvetica, sans-serif; color: rg=
+b(0, 0, 0);" class=3D"elementToProof">
+<span style=3D"font-size: 12pt; font-family: Calibri, Arial, Helvetica, san=
+s-serif; background-color: rgba(0, 0, 0, 0); display: inline !important; co=
+lor: rgb(0, 0, 0);">please check following code, it will cause the 2</span>=
+<span style=3D"font-family: Calibri, Arial, Helvetica, sans-serif; backgrou=
+nd-color: rgba(0, 0, 0, 0); color: rgb(0, 0, 0); display: inline !important=
+;"><span style=3D"font-size: 13.3333px;">nd
+ time</span><span style=3D"font-size: 12pt;">&nbsp;to allocate bo fail duri=
+ng allocate 256Mb buffer to store dma address (via kvmalloc()).</span></spa=
+n></div>
+<div style=3D"font-family: Calibri, Arial, Helvetica, sans-serif; font-size=
+: 12pt; color: rgb(0, 0, 0);" class=3D"elementToProof">
+<span style=3D"font-family:&quot;Segoe UI&quot;, &quot;Segoe UI Web (West E=
+uropean)&quot;, &quot;Segoe UI&quot;, -apple-system, BlinkMacSystemFont, Ro=
+boto, &quot;Helvetica Neue&quot;, sans-serif;font-size:14px;background-colo=
+r:rgb(255, 255, 255);display:inline !important"><br>
+</span></div>
+<div style=3D"font-family: Calibri, Arial, Helvetica, sans-serif; font-size=
+: 12pt; color: rgb(0, 0, 0);" class=3D"elementToProof">
+<span style=3D"font-family: Calibri, Arial, Helvetica, sans-serif; font-siz=
+e: 12pt; background-color: rgba(0, 0, 0, 0); display: inline !important; co=
+lor: rgb(0, 0, 0);">&nbsp; &nbsp; &nbsp; &nbsp; initial_domain =3D (u32)(0x=
+ffffffff &amp; args-&gt;in.domains);</span><span style=3D"font-family:&quot=
+;Segoe UI&quot;, &quot;Segoe UI Web (West European)&quot;, &quot;Segoe UI&q=
+uot;, -apple-system, BlinkMacSystemFont, Roboto, &quot;Helvetica Neue&quot;=
+, sans-serif;font-size:14px;background-color:rgb(255, 255, 255);display:inl=
+ine !important">
+<div><span style=3D"font-family: Calibri, Arial, Helvetica, sans-serif; fon=
+t-size: 12pt; color: rgb(0, 0, 0); background-color: rgba(0, 0, 0, 0);">ret=
+ry:</span></div>
+<div><span style=3D"font-family: Calibri, Arial, Helvetica, sans-serif; fon=
+t-size: 12pt; color: rgb(0, 0, 0); background-color: rgba(0, 0, 0, 0);">&nb=
+sp; &nbsp; &nbsp; &nbsp; r =3D amdgpu_gem_object_create(adev, size, args-&g=
+t;in.alignment,</span></div>
+<div><span style=3D"font-family: Calibri, Arial, Helvetica, sans-serif; fon=
+t-size: 12pt; color: rgb(0, 0, 0); background-color: rgba(0, 0, 0, 0);">&nb=
+sp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &=
+nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;initial_domain,</span=
+></div>
+<div><span style=3D"font-family: Calibri, Arial, Helvetica, sans-serif; fon=
+t-size: 12pt; color: rgb(0, 0, 0); background-color: rgba(0, 0, 0, 0);">&nb=
+sp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &=
+nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;flags, ttm_bo_type_de=
+vice, resv, &amp;gobj);</span></div>
+<div><span style=3D"font-family: Calibri, Arial, Helvetica, sans-serif; fon=
+t-size: 12pt; color: rgb(0, 0, 0); background-color: rgba(0, 0, 0, 0);">&nb=
+sp; &nbsp; &nbsp; &nbsp; if (r &amp;&amp; r !=3D -ERESTARTSYS) {</span></di=
+v>
+<div><span style=3D"font-family: Calibri, Arial, Helvetica, sans-serif; fon=
+t-size: 12pt; color: rgb(0, 0, 0); background-color: rgba(0, 0, 0, 0);">&nb=
+sp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; if (flags &amp; AMDGPU=
+_GEM_CREATE_CPU_ACCESS_REQUIRED) {</span></div>
+<div><span style=3D"font-family: Calibri, Arial, Helvetica, sans-serif; fon=
+t-size: 12pt; color: rgb(0, 0, 0); background-color: rgba(0, 0, 0, 0);">&nb=
+sp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &=
+nbsp; flags &amp;=3D ~AMDGPU_GEM_CREATE_CPU_ACCESS_REQUIRED;</span></div>
+<div><span style=3D"font-family: Calibri, Arial, Helvetica, sans-serif; fon=
+t-size: 12pt; color: rgb(0, 0, 0); background-color: rgba(0, 0, 0, 0);">&nb=
+sp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &=
+nbsp; goto retry;</span></div>
+<div><span style=3D"font-family: Calibri, Arial, Helvetica, sans-serif; fon=
+t-size: 12pt; color: rgb(0, 0, 0); background-color: rgba(0, 0, 0, 0);">&nb=
+sp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; }</span></div>
+<div><br>
+</div>
+<div><span style=3D"font-family: Calibri, Arial, Helvetica, sans-serif; fon=
+t-size: 12pt; color: rgb(0, 0, 0); background-color: rgba(0, 0, 0, 0);">&nb=
+sp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; if (initial_domain =3D=
+=3D AMDGPU_GEM_DOMAIN_VRAM) {</span></div>
+<div><span style=3D"font-family: Calibri, Arial, Helvetica, sans-serif; fon=
+t-size: 12pt; color: rgb(0, 0, 0); background-color: rgba(0, 0, 0, 0);">&nb=
+sp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &=
+nbsp; initial_domain |=3D AMDGPU_GEM_DOMAIN_GTT;</span></div>
+<div><span style=3D"font-family: Calibri, Arial, Helvetica, sans-serif; fon=
+t-size: 12pt; color: rgb(0, 0, 0); background-color: rgba(0, 0, 0, 0);">&nb=
+sp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &=
+nbsp; goto retry;</span></div>
+<div><span style=3D"font-family: Calibri, Arial, Helvetica, sans-serif; fon=
+t-size: 12pt; color: rgb(0, 0, 0); background-color: rgba(0, 0, 0, 0);">&nb=
+sp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; }</span></div>
+<div><span style=3D"font-family: Calibri, Arial, Helvetica, sans-serif; fon=
+t-size: 12pt; color: rgb(0, 0, 0); background-color: rgba(0, 0, 0, 0);">&nb=
+sp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; DRM_DEBUG(&quot;Failed=
+ to allocate GEM object (%llu, %d, %llu, %d)\n&quot;,</span></div>
+<div><span style=3D"font-family: Calibri, Arial, Helvetica, sans-serif; fon=
+t-size: 12pt; color: rgb(0, 0, 0); background-color: rgba(0, 0, 0, 0);">&nb=
+sp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &=
+nbsp; &nbsp; &nbsp; &nbsp; &nbsp; size, initial_domain, args-&gt;in.alignme=
+nt, r);</span></div>
+</span><span style=3D"font-family: Calibri, Arial, Helvetica, sans-serif; f=
+ont-size: 12pt; background-color: rgba(0, 0, 0, 0); display: inline !import=
+ant; color: rgb(0, 0, 0);">&nbsp; &nbsp; &nbsp; &nbsp; }</span><span style=
+=3D"font-family:&quot;Segoe UI&quot;, &quot;Segoe UI Web (West European)&qu=
+ot;, &quot;Segoe UI&quot;, -apple-system, BlinkMacSystemFont, Roboto, &quot=
+;Helvetica Neue&quot;, sans-serif;font-size:14px;background-color:rgb(255, =
+255, 255);display:inline !important"><br>
+</span></div>
+<div style=3D"font-family: Calibri, Arial, Helvetica, sans-serif; font-size=
+: 12pt; color: rgb(0, 0, 0);" class=3D"elementToProof">
+<br>
+</div>
+<div style=3D"font-family: Calibri, Arial, Helvetica, sans-serif; font-size=
+: 12pt; color: rgb(0, 0, 0);" class=3D"elementToProof">
+<span style=3D"font-family: Calibri, Arial, Helvetica, sans-serif; font-siz=
+e: 12pt; color: rgb(0, 0, 0); background-color: rgba(0, 0, 0, 0);">Best Reg=
+ards,</span></div>
+<div style=3D"font-family: Calibri, Arial, Helvetica, sans-serif; font-size=
+: 12pt; color: rgb(0, 0, 0);" class=3D"elementToProof">
+<span style=3D"font-family: Calibri, Arial, Helvetica, sans-serif; font-siz=
+e: 12pt; color: rgb(0, 0, 0); background-color: rgba(0, 0, 0, 0);">Kevin</s=
+pan></div>
+<div id=3D"appendonsend"></div>
+<div style=3D"font-family:Calibri,Arial,Helvetica,sans-serif; font-size:12p=
+t; color:rgb(0,0,0)">
+<br>
+</div>
+<hr tabindex=3D"-1" style=3D"display:inline-block; width:98%">
+<div id=3D"divRplyFwdMsg" dir=3D"ltr"><font face=3D"Calibri, sans-serif" co=
+lor=3D"#000000" style=3D"font-size:11pt"><b>From:</b> Christian K=F6nig &lt=
+;ckoenig.leichtzumerken@gmail.com&gt;<br>
+<b>Sent:</b> Wednesday, April 20, 2022 7:55 PM<br>
+<b>To:</b> Wang, Yang(Kevin) &lt;KevinYang.Wang@amd.com&gt;; Koenig, Christ=
+ian &lt;Christian.Koenig@amd.com&gt;; dri-devel@lists.freedesktop.org &lt;d=
+ri-devel@lists.freedesktop.org&gt;; amd-gfx@lists.freedesktop.org &lt;amd-g=
+fx@lists.freedesktop.org&gt;<br>
+<b>Subject:</b> Re: [PATCH] drm/ttm: fix ttm tt init fail when size exceeds=
+ kmalloc limit</font>
+<div>&nbsp;</div>
+</div>
+<div class=3D"elementToProof">Hi Kevin,<br>
+<br>
+no, the test case should already fail in amdgpu_bo_validate_size().<br>
+<br>
+If we have a system with 2TiB of memory where the test case could succeed t=
+hen we should increase the requested size to something larger.<br>
+<br>
+And if the underlying core Linux kernel functions don't allow allocations a=
+s large as the requested one we should *NEVER* ever add workarounds like th=
+is.<br>
+<br>
+It is perfectly expected that this test case is not able to fulfill the des=
+ired allocation. That it fails during kvmalloc is unfortunate, but not a sh=
+ow stopper.<br>
+<br>
+Regards,<br>
+Christian.<br>
+<br>
+<br>
+<div class=3D"x_moz-cite-prefix">Am 20.04.22 um 13:32 schrieb Wang, Yang(Ke=
+vin):<br>
+</div>
+<blockquote type=3D"cite">
+<p align=3D"Left" style=3D"margin-top: 0px; margin-bottom: 0px;font-family:=
+Arial; font-size:10pt; color:#0000FF; margin:5pt">
+[AMD Official Use Only]<br>
+</p>
+<br>
+<div>
+<div class=3D"x_elementToProof" style=3D"font-family:Calibri,Arial,Helvetic=
+a,sans-serif; font-size:12pt; color:rgb(0,0,0)">
+<span style=3D"font-family:Calibri,Arial,Helvetica,sans-serif; font-size:12=
+pt; color:rgb(0,0,0); background-color:rgba(0,0,0,0)">Hi Chris,</span></div=
+>
+<div class=3D"x_elementToProof" style=3D"font-family:Calibri,Arial,Helvetic=
+a,sans-serif; font-size:12pt; color:rgb(0,0,0)">
+<br>
+</div>
+<div class=3D"x_elementToProof" style=3D"font-family:Calibri,Arial,Helvetic=
+a,sans-serif; font-size:12pt; color:rgb(0,0,0)">
+<span style=3D"font-family:Calibri,Arial,Helvetica,sans-serif; font-size:12=
+pt; color:rgb(0,0,0); background-color:rgba(0,0,0,0)">you misunderstood bac=
+kground about this case.</span></div>
+<div class=3D"x_elementToProof" style=3D"font-family:Calibri,Arial,Helvetic=
+a,sans-serif; font-size:12pt; color:rgb(0,0,0)">
+<span style=3D"font-family:Calibri,Arial,Helvetica,sans-serif; font-size:12=
+pt; color:rgb(0,0,0); background-color:rgba(0,0,0,0)"><br>
+</span></div>
+<div class=3D"x_elementToProof" style=3D"font-family:Calibri,Arial,Helvetic=
+a,sans-serif; font-size:12pt; color:rgb(0,0,0)">
+<span style=3D"font-family:Calibri,Arial,Helvetica,sans-serif; font-size:12=
+pt; color:rgb(0,0,0); background-color:rgba(0,0,0,0)">a</span><span style=
+=3D"color:rgb(0,0,0); font-family:Calibri,Arial,Helvetica,sans-serif; font-=
+size:12pt; background-color:rgba(0,0,0,0)">lthough
+ we expect this test case to fail, it should fail at the location where the=
+ Bo actual memory is actually allocated. now the code logic will cause the =
+failure to allocate memory to store DMA address.</span></div>
+<div class=3D"x_elementToProof" style=3D"font-family:Calibri,Arial,Helvetic=
+a,sans-serif; font-size:12pt; color:rgb(0,0,0)">
+<span style=3D"color:rgb(0,0,0); font-family:Calibri,Arial,Helvetica,sans-s=
+erif; font-size:12pt; background-color:rgba(0,0,0,0)"><br>
+</span></div>
+<div class=3D"x_elementToProof" style=3D"font-family:Calibri,Arial,Helvetic=
+a,sans-serif; font-size:12pt; color:rgb(0,0,0)">
+<span style=3D"color:rgb(0,0,0); font-family:Calibri,Arial,Helvetica,sans-s=
+erif; font-size:12pt; background-color:rgba(0,0,0,0)"><span style=3D"backgr=
+ound-color:rgb(255,255,255); display:inline!important">e.g:&nbsp;</span>the=
+ case is failed in 2TB system ram machine,
+ it should be allocated successful, but it is failed.</span></div>
+<div class=3D"x_elementToProof" style=3D"font-family:Calibri,Arial,Helvetic=
+a,sans-serif; font-size:12pt; color:rgb(0,0,0)">
+<span style=3D"color:rgb(0,0,0); font-family:Calibri,Arial,Helvetica,sans-s=
+erif; font-size:12pt"><br>
+</span></div>
+<div class=3D"x_elementToProof" style=3D"font-family:Calibri,Arial,Helvetic=
+a,sans-serif; font-size:12pt; color:rgb(0,0,0)">
+<span style=3D"color:rgb(0,0,0); font-family:Calibri,Arial,Helvetica,sans-s=
+erif; font-size:12pt; background-color:rgba(0,0,0,0)">allocate 1TB BO, the =
+ttm should allocate 1TB/4k * 8 buffer to store allocate result (page addres=
+s), this should not be failed usually.</span></div>
+<div class=3D"x_elementToProof" style=3D"font-family:Calibri,Arial,Helvetic=
+a,sans-serif; font-size:12pt; color:rgb(0,0,0)">
+<span style=3D"color:rgb(0,0,0); font-size:12pt; background-color:rgba(0,0,=
+0,0); font-family:Calibri,Arial,Helvetica,sans-serif"><br>
+</span></div>
+<div class=3D"x_elementToProof" style=3D"font-family:Calibri,Arial,Helvetic=
+a,sans-serif; font-size:12pt; color:rgb(0,0,0)">
+<span style=3D"color:rgb(0,0,0); font-size:12pt; background-color:rgba(0,0,=
+0,0); font-family:Calibri,Arial,Helvetica,sans-serif">There is a similar fi=
+x in upstream kernel 5.18, b</span><span style=3D"color:rgb(0,0,0); font-si=
+ze:12pt; background-color:rgba(0,0,0,0); font-family:Calibri,Arial,Helvetic=
+a,sans-serif">efore
+ this fix entered the TTM code, this problem existed in TTM.</span></div>
+<div class=3D"x_elementToProof" style=3D"font-family:Calibri,Arial,Helvetic=
+a,sans-serif; font-size:12pt; color:rgb(0,0,0)">
+<span style=3D"color:rgb(0,0,0); font-size:12pt; background-color:rgba(0,0,=
+0,0); font-family:Calibri,Arial,Helvetica,sans-serif"><br>
+</span></div>
+<div class=3D"x_elementToProof" style=3D"font-family:Calibri,Arial,Helvetic=
+a,sans-serif; font-size:12pt; color:rgb(0,0,0)">
+<span style=3D"color:rgb(0,0,0); font-size:12pt; background-color:rgba(0,0,=
+0,0); font-family:Calibri,Arial,Helvetica,sans-serif"><a href=3D"https://na=
+m11.safelinks.protection.outlook.com/?url=3Dhttps%3A%2F%2Fgit.kernel.org%2F=
+pub%2Fscm%2Flinux%2Fkernel%2Fgit%2Ftorvalds%2Flinux.git%2Fcommit%2F%3Fh%3Dv=
+5.18-rc3%26id%3Da421ef303008b0ceee2cfc625c3246fa7654b0ca&amp;data=3D05%7C01=
+%7CKevinYang.Wang%40amd.com%7C2e9fd86a27d64a39432508da22c4b1f1%7C3dd8961fe4=
+884e608e11a82d994e183d%7C0%7C0%7C637860525454702938%7CUnknown%7CTWFpbGZsb3d=
+8eyJWIjoiMC4wLjAwMDAiLCJQIjoiV2luMzIiLCJBTiI6Ik1haWwiLCJXVCI6Mn0%3D%7C3000%=
+7C%7C%7C&amp;sdata=3DCiP9x3grwQ2aXFZPjpsAtwLCpBVeJufbGngy%2BtXLFbM%3D&amp;r=
+eserved=3D0" data-auth=3D"Verified" originalsrc=3D"https://git.kernel.org/p=
+ub/scm/linux/kernel/git/torvalds/linux.git/commit/?h=3Dv5.18-rc3&amp;id=3Da=
+421ef303008b0ceee2cfc625c3246fa7654b0ca" shash=3D"KMFRekIa5um9dneRj4pqsGBn2=
+wIcYBwLUel6we5AalD06U/g9WcKPxBwS4F9Mgfpnqpq0GbN+8AA16pzy6v+Ay23e5shnO53IP8e=
+7UcwQUE0fw1Wd4T+gBBF8PJiMugXDZiWlVYrV3tySgoFbmz+CuFzrYJbobUVj6E5khawPfo=3D"=
+ id=3D"LPlnk660272">kernel/git/torvalds/linux.git
+ - Linux kernel source tree</a><br>
+</span></div>
+<div class=3D"x_elementToProof" style=3D"font-family:Calibri,Arial,Helvetic=
+a,sans-serif; font-size:12pt; color:rgb(0,0,0)">
+<span class=3D"x_commit-subject" style=3D"font-size:12pt; margin:1.5em 0em =
+0.5em; padding:0em; color:rgb(0,0,0); font-family:Calibri,Arial,Helvetica,s=
+ans-serif; background-color:rgb(255,255,255)">mm: allow !GFP_KERNEL allocat=
+ions for kvmalloc</span><br>
+</div>
+<div class=3D"x_elementToProof" style=3D"font-family:Calibri,Arial,Helvetic=
+a,sans-serif; font-size:12pt; color:rgb(0,0,0)">
+<div><br>
+</div>
+<span style=3D"font-family:Calibri,Arial,Helvetica,sans-serif; font-size:12=
+pt; color:rgb(0,0,0); background-color:rgba(0,0,0,0)">Best Regards,</span><=
+/div>
+<div class=3D"x_elementToProof" style=3D"font-family:Calibri,Arial,Helvetic=
+a,sans-serif; font-size:12pt; color:rgb(0,0,0)">
+<span style=3D"font-family:Calibri,Arial,Helvetica,sans-serif; font-size:12=
+pt; color:rgb(0,0,0); background-color:rgba(0,0,0,0)">Kevin</span><br>
+<div><br>
+</div>
+</div>
+<hr tabindex=3D"-1" style=3D"display:inline-block; width:98%">
+<div id=3D"x_divRplyFwdMsg" dir=3D"ltr"><font face=3D"Calibri, sans-serif" =
+color=3D"#000000" style=3D"font-size:11pt"><b>From:</b> Koenig, Christian
+<a href=3D"mailto:Christian.Koenig@amd.com" data-auth=3D"NotApplicable" cla=
+ss=3D"x_moz-txt-link-rfc2396E">
+&lt;Christian.Koenig@amd.com&gt;</a><br>
+<b>Sent:</b> Wednesday, April 20, 2022 6:53 PM<br>
+<b>To:</b> Wang, Yang(Kevin) <a href=3D"mailto:KevinYang.Wang@amd.com" data=
+-auth=3D"NotApplicable" class=3D"x_moz-txt-link-rfc2396E">
+&lt;KevinYang.Wang@amd.com&gt;</a>; <a href=3D"mailto:dri-devel@lists.freed=
+esktop.org" data-auth=3D"NotApplicable" class=3D"x_moz-txt-link-abbreviated=
+">
+dri-devel@lists.freedesktop.org</a> <a href=3D"mailto:dri-devel@lists.freed=
+esktop.org" data-auth=3D"NotApplicable" class=3D"x_moz-txt-link-rfc2396E">
+&lt;dri-devel@lists.freedesktop.org&gt;</a>; <a href=3D"mailto:amd-gfx@list=
+s.freedesktop.org" data-auth=3D"NotApplicable" class=3D"x_moz-txt-link-abbr=
+eviated">
+amd-gfx@lists.freedesktop.org</a> <a href=3D"mailto:amd-gfx@lists.freedeskt=
+op.org" data-auth=3D"NotApplicable" class=3D"x_moz-txt-link-rfc2396E">
+&lt;amd-gfx@lists.freedesktop.org&gt;</a><br>
+<b>Subject:</b> Re: [PATCH] drm/ttm: fix ttm tt init fail when size exceeds=
+ kmalloc limit</font>
+<div>&nbsp;</div>
+</div>
+<div>Am 20.04.22 um 11:07 schrieb Wang, Yang(Kevin):<br>
+<blockquote type=3D"cite">
+<p align=3D"Left" style=3D"margin-top: 0px; margin-bottom: 0px;margin-top:0=
+px; margin-bottom:0px; font-family:Arial; font-size:10pt; color:#0000FF; ma=
+rgin:5pt">
+[AMD Official Use Only]<br>
+</p>
+<br>
+<div>
+<div style=3D"font-family:Calibri,Arial,Helvetica,sans-serif; font-size:12p=
+t; color:rgb(0,0,0)">
+<br>
+</div>
+<hr tabindex=3D"-1" style=3D"display:inline-block; width:98%">
+<div id=3D"x_x_divRplyFwdMsg" dir=3D"ltr"><font face=3D"Calibri, sans-serif=
+" color=3D"#000000" style=3D"font-size:11pt"><b>From:</b> Koenig, Christian
+<a href=3D"mailto:Christian.Koenig@amd.com" data-auth=3D"NotApplicable" cla=
+ss=3D"x_x_moz-txt-link-rfc2396E">
+&lt;Christian.Koenig@amd.com&gt;</a><br>
+<b>Sent:</b> Wednesday, April 20, 2022 5:00 PM<br>
+<b>To:</b> Wang, Yang(Kevin) <a href=3D"mailto:KevinYang.Wang@amd.com" data=
+-auth=3D"NotApplicable" class=3D"x_x_moz-txt-link-rfc2396E">
+&lt;KevinYang.Wang@amd.com&gt;</a>; <a href=3D"mailto:dri-devel@lists.freed=
+esktop.org" data-auth=3D"NotApplicable" class=3D"x_x_moz-txt-link-abbreviat=
+ed x_moz-txt-link-freetext">
+dri-devel@lists.freedesktop.org</a> <a href=3D"mailto:dri-devel@lists.freed=
+esktop.org" data-auth=3D"NotApplicable" class=3D"x_x_moz-txt-link-rfc2396E"=
+>
+&lt;dri-devel@lists.freedesktop.org&gt;</a>; <a href=3D"mailto:amd-gfx@list=
+s.freedesktop.org" data-auth=3D"NotApplicable" class=3D"x_x_moz-txt-link-ab=
+breviated x_moz-txt-link-freetext">
+amd-gfx@lists.freedesktop.org</a> <a href=3D"mailto:amd-gfx@lists.freedeskt=
+op.org" data-auth=3D"NotApplicable" class=3D"x_x_moz-txt-link-rfc2396E">
+&lt;amd-gfx@lists.freedesktop.org&gt;</a><br>
+<b>Subject:</b> Re: [PATCH] drm/ttm: fix ttm tt init fail when size exceeds=
+ kmalloc limit</font>
+<div>&nbsp;</div>
+</div>
+<div class=3D"x_x_BodyFragment"><font size=3D"2"><span style=3D"font-size:1=
+1pt">
+<div class=3D"x_x_PlainText x_x_elementToProof">Am 20.04.22 um 10:56 schrie=
+b Yang Wang:<br>
+&gt; if the __GFP_ZERO is set, the kvmalloc() can't fallback to use vmalloc=
+()<br>
+<br>
+Hui what? Why should kvmalloc() not be able to fallback to vmalloc() <br>
+when __GFP_ZERO is set?<br>
+<br>
+And even that is really the case then that sounds like a bug in kvmalloc().=
+</div>
+<div class=3D"x_x_PlainText x_x_elementToProof"><br>
+Regards,<br>
+Christian.</div>
+<div class=3D"x_x_PlainText x_x_elementToProof"><br>
+<div class=3D"x_x_PlainText" style=3D"margin:0px; background-color:rgb(255,=
+255,255)">
+[kevin]:</div>
+</div>
+<div class=3D"x_x_PlainText x_x_elementToProof"><span class=3D"x_x_PlainTex=
+t" style=3D"margin:0px; background-color:rgb(255,255,255)">it is really tes=
+t case from libdrm amdgpu test, which try to allocate a big BO which will c=
+ause ttm tt init fail.</span><br>
+</div>
+</span></font></div>
+</div>
+</blockquote>
+<br>
+<br>
+LOL! Guys, this test case is intended to fail!<br>
+<b><br>
+</b>The test consists of allocating a buffer so ridiculous large that it sh=
+ould never succeed and be rejected by the kernel driver.<br>
+<br>
+This patch here is a really clear NAK.<br>
+<br>
+Regards,<br>
+Christian.<br>
+<br>
+<blockquote type=3D"cite">
+<div>
+<div class=3D"x_x_BodyFragment"><font size=3D"2"><span style=3D"font-size:1=
+1pt">
+<div class=3D"x_x_PlainText x_x_elementToProof"><span class=3D"x_x_PlainTex=
+t" style=3D"margin:0px; background-color:rgb(255,255,255)">it may be a kvma=
+lloc() bug, and this patch can as a workaround in<span style=3D"background-=
+color:rgb(255,255,255); display:inline!important">&nbsp;ttm</span>&nbsp;bef=
+ore
+ this issue fix.</span></div>
+<div class=3D"x_x_PlainText x_x_elementToProof"><span class=3D"x_x_PlainTex=
+t" style=3D"margin:0px; background-color:rgb(255,255,255)"><br>
+</span></div>
+<div class=3D"x_x_PlainText x_x_elementToProof"><span class=3D"x_x_PlainTex=
+t" style=3D"margin:0px; background-color:rgb(255,255,255)">void *kvmalloc_n=
+ode(size_t size, gfp_t flags, int node)&nbsp;<br>
+</span></div>
+<div class=3D"x_x_PlainText x_x_elementToProof"><span class=3D"x_x_PlainTex=
+t" style=3D"margin:0px; background-color:rgb(255,255,255)">{</span></div>
+<div class=3D"x_x_PlainText x_x_elementToProof"><span class=3D"x_x_PlainTex=
+t" style=3D"margin:0px; background-color:rgb(255,255,255)">...</span></div>
+<div class=3D"x_x_PlainText x_x_elementToProof"><span class=3D"x_x_PlainTex=
+t" style=3D"margin:0px; background-color:rgb(255,255,255)">&nbsp; &nbsp; &n=
+bsp; &nbsp; if ((flags &amp; GFP_KERNEL) !=3D GFP_KERNEL)<br>
+</span></div>
+<div class=3D"x_x_PlainText x_x_elementToProof"><span class=3D"x_x_PlainTex=
+t" style=3D"margin:0px; background-color:rgb(255,255,255)">&nbsp; &nbsp; &n=
+bsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; return kmalloc_node(size, flags, no=
+de);<br>
+</span></div>
+<div class=3D"x_x_PlainText x_x_elementToProof"><span class=3D"x_x_PlainTex=
+t" style=3D"margin:0px; background-color:rgb(255,255,255)">...</span></div>
+<div class=3D"x_x_PlainText x_x_elementToProof"><span class=3D"x_x_PlainTex=
+t" style=3D"margin:0px; background-color:rgb(255,255,255)">}</span></div>
+<div class=3D"x_x_PlainText x_x_elementToProof"><br>
+</div>
+<div class=3D"x_x_PlainText x_x_elementToProof">Best Regards,</div>
+<div class=3D"x_x_PlainText x_x_elementToProof">Kevin<br>
+<br>
+&gt; to allocate memory, when request size is exceeds kmalloc limit, it wil=
+l<br>
+&gt; cause allocate memory fail.<br>
+&gt;<br>
+&gt; e.g: when ttm want to create a BO with 1TB size, it maybe fail.<br>
+&gt;<br>
+&gt; Signed-off-by: Yang Wang <a href=3D"mailto:KevinYang.Wang@amd.com" dat=
+a-auth=3D"NotApplicable" class=3D"x_x_moz-txt-link-rfc2396E">
+&lt;KevinYang.Wang@amd.com&gt;</a><br>
+&gt; ---<br>
+&gt;&nbsp;&nbsp; drivers/gpu/drm/ttm/ttm_tt.c | 14 +++++++++++---<br>
+&gt;&nbsp;&nbsp; 1 file changed, 11 insertions(+), 3 deletions(-)<br>
+&gt;<br>
+&gt; diff --git a/drivers/gpu/drm/ttm/ttm_tt.c b/drivers/gpu/drm/ttm/ttm_tt=
+.c<br>
+&gt; index 79c870a3bef8..9f2f3e576b8d 100644<br>
+&gt; --- a/drivers/gpu/drm/ttm/ttm_tt.c<br>
+&gt; +++ b/drivers/gpu/drm/ttm/ttm_tt.c<br>
+&gt; @@ -97,9 +97,12 @@ int ttm_tt_create(struct ttm_buffer_object *bo, boo=
+l zero_alloc)<br>
+&gt;&nbsp;&nbsp; static int ttm_tt_alloc_page_directory(struct ttm_tt *ttm)=
+<br>
+&gt;&nbsp;&nbsp; {<br>
+&gt;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; ttm-&gt;pages =3D kvmalloc_a=
+rray(ttm-&gt;num_pages, sizeof(void*),<br>
+&gt; -&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nb=
+sp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; GFP_KERNEL | __GFP_ZERO=
+);<br>
+&gt; +&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nb=
+sp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;=
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; GFP_KERNEL);<br>
+&gt;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; if (!ttm-&gt;pages)<br>
+&gt;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp=
+;&nbsp;&nbsp;&nbsp; return -ENOMEM;<br>
+&gt; +<br>
+&gt; +&nbsp;&nbsp;&nbsp;&nbsp; memset(ttm-&gt;pages, 0, ttm-&gt;num_pages *=
+ sizeof(void *));<br>
+&gt; +<br>
+&gt;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; return 0;<br>
+&gt;&nbsp;&nbsp; }<br>
+&gt;&nbsp;&nbsp; <br>
+&gt; @@ -108,10 +111,12 @@ static int ttm_dma_tt_alloc_page_directory(struc=
+t ttm_tt *ttm)<br>
+&gt;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; ttm-&gt;pages =3D kvmalloc_a=
+rray(ttm-&gt;num_pages,<br>
+&gt;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp=
+;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&n=
+bsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; sizeof(*tt=
+m-&gt;pages) +<br>
+&gt;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp=
+;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&n=
+bsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; sizeof(*tt=
+m-&gt;dma_address),<br>
+&gt; -&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nb=
+sp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;=
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; GFP_KERNEL | __GFP_ZERO);<=
+br>
+&gt; +&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nb=
+sp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;=
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; GFP_KERNEL);<br>
+&gt;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; if (!ttm-&gt;pages)<br>
+&gt;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp=
+;&nbsp;&nbsp;&nbsp; return -ENOMEM;<br>
+&gt;&nbsp;&nbsp; <br>
+&gt; +&nbsp;&nbsp;&nbsp;&nbsp; memset(ttm-&gt;pages, 0, ttm-&gt;num_pages *=
+ (sizeof(*ttm-&gt;pages) + sizeof(*ttm-&gt;dma_address)));<br>
+&gt; +<br>
+&gt;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; ttm-&gt;dma_address =3D (voi=
+d *)(ttm-&gt;pages + ttm-&gt;num_pages);<br>
+&gt;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; return 0;<br>
+&gt;&nbsp;&nbsp; }<br>
+&gt; @@ -120,9 +125,12 @@ static int ttm_sg_tt_alloc_page_directory(struct =
+ttm_tt *ttm)<br>
+&gt;&nbsp;&nbsp; {<br>
+&gt;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; ttm-&gt;dma_address =3D kvma=
+lloc_array(ttm-&gt;num_pages,<br>
+&gt;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp=
+;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&n=
+bsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp=
+;&nbsp;&nbsp;&nbsp;&nbsp; sizeof(*ttm-&gt;dma_address),<br>
+&gt; -&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nb=
+sp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;=
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nb=
+sp;&nbsp; GFP_KERNEL | __GFP_ZERO);<br>
+&gt; +&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nb=
+sp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;=
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nb=
+sp;&nbsp; GFP_KERNEL);<br>
+&gt;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; if (!ttm-&gt;dma_address)<br=
+>
+&gt;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp=
+;&nbsp;&nbsp;&nbsp; return -ENOMEM;<br>
+&gt; +<br>
+&gt; +&nbsp;&nbsp;&nbsp;&nbsp; memset(ttm-&gt;dma_address, 0, ttm-&gt;num_p=
+ages * sizeof(*ttm-&gt;dma_address));<br>
+&gt; +<br>
+&gt;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; return 0;<br>
+&gt;&nbsp;&nbsp; }<br>
+&gt;&nbsp;&nbsp; <br>
+<br>
+</div>
+</span></font></div>
+</div>
+</blockquote>
+<br>
+</div>
+</div>
+</blockquote>
+<br>
+</div>
+</div>
+</body>
+</html>
 
-iQIzBAEBCAAdFiEEJQjwWQChkWOYOIONI1/ltBGqqqcFAmJf/kwACgkQI1/ltBGq
-qqcoWg//WuMByYPDAdzxZgt3pVpEXGfkL7kh7on9gmSQFA5UuzefesA1BlJdZO7k
-kiyCN39+f7S7s70h+RVtJctNg4LcyiTXesu+O2wl8/s9bxMyYwJ7PQzANuGzLonj
-sl+bltTq1ZeCy2+YirddAptnHFJCw62Deulcp6r7UsJwHDk5MUaem5wxsof4zsem
-ARpcYyYzV/ry8pkzwJ4T5NIxdj3UNkdMWEdqkDNaG0l/aE5TglnizmUIhjMzsztc
-BB+4Ie/UYczbZew2mNCkdf6Gy2CfnC0NYIRbUBPS8Ty83jqvZs5ftHr7fv+VA08f
-Nq69OfPQEjZRj8nzguZeak+IEc2VYEMPq6iUd6YNGUl0uAEgWVVV9b3+7tWvTdiE
-/2pKw4OhmcggR0n9JBoZeL2w1E3x2RC1iohv8hjpQRw0BpcUVMqGd9H1rQQTbU1a
-QcJUe9of+7hG4xtJSHQ4LNIE/CTT1xuHhlHTCFbGqBerNi6WObX2tt7DrbbsD+3S
-naY7VH4/ttfoVITuVv1viXq5oFIc9ESSmcrh4stnNiY4/j+vAIYNXir3Ele8fmDI
-VlrIZ4sPw4dYfhPXGBVrSJmMYhL+2WPDNsX6Rn1smj7LwvhmWTkUyo8PhjDy2x8T
-ingLjm5xOczaWm3lapx8MiiXL02Bo4aFbYGS4KKtBhYqsUM9eAY=
-=fnvi
------END PGP SIGNATURE-----
-
---Sig_/H=H6_bDl00sY2FjKo_+5KSA--
+--_000_CO6PR12MB54735D4B8E05AB1C17D356AE82F59CO6PR12MB5473namp_--
