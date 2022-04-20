@@ -2,87 +2,55 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4F8B8509E7E
-	for <lists+dri-devel@lfdr.de>; Thu, 21 Apr 2022 13:23:22 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 670C1509E77
+	for <lists+dri-devel@lfdr.de>; Thu, 21 Apr 2022 13:23:09 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id EC69B10F3C4;
-	Thu, 21 Apr 2022 11:23:01 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 57FC110F395;
+	Thu, 21 Apr 2022 11:23:00 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-X-Greylist: delayed 66947 seconds by postgrey-1.36 at gabe;
- Wed, 20 Apr 2022 13:57:33 UTC
-Received: from dog.elm.relay.mailchannels.net (dog.elm.relay.mailchannels.net
- [23.83.212.48])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 940AF10F123
- for <dri-devel@lists.freedesktop.org>; Wed, 20 Apr 2022 13:57:33 +0000 (UTC)
-X-Sender-Id: dreamhost|x-authsender|ian@linux.cowan.aero
-Received: from relay.mailchannels.net (localhost [127.0.0.1])
- by relay.mailchannels.net (Postfix) with ESMTP id 0B90B221E4;
- Wed, 20 Apr 2022 13:57:30 +0000 (UTC)
-Received: from pdx1-sub0-mail-a217.dreamhost.com (unknown [127.0.0.6])
- (Authenticated sender: dreamhost)
- by relay.mailchannels.net (Postfix) with ESMTPA id 9261622248;
- Wed, 20 Apr 2022 13:57:29 +0000 (UTC)
-ARC-Seal: i=1; s=arc-2022; d=mailchannels.net; t=1650463049; a=rsa-sha256;
- cv=none;
- b=wDJ8T1RrW94tb3F5q/HjlGw80GQg+akGkxna039IabBkBTnhD8IaXsgVQaoUhRg6YCPgUP
- qRvJVVHb5w+7vEB9eX56tQgVlYa4Gw4Me61lNtJuWA0ZSmcf6sYk8MynE5QZIrqSdqzFYM
- VraEQT5Btu70WQ6H93wMuzSERw+P/1TtVx/NmRNsL51ZAEcyy6weShmLkm818omX4GfsFG
- uluPEEEHXNG5c4cSa1U+Uzqgivjt34FnSCnXLbSISLlynYpogN9kpYXjkRsaDrkaXTC7ao
- 5ZQSxizr4x7LJVJ4upcv2URNKO0K6lVirXEY1oEtsp7HO44VKGlrJl4witMJSA==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed;
- d=mailchannels.net; s=arc-2022; t=1650463049;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references:dkim-signature;
- bh=CHPbQq9vN2TTJFUujydoe/H+ez6bk4Q+mGjdxo7mNW8=;
- b=QEw+HQbEIMDy41Ks2bdF1yBNkO0WypuQir+a6d5aJvwOAkbSNDy2zI1WryeGNoVoPftbug
- dfHDDQC+n/txSJvFenbaTyM1xUTwCspsGvBIY9zylwqGRXJk7V8GZVXs0Y4BJbnXRqSHFS
- HEBrewAd3bsxkgGyKuMIiTKwD9W7OSpHo77hfZpH0ewmWbp5CzTFK6frQZUBRkl7L4pyvz
- ZOlzAf8xlbTXeJc61V8ZzX5BZy8prJrwhJ4gcZpQVgXiepOBzmk30zse0T6PAovuwi78au
- DvNgv9ljuEbomYaQ8Uh+kNb1/BHc+O5cEsxz2KY1wj4r1Z7Ij2vZkiyASZKbaw==
-ARC-Authentication-Results: i=1; rspamd-5fd5798557-rlbc2;
- auth=pass smtp.auth=dreamhost smtp.mailfrom=ian@linux.cowan.aero
-X-Sender-Id: dreamhost|x-authsender|ian@linux.cowan.aero
-Received: from pdx1-sub0-mail-a217.dreamhost.com (pop.dreamhost.com
- [64.90.62.162]) (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384)
- by 100.107.255.147 (trex/6.7.1); Wed, 20 Apr 2022 13:57:30 +0000
-X-MC-Relay: Neutral
-X-MailChannels-SenderId: dreamhost|x-authsender|ian@linux.cowan.aero
-X-MailChannels-Auth-Id: dreamhost
-X-Befitting-Daffy: 459e2e7852abd21c_1650463049877_3672866740
-X-MC-Loop-Signature: 1650463049877:3399031275
-X-MC-Ingress-Time: 1650463049877
-Received: from fedora (unknown [69.12.38.97])
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
- key-exchange ECDHE (P-256) server-signature RSA-PSS (2048 bits) server-digest
- SHA256) (No client certificate requested)
- (Authenticated sender: ian@linux.cowan.aero)
- by pdx1-sub0-mail-a217.dreamhost.com (Postfix) with ESMTPSA id 4Kk2L06Nf8z1QX; 
- Wed, 20 Apr 2022 06:57:28 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linux.cowan.aero;
- s=dreamhost; t=1650463049;
- bh=CHPbQq9vN2TTJFUujydoe/H+ez6bk4Q+mGjdxo7mNW8=;
- h=Date:From:To:Cc:Subject:Content-Type:Content-Transfer-Encoding;
- b=QEiPUVQ7tdtWKl06YpU9xxp1l4A/SAP1DjpUnbbM0mN68cQI4c4gxtJ+HADc7row+
- Zo1eLRE3S1Qywsddur2GvXVEp8KcPZqQwmBxUeX9uhUfkDnXNZ3HIcglwCPl6/Wv7E
- E5zYWQUAJYze8vti9BqSIN3UW01ogjO2vgTSp7jPkERHsAVS4gVR0MTFgqG0Qp1TAD
- Y075o88UB4ADA17cVoEd9ZQqWTcZ4d1lgN0thP4uSssx0eRWVYbApXVRmXULh6rryF
- TBzEy1I6pv+ELk4vq1vjc4AH6ZyStQd7x3BEpseATJQn3VhljwotCRgXuxwlX4rBrh
- /D451loRC7WnQ==
-Date: Wed, 20 Apr 2022 09:57:27 -0400
-From: Ian Cowan <ian@linux.cowan.aero>
-To: Uwe =?iso-8859-1?Q?Kleine-K=F6nig?= <u.kleine-koenig@pengutronix.de>
-Subject: Re: [PATCH] Staging: fbtft: Fix style problem in header
-Message-ID: <YmARR6+XQeVqlusK@fedora>
-References: <20220419192128.445023-1-ian@linux.cowan.aero>
- <20220420064711.xuhuyhtgcrs3avhk@pengutronix.de>
+Received: from dispatch1-us1.ppe-hosted.com (dispatch1-us1.ppe-hosted.com
+ [148.163.129.52])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 4E6D310E11A;
+ Wed, 20 Apr 2022 15:35:34 +0000 (UTC)
+X-Virus-Scanned: Proofpoint Essentials engine
+Received: from mx1-us1.ppe-hosted.com (unknown [10.7.67.119])
+ by mx1-us1.ppe-hosted.com (PPE Hosted ESMTP Server) with ESMTPS id 808AC2007B; 
+ Wed, 20 Apr 2022 15:35:32 +0000 (UTC)
+Received: from mail3.candelatech.com (mail2.candelatech.com [208.74.158.173])
+ by mx1-us1.ppe-hosted.com (PPE Hosted ESMTP Server) with ESMTP id
+ 97CA07C0091; Wed, 20 Apr 2022 15:35:31 +0000 (UTC)
+Received: from [192.168.100.195] (50-251-239-81-static.hfc.comcastbusiness.net
+ [50.251.239.81])
+ (using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+ (No client certificate requested)
+ by mail3.candelatech.com (Postfix) with ESMTPSA id 0D55D13C2B0;
+ Wed, 20 Apr 2022 08:35:31 -0700 (PDT)
+DKIM-Filter: OpenDKIM Filter v2.11.0 mail3.candelatech.com 0D55D13C2B0
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=candelatech.com;
+ s=default; t=1650468931;
+ bh=m6UmcaUNAJbiUAjl9D1S7563d1lALHm4+6MIjVko97A=;
+ h=Subject:To:Cc:References:From:Date:In-Reply-To:From;
+ b=VOttTPX9D2xuN0YICl2Gr74GByEwy6WkJtsWdYYbJ1jWW92A+ZjlIRkHQkeFwMfe/
+ Bx4/9LYrN7rYiRhBm81uvJmeMyt9H39cTT7CxWcHu8ch+Au38fqb9pz3xT02gj3+T5
+ 1mcU2k0rtCDlXqGL2HzqW+G/wJyTd8/SJ3meo4eY=
+Subject: Re: [PATCH 0/1] add support for enum module parameters
+To: Kalle Valo <kvalo@kernel.org>, Jani Nikula <jani.nikula@intel.com>
+References: <20220414123033.654198-1-jani.nikula@intel.com>
+ <YlgfXxjefuxiXjtC@kroah.com> <87a6cneoco.fsf@intel.com>
+ <87sfq8qqus.fsf@tynnyri.adurom.net>
+From: Ben Greear <greearb@candelatech.com>
+Organization: Candela Technologies
+Message-ID: <0be3baa1-d4aa-8ab2-173f-085d47497251@candelatech.com>
+Date: Wed, 20 Apr 2022 08:35:30 -0700
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.2.2
 MIME-Version: 1.0
-Content-Type: text/plain; charset=iso-8859-1
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <20220420064711.xuhuyhtgcrs3avhk@pengutronix.de>
+In-Reply-To: <87sfq8qqus.fsf@tynnyri.adurom.net>
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
+X-MDID: 1650468933-iY1Kl7vagF1E
 X-Mailman-Approved-At: Thu, 21 Apr 2022 11:22:59 +0000
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -96,49 +64,61 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: gregkh@linuxfoundation.org, linux-fbdev@vger.kernel.org,
- linux-staging@lists.linux.dev, dri-devel@lists.freedesktop.org
+Cc: linux-wireless@vger.kernel.org,
+ Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+ intel-gfx@lists.freedesktop.org, Lucas De Marchi <lucas.demarchi@intel.com>,
+ linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
+ netdev@vger.kernel.org, Andrew Morton <akpm@linux-foundation.org>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Wed, Apr 20, 2022 at 08:47:11AM +0200, Uwe Kleine-König wrote:
-> On Tue, Apr 19, 2022 at 03:21:28PM -0400, Ian Cowan wrote:
-> > Removed an unnecessary semicolon at the end of a macro call
-> > 
-> > Signed-off-by: Ian Cowan <ian@linux.cowan.aero>
-> > ---
-> >  drivers/staging/fbtft/fbtft.h | 2 +-
-> >  1 file changed, 1 insertion(+), 1 deletion(-)
-> > 
-> > diff --git a/drivers/staging/fbtft/fbtft.h b/drivers/staging/fbtft/fbtft.h
-> > index 2c2b5f1c1df3..aa66760e1a9c 100644
-> > --- a/drivers/staging/fbtft/fbtft.h
-> > +++ b/drivers/staging/fbtft/fbtft.h
-> > @@ -277,7 +277,7 @@ static const struct of_device_id dt_ids[] = {					\
-> >  	{ .compatible = _compatible },						\
-> >  	{},									\
-> >  };										\
-> > -MODULE_DEVICE_TABLE(of, dt_ids);
-> > +MODULE_DEVICE_TABLE(of, dt_ids)
+On 4/19/22 10:13 PM, Kalle Valo wrote:
+> + linux-wireless, netdev
 > 
-> In fact the ; after MODULE_DEVICE_TABLE is necessary. There is only a
-> single instance in the kernel without a semicolon[1]. That's in
-> drivers/pci/controller/pcie-microchip-host.c and this only works because
-> this driver cannot be compiled as a module and so MODULE_DEVICE_TABLE
-> evaluates to nothing. Will send a patch for that one.
+> Jani Nikula <jani.nikula@intel.com> writes:
 > 
-> Best regards
-> Uwe
+>> On Thu, 14 Apr 2022, Greg Kroah-Hartman <gregkh@linuxfoundation.org> wrote:
+>>> On Thu, Apr 14, 2022 at 03:30:32PM +0300, Jani Nikula wrote:
+>>>> Hey, I've sent this before, ages ago, but haven't really followed
+>>>> through with it. I still think it would be useful for many scenarios
+>>>> where a plain number is a clumsy interface for a module param.
+>>>>
+>>>> Thoughts?
+>>>
+>>> We should not be adding new module parameters anyway (they operate on
+>>> code, not data/devices), so what would this be used for?
+>>
+>> I think it's just easier to use names than random values, and this also
+>> gives you range check on the input.
+>>
+>> I also keep telling people not to add new module parameters, but it's
+>> not like they're going away anytime soon.
+>>
+>> If there's a solution to being able to pass device specific debug
+>> parameters at probe time, I'm all ears. At least i915 has a bunch of
+>> things which can't really be changed after probe, when debugfs for the
+>> device is around. Module parameters aren't ideal, but debugfs doesn't
+>> work for this.
 > 
-> [1] git grep -E '^[[:space:]]*MODULE_DEVICE_TABLE\([^;]*$'
+> Wireless drivers would also desperately need to pass device specific
+> parameters at (or before) probe time. And not only debug parameters but
+> also configuration parameters, for example firmware memory allocations
+> schemes (optimise for features vs number of clients etc) and whatnot.
 > 
-> -- 
-> Pengutronix e.K.                           | Uwe Kleine-König            |
-> Industrial Linux Solutions                 | https://www.pengutronix.de/ |
+> Any ideas how to implement that? Is there any prior work for anything
+> like this? This is pretty hard limiting usability of upstream wireless
+> drivers and I really want to find a proper solution.
 
-When I built this, it appeared to succeed. I used the command "make
-M=/drivers/staging/fbtft modules". Is this incorrect? For reference this
-is my first patch so it's highly likely I did this incorrectly.
+I used a 'fwcfg' file that is loaded during ath10k initialization, from
+same general location as the firmware.  Name is with pci-id or other unique
+identifier like board files sometimes are named, and you get per radio
+configuration at device load time.  I'm sure I posted a patch on this
+some years ago, but I can point you to my current tree if you prefer.
 
----
-Ian Cowan
+Thanks,
+Ben
+
+-- 
+Ben Greear <greearb@candelatech.com>
+Candela Technologies Inc  http://www.candelatech.com
+
