@@ -2,46 +2,46 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9A646507E6F
-	for <lists+dri-devel@lfdr.de>; Wed, 20 Apr 2022 03:47:13 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 88C83507E64
+	for <lists+dri-devel@lfdr.de>; Wed, 20 Apr 2022 03:47:01 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 2A95C10F029;
-	Wed, 20 Apr 2022 01:47:05 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 52BFC10EFAD;
+	Wed, 20 Apr 2022 01:46:58 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from alexa-out-sd-02.qualcomm.com (alexa-out-sd-02.qualcomm.com
  [199.106.114.39])
- by gabe.freedesktop.org (Postfix) with ESMTPS id B72AE10EF94;
+ by gabe.freedesktop.org (Postfix) with ESMTPS id E720110EFA0;
  Wed, 20 Apr 2022 01:46:52 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=quicinc.com; i=@quicinc.com; q=dns/txt; s=qcdkim;
  t=1650419212; x=1681955212;
  h=from:to:cc:subject:date:message-id:in-reply-to:
  references:mime-version;
- bh=o7fu5j/u/7eHuGUd6F3nOmr0ldAQxzExtaLGa+n/esE=;
- b=SM3Ah2+GUKB+iO+fCq/XrYpNof7sGtr610mh0dHCLjg9UHoCoAuZ5dD0
- SqSRPPcqljUPfUAJTnZtr6v/K6aAjpad3U6LbkFPSohPsfC2HEFLhglSM
- 8dYT2xMazOv49EhkxU+NYN4//8zm8ZNVvXjChEMMRVOrNe73YA2kQKiXm w=;
+ bh=/Oqu7Q+80yPQUoKRq/plDAqC57ZD5lVkKsXhGPdS7y4=;
+ b=GbJj1XIgpO22yCZ4jGHeGayTrNcu1B/o9vjV9F7d3b5D021cZ/gQvmb7
+ o+/WThzvKFm3XuW6lFbEX5plOFak+r1Y15JmlcUXpkDq05IHAVbG1OVKW
+ +VQe88D1ITGDrMvt/YbuOSF0QvBLb0MR09rCcSqGFyGLgRsn9W2bqs3kL 0=;
 Received: from unknown (HELO ironmsg05-sd.qualcomm.com) ([10.53.140.145])
  by alexa-out-sd-02.qualcomm.com with ESMTP; 19 Apr 2022 18:46:51 -0700
 X-QCInternal: smtphost
 Received: from nasanex01c.na.qualcomm.com ([10.47.97.222])
  by ironmsg05-sd.qualcomm.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 19 Apr 2022 18:46:43 -0700
+ 19 Apr 2022 18:46:44 -0700
 Received: from nalasex01a.na.qualcomm.com (10.47.209.196) by
  nasanex01c.na.qualcomm.com (10.47.97.222) with Microsoft SMTP Server
  (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.2.986.22; Tue, 19 Apr 2022 18:46:40 -0700
+ 15.2.986.22; Tue, 19 Apr 2022 18:46:41 -0700
 Received: from abhinavk-linux.qualcomm.com (10.80.80.8) by
  nalasex01a.na.qualcomm.com (10.47.209.196) with Microsoft SMTP Server
  (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.2.986.22; Tue, 19 Apr 2022 18:46:40 -0700
+ 15.2.986.22; Tue, 19 Apr 2022 18:46:41 -0700
 From: Abhinav Kumar <quic_abhinavk@quicinc.com>
 To: <freedreno@lists.freedesktop.org>
-Subject: [PATCH v2 11/17] drm/msm/dpu: add encoder operations to
- prepare/cleanup wb job
-Date: Tue, 19 Apr 2022 18:46:03 -0700
-Message-ID: <1650419169-13760-12-git-send-email-quic_abhinavk@quicinc.com>
+Subject: [PATCH v2 12/17] drm/msm/dpu: move _dpu_plane_get_qos_lut to
+ dpu_hw_util file
+Date: Tue, 19 Apr 2022 18:46:04 -0700
+Message-ID: <1650419169-13760-13-git-send-email-quic_abhinavk@quicinc.com>
 X-Mailer: git-send-email 2.7.4
 In-Reply-To: <1650419169-13760-1-git-send-email-quic_abhinavk@quicinc.com>
 References: <1650419169-13760-1-git-send-email-quic_abhinavk@quicinc.com>
@@ -70,115 +70,118 @@ Cc: markyacoub@chromium.org, liviu.dudau@arm.com,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-add dpu encoder APIs to prepare and cleanup writeback job
-for the writeback encoder. These shall be invoked from the
-prepare_wb_job/cleanup_wb_job hooks of the drm_writeback
-framework.
+_dpu_plane_get_qos_lut() is not specific to just dpu_plane.
+It can take any fill level and return the LUT matching it.
+This can be used even for other modules like dpu_writeback.
 
-changes in v2:
-	- rebased on tip of msm-next
+Move _dpu_plane_get_qos_lut() to the common dpu_hw_util file
+and rename it to _dpu_hw_get_qos_lut().
 
 Signed-off-by: Abhinav Kumar <quic_abhinavk@quicinc.com>
-Reviewed-by: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
 ---
- drivers/gpu/drm/msm/disp/dpu1/dpu_encoder.c      | 34 ++++++++++++++++++++++++
- drivers/gpu/drm/msm/disp/dpu1/dpu_encoder.h      | 16 +++++++++++
- drivers/gpu/drm/msm/disp/dpu1/dpu_encoder_phys.h |  5 ++++
- 3 files changed, 55 insertions(+)
+ drivers/gpu/drm/msm/disp/dpu1/dpu_hw_util.c | 25 +++++++++++++++++++++++++
+ drivers/gpu/drm/msm/disp/dpu1/dpu_hw_util.h |  4 ++++
+ drivers/gpu/drm/msm/disp/dpu1/dpu_plane.c   | 27 +--------------------------
+ 3 files changed, 30 insertions(+), 26 deletions(-)
 
-diff --git a/drivers/gpu/drm/msm/disp/dpu1/dpu_encoder.c b/drivers/gpu/drm/msm/disp/dpu1/dpu_encoder.c
-index 06b8631..b117cad 100644
---- a/drivers/gpu/drm/msm/disp/dpu1/dpu_encoder.c
-+++ b/drivers/gpu/drm/msm/disp/dpu1/dpu_encoder.c
-@@ -912,6 +912,40 @@ static int dpu_encoder_resource_control(struct drm_encoder *drm_enc,
- 	return 0;
+diff --git a/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_util.c b/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_util.c
+index aad8511..512316f 100644
+--- a/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_util.c
++++ b/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_util.c
+@@ -422,3 +422,28 @@ void dpu_hw_csc_setup(struct dpu_hw_blk_reg_map *c,
+ 	DPU_REG_WRITE(c, csc_reg_off + 0x3c, data->csc_post_bv[1]);
+ 	DPU_REG_WRITE(c, csc_reg_off + 0x40, data->csc_post_bv[2]);
+ }
++
++/**
++ * _dpu_hw_get_qos_lut - get LUT mapping based on fill level
++ * @tbl:		Pointer to LUT table
++ * @total_fl:		fill level
++ * Return: LUT setting corresponding to the fill level
++ */
++u64 _dpu_hw_get_qos_lut(const struct dpu_qos_lut_tbl *tbl,
++		u32 total_fl)
++{
++	int i;
++
++	if (!tbl || !tbl->nentry || !tbl->entries)
++		return 0;
++
++	for (i = 0; i < tbl->nentry; i++)
++		if (total_fl <= tbl->entries[i].fl)
++			return tbl->entries[i].lut;
++
++	/* if last fl is zero, use as default */
++	if (!tbl->entries[i-1].fl)
++		return tbl->entries[i-1].lut;
++
++	return 0;
++}
+diff --git a/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_util.h b/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_util.h
+index 3913475..529a6e0 100644
+--- a/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_util.h
++++ b/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_util.h
+@@ -9,6 +9,7 @@
+ #include <linux/io.h>
+ #include <linux/slab.h>
+ #include "dpu_hw_mdss.h"
++#include "dpu_hw_catalog.h"
+ 
+ #define REG_MASK(n)                     ((BIT(n)) - 1)
+ 
+@@ -324,4 +325,7 @@ void dpu_hw_csc_setup(struct dpu_hw_blk_reg_map  *c,
+ 		u32 csc_reg_off,
+ 		const struct dpu_csc_cfg *data, bool csc10);
+ 
++u64 _dpu_hw_get_qos_lut(const struct dpu_qos_lut_tbl *tbl,
++		u32 total_fl);
++
+ #endif /* _DPU_HW_UTIL_H */
+diff --git a/drivers/gpu/drm/msm/disp/dpu1/dpu_plane.c b/drivers/gpu/drm/msm/disp/dpu1/dpu_plane.c
+index c77c3d9d..730f0a3 100644
+--- a/drivers/gpu/drm/msm/disp/dpu1/dpu_plane.c
++++ b/drivers/gpu/drm/msm/disp/dpu1/dpu_plane.c
+@@ -280,31 +280,6 @@ static int _dpu_plane_calc_fill_level(struct drm_plane *plane,
  }
  
-+void dpu_encoder_prepare_wb_job(struct drm_encoder *drm_enc,
-+		struct drm_writeback_job *job)
-+{
-+	struct dpu_encoder_virt *dpu_enc;
-+	int i;
-+
-+	dpu_enc = to_dpu_encoder_virt(drm_enc);
-+
-+	for (i = 0; i < dpu_enc->num_phys_encs; i++) {
-+		struct dpu_encoder_phys *phys = dpu_enc->phys_encs[i];
-+
-+		if (phys->ops.prepare_wb_job)
-+			phys->ops.prepare_wb_job(phys, job);
-+
-+	}
-+}
-+
-+void dpu_encoder_cleanup_wb_job(struct drm_encoder *drm_enc,
-+		struct drm_writeback_job *job)
-+{
-+	struct dpu_encoder_virt *dpu_enc;
-+	int i;
-+
-+	dpu_enc = to_dpu_encoder_virt(drm_enc);
-+
-+	for (i = 0; i < dpu_enc->num_phys_encs; i++) {
-+		struct dpu_encoder_phys *phys = dpu_enc->phys_encs[i];
-+
-+		if (phys->ops.cleanup_wb_job)
-+			phys->ops.cleanup_wb_job(phys, job);
-+
-+	}
-+}
-+
- static void dpu_encoder_virt_atomic_mode_set(struct drm_encoder *drm_enc,
- 					     struct drm_crtc_state *crtc_state,
- 					     struct drm_connector_state *conn_state)
-diff --git a/drivers/gpu/drm/msm/disp/dpu1/dpu_encoder.h b/drivers/gpu/drm/msm/disp/dpu1/dpu_encoder.h
-index 2903e65..6ceec1d 100644
---- a/drivers/gpu/drm/msm/disp/dpu1/dpu_encoder.h
-+++ b/drivers/gpu/drm/msm/disp/dpu1/dpu_encoder.h
-@@ -180,4 +180,20 @@ bool dpu_encoder_is_widebus_enabled(const struct drm_encoder *drm_enc);
-  */
- bool dpu_encoder_use_dsc_merge(struct drm_encoder *drm_enc);
- 
-+/**
-+ * dpu_encoder_prepare_wb_job - prepare writeback job for the encoder.
-+ * @drm_enc:    Pointer to previously created drm encoder structure
-+ * @job:        Pointer to the current drm writeback job
-+ */
-+void dpu_encoder_prepare_wb_job(struct drm_encoder *drm_enc,
-+		struct drm_writeback_job *job);
-+
-+/**
-+ * dpu_encoder_cleanup_wb_job - cleanup writeback job for the encoder.
-+ * @drm_enc:    Pointer to previously created drm encoder structure
-+ * @job:        Pointer to the current drm writeback job
-+ */
-+void dpu_encoder_cleanup_wb_job(struct drm_encoder *drm_enc,
-+		struct drm_writeback_job *job);
-+
- #endif /* __DPU_ENCODER_H__ */
-diff --git a/drivers/gpu/drm/msm/disp/dpu1/dpu_encoder_phys.h b/drivers/gpu/drm/msm/disp/dpu1/dpu_encoder_phys.h
-index 0b80af4..00951f3 100644
---- a/drivers/gpu/drm/msm/disp/dpu1/dpu_encoder_phys.h
-+++ b/drivers/gpu/drm/msm/disp/dpu1/dpu_encoder_phys.h
-@@ -7,6 +7,7 @@
- #ifndef __DPU_ENCODER_PHYS_H__
- #define __DPU_ENCODER_PHYS_H__
- 
-+#include <drm/drm_writeback.h>
- #include <linux/jiffies.h>
- 
- #include "dpu_kms.h"
-@@ -137,6 +138,10 @@ struct dpu_encoder_phys_ops {
- 	void (*restore)(struct dpu_encoder_phys *phys);
- 	int (*get_line_count)(struct dpu_encoder_phys *phys);
- 	int (*get_frame_count)(struct dpu_encoder_phys *phys);
-+	void (*prepare_wb_job)(struct dpu_encoder_phys *phys_enc,
-+			struct drm_writeback_job *job);
-+	void (*cleanup_wb_job)(struct dpu_encoder_phys *phys_enc,
-+			struct drm_writeback_job *job);
- };
- 
  /**
+- * _dpu_plane_get_qos_lut - get LUT mapping based on fill level
+- * @tbl:		Pointer to LUT table
+- * @total_fl:		fill level
+- * Return: LUT setting corresponding to the fill level
+- */
+-static u64 _dpu_plane_get_qos_lut(const struct dpu_qos_lut_tbl *tbl,
+-		u32 total_fl)
+-{
+-	int i;
+-
+-	if (!tbl || !tbl->nentry || !tbl->entries)
+-		return 0;
+-
+-	for (i = 0; i < tbl->nentry; i++)
+-		if (total_fl <= tbl->entries[i].fl)
+-			return tbl->entries[i].lut;
+-
+-	/* if last fl is zero, use as default */
+-	if (!tbl->entries[i-1].fl)
+-		return tbl->entries[i-1].lut;
+-
+-	return 0;
+-}
+-
+-/**
+  * _dpu_plane_set_qos_lut - set QoS LUT of the given plane
+  * @plane:		Pointer to drm plane
+  * @fb:			Pointer to framebuffer associated with the given plane
+@@ -333,7 +308,7 @@ static void _dpu_plane_set_qos_lut(struct drm_plane *plane,
+ 			lut_usage = DPU_QOS_LUT_USAGE_MACROTILE;
+ 	}
+ 
+-	qos_lut = _dpu_plane_get_qos_lut(
++	qos_lut = _dpu_hw_get_qos_lut(
+ 			&pdpu->catalog->perf.qos_lut_tbl[lut_usage], total_fl);
+ 
+ 	trace_dpu_perf_set_qos_luts(pdpu->pipe - SSPP_VIG0,
 -- 
 2.7.4
 
