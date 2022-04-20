@@ -1,58 +1,58 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id BF07C5086B1
-	for <lists+dri-devel@lfdr.de>; Wed, 20 Apr 2022 13:09:26 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 1F0CE5086AE
+	for <lists+dri-devel@lfdr.de>; Wed, 20 Apr 2022 13:09:23 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id E606A10F18F;
+	by gabe.freedesktop.org (Postfix) with ESMTP id 023A610F1A1;
 	Wed, 20 Apr 2022 11:09:07 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from smtp-out2.suse.de (smtp-out2.suse.de [195.135.220.29])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 9A6A810F061
- for <dri-devel@lists.freedesktop.org>; Wed, 20 Apr 2022 11:09:05 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 0605110E87E
+ for <dri-devel@lists.freedesktop.org>; Wed, 20 Apr 2022 11:09:06 +0000 (UTC)
 Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
  (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
  key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
  (No client certificate requested)
- by smtp-out2.suse.de (Postfix) with ESMTPS id 332E81F752;
+ by smtp-out2.suse.de (Postfix) with ESMTPS id 7619E1F753;
  Wed, 20 Apr 2022 11:09:04 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
  t=1650452944; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
  mime-version:mime-version:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=OyPq+UT5p4MqrbGYm+q71GfQPc984A+GLmepoDB31Oo=;
- b=fX6SS5MJ9ByzJ1jviAIpcLfY4n/HM0U+kSvOQTDLcKXrY1ZDSGMPHJJRDjddz2SfcwrYk0
- xIwzvwDK9IsYCZ6LD1+JaPvuOEjtsT9pAjqC1dewmJVsXxJ775Easv5SY0MH8wBpnunzwo
- zlHI4EXGkbOJnu7guCWhJy2dzIRmp68=
+ bh=pVR/GNo8MCiFLZCnyRKkVMnAhH5mNARbQdh4NVOZrn8=;
+ b=Po9j1Qnd3qevRWJbnBV+fjLRv969LlBU1aKiTA0ZG9Ssa36Tvl0Xayg0aFdmTNibaLKGKr
+ rpD5SAxKilNfZJjnm9TYbZc41QD6n9qMDig9cwTyansLnJXrGiuGSF04vxUVh5dgAd7weB
+ VOVp/Df0UQ0/UIJWLrCj7dlXZMV/Zs4=
 DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
  s=susede2_ed25519; t=1650452944;
  h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
  mime-version:mime-version:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=OyPq+UT5p4MqrbGYm+q71GfQPc984A+GLmepoDB31Oo=;
- b=FSWMKxb4/sp+r++vmLdyGfgSX1QigJa2/9ObGlKzX6b4w4ixZAusIL3JmfZ/yBzYHaItHC
- 2DCotZv7n/52IiDw==
+ bh=pVR/GNo8MCiFLZCnyRKkVMnAhH5mNARbQdh4NVOZrn8=;
+ b=TnPdJIdDxkAuLLxObW4mDx6XuGBj3fd/DENecYX39jipy0SuJREl5NGWUbmTO2hJpQIgPT
+ fPN3N3UgMKnD0uCg==
 Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
  (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
  key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
  (No client certificate requested)
- by imap2.suse-dmz.suse.de (Postfix) with ESMTPS id F04D613AD5;
- Wed, 20 Apr 2022 11:09:03 +0000 (UTC)
+ by imap2.suse-dmz.suse.de (Postfix) with ESMTPS id 3A2F713AD5;
+ Wed, 20 Apr 2022 11:09:04 +0000 (UTC)
 Received: from dovecot-director2.suse.de ([192.168.254.65])
- by imap2.suse-dmz.suse.de with ESMTPSA id YADFOc/pX2LaPgAAMHmgww
- (envelope-from <tzimmermann@suse.de>); Wed, 20 Apr 2022 11:09:03 +0000
+ by imap2.suse-dmz.suse.de with ESMTPSA id iGtKDdDpX2LaPgAAMHmgww
+ (envelope-from <tzimmermann@suse.de>); Wed, 20 Apr 2022 11:09:04 +0000
 From: Thomas Zimmermann <tzimmermann@suse.de>
 To: daniel@ffwll.ch, airlied@linux.ie, maarten.lankhorst@linux.intel.com,
  mripard@kernel.org, jani.nikula@linux.intel.com, lyude@redhat.com,
  javierm@redhat.com
-Subject: [PATCH v2 6/8] drm/display: Move HDCP helpers into display-helper
+Subject: [PATCH v2 7/8] drm/display: Move HDMI helpers into display-helper
  module
-Date: Wed, 20 Apr 2022 13:08:58 +0200
-Message-Id: <20220420110900.8707-7-tzimmermann@suse.de>
+Date: Wed, 20 Apr 2022 13:08:59 +0200
+Message-Id: <20220420110900.8707-8-tzimmermann@suse.de>
 X-Mailer: git-send-email 2.35.1
 In-Reply-To: <20220420110900.8707-1-tzimmermann@suse.de>
 References: <20220420110900.8707-1-tzimmermann@suse.de>
@@ -74,437 +74,742 @@ Cc: Thomas Zimmermann <tzimmermann@suse.de>, dri-devel@lists.freedesktop.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Move DRM's HDCP helper library into the display/ subdirectory and add
-it to DRM's display helpers. Split the header file into core and helpers.
-Update all affected drivers. No functional changes.
+Move DRM's HMDI helpers into the display/ subdirectoy and add it
+to DRM's display helpers. Update all affected drivers. No functional
+changes.
+
+The HDMI helpers were implemented in the EDID and connector code, but
+are actually unrelated. With the move to the display-helper library, we
+can remove the dependency on drm_edid.{c,h} in some driver's HDMI source
+files.
+
+Several of the HDMI helpers remain in EDID code because both share parts
+of their implementation internally. With better refractoring of the EDID
+code, those HDMI helpers could be moved into the display-helper library
+as well.
 
 v2:
+	* reduce HDMI helpers to avoid exporting functions (Jani)
 	* fix include statements (Jani, Javier)
 	* update Kconfig symbols
 
 Signed-off-by: Thomas Zimmermann <tzimmermann@suse.de>
-Reviewed-by: Javier Martinez Canillas <javierm@redhat.com>
 ---
- Documentation/gpu/drm-kms-helpers.rst         |  2 +-
- drivers/gpu/drm/Makefile                      |  2 +-
- drivers/gpu/drm/amd/display/Kconfig           |  1 +
- .../gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.c |  2 +-
- .../amd/display/amdgpu_dm/amdgpu_dm_hdcp.c    |  2 +-
- .../gpu/drm/amd/display/modules/hdcp/hdcp.h   |  2 +-
- drivers/gpu/drm/bridge/Kconfig                |  1 +
- drivers/gpu/drm/bridge/analogix/Kconfig       |  1 +
- drivers/gpu/drm/bridge/analogix/anx7625.c     |  2 +-
- drivers/gpu/drm/bridge/cadence/Kconfig        |  1 +
- .../drm/bridge/cadence/cdns-mhdp8546-core.c   |  2 +-
- .../drm/bridge/cadence/cdns-mhdp8546-hdcp.c   |  2 +-
- drivers/gpu/drm/bridge/ite-it6505.c           |  2 +-
- drivers/gpu/drm/display/Kconfig               |  6 +++++
- drivers/gpu/drm/display/Makefile              |  1 +
- .../{drm_hdcp.c => display/drm_hdcp_helper.c} |  4 +---
- drivers/gpu/drm/i915/Kconfig                  |  1 +
- drivers/gpu/drm/i915/display/intel_dp_hdcp.c  |  2 +-
- drivers/gpu/drm/i915/display/intel_gmbus.c    |  2 +-
- drivers/gpu/drm/i915/display/intel_hdcp.c     |  2 +-
- drivers/gpu/drm/i915/display/intel_hdmi.c     |  2 +-
- drivers/misc/mei/hdcp/mei_hdcp.h              |  2 +-
- include/drm/{ => display}/drm_hdcp.h          | 14 ++----------
- include/drm/display/drm_hdcp_helper.h         | 22 +++++++++++++++++++
- include/drm/i915_mei_hdcp_interface.h         |  2 +-
- 25 files changed, 52 insertions(+), 30 deletions(-)
- rename drivers/gpu/drm/{drm_hdcp.c => display/drm_hdcp_helper.c} (99%)
- rename include/drm/{ => display}/drm_hdcp.h (95%)
- create mode 100644 include/drm/display/drm_hdcp_helper.h
+ drivers/gpu/drm/Kconfig                       |   2 +
+ .../gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.c |   1 +
+ drivers/gpu/drm/bridge/synopsys/Kconfig       |   2 +
+ drivers/gpu/drm/bridge/synopsys/dw-hdmi.c     |   2 +-
+ drivers/gpu/drm/display/Kconfig               |   6 +
+ drivers/gpu/drm/display/Makefile              |   1 +
+ drivers/gpu/drm/display/drm_hdmi_helper.c     | 199 ++++++++++++++++++
+ drivers/gpu/drm/drm_connector.c               |  34 ---
+ drivers/gpu/drm/drm_edid.c                    | 159 --------------
+ drivers/gpu/drm/i915/Kconfig                  |   1 +
+ drivers/gpu/drm/i915/display/intel_dp.c       |   2 +-
+ drivers/gpu/drm/i915/display/intel_hdmi.c     |   1 +
+ drivers/gpu/drm/i915/display/intel_lspcon.c   |   2 +-
+ drivers/gpu/drm/i915/display/intel_sdvo.c     |   1 +
+ drivers/gpu/drm/vc4/Kconfig                   |   2 +
+ drivers/gpu/drm/vc4/vc4_hdmi.c                |   2 +-
+ include/drm/display/drm_hdmi_helper.h         |  27 +++
+ include/drm/drm_connector.h                   |   3 -
+ include/drm/drm_edid.h                        |  12 --
+ 19 files changed, 247 insertions(+), 212 deletions(-)
+ create mode 100644 drivers/gpu/drm/display/drm_hdmi_helper.c
+ create mode 100644 include/drm/display/drm_hdmi_helper.h
 
-diff --git a/Documentation/gpu/drm-kms-helpers.rst b/Documentation/gpu/drm-kms-helpers.rst
-index 7af55fb4072c..cfda5a092a48 100644
---- a/Documentation/gpu/drm-kms-helpers.rst
-+++ b/Documentation/gpu/drm-kms-helpers.rst
-@@ -226,7 +226,7 @@ Panel Self Refresh Helper Reference
- HDCP Helper Functions Reference
- ===============================
- 
--.. kernel-doc:: drivers/gpu/drm/drm_hdcp.c
-+.. kernel-doc:: drivers/gpu/drm/display/drm_hdcp_helper.c
-    :export:
- 
- Display Port Helper Functions Reference
-diff --git a/drivers/gpu/drm/Makefile b/drivers/gpu/drm/Makefile
-index b8353af70152..746a3a4953f3 100644
---- a/drivers/gpu/drm/Makefile
-+++ b/drivers/gpu/drm/Makefile
-@@ -58,7 +58,7 @@ obj-$(CONFIG_DRM_TTM_HELPER) += drm_ttm_helper.o
- #
- 
- drm_kms_helper-y := drm_bridge_connector.o drm_crtc_helper.o \
--		drm_encoder_slave.o drm_flip_work.o drm_hdcp.o \
-+		drm_encoder_slave.o drm_flip_work.o \
- 		drm_probe_helper.o \
- 		drm_plane_helper.o drm_atomic_helper.o \
- 		drm_kms_helper_common.o \
-diff --git a/drivers/gpu/drm/amd/display/Kconfig b/drivers/gpu/drm/amd/display/Kconfig
-index 127667e549c1..b4029c0d5d8c 100644
---- a/drivers/gpu/drm/amd/display/Kconfig
-+++ b/drivers/gpu/drm/amd/display/Kconfig
-@@ -20,6 +20,7 @@ config DRM_AMD_DC_DCN
- config DRM_AMD_DC_HDCP
- 	bool "Enable HDCP support in DC"
- 	depends on DRM_AMD_DC
-+	select DRM_DISPLAY_HDCP_HELPER
- 	help
- 	  Choose this option if you want to support HDCP authentication.
- 
-diff --git a/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.c b/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.c
-index 2c69a6c2e6cb..b602ffbc1e58 100644
---- a/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.c
-+++ b/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.c
-@@ -48,7 +48,7 @@
- #include "amdgpu_dm.h"
- #ifdef CONFIG_DRM_AMD_DC_HDCP
- #include "amdgpu_dm_hdcp.h"
--#include <drm/drm_hdcp.h>
-+#include <drm/display/drm_hdcp_helper.h>
- #endif
- #include "amdgpu_pm.h"
- #include "amdgpu_atombios.h"
-diff --git a/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm_hdcp.c b/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm_hdcp.c
-index bf0d50277f8f..15c0e3f2a9c3 100644
---- a/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm_hdcp.c
-+++ b/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm_hdcp.c
-@@ -27,7 +27,7 @@
- #include "amdgpu.h"
- #include "amdgpu_dm.h"
- #include "dm_helpers.h"
--#include <drm/drm_hdcp.h>
-+#include <drm/display/drm_hdcp_helper.h>
- #include "hdcp_psp.h"
- 
- /*
-diff --git a/drivers/gpu/drm/amd/display/modules/hdcp/hdcp.h b/drivers/gpu/drm/amd/display/modules/hdcp/hdcp.h
-index 6e88705e22f7..392c0c03365a 100644
---- a/drivers/gpu/drm/amd/display/modules/hdcp/hdcp.h
-+++ b/drivers/gpu/drm/amd/display/modules/hdcp/hdcp.h
-@@ -30,7 +30,7 @@
- #include "hdcp_log.h"
- 
- #include <drm/display/drm_dp_helper.h>
--#include <drm/drm_hdcp.h>
-+#include <drm/display/drm_hdcp_helper.h>
- 
- enum mod_hdcp_trans_input_result {
- 	UNKNOWN = 0,
-diff --git a/drivers/gpu/drm/bridge/Kconfig b/drivers/gpu/drm/bridge/Kconfig
-index a9b83577e86c..1145bdd96dd4 100644
---- a/drivers/gpu/drm/bridge/Kconfig
-+++ b/drivers/gpu/drm/bridge/Kconfig
-@@ -79,6 +79,7 @@ config DRM_ITE_IT6505
-         tristate "ITE IT6505 DisplayPort bridge"
-         depends on OF
+diff --git a/drivers/gpu/drm/Kconfig b/drivers/gpu/drm/Kconfig
+index 353f9427f3c3..3acad8de85d4 100644
+--- a/drivers/gpu/drm/Kconfig
++++ b/drivers/gpu/drm/Kconfig
+@@ -224,6 +224,7 @@ config DRM_RADEON
+ 	depends on AGP || !AGP
+ 	select FW_LOADER
  	select DRM_DISPLAY_DP_HELPER
-+	select DRM_DISPLAY_HDCP_HELPER
++	select DRM_DISPLAY_HDMI_HELPER
  	select DRM_DISPLAY_HELPER
          select DRM_KMS_HELPER
-         select EXTCON
-diff --git a/drivers/gpu/drm/bridge/analogix/Kconfig b/drivers/gpu/drm/bridge/analogix/Kconfig
-index 5570322dc528..173dada218ec 100644
---- a/drivers/gpu/drm/bridge/analogix/Kconfig
-+++ b/drivers/gpu/drm/bridge/analogix/Kconfig
-@@ -35,6 +35,7 @@ config DRM_ANALOGIX_ANX7625
- 	depends on DRM
- 	depends on OF
+         select DRM_TTM
+@@ -246,6 +247,7 @@ config DRM_AMDGPU
+ 	depends on DRM && PCI && MMU
+ 	select FW_LOADER
  	select DRM_DISPLAY_DP_HELPER
-+	select DRM_DISPLAY_HDCP_HELPER
- 	select DRM_DISPLAY_HELPER
- 	select DRM_DP_AUX_BUS
- 	select DRM_MIPI_DSI
-diff --git a/drivers/gpu/drm/bridge/analogix/anx7625.c b/drivers/gpu/drm/bridge/analogix/anx7625.c
-index 740135c7f6c5..cee9ba40c0d4 100644
---- a/drivers/gpu/drm/bridge/analogix/anx7625.c
-+++ b/drivers/gpu/drm/bridge/analogix/anx7625.c
-@@ -23,11 +23,11 @@
- 
- #include <drm/display/drm_dp_aux_bus.h>
- #include <drm/display/drm_dp_helper.h>
-+#include <drm/display/drm_hdcp_helper.h>
- #include <drm/drm_atomic_helper.h>
- #include <drm/drm_bridge.h>
- #include <drm/drm_crtc_helper.h>
- #include <drm/drm_edid.h>
--#include <drm/drm_hdcp.h>
- #include <drm/drm_mipi_dsi.h>
- #include <drm/drm_of.h>
- #include <drm/drm_panel.h>
-diff --git a/drivers/gpu/drm/bridge/cadence/Kconfig b/drivers/gpu/drm/bridge/cadence/Kconfig
-index 0f9e46c6de9b..1d06182bea71 100644
---- a/drivers/gpu/drm/bridge/cadence/Kconfig
-+++ b/drivers/gpu/drm/bridge/cadence/Kconfig
-@@ -2,6 +2,7 @@
- config DRM_CDNS_MHDP8546
- 	tristate "Cadence DPI/DP bridge"
- 	select DRM_DISPLAY_DP_HELPER
-+	select DRM_DISPLAY_HDCP_HELPER
++	select DRM_DISPLAY_HDMI_HELPER
  	select DRM_DISPLAY_HELPER
  	select DRM_KMS_HELPER
- 	select DRM_PANEL_BRIDGE
-diff --git a/drivers/gpu/drm/bridge/cadence/cdns-mhdp8546-core.c b/drivers/gpu/drm/bridge/cadence/cdns-mhdp8546-core.c
-index dec93a6d14c7..67f0f444b4e8 100644
---- a/drivers/gpu/drm/bridge/cadence/cdns-mhdp8546-core.c
-+++ b/drivers/gpu/drm/bridge/cadence/cdns-mhdp8546-core.c
-@@ -36,13 +36,13 @@
- #include <linux/wait.h>
+ 	select DRM_SCHED
+diff --git a/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.c b/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.c
+index b602ffbc1e58..6f330022b06f 100644
+--- a/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.c
++++ b/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.c
+@@ -74,6 +74,7 @@
+ #include <linux/component.h>
  
- #include <drm/display/drm_dp_helper.h>
-+#include <drm/display/drm_hdcp_helper.h>
+ #include <drm/display/drm_dp_mst_helper.h>
++#include <drm/display/drm_hdmi_helper.h>
+ #include <drm/drm_atomic.h>
+ #include <drm/drm_atomic_uapi.h>
+ #include <drm/drm_atomic_helper.h>
+diff --git a/drivers/gpu/drm/bridge/synopsys/Kconfig b/drivers/gpu/drm/bridge/synopsys/Kconfig
+index 21a1be3ced0f..be7aa717354b 100644
+--- a/drivers/gpu/drm/bridge/synopsys/Kconfig
++++ b/drivers/gpu/drm/bridge/synopsys/Kconfig
+@@ -1,6 +1,8 @@
+ # SPDX-License-Identifier: GPL-2.0-only
+ config DRM_DW_HDMI
+ 	tristate
++	select DRM_DISPLAY_HDMI_HELPER
++	select DRM_DISPLAY_HELPER
+ 	select DRM_KMS_HELPER
+ 	select REGMAP_MMIO
+ 	select CEC_CORE if CEC_NOTIFIER
+diff --git a/drivers/gpu/drm/bridge/synopsys/dw-hdmi.c b/drivers/gpu/drm/bridge/synopsys/dw-hdmi.c
+index a563460f8d20..a06a2d51e77f 100644
+--- a/drivers/gpu/drm/bridge/synopsys/dw-hdmi.c
++++ b/drivers/gpu/drm/bridge/synopsys/dw-hdmi.c
+@@ -25,10 +25,10 @@
+ #include <uapi/linux/videodev2.h>
+ 
+ #include <drm/bridge/dw_hdmi.h>
++#include <drm/display/drm_hdmi_helper.h>
  #include <drm/drm_atomic.h>
  #include <drm/drm_atomic_helper.h>
- #include <drm/drm_atomic_state_helper.h>
  #include <drm/drm_bridge.h>
- #include <drm/drm_connector.h>
- #include <drm/drm_crtc_helper.h>
--#include <drm/drm_hdcp.h>
- #include <drm/drm_modeset_helper_vtables.h>
+-#include <drm/drm_edid.h>
+ #include <drm/drm_of.h>
  #include <drm/drm_print.h>
  #include <drm/drm_probe_helper.h>
-diff --git a/drivers/gpu/drm/bridge/cadence/cdns-mhdp8546-hdcp.c b/drivers/gpu/drm/bridge/cadence/cdns-mhdp8546-hdcp.c
-index fccd6fbcc257..946212a95598 100644
---- a/drivers/gpu/drm/bridge/cadence/cdns-mhdp8546-hdcp.c
-+++ b/drivers/gpu/drm/bridge/cadence/cdns-mhdp8546-hdcp.c
-@@ -11,7 +11,7 @@
- 
- #include <asm/unaligned.h>
- 
--#include <drm/drm_hdcp.h>
-+#include <drm/display/drm_hdcp_helper.h>
- 
- #include "cdns-mhdp8546-hdcp.h"
- 
-diff --git a/drivers/gpu/drm/bridge/ite-it6505.c b/drivers/gpu/drm/bridge/ite-it6505.c
-index 85cffc108278..8fed30df08b0 100644
---- a/drivers/gpu/drm/bridge/ite-it6505.c
-+++ b/drivers/gpu/drm/bridge/ite-it6505.c
-@@ -22,12 +22,12 @@
- #include <crypto/hash.h>
- 
- #include <drm/display/drm_dp_helper.h>
-+#include <drm/display/drm_hdcp_helper.h>
- #include <drm/drm_atomic_helper.h>
- #include <drm/drm_bridge.h>
- #include <drm/drm_crtc.h>
- #include <drm/drm_crtc_helper.h>
- #include <drm/drm_edid.h>
--#include <drm/drm_hdcp.h>
- #include <drm/drm_print.h>
- #include <drm/drm_probe_helper.h>
- 
 diff --git a/drivers/gpu/drm/display/Kconfig b/drivers/gpu/drm/display/Kconfig
-index fcd9ffd39f26..ef4c071d8ea3 100644
+index ef4c071d8ea3..5e7cdc891e82 100644
 --- a/drivers/gpu/drm/display/Kconfig
 +++ b/drivers/gpu/drm/display/Kconfig
-@@ -17,6 +17,12 @@ config DRM_DISPLAY_DP_HELPER
+@@ -23,6 +23,12 @@ config DRM_DISPLAY_HDCP_HELPER
  	help
- 	  DRM display helpers for DisplayPort.
+ 	  DRM display helpers for HDCP.
  
-+config DRM_DISPLAY_HDCP_HELPER
++config DRM_DISPLAY_HDMI_HELPER
 +	bool
 +	select DRM_DISPLAY_HELPER
 +	help
-+	  DRM display helpers for HDCP.
++	  DRM display helpers for HDMI.
 +
  config DRM_DP_AUX_CHARDEV
  	bool "DRM DP AUX Interface"
  	depends on DRM
 diff --git a/drivers/gpu/drm/display/Makefile b/drivers/gpu/drm/display/Makefile
-index 4f4e35034960..abeb5ad8c351 100644
+index abeb5ad8c351..db644e7a550d 100644
 --- a/drivers/gpu/drm/display/Makefile
 +++ b/drivers/gpu/drm/display/Makefile
-@@ -7,6 +7,7 @@ drm_display_helper-$(CONFIG_DRM_DISPLAY_DP_HELPER) += drm_dp_dual_mode_helper.o
- 						      drm_dp_helper.o \
+@@ -8,6 +8,7 @@ drm_display_helper-$(CONFIG_DRM_DISPLAY_DP_HELPER) += drm_dp_dual_mode_helper.o
  						      drm_dp_mst_topology.o \
  						      drm_dsc_helper.o
-+drm_display_helper-$(CONFIG_DRM_DISPLAY_HDCP_HELPER) += drm_hdcp_helper.o
+ drm_display_helper-$(CONFIG_DRM_DISPLAY_HDCP_HELPER) += drm_hdcp_helper.o
++drm_display_helper-$(CONFIG_DRM_DISPLAY_HDMI_HELPER) += drm_hdmi_helper.o
  drm_display_helper-$(CONFIG_DRM_DP_AUX_CHARDEV) += drm_dp_aux_dev.o
  drm_display_helper-$(CONFIG_DRM_DP_CEC) += drm_dp_cec.o
  
-diff --git a/drivers/gpu/drm/drm_hdcp.c b/drivers/gpu/drm/display/drm_hdcp_helper.c
-similarity index 99%
-rename from drivers/gpu/drm/drm_hdcp.c
-rename to drivers/gpu/drm/display/drm_hdcp_helper.c
-index ca9b8f697202..e78999c72bd7 100644
---- a/drivers/gpu/drm/drm_hdcp.c
-+++ b/drivers/gpu/drm/display/drm_hdcp_helper.c
-@@ -13,7 +13,7 @@
- #include <linux/slab.h>
- #include <linux/firmware.h>
+diff --git a/drivers/gpu/drm/display/drm_hdmi_helper.c b/drivers/gpu/drm/display/drm_hdmi_helper.c
+new file mode 100644
+index 000000000000..0264abe55278
+--- /dev/null
++++ b/drivers/gpu/drm/display/drm_hdmi_helper.c
+@@ -0,0 +1,199 @@
++// SPDX-License-Identifier: MIT
++
++#include <linux/module.h>
++
++#include <drm/display/drm_hdmi_helper.h>
++#include <drm/drm_connector.h>
++#include <drm/drm_edid.h>
++#include <drm/drm_modes.h>
++#include <drm/drm_print.h>
++#include <drm/drm_property.h>
++
++static inline bool is_eotf_supported(u8 output_eotf, u8 sink_eotf)
++{
++	return sink_eotf & BIT(output_eotf);
++}
++
++/**
++ * drm_hdmi_infoframe_set_hdr_metadata() - fill an HDMI DRM infoframe with
++ *                                         HDR metadata from userspace
++ * @frame: HDMI DRM infoframe
++ * @conn_state: Connector state containing HDR metadata
++ *
++ * Return: 0 on success or a negative error code on failure.
++ */
++int drm_hdmi_infoframe_set_hdr_metadata(struct hdmi_drm_infoframe *frame,
++					const struct drm_connector_state *conn_state)
++{
++	struct drm_connector *connector;
++	struct hdr_output_metadata *hdr_metadata;
++	int err;
++
++	if (!frame || !conn_state)
++		return -EINVAL;
++
++	connector = conn_state->connector;
++
++	if (!conn_state->hdr_output_metadata)
++		return -EINVAL;
++
++	hdr_metadata = conn_state->hdr_output_metadata->data;
++
++	if (!hdr_metadata || !connector)
++		return -EINVAL;
++
++	/* Sink EOTF is Bit map while infoframe is absolute values */
++	if (!is_eotf_supported(hdr_metadata->hdmi_metadata_type1.eotf,
++	    connector->hdr_sink_metadata.hdmi_type1.eotf)) {
++		DRM_DEBUG_KMS("EOTF Not Supported\n");
++		return -EINVAL;
++	}
++
++	err = hdmi_drm_infoframe_init(frame);
++	if (err < 0)
++		return err;
++
++	frame->eotf = hdr_metadata->hdmi_metadata_type1.eotf;
++	frame->metadata_type = hdr_metadata->hdmi_metadata_type1.metadata_type;
++
++	BUILD_BUG_ON(sizeof(frame->display_primaries) !=
++		     sizeof(hdr_metadata->hdmi_metadata_type1.display_primaries));
++	BUILD_BUG_ON(sizeof(frame->white_point) !=
++		     sizeof(hdr_metadata->hdmi_metadata_type1.white_point));
++
++	memcpy(&frame->display_primaries,
++	       &hdr_metadata->hdmi_metadata_type1.display_primaries,
++	       sizeof(frame->display_primaries));
++
++	memcpy(&frame->white_point,
++	       &hdr_metadata->hdmi_metadata_type1.white_point,
++	       sizeof(frame->white_point));
++
++	frame->max_display_mastering_luminance =
++		hdr_metadata->hdmi_metadata_type1.max_display_mastering_luminance;
++	frame->min_display_mastering_luminance =
++		hdr_metadata->hdmi_metadata_type1.min_display_mastering_luminance;
++	frame->max_fall = hdr_metadata->hdmi_metadata_type1.max_fall;
++	frame->max_cll = hdr_metadata->hdmi_metadata_type1.max_cll;
++
++	return 0;
++}
++EXPORT_SYMBOL(drm_hdmi_infoframe_set_hdr_metadata);
++
++/* HDMI Colorspace Spec Definitions */
++#define FULL_COLORIMETRY_MASK		0x1FF
++#define NORMAL_COLORIMETRY_MASK		0x3
++#define EXTENDED_COLORIMETRY_MASK	0x7
++#define EXTENDED_ACE_COLORIMETRY_MASK	0xF
++
++#define C(x) ((x) << 0)
++#define EC(x) ((x) << 2)
++#define ACE(x) ((x) << 5)
++
++#define HDMI_COLORIMETRY_NO_DATA		0x0
++#define HDMI_COLORIMETRY_SMPTE_170M_YCC		(C(1) | EC(0) | ACE(0))
++#define HDMI_COLORIMETRY_BT709_YCC		(C(2) | EC(0) | ACE(0))
++#define HDMI_COLORIMETRY_XVYCC_601		(C(3) | EC(0) | ACE(0))
++#define HDMI_COLORIMETRY_XVYCC_709		(C(3) | EC(1) | ACE(0))
++#define HDMI_COLORIMETRY_SYCC_601		(C(3) | EC(2) | ACE(0))
++#define HDMI_COLORIMETRY_OPYCC_601		(C(3) | EC(3) | ACE(0))
++#define HDMI_COLORIMETRY_OPRGB			(C(3) | EC(4) | ACE(0))
++#define HDMI_COLORIMETRY_BT2020_CYCC		(C(3) | EC(5) | ACE(0))
++#define HDMI_COLORIMETRY_BT2020_RGB		(C(3) | EC(6) | ACE(0))
++#define HDMI_COLORIMETRY_BT2020_YCC		(C(3) | EC(6) | ACE(0))
++#define HDMI_COLORIMETRY_DCI_P3_RGB_D65		(C(3) | EC(7) | ACE(0))
++#define HDMI_COLORIMETRY_DCI_P3_RGB_THEATER	(C(3) | EC(7) | ACE(1))
++
++static const u32 hdmi_colorimetry_val[] = {
++	[DRM_MODE_COLORIMETRY_NO_DATA] = HDMI_COLORIMETRY_NO_DATA,
++	[DRM_MODE_COLORIMETRY_SMPTE_170M_YCC] = HDMI_COLORIMETRY_SMPTE_170M_YCC,
++	[DRM_MODE_COLORIMETRY_BT709_YCC] = HDMI_COLORIMETRY_BT709_YCC,
++	[DRM_MODE_COLORIMETRY_XVYCC_601] = HDMI_COLORIMETRY_XVYCC_601,
++	[DRM_MODE_COLORIMETRY_XVYCC_709] = HDMI_COLORIMETRY_XVYCC_709,
++	[DRM_MODE_COLORIMETRY_SYCC_601] = HDMI_COLORIMETRY_SYCC_601,
++	[DRM_MODE_COLORIMETRY_OPYCC_601] = HDMI_COLORIMETRY_OPYCC_601,
++	[DRM_MODE_COLORIMETRY_OPRGB] = HDMI_COLORIMETRY_OPRGB,
++	[DRM_MODE_COLORIMETRY_BT2020_CYCC] = HDMI_COLORIMETRY_BT2020_CYCC,
++	[DRM_MODE_COLORIMETRY_BT2020_RGB] = HDMI_COLORIMETRY_BT2020_RGB,
++	[DRM_MODE_COLORIMETRY_BT2020_YCC] = HDMI_COLORIMETRY_BT2020_YCC,
++};
++
++#undef C
++#undef EC
++#undef ACE
++
++/**
++ * drm_hdmi_avi_infoframe_colorimetry() - fill the HDMI AVI infoframe
++ *                                       colorimetry information
++ * @frame: HDMI AVI infoframe
++ * @conn_state: connector state
++ */
++void drm_hdmi_avi_infoframe_colorimetry(struct hdmi_avi_infoframe *frame,
++					const struct drm_connector_state *conn_state)
++{
++	u32 colorimetry_val;
++	u32 colorimetry_index = conn_state->colorspace & FULL_COLORIMETRY_MASK;
++
++	if (colorimetry_index >= ARRAY_SIZE(hdmi_colorimetry_val))
++		colorimetry_val = HDMI_COLORIMETRY_NO_DATA;
++	else
++		colorimetry_val = hdmi_colorimetry_val[colorimetry_index];
++
++	frame->colorimetry = colorimetry_val & NORMAL_COLORIMETRY_MASK;
++	/*
++	 * ToDo: Extend it for ACE formats as well. Modify the infoframe
++	 * structure and extend it in drivers/video/hdmi
++	 */
++	frame->extended_colorimetry = (colorimetry_val >> 2) &
++					EXTENDED_COLORIMETRY_MASK;
++}
++EXPORT_SYMBOL(drm_hdmi_avi_infoframe_colorimetry);
++
++/**
++ * drm_hdmi_avi_infoframe_bars() - fill the HDMI AVI infoframe
++ *                                 bar information
++ * @frame: HDMI AVI infoframe
++ * @conn_state: connector state
++ */
++void drm_hdmi_avi_infoframe_bars(struct hdmi_avi_infoframe *frame,
++				 const struct drm_connector_state *conn_state)
++{
++	frame->right_bar = conn_state->tv.margins.right;
++	frame->left_bar = conn_state->tv.margins.left;
++	frame->top_bar = conn_state->tv.margins.top;
++	frame->bottom_bar = conn_state->tv.margins.bottom;
++}
++EXPORT_SYMBOL(drm_hdmi_avi_infoframe_bars);
++
++/**
++ * drm_hdmi_avi_infoframe_content_type() - fill the HDMI AVI infoframe
++ *                                         content type information, based
++ *                                         on correspondent DRM property.
++ * @frame: HDMI AVI infoframe
++ * @conn_state: DRM display connector state
++ *
++ */
++void drm_hdmi_avi_infoframe_content_type(struct hdmi_avi_infoframe *frame,
++					 const struct drm_connector_state *conn_state)
++{
++	switch (conn_state->content_type) {
++	case DRM_MODE_CONTENT_TYPE_GRAPHICS:
++		frame->content_type = HDMI_CONTENT_TYPE_GRAPHICS;
++		break;
++	case DRM_MODE_CONTENT_TYPE_CINEMA:
++		frame->content_type = HDMI_CONTENT_TYPE_CINEMA;
++		break;
++	case DRM_MODE_CONTENT_TYPE_GAME:
++		frame->content_type = HDMI_CONTENT_TYPE_GAME;
++		break;
++	case DRM_MODE_CONTENT_TYPE_PHOTO:
++		frame->content_type = HDMI_CONTENT_TYPE_PHOTO;
++		break;
++	default:
++		/* Graphics is the default(0) */
++		frame->content_type = HDMI_CONTENT_TYPE_GRAPHICS;
++	}
++
++	frame->itc = conn_state->content_type != DRM_MODE_CONTENT_TYPE_NO_DATA;
++}
++EXPORT_SYMBOL(drm_hdmi_avi_infoframe_content_type);
+diff --git a/drivers/gpu/drm/drm_connector.c b/drivers/gpu/drm/drm_connector.c
+index 76a8c707c34b..1c48d162c77e 100644
+--- a/drivers/gpu/drm/drm_connector.c
++++ b/drivers/gpu/drm/drm_connector.c
+@@ -1486,40 +1486,6 @@ int drm_connector_attach_content_type_property(struct drm_connector *connector)
+ }
+ EXPORT_SYMBOL(drm_connector_attach_content_type_property);
  
--#include <drm/drm_hdcp.h>
-+#include <drm/display/drm_hdcp_helper.h>
- #include <drm/drm_sysfs.h>
- #include <drm/drm_print.h>
- #include <drm/drm_device.h>
-@@ -21,8 +21,6 @@
- #include <drm/drm_mode_object.h>
- #include <drm/drm_connector.h>
- 
--#include "drm_internal.h"
 -
- static inline void drm_hdcp_print_ksv(const u8 *ksv)
+-/**
+- * drm_hdmi_avi_infoframe_content_type() - fill the HDMI AVI infoframe
+- *                                         content type information, based
+- *                                         on correspondent DRM property.
+- * @frame: HDMI AVI infoframe
+- * @conn_state: DRM display connector state
+- *
+- */
+-void drm_hdmi_avi_infoframe_content_type(struct hdmi_avi_infoframe *frame,
+-					 const struct drm_connector_state *conn_state)
+-{
+-	switch (conn_state->content_type) {
+-	case DRM_MODE_CONTENT_TYPE_GRAPHICS:
+-		frame->content_type = HDMI_CONTENT_TYPE_GRAPHICS;
+-		break;
+-	case DRM_MODE_CONTENT_TYPE_CINEMA:
+-		frame->content_type = HDMI_CONTENT_TYPE_CINEMA;
+-		break;
+-	case DRM_MODE_CONTENT_TYPE_GAME:
+-		frame->content_type = HDMI_CONTENT_TYPE_GAME;
+-		break;
+-	case DRM_MODE_CONTENT_TYPE_PHOTO:
+-		frame->content_type = HDMI_CONTENT_TYPE_PHOTO;
+-		break;
+-	default:
+-		/* Graphics is the default(0) */
+-		frame->content_type = HDMI_CONTENT_TYPE_GRAPHICS;
+-	}
+-
+-	frame->itc = conn_state->content_type != DRM_MODE_CONTENT_TYPE_NO_DATA;
+-}
+-EXPORT_SYMBOL(drm_hdmi_avi_infoframe_content_type);
+-
+ /**
+  * drm_connector_attach_tv_margin_properties - attach TV connector margin
+  * 	properties
+diff --git a/drivers/gpu/drm/drm_edid.c b/drivers/gpu/drm/drm_edid.c
+index 324ce8467915..8d5f0cbbf0b4 100644
+--- a/drivers/gpu/drm/drm_edid.c
++++ b/drivers/gpu/drm/drm_edid.c
+@@ -5883,78 +5883,6 @@ static bool is_hdmi2_sink(const struct drm_connector *connector)
+ 		connector->display_info.color_formats & DRM_COLOR_FORMAT_YCBCR420;
+ }
+ 
+-static inline bool is_eotf_supported(u8 output_eotf, u8 sink_eotf)
+-{
+-	return sink_eotf & BIT(output_eotf);
+-}
+-
+-/**
+- * drm_hdmi_infoframe_set_hdr_metadata() - fill an HDMI DRM infoframe with
+- *                                         HDR metadata from userspace
+- * @frame: HDMI DRM infoframe
+- * @conn_state: Connector state containing HDR metadata
+- *
+- * Return: 0 on success or a negative error code on failure.
+- */
+-int
+-drm_hdmi_infoframe_set_hdr_metadata(struct hdmi_drm_infoframe *frame,
+-				    const struct drm_connector_state *conn_state)
+-{
+-	struct drm_connector *connector;
+-	struct hdr_output_metadata *hdr_metadata;
+-	int err;
+-
+-	if (!frame || !conn_state)
+-		return -EINVAL;
+-
+-	connector = conn_state->connector;
+-
+-	if (!conn_state->hdr_output_metadata)
+-		return -EINVAL;
+-
+-	hdr_metadata = conn_state->hdr_output_metadata->data;
+-
+-	if (!hdr_metadata || !connector)
+-		return -EINVAL;
+-
+-	/* Sink EOTF is Bit map while infoframe is absolute values */
+-	if (!is_eotf_supported(hdr_metadata->hdmi_metadata_type1.eotf,
+-	    connector->hdr_sink_metadata.hdmi_type1.eotf)) {
+-		DRM_DEBUG_KMS("EOTF Not Supported\n");
+-		return -EINVAL;
+-	}
+-
+-	err = hdmi_drm_infoframe_init(frame);
+-	if (err < 0)
+-		return err;
+-
+-	frame->eotf = hdr_metadata->hdmi_metadata_type1.eotf;
+-	frame->metadata_type = hdr_metadata->hdmi_metadata_type1.metadata_type;
+-
+-	BUILD_BUG_ON(sizeof(frame->display_primaries) !=
+-		     sizeof(hdr_metadata->hdmi_metadata_type1.display_primaries));
+-	BUILD_BUG_ON(sizeof(frame->white_point) !=
+-		     sizeof(hdr_metadata->hdmi_metadata_type1.white_point));
+-
+-	memcpy(&frame->display_primaries,
+-	       &hdr_metadata->hdmi_metadata_type1.display_primaries,
+-	       sizeof(frame->display_primaries));
+-
+-	memcpy(&frame->white_point,
+-	       &hdr_metadata->hdmi_metadata_type1.white_point,
+-	       sizeof(frame->white_point));
+-
+-	frame->max_display_mastering_luminance =
+-		hdr_metadata->hdmi_metadata_type1.max_display_mastering_luminance;
+-	frame->min_display_mastering_luminance =
+-		hdr_metadata->hdmi_metadata_type1.min_display_mastering_luminance;
+-	frame->max_fall = hdr_metadata->hdmi_metadata_type1.max_fall;
+-	frame->max_cll = hdr_metadata->hdmi_metadata_type1.max_cll;
+-
+-	return 0;
+-}
+-EXPORT_SYMBOL(drm_hdmi_infoframe_set_hdr_metadata);
+-
+ static u8 drm_mode_hdmi_vic(const struct drm_connector *connector,
+ 			    const struct drm_display_mode *mode)
  {
- 	DRM_DEBUG("\t%#02x, %#02x, %#02x, %#02x, %#02x\n",
+@@ -6076,76 +6004,6 @@ drm_hdmi_avi_infoframe_from_display_mode(struct hdmi_avi_infoframe *frame,
+ }
+ EXPORT_SYMBOL(drm_hdmi_avi_infoframe_from_display_mode);
+ 
+-/* HDMI Colorspace Spec Definitions */
+-#define FULL_COLORIMETRY_MASK		0x1FF
+-#define NORMAL_COLORIMETRY_MASK		0x3
+-#define EXTENDED_COLORIMETRY_MASK	0x7
+-#define EXTENDED_ACE_COLORIMETRY_MASK	0xF
+-
+-#define C(x) ((x) << 0)
+-#define EC(x) ((x) << 2)
+-#define ACE(x) ((x) << 5)
+-
+-#define HDMI_COLORIMETRY_NO_DATA		0x0
+-#define HDMI_COLORIMETRY_SMPTE_170M_YCC		(C(1) | EC(0) | ACE(0))
+-#define HDMI_COLORIMETRY_BT709_YCC		(C(2) | EC(0) | ACE(0))
+-#define HDMI_COLORIMETRY_XVYCC_601		(C(3) | EC(0) | ACE(0))
+-#define HDMI_COLORIMETRY_XVYCC_709		(C(3) | EC(1) | ACE(0))
+-#define HDMI_COLORIMETRY_SYCC_601		(C(3) | EC(2) | ACE(0))
+-#define HDMI_COLORIMETRY_OPYCC_601		(C(3) | EC(3) | ACE(0))
+-#define HDMI_COLORIMETRY_OPRGB			(C(3) | EC(4) | ACE(0))
+-#define HDMI_COLORIMETRY_BT2020_CYCC		(C(3) | EC(5) | ACE(0))
+-#define HDMI_COLORIMETRY_BT2020_RGB		(C(3) | EC(6) | ACE(0))
+-#define HDMI_COLORIMETRY_BT2020_YCC		(C(3) | EC(6) | ACE(0))
+-#define HDMI_COLORIMETRY_DCI_P3_RGB_D65		(C(3) | EC(7) | ACE(0))
+-#define HDMI_COLORIMETRY_DCI_P3_RGB_THEATER	(C(3) | EC(7) | ACE(1))
+-
+-static const u32 hdmi_colorimetry_val[] = {
+-	[DRM_MODE_COLORIMETRY_NO_DATA] = HDMI_COLORIMETRY_NO_DATA,
+-	[DRM_MODE_COLORIMETRY_SMPTE_170M_YCC] = HDMI_COLORIMETRY_SMPTE_170M_YCC,
+-	[DRM_MODE_COLORIMETRY_BT709_YCC] = HDMI_COLORIMETRY_BT709_YCC,
+-	[DRM_MODE_COLORIMETRY_XVYCC_601] = HDMI_COLORIMETRY_XVYCC_601,
+-	[DRM_MODE_COLORIMETRY_XVYCC_709] = HDMI_COLORIMETRY_XVYCC_709,
+-	[DRM_MODE_COLORIMETRY_SYCC_601] = HDMI_COLORIMETRY_SYCC_601,
+-	[DRM_MODE_COLORIMETRY_OPYCC_601] = HDMI_COLORIMETRY_OPYCC_601,
+-	[DRM_MODE_COLORIMETRY_OPRGB] = HDMI_COLORIMETRY_OPRGB,
+-	[DRM_MODE_COLORIMETRY_BT2020_CYCC] = HDMI_COLORIMETRY_BT2020_CYCC,
+-	[DRM_MODE_COLORIMETRY_BT2020_RGB] = HDMI_COLORIMETRY_BT2020_RGB,
+-	[DRM_MODE_COLORIMETRY_BT2020_YCC] = HDMI_COLORIMETRY_BT2020_YCC,
+-};
+-
+-#undef C
+-#undef EC
+-#undef ACE
+-
+-/**
+- * drm_hdmi_avi_infoframe_colorimetry() - fill the HDMI AVI infoframe
+- *                                       colorimetry information
+- * @frame: HDMI AVI infoframe
+- * @conn_state: connector state
+- */
+-void
+-drm_hdmi_avi_infoframe_colorimetry(struct hdmi_avi_infoframe *frame,
+-				  const struct drm_connector_state *conn_state)
+-{
+-	u32 colorimetry_val;
+-	u32 colorimetry_index = conn_state->colorspace & FULL_COLORIMETRY_MASK;
+-
+-	if (colorimetry_index >= ARRAY_SIZE(hdmi_colorimetry_val))
+-		colorimetry_val = HDMI_COLORIMETRY_NO_DATA;
+-	else
+-		colorimetry_val = hdmi_colorimetry_val[colorimetry_index];
+-
+-	frame->colorimetry = colorimetry_val & NORMAL_COLORIMETRY_MASK;
+-	/*
+-	 * ToDo: Extend it for ACE formats as well. Modify the infoframe
+-	 * structure and extend it in drivers/video/hdmi
+-	 */
+-	frame->extended_colorimetry = (colorimetry_val >> 2) &
+-					EXTENDED_COLORIMETRY_MASK;
+-}
+-EXPORT_SYMBOL(drm_hdmi_avi_infoframe_colorimetry);
+-
+ /**
+  * drm_hdmi_avi_infoframe_quant_range() - fill the HDMI AVI infoframe
+  *                                        quantization range information
+@@ -6201,23 +6059,6 @@ drm_hdmi_avi_infoframe_quant_range(struct hdmi_avi_infoframe *frame,
+ }
+ EXPORT_SYMBOL(drm_hdmi_avi_infoframe_quant_range);
+ 
+-/**
+- * drm_hdmi_avi_infoframe_bars() - fill the HDMI AVI infoframe
+- *                                 bar information
+- * @frame: HDMI AVI infoframe
+- * @conn_state: connector state
+- */
+-void
+-drm_hdmi_avi_infoframe_bars(struct hdmi_avi_infoframe *frame,
+-			    const struct drm_connector_state *conn_state)
+-{
+-	frame->right_bar = conn_state->tv.margins.right;
+-	frame->left_bar = conn_state->tv.margins.left;
+-	frame->top_bar = conn_state->tv.margins.top;
+-	frame->bottom_bar = conn_state->tv.margins.bottom;
+-}
+-EXPORT_SYMBOL(drm_hdmi_avi_infoframe_bars);
+-
+ static enum hdmi_3d_structure
+ s3d_structure_from_display_mode(const struct drm_display_mode *mode)
+ {
 diff --git a/drivers/gpu/drm/i915/Kconfig b/drivers/gpu/drm/i915/Kconfig
-index 75777da5c915..af7aee58a467 100644
+index af7aee58a467..e584e682e6fa 100644
 --- a/drivers/gpu/drm/i915/Kconfig
 +++ b/drivers/gpu/drm/i915/Kconfig
-@@ -11,6 +11,7 @@ config DRM_I915
- 	select SHMEM
+@@ -12,6 +12,7 @@ config DRM_I915
  	select TMPFS
  	select DRM_DISPLAY_DP_HELPER
-+	select DRM_DISPLAY_HDCP_HELPER
+ 	select DRM_DISPLAY_HDCP_HELPER
++	select DRM_DISPLAY_HDMI_HELPER
  	select DRM_DISPLAY_HELPER
  	select DRM_KMS_HELPER
  	select DRM_PANEL
-diff --git a/drivers/gpu/drm/i915/display/intel_dp_hdcp.c b/drivers/gpu/drm/i915/display/intel_dp_hdcp.c
-index 598cad09d499..a7640dbcf00e 100644
---- a/drivers/gpu/drm/i915/display/intel_dp_hdcp.c
-+++ b/drivers/gpu/drm/i915/display/intel_dp_hdcp.c
-@@ -8,7 +8,7 @@
+diff --git a/drivers/gpu/drm/i915/display/intel_dp.c b/drivers/gpu/drm/i915/display/intel_dp.c
+index 8c0fe4d53806..e4a79c11fd25 100644
+--- a/drivers/gpu/drm/i915/display/intel_dp.c
++++ b/drivers/gpu/drm/i915/display/intel_dp.c
+@@ -37,9 +37,9 @@
  
  #include <drm/display/drm_dp_helper.h>
- #include <drm/display/drm_dp_mst_helper.h>
--#include <drm/drm_hdcp.h>
-+#include <drm/display/drm_hdcp_helper.h>
- #include <drm/drm_print.h>
+ #include <drm/display/drm_dsc_helper.h>
++#include <drm/display/drm_hdmi_helper.h>
+ #include <drm/drm_atomic_helper.h>
+ #include <drm/drm_crtc.h>
+-#include <drm/drm_edid.h>
+ #include <drm/drm_probe_helper.h>
  
- #include "intel_ddi.h"
-diff --git a/drivers/gpu/drm/i915/display/intel_gmbus.c b/drivers/gpu/drm/i915/display/intel_gmbus.c
-index 21281a7bdc17..a6ba7fb72339 100644
---- a/drivers/gpu/drm/i915/display/intel_gmbus.c
-+++ b/drivers/gpu/drm/i915/display/intel_gmbus.c
-@@ -31,7 +31,7 @@
- #include <linux/i2c-algo-bit.h>
- #include <linux/i2c.h>
- 
--#include <drm/drm_hdcp.h>
-+#include <drm/display/drm_hdcp_helper.h>
- 
- #include "i915_drv.h"
- #include "intel_de.h"
-diff --git a/drivers/gpu/drm/i915/display/intel_hdcp.c b/drivers/gpu/drm/i915/display/intel_hdcp.c
-index 4de4c174a987..44ac0cee8b77 100644
---- a/drivers/gpu/drm/i915/display/intel_hdcp.c
-+++ b/drivers/gpu/drm/i915/display/intel_hdcp.c
-@@ -12,7 +12,7 @@
- #include <linux/i2c.h>
- #include <linux/random.h>
- 
--#include <drm/drm_hdcp.h>
-+#include <drm/display/drm_hdcp_helper.h>
- #include <drm/i915_component.h>
- 
- #include "i915_drv.h"
+ #include "g4x_dp.h"
 diff --git a/drivers/gpu/drm/i915/display/intel_hdmi.c b/drivers/gpu/drm/i915/display/intel_hdmi.c
-index a4a6f8bd2841..c713cebc63fe 100644
+index c713cebc63fe..ce47ae5bab20 100644
 --- a/drivers/gpu/drm/i915/display/intel_hdmi.c
 +++ b/drivers/gpu/drm/i915/display/intel_hdmi.c
-@@ -32,10 +32,10 @@
- #include <linux/slab.h>
+@@ -33,6 +33,7 @@
  #include <linux/string_helpers.h>
  
-+#include <drm/display/drm_hdcp_helper.h>
+ #include <drm/display/drm_hdcp_helper.h>
++#include <drm/display/drm_hdmi_helper.h>
  #include <drm/drm_atomic_helper.h>
  #include <drm/drm_crtc.h>
  #include <drm/drm_edid.h>
--#include <drm/drm_hdcp.h>
- #include <drm/drm_scdc_helper.h>
- #include <drm/intel_lpe_audio.h>
- 
-diff --git a/drivers/misc/mei/hdcp/mei_hdcp.h b/drivers/misc/mei/hdcp/mei_hdcp.h
-index 834757f5e072..ca09c8f83d6b 100644
---- a/drivers/misc/mei/hdcp/mei_hdcp.h
-+++ b/drivers/misc/mei/hdcp/mei_hdcp.h
-@@ -9,7 +9,7 @@
- #ifndef __MEI_HDCP_H__
- #define __MEI_HDCP_H__
- 
--#include <drm/drm_hdcp.h>
-+#include <drm/display/drm_hdcp.h>
- 
- /* me_hdcp_status: Enumeration of all HDCP Status Codes */
- enum me_hdcp_status {
-diff --git a/include/drm/drm_hdcp.h b/include/drm/display/drm_hdcp.h
-similarity index 95%
-rename from include/drm/drm_hdcp.h
-rename to include/drm/display/drm_hdcp.h
-index 0b1111e3228e..96a99b1377c0 100644
---- a/include/drm/drm_hdcp.h
-+++ b/include/drm/display/drm_hdcp.h
-@@ -6,8 +6,8 @@
-  * Sean Paul <seanpaul@chromium.org>
+diff --git a/drivers/gpu/drm/i915/display/intel_lspcon.c b/drivers/gpu/drm/i915/display/intel_lspcon.c
+index be0b1010b304..7fbc8031a5aa 100644
+--- a/drivers/gpu/drm/i915/display/intel_lspcon.c
++++ b/drivers/gpu/drm/i915/display/intel_lspcon.c
+@@ -24,8 +24,8 @@
   */
  
--#ifndef _DRM_HDCP_H_INCLUDED_
--#define _DRM_HDCP_H_INCLUDED_
-+#ifndef _DRM_HDCP_H_
-+#define _DRM_HDCP_H_
+ #include <drm/display/drm_dp_dual_mode_helper.h>
++#include <drm/display/drm_hdmi_helper.h>
+ #include <drm/drm_atomic_helper.h>
+-#include <drm/drm_edid.h>
  
- #include <linux/types.h>
+ #include "intel_de.h"
+ #include "intel_display_types.h"
+diff --git a/drivers/gpu/drm/i915/display/intel_sdvo.c b/drivers/gpu/drm/i915/display/intel_sdvo.c
+index ab88d8b783e6..d81855d57cdc 100644
+--- a/drivers/gpu/drm/i915/display/intel_sdvo.c
++++ b/drivers/gpu/drm/i915/display/intel_sdvo.c
+@@ -31,6 +31,7 @@
+ #include <linux/i2c.h>
+ #include <linux/slab.h>
  
-@@ -291,16 +291,6 @@ struct hdcp_srm_header {
- 	u8 srm_gen_no;
- } __packed;
++#include <drm/display/drm_hdmi_helper.h>
+ #include <drm/drm_atomic_helper.h>
+ #include <drm/drm_crtc.h>
+ #include <drm/drm_edid.h>
+diff --git a/drivers/gpu/drm/vc4/Kconfig b/drivers/gpu/drm/vc4/Kconfig
+index de3424fed2fc..1eef1849cf54 100644
+--- a/drivers/gpu/drm/vc4/Kconfig
++++ b/drivers/gpu/drm/vc4/Kconfig
+@@ -5,6 +5,8 @@ config DRM_VC4
+ 	depends on DRM
+ 	depends on SND && SND_SOC
+ 	depends on COMMON_CLK
++	select DRM_DISPLAY_HDMI_HELPER
++	select DRM_DISPLAY_HELPER
+ 	select DRM_KMS_HELPER
+ 	select DRM_GEM_CMA_HELPER
+ 	select DRM_PANEL_BRIDGE
+diff --git a/drivers/gpu/drm/vc4/vc4_hdmi.c b/drivers/gpu/drm/vc4/vc4_hdmi.c
+index e601b29e632b..a6243fd12e89 100644
+--- a/drivers/gpu/drm/vc4/vc4_hdmi.c
++++ b/drivers/gpu/drm/vc4/vc4_hdmi.c
+@@ -31,8 +31,8 @@
+  * encoder block has CEC support.
+  */
  
--struct drm_device;
--struct drm_connector;
--
--int drm_hdcp_check_ksvs_revoked(struct drm_device *dev,
--				u8 *ksvs, u32 ksv_count);
--int drm_connector_attach_content_protection_property(
--		struct drm_connector *connector, bool hdcp_content_type);
--void drm_hdcp_update_content_protection(struct drm_connector *connector,
--					u64 val);
--
- /* Content Type classification for HDCP2.2 vs others */
- #define DRM_MODE_HDCP_CONTENT_TYPE0		0
- #define DRM_MODE_HDCP_CONTENT_TYPE1		1
-diff --git a/include/drm/display/drm_hdcp_helper.h b/include/drm/display/drm_hdcp_helper.h
++#include <drm/display/drm_hdmi_helper.h>
+ #include <drm/drm_atomic_helper.h>
+-#include <drm/drm_edid.h>
+ #include <drm/drm_probe_helper.h>
+ #include <drm/drm_simple_kms_helper.h>
+ #include <drm/drm_scdc_helper.h>
+diff --git a/include/drm/display/drm_hdmi_helper.h b/include/drm/display/drm_hdmi_helper.h
 new file mode 100644
-index 000000000000..8aaf87bf2735
+index 000000000000..76d234826e22
 --- /dev/null
-+++ b/include/drm/display/drm_hdcp_helper.h
-@@ -0,0 +1,22 @@
++++ b/include/drm/display/drm_hdmi_helper.h
+@@ -0,0 +1,27 @@
 +/* SPDX-License-Identifier: MIT */
-+/*
-+ * Copyright (C) 2017 Google, Inc.
-+ *
-+ * Authors:
-+ * Sean Paul <seanpaul@chromium.org>
-+ */
 +
-+#ifndef _DRM_HDCP_HELPER_H_INCLUDED_
-+#define _DRM_HDCP_HELPER_H_INCLUDED_
++#ifndef DRM_HDMI_HELPER
++#define DRM_HDMI_HELPER
 +
-+#include <drm/display/drm_hdcp.h>
++#include <linux/hdmi.h>
 +
-+struct drm_device;
 +struct drm_connector;
++struct drm_connector_state;
++struct drm_display_mode;
 +
-+int drm_hdcp_check_ksvs_revoked(struct drm_device *dev, u8 *ksvs, u32 ksv_count);
-+int drm_connector_attach_content_protection_property(struct drm_connector *connector,
-+						     bool hdcp_content_type);
-+void drm_hdcp_update_content_protection(struct drm_connector *connector, u64 val);
++void
++drm_hdmi_avi_infoframe_colorimetry(struct hdmi_avi_infoframe *frame,
++				   const struct drm_connector_state *conn_state);
++
++void
++drm_hdmi_avi_infoframe_bars(struct hdmi_avi_infoframe *frame,
++			    const struct drm_connector_state *conn_state);
++
++int
++drm_hdmi_infoframe_set_hdr_metadata(struct hdmi_drm_infoframe *frame,
++				    const struct drm_connector_state *conn_state);
++
++void drm_hdmi_avi_infoframe_content_type(struct hdmi_avi_infoframe *frame,
++					 const struct drm_connector_state *conn_state);
 +
 +#endif
-diff --git a/include/drm/i915_mei_hdcp_interface.h b/include/drm/i915_mei_hdcp_interface.h
-index 702f613243bb..f441cbcd95a4 100644
---- a/include/drm/i915_mei_hdcp_interface.h
-+++ b/include/drm/i915_mei_hdcp_interface.h
-@@ -11,7 +11,7 @@
+diff --git a/include/drm/drm_connector.h b/include/drm/drm_connector.h
+index 5166186146f4..3ac4bf87f257 100644
+--- a/include/drm/drm_connector.h
++++ b/include/drm/drm_connector.h
+@@ -1784,9 +1784,6 @@ int drm_mode_create_aspect_ratio_property(struct drm_device *dev);
+ int drm_mode_create_hdmi_colorspace_property(struct drm_connector *connector);
+ int drm_mode_create_dp_colorspace_property(struct drm_connector *connector);
+ int drm_mode_create_content_type_property(struct drm_device *dev);
+-void drm_hdmi_avi_infoframe_content_type(struct hdmi_avi_infoframe *frame,
+-					 const struct drm_connector_state *conn_state);
+-
+ int drm_mode_create_suggested_offset_properties(struct drm_device *dev);
  
- #include <linux/mutex.h>
- #include <linux/device.h>
--#include <drm/drm_hdcp.h>
-+#include <drm/display/drm_hdcp.h>
+ int drm_connector_set_path_property(struct drm_connector *connector,
+diff --git a/include/drm/drm_edid.h b/include/drm/drm_edid.h
+index b7e170584000..c3204a58fb09 100644
+--- a/include/drm/drm_edid.h
++++ b/include/drm/drm_edid.h
+@@ -400,24 +400,12 @@ drm_hdmi_vendor_infoframe_from_display_mode(struct hdmi_vendor_infoframe *frame,
+ 					    const struct drm_connector *connector,
+ 					    const struct drm_display_mode *mode);
  
+-void
+-drm_hdmi_avi_infoframe_colorimetry(struct hdmi_avi_infoframe *frame,
+-				   const struct drm_connector_state *conn_state);
+-
+-void
+-drm_hdmi_avi_infoframe_bars(struct hdmi_avi_infoframe *frame,
+-			    const struct drm_connector_state *conn_state);
+-
+ void
+ drm_hdmi_avi_infoframe_quant_range(struct hdmi_avi_infoframe *frame,
+ 				   const struct drm_connector *connector,
+ 				   const struct drm_display_mode *mode,
+ 				   enum hdmi_quantization_range rgb_quant_range);
+ 
+-int
+-drm_hdmi_infoframe_set_hdr_metadata(struct hdmi_drm_infoframe *frame,
+-				    const struct drm_connector_state *conn_state);
+-
  /**
-  * enum hdcp_port_type - HDCP port implementation type defined by ME FW
+  * drm_eld_mnl - Get ELD monitor name length in bytes.
+  * @eld: pointer to an eld memory structure with mnl set
 -- 
 2.35.1
 
