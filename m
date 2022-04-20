@@ -1,58 +1,60 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5D828508FBE
-	for <lists+dri-devel@lfdr.de>; Wed, 20 Apr 2022 20:48:39 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 3E1F4508FC4
+	for <lists+dri-devel@lfdr.de>; Wed, 20 Apr 2022 20:49:16 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 3665310E212;
-	Wed, 20 Apr 2022 18:48:37 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id E201510E465;
+	Wed, 20 Apr 2022 18:49:13 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-yw1-x112b.google.com (mail-yw1-x112b.google.com
- [IPv6:2607:f8b0:4864:20::112b])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 3AD2710E2C3
- for <dri-devel@lists.freedesktop.org>; Wed, 20 Apr 2022 18:48:36 +0000 (UTC)
-Received: by mail-yw1-x112b.google.com with SMTP id
- 00721157ae682-2ec42eae76bso28147227b3.10
- for <dri-devel@lists.freedesktop.org>; Wed, 20 Apr 2022 11:48:36 -0700 (PDT)
+Received: from mail-yw1-x112e.google.com (mail-yw1-x112e.google.com
+ [IPv6:2607:f8b0:4864:20::112e])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id BAEC110E2C3
+ for <dri-devel@lists.freedesktop.org>; Wed, 20 Apr 2022 18:49:12 +0000 (UTC)
+Received: by mail-yw1-x112e.google.com with SMTP id
+ 00721157ae682-2f16645872fso28340857b3.4
+ for <dri-devel@lists.freedesktop.org>; Wed, 20 Apr 2022 11:49:12 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=wLFsRAUUknZ95S0jpygd/tVDQBh0F+8eipHlfFq8N6Y=;
- b=bnnzkD+yxe53+frA8N3OGIystiZ9+Ygf1LtpU3B8CGPalH6FMIfl/51R4jPPSHMGc6
- zEzxZe1Ai8HRlP5wOF+idT4IqdxHQxEKExE1Tio9r+DWCeSjKYqsyJvjJskMTi6ivXhh
- jUzJn0rY+NZMsXO9ZASblDsTQvdQGVcdYplNvJC3lERimaweUEfYem6ZxrDX25nQN+Ap
- xPNiggmSQObZBlVyqN7QnOOV+xaOmbKeOD7/TLWSiiTyAhZyRb8Lko/Y475crrza+Zpx
- 5Ld+RpyZ+OT7vAgIcOYyv73ZVRTsxsS/PyTB2dRjXUbBavO89lhg+y/b3fpZWs9NOIsx
- Qfzw==
+ :cc; bh=Wb9811vip69GG9o1fW6iLjdwCXAtdSdMnG98rhu6LTk=;
+ b=h5rqsMO3EnPixCg+A5gIlB6afzl8xZlP1FT2FVJ1LlxEjIlBTOZRhv59GIB71FP6O+
+ JtVUYGHq+rH9RUdi1i0/LNMJ3KaJy7LTcufEbB+yPl46cpDGMAyLfziGdI01weCInMv7
+ NpM+WhSoQoSYuIjvd18+XUMwUT5/nnd2Q9j9WrrS9cyE7WyXBLMLuffmNA/ltWYHgW0/
+ 1Ao8PIBbK/K8Nd9wsijBHcNBuSCun9mTi1F0TJr6XIF99Y3E5RILTOPEtOIab57CkMhn
+ 57uOLhubKY/jbhclZjAlS4fSRNabQwJk+QVoHB3K96wivxUEZaBP4D67GtnuO81f1rxr
+ YeJQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:mime-version:references:in-reply-to:from:date
  :message-id:subject:to:cc;
- bh=wLFsRAUUknZ95S0jpygd/tVDQBh0F+8eipHlfFq8N6Y=;
- b=iuPafpSfc9R7sT0K07OhmYV0XVsyZainKHSvsVlu4lfbmLIUU/HA46ktXUMyFx0Y80
- WPG7BC2vnBqIpTPkHO8eoBMFVr8lvUudOJ2T4iTP4GRRz6wrOFbFex13Z4VUBQQGwYgZ
- dCVbYnD2LnvNZC2rCXVmS8ODTgn1zPZIbYm2wmvhdgoeR/Hvy+VItHIyC/aTlgzV+DY8
- J6aMO0ga1UUT+EpEG+uYh6vDP31fpEi70lWtB7g534/HaBlKiIYUdYxKneY9Aq8M58Pa
- nQdh2quQ2S2tpUyZpX9y6v/Ua3TvS4rXk0KM8R8d0Sj1MdyBNcLjOZ/HkFLqBu4QzGOM
- tNCA==
-X-Gm-Message-State: AOAM5301H7ke3CAavVOeST2n2wVsYZI79+Jyc+h+GDBRrSkaPkiHWl5v
- ItZuOhxZBP8vhtf06hTWY5PmJCmQhbhmWhnYDIRq0A==
-X-Google-Smtp-Source: ABdhPJwt3qHfPK+urr6cwemmjnsR74KKZ9dZMvByZ+LFEAJYiRTM5zBtMJ/qTNbXMsrpXxnjCy+Kv7E2TWz22/blcQs=
-X-Received: by 2002:a81:7405:0:b0:2eb:e280:63ec with SMTP id
- p5-20020a817405000000b002ebe28063ecmr22274197ywc.278.1650480515357; Wed, 20
- Apr 2022 11:48:35 -0700 (PDT)
+ bh=Wb9811vip69GG9o1fW6iLjdwCXAtdSdMnG98rhu6LTk=;
+ b=Rv9oSZAWhIGZs/QBpmgkzTZFROwNdfBg0Wmd0WE5/E0cr7laG/oSaIUtIJNDP5hEpz
+ V2V0I/Q0vUimBZnmeJ0M6EunJVgzpWqjdoJkRv74WiGbI6qMSeZSraIo6dzleVJa8aQ5
+ CM/GJ1EhUe5w1rX8qP0AiRSBq/JtXFD/YJgM7RbdoN3tCwFSspbuYGoBGKN1Q2BNA6LN
+ txVPBcGs2+nSVj1eJCe0iIHUlytoSgERoZ4W0k8oiui6Htgt5XCb22ZK9FQaAfAWphPH
+ AofYHVMh/Sv9VzIaFyNQcj4yu1KpvZFT1tzpEBXvULRAwrsHu0G57VOEgA7vQ7cKxX3u
+ 0cuw==
+X-Gm-Message-State: AOAM532tScYSpIv/Hbd3lNAI2owSTg9n+Ra7wzpZQYuU9QIBYuxQIfvs
+ mrQOIDr7f03o9+4gBlobWBeg3MKSN4CUIneCrlqRfg==
+X-Google-Smtp-Source: ABdhPJw9KZUZAJ9V1mx3pE25jQo2dT0gAJsEZJN6TxXAyx6kwrgO8mAMqcGS6RFamRjI5mIxUcJfFaISfG5JYCC7qLc=
+X-Received: by 2002:a81:4c11:0:b0:2d1:1925:cd70 with SMTP id
+ z17-20020a814c11000000b002d11925cd70mr21684948ywa.101.1650480551888; Wed, 20
+ Apr 2022 11:49:11 -0700 (PDT)
 MIME-Version: 1.0
 References: <1650419169-13760-1-git-send-email-quic_abhinavk@quicinc.com>
- <1650419169-13760-9-git-send-email-quic_abhinavk@quicinc.com>
- <9e89aa11-40aa-0ce9-4747-c7894ba79050@linaro.org>
- <d28391b7-a5eb-d314-005f-15fa5151179f@quicinc.com>
-In-Reply-To: <d28391b7-a5eb-d314-005f-15fa5151179f@quicinc.com>
+ <1650419169-13760-7-git-send-email-quic_abhinavk@quicinc.com>
+ <78612521-190c-0706-7654-2f6221485f2b@linaro.org>
+ <32e84508-a2d5-afac-fa9a-53ad6b4f0492@quicinc.com>
+ <CAA8EJpomTWS2d0gCLOvOZ7_STXUDzy6HFp-UmUOEAcUkqdqE3g@mail.gmail.com>
+ <34a46248-0234-8854-732f-a7e1ae8c37c0@quicinc.com>
+In-Reply-To: <34a46248-0234-8854-732f-a7e1ae8c37c0@quicinc.com>
 From: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
-Date: Wed, 20 Apr 2022 21:48:24 +0300
-Message-ID: <CAA8EJpp0cAb-QCnGSe7Hqmyu4-vdULHBT89Jhu8j+52+ba5FUQ@mail.gmail.com>
-Subject: Re: [PATCH v2 08/17] drm/msm/dpu: add changes to support writeback in
- hw_ctl
+Date: Wed, 20 Apr 2022 21:49:00 +0300
+Message-ID: <CAA8EJpqBUA96e=RF0MTxv6zf1t02WaNt8ahV3E9L_-i-nTvTdg@mail.gmail.com>
+Subject: Re: [PATCH v2 06/17] drm/msm/dpu: add dpu_hw_wb abstraction for
+ writeback blocks
 To: Abhinav Kumar <quic_abhinavk@quicinc.com>
 Content-Type: text/plain; charset="UTF-8"
 X-BeenThere: dri-devel@lists.freedesktop.org
@@ -74,266 +76,539 @@ Cc: markyacoub@chromium.org, liviu.dudau@arm.com,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Wed, 20 Apr 2022 at 20:16, Abhinav Kumar <quic_abhinavk@quicinc.com> wrote:
+On Wed, 20 Apr 2022 at 21:11, Abhinav Kumar <quic_abhinavk@quicinc.com> wrote:
 >
+> Hi Dmitry
 >
+> Sorry, I missed answering one question.
 >
-> On 4/19/2022 11:59 PM, Dmitry Baryshkov wrote:
-> > On 20/04/2022 04:46, Abhinav Kumar wrote:
-> >> Add changes to support writeback module in the dpu_hw_ctl
-> >> interface.
+> On 4/20/2022 10:49 AM, Dmitry Baryshkov wrote:
+> > On Wed, 20 Apr 2022 at 20:01, Abhinav Kumar <quic_abhinavk@quicinc.com> wrote:
 > >>
-> >> changes in v2:
-> >>     - keep only the wb specific changes to reset_intf_cfg
-> >>     - use cfg->intf / cfg->wb to identify intf or wb
-> >>     - use bit-wise OR for the wb bits while programming
 > >>
-> >> Signed-off-by: Abhinav Kumar <quic_abhinavk@quicinc.com>
-> >> ---
-> >>   drivers/gpu/drm/msm/disp/dpu1/dpu_hw_ctl.c | 43
-> >> +++++++++++++++++++++++++++---
-> >>   drivers/gpu/drm/msm/disp/dpu1/dpu_hw_ctl.h | 15 ++++++++++-
-> >>   2 files changed, 53 insertions(+), 5 deletions(-)
 > >>
-> >> diff --git a/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_ctl.c
-> >> b/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_ctl.c
-> >> index 524f024..495a9cd 100644
-> >> --- a/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_ctl.c
-> >> +++ b/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_ctl.c
-> >> @@ -1,5 +1,6 @@
-> >>   // SPDX-License-Identifier: GPL-2.0-only
-> >> -/* Copyright (c) 2015-2018, The Linux Foundation. All rights reserved.
-> >> +/* Copyright (c) 2022 Qualcomm Innovation Center, Inc. All rights
-> >> reserved.
-> >> + * Copyright (c) 2015-2018, The Linux Foundation. All rights reserved.
-> >>    */
-> >>   #include <linux/delay.h>
-> >> @@ -23,10 +24,12 @@
-> >>   #define   CTL_SW_RESET                  0x030
-> >>   #define   CTL_LAYER_EXTN_OFFSET         0x40
-> >>   #define   CTL_MERGE_3D_ACTIVE           0x0E4
-> >> +#define   CTL_WB_ACTIVE                 0x0EC
-> >>   #define   CTL_INTF_ACTIVE               0x0F4
-> >>   #define   CTL_MERGE_3D_FLUSH            0x100
-> >>   #define   CTL_DSC_ACTIVE                0x0E8
-> >>   #define   CTL_DSC_FLUSH                0x104
-> >> +#define   CTL_WB_FLUSH                  0x108
-> >>   #define   CTL_INTF_FLUSH                0x110
-> >>   #define   CTL_INTF_MASTER               0x134
-> >>   #define   CTL_FETCH_PIPE_ACTIVE         0x0FC
-> >> @@ -38,6 +41,7 @@
-> >>   #define  MERGE_3D_IDX   23
-> >>   #define  DSC_IDX        22
-> >>   #define  INTF_IDX       31
-> >> +#define WB_IDX          16
-> >>   #define CTL_INVALID_BIT                 0xffff
-> >>   #define CTL_DEFAULT_GROUP_ID        0xf
-> >> @@ -135,6 +139,9 @@ static inline void
-> >> dpu_hw_ctl_trigger_flush_v1(struct dpu_hw_ctl *ctx)
-> >>       if (ctx->pending_flush_mask & BIT(INTF_IDX))
-> >>           DPU_REG_WRITE(&ctx->hw, CTL_INTF_FLUSH,
-> >>                   ctx->pending_intf_flush_mask);
-> >> +    if (ctx->pending_flush_mask & BIT(WB_IDX))
-> >> +        DPU_REG_WRITE(&ctx->hw, CTL_WB_FLUSH,
-> >> +                ctx->pending_wb_flush_mask);
-> >>       DPU_REG_WRITE(&ctx->hw, CTL_FLUSH, ctx->pending_flush_mask);
-> >>   }
-> >> @@ -255,6 +262,13 @@ static void
-> >> dpu_hw_ctl_update_pending_flush_intf(struct dpu_hw_ctl *ctx,
-> >>       }
-> >>   }
-> >> +static void dpu_hw_ctl_update_pending_flush_wb_v1(struct dpu_hw_ctl
-> >> *ctx,
-> >> +        enum dpu_wb wb)
-> >> +{
-> >> +    ctx->pending_wb_flush_mask |= BIT(wb - WB_0);
-> >> +    ctx->pending_flush_mask |= BIT(WB_IDX);
-> >> +}
-> >> +
-> >>   static void dpu_hw_ctl_update_pending_flush_intf_v1(struct
-> >> dpu_hw_ctl *ctx,
-> >>           enum dpu_intf intf)
-> >>   {
-> >> @@ -504,6 +518,7 @@ static void dpu_hw_ctl_intf_cfg_v1(struct
-> >> dpu_hw_ctl *ctx,
-> >>   {
-> >>       struct dpu_hw_blk_reg_map *c = &ctx->hw;
-> >>       u32 intf_active = 0;
-> >> +    u32 wb_active = 0;
-> >>       u32 mode_sel = 0;
-> >>       /* CTL_TOP[31:28] carries group_id to collate CTL paths
-> >> @@ -519,11 +534,20 @@ static void dpu_hw_ctl_intf_cfg_v1(struct
-> >> dpu_hw_ctl *ctx,
-> >>       if (cfg->intf_mode_sel == DPU_CTL_MODE_SEL_CMD)
-> >>           mode_sel |= BIT(17);
-> >> -    intf_active = DPU_REG_READ(c, CTL_INTF_ACTIVE);
-> >> -    intf_active |= BIT(cfg->intf - INTF_0);
-> >> +    if (cfg->intf) {
-> >> +        intf_active = DPU_REG_READ(c, CTL_INTF_ACTIVE);
-> >> +        intf_active |= BIT(cfg->intf - INTF_0);
-> >> +    }
-> >> +
-> >> +    if (cfg->wb) {
-> >> +        wb_active = DPU_REG_READ(c, CTL_WB_ACTIVE);
-> >> +        wb_active |= BIT(cfg->wb - WB_0);
-> >> +    }
-> >>       DPU_REG_WRITE(c, CTL_TOP, mode_sel);
-> >>       DPU_REG_WRITE(c, CTL_INTF_ACTIVE, intf_active);
-> >> +    DPU_REG_WRITE(c, CTL_WB_ACTIVE, wb_active);
+> >> On 4/20/2022 12:20 AM, Dmitry Baryshkov wrote:
+> >>> On 20/04/2022 04:45, Abhinav Kumar wrote:
+> >>>> Add the dpu_hw_wb abstraction to program registers related to the
+> >>>> writeback block. These will be invoked once all the configuration
+> >>>> is set and ready to be programmed to the registers.
+> >>>>
+> >>>> changes in v2:
+> >>>>      - remove multiple empty lines at the end of the file
+> >>>>      - change dpu_hw_wb_bind_pingpong_blk to preserve upper bits
+> >>>>
+> >>>> Signed-off-by: Abhinav Kumar <quic_abhinavk@quicinc.com>
+> >>>> Reviewed-by: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
+> >>>
+> >>> It's still Reviewed-by, few nits below.
+> >>>
+> >>>> ---
+> >>>>    drivers/gpu/drm/msm/Makefile              |   1 +
+> >>>>    drivers/gpu/drm/msm/disp/dpu1/dpu_hw_wb.c | 273
+> >>>> ++++++++++++++++++++++++++++++
+> >>>>    drivers/gpu/drm/msm/disp/dpu1/dpu_hw_wb.h | 131 ++++++++++++++
+> >>>>    3 files changed, 405 insertions(+)
+> >>>>    create mode 100644 drivers/gpu/drm/msm/disp/dpu1/dpu_hw_wb.c
+> >>>>    create mode 100644 drivers/gpu/drm/msm/disp/dpu1/dpu_hw_wb.h
+> >>>>
+> >>>> diff --git a/drivers/gpu/drm/msm/Makefile b/drivers/gpu/drm/msm/Makefile
+> >>>> index d5ca2e6..ca779c1 100644
+> >>>> --- a/drivers/gpu/drm/msm/Makefile
+> >>>> +++ b/drivers/gpu/drm/msm/Makefile
+> >>>> @@ -74,6 +74,7 @@ msm-$(CONFIG_DRM_MSM_DPU) += \
+> >>>>        disp/dpu1/dpu_hw_top.o \
+> >>>>        disp/dpu1/dpu_hw_util.o \
+> >>>>        disp/dpu1/dpu_hw_vbif.o \
+> >>>> +    disp/dpu1/dpu_hw_wb.o \
+> >>>>        disp/dpu1/dpu_kms.o \
+> >>>>        disp/dpu1/dpu_plane.o \
+> >>>>        disp/dpu1/dpu_rm.o \
+> >>>> diff --git a/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_wb.c
+> >>>> b/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_wb.c
+> >>>> new file mode 100644
+> >>>> index 0000000..afa8aab
+> >>>> --- /dev/null
+> >>>> +++ b/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_wb.c
+> >>>> @@ -0,0 +1,273 @@
+> >>>> +// SPDX-License-Identifier: GPL-2.0-only
+> >>>> + /*
+> >>>> +  * Copyright (c) 2022 Qualcomm Innovation Center, Inc. All rights
+> >>>> reserved
+> >>>> +  */
+> >>>> +
+> >>>> +#include "dpu_hw_mdss.h"
+> >>>> +#include "dpu_hwio.h"
+> >>>> +#include "dpu_hw_catalog.h"
+> >>>> +#include "dpu_hw_wb.h"
+> >>>> +#include "dpu_formats.h"
+> >>>> +#include "dpu_kms.h"
+> >>>> +
+> >>>> +#define WB_DST_FORMAT                         0x000
+> >>>> +#define WB_DST_OP_MODE                        0x004
+> >>>> +#define WB_DST_PACK_PATTERN                   0x008
+> >>>> +#define WB_DST0_ADDR                          0x00C
+> >>>> +#define WB_DST1_ADDR                          0x010
+> >>>> +#define WB_DST2_ADDR                          0x014
+> >>>> +#define WB_DST3_ADDR                          0x018
+> >>>> +#define WB_DST_YSTRIDE0                       0x01C
+> >>>> +#define WB_DST_YSTRIDE1                       0x020
+> >>>> +#define WB_DST_YSTRIDE1                       0x020
+> >>>> +#define WB_DST_DITHER_BITDEPTH                0x024
+> >>>> +#define WB_DST_MATRIX_ROW0                    0x030
+> >>>> +#define WB_DST_MATRIX_ROW1                    0x034
+> >>>> +#define WB_DST_MATRIX_ROW2                    0x038
+> >>>> +#define WB_DST_MATRIX_ROW3                    0x03C
+> >>>> +#define WB_DST_WRITE_CONFIG                   0x048
+> >>>> +#define WB_ROTATION_DNSCALER                  0x050
+> >>>> +#define WB_ROTATOR_PIPE_DOWNSCALER            0x054
+> >>>> +#define WB_N16_INIT_PHASE_X_C03               0x060
+> >>>> +#define WB_N16_INIT_PHASE_X_C12               0x064
+> >>>> +#define WB_N16_INIT_PHASE_Y_C03               0x068
+> >>>> +#define WB_N16_INIT_PHASE_Y_C12               0x06C
+> >>>> +#define WB_OUT_SIZE                           0x074
+> >>>> +#define WB_ALPHA_X_VALUE                      0x078
+> >>>> +#define WB_DANGER_LUT                         0x084
+> >>>> +#define WB_SAFE_LUT                           0x088
+> >>>> +#define WB_QOS_CTRL                           0x090
+> >>>> +#define WB_CREQ_LUT_0                         0x098
+> >>>> +#define WB_CREQ_LUT_1                         0x09C
+> >>>> +#define WB_UBWC_STATIC_CTRL                   0x144
+> >>>> +#define WB_MUX                                0x150
+> >>>> +#define WB_CROP_CTRL                          0x154
+> >>>> +#define WB_CROP_OFFSET                        0x158
+> >>>> +#define WB_CSC_BASE                           0x260
+> >>>> +#define WB_DST_ADDR_SW_STATUS                 0x2B0
+> >>>> +#define WB_CDP_CNTL                           0x2B4
+> >>>> +#define WB_OUT_IMAGE_SIZE                     0x2C0
+> >>>> +#define WB_OUT_XY                             0x2C4
+> >>>> +
+> >>>> +/* WB_QOS_CTRL */
+> >>>> +#define WB_QOS_CTRL_DANGER_SAFE_EN            BIT(0)
+> >>>> +
+> >>>> +static const struct dpu_wb_cfg *_wb_offset(enum dpu_wb wb,
+> >>>> +        const struct dpu_mdss_cfg *m, void __iomem *addr,
+> >>>> +        struct dpu_hw_blk_reg_map *b)
+> >>>> +{
+> >>>> +    int i;
+> >>>> +
+> >>>> +    for (i = 0; i < m->wb_count; i++) {
+> >>>> +        if (wb == m->wb[i].id) {
+> >>>> +            b->base_off = addr;
+> >>>> +            b->blk_off = m->wb[i].base;
+> >>>> +            b->length = m->wb[i].len;
+> >>>> +            b->hwversion = m->hwversion;
+> >>>> +            return &m->wb[i];
+> >>>> +        }
+> >>>> +    }
+> >>>> +    return ERR_PTR(-EINVAL);
+> >>>> +}
+> >>>> +
+> >>>> +static void dpu_hw_wb_setup_outaddress(struct dpu_hw_wb *ctx,
+> >>>> +        struct dpu_hw_wb_cfg *data)
+> >>>> +{
+> >>>> +    struct dpu_hw_blk_reg_map *c = &ctx->hw;
+> >>>> +
+> >>>> +    DPU_REG_WRITE(c, WB_DST0_ADDR, data->dest.plane_addr[0]);
+> >>>> +    DPU_REG_WRITE(c, WB_DST1_ADDR, data->dest.plane_addr[1]);
+> >>>> +    DPU_REG_WRITE(c, WB_DST2_ADDR, data->dest.plane_addr[2]);
+> >>>> +    DPU_REG_WRITE(c, WB_DST3_ADDR, data->dest.plane_addr[3]);
+> >>>> +}
+> >>>> +
+> >>>> +static void dpu_hw_wb_setup_format(struct dpu_hw_wb *ctx,
+> >>>> +        struct dpu_hw_wb_cfg *data)
+> >>>> +{
+> >>>
+> >>> This function shares significant logic with dpu_hw_sspp_setup_format().
+> >>>
+> >>> We should consider splitting the common code to the helper at some point
+> >>> (later).
+> >>
+> >> Agreed, I do see some similarities. Will take this up in another change.
 > >
-> > This will not work as expected. If cfg->intf is not set, CTL_INTF_ACTIVE
-> > will be reset to 0 (while it should have been retained). Please change
-> > this to always read CTL_INTF_ACTIVE/CTL_WB_ACTIVE.
->
-> ack, and thanks for catching this.
-> Yes, i need to add the always read part back.
->
+> > As I wrote, this can be a separate update.
 > >
-> >> +
-> >>       if (cfg->merge_3d)
-> >>           DPU_REG_WRITE(c, CTL_MERGE_3D_ACTIVE,
-> >>                     BIT(cfg->merge_3d - MERGE_3D_0));
-> >> @@ -546,6 +570,9 @@ static void dpu_hw_ctl_intf_cfg(struct dpu_hw_ctl
-> >> *ctx,
-> >>           intf_cfg |= (cfg->mode_3d - 0x1) << 20;
-> >>       }
-> >> +    if (cfg->wb)
-> >> +        intf_cfg |= (cfg->wb & 0x3) + 2;
-> >> +
+> >>
+> >>>
+> >>>> +    struct dpu_hw_blk_reg_map *c = &ctx->hw;
+> >>>> +    const struct dpu_format *fmt = data->dest.format;
+> >>>> +    u32 dst_format, pattern, ystride0, ystride1, outsize, chroma_samp;
+> >>>> +    u32 write_config = 0;
+> >>>> +    u32 opmode = 0;
+> >>>> +    u32 dst_addr_sw = 0;
+> >>>> +
+> >>>> +    chroma_samp = fmt->chroma_sample;
+> >>>> +
+> >>>> +    dst_format = (chroma_samp << 23) |
+> >>>> +        (fmt->fetch_planes << 19) |
+> >>>> +        (fmt->bits[C3_ALPHA] << 6) |
+> >>>> +        (fmt->bits[C2_R_Cr] << 4) |
+> >>>> +        (fmt->bits[C1_B_Cb] << 2) |
+> >>>> +        (fmt->bits[C0_G_Y] << 0);
+> >>>> +
+> >>>> +    if (fmt->bits[C3_ALPHA] || fmt->alpha_enable) {
+> >>>> +        dst_format |= BIT(8); /* DSTC3_EN */
+> >>>> +        if (!fmt->alpha_enable ||
+> >>>> +            !(ctx->caps->features & BIT(DPU_WB_PIPE_ALPHA)))
+> >>>> +            dst_format |= BIT(14); /* DST_ALPHA_X */
+> >>>> +    }
+> >>>> +
+> >>>> +    pattern = (fmt->element[3] << 24) |
+> >>>> +        (fmt->element[2] << 16) |
+> >>>> +        (fmt->element[1] << 8)  |
+> >>>> +        (fmt->element[0] << 0);
+> >>>> +
+> >>>> +    dst_format |= (fmt->unpack_align_msb << 18) |
+> >>>> +        (fmt->unpack_tight << 17) |
+> >>>> +        ((fmt->unpack_count - 1) << 12) |
+> >>>> +        ((fmt->bpp - 1) << 9);
+> >>>> +
+> >>>> +    ystride0 = data->dest.plane_pitch[0] |
+> >>>> +        (data->dest.plane_pitch[1] << 16);
+> >>>> +    ystride1 = data->dest.plane_pitch[2] |
+> >>>> +    (data->dest.plane_pitch[3] << 16);
+> >>>> +
+> >>>> +    if (drm_rect_height(&data->roi) && drm_rect_width(&data->roi))
+> >>>> +        outsize = (drm_rect_height(&data->roi) << 16) |
+> >>>> drm_rect_width(&data->roi);
+> >>>> +    else
+> >>>> +        outsize = (data->dest.height << 16) | data->dest.width;
+> >>>> +
+> >>>> +    DPU_REG_WRITE(c, WB_ALPHA_X_VALUE, 0xFF);
+> >>>> +    DPU_REG_WRITE(c, WB_DST_FORMAT, dst_format);
+> >>>> +    DPU_REG_WRITE(c, WB_DST_OP_MODE, opmode);
+> >>>> +    DPU_REG_WRITE(c, WB_DST_PACK_PATTERN, pattern);
+> >>>> +    DPU_REG_WRITE(c, WB_DST_YSTRIDE0, ystride0);
+> >>>> +    DPU_REG_WRITE(c, WB_DST_YSTRIDE1, ystride1);
+> >>>> +    DPU_REG_WRITE(c, WB_OUT_SIZE, outsize);
+> >>>> +    DPU_REG_WRITE(c, WB_DST_WRITE_CONFIG, write_config);
+> >>>> +    DPU_REG_WRITE(c, WB_DST_ADDR_SW_STATUS, dst_addr_sw);
+> >>>> +}
+> >>>> +
+> >>>> +static void dpu_hw_wb_roi(struct dpu_hw_wb *ctx, struct dpu_hw_wb_cfg
+> >>>> *wb)
+> >>>> +{
+> >>>> +    struct dpu_hw_blk_reg_map *c = &ctx->hw;
+> >>>> +    u32 image_size, out_size, out_xy;
+> >>>> +
+> >>>> +    image_size = (wb->dest.height << 16) | wb->dest.width;
+> >>>> +    out_xy = 0;
+> >>>> +    out_size = (drm_rect_height(&wb->roi) << 16) |
+> >>>> drm_rect_width(&wb->roi);
+> >>>> +
+> >>>> +    DPU_REG_WRITE(c, WB_OUT_IMAGE_SIZE, image_size);
+> >>>> +    DPU_REG_WRITE(c, WB_OUT_XY, out_xy);
+> >>>> +    DPU_REG_WRITE(c, WB_OUT_SIZE, out_size);
+> >>>> +}
+> >>>> +
+> >>>> +static void dpu_hw_wb_setup_qos_lut(struct dpu_hw_wb *ctx,
+> >>>> +        struct dpu_hw_wb_qos_cfg *cfg)
+> >>> I like the single call approach. Maybe we should adopt it for the SSPP
+> >>> QoS LUT too.
+> >>
+> >> Perhaps yes.
+> >>
+> >> I had an overall question on this. all the dpu_hw_*** APIs accept their
+> >> own unique ctx (which is the *** hardware they are programming). What is
+> >> the approach you are suggesting to unify these?
+> >>
+> >> For helper calls I understood and already have addressed it in this series.
+> >>
+> >> But looking ahead for dpu_hw_*** calls, I am still unclear on the
+> >> unification plan.
+> >>
+> >> Again, this is for a follow-up change but I am just trying to understand it.
 > >
-> > Ugh. I see that we have the same code in downstream driver. And that we
-> > do not support WB_0 at all. But maybe we should be more explicit here.
+> > I liked that this function programs all QoS LUT params. (compared to
+> > dpu_hw_sspp_setup_qos_ctrl() + dpu_hw_sspp_setup_creq_lut()
+> >
+> >>
+> >>>
+> >>>> +{
+> >>>> +    struct dpu_hw_blk_reg_map *c = &ctx->hw;
+> >>>> +    u32 qos_ctrl = 0;
+> >>>> +
+> >>>> +    if (!ctx || !cfg)
+> >>>> +        return;
+> >>>> +
+> >>>> +    DPU_REG_WRITE(c, WB_DANGER_LUT, cfg->danger_lut);
+> >>>> +    DPU_REG_WRITE(c, WB_SAFE_LUT, cfg->safe_lut);
+> >>>> +
+> >>>> +    if (ctx->caps && test_bit(DPU_WB_QOS_8LVL, &ctx->caps->features)) {
+> >>>> +        DPU_REG_WRITE(c, WB_CREQ_LUT_0, cfg->creq_lut);
+> >>>> +        DPU_REG_WRITE(c, WB_CREQ_LUT_1, cfg->creq_lut >> 32);
+> >>>> +    }
+> >>>
+> >>> Is there a plain WB_CREQ_LUT for the non-8LVL case?
+> >
+> > I was comparing the SSPP with WB programming. So if possible could you
+> > please check?
 >
-> Sorry, I didnt follow this comment. Why is this related to WB_0?
+> No, there is no plain WB_CREQ_LUT. I checked the register set.
 >
-> All this code is doing is that its programming the lower bits of CTL_TOP
-> register to be used for WB mode.
->
-> The correct value of this register for linear wb mode which we use is 0x5.
->
-> Which will still be correct now because cfg->wb will be 0x3.
->
-> Coming to other non-WB_2 values, this code is still correct.
->
-> Lets say cfg->wb was 0x1 ( for WB_0), then the register will be
-> programmed to 0x3 which is the correct value to use because then we will
-> be using rotation and not linear writeback.
->
-> Perhaps, you need a comment here to explain this?
+> So this programming is correct. I confirmed it.
 
-IIRC, at least for 8916 WB_0 must be used with this field set to 0x1
-or 0x3 depending on other settings.
-Thus I thought it might be better to be explicit here.
+Thanks for the confirmation!
 
-As a second thought, let's keep it as is (and if somebody works on
-WB_0/rotation support, he will know what to set here anyway).
-
->
+> >>>> +
+> >>>> +    if (cfg->danger_safe_en)
+> >>>> +        qos_ctrl |= WB_QOS_CTRL_DANGER_SAFE_EN;
+> >>>> +
+> >>>> +    DPU_REG_WRITE(c, WB_QOS_CTRL, qos_ctrl);
+> >>>> +}
+> >>>> +
+> >>>> +static void dpu_hw_wb_setup_cdp(struct dpu_hw_wb *ctx,
+> >>>> +        struct dpu_hw_wb_cdp_cfg *cfg)
+> >>>
+> >>> Can we use dpu_hw_pipe_cdp_cfg here? Maybe after renaming it to more
+> >>> generic dpu_hw_cdp_cfg.
+> >>
+> >>
+> >> ack, I can absorb this in this series itself and re-spin this.
+> >> It will save us one more new structure.
 > >
-> >>       switch (cfg->intf_mode_sel) {
-> >>       case DPU_CTL_MODE_SEL_VID:
-> >>           intf_cfg &= ~BIT(17);
-> >> @@ -568,12 +595,13 @@ static void dpu_hw_ctl_reset_intf_cfg_v1(struct
-> >> dpu_hw_ctl *ctx,
-> >>   {
-> >>       struct dpu_hw_blk_reg_map *c = &ctx->hw;
-> >>       u32 intf_active = 0;
-> >> +    u32 wb_active = 0;
-> >>       u32 merge3d_active = 0;
-> >>       /*
-> >>        * This API resets each portion of the CTL path namely,
-> >>        * clearing the sspps staged on the lm, merge_3d block,
-> >> -     * interfaces etc to ensure clean teardown of the pipeline.
-> >> +     * interfaces , writeback etc to ensure clean teardown of the
-> >> pipeline.
-> >>        * This will be used for writeback to begin with to have a
-> >>        * proper teardown of the writeback session but upon further
-> >>        * validation, this can be extended to all interfaces.
-> >> @@ -592,6 +620,12 @@ static void dpu_hw_ctl_reset_intf_cfg_v1(struct
-> >> dpu_hw_ctl *ctx,
-> >>           intf_active &= ~BIT(cfg->intf - INTF_0);
-> >>           DPU_REG_WRITE(c, CTL_INTF_ACTIVE, intf_active);
-> >>       }
-> >> +
-> >> +    if (cfg->wb) {
-> >> +        wb_active = DPU_REG_READ(c, CTL_WB_ACTIVE);
-> >> +        wb_active &= ~BIT(cfg->wb - WB_0);
-> >> +        DPU_REG_WRITE(c, CTL_WB_ACTIVE, wb_active);
-> >> +    }
-> >>   }
-> >>   static void dpu_hw_ctl_set_fetch_pipe_active(struct dpu_hw_ctl *ctx,
-> >> @@ -622,6 +656,7 @@ static void _setup_ctl_ops(struct dpu_hw_ctl_ops
-> >> *ops,
-> >>               dpu_hw_ctl_update_pending_flush_intf_v1;
-> >>           ops->update_pending_flush_merge_3d =
-> >>               dpu_hw_ctl_update_pending_flush_merge_3d_v1;
-> >> +        ops->update_pending_flush_wb =
-> >> dpu_hw_ctl_update_pending_flush_wb_v1;
+> > Good!
 > >
-> > Do we also need the update_pending_flush_wb for non-ACTIVE_CTL case? I
-> > think we do.
->
-> Yes, but the bits will be different. I can update it.
-
-Yes, please.
-
->
+> >>>> +{
+> >>>> +    struct dpu_hw_blk_reg_map *c;
+> >>>> +    u32 cdp_cntl = 0;
+> >>>> +
+> >>>> +    if (!ctx || !cfg)
+> >>>> +        return;
+> >>>> +
+> >>>> +    c = &ctx->hw;
+> >>>> +
+> >>>> +    if (cfg->enable)
+> >>>> +        cdp_cntl |= BIT(0);
+> >>>> +    if (cfg->ubwc_meta_enable)
+> >>>> +        cdp_cntl |= BIT(1);
+> >>>> +    if (cfg->preload_ahead == DPU_WB_CDP_PRELOAD_AHEAD_64)
+> >>>> +        cdp_cntl |= BIT(3);
+> >>>> +
+> >>>> +    DPU_REG_WRITE(c, WB_CDP_CNTL, cdp_cntl);
+> >>>> +}
+> >>>> +
+> >>>> +static void dpu_hw_wb_bind_pingpong_blk(
+> >>>> +        struct dpu_hw_wb *ctx,
+> >>>> +        bool enable, const enum dpu_pingpong pp)
+> >>>> +{
+> >>>> +    struct dpu_hw_blk_reg_map *c;
+> >>>> +    int mux_cfg;
+> >>>> +
+> >>>> +    if (!ctx)
+> >>>> +        return;
+> >>>> +
+> >>>> +    c = &ctx->hw;
+> >>>> +
+> >>>> +    mux_cfg = DPU_REG_READ(c, WB_MUX);
+> >>>> +    mux_cfg &= ~0xf;
+> >>>> +
+> >>>> +    if (enable)
+> >>>> +        mux_cfg |= (pp - PINGPONG_0) & 0x7;
+> >>>> +    else
+> >>>> +        mux_cfg |= 0xf;
+> >>>> +
+> >>>> +    DPU_REG_WRITE(c, WB_MUX, mux_cfg);
+> >>>> +}
+> >>>> +
+> >>>> +static void _setup_wb_ops(struct dpu_hw_wb_ops *ops,
+> >>>> +        unsigned long features)
+> >>>> +{
+> >>>> +    ops->setup_outaddress = dpu_hw_wb_setup_outaddress;
+> >>>> +    ops->setup_outformat = dpu_hw_wb_setup_format;
+> >>>> +
+> >>>> +    if (test_bit(DPU_WB_XY_ROI_OFFSET, &features))
+> >>>> +        ops->setup_roi = dpu_hw_wb_roi;
+> >>>> +
+> >>>> +    if (test_bit(DPU_WB_QOS, &features))
+> >>>> +        ops->setup_qos_lut = dpu_hw_wb_setup_qos_lut;
+> >>>> +
+> >>>> +    if (test_bit(DPU_WB_CDP, &features))
+> >>>> +        ops->setup_cdp = dpu_hw_wb_setup_cdp;
+> >>>> +
+> >>>> +    if (test_bit(DPU_WB_INPUT_CTRL, &features))
+> >>>> +        ops->bind_pingpong_blk = dpu_hw_wb_bind_pingpong_blk;
+> >>>> +}
+> >>>> +
+> >>>> +struct dpu_hw_wb *dpu_hw_wb_init(enum dpu_wb idx,
+> >>>> +        void __iomem *addr, const struct dpu_mdss_cfg *m)
+> >>>> +{
+> >>>> +    struct dpu_hw_wb *c;
+> >>>> +    const struct dpu_wb_cfg *cfg;
+> >>>> +
+> >>>> +    if (!addr || !m)
+> >>>> +        return ERR_PTR(-EINVAL);
+> >>>> +
+> >>>> +    c = kzalloc(sizeof(*c), GFP_KERNEL);
+> >>>> +    if (!c)
+> >>>> +        return ERR_PTR(-ENOMEM);
+> >>>> +
+> >>>> +    cfg = _wb_offset(idx, m, addr, &c->hw);
+> >>>> +    if (IS_ERR(cfg)) {
+> >>>> +        WARN(1, "Unable to find wb idx=%d\n", idx);
+> >>>> +        kfree(c);
+> >>>> +        return ERR_PTR(-EINVAL);
+> >>>> +    }
+> >>>> +
+> >>>> +    /* Assign ops */
+> >>>> +    c->mdp = &m->mdp[0];
+> >>>> +    c->idx = idx;
+> >>>> +    c->caps = cfg;
+> >>>> +    _setup_wb_ops(&c->ops, c->caps->features);
+> >>>> +
+> >>>> +    return c;
+> >>>> +}
+> >>>> +
+> >>>> +void dpu_hw_wb_destroy(struct dpu_hw_wb *hw_wb)
+> >>>> +{
+> >>>> +    kfree(hw_wb);
+> >>>> +}
+> >>>> diff --git a/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_wb.h
+> >>>> b/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_wb.h
+> >>>> new file mode 100644
+> >>>> index 0000000..80def96
+> >>>> --- /dev/null
+> >>>> +++ b/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_wb.h
+> >>>> @@ -0,0 +1,131 @@
+> >>>> +/* SPDX-License-Identifier: GPL-2.0-only */
+> >>>> +/*
+> >>>> + * Copyright (c) 2022 Qualcomm Innovation Center, Inc. All rights
+> >>>> reserved
+> >>>> + */
+> >>>> +
+> >>>> +#ifndef _DPU_HW_WB_H
+> >>>> +#define _DPU_HW_WB_H
+> >>>> +
+> >>>> +#include "dpu_hw_catalog.h"
+> >>>> +#include "dpu_hw_mdss.h"
+> >>>> +#include "dpu_hw_top.h"
+> >>>> +#include "dpu_hw_util.h"
+> >>>> +#include "dpu_hw_pingpong.h"
+> >>>> +
+> >>>> +struct dpu_hw_wb;
+> >>>> +
+> >>>> +struct dpu_hw_wb_cfg {
+> >>>> +    struct dpu_hw_fmt_layout dest;
+> >>>> +    enum dpu_intf_mode intf_mode;
+> >>>> +    struct drm_rect roi;
+> >>>> +    struct drm_rect crop;
+> >>>> +};
+> >>>> +
+> >>>> +/**
+> >>>> + * enum CDP preload ahead address size
+> >>>> + */
+> >>>> +enum {
+> >>>> +    DPU_WB_CDP_PRELOAD_AHEAD_32,
+> >>>> +    DPU_WB_CDP_PRELOAD_AHEAD_64
+> >>>> +};
+> >>>> +
+> >>>> +/**
+> >>>> + * struct dpu_hw_wb_cdp_cfg : CDP configuration
+> >>>> + * @enable: true to enable CDP
+> >>>> + * @ubwc_meta_enable: true to enable ubwc metadata preload
+> >>>> + * @tile_amortize_enable: true to enable amortization control for
+> >>>> tile format
+> >>>> + * @preload_ahead: number of request to preload ahead
+> >>>> + * SDE_WB_CDP_PRELOAD_AHEAD_32,
+> >>>> + * SDE_WB_CDP_PRELOAD_AHEAD_64
+> >>>> + */
+> >>>> +struct dpu_hw_wb_cdp_cfg {
+> >>>> +    bool enable;
+> >>>> +    bool ubwc_meta_enable;
+> >>>> +    bool tile_amortize_enable;
+> >>>> +    u32 preload_ahead;
+> >>>> +};
+> >>>> +
+> >>>> +/**
+> >>>> + * struct dpu_hw_wb_qos_cfg : Writeback pipe QoS configuration
+> >>>> + * @danger_lut: LUT for generate danger level based on fill level
+> >>>> + * @safe_lut: LUT for generate safe level based on fill level
+> >>>> + * @creq_lut: LUT for generate creq level based on fill level
+> >>>> + * @danger_safe_en: enable danger safe generation
+> >>>> + */
+> >>>> +struct dpu_hw_wb_qos_cfg {
+> >>>> +    u32 danger_lut;
+> >>>> +    u32 safe_lut;
+> >>>> +    u64 creq_lut;
+> >>>> +    bool danger_safe_en;
+> >>>> +};
+> >>>> +
+> >>>> +/**
+> >>>> + *
+> >>>> + * struct dpu_hw_wb_ops : Interface to the wb hw driver functions
+> >>>> + *  Assumption is these functions will be called after clocks are
+> >>>> enabled
+> >>>> + *  @setup_outaddress: setup output address from the writeback job
+> >>>> + *  @setup_outformat: setup output format of writeback block from
+> >>>> writeback job
+> >>>> + *  @setup_qos_lut:   setup qos LUT for writeback block based on input
+> >>>> + *  @setup_cdp:       setup chroma down prefetch block for writeback
+> >>>> block
+> >>>> + *  @bind_pingpong_blk: enable/disable the connection with ping-pong
+> >>>> block
+> >>>> + */
+> >>>> +struct dpu_hw_wb_ops {
+> >>>> +    void (*setup_outaddress)(struct dpu_hw_wb *ctx,
+> >>>> +            struct dpu_hw_wb_cfg *wb);
+> >>>> +
+> >>>> +    void (*setup_outformat)(struct dpu_hw_wb *ctx,
+> >>>> +            struct dpu_hw_wb_cfg *wb);
+> >>>> +
+> >>>> +    void (*setup_roi)(struct dpu_hw_wb *ctx,
+> >>>> +            struct dpu_hw_wb_cfg *wb);
+> >>>> +
+> >>>> +    void (*setup_qos_lut)(struct dpu_hw_wb *ctx,
+> >>>> +            struct dpu_hw_wb_qos_cfg *cfg);
+> >>>> +
+> >>>> +    void (*setup_cdp)(struct dpu_hw_wb *ctx,
+> >>>> +            struct dpu_hw_wb_cdp_cfg *cfg);
+> >>>> +
+> >>>> +    void (*bind_pingpong_blk)(struct dpu_hw_wb *ctx,
+> >>>> +            bool enable, const enum dpu_pingpong pp);
+> >>>> +};
+> >>>> +
+> >>>> +/**
+> >>>> + * struct dpu_hw_wb : WB driver object
+> >>>> + * @hw: block hardware details
+> >>>> + * @mdp: pointer to associated mdp portion of the catalog
+> >>>> + * @idx: hardware index number within type
+> >>>> + * @wb_hw_caps: hardware capabilities
+> >>>> + * @ops: function pointers
+> >>>> + * @hw_mdp: MDP top level hardware block
+> >>>> + */
+> >>>> +struct dpu_hw_wb {
+> >>>> +    struct dpu_hw_blk_reg_map hw;
+> >>>> +    const struct dpu_mdp_cfg *mdp;
+> >>>> +
+> >>>> +    /* wb path */
+> >>>> +    int idx;
+> >>>> +    const struct dpu_wb_cfg *caps;
+> >>>> +
+> >>>> +    /* ops */
+> >>>> +    struct dpu_hw_wb_ops ops;
+> >>>> +
+> >>>> +    struct dpu_hw_mdp *hw_mdp;
+> >>>> +};
+> >>>> +
+> >>>> +/**
+> >>>> + * dpu_hw_wb_init(): Initializes and return writeback hw driver object.
+> >>>> + * @idx:  wb_path index for which driver object is required
+> >>>> + * @addr: mapped register io address of MDP
+> >>>> + * @m :   pointer to mdss catalog data
+> >>>> + */
+> >>>> +struct dpu_hw_wb *dpu_hw_wb_init(enum dpu_wb idx,
+> >>>> +        void __iomem *addr,
+> >>>> +        const struct dpu_mdss_cfg *m);
+> >>>> +
+> >>>> +/**
+> >>>> + * dpu_hw_wb_destroy(): Destroy writeback hw driver object.
+> >>>> + * @hw_wb:  Pointer to writeback hw driver object
+> >>>> + */
+> >>>> +void dpu_hw_wb_destroy(struct dpu_hw_wb *hw_wb);
+> >>>> +
+> >>>> +#endif /*_DPU_HW_WB_H */
+> >>>
+> >>>
 > >
-> >>       } else {
-> >>           ops->trigger_flush = dpu_hw_ctl_trigger_flush;
-> >>           ops->setup_intf_cfg = dpu_hw_ctl_intf_cfg;
-> >> diff --git a/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_ctl.h
-> >> b/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_ctl.h
-> >> index c61a8fd..df8f8e9 100644
-> >> --- a/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_ctl.h
-> >> +++ b/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_ctl.h
-> >> @@ -1,5 +1,6 @@
-> >>   /* SPDX-License-Identifier: GPL-2.0-only */
-> >> -/* Copyright (c) 2015-2018, The Linux Foundation. All rights reserved.
-> >> +/* Copyright (c) 2022 Qualcomm Innovation Center, Inc. All rights
-> >> reserved.
-> >> + * Copyright (c) 2015-2018, The Linux Foundation. All rights reserved.
-> >>    */
-> >>   #ifndef _DPU_HW_CTL_H
-> >> @@ -44,6 +45,7 @@ struct dpu_hw_stage_cfg {
-> >>    */
-> >>   struct dpu_hw_intf_cfg {
-> >>       enum dpu_intf intf;
-> >> +    enum dpu_wb wb;
-> >>       enum dpu_3d_blend_mode mode_3d;
-> >>       enum dpu_merge_3d merge_3d;
-> >>       enum dpu_ctl_mode_sel intf_mode_sel;
-> >> @@ -102,6 +104,15 @@ struct dpu_hw_ctl_ops {
-> >>           u32 flushbits);
-> >>       /**
-> >> +     * OR in the given flushbits to the cached pending_(wb_)flush_mask
-> >> +     * No effect on hardware
-> >> +     * @ctx       : ctl path ctx pointer
-> >> +     * @blk       : writeback block index
-> >> +     */
-> >> +    void (*update_pending_flush_wb)(struct dpu_hw_ctl *ctx,
-> >> +        enum dpu_wb blk);
-> >> +
-> >> +    /**
-> >>        * OR in the given flushbits to the cached
-> >> pending_(intf_)flush_mask
-> >>        * No effect on hardware
-> >>        * @ctx       : ctl path ctx pointer
-> >> @@ -199,6 +210,7 @@ struct dpu_hw_ctl_ops {
-> >>    * @mixer_hw_caps: mixer hardware capabilities
-> >>    * @pending_flush_mask: storage for pending ctl_flush managed via ops
-> >>    * @pending_intf_flush_mask: pending INTF flush
-> >> + * @pending_wb_flush_mask: pending WB flush
-> >>    * @ops: operation list
-> >>    */
-> >>   struct dpu_hw_ctl {
-> >> @@ -212,6 +224,7 @@ struct dpu_hw_ctl {
-> >>       const struct dpu_lm_cfg *mixer_hw_caps;
-> >>       u32 pending_flush_mask;
-> >>       u32 pending_intf_flush_mask;
-> >> +    u32 pending_wb_flush_mask;
-> >>       u32 pending_merge_3d_flush_mask;
-> >>       /* ops */
 > >
 > >
 
