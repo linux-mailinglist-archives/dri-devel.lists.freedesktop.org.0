@@ -1,69 +1,74 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 737FE5084D5
-	for <lists+dri-devel@lfdr.de>; Wed, 20 Apr 2022 11:24:16 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id B8953508547
+	for <lists+dri-devel@lfdr.de>; Wed, 20 Apr 2022 11:57:32 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id A16C210E192;
-	Wed, 20 Apr 2022 09:24:13 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 2EFA710E81A;
+	Wed, 20 Apr 2022 09:57:27 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-lf1-x136.google.com (mail-lf1-x136.google.com
- [IPv6:2a00:1450:4864:20::136])
- by gabe.freedesktop.org (Postfix) with ESMTPS id CF6DF10E192
- for <dri-devel@lists.freedesktop.org>; Wed, 20 Apr 2022 09:24:12 +0000 (UTC)
-Received: by mail-lf1-x136.google.com with SMTP id b21so1748462lfb.5
- for <dri-devel@lists.freedesktop.org>; Wed, 20 Apr 2022 02:24:12 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
- h=subject:to:cc:references:from:message-id:date:user-agent
- :mime-version:in-reply-to:content-language:content-transfer-encoding;
- bh=u55Ek4ovTu93jGC6owGr6QZtrHl98TBOqnvlwoTCUt0=;
- b=VCx/HeNdAIrVvK22LWtPVkq9Bv1IKELkDsHc9ZDCJpEzPZXiUk1L12Dy+mMZouB4Kb
- Sm5gqeWiHiAo7O1rqL4fR/FRWrLwV1sxcNCEE/ser/ng6KnPEXuXeI6mJT4hEuhbpkyR
- CnEwq7dF8XjnevURjfPXlQSPsthUbrMgXmTx0ftPiqNOdHSrKFkOiwbXMIgL4L8pif1x
- S2OC7crPo4slcyULVJrhskiIc37n3wR0KWOXQ2sj5i0hsb8hGWYGa7c9kFuF9uQx1Lrd
- PnwrnrwZvh2dBVEvqkQHhB/xuL6v+vJ4eVgGVRgIh8ublrifvFa02qV7bdCp+CMifVZv
- cETg==
+Received: from us-smtp-delivery-124.mimecast.com
+ (us-smtp-delivery-124.mimecast.com [170.10.129.124])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 8866B10E81A
+ for <dri-devel@lists.freedesktop.org>; Wed, 20 Apr 2022 09:57:25 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1650448644;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding;
+ bh=ZbxWeXm1X4zfi7zki/F+6Y9tTnHLdesLwVcaLaLQFls=;
+ b=NeXvR5XDTYWoh8sIZTDnV+fTPYLfyCLq7ztdoGKElQ7Usbl3MFGf91gHwbwyTS/5F9Dqe6
+ xVbmn38hihIhwRWlis/Xm6iNVAgeFDCSuZ/Op11wJfRwg0Gow5j5zTiCYyJcmWPFbvmJYM
+ RTDfwdMT6eaxm+1KfA9Yg4F9dn9SbBk=
+Received: from mail-wm1-f69.google.com (mail-wm1-f69.google.com
+ [209.85.128.69]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ us-mta-581-FnoXJdC6O4iHdjCieEJf4Q-1; Wed, 20 Apr 2022 05:57:23 -0400
+X-MC-Unique: FnoXJdC6O4iHdjCieEJf4Q-1
+Received: by mail-wm1-f69.google.com with SMTP id
+ g9-20020a1c4e09000000b0038f20d94f01so2695232wmh.8
+ for <dri-devel@lists.freedesktop.org>; Wed, 20 Apr 2022 02:57:23 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=x-gm-message-state:subject:to:cc:references:from:message-id:date
- :user-agent:mime-version:in-reply-to:content-language
+ h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
  :content-transfer-encoding;
- bh=u55Ek4ovTu93jGC6owGr6QZtrHl98TBOqnvlwoTCUt0=;
- b=aq7Tod/i7OSg7tOAca/rShKh4qzD2VYFn46gNyqvrceaYxqLSn2mx8tzFmP3firEci
- w665iTCbGmCzdD3knUR+EfnsgaSRqobe7UuBBvKZ4CuGZK6GLs6zUw0mHOHp+mssBOq7
- 1tpV2qLtSWE3E7wZCgesr6cfuoCYqu1M1n9ApxC6WNIrADQ+W2f4bKc6U6Qrn/wWtgjO
- lSJQcaw17qEQA9AnVCBgNQoWOYRNiQ7kmoQEFX4mumGwaZUgUhgrVXmyp/HDpleVW15F
- Et09nGhULRoeblmEOhLVCHpwu4VuAqNGCH3+57mAYnNecnydG3pSe3TLTrrSwKJHfxKe
- mf5g==
-X-Gm-Message-State: AOAM531x/Afj26pvPFb5dDF0DbV9aJNmZhGtiytTxqjTRtAea12OmbRb
- kyGH77dmLsRfyV//NUqkxcpC7BgSxtp9+w==
-X-Google-Smtp-Source: ABdhPJwBIjGhPQR/MG3suNBpw+sG1uqlbM+4wIOJy5ZknDOvMCYopGuZbVrLmdXv8OTjIhB4lEs0Kw==
-X-Received: by 2002:a05:6512:168d:b0:471:6cb9:c20f with SMTP id
- bu13-20020a056512168d00b004716cb9c20fmr11611107lfb.229.1650446651069; 
- Wed, 20 Apr 2022 02:24:11 -0700 (PDT)
-Received: from [192.168.1.103] ([178.176.74.70])
- by smtp.gmail.com with ESMTPSA id
- d11-20020a19384b000000b0046bbd144dfesm1760268lfj.125.2022.04.20.02.24.09
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Wed, 20 Apr 2022 02:24:10 -0700 (PDT)
-Subject: Re: [PATCH 01/41] video: fbdev: omapfb: lcd_ams_delta: fix unused
- variable warning
-To: Arnd Bergmann <arnd@kernel.org>, linux-omap@vger.kernel.org,
- tony@atomide.com, aaro.koskinen@iki.fi, jmkrzyszt@gmail.com
-References: <20220419133723.1394715-1-arnd@kernel.org>
- <20220419133723.1394715-2-arnd@kernel.org>
-From: Sergei Shtylyov <sergei.shtylyov@gmail.com>
-Message-ID: <ddaf112d-f997-84b7-2c57-bab3d0cca382@gmail.com>
-Date: Wed, 20 Apr 2022 12:24:08 +0300
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.10.1
+ bh=ZbxWeXm1X4zfi7zki/F+6Y9tTnHLdesLwVcaLaLQFls=;
+ b=ylQD6sPrmqaH5UDHY8dwoSNSAaiOPPpNc1wr69d+DHdlPrp5WRzfDkgnTbcsZ1tLVB
+ bIble2hD+1Y3/cOOF6nkYIb1ak46hw7fNpDgHgOYk9jLAf96k+YLyLQtqaGQcmLlSA0k
+ AldG5cRLoH5VhBs44JIOXwM1c7bCTWkdtYQavistn3jGf+kdzULIF//U+4Gg0WnFh2Ui
+ Q0/a6AGS/e8VyuPFZpDTqq2NUZGDmpQNqwgcdId4A7yaijt37duaZXIwJDbUJ1kpVLZO
+ 8fHaj5g1lPDKyZIVaziFBIBWDCnf/T0RXAQDbk/wuVk0k0aNqPtY4nJ/iLraDOrfqIay
+ uPfQ==
+X-Gm-Message-State: AOAM530DYkV5FVHq4LQ9Xi8H0nQm7CKUBxx/qDugdz9A84INo08loeMY
+ iJXbiN5oulYYny69UjdVFgorb3yG+lmMHdpGzPK/ZmUtca2FO4nHrWjNNCi6kYygw5SgM1nxUKO
+ As3kSX+Ez6YZhSwP81NnyGVogkIXr
+X-Received: by 2002:a5d:6788:0:b0:207:ad57:cc71 with SMTP id
+ v8-20020a5d6788000000b00207ad57cc71mr14714989wru.180.1650448642410; 
+ Wed, 20 Apr 2022 02:57:22 -0700 (PDT)
+X-Google-Smtp-Source: ABdhPJwAkCEg6ZTgvGJWDPDulGPHJ7+1EP0RT/2MwYavQA06jMb2aB4/hMSe2V5kqJ2x7FdsxgpAjA==
+X-Received: by 2002:a5d:6788:0:b0:207:ad57:cc71 with SMTP id
+ v8-20020a5d6788000000b00207ad57cc71mr14714970wru.180.1650448642139; 
+ Wed, 20 Apr 2022 02:57:22 -0700 (PDT)
+Received: from kherbst.pingu.com (ip1f10bb48.dynamic.kabel-deutschland.de.
+ [31.16.187.72]) by smtp.gmail.com with ESMTPSA id
+ g8-20020a05600c4ec800b0039290a5b827sm11376161wmq.24.2022.04.20.02.57.21
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Wed, 20 Apr 2022 02:57:21 -0700 (PDT)
+From: Karol Herbst <kherbst@redhat.com>
+To: linux-kernel@vger.kernel.org
+Subject: [PATCH v2] drm/i915: Fix race in __i915_vma_remove_closed
+Date: Wed, 20 Apr 2022 11:57:20 +0200
+Message-Id: <20220420095720.3331609-1-kherbst@redhat.com>
+X-Mailer: git-send-email 2.35.1
 MIME-Version: 1.0
-In-Reply-To: <20220419133723.1394715-2-arnd@kernel.org>
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=kherbst@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset="US-ASCII"; x-default=true
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -76,58 +81,71 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Ulf Hansson <ulf.hansson@linaro.org>,
- Dmitry Torokhov <dmitry.torokhov@gmail.com>, linux-fbdev@vger.kernel.org,
- Dominik Brodowski <linux@dominikbrodowski.net>,
- Lee Jones <lee.jones@linaro.org>, Daniel Thompson <daniel.thompson@linaro.org>,
- Kevin Hilman <khilman@kernel.org>, Peter Ujfalusi <peter.ujfalusi@gmail.com>,
- Helge Deller <deller@gmx.de>, Russell King <linux@armlinux.org.uk>,
- Krzysztof Kozlowski <krzk@kernel.org>, Alan Stern <stern@rowland.harvard.edu>,
- linux-serial@vger.kernel.org, linux-input@vger.kernel.org,
- Arnd Bergmann <arnd@arndb.de>, Mark Brown <broonie@kernel.org>,
- dri-devel@lists.freedesktop.org, linux-arm-kernel@lists.infradead.org,
- Felipe Balbi <balbi@kernel.org>, Paul Walmsley <paul@pwsan.com>,
- Jingoo Han <jingoohan1@gmail.com>, linux-usb@vger.kernel.org,
- linux-mmc@vger.kernel.org, linux-kernel@vger.kernel.org,
- Vinod Koul <vkoul@kernel.org>, dmaengine@vger.kernel.org,
- alsa-devel@alsa-project.org
+Cc: intel-gfx@lists.freedesktop.org, dri-devel@lists.freedesktop.org,
+ Karol Herbst <kherbst@redhat.com>, Chris Wilson <chris@chris-wilson.co.uk>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hello!
+i915_vma_reopen checked if the vma is closed before without taking the
+lock. So multiple threads could attempt removing the vma.
 
-On 4/19/22 4:36 PM, Arnd Bergmann wrote:
+Instead the lock needs to be taken before actually checking.
 
-> From: Arnd Bergmann <arnd@arndb.de>
-> 
-> A recent cleanup patch removed the only reference to a local variable
-> in some configurations.
-> 
-> Move the variable into the one block it is still used in, inside
-> of an #ifdef, to avoid this warning.
-> 
-> Fixes: 9d773f103b89 ("video: fbdev: omapfb: lcd_ams_delta: Make use of the helper function dev_err_probe()")
-> Signed-off-by: Arnd Bergmann <arnd@arndb.de>
-> ---
->  drivers/video/fbdev/omap/lcd_ams_delta.c | 3 +--
->  1 file changed, 1 insertion(+), 2 deletions(-)
-> 
-> diff --git a/drivers/video/fbdev/omap/lcd_ams_delta.c b/drivers/video/fbdev/omap/lcd_ams_delta.c
-> index bbf871f9d862..01944ce46aa1 100644
-> --- a/drivers/video/fbdev/omap/lcd_ams_delta.c
-> +++ b/drivers/video/fbdev/omap/lcd_ams_delta.c
-[...]
-> @@ -145,7 +144,7 @@ static int ams_delta_panel_probe(struct platform_device *pdev)
->  						&ams_delta_lcd_ops);
->  
->  	if (IS_ERR(lcd_device)) {
-> -		ret = PTR_ERR(lcd_device);
-> +		int ret = PTR_ERR(lcd_device);
+v2: move struct declaration
 
-   How about inserting an empty line after declaration?
+Cc: Chris Wilson <chris@chris-wilson.co.uk>
+Cc: intel-gfx@lists.freedesktop.org
+Cc: dri-devel@lists.freedesktop.org
+Closes: https://gitlab.freedesktop.org/drm/intel/-/issues/5732
+Signed-off-by: Karol Herbst <kherbst@redhat.com>
+---
+ drivers/gpu/drm/i915/i915_vma.c | 11 +++++++----
+ 1 file changed, 7 insertions(+), 4 deletions(-)
 
->  		dev_err(&pdev->dev, "failed to register device\n");
->  		return ret;
->  	}
+diff --git a/drivers/gpu/drm/i915/i915_vma.c b/drivers/gpu/drm/i915/i915_vma.c
+index 162e8d83691b..2efdad2b43fa 100644
+--- a/drivers/gpu/drm/i915/i915_vma.c
++++ b/drivers/gpu/drm/i915/i915_vma.c
+@@ -1615,17 +1615,17 @@ void i915_vma_close(struct i915_vma *vma)
+ 
+ static void __i915_vma_remove_closed(struct i915_vma *vma)
+ {
+-	struct intel_gt *gt = vma->vm->gt;
+-
+-	spin_lock_irq(&gt->closed_lock);
+ 	list_del_init(&vma->closed_link);
+-	spin_unlock_irq(&gt->closed_lock);
+ }
+ 
+ void i915_vma_reopen(struct i915_vma *vma)
+ {
++	struct intel_gt *gt = vma->vm->gt;
++
++	spin_lock_irq(&gt->closed_lock);
+ 	if (i915_vma_is_closed(vma))
+ 		__i915_vma_remove_closed(vma);
++	spin_unlock_irq(&gt->closed_lock);
+ }
+ 
+ static void force_unbind(struct i915_vma *vma)
+@@ -1641,6 +1641,7 @@ static void force_unbind(struct i915_vma *vma)
+ static void release_references(struct i915_vma *vma, bool vm_ddestroy)
+ {
+ 	struct drm_i915_gem_object *obj = vma->obj;
++	struct intel_gt *gt = vma->vm->gt;
+ 
+ 	GEM_BUG_ON(i915_vma_is_active(vma));
+ 
+@@ -1651,7 +1652,9 @@ static void release_references(struct i915_vma *vma, bool vm_ddestroy)
+ 
+ 	spin_unlock(&obj->vma.lock);
+ 
++	spin_lock_irq(&gt->closed_lock);
+ 	__i915_vma_remove_closed(vma);
++	spin_unlock_irq(&gt->closed_lock);
+ 
+ 	if (vm_ddestroy)
+ 		i915_vm_resv_put(vma->vm);
+-- 
+2.35.1
 
-MBR, Sergey
