@@ -2,54 +2,54 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 13B10508CA3
-	for <lists+dri-devel@lfdr.de>; Wed, 20 Apr 2022 17:59:00 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 3162B508CAC
+	for <lists+dri-devel@lfdr.de>; Wed, 20 Apr 2022 18:00:00 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 5656D10E1EC;
-	Wed, 20 Apr 2022 15:58:56 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 0A7F010F19C;
+	Wed, 20 Apr 2022 15:59:58 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from JPN01-TYC-obe.outbound.protection.outlook.com
- (mail-tycjpn01on2091.outbound.protection.outlook.com [40.107.114.91])
- by gabe.freedesktop.org (Postfix) with ESMTPS id A82AF10E1EC
- for <dri-devel@lists.freedesktop.org>; Wed, 20 Apr 2022 15:58:55 +0000 (UTC)
+ (mail-tycjpn01on2120.outbound.protection.outlook.com [40.107.114.120])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 1731F10E1E3
+ for <dri-devel@lists.freedesktop.org>; Wed, 20 Apr 2022 15:59:56 +0000 (UTC)
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=DgxJmbx9e2ip+/3IJ350+6JU1HjAEbF7oovxwVHO3ozwOj7nvjzE3AWrTvcEV8wmZ5JcKY/0WTdwq04W3QwuAOsK7pBg+B1QThA2twdc5aNR7ORg/zRk5EpILK07iDX3Lf4KjzAumJdCs2PO4uhm1PRWplOcStNrIY9YnNt9t88F8nAcpQVbNyxzkT2azVROQNV77qZcmmwTpeqF0wEEG0J4paFqJObaU2Rx9Rd6OS3a7H42o7hAkP3IvI9ZZJae+f4WfEpoiXIm24yElHZTm0P9+mb9I8VcAJBi41nQwc8c+htBYFVUU7y6ggUd1VqH6bpyQv8YUBK60Lj5GjCzyw==
+ b=TN9IIfX4RCTliY22OSdvNHGLr9W9VFn7cYq38ec/b9LWDdmdQhwcQRtuEtJmZLbOpnjHILb5wO8IQbe0KezX0fITSfY/vAlkFtSxRXK5uzVk2JMheo8fttB2cVvSKl12O1B91Kh0JUf0Ue8JVVjR4Bm1jTEEijZ8xBr2whfIEVbwwqtplO/IqJG72X8rSxuNww3hME3oCpIA6hOzGP4HArsGKUmtEP6ZpLDljg4rTdrYR0BkpMOEE8oKzLAP5J2qFFuvYUZBOocFp9gbO+mHRy/QINgckuJcvnhz9ShUW2PvB4bRf+9kiyOqe9TDWFBp0QVhKAqmBUQ8eFZTDIEiQA==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
  s=arcselector9901;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=1AckHyi0DR7DHKp5M/ppp5LM7FPWU98RxFGam5Gcgns=;
- b=lRuKBCtHRTD38VT3WxvhPpT1PDd1pquIB5OdY6pB5bfhU7324D9jNeVQ+uI8VqonA1aNsJlwSS0nejKIur3l1j/Co8+TZjhEoWKBvWz3DcL+1tzaOsbmAyQDiQR9u3XWKryjxkDKaRwaBKkBXkrc48W1IPRTm9SsS2XnSUvQTmsoMHouu56claU/9ynpxausBFS8/2jJUQLsorG/yH0VzD7nP1oCaAWj+xPwnHtlqfL1411FWuhDXVTWYjujOtaCj0f3MBCrH6UnJCmxANUB/En7e1pBsL77rdD7fW/jk0I+e1P84c1FxDodlhar6CShMPaQnKIbpbMtNKJkNNptAA==
+ bh=4KFiv82JJU1oiO7HUH+R79q6frs8QmsDHQx321DtrJg=;
+ b=T6f2uAMuW3LGnntLIN612v6H84Gjqj7SbDsN5N0WE2Hj7obked4CJZqz8rrjG4x07mxv0esYDjFEKnUAChNcuI/XzoA90IYuZ65nkZfrCStr4s6grbB5SkoshcSBpP+20ure9h0bsSURCrWXfzBlPFXd4Uu1GZ7RXoloxQaCZN3cGsRE6OCDKsGuOWkvpVUECj7KN1D6LpFXgmpBIc7PfgupmkPJHMKrIj75kg72tvL/q75402EAWQeAM7VaZTdg8bM0Dp6wLj/d1XqvMIk8Rw5Aw+bE+JZqdTY8lCOCRUxwIOcB19rzagYBoMzZv27SDASb+JW1BO+B/UF022Rung==
 ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
  smtp.mailfrom=bp.renesas.com; dmarc=pass action=none
  header.from=bp.renesas.com; dkim=pass header.d=bp.renesas.com; arc=none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bp.renesas.com;
  s=selector1;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=1AckHyi0DR7DHKp5M/ppp5LM7FPWU98RxFGam5Gcgns=;
- b=tRR1dtj4S6VeYD0DW/OQPfkjMQyTshuE6IVaipbjD6wP2DESBU3N0Qz1wsFYmMB3pjxqi31Y3Q5vteHSSAcDjchmSi2YEHB8D9tmG3SAUX5mrluqu3bLrzLNs0qW2VzV7P+Lkzj3vVC2jMBfwgVAtw0x+94G+f81gjJ0/H6Rops=
+ bh=4KFiv82JJU1oiO7HUH+R79q6frs8QmsDHQx321DtrJg=;
+ b=OknX4sV4A7Y+1B5QjNZoa4QFREdZioCFE6qdt+gerJ9X0RVqF52FkJSketenkTQddC5gCH1+B0/+MQSQRZI4SH/LS7YnVRPh8mAkvjZiFF99U+kvpieRRzDd2q1H7glV2MZml9D+x4K0kYSZHpm+neLl9+uwDSzA0vq9yQG+Eeg=
 Received: from OS0PR01MB5922.jpnprd01.prod.outlook.com (2603:1096:604:bb::5)
  by TYCPR01MB8835.jpnprd01.prod.outlook.com (2603:1096:400:188::6) with
  Microsoft SMTP Server (version=TLS1_2,
  cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.5164.20; Wed, 20 Apr
- 2022 15:58:51 +0000
+ 2022 15:59:54 +0000
 Received: from OS0PR01MB5922.jpnprd01.prod.outlook.com
  ([fe80::b129:a6f3:c39e:98db]) by OS0PR01MB5922.jpnprd01.prod.outlook.com
  ([fe80::b129:a6f3:c39e:98db%4]) with mapi id 15.20.5164.025; Wed, 20 Apr 2022
- 15:58:51 +0000
+ 15:59:54 +0000
 From: Biju Das <biju.das.jz@bp.renesas.com>
 To: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-Subject: RE: [PATCH v2 1/7] dt-bindings: display: renesas,du: Document
- r9a07g044l bindings
-Thread-Topic: [PATCH v2 1/7] dt-bindings: display: renesas,du: Document
- r9a07g044l bindings
-Thread-Index: AQHYOTdPILt0vWqjr0eFmBKEOUG5TazxAWKAgAgqh0A=
-Date: Wed, 20 Apr 2022 15:58:51 +0000
-Message-ID: <OS0PR01MB59222EF5AF43AC47D048F4BD86F59@OS0PR01MB5922.jpnprd01.prod.outlook.com>
+Subject: RE: [PATCH v2 2/7] drm: rcar-du: Add num_rpf to struct
+ rcar_du_device_info
+Thread-Topic: [PATCH v2 2/7] drm: rcar-du: Add num_rpf to struct
+ rcar_du_device_info
+Thread-Index: AQHYOTdQ1zAuPCbiUUqusK+eOXvD4azxAfcAgAgqtMA=
+Date: Wed, 20 Apr 2022 15:59:54 +0000
+Message-ID: <OS0PR01MB59220C62B99300389CC35EDA86F59@OS0PR01MB5922.jpnprd01.prod.outlook.com>
 References: <20220316131100.30685-1-biju.das.jz@bp.renesas.com>
- <20220316131100.30685-2-biju.das.jz@bp.renesas.com>
- <YllTed2IIAwWva6F@pendragon.ideasonboard.com>
-In-Reply-To: <YllTed2IIAwWva6F@pendragon.ideasonboard.com>
+ <20220316131100.30685-3-biju.das.jz@bp.renesas.com>
+ <YllT4BgEjpMIv/gi@pendragon.ideasonboard.com>
+In-Reply-To: <YllT4BgEjpMIv/gi@pendragon.ideasonboard.com>
 Accept-Language: en-GB, en-US
 Content-Language: en-US
 X-MS-Has-Attach: 
@@ -57,60 +57,60 @@ X-MS-TNEF-Correlator:
 authentication-results: dkim=none (message not signed)
  header.d=none;dmarc=none action=none header.from=bp.renesas.com;
 x-ms-publictraffictype: Email
-x-ms-office365-filtering-correlation-id: c399d55c-551f-4194-09fc-08da22e6a9de
+x-ms-office365-filtering-correlation-id: 7f03e301-de44-444b-c952-08da22e6cf61
 x-ms-traffictypediagnostic: TYCPR01MB8835:EE_
-x-microsoft-antispam-prvs: <TYCPR01MB8835872EDF431E003177A1A686F59@TYCPR01MB8835.jpnprd01.prod.outlook.com>
+x-microsoft-antispam-prvs: <TYCPR01MB8835DE7B3DE9C606A15A2B9C86F59@TYCPR01MB8835.jpnprd01.prod.outlook.com>
 x-ms-exchange-senderadcheck: 1
 x-ms-exchange-antispam-relay: 0
 x-microsoft-antispam: BCL:0;
-x-microsoft-antispam-message-info: rdQxU/Ca0EflbaCrEm7EwAHxqVQ2+rqfhukdCRX5rVwTdEb0Q5UBbbPpAMsw3YE0yplCx0kS/GILuXxEWzTCt6qc0RAHxjhIcaXgvjXpEvOmnD/dWBdQ+1wowwKJ2XwU7Qv4O8/GzhKharXZHC68ZARNZhVMq2sIxosVRw7LyxNC+2aWgQmhq1NqIRXHW+UWBhO3NM26gq2oo5l1TKyron3B8zmNagKuIGq7XtbqjCog+igbyX3rOsGGkxHHvWgR/tt5QOL0D+XF/4ETeCBHy4NNEqXp2JCDoGvf47BlbyN2YkHm42/JbaLwMsKYAxZcNFuVOm5kUwRhu+GwYGAMNcADMClB6A566GHFBaWRMxuEhQJ1y6pFIkbS3ipMV5kbl8yXMICw4SqvTTNXpo3lJRTTt6mGPaQRbUJxz4cOG31DM6ir30hl5pNo+1Cpuq0pEJUN+SI2xP2ZklNaVN14s64NLgcRTlMD6OD40s3jfpDMObGGcvJICxTMu2LUkQH2NT4NrFnsrhYexYIxffPr/8NFIxM0bXzXwzwZzK4hi18Vu2op2FV6sm5Na49Fctl2uA/Yl7ASzlR7WE70n+KGuPns4WaEFtM6FBxhgQ5pnyHk7Y01wVpE9OLMkVOmeUxizIIbtrDMuuL6sjhq7G7ftSDmzwnl3uzdIQeLs8J91oCwOUuMbqgcCYDbzEBzAeOXan112frsgLBjymhZQTFkJQ==
+x-microsoft-antispam-message-info: Y/gCG8Y50nt8v03p3Em80RFWaDSe7YPHlO1Cqk550MCTF871cxyGm09taGqR3t/8QfeqAmZrbUvXFRhV+AHMLIrr7ma/Ob2DnJF1sk4IQBVj2qn99YULiEyrY5ojbmAM3e34P0r3ltr8kVl8hdxwC9sNHLr/b0PI1OC8+aTkiVGuvLoTi2QoK3uI+5Ah74uj9IAvxZAMgMf5TSiLdLshpIjOk12Oubr1UEuiTndryUMhqCQNspAcZnL6kQtp5S4m+cQlQwRUnP/a4ibSCUOc4h36E+iprGMKGANN4RwbPT00VxkE4OZlhcgSiRfIATkrrmIoh434yKCLEwh/8NwuU1Gw2y68LtIsP3BHaT5+p8UrfJ3HkHUdpIiJGpSwGrm5rmTOYus+0o3k0wVjrhOLcalRPLQ1IFx/Rj3ZMMvCN+SLSIazebjkkPbhlr8umJAwWhDBxZHpI9sZ5pV5N+ITseGqFLoS4J9XEfPizbK18+AVwTlQPrgwvb43n1UdDocOcuTguRe8mN69nxxt5eHH0LyZN0GIvFScOgy2GEPl8qAvwY1tszwDyCtzYm2bmcxQ8cN9dAgJ0T4LSBdqdJw3N3xvqizD549nBLWt69gbAU7fENKu4GIRy7Z5CO8/PIHWtZEozxLW4awG22BrlI62rwIC8ei87TlkOJmH9TjDw3qHK4uE9q+xFCf3Q7pGvC+ccLdD8PO24qu3zp3Z5TIMHw==
 x-forefront-antispam-report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
  IPV:NLI; SFV:NSPM; H:OS0PR01MB5922.jpnprd01.prod.outlook.com; PTR:; CAT:NONE;
  SFS:(13230001)(4636009)(366004)(55016003)(38100700002)(6506007)(7696005)(52536014)(33656002)(76116006)(6916009)(86362001)(186003)(316002)(107886003)(5660300002)(26005)(71200400001)(38070700005)(4326008)(83380400001)(66946007)(66446008)(9686003)(8676002)(54906003)(66556008)(2906002)(8936002)(508600001)(64756008)(66476007)(122000001);
  DIR:OUT; SFP:1102; 
 x-ms-exchange-antispam-messagedata-chunkcount: 1
-x-ms-exchange-antispam-messagedata-0: =?us-ascii?Q?3Ji9Az1YU7VWks1wKl4LGJ0DGQWNJXZemFWjLA8U4kpuXTXllS3+BBIWga56?=
- =?us-ascii?Q?8FyBhRJiPLSNs/aNqF227myCRqbpo+PRpQYwtl/AtODrDhsE8pDj6IokO2N8?=
- =?us-ascii?Q?GoVf/b4zO+7dNabmn1CNEQPibA/ixAqtL36yQm/C0Q/asfMN6S2p3Esvt7aX?=
- =?us-ascii?Q?AdVEPcvMLBDBAGq51eXNgIVYts5BmxXbAjScGGrMywDwfGXfySAAJVh8ad89?=
- =?us-ascii?Q?CoehqT+pFsQ2uXnJ1/gPEVo4OLaYFC+1Isk/ZnswWK7VHDy8E+0drNPMTbWN?=
- =?us-ascii?Q?mXIomHeYUGDDLVEZNGm2aecWpy77VF49wlQi+sQbkksM7Ka/8o4o82uIQZew?=
- =?us-ascii?Q?bIJh1/9cTBea/qbCt3oMILDIX5ZZultiFwPNF4g/lY2lvT0IcVgeh+VzEL/N?=
- =?us-ascii?Q?zqR72wjEFr718ck6N9Sh7Gqu2pKms5i6TSuntSVP7thM+y8K06w0hn+nPczP?=
- =?us-ascii?Q?DmSphG6bwh3qe8aJVTwZGotfgYe9/Xr73k54cltNDjtq1QvLtq9OtYCvrVjJ?=
- =?us-ascii?Q?ZANurgayH7FYhG5E67vTYP3LrX6LJFqJXU/FD4of3fLKDVfmjgGwS/wMayfu?=
- =?us-ascii?Q?/pnJUnb5YwlqQk3w9Udma2KEl8srBiyjGVZjjPFxl1ueJ8ZqLMCaieMAuZ/Y?=
- =?us-ascii?Q?uK1dPbD1P+74a2KdkqJPpaEby4GfMtAf3OJC1HYE7Cmyeo0DAmSyg688+vYu?=
- =?us-ascii?Q?kpF8QXnS4lkZh2ZD7pW+6f1OQ7fIlvEV5V66FFQ5d15ro+mTLwj2SbPvEmjx?=
- =?us-ascii?Q?cu0mQgAbgS+gN//YWKX5yCQONTW9ZpPCTBhRdjnk834plcxFCyaqJjSe9GrZ?=
- =?us-ascii?Q?qI+RavDNE63yqt1WjdYHYHfKzP2Cn/5zc+ISDaNG2I8Hkuv0TtDMGWl1VrQI?=
- =?us-ascii?Q?4ByP3LJxNl3Ra46JAti/qUlWjcjA3oUWLDACpCYkWCN0PkAaZfIeSfx7Z+yC?=
- =?us-ascii?Q?RQIqEwcfcVu4fOGKuNbpy4XUd2E3PmnEQpDd93uaiTvx6kIf3NSuIziv/DJt?=
- =?us-ascii?Q?2Ek/r4vDidd9EJPeg/HjUTboCX5efNeUxp8wx8WVR5Lgzot0nVgx6EGk9jgN?=
- =?us-ascii?Q?TFBz0JLGxJKQxJI3rvpMT+QBg3yi8I17yBIMfA2Wk402JAHZtB/5SpmBNaib?=
- =?us-ascii?Q?7L3pKIDIy76RD3dPyRgvELw1thRXnOIJ+eIZiPAt8i2tasuyzBGbaqLGpJV3?=
- =?us-ascii?Q?NU3vA9x4VSNOPeDVGj94+a/1jYmCCHN93OCeaghYsZ1ZjdEibfZU3DlZVDP4?=
- =?us-ascii?Q?i+/T0h8GMAwqbgMk1lorTSjnHlZBeMM1hTmhQNUdH/qmvmVYPM8ymsC99BDU?=
- =?us-ascii?Q?Rau/AGYkDKxaAxWxbiXLzxv3ht/3p8W1GOzSGTEKNFfvunrvE54YW210JZ1c?=
- =?us-ascii?Q?U1X3HNJusVhgrjVHeZiUadc7n8eEloZA5AsIZblgpXAxg024JbbZ1WvcN4W+?=
- =?us-ascii?Q?VUKmZkX7QqY+4ApNd17ocnAkWWcl47pPiSlClphH6AuybEaAsj+W0bdEkdN4?=
- =?us-ascii?Q?eU4nciAWrsncLQBCSn3asm9ZPFltgkU7c+YhPgjH7k/6erbIiMvx/1v+7UUS?=
- =?us-ascii?Q?dkHzl2k16dNf6DA5CpOuO5FBJNb69PC2YVdmfAgfn06hQphI65SL6PB34DZv?=
- =?us-ascii?Q?bbljoTw6PcfbdJ6fRL5QEweU8aJ6pzmny6KON0/z30Jrl08K7Sj8FghRe6dj?=
- =?us-ascii?Q?yO2c6yGfgslacMGdK6ChcbYfspVbuCIXtx2pUzl9hudEL589GvtnhuLbFwgw?=
- =?us-ascii?Q?jw/ZuojCFEVlw4IMnMFOTN3LxGUStUM=3D?=
+x-ms-exchange-antispam-messagedata-0: =?us-ascii?Q?YETGHNWPg7s3KiLXxoXS70peYGb30e+04fZIbnIrW5f6SPXua7oAF3UOUkeL?=
+ =?us-ascii?Q?MtTkecqkjno/UnU8sDp4EThWIBr6Imqtp3fLNI6AwdZ3tsTf1KlVLv5keM9A?=
+ =?us-ascii?Q?UUMaJQe92wgn2NZLQKH9ImHaM95iW+zZbek1aMUnJnY7UBwmTCv78Z5GHkM6?=
+ =?us-ascii?Q?Sv1q4CbW7HN8t8+vphELe/SDqMij962Ed8/i3UW98a31UONTlm+TzDYFpWf0?=
+ =?us-ascii?Q?U6pq4HpBWjeTJHne/h0VR0WJiX72jB5KQ/aLy95/sjGg3W1eNgLZCQLH1z9S?=
+ =?us-ascii?Q?EMdFLttEOG1kXKwnWH8BTd6kgFLA3/9/R1exgZcgfqgovem2fvZBrpc42I+x?=
+ =?us-ascii?Q?K0KPwjhmJQdoBwODjSzFu6MlhD6pZ02iefGyLVW4LBrCIEwtQQwDXSonCJ41?=
+ =?us-ascii?Q?DZJyLqtAU/RfMojoxBlFK3saZvE9VGq3Vdyan8WVMxsoqd+W3I57YuU560vn?=
+ =?us-ascii?Q?52qSlDqGOFnI7x8ZaOGRXshp84ub3PFz502RjEW9OfRJISFQZvFeTLivLYpX?=
+ =?us-ascii?Q?0rycme9dz/7/J83aoFuf7pbVlYUXdxt0Yqn28WiQyJFXaWQFgqv+h52deZsc?=
+ =?us-ascii?Q?aAfwvmGym2hdGHJKgXLObUyxdJZBFteOSrEn8jogxyq0HhhFS+qp0QjuP7bc?=
+ =?us-ascii?Q?M8i/gOuAvr6O4ptsZFwV/qHA5CsqGJ1uuPYMNdInJHXaTph0FaknOdN4z+0w?=
+ =?us-ascii?Q?jD1BPLzUMOx61n0ZvYvMumCabwUKS3lVgPr9NlekbgNvwgnJ1FHK1Ph0cdol?=
+ =?us-ascii?Q?Gbl9itlRd40yhynjAd09cNbOwXMvXqHo6/D6Vbve1ZqO3He2ZWrlGsqgcG0m?=
+ =?us-ascii?Q?JXR49hpF8eoQc3woum3gDlHML2Ze36RjeemEJ9VlRmRDLV54rxUSQNIqqeIK?=
+ =?us-ascii?Q?C/bHgHs0f0kGjjXtFWBBed5JBqxywn5GLfLqZhauqpeehrkAUGc592TeRf7u?=
+ =?us-ascii?Q?RzPdRECYJJ8cMEeaBLRvBX30xjwsrjjgoZq+LjoBAmaubM361IWv6EdCmsN9?=
+ =?us-ascii?Q?MiKJnkoyXIYDMluXHWzoJCGFDzvCiWgr3YvUfrzpaTWkvgU2ZXhOoEU2dHiH?=
+ =?us-ascii?Q?RuIi/51RTquy8rKL7jggApgEEKTGWr4FBy3fGIMLLs7PTaJJdWyGSagn7kA7?=
+ =?us-ascii?Q?Mvhy/YXyHSkmsuqilBZLCygINegDw2WGiI9FPmrQtK4o2cTuFJ5gR5He+yDc?=
+ =?us-ascii?Q?iLlXERKR3sFD+g2ZE73vnMS9OfHTdS6JZ839obRga2Y7XPy5bM3B7ynghnVS?=
+ =?us-ascii?Q?Nc0/Y4ZGuMr6YbqaSR2dt7oW7JfndQ9X80I3EKMmb3h0wvpnudkG1jQjDNBo?=
+ =?us-ascii?Q?aefgPuIqQnrEU88TgJ2vFAVvpqRCZ5BUs7Wr0nfgwvhHswTTQSyMgiMz0akn?=
+ =?us-ascii?Q?jigbp8YUC964o7xXiEARvSQiheF38T+kHkS+PsaBK0BmXK513ce/rEsfPSFp?=
+ =?us-ascii?Q?gHmLZw3cweH1+144CKcmcfN2htxvDOSfN0Dg8/wCxvmpUMMnIX5BFnjDDJzD?=
+ =?us-ascii?Q?iAX2dHDnxYnkMFLil/TwLUE+VXxDH0J73Ow6TV6U96C5X5rjAjwsZU98aE5u?=
+ =?us-ascii?Q?9MCof+PwXp6CBKS8m0CiCiVXqnQ44Dp7fPWUicN+Cr0jik5AqmGBniTYbO9T?=
+ =?us-ascii?Q?U1w/nvGWO4InVs3q3o3s+hvxcwcpjf4bcnBPebDFenWE4s9fZSZQhMfyIVWs?=
+ =?us-ascii?Q?67TOvsTNg0vkwbWAsIrOF5NAKzPc9HhIDfStGIcIIt+AjEZa/KiT2kUUfXf7?=
+ =?us-ascii?Q?LA+bvCICFxQfGv8fkUxZ/4FKatP6jI4=3D?=
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: quoted-printable
 MIME-Version: 1.0
 X-OriginatorOrg: bp.renesas.com
 X-MS-Exchange-CrossTenant-AuthAs: Internal
 X-MS-Exchange-CrossTenant-AuthSource: OS0PR01MB5922.jpnprd01.prod.outlook.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: c399d55c-551f-4194-09fc-08da22e6a9de
-X-MS-Exchange-CrossTenant-originalarrivaltime: 20 Apr 2022 15:58:51.3445 (UTC)
+X-MS-Exchange-CrossTenant-Network-Message-Id: 7f03e301-de44-444b-c952-08da22e6cf61
+X-MS-Exchange-CrossTenant-originalarrivaltime: 20 Apr 2022 15:59:54.2680 (UTC)
 X-MS-Exchange-CrossTenant-fromentityheader: Hosted
 X-MS-Exchange-CrossTenant-id: 53d82571-da19-47e4-9cb4-625a166a4a2a
 X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
-X-MS-Exchange-CrossTenant-userprincipalname: fOW7MH8ruc59XxeKbkN3tVop07fWOObCr9wTYhPFkoyGVIQly1JbyaX8sg/pwAUw+9kmJda0k+FXwYBtDqRHJccY7gKnYTxoOIjP5yeO20w=
+X-MS-Exchange-CrossTenant-userprincipalname: ytgIGeC9NEWUFIF500AZjQgMNq6e+yARlen6rQG06sm4bd7DDbSg82/2Jri/Kyo4rQ/isbP0hHmiFruwZOCHJ2Ip4YZUkGrsvodePSAYwg8=
 X-MS-Exchange-Transport-CrossTenantHeadersStamped: TYCPR01MB8835
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -124,15 +124,13 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: "devicetree@vger.kernel.org" <devicetree@vger.kernel.org>,
- Chris Paterson <Chris.Paterson2@renesas.com>,
+Cc: Chris Paterson <Chris.Paterson2@renesas.com>,
  Geert Uytterhoeven <geert+renesas@glider.be>, David Airlie <airlied@linux.ie>,
- Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>,
  Prabhakar Mahadev Lad <prabhakar.mahadev-lad.rj@bp.renesas.com>,
  "dri-devel@lists.freedesktop.org" <dri-devel@lists.freedesktop.org>,
  Biju Das <biju.das@bp.renesas.com>,
  "linux-renesas-soc@vger.kernel.org" <linux-renesas-soc@vger.kernel.org>,
- Rob Herring <robh+dt@kernel.org>
+ Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
@@ -140,116 +138,249 @@ Hi Laurent,
 
 Thanks for the feedback.
 
-> Subject: Re: [PATCH v2 1/7] dt-bindings: display: renesas,du: Document
-> r9a07g044l bindings
+> Subject: Re: [PATCH v2 2/7] drm: rcar-du: Add num_rpf to struct
+> rcar_du_device_info
 >=20
 > Hi Biju,
 >=20
 > Thank you for the patch.
 >=20
-> On Wed, Mar 16, 2022 at 01:10:54PM +0000, Biju Das wrote:
-> > Extend the Renesas DU display bindings to support the r9a07g044l DU
-> > module found on RZ/G2L LCDC.
+> On Wed, Mar 16, 2022 at 01:10:55PM +0000, Biju Das wrote:
+> > Number of RPF's VSP is different on R-Car and RZ/G2L  R-Car Gen3 -> 5
+> > RPFs  R-Car Gen2 -> 4 RPFs  RZ/G2L -> 2 RPFs
+> >
+> > Add num_rpf to struct rcar_du_device_info to support later SoC without
+> > any code changes.
+> >
+> > Signed-off-by: Biju Das <biju.das.jz@bp.renesas.com>
+> > ---
+> > v1->v2:
+> >  * No change
+> > RFC->v1:
+> >  * Fixed the comment for num_rpf s/rpf's/RPFs/ and s/vsp/VSP/
+> > RFC:
+> >  *
+> > ---
+> >  drivers/gpu/drm/rcar-du/rcar_du_drv.c | 17 +++++++++++++++++
+> > drivers/gpu/drm/rcar-du/rcar_du_drv.h |  2 ++
+> > drivers/gpu/drm/rcar-du/rcar_du_vsp.c |  6 +-----
+> >  3 files changed, 20 insertions(+), 5 deletions(-)
+> >
+> > diff --git a/drivers/gpu/drm/rcar-du/rcar_du_drv.c
+> > b/drivers/gpu/drm/rcar-du/rcar_du_drv.c
+> > index 957ea97541d5..1bc7325aa356 100644
+> > --- a/drivers/gpu/drm/rcar-du/rcar_du_drv.c
+> > +++ b/drivers/gpu/drm/rcar-du/rcar_du_drv.c
+> > @@ -55,6 +55,7 @@ static const struct rcar_du_device_info
+> rzg1_du_r8a7743_info =3D {
+> >  		},
+> >  	},
+> >  	.num_lvds =3D 1,
+> > +	.num_rpf =3D 4,
+> >  };
+> >
+> >  static const struct rcar_du_device_info rzg1_du_r8a7745_info =3D { @@
+> > -77,6 +78,7 @@ static const struct rcar_du_device_info
+> rzg1_du_r8a7745_info =3D {
+> >  			.port =3D 1,
+> >  		},
+> >  	},
+> > +	.num_rpf =3D 4,
+> >  };
+> >
+> >  static const struct rcar_du_device_info rzg1_du_r8a77470_info =3D { @@
+> > -104,6 +106,7 @@ static const struct rcar_du_device_info
+> rzg1_du_r8a77470_info =3D {
+> >  			.port =3D 2,
+> >  		},
+> >  	},
+> > +	.num_rpf =3D 4,
+> >  };
+> >
+> >  static const struct rcar_du_device_info rcar_du_r8a774a1_info =3D { @@
+> > -133,6 +136,7 @@ static const struct rcar_du_device_info
+> rcar_du_r8a774a1_info =3D {
+> >  		},
+> >  	},
+> >  	.num_lvds =3D 1,
+> > +	.num_rpf =3D 5,
+> >  	.dpll_mask =3D  BIT(1),
+> >  };
+> >
+> > @@ -163,6 +167,7 @@ static const struct rcar_du_device_info
+> rcar_du_r8a774b1_info =3D {
+> >  		},
+> >  	},
+> >  	.num_lvds =3D 1,
+> > +	.num_rpf =3D 5,
+> >  	.dpll_mask =3D  BIT(1),
+> >  };
+> >
+> > @@ -190,6 +195,7 @@ static const struct rcar_du_device_info
+> rcar_du_r8a774c0_info =3D {
+> >  		},
+> >  	},
+> >  	.num_lvds =3D 2,
+> > +	.num_rpf =3D 4,
+> >  	.lvds_clk_mask =3D  BIT(1) | BIT(0),
+> >  };
+> >
+> > @@ -220,6 +226,7 @@ static const struct rcar_du_device_info
+> rcar_du_r8a774e1_info =3D {
+> >  		},
+> >  	},
+> >  	.num_lvds =3D 1,
+> > +	.num_rpf =3D 5,
+> >  	.dpll_mask =3D  BIT(1),
+> >  };
+> >
+> > @@ -272,6 +279,7 @@ static const struct rcar_du_device_info
+> rcar_du_r8a7790_info =3D {
+> >  		},
+> >  	},
+> >  	.num_lvds =3D 2,
+> > +	.num_rpf =3D 4,
+> >  };
+> >
+> >  /* M2-W (r8a7791) and M2-N (r8a7793) are identical */ @@ -297,6
+> > +305,7 @@ static const struct rcar_du_device_info rcar_du_r8a7791_info =
+=3D
+> {
+> >  		},
+> >  	},
+> >  	.num_lvds =3D 1,
+> > +	.num_rpf =3D 4,
+> >  };
+> >
+> >  static const struct rcar_du_device_info rcar_du_r8a7792_info =3D { @@
+> > -317,6 +326,7 @@ static const struct rcar_du_device_info
+> rcar_du_r8a7792_info =3D {
+> >  			.port =3D 1,
+> >  		},
+> >  	},
+> > +	.num_rpf =3D 4,
+> >  };
+> >
+> >  static const struct rcar_du_device_info rcar_du_r8a7794_info =3D { @@
+> > -340,6 +350,7 @@ static const struct rcar_du_device_info
+> rcar_du_r8a7794_info =3D {
+> >  			.port =3D 1,
+> >  		},
+> >  	},
+> > +	.num_rpf =3D 4,
+> >  };
+> >
+> >  static const struct rcar_du_device_info rcar_du_r8a7795_info =3D { @@
+> > -373,6 +384,7 @@ static const struct rcar_du_device_info
+> rcar_du_r8a7795_info =3D {
+> >  		},
+> >  	},
+> >  	.num_lvds =3D 1,
+> > +	.num_rpf =3D 5,
+> >  	.dpll_mask =3D  BIT(2) | BIT(1),
+> >  };
+> >
+> > @@ -403,6 +415,7 @@ static const struct rcar_du_device_info
+> rcar_du_r8a7796_info =3D {
+> >  		},
+> >  	},
+> >  	.num_lvds =3D 1,
+> > +	.num_rpf =3D 5,
+> >  	.dpll_mask =3D  BIT(1),
+> >  };
+> >
+> > @@ -433,6 +446,7 @@ static const struct rcar_du_device_info
+> rcar_du_r8a77965_info =3D {
+> >  		},
+> >  	},
+> >  	.num_lvds =3D 1,
+> > +	.num_rpf =3D 5,
+> >  	.dpll_mask =3D  BIT(1),
+> >  };
+> >
+> > @@ -459,6 +473,7 @@ static const struct rcar_du_device_info
+> rcar_du_r8a77970_info =3D {
+> >  		},
+> >  	},
+> >  	.num_lvds =3D 1,
+> > +	.num_rpf =3D 5,
+> >  };
+> >
+> >  static const struct rcar_du_device_info rcar_du_r8a7799x_info =3D { @@
+> > -486,6 +501,7 @@ static const struct rcar_du_device_info
+> rcar_du_r8a7799x_info =3D {
+> >  		},
+> >  	},
+> >  	.num_lvds =3D 2,
+> > +	.num_rpf =3D 5,
+> >  	.lvds_clk_mask =3D  BIT(1) | BIT(0),
+> >  };
+> >
+> > @@ -505,6 +521,7 @@ static const struct rcar_du_device_info
+> rcar_du_r8a779a0_info =3D {
+> >  			.port =3D 1,
+> >  		},
+> >  	},
+> > +	.num_rpf =3D 5,
+> >  	.dsi_clk_mask =3D  BIT(1) | BIT(0),
+> >  };
+> >
+> > diff --git a/drivers/gpu/drm/rcar-du/rcar_du_drv.h
+> > b/drivers/gpu/drm/rcar-du/rcar_du_drv.h
+> > index 101f42df86ea..68c5de59d18d 100644
+> > --- a/drivers/gpu/drm/rcar-du/rcar_du_drv.h
+> > +++ b/drivers/gpu/drm/rcar-du/rcar_du_drv.h
+> > @@ -69,6 +69,7 @@ struct rcar_du_output_routing {
+> >   * @channels_mask: bit mask of available DU channels
+> >   * @routes: array of CRTC to output routes, indexed by output
+> (RCAR_DU_OUTPUT_*)
+> >   * @num_lvds: number of internal LVDS encoders
+> > + * @num_rpf: max number of RPFs in VSP
 >=20
-> Stupid question, but as this DU and the R-Car DU are completely different
-> pieces of hardware, wouldn't a separate bindings file make sense ?
+> s/max //
 
-OK, will create separate bindings for RZ/G2L DU
+OK, Will fix this.
 
 Cheers,
 Biju
 
 >=20
-> The DT description in this patch looks good to me.
+> Reviewed-by: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
 >=20
-> > Signed-off-by: Biju Das <biju.das.jz@bp.renesas.com>
-> > ---
-> > v1->v2:
-> >  * Updated commit description.
-> >  * Removed LCDC references
-> >  * Changed clock name from du.0->aclk
-> >  * Changed reset name from du.0->du
-> > RFC->v1:
-> >  * Changed  minItems->maxItems for renesas,vsps.
-> > RFC:
+> >   * @dpll_mask: bit mask of DU channels equipped with a DPLL
+> >   * @dsi_clk_mask: bitmask of channels that can use the DSI clock as do=
+t
+> clock
+> >   * @lvds_clk_mask: bitmask of channels that can use the LVDS clock as
+> > dot clock @@ -80,6 +81,7 @@ struct rcar_du_device_info {
+> >  	unsigned int channels_mask;
+> >  	struct rcar_du_output_routing routes[RCAR_DU_OUTPUT_MAX];
+> >  	unsigned int num_lvds;
+> > +	unsigned int num_rpf;
+> >  	unsigned int dpll_mask;
+> >  	unsigned int dsi_clk_mask;
+> >  	unsigned int lvds_clk_mask;
+> > diff --git a/drivers/gpu/drm/rcar-du/rcar_du_vsp.c
+> > b/drivers/gpu/drm/rcar-du/rcar_du_vsp.c
+> > index b7fc5b069cbc..cf045a203aa5 100644
+> > --- a/drivers/gpu/drm/rcar-du/rcar_du_vsp.c
+> > +++ b/drivers/gpu/drm/rcar-du/rcar_du_vsp.c
+> > @@ -415,11 +415,7 @@ int rcar_du_vsp_init(struct rcar_du_vsp *vsp, stru=
+ct
+> device_node *np,
+> >  	if (ret < 0)
+> >  		return ret;
 > >
-> > ---
-> >  .../bindings/display/renesas,du.yaml          | 54 +++++++++++++++++++
-> >  1 file changed, 54 insertions(+)
+> > -	 /*
+> > -	  * The VSP2D (Gen3) has 5 RPFs, but the VSP1D (Gen2) is limited to
+> > -	  * 4 RPFs.
+> > -	  */
+> > -	num_planes =3D rcdu->info->gen >=3D 3 ? 5 : 4;
+> > +	num_planes =3D rcdu->info->num_rpf;
 > >
-> > diff --git a/Documentation/devicetree/bindings/display/renesas,du.yaml
-> > b/Documentation/devicetree/bindings/display/renesas,du.yaml
-> > index 13efea574584..f560608bf4e8 100644
-> > --- a/Documentation/devicetree/bindings/display/renesas,du.yaml
-> > +++ b/Documentation/devicetree/bindings/display/renesas,du.yaml
-> > @@ -40,6 +40,7 @@ properties:
-> >        - renesas,du-r8a77990 # for R-Car E3 compatible DU
-> >        - renesas,du-r8a77995 # for R-Car D3 compatible DU
-> >        - renesas,du-r8a779a0 # for R-Car V3U compatible DU
-> > +      - renesas,du-r9a07g044l # for RZ/G2L compatible DU
-> >
-> >    reg:
-> >      maxItems: 1
-> > @@ -824,6 +825,59 @@ allOf:
-> >          - reset-names
-> >          - renesas,vsps
-> >
-> > +  - if:
-> > +      properties:
-> > +        compatible:
-> > +          contains:
-> > +            enum:
-> > +              - renesas,du-r9a07g044l
-> > +    then:
-> > +      properties:
-> > +        clocks:
-> > +          items:
-> > +            - description: Main clock
-> > +            - description: Register access clock
-> > +            - description: Video clock
-> > +
-> > +        clock-names:
-> > +          items:
-> > +            - const: aclk
-> > +            - const: pclk
-> > +            - const: vclk
-> > +
-> > +        interrupts:
-> > +          maxItems: 1
-> > +
-> > +        resets:
-> > +          maxItems: 1
-> > +
-> > +        reset-names:
-> > +          items:
-> > +            - const: du
-> > +
-> > +        ports:
-> > +          properties:
-> > +            port@0:
-> > +              description: DPAD 0
-> > +            port@1:
-> > +              description: DSI 0
-> > +            port@2: false
-> > +            port@3: false
-> > +
-> > +          required:
-> > +            - port@0
-> > +            - port@1
-> > +
-> > +        renesas,vsps:
-> > +          maxItems: 1
-> > +
-> > +      required:
-> > +        - clock-names
-> > +        - interrupts
-> > +        - resets
-> > +        - reset-names
-> > +        - renesas,vsps
-> > +
-> >  additionalProperties: false
-> >
-> >  examples:
+> >  	vsp->planes =3D kcalloc(num_planes, sizeof(*vsp->planes), GFP_KERNEL)=
+;
+> >  	if (!vsp->planes)
 >=20
 > --
 > Regards,
