@@ -1,123 +1,124 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id CE55850844F
-	for <lists+dri-devel@lfdr.de>; Wed, 20 Apr 2022 11:00:28 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 53E1250847C
+	for <lists+dri-devel@lfdr.de>; Wed, 20 Apr 2022 11:07:37 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 55045892CD;
-	Wed, 20 Apr 2022 09:00:26 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 9C645894B7;
+	Wed, 20 Apr 2022 09:07:33 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from NAM04-MW2-obe.outbound.protection.outlook.com
- (mail-mw2nam08on2072.outbound.protection.outlook.com [40.107.101.72])
- by gabe.freedesktop.org (Postfix) with ESMTPS id E0D5F8825E;
- Wed, 20 Apr 2022 09:00:24 +0000 (UTC)
+Received: from NAM10-BN7-obe.outbound.protection.outlook.com
+ (mail-bn7nam10on2047.outbound.protection.outlook.com [40.107.92.47])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 7CFEA894B7;
+ Wed, 20 Apr 2022 09:07:32 +0000 (UTC)
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=UeaWlEzRCPzmHsRJ3g9ZCBscFHNukHuggBdqg/WlLGQrCzH+pYhI3N/uLJRbzo22M/zplAEpG7qZY4D43ZsR2EH7wTRFB9n+6QBUQL95MURs6t2ke5OIkfJSTGWEnnliPPwUYy6DaWrAh3+lgCbKPad95nsWigIDh3MD89A4jhfMgKN4+SqCZjBlo/dXeIvgBDkSGts49XF4Hb7sMUwOVH4r/qBllQBDF9U2qVyrHDt7Q2lrSijBdLzLGj5wMBeud/VADfcHMFSjSYP+MeXx87PjpgnE6DcbkTyL/V2beKhzeFOSyi+0rjQthLrIkO4C2XefKocM0s5Tt1fO0kkmNw==
+ b=G5s1288uZR9nyL1MsxNbLDsWLkO+Iy13c2UiG2i8hNrJH4aVT8eEA6s1um1O7sMLX+FsSGofgK4/pYwe6mMH0tlAY37BJFQJXVx6ximgnOyKEr/6N0rJsOGq4h+tLThNhM5xYZgzlY8qmL6aas3GkCrifootAggOmp4zx6xwn7imUede75Xd71i6ilOygqIsTPxV+sEqc4RNvoH/ajEi3gL9iwaDGymixVpOd3YsUeOtvoSUoZVJvsTGndJIdWAmypRu24kjHRdrtBIq/lrAMMIDbf15CbXZWpaf+7VMZFu41Fn8QUaQ/1agTu7n6skFIP7N9HZeM3zpKw+fbSx5BA==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
  s=arcselector9901;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=7fHE4pX+x/MUQBrh+3oFBNcDec5a2NjMJWyJc12zLSU=;
- b=YcB0R50Us4hpjMwUyMrpHyk+x1v07kPK37EhpJV4HJGURrasy6UiE/OlsBVBTGiV3m6RskVy4oF30n6rlJU9NtR7TVw9p6wQAa4/1Qk35BSTCqD+8KuuN31GGJHsYYR5de0jCD0AO13ZpJRxPmlfSxVr84okVPqzPB96xHx+1VWGVi64tz3foSIFoUsuTwbkKvgmMklbXPdBHdIPhxeVQCIfkvgivALmiLGqzbtpDsCKBHugMN89L3D7QFWg8RUw1krgueDmepRLbzf4vFGAmXYu94pyBCsAl3E9wbUcAyx5opUK36V2hRoEHVOFFEqETJ3c4pAb3jgBjQcn7h6qmA==
+ bh=XUBXU1ZL7azKjPwRiFCPd34T9JPKI4ephCKam2SFhLc=;
+ b=RaRniCtx+7bCzAsJlp2fva4MS9ASy20MVLRTb2GyygwR17DfYtJDmtGlLXMR1VjeOUZqCT4X36HkSBu1it1mzHO9DrNn4mPjj5eeE1HGr1tGiL8L0PyA6TstMOsRp5RAAKOSiti2qM/7NKsxnSwuakLnOeMiI4B7eA0TOj3NUruXWR8vj9Ax382nnLwqxvdJEjiolgEBcJNpj2T4zZBsEc+ukSmTPkWJU68tR2qSErw2ZInpJlC9dLrbwNCMnVRGLfoz+f+BvLy5ci0uoUlx1W/nOIHmZc4MJ0oZ9QcGla5v+SmGDFY1qoi7YN/yj0JBLNW3+Ke/jWii60+bSqhcCw==
 ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
  smtp.mailfrom=amd.com; dmarc=pass action=none header.from=amd.com; dkim=pass
  header.d=amd.com; arc=none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1; 
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=7fHE4pX+x/MUQBrh+3oFBNcDec5a2NjMJWyJc12zLSU=;
- b=yUn0AdiYkPaUnCn1mdvz8RwYNxZv5mDQkxccYSE8s57BzqRa5hWhL94oNs/tadR05Boo6O9SriZ36t0sIM63M2n4WP5b5hGmjR3QUZk9i74+wkUKU59ZO1AQk2U8ComLJkvgYoAOL+R5dDWoZBOODiO0wbSqpTzPalzZwD1Bjmo=
-Authentication-Results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=amd.com;
-Received: from BN8PR12MB3587.namprd12.prod.outlook.com (2603:10b6:408:43::13)
- by BN8PR12MB2867.namprd12.prod.outlook.com (2603:10b6:408:99::11)
- with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.5164.20; Wed, 20 Apr
- 2022 09:00:23 +0000
-Received: from BN8PR12MB3587.namprd12.prod.outlook.com
- ([fe80::a5fb:7137:5e64:cf8]) by BN8PR12MB3587.namprd12.prod.outlook.com
- ([fe80::a5fb:7137:5e64:cf8%5]) with mapi id 15.20.5164.026; Wed, 20 Apr 2022
- 09:00:22 +0000
-Message-ID: <00dfec71-cf38-d6d9-8775-0ae88f59224e@amd.com>
-Date: Wed, 20 Apr 2022 11:00:17 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.7.0
+ bh=XUBXU1ZL7azKjPwRiFCPd34T9JPKI4ephCKam2SFhLc=;
+ b=Lq0k59S9Np/EGpDwJrRgDGC2bSK0n7wGU23pD8cYn40gDV1bMUTdP1YTrD8hGIxYigdHmpcg33HSlrBskEvqyqu9ILyToEEUyo3e2L3QndGxBPgySDjTEorNQx6EPOoAHRYDwOvFARKaECLiW51cux4qLK4Bznjz8o7C7fOjfe4=
+Received: from CO6PR12MB5473.namprd12.prod.outlook.com (2603:10b6:303:13e::8)
+ by MW3PR12MB4345.namprd12.prod.outlook.com (2603:10b6:303:59::8) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.5186.13; Wed, 20 Apr
+ 2022 09:07:30 +0000
+Received: from CO6PR12MB5473.namprd12.prod.outlook.com
+ ([fe80::28df:431f:d965:e6ef]) by CO6PR12MB5473.namprd12.prod.outlook.com
+ ([fe80::28df:431f:d965:e6ef%7]) with mapi id 15.20.5186.013; Wed, 20 Apr 2022
+ 09:07:30 +0000
+From: "Wang, Yang(Kevin)" <KevinYang.Wang@amd.com>
+To: "Koenig, Christian" <Christian.Koenig@amd.com>,
+ "dri-devel@lists.freedesktop.org" <dri-devel@lists.freedesktop.org>,
+ "amd-gfx@lists.freedesktop.org" <amd-gfx@lists.freedesktop.org>
 Subject: Re: [PATCH] drm/ttm: fix ttm tt init fail when size exceeds kmalloc
  limit
-Content-Language: en-US
-To: Yang Wang <KevinYang.Wang@amd.com>, dri-devel@lists.freedesktop.org,
- amd-gfx@lists.freedesktop.org
+Thread-Topic: [PATCH] drm/ttm: fix ttm tt init fail when size exceeds kmalloc
+ limit
+Thread-Index: AQHYVJSHP8/0hJsFF022HGuI3b/QKKz4gPOAgAAAasM=
+Date: Wed, 20 Apr 2022 09:07:30 +0000
+Message-ID: <CO6PR12MB54733101E19842B59668482B82F59@CO6PR12MB5473.namprd12.prod.outlook.com>
 References: <20220420085612.1664787-1-KevinYang.Wang@amd.com>
-From: =?UTF-8?Q?Christian_K=c3=b6nig?= <christian.koenig@amd.com>
-In-Reply-To: <20220420085612.1664787-1-KevinYang.Wang@amd.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
-X-ClientProxiedBy: FR3P281CA0081.DEUP281.PROD.OUTLOOK.COM
- (2603:10a6:d10:1f::11) To BN8PR12MB3587.namprd12.prod.outlook.com
- (2603:10b6:408:43::13)
-MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-Office365-Filtering-Correlation-Id: 7aa11ee9-1fbb-4496-32ea-08da22ac33c0
-X-MS-TrafficTypeDiagnostic: BN8PR12MB2867:EE_
-X-Microsoft-Antispam-PRVS: <BN8PR12MB28673F28B7040E9CA675CAD283F59@BN8PR12MB2867.namprd12.prod.outlook.com>
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: 16/j31lbxg1GkdHYh5RrZyxJyk94RAhraPH41ehwcYjMdhGlEPyRZ42U/maev1NZ9yikQgvsYu24hPI7pqpQB/KzHk+AWpRp3DikY6DKjzlWTpMQIR7Cm8FzJTzsZCNRLkzeGiBVvIQ5FcPkwCoaojGS5vWx1Qz92kF2NnJdQlZWvKPNwolPW4FSonZXLoyeDNIPdZhSijyn9WlhWEr/XVVQBgYEPNW0+QnriX16F4dZUVgSbGX/AGgEo3wWL7U17XykyjBUBi+RLRJsv2Z4MAa4S9Geno6QUlUno2NHgkDvxehyVXPpNF6Ar5wjkddGoQKhznKEmglbzjNjTpn8ZSCxSUWIp9Px11fdc9+XWKUQTSAM+6i6ZrnX2VoDRn0Il33QRFF+cx6kVqbrlMix6YAb8T7JJ//vipWtaJDOcb6ri+16Qd9UO9wYD4tlyh8SAbSfIEuCQ0g2fQUtzYbKNS+KzSJANUwQxa3VvM6kzXpMbI6hVWi4osHFYUXP7EdcbA0hi9tWWNb/DYhd1vfBbKJMs2V5n2EmihV1wJROCBFbcDUIJVJvJt5PdG30U4PrEZoMckd6MMH75TtMSyaYUl6fdVou6YCLMWa4Rwwt9LevKWieKXL8ax6Q81xHkIBakPo3XesRPnQPjCHRs7vw8mebnVQmJ9MrnRXt0GviSYMyqwKF+7GVXYZrtmCFca2kDhDiSBIjFi9HJ1klGf68OgJSlIriWxvDrlCjxu58tD3VFK1QBNjFWffHqQbnJw4v
-X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
- IPV:NLI; SFV:NSPM; H:BN8PR12MB3587.namprd12.prod.outlook.com; PTR:; CAT:NONE;
- SFS:(13230001)(4636009)(366004)(31686004)(450100002)(508600001)(66946007)(8676002)(83380400001)(8936002)(38100700002)(66476007)(5660300002)(86362001)(66556008)(2616005)(2906002)(36756003)(31696002)(6486002)(6506007)(6666004)(6512007)(186003)(26005)(316002)(43740500002)(45980500001);
+ <00dfec71-cf38-d6d9-8775-0ae88f59224e@amd.com>
+In-Reply-To: <00dfec71-cf38-d6d9-8775-0ae88f59224e@amd.com>
+Accept-Language: en-US, zh-CN
+Content-Language: en-US
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+msip_labels: MSIP_Label_88914ebd-7e6c-4e12-a031-a9906be2db14_Enabled=True;
+ MSIP_Label_88914ebd-7e6c-4e12-a031-a9906be2db14_SiteId=3dd8961f-e488-4e60-8e11-a82d994e183d;
+ MSIP_Label_88914ebd-7e6c-4e12-a031-a9906be2db14_SetDate=2022-04-20T09:07:30.651Z;
+ MSIP_Label_88914ebd-7e6c-4e12-a031-a9906be2db14_Name=AMD
+ Official Use
+ Only; MSIP_Label_88914ebd-7e6c-4e12-a031-a9906be2db14_ContentBits=0;
+ MSIP_Label_88914ebd-7e6c-4e12-a031-a9906be2db14_Method=Standard; 
+authentication-results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=amd.com;
+x-ms-publictraffictype: Email
+x-ms-office365-filtering-correlation-id: 481afbd4-a48b-4771-9fdf-08da22ad32a4
+x-ms-traffictypediagnostic: MW3PR12MB4345:EE_
+x-microsoft-antispam-prvs: <MW3PR12MB4345C96C7A3CA8EAE8A4C32582F59@MW3PR12MB4345.namprd12.prod.outlook.com>
+x-ms-exchange-senderadcheck: 1
+x-ms-exchange-antispam-relay: 0
+x-microsoft-antispam: BCL:0;
+x-microsoft-antispam-message-info: w7jsMIxtP913L9www9XPEK4ZTVFyxqV091bzeIOzhQ0ctBsrfhjyhjYoYPRGIP5GoiR1hDR670lLeZzrX6r4DRdewpQnOehcAQqHu0/7aFL7c7VBdjS9+LHMQ6k49W/s7B8oq5UF3tuewR98zjrrCKXWkvjO+hpbD3FDQyCTqaAYPUoSOe2kUZMAfhl0UVx1foEN6XGQ+CAZ1HdTkmWoBoi0il4n++ASw/RiOCe7BuO1Y0PALb2KVvGSh8YMon3+bqzDxon3O0f8iPOcAH/4mRnkhjdezFXeWvdFSAyvcDZbMBXN4swOCLZvX/myPuJZ84FkJi4t8nEFVk4O9sMoC0zF+XkxeUQBS4jirCArmUk8plQQiUrgc+7UOfryB4hrzklPpjMMsuMTLkkFzP6QsCSLK/mdH0sBojKJMMl52Ziogixi/V9s0/fxvp+uwi4XwhjnHhlYqmyMheBE1mII1LxQbEKOHQqi2zrdpc609TDZmpp9Mr4mSljGWnCWfLXZarjFzLn1Ok5cCyKjpNX9vYbS/wxoq5anlka1jiiBdwa2bUsY6tTGXRefZib3YuVSinjAJ5YQpMHtYhJQG6AtdAPKVPH48sqaZhhIkm2tJX1/XVO+9IpDVkNQri7xcG2fvvcsQ/3YmSKS1bxC+CodzNaY9LIlK27PoJG+iFg0F0MnoH1+jFGPjkv7mBcW8TXcikhPFkgPLb8wHwV2u/2omA==
+x-forefront-antispam-report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
+ IPV:NLI; SFV:NSPM; H:CO6PR12MB5473.namprd12.prod.outlook.com; PTR:; CAT:NONE;
+ SFS:(13230001)(4636009)(366004)(508600001)(71200400001)(55016003)(52536014)(66556008)(8936002)(450100002)(76116006)(33656002)(9686003)(66446008)(66476007)(64756008)(53546011)(2906002)(7696005)(6506007)(122000001)(91956017)(316002)(186003)(83380400001)(19627405001)(26005)(8676002)(66946007)(38100700002)(86362001)(38070700005)(5660300002)(110136005);
  DIR:OUT; SFP:1101; 
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: =?utf-8?B?TFVCTmNJbFdYZWwrL3FvKzIreE1raTZJaDVKYXJnUFYzQ2s5NlZ0N2NkQ1F3?=
- =?utf-8?B?TTRiNm8xR1JjOFUyaENzUG8zNk0xTVRVcUU2WnJYYUc1YmVLLzVkYXA4bElx?=
- =?utf-8?B?TGR3TExoWmd6Sm8yRDdhTlE3dlFkMGV1ZE1XVVdoQ2dST3hscEExZEx3am9O?=
- =?utf-8?B?eXFxdkpqZUlSWHJvdDYrVXJjcFozT2FCYnJpbzRvRnJmWEZjanBseTFrdEJy?=
- =?utf-8?B?T2xoZlJSRFlxYjNhWldtZlBUQ2pFdnFjVUR6dTlucHl0ckFHaERQdDhSeGt6?=
- =?utf-8?B?VlJZMkdrR3M1TkRxTHM5SHE0OGhzQThDTitFVWU3amx5ajZnNy8zRDZJa1lz?=
- =?utf-8?B?bnM2eGZhK2kwb2ovUThheXBRa3Z3bWpkSXZ6Qnl0WHdZZDlOT0JWWWc1RlE2?=
- =?utf-8?B?M3k0RnNiYWZGMmppUVJiRFdjTDRLUnFxU1Fhak1sWWp2d3RhVC9mblRQNi94?=
- =?utf-8?B?am10anJsUFZFMk9QdlJRZTJ0RHFTYkdQUnpJSFF6V2s5aGFicHZrMHMyU3Qy?=
- =?utf-8?B?cUtsREx5T09rOUVocUhYV0Z3MnFpTzkxR0pDMytsU0hxNWhjVWlMeWUrODhB?=
- =?utf-8?B?blVQYXl1OXJSaElvK1VjblJBUXNjS3FrMmMzYXhLcmpXQVlsbjkrY21hTFV3?=
- =?utf-8?B?TWtmL2oxYys4b2p1YStoY1BKNDBuYWVIQmtIWVl6Uk5MTUp6NjJmc1VpYkhX?=
- =?utf-8?B?amFpNEx2MGh2aDg1N01nWGhVZ1JtMThnMVJSdXhuN2ZrTG9EOUxocmpXRGQw?=
- =?utf-8?B?RHNQN3UrWjJ2Y1dMcjVyaERMcDUwbFBCZDZVbllaRmh0UXpxb2hZRzd6OXJL?=
- =?utf-8?B?d01kRzdONVFVYjNjQk5hK3orTmtuRVIveHZscmtWZXcyUm1RWThyVW03Yk9z?=
- =?utf-8?B?M0xnQWZyMXlXTUlTTmJydVp1MHBCMm8yd2VjbjR2eitXN1VBMlNiRDQxSlhW?=
- =?utf-8?B?LzFlWjZDWEU1YmZCY3N1M01kWXFkOEhONHI4NDVKMmE1VHppUGVxc1pKMkIy?=
- =?utf-8?B?cG1EZm9ZQzlNTS9tWGRmNElIVVN5Mk1lUXlEbXV2dmtyV3BXK1NIc2VsY0gz?=
- =?utf-8?B?U0FwYmtGSTc2bi9VSjZ1OXRzc25JRWNsV29jY0cwNmlOMzAvQ0lOOGJ1Q2x0?=
- =?utf-8?B?ZVJoSncrclRyNmZvbktVUlpsZHNyaWlFQmRtYVp1MlFtcXhRZ1Z0SjRBdVIw?=
- =?utf-8?B?Q0w2RDdWOEk3azZBL2FOZXVqTjF5QTlDOGVSNVNtaHVoeEgzbURMRmxIWklu?=
- =?utf-8?B?QS9VQzFBV2ZVVVJaZmxpVHZ2VVBXQjdDQzAwZFlBL0g2VXRKYXBOTTJVVGVz?=
- =?utf-8?B?S0I4bXJKakMyZEdOWWQ5L2xIZTdQTXZ1L1RWSkZGT3hjSWd2bXdWRURwK2dD?=
- =?utf-8?B?ZldNcHI1TDJkSDR2SzV2R1NEd0lMOUk2cjFDcytkVllYbTRTekRpNjlKZTh0?=
- =?utf-8?B?aUJMMDcyRXh0OUc2VWlHR25XL2FOb3kybU5MV1JYTDE5ZEt5bEpwbmlGbVMx?=
- =?utf-8?B?RjJESStJcGdBZ2dFUFkvOFNiWlpYZm9nNS9Uc1ZSZWhoVEl3UjF3YzJSaWFS?=
- =?utf-8?B?Y1djNCsrNWxOVWdTZjdKNGNNOVFleElVR0hOUm9Oa2p4ZE9TZmpVdTh5TWtj?=
- =?utf-8?B?eDBFdmRQQXc3bko1aW92eTRxcUd4cXQycnlVL0duSGdKOHFvUFNzSHlVcDlY?=
- =?utf-8?B?RVgrYjBYV0ZzWmVZazBwWlNDazFWMkpzS01Wbkx4UG1GRnU5NU1nVDhSeGpG?=
- =?utf-8?B?VWxxbkZYbVVsaHZtMkxCaVh0eEdFcDlyOGtqTVlBYU50ZzdlbjAwU00xY2pB?=
- =?utf-8?B?aVVqN1paNW01UHUySUJYR2dkeG9xbVMxek1DK0xHRXp5V2dCR010a2VZcE9l?=
- =?utf-8?B?azNhK1NwSGMzL1FvenpHYTZpUkF1bzZDQ1VQWU9tZlpSOVJkMjlOQ1o1WVNM?=
- =?utf-8?B?cW10cVhzaFFxd3NBanlpOGZ2QmhxMXFvQVo2MlloWVUzdWRCM1lZZDZzYnRY?=
- =?utf-8?B?a0tkM2ViTlZ6b3hzZGM3djJpdzFoeER2SGRyUnY1N0VQYkNJa1hJdGNROGxa?=
- =?utf-8?B?T29oelVwaEJZdm04SnVBUEZLSFcrU3JNQ0c5alg3TU94Z2RxdXd4WHY0cy85?=
- =?utf-8?B?V3Y4Y3BnWnhieldPU3hFZVlNSDV5VEtvVEpQcHljeWpwREhKWGcyTnpiWWk2?=
- =?utf-8?B?QmNkL2JTcjdNT2NLdE1vWW92dXhXWHJaaGgzWVJJVFlPOGVBTVFvNmFnWGhS?=
- =?utf-8?B?U1JpRWgzY1NLaldrMDhQZnFsTms3SEJUTWlKOW5SVFcvQWtrckl4Q3hMUkdw?=
- =?utf-8?B?ZTdQdHQzbXdzaU5TZTNIc0o5TEVnUitCb0V0VlFJdnc1TE8xZVlyZz09?=
+x-ms-exchange-antispam-messagedata-chunkcount: 1
+x-ms-exchange-antispam-messagedata-0: =?iso-8859-1?Q?LFC5212YH05r3PnIFgqFs6d2j03TCBenVcOIwavM1rFq/5fGSimy+jOVbD?=
+ =?iso-8859-1?Q?I+LgmhXIgpu6AsGyvmKs2ZFRwZlKqan5q5WhNydyES2MMHqjOyxKyq8tdD?=
+ =?iso-8859-1?Q?JcU5GD5YPLE68c7+yzRqvtXTkYPzoTnZaxr2pm+5aOfMDghunP/MpSTsp0?=
+ =?iso-8859-1?Q?zc0rIq4gYGiN0TsogPjljcHYAssPnRkYy11vvbBEGLww3B1qXSiqujueIW?=
+ =?iso-8859-1?Q?bVpNzhsq3D87UDwFI7hRaxm3vgHP1hj5DPV3nFJ8lBs7YTFptkcHPEs0M6?=
+ =?iso-8859-1?Q?3VSpAmF4oqkdMmITX0tdLB81nbd2WcncwDGKSBMOu4Poy7cHI1J+8peoxy?=
+ =?iso-8859-1?Q?S3q5/GOPwo13Cj3rnFIshlod6WAMmXA6jcwE/r6Cgm052OT23ei45N36zg?=
+ =?iso-8859-1?Q?VXEOyjoNAQgKjXL7wIfihYAYO/zmin2t1pIq/kfVTVQQFSvQBb4qqfiPnw?=
+ =?iso-8859-1?Q?xd64BQIiyEbYAAe/TrXRXe5S0JKXBOK/8ID33bUCBnHlvCwDseYa+rIlCp?=
+ =?iso-8859-1?Q?otH+uLd2sYZbY65Q3aCEd1ZWkI5QnObaPG/aLNXwZIhVdYzf9Cc/9Ewsvw?=
+ =?iso-8859-1?Q?1yqSN9tUH8lCabp0aRVLUee4On2y65OYyvQ8yLA0WdK63wbBqayvx6U/C/?=
+ =?iso-8859-1?Q?GAHQ1dujAaso6Y/zccFvvH13y+KwmTz7jCG3HqoeFOrYq++5dPQ4aURk24?=
+ =?iso-8859-1?Q?3y1fU/aJIONJn0Of5YqE8T6cDuDsU5S3S8hZYa+MVq24fu6XHjFZIgk8XX?=
+ =?iso-8859-1?Q?/piCnceb1IFEcBGSMzHiXqKraVVjRIdzHEfgGdO3GRKF2+B/zPl6mfqbTF?=
+ =?iso-8859-1?Q?tsl7JgFqRc6dcbDk7+T5vP5uYtWqxMHRNXmGXjeSAYRAdny9tdkQFzaCy1?=
+ =?iso-8859-1?Q?3llPsVqVeP1ww5PQ6TrHKk3tlT1GD0q8ukuMNkePZLvMUArK4sipRtgFJO?=
+ =?iso-8859-1?Q?KR1o0KtnkRczHaSKTaX5UDy1r2uabVJMiqF9ZCKONv/8YwIAvHLBT8r/Fv?=
+ =?iso-8859-1?Q?3FxXzLRVSYY6trNiXiQWWNqlIt83ARROKIq/X9geZ4d4SMpgtfGKQCIlUa?=
+ =?iso-8859-1?Q?ONvdMBOR6y6x/YvGYS6IZQ8/K6tJPQd4K1dwo3qYx/6wKfZCllfuexDsgx?=
+ =?iso-8859-1?Q?SHeGKzfSi/bBK2xcZsI1fPJq7MO75q9RZbfhO3fzTo1xzY8fujgjgQTDb9?=
+ =?iso-8859-1?Q?6N9/Z28yIa0KKUCTrVOnWNpgmlFQBiTInij9edenHAMtYoavaJMBF/l78U?=
+ =?iso-8859-1?Q?amrwxhDtPMpqsXD8PpH01rk9J5QHFlaIkyvIyE6uM3UDE13eJVKXNLbk+H?=
+ =?iso-8859-1?Q?nV6kTS/uUGndWdE4ayAYPQi+KVBXApy21IWLxPDkIWrRLNqg9EYjvdIfjS?=
+ =?iso-8859-1?Q?EFLjLR1I9k6u+MHy3BaF5933y3iCAg31Q3S/6CCk+32FhdSj6Yk5sp/z0m?=
+ =?iso-8859-1?Q?BNDia0hWlEF3gdr9dgfQlKSV+g/7YBNZsm7wRhwbWqqlz0EbMmdHPfSV/4?=
+ =?iso-8859-1?Q?wWHE8QRyDpGmbYpsllNdxu+el2bTtwKGx9t+c47DJ0fHyfHZ7VzsAL9TyR?=
+ =?iso-8859-1?Q?4iqNZLxGiOREx7Etyg+ci+296uBXVTewLMkIiapwoX3t6oirsGoDqRf0Ah?=
+ =?iso-8859-1?Q?SU5xnnVb4qVQzqUTq34taQdlvrwYCP0Q1P9aIwrdFMkSeg0WCxMu7mVvtl?=
+ =?iso-8859-1?Q?I84Sz5LVV4Z02T+T3PpUbi9PH7oTqUytwbefpL+DvQW5wurkBXkBy6XU2i?=
+ =?iso-8859-1?Q?s2zVlsYsYucJMebuz4VE+ur+gc+b90pAI/ID25kGboBAXC?=
+Content-Type: multipart/alternative;
+ boundary="_000_CO6PR12MB54733101E19842B59668482B82F59CO6PR12MB5473namp_"
+MIME-Version: 1.0
 X-OriginatorOrg: amd.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 7aa11ee9-1fbb-4496-32ea-08da22ac33c0
-X-MS-Exchange-CrossTenant-AuthSource: BN8PR12MB3587.namprd12.prod.outlook.com
 X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 20 Apr 2022 09:00:22.7893 (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: SWWaSBWc2ktu7ljmHn/lleN+2Sd55wuK4qthtl0nD4QBwLHxGyZUuaaVmWC16UR/
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: BN8PR12MB2867
+X-MS-Exchange-CrossTenant-AuthSource: CO6PR12MB5473.namprd12.prod.outlook.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 481afbd4-a48b-4771-9fdf-08da22ad32a4
+X-MS-Exchange-CrossTenant-originalarrivaltime: 20 Apr 2022 09:07:30.0526 (UTC)
+X-MS-Exchange-CrossTenant-fromentityheader: Hosted
+X-MS-Exchange-CrossTenant-id: 3dd8961f-e488-4e60-8e11-a82d994e183d
+X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
+X-MS-Exchange-CrossTenant-userprincipalname: i8XxVpc2CxUaRKpPRj/qsytFOqjCglI59L1gjsj6A7y+HCcPHa65Mp3JxuidnNIE
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: MW3PR12MB4345
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -133,16 +134,49 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
+--_000_CO6PR12MB54733101E19842B59668482B82F59CO6PR12MB5473namp_
+Content-Type: text/plain; charset="iso-8859-1"
+Content-Transfer-Encoding: quoted-printable
+
+[AMD Official Use Only]
+
+
+________________________________
+From: Koenig, Christian <Christian.Koenig@amd.com>
+Sent: Wednesday, April 20, 2022 5:00 PM
+To: Wang, Yang(Kevin) <KevinYang.Wang@amd.com>; dri-devel@lists.freedesktop=
+.org <dri-devel@lists.freedesktop.org>; amd-gfx@lists.freedesktop.org <amd-=
+gfx@lists.freedesktop.org>
+Subject: Re: [PATCH] drm/ttm: fix ttm tt init fail when size exceeds kmallo=
+c limit
+
 Am 20.04.22 um 10:56 schrieb Yang Wang:
 > if the __GFP_ZERO is set, the kvmalloc() can't fallback to use vmalloc()
 
-Hui what? Why should kvmalloc() not be able to fallback to vmalloc() 
+Hui what? Why should kvmalloc() not be able to fallback to vmalloc()
 when __GFP_ZERO is set?
 
 And even that is really the case then that sounds like a bug in kvmalloc().
 
 Regards,
 Christian.
+
+[kevin]:
+it is really test case from libdrm amdgpu test, which try to allocate a big=
+ BO which will cause ttm tt init fail.
+it may be a kvmalloc() bug, and this patch can as a workaround in ttm befor=
+e this issue fix.
+
+void *kvmalloc_node(size_t size, gfp_t flags, int node)
+{
+...
+        if ((flags & GFP_KERNEL) !=3D GFP_KERNEL)
+                return kmalloc_node(size, flags, node);
+...
+}
+
+Best Regards,
+Kevin
 
 > to allocate memory, when request size is exceeds kmalloc limit, it will
 > cause allocate memory fail.
@@ -158,46 +192,248 @@ Christian.
 > index 79c870a3bef8..9f2f3e576b8d 100644
 > --- a/drivers/gpu/drm/ttm/ttm_tt.c
 > +++ b/drivers/gpu/drm/ttm/ttm_tt.c
-> @@ -97,9 +97,12 @@ int ttm_tt_create(struct ttm_buffer_object *bo, bool zero_alloc)
+> @@ -97,9 +97,12 @@ int ttm_tt_create(struct ttm_buffer_object *bo, bool z=
+ero_alloc)
 >   static int ttm_tt_alloc_page_directory(struct ttm_tt *ttm)
 >   {
->   	ttm->pages = kvmalloc_array(ttm->num_pages, sizeof(void*),
-> -			GFP_KERNEL | __GFP_ZERO);
-> +				    GFP_KERNEL);
->   	if (!ttm->pages)
->   		return -ENOMEM;
+>        ttm->pages =3D kvmalloc_array(ttm->num_pages, sizeof(void*),
+> -                     GFP_KERNEL | __GFP_ZERO);
+> +                                 GFP_KERNEL);
+>        if (!ttm->pages)
+>                return -ENOMEM;
 > +
-> +	memset(ttm->pages, 0, ttm->num_pages * sizeof(void *));
+> +     memset(ttm->pages, 0, ttm->num_pages * sizeof(void *));
 > +
->   	return 0;
+>        return 0;
 >   }
->   
-> @@ -108,10 +111,12 @@ static int ttm_dma_tt_alloc_page_directory(struct ttm_tt *ttm)
->   	ttm->pages = kvmalloc_array(ttm->num_pages,
->   				    sizeof(*ttm->pages) +
->   				    sizeof(*ttm->dma_address),
-> -				    GFP_KERNEL | __GFP_ZERO);
-> +				    GFP_KERNEL);
->   	if (!ttm->pages)
->   		return -ENOMEM;
->   
-> +	memset(ttm->pages, 0, ttm->num_pages * (sizeof(*ttm->pages) + sizeof(*ttm->dma_address)));
+>
+> @@ -108,10 +111,12 @@ static int ttm_dma_tt_alloc_page_directory(struct t=
+tm_tt *ttm)
+>        ttm->pages =3D kvmalloc_array(ttm->num_pages,
+>                                    sizeof(*ttm->pages) +
+>                                    sizeof(*ttm->dma_address),
+> -                                 GFP_KERNEL | __GFP_ZERO);
+> +                                 GFP_KERNEL);
+>        if (!ttm->pages)
+>                return -ENOMEM;
+>
+> +     memset(ttm->pages, 0, ttm->num_pages * (sizeof(*ttm->pages) + sizeo=
+f(*ttm->dma_address)));
 > +
->   	ttm->dma_address = (void *)(ttm->pages + ttm->num_pages);
->   	return 0;
+>        ttm->dma_address =3D (void *)(ttm->pages + ttm->num_pages);
+>        return 0;
 >   }
-> @@ -120,9 +125,12 @@ static int ttm_sg_tt_alloc_page_directory(struct ttm_tt *ttm)
+> @@ -120,9 +125,12 @@ static int ttm_sg_tt_alloc_page_directory(struct ttm=
+_tt *ttm)
 >   {
->   	ttm->dma_address = kvmalloc_array(ttm->num_pages,
->   					  sizeof(*ttm->dma_address),
-> -					  GFP_KERNEL | __GFP_ZERO);
-> +					  GFP_KERNEL);
->   	if (!ttm->dma_address)
->   		return -ENOMEM;
+>        ttm->dma_address =3D kvmalloc_array(ttm->num_pages,
+>                                          sizeof(*ttm->dma_address),
+> -                                       GFP_KERNEL | __GFP_ZERO);
+> +                                       GFP_KERNEL);
+>        if (!ttm->dma_address)
+>                return -ENOMEM;
 > +
-> +	memset(ttm->dma_address, 0, ttm->num_pages * sizeof(*ttm->dma_address));
+> +     memset(ttm->dma_address, 0, ttm->num_pages * sizeof(*ttm->dma_addre=
+ss));
 > +
->   	return 0;
+>        return 0;
 >   }
->   
+>
 
+
+--_000_CO6PR12MB54733101E19842B59668482B82F59CO6PR12MB5473namp_
+Content-Type: text/html; charset="iso-8859-1"
+Content-Transfer-Encoding: quoted-printable
+
+<html>
+<head>
+<meta http-equiv=3D"Content-Type" content=3D"text/html; charset=3Diso-8859-=
+1">
+<style type=3D"text/css" style=3D"display:none;"> P {margin-top:0;margin-bo=
+ttom:0;} </style>
+</head>
+<body dir=3D"ltr">
+<p style=3D"font-family:Arial;font-size:10pt;color:#0000FF;margin:5pt;" ali=
+gn=3D"Left">
+[AMD Official Use Only]<br>
+</p>
+<br>
+<div>
+<div style=3D"font-family: Calibri, Arial, Helvetica, sans-serif; font-size=
+: 12pt; color: rgb(0, 0, 0);">
+<br>
+</div>
+<hr tabindex=3D"-1" style=3D"display:inline-block; width:98%">
+<div id=3D"divRplyFwdMsg" dir=3D"ltr"><font face=3D"Calibri, sans-serif" co=
+lor=3D"#000000" style=3D"font-size:11pt"><b>From:</b> Koenig, Christian &lt=
+;Christian.Koenig@amd.com&gt;<br>
+<b>Sent:</b> Wednesday, April 20, 2022 5:00 PM<br>
+<b>To:</b> Wang, Yang(Kevin) &lt;KevinYang.Wang@amd.com&gt;; dri-devel@list=
+s.freedesktop.org &lt;dri-devel@lists.freedesktop.org&gt;; amd-gfx@lists.fr=
+eedesktop.org &lt;amd-gfx@lists.freedesktop.org&gt;<br>
+<b>Subject:</b> Re: [PATCH] drm/ttm: fix ttm tt init fail when size exceeds=
+ kmalloc limit</font>
+<div>&nbsp;</div>
+</div>
+<div class=3D"BodyFragment"><font size=3D"2"><span style=3D"font-size:11pt"=
+>
+<div class=3D"PlainText elementToProof">Am 20.04.22 um 10:56 schrieb Yang W=
+ang:<br>
+&gt; if the __GFP_ZERO is set, the kvmalloc() can't fallback to use vmalloc=
+()<br>
+<br>
+Hui what? Why should kvmalloc() not be able to fallback to vmalloc() <br>
+when __GFP_ZERO is set?<br>
+<br>
+And even that is really the case then that sounds like a bug in kvmalloc().=
+</div>
+<div class=3D"PlainText elementToProof"><br>
+Regards,<br>
+Christian.</div>
+<div class=3D"PlainText elementToProof"><br>
+<div class=3D"PlainText" style=3D"margin:0px;background-color:rgb(255, 255,=
+ 255)">[kevin]:</div>
+</div>
+<div class=3D"PlainText elementToProof"><span class=3D"PlainText" style=3D"=
+margin:0px;background-color:rgb(255, 255, 255)">it is really test case from=
+ libdrm amdgpu test, which try to allocate a big BO which will cause ttm tt=
+ init fail.</span><br>
+</div>
+<div class=3D"PlainText elementToProof"><span class=3D"PlainText" style=3D"=
+margin:0px;background-color:rgb(255, 255, 255)">it may be a kvmalloc() bug,=
+ and this patch can as a workaround in<span style=3D"background-color:rgb(2=
+55, 255, 255);display:inline !important">&nbsp;ttm</span>&nbsp;before
+ this issue fix.</span></div>
+<div class=3D"PlainText elementToProof"><span class=3D"PlainText" style=3D"=
+margin:0px;background-color:rgb(255, 255, 255)"><br>
+</span></div>
+<div class=3D"PlainText elementToProof"><span class=3D"PlainText" style=3D"=
+margin:0px;background-color:rgb(255, 255, 255)">void *kvmalloc_node(size_t =
+size, gfp_t flags, int node)&nbsp;<br>
+</span></div>
+<div class=3D"PlainText elementToProof"><span class=3D"PlainText" style=3D"=
+margin:0px;background-color:rgb(255, 255, 255)">{</span></div>
+<div class=3D"PlainText elementToProof"><span class=3D"PlainText" style=3D"=
+margin:0px;background-color:rgb(255, 255, 255)">...</span></div>
+<div class=3D"PlainText elementToProof"><span class=3D"PlainText" style=3D"=
+margin:0px;background-color:rgb(255, 255, 255)">&nbsp; &nbsp; &nbsp; &nbsp;=
+ if ((flags &amp; GFP_KERNEL) !=3D GFP_KERNEL)<br>
+</span></div>
+<div class=3D"PlainText elementToProof"><span class=3D"PlainText" style=3D"=
+margin:0px;background-color:rgb(255, 255, 255)">&nbsp; &nbsp; &nbsp; &nbsp;=
+ &nbsp; &nbsp; &nbsp; &nbsp; return kmalloc_node(size, flags, node);<br>
+</span></div>
+<div class=3D"PlainText elementToProof"><span class=3D"PlainText" style=3D"=
+margin:0px;background-color:rgb(255, 255, 255)">...</span></div>
+<div class=3D"PlainText elementToProof"><span class=3D"PlainText" style=3D"=
+margin:0px;background-color:rgb(255, 255, 255)">}</span></div>
+<div class=3D"PlainText elementToProof"><br>
+</div>
+<div class=3D"PlainText elementToProof">Best Regards,</div>
+<div class=3D"PlainText elementToProof">Kevin<br>
+<br>
+&gt; to allocate memory, when request size is exceeds kmalloc limit, it wil=
+l<br>
+&gt; cause allocate memory fail.<br>
+&gt;<br>
+&gt; e.g: when ttm want to create a BO with 1TB size, it maybe fail.<br>
+&gt;<br>
+&gt; Signed-off-by: Yang Wang &lt;KevinYang.Wang@amd.com&gt;<br>
+&gt; ---<br>
+&gt;&nbsp;&nbsp; drivers/gpu/drm/ttm/ttm_tt.c | 14 +++++++++++---<br>
+&gt;&nbsp;&nbsp; 1 file changed, 11 insertions(+), 3 deletions(-)<br>
+&gt;<br>
+&gt; diff --git a/drivers/gpu/drm/ttm/ttm_tt.c b/drivers/gpu/drm/ttm/ttm_tt=
+.c<br>
+&gt; index 79c870a3bef8..9f2f3e576b8d 100644<br>
+&gt; --- a/drivers/gpu/drm/ttm/ttm_tt.c<br>
+&gt; +++ b/drivers/gpu/drm/ttm/ttm_tt.c<br>
+&gt; @@ -97,9 +97,12 @@ int ttm_tt_create(struct ttm_buffer_object *bo, boo=
+l zero_alloc)<br>
+&gt;&nbsp;&nbsp; static int ttm_tt_alloc_page_directory(struct ttm_tt *ttm)=
+<br>
+&gt;&nbsp;&nbsp; {<br>
+&gt;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; ttm-&gt;pages =3D kvmalloc_a=
+rray(ttm-&gt;num_pages, sizeof(void*),<br>
+&gt; -&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nb=
+sp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; GFP_KERNEL | __GFP_ZERO=
+);<br>
+&gt; +&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nb=
+sp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;=
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; GFP_KERNEL);<br>
+&gt;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; if (!ttm-&gt;pages)<br>
+&gt;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp=
+;&nbsp;&nbsp;&nbsp; return -ENOMEM;<br>
+&gt; +<br>
+&gt; +&nbsp;&nbsp;&nbsp;&nbsp; memset(ttm-&gt;pages, 0, ttm-&gt;num_pages *=
+ sizeof(void *));<br>
+&gt; +<br>
+&gt;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; return 0;<br>
+&gt;&nbsp;&nbsp; }<br>
+&gt;&nbsp;&nbsp; <br>
+&gt; @@ -108,10 +111,12 @@ static int ttm_dma_tt_alloc_page_directory(struc=
+t ttm_tt *ttm)<br>
+&gt;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; ttm-&gt;pages =3D kvmalloc_a=
+rray(ttm-&gt;num_pages,<br>
+&gt;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp=
+;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&n=
+bsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; sizeof(*tt=
+m-&gt;pages) +<br>
+&gt;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp=
+;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&n=
+bsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; sizeof(*tt=
+m-&gt;dma_address),<br>
+&gt; -&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nb=
+sp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;=
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; GFP_KERNEL | __GFP_ZERO);<=
+br>
+&gt; +&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nb=
+sp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;=
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; GFP_KERNEL);<br>
+&gt;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; if (!ttm-&gt;pages)<br>
+&gt;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp=
+;&nbsp;&nbsp;&nbsp; return -ENOMEM;<br>
+&gt;&nbsp;&nbsp; <br>
+&gt; +&nbsp;&nbsp;&nbsp;&nbsp; memset(ttm-&gt;pages, 0, ttm-&gt;num_pages *=
+ (sizeof(*ttm-&gt;pages) + sizeof(*ttm-&gt;dma_address)));<br>
+&gt; +<br>
+&gt;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; ttm-&gt;dma_address =3D (voi=
+d *)(ttm-&gt;pages + ttm-&gt;num_pages);<br>
+&gt;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; return 0;<br>
+&gt;&nbsp;&nbsp; }<br>
+&gt; @@ -120,9 +125,12 @@ static int ttm_sg_tt_alloc_page_directory(struct =
+ttm_tt *ttm)<br>
+&gt;&nbsp;&nbsp; {<br>
+&gt;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; ttm-&gt;dma_address =3D kvma=
+lloc_array(ttm-&gt;num_pages,<br>
+&gt;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp=
+;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&n=
+bsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp=
+;&nbsp;&nbsp;&nbsp;&nbsp; sizeof(*ttm-&gt;dma_address),<br>
+&gt; -&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nb=
+sp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;=
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nb=
+sp;&nbsp; GFP_KERNEL | __GFP_ZERO);<br>
+&gt; +&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nb=
+sp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;=
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nb=
+sp;&nbsp; GFP_KERNEL);<br>
+&gt;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; if (!ttm-&gt;dma_address)<br=
+>
+&gt;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp=
+;&nbsp;&nbsp;&nbsp; return -ENOMEM;<br>
+&gt; +<br>
+&gt; +&nbsp;&nbsp;&nbsp;&nbsp; memset(ttm-&gt;dma_address, 0, ttm-&gt;num_p=
+ages * sizeof(*ttm-&gt;dma_address));<br>
+&gt; +<br>
+&gt;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; return 0;<br>
+&gt;&nbsp;&nbsp; }<br>
+&gt;&nbsp;&nbsp; <br>
+<br>
+</div>
+</span></font></div>
+</div>
+</body>
+</html>
+
+--_000_CO6PR12MB54733101E19842B59668482B82F59CO6PR12MB5473namp_--
