@@ -2,51 +2,57 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5A95E50854C
-	for <lists+dri-devel@lfdr.de>; Wed, 20 Apr 2022 11:58:25 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 3E0985085A4
+	for <lists+dri-devel@lfdr.de>; Wed, 20 Apr 2022 12:17:59 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 9F3B010E76F;
-	Wed, 20 Apr 2022 09:58:22 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id EC54710F0C8;
+	Wed, 20 Apr 2022 10:17:55 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mga06.intel.com (mga06b.intel.com [134.134.136.31])
- by gabe.freedesktop.org (Postfix) with ESMTPS id CDC3189294
- for <dri-devel@lists.freedesktop.org>; Wed, 20 Apr 2022 09:58:20 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1650448700; x=1681984700;
- h=date:from:to:cc:subject:message-id:references:
- mime-version:in-reply-to;
- bh=trrHFL7bIpVdCRcSGzbp0komwu6+rthAc9Zo3KrMj/o=;
- b=gPESC9sYS3wxXfnN8l1ZBVG8l87LX1ZAEK4H2e0jC8DmtgDyJ/uGE27q
- M0v5/6hxVE+Jas+s7Ymmv4Ub5Edc3s19hhRgom2b4tsIkoCEN+7SjkfHn
- DmIAI3/5Nigl4bjmOMBMNoDAB/SvML3cahGogMvikSOyWYr/odtECiIK1
- 5dZ2iXCYHGM5/SuuKfXBL5wmY2vS/U9mELmC8Yp3H+jcoRNGTtGphl2gG
- iD20ia/2wSywSNebzHSIYGWyFz9eLGwl/7Kl31jUSkbhIFXPz9ynA+Mpn
- Dly0fsxE5PXxcNcWzNvAvcNItzjX0Ir4UZziOheaOrXRc9NScrYAycm9Q w==;
-X-IronPort-AV: E=McAfee;i="6400,9594,10322"; a="324430710"
-X-IronPort-AV: E=Sophos;i="5.90,275,1643702400"; d="scan'208";a="324430710"
-Received: from fmsmga007.fm.intel.com ([10.253.24.52])
- by orsmga104.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 20 Apr 2022 02:58:20 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.90,275,1643702400"; d="scan'208";a="562049243"
-Received: from lkp-server01.sh.intel.com (HELO 3abc53900bec) ([10.239.97.150])
- by fmsmga007.fm.intel.com with ESMTP; 20 Apr 2022 02:58:17 -0700
-Received: from kbuild by 3abc53900bec with local (Exim 4.95)
- (envelope-from <lkp@intel.com>) id 1nh76G-0006qx-IU;
- Wed, 20 Apr 2022 09:58:16 +0000
-Date: Wed, 20 Apr 2022 17:57:43 +0800
-From: kernel test robot <lkp@intel.com>
-To: Cai Huoqing <cai.huoqing@linux.dev>
-Subject: Re: [PATCH 2/2] drm/nvdla: Add driver support for NVDLA
-Message-ID: <202204201710.5Gcg1PUu-lkp@intel.com>
-References: <20220419135908.39606-3-cai.huoqing@linux.dev>
+Received: from mail-ed1-x52f.google.com (mail-ed1-x52f.google.com
+ [IPv6:2a00:1450:4864:20::52f])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id D718210F0AA
+ for <dri-devel@lists.freedesktop.org>; Wed, 20 Apr 2022 10:17:54 +0000 (UTC)
+Received: by mail-ed1-x52f.google.com with SMTP id v15so1605924edb.12
+ for <dri-devel@lists.freedesktop.org>; Wed, 20 Apr 2022 03:17:54 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=amarulasolutions.com; s=google;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc; bh=ShvS3HJ5rjHZpPifq/WYscuh7jL9nqoQ8QbWdsKiPVk=;
+ b=b1EMw3PxJyV/nSPSDjbi573dYh5IAVHM9cjb1RIyWJbkw+RhZ5sGMgNObsxCtJT8IQ
+ L6Okl6qm88+rNX+n9T0/Onl0oJeMN3ntlJnMsrUykPlUXRH5ZrHhKkT3PxrvY+FQ0G6g
+ Oy/u8XyJbiufgiEVj+O9pmpGPcDmnj/+mWzV0=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=ShvS3HJ5rjHZpPifq/WYscuh7jL9nqoQ8QbWdsKiPVk=;
+ b=wot5Hhu+A6Oda95mLCKcXhw8hxzKbUfHz5sQHZ3iXGUHsyRcd/f/Gaeq4xx9FK57Cn
+ aw16qtb1/i5c6/d5RrI7++ByeloD5A5Uu98ori7BQRXIwLwNwyUCyXfud12X15cxGiM6
+ tqxRDZqR75COKhIDfw7yFkVSueeHGg/WdG1d+OrFDCjIQP4J8Y0z9QA+e1d2T++yuew8
+ lLuZbj/2sHfT4R5RZbZeGsA8E7CT5ar+3v1D1Dkh4x/Uyxwj+kHwr+mDToXLdLxj+BTC
+ oC1e2JsIGzkOZCQMeiXjFiZIcfjzSSUEQov95oSLRKYnZOp0//QM3g8TLxA5Q96KO8HG
+ +DaA==
+X-Gm-Message-State: AOAM531qM6IHc6eTUQB6lT1jdBNut7VMRt7gUwTzGQc/qydMG0cjroi+
+ Kt5iMVxElRnuPaxupob/jbt4g9Ql0tUikwRFnZuljTPEl/tsNw==
+X-Google-Smtp-Source: ABdhPJy22zKXfekTigtWQIge1k2C9W87M9jXkm0NSS4CCCVQjoCJKD+V2sbDYGpkBk/EJ/yASVnkv4Qb5fuzwjcx7lk=
+X-Received: by 2002:a05:6402:438c:b0:423:f57a:596f with SMTP id
+ o12-20020a056402438c00b00423f57a596fmr11017747edc.367.1650449873294; Wed, 20
+ Apr 2022 03:17:53 -0700 (PDT)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20220419135908.39606-3-cai.huoqing@linux.dev>
-User-Agent: Mutt/1.10.1 (2018-07-13)
+References: <CGME20220419091438eucas1p2a7d13d5d81a3ef59fdf762718b674d0c@eucas1p2.samsung.com>
+ <20220419091422.4255-1-m.szyprowski@samsung.com>
+ <CAMty3ZB31chzCfFkogx7otqH8rOZ0wEGDBuxLcG-PKQ-HBHy4w@mail.gmail.com>
+ <CAG3jFyuwH2Hj7EtzuXZ1GmCcSoaVpaN1Rr7A+W+m2a2qr0o-NA@mail.gmail.com>
+ <Yl7zcdYfkQlv/bsj@pendragon.ideasonboard.com>
+In-Reply-To: <Yl7zcdYfkQlv/bsj@pendragon.ideasonboard.com>
+From: Jagan Teki <jagan@amarulasolutions.com>
+Date: Wed, 20 Apr 2022 15:47:42 +0530
+Message-ID: <CAMty3ZBuWJGtrEKA8KNdxebeJ94NcAs872avdQWKWb8E+JgEKg@mail.gmail.com>
+Subject: Re: [PATCH] drm: bridge: panel: Register connector if DRM device is
+ already registered
+To: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+Content-Type: text/plain; charset="UTF-8"
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -59,48 +65,75 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: kbuild-all@lists.01.org, Thomas Zimmermann <tzimmermann@suse.de>,
- David Airlie <airlied@linux.ie>, linux-kernel@vger.kernel.org,
- Christian =?iso-8859-1?Q?K=F6nig?= <christian.koenig@amd.com>,
- linaro-mm-sig@lists.linaro.org, dri-devel@lists.freedesktop.org,
- Sumit Semwal <sumit.semwal@linaro.org>, linux-media@vger.kernel.org
+Cc: Jernej Skrabec <jernej.skrabec@gmail.com>, Jonas Karlman <jonas@kwiboo.se>,
+ David Airlie <airlied@linux.ie>, Neil Armstrong <narmstrong@baylibre.com>,
+ dri-devel@lists.freedesktop.org, Robert Foss <robert.foss@linaro.org>,
+ Andrzej Hajda <andrzej.hajda@intel.com>,
+ Marek Szyprowski <m.szyprowski@samsung.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi Cai,
+On Tue, Apr 19, 2022 at 11:08 PM Laurent Pinchart
+<laurent.pinchart@ideasonboard.com> wrote:
+>
+> On Tue, Apr 19, 2022 at 06:16:07PM +0200, Robert Foss wrote:
+> > On Tue, 19 Apr 2022 at 11:41, Jagan Teki <jagan@amarulasolutions.com> wrote:
+> > >
+> > > On Tue, Apr 19, 2022 at 2:44 PM Marek Szyprowski
+> > > <m.szyprowski@samsung.com> wrote:
+> > > >
+> > > > If panel_bridge_attach() happens after DRM device registration, the
+> > > > created connector will not be registered by the DRM core anymore. Fix
+> > > > this by registering it explicitely in such case.
+> > > >
+> > > > This fixes the following issue observed on Samsung Exynos4210-based Trats
+> > > > board with a DSI panel (the panel driver is registed after the Exynos DRM
+> > > > component device is bound):
+> > > >
+> > > > $ ./modetest -c -Mexynos
+> > > > could not get connector 56: No such file or directory
+> > > > Segmentation fault
+> > > >
+> > > > While touching this, move the connector reset() call also under the DRM
+> > > > device registered check, because otherwise it is not really needed.
+> > > >
+> > > > Fixes: 934aef885f9d ("drm: bridge: panel: Reset the connector state pointer")
+> > > > Signed-off-by: Marek Szyprowski <m.szyprowski@samsung.com>
+> > > > ---
+> > > > Here is a bit more backgroud on this issue is available in this thread:
+> > > > https://lore.kernel.org/all/f0474a95-4ba3-a74f-d7de-ef7aab12bc86@samsung.com/
+> > > > ---
+> > > >  drivers/gpu/drm/bridge/panel.c | 7 +++++--
+> > > >  1 file changed, 5 insertions(+), 2 deletions(-)
+> > > >
+> > > > diff --git a/drivers/gpu/drm/bridge/panel.c b/drivers/gpu/drm/bridge/panel.c
+> > > > index ff1c37b2e6e5..0ee563eb2b6f 100644
+> > > > --- a/drivers/gpu/drm/bridge/panel.c
+> > > > +++ b/drivers/gpu/drm/bridge/panel.c
+> > > > @@ -83,8 +83,11 @@ static int panel_bridge_attach(struct drm_bridge *bridge,
+> > > >         drm_connector_attach_encoder(&panel_bridge->connector,
+> > > >                                           bridge->encoder);
+> > > >
+> > > > -       if (connector->funcs->reset)
+> > > > -               connector->funcs->reset(connector);
+> > > > +       if (bridge->dev->registered) {
+> > > > +               if (connector->funcs->reset)
+> > > > +                       connector->funcs->reset(connector);
+> > > > +               drm_connector_register(connector);
+> > > > +       }
+> > >
+> > > Reviewed-by: Jagan Teki <jagan@amarulasolutions.com>
+> >
+> > Fixed typos in commit message.
+> >
+> > Reviewed-by: Robert Foss <robert.foss@linaro.org>
+> >
+> > Applied to drm-misc-next
+>
+> Doesn't this open the door to various race conditions ?
+>
+> Also, what happens if the panel bridge is detached and reattached ? If I
 
-I love your patch! Yet something to improve:
+I believe the dev->registered is the check for those already registered.
 
-[auto build test ERROR on drm/drm-next]
-[also build test ERROR on drm-intel/for-linux-next drm-tip/drm-tip linus/master v5.18-rc3 next-20220419]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch]
-
-url:    https://github.com/intel-lab-lkp/linux/commits/Cai-Huoqing/drm-nvdla-Add-driver-support-for-NVDLA/20220419-220255
-base:   git://anongit.freedesktop.org/drm/drm drm-next
-config: m68k-allmodconfig (https://download.01.org/0day-ci/archive/20220420/202204201710.5Gcg1PUu-lkp@intel.com/config)
-compiler: m68k-linux-gcc (GCC) 11.2.0
-reproduce (this is a W=1 build):
-        wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbin/make.cross -O ~/bin/make.cross
-        chmod +x ~/bin/make.cross
-        # https://github.com/intel-lab-lkp/linux/commit/7539e5487eb7d0c6f13c03bba596e51a2238106d
-        git remote add linux-review https://github.com/intel-lab-lkp/linux
-        git fetch --no-tags linux-review Cai-Huoqing/drm-nvdla-Add-driver-support-for-NVDLA/20220419-220255
-        git checkout 7539e5487eb7d0c6f13c03bba596e51a2238106d
-        # save the config file
-        mkdir build_dir && cp config build_dir/.config
-        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-11.2.0 make.cross W=1 O=build_dir ARCH=m68k SHELL=/bin/bash drivers/gpu/
-
-If you fix the issue, kindly add following tag as appropriate
-Reported-by: kernel test robot <lkp@intel.com>
-
-All errors (new ones prefixed by >>):
-
->> make[5]: *** No rule to make target 'drivers/gpu/drm/nvdla/nvdla_engine_data.o', needed by 'drivers/gpu/drm/nvdla/nvdla-drm.o'.
->> make[5]: *** No rule to make target 'drivers/gpu/drm/nvdla/nvdla_engine_debug.o', needed by 'drivers/gpu/drm/nvdla/nvdla-drm.o'.
-   make[5]: Target '__build' not remade because of errors.
-
--- 
-0-DAY CI Kernel Test Service
-https://01.org/lkp
+Jagan.
