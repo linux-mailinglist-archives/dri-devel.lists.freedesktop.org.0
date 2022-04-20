@@ -1,58 +1,58 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id E4F5A508746
-	for <lists+dri-devel@lfdr.de>; Wed, 20 Apr 2022 13:45:43 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 356EF508749
+	for <lists+dri-devel@lfdr.de>; Wed, 20 Apr 2022 13:45:48 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 9DDBC10E3EC;
-	Wed, 20 Apr 2022 11:45:41 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 3D6C710E5E3;
+	Wed, 20 Apr 2022 11:45:46 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-wm1-x334.google.com (mail-wm1-x334.google.com
- [IPv6:2a00:1450:4864:20::334])
- by gabe.freedesktop.org (Postfix) with ESMTPS id F00AF10E5E3
- for <dri-devel@lists.freedesktop.org>; Wed, 20 Apr 2022 11:45:40 +0000 (UTC)
-Received: by mail-wm1-x334.google.com with SMTP id r19so1032316wmq.0
- for <dri-devel@lists.freedesktop.org>; Wed, 20 Apr 2022 04:45:40 -0700 (PDT)
+Received: from mail-wm1-x330.google.com (mail-wm1-x330.google.com
+ [IPv6:2a00:1450:4864:20::330])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id E36B910E5E3
+ for <dri-devel@lists.freedesktop.org>; Wed, 20 Apr 2022 11:45:44 +0000 (UTC)
+Received: by mail-wm1-x330.google.com with SMTP id
+ ay11-20020a05600c1e0b00b0038eb92fa965so3480871wmb.4
+ for <dri-devel@lists.freedesktop.org>; Wed, 20 Apr 2022 04:45:44 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=vxAaLTkBoUBaCL/O3581iu7gQKfuo3i9c87P/ALffLw=;
- b=glNX7oyFIiDjUhuM/RiuAr+tK3D1huhhvWxzoQlzfMk8Gksi5NXqlb2Y3BJdneoA6J
- UsCP2Sfbwc5F++EVTRcrOae335Zwn+ngDNnD0cGmaan2pOGxdcv9QitSYBBkWVsovkGm
- 0jxZGGPGbk5sxYXjX8fqVegGG2sXm/pJuDZmkAB3BBSRDB3MwBFpnim4fwcIH8OsHlB+
- Ipuhq1cRD4TJKuuJYCu2j7k/C9VDTGQv2ozoUdurNkmSINkMjrNb7sxaGP6egzkZl+j7
- uv/Ntefi1ZY6rOEFU7netp0P+Ta/cF9NHNx66RJEDoKMAcg79VFlIhuZ6OKW903nHptM
- xuBQ==
+ bh=lFCKgPdJ/CCqTu3x/1Yy2jf+PG8b00IGqwXiUi0yBIA=;
+ b=GXNF/fFbx9d6DuyiAMIllf2dfw0igvuN4n6cSYK5HEVSZ9Fu49GJl9W68c5f3BLVqI
+ 0IfqhTFSjoK+Rw3wvl6N/Ca+dotjOcYSkaRiIJZkU3fv9C9u6fm7JzHTv5P2h8Xhn1lB
+ bNabk8Mnoy3OhlN7bZdPxhz5p3HGJ9GTVh0zoghFFu9z9pb/P02Diuow4ilWP4eZmFiB
+ g3tsZWBBO5vBUEzPPq1yKSp85A8a4LMPFjNRDBLNziyjXhtqqDWqq1/u3Szjnk9Zeka4
+ AL0mz460HRrdMlxPDSd+VeeSdfiBbynFLVCezYe1RVLccYnmmY3VCZIFsrxzvNuBUqq6
+ BpOg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=vxAaLTkBoUBaCL/O3581iu7gQKfuo3i9c87P/ALffLw=;
- b=mZT5sK6oK9aQWh3Ov27uEFonmy3x7HGp//CLkV+yru6LigXMrpn4HugJsr8OFdgPT3
- RNZtL9jVeqvYsifkZDslvh6PO1qigm1SIt0T1VHj4YklaZsG3H3ztrncF3g8dJlNSPbN
- XQsv0E8jrx5EjQ3z2d+HcGIOoAe9M5HskwxJrnOch1VHDTIbEuNcUH0zsdSoAyyyfIZH
- I7P1o9Y7ifQfp1TeKeeHZLrYqzHL0AmMG6pZs7UMgNLf75HcPyqmMgv22NEaz0nSpUXv
- D+kXP53M8Z6tpclGH4tqzKgzdQTf+72x12RACPC0sLFT+I2Drw4zAEBGzlmmr2DaOx+T
- Zmcg==
-X-Gm-Message-State: AOAM531vUlSIbV6Ib6Iol8+OIhc/A9gHT9W+QsqcpiKUwcl1nUGMje5p
- /phb5NzVQ23FLebA1AXoujY=
-X-Google-Smtp-Source: ABdhPJxyCesVNQOMZOE2I3so6+MUSyrfDzSvRYyfLFcfGCB8v9AzI2UMpkSbtsil4zNu5fGHiuiIJw==
-X-Received: by 2002:a05:600c:1f11:b0:392:aaf8:df7c with SMTP id
- bd17-20020a05600c1f1100b00392aaf8df7cmr3128422wmb.148.1650455139381; 
- Wed, 20 Apr 2022 04:45:39 -0700 (PDT)
+ bh=lFCKgPdJ/CCqTu3x/1Yy2jf+PG8b00IGqwXiUi0yBIA=;
+ b=ah8bVWgxIG4+J4iMklc7VZydSEkbiEEHPw96WkbkITQnjc8b74kNkIkbpg5nFPQ1S0
+ 5rYb+3yMXlc7lzYvfQ1mZ8e8n+75RJPlE+pKioxreuFoDc4MV4STr/T7zG4Ltrm36Oa8
+ wFYzPn6WXg5zlDVZGnAzD+WJLs73dee+Q5AI0biUNIr3U4yz2fN9AcfNCDKVMXfXc/9h
+ pWg5ubh7vpUWi6dQUx6Rz0C66yHsFWISxU0QGPA4j4eQz9q9vmBWXKwnXkFY7uJY00jD
+ dmPXMYZXOaBd27tLtb59iilxNNfFoE9XrB1zPH9br2112Y9TAJY7KVLsuRXibP3GzuIb
+ peYQ==
+X-Gm-Message-State: AOAM5301S0yuKqklVRLxXemODlj8J5UJBDym5ear8v08RfIMV7r0OtTm
+ LgRY/zSFQLypiDT9jSpOHkc=
+X-Google-Smtp-Source: ABdhPJxp2lXZMiX4io4AGVzFr7xka+KP2mq55THxYO6xGRXowX9g0V8G+19xuvrq8yDlfolUQx2n1A==
+X-Received: by 2002:a1c:6a02:0:b0:38b:3661:47f1 with SMTP id
+ f2-20020a1c6a02000000b0038b366147f1mr3211899wmc.5.1650455143489; 
+ Wed, 20 Apr 2022 04:45:43 -0700 (PDT)
 Received: from localhost.localdomain ([94.73.37.128])
  by smtp.gmail.com with ESMTPSA id
- i74-20020adf90d0000000b0020373ba7beesm17798204wri.0.2022.04.20.04.45.35
+ i74-20020adf90d0000000b0020373ba7beesm17798204wri.0.2022.04.20.04.45.41
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 20 Apr 2022 04:45:39 -0700 (PDT)
+ Wed, 20 Apr 2022 04:45:43 -0700 (PDT)
 From: =?UTF-8?q?Jos=C3=A9=20Exp=C3=B3sito?= <jose.exposito89@gmail.com>
 To: emma@anholt.net
-Subject: [PATCH v3 1/2] drm/vc4: hdmi: Replace drm_detect_hdmi_monitor() with
- is_hdmi
-Date: Wed, 20 Apr 2022 13:44:59 +0200
-Message-Id: <20220420114500.187664-2-jose.exposito89@gmail.com>
+Subject: [PATCH v3 2/2] drm/vc4: hdmi: Remove vc4_hdmi_encoder
+Date: Wed, 20 Apr 2022 13:45:00 +0200
+Message-Id: <20220420114500.187664-3-jose.exposito89@gmail.com>
 X-Mailer: git-send-email 2.25.1
 In-Reply-To: <20220420114500.187664-1-jose.exposito89@gmail.com>
 References: <20220420114500.187664-1-jose.exposito89@gmail.com>
@@ -77,162 +77,132 @@ Cc: airlied@linux.ie, linux-kernel@vger.kernel.org,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Once EDID is parsed, the monitor HDMI support information is cached in
-drm_display_info.is_hdmi by drm_parse_hdmi_vsdb_video().
+The vc4_hdmi_encoder struct was used exclusively to cache the value
+returned by drm_detect_hdmi_monitor() in order to avoid calling it
+multiple times.
 
-This driver calls drm_detect_hdmi_monitor() to receive the same
-information and stores its own cached value in
-vc4_hdmi_encoder.hdmi_monitor, which is less efficient.
+Now that drm_detect_hdmi_monitor() has been replaced with
+drm_display_info.is_hdmi, there is no need to have an extra struct.
 
-Avoid calling drm_detect_hdmi_monitor() and use drm_display_info.is_hdmi
-instead. This also allows to remove vc4_hdmi_encoder.hdmi_monitor.
-
-drm_detect_hdmi_monitor() is called in vc4_hdmi_connector_detect() and
-vc4_hdmi_connector_get_modes(). In both cases it is safe to rely on
-drm_display_info.is_hdmi as shown by ftrace:
-
-$ sudo trace-cmd record -p function_graph -l "vc4_hdmi_*" -l "drm_*"
-
-vc4_hdmi_connector_detect:
-
-    vc4_hdmi_connector_detect() {
-      drm_get_edid() {
-        drm_connector_update_edid_property() {
-          drm_add_display_info() {
-            drm_reset_display_info();
-            drm_for_each_detailed_block.part.0();
-            drm_parse_cea_ext() {
-              drm_find_cea_extension();
-              drm_parse_hdmi_vsdb_video();
-              /* drm_display_info.is_hdmi is cached here */
-            }
-          }
-        }
-      }
-      /* drm_display_info.is_hdmi is used here */
-    }
-
-vc4_hdmi_connector_get_modes:
-
-    vc4_hdmi_connector_get_modes() {
-      drm_get_edid() {
-        drm_connector_update_edid_property() {
-          drm_add_display_info() {
-            drm_reset_display_info();
-            drm_for_each_detailed_block.part.0();
-            drm_parse_cea_ext() {
-              drm_find_cea_extension();
-              drm_parse_hdmi_vsdb_video();
-              /* drm_display_info.is_hdmi is cached here */
-            }
-          }
-        }
-      }
-      /* drm_display_info.is_hdmi is used here */
-      drm_connector_update_edid_property();
-    }
+Remove vc4_hdmi_encoder.
 
 Signed-off-by: José Expósito <jose.exposito89@gmail.com>
 ---
- drivers/gpu/drm/vc4/vc4_hdmi.c | 17 ++++++-----------
- drivers/gpu/drm/vc4/vc4_hdmi.h |  1 -
- 2 files changed, 6 insertions(+), 12 deletions(-)
+ drivers/gpu/drm/vc4/vc4_hdmi.c | 24 ++++++++++++------------
+ drivers/gpu/drm/vc4/vc4_hdmi.h | 16 ++--------------
+ 2 files changed, 14 insertions(+), 26 deletions(-)
 
 diff --git a/drivers/gpu/drm/vc4/vc4_hdmi.c b/drivers/gpu/drm/vc4/vc4_hdmi.c
-index 6c58b0fd13fb..9c73a211ae80 100644
+index 9c73a211ae80..f8d662fde5e0 100644
 --- a/drivers/gpu/drm/vc4/vc4_hdmi.c
 +++ b/drivers/gpu/drm/vc4/vc4_hdmi.c
-@@ -107,9 +107,9 @@ static bool vc4_hdmi_mode_needs_scrambling(const struct drm_display_mode *mode)
- static bool vc4_hdmi_is_full_range_rgb(struct vc4_hdmi *vc4_hdmi,
- 				       const struct drm_display_mode *mode)
- {
--	struct vc4_hdmi_encoder *vc4_encoder = &vc4_hdmi->encoder;
-+	struct drm_display_info *display = &vc4_hdmi->connector.display_info;
- 
--	return !vc4_encoder->hdmi_monitor ||
-+	return !display->is_hdmi ||
- 		drm_default_rgb_quant_range(mode) == HDMI_QUANTIZATION_RANGE_FULL;
- }
- 
-@@ -216,7 +216,6 @@ vc4_hdmi_connector_detect(struct drm_connector *connector, bool force)
- 
- 			if (edid) {
- 				cec_s_phys_addr_from_edid(vc4_hdmi->cec_adap, edid);
--				vc4_hdmi->encoder.hdmi_monitor = drm_detect_hdmi_monitor(edid);
- 				kfree(edid);
+@@ -220,7 +220,7 @@ vc4_hdmi_connector_detect(struct drm_connector *connector, bool force)
  			}
  		}
-@@ -242,7 +241,6 @@ static void vc4_hdmi_connector_destroy(struct drm_connector *connector)
- static int vc4_hdmi_connector_get_modes(struct drm_connector *connector)
+ 
+-		vc4_hdmi_enable_scrambling(&vc4_hdmi->encoder.base.base);
++		vc4_hdmi_enable_scrambling(&vc4_hdmi->encoder.base);
+ 		pm_runtime_put(&vc4_hdmi->pdev->dev);
+ 		mutex_unlock(&vc4_hdmi->mutex);
+ 		return connector_status_connected;
+@@ -357,7 +357,7 @@ static int vc4_hdmi_connector_init(struct drm_device *dev,
+ 				   struct vc4_hdmi *vc4_hdmi)
  {
- 	struct vc4_hdmi *vc4_hdmi = connector_to_vc4_hdmi(connector);
--	struct vc4_hdmi_encoder *vc4_encoder = &vc4_hdmi->encoder;
- 	int ret = 0;
- 	struct edid *edid;
+ 	struct drm_connector *connector = &vc4_hdmi->connector;
+-	struct drm_encoder *encoder = &vc4_hdmi->encoder.base.base;
++	struct drm_encoder *encoder = &vc4_hdmi->encoder.base;
+ 	int ret;
  
-@@ -255,8 +253,6 @@ static int vc4_hdmi_connector_get_modes(struct drm_connector *connector)
- 		goto out;
- 	}
+ 	drm_connector_init_with_ddc(dev, connector,
+@@ -1463,7 +1463,7 @@ static int vc4_hdmi_audio_startup(struct device *dev, void *data)
  
--	vc4_encoder->hdmi_monitor = drm_detect_hdmi_monitor(edid);
--
- 	drm_connector_update_edid_property(connector, edid);
- 	ret = drm_add_edid_modes(connector, edid);
- 	kfree(edid);
-@@ -578,13 +574,12 @@ static void vc4_hdmi_set_infoframes(struct drm_encoder *encoder)
- static bool vc4_hdmi_supports_scrambling(struct drm_encoder *encoder,
- 					 struct drm_display_mode *mode)
+ static void vc4_hdmi_audio_reset(struct vc4_hdmi *vc4_hdmi)
  {
--	struct vc4_hdmi_encoder *vc4_encoder = to_vc4_hdmi_encoder(encoder);
- 	struct vc4_hdmi *vc4_hdmi = encoder_to_vc4_hdmi(encoder);
- 	struct drm_display_info *display = &vc4_hdmi->connector.display_info;
- 
- 	lockdep_assert_held(&vc4_hdmi->mutex);
- 
--	if (!vc4_encoder->hdmi_monitor)
-+	if (!display->is_hdmi)
- 		return false;
- 
- 	if (!display->hdmi.scdc.supported ||
-@@ -1147,7 +1142,7 @@ static void vc4_hdmi_encoder_post_crtc_enable(struct drm_encoder *encoder,
- {
- 	struct vc4_hdmi *vc4_hdmi = encoder_to_vc4_hdmi(encoder);
- 	struct drm_display_mode *mode = &vc4_hdmi->saved_adjusted_mode;
--	struct vc4_hdmi_encoder *vc4_encoder = to_vc4_hdmi_encoder(encoder);
-+	struct drm_display_info *display = &vc4_hdmi->connector.display_info;
- 	bool hsync_pos = mode->flags & DRM_MODE_FLAG_PHSYNC;
- 	bool vsync_pos = mode->flags & DRM_MODE_FLAG_PVSYNC;
+-	struct drm_encoder *encoder = &vc4_hdmi->encoder.base.base;
++	struct drm_encoder *encoder = &vc4_hdmi->encoder.base;
+ 	struct device *dev = &vc4_hdmi->pdev->dev;
  	unsigned long flags;
-@@ -1168,7 +1163,7 @@ static void vc4_hdmi_encoder_post_crtc_enable(struct drm_encoder *encoder,
- 	HDMI_WRITE(HDMI_VID_CTL,
- 		   HDMI_READ(HDMI_VID_CTL) & ~VC4_HD_VID_CTL_BLANKPIX);
+ 	int ret;
+@@ -1553,7 +1553,7 @@ static int vc4_hdmi_audio_prepare(struct device *dev, void *data,
+ 				  struct hdmi_codec_params *params)
+ {
+ 	struct vc4_hdmi *vc4_hdmi = dev_get_drvdata(dev);
+-	struct drm_encoder *encoder = &vc4_hdmi->encoder.base.base;
++	struct drm_encoder *encoder = &vc4_hdmi->encoder.base;
+ 	unsigned int sample_rate = params->sample_rate;
+ 	unsigned int channels = params->channels;
+ 	unsigned long flags;
+@@ -2506,13 +2506,13 @@ static int vc4_hdmi_bind(struct device *dev, struct device *master, void *data)
+ 	INIT_DELAYED_WORK(&vc4_hdmi->scrambling_work, vc4_hdmi_scrambling_wq);
  
--	if (vc4_encoder->hdmi_monitor) {
-+	if (display->is_hdmi) {
- 		HDMI_WRITE(HDMI_SCHEDULER_CONTROL,
- 			   HDMI_READ(HDMI_SCHEDULER_CONTROL) |
- 			   VC4_HDMI_SCHEDULER_CONTROL_MODE_HDMI);
-@@ -1195,7 +1190,7 @@ static void vc4_hdmi_encoder_post_crtc_enable(struct drm_encoder *encoder,
- 			  "!VC4_HDMI_SCHEDULER_CONTROL_HDMI_ACTIVE\n");
- 	}
+ 	dev_set_drvdata(dev, vc4_hdmi);
+-	encoder = &vc4_hdmi->encoder.base.base;
+-	vc4_hdmi->encoder.base.type = variant->encoder_type;
+-	vc4_hdmi->encoder.base.pre_crtc_configure = vc4_hdmi_encoder_pre_crtc_configure;
+-	vc4_hdmi->encoder.base.pre_crtc_enable = vc4_hdmi_encoder_pre_crtc_enable;
+-	vc4_hdmi->encoder.base.post_crtc_enable = vc4_hdmi_encoder_post_crtc_enable;
+-	vc4_hdmi->encoder.base.post_crtc_disable = vc4_hdmi_encoder_post_crtc_disable;
+-	vc4_hdmi->encoder.base.post_crtc_powerdown = vc4_hdmi_encoder_post_crtc_powerdown;
++	encoder = &vc4_hdmi->encoder.base;
++	vc4_hdmi->encoder.type = variant->encoder_type;
++	vc4_hdmi->encoder.pre_crtc_configure = vc4_hdmi_encoder_pre_crtc_configure;
++	vc4_hdmi->encoder.pre_crtc_enable = vc4_hdmi_encoder_pre_crtc_enable;
++	vc4_hdmi->encoder.post_crtc_enable = vc4_hdmi_encoder_post_crtc_enable;
++	vc4_hdmi->encoder.post_crtc_disable = vc4_hdmi_encoder_post_crtc_disable;
++	vc4_hdmi->encoder.post_crtc_powerdown = vc4_hdmi_encoder_post_crtc_powerdown;
+ 	vc4_hdmi->pdev = pdev;
+ 	vc4_hdmi->variant = variant;
  
--	if (vc4_encoder->hdmi_monitor) {
-+	if (display->is_hdmi) {
- 		spin_lock_irqsave(&vc4_hdmi->hw_lock, flags);
+@@ -2674,7 +2674,7 @@ static void vc4_hdmi_unbind(struct device *dev, struct device *master,
+ 	vc4_hdmi_cec_exit(vc4_hdmi);
+ 	vc4_hdmi_hotplug_exit(vc4_hdmi);
+ 	vc4_hdmi_connector_destroy(&vc4_hdmi->connector);
+-	drm_encoder_cleanup(&vc4_hdmi->encoder.base.base);
++	drm_encoder_cleanup(&vc4_hdmi->encoder.base);
  
- 		WARN_ON(!(HDMI_READ(HDMI_SCHEDULER_CONTROL) &
+ 	pm_runtime_disable(dev);
+ 
 diff --git a/drivers/gpu/drm/vc4/vc4_hdmi.h b/drivers/gpu/drm/vc4/vc4_hdmi.h
-index 1076faeab616..44977002445f 100644
+index 44977002445f..71768915cc4b 100644
 --- a/drivers/gpu/drm/vc4/vc4_hdmi.h
 +++ b/drivers/gpu/drm/vc4/vc4_hdmi.h
-@@ -11,7 +11,6 @@
- /* VC4 HDMI encoder KMS struct */
- struct vc4_hdmi_encoder {
- 	struct vc4_encoder base;
--	bool hdmi_monitor;
- };
+@@ -8,17 +8,6 @@
  
- static inline struct vc4_hdmi_encoder *
+ #include "vc4_drv.h"
+ 
+-/* VC4 HDMI encoder KMS struct */
+-struct vc4_hdmi_encoder {
+-	struct vc4_encoder base;
+-};
+-
+-static inline struct vc4_hdmi_encoder *
+-to_vc4_hdmi_encoder(struct drm_encoder *encoder)
+-{
+-	return container_of(encoder, struct vc4_hdmi_encoder, base.base);
+-}
+-
+ struct vc4_hdmi;
+ struct vc4_hdmi_register;
+ struct vc4_hdmi_connector_state;
+@@ -127,7 +116,7 @@ struct vc4_hdmi {
+ 	struct platform_device *pdev;
+ 	const struct vc4_hdmi_variant *variant;
+ 
+-	struct vc4_hdmi_encoder encoder;
++	struct vc4_encoder encoder;
+ 	struct drm_connector connector;
+ 
+ 	struct delayed_work scrambling_work;
+@@ -230,8 +219,7 @@ connector_to_vc4_hdmi(struct drm_connector *connector)
+ static inline struct vc4_hdmi *
+ encoder_to_vc4_hdmi(struct drm_encoder *encoder)
+ {
+-	struct vc4_hdmi_encoder *_encoder = to_vc4_hdmi_encoder(encoder);
+-
++	struct vc4_encoder *_encoder = to_vc4_encoder(encoder);
+ 	return container_of(_encoder, struct vc4_hdmi, encoder);
+ }
+ 
 -- 
 2.25.1
 
