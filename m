@@ -1,68 +1,113 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id BADB65082F6
-	for <lists+dri-devel@lfdr.de>; Wed, 20 Apr 2022 09:55:17 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id A090C5082F9
+	for <lists+dri-devel@lfdr.de>; Wed, 20 Apr 2022 09:56:09 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id E2D5110F1C1;
-	Wed, 20 Apr 2022 07:55:15 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id A94B210F1E3;
+	Wed, 20 Apr 2022 07:56:07 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-lf1-x130.google.com (mail-lf1-x130.google.com
- [IPv6:2a00:1450:4864:20::130])
- by gabe.freedesktop.org (Postfix) with ESMTPS id AAE0510F1B8
- for <dri-devel@lists.freedesktop.org>; Wed, 20 Apr 2022 07:55:14 +0000 (UTC)
-Received: by mail-lf1-x130.google.com with SMTP id b21so1382433lfb.5
- for <dri-devel@lists.freedesktop.org>; Wed, 20 Apr 2022 00:55:14 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=message-id:date:mime-version:user-agent:subject:content-language:to
- :cc:references:from:in-reply-to:content-transfer-encoding;
- bh=T5KtR5lRhhPM3FKeYo+8y/vzpSYPxhvdp4ZbKNwZlEE=;
- b=MJjxxTHUOSB3GJcE9f4Q4cvOmxZK/qU4J1Stq6dxohJP2iVp4CheOTf7g9HTO1Glig
- lvI9PiN9qS4tRJKI9cLWd0UlnsNizhix5URalvu5jGuGKO+9XD+NEUK4imJ+L+t6PdGB
- 5MNrrD+yxISe/p8IqgF+cYhbbXXGvKRd/XgYHQxvg7r3jtNN/S9E0r0/tHPjkzVO5pCE
- joO/CDQx5bMTHUNGz5YstY1lVUu/hEbwGEMM7Pf6tNvX4MmNh45nmwCo0EpJtbalvz3a
- SaGXnROy+ks1UBPL5YoUg5DNXgU3xSESEjkYYOQONzzazkJ/AKZ7CUrHviI7OzbeW+Fc
- RpLA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
- :content-language:to:cc:references:from:in-reply-to
- :content-transfer-encoding;
- bh=T5KtR5lRhhPM3FKeYo+8y/vzpSYPxhvdp4ZbKNwZlEE=;
- b=xIXZLHtzX7HLXcQFptfowWqrdploHMLmu+cTJa4ZKOwmWF/nqANyLhIqdrhnN6C56Q
- tp5zuHcGDN+8BpKA7mpGTWfDv1WmbTL8bMRo0yUXGxCzeY2wX1G20eyPfEcwKBFtVSqT
- MPO6pQCHP/rzwh1mEifD0Vnp0f2YbtyYg8vCAQzFlZub/ByJ7z1+KcZEaSz13+sCh6zc
- Us6o0s+n14puuSFV+wPThoWghHlebQwvfn0Mb4nafExID3Wa6LY3WZ+ubUHJ0IJ3WViR
- b4xlvx57bqlk4XL2DQC+hvTOjhDJcySlKvOtpuZzCcVs/NGuWGnk5ITfG64vH0cm68oX
- acXw==
-X-Gm-Message-State: AOAM531x3Un1i4CqQYognlvfV2VzIYbwOv4qrMrkZgD0v3CO7hqiw1CG
- jDZNOIoErRR5dPBhAh3zaaTjvQ==
-X-Google-Smtp-Source: ABdhPJwUtL2Bj1LnTN1Kaf81iarLQr53GEhtFPjtpmcrTizMEAEwWzs46ow9RcOcVgIzdeWttOp/EQ==
-X-Received: by 2002:a05:6512:400a:b0:46b:8cd9:1af8 with SMTP id
- br10-20020a056512400a00b0046b8cd91af8mr14465289lfb.545.1650441312951; 
- Wed, 20 Apr 2022 00:55:12 -0700 (PDT)
-Received: from [192.168.1.211] ([37.153.55.125])
- by smtp.gmail.com with ESMTPSA id
- s12-20020a2e83cc000000b0024ee0d96123sm10374ljh.122.2022.04.20.00.55.12
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Wed, 20 Apr 2022 00:55:12 -0700 (PDT)
-Message-ID: <8ad828bb-8614-561d-4e3d-fe901e665077@linaro.org>
-Date: Wed, 20 Apr 2022 10:55:11 +0300
+Received: from mailout3.samsung.com (mailout3.samsung.com [203.254.224.33])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 7A89210F1D3
+ for <dri-devel@lists.freedesktop.org>; Wed, 20 Apr 2022 07:56:06 +0000 (UTC)
+Received: from epcas1p2.samsung.com (unknown [182.195.41.46])
+ by mailout3.samsung.com (KnoxPortal) with ESMTP id
+ 20220420075603epoutp0355df51dfd859b313d5101f87a727673b~ni6z9nHPm3035830358epoutp03d
+ for <dri-devel@lists.freedesktop.org>; Wed, 20 Apr 2022 07:56:03 +0000 (GMT)
+DKIM-Filter: OpenDKIM Filter v2.11.0 mailout3.samsung.com
+ 20220420075603epoutp0355df51dfd859b313d5101f87a727673b~ni6z9nHPm3035830358epoutp03d
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=samsung.com;
+ s=mail20170921; t=1650441363;
+ bh=M9HvEE5NcKQUrqGqE6i+kOsIDLbwyBOY5HTkit9ErSo=;
+ h=Date:Subject:To:Cc:From:In-Reply-To:References:From;
+ b=fnhXvvBaVOLFzSxumWLXHhSItgJ0TGpRIzocsRiXxhlOC3BqCaqm+MWs+wMVV4Mbj
+ jvIUMw5O2NF47lbADL8xqQMaviIFliK7EkueWTbliMxnyRnO6BO98CoX4T4z6VplCt
+ nAbkofz4m21UCMwhGZose3eBsZlVVDxZ9PUdiaDQ=
+Received: from epsnrtp3.localdomain (unknown [182.195.42.164]) by
+ epcas1p4.samsung.com (KnoxPortal) with ESMTP id
+ 20220420075602epcas1p475c3b660e87635fc49f66378abdb95bd~ni6zSs41o3004030040epcas1p4G;
+ Wed, 20 Apr 2022 07:56:02 +0000 (GMT)
+Received: from epsmges1p2.samsung.com (unknown [182.195.36.144]) by
+ epsnrtp3.localdomain (Postfix) with ESMTP id 4KjtJx5kpjz4x9Q3; Wed, 20 Apr
+ 2022 07:56:01 +0000 (GMT)
+Received: from epcas1p2.samsung.com ( [182.195.41.46]) by
+ epsmges1p2.samsung.com (Symantec Messaging Gateway) with SMTP id
+ C9.FE.39539.19CBF526; Wed, 20 Apr 2022 16:56:01 +0900 (KST)
+Received: from epsmtrp2.samsung.com (unknown [182.195.40.14]) by
+ epcas1p4.samsung.com (KnoxPortal) with ESMTPA id
+ 20220420075601epcas1p4a80b77be683df8ccd68be008d57f3100~ni6xr9q2W2990329903epcas1p4B;
+ Wed, 20 Apr 2022 07:56:01 +0000 (GMT)
+Received: from epsmgms1p2.samsung.com (unknown [182.195.42.42]) by
+ epsmtrp2.samsung.com (KnoxPortal) with ESMTP id
+ 20220420075601epsmtrp2e96a1f16bf6e5e87ae4d00516c30d02d~ni6xlxmod2136621366epsmtrp2G;
+ Wed, 20 Apr 2022 07:56:01 +0000 (GMT)
+X-AuditID: b6c32a36-c1dff70000019a73-91-625fbc91c095
+Received: from epsmtip2.samsung.com ( [182.195.34.31]) by
+ epsmgms1p2.samsung.com (Symantec Messaging Gateway) with SMTP id
+ 87.28.03370.09CBF526; Wed, 20 Apr 2022 16:56:00 +0900 (KST)
+Received: from [10.113.221.211] (unknown [10.113.221.211]) by
+ epsmtip2.samsung.com (KnoxPortal) with ESMTPA id
+ 20220420075600epsmtip2185b9e32f61ab60a62757711346c655f~ni6xPEwJ92729127291epsmtip2R;
+ Wed, 20 Apr 2022 07:56:00 +0000 (GMT)
+Message-ID: <3b31ce4d-02ca-cdde-9c17-553102e8c149@samsung.com>
+Date: Wed, 20 Apr 2022 17:08:30 +0900
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.8.0
-Subject: Re: [PATCH v2 16/17] drm/msm/dpu: gracefully handle null fb commits
- for writeback
-Content-Language: en-GB
-To: Abhinav Kumar <quic_abhinavk@quicinc.com>, freedreno@lists.freedesktop.org
-References: <1650419169-13760-1-git-send-email-quic_abhinavk@quicinc.com>
- <1650419169-13760-17-git-send-email-quic_abhinavk@quicinc.com>
-From: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
-In-Reply-To: <1650419169-13760-17-git-send-email-quic_abhinavk@quicinc.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
+ Thunderbird/91.7.0
+Subject: Re: [PATCH] drm/exynos: fix IS_ERR() vs NULL check in probe
+Content-Language: en-US
+To: Dan Carpenter <dan.carpenter@oracle.com>
+From: Inki Dae <inki.dae@samsung.com>
+In-Reply-To: <20220412041936.GK12805@kadam>
+Content-Transfer-Encoding: 8bit
+X-Brightmail-Tracker: H4sIAAAAAAAAA+NgFjrOJsWRmVeSWpSXmKPExsWy7bCmnu7EPfFJBrvW6Fr0njvJZPFg3jY2
+ i9f/prNY/N82kdniytf3bBZfNk1gs9h6S9pi7+ut7BZnm96wW8w4v4/JYu2Ru+wWn2Y9ZLaY
+ MfklmwOvx9qP91k99n5bwOJx59oeNo/t3x6wetzvPs7k8fHpLRaPvi2rGD0+b5IL4IjKtslI
+ TUxJLVJIzUvOT8nMS7dV8g6Od443NTMw1DW0tDBXUshLzE21VXLxCdB1y8wBOllJoSwxpxQo
+ FJBYXKykb2dTlF9akqqQkV9cYquUWpCSU2BaoFecmFtcmpeul5daYmVoYGBkClSYkJ3xavka
+ xoJ2wYrr284zNTBO5+ti5OSQEDCR2PFjP0sXIxeHkMAORolvf1ZBOZ8YJX4c280G4XxmlDiw
+ /iQzTMuza1uhqnYxSszZtIQZwnnPKPF25iUmkCpeATuJOXcfsoDYLAKqEo8u/2CHiAtKnJz5
+ BCwuKhAh8evWI7C4sICLxLalnWAbmAXEJW49mQ82R0RAR+JyJ0gvF1C8l0XiX8NpsCI2oKET
+ V9xnA7E5BbQllm6YzATRLC/RvHU22EUSAjc4JD5uvwZ1t4vE52l72SFsYYlXx7dA2VISn9/t
+ ZYNomMwocef6ChYIZwajxOGf1xkhqowl9i8FWcEBtEJTYv0ufYiwosTO33MZITbzSbz72sMK
+ UiIhwCvR0SYEUaIkceziDagpEhIXlkxkg7A9JGbe/c02gVFxFlLAzEIKgFlI/pmFsHgBI8sq
+ RrHUguLc9NRiwwIjeIQn5+duYgSnaC2zHYyT3n7QO8TIxMF4iFGCg1lJhDd0ZnySEG9KYmVV
+ alF+fFFpTmrxIUZTYPRMZJYSTc4HZom8knhDE0sDEzMjYxMLQzNDJXHeVdNOJwoJpCeWpGan
+ phakFsH0MXFwSjUw2T4pnjRrRqb/Qgalk29ij5xvy7uyXWftoRUPbsa6Lzz4sV2v+vND7vK9
+ X/TfKV4rj+PMvKLr/VE0zD8s/EDQYSGGXf2x84usJt37+e23xCylz4feXq2yDum+npe/9Ypt
+ 2pNVW8oefnXfkjrF8JY2s8+V+bJ8IQcf/37Mu8ROlPmDZ1yn1QNOnifRdxk4dkgppAbO3FH9
+ I2KRRBcj/1Tt2LvLzyv4f1V6sIzRzlx59YubRy4GyLD4p0Z+jDmrqLl5R62vaArL8u+tL/6J
+ 3iy3q1p39OeS81kX0ucvMljM3G//zWTjrsX7380pnN7l2f7Jsq8wds4CbZkwz5jad98PsV8p
+ 1zs87fbXJa8rwttkE5RYijMSDbWYi4oTAbX28phaBAAA
+X-Brightmail-Tracker: H4sIAAAAAAAAA+NgFlrGIsWRmVeSWpSXmKPExsWy7bCSvO6EPfFJBvvbzC16z51ksngwbxub
+ xet/01ks/m+byGxx5et7NosvmyawWby4d5HFYustaYu9r7eyW5xtesNuMeP8PiaLtUfuslt8
+ mvWQ2WLG5JdsDnweaz/eZ/XY+20Bi8eda3vYPLZ/e8Dqcb/7OJPHx6e3WDz6tqxi9Pi8SS6A
+ I4rLJiU1J7MstUjfLoEr49XyNYwF7YIV17edZ2pgnM7XxcjJISFgIvHs2laWLkYuDiGBHYwS
+ J8/OBnI4gBISElu2ckCYwhKHDxdDlLxllFi2agMbSC+vgJ3EnLsPWUBsFgFViUeXf7BDxAUl
+ Ts58AhYXFYiQWLZrKpgtLOAisW1pJzOIzSwgLnHryXwmEFtEQEficidILxdQfCKLxNw3bxkh
+ tl1mlGjbvw6sig1ow8QV98E2cwpoSyzdMJkJ5DpmAXWJ9fOEIIbKSzRvnc08gVFoFpI7ZiHZ
+ NwuhYxaSjgWMLKsYJVMLinPTc4sNC4zyUsv1ihNzi0vz0vWS83M3MYKjUktrB+OeVR/0DjEy
+ cTAeYpTgYFYS4Q2dGZ8kxJuSWFmVWpQfX1Sak1p8iFGag0VJnPdC18l4IYH0xJLU7NTUgtQi
+ mCwTB6dUA9Pab7smpa98+I1p16uEfz9ye30OPHk8m+/fwm4z5rOuM7xPztbt+nNUstmgqH9h
+ 618O5Y/HWBNatqxSTyqTttlz5nj+xZjz634vYK+3KeubL80Wts9VT+jOiszW8OrqE8osbzNL
+ 66qWtr94rya63SzNbo7a7iUc2+3lle5Md9q7M/nfnqc/vtyeEnNZaA5Dvt9nj63ue0yvfZTj
+ PxSpNUts3ZMLq2YrNvbs5m3N/vDg6N9XZU+O5W54n6XddfjWKumbZUEHhadsnSzkvnvDzkdq
+ B6Xn/mlckDMl49npfVOmi/b2mtT+ycqRVK08/XKq5oxwyysTtnw6uCZy/rEA8S7mk/wBZYvX
+ 8/vsNzf8/ermXCWW4oxEQy3mouJEACguqEM5AwAA
+X-CMS-MailID: 20220420075601epcas1p4a80b77be683df8ccd68be008d57f3100
+X-Msg-Generator: CA
+Content-Type: text/plain; charset="utf-8"
+X-Sendblock-Type: SVC_REQ_APPROVE
+CMS-TYPE: 101P
+DLP-Filter: Pass
+X-CFilter-Loop: Reflected
+X-CMS-RootMailID: 20220408102327epcas1p409b13bf2da7e19b0a24571ce50e3ea92
+References: <CGME20220408102327epcas1p409b13bf2da7e19b0a24571ce50e3ea92@epcas1p4.samsung.com>
+ <20220408102134.GA14120@kili>
+ <c7606920-b5c9-f8e3-3026-631a796c195a@samsung.com>
+ <20220412041936.GK12805@kadam>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -75,157 +120,68 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: markyacoub@chromium.org, liviu.dudau@arm.com,
- dri-devel@lists.freedesktop.org, swboyd@chromium.org, seanpaul@chromium.org,
- laurent.pinchart@ideasonboard.com, quic_jesszhan@quicinc.com,
- quic_aravindh@quicinc.com
+Cc: linux-samsung-soc@vger.kernel.org, Joonyoung Shim <jy0922.shim@samsung.com>,
+ David Airlie <airlied@linux.ie>, kernel-janitors@vger.kernel.org,
+ dri-devel@lists.freedesktop.org, Seung-Woo Kim <sw0312.kim@samsung.com>,
+ Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>,
+ Robert Foss <robert.foss@linaro.org>,
+ Kyungmin Park <kyungmin.park@samsung.com>,
+ Jagan Teki <jagan@amarulasolutions.com>, Alim Akhtar <alim.akhtar@samsung.com>,
+ Marek Szyprowski <m.szyprowski@samsung.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 20/04/2022 04:46, Abhinav Kumar wrote:
-> kms_writeback test cases also verify with a null fb for the
-> writeback connector job. In addition there are also other
-> commit paths which can result in kickoffs without a valid
-> framebuffer like while closing the fb which results in the
-> callback to drm_atomic_helper_dirtyfb() which internally
-> triggers a commit.
-> 
-> Add protection in the dpu driver to ensure that commits for
-> writeback encoders without a valid fb are gracefully skipped.
-> 
-> changes in v2:
-> 	- rename dpu_encoder_has_valid_fb to dpu_encoder_is_valid_for_commit
-> 
-> Signed-off-by: Abhinav Kumar <quic_abhinavk@quicinc.com>
+Hi,
 
-Reviewed-by: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
-
-> ---
->   drivers/gpu/drm/msm/disp/dpu1/dpu_crtc.c            |  9 +++++++++
->   drivers/gpu/drm/msm/disp/dpu1/dpu_encoder.c         | 21 +++++++++++++++++++++
->   drivers/gpu/drm/msm/disp/dpu1/dpu_encoder.h         |  6 ++++++
->   drivers/gpu/drm/msm/disp/dpu1/dpu_encoder_phys.h    |  1 +
->   drivers/gpu/drm/msm/disp/dpu1/dpu_encoder_phys_wb.c | 12 ++++++++++++
->   5 files changed, 49 insertions(+)
+22. 4. 12. 13:19에 Dan Carpenter 이(가) 쓴 글:
+> On Tue, Apr 12, 2022 at 10:01:20AM +0900, Inki Dae wrote:
+>> Hi Dan Carpenter.
+>>
+>> Same patch[1] was posted so I will pick it up. 
+>>
+>> [1] https://protect2.fireeye.com/v1/url?k=94e9d569-f562c05f-94e85e26-000babff9b5d-4d4f5b20cfffa24c&q=1&e=727c2c54-2082-4e0f-87d7-c6702bf4c81e&u=https%3A%2F%2Fwww.spinics.net%2Flists%2Farm-kernel%2Fmsg967488.html 
+>>
 > 
-> diff --git a/drivers/gpu/drm/msm/disp/dpu1/dpu_crtc.c b/drivers/gpu/drm/msm/disp/dpu1/dpu_crtc.c
-> index 7763558..d65e124 100644
-> --- a/drivers/gpu/drm/msm/disp/dpu1/dpu_crtc.c
-> +++ b/drivers/gpu/drm/msm/disp/dpu1/dpu_crtc.c
-> @@ -869,6 +869,13 @@ void dpu_crtc_commit_kickoff(struct drm_crtc *crtc)
->   
->   	DPU_ATRACE_BEGIN("crtc_commit");
->   
-> +	drm_for_each_encoder_mask(encoder, crtc->dev,
-> +			crtc->state->encoder_mask) {
-> +		if (!dpu_encoder_is_valid_for_commit(encoder)) {
-> +			DRM_DEBUG_ATOMIC("invalid FB not kicking off crtc\n");
-> +			goto end;
-> +		}
-> +	}
->   	/*
->   	 * Encoder will flush/start now, unless it has a tx pending. If so, it
->   	 * may delay and flush at an irq event (e.g. ppdone)
-> @@ -891,6 +898,8 @@ void dpu_crtc_commit_kickoff(struct drm_crtc *crtc)
->   		dpu_encoder_kickoff(encoder);
->   
->   	reinit_completion(&dpu_crtc->frame_done_comp);
-> +
-> +end:
->   	DPU_ATRACE_END("crtc_commit");
->   }
->   
-> diff --git a/drivers/gpu/drm/msm/disp/dpu1/dpu_encoder.c b/drivers/gpu/drm/msm/disp/dpu1/dpu_encoder.c
-> index b1475dd..d07e3ee 100644
-> --- a/drivers/gpu/drm/msm/disp/dpu1/dpu_encoder.c
-> +++ b/drivers/gpu/drm/msm/disp/dpu1/dpu_encoder.c
-> @@ -1850,6 +1850,27 @@ void dpu_encoder_prepare_for_kickoff(struct drm_encoder *drm_enc)
->   		dpu_encoder_prep_dsc(dpu_enc, dpu_enc->dsc);
->   }
->   
-> +bool dpu_encoder_is_valid_for_commit(struct drm_encoder *drm_enc)
-> +{
-> +	struct dpu_encoder_virt *dpu_enc;
-> +	unsigned int i;
-> +	struct dpu_encoder_phys *phys;
-> +
-> +	dpu_enc = to_dpu_encoder_virt(drm_enc);
-> +
-> +	if (drm_enc->encoder_type == DRM_MODE_ENCODER_VIRTUAL) {
-> +		for (i = 0; i < dpu_enc->num_phys_encs; i++) {
-> +			phys = dpu_enc->phys_encs[i];
-> +			if (phys->ops.is_valid_for_commit && !phys->ops.is_valid_for_commit(phys)) {
-> +				DPU_DEBUG("invalid FB not kicking off\n");
-> +				return false;
-> +			}
-> +		}
-> +	}
-> +
-> +	return true;
-> +}
-> +
->   void dpu_encoder_kickoff(struct drm_encoder *drm_enc)
->   {
->   	struct dpu_encoder_virt *dpu_enc;
-> diff --git a/drivers/gpu/drm/msm/disp/dpu1/dpu_encoder.h b/drivers/gpu/drm/msm/disp/dpu1/dpu_encoder.h
-> index 6ceec1d..781d41c 100644
-> --- a/drivers/gpu/drm/msm/disp/dpu1/dpu_encoder.h
-> +++ b/drivers/gpu/drm/msm/disp/dpu1/dpu_encoder.h
-> @@ -196,4 +196,10 @@ void dpu_encoder_prepare_wb_job(struct drm_encoder *drm_enc,
->   void dpu_encoder_cleanup_wb_job(struct drm_encoder *drm_enc,
->   		struct drm_writeback_job *job);
->   
-> +/**
-> + * dpu_encoder_is_valid_for_commit - check if encode has valid parameters for commit.
-> + * @drm_enc:    Pointer to drm encoder structure
-> + */
-> +bool dpu_encoder_is_valid_for_commit(struct drm_encoder *drm_enc);
-> +
->   #endif /* __DPU_ENCODER_H__ */
-> diff --git a/drivers/gpu/drm/msm/disp/dpu1/dpu_encoder_phys.h b/drivers/gpu/drm/msm/disp/dpu1/dpu_encoder_phys.h
-> index 5452f98..04d037e 100644
-> --- a/drivers/gpu/drm/msm/disp/dpu1/dpu_encoder_phys.h
-> +++ b/drivers/gpu/drm/msm/disp/dpu1/dpu_encoder_phys.h
-> @@ -142,6 +142,7 @@ struct dpu_encoder_phys_ops {
->   			struct drm_writeback_job *job);
->   	void (*cleanup_wb_job)(struct dpu_encoder_phys *phys_enc,
->   			struct drm_writeback_job *job);
-> +	bool (*is_valid_for_commit)(struct dpu_encoder_phys *phys_enc);
->   };
->   
->   /**
-> diff --git a/drivers/gpu/drm/msm/disp/dpu1/dpu_encoder_phys_wb.c b/drivers/gpu/drm/msm/disp/dpu1/dpu_encoder_phys_wb.c
-> index 128317fe..9acbce0 100644
-> --- a/drivers/gpu/drm/msm/disp/dpu1/dpu_encoder_phys_wb.c
-> +++ b/drivers/gpu/drm/msm/disp/dpu1/dpu_encoder_phys_wb.c
-> @@ -667,6 +667,16 @@ static void dpu_encoder_phys_wb_cleanup_wb_job(struct dpu_encoder_phys *phys_enc
->   	wb_enc->wb_conn = NULL;
->   }
->   
-> +static bool dpu_encoder_phys_wb_is_valid_for_commit(struct dpu_encoder_phys *phys_enc)
-> +{
-> +	struct dpu_encoder_phys_wb *wb_enc = to_dpu_encoder_phys_wb(phys_enc);
-> +
-> +	if (wb_enc->wb_job)
-> +		return true;
-> +	else
-> +		return false;
-> +}
-> +
->   /**
->    * dpu_encoder_phys_wb_init_ops - initialize writeback operations
->    * @ops:	Pointer to encoder operation table
-> @@ -687,6 +697,8 @@ static void dpu_encoder_phys_wb_init_ops(struct dpu_encoder_phys_ops *ops)
->   	ops->prepare_wb_job = dpu_encoder_phys_wb_prepare_wb_job;
->   	ops->cleanup_wb_job = dpu_encoder_phys_wb_cleanup_wb_job;
->   	ops->irq_control = dpu_encoder_phys_wb_irq_ctrl;
-> +	ops->is_valid_for_commit = dpu_encoder_phys_wb_is_valid_for_commit;
-> +
->   }
->   
->   /**
+> It's not the same.  That one returns -EINVAL and mine returns
+> -EPROBE_DEFER.  I obvoiously thought that -EPROBE_DEFER was the correct
+> return but I wasn't positive.  -EPROBE_DEFER is kind of a special
+> return so I think it matters to get this correct.
+> 
 
+Correct so I requested[1] him to fix it but the delivery failed. :( I will just pick your patch up. :)
+[Delivery Failure] Re: [PATCH -next] drm/exynos: mic: fix return value check in exynos_mic_probe().
 
--- 
-With best wishes
-Dmitry
+[1] My email sent below,
+--------------------
+22. 4. 6. 18:22에 Yang Yingliang 이(가) 쓴 글:
+ > If of_graph_get_remote_node() fails, it returns NULL pointer, replaces
+ > IS_ERR() check with NULL pointer check.
+ >
+ > Fixes: dd8b6803bc49 ("exynos: drm: dsi: Attach in_bridge in MIC driver")
+ > Reported-by: Hulk Robot <hulkci@huawei.com>
+ > Signed-off-by: Yang Yingliang <yangyingliang@huawei.com>
+ > ---
+ > drivers/gpu/drm/exynos/exynos_drm_mic.c | 4 ++--
+ > 1 file changed, 2 insertions(+), 2 deletions(-)
+ >
+ > diff --git a/drivers/gpu/drm/exynos/exynos_drm_mic.c 
+b/drivers/gpu/drm/exynos/exynos_drm_mic.c
+ > index 9e06f8e2a863..43fc357a6682 100644
+ > --- a/drivers/gpu/drm/exynos/exynos_drm_mic.c
+ > +++ b/drivers/gpu/drm/exynos/exynos_drm_mic.c
+ > @@ -434,9 +434,9 @@ static int exynos_mic_probe(struct platform_device *pdev)
+ >
+ > remote = of_graph_get_remote_node(dev->of_node, 1, 0);
+ > mic->next_bridge = of_drm_find_bridge(remote);
+ > - if (IS_ERR(mic->next_bridge)) {
+ > + if (!mic->next_bridge) {
+ > DRM_DEV_ERROR(dev, "mic: Failed to find next bridge\n");
+ > - ret = PTR_ERR(mic->next_bridge);
+ > + ret = -EINVAL;
+
+-EPROBE_DEFER should be returned instead. Could you modify and resend it again?
+
+> regards,
+> dan carpenter
+> 
+> 
