@@ -2,25 +2,25 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id BA6865093DC
-	for <lists+dri-devel@lfdr.de>; Thu, 21 Apr 2022 01:50:41 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 592F35093E3
+	for <lists+dri-devel@lfdr.de>; Thu, 21 Apr 2022 01:50:54 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id C766910F2CE;
-	Wed, 20 Apr 2022 23:50:31 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 04B8410F2D0;
+	Wed, 20 Apr 2022 23:50:51 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from alexa-out.qualcomm.com (alexa-out.qualcomm.com [129.46.98.28])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 7C59C10F2C5;
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 9F1A610F2C6;
  Wed, 20 Apr 2022 23:50:24 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=quicinc.com; i=@quicinc.com; q=dns/txt; s=qcdkim;
  t=1650498624; x=1682034624;
  h=from:to:cc:subject:date:message-id:in-reply-to:
  references:mime-version;
- bh=9qb3jeA6TCnARyxP8/h7OSS9GA6SY/hbwL9Rueqf4+A=;
- b=bgo9bCeexjQJXVwCWGv2SAHfzYhhivIxDvuYnc0tkp/FoDRWKLNtIArV
- DIfIRWa6pXQuNobvocKOrtkQbtV9+hWdHg+RHxEFv7lNkhSINCgylHtlB
- +e+E9fLMa5MOydKxAEJrb3NydikvM3okuvbCc0QmzDAAFdn45mKmVM9Po w=;
+ bh=tMXVnX2ic46nh7F8XhS91MwiyC736JloK4pgjQVGwIU=;
+ b=fj+S3V85Rvlq5N8Na9ZXRuFeCogTmDA8HGtKeDhpSwr97zBj8ppa0x85
+ 6uDFhLsOh3QjEdvBRuDu9YqqMLYLZbS1NmyIN8RmTX7qDmL3+WSGGiPbu
+ yTn0s9rGAXWnV2+SNcOL9hFDIGlYEfMEaiQsurEAc6FJistNHcmaOX2cJ A=;
 Received: from ironmsg09-lv.qualcomm.com ([10.47.202.153])
  by alexa-out.qualcomm.com with ESMTP; 20 Apr 2022 16:50:22 -0700
 X-QCInternal: smtphost
@@ -30,17 +30,17 @@ Received: from nasanex01c.na.qualcomm.com ([10.47.97.222])
 Received: from nalasex01a.na.qualcomm.com (10.47.209.196) by
  nasanex01c.na.qualcomm.com (10.47.97.222) with Microsoft SMTP Server
  (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.2.986.22; Wed, 20 Apr 2022 16:50:11 -0700
+ 15.2.986.22; Wed, 20 Apr 2022 16:50:12 -0700
 Received: from abhinavk-linux.qualcomm.com (10.80.80.8) by
  nalasex01a.na.qualcomm.com (10.47.209.196) with Microsoft SMTP Server
  (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.2.986.22; Wed, 20 Apr 2022 16:50:11 -0700
+ 15.2.986.22; Wed, 20 Apr 2022 16:50:12 -0700
 From: Abhinav Kumar <quic_abhinavk@quicinc.com>
 To: <freedreno@lists.freedesktop.org>
-Subject: [PATCH v3 16/18] drm/msm/dpu: initialize dpu encoder and connector
- for writeback
-Date: Wed, 20 Apr 2022 16:49:45 -0700
-Message-ID: <1650498587-14749-17-git-send-email-quic_abhinavk@quicinc.com>
+Subject: [PATCH v3 17/18] drm/msm/dpu: gracefully handle null fb commits for
+ writeback
+Date: Wed, 20 Apr 2022 16:49:46 -0700
+Message-ID: <1650498587-14749-18-git-send-email-quic_abhinavk@quicinc.com>
 X-Mailer: git-send-email 2.7.4
 In-Reply-To: <1650498587-14749-1-git-send-email-quic_abhinavk@quicinc.com>
 References: <1650498587-14749-1-git-send-email-quic_abhinavk@quicinc.com>
@@ -69,15 +69,18 @@ Cc: markyacoub@chromium.org, liviu.dudau@arm.com,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Initialize dpu encoder and connector for writeback if the
-target supports it in the catalog.
+kms_writeback test cases also verify with a null fb for the
+writeback connector job. In addition there are also other
+commit paths which can result in kickoffs without a valid
+framebuffer like while closing the fb which results in the
+callback to drm_atomic_helper_dirtyfb() which internally
+triggers a commit.
+
+Add protection in the dpu driver to ensure that commits for
+writeback encoders without a valid fb are gracefully skipped.
 
 changes in v2:
-	- start initialing the encoder for writeback since we
-	have migrated to using drm_writeback_connector_init_with_encoder()
-	- instead of checking for WB_2 inside _dpu_kms_initialize_writeback
-	call it only when its WB_2
-	- rebase on tip of msm-next and remove usage of priv->encoders
+	- rename dpu_encoder_has_valid_fb to dpu_encoder_is_valid_for_commit
 
 changes in v3:
 	- none
@@ -85,187 +88,129 @@ changes in v3:
 Signed-off-by: Abhinav Kumar <quic_abhinavk@quicinc.com>
 Reviewed-by: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
 ---
- drivers/gpu/drm/msm/disp/dpu1/dpu_encoder.c | 27 ++++++++++----
- drivers/gpu/drm/msm/disp/dpu1/dpu_kms.c     | 58 +++++++++++++++++++++++++++++
- 2 files changed, 78 insertions(+), 7 deletions(-)
+ drivers/gpu/drm/msm/disp/dpu1/dpu_crtc.c            |  9 +++++++++
+ drivers/gpu/drm/msm/disp/dpu1/dpu_encoder.c         | 21 +++++++++++++++++++++
+ drivers/gpu/drm/msm/disp/dpu1/dpu_encoder.h         |  6 ++++++
+ drivers/gpu/drm/msm/disp/dpu1/dpu_encoder_phys.h    |  1 +
+ drivers/gpu/drm/msm/disp/dpu1/dpu_encoder_phys_wb.c | 12 ++++++++++++
+ 5 files changed, 49 insertions(+)
 
+diff --git a/drivers/gpu/drm/msm/disp/dpu1/dpu_crtc.c b/drivers/gpu/drm/msm/disp/dpu1/dpu_crtc.c
+index 7763558..d65e124 100644
+--- a/drivers/gpu/drm/msm/disp/dpu1/dpu_crtc.c
++++ b/drivers/gpu/drm/msm/disp/dpu1/dpu_crtc.c
+@@ -869,6 +869,13 @@ void dpu_crtc_commit_kickoff(struct drm_crtc *crtc)
+ 
+ 	DPU_ATRACE_BEGIN("crtc_commit");
+ 
++	drm_for_each_encoder_mask(encoder, crtc->dev,
++			crtc->state->encoder_mask) {
++		if (!dpu_encoder_is_valid_for_commit(encoder)) {
++			DRM_DEBUG_ATOMIC("invalid FB not kicking off crtc\n");
++			goto end;
++		}
++	}
+ 	/*
+ 	 * Encoder will flush/start now, unless it has a tx pending. If so, it
+ 	 * may delay and flush at an irq event (e.g. ppdone)
+@@ -891,6 +898,8 @@ void dpu_crtc_commit_kickoff(struct drm_crtc *crtc)
+ 		dpu_encoder_kickoff(encoder);
+ 
+ 	reinit_completion(&dpu_crtc->frame_done_comp);
++
++end:
+ 	DPU_ATRACE_END("crtc_commit");
+ }
+ 
 diff --git a/drivers/gpu/drm/msm/disp/dpu1/dpu_encoder.c b/drivers/gpu/drm/msm/disp/dpu1/dpu_encoder.c
-index 86bdd1a..65e44af 100644
+index 65e44af..9c12841 100644
 --- a/drivers/gpu/drm/msm/disp/dpu1/dpu_encoder.c
 +++ b/drivers/gpu/drm/msm/disp/dpu1/dpu_encoder.c
-@@ -2090,7 +2090,7 @@ static void dpu_encoder_early_unregister(struct drm_encoder *encoder)
+@@ -1850,6 +1850,27 @@ void dpu_encoder_prepare_for_kickoff(struct drm_encoder *drm_enc)
+ 		dpu_encoder_prep_dsc(dpu_enc, dpu_enc->dsc);
  }
  
- static int dpu_encoder_virt_add_phys_encs(
--		u32 display_caps,
-+		struct msm_display_info *disp_info,
- 		struct dpu_encoder_virt *dpu_enc,
- 		struct dpu_enc_phys_init_params *params)
- {
-@@ -2109,7 +2109,7 @@ static int dpu_encoder_virt_add_phys_encs(
- 		return -EINVAL;
- 	}
- 
--	if (display_caps & MSM_DISPLAY_CAP_VID_MODE) {
-+	if (disp_info->capabilities & MSM_DISPLAY_CAP_VID_MODE) {
- 		enc = dpu_encoder_phys_vid_init(params);
- 
- 		if (IS_ERR_OR_NULL(enc)) {
-@@ -2122,7 +2122,7 @@ static int dpu_encoder_virt_add_phys_encs(
- 		++dpu_enc->num_phys_encs;
- 	}
- 
--	if (display_caps & MSM_DISPLAY_CAP_CMD_MODE) {
-+	if (disp_info->capabilities & MSM_DISPLAY_CAP_CMD_MODE) {
- 		enc = dpu_encoder_phys_cmd_init(params);
- 
- 		if (IS_ERR_OR_NULL(enc)) {
-@@ -2135,6 +2135,19 @@ static int dpu_encoder_virt_add_phys_encs(
- 		++dpu_enc->num_phys_encs;
- 	}
- 
-+	if (disp_info->intf_type == DRM_MODE_ENCODER_VIRTUAL) {
-+		enc = dpu_encoder_phys_wb_init(params);
-+
-+		if (IS_ERR_OR_NULL(enc)) {
-+			DPU_ERROR_ENC(dpu_enc, "failed to init wb enc: %ld\n",
-+					PTR_ERR(enc));
-+			return enc == NULL ? -EINVAL : PTR_ERR(enc);
-+		}
-+
-+		dpu_enc->phys_encs[dpu_enc->num_phys_encs] = enc;
-+		++dpu_enc->num_phys_encs;
-+	}
-+
- 	if (params->split_role == ENC_ROLE_SLAVE)
- 		dpu_enc->cur_slave = enc;
- 	else
-@@ -2233,9 +2246,8 @@ static int dpu_encoder_setup_display(struct dpu_encoder_virt *dpu_enc,
- 		}
- 
- 		if (!ret) {
--			ret = dpu_encoder_virt_add_phys_encs(disp_info->capabilities,
--												 dpu_enc,
--												 &phys_params);
-+			ret = dpu_encoder_virt_add_phys_encs(disp_info,
-+					dpu_enc, &phys_params);
- 			if (ret)
- 				DPU_ERROR_ENC(dpu_enc, "failed to add phys encs\n");
- 		}
-@@ -2352,8 +2364,9 @@ struct drm_encoder *dpu_encoder_init(struct drm_device *dev,
- 	if (!dpu_enc)
- 		return ERR_PTR(-ENOMEM);
- 
-+
- 	rc = drm_encoder_init(dev, &dpu_enc->base, &dpu_encoder_funcs,
--			drm_enc_mode, NULL);
-+							  drm_enc_mode, NULL);
- 	if (rc) {
- 		devm_kfree(dev->dev, dpu_enc);
- 		return ERR_PTR(rc);
-diff --git a/drivers/gpu/drm/msm/disp/dpu1/dpu_kms.c b/drivers/gpu/drm/msm/disp/dpu1/dpu_kms.c
-index c683cab..0a50509 100644
---- a/drivers/gpu/drm/msm/disp/dpu1/dpu_kms.c
-+++ b/drivers/gpu/drm/msm/disp/dpu1/dpu_kms.c
-@@ -1,5 +1,6 @@
- // SPDX-License-Identifier: GPL-2.0-only
- /*
-+ * Copyright (c) 2022 Qualcomm Innovation Center, Inc. All rights reserved.
-  * Copyright (c) 2014-2018, The Linux Foundation. All rights reserved.
-  * Copyright (C) 2013 Red Hat
-  * Author: Rob Clark <robdclark@gmail.com>
-@@ -15,6 +16,7 @@
- #include <drm/drm_crtc.h>
- #include <drm/drm_file.h>
- #include <drm/drm_vblank.h>
-+#include <drm/drm_writeback.h>
- 
- #include "msm_drv.h"
- #include "msm_mmu.h"
-@@ -29,6 +31,7 @@
- #include "dpu_kms.h"
- #include "dpu_plane.h"
- #include "dpu_vbif.h"
-+#include "dpu_writeback.h"
- 
- #define CREATE_TRACE_POINTS
- #include "dpu_trace.h"
-@@ -648,6 +651,45 @@ static int _dpu_kms_initialize_displayport(struct drm_device *dev,
- 	return 0;
- }
- 
-+static int _dpu_kms_initialize_writeback(struct drm_device *dev,
-+		struct msm_drm_private *priv, struct dpu_kms *dpu_kms,
-+		const u32 *wb_formats, int n_formats)
++bool dpu_encoder_is_valid_for_commit(struct drm_encoder *drm_enc)
 +{
-+	struct drm_encoder *encoder = NULL;
-+	struct msm_display_info info;
-+	int rc;
++	struct dpu_encoder_virt *dpu_enc;
++	unsigned int i;
++	struct dpu_encoder_phys *phys;
 +
-+	encoder = dpu_encoder_init(dev, DRM_MODE_ENCODER_VIRTUAL);
-+	if (IS_ERR(encoder)) {
-+		DPU_ERROR("encoder init failed for dsi display\n");
-+		return PTR_ERR(encoder);
-+	}
++	dpu_enc = to_dpu_encoder_virt(drm_enc);
 +
-+	memset(&info, 0, sizeof(info));
-+
-+	rc = dpu_writeback_init(dev, encoder, wb_formats,
-+			n_formats);
-+	if (rc) {
-+		DPU_ERROR("dpu_writeback_init, rc = %d\n", rc);
-+		drm_encoder_cleanup(encoder);
-+		return rc;
-+	}
-+
-+	info.num_of_h_tiles = 1;
-+	/* use only WB idx 2 instance for DPU */
-+	info.h_tile_instance[0] = WB_2;
-+	info.intf_type = encoder->encoder_type;
-+
-+	rc = dpu_encoder_setup(dev, encoder, &info);
-+	if (rc) {
-+		DPU_ERROR("failed to setup DPU encoder %d: rc:%d\n",
-+				  encoder->base.id, rc);
-+		return rc;
-+	}
-+
-+	return 0;
-+}
-+
- /**
-  * _dpu_kms_setup_displays - create encoders, bridges and connectors
-  *                           for underlying displays
-@@ -661,6 +703,7 @@ static int _dpu_kms_setup_displays(struct drm_device *dev,
- 				    struct dpu_kms *dpu_kms)
- {
- 	int rc = 0;
-+	int i;
- 
- 	rc = _dpu_kms_initialize_dsi(dev, priv, dpu_kms);
- 	if (rc) {
-@@ -674,6 +717,21 @@ static int _dpu_kms_setup_displays(struct drm_device *dev,
- 		return rc;
- 	}
- 
-+	/* Since WB isn't a driver check the catalog before initializing */
-+	if (dpu_kms->catalog->wb_count) {
-+		for (i = 0; i < dpu_kms->catalog->wb_count; i++) {
-+			if (dpu_kms->catalog->wb[i].id == WB_2) {
-+				rc = _dpu_kms_initialize_writeback(dev, priv, dpu_kms,
-+						dpu_kms->catalog->wb[i].format_list,
-+						dpu_kms->catalog->wb[i].num_formats);
-+				if (rc) {
-+					DPU_ERROR("initialize_WB failed, rc = %d\n", rc);
-+					return rc;
-+				}
++	if (drm_enc->encoder_type == DRM_MODE_ENCODER_VIRTUAL) {
++		for (i = 0; i < dpu_enc->num_phys_encs; i++) {
++			phys = dpu_enc->phys_encs[i];
++			if (phys->ops.is_valid_for_commit && !phys->ops.is_valid_for_commit(phys)) {
++				DPU_DEBUG("invalid FB not kicking off\n");
++				return false;
 +			}
 +		}
 +	}
 +
- 	return rc;
++	return true;
++}
++
+ void dpu_encoder_kickoff(struct drm_encoder *drm_enc)
+ {
+ 	struct dpu_encoder_virt *dpu_enc;
+diff --git a/drivers/gpu/drm/msm/disp/dpu1/dpu_encoder.h b/drivers/gpu/drm/msm/disp/dpu1/dpu_encoder.h
+index 6ceec1d..781d41c 100644
+--- a/drivers/gpu/drm/msm/disp/dpu1/dpu_encoder.h
++++ b/drivers/gpu/drm/msm/disp/dpu1/dpu_encoder.h
+@@ -196,4 +196,10 @@ void dpu_encoder_prepare_wb_job(struct drm_encoder *drm_enc,
+ void dpu_encoder_cleanup_wb_job(struct drm_encoder *drm_enc,
+ 		struct drm_writeback_job *job);
+ 
++/**
++ * dpu_encoder_is_valid_for_commit - check if encode has valid parameters for commit.
++ * @drm_enc:    Pointer to drm encoder structure
++ */
++bool dpu_encoder_is_valid_for_commit(struct drm_encoder *drm_enc);
++
+ #endif /* __DPU_ENCODER_H__ */
+diff --git a/drivers/gpu/drm/msm/disp/dpu1/dpu_encoder_phys.h b/drivers/gpu/drm/msm/disp/dpu1/dpu_encoder_phys.h
+index 5452f98..04d037e 100644
+--- a/drivers/gpu/drm/msm/disp/dpu1/dpu_encoder_phys.h
++++ b/drivers/gpu/drm/msm/disp/dpu1/dpu_encoder_phys.h
+@@ -142,6 +142,7 @@ struct dpu_encoder_phys_ops {
+ 			struct drm_writeback_job *job);
+ 	void (*cleanup_wb_job)(struct dpu_encoder_phys *phys_enc,
+ 			struct drm_writeback_job *job);
++	bool (*is_valid_for_commit)(struct dpu_encoder_phys *phys_enc);
+ };
+ 
+ /**
+diff --git a/drivers/gpu/drm/msm/disp/dpu1/dpu_encoder_phys_wb.c b/drivers/gpu/drm/msm/disp/dpu1/dpu_encoder_phys_wb.c
+index 3261437..563ca08 100644
+--- a/drivers/gpu/drm/msm/disp/dpu1/dpu_encoder_phys_wb.c
++++ b/drivers/gpu/drm/msm/disp/dpu1/dpu_encoder_phys_wb.c
+@@ -667,6 +667,16 @@ static void dpu_encoder_phys_wb_cleanup_wb_job(struct dpu_encoder_phys *phys_enc
+ 	wb_enc->wb_conn = NULL;
  }
  
++static bool dpu_encoder_phys_wb_is_valid_for_commit(struct dpu_encoder_phys *phys_enc)
++{
++	struct dpu_encoder_phys_wb *wb_enc = to_dpu_encoder_phys_wb(phys_enc);
++
++	if (wb_enc->wb_job)
++		return true;
++	else
++		return false;
++}
++
+ /**
+  * dpu_encoder_phys_wb_init_ops - initialize writeback operations
+  * @ops:	Pointer to encoder operation table
+@@ -687,6 +697,8 @@ static void dpu_encoder_phys_wb_init_ops(struct dpu_encoder_phys_ops *ops)
+ 	ops->prepare_wb_job = dpu_encoder_phys_wb_prepare_wb_job;
+ 	ops->cleanup_wb_job = dpu_encoder_phys_wb_cleanup_wb_job;
+ 	ops->irq_control = dpu_encoder_phys_wb_irq_ctrl;
++	ops->is_valid_for_commit = dpu_encoder_phys_wb_is_valid_for_commit;
++
+ }
+ 
+ /**
 -- 
 2.7.4
 
