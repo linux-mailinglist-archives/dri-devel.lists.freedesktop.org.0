@@ -2,55 +2,66 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 670C1509E77
-	for <lists+dri-devel@lfdr.de>; Thu, 21 Apr 2022 13:23:09 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id BA9D8509E78
+	for <lists+dri-devel@lfdr.de>; Thu, 21 Apr 2022 13:23:12 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 57FC110F395;
+	by gabe.freedesktop.org (Postfix) with ESMTP id 7532C10F39E;
 	Thu, 21 Apr 2022 11:23:00 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from dispatch1-us1.ppe-hosted.com (dispatch1-us1.ppe-hosted.com
- [148.163.129.52])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 4E6D310E11A;
- Wed, 20 Apr 2022 15:35:34 +0000 (UTC)
-X-Virus-Scanned: Proofpoint Essentials engine
-Received: from mx1-us1.ppe-hosted.com (unknown [10.7.67.119])
- by mx1-us1.ppe-hosted.com (PPE Hosted ESMTP Server) with ESMTPS id 808AC2007B; 
- Wed, 20 Apr 2022 15:35:32 +0000 (UTC)
-Received: from mail3.candelatech.com (mail2.candelatech.com [208.74.158.173])
- by mx1-us1.ppe-hosted.com (PPE Hosted ESMTP Server) with ESMTP id
- 97CA07C0091; Wed, 20 Apr 2022 15:35:31 +0000 (UTC)
-Received: from [192.168.100.195] (50-251-239-81-static.hfc.comcastbusiness.net
- [50.251.239.81])
- (using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
- (No client certificate requested)
- by mail3.candelatech.com (Postfix) with ESMTPSA id 0D55D13C2B0;
- Wed, 20 Apr 2022 08:35:31 -0700 (PDT)
-DKIM-Filter: OpenDKIM Filter v2.11.0 mail3.candelatech.com 0D55D13C2B0
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=candelatech.com;
- s=default; t=1650468931;
- bh=m6UmcaUNAJbiUAjl9D1S7563d1lALHm4+6MIjVko97A=;
- h=Subject:To:Cc:References:From:Date:In-Reply-To:From;
- b=VOttTPX9D2xuN0YICl2Gr74GByEwy6WkJtsWdYYbJ1jWW92A+ZjlIRkHQkeFwMfe/
- Bx4/9LYrN7rYiRhBm81uvJmeMyt9H39cTT7CxWcHu8ch+Au38fqb9pz3xT02gj3+T5
- 1mcU2k0rtCDlXqGL2HzqW+G/wJyTd8/SJ3meo4eY=
-Subject: Re: [PATCH 0/1] add support for enum module parameters
-To: Kalle Valo <kvalo@kernel.org>, Jani Nikula <jani.nikula@intel.com>
-References: <20220414123033.654198-1-jani.nikula@intel.com>
- <YlgfXxjefuxiXjtC@kroah.com> <87a6cneoco.fsf@intel.com>
- <87sfq8qqus.fsf@tynnyri.adurom.net>
-From: Ben Greear <greearb@candelatech.com>
-Organization: Candela Technologies
-Message-ID: <0be3baa1-d4aa-8ab2-173f-085d47497251@candelatech.com>
-Date: Wed, 20 Apr 2022 08:35:30 -0700
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.2.2
+X-Greylist: delayed 400 seconds by postgrey-1.36 at gabe;
+ Wed, 20 Apr 2022 17:15:22 UTC
+Received: from lahtoruutu.iki.fi (lahtoruutu.iki.fi [185.185.170.37])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id C1BF510E204
+ for <dri-devel@lists.freedesktop.org>; Wed, 20 Apr 2022 17:15:22 +0000 (UTC)
+Received: from darkstar.musicnaut.iki.fi (85-76-69-216-nat.elisa-mobile.fi
+ [85.76.69.216])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+ key-exchange ECDHE (P-256) server-signature RSA-PSS (2048 bits) server-digest
+ SHA256) (No client certificate requested)
+ (Authenticated sender: aaro.koskinen)
+ by lahtoruutu.iki.fi (Postfix) with ESMTPSA id 75C061B00220;
+ Wed, 20 Apr 2022 20:08:38 +0300 (EEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=iki.fi; s=lahtoruutu; 
+ t=1650474519;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ in-reply-to:in-reply-to:references:references;
+ bh=B5msNSogp8zw4YAcAsDj6Qc4zdyDGRTVYmRgqRI/0Bk=;
+ b=kTa4PeKcYbiz8v0d1bG/DaDfDPW+JW/Y5caY8AdpKOUIvDM5o36RCvYnTBodU8x4tUxuiF
+ ktxA1VDWnp4JhwdnVZN87iQgFWmYig18OVXRM8AVMhj39aWpQH20CPI4avqgLCd+YIg1Qy
+ idcTWI4UYPweIAjRUudXT1Zf+FbV1KFQ6CsP671o0mcoZYtmGXBa6OtYrK6P6K3jtGr5MZ
+ EHOyrIqm3R/nP1YaqVIW53HsDJDowGirtgtowbqAHter8eYPWisaRosyEAvgWd8N5xDazf
+ MEVSDjkPCt3ICTrqoO34GRh7hV71rJoxKjbq4SJKV8lZ4881URlm0+K8k78LMA==
+Date: Wed, 20 Apr 2022 20:08:36 +0300
+From: Aaro Koskinen <aaro.koskinen@iki.fi>
+To: Arnd Bergmann <arnd@kernel.org>
+Subject: Re: [PATCH 00/41] OMAP1 full multiplatform conversion
+Message-ID: <20220420170836.GB1947@darkstar.musicnaut.iki.fi>
+References: <20220419133723.1394715-1-arnd@kernel.org>
 MIME-Version: 1.0
-In-Reply-To: <87sfq8qqus.fsf@tynnyri.adurom.net>
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
-X-MDID: 1650468933-iY1Kl7vagF1E
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20220419133723.1394715-1-arnd@kernel.org>
+ARC-Seal: i=1; s=lahtoruutu; d=iki.fi; t=1650474519; a=rsa-sha256; cv=none;
+ b=fUP5y+/XQ6zNbth6dMfmG2kN9cICXfnwRNYbkGoVeRNsnY+v6znhO5ch2i5vR5slzPAUec
+ Sztc4GVEZyZOwSwkjLWA4eNpQZV5fEBKgPV4PA0N+8DX6z5GrX6hFbFsM5SltaEfdOE+4X
+ UDuk5UOcv8jYUvEeGfo5RBPyqhwpuA6b4fVpMKqPEFiwGDCvSZdERPOuJX+KlmiYWEjjRQ
+ bzFS2MgkL1ik8EAGHbfrB4YVK4K3DZYBDGcMAmDesHi8ybCiB4PqONwfrj/O7/GLX4DLwE
+ F7s5Eze8miwVNtjGjumlbsWMr0sA8n2Asp4QdugmIsfg6AnQuJaXDQ3ZfwifVA==
+ARC-Authentication-Results: i=1; ORIGINATING;
+ auth=pass smtp.auth=aaro.koskinen smtp.mailfrom=aaro.koskinen@iki.fi
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=iki.fi;
+ s=lahtoruutu; t=1650474519;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ in-reply-to:in-reply-to:references:references;
+ bh=B5msNSogp8zw4YAcAsDj6Qc4zdyDGRTVYmRgqRI/0Bk=;
+ b=uAZuJDKZ7bj4MVqgI3bbcZAOIBMgL+TVcCp9+D4Bx6tcZMUwn0Yukw4zw8doMpCzXb5WaN
+ pJVbadhIweA9yGpQNueUVV9vr1H4bIPdTLnUt9sq85H8sbrTY3WHbuj7hKBBvCPd9hNdLm
+ 1ukZgRh1UpuRnt4Qyg6muAqbGwQyb+0ufFu2ZZFIwmdViYeENLfMfCKbIoMvRNyQt/3O2K
+ fLMvlRgaN2w7kyqhajE30yj5vD3Ir8o/PY21vwX9mxyhgmVGkpxJMIAtFXlT8CRNLmGomp
+ hDjQyLXElaOcP4BTszvgdBbpo30Bae+K5TvQUlGAai/EzsAchzF8OdhdOWxG2A==
 X-Mailman-Approved-At: Thu, 21 Apr 2022 11:22:59 +0000
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -64,61 +75,47 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: linux-wireless@vger.kernel.org,
- Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
- intel-gfx@lists.freedesktop.org, Lucas De Marchi <lucas.demarchi@intel.com>,
- linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
- netdev@vger.kernel.org, Andrew Morton <akpm@linux-foundation.org>
+Cc: Ulf Hansson <ulf.hansson@linaro.org>, linux-usb@vger.kernel.org,
+ tony@atomide.com, linux-fbdev@vger.kernel.org,
+ Dominik Brodowski <linux@dominikbrodowski.net>,
+ Lee Jones <lee.jones@linaro.org>, Daniel Thompson <daniel.thompson@linaro.org>,
+ Kevin Hilman <khilman@kernel.org>, Peter Ujfalusi <peter.ujfalusi@gmail.com>,
+ Helge Deller <deller@gmx.de>, jmkrzyszt@gmail.com,
+ Russell King <linux@armlinux.org.uk>, Krzysztof Kozlowski <krzk@kernel.org>,
+ Alan Stern <stern@rowland.harvard.edu>, linux-serial@vger.kernel.org,
+ linux-input@vger.kernel.org, Arnd Bergmann <arnd@arndb.de>,
+ Mark Brown <broonie@kernel.org>, dri-devel@lists.freedesktop.org,
+ linux-omap@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
+ Felipe Balbi <balbi@kernel.org>, Paul Walmsley <paul@pwsan.com>,
+ Jingoo Han <jingoohan1@gmail.com>, Dmitry Torokhov <dmitry.torokhov@gmail.com>,
+ linux-mmc@vger.kernel.org, linux-kernel@vger.kernel.org,
+ Vinod Koul <vkoul@kernel.org>, dmaengine@vger.kernel.org,
+ alsa-devel@alsa-project.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 4/19/22 10:13 PM, Kalle Valo wrote:
-> + linux-wireless, netdev
-> 
-> Jani Nikula <jani.nikula@intel.com> writes:
-> 
->> On Thu, 14 Apr 2022, Greg Kroah-Hartman <gregkh@linuxfoundation.org> wrote:
->>> On Thu, Apr 14, 2022 at 03:30:32PM +0300, Jani Nikula wrote:
->>>> Hey, I've sent this before, ages ago, but haven't really followed
->>>> through with it. I still think it would be useful for many scenarios
->>>> where a plain number is a clumsy interface for a module param.
->>>>
->>>> Thoughts?
->>>
->>> We should not be adding new module parameters anyway (they operate on
->>> code, not data/devices), so what would this be used for?
->>
->> I think it's just easier to use names than random values, and this also
->> gives you range check on the input.
->>
->> I also keep telling people not to add new module parameters, but it's
->> not like they're going away anytime soon.
->>
->> If there's a solution to being able to pass device specific debug
->> parameters at probe time, I'm all ears. At least i915 has a bunch of
->> things which can't really be changed after probe, when debugfs for the
->> device is around. Module parameters aren't ideal, but debugfs doesn't
->> work for this.
-> 
-> Wireless drivers would also desperately need to pass device specific
-> parameters at (or before) probe time. And not only debug parameters but
-> also configuration parameters, for example firmware memory allocations
-> schemes (optimise for features vs number of clients etc) and whatnot.
-> 
-> Any ideas how to implement that? Is there any prior work for anything
-> like this? This is pretty hard limiting usability of upstream wireless
-> drivers and I really want to find a proper solution.
+Hi,
 
-I used a 'fwcfg' file that is loaded during ath10k initialization, from
-same general location as the firmware.  Name is with pci-id or other unique
-identifier like board files sometimes are named, and you get per radio
-configuration at device load time.  I'm sure I posted a patch on this
-some years ago, but I can point you to my current tree if you prefer.
+On Tue, Apr 19, 2022 at 03:36:42PM +0200, Arnd Bergmann wrote:
+> From: Arnd Bergmann <arnd@arndb.de>
+> 
+> This is the full series for converting OMAP1 to multiplatform, rebased
+> from my 2019 attempt to do the same thing. The soc tree contains simpler
+> patches to do the same for iop32x, ixp4xx, ep93xx and s3c24xx, which
+> means we are getting closer to completing this for all ARMv5 platforms
+> (I have patches for PXA, which is the last one remaining).
+> 
+> Janusz already tested the branch separately and did the missing work
+> for the common-clk conversion after my previous approach was broken.
 
-Thanks,
-Ben
+I tested the full series on the following OMAP1 boards: ams-delta,
+nokia770, osk, palmte and sx1 (QEMU only).
 
--- 
-Ben Greear <greearb@candelatech.com>
-Candela Technologies Inc  http://www.candelatech.com
+Apart from the earlyprintk breakage, everything seemed to work OK.
 
+A minor note, zImage grows about 50 KB with a minimal kernel config. This
+is not yet critical, there's still about 7% headroom on 770 to the 2 MB
+bootloader limit on my setup. Also the decompression time is approaching
+the hardcoded watchdog timeout...
+
+A.
