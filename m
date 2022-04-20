@@ -1,164 +1,68 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id C923A5081CC
-	for <lists+dri-devel@lfdr.de>; Wed, 20 Apr 2022 09:12:48 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 9BA0D5081E7
+	for <lists+dri-devel@lfdr.de>; Wed, 20 Apr 2022 09:20:17 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id F06A810F1E1;
-	Wed, 20 Apr 2022 07:12:43 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id AB76910F180;
+	Wed, 20 Apr 2022 07:20:12 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mga18.intel.com (mga18.intel.com [134.134.136.126])
- by gabe.freedesktop.org (Postfix) with ESMTPS id C1F7810F1E1;
- Wed, 20 Apr 2022 07:12:42 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1650438762; x=1681974762;
- h=from:to:cc:subject:date:message-id:references:
- in-reply-to:content-id:content-transfer-encoding: mime-version;
- bh=J2hbAWwfQHwGOxoHf/BEl4ILJ4Ba36KC/BeyA0tiCwY=;
- b=UO5SMd9bHBJ+EirCJj0QuYZkhIZ5rSf7gUCNr6ex4RFe2pYJviaHgbrd
- 0DyC0KlvE0zrGT2V+4JT907QoO2rlJJsFsPejsVTJknX1JkhSRydsAKy5
- Zf5hH0BZW+tsQJq2MfKF2A5KdhOtLmCrEeFNA+1qyaBeJjvg/fD1AMn63
- 3oBKe2k4VwwaDThpr7pbDDrdYmg6Fp39PGbqOO0qjKilfl48OUktUjQoa
- 9e0rA4Z/HjOBxRJHXbghl9so3eLUHGfXp5nuYRJjrA6oIXTY78yhtnwEi
- NCEaVQh2fIM6OQjdydZrU86BBCdW6FiJ3VUdmoYINXr/rhrJoiibSOEQU g==;
-X-IronPort-AV: E=McAfee;i="6400,9594,10322"; a="245853045"
-X-IronPort-AV: E=Sophos;i="5.90,274,1643702400"; d="scan'208";a="245853045"
-Received: from orsmga007.jf.intel.com ([10.7.209.58])
- by orsmga106.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 20 Apr 2022 00:12:42 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.90,274,1643702400"; d="scan'208";a="555073232"
-Received: from fmsmsx602.amr.corp.intel.com ([10.18.126.82])
- by orsmga007.jf.intel.com with ESMTP; 20 Apr 2022 00:12:41 -0700
-Received: from fmsmsx607.amr.corp.intel.com (10.18.126.87) by
- fmsmsx602.amr.corp.intel.com (10.18.126.82) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2308.27; Wed, 20 Apr 2022 00:12:41 -0700
-Received: from fmsmsx610.amr.corp.intel.com (10.18.126.90) by
- fmsmsx607.amr.corp.intel.com (10.18.126.87) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2308.27; Wed, 20 Apr 2022 00:12:40 -0700
-Received: from fmsedg601.ED.cps.intel.com (10.1.192.135) by
- fmsmsx610.amr.corp.intel.com (10.18.126.90) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2308.27 via Frontend Transport; Wed, 20 Apr 2022 00:12:40 -0700
-Received: from NAM02-DM3-obe.outbound.protection.outlook.com (104.47.56.45) by
- edgegateway.intel.com (192.55.55.70) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.1.2308.27; Wed, 20 Apr 2022 00:12:40 -0700
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=JTtm4apcAXSBNK0gcxbOfmyVaREi4wiDqcEQiIgwwQvtTvQrSUKJniVlDl6+kMZwdtsXMzW4qn1TaPETYEd9Q7xLdsYgcygralefXnhdMK2OkA7EPIMT3z7cwPKuAt3UJnIJ5QJrfWZ8dF5vykev9GvkU2sBYXiqIcrc7L6yRixT9w/IP3mq+dDoxcpTYFh9BudIMOLAcaBL/UcM1NqhNmQ5brV++K32XPmWvVe3f/p2qvtSNUHwaMdqBXtLuNoKdMrRW/kJegkVy6w0UoihIWG6lkBndj1JgQXW1gDpVj7SsdaWflf9TRoFBfdEd3gPgUJP5evOJ275TKOfrDipIQ==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=J2hbAWwfQHwGOxoHf/BEl4ILJ4Ba36KC/BeyA0tiCwY=;
- b=RfL/x2Ca+9zDaSlABg12QLEam6dxHzmEGwTgx/y6TQwE99yIW9QqdEDuNo+Ux69UxSxLY6YTACUXd4oCBrQNLDilgbt16YTu01Gs8eAnxvs7IN5qoUCMJvVfJzLyR7EaNAZG6JZ2EJaH5TWosOJrCwj851mh6pwyVXU+2k1KMSUptTBieUEZnuhJw3qesqkkBwNLnKWgiQPlphqYQp1dJ/ecRS0kve5TFdpMmXZkHXzcKZO2DxOF/AvUqQQaMxeke45al3tRCzorRl73n6k5IfDN4OeOvMSAsjuFKyMkIXZ7BBaUAt0HHPVyRtcjRbYQGU/JwBRrv5qyFcZP5htDbg==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=intel.com; dmarc=pass action=none header.from=intel.com;
- dkim=pass header.d=intel.com; arc=none
-Received: from DM4PR11MB5549.namprd11.prod.outlook.com (2603:10b6:5:388::7) by
- SA2PR11MB4956.namprd11.prod.outlook.com (2603:10b6:806:112::20) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.5164.20; Wed, 20 Apr
- 2022 07:12:34 +0000
-Received: from DM4PR11MB5549.namprd11.prod.outlook.com
- ([fe80::e5b8:93eb:e06b:f1ab]) by DM4PR11MB5549.namprd11.prod.outlook.com
- ([fe80::e5b8:93eb:e06b:f1ab%6]) with mapi id 15.20.5164.025; Wed, 20 Apr 2022
- 07:12:34 +0000
-From: "Wang, Zhi A" <zhi.a.wang@intel.com>
-To: Christoph Hellwig <hch@lst.de>, Jason Gunthorpe <jgg@nvidia.com>
-Subject: Re: refactor the i915 GVT support and move to the modern mdev API v3
-Thread-Topic: refactor the i915 GVT support and move to the modern mdev API v3
-Thread-Index: AQHYTa50HopuXX46aU+QxtIWwnq/0azt3o0AgAAhbQCAAANggIAAeVIAgAACNICAANnfgIAAFJ2AgAABmoCAAADigIAAC82AgAADvoCACO/9AIAAAUWA
-Date: Wed, 20 Apr 2022 07:12:34 +0000
-Message-ID: <057c2f27-2940-3a3f-2091-83f6d9ce2162@intel.com>
-References: <20220413154642.GA28095@lst.de> <871qy1geko.fsf@intel.com>
- <5af7726e-920e-603a-bad3-8adb09d2ba89@intel.com>
- <20220413232053.GA2120790@nvidia.com>
- <1c3aaab9-3bd4-95d4-9f9f-4be9e10e6516@intel.com>
- <20220414133427.GB2120790@nvidia.com> <87ilrbeqbo.fsf@intel.com>
- <20220414134321.GD2120790@nvidia.com>
- <abc0a953-8527-ba25-9987-d2f1284a7430@intel.com>
- <20220414143859.GE368031@nvidia.com> <20220420070800.GB4417@lst.de>
-In-Reply-To: <20220420070800.GB4417@lst.de>
-Accept-Language: en-FI, en-US
-Content-Language: aa
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-user-agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.14.0
-authentication-results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=intel.com;
-x-ms-publictraffictype: Email
-x-ms-office365-filtering-correlation-id: 73414b9e-61b6-42e5-651b-08da229d2471
-x-ms-traffictypediagnostic: SA2PR11MB4956:EE_
-x-ld-processed: 46c98d88-e344-4ed4-8496-4ed7712e255d,ExtAddr
-x-microsoft-antispam-prvs: <SA2PR11MB49566CB4B2CE820D1947CCF8CAF59@SA2PR11MB4956.namprd11.prod.outlook.com>
-x-ms-exchange-senderadcheck: 1
-x-ms-exchange-antispam-relay: 0
-x-microsoft-antispam: BCL:0;
-x-microsoft-antispam-message-info: tvIXRnOPGQ7J68vjlCsn6atAcjN/o8VorkVPWy5EVVwiDbcUYyAhScba3ZsO+7IOHART7hQ9RKqyoiDYgNq2zQQGDCqbW4N8ytZg0UKU3EgpQQbqjqr5ztLB9pLRlhWENcTGGiN7lGf8hce/NGoFwtT/tdKd4Or9bTPaDfyhogauyBIc/13pobx6fnFDNJzIRT7X6aQ9QL32Ivse30dVFOmdSJ7DkDzrhyNU8dmAHK95VflsPLBbUxzGGerW7afKEJ3vO6Uowmwsi4HFJl0RvlgXT4zFUGo/z/wloCjnAlPISjkF5jjLhrIFX/jBcslNki17PB0pZXjTSVhKAzC9ytK7EgE7vB6dgaM0D/D7yNEkqKFwrWtgiN86JXtA4HM7EQxJzLKHosI28+S/9euEugLgrgLelCfr/mHGgQkW22F65QxpxDqKI45QEpN+JlKl6l5u4+sJRDL8pSSH1cbOtULCM8ZGMRKhHlhjIcHCejeg0JOlK7a5a5Yo+axOpbJbK9cZgE9V5K5MHz27T4NNIds8Q3NsCf5s3K6bCuUSfbY4qNIM/wqX5w/APejy7fWwB7fjNTtEsGeNnmVWRYREvB2bUAXPjsREJGzHhrBMDrQQscuE07sQDFyOxqRqUnnRwazQDkwBLwtzNYix8+Q+uiypc2hPP5SE/RwRUbHnJiEDt8yK80d9DgCrF42XxpN0gDUZZrIi5293FrEBSKgGM6QVCCK5AZOhS3QgR1aToQmymdO907WORdgoiiYr9vHchbwtCmaqnZFPCRe5AqQOqw==
-x-forefront-antispam-report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
- IPV:NLI; SFV:NSPM; H:DM4PR11MB5549.namprd11.prod.outlook.com; PTR:; CAT:NONE;
- SFS:(13230001)(366004)(26005)(2616005)(38100700002)(186003)(122000001)(83380400001)(66946007)(110136005)(6486002)(86362001)(66556008)(31696002)(71200400001)(38070700005)(5660300002)(4326008)(8676002)(76116006)(66574015)(66476007)(64756008)(91956017)(31686004)(66446008)(508600001)(316002)(54906003)(6506007)(82960400001)(53546011)(8936002)(36756003)(6512007)(7416002)(2906002)(43740500002)(45980500001);
- DIR:OUT; SFP:1102; 
-x-ms-exchange-antispam-messagedata-chunkcount: 1
-x-ms-exchange-antispam-messagedata-0: =?utf-8?B?U0paSlhtUzI2R2pMclBtZnM2dEQyVERRdXVhcjJPNlpmNEpxeXh6dHRVTktH?=
- =?utf-8?B?MjA0QWh6QWZPT2htRVdCOGRHZVcxT3JQOU5Ob2UvSjZRMk9DSlcyOGF1MzdY?=
- =?utf-8?B?djBoRHBub0gvNU9UeGVzZFp6dW83QXR3aTY0UE1yanA0ZE1kN3pabjhrOE5T?=
- =?utf-8?B?bUMvb2ROVDlwWnYrbXRnZERIa3lobHh4L2J3OUt3dUdNVWpkcGJzckw4S0JK?=
- =?utf-8?B?c3JHVm5FUGQ4Nkt5S1AwUVpQalRLL3ZvV2dKTUNFNk16RndEdmUzck1rVUpP?=
- =?utf-8?B?Qkd2bmJ5U2kxRG5WL1MwZEJUdjJrSG5ieFNNbE91UEZ3RGFGaG83My9rY3hR?=
- =?utf-8?B?R2s3QmpUL1B4TzFGSjhTaUgzQTB1bml2Y0pWcitIb0dvR0UwclY3V29WS1c3?=
- =?utf-8?B?Yit1Vnd3WUpkS0RiU1c0aUwvMjNOVlRDZU1BdHlxVkFMemVSbXBqbTFMdTZ0?=
- =?utf-8?B?UFVNM2VKSjFJNHVtWnZYQ0VwMWd3RlR3USt3MnRWVUVtL1RxcGNtM3ZkdEdt?=
- =?utf-8?B?WDMwSjYreTY4VVIvMXNWVk5Wc05kNGhGUC9tWEVDTHhtcUdlRWtTSmJ0V2M4?=
- =?utf-8?B?aGx1dFRPaGpobVBJUUpVVTk4VUVnSGxGampUa3RjdXZ0Q25GTVk1dXJmVU41?=
- =?utf-8?B?dUgwdWRtUnZwY09kM1hmL1VjbnhxVUdBSGZydytpTHR3dXRpZWt3eHF0Ukg3?=
- =?utf-8?B?UUxjZnRsZVM1OFJnc1Nlb3VtZldjekNwNkdoQS8xVlhNaUNZZWd1cXpRVVBV?=
- =?utf-8?B?YWZQOUpPK3B5akR4WDBtNitKUGhsOXg1Qi9yVVozc0gzK2MwdzJZNk1zb00w?=
- =?utf-8?B?bTYxVUw0L1RrZkZFU2o2WjE3YlpLNmRnNlBiRjc0VlcxM2NTOWo1LzYxeXFR?=
- =?utf-8?B?ald4ME1ySzd5Uno2VFpBQ29DL3NVd2dPaFpWQlNlM2lycGNnK0hiVlhhbmJk?=
- =?utf-8?B?QjEzbkhCeWZtSnBMcHNETi9lUnpsMlorRzZNUDFRTzc1Tlk0U3pqQXhHbTRh?=
- =?utf-8?B?NWlSMXZXOW10WnlYV0pLMXRoZXpUL1YraW8vR2FpN01mSGpMT3I0QUdFVE95?=
- =?utf-8?B?d0FFcnlkOVQvdVFIcVYwZmpETUJtU2luMjNsT2dEZ1R2cmh5Y2QxMzVEam5F?=
- =?utf-8?B?S0xYM2pxVVUzZVhsTDgzWUZMa2NsdThaY1VvSVNlWTJLK05tMTVqWXVBaFNM?=
- =?utf-8?B?Qk1TNkpORVpxczl1VHl4Y0ZmNUJwY3lCOTB1OGhuZmhhZmpBeGxONnB6Y2R2?=
- =?utf-8?B?TzA3UTlCVUZpRlV0R1dIMFVrbjF3OXFvTW1USDRPNFloYmV5VEFYMnNITFB4?=
- =?utf-8?B?M21pRENaWGFOV2N3RzVqSVQ0d3RiTDF4UkNPcWc4dVM3UTNSS3pZZDJyMzBO?=
- =?utf-8?B?MWluUU1pcVVsajZOQmJIRXBMRTJoTUg1WWk2QkZIcC9uREVGLzF4RStBTVFS?=
- =?utf-8?B?VlNDSDVEdnowWER5aEhhWmliM3JySWNGL0xoU01IUHgvVzBSTy9IVEdLdmFr?=
- =?utf-8?B?RjNjaHd4aVQzc2pBbS9CQU9XQU9OUmNpcmhsajgrSk1oRTFGZ003aUsrN3NZ?=
- =?utf-8?B?dGtSNTIxcUxhTmxLWTFZaHN0NFBWRkh5NmRINWc1aXVoeWtLRzVTeHhQT1ZH?=
- =?utf-8?B?VE9VTERMRG5sMXJNZFhHVmd4SEZYMmlJWkQrUTZKOWlwRDlyOTQ1UEhzWnVP?=
- =?utf-8?B?SWVWTk9pakFGRnYrOHRVdk94OXZReVlQRDdPTjVpeTZnTVNhQnhQVnVoNm1n?=
- =?utf-8?B?Z2k2ODdHNmNqNkFxU0J3cjh1TWpoMXYwT1FQbzV6dGN3S2c3YzVNL0k2dDVv?=
- =?utf-8?B?SDNxT3JKT3hJRG94ODRBdG84MktoNkEvZDFjcG04MHZrTUZSMm1yYVo5UEh1?=
- =?utf-8?B?OFg1NG1kLzVYWnBjQjJPWDVPczZlM2RzMlVWaktQV3RTcVZ3Qi9DNWovTHIy?=
- =?utf-8?B?QVFwa1FsQTYrU3pnbjNFWkJzUE5hMWg4M2dpbXNIN05XZVRnN3NtYXhjY1dq?=
- =?utf-8?B?VDgzN2hkZXJkSU9nbXgzZkNzY1I4NmUrWC9JZEQ4SFRtdDJIWTVHY1hRaEZK?=
- =?utf-8?B?Mml5R1hOcHVDN3hveUlMSThGanRIMkFrN3RacHlTS3ZJc0RWMU5LelAwbStY?=
- =?utf-8?B?Z3QySXg3VmtmYzBIQnIxbm02VTY1NytBZzRHYlQ0amFYN2IzTzNkcjBLcmJC?=
- =?utf-8?B?M1FrbWtSNkVuNHV5NjVFMVRZb3phUmFPRnA4bEp3azh0NDdVdklzNkRGbzlp?=
- =?utf-8?B?M1JHdmtqUjFDK1NlK3d2bUV0eGNEUUxrQWI5QXpvUTNFOXoySExuUk50VnYv?=
- =?utf-8?B?UlViVXgrNDgrbUkrYXJWTnBhY1ZhS2NUeTNQQUIyRjUxZjVhazIrdz09?=
-Content-Type: text/plain; charset="utf-8"
-Content-ID: <5E8F4EC8DFF7714A8C02A709F7FF1794@namprd11.prod.outlook.com>
-Content-Transfer-Encoding: base64
+Received: from mail-lf1-x12a.google.com (mail-lf1-x12a.google.com
+ [IPv6:2a00:1450:4864:20::12a])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id CF48210F139
+ for <dri-devel@lists.freedesktop.org>; Wed, 20 Apr 2022 07:20:10 +0000 (UTC)
+Received: by mail-lf1-x12a.google.com with SMTP id p10so1194549lfa.12
+ for <dri-devel@lists.freedesktop.org>; Wed, 20 Apr 2022 00:20:10 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=message-id:date:mime-version:user-agent:subject:content-language:to
+ :cc:references:from:in-reply-to:content-transfer-encoding;
+ bh=mF+woImaPioLOXvkjkTR3YWOyAaDN/5VpUb6IiIqEFo=;
+ b=b+fkUWI4zdouMlXPdLAudELNQoQB7B9fJPXiQTKv5i8q/aAvZbjBL5Bx9e44HmCdIC
+ lHjbRa0WgE4w20O3mJA2C7y7SkiHgShg0TU6z7eK5D5oDFao5tyQXQ0wJDRAlHj8Ewdk
+ 5f4CIokbJkwRgisl3Ojrc2ZnF9GlO/glVMiTtNWeH8i+cYMMYsJQGfxGrGZ1WzRap0Qf
+ YPJAs/5QAFLxDza4p+dHHdCe/n/7FqErMPQX0kVQQGXAI6TU+rb06D0Xv+LeRvcCKv5G
+ Iaw6qqfxxcjjcjaEYrbrTL0GjgNQckt/XuHpeS5TNKlvAgsvgOWeUSPKeqQP928UGm6W
+ gZwg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
+ :content-language:to:cc:references:from:in-reply-to
+ :content-transfer-encoding;
+ bh=mF+woImaPioLOXvkjkTR3YWOyAaDN/5VpUb6IiIqEFo=;
+ b=ELzMdHBDQ47qO6u3Vv55N1PaFavQ8awAyhfK98ZsIgNO96xy7+hCDST2yYnSfU22NP
+ 3Hm6D5/Sw1rZxvpDT394wPzN1+fT7GaDzZN/noyGDkIDT0yYaV/5B2aKmiahhRuaMoec
+ iBi5yofoYxzw3kHa5iah5m3Qa2Rppa+KKEuG24m7P42kDD4h2V1KEMwEUbCR35C0Iqm8
+ fNMyIpPV1NH3GkAjXLHQ9hOvHsjy6QDqXM2UDwblDusLNKrsZ7IdbB9sIBUxH7a7uA2u
+ zifUwlksG+A5vMqLJOqUvIF61HoKim88xHWgElaTyYNla2jhhRrvDPNaDmc531tFR3RA
+ GeIQ==
+X-Gm-Message-State: AOAM533S971DTr4MqDoszvTZNFH/LmDFfz+krt4R5JWmqgZxW/s2xiFi
+ to8O+MZ6tvkWwEE2vMzQGfPUug==
+X-Google-Smtp-Source: ABdhPJwKL34akguXLph2tVmLAyZiWDlNTknUhlYlPyexlM+zBc8wmr5RVhvclPlb2ax51ntwEbD2aQ==
+X-Received: by 2002:a19:7512:0:b0:471:b3a2:da21 with SMTP id
+ y18-20020a197512000000b00471b3a2da21mr3061696lfe.605.1650439209075; 
+ Wed, 20 Apr 2022 00:20:09 -0700 (PDT)
+Received: from [192.168.1.211] ([37.153.55.125])
+ by smtp.gmail.com with ESMTPSA id
+ bf32-20020a2eaa20000000b0024da14d9fa4sm1635506ljb.98.2022.04.20.00.20.08
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Wed, 20 Apr 2022 00:20:08 -0700 (PDT)
+Message-ID: <78612521-190c-0706-7654-2f6221485f2b@linaro.org>
+Date: Wed, 20 Apr 2022 10:20:07 +0300
 MIME-Version: 1.0
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-AuthSource: DM4PR11MB5549.namprd11.prod.outlook.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 73414b9e-61b6-42e5-651b-08da229d2471
-X-MS-Exchange-CrossTenant-originalarrivaltime: 20 Apr 2022 07:12:34.2342 (UTC)
-X-MS-Exchange-CrossTenant-fromentityheader: Hosted
-X-MS-Exchange-CrossTenant-id: 46c98d88-e344-4ed4-8496-4ed7712e255d
-X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
-X-MS-Exchange-CrossTenant-userprincipalname: 9vzOVljYXmdiFFuVQmRWSMtFeeR7ObvauQf9PVfVIbDWKAuicSqy1vcTXAy/ylz8nl5wP/3qAFUm//XsHsoWyw==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: SA2PR11MB4956
-X-OriginatorOrg: intel.com
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.8.0
+Subject: Re: [PATCH v2 06/17] drm/msm/dpu: add dpu_hw_wb abstraction for
+ writeback blocks
+Content-Language: en-GB
+To: Abhinav Kumar <quic_abhinavk@quicinc.com>, freedreno@lists.freedesktop.org
+References: <1650419169-13760-1-git-send-email-quic_abhinavk@quicinc.com>
+ <1650419169-13760-7-git-send-email-quic_abhinavk@quicinc.com>
+From: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
+In-Reply-To: <1650419169-13760-7-git-send-email-quic_abhinavk@quicinc.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -171,34 +75,481 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: "intel-gfx@lists.freedesktop.org" <intel-gfx@lists.freedesktop.org>,
- "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>, Alex
- Williamson <alex.williamson@redhat.com>,
- "dri-devel@lists.freedesktop.org" <dri-devel@lists.freedesktop.org>, "Vivi,
- Rodrigo" <rodrigo.vivi@intel.com>,
- "intel-gvt-dev@lists.freedesktop.org" <intel-gvt-dev@lists.freedesktop.org>
+Cc: markyacoub@chromium.org, liviu.dudau@arm.com,
+ dri-devel@lists.freedesktop.org, swboyd@chromium.org, seanpaul@chromium.org,
+ laurent.pinchart@ideasonboard.com, quic_jesszhan@quicinc.com,
+ quic_aravindh@quicinc.com
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-T24gNC8yMC8yMiA3OjA4IEFNLCBDaHJpc3RvcGggSGVsbHdpZyB3cm90ZToNCj4gT24gVGh1LCBB
-cHIgMTQsIDIwMjIgYXQgMTE6Mzg6NTlBTSAtMDMwMCwgSmFzb24gR3VudGhvcnBlIHdyb3RlOg0K
-Pj4gcHVsbCByZXF1ZXN0cyBjYW4gZmxvdyB0aHJvdWdoIG1vcmUgdGhhbiBvbmUgdHJlZSBjb25j
-dXJyZW50bHkuIFRoZQ0KPj4gcHVycG9zZSBvZiB0aGUgdG9waWMgYnJhbmNoIGlzIHRvIGFsbG93
-IGFsbCB0aGUgY29tbWl0cyB0byBiZSBpbiBhbGwNCj4+IHRoZSB0cmVlcyB0aGV5IG5lZWQgdG8g
-YmUgaW4gYXQgb25jZS4NCj4+DQo+PiBTbyB5b3Ugc2hvdWxkIHNlbmQgdGhpcyBicmFuY2ggYXMg
-YSBQUiB0byB0aGUgbmV4dCBsb2dpY2FsIHVwc3RyZWFtDQo+PiB0cmVlIGd2dCBwYXRjaGVzIG5v
-cm1hbGx5IGdvIHRocm91Z2gsIGluIHRoZSB1c3VhbCB3YXkgdGhhdCB5b3Ugc2VuZA0KPj4gUFJz
-LiBFc3BlY2lhbGx5IGluIHRoaXMgY2FzZSB3aGVyZSB0aGVyZSBpcyBhIHNtYWxsIG1lcmdlIGNv
-bmZsaWN0DQo+PiBpbnRlcm5hbCB0byBEUk0gdG8gcmVzb2x2ZS4gSSdtIGFzc3VtaW5nIHRoaXMg
-aXMgdGhlIGRybS1pbnRlbC1uZXh0DQo+PiB0cmVlPw0KPj4NCj4+IE9uY2UgRFJNIGlzIGludGVy
-bmFsbHkgaGFwcHkgdGhlbiBWRklPIGNhbiBtZXJnZSBpdCBhcyB3ZWxsLiBZb3UgY2FuDQo+PiB2
-aWV3IFZGSU8gYXMgdGhlIHNlY29uZGFyeSBwYXRoIHRvIExpbnVzLCBEUk0gYXMgcHJpbWFyeS4g
-QWxleCB3aWxsDQo+PiBtZW50aW9uIGluIGhpcyBwdWxsIHJlcXVlc3QgdGhhdCBWRklPIGhhcyBh
-ICdzaGFyZWQgYnJhbmNoIHdpdGggRFJNDQo+PiBmb3IgZ3Z0Jy4NCj4gDQo+IFdoZXJlIGRvIHdl
-IHN0YW5kIGhlcmU/ICBUaGUgKHNvbWV3aGF0IG1pc25hbWVkKSB0b3BpYy9mb3ItY2hyaXN0b3Bo
-DQo+IGJyYW5jaCBsb29rcyBmaW5lIHRvIG1lIG5vdyBleGNlcHQgZm9yIHRoZSBt0ZZzc2luZyAi
-c3RhdGljIGlubGluZSIgb24NCj4gdGhlIGludGVsX2d2dF9pdGVyYXRlX21taW9fdGFibGUgc3R1
-Yi4NCj4gDQo+IFdoZW4gY2FuIHdlIGV4cGVjdCBpdCBpbiB0aGUgaTkxNSB0cmVlIGFuZCBsaW51
-eC1uZXh0Pw0KPiANClF1ciBRQSBmaW5pc2hlZCB0aGUgdGVzdCB5ZXN0ZXJkYXkgYW5kIEkganVz
-dCBtYWRlIGEgdGFnLiBUaGUgcHVsbA0KcmVxdWVzdCBpcyBnb2luZyB0byBiZSBzZW50IHRvZGF5
-LiBZZXMsIEkgd2lsbCBmaXggdGhhdC4NCg0KVGhhbmtzLA0KWmhpLg0K
+On 20/04/2022 04:45, Abhinav Kumar wrote:
+> Add the dpu_hw_wb abstraction to program registers related to the
+> writeback block. These will be invoked once all the configuration
+> is set and ready to be programmed to the registers.
+> 
+> changes in v2:
+> 	- remove multiple empty lines at the end of the file
+> 	- change dpu_hw_wb_bind_pingpong_blk to preserve upper bits
+> 
+> Signed-off-by: Abhinav Kumar <quic_abhinavk@quicinc.com>
+> Reviewed-by: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
+
+It's still Reviewed-by, few nits below.
+
+> ---
+>   drivers/gpu/drm/msm/Makefile              |   1 +
+>   drivers/gpu/drm/msm/disp/dpu1/dpu_hw_wb.c | 273 ++++++++++++++++++++++++++++++
+>   drivers/gpu/drm/msm/disp/dpu1/dpu_hw_wb.h | 131 ++++++++++++++
+>   3 files changed, 405 insertions(+)
+>   create mode 100644 drivers/gpu/drm/msm/disp/dpu1/dpu_hw_wb.c
+>   create mode 100644 drivers/gpu/drm/msm/disp/dpu1/dpu_hw_wb.h
+> 
+> diff --git a/drivers/gpu/drm/msm/Makefile b/drivers/gpu/drm/msm/Makefile
+> index d5ca2e6..ca779c1 100644
+> --- a/drivers/gpu/drm/msm/Makefile
+> +++ b/drivers/gpu/drm/msm/Makefile
+> @@ -74,6 +74,7 @@ msm-$(CONFIG_DRM_MSM_DPU) += \
+>   	disp/dpu1/dpu_hw_top.o \
+>   	disp/dpu1/dpu_hw_util.o \
+>   	disp/dpu1/dpu_hw_vbif.o \
+> +	disp/dpu1/dpu_hw_wb.o \
+>   	disp/dpu1/dpu_kms.o \
+>   	disp/dpu1/dpu_plane.o \
+>   	disp/dpu1/dpu_rm.o \
+> diff --git a/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_wb.c b/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_wb.c
+> new file mode 100644
+> index 0000000..afa8aab
+> --- /dev/null
+> +++ b/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_wb.c
+> @@ -0,0 +1,273 @@
+> +// SPDX-License-Identifier: GPL-2.0-only
+> + /*
+> +  * Copyright (c) 2022 Qualcomm Innovation Center, Inc. All rights reserved
+> +  */
+> +
+> +#include "dpu_hw_mdss.h"
+> +#include "dpu_hwio.h"
+> +#include "dpu_hw_catalog.h"
+> +#include "dpu_hw_wb.h"
+> +#include "dpu_formats.h"
+> +#include "dpu_kms.h"
+> +
+> +#define WB_DST_FORMAT                         0x000
+> +#define WB_DST_OP_MODE                        0x004
+> +#define WB_DST_PACK_PATTERN                   0x008
+> +#define WB_DST0_ADDR                          0x00C
+> +#define WB_DST1_ADDR                          0x010
+> +#define WB_DST2_ADDR                          0x014
+> +#define WB_DST3_ADDR                          0x018
+> +#define WB_DST_YSTRIDE0                       0x01C
+> +#define WB_DST_YSTRIDE1                       0x020
+> +#define WB_DST_YSTRIDE1                       0x020
+> +#define WB_DST_DITHER_BITDEPTH                0x024
+> +#define WB_DST_MATRIX_ROW0                    0x030
+> +#define WB_DST_MATRIX_ROW1                    0x034
+> +#define WB_DST_MATRIX_ROW2                    0x038
+> +#define WB_DST_MATRIX_ROW3                    0x03C
+> +#define WB_DST_WRITE_CONFIG                   0x048
+> +#define WB_ROTATION_DNSCALER                  0x050
+> +#define WB_ROTATOR_PIPE_DOWNSCALER            0x054
+> +#define WB_N16_INIT_PHASE_X_C03               0x060
+> +#define WB_N16_INIT_PHASE_X_C12               0x064
+> +#define WB_N16_INIT_PHASE_Y_C03               0x068
+> +#define WB_N16_INIT_PHASE_Y_C12               0x06C
+> +#define WB_OUT_SIZE                           0x074
+> +#define WB_ALPHA_X_VALUE                      0x078
+> +#define WB_DANGER_LUT                         0x084
+> +#define WB_SAFE_LUT                           0x088
+> +#define WB_QOS_CTRL                           0x090
+> +#define WB_CREQ_LUT_0                         0x098
+> +#define WB_CREQ_LUT_1                         0x09C
+> +#define WB_UBWC_STATIC_CTRL                   0x144
+> +#define WB_MUX                                0x150
+> +#define WB_CROP_CTRL                          0x154
+> +#define WB_CROP_OFFSET                        0x158
+> +#define WB_CSC_BASE                           0x260
+> +#define WB_DST_ADDR_SW_STATUS                 0x2B0
+> +#define WB_CDP_CNTL                           0x2B4
+> +#define WB_OUT_IMAGE_SIZE                     0x2C0
+> +#define WB_OUT_XY                             0x2C4
+> +
+> +/* WB_QOS_CTRL */
+> +#define WB_QOS_CTRL_DANGER_SAFE_EN            BIT(0)
+> +
+> +static const struct dpu_wb_cfg *_wb_offset(enum dpu_wb wb,
+> +		const struct dpu_mdss_cfg *m, void __iomem *addr,
+> +		struct dpu_hw_blk_reg_map *b)
+> +{
+> +	int i;
+> +
+> +	for (i = 0; i < m->wb_count; i++) {
+> +		if (wb == m->wb[i].id) {
+> +			b->base_off = addr;
+> +			b->blk_off = m->wb[i].base;
+> +			b->length = m->wb[i].len;
+> +			b->hwversion = m->hwversion;
+> +			return &m->wb[i];
+> +		}
+> +	}
+> +	return ERR_PTR(-EINVAL);
+> +}
+> +
+> +static void dpu_hw_wb_setup_outaddress(struct dpu_hw_wb *ctx,
+> +		struct dpu_hw_wb_cfg *data)
+> +{
+> +	struct dpu_hw_blk_reg_map *c = &ctx->hw;
+> +
+> +	DPU_REG_WRITE(c, WB_DST0_ADDR, data->dest.plane_addr[0]);
+> +	DPU_REG_WRITE(c, WB_DST1_ADDR, data->dest.plane_addr[1]);
+> +	DPU_REG_WRITE(c, WB_DST2_ADDR, data->dest.plane_addr[2]);
+> +	DPU_REG_WRITE(c, WB_DST3_ADDR, data->dest.plane_addr[3]);
+> +}
+> +
+> +static void dpu_hw_wb_setup_format(struct dpu_hw_wb *ctx,
+> +		struct dpu_hw_wb_cfg *data)
+> +{
+
+This function shares significant logic with dpu_hw_sspp_setup_format().
+
+We should consider splitting the common code to the helper at some point 
+(later).
+
+> +	struct dpu_hw_blk_reg_map *c = &ctx->hw;
+> +	const struct dpu_format *fmt = data->dest.format;
+> +	u32 dst_format, pattern, ystride0, ystride1, outsize, chroma_samp;
+> +	u32 write_config = 0;
+> +	u32 opmode = 0;
+> +	u32 dst_addr_sw = 0;
+> +
+> +	chroma_samp = fmt->chroma_sample;
+> +
+> +	dst_format = (chroma_samp << 23) |
+> +		(fmt->fetch_planes << 19) |
+> +		(fmt->bits[C3_ALPHA] << 6) |
+> +		(fmt->bits[C2_R_Cr] << 4) |
+> +		(fmt->bits[C1_B_Cb] << 2) |
+> +		(fmt->bits[C0_G_Y] << 0);
+> +
+> +	if (fmt->bits[C3_ALPHA] || fmt->alpha_enable) {
+> +		dst_format |= BIT(8); /* DSTC3_EN */
+> +		if (!fmt->alpha_enable ||
+> +			!(ctx->caps->features & BIT(DPU_WB_PIPE_ALPHA)))
+> +			dst_format |= BIT(14); /* DST_ALPHA_X */
+> +	}
+> +
+> +	pattern = (fmt->element[3] << 24) |
+> +		(fmt->element[2] << 16) |
+> +		(fmt->element[1] << 8)  |
+> +		(fmt->element[0] << 0);
+> +
+> +	dst_format |= (fmt->unpack_align_msb << 18) |
+> +		(fmt->unpack_tight << 17) |
+> +		((fmt->unpack_count - 1) << 12) |
+> +		((fmt->bpp - 1) << 9);
+> +
+> +	ystride0 = data->dest.plane_pitch[0] |
+> +		(data->dest.plane_pitch[1] << 16);
+> +	ystride1 = data->dest.plane_pitch[2] |
+> +	(data->dest.plane_pitch[3] << 16);
+> +
+> +	if (drm_rect_height(&data->roi) && drm_rect_width(&data->roi))
+> +		outsize = (drm_rect_height(&data->roi) << 16) | drm_rect_width(&data->roi);
+> +	else
+> +		outsize = (data->dest.height << 16) | data->dest.width;
+> +
+> +	DPU_REG_WRITE(c, WB_ALPHA_X_VALUE, 0xFF);
+> +	DPU_REG_WRITE(c, WB_DST_FORMAT, dst_format);
+> +	DPU_REG_WRITE(c, WB_DST_OP_MODE, opmode);
+> +	DPU_REG_WRITE(c, WB_DST_PACK_PATTERN, pattern);
+> +	DPU_REG_WRITE(c, WB_DST_YSTRIDE0, ystride0);
+> +	DPU_REG_WRITE(c, WB_DST_YSTRIDE1, ystride1);
+> +	DPU_REG_WRITE(c, WB_OUT_SIZE, outsize);
+> +	DPU_REG_WRITE(c, WB_DST_WRITE_CONFIG, write_config);
+> +	DPU_REG_WRITE(c, WB_DST_ADDR_SW_STATUS, dst_addr_sw);
+> +}
+> +
+> +static void dpu_hw_wb_roi(struct dpu_hw_wb *ctx, struct dpu_hw_wb_cfg *wb)
+> +{
+> +	struct dpu_hw_blk_reg_map *c = &ctx->hw;
+> +	u32 image_size, out_size, out_xy;
+> +
+> +	image_size = (wb->dest.height << 16) | wb->dest.width;
+> +	out_xy = 0;
+> +	out_size = (drm_rect_height(&wb->roi) << 16) | drm_rect_width(&wb->roi);
+> +
+> +	DPU_REG_WRITE(c, WB_OUT_IMAGE_SIZE, image_size);
+> +	DPU_REG_WRITE(c, WB_OUT_XY, out_xy);
+> +	DPU_REG_WRITE(c, WB_OUT_SIZE, out_size);
+> +}
+> +
+> +static void dpu_hw_wb_setup_qos_lut(struct dpu_hw_wb *ctx,
+> +		struct dpu_hw_wb_qos_cfg *cfg)
+I like the single call approach. Maybe we should adopt it for the SSPP 
+QoS LUT too.
+
+> +{
+> +	struct dpu_hw_blk_reg_map *c = &ctx->hw;
+> +	u32 qos_ctrl = 0;
+> +
+> +	if (!ctx || !cfg)
+> +		return;
+> +
+> +	DPU_REG_WRITE(c, WB_DANGER_LUT, cfg->danger_lut);
+> +	DPU_REG_WRITE(c, WB_SAFE_LUT, cfg->safe_lut);
+> +
+> +	if (ctx->caps && test_bit(DPU_WB_QOS_8LVL, &ctx->caps->features)) {
+> +		DPU_REG_WRITE(c, WB_CREQ_LUT_0, cfg->creq_lut);
+> +		DPU_REG_WRITE(c, WB_CREQ_LUT_1, cfg->creq_lut >> 32);
+> +	}
+
+Is there a plain WB_CREQ_LUT for the non-8LVL case?
+
+> +
+> +	if (cfg->danger_safe_en)
+> +		qos_ctrl |= WB_QOS_CTRL_DANGER_SAFE_EN;
+> +
+> +	DPU_REG_WRITE(c, WB_QOS_CTRL, qos_ctrl);
+> +}
+> +
+> +static void dpu_hw_wb_setup_cdp(struct dpu_hw_wb *ctx,
+> +		struct dpu_hw_wb_cdp_cfg *cfg)
+
+Can we use dpu_hw_pipe_cdp_cfg here? Maybe after renaming it to more 
+generic dpu_hw_cdp_cfg.
+
+> +{
+> +	struct dpu_hw_blk_reg_map *c;
+> +	u32 cdp_cntl = 0;
+> +
+> +	if (!ctx || !cfg)
+> +		return;
+> +
+> +	c = &ctx->hw;
+> +
+> +	if (cfg->enable)
+> +		cdp_cntl |= BIT(0);
+> +	if (cfg->ubwc_meta_enable)
+> +		cdp_cntl |= BIT(1);
+> +	if (cfg->preload_ahead == DPU_WB_CDP_PRELOAD_AHEAD_64)
+> +		cdp_cntl |= BIT(3);
+> +
+> +	DPU_REG_WRITE(c, WB_CDP_CNTL, cdp_cntl);
+> +}
+> +
+> +static void dpu_hw_wb_bind_pingpong_blk(
+> +		struct dpu_hw_wb *ctx,
+> +		bool enable, const enum dpu_pingpong pp)
+> +{
+> +	struct dpu_hw_blk_reg_map *c;
+> +	int mux_cfg;
+> +
+> +	if (!ctx)
+> +		return;
+> +
+> +	c = &ctx->hw;
+> +
+> +	mux_cfg = DPU_REG_READ(c, WB_MUX);
+> +	mux_cfg &= ~0xf;
+> +
+> +	if (enable)
+> +		mux_cfg |= (pp - PINGPONG_0) & 0x7;
+> +	else
+> +		mux_cfg |= 0xf;
+> +
+> +	DPU_REG_WRITE(c, WB_MUX, mux_cfg);
+> +}
+> +
+> +static void _setup_wb_ops(struct dpu_hw_wb_ops *ops,
+> +		unsigned long features)
+> +{
+> +	ops->setup_outaddress = dpu_hw_wb_setup_outaddress;
+> +	ops->setup_outformat = dpu_hw_wb_setup_format;
+> +
+> +	if (test_bit(DPU_WB_XY_ROI_OFFSET, &features))
+> +		ops->setup_roi = dpu_hw_wb_roi;
+> +
+> +	if (test_bit(DPU_WB_QOS, &features))
+> +		ops->setup_qos_lut = dpu_hw_wb_setup_qos_lut;
+> +
+> +	if (test_bit(DPU_WB_CDP, &features))
+> +		ops->setup_cdp = dpu_hw_wb_setup_cdp;
+> +
+> +	if (test_bit(DPU_WB_INPUT_CTRL, &features))
+> +		ops->bind_pingpong_blk = dpu_hw_wb_bind_pingpong_blk;
+> +}
+> +
+> +struct dpu_hw_wb *dpu_hw_wb_init(enum dpu_wb idx,
+> +		void __iomem *addr, const struct dpu_mdss_cfg *m)
+> +{
+> +	struct dpu_hw_wb *c;
+> +	const struct dpu_wb_cfg *cfg;
+> +
+> +	if (!addr || !m)
+> +		return ERR_PTR(-EINVAL);
+> +
+> +	c = kzalloc(sizeof(*c), GFP_KERNEL);
+> +	if (!c)
+> +		return ERR_PTR(-ENOMEM);
+> +
+> +	cfg = _wb_offset(idx, m, addr, &c->hw);
+> +	if (IS_ERR(cfg)) {
+> +		WARN(1, "Unable to find wb idx=%d\n", idx);
+> +		kfree(c);
+> +		return ERR_PTR(-EINVAL);
+> +	}
+> +
+> +	/* Assign ops */
+> +	c->mdp = &m->mdp[0];
+> +	c->idx = idx;
+> +	c->caps = cfg;
+> +	_setup_wb_ops(&c->ops, c->caps->features);
+> +
+> +	return c;
+> +}
+> +
+> +void dpu_hw_wb_destroy(struct dpu_hw_wb *hw_wb)
+> +{
+> +	kfree(hw_wb);
+> +}
+> diff --git a/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_wb.h b/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_wb.h
+> new file mode 100644
+> index 0000000..80def96
+> --- /dev/null
+> +++ b/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_wb.h
+> @@ -0,0 +1,131 @@
+> +/* SPDX-License-Identifier: GPL-2.0-only */
+> +/*
+> + * Copyright (c) 2022 Qualcomm Innovation Center, Inc. All rights reserved
+> + */
+> +
+> +#ifndef _DPU_HW_WB_H
+> +#define _DPU_HW_WB_H
+> +
+> +#include "dpu_hw_catalog.h"
+> +#include "dpu_hw_mdss.h"
+> +#include "dpu_hw_top.h"
+> +#include "dpu_hw_util.h"
+> +#include "dpu_hw_pingpong.h"
+> +
+> +struct dpu_hw_wb;
+> +
+> +struct dpu_hw_wb_cfg {
+> +	struct dpu_hw_fmt_layout dest;
+> +	enum dpu_intf_mode intf_mode;
+> +	struct drm_rect roi;
+> +	struct drm_rect crop;
+> +};
+> +
+> +/**
+> + * enum CDP preload ahead address size
+> + */
+> +enum {
+> +	DPU_WB_CDP_PRELOAD_AHEAD_32,
+> +	DPU_WB_CDP_PRELOAD_AHEAD_64
+> +};
+> +
+> +/**
+> + * struct dpu_hw_wb_cdp_cfg : CDP configuration
+> + * @enable: true to enable CDP
+> + * @ubwc_meta_enable: true to enable ubwc metadata preload
+> + * @tile_amortize_enable: true to enable amortization control for tile format
+> + * @preload_ahead: number of request to preload ahead
+> + * SDE_WB_CDP_PRELOAD_AHEAD_32,
+> + * SDE_WB_CDP_PRELOAD_AHEAD_64
+> + */
+> +struct dpu_hw_wb_cdp_cfg {
+> +	bool enable;
+> +	bool ubwc_meta_enable;
+> +	bool tile_amortize_enable;
+> +	u32 preload_ahead;
+> +};
+> +
+> +/**
+> + * struct dpu_hw_wb_qos_cfg : Writeback pipe QoS configuration
+> + * @danger_lut: LUT for generate danger level based on fill level
+> + * @safe_lut: LUT for generate safe level based on fill level
+> + * @creq_lut: LUT for generate creq level based on fill level
+> + * @danger_safe_en: enable danger safe generation
+> + */
+> +struct dpu_hw_wb_qos_cfg {
+> +	u32 danger_lut;
+> +	u32 safe_lut;
+> +	u64 creq_lut;
+> +	bool danger_safe_en;
+> +};
+> +
+> +/**
+> + *
+> + * struct dpu_hw_wb_ops : Interface to the wb hw driver functions
+> + *  Assumption is these functions will be called after clocks are enabled
+> + *  @setup_outaddress: setup output address from the writeback job
+> + *  @setup_outformat: setup output format of writeback block from writeback job
+> + *  @setup_qos_lut:   setup qos LUT for writeback block based on input
+> + *  @setup_cdp:       setup chroma down prefetch block for writeback block
+> + *  @bind_pingpong_blk: enable/disable the connection with ping-pong block
+> + */
+> +struct dpu_hw_wb_ops {
+> +	void (*setup_outaddress)(struct dpu_hw_wb *ctx,
+> +			struct dpu_hw_wb_cfg *wb);
+> +
+> +	void (*setup_outformat)(struct dpu_hw_wb *ctx,
+> +			struct dpu_hw_wb_cfg *wb);
+> +
+> +	void (*setup_roi)(struct dpu_hw_wb *ctx,
+> +			struct dpu_hw_wb_cfg *wb);
+> +
+> +	void (*setup_qos_lut)(struct dpu_hw_wb *ctx,
+> +			struct dpu_hw_wb_qos_cfg *cfg);
+> +
+> +	void (*setup_cdp)(struct dpu_hw_wb *ctx,
+> +			struct dpu_hw_wb_cdp_cfg *cfg);
+> +
+> +	void (*bind_pingpong_blk)(struct dpu_hw_wb *ctx,
+> +			bool enable, const enum dpu_pingpong pp);
+> +};
+> +
+> +/**
+> + * struct dpu_hw_wb : WB driver object
+> + * @hw: block hardware details
+> + * @mdp: pointer to associated mdp portion of the catalog
+> + * @idx: hardware index number within type
+> + * @wb_hw_caps: hardware capabilities
+> + * @ops: function pointers
+> + * @hw_mdp: MDP top level hardware block
+> + */
+> +struct dpu_hw_wb {
+> +	struct dpu_hw_blk_reg_map hw;
+> +	const struct dpu_mdp_cfg *mdp;
+> +
+> +	/* wb path */
+> +	int idx;
+> +	const struct dpu_wb_cfg *caps;
+> +
+> +	/* ops */
+> +	struct dpu_hw_wb_ops ops;
+> +
+> +	struct dpu_hw_mdp *hw_mdp;
+> +};
+> +
+> +/**
+> + * dpu_hw_wb_init(): Initializes and return writeback hw driver object.
+> + * @idx:  wb_path index for which driver object is required
+> + * @addr: mapped register io address of MDP
+> + * @m :   pointer to mdss catalog data
+> + */
+> +struct dpu_hw_wb *dpu_hw_wb_init(enum dpu_wb idx,
+> +		void __iomem *addr,
+> +		const struct dpu_mdss_cfg *m);
+> +
+> +/**
+> + * dpu_hw_wb_destroy(): Destroy writeback hw driver object.
+> + * @hw_wb:  Pointer to writeback hw driver object
+> + */
+> +void dpu_hw_wb_destroy(struct dpu_hw_wb *hw_wb);
+> +
+> +#endif /*_DPU_HW_WB_H */
+
+
+-- 
+With best wishes
+Dmitry
