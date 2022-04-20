@@ -1,61 +1,80 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9F21E508DE5
-	for <lists+dri-devel@lfdr.de>; Wed, 20 Apr 2022 19:02:04 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id AE376508E00
+	for <lists+dri-devel@lfdr.de>; Wed, 20 Apr 2022 19:07:14 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 83B0210E120;
-	Wed, 20 Apr 2022 17:02:00 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 9C7C410E0B0;
+	Wed, 20 Apr 2022 17:07:10 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from alexa-out-sd-02.qualcomm.com (alexa-out-sd-02.qualcomm.com
- [199.106.114.39])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 031FB10E0B0;
- Wed, 20 Apr 2022 17:01:58 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=quicinc.com; i=@quicinc.com; q=dns/txt; s=qcdkim;
- t=1650474119; x=1682010119;
- h=message-id:date:mime-version:subject:to:cc:references:
- from:in-reply-to:content-transfer-encoding;
- bh=8fJ4zzgCRot6zO5LBmCQ+wuktpjzbU4EqCV/EOdKWNI=;
- b=K0snVVbxqcUpA2TTezo9rkkWgVw4Xh9WR9l0dkXXEnBB/pYbTROvtQLr
- bm9CwR/wy85X+dnOgWyMZ4r7vP0sRhp1eXqfeZoU48H2B3UZ+RFtu88tF
- FvfvTF+zmD+MHuLEolGL8I6CPmAzWD4v7tQbboAtnX6O0qzsgi9sIopCe c=;
-Received: from unknown (HELO ironmsg02-sd.qualcomm.com) ([10.53.140.142])
- by alexa-out-sd-02.qualcomm.com with ESMTP; 20 Apr 2022 10:01:58 -0700
-X-QCInternal: smtphost
-Received: from nasanex01c.na.qualcomm.com ([10.47.97.222])
- by ironmsg02-sd.qualcomm.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 20 Apr 2022 10:01:58 -0700
-Received: from nalasex01a.na.qualcomm.com (10.47.209.196) by
- nasanex01c.na.qualcomm.com (10.47.97.222) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.2.986.22; Wed, 20 Apr 2022 10:01:57 -0700
-Received: from [10.111.175.210] (10.80.80.8) by nalasex01a.na.qualcomm.com
- (10.47.209.196) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.986.22; Wed, 20 Apr
- 2022 10:01:54 -0700
-Message-ID: <32e84508-a2d5-afac-fa9a-53ad6b4f0492@quicinc.com>
-Date: Wed, 20 Apr 2022 10:01:53 -0700
+Received: from us-smtp-delivery-124.mimecast.com
+ (us-smtp-delivery-124.mimecast.com [170.10.133.124])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id CED2F10E0B0
+ for <dri-devel@lists.freedesktop.org>; Wed, 20 Apr 2022 17:07:08 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1650474427;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=sIGAZ2jDx0+plLAU0u/SeCd0hHr+BEblc6NaGFEJosU=;
+ b=e53KAnzsKlgOYalpzQMpff9ouXhngOrzImizEufS2SUCLPuq1VJswFshUJJbUDmDj0s2/a
+ iXnTJpsY/ecyBdj2sv9cmcgehbBMf8dAjnoKrZdMHgHga3u5HtfaTFJ5vch0+JMKeCt79A
+ pA2RcqRYc7pUL8ZnzLnzkIs3YyD9gME=
+Received: from mail-wm1-f69.google.com (mail-wm1-f69.google.com
+ [209.85.128.69]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ us-mta-302-k0Y54zYWNhGl9ws24nRjHQ-1; Wed, 20 Apr 2022 13:07:06 -0400
+X-MC-Unique: k0Y54zYWNhGl9ws24nRjHQ-1
+Received: by mail-wm1-f69.google.com with SMTP id
+ d13-20020a05600c3acd00b0038ff865c043so3205912wms.3
+ for <dri-devel@lists.freedesktop.org>; Wed, 20 Apr 2022 10:07:06 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
+ :content-language:to:cc:references:from:in-reply-to
+ :content-transfer-encoding;
+ bh=sIGAZ2jDx0+plLAU0u/SeCd0hHr+BEblc6NaGFEJosU=;
+ b=x0ssGSzM4/ks3/dbm5whR+X6CSCdldHXkNSH+vWVK/X0sEhqFzAXYX5QqJqckA6YpD
+ k2zXMsJVkwa+KVwoSVD0fSiV2gA0qjNWGFpH2G9SjvtuZJg/QJs96/eOXwfTYBwaXUhz
+ p+hqZaIXeUCnpvXNRS3IQhLRzfG7kZEhEg9OOZH2pBNtI+g0GLTwL1lgIIaOakL+10iC
+ +2B3XEuCdPGxr5/WItV0tjm+o4Mh1hkhC969QJRZYLrKo8R78O3fW+Tke8DyYSMuQOcd
+ SreEx3Hu1/02dsjLmOiYKAKGc0llok75oQ5KhXU1CC0rnMJlDz9sN92SOnS4/h9qa4AQ
+ z7JQ==
+X-Gm-Message-State: AOAM530X6Us5uhYmTVkHH+61ZaaCr0WN1tFyOt6O/M71uTPGoeWz5p5q
+ bZKM2aWT7+O+g2SUNIMibomjszIGCYadADkKGVc4ZszSJH5xMun+vz0/IifJyXuWIvC36GWLS5A
+ PU9LEvx0qgDrtOcMPMnpBdGuxXqVA
+X-Received: by 2002:a5d:64e3:0:b0:20a:87e9:7daa with SMTP id
+ g3-20020a5d64e3000000b0020a87e97daamr16098292wri.345.1650474424991; 
+ Wed, 20 Apr 2022 10:07:04 -0700 (PDT)
+X-Google-Smtp-Source: ABdhPJz3MIyuxXwjwVhUfrLMlnJtSGK9dUr6TOQYH9h8BXvsaW7w93EPZQsN3TpA9+R76BikV8V0mw==
+X-Received: by 2002:a5d:64e3:0:b0:20a:87e9:7daa with SMTP id
+ g3-20020a5d64e3000000b0020a87e97daamr16098268wri.345.1650474424736; 
+ Wed, 20 Apr 2022 10:07:04 -0700 (PDT)
+Received: from [192.168.1.129] ([92.176.231.205])
+ by smtp.gmail.com with ESMTPSA id
+ r3-20020a5d6c63000000b0020a94e82a3dsm323301wrz.64.2022.04.20.10.07.03
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Wed, 20 Apr 2022 10:07:04 -0700 (PDT)
+Message-ID: <dc30b2b9-d444-8a3b-59d9-f38c609dd978@redhat.com>
+Date: Wed, 20 Apr 2022 19:07:02 +0200
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:91.0) Gecko/20100101
- Thunderbird/91.6.2
-Subject: Re: [PATCH v2 06/17] drm/msm/dpu: add dpu_hw_wb abstraction for
- writeback blocks
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.8.0
+Subject: Re: [PATCH v5 0/5] drm/solomon: Add SSD130x OLED displays SPI support
+To: linux-kernel@vger.kernel.org
+References: <20220419214824.335075-1-javierm@redhat.com>
+From: Javier Martinez Canillas <javierm@redhat.com>
+In-Reply-To: <20220419214824.335075-1-javierm@redhat.com>
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=javierm@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
 Content-Language: en-US
-To: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>,
- <freedreno@lists.freedesktop.org>
-References: <1650419169-13760-1-git-send-email-quic_abhinavk@quicinc.com>
- <1650419169-13760-7-git-send-email-quic_abhinavk@quicinc.com>
- <78612521-190c-0706-7654-2f6221485f2b@linaro.org>
-From: Abhinav Kumar <quic_abhinavk@quicinc.com>
-In-Reply-To: <78612521-190c-0706-7654-2f6221485f2b@linaro.org>
-Content-Type: text/plain; charset="UTF-8"; format=flowed
-Content-Transfer-Encoding: 8bit
-X-Originating-IP: [10.80.80.8]
-X-ClientProxiedBy: nasanex01a.na.qualcomm.com (10.52.223.231) To
- nalasex01a.na.qualcomm.com (10.47.209.196)
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -68,516 +87,50 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: markyacoub@chromium.org, liviu.dudau@arm.com,
- dri-devel@lists.freedesktop.org, swboyd@chromium.org, seanpaul@chromium.org,
- laurent.pinchart@ideasonboard.com, quic_jesszhan@quicinc.com,
- quic_aravindh@quicinc.com
+Cc: Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
+ Geert Uytterhoeven <geert+renesas@glider.be>,
+ Neil Armstrong <narmstrong@baylibre.com>, David Airlie <airlied@linux.ie>,
+ YueHaibing <yuehaibing@huawei.com>, dri-devel@lists.freedesktop.org,
+ Rob Herring <robh+dt@kernel.org>, Chen-Yu Tsai <wens@csie.org>,
+ Mark Brown <broonie@kernel.org>, Geert Uytterhoeven <geert@linux-m68k.org>,
+ Maxime Ripard <maxime@cerno.tech>, Krzysztof Kozlowski <krzk+dt@kernel.org>,
+ Chen-Yu Tsai <wens@kernel.org>, devicetree@vger.kernel.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-
-
-On 4/20/2022 12:20 AM, Dmitry Baryshkov wrote:
-> On 20/04/2022 04:45, Abhinav Kumar wrote:
->> Add the dpu_hw_wb abstraction to program registers related to the
->> writeback block. These will be invoked once all the configuration
->> is set and ready to be programmed to the registers.
->>
->> changes in v2:
->>     - remove multiple empty lines at the end of the file
->>     - change dpu_hw_wb_bind_pingpong_blk to preserve upper bits
->>
->> Signed-off-by: Abhinav Kumar <quic_abhinavk@quicinc.com>
->> Reviewed-by: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
+On 4/19/22 23:48, Javier Martinez Canillas wrote:
+> Hello,
 > 
-> It's still Reviewed-by, few nits below.
+> This series adds a ssd130x-spi driver that provides a 4-wire SPI transport
+> support for SSD130x OLED controllers that can be accessed over a SPI bus.
 > 
->> ---
->>   drivers/gpu/drm/msm/Makefile              |   1 +
->>   drivers/gpu/drm/msm/disp/dpu1/dpu_hw_wb.c | 273 
->> ++++++++++++++++++++++++++++++
->>   drivers/gpu/drm/msm/disp/dpu1/dpu_hw_wb.h | 131 ++++++++++++++
->>   3 files changed, 405 insertions(+)
->>   create mode 100644 drivers/gpu/drm/msm/disp/dpu1/dpu_hw_wb.c
->>   create mode 100644 drivers/gpu/drm/msm/disp/dpu1/dpu_hw_wb.h
->>
->> diff --git a/drivers/gpu/drm/msm/Makefile b/drivers/gpu/drm/msm/Makefile
->> index d5ca2e6..ca779c1 100644
->> --- a/drivers/gpu/drm/msm/Makefile
->> +++ b/drivers/gpu/drm/msm/Makefile
->> @@ -74,6 +74,7 @@ msm-$(CONFIG_DRM_MSM_DPU) += \
->>       disp/dpu1/dpu_hw_top.o \
->>       disp/dpu1/dpu_hw_util.o \
->>       disp/dpu1/dpu_hw_vbif.o \
->> +    disp/dpu1/dpu_hw_wb.o \
->>       disp/dpu1/dpu_kms.o \
->>       disp/dpu1/dpu_plane.o \
->>       disp/dpu1/dpu_rm.o \
->> diff --git a/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_wb.c 
->> b/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_wb.c
->> new file mode 100644
->> index 0000000..afa8aab
->> --- /dev/null
->> +++ b/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_wb.c
->> @@ -0,0 +1,273 @@
->> +// SPDX-License-Identifier: GPL-2.0-only
->> + /*
->> +  * Copyright (c) 2022 Qualcomm Innovation Center, Inc. All rights 
->> reserved
->> +  */
->> +
->> +#include "dpu_hw_mdss.h"
->> +#include "dpu_hwio.h"
->> +#include "dpu_hw_catalog.h"
->> +#include "dpu_hw_wb.h"
->> +#include "dpu_formats.h"
->> +#include "dpu_kms.h"
->> +
->> +#define WB_DST_FORMAT                         0x000
->> +#define WB_DST_OP_MODE                        0x004
->> +#define WB_DST_PACK_PATTERN                   0x008
->> +#define WB_DST0_ADDR                          0x00C
->> +#define WB_DST1_ADDR                          0x010
->> +#define WB_DST2_ADDR                          0x014
->> +#define WB_DST3_ADDR                          0x018
->> +#define WB_DST_YSTRIDE0                       0x01C
->> +#define WB_DST_YSTRIDE1                       0x020
->> +#define WB_DST_YSTRIDE1                       0x020
->> +#define WB_DST_DITHER_BITDEPTH                0x024
->> +#define WB_DST_MATRIX_ROW0                    0x030
->> +#define WB_DST_MATRIX_ROW1                    0x034
->> +#define WB_DST_MATRIX_ROW2                    0x038
->> +#define WB_DST_MATRIX_ROW3                    0x03C
->> +#define WB_DST_WRITE_CONFIG                   0x048
->> +#define WB_ROTATION_DNSCALER                  0x050
->> +#define WB_ROTATOR_PIPE_DOWNSCALER            0x054
->> +#define WB_N16_INIT_PHASE_X_C03               0x060
->> +#define WB_N16_INIT_PHASE_X_C12               0x064
->> +#define WB_N16_INIT_PHASE_Y_C03               0x068
->> +#define WB_N16_INIT_PHASE_Y_C12               0x06C
->> +#define WB_OUT_SIZE                           0x074
->> +#define WB_ALPHA_X_VALUE                      0x078
->> +#define WB_DANGER_LUT                         0x084
->> +#define WB_SAFE_LUT                           0x088
->> +#define WB_QOS_CTRL                           0x090
->> +#define WB_CREQ_LUT_0                         0x098
->> +#define WB_CREQ_LUT_1                         0x09C
->> +#define WB_UBWC_STATIC_CTRL                   0x144
->> +#define WB_MUX                                0x150
->> +#define WB_CROP_CTRL                          0x154
->> +#define WB_CROP_OFFSET                        0x158
->> +#define WB_CSC_BASE                           0x260
->> +#define WB_DST_ADDR_SW_STATUS                 0x2B0
->> +#define WB_CDP_CNTL                           0x2B4
->> +#define WB_OUT_IMAGE_SIZE                     0x2C0
->> +#define WB_OUT_XY                             0x2C4
->> +
->> +/* WB_QOS_CTRL */
->> +#define WB_QOS_CTRL_DANGER_SAFE_EN            BIT(0)
->> +
->> +static const struct dpu_wb_cfg *_wb_offset(enum dpu_wb wb,
->> +        const struct dpu_mdss_cfg *m, void __iomem *addr,
->> +        struct dpu_hw_blk_reg_map *b)
->> +{
->> +    int i;
->> +
->> +    for (i = 0; i < m->wb_count; i++) {
->> +        if (wb == m->wb[i].id) {
->> +            b->base_off = addr;
->> +            b->blk_off = m->wb[i].base;
->> +            b->length = m->wb[i].len;
->> +            b->hwversion = m->hwversion;
->> +            return &m->wb[i];
->> +        }
->> +    }
->> +    return ERR_PTR(-EINVAL);
->> +}
->> +
->> +static void dpu_hw_wb_setup_outaddress(struct dpu_hw_wb *ctx,
->> +        struct dpu_hw_wb_cfg *data)
->> +{
->> +    struct dpu_hw_blk_reg_map *c = &ctx->hw;
->> +
->> +    DPU_REG_WRITE(c, WB_DST0_ADDR, data->dest.plane_addr[0]);
->> +    DPU_REG_WRITE(c, WB_DST1_ADDR, data->dest.plane_addr[1]);
->> +    DPU_REG_WRITE(c, WB_DST2_ADDR, data->dest.plane_addr[2]);
->> +    DPU_REG_WRITE(c, WB_DST3_ADDR, data->dest.plane_addr[3]);
->> +}
->> +
->> +static void dpu_hw_wb_setup_format(struct dpu_hw_wb *ctx,
->> +        struct dpu_hw_wb_cfg *data)
->> +{
+> The driver is quite similar to existing ssd130x-i2c driver that is used by
+> I2C controllers, but there is a difference in the protocol used by SSD130x
+> depending on the transport used. The details are in patch #4 description.
 > 
-> This function shares significant logic with dpu_hw_sspp_setup_format().
+> Patch #1 just makes the current ssd130x-i2c compatible strings in the DT
+> binding to be deprecated, and add new ones that don't have an "fb-i2c".
 > 
-> We should consider splitting the common code to the helper at some point 
-> (later).
-
-Agreed, I do see some similarities. Will take this up in another change.
-
+> Patch #2 extends the DT binding with the properties needed to support SPI.
 > 
->> +    struct dpu_hw_blk_reg_map *c = &ctx->hw;
->> +    const struct dpu_format *fmt = data->dest.format;
->> +    u32 dst_format, pattern, ystride0, ystride1, outsize, chroma_samp;
->> +    u32 write_config = 0;
->> +    u32 opmode = 0;
->> +    u32 dst_addr_sw = 0;
->> +
->> +    chroma_samp = fmt->chroma_sample;
->> +
->> +    dst_format = (chroma_samp << 23) |
->> +        (fmt->fetch_planes << 19) |
->> +        (fmt->bits[C3_ALPHA] << 6) |
->> +        (fmt->bits[C2_R_Cr] << 4) |
->> +        (fmt->bits[C1_B_Cb] << 2) |
->> +        (fmt->bits[C0_G_Y] << 0);
->> +
->> +    if (fmt->bits[C3_ALPHA] || fmt->alpha_enable) {
->> +        dst_format |= BIT(8); /* DSTC3_EN */
->> +        if (!fmt->alpha_enable ||
->> +            !(ctx->caps->features & BIT(DPU_WB_PIPE_ALPHA)))
->> +            dst_format |= BIT(14); /* DST_ALPHA_X */
->> +    }
->> +
->> +    pattern = (fmt->element[3] << 24) |
->> +        (fmt->element[2] << 16) |
->> +        (fmt->element[1] << 8)  |
->> +        (fmt->element[0] << 0);
->> +
->> +    dst_format |= (fmt->unpack_align_msb << 18) |
->> +        (fmt->unpack_tight << 17) |
->> +        ((fmt->unpack_count - 1) << 12) |
->> +        ((fmt->bpp - 1) << 9);
->> +
->> +    ystride0 = data->dest.plane_pitch[0] |
->> +        (data->dest.plane_pitch[1] << 16);
->> +    ystride1 = data->dest.plane_pitch[2] |
->> +    (data->dest.plane_pitch[3] << 16);
->> +
->> +    if (drm_rect_height(&data->roi) && drm_rect_width(&data->roi))
->> +        outsize = (drm_rect_height(&data->roi) << 16) | 
->> drm_rect_width(&data->roi);
->> +    else
->> +        outsize = (data->dest.height << 16) | data->dest.width;
->> +
->> +    DPU_REG_WRITE(c, WB_ALPHA_X_VALUE, 0xFF);
->> +    DPU_REG_WRITE(c, WB_DST_FORMAT, dst_format);
->> +    DPU_REG_WRITE(c, WB_DST_OP_MODE, opmode);
->> +    DPU_REG_WRITE(c, WB_DST_PACK_PATTERN, pattern);
->> +    DPU_REG_WRITE(c, WB_DST_YSTRIDE0, ystride0);
->> +    DPU_REG_WRITE(c, WB_DST_YSTRIDE1, ystride1);
->> +    DPU_REG_WRITE(c, WB_OUT_SIZE, outsize);
->> +    DPU_REG_WRITE(c, WB_DST_WRITE_CONFIG, write_config);
->> +    DPU_REG_WRITE(c, WB_DST_ADDR_SW_STATUS, dst_addr_sw);
->> +}
->> +
->> +static void dpu_hw_wb_roi(struct dpu_hw_wb *ctx, struct dpu_hw_wb_cfg 
->> *wb)
->> +{
->> +    struct dpu_hw_blk_reg_map *c = &ctx->hw;
->> +    u32 image_size, out_size, out_xy;
->> +
->> +    image_size = (wb->dest.height << 16) | wb->dest.width;
->> +    out_xy = 0;
->> +    out_size = (drm_rect_height(&wb->roi) << 16) | 
->> drm_rect_width(&wb->roi);
->> +
->> +    DPU_REG_WRITE(c, WB_OUT_IMAGE_SIZE, image_size);
->> +    DPU_REG_WRITE(c, WB_OUT_XY, out_xy);
->> +    DPU_REG_WRITE(c, WB_OUT_SIZE, out_size);
->> +}
->> +
->> +static void dpu_hw_wb_setup_qos_lut(struct dpu_hw_wb *ctx,
->> +        struct dpu_hw_wb_qos_cfg *cfg)
-> I like the single call approach. Maybe we should adopt it for the SSPP 
-> QoS LUT too.
-
-Perhaps yes.
-
-I had an overall question on this. all the dpu_hw_*** APIs accept their 
-own unique ctx (which is the *** hardware they are programming). What is 
-the approach you are suggesting to unify these?
-
-For helper calls I understood and already have addressed it in this series.
-
-But looking ahead for dpu_hw_*** calls, I am still unclear on the 
-unification plan.
-
-Again, this is for a follow-up change but I am just trying to understand it.
-
+> Patch #3 adds the new compatible strings to the OF device ID table in the
+> ssd130x-i2c DRM driver and deprecate the old ones.
 > 
->> +{
->> +    struct dpu_hw_blk_reg_map *c = &ctx->hw;
->> +    u32 qos_ctrl = 0;
->> +
->> +    if (!ctx || !cfg)
->> +        return;
->> +
->> +    DPU_REG_WRITE(c, WB_DANGER_LUT, cfg->danger_lut);
->> +    DPU_REG_WRITE(c, WB_SAFE_LUT, cfg->safe_lut);
->> +
->> +    if (ctx->caps && test_bit(DPU_WB_QOS_8LVL, &ctx->caps->features)) {
->> +        DPU_REG_WRITE(c, WB_CREQ_LUT_0, cfg->creq_lut);
->> +        DPU_REG_WRITE(c, WB_CREQ_LUT_1, cfg->creq_lut >> 32);
->> +    }
+> Patch #4 moves the device info for the different SSD130x variants from
+> the ssd130x-i2c transport driver to the ssd130x core driver.
 > 
-> Is there a plain WB_CREQ_LUT for the non-8LVL case?
+> Finally patch #5 adds the ssd130x-spi DRM driver for the OLED controllers
+> that come with a 4-wire SPI interface, instead of an I2C interface.
 > 
->> +
->> +    if (cfg->danger_safe_en)
->> +        qos_ctrl |= WB_QOS_CTRL_DANGER_SAFE_EN;
->> +
->> +    DPU_REG_WRITE(c, WB_QOS_CTRL, qos_ctrl);
->> +}
->> +
->> +static void dpu_hw_wb_setup_cdp(struct dpu_hw_wb *ctx,
->> +        struct dpu_hw_wb_cdp_cfg *cfg)
+> This is a v5 that addresses the issues pointed out in v4.
 > 
-> Can we use dpu_hw_pipe_cdp_cfg here? Maybe after renaming it to more 
-> generic dpu_hw_cdp_cfg.
+Pushed this series to drm-misc-next after adding Rob's Reviewed-by
+tags to patch 1/5 and 2/5, since I missed that in v5. Thanks all!
 
+-- 
+Best regards,
 
-ack, I can absorb this in this series itself and re-spin this.
-It will save us one more new structure.
+Javier Martinez Canillas
+Linux Engineering
+Red Hat
 
-> 
->> +{
->> +    struct dpu_hw_blk_reg_map *c;
->> +    u32 cdp_cntl = 0;
->> +
->> +    if (!ctx || !cfg)
->> +        return;
->> +
->> +    c = &ctx->hw;
->> +
->> +    if (cfg->enable)
->> +        cdp_cntl |= BIT(0);
->> +    if (cfg->ubwc_meta_enable)
->> +        cdp_cntl |= BIT(1);
->> +    if (cfg->preload_ahead == DPU_WB_CDP_PRELOAD_AHEAD_64)
->> +        cdp_cntl |= BIT(3);
->> +
->> +    DPU_REG_WRITE(c, WB_CDP_CNTL, cdp_cntl);
->> +}
->> +
->> +static void dpu_hw_wb_bind_pingpong_blk(
->> +        struct dpu_hw_wb *ctx,
->> +        bool enable, const enum dpu_pingpong pp)
->> +{
->> +    struct dpu_hw_blk_reg_map *c;
->> +    int mux_cfg;
->> +
->> +    if (!ctx)
->> +        return;
->> +
->> +    c = &ctx->hw;
->> +
->> +    mux_cfg = DPU_REG_READ(c, WB_MUX);
->> +    mux_cfg &= ~0xf;
->> +
->> +    if (enable)
->> +        mux_cfg |= (pp - PINGPONG_0) & 0x7;
->> +    else
->> +        mux_cfg |= 0xf;
->> +
->> +    DPU_REG_WRITE(c, WB_MUX, mux_cfg);
->> +}
->> +
->> +static void _setup_wb_ops(struct dpu_hw_wb_ops *ops,
->> +        unsigned long features)
->> +{
->> +    ops->setup_outaddress = dpu_hw_wb_setup_outaddress;
->> +    ops->setup_outformat = dpu_hw_wb_setup_format;
->> +
->> +    if (test_bit(DPU_WB_XY_ROI_OFFSET, &features))
->> +        ops->setup_roi = dpu_hw_wb_roi;
->> +
->> +    if (test_bit(DPU_WB_QOS, &features))
->> +        ops->setup_qos_lut = dpu_hw_wb_setup_qos_lut;
->> +
->> +    if (test_bit(DPU_WB_CDP, &features))
->> +        ops->setup_cdp = dpu_hw_wb_setup_cdp;
->> +
->> +    if (test_bit(DPU_WB_INPUT_CTRL, &features))
->> +        ops->bind_pingpong_blk = dpu_hw_wb_bind_pingpong_blk;
->> +}
->> +
->> +struct dpu_hw_wb *dpu_hw_wb_init(enum dpu_wb idx,
->> +        void __iomem *addr, const struct dpu_mdss_cfg *m)
->> +{
->> +    struct dpu_hw_wb *c;
->> +    const struct dpu_wb_cfg *cfg;
->> +
->> +    if (!addr || !m)
->> +        return ERR_PTR(-EINVAL);
->> +
->> +    c = kzalloc(sizeof(*c), GFP_KERNEL);
->> +    if (!c)
->> +        return ERR_PTR(-ENOMEM);
->> +
->> +    cfg = _wb_offset(idx, m, addr, &c->hw);
->> +    if (IS_ERR(cfg)) {
->> +        WARN(1, "Unable to find wb idx=%d\n", idx);
->> +        kfree(c);
->> +        return ERR_PTR(-EINVAL);
->> +    }
->> +
->> +    /* Assign ops */
->> +    c->mdp = &m->mdp[0];
->> +    c->idx = idx;
->> +    c->caps = cfg;
->> +    _setup_wb_ops(&c->ops, c->caps->features);
->> +
->> +    return c;
->> +}
->> +
->> +void dpu_hw_wb_destroy(struct dpu_hw_wb *hw_wb)
->> +{
->> +    kfree(hw_wb);
->> +}
->> diff --git a/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_wb.h 
->> b/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_wb.h
->> new file mode 100644
->> index 0000000..80def96
->> --- /dev/null
->> +++ b/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_wb.h
->> @@ -0,0 +1,131 @@
->> +/* SPDX-License-Identifier: GPL-2.0-only */
->> +/*
->> + * Copyright (c) 2022 Qualcomm Innovation Center, Inc. All rights 
->> reserved
->> + */
->> +
->> +#ifndef _DPU_HW_WB_H
->> +#define _DPU_HW_WB_H
->> +
->> +#include "dpu_hw_catalog.h"
->> +#include "dpu_hw_mdss.h"
->> +#include "dpu_hw_top.h"
->> +#include "dpu_hw_util.h"
->> +#include "dpu_hw_pingpong.h"
->> +
->> +struct dpu_hw_wb;
->> +
->> +struct dpu_hw_wb_cfg {
->> +    struct dpu_hw_fmt_layout dest;
->> +    enum dpu_intf_mode intf_mode;
->> +    struct drm_rect roi;
->> +    struct drm_rect crop;
->> +};
->> +
->> +/**
->> + * enum CDP preload ahead address size
->> + */
->> +enum {
->> +    DPU_WB_CDP_PRELOAD_AHEAD_32,
->> +    DPU_WB_CDP_PRELOAD_AHEAD_64
->> +};
->> +
->> +/**
->> + * struct dpu_hw_wb_cdp_cfg : CDP configuration
->> + * @enable: true to enable CDP
->> + * @ubwc_meta_enable: true to enable ubwc metadata preload
->> + * @tile_amortize_enable: true to enable amortization control for 
->> tile format
->> + * @preload_ahead: number of request to preload ahead
->> + * SDE_WB_CDP_PRELOAD_AHEAD_32,
->> + * SDE_WB_CDP_PRELOAD_AHEAD_64
->> + */
->> +struct dpu_hw_wb_cdp_cfg {
->> +    bool enable;
->> +    bool ubwc_meta_enable;
->> +    bool tile_amortize_enable;
->> +    u32 preload_ahead;
->> +};
->> +
->> +/**
->> + * struct dpu_hw_wb_qos_cfg : Writeback pipe QoS configuration
->> + * @danger_lut: LUT for generate danger level based on fill level
->> + * @safe_lut: LUT for generate safe level based on fill level
->> + * @creq_lut: LUT for generate creq level based on fill level
->> + * @danger_safe_en: enable danger safe generation
->> + */
->> +struct dpu_hw_wb_qos_cfg {
->> +    u32 danger_lut;
->> +    u32 safe_lut;
->> +    u64 creq_lut;
->> +    bool danger_safe_en;
->> +};
->> +
->> +/**
->> + *
->> + * struct dpu_hw_wb_ops : Interface to the wb hw driver functions
->> + *  Assumption is these functions will be called after clocks are 
->> enabled
->> + *  @setup_outaddress: setup output address from the writeback job
->> + *  @setup_outformat: setup output format of writeback block from 
->> writeback job
->> + *  @setup_qos_lut:   setup qos LUT for writeback block based on input
->> + *  @setup_cdp:       setup chroma down prefetch block for writeback 
->> block
->> + *  @bind_pingpong_blk: enable/disable the connection with ping-pong 
->> block
->> + */
->> +struct dpu_hw_wb_ops {
->> +    void (*setup_outaddress)(struct dpu_hw_wb *ctx,
->> +            struct dpu_hw_wb_cfg *wb);
->> +
->> +    void (*setup_outformat)(struct dpu_hw_wb *ctx,
->> +            struct dpu_hw_wb_cfg *wb);
->> +
->> +    void (*setup_roi)(struct dpu_hw_wb *ctx,
->> +            struct dpu_hw_wb_cfg *wb);
->> +
->> +    void (*setup_qos_lut)(struct dpu_hw_wb *ctx,
->> +            struct dpu_hw_wb_qos_cfg *cfg);
->> +
->> +    void (*setup_cdp)(struct dpu_hw_wb *ctx,
->> +            struct dpu_hw_wb_cdp_cfg *cfg);
->> +
->> +    void (*bind_pingpong_blk)(struct dpu_hw_wb *ctx,
->> +            bool enable, const enum dpu_pingpong pp);
->> +};
->> +
->> +/**
->> + * struct dpu_hw_wb : WB driver object
->> + * @hw: block hardware details
->> + * @mdp: pointer to associated mdp portion of the catalog
->> + * @idx: hardware index number within type
->> + * @wb_hw_caps: hardware capabilities
->> + * @ops: function pointers
->> + * @hw_mdp: MDP top level hardware block
->> + */
->> +struct dpu_hw_wb {
->> +    struct dpu_hw_blk_reg_map hw;
->> +    const struct dpu_mdp_cfg *mdp;
->> +
->> +    /* wb path */
->> +    int idx;
->> +    const struct dpu_wb_cfg *caps;
->> +
->> +    /* ops */
->> +    struct dpu_hw_wb_ops ops;
->> +
->> +    struct dpu_hw_mdp *hw_mdp;
->> +};
->> +
->> +/**
->> + * dpu_hw_wb_init(): Initializes and return writeback hw driver object.
->> + * @idx:  wb_path index for which driver object is required
->> + * @addr: mapped register io address of MDP
->> + * @m :   pointer to mdss catalog data
->> + */
->> +struct dpu_hw_wb *dpu_hw_wb_init(enum dpu_wb idx,
->> +        void __iomem *addr,
->> +        const struct dpu_mdss_cfg *m);
->> +
->> +/**
->> + * dpu_hw_wb_destroy(): Destroy writeback hw driver object.
->> + * @hw_wb:  Pointer to writeback hw driver object
->> + */
->> +void dpu_hw_wb_destroy(struct dpu_hw_wb *hw_wb);
->> +
->> +#endif /*_DPU_HW_WB_H */
-> 
-> 
