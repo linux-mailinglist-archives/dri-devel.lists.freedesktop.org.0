@@ -1,52 +1,69 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id C02965084B5
-	for <lists+dri-devel@lfdr.de>; Wed, 20 Apr 2022 11:17:28 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 737FE5084D5
+	for <lists+dri-devel@lfdr.de>; Wed, 20 Apr 2022 11:24:16 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 1083D10E378;
-	Wed, 20 Apr 2022 09:17:24 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id A16C210E192;
+	Wed, 20 Apr 2022 09:24:13 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mga12.intel.com (mga12.intel.com [192.55.52.136])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 43ECA10E192;
- Wed, 20 Apr 2022 09:17:22 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1650446242; x=1681982242;
- h=date:from:to:cc:subject:message-id:references:
- mime-version:in-reply-to;
- bh=ALSkC4Dl0w89PKZV5w9BwHLZswIiZF/b1MyNqhvzPBM=;
- b=RA9rcjXbHCfk8sPjAp10XAiOHKh+DYTsY4PnSDcnJ5CPUUtU5sZFdrTG
- 5Xnk08dFr5QB7pHz0PONe/qJDT8EeWSoi1yj54bvlVC6e7LZdwK3eHg66
- WIld7XXQoeAbqwGDsWRv0V3mBYcsAwQrP8J2N7RIERfCgZEfJskhG4lq+
- 3Mvwj2CE/u6fZIfREEtWzMdOYWuccmB/Cp8yihaZi9B7Mt1CEkLV5KrzK
- HUL1w7oiz9J/9nDzlngSgrm8DfUIhtwi2eo2IK+tl/Csxrtmq/YhjlvnP
- 8Dmp+psBvM68IJGdRMup5I+jYtIWq4sQKqN0TsPLzlclI9R3d/giVnKGP Q==;
-X-IronPort-AV: E=McAfee;i="6400,9594,10322"; a="243914625"
-X-IronPort-AV: E=Sophos;i="5.90,275,1643702400"; d="scan'208";a="243914625"
-Received: from fmsmga005.fm.intel.com ([10.253.24.32])
- by fmsmga106.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 20 Apr 2022 02:17:21 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.90,275,1643702400"; d="scan'208";a="863372211"
-Received: from lkp-server01.sh.intel.com (HELO 3abc53900bec) ([10.239.97.150])
- by fmsmga005.fm.intel.com with ESMTP; 20 Apr 2022 02:17:20 -0700
-Received: from kbuild by 3abc53900bec with local (Exim 4.95)
- (envelope-from <lkp@intel.com>) id 1nh6SY-0006oI-FV;
- Wed, 20 Apr 2022 09:17:14 +0000
-Date: Wed, 20 Apr 2022 17:16:21 +0800
-From: kernel test robot <lkp@intel.com>
-To: Karol Herbst <kherbst@redhat.com>, linux-kernel@vger.kernel.org
-Subject: Re: [Intel-gfx] [PATCH] drm/i915: Fix race in __i915_vma_remove_closed
-Message-ID: <202204201724.hgR7L8YU-lkp@intel.com>
-References: <20220419234436.2638649-1-kherbst@redhat.com>
+Received: from mail-lf1-x136.google.com (mail-lf1-x136.google.com
+ [IPv6:2a00:1450:4864:20::136])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id CF6DF10E192
+ for <dri-devel@lists.freedesktop.org>; Wed, 20 Apr 2022 09:24:12 +0000 (UTC)
+Received: by mail-lf1-x136.google.com with SMTP id b21so1748462lfb.5
+ for <dri-devel@lists.freedesktop.org>; Wed, 20 Apr 2022 02:24:12 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
+ h=subject:to:cc:references:from:message-id:date:user-agent
+ :mime-version:in-reply-to:content-language:content-transfer-encoding;
+ bh=u55Ek4ovTu93jGC6owGr6QZtrHl98TBOqnvlwoTCUt0=;
+ b=VCx/HeNdAIrVvK22LWtPVkq9Bv1IKELkDsHc9ZDCJpEzPZXiUk1L12Dy+mMZouB4Kb
+ Sm5gqeWiHiAo7O1rqL4fR/FRWrLwV1sxcNCEE/ser/ng6KnPEXuXeI6mJT4hEuhbpkyR
+ CnEwq7dF8XjnevURjfPXlQSPsthUbrMgXmTx0ftPiqNOdHSrKFkOiwbXMIgL4L8pif1x
+ S2OC7crPo4slcyULVJrhskiIc37n3wR0KWOXQ2sj5i0hsb8hGWYGa7c9kFuF9uQx1Lrd
+ PnwrnrwZvh2dBVEvqkQHhB/xuL6v+vJ4eVgGVRgIh8ublrifvFa02qV7bdCp+CMifVZv
+ cETg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=x-gm-message-state:subject:to:cc:references:from:message-id:date
+ :user-agent:mime-version:in-reply-to:content-language
+ :content-transfer-encoding;
+ bh=u55Ek4ovTu93jGC6owGr6QZtrHl98TBOqnvlwoTCUt0=;
+ b=aq7Tod/i7OSg7tOAca/rShKh4qzD2VYFn46gNyqvrceaYxqLSn2mx8tzFmP3firEci
+ w665iTCbGmCzdD3knUR+EfnsgaSRqobe7UuBBvKZ4CuGZK6GLs6zUw0mHOHp+mssBOq7
+ 1tpV2qLtSWE3E7wZCgesr6cfuoCYqu1M1n9ApxC6WNIrADQ+W2f4bKc6U6Qrn/wWtgjO
+ lSJQcaw17qEQA9AnVCBgNQoWOYRNiQ7kmoQEFX4mumGwaZUgUhgrVXmyp/HDpleVW15F
+ Et09nGhULRoeblmEOhLVCHpwu4VuAqNGCH3+57mAYnNecnydG3pSe3TLTrrSwKJHfxKe
+ mf5g==
+X-Gm-Message-State: AOAM531x/Afj26pvPFb5dDF0DbV9aJNmZhGtiytTxqjTRtAea12OmbRb
+ kyGH77dmLsRfyV//NUqkxcpC7BgSxtp9+w==
+X-Google-Smtp-Source: ABdhPJwBIjGhPQR/MG3suNBpw+sG1uqlbM+4wIOJy5ZknDOvMCYopGuZbVrLmdXv8OTjIhB4lEs0Kw==
+X-Received: by 2002:a05:6512:168d:b0:471:6cb9:c20f with SMTP id
+ bu13-20020a056512168d00b004716cb9c20fmr11611107lfb.229.1650446651069; 
+ Wed, 20 Apr 2022 02:24:11 -0700 (PDT)
+Received: from [192.168.1.103] ([178.176.74.70])
+ by smtp.gmail.com with ESMTPSA id
+ d11-20020a19384b000000b0046bbd144dfesm1760268lfj.125.2022.04.20.02.24.09
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Wed, 20 Apr 2022 02:24:10 -0700 (PDT)
+Subject: Re: [PATCH 01/41] video: fbdev: omapfb: lcd_ams_delta: fix unused
+ variable warning
+To: Arnd Bergmann <arnd@kernel.org>, linux-omap@vger.kernel.org,
+ tony@atomide.com, aaro.koskinen@iki.fi, jmkrzyszt@gmail.com
+References: <20220419133723.1394715-1-arnd@kernel.org>
+ <20220419133723.1394715-2-arnd@kernel.org>
+From: Sergei Shtylyov <sergei.shtylyov@gmail.com>
+Message-ID: <ddaf112d-f997-84b7-2c57-bab3d0cca382@gmail.com>
+Date: Wed, 20 Apr 2022 12:24:08 +0300
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.10.1
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20220419234436.2638649-1-kherbst@redhat.com>
-User-Agent: Mutt/1.10.1 (2018-07-13)
+In-Reply-To: <20220419133723.1394715-2-arnd@kernel.org>
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -59,80 +76,58 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: kbuild-all@lists.01.org, Karol Herbst <kherbst@redhat.com>,
- intel-gfx@lists.freedesktop.org, llvm@lists.linux.dev,
- dri-devel@lists.freedesktop.org, Chris Wilson <chris@chris-wilson.co.uk>
+Cc: Ulf Hansson <ulf.hansson@linaro.org>,
+ Dmitry Torokhov <dmitry.torokhov@gmail.com>, linux-fbdev@vger.kernel.org,
+ Dominik Brodowski <linux@dominikbrodowski.net>,
+ Lee Jones <lee.jones@linaro.org>, Daniel Thompson <daniel.thompson@linaro.org>,
+ Kevin Hilman <khilman@kernel.org>, Peter Ujfalusi <peter.ujfalusi@gmail.com>,
+ Helge Deller <deller@gmx.de>, Russell King <linux@armlinux.org.uk>,
+ Krzysztof Kozlowski <krzk@kernel.org>, Alan Stern <stern@rowland.harvard.edu>,
+ linux-serial@vger.kernel.org, linux-input@vger.kernel.org,
+ Arnd Bergmann <arnd@arndb.de>, Mark Brown <broonie@kernel.org>,
+ dri-devel@lists.freedesktop.org, linux-arm-kernel@lists.infradead.org,
+ Felipe Balbi <balbi@kernel.org>, Paul Walmsley <paul@pwsan.com>,
+ Jingoo Han <jingoohan1@gmail.com>, linux-usb@vger.kernel.org,
+ linux-mmc@vger.kernel.org, linux-kernel@vger.kernel.org,
+ Vinod Koul <vkoul@kernel.org>, dmaengine@vger.kernel.org,
+ alsa-devel@alsa-project.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi Karol,
+Hello!
 
-I love your patch! Perhaps something to improve:
+On 4/19/22 4:36 PM, Arnd Bergmann wrote:
 
-[auto build test WARNING on drm-tip/drm-tip]
-[also build test WARNING on linus/master v5.18-rc3 next-20220419]
-[cannot apply to drm-intel/for-linux-next linux/master]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch]
+> From: Arnd Bergmann <arnd@arndb.de>
+> 
+> A recent cleanup patch removed the only reference to a local variable
+> in some configurations.
+> 
+> Move the variable into the one block it is still used in, inside
+> of an #ifdef, to avoid this warning.
+> 
+> Fixes: 9d773f103b89 ("video: fbdev: omapfb: lcd_ams_delta: Make use of the helper function dev_err_probe()")
+> Signed-off-by: Arnd Bergmann <arnd@arndb.de>
+> ---
+>  drivers/video/fbdev/omap/lcd_ams_delta.c | 3 +--
+>  1 file changed, 1 insertion(+), 2 deletions(-)
+> 
+> diff --git a/drivers/video/fbdev/omap/lcd_ams_delta.c b/drivers/video/fbdev/omap/lcd_ams_delta.c
+> index bbf871f9d862..01944ce46aa1 100644
+> --- a/drivers/video/fbdev/omap/lcd_ams_delta.c
+> +++ b/drivers/video/fbdev/omap/lcd_ams_delta.c
+[...]
+> @@ -145,7 +144,7 @@ static int ams_delta_panel_probe(struct platform_device *pdev)
+>  						&ams_delta_lcd_ops);
+>  
+>  	if (IS_ERR(lcd_device)) {
+> -		ret = PTR_ERR(lcd_device);
+> +		int ret = PTR_ERR(lcd_device);
 
-url:    https://github.com/intel-lab-lkp/linux/commits/Karol-Herbst/drm-i915-Fix-race-in-__i915_vma_remove_closed/20220420-074525
-base:   git://anongit.freedesktop.org/drm/drm-tip drm-tip
-config: i386-randconfig-a013 (https://download.01.org/0day-ci/archive/20220420/202204201724.hgR7L8YU-lkp@intel.com/config)
-compiler: clang version 15.0.0 (https://github.com/llvm/llvm-project bac6cd5bf85669e3376610cfc4c4f9ca015e7b9b)
-reproduce (this is a W=1 build):
-        wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbin/make.cross -O ~/bin/make.cross
-        chmod +x ~/bin/make.cross
-        # https://github.com/intel-lab-lkp/linux/commit/50a17180127b7d2527ee9a8f5c9e8207e158afb6
-        git remote add linux-review https://github.com/intel-lab-lkp/linux
-        git fetch --no-tags linux-review Karol-Herbst/drm-i915-Fix-race-in-__i915_vma_remove_closed/20220420-074525
-        git checkout 50a17180127b7d2527ee9a8f5c9e8207e158afb6
-        # save the config file
-        mkdir build_dir && cp config build_dir/.config
-        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=clang make.cross W=1 O=build_dir ARCH=i386 SHELL=/bin/bash drivers/gpu/drm/i915/
+   How about inserting an empty line after declaration?
 
-If you fix the issue, kindly add following tag as appropriate
-Reported-by: kernel test robot <lkp@intel.com>
+>  		dev_err(&pdev->dev, "failed to register device\n");
+>  		return ret;
+>  	}
 
-All warnings (new ones prefixed by >>):
-
->> drivers/gpu/drm/i915/i915_vma.c:1654:19: warning: mixing declarations and code is incompatible with standards before C99 [-Wdeclaration-after-statement]
-           struct intel_gt *gt = vma->vm->gt;
-                            ^
-   1 warning generated.
-
-
-vim +1654 drivers/gpu/drm/i915/i915_vma.c
-
-  1640	
-  1641	static void release_references(struct i915_vma *vma, bool vm_ddestroy)
-  1642	{
-  1643		struct drm_i915_gem_object *obj = vma->obj;
-  1644	
-  1645		GEM_BUG_ON(i915_vma_is_active(vma));
-  1646	
-  1647		spin_lock(&obj->vma.lock);
-  1648		list_del(&vma->obj_link);
-  1649		if (!RB_EMPTY_NODE(&vma->obj_node))
-  1650			rb_erase(&vma->obj_node, &obj->vma.tree);
-  1651	
-  1652		spin_unlock(&obj->vma.lock);
-  1653	
-> 1654		struct intel_gt *gt = vma->vm->gt;
-  1655	
-  1656		spin_lock_irq(&gt->closed_lock);
-  1657		__i915_vma_remove_closed(vma);
-  1658		spin_unlock_irq(&gt->closed_lock);
-  1659	
-  1660		if (vm_ddestroy)
-  1661			i915_vm_resv_put(vma->vm);
-  1662	
-  1663		i915_active_fini(&vma->active);
-  1664		GEM_WARN_ON(vma->resource);
-  1665		i915_vma_free(vma);
-  1666	}
-  1667	
-
--- 
-0-DAY CI Kernel Test Service
-https://01.org/lkp
+MBR, Sergey
