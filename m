@@ -2,27 +2,27 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 592F35093E3
+	by mail.lfdr.de (Postfix) with ESMTPS id 3A6445093E2
 	for <lists+dri-devel@lfdr.de>; Thu, 21 Apr 2022 01:50:54 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 04B8410F2D0;
+	by gabe.freedesktop.org (Postfix) with ESMTP id 0D9F210F2D4;
 	Wed, 20 Apr 2022 23:50:51 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from alexa-out.qualcomm.com (alexa-out.qualcomm.com [129.46.98.28])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 9F1A610F2C6;
+ by gabe.freedesktop.org (Postfix) with ESMTPS id C6A3A10F2C8;
  Wed, 20 Apr 2022 23:50:24 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=quicinc.com; i=@quicinc.com; q=dns/txt; s=qcdkim;
- t=1650498624; x=1682034624;
+ t=1650498625; x=1682034625;
  h=from:to:cc:subject:date:message-id:in-reply-to:
  references:mime-version;
- bh=tMXVnX2ic46nh7F8XhS91MwiyC736JloK4pgjQVGwIU=;
- b=fj+S3V85Rvlq5N8Na9ZXRuFeCogTmDA8HGtKeDhpSwr97zBj8ppa0x85
- 6uDFhLsOh3QjEdvBRuDu9YqqMLYLZbS1NmyIN8RmTX7qDmL3+WSGGiPbu
- yTn0s9rGAXWnV2+SNcOL9hFDIGlYEfMEaiQsurEAc6FJistNHcmaOX2cJ A=;
+ bh=RBG8JlFD7XerAVRSSKUZ11al0gUSMb3CLAFGuaxNIGE=;
+ b=Ce/0mEIsP/tNSKK8pQ3YvNIICr2xsae3qeJFNSw0iAgwC2OArVzBfnl8
+ 9Lk5aq4KhyRILbjPxdokyrG5+H5prsblL2DGOmT2laJsfLJtUlQKMdftL
+ RBJwqh4xoM/fV9NxDvploq3+S1ZHrE2p16HW/HxlsBGlnmtA4AxBGzPG5 I=;
 Received: from ironmsg09-lv.qualcomm.com ([10.47.202.153])
- by alexa-out.qualcomm.com with ESMTP; 20 Apr 2022 16:50:22 -0700
+ by alexa-out.qualcomm.com with ESMTP; 20 Apr 2022 16:50:23 -0700
 X-QCInternal: smtphost
 Received: from nasanex01c.na.qualcomm.com ([10.47.97.222])
  by ironmsg09-lv.qualcomm.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
@@ -30,17 +30,17 @@ Received: from nasanex01c.na.qualcomm.com ([10.47.97.222])
 Received: from nalasex01a.na.qualcomm.com (10.47.209.196) by
  nasanex01c.na.qualcomm.com (10.47.97.222) with Microsoft SMTP Server
  (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.2.986.22; Wed, 20 Apr 2022 16:50:12 -0700
+ 15.2.986.22; Wed, 20 Apr 2022 16:50:13 -0700
 Received: from abhinavk-linux.qualcomm.com (10.80.80.8) by
  nalasex01a.na.qualcomm.com (10.47.209.196) with Microsoft SMTP Server
  (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.2.986.22; Wed, 20 Apr 2022 16:50:12 -0700
+ 15.2.986.22; Wed, 20 Apr 2022 16:50:13 -0700
 From: Abhinav Kumar <quic_abhinavk@quicinc.com>
 To: <freedreno@lists.freedesktop.org>
-Subject: [PATCH v3 17/18] drm/msm/dpu: gracefully handle null fb commits for
- writeback
-Date: Wed, 20 Apr 2022 16:49:46 -0700
-Message-ID: <1650498587-14749-18-git-send-email-quic_abhinavk@quicinc.com>
+Subject: [PATCH v3 18/18] drm/msm/dpu: add writeback blocks to the display
+ snapshot
+Date: Wed, 20 Apr 2022 16:49:47 -0700
+Message-ID: <1650498587-14749-19-git-send-email-quic_abhinavk@quicinc.com>
 X-Mailer: git-send-email 2.7.4
 In-Reply-To: <1650498587-14749-1-git-send-email-quic_abhinavk@quicinc.com>
 References: <1650498587-14749-1-git-send-email-quic_abhinavk@quicinc.com>
@@ -69,148 +69,31 @@ Cc: markyacoub@chromium.org, liviu.dudau@arm.com,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-kms_writeback test cases also verify with a null fb for the
-writeback connector job. In addition there are also other
-commit paths which can result in kickoffs without a valid
-framebuffer like while closing the fb which results in the
-callback to drm_atomic_helper_dirtyfb() which internally
-triggers a commit.
-
-Add protection in the dpu driver to ensure that commits for
-writeback encoders without a valid fb are gracefully skipped.
-
-changes in v2:
-	- rename dpu_encoder_has_valid_fb to dpu_encoder_is_valid_for_commit
-
-changes in v3:
-	- none
+Add writeback block information while capturing the display
+snapshot.
 
 Signed-off-by: Abhinav Kumar <quic_abhinavk@quicinc.com>
 Reviewed-by: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
 ---
- drivers/gpu/drm/msm/disp/dpu1/dpu_crtc.c            |  9 +++++++++
- drivers/gpu/drm/msm/disp/dpu1/dpu_encoder.c         | 21 +++++++++++++++++++++
- drivers/gpu/drm/msm/disp/dpu1/dpu_encoder.h         |  6 ++++++
- drivers/gpu/drm/msm/disp/dpu1/dpu_encoder_phys.h    |  1 +
- drivers/gpu/drm/msm/disp/dpu1/dpu_encoder_phys_wb.c | 12 ++++++++++++
- 5 files changed, 49 insertions(+)
+ drivers/gpu/drm/msm/disp/dpu1/dpu_kms.c | 5 +++++
+ 1 file changed, 5 insertions(+)
 
-diff --git a/drivers/gpu/drm/msm/disp/dpu1/dpu_crtc.c b/drivers/gpu/drm/msm/disp/dpu1/dpu_crtc.c
-index 7763558..d65e124 100644
---- a/drivers/gpu/drm/msm/disp/dpu1/dpu_crtc.c
-+++ b/drivers/gpu/drm/msm/disp/dpu1/dpu_crtc.c
-@@ -869,6 +869,13 @@ void dpu_crtc_commit_kickoff(struct drm_crtc *crtc)
+diff --git a/drivers/gpu/drm/msm/disp/dpu1/dpu_kms.c b/drivers/gpu/drm/msm/disp/dpu1/dpu_kms.c
+index 0a50509..86c98db 100644
+--- a/drivers/gpu/drm/msm/disp/dpu1/dpu_kms.c
++++ b/drivers/gpu/drm/msm/disp/dpu1/dpu_kms.c
+@@ -944,6 +944,11 @@ static void dpu_kms_mdp_snapshot(struct msm_disp_state *disp_state, struct msm_k
+ 		msm_disp_snapshot_add_block(disp_state, cat->mixer[i].len,
+ 				dpu_kms->mmio + cat->mixer[i].base, "lm_%d", i);
  
- 	DPU_ATRACE_BEGIN("crtc_commit");
++	/* dump WB sub-blocks HW regs info */
++	for (i = 0; i < cat->wb_count; i++)
++		msm_disp_snapshot_add_block(disp_state, cat->wb[i].len,
++				dpu_kms->mmio + cat->wb[i].base, "wb_%d", i);
++
+ 	msm_disp_snapshot_add_block(disp_state, top->hw.length,
+ 			dpu_kms->mmio + top->hw.blk_off, "top");
  
-+	drm_for_each_encoder_mask(encoder, crtc->dev,
-+			crtc->state->encoder_mask) {
-+		if (!dpu_encoder_is_valid_for_commit(encoder)) {
-+			DRM_DEBUG_ATOMIC("invalid FB not kicking off crtc\n");
-+			goto end;
-+		}
-+	}
- 	/*
- 	 * Encoder will flush/start now, unless it has a tx pending. If so, it
- 	 * may delay and flush at an irq event (e.g. ppdone)
-@@ -891,6 +898,8 @@ void dpu_crtc_commit_kickoff(struct drm_crtc *crtc)
- 		dpu_encoder_kickoff(encoder);
- 
- 	reinit_completion(&dpu_crtc->frame_done_comp);
-+
-+end:
- 	DPU_ATRACE_END("crtc_commit");
- }
- 
-diff --git a/drivers/gpu/drm/msm/disp/dpu1/dpu_encoder.c b/drivers/gpu/drm/msm/disp/dpu1/dpu_encoder.c
-index 65e44af..9c12841 100644
---- a/drivers/gpu/drm/msm/disp/dpu1/dpu_encoder.c
-+++ b/drivers/gpu/drm/msm/disp/dpu1/dpu_encoder.c
-@@ -1850,6 +1850,27 @@ void dpu_encoder_prepare_for_kickoff(struct drm_encoder *drm_enc)
- 		dpu_encoder_prep_dsc(dpu_enc, dpu_enc->dsc);
- }
- 
-+bool dpu_encoder_is_valid_for_commit(struct drm_encoder *drm_enc)
-+{
-+	struct dpu_encoder_virt *dpu_enc;
-+	unsigned int i;
-+	struct dpu_encoder_phys *phys;
-+
-+	dpu_enc = to_dpu_encoder_virt(drm_enc);
-+
-+	if (drm_enc->encoder_type == DRM_MODE_ENCODER_VIRTUAL) {
-+		for (i = 0; i < dpu_enc->num_phys_encs; i++) {
-+			phys = dpu_enc->phys_encs[i];
-+			if (phys->ops.is_valid_for_commit && !phys->ops.is_valid_for_commit(phys)) {
-+				DPU_DEBUG("invalid FB not kicking off\n");
-+				return false;
-+			}
-+		}
-+	}
-+
-+	return true;
-+}
-+
- void dpu_encoder_kickoff(struct drm_encoder *drm_enc)
- {
- 	struct dpu_encoder_virt *dpu_enc;
-diff --git a/drivers/gpu/drm/msm/disp/dpu1/dpu_encoder.h b/drivers/gpu/drm/msm/disp/dpu1/dpu_encoder.h
-index 6ceec1d..781d41c 100644
---- a/drivers/gpu/drm/msm/disp/dpu1/dpu_encoder.h
-+++ b/drivers/gpu/drm/msm/disp/dpu1/dpu_encoder.h
-@@ -196,4 +196,10 @@ void dpu_encoder_prepare_wb_job(struct drm_encoder *drm_enc,
- void dpu_encoder_cleanup_wb_job(struct drm_encoder *drm_enc,
- 		struct drm_writeback_job *job);
- 
-+/**
-+ * dpu_encoder_is_valid_for_commit - check if encode has valid parameters for commit.
-+ * @drm_enc:    Pointer to drm encoder structure
-+ */
-+bool dpu_encoder_is_valid_for_commit(struct drm_encoder *drm_enc);
-+
- #endif /* __DPU_ENCODER_H__ */
-diff --git a/drivers/gpu/drm/msm/disp/dpu1/dpu_encoder_phys.h b/drivers/gpu/drm/msm/disp/dpu1/dpu_encoder_phys.h
-index 5452f98..04d037e 100644
---- a/drivers/gpu/drm/msm/disp/dpu1/dpu_encoder_phys.h
-+++ b/drivers/gpu/drm/msm/disp/dpu1/dpu_encoder_phys.h
-@@ -142,6 +142,7 @@ struct dpu_encoder_phys_ops {
- 			struct drm_writeback_job *job);
- 	void (*cleanup_wb_job)(struct dpu_encoder_phys *phys_enc,
- 			struct drm_writeback_job *job);
-+	bool (*is_valid_for_commit)(struct dpu_encoder_phys *phys_enc);
- };
- 
- /**
-diff --git a/drivers/gpu/drm/msm/disp/dpu1/dpu_encoder_phys_wb.c b/drivers/gpu/drm/msm/disp/dpu1/dpu_encoder_phys_wb.c
-index 3261437..563ca08 100644
---- a/drivers/gpu/drm/msm/disp/dpu1/dpu_encoder_phys_wb.c
-+++ b/drivers/gpu/drm/msm/disp/dpu1/dpu_encoder_phys_wb.c
-@@ -667,6 +667,16 @@ static void dpu_encoder_phys_wb_cleanup_wb_job(struct dpu_encoder_phys *phys_enc
- 	wb_enc->wb_conn = NULL;
- }
- 
-+static bool dpu_encoder_phys_wb_is_valid_for_commit(struct dpu_encoder_phys *phys_enc)
-+{
-+	struct dpu_encoder_phys_wb *wb_enc = to_dpu_encoder_phys_wb(phys_enc);
-+
-+	if (wb_enc->wb_job)
-+		return true;
-+	else
-+		return false;
-+}
-+
- /**
-  * dpu_encoder_phys_wb_init_ops - initialize writeback operations
-  * @ops:	Pointer to encoder operation table
-@@ -687,6 +697,8 @@ static void dpu_encoder_phys_wb_init_ops(struct dpu_encoder_phys_ops *ops)
- 	ops->prepare_wb_job = dpu_encoder_phys_wb_prepare_wb_job;
- 	ops->cleanup_wb_job = dpu_encoder_phys_wb_cleanup_wb_job;
- 	ops->irq_control = dpu_encoder_phys_wb_irq_ctrl;
-+	ops->is_valid_for_commit = dpu_encoder_phys_wb_is_valid_for_commit;
-+
- }
- 
- /**
 -- 
 2.7.4
 
