@@ -1,44 +1,44 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9F296508F3E
-	for <lists+dri-devel@lfdr.de>; Wed, 20 Apr 2022 20:16:42 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id A4991508F3D
+	for <lists+dri-devel@lfdr.de>; Wed, 20 Apr 2022 20:16:40 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 1424C10F16F;
-	Wed, 20 Apr 2022 18:16:33 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 8C3D010F160;
+	Wed, 20 Apr 2022 18:16:32 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from mga11.intel.com (mga11.intel.com [192.55.52.93])
- by gabe.freedesktop.org (Postfix) with ESMTPS id DD9F810F0C6;
- Wed, 20 Apr 2022 18:16:27 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 0247010F0C6;
+ Wed, 20 Apr 2022 18:16:28 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1650478587; x=1682014587;
+ t=1650478589; x=1682014589;
  h=from:to:cc:subject:date:message-id:in-reply-to:
  references:mime-version:content-transfer-encoding;
- bh=NQvdXMR8VJZkfFbkqOekFtgyx8K8r75dirGeAIhwMPM=;
- b=T3COwRHXUlS5uNauVdXKA9WwyavgQm4VGnjWNvb5KSNEt31iSf8m0kLo
- BuDxQ6amXOxhaC+lxHqgnxzXzVoSgV9xfwWgOKgNSm7y1kK123q2EpM80
- bIXJ0JW7Hkkm2cJlqBi3dflGHGgOIq8/xTTa9WTlFilfALZA+rjVtqYZz
- VS4U2d9WRcf6qbXCHtULaUFuDQ2ksmutZfz3ZSEuXD3Yyinqb6fgP13BA
- FLTthjGY26JMwxq6ULq8e6i3NPsmsYj7CIg+gp5VENhh07fpsjm3YfR+z
- rw/TTfPFDinA6F/HJco3urZ0468qs3vWlO03TPMEpjZv87xJ9uGYiUMgU A==;
-X-IronPort-AV: E=McAfee;i="6400,9594,10323"; a="261723156"
-X-IronPort-AV: E=Sophos;i="5.90,276,1643702400"; d="scan'208";a="261723156"
+ bh=Q1/mJKKYNUjIp6VsGHLq+zW5dpH68asDqzLG+kPoEwg=;
+ b=kzuFtXaecDCy5xOO2PsNdaWwF4h3SB9ViJ0aTBib+sf0nQqiUbwkkXtY
+ j06ASshHevm0pnUALpSsMf+Z4ay247fWYxfDA+QV2sRyOquPnSZtviPUN
+ AdD7ofgKgWY+gro3nQOd+OEJQpYn0ya1R9fHi2K940EBhWF5rZ6AEZF1y
+ SGXBaXgROoFtJcHW8Ai6TwDC/UqnKICzBOpE1SDlKyf1auWuCGbgcBMt0
+ 4bZMJalFDkUbC5z6wR/IgYjZl6Dxk0cDWle62Je0W7iKr/99aTPhqPdns
+ YK30hYKF0Nd4eU5UJ9iYDTEaJPp2QCKSJTwG0wTSM5G9JCcsk5f5aZPT5 g==;
+X-IronPort-AV: E=McAfee;i="6400,9594,10323"; a="261723159"
+X-IronPort-AV: E=Sophos;i="5.90,276,1643702400"; d="scan'208";a="261723159"
 Received: from orsmga001.jf.intel.com ([10.7.209.18])
  by fmsmga102.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 20 Apr 2022 11:16:27 -0700
-X-IronPort-AV: E=Sophos;i="5.90,276,1643702400"; d="scan'208";a="593286070"
+ 20 Apr 2022 11:16:28 -0700
+X-IronPort-AV: E=Sophos;i="5.90,276,1643702400"; d="scan'208";a="593286110"
 Received: from briansim-mobl.ger.corp.intel.com (HELO mwauld-desk1.intel.com)
  ([10.252.3.144])
  by orsmga001-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 20 Apr 2022 11:16:24 -0700
+ 20 Apr 2022 11:16:27 -0700
 From: Matthew Auld <matthew.auld@intel.com>
 To: intel-gfx@lists.freedesktop.org
-Subject: [CI 2/4] drm/i915/buddy: sanity check the size
-Date: Wed, 20 Apr 2022 19:16:11 +0100
-Message-Id: <20220420181613.70033-2-matthew.auld@intel.com>
+Subject: [CI 3/4] drm/i915/selftests: fixup min_alignment usage
+Date: Wed, 20 Apr 2022 19:16:12 +0100
+Message-Id: <20220420181613.70033-3-matthew.auld@intel.com>
 X-Mailer: git-send-email 2.34.1
 In-Reply-To: <20220420181613.70033-1-matthew.auld@intel.com>
 References: <20220420181613.70033-1-matthew.auld@intel.com>
@@ -62,32 +62,31 @@ Cc: =?UTF-8?q?Thomas=20Hellstr=C3=B6m?= <thomas.hellstrom@linux.intel.com>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Ensure we check that the size is compatible with the requested
-page_size. For tiny objects that are automatically annotated with
-TTM_PL_FLAG_CONTIGUOUS(since they fit within a single page), we
-currently end up silently overriding the min_page_size, which ends up
-hiding bugs elsewhere.
+Trying to cast the region id into the region type doesn't work too well,
+since the i915_vm_min_alignment() won't give us the correct value for
+the stolen-lmem case.
 
 Signed-off-by: Matthew Auld <matthew.auld@intel.com>
 Cc: Thomas Hellström <thomas.hellstrom@linux.intel.com>
 Cc: Nirmoy Das <nirmoy.das@linux.intel.com>
-Reviewed-by: Nirmoy Das <nirmoy.das@linux.intel.com>
+Cc: Ramalingam C <ramalingam.c@intel.com>
 ---
- drivers/gpu/drm/i915/i915_ttm_buddy_manager.c | 1 +
- 1 file changed, 1 insertion(+)
+ drivers/gpu/drm/i915/selftests/i915_gem_gtt.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/drivers/gpu/drm/i915/i915_ttm_buddy_manager.c b/drivers/gpu/drm/i915/i915_ttm_buddy_manager.c
-index 8e4e3f72c1ef..a5109548abc0 100644
---- a/drivers/gpu/drm/i915/i915_ttm_buddy_manager.c
-+++ b/drivers/gpu/drm/i915/i915_ttm_buddy_manager.c
-@@ -70,6 +70,7 @@ static int i915_ttm_buddy_man_alloc(struct ttm_resource_manager *man,
- 		min_page_size = bo->page_alignment << PAGE_SHIFT;
+diff --git a/drivers/gpu/drm/i915/selftests/i915_gem_gtt.c b/drivers/gpu/drm/i915/selftests/i915_gem_gtt.c
+index 5c9bfa409ff5..bccc49a8ab5e 100644
+--- a/drivers/gpu/drm/i915/selftests/i915_gem_gtt.c
++++ b/drivers/gpu/drm/i915/selftests/i915_gem_gtt.c
+@@ -1150,7 +1150,7 @@ static int misaligned_pin(struct i915_address_space *vm,
+ 		flags |= PIN_GLOBAL;
  
- 	GEM_BUG_ON(min_page_size < mm->chunk_size);
-+	GEM_BUG_ON(!IS_ALIGNED(size, min_page_size));
+ 	for_each_memory_region(mr, vm->i915, id) {
+-		u64 min_alignment = i915_vm_min_alignment(vm, (enum intel_memory_type)id);
++		u64 min_alignment = i915_vm_min_alignment(vm, mr->type);
+ 		u64 size = min_alignment;
+ 		u64 addr = round_down(hole_start + (hole_size / 2), min_alignment);
  
- 	if (place->fpfn + bman_res->base.num_pages != place->lpfn &&
- 	    place->flags & TTM_PL_FLAG_CONTIGUOUS) {
 -- 
 2.34.1
 
