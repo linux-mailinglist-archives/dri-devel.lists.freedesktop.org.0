@@ -1,39 +1,46 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id CA49C507FBB
-	for <lists+dri-devel@lfdr.de>; Wed, 20 Apr 2022 06:03:36 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 0ED6D50806E
+	for <lists+dri-devel@lfdr.de>; Wed, 20 Apr 2022 07:14:01 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 927A110E263;
-	Wed, 20 Apr 2022 04:03:33 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 5721A10F1B3;
+	Wed, 20 Apr 2022 05:13:58 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from letterbox.kde.org (letterbox.kde.org
- [IPv6:2001:41c9:1:41e::242])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 5442C10E2FE
- for <dri-devel@lists.freedesktop.org>; Wed, 20 Apr 2022 04:03:32 +0000 (UTC)
-Received: from vertex.vmware.com (pool-108-36-85-85.phlapa.fios.verizon.net
- [108.36.85.85]) (Authenticated sender: zack)
- by letterbox.kde.org (Postfix) with ESMTPSA id C7808285A45;
- Wed, 20 Apr 2022 05:03:29 +0100 (BST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kde.org; s=users;
- t=1650427410; bh=zqyo6tfXjeD30Gb48X4yeLkl8Z7y3nG06buJ9BBWbfU=;
- h=From:To:Cc:Subject:Date:From;
- b=QVpr6UUfauwC9q3noFlV1RXKFmeMCortmLYmdJPenQBImtLAZ0me+FWRCQi7OO8Qz
- F732ceZ5OGU1fKxs9i3J3vcnZE3kw+GzBHTqPmG3zyKCjR3kC/6Gjw1F0C5Npq1I90
- 1l4ElX97KZW/Rh5FE/CEfmtYwD/d27v0Vz6/TdMYgtyDlJOaXGcjeqUaeb+JoE5J95
- 6mKTm3fHfzjKf//hJARVlmz13HfGp1ykJ4KXkA8ox+sDqht41kkrQ7SE+3ZC8+Hgfj
- D2SDwXkTmq1SJ2jG6hIK6jBWZGieiF+QVbhW54J0GxVT0XKDyK0McM9RBRyffvHbph
- v8pcqczbfQw8w==
-From: Zack Rusin <zack@kde.org>
-To: dri-devel@lists.freedesktop.org
-Subject: [PATCH v2] drm/vmwgfx: Fix gem refcounting and memory evictions
-Date: Wed, 20 Apr 2022 00:03:28 -0400
-Message-Id: <20220420040328.1007409-1-zack@kde.org>
-X-Mailer: git-send-email 2.32.0
+Received: from ams.source.kernel.org (ams.source.kernel.org [145.40.68.75])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 3158F10F1B2;
+ Wed, 20 Apr 2022 05:13:57 +0000 (UTC)
+Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
+ (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+ (No client certificate requested)
+ by ams.source.kernel.org (Postfix) with ESMTPS id C4102B81CFA;
+ Wed, 20 Apr 2022 05:13:55 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id AC9DFC385A0;
+ Wed, 20 Apr 2022 05:13:52 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+ s=k20201202; t=1650431634;
+ bh=Xl8xanXzGG/XbMPJDPUaNRxh8BraaLlRbxRew5ksBiw=;
+ h=From:To:Cc:Subject:References:Date:In-Reply-To:From;
+ b=MWRbUBz9aU0uUj7CU39+2wGmazTXtMvR03ApKZl5oW7EFAVuhS5jKf7sp03Q9r9S/
+ JPPbgcGQiWfrN8OXQ9DsliVf5S5ZV/BvfTSU1BuKOqln8qdq/EypwAvgz1QwP8Xr4d
+ yX1den7jqPZaRgiuM588z3n/dS4IvviSoB7ZmOWeNdMNQMnouRFfgPuz1lRohNclPl
+ 15SyuSrsu/1OtpHeV7kDRj4sX7XF31fygnHkVtAGWoX2CwcI/yQoRIkIEkC78tNz1Y
+ rhjcIig2B7J0YCIuF8MPsm06kuInhm56U70+8sBEMyv0DdgArF6Ic73iWHs5WSYV3+
+ 9hSf3BfWl3+Tw==
+From: Kalle Valo <kvalo@kernel.org>
+To: Jani Nikula <jani.nikula@intel.com>
+Subject: Re: [PATCH 0/1] add support for enum module parameters
+References: <20220414123033.654198-1-jani.nikula@intel.com>
+ <YlgfXxjefuxiXjtC@kroah.com> <87a6cneoco.fsf@intel.com>
+Date: Wed, 20 Apr 2022 08:13:47 +0300
+In-Reply-To: <87a6cneoco.fsf@intel.com> (Jani Nikula's message of "Thu, 14 Apr
+ 2022 17:22:47 +0300")
+Message-ID: <87sfq8qqus.fsf@tynnyri.adurom.net>
+User-Agent: Gnus/5.13 (Gnus v5.13) Emacs/26.1 (gnu/linux)
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -46,196 +53,52 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Reply-To: Zack Rusin <zackr@vmware.com>
-Cc: krastevm@vmware.com, mombasawalam@vmware.com
+Cc: linux-wireless@vger.kernel.org,
+ Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+ intel-gfx@lists.freedesktop.org, Lucas De Marchi <lucas.demarchi@intel.com>,
+ linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
+ netdev@vger.kernel.org, Andrew Morton <akpm@linux-foundation.org>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-From: Zack Rusin <zackr@vmware.com>
++ linux-wireless, netdev
 
-v2: Add the last part of the ref count fix which was spotted by
-Philipp Sieweck where the ref count of cpu writers is off due to
-ERESTARTSYS or EBUSY during bo waits.
+Jani Nikula <jani.nikula@intel.com> writes:
 
-The initial GEM port broke refcounting on shareable (prime) surfaces and
-memory evictions. The prime surfaces broke because the parent surfaces
-weren't increasing the ref count on GEM surfaces, which meant that
-the memory backing textures could have been deleted while the texture
-was still accessible. The evictions broke due to a typo, the code was
-supposed to exit if the passed buffers were not vmw_buffer_object
-not if they were. They're tied because the evictions depend on having
-memory to actually evict.
+> On Thu, 14 Apr 2022, Greg Kroah-Hartman <gregkh@linuxfoundation.org> wrote:
+>> On Thu, Apr 14, 2022 at 03:30:32PM +0300, Jani Nikula wrote:
+>>> Hey, I've sent this before, ages ago, but haven't really followed
+>>> through with it. I still think it would be useful for many scenarios
+>>> where a plain number is a clumsy interface for a module param.
+>>> 
+>>> Thoughts?
+>>
+>> We should not be adding new module parameters anyway (they operate on
+>> code, not data/devices), so what would this be used for?
+>
+> I think it's just easier to use names than random values, and this also
+> gives you range check on the input.
+>
+> I also keep telling people not to add new module parameters, but it's
+> not like they're going away anytime soon.
+>
+> If there's a solution to being able to pass device specific debug
+> parameters at probe time, I'm all ears. At least i915 has a bunch of
+> things which can't really be changed after probe, when debugfs for the
+> device is around. Module parameters aren't ideal, but debugfs doesn't
+> work for this.
 
-This fixes crashes with XA state tracker which is used for xrender
-acceleration on xf86-video-vmware, apps/tests which use a lot of
-memory (a good test being the piglit's streaming-texture-leak) and
-desktops.
+Wireless drivers would also desperately need to pass device specific
+parameters at (or before) probe time. And not only debug parameters but
+also configuration parameters, for example firmware memory allocations
+schemes (optimise for features vs number of clients etc) and whatnot.
 
-Signed-off-by: Zack Rusin <zackr@vmware.com>
-Fixes: 8afa13a0583f ("drm/vmwgfx: Implement DRIVER_GEM")
-Reported-by: Philipp Sieweck <psi@informatik.uni-kiel.de>
-Cc: <stable@vger.kernel.org> # v5.17+
-Reviewed-by: Maaz Mombasawala <mombasawalam@vmware.com>
----
- drivers/gpu/drm/vmwgfx/vmwgfx_bo.c      | 43 ++++++++++++-------------
- drivers/gpu/drm/vmwgfx/vmwgfx_drv.c     |  8 ++---
- drivers/gpu/drm/vmwgfx/vmwgfx_surface.c |  7 +++-
- 3 files changed, 28 insertions(+), 30 deletions(-)
+Any ideas how to implement that? Is there any prior work for anything
+like this? This is pretty hard limiting usability of upstream wireless
+drivers and I really want to find a proper solution.
 
-diff --git a/drivers/gpu/drm/vmwgfx/vmwgfx_bo.c b/drivers/gpu/drm/vmwgfx/vmwgfx_bo.c
-index 31aecc46624b..04c8a378aeed 100644
---- a/drivers/gpu/drm/vmwgfx/vmwgfx_bo.c
-+++ b/drivers/gpu/drm/vmwgfx/vmwgfx_bo.c
-@@ -46,6 +46,21 @@ vmw_buffer_object(struct ttm_buffer_object *bo)
- 	return container_of(bo, struct vmw_buffer_object, base);
- }
- 
-+/**
-+ * bo_is_vmw - check if the buffer object is a &vmw_buffer_object
-+ * @bo: ttm buffer object to be checked
-+ *
-+ * Uses destroy function associated with the object to determine if this is
-+ * a &vmw_buffer_object.
-+ *
-+ * Returns:
-+ * true if the object is of &vmw_buffer_object type, false if not.
-+ */
-+static bool bo_is_vmw(struct ttm_buffer_object *bo)
-+{
-+	return bo->destroy == &vmw_bo_bo_free ||
-+	       bo->destroy == &vmw_gem_destroy;
-+}
- 
- /**
-  * vmw_bo_pin_in_placement - Validate a buffer to placement.
-@@ -615,8 +630,9 @@ int vmw_user_bo_synccpu_ioctl(struct drm_device *dev, void *data,
- 
- 		ret = vmw_user_bo_synccpu_grab(vbo, arg->flags);
- 		vmw_bo_unreference(&vbo);
--		if (unlikely(ret != 0 && ret != -ERESTARTSYS &&
--			     ret != -EBUSY)) {
-+		if (unlikely(ret != 0)) {
-+			if (ret == -ERESTARTSYS || ret == -EBUSY)
-+				return -EBUSY;
- 			DRM_ERROR("Failed synccpu grab on handle 0x%08x.\n",
- 				  (unsigned int) arg->handle);
- 			return ret;
-@@ -798,7 +814,7 @@ int vmw_dumb_create(struct drm_file *file_priv,
- void vmw_bo_swap_notify(struct ttm_buffer_object *bo)
- {
- 	/* Is @bo embedded in a struct vmw_buffer_object? */
--	if (vmw_bo_is_vmw_bo(bo))
-+	if (!bo_is_vmw(bo))
- 		return;
- 
- 	/* Kill any cached kernel maps before swapout */
-@@ -822,7 +838,7 @@ void vmw_bo_move_notify(struct ttm_buffer_object *bo,
- 	struct vmw_buffer_object *vbo;
- 
- 	/* Make sure @bo is embedded in a struct vmw_buffer_object? */
--	if (vmw_bo_is_vmw_bo(bo))
-+	if (!bo_is_vmw(bo))
- 		return;
- 
- 	vbo = container_of(bo, struct vmw_buffer_object, base);
-@@ -843,22 +859,3 @@ void vmw_bo_move_notify(struct ttm_buffer_object *bo,
- 	if (mem->mem_type != VMW_PL_MOB && bo->resource->mem_type == VMW_PL_MOB)
- 		vmw_resource_unbind_list(vbo);
- }
--
--/**
-- * vmw_bo_is_vmw_bo - check if the buffer object is a &vmw_buffer_object
-- * @bo: buffer object to be checked
-- *
-- * Uses destroy function associated with the object to determine if this is
-- * a &vmw_buffer_object.
-- *
-- * Returns:
-- * true if the object is of &vmw_buffer_object type, false if not.
-- */
--bool vmw_bo_is_vmw_bo(struct ttm_buffer_object *bo)
--{
--	if (bo->destroy == &vmw_bo_bo_free ||
--	    bo->destroy == &vmw_gem_destroy)
--		return true;
--
--	return false;
--}
-diff --git a/drivers/gpu/drm/vmwgfx/vmwgfx_drv.c b/drivers/gpu/drm/vmwgfx/vmwgfx_drv.c
-index 72a17618ba0a..0c12faa4e533 100644
---- a/drivers/gpu/drm/vmwgfx/vmwgfx_drv.c
-+++ b/drivers/gpu/drm/vmwgfx/vmwgfx_drv.c
-@@ -1018,13 +1018,10 @@ static int vmw_driver_load(struct vmw_private *dev_priv, u32 pci_id)
- 		goto out_no_fman;
- 	}
- 
--	drm_vma_offset_manager_init(&dev_priv->vma_manager,
--				    DRM_FILE_PAGE_OFFSET_START,
--				    DRM_FILE_PAGE_OFFSET_SIZE);
- 	ret = ttm_device_init(&dev_priv->bdev, &vmw_bo_driver,
- 			      dev_priv->drm.dev,
- 			      dev_priv->drm.anon_inode->i_mapping,
--			      &dev_priv->vma_manager,
-+			      dev_priv->drm.vma_offset_manager,
- 			      dev_priv->map_mode == vmw_dma_alloc_coherent,
- 			      false);
- 	if (unlikely(ret != 0)) {
-@@ -1195,7 +1192,6 @@ static void vmw_driver_unload(struct drm_device *dev)
- 	vmw_devcaps_destroy(dev_priv);
- 	vmw_vram_manager_fini(dev_priv);
- 	ttm_device_fini(&dev_priv->bdev);
--	drm_vma_offset_manager_destroy(&dev_priv->vma_manager);
- 	vmw_release_device_late(dev_priv);
- 	vmw_fence_manager_takedown(dev_priv->fman);
- 	if (dev_priv->capabilities & SVGA_CAP_IRQMASK)
-@@ -1419,7 +1415,7 @@ vmw_get_unmapped_area(struct file *file, unsigned long uaddr,
- 	struct vmw_private *dev_priv = vmw_priv(file_priv->minor->dev);
- 
- 	return drm_get_unmapped_area(file, uaddr, len, pgoff, flags,
--				     &dev_priv->vma_manager);
-+				     dev_priv->drm.vma_offset_manager);
- }
- 
- static int vmwgfx_pm_notifier(struct notifier_block *nb, unsigned long val,
-diff --git a/drivers/gpu/drm/vmwgfx/vmwgfx_surface.c b/drivers/gpu/drm/vmwgfx/vmwgfx_surface.c
-index 00e8e27e4884..ace7ca150b03 100644
---- a/drivers/gpu/drm/vmwgfx/vmwgfx_surface.c
-+++ b/drivers/gpu/drm/vmwgfx/vmwgfx_surface.c
-@@ -683,6 +683,9 @@ static void vmw_user_surface_base_release(struct ttm_base_object **p_base)
- 	    container_of(base, struct vmw_user_surface, prime.base);
- 	struct vmw_resource *res = &user_srf->srf.res;
- 
-+	if (base->shareable && res && res->backup)
-+		drm_gem_object_put(&res->backup->base.base);
-+
- 	*p_base = NULL;
- 	vmw_resource_unreference(&res);
- }
-@@ -857,6 +860,7 @@ int vmw_surface_define_ioctl(struct drm_device *dev, void *data,
- 			goto out_unlock;
- 		}
- 		vmw_bo_reference(res->backup);
-+		drm_gem_object_get(&res->backup->base.base);
- 	}
- 
- 	tmp = vmw_resource_reference(&srf->res);
-@@ -1513,7 +1517,6 @@ vmw_gb_surface_define_internal(struct drm_device *dev,
- 							&res->backup);
- 		if (ret == 0)
- 			vmw_bo_reference(res->backup);
--
- 	}
- 
- 	if (unlikely(ret != 0)) {
-@@ -1561,6 +1564,8 @@ vmw_gb_surface_define_internal(struct drm_device *dev,
- 			drm_vma_node_offset_addr(&res->backup->base.base.vma_node);
- 		rep->buffer_size = res->backup->base.base.size;
- 		rep->buffer_handle = backup_handle;
-+		if (user_srf->prime.base.shareable)
-+			drm_gem_object_get(&res->backup->base.base);
- 	} else {
- 		rep->buffer_map_handle = 0;
- 		rep->buffer_size = 0;
+
 -- 
-2.32.0
+https://patchwork.kernel.org/project/linux-wireless/list/
 
+https://wireless.wiki.kernel.org/en/developers/documentation/submittingpatches
