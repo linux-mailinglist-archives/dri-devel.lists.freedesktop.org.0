@@ -1,51 +1,51 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4C144508398
-	for <lists+dri-devel@lfdr.de>; Wed, 20 Apr 2022 10:39:34 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id D4D995083EC
+	for <lists+dri-devel@lfdr.de>; Wed, 20 Apr 2022 10:44:22 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 521A610F23D;
-	Wed, 20 Apr 2022 08:39:32 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 3092510E61A;
+	Wed, 20 Apr 2022 08:44:20 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from wout4-smtp.messagingengine.com (wout4-smtp.messagingengine.com
  [64.147.123.20])
- by gabe.freedesktop.org (Postfix) with ESMTPS id BF69810F238
- for <dri-devel@lists.freedesktop.org>; Wed, 20 Apr 2022 08:39:28 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 3E7F710E61A
+ for <dri-devel@lists.freedesktop.org>; Wed, 20 Apr 2022 08:44:18 +0000 (UTC)
 Received: from compute4.internal (compute4.nyi.internal [10.202.2.44])
- by mailout.west.internal (Postfix) with ESMTP id 417053200A6A;
- Wed, 20 Apr 2022 04:39:27 -0400 (EDT)
-Received: from mailfrontend2 ([10.202.2.163])
- by compute4.internal (MEProxy); Wed, 20 Apr 2022 04:39:28 -0400
+ by mailout.west.internal (Postfix) with ESMTP id B70663200953;
+ Wed, 20 Apr 2022 04:44:16 -0400 (EDT)
+Received: from mailfrontend1 ([10.202.2.162])
+ by compute4.internal (MEProxy); Wed, 20 Apr 2022 04:44:17 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=cerno.tech; h=cc
  :cc:content-transfer-encoding:content-type:date:date:from:from
  :in-reply-to:in-reply-to:message-id:mime-version:references
- :reply-to:sender:subject:subject:to:to; s=fm3; t=1650443966; x=
- 1650530366; bh=cZy9XWBw5q/DEPYoSdmZpBAbvar+vC4kZjcXt8ISJY4=; b=y
- 8AXonnN62kEnRLDXhUzepux+nBZmB84PIkaWOLitFxT48H7k+6Qr2IgXtZMjrxZU
- WE9EDGo+0aAXjMe3BN3OdJMgGN4Hot7r1FkI1Tv5gbk74blhJilX3+FWbXW599iZ
- RaqAj9puFWJdLOGS2mUKputgR+FT9uzjJjI718QZ0GkPuX+RN8v4thWL1foxs8J9
- JXc6SRa6QpIE6tEgFUkeiAKYuYkI750784U9l9Ul/4TcGNr89UFfhO+30RFeY3pn
- YyhqNCU8wmIsJ7QhbyEWvYPDrEMoa0i1smBqXdRz72NVFDrZTDolPwHS9rl8kmcs
- /QdSeQ7MmypNBrVbLOaXg==
+ :reply-to:sender:subject:subject:to:to; s=fm3; t=1650444256; x=
+ 1650530656; bh=t7DoobfDMY7dUicjX+qlluqPD7Zao8qnodbFi7wyI5A=; b=t
+ ygCaxN0wtkpwICLP3YBCcWZFOQ4IbeDTJ8em3/45AGOJ6ytwCMYqq/oG24e0QZHQ
+ 549yvDtJMZgSjAvEV9MHcf7kN8tTO0Kh4dNGmrXOEcbzdu9cm2Me7iPKjBSfc0Mq
+ r6zLomXir+eHc0dCBaKgC4XtiY4QRke/BF7JHUQQJF4pYVl31V4Np895UBik6753
+ HrhSuPYG9x7SYY6rCGoPp2r+qQ6AJAsmcPr39gy3ELrmEoqmhntiHT9vPKFDiEvW
+ qsLpPo3hQ5vCwT3BBQhwEs3rsFzjii90Ap7s/8cfg8tY0pgMXATz51rVqHYQO8VN
+ hdMx+U3dqQ3Snhq0lYurw==
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
  messagingengine.com; h=cc:cc:content-transfer-encoding
  :content-type:date:date:from:from:in-reply-to:in-reply-to
  :message-id:mime-version:references:reply-to:sender:subject
  :subject:to:to:x-me-proxy:x-me-proxy:x-me-sender:x-me-sender
- :x-sasl-enc; s=fm1; t=1650443966; x=1650530366; bh=cZy9XWBw5q/DE
- PYoSdmZpBAbvar+vC4kZjcXt8ISJY4=; b=gHqG2al0wuQmoiBALUnkQ9t76gjlh
- tdbX6fskx3SfxUcxHXprdvTRgDtrXVrt9Pnaed7MK6O8KEdeVZ0RMgjZiOs+zg7U
- fKCZCZS9aSnpFCzBtKfL/0wmsQrM+QPO/NS1N8eAZq0pCDLwrK9oMpV5/Rw1HKAh
- hN1VUTLyqBBOp+1yurbCLjR98Wx/Cf1jDtkjSBJ7SxoUGljDwc24PMTXFaLX2r1d
- gBu3qzvqVSJ2mMcnMWjm8JMivteCdhtzLOuDQcxBCLorbIaAP2C749MvrusYEfNk
- IIlmFnSs/u5slP5XZiC1p4NuKXiX2x0YiXjD5xthsct/Mb3FtOxQyOOCg==
-X-ME-Sender: <xms:vsZfYmCXw794ca_KmjaVS3_MlwOOwyT-YKz6joKfeCReluNE94XWkw>
- <xme:vsZfYgjQvXR3oIzjXKQkQILWONvBN2ltxw_WgO23wITYuoKuNQtUY341xUwUlqYPA
- AiV8Kn_gVae8iBdfmw>
-X-ME-Received: <xmr:vsZfYpkbeew8jbToZA1-L1jKdIDdA0kUeeNBgCzlYtp1XK5HeM-w1lkUq9QC6IAGjqAc3gKCcmeD-O1BdVw_Bv8WrZO49AJZ9B-fcWI>
-X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvvddrvddthedgtdehucetufdoteggodetrfdotf
+ :x-sasl-enc; s=fm1; t=1650444256; x=1650530656; bh=t7DoobfDMY7dU
+ icjX+qlluqPD7Zao8qnodbFi7wyI5A=; b=DQczOr0mdxvfH63u3aRSvK33yUvkg
+ hwVbbAnAuu6w71U03yBmgffc5IPBWtEWYaqFWIIpYcBI5gFRfYcxxz3IvpAabkZp
+ BRSCYNaHOjdylO6Nit0AfRBpUxqgiJkAbyAk9cZSl841k5QXDSL8MkPXh6p9Muui
+ h6VG5/zm4gGr8A0rYKfZdnI31WUiaxIvNxUivA4c0jb8kv43g7X+q4w+1SZiORJZ
+ HWx9qyxkxJZ4JdS2ayxEkQN+/lhSZrKrjC02hq1xeo21uvj5bmo7CMHjlFZnuDl8
+ Ux0FvlppZhBiL0FQ0ysyNunFaTfM1g03gHiupkqO4q8sG7FEKr+iPsC3A==
+X-ME-Sender: <xms:4MdfYrIMOf7vpJZ6IzW6U5gk0MbuYJ-apbWZY8i_1_cu7yCvsBk2ow>
+ <xme:4MdfYvJvwNfQXpTgDqqES-TroPLS1t6QdhnHmMd-li4hm97Hapt4kUI39EsDAocuK
+ tI365fdUBKRHhy8hgc>
+X-ME-Received: <xmr:4MdfYjtu-8dtpKX3Xr2T7ZCN73WjGcNifmV0f2_6bLijrK_mODM7zJYV-5mhdFSHAQHRsjkrHehz2IyCooDQwcDEsQlIOWe8CRGsYN8>
+X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvvddrvddthedgtdejucetufdoteggodetrfdotf
  fvucfrrhhofhhilhgvmecuhfgrshhtofgrihhlpdfqfgfvpdfurfetoffkrfgpnffqhgen
  uceurghilhhouhhtmecufedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmne
  cujfgurhephffvufffkffojghfgggtgfesthekredtredtjeenucfhrhhomhepofgrgihi
@@ -53,24 +53,23 @@ X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvvddrvddthedgtdehucetufdoteggod
  htthgvrhhnpeejuefggeekfffgueevtddvudffhfejffejjedvvdduudethefhfefhfeeg
  ieekkeenucevlhhushhtvghrufhiiigvpedtnecurfgrrhgrmhepmhgrihhlfhhrohhmpe
  hmrgigihhmvgestggvrhhnohdrthgvtghh
-X-ME-Proxy: <xmx:vsZfYkyiS-Jk36921WvZX6NoF6OXszjZjHM1G31g2wzF2cOVvXw-7A>
- <xmx:vsZfYrQmWBBIwHNNNMLBEVRP2pd-j9kxJbZc4-cfYK2LnGhIhku2MA>
- <xmx:vsZfYvbOJG-9ning0ZsPEZdEP0KJUfjYg4jRW9TvspYEliPeJxJ6LA>
- <xmx:vsZfYkRs21WCQX4WLfzDzBsCztHhZhUz7-UM7KZKbxFqX9EO9Q3Ujw>
+X-ME-Proxy: <xmx:4MdfYkZdXhgiPBHJe1laeM8vkDWI63we8zrIoe3Dpn8oLgQkM7Y-1w>
+ <xmx:4MdfYiZfxhSel47962QfHcz05I3V0iuPfT-dpHJcIbvREVj88ssr9w>
+ <xmx:4MdfYoBD4T0JUPARMGR5f15Shu6XU6f2pWg7DUJDHdNk1RferhAjfw>
+ <xmx:4MdfYq7azbT0uE5736JSIsiMJfWp3EO8iPivYieFh11DLk5Ygpt8Cg>
 Received: by mail.messagingengine.com (Postfix) with ESMTPA; Wed,
- 20 Apr 2022 04:39:26 -0400 (EDT)
+ 20 Apr 2022 04:44:15 -0400 (EDT)
 From: Maxime Ripard <maxime@cerno.tech>
-To: Stefan Wahren <stefan.wahren@i2se.com>, Daniel Vetter <daniel@ffwll.ch>,
- Thierry Reding <thierry.reding@gmail.com>, David Airlie <airlied@linux.ie>,
- Sam Ravnborg <sam@ravnborg.org>
-Subject: Re: (subset) [PATCH 2/2] drm/panel/raspberrypi-touchscreen:
- Initialise the bridge in prepare
-Date: Wed, 20 Apr 2022 10:39:18 +0200
-Message-Id: <165044395514.303702.8433526733204616852.b4-ty@cerno.tech>
+To: mripard@kernel.org, emma@anholt.net, daniel@ffwll.ch,
+ dri-devel@lists.freedesktop.org, Zheng Bin <zhengbin13@huawei.com>,
+ airlied@linux.ie, linux-kernel@vger.kernel.org
+Subject: Re: (subset) [PATCH v3 -next] drm/vc4: Fix build error when
+ CONFIG_DRM_VC4=y && CONFIG_RASPBERRYPI_FIRMWARE=m
+Date: Wed, 20 Apr 2022 10:44:13 +0200
+Message-Id: <165044423683.307255.11242921417617655496.b4-ty@cerno.tech>
 X-Mailer: git-send-email 2.35.1
-In-Reply-To: <20220415162513.42190-3-stefan.wahren@i2se.com>
-References: <20220415162513.42190-1-stefan.wahren@i2se.com>
- <20220415162513.42190-3-stefan.wahren@i2se.com>
+In-Reply-To: <20220411024325.3968413-1-zhengbin13@huawei.com>
+References: <20220411024325.3968413-1-zhengbin13@huawei.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 8bit
@@ -86,19 +85,21 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: linux-kernel@vger.kernel.org, Maxime Ripard <maxime@cerno.tech>,
- dri-devel@lists.freedesktop.org,
- Dave Stevenson <dave.stevenson@raspberrypi.com>
+Cc: tangyizhou@huawei.com, Maxime Ripard <maxime@cerno.tech>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Fri, 15 Apr 2022 18:25:13 +0200, Stefan Wahren wrote:
-> From: Dave Stevenson <dave.stevenson@raspberrypi.com>
+On Mon, 11 Apr 2022 10:43:25 +0800, Zheng Bin wrote:
+> If CONFIG_DRM_VC4=y, CONFIG_RASPBERRYPI_FIRMWARE=m, CONFIG_COMPILE_TEST=n,
+> bulding fails:
 > 
-> The panel has a prepare call which is before video starts, and an
-> enable call which is after.
-> The Toshiba bridge should be configured before video, so move
-> the relevant power and initialisation calls to prepare.
+> drivers/gpu/drm/vc4/vc4_drv.o: In function `vc4_drm_bind':
+> vc4_drv.c:(.text+0x320): undefined reference to `rpi_firmware_get'
+> vc4_drv.c:(.text+0x320): relocation truncated to fit: R_AARCH64_CALL26 against undefined symbol `rpi_firmware_get'
+> vc4_drv.c:(.text+0x34c): undefined reference to `rpi_firmware_property'
+> vc4_drv.c:(.text+0x34c): relocation truncated to fit: R_AARCH64_CALL26 against undefined symbol `rpi_firmware_property'
+> vc4_drv.c:(.text+0x354): undefined reference to `rpi_firmware_put'
+> vc4_drv.c:(.text+0x354): relocation truncated to fit: R_AARCH64_CALL26 against undefined symbol `rpi_firmware_put'
 > 
 > [...]
 
