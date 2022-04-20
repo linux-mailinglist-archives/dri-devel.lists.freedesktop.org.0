@@ -1,60 +1,58 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4653B509217
-	for <lists+dri-devel@lfdr.de>; Wed, 20 Apr 2022 23:28:39 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 4B284509219
+	for <lists+dri-devel@lfdr.de>; Wed, 20 Apr 2022 23:30:31 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 3343010F2BE;
-	Wed, 20 Apr 2022 21:28:34 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 6FA1710F2C0;
+	Wed, 20 Apr 2022 21:30:29 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from alexa-out.qualcomm.com (alexa-out.qualcomm.com [129.46.98.28])
- by gabe.freedesktop.org (Postfix) with ESMTPS id BDA8610F2BE;
- Wed, 20 Apr 2022 21:28:32 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=quicinc.com; i=@quicinc.com; q=dns/txt; s=qcdkim;
- t=1650490113; x=1682026113;
- h=message-id:date:mime-version:subject:to:cc:references:
- from:in-reply-to:content-transfer-encoding;
- bh=IBUoBtAKIjSuK/QI3W+wGDAdyTFBvwfAGqllU1JcAVg=;
- b=GL788eelb/nfDUiUWhB4t5XLq3gYmVwLd49RvS3kpkXb4dLysfS2GseX
- VxI9ELVeOtyxqLapeTbgInDzUPanOunu1/m/gf/4wY6Krgpwjaf56ME1R
- y9yAb01yntJUz4SnMerxlL5Jo+GJKVkAI/493gApEquDVmVa8EWPLJeUA Q=;
-Received: from ironmsg-lv-alpha.qualcomm.com ([10.47.202.13])
- by alexa-out.qualcomm.com with ESMTP; 20 Apr 2022 14:28:32 -0700
-X-QCInternal: smtphost
-Received: from nasanex01c.na.qualcomm.com ([10.47.97.222])
- by ironmsg-lv-alpha.qualcomm.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 20 Apr 2022 14:28:31 -0700
-Received: from nalasex01a.na.qualcomm.com (10.47.209.196) by
- nasanex01c.na.qualcomm.com (10.47.97.222) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.2.986.22; Wed, 20 Apr 2022 14:28:31 -0700
-Received: from [10.111.175.210] (10.80.80.8) by nalasex01a.na.qualcomm.com
- (10.47.209.196) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.986.22; Wed, 20 Apr
- 2022 14:28:29 -0700
-Message-ID: <13fac83c-99e7-0ca6-f93d-b4e6b975abdb@quicinc.com>
-Date: Wed, 20 Apr 2022 14:28:27 -0700
+Received: from mail-oi1-f180.google.com (mail-oi1-f180.google.com
+ [209.85.167.180])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id BD3CD10F2C0
+ for <dri-devel@lists.freedesktop.org>; Wed, 20 Apr 2022 21:30:27 +0000 (UTC)
+Received: by mail-oi1-f180.google.com with SMTP id a10so3536346oif.9
+ for <dri-devel@lists.freedesktop.org>; Wed, 20 Apr 2022 14:30:27 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+ :mime-version:content-disposition:in-reply-to;
+ bh=oKAyPnurUXqIpBjCXwQJqvX5yNXzu0aL/OrfPo6b7fE=;
+ b=QTizAuTVVj26nzyuZTvyXFwdX/gBWHv3qEb6hNWSI1LqTh+q9u4skuvBWc2u2M5iaM
+ fV9zlN4AnBWrRSva1WdPUTZXNUWCwszSjU/EKLTp8714L/UiaeTsrk5NUbRkBlRv2lWV
+ wqPWfy6FeHrswI0BvLmKE0Yf+0Ou4e10smifXqqGmAjG7JA4NHuHdI5xEPSga9vPg1oX
+ gp3LWWbyA0JYDowDKXAAUvDbnJRPOdxZ9QLmBtM3DEzswmfdPnv768GY+2WdmBAsF7rE
+ xMZKYleKd6Xbg6ZUQXnWqgztwfi/OM6WSnZpkbZbUt+Xg/nu4MFD3fs3RHQdPvJ/rSzh
+ bdgw==
+X-Gm-Message-State: AOAM532+2XAWOfN44yNdWVseU1nlxCX+ESXmLkzxqaVoFiz8BZ7T7lgV
+ 0gb7+GZ0wCFpMhOlqKJOvA==
+X-Google-Smtp-Source: ABdhPJxq9dTo9U+3/KCPdMhKSiga9fBO1UGN4lQPRboNsT8JQZfOkPOQL2vKXUutOjDSBWzmgyVeRA==
+X-Received: by 2002:a05:6808:1691:b0:2f9:4bd7:581e with SMTP id
+ bb17-20020a056808169100b002f94bd7581emr2558521oib.144.1650490225602; 
+ Wed, 20 Apr 2022 14:30:25 -0700 (PDT)
+Received: from robh.at.kernel.org (66-90-144-107.dyn.grandenetworks.net.
+ [66.90.144.107]) by smtp.gmail.com with ESMTPSA id
+ pp23-20020a0568709d1700b000e2d876505dsm406800oab.32.2022.04.20.14.30.24
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Wed, 20 Apr 2022 14:30:25 -0700 (PDT)
+Received: (nullmailer pid 1882568 invoked by uid 1000);
+ Wed, 20 Apr 2022 21:30:24 -0000
+Date: Wed, 20 Apr 2022 16:30:24 -0500
+From: Rob Herring <robh@kernel.org>
+To: Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>
+Subject: Re: [PATCH 1/2] dt-bindings: display: ti,am65x-dss: Add missing
+ register & interrupt
+Message-ID: <YmB7cE0LsyWoiOsh@robh.at.kernel.org>
+References: <20220419070302.16502-1-a-bhatia1@ti.com>
+ <20220419070302.16502-2-a-bhatia1@ti.com>
+ <Yl7FEuHEy66KUc5F@robh.at.kernel.org>
+ <f5eb63b1-8381-99c8-55fa-cc9287103aa8@ideasonboard.com>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:91.0) Gecko/20100101
- Thunderbird/91.6.2
-Subject: Re: [PATCH v2 09/17] drm/msm/dpu: add an API to reset the encoder
- related hw blocks
-Content-Language: en-US
-To: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>,
- <freedreno@lists.freedesktop.org>
-References: <1650419169-13760-1-git-send-email-quic_abhinavk@quicinc.com>
- <1650419169-13760-10-git-send-email-quic_abhinavk@quicinc.com>
- <2f37ee8d-6b6a-3e05-cdb7-cd84d81632bf@linaro.org>
-From: Abhinav Kumar <quic_abhinavk@quicinc.com>
-In-Reply-To: <2f37ee8d-6b6a-3e05-cdb7-cd84d81632bf@linaro.org>
-Content-Type: text/plain; charset="UTF-8"; format=flowed
-Content-Transfer-Encoding: 8bit
-X-Originating-IP: [10.80.80.8]
-X-ClientProxiedBy: nasanex01b.na.qualcomm.com (10.46.141.250) To
- nalasex01a.na.qualcomm.com (10.47.209.196)
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <f5eb63b1-8381-99c8-55fa-cc9287103aa8@ideasonboard.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -67,190 +65,52 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: markyacoub@chromium.org, liviu.dudau@arm.com,
- dri-devel@lists.freedesktop.org, swboyd@chromium.org, seanpaul@chromium.org,
- laurent.pinchart@ideasonboard.com, quic_jesszhan@quicinc.com,
- quic_aravindh@quicinc.com
+Cc: Nishanth Menon <nm@ti.com>, Devicetree <devicetree@vger.kernel.org>,
+ Vignesh Raghavendra <vigneshr@ti.com>, Aradhya Bhatia <a-bhatia1@ti.com>,
+ Linux Kernel <linux-kernel@vger.kernel.org>,
+ DRI Development <dri-devel@lists.freedesktop.org>,
+ Jyri Sarha <jyri.sarha@iki.fi>, Nikhil Devshatwar <nikhil.nd@ti.com>,
+ Linux ARM Kernel <linux-arm-kernel@lists.infradead.org>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-
-
-On 4/20/2022 12:23 AM, Dmitry Baryshkov wrote:
-> On 20/04/2022 04:46, Abhinav Kumar wrote:
->> Add an API to reset the encoder related hw blocks to ensure
->> a proper teardown of the pipeline. At the moment this is being
->> used only for the writeback encoder but eventually we can start
->> using this for all interfaces.
->>
->> changes in v2:
->>     - split the writeback part to another commit
->>
->> Signed-off-by: Abhinav Kumar <quic_abhinavk@quicinc.com>
+On Wed, Apr 20, 2022 at 10:05:34AM +0300, Tomi Valkeinen wrote:
+> Hi,
 > 
-> Reviewed-by: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
+> On 19/04/2022 17:20, Rob Herring wrote:
+> > On Tue, Apr 19, 2022 at 12:33:01PM +0530, Aradhya Bhatia wrote:
+> > > The DSS IP on the ti-am65x soc supports an additional register space,
+> > > named "common1". Further. the IP services a maximum number of 2
+> > > interrupts.
+> > > 
+> > > Add the missing register space "common1" and the additional interrupt.
+> > > 
+> > > Signed-off-by: Aradhya Bhatia <a-bhatia1@ti.com>
+> > > ---
+> > >   .../devicetree/bindings/display/ti/ti,am65x-dss.yaml   | 10 +++++++---
+> > >   1 file changed, 7 insertions(+), 3 deletions(-)
+> > > 
+> > > diff --git a/Documentation/devicetree/bindings/display/ti/ti,am65x-dss.yaml b/Documentation/devicetree/bindings/display/ti/ti,am65x-dss.yaml
+> > > index 5c7d2cbc4aac..102059e9e0d5 100644
+> > > --- a/Documentation/devicetree/bindings/display/ti/ti,am65x-dss.yaml
+> > > +++ b/Documentation/devicetree/bindings/display/ti/ti,am65x-dss.yaml
+> > > @@ -26,6 +26,7 @@ properties:
+> > >         Addresses to each DSS memory region described in the SoC's TRM.
+> > >       items:
+> > >         - description: common DSS register area
+> > > +      - description: common1 DSS register area
+> > 
+> > You've just broken the ABI.
+> > 
+> > New entries have to go on the end.
 > 
-> A minor question: do we need to also reset the DSPP alongside resetting 
-> the LM?
+> I'm curious, if the 'reg-names' is a required property, as it is here, does
+> this still break the ABI?
 
-So this function is mostly doing what the downstream equivalent of it 
-does which is to disable all the sspp blend stages, the ping-pong 
-binding and 3d-merge connection.
+Yes, the order is part of the ABI.
 
-For DSPP, there is no ability to *bind* it or connect it. Its a 
-hard-wired connection. Its just a question of whether to enable it or not.
+Sometimes we just give up with multiple optional entries or inherited 
+any order allowed, but here there is no reason. Just add 'common1' to 
+the end.
 
-When the CTL path connections are removed, there is no need to 
-explicitly disable the DSPP.
-
-Thats why even downstream doesnt do it today.
-
-> 
->> ---
->>   drivers/gpu/drm/msm/disp/dpu1/dpu_encoder.c      | 82 
->> ++++++++++++++++++++++++
->>   drivers/gpu/drm/msm/disp/dpu1/dpu_encoder_phys.h |  7 ++
->>   2 files changed, 89 insertions(+)
->>
->> diff --git a/drivers/gpu/drm/msm/disp/dpu1/dpu_encoder.c 
->> b/drivers/gpu/drm/msm/disp/dpu1/dpu_encoder.c
->> index 4523693..0e31ad3 100644
->> --- a/drivers/gpu/drm/msm/disp/dpu1/dpu_encoder.c
->> +++ b/drivers/gpu/drm/msm/disp/dpu1/dpu_encoder.c
->> @@ -1,5 +1,6 @@
->>   // SPDX-License-Identifier: GPL-2.0-only
->>   /*
->> + * Copyright (c) 2022 Qualcomm Innovation Center, Inc. All rights 
->> reserved.
->>    * Copyright (c) 2014-2018, 2020-2021 The Linux Foundation. All 
->> rights reserved.
->>    * Copyright (C) 2013 Red Hat
->>    * Author: Rob Clark <robdclark@gmail.com>
->> @@ -22,6 +23,7 @@
->>   #include "dpu_hw_ctl.h"
->>   #include "dpu_hw_dspp.h"
->>   #include "dpu_hw_dsc.h"
->> +#include "dpu_hw_merge3d.h"
->>   #include "dpu_formats.h"
->>   #include "dpu_encoder_phys.h"
->>   #include "dpu_crtc.h"
->> @@ -1838,6 +1840,86 @@ void dpu_encoder_kickoff(struct drm_encoder 
->> *drm_enc)
->>       DPU_ATRACE_END("encoder_kickoff");
->>   }
->> +static void dpu_encoder_helper_reset_mixers(struct dpu_encoder_phys 
->> *phys_enc)
->> +{
->> +    struct dpu_hw_mixer_cfg mixer;
->> +    int i, num_lm;
->> +    u32 flush_mask = 0;
->> +    struct dpu_global_state *global_state;
->> +    struct dpu_hw_blk *hw_lm[2];
->> +    struct dpu_hw_mixer *hw_mixer[2];
->> +    struct dpu_hw_ctl *ctl = phys_enc->hw_ctl;
->> +
->> +    memset(&mixer, 0, sizeof(mixer));
->> +
->> +    /* reset all mixers for this encoder */
->> +    if (phys_enc->hw_ctl->ops.clear_all_blendstages)
->> +        phys_enc->hw_ctl->ops.clear_all_blendstages(phys_enc->hw_ctl);
->> +
->> +    global_state = dpu_kms_get_existing_global_state(phys_enc->dpu_kms);
->> +
->> +    num_lm = dpu_rm_get_assigned_resources(&phys_enc->dpu_kms->rm, 
->> global_state,
->> +        phys_enc->parent->base.id, DPU_HW_BLK_LM, hw_lm, 
->> ARRAY_SIZE(hw_lm));
->> +
->> +    for (i = 0; i < num_lm; i++) {
->> +        hw_mixer[i] = to_dpu_hw_mixer(hw_lm[i]);
->> +        flush_mask = phys_enc->hw_ctl->ops.get_bitmask_mixer(ctl, 
->> hw_mixer[i]->idx);
->> +        if (phys_enc->hw_ctl->ops.update_pending_flush)
->> +            phys_enc->hw_ctl->ops.update_pending_flush(ctl, flush_mask);
->> +
->> +        /* clear all blendstages */
->> +        if (phys_enc->hw_ctl->ops.setup_blendstage)
->> +            phys_enc->hw_ctl->ops.setup_blendstage(ctl, 
->> hw_mixer[i]->idx, NULL);
->> +    }
->> +}
->> +
->> +void dpu_encoder_helper_phys_cleanup(struct dpu_encoder_phys *phys_enc)
->> +{
->> +    struct dpu_hw_ctl *ctl = phys_enc->hw_ctl;
->> +    struct dpu_hw_intf_cfg intf_cfg = { 0 };
->> +    int i;
->> +    struct dpu_encoder_virt *dpu_enc;
->> +
->> +    dpu_enc = to_dpu_encoder_virt(phys_enc->parent);
->> +
->> +    phys_enc->hw_ctl->ops.reset(ctl);
->> +
->> +    dpu_encoder_helper_reset_mixers(phys_enc);
->> +
->> +    for (i = 0; i < dpu_enc->num_phys_encs; i++) {
->> +        if (dpu_enc->phys_encs[i] && 
->> phys_enc->hw_intf->ops.bind_pingpong_blk)
->> +            phys_enc->hw_intf->ops.bind_pingpong_blk(
->> +                    dpu_enc->phys_encs[i]->hw_intf, false,
->> +                    dpu_enc->phys_encs[i]->hw_pp->idx);
->> +
->> +        /* mark INTF flush as pending */
->> +        if (phys_enc->hw_ctl->ops.update_pending_flush_intf)
->> +            
->> phys_enc->hw_ctl->ops.update_pending_flush_intf(phys_enc->hw_ctl,
->> +                    dpu_enc->phys_encs[i]->hw_intf->idx);
->> +    }
->> +
->> +    /* reset the merge 3D HW block */
->> +    if (phys_enc->hw_pp->merge_3d) {
->> +        
->> phys_enc->hw_pp->merge_3d->ops.setup_3d_mode(phys_enc->hw_pp->merge_3d,
->> +                BLEND_3D_NONE);
->> +        if (phys_enc->hw_ctl->ops.update_pending_flush_merge_3d)
->> +            phys_enc->hw_ctl->ops.update_pending_flush_merge_3d(ctl,
->> +                    phys_enc->hw_pp->merge_3d->idx);
->> +    }
->> +
->> +    intf_cfg.stream_sel = 0; /* Don't care value for video mode */
->> +    intf_cfg.mode_3d = dpu_encoder_helper_get_3d_blend_mode(phys_enc);
->> +    if (phys_enc->hw_pp->merge_3d)
->> +        intf_cfg.merge_3d = phys_enc->hw_pp->merge_3d->idx;
->> +
->> +    if (ctl->ops.reset_intf_cfg)
->> +        ctl->ops.reset_intf_cfg(ctl, &intf_cfg);
->> +
->> +    ctl->ops.trigger_flush(ctl);
->> +    ctl->ops.trigger_start(ctl);
->> +    ctl->ops.clear_pending_flush(ctl);
->> +}
->> +
->>   void dpu_encoder_prepare_commit(struct drm_encoder *drm_enc)
->>   {
->>       struct dpu_encoder_virt *dpu_enc;
->> diff --git a/drivers/gpu/drm/msm/disp/dpu1/dpu_encoder_phys.h 
->> b/drivers/gpu/drm/msm/disp/dpu1/dpu_encoder_phys.h
->> index 706b566..544a9a4 100644
->> --- a/drivers/gpu/drm/msm/disp/dpu1/dpu_encoder_phys.h
->> +++ b/drivers/gpu/drm/msm/disp/dpu1/dpu_encoder_phys.h
->> @@ -1,5 +1,6 @@
->>   /* SPDX-License-Identifier: GPL-2.0-only */
->>   /*
->> + * Copyright (c) 2022 Qualcomm Innovation Center, Inc. All rights 
->> reserved.
->>    * Copyright (c) 2015-2018 The Linux Foundation. All rights reserved.
->>    */
->> @@ -350,4 +351,10 @@ int dpu_encoder_helper_wait_for_irq(struct 
->> dpu_encoder_phys *phys_enc,
->>           void (*func)(void *arg, int irq_idx),
->>           struct dpu_encoder_wait_info *wait_info);
->> +/**
->> + * dpu_encoder_helper_phys_cleanup - helper to cleanup dpu pipeline
->> + * @phys_enc: Pointer to physical encoder structure
->> + */
->> +void dpu_encoder_helper_phys_cleanup(struct dpu_encoder_phys *phys_enc);
->> +
->>   #endif /* __dpu_encoder_phys_H__ */
-> 
-> 
+Rob
