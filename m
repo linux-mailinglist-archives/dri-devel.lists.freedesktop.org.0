@@ -1,58 +1,62 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4B284509219
-	for <lists+dri-devel@lfdr.de>; Wed, 20 Apr 2022 23:30:31 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id B3BAF50927C
+	for <lists+dri-devel@lfdr.de>; Thu, 21 Apr 2022 00:06:29 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 6FA1710F2C0;
-	Wed, 20 Apr 2022 21:30:29 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 8A9D510E45E;
+	Wed, 20 Apr 2022 22:06:24 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-oi1-f180.google.com (mail-oi1-f180.google.com
- [209.85.167.180])
- by gabe.freedesktop.org (Postfix) with ESMTPS id BD3CD10F2C0
- for <dri-devel@lists.freedesktop.org>; Wed, 20 Apr 2022 21:30:27 +0000 (UTC)
-Received: by mail-oi1-f180.google.com with SMTP id a10so3536346oif.9
- for <dri-devel@lists.freedesktop.org>; Wed, 20 Apr 2022 14:30:27 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=x-gm-message-state:date:from:to:cc:subject:message-id:references
- :mime-version:content-disposition:in-reply-to;
- bh=oKAyPnurUXqIpBjCXwQJqvX5yNXzu0aL/OrfPo6b7fE=;
- b=QTizAuTVVj26nzyuZTvyXFwdX/gBWHv3qEb6hNWSI1LqTh+q9u4skuvBWc2u2M5iaM
- fV9zlN4AnBWrRSva1WdPUTZXNUWCwszSjU/EKLTp8714L/UiaeTsrk5NUbRkBlRv2lWV
- wqPWfy6FeHrswI0BvLmKE0Yf+0Ou4e10smifXqqGmAjG7JA4NHuHdI5xEPSga9vPg1oX
- gp3LWWbyA0JYDowDKXAAUvDbnJRPOdxZ9QLmBtM3DEzswmfdPnv768GY+2WdmBAsF7rE
- xMZKYleKd6Xbg6ZUQXnWqgztwfi/OM6WSnZpkbZbUt+Xg/nu4MFD3fs3RHQdPvJ/rSzh
- bdgw==
-X-Gm-Message-State: AOAM532+2XAWOfN44yNdWVseU1nlxCX+ESXmLkzxqaVoFiz8BZ7T7lgV
- 0gb7+GZ0wCFpMhOlqKJOvA==
-X-Google-Smtp-Source: ABdhPJxq9dTo9U+3/KCPdMhKSiga9fBO1UGN4lQPRboNsT8JQZfOkPOQL2vKXUutOjDSBWzmgyVeRA==
-X-Received: by 2002:a05:6808:1691:b0:2f9:4bd7:581e with SMTP id
- bb17-20020a056808169100b002f94bd7581emr2558521oib.144.1650490225602; 
- Wed, 20 Apr 2022 14:30:25 -0700 (PDT)
-Received: from robh.at.kernel.org (66-90-144-107.dyn.grandenetworks.net.
- [66.90.144.107]) by smtp.gmail.com with ESMTPSA id
- pp23-20020a0568709d1700b000e2d876505dsm406800oab.32.2022.04.20.14.30.24
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 20 Apr 2022 14:30:25 -0700 (PDT)
-Received: (nullmailer pid 1882568 invoked by uid 1000);
- Wed, 20 Apr 2022 21:30:24 -0000
-Date: Wed, 20 Apr 2022 16:30:24 -0500
-From: Rob Herring <robh@kernel.org>
-To: Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>
-Subject: Re: [PATCH 1/2] dt-bindings: display: ti,am65x-dss: Add missing
- register & interrupt
-Message-ID: <YmB7cE0LsyWoiOsh@robh.at.kernel.org>
-References: <20220419070302.16502-1-a-bhatia1@ti.com>
- <20220419070302.16502-2-a-bhatia1@ti.com>
- <Yl7FEuHEy66KUc5F@robh.at.kernel.org>
- <f5eb63b1-8381-99c8-55fa-cc9287103aa8@ideasonboard.com>
+Received: from alexa-out.qualcomm.com (alexa-out.qualcomm.com [129.46.98.28])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 7B21310E45E;
+ Wed, 20 Apr 2022 22:06:23 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=quicinc.com; i=@quicinc.com; q=dns/txt; s=qcdkim;
+ t=1650492384; x=1682028384;
+ h=message-id:date:mime-version:subject:from:to:cc:
+ references:in-reply-to:content-transfer-encoding;
+ bh=0QnibYr3NFcW5sTW6E6yE4DyfD2Su+C1a+cyfvZvoac=;
+ b=V6dk1T6le9GVodOKHUWqjaT7j/7NcTWmGHwpTQaObIeCGp4PIfSiBhMS
+ vphE6XGQtWEPuIepVqF1MntxvKbQxsM47X/OLcbqIxQUE5O8aSoj2LGdB
+ eYeDV6n+gSBHdCggedCHam4YNHNmjZGJgZBh10ntJGKjf62zpFA+XUZ54 8=;
+Received: from ironmsg09-lv.qualcomm.com ([10.47.202.153])
+ by alexa-out.qualcomm.com with ESMTP; 20 Apr 2022 15:06:23 -0700
+X-QCInternal: smtphost
+Received: from nasanex01c.na.qualcomm.com ([10.47.97.222])
+ by ironmsg09-lv.qualcomm.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 20 Apr 2022 15:06:23 -0700
+Received: from nalasex01a.na.qualcomm.com (10.47.209.196) by
+ nasanex01c.na.qualcomm.com (10.47.97.222) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.2.986.22; Wed, 20 Apr 2022 15:06:22 -0700
+Received: from [10.111.175.210] (10.80.80.8) by nalasex01a.na.qualcomm.com
+ (10.47.209.196) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.986.22; Wed, 20 Apr
+ 2022 15:06:20 -0700
+Message-ID: <4e1b4479-8771-6ad9-8a6d-f53bdb5ae13e@quicinc.com>
+Date: Wed, 20 Apr 2022 15:06:18 -0700
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <f5eb63b1-8381-99c8-55fa-cc9287103aa8@ideasonboard.com>
+User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:91.0) Gecko/20100101
+ Thunderbird/91.6.2
+Subject: Re: [Freedreno] [PATCH v2 10/17] drm/msm/dpu: make changes to
+ dpu_encoder to support virtual encoder
+Content-Language: en-US
+From: Abhinav Kumar <quic_abhinavk@quicinc.com>
+To: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
+References: <1650419169-13760-1-git-send-email-quic_abhinavk@quicinc.com>
+ <1650419169-13760-11-git-send-email-quic_abhinavk@quicinc.com>
+ <d31094f8-c067-567e-3fcb-d2ae31fff3c0@linaro.org>
+ <05c75f88-8b76-f931-7162-850827de5baf@quicinc.com>
+ <CAA8EJpoMMRPhuU00JWfGe68qkVrL4-EMqm79so+zagTaW8GSkA@mail.gmail.com>
+ <a40c88cc-21a1-4809-7741-a7aaa310ae92@quicinc.com>
+In-Reply-To: <a40c88cc-21a1-4809-7741-a7aaa310ae92@quicinc.com>
+Content-Type: text/plain; charset="UTF-8"; format=flowed
+Content-Transfer-Encoding: 8bit
+X-Originating-IP: [10.80.80.8]
+X-ClientProxiedBy: nasanex01b.na.qualcomm.com (10.46.141.250) To
+ nalasex01a.na.qualcomm.com (10.47.209.196)
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -65,52 +69,322 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Nishanth Menon <nm@ti.com>, Devicetree <devicetree@vger.kernel.org>,
- Vignesh Raghavendra <vigneshr@ti.com>, Aradhya Bhatia <a-bhatia1@ti.com>,
- Linux Kernel <linux-kernel@vger.kernel.org>,
- DRI Development <dri-devel@lists.freedesktop.org>,
- Jyri Sarha <jyri.sarha@iki.fi>, Nikhil Devshatwar <nikhil.nd@ti.com>,
- Linux ARM Kernel <linux-arm-kernel@lists.infradead.org>
+Cc: markyacoub@chromium.org, liviu.dudau@arm.com,
+ dri-devel@lists.freedesktop.org, swboyd@chromium.org, seanpaul@chromium.org,
+ laurent.pinchart@ideasonboard.com, quic_jesszhan@quicinc.com,
+ quic_aravindh@quicinc.com, freedreno@lists.freedesktop.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Wed, Apr 20, 2022 at 10:05:34AM +0300, Tomi Valkeinen wrote:
-> Hi,
+Hi Dmitry
+
+On 4/20/2022 11:46 AM, Abhinav Kumar wrote:
 > 
-> On 19/04/2022 17:20, Rob Herring wrote:
-> > On Tue, Apr 19, 2022 at 12:33:01PM +0530, Aradhya Bhatia wrote:
-> > > The DSS IP on the ti-am65x soc supports an additional register space,
-> > > named "common1". Further. the IP services a maximum number of 2
-> > > interrupts.
-> > > 
-> > > Add the missing register space "common1" and the additional interrupt.
-> > > 
-> > > Signed-off-by: Aradhya Bhatia <a-bhatia1@ti.com>
-> > > ---
-> > >   .../devicetree/bindings/display/ti/ti,am65x-dss.yaml   | 10 +++++++---
-> > >   1 file changed, 7 insertions(+), 3 deletions(-)
-> > > 
-> > > diff --git a/Documentation/devicetree/bindings/display/ti/ti,am65x-dss.yaml b/Documentation/devicetree/bindings/display/ti/ti,am65x-dss.yaml
-> > > index 5c7d2cbc4aac..102059e9e0d5 100644
-> > > --- a/Documentation/devicetree/bindings/display/ti/ti,am65x-dss.yaml
-> > > +++ b/Documentation/devicetree/bindings/display/ti/ti,am65x-dss.yaml
-> > > @@ -26,6 +26,7 @@ properties:
-> > >         Addresses to each DSS memory region described in the SoC's TRM.
-> > >       items:
-> > >         - description: common DSS register area
-> > > +      - description: common1 DSS register area
-> > 
-> > You've just broken the ABI.
-> > 
-> > New entries have to go on the end.
 > 
-> I'm curious, if the 'reg-names' is a required property, as it is here, does
-> this still break the ABI?
+> On 4/20/2022 11:37 AM, Dmitry Baryshkov wrote:
+>> On Wed, 20 Apr 2022 at 20:41, Abhinav Kumar 
+>> <quic_abhinavk@quicinc.com> wrote:
+>>>
+>>>
+>>>
+>>> On 4/20/2022 12:44 AM, Dmitry Baryshkov wrote:
+>>>> On 20/04/2022 04:46, Abhinav Kumar wrote:
+>>>>> Make changes to dpu_encoder to support virtual encoder needed
+>>>>> to support writeback for dpu.
+>>>>>
+>>>>> changes in v2:
+>>>>>      - add the writeback parts to dpu_encoder_helper_phys_cleanup
+>>>>>      - rebase on tip of msm-next and fix related dependencies
+>>>>>      - get the writeback blocks directly from RM
+>>>>>
+>>>>> Signed-off-by: Abhinav Kumar <quic_abhinavk@quicinc.com>
+>>>>> ---
+>>>>>    drivers/gpu/drm/msm/disp/dpu1/dpu_encoder.c      | 71
+>>>>> +++++++++++++++++-------
+>>>>>    drivers/gpu/drm/msm/disp/dpu1/dpu_encoder_phys.h |  3 +
+>>>>>    2 files changed, 54 insertions(+), 20 deletions(-)
+>>>>>
+>>>>> diff --git a/drivers/gpu/drm/msm/disp/dpu1/dpu_encoder.c
+>>>>> b/drivers/gpu/drm/msm/disp/dpu1/dpu_encoder.c
+>>>>> index 0e31ad3..06b8631 100644
+>>>>> --- a/drivers/gpu/drm/msm/disp/dpu1/dpu_encoder.c
+>>>>> +++ b/drivers/gpu/drm/msm/disp/dpu1/dpu_encoder.c
+>>>>> @@ -928,6 +928,7 @@ static void
+>>>>> dpu_encoder_virt_atomic_mode_set(struct drm_encoder *drm_enc,
+>>>>>        struct dpu_hw_blk *hw_dsc[MAX_CHANNELS_PER_ENC];
+>>>>>        int num_lm, num_ctl, num_pp, num_dsc;
+>>>>>        unsigned int dsc_mask = 0;
+>>>>> +    enum dpu_hw_blk_type blk_type;
+>>>>>        int i;
+>>>>>        if (!drm_enc) {
+>>>>> @@ -1009,12 +1010,21 @@ static void
+>>>>> dpu_encoder_virt_atomic_mode_set(struct drm_encoder *drm_enc,
+>>>>>            phys->hw_pp = dpu_enc->hw_pp[i];
+>>>>>            phys->hw_ctl = to_dpu_hw_ctl(hw_ctl[i]);
+>>>>> -        if (phys->intf_idx >= INTF_0 && phys->intf_idx < INTF_MAX)
+>>>>> -            phys->hw_intf = dpu_rm_get_intf(&dpu_kms->rm,
+>>>>> phys->intf_idx);
+>>>>> +        if (dpu_encoder_get_intf_mode(&dpu_enc->base) ==
+>>>>> INTF_MODE_WB_LINE)
+>>>>> +            blk_type = DPU_HW_BLK_WB;
+>>>>> +        else
+>>>>> +            blk_type = DPU_HW_BLK_INTF;
+>>>>> +
+>>>>> +        if (phys->intf_idx >= INTF_0 && phys->intf_idx < INTF_MAX) {
+>>>>> +            if (blk_type == DPU_HW_BLK_INTF)
+>>>>> +                phys->hw_intf = dpu_rm_get_intf(&dpu_kms->rm,
+>>>>> phys->intf_idx);
+>>>>> +            else if (blk_type == DPU_HW_BLK_WB)
+>>>>> +                phys->hw_wb = dpu_rm_get_wb(&dpu_kms->rm,
+>>>>> phys->intf_idx);
+>>>>> +        }
+>>>>> -        if (!phys->hw_intf) {
+>>>>> +        if (!phys->hw_intf && !phys->hw_wb) {
+>>>>>                DPU_ERROR_ENC(dpu_enc,
+>>>>> -                      "no intf block assigned at idx: %d\n", i);
+>>>>> +                      "no intf ow wb block assigned at idx: %d\n", 
+>>>>> i);
+>>>>
+>>>> or wb
+>>> ack
+>>>>
+>>>>>                return;
+>>>>>            }
+>>>>> @@ -1157,15 +1167,22 @@ static void dpu_encoder_virt_disable(struct
+>>>>> drm_encoder *drm_enc)
+>>>>>        mutex_unlock(&dpu_enc->enc_lock);
+>>>>>    }
+>>>>> -static enum dpu_intf dpu_encoder_get_intf(struct dpu_mdss_cfg 
+>>>>> *catalog,
+>>>>> +static enum dpu_intf dpu_encoder_get_intf_or_wb(struct dpu_mdss_cfg
+>>>>> *catalog,
+>>>>>            enum dpu_intf_type type, u32 controller_id)
+>>>>>    {
+>>>>>        int i = 0;
+>>>>> -    for (i = 0; i < catalog->intf_count; i++) {
+>>>>> -        if (catalog->intf[i].type == type
+>>>>> -            && catalog->intf[i].controller_id == controller_id) {
+>>>>> -            return catalog->intf[i].id;
+>>>>> +    if (type != INTF_WB) {
+>>>>> +        for (i = 0; i < catalog->intf_count; i++) {
+>>>>> +            if (catalog->intf[i].type == type
+>>>>> +                && catalog->intf[i].controller_id == controller_id) {
+>>>>> +                return catalog->intf[i].id;
+>>>>> +            }
+>>>>> +        }
+>>>>> +    } else {
+>>>>> +        for (i = 0; i < catalog->wb_count; i++) {
+>>>>> +            if (catalog->wb[i].id == controller_id)
+>>>>> +                return catalog->wb[i].id;
+>>>>>            }
+>>>>>        }
+>>>>> @@ -1886,16 +1903,27 @@ void dpu_encoder_helper_phys_cleanup(struct
+>>>>> dpu_encoder_phys *phys_enc)
+>>>>>        dpu_encoder_helper_reset_mixers(phys_enc);
+>>>>> -    for (i = 0; i < dpu_enc->num_phys_encs; i++) {
+>>>>> -        if (dpu_enc->phys_encs[i] &&
+>>>>> phys_enc->hw_intf->ops.bind_pingpong_blk)
+>>>>> -            phys_enc->hw_intf->ops.bind_pingpong_blk(
+>>>>> -                    dpu_enc->phys_encs[i]->hw_intf, false,
+>>>>> -                    dpu_enc->phys_encs[i]->hw_pp->idx);
+>>>>> +    if (phys_enc->hw_wb) {
+>>>>
+>>>> I think this adds a hidden knowledge here. That there is always just a
+>>>> single phys_enc for the WB encoder. I'd still do this cleanup in a loop
+>>>> together with the INTF cleanup.
+>>> alright, I can make this change.
 
-Yes, the order is part of the ABI.
+I dug into the history of dpu_encoder_helper_phys_cleanup() API more in 
+downstream.
 
-Sometimes we just give up with multiple optional entries or inherited 
-any order allowed, but here there is no reason. Just add 'common1' to 
-the end.
+So this API seems to be a bit poorly designed in downstream too.
 
-Rob
+This gets called from phys->ops.disable() today which is anyway called 
+from within a loop.
+
+  for (i = 0; i < dpu_enc->num_phys_encs; i++) {
+         struct dpu_encoder_phys *phys = dpu_enc->phys_encs[i];
+
+         if (phys->ops.disable)
+             phys->ops.disable(phys);
+     }
+
+So technically we dont need a loop even for the intf cases because of that.
+
+But, while calling for interfaces, downstream makes sure to call this 
+just once for the master and skip for the same.
+
+Here the loop is needed just to set the flush bits even for the slave 
+and let the master do the actual flush.
+
+Since today, we are not calling this for interface yet, I think i can 
+get rid of the loop even for the interface case for uniformity.
+
+When I extend this API to be called for interface cases, we can decide 
+how to handle master/slave cases.
+
+Let me know what you think.
+
+>>>>
+>>>>> +        /* disable the PP block */
+>>>>> +        if (phys_enc->hw_wb->ops.bind_pingpong_blk)
+>>>>> +            phys_enc->hw_wb->ops.bind_pingpong_blk(phys_enc->hw_wb,
+>>>>> false,
+>>>>> +                    phys_enc->hw_pp->idx);
+>>>>> -        /* mark INTF flush as pending */
+>>>>> -        if (phys_enc->hw_ctl->ops.update_pending_flush_intf)
+>>>>> -
+>>>>> phys_enc->hw_ctl->ops.update_pending_flush_intf(phys_enc->hw_ctl,
+>>>>> -                    dpu_enc->phys_encs[i]->hw_intf->idx);
+>>>>> +        /* mark WB flush as pending */
+>>>>> +        if (phys_enc->hw_ctl->ops.update_pending_flush_wb)
+>>>>> +            phys_enc->hw_ctl->ops.update_pending_flush_wb(ctl,
+>>>>> phys_enc->hw_wb->idx);
+>>>>> +    } else {
+>>>>> +        for (i = 0; i < dpu_enc->num_phys_encs; i++) {
+>>>>> +            if (dpu_enc->phys_encs[i] &&
+>>>>> phys_enc->hw_intf->ops.bind_pingpong_blk)
+>>>>> +                phys_enc->hw_intf->ops.bind_pingpong_blk(
+>>>>> +                        dpu_enc->phys_encs[i]->hw_intf, false,
+>>>>> +                        dpu_enc->phys_encs[i]->hw_pp->idx);
+>>>>> +
+>>>>> +            /* mark INTF flush as pending */
+>>>>> +            if (phys_enc->hw_ctl->ops.update_pending_flush_intf)
+>>>>> +
+>>>>> phys_enc->hw_ctl->ops.update_pending_flush_intf(phys_enc->hw_ctl,
+>>>>> +                        dpu_enc->phys_encs[i]->hw_intf->idx);
+>>>>> +        }
+>>>>>        }
+>>>>>        /* reset the merge 3D HW block */
+>>>>> @@ -2111,6 +2139,9 @@ static int dpu_encoder_setup_display(struct
+>>>>> dpu_encoder_virt *dpu_enc,
+>>>>>        case DRM_MODE_ENCODER_TMDS:
+>>>>>            intf_type = INTF_DP;
+>>>>>            break;
+>>>>> +    case DRM_MODE_ENCODER_VIRTUAL:
+>>>>> +        intf_type = INTF_WB;
+>>>>> +        break;
+>>>>>        }
+>>>>>        WARN_ON(disp_info->num_of_h_tiles < 1);
+>>>>> @@ -2145,11 +2176,11 @@ static int dpu_encoder_setup_display(struct
+>>>>> dpu_encoder_virt *dpu_enc,
+>>>>>            DPU_DEBUG("h_tile_instance %d = %d, split_role %d\n",
+>>>>>                    i, controller_id, phys_params.split_role);
+>>>>> -        phys_params.intf_idx = dpu_encoder_get_intf(dpu_kms->catalog,
+>>>>> +        phys_params.intf_idx =
+>>>>> dpu_encoder_get_intf_or_wb(dpu_kms->catalog,
+>>>>>                                                        intf_type,
+>>>>>                                                        controller_id);
+>>>>
+>>>> I'd prefer to be more explicit here. intf_idx is of type enum dpu_intf,
+>>>> while WBs are enumerated with enum dpu_wb.
+>>>>
+>>>> I's suggest adding a separate phys_params.wb_idx and a
+>>>> dpu_encoder_get_wb() and calling one here depending on intf_type.
+>>>>
+>>>> Then at the dpu_encoder_virt_atomic_mode_set() you don't need to check
+>>>> intf_mode, but get both intf and wb and report an error if none was
+>>>> provided.
+>>>
+>>> Your suggestion is valid and I also thought about it.
+>>>
+>>> Let me explain what prevented me from making the change here and put it
+>>> in a to-do bucket.
+>>>
+>>> 1) This needs a slighly bigger cleanup including the traces, debug
+>>> prints and some helpers as none of them are aware of the wb_idx
+>>>
+>>> 2) Some of the checks need to be adjusted like this one
+>>>
+>>> if (phys_params.intf_idx == INTF_MAX) {
+>>>               DPU_ERROR_ENC(dpu_enc, "could not get intf or wb: type %d,
+>>> id %d\n",
+>>>                             intf_type, controller_id);
+>>>               ret = -EINVAL;
+>>>           }
+>>>
+>>> So, when we have a separate intf_idx and a wb_idx, having either one of
+>>> them is enough . Consider a case where a board has no physical display.
+>>> That would have no intf_idx but wb_idx can be valid.
+>>>
+>>> So i think this needs a little careful cleanup.
+>>>
+>>> Considering that I need to test that out more, I decided that for a
+>>> short-term we can live with the fact that wb_idx is of type enum
+>>> dpu_intf because dpu_encoder layer understands only that.
+>>>
+>>> Let me know if you agree on this separation to go as a follow-up.
+>>
+>> Actually both your points vote for the immediate separation rather
+>> than doing it in a follow-up.
+>> For example, if you see an error reported against INTF_2 on a board
+>> where INTF_2 is actually used, you can not determine whether it is an
+>> issue with INTF_2 or with WB_2.
+>>
+>> In fact even reporting an error (or a trace) against INTF_NONE (or
+>> INTF_MAX) might be a better option. It would clearly denote that the
+>> issue is related to the non-INTF.
+>>
+>> I think we can merge the patch as is, but I'd strongly prefer either
+>> to see an update or a (nearly) immediate followup.
+>>
+>> What do you think about an interim solution? We split the
+>> intf_idx/wb_idx in these series, but all the debugging can be updated
+>> later. This way once we see the report against INTF_NONE, we can
+>> deduce that it's WB.
+> 
+> Thank you for your consideration.
+> 
+> I will post a follow-up change to fix this no later than next week.
+> I will even try doing it this week itself.
+> 
+> I will fix everything together so that it looks like a separate series 
+> of "separating intf_idx and wb_idx" and there is no intermediate mismatch.
+> 
+> Will leave a FIXME here as well.
+> 
+>>
+>>>>
+>>>>>            if (phys_params.intf_idx == INTF_MAX) {
+>>>>> -            DPU_ERROR_ENC(dpu_enc, "could not get intf: type %d, id
+>>>>> %d\n",
+>>>>> +            DPU_ERROR_ENC(dpu_enc, "could not get intf or wb: type
+>>>>> %d, id %d\n",
+>>>>>                              intf_type, controller_id);
+>>>>>                ret = -EINVAL;
+>>>>>            }
+>>>>> diff --git a/drivers/gpu/drm/msm/disp/dpu1/dpu_encoder_phys.h
+>>>>> b/drivers/gpu/drm/msm/disp/dpu1/dpu_encoder_phys.h
+>>>>> index 544a9a4..0b80af4 100644
+>>>>> --- a/drivers/gpu/drm/msm/disp/dpu1/dpu_encoder_phys.h
+>>>>> +++ b/drivers/gpu/drm/msm/disp/dpu1/dpu_encoder_phys.h
+>>>>> @@ -11,6 +11,7 @@
+>>>>>    #include "dpu_kms.h"
+>>>>>    #include "dpu_hw_intf.h"
+>>>>> +#include "dpu_hw_wb.h"
+>>>>>    #include "dpu_hw_pingpong.h"
+>>>>>    #include "dpu_hw_ctl.h"
+>>>>>    #include "dpu_hw_top.h"
+>>>>> @@ -165,6 +166,7 @@ enum dpu_intr_idx {
+>>>>>     * @hw_ctl:        Hardware interface to the ctl registers
+>>>>>     * @hw_pp:        Hardware interface to the ping pong registers
+>>>>>     * @hw_intf:        Hardware interface to the intf registers
+>>>>> + * @hw_wb:        Hardware interface to the wb registers
+>>>>>     * @dpu_kms:        Pointer to the dpu_kms top level
+>>>>>     * @cached_mode:    DRM mode cached at mode_set time, acted on in
+>>>>> enable
+>>>>>     * @enabled:        Whether the encoder has enabled and running 
+>>>>> a mode
+>>>>> @@ -193,6 +195,7 @@ struct dpu_encoder_phys {
+>>>>>        struct dpu_hw_ctl *hw_ctl;
+>>>>>        struct dpu_hw_pingpong *hw_pp;
+>>>>>        struct dpu_hw_intf *hw_intf;
+>>>>> +    struct dpu_hw_wb *hw_wb;
+>>>>>        struct dpu_kms *dpu_kms;
+>>>>>        struct drm_display_mode cached_mode;
+>>>>>        enum dpu_enc_split_role split_role;
+>>>>
+>>>>
+>>
+>>
+>>
