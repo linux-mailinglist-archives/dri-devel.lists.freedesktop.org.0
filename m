@@ -2,76 +2,47 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id BDE36508952
-	for <lists+dri-devel@lfdr.de>; Wed, 20 Apr 2022 15:28:24 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 3DEC6508964
+	for <lists+dri-devel@lfdr.de>; Wed, 20 Apr 2022 15:30:34 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 6DD0A89FA7;
-	Wed, 20 Apr 2022 13:28:22 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 37C7F10F0C1;
+	Wed, 20 Apr 2022 13:30:30 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from wout5-smtp.messagingengine.com (wout5-smtp.messagingengine.com
- [64.147.123.21])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 813CA89F06
- for <dri-devel@lists.freedesktop.org>; Wed, 20 Apr 2022 13:28:21 +0000 (UTC)
-Received: from compute2.internal (compute2.nyi.internal [10.202.2.46])
- by mailout.west.internal (Postfix) with ESMTP id 9C5123202148;
- Wed, 20 Apr 2022 09:28:17 -0400 (EDT)
-Received: from mailfrontend1 ([10.202.2.162])
- by compute2.internal (MEProxy); Wed, 20 Apr 2022 09:28:18 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=cerno.tech; h=cc
- :cc:content-type:date:date:from:from:in-reply-to:in-reply-to
- :message-id:mime-version:references:reply-to:sender:subject
- :subject:to:to; s=fm3; t=1650461297; x=1650547697; bh=IUvE2Ka+6w
- zwF1X/M4kx7H4Hzk0xAzSHJL/7zT9pJvs=; b=pBfytwaFP4kGwoVTnpkb/mUL1u
- Orv56KaxMOH6vwkA3Q6j8MQzbJetIntfATsubsUXUkZvuQTDYFBX2iUqunGZC8Da
- YOatMgGX/UGMH+8XXMF7NyU0ae/kJv2PGTacERbUM2EksKF8/zAaXvwLYgkQ6GUq
- m4efZnvNa37kHBhQsH+LezJ3sEnSDfgPKQRr3e9+lylAOvFf/r4kMPMrLtG2JPih
- ywCzGovxxJIRDT3FCJjmb7iW67R6ltdfKn+827ZcLVXkCUAEVU0PzWs/IL/WnxA1
- Mvox2aVT8HUHImIiufOvJyCr7arRCuts45JjnourqJotadEHrxF6rikqoNig==
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
- messagingengine.com; h=cc:cc:content-type:date:date:from:from
- :in-reply-to:in-reply-to:message-id:mime-version:references
- :reply-to:sender:subject:subject:to:to:x-me-proxy:x-me-proxy
- :x-me-sender:x-me-sender:x-sasl-enc; s=fm1; t=1650461297; x=
- 1650547697; bh=IUvE2Ka+6wzwF1X/M4kx7H4Hzk0xAzSHJL/7zT9pJvs=; b=l
- ur9lnygeBEj73Qj1raXsvDpiFGidLXxuSHvcKnqugdYNel4oB3nnsqbET9OcQcRj
- TM/4t1SpzVDuMzbXMxYhDK+LeCPgEZtqdUnVKL9Qp7cjF2f2EL/0OEd4ZPMyzK9O
- KQKEYOKIw1DhI9Da2U+0HfcU1+J2SMArCxY5VGm6rXTpWVpt8ijzB/IfkwMSsIDi
- CgQC1+2WqYiHTF3q2kyTVrAqCUPg7rT82+w96Hm7OvJYK5BkPdLk6wrVcOxmkGg1
- LNu0HocAv0z8uR5GtEbxazy6oIDKXLFzzxkoveg87oKIVcjsG1lJ76k7ODUE2BkH
- x+YLOJIRpoIV5YfMDFrXA==
-X-ME-Sender: <xms:cApgYkjqFA6pWTdqKZJV9Cyg0uSQnnd0752WFcN2ooDDmmmIZ7mV7w>
- <xme:cApgYtCMuntQ0WqNVb3UVmrJ45gDeRvpdrdnNDLYOr9vdLZidFtzoxc7yXUgpMVWX
- 6eMFP-1tWDr6Cah7qw>
-X-ME-Received: <xmr:cApgYsEsEXACq-XNUBIM0p1qkV_i9RoTFTaWkaGNfUuqQoMS0Q_XZe1TxlZllFcT7bIFrjBC1Ql-X5mDAiHCTqf7iL1HJdAkH2zO2RI>
-X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvfedrtddtgdegtdcutefuodetggdotefrodftvf
- curfhrohhfihhlvgemucfhrghsthforghilhdpqfgfvfdpuffrtefokffrpgfnqfghnecu
- uegrihhlohhuthemuceftddtnecusecvtfgvtghiphhivghnthhsucdlqddutddtmdenuc
- fjughrpeffhffvvefukfhfgggtuggjsehgtderredttdejnecuhfhrohhmpeforgigihhm
- vgcutfhiphgrrhguuceomhgrgihimhgvsegtvghrnhhordhtvggthheqnecuggftrfgrth
- htvghrnhepjeegieevvedvgffffedtveeuhfehudevjeeifeegjeevuefhteeklefgveet
- feffnecuvehluhhsthgvrhfuihiivgeptdenucfrrghrrghmpehmrghilhhfrhhomhepmh
- grgihimhgvsegtvghrnhhordhtvggthh
-X-ME-Proxy: <xmx:cApgYlTgVAo9pI72_ozNMxnJqcsHWMrUgoHDJbRtp0E0ASO5_wZHnw>
- <xmx:cApgYhzAYonmFczhdcEbngzbFlgKl8lqmjzKZUVymZSN6S0kNz3hCg>
- <xmx:cApgYj6QWxoazQujN5eO34z6geyFe4w9KEOwu-n3ZzxadTTQiVjLPA>
- <xmx:cQpgYkqhelzU4dWssPxL2fAi6Vk27CqiqgIPtCUHq2dFtOFuljUjlQ>
-Received: by mail.messagingengine.com (Postfix) with ESMTPA; Wed,
- 20 Apr 2022 09:28:16 -0400 (EDT)
-Date: Wed, 20 Apr 2022 15:28:14 +0200
-From: Maxime Ripard <maxime@cerno.tech>
-To: Miaoqian Lin <linmq006@gmail.com>
-Subject: Re: [PATCH v2] drm/vc4: Fix pm_runtime_get_sync() usage
-Message-ID: <20220420132814.3sy2ojw3dxnd5tcz@houat>
-References: <20220419124407.ugzl7hknsytbhrmr@houat>
- <20220420004949.20508-1-linmq006@gmail.com>
- <20220420075108.xm5ujthootlpayy2@houat>
- <96d27d1f-55e4-578a-75e5-686362c05dcf@gmail.com>
+Received: from mga02.intel.com (mga02.intel.com [134.134.136.20])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 415AE10F0D1;
+ Wed, 20 Apr 2022 13:30:28 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+ t=1650461428; x=1681997428;
+ h=date:from:to:cc:subject:message-id:mime-version:
+ content-transfer-encoding;
+ bh=olons+DftCZ6hGJpcWR970X/XiIs0zJ1Kyb+yns50DY=;
+ b=AxedIXR13+MUViHJPGjpr5X9fKDxIkc3zRDNUPdx/ZqGuI0TjgDFYCFi
+ h1PyGqXHv4FLfwQo2giUeCqreg3Kkyv3bWDr1paGLbUA2URnixgXDz/9K
+ wuZL2Q5W2eWzg0I+12Eb7Q6R6RrvLCpEEV2lE3HkTX1jtE6lU6XZ+ybe4
+ Ewd95Oa73YFecIlSJFEPVQN5glxsMMyVXWMAkn9RzB7WncOJgqdpbBWEk
+ Rj9gUbVDIm6tkKTEOZIPUCzMBEP7EAq1Sj/TikV3/5sXIj1fcOKrStPJC
+ Yk1MjCn8lEw+tenhYkInritxLkA0tVJJjsPhg5FGwFjVzH/oGAAY/+dqX g==;
+X-IronPort-AV: E=McAfee;i="6400,9594,10322"; a="251331368"
+X-IronPort-AV: E=Sophos;i="5.90,275,1643702400"; d="scan'208";a="251331368"
+Received: from orsmga007.jf.intel.com ([10.7.209.58])
+ by orsmga101.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 20 Apr 2022 06:30:04 -0700
+X-IronPort-AV: E=Sophos;i="5.90,275,1643702400"; d="scan'208";a="555193673"
+Received: from mciobota-mobl.ger.corp.intel.com (HELO localhost)
+ ([10.252.56.75])
+ by orsmga007-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 20 Apr 2022 06:30:00 -0700
+Date: Wed, 20 Apr 2022 16:29:58 +0300
+From: Joonas Lahtinen <joonas.lahtinen@linux.intel.com>
+To: Dave Airlie <airlied@gmail.com>, Daniel Vetter <daniel.vetter@ffwll.ch>
+Subject: [PULL] drm-intel-fixes
+Message-ID: <YmAKuHwon7hGyIoC@jlahtine-mobl.ger.corp.intel.com>
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha512;
- protocol="application/pgp-signature"; boundary="fun57gjjam5aec2h"
+Content-Type: text/plain; charset=iso-8859-1
 Content-Disposition: inline
-In-Reply-To: <96d27d1f-55e4-578a-75e5-686362c05dcf@gmail.com>
+Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -84,86 +55,52 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Emma Anholt <emma@anholt.net>, David Airlie <airlied@linux.ie>,
- linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
- Eric Anholt <eric@anholt.net>
+Cc: Tvrtko Ursulin <tvrtko.ursulin@linux.intel.com>,
+ dim-tools@lists.freedesktop.org, dri-devel@lists.freedesktop.org,
+ Thomas Zimmermann <tzimmermann@suse.de>, Rodrigo Vivi <rodrigo.vivi@intel.com>,
+ intel-gfx@lists.freedesktop.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
+Hi Dave & Daniel,
 
---fun57gjjam5aec2h
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+Here go drm-intel-fixes for v5.18-rc4.
 
-On Wed, Apr 20, 2022 at 04:05:35PM +0800, Miaoqian Lin wrote:
->=20
-> On 2022/4/20 15:51, Maxime Ripard wrote:
-> > On Wed, Apr 20, 2022 at 12:49:48AM +0000, Miaoqian Lin wrote:
-> >> If the device is already in a runtime PM enabled state
-> >> pm_runtime_get_sync() will return 1, so a test for negative
-> >> value should be used to check for errors.
-> >>
-> >> Also, we need to call pm_runtime_put_noidle() when pm_runtime_get_sync=
-()
-> >> fails, so use pm_runtime_resume_and_get() instead. this function
-> >> will handle this.
-> >>
-> >> Fixes: 4078f5757144 ("drm/vc4: Add DSI driver")
-> >> Signed-off-by: Miaoqian Lin <linmq006@gmail.com>
-> >> ---
-> >> change in v2:
-> >> - switch to pm_runtime_resume_and_get() to fix refcount leak.
-> >> ---
-> >>  drivers/gpu/drm/vc4/vc4_dsi.c | 4 ++--
-> >>  1 file changed, 2 insertions(+), 2 deletions(-)
-> >>
-> >> diff --git a/drivers/gpu/drm/vc4/vc4_dsi.c b/drivers/gpu/drm/vc4/vc4_d=
-si.c
-> >> index 752f921735c6..9d7ffaf6bc70 100644
-> >> --- a/drivers/gpu/drm/vc4/vc4_dsi.c
-> >> +++ b/drivers/gpu/drm/vc4/vc4_dsi.c
-> >> @@ -846,8 +846,8 @@ static void vc4_dsi_encoder_enable(struct drm_enco=
-der *encoder)
-> >>  	unsigned long phy_clock;
-> >>  	int ret;
-> >> =20
-> >> -	ret =3D pm_runtime_get_sync(dev);
-> >> -	if (ret) {
-> >> +	ret =3D pm_runtime_resume_and_get(dev);
-> >> +	if (ret < 0) {
-> > pm_runtime_resume_and_get will return 0 on success, so the previous che=
-ck was correct
->=20
-> previous check is for pm_runtime_get_sync() not for pm_runtime_resume_and=
-_get (),
->=20
-> I switch to pm_runtime_resume_and_get() to fix the refcount leak bug at t=
-he same time.
->=20
-> Sure it's ok to use check if(ret) to check the retval, I just follow a mo=
-re common way
->=20
-> for usage of pm_runtime_resume_and_get() in the codebase=E2=80=94=E2=80=
-=94 check ret<0
->=20
-> Since pm_runtime_resume_and_get() return negative error code.
+Two display fixes: Disable VRR if user disables it from panel settings
+and avoid claiming PSR2 is enabled when it is not supported by config.
 
-If it ain't broke, don't fix it. The previous condition was working
-perfectly fine to catch the errors from pm_runtime_resume_and_get,
-there's no reason to change it.
+Regards, Joonas
 
-Maxime
+***
 
---fun57gjjam5aec2h
-Content-Type: application/pgp-signature; name="signature.asc"
+drm-intel-fixes-2022-04-20:
 
------BEGIN PGP SIGNATURE-----
+- Unset enable_psr2_sel_fetch if PSR2 detection fails
+- Fix to detect when VRR is turned off from panel settings
 
-iHUEABYKAB0WIQRcEzekXsqa64kGDp7j7w1vZxhRxQUCYmAKbgAKCRDj7w1vZxhR
-xaxCAP9NqzEUOSu2m28Vv9PNrEdwrNVPxVKhJOOxy07TrV0NggD+IHpkv0BTgk5i
-z0HS/MUWy/4cJaDV8S1OQPxnDXFeFww=
-=v4MT
------END PGP SIGNATURE-----
+The following changes since commit b2d229d4ddb17db541098b83524d901257e93845:
 
---fun57gjjam5aec2h--
+  Linux 5.18-rc3 (2022-04-17 13:57:31 -0700)
+
+are available in the Git repository at:
+
+  git://anongit.freedesktop.org/drm/drm-intel tags/drm-intel-fixes-2022-04-20
+
+for you to fetch changes up to bb02330408a7bde33b5f46aa14fd5d7bfe6093b7:
+
+  drm/i915/display/psr: Unset enable_psr2_sel_fetch if other checks in intel_psr2_config_valid() fails (2022-04-20 07:51:14 +0300)
+
+----------------------------------------------------------------
+- Unset enable_psr2_sel_fetch if PSR2 detection fails
+- Fix to detect when VRR is turned off from panel settings
+
+----------------------------------------------------------------
+José Roberto de Souza (1):
+      drm/i915/display/psr: Unset enable_psr2_sel_fetch if other checks in intel_psr2_config_valid() fails
+
+Manasi Navare (1):
+      drm/i915/display/vrr: Reset VRR capable property on a long hpd
+
+ drivers/gpu/drm/i915/display/intel_dp.c  | 17 +++++++++-----
+ drivers/gpu/drm/i915/display/intel_psr.c | 38 ++++++++++++++++++--------------
+ 2 files changed, 32 insertions(+), 23 deletions(-)
