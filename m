@@ -1,110 +1,61 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 801BC508D91
-	for <lists+dri-devel@lfdr.de>; Wed, 20 Apr 2022 18:43:58 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 9F21E508DE5
+	for <lists+dri-devel@lfdr.de>; Wed, 20 Apr 2022 19:02:04 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 4B26110E1E6;
-	Wed, 20 Apr 2022 16:43:54 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 83B0210E120;
+	Wed, 20 Apr 2022 17:02:00 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from NAM11-CO1-obe.outbound.protection.outlook.com
- (mail-co1nam11on2078.outbound.protection.outlook.com [40.107.220.78])
- by gabe.freedesktop.org (Postfix) with ESMTPS id DFC3210E1E6;
- Wed, 20 Apr 2022 16:43:53 +0000 (UTC)
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=B2n/tRwPK17SJ+eysE/jVsDb7fZxjN9bGJJqv8+0m8HlHDzyE+b7KEPkTOkBorBTvqMMbCBplSxJGGZF59+0rc691+sxx+inbbocAn3oJTF0fzvQdeqlgypsiQbi5Ycv3k8JLtB0NSEmKC8gOY5i3XG8Ph5SrSbV4byWgB+Bpd1xrwboZcGcYbiIJMkRBP7KLWhEWwldQf3HtZnPnAptrUwJTnol6Lyl0p/fHHaMoYbFod616u6lyOGRNH+fN5tj5GQGHvJ8uuAc8uYGYWCB+a2BGlnFjED+R8rZODF6pZbGsqIRwmcQlf3aWK0LIQgVzXqJ8FA1XAb1QH/B0MGS7w==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=4XryMlwN2p+Asjqt5S01Kt13ZxN9m2lnbd51vZSHGPU=;
- b=Hw61IjoZueW7VIOzdhRjqF9VSF8mzKWtU+uOpxtY82COY4IE80PAj/q1CZOSf1ksDfGz8xnyGAZEOHfRBSTAuQR+2GP0BHvypk+8Zsixsda6jN4QfL0iO55hCkUseFKeDpaGsouPIripTkj5l98yji+5k7a6NxyF/2ihYAbVrOUjNC83PASiPa/A5LZ7a1abJXlsTKs6D5fjAmr1w990yU4vQRfe2ii8fB/f4KstvUtfMryPVvR5pXnMAc5pwv0ctKBfsqX+SQi4Eaeo2OqqNNuvCCR5YUGpGerOOqz6hpRB/LviP3SFQj0MDk0XkPiLs4VJpcOPuFh5V9Gqp/slCg==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=nvidia.com; dmarc=pass action=none header.from=nvidia.com;
- dkim=pass header.d=nvidia.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=Nvidia.com;
- s=selector2;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=4XryMlwN2p+Asjqt5S01Kt13ZxN9m2lnbd51vZSHGPU=;
- b=tVebin3s3n3BCZFOW9IgW0PqRHurht9s/j5zH+6nG2HG8gicp66Nfbkq1kLKrm0yAXIPubCGxXsHGbIuZaeDtFqWUCZtjzXpmBxdp8q5IESh9WSTgr416xJjXR7U9Mecx+cHJBYVaZ9zY+ZUyBNMbXsw34dq5x03UkssBQcceOTYsLt63yYfM+mo6G7ranpJVt8jNCN9D12vkdjDiN1g4OGzHbCYhMooza2xC2WZhJYVqjB0JKiL3p2uToC+lNZavUHXXKcIafBnhvOBM+m/yAoPKDsLDIzxRagpxdSS4NARtlhLuIr2Qk2Ja6ln2Czh+XzTO8eRfYPj2r1Nk/Pd6g==
-Authentication-Results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=nvidia.com;
-Received: from MN2PR12MB4192.namprd12.prod.outlook.com (2603:10b6:208:1d5::15)
- by DM8PR12MB5479.namprd12.prod.outlook.com (2603:10b6:8:38::18) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.5186.14; Wed, 20 Apr
- 2022 16:43:52 +0000
-Received: from MN2PR12MB4192.namprd12.prod.outlook.com
- ([fe80::ec2d:9167:1b47:2db2]) by MN2PR12MB4192.namprd12.prod.outlook.com
- ([fe80::ec2d:9167:1b47:2db2%6]) with mapi id 15.20.5186.014; Wed, 20 Apr 2022
- 16:43:52 +0000
-Date: Wed, 20 Apr 2022 13:43:51 -0300
-From: Jason Gunthorpe <jgg@nvidia.com>
-To: "Wang, Zhi A" <zhi.a.wang@intel.com>
-Subject: Re: [PULL v2] gvt-next
-Message-ID: <20220420164351.GC2120790@nvidia.com>
-References: <5a8b9f48-2c32-8177-1c18-e3bd7bfde558@intel.com>
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <5a8b9f48-2c32-8177-1c18-e3bd7bfde558@intel.com>
-X-ClientProxiedBy: MN2PR19CA0013.namprd19.prod.outlook.com
- (2603:10b6:208:178::26) To MN2PR12MB4192.namprd12.prod.outlook.com
- (2603:10b6:208:1d5::15)
+Received: from alexa-out-sd-02.qualcomm.com (alexa-out-sd-02.qualcomm.com
+ [199.106.114.39])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 031FB10E0B0;
+ Wed, 20 Apr 2022 17:01:58 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=quicinc.com; i=@quicinc.com; q=dns/txt; s=qcdkim;
+ t=1650474119; x=1682010119;
+ h=message-id:date:mime-version:subject:to:cc:references:
+ from:in-reply-to:content-transfer-encoding;
+ bh=8fJ4zzgCRot6zO5LBmCQ+wuktpjzbU4EqCV/EOdKWNI=;
+ b=K0snVVbxqcUpA2TTezo9rkkWgVw4Xh9WR9l0dkXXEnBB/pYbTROvtQLr
+ bm9CwR/wy85X+dnOgWyMZ4r7vP0sRhp1eXqfeZoU48H2B3UZ+RFtu88tF
+ FvfvTF+zmD+MHuLEolGL8I6CPmAzWD4v7tQbboAtnX6O0qzsgi9sIopCe c=;
+Received: from unknown (HELO ironmsg02-sd.qualcomm.com) ([10.53.140.142])
+ by alexa-out-sd-02.qualcomm.com with ESMTP; 20 Apr 2022 10:01:58 -0700
+X-QCInternal: smtphost
+Received: from nasanex01c.na.qualcomm.com ([10.47.97.222])
+ by ironmsg02-sd.qualcomm.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 20 Apr 2022 10:01:58 -0700
+Received: from nalasex01a.na.qualcomm.com (10.47.209.196) by
+ nasanex01c.na.qualcomm.com (10.47.97.222) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.2.986.22; Wed, 20 Apr 2022 10:01:57 -0700
+Received: from [10.111.175.210] (10.80.80.8) by nalasex01a.na.qualcomm.com
+ (10.47.209.196) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.986.22; Wed, 20 Apr
+ 2022 10:01:54 -0700
+Message-ID: <32e84508-a2d5-afac-fa9a-53ad6b4f0492@quicinc.com>
+Date: Wed, 20 Apr 2022 10:01:53 -0700
 MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-Office365-Filtering-Correlation-Id: bf09e86d-ab82-42f4-f1b5-08da22ecf3b9
-X-MS-TrafficTypeDiagnostic: DM8PR12MB5479:EE_
-X-Microsoft-Antispam-PRVS: <DM8PR12MB54793CDD2977E336FD1DC521C2F59@DM8PR12MB5479.namprd12.prod.outlook.com>
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: JLTfoH7+tujzXXb2LODizGcrvtL5JPcgXpNgklz/QmqdCemGcKC5hclvAd8wP4bOz3d7dorOdOFWUEu4niQsxnLKBsU3rELufozsY27mbAVf5XpIdvD6gZ2F84N5tCIXS1mmfyWWRGOI7e3tBXNjT4erTl+eDUiOj/syOciTFSLZ7pe6riLL0hY901Qsxl3q1FDzY3oRpeavWOXCCqAHDdTPFJGuypL0hjjQut/XanGsTjrLyChTuMcR+fLlJEydhVazh44Gz3BBEv2kU9yaHBSDqtc9iwmyvANY8h2uYkDKsCB4V0Io1SLTf6VPhXL+//eQRzStookW2do5PSPx+Px+TA9WMMjmioPD7scILC/CDTBnmDmznRXc0+LsXxla317g4pKJqBnlOvDiKoKheljzZ9Yug3oFORvGHhSLmTc/pMqCpZmT5euo1oHl5XtMRDjDeExUmKXv8dsrJhdCHNT6pXGt0Ujx40JRRlgyx4uJAgbypdQauyFIDnXeF7atbkgzZn8YnfbjavU9YZNt1PsiSfyB4uSOTctvQTs5FWieRHFjYwla3dmUGYSKWFrv3CAmnIiqZNntfLiKKu0G7/yGmwIsHrzMS/QzKqdfUVcnm0dhO+WqD6zlKj+tra/mcmFalemw8PnoOUZOvUpeqGHH1eERAUvWI5yY8VwJVH93LGrFsVYSQLrDv/qKbgbxOw36eOPf4sgIa5INa5yaXcgzK0oiCdocP1SqwxiiHIo=
-X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
- IPV:NLI; SFV:NSPM; H:MN2PR12MB4192.namprd12.prod.outlook.com; PTR:; CAT:NONE;
- SFS:(13230001)(4636009)(366004)(6512007)(1076003)(2616005)(54906003)(36756003)(66946007)(8676002)(4326008)(316002)(186003)(66556008)(6916009)(66476007)(86362001)(6506007)(966005)(6486002)(26005)(38100700002)(8936002)(83380400001)(2906002)(5660300002)(508600001)(7416002)(33656002);
- DIR:OUT; SFP:1101; 
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: =?us-ascii?Q?Hp0XrAwHHw2L0Zi3Nf2fWUDkXH3i7/eUhAnD2Ugcx6DsK372lndiKcPiY5wg?=
- =?us-ascii?Q?IC0FBbVMPBbwQRfB5qfSCCQCFmJCZp9X/jWpwNgHaorJTrkL8zdmE4E0mfOm?=
- =?us-ascii?Q?x7/BHQMJEFgJggrX/Zw/P8gjdibjqsSi4p6CjNuuy0ib7e2/VbXIyjLI1yHv?=
- =?us-ascii?Q?b/+icRYJZnK/BxsMcEog/1Hi2MxzbUEsT07X6uHouQmdi+snmYYPOjpwAUdj?=
- =?us-ascii?Q?ovxZmtKVhDC27A6Ag2lSxxDruPr5dfU88vV6W+BRD7Qq0ccedKhwYn7/8BXs?=
- =?us-ascii?Q?XvSq89vxLdRQ1aIRMfQ3ZnmLu5LylZYmoUZ/iBUBne+D2xBHWxn2+Z1cHOlc?=
- =?us-ascii?Q?rFAd7+gb05SLIfmpIWfwvAFaFo6IRLgcJc9t91/NZJR4abps30LjyrJ8VXYE?=
- =?us-ascii?Q?Lfxsef0nSky/zzGCAl9O1BRF6siPzC7wkw1gInD8R0aXIQzdENujQmwSvjJu?=
- =?us-ascii?Q?ArgpHC/ByIouV0W5PVLbuU6Naz92JELgCSUFLu+g5Qbdlfwct25laEKPvVNk?=
- =?us-ascii?Q?F2Qn5EBTuCebcf/0OHNO5HvciPbkvpc4E1uf51M4sDfD+gCE/dm7d5MAPmml?=
- =?us-ascii?Q?ejUUKNLMak/5rdudon1p6bedKWUBMj4tI1/ezjR+n6ioGqy8Yj8p/mBF+n6t?=
- =?us-ascii?Q?GiJ7nsZ1W5av1ptcWT3S+DqjK/Q8GmLBDNnypzlGQwv7BFm9OxnnAg+SP7TO?=
- =?us-ascii?Q?nwzdILTQ+IV7oMps7yVxG1YLavIcRkzp7BKpHR55VowBdYhnt6bXOx3LNCZl?=
- =?us-ascii?Q?jKWr/YNfHqO6vmB0avRTdCp+41Egwb3e10plakGjadwx7MdZ2Mp7NpCysq7d?=
- =?us-ascii?Q?jh6wh34CU55Gk9TRIp0d0zD22bbKpRVmz5mPwbxVbvKxwy9NL11KI6xOLI9I?=
- =?us-ascii?Q?yw3FvBJ0HyNTcttBBEXRuXiQS9UlnL8T8VHlV+TKT4saTTWAIG/3gHaTYVAC?=
- =?us-ascii?Q?f1NPUN6kH8l8IKH4R8yywaERo+oZf3kj1CsNaJP6RYjPy3ILCLA1zBA7vM8c?=
- =?us-ascii?Q?Y3fye4+rhpcvE5O314OSRq+hr12WL0sA9jwQeriv9wYcxWaAS2adU0qz/ULi?=
- =?us-ascii?Q?Bennvwi0q26ypuANU6bmwqByvzIcmbUaNiOL/aizceocwvWmmWM2PbTuFwXa?=
- =?us-ascii?Q?Gb2vWO43FTbSF6re+vi59Q/4un6S8yK6hLiXQ5ra/WYT4rXjCoDlbyl1Y2rV?=
- =?us-ascii?Q?fAssW8OrgLj0kwfQFeV7XTfHD8FfQCN4BTAGqWhLPFHcpEs/X2pSDnwzExUU?=
- =?us-ascii?Q?Bc9gIlBc2AxzdIbVbuLd+7ii6IPWKe8xytHOIRaSzExQJ0m1Hh4nJijJH2Zj?=
- =?us-ascii?Q?wmrk2aTBt/LLHLiAieGQi8h06o14nSO7qZXZNh+IGPQcU9Lq+Xfd7RYrOGHI?=
- =?us-ascii?Q?orFDvAqHGIwhRmREGT70igit9qVXuE+jZncbITc+uu9kn9mMZofLBmEd8XEi?=
- =?us-ascii?Q?uz8UiFNo47GsA34ayRMTg/khSChwsxsCc89Nm09wsry7YgE981ivAH/Zl1Yv?=
- =?us-ascii?Q?cCC90ScZwSUUF2N63F10kaIwzAn5FL0aIXOwV9tYv5SjoIga+UBJyVaSrsuu?=
- =?us-ascii?Q?7uM6EpTw/TFCrUAhD953cT3LgDFTbIlisgOv/ZavSiyvePPvwyonEjyMzOLH?=
- =?us-ascii?Q?Zmy85nLFk5+x/xpMBf31EV9YjbDGHcOZtJfJROOaWm3NEvqHl6NPIr+0KS5O?=
- =?us-ascii?Q?aWX6dPAd/97Y97mBrZhMhx6yJ8O1RIlTrNpbfbNg+X2q9KJxnLJiitWWJiNi?=
- =?us-ascii?Q?OUC067xBPg=3D=3D?=
-X-OriginatorOrg: Nvidia.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: bf09e86d-ab82-42f4-f1b5-08da22ecf3b9
-X-MS-Exchange-CrossTenant-AuthSource: MN2PR12MB4192.namprd12.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 20 Apr 2022 16:43:52.4584 (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 43083d15-7273-40c1-b7db-39efd9ccc17a
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: KB0czCPaxCsEcPBKGp7Ec+j54hTY178bnWDWQ+lml8gR3lO97j2NuFT0sFLipivQ
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: DM8PR12MB5479
+User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:91.0) Gecko/20100101
+ Thunderbird/91.6.2
+Subject: Re: [PATCH v2 06/17] drm/msm/dpu: add dpu_hw_wb abstraction for
+ writeback blocks
+Content-Language: en-US
+To: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>,
+ <freedreno@lists.freedesktop.org>
+References: <1650419169-13760-1-git-send-email-quic_abhinavk@quicinc.com>
+ <1650419169-13760-7-git-send-email-quic_abhinavk@quicinc.com>
+ <78612521-190c-0706-7654-2f6221485f2b@linaro.org>
+From: Abhinav Kumar <quic_abhinavk@quicinc.com>
+In-Reply-To: <78612521-190c-0706-7654-2f6221485f2b@linaro.org>
+Content-Type: text/plain; charset="UTF-8"; format=flowed
+Content-Transfer-Encoding: 8bit
+X-Originating-IP: [10.80.80.8]
+X-ClientProxiedBy: nasanex01a.na.qualcomm.com (10.52.223.231) To
+ nalasex01a.na.qualcomm.com (10.47.209.196)
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -117,52 +68,516 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: "intel-gfx@lists.freedesktop.org" <intel-gfx@lists.freedesktop.org>,
- "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
- Alex Williamson <alex.williamson@redhat.com>,
- "dri-devel@lists.freedesktop.org" <dri-devel@lists.freedesktop.org>, "Vivi,
- Rodrigo" <rodrigo.vivi@intel.com>,
- "intel-gvt-dev@lists.freedesktop.org" <intel-gvt-dev@lists.freedesktop.org>,
- Christoph Hellwig <hch@lst.de>
+Cc: markyacoub@chromium.org, liviu.dudau@arm.com,
+ dri-devel@lists.freedesktop.org, swboyd@chromium.org, seanpaul@chromium.org,
+ laurent.pinchart@ideasonboard.com, quic_jesszhan@quicinc.com,
+ quic_aravindh@quicinc.com
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Wed, Apr 20, 2022 at 04:34:47PM +0000, Wang, Zhi A wrote:
-> Hi folks:
-> 
-> Here is the PR of gvt-next. Thanks so much for the patience.
-> 
-> Mostly it includes the patch bundle of GVT-g re-factor patches for adapting the GVT-g with the
-> new MDEV interfaces:
-> 
-> - Separating the MMIO table from GVT-g. (Zhi)
-> - GVT-g re-factor. (Christoph)
-> - GVT-g mdev API cleanup. (Jason)
-> - GVT-g trace/makefile cleanup. (Jani)
-> 
-> Thanks so much for making this happen.
-> 
-> This PR has been tested as following and no problem shows up:
-> 
-> $dim update-branches
-> $dim apply-pull drm-intel-next < this_email.eml
-> 
-> The following changes since commit 3123109284176b1532874591f7c81f3837bbdc17:
-> 
->   Linux 5.18-rc1 (2022-04-03 14:08:21 -0700)
-> 
-> are available in the Git repository at:
-> 
->   https://github.com/intel/gvt-linux tags/gvt-next-2022-04-20-for-christoph
-> 
-> for you to fetch changes up to ae7875879b7c838bffb42ed6db4658e5c504032e:
-> 
->   vfio/mdev: Remove mdev drvdata (2022-04-20 03:15:58 -0400)
 
-This looks well constructed now! thanks
 
-Alex you can pull this for VFIO after Jani&co grab it
+On 4/20/2022 12:20 AM, Dmitry Baryshkov wrote:
+> On 20/04/2022 04:45, Abhinav Kumar wrote:
+>> Add the dpu_hw_wb abstraction to program registers related to the
+>> writeback block. These will be invoked once all the configuration
+>> is set and ready to be programmed to the registers.
+>>
+>> changes in v2:
+>>     - remove multiple empty lines at the end of the file
+>>     - change dpu_hw_wb_bind_pingpong_blk to preserve upper bits
+>>
+>> Signed-off-by: Abhinav Kumar <quic_abhinavk@quicinc.com>
+>> Reviewed-by: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
+> 
+> It's still Reviewed-by, few nits below.
+> 
+>> ---
+>>   drivers/gpu/drm/msm/Makefile              |   1 +
+>>   drivers/gpu/drm/msm/disp/dpu1/dpu_hw_wb.c | 273 
+>> ++++++++++++++++++++++++++++++
+>>   drivers/gpu/drm/msm/disp/dpu1/dpu_hw_wb.h | 131 ++++++++++++++
+>>   3 files changed, 405 insertions(+)
+>>   create mode 100644 drivers/gpu/drm/msm/disp/dpu1/dpu_hw_wb.c
+>>   create mode 100644 drivers/gpu/drm/msm/disp/dpu1/dpu_hw_wb.h
+>>
+>> diff --git a/drivers/gpu/drm/msm/Makefile b/drivers/gpu/drm/msm/Makefile
+>> index d5ca2e6..ca779c1 100644
+>> --- a/drivers/gpu/drm/msm/Makefile
+>> +++ b/drivers/gpu/drm/msm/Makefile
+>> @@ -74,6 +74,7 @@ msm-$(CONFIG_DRM_MSM_DPU) += \
+>>       disp/dpu1/dpu_hw_top.o \
+>>       disp/dpu1/dpu_hw_util.o \
+>>       disp/dpu1/dpu_hw_vbif.o \
+>> +    disp/dpu1/dpu_hw_wb.o \
+>>       disp/dpu1/dpu_kms.o \
+>>       disp/dpu1/dpu_plane.o \
+>>       disp/dpu1/dpu_rm.o \
+>> diff --git a/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_wb.c 
+>> b/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_wb.c
+>> new file mode 100644
+>> index 0000000..afa8aab
+>> --- /dev/null
+>> +++ b/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_wb.c
+>> @@ -0,0 +1,273 @@
+>> +// SPDX-License-Identifier: GPL-2.0-only
+>> + /*
+>> +  * Copyright (c) 2022 Qualcomm Innovation Center, Inc. All rights 
+>> reserved
+>> +  */
+>> +
+>> +#include "dpu_hw_mdss.h"
+>> +#include "dpu_hwio.h"
+>> +#include "dpu_hw_catalog.h"
+>> +#include "dpu_hw_wb.h"
+>> +#include "dpu_formats.h"
+>> +#include "dpu_kms.h"
+>> +
+>> +#define WB_DST_FORMAT                         0x000
+>> +#define WB_DST_OP_MODE                        0x004
+>> +#define WB_DST_PACK_PATTERN                   0x008
+>> +#define WB_DST0_ADDR                          0x00C
+>> +#define WB_DST1_ADDR                          0x010
+>> +#define WB_DST2_ADDR                          0x014
+>> +#define WB_DST3_ADDR                          0x018
+>> +#define WB_DST_YSTRIDE0                       0x01C
+>> +#define WB_DST_YSTRIDE1                       0x020
+>> +#define WB_DST_YSTRIDE1                       0x020
+>> +#define WB_DST_DITHER_BITDEPTH                0x024
+>> +#define WB_DST_MATRIX_ROW0                    0x030
+>> +#define WB_DST_MATRIX_ROW1                    0x034
+>> +#define WB_DST_MATRIX_ROW2                    0x038
+>> +#define WB_DST_MATRIX_ROW3                    0x03C
+>> +#define WB_DST_WRITE_CONFIG                   0x048
+>> +#define WB_ROTATION_DNSCALER                  0x050
+>> +#define WB_ROTATOR_PIPE_DOWNSCALER            0x054
+>> +#define WB_N16_INIT_PHASE_X_C03               0x060
+>> +#define WB_N16_INIT_PHASE_X_C12               0x064
+>> +#define WB_N16_INIT_PHASE_Y_C03               0x068
+>> +#define WB_N16_INIT_PHASE_Y_C12               0x06C
+>> +#define WB_OUT_SIZE                           0x074
+>> +#define WB_ALPHA_X_VALUE                      0x078
+>> +#define WB_DANGER_LUT                         0x084
+>> +#define WB_SAFE_LUT                           0x088
+>> +#define WB_QOS_CTRL                           0x090
+>> +#define WB_CREQ_LUT_0                         0x098
+>> +#define WB_CREQ_LUT_1                         0x09C
+>> +#define WB_UBWC_STATIC_CTRL                   0x144
+>> +#define WB_MUX                                0x150
+>> +#define WB_CROP_CTRL                          0x154
+>> +#define WB_CROP_OFFSET                        0x158
+>> +#define WB_CSC_BASE                           0x260
+>> +#define WB_DST_ADDR_SW_STATUS                 0x2B0
+>> +#define WB_CDP_CNTL                           0x2B4
+>> +#define WB_OUT_IMAGE_SIZE                     0x2C0
+>> +#define WB_OUT_XY                             0x2C4
+>> +
+>> +/* WB_QOS_CTRL */
+>> +#define WB_QOS_CTRL_DANGER_SAFE_EN            BIT(0)
+>> +
+>> +static const struct dpu_wb_cfg *_wb_offset(enum dpu_wb wb,
+>> +        const struct dpu_mdss_cfg *m, void __iomem *addr,
+>> +        struct dpu_hw_blk_reg_map *b)
+>> +{
+>> +    int i;
+>> +
+>> +    for (i = 0; i < m->wb_count; i++) {
+>> +        if (wb == m->wb[i].id) {
+>> +            b->base_off = addr;
+>> +            b->blk_off = m->wb[i].base;
+>> +            b->length = m->wb[i].len;
+>> +            b->hwversion = m->hwversion;
+>> +            return &m->wb[i];
+>> +        }
+>> +    }
+>> +    return ERR_PTR(-EINVAL);
+>> +}
+>> +
+>> +static void dpu_hw_wb_setup_outaddress(struct dpu_hw_wb *ctx,
+>> +        struct dpu_hw_wb_cfg *data)
+>> +{
+>> +    struct dpu_hw_blk_reg_map *c = &ctx->hw;
+>> +
+>> +    DPU_REG_WRITE(c, WB_DST0_ADDR, data->dest.plane_addr[0]);
+>> +    DPU_REG_WRITE(c, WB_DST1_ADDR, data->dest.plane_addr[1]);
+>> +    DPU_REG_WRITE(c, WB_DST2_ADDR, data->dest.plane_addr[2]);
+>> +    DPU_REG_WRITE(c, WB_DST3_ADDR, data->dest.plane_addr[3]);
+>> +}
+>> +
+>> +static void dpu_hw_wb_setup_format(struct dpu_hw_wb *ctx,
+>> +        struct dpu_hw_wb_cfg *data)
+>> +{
+> 
+> This function shares significant logic with dpu_hw_sspp_setup_format().
+> 
+> We should consider splitting the common code to the helper at some point 
+> (later).
 
-I'll respin my vfio_group series on top of this branch
+Agreed, I do see some similarities. Will take this up in another change.
 
-Jason
+> 
+>> +    struct dpu_hw_blk_reg_map *c = &ctx->hw;
+>> +    const struct dpu_format *fmt = data->dest.format;
+>> +    u32 dst_format, pattern, ystride0, ystride1, outsize, chroma_samp;
+>> +    u32 write_config = 0;
+>> +    u32 opmode = 0;
+>> +    u32 dst_addr_sw = 0;
+>> +
+>> +    chroma_samp = fmt->chroma_sample;
+>> +
+>> +    dst_format = (chroma_samp << 23) |
+>> +        (fmt->fetch_planes << 19) |
+>> +        (fmt->bits[C3_ALPHA] << 6) |
+>> +        (fmt->bits[C2_R_Cr] << 4) |
+>> +        (fmt->bits[C1_B_Cb] << 2) |
+>> +        (fmt->bits[C0_G_Y] << 0);
+>> +
+>> +    if (fmt->bits[C3_ALPHA] || fmt->alpha_enable) {
+>> +        dst_format |= BIT(8); /* DSTC3_EN */
+>> +        if (!fmt->alpha_enable ||
+>> +            !(ctx->caps->features & BIT(DPU_WB_PIPE_ALPHA)))
+>> +            dst_format |= BIT(14); /* DST_ALPHA_X */
+>> +    }
+>> +
+>> +    pattern = (fmt->element[3] << 24) |
+>> +        (fmt->element[2] << 16) |
+>> +        (fmt->element[1] << 8)  |
+>> +        (fmt->element[0] << 0);
+>> +
+>> +    dst_format |= (fmt->unpack_align_msb << 18) |
+>> +        (fmt->unpack_tight << 17) |
+>> +        ((fmt->unpack_count - 1) << 12) |
+>> +        ((fmt->bpp - 1) << 9);
+>> +
+>> +    ystride0 = data->dest.plane_pitch[0] |
+>> +        (data->dest.plane_pitch[1] << 16);
+>> +    ystride1 = data->dest.plane_pitch[2] |
+>> +    (data->dest.plane_pitch[3] << 16);
+>> +
+>> +    if (drm_rect_height(&data->roi) && drm_rect_width(&data->roi))
+>> +        outsize = (drm_rect_height(&data->roi) << 16) | 
+>> drm_rect_width(&data->roi);
+>> +    else
+>> +        outsize = (data->dest.height << 16) | data->dest.width;
+>> +
+>> +    DPU_REG_WRITE(c, WB_ALPHA_X_VALUE, 0xFF);
+>> +    DPU_REG_WRITE(c, WB_DST_FORMAT, dst_format);
+>> +    DPU_REG_WRITE(c, WB_DST_OP_MODE, opmode);
+>> +    DPU_REG_WRITE(c, WB_DST_PACK_PATTERN, pattern);
+>> +    DPU_REG_WRITE(c, WB_DST_YSTRIDE0, ystride0);
+>> +    DPU_REG_WRITE(c, WB_DST_YSTRIDE1, ystride1);
+>> +    DPU_REG_WRITE(c, WB_OUT_SIZE, outsize);
+>> +    DPU_REG_WRITE(c, WB_DST_WRITE_CONFIG, write_config);
+>> +    DPU_REG_WRITE(c, WB_DST_ADDR_SW_STATUS, dst_addr_sw);
+>> +}
+>> +
+>> +static void dpu_hw_wb_roi(struct dpu_hw_wb *ctx, struct dpu_hw_wb_cfg 
+>> *wb)
+>> +{
+>> +    struct dpu_hw_blk_reg_map *c = &ctx->hw;
+>> +    u32 image_size, out_size, out_xy;
+>> +
+>> +    image_size = (wb->dest.height << 16) | wb->dest.width;
+>> +    out_xy = 0;
+>> +    out_size = (drm_rect_height(&wb->roi) << 16) | 
+>> drm_rect_width(&wb->roi);
+>> +
+>> +    DPU_REG_WRITE(c, WB_OUT_IMAGE_SIZE, image_size);
+>> +    DPU_REG_WRITE(c, WB_OUT_XY, out_xy);
+>> +    DPU_REG_WRITE(c, WB_OUT_SIZE, out_size);
+>> +}
+>> +
+>> +static void dpu_hw_wb_setup_qos_lut(struct dpu_hw_wb *ctx,
+>> +        struct dpu_hw_wb_qos_cfg *cfg)
+> I like the single call approach. Maybe we should adopt it for the SSPP 
+> QoS LUT too.
+
+Perhaps yes.
+
+I had an overall question on this. all the dpu_hw_*** APIs accept their 
+own unique ctx (which is the *** hardware they are programming). What is 
+the approach you are suggesting to unify these?
+
+For helper calls I understood and already have addressed it in this series.
+
+But looking ahead for dpu_hw_*** calls, I am still unclear on the 
+unification plan.
+
+Again, this is for a follow-up change but I am just trying to understand it.
+
+> 
+>> +{
+>> +    struct dpu_hw_blk_reg_map *c = &ctx->hw;
+>> +    u32 qos_ctrl = 0;
+>> +
+>> +    if (!ctx || !cfg)
+>> +        return;
+>> +
+>> +    DPU_REG_WRITE(c, WB_DANGER_LUT, cfg->danger_lut);
+>> +    DPU_REG_WRITE(c, WB_SAFE_LUT, cfg->safe_lut);
+>> +
+>> +    if (ctx->caps && test_bit(DPU_WB_QOS_8LVL, &ctx->caps->features)) {
+>> +        DPU_REG_WRITE(c, WB_CREQ_LUT_0, cfg->creq_lut);
+>> +        DPU_REG_WRITE(c, WB_CREQ_LUT_1, cfg->creq_lut >> 32);
+>> +    }
+> 
+> Is there a plain WB_CREQ_LUT for the non-8LVL case?
+> 
+>> +
+>> +    if (cfg->danger_safe_en)
+>> +        qos_ctrl |= WB_QOS_CTRL_DANGER_SAFE_EN;
+>> +
+>> +    DPU_REG_WRITE(c, WB_QOS_CTRL, qos_ctrl);
+>> +}
+>> +
+>> +static void dpu_hw_wb_setup_cdp(struct dpu_hw_wb *ctx,
+>> +        struct dpu_hw_wb_cdp_cfg *cfg)
+> 
+> Can we use dpu_hw_pipe_cdp_cfg here? Maybe after renaming it to more 
+> generic dpu_hw_cdp_cfg.
+
+
+ack, I can absorb this in this series itself and re-spin this.
+It will save us one more new structure.
+
+> 
+>> +{
+>> +    struct dpu_hw_blk_reg_map *c;
+>> +    u32 cdp_cntl = 0;
+>> +
+>> +    if (!ctx || !cfg)
+>> +        return;
+>> +
+>> +    c = &ctx->hw;
+>> +
+>> +    if (cfg->enable)
+>> +        cdp_cntl |= BIT(0);
+>> +    if (cfg->ubwc_meta_enable)
+>> +        cdp_cntl |= BIT(1);
+>> +    if (cfg->preload_ahead == DPU_WB_CDP_PRELOAD_AHEAD_64)
+>> +        cdp_cntl |= BIT(3);
+>> +
+>> +    DPU_REG_WRITE(c, WB_CDP_CNTL, cdp_cntl);
+>> +}
+>> +
+>> +static void dpu_hw_wb_bind_pingpong_blk(
+>> +        struct dpu_hw_wb *ctx,
+>> +        bool enable, const enum dpu_pingpong pp)
+>> +{
+>> +    struct dpu_hw_blk_reg_map *c;
+>> +    int mux_cfg;
+>> +
+>> +    if (!ctx)
+>> +        return;
+>> +
+>> +    c = &ctx->hw;
+>> +
+>> +    mux_cfg = DPU_REG_READ(c, WB_MUX);
+>> +    mux_cfg &= ~0xf;
+>> +
+>> +    if (enable)
+>> +        mux_cfg |= (pp - PINGPONG_0) & 0x7;
+>> +    else
+>> +        mux_cfg |= 0xf;
+>> +
+>> +    DPU_REG_WRITE(c, WB_MUX, mux_cfg);
+>> +}
+>> +
+>> +static void _setup_wb_ops(struct dpu_hw_wb_ops *ops,
+>> +        unsigned long features)
+>> +{
+>> +    ops->setup_outaddress = dpu_hw_wb_setup_outaddress;
+>> +    ops->setup_outformat = dpu_hw_wb_setup_format;
+>> +
+>> +    if (test_bit(DPU_WB_XY_ROI_OFFSET, &features))
+>> +        ops->setup_roi = dpu_hw_wb_roi;
+>> +
+>> +    if (test_bit(DPU_WB_QOS, &features))
+>> +        ops->setup_qos_lut = dpu_hw_wb_setup_qos_lut;
+>> +
+>> +    if (test_bit(DPU_WB_CDP, &features))
+>> +        ops->setup_cdp = dpu_hw_wb_setup_cdp;
+>> +
+>> +    if (test_bit(DPU_WB_INPUT_CTRL, &features))
+>> +        ops->bind_pingpong_blk = dpu_hw_wb_bind_pingpong_blk;
+>> +}
+>> +
+>> +struct dpu_hw_wb *dpu_hw_wb_init(enum dpu_wb idx,
+>> +        void __iomem *addr, const struct dpu_mdss_cfg *m)
+>> +{
+>> +    struct dpu_hw_wb *c;
+>> +    const struct dpu_wb_cfg *cfg;
+>> +
+>> +    if (!addr || !m)
+>> +        return ERR_PTR(-EINVAL);
+>> +
+>> +    c = kzalloc(sizeof(*c), GFP_KERNEL);
+>> +    if (!c)
+>> +        return ERR_PTR(-ENOMEM);
+>> +
+>> +    cfg = _wb_offset(idx, m, addr, &c->hw);
+>> +    if (IS_ERR(cfg)) {
+>> +        WARN(1, "Unable to find wb idx=%d\n", idx);
+>> +        kfree(c);
+>> +        return ERR_PTR(-EINVAL);
+>> +    }
+>> +
+>> +    /* Assign ops */
+>> +    c->mdp = &m->mdp[0];
+>> +    c->idx = idx;
+>> +    c->caps = cfg;
+>> +    _setup_wb_ops(&c->ops, c->caps->features);
+>> +
+>> +    return c;
+>> +}
+>> +
+>> +void dpu_hw_wb_destroy(struct dpu_hw_wb *hw_wb)
+>> +{
+>> +    kfree(hw_wb);
+>> +}
+>> diff --git a/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_wb.h 
+>> b/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_wb.h
+>> new file mode 100644
+>> index 0000000..80def96
+>> --- /dev/null
+>> +++ b/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_wb.h
+>> @@ -0,0 +1,131 @@
+>> +/* SPDX-License-Identifier: GPL-2.0-only */
+>> +/*
+>> + * Copyright (c) 2022 Qualcomm Innovation Center, Inc. All rights 
+>> reserved
+>> + */
+>> +
+>> +#ifndef _DPU_HW_WB_H
+>> +#define _DPU_HW_WB_H
+>> +
+>> +#include "dpu_hw_catalog.h"
+>> +#include "dpu_hw_mdss.h"
+>> +#include "dpu_hw_top.h"
+>> +#include "dpu_hw_util.h"
+>> +#include "dpu_hw_pingpong.h"
+>> +
+>> +struct dpu_hw_wb;
+>> +
+>> +struct dpu_hw_wb_cfg {
+>> +    struct dpu_hw_fmt_layout dest;
+>> +    enum dpu_intf_mode intf_mode;
+>> +    struct drm_rect roi;
+>> +    struct drm_rect crop;
+>> +};
+>> +
+>> +/**
+>> + * enum CDP preload ahead address size
+>> + */
+>> +enum {
+>> +    DPU_WB_CDP_PRELOAD_AHEAD_32,
+>> +    DPU_WB_CDP_PRELOAD_AHEAD_64
+>> +};
+>> +
+>> +/**
+>> + * struct dpu_hw_wb_cdp_cfg : CDP configuration
+>> + * @enable: true to enable CDP
+>> + * @ubwc_meta_enable: true to enable ubwc metadata preload
+>> + * @tile_amortize_enable: true to enable amortization control for 
+>> tile format
+>> + * @preload_ahead: number of request to preload ahead
+>> + * SDE_WB_CDP_PRELOAD_AHEAD_32,
+>> + * SDE_WB_CDP_PRELOAD_AHEAD_64
+>> + */
+>> +struct dpu_hw_wb_cdp_cfg {
+>> +    bool enable;
+>> +    bool ubwc_meta_enable;
+>> +    bool tile_amortize_enable;
+>> +    u32 preload_ahead;
+>> +};
+>> +
+>> +/**
+>> + * struct dpu_hw_wb_qos_cfg : Writeback pipe QoS configuration
+>> + * @danger_lut: LUT for generate danger level based on fill level
+>> + * @safe_lut: LUT for generate safe level based on fill level
+>> + * @creq_lut: LUT for generate creq level based on fill level
+>> + * @danger_safe_en: enable danger safe generation
+>> + */
+>> +struct dpu_hw_wb_qos_cfg {
+>> +    u32 danger_lut;
+>> +    u32 safe_lut;
+>> +    u64 creq_lut;
+>> +    bool danger_safe_en;
+>> +};
+>> +
+>> +/**
+>> + *
+>> + * struct dpu_hw_wb_ops : Interface to the wb hw driver functions
+>> + *  Assumption is these functions will be called after clocks are 
+>> enabled
+>> + *  @setup_outaddress: setup output address from the writeback job
+>> + *  @setup_outformat: setup output format of writeback block from 
+>> writeback job
+>> + *  @setup_qos_lut:   setup qos LUT for writeback block based on input
+>> + *  @setup_cdp:       setup chroma down prefetch block for writeback 
+>> block
+>> + *  @bind_pingpong_blk: enable/disable the connection with ping-pong 
+>> block
+>> + */
+>> +struct dpu_hw_wb_ops {
+>> +    void (*setup_outaddress)(struct dpu_hw_wb *ctx,
+>> +            struct dpu_hw_wb_cfg *wb);
+>> +
+>> +    void (*setup_outformat)(struct dpu_hw_wb *ctx,
+>> +            struct dpu_hw_wb_cfg *wb);
+>> +
+>> +    void (*setup_roi)(struct dpu_hw_wb *ctx,
+>> +            struct dpu_hw_wb_cfg *wb);
+>> +
+>> +    void (*setup_qos_lut)(struct dpu_hw_wb *ctx,
+>> +            struct dpu_hw_wb_qos_cfg *cfg);
+>> +
+>> +    void (*setup_cdp)(struct dpu_hw_wb *ctx,
+>> +            struct dpu_hw_wb_cdp_cfg *cfg);
+>> +
+>> +    void (*bind_pingpong_blk)(struct dpu_hw_wb *ctx,
+>> +            bool enable, const enum dpu_pingpong pp);
+>> +};
+>> +
+>> +/**
+>> + * struct dpu_hw_wb : WB driver object
+>> + * @hw: block hardware details
+>> + * @mdp: pointer to associated mdp portion of the catalog
+>> + * @idx: hardware index number within type
+>> + * @wb_hw_caps: hardware capabilities
+>> + * @ops: function pointers
+>> + * @hw_mdp: MDP top level hardware block
+>> + */
+>> +struct dpu_hw_wb {
+>> +    struct dpu_hw_blk_reg_map hw;
+>> +    const struct dpu_mdp_cfg *mdp;
+>> +
+>> +    /* wb path */
+>> +    int idx;
+>> +    const struct dpu_wb_cfg *caps;
+>> +
+>> +    /* ops */
+>> +    struct dpu_hw_wb_ops ops;
+>> +
+>> +    struct dpu_hw_mdp *hw_mdp;
+>> +};
+>> +
+>> +/**
+>> + * dpu_hw_wb_init(): Initializes and return writeback hw driver object.
+>> + * @idx:  wb_path index for which driver object is required
+>> + * @addr: mapped register io address of MDP
+>> + * @m :   pointer to mdss catalog data
+>> + */
+>> +struct dpu_hw_wb *dpu_hw_wb_init(enum dpu_wb idx,
+>> +        void __iomem *addr,
+>> +        const struct dpu_mdss_cfg *m);
+>> +
+>> +/**
+>> + * dpu_hw_wb_destroy(): Destroy writeback hw driver object.
+>> + * @hw_wb:  Pointer to writeback hw driver object
+>> + */
+>> +void dpu_hw_wb_destroy(struct dpu_hw_wb *hw_wb);
+>> +
+>> +#endif /*_DPU_HW_WB_H */
+> 
+> 
