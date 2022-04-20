@@ -1,45 +1,61 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0DD795081AD
-	for <lists+dri-devel@lfdr.de>; Wed, 20 Apr 2022 09:05:44 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 55F6C50826C
+	for <lists+dri-devel@lfdr.de>; Wed, 20 Apr 2022 09:42:04 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id AC11510F175;
-	Wed, 20 Apr 2022 07:05:41 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id D14E810E5FD;
+	Wed, 20 Apr 2022 07:42:00 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from perceval.ideasonboard.com (perceval.ideasonboard.com
- [213.167.242.64])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 6D73010F179
- for <dri-devel@lists.freedesktop.org>; Wed, 20 Apr 2022 07:05:40 +0000 (UTC)
-Received: from [192.168.1.111] (91-156-85-209.elisa-laajakaista.fi
- [91.156.85.209])
- by perceval.ideasonboard.com (Postfix) with ESMTPSA id ECC0625B;
- Wed, 20 Apr 2022 09:05:37 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
- s=mail; t=1650438338;
- bh=XI60ceOSPiOukm0RgGIMWmc07mkMjnkrZjqcQsrwgeI=;
- h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
- b=VP5344N7sW30pjejQzEYeRU72UYfQq6pmhRTDBQhDQceHec72h4/ndutm5YbALjJh
- zHK/HVvwAhsTafWTtjvE3rYp5aHDvRw1yOcZaW6Hwo2Nc6UtiMflPFdD+1SmJ9h1su
- no87Z1//a8Iy1x4F1TdwnhnIgetHUrBDTjOrpvt0=
-Message-ID: <f5eb63b1-8381-99c8-55fa-cc9287103aa8@ideasonboard.com>
-Date: Wed, 20 Apr 2022 10:05:34 +0300
+Received: from mail-lj1-x229.google.com (mail-lj1-x229.google.com
+ [IPv6:2a00:1450:4864:20::229])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id BB45810F187
+ for <dri-devel@lists.freedesktop.org>; Wed, 20 Apr 2022 07:06:43 +0000 (UTC)
+Received: by mail-lj1-x229.google.com with SMTP id h11so842869ljb.2
+ for <dri-devel@lists.freedesktop.org>; Wed, 20 Apr 2022 00:06:43 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
+ h=from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=S6Pm6EQrJOZ/4EtJZXl52Z94IGgkZJJYDyI9ZFEJiOI=;
+ b=aAcEjQWF0TAoCEXgBar5MuPFQ/YhqGLMjfZBrdip0U5FzeAFDKsuy+YpWOXvCSo4Cu
+ d2RevKENklHTnW/xtjpv8VYGsZbZOHYLY6ZpLCOUwoc4wYQ+aPPwnDFesjx2DANGBrU8
+ iY/IM6S0fHecKah9bK/nufixsKpBoYZR3mAr9lU5JwgamGzxfwuTkUJXIe2A3f3jS/oK
+ C1iHraDKyLz3SNfs1vxzp8GUJP32phUs7Fb6iKz1ANha432H7Ya2mnrk7KW0FLrni+D3
+ MpNc2SikA0eJqgC6hSpGInBOTf1DbSwx1ZoiGkZ3I/XWbCCQD7op2WNKl4j9mTrk3rEe
+ AvCA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=S6Pm6EQrJOZ/4EtJZXl52Z94IGgkZJJYDyI9ZFEJiOI=;
+ b=fEXIQL78uvqMA5HsHbxOoPZJ5LetCSHWqM4pYtDYqCn/Zk9ZjHo8Ey3mfDB3nSYRab
+ nHLDYQoy5QBoutVG2ZcOxqQcHqj2Y7285bNrddiTHn+JmS1Q1+77p2pU1xEeu2PCVq3T
+ 8HkhAQ+LtCXQ89b9AE5wEZkaHRyiZG+U2UuoErlgoOHU1WKS3znW+c3FcnNjryXoFV0b
+ UV+i0Rm1ERt6OMBJZfBr7t4dn8GLTobP9MYtPFymnIZTY7G+/6vAEVuYnIYXsu5+2Vb7
+ PoIwpN3FVkzN+MTjjmpPH3zSLyBQm0Xa5dJ1fKbQ5cEMkjLJ1PPLZxHMzBDdlKK8zy8Q
+ l0LQ==
+X-Gm-Message-State: AOAM531hyWB1132BOqrQI2v8zyhgHugQ7SUaku0B6611F3/xcgSPjXtz
+ RXw9978MqUjxcGiRcaLkBqc=
+X-Google-Smtp-Source: ABdhPJxxrz61XJwjbTtEFvxXTZA6X+h3fWbjr+H8xjkcYpoXbV+qfS7teIWXYa4d7icAIz9JoQdZ3w==
+X-Received: by 2002:a2e:3e17:0:b0:24e:9b47:f1c4 with SMTP id
+ l23-20020a2e3e17000000b0024e9b47f1c4mr453071lja.445.1650438402154; 
+ Wed, 20 Apr 2022 00:06:42 -0700 (PDT)
+Received: from shc.milas.spb.ru ([188.243.217.78])
+ by smtp.gmail.com with ESMTPSA id
+ l18-20020a2e7012000000b0024b50132eeasm1630224ljc.10.2022.04.20.00.06.41
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Wed, 20 Apr 2022 00:06:41 -0700 (PDT)
+From: Alexander Shiyan <eagle.alexander923@gmail.com>
+To: linux-fbdev@vger.kernel.org
+Subject: [PATCH] video: clps711x-fb: Use syscon_regmap_lookup_by_phandle
+Date: Wed, 20 Apr 2022 10:06:39 +0300
+Message-Id: <20220420070639.62440-1-eagle.alexander923@gmail.com>
+X-Mailer: git-send-email 2.32.0
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.7.0
-Subject: Re: [PATCH 1/2] dt-bindings: display: ti,am65x-dss: Add missing
- register & interrupt
-Content-Language: en-US
-To: Rob Herring <robh@kernel.org>
-References: <20220419070302.16502-1-a-bhatia1@ti.com>
- <20220419070302.16502-2-a-bhatia1@ti.com>
- <Yl7FEuHEy66KUc5F@robh.at.kernel.org>
-From: Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>
-In-Reply-To: <Yl7FEuHEy66KUc5F@robh.at.kernel.org>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
+Content-Transfer-Encoding: 8bit
+X-Mailman-Approved-At: Wed, 20 Apr 2022 07:42:00 +0000
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -52,45 +68,34 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Nishanth Menon <nm@ti.com>, Devicetree <devicetree@vger.kernel.org>,
- Vignesh Raghavendra <vigneshr@ti.com>, Aradhya Bhatia <a-bhatia1@ti.com>,
- Linux Kernel <linux-kernel@vger.kernel.org>,
- DRI Development <dri-devel@lists.freedesktop.org>,
- Jyri Sarha <jyri.sarha@iki.fi>, Nikhil Devshatwar <nikhil.nd@ti.com>,
- Linux ARM Kernel <linux-arm-kernel@lists.infradead.org>
+Cc: Helge Deller <deller@gmx.de>, dri-devel@lists.freedesktop.org,
+ Alexander Shiyan <eagle.alexander923@gmail.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi,
+Since version 5.13, the standard syscon bindings have been added
+to all clps711x DT nodes, so we can now use the more general
+syscon_regmap_lookup_by_phandle function to get the syscon pointer.
 
-On 19/04/2022 17:20, Rob Herring wrote:
-> On Tue, Apr 19, 2022 at 12:33:01PM +0530, Aradhya Bhatia wrote:
->> The DSS IP on the ti-am65x soc supports an additional register space,
->> named "common1". Further. the IP services a maximum number of 2
->> interrupts.
->>
->> Add the missing register space "common1" and the additional interrupt.
->>
->> Signed-off-by: Aradhya Bhatia <a-bhatia1@ti.com>
->> ---
->>   .../devicetree/bindings/display/ti/ti,am65x-dss.yaml   | 10 +++++++---
->>   1 file changed, 7 insertions(+), 3 deletions(-)
->>
->> diff --git a/Documentation/devicetree/bindings/display/ti/ti,am65x-dss.yaml b/Documentation/devicetree/bindings/display/ti/ti,am65x-dss.yaml
->> index 5c7d2cbc4aac..102059e9e0d5 100644
->> --- a/Documentation/devicetree/bindings/display/ti/ti,am65x-dss.yaml
->> +++ b/Documentation/devicetree/bindings/display/ti/ti,am65x-dss.yaml
->> @@ -26,6 +26,7 @@ properties:
->>         Addresses to each DSS memory region described in the SoC's TRM.
->>       items:
->>         - description: common DSS register area
->> +      - description: common1 DSS register area
-> 
-> You've just broken the ABI.
-> 
-> New entries have to go on the end.
+Signed-off-by: Alexander Shiyan <eagle.alexander923@gmail.com>
+---
+ drivers/video/fbdev/clps711x-fb.c | 3 +--
+ 1 file changed, 1 insertion(+), 2 deletions(-)
 
-I'm curious, if the 'reg-names' is a required property, as it is here, 
-does this still break the ABI?
+diff --git a/drivers/video/fbdev/clps711x-fb.c b/drivers/video/fbdev/clps711x-fb.c
+index c5d15c6db287..771ce1f76951 100644
+--- a/drivers/video/fbdev/clps711x-fb.c
++++ b/drivers/video/fbdev/clps711x-fb.c
+@@ -268,8 +268,7 @@ static int clps711x_fb_probe(struct platform_device *pdev)
+ 		goto out_fb_release;
+ 	}
+ 
+-	cfb->syscon =
+-		syscon_regmap_lookup_by_compatible("cirrus,ep7209-syscon1");
++	cfb->syscon = syscon_regmap_lookup_by_phandle(np, "syscon");
+ 	if (IS_ERR(cfb->syscon)) {
+ 		ret = PTR_ERR(cfb->syscon);
+ 		goto out_fb_release;
+-- 
+2.32.0
 
-  Tomi
