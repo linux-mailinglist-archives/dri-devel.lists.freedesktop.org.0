@@ -2,52 +2,57 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id ECD91507E62
-	for <lists+dri-devel@lfdr.de>; Wed, 20 Apr 2022 03:46:59 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id A15AD507E78
+	for <lists+dri-devel@lfdr.de>; Wed, 20 Apr 2022 03:54:38 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id B606010EF8B;
-	Wed, 20 Apr 2022 01:46:52 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 885DF10ED0C;
+	Wed, 20 Apr 2022 01:54:34 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from alexa-out.qualcomm.com (alexa-out.qualcomm.com [129.46.98.28])
- by gabe.freedesktop.org (Postfix) with ESMTPS id F3C0210EF8B;
- Wed, 20 Apr 2022 01:46:48 +0000 (UTC)
+Received: from alexa-out-sd-01.qualcomm.com (alexa-out-sd-01.qualcomm.com
+ [199.106.114.38])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id A8EA510E6B3;
+ Wed, 20 Apr 2022 01:54:32 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=quicinc.com; i=@quicinc.com; q=dns/txt; s=qcdkim;
- t=1650419209; x=1681955209;
- h=from:to:cc:subject:date:message-id:in-reply-to:
- references:mime-version;
- bh=RBG8JlFD7XerAVRSSKUZ11al0gUSMb3CLAFGuaxNIGE=;
- b=QoR3eown9Ux0Pb9zSGHbEbUhLD8a6QAaG8YWf5FZei85TcwBY1zR3p3h
- mSqwESqVA6G8SxK7pug76Z+ztzE9rVtIND+2wSnUl+hRnfFvwIeFzuYj2
- As7VdQoB1Tj8c5kDUF8gQ+nFZttD9papM+IOIXippbtTR1L0drOsya5lL o=;
-Received: from ironmsg08-lv.qualcomm.com ([10.47.202.152])
- by alexa-out.qualcomm.com with ESMTP; 19 Apr 2022 18:46:49 -0700
+ t=1650419672; x=1681955672;
+ h=message-id:date:mime-version:subject:to:cc:references:
+ from:in-reply-to:content-transfer-encoding;
+ bh=XI3sCHTzxVxILrLLvE1sd8KTIJ0EmjGjLNH4rTSU50Y=;
+ b=FLltoc0y4b3njugCeNTXX3U9Lm0i8Dxo/95CQPoV8D2k8u1CRnEyPyAd
+ aAPDzVXm6TYxDe+EtBNDbjpIGGxe8LR0ZgxVqqX+jZD3DQdEDVE3/MbWW
+ gea+9Y8fYeTPxzMeJPyT/UtgzeYFs/aBfHb3lfVbdTA+O8993c0rXxHXd 8=;
+Received: from unknown (HELO ironmsg03-sd.qualcomm.com) ([10.53.140.143])
+ by alexa-out-sd-01.qualcomm.com with ESMTP; 19 Apr 2022 18:54:32 -0700
 X-QCInternal: smtphost
 Received: from nasanex01c.na.qualcomm.com ([10.47.97.222])
- by ironmsg08-lv.qualcomm.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 19 Apr 2022 18:46:48 -0700
+ by ironmsg03-sd.qualcomm.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 19 Apr 2022 18:54:31 -0700
 Received: from nalasex01a.na.qualcomm.com (10.47.209.196) by
  nasanex01c.na.qualcomm.com (10.47.97.222) with Microsoft SMTP Server
  (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.2.986.22; Tue, 19 Apr 2022 18:46:48 -0700
-Received: from abhinavk-linux.qualcomm.com (10.80.80.8) by
- nalasex01a.na.qualcomm.com (10.47.209.196) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.2.986.22; Tue, 19 Apr 2022 18:46:47 -0700
-From: Abhinav Kumar <quic_abhinavk@quicinc.com>
-To: <freedreno@lists.freedesktop.org>
-Subject: [PATCH v2 17/17] drm/msm/dpu: add writeback blocks to the display
- snapshot
-Date: Tue, 19 Apr 2022 18:46:09 -0700
-Message-ID: <1650419169-13760-18-git-send-email-quic_abhinavk@quicinc.com>
-X-Mailer: git-send-email 2.7.4
-In-Reply-To: <1650419169-13760-1-git-send-email-quic_abhinavk@quicinc.com>
-References: <1650419169-13760-1-git-send-email-quic_abhinavk@quicinc.com>
+ 15.2.986.22; Tue, 19 Apr 2022 18:54:31 -0700
+Received: from [10.111.175.117] (10.80.80.8) by nalasex01a.na.qualcomm.com
+ (10.47.209.196) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.986.22; Tue, 19 Apr
+ 2022 18:54:26 -0700
+Message-ID: <5ae2ede7-13e3-85fe-efd8-66bdcefda910@quicinc.com>
+Date: Tue, 19 Apr 2022 18:54:24 -0700
 MIME-Version: 1.0
-Content-Type: text/plain
+User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:91.0) Gecko/20100101
+ Thunderbird/91.6.2
+Subject: Re: [PATCH v7 4/4] drm/vc4: change vc4 driver to use
+ drm_writeback_connector_init_with_encoder()
+Content-Language: en-US
+To: <dri-devel@lists.freedesktop.org>
+References: <1649465635-20542-1-git-send-email-quic_abhinavk@quicinc.com>
+ <1649465635-20542-5-git-send-email-quic_abhinavk@quicinc.com>
+From: Abhinav Kumar <quic_abhinavk@quicinc.com>
+In-Reply-To: <1649465635-20542-5-git-send-email-quic_abhinavk@quicinc.com>
+Content-Type: text/plain; charset="UTF-8"; format=flowed
+Content-Transfer-Encoding: 7bit
 X-Originating-IP: [10.80.80.8]
-X-ClientProxiedBy: nasanex01a.na.qualcomm.com (10.52.223.231) To
+X-ClientProxiedBy: nasanex01b.na.qualcomm.com (10.46.141.250) To
  nalasex01a.na.qualcomm.com (10.47.209.196)
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -61,39 +66,118 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: markyacoub@chromium.org, liviu.dudau@arm.com,
- Abhinav Kumar <quic_abhinavk@quicinc.com>, dri-devel@lists.freedesktop.org,
- swboyd@chromium.org, seanpaul@chromium.org, laurent.pinchart@ideasonboard.com,
- dmitry.baryshkov@linaro.org, quic_jesszhan@quicinc.com,
- quic_aravindh@quicinc.com
+Cc: hamohammed.sa@gmail.com, suraj.kandpal@intel.com, emma@anholt.net,
+ rodrigosiqueiramelo@gmail.com, jani.nikula@intel.com, liviu.dudau@arm.com,
+ swboyd@chromium.org, melissa.srw@gmail.com, nganji@codeaurora.org,
+ seanpaul@chromium.org, laurent.pinchart@ideasonboard.com,
+ dmitry.baryshkov@linaro.org, james.qian.wang@arm.com,
+ quic_aravindh@quicinc.com, mihail.atanassov@arm.com,
+ freedreno@lists.freedesktop.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Add writeback block information while capturing the display
-snapshot.
+I am dropping this change because originally I had made this only to 
+show usage of drm_writeback_connector_init_with_encoder().
 
-Signed-off-by: Abhinav Kumar <quic_abhinavk@quicinc.com>
-Reviewed-by: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
----
- drivers/gpu/drm/msm/disp/dpu1/dpu_kms.c | 5 +++++
- 1 file changed, 5 insertions(+)
+For writeback functionality, vc4 doesnt need this and this seems redundant.
 
-diff --git a/drivers/gpu/drm/msm/disp/dpu1/dpu_kms.c b/drivers/gpu/drm/msm/disp/dpu1/dpu_kms.c
-index 0a50509..86c98db 100644
---- a/drivers/gpu/drm/msm/disp/dpu1/dpu_kms.c
-+++ b/drivers/gpu/drm/msm/disp/dpu1/dpu_kms.c
-@@ -944,6 +944,11 @@ static void dpu_kms_mdp_snapshot(struct msm_disp_state *disp_state, struct msm_k
- 		msm_disp_snapshot_add_block(disp_state, cat->mixer[i].len,
- 				dpu_kms->mmio + cat->mixer[i].base, "lm_%d", i);
- 
-+	/* dump WB sub-blocks HW regs info */
-+	for (i = 0; i < cat->wb_count; i++)
-+		msm_disp_snapshot_add_block(disp_state, cat->wb[i].len,
-+				dpu_kms->mmio + cat->wb[i].base, "wb_%d", i);
-+
- 	msm_disp_snapshot_add_block(disp_state, top->hw.length,
- 			dpu_kms->mmio + top->hw.blk_off, "top");
- 
--- 
-2.7.4
+To show the usage of drm_writeback_connector_init_with_encoder(), I have 
+posted the MSM writeback driver changes here [1].
 
+[1] https://patchwork.freedesktop.org/series/99724/
+
+Thanks
+
+Abhinav
+
+On 4/8/2022 5:53 PM, Abhinav Kumar wrote:
+> vc4 driver currently embeds the drm_encoder into struct vc4_txp
+> and later on uses container_of to retrieve the vc4_txp from
+> the drm_encoder.
+> 
+> Make vc4 driver use the new API so that the embedded encoder model
+> can be retained in the driver and there is no change in
+> functionality.
+> 
+> changes in v7:
+> 	- remove the drm core changes to previous patch in the series
+> 
+> Signed-off-by: Abhinav Kumar <quic_abhinavk@quicinc.com>
+> ---
+>   drivers/gpu/drm/vc4/vc4_txp.c | 32 ++++++++++++++++++++++++--------
+>   1 file changed, 24 insertions(+), 8 deletions(-)
+> 
+> diff --git a/drivers/gpu/drm/vc4/vc4_txp.c b/drivers/gpu/drm/vc4/vc4_txp.c
+> index 7e063a9..0d461df 100644
+> --- a/drivers/gpu/drm/vc4/vc4_txp.c
+> +++ b/drivers/gpu/drm/vc4/vc4_txp.c
+> @@ -151,6 +151,8 @@ struct vc4_txp {
+>   
+>   	struct platform_device *pdev;
+>   
+> +	struct drm_encoder drm_enc;
+> +
+>   	struct drm_writeback_connector connector;
+>   
+>   	void __iomem *regs;
+> @@ -159,7 +161,7 @@ struct vc4_txp {
+>   
+>   static inline struct vc4_txp *encoder_to_vc4_txp(struct drm_encoder *encoder)
+>   {
+> -	return container_of(encoder, struct vc4_txp, connector.internal_encoder);
+> +	return container_of(encoder, struct vc4_txp, drm_enc);
+>   }
+>   
+>   static inline struct vc4_txp *connector_to_vc4_txp(struct drm_connector *conn)
+> @@ -368,6 +370,10 @@ static const struct drm_encoder_helper_funcs vc4_txp_encoder_helper_funcs = {
+>   	.disable = vc4_txp_encoder_disable,
+>   };
+>   
+> +static const struct drm_encoder_funcs vc4_txp_encoder_funcs = {
+> +	.destroy = drm_encoder_cleanup,
+> +};
+> +
+>   static int vc4_txp_enable_vblank(struct drm_crtc *crtc)
+>   {
+>   	return 0;
+> @@ -467,6 +473,7 @@ static int vc4_txp_bind(struct device *dev, struct device *master, void *data)
+>   	struct vc4_txp *txp;
+>   	struct drm_crtc *crtc;
+>   	struct drm_encoder *encoder;
+> +	struct drm_writeback_connector *wb_conn;
+>   	int ret, irq;
+>   
+>   	irq = platform_get_irq(pdev, 0);
+> @@ -492,16 +499,25 @@ static int vc4_txp_bind(struct device *dev, struct device *master, void *data)
+>   	txp->regset.regs = txp_regs;
+>   	txp->regset.nregs = ARRAY_SIZE(txp_regs);
+>   
+> -	drm_connector_helper_add(&txp->connector.base,
+> -				 &vc4_txp_connector_helper_funcs);
+> -	ret = drm_writeback_connector_init(drm, &txp->connector,
+> -					   &vc4_txp_connector_funcs,
+> -					   &vc4_txp_encoder_helper_funcs,
+> -					   drm_fmts, ARRAY_SIZE(drm_fmts),
+> -					   0);
+> +	wb_conn = &txp->connector;
+> +
+> +	drm_encoder_helper_add(&txp->drm_enc, &vc4_txp_encoder_helper_funcs);
+> +
+> +	ret = drm_encoder_init(drm, &txp->drm_enc, &vc4_txp_encoder_funcs,
+> +			DRM_MODE_ENCODER_VIRTUAL, NULL);
+>   	if (ret)
+>   		return ret;
+>   
+> +	drm_connector_helper_add(&wb_conn->base, &vc4_txp_connector_helper_funcs);
+> +
+> +	ret = drm_writeback_connector_init_with_encoder(drm, wb_conn, &txp->drm_enc,
+> +			&vc4_txp_connector_funcs, drm_fmts, ARRAY_SIZE(drm_fmts));
+> +
+> +	if (ret) {
+> +		drm_encoder_cleanup(&txp->drm_enc);
+> +		return ret;
+> +	}
+> +
+>   	ret = vc4_crtc_init(drm, vc4_crtc,
+>   			    &vc4_txp_crtc_funcs, &vc4_txp_crtc_helper_funcs);
+>   	if (ret)
