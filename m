@@ -1,68 +1,68 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id B3E49508420
-	for <lists+dri-devel@lfdr.de>; Wed, 20 Apr 2022 10:53:29 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id EE550508422
+	for <lists+dri-devel@lfdr.de>; Wed, 20 Apr 2022 10:53:34 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 59FCC89EBD;
-	Wed, 20 Apr 2022 08:53:23 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id B9D2610EC59;
+	Wed, 20 Apr 2022 08:53:31 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from us-smtp-delivery-124.mimecast.com
  (us-smtp-delivery-124.mimecast.com [170.10.133.124])
- by gabe.freedesktop.org (Postfix) with ESMTPS id E0BBF10F21C
- for <dri-devel@lists.freedesktop.org>; Wed, 20 Apr 2022 08:53:19 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 37BDF89EAC
+ for <dri-devel@lists.freedesktop.org>; Wed, 20 Apr 2022 08:53:23 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1650444799;
+ s=mimecast20190719; t=1650444802;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=XLz0G110FIfASO+iYCUFHr5GunjUpMHPsHrzLY9s3vE=;
- b=ANZX1rKCxnTU8eJH3AD9VQAzyLkNBaOs6i2xFs1mU4835Cx1fsGnbnuQx2hZicwy7g5Vc9
- BmpbRXdBnRv8//zGG0qLiVIFqHW64+53lpWn5I5rXqw9lePsbQ57Ec41Ty41W6wH03htW3
- qjI1xl3nnPUa993v5lUH15zNPcQvv5w=
-Received: from mail-wm1-f69.google.com (mail-wm1-f69.google.com
- [209.85.128.69]) by relay.mimecast.com with ESMTP with STARTTLS
+ bh=HEDExOxDlSFKrMo2BADznPf+pk0RrOJ/hIHoQZyWFZ4=;
+ b=CWF7eEuVx7X0+q/yzudZMKvqzfdH7fydZS1nGVnpj+cBdQ6QILaElbH7HNyyaLrl5JIn3M
+ Wv+LvIo3PJU9I10Rg34cJEsVows9ghDFx272ZA4bgA+0CXZPSveqryOK/n6ajTzWAa/Y8E
+ wvKphzb7u5cXvWLLzFEHVT+dlg7+I6U=
+Received: from mail-wr1-f71.google.com (mail-wr1-f71.google.com
+ [209.85.221.71]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-322-FcBRWs9rP1-XGNHjhYPYcA-1; Wed, 20 Apr 2022 04:53:17 -0400
-X-MC-Unique: FcBRWs9rP1-XGNHjhYPYcA-1
-Received: by mail-wm1-f69.google.com with SMTP id
- n37-20020a05600c502500b0038fdc1394c6so633503wmr.6
- for <dri-devel@lists.freedesktop.org>; Wed, 20 Apr 2022 01:53:17 -0700 (PDT)
+ us-mta-318-1t8WdSs5NPmvl4Kkt7pV3w-1; Wed, 20 Apr 2022 04:53:19 -0400
+X-MC-Unique: 1t8WdSs5NPmvl4Kkt7pV3w-1
+Received: by mail-wr1-f71.google.com with SMTP id
+ s13-20020adfa28d000000b00205e049cff2so192724wra.17
+ for <dri-devel@lists.freedesktop.org>; Wed, 20 Apr 2022 01:53:18 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=XLz0G110FIfASO+iYCUFHr5GunjUpMHPsHrzLY9s3vE=;
- b=OVNnleB1MH1Yl5KR+tzNMcMLRHBHNoSqAuTSm6NvQVO/aJyXSlCQfr1lsu+kdavglK
- wzbeYCfU6l8wSWrhz72JvHAQA4gsgfiFSTwN7pTp+XnPDfpDwJgnAfrKj/zaQ8ynv3vZ
- ayaC1bnyub1FqXTDY7op4zX4XUXOyzwUCrF2b2Aa46YTh850wkmF3IH9Wtl0T4MreXDa
- Hargp9WJoat+hZ9l/KwvzWiG3xBoHRWFjpqQ+hZAUVo/xDBVO1WqzHeauYGNmBEXNag2
- TGXt11pCMjsCclG47ujsvOL+2WHtJ9HZMFv9WiubNhYeQzOvnizvk8Y1dsz6h+42abEr
- vgEQ==
-X-Gm-Message-State: AOAM530KnL2rSgkxLch4v29wvqnHL9rcBbxxZfaPZR21OivXK2TGOAz/
- P/IjM7dbwm6hbweyFRBLQvmTEioJ2qSQ0eyXWcKQilLc6rphFxWTxygVW0KJ8Gx52s8x/pkxP8C
- LV9Iv4e7KtE+rxuLhghfKARwiQtzX
-X-Received: by 2002:a05:6000:381:b0:20a:8a52:5c86 with SMTP id
- u1-20020a056000038100b0020a8a525c86mr13748751wrf.554.1650444796563; 
- Wed, 20 Apr 2022 01:53:16 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJyLr++p406eM0f6+U3Y3BY+kkRFz4V3k6cnvH2oKtp+1NlXXl61MnZBiijK/mowG7DRyB16og==
-X-Received: by 2002:a05:6000:381:b0:20a:8a52:5c86 with SMTP id
- u1-20020a056000038100b0020a8a525c86mr13748731wrf.554.1650444796338; 
- Wed, 20 Apr 2022 01:53:16 -0700 (PDT)
+ bh=HEDExOxDlSFKrMo2BADznPf+pk0RrOJ/hIHoQZyWFZ4=;
+ b=O1AU4w2C8fi0kLLB3pyKoGdVhmiIZgYvvKwQKD4tgTVr1JYs8b2nV4PvCM9gGPHLzP
+ cL66cDTufCvSElsqpRwYuesPh0JndLUgbacdKEXT1OhGnAXPSxFf87dz8QJxAFpd2EAj
+ JBrjsAkdTog/5PWc9Y0TON56DXG3BkH9lL5JeadRur5yNyAGGit63NuYmqMqu6epixIE
+ o1RNyiwshWiMLvE3nzrSrQ1yhUzATAMQxvJtswCyii2L+hoUx0AoBKOVAMs/5wIimhcX
+ cjWIw34HM6UeIg8+VUMCunkYB+X0tAUVkRIU1PFGMsrsOfq0sl/breCFIsXiHmk4ol95
+ dV1g==
+X-Gm-Message-State: AOAM530i5ZCTtrzo3+stc4fVk86idMgE4vhFKzkOUVUmMPdCpoTIrpmo
+ FKXs/AP538EsTJR8a/t+n0s+6w+SkEe2I8/Fiq4QJUGVYqE3zhjFTHiKsPSnmNQIxeOfsG5bnMN
+ P2B2M+AzXela0TPhu+JSfjbLeE9wq
+X-Received: by 2002:adf:e5c6:0:b0:207:aad8:ed6b with SMTP id
+ a6-20020adfe5c6000000b00207aad8ed6bmr14800898wrn.242.1650444797873; 
+ Wed, 20 Apr 2022 01:53:17 -0700 (PDT)
+X-Google-Smtp-Source: ABdhPJwN/USyUI3IwYq8lcAz0192pW+SmBMU1Ak8VjdCUyJFupecqBiKfFQM6zinrn+b2EF60zQiEA==
+X-Received: by 2002:adf:e5c6:0:b0:207:aad8:ed6b with SMTP id
+ a6-20020adfe5c6000000b00207aad8ed6bmr14800882wrn.242.1650444797613; 
+ Wed, 20 Apr 2022 01:53:17 -0700 (PDT)
 Received: from minerva.home ([92.176.231.205])
  by smtp.gmail.com with ESMTPSA id
- i14-20020a0560001ace00b0020aac00f862sm1895343wry.98.2022.04.20.01.53.14
+ i14-20020a0560001ace00b0020aac00f862sm1895343wry.98.2022.04.20.01.53.16
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 20 Apr 2022 01:53:16 -0700 (PDT)
+ Wed, 20 Apr 2022 01:53:17 -0700 (PDT)
 From: Javier Martinez Canillas <javierm@redhat.com>
 To: linux-kernel@vger.kernel.org
-Subject: [PATCH v3 1/5] firmware: sysfb: Make sysfb_create_simplefb() return a
- pdev pointer
-Date: Wed, 20 Apr 2022 10:52:59 +0200
-Message-Id: <20220420085303.100654-2-javierm@redhat.com>
+Subject: [PATCH v3 2/5] firmware: sysfb: Add helpers to unregister a pdev and
+ disable registration
+Date: Wed, 20 Apr 2022 10:53:00 +0200
+Message-Id: <20220420085303.100654-3-javierm@redhat.com>
 X-Mailer: git-send-email 2.35.1
 In-Reply-To: <20220420085303.100654-1-javierm@redhat.com>
 References: <20220420085303.100654-1-javierm@redhat.com>
@@ -85,17 +85,18 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Miaoqian Lin <linmq006@gmail.com>,
- Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+Cc: Jonathan Corbet <corbet@lwn.net>,
+ Greg Kroah-Hartman <gregkh@linuxfoundation.org>, linux-doc@vger.kernel.org,
  Javier Martinez Canillas <javierm@redhat.com>, dri-devel@lists.freedesktop.org,
- Johan Hovold <johan@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>,
+ Thomas Zimmermann <tzimmermann@suse.de>,
  Daniel Vetter <daniel.vetter@ffwll.ch>, Borislav Petkov <bp@suse.de>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-This function just returned 0 on success or an errno code on error, but it
-could be useful for sysfb_init() callers to have a pointer to the device.
+These can be used by subsystems to unregister a platform device registered
+by sysfb and also to disable future platform device registration in sysfb.
 
+Suggested-by: Daniel Vetter <daniel.vetter@ffwll.ch>
 Signed-off-by: Javier Martinez Canillas <javierm@redhat.com>
 Reviewed-by: Daniel Vetter <daniel.vetter@ffwll.ch>
 ---
@@ -103,117 +104,172 @@ Reviewed-by: Daniel Vetter <daniel.vetter@ffwll.ch>
 (no changes since v2)
 
 Changes in v2:
-- Rebase on top of latest drm-misc-next and fix conflicts (Daniel Vetter).
+- Add kernel-doc comments and include in other_interfaces.rst (Daniel Vetter).
 
- drivers/firmware/sysfb.c          |  4 ++--
- drivers/firmware/sysfb_simplefb.c | 16 ++++++++--------
- include/linux/sysfb.h             | 10 +++++-----
- 3 files changed, 15 insertions(+), 15 deletions(-)
+ .../driver-api/firmware/other_interfaces.rst  |  6 ++
+ drivers/firmware/sysfb.c                      | 73 +++++++++++++++++--
+ include/linux/sysfb.h                         | 19 +++++
+ 3 files changed, 92 insertions(+), 6 deletions(-)
 
+diff --git a/Documentation/driver-api/firmware/other_interfaces.rst b/Documentation/driver-api/firmware/other_interfaces.rst
+index b81794e0cfbb..06ac89adaafb 100644
+--- a/Documentation/driver-api/firmware/other_interfaces.rst
++++ b/Documentation/driver-api/firmware/other_interfaces.rst
+@@ -13,6 +13,12 @@ EDD Interfaces
+ .. kernel-doc:: drivers/firmware/edd.c
+    :internal:
+ 
++Generic System Framebuffers Interface
++-------------------------------------
++
++.. kernel-doc:: drivers/firmware/sysfb.c
++   :export:
++
+ Intel Stratix10 SoC Service Layer
+ ---------------------------------
+ Some features of the Intel Stratix10 SoC require a level of privilege
 diff --git a/drivers/firmware/sysfb.c b/drivers/firmware/sysfb.c
-index 2bfbb05f7d89..b032f40a92de 100644
+index b032f40a92de..a50d2858ce4d 100644
 --- a/drivers/firmware/sysfb.c
 +++ b/drivers/firmware/sysfb.c
-@@ -46,8 +46,8 @@ static __init int sysfb_init(void)
+@@ -34,21 +34,78 @@
+ #include <linux/screen_info.h>
+ #include <linux/sysfb.h>
+ 
++static struct platform_device *pd;
++static DEFINE_MUTEX(load_lock);
++static bool disabled;
++
++/**
++ * sysfb_disable() - disable the Generic System Framebuffers support
++ *
++ * This disables the registration of system framebuffer devices that match the
++ * generic drivers that make use of the system framebuffer set up by firmware.
++ *
++ * Context: The function can sleep. A @load_lock mutex is acquired to serialize
++ *          against sysfb_init(), that registers a system framebuffer device and
++ *          sysfb_try_unregister(), that tries to unregister framebuffer devices.
++ */
++void sysfb_disable(void)
++{
++	mutex_lock(&load_lock);
++	disabled = true;
++	mutex_unlock(&load_lock);
++}
++EXPORT_SYMBOL_GPL(sysfb_disable);
++
++/**
++ * sysfb_try_unregister() - attempt to unregister a system framebuffer device
++ * @dev: device to unregister
++ *
++ * This tries to unregister a system framebuffer device if this was registered
++ * by the Generic System Framebuffers. The device will only be unregistered if
++ * it was registered by sysfb_init(), otherwise it will not be unregistered.
++ *
++ * Context: The function can sleep. a @load_lock mutex is acquired to serialize
++ *          against sysfb_init(), that registers a simple framebuffer device and
++ *          sysfb_disable(), that disables the Generic System Framebuffers support.
++ *
++ * Return:
++ * * true          - the device was unregistered successfully
++ * * false         - the device was not unregistered
++ */
++bool sysfb_try_unregister(struct device *dev)
++{
++	bool ret = true;
++
++	mutex_lock(&load_lock);
++	if (!pd || pd != to_platform_device(dev))
++		return false;
++
++	platform_device_unregister(to_platform_device(dev));
++	pd = NULL;
++	mutex_unlock(&load_lock);
++
++	return ret;
++}
++EXPORT_SYMBOL_GPL(sysfb_try_unregister);
++
+ static __init int sysfb_init(void)
+ {
+ 	struct screen_info *si = &screen_info;
+ 	struct simplefb_platform_data mode;
+-	struct platform_device *pd;
+ 	const char *name;
+ 	bool compatible;
+-	int ret;
++	int ret = 0;
++
++	mutex_lock(&load_lock);
++	if (disabled)
++		goto unlock_mutex;
+ 
  	/* try to create a simple-framebuffer device */
  	compatible = sysfb_parse_mode(si, &mode);
  	if (compatible) {
--		ret = sysfb_create_simplefb(si, &mode);
--		if (!ret)
-+		pd = sysfb_create_simplefb(si, &mode);
-+		if (!IS_ERR(pd))
- 			return 0;
+ 		pd = sysfb_create_simplefb(si, &mode);
+ 		if (!IS_ERR(pd))
+-			return 0;
++			goto unlock_mutex;
  	}
  
-diff --git a/drivers/firmware/sysfb_simplefb.c b/drivers/firmware/sysfb_simplefb.c
-index bda8712bfd8c..a353e27f83f5 100644
---- a/drivers/firmware/sysfb_simplefb.c
-+++ b/drivers/firmware/sysfb_simplefb.c
-@@ -57,8 +57,8 @@ __init bool sysfb_parse_mode(const struct screen_info *si,
- 	return false;
- }
+ 	/* if the FB is incompatible, create a legacy framebuffer device */
+@@ -60,8 +117,10 @@ static __init int sysfb_init(void)
+ 		name = "platform-framebuffer";
  
--__init int sysfb_create_simplefb(const struct screen_info *si,
--				 const struct simplefb_platform_data *mode)
-+__init struct platform_device *sysfb_create_simplefb(const struct screen_info *si,
-+						     const struct simplefb_platform_data *mode)
- {
- 	struct platform_device *pd;
- 	struct resource res;
-@@ -76,7 +76,7 @@ __init int sysfb_create_simplefb(const struct screen_info *si,
- 		base |= (u64)si->ext_lfb_base << 32;
- 	if (!base || (u64)(resource_size_t)base != base) {
- 		printk(KERN_DEBUG "sysfb: inaccessible VRAM base\n");
--		return -EINVAL;
-+		return ERR_PTR(-EINVAL);
- 	}
- 
- 	/*
-@@ -93,7 +93,7 @@ __init int sysfb_create_simplefb(const struct screen_info *si,
- 	length = mode->height * mode->stride;
- 	if (length > size) {
- 		printk(KERN_WARNING "sysfb: VRAM smaller than advertised\n");
--		return -EINVAL;
-+		return ERR_PTR(-EINVAL);
- 	}
- 	length = PAGE_ALIGN(length);
- 
-@@ -104,11 +104,11 @@ __init int sysfb_create_simplefb(const struct screen_info *si,
- 	res.start = base;
- 	res.end = res.start + length - 1;
- 	if (res.end <= res.start)
--		return -EINVAL;
-+		return ERR_PTR(-EINVAL);
- 
- 	pd = platform_device_alloc("simple-framebuffer", 0);
- 	if (!pd)
+ 	pd = platform_device_alloc(name, 0);
+-	if (!pd)
 -		return -ENOMEM;
-+		return ERR_PTR(-ENOMEM);
++	if (!pd) {
++		ret = -ENOMEM;
++		goto unlock_mutex;
++	}
  
  	sysfb_apply_efi_quirks(pd);
  
-@@ -124,10 +124,10 @@ __init int sysfb_create_simplefb(const struct screen_info *si,
+@@ -73,9 +132,11 @@ static __init int sysfb_init(void)
  	if (ret)
- 		goto err_put_device;
+ 		goto err;
  
 -	return 0;
-+	return pd;
- 
- err_put_device:
++	goto unlock_mutex;
+ err:
  	platform_device_put(pd);
- 
--	return ret;
-+	return ERR_PTR(ret);
++unlock_mutex:
++	mutex_unlock(&load_lock);
+ 	return ret;
  }
+ 
 diff --git a/include/linux/sysfb.h b/include/linux/sysfb.h
-index b0dcfa26d07b..708152e9037b 100644
+index 708152e9037b..e8c0313fac8f 100644
 --- a/include/linux/sysfb.h
 +++ b/include/linux/sysfb.h
-@@ -72,8 +72,8 @@ static inline void sysfb_apply_efi_quirks(struct platform_device *pd)
+@@ -55,6 +55,25 @@ struct efifb_dmi_info {
+ 	int flags;
+ };
  
- bool sysfb_parse_mode(const struct screen_info *si,
- 		      struct simplefb_platform_data *mode);
--int sysfb_create_simplefb(const struct screen_info *si,
--			  const struct simplefb_platform_data *mode);
-+struct platform_device *sysfb_create_simplefb(const struct screen_info *si,
-+					      const struct simplefb_platform_data *mode);
++#ifdef CONFIG_SYSFB
++
++void sysfb_disable(void);
++bool sysfb_try_unregister(struct device *dev);
++
++#else /* CONFIG_SYSFB */
++
++static inline void sysfb_disable(void)
++{
++
++}
++
++static inline bool sysfb_try_unregister(struct device *dev)
++{
++	return false;
++}
++
++#endif /* CONFIG_SYSFB */
++
+ #ifdef CONFIG_EFI
  
- #else /* CONFIG_SYSFB_SIMPLE */
- 
-@@ -83,10 +83,10 @@ static inline bool sysfb_parse_mode(const struct screen_info *si,
- 	return false;
- }
- 
--static inline int sysfb_create_simplefb(const struct screen_info *si,
--					 const struct simplefb_platform_data *mode)
-+static inline struct platform_device *sysfb_create_simplefb(const struct screen_info *si,
-+							    const struct simplefb_platform_data *mode)
- {
--	return -EINVAL;
-+	return ERR_PTR(-EINVAL);
- }
- 
- #endif /* CONFIG_SYSFB_SIMPLE */
+ extern struct efifb_dmi_info efifb_dmi_list[];
 -- 
 2.35.1
 
