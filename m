@@ -1,63 +1,83 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id EA2AA508C0E
-	for <lists+dri-devel@lfdr.de>; Wed, 20 Apr 2022 17:25:45 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 49752508C65
+	for <lists+dri-devel@lfdr.de>; Wed, 20 Apr 2022 17:47:59 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 4FCFD10E08B;
-	Wed, 20 Apr 2022 15:25:42 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 5585A10E1AA;
+	Wed, 20 Apr 2022 15:47:55 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-ed1-x529.google.com (mail-ed1-x529.google.com
- [IPv6:2a00:1450:4864:20::529])
- by gabe.freedesktop.org (Postfix) with ESMTPS id EC7E310EF70
- for <dri-devel@lists.freedesktop.org>; Wed, 20 Apr 2022 15:25:40 +0000 (UTC)
-Received: by mail-ed1-x529.google.com with SMTP id b24so2743378edu.10
- for <dri-devel@lists.freedesktop.org>; Wed, 20 Apr 2022 08:25:40 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
- h=date:from:to:cc:subject:message-id:references:mime-version
- :content-disposition:in-reply-to:user-agent;
- bh=jc0J+GRuK0RHzVpyT/qJhxhKSe6IYaD0IozWZB6ybTA=;
- b=EiL4ORlCE+wRptxMWfVp6CJW/RObzSYdXH/9cwu+iIW11/YMojO5GWcCiZTYA13V9u
- MQWrblyLf4+HUUDZQTudrtIci5C64D8x4n4JTb04+RJHI0L0SfHV6t0kELGPig0RwnFe
- VExoOdyNGzrvk7B9dILNH1p8jAp3i2dOwCuWxNnaefSuXNRso5xlj4WWRelGh3jMDB38
- zzovm742GjmfdOhzs1ovVppRfaYEkBQ+MbHfV/UgxCNDPygkzFOsYko7FOKtpdd+u6lw
- LMR7mzmjTvxaR304rAm2BZ+OD+eppKye+3boYuyEGt67H72dok/P30Ds1tulGlvJlLjt
- HZbQ==
+Received: from us-smtp-delivery-124.mimecast.com
+ (us-smtp-delivery-124.mimecast.com [170.10.129.124])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 5252510E1AA
+ for <dri-devel@lists.freedesktop.org>; Wed, 20 Apr 2022 15:47:54 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1650469673;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=g4zx1+iaFnljCivWLV5r3ZrNdjPIVxfvxiAee1dsRow=;
+ b=JlXBgvLJwjrsuTRhq7ihVCorAGCyCRC/KJG4MEIkoxOtzb0oWWvjMkanUKTTY4OPskIF3V
+ UWL2x/vnrZu29xv/s2SATdu/oG1MGst4Fs8q/Z04/Pp+uHTrqZIVoG4l72/XbqCsQEsn+F
+ KauwYl2rLlRs6Sh0xJCOKklIdci0wnM=
+Received: from mail-wm1-f69.google.com (mail-wm1-f69.google.com
+ [209.85.128.69]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ us-mta-673-hL6P09BRPBy3oZWF8cXtWQ-1; Wed, 20 Apr 2022 11:47:52 -0400
+X-MC-Unique: hL6P09BRPBy3oZWF8cXtWQ-1
+Received: by mail-wm1-f69.google.com with SMTP id
+ k66-20020a1ca145000000b003928959f8efso1981300wme.1
+ for <dri-devel@lists.freedesktop.org>; Wed, 20 Apr 2022 08:47:51 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=x-gm-message-state:date:from:to:cc:subject:message-id:references
- :mime-version:content-disposition:in-reply-to:user-agent;
- bh=jc0J+GRuK0RHzVpyT/qJhxhKSe6IYaD0IozWZB6ybTA=;
- b=jg8g0myadX3TcxCJfO+yczSoWlL/AYbHi/1X1A3c9Ynk7/QRr12WtFHEg51c9lliDV
- RItYdZa8pKymh2CqjFpJJOXmztJVUaBJCCZcLpgklUmXYGJXBaPK3TnOqYrZKf4GTy+d
- YLRhlP+z3sUu6L5xkCOi1Dn/y79D+zOl84+/z6RzjCrGnCkqqdZC0GlJ00xUpfTUg/o0
- Ze1d79upqXHQBFMXsa0CtQ5ybwQC8W87SZlJd9Kqa2C0mFnn8IX/f1fBleHIQGAMUHQt
- XuHjEUNMIla2UvLQSigu4PaSrP2hJuC+/9QMm0ELnlwWHG3IC3/Hn6diXkhVZRvJoSfe
- TnWQ==
-X-Gm-Message-State: AOAM533syo444svI2F+jc2+LV+E9omQhtP2zXg9dnsdoK/WherZ+li1L
- 25wLeW2iLWxTrPXsEIvSFbY=
-X-Google-Smtp-Source: ABdhPJwu1OX4s+SauTj29pYv5bx0er4e/4J7RCmOTFAd+sQMtXZzg1GnPqoKjBMF1HA/mnfGJ3xhrg==
-X-Received: by 2002:a05:6402:2789:b0:423:fe09:c252 with SMTP id
- b9-20020a056402278900b00423fe09c252mr10286417ede.11.1650468339361; 
- Wed, 20 Apr 2022 08:25:39 -0700 (PDT)
-Received: from orome ([62.96.65.119]) by smtp.gmail.com with ESMTPSA id
- r29-20020a50c01d000000b00415fb0dc793sm10415758edb.47.2022.04.20.08.25.37
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 20 Apr 2022 08:25:38 -0700 (PDT)
-Date: Wed, 20 Apr 2022 17:25:35 +0200
-From: Thierry Reding <thierry.reding@gmail.com>
-To: Paul Kocialkowski <paul.kocialkowski@bootlin.com>
-Subject: Re: [PATCH] drm: of: Improve error handling in bridge/panel detection
-Message-ID: <YmAl78qAMAe4bTfk@orome>
-References: <20220407093408.1478769-1-paul.kocialkowski@bootlin.com>
+ h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
+ :content-language:to:cc:references:from:in-reply-to
+ :content-transfer-encoding;
+ bh=g4zx1+iaFnljCivWLV5r3ZrNdjPIVxfvxiAee1dsRow=;
+ b=rKbOWf1sjCBD7ISA8ynI0y2OLsOH9Thzgkzkc5c39Zc1GQaGDDmn9M9t0KiHqkVoDc
+ mGuz9dMKsJ7YhhDqLuTPSHTaYQ8GspSX9+HEMXSTPXlYK4K9t2rBQMDc4/4U2Q6q9UcJ
+ BZVoa14FqbgKzNgptIDYZPHkwLo9brVdpYM8rnEYJl+Ztu1ia1QBd2ZAZLcR1xsjGqmi
+ Eb2k9SsT7up4DqKJzZGLLp5EXYZ1Tht6AdHFFE14ic/llm1rRaQfbxl7mQofUnFl6YuE
+ 7kkFqactxd8dvLwtJ5SjAV2NOKjxfGFBws+z8rhUV7vjWvjTDxqAfw3VqEcp6NDsOTSp
+ sNTg==
+X-Gm-Message-State: AOAM5314nrwpGmls7QcXEYDOhDjngC19Vv+FSRHAx+AOMAOAwgbrcMCL
+ kRF35FoazJVJkJ52XdJpeeAWNgho2sddAfq1ZGBS4AD2KTG1xabV8s92FyDFvTeM3ijHkQEW56h
+ qmmJH0Vm/pdvYGK5cObxcppCWuoyw
+X-Received: by 2002:a5d:522d:0:b0:207:a11d:edf5 with SMTP id
+ i13-20020a5d522d000000b00207a11dedf5mr16194846wra.60.1650469670963; 
+ Wed, 20 Apr 2022 08:47:50 -0700 (PDT)
+X-Google-Smtp-Source: ABdhPJz8WUIYjdcVWdqmj4AO4brA33DVhgGSAEP3X+EOPWZZEYpduVkk/X5bHxcW5UEIED0Fk9af+w==
+X-Received: by 2002:a5d:522d:0:b0:207:a11d:edf5 with SMTP id
+ i13-20020a5d522d000000b00207a11dedf5mr16194835wra.60.1650469670712; 
+ Wed, 20 Apr 2022 08:47:50 -0700 (PDT)
+Received: from [192.168.1.129] ([92.176.231.205])
+ by smtp.gmail.com with ESMTPSA id
+ z18-20020a5d6552000000b00207b65f745bsm152396wrv.83.2022.04.20.08.47.50
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Wed, 20 Apr 2022 08:47:50 -0700 (PDT)
+Message-ID: <e4f56999-cf58-abff-edf5-ae11d024012b@redhat.com>
+Date: Wed, 20 Apr 2022 17:47:49 +0200
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha256;
- protocol="application/pgp-signature"; boundary="l/mPNCZ3ZxnPNUQC"
-Content-Disposition: inline
-In-Reply-To: <20220407093408.1478769-1-paul.kocialkowski@bootlin.com>
-User-Agent: Mutt/2.2.1 (c8109e14) (2022-02-19)
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.8.0
+Subject: Re: [PATCH] Staging: fbtft: Fix style problem in header
+To: =?UTF-8?Q?Uwe_Kleine-K=c3=b6nig?= <u.kleine-koenig@pengutronix.de>,
+ Ian Cowan <ian@linux.cowan.aero>
+References: <20220419192128.445023-1-ian@linux.cowan.aero>
+ <20220420064711.xuhuyhtgcrs3avhk@pengutronix.de> <YmARR6+XQeVqlusK@fedora>
+ <20220420143608.yuxleiffs234dfog@pengutronix.de>
+From: Javier Martinez Canillas <javierm@redhat.com>
+In-Reply-To: <20220420143608.yuxleiffs234dfog@pengutronix.de>
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=javierm@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Language: en-US
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -70,72 +90,96 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Thomas Petazzoni <thomas.petazzoni@bootlin.com>,
- David Airlie <airlied@linux.ie>, linux-kernel@vger.kernel.org,
- Bjorn Andersson <bjorn.andersson@linaro.org>, dri-devel@lists.freedesktop.org,
- Thomas Zimmermann <tzimmermann@suse.de>,
- Jagan Teki <jagan@amarulasolutions.com>
+Cc: gregkh@linuxfoundation.org, linux-fbdev@vger.kernel.org,
+ linux-staging@lists.linux.dev, dri-devel@lists.freedesktop.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
+On 4/20/22 16:36, Uwe Kleine-König wrote:
+> Hello Ian,
+> 
+> On Wed, Apr 20, 2022 at 09:57:27AM -0400, Ian Cowan wrote:
+>> On Wed, Apr 20, 2022 at 08:47:11AM +0200, Uwe Kleine-König wrote:
+>>> On Tue, Apr 19, 2022 at 03:21:28PM -0400, Ian Cowan wrote:
+>>>> Removed an unnecessary semicolon at the end of a macro call
+>>>>
+>>>> Signed-off-by: Ian Cowan <ian@linux.cowan.aero>
+>>>> ---
+>>>>  drivers/staging/fbtft/fbtft.h | 2 +-
+>>>>  1 file changed, 1 insertion(+), 1 deletion(-)
+>>>>
+>>>> diff --git a/drivers/staging/fbtft/fbtft.h b/drivers/staging/fbtft/fbtft.h
+>>>> index 2c2b5f1c1df3..aa66760e1a9c 100644
+>>>> --- a/drivers/staging/fbtft/fbtft.h
+>>>> +++ b/drivers/staging/fbtft/fbtft.h
+>>>> @@ -277,7 +277,7 @@ static const struct of_device_id dt_ids[] = {					\
+>>>>  	{ .compatible = _compatible },						\
+>>>>  	{},									\
+>>>>  };										\
+>>>> -MODULE_DEVICE_TABLE(of, dt_ids);
+>>>> +MODULE_DEVICE_TABLE(of, dt_ids)
+>>>
+>>> In fact the ; after MODULE_DEVICE_TABLE is necessary. There is only a
+>>> single instance in the kernel without a semicolon[1]. That's in
+>>> drivers/pci/controller/pcie-microchip-host.c and this only works because
+>>> this driver cannot be compiled as a module and so MODULE_DEVICE_TABLE
+>>> evaluates to nothing. Will send a patch for that one.
+>
 
---l/mPNCZ3ZxnPNUQC
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+Indeed. I was curious about this so I went to look at the driver code.
 
-On Thu, Apr 07, 2022 at 11:34:08AM +0200, Paul Kocialkowski wrote:
-> With the previous rework of drm_of_find_panel_or_bridge only
-> -EPROBE_DEFER is returned while previous behavior allowed -ENODEV
-> to be returned when the port/endpoint is either missing or unavailable.
->=20
-> Make the default return code of the function -ENODEV to handle this and
-> only return -EPROBE_DEFER in find_panel_or_bridge when the of device is
-> available but not yet registered. Also return the error code whenever
-> the remote node exists to avoid checking for child nodes.
->=20
-> Checking child nodes could result in -EPROBE_DEFER returned by
-> find_panel_or_bridge with an unrelated child node that would overwrite
-> a legitimate -ENODEV from find_panel_or_bridge if the remote node from
-> the of graph is unavailable. This happens because find_panel_or_bridge
-> has no way to distinguish between a legitimate panel/bridge node that
-> isn't yet registered and an unrelated node.
->=20
-> Add comments around to clarify this behavior.
->=20
-> Signed-off-by: Paul Kocialkowski <paul.kocialkowski@bootlin.com>
-> Fixes: 67bae5f28c89 ("drm: of: Properly try all possible cases for bridge=
-/panel detection")
-> Cc: Bjorn Andersson <bjorn.andersson@linaro.org>
-> Cc: Thierry Reding <thierry.reding@gmail.com>
-> Cc: Linus Walleij <linus.walleij@linaro.org>
->=20
-> ---
->  drivers/gpu/drm/drm_of.c | 23 ++++++++++++++++++-----
->  1 file changed, 18 insertions(+), 5 deletions(-)
+For this particular driver it may be not necessary, but that's just due
+how these fbtft drivers define their MODULE_DEVICE_TABLE(), using a lot
+of macro layers.
 
-This also fixes the regression that I was seeing on Tegra.
+As an example, drivers/staging/fbtft/fb_agm1264k-fl.c does the following:
 
-Tested-by: Thierry Reding <treding@nvidia.com>
+FBTFT_REGISTER_DRIVER(DRVNAME, "displaytronic,fb_agm1264k-fl", &display);
 
---l/mPNCZ3ZxnPNUQC
-Content-Type: application/pgp-signature; name="signature.asc"
+which is defined as:
 
------BEGIN PGP SIGNATURE-----
+#define FBTFT_REGISTER_DRIVER(_name, _compatible, _display)                \
+...									   \
+FBTFT_DT_TABLE(_compatible)						   \
+...
 
-iQIzBAABCAAdFiEEiOrDCAFJzPfAjcif3SOs138+s6EFAmJgJe8ACgkQ3SOs138+
-s6FQoRAAk2q7FwnQXxVcdMauYYi2tWDLXHS7GMdfe9U6+8oTCErYTcpYkV+XY/Pk
-mrWUTaKMmKTHeymTLuU3W3bh4bELRDV1I1rv+4KgX6qvqWqmM2pq0ZYQA+QQgI65
-vkwSFeoM//C7Oe5Os1KbGFR9QxpRGV4KCdCiALrscal2rsYBkwojZN77ejJI6oeH
-rCP/Qr9j2w9lqSJKAkqMtbfA10S9e61MBmSV2M9PVja9REvcpL08LluYmjUlf6Ea
-mQxFwcRTWlxzyNQio1gF1mKyXrb/be/+pbdutE2Lr/uBOp/M+Hv5Mq5GinogGOZp
-AQax66fsbbT8mpFTQvIvOCI6EfvYzKTlmGWeoD5R+m6UpPpGS56VPLPyFOC7ibvU
-kMQqHBCy2grG2U3lC7LUmem+xjsR6m/9UzSBEToFDD5zdk9EL45p40UutgGE7nlH
-hjYsHnPmnQ4hF6bLPeY1KtJiRzHrafCyDcBuEe7j0MOHBNc+WuAZtNt/jL5p1FTr
-77+RTv27qFk4ESpW7JRYTr0nZZlnlOQ4pcSVeh0Htkqh/Yuj2JYJcw8+6aBeNC+H
-AUAI6drVbaaLViOOxxyCPZWZXA711Up1dZerRieBCPPYRJ6eKRvjc/De/+H+yPuk
-R7RbUQuoQuDGn+4mTAi3WPek2qQalZ+ovmvV88iFH/Cs+eZZbGQ=
-=pKal
------END PGP SIGNATURE-----
+which in turn is defined as:
 
---l/mPNCZ3ZxnPNUQC--
+#define FBTFT_DT_TABLE(_compatible)						\
+static const struct of_device_id dt_ids[] = {					\
+	{ .compatible = _compatible },						\
+	{},									\
+};										\
+MODULE_DEVICE_TABLE(of, dt_ids);
+
+so it seems that it builds, just because the semicolon for the expression
+is the one that's after the FBTFT_REGISTER_DRIVER(); in the driver.
+
+> FTR: Patch was sent: https://lore.kernel.org/linux-pci/20220420065832.14173-1-u.kleine-koenig@pengutronix.de
+> 
+>> When I built this, it appeared to succeed. I used the command "make
+>> M=/drivers/staging/fbtft modules". Is this incorrect? For reference this
+>> is my first patch so it's highly likely I did this incorrectly.
+>
+
+You are just changing a header file though, did you also enable one of the
+fbtft drivers as a module to see if those build? But as said, by looking at
+the code it seems that should build correctly.
+
+I agree with Uwe though that is less confusing to have a semicolon after
+the MODULE_DEVICE_TABLE(), but I'm not the driver maintainer to decide.
+ 
+> I don't know for sure, but I'd have said that the M= stuff is for
+> out-of-tree modules only.
+>
+
+It does work, I use M= to build drivers in mainline that are configured
+to build as a module all the time.
+
+-- 
+Best regards,
+
+Javier Martinez Canillas
+Linux Engineering
+Red Hat
+
