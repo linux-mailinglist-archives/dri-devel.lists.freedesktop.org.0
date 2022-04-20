@@ -1,77 +1,77 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id E30AE508EA7
-	for <lists+dri-devel@lfdr.de>; Wed, 20 Apr 2022 19:40:27 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id A1BEA508EAA
+	for <lists+dri-devel@lfdr.de>; Wed, 20 Apr 2022 19:40:48 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 5F2EE10E20C;
-	Wed, 20 Apr 2022 17:40:25 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 51C0010ED80;
+	Wed, 20 Apr 2022 17:40:46 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-ed1-x536.google.com (mail-ed1-x536.google.com
- [IPv6:2a00:1450:4864:20::536])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 0D75710E20B;
- Wed, 20 Apr 2022 17:40:24 +0000 (UTC)
-Received: by mail-ed1-x536.google.com with SMTP id g20so3263633edw.6;
- Wed, 20 Apr 2022 10:40:23 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
- h=message-id:date:mime-version:user-agent:subject:content-language:to
- :cc:references:from:in-reply-to:content-transfer-encoding;
- bh=UGqF/VNrOQXVy0XVsg7vlIex9Byf7MQ1HLHnkGVT8jI=;
- b=jEJ8ogj8lc9owjZce7IJB4It8T4hbhUnmPeuGb9BcLfMhltaGMKp4GqC8/3NkFbH7h
- ymNvxWDpt/iCgckENBA7mGuXa2Vgzj+XsdFqwroEgf+BNnzssz3JnND7K3x0opOK4SlL
- 4kxC5HmhON6Epj8hkoIgY14/PklMvafmxMBy2EjsORqnUGj+mBqKW+QEpoSBXKjbHI4f
- NYzqjFZWDn6usSAYL2EdbnNQVn1MF86oDYi0qsGN66jLhxxqOiVCI0cNXox0EN2YjJ2d
- QGuH2UdIfE80ppvFsk/bXC29kpp53y0/+rN6ZzcuzSsEjgLh+K160NXtR+g97QC3BiWX
- K8rQ==
+Received: from us-smtp-delivery-124.mimecast.com
+ (us-smtp-delivery-124.mimecast.com [170.10.133.124])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id A896510F1A0
+ for <dri-devel@lists.freedesktop.org>; Wed, 20 Apr 2022 17:40:44 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1650476443;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=N6Zu8efagxCg0qjIbj3LGsUm4V9r8EQ58X79KLBO8as=;
+ b=Jh0vJuYeLXNjNvBoHmeQdiO+226CJo7QymEj1RC80qqGe6tNDcxW1wfNjbl+gSdqW+WLPX
+ gj1OlJYwcuozE0iDUBOuVvYptzLt5s/2DMXe6rQrogXlbBz/qet5EeBvp5OiJLZkVC+Kw4
+ Hn0gBmzTlcUw0UEnyg3rrHMzuMtkyp4=
+Received: from mail-oa1-f72.google.com (mail-oa1-f72.google.com
+ [209.85.160.72]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ us-mta-642-OidHv_iPN-eZVFeoxAlnOQ-1; Wed, 20 Apr 2022 13:40:42 -0400
+X-MC-Unique: OidHv_iPN-eZVFeoxAlnOQ-1
+Received: by mail-oa1-f72.google.com with SMTP id
+ 586e51a60fabf-e5bae51cefso1103761fac.2
+ for <dri-devel@lists.freedesktop.org>; Wed, 20 Apr 2022 10:40:42 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
- :content-language:to:cc:references:from:in-reply-to
- :content-transfer-encoding;
- bh=UGqF/VNrOQXVy0XVsg7vlIex9Byf7MQ1HLHnkGVT8jI=;
- b=1q6kCHfU+8QSFxr3/qSqzjGwb8xne/nM2PX20Y2HARYefq71mTDDd8cslNEJTfqQr8
- T0jOZX9aggv68r1Zz06TGYKV3z7K5Pp6A5f10PHjgoTLurp7SGJpKncLIkdSf/TDv3d4
- bfJ+2OrG8pX/Zw0+kUkLHxIWPgC7zU7eBqukfSAowCf7JVvwHHbOwsTSPDyUD6xx7G66
- bxqA1nvpFzBCDvmrSHGknAL0/W7rTzKEWfoGcqJRY3YawmWlaUiIy8qcjHZXVvKSFCon
- TwlrM0YCfjGKokHxSH5PWCMfE14SIeErkgZYDueN0ZMbWeJI/SwnKh6Vsh5gVTce1ImN
- XfYA==
-X-Gm-Message-State: AOAM533o/aKzViWENasdfrsLAh66F9UKq/omDMH2AxsfcwRCcsrW1N0B
- yfGA3+9CC2EeVab0j+NPx/paw7bRJ2o=
-X-Google-Smtp-Source: ABdhPJzl4hP6+bYyCHH6YeLv3zGSn/Zl1qGJV0gcCoYdO4ALyzAM4zbXzED5a3WR79SdNoCSmCxO/w==
-X-Received: by 2002:a50:fd81:0:b0:41d:7582:75df with SMTP id
- o1-20020a50fd81000000b0041d758275dfmr24584159edt.208.1650476422538; 
- Wed, 20 Apr 2022 10:40:22 -0700 (PDT)
-Received: from ?IPV6:2a02:908:1252:fb60:425d:2971:45fa:ac5d?
- ([2a02:908:1252:fb60:425d:2971:45fa:ac5d])
- by smtp.gmail.com with ESMTPSA id
- g15-20020a170906520f00b006cd07ba40absm6918464ejm.160.2022.04.20.10.40.21
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Wed, 20 Apr 2022 10:40:21 -0700 (PDT)
-Message-ID: <54d00af9-9384-5794-490c-7d4cafe086b6@gmail.com>
-Date: Wed, 20 Apr 2022 19:40:20 +0200
+ h=x-gm-message-state:date:from:to:cc:subject:message-id:in-reply-to
+ :references:organization:mime-version:content-transfer-encoding;
+ bh=N6Zu8efagxCg0qjIbj3LGsUm4V9r8EQ58X79KLBO8as=;
+ b=z4MEjm2u1PdHbtyuw7AAgAHojot7lzZG0wLdyL4+i9xXnkLbySVOlcBAvHMZ6pw1Hz
+ 0TEzRNFEORbKdsHyofoOQErtzx7GfCgOsgys+9u01iovXl65uvVYDccHShgGVo1EkOCM
+ lGY7dOTFD3QkXHSskQXTCho7DSN0qzEswmzZDLWooJz3HXKYH7tS0Ea9wHTjHIgy+TXZ
+ rbLpltuAunu/DT75VmFzaInO7OtRhSa+9ODqizkq0odoaYHJWamudViEf2RpRS7l1pIG
+ 0OA+c5GCFFJPiXI/qiSXAhOd4bWVcA+O6LTyMDseGs99mNd8pSDPXhojoPtmJWOj1khi
+ JcvA==
+X-Gm-Message-State: AOAM533bHkegDK0u54TdXKkRk2o1t404ZDEZ5iLc9DkDl2SStEFtKDF6
+ f8t9d1K7iLDWaDHxqkX5TraAkj1vgpYQBMV8JXlybQjyKalKmR5bfNJw6MhNtMTgjATLMXJzDCE
+ WSdI41WJPdAlUm5DyiW7e3FFhSZ8o
+X-Received: by 2002:a4a:b3c5:0:b0:324:527f:8709 with SMTP id
+ q5-20020a4ab3c5000000b00324527f8709mr7558543ooo.90.1650476441820; 
+ Wed, 20 Apr 2022 10:40:41 -0700 (PDT)
+X-Google-Smtp-Source: ABdhPJwQODyrfz4O2ySVJfB4AMKPDpvPokiiH++tjPxvtaenmiy7ATr53rd1FOYaFbMSL0CEN6bEdQ==
+X-Received: by 2002:a4a:b3c5:0:b0:324:527f:8709 with SMTP id
+ q5-20020a4ab3c5000000b00324527f8709mr7558526ooo.90.1650476441569; 
+ Wed, 20 Apr 2022 10:40:41 -0700 (PDT)
+Received: from redhat.com ([38.15.36.239]) by smtp.gmail.com with ESMTPSA id
+ c8-20020a4ad788000000b0031ce69b1640sm6870564oou.10.2022.04.20.10.40.40
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Wed, 20 Apr 2022 10:40:41 -0700 (PDT)
+Date: Wed, 20 Apr 2022 11:40:33 -0600
+From: Alex Williamson <alex.williamson@redhat.com>
+To: Jason Gunthorpe <jgg@nvidia.com>
+Subject: Re: [PULL v2] gvt-next
+Message-ID: <20220420114033.7f8b57c7.alex.williamson@redhat.com>
+In-Reply-To: <20220420164351.GC2120790@nvidia.com>
+References: <5a8b9f48-2c32-8177-1c18-e3bd7bfde558@intel.com>
+ <20220420164351.GC2120790@nvidia.com>
+Organization: Red Hat
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.7.0
-Subject: Re: [PATCH 03/15] dma-buf & drm/amdgpu: remove dma_resv workaround
-Content-Language: en-US
-To: Zack Rusin <zackr@vmware.com>,
- "dri-devel@lists.freedesktop.org" <dri-devel@lists.freedesktop.org>,
- "christian.koenig@amd.com" <christian.koenig@amd.com>,
- "linux-media@vger.kernel.org" <linux-media@vger.kernel.org>,
- "daniel.vetter@ffwll.ch" <daniel.vetter@ffwll.ch>,
- "linaro-mm-sig@lists.linaro.org" <linaro-mm-sig@lists.linaro.org>,
- "intel-gfx@lists.freedesktop.org" <intel-gfx@lists.freedesktop.org>
-References: <20220407085946.744568-1-christian.koenig@amd.com>
- <20220407085946.744568-4-christian.koenig@amd.com>
- <60ab53ce1ce1333f5e6a15fc83c3c05cd9bd1084.camel@vmware.com>
- <4c2e9414-3926-c9d7-8482-0d6d9191c2ac@amd.com>
- <fe8916b53b0f0101e6616d23eb6896399b092d58.camel@vmware.com>
-From: =?UTF-8?Q?Christian_K=c3=b6nig?= <ckoenig.leichtzumerken@gmail.com>
-In-Reply-To: <fe8916b53b0f0101e6616d23eb6896399b092d58.camel@vmware.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=alex.williamson@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: 7bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -84,54 +84,58 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: "amd-gfx@lists.freedesktop.org" <amd-gfx@lists.freedesktop.org>
+Cc: "intel-gfx@lists.freedesktop.org" <intel-gfx@lists.freedesktop.org>,
+ "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
+ "dri-devel@lists.freedesktop.org" <dri-devel@lists.freedesktop.org>, "Vivi,
+ Rodrigo" <rodrigo.vivi@intel.com>,
+ "intel-gvt-dev@lists.freedesktop.org" <intel-gvt-dev@lists.freedesktop.org>,
+ Christoph Hellwig <hch@lst.de>, "Wang, Zhi A" <zhi.a.wang@intel.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Am 20.04.22 um 19:38 schrieb Zack Rusin:
-> On Wed, 2022-04-20 at 09:37 +0200, Christian König wrote:
->> ⚠ External Email
->>
->> Hi Zack,
->>
->> Am 20.04.22 um 05:56 schrieb Zack Rusin:
->>> On Thu, 2022-04-07 at 10:59 +0200, Christian König wrote:
->>>> Rework the internals of the dma_resv object to allow adding more
->>>> than
->>>> one
->>>> write fence and remember for each fence what purpose it had.
->>>>
->>>> This allows removing the workaround from amdgpu which used a
->>>> container
->>>> for
->>>> this instead.
->>>>
->>>> Signed-off-by: Christian König <christian.koenig@amd.com>
->>>> Reviewed-by: Daniel Vetter <daniel.vetter@ffwll.ch>
->>>> Cc: amd-gfx@lists.freedesktop.org
->>> afaict this change broke vmwgfx which now kernel oops right after
->>> boot.
->>> I haven't had the time to look into it yet, so I'm not sure what's
->>> the
->>> problem. I'll look at this tomorrow, but just in case you have some
->>> clues, the backtrace follows:
->> that's a known issue and should already be fixed with:
->>
->> commit d72dcbe9fce505228dae43bef9da8f2b707d1b3d
->> Author: Christian König <christian.koenig@amd.com>
->> Date:   Mon Apr 11 15:21:59 2022 +0200
-> Unfortunately that doesn't seem to be it. The backtrace is from the
-> current (as of the time of sending of this email) drm-misc-next, which
-> has this change, so it's something else.
+On Wed, 20 Apr 2022 13:43:51 -0300
+Jason Gunthorpe <jgg@nvidia.com> wrote:
 
-Ok, that's strange. In this case I need to investigate further.
+> On Wed, Apr 20, 2022 at 04:34:47PM +0000, Wang, Zhi A wrote:
+> > Hi folks:
+> > 
+> > Here is the PR of gvt-next. Thanks so much for the patience.
+> > 
+> > Mostly it includes the patch bundle of GVT-g re-factor patches for adapting the GVT-g with the
+> > new MDEV interfaces:
+> > 
+> > - Separating the MMIO table from GVT-g. (Zhi)
+> > - GVT-g re-factor. (Christoph)
+> > - GVT-g mdev API cleanup. (Jason)
+> > - GVT-g trace/makefile cleanup. (Jani)
+> > 
+> > Thanks so much for making this happen.
+> > 
+> > This PR has been tested as following and no problem shows up:
+> > 
+> > $dim update-branches
+> > $dim apply-pull drm-intel-next < this_email.eml
+> > 
+> > The following changes since commit 3123109284176b1532874591f7c81f3837bbdc17:
+> > 
+> >   Linux 5.18-rc1 (2022-04-03 14:08:21 -0700)
+> > 
+> > are available in the Git repository at:
+> > 
+> >   https://github.com/intel/gvt-linux tags/gvt-next-2022-04-20-for-christoph
+> > 
+> > for you to fetch changes up to ae7875879b7c838bffb42ed6db4658e5c504032e:
+> > 
+> >   vfio/mdev: Remove mdev drvdata (2022-04-20 03:15:58 -0400)  
+> 
+> This looks well constructed now! thanks
+> 
+> Alex you can pull this for VFIO after Jani&co grab it
+> 
+> I'll respin my vfio_group series on top of this branch
 
-Maybe VMWGFX is adding more than one fence and we actually need to 
-reserve multiple slots.
+Sure, so just to confirm tags/gvt-next-2022-04-20-for-christoph is
+pruned down to exactly the commits we're looking for now?  Thanks,
 
-Regards,
-Christian.
-
->
-> z
+Alex
 
