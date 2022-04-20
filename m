@@ -2,58 +2,64 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id A15AD507E78
-	for <lists+dri-devel@lfdr.de>; Wed, 20 Apr 2022 03:54:38 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 92BD8507F76
+	for <lists+dri-devel@lfdr.de>; Wed, 20 Apr 2022 05:09:01 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 885DF10ED0C;
-	Wed, 20 Apr 2022 01:54:34 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 1DCD810F0BC;
+	Wed, 20 Apr 2022 03:08:58 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from alexa-out-sd-01.qualcomm.com (alexa-out-sd-01.qualcomm.com
- [199.106.114.38])
- by gabe.freedesktop.org (Postfix) with ESMTPS id A8EA510E6B3;
- Wed, 20 Apr 2022 01:54:32 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=quicinc.com; i=@quicinc.com; q=dns/txt; s=qcdkim;
- t=1650419672; x=1681955672;
- h=message-id:date:mime-version:subject:to:cc:references:
- from:in-reply-to:content-transfer-encoding;
- bh=XI3sCHTzxVxILrLLvE1sd8KTIJ0EmjGjLNH4rTSU50Y=;
- b=FLltoc0y4b3njugCeNTXX3U9Lm0i8Dxo/95CQPoV8D2k8u1CRnEyPyAd
- aAPDzVXm6TYxDe+EtBNDbjpIGGxe8LR0ZgxVqqX+jZD3DQdEDVE3/MbWW
- gea+9Y8fYeTPxzMeJPyT/UtgzeYFs/aBfHb3lfVbdTA+O8993c0rXxHXd 8=;
-Received: from unknown (HELO ironmsg03-sd.qualcomm.com) ([10.53.140.143])
- by alexa-out-sd-01.qualcomm.com with ESMTP; 19 Apr 2022 18:54:32 -0700
-X-QCInternal: smtphost
-Received: from nasanex01c.na.qualcomm.com ([10.47.97.222])
- by ironmsg03-sd.qualcomm.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 19 Apr 2022 18:54:31 -0700
-Received: from nalasex01a.na.qualcomm.com (10.47.209.196) by
- nasanex01c.na.qualcomm.com (10.47.97.222) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.2.986.22; Tue, 19 Apr 2022 18:54:31 -0700
-Received: from [10.111.175.117] (10.80.80.8) by nalasex01a.na.qualcomm.com
- (10.47.209.196) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.986.22; Tue, 19 Apr
- 2022 18:54:26 -0700
-Message-ID: <5ae2ede7-13e3-85fe-efd8-66bdcefda910@quicinc.com>
-Date: Tue, 19 Apr 2022 18:54:24 -0700
+Received: from mail-oa1-x2c.google.com (mail-oa1-x2c.google.com
+ [IPv6:2001:4860:4864:20::2c])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 710AE10F0BC
+ for <dri-devel@lists.freedesktop.org>; Wed, 20 Apr 2022 03:08:56 +0000 (UTC)
+Received: by mail-oa1-x2c.google.com with SMTP id
+ 586e51a60fabf-e5e8523fcbso635266fac.10
+ for <dri-devel@lists.freedesktop.org>; Tue, 19 Apr 2022 20:08:56 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=date:from:to:cc:subject:message-id:references:mime-version
+ :content-disposition:in-reply-to;
+ bh=VpSTKYqkqFR3j3gpp3u9MmNz741BTZjDYJR17V6fB/A=;
+ b=xJuAHaSlEn5vduy6+6UiMf+Ch+7wvMjCuqJK3wIuq1uxbWMpDmLpJCm/yY7P/ueEFT
+ hLSAs/rpsGPsDzub6xJfh1F93XUcC4dodZQGWoot4zl5Nyhn/z3YZ/lPX3DVgheIUDh+
+ SNJx5y9DK8U97Rkxb9LapzpDttKURUpWDxfiOatqUUzdvfLQVW8GvEPvhb1v7u9IEo+Y
+ hlvRfs6bOqf2ssM3oMsJvSvF4bXc6dPkdndG3p6uW6o5rYmW8x7yMxCBe/Ell1wkWRBX
+ Pc4X0dD1aUqGOawFzf1c5CR9MOaHz9CmtLyPsY1rCQhCrE3SIQa4DQv3Qgc8+6XBRPmQ
+ 6sNw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+ :mime-version:content-disposition:in-reply-to;
+ bh=VpSTKYqkqFR3j3gpp3u9MmNz741BTZjDYJR17V6fB/A=;
+ b=JnCJ9qWcbsJcrcKYvUUNIMeyMLFl6sgvaPW3ttAZ0m6nFmqC5HD5BsX2Ad1aJIRSr+
+ Sfr6mREVXIa1wk/esUv3XQebkVrxMj26FGCUxRA17zWEwRm99hjG0GOunh3vrQuqatZ7
+ Q55+DMxzOCwk6SOEVU8NrboXMs582YEn2MnEof8jrCYIxqlsWSdZNGz9RFpVMh89lGqN
+ 6h/eN6gM4v4su6P5XrYERJkuv3r8UxkJODM3lGDk3ZcGpgetM0ubZQCdwKDRSLQqvOEK
+ nZ3dn24PkZlRBFKZKXN8ffVyhC4OvBEMuCbislvVws6yJtKzp5toxHHF5lG+/2T80Zrf
+ Ifxw==
+X-Gm-Message-State: AOAM532MeirJj/H2Nvk0d0GF3hYw5e6WGN8rmJE/iTX57+Aml/o0Kce5
+ i3ZYQK0qAMt2Hab+nFgGqXK/mg==
+X-Google-Smtp-Source: ABdhPJwuE3e8JdHNSkztSiMB3bw3lhXHpJVcsaIYnlal5WfMSUFBo5oORhTrVxVy1YSdDqi1luoqDw==
+X-Received: by 2002:a05:6870:34e:b0:d7:17d7:bb94 with SMTP id
+ n14-20020a056870034e00b000d717d7bb94mr758617oaf.52.1650424135693; 
+ Tue, 19 Apr 2022 20:08:55 -0700 (PDT)
+Received: from ripper ([2600:1700:a0:3dc8:205:1bff:fec0:b9b3])
+ by smtp.gmail.com with ESMTPSA id
+ pv14-20020a0568709d8e00b000e2c2f0dbbesm5647519oab.54.2022.04.19.20.08.54
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Tue, 19 Apr 2022 20:08:54 -0700 (PDT)
+Date: Tue, 19 Apr 2022 20:10:59 -0700
+From: Bjorn Andersson <bjorn.andersson@linaro.org>
+To: Sean Paul <sean@poorly.run>
+Subject: Re: [PATCH v5 09/10] arm64: dts: qcom: sc7180: Add support for HDCP
+ in dp-controller
+Message-ID: <Yl95w2xG73z6uFlT@ripper>
+References: <20220411204741.1074308-1-sean@poorly.run>
+ <20220411204741.1074308-10-sean@poorly.run>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:91.0) Gecko/20100101
- Thunderbird/91.6.2
-Subject: Re: [PATCH v7 4/4] drm/vc4: change vc4 driver to use
- drm_writeback_connector_init_with_encoder()
-Content-Language: en-US
-To: <dri-devel@lists.freedesktop.org>
-References: <1649465635-20542-1-git-send-email-quic_abhinavk@quicinc.com>
- <1649465635-20542-5-git-send-email-quic_abhinavk@quicinc.com>
-From: Abhinav Kumar <quic_abhinavk@quicinc.com>
-In-Reply-To: <1649465635-20542-5-git-send-email-quic_abhinavk@quicinc.com>
-Content-Type: text/plain; charset="UTF-8"; format=flowed
-Content-Transfer-Encoding: 7bit
-X-Originating-IP: [10.80.80.8]
-X-ClientProxiedBy: nasanex01b.na.qualcomm.com (10.46.141.250) To
- nalasex01a.na.qualcomm.com (10.47.209.196)
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20220411204741.1074308-10-sean@poorly.run>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -66,118 +72,94 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: hamohammed.sa@gmail.com, suraj.kandpal@intel.com, emma@anholt.net,
- rodrigosiqueiramelo@gmail.com, jani.nikula@intel.com, liviu.dudau@arm.com,
- swboyd@chromium.org, melissa.srw@gmail.com, nganji@codeaurora.org,
- seanpaul@chromium.org, laurent.pinchart@ideasonboard.com,
- dmitry.baryshkov@linaro.org, james.qian.wang@arm.com,
- quic_aravindh@quicinc.com, mihail.atanassov@arm.com,
- freedreno@lists.freedesktop.org
+Cc: devicetree@vger.kernel.org, jani.nikula@intel.com, markyacoub@chromium.org,
+ intel-gfx@lists.freedesktop.org, dri-devel@lists.freedesktop.org,
+ swboyd@chromium.org, Rob Herring <robh+dt@kernel.org>,
+ Andy Gross <agross@kernel.org>, Sean Paul <seanpaul@chromium.org>,
+ abhinavk@codeaurora.org, rodrigo.vivi@intel.com,
+ Krzysztof Kozlowski <krzk+dt@kernel.org>, freedreno@lists.freedesktop.org,
+ linux-arm-msm@vger.kernel.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-I am dropping this change because originally I had made this only to 
-show usage of drm_writeback_connector_init_with_encoder().
+On Mon 11 Apr 13:47 PDT 2022, Sean Paul wrote:
 
-For writeback functionality, vc4 doesnt need this and this seems redundant.
-
-To show the usage of drm_writeback_connector_init_with_encoder(), I have 
-posted the MSM writeback driver changes here [1].
-
-[1] https://patchwork.freedesktop.org/series/99724/
-
-Thanks
-
-Abhinav
-
-On 4/8/2022 5:53 PM, Abhinav Kumar wrote:
-> vc4 driver currently embeds the drm_encoder into struct vc4_txp
-> and later on uses container_of to retrieve the vc4_txp from
-> the drm_encoder.
+> From: Sean Paul <seanpaul@chromium.org>
 > 
-> Make vc4 driver use the new API so that the embedded encoder model
-> can be retained in the driver and there is no change in
-> functionality.
+> This patch adds the register ranges required for HDCP key injection and
+> HDCP TrustZone interaction as described in the dt-bindings for the
+> sc7180 dp controller.
+
+Can you please mention why this is only done for trogdor and not sc7180
+as a whole?
+
+> Now that these are supported, change the compatible string to
+> "dp-hdcp".
 > 
-> changes in v7:
-> 	- remove the drm core changes to previous patch in the series
+
+I don't see this change in the patch.
+
+> Signed-off-by: Sean Paul <seanpaul@chromium.org>
+> Link: https://patchwork.freedesktop.org/patch/msgid/20210913175747.47456-15-sean@poorly.run #v1
+> Link: https://patchwork.freedesktop.org/patch/msgid/20210915203834.1439-14-sean@poorly.run #v2
+> Link: https://patchwork.freedesktop.org/patch/msgid/20211001151145.55916-14-sean@poorly.run #v3
+> Link: https://patchwork.freedesktop.org/patch/msgid/20211105030434.2828845-14-sean@poorly.run #v4
 > 
-> Signed-off-by: Abhinav Kumar <quic_abhinavk@quicinc.com>
+> Changes in v3:
+> -Split off into a new patch containing just the dts change (Stephen)
+> -Add hdcp compatible string (Stephen)
+> Changes in v4:
+> -Rebase on Bjorn's multi-dp patchset
+> Changes in v5:
+> -Put the tz register offsets in trogdor dtsi (Rob C)
 > ---
->   drivers/gpu/drm/vc4/vc4_txp.c | 32 ++++++++++++++++++++++++--------
->   1 file changed, 24 insertions(+), 8 deletions(-)
+>  arch/arm64/boot/dts/qcom/sc7180-trogdor.dtsi | 8 ++++++++
+>  arch/arm64/boot/dts/qcom/sc7180.dtsi         | 6 +++++-
+>  2 files changed, 13 insertions(+), 1 deletion(-)
 > 
-> diff --git a/drivers/gpu/drm/vc4/vc4_txp.c b/drivers/gpu/drm/vc4/vc4_txp.c
-> index 7e063a9..0d461df 100644
-> --- a/drivers/gpu/drm/vc4/vc4_txp.c
-> +++ b/drivers/gpu/drm/vc4/vc4_txp.c
-> @@ -151,6 +151,8 @@ struct vc4_txp {
->   
->   	struct platform_device *pdev;
->   
-> +	struct drm_encoder drm_enc;
+> diff --git a/arch/arm64/boot/dts/qcom/sc7180-trogdor.dtsi b/arch/arm64/boot/dts/qcom/sc7180-trogdor.dtsi
+> index 732e1181af48..c3559253aefc 100644
+> --- a/arch/arm64/boot/dts/qcom/sc7180-trogdor.dtsi
+> +++ b/arch/arm64/boot/dts/qcom/sc7180-trogdor.dtsi
+> @@ -815,6 +815,14 @@ &mdss_dp {
+>  	data-lanes = <0 1>;
+>  	vdda-1p2-supply = <&vdda_usb_ss_dp_1p2>;
+>  	vdda-0p9-supply = <&vdda_usb_ss_dp_core>;
 > +
->   	struct drm_writeback_connector connector;
->   
->   	void __iomem *regs;
-> @@ -159,7 +161,7 @@ struct vc4_txp {
->   
->   static inline struct vc4_txp *encoder_to_vc4_txp(struct drm_encoder *encoder)
->   {
-> -	return container_of(encoder, struct vc4_txp, connector.internal_encoder);
-> +	return container_of(encoder, struct vc4_txp, drm_enc);
->   }
->   
->   static inline struct vc4_txp *connector_to_vc4_txp(struct drm_connector *conn)
-> @@ -368,6 +370,10 @@ static const struct drm_encoder_helper_funcs vc4_txp_encoder_helper_funcs = {
->   	.disable = vc4_txp_encoder_disable,
->   };
->   
-> +static const struct drm_encoder_funcs vc4_txp_encoder_funcs = {
-> +	.destroy = drm_encoder_cleanup,
-> +};
-> +
->   static int vc4_txp_enable_vblank(struct drm_crtc *crtc)
->   {
->   	return 0;
-> @@ -467,6 +473,7 @@ static int vc4_txp_bind(struct device *dev, struct device *master, void *data)
->   	struct vc4_txp *txp;
->   	struct drm_crtc *crtc;
->   	struct drm_encoder *encoder;
-> +	struct drm_writeback_connector *wb_conn;
->   	int ret, irq;
->   
->   	irq = platform_get_irq(pdev, 0);
-> @@ -492,16 +499,25 @@ static int vc4_txp_bind(struct device *dev, struct device *master, void *data)
->   	txp->regset.regs = txp_regs;
->   	txp->regset.nregs = ARRAY_SIZE(txp_regs);
->   
-> -	drm_connector_helper_add(&txp->connector.base,
-> -				 &vc4_txp_connector_helper_funcs);
-> -	ret = drm_writeback_connector_init(drm, &txp->connector,
-> -					   &vc4_txp_connector_funcs,
-> -					   &vc4_txp_encoder_helper_funcs,
-> -					   drm_fmts, ARRAY_SIZE(drm_fmts),
-> -					   0);
-> +	wb_conn = &txp->connector;
-> +
-> +	drm_encoder_helper_add(&txp->drm_enc, &vc4_txp_encoder_helper_funcs);
-> +
-> +	ret = drm_encoder_init(drm, &txp->drm_enc, &vc4_txp_encoder_funcs,
-> +			DRM_MODE_ENCODER_VIRTUAL, NULL);
->   	if (ret)
->   		return ret;
->   
-> +	drm_connector_helper_add(&wb_conn->base, &vc4_txp_connector_helper_funcs);
-> +
-> +	ret = drm_writeback_connector_init_with_encoder(drm, wb_conn, &txp->drm_enc,
-> +			&vc4_txp_connector_funcs, drm_fmts, ARRAY_SIZE(drm_fmts));
-> +
-> +	if (ret) {
-> +		drm_encoder_cleanup(&txp->drm_enc);
-> +		return ret;
-> +	}
-> +
->   	ret = vc4_crtc_init(drm, vc4_crtc,
->   			    &vc4_txp_crtc_funcs, &vc4_txp_crtc_helper_funcs);
->   	if (ret)
+> +	reg = <0 0x0ae90000 0 0x200>,
+> +	      <0 0x0ae90200 0 0x200>,
+> +	      <0 0x0ae90400 0 0xc00>,
+> +	      <0 0x0ae91000 0 0x400>,
+> +	      <0 0x0ae91400 0 0x400>,
+> +	      <0 0x0aed1000 0 0x175>,
+> +	      <0 0x0aee1000 0 0x2c>;
+>  };
+>  
+>  &pm6150_adc {
+> diff --git a/arch/arm64/boot/dts/qcom/sc7180.dtsi b/arch/arm64/boot/dts/qcom/sc7180.dtsi
+> index e1c46b80f14a..3c3eef7a7d52 100644
+> --- a/arch/arm64/boot/dts/qcom/sc7180.dtsi
+> +++ b/arch/arm64/boot/dts/qcom/sc7180.dtsi
+> @@ -3089,7 +3089,11 @@ mdss_dp: displayport-controller@ae90000 {
+>  				compatible = "qcom,sc7180-dp";
+>  				status = "disabled";
+>  
+> -				reg = <0 0x0ae90000 0 0x1400>;
+> +				reg = <0 0x0ae90000 0 0x200>,
+> +				      <0 0x0ae90200 0 0x200>,
+> +				      <0 0x0ae90400 0 0xc00>,
+> +				      <0 0x0ae91000 0 0x400>,
+> +				      <0 0x0ae91400 0 0x400>;
+
+This hunk stands on its own, following the DT binding changes I did
+earlier. Would you mind spinning it off so I can merge it separately?
+
+Thanks,
+Bjorn
+
+>  
+>  				interrupt-parent = <&mdss>;
+>  				interrupts = <12>;
+> -- 
+> Sean Paul, Software Engineer, Google / Chromium OS
+> 
