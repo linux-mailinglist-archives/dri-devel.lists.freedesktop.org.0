@@ -1,62 +1,62 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 77017507DCB
-	for <lists+dri-devel@lfdr.de>; Wed, 20 Apr 2022 02:50:05 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 4B6A1507DD6
+	for <lists+dri-devel@lfdr.de>; Wed, 20 Apr 2022 02:56:41 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 25C2510E213;
-	Wed, 20 Apr 2022 00:50:03 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id D9EF010E2C8;
+	Wed, 20 Apr 2022 00:56:36 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-pl1-x634.google.com (mail-pl1-x634.google.com
- [IPv6:2607:f8b0:4864:20::634])
- by gabe.freedesktop.org (Postfix) with ESMTPS id D317D10E213
- for <dri-devel@lists.freedesktop.org>; Wed, 20 Apr 2022 00:50:01 +0000 (UTC)
-Received: by mail-pl1-x634.google.com with SMTP id be5so282694plb.13
- for <dri-devel@lists.freedesktop.org>; Tue, 19 Apr 2022 17:50:01 -0700 (PDT)
+Received: from mail-oa1-x33.google.com (mail-oa1-x33.google.com
+ [IPv6:2001:4860:4864:20::33])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 39CD310E2C8
+ for <dri-devel@lists.freedesktop.org>; Wed, 20 Apr 2022 00:56:35 +0000 (UTC)
+Received: by mail-oa1-x33.google.com with SMTP id
+ 586e51a60fabf-e5bdd14b59so391849fac.11
+ for <dri-devel@lists.freedesktop.org>; Tue, 19 Apr 2022 17:56:35 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
- h=from:to:cc:subject:date:message-id:in-reply-to:references;
- bh=VKB6HDvcGAs5pP/g1gah8asLi98FXqiU4ymyeK//1h0=;
- b=Kc4ESBSPia/cNIoVMdlNZe1ccp6hY3K/p02oivOtUnMa/PJ9yg41l9GioIdxTakreR
- +wmlte8o0cfatZAOXedJ7iy5ogeA5Lz5cqDveiI/FXX1FUzEMTbW1gFR+/ea0bkhFtnq
- YMCWDvNoHvGfBV3C7t+ZUYTKa6O7Ta05PbKSSqegDhBCtkTVog8xzzSDspzo5UOtZTtG
- o9qp2Uzv0q1fUBvwdPTl0rZQU9vuH91vgXOwN4n/sCXkAgX9+Xq780RLLa22djGuHKbE
- 1+HF+lAsKqL/Nhp9tJqxpcoVuB4n0o9SLqrEQQ9zsSrHeBjk2hpB1f2E7wrTiE1+NSzf
- 6X6w==
+ h=from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=MjbwUecN50NCi1WrcvFSCwpe8TTcmnyRDU439G3bofI=;
+ b=MYKm1/GC+Khyw5NyVC0F06vuMI83m3yXsTtzvJIBN+Jz47l8W0sB9q6AHPutM7rlgF
+ q/c2LNHmyf5HSlXvauf3uvuTugZO7OZu3plPIftMHqfb6Tb7/uL5oGJGn3i73sPngkps
+ EqFOXq6n4H+qldOy9bsjCPSXDHHNf+0un/CViE1rD6c9lt5lltnrYkmwifyOZ+frFQ9n
+ 3g8XMSf/VNBO4uKKwvg4pNyeq/dQEZBDhGzUeoZxjPhPERKbRMAFWjhw01WMkayVZ3Ag
+ aCzYsjm/xpXlx851XN2HncBJ1KNBMcDD0KiSz+siTi3W7p9+g5BUyNue55e5GHEk3bOz
+ Tz1A==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
- :references;
- bh=VKB6HDvcGAs5pP/g1gah8asLi98FXqiU4ymyeK//1h0=;
- b=6u0xkfCGoovG/EbW6yZVRB9cDFxZvB2ZKsOfdMxljjq4oun9FhCkui7Tmh2cVsN5L9
- rjhMIGg/XuKOdCkDpEy+gzXOF6i4Diw8y5Mx7DRymYtzqCr48o7SQfWPwTt8CE6+hLtv
- 69cQ9TO3cHLUoV/jWbQLXObG81kH8i9f25zc0dK7Vz8EL5x4ffRtKwAwMRnhhnVcxUNk
- hPgdqBp7vrViA7zKOS5sfwse1cyBbV2gpV9l7u+/IELR3fQMOESDc4xV55WEOfPYiofj
- r281t+13in8Ja8Z25JqGYXyBcFIeW7yJ1eSCbwCmR1RLnqclubIXEerbsQnkOnv5l40g
- JOtQ==
-X-Gm-Message-State: AOAM533NGfMIOj4OuXL+TnSO+2+3CFZevsjgydjAwJjxVIro23dmrSxz
- 0Uo/ACFDjoSIQQ63GgJgtOU=
-X-Google-Smtp-Source: ABdhPJz7D14J/CfXouEAadIMNltoG/iR5HKaWc0oBtRmB2SXvliv58bUSMnmAl+D9vQGbbf/VT7OdA==
-X-Received: by 2002:a17:90b:4b01:b0:1d2:abf5:c83f with SMTP id
- lx1-20020a17090b4b0100b001d2abf5c83fmr1407149pjb.93.1650415801316; 
- Tue, 19 Apr 2022 17:50:01 -0700 (PDT)
-Received: from localhost.localdomain ([159.226.95.43])
- by smtp.googlemail.com with ESMTPSA id
- g8-20020a17090a290800b001d2dcb75a0fsm4015500pjd.0.2022.04.19.17.49.59
+ h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=MjbwUecN50NCi1WrcvFSCwpe8TTcmnyRDU439G3bofI=;
+ b=kOU7DiIfi6z3Wj9BKCaTZ7mx2fiMSIxFhTIZqTFln2+N1uzEJrTJommJEnlaghqmcl
+ E/mw0pKDmg132HJCriM7Wdr4KaBUjBXZoilMc9YrXi+wqqKEmtxxSyuSo53K9pHL1Xu4
+ 1fZ6wMyU+kbmOQkhEjhz1Ne11Tx0BH09vPD4bBj7ZsKyXkiMQMMefe56o8EZekmNgJ+R
+ V/l8nbPr1wqjKQSVgI3eJFh46+XU7sHebCVXHx6yQbksik5RIO5T9TcwhbCIfqLBTexw
+ bDIKIakSR3O4lZjsvGxhMdhqd8mU3N4UF8v1wlO9acdHfn8S6MxSRoDXltyTGNsipIWG
+ l8Ng==
+X-Gm-Message-State: AOAM530yu7lZj/CLRlGGRr0DQP/mI76Lj97BSDSEXgK8HJZMfRw6bu3C
+ gPFikaX0UEYBYBRS7EzqTmw=
+X-Google-Smtp-Source: ABdhPJzSJeJ+hyQaaMr4BYYGzVK9DQOvAtG4QWWew+HFYR/bPcR4O9gQimv06Q8TCz9cWZFtaLfLpg==
+X-Received: by 2002:a05:6870:f697:b0:da:b3f:3268 with SMTP id
+ el23-20020a056870f69700b000da0b3f3268mr562150oab.280.1650416194479; 
+ Tue, 19 Apr 2022 17:56:34 -0700 (PDT)
+Received: from localhost.localdomain ([2804:14c:485:4b69:cae2:6d6c:7abc:9c1e])
+ by smtp.gmail.com with ESMTPSA id
+ i28-20020a9d4a9c000000b005ce06a77de2sm6227328otf.48.2022.04.19.17.56.31
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 19 Apr 2022 17:50:01 -0700 (PDT)
-From: Miaoqian Lin <linmq006@gmail.com>
-To: Emma Anholt <emma@anholt.net>, Maxime Ripard <mripard@kernel.org>,
- David Airlie <airlied@linux.ie>, Daniel Vetter <daniel@ffwll.ch>,
- Eric Anholt <eric@anholt.net>, dri-devel@lists.freedesktop.org,
- linux-kernel@vger.kernel.org
-Subject: [PATCH v2] drm/vc4: Fix pm_runtime_get_sync() usage
-Date: Wed, 20 Apr 2022 00:49:48 +0000
-Message-Id: <20220420004949.20508-1-linmq006@gmail.com>
-X-Mailer: git-send-email 2.17.1
-In-Reply-To: <20220419124407.ugzl7hknsytbhrmr@houat>
-References: <20220419124407.ugzl7hknsytbhrmr@houat>
+ Tue, 19 Apr 2022 17:56:33 -0700 (PDT)
+From: Fabio Estevam <festevam@gmail.com>
+To: sam@ravnborg.org
+Subject: [PATCH 1/2] dt-bindings: display: simple: Add Startek
+ KD070WVFPA043-C069A panel
+Date: Tue, 19 Apr 2022 21:56:24 -0300
+Message-Id: <20220420005625.990999-1-festevam@gmail.com>
+X-Mailer: git-send-email 2.25.1
+MIME-Version: 1.0
+Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -69,42 +69,33 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: linmq006@gmail.com
+Cc: Fabio Estevam <festevam@denx.de>, devicetree@vger.kernel.org,
+ robh+dt@kernel.org, hs@denx.de, dri-devel@lists.freedesktop.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-If the device is already in a runtime PM enabled state
-pm_runtime_get_sync() will return 1, so a test for negative
-value should be used to check for errors.
+From: Fabio Estevam <festevam@denx.de>
 
-Also, we need to call pm_runtime_put_noidle() when pm_runtime_get_sync()
-fails, so use pm_runtime_resume_and_get() instead. this function
-will handle this.
+Add Startek KD070WVFPA043-C069A 7" TFT LCD panel compatible string.
 
-Fixes: 4078f5757144 ("drm/vc4: Add DSI driver")
-Signed-off-by: Miaoqian Lin <linmq006@gmail.com>
+Signed-off-by: Fabio Estevam <festevam@denx.de>
 ---
-change in v2:
-- switch to pm_runtime_resume_and_get() to fix refcount leak.
----
- drivers/gpu/drm/vc4/vc4_dsi.c | 4 ++--
- 1 file changed, 2 insertions(+), 2 deletions(-)
+ .../devicetree/bindings/display/panel/panel-simple.yaml         | 2 ++
+ 1 file changed, 2 insertions(+)
 
-diff --git a/drivers/gpu/drm/vc4/vc4_dsi.c b/drivers/gpu/drm/vc4/vc4_dsi.c
-index 752f921735c6..9d7ffaf6bc70 100644
---- a/drivers/gpu/drm/vc4/vc4_dsi.c
-+++ b/drivers/gpu/drm/vc4/vc4_dsi.c
-@@ -846,8 +846,8 @@ static void vc4_dsi_encoder_enable(struct drm_encoder *encoder)
- 	unsigned long phy_clock;
- 	int ret;
- 
--	ret = pm_runtime_get_sync(dev);
--	if (ret) {
-+	ret = pm_runtime_resume_and_get(dev);
-+	if (ret < 0) {
- 		DRM_ERROR("Failed to runtime PM enable on DSI%d\n", dsi->variant->port);
- 		return;
- 	}
+diff --git a/Documentation/devicetree/bindings/display/panel/panel-simple.yaml b/Documentation/devicetree/bindings/display/panel/panel-simple.yaml
+index 1eb9dd4f8f58..e190eef66872 100644
+--- a/Documentation/devicetree/bindings/display/panel/panel-simple.yaml
++++ b/Documentation/devicetree/bindings/display/panel/panel-simple.yaml
+@@ -294,6 +294,8 @@ properties:
+       - starry,kr070pe2t
+         # Starry 12.2" (1920x1200 pixels) TFT LCD panel
+       - starry,kr122ea0sra
++        # Startek KD070WVFPA043-C069A 7" TFT LCD panel
++      - startek,kd070wvfpa
+         # Team Source Display Technology TST043015CMHX 4.3" WQVGA TFT LCD panel
+       - team-source-display,tst043015cmhx
+         # Tianma Micro-electronics TM070JDHG30 7.0" WXGA TFT LCD panel
 -- 
-2.17.1
+2.25.1
 
