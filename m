@@ -2,45 +2,41 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5157F50810D
-	for <lists+dri-devel@lfdr.de>; Wed, 20 Apr 2022 08:23:56 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id A54C7508111
+	for <lists+dri-devel@lfdr.de>; Wed, 20 Apr 2022 08:24:41 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 1D08E10F0A7;
-	Wed, 20 Apr 2022 06:23:53 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id B465E10F121;
+	Wed, 20 Apr 2022 06:24:39 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from ams.source.kernel.org (ams.source.kernel.org
- [IPv6:2604:1380:4601:e00::1])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 17E3110F086;
- Wed, 20 Apr 2022 06:23:51 +0000 (UTC)
-Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
- (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
- (No client certificate requested)
- by ams.source.kernel.org (Postfix) with ESMTPS id F413BB81D35;
- Wed, 20 Apr 2022 06:23:47 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id F0C7EC385A1;
- Wed, 20 Apr 2022 06:23:45 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1650435826;
- bh=+OMMeE98fYLMWkYc9X5yU7S4E4XIWSYmxfbAd4UxU4M=;
- h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
- b=EjRsB66A3W4Lr7hK3n+BS3RieKC0ou8JxJvv3bS1Qzmoa9kmdKda8xNVRncb4BE9T
- GGmIE5alkr+0L/ltDdh9N4CibVLYLgT7YYe9oxHSCARgsQ699fMq1h624mWpeNkTBA
- k8OOgNzNbCzHWffxGskqVQgKqWiRi9kNmk4AZNoxRsjwI+yrCeE4C6L2M1bJpwACw/
- KKX03A7CoRjz+Tx6KTBWu3lKZWL2+nEt+OyTk3YciIhUk6/nPVSlAnmCJjJlPdUMQz
- Ua1XkvlThFuQoa6tSgnUguhBzMmKAFaXJfyx9+HY1Qto13G9zGV6fxM764mHoiZH8C
- 74dwiwPJpiq9w==
-Date: Wed, 20 Apr 2022 11:53:42 +0530
-From: Vinod Koul <vkoul@kernel.org>
-To: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
-Subject: Re: [PATCH] drm/msm/dsi: fixup DSC support for the cases when there
- is no pannel attached
-Message-ID: <Yl+m7vWtJIqHvCT0@matsya>
-References: <20220419213706.1452361-1-dmitry.baryshkov@linaro.org>
+Received: from gandalf.ozlabs.org (gandalf.ozlabs.org [150.107.74.76])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id B44C410F121;
+ Wed, 20 Apr 2022 06:24:38 +0000 (UTC)
+Received: from authenticated.ozlabs.org (localhost [127.0.0.1])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+ key-exchange ECDHE (P-256) server-signature RSA-PSS (4096 bits) server-digest
+ SHA256) (No client certificate requested)
+ by mail.ozlabs.org (Postfix) with ESMTPSA id 4KjrHP1h8Nz4xPw;
+ Wed, 20 Apr 2022 16:24:32 +1000 (AEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=canb.auug.org.au;
+ s=201702; t=1650435874;
+ bh=/zHO/0ZsN7tcC3Lxb9ooaUNEwaM2L33rQaty8QyuL8M=;
+ h=Date:From:To:Cc:Subject:From;
+ b=c8Aq6Qlp2MKgzIdyWLtmFEzRKY3HJYlN0Jd3qG1JTgrrG2sxFnE6mZTEiQ5rHLMRh
+ PWgsBKN3GjYC+hXodxKC3fd0krdyPeB1jHFOPks7HFAV4Xax9XDICoEzqFQ29VP6YB
+ vpgaWOTIGe6gpfNxD+R/AY8FfDgablX+e/qio7jaj2wAig/eKR/nNOUR27dAXUwVt/
+ eJWTtb41gyaodAjjj2m7fHtid0XPV1Uw9qNffjSPRuF3O7GUmcn57BGYPcyTfzqVle
+ R7FzlIHRP2c7Fq7sbLINiEm0GU3Gyw2L6zPHu1x+ZaMuIQSPzpG5XjJ1/lewZ3xveO
+ O+4psYer2xF1g==
+Date: Wed, 20 Apr 2022 16:24:31 +1000
+From: Stephen Rothwell <sfr@canb.auug.org.au>
+To: Daniel Vetter <daniel.vetter@ffwll.ch>, Intel Graphics
+ <intel-gfx@lists.freedesktop.org>, DRI <dri-devel@lists.freedesktop.org>
+Subject: linux-next: build warning after merge of the drm-misc tree
+Message-ID: <20220420162431.2b28ddea@canb.auug.org.au>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20220419213706.1452361-1-dmitry.baryshkov@linaro.org>
+Content-Type: multipart/signed; boundary="Sig_/+/yu2sxTOFQJ6m8YC9ZDH_y";
+ protocol="application/pgp-signature"; micalg=pgp-sha256
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -53,28 +49,52 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: freedreno@lists.freedesktop.org, David Airlie <airlied@linux.ie>,
- linux-arm-msm@vger.kernel.org, Abhinav Kumar <quic_abhinavk@quicinc.com>,
- dri-devel@lists.freedesktop.org, Stephen Boyd <swboyd@chromium.org>,
- Bjorn Andersson <bjorn.andersson@linaro.org>, Sean Paul <sean@poorly.run>
+Cc: Jani Nikula <jani.nikula@intel.com>,
+ Linux Next Mailing List <linux-next@vger.kernel.org>,
+ Linux Kernel Mailing List <linux-kernel@vger.kernel.org>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 20-04-22, 00:37, Dmitry Baryshkov wrote:
-> Unable to handle kernel paging request at virtual address fffffffffffffe2b
+--Sig_/+/yu2sxTOFQJ6m8YC9ZDH_y
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: quoted-printable
 
-...
+Hi all,
 
-> 
-> Signed-off-by: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
-> ---
-> 
-> Note: I'm going to squash this fix into the respective patch from the
-> DSC series
+After merging the drm-misc tree, today's linux-next build (htmldocs)
+produced this warning:
 
-Thanks this looks good to me:
+drivers/gpu/drm/drm_edid.c:2136: warning: Function parameter or member 'rea=
+d_block' not described in 'drm_do_get_edid'
+drivers/gpu/drm/drm_edid.c:2136: warning: Function parameter or member 'con=
+text' not described in 'drm_do_get_edid'
+drivers/gpu/drm/drm_edid.c:2136: warning: Excess function parameter 'get_ed=
+id_block' description in 'drm_do_get_edid'
+drivers/gpu/drm/drm_edid.c:2136: warning: Excess function parameter 'data' =
+description in 'drm_do_get_edid'
 
-Reviewed-by: Vinod Koul <vkoul@kernel.org>
+Introduced by commit
 
--- 
-~Vinod
+  89fb7536ad2f ("drm/edid: add typedef for block read function")
+
+--=20
+Cheers,
+Stephen Rothwell
+
+--Sig_/+/yu2sxTOFQJ6m8YC9ZDH_y
+Content-Type: application/pgp-signature
+Content-Description: OpenPGP digital signature
+
+-----BEGIN PGP SIGNATURE-----
+
+iQEzBAEBCAAdFiEENIC96giZ81tWdLgKAVBC80lX0GwFAmJfpx8ACgkQAVBC80lX
+0GxZZAf/T1Y2OmjSqd8ow7L2wUV3wqHTL9yWRQSLudTi092OiWNhhyZ/ub4w++UU
+wU+yyI4V7jhVsbd00t+en4S7BvMlzeMfKjF7uso7+XwcsX7/tTcZcWpvW+VUj13V
+guOuZM+8Rse9UYaWVYmrH0tWYDiukkICQp779gh2+HH7LULg6wI3dyL1UmCu3NYR
+ra2mdJUv98+6jG437X5oytYOy6NKBrx4hcKlhcx2LKnKLwSzeIsENUFpreEjHYu1
+ivMGR9lc8yngyi4eCUlnAGdjRhMAl3f7RlshQkb5KjuYbdAD8b0rwLBpk3JpKRuJ
+JH1jmonsq35wEKyhtJwip4xkFScKbA==
+=GLfA
+-----END PGP SIGNATURE-----
+
+--Sig_/+/yu2sxTOFQJ6m8YC9ZDH_y--
