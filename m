@@ -2,62 +2,70 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0854F507DD7
-	for <lists+dri-devel@lfdr.de>; Wed, 20 Apr 2022 02:56:45 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 5CE83507E0A
+	for <lists+dri-devel@lfdr.de>; Wed, 20 Apr 2022 03:17:00 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 3BCB710E2F8;
-	Wed, 20 Apr 2022 00:56:40 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 9359310E594;
+	Wed, 20 Apr 2022 01:16:55 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-oi1-x235.google.com (mail-oi1-x235.google.com
- [IPv6:2607:f8b0:4864:20::235])
- by gabe.freedesktop.org (Postfix) with ESMTPS id CF93C10E2F8
- for <dri-devel@lists.freedesktop.org>; Wed, 20 Apr 2022 00:56:37 +0000 (UTC)
-Received: by mail-oi1-x235.google.com with SMTP id t15so459410oie.1
- for <dri-devel@lists.freedesktop.org>; Tue, 19 Apr 2022 17:56:37 -0700 (PDT)
+Received: from mail-pf1-x432.google.com (mail-pf1-x432.google.com
+ [IPv6:2607:f8b0:4864:20::432])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id F0F7D10E59B
+ for <dri-devel@lists.freedesktop.org>; Wed, 20 Apr 2022 01:16:53 +0000 (UTC)
+Received: by mail-pf1-x432.google.com with SMTP id z16so468067pfh.3
+ for <dri-devel@lists.freedesktop.org>; Tue, 19 Apr 2022 18:16:53 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
- h=from:to:cc:subject:date:message-id:in-reply-to:references
- :mime-version:content-transfer-encoding;
- bh=hVEPnBu0Zu/ktIgSxLqc7mfzyihWduhfE5hDRQn+N0g=;
- b=Gr4CoDRooITKFEiWjK/U6lh/SMjCRVo3HReq2DoF8lJGkBoc6x0LyypOK+oMTmbb34
- lqCav2wpMmH+USSHkRN1GChTQPz7xmaQh+LkILXqWT2PgAyO7aHnw0uu9PHjjX0tnClM
- nkRSPOiFThBvmYkSjqv0cBQGR9HyXybrZK3KkbE7Ak/FYaKTko2frOtqCuGk35bxPFlm
- XHW+3PrFU3qnuQRwZCjRO1Cq35LtYr0mmJ4MUBnLF+0MMZcF9i0G0ozJ2wvAMajHgLMq
- 57wqpvbGmWFlLishYhwyPtKJbfaW/2eeiWp8RWhqaqWT4vQnzhgdbr4V+8OOYLHyya7H
- 8IiQ==
+ h=from:to:subject:date:message-id:in-reply-to:references;
+ bh=awQ89Q2eVIn5YtdJtEsw9K0fnZEisfTylDK7brSxfAI=;
+ b=ZvuY6hhlzcCFNr5CrpHawrlh8ladPMknFoA86rFmUlkTMZDJDbdfPhhew6+FHWnpCk
+ +FDTGNRKSL6QIZ2xIqtNOC/sETeJGWJUe0bPBqKynQWjbQslUqxhDEmyp1BlOL5IRviC
+ BWNZTni9zkFf4LKtey1D+xcV8Yfo0Bg3jcI13oyBC3+Lup3dxUHY38P9sSDTNrtrvrvv
+ TWKtpwT3B9Ga+HRSAp1CTjrdePoEprxGUxWsPSfW21CHJtUO8AGG/w1ySQ4fwygBSRNv
+ Ga2bIo0qevA5EnuVJd1qATgck/fPo1TUk+pgAOBC3bHMrXG1LsedU9JnXS4qFxK03Q89
+ 5yng==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
- :references:mime-version:content-transfer-encoding;
- bh=hVEPnBu0Zu/ktIgSxLqc7mfzyihWduhfE5hDRQn+N0g=;
- b=ccjPGnbNJMmjegK5BzwiUJbXoQXXAvZ2Ta2i406Cjx5LUGIIQYygY7BZvSwjUXruTQ
- GE+fKCwh8OgrOtsLizLN7xtjyqk/0p1hhZgHPZhx6s7rGEjp77HqLvbU2T7fCQiMTN2X
- Ijm81pMyFracO6uonxgYHO41ewrzf/fYqZWLP2sVP04v1UrWua+O/OwFNkoT8gSmdbkZ
- pgTyO45a8w3+Bn/Z6Ic6tgrEZTh02MiIR3DbKAFYao0V7oLKN1iv81UCk2zLPMhkniNT
- s5Sqft+GnC5AU7cdoMc3GEy4czAUmmUXnwX7Rdv1uhYvwzMR/LmuUtrvdrDxsGfnOMN4
- NMmA==
-X-Gm-Message-State: AOAM530wrPZnHwxngBrjnZkF91YqZFPFvRIp3xZBdpH9mud1YX15IxpK
- QMeM6UsGTd9l/iq1zOzNYoo=
-X-Google-Smtp-Source: ABdhPJxyAY//CA63y9KSujIt5321ChuohW5AYxB3hErWeX0WC6PZPr/vkFPZBuGuT4aKRp1GaD5ogg==
-X-Received: by 2002:aca:c284:0:b0:322:8702:331c with SMTP id
- s126-20020acac284000000b003228702331cmr629366oif.188.1650416197082; 
- Tue, 19 Apr 2022 17:56:37 -0700 (PDT)
-Received: from localhost.localdomain ([2804:14c:485:4b69:cae2:6d6c:7abc:9c1e])
- by smtp.gmail.com with ESMTPSA id
- i28-20020a9d4a9c000000b005ce06a77de2sm6227328otf.48.2022.04.19.17.56.34
+ h=x-gm-message-state:from:to:subject:date:message-id:in-reply-to
+ :references;
+ bh=awQ89Q2eVIn5YtdJtEsw9K0fnZEisfTylDK7brSxfAI=;
+ b=Bv0bd9R1JNcT6hMmm+kmaUVa3CStgm4f9WfQgd5aOuGlpSVJj4yALvIsxRsuz77+TF
+ i1dQ2pMtQguhK6yODh9CEY64qdQaJ8qO3IKildeAb9UBFfi4t7pDQYHGalvOV9iKmar+
+ QgDQqmx/NgVKObN10kbb7VTQNrr2P7URDjgIIvo1tiX3T/iXdRHzPwHnv2BIpACyGxJ7
+ FzMYdz+MDRt3YfdVteK905DtnEgiWoAoBKWlyiSX+bwhA51Gxt36vfGCHP/0OXN87Mkz
+ B4q5l2Sy5fHsg/zaJYGCEu65NoVw7DpMUY7cvEvBxtkZDbIzwinTG72kS4C2ypMLVBeS
+ IJ4w==
+X-Gm-Message-State: AOAM5313f9Jk1nEhsDMGugV1oduPEA090Tk5/wwpejGba88FZJFRYYHf
+ oVRQ+HdcCla3Qmq8lfRYehI=
+X-Google-Smtp-Source: ABdhPJzjbFBIwom0FEvdj81aRBOLVKoduObhzayfRfK9ccXI226pDSUG4+046qvUgjNopJQGP1k6rQ==
+X-Received: by 2002:a65:6657:0:b0:381:1b99:3f04 with SMTP id
+ z23-20020a656657000000b003811b993f04mr16771033pgv.512.1650417413525; 
+ Tue, 19 Apr 2022 18:16:53 -0700 (PDT)
+Received: from localhost.localdomain ([159.226.95.43])
+ by smtp.googlemail.com with ESMTPSA id
+ f33-20020a631021000000b0039dbae3fce0sm17926598pgl.43.2022.04.19.18.16.49
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 19 Apr 2022 17:56:36 -0700 (PDT)
-From: Fabio Estevam <festevam@gmail.com>
-To: sam@ravnborg.org
-Subject: [PATCH 2/2] drm/panel: simple: Add Startek KD070WVFPA043-C069A panel
- support
-Date: Tue, 19 Apr 2022 21:56:25 -0300
-Message-Id: <20220420005625.990999-2-festevam@gmail.com>
-X-Mailer: git-send-email 2.25.1
-In-Reply-To: <20220420005625.990999-1-festevam@gmail.com>
-References: <20220420005625.990999-1-festevam@gmail.com>
-MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+ Tue, 19 Apr 2022 18:16:53 -0700 (PDT)
+From: Miaoqian Lin <linmq006@gmail.com>
+To: Andrzej Hajda <andrzej.hajda@intel.com>,
+ Neil Armstrong <narmstrong@baylibre.com>,
+ Robert Foss <robert.foss@linaro.org>,
+ Laurent Pinchart <Laurent.pinchart@ideasonboard.com>,
+ Jonas Karlman <jonas@kwiboo.se>, Jernej Skrabec <jernej.skrabec@gmail.com>,
+ David Airlie <airlied@linux.ie>, Daniel Vetter <daniel@ffwll.ch>,
+ Dave Airlie <airlied@redhat.com>,
+ Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>,
+ Jyri Sarha <jyri.sarha@iki.fi>, Miaoqian Lin <linmq006@gmail.com>,
+ Lyude Paul <lyude@redhat.com>, Maxime Ripard <maxime@cerno.tech>,
+ Yakir Yang <kuankuan.y@gmail.com>, Inki Dae <inki.dae@samsung.com>,
+ Heiko Stuebner <heiko@sntech.de>, dri-devel@lists.freedesktop.org,
+ linux-kernel@vger.kernel.org
+Subject: [PATCH v2] drm/bridge: Fix error handling in analogix_dp_probe
+Date: Wed, 20 Apr 2022 01:16:40 +0000
+Message-Id: <20220420011644.25730-1-linmq006@gmail.com>
+X-Mailer: git-send-email 2.17.1
+In-Reply-To: <202204031935.5SkYsM2M-lkp@intel.com>
+References: <202204031935.5SkYsM2M-lkp@intel.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -70,72 +78,76 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Fabio Estevam <festevam@denx.de>, devicetree@vger.kernel.org,
- robh+dt@kernel.org, hs@denx.de, dri-devel@lists.freedesktop.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-From: Heiko Schocher <hs@denx.de>
+In the error handling path, the clk_prepare_enable() function
+call should be balanced by a corresponding 'clk_disable_unprepare()'
+call , as already done in the remove function.
 
-Add Startek KD070WVFPA043-C069A 7" TFT LCD panel support.
-
-Signed-off-by: Heiko Schocher <hs@denx.de>
-Signed-off-by: Fabio Estevam <festevam@denx.de>
+Fixes: 3424e3a4f844 ("drm: bridge: analogix/dp: split exynos dp driver to bridge directory")
+Signed-off-by: Miaoqian Lin <linmq006@gmail.com>
 ---
- drivers/gpu/drm/panel/panel-simple.c | 33 ++++++++++++++++++++++++++++
- 1 file changed, 33 insertions(+)
+changes in v2:
+- remove the wrong return statement.
+---
+ .../gpu/drm/bridge/analogix/analogix_dp_core.c | 18 +++++++++++++-----
+ 1 file changed, 13 insertions(+), 5 deletions(-)
 
-diff --git a/drivers/gpu/drm/panel/panel-simple.c b/drivers/gpu/drm/panel/panel-simple.c
-index a34f4198a534..ca8cd017821d 100644
---- a/drivers/gpu/drm/panel/panel-simple.c
-+++ b/drivers/gpu/drm/panel/panel-simple.c
-@@ -3311,6 +3311,36 @@ static const struct panel_desc tsd_tst043015cmhx = {
- 	.bus_flags = DRM_BUS_FLAG_DE_HIGH | DRM_BUS_FLAG_PIXDATA_SAMPLE_NEGEDGE,
- };
+diff --git a/drivers/gpu/drm/bridge/analogix/analogix_dp_core.c b/drivers/gpu/drm/bridge/analogix/analogix_dp_core.c
+index eb590fb8e8d0..474ef88015ae 100644
+--- a/drivers/gpu/drm/bridge/analogix/analogix_dp_core.c
++++ b/drivers/gpu/drm/bridge/analogix/analogix_dp_core.c
+@@ -1698,8 +1698,10 @@ analogix_dp_probe(struct device *dev, struct analogix_dp_plat_data *plat_data)
+ 	res = platform_get_resource(pdev, IORESOURCE_MEM, 0);
  
-+static const struct display_timing startek_kd070wvfpa_mode = {
-+	.pixelclock = { 25200000, 27200000, 30500000 },
-+	.hactive = { 800, 800, 800 },
-+	.hfront_porch = { 19, 44, 115 },
-+	.hback_porch = { 5, 16, 101 },
-+	.hsync_len = { 1, 2, 100 },
-+	.vactive = { 480, 480, 480 },
-+	.vfront_porch = { 5, 43, 67 },
-+	.vback_porch = { 5, 5, 67 },
-+	.vsync_len = { 1, 2, 66 },
-+};
+ 	dp->reg_base = devm_ioremap_resource(&pdev->dev, res);
+-	if (IS_ERR(dp->reg_base))
+-		return ERR_CAST(dp->reg_base);
++	if (IS_ERR(dp->reg_base)) {
++		ret = PTR_ERR(dp->reg_base);
++		goto err_disable_clk;
++	}
+ 
+ 	dp->force_hpd = of_property_read_bool(dev->of_node, "force-hpd");
+ 
+@@ -1711,7 +1713,8 @@ analogix_dp_probe(struct device *dev, struct analogix_dp_plat_data *plat_data)
+ 	if (IS_ERR(dp->hpd_gpiod)) {
+ 		dev_err(dev, "error getting HDP GPIO: %ld\n",
+ 			PTR_ERR(dp->hpd_gpiod));
+-		return ERR_CAST(dp->hpd_gpiod);
++		ret = PTR_ERR(dp->hpd_gpiod);
++		goto err_disable_clk;
+ 	}
+ 
+ 	if (dp->hpd_gpiod) {
+@@ -1731,7 +1734,8 @@ analogix_dp_probe(struct device *dev, struct analogix_dp_plat_data *plat_data)
+ 
+ 	if (dp->irq == -ENXIO) {
+ 		dev_err(&pdev->dev, "failed to get irq\n");
+-		return ERR_PTR(-ENODEV);
++		ret = -ENODEV;
++		goto err_disable_clk;
+ 	}
+ 
+ 	ret = devm_request_threaded_irq(&pdev->dev, dp->irq,
+@@ -1740,11 +1744,15 @@ analogix_dp_probe(struct device *dev, struct analogix_dp_plat_data *plat_data)
+ 					irq_flags, "analogix-dp", dp);
+ 	if (ret) {
+ 		dev_err(&pdev->dev, "failed to request irq\n");
+-		return ERR_PTR(ret);
++		goto err_disable_clk;
+ 	}
+ 	disable_irq(dp->irq);
+ 
+ 	return dp;
 +
-+static const struct panel_desc startek_kd070wvfpa = {
-+	.timings = &startek_kd070wvfpa_mode,
-+	.num_timings = 1,
-+	.bpc = 8,
-+	.size = {
-+		.width = 152,
-+		.height = 91,
-+	},
-+	.delay = {
-+		.prepare = 20,
-+		.enable = 200,
-+		.disable = 200,
-+	},
-+	.bus_flags = DRM_BUS_FLAG_PIXDATA_DRIVE_POSEDGE,
-+	.bus_format = MEDIA_BUS_FMT_RGB888_1X24,
-+	.connector_type = DRM_MODE_CONNECTOR_DPI,
-+};
-+
- static const struct drm_display_mode tfc_s9700rtwv43tr_01b_mode = {
- 	.clock = 30000,
- 	.hdisplay = 800,
-@@ -3990,6 +4020,9 @@ static const struct of_device_id platform_of_match[] = {
- 	}, {
- 		.compatible = "starry,kr070pe2t",
- 		.data = &starry_kr070pe2t,
-+	}, {
-+		.compatible = "startek,kd070wvfpa",
-+		.data = &startek_kd070wvfpa,
- 	}, {
- 		.compatible = "team-source-display,tst043015cmhx",
- 		.data = &tsd_tst043015cmhx,
++err_disable_clk:
++	clk_disable_unprepare(dp->clock);
++	return ERR_PTR(ret);
+ }
+ EXPORT_SYMBOL_GPL(analogix_dp_probe);
+ 
 -- 
-2.25.1
+2.17.1
 
