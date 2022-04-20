@@ -1,71 +1,51 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1760E50937A
-	for <lists+dri-devel@lfdr.de>; Thu, 21 Apr 2022 01:17:12 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id AA0F85093C1
+	for <lists+dri-devel@lfdr.de>; Thu, 21 Apr 2022 01:50:08 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id E00BA10E562;
-	Wed, 20 Apr 2022 23:17:07 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 0703E10E1FC;
+	Wed, 20 Apr 2022 23:49:59 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-oa1-x2c.google.com (mail-oa1-x2c.google.com
- [IPv6:2001:4860:4864:20::2c])
- by gabe.freedesktop.org (Postfix) with ESMTPS id D28C610E562
- for <dri-devel@lists.freedesktop.org>; Wed, 20 Apr 2022 23:17:06 +0000 (UTC)
-Received: by mail-oa1-x2c.google.com with SMTP id
- 586e51a60fabf-deb9295679so3646752fac.6
- for <dri-devel@lists.freedesktop.org>; Wed, 20 Apr 2022 16:17:06 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=date:from:to:cc:subject:message-id:references:mime-version
- :content-disposition:in-reply-to;
- bh=vliR5m4+9Io2lsKOoIVUBS6H3HJfYGUKUnCPcRHXbHc=;
- b=Mm8xHxm1KXW4R/PQpGJk73bpm/m/PPNPif5efxIB2A29vM2A729AeTgLcO1pxSY4Ho
- IDMq+0HIKx68vqPrTIqetfJ8vr8WY3YrMod3KzVfUaVD6YGerW/LFzspcu+asS+e8RS+
- 9fH8g/9ka+g7i4zNk0SyrHzPEOGRqTAnImxZ2cxdldUSXhtVHzwPmbNWbj8YaBgzvES+
- yoWbfmncvhFPSKRSlAHcsEP4/w5apAK0GJ2eYmzt/I1NxVVM2u+B2LaF0Cu6c3OmWf7A
- QYHylq4xftIkatQZCbAjzfoLFKFEUg/sziSNL286M+BK1EDOc1JyIzDs+pXQ/LW9MDBv
- ymKw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=x-gm-message-state:date:from:to:cc:subject:message-id:references
- :mime-version:content-disposition:in-reply-to;
- bh=vliR5m4+9Io2lsKOoIVUBS6H3HJfYGUKUnCPcRHXbHc=;
- b=1JYQ32n+rpJHLxRB5lbQiAIfKzqsjWpPM7nU1IUiI1Gbg1saNOr2tvVXokR8HWf4tI
- yMB9LXwbkdtdm4YyhsCXSAdjF1apqyAhjETMtkOJd0Gx3Br+EqqGMalFuNPr2JWxHo5a
- um27Bn2nfb1jgJ7YgRGMh2FhsrFOSTLsZ3M2k0+pLXqTCbQeJyawvW2hQcLfli+T5JSl
- Scxre2bHKnSfz9qTHcdchsLXc3Bqof5Gf/Xwh93ul/1NPtwH52ggZlbalWTODrC8Hr+j
- bTYc++u0VO6CqNJ2QUk8Urw05GGztlwSh9x0jOvplVolighd2UmF5Fqe5q3/gADy+1/b
- abuw==
-X-Gm-Message-State: AOAM533wp7fSggH2b+puvxR7z1eoX0iefzjL/XMmEQIptp7H8pvNQeR/
- nH3HLWlWZSOPd6LfRmGpiuWisg==
-X-Google-Smtp-Source: ABdhPJxo5jgjf2YdQ3EWrP/Sx4Xzsr3pB+WFBSX++5bjBY9vN8gA6ZqMT/9awz/BK2ls1V17owxGcw==
-X-Received: by 2002:a05:6870:fba0:b0:e5:ad3c:32d7 with SMTP id
- kv32-20020a056870fba000b000e5ad3c32d7mr2506634oab.144.1650496626144; 
- Wed, 20 Apr 2022 16:17:06 -0700 (PDT)
-Received: from ripper ([2600:1700:a0:3dc8:205:1bff:fec0:b9b3])
- by smtp.gmail.com with ESMTPSA id
- j5-20020a4a7505000000b0033a47bb6a74sm2552361ooc.47.2022.04.20.16.17.05
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 20 Apr 2022 16:17:05 -0700 (PDT)
-Date: Wed, 20 Apr 2022 16:19:09 -0700
-From: Bjorn Andersson <bjorn.andersson@linaro.org>
-To: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Maxime Ripard <mripard@kernel.org>,
- Thomas Zimmermann <tzimmermann@suse.de>,
- David Airlie <airlied@linux.ie>, Daniel Vetter <daniel@ffwll.ch>,
- Thierry Reding <thierry.reding@gmail.com>,
- Paul Kocialkowski <paul.kocialkowski@bootlin.com>,
- Rob Clark <robdclark@gmail.com>, Linus Walleij <linus.walleij@linaro.org>,
- Jagan Teki <jagan@amarulasolutions.com>
-Subject: Re: [PATCH 1/2] Revert "drm: of: Properly try all possible cases for
- bridge/panel detection"
-Message-ID: <YmCU7YLx/+ILPptK@ripper>
-References: <20220420231230.58499-1-bjorn.andersson@linaro.org>
+Received: from alexa-out-sd-02.qualcomm.com (alexa-out-sd-02.qualcomm.com
+ [199.106.114.39])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 54BD710E149;
+ Wed, 20 Apr 2022 23:49:58 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=quicinc.com; i=@quicinc.com; q=dns/txt; s=qcdkim;
+ t=1650498598; x=1682034598;
+ h=from:to:cc:subject:date:message-id:mime-version;
+ bh=ZbA9KYUhVDXVZsGm0Imvij0ndR03Bm309PggyW4PtiY=;
+ b=r+zWmEjpPlDgDSdPKx8qit90dr0lJXJSerchxAhkFUvlTLJFX1rB8ggT
+ aalurV1UUxutupZzKpa6XFFhGXQr1icYNW96Tfqk3k7TR/qWQMIpbYn6J
+ iVabHjzHXjxabSui81OwzwqEA+Lo05M6FE41/Deevc854vJThM9o755nK Y=;
+Received: from unknown (HELO ironmsg01-sd.qualcomm.com) ([10.53.140.141])
+ by alexa-out-sd-02.qualcomm.com with ESMTP; 20 Apr 2022 16:49:57 -0700
+X-QCInternal: smtphost
+Received: from nasanex01c.na.qualcomm.com ([10.47.97.222])
+ by ironmsg01-sd.qualcomm.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 20 Apr 2022 16:49:56 -0700
+Received: from nalasex01a.na.qualcomm.com (10.47.209.196) by
+ nasanex01c.na.qualcomm.com (10.47.97.222) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.2.986.22; Wed, 20 Apr 2022 16:49:55 -0700
+Received: from abhinavk-linux.qualcomm.com (10.80.80.8) by
+ nalasex01a.na.qualcomm.com (10.47.209.196) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.2.986.22; Wed, 20 Apr 2022 16:49:55 -0700
+From: Abhinav Kumar <quic_abhinavk@quicinc.com>
+To: <freedreno@lists.freedesktop.org>
+Subject: [PATCH v3 00/18] Add writeback block support for DPU
+Date: Wed, 20 Apr 2022 16:49:29 -0700
+Message-ID: <1650498587-14749-1-git-send-email-quic_abhinavk@quicinc.com>
+X-Mailer: git-send-email 2.7.4
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20220420231230.58499-1-bjorn.andersson@linaro.org>
+Content-Type: text/plain
+X-Originating-IP: [10.80.80.8]
+X-ClientProxiedBy: nasanex01a.na.qualcomm.com (10.52.223.231) To
+ nalasex01a.na.qualcomm.com (10.47.209.196)
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -78,180 +58,111 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org
+Cc: markyacoub@chromium.org, liviu.dudau@arm.com,
+ Abhinav Kumar <quic_abhinavk@quicinc.com>, dri-devel@lists.freedesktop.org,
+ swboyd@chromium.org, seanpaul@chromium.org, laurent.pinchart@ideasonboard.com,
+ dmitry.baryshkov@linaro.org, quic_jesszhan@quicinc.com,
+ quic_aravindh@quicinc.com
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Wed 20 Apr 16:12 PDT 2022, Bjorn Andersson wrote:
+This series adds support for writeback block on DPU. Writeback
+block is extremely useful to validate boards having no physical displays
+in addition to many other use-cases where we want to get the output
+of the display pipeline to examine whether issue is with the display
+pipeline or with the panel.
 
-Sorry, I missed Jagan and Linus, author and reviewer of the reverted
-patch 2, among the recipients.
+These changes have been validated on SM8250 RB5 boards with IGT KMS
+writeback test-suite thereby further increasing the IGT test coverage
+for DPU. I am sharing the test results below.
 
-Regards,
-Bjorn
+root@linaro-developer:~/igt_repo/igt-gpu-tools/build/tests# ./kms_writeback
+[   35.066157] Console: switching to colour dummy device 80x25
+[   35.071964] [IGT] kms_writeback: executing
+IGT-Version: 1.26-gae2eb9e1 (aarch64) (Linux: 5.16.0-rc2-62171-g132577e2697b aarch64)
+[   35.611418] [IGT] kms_writeback: starting subtest writeback-pixel-formats
+Starting subtest: writeback-pixel-formats
+[   35.618528] [IGT] kms_writeback: starting subtest writeback-invalid-parameters
+Subtest writeback-pixel-formats: SUCCESS (0.000s)
+Starting subtest: writeback-invalid-parameters
+Subtest writeback-invalid-parameters: SUCCESS (0.028s)   35.657437] [IGT] kms_writeback: starting subtest writeback-fb-id
+Starting subtest: writeback-fb-id
+Subtest writeback-fb-id: SUCCESS (0.030s)
+[   35.698957] [IGT] kms_writeback: starting subtest writeback-check-output
+Starting subtest: writeback-check-output
+[   35.852834] [IGT] kms_writeback: exiting, ret=0
+Subtest writeback-check-output: SUCCESS (0.142s)
+[   35.861291] Console: switching to colour frame buffer device 240x67
+root@linaro-developer:~/igt_repo/igt-gpu-tools/build/tests# 
 
-> Commit '80253168dbfd ("drm: of: Lookup if child node has panel or
-> bridge")' introduced the ability to describe a panel under a display
-> controller without having to use a graph to connect the controller to
-> its single child panel (or bridge).
-> 
-> The implementation of this would find the first non-graph node and
-> attempt to acquire the related panel or bridge. This prevents cases
-> where any other child node, such as a aux bus for a DisplayPort
-> controller, or an opp-table to find the referenced panel.
-> 
-> Commit '67bae5f28c89 ("drm: of: Properly try all possible cases for
-> bridge/panel detection")' attempted to solve this problem by not
-> bypassing the graph reference lookup before attempting to find the panel
-> or bridge.
-> 
-> While this does solve the case where a proper graph reference is
-> present, it does not allow the caller to distinguish between a
-> yet-to-be-probed panel or bridge and the absence of a reference to a
-> panel.
-> 
-> One such case is a DisplayPort controller that on some boards have an
-> explicitly described reference to a panel, but on others have a
-> discoverable DisplayPort display attached (which doesn't need to be
-> expressed in DeviceTree).
-> 
-> This reverts commit '67bae5f28c89 ("drm: of: Properly try all possible
-> cases for bridge/panel detection")', as a step towards reverting commit
-> '80253168dbfd ("drm: of: Lookup if child node has panel or bridge")'.
-> 
-> Signed-off-by: Bjorn Andersson <bjorn.andersson@linaro.org>
-> ---
->  drivers/gpu/drm/drm_of.c | 99 ++++++++++++++++++++--------------------
->  1 file changed, 49 insertions(+), 50 deletions(-)
-> 
-> diff --git a/drivers/gpu/drm/drm_of.c b/drivers/gpu/drm/drm_of.c
-> index f4df344509a8..026e4e29a0f3 100644
-> --- a/drivers/gpu/drm/drm_of.c
-> +++ b/drivers/gpu/drm/drm_of.c
-> @@ -214,29 +214,6 @@ int drm_of_encoder_active_endpoint(struct device_node *node,
->  }
->  EXPORT_SYMBOL_GPL(drm_of_encoder_active_endpoint);
->  
-> -static int find_panel_or_bridge(struct device_node *node,
-> -				struct drm_panel **panel,
-> -				struct drm_bridge **bridge)
-> -{
-> -	if (panel) {
-> -		*panel = of_drm_find_panel(node);
-> -		if (!IS_ERR(*panel))
-> -			return 0;
-> -
-> -		/* Clear the panel pointer in case of error. */
-> -		*panel = NULL;
-> -	}
-> -
-> -	/* No panel found yet, check for a bridge next. */
-> -	if (bridge) {
-> -		*bridge = of_drm_find_bridge(node);
-> -		if (*bridge)
-> -			return 0;
-> -	}
-> -
-> -	return -EPROBE_DEFER;
-> -}
-> -
->  /**
->   * drm_of_find_panel_or_bridge - return connected panel or bridge device
->   * @np: device tree node containing encoder output ports
-> @@ -259,44 +236,66 @@ int drm_of_find_panel_or_bridge(const struct device_node *np,
->  				struct drm_panel **panel,
->  				struct drm_bridge **bridge)
->  {
-> -	struct device_node *node;
-> -	int ret;
-> +	int ret = -EPROBE_DEFER;
-> +	struct device_node *remote;
->  
->  	if (!panel && !bridge)
->  		return -EINVAL;
-> -
->  	if (panel)
->  		*panel = NULL;
-> -	if (bridge)
-> -		*bridge = NULL;
-> -
-> -	/* Check for a graph on the device node first. */
-> -	if (of_graph_is_present(np)) {
-> -		node = of_graph_get_remote_node(np, port, endpoint);
-> -		if (node) {
-> -			ret = find_panel_or_bridge(node, panel, bridge);
-> -			of_node_put(node);
-> -
-> -			if (!ret)
-> -				return 0;
-> -		}
-> -	}
->  
-> -	/* Otherwise check for any child node other than port/ports. */
-> -	for_each_available_child_of_node(np, node) {
-> -		if (of_node_name_eq(node, "port") ||
-> -		    of_node_name_eq(node, "ports"))
-> +	/**
-> +	 * Devices can also be child nodes when we also control that device
-> +	 * through the upstream device (ie, MIPI-DCS for a MIPI-DSI device).
-> +	 *
-> +	 * Lookup for a child node of the given parent that isn't either port
-> +	 * or ports.
-> +	 */
-> +	for_each_available_child_of_node(np, remote) {
-> +		if (of_node_name_eq(remote, "port") ||
-> +		    of_node_name_eq(remote, "ports"))
->  			continue;
->  
-> -		ret = find_panel_or_bridge(node, panel, bridge);
-> -		of_node_put(node);
-> +		goto of_find_panel_or_bridge;
-> +	}
-> +
-> +	/*
-> +	 * of_graph_get_remote_node() produces a noisy error message if port
-> +	 * node isn't found and the absence of the port is a legit case here,
-> +	 * so at first we silently check whether graph presents in the
-> +	 * device-tree node.
-> +	 */
-> +	if (!of_graph_is_present(np))
-> +		return -ENODEV;
-> +
-> +	remote = of_graph_get_remote_node(np, port, endpoint);
-> +
-> +of_find_panel_or_bridge:
-> +	if (!remote)
-> +		return -ENODEV;
-> +
-> +	if (panel) {
-> +		*panel = of_drm_find_panel(remote);
-> +		if (!IS_ERR(*panel))
-> +			ret = 0;
-> +		else
-> +			*panel = NULL;
-> +	}
-> +
-> +	/* No panel found yet, check for a bridge next. */
-> +	if (bridge) {
-> +		if (ret) {
-> +			*bridge = of_drm_find_bridge(remote);
-> +			if (*bridge)
-> +				ret = 0;
-> +		} else {
-> +			*bridge = NULL;
-> +		}
->  
-> -		/* Stop at the first found occurrence. */
-> -		if (!ret)
-> -			return 0;
->  	}
->  
-> -	return -EPROBE_DEFER;
-> +	of_node_put(remote);
-> +	return ret;
->  }
->  EXPORT_SYMBOL_GPL(drm_of_find_panel_or_bridge);
->  
-> -- 
-> 2.35.1
-> 
+The changes can easily be extended to support any other chipset using
+the DPU driver by adding the support in the catalog.
+
+Writeback block supports various formats and features. The support
+for all of them can be incrementally added on top of this framework when
+validation is improved and the test frameworks are extended to validate
+them.
+
+changes in v3:
+	- unify plane and wb struct
+	- leave fixme and to-do comments for pending changes
+
+Abhinav Kumar (18):
+  drm: allow passing possible_crtcs to drm_writeback_connector_init()
+  drm: introduce drm_writeback_connector_init_with_encoder() API
+  drm: allow real encoder to be passed for drm_writeback_connector
+  drm/msm/dpu: add writeback blocks to the sm8250 DPU catalog
+  drm/msm/dpu: add reset_intf_cfg operation for dpu_hw_ctl
+  drm/msm/dpu: rename dpu_hw_pipe_cdp_cfg to dpu_hw_cdp_cfg
+  drm/msm/dpu: add dpu_hw_wb abstraction for writeback blocks
+  drm/msm/dpu: add writeback blocks to DPU RM
+  drm/msm/dpu: add changes to support writeback in hw_ctl
+  drm/msm/dpu: add an API to reset the encoder related hw blocks
+  drm/msm/dpu: make changes to dpu_encoder to support virtual encoder
+  drm/msm/dpu: add encoder operations to prepare/cleanup wb job
+  drm/msm/dpu: move _dpu_plane_get_qos_lut to dpu_hw_util file
+  drm/msm/dpu: introduce the dpu_encoder_phys_* for writeback
+  drm/msm/dpu: add the writeback connector layer
+  drm/msm/dpu: initialize dpu encoder and connector for writeback
+  drm/msm/dpu: gracefully handle null fb commits for writeback
+  drm/msm/dpu: add writeback blocks to the display snapshot
+
+ .../drm/arm/display/komeda/komeda_wb_connector.c   |   4 +-
+ drivers/gpu/drm/arm/malidp_mw.c                    |   4 +-
+ drivers/gpu/drm/drm_writeback.c                    |  79 ++-
+ drivers/gpu/drm/msm/Makefile                       |   3 +
+ drivers/gpu/drm/msm/disp/dpu1/dpu_crtc.c           |   9 +
+ drivers/gpu/drm/msm/disp/dpu1/dpu_encoder.c        | 230 ++++++-
+ drivers/gpu/drm/msm/disp/dpu1/dpu_encoder.h        |  22 +
+ drivers/gpu/drm/msm/disp/dpu1/dpu_encoder_phys.h   |  46 ++
+ .../gpu/drm/msm/disp/dpu1/dpu_encoder_phys_wb.c    | 763 +++++++++++++++++++++
+ drivers/gpu/drm/msm/disp/dpu1/dpu_hw_catalog.c     |  74 +-
+ drivers/gpu/drm/msm/disp/dpu1/dpu_hw_catalog.h     |  66 +-
+ drivers/gpu/drm/msm/disp/dpu1/dpu_hw_ctl.c         |  84 ++-
+ drivers/gpu/drm/msm/disp/dpu1/dpu_hw_ctl.h         |  23 +-
+ drivers/gpu/drm/msm/disp/dpu1/dpu_hw_sspp.c        |   2 +-
+ drivers/gpu/drm/msm/disp/dpu1/dpu_hw_sspp.h        |  18 +-
+ drivers/gpu/drm/msm/disp/dpu1/dpu_hw_util.c        |  25 +
+ drivers/gpu/drm/msm/disp/dpu1/dpu_hw_util.h        |  19 +
+ drivers/gpu/drm/msm/disp/dpu1/dpu_hw_wb.c          | 279 ++++++++
+ drivers/gpu/drm/msm/disp/dpu1/dpu_hw_wb.h          | 115 ++++
+ drivers/gpu/drm/msm/disp/dpu1/dpu_kms.c            |  63 ++
+ drivers/gpu/drm/msm/disp/dpu1/dpu_plane.c          |  31 +-
+ drivers/gpu/drm/msm/disp/dpu1/dpu_rm.c             |  22 +
+ drivers/gpu/drm/msm/disp/dpu1/dpu_rm.h             |  12 +
+ drivers/gpu/drm/msm/disp/dpu1/dpu_writeback.c      |  68 ++
+ drivers/gpu/drm/msm/disp/dpu1/dpu_writeback.h      |  25 +
+ drivers/gpu/drm/rcar-du/rcar_du_writeback.c        |   4 +-
+ drivers/gpu/drm/vc4/vc4_txp.c                      |   7 +-
+ drivers/gpu/drm/vkms/vkms_writeback.c              |   4 +-
+ include/drm/drm_writeback.h                        |  31 +-
+ 29 files changed, 2037 insertions(+), 95 deletions(-)
+ create mode 100644 drivers/gpu/drm/msm/disp/dpu1/dpu_encoder_phys_wb.c
+ create mode 100644 drivers/gpu/drm/msm/disp/dpu1/dpu_hw_wb.c
+ create mode 100644 drivers/gpu/drm/msm/disp/dpu1/dpu_hw_wb.h
+ create mode 100644 drivers/gpu/drm/msm/disp/dpu1/dpu_writeback.c
+ create mode 100644 drivers/gpu/drm/msm/disp/dpu1/dpu_writeback.h
+
+-- 
+2.7.4
+
