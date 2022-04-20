@@ -2,74 +2,67 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3CDDA508205
-	for <lists+dri-devel@lfdr.de>; Wed, 20 Apr 2022 09:24:27 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 0D09F508210
+	for <lists+dri-devel@lfdr.de>; Wed, 20 Apr 2022 09:26:34 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id C76AC10F1B7;
-	Wed, 20 Apr 2022 07:24:24 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 38CF810F200;
+	Wed, 20 Apr 2022 07:26:30 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from us-smtp-delivery-124.mimecast.com
- (us-smtp-delivery-124.mimecast.com [170.10.133.124])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 9693010F1B7
- for <dri-devel@lists.freedesktop.org>; Wed, 20 Apr 2022 07:24:22 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1650439461;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding;
- bh=70+NNt2xtRmHQqLOMHsElopnyuSB4rdpz+fN4EuTmaU=;
- b=hC7KtBwqKEusVwUJWnZwYZJDR2nt/cdp1YQf2DLXWlCpjZMqud57HfrUxy8aHospkWAQpa
- 7DBhxHwb7s3B+hDu54kTTD3yaqLxr+1OeVLfD5AGvNivLV+txTLg8sayBX+XMQxRjKySiq
- HWni8nGz3hDRWp5lkLxnrojl277q37E=
-Received: from mail-wr1-f69.google.com (mail-wr1-f69.google.com
- [209.85.221.69]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-190-m7d-QFm2MQq82wCg_VziqQ-1; Wed, 20 Apr 2022 03:24:20 -0400
-X-MC-Unique: m7d-QFm2MQq82wCg_VziqQ-1
-Received: by mail-wr1-f69.google.com with SMTP id
- b10-20020adfc74a000000b0020ab029d5edso107176wrh.18
- for <dri-devel@lists.freedesktop.org>; Wed, 20 Apr 2022 00:24:20 -0700 (PDT)
+Received: from mail-lf1-x131.google.com (mail-lf1-x131.google.com
+ [IPv6:2a00:1450:4864:20::131])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 614AA10F203
+ for <dri-devel@lists.freedesktop.org>; Wed, 20 Apr 2022 07:26:29 +0000 (UTC)
+Received: by mail-lf1-x131.google.com with SMTP id d6so1246796lfv.9
+ for <dri-devel@lists.freedesktop.org>; Wed, 20 Apr 2022 00:26:29 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=message-id:date:mime-version:user-agent:subject:content-language:to
+ :cc:references:from:in-reply-to:content-transfer-encoding;
+ bh=cojOaNHOH/OuAXhbP7HRkjccKofdUD89wnI1kGLBN/4=;
+ b=nu2RxL8dmKq3CS59pKdAF2Gv1kfBM9g3wv6wOqF5r4aSnLDTbXY0r/vAbTHIltCRVH
+ /1Af2uWo3/aBhARgjU4IebVjj37jm2qXcQ4YpO+E+xqdaRzynOM61S3NfYtpu1HItLBp
+ GUQsoUYO/3luE+RKrtXdAgZsf/b6KIupmUbDhwL0dU0XdTpimvwwEBuG9Qjqge7UdhNq
+ aQPfH/h1rOYcc6ZwMHR8hyV8dY1widEK2jxfGMcVWUP6dlvof9IXpfyzEKT/i/pJCljw
+ SGip53/ndO56h4+yvJay8rA8bQKnd1F7ENjjCqm5PNSbMTEW81C+WNVBbEl0VZOT2T4z
+ 4vVA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+ h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
+ :content-language:to:cc:references:from:in-reply-to
  :content-transfer-encoding;
- bh=70+NNt2xtRmHQqLOMHsElopnyuSB4rdpz+fN4EuTmaU=;
- b=tLUdbZQjIDf0ilZeU+WQIJIw7zIyrHJoUbK2CJOTBdqzGGCinFZErjvAWbvmSBGl/i
- xTa4bDg+lRptFzspgP8jaLFXPVcYIGK5wSa7On80g5/a33FhRBn8FrrkGe0YXk1XLs7L
- BXlEE1MI/lrUhjbZ0uhQVnJMkBsQL7yBKH5AXwYnAJQebbxMQkCjDwu8kZ1eumFDPnk1
- 4vXvUX60G7mg7CWJDYPBI50FAUwBs2iEtImgDagHQ3O3XzQbISN1P7u+69XkoTVeSp6N
- 4PM1B+ZlG94Sh7KTTqwISOLr7vmw7jV1qEH9lZ52g62PKKzQIgLsnoFBgy4MbMhGg90V
- ZTFQ==
-X-Gm-Message-State: AOAM532nS0O46JXOvWsKbUhpWImQsAYuiJIb6C5/P2wYedgc5oX/6tak
- Xhgp9XMHC0XNTw5GLQRRr3PTSS/SxDLcBh3U/GZkxZ0QoIi4f+To4YozedSkRBR90DBrKQ//XMa
- ooWVuO3pZCwWl6uCQLtMjrsfdXJUa
-X-Received: by 2002:adf:e5d2:0:b0:207:9be3:c080 with SMTP id
- a18-20020adfe5d2000000b002079be3c080mr14296717wrn.519.1650439458939; 
- Wed, 20 Apr 2022 00:24:18 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJxnCOhTmNd8q/c576iu7dDGltRjR3ltNWqTw2/47SyRKDaivg8p55/9kL/BCNiJ6SF0CgqILw==
-X-Received: by 2002:adf:e5d2:0:b0:207:9be3:c080 with SMTP id
- a18-20020adfe5d2000000b002079be3c080mr14296698wrn.519.1650439458646; 
- Wed, 20 Apr 2022 00:24:18 -0700 (PDT)
-Received: from minerva.home ([92.176.231.205])
+ bh=cojOaNHOH/OuAXhbP7HRkjccKofdUD89wnI1kGLBN/4=;
+ b=hfGbcAnvXzvPzFgECnmM8ARdRvzDbOqxTFGm7jjEXGHX7ARezvhaSr3Pqud1ikYuFk
+ j6oTTS76BUUjSR4A6J+xTQkxIh+K18ukpBL0SD9CE3v4D719Y+FAhOezZBWCuhGlPy+Z
+ 8Qp1E8FOmkBp1MPxl8aT+eKUTdl2un4D5KC1uDDH80YmCYccg5TYWnR6o0lGGv4Vnjur
+ qctIZb3gq4WZGSfuYTky6QrYaNdNE3V1fOh+azCZa4R6Jw2hzK4WzN/ivWTXfZnqGsWj
+ ojJx7GgakQA4KwAvWv0W0LZcOQq46ocTABbcGzFaW9N97A2cDkOD0WClD0xLB6PSSsfo
+ UWlw==
+X-Gm-Message-State: AOAM530s6HrwAFZ7xOVWb/rk+F4eBhE/snfL+stp8GNY+8B2l7RkfUHG
+ ++zHlnA/AMQzzHV+VwGz13bqdA==
+X-Google-Smtp-Source: ABdhPJzPXREVzo/+QlSyPlmI3ImHupvgQQOHZvAu6d7YJwkpdOWC7PDc51qQtHaQ/K7UcoGiknEtuQ==
+X-Received: by 2002:ac2:4dbc:0:b0:46b:c20e:7574 with SMTP id
+ h28-20020ac24dbc000000b0046bc20e7574mr14298119lfe.386.1650439587734; 
+ Wed, 20 Apr 2022 00:26:27 -0700 (PDT)
+Received: from [192.168.1.211] ([37.153.55.125])
  by smtp.gmail.com with ESMTPSA id
- m7-20020adfe0c7000000b002060e7bbe49sm17026889wri.45.2022.04.20.00.24.17
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 20 Apr 2022 00:24:18 -0700 (PDT)
-From: Javier Martinez Canillas <javierm@redhat.com>
-To: linux-kernel@vger.kernel.org
-Subject: [PATCH v3] drm/doc: Add sections about tiny drivers and external refs
- to intro page
-Date: Wed, 20 Apr 2022 09:24:11 +0200
-Message-Id: <20220420072411.15104-1-javierm@redhat.com>
-X-Mailer: git-send-email 2.35.1
+ s22-20020a197716000000b0046bc65188d6sm1739163lfc.80.2022.04.20.00.26.26
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Wed, 20 Apr 2022 00:26:27 -0700 (PDT)
+Message-ID: <367c1856-305f-f6b9-cb71-6dcecad38b77@linaro.org>
+Date: Wed, 20 Apr 2022 10:26:26 +0300
 MIME-Version: 1.0
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=javierm@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.8.0
+Subject: Re: [PATCH v2 12/17] drm/msm/dpu: move _dpu_plane_get_qos_lut to
+ dpu_hw_util file
+Content-Language: en-GB
+To: Abhinav Kumar <quic_abhinavk@quicinc.com>, freedreno@lists.freedesktop.org
+References: <1650419169-13760-1-git-send-email-quic_abhinavk@quicinc.com>
+ <1650419169-13760-13-git-send-email-quic_abhinavk@quicinc.com>
+From: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
+In-Reply-To: <1650419169-13760-13-git-send-email-quic_abhinavk@quicinc.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -82,111 +75,131 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Pekka Paalanen <pekka.paalanen@collabora.com>,
- Thomas Zimmermann <tzimmermann@suse.de>, Jonathan Corbet <corbet@lwn.net>,
- David Airlie <airlied@linux.ie>, Daniel Vetter <daniel.vetter@ffwll.ch>,
- dri-devel@lists.freedesktop.org, linux-doc@vger.kernel.org,
- Javier Martinez Canillas <javierm@redhat.com>,
- Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+Cc: markyacoub@chromium.org, liviu.dudau@arm.com,
+ dri-devel@lists.freedesktop.org, swboyd@chromium.org, seanpaul@chromium.org,
+ laurent.pinchart@ideasonboard.com, quic_jesszhan@quicinc.com,
+ quic_aravindh@quicinc.com
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Learning about the DRM subsystem could be quite overwhelming for newcomers
-but there are lots of useful talks, slides and articles available that can
-help to understand the needed concepts and ease the learning curve.
+On 20/04/2022 04:46, Abhinav Kumar wrote:
+> _dpu_plane_get_qos_lut() is not specific to just dpu_plane.
+> It can take any fill level and return the LUT matching it.
+> This can be used even for other modules like dpu_writeback.
+> 
+> Move _dpu_plane_get_qos_lut() to the common dpu_hw_util file
+> and rename it to _dpu_hw_get_qos_lut().
+> 
+> Signed-off-by: Abhinav Kumar <quic_abhinavk@quicinc.com>
 
-There are also simple DRM drivers that can be used as example about how a
-DRM driver should look like.
+Reviewed-by: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
 
-Add sections to the introduction page, that contains references to these.
+> ---
+>   drivers/gpu/drm/msm/disp/dpu1/dpu_hw_util.c | 25 +++++++++++++++++++++++++
+>   drivers/gpu/drm/msm/disp/dpu1/dpu_hw_util.h |  4 ++++
+>   drivers/gpu/drm/msm/disp/dpu1/dpu_plane.c   | 27 +--------------------------
+>   3 files changed, 30 insertions(+), 26 deletions(-)
+> 
+> diff --git a/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_util.c b/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_util.c
+> index aad8511..512316f 100644
+> --- a/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_util.c
+> +++ b/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_util.c
+> @@ -422,3 +422,28 @@ void dpu_hw_csc_setup(struct dpu_hw_blk_reg_map *c,
+>   	DPU_REG_WRITE(c, csc_reg_off + 0x3c, data->csc_post_bv[1]);
+>   	DPU_REG_WRITE(c, csc_reg_off + 0x40, data->csc_post_bv[2]);
+>   }
+> +
+> +/**
+> + * _dpu_hw_get_qos_lut - get LUT mapping based on fill level
+> + * @tbl:		Pointer to LUT table
+> + * @total_fl:		fill level
+> + * Return: LUT setting corresponding to the fill level
+> + */
+> +u64 _dpu_hw_get_qos_lut(const struct dpu_qos_lut_tbl *tbl,
+> +		u32 total_fl)
+> +{
+> +	int i;
+> +
+> +	if (!tbl || !tbl->nentry || !tbl->entries)
+> +		return 0;
+> +
+> +	for (i = 0; i < tbl->nentry; i++)
+> +		if (total_fl <= tbl->entries[i].fl)
+> +			return tbl->entries[i].lut;
+> +
+> +	/* if last fl is zero, use as default */
+> +	if (!tbl->entries[i-1].fl)
+> +		return tbl->entries[i-1].lut;
+> +
+> +	return 0;
+> +}
+> diff --git a/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_util.h b/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_util.h
+> index 3913475..529a6e0 100644
+> --- a/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_util.h
+> +++ b/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_util.h
+> @@ -9,6 +9,7 @@
+>   #include <linux/io.h>
+>   #include <linux/slab.h>
+>   #include "dpu_hw_mdss.h"
+> +#include "dpu_hw_catalog.h"
+>   
+>   #define REG_MASK(n)                     ((BIT(n)) - 1)
+>   
+> @@ -324,4 +325,7 @@ void dpu_hw_csc_setup(struct dpu_hw_blk_reg_map  *c,
+>   		u32 csc_reg_off,
+>   		const struct dpu_csc_cfg *data, bool csc10);
+>   
+> +u64 _dpu_hw_get_qos_lut(const struct dpu_qos_lut_tbl *tbl,
+> +		u32 total_fl);
+> +
+>   #endif /* _DPU_HW_UTIL_H */
+> diff --git a/drivers/gpu/drm/msm/disp/dpu1/dpu_plane.c b/drivers/gpu/drm/msm/disp/dpu1/dpu_plane.c
+> index c77c3d9d..730f0a3 100644
+> --- a/drivers/gpu/drm/msm/disp/dpu1/dpu_plane.c
+> +++ b/drivers/gpu/drm/msm/disp/dpu1/dpu_plane.c
+> @@ -280,31 +280,6 @@ static int _dpu_plane_calc_fill_level(struct drm_plane *plane,
+>   }
+>   
+>   /**
+> - * _dpu_plane_get_qos_lut - get LUT mapping based on fill level
+> - * @tbl:		Pointer to LUT table
+> - * @total_fl:		fill level
+> - * Return: LUT setting corresponding to the fill level
+> - */
+> -static u64 _dpu_plane_get_qos_lut(const struct dpu_qos_lut_tbl *tbl,
+> -		u32 total_fl)
+> -{
+> -	int i;
+> -
+> -	if (!tbl || !tbl->nentry || !tbl->entries)
+> -		return 0;
+> -
+> -	for (i = 0; i < tbl->nentry; i++)
+> -		if (total_fl <= tbl->entries[i].fl)
+> -			return tbl->entries[i].lut;
+> -
+> -	/* if last fl is zero, use as default */
+> -	if (!tbl->entries[i-1].fl)
+> -		return tbl->entries[i-1].lut;
+> -
+> -	return 0;
+> -}
+> -
+> -/**
+>    * _dpu_plane_set_qos_lut - set QoS LUT of the given plane
+>    * @plane:		Pointer to drm plane
+>    * @fb:			Pointer to framebuffer associated with the given plane
+> @@ -333,7 +308,7 @@ static void _dpu_plane_set_qos_lut(struct drm_plane *plane,
+>   			lut_usage = DPU_QOS_LUT_USAGE_MACROTILE;
+>   	}
+>   
+> -	qos_lut = _dpu_plane_get_qos_lut(
+> +	qos_lut = _dpu_hw_get_qos_lut(
+>   			&pdpu->catalog->perf.qos_lut_tbl[lut_usage], total_fl);
+>   
+>   	trace_dpu_perf_set_qos_luts(pdpu->pipe - SSPP_VIG0,
 
-Suggested-by: Daniel Vetter <daniel.vetter@ffwll.ch>
-Signed-off-by: Javier Martinez Canillas <javierm@redhat.com>
-Acked-by: Pekka Paalanen <pekka.paalanen@collabora.com>
-Acked-by: Thomas Zimmermann <tzimmermann@suse.de>
----
 
-Changes in v3:
-- Fix typos and grammar errors that found when re-reading the changes.
-
-Changes in v2:
-- Remove paragraph that gave wrong impression that DRM is complex (Pekka Paalanen).
-- Add Thomas Zimmermann's and Pekka Paalanen's Acked-by tags.
-- Replace "Learning material" title with "External References" (Thomas Zimmermann).
-- Add a section about tiny DRM drivers being a good first example (Daniel Vetter).
-- Add some more external references that I found interesting since v1 was posted.
-
- Documentation/gpu/introduction.rst | 60 ++++++++++++++++++++++++++++++
- 1 file changed, 60 insertions(+)
-
-diff --git a/Documentation/gpu/introduction.rst b/Documentation/gpu/introduction.rst
-index 25a56e9c0cfd..f05eccd2c07c 100644
---- a/Documentation/gpu/introduction.rst
-+++ b/Documentation/gpu/introduction.rst
-@@ -112,3 +112,63 @@ Please conduct yourself in a respectful and civilised manner when
- interacting with community members on mailing lists, IRC, or bug
- trackers. The community represents the project as a whole, and abusive
- or bullying behaviour is not tolerated by the project.
-+
-+Simple DRM drivers to use as examples
-+=====================================
-+
-+The DRM subsystem contains a lot of helper functions to ease writing drivers for
-+simple graphic devices. For example, the `drivers/gpu/drm/tiny/` directory has a
-+set of drivers that are simple enough to be implemented in a single source file.
-+
-+These drivers make use of the `struct drm_simple_display_pipe_funcs`, that hides
-+any complexity of the DRM subsystem and just requires drivers to implement a few
-+functions needed to operate the device. This could be used for devices that just
-+need a display pipeline with one full-screen scanout buffer feeding one output.
-+
-+The tiny DRM drivers are good examples to understand how DRM drivers should look
-+like. Since are just a few hundreds lines of code, they are quite easy to read.
-+
-+External References
-+===================
-+
-+Delving into a Linux kernel subsystem for the first time can be an overwhelming
-+experience, one needs to get familiar with all the concepts and learn about the
-+subsystem's internals, among other details.
-+
-+To shallow the learning curve, this section contains a list of presentations
-+and documents that can be used to learn about DRM/KMS and graphics in general.
-+
-+There are different reasons why someone might want to get into DRM: porting an
-+existing fbdev driver, write a DRM driver for a new hardware, fixing bugs that
-+could face when working on the graphics user-space stack, etc. For this reason,
-+the learning material covers many aspects of the Linux graphics stack. From an
-+overview of the kernel and user-space stacks to very specific topics.
-+
-+The list is sorted in reverse chronological order, to keep the most up-to-date
-+material at the top. But all of them contain useful information, and it can be
-+valuable to go through older material to understand the rationale and context
-+in which the changes to the DRM subsystem were made.
-+
-+Conference talks
-+----------------
-+
-+* `An Overview of the Linux and Userspace Graphics Stack <https://www.youtube.com/watch?v=wjAJmqwg47k>`_ - Paul Kocialkowski (2020)
-+* `Getting pixels on screen on Linux: introduction to Kernel Mode Setting <https://www.youtube.com/watch?v=haes4_Xnc5Q>`_ - Simon Ser (2020)
-+* `Everything Great about Upstream Graphics <https://www.youtube.com/watch?v=kVzHOgt6WGE>`_ - Daniel Vetter (2019)
-+* `An introduction to the Linux DRM subsystem <https://www.youtube.com/watch?v=LbDOCJcDRoo>`_ - Maxime Ripard (2017)
-+* `Embrace the Atomic (Display) Age <https://www.youtube.com/watch?v=LjiB_JeDn2M>`_ - Daniel Vetter (2016)
-+* `Anatomy of an Atomic KMS Driver <https://www.youtube.com/watch?v=lihqR9sENpc>`_ - Laurent Pinchart (2015)
-+* `Atomic Modesetting for Drivers <https://www.youtube.com/watch?v=kl9suFgbTc8>`_ - Daniel Vetter (2015)
-+* `Anatomy of an Embedded KMS Driver <https://www.youtube.com/watch?v=Ja8fM7rTae4>`_ - Laurent Pinchart (2013)
-+
-+Slides and articles
-+-------------------
-+
-+* `Understanding the Linux Graphics Stack <https://bootlin.com/doc/training/graphics/graphics-slides.pdf>`_ - Bootlin (2022)
-+* `DRM KMS overview <https://wiki.st.com/stm32mpu/wiki/DRM_KMS_overview>`_ - STMicroelectronics (2021)
-+* `Linux graphic stack <https://studiopixl.com/2017-05-13/linux-graphic-stack-an-overview>`_ - Nathan Gauër (2017)
-+* `Atomic mode setting design overview, part 1 <https://lwn.net/Articles/653071/>`_ - Daniel Vetter (2015)
-+* `Atomic mode setting design overview, part 2 <https://lwn.net/Articles/653466/>`_ - Daniel Vetter (2015)
-+* `The DRM/KMS subsystem from a newbie’s point of view <https://bootlin.com/pub/conferences/2014/elce/brezillon-drm-kms/brezillon-drm-kms.pdf>`_ - Boris Brezillon (2014)
-+* `A brief introduction to the Linux graphics stack <https://blogs.igalia.com/itoral/2014/07/29/a-brief-introduction-to-the-linux-graphics-stack/>`_ - Iago Toral (2014)
-+* `The Linux Graphics Stack <https://blog.mecheye.net/2012/06/the-linux-graphics-stack/>`_ - Jasper St. Pierre (2012)
 -- 
-2.35.1
-
+With best wishes
+Dmitry
