@@ -1,43 +1,40 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 539B95094D6
-	for <lists+dri-devel@lfdr.de>; Thu, 21 Apr 2022 03:55:40 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id BE7125094DD
+	for <lists+dri-devel@lfdr.de>; Thu, 21 Apr 2022 03:57:03 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 69CC710E0E5;
-	Thu, 21 Apr 2022 01:55:38 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 8D79F10E231;
+	Thu, 21 Apr 2022 01:57:01 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mailgw01.mediatek.com (unknown [60.244.123.138])
- by gabe.freedesktop.org (Postfix) with ESMTPS id DC6A610E0E5
- for <dri-devel@lists.freedesktop.org>; Thu, 21 Apr 2022 01:55:36 +0000 (UTC)
-X-UUID: 43455b27b7de480e95539e091acd9bab-20220421
+Received: from mailgw02.mediatek.com (unknown [210.61.82.184])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 8605F10E231
+ for <dri-devel@lists.freedesktop.org>; Thu, 21 Apr 2022 01:56:59 +0000 (UTC)
+X-UUID: 762cc08cd94b4c178222349d9c51143f-20220421
 X-CID-P-RULE: Release_Ham
-X-CID-O-INFO: VERSION:1.1.4, REQID:985c252f-7c86-4118-a356-e04e83c97135, OB:0,
+X-CID-O-INFO: VERSION:1.1.4, REQID:bf634d14-d05d-48f9-97af-3c785fa8e38b, OB:0,
  LO
  B:0,IP:0,URL:0,TC:0,Content:0,EDM:0,RT:0,SF:0,FILE:0,RULE:Release_Ham,ACTI
  ON:release,TS:0
-X-CID-META: VersionHash:faefae9, CLOUDID:f45b69f0-da02-41b4-b6df-58f4ccd36682,
+X-CID-META: VersionHash:faefae9, CLOUDID:976993ef-06b0-4305-bfbf-554bfc9d151a,
  C
  OID:IGNORED,Recheck:0,SF:nil,TC:nil,Content:0,EDM:-3,File:nil,QS:0,BEC:nil
-X-UUID: 43455b27b7de480e95539e091acd9bab-20220421
+X-UUID: 762cc08cd94b4c178222349d9c51143f-20220421
 Received: from mtkexhb01.mediatek.inc [(172.21.101.102)] by
- mailgw01.mediatek.com (envelope-from <rex-bc.chen@mediatek.com>)
+ mailgw02.mediatek.com (envelope-from <rex-bc.chen@mediatek.com>)
  (Generic MTA with TLSv1.2 ECDHE-RSA-AES256-SHA384 256/256)
- with ESMTP id 1845310918; Thu, 21 Apr 2022 09:55:31 +0800
-Received: from mtkexhb02.mediatek.inc (172.21.101.103) by
+ with ESMTP id 1879615872; Thu, 21 Apr 2022 09:56:55 +0800
+Received: from mtkcas10.mediatek.inc (172.21.101.39) by
  mtkmbs07n2.mediatek.inc (172.21.101.141) with Microsoft SMTP Server (TLS) id
- 15.0.1497.2; Thu, 21 Apr 2022 09:55:29 +0800
-Received: from mtkcas10.mediatek.inc (172.21.101.39) by mtkexhb02.mediatek.inc
- (172.21.101.103) with Microsoft SMTP Server (TLS) id 15.0.1497.2;
- Thu, 21 Apr 2022 09:55:29 +0800
+ 15.0.1497.2; Thu, 21 Apr 2022 09:56:53 +0800
 Received: from mtksdccf07 (172.21.84.99) by mtkcas10.mediatek.inc
  (172.21.101.73) with Microsoft SMTP Server id 15.0.1497.2 via Frontend
- Transport; Thu, 21 Apr 2022 09:55:29 +0800
-Message-ID: <7d1306d11fe59f223fd35565f3bc016123573d03.camel@mediatek.com>
-Subject: Re: [PATCH v17 06/21] soc: mediatek: add cmdq support of mtk-mmsys
- config API for mt8195 vdosys1
+ Transport; Thu, 21 Apr 2022 09:56:53 +0800
+Message-ID: <b50942c0589282cc2004c26e10ffbd06cfd002b9.camel@mediatek.com>
+Subject: Re: [PATCH v17 07/21] soc: mediatek: mmsys: modify reset controller
+ for MT8195 vdosys1
 From: Rex-BC Chen <rex-bc.chen@mediatek.com>
 To: Nancy.Lin <nancy.lin@mediatek.com>, Rob Herring <robh+dt@kernel.org>,
  Matthias Brugger <matthias.bgg@gmail.com>, Chun-Kuang Hu
@@ -45,10 +42,10 @@ To: Nancy.Lin <nancy.lin@mediatek.com>, Rob Herring <robh+dt@kernel.org>,
  "wim@linux-watchdog.org" <wim@linux-watchdog.org>, "AngeloGioacchino Del
  Regno" <angelogioacchino.delregno@collabora.com>, "linux@roeck-us.net"
  <linux@roeck-us.net>
-Date: Thu, 21 Apr 2022 09:55:29 +0800
-In-Reply-To: <20220416020749.29010-7-nancy.lin@mediatek.com>
+Date: Thu, 21 Apr 2022 09:56:53 +0800
+In-Reply-To: <20220416020749.29010-8-nancy.lin@mediatek.com>
 References: <20220416020749.29010-1-nancy.lin@mediatek.com>
- <20220416020749.29010-7-nancy.lin@mediatek.com>
+ <20220416020749.29010-8-nancy.lin@mediatek.com>
 Content-Type: text/plain; charset="UTF-8"
 X-Mailer: Evolution 3.28.5-0ubuntu0.18.04.2 
 MIME-Version: 1.0
@@ -86,19 +83,9 @@ Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 On Sat, 2022-04-16 at 10:07 +0800, Nancy.Lin wrote:
-> Add cmdq support for mtk-mmsys config API.
-> The mmsys config register settings need to take effect with the other
-> HW settings(like OVL_ADAPTOR...) at the same vblanking time.
-> 
-> If we use CPU to write the mmsys reg, we can't guarantee all the
-> settings can be written in the same vblanking time.
-> Cmdq is used for this purpose. We prepare all the related HW settings
-> in one cmdq packet. The first command in the packet is "wait stream
-> done",
-> and then following with all the HW settings. After the cmdq packet is
-> flush to GCE HW. The GCE waits for the "stream done event" to coming
-> and then starts flushing all the HW settings. This can guarantee all
-> the settings flush in the same vblanking.
+> MT8195 vdosys1 has more than 32 reset bits and a different reset base
+> than other chips. Modify mmsys for support 64 bit and different reset
+> base.
 > 
 > Signed-off-by: Nancy.Lin <nancy.lin@mediatek.com>
 > Reviewed-by: AngeloGioacchino Del Regno <
