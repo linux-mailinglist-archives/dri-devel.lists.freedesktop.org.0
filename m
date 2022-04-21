@@ -1,67 +1,84 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4F7E050A097
-	for <lists+dri-devel@lfdr.de>; Thu, 21 Apr 2022 15:21:02 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id B7B7450A0B0
+	for <lists+dri-devel@lfdr.de>; Thu, 21 Apr 2022 15:23:05 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id D042010E5E6;
-	Thu, 21 Apr 2022 13:20:58 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id CDB8310E834;
+	Thu, 21 Apr 2022 13:23:01 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from smtp-out1.suse.de (smtp-out1.suse.de [195.135.220.28])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 6541D10E5E6
- for <dri-devel@lists.freedesktop.org>; Thu, 21 Apr 2022 13:20:57 +0000 (UTC)
-Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
- key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
- (No client certificate requested)
- by smtp-out1.suse.de (Postfix) with ESMTPS id 0E9D121112;
- Thu, 21 Apr 2022 13:20:56 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
- t=1650547256; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
- mime-version:mime-version:content-type:content-type:
+Received: from us-smtp-delivery-124.mimecast.com
+ (us-smtp-delivery-124.mimecast.com [170.10.133.124])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 24D3310E834
+ for <dri-devel@lists.freedesktop.org>; Thu, 21 Apr 2022 13:23:00 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1650547378;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=vXVJK5OuTx/Z8uOPu96yrjknjxjZwcsJUq2XnsFlmXY=;
- b=e09ww8F0702pmFLGnnlRpLaIQbbsgd2SaQxCkmARoVVMZ5XvB7ll0OZqa0ua7ZwxD4XcnM
- mCXDUWODPwRhpvTO1wn3+vKvt8vYa3Tttw3nsx8pI2/HwvlmxC9ihDC/nP8vl4TNIs4N1q
- 4pxi2isDOR0kENHIR1gViP+ZTdqn//E=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
- s=susede2_ed25519; t=1650547256;
- h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
- mime-version:mime-version:content-type:content-type:
- in-reply-to:in-reply-to:references:references;
- bh=vXVJK5OuTx/Z8uOPu96yrjknjxjZwcsJUq2XnsFlmXY=;
- b=BMJd9QzY3OL62bOps+IL3Ly3mFv7Ji6RzzvPpu4nraZxn/iXK2CXT9hlnnlm9OpgS0Oon5
- YWDzQSXCyMQD6RCw==
-Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
- key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
- (No client certificate requested)
- by imap2.suse-dmz.suse.de (Postfix) with ESMTPS id DC12613446;
- Thu, 21 Apr 2022 13:20:55 +0000 (UTC)
-Received: from dovecot-director2.suse.de ([192.168.254.65])
- by imap2.suse-dmz.suse.de with ESMTPSA id f2PGNDdaYWKoMAAAMHmgww
- (envelope-from <tzimmermann@suse.de>); Thu, 21 Apr 2022 13:20:55 +0000
-Message-ID: <09cc1d94-d25e-4fbd-bb95-03d0135cf818@suse.de>
-Date: Thu, 21 Apr 2022 15:20:55 +0200
+ bh=BJojMIzm435XzabOfDtYuG0zr6ejdW43VXmGBccZZNg=;
+ b=DzzPr3kaGVjo5nhRpCRmPFGITEIZK4EAEgCSUVbf3QCneU1a/HcdODnILT3NbwklQTvzND
+ DyEb6GHLpHELBPA1veABtEGUwhFZuoYh/HBNxF+mF4/pjB6MgWtcHIGAvaN/ELfP3hKWrY
+ Lettolki99P7l4iKh49UpqNVHQCa6NA=
+Received: from mail-wr1-f70.google.com (mail-wr1-f70.google.com
+ [209.85.221.70]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ us-mta-270-fKafUlR1OpG6iNlJ8-zdQA-1; Thu, 21 Apr 2022 09:22:57 -0400
+X-MC-Unique: fKafUlR1OpG6iNlJ8-zdQA-1
+Received: by mail-wr1-f70.google.com with SMTP id
+ j30-20020adfb31e000000b0020a9043abd7so1128411wrd.12
+ for <dri-devel@lists.freedesktop.org>; Thu, 21 Apr 2022 06:22:57 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
+ :content-language:to:cc:references:from:in-reply-to
+ :content-transfer-encoding;
+ bh=BJojMIzm435XzabOfDtYuG0zr6ejdW43VXmGBccZZNg=;
+ b=rZqwiP3t3h+Nd5DZbZ3B8jGQGfOcJwy0oU8VXu4GlAc4sL7AjXVKNnjMVp+Mzo2Oe5
+ K/i4CVY/A429gYcVZfzzDaVR/vSKCmdeYdCzh988Gg7YXIhx8erc2vGrZsj0HeTpSh7G
+ KTF2vNyfPwHQSE4gervNH7CmN3dkH8KB+btalqIgHbq73Y1pWn1c9RpwURUxhQ6kzsKP
+ rVGrAY3KtLs+pjyKQLJsduZ+0tEBTr+RQ51b8ErDMlC3U3s5lmhnK8W4vdNuHFJDoWZu
+ u0PZKUnO5drWbCyYqlLkoP6d0yI26GYEDcbTDgBFSIzkJx4DulutgR9/EYyAbm2UJg9u
+ uaKg==
+X-Gm-Message-State: AOAM5302YXkebe9E5n7Ugunr4mB80DG+lGbMx7SsaUinaUyVFFS8I0Hf
+ oEhqfa5kAThoZ+kXolEtxAS/42zgfdd2bEmqCVwvUG02aiqIlNk4SkLmH84DDis7LyGgH3t+YjK
+ gtVTOQ1fPj0X0c5bztb7iN4kIv7d4
+X-Received: by 2002:a1c:e916:0:b0:37c:f44f:573 with SMTP id
+ q22-20020a1ce916000000b0037cf44f0573mr8663742wmc.179.1650547376598; 
+ Thu, 21 Apr 2022 06:22:56 -0700 (PDT)
+X-Google-Smtp-Source: ABdhPJzn3A3s5KnRy+9aLB72aBChb71Yy22EwcgU2Ux1UhqHDMPpPRcfl9e7aAlABnXQkQlFn6odPw==
+X-Received: by 2002:a1c:e916:0:b0:37c:f44f:573 with SMTP id
+ q22-20020a1ce916000000b0037cf44f0573mr8663714wmc.179.1650547376244; 
+ Thu, 21 Apr 2022 06:22:56 -0700 (PDT)
+Received: from [192.168.1.129] ([92.176.231.205])
+ by smtp.gmail.com with ESMTPSA id
+ f10-20020a5d64ca000000b0020aa97b0383sm2267705wri.113.2022.04.21.06.22.55
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Thu, 21 Apr 2022 06:22:55 -0700 (PDT)
+Message-ID: <10c81e57-2f09-f4f8-dc2f-6bd05ef819d7@redhat.com>
+Date: Thu, 21 Apr 2022 15:22:55 +0200
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.7.0
+ Thunderbird/91.8.0
 Subject: Re: [PATCH v3] drm/gma500: depend on framebuffer
-Content-Language: en-US
-To: Patrik Jakobsson <patrik.r.jakobsson@gmail.com>,
- Javier Martinez Canillas <javierm@redhat.com>
+To: Patrik Jakobsson <patrik.r.jakobsson@gmail.com>
 References: <20220409042321.3184493-1-james.hilliard1@gmail.com>
  <b3f7e288-3341-8c6f-1b95-e553ac5ebc35@suse.de>
  <CAMeQTsbh-Fy4CORBTX=AfZ+K-fZYUQ=hY=ctLFyu9KcJ5NgFUA@mail.gmail.com>
  <dce29330-e40c-860e-2c72-7ddebdd96e20@redhat.com>
  <CAMeQTsYYpw5+uLgmDrbB6PUBotRC4F+_rfK+sxT0CpPHoiOmmw@mail.gmail.com>
-From: Thomas Zimmermann <tzimmermann@suse.de>
+From: Javier Martinez Canillas <javierm@redhat.com>
 In-Reply-To: <CAMeQTsYYpw5+uLgmDrbB6PUBotRC4F+_rfK+sxT0CpPHoiOmmw@mail.gmail.com>
-Content-Type: multipart/signed; micalg=pgp-sha256;
- protocol="application/pgp-signature";
- boundary="------------pkKQDW2mxSCsL9rwufZo8Cw9"
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=javierm@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Language: en-US
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -74,120 +91,71 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: David Airlie <airlied@linux.ie>, James Hilliard <james.hilliard1@gmail.com>,
- Randy Dunlap <rdunlap@infradead.org>,
- linux-kernel <linux-kernel@vger.kernel.org>,
- dri-devel <dri-devel@lists.freedesktop.org>
-Errors-To: dri-devel-bounces@lists.freedesktop.org
-Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
-
-This is an OpenPGP/MIME signed message (RFC 4880 and 3156)
---------------pkKQDW2mxSCsL9rwufZo8Cw9
-Content-Type: multipart/mixed; boundary="------------5d02Ubq1A2ReJ7U2dH9XRIhv";
- protected-headers="v1"
-From: Thomas Zimmermann <tzimmermann@suse.de>
-To: Patrik Jakobsson <patrik.r.jakobsson@gmail.com>,
- Javier Martinez Canillas <javierm@redhat.com>
 Cc: David Airlie <airlied@linux.ie>, Randy Dunlap <rdunlap@infradead.org>,
  linux-kernel <linux-kernel@vger.kernel.org>,
  dri-devel <dri-devel@lists.freedesktop.org>,
- James Hilliard <james.hilliard1@gmail.com>
-Message-ID: <09cc1d94-d25e-4fbd-bb95-03d0135cf818@suse.de>
-Subject: Re: [PATCH v3] drm/gma500: depend on framebuffer
-References: <20220409042321.3184493-1-james.hilliard1@gmail.com>
- <b3f7e288-3341-8c6f-1b95-e553ac5ebc35@suse.de>
- <CAMeQTsbh-Fy4CORBTX=AfZ+K-fZYUQ=hY=ctLFyu9KcJ5NgFUA@mail.gmail.com>
- <dce29330-e40c-860e-2c72-7ddebdd96e20@redhat.com>
- <CAMeQTsYYpw5+uLgmDrbB6PUBotRC4F+_rfK+sxT0CpPHoiOmmw@mail.gmail.com>
-In-Reply-To: <CAMeQTsYYpw5+uLgmDrbB6PUBotRC4F+_rfK+sxT0CpPHoiOmmw@mail.gmail.com>
+ James Hilliard <james.hilliard1@gmail.com>,
+ Thomas Zimmermann <tzimmermann@suse.de>
+Errors-To: dri-devel-bounces@lists.freedesktop.org
+Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
---------------5d02Ubq1A2ReJ7U2dH9XRIhv
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: base64
+On 4/21/22 14:54, Patrik Jakobsson wrote:
+> On Thu, Apr 21, 2022 at 2:47 PM Javier Martinez Canillas
+> <javierm@redhat.com> wrote:
 
-SGkNCg0KQW0gMjEuMDQuMjIgdW0gMTQ6NTQgc2NocmllYiBQYXRyaWsgSmFrb2Jzc29uOg0K
-PiBPbiBUaHUsIEFwciAyMSwgMjAyMiBhdCAyOjQ3IFBNIEphdmllciBNYXJ0aW5leiBDYW5p
-bGxhcw0KPiA8amF2aWVybUByZWRoYXQuY29tPiB3cm90ZToNCj4+DQo+PiBIZWxsbyBQYXRy
-aWssDQo+Pg0KPj4gT24gNC8yMS8yMiAxNDozOSwgUGF0cmlrIEpha29ic3NvbiB3cm90ZToN
-Cj4+PiBPbiBUaHUsIEFwciAyMSwgMjAyMiBhdCAxOjQ5IFBNIFRob21hcyBaaW1tZXJtYW5u
-IDx0emltbWVybWFubkBzdXNlLmRlPiB3cm90ZToNCj4+Pj4NCj4+Pj4gSGkNCj4+Pj4NCj4+
-Pj4gQW0gMDkuMDQuMjIgdW0gMDY6MjMgc2NocmllYiBKYW1lcyBIaWxsaWFyZDoNCj4+Pj4+
-IFNlbGVjdCB0aGUgZWZpIGZyYW1lYnVmZmVyIGlmIGVmaSBpcyBlbmFibGVkLg0KPj4+Pj4N
-Cj4+Pj4+IFRoaXMgYXBwZWFycyB0byBiZSBuZWVkZWQgZm9yIHZpZGVvIG91dHB1dCB0byBm
-dW5jdGlvbiBjb3JyZWN0bHkuDQo+Pj4+Pg0KPj4+Pj4gU2lnbmVkLW9mZi1ieTogSmFtZXMg
-SGlsbGlhcmQgPGphbWVzLmhpbGxpYXJkMUBnbWFpbC5jb20+DQo+Pj4+PiAtLS0NCj4+Pj4+
-IENoYW5nZXMgdjIgLT4gdjM6DQo+Pj4+PiAgICAgLSBzZWxlY3QgRUZJX0ZCIGluc3RlYWQg
-b2YgZGVwZW5kaW5nIG9uIGl0DQo+Pj4+PiBDaGFuZ2VzIHYxIC0+IHYyOg0KPj4+Pj4gICAg
-IC0gdXNlIGRlcGVuZHMgaW5zdGVhZCBvZiBzZWxlY3QNCj4+Pj4+IC0tLQ0KPj4+Pj4gICAg
-ZHJpdmVycy9ncHUvZHJtL2dtYTUwMC9LY29uZmlnIHwgMiArKw0KPj4+Pj4gICAgMSBmaWxl
-IGNoYW5nZWQsIDIgaW5zZXJ0aW9ucygrKQ0KPj4+Pj4NCj4+Pj4+IGRpZmYgLS1naXQgYS9k
-cml2ZXJzL2dwdS9kcm0vZ21hNTAwL0tjb25maWcgYi9kcml2ZXJzL2dwdS9kcm0vZ21hNTAw
-L0tjb25maWcNCj4+Pj4+IGluZGV4IDBjZmYyMDI2NWY5Ny4uYTQyMmZhODRkNTNiIDEwMDY0
-NA0KPj4+Pj4gLS0tIGEvZHJpdmVycy9ncHUvZHJtL2dtYTUwMC9LY29uZmlnDQo+Pj4+PiAr
-KysgYi9kcml2ZXJzL2dwdS9kcm0vZ21hNTAwL0tjb25maWcNCj4+Pj4+IEBAIC0yLDExICsy
-LDEzIEBADQo+Pj4+PiAgICBjb25maWcgRFJNX0dNQTUwMA0KPj4+Pj4gICAgICAgIHRyaXN0
-YXRlICJJbnRlbCBHTUE1MDAvNjAwLzM2MDAvMzY1MCBLTVMgRnJhbWVidWZmZXIiDQo+Pj4+
-PiAgICAgICAgZGVwZW5kcyBvbiBEUk0gJiYgUENJICYmIFg4NiAmJiBNTVUNCj4+Pj4+ICsg
-ICAgIGRlcGVuZHMgb24gRkINCj4+Pj4NCj4+Pj4gV2h5IGRvIHdlIG5lZWQgRkIgaGVyZT8g
-RnJhbWVidWZmZXIgc3VwcG9ydCBzaG91bGQgYmUgaGlkZGVuIGJ5IERSTSdzDQo+Pj4+IGZi
-ZGV2IGhlbHBlcnMuDQo+Pj4NCj4+PiBJdCBpcyBub3QgbmVlZGVkIGJ1dCBnaXZlcyBoaW0g
-dmlkZW8gb3V0cHV0IHNpbmNlIGl0IGVuYWJsZXMgdGhlIGRybQ0KPj4+IGZiZGV2IGVtdWxh
-dGlvbi4NCj4+Pg0KPj4NCj4+IEknbSBub3Qgc3VyZSB0byB1bmRlcnN0YW5kIHRoaXMuIFNo
-b3VsZG4ndCBkZXBlbmQgb24gRFJNX0ZCREVWX0VNVUxBVElPTiB0aGVuPw0KDQpJdCBoYXMg
-dG8gYmUgc2VsZWN0ZWQgc2VwYXJhdGVseSBpbiAuY29uZmlnLg0KDQpKYW1lcywgbWFrZSBz
-dXJlIHlvdSBoYXZlIERSTV9GQkRFVl9FTVVMQVRJT04gZW5hYmxlZCBpbiB5b3VyIGtlcm5l
-bCdzIA0KLmNvbmZpZyBmaWxlIGlmIHlvdSB3YW50IGEgY29uc29sZS4gaG93ZXZlciwgV2Vz
-dG9uIHNob3VsZCB3b3JrIHdpdGhvdXQgDQppdC4gIEhvdyBkbyB5b3Ugc3RhcnQgd2VzdG9u
-IHdpdGhvdXQgYSBjb25zb2xlPw0KDQo+IA0KPiBObywgaXQgc2hvdWxkbid0IGRlcGVuZCBv
-biBhbnkgRkJERVYgc3R1ZmYgc2luY2UgaXQncyBub3QgYWN0dWFsbHkNCj4gcmVxdWlyZWQu
-IEl0IGp1c3QgaGFwcGVucyB0byBoZWxwIGluIHRoaXMgY2FzZSBzaW5jZSB3ZXN0b24gKyBm
-YmRldg0KPiBiYWNrZW5kIHdvcmtzIGJ1dCBub3Qgd2VzdG9uIHdpdGggZHJtIGJhY2tlbmQg
-KG9yIHdoYXRldmVyIGNvbmZpZw0KPiBKYW1lcyBoYXZlIHNldCkuDQo+IA0KPj4NCj4+PiBJ
-IGxvb2tlZCBzb21lIG1vcmUgYXQgdGhlIGxvZ3MgYW5kIGl0IHNlZW1zIHdlc3RvbiBkb2Vz
-bid0IHdvcmsgb24gaGlzDQo+Pj4gc3lzdGVtIHdpdGhvdXQgdGhlIGZiZGV2IGJhY2tlbmQu
-IFNvIHRoZSBxdWVzdGlvbiBpcyB3aHkgd2VzdG9uIGlzbid0DQo+Pj4gd29ya2luZyB3aXRo
-b3V0IGZiZGV2PyBQZXJoYXBzIHRoaXMgaXMganVzdCBhIFdlc3RvbiBjb25maWd1cmF0aW9u
-DQo+Pj4gaXNzdWU/DQo+Pj4NCj4+DQo+PiBCdXQgaXMgd2VzdG9uIHVzaW5nIHRoZSBmYmRl
-diBlbXVsYXRlZCBieSBEUk0gb3IgdGhlIG9uZSByZWdpc3RlcmVkIGJ5DQo+PiBlZmlmYj8g
-SSB0aG91Z2h0IHRoYXQgdGhlIGxhdHRlciBmcm9tIHdoYXQgd2FzIG1lbnRpb25lZCBpbiB0
-aGlzIHRocmVhZC4NCj4gDQo+IEl0J3MgdXNpbmcgZHJtIGZiZGV2IGVtdWxhdGlvbiB3aXRo
-IGdtYTUwMCBzbyBFRklGQiBoYXMgbm90aGluZyB0byBkbw0KPiB3aXRoIHRoaXMuIEkgYmVs
-aWV2ZSBpdCB3YXMganVzdCBzaW1wbHkgaW5jb3JyZWN0bHkgcmVwb3J0ZWQuIElmIEknbQ0K
-PiBjb3JyZWN0IHRoZW4gImRlcGVuZHMgb24gRkIiIGlzIHdoYXQgbWFrZXMgdmlkZW8gb3V0
-cHV0IHdvcmsgZm9yDQo+IEphbWVzLg0KDQpUaGVyZSdzIGFuIGZiZGV2IGJhY2tlbmQgZm9y
-IHdlc3RvbiwgYnV0IHRoZSBwcm92aWRlZCBsb2dzIGRvbid0IGxvb2sgYXMgDQppZiBpdCdz
-IHVzaW5nIHRoaXMuICBNYXliZSB0aGUgY29ubmVjdG9yJ3MgbW9kZXMgYXJlIG5ldmVyIHBy
-b2JlZCANCmNvcnJlY3RseSB3aXRob3V0IGZiZGV2Lg0KDQpKYW1lcywgY291bGQgeW91IHBy
-b3ZpZGUgYSBsb2dmaWxlIGZvciB3ZXN0b24/IChpLmUuLCAnd2VzdG9uIA0KLS1sb2c9d2Vz
-dG9uLnR4dCcpLg0KDQpCZXN0IHJlZ2FyZHMNClRob21hcw0KDQo+IA0KPj4NCj4+IC0tDQo+
-PiBCZXN0IHJlZ2FyZHMsDQo+Pg0KPj4gSmF2aWVyIE1hcnRpbmV6IENhbmlsbGFzDQo+PiBM
-aW51eCBFbmdpbmVlcmluZw0KPj4gUmVkIEhhdA0KPj4NCg0KLS0gDQpUaG9tYXMgWmltbWVy
-bWFubg0KR3JhcGhpY3MgRHJpdmVyIERldmVsb3Blcg0KU1VTRSBTb2Z0d2FyZSBTb2x1dGlv
-bnMgR2VybWFueSBHbWJIDQpNYXhmZWxkc3RyLiA1LCA5MDQwOSBOw7xybmJlcmcsIEdlcm1h
-bnkNCihIUkIgMzY4MDksIEFHIE7DvHJuYmVyZykNCkdlc2Now6RmdHNmw7xocmVyOiBJdm8g
-VG90ZXYNCg==
+[snip]
 
---------------5d02Ubq1A2ReJ7U2dH9XRIhv--
+>>>>> diff --git a/drivers/gpu/drm/gma500/Kconfig b/drivers/gpu/drm/gma500/Kconfig
+>>>>> index 0cff20265f97..a422fa84d53b 100644
+>>>>> --- a/drivers/gpu/drm/gma500/Kconfig
+>>>>> +++ b/drivers/gpu/drm/gma500/Kconfig
+>>>>> @@ -2,11 +2,13 @@
+>>>>>   config DRM_GMA500
+>>>>>       tristate "Intel GMA500/600/3600/3650 KMS Framebuffer"
+>>>>>       depends on DRM && PCI && X86 && MMU
+>>>>> +     depends on FB
+>>>>
+>>>> Why do we need FB here? Framebuffer support should be hidden by DRM's
+>>>> fbdev helpers.
+>>>
+>>> It is not needed but gives him video output since it enables the drm
+>>> fbdev emulation.
+>>>
+>>
+>> I'm not sure to understand this. Shouldn't depend on DRM_FBDEV_EMULATION then?
+> 
+> No, it shouldn't depend on any FBDEV stuff since it's not actually
+> required. It just happens to help in this case since weston + fbdev
+> backend works but not weston with drm backend (or whatever config
+> James have set).
 
---------------pkKQDW2mxSCsL9rwufZo8Cw9
-Content-Type: application/pgp-signature; name="OpenPGP_signature.asc"
-Content-Description: OpenPGP digital signature
-Content-Disposition: attachment; filename="OpenPGP_signature"
+I see. Then the correct approach for them would be to just enable CONFIG_FB
+and DRM_FBDEV_EMULATION in their kernel config, rather than making this to
+depend on anything FB related as you said.
 
------BEGIN PGP SIGNATURE-----
+> 
+>>
+>>> I looked some more at the logs and it seems weston doesn't work on his
+>>> system without the fbdev backend. So the question is why weston isn't
+>>> working without fbdev? Perhaps this is just a Weston configuration
+>>> issue?
+>>>
+>>
+>> But is weston using the fbdev emulated by DRM or the one registered by
+>> efifb? I thought that the latter from what was mentioned in this thread.
+> 
+> It's using drm fbdev emulation with gma500 so EFIFB has nothing to do
+> with this. I believe it was just simply incorrectly reported. If I'm
+> correct then "depends on FB" is what makes video output work for
+> James.
+> 
 
-wsF5BAABCAAjFiEExndm/fpuMUdwYFFolh/E3EQov+AFAmJhWjcFAwAAAAAACgkQlh/E3EQov+C4
-JxAArRCysRzsNK8WpuDb8WF8R5RPVROjLuLMTNsLjCVF2MBecrdFF3Q6v9KO11hbIFDyzIs2EgjW
-/3fGi5zi/3Tub4gonBleV4uZYu5mWGkoY/VlCgxNGoV2KIwLWCHDkKCYLebVHF6FXRz3ouj8EzxG
-A9TYJNYZgFQcG7+fTbk0NrXzAlLwimkv2+282FGqKzRM0VEDmrG5H0FVvaMGL6fGdSIsV0XVFRQ/
-o7ip0EsR3GvvCR9BqKNjM03x33vTaslMuZbyqmUrrUPYo27sC3dNFFBu4XQOzvIQBawpg0Aio2rO
-wOBXu1qmStGIGUCfpgIdG71LSD/UQUSBc99bRm7r/NbFvP2UIc2QvZ9Xfp5yHfdzJHL62tk6Ii/x
-8alKYvEqJVQGJn3IwvPIDM24mE7E8KAXUquXP9/slZlYENCiVDCyVeOhzDfoP05tspgFV5lhHB8L
-0seUNDAfqMLXBaMmLYh+x6Z2QQVFl95CnKdjrkOzI81Y1EVFsYsP+yBvcpBIdKJ4CLXavoQtInt1
-GgucOc4Z7+lpZz6733n+F5+69qiS8UJ3QzN8CUYeO79BcvrH0lxwau2NDBg2/Y2gmvi7BclPF9dY
-Y6talb5LRP5weNQ9Rbok0BmoqTRyy/nYDK+ep+hx+Mr9OYStluoRtCzQg8CrG8g09Eb/b65S2006
-rXg=
-=+Req
------END PGP SIGNATURE-----
+Got it. Thanks for the clarification.
 
---------------pkKQDW2mxSCsL9rwufZo8Cw9--
+-- 
+Best regards,
+
+Javier Martinez Canillas
+Linux Engineering
+Red Hat
+
