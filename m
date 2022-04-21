@@ -1,53 +1,77 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id A940F509A81
-	for <lists+dri-devel@lfdr.de>; Thu, 21 Apr 2022 10:18:15 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 96914509A86
+	for <lists+dri-devel@lfdr.de>; Thu, 21 Apr 2022 10:24:10 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 8BA9810F62F;
-	Thu, 21 Apr 2022 08:18:10 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 55BBD10F6EA;
+	Thu, 21 Apr 2022 08:24:08 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mga05.intel.com (mga05.intel.com [192.55.52.43])
- by gabe.freedesktop.org (Postfix) with ESMTPS id B468B10F62D;
- Thu, 21 Apr 2022 08:18:08 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1650529088; x=1682065088;
- h=message-id:date:mime-version:subject:to:cc:references:
- from:in-reply-to:content-transfer-encoding;
- bh=CuD6780L58yjID5rpNHtMjbJ3Jn4yeznrOmVMTsspB0=;
- b=ZDsDUxKuf+EC9yQqsbDQAJV8lsElXqurco+Yzd7mZ/gdqm8v1/FERRjK
- +jT9vHaCFjxfaMQCTWeVNszxyuaMbGQYmc8eZJ5EUzmc+fpswht/M8193
- bGOk+8eb8O6Vdvq0ZQWwr6aKoctBkQ0j3Ru2APzOFl5MD+9IPZVZwfhAT
- E581DvKZZD8uXDJZYomOLqpy+IRwDnH9wihSP5xL25n6OswA6o3bp3VdP
- 6o0qZUMoETx+EoNAf92JVNmH6vTsTC99YwX7NA0vv2ERK2joEL/0zbgnO
- sALiNAW9/EtJneC4cHSKZUGHmK1Yw9oTN4i4RFzfQD/zqYFQxZzVM6cml Q==;
-X-IronPort-AV: E=McAfee;i="6400,9594,10323"; a="350724947"
-X-IronPort-AV: E=Sophos;i="5.90,278,1643702400"; d="scan'208";a="350724947"
-Received: from orsmga006.jf.intel.com ([10.7.209.51])
- by fmsmga105.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 21 Apr 2022 01:18:08 -0700
-X-IronPort-AV: E=Sophos;i="5.90,278,1643702400"; d="scan'208";a="530174628"
-Received: from bshawkat-mobl.ger.corp.intel.com (HELO [10.251.215.159])
- ([10.251.215.159])
- by orsmga006-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 21 Apr 2022 01:18:06 -0700
-Message-ID: <3e944231-9219-53c5-de69-59d61d10a3ba@linux.intel.com>
-Date: Thu, 21 Apr 2022 10:18:04 +0200
+Received: from wout2-smtp.messagingengine.com (wout2-smtp.messagingengine.com
+ [64.147.123.25])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 3108810F6EA
+ for <dri-devel@lists.freedesktop.org>; Thu, 21 Apr 2022 08:24:06 +0000 (UTC)
+Received: from compute5.internal (compute5.nyi.internal [10.202.2.45])
+ by mailout.west.internal (Postfix) with ESMTP id 4DE3D3202254;
+ Thu, 21 Apr 2022 04:24:02 -0400 (EDT)
+Received: from mailfrontend2 ([10.202.2.163])
+ by compute5.internal (MEProxy); Thu, 21 Apr 2022 04:24:04 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=cerno.tech; h=cc
+ :cc:content-type:date:date:from:from:in-reply-to:in-reply-to
+ :message-id:mime-version:references:reply-to:sender:subject
+ :subject:to:to; s=fm3; t=1650529441; x=1650615841; bh=mr6/yNysRK
+ Gd8H9fz/3NmMqTPBzrj57CSccM86kcPME=; b=VIma+8f/jMnVxvmpJBjeZS3wsE
+ 7WNCTDwHEgZOkcwzk2cs5sZDXVJbQ3OL/shhRoP9mDf+Mmm653jY3ztiTsyCjaCI
+ OwchGtkQHzIcdvJx7k838oCmecexdkT4gfaSBkzGOWCSEHuFrc+T6OhgbjvxCjWo
+ 28sp4PAr8n5qwF/t/zqFRZZ3XPQYwrcUVZInviX6QtGKvwxCEiUFMXjUDk5Hbsms
+ uT7qzOKdihSrkErhENc93iVajGjrhsJHpeq801SUQDArHHx1zm6Vf76EUin/Qmex
+ z11krGVs0GYUPCujVlbfIRWeTKeKD/hf0/LcbODwbCpap9V3JxPmNuVwCF0w==
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
+ messagingengine.com; h=cc:cc:content-type:date:date:from:from
+ :in-reply-to:in-reply-to:message-id:mime-version:references
+ :reply-to:sender:subject:subject:to:to:x-me-proxy:x-me-proxy
+ :x-me-sender:x-me-sender:x-sasl-enc; s=fm1; t=1650529441; x=
+ 1650615841; bh=mr6/yNysRKGd8H9fz/3NmMqTPBzrj57CSccM86kcPME=; b=V
+ YhUyeVImMDA1/5wVioG4M0Ip73hxGqOIR9HuXTpozM4wwsgo5I2K7RBLQXjuwiOc
+ BvsOWUkjxxMmlfuMdJiSMLagNAS8Pup6ywJaqJ8MGY7H5r1+KG6UEX9YUHXtdiWh
+ rqDOCpBLYnMaIJ0RUPaLqShwfdsq7/lv5soqpJrETzaB59bI8oR11i+uPlSh98m2
+ urMsO855cv7vAz/8kaLk0xEUYhwOXL4FRgBTHXp7TlZmrLDLWLiyiCt5C/r4JC3C
+ QJ8IfuMOTXFGztMgKmExbcuVNelPxD0o8Hh/F9FYTN0a8WJRD89EqKo/KRoLz16f
+ sjzlE9GkvzlkNMEcmAr/Q==
+X-ME-Sender: <xms:oRRhYrmnx6DbTxsGbIBrGungjD1IDW7X6yTgmv7WT1GHwClU8TCwxA>
+ <xme:oRRhYu27NCpsHiskldqDd_ymYM6JBD8YkNvGcZmIPOWLpffmArezYQMzwPIfd8hYo
+ Zo-jgccW_F0XarD4qU>
+X-ME-Received: <xmr:oRRhYhpKJxXdNvxcupDa_WayLRZsenqqjmV9oNoqErpmXNrY8xrrdGR2v6JIYvMLakW5rfITBGBpUNogryxQH8s1ppt05v95WoIybko>
+X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvfedrtddvgddtfecutefuodetggdotefrodftvf
+ curfhrohhfihhlvgemucfhrghsthforghilhdpqfgfvfdpuffrtefokffrpgfnqfghnecu
+ uegrihhlohhuthemuceftddtnecusecvtfgvtghiphhivghnthhsucdlqddutddtmdenuc
+ fjughrpeffhffvvefukfhfgggtuggjsehgtderredttddvnecuhfhrohhmpeforgigihhm
+ vgcutfhiphgrrhguuceomhgrgihimhgvsegtvghrnhhordhtvggthheqnecuggftrfgrth
+ htvghrnhepteefffefgfektdefgfeludfgtdejfeejvddttdekteeiffejvdfgheehfffh
+ vedunecuvehluhhsthgvrhfuihiivgeptdenucfrrghrrghmpehmrghilhhfrhhomhepmh
+ grgihimhgvsegtvghrnhhordhtvggthh
+X-ME-Proxy: <xmx:oRRhYjlVKW8GIvD2MSSHdcPJYtLugQkhUcv1-IAygHTYCyryvepghg>
+ <xmx:oRRhYp1D-rGd7-KK1SnjDz7YesPlA4Q-7YuYkenQ4SAtWmcdI_LBUQ>
+ <xmx:oRRhYit08JuUeMP2ETa5TEzYk5OmhBd_spiZlMkcTracCV62cF9sZQ>
+ <xmx:oRRhYo2Te-9IFb1XMn3gUfzqRUlxngGshtXVgGWqkVetPKyW0YT5VA>
+Received: by mail.messagingengine.com (Postfix) with ESMTPA; Thu,
+ 21 Apr 2022 04:24:00 -0400 (EDT)
+Date: Thu, 21 Apr 2022 10:23:58 +0200
+From: Maxime Ripard <maxime@cerno.tech>
+To: Jagan Teki <jagan@amarulasolutions.com>
+Subject: Re: [PATCH 2/2] Revert "drm: of: Lookup if child node has panel or
+ bridge"
+Message-ID: <20220421082358.ivpmtak3ednvddrc@houat>
+References: <20220420231230.58499-1-bjorn.andersson@linaro.org>
+ <20220420231230.58499-2-bjorn.andersson@linaro.org>
+ <CAMty3ZAw7DUSnBePC05qC8Gn6ESKiu+FHw4a-HPPc05VX1hqhg@mail.gmail.com>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:91.0) Gecko/20100101
- Thunderbird/91.8.1
-Subject: Re: [PATCH 2/2] drm/i915/selftests: tweak the misaligned_case
-Content-Language: en-US
-To: Matthew Auld <matthew.auld@intel.com>, intel-gfx@lists.freedesktop.org
-References: <20220406193037.1060769-1-matthew.auld@intel.com>
- <20220406193037.1060769-2-matthew.auld@intel.com>
-From: "Das, Nirmoy" <nirmoy.das@linux.intel.com>
-In-Reply-To: <20220406193037.1060769-2-matthew.auld@intel.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
+Content-Type: multipart/signed; micalg=pgp-sha512;
+ protocol="application/pgp-signature"; boundary="nuuowyjtkv725it4"
+Content-Disposition: inline
+In-Reply-To: <CAMty3ZAw7DUSnBePC05qC8Gn6ESKiu+FHw4a-HPPc05VX1hqhg@mail.gmail.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -60,46 +84,65 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: =?UTF-8?Q?Thomas_Hellstr=c3=b6m?= <thomas.hellstrom@linux.intel.com>,
- dri-devel@lists.freedesktop.org
+Cc: Thomas Zimmermann <tzimmermann@suse.de>, David Airlie <airlied@linux.ie>,
+ Robert Foss <robert.foss@linaro.org>, linux-kernel@vger.kernel.org,
+ dri-devel@lists.freedesktop.org, Bjorn Andersson <bjorn.andersson@linaro.org>,
+ Paul Kocialkowski <paul.kocialkowski@bootlin.com>,
+ Thierry Reding <thierry.reding@gmail.com>,
+ Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
+ Marek Szyprowski <m.szyprowski@samsung.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-LGTM Reviewed-by: Nirmoy Das <nirmoy.das@intel.com>
 
-On 4/6/2022 9:30 PM, Matthew Auld wrote:
-> The compact-pt layout restrictions should only apply to the ppGTT. Also
-> make this play nice on platforms that only have the 64K GTT restriction,
-> and not the compact-pt thing.
->
-> Signed-off-by: Matthew Auld <matthew.auld@intel.com>
-> Cc: Thomas Hellström <thomas.hellstrom@linux.intel.com>
-> Cc: Nirmoy Das <nirmoy.das@linux.intel.com>
-> ---
->   drivers/gpu/drm/i915/selftests/i915_gem_gtt.c | 12 +++++++++---
->   1 file changed, 9 insertions(+), 3 deletions(-)
->
-> diff --git a/drivers/gpu/drm/i915/selftests/i915_gem_gtt.c b/drivers/gpu/drm/i915/selftests/i915_gem_gtt.c
-> index bccc49a8ab5e..8633bec18fa7 100644
-> --- a/drivers/gpu/drm/i915/selftests/i915_gem_gtt.c
-> +++ b/drivers/gpu/drm/i915/selftests/i915_gem_gtt.c
-> @@ -1112,10 +1112,16 @@ static int misaligned_case(struct i915_address_space *vm, struct intel_memory_re
->   	expected_vma_size = round_up(size, 1 << (ffs(vma->resource->page_sizes_gtt) - 1));
->   	expected_node_size = expected_vma_size;
->   
-> -	if (NEEDS_COMPACT_PT(vm->i915) && i915_gem_object_is_lmem(obj)) {
-> -		/* compact-pt should expand lmem node to 2MB */
-> +	if (HAS_64K_PAGES(vm->i915) && i915_gem_object_is_lmem(obj)) {
-> +		/*
-> +		 * The compact-pt should expand lmem node to 2MB for the ppGTT,
-> +		 * for all other cases we should only expect 64K.
-> +		 */
->   		expected_vma_size = round_up(size, I915_GTT_PAGE_SIZE_64K);
-> -		expected_node_size = round_up(size, I915_GTT_PAGE_SIZE_2M);
-> +		if (NEEDS_COMPACT_PT(vm->i915) && !i915_is_ggtt(vm))
-> +			expected_node_size = round_up(size, I915_GTT_PAGE_SIZE_2M);
-> +		else
-> +			expected_node_size = round_up(size, I915_GTT_PAGE_SIZE_64K);
->   	}
->   
->   	if (vma->size != expected_vma_size || vma->node.size != expected_node_size) {
+--nuuowyjtkv725it4
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
+
+On Thu, Apr 21, 2022 at 01:15:54PM +0530, Jagan Teki wrote:
+> + Linus
+> + Marek
+> + Laurent
+> + Robert
+>=20
+> On Thu, Apr 21, 2022 at 4:40 AM Bjorn Andersson
+> <bjorn.andersson@linaro.org> wrote:
+> >
+> > Commit '80253168dbfd ("drm: of: Lookup if child node has panel or
+> > bridge")' attempted to simplify the case of expressing a simple panel
+> > under a DSI controller, by assuming that the first non-graph child node
+> > was a panel or bridge.
+> >
+> > Unfortunately for non-trivial cases the first child node might not be a
+> > panel or bridge.  Examples of this can be a aux-bus in the case of
+> > DisplayPort, or an opp-table represented before the panel node.
+> >
+> > In these cases the reverted commit prevents the caller from ever finding
+> > a reference to the panel.
+> >
+> > This reverts commit '80253168dbfd ("drm: of: Lookup if child node has
+> > panel or bridge")', in favor of using an explicit graph reference to the
+> > panel in the trivial case as well.
+>=20
+> This eventually breaks many child-based devm_drm_of_get_bridge
+> switched drivers.  Do you have any suggestions on how to proceed to
+> succeed in those use cases as well?
+
+I guess we could create a new helper for those, like
+devm_drm_of_get_bridge_with_panel, or something.
+
+Maxime
+
+--nuuowyjtkv725it4
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iHUEABYKAB0WIQRcEzekXsqa64kGDp7j7w1vZxhRxQUCYmEUngAKCRDj7w1vZxhR
+xcyNAQCQWG0wPTFJTHNnCb79v3w/0oq3K8NWFjJQdfhmMTMd0gEAluKjETuOog8r
+01deImfsj34FpREypMQIqkuLR7Y8igw=
+=cGpF
+-----END PGP SIGNATURE-----
+
+--nuuowyjtkv725it4--
