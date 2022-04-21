@@ -2,46 +2,47 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 451FE50965F
-	for <lists+dri-devel@lfdr.de>; Thu, 21 Apr 2022 07:13:19 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 804F2509662
+	for <lists+dri-devel@lfdr.de>; Thu, 21 Apr 2022 07:13:24 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 505A910F379;
-	Thu, 21 Apr 2022 05:13:17 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 0AD0189D39;
+	Thu, 21 Apr 2022 05:13:22 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from us-smtp-delivery-124.mimecast.com
  (us-smtp-delivery-124.mimecast.com [170.10.133.124])
- by gabe.freedesktop.org (Postfix) with ESMTPS id AD95510F366
- for <dri-devel@lists.freedesktop.org>; Thu, 21 Apr 2022 05:13:13 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id A022B89B97
+ for <dri-devel@lists.freedesktop.org>; Thu, 21 Apr 2022 05:13:20 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1650517992;
+ s=mimecast20190719; t=1650517999;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=5bCkYEOsNHgNL9DAc6eiIfRMxj3itayT5GreRyCWKFU=;
- b=cLh2u/tk7qjQhbDqglLqFp2baqHejrl48vl4FcgLyaWqPeHhhyBQ/eR+IB9iRD5QiZPvzY
- mjMBfKUYldmFzhVcV0mX3vfvr8LCSPhZ5R9DOd0PEGbldp6nVhpdliYrBW9H/g+STkhQhd
- ssR8nj2P5QozZMxMcT6fxM3fXANdZtU=
-Received: from mimecast-mx02.redhat.com (mx3-rdu2.redhat.com
- [66.187.233.73]) by relay.mimecast.com with ESMTP with STARTTLS
+ bh=onN0ZHZPa2j6tpDgsJt0Wzjm7hzuHqZyanl0pCWwqvQ=;
+ b=LdDLhbOrjZfR6vHHIxaadkBLyqYtEO00yGBzUyk4bkG/AiJqnuwvZzDw+sQuC0181wsMNh
+ cb0sYK4PC3MTbGy4xFI2VXsZgk39IA9/aSvAxGgwfXN/a9Arp0pJa/EZxY4qWCnvDv7JYv
+ xc3vibJAj3qb10JUn8W/lXKU1+DXbok=
+Received: from mimecast-mx02.redhat.com (mimecast-mx02.redhat.com
+ [66.187.233.88]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-516-0HIxVeq1PGehQlJ21WvyzA-1; Thu, 21 Apr 2022 01:13:10 -0400
-X-MC-Unique: 0HIxVeq1PGehQlJ21WvyzA-1
+ us-mta-588-n6ShaFpmO8GKtexO1bl7cw-1; Thu, 21 Apr 2022 01:13:15 -0400
+X-MC-Unique: n6ShaFpmO8GKtexO1bl7cw-1
 Received: from smtp.corp.redhat.com (int-mx07.intmail.prod.int.rdu2.redhat.com
  [10.11.54.7])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 4FF8229DD98F;
- Thu, 21 Apr 2022 05:13:09 +0000 (UTC)
+ by mimecast-mx02.redhat.com (Postfix) with ESMTPS id C7D40185A794;
+ Thu, 21 Apr 2022 05:13:14 +0000 (UTC)
 Received: from localhost.localdomain (unknown [10.40.194.231])
- by smtp.corp.redhat.com (Postfix) with ESMTP id C534D145B96B;
- Thu, 21 Apr 2022 05:13:03 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 791B6145BA5A;
+ Thu, 21 Apr 2022 05:13:09 +0000 (UTC)
 From: Maxim Levitsky <mlevitsk@redhat.com>
 To: kvm@vger.kernel.org
-Subject: [RFC PATCH v2 03/10] KVM: x86: mmu: add gfn_in_memslot helper
-Date: Thu, 21 Apr 2022 08:12:37 +0300
-Message-Id: <20220421051244.187733-4-mlevitsk@redhat.com>
+Subject: [RFC PATCH v2 04/10] KVM: x86: mmu: tweak fast path for emulation of
+ access to nested NPT pages
+Date: Thu, 21 Apr 2022 08:12:38 +0300
+Message-Id: <20220421051244.187733-5-mlevitsk@redhat.com>
 In-Reply-To: <20220421051244.187733-1-mlevitsk@redhat.com>
 References: <20220421051244.187733-1-mlevitsk@redhat.com>
 MIME-Version: 1.0
@@ -73,47 +74,25 @@ Cc: Wanpeng Li <wanpengli@tencent.com>, David Airlie <airlied@linux.ie>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-This is a tiny refactoring, and can be useful to check
-if a GPA/GFN is within a memslot a bit more cleanly.
-
-Signed-off-by: Maxim Levitsky <mlevitsk@redhat.com>
 ---
- include/linux/kvm_host.h | 10 +++++++++-
- 1 file changed, 9 insertions(+), 1 deletion(-)
+ arch/x86/kvm/mmu/mmu.c | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
 
-diff --git a/include/linux/kvm_host.h b/include/linux/kvm_host.h
-index 252ee4a61b58b..12e261559070b 100644
---- a/include/linux/kvm_host.h
-+++ b/include/linux/kvm_host.h
-@@ -1580,6 +1580,13 @@ int kvm_request_irq_source_id(struct kvm *kvm);
- void kvm_free_irq_source_id(struct kvm *kvm, int irq_source_id);
- bool kvm_arch_irqfd_allowed(struct kvm *kvm, struct kvm_irqfd *args);
+diff --git a/arch/x86/kvm/mmu/mmu.c b/arch/x86/kvm/mmu/mmu.c
+index 23f895d439cf5..b63398dfdac3b 100644
+--- a/arch/x86/kvm/mmu/mmu.c
++++ b/arch/x86/kvm/mmu/mmu.c
+@@ -5315,8 +5315,8 @@ int kvm_mmu_page_fault(struct kvm_vcpu *vcpu, gpa_t cr2_or_gpa, u64 error_code,
+ 	 */
+ 	if (vcpu->arch.mmu->root_role.direct &&
+ 	    (error_code & PFERR_NESTED_GUEST_PAGE) == PFERR_NESTED_GUEST_PAGE) {
+-		kvm_mmu_unprotect_page(vcpu->kvm, gpa_to_gfn(cr2_or_gpa));
+-		return 1;
++		if (kvm_mmu_unprotect_page(vcpu->kvm, gpa_to_gfn(cr2_or_gpa)))
++			return 1;
+ 	}
  
-+
-+static inline bool gfn_in_memslot(struct kvm_memory_slot *slot, gfn_t gfn)
-+{
-+	return (gfn >= slot->base_gfn && gfn < slot->base_gfn + slot->npages);
-+}
-+
-+
- /*
-  * Returns a pointer to the memslot if it contains gfn.
-  * Otherwise returns NULL.
-@@ -1590,12 +1597,13 @@ try_get_memslot(struct kvm_memory_slot *slot, gfn_t gfn)
- 	if (!slot)
- 		return NULL;
- 
--	if (gfn >= slot->base_gfn && gfn < slot->base_gfn + slot->npages)
-+	if (gfn_in_memslot(slot, gfn))
- 		return slot;
- 	else
- 		return NULL;
- }
- 
-+
- /*
-  * Returns a pointer to the memslot that contains gfn. Otherwise returns NULL.
-  *
+ 	/*
 -- 
 2.26.3
 
