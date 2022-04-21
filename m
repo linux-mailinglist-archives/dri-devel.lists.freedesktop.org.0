@@ -2,55 +2,74 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 260EC50A1FC
-	for <lists+dri-devel@lfdr.de>; Thu, 21 Apr 2022 16:19:02 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 1224F50A20F
+	for <lists+dri-devel@lfdr.de>; Thu, 21 Apr 2022 16:21:11 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id D456010E494;
-	Thu, 21 Apr 2022 14:18:57 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id F08E110E61B;
+	Thu, 21 Apr 2022 14:21:08 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-oa1-x32.google.com (mail-oa1-x32.google.com
- [IPv6:2001:4860:4864:20::32])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 4E62010E455;
- Thu, 21 Apr 2022 14:18:56 +0000 (UTC)
-Received: by mail-oa1-x32.google.com with SMTP id
- 586e51a60fabf-d39f741ba0so5488351fac.13; 
- Thu, 21 Apr 2022 07:18:56 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=k6DcgaBgifbl98HwTQyTz4opgdKW16OPxOhCg6ox3bw=;
- b=akZH1M9X1Mq0wvuSic/T+8WK0gaoybBnq14OO+c+2tuwmuNrFE/Tz1feJvZ4HpbwtI
- NZ49Dc9Owb5RUujQIA47u/DGtnwCpY/5weTW/7vDTtfD3g+GENCOi/neHowgA7im+dTh
- w7pTm5p5Iy+pIjTHy4XRTiP1Adthk4fO2oGUL5K9CNtmt/1k43Eke5y0ZvlacYlP95lP
- EWnK6lnz/IP8J0Gp3g2S1B7QjrptJgveyM/mzQSQ3EOV4piUVeYgYjSgMLPca87vwUMI
- 4sSBwGpSAb80sXMEMvjVideV7RceGWxOy8SutDao5yiyVAFTNPwqxERvGnOt3kakP/kG
- z3og==
+Received: from us-smtp-delivery-124.mimecast.com
+ (us-smtp-delivery-124.mimecast.com [170.10.133.124])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id C8A2710E641
+ for <dri-devel@lists.freedesktop.org>; Thu, 21 Apr 2022 14:21:07 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1650550866;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding;
+ bh=H5k1rgXE1P7IbK6cMqND8jHr8Tf+eEFak/sZ9mPOKJY=;
+ b=QkphaMkd/2f0icmD59VFPW+PAIiOPxqs5D4mrHhBJrZ2pocazbaCcSPkhxFtLC5yBwKdSW
+ mVyy05Fs6g4SVxChADB1IFebzVLxI0XPFjwkdt0w8IEJYaKOaIjWn9qbz5T0hPo6zihW0f
+ G85n146JrQbLPh8YJ+35LGu6hzXyW8g=
+Received: from mail-qv1-f71.google.com (mail-qv1-f71.google.com
+ [209.85.219.71]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ us-mta-612-u7bn323XPyaBl-OVo3_M1w-1; Thu, 21 Apr 2022 10:21:05 -0400
+X-MC-Unique: u7bn323XPyaBl-OVo3_M1w-1
+Received: by mail-qv1-f71.google.com with SMTP id
+ j7-20020a05621419c700b004461f75de48so4018274qvc.10
+ for <dri-devel@lists.freedesktop.org>; Thu, 21 Apr 2022 07:21:05 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=k6DcgaBgifbl98HwTQyTz4opgdKW16OPxOhCg6ox3bw=;
- b=6O896UGBHcr3ifKWoMr5YFZBgH82fK1BPMc0O0ShwJb6XgWwid1XnWZsMUN1w/QisN
- j0DHoigSmccS0N9xR3gCfdah0sAC9MRBXLLJ6QHkWQnO6BFNad4oa2mDWUA+U8McQp7a
- ZonmJ6Ta18ymF4Li5nK+lNX6b8n+GzUMXmk/tX/qUudxUTnYO5/hEKUpdg0Rrtjv6coz
- ACCLjNppzJvD6X4gcFNr5S29GarmHSlYpDrRiyofdZP5k0a7F/AWRLIWtXppxHB0mMny
- sQBsN+csnbq2XUyIWw75OjgXzTLF3mIHZUK8KApeQ+rwhfZ+JVP4a8EUKjM86uIDbgOk
- 1png==
-X-Gm-Message-State: AOAM532U9CR7sSuPLfAwZsLCTIyXSfTRt/AfqeZ+f4Yfp9Y42kw3hwn/
- mBbwwb9ZwY3FBVSbEWgUm+QIk2m8k7K+ODrgo4I=
-X-Google-Smtp-Source: ABdhPJzuZENytfXhDw4gnAPlJURyrJyYpEVhxUavxnPVMpQVwHQL3dxxaZOzCAfQotdDEP6MCIiiT4dbinmfyqR2jCA=
-X-Received: by 2002:a05:6870:d683:b0:de:eaa2:3550 with SMTP id
- z3-20020a056870d68300b000deeaa23550mr4071428oap.253.1650550735602; Thu, 21
- Apr 2022 07:18:55 -0700 (PDT)
+ h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=H5k1rgXE1P7IbK6cMqND8jHr8Tf+eEFak/sZ9mPOKJY=;
+ b=gu1MrDjfm3bgA3lSm5RVTWJdof/xLR37G5NzisaziafY/ocfTkAr/Ia0uzGS91XwqO
+ LKNB5qdubfEPEOoa/RIAxme1vrCqwkwT7FRHeDgrMpSGO3sPJINVwXe2f52wvRSr2lpF
+ pqvFEUSKEsnghibW+ZuevM6RRfYFo3eBIfoZkoA+kKlRlOWfC0nx5TSlAxHpwzQZVxdz
+ oViz5YJMoeEvIPgSc09fVowzyJimpNwwW6TqKLZU6eamYqJpAfCv9cldgAESH5OiOM8i
+ V0uB/I9mdKA/4TCs8EhLfMSMmPfp1lRPUYaCUKHTz+hDWyzq526JmsDhlFduYN55mtXp
+ LPUw==
+X-Gm-Message-State: AOAM53034O96Du5cDDof1uMs7SrqOcIt7mfOMlXLEeLCvUrMtTWHw0rA
+ DSZ63Jk++V6fgo6NAuKwMl4ZKk/06Bewfm6JUfFJb4p5Cw3WUxBqv3CfZZkl+8etEOPM3fr6UBT
+ ScqGyQseOs3eMtZ7KxvOQZwV/y38a
+X-Received: by 2002:ac8:7088:0:b0:2f1:e898:2971 with SMTP id
+ y8-20020ac87088000000b002f1e8982971mr17388782qto.152.1650550865030; 
+ Thu, 21 Apr 2022 07:21:05 -0700 (PDT)
+X-Google-Smtp-Source: ABdhPJzxT8nLASqLzLkqUhCnNzC+DSX/0wzDIp2IM7/27GwXj/kq8GhqiNKzl6Dba3zy6dUouhyaww==
+X-Received: by 2002:ac8:7088:0:b0:2f1:e898:2971 with SMTP id
+ y8-20020ac87088000000b002f1e8982971mr17388760qto.152.1650550864784; 
+ Thu, 21 Apr 2022 07:21:04 -0700 (PDT)
+Received: from dell-per740-01.7a2m.lab.eng.bos.redhat.com
+ (nat-pool-bos-t.redhat.com. [66.187.233.206])
+ by smtp.gmail.com with ESMTPSA id
+ j131-20020a37a089000000b0069e7ebc625bsm2881419qke.78.2022.04.21.07.21.03
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Thu, 21 Apr 2022 07:21:04 -0700 (PDT)
+From: Tom Rix <trix@redhat.com>
+To: airlied@redhat.com, kraxel@redhat.com, airlied@linux.ie, daniel@ffwll.ch
+Subject: [PATCH] drm/qxl: remove qxl_log_level global
+Date: Thu, 21 Apr 2022 10:20:54 -0400
+Message-Id: <20220421142054.3751507-1-trix@redhat.com>
+X-Mailer: git-send-email 2.27.0
 MIME-Version: 1.0
-References: <1650536939-13778-1-git-send-email-baihaowen@meizu.com>
-In-Reply-To: <1650536939-13778-1-git-send-email-baihaowen@meizu.com>
-From: Alex Deucher <alexdeucher@gmail.com>
-Date: Thu, 21 Apr 2022 10:18:44 -0400
-Message-ID: <CADnq5_Of9Z0LV4DFhGcsoeXHdKGXTekntXePufNeZ+LGJ13XxA@mail.gmail.com>
-Subject: Re: [PATCH] drm/amd/display: Remove useless code
-To: Haowen Bai <baihaowen@meizu.com>
-Content-Type: text/plain; charset="UTF-8"
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=trix@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset="US-ASCII"; x-default=true
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -63,47 +82,35 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Leo Li <sunpeng.li@amd.com>, "Pan, Xinhui" <Xinhui.Pan@amd.com>,
- Rodrigo Siqueira <Rodrigo.Siqueira@amd.com>,
- LKML <linux-kernel@vger.kernel.org>,
- Maling list - DRI developers <dri-devel@lists.freedesktop.org>,
- David Airlie <airlied@linux.ie>, amd-gfx list <amd-gfx@lists.freedesktop.org>,
- Alex Deucher <alexander.deucher@amd.com>,
- =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>
+Cc: spice-devel@lists.freedesktop.org, Tom Rix <trix@redhat.com>,
+ linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
+ virtualization@lists.linux-foundation.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Applied.  Thanks!
+Smatch reports this issue
+qxl_kms.c:36:5: warning: symbol 'qxl_log_level' was not declared. Should it be static?
 
-Alex
+qxl_log_level is defined qxl_kms.c but unused, so remove.
 
-On Thu, Apr 21, 2022 at 6:29 AM Haowen Bai <baihaowen@meizu.com> wrote:
->
-> aux_rep only memset but no use at all, so we drop it.
->
-> Signed-off-by: Haowen Bai <baihaowen@meizu.com>
-> ---
->  drivers/gpu/drm/amd/display/dc/dce/dce_aux.c | 2 --
->  1 file changed, 2 deletions(-)
->
-> diff --git a/drivers/gpu/drm/amd/display/dc/dce/dce_aux.c b/drivers/gpu/drm/amd/display/dc/dce/dce_aux.c
-> index 8e814000db62..29e20d92b0bb 100644
-> --- a/drivers/gpu/drm/amd/display/dc/dce/dce_aux.c
-> +++ b/drivers/gpu/drm/amd/display/dc/dce/dce_aux.c
-> @@ -565,13 +565,11 @@ int dce_aux_transfer_raw(struct ddc_service *ddc,
->         struct ddc *ddc_pin = ddc->ddc_pin;
->         struct dce_aux *aux_engine;
->         struct aux_request_transaction_data aux_req;
-> -       struct aux_reply_transaction_data aux_rep;
->         uint8_t returned_bytes = 0;
->         int res = -1;
->         uint32_t status;
->
->         memset(&aux_req, 0, sizeof(aux_req));
-> -       memset(&aux_rep, 0, sizeof(aux_rep));
->
->         aux_engine = ddc->ctx->dc->res_pool->engines[ddc_pin->pin_data->en];
->         if (!acquire(aux_engine, ddc_pin)) {
-> --
-> 2.7.4
->
+Signed-off-by: Tom Rix <trix@redhat.com>
+---
+ drivers/gpu/drm/qxl/qxl_kms.c | 2 --
+ 1 file changed, 2 deletions(-)
+
+diff --git a/drivers/gpu/drm/qxl/qxl_kms.c b/drivers/gpu/drm/qxl/qxl_kms.c
+index a054e4a00fe8..9bf6d4cc98d4 100644
+--- a/drivers/gpu/drm/qxl/qxl_kms.c
++++ b/drivers/gpu/drm/qxl/qxl_kms.c
+@@ -33,8 +33,6 @@
+ #include "qxl_drv.h"
+ #include "qxl_object.h"
+ 
+-int qxl_log_level;
+-
+ static bool qxl_check_device(struct qxl_device *qdev)
+ {
+ 	struct qxl_rom *rom = qdev->rom;
+-- 
+2.27.0
+
