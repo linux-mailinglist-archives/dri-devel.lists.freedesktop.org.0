@@ -1,66 +1,66 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 04EF550AB9B
-	for <lists+dri-devel@lfdr.de>; Fri, 22 Apr 2022 00:41:02 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id C2C1D50ABA5
+	for <lists+dri-devel@lfdr.de>; Fri, 22 Apr 2022 00:47:41 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 4782A10E00C;
-	Thu, 21 Apr 2022 22:40:58 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 5AA6310E036;
+	Thu, 21 Apr 2022 22:47:39 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-lf1-x12f.google.com (mail-lf1-x12f.google.com
- [IPv6:2a00:1450:4864:20::12f])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 98AED10E00C
- for <dri-devel@lists.freedesktop.org>; Thu, 21 Apr 2022 22:40:57 +0000 (UTC)
-Received: by mail-lf1-x12f.google.com with SMTP id bu29so11238343lfb.0
- for <dri-devel@lists.freedesktop.org>; Thu, 21 Apr 2022 15:40:57 -0700 (PDT)
+Received: from mail-lf1-x130.google.com (mail-lf1-x130.google.com
+ [IPv6:2a00:1450:4864:20::130])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 8292C10E065
+ for <dri-devel@lists.freedesktop.org>; Thu, 21 Apr 2022 22:47:38 +0000 (UTC)
+Received: by mail-lf1-x130.google.com with SMTP id h27so10932513lfj.13
+ for <dri-devel@lists.freedesktop.org>; Thu, 21 Apr 2022 15:47:38 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=message-id:date:mime-version:user-agent:subject:content-language:to
  :cc:references:from:in-reply-to:content-transfer-encoding;
- bh=VXnTa3AdiDV/j3eN4DHPMWXjoA8x7lbfScQZ7h6cQ0M=;
- b=lxPWONmCT6K+TLUMqcM9ts5FNVsC3dTcdgfmyNFHYfI6P9hQroFt0+LIgGxusK6jFv
- kqv+6esYVsbscTzTq3l2yMg5BjwobPpoP2nsyb7hkp/yXg7xd6NNIPXxvNt7mN3yLJYk
- GX26owwd6d8SrFlf4QhoTCpVS+5npH3Upqz3d85pLNHkd4HiP0NtEqa7XK8aIcfFIdSq
- y2tJUevArQMVPDeofUiEzlJGGn3jVeo8ZsNXucPfbdv0pkjuVog0vih0rqNve3nVbD2e
- Pjq8M5Q6tPprh4LEQTZe9lvMdQL5urt+uHHQ8pOzrIxnGq/A8tXnz42Y+pmEAI93a6lX
- vmOg==
+ bh=4rBU8JhHGmuimm5fNEMYbDal/dx3pK4nk4qKGREZwJY=;
+ b=dqHnLKNVe70MHMrBRxGiGrwpRLv1zJNDutjfpUs3f9oC/bK0liONREEHpl31iD9+Ri
+ JyO4BbdJIvL8vxhYnE9cBrmO/5/LW4WdNrsdb1ERbnph2MwyidhXi7WazTciBrNhl6cP
+ 8r8KyknGr64p5oi4gbPe/fUoy+bYOW2lVa0cM7coGACQ0GXWepxzbKkMWitp3QREKKli
+ BvCyw53Tl/6/afWVaJm1eXGMmhUEVeACPE3kAYoo34C8MJqQn9B96O6mJBmNAqaTHz5m
+ TVuV9xdZP/Pm+n+hQeFORHTNOiQPKJwgAXuSh6jZmQBshlCuAPv4646NT77KMzFVrw+T
+ jprg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
  :content-language:to:cc:references:from:in-reply-to
  :content-transfer-encoding;
- bh=VXnTa3AdiDV/j3eN4DHPMWXjoA8x7lbfScQZ7h6cQ0M=;
- b=q+yZzR3jOVFs6lOu+u2tchAGQ6lOskJRMSguB0Dr2CaF8S2wmErM+a6xpllJxSHEDF
- vdKr6NVM78ns2Eyd9O+f5TRsHu05XzmQ16vzSpCMcxzV3OdxzADXGsQCOIXiXA51wIQj
- L0uAZ1wLr23gN2ERkJItOyCRC9nyKAaouC/ZfnR19qmcxLPzrPnLXKHx2rCHCVqqWoyu
- krFk0rrezG8e7GnDtOiBUlfRU43mH/9F7UjZm0hyxqFw4RM8AdLnSy6C5znqFLPkaZYu
- jnMle8ljXppLCbLwoPSSbdC4l8WmS6mZj4aziYOW5LQRuiXcPzhwN+8x3lVmSO+GBu38
- QIpw==
-X-Gm-Message-State: AOAM533Rj22k72033OTOVsFSpNG7oTde0/u56zkJpAjrWgK7t3kON6L0
- 87tio0iqERLmGT/2nF+tATdv0pLVhezE3A==
-X-Google-Smtp-Source: ABdhPJw6U+grhxnVI9dzch99d4Y+z9cdZtkpfTy/s87p5YikELLSsM2x797MAFp8VBMApGZot3s9oQ==
-X-Received: by 2002:a19:5519:0:b0:46f:a717:1675 with SMTP id
- n25-20020a195519000000b0046fa7171675mr1105333lfe.368.1650580855775; 
- Thu, 21 Apr 2022 15:40:55 -0700 (PDT)
+ bh=4rBU8JhHGmuimm5fNEMYbDal/dx3pK4nk4qKGREZwJY=;
+ b=ZhbkD8AzpWU2zZORmNdzJHKZfAkOmZmwEVs3BpP1kgpLO7f+FtvR09c4bcnvF27QB6
+ mu16zTc7RiR5mmPHAx9ybqkacIR7drJ5F6KJAmXY22C9vRUREZqap/PEzPUFbM/IRHqV
+ UfvqeJ5SxyuExko0o9hAZAiXzdLxEUZC4XU5iU1/CtDFA7IvRicV5xSY/8fuRIl6v1jb
+ ufSn//szijZzSQ0E7CV5B0l1k/Jdi/yntEhQ8sfapzySX0lSN80bZKOxPnmQuHbOpPaA
+ XqnZxEWt9Ze7TvTonN5ci8xR+iXF1YOGrS8wu9R8trc/bcajTO1aqkTjCGWPnbGjRlYk
+ PIuA==
+X-Gm-Message-State: AOAM533kAFXrPclq3O8xstYdygF5gwy/rl6B/FHotwLnwU/BMHwb/RWw
+ W1BjUah9IJ8qqRgrSxzcIEUu5g==
+X-Google-Smtp-Source: ABdhPJzVl5JGlq0nxYBRjN5pG7zM+qsdFSKqfMP4FK0YjLOYGNmz9fAoB1kFbF8S07a3RB5AO8r4uA==
+X-Received: by 2002:a05:6512:1051:b0:471:ac48:505e with SMTP id
+ c17-20020a056512105100b00471ac48505emr1096879lfb.306.1650581256722; 
+ Thu, 21 Apr 2022 15:47:36 -0700 (PDT)
 Received: from [192.168.1.211] ([37.153.55.125])
  by smtp.gmail.com with ESMTPSA id
- v2-20020a2e4802000000b0024dc2a58534sm19566lja.75.2022.04.21.15.40.54
+ x6-20020a056512046600b0046fd05817f4sm34147lfd.239.2022.04.21.15.47.35
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Thu, 21 Apr 2022 15:40:55 -0700 (PDT)
-Message-ID: <f3c788b1-e7d8-f13a-e4f9-b96e069fe700@linaro.org>
-Date: Fri, 22 Apr 2022 01:40:54 +0300
+ Thu, 21 Apr 2022 15:47:36 -0700 (PDT)
+Message-ID: <b87b9c54-280e-43e0-bcb9-acd8c524ff98@linaro.org>
+Date: Fri, 22 Apr 2022 01:47:35 +0300
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
  Thunderbird/91.8.0
-Subject: Re: [RFC 1/4] drm/msm/dpu: introduce a wb_idx to be used for
- writeback interfaces
+Subject: Re: [RFC 3/4] drm/msm/dpu: add wb_idx to existing DRM prints in
+ dpu_encoder
 Content-Language: en-GB
 To: Abhinav Kumar <quic_abhinavk@quicinc.com>, freedreno@lists.freedesktop.org
 References: <1650574112-25294-1-git-send-email-quic_abhinavk@quicinc.com>
- <1650574112-25294-2-git-send-email-quic_abhinavk@quicinc.com>
+ <1650574112-25294-4-git-send-email-quic_abhinavk@quicinc.com>
 From: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
-In-Reply-To: <1650574112-25294-2-git-send-email-quic_abhinavk@quicinc.com>
+In-Reply-To: <1650574112-25294-4-git-send-email-quic_abhinavk@quicinc.com>
 Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 7bit
 X-BeenThere: dri-devel@lists.freedesktop.org
@@ -82,192 +82,115 @@ Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 On 21/04/2022 23:48, Abhinav Kumar wrote:
-> Using intf_idx even for writeback interfaces is confusing
-> because intf_idx is of type enum dpu_intf but the index used
-> for writeback is of type enum dpu_wb.
+> Add wb_idx to existing DRM prints in dpu_encoder and also
+> print the intf_mode so that its clear that for any INTF_CMD/VID
+> there will be a valid intf_idx and any INTF_WB_* there will be a
+> valid wb_idx.
 > 
-> In addition, this makes it easier to separately check the
-> availability of the two as its possible that there are boards
-> which don't have any physical display connected but can still
-> work in writeback mode.
+> Update the debugfs to add the same information. Here is a sample
+> output with this change:
+> 
+> root:/sys/kernel/debug/dri/0/encoder31# cat status
+> intf:1  wb:-1  vsync: 31  underrun: 0    mode: INTF_MODE_VIDEO
+> root:/sys/kernel/debug/dri/0/encoder33# cat status
+> intf:-1  wb:2  vsync:  7  underrun: 0    mode: INTF_MODE_WB_LINE
+> 
+> Also remove DPU_DEBUG_PHYS macros as its unused because the
+> respective dpu_encoder_phys_* files have their own macros.
 > 
 > Signed-off-by: Abhinav Kumar <quic_abhinavk@quicinc.com>
-
-Looks good, two minor issues bellow.
-
-With them fixed, I'd even squash this patch into the corresponding patch 
-of the previous patchset.
-
 > ---
->   drivers/gpu/drm/msm/disp/dpu1/dpu_encoder.c      | 62 +++++++++++++-----------
->   drivers/gpu/drm/msm/disp/dpu1/dpu_encoder_phys.h |  4 ++
->   drivers/gpu/drm/msm/disp/dpu1/dpu_rm.h           |  2 +-
->   3 files changed, 40 insertions(+), 28 deletions(-)
+>   drivers/gpu/drm/msm/disp/dpu1/dpu_encoder.c | 50 +++++++++++++----------------
+>   1 file changed, 22 insertions(+), 28 deletions(-)
 > 
 > diff --git a/drivers/gpu/drm/msm/disp/dpu1/dpu_encoder.c b/drivers/gpu/drm/msm/disp/dpu1/dpu_encoder.c
-> index 9c12841..054d7e4 100644
+> index 054d7e4..871ce87 100644
 > --- a/drivers/gpu/drm/msm/disp/dpu1/dpu_encoder.c
 > +++ b/drivers/gpu/drm/msm/disp/dpu1/dpu_encoder.c
-> @@ -962,7 +962,6 @@ static void dpu_encoder_virt_atomic_mode_set(struct drm_encoder *drm_enc,
->   	struct dpu_hw_blk *hw_dsc[MAX_CHANNELS_PER_ENC];
->   	int num_lm, num_ctl, num_pp, num_dsc;
->   	unsigned int dsc_mask = 0;
-> -	enum dpu_hw_blk_type blk_type;
->   	int i;
+> @@ -37,18 +37,6 @@
+>   #define DPU_ERROR_ENC(e, fmt, ...) DPU_ERROR("enc%d " fmt,\
+>   		(e) ? (e)->base.base.id : -1, ##__VA_ARGS__)
 >   
->   	if (!drm_enc) {
-> @@ -1044,17 +1043,11 @@ static void dpu_encoder_virt_atomic_mode_set(struct drm_encoder *drm_enc,
->   		phys->hw_pp = dpu_enc->hw_pp[i];
->   		phys->hw_ctl = to_dpu_hw_ctl(hw_ctl[i]);
->   
-> -		if (dpu_encoder_get_intf_mode(&dpu_enc->base) == INTF_MODE_WB_LINE)
-> -			blk_type = DPU_HW_BLK_WB;
-> -		else
-> -			blk_type = DPU_HW_BLK_INTF;
-> +		if (phys->intf_idx >= INTF_0 && phys->intf_idx < INTF_MAX)
-> +			phys->hw_intf = dpu_rm_get_intf(&dpu_kms->rm, phys->intf_idx);
->   
-> -		if (phys->intf_idx >= INTF_0 && phys->intf_idx < INTF_MAX) {
-> -			if (blk_type == DPU_HW_BLK_INTF)
-> -				phys->hw_intf = dpu_rm_get_intf(&dpu_kms->rm, phys->intf_idx);
-> -			else if (blk_type == DPU_HW_BLK_WB)
-> -				phys->hw_wb = dpu_rm_get_wb(&dpu_kms->rm, phys->intf_idx);
-> -		}
-> +		if (phys->wb_idx >= WB_0 && phys->wb_idx < WB_MAX)
-> +			phys->hw_wb = dpu_rm_get_wb(&dpu_kms->rm, phys->wb_idx);
->   
-
-We also need a check for if (phus->hw_intf && phys->hw_wb) HERE
-
->   		if (!phys->hw_intf && !phys->hw_wb) {
->   			DPU_ERROR_ENC(dpu_enc,
-> @@ -1201,7 +1194,7 @@ static void dpu_encoder_virt_disable(struct drm_encoder *drm_enc)
->   	mutex_unlock(&dpu_enc->enc_lock);
+> -#define DPU_DEBUG_PHYS(p, fmt, ...) DRM_DEBUG_ATOMIC("enc%d intf%d pp%d " fmt,\
+> -		(p) ? (p)->parent->base.id : -1, \
+> -		(p) ? (p)->intf_idx - INTF_0 : -1, \
+> -		(p) ? ((p)->hw_pp ? (p)->hw_pp->idx - PINGPONG_0 : -1) : -1, \
+> -		##__VA_ARGS__)
+> -
+> -#define DPU_ERROR_PHYS(p, fmt, ...) DPU_ERROR("enc%d intf%d pp%d " fmt,\
+> -		(p) ? (p)->parent->base.id : -1, \
+> -		(p) ? (p)->intf_idx - INTF_0 : -1, \
+> -		(p) ? ((p)->hw_pp ? (p)->hw_pp->idx - PINGPONG_0 : -1) : -1, \
+> -		##__VA_ARGS__)
+> -
+>   /*
+>    * Two to anticipate panels that can do cmd/vid dynamic switching
+>    * plan is to create all possible physical encoder types, and switch between
+> @@ -262,12 +250,28 @@ static void _dpu_encoder_setup_dither(struct dpu_hw_pingpong *hw_pp, unsigned bp
+>   	hw_pp->ops.setup_dither(hw_pp, &dither_cfg);
 >   }
 >   
-> -static enum dpu_intf dpu_encoder_get_intf_or_wb(struct dpu_mdss_cfg *catalog,
-> +static enum dpu_intf dpu_encoder_get_intf(struct dpu_mdss_cfg *catalog,
->   		enum dpu_intf_type type, u32 controller_id)
->   {
->   	int i = 0;
-> @@ -1213,16 +1206,28 @@ static enum dpu_intf dpu_encoder_get_intf_or_wb(struct dpu_mdss_cfg *catalog,
->   				return catalog->intf[i].id;
->   			}
->   		}
-> -	} else {
-> -		for (i = 0; i < catalog->wb_count; i++) {
-> -			if (catalog->wb[i].id == controller_id)
-> -				return catalog->wb[i].id;
-> -		}
->   	}
->   
->   	return INTF_MAX;
->   }
->   
-> +static enum dpu_wb dpu_encoder_get_wb(struct dpu_mdss_cfg *catalog,
-> +		enum dpu_intf_type type, u32 controller_id)
+> +static char *dpu_encoder_helper_get_intf_type(enum dpu_intf_mode intf_mode)
 > +{
-> +	int i = 0;
-> +
-> +	if (type != INTF_WB)
-> +		goto end;
-> +
-> +	for (i = 0; i < catalog->wb_count; i++) {
-> +		if (catalog->wb[i].id == controller_id)
-> +			return catalog->wb[i].id;
-> +	}
-> +
-> +end:
-> +	return WB_MAX;
 
-I'd return INTF_NONE/WB_NONE if the interface or WB unit was not found.
+I'd rather convert this to switch() {...}
 
+With that fixed:
+
+Reviewed-by: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
+
+> +	if (intf_mode == INTF_MODE_VIDEO)
+> +		return "INTF_MODE_VIDEO";
+> +	else if (intf_mode == INTF_MODE_CMD)
+> +		return "INTF_MODE_CMD";
+> +	else if (intf_mode == INTF_MODE_WB_BLOCK)
+> +		return "INTF_MODE_WB_BLOCK";
+> +	else if (intf_mode == INTF_MODE_WB_LINE)
+> +		return "INTF_MODE_WB_LINE";
+> +	else
+> +		return "INTF_MODE_UNKNOWN";
 > +}
 > +
->   static void dpu_encoder_vblank_callback(struct drm_encoder *drm_enc,
->   		struct dpu_encoder_phys *phy_enc)
+>   void dpu_encoder_helper_report_irq_timeout(struct dpu_encoder_phys *phys_enc,
+>   		enum dpu_intr_idx intr_idx)
 >   {
-> @@ -2249,18 +2254,21 @@ static int dpu_encoder_setup_display(struct dpu_encoder_virt *dpu_enc,
->   		DPU_DEBUG("h_tile_instance %d = %d, split_role %d\n",
->   				i, controller_id, phys_params.split_role);
+> -	DRM_ERROR("irq timeout id=%u, intf=%d, pp=%d, intr=%d\n",
+> -		  DRMID(phys_enc->parent), phys_enc->intf_idx - INTF_0,
+> -		  phys_enc->hw_pp->idx - PINGPONG_0, intr_idx);
+> +	DRM_ERROR("irq timeout id=%u, intf_mode=%s intf=%d wb=%d, pp=%d, intr=%d\n",
+> +			DRMID(phys_enc->parent),
+> +			dpu_encoder_helper_get_intf_type(phys_enc->intf_mode),
+> +			phys_enc->intf_idx - INTF_0, phys_enc->wb_idx - WB_0,
+> +			phys_enc->hw_pp->idx - PINGPONG_0, intr_idx);
 >   
-> -		/*
-> -		 * FIXME: have separate intf_idx and wb_idx to avoid using
-> -		 * enum dpu_intf type for wb_idx and also to be able to
-> -		 * not bail out when there is no intf for boards which dont
-> -		 * have a display connected to them.
-> -		 * Having a valid wb_idx but not a intf_idx can be a valid
-> -		 * combination moving forward.
-> -		 */
-> -		phys_params.intf_idx = dpu_encoder_get_intf_or_wb(dpu_kms->catalog,
-> +		phys_params.intf_idx = dpu_encoder_get_intf(dpu_kms->catalog,
->   													intf_type,
->   													controller_id);
-> -		if (phys_params.intf_idx == INTF_MAX) {
-> +
-> +		phys_params.wb_idx = dpu_encoder_get_wb(dpu_kms->catalog,
-> +				intf_type, controller_id);
-> +		/*
-> +		 * For boards which have no physical displays, having no interface
-> +		 * is fine because it can still be used with just writeback.
-> +		 * If we try without a display on a board which uses a DPU in which
-> +		 * writeback is not supported, then this will still fail as it will not
-> +		 * find any writeback in the catalog.
-> +		 */
-> +		if ((phys_params.intf_idx == INTF_MAX) &&
-> +				(phys_params.wb_idx == WB_MAX)) {
->   			DPU_ERROR_ENC(dpu_enc, "could not get intf or wb: type %d, id %d\n",
->   						  intf_type, controller_id);
->   			ret = -EINVAL;
-> diff --git a/drivers/gpu/drm/msm/disp/dpu1/dpu_encoder_phys.h b/drivers/gpu/drm/msm/disp/dpu1/dpu_encoder_phys.h
-> index 04d037e..f2af07d 100644
-> --- a/drivers/gpu/drm/msm/disp/dpu1/dpu_encoder_phys.h
-> +++ b/drivers/gpu/drm/msm/disp/dpu1/dpu_encoder_phys.h
-> @@ -181,6 +181,7 @@ enum dpu_intr_idx {
->    * @split_role:		Role to play in a split-panel configuration
->    * @intf_mode:		Interface mode
->    * @intf_idx:		Interface index on dpu hardware
-> + * @wb_idx:			Writeback index on dpu hardware
->    * @enc_spinlock:	Virtual-Encoder-Wide Spin Lock for IRQ purposes
->    * @enable_state:	Enable state tracking
->    * @vblank_refcount:	Reference count of vblank request
-> @@ -209,6 +210,7 @@ struct dpu_encoder_phys {
->   	enum dpu_enc_split_role split_role;
->   	enum dpu_intf_mode intf_mode;
->   	enum dpu_intf intf_idx;
-> +	enum dpu_wb wb_idx;
->   	spinlock_t *enc_spinlock;
->   	enum dpu_enc_enable_state enable_state;
->   	atomic_t vblank_refcount;
-> @@ -275,6 +277,7 @@ struct dpu_encoder_phys_cmd {
->    * @parent_ops:		Callbacks exposed by the parent to the phys_enc
->    * @split_role:		Role to play in a split-panel configuration
->    * @intf_idx:		Interface index this phys_enc will control
-> + * @wb_idx:			Writeback index this phys_enc will control
->    * @enc_spinlock:	Virtual-Encoder-Wide Spin Lock for IRQ purposes
->    */
->   struct dpu_enc_phys_init_params {
-> @@ -283,6 +286,7 @@ struct dpu_enc_phys_init_params {
->   	const struct dpu_encoder_virt_ops *parent_ops;
->   	enum dpu_enc_split_role split_role;
->   	enum dpu_intf intf_idx;
-> +	enum dpu_wb wb_idx;
->   	spinlock_t *enc_spinlock;
->   };
+>   	if (phys_enc->parent_ops->handle_frame_done)
+>   		phys_enc->parent_ops->handle_frame_done(
+> @@ -2042,22 +2046,12 @@ static int _dpu_encoder_status_show(struct seq_file *s, void *data)
+>   	for (i = 0; i < dpu_enc->num_phys_encs; i++) {
+>   		struct dpu_encoder_phys *phys = dpu_enc->phys_encs[i];
 >   
-> diff --git a/drivers/gpu/drm/msm/disp/dpu1/dpu_rm.h b/drivers/gpu/drm/msm/disp/dpu1/dpu_rm.h
-> index ba82e54..2f34a31 100644
-> --- a/drivers/gpu/drm/msm/disp/dpu1/dpu_rm.h
-> +++ b/drivers/gpu/drm/msm/disp/dpu1/dpu_rm.h
-> @@ -103,7 +103,7 @@ static inline struct dpu_hw_intf *dpu_rm_get_intf(struct dpu_rm *rm, enum dpu_in
->    * @rm: DPU Resource Manager handle
->    * @wb_idx: WB index
->    */
-> -static inline struct dpu_hw_wb *dpu_rm_get_wb(struct dpu_rm *rm, enum dpu_intf wb_idx)
-> +static inline struct dpu_hw_wb *dpu_rm_get_wb(struct dpu_rm *rm, enum dpu_wb wb_idx)
->   {
->   	return rm->hw_wb[wb_idx - WB_0];
->   }
+> -		seq_printf(s, "intf:%d    vsync:%8d     underrun:%8d    ",
+> -				phys->intf_idx - INTF_0,
+> +		seq_printf(s, "intf:%d  wb:%d  vsync:%8d     underrun:%8d    ",
+> +				phys->intf_idx - INTF_0, phys->wb_idx - WB_0,
+>   				atomic_read(&phys->vsync_cnt),
+>   				atomic_read(&phys->underrun_cnt));
+>   
+> -		switch (phys->intf_mode) {
+> -		case INTF_MODE_VIDEO:
+> -			seq_puts(s, "mode: video\n");
+> -			break;
+> -		case INTF_MODE_CMD:
+> -			seq_puts(s, "mode: command\n");
+> -			break;
+> -		default:
+> -			seq_puts(s, "mode: ???\n");
+> -			break;
+> -		}
+> +		seq_printf(s, "mode: %s\n", dpu_encoder_helper_get_intf_type(phys->intf_mode));
+>   	}
+>   	mutex_unlock(&dpu_enc->enc_lock);
+>   
 
 
 -- 
