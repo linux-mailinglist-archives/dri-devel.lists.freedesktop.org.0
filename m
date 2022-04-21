@@ -1,44 +1,44 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3B281509EB1
-	for <lists+dri-devel@lfdr.de>; Thu, 21 Apr 2022 13:37:25 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 4E835509EB5
+	for <lists+dri-devel@lfdr.de>; Thu, 21 Apr 2022 13:37:34 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 838A410EA76;
-	Thu, 21 Apr 2022 11:37:19 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id C373B10EAA1;
+	Thu, 21 Apr 2022 11:37:23 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from mga06.intel.com (mga06b.intel.com [134.134.136.31])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 5F86110EA76;
- Thu, 21 Apr 2022 11:37:18 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id DD11110EA92;
+ Thu, 21 Apr 2022 11:37:21 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1650541038; x=1682077038;
+ t=1650541042; x=1682077042;
  h=from:to:cc:subject:date:message-id:mime-version:
  content-transfer-encoding;
  bh=JiaQJu2b93LmGiZxk4M0rgVskgXq00oLWSnXX+NeXAE=;
- b=fZWoyHJjNL9qScHnH4EDUWsyCcSodCY6VVpLZ6ph+ZOafR6da8gVc55B
- YQ/M0lafrq29Ge585Vj3YS4aBqowOkibQleLoFOTfbwLbS+/uS782JafC
- +yXMA1qCHv1L1izE1mGQ/xTOrSja4UM5tJ6oQYRT5KZBDApgIS56rpYlQ
- H9R4JMK46zPMZWnMeWH1n7lzrEQEEC5pvCYhW4wg6BVVMZAa6MC1lKWYA
- xQ2KpfHxuAwh5AULNtD3ebTnYq4/B4QwQqirwofgoZwgwnRzc2uBDfZQ0
- PqTIXehlOQJ96ZlxcPKq3F7ExqvGxs2vFue18a+9pGUGE1vUX4jvdPo4e g==;
-X-IronPort-AV: E=McAfee;i="6400,9594,10323"; a="324766771"
-X-IronPort-AV: E=Sophos;i="5.90,278,1643702400"; d="scan'208";a="324766771"
-Received: from orsmga004.jf.intel.com ([10.7.209.38])
+ b=cGJuAxYD1bHuIAONX8JWaP+gPCBYUKqJ3MEdfx9gkzsqNaeLSDBvxZO1
+ DQTOhlvBiJziATlBZ9Ri0nHkKjc1MmxrJT6dsS+9z0QHkOT5u6emFXKcu
+ Gq0/bt2HGOWK4JxGoFjlpji68umki1smWusHGMzS2HolySS7AlGtrG8qU
+ N41rRveGtBPqioQFby9l8cPe+ppt5ixU5LpVyP64+X9Uoyx+/MSw+dsfl
+ WYTUamvFf3T5SDDatEXnD7T12TmOisf44V+YdiO7E2BB2SPCgMoqOC9B8
+ Cup05QC/kuHZTPvokR2VVf2B3/C/eqKYUBSGktUBScbn83+ZgrvzCeMyH A==;
+X-IronPort-AV: E=McAfee;i="6400,9594,10323"; a="324766812"
+X-IronPort-AV: E=Sophos;i="5.90,278,1643702400"; d="scan'208";a="324766812"
+Received: from orsmga005.jf.intel.com ([10.7.209.41])
  by orsmga104.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 21 Apr 2022 04:37:03 -0700
-X-IronPort-AV: E=Sophos;i="5.90,278,1643702400"; d="scan'208";a="670543564"
+ 21 Apr 2022 04:37:19 -0700
+X-IronPort-AV: E=Sophos;i="5.90,278,1643702400"; d="scan'208";a="727952072"
 Received: from ramaling-i9x.iind.intel.com ([10.203.144.108])
- by orsmga004-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 21 Apr 2022 04:37:01 -0700
+ by orsmga005-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 21 Apr 2022 04:37:17 -0700
 From: Ramalingam C <ramalingam.c@intel.com>
 To: intel-gfx <intel-gfx@lists.freedesktop.org>,
  dri-devel <dri-devel@lists.freedesktop.org>
 Subject: [PATCH 0/4] Flat-CCS eviction enhancements
-Date: Thu, 21 Apr 2022 17:07:57 +0530
-Message-Id: <20220421113757.30745-1-ramalingam.c@intel.com>
+Date: Thu, 21 Apr 2022 17:08:09 +0530
+Message-Id: <20220421113813.30796-1-ramalingam.c@intel.com>
 X-Mailer: git-send-email 2.20.1
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
