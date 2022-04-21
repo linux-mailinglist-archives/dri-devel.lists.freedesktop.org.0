@@ -1,45 +1,44 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id BBB39509EB4
-	for <lists+dri-devel@lfdr.de>; Thu, 21 Apr 2022 13:37:31 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id B2D13509EBB
+	for <lists+dri-devel@lfdr.de>; Thu, 21 Apr 2022 13:37:41 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 2C9DD10EB01;
-	Thu, 21 Apr 2022 11:37:24 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id E0B5810F377;
+	Thu, 21 Apr 2022 11:37:32 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from mga06.intel.com (mga06b.intel.com [134.134.136.31])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 31CB110EAA1;
- Thu, 21 Apr 2022 11:37:22 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 27C6610E8CB;
+ Thu, 21 Apr 2022 11:37:24 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1650541042; x=1682077042;
+ t=1650541044; x=1682077044;
  h=from:to:cc:subject:date:message-id:in-reply-to:
  references:mime-version:content-transfer-encoding;
- bh=C9KppufqNBcoOEqlw1a11aEo0DAHKPArEfFcrfmgFlI=;
- b=AtT1nqUtFKzsfmYHt+SKmxYkZEZ15nV/NSPXH6n9NYR48ann4q8ddtmW
- LscF2bDN9B44aqbf6KCNfb451N1hFjyN7QyNQ6whocaD2Z5rC+AXIhyxD
- ADC1fig/jNDYbW50jPkWr26fha1fZHbmZB9rSVPvJSPnRzNkNBmCW2et8
- UAL+5VGDLOqIPVrYK2qEXW38ZcjD0276HUKeCG4FkieJGL+6y8VzvYEz7
- 8zqea/Y9nJtUM1DFQpTuT8fUtbljj8/9k0Z0G8ZrKL/Wdb80GlJ7ZY27R
- dZ+fwgmop42w5JhWeqpBJEgZjslI20+nFYK+ggk4H/IAkwmPJE5MXxNAJ w==;
-X-IronPort-AV: E=McAfee;i="6400,9594,10323"; a="324766819"
-X-IronPort-AV: E=Sophos;i="5.90,278,1643702400"; d="scan'208";a="324766819"
+ bh=MOFaZMKF45fliVv/42ysCZ7rsVWhfjeqfv0vo0/q2pg=;
+ b=A1RxOdb5PvEylSDcuN34Oul3mFndWbBUma+9s0ZdnphQKWhBJf+cuhMu
+ 4XhxvE6N4wQ8oP+vmbFlzl50ruQOlnBsQgGZ1S6t3dYuuAT49TA3OBoMY
+ KvAiQBXfAI7OofUNhAwDzEbtEiTKLqCVtxUoqtMW0SNqUzVwkX4catglI
+ t2fesKrQAX7rjuQ+dbd+kC8ETTXV99qu2TiWznStzgcbcRLxmHfeNC9wU
+ UmkerwR6SThv/MPt9R7YNN5a6jlFlZAo7L0mwU8l6jORVlsoxXB404Qdd
+ W2vsYbyezg96LkMTDqapCj9WdzYfWwMu3FQpQHYZ7Ak2EE79AOnPWXJIS A==;
+X-IronPort-AV: E=McAfee;i="6400,9594,10323"; a="324766830"
+X-IronPort-AV: E=Sophos;i="5.90,278,1643702400"; d="scan'208";a="324766830"
 Received: from orsmga005.jf.intel.com ([10.7.209.41])
  by orsmga104.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 21 Apr 2022 04:37:21 -0700
-X-IronPort-AV: E=Sophos;i="5.90,278,1643702400"; d="scan'208";a="727952096"
+ 21 Apr 2022 04:37:23 -0700
+X-IronPort-AV: E=Sophos;i="5.90,278,1643702400"; d="scan'208";a="727952125"
 Received: from ramaling-i9x.iind.intel.com ([10.203.144.108])
  by orsmga005-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 21 Apr 2022 04:37:19 -0700
+ 21 Apr 2022 04:37:21 -0700
 From: Ramalingam C <ramalingam.c@intel.com>
 To: intel-gfx <intel-gfx@lists.freedesktop.org>,
  dri-devel <dri-devel@lists.freedesktop.org>
-Subject: [PATCH 1/4] drm/i915/gt: GEM_BUG_ON unexpected NULL at scatterlist
- walking
-Date: Thu, 21 Apr 2022 17:08:10 +0530
-Message-Id: <20220421113813.30796-2-ramalingam.c@intel.com>
+Subject: [PATCH 2/4] drm/i915/gt: optimize the ccs_sz calculation per chunk
+Date: Thu, 21 Apr 2022 17:08:11 +0530
+Message-Id: <20220421113813.30796-3-ramalingam.c@intel.com>
 X-Mailer: git-send-email 2.20.1
 In-Reply-To: <20220421113813.30796-1-ramalingam.c@intel.com>
 References: <20220421113813.30796-1-ramalingam.c@intel.com>
@@ -62,32 +61,110 @@ Cc: Hellstrom Thomas <thomas.hellstrom@intel.com>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-While locating the start of ccs scatterlist in smem scatterlist, that has
-to be the size of lmem obj size + corresponding ccs data size. Report bug
-if scatterlist terminate before that length.
+Calculate the ccs_sz that needs to be emitted based on the src
+and dst pages emitted per chunk. And handle the return value of emit_pte
+for the ccs pages.
 
 Signed-off-by: Ramalingam C <ramalingam.c@intel.com>
 ---
- drivers/gpu/drm/i915/gt/intel_migrate.c | 6 ++++++
- 1 file changed, 6 insertions(+)
+ drivers/gpu/drm/i915/gt/intel_migrate.c | 36 +++++++++----------------
+ 1 file changed, 12 insertions(+), 24 deletions(-)
 
 diff --git a/drivers/gpu/drm/i915/gt/intel_migrate.c b/drivers/gpu/drm/i915/gt/intel_migrate.c
-index 9d552f30b627..29d761da02c4 100644
+index 29d761da02c4..463a6a14b5f9 100644
 --- a/drivers/gpu/drm/i915/gt/intel_migrate.c
 +++ b/drivers/gpu/drm/i915/gt/intel_migrate.c
-@@ -687,6 +687,12 @@ static void get_ccs_sg_sgt(struct sgt_dma *it, u32 bytes_to_cpy)
- 		bytes_to_cpy -= len;
+@@ -647,17 +647,9 @@ static int scatter_list_length(struct scatterlist *sg)
  
- 		it->sg = __sg_next(it->sg);
-+
-+		/*
-+		 * scatterlist supposed to be the size of
-+		 * bytes_to_cpy + GET_CCS_BYTES(bytes_to_copy).
-+		 */
-+		GEM_BUG_ON(!it->sg);
- 		it->dma = sg_dma_address(it->sg);
- 		it->max = it->dma + sg_dma_len(it->sg);
- 	} while (bytes_to_cpy);
+ static void
+ calculate_chunk_sz(struct drm_i915_private *i915, bool src_is_lmem,
+-		   int *src_sz, int *ccs_sz, u32 bytes_to_cpy,
+-		   u32 ccs_bytes_to_cpy)
++		   int *src_sz, u32 bytes_to_cpy, u32 ccs_bytes_to_cpy)
+ {
+ 	if (ccs_bytes_to_cpy) {
+-		/*
+-		 * We can only copy the ccs data corresponding to
+-		 * the CHUNK_SZ of lmem which is
+-		 * GET_CCS_BYTES(i915, CHUNK_SZ))
+-		 */
+-		*ccs_sz = min_t(int, ccs_bytes_to_cpy, GET_CCS_BYTES(i915, CHUNK_SZ));
+-
+ 		if (!src_is_lmem)
+ 			/*
+ 			 * When CHUNK_SZ is passed all the pages upto CHUNK_SZ
+@@ -713,10 +705,10 @@ intel_context_migrate_copy(struct intel_context *ce,
+ 	struct drm_i915_private *i915 = ce->engine->i915;
+ 	u32 ccs_bytes_to_cpy = 0, bytes_to_cpy;
+ 	enum i915_cache_level ccs_cache_level;
+-	int src_sz, dst_sz, ccs_sz;
+ 	u32 src_offset, dst_offset;
+ 	u8 src_access, dst_access;
+ 	struct i915_request *rq;
++	int src_sz, dst_sz;
+ 	bool ccs_is_src;
+ 	int err;
+ 
+@@ -770,7 +762,7 @@ intel_context_migrate_copy(struct intel_context *ce,
+ 	}
+ 
+ 	do {
+-		int len;
++		int len, ccs_sz;
+ 
+ 		rq = i915_request_create(ce);
+ 		if (IS_ERR(rq)) {
+@@ -797,7 +789,7 @@ intel_context_migrate_copy(struct intel_context *ce,
+ 		if (err)
+ 			goto out_rq;
+ 
+-		calculate_chunk_sz(i915, src_is_lmem, &src_sz, &ccs_sz,
++		calculate_chunk_sz(i915, src_is_lmem, &src_sz,
+ 				   bytes_to_cpy, ccs_bytes_to_cpy);
+ 
+ 		len = emit_pte(rq, &it_src, src_cache_level, src_is_lmem,
+@@ -835,33 +827,29 @@ intel_context_migrate_copy(struct intel_context *ce,
+ 			if (err)
+ 				goto out_rq;
+ 
++			ccs_sz = GET_CCS_BYTES(i915, len);
+ 			err = emit_pte(rq, &it_ccs, ccs_cache_level, false,
+ 				       ccs_is_src ? src_offset : dst_offset,
+ 				       ccs_sz);
++			if (err < 0)
++				goto out_rq;
++			if (err < ccs_sz) {
++				err = -EINVAL;
++				goto out_rq;
++			}
+ 
+ 			err = rq->engine->emit_flush(rq, EMIT_INVALIDATE);
+ 			if (err)
+ 				goto out_rq;
+ 
+-			/*
+-			 * Using max of src_sz and dst_sz, as we need to
+-			 * pass the lmem size corresponding to the ccs
+-			 * blocks we need to handle.
+-			 */
+-			ccs_sz = max_t(int, ccs_is_src ? ccs_sz : src_sz,
+-				       ccs_is_src ? dst_sz : ccs_sz);
+-
+ 			err = emit_copy_ccs(rq, dst_offset, dst_access,
+-					    src_offset, src_access, ccs_sz);
++					    src_offset, src_access, len);
+ 			if (err)
+ 				goto out_rq;
+ 
+ 			err = rq->engine->emit_flush(rq, EMIT_INVALIDATE);
+ 			if (err)
+ 				goto out_rq;
+-
+-			/* Converting back to ccs bytes */
+-			ccs_sz = GET_CCS_BYTES(rq->engine->i915, ccs_sz);
+ 			ccs_bytes_to_cpy -= ccs_sz;
+ 		}
+ 
 -- 
 2.20.1
 
