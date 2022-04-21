@@ -2,57 +2,57 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 172C850A697
-	for <lists+dri-devel@lfdr.de>; Thu, 21 Apr 2022 19:07:57 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 2089850A696
+	for <lists+dri-devel@lfdr.de>; Thu, 21 Apr 2022 19:07:55 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id AE80B10E6FE;
+	by gabe.freedesktop.org (Postfix) with ESMTP id 18C0210E6BB;
 	Thu, 21 Apr 2022 17:07:53 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-wr1-x42a.google.com (mail-wr1-x42a.google.com
- [IPv6:2a00:1450:4864:20::42a])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 7B0D510E6B8
- for <dri-devel@lists.freedesktop.org>; Thu, 21 Apr 2022 17:07:47 +0000 (UTC)
-Received: by mail-wr1-x42a.google.com with SMTP id s25so2707045wrb.8
- for <dri-devel@lists.freedesktop.org>; Thu, 21 Apr 2022 10:07:47 -0700 (PDT)
+Received: from mail-wr1-x42e.google.com (mail-wr1-x42e.google.com
+ [IPv6:2a00:1450:4864:20::42e])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 402FD10E6BB
+ for <dri-devel@lists.freedesktop.org>; Thu, 21 Apr 2022 17:07:50 +0000 (UTC)
+Received: by mail-wr1-x42e.google.com with SMTP id m14so7595804wrb.6
+ for <dri-devel@lists.freedesktop.org>; Thu, 21 Apr 2022 10:07:50 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=qu4miKRfTQ5edYvqjwCdNnoZhdelBzzQxfVquTwJYcU=;
- b=lxA+j4hsGR37CsR5Pcl2akYbQ+9eiuuBp4pFH2LGebfC+LqkKZfG7H6fzk2IvrFcJt
- XsLiYjdR69D9iGA6qPpMFTk86JChOo/AomlJ2VbMPmsm4kOgP3oXEXft47RFsMJQ57AD
- Vxq5gk2rZ+BCIbH7Q7mRAYDHCjfpsiXoGDowdX916/ea67KHw9NM4wkxsAh0+bigZfiB
- BLicaU7MNZmEtp1JQOHY8LTMwHeUEozRWMOg98gmeDh7p47EJ++knKYdojZlFOTASofN
- bcv+MxJLsTyn75mUnleqvvO4gvsuyQ8jk5VbOFAUlkrj0CqoZJT6BH8WnvYBiYa9HRXU
- bo6A==
+ bh=1DHr0UfeFKvgTc9CqETxWAhcnj8bwvB27mi7L/RJMLI=;
+ b=P3YAtF35V53kyVqjeoLe6NLR6GC/doMtIALc3tdmXTpE4LrW2S2r1iOO54iREtCJxH
+ dOTTK9hlGJ+9eEh532NzO318GRvv72+BePjdQztXTWKNZ5KBRVg3kEehRTC2u6l9OuDA
+ WyN/gR2kdohSojmSfR71eW5heZTUm1swjm1FhpBiAt5P1j8iGudP1VksYTrWIyc/TPJZ
+ zO6eIlGiJrE5j/OszmcVXjcgemR/u2dxwYFQlRq1UkFGUtPu5oKguyC0r+8QcnOAuC87
+ BsRWuNatkxU/1mf9mOfrzEK7X+Wmg1Auq3cC4wSMaYC6wrC8x5aajWQ4/9ElGwsP/Rat
+ 1Puw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=qu4miKRfTQ5edYvqjwCdNnoZhdelBzzQxfVquTwJYcU=;
- b=k2Z7OA8jXZgtJJ8Jf5vmJqzcuP5o9EddA/pwHV4sX6+r/Rsh7gs3aRLbSjVZhoYjNd
- gmzLBnMen9S3uONOiGP//EOx3xZr1UsVhXzJzppRXArvcOBzXCJA7beurOiaGT5JZpE6
- ZiXp7Q6ZkVQsbP6ohLtQIWW8yNv23Xm/7L+ZsWUpAHsntTBsts3zRhoR0s7XipFjkqK9
- Jro/hzWxePQECZ11rKmtlnmdFlppLcuPEy7HKch0vkV65whTeec9LYNPrsK9VsAOdSka
- IctfQAXClOTGoWEe+Bk9W1/bRpN+WTYU1jTe7XzoQHER8eudF4AErNY6yw9OJMt+IQhJ
- g4iw==
-X-Gm-Message-State: AOAM53167FSPnXn57K4CLadQbhsWMoIlqto3WVVlDrrMPk26ThGhzTWv
- 8P4sKCZzRS/j2ScCunPSj8k=
-X-Google-Smtp-Source: ABdhPJztCBlTtH8qv1VRhJlR2SzX0FcTLm+9xXk+65FTP+M5MyZVogXt4diKZu3QDquG6Bgk4X0BGQ==
-X-Received: by 2002:a5d:6d0f:0:b0:20a:897d:ad95 with SMTP id
- e15-20020a5d6d0f000000b0020a897dad95mr552084wrq.113.1650560866018; 
- Thu, 21 Apr 2022 10:07:46 -0700 (PDT)
+ bh=1DHr0UfeFKvgTc9CqETxWAhcnj8bwvB27mi7L/RJMLI=;
+ b=BDoBl0uaogb9RRdUAYBzeOldixWd0kpcPZpZ9lVK03osLGxOOj2FgCPJZf3TYLkSsw
+ O9zkbh3NKKkzbMCK6T3pedevHryOLtpC4e6Ea+dld+HxHRk+MeEUvUyF1KOWGXNaaXjL
+ ed4EPVpd52erYvjJSqDcVrJGWipgoMfGA80DDX273TnXhUo7nGOa7Pl8+VjLZWSB8rv8
+ Sbun1iAvb+XLefT0Pfy5Tb1kIpHnaVbzSjY5PR6zfz6IsAusLSyKbtKBJJ9MxIBpLnyy
+ s4GDybVCHQ05xc1rzbCl1e+XssqE9AexqxPGDRfY6sAExorJ1Bu4qBzaswh2MZCbck8Q
+ CW/Q==
+X-Gm-Message-State: AOAM531IMT0XO3salLB6StJNhT6Z7P/ierI/DU5FiH8ZQofJn2t9Q0pZ
+ OXFpAxFLWRqysMxFs+mFO28=
+X-Google-Smtp-Source: ABdhPJyF9I+tOdug2GInrB3O1KIZXBnyfjirt1kYYZ6Dne73ApfJWTQEjsu+D+I0t5Nf5JVuBfCwqA==
+X-Received: by 2002:adf:e908:0:b0:207:a28e:b904 with SMTP id
+ f8-20020adfe908000000b00207a28eb904mr562456wrm.542.1650560868785; 
+ Thu, 21 Apr 2022 10:07:48 -0700 (PDT)
 Received: from localhost.localdomain ([94.73.37.128])
  by smtp.gmail.com with ESMTPSA id
- i11-20020a5d584b000000b0020a8d859e5fsm2963849wrf.10.2022.04.21.10.07.44
+ i11-20020a5d584b000000b0020a8d859e5fsm2963849wrf.10.2022.04.21.10.07.47
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 21 Apr 2022 10:07:45 -0700 (PDT)
+ Thu, 21 Apr 2022 10:07:48 -0700 (PDT)
 From: =?UTF-8?q?Jos=C3=A9=20Exp=C3=B3sito?= <jose.exposito89@gmail.com>
 To: inki.dae@samsung.com
-Subject: [PATCH 4/5] drm/sti/sti_hdmi: Replace drm_detect_hdmi_monitor() with
+Subject: [PATCH 5/5] drm/sun4i: hdmi: Replace drm_detect_hdmi_monitor() with
  is_hdmi
-Date: Thu, 21 Apr 2022 19:07:24 +0200
-Message-Id: <20220421170725.903361-5-jose.exposito89@gmail.com>
+Date: Thu, 21 Apr 2022 19:07:25 +0200
+Message-Id: <20220421170725.903361-6-jose.exposito89@gmail.com>
 X-Mailer: git-send-email 2.25.1
 In-Reply-To: <20220421170725.903361-1-jose.exposito89@gmail.com>
 References: <20220421170725.903361-1-jose.exposito89@gmail.com>
@@ -91,68 +91,59 @@ This driver calls drm_detect_hdmi_monitor() to receive the same
 information and stores its own cached value, which is less efficient.
 
 Avoid calling drm_detect_hdmi_monitor() and use drm_display_info.is_hdmi
-instead and also remove sti_hdmi.hdmi_monitor as it is no longer
+instead and also remove sun4i_hdmi.hdmi_monitor as it is no longer
 necessary.
 
 Signed-off-by: José Expósito <jose.exposito89@gmail.com>
 ---
- drivers/gpu/drm/sti/sti_hdmi.c | 7 ++++---
- drivers/gpu/drm/sti/sti_hdmi.h | 2 --
- 2 files changed, 4 insertions(+), 5 deletions(-)
+ drivers/gpu/drm/sun4i/sun4i_hdmi.h     | 1 -
+ drivers/gpu/drm/sun4i/sun4i_hdmi_enc.c | 6 +++---
+ 2 files changed, 3 insertions(+), 4 deletions(-)
 
-diff --git a/drivers/gpu/drm/sti/sti_hdmi.c b/drivers/gpu/drm/sti/sti_hdmi.c
-index f3ace11209dd..93841ba907a8 100644
---- a/drivers/gpu/drm/sti/sti_hdmi.c
-+++ b/drivers/gpu/drm/sti/sti_hdmi.c
-@@ -266,6 +266,7 @@ static void hdmi_active_area(struct sti_hdmi *hdmi)
- static void hdmi_config(struct sti_hdmi *hdmi)
+diff --git a/drivers/gpu/drm/sun4i/sun4i_hdmi.h b/drivers/gpu/drm/sun4i/sun4i_hdmi.h
+index 00ca35f07ba5..65c801cd6f35 100644
+--- a/drivers/gpu/drm/sun4i/sun4i_hdmi.h
++++ b/drivers/gpu/drm/sun4i/sun4i_hdmi.h
+@@ -285,7 +285,6 @@ struct sun4i_hdmi {
+ 
+ 	struct sun4i_drv	*drv;
+ 
+-	bool			hdmi_monitor;
+ 	struct cec_adapter	*cec_adap;
+ 
+ 	const struct sun4i_hdmi_variant	*variant;
+diff --git a/drivers/gpu/drm/sun4i/sun4i_hdmi_enc.c b/drivers/gpu/drm/sun4i/sun4i_hdmi_enc.c
+index 3799a745b7dd..d8b71710e8f6 100644
+--- a/drivers/gpu/drm/sun4i/sun4i_hdmi_enc.c
++++ b/drivers/gpu/drm/sun4i/sun4i_hdmi_enc.c
+@@ -99,6 +99,7 @@ static void sun4i_hdmi_enable(struct drm_encoder *encoder)
  {
- 	u32 conf;
-+	struct drm_display_info *display = &hdmi->drm_connector->display_info;
+ 	struct drm_display_mode *mode = &encoder->crtc->state->adjusted_mode;
+ 	struct sun4i_hdmi *hdmi = drm_encoder_to_sun4i_hdmi(encoder);
++	struct drm_display_info *display = &hdmi->connector.display_info;
+ 	u32 val = 0;
  
- 	DRM_DEBUG_DRIVER("\n");
+ 	DRM_DEBUG_DRIVER("Enabling the HDMI Output\n");
+@@ -111,7 +112,7 @@ static void sun4i_hdmi_enable(struct drm_encoder *encoder)
+ 	writel(val, hdmi->base + SUN4I_HDMI_PKT_CTRL_REG(0));
  
-@@ -274,7 +275,7 @@ static void hdmi_config(struct sti_hdmi *hdmi)
- 
- 	/* Select encryption type and the framing mode */
- 	conf |= HDMI_CFG_ESS_NOT_OESS;
+ 	val = SUN4I_HDMI_VID_CTRL_ENABLE;
 -	if (hdmi->hdmi_monitor)
 +	if (display->is_hdmi)
- 		conf |= HDMI_CFG_HDMI_NOT_DVI;
+ 		val |= SUN4I_HDMI_VID_CTRL_HDMI_MODE;
  
- 	/* Set Hsync polarity */
-@@ -984,9 +985,9 @@ static int sti_hdmi_connector_get_modes(struct drm_connector *connector)
+ 	writel(val, hdmi->base + SUN4I_HDMI_VID_CTRL_REG);
+@@ -215,9 +216,8 @@ static int sun4i_hdmi_get_modes(struct drm_connector *connector)
  	if (!edid)
- 		goto fail;
+ 		return 0;
  
 -	hdmi->hdmi_monitor = drm_detect_hdmi_monitor(edid);
- 	DRM_DEBUG_KMS("%s : %dx%d cm\n",
--		      (hdmi->hdmi_monitor ? "hdmi monitor" : "dvi monitor"),
-+		      (connector->display_info.is_hdmi ? "hdmi monitor" :
-+							 "dvi monitor"),
- 		      edid->width_cm, edid->height_cm);
- 	cec_notifier_set_phys_addr_from_edid(hdmi->notifier, edid);
+ 	DRM_DEBUG_DRIVER("Monitor is %s monitor\n",
+-			 hdmi->hdmi_monitor ? "an HDMI" : "a DVI");
++			 connector->display_info.is_hdmi ? "an HDMI" : "a DVI");
  
-diff --git a/drivers/gpu/drm/sti/sti_hdmi.h b/drivers/gpu/drm/sti/sti_hdmi.h
-index 05b2f3d0d48d..6d4c3f57bc46 100644
---- a/drivers/gpu/drm/sti/sti_hdmi.h
-+++ b/drivers/gpu/drm/sti/sti_hdmi.h
-@@ -57,7 +57,6 @@ struct hdmi_audio_params {
-  * @reset: reset control of the hdmi phy
-  * @ddc_adapt: i2c ddc adapter
-  * @colorspace: current colorspace selected
-- * @hdmi_monitor: true if HDMI monitor detected else DVI monitor assumed
-  * @audio_pdev: ASoC hdmi-codec platform device
-  * @audio: hdmi audio parameters.
-  * @drm_connector: hdmi connector
-@@ -83,7 +82,6 @@ struct sti_hdmi {
- 	struct reset_control *reset;
- 	struct i2c_adapter *ddc_adapt;
- 	enum hdmi_colorspace colorspace;
--	bool hdmi_monitor;
- 	struct platform_device *audio_pdev;
- 	struct hdmi_audio_params audio;
- 	struct drm_connector *drm_connector;
+ 	drm_connector_update_edid_property(connector, edid);
+ 	cec_s_phys_addr_from_edid(hdmi->cec_adap, edid);
 -- 
 2.25.1
 
