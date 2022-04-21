@@ -2,55 +2,42 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 450ED50A2BA
-	for <lists+dri-devel@lfdr.de>; Thu, 21 Apr 2022 16:37:45 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 17E6350A2BC
+	for <lists+dri-devel@lfdr.de>; Thu, 21 Apr 2022 16:38:07 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id E320610E5D1;
-	Thu, 21 Apr 2022 14:37:42 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id C052310E627;
+	Thu, 21 Apr 2022 14:38:04 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from alexa-out-sd-02.qualcomm.com (alexa-out-sd-02.qualcomm.com
- [199.106.114.39])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 773D010E5D1;
- Thu, 21 Apr 2022 14:37:41 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=quicinc.com; i=@quicinc.com; q=dns/txt; s=qcdkim;
- t=1650551861; x=1682087861;
- h=from:to:cc:subject:date:message-id:in-reply-to:
- references:mime-version;
- bh=K74UEBmLaYYPtGiv03Iz6VjSItKV+R4s+M371HTlDWk=;
- b=RPY8g5Kds5WzEB5/wJ8MtXDna6xPuS5CAGMG+12l9wuhxu2s70lhQIiT
- 12wtvJoJDOrpuPMtt7Am3vEwv9kWPK9jzYcky3P9CoB0d9w1z80CnrSAJ
- BrppJgLNiL8XLuPTnEntgV111VDSFbC1gl4lKQMjQKEr6sWF8xovIhYRJ w=;
-Received: from unknown (HELO ironmsg03-sd.qualcomm.com) ([10.53.140.143])
- by alexa-out-sd-02.qualcomm.com with ESMTP; 21 Apr 2022 07:37:39 -0700
-X-QCInternal: smtphost
-Received: from nasanex01c.na.qualcomm.com ([10.47.97.222])
- by ironmsg03-sd.qualcomm.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 21 Apr 2022 07:37:39 -0700
-Received: from nalasex01a.na.qualcomm.com (10.47.209.196) by
- nasanex01c.na.qualcomm.com (10.47.97.222) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.2.986.22; Thu, 21 Apr 2022 07:37:38 -0700
-Received: from sbillaka-linux.qualcomm.com (10.80.80.8) by
- nalasex01a.na.qualcomm.com (10.47.209.196) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.2.986.22; Thu, 21 Apr 2022 07:37:32 -0700
-From: Sankeerth Billakanti <quic_sbillaka@quicinc.com>
-To: <dri-devel@lists.freedesktop.org>, <linux-arm-msm@vger.kernel.org>,
- <freedreno@lists.freedesktop.org>, <linux-kernel@vger.kernel.org>,
- <devicetree@vger.kernel.org>
-Subject: [PATCH v8 4/4] drm/msm/dp: Support the eDP modes given by panel
-Date: Thu, 21 Apr 2022 20:06:51 +0530
-Message-ID: <1650551811-24319-5-git-send-email-quic_sbillaka@quicinc.com>
-X-Mailer: git-send-email 2.7.4
-In-Reply-To: <1650551811-24319-1-git-send-email-quic_sbillaka@quicinc.com>
-References: <1650551811-24319-1-git-send-email-quic_sbillaka@quicinc.com>
+Received: from fanzine2.igalia.com (fanzine.igalia.com [178.60.130.6])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id C5AAF10E41B;
+ Thu, 21 Apr 2022 14:38:03 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=igalia.com; 
+ s=20170329;
+ h=Content-Type:MIME-Version:Message-ID:Subject:Cc:To:From:Date:
+ Sender:Reply-To:Content-Transfer-Encoding:Content-ID:Content-Description:
+ Resent-Date:Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:
+ In-Reply-To:References:List-Id:List-Help:List-Unsubscribe:List-Subscribe:
+ List-Post:List-Owner:List-Archive;
+ bh=4vyoabUptigSLi47grfw1QocqbtW5Ln8ukV2CRJUJG4=; b=pchOrqjQdVW3hwE/rTgWxP76bm
+ 9lva3qJRt0BgKhpOYcKqJFcWIcljHBF1NK+K34R/nmS6UcBJz3aHwKe+O0BAMyQvbQKvkswDVEwHY
+ 4D/emZDEM+8+ghI6+EhazyO+O5fkaMMjEj5iJYjJwdOAJn4NOJLOyu53KfPV8iEV+Foj0oQRnsnvp
+ p9Z7E04M45L6KPv4PPCASF+emxRloBxoK3JzHMkWA72Odfj3Z0yx4oJD6V2H1AHzHLAgPcMFLG15K
+ NyW/9wnhOY378csKMTPZVBSxinrCfNemYlsaMIEJZz51K5ndzIWRGBQmIgmg+LdidNF964PSwdpSs
+ TccRm4LA==;
+Received: from [165.90.126.25] (helo=mail.igalia.com)
+ by fanzine2.igalia.com with esmtpsa 
+ (Cipher TLS1.3:ECDHE_SECP256R1__RSA_PSS_RSAE_SHA256__AES_256_GCM:256) (Exim)
+ id 1nhXwX-000CFk-2l; Thu, 21 Apr 2022 16:38:01 +0200
+Date: Thu, 21 Apr 2022 13:37:47 -0100
+From: Melissa Wen <mwen@igalia.com>
+To: dri-devel@lists.freedesktop.org, amd-gfx@lists.freedesktop.org
+Subject: AMD display drivers handling DRM CRTC color mgmt props
+Message-ID: <20220421143747.247mohbio436ivqo@mail.igalia.com>
 MIME-Version: 1.0
-Content-Type: text/plain
-X-Originating-IP: [10.80.80.8]
-X-ClientProxiedBy: nasanex01a.na.qualcomm.com (10.52.223.231) To
- nalasex01a.na.qualcomm.com (10.47.209.196)
+Content-Type: multipart/signed; micalg=pgp-sha512;
+ protocol="application/pgp-signature"; boundary="tceca5h5txpfjyw4"
+Content-Disposition: inline
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -63,48 +50,75 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: quic_kalyant@quicinc.com, Sankeerth Billakanti <quic_sbillaka@quicinc.com>,
- dianders@chromium.org, bjorn.andersson@linaro.org, quic_vproddut@quicinc.com,
- airlied@linux.ie, quic_abhinavk@quicinc.com, steev@kali.org,
- swboyd@chromium.org, seanpaul@chromium.org, dmitry.baryshkov@linaro.org,
- quic_aravindh@quicinc.com, quic_khsieh@quicinc.com, sean@poorly.run
+Cc: Rodrigo.Siqueira@amd.com, christian.koenig@amd.com,
+ alexander.deucher@amd.com, Bhawanpreet.Lakha@amd.com,
+ Nicholas.Kazlauskas@amd.com
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-The eDP controller does not have a reliable way keep panel
-powered on to read the sink capabilities. So, the controller
-driver cannot validate if a mode can be supported by the
-source. We will rely on the panel driver to populate only
-the supported modes for now.
 
-Signed-off-by: Sankeerth Billakanti <quic_sbillaka@quicinc.com>
-Reviewed-by: Douglas Anderson <dianders@chromium.org>
----
-Changes in v8:
-  - add the drm/msm/dp tag in the commit title
+--tceca5h5txpfjyw4
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
- drivers/gpu/drm/msm/dp/dp_display.c | 8 ++++++++
- 1 file changed, 8 insertions(+)
+Hi all,
 
-diff --git a/drivers/gpu/drm/msm/dp/dp_display.c b/drivers/gpu/drm/msm/dp/dp_display.c
-index 86948d6..7d71bdc 100644
---- a/drivers/gpu/drm/msm/dp/dp_display.c
-+++ b/drivers/gpu/drm/msm/dp/dp_display.c
-@@ -998,6 +998,14 @@ enum drm_mode_status dp_bridge_mode_valid(struct drm_bridge *bridge,
- 		return -EINVAL;
- 	}
- 
-+	/*
-+	 * The eDP controller currently does not have a reliable way of
-+	 * enabling panel power to read sink capabilities. So, we rely
-+	 * on the panel driver to populate only supported modes for now.
-+	 */
-+	if (dp->is_edp)
-+		return MODE_OK;
-+
- 	if ((dp->max_pclk_khz <= 0) ||
- 			(dp->max_pclk_khz > DP_MAX_PIXEL_CLK_KHZ) ||
- 			(mode->clock > dp->max_pclk_khz))
--- 
-2.7.4
+I'm examining how DRM color management properties (degamma, ctm, gamma)
+are applied to AMD display drivers. As far I could understand thanks
+Nicholas documentation on amdgpu_dm/amdgpu_dm_color, DC drivers have
+per-plane color correction features:
 
+* - Input gamma LUT (de-normalized)
+* - Input CSC (normalized)
+* - Surface degamma LUT (normalized)
+* - Surface CSC (normalized)
+* - Surface regamma LUT (normalized)
+* - Output CSC (normalized)
+                            =20
+so DM is "adapting" those DRM per-CRTC properties to fit into three of
+these color correction stages, which I guess are the surface stages:
+
+* - Surface degamma LUT (normalized)
+* - Surface CSC (normalized)
+* - Surface regamma LUT (normalized)
+
+I'm trying to understand what this mapping is doing. A comment mentions
+that is not possible to do these color corrections after blending, so,
+the same color correction pipe is performed on every plane before
+blending?  (is the surface the plane?) Does this adaptation affect the
+expected output?  Moreover, is there something that I misunderstood? :)
+
+That said, if the DRM color mgmt supports per-CRTC 3D LUT as the last
+step of color correction, I don't see how to accommodate it in the
+mapping above, but I see DC already supports programming 3D LUT on DPP.
+Once DRM has the 3D LUT interface and DM mapped it as a DPP property,
+the 3D LUT will be at the end of the color correction pipeline? Is there
+anything I need to worry about mapping DRM 3D LUT support? Or any
+advice?
+
+Thanks in advance,
+
+Melissa
+
+--tceca5h5txpfjyw4
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iQIzBAABCgAdFiEEd8WOo/JViG+Tu+XIwqF3j0dLehwFAmJhbCkACgkQwqF3j0dL
+ehyyrg/+OQqORjWSmWDUaSPcqg45AkjV8sZ6VwKxy244eoCSnOykDzBsIiDHwHXl
+O1XqFYoccn339iEogx6P+dyDy7RhE6zmwiHe8uhGsiHTg/qctQZqvqF07SrxnIzy
+7LZmfUXW2OgUTpCXcePPb5YKkZ+EfL79IVG33RGOiClMEqR2c2q94sQ7sHENrXpg
+kosPrTQLd0VFrq5kUZjmSMF0rGy0I1ysY56MuGPgYbU1Hoh0WkBkzrqYOR/B/L9z
+VVnpzoPT37M4atKkRGmngGAiqGtmoaOqoLq4d+UToQDn2OHr7CDqNbPDwBYGERqb
+Z1Yi9QqnOXeo2jncApi0IN4CtBuWPbuUW1lTj9WsFZxMIWyb/YV600y9HUPAbTQ6
+K930X00zHAXDuVj83HpIMH/Eo8pudhv0ErOX/RycfiPiLqY0I6DyFt86LO4ViLm5
+JzG0cvm+vqq2hfUt1YuPmqlPAOUuq0xOe1FYgVEoHetVLvZMer2lVXMysApF029C
+GTfZh6Lk9yQ0yOXEUomUUKjAxwkn46ViE8n88QtBLy6c+GekkYwyqL93JJg6HmNc
+0oNOznoDbgb5utFsEV0Kb4mLsVkW0SQ9i8lwFO5QjeM1cFKmkEV1QS+RlItIYqbY
+RYJ79q6wCJl29nITtq4mMieEZ5tyl7XfEs062RTPQmehzh1Y5+8=
+=Jd40
+-----END PGP SIGNATURE-----
+
+--tceca5h5txpfjyw4--
