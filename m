@@ -1,66 +1,65 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id C2C1D50ABA5
-	for <lists+dri-devel@lfdr.de>; Fri, 22 Apr 2022 00:47:41 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 327E850ABA7
+	for <lists+dri-devel@lfdr.de>; Fri, 22 Apr 2022 00:48:50 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 5AA6310E036;
-	Thu, 21 Apr 2022 22:47:39 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id E629810E1C8;
+	Thu, 21 Apr 2022 22:48:47 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-lf1-x130.google.com (mail-lf1-x130.google.com
- [IPv6:2a00:1450:4864:20::130])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 8292C10E065
- for <dri-devel@lists.freedesktop.org>; Thu, 21 Apr 2022 22:47:38 +0000 (UTC)
-Received: by mail-lf1-x130.google.com with SMTP id h27so10932513lfj.13
- for <dri-devel@lists.freedesktop.org>; Thu, 21 Apr 2022 15:47:38 -0700 (PDT)
+Received: from mail-lj1-x22f.google.com (mail-lj1-x22f.google.com
+ [IPv6:2a00:1450:4864:20::22f])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 4320110E1B6
+ for <dri-devel@lists.freedesktop.org>; Thu, 21 Apr 2022 22:48:46 +0000 (UTC)
+Received: by mail-lj1-x22f.google.com with SMTP id v1so4088067ljv.3
+ for <dri-devel@lists.freedesktop.org>; Thu, 21 Apr 2022 15:48:46 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=message-id:date:mime-version:user-agent:subject:content-language:to
  :cc:references:from:in-reply-to:content-transfer-encoding;
- bh=4rBU8JhHGmuimm5fNEMYbDal/dx3pK4nk4qKGREZwJY=;
- b=dqHnLKNVe70MHMrBRxGiGrwpRLv1zJNDutjfpUs3f9oC/bK0liONREEHpl31iD9+Ri
- JyO4BbdJIvL8vxhYnE9cBrmO/5/LW4WdNrsdb1ERbnph2MwyidhXi7WazTciBrNhl6cP
- 8r8KyknGr64p5oi4gbPe/fUoy+bYOW2lVa0cM7coGACQ0GXWepxzbKkMWitp3QREKKli
- BvCyw53Tl/6/afWVaJm1eXGMmhUEVeACPE3kAYoo34C8MJqQn9B96O6mJBmNAqaTHz5m
- TVuV9xdZP/Pm+n+hQeFORHTNOiQPKJwgAXuSh6jZmQBshlCuAPv4646NT77KMzFVrw+T
- jprg==
+ bh=eX96mCWhBbn19biHjcAeRB51bc+o2ODAUiLkS8PgHY0=;
+ b=qsjucDk9aKv8VXWpD8aZCuW8VbD6IC9b3HEwIWNJz/xjjrCZdEcIr2T61P56lnKrL1
+ x0fvcOsfnpXVwV6TbEC3P9G4jAiA6PV/pIkrC3llEHD9zDRYONz08f/be0EPy2XfpUFu
+ MLGstpnCjWC6oUoNOL/10uLz5wYNY9nZGX+kHjYPbgJB5D83YeaF7AeRa/Kc2yRpFr/v
+ TQkBdccxZQENeo9CurheeOq7sOEgEKA0Px1Hd0LyyntfM1LcA1EXmxJTZaD+XFn/ZZUA
+ zetZYiGe80/7AuQaVkAMGZryxF4rEep3oEt5fCUjWcKmExh3nP4azlHmbAmjjc8QAE0K
+ zhQw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
  :content-language:to:cc:references:from:in-reply-to
  :content-transfer-encoding;
- bh=4rBU8JhHGmuimm5fNEMYbDal/dx3pK4nk4qKGREZwJY=;
- b=ZhbkD8AzpWU2zZORmNdzJHKZfAkOmZmwEVs3BpP1kgpLO7f+FtvR09c4bcnvF27QB6
- mu16zTc7RiR5mmPHAx9ybqkacIR7drJ5F6KJAmXY22C9vRUREZqap/PEzPUFbM/IRHqV
- UfvqeJ5SxyuExko0o9hAZAiXzdLxEUZC4XU5iU1/CtDFA7IvRicV5xSY/8fuRIl6v1jb
- ufSn//szijZzSQ0E7CV5B0l1k/Jdi/yntEhQ8sfapzySX0lSN80bZKOxPnmQuHbOpPaA
- XqnZxEWt9Ze7TvTonN5ci8xR+iXF1YOGrS8wu9R8trc/bcajTO1aqkTjCGWPnbGjRlYk
- PIuA==
-X-Gm-Message-State: AOAM533kAFXrPclq3O8xstYdygF5gwy/rl6B/FHotwLnwU/BMHwb/RWw
- W1BjUah9IJ8qqRgrSxzcIEUu5g==
-X-Google-Smtp-Source: ABdhPJzVl5JGlq0nxYBRjN5pG7zM+qsdFSKqfMP4FK0YjLOYGNmz9fAoB1kFbF8S07a3RB5AO8r4uA==
-X-Received: by 2002:a05:6512:1051:b0:471:ac48:505e with SMTP id
- c17-20020a056512105100b00471ac48505emr1096879lfb.306.1650581256722; 
- Thu, 21 Apr 2022 15:47:36 -0700 (PDT)
+ bh=eX96mCWhBbn19biHjcAeRB51bc+o2ODAUiLkS8PgHY0=;
+ b=QbRDTOrINJYSLgXGi8JbtUr9AtCZ8HbaJSPwbnWQCbkT/moWt0FtIf0WuygJSaAbVM
+ 2n946Iv7wWaVpbiaIMnluDQxDbLfQuDzFZZnKYhnkr9Pe9nok8R1fgcm0GzLwSNYGBf/
+ q0SjTRvNeo6Ywfyfw5ekJuY5QBidvGRqx3i4UnAJEAoX8HicY0ZBGxulYZE+HukZ2ohX
+ 6SDPilxGUBpYyhjsQ4piT0ElKSNSoui5HP+i9NaEVTlHdCo7DVe+142IXPR/bfYqUhSP
+ 65bTSaru5cA065ctLwmXlAi95PZr7k+h62MTyYx/EwlxElNe+T430PEwmKLFUqL14ZXV
+ z9RA==
+X-Gm-Message-State: AOAM531tvcHHfL7XMJ6ptSiNGx0Y/K/VdugNgNR5JgV9Iaa9i9IqR/w4
+ zuR6cgbIzoozQacYBGcG9SRURw==
+X-Google-Smtp-Source: ABdhPJxzt6Y0Y0t3/y+TvzQHwVkjtPOPD1DeUtqz6XtrGDyfd8mXYtfJQXSFwuOaQKtccs8ml7RtBQ==
+X-Received: by 2002:a2e:2a41:0:b0:24d:d2d7:3bb3 with SMTP id
+ q62-20020a2e2a41000000b0024dd2d73bb3mr1052642ljq.114.1650581324252; 
+ Thu, 21 Apr 2022 15:48:44 -0700 (PDT)
 Received: from [192.168.1.211] ([37.153.55.125])
  by smtp.gmail.com with ESMTPSA id
- x6-20020a056512046600b0046fd05817f4sm34147lfd.239.2022.04.21.15.47.35
+ x23-20020a056512131700b004486c863c8esm34292lfu.257.2022.04.21.15.48.43
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Thu, 21 Apr 2022 15:47:36 -0700 (PDT)
-Message-ID: <b87b9c54-280e-43e0-bcb9-acd8c524ff98@linaro.org>
-Date: Fri, 22 Apr 2022 01:47:35 +0300
+ Thu, 21 Apr 2022 15:48:43 -0700 (PDT)
+Message-ID: <ccef9bd0-4776-2ffc-64ba-8662316c372c@linaro.org>
+Date: Fri, 22 Apr 2022 01:48:42 +0300
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
  Thunderbird/91.8.0
-Subject: Re: [RFC 3/4] drm/msm/dpu: add wb_idx to existing DRM prints in
- dpu_encoder
+Subject: Re: [RFC 4/4] drm/msm/dpu: add wb_idx to DRM traces in dpu_encoder
 Content-Language: en-GB
 To: Abhinav Kumar <quic_abhinavk@quicinc.com>, freedreno@lists.freedesktop.org
 References: <1650574112-25294-1-git-send-email-quic_abhinavk@quicinc.com>
- <1650574112-25294-4-git-send-email-quic_abhinavk@quicinc.com>
+ <1650574112-25294-5-git-send-email-quic_abhinavk@quicinc.com>
 From: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
-In-Reply-To: <1650574112-25294-4-git-send-email-quic_abhinavk@quicinc.com>
+In-Reply-To: <1650574112-25294-5-git-send-email-quic_abhinavk@quicinc.com>
 Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 7bit
 X-BeenThere: dri-devel@lists.freedesktop.org
@@ -82,115 +81,123 @@ Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 On 21/04/2022 23:48, Abhinav Kumar wrote:
-> Add wb_idx to existing DRM prints in dpu_encoder and also
-> print the intf_mode so that its clear that for any INTF_CMD/VID
-> there will be a valid intf_idx and any INTF_WB_* there will be a
-> valid wb_idx.
-> 
-> Update the debugfs to add the same information. Here is a sample
-> output with this change:
-> 
-> root:/sys/kernel/debug/dri/0/encoder31# cat status
-> intf:1  wb:-1  vsync: 31  underrun: 0    mode: INTF_MODE_VIDEO
-> root:/sys/kernel/debug/dri/0/encoder33# cat status
-> intf:-1  wb:2  vsync:  7  underrun: 0    mode: INTF_MODE_WB_LINE
-> 
-> Also remove DPU_DEBUG_PHYS macros as its unused because the
-> respective dpu_encoder_phys_* files have their own macros.
+> Change the DRM traces to include both the intf_mode
+> and wb_idx similar to the DRM prints in the previous change.
 > 
 > Signed-off-by: Abhinav Kumar <quic_abhinavk@quicinc.com>
-> ---
->   drivers/gpu/drm/msm/disp/dpu1/dpu_encoder.c | 50 +++++++++++++----------------
->   1 file changed, 22 insertions(+), 28 deletions(-)
-> 
-> diff --git a/drivers/gpu/drm/msm/disp/dpu1/dpu_encoder.c b/drivers/gpu/drm/msm/disp/dpu1/dpu_encoder.c
-> index 054d7e4..871ce87 100644
-> --- a/drivers/gpu/drm/msm/disp/dpu1/dpu_encoder.c
-> +++ b/drivers/gpu/drm/msm/disp/dpu1/dpu_encoder.c
-> @@ -37,18 +37,6 @@
->   #define DPU_ERROR_ENC(e, fmt, ...) DPU_ERROR("enc%d " fmt,\
->   		(e) ? (e)->base.base.id : -1, ##__VA_ARGS__)
->   
-> -#define DPU_DEBUG_PHYS(p, fmt, ...) DRM_DEBUG_ATOMIC("enc%d intf%d pp%d " fmt,\
-> -		(p) ? (p)->parent->base.id : -1, \
-> -		(p) ? (p)->intf_idx - INTF_0 : -1, \
-> -		(p) ? ((p)->hw_pp ? (p)->hw_pp->idx - PINGPONG_0 : -1) : -1, \
-> -		##__VA_ARGS__)
-> -
-> -#define DPU_ERROR_PHYS(p, fmt, ...) DPU_ERROR("enc%d intf%d pp%d " fmt,\
-> -		(p) ? (p)->parent->base.id : -1, \
-> -		(p) ? (p)->intf_idx - INTF_0 : -1, \
-> -		(p) ? ((p)->hw_pp ? (p)->hw_pp->idx - PINGPONG_0 : -1) : -1, \
-> -		##__VA_ARGS__)
-> -
->   /*
->    * Two to anticipate panels that can do cmd/vid dynamic switching
->    * plan is to create all possible physical encoder types, and switch between
-> @@ -262,12 +250,28 @@ static void _dpu_encoder_setup_dither(struct dpu_hw_pingpong *hw_pp, unsigned bp
->   	hw_pp->ops.setup_dither(hw_pp, &dither_cfg);
->   }
->   
-> +static char *dpu_encoder_helper_get_intf_type(enum dpu_intf_mode intf_mode)
-> +{
-
-I'd rather convert this to switch() {...}
-
-With that fixed:
 
 Reviewed-by: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
 
-> +	if (intf_mode == INTF_MODE_VIDEO)
-> +		return "INTF_MODE_VIDEO";
-> +	else if (intf_mode == INTF_MODE_CMD)
-> +		return "INTF_MODE_CMD";
-> +	else if (intf_mode == INTF_MODE_WB_BLOCK)
-> +		return "INTF_MODE_WB_BLOCK";
-> +	else if (intf_mode == INTF_MODE_WB_LINE)
-> +		return "INTF_MODE_WB_LINE";
-> +	else
-> +		return "INTF_MODE_UNKNOWN";
-> +}
-> +
->   void dpu_encoder_helper_report_irq_timeout(struct dpu_encoder_phys *phys_enc,
->   		enum dpu_intr_idx intr_idx)
->   {
-> -	DRM_ERROR("irq timeout id=%u, intf=%d, pp=%d, intr=%d\n",
-> -		  DRMID(phys_enc->parent), phys_enc->intf_idx - INTF_0,
-> -		  phys_enc->hw_pp->idx - PINGPONG_0, intr_idx);
-> +	DRM_ERROR("irq timeout id=%u, intf_mode=%s intf=%d wb=%d, pp=%d, intr=%d\n",
-> +			DRMID(phys_enc->parent),
-> +			dpu_encoder_helper_get_intf_type(phys_enc->intf_mode),
-> +			phys_enc->intf_idx - INTF_0, phys_enc->wb_idx - WB_0,
-> +			phys_enc->hw_pp->idx - PINGPONG_0, intr_idx);
+> ---
+>   drivers/gpu/drm/msm/disp/dpu1/dpu_encoder.c | 13 ++++++++-----
+>   drivers/gpu/drm/msm/disp/dpu1/dpu_trace.h   | 26 ++++++++++++++++++--------
+>   2 files changed, 26 insertions(+), 13 deletions(-)
+> 
+> diff --git a/drivers/gpu/drm/msm/disp/dpu1/dpu_encoder.c b/drivers/gpu/drm/msm/disp/dpu1/dpu_encoder.c
+> index 871ce87..42affd3 100644
+> --- a/drivers/gpu/drm/msm/disp/dpu1/dpu_encoder.c
+> +++ b/drivers/gpu/drm/msm/disp/dpu1/dpu_encoder.c
+> @@ -1345,8 +1345,9 @@ static void dpu_encoder_frame_done_callback(
+>   			 * suppress frame_done without waiter,
+>   			 * likely autorefresh
+>   			 */
+> -			trace_dpu_enc_frame_done_cb_not_busy(DRMID(drm_enc),
+> -					event, ready_phys->intf_idx);
+> +			trace_dpu_enc_frame_done_cb_not_busy(DRMID(drm_enc), event,
+> +					dpu_encoder_helper_get_intf_type(ready_phys->intf_mode),
+> +					ready_phys->intf_idx, ready_phys->wb_idx);
+>   			return;
+>   		}
 >   
->   	if (phys_enc->parent_ops->handle_frame_done)
->   		phys_enc->parent_ops->handle_frame_done(
-> @@ -2042,22 +2046,12 @@ static int _dpu_encoder_status_show(struct seq_file *s, void *data)
->   	for (i = 0; i < dpu_enc->num_phys_encs; i++) {
->   		struct dpu_encoder_phys *phys = dpu_enc->phys_encs[i];
+> @@ -1424,9 +1425,11 @@ static void _dpu_encoder_trigger_flush(struct drm_encoder *drm_enc,
+>   	if (ctl->ops.get_pending_flush)
+>   		ret = ctl->ops.get_pending_flush(ctl);
 >   
-> -		seq_printf(s, "intf:%d    vsync:%8d     underrun:%8d    ",
-> -				phys->intf_idx - INTF_0,
-> +		seq_printf(s, "intf:%d  wb:%d  vsync:%8d     underrun:%8d    ",
-> +				phys->intf_idx - INTF_0, phys->wb_idx - WB_0,
->   				atomic_read(&phys->vsync_cnt),
->   				atomic_read(&phys->underrun_cnt));
+> -	trace_dpu_enc_trigger_flush(DRMID(drm_enc), phys->intf_idx,
+> -				    pending_kickoff_cnt, ctl->idx,
+> -				    extra_flush_bits, ret);
+> +	trace_dpu_enc_trigger_flush(DRMID(drm_enc),
+> +			dpu_encoder_helper_get_intf_type(phys->intf_mode),
+> +			phys->intf_idx, phys->wb_idx,
+> +			pending_kickoff_cnt, ctl->idx,
+> +			extra_flush_bits, ret);
+>   }
 >   
-> -		switch (phys->intf_mode) {
-> -		case INTF_MODE_VIDEO:
-> -			seq_puts(s, "mode: video\n");
-> -			break;
-> -		case INTF_MODE_CMD:
-> -			seq_puts(s, "mode: command\n");
-> -			break;
-> -		default:
-> -			seq_puts(s, "mode: ???\n");
-> -			break;
-> -		}
-> +		seq_printf(s, "mode: %s\n", dpu_encoder_helper_get_intf_type(phys->intf_mode));
->   	}
->   	mutex_unlock(&dpu_enc->enc_lock);
+>   /**
+> diff --git a/drivers/gpu/drm/msm/disp/dpu1/dpu_trace.h b/drivers/gpu/drm/msm/disp/dpu1/dpu_trace.h
+> index 58b411f..1106d44 100644
+> --- a/drivers/gpu/drm/msm/disp/dpu1/dpu_trace.h
+> +++ b/drivers/gpu/drm/msm/disp/dpu1/dpu_trace.h
+> @@ -380,20 +380,26 @@ TRACE_EVENT(dpu_enc_rc,
+>   );
 >   
+>   TRACE_EVENT(dpu_enc_frame_done_cb_not_busy,
+> -	TP_PROTO(uint32_t drm_id, u32 event, enum dpu_intf intf_idx),
+> -	TP_ARGS(drm_id, event, intf_idx),
+> +	TP_PROTO(uint32_t drm_id, u32 event, char *intf_mode, enum dpu_intf intf_idx,
+> +			enum dpu_wb wb_idx),
+> +	TP_ARGS(drm_id, event, intf_mode, intf_idx, wb_idx),
+>   	TP_STRUCT__entry(
+>   		__field(	uint32_t,	drm_id		)
+>   		__field(	u32,		event		)
+> +		__string(	intf_mode_str,		intf_mode	)
+>   		__field(	enum dpu_intf,	intf_idx	)
+> +		__field(    enum dpu_wb,  wb_idx    )
+>   	),
+>   	TP_fast_assign(
+>   		__entry->drm_id = drm_id;
+>   		__entry->event = event;
+> +		__assign_str(intf_mode_str, intf_mode);
+>   		__entry->intf_idx = intf_idx;
+> +		__entry->wb_idx = wb_idx;
+>   	),
+> -	TP_printk("id=%u, event=%u, intf=%d", __entry->drm_id, __entry->event,
+> -		  __entry->intf_idx)
+> +	TP_printk("id=%u, event=%u, intf_mode=%s intf=%d wb=%d", __entry->drm_id,
+> +			__entry->event, __get_str(intf_mode_str),
+> +			__entry->intf_idx, __entry->wb_idx)
+>   );
+>   
+>   TRACE_EVENT(dpu_enc_frame_done_cb,
+> @@ -415,14 +421,16 @@ TRACE_EVENT(dpu_enc_frame_done_cb,
+>   );
+>   
+>   TRACE_EVENT(dpu_enc_trigger_flush,
+> -	TP_PROTO(uint32_t drm_id, enum dpu_intf intf_idx,
+> +	TP_PROTO(uint32_t drm_id, char *intf_mode, enum dpu_intf intf_idx, enum dpu_wb wb_idx,
+>   		 int pending_kickoff_cnt, int ctl_idx, u32 extra_flush_bits,
+>   		 u32 pending_flush_ret),
+> -	TP_ARGS(drm_id, intf_idx, pending_kickoff_cnt, ctl_idx,
+> +	TP_ARGS(drm_id, intf_mode, intf_idx, pending_kickoff_cnt, ctl_idx,
+>   		extra_flush_bits, pending_flush_ret),
+>   	TP_STRUCT__entry(
+>   		__field(	uint32_t,	drm_id			)
+> +		__string(	intf_mode_str,	intf_mode	)
+>   		__field(	enum dpu_intf,	intf_idx		)
+> +		__field(    enum dpu_wb,  wb_idx        )
+>   		__field(	int,		pending_kickoff_cnt	)
+>   		__field(	int,		ctl_idx			)
+>   		__field(	u32,		extra_flush_bits	)
+> @@ -430,15 +438,17 @@ TRACE_EVENT(dpu_enc_trigger_flush,
+>   	),
+>   	TP_fast_assign(
+>   		__entry->drm_id = drm_id;
+> +		__assign_str(intf_mode_str, intf_mode);
+>   		__entry->intf_idx = intf_idx;
+> +		__entry->wb_idx = wb_idx;
+>   		__entry->pending_kickoff_cnt = pending_kickoff_cnt;
+>   		__entry->ctl_idx = ctl_idx;
+>   		__entry->extra_flush_bits = extra_flush_bits;
+>   		__entry->pending_flush_ret = pending_flush_ret;
+>   	),
+> -	TP_printk("id=%u, intf_idx=%d, pending_kickoff_cnt=%d ctl_idx=%d "
+> +	TP_printk("id=%u, intf_mode=%s, intf_idx=%d, wb_idx=%d, pending_kickoff_cnt=%d ctl_idx=%d "
+>   		  "extra_flush_bits=0x%x pending_flush_ret=0x%x",
+> -		  __entry->drm_id, __entry->intf_idx,
+> +		  __entry->drm_id, __get_str(intf_mode_str), __entry->intf_idx, __entry->wb_idx,
+>   		  __entry->pending_kickoff_cnt, __entry->ctl_idx,
+>   		  __entry->extra_flush_bits, __entry->pending_flush_ret)
+>   );
 
 
 -- 
