@@ -2,30 +2,56 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5A5235097A1
-	for <lists+dri-devel@lfdr.de>; Thu, 21 Apr 2022 08:32:11 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id B007D5097AB
+	for <lists+dri-devel@lfdr.de>; Thu, 21 Apr 2022 08:32:50 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 79A5810F4B8;
-	Thu, 21 Apr 2022 06:32:07 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 7BBDB10F4C2;
+	Thu, 21 Apr 2022 06:32:48 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from muru.com (muru.com [72.249.23.125])
- by gabe.freedesktop.org (Postfix) with ESMTP id B712E10F4B8
- for <dri-devel@lists.freedesktop.org>; Thu, 21 Apr 2022 06:32:05 +0000 (UTC)
-Received: from localhost (localhost [127.0.0.1])
- by muru.com (Postfix) with ESMTPS id F2B92811B;
- Thu, 21 Apr 2022 06:29:13 +0000 (UTC)
-Date: Thu, 21 Apr 2022 09:32:03 +0300
-From: Tony Lindgren <tony@atomide.com>
-To: Arnd Bergmann <arnd@kernel.org>
-Subject: Re: [PATCH 24/41] ARM: omap: un-merge plat/sram.c
-Message-ID: <YmD6Y2BlGWjLWw8d@atomide.com>
-References: <20220419133723.1394715-1-arnd@kernel.org>
- <20220419133723.1394715-25-arnd@kernel.org>
+Received: from mailgw02.mediatek.com (unknown [210.61.82.184])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 1F73510F4C2
+ for <dri-devel@lists.freedesktop.org>; Thu, 21 Apr 2022 06:32:46 +0000 (UTC)
+X-UUID: 291329ccf21a440a998d55e335c88025-20220421
+X-CID-P-RULE: Release_Ham
+X-CID-O-INFO: VERSION:1.1.4, REQID:1bb98dab-db2e-4900-beae-88b18e6a5624, OB:0,
+ LO
+ B:0,IP:0,URL:8,TC:0,Content:0,EDM:0,RT:0,SF:0,FILE:0,RULE:Release_Ham,ACTI
+ ON:release,TS:8
+X-CID-META: VersionHash:faefae9, CLOUDID:1dac9cef-06b0-4305-bfbf-554bfc9d151a,
+ C
+ OID:IGNORED,Recheck:0,SF:nil,TC:nil,Content:0,EDM:-3,File:nil,QS:0,BEC:nil
+X-UUID: 291329ccf21a440a998d55e335c88025-20220421
+Received: from mtkexhb02.mediatek.inc [(172.21.101.103)] by
+ mailgw02.mediatek.com (envelope-from <ck.hu@mediatek.com>)
+ (Generic MTA with TLSv1.2 ECDHE-RSA-AES256-SHA384 256/256)
+ with ESMTP id 1795992987; Thu, 21 Apr 2022 14:32:44 +0800
+Received: from mtkexhb02.mediatek.inc (172.21.101.103) by
+ mtkmbs10n1.mediatek.inc (172.21.101.34) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_CBC_SHA384) id
+ 15.2.792.15; Thu, 21 Apr 2022 14:32:43 +0800
+Received: from mtkcas11.mediatek.inc (172.21.101.40) by mtkexhb02.mediatek.inc
+ (172.21.101.103) with Microsoft SMTP Server (TLS) id 15.0.1497.2;
+ Thu, 21 Apr 2022 14:32:42 +0800
+Received: from mtksdccf07 (172.21.84.99) by mtkcas11.mediatek.inc
+ (172.21.101.73) with Microsoft SMTP Server id 15.0.1497.2 via Frontend
+ Transport; Thu, 21 Apr 2022 14:32:42 +0800
+Message-ID: <375dda13802f6212f7e90a4373a3945a3089b4d2.camel@mediatek.com>
+Subject: Re: [PATCH v20 1/8] soc: mediatek: add mtk-mmsys support for mt8195
+ vdosys0
+From: CK Hu <ck.hu@mediatek.com>
+To: jason-jh.lin <jason-jh.lin@mediatek.com>, Matthias Brugger
+ <matthias.bgg@gmail.com>, Chun-Kuang Hu <chunkuang.hu@kernel.org>,
+ AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>
+Date: Thu, 21 Apr 2022 14:32:42 +0800
+In-Reply-To: <20220419094143.9561-2-jason-jh.lin@mediatek.com>
+References: <20220419094143.9561-1-jason-jh.lin@mediatek.com>
+ <20220419094143.9561-2-jason-jh.lin@mediatek.com>
+Content-Type: text/plain; charset="UTF-8"
+X-Mailer: Evolution 3.28.5-0ubuntu0.18.04.2 
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20220419133723.1394715-25-arnd@kernel.org>
+Content-Transfer-Encoding: 7bit
+X-MTK: N
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -38,37 +64,42 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Ulf Hansson <ulf.hansson@linaro.org>, linux-usb@vger.kernel.org,
- linux-fbdev@vger.kernel.org, Dominik Brodowski <linux@dominikbrodowski.net>,
- Lee Jones <lee.jones@linaro.org>, Daniel Thompson <daniel.thompson@linaro.org>,
- aaro.koskinen@iki.fi, Peter Ujfalusi <peter.ujfalusi@gmail.com>,
- Helge Deller <deller@gmx.de>, jmkrzyszt@gmail.com,
- Russell King <linux@armlinux.org.uk>, Krzysztof Kozlowski <krzk@kernel.org>,
- Alan Stern <stern@rowland.harvard.edu>, linux-serial@vger.kernel.org,
- linux-input@vger.kernel.org, Arnd Bergmann <arnd@arndb.de>,
- Mark Brown <broonie@kernel.org>, dri-devel@lists.freedesktop.org,
- linux-omap@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
- Felipe Balbi <balbi@kernel.org>, Paul Walmsley <paul@pwsan.com>,
- Jingoo Han <jingoohan1@gmail.com>, Dmitry Torokhov <dmitry.torokhov@gmail.com>,
- linux-mmc@vger.kernel.org, linux-kernel@vger.kernel.org,
- Kevin Hilman <khilman@kernel.org>, Vinod Koul <vkoul@kernel.org>,
- dmaengine@vger.kernel.org, alsa-devel@alsa-project.org
+Cc: devicetree@vger.kernel.org, Singo Chang <singo.chang@mediatek.com>,
+ linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
+ Project_Global_Chrome_Upstream_Group@mediatek.com,
+ Nancy Lin <nancy.lin@mediatek.com>, linux-mediatek@lists.infradead.org,
+ linux-arm-kernel@lists.infradead.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-* Arnd Bergmann <arnd@kernel.org> [220419 13:37]:
-> From: Arnd Bergmann <arnd@arndb.de>
+Hi, Jason:
+
+On Tue, 2022-04-19 at 17:41 +0800, jason-jh.lin wrote:
+> 1. Add mt8195 mmsys compatible for 2 vdosys.
+> 2. Add io_start into each driver data of mt8195 vdosys.
+> 3. Add get match data function to identify mmsys by io_start.
+> 4. Add mt8195 routing table settings of vdosys0.
+
+Reviewed-by: CK Hu <ck.hu@mediatek.com>
+
 > 
-> The sram initialization code is the only shared omap1/2 code that
-> is not a standalone driver, but it is very short. Having two copies
-> of this code means some duplication of the sources, but actually
-> saves object code size as it can be inlined better.
-
-FYI, the sram code should eventually be updated to use drivers/misc/sram.c,
-I recall there being some issues to deal with for PM related code though.
-Probably the PM related save and restore could be now handled with cpu_pm.
-
-Regards,
-
-Tony
+> Signed-off-by: jason-jh.lin <jason-jh.lin@mediatek.com>
+> Reviewed-by: AngeloGioacchino Del Regno <
+> angelogioacchino.delregno@collabora.com>
+> ---
+> Based on series [1]
+> 
+> [1] MediaTek MT8195 display binding
+> - 
+> https://patchwork.ozlabs.org/project/devicetree-bindings/list/?series=295669
+> ---
+>  drivers/soc/mediatek/mt8195-mmsys.h    | 370
+> +++++++++++++++++++++++++
+>  drivers/soc/mediatek/mtk-mmsys.c       | 152 +++++++++-
+>  drivers/soc/mediatek/mtk-mmsys.h       |   6 +
+>  include/linux/soc/mediatek/mtk-mmsys.h |  11 +
+>  4 files changed, 528 insertions(+), 11 deletions(-)
+>  create mode 100644 drivers/soc/mediatek/mt8195-mmsys.h
+> 
+> 
 
