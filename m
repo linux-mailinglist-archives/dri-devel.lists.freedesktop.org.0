@@ -2,42 +2,78 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 17E6350A2BC
-	for <lists+dri-devel@lfdr.de>; Thu, 21 Apr 2022 16:38:07 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 2500D50A2E1
+	for <lists+dri-devel@lfdr.de>; Thu, 21 Apr 2022 16:43:21 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id C052310E627;
-	Thu, 21 Apr 2022 14:38:04 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id E179C10E5CE;
+	Thu, 21 Apr 2022 14:43:18 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from fanzine2.igalia.com (fanzine.igalia.com [178.60.130.6])
- by gabe.freedesktop.org (Postfix) with ESMTPS id C5AAF10E41B;
- Thu, 21 Apr 2022 14:38:03 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=igalia.com; 
- s=20170329;
- h=Content-Type:MIME-Version:Message-ID:Subject:Cc:To:From:Date:
- Sender:Reply-To:Content-Transfer-Encoding:Content-ID:Content-Description:
- Resent-Date:Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:
- In-Reply-To:References:List-Id:List-Help:List-Unsubscribe:List-Subscribe:
- List-Post:List-Owner:List-Archive;
- bh=4vyoabUptigSLi47grfw1QocqbtW5Ln8ukV2CRJUJG4=; b=pchOrqjQdVW3hwE/rTgWxP76bm
- 9lva3qJRt0BgKhpOYcKqJFcWIcljHBF1NK+K34R/nmS6UcBJz3aHwKe+O0BAMyQvbQKvkswDVEwHY
- 4D/emZDEM+8+ghI6+EhazyO+O5fkaMMjEj5iJYjJwdOAJn4NOJLOyu53KfPV8iEV+Foj0oQRnsnvp
- p9Z7E04M45L6KPv4PPCASF+emxRloBxoK3JzHMkWA72Odfj3Z0yx4oJD6V2H1AHzHLAgPcMFLG15K
- NyW/9wnhOY378csKMTPZVBSxinrCfNemYlsaMIEJZz51K5ndzIWRGBQmIgmg+LdidNF964PSwdpSs
- TccRm4LA==;
-Received: from [165.90.126.25] (helo=mail.igalia.com)
- by fanzine2.igalia.com with esmtpsa 
- (Cipher TLS1.3:ECDHE_SECP256R1__RSA_PSS_RSAE_SHA256__AES_256_GCM:256) (Exim)
- id 1nhXwX-000CFk-2l; Thu, 21 Apr 2022 16:38:01 +0200
-Date: Thu, 21 Apr 2022 13:37:47 -0100
-From: Melissa Wen <mwen@igalia.com>
-To: dri-devel@lists.freedesktop.org, amd-gfx@lists.freedesktop.org
-Subject: AMD display drivers handling DRM CRTC color mgmt props
-Message-ID: <20220421143747.247mohbio436ivqo@mail.igalia.com>
+Received: from us-smtp-delivery-124.mimecast.com
+ (us-smtp-delivery-124.mimecast.com [170.10.133.124])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 8111C10E5CE
+ for <dri-devel@lists.freedesktop.org>; Thu, 21 Apr 2022 14:43:17 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1650552196;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding;
+ bh=ePPTKrCMwADglYVO5peeQ4QQVf5OFLO0wZ8LDZ1O6g8=;
+ b=aXWgJ2aoIt1bqE9O9vEi9cV/N+G6Ze72TBxP14ydES+gWE66VTiSkCOdwHRgL6S89iYxjI
+ +O8CaJugJ3QW4sCHpJaT23/toiu1CzhjRTjHYDZ1tWRm2FwFdtKPh9g4idOADKwBu48B79
+ UMtxdpSscZzx94winbYIQT863wAR+qM=
+Received: from mail-qk1-f200.google.com (mail-qk1-f200.google.com
+ [209.85.222.200]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ us-mta-22-jG4pGXUfM0O5BOqxcrG_Uw-1; Thu, 21 Apr 2022 10:43:15 -0400
+X-MC-Unique: jG4pGXUfM0O5BOqxcrG_Uw-1
+Received: by mail-qk1-f200.google.com with SMTP id
+ c8-20020a05620a268800b0069c0f1b3206so3423986qkp.18
+ for <dri-devel@lists.freedesktop.org>; Thu, 21 Apr 2022 07:43:15 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=ePPTKrCMwADglYVO5peeQ4QQVf5OFLO0wZ8LDZ1O6g8=;
+ b=ifHYfzlJRgGFHiHbqeOduOPayYynyrglafC1gtqbmWvJgZpVjSgkSoD0guJlK7QttU
+ y1Hs86zeV5/3pZiQXpemw1EOWyThCg15aAqdLiAzw5w453aURbXDdTadgqTxYygnVrM/
+ inXa1PtnryGS/ai2Bw+s2czS5ZHLqEaDqD+xPR/N7YHtQykyHbvxOVV+Xi0meh86wTtL
+ K/no7cGqdC3LpcFjPYIqUr8myo2F2FtgTItnv903XMQ9K1UYq8qLTC4+us3nFxutYmnI
+ vl55luK4DlPR0TqyFd44+njm6/Uup/VOHEgREtY2WImMuKaSZgqTDqQGgjYv36k+wXnr
+ 0RLg==
+X-Gm-Message-State: AOAM533ley8arq+ho66Qk4p7BScIVdAQOpVoDimR1O5mVM0p64r0WWdo
+ Y59GlXTmOHWxBMQGzMtDdRzAAmUBJPKB4sX7pmSyhJ0bmQMCH6hRNd2RJwAcIkodhgk6m8+PyPV
+ 8n29egQ+NtF6BWjAoyi4shhevCC7e
+X-Received: by 2002:ad4:5bc1:0:b0:42d:758c:f694 with SMTP id
+ t1-20020ad45bc1000000b0042d758cf694mr19026797qvt.99.1650552194936; 
+ Thu, 21 Apr 2022 07:43:14 -0700 (PDT)
+X-Google-Smtp-Source: ABdhPJx2jn3q9z234SvBuh9QXKIyb+5gtFlLQqL5BZmnHLuyhZev75JSd04yeLJ/gjoODjM5Sghq+Q==
+X-Received: by 2002:ad4:5bc1:0:b0:42d:758c:f694 with SMTP id
+ t1-20020ad45bc1000000b0042d758cf694mr19026774qvt.99.1650552194715; 
+ Thu, 21 Apr 2022 07:43:14 -0700 (PDT)
+Received: from dell-per740-01.7a2m.lab.eng.bos.redhat.com
+ (nat-pool-bos-t.redhat.com. [66.187.233.206])
+ by smtp.gmail.com with ESMTPSA id
+ o14-20020a05622a138e00b002f335c3dbf2sm3538660qtk.37.2022.04.21.07.43.13
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Thu, 21 Apr 2022 07:43:14 -0700 (PDT)
+From: Tom Rix <trix@redhat.com>
+To: hjc@rock-chips.com,
+	heiko@sntech.de,
+	airlied@linux.ie,
+	daniel@ffwll.ch
+Subject: [PATCH] drm/rockchip: cdn-dp: change rk3399_cdn_dp from global to
+ static
+Date: Thu, 21 Apr 2022 10:43:04 -0400
+Message-Id: <20220421144304.586396-1-trix@redhat.com>
+X-Mailer: git-send-email 2.27.0
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha512;
- protocol="application/pgp-signature"; boundary="tceca5h5txpfjyw4"
-Content-Disposition: inline
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=trix@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset="US-ASCII"; x-default=true
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -50,75 +86,36 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Rodrigo.Siqueira@amd.com, christian.koenig@amd.com,
- alexander.deucher@amd.com, Bhawanpreet.Lakha@amd.com,
- Nicholas.Kazlauskas@amd.com
+Cc: linux-rockchip@lists.infradead.org, Tom Rix <trix@redhat.com>,
+ linux-arm-kernel@lists.infradead.org, dri-devel@lists.freedesktop.org,
+ linux-kernel@vger.kernel.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
+Smatch reports this issue
+cdn-dp-core.c:51:20: warning: symbol 'rk3399_cdn_dp' was not declared. Should it be static?
 
---tceca5h5txpfjyw4
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+rk3399_cdn_dp is only used in cdn-dp-core.c so change
+its storge-class specifier to static.
 
-Hi all,
+Signed-off-by: Tom Rix <trix@redhat.com>
+---
+ drivers/gpu/drm/rockchip/cdn-dp-core.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-I'm examining how DRM color management properties (degamma, ctm, gamma)
-are applied to AMD display drivers. As far I could understand thanks
-Nicholas documentation on amdgpu_dm/amdgpu_dm_color, DC drivers have
-per-plane color correction features:
+diff --git a/drivers/gpu/drm/rockchip/cdn-dp-core.c b/drivers/gpu/drm/rockchip/cdn-dp-core.c
+index d3e6c93739bf..ce67c9daa2b1 100644
+--- a/drivers/gpu/drm/rockchip/cdn-dp-core.c
++++ b/drivers/gpu/drm/rockchip/cdn-dp-core.c
+@@ -48,7 +48,7 @@ struct cdn_dp_data {
+ 	u8 max_phy;
+ };
+ 
+-struct cdn_dp_data rk3399_cdn_dp = {
++static struct cdn_dp_data rk3399_cdn_dp = {
+ 	.max_phy = 2,
+ };
+ 
+-- 
+2.27.0
 
-* - Input gamma LUT (de-normalized)
-* - Input CSC (normalized)
-* - Surface degamma LUT (normalized)
-* - Surface CSC (normalized)
-* - Surface regamma LUT (normalized)
-* - Output CSC (normalized)
-                            =20
-so DM is "adapting" those DRM per-CRTC properties to fit into three of
-these color correction stages, which I guess are the surface stages:
-
-* - Surface degamma LUT (normalized)
-* - Surface CSC (normalized)
-* - Surface regamma LUT (normalized)
-
-I'm trying to understand what this mapping is doing. A comment mentions
-that is not possible to do these color corrections after blending, so,
-the same color correction pipe is performed on every plane before
-blending?  (is the surface the plane?) Does this adaptation affect the
-expected output?  Moreover, is there something that I misunderstood? :)
-
-That said, if the DRM color mgmt supports per-CRTC 3D LUT as the last
-step of color correction, I don't see how to accommodate it in the
-mapping above, but I see DC already supports programming 3D LUT on DPP.
-Once DRM has the 3D LUT interface and DM mapped it as a DPP property,
-the 3D LUT will be at the end of the color correction pipeline? Is there
-anything I need to worry about mapping DRM 3D LUT support? Or any
-advice?
-
-Thanks in advance,
-
-Melissa
-
---tceca5h5txpfjyw4
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iQIzBAABCgAdFiEEd8WOo/JViG+Tu+XIwqF3j0dLehwFAmJhbCkACgkQwqF3j0dL
-ehyyrg/+OQqORjWSmWDUaSPcqg45AkjV8sZ6VwKxy244eoCSnOykDzBsIiDHwHXl
-O1XqFYoccn339iEogx6P+dyDy7RhE6zmwiHe8uhGsiHTg/qctQZqvqF07SrxnIzy
-7LZmfUXW2OgUTpCXcePPb5YKkZ+EfL79IVG33RGOiClMEqR2c2q94sQ7sHENrXpg
-kosPrTQLd0VFrq5kUZjmSMF0rGy0I1ysY56MuGPgYbU1Hoh0WkBkzrqYOR/B/L9z
-VVnpzoPT37M4atKkRGmngGAiqGtmoaOqoLq4d+UToQDn2OHr7CDqNbPDwBYGERqb
-Z1Yi9QqnOXeo2jncApi0IN4CtBuWPbuUW1lTj9WsFZxMIWyb/YV600y9HUPAbTQ6
-K930X00zHAXDuVj83HpIMH/Eo8pudhv0ErOX/RycfiPiLqY0I6DyFt86LO4ViLm5
-JzG0cvm+vqq2hfUt1YuPmqlPAOUuq0xOe1FYgVEoHetVLvZMer2lVXMysApF029C
-GTfZh6Lk9yQ0yOXEUomUUKjAxwkn46ViE8n88QtBLy6c+GekkYwyqL93JJg6HmNc
-0oNOznoDbgb5utFsEV0Kb4mLsVkW0SQ9i8lwFO5QjeM1cFKmkEV1QS+RlItIYqbY
-RYJ79q6wCJl29nITtq4mMieEZ5tyl7XfEs062RTPQmehzh1Y5+8=
-=Jd40
------END PGP SIGNATURE-----
-
---tceca5h5txpfjyw4--
