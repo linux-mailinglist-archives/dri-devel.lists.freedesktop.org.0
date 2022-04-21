@@ -2,39 +2,47 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id BE7125094DD
-	for <lists+dri-devel@lfdr.de>; Thu, 21 Apr 2022 03:57:03 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 6830A5094DE
+	for <lists+dri-devel@lfdr.de>; Thu, 21 Apr 2022 03:58:29 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 8D79F10E231;
-	Thu, 21 Apr 2022 01:57:01 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 357DA10E296;
+	Thu, 21 Apr 2022 01:58:27 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from mailgw02.mediatek.com (unknown [210.61.82.184])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 8605F10E231
- for <dri-devel@lists.freedesktop.org>; Thu, 21 Apr 2022 01:56:59 +0000 (UTC)
-X-UUID: 762cc08cd94b4c178222349d9c51143f-20220421
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 68F3910E296
+ for <dri-devel@lists.freedesktop.org>; Thu, 21 Apr 2022 01:58:25 +0000 (UTC)
+X-UUID: 44d3ad15c6bb435992504c9898237009-20220421
 X-CID-P-RULE: Release_Ham
-X-CID-O-INFO: VERSION:1.1.4, REQID:bf634d14-d05d-48f9-97af-3c785fa8e38b, OB:0,
+X-CID-O-INFO: VERSION:1.1.4, REQID:471021ec-b4c3-4608-9e41-534dd1878343, OB:0,
  LO
- B:0,IP:0,URL:0,TC:0,Content:0,EDM:0,RT:0,SF:0,FILE:0,RULE:Release_Ham,ACTI
- ON:release,TS:0
-X-CID-META: VersionHash:faefae9, CLOUDID:976993ef-06b0-4305-bfbf-554bfc9d151a,
+ B:0,IP:0,URL:0,TC:0,Content:0,EDM:0,RT:0,SF:26,FILE:0,RULE:Release_Ham,ACT
+ ION:release,TS:26
+X-CID-INFO: VERSION:1.1.4, REQID:471021ec-b4c3-4608-9e41-534dd1878343, OB:0,
+ LOB:
+ 0,IP:0,URL:0,TC:0,Content:0,EDM:0,RT:0,SF:26,FILE:0,RULE:Release_Ham,ACTIO
+ N:release,TS:26
+X-CID-META: VersionHash:faefae9, CLOUDID:587869f0-da02-41b4-b6df-58f4ccd36682,
  C
- OID:IGNORED,Recheck:0,SF:nil,TC:nil,Content:0,EDM:-3,File:nil,QS:0,BEC:nil
-X-UUID: 762cc08cd94b4c178222349d9c51143f-20220421
-Received: from mtkexhb01.mediatek.inc [(172.21.101.102)] by
- mailgw02.mediatek.com (envelope-from <rex-bc.chen@mediatek.com>)
+ OID:IGNORED,Recheck:0,SF:13|15|28|100|17|19|48|101,TC:nil,Content:0,EDM:-3
+ ,File:nil,QS:0,BEC:nil
+X-UUID: 44d3ad15c6bb435992504c9898237009-20220421
+Received: from mtkcas10.mediatek.inc [(172.21.101.39)] by mailgw02.mediatek.com
+ (envelope-from <rex-bc.chen@mediatek.com>)
  (Generic MTA with TLSv1.2 ECDHE-RSA-AES256-SHA384 256/256)
- with ESMTP id 1879615872; Thu, 21 Apr 2022 09:56:55 +0800
-Received: from mtkcas10.mediatek.inc (172.21.101.39) by
+ with ESMTP id 1980951988; Thu, 21 Apr 2022 09:58:18 +0800
+Received: from mtkexhb01.mediatek.inc (172.21.101.102) by
  mtkmbs07n2.mediatek.inc (172.21.101.141) with Microsoft SMTP Server (TLS) id
- 15.0.1497.2; Thu, 21 Apr 2022 09:56:53 +0800
+ 15.0.1497.2; Thu, 21 Apr 2022 09:58:17 +0800
+Received: from mtkcas10.mediatek.inc (172.21.101.39) by mtkexhb01.mediatek.inc
+ (172.21.101.102) with Microsoft SMTP Server (TLS) id 15.0.1497.2;
+ Thu, 21 Apr 2022 09:58:16 +0800
 Received: from mtksdccf07 (172.21.84.99) by mtkcas10.mediatek.inc
  (172.21.101.73) with Microsoft SMTP Server id 15.0.1497.2 via Frontend
- Transport; Thu, 21 Apr 2022 09:56:53 +0800
-Message-ID: <b50942c0589282cc2004c26e10ffbd06cfd002b9.camel@mediatek.com>
-Subject: Re: [PATCH v17 07/21] soc: mediatek: mmsys: modify reset controller
- for MT8195 vdosys1
+ Transport; Thu, 21 Apr 2022 09:58:16 +0800
+Message-ID: <c5f32f4e19145a88555b6731d9efd5a666577b2a.camel@mediatek.com>
+Subject: Re: [PATCH v17 08/21] soc: mediatek: add mtk-mutex support for
+ mt8195 vdosys1
 From: Rex-BC Chen <rex-bc.chen@mediatek.com>
 To: Nancy.Lin <nancy.lin@mediatek.com>, Rob Herring <robh+dt@kernel.org>,
  Matthias Brugger <matthias.bgg@gmail.com>, Chun-Kuang Hu
@@ -42,10 +50,10 @@ To: Nancy.Lin <nancy.lin@mediatek.com>, Rob Herring <robh+dt@kernel.org>,
  "wim@linux-watchdog.org" <wim@linux-watchdog.org>, "AngeloGioacchino Del
  Regno" <angelogioacchino.delregno@collabora.com>, "linux@roeck-us.net"
  <linux@roeck-us.net>
-Date: Thu, 21 Apr 2022 09:56:53 +0800
-In-Reply-To: <20220416020749.29010-8-nancy.lin@mediatek.com>
+Date: Thu, 21 Apr 2022 09:58:16 +0800
+In-Reply-To: <20220416020749.29010-9-nancy.lin@mediatek.com>
 References: <20220416020749.29010-1-nancy.lin@mediatek.com>
- <20220416020749.29010-8-nancy.lin@mediatek.com>
+ <20220416020749.29010-9-nancy.lin@mediatek.com>
 Content-Type: text/plain; charset="UTF-8"
 X-Mailer: Evolution 3.28.5-0ubuntu0.18.04.2 
 MIME-Version: 1.0
@@ -83,14 +91,16 @@ Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 On Sat, 2022-04-16 at 10:07 +0800, Nancy.Lin wrote:
-> MT8195 vdosys1 has more than 32 reset bits and a different reset base
-> than other chips. Modify mmsys for support 64 bit and different reset
-> base.
+> Add mtk-mutex support for mt8195 vdosys1.
+> The vdosys1 path component contains ovl_adaptor, merge5,
+> and dp_intf1. Ovl_adaptor is composed of several sub-elements
+> which include MDP_RDMA0~7, MERGE0~3, and ETHDR.
 > 
 > Signed-off-by: Nancy.Lin <nancy.lin@mediatek.com>
 > Reviewed-by: AngeloGioacchino Del Regno <
 > angelogioacchino.delregno@collabora.com>
 > ---
+> 
 
 Reviewed-by: Rex-BC Chen <rex-bc.chen@mediatek.com>
 
