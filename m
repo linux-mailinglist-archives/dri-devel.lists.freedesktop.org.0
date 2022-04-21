@@ -1,56 +1,44 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 456D85096D2
-	for <lists+dri-devel@lfdr.de>; Thu, 21 Apr 2022 07:27:00 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 51CF75096E0
+	for <lists+dri-devel@lfdr.de>; Thu, 21 Apr 2022 07:36:05 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 8D7C210F359;
-	Thu, 21 Apr 2022 05:26:54 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 3266510F3D5;
+	Thu, 21 Apr 2022 05:36:03 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from us-smtp-delivery-124.mimecast.com
- (us-smtp-delivery-124.mimecast.com [170.10.129.124])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 6934010F352
- for <dri-devel@lists.freedesktop.org>; Thu, 21 Apr 2022 05:26:52 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1650518811;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=09wIP+Ezh+boJlEnNU0DFCx3hEkdvqLMQ0cz6cNAjsc=;
- b=UwCqGx/4HgRXjTO9wj37Ge2+fddLxbfcC8AdG9fzFRN5y9r6VF+xZpMbJtp4+ScLSXhTTs
- EmjXomi2egGm37ql8u1P+/Dz0JdlQCmWJwPjrxV/CSG8eWJ2qAq05drqOHZ8OLK6bPwVA4
- TujYOu8JmM+V4znjPdPuFphGtgFahTc=
-Received: from mimecast-mx02.redhat.com (mimecast-mx02.redhat.com
- [66.187.233.88]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-37--1U9P576OECVU_d2kZEZSA-1; Thu, 21 Apr 2022 01:26:46 -0400
-X-MC-Unique: -1U9P576OECVU_d2kZEZSA-1
-Received: from smtp.corp.redhat.com (int-mx01.intmail.prod.int.rdu2.redhat.com
- [10.11.54.1])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 06FE480005D;
- Thu, 21 Apr 2022 05:26:45 +0000 (UTC)
-Received: from starship (unknown [10.40.194.231])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 649EC40D0168;
- Thu, 21 Apr 2022 05:26:39 +0000 (UTC)
-Message-ID: <b622882b4fbcacdeb09e4112251aeeab48059ded.camel@redhat.com>
-Subject: Re: [RFC PATCH v2 04/10] KVM: x86: mmu: tweak fast path for
- emulation of access to nested NPT pages
-From: Maxim Levitsky <mlevitsk@redhat.com>
-To: kvm@vger.kernel.org
-Date: Thu, 21 Apr 2022 08:26:38 +0300
-In-Reply-To: <20220421051244.187733-5-mlevitsk@redhat.com>
-References: <20220421051244.187733-1-mlevitsk@redhat.com>
- <20220421051244.187733-5-mlevitsk@redhat.com>
-Content-Type: text/plain; charset="UTF-8"
-User-Agent: Evolution 3.36.5 (3.36.5-2.fc32) 
+Received: from mx1.molgen.mpg.de (mx3.molgen.mpg.de [141.14.17.11])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 9874B10F3D5;
+ Thu, 21 Apr 2022 05:36:01 +0000 (UTC)
+Received: from [192.168.0.2] (ip5f5ae8f0.dynamic.kabel-deutschland.de
+ [95.90.232.240])
+ (using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
+ key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
+ (No client certificate requested) (Authenticated sender: pmenzel)
+ by mx.molgen.mpg.de (Postfix) with ESMTPSA id 181F461CCD7D8;
+ Thu, 21 Apr 2022 07:35:59 +0200 (CEST)
+Message-ID: <294555b4-2d1b-270f-6682-3a17e9df133c@molgen.mpg.de>
+Date: Thu, 21 Apr 2022 07:35:58 +0200
 MIME-Version: 1.0
-Content-Transfer-Encoding: 7bit
-X-Scanned-By: MIMEDefang 2.84 on 10.11.54.1
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.8.1
+Subject: Re: [PATCHv4] drm/amdgpu: disable ASPM on Intel Alder Lake based
+ systems
+Content-Language: en-US
+To: Richard Gong <richard.gong@amd.com>
+References: <20220412215000.897344-1-richard.gong@amd.com>
+ <d4ba3998-34aa-86d2-bde9-bc6ae9d8d08d@molgen.mpg.de>
+ <CADnq5_MgvcGPWf2gYn_3qCr+Gq1P39tvv-W-o8NhivvMpMwUBA@mail.gmail.com>
+ <91e916e3-d793-b814-6cbf-abee0667f5f8@molgen.mpg.de>
+ <94fd858d-1792-9c05-b5c6-1b028427687d@amd.com>
+ <efc1dfd1-2b54-aee5-1497-4b800a468141@molgen.mpg.de>
+ <237da02b-0ed8-6b1c-3eaf-5574aab4f13f@amd.com>
+From: Paul Menzel <pmenzel@molgen.mpg.de>
+In-Reply-To: <237da02b-0ed8-6b1c-3eaf-5574aab4f13f@amd.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -63,59 +51,240 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Wanpeng Li <wanpengli@tencent.com>, David Airlie <airlied@linux.ie>,
- dri-devel@lists.freedesktop.org, "H. Peter Anvin" <hpa@zytor.com>,
- Joerg Roedel <joro@8bytes.org>, x86@kernel.org, Ingo Molnar <mingo@redhat.com>,
- Zhi Wang <zhi.a.wang@intel.com>, Dave Hansen <dave.hansen@linux.intel.com>,
- intel-gfx@lists.freedesktop.org, Borislav Petkov <bp@alien8.de>,
- Rodrigo Vivi <rodrigo.vivi@intel.com>, Thomas Gleixner <tglx@linutronix.de>,
- intel-gvt-dev@lists.freedesktop.org, Jim Mattson <jmattson@google.com>,
- Tvrtko Ursulin <tvrtko.ursulin@linux.intel.com>,
- Sean Christopherson <seanjc@google.com>, linux-kernel@vger.kernel.org,
- Paolo Bonzini <pbonzini@redhat.com>, Vitaly Kuznetsov <vkuznets@redhat.com>
+Cc: Dave Airlie <airlied@linux.ie>, Xinhui Pan <xinhui.pan@amd.com>,
+ LKML <linux-kernel@vger.kernel.org>, dri-devel@lists.freedesktop.org,
+ amd-gfx@lists.freedesktop.org, Alexander Deucher <alexander.deucher@amd.com>,
+ =?UTF-8?Q?Christian_K=c3=b6nig?= <christian.koenig@amd.com>,
+ Mario Limonciello <mario.limonciello@amd.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Thu, 2022-04-21 at 08:12 +0300, Maxim Levitsky wrote:
-> ---
->  arch/x86/kvm/mmu/mmu.c | 4 ++--
->  1 file changed, 2 insertions(+), 2 deletions(-)
+Dear Richard,
+
+
+Am 21.04.22 um 03:12 schrieb Gong, Richard:
+
+> On 4/20/2022 3:29 PM, Paul Menzel wrote:
+
+>> Am 19.04.22 um 23:46 schrieb Gong, Richard:
+>>
+>>> On 4/14/2022 2:52 AM, Paul Menzel wrote:
+>>>> [Cc: -kernel test robot <lkp@intel.com>]
+>>
+>> […]
+>>
+>>>> Am 13.04.22 um 15:00 schrieb Alex Deucher:
+>>>>> On Wed, Apr 13, 2022 at 3:43 AM Paul Menzel wrote:
+>>>>
+>>>>>> Thank you for sending out v4.
+>>>>>>
+>>>>>> Am 12.04.22 um 23:50 schrieb Richard Gong:
+>>>>>>> Active State Power Management (ASPM) feature is enabled since 
+>>>>>>> kernel 5.14.
+>>>>>>> There are some AMD GFX cards (such as WX3200 and RX640) that 
+>>>>>>> won't work
+>>>>>>> with ASPM-enabled Intel Alder Lake based systems. Using these GFX 
+>>>>>>> cards as
+>>>>>>> video/display output, Intel Alder Lake based systems will hang 
+>>>>>>> during
+>>>>>>> suspend/resume.
+>>
+>> [Your email program wraps lines in cited text for some reason, making 
+>> the citation harder to read.]
+>>
+> Not sure why, I am using Mozila Thunderbird for email. I am not using MS 
+> Outlook for upstream email.
+
+Strange. No idea if there were bugs in Mozilla Thunderbird 91.2.0, 
+released over half year ago. The current version is 91.8.1. [1]
+
+>>>>>> I am still not clear, what “hang during suspend/resume” means. I 
+>>>>>> guess
+>>>>>> suspending works fine? During resume (S3 or S0ix?), where does it 
+>>>>>> hang?
+>>>>>> The system is functional, but there are only display problems?
+>>> System freeze after suspend/resume.
+>>
+>> But you see certain messages still? At what point does it freeze 
+>> exactly? In the bug report you posted Linux messages.
 > 
-> diff --git a/arch/x86/kvm/mmu/mmu.c b/arch/x86/kvm/mmu/mmu.c
-> index 23f895d439cf5..b63398dfdac3b 100644
-> --- a/arch/x86/kvm/mmu/mmu.c
-> +++ b/arch/x86/kvm/mmu/mmu.c
-> @@ -5315,8 +5315,8 @@ int kvm_mmu_page_fault(struct kvm_vcpu *vcpu, gpa_t cr2_or_gpa, u64 error_code,
->  	 */
->  	if (vcpu->arch.mmu->root_role.direct &&
->  	    (error_code & PFERR_NESTED_GUEST_PAGE) == PFERR_NESTED_GUEST_PAGE) {
-> -		kvm_mmu_unprotect_page(vcpu->kvm, gpa_to_gfn(cr2_or_gpa));
-> -		return 1;
-> +		if (kvm_mmu_unprotect_page(vcpu->kvm, gpa_to_gfn(cr2_or_gpa)))
-> +			return 1;
->  	}
->  
->  	/*
+> No, the system freeze then users have to recycle power to recover.
 
-I forgot to add commit description here:
+Then I misread the issue? Did you capture the messages over serial log then?
 
-If non leaf mmu page is write tracked externally for some reason,
-which can in theory happen if it was used for nested avic physid page
-before, then this code will enter an endless loop of page faults because
-unprotecting the page will not remove write tracking, nor will the
-write tracker callback be called.
+>>>>>>> The issue was initially reported on one system (Dell Precision 
+>>>>>>> 3660 with
+>>>>>>> BIOS version 0.14.81), but was later confirmed to affect at least 
+>>>>>>> 4 Alder
+>>>>>>> Lake based systems.
+>>>>>>>
+>>>>>>> Add extra check to disable ASPM on Intel Alder Lake based systems.
+>>>>>>>
+>>>>>>> Fixes: 0064b0ce85bb ("drm/amd/pm: enable ASPM by default")
+>>>>>>> Link: 
+>>>>>>> https://nam11.safelinks.protection.outlook.com/?url=https%3A%2F%2Fgitlab.freedesktop.org%2Fdrm%2Famd%2F-%2Fissues%2F1885&amp;data=05%7C01%7Crichard.gong%40amd.com%7Cce01de048c61456174ff08da230c750d%7C3dd8961fe4884e608e11a82d994e183d%7C0%7C0%7C637860833680922036%7CUnknown%7CTWFpbGZsb3d8eyJWIjoiMC4wLjAwMDAiLCJQIjoiV2luMzIiLCJBTiI6Ik1haWwiLCJXVCI6Mn0%3D%7C3000%7C%7C%7C&amp;sdata=vqhh3dTc%2FgBt7GrP9hKppWlrFy2F7DaivkNEuGekl0g%3D&amp;reserved=0 
+>>>>>>>
+>>
+>> Thank you Microsoft Outlook for keeping us safe. :(
+> I am not using MS Outlook for the email exchanges.
 
-Fix this by only invoking the fast patch if we succeeded in zapping the
-mmu page.
+I guess, it’s not the client but the Microsoft email service (Exchange?) 
+no idea adding these protection links. (Making it even harder for users 
+to actually verify domain. No idea who comes up with these ideas, and 
+customers actually accepting those.)
 
-Fixes: 147277540bbc5 ("kvm: svm: Add support for additional SVM NPF error codes")
-Signed-off-by: Maxim Levitsky <mlevitsk@redhat.com>
+>>>>>>>
+>>>>>>> Reported-by: kernel test robot <lkp@intel.com>
+>>>>>>
+>>>>>> This tag is a little confusing. Maybe clarify that it was for an 
+>>>>>> issue
+>>>>>> in a previous patch iteration?
+>>>
+>>> I did describe in change-list version 3 below, which corrected the 
+>>> build error with W=1 option.
+>>>
+>>> It is not good idea to add the description for that to the commit 
+>>> message, this is why I add descriptions on change-list version 3.
+>>
+>> Do as you wish, but the current style is confusing, and readers of the 
+>> commit are going to think, the kernel test robot reported the problem 
+>> with AMD VI ASICs and Intel Alder Lake systems.
+>>
+>>>>>>
+>>>>>>> Signed-off-by: Richard Gong <richard.gong@amd.com>
+>>>>>>> ---
+>>>>>>> v4: s/CONFIG_X86_64/CONFIG_X86
+>>>>>>>       enhanced check logic
+>>>>>>> v3: s/intel_core_asom_chk/aspm_support_quirk_check
+>>>>>>>       correct build error with W=1 option
+>>>>>>> v2: correct commit description
+>>>>>>>       move the check from chip family to problematic platform
+>>>>>>> ---
+>>>>>>>    drivers/gpu/drm/amd/amdgpu/vi.c | 17 ++++++++++++++++-
+>>>>>>>    1 file changed, 16 insertions(+), 1 deletion(-)
+>>>>>>>
+>>>>>>> diff --git a/drivers/gpu/drm/amd/amdgpu/vi.c 
+>>>>>>> b/drivers/gpu/drm/amd/amdgpu/vi.c
+>>>>>>> index 039b90cdc3bc..b33e0a9bee65 100644
+>>>>>>> --- a/drivers/gpu/drm/amd/amdgpu/vi.c
+>>>>>>> +++ b/drivers/gpu/drm/amd/amdgpu/vi.c
+>>>>>>> @@ -81,6 +81,10 @@
+>>>>>>>    #include "mxgpu_vi.h"
+>>>>>>>    #include "amdgpu_dm.h"
+>>>>>>>
+>>>>>>> +#if IS_ENABLED(CONFIG_X86)
+>>>>>>> +#include <asm/intel-family.h>
+>>>>>>> +#endif
+>>>>>>> +
+>>>>>>>    #define ixPCIE_LC_L1_PM_SUBSTATE    0x100100C6
+>>>>>>>    #define 
+>>>>>>> PCIE_LC_L1_PM_SUBSTATE__LC_L1_SUBSTATES_OVERRIDE_EN_MASK 0x00000001L
+>>>>>>>    #define PCIE_LC_L1_PM_SUBSTATE__LC_PCI_PM_L1_2_OVERRIDE_MASK 
+>>>>>>> 0x00000002L
+>>>>>>> @@ -1134,13 +1138,24 @@ static void vi_enable_aspm(struct 
+>>>>>>> amdgpu_device *adev)
+>>>>>>>                WREG32_PCIE(ixPCIE_LC_CNTL, data);
+>>>>>>>    }
+>>>>>>>
+>>>>>>> +static bool aspm_support_quirk_check(void)
+>>>>>>> +{
+>>>>>>> +     if (IS_ENABLED(CONFIG_X86)) {
+>>>>>>> +             struct cpuinfo_x86 *c = &cpu_data(0);
+>>>>>>> +
+>>>>>>> +             return !(c->x86 == 6 && c->x86_model == 
+>>>>>>> INTEL_FAM6_ALDERLAKE);
+>>>>>>> +     }
+>>>>>>> +
+>>>>>>> +     return true;
+>>>>>>> +}
+>>>>>>> +
+>>>>>>>    static void vi_program_aspm(struct amdgpu_device *adev)
+>>>>>>>    {
+>>>>>>>        u32 data, data1, orig;
+>>>>>>>        bool bL1SS = false;
+>>>>>>>        bool bClkReqSupport = true;
+>>>>>>>
+>>>>>>> -     if (!amdgpu_device_should_use_aspm(adev))
+>>>>>>> +     if (!amdgpu_device_should_use_aspm(adev) || 
+>>>>>>> !aspm_support_quirk_check())
+>>>>>>>                return;
+>>>>>>
+>>>>>> Can users still forcefully enable ASPM with the parameter 
+>>>>>> `amdgpu.aspm`?
+>>>>>>
+>>> As Mario mentioned in a separate reply, we can't forcefully enable 
+>>> ASPM with the parameter 'amdgpu.aspm'.
+>>
+>> That would be a regression on systems where ASPM used to work. Hmm. I 
+>> guess, you could say, there are no such systems.
+>>
+>>>>>>>
+>>>>>>>        if (adev->flags & AMD_IS_APU ||
+>>>>>>
+>>>>>> If I remember correctly, there were also newer cards, where ASPM 
+>>>>>> worked
+>>>>>> with Intel Alder Lake, right? Can only the problematic generations 
+>>>>>> for
+>>>>>> WX3200 and RX640 be excluded from ASPM?
+>>>>>
+>>>>> This patch only disables it for the generatioaon that was problematic.
+>>>>
+>>>> Could that please be made clear in the commit message summary, and 
+>>>> message?
+>>>
+>>> Are you ok with the commit messages below?
+>>
+>> Please change the commit message summary. Maybe:
+>>
+>> drm/amdgpu: VI: Disable ASPM on Intel Alder Lake based systems
+>>
+>>> Active State Power Management (ASPM) feature is enabled since kernel 
+>>> 5.14.
+>>>
+>>> There are some AMD GFX cards (such as WX3200 and RX640) that won't work
+>>> with ASPM-enabled Intel Alder Lake based systems. Using these GFX 
+>>> cards as
+>>> video/display output, Intel Alder Lake based systems will freeze after
+>>> suspend/resume.
+>>
+>> Something like:
+>>
+>> On Intel Alder Lake based systems using ASPM with AMD GFX Volcanic 
+>> Islands (VI) cards, like WX3200 and RX640, graphics don’t initialize 
+>> when resuming from S0ix(?).
+>>
+>>
+>>> The issue was initially reported on one system (Dell Precision 3660 with
+>>> BIOS version 0.14.81), but was later confirmed to affect at least 4 
+>>> Alder
+>>> Lake based systems.
+>>
+>> Which ones?
+> those are pre-production Alder Lake based OEM systems
 
---
+Just write that then: at least four pre-production Alder Lake based systems.
 
-In theory, KVMGT also does external write tracking so in theory this issue can happen today,
-but it is highly unlikely.
+>>> Add extra check to disable ASPM on Intel Alder Lake based systems with
+>>> problematic generation GFX cards.
+>>
+>> … with the problematic Volcanic Islands GFX cards.
+>>
+>>>>
+>>>> Loosely related, is there a public (or internal issue) to analyze 
+>>>> how to get ASPM working for VI generation devices with Intel Alder 
+>>>> Lake?
+>>>
+>>> As Alex mentioned, we need support from Intel. We don't have any 
+>>> update on that.
+>>
+>> It’d be great to get that fixed properly.
+>>
+>> Last thing, please don’t hate me, does Linux log, that ASPM is disabled?
 
-Best regards,
-	Maxim Levitsk
 
+Kind regards,
+
+Paul
+
+
+[1]: https://www.thunderbird.net/en-US/thunderbird/releases/
