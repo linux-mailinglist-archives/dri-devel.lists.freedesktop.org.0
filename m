@@ -2,82 +2,124 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id B440A509FF7
-	for <lists+dri-devel@lfdr.de>; Thu, 21 Apr 2022 14:47:55 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id A391F509FF9
+	for <lists+dri-devel@lfdr.de>; Thu, 21 Apr 2022 14:48:47 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 690F410E3D4;
-	Thu, 21 Apr 2022 12:47:53 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 1D97B10E380;
+	Thu, 21 Apr 2022 12:48:45 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from us-smtp-delivery-124.mimecast.com
- (us-smtp-delivery-124.mimecast.com [170.10.129.124])
- by gabe.freedesktop.org (Postfix) with ESMTPS id AC8BC10E251
- for <dri-devel@lists.freedesktop.org>; Thu, 21 Apr 2022 12:47:51 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1650545270;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=TnOf3NHeZTSr4cEYbvvix37pw/apJI2q+GJ3+PP81w0=;
- b=adeGPANgsejNeCirqbYaCpwDV7+aiUoGLVQRuZu8oJW0OMimCRCyUDSLPq7Bbaoimt17HY
- 0WRRzr7NDg/qGC6sSpwebf/GQuuynV6gvFLuXkEtq6SYXOP9zgM9nUo8BWr/bT4rKxbGGs
- k/3ipA5IyXEIc05/T+qzuhyey25WvRA=
-Received: from mail-wm1-f69.google.com (mail-wm1-f69.google.com
- [209.85.128.69]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-169-Mh1xZkMTNaerx5Dr-IVxCw-1; Thu, 21 Apr 2022 08:47:48 -0400
-X-MC-Unique: Mh1xZkMTNaerx5Dr-IVxCw-1
-Received: by mail-wm1-f69.google.com with SMTP id
- t187-20020a1c46c4000000b0038ebc45dbfcso2328619wma.2
- for <dri-devel@lists.freedesktop.org>; Thu, 21 Apr 2022 05:47:48 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
- :content-language:to:cc:references:from:in-reply-to
- :content-transfer-encoding;
- bh=TnOf3NHeZTSr4cEYbvvix37pw/apJI2q+GJ3+PP81w0=;
- b=Ox0RK+DwcfKSEKmoOFwJnoDOyShvN2UF8e+qBHvxh9NodanA9w8fYQDWejax8VSizq
- QeSenqR+AzXDcWCvFNnru04kLmyWsv9hYB0SIZD7dvlnjcuyecs1KTADk4mXVqBvcyaH
- Ckik27xbNgSlAtJyIYrM1eKIcxbjMIMv8bPZCnFNRSiv7tgcgZggvVLH5qnpA760mdu3
- R/awBGR3OVKf7mEfup+llyvGQhIG7xW/izzcwMVnx92cR071fqccDnDAcXWcIlVw9b1t
- G2TzHgQWGAAnBSESr/h/+06SQ9DKSGSlZ8ojkBOfVCznqC5UXR7ARM4p+ddPdJZq1Mk6
- x1cg==
-X-Gm-Message-State: AOAM5333HCPkv6/TFVWf0nUZck/dC+4oZnbbMJMbYRk4wLQFfxl9x/0y
- ntXOf6bqFVmF4IFZwVfvUlry9x9m5HrPHolfUgsk9jVHMaqDV9OSiQzpCN6n6ZEEFnlUsKZn2Z4
- xEC4O+7N8J+c8Fm/65WrMYX2BDwAb
-X-Received: by 2002:adf:9581:0:b0:1ed:c341:4ed1 with SMTP id
- p1-20020adf9581000000b001edc3414ed1mr18446932wrp.299.1650545267313; 
- Thu, 21 Apr 2022 05:47:47 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJwM7PKieGr1IEXIphps56gblQ+HazfGrEHkPNWi6ZMSTtd09VlmmzSO/ZCY16iuoKF1G1KUhw==
-X-Received: by 2002:adf:9581:0:b0:1ed:c341:4ed1 with SMTP id
- p1-20020adf9581000000b001edc3414ed1mr18446919wrp.299.1650545267042; 
- Thu, 21 Apr 2022 05:47:47 -0700 (PDT)
-Received: from [192.168.1.129] ([92.176.231.205])
- by smtp.gmail.com with ESMTPSA id
- d18-20020a05600c34d200b0038ed14b7ac3sm1955281wmq.40.2022.04.21.05.47.46
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Thu, 21 Apr 2022 05:47:46 -0700 (PDT)
-Message-ID: <dce29330-e40c-860e-2c72-7ddebdd96e20@redhat.com>
-Date: Thu, 21 Apr 2022 14:47:45 +0200
-MIME-Version: 1.0
+Received: from NAM10-BN7-obe.outbound.protection.outlook.com
+ (mail-bn7nam10on2052.outbound.protection.outlook.com [40.107.92.52])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 0A73110E370;
+ Thu, 21 Apr 2022 12:48:43 +0000 (UTC)
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=Djt8Ee+aRx0JeB3hwcvihjhhj5OXfoCzyrARzTWufmWgJIUT+FV8s//kj5tc6H12V+X7V1ouLDnsWNED9m1HwG4VUEqr4XY1uZNr9H7Jq2eYfp3qtLuCNP3P/cQWvtBfyjCwXmvz2+6uvxuoGi62672btdXVzdOfmOF3B/9+Lrc0n/AJEVNqYBZGXpOZMeHREfSSk46laWAEHsmpY8wFHyBayJGX8mTUi350xko87qTngEh66Fo78km6jHyfdKIwH+9SBsVVCqr48N4cv2BYcrvJ6pUiNTukCce/jOBzxNwlmgQVSGb+dsQ7Yp8R6As9Xwqf0eMu8Xw6nuHlHZdA2Q==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=LE0cygIGpDJWnCtG1pKegXKvWAHSSTxB17XA4vRl9q0=;
+ b=dbKt64ijlo44o3rZj8u0rJu5SNb0UoXHYiRqkF1JXujNiCRTswp9NDsqWJlNtrrUfpgsrHfvhQHq1HbG+UbdxhLzRXk9KUcQBimU/0jzLgWh3/KVk8bzIyiRBSHkC453A237ph3MEW7Kns3kyauJjt8nWAfFgJzc66CeotiCnO1Gpymf+mZvtFMjKTfl+esUX6WBrsgqAImMm1ZjLOq/9PyKhjR/UqglI7ms/3yLl61ChbQo9ab7y5Z0i8Xd5v4E3x1vKx8gJljooxyqzdFvy2s2lJBHNorSrHLSkZsRMyEAd9VEFcoJBcu9Is1nFID7sPTIQ4N8jfTzwwH4Ih+ljA==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=amd.com; dmarc=pass action=none header.from=amd.com; dkim=pass
+ header.d=amd.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1; 
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=LE0cygIGpDJWnCtG1pKegXKvWAHSSTxB17XA4vRl9q0=;
+ b=4POpnlFtDJKQDy/x6m0HiSn8YiNtSQ1NW9SOOdLBGtvVwy8ui1Lt9LlJgL0plQJ+nmdhBlcfxxMKcz/OxzaWrJUlkWaEUaoYxULh2LYyABuzUU3EUI/hoV51M5pDWOjHNEQ+iEl1LFQ2lFt9633guZLUwJWske5tL2m8+bFTkug=
+Authentication-Results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=amd.com;
+Received: from BN8PR12MB3587.namprd12.prod.outlook.com (2603:10b6:408:43::13)
+ by BL1PR12MB5285.namprd12.prod.outlook.com (2603:10b6:208:31f::14)
+ with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.5186.15; Thu, 21 Apr
+ 2022 12:48:40 +0000
+Received: from BN8PR12MB3587.namprd12.prod.outlook.com
+ ([fe80::a5fb:7137:5e64:cf8]) by BN8PR12MB3587.namprd12.prod.outlook.com
+ ([fe80::a5fb:7137:5e64:cf8%5]) with mapi id 15.20.5164.026; Thu, 21 Apr 2022
+ 12:48:40 +0000
+Message-ID: <60be4755-47ac-cb5e-1486-d9b42cf43b49@amd.com>
+Date: Thu, 21 Apr 2022 14:48:33 +0200
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.8.0
-Subject: Re: [PATCH v3] drm/gma500: depend on framebuffer
-To: Patrik Jakobsson <patrik.r.jakobsson@gmail.com>,
- Thomas Zimmermann <tzimmermann@suse.de>
-References: <20220409042321.3184493-1-james.hilliard1@gmail.com>
- <b3f7e288-3341-8c6f-1b95-e553ac5ebc35@suse.de>
- <CAMeQTsbh-Fy4CORBTX=AfZ+K-fZYUQ=hY=ctLFyu9KcJ5NgFUA@mail.gmail.com>
-From: Javier Martinez Canillas <javierm@redhat.com>
-In-Reply-To: <CAMeQTsbh-Fy4CORBTX=AfZ+K-fZYUQ=hY=ctLFyu9KcJ5NgFUA@mail.gmail.com>
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=javierm@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
+ Thunderbird/91.7.0
+Subject: Re: [PATCH] drm/ttm: use kvcalloc() instead of kvmalloc_array() in
+ ttm_tt
 Content-Language: en-US
-Content-Type: text/plain; charset=UTF-8
+To: Yang Wang <KevinYang.Wang@amd.com>, amd-gfx@lists.freedesktop.org,
+ dri-devel@lists.freedesktop.org
+References: <20220421123442.1834102-1-KevinYang.Wang@amd.com>
+From: =?UTF-8?Q?Christian_K=c3=b6nig?= <christian.koenig@amd.com>
+In-Reply-To: <20220421123442.1834102-1-KevinYang.Wang@amd.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 7bit
+X-ClientProxiedBy: AS9PR06CA0311.eurprd06.prod.outlook.com
+ (2603:10a6:20b:45b::8) To BN8PR12MB3587.namprd12.prod.outlook.com
+ (2603:10b6:408:43::13)
+MIME-Version: 1.0
+X-MS-PublicTrafficType: Email
+X-MS-Office365-Filtering-Correlation-Id: c9586867-7d67-4e7e-1c20-08da23954248
+X-MS-TrafficTypeDiagnostic: BL1PR12MB5285:EE_
+X-Microsoft-Antispam-PRVS: <BL1PR12MB5285FD6EB5440AD24CC8AC5083F49@BL1PR12MB5285.namprd12.prod.outlook.com>
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: BCL:0;
+X-Microsoft-Antispam-Message-Info: D+86TpjREwPiTNqHjl57Hr8uoQhD83TaoBSHvQkj6DufISqSE3k7XL5DbrG5K2/FFF2AtvN0Xe1TZwVmHfi8h7RLI9wAwhC/sxoJxpa/McM9VrSyS0sUd9cQDSm/WQ5GAriVRNkk2DBJ3gCazP8JCwHKHgfEm2s2/Ajs+1PX3mW2nCYt80m4YrNp9Q9asnZQgOP+BHnTHFmdGtzYUqdGA1uXaKBEPwzTA3iuvedBCfRwYPYEP9RxYVgD3rpy+2ZcVJm+6A/gbY9e3f2PrNPHJkieji+IJL004YZ5pU2EhLHioAEf9byM+ZKz3sHdx3ISki3yNUsRG49hTJYZWaGKpYg0wwfGxpotz2wlLxl74F4V5KhgveTleMrH3G6YmtrEXOdnz629sJO4t6hmRiq+5yGlGpztUT0l0NIHw9AXjqH4bgNgUo6to6LhxbQvNPGq9zDyRAocLoEWsxMj2PlzatTUsbmqIXwmtlD0426RuELSXYwmiPDLd0iejphBXgUt73LzaYue/UXtO2hgh2c1Hd4juvjxEbngG5dfzCfdkHU8eim+vFk0YsjwP7zzNlL93mPdC6b6CaW6rNHBt0bqp66BmCqgpqWp0CDePCLYC2yWzgHmK1vFz4RfUwYH5pzBk0Bg3v8EhUxojhS1P05GHldh6qpJoE9s9urY+Mym9kJPMDIwFALaoP+u+qjMlKYMkdBuS92JBtnwo82OqnHukH2myBI5zbCrrOjvb95rWrM=
+X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
+ IPV:NLI; SFV:NSPM; H:BN8PR12MB3587.namprd12.prod.outlook.com; PTR:; CAT:NONE;
+ SFS:(13230001)(4636009)(366004)(186003)(31696002)(2616005)(86362001)(36756003)(66476007)(8676002)(66946007)(450100002)(66556008)(4326008)(316002)(31686004)(508600001)(38100700002)(8936002)(5660300002)(6486002)(6506007)(6512007)(83380400001)(6666004)(2906002)(43740500002)(45980500001);
+ DIR:OUT; SFP:1101; 
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 2
+X-MS-Exchange-AntiSpam-MessageData-0: =?utf-8?B?OU5XT3ZKU1JXd1dpMWdVVjlCVDVpaGx3bTBtRnJxVkVobUlZVDRCSUxZL0Fo?=
+ =?utf-8?B?ZndrUzlhOTlGWGp4WS9MQkdhNmVndlIxWXdmbFdXVG5ZNDRhamNYRzMzbUNG?=
+ =?utf-8?B?UWR0Q2ZXNU9yTzEyNy9kVktpUTVoOUtnNXIvVlVEY1MvRXdhY0p6N0VnbXRO?=
+ =?utf-8?B?cGp0d3BkK09SM2lBb0JuQk5HM1AzVWFMQVFYYTlYc2RFNVM4SXVRMjMvSVVP?=
+ =?utf-8?B?MGFJdmxQYS9PQVZxWW1Mczc0b2xDWFM1a2pRUUdiZ3ZxQkx4RG1hRzExbm0w?=
+ =?utf-8?B?YXVtTW9DVW11Y2pjaU1XMytEeE53SGVobTByUFlIZEVCbUVJZmpWOWU5N21n?=
+ =?utf-8?B?MFRJbTRmeHZqcXprd0l0VjYxMUJZZmJ6VlBRaG9oNmJkTnFDOVJ6Q0F3ekVE?=
+ =?utf-8?B?QlVHTlJpOWNCOGFjTXZkMDV0OVdqRnVaNjFKK0YraXAxMVVaQTZSNTdsYytC?=
+ =?utf-8?B?UlV0Z1ZuNnNPNzFmRFFNT1hlTUs0SlF4MElYWS9lTE11ZVpEQzJKaFRoaXRK?=
+ =?utf-8?B?L3UyNFR1Z1VkUEQzNkh4ak51OVRHSmY3aXVjcUg0dnhCeks5ZHg0SWpva2ht?=
+ =?utf-8?B?V2F3OVNuTHo3SDFyd1Naalo2TzQwelM3aFZjL2pLL2pSdHloZWJ6ZEdZaHl4?=
+ =?utf-8?B?YUVZSklrWDFDZWYvbC9wQktheEUzVnVNN1kwWnpBaVEwVXdLNXpSK0w0L2Vq?=
+ =?utf-8?B?d3I0SThuWWhWQkp2aW9keXVLQnNjOTM3SkMzSC81YmxzU2pwWTRDMjh1bHZx?=
+ =?utf-8?B?bDdXZTVJcmNCdTZYSGFZbE9iNjc1OFdwWE1kQ0E2UHBYdDRSODJSTWY2TFdN?=
+ =?utf-8?B?RHlmSWNmNEtIM2lhSy9oTGdESkh0SHNNNnNGTnc5WmpzZVVuUGhOSTZMMEJ0?=
+ =?utf-8?B?WEZUTDE3Vi9xTlNtQnM3c0xpK3BSYWRMUUplUG9jVFlhSThjYVNGME93cFpr?=
+ =?utf-8?B?ZGpOT2dCaVVxUWdFUEpzRzdLdTZieldjT1RtYXRYYXFPM3QrbllqcFJKL2Iy?=
+ =?utf-8?B?OFM2TkZXVGl5bE5WeGZjTW5vdWdkRUNCQmVaSUFNeWpEcngwYWxsanNuN2Vy?=
+ =?utf-8?B?ZmhjWEVXUnVHMUNsMnN1RWNOQUJKTlJweUovTW9KcU1yenFhSHIwRUkxUzZk?=
+ =?utf-8?B?MUJReThmMDFQcU9maXVFOFE4KzEydCtnRVRHNDdsbXY0V2lNb0VtNjFiZkdv?=
+ =?utf-8?B?MmcybTFlcnhqU2Q0cGJXdXdpb0VPWjdtT01FMDFSZ3pocUFad3ZMWEk0dm5j?=
+ =?utf-8?B?UURxeXA1MTdNOHYzRDF1OStIK25PZWhtUXFXRFBWU3FhRUJBVWZ6V1JKbTNm?=
+ =?utf-8?B?TzljOGkxcE8ydEUzU0pnSEp3WHdDdDZkZUhwWDFpNjBPdklIMWZORmNXY3VK?=
+ =?utf-8?B?dENVNUJKT0I3NHNhVlhQSjRlditRUERkZkRJSElTYzV0UWtnV0xmSmlLRVBQ?=
+ =?utf-8?B?cFlsSDJzTEZSd0VySktSbmtnZE9LU2twMyt2L2VjWWU4TktmSVlyWDF1cHpC?=
+ =?utf-8?B?dGxuN0VKbDNhYXpFL2ppQXBtZW5VeldpTXkyZFpwTlFVMWM3dk1laXZOaFIx?=
+ =?utf-8?B?ZHZpY1NmU3BzdmJOTTlMWHdCVllzMHJUSWw3V2NMNXRJV3VqWHJLbGllZ1F0?=
+ =?utf-8?B?R20yNktFSWpYallXZDhRc2V1c2FsdkI4M3hORktlN2d0SkxIRHFTTzVYRk9j?=
+ =?utf-8?B?L1pNT1JtMURkVjJRWFZvNE0xYUtCRzd1RG1QbDFxSEV2eVZUTnZGSHVDUURJ?=
+ =?utf-8?B?UFNaYWkxMGFrdlpVQU1hR3pHNE5XZk9UNXV5RTRPL3ZRU3dLRTZDbGpza0dS?=
+ =?utf-8?B?OTVuTTlXN3hVVVViSDRIbWpaL1p4aUltMjB1ZGx4dWQwNzRvMzVBVFJ5RFo0?=
+ =?utf-8?B?VTh5MTdEUjZ5eDFCMFZ2R2oxMXloQXA3Q3ZQcHp6d3B3amtMSWFYZTMxbmZu?=
+ =?utf-8?B?dXNCbUFzdWpUb2M0bDBXdXZ5TFo2L0RUdnRKYkppaC9oaHdaU1pBVlhCT0lw?=
+ =?utf-8?B?YkV5NXREL1VCRkowTVp6SVcvNU1KLzlIeGRuK2JaT1NkNUhySXUvc1pIUDdu?=
+ =?utf-8?B?UHA2eEwxRmNvWXpnTUlIc1dzOTlOUFpTQkc2ZDQ3TXRDdER5WEJTcmE3UG9B?=
+ =?utf-8?B?NmpHVHErTVN6RmJtaFNDWDIzVmdUd3RVSmhHK08zRFlrYnZGQWdncDZqS0pT?=
+ =?utf-8?B?T0dRMW50eXl5Nlpjd09xOGFNOGphckNCQVhOa0JycnJ1MStWUjBSQU9KdGMr?=
+ =?utf-8?B?MS9hYThoend1emVobUlydVlsUVlscXE0VnlzOVlMYW0zYkJlN213RWxLeC83?=
+ =?utf-8?B?Y2NYOGcwUUlkZE0xUDU0YWZHbjM3MTZuWEo4UFZKWnUvRFFiTnhkeFJiclFK?=
+ =?utf-8?Q?zq/Nx38dzXbJXw0w2UhITvvL3iQTWyQAOcKfSP7UA/ZJv?=
+X-MS-Exchange-AntiSpam-MessageData-1: Kd491As4gwic0g==
+X-OriginatorOrg: amd.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: c9586867-7d67-4e7e-1c20-08da23954248
+X-MS-Exchange-CrossTenant-AuthSource: BN8PR12MB3587.namprd12.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 21 Apr 2022 12:48:39.9530 (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: mqd77UfVaVLSE46/voOFdMwTcoyp4tjsmqIQmXmspGsqCJez56aphN+45gdxobQl
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: BL1PR12MB5285
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -90,67 +132,70 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: David Airlie <airlied@linux.ie>, James Hilliard <james.hilliard1@gmail.com>,
- Randy Dunlap <rdunlap@infradead.org>,
- linux-kernel <linux-kernel@vger.kernel.org>,
- dri-devel <dri-devel@lists.freedesktop.org>
+Cc: felix.kuehling@amd.com, lijo.lazar@amd.com
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hello Patrik,
-
-On 4/21/22 14:39, Patrik Jakobsson wrote:
-> On Thu, Apr 21, 2022 at 1:49 PM Thomas Zimmermann <tzimmermann@suse.de> wrote:
->>
->> Hi
->>
->> Am 09.04.22 um 06:23 schrieb James Hilliard:
->>> Select the efi framebuffer if efi is enabled.
->>>
->>> This appears to be needed for video output to function correctly.
->>>
->>> Signed-off-by: James Hilliard <james.hilliard1@gmail.com>
->>> ---
->>> Changes v2 -> v3:
->>>    - select EFI_FB instead of depending on it
->>> Changes v1 -> v2:
->>>    - use depends instead of select
->>> ---
->>>   drivers/gpu/drm/gma500/Kconfig | 2 ++
->>>   1 file changed, 2 insertions(+)
->>>
->>> diff --git a/drivers/gpu/drm/gma500/Kconfig b/drivers/gpu/drm/gma500/Kconfig
->>> index 0cff20265f97..a422fa84d53b 100644
->>> --- a/drivers/gpu/drm/gma500/Kconfig
->>> +++ b/drivers/gpu/drm/gma500/Kconfig
->>> @@ -2,11 +2,13 @@
->>>   config DRM_GMA500
->>>       tristate "Intel GMA500/600/3600/3650 KMS Framebuffer"
->>>       depends on DRM && PCI && X86 && MMU
->>> +     depends on FB
->>
->> Why do we need FB here? Framebuffer support should be hidden by DRM's
->> fbdev helpers.
-> 
-> It is not needed but gives him video output since it enables the drm
-> fbdev emulation.
+Am 21.04.22 um 14:34 schrieb Yang Wang:
+> simplify programming with existing functions.
 >
+> Signed-off-by: Yang Wang <KevinYang.Wang@amd.com>
 
-I'm not sure to understand this. Shouldn't depend on DRM_FBDEV_EMULATION then?
- 
-> I looked some more at the logs and it seems weston doesn't work on his
-> system without the fbdev backend. So the question is why weston isn't
-> working without fbdev? Perhaps this is just a Weston configuration
-> issue?
-> 
+With a minimal style change reviewed and pushed to drm-misc-next.
 
-But is weston using the fbdev emulated by DRM or the one registered by
-efifb? I thought that the latter from what was mentioned in this thread.
+Thanks,
+Christian.
 
--- 
-Best regards,
-
-Javier Martinez Canillas
-Linux Engineering
-Red Hat
+> ---
+>   drivers/gpu/drm/ttm/ttm_tt.c | 21 ++++++++++++---------
+>   1 file changed, 12 insertions(+), 9 deletions(-)
+>
+> diff --git a/drivers/gpu/drm/ttm/ttm_tt.c b/drivers/gpu/drm/ttm/ttm_tt.c
+> index 79c870a3bef8..cbb3d1fb4caf 100644
+> --- a/drivers/gpu/drm/ttm/ttm_tt.c
+> +++ b/drivers/gpu/drm/ttm/ttm_tt.c
+> @@ -96,19 +96,20 @@ int ttm_tt_create(struct ttm_buffer_object *bo, bool zero_alloc)
+>    */
+>   static int ttm_tt_alloc_page_directory(struct ttm_tt *ttm)
+>   {
+> -	ttm->pages = kvmalloc_array(ttm->num_pages, sizeof(void*),
+> -			GFP_KERNEL | __GFP_ZERO);
+> +	ttm->pages = kvcalloc(ttm->num_pages, sizeof(void*),
+> +			      GFP_KERNEL);
+>   	if (!ttm->pages)
+>   		return -ENOMEM;
+> +
+>   	return 0;
+>   }
+>   
+>   static int ttm_dma_tt_alloc_page_directory(struct ttm_tt *ttm)
+>   {
+> -	ttm->pages = kvmalloc_array(ttm->num_pages,
+> -				    sizeof(*ttm->pages) +
+> -				    sizeof(*ttm->dma_address),
+> -				    GFP_KERNEL | __GFP_ZERO);
+> +	ttm->pages = kvcalloc(ttm->num_pages,
+> +			      sizeof(*ttm->pages) +
+> +			      sizeof(*ttm->dma_address),
+> +			      GFP_KERNEL);
+>   	if (!ttm->pages)
+>   		return -ENOMEM;
+>   
+> @@ -118,11 +119,13 @@ static int ttm_dma_tt_alloc_page_directory(struct ttm_tt *ttm)
+>   
+>   static int ttm_sg_tt_alloc_page_directory(struct ttm_tt *ttm)
+>   {
+> -	ttm->dma_address = kvmalloc_array(ttm->num_pages,
+> -					  sizeof(*ttm->dma_address),
+> -					  GFP_KERNEL | __GFP_ZERO);
+> +	ttm->dma_address = kvcalloc(ttm->num_pages,
+> +				    sizeof(*ttm->dma_address),
+> +				    GFP_KERNEL);
+>   	if (!ttm->dma_address)
+>   		return -ENOMEM;
+> +
+> +
+>   	return 0;
+>   }
+>   
 
