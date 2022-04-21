@@ -2,54 +2,51 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 17E64509970
-	for <lists+dri-devel@lfdr.de>; Thu, 21 Apr 2022 09:46:11 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 45D2F509A00
+	for <lists+dri-devel@lfdr.de>; Thu, 21 Apr 2022 09:57:05 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 245F610F88E;
-	Thu, 21 Apr 2022 07:46:08 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id C420410F4AB;
+	Thu, 21 Apr 2022 07:57:01 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-ed1-x52f.google.com (mail-ed1-x52f.google.com
- [IPv6:2a00:1450:4864:20::52f])
- by gabe.freedesktop.org (Postfix) with ESMTPS id D82F710F88E
- for <dri-devel@lists.freedesktop.org>; Thu, 21 Apr 2022 07:46:06 +0000 (UTC)
-Received: by mail-ed1-x52f.google.com with SMTP id u18so5405786eda.3
- for <dri-devel@lists.freedesktop.org>; Thu, 21 Apr 2022 00:46:06 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=amarulasolutions.com; s=google;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=xueFlLS/AZxrU9SUkQ2FQU5VYlSgM2qCJjLUnN4XaFk=;
- b=axHTrC19SmnFuGe23nnW0DMoSNCdyDFeux/krw45FYRIKCKhZZ5yXv5L9V6YFJISk0
- 9DyBC1nGxEgNRGuDbeRAIQVZxW2DYwONHEh8CGskvZXfDIlMeTzJflJ3YjFa6smbzVAu
- eJfQekLsHH8NBCznIg8vvfVG04D5HpqL3JTHY=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=xueFlLS/AZxrU9SUkQ2FQU5VYlSgM2qCJjLUnN4XaFk=;
- b=p9pwwxhbCVdatDcYuSDNnB/7vZpmhDj1wHOyxZil4i4Im1+71O4bHRBa2T5HoMhPpg
- fYJQi3rCHtUGXjaqMpnEhs3IKrRjiPe3GTIasLAPXJIBV/ja/u++ylf85GVwba+Y7RLb
- wRu1Hfg/n7DK+WAXdnhkHEDSU3kHRNLP1civpo4RLN1iz4A71B3Wx8Hc1Lpxx+5O2Z2R
- 80y03646cSpiYjgoVJpfiscW2kWoTnfFHrWOkpZYagfv3k5bfuQRFG/s9igBBa69JFjZ
- O9Sdsa4L+Jf0jvuAy4mdMFVqBj1O+5tJhu/47+sYQz1tL3qhalgdzEOtjWMUDKD1LNcS
- xnXA==
-X-Gm-Message-State: AOAM53205fi7w1rNRFTZP+Bl8amHvMMHFNmz1Kz+HNhZhokPH+VmDL6m
- MMvYzjtlfQSwSV256cX7YjiaWM1jANznG5FL+QDqJA==
-X-Google-Smtp-Source: ABdhPJwuoM/Pk3gnukt5KMZfQCSdnQrVvQBf1lC1EKOi6WVC45MWzZf0LgtgCsJ0Ihu7RVgjAhldJ/k/WTUe7SY441Y=
-X-Received: by 2002:a05:6402:26cd:b0:423:b43d:8b09 with SMTP id
- x13-20020a05640226cd00b00423b43d8b09mr26396374edd.400.1650527165319; Thu, 21
- Apr 2022 00:46:05 -0700 (PDT)
+Received: from mga05.intel.com (mga05.intel.com [192.55.52.43])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 0785710F49D;
+ Thu, 21 Apr 2022 07:57:00 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+ t=1650527821; x=1682063821;
+ h=message-id:date:mime-version:subject:to:cc:references:
+ from:in-reply-to:content-transfer-encoding;
+ bh=cE8WTgy5ECF47TMzRrbashFPxU3H/xNSvuDxHsysfSU=;
+ b=fE0rFn4FSeocsXiIU+tPZjZU262OaRbbCwcGD7cc+fFt2zy0fr+6WERK
+ pyDLdEmOQL7FOKDC4yn/+lIYs0jhhCVcI4mzT9dO+C2dHxAVa/sL52SUU
+ ue3IsLNmNLYMmzIggO/EwzzO/YB1wgkledsdJrPERK9yUEYswRMlSIUZY
+ 1Fsy6kv31V6pdgyLT5R9eVByVwj/m+3Tatr9cX43XgArCmv7Cshc2DUjK
+ I1foDB9OwZ8qSNHieYfbpGF4tkeg5f+InhTsfgUKoW4mL4dxlCMGZsyKg
+ d2gWDrCsZpufNVcwO6PpkotNFegI4o9L34JyjG7/nLD/EXOjaQaLnLAdi A==;
+X-IronPort-AV: E=McAfee;i="6400,9594,10323"; a="350720117"
+X-IronPort-AV: E=Sophos;i="5.90,278,1643702400"; d="scan'208";a="350720117"
+Received: from orsmga006.jf.intel.com ([10.7.209.51])
+ by fmsmga105.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 21 Apr 2022 00:57:00 -0700
+X-IronPort-AV: E=Sophos;i="5.90,278,1643702400"; d="scan'208";a="530161645"
+Received: from bshawkat-mobl.ger.corp.intel.com (HELO [10.251.215.159])
+ ([10.251.215.159])
+ by orsmga006-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 21 Apr 2022 00:56:58 -0700
+Message-ID: <84d4003e-626e-31f3-56da-c9344bc34c19@linux.intel.com>
+Date: Thu, 21 Apr 2022 09:56:56 +0200
 MIME-Version: 1.0
-References: <20220420231230.58499-1-bjorn.andersson@linaro.org>
- <20220420231230.58499-2-bjorn.andersson@linaro.org>
-In-Reply-To: <20220420231230.58499-2-bjorn.andersson@linaro.org>
-From: Jagan Teki <jagan@amarulasolutions.com>
-Date: Thu, 21 Apr 2022 13:15:54 +0530
-Message-ID: <CAMty3ZAw7DUSnBePC05qC8Gn6ESKiu+FHw4a-HPPc05VX1hqhg@mail.gmail.com>
-Subject: Re: [PATCH 2/2] Revert "drm: of: Lookup if child node has panel or
- bridge"
-To: Bjorn Andersson <bjorn.andersson@linaro.org>
-Content-Type: text/plain; charset="UTF-8"
+User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:91.0) Gecko/20100101
+ Thunderbird/91.8.1
+Subject: Re: [PATCH 1/2] drm/i915/selftests: fixup min_alignment usage
+Content-Language: en-US
+To: Matthew Auld <matthew.auld@intel.com>, intel-gfx@lists.freedesktop.org
+References: <20220406193037.1060769-1-matthew.auld@intel.com>
+From: "Das, Nirmoy" <nirmoy.das@linux.intel.com>
+In-Reply-To: <20220406193037.1060769-1-matthew.auld@intel.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -62,41 +59,35 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
- Thomas Zimmermann <tzimmermann@suse.de>, David Airlie <airlied@linux.ie>,
- Robert Foss <robert.foss@linaro.org>, linux-kernel@vger.kernel.org,
- Paul Kocialkowski <paul.kocialkowski@bootlin.com>,
- Thierry Reding <thierry.reding@gmail.com>, dri-devel@lists.freedesktop.org,
- Marek Szyprowski <m.szyprowski@samsung.com>
+Cc: =?UTF-8?Q?Thomas_Hellstr=c3=b6m?= <thomas.hellstrom@linux.intel.com>,
+ dri-devel@lists.freedesktop.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-+ Linus
-+ Marek
-+ Laurent
-+ Robert
+Reviewed-by: Nirmoy Das <nirmoy.das@intel.com>
 
-On Thu, Apr 21, 2022 at 4:40 AM Bjorn Andersson
-<bjorn.andersson@linaro.org> wrote:
+On 4/6/2022 9:30 PM, Matthew Auld wrote:
+> Trying to cast the region id into the region type doesn't work too well,
+> since the i915_vm_min_alignment() won't give us the correct value for
+> the stolen-lmem case.
 >
-> Commit '80253168dbfd ("drm: of: Lookup if child node has panel or
-> bridge")' attempted to simplify the case of expressing a simple panel
-> under a DSI controller, by assuming that the first non-graph child node
-> was a panel or bridge.
+> Signed-off-by: Matthew Auld <matthew.auld@intel.com>
+> Cc: Thomas Hellström <thomas.hellstrom@linux.intel.com>
+> Cc: Nirmoy Das <nirmoy.das@linux.intel.com>
+> ---
+>   drivers/gpu/drm/i915/selftests/i915_gem_gtt.c | 2 +-
+>   1 file changed, 1 insertion(+), 1 deletion(-)
 >
-> Unfortunately for non-trivial cases the first child node might not be a
-> panel or bridge.  Examples of this can be a aux-bus in the case of
-> DisplayPort, or an opp-table represented before the panel node.
->
-> In these cases the reverted commit prevents the caller from ever finding
-> a reference to the panel.
->
-> This reverts commit '80253168dbfd ("drm: of: Lookup if child node has
-> panel or bridge")', in favor of using an explicit graph reference to the
-> panel in the trivial case as well.
-
-This eventually breaks many child-based devm_drm_of_get_bridge
-switched drivers.  Do you have any suggestions on how to proceed to
-succeed in those use cases as well?
-
-Jagan.
+> diff --git a/drivers/gpu/drm/i915/selftests/i915_gem_gtt.c b/drivers/gpu/drm/i915/selftests/i915_gem_gtt.c
+> index 5c9bfa409ff5..bccc49a8ab5e 100644
+> --- a/drivers/gpu/drm/i915/selftests/i915_gem_gtt.c
+> +++ b/drivers/gpu/drm/i915/selftests/i915_gem_gtt.c
+> @@ -1150,7 +1150,7 @@ static int misaligned_pin(struct i915_address_space *vm,
+>   		flags |= PIN_GLOBAL;
+>   
+>   	for_each_memory_region(mr, vm->i915, id) {
+> -		u64 min_alignment = i915_vm_min_alignment(vm, (enum intel_memory_type)id);
+> +		u64 min_alignment = i915_vm_min_alignment(vm, mr->type);
+>   		u64 size = min_alignment;
+>   		u64 addr = round_down(hole_start + (hole_size / 2), min_alignment);
+>   
