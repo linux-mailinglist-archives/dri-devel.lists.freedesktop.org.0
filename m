@@ -1,53 +1,60 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id A5A9E50A7F1
-	for <lists+dri-devel@lfdr.de>; Thu, 21 Apr 2022 20:17:42 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 746BF50A7F3
+	for <lists+dri-devel@lfdr.de>; Thu, 21 Apr 2022 20:17:47 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id D253610E381;
-	Thu, 21 Apr 2022 18:17:35 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 4A09D10E38C;
+	Thu, 21 Apr 2022 18:17:37 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from smtp-out2.suse.de (smtp-out2.suse.de [195.135.220.29])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 326FE10E36B
+Received: from smtp-out1.suse.de (smtp-out1.suse.de [195.135.220.28])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 79EC710E38C
  for <dri-devel@lists.freedesktop.org>; Thu, 21 Apr 2022 18:17:34 +0000 (UTC)
 Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
  (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
  key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
  (No client certificate requested)
- by smtp-out2.suse.de (Postfix) with ESMTPS id 84D061F388;
+ by smtp-out1.suse.de (Postfix) with ESMTPS id CCA8F21110;
  Thu, 21 Apr 2022 18:17:32 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
  t=1650565052; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
- mime-version:mime-version: content-transfer-encoding:content-transfer-encoding;
- bh=qYTmc9NzK10wJ1dq9AFOUt62dj8JOL4cETR8ofoWWX4=;
- b=egyh4+B9HSdHCyfT7bRHKTPC6M/5YwvfpUC3jrBIo1jSz3Hx9XDiDA1i1A6D+/QJxK2/kn
- w3mIw9MhLRKRFl5bPYvRoEEli47BPaecrUblUJdVXgIlrJtNX82PfGKird2aKS8581HVpo
- 18v9vwBer/LWG4DhOhkNsySS8F0X7mg=
+ mime-version:mime-version:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=yPV3OCPBhr+ps4p01E2jl/ZfGcRf9nHRkTAV1L1lrek=;
+ b=McTBm0msSYSvpLCyI/w6yDlY1hxclEz78dD8R9swdsuNV+nDAIDaDEyC6Oy9LVpAzznVZH
+ Xxag3UTfy8LhDjdSGT5La28mJE6pFWlBgQwcQ9js8V9H/aaQomn+CUUeI29mHisKf+BMgx
+ sdhZajAxy1Qw/NXDljlqEwObVmx9BO0=
 DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
  s=susede2_ed25519; t=1650565052;
  h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
- mime-version:mime-version: content-transfer-encoding:content-transfer-encoding;
- bh=qYTmc9NzK10wJ1dq9AFOUt62dj8JOL4cETR8ofoWWX4=;
- b=/nufkJsUHO7xSfO1FrgrDtvjW25js1Z9mDDL2lWBMD7wtWlSSZRsv7lF1ci1M3VT6Z6/se
- D2TCuoxQV7nu5yCw==
+ mime-version:mime-version:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=yPV3OCPBhr+ps4p01E2jl/ZfGcRf9nHRkTAV1L1lrek=;
+ b=7gzki88SeyUj0pzGWk2AfdTPchn4Cj9nd00OjLZxBBlcmkzI2cs8Fpz0BoAHNgTcwc6or2
+ ncYaHoY34Teo88CQ==
 Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
  (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
  key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
  (No client certificate requested)
- by imap2.suse-dmz.suse.de (Postfix) with ESMTPS id 52F9D13446;
+ by imap2.suse-dmz.suse.de (Postfix) with ESMTPS id 885A213AAE;
  Thu, 21 Apr 2022 18:17:32 +0000 (UTC)
 Received: from dovecot-director2.suse.de ([192.168.254.65])
- by imap2.suse-dmz.suse.de with ESMTPSA id O+xNE7yfYWIXGwAAMHmgww
+ by imap2.suse-dmz.suse.de with ESMTPSA id aM9hILyfYWIXGwAAMHmgww
  (envelope-from <tzimmermann@suse.de>); Thu, 21 Apr 2022 18:17:32 +0000
 From: Thomas Zimmermann <tzimmermann@suse.de>
 To: javierm@redhat.com, daniel@ffwll.ch, airlied@linux.ie, mripard@kernel.org,
  maarten.lankhorst@linux.intel.com, tiwai@suse.com, tamara.schmitz@suse.com
-Subject: [PATCH 0/3] drm/format-helper: Support conversion to XRGB8888
-Date: Thu, 21 Apr 2022 20:17:19 +0200
-Message-Id: <20220421181722.13936-1-tzimmermann@suse.de>
+Subject: [PATCH 1/3] drm/format-helper: Print warning on missing format
+ conversion
+Date: Thu, 21 Apr 2022 20:17:20 +0200
+Message-Id: <20220421181722.13936-2-tzimmermann@suse.de>
 X-Mailer: git-send-email 2.35.1
+In-Reply-To: <20220421181722.13936-1-tzimmermann@suse.de>
+References: <20220421181722.13936-1-tzimmermann@suse.de>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
@@ -66,39 +73,28 @@ Cc: Thomas Zimmermann <tzimmermann@suse.de>, dri-devel@lists.freedesktop.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-(resending with dri-devel in cc)
+Not all possible format conversions are supported yet. Print a
+warning on unsupported combinations.
 
-Support conversion from RGB565 and RGB888 to XRGB8888. This enables
-simpledrm to work with framebuffers of such formats.
+Signed-off-by: Thomas Zimmermann <tzimmermann@suse.de>
+---
+ drivers/gpu/drm/drm_format_helper.c | 3 +++
+ 1 file changed, 3 insertions(+)
 
-UEFI and/or Grub will usually set 32-bit output in XRGB8888 format.
-The issue can be reproduced by enabling simpledrm and requesting a
-console framebuffer of different format on the kernel command line;
-for example
-
-  nomodeset video=1024x768-16
-
-or
-
-  nomodeset video=1024x768-24
-
-Conversion helpers will do nothing in this case.
-
-Make this work by implementing the rsp conversion helpers. Also add
-a warning about unsupported format conversions. The patchset should
-also enable odd userspace configurations, such as running Xorg with
-16- or 24-bit color depth.
-
-Thomas Zimmermann (3):
-  drm/format-helper: Print warning on missing format conversion
-  drm/format-helper: Add RGB888-to-XRGB8888 conversion
-  drm/format-helper: Add RGB565-to-XRGB8888 conversion
-
- drivers/gpu/drm/drm_format_helper.c | 95 +++++++++++++++++++++++++++++
- 1 file changed, 95 insertions(+)
-
-
-base-commit: d97978df553d768e457cb68c637b2b0a6188b87c
+diff --git a/drivers/gpu/drm/drm_format_helper.c b/drivers/gpu/drm/drm_format_helper.c
+index 0e7135114728..b648f29b21b6 100644
+--- a/drivers/gpu/drm/drm_format_helper.c
++++ b/drivers/gpu/drm/drm_format_helper.c
+@@ -590,6 +590,9 @@ int drm_fb_blit_toio(void __iomem *dst, unsigned int dst_pitch, uint32_t dst_for
+ 		}
+ 	}
+ 
++	drm_warn_once(fb->dev, "No conversion helper from %p4cc to %p4cc found.\n",
++		      &fb_format, &dst_format);
++
+ 	return -EINVAL;
+ }
+ EXPORT_SYMBOL(drm_fb_blit_toio);
 -- 
 2.35.1
 
