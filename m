@@ -2,67 +2,52 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6FEBC50A231
-	for <lists+dri-devel@lfdr.de>; Thu, 21 Apr 2022 16:27:19 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id BB0D950A2AB
+	for <lists+dri-devel@lfdr.de>; Thu, 21 Apr 2022 16:37:14 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 5EE6810E66A;
-	Thu, 21 Apr 2022 14:27:17 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 7B6CB10E340;
+	Thu, 21 Apr 2022 14:37:10 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-oa1-x32.google.com (mail-oa1-x32.google.com
- [IPv6:2001:4860:4864:20::32])
- by gabe.freedesktop.org (Postfix) with ESMTPS id C700F10E6A0
- for <dri-devel@lists.freedesktop.org>; Thu, 21 Apr 2022 14:27:16 +0000 (UTC)
-Received: by mail-oa1-x32.google.com with SMTP id
- 586e51a60fabf-e604f712ecso5523496fac.9
- for <dri-devel@lists.freedesktop.org>; Thu, 21 Apr 2022 07:27:16 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=from:to:cc:subject:date:message-id:in-reply-to:references
- :mime-version:content-transfer-encoding;
- bh=kDgsoi129ZtoHuQ+rTXyXieKhhLblR7vzAhQBtHIUe0=;
- b=ZIujzzy08rxn0hfngK4WStnikFn+g7Y8IzH1/N6IlT+2UI9W380Cf+t8Q+6Un919it
- IFdejc4ql+StqfsY5urY6KtTu7RWIaGVZeK6VS3LHBru9TsebkCz+ztAVsczd089Y9dv
- 6ewSdb4cH7QP4DrKkyHOb+vvlyccxOQuig3OHiFiMjZ12Kr5SYfNS8ETIYGLb3KqT4Cp
- 7vG3o7Z6mwBvqbPCBXjeLgP0KLb+6NmBqpW/Oy8GwsNGVtN21g5zpPRn5oyJ1ObGiNgT
- LH2GnTWQ5oJQEBVvUWOAHjSWMjlN64UAFe8KZoF1p1loY6kTYs7UKsbDj7DW/cuSDMN3
- Bb6Q==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
- :references:mime-version:content-transfer-encoding;
- bh=kDgsoi129ZtoHuQ+rTXyXieKhhLblR7vzAhQBtHIUe0=;
- b=UxZGOlg3PzTGyruMO/7R6DQYhdZehvyVOMrj+DMAWroB6rZXTMFeWx1+W72I+jmIhd
- FvtQczqQSn6Q5aQaq4PiWf0AmWAPolpmCz1wNu9BR+/i4cFcvjtvrycMu5Ytb5DGuTQ7
- WcDU0Lq83czH2E5mM6xcIPNa4d8cw2S7BxUIgCnku3Fda/Wd1K6S8zNaLyhYHwGzo7MT
- ECViVnGlpWmhZVdG344caooFzoXx0pP67gjDO3H4q1nG3HdSS5nw4nYwr8Y7FdklfBrV
- xwkdODUVfbmAzeOE2S63N0LnOYGx9wxRg+gLYHYGe33Y3SThkS681R7XC/f9GNp5+8TU
- idsg==
-X-Gm-Message-State: AOAM533kWgCLNqc1q1lwO3ip5Mf3hFKjEUTde3KiCYL72rLUxw1oZ5Dv
- 0n2wJVXAEp8UJEFkiPU48PAhyg==
-X-Google-Smtp-Source: ABdhPJzFW2dvWtIYFaaUj9JjINzXku3Vpzgn41MrM2kzsQSPJ4N6pSKOBN+zj2v9kPJ78IJW/RTSRg==
-X-Received: by 2002:a05:6870:b427:b0:d3:5044:db1b with SMTP id
- x39-20020a056870b42700b000d35044db1bmr3815973oap.2.1650551236061; 
- Thu, 21 Apr 2022 07:27:16 -0700 (PDT)
-Received: from builder.lan ([2600:1700:a0:3dc8:3697:f6ff:fe85:aac9])
- by smtp.gmail.com with ESMTPSA id
- s14-20020a0568302a8e00b006054e841915sm4296295otu.73.2022.04.21.07.27.15
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 21 Apr 2022 07:27:15 -0700 (PDT)
-From: Bjorn Andersson <bjorn.andersson@linaro.org>
-To: Daniel Vetter <daniel@ffwll.ch>, David Airlie <airlied@linux.ie>,
- Sumit Semwal <sumit.semwal@linaro.org>, Sam Ravnborg <sam@ravnborg.org>,
- Andy Gross <agross@kernel.org>, Joel Selvaraj <jo@jsfamily.in>,
- Rob Herring <robh+dt@kernel.org>, Thierry Reding <thierry.reding@gmail.com>
-Subject: Re: (subset) [PATCH v2 1/3] drm/panel: nt36672a: add backlight support
-Date: Thu, 21 Apr 2022 09:26:53 -0500
-Message-Id: <165055095990.2574292.8144216013869218124.b4-ty@linaro.org>
-X-Mailer: git-send-email 2.32.0
-In-Reply-To: <BY5PR02MB700935F5817128CB7C3991CDD9E09@BY5PR02MB7009.namprd02.prod.outlook.com>
-References: <20220401001810.81507-1-jo@jsfamily.in>
- <BY5PR02MB700935F5817128CB7C3991CDD9E09@BY5PR02MB7009.namprd02.prod.outlook.com>
+Received: from alexa-out-sd-01.qualcomm.com (alexa-out-sd-01.qualcomm.com
+ [199.106.114.38])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id DC8D010E0CD;
+ Thu, 21 Apr 2022 14:37:08 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=quicinc.com; i=@quicinc.com; q=dns/txt; s=qcdkim;
+ t=1650551829; x=1682087829;
+ h=from:to:cc:subject:date:message-id:mime-version;
+ bh=WFh7Wm+P6X2H9xVoBlQ5+7lPSHIuLlddRo3MV4Fb2fI=;
+ b=A3h/SnXFEeHDmoiPAALayZYt3yjmgT36Pr4D/jIOqAS9rOC5UyQDRQDB
+ vvZ6wrOvNeQ3cUCUqLwDotgDiijPrhoWRys9Sy3EV29KXkIFo/RErsn+a
+ wiv9uwBc68T6Dt/PcT2Gv2lMzOzoalolSR5eTqJ/Je9z8ZTCdivaiSS7q Y=;
+Received: from unknown (HELO ironmsg02-sd.qualcomm.com) ([10.53.140.142])
+ by alexa-out-sd-01.qualcomm.com with ESMTP; 21 Apr 2022 07:37:08 -0700
+X-QCInternal: smtphost
+Received: from nasanex01c.na.qualcomm.com ([10.47.97.222])
+ by ironmsg02-sd.qualcomm.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 21 Apr 2022 07:37:07 -0700
+Received: from nalasex01a.na.qualcomm.com (10.47.209.196) by
+ nasanex01c.na.qualcomm.com (10.47.97.222) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.2.986.22; Thu, 21 Apr 2022 07:37:07 -0700
+Received: from sbillaka-linux.qualcomm.com (10.80.80.8) by
+ nalasex01a.na.qualcomm.com (10.47.209.196) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.2.986.22; Thu, 21 Apr 2022 07:37:01 -0700
+From: Sankeerth Billakanti <quic_sbillaka@quicinc.com>
+To: <dri-devel@lists.freedesktop.org>, <linux-arm-msm@vger.kernel.org>,
+ <freedreno@lists.freedesktop.org>, <linux-kernel@vger.kernel.org>,
+ <devicetree@vger.kernel.org>
+Subject: [PATCH v8 0/4] Add support for the eDP panel over aux_bus
+Date: Thu, 21 Apr 2022 20:06:47 +0530
+Message-ID: <1650551811-24319-1-git-send-email-quic_sbillaka@quicinc.com>
+X-Mailer: git-send-email 2.7.4
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain
+X-Originating-IP: [10.80.80.8]
+X-ClientProxiedBy: nasanex01a.na.qualcomm.com (10.52.223.231) To
+ nalasex01a.na.qualcomm.com (10.47.209.196)
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -75,24 +60,37 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Amit Pundir <amit.pundir@linaro.org>, devicetree@vger.kernel.org,
- linux-arm-msm@vger.kernel.org, linux-kernel@vger.kernel.org,
- dri-devel@lists.freedesktop.org, ~postmarketos/upstreaming@lists.sr.ht,
- Marijn Suijten <marijn.suijten@somainline.org>, phone-devel@vger.kernel.org
+Cc: quic_kalyant@quicinc.com, Sankeerth Billakanti <quic_sbillaka@quicinc.com>,
+ dianders@chromium.org, bjorn.andersson@linaro.org, quic_vproddut@quicinc.com,
+ airlied@linux.ie, quic_abhinavk@quicinc.com, steev@kali.org,
+ swboyd@chromium.org, seanpaul@chromium.org, dmitry.baryshkov@linaro.org,
+ quic_aravindh@quicinc.com, quic_khsieh@quicinc.com, sean@poorly.run
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Fri, 1 Apr 2022 05:48:08 +0530, Joel Selvaraj wrote:
-> Add support for backlight. This panel supports backlight control
-> through the QCOM WLED driver in Xiaomi Poco F1 device.
-> 
-> 
+This series adds support for generic eDP panel over aux_bus.
 
-Applied, thanks!
+These changes are dependent on the following patches:
+https://patchwork.kernel.org/project/linux-arm-msm/patch/20220211224006.1797846-5-dmitry.baryshkov@linaro.org/
+https://patchwork.kernel.org/project/linux-arm-msm/patch/20220211224006.1797846-6-dmitry.baryshkov@linaro.org/
 
-[3/3] arm64: dts: qcom: sdm845-xiaomi-beryllium: enable qcom wled backlight and link to panel
-      commit: 89561886191c0dcb6ce1491f14552eac16e14a80
+Sankeerth Billakanti (4):
+  drm/msm/dp: Add eDP support via aux_bus
+  drm/msm/dp: Support only IRQ_HPD and REPLUG interrupts for eDP
+  drm/msm/dp: wait for hpd high before aux transaction
+  drm/msm/dp: Support the eDP modes given by panel
 
-Best regards,
+ drivers/gpu/drm/msm/dp/dp_aux.c     |  21 +++++++-
+ drivers/gpu/drm/msm/dp/dp_aux.h     |   3 +-
+ drivers/gpu/drm/msm/dp/dp_catalog.c |  31 ++++++++---
+ drivers/gpu/drm/msm/dp/dp_catalog.h |   1 +
+ drivers/gpu/drm/msm/dp/dp_display.c | 101 +++++++++++++++++++++++++++++++++---
+ drivers/gpu/drm/msm/dp/dp_display.h |   1 +
+ drivers/gpu/drm/msm/dp/dp_drm.c     |  21 ++++++--
+ drivers/gpu/drm/msm/dp/dp_parser.c  |  23 +-------
+ drivers/gpu/drm/msm/dp/dp_parser.h  |  13 ++++-
+ 9 files changed, 175 insertions(+), 40 deletions(-)
+
 -- 
-Bjorn Andersson <bjorn.andersson@linaro.org>
+2.7.4
+
