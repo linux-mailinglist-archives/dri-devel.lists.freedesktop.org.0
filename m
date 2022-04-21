@@ -1,55 +1,51 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1838B50A30F
-	for <lists+dri-devel@lfdr.de>; Thu, 21 Apr 2022 16:46:46 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 8FAAC50A3AF
+	for <lists+dri-devel@lfdr.de>; Thu, 21 Apr 2022 17:10:41 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 1907210E21E;
-	Thu, 21 Apr 2022 14:46:42 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 0D14310E033;
+	Thu, 21 Apr 2022 15:10:39 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from ams.source.kernel.org (ams.source.kernel.org [145.40.68.75])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 17F5E10E21E
- for <dri-devel@lists.freedesktop.org>; Thu, 21 Apr 2022 14:46:40 +0000 (UTC)
-Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
- (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
- (No client certificate requested)
- by ams.source.kernel.org (Postfix) with ESMTPS id 652C1B82570
- for <dri-devel@lists.freedesktop.org>; Thu, 21 Apr 2022 14:46:36 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 122C4C385AC
- for <dri-devel@lists.freedesktop.org>; Thu, 21 Apr 2022 14:46:35 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1650552395;
- bh=i0HMWq1JRa0F0CeO2hnG9SF3TuKwCFJPlYUxv+11vSY=;
- h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
- b=KYNnxH1/6h4JHSpiitspdSKkTEwWa1tJBCwmto9ZMzu31V+JKmKgI743LDv+s34bq
- QmSRKC+hHoCyn8rQMCoQYbCY9I4u1HRgIOm+Pz2OmA5gNIE7rXJyrAZQqUv9oA3TUQ
- CVuRa/VFqB7epVLHtpWWZFuEw4IysfFmBo/cCYj+4wtcdzx74jW2LjnvsN+imBPGkx
- NUHT9J1SbF8LbbqYNTV0fbd7NyddYgpQP9JQyBAmIQiZB0mHJDNoZgZMT3gNF6FO91
- 4nSd3Odf/kHuZoRH+pZi1kgbPYDKmWC6TMUEyESfHfKmh/QjbWYzrE2aZ/dN2sYGsU
- NUgA5p8ikcvFQ==
-Received: by mail-wr1-f51.google.com with SMTP id x18so7062527wrc.0
- for <dri-devel@lists.freedesktop.org>; Thu, 21 Apr 2022 07:46:34 -0700 (PDT)
-X-Gm-Message-State: AOAM532wZDqQT/KW+cwuso7xodH9ypZ+S5UDQ+hrk7xtIUEqkhCKn763
- Xc+7d61IjPC3AUUZcnppRpA3+PQihexIKek9OME=
-X-Google-Smtp-Source: ABdhPJwYkraliZNB9aswBiexBZv/yC4YtGe2R9rvi1KW9m/P8YE/IbH0HzS9xhCUm+8mp8SN41/aSdFZNG1cTJqd71I=
-X-Received: by 2002:a5d:6da5:0:b0:20a:8805:6988 with SMTP id
- u5-20020a5d6da5000000b0020a88056988mr48774wrs.317.1650552393282; Thu, 21 Apr
- 2022 07:46:33 -0700 (PDT)
+Received: from mga02.intel.com (mga02.intel.com [134.134.136.20])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 1457210E033
+ for <dri-devel@lists.freedesktop.org>; Thu, 21 Apr 2022 15:10:38 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+ t=1650553838; x=1682089838;
+ h=date:from:to:cc:subject:message-id:references:
+ mime-version:in-reply-to;
+ bh=6s/Jh5/Nw/2YaODYM5uQMsmu5ex+nw0PjlAspdHlwBU=;
+ b=AO7z6tmCft1L5ijTNWUZ/VB0j4JT4YY57EwX4Y3ThcCc3Ym7AsY5M/Bb
+ 8BcnF3Mn0CTEi8k33kNABNPa4SNwXVr4mjVcZROWj05rJF6ln6SzZ36D+
+ wGVyffmmQDUjlBuPKRWnqAWzgMHg4rCDi+sUj6t50YQ5uAHh2tdjlp73h
+ L4KeThmcuTK1fr8ei0gPMJXGGYZuxWqbCWL00vELBHkIGwpMht/I4dujz
+ F3jZZcTXo20tKm/hGDBWjXrodtZy7pj3zAbSqhB3J6rOnvljY6uaQYJdq
+ jhdTrBvPYZwfG9kVF68S3tovk/YdkE+ztPTuAj1lheH0dAY1iTbiCXYsF A==;
+X-IronPort-AV: E=McAfee;i="6400,9594,10324"; a="251693233"
+X-IronPort-AV: E=Sophos;i="5.90,279,1643702400"; d="scan'208";a="251693233"
+Received: from fmsmga004.fm.intel.com ([10.253.24.48])
+ by orsmga101.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 21 Apr 2022 08:10:25 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.90,279,1643702400"; d="scan'208";a="626547444"
+Received: from lkp-server01.sh.intel.com (HELO 3abc53900bec) ([10.239.97.150])
+ by fmsmga004.fm.intel.com with ESMTP; 21 Apr 2022 08:10:21 -0700
+Received: from kbuild by 3abc53900bec with local (Exim 4.95)
+ (envelope-from <lkp@intel.com>) id 1nhYRp-0008Vb-6c;
+ Thu, 21 Apr 2022 15:10:21 +0000
+Date: Thu, 21 Apr 2022 23:09:46 +0800
+From: kernel test robot <lkp@intel.com>
+To: Sandor Yu <Sandor.yu@nxp.com>
+Subject: [PATCH] drm: bridge: dw_hdmi: Audio: fix returnvar.cocci warnings
+Message-ID: <YmFzutFV/iDyEQF2@dd18de969aa6>
+References: <202204212311.TnfpcTGm-lkp@intel.com>
 MIME-Version: 1.0
-References: <20220419133723.1394715-1-arnd@kernel.org>
- <20220420170836.GB1947@darkstar.musicnaut.iki.fi>
- <CAK8P3a1+sOrn8BWPVc7f+QFZ5=7fE6=MLsMYV9t+HJcG2aRCXA@mail.gmail.com>
- <20220421133431.GE1947@darkstar.musicnaut.iki.fi>
-In-Reply-To: <20220421133431.GE1947@darkstar.musicnaut.iki.fi>
-From: Arnd Bergmann <arnd@kernel.org>
-Date: Thu, 21 Apr 2022 16:46:17 +0200
-X-Gmail-Original-Message-ID: <CAK8P3a0LkJ5EvJ13xtAhWzCKnnvYhYgKpPsphr1T-FGg6bzDuw@mail.gmail.com>
-Message-ID: <CAK8P3a0LkJ5EvJ13xtAhWzCKnnvYhYgKpPsphr1T-FGg6bzDuw@mail.gmail.com>
-Subject: Re: [PATCH 00/41] OMAP1 full multiplatform conversion
-To: Aaro Koskinen <aaro.koskinen@iki.fi>
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <202204212311.TnfpcTGm-lkp@intel.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -62,64 +58,73 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Ulf Hansson <ulf.hansson@linaro.org>, USB list <linux-usb@vger.kernel.org>,
- Tony Lindgren <tony@atomide.com>,
- Linux Fbdev development list <linux-fbdev@vger.kernel.org>,
- Dominik Brodowski <linux@dominikbrodowski.net>,
- Lee Jones <lee.jones@linaro.org>, Daniel Thompson <daniel.thompson@linaro.org>,
- Kevin Hilman <khilman@kernel.org>, Peter Ujfalusi <peter.ujfalusi@gmail.com>,
- Helge Deller <deller@gmx.de>, Janusz Krzysztofik <jmkrzyszt@gmail.com>,
- Russell King <linux@armlinux.org.uk>, Krzysztof Kozlowski <krzk@kernel.org>,
- Alan Stern <stern@rowland.harvard.edu>,
- "open list:SERIAL DRIVERS" <linux-serial@vger.kernel.org>,
- "open list:HID CORE LAYER" <linux-input@vger.kernel.org>,
- Arnd Bergmann <arnd@arndb.de>, Mark Brown <broonie@kernel.org>,
- dri-devel <dri-devel@lists.freedesktop.org>,
- linux-omap <linux-omap@vger.kernel.org>,
- Linux ARM <linux-arm-kernel@lists.infradead.org>,
- Felipe Balbi <balbi@kernel.org>, Paul Walmsley <paul@pwsan.com>,
- Jingoo Han <jingoohan1@gmail.com>, Dmitry Torokhov <dmitry.torokhov@gmail.com>,
- linux-mmc <linux-mmc@vger.kernel.org>,
- Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
- Vinod Koul <vkoul@kernel.org>, dmaengine@vger.kernel.org,
- ALSA Development Mailing List <alsa-devel@alsa-project.org>
+Cc: dri-devel@lists.freedesktop.org, Jernej Skrabec <jernej.skrabec@gmail.com>,
+ kbuild-all@lists.01.org, Neil Armstrong <narmstrong@baylibre.com>,
+ David Airlie <airlied@linux.ie>, Shengjiu Wang <shengjiu.wang@nxp.com>,
+ Jonas Karlman <jonas@kwiboo.se>, linux-kernel@vger.kernel.org,
+ Robert Foss <robert.foss@linaro.org>,
+ Linux Memory Management List <linux-mm@kvack.org>,
+ Laurent Pinchart <Laurent.pinchart@ideasonboard.com>,
+ Andrzej Hajda <andrzej.hajda@intel.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Thu, Apr 21, 2022 at 3:34 PM Aaro Koskinen <aaro.koskinen@iki.fi> wrote:
->
-> Hi,
->
-> On Wed, Apr 20, 2022 at 10:00:13PM +0200, Arnd Bergmann wrote:
-> > On Wed, Apr 20, 2022 at 7:08 PM Aaro Koskinen <aaro.koskinen@iki.fi> wrote:
-> > > On Tue, Apr 19, 2022 at 03:36:42PM +0200, Arnd Bergmann wrote:
-> > > > From: Arnd Bergmann <arnd@arndb.de>
-> > > >
-> > > > This is the full series for converting OMAP1 to multiplatform, rebased
-> > > > from my 2019 attempt to do the same thing. The soc tree contains simpler
-> > > > patches to do the same for iop32x, ixp4xx, ep93xx and s3c24xx, which
-> > > > means we are getting closer to completing this for all ARMv5 platforms
-> > > > (I have patches for PXA, which is the last one remaining).
-> > > >
-> > > > Janusz already tested the branch separately and did the missing work
-> > > > for the common-clk conversion after my previous approach was broken.
-> > >
-> > > I tested the full series on the following OMAP1 boards: ams-delta,
-> > > nokia770, osk, palmte and sx1 (QEMU only).
-> > >
-> > > Apart from the earlyprintk breakage, everything seemed to work OK.
-> >
-> > Nice, thanks a lot for testing!
->
-> With the updated patch 26 also earlyprintk now works, so if you still
-> update the patches, feel free to add for the whole series:
->
-> Tested-by: Aaro Koskinen <aaro.koskinen@iki.fi>
+From: kernel test robot <lkp@intel.com>
 
-I was just doing the merge, so I added the tag to the commit now.
+drivers/gpu/drm/bridge/synopsys/dw-hdmi-gp-audio.c:80:5-8: Unneeded variable: "ret". Return "0" on line 94
+drivers/gpu/drm/bridge/synopsys/dw-hdmi-gp-audio.c:105:5-8: Unneeded variable: "ret". Return "0" on line 112
 
-There is now an "omap1/multiplatform-prep" branch that is part of
-arm/multiplatform, and I hope to not have to rebase that. I also
-have an arm/multiplatform-late branch with the remaining contents.
 
-       Arnd
+ Remove unneeded variable used to store return value.
+
+Generated by: scripts/coccinelle/misc/returnvar.cocci
+
+CC: Sandor Yu <Sandor.yu@nxp.com>
+Reported-by: kernel test robot <lkp@intel.com>
+Signed-off-by: kernel test robot <lkp@intel.com>
+---
+
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/next/linux-next.git master
+head:   65eb92e4c9f0a962656f131521f4fbc0d24c9d4c
+commit: d970ce303ff80ae57bbd3e784f2772dbf3056e0c [4441/5346] drm: bridge: dw_hdmi: Audio: Add General Parallel Audio (GPA) driver
+:::::: branch date: 8 hours ago
+:::::: commit date: 2 days ago
+
+ drivers/gpu/drm/bridge/synopsys/dw-hdmi-gp-audio.c |    6 ++----
+ 1 file changed, 2 insertions(+), 4 deletions(-)
+
+--- a/drivers/gpu/drm/bridge/synopsys/dw-hdmi-gp-audio.c
++++ b/drivers/gpu/drm/bridge/synopsys/dw-hdmi-gp-audio.c
+@@ -77,7 +77,6 @@ static int audio_hw_params(struct device
+ 			   struct hdmi_codec_params *params)
+ {
+ 	struct snd_dw_hdmi *dw = dev_get_drvdata(dev);
+-	int ret = 0;
+ 	u8 ca;
+ 
+ 	dw_hdmi_set_sample_rate(dw->data.hdmi, params->sample_rate);
+@@ -91,7 +90,7 @@ static int audio_hw_params(struct device
+ 				   params->iec.status[0] & IEC958_AES0_NONAUDIO);
+ 	dw_hdmi_set_sample_width(dw->data.hdmi, params->sample_width);
+ 
+-	return ret;
++	return 0;
+ }
+ 
+ static void audio_shutdown(struct device *dev, void *data)
+@@ -102,14 +101,13 @@ static int audio_mute_stream(struct devi
+ 			     bool enable, int direction)
+ {
+ 	struct snd_dw_hdmi *dw = dev_get_drvdata(dev);
+-	int ret = 0;
+ 
+ 	if (!enable)
+ 		dw_hdmi_audio_enable(dw->data.hdmi);
+ 	else
+ 		dw_hdmi_audio_disable(dw->data.hdmi);
+ 
+-	return ret;
++	return 0;
+ }
+ 
+ static int audio_get_eld(struct device *dev, void *data,
