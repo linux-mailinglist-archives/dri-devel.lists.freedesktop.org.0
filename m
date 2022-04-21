@@ -2,57 +2,48 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id D563550A806
-	for <lists+dri-devel@lfdr.de>; Thu, 21 Apr 2022 20:23:37 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 0F96650A80B
+	for <lists+dri-devel@lfdr.de>; Thu, 21 Apr 2022 20:24:36 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 3511410E5B3;
-	Thu, 21 Apr 2022 18:23:36 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 0086D10E5C1;
+	Thu, 21 Apr 2022 18:24:34 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from smtp-out2.suse.de (smtp-out2.suse.de [195.135.220.29])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 8C0DE10E5B3
- for <dri-devel@lists.freedesktop.org>; Thu, 21 Apr 2022 18:23:35 +0000 (UTC)
-Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
- key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
- (No client certificate requested)
- by smtp-out2.suse.de (Postfix) with ESMTPS id 30E151F388;
- Thu, 21 Apr 2022 18:23:34 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
- t=1650565414; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
- mime-version:mime-version:content-type:content-type:
- in-reply-to:in-reply-to:references:references;
- bh=GVcyh6fHbxs4D76T9GmSrZZJy98rOBZ0c1BRUhJTQU4=;
- b=ERPdnv7ufzLynAjk455LRmzVz/vnmduXc3M+iAgDkG4UesS5QzbWmajs8XDvLko92vhl6+
- 23JyZEwU35KpZAlwDrn5hYEcjxaDUxI4QYsILZpNRDAHZ2yuSzj+0whrEqpi3qDQFV2WNT
- HXn1wJDaozbnwnQ1KjeJVdtv+d7YnAc=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
- s=susede2_ed25519; t=1650565414;
- h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
- mime-version:mime-version:content-type:content-type:
- in-reply-to:in-reply-to:references:references;
- bh=GVcyh6fHbxs4D76T9GmSrZZJy98rOBZ0c1BRUhJTQU4=;
- b=mXR+E0ATfKV2luIWXkk6gH7Bp3vJmyKskF8YA3WA54dzhomDtEtYDac3RzD5fJgVeKdsLC
- 8GTLjSDaw5swv4DQ==
-Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
- key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
- (No client certificate requested)
- by imap2.suse-dmz.suse.de (Postfix) with ESMTPS id 0D58113446;
- Thu, 21 Apr 2022 18:23:34 +0000 (UTC)
-Received: from dovecot-director2.suse.de ([192.168.254.65])
- by imap2.suse-dmz.suse.de with ESMTPSA id BxtFAiahYWKcHAAAMHmgww
- (envelope-from <tzimmermann@suse.de>); Thu, 21 Apr 2022 18:23:34 +0000
-Message-ID: <c3ed82bc-cc15-7d0d-8968-b71ad3d4003f@suse.de>
-Date: Thu, 21 Apr 2022 20:23:33 +0200
+Received: from mail-oa1-x30.google.com (mail-oa1-x30.google.com
+ [IPv6:2001:4860:4864:20::30])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id AEFB910E5C1
+ for <dri-devel@lists.freedesktop.org>; Thu, 21 Apr 2022 18:24:32 +0000 (UTC)
+Received: by mail-oa1-x30.google.com with SMTP id
+ 586e51a60fabf-e5ca5c580fso6210256fac.3
+ for <dri-devel@lists.freedesktop.org>; Thu, 21 Apr 2022 11:24:32 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc:content-transfer-encoding;
+ bh=+GdX+UHkH0eNAo6meXUpaGI295KhOZ6FvwD5VZUQ1q4=;
+ b=HLxkEVymYTQCsjUwqen0K6SOKvIDhcrZuxWFvtbOcGQfYdk6NLPdgkpPTek9qryaxg
+ eWWdxl6NdFqtLZQTb7+oNmOm7UqWaUNvG3Gg0w3C57LZY/+lsD+2igwTPa9NlOyhZL8s
+ Wq0CdIrR8joZbkS6dfZEi3g23f7VYNvNR1OOLQ24FUL6vnD14qvLI5vICXmfu2tyRPRs
+ mmsLihqeQYX1WHRCXCQr6PFqBH+kDcKtGx0exxtMX2mT87Pfb6FMblGejIZvudf0cOdh
+ EEs/TZUxnbsplsNpcmrBbXJ5880bqjjC8bRzKCyubtRyXOSJ0YM0Hp5iruKH9uveeD9g
+ Enug==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc:content-transfer-encoding;
+ bh=+GdX+UHkH0eNAo6meXUpaGI295KhOZ6FvwD5VZUQ1q4=;
+ b=5737/2Fv4XMnfPRMNOxPmNm3nDYqd+CTB2uUVU2vdPQFQ94pI16OCB4VhTz2dXtvWo
+ a3V7q6RJLNWqa5uvcg33woJJU7g8fOfdiF3qGRj+wSxzwMKnZInHJqitpmYcl9OhQdHp
+ 0lpTu0S1CHiqW6d4qociNW9VLoCKWEhkHobqBgyPNPT5RsFoS5PA2+BuC9MVgkm+LutX
+ UyNcD0l2C0aMDtqMLT/DC3sskqGLZTddu1jg8E4zJOeBneaKQBkxhnrEZbytRyQKPOt4
+ FqOo8ggPHN6RqRRkoTevcoP0+UcTdE2uhaHGIi1/9kAxPN+JnbJsqUoxhLTn8vn8s3/F
+ wc0w==
+X-Gm-Message-State: AOAM532yJRKSyMZs5xhTlslzAavaRAxNInViQhQer+iLXlRimnyB3tWP
+ uNfbW6BVXHWJWtGKUoVjlM68+/u/iHGrVZ4t5f8=
+X-Google-Smtp-Source: ABdhPJxFE3Q94kGfOLByOPoI+McHxYQH8P04zsF1TGjlY1NjCe0CqDJ4K9oR5jaWpu0DTs6dF64eL2C1V+dgGUEPf6c=
+X-Received: by 2002:a05:6870:a40d:b0:e5:ea09:df91 with SMTP id
+ m13-20020a056870a40d00b000e5ea09df91mr354423oal.99.1650565471898; Thu, 21 Apr
+ 2022 11:24:31 -0700 (PDT)
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.7.0
-Subject: Re: [PATCH v3] drm/gma500: depend on framebuffer
-Content-Language: en-US
-From: Thomas Zimmermann <tzimmermann@suse.de>
-To: James Hilliard <james.hilliard1@gmail.com>,
- Javier Martinez Canillas <javierm@redhat.com>
 References: <20220409042321.3184493-1-james.hilliard1@gmail.com>
  <b3f7e288-3341-8c6f-1b95-e553ac5ebc35@suse.de>
  <CAMeQTsbh-Fy4CORBTX=AfZ+K-fZYUQ=hY=ctLFyu9KcJ5NgFUA@mail.gmail.com>
@@ -61,10 +52,15 @@ References: <20220409042321.3184493-1-james.hilliard1@gmail.com>
  <10c81e57-2f09-f4f8-dc2f-6bd05ef819d7@redhat.com>
  <CADvTj4oms8R1fhFpyZ+juU=4Eozie6f-3fzz4+jtptj3M9VCbw@mail.gmail.com>
  <ce65d1b0-44ad-54cb-d53f-ed0f7df4d247@suse.de>
-In-Reply-To: <ce65d1b0-44ad-54cb-d53f-ed0f7df4d247@suse.de>
-Content-Type: multipart/signed; micalg=pgp-sha256;
- protocol="application/pgp-signature";
- boundary="------------R6U7y4YzMHVpZep0Qp7a1eY7"
+ <c3ed82bc-cc15-7d0d-8968-b71ad3d4003f@suse.de>
+In-Reply-To: <c3ed82bc-cc15-7d0d-8968-b71ad3d4003f@suse.de>
+From: James Hilliard <james.hilliard1@gmail.com>
+Date: Thu, 21 Apr 2022 13:24:20 -0500
+Message-ID: <CADvTj4oyW1yfJhCC_yL2kehPJcSPCYXA2YZU44=oMr5K=6=pTw@mail.gmail.com>
+Subject: Re: [PATCH v3] drm/gma500: depend on framebuffer
+To: Thomas Zimmermann <tzimmermann@suse.de>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -78,129 +74,158 @@ List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
 Cc: David Airlie <airlied@linux.ie>, Randy Dunlap <rdunlap@infradead.org>,
- linux-kernel <linux-kernel@vger.kernel.org>,
- dri-devel <dri-devel@lists.freedesktop.org>
+ Javier Martinez Canillas <javierm@redhat.com>,
+ dri-devel <dri-devel@lists.freedesktop.org>,
+ linux-kernel <linux-kernel@vger.kernel.org>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-This is an OpenPGP/MIME signed message (RFC 4880 and 3156)
---------------R6U7y4YzMHVpZep0Qp7a1eY7
-Content-Type: multipart/mixed; boundary="------------Ol2b8gfzFkkT4zmOof6ZA8cm";
- protected-headers="v1"
-From: Thomas Zimmermann <tzimmermann@suse.de>
-To: James Hilliard <james.hilliard1@gmail.com>,
- Javier Martinez Canillas <javierm@redhat.com>
-Cc: David Airlie <airlied@linux.ie>, Randy Dunlap <rdunlap@infradead.org>,
- linux-kernel <linux-kernel@vger.kernel.org>,
- dri-devel <dri-devel@lists.freedesktop.org>
-Message-ID: <c3ed82bc-cc15-7d0d-8968-b71ad3d4003f@suse.de>
-Subject: Re: [PATCH v3] drm/gma500: depend on framebuffer
-References: <20220409042321.3184493-1-james.hilliard1@gmail.com>
- <b3f7e288-3341-8c6f-1b95-e553ac5ebc35@suse.de>
- <CAMeQTsbh-Fy4CORBTX=AfZ+K-fZYUQ=hY=ctLFyu9KcJ5NgFUA@mail.gmail.com>
- <dce29330-e40c-860e-2c72-7ddebdd96e20@redhat.com>
- <CAMeQTsYYpw5+uLgmDrbB6PUBotRC4F+_rfK+sxT0CpPHoiOmmw@mail.gmail.com>
- <10c81e57-2f09-f4f8-dc2f-6bd05ef819d7@redhat.com>
- <CADvTj4oms8R1fhFpyZ+juU=4Eozie6f-3fzz4+jtptj3M9VCbw@mail.gmail.com>
- <ce65d1b0-44ad-54cb-d53f-ed0f7df4d247@suse.de>
-In-Reply-To: <ce65d1b0-44ad-54cb-d53f-ed0f7df4d247@suse.de>
+On Thu, Apr 21, 2022 at 1:23 PM Thomas Zimmermann <tzimmermann@suse.de> wro=
+te:
+>
+> Hi
+>
+> Am 21.04.22 um 20:22 schrieb Thomas Zimmermann:
+> > Hi
+> >
+> > Am 21.04.22 um 19:39 schrieb James Hilliard:
+> >> On Thu, Apr 21, 2022 at 8:22 AM Javier Martinez Canillas
+> >> <javierm@redhat.com> wrote:
+> >>>
+> >>> On 4/21/22 14:54, Patrik Jakobsson wrote:
+> >>>> On Thu, Apr 21, 2022 at 2:47 PM Javier Martinez Canillas
+> >>>> <javierm@redhat.com> wrote:
+> >>>
+> >>> [snip]
+> >>>
+> >>>>>>>> diff --git a/drivers/gpu/drm/gma500/Kconfig
+> >>>>>>>> b/drivers/gpu/drm/gma500/Kconfig
+> >>>>>>>> index 0cff20265f97..a422fa84d53b 100644
+> >>>>>>>> --- a/drivers/gpu/drm/gma500/Kconfig
+> >>>>>>>> +++ b/drivers/gpu/drm/gma500/Kconfig
+> >>>>>>>> @@ -2,11 +2,13 @@
+> >>>>>>>>    config DRM_GMA500
+> >>>>>>>>        tristate "Intel GMA500/600/3600/3650 KMS Framebuffer"
+> >>>>>>>>        depends on DRM && PCI && X86 && MMU
+> >>>>>>>> +     depends on FB
+> >>>>>>>
+> >>>>>>> Why do we need FB here? Framebuffer support should be hidden by
+> >>>>>>> DRM's
+> >>>>>>> fbdev helpers.
+> >>>>>>
+> >>>>>> It is not needed but gives him video output since it enables the d=
+rm
+> >>>>>> fbdev emulation.
+> >>>>>>
+> >>>>>
+> >>>>> I'm not sure to understand this. Shouldn't depend on
+> >>>>> DRM_FBDEV_EMULATION then?
+> >>>>
+> >>>> No, it shouldn't depend on any FBDEV stuff since it's not actually
+> >>>> required. It just happens to help in this case since weston + fbdev
+> >>>> backend works but not weston with drm backend (or whatever config
+> >>>> James have set).
+> >>>
+> >>> I see. Then the correct approach for them would be to just enable
+> >>> CONFIG_FB
+> >>> and DRM_FBDEV_EMULATION in their kernel config, rather than making
+> >>> this to
+> >>> depend on anything FB related as you said.
+> >>
+> >> Yeah, so it looks like CONFIG_FB_EFI is not needed but
+> >> CONFIG_DRM_FBDEV_EMULATION is, I think I just assumed efifb
+> >> was what was needed based on the kernel logs.
+> >>
+> >> This does not work:
+> >> CONFIG_FB enabled
+> >> CONFIG_DRM_FBDEV_EMULATION disabled
+> >>
+> >> This works:
+> >> CONFIG_FB enabled
+> >> CONFIG_DRM_FBDEV_EMULATION enabled
+> >>
+> >>>
+> >>>>
+> >>>>>
+> >>>>>> I looked some more at the logs and it seems weston doesn't work on
+> >>>>>> his
+> >>>>>> system without the fbdev backend. So the question is why weston is=
+n't
+> >>>>>> working without fbdev? Perhaps this is just a Weston configuration
+> >>>>>> issue?
+> >>>>>>
+> >>>>>
+> >>>>> But is weston using the fbdev emulated by DRM or the one registered=
+ by
+> >>>>> efifb? I thought that the latter from what was mentioned in this
+> >>>>> thread.
+> >>>>
+> >>>> It's using drm fbdev emulation with gma500 so EFIFB has nothing to d=
+o
+> >>>> with this. I believe it was just simply incorrectly reported. If I'm
+> >>>> correct then "depends on FB" is what makes video output work for
+> >>>> James.
+> >>>>
+> >>>
+> >>> Got it. Thanks for the clarification.
+> >>
+> >> Here's my weston.ini:
+> >> [core]
+> >> shell=3Dkiosk-shell.so
+> >> modules=3Dsystemd-notify.so
+> >> backend=3Ddrm-backend.so
+> >> idle-time=3D0
+> >> require-input=3Dfalse
+> >> use-pixman=3Dtrue
+> >>
+> >> [shell]
+> >> locking=3Dfalse
+> >> cursor-theme=3DObsidian
+> >> panel-position=3Dnone
+> >>
+> >> [output]
+> >> name=3DDVI-D-1
+> >> transform=3Drotate-270
+> >>
+> >> [output]
+> >> name=3DDP-2
+> >> mode=3Doff
+> >>
+> >> [output]
+> >> name=3DLVDS-1
+> >> mode=3Doff
+> >
+> > You mentioned that you want to use HDMI, but it's not configured here.
+> > Is that intentionally?
+>
+> Nevermind. I just saw that DVI-D-1 is the HDMI port. (why?)
 
---------------Ol2b8gfzFkkT4zmOof6ZA8cm
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: base64
+Not sure why the HDMI output is named DVI-D-1 but that's what
+seems to configure it on this board.
 
-SGkNCg0KQW0gMjEuMDQuMjIgdW0gMjA6MjIgc2NocmllYiBUaG9tYXMgWmltbWVybWFubjoN
-Cj4gSGkNCj4gDQo+IEFtIDIxLjA0LjIyIHVtIDE5OjM5IHNjaHJpZWIgSmFtZXMgSGlsbGlh
-cmQ6DQo+PiBPbiBUaHUsIEFwciAyMSwgMjAyMiBhdCA4OjIyIEFNIEphdmllciBNYXJ0aW5l
-eiBDYW5pbGxhcw0KPj4gPGphdmllcm1AcmVkaGF0LmNvbT4gd3JvdGU6DQo+Pj4NCj4+PiBP
-biA0LzIxLzIyIDE0OjU0LCBQYXRyaWsgSmFrb2Jzc29uIHdyb3RlOg0KPj4+PiBPbiBUaHUs
-IEFwciAyMSwgMjAyMiBhdCAyOjQ3IFBNIEphdmllciBNYXJ0aW5leiBDYW5pbGxhcw0KPj4+
-PiA8amF2aWVybUByZWRoYXQuY29tPiB3cm90ZToNCj4+Pg0KPj4+IFtzbmlwXQ0KPj4+DQo+
-Pj4+Pj4+PiBkaWZmIC0tZ2l0IGEvZHJpdmVycy9ncHUvZHJtL2dtYTUwMC9LY29uZmlnIA0K
-Pj4+Pj4+Pj4gYi9kcml2ZXJzL2dwdS9kcm0vZ21hNTAwL0tjb25maWcNCj4+Pj4+Pj4+IGlu
-ZGV4IDBjZmYyMDI2NWY5Ny4uYTQyMmZhODRkNTNiIDEwMDY0NA0KPj4+Pj4+Pj4gLS0tIGEv
-ZHJpdmVycy9ncHUvZHJtL2dtYTUwMC9LY29uZmlnDQo+Pj4+Pj4+PiArKysgYi9kcml2ZXJz
-L2dwdS9kcm0vZ21hNTAwL0tjb25maWcNCj4+Pj4+Pj4+IEBAIC0yLDExICsyLDEzIEBADQo+
-Pj4+Pj4+PiDCoMKgIGNvbmZpZyBEUk1fR01BNTAwDQo+Pj4+Pj4+PiDCoMKgwqDCoMKgwqAg
-dHJpc3RhdGUgIkludGVsIEdNQTUwMC82MDAvMzYwMC8zNjUwIEtNUyBGcmFtZWJ1ZmZlciIN
-Cj4+Pj4+Pj4+IMKgwqDCoMKgwqDCoCBkZXBlbmRzIG9uIERSTSAmJiBQQ0kgJiYgWDg2ICYm
-IE1NVQ0KPj4+Pj4+Pj4gK8KgwqDCoMKgIGRlcGVuZHMgb24gRkINCj4+Pj4+Pj4NCj4+Pj4+
-Pj4gV2h5IGRvIHdlIG5lZWQgRkIgaGVyZT8gRnJhbWVidWZmZXIgc3VwcG9ydCBzaG91bGQg
-YmUgaGlkZGVuIGJ5IA0KPj4+Pj4+PiBEUk0ncw0KPj4+Pj4+PiBmYmRldiBoZWxwZXJzLg0K
-Pj4+Pj4+DQo+Pj4+Pj4gSXQgaXMgbm90IG5lZWRlZCBidXQgZ2l2ZXMgaGltIHZpZGVvIG91
-dHB1dCBzaW5jZSBpdCBlbmFibGVzIHRoZSBkcm0NCj4+Pj4+PiBmYmRldiBlbXVsYXRpb24u
-DQo+Pj4+Pj4NCj4+Pj4+DQo+Pj4+PiBJJ20gbm90IHN1cmUgdG8gdW5kZXJzdGFuZCB0aGlz
-LiBTaG91bGRuJ3QgZGVwZW5kIG9uIA0KPj4+Pj4gRFJNX0ZCREVWX0VNVUxBVElPTiB0aGVu
-Pw0KPj4+Pg0KPj4+PiBObywgaXQgc2hvdWxkbid0IGRlcGVuZCBvbiBhbnkgRkJERVYgc3R1
-ZmYgc2luY2UgaXQncyBub3QgYWN0dWFsbHkNCj4+Pj4gcmVxdWlyZWQuIEl0IGp1c3QgaGFw
-cGVucyB0byBoZWxwIGluIHRoaXMgY2FzZSBzaW5jZSB3ZXN0b24gKyBmYmRldg0KPj4+PiBi
-YWNrZW5kIHdvcmtzIGJ1dCBub3Qgd2VzdG9uIHdpdGggZHJtIGJhY2tlbmQgKG9yIHdoYXRl
-dmVyIGNvbmZpZw0KPj4+PiBKYW1lcyBoYXZlIHNldCkuDQo+Pj4NCj4+PiBJIHNlZS4gVGhl
-biB0aGUgY29ycmVjdCBhcHByb2FjaCBmb3IgdGhlbSB3b3VsZCBiZSB0byBqdXN0IGVuYWJs
-ZSANCj4+PiBDT05GSUdfRkINCj4+PiBhbmQgRFJNX0ZCREVWX0VNVUxBVElPTiBpbiB0aGVp
-ciBrZXJuZWwgY29uZmlnLCByYXRoZXIgdGhhbiBtYWtpbmcgDQo+Pj4gdGhpcyB0bw0KPj4+
-IGRlcGVuZCBvbiBhbnl0aGluZyBGQiByZWxhdGVkIGFzIHlvdSBzYWlkLg0KPj4NCj4+IFll
-YWgsIHNvIGl0IGxvb2tzIGxpa2UgQ09ORklHX0ZCX0VGSSBpcyBub3QgbmVlZGVkIGJ1dA0K
-Pj4gQ09ORklHX0RSTV9GQkRFVl9FTVVMQVRJT04gaXMsIEkgdGhpbmsgSSBqdXN0IGFzc3Vt
-ZWQgZWZpZmINCj4+IHdhcyB3aGF0IHdhcyBuZWVkZWQgYmFzZWQgb24gdGhlIGtlcm5lbCBs
-b2dzLg0KPj4NCj4+IFRoaXMgZG9lcyBub3Qgd29yazoNCj4+IENPTkZJR19GQiBlbmFibGVk
-DQo+PiBDT05GSUdfRFJNX0ZCREVWX0VNVUxBVElPTiBkaXNhYmxlZA0KPj4NCj4+IFRoaXMg
-d29ya3M6DQo+PiBDT05GSUdfRkIgZW5hYmxlZA0KPj4gQ09ORklHX0RSTV9GQkRFVl9FTVVM
-QVRJT04gZW5hYmxlZA0KPj4NCj4+Pg0KPj4+Pg0KPj4+Pj4NCj4+Pj4+PiBJIGxvb2tlZCBz
-b21lIG1vcmUgYXQgdGhlIGxvZ3MgYW5kIGl0IHNlZW1zIHdlc3RvbiBkb2Vzbid0IHdvcmsg
-b24gDQo+Pj4+Pj4gaGlzDQo+Pj4+Pj4gc3lzdGVtIHdpdGhvdXQgdGhlIGZiZGV2IGJhY2tl
-bmQuIFNvIHRoZSBxdWVzdGlvbiBpcyB3aHkgd2VzdG9uIGlzbid0DQo+Pj4+Pj4gd29ya2lu
-ZyB3aXRob3V0IGZiZGV2PyBQZXJoYXBzIHRoaXMgaXMganVzdCBhIFdlc3RvbiBjb25maWd1
-cmF0aW9uDQo+Pj4+Pj4gaXNzdWU/DQo+Pj4+Pj4NCj4+Pj4+DQo+Pj4+PiBCdXQgaXMgd2Vz
-dG9uIHVzaW5nIHRoZSBmYmRldiBlbXVsYXRlZCBieSBEUk0gb3IgdGhlIG9uZSByZWdpc3Rl
-cmVkIGJ5DQo+Pj4+PiBlZmlmYj8gSSB0aG91Z2h0IHRoYXQgdGhlIGxhdHRlciBmcm9tIHdo
-YXQgd2FzIG1lbnRpb25lZCBpbiB0aGlzIA0KPj4+Pj4gdGhyZWFkLg0KPj4+Pg0KPj4+PiBJ
-dCdzIHVzaW5nIGRybSBmYmRldiBlbXVsYXRpb24gd2l0aCBnbWE1MDAgc28gRUZJRkIgaGFz
-IG5vdGhpbmcgdG8gZG8NCj4+Pj4gd2l0aCB0aGlzLiBJIGJlbGlldmUgaXQgd2FzIGp1c3Qg
-c2ltcGx5IGluY29ycmVjdGx5IHJlcG9ydGVkLiBJZiBJJ20NCj4+Pj4gY29ycmVjdCB0aGVu
-ICJkZXBlbmRzIG9uIEZCIiBpcyB3aGF0IG1ha2VzIHZpZGVvIG91dHB1dCB3b3JrIGZvcg0K
-Pj4+PiBKYW1lcy4NCj4+Pj4NCj4+Pg0KPj4+IEdvdCBpdC4gVGhhbmtzIGZvciB0aGUgY2xh
-cmlmaWNhdGlvbi4NCj4+DQo+PiBIZXJlJ3MgbXkgd2VzdG9uLmluaToNCj4+IFtjb3JlXQ0K
-Pj4gc2hlbGw9a2lvc2stc2hlbGwuc28NCj4+IG1vZHVsZXM9c3lzdGVtZC1ub3RpZnkuc28N
-Cj4+IGJhY2tlbmQ9ZHJtLWJhY2tlbmQuc28NCj4+IGlkbGUtdGltZT0wDQo+PiByZXF1aXJl
-LWlucHV0PWZhbHNlDQo+PiB1c2UtcGl4bWFuPXRydWUNCj4+DQo+PiBbc2hlbGxdDQo+PiBs
-b2NraW5nPWZhbHNlDQo+PiBjdXJzb3ItdGhlbWU9T2JzaWRpYW4NCj4+IHBhbmVsLXBvc2l0
-aW9uPW5vbmUNCj4+DQo+PiBbb3V0cHV0XQ0KPj4gbmFtZT1EVkktRC0xDQo+PiB0cmFuc2Zv
-cm09cm90YXRlLTI3MA0KPj4NCj4+IFtvdXRwdXRdDQo+PiBuYW1lPURQLTINCj4+IG1vZGU9
-b2ZmDQo+Pg0KPj4gW291dHB1dF0NCj4+IG5hbWU9TFZEUy0xDQo+PiBtb2RlPW9mZg0KPiAN
-Cj4gWW91IG1lbnRpb25lZCB0aGF0IHlvdSB3YW50IHRvIHVzZSBIRE1JLCBidXQgaXQncyBu
-b3QgY29uZmlndXJlZCBoZXJlLiANCj4gSXMgdGhhdCBpbnRlbnRpb25hbGx5Pw0KDQpOZXZl
-cm1pbmQuIEkganVzdCBzYXcgdGhhdCBEVkktRC0xIGlzIHRoZSBIRE1JIHBvcnQuICh3aHk/
-KQ0KDQo+IA0KPiBCZXN0IHJlZ2FyZHMNCj4gVGhvbWFzDQo+IA0KPj4NCj4+IFtsaWJpbnB1
-dF0NCj4+IHRvdWNoc2NyZWVuX2NhbGlicmF0b3I9dHJ1ZQ0KPj4NCj4+Pg0KPj4+IC0tIA0K
-Pj4+IEJlc3QgcmVnYXJkcywNCj4+Pg0KPj4+IEphdmllciBNYXJ0aW5leiBDYW5pbGxhcw0K
-Pj4+IExpbnV4IEVuZ2luZWVyaW5nDQo+Pj4gUmVkIEhhdA0KPj4+DQo+IA0KDQotLSANClRo
-b21hcyBaaW1tZXJtYW5uDQpHcmFwaGljcyBEcml2ZXIgRGV2ZWxvcGVyDQpTVVNFIFNvZnR3
-YXJlIFNvbHV0aW9ucyBHZXJtYW55IEdtYkgNCk1heGZlbGRzdHIuIDUsIDkwNDA5IE7DvHJu
-YmVyZywgR2VybWFueQ0KKEhSQiAzNjgwOSwgQUcgTsO8cm5iZXJnKQ0KR2VzY2jDpGZ0c2bD
-vGhyZXI6IEl2byBUb3Rldg0K
-
---------------Ol2b8gfzFkkT4zmOof6ZA8cm--
-
---------------R6U7y4YzMHVpZep0Qp7a1eY7
-Content-Type: application/pgp-signature; name="OpenPGP_signature.asc"
-Content-Description: OpenPGP digital signature
-Content-Disposition: attachment; filename="OpenPGP_signature"
-
------BEGIN PGP SIGNATURE-----
-
-wsF5BAABCAAjFiEExndm/fpuMUdwYFFolh/E3EQov+AFAmJhoSUFAwAAAAAACgkQlh/E3EQov+D5
-rA/+PdWlcErjLC6VFv+95BQGc9yQ8R/2MBSfoeqoQJ41/JI22yoFiozZu6Cao2kstO6faLD+UU5M
-Nb3Y1rHBJWXzn9zBiD4Xky67YuIcXxc7HNE7klNlMrdNqDZYRuc9d9+55K9YB8cfiViNJgTYQV7C
-Bf8Et8Q1JesDra4fFBMJ66E1Y3DAUucXsZYifKt0QMp1cC23agL0T8zHDMLlNQFY32xilR4II1X+
-ZF5lBIyfd06jsSiA9Ts4mwTo3j9vy+2WWg4QaMUzP6MLZqMLbXBqT9q4O3T7VlDXsCImJnWiT+ZT
-2ZXdmn7HPO7Dd1onAth0oNk6TAM6DvZk+WHbom6Z64slaE6gQ/z5l5bKf3U7PRZbWyOzdIxRTmmj
-yqDJU0B5NnQGAwqui2yMeHki9yfGD+9GtJcH+PZTwPg52+H1Gq4S80ADppq4Ln2bjDwYt2S85lzb
-Lcsb+eIzTHqATBrb4qEzTsdw2RjIIFK341yTjg3Zetx4PHnkViV/ERXRaOUacZTwKh6XYORjbvHN
-qwa5m6n/L1lHDi/Q6X4HwMu9hmtnl2dTIWfW+WzaTGVFR+JAgKi1fJTNHZBvcjkOAABMgHDA9u4k
-Ilk8MurX4mISx4sygC1CHaEBpBi90j/3oOyanTFg4CAvOb1ApA5Y5U6u9nBSNBbGan26mGfN16Sc
-O48=
-=Anjv
------END PGP SIGNATURE-----
-
---------------R6U7y4YzMHVpZep0Qp7a1eY7--
+>
+> >
+> > Best regards
+> > Thomas
+> >
+> >>
+> >> [libinput]
+> >> touchscreen_calibrator=3Dtrue
+> >>
+> >>>
+> >>> --
+> >>> Best regards,
+> >>>
+> >>> Javier Martinez Canillas
+> >>> Linux Engineering
+> >>> Red Hat
+> >>>
+> >
+>
+> --
+> Thomas Zimmermann
+> Graphics Driver Developer
+> SUSE Software Solutions Germany GmbH
+> Maxfeldstr. 5, 90409 N=C3=BCrnberg, Germany
+> (HRB 36809, AG N=C3=BCrnberg)
+> Gesch=C3=A4ftsf=C3=BChrer: Ivo Totev
