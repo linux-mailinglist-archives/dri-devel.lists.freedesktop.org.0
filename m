@@ -1,65 +1,67 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id B20A550BB68
-	for <lists+dri-devel@lfdr.de>; Fri, 22 Apr 2022 17:12:49 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 07F1350BB81
+	for <lists+dri-devel@lfdr.de>; Fri, 22 Apr 2022 17:17:12 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id A17DA10E7D9;
-	Fri, 22 Apr 2022 15:12:45 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id A6CD210E2E8;
+	Fri, 22 Apr 2022 15:17:09 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-qv1-f42.google.com (mail-qv1-f42.google.com
- [209.85.219.42])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 5331310F3EE
- for <dri-devel@lists.freedesktop.org>; Fri, 22 Apr 2022 15:12:44 +0000 (UTC)
-Received: by mail-qv1-f42.google.com with SMTP id dw17so6230492qvb.9
- for <dri-devel@lists.freedesktop.org>; Fri, 22 Apr 2022 08:12:44 -0700 (PDT)
+Received: from mail-ed1-x530.google.com (mail-ed1-x530.google.com
+ [IPv6:2a00:1450:4864:20::530])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 85DC610E2E8
+ for <dri-devel@lists.freedesktop.org>; Fri, 22 Apr 2022 15:17:08 +0000 (UTC)
+Received: by mail-ed1-x530.google.com with SMTP id g23so3811979edy.13
+ for <dri-devel@lists.freedesktop.org>; Fri, 22 Apr 2022 08:17:08 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=chromium.org; s=google;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc; bh=bCYg7vAuheGkarssmttLzV2pY8DshumVmOA1bng63AI=;
+ b=MEHquvyCw0wwPt7kCehis+PVhTx3pdKhV9pM8R14d3I84H9iWWWE6KzzCxSsYQhhsl
+ c83Cbt0ZGqEK5noq0q1nj6TCqfNagjRO4ZvehG7CajbMG52gB3gjedYjBEbc1tmEBrbI
+ A/ZhHFcuM+kMPol4W5p8CvCk05gkvpyT0o8xg=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc:content-transfer-encoding;
- bh=YFL7vUw4s4gTTJ+ZHT3bb/JvWHIOBf/dbu5Vbd21s5Y=;
- b=nlVifmGS4ozGRN65tVb9fKLGqWeWN/jP9zg4MG39pamOrV4kCpjQs1DACD7YKvPW2O
- sTUIOJsfvNnSCSJp3SplnsKU2MtUZj2Hhe6e82xJMcPmbUNl+bzlenCDa5j0Y3bIeP10
- II9Tqq1gi5Vk8bh2p+O85DiTqjKOuOxBq2YHLvdpzc5M+PA9QPgIgshFuoa3SVoz1TwR
- wE7G+txqqHBxcEaDcXKefdA790BRsscbYY6CH6eKG9VUN1BsatYwjAB5RTbUFAPgSl54
- qdwjJdV0QpdEUok1vyra6hFeNV3JXg7tfI5IlLqPrCyGakLxbkDcSA1kheA5LYPqD967
- toOw==
-X-Gm-Message-State: AOAM532NVelrGNPBo6CaKjdwaAoSNX8i1Yuz5JVy2aRO86cUM8GOlu4u
- 3jzWQOzTlwbQ0DSvBbti4dRLQsNxg5q2aA==
-X-Google-Smtp-Source: ABdhPJzPdof4Nm7QPSpoeacWmiTrkq1Kue20pses+tod3KKHoqUgAiGGgoyJGmM4KwEmgCjxohiWBQ==
-X-Received: by 2002:a05:6214:2aa7:b0:446:2f18:d005 with SMTP id
- js7-20020a0562142aa700b004462f18d005mr3837201qvb.33.1650640363248; 
- Fri, 22 Apr 2022 08:12:43 -0700 (PDT)
-Received: from mail-yb1-f177.google.com (mail-yb1-f177.google.com.
- [209.85.219.177]) by smtp.gmail.com with ESMTPSA id
- j12-20020ae9c20c000000b0067ec380b320sm1026929qkg.64.2022.04.22.08.12.42
+ :message-id:subject:to:cc;
+ bh=bCYg7vAuheGkarssmttLzV2pY8DshumVmOA1bng63AI=;
+ b=hnIMM6OXP3Az7+zJOQ0XVyHMr+Yj8lLPYIq+Aenb20tmEBHJVAaTdVC6GF9iuf0rcA
+ 4cdjW+B17yzHeCc9ETTANEdqyQPMF+7Wt529a3G2zjsHx/rSVPE/0KVZoN7z1zlhPo9K
+ qEtOMOJWSIEdbsE1hsVK7XspKup+aVmtbVNe1FzJmJ14vtlCarKRLV5DhdCc9L/4YIBh
+ lmfYc/W1tNoo52/F6uSKEmK2xOMmL0rGj/OFIE1j8NlP1JmcNTj3ckLBzd1qWw5eIYdc
+ kaRSVk2mavp3Tvgv4NfjRaPCjUyMQwXCqSxHc5Db76lCtGKxoQaxQBEMFqhD0RzP8tqr
+ FFew==
+X-Gm-Message-State: AOAM533qG0S41NOOqTwNqrf8H1hHo4eQxH08pSoAhux2BMkvg7UdewF2
+ j8KA5X3fe6vP4tiW5oK1X3Is8JfR0LhOTe7Edvo=
+X-Google-Smtp-Source: ABdhPJyRZuzfbNB/kMDZOCCV3PJosaGz2OuLpEvWIgHuAbKLGtx0aAHQF9oSn85BXBDwfz5lquDGLw==
+X-Received: by 2002:a05:6402:4414:b0:408:4dc0:3ee9 with SMTP id
+ y20-20020a056402441400b004084dc03ee9mr5375929eda.203.1650640626731; 
+ Fri, 22 Apr 2022 08:17:06 -0700 (PDT)
+Received: from mail-wm1-f47.google.com (mail-wm1-f47.google.com.
+ [209.85.128.47]) by smtp.gmail.com with ESMTPSA id
+ t12-20020a056402020c00b00422e7556951sm981402edv.87.2022.04.22.08.17.05
  for <dri-devel@lists.freedesktop.org>
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Fri, 22 Apr 2022 08:12:43 -0700 (PDT)
-Received: by mail-yb1-f177.google.com with SMTP id f17so14991063ybj.10
- for <dri-devel@lists.freedesktop.org>; Fri, 22 Apr 2022 08:12:42 -0700 (PDT)
-X-Received: by 2002:a25:3492:0:b0:645:6f78:b3b4 with SMTP id
- b140-20020a253492000000b006456f78b3b4mr5142958yba.546.1650640362526; Fri, 22
- Apr 2022 08:12:42 -0700 (PDT)
+ Fri, 22 Apr 2022 08:17:06 -0700 (PDT)
+Received: by mail-wm1-f47.google.com with SMTP id r19so5292518wmq.0
+ for <dri-devel@lists.freedesktop.org>; Fri, 22 Apr 2022 08:17:05 -0700 (PDT)
+X-Received: by 2002:a05:600c:3c99:b0:392:b49c:7b79 with SMTP id
+ bg25-20020a05600c3c9900b00392b49c7b79mr4569863wmb.199.1650640625481; Fri, 22
+ Apr 2022 08:17:05 -0700 (PDT)
 MIME-Version: 1.0
-References: <20220421163128.101520-1-biju.das.jz@bp.renesas.com>
- <20220421163128.101520-2-biju.das.jz@bp.renesas.com>
- <CAMuHMdWMmkY+_O_oyKeumuOqNvw_KJaDxuiwrETc3W-kCV2MCg@mail.gmail.com>
- <OS0PR01MB5922728B940A386674DAB36786F79@OS0PR01MB5922.jpnprd01.prod.outlook.com>
- <CAMuHMdXqYm1WtgnEGhXdOipXwJ9s3NV8CkNWCYhin3SF7tnv+Q@mail.gmail.com>
- <OS0PR01MB5922446E9F1126BF8E06E9F286F79@OS0PR01MB5922.jpnprd01.prod.outlook.com>
-In-Reply-To: <OS0PR01MB5922446E9F1126BF8E06E9F286F79@OS0PR01MB5922.jpnprd01.prod.outlook.com>
-From: Geert Uytterhoeven <geert@linux-m68k.org>
-Date: Fri, 22 Apr 2022 17:12:31 +0200
-X-Gmail-Original-Message-ID: <CAMuHMdURrGhF=Eo3GA_PQXM-r-_NnS_knByzNptkjcb70=_AqA@mail.gmail.com>
-Message-ID: <CAMuHMdURrGhF=Eo3GA_PQXM-r-_NnS_knByzNptkjcb70=_AqA@mail.gmail.com>
-Subject: Re: [PATCH v3 1/4] dt-bindings: display: Document Renesas RZ/G2L DU
- bindings
-To: Biju Das <biju.das.jz@bp.renesas.com>
+References: <1647919631-14447-1-git-send-email-quic_vpolimer@quicinc.com>
+ <1647919631-14447-2-git-send-email-quic_vpolimer@quicinc.com>
+In-Reply-To: <1647919631-14447-2-git-send-email-quic_vpolimer@quicinc.com>
+From: Doug Anderson <dianders@chromium.org>
+Date: Fri, 22 Apr 2022 08:16:51 -0700
+X-Gmail-Original-Message-ID: <CAD=FV=Xe1bOuiG0T7Y3rRN0cmsjdUK-sDvE-E02eDfSdKih9MA@mail.gmail.com>
+Message-ID: <CAD=FV=Xe1bOuiG0T7Y3rRN0cmsjdUK-sDvE-E02eDfSdKih9MA@mail.gmail.com>
+Subject: Re: [PATCH v7 1/5] drm/msm/disp/dpu1: set mdp clk to the maximum
+ frequency in opp table during probe
+To: Vinod Polimera <quic_vpolimer@quicinc.com>, Rob Clark <robdclark@gmail.com>,
+ Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
 Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -72,205 +74,41 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: "open list:OPEN FIRMWARE AND FLATTENED DEVICE TREE BINDINGS"
- <devicetree@vger.kernel.org>, Chris Paterson <Chris.Paterson2@renesas.com>,
- Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>,
- David Airlie <airlied@linux.ie>,
- Prabhakar Mahadev Lad <prabhakar.mahadev-lad.rj@bp.renesas.com>,
- DRI Development <dri-devel@lists.freedesktop.org>,
- Biju Das <biju.das@bp.renesas.com>,
- Linux-Renesas <linux-renesas-soc@vger.kernel.org>,
- Rob Herring <robh+dt@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>
+Cc: quic_kalyant <quic_kalyant@quicinc.com>,
+ "open list:OPEN FIRMWARE AND FLATTENED DEVICE TREE BINDINGS"
+ <devicetree@vger.kernel.org>, linux-arm-msm <linux-arm-msm@vger.kernel.org>,
+ LKML <linux-kernel@vger.kernel.org>,
+ dri-devel <dri-devel@lists.freedesktop.org>,
+ freedreno <freedreno@lists.freedesktop.org>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi Biju,
+Hi,
 
-On Fri, Apr 22, 2022 at 11:31 AM Biju Das <biju.das.jz@bp.renesas.com> wrot=
-e:
-> > Subject: Re: [PATCH v3 1/4] dt-bindings: display: Document Renesas RZ/G=
-2L
-> > DU bindings
-> > On Fri, Apr 22, 2022 at 10:11 AM Biju Das <biju.das.jz@bp.renesas.com>
-> > wrote:
-> > > > Subject: Re: [PATCH v3 1/4] dt-bindings: display: Document Renesas
-> > > > RZ/G2L DU bindings On Thu, Apr 21, 2022 at 6:31 PM Biju Das
-> > > > <biju.das.jz@bp.renesas.com>
-> > > > wrote:
-> > > > > The RZ/G2L LCD controller is composed of Frame Compression
-> > > > > Processor (FCPVD), Video Signal Processor (VSPD), and Display Uni=
-t
-> > (DU).
-> > > > >
-> > > > > The DU module supports the following hardware features =E2=88=92 =
-Display
-> > > > > Parallel Interface (DPI) and MIPI LINK Video Interface =E2=88=92 =
-Display
-> > > > > timing master =E2=88=92 Generates video timings =E2=88=92 Selecti=
-ng the polarity
-> > > > > of output DCLK, HSYNC, VSYNC, and DE =E2=88=92 Supports Progressi=
-ve =E2=88=92
-> > > > > Input data format (from VSPD): RGB888, RGB666 =E2=88=92 Output da=
-ta
-> > > > > format: same as Input data format =E2=88=92 Supporting Full HD (1=
-920
-> > > > > pixels x 1080 lines) for MIPI-DSI Output =E2=88=92 Supporting WXG=
-A (1280
-> > > > > pixels x 800 lines) for Parallel Output
-> > > > >
-> > > > > This patch document DU module found on RZ/G2L LCDC.
-> > > > >
-> > > > > Signed-off-by: Biju Das <biju.das.jz@bp.renesas.com>
-> > > >
-> > > > Thanks for your patch!
-> > > >
-> > > > > --- /dev/null
-> > > > > +++ b/Documentation/devicetree/bindings/display/renesas,rzg2l-du.=
-y
-> > > > > +++ aml
-> > > > > @@ -0,0 +1,159 @@
-> > > > > +# SPDX-License-Identifier: (GPL-2.0-only OR BSD-2-Clause) %YAML
-> > > > > +1.2
-> > > > > +---
-> > > > > +$id:
-> > > > > +
-> > > > > +title: Renesas RZ/G2L Display Unit (DU)
-> > > > > +
-> > > > > +maintainers:
-> > > > > +  - Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>
-> > > > > +  - Biju Das <biju.das.jz@bp.renesas.com>
-> > > > > +
-> > > > > +description: |
-> > > > > +  These DT bindings describe the Display Unit embedded in the
-> > > > > +Renesas RZ/G2L
-> > > > > +  and RZ/V2L SoCs.
-> > > > > +
-> > > > > +properties:
-> > > > > +  compatible:
-> > > > > +    enum:
-> > > > > +      - renesas,du-r9a07g044c # for RZ/G2LC compatible DU
-> > > > > +      - renesas,du-r9a07g044l # for RZ/G2L compatible DU
-> > > >
-> > > > Please use the format "<manuf>,<soc>-<modulo>" for new bindings.
-> > > >
-> > >
-> > > OK.
-> > >
-> > > > I thought there was no need to differentiate RZ/G2LC and RZ/G2L, as
-> > > > the only difference is a wiring difference due to the limited numbe=
-r
-> > > > of pins on the RZ/G2LC package, as per your confirmation[1]?
-> > > > Hence please just use "renesas,r9a07g044-du".
-> > >
-> > > I cross checked HW manual, on the overview section(page 69) Supported
-> > > DU channels on various SoC's are as below
-> > >
-> > > RZ/{G2L,V2L}
-> > > =E2=88=92 1 channel MIPI DSI interface or 1channel parallel output in=
-terface
-> > > selectable,
-> > >
-> > > RZ/G2LC
-> > > =E2=88=92 1 channel MIPI DSI interface
-> > >
-> > > RZ/G2UL ( From RZ/G2UL hardware manual overview) =E2=88=92 1 channel =
-parallel
-> > > output interface.
-> > >
-> > > >
-> > > > Do you want a family-specific compatible value ("rzg2l-"), as this
-> > > > IP block is shared by (at least) RZ/GL(C), RZ/V2L, and RZ/G2UL?
-> > >
-> > > May be will conclude after the above discussion??
-> >
-> > I don't insist on family-specific compatible values here, as the DUs on
-> > RZ/G2UL and RZ/V2L may differ.
-> > But RZ/G2L and RZ/G2LC are identical otherwise...
+On Mon, Mar 21, 2022 at 8:27 PM Vinod Polimera
+<quic_vpolimer@quicinc.com> wrote:
 >
-> OK, Will use
+> Set mdp clock to max clock rate during probe/bind sequence from the
+> opp table so that rails are not at undetermined state. Since we do not
+> know what will be the rate set in boot loader, it would be ideal to
+> vote at max frequency. There could be a firmware display programmed
+> in bootloader and we want to transition it to kernel without underflowing.
+> The clock will be scaled down later when framework sends an update.
 >
-> compatible:
->     items:
->      - enum:
->          - renesas,r9a07g044-du # RZ/G2{L,LC}
->      - const: renesas,rzg2l-du
+> Fixes: 25fdd5933e4c ("drm/msm: Add SDM845 DPU support")
+> Signed-off-by: Vinod Polimera <quic_vpolimer@quicinc.com>
+> Reviewed-by: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
+> Reviewed-by: Douglas Anderson <dianders@chromium.org>
+> ---
+>  drivers/gpu/drm/msm/disp/dpu1/dpu_kms.c | 8 ++++++++
+>  1 file changed, 8 insertions(+)
 
-Please drop "renesas,rzg2l-du"...
+Just wanted to confirm that this patch will be queued up somewhat
+soon. I think it's good to go but I don't see it in any trees yet. ;-)
 
-> >
-> > > > > +allOf:
-> > > > > +  - if:
-> > > > > +      properties:
-> > > > > +        compatible:
-> > > > > +          contains:
-> > > > > +            enum:
-> > > > > +              - renesas,du-r9a07g044c
-> > > > > +    then:
-> > > > > +      properties:
-> > > > > +        ports:
-> > > > > +          properties:
-> > > > > +            port@0:
-> > > > > +              description: DSI 0
-> > > > > +          required:
-> > > > > +            - port@0
-> > > > > +
-> > > > > +  - if:
-> > > > > +      properties:
-> > > > > +        compatible:
-> > > > > +          contains:
-> > > > > +            enum:
-> > > > > +              - renesas,du-r9a07g044l
-> > > > > +    then:
-> > > > > +      properties:
-> > > > > +        ports:
-> > > > > +          properties:
-> > > > > +            port@0:
-> > > > > +              description: DPAD 0
-> > > > > +            port@1:
-> > > > > +              description: DSI 0
-> > > > > +          required:
-> > > > > +            - port@0
-> > > > > +            - port@1
-> > > >
-> > > > Having different port numbers for the common DSI0 output indeed
-> > > > complicates matters ;-)
-> > >
-> > > But we could delete as per [1] for RZ/G2LC where it supports only DSI=
- and
-> > [2] for RZ/G2UL where it supports only DPI, right?
-> >
-> > Yes we can. But as the internal hardware is the same, I think we should
-> > keep the port numbers the same on RZ/G2L and RZ/G2LC.
->
-> OK, Will keep the same port number for both RZ/G2L and RZ/G2LC.
->
-> >
-> > For RZ/V2L, you probably want to treat it exactly the same as RZ/G2L, i=
-.e.,
-> > the same port numbering.
->
-> OK.
->
-> >
-> > For RZ/G2UL, you can use a different numbering, assuming no family-spec=
-ific
-> > compatible value is introduced.
->
-> OK.
+FWIW, I can also say that I've tested this patch and it fixes the
+underrun issues on sc7280-herobrine-rev1.
 
-... as that will interfere here.  If the numbering will be SoC-specific,
-the driver has to match on the SoC-specific compatible value anyway.
+Tested-by: Douglas Anderson <dianders@chromium.org>
 
-Gr{oetje,eeting}s,
-
-                        Geert
-
---
-Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k=
-.org
-
-In personal conversations with technical people, I call myself a hacker. Bu=
-t
-when I'm talking to journalists I just say "programmer" or something like t=
-hat.
-                                -- Linus Torvalds
+-Doug
