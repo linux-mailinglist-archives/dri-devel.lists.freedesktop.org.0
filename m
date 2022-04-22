@@ -2,55 +2,63 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id DF66350B3AC
-	for <lists+dri-devel@lfdr.de>; Fri, 22 Apr 2022 11:11:58 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 83F6F50B3E7
+	for <lists+dri-devel@lfdr.de>; Fri, 22 Apr 2022 11:20:10 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id A562A10F695;
-	Fri, 22 Apr 2022 09:11:56 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 740D910FB07;
+	Fri, 22 Apr 2022 09:20:08 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from alexa-out-sd-01.qualcomm.com (alexa-out-sd-01.qualcomm.com
- [199.106.114.38])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 2565D10F562;
- Fri, 22 Apr 2022 09:11:55 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=quicinc.com; i=@quicinc.com; q=dns/txt; s=qcdkim;
- t=1650618715; x=1682154715;
- h=from:to:cc:subject:date:message-id:in-reply-to:
- references:mime-version;
- bh=8hSCRwlohxcmON6wRi2DT8Nu6dpWslfWDoOD78Huig8=;
- b=u8KtcgAgFAZdwrcoyBQOOQP4Kir5eFGBi9422wIsO13L6S3kXQyYABl9
- vQXWBz7IN9Q00DbIDCvDJwgc8hDqRAGxgpD3WKjb8dLiKsOjj1s1AeYsD
- 1d5TyRWVixvxL6nRRMqISMLcb+s7OPWi7KJnkw49we1ZLxAOmyPWfX8F1 Q=;
-Received: from unknown (HELO ironmsg03-sd.qualcomm.com) ([10.53.140.143])
- by alexa-out-sd-01.qualcomm.com with ESMTP; 22 Apr 2022 02:11:54 -0700
-X-QCInternal: smtphost
-Received: from nasanex01c.na.qualcomm.com ([10.47.97.222])
- by ironmsg03-sd.qualcomm.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 22 Apr 2022 02:11:54 -0700
-Received: from nalasex01a.na.qualcomm.com (10.47.209.196) by
- nasanex01c.na.qualcomm.com (10.47.97.222) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.2.986.22; Fri, 22 Apr 2022 02:11:54 -0700
-Received: from sbillaka-linux.qualcomm.com (10.80.80.8) by
- nalasex01a.na.qualcomm.com (10.47.209.196) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.2.986.22; Fri, 22 Apr 2022 02:11:47 -0700
-From: Sankeerth Billakanti <quic_sbillaka@quicinc.com>
-To: <dri-devel@lists.freedesktop.org>, <linux-arm-msm@vger.kernel.org>,
- <freedreno@lists.freedesktop.org>, <linux-kernel@vger.kernel.org>,
- <devicetree@vger.kernel.org>
-Subject: [PATCH v9 4/4] drm/msm/dp: Support the eDP modes given by panel
-Date: Fri, 22 Apr 2022 14:41:06 +0530
-Message-ID: <1650618666-15342-5-git-send-email-quic_sbillaka@quicinc.com>
-X-Mailer: git-send-email 2.7.4
-In-Reply-To: <1650618666-15342-1-git-send-email-quic_sbillaka@quicinc.com>
-References: <1650618666-15342-1-git-send-email-quic_sbillaka@quicinc.com>
+Received: from mail-ed1-x530.google.com (mail-ed1-x530.google.com
+ [IPv6:2a00:1450:4864:20::530])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 8FDF810FB00
+ for <dri-devel@lists.freedesktop.org>; Fri, 22 Apr 2022 09:20:06 +0000 (UTC)
+Received: by mail-ed1-x530.google.com with SMTP id be20so1349148edb.12
+ for <dri-devel@lists.freedesktop.org>; Fri, 22 Apr 2022 02:20:06 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
+ h=from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=uWyIgVVe0I3r2fyHwEhxD4fmZRAFCjVlSB7T2J0KxS8=;
+ b=ZNCEv6H9yY0dnsLF/BHHUXyws0ugubhOGvxgr+vKzPFbdvPIoLwSn/+RiEugfaIhXv
+ vXsBaYer6kelwX44d/2PGjvVHj3HZhhsKOmS0r3sLZQr4BsdXOCApu+4pP8uh15AOYX3
+ wrR3NPrQPtUrZr/7RNZDsZDG9niXJsruBKEE9MGEv9s4ToXVKLUGhrlYChIkKpSnBzf0
+ t4EdQdAvdXd04R5BhdOEaplibTjN0h+QHPyuWRrof/wTLxyXUcoNuU6nIkmDJCSdktYQ
+ xlRSISIEy2jF0Qgnuz63i6xgI8o17IDndnvkSlnMFBuzaaOD35/8g1KU+fzPum3Abgv9
+ np0Q==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=uWyIgVVe0I3r2fyHwEhxD4fmZRAFCjVlSB7T2J0KxS8=;
+ b=QB6YeBbg/dgHdx6sVAl5o4NkRPtaNLXKnpslu//cNGwWi8KTs4OjvavpsdLUlpQabT
+ FkmpmpsEZXTV//nJBVHAKvKkIPYA2rd0qnpmvgZUVRbaDxc7lglqbnWOqC6kNFH4TRAH
+ 4+mfKEj4Ukqg9OFyo6S0tCLer0Usk4mg/ywbM+nIlK2qhLZ7kD896/ElVon1gGhi7y5Y
+ BvxyvcmjHQ68W72cTU6vUB/Yk+l9E2t9xW04Qqo3Kgz2oGXOJTEYhbSjtjn7M2aCDS4U
+ iNZWd+1YVP3mwwilBaXBBvNJg2gBT2un5W8emSoWQHibezywS3CTdYoCqDM3wrPegR+1
+ ROOQ==
+X-Gm-Message-State: AOAM532/PZ3WUNeb5nNnaAM50zsmYqUkINvAhNY7RPPSDctPfDdXUGNv
+ K9Vjx31oHBviC+eJ8uqeNoE=
+X-Google-Smtp-Source: ABdhPJzWiMA5EHMk4XqFaTizedNJYRbNEplc59WaOyURZGPpPbLVu/L+dwgmItGcMhsTGwa7CNgTug==
+X-Received: by 2002:a05:6402:2789:b0:423:fe09:c252 with SMTP id
+ b9-20020a056402278900b00423fe09c252mr3895678ede.11.1650619205016; 
+ Fri, 22 Apr 2022 02:20:05 -0700 (PDT)
+Received: from able.fritz.box (p57b0b9e1.dip0.t-ipconnect.de. [87.176.185.225])
+ by smtp.gmail.com with ESMTPSA id
+ e15-20020a170906504f00b006efce2155e8sm560266ejk.173.2022.04.22.02.20.03
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Fri, 22 Apr 2022 02:20:04 -0700 (PDT)
+From: "=?UTF-8?q?Christian=20K=C3=B6nig?=" <ckoenig.leichtzumerken@gmail.com>
+X-Google-Original-From: =?UTF-8?q?Christian=20K=C3=B6nig?=
+ <christian.koenig@amd.com>
+To: zackr@vmware.com, linux-graphics-maintainer@vmware.com,
+ dri-devel@lists.freedesktop.org
+Subject: [PATCH] drm/vmwgfx: reserve fence slots on new resources
+Date: Fri, 22 Apr 2022 11:20:02 +0200
+Message-Id: <20220422092002.32427-1-christian.koenig@amd.com>
+X-Mailer: git-send-email 2.25.1
 MIME-Version: 1.0
-Content-Type: text/plain
-X-Originating-IP: [10.80.80.8]
-X-ClientProxiedBy: nasanex01b.na.qualcomm.com (10.46.141.250) To
- nalasex01a.na.qualcomm.com (10.47.209.196)
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -63,51 +71,35 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: quic_kalyant@quicinc.com, Sankeerth Billakanti <quic_sbillaka@quicinc.com>,
- dianders@chromium.org, bjorn.andersson@linaro.org, quic_vproddut@quicinc.com,
- airlied@linux.ie, quic_abhinavk@quicinc.com, steev@kali.org,
- swboyd@chromium.org, seanpaul@chromium.org, dmitry.baryshkov@linaro.org,
- quic_aravindh@quicinc.com, quic_khsieh@quicinc.com, sean@poorly.run
+Cc: =?UTF-8?q?Christian=20K=C3=B6nig?= <christian.koenig@amd.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-The eDP controller does not have a reliable way keep panel
-powered on to read the sink capabilities. So, the controller
-driver cannot validate if a mode can be supported by the
-source. We will rely on the panel driver to populate only
-the supported modes for now.
+When resources are allocated dynamically during an IOCTL we need to make sure
+that a fence slot is reserved so that the resulting fence can be added in the
+end.
 
-Signed-off-by: Sankeerth Billakanti <quic_sbillaka@quicinc.com>
-Reviewed-by: Douglas Anderson <dianders@chromium.org>
+Signed-off-by: Christian König <christian.koenig@amd.com>
+Fixes: c8d4c18bfbc4 ("dma-buf/drivers: make reserving a shared slot mandatory v4")
 ---
-Changes in v9:
-  - none
+ drivers/gpu/drm/vmwgfx/vmwgfx_resource.c | 4 ++++
+ 1 file changed, 4 insertions(+)
 
-Changes in v8:
-  - add the drm/msm/dp tag in the commit title
-
- drivers/gpu/drm/msm/dp/dp_display.c | 8 ++++++++
- 1 file changed, 8 insertions(+)
-
-diff --git a/drivers/gpu/drm/msm/dp/dp_display.c b/drivers/gpu/drm/msm/dp/dp_display.c
-index f197694..49fac955 100644
---- a/drivers/gpu/drm/msm/dp/dp_display.c
-+++ b/drivers/gpu/drm/msm/dp/dp_display.c
-@@ -998,6 +998,14 @@ enum drm_mode_status dp_bridge_mode_valid(struct drm_bridge *bridge,
- 		return -EINVAL;
+diff --git a/drivers/gpu/drm/vmwgfx/vmwgfx_resource.c b/drivers/gpu/drm/vmwgfx/vmwgfx_resource.c
+index a7d62a4eb47b..edce228f737c 100644
+--- a/drivers/gpu/drm/vmwgfx/vmwgfx_resource.c
++++ b/drivers/gpu/drm/vmwgfx/vmwgfx_resource.c
+@@ -399,6 +399,10 @@ static int vmw_resource_do_validate(struct vmw_resource *res,
+ 		ret = func->create(res);
+ 		if (unlikely(ret != 0))
+ 			return ret;
++
++		ret = dma_resv_reserve_fences(res->backup->base.base.resv, 1);
++		if (unlikely(ret))
++			goto out_bind_failed;
  	}
  
-+	/*
-+	 * The eDP controller currently does not have a reliable way of
-+	 * enabling panel power to read sink capabilities. So, we rely
-+	 * on the panel driver to populate only supported modes for now.
-+	 */
-+	if (dp->is_edp)
-+		return MODE_OK;
-+
- 	if ((dp->max_pclk_khz <= 0) ||
- 			(dp->max_pclk_khz > DP_MAX_PIXEL_CLK_KHZ) ||
- 			(mode->clock > dp->max_pclk_khz))
+ 	if (func->bind &&
 -- 
-2.7.4
+2.25.1
 
