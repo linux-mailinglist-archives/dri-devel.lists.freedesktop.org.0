@@ -1,62 +1,51 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id A8A6F50B308
-	for <lists+dri-devel@lfdr.de>; Fri, 22 Apr 2022 10:37:08 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 6C78350B31D
+	for <lists+dri-devel@lfdr.de>; Fri, 22 Apr 2022 10:42:44 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 7388110E095;
-	Fri, 22 Apr 2022 08:37:06 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 7295710F5E2;
+	Fri, 22 Apr 2022 08:42:40 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from smtp-out2.suse.de (smtp-out2.suse.de [195.135.220.29])
- by gabe.freedesktop.org (Postfix) with ESMTPS id F372510E095
- for <dri-devel@lists.freedesktop.org>; Fri, 22 Apr 2022 08:37:04 +0000 (UTC)
-Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
- key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
- (No client certificate requested)
- by smtp-out2.suse.de (Postfix) with ESMTPS id F32361F37B;
- Fri, 22 Apr 2022 08:37:02 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
- t=1650616623; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
- mime-version:mime-version:content-type:content-type:
- in-reply-to:in-reply-to:references:references;
- bh=37FEahUJdlj/gRtko9u06GxXpQ+C9ea4POpASYThvVc=;
- b=NL08b4nv7QRYOgshL/lT5Hr+yGTBl907pnBrzwLCrWbNjIX9/Mlutk0xBKZZgM+zlq7mtG
- TdsWUjfDuIQYK6yPu+qaZhLZUjSsYPHnFlwC0+VfjH5xmlCdF6zR4ws9KbFpg6qny3dfy+
- O9pPdrW8lpuFgZ4QkAGyGuL1CjLlIBk=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
- s=susede2_ed25519; t=1650616623;
- h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
- mime-version:mime-version:content-type:content-type:
- in-reply-to:in-reply-to:references:references;
- bh=37FEahUJdlj/gRtko9u06GxXpQ+C9ea4POpASYThvVc=;
- b=aKs/qiuH3jQq+4fpPP7zC3AQI74PNUE3ANbXJksFFH/3rvn3qBFaHt2YsH5VsNkoy5b23G
- jTJPwvALkUcowlCg==
-Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
- key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
- (No client certificate requested)
- by imap2.suse-dmz.suse.de (Postfix) with ESMTPS id CAD74131BD;
- Fri, 22 Apr 2022 08:37:02 +0000 (UTC)
-Received: from dovecot-director2.suse.de ([192.168.254.65])
- by imap2.suse-dmz.suse.de with ESMTPSA id x+F5MC5pYmJ7egAAMHmgww
- (envelope-from <tzimmermann@suse.de>); Fri, 22 Apr 2022 08:37:02 +0000
-Message-ID: <9dca836a-bd84-d200-fc01-56e4d6f13eb9@suse.de>
-Date: Fri, 22 Apr 2022 10:37:02 +0200
+Received: from mga01.intel.com (mga01.intel.com [192.55.52.88])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 6FC4410F5E2;
+ Fri, 22 Apr 2022 08:42:39 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+ t=1650616959; x=1682152959;
+ h=date:from:to:cc:subject:message-id:references:
+ mime-version:in-reply-to;
+ bh=oJo6686rlTVl4NF8qTq+75xulViOxa7VsmZhuLw8LAY=;
+ b=YxWDF3bicTVKgUNG8dZXpa661uH2CXyofWzRjFm9PiHFbw05EddnnNWQ
+ Xl8iHbpb5y7NqcJFJ7Tr8JYC7iK3jmANspcQDZNGq2QZjSuu54BBr6kgm
+ I+rglGTncLk310CMQzfopTDVGYrk2cT38UOgquvBFZ5ssGh2sRuXv4u6/
+ +iW+RAcwkAwTlW3fWb5RyUZ9ZeAqTYDLncA91ER+SutAqMjOUSXPKsmfH
+ CQ4uvYl38owA3nE1S1rQSedOtbFQ8My4asua9XiqSs4QFWDNvF83dH4KT
+ Jic7sbGyNAa2iAPb8D/YjFGfwFzLpcs0ChXwNhEqEJgj++a8RCRyXfVBS A==;
+X-IronPort-AV: E=McAfee;i="6400,9594,10324"; a="289739711"
+X-IronPort-AV: E=Sophos;i="5.90,281,1643702400"; d="scan'208";a="289739711"
+Received: from fmsmga002.fm.intel.com ([10.253.24.26])
+ by fmsmga101.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 22 Apr 2022 01:42:39 -0700
+X-IronPort-AV: E=Sophos;i="5.90,281,1643702400"; d="scan'208";a="658925459"
+Received: from ramaling-i9x.iind.intel.com (HELO intel.com) ([10.203.144.108])
+ by fmsmga002-auth.fm.intel.com with
+ ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 22 Apr 2022 01:42:37 -0700
+Date: Fri, 22 Apr 2022 14:13:12 +0530
+From: Ramalingam C <ramalingam.c@intel.com>
+To: "Hellstrom, Thomas" <thomas.hellstrom@intel.com>
+Subject: Re: [PATCH 3/4] drm/i915/gt: Extend doc on Flat-CCS obj eviction
+Message-ID: <20220422084312.GB2564@intel.com>
+References: <20220421113813.30796-1-ramalingam.c@intel.com>
+ <20220421113813.30796-4-ramalingam.c@intel.com>
+ <249408791057852ef445c0a8795f3486ef45b151.camel@intel.com>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.7.0
-Subject: Re: FG040346DSSWBG04 patch review
-Content-Language: en-US
-To: Marek Vasut <marex@denx.de>, Sam Ravnborg <sam@ravnborg.org>
-References: <718e8029-b6a8-f221-156c-ac8ac84a8d77@denx.de>
-From: Thomas Zimmermann <tzimmermann@suse.de>
-In-Reply-To: <718e8029-b6a8-f221-156c-ac8ac84a8d77@denx.de>
-Content-Type: multipart/signed; micalg=pgp-sha256;
- protocol="application/pgp-signature";
- boundary="------------NrPfFPfSvr3DBj0RsaF5lxBB"
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+In-Reply-To: <249408791057852ef445c0a8795f3486ef45b151.camel@intel.com>
+User-Agent: Mutt/1.10.1 (2018-07-13)
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -69,61 +58,110 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: dri-devel <dri-devel@lists.freedesktop.org>
+Cc: "intel-gfx@lists.freedesktop.org" <intel-gfx@lists.freedesktop.org>, "Auld,
+ Matthew" <matthew.auld@intel.com>,
+ "dri-devel@lists.freedesktop.org" <dri-devel@lists.freedesktop.org>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-This is an OpenPGP/MIME signed message (RFC 4880 and 3156)
---------------NrPfFPfSvr3DBj0RsaF5lxBB
-Content-Type: multipart/mixed; boundary="------------U1LK6UvtyE9CY9q0uynQ3fYC";
- protected-headers="v1"
-From: Thomas Zimmermann <tzimmermann@suse.de>
-To: Marek Vasut <marex@denx.de>, Sam Ravnborg <sam@ravnborg.org>
-Cc: dri-devel <dri-devel@lists.freedesktop.org>
-Message-ID: <9dca836a-bd84-d200-fc01-56e4d6f13eb9@suse.de>
-Subject: Re: FG040346DSSWBG04 patch review
-References: <718e8029-b6a8-f221-156c-ac8ac84a8d77@denx.de>
-In-Reply-To: <718e8029-b6a8-f221-156c-ac8ac84a8d77@denx.de>
+On 2022-04-21 at 19:07:29 +0530, Hellstrom, Thomas wrote:
+> On Thu, 2022-04-21 at 17:08 +0530, Ramalingam C wrote:
+> > Capture the eviction details for Flat-CCS capable lmem only objects
+> > and
+> > lmem objects with smem residency. This also captures the impact of
+> > eviction on  object's memory residency and Flat-CCS compression
+> > state.
+> >
+> > Signed-off-by: Ramalingam C <ramalingam.c@intel.com>
+> > ---
+> >  drivers/gpu/drm/i915/gt/intel_migrate.c | 36 ++++++++++++++++++-----
+> > --
+> >  1 file changed, 27 insertions(+), 9 deletions(-)
+> >
+> > diff --git a/drivers/gpu/drm/i915/gt/intel_migrate.c
+> > b/drivers/gpu/drm/i915/gt/intel_migrate.c
+> > index 463a6a14b5f9..9d0d18950e76 100644
+> > --- a/drivers/gpu/drm/i915/gt/intel_migrate.c
+> > +++ b/drivers/gpu/drm/i915/gt/intel_migrate.c
+> > @@ -485,16 +485,34 @@ static bool wa_1209644611_applies(int ver, u32
+> > size)
+> >   * And CCS data can be copied in and out of CCS region through
+> >   * XY_CTRL_SURF_COPY_BLT. CPU can't access the CCS data directly.
+> >   *
+> > - * When we exhaust the lmem, if the object's placements support
+> > smem, then we can
+> > - * directly decompress the compressed lmem object into smem and
+> > start using it
+> > - * from smem itself.
+> > + * when we exhaust the lmem, we need to handle two types of flat-ccs
+> > capable
+> > + * objects for its eviction.
+> > + *   1) lmem only objects
+> > + *   2) lmem objects with smem residency option
+> >   *
+> > - * But when we need to swapout the compressed lmem object into a
+> > smem region
+> > - * though objects' placement doesn't support smem, then we copy the
+> > lmem content
+> > - * as it is into smem region along with ccs data (using
+> > XY_CTRL_SURF_COPY_BLT).
+> > - * When the object is referred, lmem content will be swaped in along
+> > with
+> > - * restoration of the CCS data (using XY_CTRL_SURF_COPY_BLT) at
+> > corresponding
+> > - * location.
+> > + * 1) lmem only objects:
+> > + *
+> > + * lmem backing memory can be temporarily evicted to smem, along
+> > with the
+> > + * auxiliary CCS state, where it can be potentially swapped-out at a
+> > later point,
+> > + * if required. If userspace later touches the evicted pages, then
+> > we always move
+> > + * the backing memory back to lmem, which includes restoring the
+> > saved CCS state,
+> > + * and potentially performing any required swap-in.
+> > + *
+> > + * In this scenario, objects' backing memory class and Flat-CCS
+> > state doesn't
+> > + * change.
+> > + *
+> > + * 2) lmem objects with smem residency option
+> > + *
+> > + * Lmem object with smem region in it's placement list, will be
+> > migrated into
+> > + * smem  by decompressing the content. I915 doesn't handle this kind
+> > of
+> > + * migration for Flat-CCS compressed objects yet.
+> > + *
+> > + * In this scenario, objects' backing memory class and Flat-CCS
+> > state changed,
+> > + * and userspace is not aware of it.
+> > + *
+> > + * In summary, when a userspace wants to be sure about the objects
+> > memory
+> > + * residency and flat-ccs compression state, then placement list
+> > can't have
+> > + * the lmem and smem together. Instead, object has to be lmem
+> > resident only.
+> 
+> For 2) I was under the impression that with flat CCS, these objects
+> need to be always uncompressed, since the kernel doesn't have the
+> needed information to decompress / compress. Or has this been changed
+> recently?
+Sorry. I have overlooked the lack of inputs required for decompression
+at kernel. So yes we can't support the compression on the lmem objects
+with {lmem, smem} as placement preferences. I will update the
+documentation accordingly.
 
---------------U1LK6UvtyE9CY9q0uynQ3fYC
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: base64
-
-SGkNCg0KQW0gMjEuMDQuMjIgdW0gMjM6NTkgc2NocmllYiBNYXJlayBWYXN1dDoNCj4gSGVs
-bG8gYWxsLA0KPiANCj4gY291bGQgZWl0aGVyIG9mIHlvdSBwbGVhc2UgaGF2ZSBhIGxvb2sg
-YXQgdGhlc2UgdHdvIHBhbmVsIHBhdGNoZXMgPw0KPiBJdCBpcyB5ZXQgYW5vdGhlciBEUEkg
-cGFuZWwsIGJ1dCBJIHdvdWxkIGxpa2UgdG8gZ2V0IHNvbWUgQUIvUkIgb24gaXQgDQo+IGJl
-Zm9yZSBhcHBseWluZy4NCj4gDQo+IGh0dHBzOi8vcGF0Y2h3b3JrLmZyZWVkZXNrdG9wLm9y
-Zy9wYXRjaC80ODIzMDYvDQo+IGh0dHBzOi8vcGF0Y2h3b3JrLmZyZWVkZXNrdG9wLm9yZy9w
-YXRjaC80ODIzMDcvDQoNCkFja2VkLWJ5OiBUaG9tYXMgWmltbWVybWFubiA8dHppbW1lcm1h
-bm5Ac3VzZS5kZT4NCg0KZm9yIGJvdGggb2YgdGhlbS4NCg0KQmVzdCByZWdhcmRzDQpUaG9t
-YXMNCg0KPiANCj4gVGhhbmsgeW91DQo+IA0KDQotLSANClRob21hcyBaaW1tZXJtYW5uDQpH
-cmFwaGljcyBEcml2ZXIgRGV2ZWxvcGVyDQpTVVNFIFNvZnR3YXJlIFNvbHV0aW9ucyBHZXJt
-YW55IEdtYkgNCk1heGZlbGRzdHIuIDUsIDkwNDA5IE7DvHJuYmVyZywgR2VybWFueQ0KKEhS
-QiAzNjgwOSwgQUcgTsO8cm5iZXJnKQ0KR2VzY2jDpGZ0c2bDvGhyZXI6IEl2byBUb3Rldg0K
-
-
---------------U1LK6UvtyE9CY9q0uynQ3fYC--
-
---------------NrPfFPfSvr3DBj0RsaF5lxBB
-Content-Type: application/pgp-signature; name="OpenPGP_signature.asc"
-Content-Description: OpenPGP digital signature
-Content-Disposition: attachment; filename="OpenPGP_signature"
-
------BEGIN PGP SIGNATURE-----
-
-wsF5BAABCAAjFiEExndm/fpuMUdwYFFolh/E3EQov+AFAmJiaS4FAwAAAAAACgkQlh/E3EQov+Ci
-XRAAgAEtaIDBQ/iWCFzwPXBQ2YCuGduh3dGF4DGnJzR/cNSY95RaTKJQFi2Z/doou6jqEvvckFQY
-IwHzZGbt065qMD1OSST5Ewl0f/lYxjI7P7WYs5R9a7Is4Q34EVGs2t0c7GZcR2P2ndOKXKOUzSD+
-fKaBHoqBNttp5foDyIs4/nqHn2RT5QhPmHKdMnKwvAykbyXEoO3h7EJjExriPSaqgEjidkk2/Thr
-klhXu6bE2DjJmdjGLORMbsdV9V+9bJY438rLxv3jKQoAVkoKo2urtqVdM7qE+UMBN6WBGTmS05F4
-L+9NTW7N8dVWSpXw0wl6S+PiKNVHBIfYw5a5hGI/Ju8Dn5722Tz9nzaPB/TGc9xqjPaSaYMN+jdZ
-9syLGwbf+MCYCOirafxxn6MURWdxI9wNDZwYCgcP7ZeLudRYYTk4pbSD4hpEE0XQd7+ikRJveBzx
-LIz19fKYFaLr8ACMiB1pd1Rj5qTaB+akpq3WSm1F5E/BhscH1lFAb/ZTmXaBMGyWiSi2sAvS/pMN
-JqV6yptsKA6jQ7U3/QABlnI/WVnaM2MPOtkVA7VhjRmA5AZfhwQ6WcAljlABm+IyCbE3vwYsBYAg
-+A2EMpjoETk+kARBNORP8BV9bEdfy+pfTmZ7gPLJPWM1p5ah9wsXPFIzDF1PlqsNuuuzeQVpOYv2
-lJM=
-=NrZy
------END PGP SIGNATURE-----
-
---------------NrPfFPfSvr3DBj0RsaF5lxBB--
+Ram.
+> 
+> /Thomas
+> 
+> 
+> 
+> 
+> >   */
+> >
+> >  static inline u32 *i915_flush_dw(u32 *cmd, u32 flags)
+> 
