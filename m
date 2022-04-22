@@ -2,46 +2,45 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 967F650C279
-	for <lists+dri-devel@lfdr.de>; Sat, 23 Apr 2022 01:07:24 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 537F650C286
+	for <lists+dri-devel@lfdr.de>; Sat, 23 Apr 2022 01:07:38 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 6FBF710EC2C;
-	Fri, 22 Apr 2022 23:07:13 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id B3B2010ECA0;
+	Fri, 22 Apr 2022 23:07:23 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from alexa-out-sd-02.qualcomm.com (alexa-out-sd-02.qualcomm.com
- [199.106.114.39])
- by gabe.freedesktop.org (Postfix) with ESMTPS id C821510EC23;
- Fri, 22 Apr 2022 23:07:10 +0000 (UTC)
+Received: from alexa-out.qualcomm.com (alexa-out.qualcomm.com [129.46.98.28])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 6979A10EC24;
+ Fri, 22 Apr 2022 23:07:12 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=quicinc.com; i=@quicinc.com; q=dns/txt; s=qcdkim;
- t=1650668830; x=1682204830;
+ t=1650668833; x=1682204833;
  h=from:to:cc:subject:date:message-id:in-reply-to:
  references:mime-version;
- bh=WfXAUE5CPTimkJU3KMnAIgS3FYXVNy53g2/qMCu2ONA=;
- b=f/Gzlc9uJl4x1fOfGWotDKGmfz6MB8gkHtbuDqSSymAwDYnZNFCXLvO8
- 18uo3+Yix0G6t59dLe3aQ4dHyUFi0F/uOZWqrzaLMX7t+faiZ5O6oOMTH
- Ya7SU3rT9fuXEHHoS89H3ABDSms6Zpb1RyPxAlHyv3fMP8qMQkDC38aJv M=;
-Received: from unknown (HELO ironmsg-SD-alpha.qualcomm.com) ([10.53.140.30])
- by alexa-out-sd-02.qualcomm.com with ESMTP; 22 Apr 2022 16:07:10 -0700
+ bh=n7E2lChpnEYj8SSu6ptUOmz4NP3TJh1KBx4f0gB6CmA=;
+ b=vUBko8y+cUHpTC6pBZSsL1TVyuTi3/ZBi4C/Uq6aHYLOgedXKtUA6mC7
+ ef+/uO5URW8jJ2xmYLrOjvQi8wc7694bYgRiwEzVFL8fMl9hrNqm5oFZA
+ QVStVNsikyQQXNxupx+Rk8n+H9pX/1/j/fppXEahDtCHBVJhaDGylbyhJ E=;
+Received: from ironmsg-lv-alpha.qualcomm.com ([10.47.202.13])
+ by alexa-out.qualcomm.com with ESMTP; 22 Apr 2022 16:07:12 -0700
 X-QCInternal: smtphost
 Received: from nasanex01c.na.qualcomm.com ([10.47.97.222])
- by ironmsg-SD-alpha.qualcomm.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 22 Apr 2022 16:07:10 -0700
+ by ironmsg-lv-alpha.qualcomm.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 22 Apr 2022 16:07:11 -0700
 Received: from nalasex01a.na.qualcomm.com (10.47.209.196) by
  nasanex01c.na.qualcomm.com (10.47.97.222) with Microsoft SMTP Server
  (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.2.986.22; Fri, 22 Apr 2022 16:07:10 -0700
+ 15.2.986.22; Fri, 22 Apr 2022 16:07:11 -0700
 Received: from abhinavk-linux.qualcomm.com (10.80.80.8) by
  nalasex01a.na.qualcomm.com (10.47.209.196) with Microsoft SMTP Server
  (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.2.986.22; Fri, 22 Apr 2022 16:07:09 -0700
+ 15.2.986.22; Fri, 22 Apr 2022 16:07:10 -0700
 From: Abhinav Kumar <quic_abhinavk@quicinc.com>
 To: <freedreno@lists.freedesktop.org>
-Subject: [PATCH v4 03/20] drm: allow real encoder to be passed for
- drm_writeback_connector
-Date: Fri, 22 Apr 2022 16:06:38 -0700
-Message-ID: <1650668815-7048-4-git-send-email-quic_abhinavk@quicinc.com>
+Subject: [PATCH v4 04/20] drm/msm/dpu: add writeback blocks to the sm8250 DPU
+ catalog
+Date: Fri, 22 Apr 2022 16:06:39 -0700
+Message-ID: <1650668815-7048-5-git-send-email-quic_abhinavk@quicinc.com>
 X-Mailer: git-send-email 2.7.4
 In-Reply-To: <1650668815-7048-1-git-send-email-quic_abhinavk@quicinc.com>
 References: <1650668815-7048-1-git-send-email-quic_abhinavk@quicinc.com>
@@ -70,138 +69,240 @@ Cc: markyacoub@chromium.org, liviu.dudau@arm.com,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-For some vendor driver implementations, display hardware can
-be shared between the encoder used for writeback and the physical
-display.
+Add writeback blocks to the sm8250 DPU hardware catalog. Other
+chipsets support writeback too but add it to sm8250 to prototype
+the feature so that it can be easily extended to other chipsets.
 
-In addition resources such as clocks and interrupts can
-also be shared between writeback and the real encoder.
-
-To accommodate such vendor drivers and hardware, allow
-real encoder to be passed for drm_writeback_connector.
-
-For existing clients, drm_writeback_connector_init() will use
-an internal_encoder under the hood and hence no changes will
-be needed.
-
-changes in v7:
-	- move this change before the vc4 change in the series
-	  to minimize the changes to vendor drivers in drm core
-	  changes
+changes in v4:
+	- fix the copyright year order
 
 Signed-off-by: Abhinav Kumar <quic_abhinavk@quicinc.com>
 Reviewed-by: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
 ---
- drivers/gpu/drm/drm_writeback.c | 18 ++++++++++++------
- drivers/gpu/drm/vc4/vc4_txp.c   |  4 ++--
- include/drm/drm_writeback.h     | 22 ++++++++++++++++++++--
- 3 files changed, 34 insertions(+), 10 deletions(-)
+ drivers/gpu/drm/msm/disp/dpu1/dpu_hw_catalog.c | 72 ++++++++++++++++++++++++++
+ drivers/gpu/drm/msm/disp/dpu1/dpu_hw_catalog.h | 66 ++++++++++++++++++++++-
+ 2 files changed, 137 insertions(+), 1 deletion(-)
 
-diff --git a/drivers/gpu/drm/drm_writeback.c b/drivers/gpu/drm/drm_writeback.c
-index 92658ad..0538674 100644
---- a/drivers/gpu/drm/drm_writeback.c
-+++ b/drivers/gpu/drm/drm_writeback.c
-@@ -180,21 +180,21 @@ int drm_writeback_connector_init(struct drm_device *dev,
- {
- 	int ret = 0;
+diff --git a/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_catalog.c b/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_catalog.c
+index b0a0ef7..7e3f0f4 100644
+--- a/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_catalog.c
++++ b/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_catalog.c
+@@ -1,5 +1,6 @@
+ // SPDX-License-Identifier: GPL-2.0-only
+ /* Copyright (c) 2015-2018, The Linux Foundation. All rights reserved.
++ * Copyright (c) 2022. Qualcomm Innovation Center, Inc. All rights reserved.
+  */
  
--	drm_encoder_helper_add(&wb_connector->encoder, enc_helper_funcs);
-+	drm_encoder_helper_add(&wb_connector->internal_encoder, enc_helper_funcs);
+ #define pr_fmt(fmt)	"[drm:%s:%d] " fmt, __func__, __LINE__
+@@ -120,6 +121,16 @@
+ 			  BIT(MDP_AD4_0_INTR) | \
+ 			  BIT(MDP_AD4_1_INTR))
  
--	wb_connector->encoder.possible_crtcs = possible_crtcs;
-+	wb_connector->internal_encoder.possible_crtcs = possible_crtcs;
- 
--	ret = drm_encoder_init(dev, &wb_connector->encoder,
-+	ret = drm_encoder_init(dev, &wb_connector->internal_encoder,
- 			       &drm_writeback_encoder_funcs,
- 			       DRM_MODE_ENCODER_VIRTUAL, NULL);
- 	if (ret)
- 		return ret;
- 
--	ret = drm_writeback_connector_init_with_encoder(dev, wb_connector, &wb_connector->encoder,
--			con_funcs, formats, n_formats);
-+	ret = drm_writeback_connector_init_with_encoder(dev, wb_connector,
-+			&wb_connector->internal_encoder, con_funcs, formats, n_formats);
- 
- 	if (ret)
--		drm_encoder_cleanup(&wb_connector->encoder);
-+		drm_encoder_cleanup(&wb_connector->internal_encoder);
- 
- 	return ret;
- }
-@@ -239,6 +239,12 @@ int drm_writeback_connector_init_with_encoder(struct drm_device *dev,
- 	struct drm_mode_config *config = &dev->mode_config;
- 	int ret = create_writeback_properties(dev);
- 
-+	/*
-+	 * Assign the encoder passed to this API to the wb_connector's encoder.
-+	 * For drm_writeback_connector_init(), this shall be the internal_encoder
-+	 */
-+	wb_connector->encoder = enc;
++#define WB_SM8250_MASK (BIT(DPU_WB_LINE_MODE) | \
++			 BIT(DPU_WB_UBWC) | \
++			 BIT(DPU_WB_YUV_CONFIG) | \
++			 BIT(DPU_WB_PIPE_ALPHA) | \
++			 BIT(DPU_WB_XY_ROI_OFFSET) | \
++			 BIT(DPU_WB_QOS) | \
++			 BIT(DPU_WB_QOS_8LVL) | \
++			 BIT(DPU_WB_CDP) | \
++			 BIT(DPU_WB_INPUT_CTRL))
 +
- 	if (ret != 0)
- 		return ret;
+ #define DEFAULT_PIXEL_RAM_SIZE		(50 * 1024)
+ #define DEFAULT_DPU_LINE_WIDTH		2048
+ #define DEFAULT_DPU_OUTPUT_LINE_WIDTH	2560
+@@ -211,6 +222,40 @@ static const u32 rotation_v2_formats[] = {
+ 	/* TODO add formats after validation */
+ };
  
-diff --git a/drivers/gpu/drm/vc4/vc4_txp.c b/drivers/gpu/drm/vc4/vc4_txp.c
-index 3447eb6..7e063a9 100644
---- a/drivers/gpu/drm/vc4/vc4_txp.c
-+++ b/drivers/gpu/drm/vc4/vc4_txp.c
-@@ -159,7 +159,7 @@ struct vc4_txp {
- 
- static inline struct vc4_txp *encoder_to_vc4_txp(struct drm_encoder *encoder)
- {
--	return container_of(encoder, struct vc4_txp, connector.encoder);
-+	return container_of(encoder, struct vc4_txp, connector.internal_encoder);
- }
- 
- static inline struct vc4_txp *connector_to_vc4_txp(struct drm_connector *conn)
-@@ -507,7 +507,7 @@ static int vc4_txp_bind(struct device *dev, struct device *master, void *data)
- 	if (ret)
- 		return ret;
- 
--	encoder = &txp->connector.encoder;
-+	encoder = txp->connector.encoder;
- 	encoder->possible_crtcs = drm_crtc_mask(crtc);
- 
- 	ret = devm_request_irq(dev, irq, vc4_txp_interrupt, 0,
-diff --git a/include/drm/drm_writeback.h b/include/drm/drm_writeback.h
-index bb306fa..3fbae9d 100644
---- a/include/drm/drm_writeback.h
-+++ b/include/drm/drm_writeback.h
-@@ -25,13 +25,31 @@ struct drm_writeback_connector {
- 	struct drm_connector base;
- 
- 	/**
--	 * @encoder: Internal encoder used by the connector to fulfill
-+	 * @encoder: handle to drm_encoder used by the connector to fulfill
- 	 * the DRM framework requirements. The users of the
- 	 * @drm_writeback_connector control the behaviour of the @encoder
- 	 * by passing the @enc_funcs parameter to drm_writeback_connector_init()
- 	 * function.
-+	 *
-+	 * For some vendor drivers, the hardware resources are shared between
-+	 * writeback encoder and rest of the display pipeline.
-+	 * To accommodate such cases, encoder is a handle to the real encoder
-+	 * hardware.
-+	 *
-+	 * For current existing writeback users, this shall continue to be the
-+	 * embedded encoder for the writeback connector.
-+	 */
-+	struct drm_encoder *encoder;
++static const uint32_t wb2_formats[] = {
++	DRM_FORMAT_RGB565,
++	DRM_FORMAT_BGR565,
++	DRM_FORMAT_RGB888,
++	DRM_FORMAT_ARGB8888,
++	DRM_FORMAT_RGBA8888,
++	DRM_FORMAT_ABGR8888,
++	DRM_FORMAT_XRGB8888,
++	DRM_FORMAT_RGBX8888,
++	DRM_FORMAT_XBGR8888,
++	DRM_FORMAT_ARGB1555,
++	DRM_FORMAT_RGBA5551,
++	DRM_FORMAT_XRGB1555,
++	DRM_FORMAT_RGBX5551,
++	DRM_FORMAT_ARGB4444,
++	DRM_FORMAT_RGBA4444,
++	DRM_FORMAT_RGBX4444,
++	DRM_FORMAT_XRGB4444,
++	DRM_FORMAT_BGR565,
++	DRM_FORMAT_BGR888,
++	DRM_FORMAT_ABGR8888,
++	DRM_FORMAT_BGRA8888,
++	DRM_FORMAT_BGRX8888,
++	DRM_FORMAT_XBGR8888,
++	DRM_FORMAT_ABGR1555,
++	DRM_FORMAT_BGRA5551,
++	DRM_FORMAT_XBGR1555,
++	DRM_FORMAT_BGRX5551,
++	DRM_FORMAT_ABGR4444,
++	DRM_FORMAT_BGRA4444,
++	DRM_FORMAT_BGRX4444,
++	DRM_FORMAT_XBGR4444,
++};
 +
-+	/**
-+	 * @internal_encoder: internal encoder used by writeback when
-+	 * drm_writeback_connector_init() is used.
-+	 * @encoder will be assigned to this for those cases
-+	 *
-+	 * This will be unused when drm_writeback_connector_init_with_encoder()
-+	 * is used.
- 	 */
--	struct drm_encoder encoder;
-+	struct drm_encoder internal_encoder;
+ /*************************************************************
+  * DPU sub blocks config
+  *************************************************************/
+@@ -448,6 +493,8 @@ static const struct dpu_mdp_cfg sm8250_mdp[] = {
+ 			.reg_off = 0x2C4, .bit_off = 8},
+ 	.clk_ctrls[DPU_CLK_CTRL_REG_DMA] = {
+ 			.reg_off = 0x2BC, .bit_off = 20},
++	.clk_ctrls[DPU_CLK_CTRL_WB2] = {
++			.reg_off = 0x3B8, .bit_off = 24},
+ 	},
+ };
  
- 	/**
- 	 * @pixel_formats_blob_ptr:
+@@ -1235,6 +1282,29 @@ static const struct dpu_intf_cfg qcm2290_intf[] = {
+ };
+ 
+ /*************************************************************
++ * Writeback blocks config
++ *************************************************************/
++#define WB_BLK(_name, _id, _base, _features, _clk_ctrl, \
++		__xin_id, vbif_id, _reg, _wb_done_bit) \
++	{ \
++	.name = _name, .id = _id, \
++	.base = _base, .len = 0x2c8, \
++	.features = _features, \
++	.format_list = wb2_formats, \
++	.num_formats = ARRAY_SIZE(wb2_formats), \
++	.clk_ctrl = _clk_ctrl, \
++	.xin_id = __xin_id, \
++	.vbif_idx = vbif_id, \
++	.maxlinewidth = DEFAULT_DPU_LINE_WIDTH, \
++	.intr_wb_done = DPU_IRQ_IDX(_reg, _wb_done_bit) \
++	}
++
++static const struct dpu_wb_cfg sm8250_wb[] = {
++	WB_BLK("wb_2", WB_2, 0x65000, WB_SM8250_MASK, DPU_CLK_CTRL_WB2, 6,
++			VBIF_RT, MDP_SSPP_TOP0_INTR, 4),
++};
++
++/*************************************************************
+  * VBIF sub blocks config
+  *************************************************************/
+ /* VBIF QOS remap */
+@@ -1832,6 +1902,8 @@ static void sm8250_cfg_init(struct dpu_mdss_cfg *dpu_cfg)
+ 		.intf = sm8150_intf,
+ 		.vbif_count = ARRAY_SIZE(sdm845_vbif),
+ 		.vbif = sdm845_vbif,
++		.wb_count = ARRAY_SIZE(sm8250_wb),
++		.wb = sm8250_wb,
+ 		.reg_dma_count = 1,
+ 		.dma_cfg = sm8250_regdma,
+ 		.perf = sm8250_perf_data,
+diff --git a/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_catalog.h b/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_catalog.h
+index 866fd7a..8cb6d1f 100644
+--- a/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_catalog.h
++++ b/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_catalog.h
+@@ -1,5 +1,7 @@
+ /* SPDX-License-Identifier: GPL-2.0-only */
+-/* Copyright (c) 2015-2018, 2020 The Linux Foundation. All rights reserved.
++/*
++ * Copyright (c) 2022. Qualcomm Innovation Center, Inc. All rights reserved.
++ * Copyright (c) 2015-2018, 2020 The Linux Foundation. All rights reserved.
+  */
+ 
+ #ifndef _DPU_HW_CATALOG_H
+@@ -214,6 +216,42 @@ enum {
+ };
+ 
+ /**
++  * WB sub-blocks and features
++  * @DPU_WB_LINE_MODE        Writeback module supports line/linear mode
++  * @DPU_WB_BLOCK_MODE       Writeback module supports block mode read
++  * @DPU_WB_CHROMA_DOWN,     Writeback chroma down block,
++  * @DPU_WB_DOWNSCALE,       Writeback integer downscaler,
++  * @DPU_WB_DITHER,          Dither block
++  * @DPU_WB_TRAFFIC_SHAPER,  Writeback traffic shaper bloc
++  * @DPU_WB_UBWC,            Writeback Universal bandwidth compression
++  * @DPU_WB_YUV_CONFIG       Writeback supports output of YUV colorspace
++  * @DPU_WB_PIPE_ALPHA       Writeback supports pipe alpha
++  * @DPU_WB_XY_ROI_OFFSET    Writeback supports x/y-offset of out ROI in
++  *                          the destination image
++  * @DPU_WB_QOS,             Writeback supports QoS control, danger/safe/creq
++  * @DPU_WB_QOS_8LVL,        Writeback supports 8-level QoS control
++  * @DPU_WB_CDP              Writeback supports client driven prefetch
++  * @DPU_WB_INPUT_CTRL       Writeback supports from which pp block input pixel
++  *                          data arrives.
++  * @DPU_WB_CROP             CWB supports cropping
++  * @DPU_WB_MAX              maximum value
++  */
++enum {
++	DPU_WB_LINE_MODE = 0x1,
++	DPU_WB_BLOCK_MODE,
++	DPU_WB_UBWC,
++	DPU_WB_YUV_CONFIG,
++	DPU_WB_PIPE_ALPHA,
++	DPU_WB_XY_ROI_OFFSET,
++	DPU_WB_QOS,
++	DPU_WB_QOS_8LVL,
++	DPU_WB_CDP,
++	DPU_WB_INPUT_CTRL,
++	DPU_WB_CROP,
++	DPU_WB_MAX
++};
++
++/**
+  * VBIF sub-blocks and features
+  * @DPU_VBIF_QOS_OTLIM        VBIF supports OT Limit
+  * @DPU_VBIF_QOS_REMAP        VBIF supports QoS priority remap
+@@ -460,6 +498,7 @@ enum dpu_clk_ctrl_type {
+ 	DPU_CLK_CTRL_CURSOR1,
+ 	DPU_CLK_CTRL_INLINE_ROT0_SSPP,
+ 	DPU_CLK_CTRL_REG_DMA,
++	DPU_CLK_CTRL_WB2,
+ 	DPU_CLK_CTRL_MAX,
+ };
+ 
+@@ -608,6 +647,28 @@ struct dpu_intf_cfg  {
+ };
+ 
+ /**
++ * struct dpu_wb_cfg - information of writeback blocks
++ * @DPU_HW_BLK_INFO:    refer to the description above for DPU_HW_BLK_INFO
++ * @vbif_idx:           vbif client index
++ * @maxlinewidth:       max line width supported by writeback block
++ * @xin_id:             bus client identifier
++ * @intr_wb_done:       interrupt index for WB_DONE
++ * @format_list:	    list of formats supported by this writeback block
++ * @num_formats:	    number of formats supported by this writeback block
++ * @clk_ctrl:	        clock control identifier
++ */
++struct dpu_wb_cfg {
++	DPU_HW_BLK_INFO;
++	u8 vbif_idx;
++	u32 maxlinewidth;
++	u32 xin_id;
++	s32 intr_wb_done;
++	const u32 *format_list;
++	u32 num_formats;
++	enum dpu_clk_ctrl_type clk_ctrl;
++};
++
++/**
+  * struct dpu_vbif_dynamic_ot_cfg - dynamic OT setting
+  * @pps                pixel per seconds
+  * @ot_limit           OT limit to use up to specified pixel per second
+@@ -792,6 +853,9 @@ struct dpu_mdss_cfg {
+ 	u32 vbif_count;
+ 	const struct dpu_vbif_cfg *vbif;
+ 
++	u32 wb_count;
++	const struct dpu_wb_cfg *wb;
++
+ 	u32 reg_dma_count;
+ 	struct dpu_reg_dma_cfg dma_cfg;
+ 
 -- 
 2.7.4
 
