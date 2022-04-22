@@ -2,63 +2,51 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6A27950BFD4
-	for <lists+dri-devel@lfdr.de>; Fri, 22 Apr 2022 20:36:33 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 730E350BFD6
+	for <lists+dri-devel@lfdr.de>; Fri, 22 Apr 2022 20:36:38 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 6A6AB10E5B5;
-	Fri, 22 Apr 2022 18:36:31 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 7FE0310E5C2;
+	Fri, 22 Apr 2022 18:36:36 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-oa1-x2b.google.com (mail-oa1-x2b.google.com
- [IPv6:2001:4860:4864:20::2b])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 037E310E5B5
- for <dri-devel@lists.freedesktop.org>; Fri, 22 Apr 2022 18:36:28 +0000 (UTC)
-Received: by mail-oa1-x2b.google.com with SMTP id
- 586e51a60fabf-e5e433d66dso9502402fac.5
- for <dri-devel@lists.freedesktop.org>; Fri, 22 Apr 2022 11:36:27 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
- h=from:to:cc:subject:date:message-id:in-reply-to:references
- :mime-version:content-transfer-encoding;
- bh=NYDzvgMtPv0Sra3reRjLoO4qoRcfqTmm12kpUHj+OS0=;
- b=H1z1ukKqcayCONXY3N4axNdhGrsSGil5NuQyOE0n43I8ZNeWh3qoP3ubUAU/ZFz3GL
- q6V1bYUHKP7ry5uTl+Nqeiyl0HHGlaAhVyK8gwZ7FHT3WFCt5aTTiOEytuE7qFAsDvz4
- QQK56sHMDhdW77+hcddKWxQvrh61lzW6cp45q6JWRzqvnhxJWd+HsK+2r9V2GisFrg7C
- 0sQIqU3RxgEwCJCGQzEOqYyRoWd3eD4T6jUKpVMbzvnLnqAnd8wDFf+oTk05JQsIFHKs
- fr/VhkQiMIaVK+AQAeeHCWTuyFGd5Z2JQJytnGaLsnCNSkYs6QSC9ibC9pJKDUzF3KDN
- GCLg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
- :references:mime-version:content-transfer-encoding;
- bh=NYDzvgMtPv0Sra3reRjLoO4qoRcfqTmm12kpUHj+OS0=;
- b=QD5cZ9l8HjKW9IOK4BN6j0772YFRKgjvmIi3vYuViz+WaYeNvBhGPoiO1UJQuPltji
- PMHpTaa2zmAYglijRBWGEHBHK1fJGwGA/uS3LND4QCoMn2x7lLdxTNuMxig8e5TvZ+nn
- SPRMiSb4WaTcoFS7/O5jq9CbpddLUiU/hRjDczgYM9ks/J+ckuklNhtP0pm4REP5/MXu
- RXDFScow50VV67C5xdF1VtUEEU6TjST0RUAaF4rKsbW9mOkescsckgCmuUmkNj8uCLnS
- cBv+MejLpofZEXqbK3t9OpYnoWm7T5jb4y0tx7JpFUy3k27Qa/NIizaHzCPYGD01lTb5
- n+QA==
-X-Gm-Message-State: AOAM530pffh4op9mPOEyK9bm7c8UfOK1QtsiunWSY+ckJtXdbn9m9KLd
- jvJXgKUxq9ArrD0b/nubnMuMQcx8VZo=
-X-Google-Smtp-Source: ABdhPJzZCTIYiwI+B3EooHwCeHAFkqZ1S/tyC5G9TQ0cxP6AxhE6Y+x+gwqQgIh0rTKh+nbhrRGovQ==
-X-Received: by 2002:a05:6870:2425:b0:de:2fb0:1caa with SMTP id
- n37-20020a056870242500b000de2fb01caamr2642796oap.115.1650652587306; 
- Fri, 22 Apr 2022 11:36:27 -0700 (PDT)
-Received: from localhost.localdomain ([2804:14c:485:4b69:9f29:454f:1c77:1b6b])
- by smtp.gmail.com with ESMTPSA id
- h21-20020a056808015500b00323c43663e2sm1006651oie.32.2022.04.22.11.36.24
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Fri, 22 Apr 2022 11:36:26 -0700 (PDT)
-From: Fabio Estevam <festevam@gmail.com>
-To: sam@ravnborg.org
-Subject: [PATCH v2 2/2] drm/panel: simple: Add Startek KD070WVFPA043-C069A
- panel support
-Date: Fri, 22 Apr 2022 15:36:14 -0300
-Message-Id: <20220422183614.1762470-2-festevam@gmail.com>
-X-Mailer: git-send-email 2.25.1
-In-Reply-To: <20220422183614.1762470-1-festevam@gmail.com>
-References: <20220422183614.1762470-1-festevam@gmail.com>
+Received: from mailrelay3-1.pub.mailoutpod1-cph3.one.com
+ (mailrelay3-1.pub.mailoutpod1-cph3.one.com [46.30.210.184])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 1EFDD10E5C2
+ for <dri-devel@lists.freedesktop.org>; Fri, 22 Apr 2022 18:36:27 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ravnborg.org; s=rsa1;
+ h=in-reply-to:content-type:mime-version:references:message-id:subject:cc:to:
+ from:date:from;
+ bh=4uzR2rK5OCZlYEp9+SK873slcwW5cQ56te5TQ7xXqds=;
+ b=Dq/d11yNs0c0Yje18A2awkeT1AN9jzcp8k74eRR/z7ltGHxgFUmhXT486i9E/LhL58C5yV4JbPyRe
+ UwEPCOxRMyBNT1ttXw+8H69yZxKoz5w2X8helEBkBrvheq8U4EqPz8xyRqS7SK/sCJ+1ulJ5FVjEox
+ WZBrefsGw4rWE6lrSrfGUB7Gf6atLQiW/9xw3QomFzzFapqJQPE/fFHtgUdBi0lMGuMChlFi9Ci5pp
+ mORBjxDSSqI4odnVj2D7INU4FoVa+2hAAd7yz6WFBwH0UpbumFrGXlNCLPbQtsQT20yTZdlYeAnBGn
+ ufI9V0oL9YD4L6Yfw9Vz3lEBF0LNHnQ==
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed;
+ d=ravnborg.org; s=ed1;
+ h=in-reply-to:content-type:mime-version:references:message-id:subject:cc:to:
+ from:date:from;
+ bh=4uzR2rK5OCZlYEp9+SK873slcwW5cQ56te5TQ7xXqds=;
+ b=n3LhNgSWVeE4975Bv0IpwciusAyJtmRbpRQs1yQUZ3YpyizFHquNyUdTL1kl/QqKrQE1NLr+rp0GU
+ K88ORQaAQ==
+X-HalOne-Cookie: bf7b9af81cc9e97e32a0b3080ed448e6a6af2b0c
+X-HalOne-ID: 1dc91fae-c26b-11ec-be69-d0431ea8bb03
+Received: from mailproxy4.cst.dirpod3-cph3.one.com
+ (80-162-45-141-cable.dk.customer.tdc.net [80.162.45.141])
+ by mailrelay3.pub.mailoutpod1-cph3.one.com (Halon) with ESMTPSA
+ id 1dc91fae-c26b-11ec-be69-d0431ea8bb03;
+ Fri, 22 Apr 2022 18:36:26 +0000 (UTC)
+Date: Fri, 22 Apr 2022 20:36:24 +0200
+From: Sam Ravnborg <sam@ravnborg.org>
+To: Marek Vasut <marex@denx.de>
+Subject: Re: [PATCH v3 3/4] drm: mxsfb: Factor out mxsfb_set_mode()
+Message-ID: <YmL1qF4y46OME2+d@ravnborg.org>
+References: <20220417020800.336675-1-marex@denx.de>
+ <20220417020800.336675-3-marex@denx.de>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20220417020800.336675-3-marex@denx.de>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -71,75 +59,25 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Fabio Estevam <festevam@denx.de>, devicetree@vger.kernel.org,
- robh+dt@kernel.org, hs@denx.de, dri-devel@lists.freedesktop.org
+Cc: Peng Fan <peng.fan@nxp.com>,
+ Alexander Stein <alexander.stein@ew.tq-group.com>,
+ dri-devel@lists.freedesktop.org,
+ Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
+ Robby Cai <robby.cai@nxp.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-From: Heiko Schocher <hs@denx.de>
-
-Add Startek KD070WVFPA043-C069A 7" TFT LCD panel support.
-
-Signed-off-by: Heiko Schocher <hs@denx.de>
-Signed-off-by: Fabio Estevam <festevam@denx.de>
----
-Changes since v1:
-- Put the panel entry in the correct order (Sam).
-
- drivers/gpu/drm/panel/panel-simple.c | 33 ++++++++++++++++++++++++++++
- 1 file changed, 33 insertions(+)
-
-diff --git a/drivers/gpu/drm/panel/panel-simple.c b/drivers/gpu/drm/panel/panel-simple.c
-index a34f4198a534..61d82d7be1ba 100644
---- a/drivers/gpu/drm/panel/panel-simple.c
-+++ b/drivers/gpu/drm/panel/panel-simple.c
-@@ -3284,6 +3284,36 @@ static const struct panel_desc starry_kr070pe2t = {
- 	.connector_type = DRM_MODE_CONNECTOR_DPI,
- };
- 
-+static const struct display_timing startek_kd070wvfpa_mode = {
-+	.pixelclock = { 25200000, 27200000, 30500000 },
-+	.hactive = { 800, 800, 800 },
-+	.hfront_porch = { 19, 44, 115 },
-+	.hback_porch = { 5, 16, 101 },
-+	.hsync_len = { 1, 2, 100 },
-+	.vactive = { 480, 480, 480 },
-+	.vfront_porch = { 5, 43, 67 },
-+	.vback_porch = { 5, 5, 67 },
-+	.vsync_len = { 1, 2, 66 },
-+};
-+
-+static const struct panel_desc startek_kd070wvfpa = {
-+	.timings = &startek_kd070wvfpa_mode,
-+	.num_timings = 1,
-+	.bpc = 8,
-+	.size = {
-+		.width = 152,
-+		.height = 91,
-+	},
-+	.delay = {
-+		.prepare = 20,
-+		.enable = 200,
-+		.disable = 200,
-+	},
-+	.bus_flags = DRM_BUS_FLAG_PIXDATA_DRIVE_POSEDGE,
-+	.bus_format = MEDIA_BUS_FMT_RGB888_1X24,
-+	.connector_type = DRM_MODE_CONNECTOR_DPI,
-+};
-+
- static const struct display_timing tsd_tst043015cmhx_timing = {
- 	.pixelclock = { 5000000, 9000000, 12000000 },
- 	.hactive = { 480, 480, 480 },
-@@ -3990,6 +4020,9 @@ static const struct of_device_id platform_of_match[] = {
- 	}, {
- 		.compatible = "starry,kr070pe2t",
- 		.data = &starry_kr070pe2t,
-+	}, {
-+		.compatible = "startek,kd070wvfpa",
-+		.data = &startek_kd070wvfpa,
- 	}, {
- 		.compatible = "team-source-display,tst043015cmhx",
- 		.data = &tsd_tst043015cmhx,
--- 
-2.25.1
-
+On Sun, Apr 17, 2022 at 04:07:59AM +0200, Marek Vasut wrote:
+> Pull mode registers programming from mxsfb_enable_controller() into
+> dedicated function mxsfb_set_mode(). This is a clean up. No functional
+> change.
+> 
+> Signed-off-by: Marek Vasut <marex@denx.de>
+> Cc: Alexander Stein <alexander.stein@ew.tq-group.com>
+> Cc: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+> Cc: Lucas Stach <l.stach@pengutronix.de>
+> Cc: Peng Fan <peng.fan@nxp.com>
+> Cc: Robby Cai <robby.cai@nxp.com>
+> Cc: Sam Ravnborg <sam@ravnborg.org>
+> Cc: Stefan Agner <stefan@agner.ch>
+Acked-by: Sam Ravnborg <sam@ravnborg.org>
