@@ -2,52 +2,61 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id D49BA50BFCF
-	for <lists+dri-devel@lfdr.de>; Fri, 22 Apr 2022 20:35:51 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 012E050BFD3
+	for <lists+dri-devel@lfdr.de>; Fri, 22 Apr 2022 20:36:29 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id D392610E58A;
-	Fri, 22 Apr 2022 18:35:49 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id E7C6A10E5AE;
+	Fri, 22 Apr 2022 18:36:26 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mailrelay1-1.pub.mailoutpod1-cph3.one.com
- (mailrelay1-1.pub.mailoutpod1-cph3.one.com [46.30.210.182])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 93B3F10E58A
- for <dri-devel@lists.freedesktop.org>; Fri, 22 Apr 2022 18:35:48 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ravnborg.org; s=rsa1;
- h=in-reply-to:content-type:mime-version:references:message-id:subject:cc:to:
- from:date:from;
- bh=6IKssA/iEecDo5WQMi/mnE4FEbWoQThT+aPPMeRPsQA=;
- b=rO+tgkzYKkXDHqlepewvx5Hd6gPP3CE90Wn6M3YcZu1/kWLXUJJmOr85ntpw91e2LGSb7XwgQipF9
- UkHfxGa9jCy8agoQUNDqjPGDOi46E1nx72Hnu+z/0UG4loqGI1fAT2dREz/vKcee8mdKsLCwMnb9a/
- Tiop1FQMQMLh4cFP2JbAkVpZDJR19YJHD6vYJj5tEgniRknw/+Wrw07SIUFqEucbTHzrubYnA8rD0+
- ZCi2SMgXCvBxmd0cUifMFP9QyqWQ3/aNARDHa8T1XjVsQeuv0bq4uBuWivexyQtIPTslL5om0Xx6hG
- puGlo8w9aX665Z2wssxIE32DR8QOEFA==
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed;
- d=ravnborg.org; s=ed1;
- h=in-reply-to:content-type:mime-version:references:message-id:subject:cc:to:
- from:date:from;
- bh=6IKssA/iEecDo5WQMi/mnE4FEbWoQThT+aPPMeRPsQA=;
- b=AQo5pHSBEA3TovpKP9YZcZTp88wT2s4X4UgDor9xsnAESQlcrBIKv+EcTlmdflSx7A9tLjdgfiW5v
- 96/9oiKDA==
-X-HalOne-Cookie: c773f9ba0d50bc9cfc21506b7e4b4f45e03fd49b
-X-HalOne-ID: 06212fd4-c26b-11ec-a6b6-d0431ea8a283
-Received: from mailproxy4.cst.dirpod3-cph3.one.com
- (80-162-45-141-cable.dk.customer.tdc.net [80.162.45.141])
- by mailrelay1.pub.mailoutpod1-cph3.one.com (Halon) with ESMTPSA
- id 06212fd4-c26b-11ec-a6b6-d0431ea8a283;
- Fri, 22 Apr 2022 18:35:46 +0000 (UTC)
-Date: Fri, 22 Apr 2022 20:35:44 +0200
-From: Sam Ravnborg <sam@ravnborg.org>
-To: Marek Vasut <marex@denx.de>
-Subject: Re: [PATCH v3 2/4] drm: mxsfb: Replace mxsfb_get_fb_paddr() with
- drm_fb_cma_get_gem_addr()
-Message-ID: <YmL1gOUzbC30VnaQ@ravnborg.org>
-References: <20220417020800.336675-1-marex@denx.de>
- <20220417020800.336675-2-marex@denx.de>
+Received: from mail-oa1-x2b.google.com (mail-oa1-x2b.google.com
+ [IPv6:2001:4860:4864:20::2b])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 960C110E5AE
+ for <dri-devel@lists.freedesktop.org>; Fri, 22 Apr 2022 18:36:25 +0000 (UTC)
+Received: by mail-oa1-x2b.google.com with SMTP id
+ 586e51a60fabf-e67799d278so5677618fac.11
+ for <dri-devel@lists.freedesktop.org>; Fri, 22 Apr 2022 11:36:25 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
+ h=from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=LSNY6HVO8IFreVRhOftkxSgz6DO0IOlvH+QazxsX1ho=;
+ b=Iba2vVvBxtXSgnDlhWMHnfn96Hw0popi3Q7X963rynCXrctVGtncOJ2BaTymYuw6aa
+ ylEAMeGLE5LIVd+56qR62jkJWVbauhLxJCrY8KZQ6KU28EvNMuIkY1hNcGK5dNqsV6EG
+ Ig1l8q5T2NYNaYWWuRzkA2vpuvCooQfyJAGDipH7rZ2nx1uVIODj4MWrQ1uwlc8wYCLa
+ mW3lvlqVLo0/dK3reD3uqW9yijX8KXORlR7NGZPH8DQMCNj5Rc+yPRfTCcSo3V1clL0m
+ ukYu2v+0t+19GjICJkQr3LUhN/oaY1Xptv4+hxNRXIQeMMwEBzFA/RybEE2V8EaQXvSg
+ ZIpQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=LSNY6HVO8IFreVRhOftkxSgz6DO0IOlvH+QazxsX1ho=;
+ b=RP48y6ruiSHdnLFd4LA8oSrjzUxdpMn5vAnMaAnFBZt/R7ZJvhV2ZEu88VMWFNIdcJ
+ mfFoB+9vW1CPBbYwC0+hci7vI8F3WTNgpK7g1IRpjeznCnSAzIlcFxfAQmBXgRIvUTJX
+ syTOuiHPRJyxc1Fab5JNrq1kfx9naq3/hRlx3XvlSm4GKfmeKdIsWbLOr2BtRCHo/TFZ
+ u8mQe7XiN9ko+ovWAMzE5mnac39TYyblZqH1bUBuIdsa5tc+nk5UHLfFeOjlp/LcvkWt
+ 35uyI3E6vXP8uOVBEQQSns1nUOqE/w9WOBAiIxHefTmYjgOer0MaJ4BLPu0Ac4Q8ro6t
+ xw7w==
+X-Gm-Message-State: AOAM5308++geBKQQxqc+h9XXzU+vBwboURYkHBkYXDWaYM1JErC5a1p0
+ Z1J+qQwfHdDGV45Cd9nMUj21pZnA1tc=
+X-Google-Smtp-Source: ABdhPJxoFP1/hipX77FqcQUyEAOSv1tW+vEbmuu6sWAEFvAKoa0D0HwsO6XZftkvjo/0jL+bQA2bkw==
+X-Received: by 2002:a05:6870:f29a:b0:de:eaa4:233a with SMTP id
+ u26-20020a056870f29a00b000deeaa4233amr2586448oap.137.1650652584580; 
+ Fri, 22 Apr 2022 11:36:24 -0700 (PDT)
+Received: from localhost.localdomain ([2804:14c:485:4b69:9f29:454f:1c77:1b6b])
+ by smtp.gmail.com with ESMTPSA id
+ h21-20020a056808015500b00323c43663e2sm1006651oie.32.2022.04.22.11.36.22
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Fri, 22 Apr 2022 11:36:24 -0700 (PDT)
+From: Fabio Estevam <festevam@gmail.com>
+To: sam@ravnborg.org
+Subject: [PATCH v2 1/2] dt-bindings: display: simple: Add Startek
+ KD070WVFPA043-C069A panel
+Date: Fri, 22 Apr 2022 15:36:13 -0300
+Message-Id: <20220422183614.1762470-1-festevam@gmail.com>
+X-Mailer: git-send-email 2.25.1
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20220417020800.336675-2-marex@denx.de>
+Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -60,24 +69,37 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Peng Fan <peng.fan@nxp.com>,
- Alexander Stein <alexander.stein@ew.tq-group.com>,
- dri-devel@lists.freedesktop.org,
- Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
- Robby Cai <robby.cai@nxp.com>
+Cc: Fabio Estevam <festevam@denx.de>, devicetree@vger.kernel.org,
+ robh+dt@kernel.org, hs@denx.de, dri-devel@lists.freedesktop.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Sun, Apr 17, 2022 at 04:07:58AM +0200, Marek Vasut wrote:
-> Replace mxsfb_get_fb_paddr() with drm_fb_cma_get_gem_addr() to correctly handle
-> FB offset.
-> 
-> Signed-off-by: Marek Vasut <marex@denx.de>
-> Cc: Alexander Stein <alexander.stein@ew.tq-group.com>
-> Cc: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-> Cc: Lucas Stach <l.stach@pengutronix.de>
-> Cc: Peng Fan <peng.fan@nxp.com>
-> Cc: Robby Cai <robby.cai@nxp.com>
-> Cc: Sam Ravnborg <sam@ravnborg.org>
-> Cc: Stefan Agner <stefan@agner.ch>
+From: Fabio Estevam <festevam@denx.de>
+
+Add Startek KD070WVFPA043-C069A 7" TFT LCD panel compatible string.
+
+Signed-off-by: Fabio Estevam <festevam@denx.de>
 Acked-by: Sam Ravnborg <sam@ravnborg.org>
+---
+Changes since v1:
+- None. Only added Sam's ack.
+
+ .../devicetree/bindings/display/panel/panel-simple.yaml         | 2 ++
+ 1 file changed, 2 insertions(+)
+
+diff --git a/Documentation/devicetree/bindings/display/panel/panel-simple.yaml b/Documentation/devicetree/bindings/display/panel/panel-simple.yaml
+index 1eb9dd4f8f58..e190eef66872 100644
+--- a/Documentation/devicetree/bindings/display/panel/panel-simple.yaml
++++ b/Documentation/devicetree/bindings/display/panel/panel-simple.yaml
+@@ -294,6 +294,8 @@ properties:
+       - starry,kr070pe2t
+         # Starry 12.2" (1920x1200 pixels) TFT LCD panel
+       - starry,kr122ea0sra
++        # Startek KD070WVFPA043-C069A 7" TFT LCD panel
++      - startek,kd070wvfpa
+         # Team Source Display Technology TST043015CMHX 4.3" WQVGA TFT LCD panel
+       - team-source-display,tst043015cmhx
+         # Tianma Micro-electronics TM070JDHG30 7.0" WXGA TFT LCD panel
+-- 
+2.25.1
+
