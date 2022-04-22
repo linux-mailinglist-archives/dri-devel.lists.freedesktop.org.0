@@ -2,44 +2,47 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5B0C550B4E9
-	for <lists+dri-devel@lfdr.de>; Fri, 22 Apr 2022 12:23:07 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 2A97F50B4ED
+	for <lists+dri-devel@lfdr.de>; Fri, 22 Apr 2022 12:23:36 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 9C3ED10E810;
-	Fri, 22 Apr 2022 10:23:03 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 380CE10E040;
+	Fri, 22 Apr 2022 10:23:34 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from phobos.denx.de (phobos.denx.de
  [IPv6:2a01:238:438b:c500:173d:9f52:ddab:ee01])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 9A32110E923
- for <dri-devel@lists.freedesktop.org>; Fri, 22 Apr 2022 10:23:02 +0000 (UTC)
-Received: from tr.lan (ip-86-49-12-201.net.upcbroadband.cz [86.49.12.201])
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits))
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 00E4810E039
+ for <dri-devel@lists.freedesktop.org>; Fri, 22 Apr 2022 10:23:32 +0000 (UTC)
+Received: from [127.0.0.1] (p578adb1c.dip0.t-ipconnect.de [87.138.219.28])
+ (using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits))
  (No client certificate requested)
  (Authenticated sender: marex@denx.de)
- by phobos.denx.de (Postfix) with ESMTPSA id 9A5A083B9F;
- Fri, 22 Apr 2022 12:23:00 +0200 (CEST)
+ by phobos.denx.de (Postfix) with ESMTPSA id 80CB88186D;
+ Fri, 22 Apr 2022 12:23:31 +0200 (CEST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=denx.de;
- s=phobos-20191101; t=1650622980;
- bh=/iwooumcqtJMLGGuavLpat2gLSjibsnq0Uy2lYXenkc=;
- h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
- b=Dan7sHzoXvM76RZ3cM7bAjzr9gcwaF/SAmrw5EkTBEddffdeh5Vfc6nAnUElT1wG1
- bjDMlX9aLH1k2hj1BanBfWNwVKI1qzM9LAeBKCusKS6KQxJLT9/85HT5JP685vvsNe
- GB6fH2y8ldl2QY+jQAFyCEKNMwJC4V4CM7ZgVO5AyZhBaSQ2qBdIfQg6MRjpX9UZmX
- KSaCg9mvP6/Je4+8e3+M+vmYhB0UIDDZqCHguvgdIhMtLhcTxB6vuVPHW0PVOm4mkH
- ojzkpFe63quhfZZuTF4ZH8pppFvxQJRLeYG9yc7gBsIDMVmSBFnZdkkrYTWG/fVDcg
- DX92UoRvGdRvg==
-From: Marek Vasut <marex@denx.de>
-To: dri-devel@lists.freedesktop.org
-Subject: [PATCH v2 2/2] drm/panel: simple: Add DataImage FG040346DSSWBG04
- panel support
-Date: Fri, 22 Apr 2022 12:22:42 +0200
-Message-Id: <20220422102242.18959-2-marex@denx.de>
-X-Mailer: git-send-email 2.35.1
-In-Reply-To: <20220422102242.18959-1-marex@denx.de>
-References: <20220422102242.18959-1-marex@denx.de>
+ s=phobos-20191101; t=1650623011;
+ bh=PjfleyKFgNt80rxnsoJ/g6cPfm1pwLqUhJc0ieg/wK8=;
+ h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
+ b=oKpsa7cvM6EYnbDFXQqkMHrgAAZeH7ZUlTah4uS1g21iD++XSomdQ9u+H/sS9BBBa
+ MbhEMVRRz0F4DzdPRqi4WFqYKgJ61Ab+WyhpbYMc5vSHHucoHhbA1+6i2QxG3b4jeS
+ N4S8K0Irw0DnmivKVQ+YYYjjHXaycaOaRtmvd5u75Ht5YI1NPhlcMUb04meEfMBHui
+ bj3hn3QmmbFt1fXjJsRYV0cxeB+grkkGWhbGaOIp86JerHQW7j/BnQZPv1gZ2E8xxh
+ tCrXgcaQ1joNxwrujElYKYifSBahKnvjg53Y2fhDAyGxXBkIaRbGIz4Z6Dzg4oYWYD
+ 3wOK9XiHwn1bg==
+Message-ID: <3ca83315-1163-a690-c79b-bbab9f85a395@denx.de>
+Date: Fri, 22 Apr 2022 12:23:31 +0200
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.8.0
+Subject: Re: FG040346DSSWBG04 patch review
+Content-Language: en-US
+To: Thomas Zimmermann <tzimmermann@suse.de>, Sam Ravnborg <sam@ravnborg.org>
+References: <718e8029-b6a8-f221-156c-ac8ac84a8d77@denx.de>
+ <9dca836a-bd84-d200-fc01-56e4d6f13eb9@suse.de>
+From: Marek Vasut <marex@denx.de>
+In-Reply-To: <9dca836a-bd84-d200-fc01-56e4d6f13eb9@suse.de>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
 X-Virus-Scanned: clamav-milter 0.103.5 at phobos.denx.de
 X-Virus-Status: Clean
 X-BeenThere: dri-devel@lists.freedesktop.org
@@ -54,71 +57,23 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Marek Vasut <marex@denx.de>, Sam Ravnborg <sam@ravnborg.org>,
- Thomas Zimmermann <tzimmermann@suse.de>, robert.foss@linaro.org
+Cc: dri-devel <dri-devel@lists.freedesktop.org>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Add DataImage FG040346DSSWBG04 4.3" 480x272 TFT LCD 24bit DPI panel
-support.
+On 4/22/22 10:37, Thomas Zimmermann wrote:
+> Hi
+> 
+> Am 21.04.22 um 23:59 schrieb Marek Vasut:
+>> Hello all,
+>>
+>> could either of you please have a look at these two panel patches ?
+>> It is yet another DPI panel, but I would like to get some AB/RB on it 
+>> before applying.
+>>
+>> https://patchwork.freedesktop.org/patch/482306/
+>> https://patchwork.freedesktop.org/patch/482307/
+> 
+> Acked-by: Thomas Zimmermann <tzimmermann@suse.de>
 
-Acked-by: Thomas Zimmermann <tzimmermann@suse.de>
-Signed-off-by: Marek Vasut <marex@denx.de>
-Cc: Sam Ravnborg <sam@ravnborg.org>
-Cc: Thomas Zimmermann <tzimmermann@suse.de>
-To: dri-devel@lists.freedesktop.org
----
-V2: Add AB from Thomas
----
- drivers/gpu/drm/panel/panel-simple.c | 28 ++++++++++++++++++++++++++++
- 1 file changed, 28 insertions(+)
-
-diff --git a/drivers/gpu/drm/panel/panel-simple.c b/drivers/gpu/drm/panel/panel-simple.c
-index a34f4198a534..3c35f8a32d32 100644
---- a/drivers/gpu/drm/panel/panel-simple.c
-+++ b/drivers/gpu/drm/panel/panel-simple.c
-@@ -1402,6 +1402,31 @@ static const struct panel_desc chunghwa_claa101wb01 = {
- 	.connector_type = DRM_MODE_CONNECTOR_LVDS,
- };
- 
-+static const struct display_timing dataimage_fg040346dsswbg04_timing = {
-+	.pixelclock = { 5000000, 9000000, 12000000 },
-+	.hactive = { 480, 480, 480 },
-+	.hfront_porch = { 12, 12, 12 },
-+	.hback_porch = { 12, 12, 12 },
-+	.hsync_len = { 21, 21, 21 },
-+	.vactive = { 272, 272, 272 },
-+	.vfront_porch = { 4, 4, 4 },
-+	.vback_porch = { 4, 4, 4 },
-+	.vsync_len = { 8, 8, 8 },
-+};
-+
-+static const struct panel_desc dataimage_fg040346dsswbg04 = {
-+	.timings = &dataimage_fg040346dsswbg04_timing,
-+	.num_timings = 1,
-+	.bpc = 8,
-+	.size = {
-+		.width = 95,
-+		.height = 54,
-+	},
-+	.bus_format = MEDIA_BUS_FMT_RGB888_1X24,
-+	.bus_flags = DRM_BUS_FLAG_DE_HIGH | DRM_BUS_FLAG_PIXDATA_DRIVE_POSEDGE,
-+	.connector_type = DRM_MODE_CONNECTOR_DPI,
-+};
-+
- static const struct drm_display_mode dataimage_scf0700c48ggu18_mode = {
- 	.clock = 33260,
- 	.hdisplay = 800,
-@@ -3768,6 +3793,9 @@ static const struct of_device_id platform_of_match[] = {
- 	}, {
- 		.compatible = "chunghwa,claa101wb01",
- 		.data = &chunghwa_claa101wb01
-+	}, {
-+		.compatible = "dataimage,fg040346dsswbg04",
-+		.data = &dataimage_fg040346dsswbg04,
- 	}, {
- 		.compatible = "dataimage,scf0700c48ggu18",
- 		.data = &dataimage_scf0700c48ggu18,
--- 
-2.35.1
-
+Thank you. Just for completeness, I sent V2 with your AB.
