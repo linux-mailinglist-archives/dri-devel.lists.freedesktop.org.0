@@ -1,53 +1,128 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id D1B3850C037
-	for <lists+dri-devel@lfdr.de>; Fri, 22 Apr 2022 21:16:43 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 16C4450C047
+	for <lists+dri-devel@lfdr.de>; Fri, 22 Apr 2022 21:23:24 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id EE0BC10E47C;
-	Fri, 22 Apr 2022 19:16:40 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 86B2810E2B3;
+	Fri, 22 Apr 2022 19:23:19 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from ams.source.kernel.org (ams.source.kernel.org [145.40.68.75])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 6B4AA10E47C
- for <dri-devel@lists.freedesktop.org>; Fri, 22 Apr 2022 19:16:39 +0000 (UTC)
-Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
- (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
- (No client certificate requested)
- by ams.source.kernel.org (Postfix) with ESMTPS id D8DC0B83080
- for <dri-devel@lists.freedesktop.org>; Fri, 22 Apr 2022 19:16:37 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 9FE80C385A9
- for <dri-devel@lists.freedesktop.org>; Fri, 22 Apr 2022 19:16:36 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1650654996;
- bh=usqLrTa+RhNIXODsvc1TquBT71WxqcNK2RxgDri8djo=;
- h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
- b=dHZdyEqPbXSmeLsuy8PRY8gXoSJpMet3UHqdYrtinR2eBd+8B/N2mmofElBUbtMxP
- q8r7n4ncrLlzphg1eptw0OcB/tkTXS7Wu5c0+2ETmdsj1L3+3zeqdF+HwcYSu+n3Uq
- 1g+pIuksyr7npaick9W4i8sLsxYXsIAz/zdYGL9VHag6K2ei3r6bOQvgiAUz5GPqwI
- GD8rl4Pj29WUDMJeHw7N6ZIi95tiQZ43R0ZteLd0w2UdCH+N/IpSZj8T4vn2EAA7dd
- GKq/Pw4mYPpOAz2Hjz6hIpuHQ54CPuvkDYSab0d4S9/Q5dgDzscYwk2MkrzQlU5y27
- m331jxLqtxgKQ==
-Received: by mail-wr1-f51.google.com with SMTP id h25so6349864wrc.13
- for <dri-devel@lists.freedesktop.org>; Fri, 22 Apr 2022 12:16:36 -0700 (PDT)
-X-Gm-Message-State: AOAM533dbeLK8su9x4WVWITcZkkwGbsSDe+fMmrL0ThjzTdDZJkoulXP
- dR5eWUSYU0kiCypLyEy3AcuhsOGFA1Vdj8cBzGw=
-X-Google-Smtp-Source: ABdhPJw6+Yao9x3BaLiJGzKRj3K3UIg0JnN9aGyxH7bzbX5jCygm3ZIZ1bsSqfcHE9peInK43hwx2CakFvcKMsS3Rps=
-X-Received: by 2002:a5d:6983:0:b0:207:a226:df4b with SMTP id
- g3-20020a5d6983000000b00207a226df4bmr5002354wru.192.1650654994816; Fri, 22
- Apr 2022 12:16:34 -0700 (PDT)
+Received: from NAM11-BN8-obe.outbound.protection.outlook.com
+ (mail-bn8nam11on2079.outbound.protection.outlook.com [40.107.236.79])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id AFB1010E2B3
+ for <dri-devel@lists.freedesktop.org>; Fri, 22 Apr 2022 19:23:18 +0000 (UTC)
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=WtSlZnGPDjnKy3dU45Vr4+5pwUXoI43ICHAHjaDR/TMyO5MQttpFxS/0tmIjpAh49M5x9v1C/yhAGMQI/PjKWqMU7n9i44fntmKhA10OmxqufI/vdPUnoJYXVUOzksDUV2nCbdRLd1ZlgEn4JrfIdhnBYbd4rwgWuV3mODhA1VVk6IYyceBOyPk7KSR2d599GtQB2lT3xC0Yq68rWUTyRDIRWi0mRaiv+RjF63QgngTH81sa74JtxbodBneQIGxn12s48aLV8uAXFBE9TNOvMFpXx14wgu+Y9mYl9T7ZuMcAylYggcTVqfwAqP9S47iEgVvHci7PiulJp2yWc8YEzw==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=CxmXiinKs/e+yCLaOT953I6wddaosmvcf06z6PmGUxE=;
+ b=R6n8c2kUH/mfZcnHk9WSIahbYn1iCx+HEdtBOLas5YF4V4Aiae94S1k/+MisX5amU7YSv52Epkfoa6a3ZKXgRzpsY2a6wl0YolzVTzQi4qFZSdMohXvMuAO8wKTvUzfZql6K1/nRUfaxLW7fg/+NxCQx3RVz/6U5ET8ArCEJDvUulv9s8fsjld/e4EP7EVk98SXVFNC72nXBNfcyNZGki5C6tHdD8edT7AhXWaMnJC/600D8SDFN2RYtvJyzt/wUJgOd0XedTqNvXATx0iXmvxutW+G7MY6GfdP/lfeeZBKOUCwJgk8xBYYUYyMTNbpB6U793ntdTEM/BI1Q856yGA==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=amd.com; dmarc=pass action=none header.from=amd.com; dkim=pass
+ header.d=amd.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1; 
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=CxmXiinKs/e+yCLaOT953I6wddaosmvcf06z6PmGUxE=;
+ b=F5EiJc8rK3MWJKOS/GunAUO4k5Br5zBYN6Ib8wpixP6FdsdfvKZl/ksfURNP7mlv/wJOm0e8Ucd10L4TQFxkF0mLkWKS1+mRlZwzx3W05YXDqHoxLl8sUDgr2Clolo0bKT/OOt9VPYUWXX0bhp+ZtpPQwbuNUexEqREKROw/qgo=
+Authentication-Results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=amd.com;
+Received: from BN8PR12MB3587.namprd12.prod.outlook.com (2603:10b6:408:43::13)
+ by BL1PR12MB5222.namprd12.prod.outlook.com (2603:10b6:208:31e::19)
+ with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.5186.15; Fri, 22 Apr
+ 2022 19:23:15 +0000
+Received: from BN8PR12MB3587.namprd12.prod.outlook.com
+ ([fe80::a5fb:7137:5e64:cf8]) by BN8PR12MB3587.namprd12.prod.outlook.com
+ ([fe80::a5fb:7137:5e64:cf8%5]) with mapi id 15.20.5164.026; Fri, 22 Apr 2022
+ 19:23:15 +0000
+Message-ID: <c4585bab-72f4-4574-958e-483af52af6ed@amd.com>
+Date: Fri, 22 Apr 2022 21:23:09 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.7.0
+Subject: Re: [PATCH] drm/vmwgfx: reserve fence slots on new resources
+Content-Language: en-US
+To: Zack Rusin <zackr@vmware.com>,
+ "dri-devel@lists.freedesktop.org" <dri-devel@lists.freedesktop.org>,
+ Linux-graphics-maintainer <Linux-graphics-maintainer@vmware.com>,
+ "ckoenig.leichtzumerken@gmail.com" <ckoenig.leichtzumerken@gmail.com>
+References: <20220422092002.32427-1-christian.koenig@amd.com>
+ <2dda3fcb-6edf-3f9e-bfd7-34272eec55e1@amd.com>
+ <701da185ea77cd84fed44b49d60f30a7750f955e.camel@vmware.com>
+From: =?UTF-8?Q?Christian_K=c3=b6nig?= <christian.koenig@amd.com>
+In-Reply-To: <701da185ea77cd84fed44b49d60f30a7750f955e.camel@vmware.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
+X-ClientProxiedBy: AS9PR06CA0011.eurprd06.prod.outlook.com
+ (2603:10a6:20b:462::10) To BN8PR12MB3587.namprd12.prod.outlook.com
+ (2603:10b6:408:43::13)
 MIME-Version: 1.0
-References: <20220419163810.2118169-1-arnd@kernel.org>
- <20220422170530.GA2338209@roeck-us.net>
-In-Reply-To: <20220422170530.GA2338209@roeck-us.net>
-From: Arnd Bergmann <arnd@kernel.org>
-Date: Fri, 22 Apr 2022 21:16:18 +0200
-X-Gmail-Original-Message-ID: <CAK8P3a3V=qxUqYT3Yt=dpXVv58-Y+HVi952wO6D4LPN5NNphGA@mail.gmail.com>
-Message-ID: <CAK8P3a3V=qxUqYT3Yt=dpXVv58-Y+HVi952wO6D4LPN5NNphGA@mail.gmail.com>
-Subject: Re: [PATCH v2 00/48] ARM: PXA multiplatform support
-To: Guenter Roeck <linux@roeck-us.net>
-Content-Type: text/plain; charset="UTF-8"
+X-MS-PublicTrafficType: Email
+X-MS-Office365-Filtering-Correlation-Id: f26d08bc-633b-47e9-c2f2-08da24958c57
+X-MS-TrafficTypeDiagnostic: BL1PR12MB5222:EE_
+X-Microsoft-Antispam-PRVS: <BL1PR12MB5222BB02C0DD42405F8FC29D83F79@BL1PR12MB5222.namprd12.prod.outlook.com>
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: BCL:0;
+X-Microsoft-Antispam-Message-Info: z7j4jlP4KIim6rB7Tyns7mNY8fR0Rv1loe44c3uRsDwesiZyDNKL+7m0SypT/VOXCEVFXqPhDM6ZX6q2tGQukKc8joF+kPsK23ifKgZdMLVFHNcQkwB4EohGOYirBi7FwP0EwJ+/wTqvHF3EEkx4ByiHEQZDM+4qAoZWGwYyXDNbtRGpSCSFOL6oBIvN3begvsz4DZ31QKaustZOFzwGpsMUcmHsrspQPDnlvDJG8K4D348eN1+XocsC776/GQz9qG9HLSIPmdPed6N+SE8sTn9/DS5eKh0p9wnzHAL7pfHHJe6NlOgSt4KWbR8y1yLb98rK4AuSavS0rQXKNksH1etU23ilE+jXESC3l7Jdvh08NIzn5hqk0H840KaykiiDnXcir8Na+YnQc3EcNAZC1/B+ybOUo5eAf2M3Zv/+sIXrRL+VjLzgpMBvKdFufsPIAYrQQiW+K/wywspF9ytt5JhFKp1/dIVCsLBOXnd+FtnvPjoNI2cK3D+FZgsb2Mu48kO7v4uLEP+FJZHxzaxJi/cTwwf4lJJ5kHYz5RSZQWQ8a8Mmg/CUJA90MPgGK0k+0lRsWJ9s9Hgib35g0JaOu3Br+hhHX28EBo0JJAol7U/LwaOyJoh6w3JDloUfxdvcKI59oojWaWgTUP3YN46Ia/8ibzqpsKP/J9pnyxfju/zmY9mXfcYkPoN5IHeIKyNrKmtrv6Nghb0uiM51YNhK9t+jLD/gTYg7cf7hPzl7gQE=
+X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
+ IPV:NLI; SFV:NSPM; H:BN8PR12MB3587.namprd12.prod.outlook.com; PTR:; CAT:NONE;
+ SFS:(13230001)(4636009)(366004)(5660300002)(86362001)(186003)(2616005)(66574015)(66946007)(38100700002)(6666004)(6512007)(6506007)(316002)(2906002)(31696002)(6486002)(8676002)(8936002)(508600001)(110136005)(31686004)(66476007)(66556008)(36756003)(43740500002)(45980500001);
+ DIR:OUT; SFP:1101; 
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 2
+X-MS-Exchange-AntiSpam-MessageData-0: =?utf-8?B?SFR5eW8rcUNsVndBdm5HWkJ3Z3RiM2pjRTV3Q2xqNm5Sc1czRWx0WUZLNVlK?=
+ =?utf-8?B?Z1doWTE4amtoRERrdCtibDlYczZHOUZibVVlMVptYWV4WTh4VmJhWko3RmhE?=
+ =?utf-8?B?UEtYaFNXL29nZjZTeFJLT3ZGZ3BtU3F0UStDdWRrL1AyWE56ZlQ1a2wwSmNv?=
+ =?utf-8?B?bjBTV0tpRGRhWStoVnlqNjVaWUxzazNyYUc1b3NPSS9YRHg1enRCcXNBWFU2?=
+ =?utf-8?B?WmQyZ2I4K0dDSmE3U0s4aDNqeEMrbnJKRlVJSGNJMmRrbytBZWcyTUJJVDll?=
+ =?utf-8?B?bTRJdzMvOFFNYlB2MHQ5Z29MaHVneHIwRG43T3l6YitsRzFhcnV5RTFSTU85?=
+ =?utf-8?B?c1V6ako1RkFMSnJwa3ZQemxsdU5ZZDRabFNvMmcrVEhCSyt6RU52NjdlR3px?=
+ =?utf-8?B?UXM1dHhnQXZiM25raXo2eUdSK1I4VWZtbWF3Wm8rYmNOd21XVlBLTWw1OXFj?=
+ =?utf-8?B?UFJVRDUzdkJ2L0hvRDBBK0pKajVMelpZVmVoZDlVRDF0UkdBSUorRU52T0px?=
+ =?utf-8?B?WjM5Q0lrZGZJVFIxU2NYRzFXcithaFhSbkQ2eGVibXA1L3R3VHNINmpWMlAv?=
+ =?utf-8?B?a2xRbStiYjV3MlB0OEVqZ2JJSnowSmpIS2MzNWhkUjAxejJXa3YxVm5VZ3ZW?=
+ =?utf-8?B?aEIvQ2ZMK3BYS0Rrc1MxcWRtamw4T2R5T3NxRG50ajFYdFN0V3hLRkYzcVVH?=
+ =?utf-8?B?a054em51eXJvdis5TUQ2MTQ0ZEx2UDRZQWxpU0dCdGNvVHdtNUxvM2pZc1Bl?=
+ =?utf-8?B?blVYK0VWV2tBUUVPWDZCWERhVmo2Nng0VkhCeEtTYm5tVTAraVVMMTNXbDN0?=
+ =?utf-8?B?M2hNRmFUMGJLa2M2NGxzR3NEbVUvdEluYVF3RmtKcnpaazZleW1QRDhuUjdN?=
+ =?utf-8?B?T0N0WmQzc2YrYU1FdXZRVDlBM0svNkJoV1oxSnpOWXBIQnFhY1l6Vm8rT0l2?=
+ =?utf-8?B?MEJqN1ZCdEpKYmpHeFhSRUVmeWpML2diQXBFS1dlZGt1aVFDLzBaYUFrSGRt?=
+ =?utf-8?B?bFUvT1o3dlMra1JBL0Fybm9FaVFqSWtYWU9UVVdDMDYxTnpPelJobVg2V3Rz?=
+ =?utf-8?B?bDVRaE15ektCRXlpSDFpL3E2SWhscnJnMDhXQU9GamZZSzBKZHovSllCWlor?=
+ =?utf-8?B?QXZEYXBDa0ZzRHdhQ1l6UDNnQ0pGd2pEbHJJQUJUb2QvREtkaEpUOHE1OXVY?=
+ =?utf-8?B?S2tJK2VHdTVUSDlJWDU4U3NaZCtDaG16UDFqWWRlbHNBMTdoekZla0hjQ2Mv?=
+ =?utf-8?B?aE8ycythbC94OTRDTzBlVElocnZNdnhRY3Ezd25raCtUV0ZqYm5DYkYrY2Qz?=
+ =?utf-8?B?eTVCbnZKaTNqMTJGTERMYVdDUFl3K3FJTTdpcXcrNlkzL3JjNVJTT2FjZmlE?=
+ =?utf-8?B?dXhoNGNncE4zbTNjYW4zSW5EbnBGbG9oSlBHRkZHeGx5dnNjT3NCTERzWCtK?=
+ =?utf-8?B?YzlyQ1d6Ky9aVGMraGkxYW04NW1CcUJsSTY0UitYZHo2WXFEVEh0NEJnVFJO?=
+ =?utf-8?B?blRhcG1lZCsyVjhuU0lCRDZuUkFPZGhqa1lKMUFJemtCTEVwWk8xelcxS1oz?=
+ =?utf-8?B?N1ZyZDZDSlZlMy9ZcUVoWS8wUGFVdnN3SGRaS1NiMVpBQjlpQm5qTmhnQ1V2?=
+ =?utf-8?B?dU9Vci94MDVNdnBKK0FINzI1UTU0NnFuYytEb0ZVZ2xjNnV4dCtWdzE3dlZP?=
+ =?utf-8?B?cXVqWjR5cDgxUnk1Mk5uUlVEVWxSQTREYTJCdFlhT2hhN3V4cGtGUml0Ly9n?=
+ =?utf-8?B?elJEU1VLYnY5L3Jrdi9aaDJZZDV4QTZPSXRHRW9rajc3OVFCUmhNQXpnNTBk?=
+ =?utf-8?B?MGp1Ulo0T0xEVVlGNGxjekJqNTEyTFJ1b09zS0x6VUpzUDk2Wm9EWDRnYnE1?=
+ =?utf-8?B?NmQ3N2Nhd1U3ZktQRU1yTnd2R2NxTTdIa2VKZ1lqVlVvSjBGL0pFNVNHQ2RS?=
+ =?utf-8?B?RHNiSm9qYmFQWmprMDJ6WEFpWmcvazBXdkVlUkpKZDdnaVVLTUZkZHliZGNk?=
+ =?utf-8?B?V3luYlU3RTRBMnozVDlYb1BKUmdxdm1oWjVmdkVqeWtwMjIycnBieU9CNTZQ?=
+ =?utf-8?B?UjQrNmZVeE5rUnlLVU1Pei9HeGxubzZCeGMwemh3UDlvZmNoczd1NWdJZk5G?=
+ =?utf-8?B?MkRrZTZVOWIxQnNtbjZmcW5NNWpZajJPM28rakdKYkJ5WTVKN1FBczJQTFVr?=
+ =?utf-8?B?OE9WSWdjbkluMnZzYU84M1Vvelg0Yzc3RkpBcG5ZV3hvUER0OWNHVjFDdVox?=
+ =?utf-8?B?VEhTMlJMRWxHUnZUOERzTFNxRUljZHF0WXRMQUdMTUtxczRpWlNIalRJRUg1?=
+ =?utf-8?B?TWNpU3FtM2NaWS9UVFp1ZmgxMTNicE95cG50MDdFZG5GYmFQWjhMZTM0UlIr?=
+ =?utf-8?Q?2BhFVZJwgZI+suAuLTOQlTwC3DN2ga9DrN0/nVzp/TEVA?=
+X-MS-Exchange-AntiSpam-MessageData-1: hydgXDc+UC53aA==
+X-OriginatorOrg: amd.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: f26d08bc-633b-47e9-c2f2-08da24958c57
+X-MS-Exchange-CrossTenant-AuthSource: BN8PR12MB3587.namprd12.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 22 Apr 2022 19:23:15.3385 (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: QDMD0KG1QXNgvoXrLnqnqI0giyMTioki6A579BCDYHGEPglI1D0MiNXcZQSZICa0
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: BL1PR12MB5222
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -60,115 +135,33 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Ulf Hansson <ulf.hansson@linaro.org>, USB list <linux-usb@vger.kernel.org>,
- "Rafael J. Wysocki" <rafael@kernel.org>,
- Viresh Kumar <viresh.kumar@linaro.org>,
- Linux Fbdev development list <linux-fbdev@vger.kernel.org>,
- Dominik Brodowski <linux@dominikbrodowski.net>,
- "open list:BROADCOM NVRAM DRIVER" <linux-mips@vger.kernel.org>,
- IDE-ML <linux-ide@vger.kernel.org>, linux-mtd <linux-mtd@lists.infradead.org>,
- Tomas Cech <sleep_walker@suse.com>, Robert Jarzmik <robert.jarzmik@free.fr>,
- linux-clk <linux-clk@vger.kernel.org>, linux-leds@vger.kernel.org,
- linux-rtc@vger.kernel.org, Helge Deller <deller@gmx.de>,
- Marek Vasut <marek.vasut@gmail.com>, Paul Parsons <lost.distance@yahoo.com>,
- Sergey Lapin <slapin@ossfans.org>, Arnd Bergmann <arnd@arndb.de>,
- Linux PM list <linux-pm@vger.kernel.org>,
- "open list:HID CORE LAYER" <linux-input@vger.kernel.org>,
- Haojian Zhuang <haojian.zhuang@gmail.com>, Lubomir Rintel <lkundrak@v3.sk>,
- Mark Brown <broonie@kernel.org>, dri-devel <dri-devel@lists.freedesktop.org>,
- Linux ARM <linux-arm-kernel@lists.infradead.org>,
- Thomas Bogendoerfer <tsbogend@alpha.franken.de>,
- Stephen Boyd <sboyd@kernel.org>, patches@opensource.cirrus.com,
- Dmitry Torokhov <dmitry.torokhov@gmail.com>,
- linux-mmc <linux-mmc@vger.kernel.org>,
- Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
- Michael Turquette <mturquette@baylibre.com>,
- ALSA Development Mailing List <alsa-devel@alsa-project.org>,
- Daniel Mack <daniel@zonque.org>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Fri, Apr 22, 2022 at 7:05 PM Guenter Roeck <linux@roeck-us.net> wrote:
+Am 22.04.22 um 18:13 schrieb Zack Rusin:
+> On Fri, 2022-04-22 at 11:21 +0200, Christian König wrote:
+>> Am 22.04.22 um 11:20 schrieb Christian König:
+>>> When resources are allocated dynamically during an IOCTL we need to
+>>> make sure
+>>> that a fence slot is reserved so that the resulting fence can be
+>>> added in the
+>>> end.
+>> I should probably add that this is only compile tested.
+>>
+>> Zack you should probably give it a try for your issue.
+> I think we're on the right track but cotables are the only objects that
+> create a bo in the create callback so we endup double reserving all the
+> other backup objects. If you don't mind I'd prefer to move the code to
+> localize the reservation to the problematic spot. I'll send it in a sec
+> (6d0fdf27e98a ("drm/vmwgfx: Reserve fence slots on buffer objects in
+> cotables") let me know if I can add a Co-developed-by: Christian König
+> <christian.koenig@amd.com> tag to it.
+
+Sure, please go ahead. You know the code much better than I do anyway.
+
+Thanks,
+Christian.
+
 >
-> On Tue, Apr 19, 2022 at 06:37:22PM +0200, Arnd Bergmann wrote:
-> > From: Arnd Bergmann <arnd@arndb.de>
-> >
-> > This revisits a series I sent a few years ago:
-> >
-> > https://lore.kernel.org/lkml/20191018154052.1276506-1-arnd@arndb.de/
-> >
-> > All the other ARMv5 conversions are under way now, with
-> > OMAP1 being the only one still not in linux-next yet,
-> > and PXA completing the set.
-> >
-> > Most of the patches are unchanged from before, furtunately
-> > the PXA code is fairly stable. I addressed Robert's comments,
-> > pulled in two patches from Dmitry, and added the last a the
-> > final four patches to finish off the multiplatform conversion.
-> >
-> > I hope someone is left to test these on PXA: if this works,
-> > I'd like to merge it for 5.19. A git tree with these is avaialable
-> > for testing at
-> >
-> > https://git.kernel.org/pub/scm/linux/kernel/git/soc/soc.git/log/?h=pxa-multiplatform-5.18
-> >
->
-> Unfortunately that crashes for me when trying to boot from ide.
-> Bisect points to the last patch of the series.
+> z
 
-Thanks a lot for testing and the perfect bug report!
-
-> [    1.403715] 8<--- cut here ---
-> [    1.403848] Unable to handle kernel paging request at virtual address feeb000e
-> [    1.404097] [feeb000e] *pgd=00000000
-
-Ok, this is the PCI I/O space area, which starts at 0xfee00000,
-clearly the way I/O space
-gets mapped changed here. I don't yet see what happened, but it should
-be straightforward
-to find from here.
-
-> [    1.416643]  pcmcia_init_one from pcmcia_device_probe+0xe4/0x2a0
-> [    1.416882]  pcmcia_device_probe from really_probe+0xc8/0x3b4
-> [    1.417070]  really_probe from __driver_probe_device+0x9c/0x214
-> [    1.417255]  __driver_probe_device from driver_probe_device+0x38/0xe0
-> [    1.417454]  driver_probe_device from __device_attach_driver+0xa4/0x11c
-> [    1.417657]  __device_attach_driver from bus_for_each_drv+0x88/0xd8
-> [    1.417864]  bus_for_each_drv from __device_attach+0xf4/0x194
-> [    1.418047]  __device_attach from bus_probe_device+0x8c/0x94
-> [    1.418224]  bus_probe_device from device_add+0x3d0/0x894
-> [    1.418395]  device_add from pcmcia_device_add+0x2ec/0x3e0
-> [    1.418568]  pcmcia_device_add from pcmcia_card_add+0xd4/0x1a0
-> [    1.418756]  pcmcia_card_add from pcmcia_bus_add+0x44/0x4c
-> [    1.418930]  pcmcia_bus_add from socket_insert+0x12c/0x150
-> [    1.419103]  socket_insert from pccardd+0x398/0x44c
-> [    1.419257]  pccardd from kthread+0xdc/0x114
-> [    1.419400]  kthread from ret_from_fork+0x14/0x2c
-> [    1.419569] Exception stack(0xc48a5fb0 to 0xc48a5ff8)
-> [    1.419735] 5fa0:                                     00000000 00000000 00000000 00000000
-> [    1.419979] 5fc0: 00000000 00000000 00000000 00000000 00000000 00000000 00000000 00000000
-> [    1.420222] 5fe0: 00000000 00000000 00000000 00000000 00000013 00000000
-> [    1.420501] Code: 13570000 e1a06000 0a000043 e3a03002 (e5c03000)
-> [    1.420874] ---[ end trace 0000000000000000 ]---
->
-> ---
-> # bad: [7643a9ca9f8e08f71e15f89dd74863635e981e03] ARM: pxa: convert to multiplatform
-> # good: [3123109284176b1532874591f7c81f3837bbdc17] Linux 5.18-rc1
-> git bisect start 'HEAD' 'v5.18-rc1'
-> # good: [9b03d7f95bd4d97101ecb8ea1e822103b81fdb2d] ARM: pxa: mainstone-wm97xx: use gpio lookup table
-> git bisect good 9b03d7f95bd4d97101ecb8ea1e822103b81fdb2d
-> # good: [764063eee7620ea9abb940068a7ad0e7f9efa1b6] cpufreq: pxa3: move clk register access to clk driver
-> git bisect good 764063eee7620ea9abb940068a7ad0e7f9efa1b6
-> # good: [5153474f0a4388b7ddb59add4be73bfb42b2007f] ARM: mmp: remove tavorevb board support
-> git bisect good 5153474f0a4388b7ddb59add4be73bfb42b2007f
-> # good: [2746f7c78b428c8b01b691a29a972c08101ae343] ARM: PXA: fix multi-cpu build of xsc3
-> git bisect good 2746f7c78b428c8b01b691a29a972c08101ae343
-> # good: [73d5106e9489464eac84362705e93bcf3b376123] ARM: pxa: remove support for MTD_XIP
-> git bisect good 73d5106e9489464eac84362705e93bcf3b376123
-> # first bad commit: [7643a9ca9f8e08f71e15f89dd74863635e981e03] ARM: pxa: convert to multiplatform
-
-I'll back out this patch for now while investigating further.
-
-Which machine did you hit this on? Is this on hardware or in qemu?
-
-       Arnd
