@@ -1,57 +1,76 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id E79E150B56F
-	for <lists+dri-devel@lfdr.de>; Fri, 22 Apr 2022 12:42:26 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 30AE150B5C0
+	for <lists+dri-devel@lfdr.de>; Fri, 22 Apr 2022 12:57:22 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 9DE1410E8FA;
-	Fri, 22 Apr 2022 10:42:24 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 0C68310F42D;
+	Fri, 22 Apr 2022 10:57:18 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-yw1-x112e.google.com (mail-yw1-x112e.google.com
- [IPv6:2607:f8b0:4864:20::112e])
- by gabe.freedesktop.org (Postfix) with ESMTPS id A2E5310E427
- for <dri-devel@lists.freedesktop.org>; Fri, 22 Apr 2022 10:42:23 +0000 (UTC)
-Received: by mail-yw1-x112e.google.com with SMTP id
- 00721157ae682-2ec0bb4b715so80968327b3.5
- for <dri-devel@lists.freedesktop.org>; Fri, 22 Apr 2022 03:42:23 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=sP8JvrZInBak3AnrSA3yrnJGI9uRamz0KMh5AUQsofQ=;
- b=mxaV6FRRNknnsY7+E9ykC3IUZCerphaQNqbeakR5XX75pUdnHgcJJUsRJ3aXY80yJ9
- HktNrl7JztZV1ZWvWCc1if3I9Ost6qcIY13XFooCfXXscYXOh122ddiLA9zXubk6clOK
- Pmlpju9qsubHxSspDtaLqWbNUAVKqYnqX0P0h9eEiLyxBKvOeIEL9txSEe6wKokO3Xcx
- ZseIJJFtqjjxN4me2HSBYwtgVXmW4BszQiTWFy6eb9aoZFhLzZZCnUWrVso2JZ4LixRr
- ujKw/Jfyw6S0id3WlCZ+Fxy1DYCS/YjBsPgfaS7+Js25+QrYAZem9tlZZ8MtG7MuhcPM
- fEdA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=sP8JvrZInBak3AnrSA3yrnJGI9uRamz0KMh5AUQsofQ=;
- b=dFSSeg8XJEpIV5N817tyBYSkCZ5ut7p92i+WImu9sWndRhpwGV2WM35H6te6Uc9i5B
- bQUKT9zXTa6a6zV4CZ9Bq4ZKlMUatFZpBmsL49O1TRra8+YWSoUmHG7K1gnfVBWvyQpd
- UvnUrI3j+EFxR6n0W4aCzAqB/j2nrSxNuTaSFA21GJxe/7/mPC4k5s9hY4xFO6YUe+fr
- 4AXOKhsXGznzc7LzvCfqf/KFgzuY6YRJPLuvrDCBG38zaredHgLgjIEIzhm/g/p5gPN1
- Q3ggJxGCwHYLzHUkFcvRobJ3KPwi11J4LqSaVJ4P0GdoPKHejDGkeuo/FbHYsv2IFqmW
- M4bA==
-X-Gm-Message-State: AOAM530/sv7pA9A9KfaxXcdN3bDN/egseYLGDzvaj/Jg/QUDPbH3zq+K
- l2anNECfY4rlUUZ+OXvjFC43QlpBUHA1eQwLYGR1Cg==
-X-Google-Smtp-Source: ABdhPJz2tiFNiuWE0RHaKofgV7Ha+x3z1t8YOpPiDzl8uQ8X2u6bN2PirRLEPFpKZHLnbUVDQq7E3Ml0rr2qadl/3mE=
-X-Received: by 2002:a81:4c11:0:b0:2d1:1925:cd70 with SMTP id
- z17-20020a814c11000000b002d11925cd70mr3926695ywa.101.1650624142869; Fri, 22
- Apr 2022 03:42:22 -0700 (PDT)
+Received: from new3-smtp.messagingengine.com (new3-smtp.messagingengine.com
+ [66.111.4.229])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id B7D1610F443
+ for <dri-devel@lists.freedesktop.org>; Fri, 22 Apr 2022 10:57:16 +0000 (UTC)
+Received: from compute5.internal (compute5.nyi.internal [10.202.2.45])
+ by mailnew.nyi.internal (Postfix) with ESMTP id CB776580F59;
+ Fri, 22 Apr 2022 06:57:15 -0400 (EDT)
+Received: from mailfrontend2 ([10.202.2.163])
+ by compute5.internal (MEProxy); Fri, 22 Apr 2022 06:57:15 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=cerno.tech; h=cc
+ :cc:content-type:date:date:from:from:in-reply-to:in-reply-to
+ :message-id:mime-version:references:reply-to:sender:subject
+ :subject:to:to; s=fm3; t=1650625035; x=1650632235; bh=t0Vm9xILeM
+ tEm0+ZRmoAPUxhxs4H3KoDqpfSFpCeFCw=; b=YyohwOWwHOsgUBEhklxIw81jQH
+ 9k7QTlQ/m1chfbM67m+0hW+J9gC6M6REt0RZOv0kxcV3mVU0ScXWAtz8bTJoRWfr
+ h39uvBYqPEsgR7nFb0qijB/+vstZUi0TZ/how9i+VZQaoGnq2HsUShd/DZjOM72Y
+ UbnN0SFcAOLXFNkmucRsE7gGWzHf/I8SXDQN841DdKmdE9P+1T0UqTQn74Vi2pm9
+ /b13SwhKwJOQaaABmogrWklj6+cOSFo6dwcSWlMJIipbLw2teTqkYit9CbvlQsHx
+ /2bmmHf76lj9iXG9hJRVNy5Yt8FDk3ftKcfgEw2cx0UoIH9ztTjiHZ/MdTOg==
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
+ messagingengine.com; h=cc:cc:content-type:date:date:from:from
+ :in-reply-to:in-reply-to:message-id:mime-version:references
+ :reply-to:sender:subject:subject:to:to:x-me-proxy:x-me-proxy
+ :x-me-sender:x-me-sender:x-sasl-enc; s=fm1; t=1650625035; x=
+ 1650632235; bh=t0Vm9xILeMtEm0+ZRmoAPUxhxs4H3KoDqpfSFpCeFCw=; b=i
+ U8nPM70ubfTAq9JEpnksZSiKccgJS/v8kX9pGTdKcgUiBHN4rDQM/c4Lgq4JL2HR
+ iDy00wOWuSCQAZXoDyWtLxu1Utf5X88aPC0doymtVSzDLd4/S2Ep2Jj6cHBekpTG
+ 2KZkDoTxrrlmJNmgj449qTFBH3KZS9w2tLHkCrodp5EGzuuDP6/3hLw1mQSAdjb3
+ vF3oeIRT3hw/ReJoP7uA6fQkrPBGSbt9Ygbsgu7hVv2UgL2mdrMmSkVY9ABIAUMC
+ X2hou/ZnmrbeIWf6MhaZEYnc30U7xcYJ5cRUuwMU3+tTmOc3CpYO5qaufhDCnjhF
+ YPdaRylLN7MKSl4PYIogw==
+X-ME-Sender: <xms:CopiYvpMg8hB7wNpmcKj2c9-fUTff0aV2fB5qx5MxUk88lFsfRZuXA>
+ <xme:CopiYpp-fmHr5lxSrNy6k0HXJwDwH2MfQqaD6w-jP_5XDLZehoZDf5xqH0_9PwF2D
+ _3Q7UW1zdGwZMDyILI>
+X-ME-Received: <xmr:CopiYsOb8mHfLnR-4-ETneMFMMtqW8Xf_gwFS7tf9GX0HylDPpLpF5Xhk194DVmeXTKHVfvIXDostCKkkkARyFRA6elGSxqRXSK26Ws>
+X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvfedrtdeggdefvdcutefuodetggdotefrodftvf
+ curfhrohhfihhlvgemucfhrghsthforghilhdpqfgfvfdpuffrtefokffrpgfnqfghnecu
+ uegrihhlohhuthemuceftddtnecusecvtfgvtghiphhivghnthhsucdlqddutddtmdenuc
+ fjughrpeffhffvvefukfhfgggtuggjsehgtderredttddvnecuhfhrohhmpeforgigihhm
+ vgcutfhiphgrrhguuceomhgrgihimhgvsegtvghrnhhordhtvggthheqnecuggftrfgrth
+ htvghrnhepledvueduvdegleeufeetjeeuvefhieehjedutddtffekleekgeduiefgffdt
+ hffgnecuffhomhgrihhnpeguvghvihgtvghtrhgvvgdrohhrghenucevlhhushhtvghruf
+ hiiigvpedtnecurfgrrhgrmhepmhgrihhlfhhrohhmpehmrgigihhmvgestggvrhhnohdr
+ thgvtghh
+X-ME-Proxy: <xmx:CopiYi7w5KJVhVmQgmTJeLJvfycuQZkbrISLSqb7SB_NXdvUAZyoPA>
+ <xmx:CopiYu5b75WZpoAisop1NSRQcW46FVY3pRultQY6ns1ZPAx292OLXA>
+ <xmx:CopiYqiU0Ie1XFuc5PcX1rrVtTeSuAFCCFvXYu8cAeqaid2zrKOvxQ>
+ <xmx:C4piYhwlFs3WkiNwqadkyWiP3PYOKVYUrZAEDGBE5fWMd4iufn3zFw>
+Received: by mail.messagingengine.com (Postfix) with ESMTPA; Fri,
+ 22 Apr 2022 06:57:14 -0400 (EDT)
+Date: Fri, 22 Apr 2022 12:57:12 +0200
+From: Maxime Ripard <maxime@cerno.tech>
+To: Guillaume Ranquet <granquet@baylibre.com>
+Subject: Re: [PATCH v9 01/22] dt-bindings: mediatek,dpi: Add DP_INTF compatible
+Message-ID: <20220422105712.bdpbwliificvon4j@houat>
+References: <20220327223927.20848-1-granquet@baylibre.com>
+ <20220327223927.20848-2-granquet@baylibre.com>
 MIME-Version: 1.0
-References: <20220422085211.2776419-1-lv.ruyi@zte.com.cn>
-In-Reply-To: <20220422085211.2776419-1-lv.ruyi@zte.com.cn>
-From: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
-Date: Fri, 22 Apr 2022 13:42:12 +0300
-Message-ID: <CAA8EJpoAeCp-=k2o+C4E4jHBAv7f3eKrV5FZiYjVZ8hcRGYLVA@mail.gmail.com>
-Subject: Re: [PATCH] drm: msm: fix error check return value of
- irq_of_parse_and_map()
-To: cgel.zte@gmail.com
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: multipart/signed; micalg=pgp-sha512;
+ protocol="application/pgp-signature"; boundary="anrqwesp6j2b4lfg"
+Content-Disposition: inline
+In-Reply-To: <20220327223927.20848-2-granquet@baylibre.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -64,49 +83,94 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: freedreno@lists.freedesktop.org, airlied@linux.ie,
- linux-arm-msm@vger.kernel.org, Lv Ruyi <lv.ruyi@zte.com.cn>,
- quic_abhinavk@quicinc.com, dri-devel@lists.freedesktop.org,
- swboyd@chromium.org, quic_mkrishn@quicinc.com, vulab@iscas.ac.cn,
- sean@poorly.run, Zeal Robot <zealci@zte.com.cn>, linux-kernel@vger.kernel.org,
- angelogioacchino.delregno@collabora.com
+Cc: linux-fbdev@vger.kernel.org, devicetree@vger.kernel.org, airlied@linux.ie,
+ dri-devel@lists.freedesktop.org, linux-phy@lists.infradead.org, deller@gmx.de,
+ kishon@ti.com, chunkuang.hu@kernel.org, jitao.shi@mediatek.com,
+ tzimmermann@suse.de, Markus Schneider-Pargmann <msp@baylibre.com>,
+ chunfeng.yun@mediatek.com, robh+dt@kernel.org,
+ linux-mediatek@lists.infradead.org, matthias.bgg@gmail.com,
+ linux-arm-kernel@lists.infradead.org, angelogioacchino.delregno@collabora.com,
+ linux-kernel@vger.kernel.org, vkoul@kernel.org, krzk+dt@kernel.org,
+ markyacoub@google.com
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Fri, 22 Apr 2022 at 11:52, <cgel.zte@gmail.com> wrote:
->
-> From: Lv Ruyi <lv.ruyi@zte.com.cn>
->
-> The irq_of_parse_and_map() function returns 0 on failure, and does not
-> return an negative value.
->
-> Reported-by: Zeal Robot <zealci@zte.com.cn>
-> Signed-off-by: Lv Ruyi <lv.ruyi@zte.com.cn>
 
-Reviewed-by: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
+--anrqwesp6j2b4lfg
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
+Hi,
+
+On Mon, Mar 28, 2022 at 12:39:06AM +0200, Guillaume Ranquet wrote:
+> From: Markus Schneider-Pargmann <msp@baylibre.com>
+>=20
+> DP_INTF is similar to DPI but does not have the exact same feature set
+> or register layouts.
+>=20
+> DP_INTF is the sink of the display pipeline that is connected to the
+> DisplayPort controller and encoder unit. It takes the same clocks as
+> DPI.
+>=20
+> Signed-off-by: Markus Schneider-Pargmann <msp@baylibre.com>
+> Signed-off-by: Guillaume Ranquet <granquet@baylibre.com>
+> Reviewed-by: Rob Herring <robh@kernel.org>
 > ---
->  drivers/gpu/drm/msm/disp/mdp5/mdp5_kms.c | 2 +-
->  1 file changed, 1 insertion(+), 1 deletion(-)
->
-> diff --git a/drivers/gpu/drm/msm/disp/mdp5/mdp5_kms.c b/drivers/gpu/drm/msm/disp/mdp5/mdp5_kms.c
-> index 3b92372e7bdf..1fb1ed9e95d9 100644
-> --- a/drivers/gpu/drm/msm/disp/mdp5/mdp5_kms.c
-> +++ b/drivers/gpu/drm/msm/disp/mdp5/mdp5_kms.c
-> @@ -570,7 +570,7 @@ struct msm_kms *mdp5_kms_init(struct drm_device *dev)
->         }
->
->         irq = irq_of_parse_and_map(pdev->dev.of_node, 0);
-> -       if (irq < 0) {
-> +       if (!irq) {
->                 ret = irq;
->                 DRM_DEV_ERROR(&pdev->dev, "failed to get irq: %d\n", ret);
->                 goto fail;
-> --
-> 2.25.1
->
+>  .../bindings/display/mediatek/mediatek,dpi.yaml       | 11 ++++++-----
+>  1 file changed, 6 insertions(+), 5 deletions(-)
+>=20
+> diff --git a/Documentation/devicetree/bindings/display/mediatek/mediatek,=
+dpi.yaml b/Documentation/devicetree/bindings/display/mediatek/mediatek,dpi.=
+yaml
+> index dd2896a40ff0..2dba80ad3b18 100644
+> --- a/Documentation/devicetree/bindings/display/mediatek/mediatek,dpi.yaml
+> +++ b/Documentation/devicetree/bindings/display/mediatek/mediatek,dpi.yaml
+> @@ -4,16 +4,16 @@
+>  $id: http://devicetree.org/schemas/display/mediatek/mediatek,dpi.yaml#
+>  $schema: http://devicetree.org/meta-schemas/core.yaml#
+> =20
+> -title: mediatek DPI Controller Device Tree Bindings
+> +title: mediatek DPI/DP_INTF Controller
+> =20
+>  maintainers:
+>    - CK Hu <ck.hu@mediatek.com>
+>    - Jitao shi <jitao.shi@mediatek.com>
+> =20
+>  description: |
+> -  The Mediatek DPI function block is a sink of the display subsystem and
+> -  provides 8-bit RGB/YUV444 or 8/10/10-bit YUV422 pixel data on a parall=
+el
+> -  output bus.
+> +  The Mediatek DPI and DP_INTF function blocks are a sink of the display
+> +  subsystem and provides 8-bit RGB/YUV444 or 8/10/10-bit YUV422 pixel da=
+ta on a
+> +  parallel output bus.
+> =20
+>  properties:
+>    compatible:
+> @@ -23,6 +23,7 @@ properties:
+>        - mediatek,mt8173-dpi
+>        - mediatek,mt8183-dpi
+>        - mediatek,mt8192-dpi
+> +      - mediatek,mt8195-dpintf
 
+It seems a bit weird to have all instances of DP_INTF with a separator
+but the compatible doesn't have one?
 
--- 
-With best wishes
-Dmitry
+Is there a reason to not use dp-intf?
+
+Maxime
+
+--anrqwesp6j2b4lfg
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iHUEABYKAB0WIQRcEzekXsqa64kGDp7j7w1vZxhRxQUCYmKKCAAKCRDj7w1vZxhR
+xWHVAP9XOs5mllTpT84nKFlJqhBvEdANoAc/yLINNdL4rTwK/AEA2W/abW6SXtii
+kYk/IHsQm/a6SEpxbGGVFYXWq6N3fQE=
+=Cd+2
+-----END PGP SIGNATURE-----
+
+--anrqwesp6j2b4lfg--
