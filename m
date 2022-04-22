@@ -1,76 +1,73 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 30AE150B5C0
-	for <lists+dri-devel@lfdr.de>; Fri, 22 Apr 2022 12:57:22 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id BF11250B643
+	for <lists+dri-devel@lfdr.de>; Fri, 22 Apr 2022 13:37:28 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 0C68310F42D;
-	Fri, 22 Apr 2022 10:57:18 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id A6B7E10F539;
+	Fri, 22 Apr 2022 11:37:24 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from new3-smtp.messagingengine.com (new3-smtp.messagingengine.com
- [66.111.4.229])
- by gabe.freedesktop.org (Postfix) with ESMTPS id B7D1610F443
- for <dri-devel@lists.freedesktop.org>; Fri, 22 Apr 2022 10:57:16 +0000 (UTC)
-Received: from compute5.internal (compute5.nyi.internal [10.202.2.45])
- by mailnew.nyi.internal (Postfix) with ESMTP id CB776580F59;
- Fri, 22 Apr 2022 06:57:15 -0400 (EDT)
-Received: from mailfrontend2 ([10.202.2.163])
- by compute5.internal (MEProxy); Fri, 22 Apr 2022 06:57:15 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=cerno.tech; h=cc
- :cc:content-type:date:date:from:from:in-reply-to:in-reply-to
- :message-id:mime-version:references:reply-to:sender:subject
- :subject:to:to; s=fm3; t=1650625035; x=1650632235; bh=t0Vm9xILeM
- tEm0+ZRmoAPUxhxs4H3KoDqpfSFpCeFCw=; b=YyohwOWwHOsgUBEhklxIw81jQH
- 9k7QTlQ/m1chfbM67m+0hW+J9gC6M6REt0RZOv0kxcV3mVU0ScXWAtz8bTJoRWfr
- h39uvBYqPEsgR7nFb0qijB/+vstZUi0TZ/how9i+VZQaoGnq2HsUShd/DZjOM72Y
- UbnN0SFcAOLXFNkmucRsE7gGWzHf/I8SXDQN841DdKmdE9P+1T0UqTQn74Vi2pm9
- /b13SwhKwJOQaaABmogrWklj6+cOSFo6dwcSWlMJIipbLw2teTqkYit9CbvlQsHx
- /2bmmHf76lj9iXG9hJRVNy5Yt8FDk3ftKcfgEw2cx0UoIH9ztTjiHZ/MdTOg==
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
- messagingengine.com; h=cc:cc:content-type:date:date:from:from
- :in-reply-to:in-reply-to:message-id:mime-version:references
- :reply-to:sender:subject:subject:to:to:x-me-proxy:x-me-proxy
- :x-me-sender:x-me-sender:x-sasl-enc; s=fm1; t=1650625035; x=
- 1650632235; bh=t0Vm9xILeMtEm0+ZRmoAPUxhxs4H3KoDqpfSFpCeFCw=; b=i
- U8nPM70ubfTAq9JEpnksZSiKccgJS/v8kX9pGTdKcgUiBHN4rDQM/c4Lgq4JL2HR
- iDy00wOWuSCQAZXoDyWtLxu1Utf5X88aPC0doymtVSzDLd4/S2Ep2Jj6cHBekpTG
- 2KZkDoTxrrlmJNmgj449qTFBH3KZS9w2tLHkCrodp5EGzuuDP6/3hLw1mQSAdjb3
- vF3oeIRT3hw/ReJoP7uA6fQkrPBGSbt9Ygbsgu7hVv2UgL2mdrMmSkVY9ABIAUMC
- X2hou/ZnmrbeIWf6MhaZEYnc30U7xcYJ5cRUuwMU3+tTmOc3CpYO5qaufhDCnjhF
- YPdaRylLN7MKSl4PYIogw==
-X-ME-Sender: <xms:CopiYvpMg8hB7wNpmcKj2c9-fUTff0aV2fB5qx5MxUk88lFsfRZuXA>
- <xme:CopiYpp-fmHr5lxSrNy6k0HXJwDwH2MfQqaD6w-jP_5XDLZehoZDf5xqH0_9PwF2D
- _3Q7UW1zdGwZMDyILI>
-X-ME-Received: <xmr:CopiYsOb8mHfLnR-4-ETneMFMMtqW8Xf_gwFS7tf9GX0HylDPpLpF5Xhk194DVmeXTKHVfvIXDostCKkkkARyFRA6elGSxqRXSK26Ws>
-X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvfedrtdeggdefvdcutefuodetggdotefrodftvf
- curfhrohhfihhlvgemucfhrghsthforghilhdpqfgfvfdpuffrtefokffrpgfnqfghnecu
- uegrihhlohhuthemuceftddtnecusecvtfgvtghiphhivghnthhsucdlqddutddtmdenuc
- fjughrpeffhffvvefukfhfgggtuggjsehgtderredttddvnecuhfhrohhmpeforgigihhm
- vgcutfhiphgrrhguuceomhgrgihimhgvsegtvghrnhhordhtvggthheqnecuggftrfgrth
- htvghrnhepledvueduvdegleeufeetjeeuvefhieehjedutddtffekleekgeduiefgffdt
- hffgnecuffhomhgrihhnpeguvghvihgtvghtrhgvvgdrohhrghenucevlhhushhtvghruf
- hiiigvpedtnecurfgrrhgrmhepmhgrihhlfhhrohhmpehmrgigihhmvgestggvrhhnohdr
- thgvtghh
-X-ME-Proxy: <xmx:CopiYi7w5KJVhVmQgmTJeLJvfycuQZkbrISLSqb7SB_NXdvUAZyoPA>
- <xmx:CopiYu5b75WZpoAisop1NSRQcW46FVY3pRultQY6ns1ZPAx292OLXA>
- <xmx:CopiYqiU0Ie1XFuc5PcX1rrVtTeSuAFCCFvXYu8cAeqaid2zrKOvxQ>
- <xmx:C4piYhwlFs3WkiNwqadkyWiP3PYOKVYUrZAEDGBE5fWMd4iufn3zFw>
-Received: by mail.messagingengine.com (Postfix) with ESMTPA; Fri,
- 22 Apr 2022 06:57:14 -0400 (EDT)
-Date: Fri, 22 Apr 2022 12:57:12 +0200
-From: Maxime Ripard <maxime@cerno.tech>
-To: Guillaume Ranquet <granquet@baylibre.com>
-Subject: Re: [PATCH v9 01/22] dt-bindings: mediatek,dpi: Add DP_INTF compatible
-Message-ID: <20220422105712.bdpbwliificvon4j@houat>
-References: <20220327223927.20848-1-granquet@baylibre.com>
- <20220327223927.20848-2-granquet@baylibre.com>
+Received: from mail-ot1-x335.google.com (mail-ot1-x335.google.com
+ [IPv6:2607:f8b0:4864:20::335])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 00A0F10F513
+ for <dri-devel@lists.freedesktop.org>; Fri, 22 Apr 2022 11:37:23 +0000 (UTC)
+Received: by mail-ot1-x335.google.com with SMTP id
+ s21-20020a0568301e1500b006054da8e72dso5292882otr.1
+ for <dri-devel@lists.freedesktop.org>; Fri, 22 Apr 2022 04:37:23 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
+ h=message-id:date:mime-version:user-agent:subject:content-language:to
+ :cc:references:from:in-reply-to:content-transfer-encoding;
+ bh=vlZn9Fi0P9yMNdagcLbI/5cAQLpglB2hUiQX2NP/3po=;
+ b=dbRnPQc/4YlwjQpR8ScZhURvIB0BVu4D6r1Ole3iIW+Rl7K6NwzUj1fMkbdM2At171
+ 4RQrKG/49dJa8fYe/iMpv6+zPUAv3dthIq3WDlvZfHfa5vipZ27OiXk8r1aNxGmJCNQG
+ XoY/ev+ecGAraZVYpooCw/N6O4OKDnsc0FUcGOjD/qLn5SOLILOyITzwktYY/SURC8XR
+ +OqTsK+3gJd6LbQhhEvjhnbccmr6Skl9EBHvEH8vhVpoZFi2J34MuWweg9cWADNr7mAa
+ vkWGih+wpUHBm44Fu18yU7hyVjASC7wyv9aoKtaWEIlf1J5+K2D7OJ19djyEq2b98VEJ
+ 4EcQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
+ :content-language:to:cc:references:from:in-reply-to
+ :content-transfer-encoding;
+ bh=vlZn9Fi0P9yMNdagcLbI/5cAQLpglB2hUiQX2NP/3po=;
+ b=AH/HHdC/0vyZwA+5NhJTW5nr86c0qMUdrUoRJ8MRy5G9++sx4hF0/159UUi4fhArly
+ z00pqojl37dv5T70BP/hwBUJMENopFrv5D+n0WCeaSM1E1HH8YPTJE8Af7nkxRXE23Ig
+ A7m/74SD5GXka7mRVIqtW4SJ8yWzQDlF93f3ATC2r0fGMMDxVo/y/9pi5Xc7vWAKRtUL
+ +vtesJu4HERteCuLcdzoMic7Fi2MV2dllkix761qd73/EHnAgWui+FF48fW15AKNncvO
+ uvODJptSPMEOR8aLLN5tlD9FJIB3OkQHCDBHBYeSWsChMObgeeP/5OnOZ0GcJaHor+e1
+ 8lDg==
+X-Gm-Message-State: AOAM532cnwfOxcDV1CtFGnWsqMVmuovMSx0OrbPc0htn/8DdKk9b/mPr
+ DY7Uw4pzeA09qIcZsBqfDl0=
+X-Google-Smtp-Source: ABdhPJysVFALggRZYOphtxg3XKdkPQ43XCmhqa3I1LI785e3lXPB+h5jhVwcL6EFhDwJGqRhvXPcvw==
+X-Received: by 2002:a9d:4796:0:b0:601:94e2:ce0b with SMTP id
+ b22-20020a9d4796000000b0060194e2ce0bmr1504913otf.197.1650627443160; 
+ Fri, 22 Apr 2022 04:37:23 -0700 (PDT)
+Received: from [192.168.1.145] ([207.188.167.132])
+ by smtp.gmail.com with ESMTPSA id
+ 6-20020aca0706000000b002f9d20b3134sm646148oih.7.2022.04.22.04.37.18
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Fri, 22 Apr 2022 04:37:22 -0700 (PDT)
+Message-ID: <6e06f2a0-ee9b-4cf4-85a3-243ed3121c50@gmail.com>
+Date: Fri, 22 Apr 2022 13:37:17 +0200
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha512;
- protocol="application/pgp-signature"; boundary="anrqwesp6j2b4lfg"
-Content-Disposition: inline
-In-Reply-To: <20220327223927.20848-2-granquet@baylibre.com>
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.5.0
+Subject: Re: [PATCH v17 07/21] soc: mediatek: mmsys: modify reset controller
+ for MT8195 vdosys1
+Content-Language: en-US
+To: "Nancy.Lin" <nancy.lin@mediatek.com>, Rob Herring <robh+dt@kernel.org>,
+ Chun-Kuang Hu <chunkuang.hu@kernel.org>,
+ Philipp Zabel <p.zabel@pengutronix.de>, wim@linux-watchdog.org,
+ AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>,
+ linux@roeck-us.net
+References: <20220416020749.29010-1-nancy.lin@mediatek.com>
+ <20220416020749.29010-8-nancy.lin@mediatek.com>
+From: Matthias Brugger <matthias.bgg@gmail.com>
+In-Reply-To: <20220416020749.29010-8-nancy.lin@mediatek.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -83,94 +80,133 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: linux-fbdev@vger.kernel.org, devicetree@vger.kernel.org, airlied@linux.ie,
- dri-devel@lists.freedesktop.org, linux-phy@lists.infradead.org, deller@gmx.de,
- kishon@ti.com, chunkuang.hu@kernel.org, jitao.shi@mediatek.com,
- tzimmermann@suse.de, Markus Schneider-Pargmann <msp@baylibre.com>,
- chunfeng.yun@mediatek.com, robh+dt@kernel.org,
- linux-mediatek@lists.infradead.org, matthias.bgg@gmail.com,
- linux-arm-kernel@lists.infradead.org, angelogioacchino.delregno@collabora.com,
- linux-kernel@vger.kernel.org, vkoul@kernel.org, krzk+dt@kernel.org,
- markyacoub@google.com
+Cc: devicetree@vger.kernel.org,
+ Project_Global_Chrome_Upstream_Group@mediatek.com, srv_heupstream@mediatek.com,
+ David Airlie <airlied@linux.ie>, "jason-jh . lin" <jason-jh.lin@mediatek.com>,
+ singo.chang@mediatek.com, llvm@lists.linux.dev,
+ Nick Desaulniers <ndesaulniers@google.com>, linux-kernel@vger.kernel.org,
+ dri-devel@lists.freedesktop.org, Nathan Chancellor <nathan@kernel.org>,
+ linux-mediatek@lists.infradead.org, Yongqiang Niu <yongqiang.niu@mediatek.com>,
+ linux-arm-kernel@lists.infradead.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 
---anrqwesp6j2b4lfg
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
 
-Hi,
-
-On Mon, Mar 28, 2022 at 12:39:06AM +0200, Guillaume Ranquet wrote:
-> From: Markus Schneider-Pargmann <msp@baylibre.com>
->=20
-> DP_INTF is similar to DPI but does not have the exact same feature set
-> or register layouts.
->=20
-> DP_INTF is the sink of the display pipeline that is connected to the
-> DisplayPort controller and encoder unit. It takes the same clocks as
-> DPI.
->=20
-> Signed-off-by: Markus Schneider-Pargmann <msp@baylibre.com>
-> Signed-off-by: Guillaume Ranquet <granquet@baylibre.com>
-> Reviewed-by: Rob Herring <robh@kernel.org>
+On 16/04/2022 04:07, Nancy.Lin wrote:
+> MT8195 vdosys1 has more than 32 reset bits and a different reset base
+> than other chips. Modify mmsys for support 64 bit and different reset
+> base.
+> 
+> Signed-off-by: Nancy.Lin <nancy.lin@mediatek.com>
+> Reviewed-by: AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>
 > ---
->  .../bindings/display/mediatek/mediatek,dpi.yaml       | 11 ++++++-----
->  1 file changed, 6 insertions(+), 5 deletions(-)
->=20
-> diff --git a/Documentation/devicetree/bindings/display/mediatek/mediatek,=
-dpi.yaml b/Documentation/devicetree/bindings/display/mediatek/mediatek,dpi.=
-yaml
-> index dd2896a40ff0..2dba80ad3b18 100644
-> --- a/Documentation/devicetree/bindings/display/mediatek/mediatek,dpi.yaml
-> +++ b/Documentation/devicetree/bindings/display/mediatek/mediatek,dpi.yaml
-> @@ -4,16 +4,16 @@
->  $id: http://devicetree.org/schemas/display/mediatek/mediatek,dpi.yaml#
->  $schema: http://devicetree.org/meta-schemas/core.yaml#
-> =20
-> -title: mediatek DPI Controller Device Tree Bindings
-> +title: mediatek DPI/DP_INTF Controller
-> =20
->  maintainers:
->    - CK Hu <ck.hu@mediatek.com>
->    - Jitao shi <jitao.shi@mediatek.com>
-> =20
->  description: |
-> -  The Mediatek DPI function block is a sink of the display subsystem and
-> -  provides 8-bit RGB/YUV444 or 8/10/10-bit YUV422 pixel data on a parall=
-el
-> -  output bus.
-> +  The Mediatek DPI and DP_INTF function blocks are a sink of the display
-> +  subsystem and provides 8-bit RGB/YUV444 or 8/10/10-bit YUV422 pixel da=
-ta on a
-> +  parallel output bus.
-> =20
->  properties:
->    compatible:
-> @@ -23,6 +23,7 @@ properties:
->        - mediatek,mt8173-dpi
->        - mediatek,mt8183-dpi
->        - mediatek,mt8192-dpi
-> +      - mediatek,mt8195-dpintf
+>   drivers/soc/mediatek/mt8195-mmsys.h |  1 +
+>   drivers/soc/mediatek/mtk-mmsys.c    | 39 ++++++++++++++++++-----------
+>   drivers/soc/mediatek/mtk-mmsys.h    |  1 +
+>   3 files changed, 27 insertions(+), 14 deletions(-)
+> 
+> diff --git a/drivers/soc/mediatek/mt8195-mmsys.h b/drivers/soc/mediatek/mt8195-mmsys.h
+> index 5469073e3073..0a286fa5a824 100644
+> --- a/drivers/soc/mediatek/mt8195-mmsys.h
+> +++ b/drivers/soc/mediatek/mt8195-mmsys.h
+> @@ -139,6 +139,7 @@
+>   #define MT8195_VDO1_MIXER_SOUT_SEL_IN				0xf68
+>   #define MT8195_MIXER_SOUT_SEL_IN_FROM_DISP_MIXER			0
+>   
+> +#define MT8195_VDO1_SW0_RST_B		0x1d0
+>   #define MT8195_VDO1_MERGE0_ASYNC_CFG_WD	0xe30
+>   #define MT8195_VDO1_HDRBE_ASYNC_CFG_WD	0xe70
+>   #define MT8195_VDO1_HDR_TOP_CFG		0xd00
+> diff --git a/drivers/soc/mediatek/mtk-mmsys.c b/drivers/soc/mediatek/mtk-mmsys.c
+> index ea04aa2c3840..d7c806f9e494 100644
+> --- a/drivers/soc/mediatek/mtk-mmsys.c
+> +++ b/drivers/soc/mediatek/mtk-mmsys.c
+> @@ -20,6 +20,8 @@
+>   #include "mt8195-mmsys.h"
+>   #include "mt8365-mmsys.h"
+>   
+> +#define MMSYS_SW_RESET_PER_REG 32
+> +
+>   static const struct mtk_mmsys_driver_data mt2701_mmsys_driver_data = {
+>   	.clk_driver = "clk-mt2701-mm",
+>   	.routes = mmsys_default_routing_table,
+> @@ -86,6 +88,7 @@ static const struct mtk_mmsys_driver_data mt8173_mmsys_driver_data = {
+>   	.routes = mmsys_default_routing_table,
+>   	.num_routes = ARRAY_SIZE(mmsys_default_routing_table),
+>   	.sw0_rst_offset = MT8183_MMSYS_SW0_RST_B,
+> +	.num_resets = 32,
+>   };
+>   
+>   static const struct mtk_mmsys_match_data mt8173_mmsys_match_data = {
+> @@ -100,6 +103,7 @@ static const struct mtk_mmsys_driver_data mt8183_mmsys_driver_data = {
+>   	.routes = mmsys_mt8183_routing_table,
+>   	.num_routes = ARRAY_SIZE(mmsys_mt8183_routing_table),
+>   	.sw0_rst_offset = MT8183_MMSYS_SW0_RST_B,
+> +	.num_resets = 32,
+>   };
+>   
+>   static const struct mtk_mmsys_match_data mt8183_mmsys_match_data = {
+> @@ -114,6 +118,7 @@ static const struct mtk_mmsys_driver_data mt8186_mmsys_driver_data = {
+>   	.routes = mmsys_mt8186_routing_table,
+>   	.num_routes = ARRAY_SIZE(mmsys_mt8186_routing_table),
+>   	.sw0_rst_offset = MT8186_MMSYS_SW0_RST_B,
+> +	.num_resets = 32,
+>   };
+>   
+>   static const struct mtk_mmsys_match_data mt8186_mmsys_match_data = {
+> @@ -148,6 +153,8 @@ static const struct mtk_mmsys_driver_data mt8195_vdosys1_driver_data = {
+>   	.clk_driver = "clk-mt8195-vdo1",
+>   	.routes = mmsys_mt8195_routing_table,
+>   	.num_routes = ARRAY_SIZE(mmsys_mt8195_routing_table),
+> +	.sw0_rst_offset = MT8195_VDO1_SW0_RST_B,
+> +	.num_resets = 64,
+>   };
+>   
+>   static const struct mtk_mmsys_match_data mt8195_mmsys_match_data = {
+> @@ -234,18 +241,22 @@ static int mtk_mmsys_reset_update(struct reset_controller_dev *rcdev, unsigned l
+>   {
+>   	struct mtk_mmsys *mmsys = container_of(rcdev, struct mtk_mmsys, rcdev);
+>   	unsigned long flags;
+> +	u32 offset;
+>   	u32 reg;
+>   
+> +	offset = (id / MMSYS_SW_RESET_PER_REG) * sizeof(u32);
+> +	id = id % MMSYS_SW_RESET_PER_REG;
+> +
+>   	spin_lock_irqsave(&mmsys->lock, flags);
+>   
+> -	reg = readl_relaxed(mmsys->regs + mmsys->data->sw0_rst_offset);
+> +	reg = readl_relaxed(mmsys->regs + mmsys->data->sw0_rst_offset + offset);
+>   
+>   	if (assert)
+>   		reg &= ~BIT(id);
+>   	else
+>   		reg |= BIT(id);
+>   
+> -	writel_relaxed(reg, mmsys->regs + mmsys->data->sw0_rst_offset);
+> +	writel_relaxed(reg, mmsys->regs + mmsys->data->sw0_rst_offset + offset);
+>   
+>   	spin_unlock_irqrestore(&mmsys->lock, flags);
+>   
+> @@ -360,18 +371,6 @@ static int mtk_mmsys_probe(struct platform_device *pdev)
+>   		return ret;
+>   	}
+>   
+> -	spin_lock_init(&mmsys->lock);
+> -
+> -	mmsys->rcdev.owner = THIS_MODULE;
+> -	mmsys->rcdev.nr_resets = 32;
+> -	mmsys->rcdev.ops = &mtk_mmsys_reset_ops;
+> -	mmsys->rcdev.of_node = pdev->dev.of_node;
+> -	ret = devm_reset_controller_register(&pdev->dev, &mmsys->rcdev);
+> -	if (ret) {
+> -		dev_err(&pdev->dev, "Couldn't register mmsys reset controller: %d\n", ret);
+> -		return ret;
+> -	}
+> -
 
-It seems a bit weird to have all instances of DP_INTF with a separator
-but the compatible doesn't have one?
+I'm not sure why you move that code block. It's not explained in the commit message.
 
-Is there a reason to not use dp-intf?
-
-Maxime
-
---anrqwesp6j2b4lfg
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iHUEABYKAB0WIQRcEzekXsqa64kGDp7j7w1vZxhRxQUCYmKKCAAKCRDj7w1vZxhR
-xWHVAP9XOs5mllTpT84nKFlJqhBvEdANoAc/yLINNdL4rTwK/AEA2W/abW6SXtii
-kYk/IHsQm/a6SEpxbGGVFYXWq6N3fQE=
-=Cd+2
------END PGP SIGNATURE-----
-
---anrqwesp6j2b4lfg--
+Regards,
+Matthias
