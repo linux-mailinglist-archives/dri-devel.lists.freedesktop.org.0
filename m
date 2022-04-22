@@ -1,55 +1,52 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id E1EA050BF65
-	for <lists+dri-devel@lfdr.de>; Fri, 22 Apr 2022 20:23:25 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 43E2250BF67
+	for <lists+dri-devel@lfdr.de>; Fri, 22 Apr 2022 20:23:34 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 92B3E10E140;
-	Fri, 22 Apr 2022 18:23:21 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id AC08110E19C;
+	Fri, 22 Apr 2022 18:23:31 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-oi1-x22b.google.com (mail-oi1-x22b.google.com
- [IPv6:2607:f8b0:4864:20::22b])
- by gabe.freedesktop.org (Postfix) with ESMTPS id CAD8A89AB9;
- Fri, 22 Apr 2022 18:23:20 +0000 (UTC)
-Received: by mail-oi1-x22b.google.com with SMTP id 12so9902629oix.12;
- Fri, 22 Apr 2022 11:23:20 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=+e4BntlSJ6eS9gMNEO204GgU4j5QlVGYPmkYEN/7+0w=;
- b=llOz/bS4d527zVJ2EY0qyOmA8Y9sNZvjq/7iSiflH1OnFoDCyOwW0Ntzov/K7jKksE
- zceyjAASFQp0RnQZH63euLXwXXSc8x4oNJeZzMu5dkiPUnjSeLrp4SNYy8AVcK3kTIN1
- t2LNSgtclZTLSplOIB589ETnhaVXhGhuVDPE501hYU3q9CDQuWg8j/fvk9nja5+Qy9aU
- ZXlClbtz5odBRkMvQCSuFovlJ1rwnaZiEix8MRHt0RaIQW4mhUJ43OosY2Lf3xm3tYgL
- CgXWi8Y4r19/FApxvVAS3s7P0IYeyJIkpo86c5QX7VL9dmP234cxag9bZ2VxB1VmLuIW
- WlZw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=+e4BntlSJ6eS9gMNEO204GgU4j5QlVGYPmkYEN/7+0w=;
- b=Q2LItlczgf9MSlj8dIassS6mC3TA+bk0N4W4I20Ga9QBYZnINKUuED2jn7Y27zZSek
- ZCo/ZbX4RYvAQ3lA0vjDjieHBCpBEwGTQOEo+F1RocjyLpaz1JMgbb/1aJx0vijE4brl
- yLyN4tx2zqel9k7njyn8dksFbVoCncP3SKUu1iJIPOGnOMV4z1h0TdrYazSnStODugPL
- lMLC0Uftu5SUk2+JO8isBavZpe0ip0XDxMWv2XUbei7UALuhvch4O8EYbgcwxih4PSOb
- AoBnXSuWsU8rBsZH4SiDCBJMDdyxayssO4+q8duZ7Iyq9Ss7hlEQj6iWsKuvew71c1Bk
- YIOA==
-X-Gm-Message-State: AOAM533AZiV7ua5fEZ0njZrA4zteU4Lgusc2MTA3u/4ZwkoUw1TB0cwA
- g7var37mqw4tMe9gPE0BpLHcgOljRL0I5B+z+PWZqnV+
-X-Google-Smtp-Source: ABdhPJwhBuu62atsZ8fpp36cRof1utYWz0MCJ6T1bpq42QHi6pekge2EQre7emrZnKuU7y/iW6MivXk6TJH6fOP+osw=
-X-Received: by 2002:a05:6808:1486:b0:2f9:e821:51d9 with SMTP id
- e6-20020a056808148600b002f9e82151d9mr3027385oiw.253.1650651799992; Fri, 22
- Apr 2022 11:23:19 -0700 (PDT)
+Received: from mailrelay4-1.pub.mailoutpod1-cph3.one.com
+ (mailrelay4-1.pub.mailoutpod1-cph3.one.com [46.30.210.185])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 5D04310E18B
+ for <dri-devel@lists.freedesktop.org>; Fri, 22 Apr 2022 18:23:29 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ravnborg.org; s=rsa1;
+ h=in-reply-to:content-type:mime-version:references:message-id:subject:cc:to:
+ from:date:from;
+ bh=b+ZHKdcwQaS5B0cIyyHCJQ/iG8M95qaEPvoQiuH6VqE=;
+ b=kMd2rYOf+uckkbUqznCR0jcdE/ejwcu1MJxl9By1bS5KJiXC97PM2VYsPYLDQe1zgdXJOTffGkRQw
+ 70wYu740zEgVZA1BsCAkGo6rOazg1N5UfWfW7eKokdXQ6QAT0DRLhTHXN9I9ALVOnBukgf0fD7UMTB
+ wd+3bVkhNp715IXRvxN5O6fUkPqyTBYI3mjO4685Xz2786Ar/adq2h0NbBIGYIdrC7ZfhPMSNpm5o4
+ NZEi45KYSdm5gchRZ+DbrOHiA4o1GXc5HriRXFr7ZpJKWmY/jVdhcjM+dCampR8jLADs3ZTigfUKkt
+ L6G7QSKTQATA02r9NBsCcGI5+Sirhxw==
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed;
+ d=ravnborg.org; s=ed1;
+ h=in-reply-to:content-type:mime-version:references:message-id:subject:cc:to:
+ from:date:from;
+ bh=b+ZHKdcwQaS5B0cIyyHCJQ/iG8M95qaEPvoQiuH6VqE=;
+ b=HZxagInTnlE0twK3jOYG1Sj60VJh+VhcLoREvTaf5dnNKuPSGxC24hoUIoMvE9YZeQZaXvbaYUgY/
+ zIHVfFcCg==
+X-HalOne-Cookie: 2a0dae1011355b26a4b5764f2b4b8a05d4995d30
+X-HalOne-ID: 4d744611-c269-11ec-8225-d0431ea8bb10
+Received: from mailproxy2.cst.dirpod4-cph3.one.com
+ (80-162-45-141-cable.dk.customer.tdc.net [80.162.45.141])
+ by mailrelay4.pub.mailoutpod1-cph3.one.com (Halon) with ESMTPSA
+ id 4d744611-c269-11ec-8225-d0431ea8bb10;
+ Fri, 22 Apr 2022 18:23:27 +0000 (UTC)
+Date: Fri, 22 Apr 2022 20:23:25 +0200
+From: Sam Ravnborg <sam@ravnborg.org>
+To: Marek Vasut <marex@denx.de>
+Subject: Re: [PATCH v2 1/2] dt-bindings: display: bridge: ldb: Implement
+ simple NXP i.MX8M LDB bridge
+Message-ID: <YmLynWrjFb+28nGW@ravnborg.org>
+References: <20220418145105.76986-1-marex@denx.de>
 MIME-Version: 1.0
-References: <1650607437-22275-1-git-send-email-baihaowen@meizu.com>
-In-Reply-To: <1650607437-22275-1-git-send-email-baihaowen@meizu.com>
-From: Alex Deucher <alexdeucher@gmail.com>
-Date: Fri, 22 Apr 2022 14:23:08 -0400
-Message-ID: <CADnq5_NKJ2nC_2akBEX+7EOhgF-XsPjVw_QTHqKDkoA3G6qx1A@mail.gmail.com>
-Subject: Re: [PATCH] drm/amdgpu: Remove useless kfree
-To: Haowen Bai <baihaowen@meizu.com>
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20220418145105.76986-1-marex@denx.de>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -62,40 +59,148 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: David Airlie <airlied@linux.ie>, "Pan, Xinhui" <Xinhui.Pan@amd.com>,
- LKML <linux-kernel@vger.kernel.org>,
- Maling list - DRI developers <dri-devel@lists.freedesktop.org>,
- amd-gfx list <amd-gfx@lists.freedesktop.org>,
- Alex Deucher <alexander.deucher@amd.com>,
- =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>
+Cc: devicetree@vger.kernel.org, Peng Fan <peng.fan@nxp.com>,
+ Robert Foss <robert.foss@linaro.org>, dri-devel@lists.freedesktop.org,
+ Rob Herring <robh+dt@kernel.org>, Maxime Ripard <maxime@cerno.tech>,
+ Thomas Zimmermann <tzimmermann@suse.de>, Robby Cai <robby.cai@nxp.com>,
+ Laurent Pinchart <laurent.pinchart@ideasonboard.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Applied.  Thanks!
+On Mon, Apr 18, 2022 at 04:51:04PM +0200, Marek Vasut wrote:
+> The i.MX8MP contains two syscon registers which are responsible
+> for configuring the on-SoC DPI-to-LVDS serializer. Add DT binding
+> which represents this serializer as a bridge.
+> 
+> Signed-off-by: Marek Vasut <marex@denx.de>
+> Cc: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+> Cc: Lucas Stach <l.stach@pengutronix.de>
+> Cc: Maxime Ripard <maxime@cerno.tech>
+> Cc: Peng Fan <peng.fan@nxp.com>
+> Cc: Rob Herring <robh+dt@kernel.org>
+> Cc: Robby Cai <robby.cai@nxp.com>
+> Cc: Robert Foss <robert.foss@linaro.org>
+> Cc: Sam Ravnborg <sam@ravnborg.org>
+> Cc: Thomas Zimmermann <tzimmermann@suse.de>
+> Cc: devicetree@vger.kernel.org
+> To: dri-devel@lists.freedesktop.org
+Acked-by: Sam Ravnborg <sam@ravnborg.org> but you need an ack from
+someone else before you apply as I am not an expert here.
 
-Alex
-
-On Fri, Apr 22, 2022 at 2:04 AM Haowen Bai <baihaowen@meizu.com> wrote:
->
-> After alloc fail, we do not need to kfree.
->
-> Signed-off-by: Haowen Bai <baihaowen@meizu.com>
+	Sam
 > ---
->  drivers/gpu/drm/amd/amdgpu/amdgpu_ras.c | 1 -
->  1 file changed, 1 deletion(-)
->
-> diff --git a/drivers/gpu/drm/amd/amdgpu/amdgpu_ras.c b/drivers/gpu/drm/amd/amdgpu/amdgpu_ras.c
-> index ec709997c9c7..5fb3e69c04c4 100644
-> --- a/drivers/gpu/drm/amd/amdgpu/amdgpu_ras.c
-> +++ b/drivers/gpu/drm/amd/amdgpu/amdgpu_ras.c
-> @@ -1849,7 +1849,6 @@ static int amdgpu_ras_realloc_eh_data_space(struct amdgpu_device *adev,
->         void *bps = kmalloc(align_space * sizeof(*data->bps), GFP_KERNEL);
->
->         if (!bps) {
-> -               kfree(bps);
->                 return -ENOMEM;
->         }
->
-> --
-> 2.7.4
->
+> V2: - Consistently use fsl,imx8mp-ldb as compatible
+>     - Drop items: from compatible:
+>     - Replace minItems with maxItems in clocks:
+>     - Drop quotes from clock-names const: ldb
+>     - Rename syscon to fsl,syscon
+>     - Use generic name of ldb-lvds in example
+> ---
+>  .../bindings/display/bridge/nxp,ldb.yaml      | 96 +++++++++++++++++++
+>  1 file changed, 96 insertions(+)
+>  create mode 100644 Documentation/devicetree/bindings/display/bridge/nxp,ldb.yaml
+> 
+> diff --git a/Documentation/devicetree/bindings/display/bridge/nxp,ldb.yaml b/Documentation/devicetree/bindings/display/bridge/nxp,ldb.yaml
+> new file mode 100644
+> index 0000000000000..f3182566eb316
+> --- /dev/null
+> +++ b/Documentation/devicetree/bindings/display/bridge/nxp,ldb.yaml
+> @@ -0,0 +1,96 @@
+> +# SPDX-License-Identifier: (GPL-2.0-only OR BSD-2-Clause)
+> +%YAML 1.2
+> +---
+> +$id: http://devicetree.org/schemas/display/bridge/nxp,ldb.yaml#
+> +$schema: http://devicetree.org/meta-schemas/core.yaml#
+> +
+> +title: NXP i.MX8M DPI to LVDS bridge chip
+> +
+> +maintainers:
+> +  - Marek Vasut <marex@denx.de>
+> +
+> +description: |
+> +  The i.MX8MP contains two syscon registers which are responsible
+> +  for configuring the on-SoC DPI-to-LVDS serializer. This describes
+> +  those registers as bridge within the DT.
+> +
+> +properties:
+> +  compatible:
+> +    const: fsl,imx8mp-ldb
+> +
+> +  clocks:
+> +    maxItems: 1
+> +
+> +  clock-names:
+> +    const: ldb
+> +
+> +  fsl,syscon:
+> +    $ref: /schemas/types.yaml#/definitions/phandle
+> +    description: A phandle to media block controller.
+> +
+> +  ports:
+> +    $ref: /schemas/graph.yaml#/properties/ports
+> +
+> +    properties:
+> +      port@0:
+> +        $ref: /schemas/graph.yaml#/properties/port
+> +        description: Video port for DPI input.
+> +
+> +      port@1:
+> +        $ref: /schemas/graph.yaml#/properties/port
+> +        description: Video port for LVDS Channel-A output (panel or bridge).
+> +
+> +      port@2:
+> +        $ref: /schemas/graph.yaml#/properties/port
+> +        description: Video port for LVDS Channel-B output (panel or bridge).
+> +
+> +    required:
+> +      - port@0
+> +      - port@1
+> +
+> +required:
+> +  - compatible
+> +  - clocks
+> +  - fsl,syscon
+> +  - ports
+> +
+> +additionalProperties: false
+> +
+> +examples:
+> +  - |
+> +    #include <dt-bindings/clock/imx8mp-clock.h>
+> +
+> +    bridge {
+> +        compatible = "fsl,imx8mp-ldb";
+> +        clocks = <&clk IMX8MP_CLK_MEDIA_LDB>;
+> +        clock-names = "ldb";
+> +        fsl,syscon = <&media_blk_ctrl>;
+> +
+> +        ports {
+> +            #address-cells = <1>;
+> +            #size-cells = <0>;
+> +
+> +            port@0 {
+> +                reg = <0>;
+> +
+> +                ldb_from_lcdif2: endpoint {
+> +                    remote-endpoint = <&lcdif2_to_ldb>;
+> +                };
+> +            };
+> +
+> +            port@1 {
+> +                reg = <1>;
+> +
+> +                ldb_lvds_ch0: endpoint {
+> +                    remote-endpoint = <&ldb_to_lvdsx4panel>;
+> +                };
+> +            };
+> +
+> +            port@2 {
+> +                reg = <2>;
+> +
+> +                ldb_lvds_ch1: endpoint {
+> +                };
+> +            };
+> +        };
+> +    };
+> -- 
+> 2.35.1
