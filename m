@@ -1,42 +1,42 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5E93950BD5F
-	for <lists+dri-devel@lfdr.de>; Fri, 22 Apr 2022 18:44:58 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 866D950BDA7
+	for <lists+dri-devel@lfdr.de>; Fri, 22 Apr 2022 18:54:58 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id E676210E087;
-	Fri, 22 Apr 2022 16:44:54 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 1A1A710E515;
+	Fri, 22 Apr 2022 16:54:56 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mga01.intel.com (mga01.intel.com [192.55.52.88])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 9971710E087
- for <dri-devel@lists.freedesktop.org>; Fri, 22 Apr 2022 16:44:53 +0000 (UTC)
+Received: from mga07.intel.com (mga07.intel.com [134.134.136.100])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 051E510E540
+ for <dri-devel@lists.freedesktop.org>; Fri, 22 Apr 2022 16:54:54 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1650645893; x=1682181893;
+ t=1650646495; x=1682182495;
  h=date:from:to:cc:subject:message-id:references:
  mime-version:in-reply-to;
- bh=zbjMmz4IPxc1dkPAAWlkk3z02hRug2vjYO3ePBmaF+4=;
- b=ju/ddF6mF6mwUX6C958FHUceB30E97dYhHsmncgutqd59Ps82PYnmAIy
- tUBnSYB+th4Vix2Hw+Gfm20IqkwwhKwnyWgyXG6u/bPd+oEPrYKmANcQN
- xF940ekyMetAsMITKJ29Mku55pOEWMzNLVWv46CLUyMCApX4CcRsl7d42
- Vd9d+v35Mdf9oviMc/xNLa7Ryn0hsZWm8bBa9gKPrzkLyz4+LDlq6qJ11
- kYgE4L0p0QLpmGw2VE4xXUe5HdrWU7eM7G1pyfiigeO4OD4EQTFqOOOOw
- aiKlHPrrIwvwlwxqOdLPQkRvOqkCTZiqIKfeGJQC/L/QfQhfJhFDAQbea Q==;
-X-IronPort-AV: E=McAfee;i="6400,9594,10324"; a="289845663"
-X-IronPort-AV: E=Sophos;i="5.90,282,1643702400"; d="scan'208";a="289845663"
-Received: from fmsmga002.fm.intel.com ([10.253.24.26])
- by fmsmga101.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 22 Apr 2022 09:44:53 -0700
+ bh=yZNBnSuynarGRjzVvsGb3f57oeFuePokaCkVYDt1K1s=;
+ b=MnHVpwJ5GvgUqs6pp+hibIPc2bu0zUem/PAK7i448yVeAO5GTpRV3pzt
+ fvYIMR/o0lM+UC8Q+jGZioddlGtyTusSWun9VCBYJ9gZT8Ai1Kv5YsMBV
+ l75aqsi54X62kykaSoo3Ee+ydwabKd01G2vLwwkXENax3niCgEISPKdc6
+ QegkRJgoF5ulDM27rbwnNzDsTabddEcf4KSSezaE02k0e2w3Ng7m++puh
+ QDENBQGnWPwuF1ZDPK1hJdkpX1TkPkaCZsM1QO0UYrBGHEZh6LKicnSRj
+ SX4ZiNvvdSSs9BPLOjxfi5/BKhWCL7Bku1oSQ5auAT9/hMDc8rna1xob2 Q==;
+X-IronPort-AV: E=McAfee;i="6400,9594,10324"; a="327642584"
+X-IronPort-AV: E=Sophos;i="5.90,282,1643702400"; d="scan'208";a="327642584"
+Received: from orsmga002.jf.intel.com ([10.7.209.21])
+ by orsmga105.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 22 Apr 2022 09:54:54 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.90,282,1643702400"; d="scan'208";a="659101622"
+X-IronPort-AV: E=Sophos;i="5.90,282,1643702400"; d="scan'208";a="534471896"
 Received: from lkp-server01.sh.intel.com (HELO 3abc53900bec) ([10.239.97.150])
- by fmsmga002.fm.intel.com with ESMTP; 22 Apr 2022 09:44:50 -0700
+ by orsmga002.jf.intel.com with ESMTP; 22 Apr 2022 09:54:50 -0700
 Received: from kbuild by 3abc53900bec with local (Exim 4.95)
- (envelope-from <lkp@intel.com>) id 1nhwOn-000ALq-Aj;
- Fri, 22 Apr 2022 16:44:49 +0000
-Date: Sat, 23 Apr 2022 00:43:49 +0800
+ (envelope-from <lkp@intel.com>) id 1nhwYU-000AMY-1w;
+ Fri, 22 Apr 2022 16:54:50 +0000
+Date: Sat, 23 Apr 2022 00:54:07 +0800
 From: kernel test robot <lkp@intel.com>
 To: Chenyang Li <lichenyang@loongson.cn>, Maxime Ripard <mripard@kernel.org>,
  Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
@@ -44,14 +44,14 @@ To: Chenyang Li <lichenyang@loongson.cn>, Maxime Ripard <mripard@kernel.org>,
  Dan Carpenter <error27@gmail.com>, David Airlie <airlied@linux.ie>,
  Daniel Vetter <daniel@ffwll.ch>, dri-devel@lists.freedesktop.org,
  devel@linuxdriverproject.org
-Subject: Re: [PATCH v7 2/4] drm/loongson: Add GPIO and I2C driver for
- loongson drm.
-Message-ID: <202204230046.2fBNTJrK-lkp@intel.com>
-References: <20220422081459.682700-1-lichenyang@loongson.cn>
+Subject: Re: [PATCH v7 1/4] drm/loongson: Add DRM Driver for Loongson 7A1000
+ bridge chip
+Message-ID: <202204230030.kZgmTGOQ-lkp@intel.com>
+References: <20220422081416.682625-1-lichenyang@loongson.cn>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20220422081459.682700-1-lichenyang@loongson.cn>
+In-Reply-To: <20220422081416.682625-1-lichenyang@loongson.cn>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -82,48 +82,94 @@ https://git-scm.com/docs/git-format-patch]
 
 url:    https://github.com/intel-lab-lkp/linux/commits/Chenyang-Li/drm-loongson-Add-DRM-Driver-for-Loongson-7A1000-bridge-chip/20220422-161914
 base:   git://anongit.freedesktop.org/drm/drm drm-next
-config: riscv-allmodconfig (https://download.01.org/0day-ci/archive/20220423/202204230046.2fBNTJrK-lkp@intel.com/config)
-compiler: riscv64-linux-gcc (GCC) 11.2.0
-reproduce (this is a W=1 build):
+config: arm-randconfig-s031-20220422 (https://download.01.org/0day-ci/archive/20220423/202204230030.kZgmTGOQ-lkp@intel.com/config)
+compiler: arm-linux-gnueabi-gcc (GCC) 11.2.0
+reproduce:
         wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbin/make.cross -O ~/bin/make.cross
         chmod +x ~/bin/make.cross
-        # https://github.com/intel-lab-lkp/linux/commit/4a5b6ac99c37617e030a054ca431c5c9aab227b8
+        # apt-get install sparse
+        # sparse version: v0.6.4-dirty
+        # https://github.com/intel-lab-lkp/linux/commit/e9a9964d58e6cc797a113fa47f54583c10908d63
         git remote add linux-review https://github.com/intel-lab-lkp/linux
         git fetch --no-tags linux-review Chenyang-Li/drm-loongson-Add-DRM-Driver-for-Loongson-7A1000-bridge-chip/20220422-161914
-        git checkout 4a5b6ac99c37617e030a054ca431c5c9aab227b8
+        git checkout e9a9964d58e6cc797a113fa47f54583c10908d63
         # save the config file
         mkdir build_dir && cp config build_dir/.config
-        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-11.2.0 make.cross W=1 O=build_dir ARCH=riscv SHELL=/bin/bash drivers/gpu/drm/loongson/
+        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-11.2.0 make.cross C=1 CF='-fdiagnostic-prefix -D__CHECK_ENDIAN__' O=build_dir ARCH=arm SHELL=/bin/bash drivers/gpu/drm/loongson/
 
 If you fix the issue, kindly add following tag as appropriate
 Reported-by: kernel test robot <lkp@intel.com>
 
-All warnings (new ones prefixed by >>):
 
->> drivers/gpu/drm/loongson/loongson_encoder.c:10:27: warning: no previous prototype for 'loongson_bridge_detect' [-Wmissing-prototypes]
-      10 | enum drm_connector_status loongson_bridge_detect(struct drm_bridge *bridge)
-         |                           ^~~~~~~~~~~~~~~~~~~~~~
+sparse warnings: (new ones prefixed by >>)
+>> drivers/gpu/drm/loongson/loongson_drv.c:91:9: sparse: sparse: cast removes address space '__iomem' of expression
+   drivers/gpu/drm/loongson/loongson_drv.c:99:5: sparse: sparse: symbol 'loongson_modeset_init' was not declared. Should it be static?
 
+vim +/__iomem +91 drivers/gpu/drm/loongson/loongson_drv.c
 
-vim +/loongson_bridge_detect +10 drivers/gpu/drm/loongson/loongson_encoder.c
-
-     9	
-  > 10	enum drm_connector_status loongson_bridge_detect(struct drm_bridge *bridge)
-    11	{
-    12		unsigned char start = 0x0;
-    13		struct i2c_msg msgs = {
-    14			.addr = DDC_ADDR,
-    15			.flags = 0,
-    16			.len = 1,
-    17			.buf = &start,
-    18		};
-    19	
-    20		if (i2c_transfer(bridge->ddc, &msgs, 1) != 1)
-    21			return connector_status_disconnected;
-    22		else
-    23			return connector_status_connected;
-    24	}
-    25	
+    36	
+    37	static int loongson_device_init(struct drm_device *dev)
+    38	{
+    39		struct loongson_device *ldev = to_loongson_device(dev);
+    40		struct pci_dev *pdev = to_pci_dev(dev->dev);
+    41		struct pci_dev *gpu_pdev;
+    42		resource_size_t aper_base;
+    43		resource_size_t aper_size;
+    44		resource_size_t mmio_base;
+    45		resource_size_t mmio_size;
+    46		int ret;
+    47	
+    48		/* GPU MEM */
+    49		/* We need get 7A-gpu pci device information for ldev->gpu_pdev */
+    50		/* dev->pdev save 7A-dc pci device information */
+    51		gpu_pdev = pci_get_device(PCI_VENDOR_ID_LOONGSON,
+    52					  PCI_DEVICE_ID_LOONGSON_GPU, NULL);
+    53		ret = pci_enable_device(gpu_pdev);
+    54		if (ret)
+    55			return ret;
+    56		pci_set_drvdata(gpu_pdev, dev);
+    57	
+    58		aper_base = pci_resource_start(gpu_pdev, 2);
+    59		aper_size = pci_resource_len(gpu_pdev, 2);
+    60		ldev->vram_start = aper_base;
+    61		ldev->vram_size = aper_size;
+    62	
+    63		if (!devm_request_mem_region(dev->dev, ldev->vram_start,
+    64					     ldev->vram_size, "loongson_vram")) {
+    65			drm_err(dev, "Can't reserve VRAM\n");
+    66			return -ENXIO;
+    67		}
+    68	
+    69		/* DC MEM */
+    70		mmio_base = pci_resource_start(pdev, 0);
+    71		mmio_size = pci_resource_len(pdev, 0);
+    72		ldev->mmio = devm_ioremap(dev->dev, mmio_base, mmio_size);
+    73		if (!ldev->mmio) {
+    74			drm_err(dev, "Cannot map mmio region\n");
+    75			return -ENOMEM;
+    76		}
+    77	
+    78		if (!devm_request_mem_region(dev->dev, mmio_base,
+    79					     mmio_size, "loongson_mmio")) {
+    80			drm_err(dev, "Can't reserve mmio registers\n");
+    81			return -ENOMEM;
+    82		}
+    83	
+    84		/* DC IO */
+    85		ldev->io = devm_ioremap(dev->dev, LS7A_CHIPCFG_REG_BASE, 0xf);
+    86		if (!ldev->io)
+    87			return -ENOMEM;
+    88	
+    89		ldev->num_crtc = 2;
+    90	
+  > 91		drm_info(dev, "DC mmio base 0x%llx size 0x%llx io 0x%llx\n",
+    92			 mmio_base, mmio_size, *(u64 *)ldev->io);
+    93		drm_info(dev, "GPU vram start = 0x%x size = 0x%x\n",
+    94			 ldev->vram_start, ldev->vram_size);
+    95	
+    96		return 0;
+    97	}
+    98	
 
 -- 
 0-DAY CI Kernel Test Service
