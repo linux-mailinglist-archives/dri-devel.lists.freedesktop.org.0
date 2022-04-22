@@ -2,55 +2,54 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 720A050C0E7
-	for <lists+dri-devel@lfdr.de>; Fri, 22 Apr 2022 23:05:09 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 5DB5950C148
+	for <lists+dri-devel@lfdr.de>; Sat, 23 Apr 2022 00:04:58 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id C919310E694;
-	Fri, 22 Apr 2022 21:05:06 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id A698410ED6B;
+	Fri, 22 Apr 2022 22:04:55 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-wm1-x32c.google.com (mail-wm1-x32c.google.com
- [IPv6:2a00:1450:4864:20::32c])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 3108310E694
- for <dri-devel@lists.freedesktop.org>; Fri, 22 Apr 2022 21:05:05 +0000 (UTC)
-Received: by mail-wm1-x32c.google.com with SMTP id
- r187-20020a1c44c4000000b0038ccb70e239so8730245wma.3
- for <dri-devel@lists.freedesktop.org>; Fri, 22 Apr 2022 14:05:05 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=gmRkt5N52LVAcW5jIpeF1Nn5yhhAyoF29FUFsd01Fns=;
- b=brYIpV1+gbZnACdgtobiaHYB0nSPaEQY0ScB0C1CEeIsPotvLvC9d7oCAEPCZgA89C
- uxr4XWWt08JrUjRW2taPLwIBI0l08LIQ+tdBDD3Dcvl2N+LHeNiiWLLSiJ/2nAXSmxbW
- 5V6Qt8AQIHi92IOyOLysC7CDhQRUu7lZDi7hKcHVobTK+mt9yg3GXLl1gnF6CUN511k8
- 2dACgkZB0zdoeD223DTUdfjYRFediBrQ/WkFCx20AwAddSmuDegIlAyVpQMaA+YkJeVl
- i9/jYTuvmZKVUkEHz5l8/VZdcoi46D7lI/zvaAmJgrcM3qXnC1vMcqvjxQtND51sdUpm
- 7npA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=gmRkt5N52LVAcW5jIpeF1Nn5yhhAyoF29FUFsd01Fns=;
- b=2RY18HllyQGGQ51ipQz2KhtC0TOuovQ7a4CpMf1+ozZv+VkPOz/PD21YtDvQ/Jp3Zp
- w+KqN3FGw13hrqlelGNS/83jbiIfjfUVb4sFUc7QJBRFz2xUeA0RbBEbBCyl03GijIOn
- kqMaRjZ2g2P8SQX3Bft0rBGAdF4x8QNp34GBhaJcRXdmBC6kL+L+nSnnkGABL8mO7nFu
- J9YHMUaeZ0OZU5pg4RD3YUZ9KcPT6le1J1jMqgVk9KeqNVbGXescfV0nKF0M/RzrnPvd
- ZWHhnXEcXYA57p8NN6WniEA7ZFkWOqnWefrsiokxNm6N4HrTefMMamAAjzqKFe6aF+jA
- AOuw==
-X-Gm-Message-State: AOAM533/hrY1ckBRw9bAEAkJEHZg0ukeGjbaobBRGxU8OgpM5HSHXpgR
- hcmIWqCHrlQ65Auu8GBelQgFVd9CNFaFfXNVvHM=
-X-Google-Smtp-Source: ABdhPJwKs/6J6K59SHxPCUJVmRs3c/Et02MftfleiTfkZ7qpvT/EN+91VaTZjZn+ojcG4yAIgaCF1NrTLKUqpfpuOBY=
-X-Received: by 2002:a05:600c:3011:b0:38e:ba57:8b79 with SMTP id
- j17-20020a05600c301100b0038eba578b79mr14709846wmh.26.1650661503393; Fri, 22
- Apr 2022 14:05:03 -0700 (PDT)
+Received: from ams.source.kernel.org (ams.source.kernel.org [145.40.68.75])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id CBE9B10ED6B
+ for <dri-devel@lists.freedesktop.org>; Fri, 22 Apr 2022 22:04:54 +0000 (UTC)
+Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
+ (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+ (No client certificate requested)
+ by ams.source.kernel.org (Postfix) with ESMTPS id AF8BEB832C6
+ for <dri-devel@lists.freedesktop.org>; Fri, 22 Apr 2022 22:04:51 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 6B7C3C385B7
+ for <dri-devel@lists.freedesktop.org>; Fri, 22 Apr 2022 22:04:49 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+ s=k20201202; t=1650665089;
+ bh=zuNw6j1TShfoNbLYYIZxrZxreBGq9IdbmgqrCDzwCoE=;
+ h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
+ b=GJHnYGm7kS7OYKfkAu61QcQIzQsPpKgiX8ZwFOEZB2cc8bdXfKuICeePb/LdLDWns
+ VNg0u6qUYqau/LeOFrayBulaQJxkihHPe/A2FqLymKPNdePaoUDSIGdGevpo7L/zJM
+ aFPhStRd09KzzfNR1joe6PwVDpjMzpbeziX7fgPmvokEvCi/0oFrjnwBTaaGfP/BOU
+ IUNNTQDtVNPw7mpJSpA99kiRdBDjanYdKye5l82yB0eqq3zLotqrujW7fvCIf2Ejkd
+ dAqJEF/tV2gwSfcpwtPVTrB+Lh9rnVah9UvWO9BhrH9MflpU1vh20qiOa/U8KRRaYH
+ giaZNTf1zCHIw==
+Received: by mail-wm1-f53.google.com with SMTP id
+ ay11-20020a05600c1e0b00b0038eb92fa965so8814646wmb.4
+ for <dri-devel@lists.freedesktop.org>; Fri, 22 Apr 2022 15:04:49 -0700 (PDT)
+X-Gm-Message-State: AOAM533vpc0SiTXgzvk6uIo98Yad434ep8ITn1XuahO20Iita5IHUAdo
+ zBcFLeMOfxLlIC06+pHl/QmPX9KacpTdX2H1its=
+X-Google-Smtp-Source: ABdhPJxxyzPCyBaxXq4e/OKv6ds/3UgnpcR0jFo6uX7QoEAMCxGf0GP6zkRcnylbgWRsSBmj2Bdv9puvN/pDeVMDIcQ=
+X-Received: by 2002:a05:600c:4ed4:b0:392:90a5:b7e6 with SMTP id
+ g20-20020a05600c4ed400b0039290a5b7e6mr15508304wmq.33.1650665087477; Fri, 22
+ Apr 2022 15:04:47 -0700 (PDT)
 MIME-Version: 1.0
-References: <20220405173918.1000846-1-robdclark@gmail.com>
- <CAPaKu7Tur-_Kf3Lb9U=98Yr_08onxPHNKTPh2anHU6zLPhr5ZQ@mail.gmail.com>
-In-Reply-To: <CAPaKu7Tur-_Kf3Lb9U=98Yr_08onxPHNKTPh2anHU6zLPhr5ZQ@mail.gmail.com>
-From: Rob Clark <robdclark@gmail.com>
-Date: Fri, 22 Apr 2022 14:06:08 -0700
-Message-ID: <CAF6AEGsUVDbqYOeDBXBOySfs+7ftVf5_86CiFGOLfY9fmQuEVQ@mail.gmail.com>
-Subject: Re: [PATCH] drm/virtio: Add execbuf flag to request no fence-event
-To: Chia-I Wu <olvaffe@gmail.com>
+References: <20220419163810.2118169-1-arnd@kernel.org>
+ <20220422170530.GA2338209@roeck-us.net>
+ <CAK8P3a3V=qxUqYT3Yt=dpXVv58-Y+HVi952wO6D4LPN5NNphGA@mail.gmail.com>
+ <8b36d3a4-ec85-2f9f-e4b7-734d8ddd3d8f@roeck-us.net>
+In-Reply-To: <8b36d3a4-ec85-2f9f-e4b7-734d8ddd3d8f@roeck-us.net>
+From: Arnd Bergmann <arnd@kernel.org>
+Date: Sat, 23 Apr 2022 00:04:31 +0200
+X-Gmail-Original-Message-ID: <CAK8P3a0R9cpEb1d2=e9KnGSbi_uRv48RWfCu_J4DDak_cGZSuw@mail.gmail.com>
+Message-ID: <CAK8P3a0R9cpEb1d2=e9KnGSbi_uRv48RWfCu_J4DDak_cGZSuw@mail.gmail.com>
+Subject: Re: [PATCH v2 00/48] ARM: PXA multiplatform support
+To: Guenter Roeck <linux@roeck-us.net>
 Content-Type: text/plain; charset="UTF-8"
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -64,79 +63,63 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Rob Clark <robdclark@chromium.org>, David Airlie <airlied@linux.ie>,
- open list <linux-kernel@vger.kernel.org>,
- ML dri-devel <dri-devel@lists.freedesktop.org>,
- Gurchetan Singh <gurchetansingh@chromium.org>,
- Gerd Hoffmann <kraxel@redhat.com>,
- "open list:VIRTIO GPU DRIVER" <virtualization@lists.linux-foundation.org>
+Cc: Ulf Hansson <ulf.hansson@linaro.org>, USB list <linux-usb@vger.kernel.org>,
+ "Rafael J. Wysocki" <rafael@kernel.org>,
+ Viresh Kumar <viresh.kumar@linaro.org>,
+ Linux Fbdev development list <linux-fbdev@vger.kernel.org>,
+ Dominik Brodowski <linux@dominikbrodowski.net>,
+ "open list:BROADCOM NVRAM DRIVER" <linux-mips@vger.kernel.org>,
+ IDE-ML <linux-ide@vger.kernel.org>, linux-mtd <linux-mtd@lists.infradead.org>,
+ Tomas Cech <sleep_walker@suse.com>, Robert Jarzmik <robert.jarzmik@free.fr>,
+ linux-clk <linux-clk@vger.kernel.org>, linux-leds@vger.kernel.org,
+ linux-rtc@vger.kernel.org, Helge Deller <deller@gmx.de>,
+ Marek Vasut <marek.vasut@gmail.com>, Paul Parsons <lost.distance@yahoo.com>,
+ Sergey Lapin <slapin@ossfans.org>, Arnd Bergmann <arnd@arndb.de>,
+ Linux PM list <linux-pm@vger.kernel.org>,
+ "open list:HID CORE LAYER" <linux-input@vger.kernel.org>,
+ Haojian Zhuang <haojian.zhuang@gmail.com>, Lubomir Rintel <lkundrak@v3.sk>,
+ Mark Brown <broonie@kernel.org>, dri-devel <dri-devel@lists.freedesktop.org>,
+ Linux ARM <linux-arm-kernel@lists.infradead.org>,
+ Thomas Bogendoerfer <tsbogend@alpha.franken.de>,
+ Stephen Boyd <sboyd@kernel.org>, patches@opensource.cirrus.com,
+ Dmitry Torokhov <dmitry.torokhov@gmail.com>,
+ linux-mmc <linux-mmc@vger.kernel.org>,
+ Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
+ Michael Turquette <mturquette@baylibre.com>,
+ ALSA Development Mailing List <alsa-devel@alsa-project.org>,
+ Daniel Mack <daniel@zonque.org>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Tue, Apr 5, 2022 at 10:57 AM Chia-I Wu <olvaffe@gmail.com> wrote:
->
-> On Tue, Apr 5, 2022 at 10:38 AM Rob Clark <robdclark@gmail.com> wrote:
+On Fri, Apr 22, 2022 at 10:55 PM Guenter Roeck <linux@roeck-us.net> wrote:
+> On 4/22/22 12:16, Arnd Bergmann wrote:
+> > On Fri, Apr 22, 2022 at 7:05 PM Guenter Roeck <linux@roeck-us.net> wrote:
 > >
-> > From: Rob Clark <robdclark@chromium.org>
+> > Which machine did you hit this on? Is this on hardware or in qemu?
 > >
-> > It would have been cleaner to have a flag to *request* the fence event.
-> > But that ship has sailed.  So add a flag so that userspace which doesn't
-> > care about the events can opt-out.
-> >
-> > Signed-off-by: Rob Clark <robdclark@chromium.org>
-> Reviewed-by: Chia-I Wu <olvaffe@gmail.com>
->
-> Might want to wait for Gurchetan to chime in as he added the mechanism.
+> qemu, as always. borzoi, spitz, terrier, tosa, z2, and sx1 fail.
+> Also, I just noticed that the failure is not always the same.
+> z2 fails to boot from initrd, and sx1 fails to boot completely.
 
-It turns out this patch is unnecessary.. I can simply not set
-VIRTGPU_CONTEXT_PARAM_POLL_RINGS_MASK instead
+That's a lot of machines failing, I hope at least we got the same bugs more
+than once here.
 
-so self-nak for this patch ;-)
+For the I/O space, I found now that PXA was not using the standard
+virtual I/O address yet, but instead used a NULL-based offset.
 
-BR,
--R
+I'm not entirely happy with this patch, but this is an outline of what
+I think we need to fix that: https://pastebin.com/3nVgQsEw
+This one is probably incomplete, at least it breaks sa1100 for now,
+and it adds a bogus CONFIG_PCI dependency. I'm also not sure
+in what way the last patch in the series triggers it, rather than the
+one that removed mach/io.h.
 
-> > ---
-> >  drivers/gpu/drm/virtio/virtgpu_ioctl.c | 8 +++++---
-> >  include/uapi/drm/virtgpu_drm.h         | 2 ++
-> >  2 files changed, 7 insertions(+), 3 deletions(-)
-> >
-> > diff --git a/drivers/gpu/drm/virtio/virtgpu_ioctl.c b/drivers/gpu/drm/virtio/virtgpu_ioctl.c
-> > index 3a8078f2ee27..09f1aa263f91 100644
-> > --- a/drivers/gpu/drm/virtio/virtgpu_ioctl.c
-> > +++ b/drivers/gpu/drm/virtio/virtgpu_ioctl.c
-> > @@ -225,9 +225,11 @@ static int virtio_gpu_execbuffer_ioctl(struct drm_device *dev, void *data,
-> >                 goto out_unresv;
-> >         }
-> >
-> > -       ret = virtio_gpu_fence_event_create(dev, file, out_fence, ring_idx);
-> > -       if (ret)
-> > -               goto out_unresv;
-> > +       if (!(exbuf->flags & VIRTGPU_EXECBUF_NO_EVENT)) {
-> > +               ret = virtio_gpu_fence_event_create(dev, file, out_fence, ring_idx);
-> > +               if (ret)
-> > +                       goto out_unresv;
-> > +       }
-> >
-> >         if (out_fence_fd >= 0) {
-> >                 sync_file = sync_file_create(&out_fence->f);
-> > diff --git a/include/uapi/drm/virtgpu_drm.h b/include/uapi/drm/virtgpu_drm.h
-> > index 0512fde5e697..d06cac3407cc 100644
-> > --- a/include/uapi/drm/virtgpu_drm.h
-> > +++ b/include/uapi/drm/virtgpu_drm.h
-> > @@ -52,10 +52,12 @@ extern "C" {
-> >  #define VIRTGPU_EXECBUF_FENCE_FD_IN    0x01
-> >  #define VIRTGPU_EXECBUF_FENCE_FD_OUT   0x02
-> >  #define VIRTGPU_EXECBUF_RING_IDX       0x04
-> > +#define VIRTGPU_EXECBUF_NO_EVENT       0x08
-> >  #define VIRTGPU_EXECBUF_FLAGS  (\
-> >                 VIRTGPU_EXECBUF_FENCE_FD_IN |\
-> >                 VIRTGPU_EXECBUF_FENCE_FD_OUT |\
-> >                 VIRTGPU_EXECBUF_RING_IDX |\
-> > +               VIRTGPU_EXECBUF_NO_EVENT |\
-> >                 0)
-> >
-> >  struct drm_virtgpu_map {
-> > --
-> > 2.35.1
-> >
+I had sx1 booting in qemu at least, with the omap1 multiplatform series only.
+If you have a custom config for this one, make sure you get the right
+DEBUG_LL address.
+
+> I'll do another round of bisects.
+
+Thanks!
+
+       Arnd
