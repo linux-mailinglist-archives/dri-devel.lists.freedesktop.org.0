@@ -1,37 +1,62 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6034750BE82
-	for <lists+dri-devel@lfdr.de>; Fri, 22 Apr 2022 19:24:34 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 1611B50BEC2
+	for <lists+dri-devel@lfdr.de>; Fri, 22 Apr 2022 19:35:28 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 647D510E597;
-	Fri, 22 Apr 2022 17:24:30 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 6BAFE10E064;
+	Fri, 22 Apr 2022 17:35:23 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from honk.sigxcpu.org (honk.sigxcpu.org [24.134.29.49])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 9E25210E597
- for <dri-devel@lists.freedesktop.org>; Fri, 22 Apr 2022 17:24:29 +0000 (UTC)
-Received: from localhost (localhost [127.0.0.1])
- by honk.sigxcpu.org (Postfix) with ESMTP id 653F8FB04;
- Fri, 22 Apr 2022 19:24:24 +0200 (CEST)
-X-Virus-Scanned: Debian amavisd-new at honk.sigxcpu.org
-Received: from honk.sigxcpu.org ([127.0.0.1])
- by localhost (honk.sigxcpu.org [127.0.0.1]) (amavisd-new, port 10024)
- with ESMTP id FUzJat0K8MxW; Fri, 22 Apr 2022 19:24:21 +0200 (CEST)
-Date: Fri, 22 Apr 2022 19:24:15 +0200
-From: Guido =?iso-8859-1?Q?G=FCnther?= <guido.gunther@puri.sm>
-To: Liu Ying <victor.liu@nxp.com>
-Subject: Re: [PATCH resend v8 1/5] drm/bridge: nwl-dsi: Set PHY mode in
- nwl_dsi_mode_set()
-Message-ID: <YmLkv4PYsi+XiFr5@qwark.sigxcpu.org>
-References: <20220419010852.452169-1-victor.liu@nxp.com>
- <20220419010852.452169-2-victor.liu@nxp.com>
+Received: from alexa-out-sd-02.qualcomm.com (alexa-out-sd-02.qualcomm.com
+ [199.106.114.39])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id E9F5310E064;
+ Fri, 22 Apr 2022 17:35:21 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=quicinc.com; i=@quicinc.com; q=dns/txt; s=qcdkim;
+ t=1650648921; x=1682184921;
+ h=message-id:date:mime-version:subject:to:cc:references:
+ from:in-reply-to:content-transfer-encoding;
+ bh=0fpFqQYd/Wbv3V4oC9q2pZUt7Qc5kv653iWEvAomgFI=;
+ b=XchOxQzDHZp+AuuEh9zTL+U7Sa+fQdNsYLaRKuSsSaBySdnrNDEPODrq
+ zeCnfb3CyzVeukTPoFtpPdcg56OHoUpHjUpuNHxRH4S5C0g/s2EhCdhYl
+ e3l5IgXsWR6MZ3KikjXBUXefiJ4TzBjQW/RqrswszZrISJ9wJwZefZ4GE I=;
+Received: from unknown (HELO ironmsg01-sd.qualcomm.com) ([10.53.140.141])
+ by alexa-out-sd-02.qualcomm.com with ESMTP; 22 Apr 2022 10:35:21 -0700
+X-QCInternal: smtphost
+Received: from nasanex01c.na.qualcomm.com ([10.47.97.222])
+ by ironmsg01-sd.qualcomm.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 22 Apr 2022 10:35:20 -0700
+Received: from nalasex01a.na.qualcomm.com (10.47.209.196) by
+ nasanex01c.na.qualcomm.com (10.47.97.222) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.2.986.22; Fri, 22 Apr 2022 10:35:18 -0700
+Received: from [10.111.175.210] (10.80.80.8) by nalasex01a.na.qualcomm.com
+ (10.47.209.196) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.986.22; Fri, 22 Apr
+ 2022 10:35:15 -0700
+Message-ID: <c68e92ea-ee92-6aeb-1d51-5e265052ef43@quicinc.com>
+Date: Fri, 22 Apr 2022 10:35:13 -0700
 MIME-Version: 1.0
-Content-Type: text/plain; charset=iso-8859-1
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <20220419010852.452169-2-victor.liu@nxp.com>
+User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:91.0) Gecko/20100101
+ Thunderbird/91.6.2
+Subject: Re: [PATCH v9 2/4] drm/msm/dp: Support only IRQ_HPD and REPLUG
+ interrupts for eDP
+Content-Language: en-US
+To: Doug Anderson <dianders@chromium.org>
+References: <1650618666-15342-1-git-send-email-quic_sbillaka@quicinc.com>
+ <1650618666-15342-3-git-send-email-quic_sbillaka@quicinc.com>
+ <CAD=FV=WWa8n0MJB8ks7bgrSj1Qop1Z5hvfEAOWtFcmsz38eR_w@mail.gmail.com>
+ <83129bad-44a9-bec7-f931-8067ef1b9d4d@quicinc.com>
+ <CAD=FV=Vu_0vxb_D+8n3qhNZ66nRXBp5vxshChmOM-ToPJxk=aA@mail.gmail.com>
+From: Abhinav Kumar <quic_abhinavk@quicinc.com>
+In-Reply-To: <CAD=FV=Vu_0vxb_D+8n3qhNZ66nRXBp5vxshChmOM-ToPJxk=aA@mail.gmail.com>
+Content-Type: text/plain; charset="UTF-8"; format=flowed
+Content-Transfer-Encoding: 7bit
+X-Originating-IP: [10.80.80.8]
+X-ClientProxiedBy: nasanex01b.na.qualcomm.com (10.46.141.250) To
+ nalasex01a.na.qualcomm.com (10.47.209.196)
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -44,92 +69,64 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: narmstrong@baylibre.com, airlied@linux.ie, dri-devel@lists.freedesktop.org,
- Laurent.pinchart@ideasonboard.com, andrzej.hajda@intel.com,
- linux-phy@lists.infradead.org, martin.kepplinger@puri.sm,
- jernej.skrabec@gmail.com, kishon@ti.com, linux-imx@nxp.com,
- robert.chiras@nxp.com, devicetree@vger.kernel.org, kernel@pengutronix.de,
- jonas@kwiboo.se, s.hauer@pengutronix.de, robh+dt@kernel.org,
- linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org,
- robert.foss@linaro.org, vkoul@kernel.org, krzk+dt@kernel.org,
- shawnguo@kernel.org
+Cc: quic_kalyant <quic_kalyant@quicinc.com>,
+ "open list:OPEN FIRMWARE AND FLATTENED DEVICE
+ TREE BINDINGS" <devicetree@vger.kernel.org>,
+ Sankeerth Billakanti <quic_sbillaka@quicinc.com>,
+ quic_vproddut <quic_vproddut@quicinc.com>, David Airlie <airlied@linux.ie>,
+ linux-arm-msm <linux-arm-msm@vger.kernel.org>,
+ "Kuogee Hsieh \(QUIC\)" <quic_khsieh@quicinc.com>,
+ freedreno <freedreno@lists.freedesktop.org>,
+ LKML <linux-kernel@vger.kernel.org>,
+ dri-devel <dri-devel@lists.freedesktop.org>,
+ Bjorn Andersson <bjorn.andersson@linaro.org>,
+ Sean Paul <seanpaul@chromium.org>, Steev Klimaszewski <steev@kali.org>, Dmitry
+ Baryshkov <dmitry.baryshkov@linaro.org>,
+ "Aravind Venkateswaran \(QUIC\)" <quic_aravindh@quicinc.com>,
+ Stephen Boyd <swboyd@chromium.org>, Sean Paul <sean@poorly.run>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi,
-On Tue, Apr 19, 2022 at 09:08:48AM +0800, Liu Ying wrote:
-> The Northwest Logic MIPI DSI host controller embedded in i.MX8qxp
-> works with a Mixel MIPI DPHY + LVDS PHY combo to support either
-> a MIPI DSI display or a LVDS display.  So, this patch calls
-> phy_set_mode() from nwl_dsi_mode_set() to set PHY mode to MIPI DPHY
-> explicitly.
-> 
-> Cc: Guido Günther <agx@sigxcpu.org>
-> Cc: Robert Chiras <robert.chiras@nxp.com>
-> Cc: Martin Kepplinger <martin.kepplinger@puri.sm>
-> Cc: Andrzej Hajda <andrzej.hajda@intel.com>
-> Cc: Neil Armstrong <narmstrong@baylibre.com>
-> Cc: Laurent Pinchart <Laurent.pinchart@ideasonboard.com>
-> Cc: Jonas Karlman <jonas@kwiboo.se>
-> Cc: Jernej Skrabec <jernej.skrabec@gmail.com>
-> Cc: David Airlie <airlied@linux.ie>
-> Cc: Daniel Vetter <daniel@ffwll.ch>
-> Cc: NXP Linux Team <linux-imx@nxp.com>
-> Signed-off-by: Liu Ying <victor.liu@nxp.com>
-> ---
-> v7->v8:
-> * Resend with Andrzej's and Jernej's mail addressed updated.
-> 
-> v6->v7:
-> * No change.
-> 
-> v5->v6:
-> * Rebase the series upon v5.17-rc1.
-> * Set PHY mode in ->mode_set() instead of ->pre_enable() in the nwl-dsi
->   bridge driver due to the rebase.
-> * Drop Guido's R-b tag due to the rebase.
-> 
-> v4->v5:
-> * No change.
-> 
-> v3->v4:
-> * No change.
-> 
-> v2->v3:
-> * No change.
-> 
-> v1->v2:
-> * Add Guido's R-b tag.
-> 
->  drivers/gpu/drm/bridge/nwl-dsi.c | 6 ++++++
->  1 file changed, 6 insertions(+)
-> 
-> diff --git a/drivers/gpu/drm/bridge/nwl-dsi.c b/drivers/gpu/drm/bridge/nwl-dsi.c
-> index d5945501a5ee..85bab7372af1 100644
-> --- a/drivers/gpu/drm/bridge/nwl-dsi.c
-> +++ b/drivers/gpu/drm/bridge/nwl-dsi.c
-> @@ -666,6 +666,12 @@ static int nwl_dsi_mode_set(struct nwl_dsi *dsi)
->  		return ret;
->  	}
->  
-> +	ret = phy_set_mode(dsi->phy, PHY_MODE_MIPI_DPHY);
-> +	if (ret < 0) {
-> +		DRM_DEV_ERROR(dev, "Failed to set DSI phy mode: %d\n", ret);
-> +		goto uninit_phy;
-> +	}
-> +
->  	ret = phy_configure(dsi->phy, phy_cfg);
->  	if (ret < 0) {
->  		DRM_DEV_ERROR(dev, "Failed to configure DSI phy: %d\n",
-> ret);
+Hi Doug
 
-I can't currently test this but it still looks good so
-
-Reviewed-by: Guido Günther <agx@sigxcpu.org>
-
-Cheers,
- -- Guido
-
-> -- 
-> 2.25.1
+On 4/22/2022 9:10 AM, Doug Anderson wrote:
+> Hi,
 > 
+> On Fri, Apr 22, 2022 at 9:05 AM Abhinav Kumar <quic_abhinavk@quicinc.com> wrote:
+>>
+>> Hi Doug
+>>
+>> For the lockdep error, the splat looks similar to what kuogee fixed
+>> recently.
+>>
+>> Can you please check if below patch is present in your tree?
+>>
+>> https://patchwork.freedesktop.org/patch/481396/
+> 
+> Indeed I did have that in my tree already, but the lockdep splat is
+> still there. I think the problem is that we're now calling
+> dp_hpd_plug_handle() directly in dp_bridge_enable()
+> 
+> -Doug
+
+Yes, now i understood this particular issue better and not sure how this 
+wasn't caught. Perhaps some difference in the USE flags. Sankeerth didnt 
+have lockdebug and thats why didnt hit this.
+
+I have discussed with kuogee about why this change is needed and why 
+this wasnt being done in get_modes().
+
+It seems like originally, this was done for a quirk in the DP compliance 
+equipment that it did not publish the fail safe mode ( even though some 
+other modes were present ). Typically, any sink (as long as EDID read 
+went through ) adds the 640x480 fail safe mode.
+
+We could have done it in get_modes() even earlier but not sure how it 
+was missed or was there some other reason.
+
+Nonetheless, kuogee will post the change to move this to get_modes() 
+shortly.
+
+Thanks
+
+Abhinav
