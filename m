@@ -1,125 +1,59 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id A90D450B43B
-	for <lists+dri-devel@lfdr.de>; Fri, 22 Apr 2022 11:38:10 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 43E9C50B4A3
+	for <lists+dri-devel@lfdr.de>; Fri, 22 Apr 2022 12:05:19 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 0315410E576;
-	Fri, 22 Apr 2022 09:38:07 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 655D410E3E4;
+	Fri, 22 Apr 2022 10:05:16 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from JPN01-OS0-obe.outbound.protection.outlook.com
- (mail-os0jpn01on2111.outbound.protection.outlook.com [40.107.113.111])
- by gabe.freedesktop.org (Postfix) with ESMTPS id D68C210E923
- for <dri-devel@lists.freedesktop.org>; Fri, 22 Apr 2022 09:38:04 +0000 (UTC)
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=Bb7cDFbWB/+5Mfr+QShMePflNulWDARghRaz++HXu8wd5C8VqW3so5/KnySKnkODpMV5yCDp3iXv9NH5BkX2oDUZUpkDoZpJocw9wCwP90Dmc0xBzW5rhccCtXfwQIbQzK0CfKVe9M9SdF2bMVCY4oQAxysSdWSXAFYRso+jefofDXeHbK8N4Cs0DyJbvcqilFVNQMdGuywJslPlK8n0G/UkM8GBCBcblEelXm8DLtiS5+YK8Mg3ydrseP3cE2RhlHXy+kkv7gko46WibuAKrHhsVKbfnGYtWMHCUp+JQyL6gAWA6AKrjs4UNrtb2urdLC7AH1Q9PYwGkyZoX38KFA==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=VVvACaySGC5c/tXQew1ZWwOvZiWQ9UnZP4Yn6qnOLoA=;
- b=G13E0gyFBWhsK9TRCE0UJGYO+9+0lH3nvZ1A3DIiWxm7H7wWl3W1pgbVEgAYLunYr/ZnKt6fWCaeaDpQl5Qd8nut2gPgrEzKHZBh48L5X+t5EQVPGD8uwNpy1WAgY1I1eqlLZHOCKXyqNxHSlub6qAD5UulQ6TtlVyVDoUbcq20C6xBYAvN2OBeZ2AHYxK+8F2IeefmqvQpSvs35YMXunRfJ5rQlLkur27T4cQK8sVcDc0tDpz8GdHAZ6SgVwL9TWdBZy79W7hxoSeOn8aD6m8EFl6B9oc933uqVmk3UYtzhZAxvXLWtVdOAPWDdT701xu8uNpfksCt1kw/Rv/KI9A==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=bp.renesas.com; dmarc=pass action=none
- header.from=bp.renesas.com; dkim=pass header.d=bp.renesas.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bp.renesas.com;
- s=selector1;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=VVvACaySGC5c/tXQew1ZWwOvZiWQ9UnZP4Yn6qnOLoA=;
- b=J7gYoEkyBZJarl4I8DWhfS0f47izXMryHUyeQO4trXswHx+fRZAxc3u9AKN7zbrLHsKvQCsZy8y0/XoOd53MHxSxHIDQB1Wi7BQX4Cn6VyVZ9Yl6cAWppxyxcCUDY3WOoNMjQNRr4fRMd9+im+gaPpVXxBoC3z4BiRX/n1dhlQo=
-Received: from OS0PR01MB5922.jpnprd01.prod.outlook.com (2603:1096:604:bb::5)
- by TY1PR01MB1802.jpnprd01.prod.outlook.com (2603:1096:403:8::13) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.5186.15; Fri, 22 Apr
- 2022 09:38:00 +0000
-Received: from OS0PR01MB5922.jpnprd01.prod.outlook.com
- ([fe80::b129:a6f3:c39e:98db]) by OS0PR01MB5922.jpnprd01.prod.outlook.com
- ([fe80::b129:a6f3:c39e:98db%4]) with mapi id 15.20.5186.014; Fri, 22 Apr 2022
- 09:38:00 +0000
-From: Biju Das <biju.das.jz@bp.renesas.com>
-To: Geert Uytterhoeven <geert@linux-m68k.org>
-Subject: RE: [PATCH v3 2/4] drm: rcar-du: Fix typo
-Thread-Topic: [PATCH v3 2/4] drm: rcar-du: Fix typo
-Thread-Index: AQHYVZ1KwGddPqPEj0WtGe3WF9brO6z7n8IAgAANTUA=
-Date: Fri, 22 Apr 2022 09:38:00 +0000
-Message-ID: <OS0PR01MB59222BB60DE4DFEA83A851C186F79@OS0PR01MB5922.jpnprd01.prod.outlook.com>
-References: <20220421163128.101520-1-biju.das.jz@bp.renesas.com>
- <20220421163128.101520-3-biju.das.jz@bp.renesas.com>
- <CAMuHMdV_eNxM4yHgkUFPz58KyiGFtjjBeePtuAg8pZYfsS5t9g@mail.gmail.com>
-In-Reply-To: <CAMuHMdV_eNxM4yHgkUFPz58KyiGFtjjBeePtuAg8pZYfsS5t9g@mail.gmail.com>
-Accept-Language: en-GB, en-US
-Content-Language: en-US
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-authentication-results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=bp.renesas.com;
-x-ms-publictraffictype: Email
-x-ms-office365-filtering-correlation-id: c0997aa2-728f-44f8-67d9-08da2443ca7e
-x-ms-traffictypediagnostic: TY1PR01MB1802:EE_
-x-microsoft-antispam-prvs: <TY1PR01MB18024D724618A795A9F121DC86F79@TY1PR01MB1802.jpnprd01.prod.outlook.com>
-x-ms-exchange-senderadcheck: 1
-x-ms-exchange-antispam-relay: 0
-x-microsoft-antispam: BCL:0;
-x-microsoft-antispam-message-info: NwDuMX7Tzp6EV8VfYXejD/8CztZ+HPcbgIQg2/4ALUSgpSEOJISufwYqdXb6OofIsPzN666Cr9ZZg9zVci8IUyRqJuM6isStjqv1sGaDaTXJwHFSFLUS3hIi209lrNQNYRf7Ecd+VumNHGWzmJcBdTUdgYtUnlJH6wJIGTu55Z4VECXwD1eu3vUYzL5uVPkrc8lgwQP1mdG4OackAUNYiMFH4DaaVb31OHU8sjqOFCSkvZgD9Rwq77ZTq5sZVXOLGu1pmTZj/ViHmpqgSGOAB0LgLNGPqwuQDcjVGXlTvWBs7uireOxgec620cedQRJw6gapfXBSRH9Hdhc3j+RFcJU1WqH0a593TnE/ADzxDeZyRyz/xMiXKrtxs22tWPuwjkc9+Qve+xLe/db57SxMbeL0DvcsOOTiwdgKsV99+MsmBU9eZP6ZQsA4x0UvXKNHl5D6lcpURvycXcukeu6ehZFTTUdZ4yfCUpIf6FdsEL33RO1umdHaX20WeWD/L7wlx1PU3HppSPHUenaC+b7OVGF+oslO0upBhdK3Cwhc0UyKJm7uzWPuedOWr8lBj0wpSsw3QM2YHz9e3iSZNK0M3egDYogIqO0yKbztMDujnSTBTLDvQRFqzCupQX4iwwm6et9RhGzxWlspAgR1mstw3HHg5Kvqx/ykCA+JmpmRQiPKw/XFn0u3sY2Jqu528b61Yr4vP72LtSFjRw8DsHaUaw==
-x-forefront-antispam-report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
- IPV:NLI; SFV:NSPM; H:OS0PR01MB5922.jpnprd01.prod.outlook.com; PTR:; CAT:NONE;
- SFS:(13230001)(4636009)(366004)(316002)(2906002)(6506007)(53546011)(4744005)(66446008)(122000001)(38070700005)(38100700002)(76116006)(86362001)(66946007)(508600001)(64756008)(8676002)(4326008)(66556008)(186003)(7696005)(5660300002)(55016003)(66476007)(107886003)(26005)(9686003)(52536014)(8936002)(71200400001)(54906003)(33656002)(6916009);
- DIR:OUT; SFP:1102; 
-x-ms-exchange-antispam-messagedata-chunkcount: 1
-x-ms-exchange-antispam-messagedata-0: =?utf-8?B?ZnYrd1VidFFoQmtLZzVLbXRSK0hBU3pndVlrT1o2RGpDczBTRENzd1liVUpt?=
- =?utf-8?B?RGFRTGMxSjRTdzlqREpva1I1U3d1MjlDUm91cytPZGRKT2V5QVhjMFQySEgr?=
- =?utf-8?B?ZjVYK2FycXRhYnFKZ2FQU2pDSWhmU3R5cW9lUzYxU1NKZ1hqMFU4UDlpclR4?=
- =?utf-8?B?bEp4ZGJBUHB3TTNGZWxzaXVZeTNYaTdHeEJRVkF3ZEpydEJYVlVHS0RBazJT?=
- =?utf-8?B?d3dvTnBUeXhWZnR2dlBQYVRvelhKWE5jeEU2MHZJVUFLM2U3VS9CSDhIMjhJ?=
- =?utf-8?B?NnMyRHJmdmExTWRwaVZjWDYvaVRibDRyVVUzMTJWNktGYUNWRjNEdGV3Qk41?=
- =?utf-8?B?M1pGUTQ5ODB6Z2NhYUZHZTJhdjZXUVNWSzgvcnVCZUsvcEFqM3JINkhyNjZP?=
- =?utf-8?B?emdOa2wzQXpyaGkwVFFjN0pvcVpCeFFNd0RxTlFwbWdSUnZyWjErSWxOTXo3?=
- =?utf-8?B?OWZUcjFYRC9TcFB2UXhCcFg3ME5yQVp2TFluM0NkdE15WkEydXprSjNrUDlV?=
- =?utf-8?B?K1AzU2hkdlcycnhJRVlnSVp2bUYrUTE5RnA5V2NodUlybXZjdmhGbEFmYUhn?=
- =?utf-8?B?T25kSWg5ZXI1L3NZRUFSQ1dkYW1ZZ0ZYSDNWekhLTmxsTjN3VFh2NDRyalpW?=
- =?utf-8?B?SzR1MGM3RnlvMDZZdmR1RE1hdkR1Y1YwcVJSVnQ2UkhMOG93dkM3RDI5Q3FB?=
- =?utf-8?B?Tyt1S0xkNFRWazhLaTlxdHV5Sk5jbUZ3NUJVdktaWVJOTm9ZSDVQai9WYnI0?=
- =?utf-8?B?VWN2YWpsWDJ0UVdsTmVEWVljbVVadHBGZHQ0NFlqMFFGNUxyVDFKNW11dE9H?=
- =?utf-8?B?ZnhBcnRNRXczbWRKamdEdFhzNXFVSnkyeEVNazRrSGI2dFEyeEttRWVKM1BZ?=
- =?utf-8?B?NU5VK3k1dFJ4dGVOOS9sOEVzTlAycmtpMjVCdjd6bzRzWG42U092QUlrbHJO?=
- =?utf-8?B?eGU3bnFCc0RKaDVqTlVRZ0pXRFRLNHlGRTNDTUszQmRNUmlpWkFuS29jYXBz?=
- =?utf-8?B?VWhSTnpmbytxTWxhRmVTazVmVnozSTB4bkJCZHhXYWI5aGlJZUNaU1FSNS81?=
- =?utf-8?B?SHczekdNMVY0SDFoeE9QRDUyYzVEcXdldUFmVDhaRXdNTStCWGFZRzJjaVJR?=
- =?utf-8?B?b0E0dUdiTUJKY3VkaElTemlYQ2d3dTRwdFdscWhVSlJDb1dPSFRBb25hYzhL?=
- =?utf-8?B?SURFY3VNMDA4VmZEbkpCa2ZwWjFTeUVUazd1WG9vaTQwT1hrV3kzZjR6bWFs?=
- =?utf-8?B?ck5HUlp2bGFLYlZwdFBJelNyU0hkcm1uNnF3TC9pSzFCcy9hYXFrRXJMUm1h?=
- =?utf-8?B?OVNBUGdwSXhBdTJKc0I1ODNISVR6UUFtZ2xGWG1rNUx0U0c2cU5KSDMvNHNr?=
- =?utf-8?B?UDB4dG9GcE54aVlFMEJJanZlMlNjOSt0aU5Ec3Jndy9yM2VudnB6UlFqdVYz?=
- =?utf-8?B?OWcxZHBQcUNpSGFaYzZOUTdJNW8zcFFBa3NITjZ1WC9rMXBQYjB1NDM5WWpG?=
- =?utf-8?B?ZXBkY1IvUFBoQyt6V3dMYlF3RWk0UGFPOHdrR0hOS05VR1ZzQ1ZiSlRnZU5R?=
- =?utf-8?B?MnhvRDJEVlBFUENpZ1EyMlk4U0dtb0dkTGhudzdmdVVObGZRaEtpWUZyVTVp?=
- =?utf-8?B?Q3dzOHRMNGlmMktMNEpFTElSNGxjSG5qSFJ2UHgrUm1EZHhwOVFFYWlleTNU?=
- =?utf-8?B?K3E4bm5NdlVwVnp6U0w0Z0lybHJvYkYzMDQ1bFFTa1pFNFZOUS9HL0gwVHp5?=
- =?utf-8?B?eWNLSWlNUE9vbUxWblFBWE1LaFJCMjlocG11RGV3U0V3RjRYSVByMU9tZWwz?=
- =?utf-8?B?VjRDbTV2ZlFIb0syNk9pSlNwYlRzZGUwc0lGVEs4VVVZdlNHdUdnQ0t4NTdV?=
- =?utf-8?B?K1lIamM5RW1jTUZVcStTVmEzTlJiNmNaaHI4a1JTbXZJQVZmQUI2b2FvQWNm?=
- =?utf-8?B?ZTNIVWg2bDg2Z2JEMm9kYU1qeE8wUnh4Mnk0RXB6VFVDZVdqWmpjL1p0bGV6?=
- =?utf-8?B?bGxmR1U5RzVUN1IxaFJKUUR0Ti9GR0FEMjFPcWRxcXVnSE9lT3g2VDV3QzRG?=
- =?utf-8?B?aHpTZENkRzdLNVhDUm5GYllIeUlZQmRqLytHQzlpYSsvU3RKMnpZaXZXbkpX?=
- =?utf-8?B?Z1UzaW1ZNmd6WjBGSTMrZXNkamg2UVRxcGM1T1N4SDAxODUvWGlvM1VVNlBE?=
- =?utf-8?B?UzNuQ3ZHMTd4bVNqT3BCeE5aZk5aamRCSXRaOVIxTkMvV3NEQmtHSExhWStJ?=
- =?utf-8?B?T1JjeEFUbDV2Mk5xaytTUDRnWVc5UGpGdkdHY0dvSS9xYlp3RmJvbURGSHhm?=
- =?utf-8?B?bXpHOHZKalV2akdTYVJPVExEM1FkbVU5TDBpWndPOFRVaVY2aDEvUXg5R0tG?=
- =?utf-8?Q?9B6HRQe+9uHQ+p3w=3D?=
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: base64
+Received: from mailgw02.mediatek.com (unknown [210.61.82.184])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 3EE9510E3E4
+ for <dri-devel@lists.freedesktop.org>; Fri, 22 Apr 2022 10:05:14 +0000 (UTC)
+X-UUID: 62431072bb41407185f44a2b89b7610c-20220422
+X-CID-P-RULE: Release_Ham
+X-CID-O-INFO: VERSION:1.1.4, REQID:079374bf-d6d4-4c87-b2e6-b2bf2b4dcbed, OB:0,
+ LO
+ B:0,IP:0,URL:8,TC:0,Content:0,EDM:0,RT:0,SF:50,FILE:0,RULE:Release_Ham,ACT
+ ION:release,TS:58
+X-CID-INFO: VERSION:1.1.4, REQID:079374bf-d6d4-4c87-b2e6-b2bf2b4dcbed, OB:0,
+ LOB:
+ 0,IP:0,URL:8,TC:0,Content:0,EDM:0,RT:0,SF:50,FILE:0,RULE:Release_Ham,ACTIO
+ N:release,TS:58
+X-CID-META: VersionHash:faefae9, CLOUDID:96709cf0-da02-41b4-b6df-58f4ccd36682,
+ C
+ OID:0816bee029dc,Recheck:0,SF:13|15|28|17|19|48,TC:nil,Content:0,EDM:-3,Fi
+ le:nil,QS:0,BEC:nil
+X-UUID: 62431072bb41407185f44a2b89b7610c-20220422
+Received: from mtkmbs10n2.mediatek.inc [(172.21.101.183)] by
+ mailgw02.mediatek.com (envelope-from <ck.hu@mediatek.com>)
+ (Generic MTA with TLSv1.2 ECDHE-RSA-AES256-GCM-SHA384 256/256)
+ with ESMTP id 720074413; Fri, 22 Apr 2022 18:05:09 +0800
+Received: from mtkcas11.mediatek.inc (172.21.101.40) by
+ mtkmbs10n1.mediatek.inc (172.21.101.34) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_CBC_SHA384) id
+ 15.2.792.15; Fri, 22 Apr 2022 18:05:09 +0800
+Received: from mtksdccf07 (172.21.84.99) by mtkcas11.mediatek.inc
+ (172.21.101.73) with Microsoft SMTP Server id 15.0.1497.2 via Frontend
+ Transport; Fri, 22 Apr 2022 18:05:09 +0800
+Message-ID: <1e2c9fe3f97fef65ba8bd6449d7474effc0ed706.camel@mediatek.com>
+Subject: Re: [PATCH v20 5/8] drm/mediatek: add mediatek-drm of vdosys0
+ support for mt8195
+From: CK Hu <ck.hu@mediatek.com>
+To: jason-jh.lin <jason-jh.lin@mediatek.com>, Matthias Brugger
+ <matthias.bgg@gmail.com>, Chun-Kuang Hu <chunkuang.hu@kernel.org>,
+ AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>
+Date: Fri, 22 Apr 2022 18:05:08 +0800
+In-Reply-To: <20220419094143.9561-6-jason-jh.lin@mediatek.com>
+References: <20220419094143.9561-1-jason-jh.lin@mediatek.com>
+ <20220419094143.9561-6-jason-jh.lin@mediatek.com>
+Content-Type: text/plain; charset="UTF-8"
+X-Mailer: Evolution 3.28.5-0ubuntu0.18.04.2 
 MIME-Version: 1.0
-X-OriginatorOrg: bp.renesas.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-AuthSource: OS0PR01MB5922.jpnprd01.prod.outlook.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: c0997aa2-728f-44f8-67d9-08da2443ca7e
-X-MS-Exchange-CrossTenant-originalarrivaltime: 22 Apr 2022 09:38:00.4880 (UTC)
-X-MS-Exchange-CrossTenant-fromentityheader: Hosted
-X-MS-Exchange-CrossTenant-id: 53d82571-da19-47e4-9cb4-625a166a4a2a
-X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
-X-MS-Exchange-CrossTenant-userprincipalname: GhQ9DefH34HkJMjJoMC1Pq/Y7NreImsuo5iwPPGdsTJLa8ipoQZZT4xm+SxGQCwhbdVXENsKFLz9+UZ5UXPHhkVFxDtoMHF0xIsOtNXECYs=
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: TY1PR01MB1802
+Content-Transfer-Encoding: 7bit
+X-MTK: N
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -132,30 +66,371 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Chris Paterson <Chris.Paterson2@renesas.com>,
- Geert Uytterhoeven <geert+renesas@glider.be>, David Airlie <airlied@linux.ie>,
- Prabhakar Mahadev Lad <prabhakar.mahadev-lad.rj@bp.renesas.com>,
- DRI Development <dri-devel@lists.freedesktop.org>,
- Biju Das <biju.das@bp.renesas.com>,
- Linux-Renesas <linux-renesas-soc@vger.kernel.org>,
- Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>,
- Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+Cc: devicetree@vger.kernel.org, Singo Chang <singo.chang@mediatek.com>,
+ linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
+ Project_Global_Chrome_Upstream_Group@mediatek.com,
+ Nancy Lin <nancy.lin@mediatek.com>, linux-mediatek@lists.infradead.org,
+ linux-arm-kernel@lists.infradead.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-SGkgR2VlcnQsDQoNClRoYW5rcyBmb3IgdGhlIGZlZWRiYWNrLg0KDQo+IFN1YmplY3Q6IFJlOiBb
-UEFUQ0ggdjMgMi80XSBkcm06IHJjYXItZHU6IEZpeCB0eXBvDQo+IA0KPiBIaSBCaWp1LA0KPiAN
-Cj4gT24gVGh1LCBBcHIgMjEsIDIwMjIgYXQgNjozMSBQTSBCaWp1IERhcyA8YmlqdS5kYXMuanpA
-YnAucmVuZXNhcy5jb20+DQo+IHdyb3RlOg0KPiA+IEZpeCB0eXBvIHJjYXJfZHVfdnNwLmgtPnJj
-YXJfZHVfdnNwLmMNCj4gPg0KPiA+IFNpZ25lZC1vZmYtYnk6IEJpanUgRGFzIDxiaWp1LmRhcy5q
-ekBicC5yZW5lc2FzLmNvbT4NCj4gDQo+IFRoYW5rcyBmb3IgeW91ciBwYXRjaCENCj4gDQo+ID4g
-LS0tIGEvZHJpdmVycy9ncHUvZHJtL3JjYXItZHUvcmNhcl9kdV92c3AuYw0KPiA+ICsrKyBiL2Ry
-aXZlcnMvZ3B1L2RybS9yY2FyLWR1L3JjYXJfZHVfdnNwLmMNCj4gPiBAQCAtMSw2ICsxLDYgQEAN
-Cj4gPiAgLy8gU1BEWC1MaWNlbnNlLUlkZW50aWZpZXI6IEdQTC0yLjArDQo+ID4gIC8qDQo+ID4g
-LSAqIHJjYXJfZHVfdnNwLmggIC0tICBSLUNhciBEaXNwbGF5IFVuaXQgVlNQLUJhc2VkIENvbXBv
-c2l0b3INCj4gPiArICogcmNhcl9kdV92c3AuYyAgLS0gIFItQ2FyIERpc3BsYXkgVW5pdCBWU1At
-QmFzZWQgQ29tcG9zaXRvcg0KPiANCj4gUGVyaGFwcyBkcm9wIHRoZSBmaWxlIG5hbWUgY29tcGxl
-dGVseSBpbnN0ZWFkPw0KDQpDdXJyZW50bHkgYWxsIHRoZSBSLUNhciBEVSBmaWxlcyBoYXZlIGZp
-bGUgbmFtZS4gTWF5IGJlDQpBIHNpbmdsZSBwYXRjaCB0byByZW1vdmUgYWxsIG9mZiB0aGVtIGlm
-IHdlIGFyZSBwbGFubmluZyB0byBkby4NCg0KTGF1cmVudCwgcGxlYXNlIHNoYXJlIHlvdXIgdGhv
-dWdodHMgb24gdGhpcy4NCg0KQ2hlZXJzLA0KQmlqdQ0K
+Hi, Jason:
+
+On Tue, 2022-04-19 at 17:41 +0800, jason-jh.lin wrote:
+> 1. Add driver data of mt8195 vdosys0 to mediatek-drm and the sub
+> driver.
+> 2. Add get driver data function to identify which vdosys by io_start.
+
+Reviewed-by: CK Hu <ck.hu@mediatek.com>
+
+> 
+> Signed-off-by: jason-jh.lin <jason-jh.lin@mediatek.com>
+> Reviewed-by: AngeloGioacchino Del Regno <
+> angelogioacchino.delregno@collabora.com>
+> ---
+>  drivers/gpu/drm/mediatek/mtk_disp_rdma.c |   6 +
+>  drivers/gpu/drm/mediatek/mtk_drm_drv.c   | 141
+> +++++++++++++++++++++--
+>  drivers/gpu/drm/mediatek/mtk_drm_drv.h   |   6 +
+>  3 files changed, 145 insertions(+), 8 deletions(-)
+> 
+> diff --git a/drivers/gpu/drm/mediatek/mtk_disp_rdma.c
+> b/drivers/gpu/drm/mediatek/mtk_disp_rdma.c
+> index 662e91d9d45f..8ce60371536e 100644
+> --- a/drivers/gpu/drm/mediatek/mtk_disp_rdma.c
+> +++ b/drivers/gpu/drm/mediatek/mtk_disp_rdma.c
+> @@ -364,6 +364,10 @@ static const struct mtk_disp_rdma_data
+> mt8192_rdma_driver_data = {
+>  	.fifo_size = 5 * SZ_1K,
+>  };
+>  
+> +static const struct mtk_disp_rdma_data mt8195_rdma_driver_data = {
+> +	.fifo_size = 1920,
+> +};
+> +
+>  static const struct of_device_id mtk_disp_rdma_driver_dt_match[] = {
+>  	{ .compatible = "mediatek,mt2701-disp-rdma",
+>  	  .data = &mt2701_rdma_driver_data},
+> @@ -373,6 +377,8 @@ static const struct of_device_id
+> mtk_disp_rdma_driver_dt_match[] = {
+>  	  .data = &mt8183_rdma_driver_data},
+>  	{ .compatible = "mediatek,mt8192-disp-rdma",
+>  	  .data = &mt8192_rdma_driver_data},
+> +	{ .compatible = "mediatek,mt8195-disp-rdma",
+> +	  .data = &mt8195_rdma_driver_data},
+>  	{},
+>  };
+>  MODULE_DEVICE_TABLE(of, mtk_disp_rdma_driver_dt_match);
+> diff --git a/drivers/gpu/drm/mediatek/mtk_drm_drv.c
+> b/drivers/gpu/drm/mediatek/mtk_drm_drv.c
+> index f54b650a2ea1..a3d01940d4c6 100644
+> --- a/drivers/gpu/drm/mediatek/mtk_drm_drv.c
+> +++ b/drivers/gpu/drm/mediatek/mtk_drm_drv.c
+> @@ -4,6 +4,8 @@
+>   * Author: YT SHEN <yt.shen@mediatek.com>
+>   */
+>  
+> +#include <linux/clk.h>
+> +#include <linux/clk-provider.h>
+>  #include <linux/component.h>
+>  #include <linux/iommu.h>
+>  #include <linux/module.h>
+> @@ -177,6 +179,19 @@ static const enum mtk_ddp_comp_id
+> mt8192_mtk_ddp_ext[] = {
+>  	DDP_COMPONENT_DPI0,
+>  };
+>  
+> +static const enum mtk_ddp_comp_id mt8195_mtk_ddp_main[] = {
+> +	DDP_COMPONENT_OVL0,
+> +	DDP_COMPONENT_RDMA0,
+> +	DDP_COMPONENT_COLOR0,
+> +	DDP_COMPONENT_CCORR,
+> +	DDP_COMPONENT_AAL0,
+> +	DDP_COMPONENT_GAMMA,
+> +	DDP_COMPONENT_DITHER,
+> +	DDP_COMPONENT_DSC0,
+> +	DDP_COMPONENT_MERGE0,
+> +	DDP_COMPONENT_DP_INTF0,
+> +};
+> +
+>  static const struct mtk_mmsys_driver_data mt2701_mmsys_driver_data =
+> {
+>  	.main_path = mt2701_mtk_ddp_main,
+>  	.main_len = ARRAY_SIZE(mt2701_mtk_ddp_main),
+> @@ -185,6 +200,13 @@ static const struct mtk_mmsys_driver_data
+> mt2701_mmsys_driver_data = {
+>  	.shadow_register = true,
+>  };
+>  
+> +static const struct mtk_mmsys_match_data mt2701_mmsys_match_data = {
+> +	.num_drv_data = 1,
+> +	.drv_data = {
+> +		&mt2701_mmsys_driver_data,
+> +	},
+> +};
+> +
+>  static const struct mtk_mmsys_driver_data mt7623_mmsys_driver_data =
+> {
+>  	.main_path = mt7623_mtk_ddp_main,
+>  	.main_len = ARRAY_SIZE(mt7623_mtk_ddp_main),
+> @@ -193,6 +215,13 @@ static const struct mtk_mmsys_driver_data
+> mt7623_mmsys_driver_data = {
+>  	.shadow_register = true,
+>  };
+>  
+> +static const struct mtk_mmsys_match_data mt7623_mmsys_match_data = {
+> +	.num_drv_data = 1,
+> +	.drv_data = {
+> +		&mt7623_mmsys_driver_data,
+> +	},
+> +};
+> +
+>  static const struct mtk_mmsys_driver_data mt2712_mmsys_driver_data =
+> {
+>  	.main_path = mt2712_mtk_ddp_main,
+>  	.main_len = ARRAY_SIZE(mt2712_mtk_ddp_main),
+> @@ -202,11 +231,25 @@ static const struct mtk_mmsys_driver_data
+> mt2712_mmsys_driver_data = {
+>  	.third_len = ARRAY_SIZE(mt2712_mtk_ddp_third),
+>  };
+>  
+> +static const struct mtk_mmsys_match_data mt2712_mmsys_match_data = {
+> +	.num_drv_data = 1,
+> +	.drv_data = {
+> +		&mt2712_mmsys_driver_data,
+> +	},
+> +};
+> +
+>  static const struct mtk_mmsys_driver_data mt8167_mmsys_driver_data =
+> {
+>  	.main_path = mt8167_mtk_ddp_main,
+>  	.main_len = ARRAY_SIZE(mt8167_mtk_ddp_main),
+>  };
+>  
+> +static const struct mtk_mmsys_match_data mt8167_mmsys_match_data = {
+> +	.num_drv_data = 1,
+> +	.drv_data = {
+> +		&mt8167_mmsys_driver_data,
+> +	},
+> +};
+> +
+>  static const struct mtk_mmsys_driver_data mt8173_mmsys_driver_data =
+> {
+>  	.main_path = mt8173_mtk_ddp_main,
+>  	.main_len = ARRAY_SIZE(mt8173_mtk_ddp_main),
+> @@ -214,6 +257,13 @@ static const struct mtk_mmsys_driver_data
+> mt8173_mmsys_driver_data = {
+>  	.ext_len = ARRAY_SIZE(mt8173_mtk_ddp_ext),
+>  };
+>  
+> +static const struct mtk_mmsys_match_data mt8173_mmsys_match_data = {
+> +	.num_drv_data = 1,
+> +	.drv_data = {
+> +		&mt8173_mmsys_driver_data,
+> +	},
+> +};
+> +
+>  static const struct mtk_mmsys_driver_data mt8183_mmsys_driver_data =
+> {
+>  	.main_path = mt8183_mtk_ddp_main,
+>  	.main_len = ARRAY_SIZE(mt8183_mtk_ddp_main),
+> @@ -221,6 +271,13 @@ static const struct mtk_mmsys_driver_data
+> mt8183_mmsys_driver_data = {
+>  	.ext_len = ARRAY_SIZE(mt8183_mtk_ddp_ext),
+>  };
+>  
+> +static const struct mtk_mmsys_match_data mt8183_mmsys_match_data = {
+> +	.num_drv_data = 1,
+> +	.drv_data = {
+> +		&mt8183_mmsys_driver_data,
+> +	},
+> +};
+> +
+>  static const struct mtk_mmsys_driver_data mt8192_mmsys_driver_data =
+> {
+>  	.main_path = mt8192_mtk_ddp_main,
+>  	.main_len = ARRAY_SIZE(mt8192_mtk_ddp_main),
+> @@ -228,6 +285,31 @@ static const struct mtk_mmsys_driver_data
+> mt8192_mmsys_driver_data = {
+>  	.ext_len = ARRAY_SIZE(mt8192_mtk_ddp_ext),
+>  };
+>  
+> +static const struct mtk_mmsys_match_data mt8192_mmsys_match_data = {
+> +	.num_drv_data = 1,
+> +	.drv_data = {
+> +		&mt8192_mmsys_driver_data,
+> +	},
+> +};
+> +
+> +static const struct mtk_mmsys_driver_data mt8195_vdosys0_driver_data
+> = {
+> +	.io_start = 0x1c01a000,
+> +	.main_path = mt8195_mtk_ddp_main,
+> +	.main_len = ARRAY_SIZE(mt8195_mtk_ddp_main),
+> +};
+> +
+> +static const struct mtk_mmsys_driver_data mt8195_vdosys1_driver_data
+> = {
+> +	.io_start = 0x1c100000,
+> +};
+> +
+> +static const struct mtk_mmsys_match_data mt8195_mmsys_match_data = {
+> +	.num_drv_data = 1,
+> +	.drv_data = {
+> +		&mt8195_vdosys0_driver_data,
+> +		&mt8195_vdosys1_driver_data,
+> +	},
+> +};
+> +
+>  static int mtk_drm_kms_init(struct drm_device *drm)
+>  {
+>  	struct mtk_drm_private *private = drm->dev_private;
+> @@ -445,12 +527,16 @@ static const struct of_device_id
+> mtk_ddp_comp_dt_ids[] = {
+>  	  .data = (void *)MTK_DISP_DITHER },
+>  	{ .compatible = "mediatek,mt8183-disp-dither",
+>  	  .data = (void *)MTK_DISP_DITHER },
+> +	{ .compatible = "mediatek,mt8195-disp-dsc",
+> +	  .data = (void *)MTK_DISP_DSC },
+>  	{ .compatible = "mediatek,mt8167-disp-gamma",
+>  	  .data = (void *)MTK_DISP_GAMMA, },
+>  	{ .compatible = "mediatek,mt8173-disp-gamma",
+>  	  .data = (void *)MTK_DISP_GAMMA, },
+>  	{ .compatible = "mediatek,mt8183-disp-gamma",
+>  	  .data = (void *)MTK_DISP_GAMMA, },
+> +	{ .compatible = "mediatek,mt8195-disp-merge",
+> +	  .data = (void *)MTK_DISP_MERGE },
+>  	{ .compatible = "mediatek,mt2701-disp-mutex",
+>  	  .data = (void *)MTK_DISP_MUTEX },
+>  	{ .compatible = "mediatek,mt2712-disp-mutex",
+> @@ -463,6 +549,8 @@ static const struct of_device_id
+> mtk_ddp_comp_dt_ids[] = {
+>  	  .data = (void *)MTK_DISP_MUTEX },
+>  	{ .compatible = "mediatek,mt8192-disp-mutex",
+>  	  .data = (void *)MTK_DISP_MUTEX },
+> +	{ .compatible = "mediatek,mt8195-disp-mutex",
+> +	  .data = (void *)MTK_DISP_MUTEX },
+>  	{ .compatible = "mediatek,mt8173-disp-od",
+>  	  .data = (void *)MTK_DISP_OD },
+>  	{ .compatible = "mediatek,mt2701-disp-ovl",
+> @@ -497,6 +585,8 @@ static const struct of_device_id
+> mtk_ddp_comp_dt_ids[] = {
+>  	  .data = (void *)MTK_DISP_RDMA },
+>  	{ .compatible = "mediatek,mt8192-disp-rdma",
+>  	  .data = (void *)MTK_DISP_RDMA },
+> +	{ .compatible = "mediatek,mt8195-disp-rdma",
+> +	  .data = (void *)MTK_DISP_RDMA },
+>  	{ .compatible = "mediatek,mt8173-disp-ufoe",
+>  	  .data = (void *)MTK_DISP_UFOE },
+>  	{ .compatible = "mediatek,mt8173-disp-wdma",
+> @@ -520,28 +610,51 @@ static const struct of_device_id
+> mtk_ddp_comp_dt_ids[] = {
+>  
+>  static const struct of_device_id mtk_drm_of_ids[] = {
+>  	{ .compatible = "mediatek,mt2701-mmsys",
+> -	  .data = &mt2701_mmsys_driver_data},
+> +	  .data = &mt2701_mmsys_match_data},
+>  	{ .compatible = "mediatek,mt7623-mmsys",
+> -	  .data = &mt7623_mmsys_driver_data},
+> +	  .data = &mt7623_mmsys_match_data},
+>  	{ .compatible = "mediatek,mt2712-mmsys",
+> -	  .data = &mt2712_mmsys_driver_data},
+> +	  .data = &mt2712_mmsys_match_data},
+>  	{ .compatible = "mediatek,mt8167-mmsys",
+> -	  .data = &mt8167_mmsys_driver_data},
+> +	  .data = &mt8167_mmsys_match_data},
+>  	{ .compatible = "mediatek,mt8173-mmsys",
+> -	  .data = &mt8173_mmsys_driver_data},
+> +	  .data = &mt8173_mmsys_match_data},
+>  	{ .compatible = "mediatek,mt8183-mmsys",
+> -	  .data = &mt8183_mmsys_driver_data},
+> +	  .data = &mt8183_mmsys_match_data},
+>  	{ .compatible = "mediatek,mt8192-mmsys",
+> -	  .data = &mt8192_mmsys_driver_data},
+> +	  .data = &mt8192_mmsys_match_data},
+> +	{ .compatible = "mediatek,mt8195-mmsys",
+> +	  .data = &mt8195_mmsys_match_data},
+>  	{ }
+>  };
+>  MODULE_DEVICE_TABLE(of, mtk_drm_of_ids);
+>  
+> +static int mtk_drm_find_match_data(struct device *dev,
+> +				   const struct mtk_mmsys_match_data
+> *match_data)
+> +{
+> +	int i;
+> +	struct platform_device *pdev = of_find_device_by_node(dev-
+> >parent->of_node);
+> +	struct resource *res;
+> +
+> +	res = platform_get_resource(pdev, IORESOURCE_MEM, 0);
+> +	if (!res) {
+> +		dev_err(dev, "failed to get parent resource\n");
+> +		return -EINVAL;
+> +	}
+> +
+> +	for (i = 0; i < match_data->num_drv_data; i++)
+> +		if (match_data->drv_data[i]->io_start == res->start)
+> +			return i;
+> +
+> +	return -EINVAL;
+> +}
+> +
+>  static int mtk_drm_probe(struct platform_device *pdev)
+>  {
+>  	struct device *dev = &pdev->dev;
+>  	struct device_node *phandle = dev->parent->of_node;
+>  	const struct of_device_id *of_id;
+> +	const struct mtk_mmsys_match_data *match_data;
+>  	struct mtk_drm_private *private;
+>  	struct device_node *node;
+>  	struct component_match *match = NULL;
+> @@ -562,7 +675,19 @@ static int mtk_drm_probe(struct platform_device
+> *pdev)
+>  	if (!of_id)
+>  		return -ENODEV;
+>  
+> -	private->data = of_id->data;
+> +	match_data = of_id->data;
+> +	if (match_data->num_drv_data > 1) {
+> +		/* This SoC has multiple mmsys channels */
+> +		ret = mtk_drm_find_match_data(dev, match_data);
+> +		if (ret < 0) {
+> +			dev_err(dev, "Couldn't get match driver
+> data\n");
+> +			return ret;
+> +		}
+> +		private->data = match_data->drv_data[ret];
+> +	} else {
+> +		dev_dbg(dev, "Using single mmsys channel\n");
+> +		private->data = match_data->drv_data[0];
+> +	}
+>  
+>  	/* Iterate over sibling DISP function blocks */
+>  	for_each_child_of_node(phandle->parent, node) {
+> diff --git a/drivers/gpu/drm/mediatek/mtk_drm_drv.h
+> b/drivers/gpu/drm/mediatek/mtk_drm_drv.h
+> index a58cebd01d35..9fc922b1684f 100644
+> --- a/drivers/gpu/drm/mediatek/mtk_drm_drv.h
+> +++ b/drivers/gpu/drm/mediatek/mtk_drm_drv.h
+> @@ -21,6 +21,7 @@ struct drm_property;
+>  struct regmap;
+>  
+>  struct mtk_mmsys_driver_data {
+> +	const resource_size_t io_start;
+>  	const enum mtk_ddp_comp_id *main_path;
+>  	unsigned int main_len;
+>  	const enum mtk_ddp_comp_id *ext_path;
+> @@ -31,6 +32,11 @@ struct mtk_mmsys_driver_data {
+>  	bool shadow_register;
+>  };
+>  
+> +struct mtk_mmsys_match_data {
+> +	unsigned short num_drv_data;
+> +	const struct mtk_mmsys_driver_data *drv_data[];
+> +};
+> +
+>  struct mtk_drm_private {
+>  	struct drm_device *drm;
+>  	struct device *dma_dev;
+
