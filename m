@@ -1,48 +1,58 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 810B250BA15
-	for <lists+dri-devel@lfdr.de>; Fri, 22 Apr 2022 16:28:36 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id EBFBC50BA36
+	for <lists+dri-devel@lfdr.de>; Fri, 22 Apr 2022 16:36:58 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id AD68B10E132;
-	Fri, 22 Apr 2022 14:28:29 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 0826610E1CE;
+	Fri, 22 Apr 2022 14:36:55 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from fanzine2.igalia.com (fanzine.igalia.com [178.60.130.6])
- by gabe.freedesktop.org (Postfix) with ESMTPS id A52C010E132;
- Fri, 22 Apr 2022 14:28:28 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=igalia.com; 
- s=20170329;
- h=In-Reply-To:Content-Type:MIME-Version:References:Message-ID:
- Subject:Cc:To:From:Date:Sender:Reply-To:Content-Transfer-Encoding:Content-ID:
- Content-Description:Resent-Date:Resent-From:Resent-Sender:Resent-To:Resent-Cc
- :Resent-Message-ID:List-Id:List-Help:List-Unsubscribe:List-Subscribe:
- List-Post:List-Owner:List-Archive;
- bh=9nJGD0ALpi4ZEslTLhyAFX8KcdFr5YqB5pf4RusRpVE=; b=nki5xphEufnUq9lwcMt6UGIttX
- 4LFqniQ3EPwNVMb/pI7Cvut+W0czlW+j9DXVTazgzpdWc1GxGqD9UYFQYvNcCsOTFdYfisAQsf+CL
- MXnvvBIHmsBhKHSjXbi5+c3o8KWu87Wqr0jOzwHIH1vFTXvw6DXCTnZ5/bHG6Fp+ZMh45RhqrKVP9
- 3tsZtyocmRAXjSVQw8HCl/yhjD71JMn+BvYTLB5BtfLAEciruPzrJ0SXeAbeIYnJRXB1E57QEYw3X
- uE9xfajZvr9qOrm3r0VwkwKaY+vdiLwYUFkDNQQWiqxihdd4E280zXhdvXHQ+lEL6RHvPR043m8Xu
- 2QTQ/9dA==;
-Received: from [165.90.126.25] (helo=mail.igalia.com)
- by fanzine2.igalia.com with esmtpsa 
- (Cipher TLS1.3:ECDHE_SECP256R1__RSA_PSS_RSAE_SHA256__AES_256_GCM:256) (Exim)
- id 1nhuGn-0004Yx-CO; Fri, 22 Apr 2022 16:28:25 +0200
-Date: Fri, 22 Apr 2022 13:28:11 -0100
-From: Melissa Wen <mwen@igalia.com>
-To: Harry Wentland <harry.wentland@amd.com>
-Subject: Re: AMD display drivers handling DRM CRTC color mgmt props
-Message-ID: <20220422142811.dm6vtk6v64jcwydk@mail.igalia.com>
-References: <20220421143747.247mohbio436ivqo@mail.igalia.com>
- <06891dd7-b2f4-ece6-b1a5-b9ad15f5f899@amd.com>
- <20220421191945.yn4plwv757jlri2n@mail.igalia.com>
- <b94504d9-4d19-5663-f67d-7b1376827335@amd.com>
+Received: from mail-pl1-x62f.google.com (mail-pl1-x62f.google.com
+ [IPv6:2607:f8b0:4864:20::62f])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id E00C410E214
+ for <dri-devel@lists.freedesktop.org>; Fri, 22 Apr 2022 14:36:53 +0000 (UTC)
+Received: by mail-pl1-x62f.google.com with SMTP id q3so11279414plg.3
+ for <dri-devel@lists.freedesktop.org>; Fri, 22 Apr 2022 07:36:53 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc:content-transfer-encoding;
+ bh=rF/C3AMO9J9Xcm0GDkakDkZ6D9mvu8tIygaqpNdvpMU=;
+ b=guyS8Iw2jNo3NG/fqFX/2t3DskAnRGI89PzemXKM9OIkNum3FWKypc6gOar9BzusRO
+ BC9cfMrY7u8QAc3BRRpsvtdXuSyLihUliWYKmfqSSrbgLB6VX/+K3a6Z8bEfsYE3WtKA
+ b9Q1utlzoiGyt7MOVXJN1pdnMXvHNVM4aCDDUVwwYJ/MzIHFKS81PvNS881Q1syj1ybp
+ YnsRkp5j3MzbAnX9oeME9lNM/ogjMkUzxwkGH3GtZJWxO1+324Y+bZd3EkT1fRqp1JPp
+ 7ebPoEp7dqQkAhfpsle9S+goqQbY5m6hON75jlHhT/fQUVQY9nAkVjl+GkrytzlxBKDo
+ Txug==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc:content-transfer-encoding;
+ bh=rF/C3AMO9J9Xcm0GDkakDkZ6D9mvu8tIygaqpNdvpMU=;
+ b=wcZfm/Dl5d1OHtuDBBk1QvNInTEqFVwVYx2XI1Z8tpTtW73+h9M4XcByNanjm2xV3r
+ 4hyW9fb8CqtD2Ubdm2VM3liYWZq0OcJblgv7CUj8rsg5zLwVgvuCbWiyPN8eM4sflVju
+ nOiOfIB9gGIN0pj0LpV4KJ3ZvGNRAPTyR6wBRj7tD3OsYXnVIVPWSZWD9Zt+GuJPqWQM
+ OIR3IoHsOetkezT6dHG24gW9Mk8pIgb1BqfRmA4ec8y6ryth/1fNhc9hdecLHFRSemN7
+ g7PPep1Qp02xLhgJsEc2vCHP7hQV04Gmol7H2HF0w3OYmpl9uhzFJteYGpZ7dJ/qZ5Ke
+ +JBQ==
+X-Gm-Message-State: AOAM5310g+mcNEMRXkErxvJHL9vLr9F1CGkFyzhrTZaM+D8lDZY9qP4w
+ DgaGK+hgam0luubzutWm6K6EEg1TIGluD7ePtpDnqA==
+X-Google-Smtp-Source: ABdhPJx+8awO7N+ykm6cx8j9n6uD/I784MCgtzeksoaz1FhjzdeJ7TXPoru3pfF1uMyrXsf4vRQf1SiSrI7SDFDpyW8=
+X-Received: by 2002:a17:90a:6501:b0:1ca:a7df:695c with SMTP id
+ i1-20020a17090a650100b001caa7df695cmr5785713pjj.152.1650638213282; Fri, 22
+ Apr 2022 07:36:53 -0700 (PDT)
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha512;
- protocol="application/pgp-signature"; boundary="6cvtn3wedhuoalan"
-Content-Disposition: inline
-In-Reply-To: <b94504d9-4d19-5663-f67d-7b1376827335@amd.com>
+References: <20220319151016.983348-1-alvin@pqrs.dk>
+ <20220319151016.983348-3-alvin@pqrs.dk>
+In-Reply-To: <20220319151016.983348-3-alvin@pqrs.dk>
+From: Robert Foss <robert.foss@linaro.org>
+Date: Fri, 22 Apr 2022 16:36:42 +0200
+Message-ID: <CAG3jFyu64Hq=8Jh0Gj=H+tojBmERcjCZ-tq6PoYb9yrfar7iFw@mail.gmail.com>
+Subject: Re: [PATCH 2/2] drm: bridge: adv7511: use non-legacy mode for CEC RX
+To: =?UTF-8?Q?Alvin_=C5=A0ipraga?= <alvin@pqrs.dk>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -55,252 +65,334 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Rodrigo.Siqueira@amd.com, dri-devel@lists.freedesktop.org,
- Nicholas.Kazlauskas@amd.com, amd-gfx@lists.freedesktop.org,
- kernel-dev@igalia.com, alexander.deucher@amd.com, Bhawanpreet.Lakha@amd.com,
- christian.koenig@amd.com
+Cc: Jonas Karlman <jonas@kwiboo.se>, David Airlie <airlied@linux.ie>,
+ dri-devel@lists.freedesktop.org, Neil Armstrong <narmstrong@baylibre.com>,
+ linux-kernel@vger.kernel.org, Jernej Skrabec <jernej.skrabec@gmail.com>,
+ Laurent Pinchart <Laurent.pinchart@ideasonboard.com>,
+ Andrzej Hajda <andrzej.hajda@intel.com>,
+ =?UTF-8?Q?Alvin_=C5=A0ipraga?= <alsi@bang-olufsen.dk>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-
---6cvtn3wedhuoalan
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
-
-On 04/21, Harry Wentland wrote:
->=20
->=20
-> On 2022-04-21 15:20, Melissa Wen wrote:
-> > On 04/21, Harry Wentland wrote:
-> > >=20
-> > >=20
-> > > On 2022-04-21 10:37, Melissa Wen wrote:
-> > > > Hi all,
-> > > >=20
-> > > > I'm examining how DRM color management properties (degamma, ctm, ga=
-mma)
-> > > > are applied to AMD display drivers. As far I could understand thanks
-> > > > Nicholas documentation on amdgpu_dm/amdgpu_dm_color, DC drivers have
-> > > > per-plane color correction features:
-> > > >=20
-> > Hi Harry,
-> >=20
-> > Wow, thanks so much for all details!
-> > >=20
-> > > DC programs some of the color correction features pre-blending but
-> > > DRM/KMS has not per-plane color correction properties.
-> > >=20
-> > > See this series from Uma Shankar for an RFC on how to introduce those
-> > > properties for 1D LUTs and CSC matrix:
-> > > https://patchwork.freedesktop.org/series/90826/
-> > >=20
-> > > Bhanuprakash has a series of IGT tests for these properties:
-> > > https://patchwork.freedesktop.org/series/96895/
-> > >=20
-> > > I've rebased these on amd-staging-drm-next and maintain a kernel and =
-IGT
-> > > branch with these patches:
-> > > https://gitlab.freedesktop.org/hwentland/linux/-/tree/color-and-hdr
-> > > https://gitlab.freedesktop.org/hwentland/igt-gpu-tools/-/tree/color-a=
-nd-hdr
-> > >=20
-> > > We've had many discussions with Weston guys on this. In order to merg=
-e the
-> > > kernel properties we need a canonical userspace implementation that a=
-re
-> > > using it. Weston guys are working towards that but if you want to sug=
-gest a
-> > > different userspace to serve as that vehicle I'd be all ears. :)
-> > >=20
-> > > Note that in order to show this all working we also need a Wayland Pr=
-otocol
-> > > update.
-> > >=20
-> > > See
-> > > https://gitlab.freedesktop.org/pq/color-and-hdr
-> > > https://gitlab.freedesktop.org/swick/wayland-protocols
-> > > https://gitlab.freedesktop.org/wayland/weston/-/issues/467
-> >=20
-> > So, I've followed these discussions (until the issue on naming) because
-> > initially I considered it addresses our current goals for color
-> > correction. But after some discussions, what we are targeting is a 3D
-> > LUT after blending (per-CRTC). I found past proposals on dri-devel
-> > [1][2] to extend the DRM CRTC color management properties, but they
-> > didn't move forward and were never applied.
-> >=20
->=20
-> They're stuck in limbo until we have an upstream userspace
-> implementation that's making use of them.
-
-Yes... afaiu, the basic requirements for all of these changes are IGT
-tests + open userspace usage, right?
-
->=20
-> > >=20
-> > > > * - Input gamma LUT (de-normalized)
-> > > > * - Input CSC (normalized)
-> > > > * - Surface degamma LUT (normalized)
-> > > > * - Surface CSC (normalized)
-> > > > * - Surface regamma LUT (normalized)
-> > > > * - Output CSC (normalized)
-> > > > so DM is "adapting" those DRM per-CRTC properties to fit into three=
- of
-> > > > these color correction stages, which I guess are the surface stages:
-> > > >=20
-> > > > * - Surface degamma LUT (normalized)
-> > > > * - Surface CSC (normalized)
-> > > > * - Surface regamma LUT (normalized)
-> > > >=20
-> > > > I'm trying to understand what this mapping is doing. A comment ment=
-ions
-> > > > that is not possible to do these color corrections after blending, =
-so,
-> > > > the same color correction pipe is performed on every plane before
-> > > > blending?  (is the surface the plane?) Does this adaptation affect =
-the
-> > > > expected output?  Moreover, is there something that I misunderstood=
-? :)
-> > > >=20
-> > >=20
-> > > What's possible to do before and after blending has changed quite a b=
-it
-> > > between DCN generations. We program the CRTC Gamma and CTM after blen=
-ding.
-> > > See attached picture for a view relating the color bits between the D=
-RM
-> > > interface, DC interface and DCN 3.0 HW blocks.
-> >=20
-> > This picture is really enlightening, thanks!
-> > You said it changes between generations, therefore, I can't consider the
-> > DCN 2.x family follow the same mapping, right? If so, can you share the
-> > main differences for a DCN 2.x regarding per-CRTC properties?
-> >=20
->=20
-> See attached diagram for DCN 2.0.
-
-Thanks again!
-
->=20
-> > >=20
-> > > > That said, if the DRM color mgmt supports per-CRTC 3D LUT as the la=
-st
-> > >=20
-> > > Where do you see 3D LUT support in DRM? Is there a new proposal that =
-I've
-> > > missed?
-> >=20
-> > So, it's exactly what I aim to work: a proposal to add 3D LUT to the
-> > current range of DRM per-CRTC color properties. But I also need to
-> > understand how this property will be mapped to AMD display once it
-> > exists in the DRM framework.
-> >=20
->=20
-> Ah, nice to see. :)
->=20
-> > One of the things that caught my attention after seeing the attached
-> > picture is the position of 3D LUT. I was expecting to see the 3D LUT
-> > correction after gamma correction. Is this position a particularity of
-> > DCN 3.0 (that varies between hw) or was I expecting a wrong color
-> > correction pipeline at all?
-> >=20
->=20
-> Before DCN 3.0 there was no 3D LUT after blending.
+On Sat, 19 Mar 2022 at 16:10, Alvin =C5=A0ipraga <alvin@pqrs.dk> wrote:
 >
-By comparing these diagrams, I'm curious: in case we have a per-CRTC 3D
-LUT support on DRM, DCN 2.0 generations would initially map this
-property as a pre-blending property on DPP (currently the same approach
-for CTM, for example), right? But after we also have a per-plane color
-management property, those per-CRTC property would be ignored? And how
-about degamma for both generations? No problem if there isn't an answer
-yet (many if's), but it may help me to think of a more generic solution.
+> From: Alvin =C5=A0ipraga <alsi@bang-olufsen.dk>
+>
+> The ADV7511 family of bridges supports two modes for CEC RX: legacy and
+> non-legacy mode. The only difference is whether the chip uses a single
+> CEC RX buffer, or uses all three available RX buffers. Currently the
+> adv7511 driver uses legacy mode.
+>
+> While debugging a stall in CEC RX on an ADV7535, we reached out to
+> Analog Devices, who suggested to use non-legacy mode instead.  According
+> to the programming guide for the ADV7511 [1], and the register control
+> manual of the ADV7535 [2], this is the default behaviour on reset. As
+> previously stated, the adv7511 driver currently overrides this to legacy
+> mode.
+>
+> This patch updates the adv7511 driver to instead use non-legacy mode
+> with all three CEC RX buffers. As a result of this change, we no longer
+> experience any stalling of CEC RX with the ADV7535. It is not known why
+> non-legacy mode solves this particular issue, but besides this, no
+> functional change is to be expected by this patch. Please note that this
+> has only been tested on an ADV7535.
+>
+> What follows is a brief description of the non-legacy mode interrupt
+> handling behaviour. The programming guide in [1] gives a more detailed
+> explanation.
+>
+> With three RX buffers, the interrupt handler checks the CEC_RX_STATUS
+> register (renamed from CEC_RX_ENABLE in this patch), which contains
+> 2-bit psuedo-timestamps for each of the RX buffers. The RX timestamps
+> for each buffer represent the time of arrival for the CEC frame held in
+> a given buffer, with lower timestamp values indicating chronologically
+> older frames. A special value of 0 indicates that the given RX buffer
+> is inactive and should be skipped. The interrupt handler parses these
+> timestamps and then reads the active RX buffers in the prescribed order
+> using the same logic as before. Changes have been made to ensure that
+> the correct RX buffer is cleared after processing. This clearing
+> procesure also sets the timestamp of the given RX buffer to 0 to mark it
+> as inactive.
+>
+> [1] https://www.analog.com/media/en/technical-documentation/user-guides/A=
+DV7511_Programming_Guide.pdf
+>     cf. CEC Map, register 0x4A, bit 3, default value 1:
+>     0 =3D Use only buffer 0 to store CEC frames (Legacy mode)
+>     1 =3D Use all 3 buffers to stores the CEC frames (Non-legacy mode)
+>
+> [2] The ADV7535 register control manual is under NDA, but trust me when
+>     I say that non-legacy CEC RX mode is the default here too. Here the
+>     register is offset by 0x70 and has an address of 0xBA in the DSI_CEC
+>     regiser map.
+>
+> Signed-off-by: Alvin =C5=A0ipraga <alsi@bang-olufsen.dk>
+> ---
+>  drivers/gpu/drm/bridge/adv7511/adv7511.h     | 26 +++++-
+>  drivers/gpu/drm/bridge/adv7511/adv7511_cec.c | 98 +++++++++++++++-----
+>  drivers/gpu/drm/bridge/adv7511/adv7511_drv.c | 17 +++-
+>  3 files changed, 109 insertions(+), 32 deletions(-)
+>
+> diff --git a/drivers/gpu/drm/bridge/adv7511/adv7511.h b/drivers/gpu/drm/b=
+ridge/adv7511/adv7511.h
+> index da6d8ee2cd84..9e3bb8a8ee40 100644
+> --- a/drivers/gpu/drm/bridge/adv7511/adv7511.h
+> +++ b/drivers/gpu/drm/bridge/adv7511/adv7511.h
+> @@ -209,10 +209,16 @@
+>  #define ADV7511_REG_CEC_TX_ENABLE      0x11
+>  #define ADV7511_REG_CEC_TX_RETRY       0x12
+>  #define ADV7511_REG_CEC_TX_LOW_DRV_CNT 0x14
+> -#define ADV7511_REG_CEC_RX_FRAME_HDR   0x15
+> -#define ADV7511_REG_CEC_RX_FRAME_DATA0 0x16
+> -#define ADV7511_REG_CEC_RX_FRAME_LEN   0x25
+> -#define ADV7511_REG_CEC_RX_ENABLE      0x26
+> +#define ADV7511_REG_CEC_RX1_FRAME_HDR  0x15
+> +#define ADV7511_REG_CEC_RX1_FRAME_DATA0        0x16
+> +#define ADV7511_REG_CEC_RX1_FRAME_LEN  0x25
+> +#define ADV7511_REG_CEC_RX_STATUS      0x26
+> +#define ADV7511_REG_CEC_RX2_FRAME_HDR  0x27
+> +#define ADV7511_REG_CEC_RX2_FRAME_DATA0        0x28
+> +#define ADV7511_REG_CEC_RX2_FRAME_LEN  0x37
+> +#define ADV7511_REG_CEC_RX3_FRAME_HDR  0x38
+> +#define ADV7511_REG_CEC_RX3_FRAME_DATA0        0x39
+> +#define ADV7511_REG_CEC_RX3_FRAME_LEN  0x48
+>  #define ADV7511_REG_CEC_RX_BUFFERS     0x4a
+>  #define ADV7511_REG_CEC_LOG_ADDR_MASK  0x4b
+>  #define ADV7511_REG_CEC_LOG_ADDR_0_1   0x4c
+> @@ -220,6 +226,18 @@
+>  #define ADV7511_REG_CEC_CLK_DIV                0x4e
+>  #define ADV7511_REG_CEC_SOFT_RESET     0x50
+>
+> +static const u8 ADV7511_REG_CEC_RX_FRAME_HDR[] =3D {
+> +       ADV7511_REG_CEC_RX1_FRAME_HDR,
+> +       ADV7511_REG_CEC_RX2_FRAME_HDR,
+> +       ADV7511_REG_CEC_RX3_FRAME_HDR,
+> +};
+> +
+> +static const u8 ADV7511_REG_CEC_RX_FRAME_LEN[] =3D {
+> +       ADV7511_REG_CEC_RX1_FRAME_LEN,
+> +       ADV7511_REG_CEC_RX2_FRAME_LEN,
+> +       ADV7511_REG_CEC_RX3_FRAME_LEN,
+> +};
+> +
+>  #define ADV7533_REG_CEC_OFFSET         0x70
+>
+>  enum adv7511_input_clock {
+> diff --git a/drivers/gpu/drm/bridge/adv7511/adv7511_cec.c b/drivers/gpu/d=
+rm/bridge/adv7511/adv7511_cec.c
+> index 1f619389e201..399f625a50c8 100644
+> --- a/drivers/gpu/drm/bridge/adv7511/adv7511_cec.c
+> +++ b/drivers/gpu/drm/bridge/adv7511/adv7511_cec.c
+> @@ -17,7 +17,8 @@
+>
+>  #define ADV7511_INT1_CEC_MASK \
+>         (ADV7511_INT1_CEC_TX_READY | ADV7511_INT1_CEC_TX_ARBIT_LOST | \
+> -        ADV7511_INT1_CEC_TX_RETRY_TIMEOUT | ADV7511_INT1_CEC_RX_READY1)
+> +        ADV7511_INT1_CEC_TX_RETRY_TIMEOUT | ADV7511_INT1_CEC_RX_READY1 |=
+ \
+> +        ADV7511_INT1_CEC_RX_READY2 | ADV7511_INT1_CEC_RX_READY3)
+>
+>  static void adv_cec_tx_raw_status(struct adv7511 *adv7511, u8 tx_raw_sta=
+tus)
+>  {
+> @@ -70,25 +71,16 @@ static void adv_cec_tx_raw_status(struct adv7511 *adv=
+7511, u8 tx_raw_status)
+>         }
+>  }
+>
+> -void adv7511_cec_irq_process(struct adv7511 *adv7511, unsigned int irq1)
+> +static void adv7511_cec_rx(struct adv7511 *adv7511, int rx_buf)
+>  {
+>         unsigned int offset =3D adv7511->reg_cec_offset;
+> -       const u32 irq_tx_mask =3D ADV7511_INT1_CEC_TX_READY |
+> -                               ADV7511_INT1_CEC_TX_ARBIT_LOST |
+> -                               ADV7511_INT1_CEC_TX_RETRY_TIMEOUT;
+>         struct cec_msg msg =3D {};
+>         unsigned int len;
+>         unsigned int val;
+>         u8 i;
+>
+> -       if (irq1 & irq_tx_mask)
+> -               adv_cec_tx_raw_status(adv7511, irq1);
+> -
+> -       if (!(irq1 & ADV7511_INT1_CEC_RX_READY1))
+> -               return;
+> -
+>         if (regmap_read(adv7511->regmap_cec,
+> -                       ADV7511_REG_CEC_RX_FRAME_LEN + offset, &len))
+> +                       ADV7511_REG_CEC_RX_FRAME_LEN[rx_buf] + offset, &l=
+en))
+>                 return;
+>
+>         msg.len =3D len & 0x1f;
+> @@ -101,18 +93,76 @@ void adv7511_cec_irq_process(struct adv7511 *adv7511=
+, unsigned int irq1)
+>
+>         for (i =3D 0; i < msg.len; i++) {
+>                 regmap_read(adv7511->regmap_cec,
+> -                           i + ADV7511_REG_CEC_RX_FRAME_HDR + offset, &v=
+al);
+> +                           i + ADV7511_REG_CEC_RX_FRAME_HDR[rx_buf] + of=
+fset,
+> +                           &val);
+>                 msg.msg[i] =3D val;
+>         }
+>
+> -       /* toggle to re-enable rx 1 */
+> -       regmap_write(adv7511->regmap_cec,
+> -                    ADV7511_REG_CEC_RX_BUFFERS + offset, 1);
+> -       regmap_write(adv7511->regmap_cec,
+> -                    ADV7511_REG_CEC_RX_BUFFERS + offset, 0);
+> +       /* Toggle RX Ready Clear bit to re-enable this RX buffer */
+> +       regmap_update_bits(adv7511->regmap_cec,
+> +                          ADV7511_REG_CEC_RX_BUFFERS + offset, BIT(rx_bu=
+f),
+> +                          BIT(rx_buf));
+> +       regmap_update_bits(adv7511->regmap_cec,
+> +                          ADV7511_REG_CEC_RX_BUFFERS + offset, BIT(rx_bu=
+f), 0);
+> +
+>         cec_received_msg(adv7511->cec_adap, &msg);
+>  }
+>
+> +void adv7511_cec_irq_process(struct adv7511 *adv7511, unsigned int irq1)
+> +{
+> +       unsigned int offset =3D adv7511->reg_cec_offset;
+> +       const u32 irq_tx_mask =3D ADV7511_INT1_CEC_TX_READY |
+> +                               ADV7511_INT1_CEC_TX_ARBIT_LOST |
+> +                               ADV7511_INT1_CEC_TX_RETRY_TIMEOUT;
+> +       const u32 irq_rx_mask =3D ADV7511_INT1_CEC_RX_READY1 |
+> +                               ADV7511_INT1_CEC_RX_READY2 |
+> +                               ADV7511_INT1_CEC_RX_READY3;
+> +       unsigned int rx_status;
+> +       int rx_order[3] =3D { -1, -1, -1 };
+> +       int i;
+> +
+> +       if (irq1 & irq_tx_mask)
+> +               adv_cec_tx_raw_status(adv7511, irq1);
+> +
+> +       if (!(irq1 & irq_rx_mask))
+> +               return;
+> +
+> +       if (regmap_read(adv7511->regmap_cec,
+> +                       ADV7511_REG_CEC_RX_STATUS + offset, &rx_status))
+> +               return;
+> +
+> +       /*
+> +        * ADV7511_REG_CEC_RX_STATUS[5:0] contains the reception order of=
+ RX
+> +        * buffers 0, 1, and 2 in bits [1:0], [3:2], and [5:4] respective=
+ly.
+> +        * The values are to be interpreted as follows:
+> +        *
+> +        *   0 =3D buffer unused
+> +        *   1 =3D buffer contains oldest received frame (if applicable)
+> +        *   2 =3D buffer contains second oldest received frame (if appli=
+cable)
+> +        *   3 =3D buffer contains third oldest received frame (if applic=
+able)
+> +        *
+> +        * Fill rx_order with the sequence of RX buffer indices to
+> +        * read from in order, where -1 indicates that there are no
+> +        * more buffers to process.
+> +        */
+> +       for (i =3D 0; i < 3; i++) {
+> +               unsigned int timestamp =3D (rx_status >> (2 * i)) & 0x3;
+> +
+> +               if (timestamp)
+> +                       rx_order[timestamp - 1] =3D i;
+> +       }
+> +
+> +       /* Read CEC RX buffers in the appropriate order as prescribed abo=
+ve */
+> +       for (i =3D 0; i < 3; i++) {
+> +               int rx_buf =3D rx_order[i];
+> +
+> +               if (rx_buf < 0)
+> +                       break;
+> +
+> +               adv7511_cec_rx(adv7511, rx_buf);
+> +       }
+> +}
+> +
+>  static int adv7511_cec_adap_enable(struct cec_adapter *adap, bool enable=
+)
+>  {
+>         struct adv7511 *adv7511 =3D cec_get_drvdata(adap);
+> @@ -126,11 +176,11 @@ static int adv7511_cec_adap_enable(struct cec_adapt=
+er *adap, bool enable)
+>                 regmap_update_bits(adv7511->regmap_cec,
+>                                    ADV7511_REG_CEC_CLK_DIV + offset,
+>                                    0x03, 0x01);
+> -               /* legacy mode and clear all rx buffers */
+> +               /* non-legacy mode and clear all rx buffers */
+>                 regmap_write(adv7511->regmap_cec,
+> -                            ADV7511_REG_CEC_RX_BUFFERS + offset, 0x07);
+> +                            ADV7511_REG_CEC_RX_BUFFERS + offset, 0x0f);
+>                 regmap_write(adv7511->regmap_cec,
+> -                            ADV7511_REG_CEC_RX_BUFFERS + offset, 0);
+> +                            ADV7511_REG_CEC_RX_BUFFERS + offset, 0x08);
+>                 /* initially disable tx */
+>                 regmap_update_bits(adv7511->regmap_cec,
+>                                    ADV7511_REG_CEC_TX_ENABLE + offset, 1,=
+ 0);
+> @@ -138,7 +188,7 @@ static int adv7511_cec_adap_enable(struct cec_adapter=
+ *adap, bool enable)
+>                 /* tx: ready */
+>                 /* tx: arbitration lost */
+>                 /* tx: retry timeout */
+> -               /* rx: ready 1 */
+> +               /* rx: ready 1-3 */
+>                 regmap_update_bits(adv7511->regmap,
+>                                    ADV7511_REG_INT_ENABLE(1), 0x3f,
+>                                    ADV7511_INT1_CEC_MASK);
+> @@ -304,9 +354,9 @@ int adv7511_cec_init(struct device *dev, struct adv75=
+11 *adv7511)
+>         regmap_write(adv7511->regmap_cec,
+>                      ADV7511_REG_CEC_SOFT_RESET + offset, 0x00);
+>
+> -       /* legacy mode */
+> +       /* non-legacy mode - use all three RX buffers */
+>         regmap_write(adv7511->regmap_cec,
+> -                    ADV7511_REG_CEC_RX_BUFFERS + offset, 0x00);
+> +                    ADV7511_REG_CEC_RX_BUFFERS + offset, 0x08);
+>
+>         regmap_write(adv7511->regmap_cec,
+>                      ADV7511_REG_CEC_CLK_DIV + offset,
+> diff --git a/drivers/gpu/drm/bridge/adv7511/adv7511_drv.c b/drivers/gpu/d=
+rm/bridge/adv7511/adv7511_drv.c
+> index 0be65a1ffc47..ffb034daee45 100644
+> --- a/drivers/gpu/drm/bridge/adv7511/adv7511_drv.c
+> +++ b/drivers/gpu/drm/bridge/adv7511/adv7511_drv.c
+> @@ -1030,10 +1030,19 @@ static bool adv7511_cec_register_volatile(struct =
+device *dev, unsigned int reg)
+>         reg -=3D adv7511->reg_cec_offset;
+>
+>         switch (reg) {
+> -       case ADV7511_REG_CEC_RX_FRAME_HDR:
+> -       case ADV7511_REG_CEC_RX_FRAME_DATA0...
+> -               ADV7511_REG_CEC_RX_FRAME_DATA0 + 14:
+> -       case ADV7511_REG_CEC_RX_FRAME_LEN:
+> +       case ADV7511_REG_CEC_RX1_FRAME_HDR:
+> +       case ADV7511_REG_CEC_RX1_FRAME_DATA0...
+> +               ADV7511_REG_CEC_RX1_FRAME_DATA0 + 14:
+> +       case ADV7511_REG_CEC_RX1_FRAME_LEN:
+> +       case ADV7511_REG_CEC_RX2_FRAME_HDR:
+> +       case ADV7511_REG_CEC_RX2_FRAME_DATA0...
+> +               ADV7511_REG_CEC_RX2_FRAME_DATA0 + 14:
+> +       case ADV7511_REG_CEC_RX2_FRAME_LEN:
+> +       case ADV7511_REG_CEC_RX3_FRAME_HDR:
+> +       case ADV7511_REG_CEC_RX3_FRAME_DATA0...
+> +               ADV7511_REG_CEC_RX3_FRAME_DATA0 + 14:
+> +       case ADV7511_REG_CEC_RX3_FRAME_LEN:
+> +       case ADV7511_REG_CEC_RX_STATUS:
+>         case ADV7511_REG_CEC_RX_BUFFERS:
+>         case ADV7511_REG_CEC_TX_LOW_DRV_CNT:
+>                 return true;
 
-> Note in the diagram that our HW (and DC interface) have a Shaper LUT
-> available before the 3D LUT. You could expose if you want to shape your
-> content post-blending before applying the 3D LUT.
->=20
-> The 3D LUT is most effective when it's in non-linear space. Currently
-> DRM has no way to specify a way for drm_plane to be linearized (see notes
-> (1) and (2)) so it is assumed that you're blending in non-linear space and
-> therefore your pixels would already be non-linear going into your 3D LUT.
->=20
-> (1) unless you use the drm_plane PWL API that was proposed
-> (2) amdgpu_dm is currently setting the drm_crtc degamma LUT on the
->     DC plane. This might lead to unexpected behavior when using
->     multiple planes (though I believe gamescope is making use of
->     this behavior).
+This is a bit of a nitpick, but the syntax of these "case X...Y"
+statements was kind of hard to parse, do you mind putting them on one
+line?
 
-Thanks for raising these points. In fact, I was considering unexpected
-behavior when I saw this DRM <-> DC mapping.
->=20
-> Have you looked at [1] yet? It might provide a good example on how to
-> define a 3D LUT. For AMD HW you'll want a 17x17x17 LUT.
->=20
-> [1] http://intel.github.io/libva/structVAProcFilterParameterBuffer3DLUT.h=
-tml
+With or without the above suggestion fixed, r-b.
 
-Not yet, but it seems helpful. I'll take as a reference... until now,
-I've only examined details on DC drivers.
-
-Thanks,
-
-Melissa
-
->=20
-> Harry
->=20
-> > Melissa
-> >=20
-> > [1] https://lore.kernel.org/all/20201221015730.28333-1-laurent.pinchart=
-+renesas@ideasonboard.com/
-> > [2] https://github.com/vsyrjala/linux/commit/4d28e8ddf2a076f30f9e5bdc17=
-cbb4656fe23e69
-> > >=20
-> > > I'm thinking of putting a 3D LUT proposal together but haven't gotten=
- around
-> > > to it yet. We'll want a pre-blending 3D LUT, and possible a programma=
-ble
-> > > post-blending one as well.
-> > >=20
-> > > Thanks,
-> > > Harry
-> > >=20
-> > > > step of color correction, I don't see how to accommodate it in the
-> > > > mapping above, but I see DC already supports programming 3D LUT on =
-DPP.
-> > > > Once DRM has the 3D LUT interface and DM mapped it as a DPP propert=
-y,
-> > > > the 3D LUT will be at the end of the color correction pipeline? Is =
-there
-> > > > anything I need to worry about mapping DRM 3D LUT support? Or any
-> > > > advice?
-> > > >=20
-> > > > Thanks in advance,
-> > > >=20
-> > > > Melissa
-> >=20
-> >=20
-
-
-
---6cvtn3wedhuoalan
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iQIzBAABCgAdFiEEd8WOo/JViG+Tu+XIwqF3j0dLehwFAmJiu3YACgkQwqF3j0dL
-ehwQ6xAAiyYjV2cxCzEk6iF3KxmOM9dAvoXGNTv6cPlga3W9RADB86W773hCy0fw
-aBqWIBsSb6uPJ2aMNd9/5NRhGc6LBqJGW2eU65IPOlvbgpeMI6kqSVDdeLDxGu8t
-X/CfBkSShgg9ddph7g16rIgkH7sUMYIxj9CISzDeMwO/fg0iGMfERBItruOohBgW
-bAOJ+78aO7Ey87oF+FFicsVNY4IccEb/aQq6KTbQgXdxJMvYPfscW7dxD8gA8P/o
-W47bya9WSBd2O1H88OMN1y1utZmKcvQeIB1+RhvInbfuSoc3MJTTxbCsezoJqY2O
-nSno18A8sN9mldeSx2K8ze8yvYwYx5PRUNa9t76vFB9U0d7EmqIRrPf0Eru2YMrO
-U4JDHmNidLfFGR26Z8/BP7p2k4wUj4JkrVl9gzFPujVS7cJcoNbHeadAm0166/aB
-udErf7mF/Rj4Sarj3/Bmo/ZqZXeEhLukNReEQmVj/RspAeCHJZqlHzKnbTNi0TH0
-usRHVbldlYr9DKzfGAStSPjhPlxnqQAXBOuml6VnVutTzkh1VuEkJl8DG8Z5fhVn
-Fd+UzzGn2GksXrGnTPdsL9Gbl9aTz2k8r4DwnLAQd04vd6HT7gt7QcifokF0uU5m
-e4AOF9bIHQoGzV/SbtlAbfdPwTIve0MDypk+jWj74Eu5cllbFfM=
-=ly/5
------END PGP SIGNATURE-----
-
---6cvtn3wedhuoalan--
+Reviewed-by: Robert Foss <robert.foss@linaro.org>
