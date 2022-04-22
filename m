@@ -1,55 +1,56 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 777E950ADC8
-	for <lists+dri-devel@lfdr.de>; Fri, 22 Apr 2022 04:32:27 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 4A7AA50AE43
+	for <lists+dri-devel@lfdr.de>; Fri, 22 Apr 2022 04:56:36 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 986E710F8BC;
-	Fri, 22 Apr 2022 02:32:23 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 5310110FBEC;
+	Fri, 22 Apr 2022 02:56:32 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mailgw02.mediatek.com (unknown [210.61.82.184])
- by gabe.freedesktop.org (Postfix) with ESMTPS id A216A10F8B5
- for <dri-devel@lists.freedesktop.org>; Fri, 22 Apr 2022 02:32:21 +0000 (UTC)
-X-UUID: 6752f75ddda14dd2965f3ab6b1f0cd1c-20220422
-X-CID-P-RULE: Release_Ham
-X-CID-O-INFO: VERSION:1.1.4, REQID:93ca15cf-f748-4b1b-adef-2a610cd29006, OB:0,
- LO
- B:0,IP:0,URL:0,TC:0,Content:0,EDM:0,RT:0,SF:0,FILE:0,RULE:Release_Ham,ACTI
- ON:release,TS:0
-X-CID-META: VersionHash:faefae9, CLOUDID:c486b5ef-06b0-4305-bfbf-554bfc9d151a,
- C
- OID:IGNORED,Recheck:0,SF:nil,TC:nil,Content:0,EDM:-3,File:nil,QS:0,BEC:nil
-X-UUID: 6752f75ddda14dd2965f3ab6b1f0cd1c-20220422
-Received: from mtkexhb01.mediatek.inc [(172.21.101.102)] by
- mailgw02.mediatek.com (envelope-from <jason-jh.lin@mediatek.com>)
- (Generic MTA with TLSv1.2 ECDHE-RSA-AES256-SHA384 256/256)
- with ESMTP id 1812272290; Fri, 22 Apr 2022 10:32:13 +0800
-Received: from mtkcas10.mediatek.inc (172.21.101.39) by
- mtkmbs10n1.mediatek.inc (172.21.101.34) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_CBC_SHA384) id
- 15.2.792.15; Fri, 22 Apr 2022 10:32:11 +0800
-Received: from mtksdccf07 (172.21.84.99) by mtkcas10.mediatek.inc
- (172.21.101.73) with Microsoft SMTP Server id 15.0.1497.2 via Frontend
- Transport; Fri, 22 Apr 2022 10:32:11 +0800
-Message-ID: <c3de9ccb314316b5296b115dd3e9f8171577489f.camel@mediatek.com>
-Subject: Re: [PATCH v20 2/8] soc: mediatek: add mtk-mutex support for mt8195
- vdosys0
-From: Jason-JH Lin <jason-jh.lin@mediatek.com>
-To: CK Hu <ck.hu@mediatek.com>, Matthias Brugger <matthias.bgg@gmail.com>,
- Chun-Kuang Hu <chunkuang.hu@kernel.org>, AngeloGioacchino Del Regno
- <angelogioacchino.delregno@collabora.com>
-Date: Fri, 22 Apr 2022 10:32:11 +0800
-In-Reply-To: <82cc5e6900138e13ed9d75c6d2a42c6d7afc1959.camel@mediatek.com>
-References: <20220419094143.9561-1-jason-jh.lin@mediatek.com>
- <20220419094143.9561-3-jason-jh.lin@mediatek.com>
- <82cc5e6900138e13ed9d75c6d2a42c6d7afc1959.camel@mediatek.com>
-Content-Type: text/plain; charset="UTF-8"
-X-Mailer: Evolution 3.28.5-0ubuntu0.18.04.2 
+Received: from mail-ed1-x52c.google.com (mail-ed1-x52c.google.com
+ [IPv6:2a00:1450:4864:20::52c])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 2AF1410FBEC
+ for <dri-devel@lists.freedesktop.org>; Fri, 22 Apr 2022 02:56:31 +0000 (UTC)
+Received: by mail-ed1-x52c.google.com with SMTP id el3so4006995edb.11
+ for <dri-devel@lists.freedesktop.org>; Thu, 21 Apr 2022 19:56:31 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
+ h=mime-version:from:date:message-id:subject:to:cc
+ :content-transfer-encoding;
+ bh=I6Rk2jsbXOAIxG1A5lmiEupjlgITDVei+c3ecVf7c6I=;
+ b=mfV9T4S5I5l4rgMoG1OpPRftD54XDgGTf9QNYQEiUbUTkDY2te8HSfF6N8cSqtsf+r
+ TDzwAkkKyJtPg35vRjz096lcBqDWCJ8gW5hdtx+mbeIQjJSH+zpI+7eNyKwH1MTsF3hq
+ MpgSYNHwL7XRGTngrV3cCq6nbX16lzyztdaeN3W+oMpr31v2UugssKeQNa9AVY1Jsb1G
+ 1p6nTKqlWZBaFxJEgfxANEqh+FayQkhY/Rx83SoEQWnJ/UkUGp9MncVz3QTfVab5p+fJ
+ 0dIaIWY0TZw9UiLC0yTP0+WMJbR13dbWZteU0qqEqod1n2CMKiyYxxSnrwliEzixdJf+
+ tP3g==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=x-gm-message-state:mime-version:from:date:message-id:subject:to:cc
+ :content-transfer-encoding;
+ bh=I6Rk2jsbXOAIxG1A5lmiEupjlgITDVei+c3ecVf7c6I=;
+ b=i0qi56qlZ1X6EVkCUgyEX++DJv4LGb8/aein/d7YzT1y6Iquuiej/XtB45Ulgxy9/Y
+ m79RL30Z9K8N0Tx7cqbAlQHG8UjNyTtqc2b9p88l378HO3aUHvB2lxnjPAN1X4YrzxhL
+ T9NJUEMFmvJByxQoF5TmXugOcTj/8i2KSaILIAx9Mnt95FtVFSW7pBOldHZTZ5yYsHiA
+ nYEWY4ZbXaa7MnhiladyPiKUynsH1oDymzxSfjkXYcXYBgk/w6jLEXhuDYZf2GDfzXcT
+ 9KZP3Q8WZemEVD1sDNN1mSZGhGfuSsglAPAu69buLQ0MgWQqjZJCpOmVBruKLGHWCN7+
+ OUqw==
+X-Gm-Message-State: AOAM533JtFIbJGAm1CXBcuCcEk1dvaDvUWD1wpBWtv88NiyBlemD1sKQ
+ Z/g+0nuoOfwy7wxQMrTQ+rog9Oe4Kxr6udUWzgo=
+X-Google-Smtp-Source: ABdhPJz8Bnz3N7vJ3BCNH4L2dNjA5ebD4y5+mbWIZJ04x6ANdJyIesUHyouSxmjOWo9H7LFKWPhHZh4uQzF8O9xzK2E=
+X-Received: by 2002:a05:6402:1cc1:b0:413:2cfb:b6ca with SMTP id
+ ds1-20020a0564021cc100b004132cfbb6camr2546390edb.265.1650596189459; Thu, 21
+ Apr 2022 19:56:29 -0700 (PDT)
 MIME-Version: 1.0
-Content-Transfer-Encoding: 7bit
-X-MTK: N
+From: Dave Airlie <airlied@gmail.com>
+Date: Fri, 22 Apr 2022 12:56:18 +1000
+Message-ID: <CAPM=9tzQpOnBBNNYWDaJRBztOCVM-PmprHHWZnr2yLh2rb2Y8g@mail.gmail.com>
+Subject: [git pull] drm fixes for 5.18-rc4
+To: Linus Torvalds <torvalds@linux-foundation.org>,
+ Daniel Vetter <daniel.vetter@ffwll.ch>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -62,68 +63,77 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: devicetree@vger.kernel.org, Singo Chang <singo.chang@mediatek.com>,
- linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
- Project_Global_Chrome_Upstream_Group@mediatek.com,
- Nancy Lin <nancy.lin@mediatek.com>, linux-mediatek@lists.infradead.org,
- linux-arm-kernel@lists.infradead.org
+Cc: Thomas Zimmermann <tzimmermann@suse.de>,
+ LKML <linux-kernel@vger.kernel.org>,
+ dri-devel <dri-devel@lists.freedesktop.org>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi CK,
+Hi Linus,
 
-Thanks for the reviews.
+Extra quiet after Easter, only have minor i915 and msm pulls. However
+I haven't seen a PR from our misc tree in a little while, I've cc'ed
+all the suspects. Once that unblocks I expect a bit larger bunch of
+patches to arrive.
 
-On Thu, 2022-04-21 at 14:50 +0800, CK Hu wrote:
-> Hi, Jason:
-> 
-> On Tue, 2022-04-19 at 17:41 +0800, jason-jh.lin wrote:
-> > Add mtk-mutex support for mt8195 vdosys0.
-> > 
-> > Signed-off-by: jason-jh.lin <jason-jh.lin@mediatek.com>
-> > Acked-by: AngeloGioacchino Del Regno <
-> > angelogioacchino.delregno@collabora.com>
-> > Tested-by: Fei Shao <fshao@chromium.org>
-> > ---
-> >  drivers/soc/mediatek/mtk-mutex.c | 87
-> > ++++++++++++++++++++++++++++++--
-> >  1 file changed, 84 insertions(+), 3 deletions(-)
-> > 
-> > diff --git a/drivers/soc/mediatek/mtk-mutex.c
-> > b/drivers/soc/mediatek/mtk-mutex.c
-> > index aaf8fc1abb43..729ee88035ed 100644
-> > --- a/drivers/soc/mediatek/mtk-mutex.c
-> > +++ b/drivers/soc/mediatek/mtk-mutex.c
-> > @@ -17,6 +17,9 @@
-> >  #define MT8183_MUTEX0_MOD0			0x30
-> >  #define MT8183_MUTEX0_SOF0			0x2c
-> >  
-> > +#define MT8195_DISP_MUTEX0_MOD0			0x30
-> > +#define MT8195_DISP_MUTEX0_SOF			0x2c
-> 
-> This is identical to mt8183, so use mt8183 one instead of creating
-> new
-> one.
-> 
-> Regards,
-> CK
-> 
-I'll fix this in the next version.
+Otherwise as I said, one msm revert and two i915 fixes.
 
 Regards,
-Jason-JH.Lin.
-> > 
-> >  
-> > +static const struct mtk_mutex_data mt8195_mutex_driver_data = {
-> > +	.mutex_mod = mt8195_mutex_mod,
-> > +	.mutex_sof = mt8195_mutex_sof,
-> > +	.mutex_mod_reg = MT8195_DISP_MUTEX0_MOD0,
-> > +	.mutex_sof_reg = MT8195_DISP_MUTEX0_SOF,
-> > +};
-> > +
-> >  
-> 
-> 
--- 
-Jason-JH Lin <jason-jh.lin@mediatek.com>
+Dave.
 
+drm-fixes-2022-04-22:
+drm-fixes for 5.18-rc4
+
+msm:
+- revert iommu change that broke some platforms.
+
+i915:
+- Unset enable_psr2_sel_fetch if PSR2 detection fails
+- Fix to detect when VRR is turned off from panel settings
+The following changes since commit b2d229d4ddb17db541098b83524d901257e93845=
+:
+
+  Linux 5.18-rc3 (2022-04-17 13:57:31 -0700)
+
+are available in the Git repository at:
+
+  git://anongit.freedesktop.org/drm/drm tags/drm-fixes-2022-04-22
+
+for you to fetch changes up to 70da382e1c5b9b2049c10abfd4489a40c1b60df0:
+
+  Merge tag 'drm-msm-fixes-2022-04-20' of
+https://gitlab.freedesktop.org/drm/msm into drm-fixes (2022-04-22
+09:25:47 +1000)
+
+----------------------------------------------------------------
+drm-fixes for 5.18-rc4
+
+msm:
+- revert iommu change that broke some platforms.
+
+i915:
+- Unset enable_psr2_sel_fetch if PSR2 detection fails
+- Fix to detect when VRR is turned off from panel settings
+
+----------------------------------------------------------------
+Dave Airlie (2):
+      Merge tag 'drm-intel-fixes-2022-04-20' of
+git://anongit.freedesktop.org/drm/drm-intel into drm-fixes
+      Merge tag 'drm-msm-fixes-2022-04-20' of
+https://gitlab.freedesktop.org/drm/msm into drm-fixes
+
+Dmitry Baryshkov (1):
+      drm/msm: Revert "drm/msm: Stop using iommu_present()"
+
+Jos=C3=A9 Roberto de Souza (1):
+      drm/i915/display/psr: Unset enable_psr2_sel_fetch if other
+checks in intel_psr2_config_valid() fails
+
+Manasi Navare (1):
+      drm/i915/display/vrr: Reset VRR capable property on a long hpd
+
+ drivers/gpu/drm/i915/display/intel_dp.c  | 17 +++++++++-----
+ drivers/gpu/drm/i915/display/intel_psr.c | 38 ++++++++++++++++++----------=
+----
+ drivers/gpu/drm/msm/msm_drv.c            |  2 +-
+ 3 files changed, 33 insertions(+), 24 deletions(-)
