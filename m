@@ -2,65 +2,58 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3109250B326
-	for <lists+dri-devel@lfdr.de>; Fri, 22 Apr 2022 10:44:41 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 98B8150B32E
+	for <lists+dri-devel@lfdr.de>; Fri, 22 Apr 2022 10:47:02 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 125E310E63A;
-	Fri, 22 Apr 2022 08:44:39 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 0A13B10F941;
+	Fri, 22 Apr 2022 08:46:59 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-wr1-x433.google.com (mail-wr1-x433.google.com
- [IPv6:2a00:1450:4864:20::433])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 9426410E63A
- for <dri-devel@lists.freedesktop.org>; Fri, 22 Apr 2022 08:44:37 +0000 (UTC)
-Received: by mail-wr1-x433.google.com with SMTP id t6so6582854wra.4
- for <dri-devel@lists.freedesktop.org>; Fri, 22 Apr 2022 01:44:37 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=baylibre-com.20210112.gappssmtp.com; s=20210112;
- h=from:to:cc:subject:date:message-id:in-reply-to:references
- :mime-version:content-transfer-encoding;
- bh=QGLQHAkzK7JjSt9QZown/UN57Ky55LtxpxP5Kh3Vpq0=;
- b=8QhOHjlGtjJTa3UwEv/qYeHhjLS2ZbNEKUIgtt+cYyoRq698fFcXkKf5K3OJLZYH0Q
- +UqEQjqVRGA4L+YHjrSTiPanpyUXQwlcpWYYUMktO+CrbxTIHVq0zKbOKX8r5BpGTf0a
- oE719ymaB3W/4FY7lFsJXxW7bDov/v9tbV3r3nWgYtUaVurcyi7DoCB1fk0z1zA85rWi
- Wop3+HT5l6JEtry/11rJE7u8JNk81OW9GZGJ74Gn62FfKCeps3Y3+Mx8ojpj0NAYaqz2
- 2IVIQX/Zd2sJPNTR5zWkOG2lVxUhzcKphENIS2i9Near5AEWwG+WvweX1sWcASu2pu1G
- nElg==
+Received: from mail-qk1-f178.google.com (mail-qk1-f178.google.com
+ [209.85.222.178])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 822FE10F7BD
+ for <dri-devel@lists.freedesktop.org>; Fri, 22 Apr 2022 08:46:57 +0000 (UTC)
+Received: by mail-qk1-f178.google.com with SMTP id 204so5364542qkg.5
+ for <dri-devel@lists.freedesktop.org>; Fri, 22 Apr 2022 01:46:57 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
- :references:mime-version:content-transfer-encoding;
- bh=QGLQHAkzK7JjSt9QZown/UN57Ky55LtxpxP5Kh3Vpq0=;
- b=CUkxxRFm35DQsg06ttVDNC3onGTLyh6zDOP4A34r3zrr1e7be2fPD/ruu1EJXeGbTg
- ul68uuCAFfuyAC7ulVaH6f/ZEWOtHqLJM4jHnJ6lr5Uq9wXkYnQDv9VICgklD+WqFIkL
- 6gUXLFQJH1SAS4jJay+SiBA18wjT70oO8NgYuz9dPEETva0B9Lx08lQzt9F2LEQenbwZ
- bCdnb9cgWHCnXm+HXg0WNMcFZb0+czpDDZ3iY2dxebnlrsj1nsEqdoKVL/l9iHJYjuYY
- KGefex7LMJ+5yT51mic/QCsPwosEHAg1/xvCS/9NPSMnrHxUN0DZFQzR5CryRfSqimAX
- C3Pw==
-X-Gm-Message-State: AOAM530UQHBMk8MaAIVE3pUMaEnirb5vci+CLYztnzudISTvoTGFRfoA
- f8nxRScNWF5vY/MBG4fyf4WXtw==
-X-Google-Smtp-Source: ABdhPJywtATRsTspDnN95ZBg4mCkpTryvtiMy/4QW/bWGxrVBIii+hWzYZZALv4a0By/OmNxBc9bLg==
-X-Received: by 2002:a05:6000:1c8:b0:207:af9e:a4ec with SMTP id
- t8-20020a05600001c800b00207af9ea4ecmr2762065wrx.9.1650617076027; 
- Fri, 22 Apr 2022 01:44:36 -0700 (PDT)
-Received: from localhost.localdomain ([2001:861:44c0:66c0:3ce1:1ed1:5e14:cd49])
- by smtp.gmail.com with ESMTPSA id
- q14-20020a1cf30e000000b0038986a18ec8sm1144921wmq.46.2022.04.22.01.44.34
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Fri, 22 Apr 2022 01:44:35 -0700 (PDT)
-From: Neil Armstrong <narmstrong@baylibre.com>
-To: kernel test robot <lkp@intel.com>,
-	Sandor Yu <Sandor.yu@nxp.com>
-Subject: Re: [PATCH] drm: bridge: dw_hdmi: Audio: fix returnvar.cocci warnings
-Date: Fri, 22 Apr 2022 10:44:33 +0200
-Message-Id: <165061705553.2647880.6752040608547766409.b4-ty@baylibre.com>
-X-Mailer: git-send-email 2.25.1
-In-Reply-To: <YmFzutFV/iDyEQF2@dd18de969aa6>
-References: <202204212311.TnfpcTGm-lkp@intel.com>
- <YmFzutFV/iDyEQF2@dd18de969aa6>
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=uxqEisi3EFgZNuKu/pNszsfri4ZDMq5dlFw0H485MCw=;
+ b=vgCC1v63YKDK9e07JGpBY8CImo9MMEQFhlheOsHfYCFTPAQBePxuZej8LmfXVbK8ll
+ UCqbzRwZwSoWR07r8Pz6KZxWjoy+yOv0RQfwkYBceGaQ44PCvY9pnvzSaAoFdkMMOYGE
+ lVD9bcLA31m+arAppaWX/1DixogADLOWdHrB/SZUBHBoXm6pAvdK75oIX7AdRiJmg3eh
+ kpeliuTOZEafXNZ0qB3cKo+rEPVdmbl5GhTN3B4fwct25/Byk3kk3+/02CD//L8MkSjL
+ qKOoAolE6mTReDRtybJccdhw6QG5lplInI6tx5CSakEFjh5m/Ga1klTmyy1nC0ZtxqLG
+ ns/Q==
+X-Gm-Message-State: AOAM531MBk6A7ZYfmna4bfYRxEfnz1lAZf50nsotklFchsODjNnfY0AP
+ w7YNLHI2bVaHmfpYG6dCZVgd24VmJNNdeA==
+X-Google-Smtp-Source: ABdhPJwm6kf5aTKbK00mzVdyY5s5uQdn8rOHh5HcVDB11VI+BTaMltRAf70FHIU8BzYo6krgvZq41A==
+X-Received: by 2002:a37:9f0b:0:b0:69e:765f:7728 with SMTP id
+ i11-20020a379f0b000000b0069e765f7728mr1906756qke.760.1650617216409; 
+ Fri, 22 Apr 2022 01:46:56 -0700 (PDT)
+Received: from mail-yb1-f170.google.com (mail-yb1-f170.google.com.
+ [209.85.219.170]) by smtp.gmail.com with ESMTPSA id
+ c136-20020a379a8e000000b0069e5df9d953sm649780qke.34.2022.04.22.01.46.55
+ for <dri-devel@lists.freedesktop.org>
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Fri, 22 Apr 2022 01:46:55 -0700 (PDT)
+Received: by mail-yb1-f170.google.com with SMTP id f17so13241741ybj.10
+ for <dri-devel@lists.freedesktop.org>; Fri, 22 Apr 2022 01:46:55 -0700 (PDT)
+X-Received: by 2002:a25:32cd:0:b0:645:81ae:bb78 with SMTP id
+ y196-20020a2532cd000000b0064581aebb78mr3373655yby.506.1650617215207; Fri, 22
+ Apr 2022 01:46:55 -0700 (PDT)
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 8bit
+References: <20220421163128.101520-1-biju.das.jz@bp.renesas.com>
+ <20220421163128.101520-3-biju.das.jz@bp.renesas.com>
+In-Reply-To: <20220421163128.101520-3-biju.das.jz@bp.renesas.com>
+From: Geert Uytterhoeven <geert@linux-m68k.org>
+Date: Fri, 22 Apr 2022 10:46:44 +0200
+X-Gmail-Original-Message-ID: <CAMuHMdV_eNxM4yHgkUFPz58KyiGFtjjBeePtuAg8pZYfsS5t9g@mail.gmail.com>
+Message-ID: <CAMuHMdV_eNxM4yHgkUFPz58KyiGFtjjBeePtuAg8pZYfsS5t9g@mail.gmail.com>
+Subject: Re: [PATCH v3 2/4] drm: rcar-du: Fix typo
+To: Biju Das <biju.das.jz@bp.renesas.com>
+Content-Type: text/plain; charset="UTF-8"
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -73,34 +66,47 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: dri-devel@lists.freedesktop.org, kbuild-all@lists.01.org,
- Andrzej Hajda <andrzej.hajda@intel.com>,
- Neil Armstrong <narmstrong@baylibre.com>, David Airlie <airlied@linux.ie>,
- Shengjiu Wang <shengjiu.wang@nxp.com>, Jonas Karlman <jonas@kwiboo.se>,
- linux-kernel@vger.kernel.org, Jernej Skrabec <jernej.skrabec@gmail.com>,
- Linux Memory Management List <linux-mm@kvack.org>,
- Robert Foss <robert.foss@linaro.org>,
- Laurent Pinchart <Laurent.pinchart@ideasonboard.com>
+Cc: Chris Paterson <Chris.Paterson2@renesas.com>,
+ Geert Uytterhoeven <geert+renesas@glider.be>, David Airlie <airlied@linux.ie>,
+ Prabhakar Mahadev Lad <prabhakar.mahadev-lad.rj@bp.renesas.com>,
+ DRI Development <dri-devel@lists.freedesktop.org>,
+ Biju Das <biju.das@bp.renesas.com>,
+ Linux-Renesas <linux-renesas-soc@vger.kernel.org>,
+ Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>,
+ Laurent Pinchart <laurent.pinchart@ideasonboard.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi,
+Hi Biju,
 
-On Thu, 21 Apr 2022 23:09:46 +0800, kernel test robot wrote:
-> From: kernel test robot <lkp@intel.com>
-> 
-> drivers/gpu/drm/bridge/synopsys/dw-hdmi-gp-audio.c:80:5-8: Unneeded variable: "ret". Return "0" on line 94
-> drivers/gpu/drm/bridge/synopsys/dw-hdmi-gp-audio.c:105:5-8: Unneeded variable: "ret". Return "0" on line 112
-> 
-> 
->  Remove unneeded variable used to store return value.
-> 
-> [...]
+On Thu, Apr 21, 2022 at 6:31 PM Biju Das <biju.das.jz@bp.renesas.com> wrote:
+> Fix typo rcar_du_vsp.h->rcar_du_vsp.c
+>
+> Signed-off-by: Biju Das <biju.das.jz@bp.renesas.com>
 
-Thanks, Applied to https://anongit.freedesktop.org/git/drm/drm-misc.git (drm-misc-next)
+Thanks for your patch!
 
-[1/1] drm: bridge: dw_hdmi: Audio: fix returnvar.cocci warnings
-      https://cgit.freedesktop.org/drm/drm-misc/commit/?id=0e48711f602064705bf81eebe6f627ee1bc11d3b
+> --- a/drivers/gpu/drm/rcar-du/rcar_du_vsp.c
+> +++ b/drivers/gpu/drm/rcar-du/rcar_du_vsp.c
+> @@ -1,6 +1,6 @@
+>  // SPDX-License-Identifier: GPL-2.0+
+>  /*
+> - * rcar_du_vsp.h  --  R-Car Display Unit VSP-Based Compositor
+> + * rcar_du_vsp.c  --  R-Car Display Unit VSP-Based Compositor
 
--- 
-Neil
+Perhaps drop the file name completely instead?
+
+>   *
+>   * Copyright (C) 2015 Renesas Electronics Corporation
+>   *
+
+Gr{oetje,eeting}s,
+
+                        Geert
+
+--
+Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k.org
+
+In personal conversations with technical people, I call myself a hacker. But
+when I'm talking to journalists I just say "programmer" or something like that.
+                                -- Linus Torvalds
