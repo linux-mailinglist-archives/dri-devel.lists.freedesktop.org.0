@@ -2,59 +2,61 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 012E050BFD3
-	for <lists+dri-devel@lfdr.de>; Fri, 22 Apr 2022 20:36:29 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 6A27950BFD4
+	for <lists+dri-devel@lfdr.de>; Fri, 22 Apr 2022 20:36:33 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id E7C6A10E5AE;
-	Fri, 22 Apr 2022 18:36:26 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 6A6AB10E5B5;
+	Fri, 22 Apr 2022 18:36:31 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from mail-oa1-x2b.google.com (mail-oa1-x2b.google.com
  [IPv6:2001:4860:4864:20::2b])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 960C110E5AE
- for <dri-devel@lists.freedesktop.org>; Fri, 22 Apr 2022 18:36:25 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 037E310E5B5
+ for <dri-devel@lists.freedesktop.org>; Fri, 22 Apr 2022 18:36:28 +0000 (UTC)
 Received: by mail-oa1-x2b.google.com with SMTP id
- 586e51a60fabf-e67799d278so5677618fac.11
- for <dri-devel@lists.freedesktop.org>; Fri, 22 Apr 2022 11:36:25 -0700 (PDT)
+ 586e51a60fabf-e5e433d66dso9502402fac.5
+ for <dri-devel@lists.freedesktop.org>; Fri, 22 Apr 2022 11:36:27 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
- h=from:to:cc:subject:date:message-id:mime-version
- :content-transfer-encoding;
- bh=LSNY6HVO8IFreVRhOftkxSgz6DO0IOlvH+QazxsX1ho=;
- b=Iba2vVvBxtXSgnDlhWMHnfn96Hw0popi3Q7X963rynCXrctVGtncOJ2BaTymYuw6aa
- ylEAMeGLE5LIVd+56qR62jkJWVbauhLxJCrY8KZQ6KU28EvNMuIkY1hNcGK5dNqsV6EG
- Ig1l8q5T2NYNaYWWuRzkA2vpuvCooQfyJAGDipH7rZ2nx1uVIODj4MWrQ1uwlc8wYCLa
- mW3lvlqVLo0/dK3reD3uqW9yijX8KXORlR7NGZPH8DQMCNj5Rc+yPRfTCcSo3V1clL0m
- ukYu2v+0t+19GjICJkQr3LUhN/oaY1Xptv4+hxNRXIQeMMwEBzFA/RybEE2V8EaQXvSg
- ZIpQ==
+ h=from:to:cc:subject:date:message-id:in-reply-to:references
+ :mime-version:content-transfer-encoding;
+ bh=NYDzvgMtPv0Sra3reRjLoO4qoRcfqTmm12kpUHj+OS0=;
+ b=H1z1ukKqcayCONXY3N4axNdhGrsSGil5NuQyOE0n43I8ZNeWh3qoP3ubUAU/ZFz3GL
+ q6V1bYUHKP7ry5uTl+Nqeiyl0HHGlaAhVyK8gwZ7FHT3WFCt5aTTiOEytuE7qFAsDvz4
+ QQK56sHMDhdW77+hcddKWxQvrh61lzW6cp45q6JWRzqvnhxJWd+HsK+2r9V2GisFrg7C
+ 0sQIqU3RxgEwCJCGQzEOqYyRoWd3eD4T6jUKpVMbzvnLnqAnd8wDFf+oTk05JQsIFHKs
+ fr/VhkQiMIaVK+AQAeeHCWTuyFGd5Z2JQJytnGaLsnCNSkYs6QSC9ibC9pJKDUzF3KDN
+ GCLg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
- :content-transfer-encoding;
- bh=LSNY6HVO8IFreVRhOftkxSgz6DO0IOlvH+QazxsX1ho=;
- b=RP48y6ruiSHdnLFd4LA8oSrjzUxdpMn5vAnMaAnFBZt/R7ZJvhV2ZEu88VMWFNIdcJ
- mfFoB+9vW1CPBbYwC0+hci7vI8F3WTNgpK7g1IRpjeznCnSAzIlcFxfAQmBXgRIvUTJX
- syTOuiHPRJyxc1Fab5JNrq1kfx9naq3/hRlx3XvlSm4GKfmeKdIsWbLOr2BtRCHo/TFZ
- u8mQe7XiN9ko+ovWAMzE5mnac39TYyblZqH1bUBuIdsa5tc+nk5UHLfFeOjlp/LcvkWt
- 35uyI3E6vXP8uOVBEQQSns1nUOqE/w9WOBAiIxHefTmYjgOer0MaJ4BLPu0Ac4Q8ro6t
- xw7w==
-X-Gm-Message-State: AOAM5308++geBKQQxqc+h9XXzU+vBwboURYkHBkYXDWaYM1JErC5a1p0
- Z1J+qQwfHdDGV45Cd9nMUj21pZnA1tc=
-X-Google-Smtp-Source: ABdhPJxoFP1/hipX77FqcQUyEAOSv1tW+vEbmuu6sWAEFvAKoa0D0HwsO6XZftkvjo/0jL+bQA2bkw==
-X-Received: by 2002:a05:6870:f29a:b0:de:eaa4:233a with SMTP id
- u26-20020a056870f29a00b000deeaa4233amr2586448oap.137.1650652584580; 
- Fri, 22 Apr 2022 11:36:24 -0700 (PDT)
+ h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
+ :references:mime-version:content-transfer-encoding;
+ bh=NYDzvgMtPv0Sra3reRjLoO4qoRcfqTmm12kpUHj+OS0=;
+ b=QD5cZ9l8HjKW9IOK4BN6j0772YFRKgjvmIi3vYuViz+WaYeNvBhGPoiO1UJQuPltji
+ PMHpTaa2zmAYglijRBWGEHBHK1fJGwGA/uS3LND4QCoMn2x7lLdxTNuMxig8e5TvZ+nn
+ SPRMiSb4WaTcoFS7/O5jq9CbpddLUiU/hRjDczgYM9ks/J+ckuklNhtP0pm4REP5/MXu
+ RXDFScow50VV67C5xdF1VtUEEU6TjST0RUAaF4rKsbW9mOkescsckgCmuUmkNj8uCLnS
+ cBv+MejLpofZEXqbK3t9OpYnoWm7T5jb4y0tx7JpFUy3k27Qa/NIizaHzCPYGD01lTb5
+ n+QA==
+X-Gm-Message-State: AOAM530pffh4op9mPOEyK9bm7c8UfOK1QtsiunWSY+ckJtXdbn9m9KLd
+ jvJXgKUxq9ArrD0b/nubnMuMQcx8VZo=
+X-Google-Smtp-Source: ABdhPJzZCTIYiwI+B3EooHwCeHAFkqZ1S/tyC5G9TQ0cxP6AxhE6Y+x+gwqQgIh0rTKh+nbhrRGovQ==
+X-Received: by 2002:a05:6870:2425:b0:de:2fb0:1caa with SMTP id
+ n37-20020a056870242500b000de2fb01caamr2642796oap.115.1650652587306; 
+ Fri, 22 Apr 2022 11:36:27 -0700 (PDT)
 Received: from localhost.localdomain ([2804:14c:485:4b69:9f29:454f:1c77:1b6b])
  by smtp.gmail.com with ESMTPSA id
- h21-20020a056808015500b00323c43663e2sm1006651oie.32.2022.04.22.11.36.22
+ h21-20020a056808015500b00323c43663e2sm1006651oie.32.2022.04.22.11.36.24
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Fri, 22 Apr 2022 11:36:24 -0700 (PDT)
+ Fri, 22 Apr 2022 11:36:26 -0700 (PDT)
 From: Fabio Estevam <festevam@gmail.com>
 To: sam@ravnborg.org
-Subject: [PATCH v2 1/2] dt-bindings: display: simple: Add Startek
- KD070WVFPA043-C069A panel
-Date: Fri, 22 Apr 2022 15:36:13 -0300
-Message-Id: <20220422183614.1762470-1-festevam@gmail.com>
+Subject: [PATCH v2 2/2] drm/panel: simple: Add Startek KD070WVFPA043-C069A
+ panel support
+Date: Fri, 22 Apr 2022 15:36:14 -0300
+Message-Id: <20220422183614.1762470-2-festevam@gmail.com>
 X-Mailer: git-send-email 2.25.1
+In-Reply-To: <20220422183614.1762470-1-festevam@gmail.com>
+References: <20220422183614.1762470-1-festevam@gmail.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
@@ -74,32 +76,70 @@ Cc: Fabio Estevam <festevam@denx.de>, devicetree@vger.kernel.org,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-From: Fabio Estevam <festevam@denx.de>
+From: Heiko Schocher <hs@denx.de>
 
-Add Startek KD070WVFPA043-C069A 7" TFT LCD panel compatible string.
+Add Startek KD070WVFPA043-C069A 7" TFT LCD panel support.
 
+Signed-off-by: Heiko Schocher <hs@denx.de>
 Signed-off-by: Fabio Estevam <festevam@denx.de>
-Acked-by: Sam Ravnborg <sam@ravnborg.org>
 ---
 Changes since v1:
-- None. Only added Sam's ack.
+- Put the panel entry in the correct order (Sam).
 
- .../devicetree/bindings/display/panel/panel-simple.yaml         | 2 ++
- 1 file changed, 2 insertions(+)
+ drivers/gpu/drm/panel/panel-simple.c | 33 ++++++++++++++++++++++++++++
+ 1 file changed, 33 insertions(+)
 
-diff --git a/Documentation/devicetree/bindings/display/panel/panel-simple.yaml b/Documentation/devicetree/bindings/display/panel/panel-simple.yaml
-index 1eb9dd4f8f58..e190eef66872 100644
---- a/Documentation/devicetree/bindings/display/panel/panel-simple.yaml
-+++ b/Documentation/devicetree/bindings/display/panel/panel-simple.yaml
-@@ -294,6 +294,8 @@ properties:
-       - starry,kr070pe2t
-         # Starry 12.2" (1920x1200 pixels) TFT LCD panel
-       - starry,kr122ea0sra
-+        # Startek KD070WVFPA043-C069A 7" TFT LCD panel
-+      - startek,kd070wvfpa
-         # Team Source Display Technology TST043015CMHX 4.3" WQVGA TFT LCD panel
-       - team-source-display,tst043015cmhx
-         # Tianma Micro-electronics TM070JDHG30 7.0" WXGA TFT LCD panel
+diff --git a/drivers/gpu/drm/panel/panel-simple.c b/drivers/gpu/drm/panel/panel-simple.c
+index a34f4198a534..61d82d7be1ba 100644
+--- a/drivers/gpu/drm/panel/panel-simple.c
++++ b/drivers/gpu/drm/panel/panel-simple.c
+@@ -3284,6 +3284,36 @@ static const struct panel_desc starry_kr070pe2t = {
+ 	.connector_type = DRM_MODE_CONNECTOR_DPI,
+ };
+ 
++static const struct display_timing startek_kd070wvfpa_mode = {
++	.pixelclock = { 25200000, 27200000, 30500000 },
++	.hactive = { 800, 800, 800 },
++	.hfront_porch = { 19, 44, 115 },
++	.hback_porch = { 5, 16, 101 },
++	.hsync_len = { 1, 2, 100 },
++	.vactive = { 480, 480, 480 },
++	.vfront_porch = { 5, 43, 67 },
++	.vback_porch = { 5, 5, 67 },
++	.vsync_len = { 1, 2, 66 },
++};
++
++static const struct panel_desc startek_kd070wvfpa = {
++	.timings = &startek_kd070wvfpa_mode,
++	.num_timings = 1,
++	.bpc = 8,
++	.size = {
++		.width = 152,
++		.height = 91,
++	},
++	.delay = {
++		.prepare = 20,
++		.enable = 200,
++		.disable = 200,
++	},
++	.bus_flags = DRM_BUS_FLAG_PIXDATA_DRIVE_POSEDGE,
++	.bus_format = MEDIA_BUS_FMT_RGB888_1X24,
++	.connector_type = DRM_MODE_CONNECTOR_DPI,
++};
++
+ static const struct display_timing tsd_tst043015cmhx_timing = {
+ 	.pixelclock = { 5000000, 9000000, 12000000 },
+ 	.hactive = { 480, 480, 480 },
+@@ -3990,6 +4020,9 @@ static const struct of_device_id platform_of_match[] = {
+ 	}, {
+ 		.compatible = "starry,kr070pe2t",
+ 		.data = &starry_kr070pe2t,
++	}, {
++		.compatible = "startek,kd070wvfpa",
++		.data = &startek_kd070wvfpa,
+ 	}, {
+ 		.compatible = "team-source-display,tst043015cmhx",
+ 		.data = &tsd_tst043015cmhx,
 -- 
 2.25.1
 
