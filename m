@@ -1,72 +1,59 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id C178650C28E
-	for <lists+dri-devel@lfdr.de>; Sat, 23 Apr 2022 01:07:47 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id AC0AD50C29F
+	for <lists+dri-devel@lfdr.de>; Sat, 23 Apr 2022 01:08:57 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 7DA5710ECC4;
-	Fri, 22 Apr 2022 23:07:29 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 3C4A010EC09;
+	Fri, 22 Apr 2022 23:08:55 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-lj1-x22f.google.com (mail-lj1-x22f.google.com
- [IPv6:2a00:1450:4864:20::22f])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 8CE4710EC80
- for <dri-devel@lists.freedesktop.org>; Fri, 22 Apr 2022 23:07:20 +0000 (UTC)
-Received: by mail-lj1-x22f.google.com with SMTP id bn33so11306996ljb.6
- for <dri-devel@lists.freedesktop.org>; Fri, 22 Apr 2022 16:07:20 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=message-id:date:mime-version:user-agent:subject:content-language:to
- :cc:references:from:in-reply-to:content-transfer-encoding;
- bh=+omz4SMiA/FNbw95hOPG0uMbW0wRTZgF74DNTyZ1LWc=;
- b=I/NIktzovazHXTI+cvhlhV9xzuiGibqKWatXMqYxYGOOltJWseZmRAqYso6HzDOS5a
- ZfUzziSbcLebwm6A60cWOUaOS+dnVp60vY0sOP+fdkV6SZSHdxu27EZhVNwKwDXGp6VX
- xV25HF9pad5mCDRNhfGfSFDdaeXDbsAPgVy9Ey/lsykb9jZVb45clqD+AUTY9cOxrkKD
- Uu1JzYUcj3jpoIiOTdXBZpxx+bwaKFIxpGcCNuFzgXTZuF9WOQyjrqW/rkPMISh7LW19
- vhgb3Ebjk6PaV/tQuiDvw1+9DHlt/DCYl+XoFiu0Mxs+gEIOxqNLCpSqJU32zxVtvA9i
- sALw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
- :content-language:to:cc:references:from:in-reply-to
- :content-transfer-encoding;
- bh=+omz4SMiA/FNbw95hOPG0uMbW0wRTZgF74DNTyZ1LWc=;
- b=1QhopRFFLLIZ9zV0QiNTXv2ql44Xo/nBHWzlZvGFwQ4d8P6KwpAWTVY3okjNk8I17S
- Q7rYkdjD6LGNPG7P8QOI4Dn3dResEevgxP1Mtwn0ltZWgIgj0R7t627TWV7u4diW5w/C
- 9z50SdQPsOvlyCq3G7tlInZcDHYm0DS5f03mdrdWdWWP5ZN5g4PIqbQjfNGL+Cr/DSr/
- sUS9mrXQ/JVT9f1oBwCKS96nJpB79mkfSOkQ6Cg4MUwkWnfcqub9+uqsk4WjTL+cl0eI
- ky7QvIv6EfIk2WQ8BFwOEKHoMPCqm0PmWaRq0G/7Dx0SDqeO+7v2zT62wsiT4wD569/Y
- Ye/A==
-X-Gm-Message-State: AOAM531UYByCcHQTyiyw3GDIkTX727WYtNQABO9HeiPaTq5eyJ+a8UIk
- C2g8cORuVZ9EI2SXFz4CtY3HLg==
-X-Google-Smtp-Source: ABdhPJy4QnX3N7jeqkRWD4a9h4+Eq/px39OkD/kxGlmlJUWO6Ndjf3tT/dOYJHX9KlseiTK3crayEw==
-X-Received: by 2002:a2e:850f:0:b0:24d:bca4:b9ae with SMTP id
- j15-20020a2e850f000000b0024dbca4b9aemr4020026lji.109.1650668838623; 
- Fri, 22 Apr 2022 16:07:18 -0700 (PDT)
-Received: from [192.168.1.211] ([37.153.55.125])
- by smtp.gmail.com with ESMTPSA id
- k16-20020a192d10000000b0046ba99878a6sm385297lfj.17.2022.04.22.16.07.17
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Fri, 22 Apr 2022 16:07:18 -0700 (PDT)
-Message-ID: <11a77fd7-d30b-edf6-3570-64d0c2e1764c@linaro.org>
-Date: Sat, 23 Apr 2022 02:07:16 +0300
+Received: from alexa-out.qualcomm.com (alexa-out.qualcomm.com [129.46.98.28])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 0587710EC09;
+ Fri, 22 Apr 2022 23:08:53 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=quicinc.com; i=@quicinc.com; q=dns/txt; s=qcdkim;
+ t=1650668934; x=1682204934;
+ h=message-id:date:mime-version:subject:to:cc:references:
+ from:in-reply-to:content-transfer-encoding;
+ bh=DTrtGDiDbvdslMht5KJ7fAnV0GtDI++8BTMc0b/OcV4=;
+ b=wFMYaV9dLIhApHz5pNMaI/j2tscVDf/uSw4t9VYnIP9u/0g4KhZOXVU5
+ IHOwnwyTXf5Yp7qeYjsVG7YVKIkP0d5zrB/VaJEN6A1J2Q18NffkJGsrA
+ hOZaOjdVsUfwOOMUPU6UvRhPlnJJrrk/DoBE0nENXhM6GDHtaChT4jRG1 U=;
+Received: from ironmsg07-lv.qualcomm.com ([10.47.202.151])
+ by alexa-out.qualcomm.com with ESMTP; 22 Apr 2022 16:08:54 -0700
+X-QCInternal: smtphost
+Received: from nasanex01c.na.qualcomm.com ([10.47.97.222])
+ by ironmsg07-lv.qualcomm.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 22 Apr 2022 16:08:53 -0700
+Received: from nalasex01a.na.qualcomm.com (10.47.209.196) by
+ nasanex01c.na.qualcomm.com (10.47.97.222) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.2.986.22; Fri, 22 Apr 2022 16:08:12 -0700
+Received: from [10.111.175.210] (10.80.80.8) by nalasex01a.na.qualcomm.com
+ (10.47.209.196) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.986.22; Fri, 22 Apr
+ 2022 16:08:10 -0700
+Message-ID: <8473260f-e5c9-4112-ca4d-ddd300fa0d8b@quicinc.com>
+Date: Fri, 22 Apr 2022 16:08:08 -0700
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.8.0
-Subject: Re: [PATCH v3 2/2] drm/msm/dp: Implement oob_hotplug_event()
-Content-Language: en-GB
-To: Bjorn Andersson <bjorn.andersson@linaro.org>,
- Jani Nikula <jani.nikula@linux.intel.com>,
- Joonas Lahtinen <joonas.lahtinen@linux.intel.com>,
- Rodrigo Vivi <rodrigo.vivi@intel.com>,
- Tvrtko Ursulin <tvrtko.ursulin@linux.intel.com>,
- Rob Clark <robdclark@gmail.com>
-References: <20220422223225.1297434-1-bjorn.andersson@linaro.org>
- <20220422223225.1297434-2-bjorn.andersson@linaro.org>
-From: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
-In-Reply-To: <20220422223225.1297434-2-bjorn.andersson@linaro.org>
-Content-Type: text/plain; charset=UTF-8; format=flowed
+User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:91.0) Gecko/20100101
+ Thunderbird/91.6.2
+Subject: Re: [PATCH v2 04/17] drm/msm/dpu: add writeback blocks to the sm8250
+ DPU catalog
+Content-Language: en-US
+To: Liviu Dudau <liviu.dudau@arm.com>
+References: <1650419169-13760-1-git-send-email-quic_abhinavk@quicinc.com>
+ <1650419169-13760-5-git-send-email-quic_abhinavk@quicinc.com>
+ <YmFLOjLlkCwV6klC@e110455-lin.cambridge.arm.com>
+From: Abhinav Kumar <quic_abhinavk@quicinc.com>
+In-Reply-To: <YmFLOjLlkCwV6klC@e110455-lin.cambridge.arm.com>
+Content-Type: text/plain; charset="UTF-8"; format=flowed
 Content-Transfer-Encoding: 7bit
+X-Originating-IP: [10.80.80.8]
+X-ClientProxiedBy: nasanex01b.na.qualcomm.com (10.46.141.250) To
+ nalasex01a.na.qualcomm.com (10.47.209.196)
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -79,216 +66,271 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: freedreno@lists.freedesktop.org,
- Heikki Krogerus <heikki.krogerus@linux.intel.com>,
- Thomas Zimmermann <tzimmermann@suse.de>, David Airlie <airlied@linux.ie>,
- Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
- intel-gfx@lists.freedesktop.org, linux-usb@vger.kernel.org,
- Abhinav Kumar <quic_abhinavk@quicinc.com>, Stephen Boyd <swboyd@chromium.org>,
- dri-devel@lists.freedesktop.org, linux-arm-msm@vger.kernel.org,
- Sean Paul <sean@poorly.run>, linux-kernel@vger.kernel.org
+Cc: markyacoub@chromium.org, dri-devel@lists.freedesktop.org,
+ swboyd@chromium.org, seanpaul@chromium.org, laurent.pinchart@ideasonboard.com,
+ dmitry.baryshkov@linaro.org, quic_jesszhan@quicinc.com,
+ quic_aravindh@quicinc.com, freedreno@lists.freedesktop.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 23/04/2022 01:32, Bjorn Andersson wrote:
-> The Qualcomm DisplayPort driver contains traces of the necessary
-> plumbing to hook up USB HPD, in the form of the dp_hpd module and the
-> dp_usbpd_cb struct. Use this as basis for implementing the
-> oob_hotplug_event() callback, by amending the dp_hpd module with the
-> missing logic.
+Hi Liviu
+
+Thank you for the feedback.
+
+I have fixed the order of copyright years in all the changes in the next 
+version.
+
+Thanks
+
+Abhinav
+
+On 4/21/2022 5:16 AM, Liviu Dudau wrote:
+> On Tue, Apr 19, 2022 at 06:45:56PM -0700, Abhinav Kumar wrote:
+>> Add writeback blocks to the sm8250 DPU hardware catalog. Other
+>> chipsets support writeback too but add it to sm8250 to prototype
+>> the feature so that it can be easily extended to other chipsets.
+>>
+>> changes in v2:
+>> 	- none
+>>
+>> Signed-off-by: Abhinav Kumar <quic_abhinavk@quicinc.com>
+>> Reviewed-by: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
+>> ---
+>>   drivers/gpu/drm/msm/disp/dpu1/dpu_hw_catalog.c | 74 +++++++++++++++++++++++++-
+>>   drivers/gpu/drm/msm/disp/dpu1/dpu_hw_catalog.h | 66 ++++++++++++++++++++++-
+>>   2 files changed, 138 insertions(+), 2 deletions(-)
+>>
+>> diff --git a/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_catalog.c b/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_catalog.c
+>> index b0a0ef7..bcb5273 100644
+>> --- a/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_catalog.c
+>> +++ b/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_catalog.c
+>> @@ -1,5 +1,6 @@
+>>   // SPDX-License-Identifier: GPL-2.0-only
+>> -/* Copyright (c) 2015-2018, The Linux Foundation. All rights reserved.
+>> +/* Copyright (c) 2022. Qualcomm Innovation Center, Inc. All rights reserved.
+>> + * Copyright (c) 2015-2018, The Linux Foundation. All rights reserved.
 > 
-> Overall the solution is similar to what's done downstream, but upstream
-> all the code to disect the HPD notification lives on the calling side of
-> drm_connector_oob_hotplug_event().
+> Hi Abhinav,
 > 
-> drm_connector_oob_hotplug_event() performs the lookup of the
-> drm_connector based on fwnode, hence the need to assign the fwnode in
-> dp_drm_connector_init().
+> Nit: Order should be historical (i.e. QIC copyright comes last). Comment applies to
+> all other copyright years additions.
 > 
-> Signed-off-by: Bjorn Andersson <bjorn.andersson@linaro.org>
-> ---
+> Best regards,
+> Liviu
 > 
-> Changes since v2:
-> - Rebased patch
+>>    */
+>>   
+>>   #define pr_fmt(fmt)	"[drm:%s:%d] " fmt, __func__, __LINE__
+>> @@ -120,6 +121,16 @@
+>>   			  BIT(MDP_AD4_0_INTR) | \
+>>   			  BIT(MDP_AD4_1_INTR))
+>>   
+>> +#define WB_SM8250_MASK (BIT(DPU_WB_LINE_MODE) | \
+>> +			 BIT(DPU_WB_UBWC) | \
+>> +			 BIT(DPU_WB_YUV_CONFIG) | \
+>> +			 BIT(DPU_WB_PIPE_ALPHA) | \
+>> +			 BIT(DPU_WB_XY_ROI_OFFSET) | \
+>> +			 BIT(DPU_WB_QOS) | \
+>> +			 BIT(DPU_WB_QOS_8LVL) | \
+>> +			 BIT(DPU_WB_CDP) | \
+>> +			 BIT(DPU_WB_INPUT_CTRL))
+>> +
+>>   #define DEFAULT_PIXEL_RAM_SIZE		(50 * 1024)
+>>   #define DEFAULT_DPU_LINE_WIDTH		2048
+>>   #define DEFAULT_DPU_OUTPUT_LINE_WIDTH	2560
+>> @@ -211,6 +222,40 @@ static const u32 rotation_v2_formats[] = {
+>>   	/* TODO add formats after validation */
+>>   };
+>>   
+>> +static const uint32_t wb2_formats[] = {
+>> +	DRM_FORMAT_RGB565,
+>> +	DRM_FORMAT_BGR565,
+>> +	DRM_FORMAT_RGB888,
+>> +	DRM_FORMAT_ARGB8888,
+>> +	DRM_FORMAT_RGBA8888,
+>> +	DRM_FORMAT_ABGR8888,
+>> +	DRM_FORMAT_XRGB8888,
+>> +	DRM_FORMAT_RGBX8888,
+>> +	DRM_FORMAT_XBGR8888,
+>> +	DRM_FORMAT_ARGB1555,
+>> +	DRM_FORMAT_RGBA5551,
+>> +	DRM_FORMAT_XRGB1555,
+>> +	DRM_FORMAT_RGBX5551,
+>> +	DRM_FORMAT_ARGB4444,
+>> +	DRM_FORMAT_RGBA4444,
+>> +	DRM_FORMAT_RGBX4444,
+>> +	DRM_FORMAT_XRGB4444,
+>> +	DRM_FORMAT_BGR565,
+>> +	DRM_FORMAT_BGR888,
+>> +	DRM_FORMAT_ABGR8888,
+>> +	DRM_FORMAT_BGRA8888,
+>> +	DRM_FORMAT_BGRX8888,
+>> +	DRM_FORMAT_XBGR8888,
+>> +	DRM_FORMAT_ABGR1555,
+>> +	DRM_FORMAT_BGRA5551,
+>> +	DRM_FORMAT_XBGR1555,
+>> +	DRM_FORMAT_BGRX5551,
+>> +	DRM_FORMAT_ABGR4444,
+>> +	DRM_FORMAT_BGRA4444,
+>> +	DRM_FORMAT_BGRX4444,
+>> +	DRM_FORMAT_XBGR4444,
+>> +};
+>> +
+>>   /*************************************************************
+>>    * DPU sub blocks config
+>>    *************************************************************/
+>> @@ -448,6 +493,8 @@ static const struct dpu_mdp_cfg sm8250_mdp[] = {
+>>   			.reg_off = 0x2C4, .bit_off = 8},
+>>   	.clk_ctrls[DPU_CLK_CTRL_REG_DMA] = {
+>>   			.reg_off = 0x2BC, .bit_off = 20},
+>> +	.clk_ctrls[DPU_CLK_CTRL_WB2] = {
+>> +			.reg_off = 0x3B8, .bit_off = 24},
+>>   	},
+>>   };
+>>   
+>> @@ -1235,6 +1282,29 @@ static const struct dpu_intf_cfg qcm2290_intf[] = {
+>>   };
+>>   
+>>   /*************************************************************
+>> + * Writeback blocks config
+>> + *************************************************************/
+>> +#define WB_BLK(_name, _id, _base, _features, _clk_ctrl, \
+>> +		__xin_id, vbif_id, _reg, _wb_done_bit) \
+>> +	{ \
+>> +	.name = _name, .id = _id, \
+>> +	.base = _base, .len = 0x2c8, \
+>> +	.features = _features, \
+>> +	.format_list = wb2_formats, \
+>> +	.num_formats = ARRAY_SIZE(wb2_formats), \
+>> +	.clk_ctrl = _clk_ctrl, \
+>> +	.xin_id = __xin_id, \
+>> +	.vbif_idx = vbif_id, \
+>> +	.maxlinewidth = DEFAULT_DPU_LINE_WIDTH, \
+>> +	.intr_wb_done = DPU_IRQ_IDX(_reg, _wb_done_bit) \
+>> +	}
+>> +
+>> +static const struct dpu_wb_cfg sm8250_wb[] = {
+>> +	WB_BLK("wb_2", WB_2, 0x65000, WB_SM8250_MASK, DPU_CLK_CTRL_WB2, 6,
+>> +			VBIF_RT, MDP_SSPP_TOP0_INTR, 4),
+>> +};
+>> +
+>> +/*************************************************************
+>>    * VBIF sub blocks config
+>>    *************************************************************/
+>>   /* VBIF QOS remap */
+>> @@ -1832,6 +1902,8 @@ static void sm8250_cfg_init(struct dpu_mdss_cfg *dpu_cfg)
+>>   		.intf = sm8150_intf,
+>>   		.vbif_count = ARRAY_SIZE(sdm845_vbif),
+>>   		.vbif = sdm845_vbif,
+>> +		.wb_count = ARRAY_SIZE(sm8250_wb),
+>> +		.wb = sm8250_wb,
+>>   		.reg_dma_count = 1,
+>>   		.dma_cfg = sm8250_regdma,
+>>   		.perf = sm8250_perf_data,
+>> diff --git a/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_catalog.h b/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_catalog.h
+>> index 866fd7a..8cb6d1f 100644
+>> --- a/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_catalog.h
+>> +++ b/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_catalog.h
+>> @@ -1,5 +1,7 @@
+>>   /* SPDX-License-Identifier: GPL-2.0-only */
+>> -/* Copyright (c) 2015-2018, 2020 The Linux Foundation. All rights reserved.
+>> +/*
+>> + * Copyright (c) 2022. Qualcomm Innovation Center, Inc. All rights reserved.
+>> + * Copyright (c) 2015-2018, 2020 The Linux Foundation. All rights reserved.
+>>    */
+>>   
+>>   #ifndef _DPU_HW_CATALOG_H
+>> @@ -214,6 +216,42 @@ enum {
+>>   };
+>>   
+>>   /**
+>> +  * WB sub-blocks and features
+>> +  * @DPU_WB_LINE_MODE        Writeback module supports line/linear mode
+>> +  * @DPU_WB_BLOCK_MODE       Writeback module supports block mode read
+>> +  * @DPU_WB_CHROMA_DOWN,     Writeback chroma down block,
+>> +  * @DPU_WB_DOWNSCALE,       Writeback integer downscaler,
+>> +  * @DPU_WB_DITHER,          Dither block
+>> +  * @DPU_WB_TRAFFIC_SHAPER,  Writeback traffic shaper bloc
+>> +  * @DPU_WB_UBWC,            Writeback Universal bandwidth compression
+>> +  * @DPU_WB_YUV_CONFIG       Writeback supports output of YUV colorspace
+>> +  * @DPU_WB_PIPE_ALPHA       Writeback supports pipe alpha
+>> +  * @DPU_WB_XY_ROI_OFFSET    Writeback supports x/y-offset of out ROI in
+>> +  *                          the destination image
+>> +  * @DPU_WB_QOS,             Writeback supports QoS control, danger/safe/creq
+>> +  * @DPU_WB_QOS_8LVL,        Writeback supports 8-level QoS control
+>> +  * @DPU_WB_CDP              Writeback supports client driven prefetch
+>> +  * @DPU_WB_INPUT_CTRL       Writeback supports from which pp block input pixel
+>> +  *                          data arrives.
+>> +  * @DPU_WB_CROP             CWB supports cropping
+>> +  * @DPU_WB_MAX              maximum value
+>> +  */
+>> +enum {
+>> +	DPU_WB_LINE_MODE = 0x1,
+>> +	DPU_WB_BLOCK_MODE,
+>> +	DPU_WB_UBWC,
+>> +	DPU_WB_YUV_CONFIG,
+>> +	DPU_WB_PIPE_ALPHA,
+>> +	DPU_WB_XY_ROI_OFFSET,
+>> +	DPU_WB_QOS,
+>> +	DPU_WB_QOS_8LVL,
+>> +	DPU_WB_CDP,
+>> +	DPU_WB_INPUT_CTRL,
+>> +	DPU_WB_CROP,
+>> +	DPU_WB_MAX
+>> +};
+>> +
+>> +/**
+>>    * VBIF sub-blocks and features
+>>    * @DPU_VBIF_QOS_OTLIM        VBIF supports OT Limit
+>>    * @DPU_VBIF_QOS_REMAP        VBIF supports QoS priority remap
+>> @@ -460,6 +498,7 @@ enum dpu_clk_ctrl_type {
+>>   	DPU_CLK_CTRL_CURSOR1,
+>>   	DPU_CLK_CTRL_INLINE_ROT0_SSPP,
+>>   	DPU_CLK_CTRL_REG_DMA,
+>> +	DPU_CLK_CTRL_WB2,
+>>   	DPU_CLK_CTRL_MAX,
+>>   };
+>>   
+>> @@ -608,6 +647,28 @@ struct dpu_intf_cfg  {
+>>   };
+>>   
+>>   /**
+>> + * struct dpu_wb_cfg - information of writeback blocks
+>> + * @DPU_HW_BLK_INFO:    refer to the description above for DPU_HW_BLK_INFO
+>> + * @vbif_idx:           vbif client index
+>> + * @maxlinewidth:       max line width supported by writeback block
+>> + * @xin_id:             bus client identifier
+>> + * @intr_wb_done:       interrupt index for WB_DONE
+>> + * @format_list:	    list of formats supported by this writeback block
+>> + * @num_formats:	    number of formats supported by this writeback block
+>> + * @clk_ctrl:	        clock control identifier
+>> + */
+>> +struct dpu_wb_cfg {
+>> +	DPU_HW_BLK_INFO;
+>> +	u8 vbif_idx;
+>> +	u32 maxlinewidth;
+>> +	u32 xin_id;
+>> +	s32 intr_wb_done;
+>> +	const u32 *format_list;
+>> +	u32 num_formats;
+>> +	enum dpu_clk_ctrl_type clk_ctrl;
+>> +};
+>> +
+>> +/**
+>>    * struct dpu_vbif_dynamic_ot_cfg - dynamic OT setting
+>>    * @pps                pixel per seconds
+>>    * @ot_limit           OT limit to use up to specified pixel per second
+>> @@ -792,6 +853,9 @@ struct dpu_mdss_cfg {
+>>   	u32 vbif_count;
+>>   	const struct dpu_vbif_cfg *vbif;
+>>   
+>> +	u32 wb_count;
+>> +	const struct dpu_wb_cfg *wb;
+>> +
+>>   	u32 reg_dma_count;
+>>   	struct dpu_reg_dma_cfg dma_cfg;
+>>   
+>> -- 
+>> 2.7.4
+>>
 > 
->   drivers/gpu/drm/msm/dp/dp_display.c |  9 +++++++++
->   drivers/gpu/drm/msm/dp/dp_display.h |  3 +++
->   drivers/gpu/drm/msm/dp/dp_drm.c     | 11 +++++++++++
->   drivers/gpu/drm/msm/dp/dp_hpd.c     | 21 +++++++++++++++++++++
->   drivers/gpu/drm/msm/dp/dp_hpd.h     |  5 +++++
->   5 files changed, 49 insertions(+)
-> 
-> diff --git a/drivers/gpu/drm/msm/dp/dp_display.c b/drivers/gpu/drm/msm/dp/dp_display.c
-> index a42732b67349..1019f6d8fd03 100644
-> --- a/drivers/gpu/drm/msm/dp/dp_display.c
-> +++ b/drivers/gpu/drm/msm/dp/dp_display.c
-> @@ -449,6 +449,14 @@ static int dp_display_usbpd_configure_cb(struct device *dev)
->   	return dp_display_process_hpd_high(dp);
->   }
->   
-> +void dp_display_oob_hotplug_event(struct msm_dp *dp_display,
-> +				  enum drm_connector_hpd_state hpd_state)
-> +{
-> +	struct dp_display_private *dp = container_of(dp_display, struct dp_display_private, dp_display);
-> +
-> +	dp->usbpd->oob_event(dp->usbpd, hpd_state);
-> +}
-> +
->   static int dp_display_usbpd_disconnect_cb(struct device *dev)
->   {
->   	struct dp_display_private *dp = dev_get_dp_display_private(dev);
-> @@ -1302,6 +1310,7 @@ static int dp_display_probe(struct platform_device *pdev)
->   	dp->pdev = pdev;
->   	dp->name = "drm_dp";
->   	dp->dp_display.connector_type = desc->connector_type;
-> +	dp->dp_display.dev = &pdev->dev;
->   
->   	rc = dp_init_sub_modules(dp);
->   	if (rc) {
-> diff --git a/drivers/gpu/drm/msm/dp/dp_display.h b/drivers/gpu/drm/msm/dp/dp_display.h
-> index 7af2b186d2d9..16658270df2c 100644
-> --- a/drivers/gpu/drm/msm/dp/dp_display.h
-> +++ b/drivers/gpu/drm/msm/dp/dp_display.h
-> @@ -11,6 +11,7 @@
->   #include "disp/msm_disp_snapshot.h"
->   
->   struct msm_dp {
-> +	struct device *dev;
->   	struct drm_device *drm_dev;
->   	struct device *codec_dev;
->   	struct drm_bridge *bridge;
-> @@ -40,5 +41,7 @@ bool dp_display_check_video_test(struct msm_dp *dp_display);
->   int dp_display_get_test_bpp(struct msm_dp *dp_display);
->   void dp_display_signal_audio_start(struct msm_dp *dp_display);
->   void dp_display_signal_audio_complete(struct msm_dp *dp_display);
-> +void dp_display_oob_hotplug_event(struct msm_dp *dp_display,
-> +				  enum drm_connector_hpd_state hpd_state);
->   
->   #endif /* _DP_DISPLAY_H_ */
-> diff --git a/drivers/gpu/drm/msm/dp/dp_drm.c b/drivers/gpu/drm/msm/dp/dp_drm.c
-> index 80f59cf99089..76904b1601b1 100644
-> --- a/drivers/gpu/drm/msm/dp/dp_drm.c
-> +++ b/drivers/gpu/drm/msm/dp/dp_drm.c
-> @@ -123,6 +123,14 @@ static enum drm_mode_status dp_connector_mode_valid(
->   	return dp_display_validate_mode(dp_disp, mode->clock);
->   }
->   
-> +static void dp_oob_hotplug_event(struct drm_connector *connector,
-> +				 enum drm_connector_hpd_state hpd_state)
-> +{
-> +	struct msm_dp *dp_disp = to_dp_connector(connector)->dp_display;
-> +
-> +	dp_display_oob_hotplug_event(dp_disp, hpd_state);
-> +}
-> +
->   static const struct drm_connector_funcs dp_connector_funcs = {
->   	.detect = dp_connector_detect,
->   	.fill_modes = drm_helper_probe_single_connector_modes,
-> @@ -130,6 +138,7 @@ static const struct drm_connector_funcs dp_connector_funcs = {
->   	.reset = drm_atomic_helper_connector_reset,
->   	.atomic_duplicate_state = drm_atomic_helper_connector_duplicate_state,
->   	.atomic_destroy_state = drm_atomic_helper_connector_destroy_state,
-> +	.oob_hotplug_event = dp_oob_hotplug_event,
-
-We were (are) going to switch dp driver to use drm_bridge_connector (to 
-fix support for bridge chains, eDP panels, etc.
-
-So these changes must be ported to drm_bridge_connector (or we must 
-abandon/defer the idea of using the bridge_connector).
-
-For the oob_hotplug_event() callback proper support might be as simple 
-as calling drm_bridge_connector_hpd_cb().
-
->   };
->   
->   static const struct drm_connector_helper_funcs dp_connector_helper_funcs = {
-> @@ -160,6 +169,8 @@ struct drm_connector *dp_drm_connector_init(struct msm_dp *dp_display)
->   	if (ret)
->   		return ERR_PTR(ret);
->   
-> +	connector->fwnode = fwnode_handle_get(dev_fwnode(dp_display->dev));
-> +
-
-This would be much more interesting. Supporting this in a generic way 
-might be tricky. But we can still set the fwnode manually from the dp code.
-
->   	drm_connector_helper_add(connector, &dp_connector_helper_funcs);
->   
->   	/*
-> diff --git a/drivers/gpu/drm/msm/dp/dp_hpd.c b/drivers/gpu/drm/msm/dp/dp_hpd.c
-> index db98a1d431eb..cdb1feea5ebf 100644
-> --- a/drivers/gpu/drm/msm/dp/dp_hpd.c
-> +++ b/drivers/gpu/drm/msm/dp/dp_hpd.c
-> @@ -7,6 +7,8 @@
->   
->   #include <linux/slab.h>
->   #include <linux/device.h>
-> +#include <drm/drm_connector.h>
-> +#include <drm/drm_print.h>
->   
->   #include "dp_hpd.h"
->   
-> @@ -45,6 +47,24 @@ int dp_hpd_connect(struct dp_usbpd *dp_usbpd, bool hpd)
->   	return rc;
->   }
->   
-> +static void dp_hpd_oob_event(struct dp_usbpd *dp_usbpd,
-> +			     enum drm_connector_hpd_state hpd_state)
-> +{
-> +	struct dp_hpd_private *hpd_priv = container_of(dp_usbpd, struct dp_hpd_private, dp_usbpd);
-> +
-> +	DRM_DEBUG_DP("hpd_state: %d connected: %d\n", hpd_state, dp_usbpd->connected);
-> +
-> +	if (!dp_usbpd->connected && hpd_state == DRM_CONNECTOR_HPD_HIGH) {
-> +		dp_usbpd->connected = true;
-> +		hpd_priv->dp_cb->configure(hpd_priv->dev);
-> +	} else if (hpd_state == DRM_CONNECTOR_HPD_LOW) {
-> +		dp_usbpd->connected = false;
-> +		hpd_priv->dp_cb->disconnect(hpd_priv->dev);
-> +	} else {
-> +		hpd_priv->dp_cb->attention(hpd_priv->dev);
-> +	}
-> +}
-> +
->   struct dp_usbpd *dp_hpd_get(struct device *dev, struct dp_usbpd_cb *cb)
->   {
->   	struct dp_hpd_private *dp_hpd;
-> @@ -62,6 +82,7 @@ struct dp_usbpd *dp_hpd_get(struct device *dev, struct dp_usbpd_cb *cb)
->   	dp_hpd->dp_cb = cb;
->   
->   	dp_hpd->dp_usbpd.connect = dp_hpd_connect;
-> +	dp_hpd->dp_usbpd.oob_event = dp_hpd_oob_event;
->   
->   	return &dp_hpd->dp_usbpd;
->   }
-> diff --git a/drivers/gpu/drm/msm/dp/dp_hpd.h b/drivers/gpu/drm/msm/dp/dp_hpd.h
-> index 8feec5aa5027..4166e5fd3156 100644
-> --- a/drivers/gpu/drm/msm/dp/dp_hpd.h
-> +++ b/drivers/gpu/drm/msm/dp/dp_hpd.h
-> @@ -29,7 +29,9 @@ enum plug_orientation {
->    * @hpd_irq: Change in the status since last message
->    * @alt_mode_cfg_done: bool to specify alt mode status
->    * @debug_en: bool to specify debug mode
-> + * @connected: cable currently connected
->    * @connect: simulate disconnect or connect for debug mode
-> + * @oob_event: deliver oob event to the usbpd code
->    */
->   struct dp_usbpd {
->   	enum plug_orientation orientation;
-> @@ -41,8 +43,11 @@ struct dp_usbpd {
->   	bool hpd_irq;
->   	bool alt_mode_cfg_done;
->   	bool debug_en;
-> +	bool connected;
->   
->   	int (*connect)(struct dp_usbpd *dp_usbpd, bool hpd);
-> +	void (*oob_event)(struct dp_usbpd *dp_usbpd,
-> +			  enum drm_connector_hpd_state hpd_state);
->   };
->   
->   /**
-
-
--- 
-With best wishes
-Dmitry
