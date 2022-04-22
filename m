@@ -1,36 +1,36 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id E6F9C50B179
-	for <lists+dri-devel@lfdr.de>; Fri, 22 Apr 2022 09:29:35 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id E8C5C50B175
+	for <lists+dri-devel@lfdr.de>; Fri, 22 Apr 2022 09:29:26 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id D02B8112132;
+	by gabe.freedesktop.org (Postfix) with ESMTP id 30B6111212E;
 	Fri, 22 Apr 2022 07:29:15 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from metis.ext.pengutronix.de (metis.ext.pengutronix.de
  [IPv6:2001:67c:670:201:290:27ff:fe1d:cc33])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 9D552112060
- for <dri-devel@lists.freedesktop.org>; Fri, 22 Apr 2022 07:28:58 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 587EC112066
+ for <dri-devel@lists.freedesktop.org>; Fri, 22 Apr 2022 07:28:54 +0000 (UTC)
 Received: from drehscheibe.grey.stw.pengutronix.de ([2a0a:edc0:0:c01:1d::a2])
  by metis.ext.pengutronix.de with esmtps
  (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256) (Exim 4.92)
  (envelope-from <sha@pengutronix.de>)
- id 1nhnii-0008K4-Q4; Fri, 22 Apr 2022 09:28:48 +0200
+ id 1nhnim-0008KG-HK; Fri, 22 Apr 2022 09:28:52 +0200
 Received: from [2a0a:edc0:0:1101:1d::28] (helo=dude02.red.stw.pengutronix.de)
  by drehscheibe.grey.stw.pengutronix.de with esmtp (Exim 4.94.2)
  (envelope-from <sha@pengutronix.de>)
- id 1nhnig-004Vy7-KF; Fri, 22 Apr 2022 09:28:45 +0200
+ id 1nhnii-004Vye-2V; Fri, 22 Apr 2022 09:28:46 +0200
 Received: from sha by dude02.red.stw.pengutronix.de with local (Exim 4.94.2)
  (envelope-from <sha@pengutronix.de>)
- id 1nhnid-009IU3-8P; Fri, 22 Apr 2022 09:28:43 +0200
+ id 1nhnid-009IU6-91; Fri, 22 Apr 2022 09:28:43 +0200
 From: Sascha Hauer <s.hauer@pengutronix.de>
 To: dri-devel@lists.freedesktop.org
-Subject: [PATCH v11 14/24] drm/rockchip: dw_hdmi: add default 594Mhz clk for
- 4K@60hz
-Date: Fri, 22 Apr 2022 09:28:31 +0200
-Message-Id: <20220422072841.2206452-15-s.hauer@pengutronix.de>
+Subject: [PATCH v11 15/24] dt-bindings: display: rockchip: dw-hdmi: Make
+ unwedge pinctrl optional
+Date: Fri, 22 Apr 2022 09:28:32 +0200
+Message-Id: <20220422072841.2206452-16-s.hauer@pengutronix.de>
 X-Mailer: git-send-email 2.30.2
 In-Reply-To: <20220422072841.2206452-1-s.hauer@pengutronix.de>
 References: <20220422072841.2206452-1-s.hauer@pengutronix.de>
@@ -57,39 +57,37 @@ Cc: devicetree@vger.kernel.org,
  Benjamin Gaignard <benjamin.gaignard@collabora.com>,
  Peter Geis <pgwipeout@gmail.com>, Sascha Hauer <s.hauer@pengutronix.de>,
  Sandy Huang <hjc@rock-chips.com>, linux-rockchip@lists.infradead.org,
- Nickey Yang <nickey.yang@rock-chips.com>,
  Michael Riesch <michael.riesch@wolfvision.net>, kernel@pengutronix.de,
  Andy Yan <andy.yan@rock-chips.com>, linux-arm-kernel@lists.infradead.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-From: Nickey Yang <nickey.yang@rock-chips.com>
+None of the upstream device tree files has a "unwedge" pinctrl
+specified. Make it optional.
 
-add 594Mhz configuration parameters in rockchip_phy_config
-
-Signed-off-by: Nickey Yang <nickey.yang@rock-chips.com>
 Signed-off-by: Sascha Hauer <s.hauer@pengutronix.de>
+Acked-by: Rob Herring <robh@kernel.org>
 ---
 
 Notes:
-    Changes since v3:
-    - new patch
+    Changes since v4:
+    - Add Robs Ack
 
- drivers/gpu/drm/rockchip/dw_hdmi-rockchip.c | 1 +
+ .../devicetree/bindings/display/rockchip/rockchip,dw-hdmi.yaml   | 1 +
  1 file changed, 1 insertion(+)
 
-diff --git a/drivers/gpu/drm/rockchip/dw_hdmi-rockchip.c b/drivers/gpu/drm/rockchip/dw_hdmi-rockchip.c
-index ed480f6548f0e..de8720fd7d5d6 100644
---- a/drivers/gpu/drm/rockchip/dw_hdmi-rockchip.c
-+++ b/drivers/gpu/drm/rockchip/dw_hdmi-rockchip.c
-@@ -191,6 +191,7 @@ static const struct dw_hdmi_phy_config rockchip_phy_config[] = {
- 	{ 74250000,  0x8009, 0x0004, 0x0272},
- 	{ 148500000, 0x802b, 0x0004, 0x028d},
- 	{ 297000000, 0x8039, 0x0005, 0x028d},
-+	{ 594000000, 0x8039, 0x0000, 0x019d},
- 	{ ~0UL,	     0x0000, 0x0000, 0x0000}
- };
- 
+diff --git a/Documentation/devicetree/bindings/display/rockchip/rockchip,dw-hdmi.yaml b/Documentation/devicetree/bindings/display/rockchip/rockchip,dw-hdmi.yaml
+index 38ebb69830287..d7cb2b2be60e8 100644
+--- a/Documentation/devicetree/bindings/display/rockchip/rockchip,dw-hdmi.yaml
++++ b/Documentation/devicetree/bindings/display/rockchip/rockchip,dw-hdmi.yaml
+@@ -89,6 +89,7 @@ properties:
+       The unwedge pinctrl entry shall drive the DDC SDA line low. This is
+       intended to work around a hardware errata that can cause the DDC I2C
+       bus to be wedged.
++    minItems: 1
+     items:
+       - const: default
+       - const: unwedge
 -- 
 2.30.2
 
