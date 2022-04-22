@@ -2,55 +2,56 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5A27C50BD42
-	for <lists+dri-devel@lfdr.de>; Fri, 22 Apr 2022 18:40:57 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 5E93950BD5F
+	for <lists+dri-devel@lfdr.de>; Fri, 22 Apr 2022 18:44:58 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id C96B510E250;
-	Fri, 22 Apr 2022 16:40:54 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id E676210E087;
+	Fri, 22 Apr 2022 16:44:54 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-ej1-x62c.google.com (mail-ej1-x62c.google.com
- [IPv6:2a00:1450:4864:20::62c])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 23F3F10E250
- for <dri-devel@lists.freedesktop.org>; Fri, 22 Apr 2022 16:40:54 +0000 (UTC)
-Received: by mail-ej1-x62c.google.com with SMTP id l7so17518239ejn.2
- for <dri-devel@lists.freedesktop.org>; Fri, 22 Apr 2022 09:40:54 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=20210112;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=CoGqA9rNsKJzYU/Obb8AAvf20gVKLeXNXFwl6nZ00rM=;
- b=puSEmprmz1nabSt+ml3920aGPKkUVGoZm9P1z5qEs6WOb5oaEqNdPuB+XnBF/+pdaO
- BVteA6H2VgQlmb0Vq/J/n/1XVZvrvGQjt3mVj7lbZ/55jU+YzyVz0YPnKdWjffXAa8Sz
- MZZheTPjT0XiMePlwtP5H2lntWYI8T7f3sghXXsJd3g7Ti463gREa1RRPDULw3YuULJU
- V2eu6FowolcgcwIpjbYp+q6SYrrPz3TtrfOdT2/aZwIAQaPxpVJyN7CzTxgTka8GC3Wa
- WXEDYA8EWuQGKrc2twCsC4WwQ7w8TiQWt2zr4dmLhdutg4v2XDEey0Wxj5JTGpSZAciX
- TulA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=CoGqA9rNsKJzYU/Obb8AAvf20gVKLeXNXFwl6nZ00rM=;
- b=zgtqaht8BvSnqCZ0dt2ZNdQ26rE1y3xE8bl1+zMqjxw9vPfQqtS7GEe/toQv9T+oKb
- bj+TVUJaAzL02usVHRP8EjWkCXS4E0KTc/kNB2cNgUORMesAtrjCX2O/hBnxjhuxA9bW
- l++A+uK2CWTJbMDZH9NtfFJIXVkXOcrKBPaz1f+QW5rGhCywqyz/pRA4rWihKxzPyxcf
- /Vjc4Ho8EE90hZZXQHLPgf5t2Pv97bNYWB5nYhy9MxfMIh+EKnv14WbO7TiDzeIEMC/6
- I14eQiejWxJDuL2orERwQfjDlLjirUSMvnkd6S6hqSW2bh+LNhd4omujrveqtEFzeINE
- Lr4w==
-X-Gm-Message-State: AOAM532dXdj/RCQNHawXRZpwsN+rz1Z6ZUkFtiANF3r0lD41H93dMd0F
- OSiq9PcqhOgUutYeJfMVGAkIL58akPudP7C97fx6mw==
-X-Google-Smtp-Source: ABdhPJzoLmBU5Xg3Lxmb7MT8CNOOwTwJf10BbLeuL2aNNlpJcThtRrea/0k1l5jXVtMthl5n+035wmUrG4QqfMQQfso=
-X-Received: by 2002:a17:907:60c9:b0:6f3:47fb:df26 with SMTP id
- hv9-20020a17090760c900b006f347fbdf26mr3107234ejc.159.1650645652344; Fri, 22
- Apr 2022 09:40:52 -0700 (PDT)
+Received: from mga01.intel.com (mga01.intel.com [192.55.52.88])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 9971710E087
+ for <dri-devel@lists.freedesktop.org>; Fri, 22 Apr 2022 16:44:53 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+ t=1650645893; x=1682181893;
+ h=date:from:to:cc:subject:message-id:references:
+ mime-version:in-reply-to;
+ bh=zbjMmz4IPxc1dkPAAWlkk3z02hRug2vjYO3ePBmaF+4=;
+ b=ju/ddF6mF6mwUX6C958FHUceB30E97dYhHsmncgutqd59Ps82PYnmAIy
+ tUBnSYB+th4Vix2Hw+Gfm20IqkwwhKwnyWgyXG6u/bPd+oEPrYKmANcQN
+ xF940ekyMetAsMITKJ29Mku55pOEWMzNLVWv46CLUyMCApX4CcRsl7d42
+ Vd9d+v35Mdf9oviMc/xNLa7Ryn0hsZWm8bBa9gKPrzkLyz4+LDlq6qJ11
+ kYgE4L0p0QLpmGw2VE4xXUe5HdrWU7eM7G1pyfiigeO4OD4EQTFqOOOOw
+ aiKlHPrrIwvwlwxqOdLPQkRvOqkCTZiqIKfeGJQC/L/QfQhfJhFDAQbea Q==;
+X-IronPort-AV: E=McAfee;i="6400,9594,10324"; a="289845663"
+X-IronPort-AV: E=Sophos;i="5.90,282,1643702400"; d="scan'208";a="289845663"
+Received: from fmsmga002.fm.intel.com ([10.253.24.26])
+ by fmsmga101.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 22 Apr 2022 09:44:53 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.90,282,1643702400"; d="scan'208";a="659101622"
+Received: from lkp-server01.sh.intel.com (HELO 3abc53900bec) ([10.239.97.150])
+ by fmsmga002.fm.intel.com with ESMTP; 22 Apr 2022 09:44:50 -0700
+Received: from kbuild by 3abc53900bec with local (Exim 4.95)
+ (envelope-from <lkp@intel.com>) id 1nhwOn-000ALq-Aj;
+ Fri, 22 Apr 2022 16:44:49 +0000
+Date: Sat, 23 Apr 2022 00:43:49 +0800
+From: kernel test robot <lkp@intel.com>
+To: Chenyang Li <lichenyang@loongson.cn>, Maxime Ripard <mripard@kernel.org>,
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+ Thomas Zimmermann <tzimmermann@suse.de>,
+ Dan Carpenter <error27@gmail.com>, David Airlie <airlied@linux.ie>,
+ Daniel Vetter <daniel@ffwll.ch>, dri-devel@lists.freedesktop.org,
+ devel@linuxdriverproject.org
+Subject: Re: [PATCH v7 2/4] drm/loongson: Add GPIO and I2C driver for
+ loongson drm.
+Message-ID: <202204230046.2fBNTJrK-lkp@intel.com>
+References: <20220422081459.682700-1-lichenyang@loongson.cn>
 MIME-Version: 1.0
-References: <20220420235228.2767816-1-tjmercier@google.com>
- <YmLBTBd+5RHzr9MK@kroah.com>
-In-Reply-To: <YmLBTBd+5RHzr9MK@kroah.com>
-From: "T.J. Mercier" <tjmercier@google.com>
-Date: Fri, 22 Apr 2022 09:40:41 -0700
-Message-ID: <CABdmKX2X6VqK4rw90+OtSOF+aFZELefuzd=YOY3+cqiOqqYALQ@mail.gmail.com>
-Subject: Re: [RFC v5 0/6] Proposal for a GPU cgroup controller
-To: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20220422081459.682700-1-lichenyang@loongson.cn>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -63,49 +64,67 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: linux-kselftest@vger.kernel.org, linux-doc@vger.kernel.org,
- David Airlie <airlied@linux.ie>, Carlos Llamas <cmllamas@google.com>,
- dri-devel@lists.freedesktop.org, John Stultz <jstultz@google.com>,
- Zefan Li <lizefan.x@bytedance.com>, Kalesh Singh <kaleshsingh@google.com>,
- Joel Fernandes <joel@joelfernandes.org>, Shuah Khan <shuah@kernel.org>,
- Sumit Semwal <sumit.semwal@linaro.org>,
- Benjamin Gaignard <benjamin.gaignard@collabora.com>,
- Jonathan Corbet <corbet@lwn.net>, Martijn Coenen <maco@android.com>,
- Laura Abbott <labbott@redhat.com>, kernel-team@android.com,
- linux-media@vger.kernel.org, Todd Kjos <tkjos@android.com>,
- Thomas Zimmermann <tzimmermann@suse.de>, linaro-mm-sig@lists.linaro.org,
- Hridya Valsaraju <hridya@google.com>, Shuah Khan <skhan@linuxfoundation.org>,
- cgroups@vger.kernel.org, Suren Baghdasaryan <surenb@google.com>,
- Christian Brauner <brauner@kernel.org>, Kenny.Ho@amd.com,
- linux-kernel@vger.kernel.org, Liam Mark <lmark@codeaurora.org>,
- =?UTF-8?B?QXJ2ZSBIasO4bm5ldsOlZw==?= <arve@android.com>,
- =?UTF-8?Q?Michal_Koutn=C3=BD?= <mkoutny@suse.com>,
- Johannes Weiner <hannes@cmpxchg.org>, Tejun Heo <tj@kernel.org>,
- =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>
+Cc: Yi Li <liyi@loongson.cn>, Huacai Chen <chenhuacai@kernel.org>,
+ kbuild-all@lists.01.org, linux-kernel@vger.kernel.org,
+ Sam Ravnborg <sam@ravnborg.org>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Fri, Apr 22, 2022 at 7:53 AM Greg Kroah-Hartman
-<gregkh@linuxfoundation.org> wrote:
->
-> On Wed, Apr 20, 2022 at 11:52:18PM +0000, T.J. Mercier wrote:
-> > This patch series revisits the proposal for a GPU cgroup controller to
-> > track and limit memory allocations by various device/allocator
-> > subsystems. The patch series also contains a simple prototype to
-> > illustrate how Android intends to implement DMA-BUF allocator
-> > attribution using the GPU cgroup controller. The prototype does not
-> > include resource limit enforcements.
-> >
-> > Changelog:
-> > v5:
-> > Rebase on top of v5.18-rc3
->
-> Why is a "RFC" series on v5?  I treat "RFC" as "not ready to be merged,
-> if people are interested, please look at it".  But v5 seems like you
-> think this is real.
->
-> confused,
->
-> greg k-h
+Hi Chenyang,
 
-I'm sorry for the confusion. I'll change this to PATCH in future revisions.
+Thank you for the patch! Perhaps something to improve:
+
+[auto build test WARNING on drm/drm-next]
+[also build test WARNING on v5.18-rc3 next-20220422]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/Chenyang-Li/drm-loongson-Add-DRM-Driver-for-Loongson-7A1000-bridge-chip/20220422-161914
+base:   git://anongit.freedesktop.org/drm/drm drm-next
+config: riscv-allmodconfig (https://download.01.org/0day-ci/archive/20220423/202204230046.2fBNTJrK-lkp@intel.com/config)
+compiler: riscv64-linux-gcc (GCC) 11.2.0
+reproduce (this is a W=1 build):
+        wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbin/make.cross -O ~/bin/make.cross
+        chmod +x ~/bin/make.cross
+        # https://github.com/intel-lab-lkp/linux/commit/4a5b6ac99c37617e030a054ca431c5c9aab227b8
+        git remote add linux-review https://github.com/intel-lab-lkp/linux
+        git fetch --no-tags linux-review Chenyang-Li/drm-loongson-Add-DRM-Driver-for-Loongson-7A1000-bridge-chip/20220422-161914
+        git checkout 4a5b6ac99c37617e030a054ca431c5c9aab227b8
+        # save the config file
+        mkdir build_dir && cp config build_dir/.config
+        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-11.2.0 make.cross W=1 O=build_dir ARCH=riscv SHELL=/bin/bash drivers/gpu/drm/loongson/
+
+If you fix the issue, kindly add following tag as appropriate
+Reported-by: kernel test robot <lkp@intel.com>
+
+All warnings (new ones prefixed by >>):
+
+>> drivers/gpu/drm/loongson/loongson_encoder.c:10:27: warning: no previous prototype for 'loongson_bridge_detect' [-Wmissing-prototypes]
+      10 | enum drm_connector_status loongson_bridge_detect(struct drm_bridge *bridge)
+         |                           ^~~~~~~~~~~~~~~~~~~~~~
+
+
+vim +/loongson_bridge_detect +10 drivers/gpu/drm/loongson/loongson_encoder.c
+
+     9	
+  > 10	enum drm_connector_status loongson_bridge_detect(struct drm_bridge *bridge)
+    11	{
+    12		unsigned char start = 0x0;
+    13		struct i2c_msg msgs = {
+    14			.addr = DDC_ADDR,
+    15			.flags = 0,
+    16			.len = 1,
+    17			.buf = &start,
+    18		};
+    19	
+    20		if (i2c_transfer(bridge->ddc, &msgs, 1) != 1)
+    21			return connector_status_disconnected;
+    22		else
+    23			return connector_status_connected;
+    24	}
+    25	
+
+-- 
+0-DAY CI Kernel Test Service
+https://01.org/lkp
