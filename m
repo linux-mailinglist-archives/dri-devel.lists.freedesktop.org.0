@@ -1,65 +1,46 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0E15050AFB3
-	for <lists+dri-devel@lfdr.de>; Fri, 22 Apr 2022 07:45:58 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 126FF50AFC1
+	for <lists+dri-devel@lfdr.de>; Fri, 22 Apr 2022 07:55:49 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 455DC10FFD2;
-	Fri, 22 Apr 2022 05:45:55 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 1846B10F501;
+	Fri, 22 Apr 2022 05:55:45 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from ams.source.kernel.org (ams.source.kernel.org
- [IPv6:2604:1380:4601:e00::1])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 1DC8110FFD0
- for <dri-devel@lists.freedesktop.org>; Fri, 22 Apr 2022 05:45:54 +0000 (UTC)
+Received: from dfw.source.kernel.org (dfw.source.kernel.org
+ [IPv6:2604:1380:4641:c500::1])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 28B9B10F501
+ for <dri-devel@lists.freedesktop.org>; Fri, 22 Apr 2022 05:55:43 +0000 (UTC)
 Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
  (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
  (No client certificate requested)
- by ams.source.kernel.org (Postfix) with ESMTPS id 68450B82A53
- for <dri-devel@lists.freedesktop.org>; Fri, 22 Apr 2022 05:45:52 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPS id F13B6C385A4
- for <dri-devel@lists.freedesktop.org>; Fri, 22 Apr 2022 05:45:50 +0000 (UTC)
+ by dfw.source.kernel.org (Postfix) with ESMTPS id 8B71761D77;
+ Fri, 22 Apr 2022 05:55:42 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 39416C385A4;
+ Fri, 22 Apr 2022 05:55:41 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1650606351;
- bh=uOY8yfgLJyZ8oDPPyOAV8PUufSwR4wRiV9IaYW28Tgw=;
- h=From:To:Subject:Date:In-Reply-To:References:From;
- b=K7fx0OZmOIfMCpSMTPHVxaIEax9R0XFnO6JkXlKZGXHllONGnFIIRP+zv2dmRORW5
- FMmeA+oV3UwfW7h5aHL4l+VEnakOQPjN6Q00TdxCRVwd0V2/mNd11yyhSGDDVYoeFi
- 5bwfv+mM3y/QFGyqk3huR2530IWkP0Jbe8MILjP0yv24Q6b6A7FEUw2SkHwGQ0tYKZ
- Fe3/d3Q6NJXaFos+6lgaBvB0Skxfoqu3n6ra5HKRPDXgMLo6Q2db4M3suDvcGdBFq1
- eiOSmB3Sr1CDUPYqdHie/UYoAbqyrkw7gXMgX+4eWwvHTL6WLffPole+EUcIbaPHkU
- 0pojIWr75P43A==
-Received: by aws-us-west-2-korg-bugzilla-1.web.codeaurora.org (Postfix,
- from userid 48) id DC1A8C05FD0; Fri, 22 Apr 2022 05:45:50 +0000 (UTC)
-From: bugzilla-daemon@kernel.org
-To: dri-devel@lists.freedesktop.org
-Subject: [Bug 214991] VC4 DRM waiting for flip down makes UI freeze a while
- with kernel 5.15
-Date: Fri, 22 Apr 2022 05:45:50 +0000
-X-Bugzilla-Reason: None
-X-Bugzilla-Type: changed
-X-Bugzilla-Watch-Reason: AssignedTo drivers_video-dri@kernel-bugs.osdl.org
-X-Bugzilla-Product: Drivers
-X-Bugzilla-Component: Video(DRI - non Intel)
-X-Bugzilla-Version: 2.5
-X-Bugzilla-Keywords: 
-X-Bugzilla-Severity: normal
-X-Bugzilla-Who: jhp@endlessos.org
-X-Bugzilla-Status: RESOLVED
-X-Bugzilla-Resolution: CODE_FIX
-X-Bugzilla-Priority: P1
-X-Bugzilla-Assigned-To: drivers_video-dri@kernel-bugs.osdl.org
-X-Bugzilla-Flags: 
-X-Bugzilla-Changed-Fields: bug_status resolution
-Message-ID: <bug-214991-2300-fSzLlziBoL@https.bugzilla.kernel.org/>
-In-Reply-To: <bug-214991-2300@https.bugzilla.kernel.org/>
-References: <bug-214991-2300@https.bugzilla.kernel.org/>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-X-Bugzilla-URL: https://bugzilla.kernel.org/
-Auto-Submitted: auto-generated
+ s=k20201202; t=1650606942;
+ bh=yPcgKn7+VM0lcH+ZbeTVmHNXEMBQkHRpFUGHrVbAfn4=;
+ h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+ b=DGjFcWT+dCRf+1Ea0UMpZB3BVhFT/mpAUOufRi+F5d42Ebw210evImcesBdkmAE2y
+ CojO/L6OwQvvebeoVE6qvReZ7g9PFW9JuEYpetmtjtso83DunufiLr8qgO9O0+FFpn
+ GVMccx8ynEYfHuCvjETmo3HW7xzHr3OoSppx9O2wdR3ZEn7HcEdKmSQap5o8e+7dTD
+ jgWGncxQTYOOsaLGuI90Mu9fT+ymfCNsIJoAsUtWTNfNAgWP+0rLmO96CJ3OGjOTNi
+ cMc2mOyUFIDdlFfXV8S9TmUlpmywWyXsJfWmlDXPjEEw4JKcA8ShoftvG9yEz9x4qA
+ iPnvfq7oG+4Qw==
+Date: Fri, 22 Apr 2022 11:25:37 +0530
+From: Vinod Koul <vkoul@kernel.org>
+To: Arnd Bergmann <arnd@kernel.org>
+Subject: Re: [PATCH 20/41] dma: omap: hide legacy interface
+Message-ID: <YmJDWYcBN5+MWe91@matsya>
+References: <20220419133723.1394715-1-arnd@kernel.org>
+ <20220419133723.1394715-21-arnd@kernel.org>
 MIME-Version: 1.0
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20220419133723.1394715-21-arnd@kernel.org>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -72,23 +53,33 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
+Cc: Ulf Hansson <ulf.hansson@linaro.org>, linux-usb@vger.kernel.org,
+ tony@atomide.com, linux-fbdev@vger.kernel.org,
+ Dominik Brodowski <linux@dominikbrodowski.net>,
+ Lee Jones <lee.jones@linaro.org>, Daniel Thompson <daniel.thompson@linaro.org>,
+ aaro.koskinen@iki.fi, Peter Ujfalusi <peter.ujfalusi@gmail.com>,
+ Helge Deller <deller@gmx.de>, jmkrzyszt@gmail.com,
+ Russell King <linux@armlinux.org.uk>, Krzysztof Kozlowski <krzk@kernel.org>,
+ Alan Stern <stern@rowland.harvard.edu>, linux-serial@vger.kernel.org,
+ linux-input@vger.kernel.org, Arnd Bergmann <arnd@arndb.de>,
+ Mark Brown <broonie@kernel.org>, dri-devel@lists.freedesktop.org,
+ linux-omap@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
+ Felipe Balbi <balbi@kernel.org>, Paul Walmsley <paul@pwsan.com>,
+ Jingoo Han <jingoohan1@gmail.com>, Dmitry Torokhov <dmitry.torokhov@gmail.com>,
+ linux-mmc@vger.kernel.org, linux-kernel@vger.kernel.org,
+ Kevin Hilman <khilman@kernel.org>, dmaengine@vger.kernel.org,
+ alsa-devel@alsa-project.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-https://bugzilla.kernel.org/show_bug.cgi?id=3D214991
+On 19-04-22, 15:37, Arnd Bergmann wrote:
+> From: Arnd Bergmann <arnd@arndb.de>
+> 
+> The legacy interface for omap-dma is only used on OMAP1, and the
+> same is true for the non-DT case. Make both of these conditional on
+> CONFIG_ARCH_OMAP1 being set to simplify the dependency.
 
-Jian-Hong Pan (jhp@endlessos.org) changed:
+Acked-By: Vinod Koul <vkoul@kernel.org>
 
-           What    |Removed                     |Added
-----------------------------------------------------------------------------
-             Status|NEW                         |RESOLVED
-         Resolution|---                         |CODE_FIX
-
---- Comment #3 from Jian-Hong Pan (jhp@endlessos.org) ---
-Have not seen this error messages with the new kernel 5.17.  So, close it.
-
---=20
-You may reply to this email to add a comment.
-
-You are receiving this mail because:
-You are watching the assignee of the bug.=
+-- 
+~Vinod
