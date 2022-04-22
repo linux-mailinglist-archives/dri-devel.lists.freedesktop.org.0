@@ -2,62 +2,61 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1758350B2FF
-	for <lists+dri-devel@lfdr.de>; Fri, 22 Apr 2022 10:34:33 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id A8A6F50B308
+	for <lists+dri-devel@lfdr.de>; Fri, 22 Apr 2022 10:37:08 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 3F1A510E467;
-	Fri, 22 Apr 2022 08:34:31 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 7388110E095;
+	Fri, 22 Apr 2022 08:37:06 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-qv1-f42.google.com (mail-qv1-f42.google.com
- [209.85.219.42])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 66AE010E467
- for <dri-devel@lists.freedesktop.org>; Fri, 22 Apr 2022 08:34:30 +0000 (UTC)
-Received: by mail-qv1-f42.google.com with SMTP id kc12so360841qvb.0
- for <dri-devel@lists.freedesktop.org>; Fri, 22 Apr 2022 01:34:30 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc:content-transfer-encoding;
- bh=06iECEq1zQndlMR7mMQtp+hvIytw9rPulWZWvzCfKtU=;
- b=f6CHa0vT+poC031mNUWD0CwE4ZHDbtWHFGbf8ujaEs8XCl3eYx60wtbG+asoIuCJqG
- tjIMJJHBxZm1mKbvIfykMwbTxBDz1FUhxN1NhOKSUj2+CiLn53gTTNicx5+Y1qH0mlqN
- CgTb23D77iGdygiA0nlOCfo46V986+vh5Pxq/RynZhcgvZgfJmApWkVDn/9VvTrctxkM
- d/zTQrGr0C85OD/JHuRBU2dRlIi8SYAZx3e0MEKFE+dVyCyBxxDOw36riPt0M95GrWUy
- A5NvZuC+qiG9YPEq7dNClYGGjeq2t16LU3ok4Vv94GeMHNx44/tAu5ZXbc8ddGLl9GJ7
- y8Eg==
-X-Gm-Message-State: AOAM530rYy8dPw+5rPsLWwsPMJiC0uDf+qPpFlNXPVGst5L9Ap8OxPUP
- e+IGJPxgsnrgPQzuPokCXDRe41CWxqqltA==
-X-Google-Smtp-Source: ABdhPJyutKmFKRCuGm9baP/6dDfZrwTHKSjnPYe8fyNXyos23ODE+A+ykaYsEXA3587ol6J6qfcmeg==
-X-Received: by 2002:a0c:f8ca:0:b0:444:41e8:89b1 with SMTP id
- h10-20020a0cf8ca000000b0044441e889b1mr2745667qvo.22.1650616469122; 
- Fri, 22 Apr 2022 01:34:29 -0700 (PDT)
-Received: from mail-yb1-f173.google.com (mail-yb1-f173.google.com.
- [209.85.219.173]) by smtp.gmail.com with ESMTPSA id
- p12-20020a05622a00cc00b002ebdd6ef303sm949928qtw.43.2022.04.22.01.34.27
- for <dri-devel@lists.freedesktop.org>
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Fri, 22 Apr 2022 01:34:27 -0700 (PDT)
-Received: by mail-yb1-f173.google.com with SMTP id b26so7581729ybj.13
- for <dri-devel@lists.freedesktop.org>; Fri, 22 Apr 2022 01:34:27 -0700 (PDT)
-X-Received: by 2002:a25:3492:0:b0:645:6f78:b3b4 with SMTP id
- b140-20020a253492000000b006456f78b3b4mr3528644yba.546.1650616467326; Fri, 22
- Apr 2022 01:34:27 -0700 (PDT)
+Received: from smtp-out2.suse.de (smtp-out2.suse.de [195.135.220.29])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id F372510E095
+ for <dri-devel@lists.freedesktop.org>; Fri, 22 Apr 2022 08:37:04 +0000 (UTC)
+Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+ key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
+ (No client certificate requested)
+ by smtp-out2.suse.de (Postfix) with ESMTPS id F32361F37B;
+ Fri, 22 Apr 2022 08:37:02 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+ t=1650616623; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+ mime-version:mime-version:content-type:content-type:
+ in-reply-to:in-reply-to:references:references;
+ bh=37FEahUJdlj/gRtko9u06GxXpQ+C9ea4POpASYThvVc=;
+ b=NL08b4nv7QRYOgshL/lT5Hr+yGTBl907pnBrzwLCrWbNjIX9/Mlutk0xBKZZgM+zlq7mtG
+ TdsWUjfDuIQYK6yPu+qaZhLZUjSsYPHnFlwC0+VfjH5xmlCdF6zR4ws9KbFpg6qny3dfy+
+ O9pPdrW8lpuFgZ4QkAGyGuL1CjLlIBk=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+ s=susede2_ed25519; t=1650616623;
+ h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+ mime-version:mime-version:content-type:content-type:
+ in-reply-to:in-reply-to:references:references;
+ bh=37FEahUJdlj/gRtko9u06GxXpQ+C9ea4POpASYThvVc=;
+ b=aKs/qiuH3jQq+4fpPP7zC3AQI74PNUE3ANbXJksFFH/3rvn3qBFaHt2YsH5VsNkoy5b23G
+ jTJPwvALkUcowlCg==
+Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+ key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
+ (No client certificate requested)
+ by imap2.suse-dmz.suse.de (Postfix) with ESMTPS id CAD74131BD;
+ Fri, 22 Apr 2022 08:37:02 +0000 (UTC)
+Received: from dovecot-director2.suse.de ([192.168.254.65])
+ by imap2.suse-dmz.suse.de with ESMTPSA id x+F5MC5pYmJ7egAAMHmgww
+ (envelope-from <tzimmermann@suse.de>); Fri, 22 Apr 2022 08:37:02 +0000
+Message-ID: <9dca836a-bd84-d200-fc01-56e4d6f13eb9@suse.de>
+Date: Fri, 22 Apr 2022 10:37:02 +0200
 MIME-Version: 1.0
-References: <20220421163128.101520-1-biju.das.jz@bp.renesas.com>
- <20220421163128.101520-2-biju.das.jz@bp.renesas.com>
- <CAMuHMdWMmkY+_O_oyKeumuOqNvw_KJaDxuiwrETc3W-kCV2MCg@mail.gmail.com>
- <OS0PR01MB5922728B940A386674DAB36786F79@OS0PR01MB5922.jpnprd01.prod.outlook.com>
-In-Reply-To: <OS0PR01MB5922728B940A386674DAB36786F79@OS0PR01MB5922.jpnprd01.prod.outlook.com>
-From: Geert Uytterhoeven <geert@linux-m68k.org>
-Date: Fri, 22 Apr 2022 10:34:15 +0200
-X-Gmail-Original-Message-ID: <CAMuHMdXqYm1WtgnEGhXdOipXwJ9s3NV8CkNWCYhin3SF7tnv+Q@mail.gmail.com>
-Message-ID: <CAMuHMdXqYm1WtgnEGhXdOipXwJ9s3NV8CkNWCYhin3SF7tnv+Q@mail.gmail.com>
-Subject: Re: [PATCH v3 1/4] dt-bindings: display: Document Renesas RZ/G2L DU
- bindings
-To: Biju Das <biju.das.jz@bp.renesas.com>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.7.0
+Subject: Re: FG040346DSSWBG04 patch review
+Content-Language: en-US
+To: Marek Vasut <marex@denx.de>, Sam Ravnborg <sam@ravnborg.org>
+References: <718e8029-b6a8-f221-156c-ac8ac84a8d77@denx.de>
+From: Thomas Zimmermann <tzimmermann@suse.de>
+In-Reply-To: <718e8029-b6a8-f221-156c-ac8ac84a8d77@denx.de>
+Content-Type: multipart/signed; micalg=pgp-sha256;
+ protocol="application/pgp-signature";
+ boundary="------------NrPfFPfSvr3DBj0RsaF5lxBB"
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -70,178 +69,61 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: "open list:OPEN FIRMWARE AND FLATTENED DEVICE TREE BINDINGS"
- <devicetree@vger.kernel.org>, Chris Paterson <Chris.Paterson2@renesas.com>,
- Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>,
- David Airlie <airlied@linux.ie>,
- Prabhakar Mahadev Lad <prabhakar.mahadev-lad.rj@bp.renesas.com>,
- DRI Development <dri-devel@lists.freedesktop.org>,
- Biju Das <biju.das@bp.renesas.com>,
- Linux-Renesas <linux-renesas-soc@vger.kernel.org>,
- Rob Herring <robh+dt@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>
+Cc: dri-devel <dri-devel@lists.freedesktop.org>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi Biju,
+This is an OpenPGP/MIME signed message (RFC 4880 and 3156)
+--------------NrPfFPfSvr3DBj0RsaF5lxBB
+Content-Type: multipart/mixed; boundary="------------U1LK6UvtyE9CY9q0uynQ3fYC";
+ protected-headers="v1"
+From: Thomas Zimmermann <tzimmermann@suse.de>
+To: Marek Vasut <marex@denx.de>, Sam Ravnborg <sam@ravnborg.org>
+Cc: dri-devel <dri-devel@lists.freedesktop.org>
+Message-ID: <9dca836a-bd84-d200-fc01-56e4d6f13eb9@suse.de>
+Subject: Re: FG040346DSSWBG04 patch review
+References: <718e8029-b6a8-f221-156c-ac8ac84a8d77@denx.de>
+In-Reply-To: <718e8029-b6a8-f221-156c-ac8ac84a8d77@denx.de>
 
-On Fri, Apr 22, 2022 at 10:11 AM Biju Das <biju.das.jz@bp.renesas.com> wrot=
-e:
-> > Subject: Re: [PATCH v3 1/4] dt-bindings: display: Document Renesas RZ/G=
-2L
-> > DU bindings
-> > On Thu, Apr 21, 2022 at 6:31 PM Biju Das <biju.das.jz@bp.renesas.com>
-> > wrote:
-> > > The RZ/G2L LCD controller is composed of Frame Compression Processor
-> > > (FCPVD), Video Signal Processor (VSPD), and Display Unit (DU).
-> > >
-> > > The DU module supports the following hardware features =E2=88=92 Disp=
-lay
-> > > Parallel Interface (DPI) and MIPI LINK Video Interface =E2=88=92 Disp=
-lay
-> > > timing master =E2=88=92 Generates video timings =E2=88=92 Selecting t=
-he polarity of
-> > > output DCLK, HSYNC, VSYNC, and DE =E2=88=92 Supports Progressive =E2=
-=88=92 Input data
-> > > format (from VSPD): RGB888, RGB666 =E2=88=92 Output data format: same=
- as Input
-> > > data format =E2=88=92 Supporting Full HD (1920 pixels x 1080 lines) f=
-or
-> > > MIPI-DSI Output =E2=88=92 Supporting WXGA (1280 pixels x 800 lines) f=
-or
-> > > Parallel Output
-> > >
-> > > This patch document DU module found on RZ/G2L LCDC.
-> > >
-> > > Signed-off-by: Biju Das <biju.das.jz@bp.renesas.com>
-> >
-> > Thanks for your patch!
-> >
-> > > --- /dev/null
-> > > +++ b/Documentation/devicetree/bindings/display/renesas,rzg2l-du.yaml
-> > > @@ -0,0 +1,159 @@
-> > > +# SPDX-License-Identifier: (GPL-2.0-only OR BSD-2-Clause) %YAML 1.2
-> > > +---
-> > > +$id:
-> > > +
-> > > +title: Renesas RZ/G2L Display Unit (DU)
-> > > +
-> > > +maintainers:
-> > > +  - Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>
-> > > +  - Biju Das <biju.das.jz@bp.renesas.com>
-> > > +
-> > > +description: |
-> > > +  These DT bindings describe the Display Unit embedded in the Renesa=
-s
-> > > +RZ/G2L
-> > > +  and RZ/V2L SoCs.
-> > > +
-> > > +properties:
-> > > +  compatible:
-> > > +    enum:
-> > > +      - renesas,du-r9a07g044c # for RZ/G2LC compatible DU
-> > > +      - renesas,du-r9a07g044l # for RZ/G2L compatible DU
-> >
-> > Please use the format "<manuf>,<soc>-<modulo>" for new bindings.
-> >
->
-> OK.
->
-> > I thought there was no need to differentiate RZ/G2LC and RZ/G2L, as the
-> > only difference is a wiring difference due to the limited number of pin=
-s on
-> > the RZ/G2LC package, as per your confirmation[1]?
-> > Hence please just use "renesas,r9a07g044-du".
->
-> I cross checked HW manual, on the overview section(page 69) Supported
-> DU channels on various SoC's are as below
->
-> RZ/{G2L,V2L}
-> =E2=88=92 1 channel MIPI DSI interface or 1channel parallel output interf=
-ace selectable,
->
-> RZ/G2LC
-> =E2=88=92 1 channel MIPI DSI interface
->
-> RZ/G2UL ( From RZ/G2UL hardware manual overview)
-> =E2=88=92 1 channel parallel output interface.
->
-> >
-> > Do you want a family-specific compatible value ("rzg2l-"), as this IP b=
-lock
-> > is shared by (at least) RZ/GL(C), RZ/V2L, and RZ/G2UL?
->
-> May be will conclude after the above discussion??
+--------------U1LK6UvtyE9CY9q0uynQ3fYC
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: base64
 
-I don't insist on family-specific compatible values here, as the DUs on
-RZ/G2UL and RZ/V2L may differ.
-But RZ/G2L and RZ/G2LC are identical otherwise...
+SGkNCg0KQW0gMjEuMDQuMjIgdW0gMjM6NTkgc2NocmllYiBNYXJlayBWYXN1dDoNCj4gSGVs
+bG8gYWxsLA0KPiANCj4gY291bGQgZWl0aGVyIG9mIHlvdSBwbGVhc2UgaGF2ZSBhIGxvb2sg
+YXQgdGhlc2UgdHdvIHBhbmVsIHBhdGNoZXMgPw0KPiBJdCBpcyB5ZXQgYW5vdGhlciBEUEkg
+cGFuZWwsIGJ1dCBJIHdvdWxkIGxpa2UgdG8gZ2V0IHNvbWUgQUIvUkIgb24gaXQgDQo+IGJl
+Zm9yZSBhcHBseWluZy4NCj4gDQo+IGh0dHBzOi8vcGF0Y2h3b3JrLmZyZWVkZXNrdG9wLm9y
+Zy9wYXRjaC80ODIzMDYvDQo+IGh0dHBzOi8vcGF0Y2h3b3JrLmZyZWVkZXNrdG9wLm9yZy9w
+YXRjaC80ODIzMDcvDQoNCkFja2VkLWJ5OiBUaG9tYXMgWmltbWVybWFubiA8dHppbW1lcm1h
+bm5Ac3VzZS5kZT4NCg0KZm9yIGJvdGggb2YgdGhlbS4NCg0KQmVzdCByZWdhcmRzDQpUaG9t
+YXMNCg0KPiANCj4gVGhhbmsgeW91DQo+IA0KDQotLSANClRob21hcyBaaW1tZXJtYW5uDQpH
+cmFwaGljcyBEcml2ZXIgRGV2ZWxvcGVyDQpTVVNFIFNvZnR3YXJlIFNvbHV0aW9ucyBHZXJt
+YW55IEdtYkgNCk1heGZlbGRzdHIuIDUsIDkwNDA5IE7DvHJuYmVyZywgR2VybWFueQ0KKEhS
+QiAzNjgwOSwgQUcgTsO8cm5iZXJnKQ0KR2VzY2jDpGZ0c2bDvGhyZXI6IEl2byBUb3Rldg0K
 
-> > > +allOf:
-> > > +  - if:
-> > > +      properties:
-> > > +        compatible:
-> > > +          contains:
-> > > +            enum:
-> > > +              - renesas,du-r9a07g044c
-> > > +    then:
-> > > +      properties:
-> > > +        ports:
-> > > +          properties:
-> > > +            port@0:
-> > > +              description: DSI 0
-> > > +          required:
-> > > +            - port@0
-> > > +
-> > > +  - if:
-> > > +      properties:
-> > > +        compatible:
-> > > +          contains:
-> > > +            enum:
-> > > +              - renesas,du-r9a07g044l
-> > > +    then:
-> > > +      properties:
-> > > +        ports:
-> > > +          properties:
-> > > +            port@0:
-> > > +              description: DPAD 0
-> > > +            port@1:
-> > > +              description: DSI 0
-> > > +          required:
-> > > +            - port@0
-> > > +            - port@1
-> >
-> > Having different port numbers for the common DSI0 output indeed complic=
-ates
-> > matters ;-)
->
-> But we could delete as per [1] for RZ/G2LC where it supports only DSI and=
- [2] for RZ/G2UL where it supports only DPI, right?
->
-> [1] https://github.com/renesas-rz/rz_linux-cip/blob/rz-5.10-cip1/arch/arm=
-64/boot/dts/renesas/r9a07g044c2.dtsi#L24
->
-> [2] https://github.com/renesas-rz/rz_linux-cip/blob/rz-5.10-cip1/arch/arm=
-64/boot/dts/renesas/r9a07g043.dtsi#L1000
 
-Yes we can. But as the internal hardware is the same, I think we
-should keep the port numbers the same on RZ/G2L and RZ/G2LC.
+--------------U1LK6UvtyE9CY9q0uynQ3fYC--
 
-For RZ/V2L, you probably want to treat it exactly the same as RZ/G2L,
-i.e., the same port numbering.
+--------------NrPfFPfSvr3DBj0RsaF5lxBB
+Content-Type: application/pgp-signature; name="OpenPGP_signature.asc"
+Content-Description: OpenPGP digital signature
+Content-Disposition: attachment; filename="OpenPGP_signature"
 
-For RZ/G2UL, you can use a different numbering, assuming no
-family-specific compatible value is introduced.
+-----BEGIN PGP SIGNATURE-----
 
-Gr{oetje,eeting}s,
+wsF5BAABCAAjFiEExndm/fpuMUdwYFFolh/E3EQov+AFAmJiaS4FAwAAAAAACgkQlh/E3EQov+Ci
+XRAAgAEtaIDBQ/iWCFzwPXBQ2YCuGduh3dGF4DGnJzR/cNSY95RaTKJQFi2Z/doou6jqEvvckFQY
+IwHzZGbt065qMD1OSST5Ewl0f/lYxjI7P7WYs5R9a7Is4Q34EVGs2t0c7GZcR2P2ndOKXKOUzSD+
+fKaBHoqBNttp5foDyIs4/nqHn2RT5QhPmHKdMnKwvAykbyXEoO3h7EJjExriPSaqgEjidkk2/Thr
+klhXu6bE2DjJmdjGLORMbsdV9V+9bJY438rLxv3jKQoAVkoKo2urtqVdM7qE+UMBN6WBGTmS05F4
+L+9NTW7N8dVWSpXw0wl6S+PiKNVHBIfYw5a5hGI/Ju8Dn5722Tz9nzaPB/TGc9xqjPaSaYMN+jdZ
+9syLGwbf+MCYCOirafxxn6MURWdxI9wNDZwYCgcP7ZeLudRYYTk4pbSD4hpEE0XQd7+ikRJveBzx
+LIz19fKYFaLr8ACMiB1pd1Rj5qTaB+akpq3WSm1F5E/BhscH1lFAb/ZTmXaBMGyWiSi2sAvS/pMN
+JqV6yptsKA6jQ7U3/QABlnI/WVnaM2MPOtkVA7VhjRmA5AZfhwQ6WcAljlABm+IyCbE3vwYsBYAg
++A2EMpjoETk+kARBNORP8BV9bEdfy+pfTmZ7gPLJPWM1p5ah9wsXPFIzDF1PlqsNuuuzeQVpOYv2
+lJM=
+=NrZy
+-----END PGP SIGNATURE-----
 
-                        Geert
-
---
-Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k=
-.org
-
-In personal conversations with technical people, I call myself a hacker. Bu=
-t
-when I'm talking to journalists I just say "programmer" or something like t=
-hat.
-                                -- Linus Torvalds
+--------------NrPfFPfSvr3DBj0RsaF5lxBB--
