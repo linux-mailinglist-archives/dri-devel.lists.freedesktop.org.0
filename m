@@ -1,93 +1,65 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id BBFDA50BAF7
-	for <lists+dri-devel@lfdr.de>; Fri, 22 Apr 2022 17:01:14 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id B20A550BB68
+	for <lists+dri-devel@lfdr.de>; Fri, 22 Apr 2022 17:12:49 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 572A510F3DC;
-	Fri, 22 Apr 2022 15:01:09 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id A17DA10E7D9;
+	Fri, 22 Apr 2022 15:12:45 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from NAM02-DM3-obe.outbound.protection.outlook.com
- (mail-dm3nam07on2055.outbound.protection.outlook.com [40.107.95.55])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 64BF910F3BF;
- Fri, 22 Apr 2022 15:01:07 +0000 (UTC)
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=dPiz/3dBmFH4twARAJ3Ehcy9fSo0wxst+vFjlXoIKjjeiqzQbZEmAvYA94opR4zL1i/CxBRkB0GdAgsHUuFO0KDmfEIPdq6vs/1UpcTuBmYbetP0F37BnDDaZ7gPald5imcaCQ4kfuII4EwhsMhumfmDts6580Q2fumiKbBW/X6UR61IYDRCVri4mCljpw8UC1ZN2MIaW579F99YNjPP1CaGnYBS5eU8vOyQVq5jTj+1GaZdYoEQDKw8HUNsZxfJdeiw99HDvpI/YPxCPoFHdpLit+15X1oowWIxDz6WzSbhI7aFlqMlGlPhOovFs1TM3xdmYkg5Rj8YN7yi3QkRxA==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=6igi0b1DOfVXj3AKq+GCxeVrXcDGovoRKBAz4iG4Fxs=;
- b=A2OjdfVcmd4QB1nVRAemU1hA/ONftJ60iabsn9ovOpFIGZF6905e2ok9Te3SoFgOBec2pGzJr1t8S8rTfPW1N80e3QKP6hhgIxNiPLnkkNJKKfNsG2s4CQXQ2WAa2wFsfTA2r4sQkinX3yae/ZYmhJ3bbg00jo180V1RhJdYs8hVZfrSlmveFQGDMlhs5bQ38gG+n/6aF5mSL3qkF3tcF3bjBB3MP3cMCAya+puzvCFhJ3XNnmt+CwcBOKf2X8RN2m9hERt6OsRPap4OHw1bCfgAAlJ5tLx+PlBjvQkjrGjLQ28PmYpi4rX7wv4vUnHdnQgY1n9ep5nQF4TPgC1lRQ==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass (sender ip is
- 165.204.84.17) smtp.rcpttodomain=lists.freedesktop.org smtp.mailfrom=amd.com; 
- dmarc=pass (p=quarantine sp=quarantine pct=100) action=none
- header.from=amd.com; dkim=none (message not signed); arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1; 
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=6igi0b1DOfVXj3AKq+GCxeVrXcDGovoRKBAz4iG4Fxs=;
- b=D1KFukPCNUQlVoQK9dlpBT/0tdvFRnojc8S1p+tdnaOdt0e7F2EbdPluu/UJNgCdMm7wzP0ye3WW9brCGKu/6hYuMG5En7WzAn3R9lGA01rqfsUFSbLPElLRFkt/g2X0lDeMDF9uq3PvDa6LIFNG95F8I/hx2PbvstVTTaX5KVU=
-Received: from MW4PR03CA0343.namprd03.prod.outlook.com (2603:10b6:303:dc::18)
- by BL1PR12MB5078.namprd12.prod.outlook.com (2603:10b6:208:313::11)
- with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.5186.14; Fri, 22 Apr
- 2022 15:01:03 +0000
-Received: from CO1NAM11FT048.eop-nam11.prod.protection.outlook.com
- (2603:10b6:303:dc:cafe::95) by MW4PR03CA0343.outlook.office365.com
- (2603:10b6:303:dc::18) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.5186.13 via Frontend
- Transport; Fri, 22 Apr 2022 15:01:03 +0000
-X-MS-Exchange-Authentication-Results: spf=pass (sender IP is 165.204.84.17)
- smtp.mailfrom=amd.com; dkim=none (message not signed)
- header.d=none;dmarc=pass action=none header.from=amd.com;
-Received-SPF: Pass (protection.outlook.com: domain of amd.com designates
- 165.204.84.17 as permitted sender) receiver=protection.outlook.com;
- client-ip=165.204.84.17; helo=SATLEXMB04.amd.com;
-Received: from SATLEXMB04.amd.com (165.204.84.17) by
- CO1NAM11FT048.mail.protection.outlook.com (10.13.175.148) with Microsoft SMTP
- Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.20.5186.14 via Frontend Transport; Fri, 22 Apr 2022 15:01:03 +0000
-Received: from tr4.amd.com (10.180.168.240) by SATLEXMB04.amd.com
- (10.181.40.145) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2375.24; Fri, 22 Apr
- 2022 10:01:01 -0500
-From: Alex Deucher <alexander.deucher@amd.com>
-To: <amd-gfx@lists.freedesktop.org>, <dri-devel@lists.freedesktop.org>,
- <airlied@gmail.com>, <daniel.vetter@ffwll.ch>
-Subject: [pull] amdgpu, amdkfd, radeon drm-next-5.19
-Date: Fri, 22 Apr 2022 11:00:49 -0400
-Message-ID: <20220422150049.5859-1-alexander.deucher@amd.com>
-X-Mailer: git-send-email 2.35.1
+Received: from mail-qv1-f42.google.com (mail-qv1-f42.google.com
+ [209.85.219.42])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 5331310F3EE
+ for <dri-devel@lists.freedesktop.org>; Fri, 22 Apr 2022 15:12:44 +0000 (UTC)
+Received: by mail-qv1-f42.google.com with SMTP id dw17so6230492qvb.9
+ for <dri-devel@lists.freedesktop.org>; Fri, 22 Apr 2022 08:12:44 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc:content-transfer-encoding;
+ bh=YFL7vUw4s4gTTJ+ZHT3bb/JvWHIOBf/dbu5Vbd21s5Y=;
+ b=nlVifmGS4ozGRN65tVb9fKLGqWeWN/jP9zg4MG39pamOrV4kCpjQs1DACD7YKvPW2O
+ sTUIOJsfvNnSCSJp3SplnsKU2MtUZj2Hhe6e82xJMcPmbUNl+bzlenCDa5j0Y3bIeP10
+ II9Tqq1gi5Vk8bh2p+O85DiTqjKOuOxBq2YHLvdpzc5M+PA9QPgIgshFuoa3SVoz1TwR
+ wE7G+txqqHBxcEaDcXKefdA790BRsscbYY6CH6eKG9VUN1BsatYwjAB5RTbUFAPgSl54
+ qdwjJdV0QpdEUok1vyra6hFeNV3JXg7tfI5IlLqPrCyGakLxbkDcSA1kheA5LYPqD967
+ toOw==
+X-Gm-Message-State: AOAM532NVelrGNPBo6CaKjdwaAoSNX8i1Yuz5JVy2aRO86cUM8GOlu4u
+ 3jzWQOzTlwbQ0DSvBbti4dRLQsNxg5q2aA==
+X-Google-Smtp-Source: ABdhPJzPdof4Nm7QPSpoeacWmiTrkq1Kue20pses+tod3KKHoqUgAiGGgoyJGmM4KwEmgCjxohiWBQ==
+X-Received: by 2002:a05:6214:2aa7:b0:446:2f18:d005 with SMTP id
+ js7-20020a0562142aa700b004462f18d005mr3837201qvb.33.1650640363248; 
+ Fri, 22 Apr 2022 08:12:43 -0700 (PDT)
+Received: from mail-yb1-f177.google.com (mail-yb1-f177.google.com.
+ [209.85.219.177]) by smtp.gmail.com with ESMTPSA id
+ j12-20020ae9c20c000000b0067ec380b320sm1026929qkg.64.2022.04.22.08.12.42
+ for <dri-devel@lists.freedesktop.org>
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Fri, 22 Apr 2022 08:12:43 -0700 (PDT)
+Received: by mail-yb1-f177.google.com with SMTP id f17so14991063ybj.10
+ for <dri-devel@lists.freedesktop.org>; Fri, 22 Apr 2022 08:12:42 -0700 (PDT)
+X-Received: by 2002:a25:3492:0:b0:645:6f78:b3b4 with SMTP id
+ b140-20020a253492000000b006456f78b3b4mr5142958yba.546.1650640362526; Fri, 22
+ Apr 2022 08:12:42 -0700 (PDT)
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-Content-Type: text/plain
-X-Originating-IP: [10.180.168.240]
-X-ClientProxiedBy: SATLEXMB04.amd.com (10.181.40.145) To SATLEXMB04.amd.com
- (10.181.40.145)
-X-EOPAttributedMessage: 0
-X-MS-PublicTrafficType: Email
-X-MS-Office365-Filtering-Correlation-Id: 79a36972-4504-4949-b336-08da2470eb84
-X-MS-TrafficTypeDiagnostic: BL1PR12MB5078:EE_
-X-Microsoft-Antispam-PRVS: <BL1PR12MB5078D9579A9D4E9260F7F3A3F7F79@BL1PR12MB5078.namprd12.prod.outlook.com>
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: qScPIAGdR6sdpR4++Op5OtFCHbCXxX+tQJ9bPxFWx6ai9FOyuozPMQ5VrteVPcZUL0GbBc5mdnMhDItjF/jgHpzVVeaFLwu7tdZ1DQzhKLLvSdJpfBMWzwouecrJNL0369BvPTmPnL+CHFp63/e7SArJ+21V2+GP/LVQWVn3hUOOQzVg3YvAj3DAe5wkcPNV/0aKvOg7AybUyw+lmU4GRijMO38rudVQMukoC06nQ9WqhzZjhanzsybdxXK5HVhkFbucELrDQyXxjoVSDqsBcI0vECfX8I0HhTDfFkguyYkfcOK2yz7PZWy0IH1wRZvGxurPzanOdZVhWw7ntAwO1MktfkXZJMtmub4RmbI/oxMCccwH8gG2zFCKgCBdob00NTtJZK05rdu+ih4t1AB+3r3C9lcagjTkVgJVbdY2+E+W5qHdicX9nFqFbjl6zA+iJ/xaOwofi89/XJHjbCsAbeSkFLuM6xvuTtWWLEbnc8AcU0WFSxtlgJBodSrXvs/KOhztOzTJJ9afueyGcOwQWyYkPb/0GTI43bPcG3hQ8Yy3leiAH8yv826RCz7gitJ9yxp1/QhiNkGxhk8pWPeghUMY6QbGpSxZQzcgZO/2q9fzYFJ+Rl6A1dGqznIGChW0TY9ArmRP7oykHF2av19Rap7bsTCWdgAdAzgE4bXEjBJwExbYZScbygPgDFsQCldem5qQknuJfHYomLqztDZ2dQ==
-X-Forefront-Antispam-Report: CIP:165.204.84.17; CTRY:US; LANG:en; SCL:1; SRV:;
- IPV:CAL; SFV:NSPM; H:SATLEXMB04.amd.com; PTR:InfoDomainNonexistent; CAT:NONE;
- SFS:(13230001)(4636009)(36840700001)(46966006)(40470700004)(2906002)(186003)(1076003)(16526019)(2616005)(36756003)(356005)(6666004)(7696005)(82310400005)(26005)(81166007)(5660300002)(508600001)(966005)(86362001)(110136005)(36860700001)(8936002)(316002)(40460700003)(47076005)(426003)(336012)(4326008)(70586007)(8676002)(70206006)(83380400001)(36900700001);
- DIR:OUT; SFP:1101; 
-X-OriginatorOrg: amd.com
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 22 Apr 2022 15:01:03.0594 (UTC)
-X-MS-Exchange-CrossTenant-Network-Message-Id: 79a36972-4504-4949-b336-08da2470eb84
-X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
-X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: TenantId=3dd8961f-e488-4e60-8e11-a82d994e183d; Ip=[165.204.84.17];
- Helo=[SATLEXMB04.amd.com]
-X-MS-Exchange-CrossTenant-AuthSource: CO1NAM11FT048.eop-nam11.prod.protection.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Anonymous
-X-MS-Exchange-CrossTenant-FromEntityHeader: HybridOnPrem
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: BL1PR12MB5078
+References: <20220421163128.101520-1-biju.das.jz@bp.renesas.com>
+ <20220421163128.101520-2-biju.das.jz@bp.renesas.com>
+ <CAMuHMdWMmkY+_O_oyKeumuOqNvw_KJaDxuiwrETc3W-kCV2MCg@mail.gmail.com>
+ <OS0PR01MB5922728B940A386674DAB36786F79@OS0PR01MB5922.jpnprd01.prod.outlook.com>
+ <CAMuHMdXqYm1WtgnEGhXdOipXwJ9s3NV8CkNWCYhin3SF7tnv+Q@mail.gmail.com>
+ <OS0PR01MB5922446E9F1126BF8E06E9F286F79@OS0PR01MB5922.jpnprd01.prod.outlook.com>
+In-Reply-To: <OS0PR01MB5922446E9F1126BF8E06E9F286F79@OS0PR01MB5922.jpnprd01.prod.outlook.com>
+From: Geert Uytterhoeven <geert@linux-m68k.org>
+Date: Fri, 22 Apr 2022 17:12:31 +0200
+X-Gmail-Original-Message-ID: <CAMuHMdURrGhF=Eo3GA_PQXM-r-_NnS_knByzNptkjcb70=_AqA@mail.gmail.com>
+Message-ID: <CAMuHMdURrGhF=Eo3GA_PQXM-r-_NnS_knByzNptkjcb70=_AqA@mail.gmail.com>
+Subject: Re: [PATCH v3 1/4] dt-bindings: display: Document Renesas RZ/G2L DU
+ bindings
+To: Biju Das <biju.das.jz@bp.renesas.com>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -100,121 +72,205 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Alex Deucher <alexander.deucher@amd.com>
+Cc: "open list:OPEN FIRMWARE AND FLATTENED DEVICE TREE BINDINGS"
+ <devicetree@vger.kernel.org>, Chris Paterson <Chris.Paterson2@renesas.com>,
+ Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>,
+ David Airlie <airlied@linux.ie>,
+ Prabhakar Mahadev Lad <prabhakar.mahadev-lad.rj@bp.renesas.com>,
+ DRI Development <dri-devel@lists.freedesktop.org>,
+ Biju Das <biju.das@bp.renesas.com>,
+ Linux-Renesas <linux-renesas-soc@vger.kernel.org>,
+ Rob Herring <robh+dt@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi Dave, Daniel,
+Hi Biju,
 
-More stuff for 5.19.
+On Fri, Apr 22, 2022 at 11:31 AM Biju Das <biju.das.jz@bp.renesas.com> wrot=
+e:
+> > Subject: Re: [PATCH v3 1/4] dt-bindings: display: Document Renesas RZ/G=
+2L
+> > DU bindings
+> > On Fri, Apr 22, 2022 at 10:11 AM Biju Das <biju.das.jz@bp.renesas.com>
+> > wrote:
+> > > > Subject: Re: [PATCH v3 1/4] dt-bindings: display: Document Renesas
+> > > > RZ/G2L DU bindings On Thu, Apr 21, 2022 at 6:31 PM Biju Das
+> > > > <biju.das.jz@bp.renesas.com>
+> > > > wrote:
+> > > > > The RZ/G2L LCD controller is composed of Frame Compression
+> > > > > Processor (FCPVD), Video Signal Processor (VSPD), and Display Uni=
+t
+> > (DU).
+> > > > >
+> > > > > The DU module supports the following hardware features =E2=88=92 =
+Display
+> > > > > Parallel Interface (DPI) and MIPI LINK Video Interface =E2=88=92 =
+Display
+> > > > > timing master =E2=88=92 Generates video timings =E2=88=92 Selecti=
+ng the polarity
+> > > > > of output DCLK, HSYNC, VSYNC, and DE =E2=88=92 Supports Progressi=
+ve =E2=88=92
+> > > > > Input data format (from VSPD): RGB888, RGB666 =E2=88=92 Output da=
+ta
+> > > > > format: same as Input data format =E2=88=92 Supporting Full HD (1=
+920
+> > > > > pixels x 1080 lines) for MIPI-DSI Output =E2=88=92 Supporting WXG=
+A (1280
+> > > > > pixels x 800 lines) for Parallel Output
+> > > > >
+> > > > > This patch document DU module found on RZ/G2L LCDC.
+> > > > >
+> > > > > Signed-off-by: Biju Das <biju.das.jz@bp.renesas.com>
+> > > >
+> > > > Thanks for your patch!
+> > > >
+> > > > > --- /dev/null
+> > > > > +++ b/Documentation/devicetree/bindings/display/renesas,rzg2l-du.=
+y
+> > > > > +++ aml
+> > > > > @@ -0,0 +1,159 @@
+> > > > > +# SPDX-License-Identifier: (GPL-2.0-only OR BSD-2-Clause) %YAML
+> > > > > +1.2
+> > > > > +---
+> > > > > +$id:
+> > > > > +
+> > > > > +title: Renesas RZ/G2L Display Unit (DU)
+> > > > > +
+> > > > > +maintainers:
+> > > > > +  - Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>
+> > > > > +  - Biju Das <biju.das.jz@bp.renesas.com>
+> > > > > +
+> > > > > +description: |
+> > > > > +  These DT bindings describe the Display Unit embedded in the
+> > > > > +Renesas RZ/G2L
+> > > > > +  and RZ/V2L SoCs.
+> > > > > +
+> > > > > +properties:
+> > > > > +  compatible:
+> > > > > +    enum:
+> > > > > +      - renesas,du-r9a07g044c # for RZ/G2LC compatible DU
+> > > > > +      - renesas,du-r9a07g044l # for RZ/G2L compatible DU
+> > > >
+> > > > Please use the format "<manuf>,<soc>-<modulo>" for new bindings.
+> > > >
+> > >
+> > > OK.
+> > >
+> > > > I thought there was no need to differentiate RZ/G2LC and RZ/G2L, as
+> > > > the only difference is a wiring difference due to the limited numbe=
+r
+> > > > of pins on the RZ/G2LC package, as per your confirmation[1]?
+> > > > Hence please just use "renesas,r9a07g044-du".
+> > >
+> > > I cross checked HW manual, on the overview section(page 69) Supported
+> > > DU channels on various SoC's are as below
+> > >
+> > > RZ/{G2L,V2L}
+> > > =E2=88=92 1 channel MIPI DSI interface or 1channel parallel output in=
+terface
+> > > selectable,
+> > >
+> > > RZ/G2LC
+> > > =E2=88=92 1 channel MIPI DSI interface
+> > >
+> > > RZ/G2UL ( From RZ/G2UL hardware manual overview) =E2=88=92 1 channel =
+parallel
+> > > output interface.
+> > >
+> > > >
+> > > > Do you want a family-specific compatible value ("rzg2l-"), as this
+> > > > IP block is shared by (at least) RZ/GL(C), RZ/V2L, and RZ/G2UL?
+> > >
+> > > May be will conclude after the above discussion??
+> >
+> > I don't insist on family-specific compatible values here, as the DUs on
+> > RZ/G2UL and RZ/V2L may differ.
+> > But RZ/G2L and RZ/G2LC are identical otherwise...
+>
+> OK, Will use
+>
+> compatible:
+>     items:
+>      - enum:
+>          - renesas,r9a07g044-du # RZ/G2{L,LC}
+>      - const: renesas,rzg2l-du
 
-The following changes since commit d68cf992ded575928cf4ddf7c64faff0d8dcce14:
+Please drop "renesas,rzg2l-du"...
 
-  drm/amd/amdgpu: Remove static from variable in RLCG Reg RW (2022-04-14 15:29:20 -0400)
+> >
+> > > > > +allOf:
+> > > > > +  - if:
+> > > > > +      properties:
+> > > > > +        compatible:
+> > > > > +          contains:
+> > > > > +            enum:
+> > > > > +              - renesas,du-r9a07g044c
+> > > > > +    then:
+> > > > > +      properties:
+> > > > > +        ports:
+> > > > > +          properties:
+> > > > > +            port@0:
+> > > > > +              description: DSI 0
+> > > > > +          required:
+> > > > > +            - port@0
+> > > > > +
+> > > > > +  - if:
+> > > > > +      properties:
+> > > > > +        compatible:
+> > > > > +          contains:
+> > > > > +            enum:
+> > > > > +              - renesas,du-r9a07g044l
+> > > > > +    then:
+> > > > > +      properties:
+> > > > > +        ports:
+> > > > > +          properties:
+> > > > > +            port@0:
+> > > > > +              description: DPAD 0
+> > > > > +            port@1:
+> > > > > +              description: DSI 0
+> > > > > +          required:
+> > > > > +            - port@0
+> > > > > +            - port@1
+> > > >
+> > > > Having different port numbers for the common DSI0 output indeed
+> > > > complicates matters ;-)
+> > >
+> > > But we could delete as per [1] for RZ/G2LC where it supports only DSI=
+ and
+> > [2] for RZ/G2UL where it supports only DPI, right?
+> >
+> > Yes we can. But as the internal hardware is the same, I think we should
+> > keep the port numbers the same on RZ/G2L and RZ/G2LC.
+>
+> OK, Will keep the same port number for both RZ/G2L and RZ/G2LC.
+>
+> >
+> > For RZ/V2L, you probably want to treat it exactly the same as RZ/G2L, i=
+.e.,
+> > the same port numbering.
+>
+> OK.
+>
+> >
+> > For RZ/G2UL, you can use a different numbering, assuming no family-spec=
+ific
+> > compatible value is introduced.
+>
+> OK.
 
-are available in the Git repository at:
+... as that will interfere here.  If the numbering will be SoC-specific,
+the driver has to match on the SoC-specific compatible value anyway.
 
-  https://gitlab.freedesktop.org/agd5f/linux.git tags/amd-drm-next-5.19-2022-04-22
+Gr{oetje,eeting}s,
 
-for you to fetch changes up to e15c9d06e9ad70df41285ca41d535de6215e0b21:
+                        Geert
 
-  drm/amd/amdgpu: Update PF2VF header (2022-04-21 16:00:14 -0400)
+--
+Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k=
+.org
 
-----------------------------------------------------------------
-amd-drm-next-5.19-2022-04-22:
-
-amdgpu:
-- SMU message documentation update
-- Misc code cleanups
-- Documenation updates
-- PSP TA updates
-- Runtime PM regression fix
-- SR-IOV header cleanup
-- Misc fixes
-
-amdkfd:
-- TLB flush fixes
-- GWS fixes
-- CRIU GWS support
-
-radeon:
-- Misc code cleanups
-
-----------------------------------------------------------------
-Alex Deucher (2):
-      drm/amdgpu: don't runtime suspend if there are displays attached (v3)
-      drm/amdgpu/display: make hubp31_program_extended_blank static
-
-Bokun Zhang (3):
-      drm/amd/amdgpu: Update MIT license in SRIOV msg header
-      drm/amd/amdgpu: Properly indent PF2VF header
-      drm/amd/amdgpu: Update PF2VF header
-
-Candice Li (2):
-      drm/amdgpu: Use indirect buffer and save response status for TA load/invoke
-      drm/amdgpu: Add debugfs TA load/unload/invoke support
-
-Darren Powell (1):
-      amdgpu/pm: Clarify documentation of error handling in send_smc_mesg
-
-David Yat Sin (2):
-      drm/amdkfd: Fix GWS queue count
-      drm/amdkfd: CRIU add support for GWS queues
-
-Haowen Bai (1):
-      drm/amd/display: Remove useless code
-
-Huang Rui (1):
-      drm/amdgpu/pm: fix the null pointer while the smu is disabled
-
-Keita Suzuki (1):
-      drm/amd/pm: fix double free in si_parse_power_table()
-
-Lang Yu (3):
-      drm/amdkfd: move kfd_flush_tlb_after_unmap into kfd_priv.h
-      drm/amdkfd: only allow heavy-weight TLB flush on some ASICs for SVM too
-      Revert "drm/amdkfd: only allow heavy-weight TLB flush on some ASICs for SVM too"
-
-Miaoqian Lin (1):
-      drm/amd/display: Fix memory leak in dcn21_clock_source_create
-
-Tales Lelo da Aparecida (3):
-      drm/amd/display: make hubp1_wait_pipe_read_start() static
-      Documentation/gpu: Add entries to amdgpu glossary
-      MAINTAINERS: add docs entry to AMDGPU
-
-Tom Rix (2):
-      drm/amd/display: add virtual_setup_stream_attribute decl to header
-      drm/radeon/kms: change evergreen_default_state table from global to static
-
- Documentation/gpu/amdgpu/amdgpu-glossary.rst       |  13 +
- MAINTAINERS                                        |   1 +
- drivers/gpu/drm/amd/amdgpu/Makefile                |   2 +-
- drivers/gpu/drm/amd/amdgpu/amdgpu_debugfs.c        |   2 +
- drivers/gpu/drm/amd/amdgpu/amdgpu_device.c         |   2 +-
- drivers/gpu/drm/amd/amdgpu/amdgpu_drv.c            | 105 ++++---
- drivers/gpu/drm/amd/amdgpu/amdgpu_psp.c            |  54 +++-
- drivers/gpu/drm/amd/amdgpu/amdgpu_psp.h            |  26 ++
- drivers/gpu/drm/amd/amdgpu/amdgpu_psp_ta.c         | 308 +++++++++++++++++++++
- drivers/gpu/drm/amd/amdgpu/amdgpu_psp_ta.h         |  30 ++
- drivers/gpu/drm/amd/amdgpu/amdgv_sriovmsg.h        |  99 ++++---
- drivers/gpu/drm/amd/amdkfd/kfd_chardev.c           |   8 -
- .../gpu/drm/amd/amdkfd/kfd_device_queue_manager.c  |  83 +++---
- drivers/gpu/drm/amd/amdkfd/kfd_priv.h              |  10 +-
- .../gpu/drm/amd/amdkfd/kfd_process_queue_manager.c |  10 +-
- drivers/gpu/drm/amd/display/dc/dce/dce_aux.c       |   2 -
- drivers/gpu/drm/amd/display/dc/dcn10/dcn10_hubp.c  |   2 +-
- drivers/gpu/drm/amd/display/dc/dcn10/dcn10_hubp.h  |   1 -
- .../gpu/drm/amd/display/dc/dcn21/dcn21_resource.c  |   1 +
- drivers/gpu/drm/amd/display/dc/dcn31/dcn31_hubp.c  |   3 +-
- .../drm/amd/display/dc/virtual/virtual_link_hwss.h |   1 +
- drivers/gpu/drm/amd/pm/amdgpu_dpm.c                |   2 +-
- drivers/gpu/drm/amd/pm/legacy-dpm/si_dpm.c         |   8 +-
- drivers/gpu/drm/amd/pm/swsmu/smu_cmn.c             |   8 +-
- drivers/gpu/drm/radeon/Makefile                    |   2 +-
- drivers/gpu/drm/radeon/evergreen_blit_shaders.c    | 303 --------------------
- drivers/gpu/drm/radeon/evergreen_blit_shaders.h    | 278 ++++++++++++++++++-
- 27 files changed, 887 insertions(+), 477 deletions(-)
- create mode 100644 drivers/gpu/drm/amd/amdgpu/amdgpu_psp_ta.c
- create mode 100644 drivers/gpu/drm/amd/amdgpu/amdgpu_psp_ta.h
- delete mode 100644 drivers/gpu/drm/radeon/evergreen_blit_shaders.c
+In personal conversations with technical people, I call myself a hacker. Bu=
+t
+when I'm talking to journalists I just say "programmer" or something like t=
+hat.
+                                -- Linus Torvalds
