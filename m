@@ -2,37 +2,42 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7EFF550AFDF
-	for <lists+dri-devel@lfdr.de>; Fri, 22 Apr 2022 08:04:13 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id B441550B185
+	for <lists+dri-devel@lfdr.de>; Fri, 22 Apr 2022 09:30:09 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id D66C310F678;
-	Fri, 22 Apr 2022 06:04:10 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 8DA7B112134;
+	Fri, 22 Apr 2022 07:29:42 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail.meizu.com (edge07.meizu.com [112.91.151.210])
- by gabe.freedesktop.org (Postfix) with ESMTP id F18E810F678;
- Fri, 22 Apr 2022 06:04:07 +0000 (UTC)
-Received: from IT-EXMB-1-125.meizu.com (172.16.1.125) by mz-mail11.meizu.com
- (172.16.1.15) with Microsoft SMTP Server (TLS) id 14.3.487.0; Fri, 22 Apr
- 2022 14:04:01 +0800
-Received: from meizu.meizu.com (172.16.137.70) by IT-EXMB-1-125.meizu.com
- (172.16.1.125) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2308.14; Fri, 22 Apr
- 2022 14:03:59 +0800
-From: Haowen Bai <baihaowen@meizu.com>
-To: Alex Deucher <alexander.deucher@amd.com>,
- =?UTF-8?q?Christian=20K=C3=B6nig?= <christian.koenig@amd.com>, "Pan, Xinhui"
- <Xinhui.Pan@amd.com>, David Airlie <airlied@linux.ie>, Daniel Vetter
- <daniel@ffwll.ch>
-Subject: [PATCH] drm/amdgpu: Remove useless kfree
-Date: Fri, 22 Apr 2022 14:03:57 +0800
-Message-ID: <1650607437-22275-1-git-send-email-baihaowen@meizu.com>
-X-Mailer: git-send-email 2.7.4
+Received: from metis.ext.pengutronix.de (metis.ext.pengutronix.de
+ [IPv6:2001:67c:670:201:290:27ff:fe1d:cc33])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id DE4AE112078
+ for <dri-devel@lists.freedesktop.org>; Fri, 22 Apr 2022 07:29:18 +0000 (UTC)
+Received: from drehscheibe.grey.stw.pengutronix.de ([2a0a:edc0:0:c01:1d::a2])
+ by metis.ext.pengutronix.de with esmtps
+ (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256) (Exim 4.92)
+ (envelope-from <sha@pengutronix.de>)
+ id 1nhnin-0008KJ-3p; Fri, 22 Apr 2022 09:28:53 +0200
+Received: from [2a0a:edc0:0:1101:1d::28] (helo=dude02.red.stw.pengutronix.de)
+ by drehscheibe.grey.stw.pengutronix.de with esmtp (Exim 4.94.2)
+ (envelope-from <sha@pengutronix.de>)
+ id 1nhnii-004Vyp-Kz; Fri, 22 Apr 2022 09:28:47 +0200
+Received: from sha by dude02.red.stw.pengutronix.de with local (Exim 4.94.2)
+ (envelope-from <sha@pengutronix.de>)
+ id 1nhnic-009ITO-U3; Fri, 22 Apr 2022 09:28:42 +0200
+From: Sascha Hauer <s.hauer@pengutronix.de>
+To: dri-devel@lists.freedesktop.org
+Subject: [PATCH v11 00/24] drm/rockchip: RK356x VOP2 support
+Date: Fri, 22 Apr 2022 09:28:17 +0200
+Message-Id: <20220422072841.2206452-1-s.hauer@pengutronix.de>
+X-Mailer: git-send-email 2.30.2
 MIME-Version: 1.0
-Content-Type: text/plain
-X-Originating-IP: [172.16.137.70]
-X-ClientProxiedBy: IT-EXMB-1-126.meizu.com (172.16.1.126) To
- IT-EXMB-1-125.meizu.com (172.16.1.125)
+Content-Transfer-Encoding: 8bit
+X-SA-Exim-Connect-IP: 2a0a:edc0:0:c01:1d::a2
+X-SA-Exim-Mail-From: sha@pengutronix.de
+X-SA-Exim-Scanned: No (on metis.ext.pengutronix.de);
+ SAEximRunCond expanded to false
+X-PTX-Original-Recipient: dri-devel@lists.freedesktop.org
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -45,30 +50,157 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Haowen Bai <baihaowen@meizu.com>, dri-devel@lists.freedesktop.org,
- amd-gfx@lists.freedesktop.org, linux-kernel@vger.kernel.org
+Cc: devicetree@vger.kernel.org,
+ Benjamin Gaignard <benjamin.gaignard@collabora.com>,
+ Peter Geis <pgwipeout@gmail.com>, Sascha Hauer <s.hauer@pengutronix.de>,
+ Sandy Huang <hjc@rock-chips.com>, linux-rockchip@lists.infradead.org,
+ Michael Riesch <michael.riesch@wolfvision.net>, kernel@pengutronix.de,
+ Andy Yan <andy.yan@rock-chips.com>, linux-arm-kernel@lists.infradead.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-After alloc fail, we do not need to kfree.
+It's v11 time. There's only one small change to v10. Discussion seems to
+have settled now. Is there anything left that prevents the series from
+being merged? I'd really like to have it in during the next merge
+window.
 
-Signed-off-by: Haowen Bai <baihaowen@meizu.com>
----
- drivers/gpu/drm/amd/amdgpu/amdgpu_ras.c | 1 -
- 1 file changed, 1 deletion(-)
+This series still depends on:
+drm/rockchip: Refactor IOMMU initialisation (https://lists.freedesktop.org/archives/dri-devel/2022-April/349548.html)
+arm64: dts: rockchip: add basic dts for the radxa rock3 model a
 
-diff --git a/drivers/gpu/drm/amd/amdgpu/amdgpu_ras.c b/drivers/gpu/drm/amd/amdgpu/amdgpu_ras.c
-index ec709997c9c7..5fb3e69c04c4 100644
---- a/drivers/gpu/drm/amd/amdgpu/amdgpu_ras.c
-+++ b/drivers/gpu/drm/amd/amdgpu/amdgpu_ras.c
-@@ -1849,7 +1849,6 @@ static int amdgpu_ras_realloc_eh_data_space(struct amdgpu_device *adev,
- 	void *bps = kmalloc(align_space * sizeof(*data->bps), GFP_KERNEL);
- 
- 	if (!bps) {
--		kfree(bps);
- 		return -ENOMEM;
- 	}
- 
+Sascha
+
+Changes since v10:
+- relax mode_valid hook rather than dropping it in hdmi driver
+
+Changes since v9:
+- rebase on v5.18-rc1
+- Do not register windows which don't have its own framebuffer on RK3566
+- fix mixed up register writes in vop2_setup_dly_for_windows()
+- move call to rockchip_drm_dma_attach_device() from vop2_bind() to vop2_enable()
+- Fix zpos handling
+
+Changes since v8:
+- make hclk_vo a critical clock instead of enabling it in the hdmi driver
+- Fix vop2_setup_layer_mixer(), reported by Andy Yan
+- Limit planes possible_crtcs to actually existing crtcs
+- simplify vop2_create_crtc() a bit
+
+Changes since v7:
+- rename hclk to niu
+
+Changes since v6:
+- Move of_graph parsing out of runtime code to initialization
+
+Changes since v5:
+- Add new patch to fix dw-hdmi of_graph binding
+- Drop "drm/encoder: Add of_graph port to struct drm_encoder" and solve
+  issue internally in the driver
+- make checkpatch cleaner
+
+Changes since v4:
+- Reorder patches in a way that binding/dts/driver patches are closer together
+- Drop clk patches already applied by Heiko
+
+Changes since v3:
+- added changelog to each patch
+- Add 4k support to hdmi driver
+- rebase on v5.17-rc1
+
+Changes since v2:
+- Add pin names to HDMI supply pin description
+- Add hclk support to HDMI driver
+- Dual license rockchip-vop2 binding, update binding
+- Add HDMI connector to board dts files
+- drop unnecessary gamma_lut registers from vop2
+- Update dclk_vop[012] clock handling, no longer hacks needed
+- Complete regmap conversion
+
+Changes since v1:
+- drop all unnecessary waiting for frames within atomic modeset and plane update
+- Cluster subwin support removed
+- gamma support removed
+- unnecessary irq_lock removed
+- interrupt handling simplified
+- simplified zpos handling
+- drop is_alpha_support(), use fb->format->has_alpha instead
+- use devm_regulator_get() rather than devm_regulator_get_optional() for hdmi regulators
+- Use fixed number of planes per video port
+- Drop homegrown regmap code from vop2 driver (not complete yet)
+- Add separate include file for vop2 driver to not pollute the vop include
+
+Andy Yan (1):
+  drm: rockchip: Add VOP2 driver
+
+Benjamin Gaignard (1):
+  dt-bindings: display: rockchip: dw-hdmi: Add compatible for rk3568
+    HDMI
+
+Douglas Anderson (2):
+  drm/rockchip: dw_hdmi: Use auto-generated tables
+  drm/rockchip: dw_hdmi: Set cur_ctr to 0 always
+
+Michael Riesch (2):
+  arm64: dts: rockchip: enable vop2 and hdmi tx on quartz64a
+  arm64: dts: rockchip: enable vop2 and hdmi tx on rock-3a
+
+Nickey Yang (1):
+  drm/rockchip: dw_hdmi: add default 594Mhz clk for 4K@60hz
+
+Sascha Hauer (17):
+  clk: rk3568: Mark hclk_vo as critical
+  drm/rockchip: Embed drm_encoder into rockchip_decoder
+  drm/rockchip: Add crtc_endpoint_id to rockchip_encoder
+  drm/rockchip: dw_hdmi: rename vpll clock to reference clock
+  dt-bindings: display: rockchip: dw-hdmi: use "ref" as clock name
+  arm64: dts: rockchip: rk3399: rename HDMI ref clock to 'ref'
+  drm/rockchip: dw_hdmi: add rk3568 support
+  drm/rockchip: dw_hdmi: add regulator support
+  dt-bindings: display: rockchip: dw-hdmi: Add regulator support
+  drm/rockchip: dw_hdmi: relax mode_valid hook
+  dt-bindings: display: rockchip: dw-hdmi: Make unwedge pinctrl optional
+  arm64: dts: rockchip: rk356x: Add VOP2 nodes
+  arm64: dts: rockchip: rk356x: Add HDMI nodes
+  arm64: dts: rockchip: rk3568-evb: Enable VOP2 and hdmi
+  drm/rockchip: Make VOP driver optional
+  dt-bindings: display: rockchip: Add binding for VOP2
+  dt-bindings: display: rockchip: dw-hdmi: fix ports description
+
+ .../display/rockchip/rockchip,dw-hdmi.yaml    |   46 +-
+ .../display/rockchip/rockchip-vop2.yaml       |  140 +
+ arch/arm64/boot/dts/rockchip/rk3399.dtsi      |    2 +-
+ .../boot/dts/rockchip/rk3566-quartz64-a.dts   |   47 +
+ arch/arm64/boot/dts/rockchip/rk3566.dtsi      |    4 +
+ .../boot/dts/rockchip/rk3568-evb1-v10.dts     |   47 +
+ .../boot/dts/rockchip/rk3568-rock-3a.dts      |   47 +
+ arch/arm64/boot/dts/rockchip/rk3568.dtsi      |    4 +
+ arch/arm64/boot/dts/rockchip/rk356x.dtsi      |   83 +
+ drivers/clk/rockchip/clk-rk3568.c             |    1 +
+ drivers/gpu/drm/rockchip/Kconfig              |   14 +
+ drivers/gpu/drm/rockchip/Makefile             |    4 +-
+ .../gpu/drm/rockchip/analogix_dp-rockchip.c   |   32 +-
+ drivers/gpu/drm/rockchip/cdn-dp-core.c        |   18 +-
+ drivers/gpu/drm/rockchip/cdn-dp-core.h        |    2 +-
+ .../gpu/drm/rockchip/dw-mipi-dsi-rockchip.c   |   17 +-
+ drivers/gpu/drm/rockchip/dw_hdmi-rockchip.c   |  257 +-
+ drivers/gpu/drm/rockchip/inno_hdmi.c          |   32 +-
+ drivers/gpu/drm/rockchip/rk3066_hdmi.c        |   34 +-
+ drivers/gpu/drm/rockchip/rockchip_drm_drv.c   |   36 +-
+ drivers/gpu/drm/rockchip/rockchip_drm_drv.h   |   20 +-
+ drivers/gpu/drm/rockchip/rockchip_drm_fb.c    |    2 +
+ drivers/gpu/drm/rockchip/rockchip_drm_vop.h   |   15 +
+ drivers/gpu/drm/rockchip/rockchip_drm_vop2.c  | 2706 +++++++++++++++++
+ drivers/gpu/drm/rockchip/rockchip_drm_vop2.h  |  477 +++
+ drivers/gpu/drm/rockchip/rockchip_lvds.c      |   26 +-
+ drivers/gpu/drm/rockchip/rockchip_vop2_reg.c  |  281 ++
+ include/dt-bindings/soc/rockchip,vop2.h       |   14 +
+ 28 files changed, 4235 insertions(+), 173 deletions(-)
+ create mode 100644 Documentation/devicetree/bindings/display/rockchip/rockchip-vop2.yaml
+ create mode 100644 drivers/gpu/drm/rockchip/rockchip_drm_vop2.c
+ create mode 100644 drivers/gpu/drm/rockchip/rockchip_drm_vop2.h
+ create mode 100644 drivers/gpu/drm/rockchip/rockchip_vop2_reg.c
+ create mode 100644 include/dt-bindings/soc/rockchip,vop2.h
+
 -- 
-2.7.4
+2.30.2
 
