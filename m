@@ -2,49 +2,49 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7FC6F50D354
-	for <lists+dri-devel@lfdr.de>; Sun, 24 Apr 2022 18:27:12 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id A883050D351
+	for <lists+dri-devel@lfdr.de>; Sun, 24 Apr 2022 18:27:07 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id AE40B10FD48;
+	by gabe.freedesktop.org (Postfix) with ESMTP id 31D9510FC5F;
 	Sun, 24 Apr 2022 16:27:02 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from out2-smtp.messagingengine.com (out2-smtp.messagingengine.com
  [66.111.4.26])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 09CD810FC5F
- for <dri-devel@lists.freedesktop.org>; Sun, 24 Apr 2022 16:26:57 +0000 (UTC)
-Received: from compute3.internal (compute3.nyi.internal [10.202.2.43])
- by mailout.nyi.internal (Postfix) with ESMTP id 58E755C006B;
- Sun, 24 Apr 2022 12:26:56 -0400 (EDT)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id E3B9910FC5F
+ for <dri-devel@lists.freedesktop.org>; Sun, 24 Apr 2022 16:26:58 +0000 (UTC)
+Received: from compute1.internal (compute1.nyi.internal [10.202.2.41])
+ by mailout.nyi.internal (Postfix) with ESMTP id 3E9935C00D0;
+ Sun, 24 Apr 2022 12:26:58 -0400 (EDT)
 Received: from mailfrontend1 ([10.202.2.162])
- by compute3.internal (MEProxy); Sun, 24 Apr 2022 12:26:56 -0400
+ by compute1.internal (MEProxy); Sun, 24 Apr 2022 12:26:58 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=sholland.org; h=
  cc:cc:content-transfer-encoding:date:date:from:from:in-reply-to
  :in-reply-to:message-id:mime-version:references:reply-to:sender
- :subject:subject:to:to; s=fm2; t=1650817616; x=1650904016; bh=Qk
- iqJQsRMBNjDm556z2E8TzPBn5kwgUgalPVUN5j18M=; b=Q/c5IPmxsggKWmRxpq
- +C+jTeClr+XKPnylCa22/GBMsnOYOtyPreGQdSBqQgVBXEeXAyXCadGdddFXzNBc
- ld1cAyWBkd7ls04A/kWdMKiz/TdraQN96zBfVl3cbNvN4pjZ1kFRTiiY9mt63A0v
- uYnrblMrEc8hdbC8nfTPy2ciTulsiRn7ygK6mJ+/7sf7Ye+e2r44bAwG1zaVemyF
- VvqLlv8PA3k4bLjMSZ7VedxAvIP7yjGeqkTzIRWe4GKKdcFxwuGjOS/imn4r3Gks
- WUW/m7tcll42Lu/3JImRgZyjy5SkHYbbExeAUGL/9+j6BT4sFpzFb31GoqwpYFCk
- z7yw==
+ :subject:subject:to:to; s=fm2; t=1650817618; x=1650904018; bh=2F
+ Fi/xkoVj6iwlrA1EObaufgO0Y0jToiRKkjZNAOp+c=; b=jTc4qXG4yQKZ1WF9Gn
+ R07utbzOJAZatX33Gy9kFgYYzY5yIzdMyYLjm1ayPTVHp99zdlbevmBsEjJU4rlC
+ Yp2LFUPTYykjhLNW/nFI29UPG/7eZRM0enUazQoz0QIgVL0ONbhbppzclMRhzAIQ
+ g0Dv5c5JcMI4CsqzWxrZ43yRSy0A7ChrNNolyE6JFq1+KTd4i/KChgEqjb2gHnl/
+ Y/cDqKvscJIISqsNaUWRHFbdNTFauxPiq4ly7HAvHDsAzaiHJ48flpZvjhLiTDuT
+ Kdl08m4i5rACmERSnQJxCP3xm5zE4FsKJsz9fkYUoDcvhCSyjKJWRCkfx/kPKUix
+ b2ww==
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
  messagingengine.com; h=cc:cc:content-transfer-encoding:date:date
  :from:from:in-reply-to:in-reply-to:message-id:mime-version
  :references:reply-to:sender:subject:subject:to:to:x-me-proxy
  :x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=fm1; t=
- 1650817616; x=1650904016; bh=QkiqJQsRMBNjDm556z2E8TzPBn5kwgUgalP
- VUN5j18M=; b=L6qCzV1y0/apGCUEP0lR+3CD/yl0nVhR+xFgGuvMyHGuUFeoBmS
- kLUFZUEYYa1NIcbshTL/dbDRgPERDNLT5npUkedKOzeofZrIj+2ws6JQVDx6xMvR
- RS/47Y83XFwiGHWBxsAhdAWQ8ktRmgzvvL1XLGWPdmblLZ1Ez0sfoblIQ+cPmBy2
- 60CEdax7UzyMs+mbljFnVzqUTAoMIROqN752nBI+vIHLUiLEL85v3i4aauXuS2Cx
- RxqVNixVCL8XHLANkbcjeLZEs6VS6UmXO2o730ktS6x2LOfDDwVg99s6hK1A3iHz
- n0lA4jVVNMRRS760ZwAaNX70b79WJQaekOw==
-X-ME-Sender: <xms:UHplYoRa_9JXMj6Ov_GQ0WbpjmyLxHuHf25lsInAG20JMt6ykXi4NQ>
- <xme:UHplYlw-snOdvUu8pe-29brYF4_Q0y4LLhJRm7knVLm_WetV1wuqXheXPbPT5IGYw
- obs-fA9ACeMOr_K0A>
-X-ME-Received: <xmr:UHplYl2NG6NX_D6OrxVWD-hIROY7UBLXu5bTDxAre9MVDX73AktEG3bNj1ceCvQt6ELCruDZ6PY56v9SeyN796JNDD3oqZtxvnix2ubJ25_7y330X_DXMmbF5zo97dBuC_9qzw>
+ 1650817618; x=1650904018; bh=2FFi/xkoVj6iwlrA1EObaufgO0Y0jToiRKk
+ jZNAOp+c=; b=UGga3K3DMlIU2u+sHQmZOGr7vY3No+13DlhU5cZdZGyOEXNp3Pp
+ K25VsMFLwM2AD+OihomHY9U1OPdiyRiUdQzFClui4psPK3zGbFs16JjsR/945sHe
+ AR6ZU0+qqyyE1b+O4UiCQp6dSJ4kzcJBBSViXtVMcj+qwmUGHfHC6yHj+cENw8/E
+ 9ZtIMCEw8TWXzT3Y4VTGxyLHdtdOw0HnXvEXvs1+SADuGvP2GhoxeallT9vNlLvF
+ uMPE5GStkzaGLu1Fg5cstjBeYOVF1YfAz4RZQQ/wlAsBF7Iytm0tiHf7UBc8KIf+
+ Gj+/UBmrigNl8pioG004aF0ixbod9iOC7JA==
+X-ME-Sender: <xms:UnplYr6wEC-ZlHM9g09oqtdMUuo9Zute0X9hrMBbrGG-igyu2c4k9g>
+ <xme:UnplYg4RBARiMRvsJAiHk8jNjjwA41oEB4L5qyQN8MbMqJuBivS5lkK8JDSzxmG95
+ UNm-RtKpvDzApMzUg>
+X-ME-Received: <xmr:UnplYicvVjFHTVPGihGVAAG_-Zhu2vf33b2pEJV0FNMz8D_xGvSxba86g7g96yxZdG3BU3MWysh7dp2TvHM2zdWXDC8FNyegVvl649CWSK1lSBTGBACbN1AFZmcqzsHlU8MqiQ>
 X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvfedrtdelgddutdefucetufdoteggodetrfdotf
  fvucfrrhhofhhilhgvmecuhfgrshhtofgrihhlpdfqfgfvpdfurfetoffkrfgpnffqhgen
  uceurghilhhouhhtmecufedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmne
@@ -53,18 +53,18 @@ X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvfedrtdelgddutdefucetufdoteggod
  ftrfgrthhtvghrnhepudekteeuudehtdelteevgfduvddvjefhfedulefgudevgeeghefg
  udefiedtveetnecuvehluhhsthgvrhfuihiivgepudenucfrrghrrghmpehmrghilhhfrh
  homhepshgrmhhuvghlsehshhholhhlrghnugdrohhrgh
-X-ME-Proxy: <xmx:UHplYsAqXHCdRsaSif6NSSjIUu__IdNk8be07hHFSG5tktprVJNFHQ>
- <xmx:UHplYhh46sppP6CbH8TiYs5SlpwLkW_H68Wzv94rajIcZbbYvYdNkg>
- <xmx:UHplYopOwRSqkNOcY2fR-Wr8Ia2RgDlOMtYHoy8LCcTzfdqwYxFr-g>
- <xmx:UHplYsoX0FyUamTvpsUCnD4yZ6oETwvOu6Ah_gNTB0MuLCfNsNxvfA>
+X-ME-Proxy: <xmx:UnplYsKJ5v6WEg6XvYLu_mMj2cAzXbj8Bc9QP4FvvxFiykESG8WrMg>
+ <xmx:UnplYvK3CB9yU0YyAR3BqoARtaZekLQzTckkbs0CuXkCXKkGwjyAcQ>
+ <xmx:UnplYlxa-Puuo9yqqeVGEOPgMcd4jQVJSC1uZ3ZyeoizGaUKEAOMkA>
+ <xmx:UnplYhy8CZuS8sx4AGOrvt3GQ56kGXQ5qGuc727c-KJAQ6bnanYbPg>
 Received: by mail.messagingengine.com (Postfix) with ESMTPA; Sun,
- 24 Apr 2022 12:26:55 -0400 (EDT)
+ 24 Apr 2022 12:26:57 -0400 (EDT)
 From: Samuel Holland <samuel@sholland.org>
 To: Chen-Yu Tsai <wens@csie.org>, Jernej Skrabec <jernej.skrabec@gmail.com>,
  Maxime Ripard <mripard@kernel.org>
-Subject: [PATCH v3 11/14] drm/sun4i: Add support for D1 mixers
-Date: Sun, 24 Apr 2022 11:26:29 -0500
-Message-Id: <20220424162633.12369-12-samuel@sholland.org>
+Subject: [PATCH v3 12/14] drm/sun4i: Add support for D1 TCON TOP
+Date: Sun, 24 Apr 2022 11:26:30 -0500
+Message-Id: <20220424162633.12369-13-samuel@sholland.org>
 X-Mailer: git-send-email 2.35.1
 In-Reply-To: <20220424162633.12369-1-samuel@sholland.org>
 References: <20220424162633.12369-1-samuel@sholland.org>
@@ -90,63 +90,71 @@ Cc: devicetree@vger.kernel.org, Samuel Holland <samuel@sholland.org>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-D1 has a display engine with the usual pair of mixers, albeit with
-relatively few layers. In fact, D1 appears to be the first SoC to have
-a mixer without any UI layers. Add support for these new variants.
+D1 has a TCON TOP with TCON TV0 and DSI, but no TCON TV1. This puts the
+DSI clock name at index 1 in clock-output-names. Support this by only
+incrementing the index for clocks that are actually supported.
 
-Acked-by: Jernej Skrabec <jernej.skrabec@gmail.com>
 Signed-off-by: Samuel Holland <samuel@sholland.org>
 ---
 
 (no changes since v1)
 
- drivers/gpu/drm/sun4i/sun8i_mixer.c | 26 ++++++++++++++++++++++++++
- 1 file changed, 26 insertions(+)
+ drivers/gpu/drm/sun4i/sun8i_tcon_top.c | 15 ++++++++++++---
+ 1 file changed, 12 insertions(+), 3 deletions(-)
 
-diff --git a/drivers/gpu/drm/sun4i/sun8i_mixer.c b/drivers/gpu/drm/sun4i/sun8i_mixer.c
-index 4ce593c99807..875a1156c04e 100644
---- a/drivers/gpu/drm/sun4i/sun8i_mixer.c
-+++ b/drivers/gpu/drm/sun4i/sun8i_mixer.c
-@@ -615,6 +615,24 @@ static const struct sun8i_mixer_cfg sun8i_v3s_mixer_cfg = {
- 	.mod_rate = 150000000,
+diff --git a/drivers/gpu/drm/sun4i/sun8i_tcon_top.c b/drivers/gpu/drm/sun4i/sun8i_tcon_top.c
+index 1b9b8b48f4a7..da97682b6835 100644
+--- a/drivers/gpu/drm/sun4i/sun8i_tcon_top.c
++++ b/drivers/gpu/drm/sun4i/sun8i_tcon_top.c
+@@ -189,22 +189,23 @@ static int sun8i_tcon_top_bind(struct device *dev, struct device *master,
+ 	 * if TVE is active on each TCON TV. If it is, mux should be switched
+ 	 * to TVE clock parent.
+ 	 */
++	i = 0;
+ 	clk_data->hws[CLK_TCON_TOP_TV0] =
+ 		sun8i_tcon_top_register_gate(dev, "tcon-tv0", regs,
+ 					     &tcon_top->reg_lock,
+-					     TCON_TOP_TCON_TV0_GATE, 0);
++					     TCON_TOP_TCON_TV0_GATE, i++);
+ 
+ 	if (quirks->has_tcon_tv1)
+ 		clk_data->hws[CLK_TCON_TOP_TV1] =
+ 			sun8i_tcon_top_register_gate(dev, "tcon-tv1", regs,
+ 						     &tcon_top->reg_lock,
+-						     TCON_TOP_TCON_TV1_GATE, 1);
++						     TCON_TOP_TCON_TV1_GATE, i++);
+ 
+ 	if (quirks->has_dsi)
+ 		clk_data->hws[CLK_TCON_TOP_DSI] =
+ 			sun8i_tcon_top_register_gate(dev, "dsi", regs,
+ 						     &tcon_top->reg_lock,
+-						     TCON_TOP_TCON_DSI_GATE, 2);
++						     TCON_TOP_TCON_DSI_GATE, i++);
+ 
+ 	for (i = 0; i < CLK_NUM; i++)
+ 		if (IS_ERR(clk_data->hws[i])) {
+@@ -272,6 +273,10 @@ static const struct sun8i_tcon_top_quirks sun8i_r40_tcon_top_quirks = {
+ 	.has_dsi	= true,
  };
  
-+static const struct sun8i_mixer_cfg sun20i_d1_mixer0_cfg = {
-+	.ccsc		= CCSC_D1_MIXER0_LAYOUT,
-+	.mod_rate	= 297000000,
-+	.scaler_mask	= 0x3,
-+	.scanline_yuv	= 2048,
-+	.ui_num		= 1,
-+	.vi_num		= 1,
++static const struct sun8i_tcon_top_quirks sun20i_d1_tcon_top_quirks = {
++	.has_dsi	= true,
 +};
 +
-+static const struct sun8i_mixer_cfg sun20i_d1_mixer1_cfg = {
-+	.ccsc		= CCSC_MIXER1_LAYOUT,
-+	.mod_rate	= 297000000,
-+	.scaler_mask	= 0x1,
-+	.scanline_yuv	= 1024,
-+	.ui_num		= 0,
-+	.vi_num		= 1,
-+};
-+
- static const struct sun8i_mixer_cfg sun50i_a64_mixer0_cfg = {
- 	.ccsc		= CCSC_MIXER0_LAYOUT,
- 	.mod_rate	= 297000000,
-@@ -668,6 +686,14 @@ static const struct of_device_id sun8i_mixer_of_table[] = {
- 		.compatible = "allwinner,sun8i-v3s-de2-mixer",
- 		.data = &sun8i_v3s_mixer_cfg,
+ static const struct sun8i_tcon_top_quirks sun50i_h6_tcon_top_quirks = {
+ 	/* Nothing special */
+ };
+@@ -282,6 +287,10 @@ const struct of_device_id sun8i_tcon_top_of_table[] = {
+ 		.compatible = "allwinner,sun8i-r40-tcon-top",
+ 		.data = &sun8i_r40_tcon_top_quirks
  	},
 +	{
-+		.compatible = "allwinner,sun20i-d1-de2-mixer-0",
-+		.data = &sun20i_d1_mixer0_cfg,
-+	},
-+	{
-+		.compatible = "allwinner,sun20i-d1-de2-mixer-1",
-+		.data = &sun20i_d1_mixer1_cfg,
++		.compatible = "allwinner,sun20i-d1-tcon-top",
++		.data = &sun20i_d1_tcon_top_quirks
 +	},
  	{
- 		.compatible = "allwinner,sun50i-a64-de2-mixer-0",
- 		.data = &sun50i_a64_mixer0_cfg,
+ 		.compatible = "allwinner,sun50i-h6-tcon-top",
+ 		.data = &sun50i_h6_tcon_top_quirks
 -- 
 2.35.1
 
