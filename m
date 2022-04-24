@@ -1,75 +1,60 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1ECF350D36E
-	for <lists+dri-devel@lfdr.de>; Sun, 24 Apr 2022 18:27:31 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id A337550D41F
+	for <lists+dri-devel@lfdr.de>; Sun, 24 Apr 2022 20:14:10 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id AB8A210FCEC;
-	Sun, 24 Apr 2022 16:27:28 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id F0F7810F3AE;
+	Sun, 24 Apr 2022 18:14:06 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from out2-smtp.messagingengine.com (out2-smtp.messagingengine.com
- [66.111.4.26])
- by gabe.freedesktop.org (Postfix) with ESMTPS id B248810FD50
- for <dri-devel@lists.freedesktop.org>; Sun, 24 Apr 2022 16:27:02 +0000 (UTC)
-Received: from compute2.internal (compute2.nyi.internal [10.202.2.46])
- by mailout.nyi.internal (Postfix) with ESMTP id F2AD55C00D0;
- Sun, 24 Apr 2022 12:27:01 -0400 (EDT)
-Received: from mailfrontend1 ([10.202.2.162])
- by compute2.internal (MEProxy); Sun, 24 Apr 2022 12:27:01 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=sholland.org; h=
- cc:cc:content-transfer-encoding:date:date:from:from:in-reply-to
- :in-reply-to:message-id:mime-version:references:reply-to:sender
- :subject:subject:to:to; s=fm2; t=1650817621; x=1650904021; bh=uC
- Q2R2fyjy+uTBpLAiBmpciTr9WrThWXS0olngIbwR0=; b=ij6TFogyjPCTd4plzX
- fkpJG8mtbhVNOQIItFHc0QOCPt61FCO0S2yXlFwHKW0GInr+ltoFvcMVJZRsjkQo
- mqXfU+81ApWAN+HtFND1LmnQgpJMVRR7eC7/HOEMzQuFtFqDD/S9QaKWF1QXJgla
- ulLiaW1QXB4s0OvXLkAo4E2xGKf7nEO6HBdpWzo6CU/sesst1wlX8YCU1Bi67OHl
- 1CiOmiWOfDPB64hbSqsEgBKXu95MFmFS9ia1nty7YTYYLJhSc4o5ZKt1kZ9+qFVe
- 2tA+KdfgKVDZPRLptsAnOjkrZG6WjDsQ7oLLchDS1cTryG1m8nAkMl80yQvih4gZ
- w9zA==
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
- messagingengine.com; h=cc:cc:content-transfer-encoding:date:date
- :from:from:in-reply-to:in-reply-to:message-id:mime-version
- :references:reply-to:sender:subject:subject:to:to:x-me-proxy
- :x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=fm1; t=
- 1650817621; x=1650904021; bh=uCQ2R2fyjy+uTBpLAiBmpciTr9WrThWXS0o
- lngIbwR0=; b=pvGuu6uYTlgC8AerhkYb5tHBgdw/KN5Bd84WIw5PMP1EOSDE+rF
- d4ZhRjuin817P9z2QkrDYuPjWskd03ktnXRO5jcWM3IicP/fMyctdeD2zGsly6Pd
- ky8I9OVL0KbyQ8a2aeI/86acoqs1W4R1/37f2XjPBCwgKPT9T/Pq4H1ZQgRTaL7T
- YFbcwoGDque4RMKQMV6Lfdux3WZmle2x9DgiC3hL3g1GdhzMAU/lrtROqyHPqy2+
- mivzBGee6cu0CZzJ2sHKcATYg6dhA1meeAXFAEhJrJ+HClpUrVigcbdwZOLhAf8s
- X1pcJ9tOPUDfDEGh1YAX+gWw0UFWU1qvfuw==
-X-ME-Sender: <xms:VXplYhEdd2ZlpgvBxLiY_E0WvpHQjgxVk8BrPm9FlQWC88zWp9n_XA>
- <xme:VXplYmXCdnZCTh8Z1JQcrFMtFd4Z02O8MH9vJKaCXJU88b7dqZOoEhK3Rx3RmOft9
- osOIwseA8KB44fihw>
-X-ME-Received: <xmr:VXplYjLbs-X77ca3p1hHrqQPOhXzM2nkR_9ypXPhC1GwM31hE0Xuu-zCmtBe8z4RAUDj6DRzU6QmjmACqPjDTdOsMxYJjZf0nf79s-C8m--y3upCZL7inTfrbrHW-PFIRiPGKw>
-X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvfedrtdelgddutdefucetufdoteggodetrfdotf
- fvucfrrhhofhhilhgvmecuhfgrshhtofgrihhlpdfqfgfvpdfurfetoffkrfgpnffqhgen
- uceurghilhhouhhtmecufedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmne
- cujfgurhephffvvefufffkofgjfhgggfestdekredtredttdenucfhrhhomhepufgrmhhu
- vghlucfjohhllhgrnhguuceoshgrmhhuvghlsehshhholhhlrghnugdrohhrgheqnecugg
- ftrfgrthhtvghrnhepudekteeuudehtdelteevgfduvddvjefhfedulefgudevgeeghefg
- udefiedtveetnecuvehluhhsthgvrhfuihiivgepvdenucfrrghrrghmpehmrghilhhfrh
- homhepshgrmhhuvghlsehshhholhhlrghnugdrohhrgh
-X-ME-Proxy: <xmx:VXplYnGsfhef7Aj0otzWUycsql50_eCy0JBEuhPQRK8U6i5Ez0bq7A>
- <xmx:VXplYnW2TAJKpf1sV_Zr8v_DObGmeViE2UFgsTpwQ7lw01du5LW9rg>
- <xmx:VXplYiNqWRGGdLCmms64r4OqX78AiZe_XOjFLvxs_r2gya90b26aCQ>
- <xmx:VXplYqNL-pDjO6fSNjtnMnc9gIzgI9kuVDpHfiBpvBwKwWHjPtp5Ag>
-Received: by mail.messagingengine.com (Postfix) with ESMTPA; Sun,
- 24 Apr 2022 12:27:01 -0400 (EDT)
-From: Samuel Holland <samuel@sholland.org>
-To: Chen-Yu Tsai <wens@csie.org>, Jernej Skrabec <jernej.skrabec@gmail.com>,
- Maxime Ripard <mripard@kernel.org>
-Subject: [PATCH v3 14/14] drm/sun4i: Add compatible for D1 display engine
-Date: Sun, 24 Apr 2022 11:26:32 -0500
-Message-Id: <20220424162633.12369-15-samuel@sholland.org>
-X-Mailer: git-send-email 2.35.1
-In-Reply-To: <20220424162633.12369-1-samuel@sholland.org>
-References: <20220424162633.12369-1-samuel@sholland.org>
+Received: from alexa-out-sd-01.qualcomm.com (alexa-out-sd-01.qualcomm.com
+ [199.106.114.38])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id AF62F10F09A;
+ Sun, 24 Apr 2022 18:14:05 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=quicinc.com; i=@quicinc.com; q=dns/txt; s=qcdkim;
+ t=1650824045; x=1682360045;
+ h=message-id:date:mime-version:subject:to:cc:references:
+ from:in-reply-to:content-transfer-encoding;
+ bh=AbIJpaCbgYZKRpn8O1RakQeWbPOu2QEQRoAbnQMpVZw=;
+ b=t+qUJ0JranPyeTS8PZDvLEUjhr50IAfD43oW02Jylc7SzDBwUR17yNXL
+ HH+xCHEiVm6odhp/8KwfkeNQXUFvn9AGeHE3JxBesxomP6Uz31OyD4/Pv
+ lj8FgZBk8IF45a1IhIUJuXJfrNTLkfVcRi5Knnf8NVCb4I7swLWKs5u1F 8=;
+Received: from unknown (HELO ironmsg03-sd.qualcomm.com) ([10.53.140.143])
+ by alexa-out-sd-01.qualcomm.com with ESMTP; 24 Apr 2022 11:13:04 -0700
+X-QCInternal: smtphost
+Received: from nasanex01c.na.qualcomm.com ([10.47.97.222])
+ by ironmsg03-sd.qualcomm.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 24 Apr 2022 11:13:03 -0700
+Received: from nalasex01a.na.qualcomm.com (10.47.209.196) by
+ nasanex01c.na.qualcomm.com (10.47.97.222) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.2.986.22; Sun, 24 Apr 2022 11:13:02 -0700
+Received: from [10.111.165.107] (10.80.80.8) by nalasex01a.na.qualcomm.com
+ (10.47.209.196) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.986.22; Sun, 24 Apr
+ 2022 11:13:00 -0700
+Message-ID: <e924e564-e4e2-1f8f-4f5f-1cc0bc2084c3@quicinc.com>
+Date: Sun, 24 Apr 2022 11:12:57 -0700
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:91.0) Gecko/20100101
+ Thunderbird/91.6.2
+Subject: Re: [PATCH v4 03/20] drm: allow real encoder to be passed for
+ drm_writeback_connector
+Content-Language: en-US
+To: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+References: <1650668815-7048-1-git-send-email-quic_abhinavk@quicinc.com>
+ <1650668815-7048-4-git-send-email-quic_abhinavk@quicinc.com>
+ <YmVj0/XouEH0yfmT@pendragon.ideasonboard.com>
+From: Abhinav Kumar <quic_abhinavk@quicinc.com>
+In-Reply-To: <YmVj0/XouEH0yfmT@pendragon.ideasonboard.com>
+Content-Type: text/plain; charset="UTF-8"; format=flowed
+Content-Transfer-Encoding: 7bit
+X-Originating-IP: [10.80.80.8]
+X-ClientProxiedBy: nasanex01a.na.qualcomm.com (10.52.223.231) To
+ nalasex01a.na.qualcomm.com (10.47.209.196)
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -82,38 +67,163 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: devicetree@vger.kernel.org, Samuel Holland <samuel@sholland.org>,
- David Airlie <airlied@linux.ie>, linux-kernel@vger.kernel.org,
- dri-devel@lists.freedesktop.org, Rob Herring <robh+dt@kernel.org>,
- Krzysztof Kozlowski <krzk+dt@kernel.org>, linux-sunxi@lists.linux.dev,
- linux-arm-kernel@lists.infradead.org
+Cc: markyacoub@chromium.org, liviu.dudau@arm.com,
+ dri-devel@lists.freedesktop.org, swboyd@chromium.org, seanpaul@chromium.org,
+ dmitry.baryshkov@linaro.org, quic_jesszhan@quicinc.com,
+ quic_aravindh@quicinc.com, freedreno@lists.freedesktop.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Now that the various blocks in the D1 display engine pipeline are
-supported, we can enable the overall engine.
+Hi Laurent
 
-Acked-by: Jernej Skrabec <jernej.skrabec@gmail.com>
-Signed-off-by: Samuel Holland <samuel@sholland.org>
----
+On 4/24/2022 7:50 AM, Laurent Pinchart wrote:
+> Hi Abhinav,
+> 
+> Thank you for the patch.
+> 
+> On Fri, Apr 22, 2022 at 04:06:38PM -0700, Abhinav Kumar wrote:
+>> For some vendor driver implementations, display hardware can
+>> be shared between the encoder used for writeback and the physical
+>> display.
+>>
+>> In addition resources such as clocks and interrupts can
+>> also be shared between writeback and the real encoder.
+>>
+>> To accommodate such vendor drivers and hardware, allow
+>> real encoder to be passed for drm_writeback_connector.
+>>
+>> For existing clients, drm_writeback_connector_init() will use
+>> an internal_encoder under the hood and hence no changes will
+>> be needed.
+>>
+>> changes in v7:
+>> 	- move this change before the vc4 change in the series
+>> 	  to minimize the changes to vendor drivers in drm core
+>> 	  changes
+> 
+> Why is this needed ? The drm_writeback_connector functions don't need
+> the drm_encoder after drm_writeback_connector_init() (or
+> drm_writeback_connector_init_with_encoder()) returns.
+> 
 
-(no changes since v1)
+Sorry I didnt follow this comment. This change log is incorrect, so 
+after changing the previous change in the series and modifying this, no 
+further changes are needed to vc4, so I decided to drop the next change.
+So this change log is incorrect. I can remove this.
 
- drivers/gpu/drm/sun4i/sun4i_drv.c | 1 +
- 1 file changed, 1 insertion(+)
+Is that what you meant?
 
-diff --git a/drivers/gpu/drm/sun4i/sun4i_drv.c b/drivers/gpu/drm/sun4i/sun4i_drv.c
-index 6a9ba8a77c77..275f7e4a03ae 100644
---- a/drivers/gpu/drm/sun4i/sun4i_drv.c
-+++ b/drivers/gpu/drm/sun4i/sun4i_drv.c
-@@ -418,6 +418,7 @@ static const struct of_device_id sun4i_drv_of_table[] = {
- 	{ .compatible = "allwinner,sun8i-r40-display-engine" },
- 	{ .compatible = "allwinner,sun8i-v3s-display-engine" },
- 	{ .compatible = "allwinner,sun9i-a80-display-engine" },
-+	{ .compatible = "allwinner,sun20i-d1-display-engine" },
- 	{ .compatible = "allwinner,sun50i-a64-display-engine" },
- 	{ .compatible = "allwinner,sun50i-h6-display-engine" },
- 	{ }
--- 
-2.35.1
-
+>> Signed-off-by: Abhinav Kumar <quic_abhinavk@quicinc.com>
+>> Reviewed-by: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
+>> ---
+>>   drivers/gpu/drm/drm_writeback.c | 18 ++++++++++++------
+>>   drivers/gpu/drm/vc4/vc4_txp.c   |  4 ++--
+>>   include/drm/drm_writeback.h     | 22 ++++++++++++++++++++--
+>>   3 files changed, 34 insertions(+), 10 deletions(-)
+>>
+>> diff --git a/drivers/gpu/drm/drm_writeback.c b/drivers/gpu/drm/drm_writeback.c
+>> index 92658ad..0538674 100644
+>> --- a/drivers/gpu/drm/drm_writeback.c
+>> +++ b/drivers/gpu/drm/drm_writeback.c
+>> @@ -180,21 +180,21 @@ int drm_writeback_connector_init(struct drm_device *dev,
+>>   {
+>>   	int ret = 0;
+>>   
+>> -	drm_encoder_helper_add(&wb_connector->encoder, enc_helper_funcs);
+>> +	drm_encoder_helper_add(&wb_connector->internal_encoder, enc_helper_funcs);
+>>   
+>> -	wb_connector->encoder.possible_crtcs = possible_crtcs;
+>> +	wb_connector->internal_encoder.possible_crtcs = possible_crtcs;
+>>   
+>> -	ret = drm_encoder_init(dev, &wb_connector->encoder,
+>> +	ret = drm_encoder_init(dev, &wb_connector->internal_encoder,
+>>   			       &drm_writeback_encoder_funcs,
+>>   			       DRM_MODE_ENCODER_VIRTUAL, NULL);
+>>   	if (ret)
+>>   		return ret;
+>>   
+>> -	ret = drm_writeback_connector_init_with_encoder(dev, wb_connector, &wb_connector->encoder,
+>> -			con_funcs, formats, n_formats);
+>> +	ret = drm_writeback_connector_init_with_encoder(dev, wb_connector,
+>> +			&wb_connector->internal_encoder, con_funcs, formats, n_formats);
+>>   
+>>   	if (ret)
+>> -		drm_encoder_cleanup(&wb_connector->encoder);
+>> +		drm_encoder_cleanup(&wb_connector->internal_encoder);
+>>   
+>>   	return ret;
+>>   }
+>> @@ -239,6 +239,12 @@ int drm_writeback_connector_init_with_encoder(struct drm_device *dev,
+>>   	struct drm_mode_config *config = &dev->mode_config;
+>>   	int ret = create_writeback_properties(dev);
+>>   
+>> +	/*
+>> +	 * Assign the encoder passed to this API to the wb_connector's encoder.
+>> +	 * For drm_writeback_connector_init(), this shall be the internal_encoder
+>> +	 */
+>> +	wb_connector->encoder = enc;
+>> +
+>>   	if (ret != 0)
+>>   		return ret;
+>>   
+>> diff --git a/drivers/gpu/drm/vc4/vc4_txp.c b/drivers/gpu/drm/vc4/vc4_txp.c
+>> index 3447eb6..7e063a9 100644
+>> --- a/drivers/gpu/drm/vc4/vc4_txp.c
+>> +++ b/drivers/gpu/drm/vc4/vc4_txp.c
+>> @@ -159,7 +159,7 @@ struct vc4_txp {
+>>   
+>>   static inline struct vc4_txp *encoder_to_vc4_txp(struct drm_encoder *encoder)
+>>   {
+>> -	return container_of(encoder, struct vc4_txp, connector.encoder);
+>> +	return container_of(encoder, struct vc4_txp, connector.internal_encoder);
+>>   }
+>>   
+>>   static inline struct vc4_txp *connector_to_vc4_txp(struct drm_connector *conn)
+>> @@ -507,7 +507,7 @@ static int vc4_txp_bind(struct device *dev, struct device *master, void *data)
+>>   	if (ret)
+>>   		return ret;
+>>   
+>> -	encoder = &txp->connector.encoder;
+>> +	encoder = txp->connector.encoder;
+>>   	encoder->possible_crtcs = drm_crtc_mask(crtc);
+>>   
+>>   	ret = devm_request_irq(dev, irq, vc4_txp_interrupt, 0,
+>> diff --git a/include/drm/drm_writeback.h b/include/drm/drm_writeback.h
+>> index bb306fa..3fbae9d 100644
+>> --- a/include/drm/drm_writeback.h
+>> +++ b/include/drm/drm_writeback.h
+>> @@ -25,13 +25,31 @@ struct drm_writeback_connector {
+>>   	struct drm_connector base;
+>>   
+>>   	/**
+>> -	 * @encoder: Internal encoder used by the connector to fulfill
+>> +	 * @encoder: handle to drm_encoder used by the connector to fulfill
+>>   	 * the DRM framework requirements. The users of the
+>>   	 * @drm_writeback_connector control the behaviour of the @encoder
+>>   	 * by passing the @enc_funcs parameter to drm_writeback_connector_init()
+>>   	 * function.
+>> +	 *
+>> +	 * For some vendor drivers, the hardware resources are shared between
+>> +	 * writeback encoder and rest of the display pipeline.
+>> +	 * To accommodate such cases, encoder is a handle to the real encoder
+>> +	 * hardware.
+>> +	 *
+>> +	 * For current existing writeback users, this shall continue to be the
+>> +	 * embedded encoder for the writeback connector.
+>> +	 */
+>> +	struct drm_encoder *encoder;
+>> +
+>> +	/**
+>> +	 * @internal_encoder: internal encoder used by writeback when
+>> +	 * drm_writeback_connector_init() is used.
+>> +	 * @encoder will be assigned to this for those cases
+>> +	 *
+>> +	 * This will be unused when drm_writeback_connector_init_with_encoder()
+>> +	 * is used.
+>>   	 */
+>> -	struct drm_encoder encoder;
+>> +	struct drm_encoder internal_encoder;
+>>   
+>>   	/**
+>>   	 * @pixel_formats_blob_ptr:
+> 
