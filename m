@@ -2,49 +2,49 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0952C50D349
-	for <lists+dri-devel@lfdr.de>; Sun, 24 Apr 2022 18:26:46 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id CB4B350D34A
+	for <lists+dri-devel@lfdr.de>; Sun, 24 Apr 2022 18:26:48 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id C000F10FB80;
+	by gabe.freedesktop.org (Postfix) with ESMTP id E01F110FBD5;
 	Sun, 24 Apr 2022 16:26:42 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from out2-smtp.messagingengine.com (out2-smtp.messagingengine.com
  [66.111.4.26])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 07AE810FB80
- for <dri-devel@lists.freedesktop.org>; Sun, 24 Apr 2022 16:26:40 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id E367010FB80
+ for <dri-devel@lists.freedesktop.org>; Sun, 24 Apr 2022 16:26:41 +0000 (UTC)
 Received: from compute4.internal (compute4.nyi.internal [10.202.2.44])
- by mailout.nyi.internal (Postfix) with ESMTP id 58D665C010D;
- Sun, 24 Apr 2022 12:26:39 -0400 (EDT)
+ by mailout.nyi.internal (Postfix) with ESMTP id 3E3525C00D0;
+ Sun, 24 Apr 2022 12:26:41 -0400 (EDT)
 Received: from mailfrontend1 ([10.202.2.162])
- by compute4.internal (MEProxy); Sun, 24 Apr 2022 12:26:39 -0400
+ by compute4.internal (MEProxy); Sun, 24 Apr 2022 12:26:41 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=sholland.org; h=
  cc:cc:content-transfer-encoding:date:date:from:from:in-reply-to
  :in-reply-to:message-id:mime-version:references:reply-to:sender
- :subject:subject:to:to; s=fm2; t=1650817599; x=1650903999; bh=br
- GhkMg2GbwF8k+xeCGZMCp6rvLtDo6nmVpIA/QqdHQ=; b=YDPDEUkPrnxqry/mPE
- dBOiTuYe2lB3VNQWsE9IwUaNeLT2rX4c8yzMwBG1EffTs6x6m5efeJ1xE2AQIRim
- CRqgKnuR7Xt9CY3N1LEp2uevJCw5WE+w28zbF2HjwM6ozuBg80mplDQNhjF8BZHs
- r51/7ksUyHx+ERtEGZo7pOC/cOO/Xi+RN6Xbm+LT8fvKiSb0LtYLqZNQPDcNlCcL
- sq47tjGJVqvpDQHbuJmuBcjB0gn04bhxi+AiARmTQk1xJ00S8tyVMDWFoIRb1HuT
- yWNeh20pjxbQFvUlwR56NXywrBIVgzA4sbot0RUjliDbpBNK6Kq3o3C/MX4tvCOO
- vC6Q==
+ :subject:subject:to:to; s=fm2; t=1650817601; x=1650904001; bh=se
+ q0O/JjDWLm3q7ZpJodrcTjPueq2LdslcJSA34pQRY=; b=tYJy2nSpBs32Gq6YQm
+ daHQeesbmWH+/j2uZEWx8m2EV3CnF3t+ZeTCw0KcaJc0nsrOFdY7BAguoh9FDh0P
+ hS2pRWZFqrdARvVIeuy3rwx4H3nEiK5nDXEI24QQ8AnXpwl7QVQm0xNN+TIpfH08
+ Iq11aPC8KOvLTdcq65hbI2qS2X+BJSI5uevvtHGkM9W8mczEOSUidU4DrgKJ++II
+ kNtCqSnNDvA3XDVwxqktUS2aI1eLUq6eickIPwlVG4F6yK0QcEHj9RsQoDdT3wFd
+ jzCRlqBTV25SrnQ1bwI7lfXvEbu6tNYuOdx+hDptaFufrGGzID8TcQr7NoyC8t1M
+ nKWQ==
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
  messagingengine.com; h=cc:cc:content-transfer-encoding:date:date
  :from:from:in-reply-to:in-reply-to:message-id:mime-version
  :references:reply-to:sender:subject:subject:to:to:x-me-proxy
  :x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=fm1; t=
- 1650817599; x=1650903999; bh=brGhkMg2GbwF8k+xeCGZMCp6rvLtDo6nmVp
- IA/QqdHQ=; b=GCEncY/ouKuwAAuiHV3eVgVuKNYvcntNDYfPMW+DrF3DoPZOu5r
- Hsc440jxidycety608JGMzwkgJQld9Pu18wrmrEEhzBZOYIyh8Ll8mQoKZRlr5G9
- 3Q24mn8C3kxsSGlPp7J294jBkpHkOxYmP0CvUpCq06t1heYwURrNFPUF7nS9YFxs
- q5zgrqCGyVZrssBNe3CGcsp0dlVS5N6Df3e5/yi/YKvNOL0fHgZvBuiF5r0vBk8y
- rUwRhrkMPtuiMsrkw8OUK30bUna+TKPF2n6JmBNigwpVhH5CgZqDh78+4iG9mW59
- Nl7QgDuCRpkj9j0jEgsiRQ8rR09HdfyLJYQ==
-X-ME-Sender: <xms:P3plYsXIHFXF4VtZYIbzVIbXh3I7plco1zYrE_bDaGR344nZ7atr3Q>
- <xme:P3plYgmWNE16pHjWpMwF5AntgjFU6RJJjI95GBAv0qorCCYjBiVWfO-2ucz7pklbJ
- 1P-upcpXsSyZ-CJsA>
-X-ME-Received: <xmr:P3plYgZQ3DOeCHfHaIzrtwIUJJFUAoR2JMpa_Df_a9nw2sG2htIqudHmIAMnZu8FYm1u4hVw4mw51brWX0jnjcAzk7bacLyuiAutZoKfqo_BRSWfvPKwbckPe8MPwJWKiu1ieA>
+ 1650817601; x=1650904001; bh=seq0O/JjDWLm3q7ZpJodrcTjPueq2LdslcJ
+ SA34pQRY=; b=Yl8NKIDnl2WEafzJhPCOBol8ZFIXmSk8Uw2LO8yF8ksppiZd95B
+ fgcj0Lq927lFyfnO/XaLzeh2ntPS5SWT8dHZGzdEElAQeFGcsaRtaOUh9nB3zXkM
+ ExMuN2Ov9nRm3jVFrqh3TMk3V/BgTlgZ4hB94AjAVh//mmUVHOM93YOEZ3ySq+Wf
+ +zQuOaJZ/2IM2cvXuXxYh7ZOplrgUS5oUkEKJmt12wEnU2MNXPRA8eMMWdZ8WxM2
+ ouiSYmvATvVXPwjCh1CCJmltZe1Eq9XlX5+7g7BV9lQHLzlpBBmFYEEpAU0rlt8U
+ pU3X4Vo2kvuN+9ByrJBEU2uOnmgLVZD2Ncg==
+X-ME-Sender: <xms:QXplYj8ipAE45CSco2acm2_E_DjiJpH7JJNU7oJzfILzUgfnM0ALCg>
+ <xme:QXplYvtKsaXz-ZgSUMDX96CQFCTt4EgjrJjqc3CPTkIe8dj9XmDHAqEzSZevIB58Q
+ M8-IK7eufc3qGx0Mg>
+X-ME-Received: <xmr:QXplYhDHnpYKD_M4DRMgG0OT6AF5f75FFPvIlRCXDgzLDG7h0i0EqsBmnt4nhOjJmglASTZcflfy7E8dU4dWdyoeJ_EZRkmEf-rCTFiGmfMkPMrqvbMOxEbHfWRholTWd2eQ6Q>
 X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvfedrtdelgddutddvucetufdoteggodetrfdotf
  fvucfrrhhofhhilhgvmecuhfgrshhtofgrihhlpdfqfgfvpdfurfetoffkrfgpnffqhgen
  uceurghilhhouhhtmecufedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmne
@@ -53,19 +53,18 @@ X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvfedrtdelgddutddvucetufdoteggod
  ftrfgrthhtvghrnhepudekteeuudehtdelteevgfduvddvjefhfedulefgudevgeeghefg
  udefiedtveetnecuvehluhhsthgvrhfuihiivgeptdenucfrrghrrghmpehmrghilhhfrh
  homhepshgrmhhuvghlsehshhholhhlrghnugdrohhrgh
-X-ME-Proxy: <xmx:P3plYrXiHkN0fpK4_At43Es8tBiE1aI-i5FpMZyz7aefYhFHzLS_7Q>
- <xmx:P3plYmnp9IQRqjvd6Z4tqBfb5xNvw6oJjjA2aN_Rg5YsYXbQqXXjWA>
- <xmx:P3plYgdUrmHxEkoC_kvD70lOnqyx39-TLyyQL9X6zJizgjrP0hJX_A>
- <xmx:P3plYh9Fl-CGQitGJIiw4VAvpUsHqvZSmAy6djLwVTYp9FsG_QVobA>
+X-ME-Proxy: <xmx:QXplYveNFnA1FwkEDPgTqZ6F4nzyh79tloLddkaLjFnoNX_RK_Kp1A>
+ <xmx:QXplYoMgHksf6AN0Cs0tWEhQvzvwt96FA5Xq7DZgw5LUkGP0bZS5FQ>
+ <xmx:QXplYhkmtCC8BsRUKW14l5BGNak9GlIrzDDz_HZt1e_RB8tliTBQ6g>
+ <xmx:QXplYhnx85d_R3V2lOJ-h1MaAUaPUZZJFpwiQM-vvjUg3XJP9cmmEQ>
 Received: by mail.messagingengine.com (Postfix) with ESMTPA; Sun,
- 24 Apr 2022 12:26:38 -0400 (EDT)
+ 24 Apr 2022 12:26:40 -0400 (EDT)
 From: Samuel Holland <samuel@sholland.org>
 To: Chen-Yu Tsai <wens@csie.org>, Jernej Skrabec <jernej.skrabec@gmail.com>,
  Maxime Ripard <mripard@kernel.org>
-Subject: [PATCH v3 02/14] dt-bindings: display: Add D1 display engine
- compatibles
-Date: Sun, 24 Apr 2022 11:26:20 -0500
-Message-Id: <20220424162633.12369-3-samuel@sholland.org>
+Subject: [PATCH v3 03/14] drm/sun4i: Remove obsolete references to PHYS_OFFSET
+Date: Sun, 24 Apr 2022 11:26:21 -0500
+Message-Id: <20220424162633.12369-4-samuel@sholland.org>
 X-Mailer: git-send-email 2.35.1
 In-Reply-To: <20220424162633.12369-1-samuel@sholland.org>
 References: <20220424162633.12369-1-samuel@sholland.org>
@@ -85,113 +84,65 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
 Cc: devicetree@vger.kernel.org, Samuel Holland <samuel@sholland.org>,
  David Airlie <airlied@linux.ie>, linux-kernel@vger.kernel.org,
- dri-devel@lists.freedesktop.org,
- Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>,
- Rob Herring <robh+dt@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>,
- linux-sunxi@lists.linux.dev, linux-arm-kernel@lists.infradead.org
+ dri-devel@lists.freedesktop.org, Rob Herring <robh+dt@kernel.org>,
+ Krzysztof Kozlowski <krzk+dt@kernel.org>, linux-sunxi@lists.linux.dev,
+ linux-arm-kernel@lists.infradead.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Allwinner D1 contains a display engine 2.0. It features two mixers, a
-TCON TOP (with DSI and HDMI), one TCON LCD, and one TCON TV.
+commit b4bdc4fbf8d0 ("soc: sunxi: Deal with the MBUS DMA offsets in a
+central place") added a platform device notifier that sets the DMA
+offset for all of the display engine frontend and backend devices.
 
-Reviewed-by: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
+The code applying the offset to DMA buffer physical addresses was then
+removed from the backend driver in commit 756668ba682e ("drm/sun4i:
+backend: Remove the MBUS quirks"), but the code subtracting PHYS_OFFSET
+was left in the frontend driver.
+
+As a result, the offset was applied twice in the frontend driver. This
+likely went unnoticed because it only affects specific configurations
+(scaling or certain pixel formats) where the frontend is used, on boards
+with both one of these older SoCs and more than 1 GB of DRAM.
+
+In addition, the references to PHYS_OFFSET prevent compiling the driver
+on architectures where PHYS_OFFSET is not defined.
+
+Fixes: b4bdc4fbf8d0 ("soc: sunxi: Deal with the MBUS DMA offsets in a central place")
+Reviewed-by: Jernej Skrabec <jernej.skrabec@gmail.com>
 Signed-off-by: Samuel Holland <samuel@sholland.org>
 ---
 
-Changes in v3:
- - Drop redundant minItems and maxItems
+(no changes since v1)
 
- .../allwinner,sun4i-a10-display-engine.yaml   |  1 +
- .../display/allwinner,sun4i-a10-tcon.yaml     |  2 ++
- .../allwinner,sun8i-a83t-de2-mixer.yaml       |  2 ++
- .../display/allwinner,sun8i-r40-tcon-top.yaml | 28 +++++++++++++++++++
- 4 files changed, 33 insertions(+)
+ drivers/gpu/drm/sun4i/sun4i_frontend.c | 3 ---
+ 1 file changed, 3 deletions(-)
 
-diff --git a/Documentation/devicetree/bindings/display/allwinner,sun4i-a10-display-engine.yaml b/Documentation/devicetree/bindings/display/allwinner,sun4i-a10-display-engine.yaml
-index d4412aea7b73..c388ae5da1e4 100644
---- a/Documentation/devicetree/bindings/display/allwinner,sun4i-a10-display-engine.yaml
-+++ b/Documentation/devicetree/bindings/display/allwinner,sun4i-a10-display-engine.yaml
-@@ -62,6 +62,7 @@ properties:
-       - allwinner,sun8i-r40-display-engine
-       - allwinner,sun8i-v3s-display-engine
-       - allwinner,sun9i-a80-display-engine
-+      - allwinner,sun20i-d1-display-engine
-       - allwinner,sun50i-a64-display-engine
-       - allwinner,sun50i-h6-display-engine
+diff --git a/drivers/gpu/drm/sun4i/sun4i_frontend.c b/drivers/gpu/drm/sun4i/sun4i_frontend.c
+index 56ae38389db0..462fae73eae9 100644
+--- a/drivers/gpu/drm/sun4i/sun4i_frontend.c
++++ b/drivers/gpu/drm/sun4i/sun4i_frontend.c
+@@ -222,13 +222,11 @@ void sun4i_frontend_update_buffer(struct sun4i_frontend *frontend,
  
-diff --git a/Documentation/devicetree/bindings/display/allwinner,sun4i-a10-tcon.yaml b/Documentation/devicetree/bindings/display/allwinner,sun4i-a10-tcon.yaml
-index 3a7d5d731712..4a92a4c7dcd7 100644
---- a/Documentation/devicetree/bindings/display/allwinner,sun4i-a10-tcon.yaml
-+++ b/Documentation/devicetree/bindings/display/allwinner,sun4i-a10-tcon.yaml
-@@ -33,6 +33,8 @@ properties:
-       - const: allwinner,sun8i-v3s-tcon
-       - const: allwinner,sun9i-a80-tcon-lcd
-       - const: allwinner,sun9i-a80-tcon-tv
-+      - const: allwinner,sun20i-d1-tcon-lcd
-+      - const: allwinner,sun20i-d1-tcon-tv
+ 	/* Set the physical address of the buffer in memory */
+ 	paddr = drm_fb_cma_get_gem_addr(fb, state, 0);
+-	paddr -= PHYS_OFFSET;
+ 	DRM_DEBUG_DRIVER("Setting buffer #0 address to %pad\n", &paddr);
+ 	regmap_write(frontend->regs, SUN4I_FRONTEND_BUF_ADDR0_REG, paddr);
  
-       - items:
-           - enum:
-diff --git a/Documentation/devicetree/bindings/display/allwinner,sun8i-a83t-de2-mixer.yaml b/Documentation/devicetree/bindings/display/allwinner,sun8i-a83t-de2-mixer.yaml
-index 4f91eec26de9..cb243bc58ef7 100644
---- a/Documentation/devicetree/bindings/display/allwinner,sun8i-a83t-de2-mixer.yaml
-+++ b/Documentation/devicetree/bindings/display/allwinner,sun8i-a83t-de2-mixer.yaml
-@@ -19,6 +19,8 @@ properties:
-       - allwinner,sun8i-r40-de2-mixer-0
-       - allwinner,sun8i-r40-de2-mixer-1
-       - allwinner,sun8i-v3s-de2-mixer
-+      - allwinner,sun20i-d1-de2-mixer-0
-+      - allwinner,sun20i-d1-de2-mixer-1
-       - allwinner,sun50i-a64-de2-mixer-0
-       - allwinner,sun50i-a64-de2-mixer-1
-       - allwinner,sun50i-h6-de3-mixer-0
-diff --git a/Documentation/devicetree/bindings/display/allwinner,sun8i-r40-tcon-top.yaml b/Documentation/devicetree/bindings/display/allwinner,sun8i-r40-tcon-top.yaml
-index 449fa99aa51b..845e226d7aff 100644
---- a/Documentation/devicetree/bindings/display/allwinner,sun8i-r40-tcon-top.yaml
-+++ b/Documentation/devicetree/bindings/display/allwinner,sun8i-r40-tcon-top.yaml
-@@ -41,6 +41,7 @@ properties:
-   compatible:
-     enum:
-       - allwinner,sun8i-r40-tcon-top
-+      - allwinner,sun20i-d1-tcon-top
-       - allwinner,sun50i-h6-tcon-top
+ 	if (fb->format->num_planes > 1) {
+ 		paddr = drm_fb_cma_get_gem_addr(fb, state, swap ? 2 : 1);
+-		paddr -= PHYS_OFFSET;
+ 		DRM_DEBUG_DRIVER("Setting buffer #1 address to %pad\n", &paddr);
+ 		regmap_write(frontend->regs, SUN4I_FRONTEND_BUF_ADDR1_REG,
+ 			     paddr);
+@@ -236,7 +234,6 @@ void sun4i_frontend_update_buffer(struct sun4i_frontend *frontend,
  
-   reg:
-@@ -151,6 +152,33 @@ allOf:
-             - port@2
-             - port@3
- 
-+  - if:
-+      properties:
-+        compatible:
-+          contains:
-+            const: allwinner,sun20i-d1-tcon-top
-+
-+    then:
-+      properties:
-+        clocks:
-+          items:
-+            - description: The TCON TOP interface clock
-+            - description: The TCON TOP TV0 clock
-+            - description: The TCON TOP TVE0 clock
-+            - description: The TCON TOP MIPI DSI clock
-+
-+        clock-names:
-+          items:
-+            - const: bus
-+            - const: tcon-tv0
-+            - const: tve0
-+            - const: dsi
-+
-+        clock-output-names:
-+          items:
-+            - description: TCON TV0 output clock name
-+            - description: DSI output clock name
-+
-   - if:
-       properties:
-         compatible:
+ 	if (fb->format->num_planes > 2) {
+ 		paddr = drm_fb_cma_get_gem_addr(fb, state, swap ? 1 : 2);
+-		paddr -= PHYS_OFFSET;
+ 		DRM_DEBUG_DRIVER("Setting buffer #2 address to %pad\n", &paddr);
+ 		regmap_write(frontend->regs, SUN4I_FRONTEND_BUF_ADDR2_REG,
+ 			     paddr);
 -- 
 2.35.1
 
