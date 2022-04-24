@@ -2,50 +2,50 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id C05A150D34D
-	for <lists+dri-devel@lfdr.de>; Sun, 24 Apr 2022 18:26:58 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 7066F50D34F
+	for <lists+dri-devel@lfdr.de>; Sun, 24 Apr 2022 18:27:02 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id E983310FCBB;
-	Sun, 24 Apr 2022 16:26:53 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id B947310FCE1;
+	Sun, 24 Apr 2022 16:26:54 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from out2-smtp.messagingengine.com (out2-smtp.messagingengine.com
  [66.111.4.26])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 0255810FC85
- for <dri-devel@lists.freedesktop.org>; Sun, 24 Apr 2022 16:26:44 +0000 (UTC)
-Received: from compute5.internal (compute5.nyi.internal [10.202.2.45])
- by mailout.nyi.internal (Postfix) with ESMTP id 38A295C010D;
- Sun, 24 Apr 2022 12:26:43 -0400 (EDT)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id C672B10FC55
+ for <dri-devel@lists.freedesktop.org>; Sun, 24 Apr 2022 16:26:45 +0000 (UTC)
+Received: from compute1.internal (compute1.nyi.internal [10.202.2.41])
+ by mailout.nyi.internal (Postfix) with ESMTP id 2454B5C0112;
+ Sun, 24 Apr 2022 12:26:45 -0400 (EDT)
 Received: from mailfrontend1 ([10.202.2.162])
- by compute5.internal (MEProxy); Sun, 24 Apr 2022 12:26:43 -0400
+ by compute1.internal (MEProxy); Sun, 24 Apr 2022 12:26:45 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=sholland.org; h=
  cc:cc:content-transfer-encoding:date:date:from:from:in-reply-to
  :in-reply-to:message-id:mime-version:references:reply-to:sender
- :subject:subject:to:to; s=fm2; t=1650817603; x=1650904003; bh=IO
- 2nJQg7ZpLgbDDCjHzDR4pLdHAIP+lsCx6T8EE6RlY=; b=ZM+7HkG33TFGd4SnTl
- pPu0uPke8mtVg/q7fHqDEd4Fuerod5HZNJJkvnTmHf+DYpdqtWwX2Su9M6LQBu54
- +3NFgTgVCDbmnofc9D7okjWLGEJnLwgHa/Ypj5XTQtVPOais5oZf89pxirbXaIQn
- cuFJDUXBw6x6q/I6iEcJLUGWXV6IPIqkLKy/4eNdIZ5vnq9n1iG6DfWCbtLfqRhp
- VAFCTTNlKmLxUxYnTka3Lzj/Qy6fQ8bBoDyEpASMYwZ6c/rhRLmQkf01Gz3b02Ry
- PpeHNxD5pS3SgjNyTIyzeDwOqwghaP3C18WXFTbNO20IFJs1HH3QBHW1atm5PwLo
- uMZg==
+ :subject:subject:to:to; s=fm2; t=1650817605; x=1650904005; bh=rT
+ me4gsdReTHZYq9dpsHcO27YtJUVs0qzpd+cDg5ggo=; b=X/W4BffVrrb4uhmupX
+ KMuImLAYcAXWVPa4+JHnO2l5bgni6xi0Naf2JUh9GGkPjrwTVcDVFuUi6fE2t5UH
+ jKoS3ryXDpXFNn9J7QKGZ4Qba0jfyrbAbstoN8YK1qY9Tvri3x34I1/6n/earTrC
+ LLDwnwAiKF/5VRke1UBS3EP4/QGLP7XLqDQrYQgEP1xF9RtJIzACEB3HWn+JQ8ed
+ sJkIQ6zubQp9ppr2nCy5Nuh/yJY/pUXD2hs0dVK1WRXuP1BNYk+BgaU0Ghje2OpN
+ NzhNEgd6MuJ47dZgeJnLaJFMAgNLOtcvO40BmJiRiqgAL2lhYxpJvGWV7iMT5jIO
+ 3EXg==
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
  messagingengine.com; h=cc:cc:content-transfer-encoding:date:date
  :from:from:in-reply-to:in-reply-to:message-id:mime-version
  :references:reply-to:sender:subject:subject:to:to:x-me-proxy
  :x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=fm1; t=
- 1650817603; x=1650904003; bh=IO2nJQg7ZpLgbDDCjHzDR4pLdHAIP+lsCx6
- T8EE6RlY=; b=L8MCGD/7ZVhcs26x/u62cYKUgqkuivZgDan7O/ye4vQcSXXZMRO
- ZrGYYFd+a/MA9piLbpJVpWoZuPLzB7AxwH1ql2V8qf1oV02XLom3kOMUTedkmD5U
- 89blgeCjkG1bXKt43BmYJaulQdRXpQTw1bgKVfTbptkAGN0TQLf39uGRw6pspQh6
- MXIsHYBWlBz8Wz+feeC/x3MT4GCfnMqGFTniRsvlam48MVuCdqU0r0DJUgtGdckp
- GQ/clLFrNWC9obt9nQbhgpIeyXdqkxsrDbos7omOq/jVmUtNtRw9VBchXeB95s2x
- 2m4YipgN2dBCI1rW9+qKGB74S5+GV3wbDjA==
-X-ME-Sender: <xms:QnplYrTc9k-ZPLvvwXcRl49MCVebuWMLHB-18WxHKjrP9T9_2PdaFw>
- <xme:QnplYszMS6zmimrNapONfzh7Isxd_-pQpXIFfDafD4491brvehvfLsh4hbN7FhEXC
- zXyQJ75otrishtkIQ>
-X-ME-Received: <xmr:QnplYg3TtSFxucDRsGsRJfMtbDB92AkXEcDpojxmO7vdxH0d5m0LFGnsLXMEoCQSV5ZgHu8KnlQoG_SyXe1SkyMyDOWux9rlaiPK4PAZkgyD3nh9Bukwvml0-d_YobD1Y5_bzA>
-X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvfedrtdelgddutddvucetufdoteggodetrfdotf
+ 1650817605; x=1650904005; bh=rTme4gsdReTHZYq9dpsHcO27YtJUVs0qzpd
+ +cDg5ggo=; b=j7Drb/lCWwJXXD5l4Jyx4Y7FfpMB9Y6vP3Y7QJJk16tYXuZLfqs
+ IF/fdrs2UDqvmA/SfH4O+o4nA9Zn+hoWI1gK8X1WNfuTlzhLpAtDeLsphMj+EKbG
+ +4rphxQb3vPSGXLyxROXrsilJ9EKEWcae6RVJ5gLcdTNt7m+Q/KQ8Z7m3x0W1JJd
+ jeaeewfTZNbOZ38NPPjJXCyVVnz43E6ay8svq2VfALKYodGXIP9P5DClb2R1CAuS
+ xVLSW20g47gS/TFIN1S83Nv/zjnMQdf9CAurKprgbVXwjw4nGpWMEGHsH/xOs0q8
+ 4e6HB8TBWO7h1zj4L1i74Ue0TgLuk5VcEnQ==
+X-ME-Sender: <xms:RHplYitNo_vUM8yZwoYITH1W8CWGFrGOoI4sAeU4jEkoobnJZwNnkQ>
+ <xme:RHplYneZdpEbq3Vv6gfNykeYi2fNfoWY9JUAhcBBAm_iXRg2pY3RYVX5obZI7YdWO
+ U2c8ti3JrOgGESrlA>
+X-ME-Received: <xmr:RHplYtyZdCC1OZI3JMuhi5At75b3TnQSfdC5ijFEZBxmliGjF47MtQWA7t7csSbOqlDkY3G5lUEhgFv0c0o3JyozZFMNFZ5tWdTh1MHmklhDBeI9WSP6qX608XbXFSz8Ll9_Jg>
+X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvfedrtdelgddutdefucetufdoteggodetrfdotf
  fvucfrrhhofhhilhgvmecuhfgrshhtofgrihhlpdfqfgfvpdfurfetoffkrfgpnffqhgen
  uceurghilhhouhhtmecufedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmne
  cujfgurhephffvvefufffkofgjfhgggfestdekredtredttdenucfhrhhomhepufgrmhhu
@@ -53,18 +53,18 @@ X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvfedrtdelgddutddvucetufdoteggod
  ftrfgrthhtvghrnhepudekteeuudehtdelteevgfduvddvjefhfedulefgudevgeeghefg
  udefiedtveetnecuvehluhhsthgvrhfuihiivgeptdenucfrrghrrghmpehmrghilhhfrh
  homhepshgrmhhuvghlsehshhholhhlrghnugdrohhrgh
-X-ME-Proxy: <xmx:QnplYrD259CHuLpjZNTIEWIzWt7kvqXHceZjL9NErgFm4Ud4Xwiwug>
- <xmx:QnplYkjt6aDr6YZOKIU9-dq5WowyQ6HsWKhC4L-p6j8hM0xHCKv9TQ>
- <xmx:QnplYvpTD14rpKvHaTbTOg8f61BIreYhhskmZiDf47g7AaKQJdvzVA>
- <xmx:Q3plYladtEsIaI8A1_V6xhKEShefKJpHiZklHl2GQEVEYiYqMkBJCA>
+X-ME-Proxy: <xmx:RXplYtOWlHd-pCJZsoIY9OO4geBjO3nwogXMW6gmqOcxID1tep-0pQ>
+ <xmx:RXplYi-OjaowpabkYul5QczsmdN4sKrIugucd9hE8RrPZCnCbNOLzA>
+ <xmx:RXplYlVgPiIw9WEEBOrmG6sQJh9-w_hHArW_cPAl82NPyg7tppZ-Zw>
+ <xmx:RXplYlUysfPmI1fPevhBxj25yF44ocAaK_pjcMdBquAKNKR2OVyN1Q>
 Received: by mail.messagingengine.com (Postfix) with ESMTPA; Sun,
- 24 Apr 2022 12:26:42 -0400 (EDT)
+ 24 Apr 2022 12:26:44 -0400 (EDT)
 From: Samuel Holland <samuel@sholland.org>
 To: Chen-Yu Tsai <wens@csie.org>, Jernej Skrabec <jernej.skrabec@gmail.com>,
  Maxime Ripard <mripard@kernel.org>
-Subject: [PATCH v3 04/14] drm/sun4i: hdmi: Use more portable I/O helpers
-Date: Sun, 24 Apr 2022 11:26:22 -0500
-Message-Id: <20220424162633.12369-5-samuel@sholland.org>
+Subject: [PATCH v3 05/14] drm/sun4i: Allow building the driver on RISC-V
+Date: Sun, 24 Apr 2022 11:26:23 -0500
+Message-Id: <20220424162633.12369-6-samuel@sholland.org>
 X-Mailer: git-send-email 2.35.1
 In-Reply-To: <20220424162633.12369-1-samuel@sholland.org>
 References: <20220424162633.12369-1-samuel@sholland.org>
@@ -82,46 +82,40 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: devicetree@vger.kernel.org, kernel test robot <lkp@intel.com>,
- Samuel Holland <samuel@sholland.org>, David Airlie <airlied@linux.ie>,
- linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
- Rob Herring <robh+dt@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>,
- linux-sunxi@lists.linux.dev, linux-arm-kernel@lists.infradead.org
+Cc: devicetree@vger.kernel.org, Samuel Holland <samuel@sholland.org>,
+ David Airlie <airlied@linux.ie>, linux-kernel@vger.kernel.org,
+ dri-devel@lists.freedesktop.org, Rob Herring <robh+dt@kernel.org>,
+ Krzysztof Kozlowski <krzk+dt@kernel.org>, linux-sunxi@lists.linux.dev,
+ linux-arm-kernel@lists.infradead.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-readsb/writesb are unavailable on some architectures. In preparation for
-removing the Kconfig architecture dependency, switch to the equivalent
-but more portable ioread/write8_rep helpers.
+Allwinner D1 is a RISC-V SoC which contains a DE 2.0 engine. Let's
+remove the dependency on a specific CPU architecture, so the driver can
+be built wherever ARCH_SUNXI is selected.
 
-Reported-by: kernel test robot <lkp@intel.com>
+Acked-by: Jernej Skrabec <jernej.skrabec@gmail.com>
 Signed-off-by: Samuel Holland <samuel@sholland.org>
 ---
 
-(no changes since v2)
+(no changes since v1)
 
-Changes in v2:
- - New patch: I/O helper portability
+ drivers/gpu/drm/sun4i/Kconfig | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
- drivers/gpu/drm/sun4i/sun4i_hdmi_i2c.c | 4 ++--
- 1 file changed, 2 insertions(+), 2 deletions(-)
-
-diff --git a/drivers/gpu/drm/sun4i/sun4i_hdmi_i2c.c b/drivers/gpu/drm/sun4i/sun4i_hdmi_i2c.c
-index b66fa27fe6ea..c7d7e9fff91c 100644
---- a/drivers/gpu/drm/sun4i/sun4i_hdmi_i2c.c
-+++ b/drivers/gpu/drm/sun4i/sun4i_hdmi_i2c.c
-@@ -56,9 +56,9 @@ static int fifo_transfer(struct sun4i_hdmi *hdmi, u8 *buf, int len, bool read)
- 		return -EIO;
- 
- 	if (read)
--		readsb(hdmi->base + hdmi->variant->ddc_fifo_reg, buf, len);
-+		ioread8_rep(hdmi->base + hdmi->variant->ddc_fifo_reg, buf, len);
- 	else
--		writesb(hdmi->base + hdmi->variant->ddc_fifo_reg, buf, len);
-+		iowrite8_rep(hdmi->base + hdmi->variant->ddc_fifo_reg, buf, len);
- 
- 	/* Clear FIFO request bit by forcing a write to that bit */
- 	regmap_field_force_write(hdmi->field_ddc_int_status,
+diff --git a/drivers/gpu/drm/sun4i/Kconfig b/drivers/gpu/drm/sun4i/Kconfig
+index befc5a80222d..3a43c436c74a 100644
+--- a/drivers/gpu/drm/sun4i/Kconfig
++++ b/drivers/gpu/drm/sun4i/Kconfig
+@@ -1,7 +1,7 @@
+ # SPDX-License-Identifier: GPL-2.0-only
+ config DRM_SUN4I
+ 	tristate "DRM Support for Allwinner A10 Display Engine"
+-	depends on DRM && (ARM || ARM64) && COMMON_CLK
++	depends on DRM && COMMON_CLK
+ 	depends on ARCH_SUNXI || COMPILE_TEST
+ 	select DRM_GEM_CMA_HELPER
+ 	select DRM_KMS_HELPER
 -- 
 2.35.1
 
