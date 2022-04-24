@@ -1,70 +1,70 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id A883050D351
-	for <lists+dri-devel@lfdr.de>; Sun, 24 Apr 2022 18:27:07 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 19E5150D36F
+	for <lists+dri-devel@lfdr.de>; Sun, 24 Apr 2022 18:27:32 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 31D9510FC5F;
-	Sun, 24 Apr 2022 16:27:02 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id EC4B110FD50;
+	Sun, 24 Apr 2022 16:27:28 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from out2-smtp.messagingengine.com (out2-smtp.messagingengine.com
  [66.111.4.26])
- by gabe.freedesktop.org (Postfix) with ESMTPS id E3B9910FC5F
- for <dri-devel@lists.freedesktop.org>; Sun, 24 Apr 2022 16:26:58 +0000 (UTC)
-Received: from compute1.internal (compute1.nyi.internal [10.202.2.41])
- by mailout.nyi.internal (Postfix) with ESMTP id 3E9935C00D0;
- Sun, 24 Apr 2022 12:26:58 -0400 (EDT)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id C6F7210FCDC
+ for <dri-devel@lists.freedesktop.org>; Sun, 24 Apr 2022 16:27:00 +0000 (UTC)
+Received: from compute4.internal (compute4.nyi.internal [10.202.2.44])
+ by mailout.nyi.internal (Postfix) with ESMTP id 231395C006B;
+ Sun, 24 Apr 2022 12:27:00 -0400 (EDT)
 Received: from mailfrontend1 ([10.202.2.162])
- by compute1.internal (MEProxy); Sun, 24 Apr 2022 12:26:58 -0400
+ by compute4.internal (MEProxy); Sun, 24 Apr 2022 12:27:00 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=sholland.org; h=
  cc:cc:content-transfer-encoding:date:date:from:from:in-reply-to
  :in-reply-to:message-id:mime-version:references:reply-to:sender
- :subject:subject:to:to; s=fm2; t=1650817618; x=1650904018; bh=2F
- Fi/xkoVj6iwlrA1EObaufgO0Y0jToiRKkjZNAOp+c=; b=jTc4qXG4yQKZ1WF9Gn
- R07utbzOJAZatX33Gy9kFgYYzY5yIzdMyYLjm1ayPTVHp99zdlbevmBsEjJU4rlC
- Yp2LFUPTYykjhLNW/nFI29UPG/7eZRM0enUazQoz0QIgVL0ONbhbppzclMRhzAIQ
- g0Dv5c5JcMI4CsqzWxrZ43yRSy0A7ChrNNolyE6JFq1+KTd4i/KChgEqjb2gHnl/
- Y/cDqKvscJIISqsNaUWRHFbdNTFauxPiq4ly7HAvHDsAzaiHJ48flpZvjhLiTDuT
- Kdl08m4i5rACmERSnQJxCP3xm5zE4FsKJsz9fkYUoDcvhCSyjKJWRCkfx/kPKUix
- b2ww==
+ :subject:subject:to:to; s=fm2; t=1650817620; x=1650904020; bh=jS
+ AQioVCfjpv/SLyFbyb4J2+q2O/sEhXHaA/OKfch5E=; b=owH8nFbrV52KXis1jY
+ saHuNJNk2iaCJfvgGc/5hy6qVCVBpUxgvMpP2f+1mSU90rPv0yjW78TAO+88d12M
+ Ik+shxrRh7w0tZV1ThDBjEhl8Q3pE22T70xpSEtHfCNhFR4v+prC0Ou7ljtw8Qqs
+ Sc1Uq2IzzYwmpEgllgRlZ5UhUmPDI817AoIbzYtrHaY8Mi2VEUTCWtPpVrnRNzUJ
+ pFouG8HQWxma2kxFKIMHVDTUgxhTVnhIUJrIOMcOkSJoFBnXMIczFnvxdbxxpONo
+ /PyNbMZf4+Z32O4rUN3vQxXeLIWAQ/1nq0hi2fE5oz+Lnktsuy1XLnUQyVj31Bw/
+ huTg==
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
  messagingengine.com; h=cc:cc:content-transfer-encoding:date:date
  :from:from:in-reply-to:in-reply-to:message-id:mime-version
  :references:reply-to:sender:subject:subject:to:to:x-me-proxy
  :x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=fm1; t=
- 1650817618; x=1650904018; bh=2FFi/xkoVj6iwlrA1EObaufgO0Y0jToiRKk
- jZNAOp+c=; b=UGga3K3DMlIU2u+sHQmZOGr7vY3No+13DlhU5cZdZGyOEXNp3Pp
- K25VsMFLwM2AD+OihomHY9U1OPdiyRiUdQzFClui4psPK3zGbFs16JjsR/945sHe
- AR6ZU0+qqyyE1b+O4UiCQp6dSJ4kzcJBBSViXtVMcj+qwmUGHfHC6yHj+cENw8/E
- 9ZtIMCEw8TWXzT3Y4VTGxyLHdtdOw0HnXvEXvs1+SADuGvP2GhoxeallT9vNlLvF
- uMPE5GStkzaGLu1Fg5cstjBeYOVF1YfAz4RZQQ/wlAsBF7Iytm0tiHf7UBc8KIf+
- Gj+/UBmrigNl8pioG004aF0ixbod9iOC7JA==
-X-ME-Sender: <xms:UnplYr6wEC-ZlHM9g09oqtdMUuo9Zute0X9hrMBbrGG-igyu2c4k9g>
- <xme:UnplYg4RBARiMRvsJAiHk8jNjjwA41oEB4L5qyQN8MbMqJuBivS5lkK8JDSzxmG95
- UNm-RtKpvDzApMzUg>
-X-ME-Received: <xmr:UnplYicvVjFHTVPGihGVAAG_-Zhu2vf33b2pEJV0FNMz8D_xGvSxba86g7g96yxZdG3BU3MWysh7dp2TvHM2zdWXDC8FNyegVvl649CWSK1lSBTGBACbN1AFZmcqzsHlU8MqiQ>
-X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvfedrtdelgddutdefucetufdoteggodetrfdotf
+ 1650817620; x=1650904020; bh=jSAQioVCfjpv/SLyFbyb4J2+q2O/sEhXHaA
+ /OKfch5E=; b=t0JVulGjxI4PsCXNuXNVbyincET5yoEBeY/yYSnzub+xXUAq65R
+ hbVuiYd/SBTWe8sd0IPP/3ayZdWyvFNFDu8zP3T0RTVrWsP+MTR64qY420tNhMA3
+ Ek3XOtS4apzSWqbG6vYFJ+oe4/8znt4tpOhZUb6FIBSm7zE+mAWvd+EZdh1Zx8+j
+ W7zukWCtyq36fL4sxVoiwtZE/SvY0krtkctcvn/vtY2zSl0HsOjBXKp+Vn3uUtGp
+ J7UtxM7OP5C0JTqblS9UxVhAFFZqYUs5NNbNxTglEwj2tgm/ZrgDCDOwKEwq5qhm
+ my6RF94vjKLfpCNG7lJx8WfjGmnvLZCT+jw==
+X-ME-Sender: <xms:U3plYjB7FB0exoC0CwYNxAE5m8h3h44KS4xEETiWTP25PQRWl7IYdA>
+ <xme:U3plYpivm0CR2oHO8iT3Y1j_Wzy2IY1ILk101Cg1lyeJE62NCliBBwjRObEqGpREw
+ GIo336d6cr2m8ZGyQ>
+X-ME-Received: <xmr:U3plYumrjAm0NRi98tmGAFY2cmC5nNHG6ON9Eoq2ofEhOtETgr0YtIZnpX-NpIkaU29EXAr646SKnnsYdsJ9zoj9KXJowBNZJA8Omb8c1xpb5xpyuy3MsRbLba_JlIhmaHQOUQ>
+X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvfedrtdelgddutddvucetufdoteggodetrfdotf
  fvucfrrhhofhhilhgvmecuhfgrshhtofgrihhlpdfqfgfvpdfurfetoffkrfgpnffqhgen
  uceurghilhhouhhtmecufedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmne
  cujfgurhephffvvefufffkofgjfhgggfestdekredtredttdenucfhrhhomhepufgrmhhu
  vghlucfjohhllhgrnhguuceoshgrmhhuvghlsehshhholhhlrghnugdrohhrgheqnecugg
  ftrfgrthhtvghrnhepudekteeuudehtdelteevgfduvddvjefhfedulefgudevgeeghefg
- udefiedtveetnecuvehluhhsthgvrhfuihiivgepudenucfrrghrrghmpehmrghilhhfrh
+ udefiedtveetnecuvehluhhsthgvrhfuihiivgepgeenucfrrghrrghmpehmrghilhhfrh
  homhepshgrmhhuvghlsehshhholhhlrghnugdrohhrgh
-X-ME-Proxy: <xmx:UnplYsKJ5v6WEg6XvYLu_mMj2cAzXbj8Bc9QP4FvvxFiykESG8WrMg>
- <xmx:UnplYvK3CB9yU0YyAR3BqoARtaZekLQzTckkbs0CuXkCXKkGwjyAcQ>
- <xmx:UnplYlxa-Puuo9yqqeVGEOPgMcd4jQVJSC1uZ3ZyeoizGaUKEAOMkA>
- <xmx:UnplYhy8CZuS8sx4AGOrvt3GQ56kGXQ5qGuc727c-KJAQ6bnanYbPg>
+X-ME-Proxy: <xmx:VHplYlz0B0Hz-b8oEcKPGZyhOuVbZ2MC7Hl_K0tnb7UuS5DLhdRTaA>
+ <xmx:VHplYoR3AR_vn3CkaPDlzCF0dkc0iiiQyVBmymP4PHIhMfnZf8ZJww>
+ <xmx:VHplYoYXl6sb3ozlDQqOyOQt-feduj_REUdPDKEgXYJiHV-5qA55ZQ>
+ <xmx:VHplYsYX2uZZQNc-VKixgQI0wECDG9s-rk13dVftoBrcDd2-CyeRwA>
 Received: by mail.messagingengine.com (Postfix) with ESMTPA; Sun,
- 24 Apr 2022 12:26:57 -0400 (EDT)
+ 24 Apr 2022 12:26:59 -0400 (EDT)
 From: Samuel Holland <samuel@sholland.org>
 To: Chen-Yu Tsai <wens@csie.org>, Jernej Skrabec <jernej.skrabec@gmail.com>,
  Maxime Ripard <mripard@kernel.org>
-Subject: [PATCH v3 12/14] drm/sun4i: Add support for D1 TCON TOP
-Date: Sun, 24 Apr 2022 11:26:30 -0500
-Message-Id: <20220424162633.12369-13-samuel@sholland.org>
+Subject: [PATCH v3 13/14] drm/sun4i: Add support for D1 TCONs
+Date: Sun, 24 Apr 2022 11:26:31 -0500
+Message-Id: <20220424162633.12369-14-samuel@sholland.org>
 X-Mailer: git-send-email 2.35.1
 In-Reply-To: <20220424162633.12369-1-samuel@sholland.org>
 References: <20220424162633.12369-1-samuel@sholland.org>
@@ -90,71 +90,50 @@ Cc: devicetree@vger.kernel.org, Samuel Holland <samuel@sholland.org>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-D1 has a TCON TOP with TCON TV0 and DSI, but no TCON TV1. This puts the
-DSI clock name at index 1 in clock-output-names. Support this by only
-incrementing the index for clocks that are actually supported.
+D1 has a TCON TOP, so its quirks are similar to those for the R40 TCONs.
+While there are some register changes, the part of the TCON TV supported
+by the driver matches the R40 quirks, so that quirks structure can be
+reused. D1 has the first supported TCON LCD with a TCON TOP, so the TCON
+LCD needs a new quirks structure.
+
+D1's TCON LCD hardware supports LVDS; in fact it provides dual-link LVDS
+from a single TCON. However, it comes with a brand new LVDS PHY. Since
+this PHY has not been tested, leave out LVDS driver support for now.
 
 Signed-off-by: Samuel Holland <samuel@sholland.org>
 ---
 
 (no changes since v1)
 
- drivers/gpu/drm/sun4i/sun8i_tcon_top.c | 15 ++++++++++++---
- 1 file changed, 12 insertions(+), 3 deletions(-)
+ drivers/gpu/drm/sun4i/sun4i_tcon.c | 8 ++++++++
+ 1 file changed, 8 insertions(+)
 
-diff --git a/drivers/gpu/drm/sun4i/sun8i_tcon_top.c b/drivers/gpu/drm/sun4i/sun8i_tcon_top.c
-index 1b9b8b48f4a7..da97682b6835 100644
---- a/drivers/gpu/drm/sun4i/sun8i_tcon_top.c
-+++ b/drivers/gpu/drm/sun4i/sun8i_tcon_top.c
-@@ -189,22 +189,23 @@ static int sun8i_tcon_top_bind(struct device *dev, struct device *master,
- 	 * if TVE is active on each TCON TV. If it is, mux should be switched
- 	 * to TVE clock parent.
- 	 */
-+	i = 0;
- 	clk_data->hws[CLK_TCON_TOP_TV0] =
- 		sun8i_tcon_top_register_gate(dev, "tcon-tv0", regs,
- 					     &tcon_top->reg_lock,
--					     TCON_TOP_TCON_TV0_GATE, 0);
-+					     TCON_TOP_TCON_TV0_GATE, i++);
- 
- 	if (quirks->has_tcon_tv1)
- 		clk_data->hws[CLK_TCON_TOP_TV1] =
- 			sun8i_tcon_top_register_gate(dev, "tcon-tv1", regs,
- 						     &tcon_top->reg_lock,
--						     TCON_TOP_TCON_TV1_GATE, 1);
-+						     TCON_TOP_TCON_TV1_GATE, i++);
- 
- 	if (quirks->has_dsi)
- 		clk_data->hws[CLK_TCON_TOP_DSI] =
- 			sun8i_tcon_top_register_gate(dev, "dsi", regs,
- 						     &tcon_top->reg_lock,
--						     TCON_TOP_TCON_DSI_GATE, 2);
-+						     TCON_TOP_TCON_DSI_GATE, i++);
- 
- 	for (i = 0; i < CLK_NUM; i++)
- 		if (IS_ERR(clk_data->hws[i])) {
-@@ -272,6 +273,10 @@ static const struct sun8i_tcon_top_quirks sun8i_r40_tcon_top_quirks = {
- 	.has_dsi	= true,
+diff --git a/drivers/gpu/drm/sun4i/sun4i_tcon.c b/drivers/gpu/drm/sun4i/sun4i_tcon.c
+index 88db2d2a9336..2ee158aaeb9e 100644
+--- a/drivers/gpu/drm/sun4i/sun4i_tcon.c
++++ b/drivers/gpu/drm/sun4i/sun4i_tcon.c
+@@ -1542,6 +1542,12 @@ static const struct sun4i_tcon_quirks sun9i_a80_tcon_tv_quirks = {
+ 	.needs_edp_reset = true,
  };
  
-+static const struct sun8i_tcon_top_quirks sun20i_d1_tcon_top_quirks = {
-+	.has_dsi	= true,
++static const struct sun4i_tcon_quirks sun20i_d1_lcd_quirks = {
++	.has_channel_0		= true,
++	.dclk_min_div		= 1,
++	.set_mux		= sun8i_r40_tcon_tv_set_mux,
 +};
 +
- static const struct sun8i_tcon_top_quirks sun50i_h6_tcon_top_quirks = {
- 	/* Nothing special */
+ /* sun4i_drv uses this list to check if a device node is a TCON */
+ const struct of_device_id sun4i_tcon_of_table[] = {
+ 	{ .compatible = "allwinner,sun4i-a10-tcon", .data = &sun4i_a10_quirks },
+@@ -1559,6 +1565,8 @@ const struct of_device_id sun4i_tcon_of_table[] = {
+ 	{ .compatible = "allwinner,sun8i-v3s-tcon", .data = &sun8i_v3s_quirks },
+ 	{ .compatible = "allwinner,sun9i-a80-tcon-lcd", .data = &sun9i_a80_tcon_lcd_quirks },
+ 	{ .compatible = "allwinner,sun9i-a80-tcon-tv", .data = &sun9i_a80_tcon_tv_quirks },
++	{ .compatible = "allwinner,sun20i-d1-tcon-lcd", .data = &sun20i_d1_lcd_quirks },
++	{ .compatible = "allwinner,sun20i-d1-tcon-tv", .data = &sun8i_r40_tv_quirks },
+ 	{ }
  };
-@@ -282,6 +287,10 @@ const struct of_device_id sun8i_tcon_top_of_table[] = {
- 		.compatible = "allwinner,sun8i-r40-tcon-top",
- 		.data = &sun8i_r40_tcon_top_quirks
- 	},
-+	{
-+		.compatible = "allwinner,sun20i-d1-tcon-top",
-+		.data = &sun20i_d1_tcon_top_quirks
-+	},
- 	{
- 		.compatible = "allwinner,sun50i-h6-tcon-top",
- 		.data = &sun50i_h6_tcon_top_quirks
+ MODULE_DEVICE_TABLE(of, sun4i_tcon_of_table);
 -- 
 2.35.1
 
