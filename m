@@ -2,61 +2,54 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id C316E50D444
-	for <lists+dri-devel@lfdr.de>; Sun, 24 Apr 2022 20:49:04 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 03C0D50D460
+	for <lists+dri-devel@lfdr.de>; Sun, 24 Apr 2022 21:04:38 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id EFCB3112678;
-	Sun, 24 Apr 2022 18:49:01 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 91FE210ED59;
+	Sun, 24 Apr 2022 19:04:35 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 8A18B11266F
- for <dri-devel@lists.freedesktop.org>; Sun, 24 Apr 2022 18:49:00 +0000 (UTC)
-Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
- (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
- (No client certificate requested)
- by dfw.source.kernel.org (Postfix) with ESMTPS id 3B4586124E
- for <dri-devel@lists.freedesktop.org>; Sun, 24 Apr 2022 18:48:58 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 0FEEFC385AE
- for <dri-devel@lists.freedesktop.org>; Sun, 24 Apr 2022 18:48:57 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1650826137;
- bh=ipl3oSa3DODJXFqNROBx1CoqGwslciyjMuC+i+Saf6s=;
- h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
- b=BOkM82fII90m6hiFZrsM+S6NoOx/9JSXO645uDox3wouyvV5cDVRWJxz7xq/cB9au
- LYrBwqxSBkhIKBzBNs0hwtCBHRO1gixAqGnRtxVTd+01UzyFfxHSDne9WN6ttlm+rb
- jcQBniXrkaKqn2jBmZOb15DeGZFcd9PAC8aU0sErmt9X3VJ12+DgM2/0JBOHnN/nNw
- G4IIFddQ3lsrPoLfBPfhYi7wy7+MEYhHtnQkavlIidm5fb5N3XrXiQ6swPnyQws0/W
- CtU43okgiFy2OpjRFiWX3gSYz6BOM2afEEdzeBOnonvAaXEfnmyinRGY3cRVziG/FD
- TihvS5WssHAGA==
-Received: by mail-wm1-f49.google.com with SMTP id
- ay11-20020a05600c1e0b00b0038eb92fa965so11219502wmb.4
- for <dri-devel@lists.freedesktop.org>; Sun, 24 Apr 2022 11:48:56 -0700 (PDT)
-X-Gm-Message-State: AOAM531D6Pi2I5cycvC+EVCPKHQ1qE13fxjW5BBhPCtAO7wPXF4saZYI
- xAKKnbwZsKWlMGUpg9VplSfEwHtX8rvhksINDvc=
-X-Google-Smtp-Source: ABdhPJy0bXzhrJhOMZ1X8kbnkslFxEyAGa0Ih/9fgvnO3mTuzgN7/0kU+dSPN2u/9dZRAXnrV+Nc5ftINsUw3V0d/rc=
-X-Received: by 2002:a05:600c:4e4a:b0:392:88e1:74a7 with SMTP id
- e10-20020a05600c4e4a00b0039288e174a7mr22771106wmq.174.1650826135238; Sun, 24
- Apr 2022 11:48:55 -0700 (PDT)
+Received: from bhuna.collabora.co.uk (bhuna.collabora.co.uk
+ [IPv6:2a00:1098:0:82:1000:25:2eeb:e3e3])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id A91D810ED59
+ for <dri-devel@lists.freedesktop.org>; Sun, 24 Apr 2022 19:04:34 +0000 (UTC)
+Received: from [127.0.0.1] (localhost [127.0.0.1])
+ (Authenticated sender: dmitry.osipenko) with ESMTPSA id 170AB1F40651
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
+ s=mail; t=1650827073;
+ bh=/Sq0CgadNuKu1m8WARXcI6mIVI1F3TUPMPGhne2Iyi8=;
+ h=From:To:Cc:Subject:Date:From;
+ b=QWNdN5/pw9aLq+SCp3c0MrHRjCBixX3rhMd6asCvkBIaSKHsp/qrmHo1ldjcvbkC1
+ Lq9OGxlt82ZlUovwn8pBHIqt1UOoQLl7RicPC4TmzwZjH5jmWspLhYbevor4iTrWJ1
+ sow0uNYDyKVuR0cOcHnZvi/NY2PbDopQaXwyQN1Q0P/b/p78yrWvImZ6Od3TfENJmq
+ Qo3zCRyxkM2DheDNTgB1+ftety2Ny2vrXxUHQCcfVV371vycdvE9OpBCyy/4vU5lNz
+ T97r/iX+xVpIkFh1E4c6Z9GoxfUC6W4BPmSdwTtdbzTaUB1fxVy5wcfOGL2PWqWZ0L
+ RODI2AfCANO8w==
+From: Dmitry Osipenko <dmitry.osipenko@collabora.com>
+To: David Airlie <airlied@linux.ie>, Gerd Hoffmann <kraxel@redhat.com>,
+ Gurchetan Singh <gurchetansingh@chromium.org>,
+ Chia-I Wu <olvaffe@gmail.com>, Daniel Vetter <daniel@ffwll.ch>,
+ Daniel Almeida <daniel.almeida@collabora.com>,
+ Gert Wollny <gert.wollny@collabora.com>,
+ Gustavo Padovan <gustavo.padovan@collabora.com>,
+ Daniel Stone <daniel@fooishbar.org>,
+ Tomeu Vizoso <tomeu.vizoso@collabora.com>,
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+ Maxime Ripard <mripard@kernel.org>,
+ Thomas Zimmermann <tzimmermann@suse.de>, Rob Herring <robh@kernel.org>,
+ Steven Price <steven.price@arm.com>,
+ Alyssa Rosenzweig <alyssa.rosenzweig@collabora.com>,
+ Rob Clark <robdclark@gmail.com>, Emil Velikov <emil.l.velikov@gmail.com>,
+ Robin Murphy <robin.murphy@arm.com>, Qiang Yu <yuq825@gmail.com>,
+ Sumit Semwal <sumit.semwal@linaro.org>,
+ =?UTF-8?q?Christian=20K=C3=B6nig?= <christian.koenig@amd.com>
+Subject: [PATCH v5 00/17] Add generic memory shrinker to VirtIO-GPU and
+ Panfrost DRM drivers
+Date: Sun, 24 Apr 2022 22:04:07 +0300
+Message-Id: <20220424190424.540501-1-dmitry.osipenko@collabora.com>
+X-Mailer: git-send-email 2.35.1
 MIME-Version: 1.0
-References: <20220419163810.2118169-1-arnd@kernel.org>
- <20220422170530.GA2338209@roeck-us.net>
- <CAK8P3a3V=qxUqYT3Yt=dpXVv58-Y+HVi952wO6D4LPN5NNphGA@mail.gmail.com>
- <8b36d3a4-ec85-2f9f-e4b7-734d8ddd3d8f@roeck-us.net>
- <CAK8P3a0R9cpEb1d2=e9KnGSbi_uRv48RWfCu_J4DDak_cGZSuw@mail.gmail.com>
- <20220422234150.GA3442771@roeck-us.net>
- <CAK8P3a3qZdEqnJ2nTOKwDMossngOgCpEvZq4cQMPQjSsUoU=6g@mail.gmail.com>
- <3b4046ed-fd75-13ea-fac3-06469172806c@roeck-us.net>
- <CAK8P3a1LzEG1vo+5nMrnL3TOMcbSKJ3u=StcfY8dajV2raUBjA@mail.gmail.com>
- <3df135a2-17f5-d6c6-b4a8-e1a60e254297@roeck-us.net>
-In-Reply-To: <3df135a2-17f5-d6c6-b4a8-e1a60e254297@roeck-us.net>
-From: Arnd Bergmann <arnd@kernel.org>
-Date: Sun, 24 Apr 2022 20:48:39 +0200
-X-Gmail-Original-Message-ID: <CAK8P3a2EHMQPN4ny9sXXuReFG0jN0hyRV7h9v_AR_0pqpOU41w@mail.gmail.com>
-Message-ID: <CAK8P3a2EHMQPN4ny9sXXuReFG0jN0hyRV7h9v_AR_0pqpOU41w@mail.gmail.com>
-Subject: Re: [PATCH v2 00/48] ARM: PXA multiplatform support
-To: Guenter Roeck <linux@roeck-us.net>
-Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -69,80 +62,205 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Ulf Hansson <ulf.hansson@linaro.org>, USB list <linux-usb@vger.kernel.org>,
- "Rafael J. Wysocki" <rafael@kernel.org>,
- Viresh Kumar <viresh.kumar@linaro.org>,
- Linux Fbdev development list <linux-fbdev@vger.kernel.org>,
- Dominik Brodowski <linux@dominikbrodowski.net>,
- "open list:BROADCOM NVRAM DRIVER" <linux-mips@vger.kernel.org>,
- IDE-ML <linux-ide@vger.kernel.org>, linux-mtd <linux-mtd@lists.infradead.org>,
- Tomas Cech <sleep_walker@suse.com>, Robert Jarzmik <robert.jarzmik@free.fr>,
- linux-clk <linux-clk@vger.kernel.org>, linux-leds@vger.kernel.org,
- linux-rtc@vger.kernel.org, Helge Deller <deller@gmx.de>,
- Marek Vasut <marek.vasut@gmail.com>, Paul Parsons <lost.distance@yahoo.com>,
- Sergey Lapin <slapin@ossfans.org>, Arnd Bergmann <arnd@arndb.de>,
- Linux PM list <linux-pm@vger.kernel.org>,
- "open list:HID CORE LAYER" <linux-input@vger.kernel.org>,
- Haojian Zhuang <haojian.zhuang@gmail.com>, Lubomir Rintel <lkundrak@v3.sk>,
- Mark Brown <broonie@kernel.org>, dri-devel <dri-devel@lists.freedesktop.org>,
- Linux ARM <linux-arm-kernel@lists.infradead.org>,
- Thomas Bogendoerfer <tsbogend@alpha.franken.de>,
- Stephen Boyd <sboyd@kernel.org>, patches@opensource.cirrus.com,
- Dmitry Torokhov <dmitry.torokhov@gmail.com>,
- linux-mmc <linux-mmc@vger.kernel.org>,
- Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
- Michael Turquette <mturquette@baylibre.com>,
- ALSA Development Mailing List <alsa-devel@alsa-project.org>,
- Daniel Mack <daniel@zonque.org>
+Cc: Dmitry Osipenko <digetx@gmail.com>,
+ Dmitry Osipenko <dmitry.osipenko@collabora.com>, linux-kernel@vger.kernel.org,
+ dri-devel@lists.freedesktop.org, virtualization@lists.linux-foundation.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Sun, Apr 24, 2022 at 5:28 PM Guenter Roeck <linux@roeck-us.net> wrote:
-> On 4/24/22 01:52, Arnd Bergmann wrote:
-> > On Sun, Apr 24, 2022 at 4:09 AM Guenter Roeck <linux@roeck-us.net> wrote:
-> > into the defconfig file, otherwise the multiplatform target defaults to
-> > an ARMv7 instead of ARMv5 build. For an OMAP15xx as in the SX1,
-> > you also need to enable CONFIG_ARCH_MULTI_V4T.
-> >
-> > This is slightly unfortunate, but I don't see any way to avoid it, and the
-> > modified defconfig will still work fine with older kernel trees.
-> >
->
-> Yes, that works. I changed it in my configuration.
+Hello,
 
-Ok, great!. I managed to boot the z2 machine with PCMCIA support
-and it gets around the issue with my patch, correctly detecting the
-CF card.
+This patchset introduces memory shrinker for the VirtIO-GPU DRM driver.
+During OOM, the shrinker will release BOs that are marked as "not needed"
+by userspace using the new madvise IOCTL, it will also evict idling BOs
+to SWAP. The userspace in this case is the Mesa VirGL driver, it will mark
+the cached BOs as "not needed", allowing kernel driver to release memory
+of the cached shmem BOs on lowmem situations, preventing OOM kills.
 
-> >>> One thing I keep having to apply myself is this snippet:
-> >>>
-> >>> diff --git a/arch/arm/mm/proc-arm925.S b/arch/arm/mm/proc-arm925.S
-> >>> index 0bfad62ea858..87c695703580 100644
-> >>> --- a/arch/arm/mm/proc-arm925.S
-> >>> +++ b/arch/arm/mm/proc-arm925.S
-> >>> @@ -441,7 +441,6 @@ __arm925_setup:
-> >>>
-> >>>    #ifdef CONFIG_CPU_DCACHE_WRITETHROUGH
-> >>>           mov     r0, #4                          @ disable write-back
-> >>> on caches explicitly
-> >>> -       mcr     p15, 7, r0, c15, c0, 0
-> >>>    #endif
-> >>
-> >> it does not have CONFIG_CPU_DCACHE_WRITETHROUGH enabled.
-> >
-> > Maybe it was disabled explicitly for the sx1_defconfig because of this
-> > bug. I would think that this is required for actual sx1 hardware because the
-> > option is default-enabled for ARM925T, and that CPU core is exclusively
-> > used in OMAP15xx.
-> >
->
-> That looks like a bug in qemu. ARM925T instruction support is limited to V4T
-> instructions. qemu doesn't have explicit 5T support. It is either V4T
-> or V5.
+This patchset adds memory purging and eviction support to VirtIO-GPU driver.
 
-I'm not entirely sure what instructions the CPU supports, but Linux
-treats it as ARMv4T as well, and qemu supports some of the 925t
-specific instructions as "ti925t" in target/arm/cpu_tcg.c, it just seems
-it's missing some others.
+The Panfrost driver is switched to use generic memory shrinker. Eviction
+support will come later on, after resolving the blocker bug in Panfrost.
 
-      Arnd
+This patchset also includes couple improvements and fixes for various
+minor things that I found while was working on the shrinker.
+
+The Mesa and IGT patches will be kept on hold until this kernel series
+will be approved and merged.
+
+This patchset was tested using Qemu and crosvm, including both cases of
+IOMMU off/on.
+
+Mesa: https://gitlab.freedesktop.org/digetx/mesa/-/commits/virgl-madvise
+IGT:  https://gitlab.freedesktop.org/digetx/igt-gpu-tools/-/commits/virtio-madvise
+      https://gitlab.freedesktop.org/digetx/igt-gpu-tools/-/commits/panfrost-madvise
+
+Changelog:
+
+v5: - Added new for-stable patch "drm/panfrost: Put mapping instead of
+      shmem obj on panfrost_mmu_map_fault_addr() error" that corrects GEM's
+      refcounting in case of error.
+
+    - The drm_gem_shmem_v[un]map() now takes a separate vmap_lock for
+      imported GEMs to avoid recursive locking of DMA reservations.
+      This addresses v4 comment from Thomas Zimmermann about the potential
+      deadlocking of vmapping.
+
+    - Added ack from Thomas Zimmermann to "drm/shmem-helper: Correct
+      doc-comment of drm_gem_shmem_get_sg_table()" patch.
+
+    - Dropped explicit shmem states from the generic shrinker patch as
+      was requested by Thomas Zimmermann.
+
+    - Improved variable names and comments of the generic shrinker code.
+
+    - Extended drm_gem_shmem_print_info() with the shrinker-state info in
+      the "drm/virtio: Support memory shrinking" patch.
+
+    - Moved evict()/swap_in()/purge() callbacks from drm_gem_object_funcs
+      to drm_gem_shmem_object in the generic shrinker patch, for more
+      consistency.
+
+    - Corrected bisectability of the patches that was broken in v4
+      by accident.
+
+    - The virtio_gpu_plane_prepare_fb() now uses drm_gem_shmem_pin() instead
+      of drm_gem_shmem_set_unpurgeable_and_unevictable() and does it only for
+      shmem BOs in the "drm/virtio: Support memory shrinking" patch.
+
+    - Made more functions private to drm_gem_shmem_helper.c as was requested
+      by Thomas Zimmermann. This minimizes number of the public shmem helpers.
+
+v4: - Corrected minor W=1 warnings reported by kernel test robot for v3.
+
+    - Renamed DRM_GEM_SHMEM_PAGES_STATE_ACTIVE/INACTIVE to PINNED/UNPINNED,
+      for more clarity.
+
+v3: - Hardened shrinker's count() with usage of READ_ONCE() since we don't
+      use atomic type for counting and technically compiler is free to
+      re-fetch counter's variable.
+
+    - "Correct drm_gem_shmem_get_sg_table() error handling" now uses
+      PTR_ERR_OR_ZERO(), fixing typo that was made in v2.
+
+    - Removed obsoleted shrinker from the Panfrost driver, which I missed to
+      do in v2 by accident and Alyssa Rosenzweig managed to notice it.
+
+    - CCed stable kernels in all patches that make fixes, even the minor ones,
+      like was suggested by Emil Velikov and added his r-b to the patches.
+
+    - Added t-b from Steven Price to the Panfrost's shrinker patch.
+
+    - Corrected doc-comment of drm_gem_shmem_object.madv, like was suggested
+      by Steven Price. Comment now says that madv=1 means "object is purged"
+      instead of saying that value is unused.
+
+    - Added more doc-comments to the new shmem shrinker API.
+
+    - The "Improve DMA API usage for shmem BOs" patch got more improvements
+      by removing the obsoleted drm_dev_set_unique() quirk and its comment.
+
+    - Added patch that makes Virtio-GPU driver to use common dev_is_pci()
+      helper, which was suggested by Robin Murphy.
+
+    - Added new "drm/shmem-helper: Take GEM reservation lock instead of
+      drm_gem_shmem locks" patch, which was suggested by Daniel Vetter.
+
+    - Added new "drm/virtio: Simplify error handling of
+      virtio_gpu_object_create()" patch.
+
+    - Improved "Correct doc-comment of drm_gem_shmem_get_sg_table()" patch,
+      like was suggested by Daniel Vetter, by saying that function returns
+      ERR_PTR() and not errno.
+
+    - virtio_gpu_purge_object() is fenced properly now, turned out
+      virtio_gpu_notify() doesn't do fencing as I was supposing before.
+      Stress testing of memory eviction revealed that.
+
+    - Added new patch that corrects virtio_gpu_plane_cleanup_fb() to use
+      appropriate atomic plane state.
+
+    - SHMEM shrinker got eviction support.
+
+    - VirtIO-GPU driver now supports memory eviction. It's enabled for a
+      non-blob GEMs only, i.e. for VirGL. The blobs don't support dynamic
+      attaching/detaching of guest's memory, so it's not trivial to enable
+      them.
+
+    - Added patch that removes obsoleted drm_gem_shmem_purge()
+
+    - Added patch that makes drm_gem_shmem_get_pages() private.
+
+    - Added patch that fixes lockup on dma_resv_reserve_fences() error.
+
+v2: - Improved shrinker by using a more fine-grained locking to reduce
+      contention during scan of objects and dropped locking from the
+      'counting' callback by tracking count of shrinkable pages. This
+      was suggested by Rob Clark in the comment to v1.
+
+    - Factored out common shrinker code into drm_gem_shmem_helper.c
+      and switched Panfrost driver to use the new common memory shrinker.
+      This was proposed by Thomas Zimmermann in his prototype series that
+      he shared with us in the comment to v1. Note that I only compile-tested
+      the Panfrost driver.
+
+    - Shrinker now takes object_name_lock during scan to prevent racing
+      with dma-buf exporting.
+
+    - Shrinker now takes vmap_lock during scan to prevent racing with shmem
+      vmap/unmap code.
+
+    - Added "Correct doc-comment of drm_gem_shmem_get_sg_table()" patch,
+      which I sent out previously as a standalone change, since the
+      drm_gem_shmem_helper.c is now touched by this patchset anyways and
+      it doesn't hurt to group all the patches together.
+
+Dmitry Osipenko (17):
+  drm/panfrost: Put mapping instead of shmem obj on
+    panfrost_mmu_map_fault_addr() error
+  drm/virtio: Correct drm_gem_shmem_get_sg_table() error handling
+  drm/virtio: Check whether transferred 2D BO is shmem
+  drm/virtio: Unlock reservations on virtio_gpu_object_shmem_init()
+    error
+  drm/virtio: Unlock reservations on dma_resv_reserve_fences() error
+  drm/virtio: Use appropriate atomic state in
+    virtio_gpu_plane_cleanup_fb()
+  drm/virtio: Simplify error handling of virtio_gpu_object_create()
+  drm/virtio: Improve DMA API usage for shmem BOs
+  drm/virtio: Use dev_is_pci()
+  drm/shmem-helper: Correct doc-comment of drm_gem_shmem_get_sg_table()
+  drm/shmem-helper: Take reservation lock instead of drm_gem_shmem locks
+  drm/shmem-helper: Add generic memory shrinker
+  drm/virtio: Support memory shrinking
+  drm/panfrost: Switch to generic memory shrinker
+  drm/shmem-helper: Make drm_gem_shmem_get_pages() private
+  drm/shmem-helper: Make drm_gem_shmem_is_purgeable() private
+  drm/shmem-helper: Remove drm_gem_shmem_purge_locked()
+
+ drivers/gpu/drm/drm_gem_shmem_helper.c        | 800 ++++++++++++++++--
+ drivers/gpu/drm/lima/lima_gem.c               |   8 +-
+ drivers/gpu/drm/panfrost/Makefile             |   1 -
+ drivers/gpu/drm/panfrost/panfrost_device.h    |   4 -
+ drivers/gpu/drm/panfrost/panfrost_drv.c       |  19 +-
+ drivers/gpu/drm/panfrost/panfrost_gem.c       |  28 +-
+ drivers/gpu/drm/panfrost/panfrost_gem.h       |   9 -
+ .../gpu/drm/panfrost/panfrost_gem_shrinker.c  | 122 ---
+ drivers/gpu/drm/panfrost/panfrost_job.c       |  18 +-
+ drivers/gpu/drm/panfrost/panfrost_mmu.c       |  17 +-
+ drivers/gpu/drm/virtio/virtgpu_drv.c          |  53 +-
+ drivers/gpu/drm/virtio/virtgpu_drv.h          |  20 +-
+ drivers/gpu/drm/virtio/virtgpu_gem.c          |  50 +-
+ drivers/gpu/drm/virtio/virtgpu_ioctl.c        |  37 +
+ drivers/gpu/drm/virtio/virtgpu_kms.c          |  16 +-
+ drivers/gpu/drm/virtio/virtgpu_object.c       | 195 +++--
+ drivers/gpu/drm/virtio/virtgpu_plane.c        |  28 +-
+ drivers/gpu/drm/virtio/virtgpu_vq.c           |  55 +-
+ include/drm/drm_device.h                      |   4 +
+ include/drm/drm_gem_shmem_helper.h            | 127 ++-
+ include/uapi/drm/virtgpu_drm.h                |  14 +
+ 21 files changed, 1227 insertions(+), 398 deletions(-)
+ delete mode 100644 drivers/gpu/drm/panfrost/panfrost_gem_shrinker.c
+
+-- 
+2.35.1
+
