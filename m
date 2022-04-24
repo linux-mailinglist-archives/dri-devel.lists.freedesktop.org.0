@@ -1,29 +1,29 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id DE55C50D465
-	for <lists+dri-devel@lfdr.de>; Sun, 24 Apr 2022 21:04:54 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 5852850D468
+	for <lists+dri-devel@lfdr.de>; Sun, 24 Apr 2022 21:05:03 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id F096410FE10;
-	Sun, 24 Apr 2022 19:04:48 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id BB7A810F726;
+	Sun, 24 Apr 2022 19:04:59 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from bhuna.collabora.co.uk (bhuna.collabora.co.uk [46.235.227.227])
- by gabe.freedesktop.org (Postfix) with ESMTPS id C108710EFA7
- for <dri-devel@lists.freedesktop.org>; Sun, 24 Apr 2022 19:04:42 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 07EAC10F039
+ for <dri-devel@lists.freedesktop.org>; Sun, 24 Apr 2022 19:04:45 +0000 (UTC)
 Received: from [127.0.0.1] (localhost [127.0.0.1])
- (Authenticated sender: dmitry.osipenko) with ESMTPSA id C660E1F44DAE
+ (Authenticated sender: dmitry.osipenko) with ESMTPSA id EF6FF1F44DAF
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
- s=mail; t=1650827081;
- bh=isO7PTUeJcDVmAZaS1b0iVVGgXGziCi18eZsBem42Os=;
+ s=mail; t=1650827083;
+ bh=CWqvGLqMByoxyOodrX4VDvjOrVtokLSbI2qbVKtiRlE=;
  h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
- b=oZybRU4m8FYNIo5lOZbKiof+CBL6PMKvYiaXlkBXxadri70VDv5ZujwQay1V4WdBr
- oEfe5JqWvrVhdfl4nzE7GXsOCszDf9nkWi48reEV0/g3KO/Pl0SGqHL7SvLsNdoLAZ
- 0I0GYwDAepeF+GzAefgBCtos/S2xCODh+mknyQEEzyVxyVLebTGuIk2EzMzkSE3EzD
- LZRMi1Cf3/U7d6JDI2OyxeU9pJHoaCZB2gySXA7Uw+vy6yCV6JepnghHbHtdUtpryI
- gGNcBe5EKy326KwMzk2VXQO2zfj+f5Pfcph2XGGLqZjniLwtXJRD8Vq+Oaz2cIIpAn
- U1iMat256jMkw==
+ b=n3gZ507nUEjkxanjrfYvMbPGr6luevyfyePOFTjRbSczf/vG2/OiLqYVnzhLLB3GH
+ DHROBA12hQWd1djtC4QjK9/ZwtJPKJpXqyTiApJO2+kEHymyLUNXN7dmdf9g41VHCi
+ L25WmQ+XFuQFO5WWrqAib6wm7VIZ/Tx189f1bsKblSGKsT1tP1SH109gLw0LUYFESr
+ lr//oA/cxhGISAAr2rL2pU7n6Enj5+sFILtNq3VCK5yk7OQaG9LwSec+CSQa8/uOwp
+ sJPSM5TpcivojKpayK7ZE71AT7HmWJrE22KCHV7qPeUUPikdSmKashSkU6oWr/LRYf
+ 4SPJQGhwg48JQ==
 From: Dmitry Osipenko <dmitry.osipenko@collabora.com>
 To: David Airlie <airlied@linux.ie>, Gerd Hoffmann <kraxel@redhat.com>,
  Gurchetan Singh <gurchetansingh@chromium.org>,
@@ -42,10 +42,10 @@ To: David Airlie <airlied@linux.ie>, Gerd Hoffmann <kraxel@redhat.com>,
  Robin Murphy <robin.murphy@arm.com>, Qiang Yu <yuq825@gmail.com>,
  Sumit Semwal <sumit.semwal@linaro.org>,
  =?UTF-8?q?Christian=20K=C3=B6nig?= <christian.koenig@amd.com>
-Subject: [PATCH v5 04/17] drm/virtio: Unlock reservations on
- virtio_gpu_object_shmem_init() error
-Date: Sun, 24 Apr 2022 22:04:11 +0300
-Message-Id: <20220424190424.540501-5-dmitry.osipenko@collabora.com>
+Subject: [PATCH v5 05/17] drm/virtio: Unlock reservations on
+ dma_resv_reserve_fences() error
+Date: Sun, 24 Apr 2022 22:04:12 +0300
+Message-Id: <20220424190424.540501-6-dmitry.osipenko@collabora.com>
 X-Mailer: git-send-email 2.35.1
 In-Reply-To: <20220424190424.540501-1-dmitry.osipenko@collabora.com>
 References: <20220424190424.540501-1-dmitry.osipenko@collabora.com>
@@ -69,30 +69,31 @@ Cc: Dmitry Osipenko <digetx@gmail.com>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Unlock reservations in the error code path of virtio_gpu_object_create()
-to silence debug warning splat produced by ww_mutex_destroy(&obj->lock)
-when GEM is released with the held lock.
+Unlock reservations on dma_resv_reserve_fences() error to fix recursive
+locking of the reservations when this error happens.
 
 Cc: stable@vger.kernel.org
-Reviewed-by: Emil Velikov <emil.l.velikov@gmail.com>
 Signed-off-by: Dmitry Osipenko <dmitry.osipenko@collabora.com>
 ---
- drivers/gpu/drm/virtio/virtgpu_object.c | 2 ++
- 1 file changed, 2 insertions(+)
+ drivers/gpu/drm/virtio/virtgpu_gem.c | 4 +++-
+ 1 file changed, 3 insertions(+), 1 deletion(-)
 
-diff --git a/drivers/gpu/drm/virtio/virtgpu_object.c b/drivers/gpu/drm/virtio/virtgpu_object.c
-index 3d0c8d4d1c20..21c19cdedce0 100644
---- a/drivers/gpu/drm/virtio/virtgpu_object.c
-+++ b/drivers/gpu/drm/virtio/virtgpu_object.c
-@@ -250,6 +250,8 @@ int virtio_gpu_object_create(struct virtio_gpu_device *vgdev,
+diff --git a/drivers/gpu/drm/virtio/virtgpu_gem.c b/drivers/gpu/drm/virtio/virtgpu_gem.c
+index 580a78809836..7db48d17ee3a 100644
+--- a/drivers/gpu/drm/virtio/virtgpu_gem.c
++++ b/drivers/gpu/drm/virtio/virtgpu_gem.c
+@@ -228,8 +228,10 @@ int virtio_gpu_array_lock_resv(struct virtio_gpu_object_array *objs)
  
- 	ret = virtio_gpu_object_shmem_init(vgdev, bo, &ents, &nents);
- 	if (ret != 0) {
-+		if (fence)
+ 	for (i = 0; i < objs->nents; ++i) {
+ 		ret = dma_resv_reserve_fences(objs->objs[i]->resv, 1);
+-		if (ret)
++		if (ret) {
 +			virtio_gpu_array_unlock_resv(objs);
- 		virtio_gpu_array_put_free(objs);
- 		virtio_gpu_free_object(&shmem_obj->base);
- 		return ret;
+ 			return ret;
++		}
+ 	}
+ 	return ret;
+ }
 -- 
 2.35.1
 
