@@ -2,63 +2,61 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 41FC850D42E
-	for <lists+dri-devel@lfdr.de>; Sun, 24 Apr 2022 20:35:19 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id C316E50D444
+	for <lists+dri-devel@lfdr.de>; Sun, 24 Apr 2022 20:49:04 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 7F06810EF08;
-	Sun, 24 Apr 2022 18:35:16 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id EFCB3112678;
+	Sun, 24 Apr 2022 18:49:01 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-wr1-x429.google.com (mail-wr1-x429.google.com
- [IPv6:2a00:1450:4864:20::429])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 86F1B10EF08
- for <dri-devel@lists.freedesktop.org>; Sun, 24 Apr 2022 18:35:15 +0000 (UTC)
-Received: by mail-wr1-x429.google.com with SMTP id j15so4712291wrb.2
- for <dri-devel@lists.freedesktop.org>; Sun, 24 Apr 2022 11:35:15 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
- h=from:to:cc:subject:date:message-id:mime-version
- :content-transfer-encoding;
- bh=349XFvM6t5JIYAzx/9jOMxcyDaGjEC8LJK6aTpUuIMg=;
- b=RximP2STPGTwfaqjRxZ9EaaaNjMB9VPGv+TMWWc1/rmkTluj14SIJeUnLigW7BRhQr
- rQ14jBCh4dcxCWQ6LqpUPREv+cZcMEaAXPK/hUnSQsZc80brfS7dEmf3YifOui/TYODB
- g3Hp0CvlGf8WOeRe74ibnhSu3ltQ/0c3Wg0/hbHCpRX/4rDdnef3b585uAUWHRatJGN1
- aGnQaOJb6XxO+nhaKYETvz3XXDtWmzu/vLfeXFI2IzhiPKLEYmiF88e+UQAKqpfNQzjT
- iFWKUcRFQDyjOLxJUo8HOz1XDUQxohHfqWj9KxVDr1CXx+JkFKtIXIZehGa9r/w3DtBk
- N4NQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
- :content-transfer-encoding;
- bh=349XFvM6t5JIYAzx/9jOMxcyDaGjEC8LJK6aTpUuIMg=;
- b=fhp1quGonrbWAe6kb3+NJerPGPMJNNAFKJOmyHhHUKTWx2575Xf+i46N7TUwJYgmpb
- zTETNlS58R9hFuRwAxT2I7dK6TyuCyu8olAm9OUZvJOpx7oeTJvOjpETjUdFZxICOXXD
- tQmVrq7+Ukkg+53FWHWkaNt9r2Q5R5coNGCxCHxGM9Tk5p/2vGsMaibs62v75CY6VgYa
- 0oYqjQ0+4wvRF7PAvrcB6SYdXz8d7HSkiaixUC8mtdm0lh7R5A1OEPn+fyd6JBHrIroG
- HAtPtOWajYj8kvqjXwX2ckB4d8u34w7nIKwK2vm4WXThms5HOpiFk08ilCKIbGJUxLKj
- H0Sw==
-X-Gm-Message-State: AOAM5310WXjuc3mSk4Fv3ckF+4CYxhYDsYvufcc1pbkZ1rGMnu2WBDzs
- njqAFU2U9ySPYHfF6ORFenc=
-X-Google-Smtp-Source: ABdhPJxhKw8Ct/ffWL61Xq54wzGLON3haioc9TF0zqvEjFjtlU0qST5fxv3vVDHYSfiWPgNc6TwUCA==
-X-Received: by 2002:a05:6000:1789:b0:20a:9f94:1620 with SMTP id
- e9-20020a056000178900b0020a9f941620mr11858147wrg.640.1650825314073; 
- Sun, 24 Apr 2022 11:35:14 -0700 (PDT)
-Received: from localhost (cpc154979-craw9-2-0-cust193.16-3.cable.virginm.net.
- [80.193.200.194]) by smtp.gmail.com with ESMTPSA id
- d2-20020a056000186200b0020a7be3f1d2sm8442792wri.53.2022.04.24.11.35.13
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Sun, 24 Apr 2022 11:35:13 -0700 (PDT)
-From: Colin Ian King <colin.i.king@gmail.com>
-To: Emma Anholt <emma@anholt.net>, David Airlie <airlied@linux.ie>,
- Daniel Vetter <daniel@ffwll.ch>, Melissa Wen <mwen@igalia.com>,
- "Juan A . Suarez Romero" <jasuarez@igalia.com>,
- dri-devel@lists.freedesktop.org
-Subject: [PATCH] drm/v3d: Fix null pointer dereference of pointer perfmon
-Date: Sun, 24 Apr 2022 19:35:12 +0100
-Message-Id: <20220424183512.1365683-1-colin.i.king@gmail.com>
-X-Mailer: git-send-email 2.35.1
+Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 8A18B11266F
+ for <dri-devel@lists.freedesktop.org>; Sun, 24 Apr 2022 18:49:00 +0000 (UTC)
+Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
+ (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+ (No client certificate requested)
+ by dfw.source.kernel.org (Postfix) with ESMTPS id 3B4586124E
+ for <dri-devel@lists.freedesktop.org>; Sun, 24 Apr 2022 18:48:58 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 0FEEFC385AE
+ for <dri-devel@lists.freedesktop.org>; Sun, 24 Apr 2022 18:48:57 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+ s=k20201202; t=1650826137;
+ bh=ipl3oSa3DODJXFqNROBx1CoqGwslciyjMuC+i+Saf6s=;
+ h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
+ b=BOkM82fII90m6hiFZrsM+S6NoOx/9JSXO645uDox3wouyvV5cDVRWJxz7xq/cB9au
+ LYrBwqxSBkhIKBzBNs0hwtCBHRO1gixAqGnRtxVTd+01UzyFfxHSDne9WN6ttlm+rb
+ jcQBniXrkaKqn2jBmZOb15DeGZFcd9PAC8aU0sErmt9X3VJ12+DgM2/0JBOHnN/nNw
+ G4IIFddQ3lsrPoLfBPfhYi7wy7+MEYhHtnQkavlIidm5fb5N3XrXiQ6swPnyQws0/W
+ CtU43okgiFy2OpjRFiWX3gSYz6BOM2afEEdzeBOnonvAaXEfnmyinRGY3cRVziG/FD
+ TihvS5WssHAGA==
+Received: by mail-wm1-f49.google.com with SMTP id
+ ay11-20020a05600c1e0b00b0038eb92fa965so11219502wmb.4
+ for <dri-devel@lists.freedesktop.org>; Sun, 24 Apr 2022 11:48:56 -0700 (PDT)
+X-Gm-Message-State: AOAM531D6Pi2I5cycvC+EVCPKHQ1qE13fxjW5BBhPCtAO7wPXF4saZYI
+ xAKKnbwZsKWlMGUpg9VplSfEwHtX8rvhksINDvc=
+X-Google-Smtp-Source: ABdhPJy0bXzhrJhOMZ1X8kbnkslFxEyAGa0Ih/9fgvnO3mTuzgN7/0kU+dSPN2u/9dZRAXnrV+Nc5ftINsUw3V0d/rc=
+X-Received: by 2002:a05:600c:4e4a:b0:392:88e1:74a7 with SMTP id
+ e10-20020a05600c4e4a00b0039288e174a7mr22771106wmq.174.1650826135238; Sun, 24
+ Apr 2022 11:48:55 -0700 (PDT)
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 8bit
+References: <20220419163810.2118169-1-arnd@kernel.org>
+ <20220422170530.GA2338209@roeck-us.net>
+ <CAK8P3a3V=qxUqYT3Yt=dpXVv58-Y+HVi952wO6D4LPN5NNphGA@mail.gmail.com>
+ <8b36d3a4-ec85-2f9f-e4b7-734d8ddd3d8f@roeck-us.net>
+ <CAK8P3a0R9cpEb1d2=e9KnGSbi_uRv48RWfCu_J4DDak_cGZSuw@mail.gmail.com>
+ <20220422234150.GA3442771@roeck-us.net>
+ <CAK8P3a3qZdEqnJ2nTOKwDMossngOgCpEvZq4cQMPQjSsUoU=6g@mail.gmail.com>
+ <3b4046ed-fd75-13ea-fac3-06469172806c@roeck-us.net>
+ <CAK8P3a1LzEG1vo+5nMrnL3TOMcbSKJ3u=StcfY8dajV2raUBjA@mail.gmail.com>
+ <3df135a2-17f5-d6c6-b4a8-e1a60e254297@roeck-us.net>
+In-Reply-To: <3df135a2-17f5-d6c6-b4a8-e1a60e254297@roeck-us.net>
+From: Arnd Bergmann <arnd@kernel.org>
+Date: Sun, 24 Apr 2022 20:48:39 +0200
+X-Gmail-Original-Message-ID: <CAK8P3a2EHMQPN4ny9sXXuReFG0jN0hyRV7h9v_AR_0pqpOU41w@mail.gmail.com>
+Message-ID: <CAK8P3a2EHMQPN4ny9sXXuReFG0jN0hyRV7h9v_AR_0pqpOU41w@mail.gmail.com>
+Subject: Re: [PATCH v2 00/48] ARM: PXA multiplatform support
+To: Guenter Roeck <linux@roeck-us.net>
+Content-Type: text/plain; charset="UTF-8"
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -71,38 +69,80 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: kernel-janitors@vger.kernel.org, linux-kernel@vger.kernel.org
+Cc: Ulf Hansson <ulf.hansson@linaro.org>, USB list <linux-usb@vger.kernel.org>,
+ "Rafael J. Wysocki" <rafael@kernel.org>,
+ Viresh Kumar <viresh.kumar@linaro.org>,
+ Linux Fbdev development list <linux-fbdev@vger.kernel.org>,
+ Dominik Brodowski <linux@dominikbrodowski.net>,
+ "open list:BROADCOM NVRAM DRIVER" <linux-mips@vger.kernel.org>,
+ IDE-ML <linux-ide@vger.kernel.org>, linux-mtd <linux-mtd@lists.infradead.org>,
+ Tomas Cech <sleep_walker@suse.com>, Robert Jarzmik <robert.jarzmik@free.fr>,
+ linux-clk <linux-clk@vger.kernel.org>, linux-leds@vger.kernel.org,
+ linux-rtc@vger.kernel.org, Helge Deller <deller@gmx.de>,
+ Marek Vasut <marek.vasut@gmail.com>, Paul Parsons <lost.distance@yahoo.com>,
+ Sergey Lapin <slapin@ossfans.org>, Arnd Bergmann <arnd@arndb.de>,
+ Linux PM list <linux-pm@vger.kernel.org>,
+ "open list:HID CORE LAYER" <linux-input@vger.kernel.org>,
+ Haojian Zhuang <haojian.zhuang@gmail.com>, Lubomir Rintel <lkundrak@v3.sk>,
+ Mark Brown <broonie@kernel.org>, dri-devel <dri-devel@lists.freedesktop.org>,
+ Linux ARM <linux-arm-kernel@lists.infradead.org>,
+ Thomas Bogendoerfer <tsbogend@alpha.franken.de>,
+ Stephen Boyd <sboyd@kernel.org>, patches@opensource.cirrus.com,
+ Dmitry Torokhov <dmitry.torokhov@gmail.com>,
+ linux-mmc <linux-mmc@vger.kernel.org>,
+ Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
+ Michael Turquette <mturquette@baylibre.com>,
+ ALSA Development Mailing List <alsa-devel@alsa-project.org>,
+ Daniel Mack <daniel@zonque.org>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-In the unlikely event that pointer perfmon is null the WARN_ON return path
-occurs after the pointer has already been deferenced. Fix this by only
-dereferencing perfmon after it has been null checked.
+On Sun, Apr 24, 2022 at 5:28 PM Guenter Roeck <linux@roeck-us.net> wrote:
+> On 4/24/22 01:52, Arnd Bergmann wrote:
+> > On Sun, Apr 24, 2022 at 4:09 AM Guenter Roeck <linux@roeck-us.net> wrote:
+> > into the defconfig file, otherwise the multiplatform target defaults to
+> > an ARMv7 instead of ARMv5 build. For an OMAP15xx as in the SX1,
+> > you also need to enable CONFIG_ARCH_MULTI_V4T.
+> >
+> > This is slightly unfortunate, but I don't see any way to avoid it, and the
+> > modified defconfig will still work fine with older kernel trees.
+> >
+>
+> Yes, that works. I changed it in my configuration.
 
-Fixes: 26a4dc29b74a ("drm/v3d: Expose performance counters to userspace")
-Signed-off-by: Colin Ian King <colin.i.king@gmail.com>
----
- drivers/gpu/drm/v3d/v3d_perfmon.c | 3 ++-
- 1 file changed, 2 insertions(+), 1 deletion(-)
+Ok, great!. I managed to boot the z2 machine with PCMCIA support
+and it gets around the issue with my patch, correctly detecting the
+CF card.
 
-diff --git a/drivers/gpu/drm/v3d/v3d_perfmon.c b/drivers/gpu/drm/v3d/v3d_perfmon.c
-index 0288ef063513..f6a88abccc7d 100644
---- a/drivers/gpu/drm/v3d/v3d_perfmon.c
-+++ b/drivers/gpu/drm/v3d/v3d_perfmon.c
-@@ -25,11 +25,12 @@ void v3d_perfmon_start(struct v3d_dev *v3d, struct v3d_perfmon *perfmon)
- {
- 	unsigned int i;
- 	u32 mask;
--	u8 ncounters = perfmon->ncounters;
-+	u8 ncounters;
- 
- 	if (WARN_ON_ONCE(!perfmon || v3d->active_perfmon))
- 		return;
- 
-+	ncounters = perfmon->ncounters;
- 	mask = GENMASK(ncounters - 1, 0);
- 
- 	for (i = 0; i < ncounters; i++) {
--- 
-2.35.1
+> >>> One thing I keep having to apply myself is this snippet:
+> >>>
+> >>> diff --git a/arch/arm/mm/proc-arm925.S b/arch/arm/mm/proc-arm925.S
+> >>> index 0bfad62ea858..87c695703580 100644
+> >>> --- a/arch/arm/mm/proc-arm925.S
+> >>> +++ b/arch/arm/mm/proc-arm925.S
+> >>> @@ -441,7 +441,6 @@ __arm925_setup:
+> >>>
+> >>>    #ifdef CONFIG_CPU_DCACHE_WRITETHROUGH
+> >>>           mov     r0, #4                          @ disable write-back
+> >>> on caches explicitly
+> >>> -       mcr     p15, 7, r0, c15, c0, 0
+> >>>    #endif
+> >>
+> >> it does not have CONFIG_CPU_DCACHE_WRITETHROUGH enabled.
+> >
+> > Maybe it was disabled explicitly for the sx1_defconfig because of this
+> > bug. I would think that this is required for actual sx1 hardware because the
+> > option is default-enabled for ARM925T, and that CPU core is exclusively
+> > used in OMAP15xx.
+> >
+>
+> That looks like a bug in qemu. ARM925T instruction support is limited to V4T
+> instructions. qemu doesn't have explicit 5T support. It is either V4T
+> or V5.
 
+I'm not entirely sure what instructions the CPU supports, but Linux
+treats it as ARMv4T as well, and qemu supports some of the 925t
+specific instructions as "ti925t" in target/arm/cpu_tcg.c, it just seems
+it's missing some others.
+
+      Arnd
