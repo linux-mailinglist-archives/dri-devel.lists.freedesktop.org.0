@@ -1,60 +1,61 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 875CD50D08A
-	for <lists+dri-devel@lfdr.de>; Sun, 24 Apr 2022 10:49:05 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 5527850D0A7
+	for <lists+dri-devel@lfdr.de>; Sun, 24 Apr 2022 10:53:06 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 7044D10E737;
-	Sun, 24 Apr 2022 08:49:03 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 1166F10EF90;
+	Sun, 24 Apr 2022 08:53:02 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mailgw01.mediatek.com (unknown [60.244.123.138])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 455CD10E737
- for <dri-devel@lists.freedesktop.org>; Sun, 24 Apr 2022 08:49:02 +0000 (UTC)
-X-UUID: 58c3337572634859b511d0737ffff2b5-20220424
-X-CID-P-RULE: Release_Ham
-X-CID-O-INFO: VERSION:1.1.4, REQID:4471379d-6c90-4a20-9a38-c1f0b68a0825, OB:0,
- LO
- B:0,IP:0,URL:0,TC:0,Content:0,EDM:0,RT:0,SF:0,FILE:0,RULE:Release_Ham,ACTI
- ON:release,TS:0
-X-CID-META: VersionHash:faefae9, CLOUDID:e0b9bcf0-da02-41b4-b6df-58f4ccd36682,
- C
- OID:IGNORED,Recheck:0,SF:nil,TC:nil,Content:0,EDM:-3,File:nil,QS:0,BEC:nil
-X-UUID: 58c3337572634859b511d0737ffff2b5-20220424
-Received: from mtkexhb01.mediatek.inc [(172.21.101.102)] by
- mailgw01.mediatek.com (envelope-from <jason-jh.lin@mediatek.com>)
- (Generic MTA with TLSv1.2 ECDHE-RSA-AES256-SHA384 256/256)
- with ESMTP id 605543717; Sun, 24 Apr 2022 16:48:56 +0800
-Received: from mtkexhb02.mediatek.inc (172.21.101.103) by
- mtkmbs10n2.mediatek.inc (172.21.101.183) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_CBC_SHA384) id 15.2.792.3; 
- Sun, 24 Apr 2022 16:48:55 +0800
-Received: from mtkcas11.mediatek.inc (172.21.101.40) by mtkexhb02.mediatek.inc
- (172.21.101.103) with Microsoft SMTP Server (TLS) id 15.0.1497.2;
- Sun, 24 Apr 2022 16:48:54 +0800
-Received: from mtksdccf07 (172.21.84.99) by mtkcas11.mediatek.inc
- (172.21.101.73) with Microsoft SMTP Server id 15.0.1497.2 via Frontend
- Transport; Sun, 24 Apr 2022 16:48:54 +0800
-Message-ID: <a0b90deb9d30fe331493f5fbe8e67a97b698fe49.camel@mediatek.com>
-Subject: Re: [PATCH v20 2/8] soc: mediatek: add mtk-mutex support for mt8195
- vdosys0
-From: Jason-JH Lin <jason-jh.lin@mediatek.com>
-To: Matthias Brugger <matthias.bgg@gmail.com>, CK Hu <ck.hu@mediatek.com>,
- Chun-Kuang Hu <chunkuang.hu@kernel.org>, AngeloGioacchino Del Regno
- <angelogioacchino.delregno@collabora.com>
-Date: Sun, 24 Apr 2022 16:48:54 +0800
-In-Reply-To: <074d8c26-3fb7-bee1-d559-7ce96f583fee@gmail.com>
-References: <20220419094143.9561-1-jason-jh.lin@mediatek.com>
- <20220419094143.9561-3-jason-jh.lin@mediatek.com>
- <82cc5e6900138e13ed9d75c6d2a42c6d7afc1959.camel@mediatek.com>
- <c3de9ccb314316b5296b115dd3e9f8171577489f.camel@mediatek.com>
- <074d8c26-3fb7-bee1-d559-7ce96f583fee@gmail.com>
-Content-Type: text/plain; charset="UTF-8"
-X-Mailer: Evolution 3.28.5-0ubuntu0.18.04.2 
+Received: from ams.source.kernel.org (ams.source.kernel.org
+ [IPv6:2604:1380:4601:e00::1])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id A6BC810EF90
+ for <dri-devel@lists.freedesktop.org>; Sun, 24 Apr 2022 08:53:00 +0000 (UTC)
+Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
+ (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+ (No client certificate requested)
+ by ams.source.kernel.org (Postfix) with ESMTPS id 8F9EEB80DDD
+ for <dri-devel@lists.freedesktop.org>; Sun, 24 Apr 2022 08:52:57 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 6C84AC385BC
+ for <dri-devel@lists.freedesktop.org>; Sun, 24 Apr 2022 08:52:54 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+ s=k20201202; t=1650790374;
+ bh=VAIS5RCD9giYhrbO5Hac6FpKh7We3My7pPHwyo54GI8=;
+ h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
+ b=IlEUmxA7Upi/jZvwszo5tWXIcRM0EAFPHSwLNctN9Y58IvDFrOEsiQajUPCMH7Jvj
+ ffMGYU3Am1eiuRxan/QEzVGZIU4/nZDiD4I9qyEihHwFs57oDBFuZkioK/aaH82E/D
+ cafv1RJevyhRqAmfrOprDhzFhC5PdErVyqMypulLdZQgaDPE2OydWwwQC4+yvZmqbe
+ cKfnbHuByU+9iCxgB+9sW82eJWEWf6s1YXcaaJOKEOR6FMrQj52g4nRCkxQaL9o5DE
+ hRPjDgGmvEn6UrlX0oEzCHgEu1vF7VzmeRUbf/lMOXmL9MVlUAWdZQ45wrK1ipQsiq
+ 1YeW3uUpHXgig==
+Received: by mail-wm1-f46.google.com with SMTP id
+ u9-20020a05600c00c900b00393e729e655so1158965wmm.0
+ for <dri-devel@lists.freedesktop.org>; Sun, 24 Apr 2022 01:52:54 -0700 (PDT)
+X-Gm-Message-State: AOAM533qwmE8TfFJ3YeG34Q1BEMFoVZs0ReMklzwUnjZZpCbK56IFM+b
+ DXlAhmsDj2v4wQcXV4dCQtnVXBdGB/QFbOwEuWo=
+X-Google-Smtp-Source: ABdhPJwWxQyFReh1xxhP87snsCB/AySgR1dxVTGy6Gpi4+Uz2ZZzeirzOgx8S2o3MdbrdLkLr/78d+DVsl9RCKwJ5Q8=
+X-Received: by 2002:a1c:f219:0:b0:38c:782c:3bb with SMTP id
+ s25-20020a1cf219000000b0038c782c03bbmr20347843wmc.94.1650790372472; Sun, 24
+ Apr 2022 01:52:52 -0700 (PDT)
 MIME-Version: 1.0
-Content-Transfer-Encoding: 7bit
-X-MTK: N
+References: <20220419163810.2118169-1-arnd@kernel.org>
+ <20220422170530.GA2338209@roeck-us.net>
+ <CAK8P3a3V=qxUqYT3Yt=dpXVv58-Y+HVi952wO6D4LPN5NNphGA@mail.gmail.com>
+ <8b36d3a4-ec85-2f9f-e4b7-734d8ddd3d8f@roeck-us.net>
+ <CAK8P3a0R9cpEb1d2=e9KnGSbi_uRv48RWfCu_J4DDak_cGZSuw@mail.gmail.com>
+ <20220422234150.GA3442771@roeck-us.net>
+ <CAK8P3a3qZdEqnJ2nTOKwDMossngOgCpEvZq4cQMPQjSsUoU=6g@mail.gmail.com>
+ <3b4046ed-fd75-13ea-fac3-06469172806c@roeck-us.net>
+In-Reply-To: <3b4046ed-fd75-13ea-fac3-06469172806c@roeck-us.net>
+From: Arnd Bergmann <arnd@kernel.org>
+Date: Sun, 24 Apr 2022 10:52:36 +0200
+X-Gmail-Original-Message-ID: <CAK8P3a1LzEG1vo+5nMrnL3TOMcbSKJ3u=StcfY8dajV2raUBjA@mail.gmail.com>
+Message-ID: <CAK8P3a1LzEG1vo+5nMrnL3TOMcbSKJ3u=StcfY8dajV2raUBjA@mail.gmail.com>
+Subject: Re: [PATCH v2 00/48] ARM: PXA multiplatform support
+To: Guenter Roeck <linux@roeck-us.net>
+Content-Type: text/plain; charset="UTF-8"
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -67,92 +68,84 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: devicetree@vger.kernel.org, Singo Chang <singo.chang@mediatek.com>,
- linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
- Project_Global_Chrome_Upstream_Group@mediatek.com,
- Nancy Lin <nancy.lin@mediatek.com>, linux-mediatek@lists.infradead.org,
- linux-arm-kernel@lists.infradead.org
+Cc: Ulf Hansson <ulf.hansson@linaro.org>, USB list <linux-usb@vger.kernel.org>,
+ "Rafael J. Wysocki" <rafael@kernel.org>,
+ Viresh Kumar <viresh.kumar@linaro.org>,
+ Linux Fbdev development list <linux-fbdev@vger.kernel.org>,
+ Dominik Brodowski <linux@dominikbrodowski.net>,
+ "open list:BROADCOM NVRAM DRIVER" <linux-mips@vger.kernel.org>,
+ IDE-ML <linux-ide@vger.kernel.org>, linux-mtd <linux-mtd@lists.infradead.org>,
+ Tomas Cech <sleep_walker@suse.com>, Robert Jarzmik <robert.jarzmik@free.fr>,
+ linux-clk <linux-clk@vger.kernel.org>, linux-leds@vger.kernel.org,
+ linux-rtc@vger.kernel.org, Helge Deller <deller@gmx.de>,
+ Marek Vasut <marek.vasut@gmail.com>, Paul Parsons <lost.distance@yahoo.com>,
+ Sergey Lapin <slapin@ossfans.org>, Arnd Bergmann <arnd@arndb.de>,
+ Linux PM list <linux-pm@vger.kernel.org>,
+ "open list:HID CORE LAYER" <linux-input@vger.kernel.org>,
+ Haojian Zhuang <haojian.zhuang@gmail.com>, Lubomir Rintel <lkundrak@v3.sk>,
+ Mark Brown <broonie@kernel.org>, dri-devel <dri-devel@lists.freedesktop.org>,
+ Linux ARM <linux-arm-kernel@lists.infradead.org>,
+ Thomas Bogendoerfer <tsbogend@alpha.franken.de>,
+ Stephen Boyd <sboyd@kernel.org>, patches@opensource.cirrus.com,
+ Dmitry Torokhov <dmitry.torokhov@gmail.com>,
+ linux-mmc <linux-mmc@vger.kernel.org>,
+ Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
+ Michael Turquette <mturquette@baylibre.com>,
+ ALSA Development Mailing List <alsa-devel@alsa-project.org>,
+ Daniel Mack <daniel@zonque.org>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi Matthias,
+On Sun, Apr 24, 2022 at 4:09 AM Guenter Roeck <linux@roeck-us.net> wrote:
+> On 4/23/22 12:55, Arnd Bergmann wrote:
+> > On Sat, Apr 23, 2022 at 1:41 AM Guenter Roeck <linux@roeck-us.net> wrote:
+> >> On Sat, Apr 23, 2022 at 12:04:31AM +0200, Arnd Bergmann wrote:
+> >
+> > Odd, I can't reproduce this at all. Do you get any console output at
+> > all for this?
+> >
+> > Is this the plain omap1_defconfig, or something else?
+> >
+>
+> No, it is my own sx1 specific configuration.
+>
+> https://github.com/groeck/linux-build-test/blob/master/rootfs/arm/qemu_sx1_defconfig
+>
+> I don't recall where I got it from but ...
 
-Thanks for the reviews.
+Ok, that explains it, thanks!
 
-On Fri, 2022-04-22 at 14:31 +0200, Matthias Brugger wrote:
-> 
-> On 22/04/2022 04:32, Jason-JH Lin wrote:
-> > Hi CK,
-> > 
-> > Thanks for the reviews.
-> > 
-> > On Thu, 2022-04-21 at 14:50 +0800, CK Hu wrote:
-> > > Hi, Jason:
-> > > 
-> > > On Tue, 2022-04-19 at 17:41 +0800, jason-jh.lin wrote:
-> > > > Add mtk-mutex support for mt8195 vdosys0.
-> > > > 
-> > > > Signed-off-by: jason-jh.lin <jason-jh.lin@mediatek.com>
-> > > > Acked-by: AngeloGioacchino Del Regno <
-> > > > angelogioacchino.delregno@collabora.com>
-> > > > Tested-by: Fei Shao <fshao@chromium.org>
-> > > > ---
-> > > >   drivers/soc/mediatek/mtk-mutex.c | 87
-> > > > ++++++++++++++++++++++++++++++--
-> > > >   1 file changed, 84 insertions(+), 3 deletions(-)
-> > > > 
-> > > > diff --git a/drivers/soc/mediatek/mtk-mutex.c
-> > > > b/drivers/soc/mediatek/mtk-mutex.c
-> > > > index aaf8fc1abb43..729ee88035ed 100644
-> > > > --- a/drivers/soc/mediatek/mtk-mutex.c
-> > > > +++ b/drivers/soc/mediatek/mtk-mutex.c
-> > > > @@ -17,6 +17,9 @@
-> > > >   #define MT8183_MUTEX0_MOD0			0x30
-> > > >   #define MT8183_MUTEX0_SOF0			0x2c
-> > > >   
-> > > > +#define MT8195_DISP_MUTEX0_MOD0			0x30
-> > > > +#define MT8195_DISP_MUTEX0_SOF			0x2c
-> > > 
-> > > This is identical to mt8183, so use mt8183 one instead of
-> > > creating
-> > > new
-> > > one.
-> > > 
-> > > Regards,
-> > > CK
-> > > 
-> > 
-> > I'll fix this in the next version.
-> 
-> Please send this as a follow-up fix on top of:
-> 
-https://urldefense.com/v3/__https://git.kernel.org/pub/scm/linux/kernel/git/matthias.bgg/linux.git/log/?h=v5.18-next*soc__;Lw!!CTRNKA9wMg0ARbw!0QzNDaejnt54R86SL628fJ9p2BKTOmYBnoz6uPz9X8WsHXeQi3rqPAXmPFRBcw1vEtUu$
->  
-> 
-> Regards,
-> Matthias
-> 
-OK, I'll send the fix-up patch soon.
+I fixed all the defconfig files that come with the kernel, but for your own
+ones you have to add
 
-Regards,
-Jason-JH.Lin
+# CONFIG_ARCH_MULTI_V7 is not set
 
-> > 
-> > Regards,
-> > Jason-JH.Lin.
-> > > > 
-> > > >   
-> > > > +static const struct mtk_mutex_data mt8195_mutex_driver_data =
-> > > > {
-> > > > +	.mutex_mod = mt8195_mutex_mod,
-> > > > +	.mutex_sof = mt8195_mutex_sof,
-> > > > +	.mutex_mod_reg = MT8195_DISP_MUTEX0_MOD0,
-> > > > +	.mutex_sof_reg = MT8195_DISP_MUTEX0_SOF,
-> > > > +};
-> > > > +
-> > > >   
-> > > 
-> > > 
--- 
-Jason-JH Lin <jason-jh.lin@mediatek.com>
+into the defconfig file, otherwise the multiplatform target defaults to
+an ARMv7 instead of ARMv5 build. For an OMAP15xx as in the SX1,
+you also need to enable CONFIG_ARCH_MULTI_V4T.
 
+This is slightly unfortunate, but I don't see any way to avoid it, and the
+modified defconfig will still work fine with older kernel trees.
+
+> > One thing I keep having to apply myself is this snippet:
+> >
+> > diff --git a/arch/arm/mm/proc-arm925.S b/arch/arm/mm/proc-arm925.S
+> > index 0bfad62ea858..87c695703580 100644
+> > --- a/arch/arm/mm/proc-arm925.S
+> > +++ b/arch/arm/mm/proc-arm925.S
+> > @@ -441,7 +441,6 @@ __arm925_setup:
+> >
+> >   #ifdef CONFIG_CPU_DCACHE_WRITETHROUGH
+> >          mov     r0, #4                          @ disable write-back
+> > on caches explicitly
+> > -       mcr     p15, 7, r0, c15, c0, 0
+> >   #endif
+>
+> it does not have CONFIG_CPU_DCACHE_WRITETHROUGH enabled.
+
+Maybe it was disabled explicitly for the sx1_defconfig because of this
+bug. I would think that this is required for actual sx1 hardware because the
+option is default-enabled for ARM925T, and that CPU core is exclusively
+used in OMAP15xx.
+
+        Arnd
