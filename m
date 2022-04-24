@@ -2,62 +2,35 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7D2CC50D53B
-	for <lists+dri-devel@lfdr.de>; Sun, 24 Apr 2022 23:12:31 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id C461150D554
+	for <lists+dri-devel@lfdr.de>; Sun, 24 Apr 2022 23:46:05 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 1575710EC18;
-	Sun, 24 Apr 2022 21:12:26 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id CF24210F310;
+	Sun, 24 Apr 2022 21:46:01 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from alexa-out-sd-01.qualcomm.com (alexa-out-sd-01.qualcomm.com
- [199.106.114.38])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 5F13510EC18;
- Sun, 24 Apr 2022 21:12:25 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=quicinc.com; i=@quicinc.com; q=dns/txt; s=qcdkim;
- t=1650834745; x=1682370745;
- h=message-id:date:mime-version:subject:to:cc:references:
- from:in-reply-to:content-transfer-encoding;
- bh=Fp3OVGLpVx2q1xpLsuLWIWCNeUqZbIQxXB78YoRNjAA=;
- b=WD+guPxHNXyXJpYgdgNcdm3JealHyrR8hBZw5+Dd88N+T1nDZcRFVBI/
- t0iLDgNnhOZ/eLY9/ppd5+hT4eRuoyuuqQxiiX1y9cXioL75y4kKMPh09
- QzQwqmTDsjNuMQeKxdd6TSLKNBsK5q3fvT4+ezSC903w5sLQDn1xTi6WX 0=;
-Received: from unknown (HELO ironmsg02-sd.qualcomm.com) ([10.53.140.142])
- by alexa-out-sd-01.qualcomm.com with ESMTP; 24 Apr 2022 14:12:24 -0700
-X-QCInternal: smtphost
-Received: from nasanex01c.na.qualcomm.com ([10.47.97.222])
- by ironmsg02-sd.qualcomm.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 24 Apr 2022 14:12:24 -0700
-Received: from nalasex01a.na.qualcomm.com (10.47.209.196) by
- nasanex01c.na.qualcomm.com (10.47.97.222) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.2.986.22; Sun, 24 Apr 2022 14:12:23 -0700
-Received: from [10.111.165.107] (10.80.80.8) by nalasex01a.na.qualcomm.com
- (10.47.209.196) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.986.22; Sun, 24 Apr
- 2022 14:12:21 -0700
-Message-ID: <578f1db0-a32b-4379-2621-92f67daa85c0@quicinc.com>
-Date: Sun, 24 Apr 2022 14:12:19 -0700
+Received: from perceval.ideasonboard.com (perceval.ideasonboard.com
+ [213.167.242.64])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id F2BC310E6C5
+ for <dri-devel@lists.freedesktop.org>; Sun, 24 Apr 2022 21:45:59 +0000 (UTC)
+Received: from pendragon.lan (62-78-145-57.bb.dnainternet.fi [62.78.145.57])
+ by perceval.ideasonboard.com (Postfix) with ESMTPSA id B328D3E4;
+ Sun, 24 Apr 2022 23:45:57 +0200 (CEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
+ s=mail; t=1650836758;
+ bh=HP/4VVMe7mFL/ZoeHnc2effDXGYBRTFy5xqZKO3Noxk=;
+ h=From:To:Cc:Subject:Date:From;
+ b=CZ+Bq3srTB9S76kFFjiLp6aHP4izfMAuHI/ZfwFk3OgwBkpfG3K+jcK6IEuZuiOr/
+ DQCSvSDV1L5Z55QkNeyiz9a6KwulX994s+TwG4OdBdoJCAjQ/OYf9tt3B0DOIFGwy+
+ HXyZronuaVwR6OZ8jqNi/zKx20rv2Df5RTDjumIU=
+From: Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>
+To: dri-devel@lists.freedesktop.org
+Subject: [PATCH] drm: rcar-du: Drop file name from comment header blocks
+Date: Mon, 25 Apr 2022 00:45:50 +0300
+Message-Id: <20220424214550.19463-1-laurent.pinchart+renesas@ideasonboard.com>
+X-Mailer: git-send-email 2.35.1
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:91.0) Gecko/20100101
- Thunderbird/91.6.2
-Subject: Re: [Freedreno] [PATCH v4 03/20] drm: allow real encoder to be passed
- for drm_writeback_connector
-Content-Language: en-US
-To: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-References: <1650668815-7048-1-git-send-email-quic_abhinavk@quicinc.com>
- <1650668815-7048-4-git-send-email-quic_abhinavk@quicinc.com>
- <YmVj0/XouEH0yfmT@pendragon.ideasonboard.com>
- <e924e564-e4e2-1f8f-4f5f-1cc0bc2084c3@quicinc.com>
- <eac58ee5-14ae-a9df-364d-d46da1fd64c3@quicinc.com>
- <YmWsLWnRa43hQ2sg@pendragon.ideasonboard.com>
-From: Abhinav Kumar <quic_abhinavk@quicinc.com>
-In-Reply-To: <YmWsLWnRa43hQ2sg@pendragon.ideasonboard.com>
-Content-Type: text/plain; charset="UTF-8"; format=flowed
 Content-Transfer-Encoding: 8bit
-X-Originating-IP: [10.80.80.8]
-X-ClientProxiedBy: nasanex01b.na.qualcomm.com (10.46.141.250) To
- nalasex01a.na.qualcomm.com (10.47.209.196)
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -70,203 +43,337 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: markyacoub@chromium.org, liviu.dudau@arm.com,
- dri-devel@lists.freedesktop.org, swboyd@chromium.org, seanpaul@chromium.org,
- dmitry.baryshkov@linaro.org, quic_jesszhan@quicinc.com,
- quic_aravindh@quicinc.com, freedreno@lists.freedesktop.org
+Cc: linux-renesas-soc@vger.kernel.org, Biju Das <biju.das.jz@bp.renesas.com>,
+ Geert Uytterhoeven <geert@linux-m68k.org>,
+ Kieran Bingham <kieran.bingham@ideasonboard.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi Laurent
+The comment blocks at the beginning of each file have a one-line
+summary description of the file that includes the file name. While the
+description is useful, the file name only creates opportunities for
+mistakes (as seen in rcar_du_vsp.c) without any added value. Drop it.
 
-On 4/24/2022 12:59 PM, Laurent Pinchart wrote:
-> Hi Abhinav,
-> 
-> On Sun, Apr 24, 2022 at 11:23:20AM -0700, Abhinav Kumar wrote:
->> On 4/24/2022 11:12 AM, Abhinav Kumar wrote:
->>> On 4/24/2022 7:50 AM, Laurent Pinchart wrote:
->>>> On Fri, Apr 22, 2022 at 04:06:38PM -0700, Abhinav Kumar wrote:
->>>>> For some vendor driver implementations, display hardware can
->>>>> be shared between the encoder used for writeback and the physical
->>>>> display.
->>>>>
->>>>> In addition resources such as clocks and interrupts can
->>>>> also be shared between writeback and the real encoder.
->>>>>
->>>>> To accommodate such vendor drivers and hardware, allow
->>>>> real encoder to be passed for drm_writeback_connector.
->>>>>
->>>>> For existing clients, drm_writeback_connector_init() will use
->>>>> an internal_encoder under the hood and hence no changes will
->>>>> be needed.
->>>>>
->>>>> changes in v7:
->>>>>      - move this change before the vc4 change in the series
->>>>>        to minimize the changes to vendor drivers in drm core
->>>>>        changes
->>>>
->>>> Why is this needed ? The drm_writeback_connector functions don't need
->>>> the drm_encoder after drm_writeback_connector_init() (or
->>>> drm_writeback_connector_init_with_encoder()) returns.
->>>>
->>>
->>> Sorry I didnt follow this comment. This change log is incorrect, so
->>> after changing the previous change in the series and modifying this, no
->>> further changes are needed to vc4, so I decided to drop the next change.
->>> So this change log is incorrect. I can remove this.
->>>
->>> Is that what you meant?
->>
->> So till the previous change, the only user of
->> drm_writeback_connector_init_with_encoder() was
->> drm_writeback_connector_init() which was still passing its own
->> internal_encoder.
->>
->> Only if the wb_connector->encoder is changed to a pointer, other vendor
->> drivers can pass their own encoder to
->> drm_writeback_connector_init_with_encoder().
->>
->> Hence you are right that drm_writeback_connector functions do not need
->> drm_encoder after init() returns, but till this change is done, other
->> vendor drivers cannot directly call
->> drm_writeback_connector_init_with_encoder() because the encoder will not
->> be valid till then.
-> 
-> Users of drm_writeback_connector_init_with_encoder() handle the encoder
-> themselves, they can simply ignore drm_writeback_connector.encoder. The
-> documentation of the encoder field needs to be updated though (I'd do so
-> in the previous patch), to clearly mention that the field is valid only
-> when using drm_writeback_connector_init(), not when calling
-> drm_writeback_connector_init_with_encoder().
+Reported-by: Biju Das <biju.das.jz@bp.renesas.com>
+Suggested-by: Geert Uytterhoeven <geert@linux-m68k.org>
+Signed-off-by: Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>
+---
+ drivers/gpu/drm/rcar-du/rcar_cmm.c           | 2 +-
+ drivers/gpu/drm/rcar-du/rcar_cmm.h           | 2 +-
+ drivers/gpu/drm/rcar-du/rcar_du_crtc.c       | 2 +-
+ drivers/gpu/drm/rcar-du/rcar_du_crtc.h       | 2 +-
+ drivers/gpu/drm/rcar-du/rcar_du_drv.c        | 2 +-
+ drivers/gpu/drm/rcar-du/rcar_du_drv.h        | 2 +-
+ drivers/gpu/drm/rcar-du/rcar_du_encoder.c    | 2 +-
+ drivers/gpu/drm/rcar-du/rcar_du_encoder.h    | 2 +-
+ drivers/gpu/drm/rcar-du/rcar_du_group.c      | 2 +-
+ drivers/gpu/drm/rcar-du/rcar_du_group.h      | 2 +-
+ drivers/gpu/drm/rcar-du/rcar_du_kms.c        | 2 +-
+ drivers/gpu/drm/rcar-du/rcar_du_kms.h        | 2 +-
+ drivers/gpu/drm/rcar-du/rcar_du_plane.c      | 2 +-
+ drivers/gpu/drm/rcar-du/rcar_du_plane.h      | 2 +-
+ drivers/gpu/drm/rcar-du/rcar_du_regs.h       | 2 +-
+ drivers/gpu/drm/rcar-du/rcar_du_vsp.c        | 2 +-
+ drivers/gpu/drm/rcar-du/rcar_du_vsp.h        | 2 +-
+ drivers/gpu/drm/rcar-du/rcar_du_writeback.c  | 2 +-
+ drivers/gpu/drm/rcar-du/rcar_du_writeback.h  | 2 +-
+ drivers/gpu/drm/rcar-du/rcar_lvds.c          | 2 +-
+ drivers/gpu/drm/rcar-du/rcar_lvds.h          | 2 +-
+ drivers/gpu/drm/rcar-du/rcar_lvds_regs.h     | 2 +-
+ drivers/gpu/drm/rcar-du/rcar_mipi_dsi.c      | 2 +-
+ drivers/gpu/drm/rcar-du/rcar_mipi_dsi_regs.h | 2 +-
+ 24 files changed, 24 insertions(+), 24 deletions(-)
 
-So you are suggesting to drop this change and just update the doc in 
-patch 2?
+diff --git a/drivers/gpu/drm/rcar-du/rcar_cmm.c b/drivers/gpu/drm/rcar-du/rcar_cmm.c
+index 382d53f8a22e..e2a67dda4658 100644
+--- a/drivers/gpu/drm/rcar-du/rcar_cmm.c
++++ b/drivers/gpu/drm/rcar-du/rcar_cmm.c
+@@ -1,6 +1,6 @@
+ // SPDX-License-Identifier: GPL-2.0+
+ /*
+- * rcar_cmm.c -- R-Car Display Unit Color Management Module
++ * R-Car Display Unit Color Management Module
+  *
+  * Copyright (C) 2019 Jacopo Mondi <jacopo+renesas@jmondi.org>
+  */
+diff --git a/drivers/gpu/drm/rcar-du/rcar_cmm.h b/drivers/gpu/drm/rcar-du/rcar_cmm.h
+index b5f7ec6db04a..628072acc98b 100644
+--- a/drivers/gpu/drm/rcar-du/rcar_cmm.h
++++ b/drivers/gpu/drm/rcar-du/rcar_cmm.h
+@@ -1,6 +1,6 @@
+ /* SPDX-License-Identifier: GPL-2.0+ */
+ /*
+- * rcar_cmm.h -- R-Car Display Unit Color Management Module
++ * R-Car Display Unit Color Management Module
+  *
+  * Copyright (C) 2019 Jacopo Mondi <jacopo+renesas@jmondi.org>
+  */
+diff --git a/drivers/gpu/drm/rcar-du/rcar_du_crtc.c b/drivers/gpu/drm/rcar-du/rcar_du_crtc.c
+index 23e1aedf8dc0..621bbccb95d4 100644
+--- a/drivers/gpu/drm/rcar-du/rcar_du_crtc.c
++++ b/drivers/gpu/drm/rcar-du/rcar_du_crtc.c
+@@ -1,6 +1,6 @@
+ // SPDX-License-Identifier: GPL-2.0+
+ /*
+- * rcar_du_crtc.c  --  R-Car Display Unit CRTCs
++ * R-Car Display Unit CRTCs
+  *
+  * Copyright (C) 2013-2015 Renesas Electronics Corporation
+  *
+diff --git a/drivers/gpu/drm/rcar-du/rcar_du_crtc.h b/drivers/gpu/drm/rcar-du/rcar_du_crtc.h
+index 66e8839db708..d0f38a8b3561 100644
+--- a/drivers/gpu/drm/rcar-du/rcar_du_crtc.h
++++ b/drivers/gpu/drm/rcar-du/rcar_du_crtc.h
+@@ -1,6 +1,6 @@
+ /* SPDX-License-Identifier: GPL-2.0+ */
+ /*
+- * rcar_du_crtc.h  --  R-Car Display Unit CRTCs
++ * R-Car Display Unit CRTCs
+  *
+  * Copyright (C) 2013-2015 Renesas Electronics Corporation
+  *
+diff --git a/drivers/gpu/drm/rcar-du/rcar_du_drv.c b/drivers/gpu/drm/rcar-du/rcar_du_drv.c
+index 1bc7325aa356..70d85610d720 100644
+--- a/drivers/gpu/drm/rcar-du/rcar_du_drv.c
++++ b/drivers/gpu/drm/rcar-du/rcar_du_drv.c
+@@ -1,6 +1,6 @@
+ // SPDX-License-Identifier: GPL-2.0+
+ /*
+- * rcar_du_drv.c  --  R-Car Display Unit DRM driver
++ * R-Car Display Unit DRM driver
+  *
+  * Copyright (C) 2013-2015 Renesas Electronics Corporation
+  *
+diff --git a/drivers/gpu/drm/rcar-du/rcar_du_drv.h b/drivers/gpu/drm/rcar-du/rcar_du_drv.h
+index 83530721e373..bfad7775d9a1 100644
+--- a/drivers/gpu/drm/rcar-du/rcar_du_drv.h
++++ b/drivers/gpu/drm/rcar-du/rcar_du_drv.h
+@@ -1,6 +1,6 @@
+ /* SPDX-License-Identifier: GPL-2.0+ */
+ /*
+- * rcar_du_drv.h  --  R-Car Display Unit DRM driver
++ * R-Car Display Unit DRM driver
+  *
+  * Copyright (C) 2013-2015 Renesas Electronics Corporation
+  *
+diff --git a/drivers/gpu/drm/rcar-du/rcar_du_encoder.c b/drivers/gpu/drm/rcar-du/rcar_du_encoder.c
+index 3977aaa1ab5a..bf76a60776bd 100644
+--- a/drivers/gpu/drm/rcar-du/rcar_du_encoder.c
++++ b/drivers/gpu/drm/rcar-du/rcar_du_encoder.c
+@@ -1,6 +1,6 @@
+ // SPDX-License-Identifier: GPL-2.0+
+ /*
+- * rcar_du_encoder.c  --  R-Car Display Unit Encoder
++ * R-Car Display Unit Encoder
+  *
+  * Copyright (C) 2013-2014 Renesas Electronics Corporation
+  *
+diff --git a/drivers/gpu/drm/rcar-du/rcar_du_encoder.h b/drivers/gpu/drm/rcar-du/rcar_du_encoder.h
+index 73560563fb31..e5ec8fbb3979 100644
+--- a/drivers/gpu/drm/rcar-du/rcar_du_encoder.h
++++ b/drivers/gpu/drm/rcar-du/rcar_du_encoder.h
+@@ -1,6 +1,6 @@
+ /* SPDX-License-Identifier: GPL-2.0+ */
+ /*
+- * rcar_du_encoder.h  --  R-Car Display Unit Encoder
++ * R-Car Display Unit Encoder
+  *
+  * Copyright (C) 2013-2014 Renesas Electronics Corporation
+  *
+diff --git a/drivers/gpu/drm/rcar-du/rcar_du_group.c b/drivers/gpu/drm/rcar-du/rcar_du_group.c
+index 8665a1dd2186..1fe8581577ed 100644
+--- a/drivers/gpu/drm/rcar-du/rcar_du_group.c
++++ b/drivers/gpu/drm/rcar-du/rcar_du_group.c
+@@ -1,6 +1,6 @@
+ // SPDX-License-Identifier: GPL-2.0+
+ /*
+- * rcar_du_group.c  --  R-Car Display Unit Channels Pair
++ * R-Car Display Unit Channels Pair
+  *
+  * Copyright (C) 2013-2015 Renesas Electronics Corporation
+  *
+diff --git a/drivers/gpu/drm/rcar-du/rcar_du_group.h b/drivers/gpu/drm/rcar-du/rcar_du_group.h
+index e9906609c635..55649ad86a10 100644
+--- a/drivers/gpu/drm/rcar-du/rcar_du_group.h
++++ b/drivers/gpu/drm/rcar-du/rcar_du_group.h
+@@ -1,6 +1,6 @@
+ /* SPDX-License-Identifier: GPL-2.0+ */
+ /*
+- * rcar_du_group.c  --  R-Car Display Unit Planes and CRTCs Group
++ * R-Car Display Unit Planes and CRTCs Group
+  *
+  * Copyright (C) 2013-2014 Renesas Electronics Corporation
+  *
+diff --git a/drivers/gpu/drm/rcar-du/rcar_du_kms.c b/drivers/gpu/drm/rcar-du/rcar_du_kms.c
+index 190dbb7f15dd..166b2346d8c6 100644
+--- a/drivers/gpu/drm/rcar-du/rcar_du_kms.c
++++ b/drivers/gpu/drm/rcar-du/rcar_du_kms.c
+@@ -1,6 +1,6 @@
+ // SPDX-License-Identifier: GPL-2.0+
+ /*
+- * rcar_du_kms.c  --  R-Car Display Unit Mode Setting
++ * R-Car Display Unit Mode Setting
+  *
+  * Copyright (C) 2013-2015 Renesas Electronics Corporation
+  *
+diff --git a/drivers/gpu/drm/rcar-du/rcar_du_kms.h b/drivers/gpu/drm/rcar-du/rcar_du_kms.h
+index 789154e19535..f31afeeee05a 100644
+--- a/drivers/gpu/drm/rcar-du/rcar_du_kms.h
++++ b/drivers/gpu/drm/rcar-du/rcar_du_kms.h
+@@ -1,6 +1,6 @@
+ /* SPDX-License-Identifier: GPL-2.0+ */
+ /*
+- * rcar_du_kms.h  --  R-Car Display Unit Mode Setting
++ * R-Car Display Unit Mode Setting
+  *
+  * Copyright (C) 2013-2014 Renesas Electronics Corporation
+  *
+diff --git a/drivers/gpu/drm/rcar-du/rcar_du_plane.c b/drivers/gpu/drm/rcar-du/rcar_du_plane.c
+index 5c1c7bb04f3f..f214a8b6cfd3 100644
+--- a/drivers/gpu/drm/rcar-du/rcar_du_plane.c
++++ b/drivers/gpu/drm/rcar-du/rcar_du_plane.c
+@@ -1,6 +1,6 @@
+ // SPDX-License-Identifier: GPL-2.0+
+ /*
+- * rcar_du_plane.c  --  R-Car Display Unit Planes
++ * R-Car Display Unit Planes
+  *
+  * Copyright (C) 2013-2015 Renesas Electronics Corporation
+  *
+diff --git a/drivers/gpu/drm/rcar-du/rcar_du_plane.h b/drivers/gpu/drm/rcar-du/rcar_du_plane.h
+index 81bbf207ad0e..f9893d7d6dfc 100644
+--- a/drivers/gpu/drm/rcar-du/rcar_du_plane.h
++++ b/drivers/gpu/drm/rcar-du/rcar_du_plane.h
+@@ -1,6 +1,6 @@
+ /* SPDX-License-Identifier: GPL-2.0+ */
+ /*
+- * rcar_du_plane.h  --  R-Car Display Unit Planes
++ * R-Car Display Unit Planes
+  *
+  * Copyright (C) 2013-2014 Renesas Electronics Corporation
+  *
+diff --git a/drivers/gpu/drm/rcar-du/rcar_du_regs.h b/drivers/gpu/drm/rcar-du/rcar_du_regs.h
+index 1cdaa51eb9ac..c1bcb0e8b5b4 100644
+--- a/drivers/gpu/drm/rcar-du/rcar_du_regs.h
++++ b/drivers/gpu/drm/rcar-du/rcar_du_regs.h
+@@ -1,6 +1,6 @@
+ /* SPDX-License-Identifier: GPL-2.0 */
+ /*
+- * rcar_du_regs.h  --  R-Car Display Unit Registers Definitions
++ * R-Car Display Unit Registers Definitions
+  *
+  * Copyright (C) 2013-2015 Renesas Electronics Corporation
+  *
+diff --git a/drivers/gpu/drm/rcar-du/rcar_du_vsp.c b/drivers/gpu/drm/rcar-du/rcar_du_vsp.c
+index 4a3e710eb684..6b535abd799a 100644
+--- a/drivers/gpu/drm/rcar-du/rcar_du_vsp.c
++++ b/drivers/gpu/drm/rcar-du/rcar_du_vsp.c
+@@ -1,6 +1,6 @@
+ // SPDX-License-Identifier: GPL-2.0+
+ /*
+- * rcar_du_vsp.h  --  R-Car Display Unit VSP-Based Compositor
++ * R-Car Display Unit VSP-Based Compositor
+  *
+  * Copyright (C) 2015 Renesas Electronics Corporation
+  *
+diff --git a/drivers/gpu/drm/rcar-du/rcar_du_vsp.h b/drivers/gpu/drm/rcar-du/rcar_du_vsp.h
+index 9b4724159378..67630f0b6599 100644
+--- a/drivers/gpu/drm/rcar-du/rcar_du_vsp.h
++++ b/drivers/gpu/drm/rcar-du/rcar_du_vsp.h
+@@ -1,6 +1,6 @@
+ /* SPDX-License-Identifier: GPL-2.0+ */
+ /*
+- * rcar_du_vsp.h  --  R-Car Display Unit VSP-Based Compositor
++ * R-Car Display Unit VSP-Based Compositor
+  *
+  * Copyright (C) 2015 Renesas Electronics Corporation
+  *
+diff --git a/drivers/gpu/drm/rcar-du/rcar_du_writeback.c b/drivers/gpu/drm/rcar-du/rcar_du_writeback.c
+index c79d1259e49b..2f5f3557bd90 100644
+--- a/drivers/gpu/drm/rcar-du/rcar_du_writeback.c
++++ b/drivers/gpu/drm/rcar-du/rcar_du_writeback.c
+@@ -1,6 +1,6 @@
+ // SPDX-License-Identifier: GPL-2.0
+ /*
+- * rcar_du_writeback.c  --  R-Car Display Unit Writeback Support
++ * R-Car Display Unit Writeback Support
+  *
+  * Copyright (C) 2019 Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+  */
+diff --git a/drivers/gpu/drm/rcar-du/rcar_du_writeback.h b/drivers/gpu/drm/rcar-du/rcar_du_writeback.h
+index fa87ebf8d21f..a71c9c08cafa 100644
+--- a/drivers/gpu/drm/rcar-du/rcar_du_writeback.h
++++ b/drivers/gpu/drm/rcar-du/rcar_du_writeback.h
+@@ -1,6 +1,6 @@
+ /* SPDX-License-Identifier: GPL-2.0+ */
+ /*
+- * rcar_du_writeback.h  --  R-Car Display Unit Writeback Support
++ * R-Car Display Unit Writeback Support
+  *
+  * Copyright (C) 2019 Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+  */
+diff --git a/drivers/gpu/drm/rcar-du/rcar_lvds.c b/drivers/gpu/drm/rcar-du/rcar_lvds.c
+index 8dbfbbd3cad1..8d22ade69df1 100644
+--- a/drivers/gpu/drm/rcar-du/rcar_lvds.c
++++ b/drivers/gpu/drm/rcar-du/rcar_lvds.c
+@@ -1,6 +1,6 @@
+ // SPDX-License-Identifier: GPL-2.0
+ /*
+- * rcar_lvds.c  --  R-Car LVDS Encoder
++ * R-Car LVDS Encoder
+  *
+  * Copyright (C) 2013-2018 Renesas Electronics Corporation
+  *
+diff --git a/drivers/gpu/drm/rcar-du/rcar_lvds.h b/drivers/gpu/drm/rcar-du/rcar_lvds.h
+index eb7c6ef03b00..3097bf749bec 100644
+--- a/drivers/gpu/drm/rcar-du/rcar_lvds.h
++++ b/drivers/gpu/drm/rcar-du/rcar_lvds.h
+@@ -1,6 +1,6 @@
+ /* SPDX-License-Identifier: GPL-2.0 */
+ /*
+- * rcar_lvds.h  --  R-Car LVDS Encoder
++ * R-Car LVDS Encoder
+  *
+  * Copyright (C) 2013-2018 Renesas Electronics Corporation
+  *
+diff --git a/drivers/gpu/drm/rcar-du/rcar_lvds_regs.h b/drivers/gpu/drm/rcar-du/rcar_lvds_regs.h
+index 87149f2f8056..ab0406a27d33 100644
+--- a/drivers/gpu/drm/rcar-du/rcar_lvds_regs.h
++++ b/drivers/gpu/drm/rcar-du/rcar_lvds_regs.h
+@@ -1,6 +1,6 @@
+ /* SPDX-License-Identifier: GPL-2.0 */
+ /*
+- * rcar_lvds_regs.h  --  R-Car LVDS Interface Registers Definitions
++ * R-Car LVDS Interface Registers Definitions
+  *
+  * Copyright (C) 2013-2015 Renesas Electronics Corporation
+  *
+diff --git a/drivers/gpu/drm/rcar-du/rcar_mipi_dsi.c b/drivers/gpu/drm/rcar-du/rcar_mipi_dsi.c
+index 891bb956fd61..0e62dd14bf97 100644
+--- a/drivers/gpu/drm/rcar-du/rcar_mipi_dsi.c
++++ b/drivers/gpu/drm/rcar-du/rcar_mipi_dsi.c
+@@ -1,6 +1,6 @@
+ // SPDX-License-Identifier: GPL-2.0
+ /*
+- * rcar_mipi_dsi.c  --  R-Car MIPI DSI Encoder
++ * R-Car MIPI DSI Encoder
+  *
+  * Copyright (C) 2020 Renesas Electronics Corporation
+  */
+diff --git a/drivers/gpu/drm/rcar-du/rcar_mipi_dsi_regs.h b/drivers/gpu/drm/rcar-du/rcar_mipi_dsi_regs.h
+index 0e7a9274749f..2eaca54636f3 100644
+--- a/drivers/gpu/drm/rcar-du/rcar_mipi_dsi_regs.h
++++ b/drivers/gpu/drm/rcar-du/rcar_mipi_dsi_regs.h
+@@ -1,6 +1,6 @@
+ /* SPDX-License-Identifier: GPL-2.0 */
+ /*
+- * rcar_mipi_dsi_regs.h  --  R-Car MIPI DSI Interface Registers Definitions
++ * R-Car MIPI DSI Interface Registers Definitions
+  *
+  * Copyright (C) 2020 Renesas Electronics Corporation
+  */
+-- 
+Regards,
 
-If so, I dont think it would be correct to assume that even though 
-drm_writeback_connector_init_with_encoder() is used 
-drm_writeback_connector.encoder should not be used.
+Laurent Pinchart
 
-The reason is that, lets consider, prepare_wb_job() and 
-cleanup_writeback_job().
-
-These pass only the connector to the vendor hooks.
-
-1126 	 *
-1127 	 * This callback is used by the atomic modeset helpers.
-1128 	 */
-1129 	int (*prepare_writeback_job)(struct drm_writeback_connector 
-*connector,
-1130 				     struct drm_writeback_job *job);
-
-Now, if you assume connector->encoder is not valid, this adds more 
-confusion because now we are putting an extra condition that 
-connector->encoder is not valid anymore.
-
-Thats why I think we should leave it as-it-is to not allow room for such 
-discrepancies.
-
-> 
->> Hope this clarifies it.
->>
->>>>> Signed-off-by: Abhinav Kumar <quic_abhinavk@quicinc.com>
->>>>> Reviewed-by: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
->>>>> ---
->>>>>    drivers/gpu/drm/drm_writeback.c | 18 ++++++++++++------
->>>>>    drivers/gpu/drm/vc4/vc4_txp.c   |  4 ++--
->>>>>    include/drm/drm_writeback.h     | 22 ++++++++++++++++++++--
->>>>>    3 files changed, 34 insertions(+), 10 deletions(-)
->>>>>
->>>>> diff --git a/drivers/gpu/drm/drm_writeback.c
->>>>> b/drivers/gpu/drm/drm_writeback.c
->>>>> index 92658ad..0538674 100644
->>>>> --- a/drivers/gpu/drm/drm_writeback.c
->>>>> +++ b/drivers/gpu/drm/drm_writeback.c
->>>>> @@ -180,21 +180,21 @@ int drm_writeback_connector_init(struct
->>>>> drm_device *dev,
->>>>>    {
->>>>>        int ret = 0;
->>>>> -    drm_encoder_helper_add(&wb_connector->encoder, enc_helper_funcs);
->>>>> +    drm_encoder_helper_add(&wb_connector->internal_encoder, enc_helper_funcs);
->>>>> -    wb_connector->encoder.possible_crtcs = possible_crtcs;
->>>>> +    wb_connector->internal_encoder.possible_crtcs = possible_crtcs;
->>>>> -    ret = drm_encoder_init(dev, &wb_connector->encoder,
->>>>> +    ret = drm_encoder_init(dev, &wb_connector->internal_encoder,
->>>>>                       &drm_writeback_encoder_funcs,
->>>>>                       DRM_MODE_ENCODER_VIRTUAL, NULL);
->>>>>        if (ret)
->>>>>            return ret;
->>>>> -    ret = drm_writeback_connector_init_with_encoder(dev, wb_connector, &wb_connector->encoder,
->>>>> -            con_funcs, formats, n_formats);
->>>>> +    ret = drm_writeback_connector_init_with_encoder(dev, wb_connector,
->>>>> +            &wb_connector->internal_encoder, con_funcs, formats, n_formats);
->>>>>        if (ret)
->>>>> -        drm_encoder_cleanup(&wb_connector->encoder);
->>>>> +        drm_encoder_cleanup(&wb_connector->internal_encoder);
->>>>>        return ret;
->>>>>    }
->>>>> @@ -239,6 +239,12 @@ int drm_writeback_connector_init_with_encoder(struct drm_device *dev,
->>>>>        struct drm_mode_config *config = &dev->mode_config;
->>>>>        int ret = create_writeback_properties(dev);
->>>>> +    /*
->>>>> +     * Assign the encoder passed to this API to the wb_connector's encoder.
->>>>> +     * For drm_writeback_connector_init(), this shall be the internal_encoder
->>>>> +     */
->>>>> +    wb_connector->encoder = enc;
->>>>> +
->>>>>        if (ret != 0)
->>>>>            return ret;
->>>>> diff --git a/drivers/gpu/drm/vc4/vc4_txp.c b/drivers/gpu/drm/vc4/vc4_txp.c
->>>>> index 3447eb6..7e063a9 100644
->>>>> --- a/drivers/gpu/drm/vc4/vc4_txp.c
->>>>> +++ b/drivers/gpu/drm/vc4/vc4_txp.c
->>>>> @@ -159,7 +159,7 @@ struct vc4_txp {
->>>>>    static inline struct vc4_txp *encoder_to_vc4_txp(struct drm_encoder *encoder)
->>>>>    {
->>>>> -    return container_of(encoder, struct vc4_txp, connector.encoder);
->>>>> +    return container_of(encoder, struct vc4_txp, connector.internal_encoder);
->>>>>    }
->>>>>    static inline struct vc4_txp *connector_to_vc4_txp(struct  drm_connector *conn)
->>>>> @@ -507,7 +507,7 @@ static int vc4_txp_bind(struct device *dev, struct device *master, void *data)
->>>>>        if (ret)
->>>>>            return ret;
->>>>> -    encoder = &txp->connector.encoder;
->>>>> +    encoder = txp->connector.encoder;
->>>>>        encoder->possible_crtcs = drm_crtc_mask(crtc);
->>>>>        ret = devm_request_irq(dev, irq, vc4_txp_interrupt, 0,
->>>>> diff --git a/include/drm/drm_writeback.h b/include/drm/drm_writeback.h
->>>>> index bb306fa..3fbae9d 100644
->>>>> --- a/include/drm/drm_writeback.h
->>>>> +++ b/include/drm/drm_writeback.h
->>>>> @@ -25,13 +25,31 @@ struct drm_writeback_connector {
->>>>>        struct drm_connector base;
->>>>>        /**
->>>>> -     * @encoder: Internal encoder used by the connector to fulfill
->>>>> +     * @encoder: handle to drm_encoder used by the connector to fulfill
->>>>>         * the DRM framework requirements. The users of the
->>>>>         * @drm_writeback_connector control the behaviour of the @encoder
->>>>>         * by passing the @enc_funcs parameter to drm_writeback_connector_init()
->>>>>         * function.
->>>>> +     *
->>>>> +     * For some vendor drivers, the hardware resources are shared between
->>>>> +     * writeback encoder and rest of the display pipeline.
->>>>> +     * To accommodate such cases, encoder is a handle to the real encoder
->>>>> +     * hardware.
->>>>> +     *
->>>>> +     * For current existing writeback users, this shall continue to be the
->>>>> +     * embedded encoder for the writeback connector.
->>>>> +     */
->>>>> +    struct drm_encoder *encoder;
->>>>> +
->>>>> +    /**
->>>>> +     * @internal_encoder: internal encoder used by writeback when
->>>>> +     * drm_writeback_connector_init() is used.
->>>>> +     * @encoder will be assigned to this for those cases
->>>>> +     *
->>>>> +     * This will be unused when drm_writeback_connector_init_with_encoder()
->>>>> +     * is used.
->>>>>         */
->>>>> -    struct drm_encoder encoder;
->>>>> +    struct drm_encoder internal_encoder;
->>>>>        /**
->>>>>         * @pixel_formats_blob_ptr:
-> 
