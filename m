@@ -2,29 +2,28 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 665E050D472
-	for <lists+dri-devel@lfdr.de>; Sun, 24 Apr 2022 21:05:24 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 97D3B50D46E
+	for <lists+dri-devel@lfdr.de>; Sun, 24 Apr 2022 21:05:22 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id F095510FFFB;
+	by gabe.freedesktop.org (Postfix) with ESMTP id 33B3E10FEB9;
 	Sun, 24 Apr 2022 19:05:20 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from bhuna.collabora.co.uk (bhuna.collabora.co.uk
- [IPv6:2a00:1098:0:82:1000:25:2eeb:e3e3])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 3F9F310FFB1
- for <dri-devel@lists.freedesktop.org>; Sun, 24 Apr 2022 19:05:02 +0000 (UTC)
+Received: from bhuna.collabora.co.uk (bhuna.collabora.co.uk [46.235.227.227])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 54E8F10FFB1
+ for <dri-devel@lists.freedesktop.org>; Sun, 24 Apr 2022 19:05:04 +0000 (UTC)
 Received: from [127.0.0.1] (localhost [127.0.0.1])
- (Authenticated sender: dmitry.osipenko) with ESMTPSA id F21B81F44DAC
+ (Authenticated sender: dmitry.osipenko) with ESMTPSA id 1D8981F40651
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
- s=mail; t=1650827100;
- bh=sLYuWFCCs2GStUL/XQAxiZ9Boi8kBkwtjnjNc2eadPg=;
+ s=mail; t=1650827103;
+ bh=dzvAS2g1wMmzjGNuHFt4mHjebPlEWHgH15CKQfy6J9c=;
  h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
- b=R/tDq/HNjFKFnyljS8ZGceWd2DR54pa3vWhKHNU7vfZK689hM/RswCLzA/6aLF8t1
- VT1EIPexBYJO9XEKYs7kl5KP/vpItIl2xCYW7WTA0FMY4rttQDS0+FHwC3xix0FjOr
- 19lsnxpsTEmrm3lAITuxvClzGCz+tXwIjusTtwBobnAfFBNiAp6RtckBhKi3+VvJ0u
- 4GKmqryXGTqIXoUJ78miWEkPK4CDvYEBclOZNwVAOT9YmzeANlEpspS4HgNms7nORH
- iPp1lMfshrVRSv/ef2b5uoxy6VKXl41WfsoI9N3/flgINmyKREcZvbUC2Soyi0gtmH
- kMPvrwlCFNphg==
+ b=E9tPg+ZO356J8KX3CPAIhJZ/PqHytGXk/eeTwdLJ7S7iUk58VKKMWuzPaUCwXRdDm
+ 22AjKz2l4MEN38rKXdbDdI2rvEQ8rMRQ5hqlalNGVo7OnVtiYNKUWmHm7tBUlsJ1ns
+ +qfslNmdrgfEmNt8HpMS+3RVCxdn99U8iDgxCmA/wL5E4/xdxjaAaHSSqq9p96bip/
+ ZVC8W83F24Xay2axgYiqYpElFv9V2tGMjFuM3wLiISFsjpgemDuDaGfxBTgP+UEkLS
+ T0bIT3zwVDGGQrYk5oR0gspozq5oqw6HkPeGivxcALQfXZI3CBHdtbcnfY6m3t3xMD
+ FLJdzeHYJaakQ==
 From: Dmitry Osipenko <dmitry.osipenko@collabora.com>
 To: David Airlie <airlied@linux.ie>, Gerd Hoffmann <kraxel@redhat.com>,
  Gurchetan Singh <gurchetansingh@chromium.org>,
@@ -43,9 +42,9 @@ To: David Airlie <airlied@linux.ie>, Gerd Hoffmann <kraxel@redhat.com>,
  Robin Murphy <robin.murphy@arm.com>, Qiang Yu <yuq825@gmail.com>,
  Sumit Semwal <sumit.semwal@linaro.org>,
  =?UTF-8?q?Christian=20K=C3=B6nig?= <christian.koenig@amd.com>
-Subject: [PATCH v5 13/17] drm/virtio: Support memory shrinking
-Date: Sun, 24 Apr 2022 22:04:20 +0300
-Message-Id: <20220424190424.540501-14-dmitry.osipenko@collabora.com>
+Subject: [PATCH v5 14/17] drm/panfrost: Switch to generic memory shrinker
+Date: Sun, 24 Apr 2022 22:04:21 +0300
+Message-Id: <20220424190424.540501-15-dmitry.osipenko@collabora.com>
 X-Mailer: git-send-email 2.35.1
 In-Reply-To: <20220424190424.540501-1-dmitry.osipenko@collabora.com>
 References: <20220424190424.540501-1-dmitry.osipenko@collabora.com>
@@ -69,579 +68,380 @@ Cc: Dmitry Osipenko <digetx@gmail.com>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Support generic DRM SHMEM memory shrinker and add new madvise IOCTL
-to the VirtIO-GPU driver. Userspace (BO cache manager of Mesa driver)
-will mark BOs as "don't need" using the new IOCTL to let shrinker purge
-the marked BOs on OOM, the shrinker will also evict unpurgeable shmem BOs
-from memory if guest supports SWAP. Altogether this allows to prevent OOM
-kills of guest applications that use VirGL by lowering memory pressure.
+Replace Panfrost's memory shrinker with a generic DRM SHMEM memory
+shrinker.
 
-Signed-off-by: Daniel Almeida <daniel.almeida@collabora.com>
+Tested-by: Steven Price <steven.price@arm.com>
 Signed-off-by: Dmitry Osipenko <dmitry.osipenko@collabora.com>
 ---
- drivers/gpu/drm/virtio/virtgpu_drv.h    |  15 ++-
- drivers/gpu/drm/virtio/virtgpu_gem.c    |  46 +++++++++
- drivers/gpu/drm/virtio/virtgpu_ioctl.c  |  37 +++++++
- drivers/gpu/drm/virtio/virtgpu_kms.c    |   9 ++
- drivers/gpu/drm/virtio/virtgpu_object.c | 130 +++++++++++++++++++-----
- drivers/gpu/drm/virtio/virtgpu_plane.c  |  22 +++-
- drivers/gpu/drm/virtio/virtgpu_vq.c     |  40 ++++++++
- include/uapi/drm/virtgpu_drm.h          |  14 +++
- 8 files changed, 283 insertions(+), 30 deletions(-)
+ drivers/gpu/drm/panfrost/Makefile             |   1 -
+ drivers/gpu/drm/panfrost/panfrost_device.h    |   4 -
+ drivers/gpu/drm/panfrost/panfrost_drv.c       |  19 +--
+ drivers/gpu/drm/panfrost/panfrost_gem.c       |  28 ++--
+ drivers/gpu/drm/panfrost/panfrost_gem.h       |   9 --
+ .../gpu/drm/panfrost/panfrost_gem_shrinker.c  | 122 ------------------
+ drivers/gpu/drm/panfrost/panfrost_job.c       |  18 ++-
+ 7 files changed, 37 insertions(+), 164 deletions(-)
+ delete mode 100644 drivers/gpu/drm/panfrost/panfrost_gem_shrinker.c
 
-diff --git a/drivers/gpu/drm/virtio/virtgpu_drv.h b/drivers/gpu/drm/virtio/virtgpu_drv.h
-index b2d93cb12ebf..c8918a271e1c 100644
---- a/drivers/gpu/drm/virtio/virtgpu_drv.h
-+++ b/drivers/gpu/drm/virtio/virtgpu_drv.h
-@@ -274,7 +274,7 @@ struct virtio_gpu_fpriv {
+diff --git a/drivers/gpu/drm/panfrost/Makefile b/drivers/gpu/drm/panfrost/Makefile
+index b71935862417..ecf0864cb515 100644
+--- a/drivers/gpu/drm/panfrost/Makefile
++++ b/drivers/gpu/drm/panfrost/Makefile
+@@ -5,7 +5,6 @@ panfrost-y := \
+ 	panfrost_device.o \
+ 	panfrost_devfreq.o \
+ 	panfrost_gem.o \
+-	panfrost_gem_shrinker.o \
+ 	panfrost_gpu.o \
+ 	panfrost_job.o \
+ 	panfrost_mmu.o \
+diff --git a/drivers/gpu/drm/panfrost/panfrost_device.h b/drivers/gpu/drm/panfrost/panfrost_device.h
+index 8b25278f34c8..fe04b21fc044 100644
+--- a/drivers/gpu/drm/panfrost/panfrost_device.h
++++ b/drivers/gpu/drm/panfrost/panfrost_device.h
+@@ -115,10 +115,6 @@ struct panfrost_device {
+ 		atomic_t pending;
+ 	} reset;
+ 
+-	struct mutex shrinker_lock;
+-	struct list_head shrinker_list;
+-	struct shrinker shrinker;
+-
+ 	struct panfrost_devfreq pfdevfreq;
  };
  
- /* virtgpu_ioctl.c */
--#define DRM_VIRTIO_NUM_IOCTLS 12
-+#define DRM_VIRTIO_NUM_IOCTLS 13
- extern struct drm_ioctl_desc virtio_gpu_ioctls[DRM_VIRTIO_NUM_IOCTLS];
- void virtio_gpu_create_context(struct drm_device *dev, struct drm_file *file);
+diff --git a/drivers/gpu/drm/panfrost/panfrost_drv.c b/drivers/gpu/drm/panfrost/panfrost_drv.c
+index 7fcbc2a5b6cd..57a93555813f 100644
+--- a/drivers/gpu/drm/panfrost/panfrost_drv.c
++++ b/drivers/gpu/drm/panfrost/panfrost_drv.c
+@@ -160,7 +160,6 @@ panfrost_lookup_bos(struct drm_device *dev,
+ 			break;
+ 		}
  
-@@ -310,6 +310,10 @@ void virtio_gpu_array_put_free(struct virtio_gpu_object_array *objs);
- void virtio_gpu_array_put_free_delayed(struct virtio_gpu_device *vgdev,
- 				       struct virtio_gpu_object_array *objs);
- void virtio_gpu_array_put_free_work(struct work_struct *work);
-+int virtio_gpu_array_prepare(struct virtio_gpu_device *vgdev,
-+			     struct virtio_gpu_object_array *objs);
-+int virtio_gpu_gem_host_mem_release(struct virtio_gpu_object *bo);
-+bool virtio_gpu_gem_madvise(struct virtio_gpu_object *obj, int madv);
- 
- /* virtgpu_vq.c */
- int virtio_gpu_alloc_vbufs(struct virtio_gpu_device *vgdev);
-@@ -321,6 +325,8 @@ void virtio_gpu_cmd_create_resource(struct virtio_gpu_device *vgdev,
- 				    struct virtio_gpu_fence *fence);
- void virtio_gpu_cmd_unref_resource(struct virtio_gpu_device *vgdev,
- 				   struct virtio_gpu_object *bo);
-+int virtio_gpu_cmd_release_resource(struct virtio_gpu_device *vgdev,
-+				    struct virtio_gpu_object *bo);
- void virtio_gpu_cmd_transfer_to_host_2d(struct virtio_gpu_device *vgdev,
- 					uint64_t offset,
- 					uint32_t width, uint32_t height,
-@@ -341,6 +347,9 @@ void virtio_gpu_object_attach(struct virtio_gpu_device *vgdev,
- 			      struct virtio_gpu_object *obj,
- 			      struct virtio_gpu_mem_entry *ents,
- 			      unsigned int nents);
-+void virtio_gpu_object_detach(struct virtio_gpu_device *vgdev,
-+			      struct virtio_gpu_object *obj,
-+			      struct virtio_gpu_fence *fence);
- int virtio_gpu_attach_status_page(struct virtio_gpu_device *vgdev);
- int virtio_gpu_detach_status_page(struct virtio_gpu_device *vgdev);
- void virtio_gpu_cursor_ping(struct virtio_gpu_device *vgdev,
-@@ -483,4 +492,8 @@ void virtio_gpu_vram_unmap_dma_buf(struct device *dev,
- 				   struct sg_table *sgt,
- 				   enum dma_data_direction dir);
- 
-+/* virtgpu_gem_shrinker.c */
-+int virtio_gpu_gem_shrinker_init(struct virtio_gpu_device *vgdev);
-+void virtio_gpu_gem_shrinker_fini(struct virtio_gpu_device *vgdev);
-+
- #endif
-diff --git a/drivers/gpu/drm/virtio/virtgpu_gem.c b/drivers/gpu/drm/virtio/virtgpu_gem.c
-index 7db48d17ee3a..08189ad43736 100644
---- a/drivers/gpu/drm/virtio/virtgpu_gem.c
-+++ b/drivers/gpu/drm/virtio/virtgpu_gem.c
-@@ -294,3 +294,49 @@ void virtio_gpu_array_put_free_work(struct work_struct *work)
+-		atomic_inc(&bo->gpu_usecount);
+ 		job->mappings[i] = mapping;
  	}
- 	spin_unlock(&vgdev->obj_free_lock);
- }
-+
-+int virtio_gpu_array_prepare(struct virtio_gpu_device *vgdev,
-+			     struct virtio_gpu_object_array *objs)
+ 
+@@ -391,7 +390,6 @@ static int panfrost_ioctl_madvise(struct drm_device *dev, void *data,
+ {
+ 	struct panfrost_file_priv *priv = file_priv->driver_priv;
+ 	struct drm_panfrost_madvise *args = data;
+-	struct panfrost_device *pfdev = dev->dev_private;
+ 	struct drm_gem_object *gem_obj;
+ 	struct panfrost_gem_object *bo;
+ 	int ret = 0;
+@@ -404,7 +402,6 @@ static int panfrost_ioctl_madvise(struct drm_device *dev, void *data,
+ 
+ 	bo = to_panfrost_bo(gem_obj);
+ 
+-	mutex_lock(&pfdev->shrinker_lock);
+ 	mutex_lock(&bo->mappings.lock);
+ 	if (args->madv == PANFROST_MADV_DONTNEED) {
+ 		struct panfrost_gem_mapping *first;
+@@ -430,17 +427,8 @@ static int panfrost_ioctl_madvise(struct drm_device *dev, void *data,
+ 
+ 	args->retained = drm_gem_shmem_madvise(&bo->base, args->madv);
+ 
+-	if (args->retained) {
+-		if (args->madv == PANFROST_MADV_DONTNEED)
+-			list_add_tail(&bo->base.madv_list,
+-				      &pfdev->shrinker_list);
+-		else if (args->madv == PANFROST_MADV_WILLNEED)
+-			list_del_init(&bo->base.madv_list);
+-	}
+-
+ out_unlock_mappings:
+ 	mutex_unlock(&bo->mappings.lock);
+-	mutex_unlock(&pfdev->shrinker_lock);
+ 
+ 	drm_gem_object_put(gem_obj);
+ 	return ret;
+@@ -571,9 +559,6 @@ static int panfrost_probe(struct platform_device *pdev)
+ 	ddev->dev_private = pfdev;
+ 	pfdev->ddev = ddev;
+ 
+-	mutex_init(&pfdev->shrinker_lock);
+-	INIT_LIST_HEAD(&pfdev->shrinker_list);
+-
+ 	err = panfrost_device_init(pfdev);
+ 	if (err) {
+ 		if (err != -EPROBE_DEFER)
+@@ -595,7 +580,7 @@ static int panfrost_probe(struct platform_device *pdev)
+ 	if (err < 0)
+ 		goto err_out1;
+ 
+-	panfrost_gem_shrinker_init(ddev);
++	drm_gem_shmem_shrinker_register(ddev);
+ 
+ 	return 0;
+ 
+@@ -613,8 +598,8 @@ static int panfrost_remove(struct platform_device *pdev)
+ 	struct panfrost_device *pfdev = platform_get_drvdata(pdev);
+ 	struct drm_device *ddev = pfdev->ddev;
+ 
++	drm_gem_shmem_shrinker_unregister(ddev);
+ 	drm_dev_unregister(ddev);
+-	panfrost_gem_shrinker_cleanup(ddev);
+ 
+ 	pm_runtime_get_sync(pfdev->dev);
+ 	pm_runtime_disable(pfdev->dev);
+diff --git a/drivers/gpu/drm/panfrost/panfrost_gem.c b/drivers/gpu/drm/panfrost/panfrost_gem.c
+index 293e799e2fe8..f91ef0726e5e 100644
+--- a/drivers/gpu/drm/panfrost/panfrost_gem.c
++++ b/drivers/gpu/drm/panfrost/panfrost_gem.c
+@@ -19,16 +19,6 @@ static void panfrost_gem_free_object(struct drm_gem_object *obj)
+ 	struct panfrost_gem_object *bo = to_panfrost_bo(obj);
+ 	struct panfrost_device *pfdev = obj->dev->dev_private;
+ 
+-	/*
+-	 * Make sure the BO is no longer inserted in the shrinker list before
+-	 * taking care of the destruction itself. If we don't do that we have a
+-	 * race condition between this function and what's done in
+-	 * panfrost_gem_shrinker_scan().
+-	 */
+-	mutex_lock(&pfdev->shrinker_lock);
+-	list_del_init(&bo->base.madv_list);
+-	mutex_unlock(&pfdev->shrinker_lock);
+-
+ 	/*
+ 	 * If we still have mappings attached to the BO, there's a problem in
+ 	 * our refcounting.
+@@ -209,6 +199,20 @@ static const struct drm_gem_object_funcs panfrost_gem_funcs = {
+ 	.vm_ops = &drm_gem_shmem_vm_ops,
+ };
+ 
++static int panfrost_shmem_purge(struct drm_gem_shmem_object *shmem)
 +{
-+	struct drm_gem_shmem_object *shmem;
-+	int ret = 0;
-+	u32 i;
++	struct panfrost_gem_object *bo = to_panfrost_bo(&shmem->base);
 +
-+	for (i = 0; i < objs->nents; i++) {
-+		shmem = to_drm_gem_shmem_obj(objs->objs[i]);
-+		ret = drm_gem_shmem_swap_in_locked(shmem);
-+		if (ret)
-+			break;
++	if (!mutex_trylock(&bo->mappings.lock))
++		return -EBUSY;
++
++	panfrost_gem_teardown_mappings_locked(bo);
++
++	mutex_unlock(&bo->mappings.lock);
++
++	return 0;
++}
++
+ /**
+  * panfrost_gem_create_object - Implementation of driver->gem_create_object.
+  * @dev: DRM device
+@@ -230,6 +234,7 @@ struct drm_gem_object *panfrost_gem_create_object(struct drm_device *dev, size_t
+ 	mutex_init(&obj->mappings.lock);
+ 	obj->base.base.funcs = &panfrost_gem_funcs;
+ 	obj->base.map_wc = !pfdev->coherent;
++	obj->base.purge = panfrost_shmem_purge;
+ 
+ 	return &obj->base.base;
+ }
+@@ -266,6 +271,9 @@ panfrost_gem_create_with_handle(struct drm_file *file_priv,
+ 	if (ret)
+ 		return ERR_PTR(ret);
+ 
++	if (!bo->is_heap)
++		drm_gem_shmem_set_purgeable(shmem);
++
+ 	return bo;
+ }
+ 
+diff --git a/drivers/gpu/drm/panfrost/panfrost_gem.h b/drivers/gpu/drm/panfrost/panfrost_gem.h
+index 8088d5fd8480..09da064f1c07 100644
+--- a/drivers/gpu/drm/panfrost/panfrost_gem.h
++++ b/drivers/gpu/drm/panfrost/panfrost_gem.h
+@@ -30,12 +30,6 @@ struct panfrost_gem_object {
+ 		struct mutex lock;
+ 	} mappings;
+ 
+-	/*
+-	 * Count the number of jobs referencing this BO so we don't let the
+-	 * shrinker reclaim this object prematurely.
+-	 */
+-	atomic_t gpu_usecount;
+-
+ 	bool noexec		:1;
+ 	bool is_heap		:1;
+ };
+@@ -84,7 +78,4 @@ panfrost_gem_mapping_get(struct panfrost_gem_object *bo,
+ void panfrost_gem_mapping_put(struct panfrost_gem_mapping *mapping);
+ void panfrost_gem_teardown_mappings_locked(struct panfrost_gem_object *bo);
+ 
+-void panfrost_gem_shrinker_init(struct drm_device *dev);
+-void panfrost_gem_shrinker_cleanup(struct drm_device *dev);
+-
+ #endif /* __PANFROST_GEM_H__ */
+diff --git a/drivers/gpu/drm/panfrost/panfrost_gem_shrinker.c b/drivers/gpu/drm/panfrost/panfrost_gem_shrinker.c
+deleted file mode 100644
+index 3bcf8c291866..000000000000
+--- a/drivers/gpu/drm/panfrost/panfrost_gem_shrinker.c
++++ /dev/null
+@@ -1,122 +0,0 @@
+-// SPDX-License-Identifier: GPL-2.0
+-/* Copyright (C) 2019 Arm Ltd.
+- *
+- * Based on msm_gem_freedreno.c:
+- * Copyright (C) 2016 Red Hat
+- * Author: Rob Clark <robdclark@gmail.com>
+- */
+-
+-#include <linux/list.h>
+-
+-#include <drm/drm_device.h>
+-#include <drm/drm_gem_shmem_helper.h>
+-
+-#include "panfrost_device.h"
+-#include "panfrost_gem.h"
+-#include "panfrost_mmu.h"
+-
+-static unsigned long
+-panfrost_gem_shrinker_count(struct shrinker *shrinker, struct shrink_control *sc)
+-{
+-	struct panfrost_device *pfdev =
+-		container_of(shrinker, struct panfrost_device, shrinker);
+-	struct drm_gem_shmem_object *shmem;
+-	unsigned long count = 0;
+-
+-	if (!mutex_trylock(&pfdev->shrinker_lock))
+-		return 0;
+-
+-	list_for_each_entry(shmem, &pfdev->shrinker_list, madv_list) {
+-		if (drm_gem_shmem_is_purgeable(shmem))
+-			count += shmem->base.size >> PAGE_SHIFT;
+-	}
+-
+-	mutex_unlock(&pfdev->shrinker_lock);
+-
+-	return count;
+-}
+-
+-static bool panfrost_gem_purge(struct drm_gem_object *obj)
+-{
+-	struct drm_gem_shmem_object *shmem = to_drm_gem_shmem_obj(obj);
+-	struct panfrost_gem_object *bo = to_panfrost_bo(obj);
+-	bool ret = false;
+-
+-	if (atomic_read(&bo->gpu_usecount))
+-		return false;
+-
+-	if (!mutex_trylock(&bo->mappings.lock))
+-		return false;
+-
+-	if (!dma_resv_trylock(shmem->base.resv))
+-		goto unlock_mappings;
+-
+-	panfrost_gem_teardown_mappings_locked(bo);
+-	drm_gem_shmem_purge_locked(&bo->base);
+-	ret = true;
+-
+-	dma_resv_unlock(shmem->base.resv);
+-
+-unlock_mappings:
+-	mutex_unlock(&bo->mappings.lock);
+-	return ret;
+-}
+-
+-static unsigned long
+-panfrost_gem_shrinker_scan(struct shrinker *shrinker, struct shrink_control *sc)
+-{
+-	struct panfrost_device *pfdev =
+-		container_of(shrinker, struct panfrost_device, shrinker);
+-	struct drm_gem_shmem_object *shmem, *tmp;
+-	unsigned long freed = 0;
+-
+-	if (!mutex_trylock(&pfdev->shrinker_lock))
+-		return SHRINK_STOP;
+-
+-	list_for_each_entry_safe(shmem, tmp, &pfdev->shrinker_list, madv_list) {
+-		if (freed >= sc->nr_to_scan)
+-			break;
+-		if (drm_gem_shmem_is_purgeable(shmem) &&
+-		    panfrost_gem_purge(&shmem->base)) {
+-			freed += shmem->base.size >> PAGE_SHIFT;
+-			list_del_init(&shmem->madv_list);
+-		}
+-	}
+-
+-	mutex_unlock(&pfdev->shrinker_lock);
+-
+-	if (freed > 0)
+-		pr_info_ratelimited("Purging %lu bytes\n", freed << PAGE_SHIFT);
+-
+-	return freed;
+-}
+-
+-/**
+- * panfrost_gem_shrinker_init - Initialize panfrost shrinker
+- * @dev: DRM device
+- *
+- * This function registers and sets up the panfrost shrinker.
+- */
+-void panfrost_gem_shrinker_init(struct drm_device *dev)
+-{
+-	struct panfrost_device *pfdev = dev->dev_private;
+-	pfdev->shrinker.count_objects = panfrost_gem_shrinker_count;
+-	pfdev->shrinker.scan_objects = panfrost_gem_shrinker_scan;
+-	pfdev->shrinker.seeks = DEFAULT_SEEKS;
+-	WARN_ON(register_shrinker(&pfdev->shrinker));
+-}
+-
+-/**
+- * panfrost_gem_shrinker_cleanup - Clean up panfrost shrinker
+- * @dev: DRM device
+- *
+- * This function unregisters the panfrost shrinker.
+- */
+-void panfrost_gem_shrinker_cleanup(struct drm_device *dev)
+-{
+-	struct panfrost_device *pfdev = dev->dev_private;
+-
+-	if (pfdev->shrinker.nr_deferred) {
+-		unregister_shrinker(&pfdev->shrinker);
+-	}
+-}
+diff --git a/drivers/gpu/drm/panfrost/panfrost_job.c b/drivers/gpu/drm/panfrost/panfrost_job.c
+index fda5871aebe3..bcf496b837ce 100644
+--- a/drivers/gpu/drm/panfrost/panfrost_job.c
++++ b/drivers/gpu/drm/panfrost/panfrost_job.c
+@@ -271,6 +271,19 @@ static void panfrost_attach_object_fences(struct drm_gem_object **bos,
+ 		dma_resv_add_fence(bos[i]->resv, fence, DMA_RESV_USAGE_WRITE);
+ }
+ 
++static int panfrost_objects_prepare(struct drm_gem_object **bos, int bo_count)
++{
++	struct panfrost_gem_object *bo;
++	int ret = 0;
++
++	while (!ret && bo_count--) {
++		bo = to_panfrost_bo(bos[bo_count]);
++		ret = bo->base.madv ? -ENOMEM : 0;
 +	}
 +
 +	return ret;
 +}
 +
-+bool virtio_gpu_gem_madvise(struct virtio_gpu_object *bo, int madv)
-+{
-+	/*
-+	 * For now we support only purging BOs that are backed by guest's
-+	 * memory.
-+	 */
-+	if (!virtio_gpu_is_shmem(bo))
-+		return true;
-+
-+	return drm_gem_shmem_madvise(&bo->base, madv);
-+}
-+
-+int virtio_gpu_gem_host_mem_release(struct virtio_gpu_object *bo)
-+{
-+	struct virtio_gpu_device *vgdev = bo->base.base.dev->dev_private;
-+	int err;
-+
-+	if (bo->created) {
-+		err = virtio_gpu_cmd_release_resource(vgdev, bo);
-+		if (err)
-+			return err;
-+
-+		virtio_gpu_notify(vgdev);
-+		bo->created = false;
-+	}
-+
-+	return 0;
-+}
-diff --git a/drivers/gpu/drm/virtio/virtgpu_ioctl.c b/drivers/gpu/drm/virtio/virtgpu_ioctl.c
-index f8d83358d2a0..55ee9bd2098e 100644
---- a/drivers/gpu/drm/virtio/virtgpu_ioctl.c
-+++ b/drivers/gpu/drm/virtio/virtgpu_ioctl.c
-@@ -217,6 +217,10 @@ static int virtio_gpu_execbuffer_ioctl(struct drm_device *dev, void *data,
- 		ret = virtio_gpu_array_lock_resv(buflist);
- 		if (ret)
- 			goto out_memdup;
-+
-+		ret = virtio_gpu_array_prepare(vgdev, buflist);
-+		if (ret)
-+			goto out_unresv;
- 	}
+ int panfrost_job_push(struct panfrost_job *job)
+ {
+ 	struct panfrost_device *pfdev = job->pfdev;
+@@ -282,6 +295,10 @@ int panfrost_job_push(struct panfrost_job *job)
+ 	if (ret)
+ 		return ret;
  
- 	out_fence = virtio_gpu_fence_alloc(vgdev, fence_ctx, ring_idx);
-@@ -423,6 +427,10 @@ static int virtio_gpu_transfer_from_host_ioctl(struct drm_device *dev,
- 	if (ret != 0)
- 		goto err_put_free;
- 
-+	ret = virtio_gpu_array_prepare(vgdev, objs);
++	ret = panfrost_objects_prepare(job->bos, job->bo_count);
 +	if (ret)
-+		goto err_unlock;
++		goto unlock;
 +
- 	fence = virtio_gpu_fence_alloc(vgdev, vgdev->fence_drv.context, 0);
- 	if (!fence) {
- 		ret = -ENOMEM;
-@@ -482,6 +490,10 @@ static int virtio_gpu_transfer_to_host_ioctl(struct drm_device *dev, void *data,
- 		if (ret != 0)
- 			goto err_put_free;
+ 	mutex_lock(&pfdev->sched_lock);
+ 	drm_sched_job_arm(&job->base);
  
-+		ret = virtio_gpu_array_prepare(vgdev, objs);
-+		if (ret)
-+			goto err_unlock;
-+
- 		ret = -ENOMEM;
- 		fence = virtio_gpu_fence_alloc(vgdev, vgdev->fence_drv.context,
- 					       0);
-@@ -836,6 +848,28 @@ static int virtio_gpu_context_init_ioctl(struct drm_device *dev,
- 	return ret;
- }
+@@ -323,7 +340,6 @@ static void panfrost_job_cleanup(struct kref *ref)
+ 			if (!job->mappings[i])
+ 				break;
  
-+static int virtio_gpu_madvise_ioctl(struct drm_device *dev,
-+				    void *data,
-+				    struct drm_file *file)
-+{
-+	struct drm_virtgpu_madvise *args = data;
-+	struct virtio_gpu_object *bo;
-+	struct drm_gem_object *obj;
-+
-+	if (args->madv > VIRTGPU_MADV_DONTNEED)
-+		return -EOPNOTSUPP;
-+
-+	obj = drm_gem_object_lookup(file, args->bo_handle);
-+	if (!obj)
-+		return -ENOENT;
-+
-+	bo = gem_to_virtio_gpu_obj(obj);
-+	args->retained = virtio_gpu_gem_madvise(bo, args->madv);
-+	drm_gem_object_put(obj);
-+
-+	return 0;
-+}
-+
- struct drm_ioctl_desc virtio_gpu_ioctls[DRM_VIRTIO_NUM_IOCTLS] = {
- 	DRM_IOCTL_DEF_DRV(VIRTGPU_MAP, virtio_gpu_map_ioctl,
- 			  DRM_RENDER_ALLOW),
-@@ -875,4 +909,7 @@ struct drm_ioctl_desc virtio_gpu_ioctls[DRM_VIRTIO_NUM_IOCTLS] = {
- 
- 	DRM_IOCTL_DEF_DRV(VIRTGPU_CONTEXT_INIT, virtio_gpu_context_init_ioctl,
- 			  DRM_RENDER_ALLOW),
-+
-+	DRM_IOCTL_DEF_DRV(VIRTGPU_MADVISE, virtio_gpu_madvise_ioctl,
-+			  DRM_RENDER_ALLOW),
- };
-diff --git a/drivers/gpu/drm/virtio/virtgpu_kms.c b/drivers/gpu/drm/virtio/virtgpu_kms.c
-index 0d1e3eb61bee..1175999acea1 100644
---- a/drivers/gpu/drm/virtio/virtgpu_kms.c
-+++ b/drivers/gpu/drm/virtio/virtgpu_kms.c
-@@ -238,6 +238,12 @@ int virtio_gpu_init(struct virtio_device *vdev, struct drm_device *dev)
- 		goto err_scanouts;
- 	}
- 
-+	ret = drm_gem_shmem_shrinker_register(dev);
-+	if (ret) {
-+		DRM_ERROR("shrinker init failed\n");
-+		goto err_modeset;
-+	}
-+
- 	virtio_device_ready(vgdev->vdev);
- 
- 	if (num_capsets)
-@@ -250,6 +256,8 @@ int virtio_gpu_init(struct virtio_device *vdev, struct drm_device *dev)
- 			   5 * HZ);
- 	return 0;
- 
-+err_modeset:
-+	virtio_gpu_modeset_fini(vgdev);
- err_scanouts:
- 	virtio_gpu_free_vbufs(vgdev);
- err_vbufs:
-@@ -289,6 +297,7 @@ void virtio_gpu_release(struct drm_device *dev)
- 	if (!vgdev)
- 		return;
- 
-+	drm_gem_shmem_shrinker_unregister(dev);
- 	virtio_gpu_modeset_fini(vgdev);
- 	virtio_gpu_free_vbufs(vgdev);
- 	virtio_gpu_cleanup_cap_cache(vgdev);
-diff --git a/drivers/gpu/drm/virtio/virtgpu_object.c b/drivers/gpu/drm/virtio/virtgpu_object.c
-index 8d7728181de0..fc8f2a78fd1d 100644
---- a/drivers/gpu/drm/virtio/virtgpu_object.c
-+++ b/drivers/gpu/drm/virtio/virtgpu_object.c
-@@ -97,41 +97,53 @@ static void virtio_gpu_free_object(struct drm_gem_object *obj)
- 	virtio_gpu_cleanup_object(bo);
- }
- 
--static const struct drm_gem_object_funcs virtio_gpu_shmem_funcs = {
--	.free = virtio_gpu_free_object,
--	.open = virtio_gpu_gem_object_open,
--	.close = virtio_gpu_gem_object_close,
--	.print_info = drm_gem_shmem_object_print_info,
--	.export = virtgpu_gem_prime_export,
--	.pin = drm_gem_shmem_object_pin,
--	.unpin = drm_gem_shmem_object_unpin,
--	.get_sg_table = drm_gem_shmem_object_get_sg_table,
--	.vmap = drm_gem_shmem_object_vmap,
--	.vunmap = drm_gem_shmem_object_vunmap,
--	.mmap = drm_gem_shmem_object_mmap,
--	.vm_ops = &drm_gem_shmem_vm_ops,
--};
--
--bool virtio_gpu_is_shmem(struct virtio_gpu_object *bo)
-+static int virtio_gpu_detach_object_fenced(struct virtio_gpu_object *bo)
- {
--	return bo->base.base.funcs == &virtio_gpu_shmem_funcs;
-+	struct virtio_gpu_device *vgdev = bo->base.base.dev->dev_private;
-+	struct virtio_gpu_fence *fence;
-+
-+	fence = virtio_gpu_fence_alloc(vgdev, vgdev->fence_drv.context, 0);
-+	if (!fence)
-+		return -ENOMEM;
-+
-+	virtio_gpu_object_detach(vgdev, bo, fence);
-+	virtio_gpu_notify(vgdev);
-+
-+	dma_fence_wait(&fence->f, false);
-+	dma_fence_put(&fence->f);
-+
-+	return 0;
- }
- 
--struct drm_gem_object *virtio_gpu_create_object(struct drm_device *dev,
--						size_t size)
-+static int virtio_gpu_shmem_purge(struct drm_gem_shmem_object *shmem)
- {
--	struct virtio_gpu_object_shmem *shmem;
--	struct drm_gem_shmem_object *dshmem;
-+	struct virtio_gpu_object *bo = gem_to_virtio_gpu_obj(&shmem->base);
-+	int err;
- 
--	shmem = kzalloc(sizeof(*shmem), GFP_KERNEL);
--	if (!shmem)
--		return ERR_PTR(-ENOMEM);
-+	/*
-+	 * At first tell host to stop using guest's memory to ensure that
-+	 * host won't touch the released guest's memory once it's gone.
-+	 */
-+	err = virtio_gpu_detach_object_fenced(bo);
-+	if (err)
-+		return err;
- 
--	dshmem = &shmem->base.base;
--	dshmem->base.funcs = &virtio_gpu_shmem_funcs;
--	return &dshmem->base;
-+	err = virtio_gpu_gem_host_mem_release(bo);
-+	if (err)
-+		return err;
-+
-+	return 0;
-+}
-+
-+static int virtio_gpu_shmem_evict(struct drm_gem_shmem_object *shmem)
-+{
-+	struct virtio_gpu_object *bo = gem_to_virtio_gpu_obj(&shmem->base);
-+
-+	return virtio_gpu_detach_object_fenced(bo);
- }
- 
-+static int virtio_gpu_shmem_swap_in(struct drm_gem_shmem_object *shmem);
-+
- static int virtio_gpu_object_shmem_init(struct virtio_gpu_device *vgdev,
- 					struct virtio_gpu_object *bo,
- 					struct virtio_gpu_mem_entry **ents,
-@@ -176,6 +188,59 @@ static int virtio_gpu_object_shmem_init(struct virtio_gpu_device *vgdev,
- 	return 0;
- }
- 
-+static int virtio_gpu_shmem_swap_in(struct drm_gem_shmem_object *shmem)
-+{
-+	struct virtio_gpu_object *bo = gem_to_virtio_gpu_obj(&shmem->base);
-+	struct virtio_gpu_device *vgdev = bo->base.base.dev->dev_private;
-+	struct virtio_gpu_mem_entry *ents;
-+	unsigned int nents;
-+	int err;
-+
-+	err = virtio_gpu_object_shmem_init(vgdev, bo, &ents, &nents);
-+	if (err)
-+		return err;
-+
-+	virtio_gpu_object_attach(vgdev, bo, ents, nents);
-+	virtio_gpu_notify(vgdev);
-+
-+	return 0;
-+}
-+
-+static const struct drm_gem_object_funcs virtio_gpu_shmem_funcs = {
-+	.free = virtio_gpu_free_object,
-+	.open = virtio_gpu_gem_object_open,
-+	.close = virtio_gpu_gem_object_close,
-+	.print_info = drm_gem_shmem_object_print_info,
-+	.export = virtgpu_gem_prime_export,
-+	.pin = drm_gem_shmem_object_pin,
-+	.unpin = drm_gem_shmem_object_unpin,
-+	.get_sg_table = drm_gem_shmem_object_get_sg_table,
-+	.vmap = drm_gem_shmem_object_vmap,
-+	.vunmap = drm_gem_shmem_object_vunmap,
-+	.mmap = drm_gem_shmem_object_mmap,
-+	.vm_ops = &drm_gem_shmem_vm_ops,
-+};
-+
-+bool virtio_gpu_is_shmem(struct virtio_gpu_object *bo)
-+{
-+	return bo->base.base.funcs == &virtio_gpu_shmem_funcs;
-+}
-+
-+struct drm_gem_object *virtio_gpu_create_object(struct drm_device *dev,
-+						size_t size)
-+{
-+	struct virtio_gpu_object_shmem *shmem;
-+	struct drm_gem_shmem_object *dshmem;
-+
-+	shmem = kzalloc(sizeof(*shmem), GFP_KERNEL);
-+	if (!shmem)
-+		return ERR_PTR(-ENOMEM);
-+
-+	dshmem = &shmem->base.base;
-+	dshmem->base.funcs = &virtio_gpu_shmem_funcs;
-+	return &dshmem->base;
-+}
-+
- int virtio_gpu_object_create(struct virtio_gpu_device *vgdev,
- 			     struct virtio_gpu_object_params *params,
- 			     struct virtio_gpu_object **bo_ptr,
-@@ -201,6 +266,9 @@ int virtio_gpu_object_create(struct virtio_gpu_device *vgdev,
- 		goto err_free_gem;
- 
- 	bo->dumb = params->dumb;
-+	bo->base.purge = virtio_gpu_shmem_purge;
-+	bo->base.evict = virtio_gpu_shmem_evict;
-+	bo->base.swap_in = virtio_gpu_shmem_swap_in;
- 
- 	ret = virtio_gpu_object_shmem_init(vgdev, bo, &ents, &nents);
- 	if (ret != 0)
-@@ -228,10 +296,18 @@ int virtio_gpu_object_create(struct virtio_gpu_device *vgdev,
- 		virtio_gpu_cmd_resource_create_3d(vgdev, bo, params,
- 						  objs, fence);
- 		virtio_gpu_object_attach(vgdev, bo, ents, nents);
-+
-+		shmem_obj->pages_mark_dirty_on_put = 1;
-+
-+		drm_gem_shmem_set_purgeable_and_evictable(shmem_obj);
- 	} else {
- 		virtio_gpu_cmd_create_resource(vgdev, bo, params,
- 					       objs, fence);
- 		virtio_gpu_object_attach(vgdev, bo, ents, nents);
-+
-+		shmem_obj->pages_mark_dirty_on_put = 1;
-+
-+		drm_gem_shmem_set_purgeable_and_evictable(shmem_obj);
- 	}
- 
- 	*bo_ptr = bo;
-diff --git a/drivers/gpu/drm/virtio/virtgpu_plane.c b/drivers/gpu/drm/virtio/virtgpu_plane.c
-index 7148f3813d8b..c3ac77cae555 100644
---- a/drivers/gpu/drm/virtio/virtgpu_plane.c
-+++ b/drivers/gpu/drm/virtio/virtgpu_plane.c
-@@ -246,20 +246,32 @@ static int virtio_gpu_plane_prepare_fb(struct drm_plane *plane,
- 	struct virtio_gpu_device *vgdev = dev->dev_private;
- 	struct virtio_gpu_framebuffer *vgfb;
- 	struct virtio_gpu_object *bo;
-+	int err;
- 
- 	if (!new_state->fb)
- 		return 0;
- 
- 	vgfb = to_virtio_gpu_framebuffer(new_state->fb);
- 	bo = gem_to_virtio_gpu_obj(vgfb->base.obj[0]);
--	if (!bo || (plane->type == DRM_PLANE_TYPE_PRIMARY && !bo->guest_blob))
-+
-+	if (virtio_gpu_is_shmem(bo)) {
-+		err = drm_gem_shmem_pin(&bo->base);
-+		if (err)
-+			return err;
-+	}
-+
-+	if (plane->type == DRM_PLANE_TYPE_PRIMARY && !bo->guest_blob)
- 		return 0;
- 
- 	if (bo->dumb && (plane->state->fb != new_state->fb)) {
- 		vgfb->fence = virtio_gpu_fence_alloc(vgdev, vgdev->fence_drv.context,
- 						     0);
--		if (!vgfb->fence)
-+		if (!vgfb->fence) {
-+			if (virtio_gpu_is_shmem(bo))
-+				drm_gem_shmem_unpin(&bo->base);
-+
- 			return -ENOMEM;
-+		}
- 	}
- 
- 	return 0;
-@@ -269,15 +281,21 @@ static void virtio_gpu_plane_cleanup_fb(struct drm_plane *plane,
- 					struct drm_plane_state *state)
- {
- 	struct virtio_gpu_framebuffer *vgfb;
-+	struct virtio_gpu_object *bo;
- 
- 	if (!state->fb)
- 		return;
- 
- 	vgfb = to_virtio_gpu_framebuffer(state->fb);
-+	bo = gem_to_virtio_gpu_obj(vgfb->base.obj[0]);
-+
- 	if (vgfb->fence) {
- 		dma_fence_put(&vgfb->fence->f);
- 		vgfb->fence = NULL;
- 	}
-+
-+	if (virtio_gpu_is_shmem(bo))
-+		drm_gem_shmem_unpin(&bo->base);
- }
- 
- static void virtio_gpu_cursor_plane_update(struct drm_plane *plane,
-diff --git a/drivers/gpu/drm/virtio/virtgpu_vq.c b/drivers/gpu/drm/virtio/virtgpu_vq.c
-index 06566e44307d..2a04dad1ae89 100644
---- a/drivers/gpu/drm/virtio/virtgpu_vq.c
-+++ b/drivers/gpu/drm/virtio/virtgpu_vq.c
-@@ -536,6 +536,21 @@ void virtio_gpu_cmd_unref_resource(struct virtio_gpu_device *vgdev,
- 		virtio_gpu_cleanup_object(bo);
- }
- 
-+int virtio_gpu_cmd_release_resource(struct virtio_gpu_device *vgdev,
-+				    struct virtio_gpu_object *bo)
-+{
-+	struct virtio_gpu_resource_unref *cmd_p;
-+	struct virtio_gpu_vbuffer *vbuf;
-+
-+	cmd_p = virtio_gpu_alloc_cmd(vgdev, &vbuf, sizeof(*cmd_p));
-+	memset(cmd_p, 0, sizeof(*cmd_p));
-+
-+	cmd_p->hdr.type = cpu_to_le32(VIRTIO_GPU_CMD_RESOURCE_UNREF);
-+	cmd_p->resource_id = cpu_to_le32(bo->hw_res_handle);
-+
-+	return virtio_gpu_queue_ctrl_buffer(vgdev, vbuf);
-+}
-+
- void virtio_gpu_cmd_set_scanout(struct virtio_gpu_device *vgdev,
- 				uint32_t scanout_id, uint32_t resource_id,
- 				uint32_t width, uint32_t height,
-@@ -636,6 +651,23 @@ virtio_gpu_cmd_resource_attach_backing(struct virtio_gpu_device *vgdev,
- 	virtio_gpu_queue_fenced_ctrl_buffer(vgdev, vbuf, fence);
- }
- 
-+static void
-+virtio_gpu_cmd_resource_detach_backing(struct virtio_gpu_device *vgdev,
-+				       u32 resource_id,
-+				       struct virtio_gpu_fence *fence)
-+{
-+	struct virtio_gpu_resource_attach_backing *cmd_p;
-+	struct virtio_gpu_vbuffer *vbuf;
-+
-+	cmd_p = virtio_gpu_alloc_cmd(vgdev, &vbuf, sizeof(*cmd_p));
-+	memset(cmd_p, 0, sizeof(*cmd_p));
-+
-+	cmd_p->hdr.type = cpu_to_le32(VIRTIO_GPU_CMD_RESOURCE_DETACH_BACKING);
-+	cmd_p->resource_id = cpu_to_le32(resource_id);
-+
-+	virtio_gpu_queue_fenced_ctrl_buffer(vgdev, vbuf, fence);
-+}
-+
- static void virtio_gpu_cmd_get_display_info_cb(struct virtio_gpu_device *vgdev,
- 					       struct virtio_gpu_vbuffer *vbuf)
- {
-@@ -1099,6 +1131,14 @@ void virtio_gpu_object_attach(struct virtio_gpu_device *vgdev,
- 					       ents, nents, NULL);
- }
- 
-+void virtio_gpu_object_detach(struct virtio_gpu_device *vgdev,
-+			      struct virtio_gpu_object *obj,
-+			      struct virtio_gpu_fence *fence)
-+{
-+	virtio_gpu_cmd_resource_detach_backing(vgdev, obj->hw_res_handle,
-+					       fence);
-+}
-+
- void virtio_gpu_cursor_ping(struct virtio_gpu_device *vgdev,
- 			    struct virtio_gpu_output *output)
- {
-diff --git a/include/uapi/drm/virtgpu_drm.h b/include/uapi/drm/virtgpu_drm.h
-index 0512fde5e697..12197d8e9759 100644
---- a/include/uapi/drm/virtgpu_drm.h
-+++ b/include/uapi/drm/virtgpu_drm.h
-@@ -48,6 +48,7 @@ extern "C" {
- #define DRM_VIRTGPU_GET_CAPS  0x09
- #define DRM_VIRTGPU_RESOURCE_CREATE_BLOB 0x0a
- #define DRM_VIRTGPU_CONTEXT_INIT 0x0b
-+#define DRM_VIRTGPU_MADVISE 0x0c
- 
- #define VIRTGPU_EXECBUF_FENCE_FD_IN	0x01
- #define VIRTGPU_EXECBUF_FENCE_FD_OUT	0x02
-@@ -196,6 +197,15 @@ struct drm_virtgpu_context_init {
- 	__u64 ctx_set_params;
- };
- 
-+#define VIRTGPU_MADV_WILLNEED 0
-+#define VIRTGPU_MADV_DONTNEED 1
-+struct drm_virtgpu_madvise {
-+	__u32 bo_handle;
-+	__u32 retained; /* out, non-zero if BO can be used */
-+	__u32 madv;
-+	__u32 pad;
-+};
-+
- /*
-  * Event code that's given when VIRTGPU_CONTEXT_PARAM_POLL_RINGS_MASK is in
-  * effect.  The event size is sizeof(drm_event), since there is no additional
-@@ -246,6 +256,10 @@ struct drm_virtgpu_context_init {
- 	DRM_IOWR(DRM_COMMAND_BASE + DRM_VIRTGPU_CONTEXT_INIT,		\
- 		struct drm_virtgpu_context_init)
- 
-+#define DRM_IOCTL_VIRTGPU_MADVISE \
-+	DRM_IOWR(DRM_COMMAND_BASE + DRM_VIRTGPU_MADVISE, \
-+		 struct drm_virtgpu_madvise)
-+
- #if defined(__cplusplus)
- }
- #endif
+-			atomic_dec(&job->mappings[i]->obj->gpu_usecount);
+ 			panfrost_gem_mapping_put(job->mappings[i]);
+ 		}
+ 		kvfree(job->mappings);
 -- 
 2.35.1
 
