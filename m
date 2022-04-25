@@ -1,50 +1,65 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2E85C50E596
-	for <lists+dri-devel@lfdr.de>; Mon, 25 Apr 2022 18:23:56 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 3AFA050E5BB
+	for <lists+dri-devel@lfdr.de>; Mon, 25 Apr 2022 18:26:54 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 0730510E870;
-	Mon, 25 Apr 2022 16:23:46 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 9CD1710F211;
+	Mon, 25 Apr 2022 16:26:51 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mga01.intel.com (mga01.intel.com [192.55.52.88])
- by gabe.freedesktop.org (Postfix) with ESMTPS id F035510E7E4;
- Mon, 25 Apr 2022 16:23:42 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1650903823; x=1682439823;
- h=from:to:cc:subject:date:message-id:in-reply-to:
- references:mime-version:content-transfer-encoding;
- bh=Hvgf+M/7SbHFav0/RuR27C0dZYU4H+m1q9kHGxJE5gs=;
- b=Oetqp7/s27JKtPsG+rwVMhugUieIev+uW7ypH0qJKot56QhPbhuskfKf
- RBpppzA8lsl3S3tRiPxSO/hnoq8f1F4Bw4tf+Q5kbuGNFrBL33ReYnpGD
- PtLtmCFIJOkVHzwhspHCe9hAp1b6Gd8MZx2xS1tHTmi3ZLclxpAi5tyMl
- QXiQfpa7ZvqJd4J9Xft4wi5O2EExA7fuVuCmZkPSvGJKovQz5CzEw9BBj
- M7kOs45jyQrCPCGbrq1ZedS8MyySkMwYF+L6Cp/YEPwjU/gp5U2zbyFmw
- LwUj4xOFkH5hvqNEpIHl5fnwzUcZqamPyEMg4ORMRdbyDekiJ89U7hDk3 A==;
-X-IronPort-AV: E=McAfee;i="6400,9594,10328"; a="290434383"
-X-IronPort-AV: E=Sophos;i="5.90,288,1643702400"; d="scan'208";a="290434383"
-Received: from orsmga004.jf.intel.com ([10.7.209.38])
- by fmsmga101.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 25 Apr 2022 09:23:42 -0700
-X-IronPort-AV: E=Sophos;i="5.90,288,1643702400"; d="scan'208";a="677290995"
-Received: from ramaling-i9x.iind.intel.com ([10.203.144.108])
- by orsmga004-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 25 Apr 2022 09:23:40 -0700
-From: Ramalingam C <ramalingam.c@intel.com>
-To: intel-gfx <intel-gfx@lists.freedesktop.org>,
- dri-devel <dri-devel@lists.freedesktop.org>
-Subject: [PATCH v2 4/4] uapi/drm/i915: Document memory residency and Flat-CCS
- capability of obj
-Date: Mon, 25 Apr 2022 21:54:30 +0530
-Message-Id: <20220425162430.28844-5-ramalingam.c@intel.com>
-X-Mailer: git-send-email 2.20.1
-In-Reply-To: <20220425162430.28844-1-ramalingam.c@intel.com>
-References: <20220425162430.28844-1-ramalingam.c@intel.com>
+Received: from alexa-out-sd-02.qualcomm.com (alexa-out-sd-02.qualcomm.com
+ [199.106.114.39])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 8FF9B10F211;
+ Mon, 25 Apr 2022 16:26:50 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=quicinc.com; i=@quicinc.com; q=dns/txt; s=qcdkim;
+ t=1650904010; x=1682440010;
+ h=message-id:date:mime-version:subject:to:cc:references:
+ from:in-reply-to:content-transfer-encoding;
+ bh=c6McCVKeftasKJdSsP9ApBQ8+N38j3+BWLlBq4i/SkM=;
+ b=T+e83EptC8Yx17VYNjsKZiNs7KoCYZQ4TCKqFLXM1FyiJuFm8ueamzZJ
+ hLt2T/3BR4tzo6RN+/V4hNZvR8jW3ffNgCyuuXvvSF4rhSZ1dmkN//v2R
+ SZhbAmJjB034dfCbK1AVcq2XXwtn+uXBzRTal6bitbX2b4q2C09kbka+j k=;
+Received: from unknown (HELO ironmsg03-sd.qualcomm.com) ([10.53.140.143])
+ by alexa-out-sd-02.qualcomm.com with ESMTP; 25 Apr 2022 09:25:49 -0700
+X-QCInternal: smtphost
+Received: from nasanex01c.na.qualcomm.com ([10.47.97.222])
+ by ironmsg03-sd.qualcomm.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 25 Apr 2022 09:25:49 -0700
+Received: from nalasex01a.na.qualcomm.com (10.47.209.196) by
+ nasanex01c.na.qualcomm.com (10.47.97.222) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.2.986.22; Mon, 25 Apr 2022 09:25:49 -0700
+Received: from [10.111.165.107] (10.80.80.8) by nalasex01a.na.qualcomm.com
+ (10.47.209.196) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.986.22; Mon, 25 Apr
+ 2022 09:25:46 -0700
+Message-ID: <ea8a9aa8-c1f3-08a2-d011-26f6b4abc11f@quicinc.com>
+Date: Mon, 25 Apr 2022 09:25:44 -0700
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:91.0) Gecko/20100101
+ Thunderbird/91.6.2
+Subject: Re: [Freedreno] [PATCH v4 03/20] drm: allow real encoder to be passed
+ for drm_writeback_connector
+Content-Language: en-US
+To: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>, Laurent Pinchart
+ <laurent.pinchart@ideasonboard.com>
+References: <1650668815-7048-1-git-send-email-quic_abhinavk@quicinc.com>
+ <1650668815-7048-4-git-send-email-quic_abhinavk@quicinc.com>
+ <YmVj0/XouEH0yfmT@pendragon.ideasonboard.com>
+ <e924e564-e4e2-1f8f-4f5f-1cc0bc2084c3@quicinc.com>
+ <eac58ee5-14ae-a9df-364d-d46da1fd64c3@quicinc.com>
+ <YmWsLWnRa43hQ2sg@pendragon.ideasonboard.com>
+ <CAA8EJppeH+qxUcU0OqLsAhHAMqd_ut1XwHKO7xUCyLj=m06_Zg@mail.gmail.com>
+From: Abhinav Kumar <quic_abhinavk@quicinc.com>
+In-Reply-To: <CAA8EJppeH+qxUcU0OqLsAhHAMqd_ut1XwHKO7xUCyLj=m06_Zg@mail.gmail.com>
+Content-Type: text/plain; charset="UTF-8"; format=flowed
+Content-Transfer-Encoding: 7bit
+X-Originating-IP: [10.80.80.8]
+X-ClientProxiedBy: nasanex01b.na.qualcomm.com (10.46.141.250) To
+ nalasex01a.na.qualcomm.com (10.47.209.196)
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -57,55 +72,214 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Hellstrom Thomas <thomas.hellstrom@intel.com>,
- Matthew Auld <matthew.auld@intel.com>,
- Thomas Hellstrom <thomas.hellstrom@linux.intel.com>
+Cc: markyacoub@chromium.org, liviu.dudau@arm.com,
+ dri-devel@lists.freedesktop.org, swboyd@chromium.org, seanpaul@chromium.org,
+ quic_jesszhan@quicinc.com, quic_aravindh@quicinc.com,
+ freedreno@lists.freedesktop.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Capture the impact of memory region preference list of an object, on
-their memory residency and Flat-CCS capability of the objects.
 
-v2:
-  Fix the Flat-CCS capability of an obj with {lmem, smem} preference
-  list [Thomas]
 
-Signed-off-by: Ramalingam C <ramalingam.c@intel.com>
-cc: Matthew Auld <matthew.auld@intel.com>
-cc: Thomas Hellstrom <thomas.hellstrom@linux.intel.com>
----
- include/uapi/drm/i915_drm.h | 18 ++++++++++++++++++
- 1 file changed, 18 insertions(+)
+On 4/25/2022 3:50 AM, Dmitry Baryshkov wrote:
+> On Sun, 24 Apr 2022 at 22:59, Laurent Pinchart
+> <laurent.pinchart@ideasonboard.com> wrote:
+>>
+>> Hi Abhinav,
+>>
+>> On Sun, Apr 24, 2022 at 11:23:20AM -0700, Abhinav Kumar wrote:
+>>> On 4/24/2022 11:12 AM, Abhinav Kumar wrote:
+>>>> On 4/24/2022 7:50 AM, Laurent Pinchart wrote:
+>>>>> On Fri, Apr 22, 2022 at 04:06:38PM -0700, Abhinav Kumar wrote:
+>>>>>> For some vendor driver implementations, display hardware can
+>>>>>> be shared between the encoder used for writeback and the physical
+>>>>>> display.
+>>>>>>
+>>>>>> In addition resources such as clocks and interrupts can
+>>>>>> also be shared between writeback and the real encoder.
+>>>>>>
+>>>>>> To accommodate such vendor drivers and hardware, allow
+>>>>>> real encoder to be passed for drm_writeback_connector.
+>>>>>>
+>>>>>> For existing clients, drm_writeback_connector_init() will use
+>>>>>> an internal_encoder under the hood and hence no changes will
+>>>>>> be needed.
+>>>>>>
+>>>>>> changes in v7:
+>>>>>>      - move this change before the vc4 change in the series
+>>>>>>        to minimize the changes to vendor drivers in drm core
+>>>>>>        changes
+>>>>>
+>>>>> Why is this needed ? The drm_writeback_connector functions don't need
+>>>>> the drm_encoder after drm_writeback_connector_init() (or
+>>>>> drm_writeback_connector_init_with_encoder()) returns.
+>>>>>
+>>>>
+>>>> Sorry I didnt follow this comment. This change log is incorrect, so
+>>>> after changing the previous change in the series and modifying this, no
+>>>> further changes are needed to vc4, so I decided to drop the next change.
+>>>> So this change log is incorrect. I can remove this.
+>>>>
+>>>> Is that what you meant?
+>>>
+>>> So till the previous change, the only user of
+>>> drm_writeback_connector_init_with_encoder() was
+>>> drm_writeback_connector_init() which was still passing its own
+>>> internal_encoder.
+>>>
+>>> Only if the wb_connector->encoder is changed to a pointer, other vendor
+>>> drivers can pass their own encoder to
+>>> drm_writeback_connector_init_with_encoder().
+>>>
+>>> Hence you are right that drm_writeback_connector functions do not need
+>>> drm_encoder after init() returns, but till this change is done, other
+>>> vendor drivers cannot directly call
+>>> drm_writeback_connector_init_with_encoder() because the encoder will not
+>>> be valid till then.
+>>
+>> Users of drm_writeback_connector_init_with_encoder() handle the encoder
+>> themselves, they can simply ignore drm_writeback_connector.encoder. The
+>> documentation of the encoder field needs to be updated though (I'd do so
+>> in the previous patch), to clearly mention that the field is valid only
+>> when using drm_writeback_connector_init(), not when calling
+>> drm_writeback_connector_init_with_encoder().
+> 
+> If we allow it to be unitialized, it might end with hard-to-trace
+> bugs, additional conditions, etc.
+> In my opnion we should:
+>   - either make drm_writeback_connector.encoder a valid pointer
+>   - or drop the field completely.
+> 
+> And up to some point I'd vote for the second option. The code using
+> internal_encoder can continue using it directly. The code using
+> drm_writeback_connector_init_with_encoder() will manage encoder on
+> their own. We will loose a single entry point for wb's encoder, but do
+> we really need it? (Frankly speaking I didn't check.)
+> 
+Agree with your comment Dmitry and thats why I was suggesting to let 
+drm_writeback_connector.encoder remain a valid pointer to avoid 
+discrepancies.
 
-diff --git a/include/uapi/drm/i915_drm.h b/include/uapi/drm/i915_drm.h
-index 35ca528803fd..ad191ed6547c 100644
---- a/include/uapi/drm/i915_drm.h
-+++ b/include/uapi/drm/i915_drm.h
-@@ -3393,6 +3393,24 @@ struct drm_i915_gem_create_ext {
-  * At which point we get the object handle in &drm_i915_gem_create_ext.handle,
-  * along with the final object size in &drm_i915_gem_create_ext.size, which
-  * should account for any rounding up, if required.
-+ *
-+ * Objects with multiple memory regions in the preference list will be backed
-+ * by one of the memory regions mentioned in the preference list. Though I915
-+ * tries to honour the order of the memory regions in the preference list,
-+ * based on the memory pressure of the regions, objects' backing region
-+ * will be selected.
-+ *
-+ * Userspace has no means of knowing the backing region for such objects.
-+ *
-+ * On Flat-CCS capable HW, compression is supported for the objects residing
-+ * in I915_MEMORY_CLASS_DEVICE. When such objects (compressed) has other
-+ * memory class in preference list and migrated (by I915, due to memory
-+ * constrain) to the non I915_MEMORY_CLASS_DEVICE region, then I915 needs to
-+ * decompress the content. But I915 dont have the required information to
-+ * decompress the userspace compressed objects.
-+ *
-+ * So I915 supports Flat-CCS, only on the objects which can reside only on
-+ * I915_MEMORY_CLASS_DEVICE regions.
-  */
- struct drm_i915_gem_create_ext_memory_regions {
- 	/** @base: Extension link. See struct i915_user_extension. */
--- 
-2.20.1
+If we go with option (1), this change as-it-is is the best way to go.
 
+If we go with option (2), to drop the encoder field and just rename 
+encoder ---> internal_encoder, it will still work for existing users.
+
+But I would prefer that goes as a separate change then because MSM 
+doesn't really need this ( and at this point even other drivers don't )
+
+I am still ready to post the change separately and do basic validation 
+with our boards.
+
+>>
+>>> Hope this clarifies it.
+>>>
+>>>>>> Signed-off-by: Abhinav Kumar <quic_abhinavk@quicinc.com>
+>>>>>> Reviewed-by: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
+>>>>>> ---
+>>>>>>    drivers/gpu/drm/drm_writeback.c | 18 ++++++++++++------
+>>>>>>    drivers/gpu/drm/vc4/vc4_txp.c   |  4 ++--
+>>>>>>    include/drm/drm_writeback.h     | 22 ++++++++++++++++++++--
+>>>>>>    3 files changed, 34 insertions(+), 10 deletions(-)
+>>>>>>
+>>>>>> diff --git a/drivers/gpu/drm/drm_writeback.c
+>>>>>> b/drivers/gpu/drm/drm_writeback.c
+>>>>>> index 92658ad..0538674 100644
+>>>>>> --- a/drivers/gpu/drm/drm_writeback.c
+>>>>>> +++ b/drivers/gpu/drm/drm_writeback.c
+>>>>>> @@ -180,21 +180,21 @@ int drm_writeback_connector_init(struct
+>>>>>> drm_device *dev,
+>>>>>>    {
+>>>>>>        int ret = 0;
+>>>>>> -    drm_encoder_helper_add(&wb_connector->encoder, enc_helper_funcs);
+>>>>>> +    drm_encoder_helper_add(&wb_connector->internal_encoder, enc_helper_funcs);
+>>>>>> -    wb_connector->encoder.possible_crtcs = possible_crtcs;
+>>>>>> +    wb_connector->internal_encoder.possible_crtcs = possible_crtcs;
+>>>>>> -    ret = drm_encoder_init(dev, &wb_connector->encoder,
+>>>>>> +    ret = drm_encoder_init(dev, &wb_connector->internal_encoder,
+>>>>>>                       &drm_writeback_encoder_funcs,
+>>>>>>                       DRM_MODE_ENCODER_VIRTUAL, NULL);
+>>>>>>        if (ret)
+>>>>>>            return ret;
+>>>>>> -    ret = drm_writeback_connector_init_with_encoder(dev, wb_connector, &wb_connector->encoder,
+>>>>>> -            con_funcs, formats, n_formats);
+>>>>>> +    ret = drm_writeback_connector_init_with_encoder(dev, wb_connector,
+>>>>>> +            &wb_connector->internal_encoder, con_funcs, formats, n_formats);
+>>>>>>        if (ret)
+>>>>>> -        drm_encoder_cleanup(&wb_connector->encoder);
+>>>>>> +        drm_encoder_cleanup(&wb_connector->internal_encoder);
+>>>>>>        return ret;
+>>>>>>    }
+>>>>>> @@ -239,6 +239,12 @@ int drm_writeback_connector_init_with_encoder(struct drm_device *dev,
+>>>>>>        struct drm_mode_config *config = &dev->mode_config;
+>>>>>>        int ret = create_writeback_properties(dev);
+>>>>>> +    /*
+>>>>>> +     * Assign the encoder passed to this API to the wb_connector's encoder.
+>>>>>> +     * For drm_writeback_connector_init(), this shall be the internal_encoder
+>>>>>> +     */
+>>>>>> +    wb_connector->encoder = enc;
+>>>>>> +
+>>>>>>        if (ret != 0)
+>>>>>>            return ret;
+>>>>>> diff --git a/drivers/gpu/drm/vc4/vc4_txp.c b/drivers/gpu/drm/vc4/vc4_txp.c
+>>>>>> index 3447eb6..7e063a9 100644
+>>>>>> --- a/drivers/gpu/drm/vc4/vc4_txp.c
+>>>>>> +++ b/drivers/gpu/drm/vc4/vc4_txp.c
+>>>>>> @@ -159,7 +159,7 @@ struct vc4_txp {
+>>>>>>    static inline struct vc4_txp *encoder_to_vc4_txp(struct drm_encoder *encoder)
+>>>>>>    {
+>>>>>> -    return container_of(encoder, struct vc4_txp, connector.encoder);
+>>>>>> +    return container_of(encoder, struct vc4_txp, connector.internal_encoder);
+>>>>>>    }
+>>>>>>    static inline struct vc4_txp *connector_to_vc4_txp(struct  drm_connector *conn)
+>>>>>> @@ -507,7 +507,7 @@ static int vc4_txp_bind(struct device *dev, struct device *master, void *data)
+>>>>>>        if (ret)
+>>>>>>            return ret;
+>>>>>> -    encoder = &txp->connector.encoder;
+>>>>>> +    encoder = txp->connector.encoder;
+>>>>>>        encoder->possible_crtcs = drm_crtc_mask(crtc);
+>>>>>>        ret = devm_request_irq(dev, irq, vc4_txp_interrupt, 0,
+>>>>>> diff --git a/include/drm/drm_writeback.h b/include/drm/drm_writeback.h
+>>>>>> index bb306fa..3fbae9d 100644
+>>>>>> --- a/include/drm/drm_writeback.h
+>>>>>> +++ b/include/drm/drm_writeback.h
+>>>>>> @@ -25,13 +25,31 @@ struct drm_writeback_connector {
+>>>>>>        struct drm_connector base;
+>>>>>>        /**
+>>>>>> -     * @encoder: Internal encoder used by the connector to fulfill
+>>>>>> +     * @encoder: handle to drm_encoder used by the connector to fulfill
+>>>>>>         * the DRM framework requirements. The users of the
+>>>>>>         * @drm_writeback_connector control the behaviour of the @encoder
+>>>>>>         * by passing the @enc_funcs parameter to drm_writeback_connector_init()
+>>>>>>         * function.
+>>>>>> +     *
+>>>>>> +     * For some vendor drivers, the hardware resources are shared between
+>>>>>> +     * writeback encoder and rest of the display pipeline.
+>>>>>> +     * To accommodate such cases, encoder is a handle to the real encoder
+>>>>>> +     * hardware.
+>>>>>> +     *
+>>>>>> +     * For current existing writeback users, this shall continue to be the
+>>>>>> +     * embedded encoder for the writeback connector.
+>>>>>> +     */
+>>>>>> +    struct drm_encoder *encoder;
+>>>>>> +
+>>>>>> +    /**
+>>>>>> +     * @internal_encoder: internal encoder used by writeback when
+>>>>>> +     * drm_writeback_connector_init() is used.
+>>>>>> +     * @encoder will be assigned to this for those cases
+>>>>>> +     *
+>>>>>> +     * This will be unused when drm_writeback_connector_init_with_encoder()
+>>>>>> +     * is used.
+>>>>>>         */
+>>>>>> -    struct drm_encoder encoder;
+>>>>>> +    struct drm_encoder internal_encoder;
+>>>>>>        /**
+>>>>>>         * @pixel_formats_blob_ptr:
+>>
+>> --
+>> Regards,
+>>
+>> Laurent Pinchart
+> 
+> 
+> 
