@@ -1,45 +1,48 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 306F350E58E
-	for <lists+dri-devel@lfdr.de>; Mon, 25 Apr 2022 18:23:40 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id C271550E590
+	for <lists+dri-devel@lfdr.de>; Mon, 25 Apr 2022 18:23:45 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 9F4B210E42C;
-	Mon, 25 Apr 2022 16:23:36 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id DDE4110E5C6;
+	Mon, 25 Apr 2022 16:23:39 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from mga01.intel.com (mga01.intel.com [192.55.52.88])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 7765B10E57C;
- Mon, 25 Apr 2022 16:23:34 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 07AAF10E594;
+ Mon, 25 Apr 2022 16:23:36 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1650903814; x=1682439814;
- h=from:to:cc:subject:date:message-id:mime-version:
- content-transfer-encoding;
- bh=/sbj5khoikZ+ZQyeCjOqQESTNkHlcE0dBLV3KnEpl54=;
- b=dLLVAX05cqClz8J0eRNyE6EVkyog/LBX0eHaTeKEgDPIpIiIGKrbHyc2
- MxwFM01zgclXDSOfRf2SBqhBXWLTLGeIbBMOn48XLe1Pgm9eJIWU61G/+
- SXKRMaz8XjbqsbT4wVlntqQaaen84A/Ni3yjj9ANnsVcX7IZzzuUYx+jX
- AIJR0DYMgskPo5E8M8gAttCOsa7uU97y4xRg1CRehJxpvCVzD9Wmjx7EV
- iXTbua831DT+h5Zq3GmQW4C2v5j/ev/KBRH0ofiuNW2w/Fi41M/pSrPxW
- BZuIZsegQo0bUFZFbLH5DddYdwJ/vrkeoCgw2SP7yTbMSyDtIo4uGuYJl g==;
-X-IronPort-AV: E=McAfee;i="6400,9594,10328"; a="290434337"
-X-IronPort-AV: E=Sophos;i="5.90,288,1643702400"; d="scan'208";a="290434337"
+ t=1650903816; x=1682439816;
+ h=from:to:cc:subject:date:message-id:in-reply-to:
+ references:mime-version:content-transfer-encoding;
+ bh=C9KppufqNBcoOEqlw1a11aEo0DAHKPArEfFcrfmgFlI=;
+ b=IWDutMxKyxY/EhS4mIc9/UXrDXpMQV3WIiotLPZ2dugc17QUTS6HgrXf
+ uUT+96HsEXtlmj5rAqbnVZE9wnGem+cfq6yRjMZbBdWFSldgsNuSMBSny
+ 3Sa4j3r47KAu8e1nusXggp3snKcWKAFJcx423DLMijDGZp07/DxCeIOH8
+ 2OwbB173fvmgpono+l3/Dgdr64H6BDnwlol9Nx/aExyeJOle+f77JhwhU
+ 3sOGx9EVvbHpFmsw4frJmhan6j2/bl4c6m71FaHy3MqBXYkFiyMUyth1y
+ vvovQdOlt0rkE+IH8gn0HvIMZACbF+lNX1Fcb3IamUIpDOUPtxvXiD+KC A==;
+X-IronPort-AV: E=McAfee;i="6400,9594,10328"; a="290434352"
+X-IronPort-AV: E=Sophos;i="5.90,288,1643702400"; d="scan'208";a="290434352"
 Received: from orsmga004.jf.intel.com ([10.7.209.38])
  by fmsmga101.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 25 Apr 2022 09:23:33 -0700
-X-IronPort-AV: E=Sophos;i="5.90,288,1643702400"; d="scan'208";a="677290951"
+ 25 Apr 2022 09:23:35 -0700
+X-IronPort-AV: E=Sophos;i="5.90,288,1643702400"; d="scan'208";a="677290965"
 Received: from ramaling-i9x.iind.intel.com ([10.203.144.108])
  by orsmga004-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 25 Apr 2022 09:23:31 -0700
+ 25 Apr 2022 09:23:33 -0700
 From: Ramalingam C <ramalingam.c@intel.com>
 To: intel-gfx <intel-gfx@lists.freedesktop.org>,
  dri-devel <dri-devel@lists.freedesktop.org>
-Subject: [PATCH v2 0/4] Flat-CCS eviction enhancements
-Date: Mon, 25 Apr 2022 21:54:26 +0530
-Message-Id: <20220425162430.28844-1-ramalingam.c@intel.com>
+Subject: [PATCH v2 1/4] drm/i915/gt: GEM_BUG_ON unexpected NULL at scatterlist
+ walking
+Date: Mon, 25 Apr 2022 21:54:27 +0530
+Message-Id: <20220425162430.28844-2-ramalingam.c@intel.com>
 X-Mailer: git-send-email 2.20.1
+In-Reply-To: <20220425162430.28844-1-ramalingam.c@intel.com>
+References: <20220425162430.28844-1-ramalingam.c@intel.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
@@ -59,22 +62,32 @@ Cc: Hellstrom Thomas <thomas.hellstrom@intel.com>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Flat-CCS eviction enhancements
+While locating the start of ccs scatterlist in smem scatterlist, that has
+to be the size of lmem obj size + corresponding ccs data size. Report bug
+if scatterlist terminate before that length.
 
-v2: Correcting the memory residency requirement for flat-ccs capability
-    [Thomas]
+Signed-off-by: Ramalingam C <ramalingam.c@intel.com>
+---
+ drivers/gpu/drm/i915/gt/intel_migrate.c | 6 ++++++
+ 1 file changed, 6 insertions(+)
 
-Ramalingam C (4):
-  drm/i915/gt: GEM_BUG_ON unexpected NULL at scatterlist walking
-  drm/i915/gt: optimize the ccs_sz calculation per chunk
-  drm/i915/gt: Document the eviction of the Flat-CCS objects
-  uapi/drm/i915: Document memory residency and Flat-CCS capability of
-    obj
-
- drivers/gpu/drm/i915/gt/intel_migrate.c | 65 ++++++++++++-------------
- include/uapi/drm/i915_drm.h             | 18 +++++++
- 2 files changed, 50 insertions(+), 33 deletions(-)
-
+diff --git a/drivers/gpu/drm/i915/gt/intel_migrate.c b/drivers/gpu/drm/i915/gt/intel_migrate.c
+index 9d552f30b627..29d761da02c4 100644
+--- a/drivers/gpu/drm/i915/gt/intel_migrate.c
++++ b/drivers/gpu/drm/i915/gt/intel_migrate.c
+@@ -687,6 +687,12 @@ static void get_ccs_sg_sgt(struct sgt_dma *it, u32 bytes_to_cpy)
+ 		bytes_to_cpy -= len;
+ 
+ 		it->sg = __sg_next(it->sg);
++
++		/*
++		 * scatterlist supposed to be the size of
++		 * bytes_to_cpy + GET_CCS_BYTES(bytes_to_copy).
++		 */
++		GEM_BUG_ON(!it->sg);
+ 		it->dma = sg_dma_address(it->sg);
+ 		it->max = it->dma + sg_dma_len(it->sg);
+ 	} while (bytes_to_cpy);
 -- 
 2.20.1
 
