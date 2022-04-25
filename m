@@ -1,42 +1,41 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id DACC750DD63
-	for <lists+dri-devel@lfdr.de>; Mon, 25 Apr 2022 11:58:33 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id AC0F650DD6A
+	for <lists+dri-devel@lfdr.de>; Mon, 25 Apr 2022 12:00:42 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 8CACA10E08D;
-	Mon, 25 Apr 2022 09:58:30 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id EA3DC10E0B4;
+	Mon, 25 Apr 2022 10:00:40 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from metis.ext.pengutronix.de (metis.ext.pengutronix.de
  [IPv6:2001:67c:670:201:290:27ff:fe1d:cc33])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 0006710E0A6
- for <dri-devel@lists.freedesktop.org>; Mon, 25 Apr 2022 09:58:28 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 830A810E0B4
+ for <dri-devel@lists.freedesktop.org>; Mon, 25 Apr 2022 10:00:40 +0000 (UTC)
 Received: from drehscheibe.grey.stw.pengutronix.de ([2a0a:edc0:0:c01:1d::a2])
  by metis.ext.pengutronix.de with esmtps
  (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256) (Exim 4.92)
  (envelope-from <p.zabel@pengutronix.de>)
- id 1nivTq-0000ya-E2; Mon, 25 Apr 2022 11:58:06 +0200
+ id 1nivVw-0001AZ-Kr; Mon, 25 Apr 2022 12:00:16 +0200
 Received: from [2a0a:edc0:0:900:1d::4e] (helo=lupine)
  by drehscheibe.grey.stw.pengutronix.de with esmtp (Exim 4.94.2)
  (envelope-from <p.zabel@pengutronix.de>)
- id 1nivTq-0057XY-CK; Mon, 25 Apr 2022 11:58:04 +0200
+ id 1nivVv-0057YD-Bh; Mon, 25 Apr 2022 12:00:13 +0200
 Received: from pza by lupine with local (Exim 4.94.2)
  (envelope-from <p.zabel@pengutronix.de>)
- id 1nivTo-00057A-8s; Mon, 25 Apr 2022 11:58:04 +0200
-Message-ID: <b4f438026fe208f8f6511de34c7e84c8c59d843c.camel@pengutronix.de>
-Subject: Re: [PATCH v17 13/21] drm/mediatek: add display merge async reset
- control
+ id 1nivVt-0005AB-9C; Mon, 25 Apr 2022 12:00:13 +0200
+Message-ID: <0e642da615b8f52fb36cd1248f8a124ea4e4b7b8.camel@pengutronix.de>
+Subject: Re: [PATCH v17 14/21] drm/mediatek: add ETHDR support for MT8195
 From: Philipp Zabel <p.zabel@pengutronix.de>
 To: "Nancy.Lin" <nancy.lin@mediatek.com>, Rob Herring <robh+dt@kernel.org>, 
  Matthias Brugger <matthias.bgg@gmail.com>, Chun-Kuang Hu
  <chunkuang.hu@kernel.org>, wim@linux-watchdog.org,  AngeloGioacchino Del
  Regno <angelogioacchino.delregno@collabora.com>, linux@roeck-us.net
-Date: Mon, 25 Apr 2022 11:58:04 +0200
-In-Reply-To: <20220416020749.29010-14-nancy.lin@mediatek.com>
+Date: Mon, 25 Apr 2022 12:00:13 +0200
+In-Reply-To: <20220416020749.29010-15-nancy.lin@mediatek.com>
 References: <20220416020749.29010-1-nancy.lin@mediatek.com>
- <20220416020749.29010-14-nancy.lin@mediatek.com>
+ <20220416020749.29010-15-nancy.lin@mediatek.com>
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 User-Agent: Evolution 3.38.3-1 
@@ -70,49 +69,72 @@ Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 On Sa, 2022-04-16 at 10:07 +0800, Nancy.Lin wrote:
-> Add merge async reset control in mtk_merge_stop. Async hw doesn't do self
-> reset on each sof signal(start of frame), so need to reset the async to
-> clear the hw status for the next merge start.
+> ETHDR is a part of ovl_adaptor.
+> ETHDR is designed for HDR video and graphics conversion in the external
+> display path. It handles multiple HDR input types and performs tone
+> mapping, color space/color format conversion, and then combine
+> different layers, output the required HDR or SDR signal to the
+> subsequent display path.
 >=20
 > Signed-off-by: Nancy.Lin <nancy.lin@mediatek.com>
-> Reviewed-by: CK Hu <ck.hu@mediatek.com>
+> Reviewed-by: Chun-Kuang Hu <chunkuang.hu@kernel.org>
 > Reviewed-by: AngeloGioacchino Del Regno <angelogioacchino.delregno@collab=
 ora.com>
 > ---
-> =C2=A0drivers/gpu/drm/mediatek/mtk_disp_merge.c | 4 ++++
-> =C2=A01 file changed, 4 insertions(+)
->=20
-> diff --git a/drivers/gpu/drm/mediatek/mtk_disp_merge.c b/drivers/gpu/drm/=
-mediatek/mtk_disp_merge.c
-> index 9dca145cfb71..177473fa8160 100644
-> --- a/drivers/gpu/drm/mediatek/mtk_disp_merge.c
-> +++ b/drivers/gpu/drm/mediatek/mtk_disp_merge.c
-> @@ -8,6 +8,7 @@
-> =C2=A0#include <linux/of_device.h>
-> =C2=A0#include <linux/of_irq.h>
-> =C2=A0#include <linux/platform_device.h>
-> +#include <linux/reset.h>
-> =C2=A0#include <linux/soc/mediatek/mtk-cmdq.h>
-> =C2=A0
->=20
->=20
->=20
-> =C2=A0#include "mtk_drm_ddp_comp.h"
-> @@ -79,6 +80,9 @@ void mtk_merge_stop(struct device *dev)
-> =C2=A0	struct mtk_disp_merge *priv =3D dev_get_drvdata(dev);
-> =C2=A0
->=20
->=20
->=20
-> =C2=A0	mtk_merge_stop_cmdq(dev, NULL);
+[...]
+> +static int mtk_ethdr_probe(struct platform_device *pdev)
+> +{
+> +	struct device *dev =3D &pdev->dev;
+> +	struct mtk_ethdr *priv;
+> +	int ret;
+> +	int i;
 > +
-> +	if (priv->async_clk)
-> +		device_reset_optional(dev);
+> +	dev_info(dev, "%s+\n", __func__);
 
-To avoid the overhead of looking up the reset control in the device
-tree every time, it would be better to request a reset control during
-probe using devm_reset_control_get_optional_exclusive(). Here you'd
-just call reset_control_reset().
+Left-over debug statements?
+
+> +
+> +	priv =3D devm_kzalloc(dev, sizeof(*priv), GFP_KERNEL);
+> +	if (!priv)
+> +		return -ENOMEM;
+> +
+> +	for (i =3D 0; i < ETHDR_ID_MAX; i++) {
+> +		priv->ethdr_comp[i].dev =3D dev;
+> +		priv->ethdr_comp[i].regs =3D of_iomap(dev->of_node, i);
+> +#if IS_REACHABLE(CONFIG_MTK_CMDQ)
+> +		ret =3D cmdq_dev_get_client_reg(dev,
+> +					      &priv->ethdr_comp[i].cmdq_base, i);
+> +		if (ret)
+> +			dev_dbg(dev, "get mediatek,gce-client-reg fail!\n");
+> +#endif
+> +		dev_dbg(dev, "[DRM]regs:0x%p, node:%d\n", priv->ethdr_comp[i].regs, i)=
+;
+> +	}
+> +
+> +	for (i =3D 0; i < ETHDR_CLK_NUM; i++)
+> +		priv->ethdr_clk[i].id =3D ethdr_clk_str[i];
+> +	ret =3D devm_clk_bulk_get_optional(dev, ETHDR_CLK_NUM, priv->ethdr_clk)=
+;
+> +	if (ret)
+> +		return ret;
+> +
+> +	priv->irq =3D platform_get_irq(pdev, 0);
+> +	if (priv->irq < 0)
+> +		priv->irq =3D 0;
+> +
+> +	if (priv->irq) {
+> +		ret =3D devm_request_irq(dev, priv->irq, mtk_ethdr_irq_handler,
+> +				       IRQF_TRIGGER_NONE, dev_name(dev), priv);
+> +		if (ret < 0) {
+> +			dev_err(dev, "Failed to request irq %d: %d\n", priv->irq, ret);
+> +			return ret;
+> +		}
+> +	}
+> +
+> +	priv->reset_ctl =3D devm_reset_control_array_get_optional_exclusive(dev=
+);
+
+This is missing error handling. You could use dev_err_probe() here.
 
 regards
 Philipp
