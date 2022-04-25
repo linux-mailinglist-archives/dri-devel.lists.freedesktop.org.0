@@ -1,52 +1,148 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 134C850E821
-	for <lists+dri-devel@lfdr.de>; Mon, 25 Apr 2022 20:24:59 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 5F01650E86C
+	for <lists+dri-devel@lfdr.de>; Mon, 25 Apr 2022 20:40:16 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 9F05310E15C;
-	Mon, 25 Apr 2022 18:24:56 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id CCFDD10E2BA;
+	Mon, 25 Apr 2022 18:40:13 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mailrelay3-1.pub.mailoutpod1-cph3.one.com
- (mailrelay3-1.pub.mailoutpod1-cph3.one.com [46.30.210.184])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 8CEA910E15C
- for <dri-devel@lists.freedesktop.org>; Mon, 25 Apr 2022 18:24:54 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ravnborg.org; s=rsa1;
- h=in-reply-to:content-type:mime-version:references:message-id:subject:cc:to:
- from:date:from;
- bh=7kuXBnYKbene2Vy5ddL4QLJVZExSdzHjcyeztknIyk4=;
- b=g54t+7+cA0BilM+bYHzEsaEveTEyQJ+5dppgZAbR6Xo0XoUL+atLdfkhvy6JhRz93JqMZub0n31YJ
- GW9s7q0LnjHgW0uVlF3LM+b0UOxx49lF3FCZE1Sr9v85yF6ruQcIZInVxzqWJTp4BNAzIfa29/mZGi
- /nHCGu+PaACQ88NAi0zBNX0BNARy+uMe4dNU+ayQ1FKYmQ48aBvNCGmG0PI4ExVvl6BHO/msnK+V3d
- cPbC0oqAVyFud1OfkJhySO/YQYcF08pGIg/zj5z7Uzz/Tia6iW8zvci8V9QSsITqhOftMpJJ5cz6AM
- ehhxzgqp6Wa4BQME5zAfNGWRJlMG7AQ==
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed;
- d=ravnborg.org; s=ed1;
- h=in-reply-to:content-type:mime-version:references:message-id:subject:cc:to:
- from:date:from;
- bh=7kuXBnYKbene2Vy5ddL4QLJVZExSdzHjcyeztknIyk4=;
- b=jXXrW02P8sqjJ8y8GvxFepLYXJmArqv5iYyQYwNR7yrBfFBE22owmPMu6GJwKlNjJW2r3b7/pQOUe
- 53W7U0qCA==
-X-HalOne-Cookie: fbc2a83891d50f0728fc12458d75734d1cf92e37
-X-HalOne-ID: ff763677-c4c4-11ec-be69-d0431ea8bb03
-Received: from mailproxy4.cst.dirpod3-cph3.one.com
- (80-162-45-141-cable.dk.customer.tdc.net [80.162.45.141])
- by mailrelay3.pub.mailoutpod1-cph3.one.com (Halon) with ESMTPSA
- id ff763677-c4c4-11ec-be69-d0431ea8bb03;
- Mon, 25 Apr 2022 18:24:52 +0000 (UTC)
-Date: Mon, 25 Apr 2022 20:24:50 +0200
-From: Sam Ravnborg <sam@ravnborg.org>
-To: Thomas Zimmermann <tzimmermann@suse.de>
-Subject: Re: [PATCH v2 3/3] fbdev: Refactor implementation of page_mkwrite
-Message-ID: <YmbncpwerOQLB1cS@ravnborg.org>
-References: <20220425112751.25985-1-tzimmermann@suse.de>
- <20220425112751.25985-4-tzimmermann@suse.de>
+Received: from mga05.intel.com (mga05.intel.com [192.55.52.43])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 1679F10E2BA;
+ Mon, 25 Apr 2022 18:40:11 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+ t=1650912012; x=1682448012;
+ h=from:to:cc:subject:date:message-id:references:
+ in-reply-to:content-transfer-encoding:mime-version;
+ bh=sUYpQWjDnV2Yd6lkdN1x9lQm+8WQaY2KnftZR6f7SWI=;
+ b=YgHs5Ngsr7FKy2nK1eLRr9G3T4TE+AUy94Vva16KHSPiO4XVw7iSNG3q
+ VkqXYMiqyJbxU3SjVLxMNtbL2FJiiRKr57wVb5Msf+g/NRhtzH8plhyKK
+ fyN07ugfaNCKApwenP6Z0JoIrRA5+sW6CJan7vqqV0xPwAr3nmG75fu/O
+ yyshEhFIcXyoqtWv39shFL/Wbz/59B3XIEnjAcHlxeRtFsO2TQt2tfjpa
+ M6nqfYIFB/wlILi5cx303ALRX4eGKBFuzNvQ6aV3xQKuHMzjsVfFrPZB0
+ QEAiFpQCueJQpFAUCdJgxSopd4stPyIt0gaB/Dok1lrDkuSceTG3EGi+j A==;
+X-IronPort-AV: E=McAfee;i="6400,9594,10328"; a="351779170"
+X-IronPort-AV: E=Sophos;i="5.90,289,1643702400"; d="scan'208";a="351779170"
+Received: from fmsmga001.fm.intel.com ([10.253.24.23])
+ by fmsmga105.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 25 Apr 2022 11:40:11 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.90,289,1643702400"; d="scan'208";a="704687929"
+Received: from fmsmsx603.amr.corp.intel.com ([10.18.126.83])
+ by fmsmga001.fm.intel.com with ESMTP; 25 Apr 2022 11:40:11 -0700
+Received: from fmsmsx612.amr.corp.intel.com (10.18.126.92) by
+ fmsmsx603.amr.corp.intel.com (10.18.126.83) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.2308.27; Mon, 25 Apr 2022 11:40:10 -0700
+Received: from fmsedg601.ED.cps.intel.com (10.1.192.135) by
+ fmsmsx612.amr.corp.intel.com (10.18.126.92) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.2308.27 via Frontend Transport; Mon, 25 Apr 2022 11:40:10 -0700
+Received: from NAM12-DM6-obe.outbound.protection.outlook.com (104.47.59.168)
+ by edgegateway.intel.com (192.55.55.70) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.1.2308.27; Mon, 25 Apr 2022 11:40:09 -0700
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=U1iw2kgqbSBDuMXHBd9p0GxBZ+4VP5OlF4uaBPofdeTsO1JVcaS88wRiqTLboXp9ieUjUTduiuG7pzeSGQzFjQhxroTvestUx3mVFns2KrTEE553R6yR5XCiJitN0/Z4qG9ALWTL+yppdj0TDl94ATBrHQW4FUQSKkVxko/lryajk+eNL12tvsIPlyivcqD+5yLwEfw5wWi2vTiHMxDvxPqnDrSuM70iFicvrCe6RaCcJo6b71Bz7zV3N55K803iFF1Tg+sMZ3Rs2ALpn5rrn3L9MgMTRabqeREVoIxYHOKAmUkr4R00HIhpY2JBg5mtpOcG9Vfd8lxETybF4Fw8sw==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=NsaMeXfogs98dMP7W/pqsYxSbwxKp69SI/WV98Kn14o=;
+ b=O3v9251GrUm7W7lnI5XSpO9wvWkiBZ9hfsJ3S+hk1JmeplYZ/Jzm1rFMPb3WYjUrQYY/mvx82FoRTPgWJ5oL38bC7KzD+Z9Nr8fRzLi7UhEfCn7zl1j7i9zkRjPXg/0Wx+rVXh+m4H9G4z5W8X7Rk1W+rDSxWfj8V+ijS8vNoKOihsNPCh6haBiOAPfjCNcoEwM5PA4dXmiyosW4xUxb0+z4YKr66H7ZXmUAiRpmXzTR8oadDT7bWt+q2Av+2/UMhTDIie3oMqHeEW+9Uwbs8CkeY64NbyxOHI87GnD4XzNvviPibxKiBpGvP9Aa+GdvYtXmgyOHF8FP791iK2Drdg==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=intel.com; dmarc=pass action=none header.from=intel.com;
+ dkim=pass header.d=intel.com; arc=none
+Received: from BYAPR11MB2567.namprd11.prod.outlook.com (2603:10b6:a02:c5::32)
+ by MN2PR11MB4741.namprd11.prod.outlook.com (2603:10b6:208:26a::10)
+ with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.5186.14; Mon, 25 Apr
+ 2022 18:40:07 +0000
+Received: from BYAPR11MB2567.namprd11.prod.outlook.com
+ ([fe80::c491:a7f3:7e73:35cf]) by BYAPR11MB2567.namprd11.prod.outlook.com
+ ([fe80::c491:a7f3:7e73:35cf%2]) with mapi id 15.20.5186.021; Mon, 25 Apr 2022
+ 18:40:07 +0000
+From: "Yang, Fei" <fei.yang@intel.com>
+To: "Roper, Matthew D" <matthew.d.roper@intel.com>, Tvrtko Ursulin
+ <tvrtko.ursulin@linux.intel.com>
+Subject: RE: [PATCH 1/2] drm/i915/xehp: Add compute engine ABI
+Thread-Topic: [PATCH 1/2] drm/i915/xehp: Add compute engine ABI
+Thread-Index: AQHYWMrbHISkdHnUNk6uqKLOHA3uqK0A8CdA
+Date: Mon, 25 Apr 2022 18:40:07 +0000
+Message-ID: <BYAPR11MB2567CB015A6B1ADF5F1FEDAB9AF89@BYAPR11MB2567.namprd11.prod.outlook.com>
+References: <20220422195007.4019661-1-matthew.d.roper@intel.com>
+ <20220422195007.4019661-2-matthew.d.roper@intel.com>
+ <643c0538-dc2a-a99b-aa53-73693ace6e38@linux.intel.com>
+ <YmbbzudQMsDNbhFm@mdroper-desk1.amr.corp.intel.com>
+In-Reply-To: <YmbbzudQMsDNbhFm@mdroper-desk1.amr.corp.intel.com>
+Accept-Language: en-US
+Content-Language: en-US
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+dlp-product: dlpe-windows
+dlp-reaction: no-action
+dlp-version: 11.6.401.20
+authentication-results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=intel.com;
+x-ms-publictraffictype: Email
+x-ms-office365-filtering-correlation-id: 1c5603f3-33f7-4112-0d6c-08da26eb052f
+x-ms-traffictypediagnostic: MN2PR11MB4741:EE_
+x-ld-processed: 46c98d88-e344-4ed4-8496-4ed7712e255d,ExtAddr
+x-microsoft-antispam-prvs: <MN2PR11MB47412023055290B05AB2658A9AF89@MN2PR11MB4741.namprd11.prod.outlook.com>
+x-ms-exchange-senderadcheck: 1
+x-ms-exchange-antispam-relay: 0
+x-microsoft-antispam: BCL:0;
+x-microsoft-antispam-message-info: UxIihc+cQ1nUoIjwbPyP9hQH3WcCLWYQYLvtPzWpNyMF3yyzyeRV66RtGoIaMsBfrb6pUcAd8TbkNovXkLS/dwUKXmJe0mivXvWGk3l8AmXbiR/rYAR4A51eN2f8OmOHzcIX6qObpMGbY7I40ldrfQL/9sx4GtTYBVDapq/9+2mJjPqGj9NFJ8x2boZv5VHbEH6ITQzInqNJTyRoObDuYACbCNLDM2ynUzqrPPSl6eR/O0twHFuKEmKTb8TWuqVcPc9ZRYpMsYBo63LzgDO1DtNQn6GT3/806oZNRvgRWWRPulq9SMp3fM6dSlJdMBQr1b4L8aLmm/gD/Qm8aNda8xa4fDrvCQZPnt2RQp1IE6d71HDCkjuDWjRcJo2k9AM64cZls8Fudx0mZls5qI6a/tEDjPVlufH0fI8oXvFIG1jhs+mX4iAB470oL9pofYJHisTxTHDEQ6E4Kt5Obj0XNSlM3nSVfJIh8Xgb+zW3jNqbpdWyP6XrtJYk3m91wrwc8JhAW4tl35Cq1Hp7KoFHBon8QJEjq3+P7E/DYtfVHSgYmLeuRwNvZC1V3lEt6Vy8AKpKi5tJhDzyoclhHHyXmmNMmqSDkgMfeZ37VacYhH0B7Yg1I2ROMi95la6CuISm2QQwbl/QTXUU3FmotbNkiLFCeay4YdtntIstbme+J7rNTFEcEsXeBfHxhf7yN/IhsZzIKCgPgirAuyBjYSYgVg==
+x-forefront-antispam-report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
+ IPV:NLI; SFV:NSPM; H:BYAPR11MB2567.namprd11.prod.outlook.com; PTR:; CAT:NONE;
+ SFS:(13230001)(366004)(508600001)(86362001)(66556008)(38070700005)(26005)(8676002)(316002)(38100700002)(71200400001)(54906003)(110136005)(55016003)(9686003)(76116006)(66946007)(82960400001)(122000001)(66446008)(66476007)(64756008)(52536014)(6506007)(4326008)(33656002)(8936002)(5660300002)(83380400001)(7696005)(186003)(2906002);
+ DIR:OUT; SFP:1102; 
+x-ms-exchange-antispam-messagedata-chunkcount: 1
+x-ms-exchange-antispam-messagedata-0: =?us-ascii?Q?ey1jL2t6arDmWKkkSyqUIE3spPRekVZYFSIAq5uDQ15JuxN+VP7vv6ICGTMi?=
+ =?us-ascii?Q?LApyXDU/GQWjIddPUlUPd4s+ELx0Kc319L1ZWfgDno4AEDBaO/vsRjX56iuk?=
+ =?us-ascii?Q?OL0p87eZwEf2ejQuRGHDRJr20jECuQ2wuR2ZiJ9+v5OpHWq/mNwfmbhdxWX0?=
+ =?us-ascii?Q?70WL/hEegOfPfypoWiAnWxzZiEcseDumIalrcd9I/T+pA8d63Rf+VikyW4Hw?=
+ =?us-ascii?Q?K+biK9jdWurn4Xbc5bdhfY1kg6ygZBSCqHnIXRcZb+M3jV6SxAYwnenpqxEv?=
+ =?us-ascii?Q?Cm8B4bYuTA2q+gKzxAhE4cYCCvLRLfSGTsayThpteEzXJfUNLseaNeryCbGY?=
+ =?us-ascii?Q?hTBxF6HomlS4FzyVObUqDrYOHhx0DPOKeafEczd9T/X8x4Sn1HIe7Hs3Uu/S?=
+ =?us-ascii?Q?lXdT83Y3SQwMtkYVFK2m0Rv5el7EbJhoJpR+869xJz8cOwOues4qvaRnc4NE?=
+ =?us-ascii?Q?e352Kmuf7dpDi0v8xa4cvg0EO6fkEECRifYddHoGYEMs/xY9YkA0HsU9/3Tz?=
+ =?us-ascii?Q?RwVIQom66REFsjPk+hm1rcUY2qvIWP15vmAF9kNj5GIX30DQAwJPhHGuPfsS?=
+ =?us-ascii?Q?4FDX0ZcKwF/dIuWhP5HWA3nAHCiV7muibvPcjIaruD2G9ZVeRVQ5b2AtFwqK?=
+ =?us-ascii?Q?UHG+Z3Vf6t3VTns5DO6E9xLOOqOGzSmcgXyfgYuPLv71cMKKFYwfGi31j36e?=
+ =?us-ascii?Q?XRr41/3ap6U6gZg6YQlvwdwud9c0Fk20W5w23mBwcokZlNrnpAZHqh7TCJee?=
+ =?us-ascii?Q?M6Axssa1dZtdKjAOUFY/zlOuyvaWBg9MbmWBW6b4sHlzaTfiSrK1X/mLHmO7?=
+ =?us-ascii?Q?O+GQVO3scGtAT/ZferJkrYOrzhuSOseqzbWA4JbS9y413Vvp9ozWmJwglu7Z?=
+ =?us-ascii?Q?P4E2mBu2tluMPp6mmKVsgSKAvy7OgNR1szDVBpITz3oAp7KV8Y8sTHFVlcxM?=
+ =?us-ascii?Q?NC02Xz99PonP0VUJeJDkOkJ63jNbSNqRbg3kl070PIbjA6H8AstcDnCurxJJ?=
+ =?us-ascii?Q?bzZ5s0IfUvSQ99uwAsCD4AC8Tzc2qSuau2zA4KdzxW9AJL6Z1sS2V21udx5k?=
+ =?us-ascii?Q?NiEsl6JGk6f6TpgxIcqvgTpLEiKypZo5mHLL7xoYgtTTkCsKJVbqdEVf44oF?=
+ =?us-ascii?Q?6TRiGBx0Dn2KwWjlOZuO1n4UxQz67e/IRCF27Yolh7KzVIOLHvA72qZT5v2U?=
+ =?us-ascii?Q?XmdupWlX1KHqluMKYspAr740lkmPVIAi2wJ63r1/40JFpePk/P/b9R7UOBrd?=
+ =?us-ascii?Q?Mx7PdX5oM8O+dEL3siwVpwziQNszYYgnM4nAEuU5VZKPJbJ3rnN+02Ozu4Lh?=
+ =?us-ascii?Q?C9T3K7EQI+yrj1qkcVJCERJz4Q3T6buitLllNn+WaaDSsVeaBH3Adrtv5+S4?=
+ =?us-ascii?Q?dpDo5XcuWBeOEgspdnN8seZ5FV/37sDgVRVnTVQfNEULLNx7Fz6ToCM2RK9K?=
+ =?us-ascii?Q?91OoxFWm+tQuR4oDLduoBmVn9p4oJm0lCg7c0MbTRXjyR58w0WlnycFvPfWQ?=
+ =?us-ascii?Q?Drtw/K+/cUsDVxSXM0T7l+b7eY/PP4gay1Oavgys1sX6dXkztjpFbHuTgJN7?=
+ =?us-ascii?Q?JRfIWKfSy1aeco1hj/pnWBpt+3dvBtZXXAEZgg2HsBKsnQvdQ6OT1WZ1+WEW?=
+ =?us-ascii?Q?g+0XJlgfx4mRPoSLzH5+YEnCKv25dgvC844sUtwwOUuEkLXdfoiSQnEgoEsI?=
+ =?us-ascii?Q?KGpf0KpXB1N+eK5b/JAhBJYMOtt653O1CfDpGu0WErIUwtlwjUb8iicRCgzm?=
+ =?us-ascii?Q?rtUPQSSSdA=3D=3D?=
+Content-Type: text/plain; charset="us-ascii"
+Content-Transfer-Encoding: quoted-printable
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20220425112751.25985-4-tzimmermann@suse.de>
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-AuthSource: BYAPR11MB2567.namprd11.prod.outlook.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 1c5603f3-33f7-4112-0d6c-08da26eb052f
+X-MS-Exchange-CrossTenant-originalarrivaltime: 25 Apr 2022 18:40:07.2017 (UTC)
+X-MS-Exchange-CrossTenant-fromentityheader: Hosted
+X-MS-Exchange-CrossTenant-id: 46c98d88-e344-4ed4-8496-4ed7712e255d
+X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
+X-MS-Exchange-CrossTenant-userprincipalname: 2ns575rreJH4eMjPHdh5CteDdjp7WAVrY9Rw4GxiJMYacdzMRgzQpAbZZAcQISNtqGSpUJ27vx5LdxohxObRfA==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: MN2PR11MB4741
+X-OriginatorOrg: intel.com
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -59,135 +155,47 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: linux-fbdev@vger.kernel.org, airlied@linux.ie, deller@gmx.de,
- javierm@redhat.com, dri-devel@lists.freedesktop.org
+Cc: "Morek, Szymon" <szymon.morek@intel.com>,
+ "intel-gfx@lists.freedesktop.org" <intel-gfx@lists.freedesktop.org>,
+ "dri-devel@lists.freedesktop.org" <dri-devel@lists.freedesktop.org>, "Ceraolo
+ Spurio, Daniele" <daniele.ceraolospurio@intel.com>, "Justen,
+ Jordan L" <jordan.l.justen@intel.com>, "Belgaumkar,
+ Vinay" <vinay.belgaumkar@intel.com>, "Kumar Valsan,
+ Prathap" <prathap.kumar.valsan@intel.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi Thomas.
+>> > --- a/drivers/gpu/drm/i915/gt/intel_gt.c
+>> > +++ b/drivers/gpu/drm/i915/gt/intel_gt.c
+>> > @@ -1175,6 +1175,7 @@ void intel_gt_invalidate_tlbs(struct intel_gt *g=
+t)
+>> >   		[VIDEO_DECODE_CLASS]		=3D GEN12_VD_TLB_INV_CR,
+>> >   		[VIDEO_ENHANCEMENT_CLASS]	=3D GEN12_VE_TLB_INV_CR,
+>> >   		[COPY_ENGINE_CLASS]		=3D GEN12_BLT_TLB_INV_CR,
+>> > +		[COMPUTE_CLASS]			=3D GEN12_GFX_TLB_INV_CR,
+>>=20
+>> Do you know what 0xcf04 is?
 
-On Mon, Apr 25, 2022 at 01:27:51PM +0200, Thomas Zimmermann wrote:
-> Refactor the page-write handler for deferred I/O. Drivers use the
-> function to let fbdev track written pages of mmap'ed framebuffer
-> memory.
+Looks like that is the TLB invalidation register for each compute context.
 
-I like how the comments got a brush up and a little more info was added.
-But I do not see the point of the refactoring - the code is equally
-readable before and after - maybe even easier before (modulus the
-improved comments).
+>>=20
+>> Or if GEN12_GFX_TLB_INV_CR is correct then I think get_reg_and_bit()=20
+>> might need adjusting to always select bit 0 for any compute engine=20
+>> instance. Not sure how hardware would behave if value other than '1'=20
+>> would be written into 0xced8.
+>=20
+> I think Prathap and Fei have more familiarity with the MMIO TLB invalidat=
+ion; adding them for their thoughts.
 
-But if you consider it better keep it. Again just my thoughts when
-reading the code.
+I believe GEN12_GFX_TLB_INV_CR is the right one to use because we are inval=
+idating the TLB for each engine.
+I'm not sure if we could narrow down to exact which compute context the TLB=
+ needs to be invalidated though. If that's possible it might be a bit more =
+efficient.
 
-	Sam
+> Matt
 
-> 
-> v2:
-> 	* don't export the helper until we have an external caller
-> 
-> Signed-off-by: Thomas Zimmermann <tzimmermann@suse.de>
-> Reviewed-by: Javier Martinez Canillas <javierm@redhat.com>
-> ---
->  drivers/video/fbdev/core/fb_defio.c | 68 ++++++++++++++++++++---------
->  1 file changed, 48 insertions(+), 20 deletions(-)
-> 
-> diff --git a/drivers/video/fbdev/core/fb_defio.c b/drivers/video/fbdev/core/fb_defio.c
-> index a03b9c64fc61..214581ce5840 100644
-> --- a/drivers/video/fbdev/core/fb_defio.c
-> +++ b/drivers/video/fbdev/core/fb_defio.c
-> @@ -143,29 +143,18 @@ int fb_deferred_io_fsync(struct file *file, loff_t start, loff_t end, int datasy
->  }
->  EXPORT_SYMBOL_GPL(fb_deferred_io_fsync);
->  
-> -/* vm_ops->page_mkwrite handler */
-> -static vm_fault_t fb_deferred_io_mkwrite(struct vm_fault *vmf)
-> +/*
-> + * Adds a page to the dirty list. Requires caller to hold
-> + * struct fb_deferred_io.lock. Call this from struct
-> + * vm_operations_struct.page_mkwrite.
-> + */
-> +static vm_fault_t __fb_deferred_io_track_page(struct fb_info *info, unsigned long offset,
-> +					      struct page *page)
->  {
-> -	struct page *page = vmf->page;
-> -	struct fb_info *info = vmf->vma->vm_private_data;
->  	struct fb_deferred_io *fbdefio = info->fbdefio;
->  	struct fb_deferred_io_pageref *pageref;
-> -	unsigned long offset;
->  	vm_fault_t ret;
->  
-> -	offset = (vmf->address - vmf->vma->vm_start);
-> -
-> -	/* this is a callback we get when userspace first tries to
-> -	write to the page. we schedule a workqueue. that workqueue
-> -	will eventually mkclean the touched pages and execute the
-> -	deferred framebuffer IO. then if userspace touches a page
-> -	again, we repeat the same scheme */
-> -
-> -	file_update_time(vmf->vma->vm_file);
-> -
-> -	/* protect against the workqueue changing the page list */
-> -	mutex_lock(&fbdefio->lock);
-> -
->  	/* first write in this cycle, notify the driver */
->  	if (fbdefio->first_io && list_empty(&fbdefio->pagelist))
->  		fbdefio->first_io(info);
-> @@ -186,8 +175,6 @@ static vm_fault_t fb_deferred_io_mkwrite(struct vm_fault *vmf)
->  	 */
->  	lock_page(pageref->page);
->  
-> -	mutex_unlock(&fbdefio->lock);
-> -
->  	/* come back after delay to process the deferred IO */
->  	schedule_delayed_work(&info->deferred_work, fbdefio->delay);
->  	return VM_FAULT_LOCKED;
-> @@ -197,6 +184,47 @@ static vm_fault_t fb_deferred_io_mkwrite(struct vm_fault *vmf)
->  	return ret;
->  }
->  
-> +/*
-> + * fb_deferred_io_page_mkwrite - Mark a page as written for deferred I/O
-> + * @fb_info: The fbdev info structure
-> + * @vmf: The VM fault
-> + *
-> + * This is a callback we get when userspace first tries to
-> + * write to the page. We schedule a workqueue. That workqueue
-> + * will eventually mkclean the touched pages and execute the
-> + * deferred framebuffer IO. Then if userspace touches a page
-> + * again, we repeat the same scheme.
-> + *
-> + * Returns:
-> + * VM_FAULT_LOCKED on success, or a VM_FAULT error otherwise.
-> + */
-> +static vm_fault_t fb_deferred_io_page_mkwrite(struct fb_info *info, struct vm_fault *vmf)
-> +{
-> +	struct page *page = vmf->page;
-> +	struct fb_deferred_io *fbdefio = info->fbdefio;
-> +	unsigned long offset;
-> +	vm_fault_t ret;
-> +
-> +	offset = (vmf->address - vmf->vma->vm_start);
-> +
-> +	file_update_time(vmf->vma->vm_file);
-> +
-> +	/* protect against the workqueue changing the page list */
-> +	mutex_lock(&fbdefio->lock);
-> +	ret = __fb_deferred_io_track_page(info, offset, page);
-> +	mutex_unlock(&fbdefio->lock);
-> +
-> +	return ret;
-> +}
-> +
-> +/* vm_ops->page_mkwrite handler */
-> +static vm_fault_t fb_deferred_io_mkwrite(struct vm_fault *vmf)
-> +{
-> +	struct fb_info *info = vmf->vma->vm_private_data;
-> +
-> +	return fb_deferred_io_page_mkwrite(info, vmf);
-> +}
-> +
->  static const struct vm_operations_struct fb_deferred_io_vm_ops = {
->  	.fault		= fb_deferred_io_fault,
->  	.page_mkwrite	= fb_deferred_io_mkwrite,
-> -- 
-> 2.36.0
+>>=20
+>> Regards,
+>>=20
+>> Tvrtko
