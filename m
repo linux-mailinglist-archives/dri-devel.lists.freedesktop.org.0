@@ -1,63 +1,50 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8F24450D614
-	for <lists+dri-devel@lfdr.de>; Mon, 25 Apr 2022 02:04:01 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 38A9B50D62A
+	for <lists+dri-devel@lfdr.de>; Mon, 25 Apr 2022 02:32:27 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 905A410E121;
-	Mon, 25 Apr 2022 00:03:57 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 06BE710E320;
+	Mon, 25 Apr 2022 00:32:24 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from alexa-out-sd-01.qualcomm.com (alexa-out-sd-01.qualcomm.com
- [199.106.114.38])
- by gabe.freedesktop.org (Postfix) with ESMTPS id D416A10E121;
- Mon, 25 Apr 2022 00:03:55 +0000 (UTC)
+Received: from alexa-out-sd-02.qualcomm.com (alexa-out-sd-02.qualcomm.com
+ [199.106.114.39])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 0D0AA10E04C;
+ Mon, 25 Apr 2022 00:32:21 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=quicinc.com; i=@quicinc.com; q=dns/txt; s=qcdkim;
- t=1650845035; x=1682381035;
- h=message-id:date:mime-version:subject:from:to:cc:
- references:in-reply-to:content-transfer-encoding;
- bh=Iq/MtCoZiAvbN56qHWehOMd9Pv8N4C2H3bbS3k1e6E0=;
- b=B1BIPmlKq/38YVeqG+mTDmhoHw+RoDHyvDyMB6EQ6KTh0mbJUn8rdi5y
- YYLZrV1cHJ2issSut7SzFvs6ew+EGN6amLk1Z1Zeh5fKzLSbYuL7elotY
- fiNsdU8uW5io6gXrZ811eQCi5Z0yx5gJjejT+zO5Ai6I8iHj3zk7x/NHO E=;
-Received: from unknown (HELO ironmsg05-sd.qualcomm.com) ([10.53.140.145])
- by alexa-out-sd-01.qualcomm.com with ESMTP; 24 Apr 2022 17:02:55 -0700
+ t=1650846742; x=1682382742;
+ h=from:to:cc:subject:date:message-id:mime-version;
+ bh=8uqrY+9fjQEr2qBnjCrPGBxUtvkh/Y18vfo95urL6DU=;
+ b=B/I3oy5Y74sZYRaphxW+UbGkptQhguo6SWpoU+vTh15UP0juHBLwV60b
+ ugJ83EMzQas9f5+MBuY34M0y+Hy/gkzhElvWU2Cw8sQkZ9lOz/5Khfap6
+ kJyES1lMBIqT459/MQHScBa0PyGinodXMz2DRq7FUzKumunNaIZq7WU4x s=;
+Received: from unknown (HELO ironmsg03-sd.qualcomm.com) ([10.53.140.143])
+ by alexa-out-sd-02.qualcomm.com with ESMTP; 24 Apr 2022 17:32:21 -0700
 X-QCInternal: smtphost
 Received: from nasanex01c.na.qualcomm.com ([10.47.97.222])
- by ironmsg05-sd.qualcomm.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 24 Apr 2022 17:02:54 -0700
+ by ironmsg03-sd.qualcomm.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 24 Apr 2022 17:32:21 -0700
 Received: from nalasex01a.na.qualcomm.com (10.47.209.196) by
  nasanex01c.na.qualcomm.com (10.47.97.222) with Microsoft SMTP Server
  (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.2.986.22; Sun, 24 Apr 2022 17:02:53 -0700
-Received: from [10.111.165.107] (10.80.80.8) by nalasex01a.na.qualcomm.com
- (10.47.209.196) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.986.22; Sun, 24 Apr
- 2022 17:02:51 -0700
-Message-ID: <d8641c24-0235-e5a8-0586-53b8abf65de8@quicinc.com>
-Date: Sun, 24 Apr 2022 17:02:49 -0700
-MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:91.0) Gecko/20100101
- Thunderbird/91.6.2
-Subject: Re: [Freedreno] [PATCH v4 03/20] drm: allow real encoder to be passed
- for drm_writeback_connector
-Content-Language: en-US
+ 15.2.986.22; Sun, 24 Apr 2022 17:32:20 -0700
+Received: from abhinavk-linux.qualcomm.com (10.80.80.8) by
+ nalasex01a.na.qualcomm.com (10.47.209.196) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.2.986.22; Sun, 24 Apr 2022 17:32:20 -0700
 From: Abhinav Kumar <quic_abhinavk@quicinc.com>
-To: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-References: <1650668815-7048-1-git-send-email-quic_abhinavk@quicinc.com>
- <1650668815-7048-4-git-send-email-quic_abhinavk@quicinc.com>
- <YmVj0/XouEH0yfmT@pendragon.ideasonboard.com>
- <e924e564-e4e2-1f8f-4f5f-1cc0bc2084c3@quicinc.com>
- <eac58ee5-14ae-a9df-364d-d46da1fd64c3@quicinc.com>
- <YmWsLWnRa43hQ2sg@pendragon.ideasonboard.com>
- <578f1db0-a32b-4379-2621-92f67daa85c0@quicinc.com>
-In-Reply-To: <578f1db0-a32b-4379-2621-92f67daa85c0@quicinc.com>
-Content-Type: text/plain; charset="UTF-8"; format=flowed
-Content-Transfer-Encoding: 8bit
+To: <freedreno@lists.freedesktop.org>
+Subject: [PATCH v5 00/19] Add writeback block support for DPU
+Date: Sun, 24 Apr 2022 17:31:51 -0700
+Message-ID: <1650846730-19226-1-git-send-email-quic_abhinavk@quicinc.com>
+X-Mailer: git-send-email 2.7.4
+MIME-Version: 1.0
+Content-Type: text/plain
 X-Originating-IP: [10.80.80.8]
-X-ClientProxiedBy: nasanex01a.na.qualcomm.com (10.52.223.231) To
+X-ClientProxiedBy: nasanex01b.na.qualcomm.com (10.46.141.250) To
  nalasex01a.na.qualcomm.com (10.47.209.196)
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -72,240 +59,115 @@ List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
 Cc: markyacoub@chromium.org, liviu.dudau@arm.com,
- dri-devel@lists.freedesktop.org, swboyd@chromium.org, seanpaul@chromium.org,
+ Abhinav Kumar <quic_abhinavk@quicinc.com>, dri-devel@lists.freedesktop.org,
+ swboyd@chromium.org, seanpaul@chromium.org, laurent.pinchart@ideasonboard.com,
  dmitry.baryshkov@linaro.org, quic_jesszhan@quicinc.com,
- quic_aravindh@quicinc.com, freedreno@lists.freedesktop.org
+ quic_aravindh@quicinc.com
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi Laurent
+This series adds support for writeback block on DPU. Writeback
+block is extremely useful to validate boards having no physical displays
+in addition to many other use-cases where we want to get the output
+of the display pipeline to examine whether issue is with the display
+pipeline or with the panel.
 
-On 4/24/2022 2:12 PM, Abhinav Kumar wrote:
-> Hi Laurent
-> 
-> On 4/24/2022 12:59 PM, Laurent Pinchart wrote:
->> Hi Abhinav,
->>
->> On Sun, Apr 24, 2022 at 11:23:20AM -0700, Abhinav Kumar wrote:
->>> On 4/24/2022 11:12 AM, Abhinav Kumar wrote:
->>>> On 4/24/2022 7:50 AM, Laurent Pinchart wrote:
->>>>> On Fri, Apr 22, 2022 at 04:06:38PM -0700, Abhinav Kumar wrote:
->>>>>> For some vendor driver implementations, display hardware can
->>>>>> be shared between the encoder used for writeback and the physical
->>>>>> display.
->>>>>>
->>>>>> In addition resources such as clocks and interrupts can
->>>>>> also be shared between writeback and the real encoder.
->>>>>>
->>>>>> To accommodate such vendor drivers and hardware, allow
->>>>>> real encoder to be passed for drm_writeback_connector.
->>>>>>
->>>>>> For existing clients, drm_writeback_connector_init() will use
->>>>>> an internal_encoder under the hood and hence no changes will
->>>>>> be needed.
->>>>>>
->>>>>> changes in v7:
->>>>>>      - move this change before the vc4 change in the series
->>>>>>        to minimize the changes to vendor drivers in drm core
->>>>>>        changes
->>>>>
->>>>> Why is this needed ? The drm_writeback_connector functions don't need
->>>>> the drm_encoder after drm_writeback_connector_init() (or
->>>>> drm_writeback_connector_init_with_encoder()) returns.
->>>>>
->>>>
->>>> Sorry I didnt follow this comment. This change log is incorrect, so
->>>> after changing the previous change in the series and modifying this, no
->>>> further changes are needed to vc4, so I decided to drop the next 
->>>> change.
->>>> So this change log is incorrect. I can remove this.
->>>>
->>>> Is that what you meant?
->>>
->>> So till the previous change, the only user of
->>> drm_writeback_connector_init_with_encoder() was
->>> drm_writeback_connector_init() which was still passing its own
->>> internal_encoder.
->>>
->>> Only if the wb_connector->encoder is changed to a pointer, other vendor
->>> drivers can pass their own encoder to
->>> drm_writeback_connector_init_with_encoder().
->>>
->>> Hence you are right that drm_writeback_connector functions do not need
->>> drm_encoder after init() returns, but till this change is done, other
->>> vendor drivers cannot directly call
->>> drm_writeback_connector_init_with_encoder() because the encoder will not
->>> be valid till then.
->>
->> Users of drm_writeback_connector_init_with_encoder() handle the encoder
->> themselves, they can simply ignore drm_writeback_connector.encoder. The
->> documentation of the encoder field needs to be updated though (I'd do so
->> in the previous patch), to clearly mention that the field is valid only
->> when using drm_writeback_connector_init(), not when calling
->> drm_writeback_connector_init_with_encoder().
-> 
-> So you are suggesting to drop this change and just update the doc in 
-> patch 2?
-> 
-> If so, I dont think it would be correct to assume that even though 
-> drm_writeback_connector_init_with_encoder() is used 
-> drm_writeback_connector.encoder should not be used.
-> 
-> The reason is that, lets consider, prepare_wb_job() and 
-> cleanup_writeback_job().
-> 
-> These pass only the connector to the vendor hooks.
-> 
-> 1126      *
-> 1127      * This callback is used by the atomic modeset helpers.
-> 1128      */
-> 1129     int (*prepare_writeback_job)(struct drm_writeback_connector 
-> *connector,
-> 1130                      struct drm_writeback_job *job);
-> 
-> Now, if you assume connector->encoder is not valid, this adds more 
-> confusion because now we are putting an extra condition that 
-> connector->encoder is not valid anymore.
-> 
-> Thats why I think we should leave it as-it-is to not allow room for such 
-> discrepancies.
+These changes have been validated on SM8250 RB5 boards with IGT KMS
+writeback test-suite thereby further increasing the IGT test coverage
+for DPU. I am sharing the test results below.
 
-I was able to abandon this change and still make writeback work with 
-just trivial changes to MSM driver.
+root@linaro-developer:~/igt_repo/igt-gpu-tools/build/tests# ./kms_writeback
+[   35.066157] Console: switching to colour dummy device 80x25
+[   35.071964] [IGT] kms_writeback: executing
+IGT-Version: 1.26-gae2eb9e1 (aarch64) (Linux: 5.16.0-rc2-62171-g132577e2697b aarch64)
+[   35.611418] [IGT] kms_writeback: starting subtest writeback-pixel-formats
+Starting subtest: writeback-pixel-formats
+[   35.618528] [IGT] kms_writeback: starting subtest writeback-invalid-parameters
+Subtest writeback-pixel-formats: SUCCESS (0.000s)
+Starting subtest: writeback-invalid-parameters
+Subtest writeback-invalid-parameters: SUCCESS (0.028s)   35.657437] [IGT] kms_writeback: starting subtest writeback-fb-id
+Starting subtest: writeback-fb-id
+Subtest writeback-fb-id: SUCCESS (0.030s)
+[   35.698957] [IGT] kms_writeback: starting subtest writeback-check-output
+Starting subtest: writeback-check-output
+[   35.852834] [IGT] kms_writeback: exiting, ret=0
+Subtest writeback-check-output: SUCCESS (0.142s)
+[   35.861291] Console: switching to colour frame buffer device 240x67
+root@linaro-developer:~/igt_repo/igt-gpu-tools/build/tests# 
 
-So we are okay to drop this change as you requested and let the vendor 
-driver manage the encoder completely.
+The changes can easily be extended to support any other chipset using
+the DPU driver by adding the support in the catalog.
 
-If you do think that this change is worth re-visiting sometime, let me 
-know I can absorb it as a separate change.
+Writeback block supports various formats and features. The support
+for all of them can be incrementally added on top of this framework when
+validation is improved and the test frameworks are extended to validate
+them.
 
-Thanks
+changes in v5:
+	- fix drm_writeback_connector_init_with_encoder() API doc as
+	  suggested by Laurent	
+	- fix encoder doc as suggested by Laurent
+	- drop https://patchwork.freedesktop.org/patch/483118/?series=99724&rev=4
+	  and let individual drivers manage the encoder	
 
-Abhinav
-> 
->>
->>> Hope this clarifies it.
->>>
->>>>>> Signed-off-by: Abhinav Kumar <quic_abhinavk@quicinc.com>
->>>>>> Reviewed-by: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
->>>>>> ---
->>>>>>    drivers/gpu/drm/drm_writeback.c | 18 ++++++++++++------
->>>>>>    drivers/gpu/drm/vc4/vc4_txp.c   |  4 ++--
->>>>>>    include/drm/drm_writeback.h     | 22 ++++++++++++++++++++--
->>>>>>    3 files changed, 34 insertions(+), 10 deletions(-)
->>>>>>
->>>>>> diff --git a/drivers/gpu/drm/drm_writeback.c
->>>>>> b/drivers/gpu/drm/drm_writeback.c
->>>>>> index 92658ad..0538674 100644
->>>>>> --- a/drivers/gpu/drm/drm_writeback.c
->>>>>> +++ b/drivers/gpu/drm/drm_writeback.c
->>>>>> @@ -180,21 +180,21 @@ int drm_writeback_connector_init(struct
->>>>>> drm_device *dev,
->>>>>>    {
->>>>>>        int ret = 0;
->>>>>> -    drm_encoder_helper_add(&wb_connector->encoder, 
->>>>>> enc_helper_funcs);
->>>>>> +    drm_encoder_helper_add(&wb_connector->internal_encoder, 
->>>>>> enc_helper_funcs);
->>>>>> -    wb_connector->encoder.possible_crtcs = possible_crtcs;
->>>>>> +    wb_connector->internal_encoder.possible_crtcs = possible_crtcs;
->>>>>> -    ret = drm_encoder_init(dev, &wb_connector->encoder,
->>>>>> +    ret = drm_encoder_init(dev, &wb_connector->internal_encoder,
->>>>>>                       &drm_writeback_encoder_funcs,
->>>>>>                       DRM_MODE_ENCODER_VIRTUAL, NULL);
->>>>>>        if (ret)
->>>>>>            return ret;
->>>>>> -    ret = drm_writeback_connector_init_with_encoder(dev, 
->>>>>> wb_connector, &wb_connector->encoder,
->>>>>> -            con_funcs, formats, n_formats);
->>>>>> +    ret = drm_writeback_connector_init_with_encoder(dev, 
->>>>>> wb_connector,
->>>>>> +            &wb_connector->internal_encoder, con_funcs, formats, 
->>>>>> n_formats);
->>>>>>        if (ret)
->>>>>> -        drm_encoder_cleanup(&wb_connector->encoder);
->>>>>> +        drm_encoder_cleanup(&wb_connector->internal_encoder);
->>>>>>        return ret;
->>>>>>    }
->>>>>> @@ -239,6 +239,12 @@ int 
->>>>>> drm_writeback_connector_init_with_encoder(struct drm_device *dev,
->>>>>>        struct drm_mode_config *config = &dev->mode_config;
->>>>>>        int ret = create_writeback_properties(dev);
->>>>>> +    /*
->>>>>> +     * Assign the encoder passed to this API to the 
->>>>>> wb_connector's encoder.
->>>>>> +     * For drm_writeback_connector_init(), this shall be the 
->>>>>> internal_encoder
->>>>>> +     */
->>>>>> +    wb_connector->encoder = enc;
->>>>>> +
->>>>>>        if (ret != 0)
->>>>>>            return ret;
->>>>>> diff --git a/drivers/gpu/drm/vc4/vc4_txp.c 
->>>>>> b/drivers/gpu/drm/vc4/vc4_txp.c
->>>>>> index 3447eb6..7e063a9 100644
->>>>>> --- a/drivers/gpu/drm/vc4/vc4_txp.c
->>>>>> +++ b/drivers/gpu/drm/vc4/vc4_txp.c
->>>>>> @@ -159,7 +159,7 @@ struct vc4_txp {
->>>>>>    static inline struct vc4_txp *encoder_to_vc4_txp(struct 
->>>>>> drm_encoder *encoder)
->>>>>>    {
->>>>>> -    return container_of(encoder, struct vc4_txp, connector.encoder);
->>>>>> +    return container_of(encoder, struct vc4_txp, 
->>>>>> connector.internal_encoder);
->>>>>>    }
->>>>>>    static inline struct vc4_txp *connector_to_vc4_txp(struct  
->>>>>> drm_connector *conn)
->>>>>> @@ -507,7 +507,7 @@ static int vc4_txp_bind(struct device *dev, 
->>>>>> struct device *master, void *data)
->>>>>>        if (ret)
->>>>>>            return ret;
->>>>>> -    encoder = &txp->connector.encoder;
->>>>>> +    encoder = txp->connector.encoder;
->>>>>>        encoder->possible_crtcs = drm_crtc_mask(crtc);
->>>>>>        ret = devm_request_irq(dev, irq, vc4_txp_interrupt, 0,
->>>>>> diff --git a/include/drm/drm_writeback.h 
->>>>>> b/include/drm/drm_writeback.h
->>>>>> index bb306fa..3fbae9d 100644
->>>>>> --- a/include/drm/drm_writeback.h
->>>>>> +++ b/include/drm/drm_writeback.h
->>>>>> @@ -25,13 +25,31 @@ struct drm_writeback_connector {
->>>>>>        struct drm_connector base;
->>>>>>        /**
->>>>>> -     * @encoder: Internal encoder used by the connector to fulfill
->>>>>> +     * @encoder: handle to drm_encoder used by the connector to 
->>>>>> fulfill
->>>>>>         * the DRM framework requirements. The users of the
->>>>>>         * @drm_writeback_connector control the behaviour of the 
->>>>>> @encoder
->>>>>>         * by passing the @enc_funcs parameter to 
->>>>>> drm_writeback_connector_init()
->>>>>>         * function.
->>>>>> +     *
->>>>>> +     * For some vendor drivers, the hardware resources are shared 
->>>>>> between
->>>>>> +     * writeback encoder and rest of the display pipeline.
->>>>>> +     * To accommodate such cases, encoder is a handle to the real 
->>>>>> encoder
->>>>>> +     * hardware.
->>>>>> +     *
->>>>>> +     * For current existing writeback users, this shall continue 
->>>>>> to be the
->>>>>> +     * embedded encoder for the writeback connector.
->>>>>> +     */
->>>>>> +    struct drm_encoder *encoder;
->>>>>> +
->>>>>> +    /**
->>>>>> +     * @internal_encoder: internal encoder used by writeback when
->>>>>> +     * drm_writeback_connector_init() is used.
->>>>>> +     * @encoder will be assigned to this for those cases
->>>>>> +     *
->>>>>> +     * This will be unused when 
->>>>>> drm_writeback_connector_init_with_encoder()
->>>>>> +     * is used.
->>>>>>         */
->>>>>> -    struct drm_encoder encoder;
->>>>>> +    struct drm_encoder internal_encoder;
->>>>>>        /**
->>>>>>         * @pixel_formats_blob_ptr:
->>
+Abhinav Kumar (19):
+  drm: allow passing possible_crtcs to drm_writeback_connector_init()
+  drm: introduce drm_writeback_connector_init_with_encoder() API
+  drm/msm/dpu: add writeback blocks to the sm8250 DPU catalog
+  drm/msm/dpu: add reset_intf_cfg operation for dpu_hw_ctl
+  drm/msm/dpu: rename dpu_hw_pipe_cdp_cfg to dpu_hw_cdp_cfg
+  drm/msm/dpu: add dpu_hw_wb abstraction for writeback blocks
+  drm/msm/dpu: add writeback blocks to DPU RM
+  drm/msm/dpu: add changes to support writeback in hw_ctl
+  drm/msm/dpu: add an API to reset the encoder related hw blocks
+  drm/msm/dpu: make changes to dpu_encoder to support virtual encoder
+  drm/msm/dpu: add encoder operations to prepare/cleanup wb job
+  drm/msm/dpu: move _dpu_plane_get_qos_lut to dpu_hw_util file
+  drm/msm/dpu: introduce the dpu_encoder_phys_* for writeback
+  drm/msm/dpu: add the writeback connector layer
+  drm/msm/dpu: initialize dpu encoder and connector for writeback
+  drm/msm/dpu: gracefully handle null fb commits for writeback
+  drm/msm/dpu: add writeback blocks to the display snapshot
+  drm/msm/dpu: add wb_idx to existing DRM prints in dpu_encoder
+  drm/msm/dpu: add wb_idx to DRM traces in dpu_encoder
+
+ .../drm/arm/display/komeda/komeda_wb_connector.c   |   4 +-
+ drivers/gpu/drm/arm/malidp_mw.c                    |   4 +-
+ drivers/gpu/drm/drm_writeback.c                    |  73 +-
+ drivers/gpu/drm/msm/Makefile                       |   3 +
+ drivers/gpu/drm/msm/disp/dpu1/dpu_crtc.c           |   9 +
+ drivers/gpu/drm/msm/disp/dpu1/dpu_encoder.c        | 306 +++++++--
+ drivers/gpu/drm/msm/disp/dpu1/dpu_encoder.h        |  22 +
+ drivers/gpu/drm/msm/disp/dpu1/dpu_encoder_phys.h   |  50 ++
+ .../gpu/drm/msm/disp/dpu1/dpu_encoder_phys_wb.c    | 763 +++++++++++++++++++++
+ drivers/gpu/drm/msm/disp/dpu1/dpu_hw_catalog.c     |  72 ++
+ drivers/gpu/drm/msm/disp/dpu1/dpu_hw_catalog.h     |  66 +-
+ drivers/gpu/drm/msm/disp/dpu1/dpu_hw_ctl.c         |  82 ++-
+ drivers/gpu/drm/msm/disp/dpu1/dpu_hw_ctl.h         |  21 +
+ drivers/gpu/drm/msm/disp/dpu1/dpu_hw_sspp.c        |   2 +-
+ drivers/gpu/drm/msm/disp/dpu1/dpu_hw_sspp.h        |  18 +-
+ drivers/gpu/drm/msm/disp/dpu1/dpu_hw_util.c        |  25 +
+ drivers/gpu/drm/msm/disp/dpu1/dpu_hw_util.h        |  19 +
+ drivers/gpu/drm/msm/disp/dpu1/dpu_hw_wb.c          | 279 ++++++++
+ drivers/gpu/drm/msm/disp/dpu1/dpu_hw_wb.h          | 115 ++++
+ drivers/gpu/drm/msm/disp/dpu1/dpu_kms.c            |  66 +-
+ drivers/gpu/drm/msm/disp/dpu1/dpu_plane.c          |  31 +-
+ drivers/gpu/drm/msm/disp/dpu1/dpu_rm.c             |  22 +
+ drivers/gpu/drm/msm/disp/dpu1/dpu_rm.h             |  12 +
+ drivers/gpu/drm/msm/disp/dpu1/dpu_trace.h          |  26 +-
+ drivers/gpu/drm/msm/disp/dpu1/dpu_writeback.c      |  76 ++
+ drivers/gpu/drm/msm/disp/dpu1/dpu_writeback.h      |  31 +
+ drivers/gpu/drm/rcar-du/rcar_du_writeback.c        |   4 +-
+ drivers/gpu/drm/vc4/vc4_txp.c                      |   3 +-
+ drivers/gpu/drm/vkms/vkms_writeback.c              |   4 +-
+ include/drm/drm_writeback.h                        |  11 +-
+ 30 files changed, 2091 insertions(+), 128 deletions(-)
+ create mode 100644 drivers/gpu/drm/msm/disp/dpu1/dpu_encoder_phys_wb.c
+ create mode 100644 drivers/gpu/drm/msm/disp/dpu1/dpu_hw_wb.c
+ create mode 100644 drivers/gpu/drm/msm/disp/dpu1/dpu_hw_wb.h
+ create mode 100644 drivers/gpu/drm/msm/disp/dpu1/dpu_writeback.c
+ create mode 100644 drivers/gpu/drm/msm/disp/dpu1/dpu_writeback.h
+
+-- 
+2.7.4
+
