@@ -2,68 +2,62 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id EE72150EC86
-	for <lists+dri-devel@lfdr.de>; Tue, 26 Apr 2022 01:17:36 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 2F27A50ECA7
+	for <lists+dri-devel@lfdr.de>; Tue, 26 Apr 2022 01:33:30 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 6DD6B10ED95;
-	Mon, 25 Apr 2022 23:17:32 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 56F2689870;
+	Mon, 25 Apr 2022 23:33:21 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-lf1-x135.google.com (mail-lf1-x135.google.com
- [IPv6:2a00:1450:4864:20::135])
- by gabe.freedesktop.org (Postfix) with ESMTPS id BBE1010ED95
- for <dri-devel@lists.freedesktop.org>; Mon, 25 Apr 2022 23:17:31 +0000 (UTC)
-Received: by mail-lf1-x135.google.com with SMTP id n14so8203874lfu.13
- for <dri-devel@lists.freedesktop.org>; Mon, 25 Apr 2022 16:17:31 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=message-id:date:mime-version:user-agent:subject:content-language:to
- :cc:references:from:in-reply-to:content-transfer-encoding;
- bh=49JbjCQAdjO/++v/NBIQmkckR/6sPeXAT0ml5LixY5E=;
- b=OMPjLEJZGTBOCD1s2lv7Y8DkCNgVyIJEBfmm+DGlCTe+jcdDoV/NTpF4RUEY3O4JeR
- nikVTuAh5XCdKvVZ0rqqcCAqR4bwPVv/njLAQdEYrHOcyhCI6jtpcB03/7KEJShz0lWB
- bepxBYmNYxBSAkRdc5eFr6eFY3N4Z2Vv6SH1Fpaym/LU/WyHC4cMHJlctZvbjaoui7zG
- mRf1J5Fo14jYbmlpx0X+JB8g1a6IjPQ7zbtTp+fq/7iAWvpimVJUj1+rJy5PvFH8G+2i
- DZopSIW0rUAQyM9J4pGS1kYTtsoLN2hTPkijv6vsxpa2tQ/MJIxc/46lVny3FwHE+Fsp
- RjHg==
+Received: from mail-oa1-x2f.google.com (mail-oa1-x2f.google.com
+ [IPv6:2001:4860:4864:20::2f])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id AEACA10E274
+ for <dri-devel@lists.freedesktop.org>; Mon, 25 Apr 2022 23:33:19 +0000 (UTC)
+Received: by mail-oa1-x2f.google.com with SMTP id
+ 586e51a60fabf-e9027efe6aso10436704fac.10
+ for <dri-devel@lists.freedesktop.org>; Mon, 25 Apr 2022 16:33:19 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=chromium.org; s=google;
+ h=mime-version:in-reply-to:references:from:user-agent:date:message-id
+ :subject:to:cc:content-transfer-encoding;
+ bh=BiCOs3gLjiOAwIAp7AJ5OD2/e7XtuGh1MBbAIwEj15Y=;
+ b=ElQR9Sw+Qymka0nPJNuX3Ny1rn1qkPev18zhEBP8/icaIdsOysIXljPV0n1CgptDSI
+ nWIZ7eP8UkiqrEigL4mnVaAexS/QUdDmCBYuJmMgVvXNIvCPeVssFHcBI5Gicsxlmivw
+ rpqvoKBkmlJOXC3MWMVdAvfz5hTjk8zYYe894=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
- :content-language:to:cc:references:from:in-reply-to
- :content-transfer-encoding;
- bh=49JbjCQAdjO/++v/NBIQmkckR/6sPeXAT0ml5LixY5E=;
- b=PRZWXXfGjd3mSwaokXmcXBnK1l6VSFQ7aUQqEBv+GkABlp1JYWuZ4d4zYl2lcsaSeH
- rA3Z1v7gSuo5eJfG5uvCKLdoZm+FdEC8i+twJy1Q9Ja1otseqR8ae5kFYm0pdzVRLnsp
- jCrIOJy+N3n3bcMmKNPgEe2ZCp3l8WYsucuYLUMXOvWrCtKNrJL1h2XoanIpAngNXcfp
- XeOigikpP2Rs5k7a2Yh7DWm7SR3tEDzCcC2NlrneV6EikTR/JYhoRVJPMEdTZR3FtaWp
- 6gJu92BTkDZChbkjhhUowuDkX89Bx33OxvqKyo29tsMjQC7GXjDYIZk17PkykaO/Cjwv
- +C9A==
-X-Gm-Message-State: AOAM531XB4V59HIhxgakQ8anpFRAVsAQ0mbwejhZSgxUs83CcQTE7UoC
- MARveOxzfYE2wPhCOF1xKeaSbA==
-X-Google-Smtp-Source: ABdhPJxpDhsr0N0XHXQ7HAIKOgqX7EQnXBPcwlkDNOgNXiStAricHuYGopH6VUJ5BKPD28VMHe21NQ==
-X-Received: by 2002:a05:6512:321b:b0:44a:78f2:500b with SMTP id
- d27-20020a056512321b00b0044a78f2500bmr7312612lfe.434.1650928650001; 
- Mon, 25 Apr 2022 16:17:30 -0700 (PDT)
-Received: from [192.168.1.211] ([37.153.55.125])
- by smtp.gmail.com with ESMTPSA id
- p25-20020a056512329900b0046bc5c83fb7sm1550818lfe.148.2022.04.25.16.17.29
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Mon, 25 Apr 2022 16:17:29 -0700 (PDT)
-Message-ID: <b6e417b4-f4c5-30fc-ce0e-d5887220bae9@linaro.org>
-Date: Tue, 26 Apr 2022 02:17:29 +0300
+ h=x-gm-message-state:mime-version:in-reply-to:references:from
+ :user-agent:date:message-id:subject:to:cc:content-transfer-encoding;
+ bh=BiCOs3gLjiOAwIAp7AJ5OD2/e7XtuGh1MBbAIwEj15Y=;
+ b=1Snghd+8LRFhf5GYT3nA8hs/u0iyRyc0qZN63kza4uaN4To5F8yuSc3J2FypUEO0Gp
+ fpD/7NLwLHzHlONGOfT+rNp+sEd9reVrTplFzKmbsSAjpQzQM2xnaVzHuOP6rXouox6o
+ GXBUPcza3PRKr8w62aTwxA7Vw6MMJ6n25LQqjTVwLp8JEIREqYyKGgCOz3VcAi8OH/16
+ aMtnQ1e4DjKgfw8IwGwP2pt3/UQmAyHyBTB9lBip0/HYKHyomFLyTmpwu9/n/q2JoTMx
+ 1sxM9Fc7dtbMxcV0FEeQfhB+lC53SB5GrgUQvURJ+wx4Vmg0wxEzNY8NTaAceSMvsVgo
+ NhVQ==
+X-Gm-Message-State: AOAM533whgktrJek3WQUO38oyrXxLjb1xKHdb/zpU0NuADPli7YVtbkv
+ WOFO/YJn9mPEKYGtNAodPto+CbxoynxyBd9aO0xBaA==
+X-Google-Smtp-Source: ABdhPJz5QRpij1OTJrd33jJo87JwgGliBZdqGnwSv/niXH4/HLbIjRN2bAyX14+q9jLXEZDhimpHybXic6SohyGT/Q4=
+X-Received: by 2002:a05:6870:15ca:b0:e9:551:6d1c with SMTP id
+ k10-20020a05687015ca00b000e905516d1cmr6599533oad.193.1650929598871; Mon, 25
+ Apr 2022 16:33:18 -0700 (PDT)
+Received: from 753933720722 named unknown by gmailapi.google.com with
+ HTTPREST; Mon, 25 Apr 2022 16:33:18 -0700
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.8.0
-Subject: Re: [PATCH v2] drm/msm/dp: add fail safe mode outside of event_mutex
- context
-Content-Language: en-GB
-To: Kuogee Hsieh <quic_khsieh@quicinc.com>, robdclark@gmail.com,
- sean@poorly.run, swboyd@chromium.org, vkoul@kernel.org, daniel@ffwll.ch,
- airlied@linux.ie, agross@kernel.org, bjorn.andersson@linaro.org
-References: <1649451894-554-1-git-send-email-quic_khsieh@quicinc.com>
-From: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
-In-Reply-To: <1649451894-554-1-git-send-email-quic_khsieh@quicinc.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
+In-Reply-To: <07f1e701-f921-b06a-7492-63810a937322@quicinc.com>
+References: <1649970223-9522-1-git-send-email-quic_khsieh@quicinc.com>
+ <CAE-0n51rp73v6tod98TX3Y_q8TuOppJVdm9Te_9kSNyqyFuoog@mail.gmail.com>
+ <07f1e701-f921-b06a-7492-63810a937322@quicinc.com>
+From: Stephen Boyd <swboyd@chromium.org>
+User-Agent: alot/0.10
+Date: Mon, 25 Apr 2022 16:33:18 -0700
+Message-ID: <CAE-0n53=PCDWh--tYOrpEFJG1sVh7V_G5+d0dEhenXsbKFyWxA@mail.gmail.com>
+Subject: Re: [PATCH] drm/msm/dp: tear down main link at unplug handle
+ immediately
+To: Kuogee Hsieh <quic_khsieh@quicinc.com>, agross@kernel.org, airlied@linux.ie,
+ bjorn.andersson@linaro.org, daniel@ffwll.ch, dmitry.baryshkov@linaro.org, 
+ robdclark@gmail.com, sean@poorly.run, vkoul@kernel.org
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -83,231 +77,70 @@ Cc: quic_sbillaka@quicinc.com, linux-arm-msm@vger.kernel.org,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 09/04/2022 00:04, Kuogee Hsieh wrote:
-> There is possible circular locking dependency detected on event_mutex
-> (see below logs). This is due to set fail safe mode is done at
-> dp_panel_read_sink_caps() within event_mutex scope. To break this
-> possible circular locking, this patch move setting fail safe mode
-> out of event_mutex scope.
-> 
-> [   23.958078] ======================================================
-> [   23.964430] WARNING: possible circular locking dependency detected
-> [   23.970777] 5.17.0-rc2-lockdep-00088-g05241de1f69e #148 Not tainted
-> [   23.977219] ------------------------------------------------------
-> [   23.983570] DrmThread/1574 is trying to acquire lock:
-> [   23.988763] ffffff808423aab0 (&dp->event_mutex){+.+.}-{3:3}, at: msm_dp_displ                                                                             ay_enable+0x58/0x164
-> [   23.997895]
-> [   23.997895] but task is already holding lock:
-> [   24.003895] ffffff808420b280 (&kms->commit_lock[i]/1){+.+.}-{3:3}, at: lock_c                                                                             rtcs+0x80/0x8c
-> [   24.012495]
-> [   24.012495] which lock already depends on the new lock.
-> [   24.012495]
-> [   24.020886]
-> [   24.020886] the existing dependency chain (in reverse order) is:
-> [   24.028570]
-> [   24.028570] -> #5 (&kms->commit_lock[i]/1){+.+.}-{3:3}:
-> [   24.035472]        __mutex_lock+0xc8/0x384
-> [   24.039695]        mutex_lock_nested+0x54/0x74
-> [   24.044272]        lock_crtcs+0x80/0x8c
-> [   24.048222]        msm_atomic_commit_tail+0x1e8/0x3d0
-> [   24.053413]        commit_tail+0x7c/0xfc
-> [   24.057452]        drm_atomic_helper_commit+0x158/0x15c
-> [   24.062826]        drm_atomic_commit+0x60/0x74
-> [   24.067403]        drm_mode_atomic_ioctl+0x6b0/0x908
-> [   24.072508]        drm_ioctl_kernel+0xe8/0x168
-> [   24.077086]        drm_ioctl+0x320/0x370
-> [   24.081123]        drm_compat_ioctl+0x40/0xdc
-> [   24.085602]        __arm64_compat_sys_ioctl+0xe0/0x150
-> [   24.090895]        invoke_syscall+0x80/0x114
-> [   24.095294]        el0_svc_common.constprop.3+0xc4/0xf8
-> [   24.100668]        do_el0_svc_compat+0x2c/0x54
-> [   24.105242]        el0_svc_compat+0x4c/0xe4
-> [   24.109548]        el0t_32_sync_handler+0xc4/0xf4
-> [   24.114381]        el0t_32_sync+0x178
-> [   24.118688]
-> [   24.118688] -> #4 (&kms->commit_lock[i]){+.+.}-{3:3}:
-> [   24.125408]        __mutex_lock+0xc8/0x384
-> [   24.129628]        mutex_lock_nested+0x54/0x74
-> [   24.134204]        lock_crtcs+0x80/0x8c
-> [   24.138155]        msm_atomic_commit_tail+0x1e8/0x3d0
-> [   24.143345]        commit_tail+0x7c/0xfc
-> [   24.147382]        drm_atomic_helper_commit+0x158/0x15c
-> [   24.152755]        drm_atomic_commit+0x60/0x74
-> [   24.157323]        drm_atomic_helper_set_config+0x68/0x90
-> [   24.162869]        drm_mode_setcrtc+0x394/0x648
-> [   24.167535]        drm_ioctl_kernel+0xe8/0x168
-> [   24.172102]        drm_ioctl+0x320/0x370
-> [   24.176135]        drm_compat_ioctl+0x40/0xdc
-> [   24.180621]        __arm64_compat_sys_ioctl+0xe0/0x150
-> [   24.185904]        invoke_syscall+0x80/0x114
-> [   24.190302]        el0_svc_common.constprop.3+0xc4/0xf8
-> [   24.195673]        do_el0_svc_compat+0x2c/0x54
-> [   24.200241]        el0_svc_compat+0x4c/0xe4
-> [   24.204544]        el0t_32_sync_handler+0xc4/0xf4
-> [   24.209378]        el0t_32_sync+0x174/0x178
-> [   24.213680] -> #3 (crtc_ww_class_mutex){+.+.}-{3:3}:
-> [   24.220308]        __ww_mutex_lock.constprop.20+0xe8/0x878
-> [   24.225951]        ww_mutex_lock+0x60/0xd0
-> [   24.230166]        modeset_lock+0x190/0x19c
-> [   24.234467]        drm_modeset_lock+0x34/0x54
-> [   24.238953]        drmm_mode_config_init+0x550/0x764
-> [   24.244065]        msm_drm_bind+0x170/0x59c
-> [   24.248374]        try_to_bring_up_master+0x244/0x294
-> [   24.253572]        __component_add+0xf4/0x14c
-> [   24.258057]        component_add+0x2c/0x38
-> [   24.262273]        dsi_dev_attach+0x2c/0x38
-> [   24.266575]        dsi_host_attach+0xc4/0x120
-> [   24.271060]        mipi_dsi_attach+0x34/0x48
-> [   24.275456]        devm_mipi_dsi_attach+0x28/0x68
-> [   24.280298]        ti_sn_bridge_probe+0x2b4/0x2dc
-> [   24.285137]        auxiliary_bus_probe+0x78/0x90
-> [   24.289893]        really_probe+0x1e4/0x3d8
-> [   24.294194]        __driver_probe_device+0x14c/0x164
-> [   24.299298]        driver_probe_device+0x54/0xf8
-> [   24.304043]        __device_attach_driver+0xb4/0x118
-> [   24.309145]        bus_for_each_drv+0xb0/0xd4
-> [   24.313628]        __device_attach+0xcc/0x158
-> [   24.318112]        device_initial_probe+0x24/0x30
-> [   24.322954]        bus_probe_device+0x38/0x9c
-> [   24.327439]        deferred_probe_work_func+0xd4/0xf0
-> [   24.332628]        process_one_work+0x2f0/0x498
-> [   24.337289]        process_scheduled_works+0x44/0x48
-> [   24.342391]        worker_thread+0x1e4/0x26c
-> [   24.346788]        kthread+0xe4/0xf4
-> [   24.350470]        ret_from_fork+0x10/0x20
-> [   24.354683]
-> [   24.354683]
-> [   24.354683] -> #2 (crtc_ww_class_acquire){+.+.}-{0:0}:
-> [   24.361489]        drm_modeset_acquire_init+0xe4/0x138
-> [   24.366777]        drm_helper_probe_detect_ctx+0x44/0x114
-> [   24.372327]        check_connector_changed+0xbc/0x198
-> [   24.377517]        drm_helper_hpd_irq_event+0xcc/0x11c
-> [   24.382804]        dsi_hpd_worker+0x24/0x30
-> [   24.387104]        process_one_work+0x2f0/0x498
-> [   24.391762]        worker_thread+0x1d0/0x26c
-> [   24.396158]        kthread+0xe4/0xf4
-> [   24.399840]        ret_from_fork+0x10/0x20
-> [   24.404053]
-> [   24.404053] -> #1 (&dev->mode_config.mutex){+.+.}-{3:3}:
-> [   24.411032]        __mutex_lock+0xc8/0x384
-> [   24.415247]        mutex_lock_nested+0x54/0x74
-> [   24.419819]        dp_panel_read_sink_caps+0x23c/0x26c
-> [   24.425108]        dp_display_process_hpd_high+0x34/0xd4
-> [   24.430570]        dp_display_usbpd_configure_cb+0x30/0x3c
-> [   24.436205]        hpd_event_thread+0x2ac/0x550
-> [   24.440864]        kthread+0xe4/0xf4
-> [   24.444544]        ret_from_fork+0x10/0x20
-> [   24.448757]
-> [   24.448757] -> #0 (&dp->event_mutex){+.+.}-{3:3}:
-> [   24.455116]        __lock_acquire+0xe2c/0x10d8
-> [   24.459690]        lock_acquire+0x1ac/0x2d0
-> [   24.463988]        __mutex_lock+0xc8/0x384
-> [   24.468201]        mutex_lock_nested+0x54/0x74
-> [   24.472773]        msm_dp_display_enable+0x58/0x164
-> [   24.477789]        dp_bridge_enable+0x24/0x30
-> [   24.482273]        drm_atomic_bridge_chain_enable+0x78/0x9c
-> [   24.488006]        drm_atomic_helper_commit_modeset_enables+0x1bc/0x244
-> [   24.494801]        msm_atomic_commit_tail+0x248/0x3d0
-> [   24.499992]        commit_tail+0x7c/0xfc
-> [   24.504031]        drm_atomic_helper_commit+0x158/0x15c
-> [   24.509404]        drm_atomic_commit+0x60/0x74
-> [   24.513976]        drm_mode_atomic_ioctl+0x6b0/0x908
-> [   24.519079]        drm_ioctl_kernel+0xe8/0x168
-> [   24.523650]        drm_ioctl+0x320/0x370
-> [   24.527689]        drm_compat_ioctl+0x40/0xdc
-> [   24.532175]        __arm64_compat_sys_ioctl+0xe0/0x150
-> [   24.537463]        invoke_syscall+0x80/0x114
-> [   24.541861]        el0_svc_common.constprop.3+0xc4/0xf8
-> [   24.547235]        do_el0_svc_compat+0x2c/0x54
-> [   24.551806]        el0_svc_compat+0x4c/0xe4
-> [   24.556106]        el0t_32_sync_handler+0xc4/0xf4
-> [   24.560948]        el0t_32_sync+0x174/0x178
-> 
-> Changes in v2:
-> -- add circular lockiing trace
-> 
-> Fixes: d4aca422539c ("drm/msm/dp:  always add fail-safe mode into connector mode list")
+Quoting Kuogee Hsieh (2022-04-25 15:29:30)
+>
+> On 4/20/2022 3:38 PM, Stephen Boyd wrote:
+> > Quoting Kuogee Hsieh (2022-04-14 14:03:43)
+> >
+> >> diff --git a/drivers/gpu/drm/msm/dp/dp_display.c b/drivers/gpu/drm/msm=
+/dp/dp_display.c
+> >> index 01453db..f5bd8f5 100644
+> >> --- a/drivers/gpu/drm/msm/dp/dp_display.c
+> >> +++ b/drivers/gpu/drm/msm/dp/dp_display.c
+> >> @@ -615,24 +598,21 @@ static int dp_hpd_unplug_handle(struct dp_displa=
+y_private *dp, u32 data)
+> >>                  if (dp->link->sink_count =3D=3D 0) {
+> >>                          dp_display_host_phy_exit(dp);
+> >>                  }
+> >> +               dp_display_notify_disconnect(&dp->pdev->dev);
+> >>                  mutex_unlock(&dp->event_mutex);
+> >>                  return 0;
+> >> -       }
+> >> -
+> >> -       if (state =3D=3D ST_DISCONNECT_PENDING) {
+> >> +       } else if (state =3D=3D ST_DISCONNECT_PENDING) {
+> >>                  mutex_unlock(&dp->event_mutex);
+> >>                  return 0;
+> >> -       }
+> >> -
+> >> -       if (state =3D=3D ST_CONNECT_PENDING) {
+> >> -               /* wait until CONNECTED */
+> >> -               dp_add_event(dp, EV_HPD_UNPLUG_INT, 0, 1); /* delay =
+=3D 1 */
+> >> +       } else if (state =3D=3D ST_CONNECT_PENDING) {
+> > I take it that ST_CONNECT_PENDING is sort of like "userspace hasn't
+> > handled the uevent yet and modeset hasn't been called but the link is
+> > setup and now we want to tear it down". The state name may want to be
+> > changed to something else.
+> yes, how about change to=C2=A0 ST_MAINLINK_READY?
 
-I'll carry over this from Stephen's reply to the previous iteration:
+Sure.
 
-Reported-by: Douglas Anderson <dianders@chromium.org>
+> >> @@ -1529,8 +1480,11 @@ int msm_dp_display_enable(struct msm_dp *dp, st=
+ruct drm_encoder *encoder)
+> >>
+> >>          mutex_lock(&dp_display->event_mutex);
+> >>
+> >> -       /* stop sentinel checking */
+> >> -       dp_del_event(dp_display, EV_CONNECT_PENDING_TIMEOUT);
+> >> +       state =3D dp_display->hpd_state;
+> >> +       if (state !=3D ST_DISPLAY_OFF && state !=3D ST_CONNECT_PENDING=
+) {
+> > Is this to guard against userspace doing an atomic commit when the
+> > display isn't connected? Is that even possible?
+>
+> No, it used to guard follow scenario in timing order,
+>
+> 1) plugin had been handled and mainlink is ready,
+>
+> 2)=C2=A0 userspace hasn't handled the uevent yet and modeset hasn't been =
+called
+>
+> 3) unplugged happen, mainlink be teared down
+>
+> 4) user space start to response to uevent=C2=A0 and try to enable display=
+.
+> (it too late since mainlink had been teared down)
+>
 
-> Signed-off-by: Kuogee Hsieh <quic_khsieh@quicinc.com>
-> ---
->   drivers/gpu/drm/msm/dp/dp_display.c |  6 ++++++
->   drivers/gpu/drm/msm/dp/dp_panel.c   | 20 ++++++++++----------
->   drivers/gpu/drm/msm/dp/dp_panel.h   |  1 +
->   3 files changed, 17 insertions(+), 10 deletions(-)
-> 
-> diff --git a/drivers/gpu/drm/msm/dp/dp_display.c b/drivers/gpu/drm/msm/dp/dp_display.c
-> index 178b774..a42732b 100644
-> --- a/drivers/gpu/drm/msm/dp/dp_display.c
-> +++ b/drivers/gpu/drm/msm/dp/dp_display.c
-> @@ -580,6 +580,12 @@ static int dp_hpd_plug_handle(struct dp_display_private *dp, u32 data)
->   			dp->dp_display.connector_type, state);
->   	mutex_unlock(&dp->event_mutex);
->   
-> +	/*
-> +	 * add fail safe mode outside event_mutex scope
-> +	 * to avoid potiential circular lock with drm thread
-> +	 */
-> +	dp_panel_add_fail_safe_mode(dp->dp_display.connector);
-> +
->   	/* uevent will complete connection part */
->   	return 0;
->   };
-> diff --git a/drivers/gpu/drm/msm/dp/dp_panel.c b/drivers/gpu/drm/msm/dp/dp_panel.c
-> index f141872..26c3653 100644
-> --- a/drivers/gpu/drm/msm/dp/dp_panel.c
-> +++ b/drivers/gpu/drm/msm/dp/dp_panel.c
-> @@ -151,6 +151,15 @@ static int dp_panel_update_modes(struct drm_connector *connector,
->   	return rc;
->   }
->   
-> +void dp_panel_add_fail_safe_mode(struct drm_connector *connector)
-> +{
-> +	/* fail safe edid */
-> +	mutex_lock(&connector->dev->mode_config.mutex);
-> +	if (drm_add_modes_noedid(connector, 640, 480))
-> +		drm_set_preferred_mode(connector, 640, 480);
-> +	mutex_unlock(&connector->dev->mode_config.mutex);
-> +}
-> +
->   int dp_panel_read_sink_caps(struct dp_panel *dp_panel,
->   	struct drm_connector *connector)
->   {
-> @@ -207,16 +216,7 @@ int dp_panel_read_sink_caps(struct dp_panel *dp_panel,
->   			goto end;
->   		}
->   
-> -		/* fail safe edid */
-> -		mutex_lock(&connector->dev->mode_config.mutex);
-> -		if (drm_add_modes_noedid(connector, 640, 480))
-> -			drm_set_preferred_mode(connector, 640, 480);
-> -		mutex_unlock(&connector->dev->mode_config.mutex);
-> -	} else {
-> -		/* always add fail-safe mode as backup mode */
-> -		mutex_lock(&connector->dev->mode_config.mutex);
-> -		drm_add_modes_noedid(connector, 640, 480);
-> -		mutex_unlock(&connector->dev->mode_config.mutex);
-> +		dp_panel_add_fail_safe_mode(connector);
->   	}
->   
->   	if (panel->aux_cfg_update_done) {
-> diff --git a/drivers/gpu/drm/msm/dp/dp_panel.h b/drivers/gpu/drm/msm/dp/dp_panel.h
-> index 9023e5b..99739ea 100644
-> --- a/drivers/gpu/drm/msm/dp/dp_panel.h
-> +++ b/drivers/gpu/drm/msm/dp/dp_panel.h
-> @@ -59,6 +59,7 @@ int dp_panel_init_panel_info(struct dp_panel *dp_panel);
->   int dp_panel_deinit(struct dp_panel *dp_panel);
->   int dp_panel_timing_cfg(struct dp_panel *dp_panel);
->   void dp_panel_dump_regs(struct dp_panel *dp_panel);
-> +void dp_panel_add_fail_safe_mode(struct drm_connector *connector);
->   int dp_panel_read_sink_caps(struct dp_panel *dp_panel,
->   		struct drm_connector *connector);
->   u32 dp_panel_get_mode_bpp(struct dp_panel *dp_panel, u32 mode_max_bpp,
-
-
--- 
-With best wishes
-Dmitry
+Ok. Thanks for clarifying.
