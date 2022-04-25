@@ -2,45 +2,54 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7DD5050E88C
-	for <lists+dri-devel@lfdr.de>; Mon, 25 Apr 2022 20:47:13 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id BFA7C50E96E
+	for <lists+dri-devel@lfdr.de>; Mon, 25 Apr 2022 21:23:26 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 60EE610E11A;
-	Mon, 25 Apr 2022 18:47:11 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id AA91210E26B;
+	Mon, 25 Apr 2022 19:23:21 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from desiato.infradead.org (desiato.infradead.org
- [IPv6:2001:8b0:10b:1:d65d:64ff:fe57:4e05])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 08C3610E11A
- for <dri-devel@lists.freedesktop.org>; Mon, 25 Apr 2022 18:47:10 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
- d=infradead.org; s=desiato.20200630; h=Content-Transfer-Encoding:Content-Type
- :In-Reply-To:From:References:Cc:To:Subject:MIME-Version:Date:Message-ID:
- Sender:Reply-To:Content-ID:Content-Description;
- bh=sNaqatniZh4V6H6ZX5OWgsYZGW1sYR1cMaEyUB+FtkQ=; b=P/+AuIRgxQ/2VFn0tOHTW+qjvT
- pxSUuVMyR1pDCkrSgToqQrBFTlXC0k4kcEa9F/X+xU/HO8UrWftCj1mODupwPg0nwK6/UccKXP/97
- 2D46VdTLVeToOxutjcW1N9g8Jj3OxHczu14ZU7+Pvj/jDg81tNPMjps0Jji4kasRFYdNKEGwm9jAH
- 2N3zKECHqtpQAO7B9FO9ziXJt+qQBf3S7QmSbjsb7JkBzZS100Ff6vEdSbUwxaBSuWOPy6ngFhbul
- Ht9Njfy9REP/67rlvGXp5ft9bHEeZ8QTScGUf3ywIR4Rtn/jr8q5T4aRAUbhQh4wvSD4WhGcWdgfo
- JoIieuag==;
-Received: from [2601:1c0:6280:3f0::aa0b]
- by desiato.infradead.org with esmtpsa (Exim 4.94.2 #2 (Red Hat Linux))
- id 1nj3jf-008bSd-61; Mon, 25 Apr 2022 18:46:59 +0000
-Message-ID: <04ff7802-c87a-2ea2-156e-c437446bc072@infradead.org>
-Date: Mon, 25 Apr 2022 11:46:53 -0700
+Received: from metis.ext.pengutronix.de (metis.ext.pengutronix.de
+ [IPv6:2001:67c:670:201:290:27ff:fe1d:cc33])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 8AFAD8928F
+ for <dri-devel@lists.freedesktop.org>; Mon, 25 Apr 2022 19:23:20 +0000 (UTC)
+Received: from drehscheibe.grey.stw.pengutronix.de ([2a0a:edc0:0:c01:1d::a2])
+ by metis.ext.pengutronix.de with esmtps
+ (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256) (Exim 4.92)
+ (envelope-from <ukl@pengutronix.de>)
+ id 1nj4Il-0003v6-VV; Mon, 25 Apr 2022 21:23:16 +0200
+Received: from [2a0a:edc0:0:900:1d::77] (helo=ptz.office.stw.pengutronix.de)
+ by drehscheibe.grey.stw.pengutronix.de with esmtp (Exim 4.94.2)
+ (envelope-from <ukl@pengutronix.de>)
+ id 1nj4Im-005Cmn-4b; Mon, 25 Apr 2022 21:23:14 +0200
+Received: from ukl by ptz.office.stw.pengutronix.de with local (Exim 4.94.2)
+ (envelope-from <ukl@pengutronix.de>)
+ id 1nj4Ik-005aUh-3F; Mon, 25 Apr 2022 21:23:14 +0200
+From: =?UTF-8?q?Uwe=20Kleine-K=C3=B6nig?= <u.kleine-koenig@pengutronix.de>
+To: Javier Martinez Canillas <javierm@redhat.com>
+Subject: [PATCH] drm/ssd130x: Make ssd130x_remove() return void
+Date: Mon, 25 Apr 2022 21:23:06 +0200
+Message-Id: <20220425192306.59800-1-u.kleine-koenig@pengutronix.de>
+X-Mailer: git-send-email 2.35.1
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.8.1
-Subject: Re: [PATCH 04/11] drm/r128: Fix undefined behavior due to shift
- overflowing the constant
-Content-Language: en-US
-To: Borislav Petkov <bp@alien8.de>, LKML <linux-kernel@vger.kernel.org>
-References: <20220405151517.29753-1-bp@alien8.de>
- <20220405151517.29753-5-bp@alien8.de>
-From: Randy Dunlap <rdunlap@infradead.org>
-In-Reply-To: <20220405151517.29753-5-bp@alien8.de>
 Content-Type: text/plain; charset=UTF-8
+X-Developer-Signature: v=1; a=openpgp-sha256; l=2241; h=from:subject;
+ bh=elsgzsCQSieRPNO1I+wFjsOM8p8SdLrk0Z5FhxWlA64=;
+ b=owEBbQGS/pANAwAKAcH8FHityuwJAcsmYgBiZvUWlQeLp3N6v5OSwAMx0lLCbkJoBcQieACxF/f0
+ EKErcg+JATMEAAEKAB0WIQR+cioWkBis/z50pAvB/BR4rcrsCQUCYmb1FgAKCRDB/BR4rcrsCQy2B/
+ 9QvCcUILfOGFjereK7KVRlD6gkgNRAyXKfmhRoKYOW4adqeT0f9SS5Gg0RsxOajsh7riDM9c/xO6Zk
+ r5JNwR2/5iGTHkVMvs2N0bpRx4yFwuu6/PzGzUpqhxR+Ty/2qVo/J3WD3CroVzYSgsHPUvMxEUvUjG
+ 7OpwtA9fD1iM4YaKKuNrf4Knj8NVWWDps2Q2mCdk6N7A/9sCs2n1oSr8aByCSPJ4qnRge716G7Em66
+ F4Elc4TG5zTjWAyk+kvYVdL3mHDIdEvoO9YmSz0iUoGGtcgz2JNa4tYM/fQSFCCoWqz5loIZ8nepsx
+ TT8FAJKYZEeonpddiXm9vgrEICzsTA
+X-Developer-Key: i=u.kleine-koenig@pengutronix.de; a=openpgp;
+ fpr=0D2511F322BFAB1C1580266BE2DCDD9132669BD6
 Content-Transfer-Encoding: 8bit
+X-SA-Exim-Connect-IP: 2a0a:edc0:0:c01:1d::a2
+X-SA-Exim-Mail-From: ukl@pengutronix.de
+X-SA-Exim-Scanned: No (on metis.ext.pengutronix.de);
+ SAEximRunCond expanded to false
+X-PTX-Original-Recipient: dri-devel@lists.freedesktop.org
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -53,58 +62,71 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: David Airlie <airlied@linux.ie>, Alex Deucher <alexander.deucher@amd.com>,
+Cc: David Airlie <airlied@linux.ie>, kernel@pengutronix.de,
  dri-devel@lists.freedesktop.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
+This function returns zero unconditionally, so there isn't any benefit
+of returning a value. Make it return void to be able to see at a glance
+that the return value of ssd130x_i2c_remove() is always zero.
 
+This patch is a preparation for making i2c remove callbacks return void.
 
-On 4/5/22 08:15, Borislav Petkov wrote:
-> From: Borislav Petkov <bp@suse.de>
-> 
-> Fix:
-> 
->   drivers/gpu/drm/r128/r128_cce.c: In function ‘r128_do_init_cce’:
->   drivers/gpu/drm/r128/r128_cce.c:417:2: error: case label does not reduce to an integer constant
->     case R128_PM4_64BM_64VCBM_64INDBM:
->     ^~~~
->   drivers/gpu/drm/r128/r128_cce.c:418:2: error: case label does not reduce to an integer constant
->     case R128_PM4_64PIO_64VCPIO_64INDPIO:
->     ^~~~
-> 
-> See https://lore.kernel.org/r/YkwQ6%2BtIH8GQpuct@zn.tnic for the gory
-> details as to why it triggers with older gccs only.
-> 
-> Signed-off-by: Borislav Petkov <bp@suse.de>
-> Cc: David Airlie <airlied@linux.ie>
-> Cc: Daniel Vetter <daniel@ffwll.ch>
-> Cc: Alex Deucher <alexander.deucher@amd.com>
-> Cc: dri-devel@lists.freedesktop.org
+Signed-off-by: Uwe Kleine-König <u.kleine-koenig@pengutronix.de>
+---
+ drivers/gpu/drm/solomon/ssd130x-i2c.c | 4 +++-
+ drivers/gpu/drm/solomon/ssd130x.c     | 4 +---
+ drivers/gpu/drm/solomon/ssd130x.h     | 2 +-
+ 3 files changed, 5 insertions(+), 5 deletions(-)
 
-Reviewed-by: Randy Dunlap <rdunlap@infradead.org>
+diff --git a/drivers/gpu/drm/solomon/ssd130x-i2c.c b/drivers/gpu/drm/solomon/ssd130x-i2c.c
+index 3126aeda4ced..54c8e2e4d9dd 100644
+--- a/drivers/gpu/drm/solomon/ssd130x-i2c.c
++++ b/drivers/gpu/drm/solomon/ssd130x-i2c.c
+@@ -43,7 +43,9 @@ static int ssd130x_i2c_remove(struct i2c_client *client)
+ {
+ 	struct ssd130x_device *ssd130x = i2c_get_clientdata(client);
+ 
+-	return ssd130x_remove(ssd130x);
++	ssd130x_remove(ssd130x);
++
++	return 0;
+ }
+ 
+ static void ssd130x_i2c_shutdown(struct i2c_client *client)
+diff --git a/drivers/gpu/drm/solomon/ssd130x.c b/drivers/gpu/drm/solomon/ssd130x.c
+index ce4dc20412e0..e6feb2a166a6 100644
+--- a/drivers/gpu/drm/solomon/ssd130x.c
++++ b/drivers/gpu/drm/solomon/ssd130x.c
+@@ -824,11 +824,9 @@ struct ssd130x_device *ssd130x_probe(struct device *dev, struct regmap *regmap)
+ }
+ EXPORT_SYMBOL_GPL(ssd130x_probe);
+ 
+-int ssd130x_remove(struct ssd130x_device *ssd130x)
++void ssd130x_remove(struct ssd130x_device *ssd130x)
+ {
+ 	drm_dev_unplug(&ssd130x->drm);
+-
+-	return 0;
+ }
+ EXPORT_SYMBOL_GPL(ssd130x_remove);
+ 
+diff --git a/drivers/gpu/drm/solomon/ssd130x.h b/drivers/gpu/drm/solomon/ssd130x.h
+index cd21cdccb566..f633bac84477 100644
+--- a/drivers/gpu/drm/solomon/ssd130x.h
++++ b/drivers/gpu/drm/solomon/ssd130x.h
+@@ -70,7 +70,7 @@ struct ssd130x_device {
+ };
+ 
+ struct ssd130x_device *ssd130x_probe(struct device *dev, struct regmap *regmap);
+-int ssd130x_remove(struct ssd130x_device *ssd130x);
++void ssd130x_remove(struct ssd130x_device *ssd130x);
+ void ssd130x_shutdown(struct ssd130x_device *ssd130x);
+ 
+ #endif /* __SSD1307X_H__ */
 
-Thanks.
-
-> ---
->  drivers/gpu/drm/r128/r128_drv.h | 4 ++--
->  1 file changed, 2 insertions(+), 2 deletions(-)
-> 
-> diff --git a/drivers/gpu/drm/r128/r128_drv.h b/drivers/gpu/drm/r128/r128_drv.h
-> index 2e1bc01aa5c9..970e192b0d51 100644
-> --- a/drivers/gpu/drm/r128/r128_drv.h
-> +++ b/drivers/gpu/drm/r128/r128_drv.h
-> @@ -300,8 +300,8 @@ extern long r128_compat_ioctl(struct file *filp, unsigned int cmd,
->  #	define R128_PM4_64PIO_128INDBM		(5  << 28)
->  #	define R128_PM4_64BM_128INDBM		(6  << 28)
->  #	define R128_PM4_64PIO_64VCBM_64INDBM	(7  << 28)
-> -#	define R128_PM4_64BM_64VCBM_64INDBM	(8  << 28)
-> -#	define R128_PM4_64PIO_64VCPIO_64INDPIO	(15 << 28)
-> +#	define R128_PM4_64BM_64VCBM_64INDBM	(8U  << 28)
-> +#	define R128_PM4_64PIO_64VCPIO_64INDPIO	(15U << 28)
->  #	define R128_PM4_BUFFER_CNTL_NOUPDATE	(1  << 27)
->  
->  #define R128_PM4_BUFFER_WM_CNTL		0x0708
-
+base-commit: 3123109284176b1532874591f7c81f3837bbdc17
 -- 
-~Randy
+2.35.1
+
