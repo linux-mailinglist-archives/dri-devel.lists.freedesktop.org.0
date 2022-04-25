@@ -2,43 +2,48 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0775550E31D
-	for <lists+dri-devel@lfdr.de>; Mon, 25 Apr 2022 16:29:32 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id EA3C150E399
+	for <lists+dri-devel@lfdr.de>; Mon, 25 Apr 2022 16:48:18 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id DD50E10E3E5;
-	Mon, 25 Apr 2022 14:29:29 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id E51D510EABA;
+	Mon, 25 Apr 2022 14:48:14 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from out0.migadu.com (out0.migadu.com [94.23.1.103])
- by gabe.freedesktop.org (Postfix) with ESMTPS id F346410E260
- for <dri-devel@lists.freedesktop.org>; Mon, 25 Apr 2022 14:29:27 +0000 (UTC)
-Date: Mon, 25 Apr 2022 22:28:57 +0800
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linux.dev; s=key1;
- t=1650896963;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=P65HNv5ma4iEwXeu4Ihdg+26rWgcMaxrOyZ7fEWBapo=;
- b=cjWiF3AxJaKhJhKov3WeBmhdlT3Tt0grMqAOSEiTezM40nJ1RVl+dCmRJKQpGDpe5iKPVh
- kF/CcCZwQIOHoXDvUqslQpjeYUF/MYQrL3fxdDpbz//gPw6nQdYMk8mpPjn28Ysynu90BM
- A2S0O6ZlbK5/W6vkWP1iejqcHuvuaxg=
-X-Report-Abuse: Please report any abuse attempt to abuse@migadu.com and
- include these headers.
-From: Cai Huoqing <cai.huoqing@linux.dev>
-To: Kari Argillander <kari.argillander@stargateuniverse.net>
-Subject: Re: [PATCH 2/2] drm/nvdla: Add driver support for NVDLA
-Message-ID: <20220425142857.GA4678@chq-T47>
-References: <20220419135908.39606-1-cai.huoqing@linux.dev>
- <20220419135908.39606-3-cai.huoqing@linux.dev>
- <0fa9ab41-c18e-a569-e6fe-a0e9d965905e@stargateuniverse.net>
+Received: from mga14.intel.com (mga14.intel.com [192.55.52.115])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 2C79F10EABC;
+ Mon, 25 Apr 2022 14:48:14 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+ t=1650898094; x=1682434094;
+ h=date:from:to:cc:subject:message-id:references:
+ mime-version:in-reply-to;
+ bh=XRO100yF3VIDxVhQfDT36RRmywcegsuLJKx5wKPQfXg=;
+ b=DdVTeaUoyxuBHYa5Glvkor2diydXTFy2uABMTZAiRkWrdHOIZ2zb7U2e
+ UFmhsUzKagN9J6wpw/qMji4wr5ib+hsU0cQ8qUs+pSdd7wEoutEyAEfUM
+ hci1v2WHF3omFSwIYm0vdVNVZO/8U9nxp3QlVBleuP1WF2G9DxLDIyYDV
+ XItmGH6iTb2ZqY6qU4GN/kqcewWjGsZVjbRyTvLXWHCHV65mDMFlukTzI
+ HMlcVT994y9zHWoWBRgdq4TEN10zRb4D8t93CvVOJ4Z7d3phipRuryvqd
+ hTySsJOZDcqESKJ/NU/Zs5OAnAOwTLfi0WYHfM79j024+I05CnC5weSQ/ g==;
+X-IronPort-AV: E=McAfee;i="6400,9594,10328"; a="265431180"
+X-IronPort-AV: E=Sophos;i="5.90,288,1643702400"; d="scan'208";a="265431180"
+Received: from orsmga007.jf.intel.com ([10.7.209.58])
+ by fmsmga103.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 25 Apr 2022 07:48:13 -0700
+X-IronPort-AV: E=Sophos;i="5.90,288,1643702400"; d="scan'208";a="557766565"
+Received: from agaer-mobl1.ger.corp.intel.com (HELO intel.com) ([10.252.47.33])
+ by orsmga007-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 25 Apr 2022 07:48:12 -0700
+Date: Mon, 25 Apr 2022 16:48:09 +0200
+From: Andi Shyti <andi.shyti@linux.intel.com>
+To: Matt Roper <matthew.d.roper@intel.com>
+Subject: Re: [Intel-gfx] [PATCH 1/2] drm/i915/xehp: Add compute engine ABI
+Message-ID: <Yma0qWiXjjJ1V0Sl@intel.intel>
+References: <20220422195007.4019661-1-matthew.d.roper@intel.com>
+ <20220422195007.4019661-2-matthew.d.roper@intel.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
+Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <0fa9ab41-c18e-a569-e6fe-a0e9d965905e@stargateuniverse.net>
-X-Migadu-Flow: FLOW_OUT
-X-Migadu-Auth-User: linux.dev
+In-Reply-To: <20220422195007.4019661-2-matthew.d.roper@intel.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -51,901 +56,172 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Thomas Zimmermann <tzimmermann@suse.de>, David Airlie <airlied@linux.ie>,
- linux-kernel@vger.kernel.org,
- Christian =?utf-8?B?S8O2bmln?= <christian.koenig@amd.com>,
- linaro-mm-sig@lists.linaro.org, dri-devel@lists.freedesktop.org,
- Sumit Semwal <sumit.semwal@linaro.org>, linux-media@vger.kernel.org
+Cc: Szymon Morek <szymon.morek@intel.com>, intel-gfx@lists.freedesktop.org,
+ dri-devel@lists.freedesktop.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 22 4月 22 01:01:14, Kari Argillander wrote:
-> This is just quick look up. I basically check some style issues and did
-> some basic static analyzing.
-> 
-> I have run
->  - cppcheck (which found couple mistakes)
->  - flawfinder (did not found anything to my eyes)
->  - codespell (did find couple typo)
-> 
-> You can run these yourself also or check below.
-> 
-> Couple common things which you can ignore or not	.
-> - Usually in this code there is goto exit and it is just return. Maybe
->   use just return straight away. No need to jump.
-> - Some comments start capital others not. Maybe all should start
->   capital. Very small nit, but makes nice touch to the code.
-> - Lot of oneline comments are unneccessary three line comments.
-> 
-> On 19.4.2022 16.59, Cai Huoqing wrote:
-> > The NVIDIA Deep Learning Accelerator (NVDLA) is an open source IP
-> > which is integrated into NVIDIA Jetson AGX Xavier,
-> > so add driver support for this accelerator.
-> > 
-> > Signed-off-by: Cai Huoqing <cai.huoqing@linux.dev>
-> 
-> ... snip
-> 
-> > diff --git a/drivers/gpu/drm/nvdla/nvdla_bdma.c b/drivers/gpu/drm/nvdla/nvdla_bdma.c
-> > new file mode 100644
-> > index 000000000000..225613f27acf
-> > --- /dev/null
-> > +++ b/drivers/gpu/drm/nvdla/nvdla_bdma.c
-> 
-> ... snip
-> 
-> > +static int32_t
-> > +processor_bdma_program_slot(struct dla_engine *engine,
-> > +							struct dla_bdma_surface_desc *bdma_surface,
-> > +							struct dla_bdma_transfer_desc *transfer)
-> > +{
-> > +	int32_t ret = 0;
-> > +	uint64_t source_addr = 0;
-> > +	uint64_t destination_addr = 0;
-> > +	uint32_t high, low, reg;
-> > +	uint8_t  bdma_free_slots = 0;
-> > +
-> > +	/* make sure there're enough free slots */
-> > +	if (bdma_free_slots <= 0) {
-> 
-> This is always true right now.
-> 
-> > +		do {
-> > +			reg = bdma_reg_read(engine, STATUS);
-> > +			reg = (reg & MASK(BDMA_STATUS_0, FREE_SLOT)) >>
-> > +					SHIFT(BDMA_STATUS_0, FREE_SLOT);
-> > +		} while (reg == 0);
-> > +		bdma_free_slots = (uint8_t)reg;
-> > +	}
-> > +
-> > +	dla_get_dma_address(engine->driver_context, engine->task->task_data,
-> > +						transfer->source_address,
-> > +						(void *)&source_addr,
-> > +						DESTINATION_DMA);
-> > +	dla_get_dma_address(engine->driver_context, engine->task->task_data,
-> > +						transfer->destination_address,
-> > +						(void *)&destination_addr,
-> > +						DESTINATION_DMA);
-> > +
-> > +	ASSERT_GOTO((transfer->line_repeat <= 8192),
-> > +				ret, -EINVAL, exit);
-> > +	ASSERT_GOTO((transfer->surface_repeat <= 8192),
-> > +				ret, -EINVAL, exit);
-> > +	ASSERT_GOTO((transfer->line_size % 32) == 0,
-> > +				ret, -EINVAL, exit);
-> > +	ASSERT_GOTO(transfer->source_line >= transfer->line_size,
-> > +				ret, -EINVAL, exit);
-> > +	ASSERT_GOTO(transfer->destination_line >= transfer->line_size,
-> > +				ret, -EINVAL, exit);
-> > +	ASSERT_GOTO(transfer->source_surface >=
-> > +			(transfer->source_line * transfer->line_repeat),
-> > +				ret, -EINVAL, exit);
-> > +	ASSERT_GOTO(transfer->destination_surface >=
-> > +			(transfer->destination_line * transfer->line_repeat),
-> > +				ret, -EINVAL, exit);
-> > +
-> > +	/* config registers */
-> > +	high = upper_32_bits(source_addr);
-> > +	low = lower_32_bits(source_addr);
-> > +	bdma_reg_write(engine, CFG_SRC_ADDR_LOW, low);
-> > +	bdma_reg_write(engine, CFG_SRC_ADDR_HIGH, high);
-> > +	high = upper_32_bits(destination_addr);
-> > +	low = lower_32_bits(destination_addr);
-> > +	bdma_reg_write(engine, CFG_DST_ADDR_LOW, low);
-> > +	bdma_reg_write(engine, CFG_DST_ADDR_HIGH, high);
-> > +	bdma_reg_write(engine, CFG_LINE, (transfer->line_size >> 5) - 1);
-> > +	reg = (map_mem[bdma_surface->source_type] <<
-> > +				SHIFT(BDMA_CFG_CMD_0, SRC_RAM_TYPE)) |
-> > +		(map_mem[bdma_surface->destination_type] <<
-> > +				SHIFT(BDMA_CFG_CMD_0, DST_RAM_TYPE));
-> > +	bdma_reg_write(engine, CFG_CMD, reg);
-> > +	bdma_reg_write(engine, CFG_LINE_REPEAT, transfer->line_repeat - 1);
-> > +	bdma_reg_write(engine, CFG_SRC_LINE, transfer->source_line);
-> > +	bdma_reg_write(engine, CFG_DST_LINE, transfer->destination_line);
-> > +	bdma_reg_write(engine, CFG_SURF_REPEAT, transfer->surface_repeat - 1);
-> > +	bdma_reg_write(engine, CFG_SRC_SURF, transfer->source_surface);
-> > +	bdma_reg_write(engine, CFG_DST_SURF, transfer->destination_surface);
-> > +	bdma_reg_write(engine, CFG_OP, FIELD_ENUM(BDMA_CFG_OP_0, EN, ENABLE));
-> > +
-> > +exit:
-> > +	return ret;
-> > +}
-> 
-> ... snip
-> 
-> > diff --git a/drivers/gpu/drm/nvdla/nvdla_cache.c b/drivers/gpu/drm/nvdla/nvdla_cache.c
-> > new file mode 100644
-> > index 000000000000..f8bd7b514aab
-> > --- /dev/null
-> > +++ b/drivers/gpu/drm/nvdla/nvdla_cache.c
-> > @@ -0,0 +1,215 @@
-> > +// SPDX-License-Identifier: BSD-3-Clause OR GPL-2.0
-> > +/*
-> > + * Copyright (C) 2017-2018 NVIDIA CORPORATION
-> > + * Copyright (C) 2022 Cai Huoqing
-> > + */
-> > +
-> > +#include "nvdla_common.h"
-> > +#include "nvdla_drm.h"
-> > +#include "nvdla_reg.h"
-> > +#include "nvdla_engine.h"
-> > +
-> > +#define DLA_OP_CACHE_SIZE (DLA_NUM_GROUPS * ((DLA_OP_NUM + 2) * 2))
-> > +
-> > +static struct dla_common_op_desc desc_cache[DLA_OP_NUM][DLA_OP_CACHE_SIZE];
-> > +static int32_t desc_refcount[DLA_OP_NUM][DLA_OP_CACHE_SIZE];
-> > +
-> > +void
-> > +dla_get_refcount(struct dla_common_op_desc *op_desc)
-> > +{
-> > +	int32_t i;
-> > +	struct dla_common_op_desc *desc = NULL;
-> > +
-> > +	if (op_desc == NULL)
-> > +		return;
-> > +
-> > +	if (op_desc->index == -1)
-> > +		return;
-> > +
-> > +	desc = &desc_cache[op_desc->op_type][0];
-> > +
-> > +	for (i = 0; i < DLA_OP_CACHE_SIZE; i++, desc++) {
-> > +		if (desc->index == op_desc->index &&
-> > +				desc->roi_index == op_desc->roi_index) {
-> 
-> reverse if
-> 
-> 		if (desc->index != op_desc->index)
-> 			continue;
-> 		if (desc->roi_index != op_desc->roi_index)
-> 			continue;
-> 
-> > +			desc_refcount[op_desc->op_type][i]++;
-> > +			return;
-> > +		}
-> > +	}
-> > +}
-> > +
-> > +struct dla_common_op_desc *
-> > +dla_get_op_desc(struct dla_engine *engine,
-> > +				struct dla_task *task, int16_t index,
-> > +				uint8_t op_type, uint8_t roi_index)
-> > +{
-> > +	int32_t i;
-> > +	int32_t ret;
-> > +	uint64_t op_base;
-> > +	uint64_t dep_graph_addr;
-> > +	struct dla_common_op_desc *desc = NULL;
-> > +
-> > +	if (index == -1) {
-> > +		pr_debug("no desc get due to index==-1\n");
-> > +		goto exit;
-> > +	}
-> > +
-> > +	dep_graph_addr = (sizeof(struct dla_common_op_desc) *
-> > +				engine->network->num_operations * roi_index);
-> > +
-> > +	desc = &desc_cache[op_type][0];
-> > +
-> > +	for (i = 0; i < DLA_OP_CACHE_SIZE; i++, desc++) {
-> > +		if (desc->index == index && desc->roi_index == roi_index) {
-> > +			if (desc->op_type != op_type) {
-> > +				pr_err("op_cache[op=%u] contains incorrect entry of op[%u]\n",
-> > +					   op_type, desc->op_type);
-> > +				continue;
-> > +			}
-> 
-> reverse if so this will be pretty clean
-> 
-> 		if (desc->index != index)
-> 			continue;
-> 		if (desc->roi_index != roi_index)
-> 			continue;
-> 		if (desc->op_type != op_type) {
-> 			pr_err("op_cache[op=%u] contains incorrect entry of op[%u]\n",
-> 					op_type, desc->op_type);
-> 			continue;
-> 		}
-> 
-> 
-> > +			desc_refcount[op_type][i]++;
-> > +			goto exit;
-> > +		}
-> > +	}
-> > +
-> > +	desc = &desc_cache[op_type][0];
-> > +
-> > +	for (i = 0; i < DLA_OP_CACHE_SIZE; i++, desc++) {
-> > +		if (desc->index == -1) {
-> 
-> reverse if
-> 		if (desc->index != -1)
-> 			continue;
-> 
-> > +			op_base = dep_graph_addr +
-> > +					(sizeof(struct dla_common_op_desc) *
-> > +					(uint64_t)index);
-> > +			ret = dla_data_read(engine->driver_context,
-> > +					task->task_data,
-> > +					task->dependency_graph_addr,
-> > +					(void *)(desc),
-> > +					sizeof(struct dla_common_op_desc),
-> > +					op_base);
-> > +			if (ret) {
-> > +				desc = NULL;
-> > +				goto exit;
-> > +			}
-> > +
-> > +			if (op_type != desc->op_type) {
-> > +				/*
-> > +				 * op_type of entry read from DRAM should not
-> > +				 * mismatch with given op_type. If they
-> > +				 * mismatches, then wrong entry is fetched, so
-> > +				 * report this issue by throwing error.
-> > +				 */
-> > +				pr_err("Fetched [op_type=%u] from DRAM doesn't match with op_type[%u]\n",
-> > +					   desc->op_type, op_type);
-> > +				desc->op_type = op_type;
-> > +				desc->index = -1;
-> > +				desc->roi_index = -1;
-> > +				desc = NULL;
-> > +				goto exit;
-> > +			}
-> > +
-> > +			desc->index = index;
-> > +			desc->roi_index = roi_index;
-> > +
-> > +			desc_refcount[op_type][i]++;
-> > +			goto exit;
-> > +		}
-> > +	}
-> > +
-> > +exit:
-> > +	return desc;
-> > +}
-> > +
-> > +static void
-> > +dla_free_op_desc(struct dla_engine *engine, struct dla_common_op_desc *op_desc)
-> > +{
-> > +	uint64_t op_base;
-> > +	uint64_t dep_graph_addr;
-> > +	struct dla_task *task;
-> > +
-> > +	pr_debug("Enter: %s op desc index %u ROI %d\n", __func__,
-> > +				op_desc->index, op_desc->roi_index);
-> 
-> Possiple null pointer dereference
-> 
-> > +	task = engine->task;
-> > +	dep_graph_addr = (sizeof(struct dla_common_op_desc) *
-> > +				engine->network->num_operations *
-> > +				op_desc->roi_index);
-> > +
-> > +	if (op_desc->index == -1)
-> > +		goto exit;
-> 
-> Possiple null pointer dereference
-> 
-> > +	if (op_desc == NULL)
-> > +		goto exit;
-> 
-> Or this is unnecessary.
-> 
-> > +
-> > +	/**
-> > +	 * TODO: keeping the depth value hardcoded as 0 for now,
-> > +	 * need to replace it once corresponding implementation is done.
-> > +	 */
-> > +	op_base = (dep_graph_addr +
-> > +			(sizeof(struct dla_common_op_desc) *
-> > +			(uint64_t)op_desc->index));
-> > +
-> > +	/**
-> > +	 * Flush descriptor to DRAM
-> > +	 */
-> > +	dla_data_write(engine->driver_context,
-> > +			task->task_data,
-> > +			(void *)op_desc,
-> > +			task->dependency_graph_addr,
-> > +			sizeof(struct dla_common_op_desc),
-> > +			op_base);
-> > +
-> > +	/**
-> > +	 * Release it
-> > +	 */
-> > +	op_desc->index = -1;
-> > +	op_desc->roi_index = -1;
-> > +exit:
-> > +	return;
-> > +}
-> > +
-> > +void
-> > +dla_put_op_desc(struct dla_engine *engine, struct dla_common_op_desc *op_desc)
-> > +{
-> > +	int32_t i;
-> > +	struct dla_common_op_desc *desc;
-> > +
-> > +	if (op_desc == NULL)
-> > +		return;
-> > +
-> > +	if (op_desc->index == -1)
-> > +		return;
-> > +
-> > +	desc = &desc_cache[op_desc->op_type][0];
-> > +
-> > +	for (i = 0; i < DLA_OP_CACHE_SIZE; i++, desc++) {
-> > +		if (desc->index == op_desc->index &&
-> > +				desc->roi_index == op_desc->roi_index) {
-> 
-> Reverse if.
-> 
-> 		if (desc->index != op_desc->index)
-> 			continue;
-> 		if (desc->roi_index != op_desc->roi_index)
-> 			continue;
-> 
-> > +
-> > +			desc_refcount[op_desc->op_type][i]--;
-> > +
-> > +			/**
-> > +			 * Free desc if refcount is 0
-> > +			 */
-> Pretty useless comment and totally not needed three line for this.
-> 
-> > +			if (desc_refcount[op_desc->op_type][i] == 0)
-> > +				dla_free_op_desc(engine, op_desc);
-> > +
-> > +			return;
-> > +		}
-> > +	}
-> > +}
-> > +
-> > +void
-> > +dla_init_op_cache(struct dla_engine *engine)
-> > +{
-> > +	int32_t i, j;
-> > +	struct dla_common_op_desc *desc = &desc_cache[0][0];
-> > +
-> > +	memset((uint8_t *)&desc_cache[0][0], 0, sizeof(desc_cache));
-> > +	memset((uint8_t *)&desc_refcount[0][0], 0, sizeof(desc_refcount));
-> > +
-> > +	for (i = 0; i < DLA_OP_NUM; i++) {
-> > +		for (j = 0; j < DLA_OP_CACHE_SIZE; j++) {
-> > +			desc->index = -1;
-> > +			desc->roi_index = -1;
-> > +			desc->op_type = (uint8_t)i;
-> > +			desc++;
-> > +		}
-> > +	}
-> > +}
-> 
-> ... snip
-> 
-> > diff --git a/drivers/gpu/drm/nvdla/nvdla_common.h b/drivers/gpu/drm/nvdla/nvdla_common.h
-> > new file mode 100644
-> > index 000000000000..38cf43246890
-> > --- /dev/null
-> > +++ b/drivers/gpu/drm/nvdla/nvdla_common.h
-> > @@ -0,0 +1,835 @@
-> 
-> ... snip
-> 
-> > +struct dla_conv_op_desc {
-> > +	/* Performance parameters */
-> > +
-> > +	/* dla_conv_mode */
-> > +	uint8_t conv_mode;
-> > +	uint8_t data_reuse;
-> > +	uint8_t weight_reuse;
-> > +	uint8_t skip_data_rls;
-> > +
-> > +	uint8_t skip_weight_rls;
-> > +	uint8_t reserved0;
-> > +	uint16_t entry_per_slice;
-> > +
-> > +	/* dla_data_format */
-> > +	uint8_t data_format;
-> > +	/* dla_pixel_mapping */
-> > +	uint8_t pixel_mapping;
-> > +	/* number of free slices before fetch */
-> > +	uint16_t fetch_grain;
-> > +
-> > +	uint8_t reserved_b[8];
-> > +
-> > +	/* batch_num */
-> > +	uint8_t batch;
-> > +	/* dla_weight_format */
-> > +	uint8_t weight_format;
-> > +	uint8_t data_bank;
-> > +	uint8_t weight_bank;
-> > +
-> > +	/* the offset in bytes of each data cube in a batch */
-> > +	uint32_t batch_stride;
-> > +
-> > +	uint8_t post_extension;
-> > +	uint8_t pixel_override;
-> > +	/* number of slices need to be released */
-> > +	uint16_t release;
-> > +
-> > +	 /* The input cube dimension for CSC */
-> > +	uint16_t input_width_csc;
-> > +	uint16_t input_height_csc;
-> > +
-> > +	uint16_t input_channel_csc;
-> > +	uint16_t kernel_width_csc;
-> > +
-> > +	uint16_t kernel_height_csc;
-> > +	uint16_t kernel_channel_csc;
-> > +
-> > +	/* The input cube dimension for CMAC */
-> > +	uint16_t input_width_cmac;
-> > +	uint16_t input_height_cmac;
-> > +
-> > +	/* actual size in bytes */
-> > +	uint32_t bytes_per_kernel;
-> > +
-> > +	/* Algorithm parameters */
-> > +
-> > +	int16_t mean_ry; /* mean value for red in RGB or Y in YUV */
-> > +	int16_t mean_gu; /* mean value for green in RGB or U in YUV */
-> > +
-> > +	int16_t mean_bv; /* mean value for blue in RGB or V in YUV */
-> > +	int16_t mean_ax;
-> > +
-> > +	uint8_t mean_format; /* dla_mean_format */
-> > +	uint8_t conv_stride_x;
-> > +	uint8_t conv_stride_y;
-> > +	uint8_t pad_x_left;
-> > +
-> > +	uint8_t pad_x_right;
-> > +	uint8_t pad_y_top;
-> > +	uint8_t pad_y_bottom;
-> > +	uint8_t dilation_x;
-> > +
-> > +	uint8_t dilation_y;
-> > +	uint8_t reserved2[2];
-> > +
-> > +	/* Precision parameters */
-> > +	uint8_t pra_truncate;
-> > +
-> > +	uint8_t in_precision;
-> > +	/* The output precision from CONV, it's the MAC processing precison */
-> 
-> ./nvdla_common.h:428: precison ==> precision
-> 
-> > +	uint8_t out_precision;
-> > +	int16_t pad_val;
-> > +
-> > +	/* input converter parameters */
-> > +	struct dla_cvt_param in_cvt;
-> > +	/* output converter parameters, support truncate only */
-> > +	struct dla_cvt_param out_cvt;
-> > +
-> > +} __packed __aligned(4);
-> > +
-> > +struct dla_conv_stat_desc {
-> > +	uint32_t data_read_stall;
-> > +	uint32_t weight_read_stall;
-> > +	uint32_t data_read_latency;
-> > +	uint32_t weight_read_latency;
-> > +	uint32_t saturation_count;
-> > +	uint32_t nan_data_num;
-> > +	uint32_t nan_weight_num;
-> > +	uint32_t inf_data_num;
-> > +	uint32_t inf_weight_num;
-> > +} __packed __aligned(4);
-> > +
-> > +/**
-> > + * @ingroup SDP
-> > + * @name Activation functions
-> > + * @brief Activation functions supported in SDP
-> > + * @{
-> > + */
-> > +#define ACTIVATION_NONE		0
-> > +#define ACTIVATION_RELU		1
-> > +#define ACTIVATION_LUT		2
-> > +#define ACTIVATION_PRELU	3
-> > +/** @} */
-> > +
-> > +/**
-> > + * @ingroup LUT
-> > + * @name LUT size
-> > + * @brief LUT sizes for linear and exponentila LUT
-> > + * @{
-> > + */
-> > +#define LUT_LINEAR_EXP_TABLE_ENTRY_LOG2		6
-> > +#define LUT_LINEAR_ONLY_TABLE_ENTRY_LOG2	8
-> > +/** @} */
-> > +
-> > +/**
-> > + * @ingroup LUT
-> > + * @name LUT types
-> > + * @brief DLA supports two types of LUT, linear and exonential
-> > + * @{
-> > + */
-> > +#define LUT_LINEAR_EXP_TABLE		0
-> > +#define LUT_LINEAR_ONLY_TABLE		1
-> > +/** @} */
-> > +
-> > +/**
-> > + * @ingroup LUT
-> > + * @name LUT methods
-> > + * @brief DLA supports two types of LUT, linear and exonential
-> > + * @{
-> > + */
-> > +#define LUT_METHOD_EXPONENTIAL		0
-> > +#define LUT_METHOD_LINEAR		1
-> > +/** @} */
-> > +
-> > +/**
-> > + * @ingroup LUT
-> > + * @name LUT
-> > + * @brief DLA supports two types of LUT, linear and exonential
-> > + * @{
-> > + */
-> > +#define LUT_PRI_LINEAR_EXP		0
-> > +#define LUT_PRI_LINEAR_ONLY		1
-> > +/** @} */
-> > +
-> > +union dla_lut_offset {
-> > +	/**
-> > +	 * Number should be substracted on log domain before look up
-> 
-> ./nvdla_common.h:505: substracted ==> subtracted
-> 
-> > +	 * exponetial table it has the same definition as hardware
-> 
-> ./nvdla_common.h:506: exponetial ==> exponential
-> 
-> > +	 * thus input scaling should also take into account when
-> > +	 * set this field.
-> > +	 */
-> > +	int8_t exp_offset;
-> > +	/**
-> > +	 * Number of bits should be right shift before looking
-> > +	 * up linear table
-> > +	 */
-> > +	int8_t frac_bits;
-> > +	uint16_t reserved0;
-> > +};
-> 
-> ... snip
-> 
-> > diff --git a/drivers/gpu/drm/nvdla/nvdla_drm.c b/drivers/gpu/drm/nvdla/nvdla_drm.c
-> > new file mode 100644
-> > index 000000000000..9217eee1de3b
-> > --- /dev/null
-> > +++ b/drivers/gpu/drm/nvdla/nvdla_drm.c
-> > @@ -0,0 +1,695 @@
-> > +// SPDX-License-Identifier: BSD-3-Clause OR GPL-2.0
-> > +/*
-> > + * Copyright (C) 2017-2018 NVIDIA CORPORATION
-> > + * Copyright (C) 2022 Cai Huoqing
-> > + */
-> > +
-> > +#include <linux/dma-buf.h>
-> > +#include <linux/dma-mapping.h>
-> > +#include <linux/fs.h>
-> > +#include <linux/interrupt.h>
-> > +#include <linux/irq.h>
-> > +#include <linux/irqdomain.h>
-> > +#include <linux/module.h>
-> > +#include <linux/of.h>
-> > +#include <linux/of_device.h>
-> > +#include <linux/of_irq.h>
-> > +#include <linux/of_platform.h>
-> > +#include <linux/platform_device.h>
-> > +#include <linux/printk.h>
-> > +#include <linux/slab.h>
-> > +#include <linux/spinlock.h>
-> > +#include <linux/time.h>
-> > +#include <linux/uaccess.h>
-> > +#include <linux/types.h>
-> > +
-> > +#include "nvdla_drm.h"
-> > +#include "nvdla_ioctl.h"
-> > +#include "nvdla_engine.h"
-> > +
-> > +static struct nvdla_config nvdla_config_os_initial = {
-> > +	.atom_size = 32,
-> > +	.bdma_enable = true,
-> > +	.rubik_enable = true,
-> > +	.weight_compress_support = true,
-> > +};
-> > +
-> > +static struct nvdla_config nvdla_config_small = {
-> > +	//.atom_size = 8,
-> > +	.atom_size = 32,  // nv_large config
-> > +	.bdma_enable = false,
-> > +	.rubik_enable = false,
-> > +	.weight_compress_support = false,
-> > +};
-> > +
-> > +int64_t dla_get_time_us(void)
-> 
-> Funtion is never used.
-> 
-> > +{
-> > +	return ktime_get_ns() / NSEC_PER_USEC;
-> > +}
-> > +
-> > +void dla_reg_write(void *driver_context, uint32_t addr, uint32_t reg)
-> > +{
-> > +	struct nvdla_device *nvdla_dev =
-> > +			(struct nvdla_device *)driver_context;
-> > +
-> > +	if (!nvdla_dev)
-> > +		return;
-> > +
-> > +	writel(reg, nvdla_dev->base + addr);
-> > +}
-> > +
-> > +uint32_t dla_reg_read(void *driver_context, uint32_t addr)
-> > +{
-> > +	struct nvdla_device *nvdla_dev =
-> > +			(struct nvdla_device *)driver_context;
-> > +
-> > +	if (!nvdla_dev)
-> > +		return 0;
-> > +
-> > +	return readl(nvdla_dev->base + addr);
-> > +}
-> > +
-> > +static irqreturn_t nvdla_engine_isr(int32_t irq, void *data)
-> > +{
-> > +	unsigned long flags;
-> > +	uint32_t mask;
-> > +	uint32_t reg;
-> > +	struct dla_processor *processor = NULL;
-> > +	struct dla_processor_group *group;
-> > +	struct dla_engine *engine;
-> > +	struct nvdla_device *nvdla_dev = (struct nvdla_device *)data;
-> > +
-> > +	if (!nvdla_dev)
-> > +		return IRQ_NONE;
-> > +
-> > +	engine = nvdla_dev->engine_context;
-> > +	spin_lock_irqsave(&nvdla_dev->nvdla_lock, flags);
-> > +
-> > +	mask = glb_reg_read(engine, S_INTR_MASK);
-> 
-> Never used. It would be nice so that static analyzer will not complain
-> these anymore, but your choice what you want to do.
-thanks for your check. this line is an read clear register to clear interrupt,
-it'is ok to leave here.
-for others, code style and typo. I will try to fix
+Hi Matt,
 
-Thanks,
-Cai
+On Fri, Apr 22, 2022 at 12:50:06PM -0700, Matt Roper wrote:
+> We're now ready to start exposing compute engines to userspace.
 > 
-> > +	reg = glb_reg_read(engine, S_INTR_STATUS);
-> > +
-> > +	if (reg & MASK(GLB_S_INTR_STATUS_0, CACC_DONE_STATUS0)) {
-> > +		processor = &engine->processors[DLA_OP_CONV];
-> > +		group = &processor->groups[0];
-> > +		group->events |= (1 << DLA_EVENT_OP_COMPLETED);
-> > +	}
-> > +	if (reg & MASK(GLB_S_INTR_STATUS_0, CACC_DONE_STATUS1)) {
-> > +		processor = &engine->processors[DLA_OP_CONV];
-> > +		group = &processor->groups[1];
-> > +		group->events |= (1 << DLA_EVENT_OP_COMPLETED);
-> > +	}
-> > +	if (reg & MASK(GLB_S_INTR_STATUS_0, SDP_DONE_STATUS0)) {
-> > +		processor = &engine->processors[DLA_OP_SDP];
-> > +		group = &processor->groups[0];
-> > +		group->events |= (1 << DLA_EVENT_OP_COMPLETED);
-> > +	}
-> > +	if (reg & MASK(GLB_S_INTR_STATUS_0, SDP_DONE_STATUS1)) {
-> > +		processor = &engine->processors[DLA_OP_SDP];
-> > +		group = &processor->groups[1];
-> > +		group->events |= (1 << DLA_EVENT_OP_COMPLETED);
-> > +	}
-> > +	if (reg & MASK(GLB_S_INTR_STATUS_0, CDP_DONE_STATUS0)) {
-> > +		processor = &engine->processors[DLA_OP_CDP];
-> > +		group = &processor->groups[0];
-> > +		group->events |= (1 << DLA_EVENT_OP_COMPLETED);
-> > +	}
-> > +	if (reg & MASK(GLB_S_INTR_STATUS_0, CDP_DONE_STATUS1)) {
-> > +		processor = &engine->processors[DLA_OP_CDP];
-> > +		group = &processor->groups[1];
-> > +		group->events |= (1 << DLA_EVENT_OP_COMPLETED);
-> > +	}
-> > +	if (reg & MASK(GLB_S_INTR_STATUS_0, RUBIK_DONE_STATUS0)) {
-> > +		processor = &engine->processors[DLA_OP_RUBIK];
-> > +		group = &processor->groups[0];
-> > +		group->events |= (1 << DLA_EVENT_OP_COMPLETED);
-> > +	}
-> > +	if (reg & MASK(GLB_S_INTR_STATUS_0, RUBIK_DONE_STATUS1)) {
-> > +		processor = &engine->processors[DLA_OP_RUBIK];
-> > +		group = &processor->groups[1];
-> > +		group->events |= (1 << DLA_EVENT_OP_COMPLETED);
-> > +	}
-> > +	if (reg & MASK(GLB_S_INTR_STATUS_0, PDP_DONE_STATUS0)) {
-> > +		processor = &engine->processors[DLA_OP_PDP];
-> > +		group = &processor->groups[0];
-> > +		group->events |= (1 << DLA_EVENT_OP_COMPLETED);
-> > +	}
-> > +	if (reg & MASK(GLB_S_INTR_STATUS_0, PDP_DONE_STATUS1)) {
-> > +		processor = &engine->processors[DLA_OP_PDP];
-> > +		group = &processor->groups[1];
-> > +		group->events |= (1 << DLA_EVENT_OP_COMPLETED);
-> > +	}
-> > +	if (reg & MASK(GLB_S_INTR_STATUS_0, BDMA_DONE_STATUS0)) {
-> > +		processor = &engine->processors[DLA_OP_BDMA];
-> > +		group = &processor->groups[0];
-> > +		group->events |= (1 << DLA_EVENT_OP_COMPLETED);
-> > +	}
-> > +	if (reg & MASK(GLB_S_INTR_STATUS_0, BDMA_DONE_STATUS1)) {
-> > +		processor = &engine->processors[DLA_OP_BDMA];
-> > +		group = &processor->groups[1];
-> > +		group->events |= (1 << DLA_EVENT_OP_COMPLETED);
-> > +	}
-> > +	if (reg & MASK(GLB_S_INTR_STATUS_0, CDMA_DAT_DONE_STATUS0)) {
-> > +		processor = &engine->processors[DLA_OP_CONV];
-> > +		group = &processor->groups[0];
-> > +		group->events |= (1 << DLA_EVENT_CDMA_DT_DONE);
-> > +	}
-> > +	if (reg & MASK(GLB_S_INTR_STATUS_0, CDMA_DAT_DONE_STATUS1)) {
-> > +		processor = &engine->processors[DLA_OP_CONV];
-> > +		group = &processor->groups[1];
-> > +		group->events |= (1 << DLA_EVENT_CDMA_DT_DONE);
-> > +	}
-> > +	if (reg & MASK(GLB_S_INTR_STATUS_0, CDMA_WT_DONE_STATUS0)) {
-> > +		processor = &engine->processors[DLA_OP_CONV];
-> > +		group = &processor->groups[0];
-> > +		group->events |= (1 << DLA_EVENT_CDMA_WT_DONE);
-> > +	}
-> > +	if (reg & MASK(GLB_S_INTR_STATUS_0, CDMA_WT_DONE_STATUS1)) {
-> > +		processor = &engine->processors[DLA_OP_CONV];
-> > +		group = &processor->groups[1];
-> > +		group->events |= (1 << DLA_EVENT_CDMA_WT_DONE);
-> > +	}
-> > +
-> > +	glb_reg_write(engine, S_INTR_STATUS, reg);
-> > +	mask = glb_reg_read(engine, S_INTR_MASK);
+> While we're at it, let's extend the kerneldoc description for the other
+> engine types as well.
+
+I would make two different patches. The kerneldoc description is
+the biggest part of the lines added here.
+
+Andi
+
 > 
-> Never used
+> Cc: Daniele Ceraolo Spurio <daniele.ceraolospurio@intel.com>
+> Cc: Tvrtko Ursulin <tvrtko.ursulin@linux.intel.com>
+> Cc: Vinay Belgaumkar <vinay.belgaumkar@intel.com>
+> Cc: Jordan Justen <jordan.l.justen@intel.com>
+> Cc: Szymon Morek <szymon.morek@intel.com>
+> UMD (mesa): https://gitlab.freedesktop.org/mesa/mesa/-/merge_requests/14395
+> UMD (compute): https://github.com/intel/compute-runtime/pull/451
+> Signed-off-by: Matt Roper <matthew.d.roper@intel.com>
+> ---
+>  drivers/gpu/drm/i915/gt/intel_engine_user.c |  2 +-
+>  drivers/gpu/drm/i915/gt/intel_gt.c          |  1 +
+>  drivers/gpu/drm/i915/i915_drm_client.c      |  1 +
+>  drivers/gpu/drm/i915/i915_drm_client.h      |  2 +-
+>  include/uapi/drm/i915_drm.h                 | 62 +++++++++++++++++++--
+>  5 files changed, 60 insertions(+), 8 deletions(-)
 > 
-> > +	reg = glb_reg_read(engine, S_INTR_STATUS);
-> 
-> Never used.
-> 
-> > +
-> > +	complete(&nvdla_dev->event_notifier);
-> > +	spin_unlock_irqrestore(&nvdla_dev->nvdla_lock, flags);
-> > +
-> > +	return IRQ_HANDLED;
-> > +}
-> 
-> ... snip
-> 
-> > diff --git a/drivers/gpu/drm/nvdla/nvdla_gem.c b/drivers/gpu/drm/nvdla/nvdla_gem.c
-> > new file mode 100644
-> > index 000000000000..cccf6d01a564
-> > --- /dev/null
-> > +++ b/drivers/gpu/drm/nvdla/nvdla_gem.c
-> 
-> ... snip
-> 
-> > +static const struct drm_ioctl_desc nvdla_drm_ioctls[] = {
-> > +	DRM_IOCTL_DEF_DRV(NVDLA_SUBMIT, nvdla_submit, DRM_RENDER_ALLOW),
-> > +	DRM_IOCTL_DEF_DRV(NVDLA_GEM_CREATE, nvdla_gem_create, DRM_RENDER_ALLOW),
-> > +	DRM_IOCTL_DEF_DRV(NVDLA_GEM_MMAP, nvdla_gem_map_offset, DRM_RENDER_ALLOW),
-> > +	/* use DRM_IOCTL_MODE_DESTROY_DUMB to destory */
-> 
-> ./nvdla_gem.c:347: destory ==> destroy
-> 
-> > +};
-> 
-> ... snip
-> 
-> > diff --git a/drivers/gpu/drm/nvdla/nvdla_scheduler.c b/drivers/gpu/drm/nvdla/nvdla_scheduler.c
-> > new file mode 100644
-> > index 000000000000..b814077478c6
-> > --- /dev/null
-> > +++ b/drivers/gpu/drm/nvdla/nvdla_scheduler.c
-> 
-> ... snip
-> 
-> > +static int
-> > +dla_update_dependency(struct dla_engine *engine,
-> > +					  struct dla_consumer *consumer,
-> > +					  struct dla_common_op_desc *op_desc,
-> > +					  uint8_t event, uint8_t roi_index)
-> > +{
-> > +	int32_t ret = 0;
-> > +	struct dla_processor *processor;
-> > +
-> > +	if (consumer->index == -1)
-> > +		goto exit;
-> > +
-> > +	/* Update dependency only if event matches */
-> > +	if (event != consumer->event)
-> > +		goto exit;
-> > +
-> > +	/**
-> > +	 * If consumer index is valid but op desc is NULL means
-> > +	 * op desc for consumer was not pre-fetched
-> > +	 */
-> > +	if (op_desc == NULL) {
-> > +		ret = -EINVAL;
-> > +		pr_err("Operation descriptor is NULL, consumer index %d",
-> > +				consumer->index);
-> > +		goto exit;
-> > +	}
-> > +
-> > +	pr_debug("Update dependency operation index %d ROI %d DEP_COUNT=%d\n",
-> > +					op_desc->index, op_desc->roi_index,
-> > +					op_desc->dependency_count);
-> > +	op_desc->dependency_count--;
-> > +
-> > +	if (op_desc->dependency_count == 0) {
-> > +		processor = &engine->processors[op_desc->op_type];
-> > +		pr_debug("enable %s in %s as depdency are resolved\n",
-> 
-> ./nvdla_scheduler.c:455: depdency ==> dependency
-> 
-> > +			processor->name, __func__);
-> > +
-> > +		ret = dla_enable_operation(engine, processor, op_desc);
-> > +		if (ret)
-> > +			goto exit;
-> > +	}
-> > +exit:
-> > +	return ret;
-> > +}
-> 
-> ... snip
-> 
-> > +int
-> > +dla_process_events(struct dla_engine *engine, uint32_t *task_complete)
-> > +{
-> > +	int32_t i;
-> > +	int32_t ret = 0;
-> > +
-> > +	for (i = 0; i < DLA_OP_NUM; i++) {
-> > +		struct dla_processor *processor;
-> > +
-> > +		processor = &engine->processors[i];
-> > +		ret = dla_handle_events(engine, processor);
-> > +		/**
-> > +		 * Incase engine status is non-zero, then don't
-> 
-> ./nvdla_scheduler.c:905: Incase ==> In case
-> 
-> > +		 * update the engine status. We should keep its
-> > +		 * status for later cleaning of engine.
-> > +		 */
-> > +		if (!engine->status)
-> > +			engine->status = ret;
-> > +	}
-> > +
-> > +	if (engine->network->num_operations == engine->num_proc_hwl)
-> > +		*task_complete = 1;
-> > +
-> > +	return ret;
-> > +}
-> 
-> ... snip
-> 
->   Argillander
+> diff --git a/drivers/gpu/drm/i915/gt/intel_engine_user.c b/drivers/gpu/drm/i915/gt/intel_engine_user.c
+> index 0f6cd96b459f..46a174f8aa00 100644
+> --- a/drivers/gpu/drm/i915/gt/intel_engine_user.c
+> +++ b/drivers/gpu/drm/i915/gt/intel_engine_user.c
+> @@ -47,7 +47,7 @@ static const u8 uabi_classes[] = {
+>  	[COPY_ENGINE_CLASS] = I915_ENGINE_CLASS_COPY,
+>  	[VIDEO_DECODE_CLASS] = I915_ENGINE_CLASS_VIDEO,
+>  	[VIDEO_ENHANCEMENT_CLASS] = I915_ENGINE_CLASS_VIDEO_ENHANCE,
+> -	/* TODO: Add COMPUTE_CLASS mapping once ABI is available */
+> +	[COMPUTE_CLASS] = I915_ENGINE_CLASS_COMPUTE,
+>  };
+>  
+>  static int engine_cmp(void *priv, const struct list_head *A,
+> diff --git a/drivers/gpu/drm/i915/gt/intel_gt.c b/drivers/gpu/drm/i915/gt/intel_gt.c
+> index 92394f13b42f..c96e123496a5 100644
+> --- a/drivers/gpu/drm/i915/gt/intel_gt.c
+> +++ b/drivers/gpu/drm/i915/gt/intel_gt.c
+> @@ -1175,6 +1175,7 @@ void intel_gt_invalidate_tlbs(struct intel_gt *gt)
+>  		[VIDEO_DECODE_CLASS]		= GEN12_VD_TLB_INV_CR,
+>  		[VIDEO_ENHANCEMENT_CLASS]	= GEN12_VE_TLB_INV_CR,
+>  		[COPY_ENGINE_CLASS]		= GEN12_BLT_TLB_INV_CR,
+> +		[COMPUTE_CLASS]			= GEN12_GFX_TLB_INV_CR,
+>  	};
+>  	struct drm_i915_private *i915 = gt->i915;
+>  	struct intel_uncore *uncore = gt->uncore;
+> diff --git a/drivers/gpu/drm/i915/i915_drm_client.c b/drivers/gpu/drm/i915/i915_drm_client.c
+> index 475a6f824cad..18d38cb59923 100644
+> --- a/drivers/gpu/drm/i915/i915_drm_client.c
+> +++ b/drivers/gpu/drm/i915/i915_drm_client.c
+> @@ -81,6 +81,7 @@ static const char * const uabi_class_names[] = {
+>  	[I915_ENGINE_CLASS_COPY] = "copy",
+>  	[I915_ENGINE_CLASS_VIDEO] = "video",
+>  	[I915_ENGINE_CLASS_VIDEO_ENHANCE] = "video-enhance",
+> +	[I915_ENGINE_CLASS_COMPUTE] = "compute",
+>  };
+>  
+>  static u64 busy_add(struct i915_gem_context *ctx, unsigned int class)
+> diff --git a/drivers/gpu/drm/i915/i915_drm_client.h b/drivers/gpu/drm/i915/i915_drm_client.h
+> index 5f5b02b01ba0..f796c5e8e060 100644
+> --- a/drivers/gpu/drm/i915/i915_drm_client.h
+> +++ b/drivers/gpu/drm/i915/i915_drm_client.h
+> @@ -13,7 +13,7 @@
+>  
+>  #include "gt/intel_engine_types.h"
+>  
+> -#define I915_LAST_UABI_ENGINE_CLASS I915_ENGINE_CLASS_VIDEO_ENHANCE
+> +#define I915_LAST_UABI_ENGINE_CLASS I915_ENGINE_CLASS_COMPUTE
+>  
+>  struct drm_i915_private;
+>  
+> diff --git a/include/uapi/drm/i915_drm.h b/include/uapi/drm/i915_drm.h
+> index 35ca528803fd..a2def7b27009 100644
+> --- a/include/uapi/drm/i915_drm.h
+> +++ b/include/uapi/drm/i915_drm.h
+> @@ -154,21 +154,71 @@ enum i915_mocs_table_index {
+>  	I915_MOCS_CACHED,
+>  };
+>  
+> -/*
+> +/**
+> + * enum drm_i915_gem_engine_class - uapi engine type enumeration
+> + *
+>   * Different engines serve different roles, and there may be more than one
+> - * engine serving each role. enum drm_i915_gem_engine_class provides a
+> - * classification of the role of the engine, which may be used when requesting
+> - * operations to be performed on a certain subset of engines, or for providing
+> - * information about that group.
+> + * engine serving each role.  This enum provides a classification of the role
+> + * of the engine, which may be used when requesting operations to be performed
+> + * on a certain subset of engines, or for providing information about that
+> + * group.
+>   */
+>  enum drm_i915_gem_engine_class {
+> +	/**
+> +	 * @I915_ENGINE_CLASS_RENDER:
+> +	 *
+> +	 * Render engines support instructions used for 3D, Compute (GPGPU),
+> +	 * and programmable media workloads.  These instructions fetch data and
+> +	 * dispatch individual work items to threads that operate in parallel.
+> +	 * The threads run small programs (called "kernels" or "shaders") on
+> +	 * the GPU's execution units (EUs).
+> +	 */
+>  	I915_ENGINE_CLASS_RENDER	= 0,
+> +
+> +	/**
+> +	 * @I915_ENGINE_CLASS_COPY:
+> +	 *
+> +	 * Copy engines (also referred to as "blitters") support instructions
+> +	 * that move blocks of data from one location in memory to another,
+> +	 * or that fill a specified location of memory with fixed data.
+> +	 * Copy engines can perform pre-defined logical or bitwise operations
+> +	 * on the source, destination, or pattern data.
+> +	 */
+>  	I915_ENGINE_CLASS_COPY		= 1,
+> +
+> +	/**
+> +	 * @I915_ENGINE_CLASS_VIDEO:
+> +	 *
+> +	 * Video engines (also referred to as "bit stream decode" (BSD) or
+> +	 * "vdbox") support instructions that perform fixed-function media
+> +	 * decode and encode.
+> +	 */
+>  	I915_ENGINE_CLASS_VIDEO		= 2,
+> +
+> +	/**
+> +	 * @I915_ENGINE_CLASS_VIDEO_ENHANCE:
+> +	 *
+> +	 * Video enhancement engines (also referred to as "vebox") support
+> +	 * instructions related to image enhancement.
+> +	 */
+>  	I915_ENGINE_CLASS_VIDEO_ENHANCE	= 3,
+>  
+> -	/* should be kept compact */
+> +	/**
+> +	 * @I915_ENGINE_CLASS_COMPUTE:
+> +	 *
+> +	 * Compute engines support a subset of the instructions available
+> +	 * on render engines:  compute engines support Compute (GPGPU) and
+> +	 * programmable media workloads, but do not support the 3D pipeline.
+> +	 */
+> +	I915_ENGINE_CLASS_COMPUTE	= 4,
+> +
+> +	/* Values in this enum should be kept compact. */
+>  
+> +	/**
+> +	 * @I915_ENGINE_CLASS_INVALID:
+> +	 *
+> +	 * Placeholder value to represent an invalid engine class assignment.
+> +	 */
+>  	I915_ENGINE_CLASS_INVALID	= -1
+>  };
+>  
+> -- 
+> 2.35.1
