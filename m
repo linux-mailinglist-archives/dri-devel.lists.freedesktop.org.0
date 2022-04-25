@@ -1,45 +1,48 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 41E5550E441
-	for <lists+dri-devel@lfdr.de>; Mon, 25 Apr 2022 17:22:24 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id AABD650E444
+	for <lists+dri-devel@lfdr.de>; Mon, 25 Apr 2022 17:22:30 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id D9C5710EF94;
-	Mon, 25 Apr 2022 15:22:21 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id D27BB10EFC9;
+	Mon, 25 Apr 2022 15:22:27 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from mga11.intel.com (mga11.intel.com [192.55.52.93])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 3E94610EF6F;
- Mon, 25 Apr 2022 15:22:21 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 3141310EF6A;
+ Mon, 25 Apr 2022 15:22:23 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1650900141; x=1682436141;
- h=from:to:cc:subject:date:message-id:mime-version:
- content-transfer-encoding;
- bh=yuex1SZuwd7KSvouvy9hIIRSFGrjlXAAaVD7qPclc3o=;
- b=ad7+yETHEBMFuUmFH+0wU+tDMquNpJb2DuoPetVpkU4uQ9Uc4t4+6+Ap
- 9o1eKuNVmxs9UVFuEfN18e63yiEiwbBjnDqyWZvTBRaPC4VUdgKMgmGsu
- sbe23/zUZt/sU8NRiMoM3ULTKvbEomvbNqviJ1kcPh3B70CaY3xGFx1Nq
- r/LkcqIQklxa71QAi7azJoLtpy5tW3fGnNGYqxa3THU3PC2mIv2iv9AaF
- wCkO9g/qxBnAmTHx71XgccCSIPN09/FNB0kEeO6jaA+yPBbdfeq4Jy5FG
- csShVweYs4sTuLuLYwuwCMmWVL6wLDwaYeD4zLt2HkZChrqsgrWQHUe6r g==;
-X-IronPort-AV: E=McAfee;i="6400,9594,10328"; a="262875121"
-X-IronPort-AV: E=Sophos;i="5.90,288,1643702400"; d="scan'208";a="262875121"
+ t=1650900143; x=1682436143;
+ h=from:to:cc:subject:date:message-id:in-reply-to:
+ references:mime-version:content-transfer-encoding;
+ bh=+gkSllZRfRS0AkEyN2TQaHqveCxY8bhyICvlmipDVlI=;
+ b=nh5e5OydYTHz76hKGH87UZHomTACnKs27BgMoGe8Rlr8xZ0mTKdbgUhr
+ UFjdvuzGDhRxkM9NrpMnQWFXiGxm98KkG4dKJOK4yUabP5VH1S8UcFiek
+ Ta0Hdt8VmVNMgrGYP5JVfqb0aZmtsN4YfI3mkpcL4aKzWQZ5fxA7+EfuD
+ m335vNWKNJTFFuhRm49+F34KBcOMQ/rXWcr1DeNo9EvYxUIf+4KcRxSNv
+ zyQiul/7fIXZRUiu9jyzOvC1h3nn2QcdTTEi6/o8Zh01WeNM/tEvOSVWZ
+ RG4DHMxE8ObpqRcyDJkdNgdMV0XVN1q1lojDTykJUd/iZeL0X3DD7QgzX w==;
+X-IronPort-AV: E=McAfee;i="6400,9594,10328"; a="262875132"
+X-IronPort-AV: E=Sophos;i="5.90,288,1643702400"; d="scan'208";a="262875132"
 Received: from orsmga003.jf.intel.com ([10.7.209.27])
  by fmsmga102.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 25 Apr 2022 08:22:20 -0700
-X-IronPort-AV: E=Sophos;i="5.90,288,1643702400"; d="scan'208";a="512681544"
+ 25 Apr 2022 08:22:22 -0700
+X-IronPort-AV: E=Sophos;i="5.90,288,1643702400"; d="scan'208";a="512681577"
 Received: from ramaling-i9x.iind.intel.com ([10.203.144.108])
  by orsmga003-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 25 Apr 2022 08:22:18 -0700
+ 25 Apr 2022 08:22:20 -0700
 From: Ramalingam C <ramalingam.c@intel.com>
 To: intel-gfx <intel-gfx@lists.freedesktop.org>,
  dri-devel <dri-devel@lists.freedesktop.org>
-Subject: [PATCH 0/3] Handle predicate programming
-Date: Mon, 25 Apr 2022 20:53:14 +0530
-Message-Id: <20220425152317.4275-1-ramalingam.c@intel.com>
+Subject: [PATCH 1/3] drm/i915/xehpsdv/dg1/tgl: Fix issue with LRI relative
+ addressing
+Date: Mon, 25 Apr 2022 20:53:15 +0530
+Message-Id: <20220425152317.4275-2-ramalingam.c@intel.com>
 X-Mailer: git-send-email 2.20.1
+In-Reply-To: <20220425152317.4275-1-ramalingam.c@intel.com>
+References: <20220425152317.4275-1-ramalingam.c@intel.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
@@ -54,45 +57,100 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Hellstrom Thomas <thomas.hellstrom@intel.com>
+Cc: Akeem G Abodunrin <akeem.g.abodunrin@intel.com>,
+ Hellstrom Thomas <thomas.hellstrom@intel.com>,
+ Prathap Kumar Valsan <prathap.kumar.valsan@intel.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Userspace can leave SET_PREDICATE_RESULT active at the end of their
-batch, causing all the kernel operations from the ring to be noop'ed.
-This includes workarounds for memory corruption on dg2, as well as the
-usual synchronisation, arbitration, coherency and signaling. The latter
-can be used to cause system-wide hangs, prevent TLB invalidates, as
-well as runtime-pm leakage due to a never signaled fence which escapes
-hangcheck as the context does run.
+From: Akeem G Abodunrin <akeem.g.abodunrin@intel.com>
 
-To avoid the issues caused by allowing userspace to disable kernel
-execution, we explicitly clear SET_PREDICATE_RESULT but not before
-recording whether predication was active. By tracking if predication was
-active at the end of the batch, we can restore it immediately prior to
-executing the users next batch, preserving the status of the user's
-predication.
+When bit 19 of MI_LOAD_REGISTER_IMM instruction opcode is set on tgl+
+devices, HW does not care about certain register address offsets, but
+instead check the following for valid address ranges on specific engines:
+	RCS && CCS: BITS(0 - 10)
+	BCS: BITS(0 - 11)
+	VECS && VCS: BITS(0 - 13)
+Also, tgl+ now support relative addressing for BCS engine - So, this
+patch fixes issue with live_gt_lrc selftest that is failing where there is
+mismatch between LRC register layout generated during init and HW
+default register offsets.
 
-And also LRI relative addressing is fixed as part of this series.
+Signed-off-by: Akeem G Abodunrin <akeem.g.abodunrin@intel.com>
+cc: Prathap Kumar Valsan <prathap.kumar.valsan@intel.com>
+Signed-off-by: Ramalingam C <ramalingam.c@intel.com>
+---
+ drivers/gpu/drm/i915/gt/selftest_lrc.c | 36 +++++++++++++++++++++++++-
+ 1 file changed, 35 insertions(+), 1 deletion(-)
 
-Akeem G Abodunrin (1):
-  drm/i915/xehpsdv/dg1/tgl: Fix issue with LRI relative addressing
-
-Chris Wilson (2):
-  drm/i915/selftests: Skip poisoning SET_PREDICATE_RESULT on dg2
-  drm/i915/gt: Clear SET_PREDICATE_RESULT prior to executing the ring
-
- drivers/gpu/drm/i915/gt/gen8_engine_cs.c      | 54 +++++++++++++
- drivers/gpu/drm/i915/gt/gen8_engine_cs.h      |  7 ++
- drivers/gpu/drm/i915/gt/intel_engine_regs.h   |  2 +
- .../drm/i915/gt/intel_execlists_submission.c  | 15 +++-
- drivers/gpu/drm/i915/gt/intel_gpu_commands.h  |  2 +
- drivers/gpu/drm/i915/gt/intel_lrc.c           | 75 ++++++++++++++-----
- drivers/gpu/drm/i915/gt/intel_lrc.h           |  5 ++
- drivers/gpu/drm/i915/gt/selftest_lrc.c        | 53 ++++++++++++-
- .../gpu/drm/i915/gt/uc/intel_guc_submission.c |  2 +
- 9 files changed, 189 insertions(+), 26 deletions(-)
-
+diff --git a/drivers/gpu/drm/i915/gt/selftest_lrc.c b/drivers/gpu/drm/i915/gt/selftest_lrc.c
+index 6ba52ef1acb8..8dc7b88cdca0 100644
+--- a/drivers/gpu/drm/i915/gt/selftest_lrc.c
++++ b/drivers/gpu/drm/i915/gt/selftest_lrc.c
+@@ -128,6 +128,27 @@ static int context_flush(struct intel_context *ce, long timeout)
+ 	return err;
+ }
+ 
++static int get_lri_mask(struct intel_engine_cs *engine, u32 lri)
++{
++	if ((lri & MI_LRI_LRM_CS_MMIO) == 0)
++		return ~0u;
++
++	if (GRAPHICS_VER(engine->i915) < 12)
++		return 0xfff;
++
++	switch (engine->class) {
++	default:
++	case RENDER_CLASS:
++	case COMPUTE_CLASS:
++		return 0x07ff;
++	case COPY_ENGINE_CLASS:
++		return 0x0fff;
++	case VIDEO_DECODE_CLASS:
++	case VIDEO_ENHANCEMENT_CLASS:
++		return 0x3fff;
++	}
++}
++
+ static int live_lrc_layout(void *arg)
+ {
+ 	struct intel_gt *gt = arg;
+@@ -167,6 +188,7 @@ static int live_lrc_layout(void *arg)
+ 		dw = 0;
+ 		do {
+ 			u32 lri = READ_ONCE(hw[dw]);
++			u32 lri_mask;
+ 
+ 			if (lri == 0) {
+ 				dw++;
+@@ -194,6 +216,18 @@ static int live_lrc_layout(void *arg)
+ 				break;
+ 			}
+ 
++			/*
++			 * When bit 19 of MI_LOAD_REGISTER_IMM instruction
++			 * opcode is set on Gen12+ devices, HW does not
++			 * care about certain register address offsets, and
++			 * instead check the following for valid address
++			 * ranges on specific engines:
++			 * RCS && CCS: BITS(0 - 10)
++			 * BCS: BITS(0 - 11)
++			 * VECS && VCS: BITS(0 - 13)
++			 */
++			lri_mask = get_lri_mask(engine, lri);
++
+ 			lri &= 0x7f;
+ 			lri++;
+ 			dw++;
+@@ -201,7 +235,7 @@ static int live_lrc_layout(void *arg)
+ 			while (lri) {
+ 				u32 offset = READ_ONCE(hw[dw]);
+ 
+-				if (offset != lrc[dw]) {
++				if ((offset ^ lrc[dw]) & lri_mask) {
+ 					pr_err("%s: Different registers found at dword %d, expected %x, found %x\n",
+ 					       engine->name, dw, offset, lrc[dw]);
+ 					err = -EINVAL;
 -- 
 2.20.1
 
