@@ -1,66 +1,64 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7E87C50DAE3
-	for <lists+dri-devel@lfdr.de>; Mon, 25 Apr 2022 10:10:36 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 53FDC50DB0A
+	for <lists+dri-devel@lfdr.de>; Mon, 25 Apr 2022 10:24:29 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 0548A10E159;
-	Mon, 25 Apr 2022 08:10:33 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id EE9EE10E02F;
+	Mon, 25 Apr 2022 08:24:26 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-lj1-x22b.google.com (mail-lj1-x22b.google.com
- [IPv6:2a00:1450:4864:20::22b])
- by gabe.freedesktop.org (Postfix) with ESMTPS id ABF3110E159
- for <dri-devel@lists.freedesktop.org>; Mon, 25 Apr 2022 08:10:31 +0000 (UTC)
-Received: by mail-lj1-x22b.google.com with SMTP id v4so4678951ljd.10
- for <dri-devel@lists.freedesktop.org>; Mon, 25 Apr 2022 01:10:31 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
- h=date:from:to:cc:subject:message-id:in-reply-to:references
- :mime-version; bh=/hNpk12B1ayTzMlMtPaQSxPeiXOte53Oa6hlvrZFoXs=;
- b=Mzg8Gc32csTZozbOuOrlpefl4nbmHF2JUyjOpTet08AbAl248nMtFZu8Xypntj2YMA
- sqeY0vo2HSWwxqvvVm0RPLgwWngACi8VYOav8NL+y7g3NpWt7T79BzDmQpzjbsNu3XBw
- oRrURG02KOAVLVxWzqQ38SQk1Tgu4raR/B52g6BBRawNkYgXx3vvgNOnCKIKivIu5I+I
- cPuRHrJKCYXXiZRo3wKaDcGh/nJH1SJ64QYtRVtYFRrCJ57nO4vZqYhAhZLLikBaicH2
- sk6s9NFgUWYWzhFUPZtEpirBHVDJsFi8bcN6XGOa24MLWXajmTNKUOD7hIOxT3DSDb4D
- jakw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=x-gm-message-state:date:from:to:cc:subject:message-id:in-reply-to
- :references:mime-version;
- bh=/hNpk12B1ayTzMlMtPaQSxPeiXOte53Oa6hlvrZFoXs=;
- b=1K9gbMGBIHpViBRALqzwVIXEbAH5EQbjo7Y1qtDY6KDUm8WIWhZPFKZqPzgdobDPp2
- 0Kops8oUx4AG9HJQXP0Dgxp7tWfi6VNkTmJbZMebbq2PjINm2/UcdFA5BviNxIyVp19V
- tcrKLHivVG8V4e/0uDutZuITRGTYjeGYdnxGOuoR0FpVtQk8TL7p1leaQNBB/TfaAI5g
- 0qbN+fLU6YuZUJpUlf1MJXdDc3hou8O8wjeGxDyKqn65VHuqWkiHJhZo61IuoV2WEj7m
- n7o0KAr7t+u1e/dBS8O3edOuXGRIy/Qp0uG3k8JoGafDbgPRFfkcAKVuuQbntOWNibyl
- ud/A==
-X-Gm-Message-State: AOAM531iPvQwRbYCtIKD//s0+z98PPbmmkTBSPtAxR16XsoJ6s3pXTzG
- PlJ5yh45NCM6AkeiqbibWuQ=
-X-Google-Smtp-Source: ABdhPJy86XcKbNx/yiBWn9G6PKJRNcIWps0r74HlD7VL0yTc7CcP0IsKx6SKNiJVZuBLusyTisYz4Q==
-X-Received: by 2002:a05:651c:23b:b0:24f:1286:c321 with SMTP id
- z27-20020a05651c023b00b0024f1286c321mr1925738ljn.521.1650874229818; 
- Mon, 25 Apr 2022 01:10:29 -0700 (PDT)
-Received: from eldfell ([194.136.85.206]) by smtp.gmail.com with ESMTPSA id
- f23-20020a2e9e97000000b0024921bcf06bsm1154265ljk.57.2022.04.25.01.10.29
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 25 Apr 2022 01:10:29 -0700 (PDT)
-Date: Mon, 25 Apr 2022 11:10:26 +0300
-From: Pekka Paalanen <ppaalanen@gmail.com>
-To: Igor Torrente <igormtorrente@gmail.com>
-Subject: Re: [PATCH v5 6/9] drm: vkms: Refactor the plane composer to accept
- new formats
-Message-ID: <20220425111026.485cba66@eldfell>
-In-Reply-To: <03105fb1-4f4c-9f8a-f99a-045458ba4e37@gmail.com>
-References: <20220404204515.42144-1-igormtorrente@gmail.com>
- <20220404204515.42144-7-igormtorrente@gmail.com>
- <20220420153628.0a91fcb6@eldfell>
- <6d9acb8b-8b1c-957e-8dd1-1d5ed99b08a6@gmail.com>
- <03105fb1-4f4c-9f8a-f99a-045458ba4e37@gmail.com>
-X-Mailer: Claws Mail 3.17.8 (GTK+ 2.24.33; x86_64-pc-linux-gnu)
+Received: from smtp-out1.suse.de (smtp-out1.suse.de [195.135.220.28])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id C0A0510E02F
+ for <dri-devel@lists.freedesktop.org>; Mon, 25 Apr 2022 08:24:25 +0000 (UTC)
+Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+ key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
+ (No client certificate requested)
+ by smtp-out1.suse.de (Postfix) with ESMTPS id 5C6CF210F3;
+ Mon, 25 Apr 2022 08:24:24 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+ t=1650875064; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+ mime-version:mime-version:content-type:content-type:
+ in-reply-to:in-reply-to:references:references;
+ bh=7Nfpj6dMjdB1M7OrX0AWqEYhTntRuBmklomVZqIjUXA=;
+ b=0A3O0RG53VQaV4yF7dYUmGj8cK+gDzN2lrdEpY67oukRgpJcTzduo+0mxliqkabk2EcXNc
+ c9wuFtgZRh6oS16N/X45YBDeVdCq1Cg77+zqU0VRuCDiIR4+fbJ6QXf3uUwgDkNU5uMWNm
+ aNvPK6dTeI/Adg9TibP5u+iyalAA7aw=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+ s=susede2_ed25519; t=1650875064;
+ h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+ mime-version:mime-version:content-type:content-type:
+ in-reply-to:in-reply-to:references:references;
+ bh=7Nfpj6dMjdB1M7OrX0AWqEYhTntRuBmklomVZqIjUXA=;
+ b=YVC0BP8CyTEbc1hsk26mrlqtbA6TvmndWdDDNunIoWBK5m9hTFd2FSFVVidwe/UBOibrFB
+ JVFxZnt1Yr5XTIAA==
+Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+ key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
+ (No client certificate requested)
+ by imap2.suse-dmz.suse.de (Postfix) with ESMTPS id 2B6A913AED;
+ Mon, 25 Apr 2022 08:24:24 +0000 (UTC)
+Received: from dovecot-director2.suse.de ([192.168.254.65])
+ by imap2.suse-dmz.suse.de with ESMTPSA id AyN7CbhaZmK8egAAMHmgww
+ (envelope-from <tzimmermann@suse.de>); Mon, 25 Apr 2022 08:24:24 +0000
+Message-ID: <7a512b4f-2327-b0c3-2f3c-60dc5be3c443@suse.de>
+Date: Mon, 25 Apr 2022 10:24:23 +0200
 MIME-Version: 1.0
-Content-Type: multipart/signed; boundary="Sig_/rS8G1e.i217mkJvABvKASoU";
- protocol="application/pgp-signature"; micalg=pgp-sha256
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.8.1
+Subject: Re: [PATCH v3 2/5] firmware: sysfb: Add helpers to unregister a pdev
+ and disable registration
+Content-Language: en-US
+To: Javier Martinez Canillas <javierm@redhat.com>, linux-kernel@vger.kernel.org
+References: <20220420085303.100654-1-javierm@redhat.com>
+ <20220420085303.100654-3-javierm@redhat.com>
+From: Thomas Zimmermann <tzimmermann@suse.de>
+In-Reply-To: <20220420085303.100654-3-javierm@redhat.com>
+Content-Type: multipart/signed; micalg=pgp-sha256;
+ protocol="application/pgp-signature";
+ boundary="------------dAmYUUsnRwZquvA0wVwM70BA"
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -73,450 +71,173 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: hamohammed.sa@gmail.com, tzimmermann@suse.de, rodrigosiqueiramelo@gmail.com,
- airlied@linux.ie, leandro.ribeiro@collabora.com, melissa.srw@gmail.com,
- dri-devel@lists.freedesktop.org, tales.aparecida@gmail.com,
- ~lkcamp/patches@lists.sr.ht
+Cc: Jonathan Corbet <corbet@lwn.net>,
+ Greg Kroah-Hartman <gregkh@linuxfoundation.org>, linux-doc@vger.kernel.org,
+ dri-devel@lists.freedesktop.org, Daniel Vetter <daniel.vetter@ffwll.ch>,
+ Borislav Petkov <bp@suse.de>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
---Sig_/rS8G1e.i217mkJvABvKASoU
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: quoted-printable
+This is an OpenPGP/MIME signed message (RFC 4880 and 3156)
+--------------dAmYUUsnRwZquvA0wVwM70BA
+Content-Type: multipart/mixed; boundary="------------tEYQknzzFLtW3cE9x7X7G2Xn";
+ protected-headers="v1"
+From: Thomas Zimmermann <tzimmermann@suse.de>
+To: Javier Martinez Canillas <javierm@redhat.com>,
+ linux-kernel@vger.kernel.org
+Cc: Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+ Daniel Vetter <daniel.vetter@ffwll.ch>, dri-devel@lists.freedesktop.org,
+ Borislav Petkov <bp@suse.de>, Jonathan Corbet <corbet@lwn.net>,
+ linux-doc@vger.kernel.org
+Message-ID: <7a512b4f-2327-b0c3-2f3c-60dc5be3c443@suse.de>
+Subject: Re: [PATCH v3 2/5] firmware: sysfb: Add helpers to unregister a pdev
+ and disable registration
+References: <20220420085303.100654-1-javierm@redhat.com>
+ <20220420085303.100654-3-javierm@redhat.com>
+In-Reply-To: <20220420085303.100654-3-javierm@redhat.com>
 
-On Sat, 23 Apr 2022 15:53:20 -0300
-Igor Torrente <igormtorrente@gmail.com> wrote:
+--------------tEYQknzzFLtW3cE9x7X7G2Xn
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: base64
 
-> I forgot to respond some points from your review.
->=20
-> On 4/23/22 13:04, Igor Torrente wrote:
-> > Hi Pekka,
-> >=20
-> > On 4/20/22 09:36, Pekka Paalanen wrote: =20
-> >> On Mon,  4 Apr 2022 17:45:12 -0300
-> >> Igor Torrente <igormtorrente@gmail.com> wrote:
-> >> =20
-> >>> Currently the blend function only accepts XRGB_8888 and ARGB_8888
-> >>> as a color input.
-> >>>
-> >>> This patch refactors all the functions related to the plane compositi=
-on
-> >>> to overcome this limitation.
-> >>>
-> >>> A new internal format(`struct pixel`) is introduced to deal with all =
-=20
-> >>
-> >> Hi,
-> >>
-> >> struct pixel_argb_u16 was added in the previous patch. =20
-> >=20
-> > I will fix it. Thanks!
+SGkNCg0KQW0gMjAuMDQuMjIgdW0gMTA6NTMgc2NocmllYiBKYXZpZXIgTWFydGluZXogQ2Fu
+aWxsYXM6DQo+IFRoZXNlIGNhbiBiZSB1c2VkIGJ5IHN1YnN5c3RlbXMgdG8gdW5yZWdpc3Rl
+ciBhIHBsYXRmb3JtIGRldmljZSByZWdpc3RlcmVkDQo+IGJ5IHN5c2ZiIGFuZCBhbHNvIHRv
+IGRpc2FibGUgZnV0dXJlIHBsYXRmb3JtIGRldmljZSByZWdpc3RyYXRpb24gaW4gc3lzZmIu
+DQo+IA0KPiBTdWdnZXN0ZWQtYnk6IERhbmllbCBWZXR0ZXIgPGRhbmllbC52ZXR0ZXJAZmZ3
+bGwuY2g+DQo+IFNpZ25lZC1vZmYtYnk6IEphdmllciBNYXJ0aW5leiBDYW5pbGxhcyA8amF2
+aWVybUByZWRoYXQuY29tPg0KPiBSZXZpZXdlZC1ieTogRGFuaWVsIFZldHRlciA8ZGFuaWVs
+LnZldHRlckBmZndsbC5jaD4NCj4gLS0tDQo+IA0KPiAobm8gY2hhbmdlcyBzaW5jZSB2MikN
+Cj4gDQo+IENoYW5nZXMgaW4gdjI6DQo+IC0gQWRkIGtlcm5lbC1kb2MgY29tbWVudHMgYW5k
+IGluY2x1ZGUgaW4gb3RoZXJfaW50ZXJmYWNlcy5yc3QgKERhbmllbCBWZXR0ZXIpLg0KPiAN
+Cj4gICAuLi4vZHJpdmVyLWFwaS9maXJtd2FyZS9vdGhlcl9pbnRlcmZhY2VzLnJzdCAgfCAg
+NiArKw0KPiAgIGRyaXZlcnMvZmlybXdhcmUvc3lzZmIuYyAgICAgICAgICAgICAgICAgICAg
+ICB8IDczICsrKysrKysrKysrKysrKysrLS0NCj4gICBpbmNsdWRlL2xpbnV4L3N5c2ZiLmgg
+ICAgICAgICAgICAgICAgICAgICAgICAgfCAxOSArKysrKw0KPiAgIDMgZmlsZXMgY2hhbmdl
+ZCwgOTIgaW5zZXJ0aW9ucygrKSwgNiBkZWxldGlvbnMoLSkNCj4gDQo+IGRpZmYgLS1naXQg
+YS9Eb2N1bWVudGF0aW9uL2RyaXZlci1hcGkvZmlybXdhcmUvb3RoZXJfaW50ZXJmYWNlcy5y
+c3QgYi9Eb2N1bWVudGF0aW9uL2RyaXZlci1hcGkvZmlybXdhcmUvb3RoZXJfaW50ZXJmYWNl
+cy5yc3QNCj4gaW5kZXggYjgxNzk0ZTBjZmJiLi4wNmFjODlhZGFhZmIgMTAwNjQ0DQo+IC0t
+LSBhL0RvY3VtZW50YXRpb24vZHJpdmVyLWFwaS9maXJtd2FyZS9vdGhlcl9pbnRlcmZhY2Vz
+LnJzdA0KPiArKysgYi9Eb2N1bWVudGF0aW9uL2RyaXZlci1hcGkvZmlybXdhcmUvb3RoZXJf
+aW50ZXJmYWNlcy5yc3QNCj4gQEAgLTEzLDYgKzEzLDEyIEBAIEVERCBJbnRlcmZhY2VzDQo+
+ICAgLi4ga2VybmVsLWRvYzo6IGRyaXZlcnMvZmlybXdhcmUvZWRkLmMNCj4gICAgICA6aW50
+ZXJuYWw6DQo+ICAgDQo+ICtHZW5lcmljIFN5c3RlbSBGcmFtZWJ1ZmZlcnMgSW50ZXJmYWNl
+DQo+ICstLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tDQo+ICsNCj4gKy4u
+IGtlcm5lbC1kb2M6OiBkcml2ZXJzL2Zpcm13YXJlL3N5c2ZiLmMNCj4gKyAgIDpleHBvcnQ6
+DQo+ICsNCj4gICBJbnRlbCBTdHJhdGl4MTAgU29DIFNlcnZpY2UgTGF5ZXINCj4gICAtLS0t
+LS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0NCj4gICBTb21lIGZlYXR1cmVzIG9mIHRo
+ZSBJbnRlbCBTdHJhdGl4MTAgU29DIHJlcXVpcmUgYSBsZXZlbCBvZiBwcml2aWxlZ2UNCj4g
+ZGlmZiAtLWdpdCBhL2RyaXZlcnMvZmlybXdhcmUvc3lzZmIuYyBiL2RyaXZlcnMvZmlybXdh
+cmUvc3lzZmIuYw0KPiBpbmRleCBiMDMyZjQwYTkyZGUuLmE1MGQyODU4Y2U0ZCAxMDA2NDQN
+Cj4gLS0tIGEvZHJpdmVycy9maXJtd2FyZS9zeXNmYi5jDQo+ICsrKyBiL2RyaXZlcnMvZmly
+bXdhcmUvc3lzZmIuYw0KPiBAQCAtMzQsMjEgKzM0LDc4IEBADQo+ICAgI2luY2x1ZGUgPGxp
+bnV4L3NjcmVlbl9pbmZvLmg+DQo+ICAgI2luY2x1ZGUgPGxpbnV4L3N5c2ZiLmg+DQo+ICAg
+DQo+ICtzdGF0aWMgc3RydWN0IHBsYXRmb3JtX2RldmljZSAqcGQ7DQoNCllvdSBjb3VsZCBo
+YXZlIG11bHRpcGxlIGluc3RhbmNlcyBvZiBzaW1wbGUtZnJhbWVidWZmZXIgYmVjYXVzZSB5
+b3UgDQpkb24ndCBrbm93IHdoYXQgdGhlIGZpcm13YXJlIHNldCB1cC4gSXQgb3JpZ2luYXRl
+ZCBmcm9tIERUIGFuZCBFRkkvVkVTQSANCmlzIHJlYWxseSBqdXN0IGFuIGFmdGVydGhvdWdo
+dC4gSWYgdGhlcmUgaXMgbW9yZSB0aGFuIDEgaW5zdGFuY2UsIHlvdXIgDQplbnRpcmUgdW5y
+ZWdpc3RlcmluZyBicmVha3MgZG93bi4NCg0KKEkndmUgYmVlbiB0b2xkIHRoYXQgc3VjaCBt
+dWx0aS1vdXRwdXQgY2FzZXMgZXhpc3QgaW4gdGhlIGNvbnRleHQgb2YgT0YgDQpmcmFtZWJ1
+ZmZlcnMuIFNvbWV0aGluZyBzaW1pbGFyIGNvdWxkIGV4aXN0IGZvciBzaW1wbGUtZnJhbWJ1
+ZmZlciBhcyB3ZWxsLikNCg0KQmVzdCByZWdhcmRzDQpUaG9tYXMNCg0KPiArc3RhdGljIERF
+RklORV9NVVRFWChsb2FkX2xvY2spOw0KPiArc3RhdGljIGJvb2wgZGlzYWJsZWQ7DQo+ICsN
+Cj4gKy8qKg0KPiArICogc3lzZmJfZGlzYWJsZSgpIC0gZGlzYWJsZSB0aGUgR2VuZXJpYyBT
+eXN0ZW0gRnJhbWVidWZmZXJzIHN1cHBvcnQNCj4gKyAqDQo+ICsgKiBUaGlzIGRpc2FibGVz
+IHRoZSByZWdpc3RyYXRpb24gb2Ygc3lzdGVtIGZyYW1lYnVmZmVyIGRldmljZXMgdGhhdCBt
+YXRjaCB0aGUNCj4gKyAqIGdlbmVyaWMgZHJpdmVycyB0aGF0IG1ha2UgdXNlIG9mIHRoZSBz
+eXN0ZW0gZnJhbWVidWZmZXIgc2V0IHVwIGJ5IGZpcm13YXJlLg0KPiArICoNCj4gKyAqIENv
+bnRleHQ6IFRoZSBmdW5jdGlvbiBjYW4gc2xlZXAuIEEgQGxvYWRfbG9jayBtdXRleCBpcyBh
+Y3F1aXJlZCB0byBzZXJpYWxpemUNCj4gKyAqICAgICAgICAgIGFnYWluc3Qgc3lzZmJfaW5p
+dCgpLCB0aGF0IHJlZ2lzdGVycyBhIHN5c3RlbSBmcmFtZWJ1ZmZlciBkZXZpY2UgYW5kDQo+
+ICsgKiAgICAgICAgICBzeXNmYl90cnlfdW5yZWdpc3RlcigpLCB0aGF0IHRyaWVzIHRvIHVu
+cmVnaXN0ZXIgZnJhbWVidWZmZXIgZGV2aWNlcy4NCj4gKyAqLw0KPiArdm9pZCBzeXNmYl9k
+aXNhYmxlKHZvaWQpDQo+ICt7DQo+ICsJbXV0ZXhfbG9jaygmbG9hZF9sb2NrKTsNCj4gKwlk
+aXNhYmxlZCA9IHRydWU7DQo+ICsJbXV0ZXhfdW5sb2NrKCZsb2FkX2xvY2spOw0KPiArfQ0K
+PiArRVhQT1JUX1NZTUJPTF9HUEwoc3lzZmJfZGlzYWJsZSk7DQo+ICsNCj4gKy8qKg0KPiAr
+ICogc3lzZmJfdHJ5X3VucmVnaXN0ZXIoKSAtIGF0dGVtcHQgdG8gdW5yZWdpc3RlciBhIHN5
+c3RlbSBmcmFtZWJ1ZmZlciBkZXZpY2UNCj4gKyAqIEBkZXY6IGRldmljZSB0byB1bnJlZ2lz
+dGVyDQo+ICsgKg0KPiArICogVGhpcyB0cmllcyB0byB1bnJlZ2lzdGVyIGEgc3lzdGVtIGZy
+YW1lYnVmZmVyIGRldmljZSBpZiB0aGlzIHdhcyByZWdpc3RlcmVkDQo+ICsgKiBieSB0aGUg
+R2VuZXJpYyBTeXN0ZW0gRnJhbWVidWZmZXJzLiBUaGUgZGV2aWNlIHdpbGwgb25seSBiZSB1
+bnJlZ2lzdGVyZWQgaWYNCj4gKyAqIGl0IHdhcyByZWdpc3RlcmVkIGJ5IHN5c2ZiX2luaXQo
+KSwgb3RoZXJ3aXNlIGl0IHdpbGwgbm90IGJlIHVucmVnaXN0ZXJlZC4NCj4gKyAqDQo+ICsg
+KiBDb250ZXh0OiBUaGUgZnVuY3Rpb24gY2FuIHNsZWVwLiBhIEBsb2FkX2xvY2sgbXV0ZXgg
+aXMgYWNxdWlyZWQgdG8gc2VyaWFsaXplDQo+ICsgKiAgICAgICAgICBhZ2FpbnN0IHN5c2Zi
+X2luaXQoKSwgdGhhdCByZWdpc3RlcnMgYSBzaW1wbGUgZnJhbWVidWZmZXIgZGV2aWNlIGFu
+ZA0KPiArICogICAgICAgICAgc3lzZmJfZGlzYWJsZSgpLCB0aGF0IGRpc2FibGVzIHRoZSBH
+ZW5lcmljIFN5c3RlbSBGcmFtZWJ1ZmZlcnMgc3VwcG9ydC4NCj4gKyAqDQo+ICsgKiBSZXR1
+cm46DQo+ICsgKiAqIHRydWUgICAgICAgICAgLSB0aGUgZGV2aWNlIHdhcyB1bnJlZ2lzdGVy
+ZWQgc3VjY2Vzc2Z1bGx5DQo+ICsgKiAqIGZhbHNlICAgICAgICAgLSB0aGUgZGV2aWNlIHdh
+cyBub3QgdW5yZWdpc3RlcmVkDQo+ICsgKi8NCj4gK2Jvb2wgc3lzZmJfdHJ5X3VucmVnaXN0
+ZXIoc3RydWN0IGRldmljZSAqZGV2KQ0KPiArew0KPiArCWJvb2wgcmV0ID0gdHJ1ZTsNCj4g
+Kw0KPiArCW11dGV4X2xvY2soJmxvYWRfbG9jayk7DQo+ICsJaWYgKCFwZCB8fCBwZCAhPSB0
+b19wbGF0Zm9ybV9kZXZpY2UoZGV2KSkNCj4gKwkJcmV0dXJuIGZhbHNlOw0KPiArDQo+ICsJ
+cGxhdGZvcm1fZGV2aWNlX3VucmVnaXN0ZXIodG9fcGxhdGZvcm1fZGV2aWNlKGRldikpOw0K
+PiArCXBkID0gTlVMTDsNCj4gKwltdXRleF91bmxvY2soJmxvYWRfbG9jayk7DQo+ICsNCj4g
+KwlyZXR1cm4gcmV0Ow0KPiArfQ0KPiArRVhQT1JUX1NZTUJPTF9HUEwoc3lzZmJfdHJ5X3Vu
+cmVnaXN0ZXIpOw0KPiArDQo+ICAgc3RhdGljIF9faW5pdCBpbnQgc3lzZmJfaW5pdCh2b2lk
+KQ0KPiAgIHsNCj4gICAJc3RydWN0IHNjcmVlbl9pbmZvICpzaSA9ICZzY3JlZW5faW5mbzsN
+Cj4gICAJc3RydWN0IHNpbXBsZWZiX3BsYXRmb3JtX2RhdGEgbW9kZTsNCj4gLQlzdHJ1Y3Qg
+cGxhdGZvcm1fZGV2aWNlICpwZDsNCj4gICAJY29uc3QgY2hhciAqbmFtZTsNCj4gICAJYm9v
+bCBjb21wYXRpYmxlOw0KPiAtCWludCByZXQ7DQo+ICsJaW50IHJldCA9IDA7DQo+ICsNCj4g
+KwltdXRleF9sb2NrKCZsb2FkX2xvY2spOw0KPiArCWlmIChkaXNhYmxlZCkNCj4gKwkJZ290
+byB1bmxvY2tfbXV0ZXg7DQo+ICAgDQo+ICAgCS8qIHRyeSB0byBjcmVhdGUgYSBzaW1wbGUt
+ZnJhbWVidWZmZXIgZGV2aWNlICovDQo+ICAgCWNvbXBhdGlibGUgPSBzeXNmYl9wYXJzZV9t
+b2RlKHNpLCAmbW9kZSk7DQo+ICAgCWlmIChjb21wYXRpYmxlKSB7DQo+ICAgCQlwZCA9IHN5
+c2ZiX2NyZWF0ZV9zaW1wbGVmYihzaSwgJm1vZGUpOw0KPiAgIAkJaWYgKCFJU19FUlIocGQp
+KQ0KPiAtCQkJcmV0dXJuIDA7DQo+ICsJCQlnb3RvIHVubG9ja19tdXRleDsNCj4gICAJfQ0K
+PiAgIA0KPiAgIAkvKiBpZiB0aGUgRkIgaXMgaW5jb21wYXRpYmxlLCBjcmVhdGUgYSBsZWdh
+Y3kgZnJhbWVidWZmZXIgZGV2aWNlICovDQo+IEBAIC02MCw4ICsxMTcsMTAgQEAgc3RhdGlj
+IF9faW5pdCBpbnQgc3lzZmJfaW5pdCh2b2lkKQ0KPiAgIAkJbmFtZSA9ICJwbGF0Zm9ybS1m
+cmFtZWJ1ZmZlciI7DQo+ICAgDQo+ICAgCXBkID0gcGxhdGZvcm1fZGV2aWNlX2FsbG9jKG5h
+bWUsIDApOw0KPiAtCWlmICghcGQpDQo+IC0JCXJldHVybiAtRU5PTUVNOw0KPiArCWlmICgh
+cGQpIHsNCj4gKwkJcmV0ID0gLUVOT01FTTsNCj4gKwkJZ290byB1bmxvY2tfbXV0ZXg7DQo+
+ICsJfQ0KPiAgIA0KPiAgIAlzeXNmYl9hcHBseV9lZmlfcXVpcmtzKHBkKTsNCj4gICANCj4g
+QEAgLTczLDkgKzEzMiwxMSBAQCBzdGF0aWMgX19pbml0IGludCBzeXNmYl9pbml0KHZvaWQp
+DQo+ICAgCWlmIChyZXQpDQo+ICAgCQlnb3RvIGVycjsNCj4gICANCj4gLQlyZXR1cm4gMDsN
+Cj4gKwlnb3RvIHVubG9ja19tdXRleDsNCj4gICBlcnI6DQo+ICAgCXBsYXRmb3JtX2Rldmlj
+ZV9wdXQocGQpOw0KPiArdW5sb2NrX211dGV4Og0KPiArCW11dGV4X3VubG9jaygmbG9hZF9s
+b2NrKTsNCj4gICAJcmV0dXJuIHJldDsNCj4gICB9DQo+ICAgDQo+IGRpZmYgLS1naXQgYS9p
+bmNsdWRlL2xpbnV4L3N5c2ZiLmggYi9pbmNsdWRlL2xpbnV4L3N5c2ZiLmgNCj4gaW5kZXgg
+NzA4MTUyZTkwMzdiLi5lOGMwMzEzZmFjOGYgMTAwNjQ0DQo+IC0tLSBhL2luY2x1ZGUvbGlu
+dXgvc3lzZmIuaA0KPiArKysgYi9pbmNsdWRlL2xpbnV4L3N5c2ZiLmgNCj4gQEAgLTU1LDYg
+KzU1LDI1IEBAIHN0cnVjdCBlZmlmYl9kbWlfaW5mbyB7DQo+ICAgCWludCBmbGFnczsNCj4g
+ICB9Ow0KPiAgIA0KPiArI2lmZGVmIENPTkZJR19TWVNGQg0KPiArDQo+ICt2b2lkIHN5c2Zi
+X2Rpc2FibGUodm9pZCk7DQo+ICtib29sIHN5c2ZiX3RyeV91bnJlZ2lzdGVyKHN0cnVjdCBk
+ZXZpY2UgKmRldik7DQo+ICsNCj4gKyNlbHNlIC8qIENPTkZJR19TWVNGQiAqLw0KPiArDQo+
+ICtzdGF0aWMgaW5saW5lIHZvaWQgc3lzZmJfZGlzYWJsZSh2b2lkKQ0KPiArew0KPiArDQo+
+ICt9DQo+ICsNCj4gK3N0YXRpYyBpbmxpbmUgYm9vbCBzeXNmYl90cnlfdW5yZWdpc3Rlcihz
+dHJ1Y3QgZGV2aWNlICpkZXYpDQo+ICt7DQo+ICsJcmV0dXJuIGZhbHNlOw0KPiArfQ0KPiAr
+DQo+ICsjZW5kaWYgLyogQ09ORklHX1NZU0ZCICovDQo+ICsNCj4gICAjaWZkZWYgQ09ORklH
+X0VGSQ0KPiAgIA0KPiAgIGV4dGVybiBzdHJ1Y3QgZWZpZmJfZG1pX2luZm8gZWZpZmJfZG1p
+X2xpc3RbXTsNCg0KLS0gDQpUaG9tYXMgWmltbWVybWFubg0KR3JhcGhpY3MgRHJpdmVyIERl
+dmVsb3Blcg0KU1VTRSBTb2Z0d2FyZSBTb2x1dGlvbnMgR2VybWFueSBHbWJIDQpNYXhmZWxk
+c3RyLiA1LCA5MDQwOSBOw7xybmJlcmcsIEdlcm1hbnkNCihIUkIgMzY4MDksIEFHIE7DvHJu
+YmVyZykNCkdlc2Now6RmdHNmw7xocmVyOiBJdm8gVG90ZXYNCg==
 
-...
+--------------tEYQknzzFLtW3cE9x7X7G2Xn--
 
-> >>> +static int compose_active_planes(struct vkms_writeback_job *active_w=
-b,
-> >>> +				 struct vkms_crtc_state *crtc_state,
-> >>> +				 u32 *crc32)
-> >>>    {
-> >>> +	int line_width, ret =3D 0, pixel_size =3D sizeof(struct pixel_argb_=
-u16);
-> >>> +	struct vkms_frame_info *primary_plane_info =3D NULL;
-> >>> +	struct line_buffer output_buffer, stage_buffer;
-> >>> +	struct vkms_plane_state *act_plane =3D NULL;
-> >>> +	u32 wb_format;
-> >>>   =20
-> >>> +	if (WARN_ON(pixel_size !=3D 8)) =20
-> >>
-> >> Isn't there a compile-time assert macro for this? Having to actually
-> >> run VKMS to check for this reduces the chances of finding it early.
-> >> What's the reason for this check anyway? =20
->=20
-> Yes, it exists.
->=20
-> include/linux/build_bug.h:1:#define static_assert(expr, ...)=20
-> __static_assert(expr, ##__VA_ARGS__, #expr)
->=20
-> I didn't add it because I can imagine some people very mad if the kernel=
-=20
-> did not compile because of vkms.
-
-But that would mean that VKMS is broken on those platforms. You'd
-better know which platforms VKMS is broken, so the Kconfig can stop
-VKMS from being built there at all. Or better, fix it before anyone
-needs VKMS there.
-
-> This check exists so we can call `crc32_le` for the entire line instead
-> doing it for each channel of each pixel in case `struct `pixel_argb_u16`
-> had any gap added by the compiler between the struct fields.
-
-Oh the CRC computation. Good point.
-
-Can you add a comment about that with the check?
-
-> >> =20
-> >>> +		return -EINVAL;
-> >>> +
-> >>> +	if (crtc_state->num_active_planes >=3D 1) {
-> >>> +		act_plane =3D crtc_state->active_planes[0];
-> >>> +		if (act_plane->base.base.plane->type =3D=3D DRM_PLANE_TYPE_PRIMARY)
-> >>> +			primary_plane_info =3D act_plane->frame_info; =20
-> >>
-> >> After the next patch, do you even need the primary plane for anything
-> >> specifically? =20
->=20
-> Yeah, I will not need it anymore.
->=20
-> >> There is the map_is_null check below, but that should be
-> >> done on all planes in the array, right? =20
->=20
-> Yes, I guess so. And I don't know why it only checks for the=20
-> primary_plane TBH.
-
-Maybe a left-over from times when it didn't have anything but a primary
-plane?
-
-> >>
-> >> I suspect the next patch, or another patch in this series, should just
-> >> delete this chunk. =20
-> I should, and I will in the V6 of next patch.
->=20
-> >=20
-> >=20
-> >  =20
-> >> =20
-> >>>    	}
-> >>>   =20
-> >>> +	if (!primary_plane_info)
-> >>> +		return -EINVAL;
-> >>> +
-> >>>    	if (WARN_ON(dma_buf_map_is_null(&primary_plane_info->map[0])))
-> >>>    		return -EINVAL;
-> >>>   =20
-> >>> +	if (WARN_ON(check_format_funcs(crtc_state, active_wb)))
-> >>> +		return -EINVAL;
-> >>>   =20
-> >>> +	line_width =3D drm_rect_width(&primary_plane_info->dst);
-> >>> +	stage_buffer.n_pixels =3D line_width;
-> >>> +	output_buffer.n_pixels =3D line_width;
-> >>>   =20
-> >>> +	stage_buffer.pixels =3D kvmalloc(line_width * pixel_size, GFP_KERNE=
-L);
-> >>> +	if (!stage_buffer.pixels) {
-> >>> +		DRM_ERROR("Cannot allocate memory for the output line buffer");
-> >>> +		return -ENOMEM;
-> >>> +	}
-> >>>   =20
-> >>> +	output_buffer.pixels =3D kvmalloc(line_width * pixel_size, GFP_KERN=
-EL);
-> >>> +	if (!output_buffer.pixels) {
-> >>> +		DRM_ERROR("Cannot allocate memory for intermediate line buffer");
-> >>> +		ret =3D -ENOMEM;
-> >>> +		goto free_stage_buffer;
-> >>> +	}
-> >>> +
-> >>> +	if (active_wb) {
-> >>> +		struct vkms_frame_info *wb_frame_info =3D &active_wb->frame_info;
-> >>> +
-> >>> +		wb_format =3D wb_frame_info->fb->format->format; =20
-> >>
-> >> I don't see wb_format being used, is it? =20
-> >=20
-> > This is probably a leftover from the last versions. Thanks for catching
-> > it.
-> >  =20
-> >> =20
-> >>> +		wb_frame_info->src =3D primary_plane_info->src;
-> >>> +		wb_frame_info->dst =3D primary_plane_info->dst;
-> >>> +	}
-> >>> +
-> >>> +	blend(active_wb, crtc_state, crc32, &stage_buffer,
-> >>> +	      &output_buffer, (s64)line_width * pixel_size); =20
-> >>
-> >> What's the (s64) doing here?
-> >>
-> >> Are byte sizes not usually expressed with size_t or ssize_t types, or
-> >> is the kernel convention to use u64 and s64?
-> >>
-> >> This makes me suspect that pixel_offset() and friends in vkms_format.c
-> >> are going to need fixing as well. int type overflows at 2G. =20
-> >=20
-> >=20
-> > Yeah, I should be using size_t in all these places.
-> >  =20
-> >> =20
-> >>> +
-> >>> +	kvfree(output_buffer.pixels);
-> >>> +free_stage_buffer:
-> >>> +	kvfree(stage_buffer.pixels);
-> >>> +can
-> >>> +	return ret;
-> >>>    }
-> >>>   =20
-> >>>    /**
-> >>> @@ -222,13 +204,11 @@ void vkms_composer_worker(struct work_struct *w=
-ork)
-> >>>    						struct vkms_crtc_state,
-> >>>    						composer_work);
-> >>>    	struct drm_crtc *crtc =3D crtc_state->base.crtc;
-> >>> +	struct vkms_writeback_job *active_wb =3D crtc_state->active_writeba=
-ck;
-> >>>    	struct vkms_output *out =3D drm_crtc_to_vkms_output(crtc);
-> >>>    	bool crc_pending, wb_pending;
-> >>>    	u64 frame_start, frame_end;
-> >>> +	u32 crc32 =3D 0;
-> >>>    	int ret;
-> >>>   =20
-> >>>    	spin_lock_irq(&out->composer_lock);
-> >>> @@ -248,35 +228,19 @@ void vkms_composer_worker(struct work_struct *w=
-ork)
-> >>>    	if (!crc_pending)
-> >>>    		return;
-> >>>   =20
-> >>>    	if (wb_pending)
-> >>> +		ret =3D compose_active_planes(active_wb, crtc_state, &crc32);
-> >>> +	else
-> >>> +		ret =3D compose_active_planes(NULL, crtc_state, &crc32);
-> >>>   =20
-> >>> +	if (ret)
-> >>>    		return;
-> >>>   =20
-> >>>    	if (wb_pending) {
-> >>>    		drm_writeback_signal_completion(&out->wb_connector, 0);
-> >>>    		spin_lock_irq(&out->composer_lock);
-> >>>    		crtc_state->wb_pending =3D false;
-> >>>    		spin_unlock_irq(&out->composer_lock);
-> >>>    	}
-> >>>   =20
-> >>>    	/*
-> >>> diff --git a/drivers/gpu/drm/vkms/vkms_formats.c b/drivers/gpu/drm/vk=
-ms/vkms_formats.c
-> >>> new file mode 100644
-> >>> index 000000000000..931a61405d6a
-> >>> --- /dev/null
-> >>> +++ b/drivers/gpu/drm/vkms/vkms_formats.c
-> >>> @@ -0,0 +1,151 @@
-> >>> +// SPDX-License-Identifier: GPL-2.0+
-> >>> +
-> >>> +#include <drm/drm_rect.h>
-> >>> +#include <linux/minmax.h>
-> >>> +
-> >>> +#include "vkms_formats.h"
-> >>> +
-> >>> +static int pixel_offset(const struct vkms_frame_info *frame_info, in=
-t x, int y)
-> >>> +{
-> >>> +	return frame_info->offset + (y * frame_info->pitch)
-> >>> +				  + (x * frame_info->cpp);
-> >>> +}
-> >>> +
-> >>> +/*
-> >>> + * packed_pixels_addr - Get the pointer to pixel of a given pair of =
-coordinates
-> >>> + *
-> >>> + * @frame_info: Buffer metadata
-> >>> + * @x: The x(width) coordinate of the 2D buffer
-> >>> + * @y: The y(Heigth) coordinate of the 2D buffercan
-> >>> + *
-> >>> + * Takes the information stored in the frame_info, a pair of coordin=
-ates, and
-> >>> + * returns the address of the first color channel.
-> >>> + * This function assumes the channels are packed together, i.e. a co=
-lor channel
-> >>> + * comes immediately after another in the memory. And therefore, thi=
-s function
-> >>> + * doesn't work for YUV with chroma subsampling (e.g. YUV420 and NV2=
-1).
-> >>> + */
-> >>> +static void *packed_pixels_addr(const struct vkms_frame_info *frame_=
-info,
-> >>> +				int x, int y)
-> >>> +{
-> >>> +	int offset =3D pixel_offset(frame_info, x, y);
-> >>> +
-> >>> +	return (u8 *)frame_info->map[0].vaddr + offset;
-> >>> +}
-> >>> +
-> >>> +static void *get_packed_src_addr(const struct vkms_frame_info *frame=
-_info, int y)
-> >>> +{
-> >>> +	int x_src =3D frame_info->src.x1 >> 16;
-> >>> +	int y_src =3D y - frame_info->dst.y1 + (frame_info->src.y1 >> 16);
-> >>> +
-> >>> +	return packed_pixels_addr(frame_info, x_src, y_src);
-> >>> +}
-> >>> +
-> >>> +static void ARGB8888_to_argb_u16(struct line_buffer *stage_buffer,
-> >>> +				 const struct vkms_frame_info *frame_info, int y)
-> >>> +{
-> >>> +	struct pixel_argb_u16 *out_pixels =3D stage_buffer->pixels;
-> >>> +	u8 *src_pixels =3D get_packed_src_addr(frame_info, y);
-> >>> +	int x, x_limit =3D min_t(size_t, drm_rect_width(&frame_info->dst),
-> >>> +			       stage_buffer->n_pixels);
-> >>> +
-> >>> +	for (x =3D 0; x < x_limit; x++, src_pixels +=3D 4) {
-> >>> +		/*
-> >>> +		 * The 257 is the "conversion ratio". This number is obtained by t=
-he
-> >>> +		 * (2^16 - 1) / (2^8 - 1) division. Which, in this case, tries to =
-get
-> >>> +		 * the best color value in a pixel format with more possibilities.
-> >>> +		 * A similar idea applies to others RGB color conversions.
-> >>> +		 */
-> >>> +		out_pixels[x].a =3D (u16)src_pixels[3] * 257;
-> >>> +		out_pixels[x].r =3D (u16)src_pixels[2] * 257;
-> >>> +		out_pixels[x].g =3D (u16)src_pixels[1] * 257;
-> >>> +		out_pixels[x].b =3D (u16)src_pixels[0] * 257;
-> >>> +	}
-> >>> +}
-> >>> +
-> >>> +static void XRGB8888_to_argb_u16(struct line_buffer *stage_buffer,
-> >>> +				 const struct vkms_frame_info *frame_info, int y)
-> >>> +{
-> >>> +	struct pixel_argb_u16 *out_pixels =3D stage_buffer->pixels;
-> >>> +	u8 *src_pixels =3D get_packed_src_addr(frame_info, y);
-> >>> +	int x, x_limit =3D min_t(size_t, drm_rect_width(&frame_info->dst),
-> >>> +			       stage_buffer->n_pixels);
-> >>> +
-> >>> +	for (x =3D 0; x < x_limit; x++, src_pixels +=3D 4) {
-> >>> +		out_pixels[x].a =3D (u16)0xffff;
-> >>> +		out_pixels[x].r =3D (u16)src_pixels[2] * 257;
-> >>> +		out_pixels[x].g =3D (u16)src_pixels[1] * 257;
-> >>> +		out_pixels[x].b =3D (u16)src_pixels[0] * 257;
-> >>> +	}
-> >>> +}
-> >>> +
-> >>> +/*
-> >>> + * The following  functions take an line of argb_u16 pixels from the
-> >>> + * src_buffer, convert them to a specific format, and store them in =
-the
-> >>> + * destination.
-> >>> + *
-> >>> + * They are used in the `compose_active_planes` to convert and store=
- a line
-> >>> + * from the src_buffer to the writeback buffer.
-> >>> + */
-> >>> +static void argb_u16_to_ARGB8888(struct vkms_frame_info *frame_info,
-> >>> +				 const struct line_buffer *src_buffer, int y)
-> >>> +{
-> >>> +	int x, x_dst =3D frame_info->dst.x1;
-> >>> +	u8 *dst_pixels =3D packed_pixels_addr(frame_info, x_dst, y);
-> >>> +	struct pixel_argb_u16 *in_pixels =3D src_buffer->pixels;
-> >>> +	int x_limit =3D min_t(size_t, drm_rect_width(&frame_info->dst),
-> >>> +			    src_buffer->n_pixels);
-> >>> +
-> >>> +	for (x =3D 0; x < x_limit; x++, dst_pixels +=3D 4) {
-> >>> +		/*
-> >>> +		 * This sequence below is important because the format's byte orde=
-r is
-> >>> +		 * in little-endian. In the case of the ARGB8888 the memory is
-> >>> +		 * organized this way:
-> >>> +		 *
-> >>> +		 * | Addr     | =3D blue channel
-> >>> +		 * | Addr + 1 | =3D green channel
-> >>> +		 * | Addr + 2 | =3D Red channel
-> >>> +		 * | Addr + 3 | =3D Alpha channel
-> >>> +		 */
-> >>> +		dst_pixels[3] =3D DIV_ROUND_CLOSEST(in_pixels[x].a, 257);
-> >>> +		dst_pixels[2] =3D DIV_ROUND_CLOSEST(in_pixels[x].r, 257);
-> >>> +		dst_pixels[1] =3D DIV_ROUND_CLOSEST(in_pixels[x].g, 257);
-> >>> +		dst_pixels[0] =3D DIV_ROUND_CLOSEST(in_pixels[x].b, 257);
-> >>> +	}
-> >>> +}
-> >>> +
-> >>> +static void argb_u16_to_XRGB8888(struct vkms_frame_info *frame_info,
-> >>> +				 const struct line_buffer *src_buffer, int y)
-> >>> +{
-> >>> +	int x, x_dst =3D frame_info->dst.x1;
-> >>> +	u8 *dst_pixels =3D packed_pixels_addr(frame_info, x_dst, y);
-> >>> +	struct pixel_argb_u16 *in_pixels =3D src_buffer->pixels;
-> >>> +	int x_limit =3D min_t(size_t, drm_rect_width(&frame_info->dst),
-> >>> +			    src_buffer->n_pixels);
-> >>> +
-> >>> +	for (x =3D 0; x < x_limit; x++, dst_pixels +=3D 4) {
-> >>> +		dst_pixels[3] =3D (u8)0xff; =20
-> >>
-> >> When writing to XRGB, it's not necessary to ensure the X channel has
-> >> any sensible value. Anyone reading from XRGB must ignore that value
-> >> anyway. So why not write something wacky here, like 0xa1, that is far
-> >> enough from both 0x00 or 0xff to not be confused with them even
-> >> visually? Also not 0x7f or 0x80 which are close to half of 0xff.
-> >>
-> >> Or, you could save a whole function and just use argb_u16_to_ARGBxxxx()
-> >> instead, even for XRGB destination. =20
-> >=20
-> >=20
-> > Right. Maybe I could just leave the channel untouched.
-
-Untouched may not be a good idea. Leaving anything untouched always has
-the risk of leaking information through uninitialized memory. Maybe not
-in this case because the destination is allocated by userspace already,
-but nothing beats being obviously correct.
-
-Whatever you decide here, be prepared for it becoming de-facto kernel
-UABI, because it is easy for userspace to (accidentally) rely on the
-value, no matter what you pick.
-
-
-Thanks,
-pq
-
-
-> >  =20
-> >> =20
-> >>> +		dst_pixels[2] =3D DIV_ROUND_CLOSEST(in_pixels[x].r, 257);
-> >>> +		dst_pixels[1] =3D DIV_ROUND_CLOSEST(in_pixels[x].g, 257);
-> >>> +		dst_pixels[0] =3D DIV_ROUND_CLOSEST(in_pixels[x].b, 257);
-> >>> +	}
-> >>> +}
-> >>> +
-> >>> +plane_format_transform_func get_plane_fmt_transform_function(u32 for=
-mat)
-> >>> +{
-> >>> +	if (format =3D=3D DRM_FORMAT_ARGB8888)
-> >>> +		return &ARGB8888_to_argb_u16;
-> >>> +	else if (format =3D=3D DRM_FORMAT_XRGB8888)
-> >>> +		return &XRGB8888_to_argb_u16;
-> >>> +	else
-> >>> +		return NULL; =20
-> >>
-> >> This works for now, but when more formats are added, I'd think a switch
-> >> statement would look better. =20
-> >=20
-> > ok.
-> >  =20
-> >> =20
-> >>> +}
-> >>> +
-> >>> +wb_format_transform_func get_wb_fmt_transform_function(u32 format)
-> >>> +{
-> >>> +	if (format =3D=3D DRM_FORMAT_ARGB8888)
-> >>> +		return &argb_u16_to_ARGB8888;
-> >>> +	else if (format =3D=3D DRM_FORMAT_XRGB8888)
-> >>> +		return &argb_u16_to_XRGB8888;
-> >>> +	else
-> >>> +		return NULL;
-> >>> +}
-
---Sig_/rS8G1e.i217mkJvABvKASoU
-Content-Type: application/pgp-signature
+--------------dAmYUUsnRwZquvA0wVwM70BA
+Content-Type: application/pgp-signature; name="OpenPGP_signature.asc"
 Content-Description: OpenPGP digital signature
+Content-Disposition: attachment; filename="OpenPGP_signature"
 
 -----BEGIN PGP SIGNATURE-----
 
-iQIzBAEBCAAdFiEEJQjwWQChkWOYOIONI1/ltBGqqqcFAmJmV3IACgkQI1/ltBGq
-qqc+bQ/+NfUeyddh+jg5rTAQaA+IMG0w0iILMsmxtErG93LOI2/ijEyY+jysgpQo
-cyFR7VlfnFvdSRAZHw0PwuVWq8ecoSwjAVQ42/qRMxURGtiaPrWb55/yL4+ZpkeW
-UuSpXwL85syNdMtfojZLTWFWe3oG8LtXlVuFmmYpn9050xGlbevT+uaKiVonR9XK
-sfEbj4/AZqL/aUKtrB2wz2I8bJabopG+vEkFzVuo6FPBjkxyxKZGmnphUFRvWDNp
-ScUfdP5QlfnH4l7W4t+l8lCGUO43L//OtRy0HdoODiHGE8c/kuWTCa7soEhLQtsr
-ywe4Pv8yU0UAMqXSNI2cN/5w8o1idSC4PyJC6Vlpg0jKxTvS627zmukjEvY2534K
-962DTUJSKdAsRiSaZLvRFZK5REIyAsEtK4smJKlSXhUD7ZCQBYYsR9xN49uxJEW3
-TS/v7OWfvKrQTVRNjhs+R8HhHtreWBo0gr5aaLdFzqAhnXktCSi3ZJz4AQfuIkfd
-GEMP1SY1+HA0D2hNLlNR5f9loHI21O6sdeZn3L3mI4LulBtGPu6gpuhMR1uXkbx4
-lO5kYsVfrQE8HCzpcaUk2S4icBpsI1uoy0hRI97raDuA2m64efaMaVs6hDjqNWZn
-kmbWQlpFU1DgC7V0pvnd6jBNNCVj/0aNFBslWN4VfiTr/heo3JA=
-=dCjS
+wsF5BAABCAAjFiEExndm/fpuMUdwYFFolh/E3EQov+AFAmJmWrcFAwAAAAAACgkQlh/E3EQov+Df
+7Q//exZ9IFTepiQuHFLhIlwx6mMbVEPooKpaNH1/uDdQBpUVfsspUxDF7kux/PPodMqGAuAHDKGc
+Ns4cjVMgyAkw0fNEHnUEUnUx8T0m2SoUd7ia5+obak5ntmEvwYVW2sNB2l7eLHwb0bfNBqx4Sf39
+++lBgtLtXR6XRM7T78y60SRn65bmqlf8MEEeoqhqUCWQrw6OKx1IsiDVsbqzA3uTj63z0mJ5xRyw
+uVjMUsmgvuey7IhFds+ZkMFahVua2PRaoOGMhiPFmVW+r5R0shba8JhfhuvTGW5mqnTZircax42N
+CyhjoIPVOIS5DflwqLwalnji8TcGhDGmc/TqqPXInD8nzqMB4tXh/Kal1iD1Lb0AhdBcKbXmOFY9
+C368XGgEUGmnWxL9q2Y3dRBE/A7hDn2UErxU21Mgb0FRgDyKGImXD6l9h2GY9JUh6Ap4P2jKyPTP
+AqroRxo879qyEXRj7SR5B9QAN+ClTnVd1R8yF6IPMzhm6Og/eLPIKIPQQUIv6R7Rq3gzPPZ7wZpB
+JvYy5aV1en1CEONOAappeXQ74rUJ81YXylMIHFd8k8mg97XdDEQp8mlMjF8uhw0W4YFlBYaqZExZ
+5DYeZONkJGts2qZdjgnBb9BIpHFIoh/DAWwufQyObuSBSMfiw76m2qzcaRfOsEEyRQ0UeV9fH+SI
+Cp0=
+=S2dx
 -----END PGP SIGNATURE-----
 
---Sig_/rS8G1e.i217mkJvABvKASoU--
+--------------dAmYUUsnRwZquvA0wVwM70BA--
