@@ -2,47 +2,51 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id AAB7150E7FF
-	for <lists+dri-devel@lfdr.de>; Mon, 25 Apr 2022 20:20:52 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 134C850E821
+	for <lists+dri-devel@lfdr.de>; Mon, 25 Apr 2022 20:24:59 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id D9D3210E06E;
-	Mon, 25 Apr 2022 18:20:48 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 9F05310E15C;
+	Mon, 25 Apr 2022 18:24:56 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from perceval.ideasonboard.com (perceval.ideasonboard.com
- [213.167.242.64])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 0B22410E06E;
- Mon, 25 Apr 2022 18:20:48 +0000 (UTC)
-Received: from pendragon.ideasonboard.com (62-78-145-57.bb.dnainternet.fi
- [62.78.145.57])
- by perceval.ideasonboard.com (Postfix) with ESMTPSA id 50128496;
- Mon, 25 Apr 2022 20:20:46 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
- s=mail; t=1650910846;
- bh=40BJ2ulQyTcKJv6ZrNDl5oAAImwopfC+JsH7W6yD3QU=;
- h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
- b=f8NYudD1sb6B9xSfeECWuRRMkDdWhd8BGSdGfwow9oHJzt7IaHAF+hTcL6duduBW7
- CV3zZs+7jU8j9H5uoKBlEgFl3ttfoJKg48FzKbsDlR8KeHRSplq26Tt8l8HF8mO5e9
- SBLKfv4wRVl/L2PNxU/NLrxubFLg08ax0FdR0ilQ=
-Date: Mon, 25 Apr 2022 21:20:46 +0300
-From: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-To: Abhinav Kumar <quic_abhinavk@quicinc.com>
-Subject: Re: [Freedreno] [PATCH v4 03/20] drm: allow real encoder to be
- passed for drm_writeback_connector
-Message-ID: <Ymbmfl2I9nLjZSIU@pendragon.ideasonboard.com>
-References: <1650668815-7048-1-git-send-email-quic_abhinavk@quicinc.com>
- <1650668815-7048-4-git-send-email-quic_abhinavk@quicinc.com>
- <YmVj0/XouEH0yfmT@pendragon.ideasonboard.com>
- <e924e564-e4e2-1f8f-4f5f-1cc0bc2084c3@quicinc.com>
- <eac58ee5-14ae-a9df-364d-d46da1fd64c3@quicinc.com>
- <YmWsLWnRa43hQ2sg@pendragon.ideasonboard.com>
- <CAA8EJppeH+qxUcU0OqLsAhHAMqd_ut1XwHKO7xUCyLj=m06_Zg@mail.gmail.com>
- <YmbbQfWP4PDr84pZ@pendragon.ideasonboard.com>
- <36c5e99b-3df6-88b3-a567-f24ca249d028@quicinc.com>
+Received: from mailrelay3-1.pub.mailoutpod1-cph3.one.com
+ (mailrelay3-1.pub.mailoutpod1-cph3.one.com [46.30.210.184])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 8CEA910E15C
+ for <dri-devel@lists.freedesktop.org>; Mon, 25 Apr 2022 18:24:54 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ravnborg.org; s=rsa1;
+ h=in-reply-to:content-type:mime-version:references:message-id:subject:cc:to:
+ from:date:from;
+ bh=7kuXBnYKbene2Vy5ddL4QLJVZExSdzHjcyeztknIyk4=;
+ b=g54t+7+cA0BilM+bYHzEsaEveTEyQJ+5dppgZAbR6Xo0XoUL+atLdfkhvy6JhRz93JqMZub0n31YJ
+ GW9s7q0LnjHgW0uVlF3LM+b0UOxx49lF3FCZE1Sr9v85yF6ruQcIZInVxzqWJTp4BNAzIfa29/mZGi
+ /nHCGu+PaACQ88NAi0zBNX0BNARy+uMe4dNU+ayQ1FKYmQ48aBvNCGmG0PI4ExVvl6BHO/msnK+V3d
+ cPbC0oqAVyFud1OfkJhySO/YQYcF08pGIg/zj5z7Uzz/Tia6iW8zvci8V9QSsITqhOftMpJJ5cz6AM
+ ehhxzgqp6Wa4BQME5zAfNGWRJlMG7AQ==
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed;
+ d=ravnborg.org; s=ed1;
+ h=in-reply-to:content-type:mime-version:references:message-id:subject:cc:to:
+ from:date:from;
+ bh=7kuXBnYKbene2Vy5ddL4QLJVZExSdzHjcyeztknIyk4=;
+ b=jXXrW02P8sqjJ8y8GvxFepLYXJmArqv5iYyQYwNR7yrBfFBE22owmPMu6GJwKlNjJW2r3b7/pQOUe
+ 53W7U0qCA==
+X-HalOne-Cookie: fbc2a83891d50f0728fc12458d75734d1cf92e37
+X-HalOne-ID: ff763677-c4c4-11ec-be69-d0431ea8bb03
+Received: from mailproxy4.cst.dirpod3-cph3.one.com
+ (80-162-45-141-cable.dk.customer.tdc.net [80.162.45.141])
+ by mailrelay3.pub.mailoutpod1-cph3.one.com (Halon) with ESMTPSA
+ id ff763677-c4c4-11ec-be69-d0431ea8bb03;
+ Mon, 25 Apr 2022 18:24:52 +0000 (UTC)
+Date: Mon, 25 Apr 2022 20:24:50 +0200
+From: Sam Ravnborg <sam@ravnborg.org>
+To: Thomas Zimmermann <tzimmermann@suse.de>
+Subject: Re: [PATCH v2 3/3] fbdev: Refactor implementation of page_mkwrite
+Message-ID: <YmbncpwerOQLB1cS@ravnborg.org>
+References: <20220425112751.25985-1-tzimmermann@suse.de>
+ <20220425112751.25985-4-tzimmermann@suse.de>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
+Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <36c5e99b-3df6-88b3-a567-f24ca249d028@quicinc.com>
+In-Reply-To: <20220425112751.25985-4-tzimmermann@suse.de>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -55,207 +59,135 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: markyacoub@chromium.org, liviu.dudau@arm.com,
- dri-devel@lists.freedesktop.org, swboyd@chromium.org, seanpaul@chromium.org,
- Dmitry Baryshkov <dmitry.baryshkov@linaro.org>, quic_jesszhan@quicinc.com,
- quic_aravindh@quicinc.com, freedreno@lists.freedesktop.org
+Cc: linux-fbdev@vger.kernel.org, airlied@linux.ie, deller@gmx.de,
+ javierm@redhat.com, dri-devel@lists.freedesktop.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Mon, Apr 25, 2022 at 10:48:07AM -0700, Abhinav Kumar wrote:
-> On 4/25/2022 10:32 AM, Laurent Pinchart wrote:
-> > On Mon, Apr 25, 2022 at 01:50:43PM +0300, Dmitry Baryshkov wrote:
-> >> On Sun, 24 Apr 2022 at 22:59, Laurent Pinchart wrote:
-> >>> On Sun, Apr 24, 2022 at 11:23:20AM -0700, Abhinav Kumar wrote:
-> >>>> On 4/24/2022 11:12 AM, Abhinav Kumar wrote:
-> >>>>> On 4/24/2022 7:50 AM, Laurent Pinchart wrote:
-> >>>>>> On Fri, Apr 22, 2022 at 04:06:38PM -0700, Abhinav Kumar wrote:
-> >>>>>>> For some vendor driver implementations, display hardware can
-> >>>>>>> be shared between the encoder used for writeback and the physical
-> >>>>>>> display.
-> >>>>>>>
-> >>>>>>> In addition resources such as clocks and interrupts can
-> >>>>>>> also be shared between writeback and the real encoder.
-> >>>>>>>
-> >>>>>>> To accommodate such vendor drivers and hardware, allow
-> >>>>>>> real encoder to be passed for drm_writeback_connector.
-> >>>>>>>
-> >>>>>>> For existing clients, drm_writeback_connector_init() will use
-> >>>>>>> an internal_encoder under the hood and hence no changes will
-> >>>>>>> be needed.
-> >>>>>>>
-> >>>>>>> changes in v7:
-> >>>>>>>      - move this change before the vc4 change in the series
-> >>>>>>>        to minimize the changes to vendor drivers in drm core
-> >>>>>>>        changes
-> >>>>>>
-> >>>>>> Why is this needed ? The drm_writeback_connector functions don't need
-> >>>>>> the drm_encoder after drm_writeback_connector_init() (or
-> >>>>>> drm_writeback_connector_init_with_encoder()) returns.
-> >>>>>>
-> >>>>>
-> >>>>> Sorry I didnt follow this comment. This change log is incorrect, so
-> >>>>> after changing the previous change in the series and modifying this, no
-> >>>>> further changes are needed to vc4, so I decided to drop the next change.
-> >>>>> So this change log is incorrect. I can remove this.
-> >>>>>
-> >>>>> Is that what you meant?
-> >>>>
-> >>>> So till the previous change, the only user of
-> >>>> drm_writeback_connector_init_with_encoder() was
-> >>>> drm_writeback_connector_init() which was still passing its own
-> >>>> internal_encoder.
-> >>>>
-> >>>> Only if the wb_connector->encoder is changed to a pointer, other vendor
-> >>>> drivers can pass their own encoder to
-> >>>> drm_writeback_connector_init_with_encoder().
-> >>>>
-> >>>> Hence you are right that drm_writeback_connector functions do not need
-> >>>> drm_encoder after init() returns, but till this change is done, other
-> >>>> vendor drivers cannot directly call
-> >>>> drm_writeback_connector_init_with_encoder() because the encoder will not
-> >>>> be valid till then.
-> >>>
-> >>> Users of drm_writeback_connector_init_with_encoder() handle the encoder
-> >>> themselves, they can simply ignore drm_writeback_connector.encoder. The
-> >>> documentation of the encoder field needs to be updated though (I'd do so
-> >>> in the previous patch), to clearly mention that the field is valid only
-> >>> when using drm_writeback_connector_init(), not when calling
-> >>> drm_writeback_connector_init_with_encoder().
-> >>
-> >> If we allow it to be unitialized, it might end with hard-to-trace
-> >> bugs, additional conditions, etc.
-> >> In my opnion we should:
-> >>   - either make drm_writeback_connector.encoder a valid pointer
-> >>   - or drop the field completely.
-> >>
-> >> And up to some point I'd vote for the second option. The code using
-> >> internal_encoder can continue using it directly. The code using
-> >> drm_writeback_connector_init_with_encoder() will manage encoder on
-> >> their own. We will loose a single entry point for wb's encoder, but do
-> >> we really need it? (Frankly speaking I didn't check.)
-> > 
-> > As far as I understand, we went for the second option as Abhinav dropped
-> > this patch for the next version.
+Hi Thomas.
+
+On Mon, Apr 25, 2022 at 01:27:51PM +0200, Thomas Zimmermann wrote:
+> Refactor the page-write handler for deferred I/O. Drivers use the
+> function to let fbdev track written pages of mmap'ed framebuffer
+> memory.
+
+I like how the comments got a brush up and a little more info was added.
+But I do not see the point of the refactoring - the code is equally
+readable before and after - maybe even easier before (modulus the
+improved comments).
+
+But if you consider it better keep it. Again just my thoughts when
+reading the code.
+
+	Sam
+
 > 
-> I dropped the patch as there was no agreement yet and I didnt want to 
-> block the series as its not really needed now but thats not option 2 
-> because wb_conn->encoder field remains there, just that its unused for 
-> users using drm_writeback_connector_init_with_encoder().
+> v2:
+> 	* don't export the helper until we have an external caller
 > 
-> I guess what Dmitry is suggesting is just drop that 
-> wb_connector->encoder field completely.
-
-I don't think we can do that, as that field is used for the internal
-encoder :-) It could be renamed to internal_encoder if desired, but not
-dropped. I don't mind much either way, as long as we make it clear that
-drivers must never reference it directly.
-
-> >>>> Hope this clarifies it.
-> >>>>
-> >>>>>>> Signed-off-by: Abhinav Kumar <quic_abhinavk@quicinc.com>
-> >>>>>>> Reviewed-by: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
-> >>>>>>> ---
-> >>>>>>>    drivers/gpu/drm/drm_writeback.c | 18 ++++++++++++------
-> >>>>>>>    drivers/gpu/drm/vc4/vc4_txp.c   |  4 ++--
-> >>>>>>>    include/drm/drm_writeback.h     | 22 ++++++++++++++++++++--
-> >>>>>>>    3 files changed, 34 insertions(+), 10 deletions(-)
-> >>>>>>>
-> >>>>>>> diff --git a/drivers/gpu/drm/drm_writeback.c
-> >>>>>>> b/drivers/gpu/drm/drm_writeback.c
-> >>>>>>> index 92658ad..0538674 100644
-> >>>>>>> --- a/drivers/gpu/drm/drm_writeback.c
-> >>>>>>> +++ b/drivers/gpu/drm/drm_writeback.c
-> >>>>>>> @@ -180,21 +180,21 @@ int drm_writeback_connector_init(struct
-> >>>>>>> drm_device *dev,
-> >>>>>>>    {
-> >>>>>>>        int ret = 0;
-> >>>>>>> -    drm_encoder_helper_add(&wb_connector->encoder, enc_helper_funcs);
-> >>>>>>> +    drm_encoder_helper_add(&wb_connector->internal_encoder, enc_helper_funcs);
-> >>>>>>> -    wb_connector->encoder.possible_crtcs = possible_crtcs;
-> >>>>>>> +    wb_connector->internal_encoder.possible_crtcs = possible_crtcs;
-> >>>>>>> -    ret = drm_encoder_init(dev, &wb_connector->encoder,
-> >>>>>>> +    ret = drm_encoder_init(dev, &wb_connector->internal_encoder,
-> >>>>>>>                       &drm_writeback_encoder_funcs,
-> >>>>>>>                       DRM_MODE_ENCODER_VIRTUAL, NULL);
-> >>>>>>>        if (ret)
-> >>>>>>>            return ret;
-> >>>>>>> -    ret = drm_writeback_connector_init_with_encoder(dev, wb_connector, &wb_connector->encoder,
-> >>>>>>> -            con_funcs, formats, n_formats);
-> >>>>>>> +    ret = drm_writeback_connector_init_with_encoder(dev, wb_connector,
-> >>>>>>> +            &wb_connector->internal_encoder, con_funcs, formats, n_formats);
-> >>>>>>>        if (ret)
-> >>>>>>> -        drm_encoder_cleanup(&wb_connector->encoder);
-> >>>>>>> +        drm_encoder_cleanup(&wb_connector->internal_encoder);
-> >>>>>>>        return ret;
-> >>>>>>>    }
-> >>>>>>> @@ -239,6 +239,12 @@ int drm_writeback_connector_init_with_encoder(struct drm_device *dev,
-> >>>>>>>        struct drm_mode_config *config = &dev->mode_config;
-> >>>>>>>        int ret = create_writeback_properties(dev);
-> >>>>>>> +    /*
-> >>>>>>> +     * Assign the encoder passed to this API to the wb_connector's encoder.
-> >>>>>>> +     * For drm_writeback_connector_init(), this shall be the internal_encoder
-> >>>>>>> +     */
-> >>>>>>> +    wb_connector->encoder = enc;
-> >>>>>>> +
-> >>>>>>>        if (ret != 0)
-> >>>>>>>            return ret;
-> >>>>>>> diff --git a/drivers/gpu/drm/vc4/vc4_txp.c b/drivers/gpu/drm/vc4/vc4_txp.c
-> >>>>>>> index 3447eb6..7e063a9 100644
-> >>>>>>> --- a/drivers/gpu/drm/vc4/vc4_txp.c
-> >>>>>>> +++ b/drivers/gpu/drm/vc4/vc4_txp.c
-> >>>>>>> @@ -159,7 +159,7 @@ struct vc4_txp {
-> >>>>>>>    static inline struct vc4_txp *encoder_to_vc4_txp(struct drm_encoder *encoder)
-> >>>>>>>    {
-> >>>>>>> -    return container_of(encoder, struct vc4_txp, connector.encoder);
-> >>>>>>> +    return container_of(encoder, struct vc4_txp, connector.internal_encoder);
-> >>>>>>>    }
-> >>>>>>>    static inline struct vc4_txp *connector_to_vc4_txp(struct  drm_connector *conn)
-> >>>>>>> @@ -507,7 +507,7 @@ static int vc4_txp_bind(struct device *dev, struct device *master, void *data)
-> >>>>>>>        if (ret)
-> >>>>>>>            return ret;
-> >>>>>>> -    encoder = &txp->connector.encoder;
-> >>>>>>> +    encoder = txp->connector.encoder;
-> >>>>>>>        encoder->possible_crtcs = drm_crtc_mask(crtc);
-> >>>>>>>        ret = devm_request_irq(dev, irq, vc4_txp_interrupt, 0,
-> >>>>>>> diff --git a/include/drm/drm_writeback.h b/include/drm/drm_writeback.h
-> >>>>>>> index bb306fa..3fbae9d 100644
-> >>>>>>> --- a/include/drm/drm_writeback.h
-> >>>>>>> +++ b/include/drm/drm_writeback.h
-> >>>>>>> @@ -25,13 +25,31 @@ struct drm_writeback_connector {
-> >>>>>>>        struct drm_connector base;
-> >>>>>>>        /**
-> >>>>>>> -     * @encoder: Internal encoder used by the connector to fulfill
-> >>>>>>> +     * @encoder: handle to drm_encoder used by the connector to fulfill
-> >>>>>>>         * the DRM framework requirements. The users of the
-> >>>>>>>         * @drm_writeback_connector control the behaviour of the @encoder
-> >>>>>>>         * by passing the @enc_funcs parameter to drm_writeback_connector_init()
-> >>>>>>>         * function.
-> >>>>>>> +     *
-> >>>>>>> +     * For some vendor drivers, the hardware resources are shared between
-> >>>>>>> +     * writeback encoder and rest of the display pipeline.
-> >>>>>>> +     * To accommodate such cases, encoder is a handle to the real encoder
-> >>>>>>> +     * hardware.
-> >>>>>>> +     *
-> >>>>>>> +     * For current existing writeback users, this shall continue to be the
-> >>>>>>> +     * embedded encoder for the writeback connector.
-> >>>>>>> +     */
-> >>>>>>> +    struct drm_encoder *encoder;
-> >>>>>>> +
-> >>>>>>> +    /**
-> >>>>>>> +     * @internal_encoder: internal encoder used by writeback when
-> >>>>>>> +     * drm_writeback_connector_init() is used.
-> >>>>>>> +     * @encoder will be assigned to this for those cases
-> >>>>>>> +     *
-> >>>>>>> +     * This will be unused when drm_writeback_connector_init_with_encoder()
-> >>>>>>> +     * is used.
-> >>>>>>>         */
-> >>>>>>> -    struct drm_encoder encoder;
-> >>>>>>> +    struct drm_encoder internal_encoder;
-> >>>>>>>        /**
-> >>>>>>>         * @pixel_formats_blob_ptr:
-
--- 
-Regards,
-
-Laurent Pinchart
+> Signed-off-by: Thomas Zimmermann <tzimmermann@suse.de>
+> Reviewed-by: Javier Martinez Canillas <javierm@redhat.com>
+> ---
+>  drivers/video/fbdev/core/fb_defio.c | 68 ++++++++++++++++++++---------
+>  1 file changed, 48 insertions(+), 20 deletions(-)
+> 
+> diff --git a/drivers/video/fbdev/core/fb_defio.c b/drivers/video/fbdev/core/fb_defio.c
+> index a03b9c64fc61..214581ce5840 100644
+> --- a/drivers/video/fbdev/core/fb_defio.c
+> +++ b/drivers/video/fbdev/core/fb_defio.c
+> @@ -143,29 +143,18 @@ int fb_deferred_io_fsync(struct file *file, loff_t start, loff_t end, int datasy
+>  }
+>  EXPORT_SYMBOL_GPL(fb_deferred_io_fsync);
+>  
+> -/* vm_ops->page_mkwrite handler */
+> -static vm_fault_t fb_deferred_io_mkwrite(struct vm_fault *vmf)
+> +/*
+> + * Adds a page to the dirty list. Requires caller to hold
+> + * struct fb_deferred_io.lock. Call this from struct
+> + * vm_operations_struct.page_mkwrite.
+> + */
+> +static vm_fault_t __fb_deferred_io_track_page(struct fb_info *info, unsigned long offset,
+> +					      struct page *page)
+>  {
+> -	struct page *page = vmf->page;
+> -	struct fb_info *info = vmf->vma->vm_private_data;
+>  	struct fb_deferred_io *fbdefio = info->fbdefio;
+>  	struct fb_deferred_io_pageref *pageref;
+> -	unsigned long offset;
+>  	vm_fault_t ret;
+>  
+> -	offset = (vmf->address - vmf->vma->vm_start);
+> -
+> -	/* this is a callback we get when userspace first tries to
+> -	write to the page. we schedule a workqueue. that workqueue
+> -	will eventually mkclean the touched pages and execute the
+> -	deferred framebuffer IO. then if userspace touches a page
+> -	again, we repeat the same scheme */
+> -
+> -	file_update_time(vmf->vma->vm_file);
+> -
+> -	/* protect against the workqueue changing the page list */
+> -	mutex_lock(&fbdefio->lock);
+> -
+>  	/* first write in this cycle, notify the driver */
+>  	if (fbdefio->first_io && list_empty(&fbdefio->pagelist))
+>  		fbdefio->first_io(info);
+> @@ -186,8 +175,6 @@ static vm_fault_t fb_deferred_io_mkwrite(struct vm_fault *vmf)
+>  	 */
+>  	lock_page(pageref->page);
+>  
+> -	mutex_unlock(&fbdefio->lock);
+> -
+>  	/* come back after delay to process the deferred IO */
+>  	schedule_delayed_work(&info->deferred_work, fbdefio->delay);
+>  	return VM_FAULT_LOCKED;
+> @@ -197,6 +184,47 @@ static vm_fault_t fb_deferred_io_mkwrite(struct vm_fault *vmf)
+>  	return ret;
+>  }
+>  
+> +/*
+> + * fb_deferred_io_page_mkwrite - Mark a page as written for deferred I/O
+> + * @fb_info: The fbdev info structure
+> + * @vmf: The VM fault
+> + *
+> + * This is a callback we get when userspace first tries to
+> + * write to the page. We schedule a workqueue. That workqueue
+> + * will eventually mkclean the touched pages and execute the
+> + * deferred framebuffer IO. Then if userspace touches a page
+> + * again, we repeat the same scheme.
+> + *
+> + * Returns:
+> + * VM_FAULT_LOCKED on success, or a VM_FAULT error otherwise.
+> + */
+> +static vm_fault_t fb_deferred_io_page_mkwrite(struct fb_info *info, struct vm_fault *vmf)
+> +{
+> +	struct page *page = vmf->page;
+> +	struct fb_deferred_io *fbdefio = info->fbdefio;
+> +	unsigned long offset;
+> +	vm_fault_t ret;
+> +
+> +	offset = (vmf->address - vmf->vma->vm_start);
+> +
+> +	file_update_time(vmf->vma->vm_file);
+> +
+> +	/* protect against the workqueue changing the page list */
+> +	mutex_lock(&fbdefio->lock);
+> +	ret = __fb_deferred_io_track_page(info, offset, page);
+> +	mutex_unlock(&fbdefio->lock);
+> +
+> +	return ret;
+> +}
+> +
+> +/* vm_ops->page_mkwrite handler */
+> +static vm_fault_t fb_deferred_io_mkwrite(struct vm_fault *vmf)
+> +{
+> +	struct fb_info *info = vmf->vma->vm_private_data;
+> +
+> +	return fb_deferred_io_page_mkwrite(info, vmf);
+> +}
+> +
+>  static const struct vm_operations_struct fb_deferred_io_vm_ops = {
+>  	.fault		= fb_deferred_io_fault,
+>  	.page_mkwrite	= fb_deferred_io_mkwrite,
+> -- 
+> 2.36.0
