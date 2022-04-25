@@ -2,64 +2,55 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3AFA050E5BB
-	for <lists+dri-devel@lfdr.de>; Mon, 25 Apr 2022 18:26:54 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 2147D50E5F0
+	for <lists+dri-devel@lfdr.de>; Mon, 25 Apr 2022 18:34:17 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 9CD1710F211;
-	Mon, 25 Apr 2022 16:26:51 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id CECC810EE40;
+	Mon, 25 Apr 2022 16:34:13 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from alexa-out-sd-02.qualcomm.com (alexa-out-sd-02.qualcomm.com
- [199.106.114.39])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 8FF9B10F211;
- Mon, 25 Apr 2022 16:26:50 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=quicinc.com; i=@quicinc.com; q=dns/txt; s=qcdkim;
- t=1650904010; x=1682440010;
- h=message-id:date:mime-version:subject:to:cc:references:
- from:in-reply-to:content-transfer-encoding;
- bh=c6McCVKeftasKJdSsP9ApBQ8+N38j3+BWLlBq4i/SkM=;
- b=T+e83EptC8Yx17VYNjsKZiNs7KoCYZQ4TCKqFLXM1FyiJuFm8ueamzZJ
- hLt2T/3BR4tzo6RN+/V4hNZvR8jW3ffNgCyuuXvvSF4rhSZ1dmkN//v2R
- SZhbAmJjB034dfCbK1AVcq2XXwtn+uXBzRTal6bitbX2b4q2C09kbka+j k=;
-Received: from unknown (HELO ironmsg03-sd.qualcomm.com) ([10.53.140.143])
- by alexa-out-sd-02.qualcomm.com with ESMTP; 25 Apr 2022 09:25:49 -0700
-X-QCInternal: smtphost
-Received: from nasanex01c.na.qualcomm.com ([10.47.97.222])
- by ironmsg03-sd.qualcomm.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 25 Apr 2022 09:25:49 -0700
-Received: from nalasex01a.na.qualcomm.com (10.47.209.196) by
- nasanex01c.na.qualcomm.com (10.47.97.222) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.2.986.22; Mon, 25 Apr 2022 09:25:49 -0700
-Received: from [10.111.165.107] (10.80.80.8) by nalasex01a.na.qualcomm.com
- (10.47.209.196) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.986.22; Mon, 25 Apr
- 2022 09:25:46 -0700
-Message-ID: <ea8a9aa8-c1f3-08a2-d011-26f6b4abc11f@quicinc.com>
-Date: Mon, 25 Apr 2022 09:25:44 -0700
+Received: from mail-oo1-f44.google.com (mail-oo1-f44.google.com
+ [209.85.161.44])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id A748C10EEAA
+ for <dri-devel@lists.freedesktop.org>; Mon, 25 Apr 2022 16:34:11 +0000 (UTC)
+Received: by mail-oo1-f44.google.com with SMTP id
+ n22-20020a4ae1d6000000b0033a6eedbc7bso2880786oot.11
+ for <dri-devel@lists.freedesktop.org>; Mon, 25 Apr 2022 09:34:11 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+ :mime-version:content-disposition:in-reply-to;
+ bh=1loEjRTP/Q6tR950lkPpHaLcFJYgRPsFYzQY0su75F8=;
+ b=hEzDd0QPzct0UsAeafPdh7P6xEo86DWN7LWMMm8+bq6e7K/pFXON8SSvaUcxxzEz5q
+ K94KNV7Htl8j12Vmg1XGWlGER89b8oRzEiMqap5fkIryc60kwP9ml9mT6PBEkZis4vHC
+ ZoC9WKmgncnKWyMpXRsbv0CDZAN5uE3MxKJrY3ZCpFg1tXqfgXUaMPSovdmEEOGzgPG9
+ DJ8RNakxHDlG/kpaeaVQBPaOhj/sQEWCEC6NgNS/6EVmaYTY9w1YYcJTBKiKpU1PmgEG
+ +AYe4ORPQ1yVGTDyXBwsT78t/7ijlZZXo60DIUucXlVuyrD7ipvIxdaOHYdVYJd0K01B
+ PYxg==
+X-Gm-Message-State: AOAM530z3uBM0h0Z07mpnm4T4ieP3ejqlrPcS5qxQl6lzlGn19GA+6i0
+ XMpiOtVQUUSV9gzeI8xlUQ==
+X-Google-Smtp-Source: ABdhPJzPAsEnmHRb12a7tBkVVEyHXJ2dEIu3UFJdjKhTaOJtwR20kd5qtparR6MVwRfloGCKxeNKgg==
+X-Received: by 2002:a4a:92d4:0:b0:33a:3d7d:fe5 with SMTP id
+ j20-20020a4a92d4000000b0033a3d7d0fe5mr6675192ooh.83.1650904450714; 
+ Mon, 25 Apr 2022 09:34:10 -0700 (PDT)
+Received: from robh.at.kernel.org (66-90-144-107.dyn.grandenetworks.net.
+ [66.90.144.107]) by smtp.gmail.com with ESMTPSA id
+ bk35-20020a0568081a2300b003226178fe7bsm3964854oib.33.2022.04.25.09.34.09
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Mon, 25 Apr 2022 09:34:10 -0700 (PDT)
+Received: (nullmailer pid 4018960 invoked by uid 1000);
+ Mon, 25 Apr 2022 16:34:09 -0000
+Date: Mon, 25 Apr 2022 11:34:09 -0500
+From: Rob Herring <robh@kernel.org>
+To: Rex-BC Chen <rex-bc.chen@mediatek.com>
+Subject: Re: [PATCH 5/5] dt-bindings: mediatek: add ethdr definition for mt8195
+Message-ID: <YmbNgQ+t/mUrLhis@robh.at.kernel.org>
+References: <20220419033237.23405-1-rex-bc.chen@mediatek.com>
+ <20220419033237.23405-6-rex-bc.chen@mediatek.com>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:91.0) Gecko/20100101
- Thunderbird/91.6.2
-Subject: Re: [Freedreno] [PATCH v4 03/20] drm: allow real encoder to be passed
- for drm_writeback_connector
-Content-Language: en-US
-To: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>, Laurent Pinchart
- <laurent.pinchart@ideasonboard.com>
-References: <1650668815-7048-1-git-send-email-quic_abhinavk@quicinc.com>
- <1650668815-7048-4-git-send-email-quic_abhinavk@quicinc.com>
- <YmVj0/XouEH0yfmT@pendragon.ideasonboard.com>
- <e924e564-e4e2-1f8f-4f5f-1cc0bc2084c3@quicinc.com>
- <eac58ee5-14ae-a9df-364d-d46da1fd64c3@quicinc.com>
- <YmWsLWnRa43hQ2sg@pendragon.ideasonboard.com>
- <CAA8EJppeH+qxUcU0OqLsAhHAMqd_ut1XwHKO7xUCyLj=m06_Zg@mail.gmail.com>
-From: Abhinav Kumar <quic_abhinavk@quicinc.com>
-In-Reply-To: <CAA8EJppeH+qxUcU0OqLsAhHAMqd_ut1XwHKO7xUCyLj=m06_Zg@mail.gmail.com>
-Content-Type: text/plain; charset="UTF-8"; format=flowed
-Content-Transfer-Encoding: 7bit
-X-Originating-IP: [10.80.80.8]
-X-ClientProxiedBy: nasanex01b.na.qualcomm.com (10.46.141.250) To
- nalasex01a.na.qualcomm.com (10.47.209.196)
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20220419033237.23405-6-rex-bc.chen@mediatek.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -72,214 +63,218 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: markyacoub@chromium.org, liviu.dudau@arm.com,
- dri-devel@lists.freedesktop.org, swboyd@chromium.org, seanpaul@chromium.org,
- quic_jesszhan@quicinc.com, quic_aravindh@quicinc.com,
- freedreno@lists.freedesktop.org
+Cc: chunkuang.hu@kernel.org, krzysztof.kozlowski+dt@linaro.org,
+ devicetree@vger.kernel.org, airlied@linux.ie, jason-jh.lin@mediatek.com,
+ linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
+ Project_Global_Chrome_Upstream_Group@mediatek.com, nancy.lin@mediatek.com,
+ linux-mediatek@lists.infradead.org, matthias.bgg@gmail.com,
+ linux-arm-kernel@lists.infradead.org, angelogioacchino.delregno@collabora.com
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-
-
-On 4/25/2022 3:50 AM, Dmitry Baryshkov wrote:
-> On Sun, 24 Apr 2022 at 22:59, Laurent Pinchart
-> <laurent.pinchart@ideasonboard.com> wrote:
->>
->> Hi Abhinav,
->>
->> On Sun, Apr 24, 2022 at 11:23:20AM -0700, Abhinav Kumar wrote:
->>> On 4/24/2022 11:12 AM, Abhinav Kumar wrote:
->>>> On 4/24/2022 7:50 AM, Laurent Pinchart wrote:
->>>>> On Fri, Apr 22, 2022 at 04:06:38PM -0700, Abhinav Kumar wrote:
->>>>>> For some vendor driver implementations, display hardware can
->>>>>> be shared between the encoder used for writeback and the physical
->>>>>> display.
->>>>>>
->>>>>> In addition resources such as clocks and interrupts can
->>>>>> also be shared between writeback and the real encoder.
->>>>>>
->>>>>> To accommodate such vendor drivers and hardware, allow
->>>>>> real encoder to be passed for drm_writeback_connector.
->>>>>>
->>>>>> For existing clients, drm_writeback_connector_init() will use
->>>>>> an internal_encoder under the hood and hence no changes will
->>>>>> be needed.
->>>>>>
->>>>>> changes in v7:
->>>>>>      - move this change before the vc4 change in the series
->>>>>>        to minimize the changes to vendor drivers in drm core
->>>>>>        changes
->>>>>
->>>>> Why is this needed ? The drm_writeback_connector functions don't need
->>>>> the drm_encoder after drm_writeback_connector_init() (or
->>>>> drm_writeback_connector_init_with_encoder()) returns.
->>>>>
->>>>
->>>> Sorry I didnt follow this comment. This change log is incorrect, so
->>>> after changing the previous change in the series and modifying this, no
->>>> further changes are needed to vc4, so I decided to drop the next change.
->>>> So this change log is incorrect. I can remove this.
->>>>
->>>> Is that what you meant?
->>>
->>> So till the previous change, the only user of
->>> drm_writeback_connector_init_with_encoder() was
->>> drm_writeback_connector_init() which was still passing its own
->>> internal_encoder.
->>>
->>> Only if the wb_connector->encoder is changed to a pointer, other vendor
->>> drivers can pass their own encoder to
->>> drm_writeback_connector_init_with_encoder().
->>>
->>> Hence you are right that drm_writeback_connector functions do not need
->>> drm_encoder after init() returns, but till this change is done, other
->>> vendor drivers cannot directly call
->>> drm_writeback_connector_init_with_encoder() because the encoder will not
->>> be valid till then.
->>
->> Users of drm_writeback_connector_init_with_encoder() handle the encoder
->> themselves, they can simply ignore drm_writeback_connector.encoder. The
->> documentation of the encoder field needs to be updated though (I'd do so
->> in the previous patch), to clearly mention that the field is valid only
->> when using drm_writeback_connector_init(), not when calling
->> drm_writeback_connector_init_with_encoder().
+On Tue, Apr 19, 2022 at 11:32:37AM +0800, Rex-BC Chen wrote:
+> From: "Nancy.Lin" <nancy.lin@mediatek.com>
 > 
-> If we allow it to be unitialized, it might end with hard-to-trace
-> bugs, additional conditions, etc.
-> In my opnion we should:
->   - either make drm_writeback_connector.encoder a valid pointer
->   - or drop the field completely.
+> Add vdosys1 ETHDR definition.
 > 
-> And up to some point I'd vote for the second option. The code using
-> internal_encoder can continue using it directly. The code using
-> drm_writeback_connector_init_with_encoder() will manage encoder on
-> their own. We will loose a single entry point for wb's encoder, but do
-> we really need it? (Frankly speaking I didn't check.)
+> Signed-off-by: Nancy.Lin <nancy.lin@mediatek.com>
+> Reviewed-by: Chun-Kuang Hu <chunkuang.hu@kernel.org>
+> Reviewed-by: AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>
+> ---
+>  .../display/mediatek/mediatek,ethdr.yaml      | 158 ++++++++++++++++++
+>  1 file changed, 158 insertions(+)
+>  create mode 100644 Documentation/devicetree/bindings/display/mediatek/mediatek,ethdr.yaml
 > 
-Agree with your comment Dmitry and thats why I was suggesting to let 
-drm_writeback_connector.encoder remain a valid pointer to avoid 
-discrepancies.
+> diff --git a/Documentation/devicetree/bindings/display/mediatek/mediatek,ethdr.yaml b/Documentation/devicetree/bindings/display/mediatek/mediatek,ethdr.yaml
+> new file mode 100644
+> index 000000000000..e8303c28a361
+> --- /dev/null
+> +++ b/Documentation/devicetree/bindings/display/mediatek/mediatek,ethdr.yaml
+> @@ -0,0 +1,158 @@
+> +# SPDX-License-Identifier: (GPL-2.0-only OR BSD-2-Clause)
+> +%YAML 1.2
+> +---
+> +$id: http://devicetree.org/schemas/display/mediatek/mediatek,ethdr.yaml#
+> +$schema: http://devicetree.org/meta-schemas/core.yaml#
+> +
+> +title: MediaTek Ethdr Device Tree Bindings
+> +
+> +maintainers:
+> +  - Chun-Kuang Hu <chunkuang.hu@kernel.org>
+> +  - Philipp Zabel <p.zabel@pengutronix.de>
+> +
+> +description: |
 
-If we go with option (1), this change as-it-is is the best way to go.
+No need for '|' unless you have formatting to preserve.
 
-If we go with option (2), to drop the encoder field and just rename 
-encoder ---> internal_encoder, it will still work for existing users.
+> +  ETHDR is designed for HDR video and graphics conversion in the external display path.
+> +  It handles multiple HDR input types and performs tone mapping, color space/color
+> +  format conversion, and then combine different layers, output the required HDR or
+> +  SDR signal to the subsequent display path. This engine is composed of two video
+> +  frontends, two graphic frontends, one video backend and a mixer. ETHDR has two
+> +  DMA function blocks, DS and ADL. These two function blocks read the pre-programmed
+> +  registers from DRAM and set them to HW in the v-blanking period.
+> +
+> +properties:
+> +  compatible:
+> +    items:
+> +      - const: mediatek,mt8195-disp-ethdr
 
-But I would prefer that goes as a separate change then because MSM 
-doesn't really need this ( and at this point even other drivers don't )
+blank line between DT properties.
 
-I am still ready to post the change separately and do basic validation 
-with our boards.
+> +  reg:
+> +    maxItems: 7
+> +  reg-names:
+> +    items:
+> +      - const: mixer
+> +      - const: vdo_fe0
+> +      - const: vdo_fe1
+> +      - const: gfx_fe0
+> +      - const: gfx_fe1
+> +      - const: vdo_be
+> +      - const: adl_ds
+> +  interrupts:
+> +    minItems: 1
 
->>
->>> Hope this clarifies it.
->>>
->>>>>> Signed-off-by: Abhinav Kumar <quic_abhinavk@quicinc.com>
->>>>>> Reviewed-by: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
->>>>>> ---
->>>>>>    drivers/gpu/drm/drm_writeback.c | 18 ++++++++++++------
->>>>>>    drivers/gpu/drm/vc4/vc4_txp.c   |  4 ++--
->>>>>>    include/drm/drm_writeback.h     | 22 ++++++++++++++++++++--
->>>>>>    3 files changed, 34 insertions(+), 10 deletions(-)
->>>>>>
->>>>>> diff --git a/drivers/gpu/drm/drm_writeback.c
->>>>>> b/drivers/gpu/drm/drm_writeback.c
->>>>>> index 92658ad..0538674 100644
->>>>>> --- a/drivers/gpu/drm/drm_writeback.c
->>>>>> +++ b/drivers/gpu/drm/drm_writeback.c
->>>>>> @@ -180,21 +180,21 @@ int drm_writeback_connector_init(struct
->>>>>> drm_device *dev,
->>>>>>    {
->>>>>>        int ret = 0;
->>>>>> -    drm_encoder_helper_add(&wb_connector->encoder, enc_helper_funcs);
->>>>>> +    drm_encoder_helper_add(&wb_connector->internal_encoder, enc_helper_funcs);
->>>>>> -    wb_connector->encoder.possible_crtcs = possible_crtcs;
->>>>>> +    wb_connector->internal_encoder.possible_crtcs = possible_crtcs;
->>>>>> -    ret = drm_encoder_init(dev, &wb_connector->encoder,
->>>>>> +    ret = drm_encoder_init(dev, &wb_connector->internal_encoder,
->>>>>>                       &drm_writeback_encoder_funcs,
->>>>>>                       DRM_MODE_ENCODER_VIRTUAL, NULL);
->>>>>>        if (ret)
->>>>>>            return ret;
->>>>>> -    ret = drm_writeback_connector_init_with_encoder(dev, wb_connector, &wb_connector->encoder,
->>>>>> -            con_funcs, formats, n_formats);
->>>>>> +    ret = drm_writeback_connector_init_with_encoder(dev, wb_connector,
->>>>>> +            &wb_connector->internal_encoder, con_funcs, formats, n_formats);
->>>>>>        if (ret)
->>>>>> -        drm_encoder_cleanup(&wb_connector->encoder);
->>>>>> +        drm_encoder_cleanup(&wb_connector->internal_encoder);
->>>>>>        return ret;
->>>>>>    }
->>>>>> @@ -239,6 +239,12 @@ int drm_writeback_connector_init_with_encoder(struct drm_device *dev,
->>>>>>        struct drm_mode_config *config = &dev->mode_config;
->>>>>>        int ret = create_writeback_properties(dev);
->>>>>> +    /*
->>>>>> +     * Assign the encoder passed to this API to the wb_connector's encoder.
->>>>>> +     * For drm_writeback_connector_init(), this shall be the internal_encoder
->>>>>> +     */
->>>>>> +    wb_connector->encoder = enc;
->>>>>> +
->>>>>>        if (ret != 0)
->>>>>>            return ret;
->>>>>> diff --git a/drivers/gpu/drm/vc4/vc4_txp.c b/drivers/gpu/drm/vc4/vc4_txp.c
->>>>>> index 3447eb6..7e063a9 100644
->>>>>> --- a/drivers/gpu/drm/vc4/vc4_txp.c
->>>>>> +++ b/drivers/gpu/drm/vc4/vc4_txp.c
->>>>>> @@ -159,7 +159,7 @@ struct vc4_txp {
->>>>>>    static inline struct vc4_txp *encoder_to_vc4_txp(struct drm_encoder *encoder)
->>>>>>    {
->>>>>> -    return container_of(encoder, struct vc4_txp, connector.encoder);
->>>>>> +    return container_of(encoder, struct vc4_txp, connector.internal_encoder);
->>>>>>    }
->>>>>>    static inline struct vc4_txp *connector_to_vc4_txp(struct  drm_connector *conn)
->>>>>> @@ -507,7 +507,7 @@ static int vc4_txp_bind(struct device *dev, struct device *master, void *data)
->>>>>>        if (ret)
->>>>>>            return ret;
->>>>>> -    encoder = &txp->connector.encoder;
->>>>>> +    encoder = txp->connector.encoder;
->>>>>>        encoder->possible_crtcs = drm_crtc_mask(crtc);
->>>>>>        ret = devm_request_irq(dev, irq, vc4_txp_interrupt, 0,
->>>>>> diff --git a/include/drm/drm_writeback.h b/include/drm/drm_writeback.h
->>>>>> index bb306fa..3fbae9d 100644
->>>>>> --- a/include/drm/drm_writeback.h
->>>>>> +++ b/include/drm/drm_writeback.h
->>>>>> @@ -25,13 +25,31 @@ struct drm_writeback_connector {
->>>>>>        struct drm_connector base;
->>>>>>        /**
->>>>>> -     * @encoder: Internal encoder used by the connector to fulfill
->>>>>> +     * @encoder: handle to drm_encoder used by the connector to fulfill
->>>>>>         * the DRM framework requirements. The users of the
->>>>>>         * @drm_writeback_connector control the behaviour of the @encoder
->>>>>>         * by passing the @enc_funcs parameter to drm_writeback_connector_init()
->>>>>>         * function.
->>>>>> +     *
->>>>>> +     * For some vendor drivers, the hardware resources are shared between
->>>>>> +     * writeback encoder and rest of the display pipeline.
->>>>>> +     * To accommodate such cases, encoder is a handle to the real encoder
->>>>>> +     * hardware.
->>>>>> +     *
->>>>>> +     * For current existing writeback users, this shall continue to be the
->>>>>> +     * embedded encoder for the writeback connector.
->>>>>> +     */
->>>>>> +    struct drm_encoder *encoder;
->>>>>> +
->>>>>> +    /**
->>>>>> +     * @internal_encoder: internal encoder used by writeback when
->>>>>> +     * drm_writeback_connector_init() is used.
->>>>>> +     * @encoder will be assigned to this for those cases
->>>>>> +     *
->>>>>> +     * This will be unused when drm_writeback_connector_init_with_encoder()
->>>>>> +     * is used.
->>>>>>         */
->>>>>> -    struct drm_encoder encoder;
->>>>>> +    struct drm_encoder internal_encoder;
->>>>>>        /**
->>>>>>         * @pixel_formats_blob_ptr:
->>
->> --
->> Regards,
->>
->> Laurent Pinchart
-> 
+maxItems: 1
+
+> +  iommus:
+> +    description: The compatible property is DMA function blocks.
+> +      Should point to the respective IOMMU block with master port as argument,
+> +      see Documentation/devicetree/bindings/iommu/mediatek,iommu.yaml for
+> +      details.
+> +    minItems: 1
+> +    maxItems: 2
+> +  clocks:
+> +    items:
+> +      - description: mixer clock
+> +      - description: video frontend 0 clock
+> +      - description: video frontend 1 clock
+> +      - description: graphic frontend 0 clock
+> +      - description: graphic frontend 1 clock
+> +      - description: video backend clock
+> +      - description: autodownload and menuload clock
+> +      - description: video frontend 0 async clock
+> +      - description: video frontend 1 async clock
+> +      - description: graphic frontend 0 async clock
+> +      - description: graphic frontend 1 async clock
+> +      - description: video backend async clock
+> +      - description: ethdr top clock
+> +  clock-names:
+> +    items:
+> +      - const: mixer
+> +      - const: vdo_fe0
+> +      - const: vdo_fe1
+> +      - const: gfx_fe0
+> +      - const: gfx_fe1
+> +      - const: vdo_be
+> +      - const: adl_ds
+> +      - const: vdo_fe0_async
+> +      - const: vdo_fe1_async
+> +      - const: gfx_fe0_async
+> +      - const: gfx_fe1_async
+> +      - const: vdo_be_async
+> +      - const: ethdr_top
+> +  power-domains:
+> +    maxItems: 1
+> +  resets:
+> +    maxItems: 5
+
+Need to define what they are and order.
+
+> +  mediatek,gce-client-reg:
+> +    $ref: /schemas/types.yaml#/definitions/phandle-array
+> +    description: The register of display function block to be set by gce.
+> +      There are 4 arguments in this property, gce node, subsys id, offset and
+> +      register size. The subsys id is defined in the gce header of each chips
+> +      include/include/dt-bindings/gce/<chip>-gce.h, mapping to the register of
+> +      display function block.
+
+Need to define each cell:
+
+minItems: ??
+maxItems: ??
+items:
+  items:
+    - description: gce node
+    - description: ...
+    ...
+
+Seems odd this property is optional...
+
+> +
+> +required:
+> +  - compatible
+> +  - reg
+> +  - clocks
+> +  - clock-names
+> +  - interrupts
+> +  - power-domains
+> +
+> +additionalProperties: false
+> +
+> +examples:
+> +  - |
+> +    #include <dt-bindings/interrupt-controller/arm-gic.h>
+> +    #include <dt-bindings/clock/mt8195-clk.h>
+> +    #include <dt-bindings/gce/mt8195-gce.h>
+> +    #include <dt-bindings/memory/mt8195-memory-port.h>
+> +    #include <dt-bindings/power/mt8195-power.h>
+> +    #include <dt-bindings/reset/mt8195-resets.h>
+> +
+> +    soc {
+> +        #address-cells = <2>;
+> +        #size-cells = <2>;
+> +
+> +        disp_ethdr@1c114000 {
+> +                compatible = "mediatek,mt8195-disp-ethdr";
+> +                reg = <0 0x1c114000 0 0x1000>,
+> +                      <0 0x1c115000 0 0x1000>,
+> +                      <0 0x1c117000 0 0x1000>,
+> +                      <0 0x1c119000 0 0x1000>,
+> +                      <0 0x1c11a000 0 0x1000>,
+> +                      <0 0x1c11b000 0 0x1000>,
+> +                      <0 0x1c11b000 0 0x1000>;
+> +                reg-names = "mixer", "vdo_fe0", "vdo_fe1", "gfx_fe0", "gfx_fe1",
+> +                            "vdo_be", "adl_ds";
+> +                mediatek,gce-client-reg = <&gce0 SUBSYS_1c11XXXX 0x4000 0x1000>,
+> +                                          <&gce0 SUBSYS_1c11XXXX 0x5000 0x1000>,
+> +                                          <&gce0 SUBSYS_1c11XXXX 0x7000 0x1000>,
+> +                                          <&gce0 SUBSYS_1c11XXXX 0x9000 0x1000>,
+> +                                          <&gce0 SUBSYS_1c11XXXX 0xa000 0x1000>,
+> +                                          <&gce0 SUBSYS_1c11XXXX 0xb000 0x1000>,
+> +                                          <&gce0 SUBSYS_1c11XXXX 0xc000 0x1000>;
+> +                clocks = <&vdosys1 CLK_VDO1_DISP_MIXER>,
+> +                         <&vdosys1 CLK_VDO1_HDR_VDO_FE0>,
+> +                         <&vdosys1 CLK_VDO1_HDR_VDO_FE1>,
+> +                         <&vdosys1 CLK_VDO1_HDR_GFX_FE0>,
+> +                         <&vdosys1 CLK_VDO1_HDR_GFX_FE1>,
+> +                         <&vdosys1 CLK_VDO1_HDR_VDO_BE>,
+> +                         <&vdosys1 CLK_VDO1_26M_SLOW>,
+> +                         <&vdosys1 CLK_VDO1_HDR_VDO_FE0_DL_ASYNC>,
+> +                         <&vdosys1 CLK_VDO1_HDR_VDO_FE1_DL_ASYNC>,
+> +                         <&vdosys1 CLK_VDO1_HDR_GFX_FE0_DL_ASYNC>,
+> +                         <&vdosys1 CLK_VDO1_HDR_GFX_FE1_DL_ASYNC>,
+> +                         <&vdosys1 CLK_VDO1_HDR_VDO_BE_DL_ASYNC>,
+> +                         <&topckgen CLK_TOP_ETHDR>;
+> +                clock-names = "mixer", "vdo_fe0", "vdo_fe1", "gfx_fe0", "gfx_fe1",
+> +                              "vdo_be", "adl_ds", "vdo_fe0_async", "vdo_fe1_async",
+> +                              "gfx_fe0_async", "gfx_fe1_async","vdo_be_async",
+> +                              "ethdr_top";
+> +                power-domains = <&spm MT8195_POWER_DOMAIN_VDOSYS1>;
+> +                iommus = <&iommu_vpp M4U_PORT_L3_HDR_DS>,
+> +                         <&iommu_vpp M4U_PORT_L3_HDR_ADL>;
+> +                interrupts = <GIC_SPI 517 IRQ_TYPE_LEVEL_HIGH 0>; /* disp mixer */
+> +                resets = <&vdosys1 MT8195_VDOSYS1_SW1_RST_B_HDR_VDO_FE0_DL_ASYNC>,
+> +                         <&vdosys1 MT8195_VDOSYS1_SW1_RST_B_HDR_VDO_FE1_DL_ASYNC>,
+> +                         <&vdosys1 MT8195_VDOSYS1_SW1_RST_B_HDR_GFX_FE0_DL_ASYNC>,
+> +                         <&vdosys1 MT8195_VDOSYS1_SW1_RST_B_HDR_GFX_FE1_DL_ASYNC>,
+> +                         <&vdosys1 MT8195_VDOSYS1_SW1_RST_B_HDR_VDO_BE_DL_ASYNC>;
+> +        };
+> +    };
+> +
+> +...
+> -- 
+> 2.18.0
 > 
 > 
