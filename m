@@ -1,57 +1,56 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7BD4650E9E8
-	for <lists+dri-devel@lfdr.de>; Mon, 25 Apr 2022 22:10:34 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id E4C9A50E9EE
+	for <lists+dri-devel@lfdr.de>; Mon, 25 Apr 2022 22:11:26 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 25D3710E22E;
-	Mon, 25 Apr 2022 20:10:32 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id DE09710E290;
+	Mon, 25 Apr 2022 20:11:24 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-oa1-x2a.google.com (mail-oa1-x2a.google.com
- [IPv6:2001:4860:4864:20::2a])
- by gabe.freedesktop.org (Postfix) with ESMTPS id EF1BF10E081
- for <dri-devel@lists.freedesktop.org>; Mon, 25 Apr 2022 20:10:30 +0000 (UTC)
-Received: by mail-oa1-x2a.google.com with SMTP id
- 586e51a60fabf-e93ff05b23so4159138fac.9
- for <dri-devel@lists.freedesktop.org>; Mon, 25 Apr 2022 13:10:30 -0700 (PDT)
+Received: from mail-oi1-x234.google.com (mail-oi1-x234.google.com
+ [IPv6:2607:f8b0:4864:20::234])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 719FE10E290
+ for <dri-devel@lists.freedesktop.org>; Mon, 25 Apr 2022 20:11:23 +0000 (UTC)
+Received: by mail-oi1-x234.google.com with SMTP id q129so18414139oif.4
+ for <dri-devel@lists.freedesktop.org>; Mon, 25 Apr 2022 13:11:23 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=chromium.org; s=google;
  h=mime-version:in-reply-to:references:from:user-agent:date:message-id
  :subject:to:cc;
- bh=K7sT4j1j79zUgHhHLdRo7ZuD61k8VXDTntHyuzX/BXA=;
- b=OUAaD5Us01krjFlnDs+151g4ok09UyRZuEIHUE1jPBEyR9mx/A7sAsmhjHf63EwNHq
- tIGiZUlZHdnlAbywcerGTsEzOjmesGLQUY9f6NI+BrVAm9kyrLaCHdJc504J1oJXK0wM
- YXgRd77RKxlXmiT+xTLg8ZVph4cRCjsfDql8w=
+ bh=Mjic/+zJme8zynP2sX08SrHAg/3yMfrQ4Fx00iF0fX0=;
+ b=YFgrUyczjyRzM90CDf5/Q+sTl7Kk/h/LjwzwpqWYXv8MY6Ga3wHBTtJbp4NrHlrftw
+ bnW+y73vDjwcQZmAoJZZRdXVMvoZOcrRQGqlI+V9gNKnqrvxEAUaR0vvfMW+3XTxIAi0
+ S42sLU1a7TGGtIAvPUaN1sh2Nl4dEk/2gxGYw=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:mime-version:in-reply-to:references:from
  :user-agent:date:message-id:subject:to:cc;
- bh=K7sT4j1j79zUgHhHLdRo7ZuD61k8VXDTntHyuzX/BXA=;
- b=ThV3dwyxLxm3Ge/l+xMmSeU+3oTQx0O2FR52F0YHT7YnaGQfACgSAxYTaq2/sfBia4
- LH2+IoNe4Yl/vJJBDmI4O7oJeSWY0tV5XBctwIOa9dVzNVmf/1Ecun9rLd/5+sRe4pdd
- T2wSr+b21uCJpuvddC1Y8tiPJw+yhl3+5rL4aJ21xHyOZYyGGd2Smko5oghqwEeoRhpI
- EDNS7FG+wfbOLmWQbMLw1b186fi2mvd7QO+Kd1hvjrT5jwBOmjGm3MB0YHf2P+7Vxruv
- 0tCvYmiYfG+MGTFBS6D33y5GmANzeTrzvG45Sz8U5no1OtYy/RqqjzJqlMtb4VMK9Koq
- x8SA==
-X-Gm-Message-State: AOAM5334Io4oSvvlJotSeYrHIEF9s50ApfgouuDjqfVAVXuGZmNJcYIp
- Mi1eh47kX5c4aPw9O4eAU7v57yb/yMZj0uSXfETe4A==
-X-Google-Smtp-Source: ABdhPJwJ17fs8iCiZSEbXH7jLlKJyr/HpN9dSlTTmysq4gFTTyFY8Gf7w8AN4qbNPPUFTtheyeMgr9f/4ynX6qJHPkc=
-X-Received: by 2002:a05:6870:558e:b0:e1:db7c:26aa with SMTP id
- n14-20020a056870558e00b000e1db7c26aamr8031779oao.63.1650917430300; Mon, 25
- Apr 2022 13:10:30 -0700 (PDT)
+ bh=Mjic/+zJme8zynP2sX08SrHAg/3yMfrQ4Fx00iF0fX0=;
+ b=NOnB+P3WJcPlm2M3ugRC8nPoTQZP80pH9eC2ZVGDYcPz0DNDnrz2KdarXu7LhA4lin
+ QdGMKIX/AebHmtRmTfh9hKLEQksSbbjQ5DHC60OaK8Ziowt9Rd+rbKfHqoBnhQFkTejx
+ uJfE9/jlu+JCbs5KYZzXUrHmCTXvFXx1On/l4EPfh7Zk+Pw43NtuR77K4MffSV+lAEIT
+ MNDBI6qwhL7rNPq0SjOyP04slAUNUfMCC1rpuFC0NVXBD/MdfGbhI0/VLR45+Spa9Q/N
+ MhU9RPh/EbftNJIRmLi70R8ZEYKnCbJSmOE/u3qlqV6egiuis/5v5BjiauFDxWt8xqJd
+ Bk/w==
+X-Gm-Message-State: AOAM5309UGt+NoZPv+iS/PwPX+4a68EzQqTATJuXFz5tMAqM7bozR/sQ
+ XEtGlY+rmiGyp1AU6QoEq0adEqcNatmSIdYnpp4pKw==
+X-Google-Smtp-Source: ABdhPJxsMQaEqd9ibkQQl1fMlnDAr7kXgMYwl7tspORWVrkHPLW8+XsZ5FMAITRuX/xmgDJGyjvQ9czYe2KUg+TvZD8=
+X-Received: by 2002:a05:6808:1296:b0:325:8fb:68f3 with SMTP id
+ a22-20020a056808129600b0032508fb68f3mr5230521oiw.193.1650917482697; Mon, 25
+ Apr 2022 13:11:22 -0700 (PDT)
 Received: from 753933720722 named unknown by gmailapi.google.com with
- HTTPREST; Mon, 25 Apr 2022 13:10:29 -0700
+ HTTPREST; Mon, 25 Apr 2022 13:11:22 -0700
 MIME-Version: 1.0
-In-Reply-To: <20220425090947.3498897-1-lv.ruyi@zte.com.cn>
-References: <20220425090947.3498897-1-lv.ruyi@zte.com.cn>
+In-Reply-To: <20220425091831.3500487-1-lv.ruyi@zte.com.cn>
+References: <20220425091831.3500487-1-lv.ruyi@zte.com.cn>
 From: Stephen Boyd <swboyd@chromium.org>
 User-Agent: alot/0.10
-Date: Mon, 25 Apr 2022 13:10:29 -0700
-Message-ID: <CAE-0n50fs1fFQcwMCq_x_UG8ZJKprjcYKwcy1+1ckD--XE28+g@mail.gmail.com>
-Subject: Re: [PATCH] drm/msm/dpu: fix error check return value of
+Date: Mon, 25 Apr 2022 13:11:22 -0700
+Message-ID: <CAE-0n53xBM+n__eKKGaCuB+3Ea4O+rNk2PUQbD2bjW3JS7YJBA@mail.gmail.com>
+Subject: Re: [PATCH] drm/msm/hdmi: fix error check return value of
  irq_of_parse_and_map()
-To: cgel.zte@gmail.com, robdclark@gmail.com, sean@poorly.run
+To: cgel.zte@gmail.com, quic_abhinavk@quicinc.com, sean@poorly.run
 Content-Type: text/plain; charset="UTF-8"
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -65,27 +64,25 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: architt@codeaurora.org, linux-kernel@vger.kernel.org, ryadav@codeaurora.org,
- airlied@linux.ie, linux-arm-msm@vger.kernel.org, Lv Ruyi <lv.ruyi@zte.com.cn>,
- quic_abhinavk@quicinc.com, dri-devel@lists.freedesktop.org,
- bjorn.andersson@linaro.org, tiny.windzz@gmail.com,
- angelogioacchino.delregno@somainline.org, dmitry.baryshkov@linaro.org,
- jsanka@codeaurora.org, freedreno@lists.freedesktop.org,
- Zeal Robot <zealci@zte.com.cn>, skolluku@codeaurora.org
+Cc: daniel.thompson@linaro.org, airlied@linux.ie, linux-arm-msm@vger.kernel.org,
+ lv.ruyi@zte.com.cn, linmq006@gmail.com, dri-devel@lists.freedesktop.org,
+ linux-kernel@vger.kernel.org, christophe.jaillet@wanadoo.fr,
+ dmitry.baryshkov@linaro.org, freedreno@lists.freedesktop.org,
+ Zeal Robot <zealci@zte.com.cn>, angelogioacchino.delregno@collabora.com
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Quoting cgel.zte@gmail.com (2022-04-25 02:09:47)
+Quoting cgel.zte@gmail.com (2022-04-25 02:18:31)
 > From: Lv Ruyi <lv.ruyi@zte.com.cn>
 >
 > The irq_of_parse_and_map() function returns 0 on failure, and does not
 > return a negative value anyhow, so never enter this conditional branch.
 >
-> Fixes: 25fdd5933e4c ("drm/msm: Add SDM845 DPU support")
+> Fixes: f6a8eaca0ea1 ("drm/msm/mdp5: use irqdomains")
 > Reported-by: Zeal Robot <zealci@zte.com.cn>
 > Signed-off-by: Lv Ruyi <lv.ruyi@zte.com.cn>
 > ---
 
-Question still stands why we can't use platform device APIs.
+This one fixes a commit that moved away from platform APIs!
 
 Reviewed-by: Stephen Boyd <swboyd@chromium.org>
