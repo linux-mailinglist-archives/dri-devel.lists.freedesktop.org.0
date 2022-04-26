@@ -2,50 +2,43 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3BAA950FBE4
-	for <lists+dri-devel@lfdr.de>; Tue, 26 Apr 2022 13:24:10 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id E98F250FC03
+	for <lists+dri-devel@lfdr.de>; Tue, 26 Apr 2022 13:33:39 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id B5E9E10E6CA;
-	Tue, 26 Apr 2022 11:24:06 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id B763B10E818;
+	Tue, 26 Apr 2022 11:33:35 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mga17.intel.com (mga17.intel.com [192.55.52.151])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 4611E10E6CA
- for <dri-devel@lists.freedesktop.org>; Tue, 26 Apr 2022 11:24:06 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1650972246; x=1682508246;
- h=date:from:to:cc:subject:message-id:references:
- mime-version:in-reply-to;
- bh=T7i7L2KegkqO2tC7i2wJS6jE33RflZWgdhR+pL1K13o=;
- b=YcD8EJH0Wm7nWv7+FMWxIITlii+8MiUJDF6fgILS7wSwIuOFGJgwqNoz
- xUhD32prqtdO3zzFaIA7nJExObrlQ9Ub3yiw+pbMKQQuz1doTC1IQyPEW
- Cv/guh5AXFoLJTxkNAkfVYvipkkp/CQPpAto9o+CVff1lo6TB2CeX9b1j
- 4f2AC8m0yQyPRfKmBKDpDSLFK5x/BcUgGEM56u+8et9E6pjiBftdYkpZ/
- Sa2W8KDKQ594Qqz7wUrSD7P9nHp0LdzWMWjpojv0iULqsO4H8ceC3Iuqx
- V8lqJ5K3eSW8o3RzCP+Eza/BWUVqd+ngucwxrbpik64eZd64TDkWH7zrA Q==;
-X-IronPort-AV: E=McAfee;i="6400,9594,10328"; a="246109246"
-X-IronPort-AV: E=Sophos;i="5.90,290,1643702400"; d="scan'208";a="246109246"
-Received: from fmsmga005.fm.intel.com ([10.253.24.32])
- by fmsmga107.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 26 Apr 2022 04:24:05 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.90,290,1643702400"; d="scan'208";a="874412474"
-Received: from lkp-server01.sh.intel.com (HELO 5056e131ad90) ([10.239.97.150])
- by fmsmga005.fm.intel.com with ESMTP; 26 Apr 2022 04:24:02 -0700
-Received: from kbuild by 5056e131ad90 with local (Exim 4.95)
- (envelope-from <lkp@intel.com>) id 1njJIY-0003U6-1q;
- Tue, 26 Apr 2022 11:24:02 +0000
-Date: Tue, 26 Apr 2022 19:23:56 +0800
-From: kernel test robot <lkp@intel.com>
-To: Cai Huoqing <cai.huoqing@linux.dev>
-Subject: Re: [PATCH v2 4/4] drm/nvdla/uapi: Add UAPI of NVDLA driver
-Message-ID: <202204261945.UCAr92eM-lkp@intel.com>
-References: <20220426060808.78225-5-cai.huoqing@linux.dev>
+Received: from perceval.ideasonboard.com (perceval.ideasonboard.com
+ [213.167.242.64])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id D836C10E818
+ for <dri-devel@lists.freedesktop.org>; Tue, 26 Apr 2022 11:33:33 +0000 (UTC)
+Received: from pendragon.ideasonboard.com (62-78-145-57.bb.dnainternet.fi
+ [62.78.145.57])
+ by perceval.ideasonboard.com (Postfix) with ESMTPSA id C71D3487;
+ Tue, 26 Apr 2022 13:33:31 +0200 (CEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
+ s=mail; t=1650972812;
+ bh=x0u0Pc7FPhAWSn7VfEpmqZSQUGOs2PWVzeM3l1YkXN4=;
+ h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+ b=vHTox3YtR2pMYrN9xkkLGM6scoJ3J8KQlxC/pE11PRv2EBPvTFIZzdku9HEDl8X1l
+ nYAtBumbnoIs8/FmsTsUo3Yn54QqR7T1P2Iuhm+S8heezP8omNUoywsMhSsi8E15Nl
+ KD9qaROtYbqBUgZpdn401N/V+LQBc6MO9i9Iq764=
+Date: Tue, 26 Apr 2022 14:33:31 +0300
+From: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+To: Paul Kocialkowski <paul.kocialkowski@bootlin.com>
+Subject: Re: [PATCH 2/2] Revert "drm: of: Lookup if child node has panel or
+ bridge"
+Message-ID: <YmfYi5G7hMKLAH3T@pendragon.ideasonboard.com>
+References: <20220420231230.58499-1-bjorn.andersson@linaro.org>
+ <20220420231230.58499-2-bjorn.andersson@linaro.org>
+ <CAMty3ZAw7DUSnBePC05qC8Gn6ESKiu+FHw4a-HPPc05VX1hqhg@mail.gmail.com>
+ <20220421082358.ivpmtak3ednvddrc@houat>
+ <YmEdAVwZuA7Wo1Ch@aptenodytes> <YmelPCcWCCjALtRU@aptenodytes>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
+Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
-In-Reply-To: <20220426060808.78225-5-cai.huoqing@linux.dev>
+In-Reply-To: <YmelPCcWCCjALtRU@aptenodytes>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -58,56 +51,71 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: kbuild-all@lists.01.org, Thomas Zimmermann <tzimmermann@suse.de>,
- David Airlie <airlied@linux.ie>, linux-kernel@vger.kernel.org,
- Christian =?iso-8859-1?Q?K=F6nig?= <christian.koenig@amd.com>,
- linaro-mm-sig@lists.linaro.org, dri-devel@lists.freedesktop.org,
- Sumit Semwal <sumit.semwal@linaro.org>, linux-media@vger.kernel.org
+Cc: David Airlie <airlied@linux.ie>, Robert Foss <robert.foss@linaro.org>,
+ linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
+ Bjorn Andersson <bjorn.andersson@linaro.org>,
+ Thierry Reding <thierry.reding@gmail.com>, Maxime Ripard <maxime@cerno.tech>,
+ Thomas Zimmermann <tzimmermann@suse.de>,
+ Marek Szyprowski <m.szyprowski@samsung.com>,
+ Jagan Teki <jagan@amarulasolutions.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi Cai,
+On Tue, Apr 26, 2022 at 09:54:36AM +0200, Paul Kocialkowski wrote:
+> On Thu 21 Apr 22, 10:59, Paul Kocialkowski wrote:
+> > On Thu 21 Apr 22, 10:23, Maxime Ripard wrote:
+> > > On Thu, Apr 21, 2022 at 01:15:54PM +0530, Jagan Teki wrote:
+> > > > + Linus
+> > > > + Marek
+> > > > + Laurent
+> > > > + Robert
+> > > > 
+> > > > On Thu, Apr 21, 2022 at 4:40 AM Bjorn Andersson wrote:
+> > > > >
+> > > > > Commit '80253168dbfd ("drm: of: Lookup if child node has panel or
+> > > > > bridge")' attempted to simplify the case of expressing a simple panel
+> > > > > under a DSI controller, by assuming that the first non-graph child node
+> > > > > was a panel or bridge.
+> > > > >
+> > > > > Unfortunately for non-trivial cases the first child node might not be a
+> > > > > panel or bridge.  Examples of this can be a aux-bus in the case of
+> > > > > DisplayPort, or an opp-table represented before the panel node.
+> > > > >
+> > > > > In these cases the reverted commit prevents the caller from ever finding
+> > > > > a reference to the panel.
+> > > > >
+> > > > > This reverts commit '80253168dbfd ("drm: of: Lookup if child node has
+> > > > > panel or bridge")', in favor of using an explicit graph reference to the
+> > > > > panel in the trivial case as well.
+> > > > 
+> > > > This eventually breaks many child-based devm_drm_of_get_bridge
+> > > > switched drivers.  Do you have any suggestions on how to proceed to
+> > > > succeed in those use cases as well?
+> > > 
+> > > I guess we could create a new helper for those, like
+> > > devm_drm_of_get_bridge_with_panel, or something.
+> > 
+> > Oh wow I feel stupid for not thinking about that.
+> > 
+> > Yeah I agree that it seems like the best option.
+> 
+> Should I prepare a patch with such a new helper?
+> 
+> The idea would be to keep drm_of_find_panel_or_bridge only for the of graph
+> case and add one for the child node case, maybe:
+> drm_of_find_child_panel_or_bridge.
+> 
+> I really don't have a clear idea of which driver would need to be switched
+> over though. Could someone (Jagan?) let me know where it would be needed?
+> 
+> Are there cases where we could both expect of graph and child node?
+> (i.e. does the new helper also need to try via of graph?)
 
-I love your patch! Yet something to improve:
-
-[auto build test ERROR on drm/drm-next]
-[also build test ERROR on linus/master linux/master v5.18-rc4 next-20220422]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch]
-
-url:    https://github.com/intel-lab-lkp/linux/commits/Cai-Huoqing/drm-nvdla-Add-driver-support-for-NVDLA/20220426-141148
-base:   git://anongit.freedesktop.org/drm/drm drm-next
-config: ia64-randconfig-r021-20220425 (https://download.01.org/0day-ci/archive/20220426/202204261945.UCAr92eM-lkp@intel.com/config)
-compiler: ia64-linux-gcc (GCC) 11.3.0
-reproduce (this is a W=1 build):
-        wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbin/make.cross -O ~/bin/make.cross
-        chmod +x ~/bin/make.cross
-        # https://github.com/intel-lab-lkp/linux/commit/a54587f7637b8ee11ad624794af3b409e6306e07
-        git remote add linux-review https://github.com/intel-lab-lkp/linux
-        git fetch --no-tags linux-review Cai-Huoqing/drm-nvdla-Add-driver-support-for-NVDLA/20220426-141148
-        git checkout a54587f7637b8ee11ad624794af3b409e6306e07
-        # save the config file
-        mkdir build_dir && cp config build_dir/.config
-        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-11.3.0 make.cross W=1 O=build_dir ARCH=ia64 prepare
-
-If you fix the issue, kindly add following tag as appropriate
-Reported-by: kernel test robot <lkp@intel.com>
-
-All errors (new ones prefixed by >>):
-
->> error: include/uapi/drm/nvdla_drm.h: missing "WITH Linux-syscall-note" for SPDX-License-Identifier
-   make[2]: *** [scripts/Makefile.headersinst:63: usr/include/drm/nvdla_drm.h] Error 1
-   make[2]: Target '__headers' not remade because of errors.
-   make[1]: *** [Makefile:1280: headers] Error 2
-   arch/ia64/kernel/asm-offsets.c:23:6: warning: no previous prototype for 'foo' [-Wmissing-prototypes]
-      23 | void foo(void)
-         |      ^~~
-   <stdin>:1517:2: warning: #warning syscall clone3 not implemented [-Wcpp]
-   make[1]: Target 'prepare' not remade because of errors.
-   make: *** [Makefile:219: __sub-make] Error 2
-   make: Target 'prepare' not remade because of errors.
+I still think we should use OF graph uncondtionally, even in the DSI
+case. We need to ensure backward-compatibility, but I'd like new
+bindings (and thus new drivers) to always use OF graph.
 
 -- 
-0-DAY CI Kernel Test Service
-https://01.org/lkp
+Regards,
+
+Laurent Pinchart
