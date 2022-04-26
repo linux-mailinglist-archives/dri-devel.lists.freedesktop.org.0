@@ -2,53 +2,53 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id EBD68510352
-	for <lists+dri-devel@lfdr.de>; Tue, 26 Apr 2022 18:29:43 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 5806251035F
+	for <lists+dri-devel@lfdr.de>; Tue, 26 Apr 2022 18:33:06 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 35CD810E70C;
-	Tue, 26 Apr 2022 16:29:41 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id EEB8210E86D;
+	Tue, 26 Apr 2022 16:33:03 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-ej1-x62a.google.com (mail-ej1-x62a.google.com
- [IPv6:2a00:1450:4864:20::62a])
- by gabe.freedesktop.org (Postfix) with ESMTPS id F0CE810E862
- for <dri-devel@lists.freedesktop.org>; Tue, 26 Apr 2022 16:29:39 +0000 (UTC)
-Received: by mail-ej1-x62a.google.com with SMTP id bv19so37181967ejb.6
- for <dri-devel@lists.freedesktop.org>; Tue, 26 Apr 2022 09:29:39 -0700 (PDT)
+Received: from mail-ed1-x535.google.com (mail-ed1-x535.google.com
+ [IPv6:2a00:1450:4864:20::535])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id AB46B10E875;
+ Tue, 26 Apr 2022 16:33:02 +0000 (UTC)
+Received: by mail-ed1-x535.google.com with SMTP id g23so16024388edy.13;
+ Tue, 26 Apr 2022 09:33:02 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
  h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=a0oTNdA7KNR2J/3ArbqLGzjjNHn69huPblQOyFpcMmU=;
- b=ay+/wFuOA/A5B9UuK2ok01F4CWy/Jg/c3fG3UnmJY58z+IiVMF25FgNcTpnStSn1O1
- L2yCIJrBcSoWTp7poYjDnZN5/zUwO7A1bUwNlvbE1pp3iVfUoR5DOl/qcxh/zhmiW+kX
- DeuAEMa62jhqiBDH8yZizxkZLbLTXzySjnjwDrZNESqLa9ZM84sGxBKMLzrGAXeIIWqd
- nnfhFNdvMaN6hIu37nNFMiFwvBGs02KdQvhBTEdUti6l3rXQ5Zty2XQprQ/gcgbPr5dJ
- prue25C/lL5ll7PqJgjPGxaPxvYUvcEE6f9jWSNQCebhR4hoZMRZ0wX8hwiPKf7xqF8H
- j1Jw==
+ :cc; bh=w/xT8OEkfJiGdCpQNvW6rWuFI33EcUc9l2oRZJTJYjo=;
+ b=ZXI0iF4XwaUFS2CouqYpBm2HJAhUUGwHxnsr7S2MSxFudHfTpPeqryiZimuBmutRWo
+ TsT6M4xRhARlro2JR1B8K/eQ6hylzrhd86UEkByLWqmwxNlHG/s37h2blq4q1OD33gZF
+ 29E8BhrAcQUhpmm7vN/VPGIdlIGL3boPkA88msmg+zVtWou8S+8a47CVvMXvqFLfL+lq
+ 0Oo4dFTGdQZwhgZ+/9elASV3BTTyQF1b6XpQA0Nz0zmvyp+CJW6By+W5oYx2XRlqO8yF
+ zNDP5FvK4w/5toz477GonMovhzlQzeqk+knnHsplHf+6BiqBmfBhJLQ2y2rL5XxlRys9
+ 2Vow==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:mime-version:references:in-reply-to:from:date
  :message-id:subject:to:cc;
- bh=a0oTNdA7KNR2J/3ArbqLGzjjNHn69huPblQOyFpcMmU=;
- b=ZEKSpAouQoSQbwg+sF8TMuyH5y+TjxavqrR/Ew7gO7fnMrrdFHIeTyEaHlgww+M34Y
- Mox1b+OWrJvQHnSbc39qsCq81omWFdjY5hRRfZpoLOpckmK1319X6TJNoAsRqvRT2DBp
- zDsvW+Y/ubrDVpkOVAHIl59U0covTQfncdJfs3AERDOFvIWjY8FaueeOxtiDVi+nO+qj
- 60HwSOzk6tCRO3qjfRHzTfgdFL6silo0elXC3a3KFv1Tj8aUfXyBKZ1+E9GL3rZPpQBw
- kMJ1X2HND/0mC0s3vRzePwN4VryUrY2L+mSZjfdbMD7xzygcu6NZYrt0EOkzkWNTFQpw
- B4NA==
-X-Gm-Message-State: AOAM530dm+BAgcekXbCMsKncS1nHfyVoba2rHm7zm2ZPiXcdZed/9NIx
- nrblkqWjPgJu7sZkmDJIChpn16tuXUm/jWsAibfAD2FxcRk=
-X-Google-Smtp-Source: ABdhPJxvkPz4LeLKwvDslrR6mnt/MYTZEJkmUaC5vJ2IZmrSOgjyEYXEod+5Q2sYfDI2Q3QQR7HNIdXB773QAmZ7pnQ=
-X-Received: by 2002:a17:907:9808:b0:6f3:89ed:279a with SMTP id
- ji8-20020a170907980800b006f389ed279amr13041502ejc.308.1650990577986; Tue, 26
- Apr 2022 09:29:37 -0700 (PDT)
+ bh=w/xT8OEkfJiGdCpQNvW6rWuFI33EcUc9l2oRZJTJYjo=;
+ b=V+Yt3sHPFJ3U6SLkt17JVildx6A6gopfsgNmoW9zS+l9FwxwF2Bl4tsZzHqzNlaGr5
+ 1WFig6pQWiD7jThSpubXHxoH1PC3oc+l9XSYPBbofkgLFpP+H2HxolIwGJOpia6uLZRE
+ MlRgDOwFd7MxWGiANW3Y9fP8ioidNSAmjl9C0YOzkacPAW3nzREg7qUKe5haKRy/8u69
+ /l5qLgpUvsYd7KI5Bt8C+8MzhKWi9pTsCA7JuvUQUgxFJCorP9D2RnS5AK7RXeoD0yTY
+ St5kp7SvhYaytB7/JHcJBE1BxY8y+snp/XfZGJiS2DKOYOfbTCiWyspuvZXivse0ykl4
+ rwdA==
+X-Gm-Message-State: AOAM5315Tz75Hoodflio738pIUt5Kafe3TOwhmfC6Y34J/LzrYWKOqIC
+ ndSEshlpGFSvfYJeO6J4f9vyxwaDBgcq99PVlJlYKv7Pv/Q=
+X-Google-Smtp-Source: ABdhPJx6lZ71etdNvL3om3gG1H+ABaor8IdKN7EbPOe9Uld7J830690y1KAzBkXOU3RQgxtTSIBsZNV0uxb2ZnuOEn0=
+X-Received: by 2002:aa7:d407:0:b0:425:f57e:7ae5 with SMTP id
+ z7-20020aa7d407000000b00425f57e7ae5mr7803138edq.393.1650990780317; Tue, 26
+ Apr 2022 09:33:00 -0700 (PDT)
 MIME-Version: 1.0
-References: <20220412204809.824491-1-olvaffe@gmail.com>
-In-Reply-To: <20220412204809.824491-1-olvaffe@gmail.com>
+References: <20220412212558.827289-1-olvaffe@gmail.com>
+In-Reply-To: <20220412212558.827289-1-olvaffe@gmail.com>
 From: Chia-I Wu <olvaffe@gmail.com>
-Date: Tue, 26 Apr 2022 09:29:26 -0700
-Message-ID: <CAPaKu7RwUwuQEGBB87CQysOFzPHbzjhW6we4dq198UsOWdoJyg@mail.gmail.com>
-Subject: Re: [PATCH v2 1/2] drm/sched: use DECLARE_EVENT_CLASS
-To: ML dri-devel <dri-devel@lists.freedesktop.org>
+Date: Tue, 26 Apr 2022 09:32:49 -0700
+Message-ID: <CAPaKu7Tv1Mxt7Ao8kH2-MZDBK7EB0D41COJD8Sjze76t_o-qmw@mail.gmail.com>
+Subject: Re: [PATCH v2] drm/msm: add trace_dma_fence_emit to msm_gpu_submit
+To: freedreno@lists.freedesktop.org
 Content-Type: text/plain; charset="UTF-8"
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -62,17 +62,29 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: David Airlie <airlied@linux.ie>, Rob Clark <robdclark@chromium.org>
+Cc: Rob Clark <robdclark@chromium.org>, David Airlie <airlied@linux.ie>,
+ linux-arm-msm@vger.kernel.org, Abhinav Kumar <quic_abhinavk@quicinc.com>,
+ ML dri-devel <dri-devel@lists.freedesktop.org>,
+ Sumit Semwal <sumit.semwal@linaro.org>,
+ Dmitry Baryshkov <dmitry.baryshkov@linaro.org>, Sean Paul <sean@poorly.run>,
+ =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Tue, Apr 12, 2022 at 1:48 PM Chia-I Wu <olvaffe@gmail.com> wrote:
+On Tue, Apr 12, 2022 at 2:26 PM Chia-I Wu <olvaffe@gmail.com> wrote:
 >
-> drm_sched_job and drm_run_job have the same prototype.
+> In practice, trace_dma_fence_init called from dma_fence_init is good
+> enough and almost no driver calls trace_dma_fence_emit.  But drm_sched
+> and virtio both have cases where trace_dma_fence_init and
+> trace_dma_fence_emit can be apart.  It is easier for visualization tools
+> to always use the more correct trace_dma_fence_emit when visualizing
+> fence timelines.
 >
-> v2: rename the class from drm_sched_job_entity to drm_sched_job (Andrey)
+> v2: improve commit message (Dmitry)
 >
 > Signed-off-by: Chia-I Wu <olvaffe@gmail.com>
 > Cc: Rob Clark <robdclark@chromium.org>
-> Reviewed-by: Andrey Grodzovsky <andrey.grodzovsky@amd.com>
-This series has been reviewed.  Is it ok to land (if it hasn't)?
+> Reviewed-by: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
+This has been reviewed.  Should we land it?
+
+(Or, how do I check if it has landed?)
