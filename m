@@ -2,65 +2,109 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id A44C5510209
-	for <lists+dri-devel@lfdr.de>; Tue, 26 Apr 2022 17:37:16 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 2B95A510240
+	for <lists+dri-devel@lfdr.de>; Tue, 26 Apr 2022 17:53:30 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 35D2C10E5C5;
-	Tue, 26 Apr 2022 15:37:12 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 8E32610E307;
+	Tue, 26 Apr 2022 15:53:23 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from alexa-out.qualcomm.com (alexa-out.qualcomm.com [129.46.98.28])
- by gabe.freedesktop.org (Postfix) with ESMTPS id CA53D10E4DF;
- Tue, 26 Apr 2022 15:37:10 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=quicinc.com; i=@quicinc.com; q=dns/txt; s=qcdkim;
- t=1650987430; x=1682523430;
- h=message-id:date:mime-version:subject:to:cc:references:
- from:in-reply-to:content-transfer-encoding;
- bh=YMpwxKYsiuNPVa982v8Lb4PmBCxcEpHaWJB97ET4KGE=;
- b=m6f06fk27rGJni3MwxMP5VK10lqum1Mdy809z2qEU+91ITuL03DnGn0u
- ow/AASFYPO95di/Sb8JKwLN4OegAjDB8t6vC3rD0uof/JBIG10kQwaHW3
- eSpgOanGtDCEB+Nowkyar/BbHVkU8cihQTMfad/nn4AuRN5ygGX4hKeEh M=;
-Received: from ironmsg-lv-alpha.qualcomm.com ([10.47.202.13])
- by alexa-out.qualcomm.com with ESMTP; 26 Apr 2022 08:37:10 -0700
-X-QCInternal: smtphost
-Received: from nasanex01c.na.qualcomm.com ([10.47.97.222])
- by ironmsg-lv-alpha.qualcomm.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 26 Apr 2022 08:37:09 -0700
-Received: from nalasex01a.na.qualcomm.com (10.47.209.196) by
- nasanex01c.na.qualcomm.com (10.47.97.222) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.2.986.22; Tue, 26 Apr 2022 08:37:09 -0700
-Received: from [10.111.160.161] (10.80.80.8) by nalasex01a.na.qualcomm.com
- (10.47.209.196) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.986.22; Tue, 26 Apr
- 2022 08:37:06 -0700
-Message-ID: <eaedbc40-f8cb-aaf8-f335-ef48e3cf82cc@quicinc.com>
-Date: Tue, 26 Apr 2022 08:37:04 -0700
+Received: from NAM12-DM6-obe.outbound.protection.outlook.com
+ (mail-dm6nam12on2052.outbound.protection.outlook.com [40.107.243.52])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id D118A89DE5;
+ Tue, 26 Apr 2022 15:53:22 +0000 (UTC)
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=jw1Ua0bFwVtsmkQTE7hR47zwAHck+Yfz4lDtWjQ6NMc4uqv0qNDWk9gCiRTi1W7zTi43KFdA0h/xiKnew7C5RZ5fZ1OAypFVaeAgTh9AFOggBZ+x/XW3qNZECIJ7P3tQEdM1GiacYietRpoo7d1MC7GEeG4cK1vOmlwHtZj052h3db+rAcAVjed1Y2Vi1mZZRXmhXCGUPa+4NMUAy7mcPRkdJASn/UX2jvjB58n1KkJgRzQ3+PpMJszEeqcSVRc5pW8fOu040NkKB8SFFbl0rpfaSYG81y5PG0/5ebuatJak2C5Ijmi8Z9mDR81fnknj5mYu3YCZwrcwVPd1CuGyQA==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=QQ7hmyRiHpg4VDNCoOFwMwr+0vKk8CsINM5rn5jVenk=;
+ b=cSSCr05GFzBGeHDeZGHXcQPQGW26kGcTPNUqOfN5Ad2rW2txv2yExqiikQpmgxkRT+gShDcZ0XlxYpZK2c2KsDnnBmj7SrXlUOmsxk4IInkJcQf+TuAiuR/AwUo8CdI1NLsmCzwD/qTaIHaQ+QBym8l32vncLuLOTr5oui/N/7/6IqaQMsMRoQtsnpcuzoM2V8HCbDXK37vnlLWAOgwkCXTx+f0PbaBM+P48qo3h0T4M+mWrtSLIIMtKVfRS5f5YepFQ0ETTmu/vnxpRCBYdjhCaZrKAYxC9i89UpTuSTRbovJ439LQvvRkll8bR8SbeO4ysu5a6JM3brm0ECd3FNw==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=nvidia.com; dmarc=pass action=none header.from=nvidia.com;
+ dkim=pass header.d=nvidia.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=Nvidia.com;
+ s=selector2;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=QQ7hmyRiHpg4VDNCoOFwMwr+0vKk8CsINM5rn5jVenk=;
+ b=ghBeNaTFQVELSNkpbdh6TiYZB9MYuOfgKDAbF2XnEdoTg6Sr4dIPDtwyWBhgWJ5jO6KzJc29vf0GtAVmGG4ngMQ6wZ7HHZa8mHW6+rDr5m81gN1j9AaYbvnaS3RWEwV4P5BfwZnVavlvaE4VG6ECuSZcZNNjtLAXdPFuHCmhyygHFG1dhkTfO6C03bfgST3pXg8WBsdShAPal1WudI2UGBqAyN7D20m7QZzDYrOVn2h0wOtFSJgjrEu3rGYYwaav7hRBsGhqU+0Nem97glnWGW6+jI9tu/dyqJxjHBc5DT2iPRjhpPvlH+e8o2JGNP9ZLmHzZPIS7fOsasZJImertQ==
+Authentication-Results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=nvidia.com;
+Received: from MN2PR12MB4192.namprd12.prod.outlook.com (2603:10b6:208:1d5::15)
+ by SJ1PR12MB6292.namprd12.prod.outlook.com (2603:10b6:a03:455::20)
+ with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.5186.14; Tue, 26 Apr
+ 2022 15:53:19 +0000
+Received: from MN2PR12MB4192.namprd12.prod.outlook.com
+ ([fe80::ec2d:9167:1b47:2db2]) by MN2PR12MB4192.namprd12.prod.outlook.com
+ ([fe80::ec2d:9167:1b47:2db2%6]) with mapi id 15.20.5186.021; Tue, 26 Apr 2022
+ 15:53:19 +0000
+Date: Tue, 26 Apr 2022 12:53:18 -0300
+From: Jason Gunthorpe <jgg@nvidia.com>
+To: "Wang, Zhi A" <zhi.a.wang@intel.com>
+Subject: Re: [PULL] gvt-next
+Message-ID: <20220426155318.GQ2125828@nvidia.com>
+References: <c5cf6773-e7a2-8ba8-4cde-0bb14007bc6b@intel.com>
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <c5cf6773-e7a2-8ba8-4cde-0bb14007bc6b@intel.com>
+X-ClientProxiedBy: BL1PR13CA0271.namprd13.prod.outlook.com
+ (2603:10b6:208:2bc::6) To MN2PR12MB4192.namprd12.prod.outlook.com
+ (2603:10b6:208:1d5::15)
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:91.0) Gecko/20100101
- Thunderbird/91.6.2
-Subject: Re: [Freedreno] [PATCH] drm/msm/dp: move add fail safe mode to
- dp_connector_get_mode()
-Content-Language: en-US
-To: Doug Anderson <dianders@chromium.org>
-References: <1650671124-14030-1-git-send-email-quic_khsieh@quicinc.com>
- <3b9588d2-d9f6-c96f-b316-953b56b59bfe@linaro.org>
- <73e2a37e-23db-d614-5f5c-8120f1869158@quicinc.com>
- <CAA8EJprjuzUrfwXodgKmbWxgK6t+bY601E_nS7CHNH_+4Tfn5Q@mail.gmail.com>
- <9b331b16-8d1b-4e74-8fee-d74c4041f8d7@quicinc.com>
- <CAD=FV=VxEnbBypNYSq=iTUTwZUs_v620juSA6gsMW4h2_3HyBQ@mail.gmail.com>
- <9b4ccdef-c98a-b907-c7ee-a92456dc5bba@quicinc.com>
- <CAD=FV=U3MJ1W6CCVW0+Si8ZyAD+_ZBYsL1cT6Y8yhcTvWsCLUQ@mail.gmail.com>
- <d3d1d0d5-d3e0-0777-5b20-cdf24697742d@quicinc.com>
- <CAD=FV=W2WPdiY2zq6JC_-10kOqzDuiUYQOdYbyRyw2k-fbXFXQ@mail.gmail.com>
-From: Abhinav Kumar <quic_abhinavk@quicinc.com>
-In-Reply-To: <CAD=FV=W2WPdiY2zq6JC_-10kOqzDuiUYQOdYbyRyw2k-fbXFXQ@mail.gmail.com>
-Content-Type: text/plain; charset="UTF-8"; format=flowed
-Content-Transfer-Encoding: 7bit
-X-Originating-IP: [10.80.80.8]
-X-ClientProxiedBy: nasanex01b.na.qualcomm.com (10.46.141.250) To
- nalasex01a.na.qualcomm.com (10.47.209.196)
+X-MS-PublicTrafficType: Email
+X-MS-Office365-Filtering-Correlation-Id: 80e45027-ea87-44b7-1ff7-08da279ce277
+X-MS-TrafficTypeDiagnostic: SJ1PR12MB6292:EE_
+X-Microsoft-Antispam-PRVS: <SJ1PR12MB6292E70D092864DF1480F89FC2FB9@SJ1PR12MB6292.namprd12.prod.outlook.com>
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: BCL:0;
+X-Microsoft-Antispam-Message-Info: CfkYfP3nIqq3pCCdiiF1NhRFbQ3K8qxuK32nUtPCPaGXeLpHqcaU3NAKhmcVlteNHMJ2OmwHAWRNwmOcCufSmeP0cLl6IPAYZ7Kb4F5SIlr34fQDvwVGASpRyOVtgBF9igL5GzRfEUa6OwKelIW42GvszySDqszBee0nRd2sxA0KVedO8vIvmkjOwfNArNAgo+Vwz98DjMuTfEDq8wH4k9onw+GrASjJ9MK3nRs92/4ox8wJ7uvsp/Oj6KjQEvTuEy89EG0scOaS3r5iPJVmumg5DhkybRW1v5ak1TM1EYNXQS5GNnyRjI+wIo5r0KSBac6GDFqNek18VnaozbTqQHd9ys6rgw+6RfLoHYQMcL3efpDLmTeEEQh7KgrFUTlpuGXdG8+BHQ4aNEnWBn0uqe6a1tuzwGAZrxPpv5U/JlgBUF6vNICVhh1uEa2cPH8v/W3CwV4Ptc4Tnx1zPWDdyKFq8bWp5IwW8vKg2wTxvW6qd9RL5GmV8WnSIlTZ3GdVkEE9WCA6fW5m3IBRt26x9ZgsbeeFRp4Rp+vp5Dqq+fUecF0KisTok2B25W2u+hkrcw+be4/4RL87/e5se3MC9j/S6wwgvABozRRUYMTH1a4xEOQG5OzaLcLtcXoCdSkqGss0rCEH4b7RR/SpojyjHW9SnczO2jLne9HeZnwlGjPrvZTUkw76cqDfbdYDuK5JIYbnfFOYrqfSYT+34ZBL1878hjqmnZZdqzd+Vgbk9Hw=
+X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
+ IPV:NLI; SFV:NSPM; H:MN2PR12MB4192.namprd12.prod.outlook.com; PTR:; CAT:NONE;
+ SFS:(13230001)(4636009)(366004)(2616005)(2906002)(33656002)(1076003)(26005)(8936002)(6506007)(6486002)(966005)(86362001)(508600001)(186003)(6512007)(7416002)(5660300002)(316002)(38100700002)(6916009)(4326008)(54906003)(8676002)(36756003)(66476007)(66556008)(66946007);
+ DIR:OUT; SFP:1101; 
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0: =?us-ascii?Q?bxqqY8w+h1y6yoHLli5Z6lmChgVpQE4+RZal09Jds+crNyboh7MCoV6YbaBs?=
+ =?us-ascii?Q?4FEYHxEVqiDzxwiNtrKqZ0hU11SRZz6EVpZf+6vr3OwjOtOfQ50oikFE+jo4?=
+ =?us-ascii?Q?jWC5A34ipEHq/mIZoiMb2JbjqvGvALny49+0nv4ZReR25rKzOzQ8YewaQi/z?=
+ =?us-ascii?Q?Vd0IjnXUkEO3/3V9IJCVObUMY2O30mxXXweyEBysoUBotkEptRrgqdYNgHXf?=
+ =?us-ascii?Q?BzXgE2zvDhlIyedqQo+W65/Q//j8+h/u8Z1TY/itRBp+DzJBCWG1QmOOvYyL?=
+ =?us-ascii?Q?slPlUjSFSNuwxQCj4gvU38scHGwRWjkqh0trw+/+JFueR5ezxtYl2C+EMoCK?=
+ =?us-ascii?Q?YrKk0N/4V6BhoFSZrHl+PYv/z8X64KRn1837b2nNq/rv9ioJaG5A15Tssx8D?=
+ =?us-ascii?Q?bU5SjPoy2L66GRah6E/dn+srJ2ffBQH/kqNZnhctgtisv4vjN21Hn3ZskAqg?=
+ =?us-ascii?Q?7ekZbpQ/OqQRFnAjdFb16NvAWPCOgCDIGCkJ/g2R8eiEMKN1Yan0NwShQMWA?=
+ =?us-ascii?Q?pbQQH+/qa6ypbh9cUxSyFTqQqS+s8rHdTiV/u/LO07P6o6LB8V4TV8upGI/2?=
+ =?us-ascii?Q?tmB+Lr0iZr0Y7KMVhyL4fjq2QcfyZ6JoTT/zyRYIDcu45UyESbLDfSMQrqqk?=
+ =?us-ascii?Q?llWtDAqYdNEGQHA9LtBDLgML5zDQ6naeEz+4UtsCdDCy8vDtrUkZHkd/7oVS?=
+ =?us-ascii?Q?GIXGckLP9q60qMgZztK+0Hdd5rMWuUS2NIsmTJi2rlrUayEnycO+ZcKpW/XM?=
+ =?us-ascii?Q?3tOwgcKksQPGvwSwR7bcyjN+d0AT34/DJ3qJQNhlpiFyVtcg0nQPvfegaY6w?=
+ =?us-ascii?Q?JHJX9GdU0KdVg+g0zGPHy4vMdIA3ar10+pI9cpmXrfMjF9EymMh5a85cwQLg?=
+ =?us-ascii?Q?Wu30Q/lot9sglG0Mrwz2t3bhBZQKouCUK4bcbg6Kp1XHs0CsWUjoL6JfoH/x?=
+ =?us-ascii?Q?Pa4K0HtkAcXNGWOmFGzhkDQwElW3TlNi2CUJADAA0ZzFeEjh9tILHQZPlEYi?=
+ =?us-ascii?Q?ZqPwgz6IKSieBpf1R4WJlajgqdlaQD64HlVpJv5XW/SIbIXdfEin7qtVXdYh?=
+ =?us-ascii?Q?faJdaujk/cn/Me4/ZJBIoyIM0Y6CSDG2DY3M0qLfq/FKaKlrId73SHxgSsMf?=
+ =?us-ascii?Q?+wuDlrltC8xMKVNpOTBJMMYNkkQEJ/otrcjidpxu8NkKpCpzikO6tJxkUKPI?=
+ =?us-ascii?Q?IGW4fFSQqB68QCbKbm8iTkx0R92BhUV1gO+Ma3ulFr+o8pY5VikC98W+cYm0?=
+ =?us-ascii?Q?kTb7bg5d4Wg79UoDrnuqFlXM41/7Q0XDQd+CMjRmVcxldLQtHjFUxjJyLEoR?=
+ =?us-ascii?Q?tMZSjXYssxs7TDUGAimqnYsIJmL/EA7M0HXMznIlwEepyLqwQg4kYopWP39D?=
+ =?us-ascii?Q?lKT57VLwHqqYi9dA6+2+QZojQfQ6L+vxB6YAIhdh/r7WAVTqx9Eg3CdQrvrJ?=
+ =?us-ascii?Q?vKI+5V/BDfdQy4BkxvaJl3OEUIIrBDfjZIe2wAIOepL0D3lyBxWpsubdlD4k?=
+ =?us-ascii?Q?DXTmk2C1Z73T/uuAGWOCc7J3RKaYz/QDbEe2U9NaN5gaPGBKkXf/YghqUacn?=
+ =?us-ascii?Q?KY6sk+sWE4zVnOdBgIBTm79zdvgFkv9ErCu3PHuxaqzOjmno8EYqmJ1H6vfe?=
+ =?us-ascii?Q?01MeRS0U15aYSD/mVFbEi53qn2qWZW8arcOw84jN1E9z963PcWQxNRggwuk8?=
+ =?us-ascii?Q?2VtljqEJdvQCeXtGTN4wFzON21q4u7gDQjZ8xgKItwuPxZz22jusqbOqOSA3?=
+ =?us-ascii?Q?+bYxQV/vaQ=3D=3D?=
+X-OriginatorOrg: Nvidia.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 80e45027-ea87-44b7-1ff7-08da279ce277
+X-MS-Exchange-CrossTenant-AuthSource: MN2PR12MB4192.namprd12.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 26 Apr 2022 15:53:19.7791 (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 43083d15-7273-40c1-b7db-39efd9ccc17a
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: 7BLCQ00Sa8Nazr1NwL6j7Sb0LvexgOpP1vNrnLPmymsLpaVjcybOcOfZu1K24+RM
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: SJ1PR12MB6292
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -73,206 +117,81 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Sean Paul <sean@poorly.run>,
- Sankeerth Billakanti <quic_sbillaka@quicinc.com>,
- David Airlie <airlied@linux.ie>, linux-arm-msm <linux-arm-msm@vger.kernel.org>,
- Stephen Boyd <swboyd@chromium.org>, LKML <linux-kernel@vger.kernel.org>,
- dri-devel <dri-devel@lists.freedesktop.org>,
- Kuogee Hsieh <quic_khsieh@quicinc.com>, Vinod Koul <vkoul@kernel.org>,
- Andy Gross <agross@kernel.org>, Dmitry
- Baryshkov <dmitry.baryshkov@linaro.org>,
- "Aravind Venkateswaran \(QUIC\)" <quic_aravindh@quicinc.com>,
- Bjorn Andersson <bjorn.andersson@linaro.org>,
- freedreno <freedreno@lists.freedesktop.org>
+Cc: Tvrtko Ursulin <tvrtko.ursulin@linux.intel.com>,
+ "dri-devel@lists.freedesktop.org" <dri-devel@lists.freedesktop.org>,
+ "intel-gfx@lists.freedesktop.org" <intel-gfx@lists.freedesktop.org>,
+ "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
+ Alex Williamson <alex.williamson@redhat.com>, "Vivi,
+ Rodrigo" <rodrigo.vivi@intel.com>,
+ "intel-gvt-dev@lists.freedesktop.org" <intel-gvt-dev@lists.freedesktop.org>,
+ Christoph Hellwig <hch@lst.de>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi Doug
-
-On 4/26/2022 8:20 AM, Doug Anderson wrote:
-> Hi,
+On Tue, Apr 26, 2022 at 07:58:59AM +0000, Wang, Zhi A wrote:
+> Hi folks:
 > 
-> On Mon, Apr 25, 2022 at 8:35 PM Abhinav Kumar <quic_abhinavk@quicinc.com> wrote:
->>
->> On 4/25/2022 7:18 PM, Doug Anderson wrote:
->>> Hi,
->>>
->>> On Mon, Apr 25, 2022 at 6:42 PM Abhinav Kumar <quic_abhinavk@quicinc.com> wrote:
->>>>
->>>>>> 2) When there was a valid EDID but no 640x480 mode
->>>>>>
->>>>>> This is the equipment specific case and the one even I was a bit
->>>>>> surprised. There is a DP compliance equipment we have in-house and while
->>>>>> validation, it was found that in its list of modes , it did not have any
->>>>>> modes which chromebook supported ( due to 2 lanes ). But my
->>>>>> understanding was that, all sinks should have atleast 640x480 but
->>>>>> apparently this one did not have that. So to handle this DP compliance
->>>>>> equipment behavior, we had to do this.
->>>>>
->>>>> That doesn't seem right. If there's a valid EDID and the valid EDID
->>>>> doesn't contain 640x480, are you _sure_ you're supposed to be adding
->>>>> 640x480? That doesn't sound right to me. I've got a tiny display in
->>>>> front of me for testing that only has one mode:
->>>>>
->>>>>      #0 800x480 65.68 800 840 888 928 480 493 496 525 32000
->>>>>
->>>>
->>>> As I had wrote, DRM core kicks in only when the count of modes is 0.
->>>> Here what is happening is the count was not 0 but 640x480 was not
->>>> present in the EDID. So we had to add it explicitly.
->>>>
->>>> Your tiny display is a display port display?
->>>>
->>>> I am referring to only display port monitors. If your tiny display is
->>>> DP, it should have had 640x480 in its list of modes.
->>>
->>> My tiny display is actually a HDMI display hooked up to a HDMI to DP
->>> (active) adapter.
->>>
->>> ...but this is a legal and common thing to have. I suppose possibly my
->>> HDMI display is "illegal"?
->>>
->>> OK, so reading through the spec more carefully, I do see that the DP
->>> spec makes numerous mentions of the fact that DP sinks _must_ support
->>> 640x480. Even going back to DP 1.4, I see section "5.2.1.2 Video
->>> Timing Format" says that we must support 640x480. It seems like that's
->>> _intended_ to be used only if the EDID read fails, though or if we
->>> somehow have to output video without knowledge of the EDID. It seems
->>> hard to believe that there's a great reason to assume a display will
->>> support 640x480 if we have more accurate knowledge.
->>>
->>> In any case, I guess I would still say that adding this mode belongs
->>> in the DRM core. The core should notice that it's a DP connection
->>> (bridge->type == DRM_MODE_CONNECTOR_DisplayPort) and that 640x480 was
->>> left out and it should add it. We should also make sure it's not
->>> "preferred" and is last in the list so we never accidentally pick it.
->>> If DP truly says that we should always give the user 640x480 then
->>> that's true for everyone, not just Qualcomm. We should add it in the
->>> core. If, later, someone wants to hide this from the UI it would be
->>> much easier if they only needed to modify one place.
->>>
->>
->> So I debugged with kuogee just now using the DP compliance equipment.
->> It turns out, the issue is not that 640x480 mode is not present.
->>
->> The issue is that it is not marked as preferred.
->>
->> Hence we missed this part during debugging this equipment failure.
->>
->> We still have to figure out the best way to either mark 640x480 as
->> preferred or eliminate other modes during the test-case so that 640x480
->> is actually picked by usermode.
->>
->> Now that being said, the fix still doesn't belong in the framework. It
->> has to be in the msm/dp code.
->>
->> Different vendors handle this failure case differently looks like.
->>
->> Lets take below snippet from i915 as example.
->>
->> 3361    if (intel_connector->detect_edid == NULL ||
->> 3362        connector->edid_corrupt ||
->> 3363        intel_dp->aux.i2c_defer_count > 6) {
->> 3364            /* Check EDID read for NACKs, DEFERs and corruption
->> 3365             * (DP CTS 1.2 Core r1.1)
->> 3366             *    4.2.2.4 : Failed EDID read, I2C_NAK
->> 3367             *    4.2.2.5 : Failed EDID read, I2C_DEFER
->> 3368             *    4.2.2.6 : EDID corruption detected
->> 3369             * Use failsafe mode for all cases
->> 3370             */
->> 3371            if (intel_dp->aux.i2c_nack_count > 0 ||
->> 3372                    intel_dp->aux.i2c_defer_count > 0)
->> 3373                    drm_dbg_kms(&i915->drm,
->> 3374                                "EDID read had %d NACKs, %d DEFERs\n",
->> 3375                                intel_dp->aux.i2c_nack_count,
->> 3376                                intel_dp->aux.i2c_defer_count);
->> 3377            intel_dp->compliance.test_data.edid = INTEL_DP_RESOLUTION_FAILSAFE;
+> Here is the pull of gvt-next which fixs the compilation error when i915 debug
+> is open after the GVT-g refactor patches.
 > 
-
-The reason I pointed to this code is to give an example of how other 
-drivers handle this test-case.
-
-We added this patch for 4.2.2.1 and 4.2.2.6 EDID test cases.
-
-The challenge here as found out from our discussion here was to mark a 
-particular mode as preferred so that the Chrome usermode can pick it.
-
-Now whats happening with that there was always a possibility of two 
-modes being marked as preferred due to this and so-on.
-
-We had a pretty long discussion last night and thought of all possible 
-solutions but all of them look like a hack to us in the driver because 
-we end up breaking other things due to this.
-
-So we decided that driver is not the place to handle this test case.
-Since we do have IGT support for chromebooks, we will handle both these 
-test cases there as other vendors do the same way and it works.
-
-
-> Just because Intel DRM has its own solution for something doesn't mean
-> everyone else should copy them and implement their own solution. Up
-> until recently DP AUX backlights were baked into different DRM
-> drivers. A recent effort was made to pull it out. I think the Intel
-> DRM code was the "first one" to the party and it wasn't clear how
-> things should be broken up to share with other drivers, so mostly it
-> did everything itself, but that's not the long term answer.
+> Thanks so much for the efforts.
 > 
-> I'm not saying that we need to block your change on a full re-design
-> or anything, but I'm just saying that:
+> Thanks,
+> Zhi.
 > 
-> * You're trying to implement a generic DP rule, not something specific
-> to Qualcomm hardware. That implies that, if possible, it shouldn't be
-> in a Qualcomm driver.
+> The following changes since commit 2917f53113be3b7a0f374e02cebe6d6b749366b5:
 > 
-> * It doesn't seem like it would be terrible to handle this in the core.
+>   vfio/mdev: Remove mdev drvdata (2022-04-21 07:36:56 -0400)
 > 
+> are available in the Git repository at:
 > 
->> This marks the fail safe mode and IGT test case reads this to set this
->> mode and hence the test passes.
->>
->> We rely on the chromeOS usermode to output pixel data for this test-case
->> and not IGT. We use IGT only for video pattern CTS today but this is a
->> different test-case which is failing.
->>
->> ChromeOS usermode will not pick 640x480 unless we mark it as preferred
->> or other modes are eliminated.
->>
->> So we have to come up with the right way for the usermode to pick 640x480.
->>
->> We will discuss this a bit more and come up with a different change.
+>   https://github.com/intel/gvt-linux tags/gvt-next-2022-04-26
 > 
-> Can you provide the exact EDID from the failing test case? Maybe that
-> will help shed some light on what's going on. I looked at the original
-> commit and it just referred to 4.2.2.1, which I assume is "EDID Read
-> upon HPD Plug Event", but that doesn't give details that seem relevant
-> to the discussion here.
-
-Yes so it is 4.2.2.1 and 4.2.2.6.
-
-That alone wont give the full picture.
-
-So its a combination of things.
-
-While running the test, the test equipment published only one mode.
-But we could not support that mode because of 2 lanes.
-Equipment did not add 640x480 to the list of modes.
-DRM fwk will also not add it because count_modes is not 0 ( there was 
-one mode ).
-So we ended up making these changes.
-
-
+> for you to fetch changes up to 2da299cee780ea797b3f72558687868072cf5eb5:
 > 
-> I guess maybe what's happening is that the test case is giving an EDID
-> where all the modes are not supportable by the current clock rate /
-> lanes? ...and then somehow we're not falling back to 640x480. It's
-> always possible that this is a userspace problem.
+>   drm/i915/gvt: Add missing export of symbols. (2022-04-25 18:03:04 -0400)
 > 
-> In any case, would you object to a revert of the patches in the short term?
-
-Not sure, if you saw this change kuogee posted last night.
-https://patchwork.freedesktop.org/patch/483415/
-We did decided to remove all the code related to these test cases and 
-handle them in IGT.
-
+> gvt-next-2022-04-26
 > 
-> -Doug
+> - Add two missing exports of symbols when i915 debug is enabled.
+> 
+> Zhi Wang (1):
+>       drm/i915/gvt: Add missing export of symbols.
+> 
+>  drivers/gpu/drm/i915/intel_gvt.c | 2 ++
+>  1 file changed, 2 insertions(+)
+
+This still has another compile problem:
+
+ERROR: modpost: "intel_runtime_pm_put" [vmlinux] is a static EXPORT_SYMBOL_GPL
+
+Because:
+
+#if IS_ENABLED(CONFIG_DRM_I915_DEBUG_RUNTIME_PM)
+void intel_runtime_pm_put(struct intel_runtime_pm *rpm, intel_wakeref_t wref);
+#else
+static inline void
+intel_runtime_pm_put(struct intel_runtime_pm *rpm, intel_wakeref_t wref)
+{
+        intel_runtime_pm_put_unchecked(rpm);
+}
+#endif
+
+Looks like it happens if CONFIG_DRM_I915_DEBUG_RUNTIME_PM=n
+
+I think you probably want to #ifdef the export in the same way:
+
+--- a/drivers/gpu/drm/i915/intel_gvt.c
++++ b/drivers/gpu/drm/i915/intel_gvt.c
+@@ -309,7 +309,9 @@ EXPORT_SYMBOL_NS_GPL(__intel_context_do_pin, I915_GVT);
+ EXPORT_SYMBOL_NS_GPL(__intel_context_do_unpin, I915_GVT);
+ EXPORT_SYMBOL_NS_GPL(intel_ring_begin, I915_GVT);
+ EXPORT_SYMBOL_NS_GPL(intel_runtime_pm_get, I915_GVT);
++#if IS_ENABLED(CONFIG_DRM_I915_DEBUG_RUNTIME_PM)
+ EXPORT_SYMBOL_NS_GPL(intel_runtime_pm_put, I915_GVT);
++#endif
+ EXPORT_SYMBOL_NS_GPL(intel_runtime_pm_put_unchecked, I915_GVT);
+ EXPORT_SYMBOL_NS_GPL(intel_uncore_forcewake_for_reg, I915_GVT);
+ EXPORT_SYMBOL_NS_GPL(intel_uncore_forcewake_get, I915_GVT);
+
+Jason
