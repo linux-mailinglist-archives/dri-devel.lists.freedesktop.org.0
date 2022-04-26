@@ -1,76 +1,76 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 93AD950FD5A
-	for <lists+dri-devel@lfdr.de>; Tue, 26 Apr 2022 14:42:25 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id C753E50FD60
+	for <lists+dri-devel@lfdr.de>; Tue, 26 Apr 2022 14:42:42 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id DB05710E87C;
-	Tue, 26 Apr 2022 12:42:22 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 2ED8710E926;
+	Tue, 26 Apr 2022 12:42:39 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from out1-smtp.messagingengine.com (out1-smtp.messagingengine.com
  [66.111.4.25])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 2050510E70B
- for <dri-devel@lists.freedesktop.org>; Tue, 26 Apr 2022 12:42:01 +0000 (UTC)
-Received: from compute1.internal (compute1.nyi.internal [10.202.2.41])
- by mailout.nyi.internal (Postfix) with ESMTP id 6F6C15C0178;
- Tue, 26 Apr 2022 08:42:00 -0400 (EDT)
-Received: from mailfrontend1 ([10.202.2.162])
- by compute1.internal (MEProxy); Tue, 26 Apr 2022 08:42:00 -0400
+ by gabe.freedesktop.org (Postfix) with ESMTPS id EC92F10E70B
+ for <dri-devel@lists.freedesktop.org>; Tue, 26 Apr 2022 12:42:02 +0000 (UTC)
+Received: from compute4.internal (compute4.nyi.internal [10.202.2.44])
+ by mailout.nyi.internal (Postfix) with ESMTP id 4A1575C0181;
+ Tue, 26 Apr 2022 08:42:02 -0400 (EDT)
+Received: from mailfrontend2 ([10.202.2.163])
+ by compute4.internal (MEProxy); Tue, 26 Apr 2022 08:42:02 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=cerno.tech; h=cc
  :cc:content-transfer-encoding:content-type:date:date:from:from
  :in-reply-to:in-reply-to:message-id:mime-version:references
- :reply-to:sender:subject:subject:to:to; s=fm3; t=1650976920; x=
- 1651063320; bh=70dJ9hZuyR9Xk4fCrjvLr+vGjma3GtE6ImfrUIwQo4A=; b=j
- Z+vUWxi26PP1tzNIAlLt9sw8IFO4LnqtZQfre4XdphDf6Iu6JNR77LzEwRSFZRgf
- pAfoxEeMm0QsHVnYYqjt9lcH8yJ1+gNCPL97+TJPW4O3NXZdg1fRWkRouyfDMq+V
- MmONB7TxNGwZm8IJEkq+ogqPuZKcELLs8T4inaSa76SZVDvIqMFK95ERNre7ChgV
- 1yUI8wRHGB0YbixdGDcv3zaLS1tIyj4MlSosHl4D2lmkeQCaCoRXLz2IdR/7h/Tr
- XN44pvA4K9JKpOzhy/NivYYbmnYUGLYvtGwlPOaIULYqMwY98p/EtRKVEBkhnM6U
- Li/iv2sJ9IqZiyN148/WQ==
+ :reply-to:sender:subject:subject:to:to; s=fm3; t=1650976922; x=
+ 1651063322; bh=5TNW38hCxzg7WdlOn392YteiUTV/VdH0KTzWM27AcVY=; b=g
+ t08gYX90pYbZNX6tjcFV7cgHjXpzedU1rLS4HxGGlhWFsegpEIROPyawCu+SnKLy
+ zV84QyVutHBcwxWiJUL76lnNyGlqJFCuj8floaQPBr8/8SmrFyzZSWJ+PhzsnSKo
+ gpuUz5w1CZjkLxXFV8u1cbSd5B14KsAN2QlWgf4mzOUm9Q1GoD1MrBMyTpbO7kYz
+ FY3yUqqDeIYQCIRwa4Qcw2/F4M8j7XirB91D65p+xFQRB8yGa4CnNIfiMwXYqDOr
+ Fy2/ESkq3emcBXlcS5STsWn0/i5FgcYFQGwcolqPZCqEITZwYdn0I0d7ay0qcMS/
+ Ov6fZqM9gZWAryNxMnpqA==
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
  messagingengine.com; h=cc:cc:content-transfer-encoding
  :content-type:date:date:from:from:in-reply-to:in-reply-to
  :message-id:mime-version:references:reply-to:sender:subject
  :subject:to:to:x-me-proxy:x-me-proxy:x-me-sender:x-me-sender
- :x-sasl-enc; s=fm1; t=1650976920; x=1651063320; bh=70dJ9hZuyR9Xk
- 4fCrjvLr+vGjma3GtE6ImfrUIwQo4A=; b=sWNLjFi2gW3Kvb3RFB42GJHTL8PV2
- fsR2/Lzuk9chIPUhZzgTNKPHGwR3hce3cA/abNZDXjLC8MuaYOdu0LkMDancnhVP
- 5L0KZ8x82V0/YBRVs0SVCvASlevubhVKLBnUXMCzy5Ph6bp3gKgVuCDhGEnHjPHk
- mYJlmyYhhxN1qjNOvaVUmCqwSieGHEe8qFcXeSapYsP4KoCaHkvsEHPw73tRIxOe
- Ff7aJh3b9Sz7opYX1wNR0hp4OWOK1GuizsJH5DS5ONz/QRZLAe3YuOLChYCFKaEO
- AiCnbYvhWHKj9yk/3xnJ+L6p1Mmzjp22elgDKO+P8BUvGrXpGYkRQYZmg==
-X-ME-Sender: <xms:mOhnYqZCuUYBujVh_UYvK_foKXRHJ83SM-QMqzh-RfHvEv9sV1aPLA>
- <xme:mOhnYtagwDvaF7Ut6CUj7-YsJ87mCIqnjqsUk0QoO-dBXTQpkRS8hJ8f3jCdKXo3p
- gt3BO6p9OUfWaSYks0>
-X-ME-Received: <xmr:mOhnYk8XLVIFtnF3B1tLoyxQDUVyQjKsb9d9Wo0qeXf8GUHDb9W4AmCLvGP9OPpueSaHXoGG16k9qH7qJHzfQr5Ss058dgVl-jMuflY>
+ :x-sasl-enc; s=fm1; t=1650976922; x=1651063322; bh=5TNW38hCxzg7W
+ dlOn392YteiUTV/VdH0KTzWM27AcVY=; b=GNh+w+lCSix8oM9nkRW65iHOBYK2M
+ EllR4hRgKIkY7L1yOm5fNVfAeDOnpG2hTkg07IgTsj45quE3eqrlwekKaMdH12fQ
+ z8KEgBPJNEZCxlsMnRnRuLWrP7elis6XfwPrb6ntBJbdeMs/LqYl8izxjDObCNR5
+ HVRVUy7Y6tQw2usjCga8SVQuJNlLq/BWnKX5Xw2Am4HXTLMpAss3BKVlvm3/txNm
+ 5MJ/4ITbACjXwNPvRBY9oZPuYrF10JnvJ9+FXCYaDDIaakmQexKXCAr6If8ZbJBv
+ LS/zb7SyfhoBj9UFo3wlBDK3jxdwCe3gyQNR1x8xZSm6Nz0JslVaTkyBQ==
+X-ME-Sender: <xms:muhnYgI5Xef0aAl5SxJyKIdtzxUggtlhJvOf8nKB6Pbk09msoIhZkA>
+ <xme:muhnYgIut9Vw6k0sEcuJW5UmNje3fu1pY-WKK3XmUv3hI-i3K4vXNhP7lSUhgiTbs
+ a7sbFsuPEH236seyMY>
+X-ME-Received: <xmr:muhnYgu7jK9gTyvGQDQYhv6DCzMaeuBdB0alOtkRsHjdNHUY5h4rkBH0h4uxjruL6hnLLOnL2Bd2p6vBiw7KCKUw8632JPTr7NTpjzc>
 X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvfedrudefgdehvdcutefuodetggdotefrodftvf
  curfhrohhfihhlvgemucfhrghsthforghilhdpqfgfvfdpuffrtefokffrpgfnqfghnecu
  uegrihhlohhuthemuceftddtnecusecvtfgvtghiphhivghnthhsucdlqddutddtmdenuc
  fjughrpefhvfevufffkffojghfgggtgfesthekredtredtjeenucfhrhhomhepofgrgihi
  mhgvucftihhprghrugcuoehmrgigihhmvgestggvrhhnohdrthgvtghhqeenucggtffrrg
  htthgvrhhnpeeuieeggffhffffieefheduieeuvdetgeeufeffvefgtedvffehheekffev
- udefieenucevlhhushhtvghrufhiiigvpedtnecurfgrrhgrmhepmhgrihhlfhhrohhmpe
+ udefieenucevlhhushhtvghrufhiiigvpeefnecurfgrrhgrmhepmhgrihhlfhhrohhmpe
  hmrgigihhmvgestggvrhhnohdrthgvtghh
-X-ME-Proxy: <xmx:mOhnYspS28O9rAul2v7MCK6ZHJCFhlYxa6XTVBfX_XM1SwkIUBnh0A>
- <xmx:mOhnYlqAPyvRH7YwQ9y3mG4Dz0c4DUPQmKDnx2NIFnzb6Aff2yS7SA>
- <xmx:mOhnYqQeOVeohhmxR0fMMFktkJuJNAFAfQ-WufvCL5tTBFjZeGM3Yg>
- <xmx:mOhnYjgAw-mO4_o7V5_CEzpu5cc59fS0uz4Xv_gKs7_OjJZHGCJXBw>
+X-ME-Proxy: <xmx:muhnYtbx_msdtKCwJnZmX9gPWNnB8yIr87ayKOpFla7JQgTm7Dm6Ig>
+ <xmx:muhnYnYAX8rLUirTRgpWkOjMlDZuVlsyo-mxywbU_DzRWXHmrSjC-Q>
+ <xmx:muhnYpDSi8Zyqdw3gPILEls_zBH1c7N0sO0RYxIkbEA6qnnVFxEdUA>
+ <xmx:muhnYrR6z-uJQj7_FsXh6emIMZeTiArjuoY3tllUpMVTMBvnwG4QPQ>
 Received: by mail.messagingengine.com (Postfix) with ESMTPA; Tue,
- 26 Apr 2022 08:41:59 -0400 (EDT)
+ 26 Apr 2022 08:42:01 -0400 (EDT)
 From: Maxime Ripard <maxime@cerno.tech>
 To: Chen-Yu Tsai <wens@csie.org>, Maxime Ripard <mripard@kernel.org>,
  Samuel Holland <samuel@sholland.org>,
  Jernej Skrabec <jernej.skrabec@gmail.com>
-Subject: Re: (subset) [PATCH v3 09/14] drm/sun4i: Allow VI layers to be
- primary planes
-Date: Tue, 26 Apr 2022 14:41:38 +0200
-Message-Id: <165097689886.514433.12919234723505791740.b4-ty@cerno.tech>
+Subject: Re: (subset) [PATCH v3 10/14] drm/sun4i: csc: Add support for the new
+ MMIO layout
+Date: Tue, 26 Apr 2022 14:41:39 +0200
+Message-Id: <165097689886.514433.4736876690350493557.b4-ty@cerno.tech>
 X-Mailer: git-send-email 2.35.1
-In-Reply-To: <20220424162633.12369-10-samuel@sholland.org>
+In-Reply-To: <20220424162633.12369-11-samuel@sholland.org>
 References: <20220424162633.12369-1-samuel@sholland.org>
- <20220424162633.12369-10-samuel@sholland.org>
+ <20220424162633.12369-11-samuel@sholland.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 8bit
@@ -94,10 +94,10 @@ Cc: devicetree@vger.kernel.org, David Airlie <airlied@linux.ie>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Sun, 24 Apr 2022 11:26:27 -0500, Samuel Holland wrote:
-> D1's mixer 1 has no UI layers, only a single VI layer. That means the
-> mixer can only be used if the primary plane comes from this VI layer.
-> Add the code to handle this case.
+On Sun, 24 Apr 2022 11:26:28 -0500, Samuel Holland wrote:
+> D1 changes the MMIO offsets for the CSC blocks in the first mixer. The
+> mixers' ccsc property is used as an index into the ccsc_base array. Use
+> an enumeration to describe this index, and add the new set of offsets.
 > 
 > 
 
