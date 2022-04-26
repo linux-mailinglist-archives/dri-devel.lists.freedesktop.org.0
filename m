@@ -2,60 +2,56 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6AD0D51047C
-	for <lists+dri-devel@lfdr.de>; Tue, 26 Apr 2022 18:49:59 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 63A9A510483
+	for <lists+dri-devel@lfdr.de>; Tue, 26 Apr 2022 18:50:38 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id C2A5D10E8BD;
-	Tue, 26 Apr 2022 16:49:54 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id F256610E8C7;
+	Tue, 26 Apr 2022 16:50:35 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mga01.intel.com (mga01.intel.com [192.55.52.88])
- by gabe.freedesktop.org (Postfix) with ESMTPS id BBA2B10E880;
- Tue, 26 Apr 2022 16:49:49 +0000 (UTC)
+Received: from mga03.intel.com (mga03.intel.com [134.134.136.65])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id C659110E1A2;
+ Tue, 26 Apr 2022 16:50:33 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1650991789; x=1682527789;
+ t=1650991833; x=1682527833;
  h=from:to:cc:subject:date:message-id:in-reply-to:
  references:content-transfer-encoding:mime-version;
- bh=50NIus0lsSqURxp0ldGuh9zEUcuec71GhInzszKlL0I=;
- b=FjTrlhd+orzsGE4C7G+RaIrbTRHKOFt6w/XTX2mNObQfl0iuoT0ci5eq
- C6X0ggwHHDiD+wehVJ+0qV90RD5sqkl7LeJwmGf9WGHgxPGeQaWOYao+U
- j6JNdBrY7lvTJ7JsIFFsQ63BCb9sQYIlfW7PsIceTSYOvfUCrlJvgYRWo
- Dixw59mJz9NqCnCdkRWTZ7PdzLH4Xc/4w5dKRVpzXGfPcwx6iT72PHI+K
- EPGrnbTy2xG9wruFvmPkWQVv95niMPxWA6VOyigw6b9tg1IGPXk/h859P
- i0E5SNU/e2lds2Ol36QZyaN99/4OR8MQloVFXFsi0MpFf7ybBLPFBa3Nn g==;
-X-IronPort-AV: E=McAfee;i="6400,9594,10329"; a="290797434"
-X-IronPort-AV: E=Sophos;i="5.90,291,1643702400"; d="scan'208";a="290797434"
-Received: from orsmga003.jf.intel.com ([10.7.209.27])
- by fmsmga101.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 26 Apr 2022 09:49:48 -0700
+ bh=SsgGOQ6lgdQAdGZjsd17faGSvFyQkuAUFRCdb5aZCHU=;
+ b=AqC8CHGfgQwgWnKh6ZUoULSKfxT84GFSK18k4oc9K+T/xhrSDvBDH3rZ
+ 7bhtlvKebnVpu/7ngsyfrjTZmbLvANxYkc7e1E/bU3+thKZiI8tlyN9dn
+ Nsz6FZjg0441/n9BO9YZ9x8Jb6asXVZC3Q9W7q/XencUYZzX2/UR4whu4
+ j7U5U5Q4Id1aVbluAZlrH84oKjgArH6YGDiqm95BsYupwcW9njzTPLanx
+ AKPYmGBRf9Fd4HzO/a1J9m/QXD+/S1skFJqf0Q/Hd5cpKmgIPbuVSSgSz
+ LcarVxdKgt5HbD2GR7VLgDYw7yT6N4zkXagGuhVSc1+/zUhOkIIJqAuiw A==;
+X-IronPort-AV: E=McAfee;i="6400,9594,10329"; a="265457808"
+X-IronPort-AV: E=Sophos;i="5.90,291,1643702400"; d="scan'208";a="265457808"
+Received: from fmsmga003.fm.intel.com ([10.253.24.29])
+ by orsmga103.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 26 Apr 2022 09:49:52 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.90,291,1643702400"; d="scan'208";a="513249798"
-Received: from orsmsx601.amr.corp.intel.com ([10.22.229.14])
- by orsmga003.jf.intel.com with ESMTP; 26 Apr 2022 09:49:44 -0700
-Received: from orsmsx609.amr.corp.intel.com (10.22.229.22) by
- ORSMSX601.amr.corp.intel.com (10.22.229.14) with Microsoft SMTP Server
+X-IronPort-AV: E=Sophos;i="5.90,291,1643702400"; d="scan'208";a="650292313"
+Received: from fmsmsx605.amr.corp.intel.com ([10.18.126.85])
+ by FMSMGA003.fm.intel.com with ESMTP; 26 Apr 2022 09:49:51 -0700
+Received: from fmsmsx605.amr.corp.intel.com (10.18.126.85) by
+ fmsmsx605.amr.corp.intel.com (10.18.126.85) with Microsoft SMTP Server
  (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2308.27; Tue, 26 Apr 2022 09:49:44 -0700
-Received: from orsmsx609.amr.corp.intel.com (10.22.229.22) by
- ORSMSX609.amr.corp.intel.com (10.22.229.22) with Microsoft SMTP Server
+ 15.1.2308.27; Tue, 26 Apr 2022 09:49:51 -0700
+Received: from FMSEDG603.ED.cps.intel.com (10.1.192.133) by
+ fmsmsx605.amr.corp.intel.com (10.18.126.85) with Microsoft SMTP Server
  (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2308.27; Tue, 26 Apr 2022 09:49:44 -0700
-Received: from ORSEDG602.ED.cps.intel.com (10.7.248.7) by
- orsmsx609.amr.corp.intel.com (10.22.229.22) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2308.27 via Frontend Transport; Tue, 26 Apr 2022 09:49:44 -0700
-Received: from NAM04-BN8-obe.outbound.protection.outlook.com (104.47.74.48) by
- edgegateway.intel.com (134.134.137.103) with Microsoft SMTP Server
+ 15.1.2308.27 via Frontend Transport; Tue, 26 Apr 2022 09:49:51 -0700
+Received: from NAM04-BN8-obe.outbound.protection.outlook.com (104.47.74.43) by
+ edgegateway.intel.com (192.55.55.68) with Microsoft SMTP Server
  (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.1.2308.27; Tue, 26 Apr 2022 09:49:43 -0700
+ 15.1.2308.27; Tue, 26 Apr 2022 09:49:51 -0700
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=H5/r/WxB0P8fMeDB0jzf9gmE35Q35cs/ESqGfo7djBGIiTEKj92GMBvgxS+xxrFJb9dW65m8XCvnJWsLJyfg78JQAZNVdr+AZZoCTjNfTQ7VgtJ0k/a1kxcO6tEzO7BrIs6sKqokDvOSdaqlwMD48y2AaRSt9gr7P8IjYPxP9F4BFLpLNSlPDul56gBlEVLpDIEci8Tr6AaD+/dyCZdzLpZnw0Qfc+moArO8ZvN7Z9CJjwXDjM1qGWgmkZupd3Zo1V+BKzdTQzf61yNASwDeLD6bQlI52rrjqceOFUXOthH4rqS6Oci+LJ7TuCIAremnKsstmkiiJlWCxnd0GdT68A==
+ b=aWi8mdbEGYGDEh+KPTDSvyLmYx7C85J/A9CbI3SsoFoS+UsbugYpcOFe7+5hOMapdRYNGvIQCMq0XA7in2vx1QKAgIHeTevNQrGuzWc1PvMetqta8Y5fVxgy7T1BfG2ZUopMwqNnXrrL7XaBP037PKTCZpKJsjRxPLZhhByQPn26Ql15Qj8ilrPVxIvUMmNypq/WE1JzizuYtMr4T1S21HExNPSdt5vO/rwYmUS4FA6uqH5GwJzJQ9/ge8wmrYSx+f2txDz578jmO7r4kM4yYEatbdvIsASt/sWJlUlWrBVKlXgXlBfsUYkRtZhcfErfMgMAH6rOSLg/C/TdpL/+9A==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
  s=arcselector9901;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=lp4dnkAmbul+wKoDZZOdS7H3ue3jNW/HqHTY1jK/1jw=;
- b=CtinAkxDwrZzz69RUqTMtqYivN9M+vYkbfM8fU5dC/lIK59onwK7fZS/dHr4i7//BQ4gebkeMLZqiXZ6HWT2zk1vWPw72Wz5oyspeUTr3YgjEUpfzz5SKi7XuevxWylg/Zk0+6Xm334pWZuesuNkgzOxCWl1XS4KCq0WEAVDunzTbztNatl68EOAtewcmBTx79o5Po3S7dUxVhq3LrMD3jIVwJZsJNNBgM0qMc6+U5YaaSMURzKPTNHCpp6SEtopSo4oo7ddr0xp0fr+ec388lnak6vtegIcXMVaxbaolJINuKc++Z9uXnKryPc8Dmv6OVErFe/DA+XrmlXjD8aLtQ==
+ bh=oHj0M/45ot8dJaRp/Xky9JMFW6YKv3g+1IuHOq4Is4w=;
+ b=hT6yDfPxFN0MG2CK5JKxm61BCmyl6mZ0TRJn5tbXeWtGOgocZmeGLfaC5YFetgWvaXkzSPbNtJUkICD1ML9G1lCzp3VX1Hm+wWwm+vPMM1ONheWZHn3NmWUhzUoy+ovfdvPDMiahdYvRq1dw44pzS5eT6YbQOyRCudz9G2ntGIxN2whm4I3tdKhAnvOSDevkJeST8QvfiJR6FJbpBAELs++Qva3VQNizVSYJJ3LQ0Z69+Zzw5RppIgnmcnQw9gJz3VtPIIEAnlZwPI5urVWpSYiuFya6Biehz0vKP7oo1hPZ6PNmh6PuMlwJN81O9CIsstoRfWTQ1r95w1DEs7fcFA==
 ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
  smtp.mailfrom=intel.com; dmarc=pass action=none header.from=intel.com;
  dkim=pass header.d=intel.com; arc=none
@@ -65,78 +61,77 @@ Received: from SJ0PR11MB4894.namprd11.prod.outlook.com (2603:10b6:a03:2d4::5)
  by MN2PR11MB4366.namprd11.prod.outlook.com (2603:10b6:208:190::17)
  with Microsoft SMTP Server (version=TLS1_2,
  cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.5186.15; Tue, 26 Apr
- 2022 16:49:40 +0000
+ 2022 16:49:48 +0000
 Received: from SJ0PR11MB4894.namprd11.prod.outlook.com
  ([fe80::3d83:3af5:c95f:e062]) by SJ0PR11MB4894.namprd11.prod.outlook.com
  ([fe80::3d83:3af5:c95f:e062%7]) with mapi id 15.20.5186.021; Tue, 26 Apr 2022
- 16:49:40 +0000
+ 16:49:48 +0000
 From: Balasubramani Vivekanandan <balasubramani.vivekanandan@intel.com>
 To: <intel-gfx@lists.freedesktop.org>, <dri-devel@lists.freedesktop.org>
-Subject: [PATCH v3 2/7] drm: Add drm_memcpy_from_wc() variant which accepts
- destination address
-Date: Tue, 26 Apr 2022 22:21:43 +0530
-Message-ID: <20220426165148.1784-3-balasubramani.vivekanandan@intel.com>
+Subject: [PATCH v3 3/7] drm/i915: use the memcpy_from_wc call from the drm
+Date: Tue, 26 Apr 2022 22:21:44 +0530
+Message-ID: <20220426165148.1784-4-balasubramani.vivekanandan@intel.com>
 X-Mailer: git-send-email 2.25.1
 In-Reply-To: <20220426165148.1784-1-balasubramani.vivekanandan@intel.com>
 References: <20220426165148.1784-1-balasubramani.vivekanandan@intel.com>
 Content-Transfer-Encoding: 8bit
 Content-Type: text/plain
-X-ClientProxiedBy: PN3PR01CA0135.INDPRD01.PROD.OUTLOOK.COM
- (2603:1096:c01:bf::6) To SJ0PR11MB4894.namprd11.prod.outlook.com
+X-ClientProxiedBy: PN3PR01CA0129.INDPRD01.PROD.OUTLOOK.COM
+ (2603:1096:c01:bf::8) To SJ0PR11MB4894.namprd11.prod.outlook.com
  (2603:10b6:a03:2d4::5)
 MIME-Version: 1.0
 X-MS-PublicTrafficType: Email
-X-MS-Office365-Filtering-Correlation-Id: cadacff5-030e-4320-0f51-08da27a4c1d6
+X-MS-Office365-Filtering-Correlation-Id: ee18bad7-8745-43a7-26f8-08da27a4c645
 X-MS-TrafficTypeDiagnostic: MN2PR11MB4366:EE_
 X-LD-Processed: 46c98d88-e344-4ed4-8496-4ed7712e255d,ExtFwd,ExtAddr
-X-Microsoft-Antispam-PRVS: <MN2PR11MB43667694075F14FDCE1BD3109FFB9@MN2PR11MB4366.namprd11.prod.outlook.com>
+X-Microsoft-Antispam-PRVS: <MN2PR11MB43661A012E7DD2655CFA40D99FFB9@MN2PR11MB4366.namprd11.prod.outlook.com>
 X-MS-Exchange-SenderADCheck: 1
 X-MS-Exchange-AntiSpam-Relay: 0
 X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: BE/CH7Seq/fx0WPrqvq81pYzMDHogdIpAXEvqjPGWd+yR9iKfFYqgD6qBXTx/thJN8/VDhBCVZjsuvHrCW24Y9jyP/mrNT00txEkFTumV3YUiIZ15Nmca8YQqIMiLnLoxaHDSexE95zs/xgRUv5IMEompgOOC0Sdt9v0SIpow7keWdE7DhZiPWdYayZfH2vP6bfSjXEXaWWCZnfxocGJIJh2rpmbmtJJymXlPb6uH1gVhx10Oc2Na5WnQQYo3KT24RY8+0mNBJ6wiVzoMrnXvkoABxkTw2UhA/gOjJb4HX1vtyUhwJq888B/dT4j2EGfG0pomTycLTKg+PAV9SbXlnqfOy9m1SJYpAMLp+PAAsX5V9LlwKz963RWXF1QGWjZxmuqqHDDb1Q7mOnL/Sgcu0bewbKar8d1DUtREvnerwOvbiIf8a/z+8RlSmuBIVYGTdzgR4DICa79waOxrRH9wH30SyA3KRZ3lXNQjUVVAyBHx4G8qQgP6xj5V9d54UZDHW3inpvktbiG+bHXSdT+g0GCp9ClCEN6+zlB9KaEFqvt1J84Pzeu4VEcuHk+rgX+A02wid5fWijaUFhiowe2Ous8HdB6G6LQsHiSACbRAFX5KFo2WD+n9W10NkaRmYBw4t8v2vwY8o/wpAQIT3w2sw==
+X-Microsoft-Antispam-Message-Info: CFq8D993+3IvfeCHLivfRvhV6ASuT3tl0Y+Pus4qai9v+EX5yuuWLyXqjKxunCWioW4lmTp8wI2NMunSA4MQp/UVtYA/jVPC5xmLan0ijaqLg1EWCI1YPwe0c+Gqc9+BVcWktUumDGyYA5k+5ZsoKp0UDoEQBHZJmcyBYtcNuGjOlC/W4Q6rFumLkLBdanZB2k+/iI8pG6yNplylLzLDm3YDxl2xQb+8UlGFwZNfEJP/oz+ISIlLVhhBUxtBQlimZvDjyU0zfLWO+sApf3/m6xmjp91olOwxfIRuvc00XpwqGN0veofrZ4A9XvvOfcjEIq+oksK4rC0Ln3oeLhg4OUGMn+VRJJuElzhQ2e2EQfBJp/ueDabglgJvCamHnUpZ8Vnj/Vlw7OYfhMxD6FiZ9QxCtjW+DRSYEjnsWYOkMhKNfJJ+oxwuOkyerywOATTR8R5YPAeFow09p3eS1HkxUNiQ/kWdmgvNYckM+cpQopj6aCxOmfzpdf9gVZOEde3PHelHlp4RDTGty/dBhErk4XpqUMdXDlAnHGtJyfoTOMItzFzuRMFybua8DHPi8j3jE0hRLPv2RpPkJ8gp12wDCme/srr5nfcjYvXqY6IPlhzCgLgOSRXe93D+I6lJ8KUP9zIjDYhPXXKWIbChapo70XRaqal8XHnTUtHPGlcEq1r46MFnUOMX0DUw/LK3QBN9vyskhcmnLhmNIiiuHIrn/w==
 X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
  IPV:NLI; SFV:NSPM; H:SJ0PR11MB4894.namprd11.prod.outlook.com; PTR:; CAT:NONE;
- SFS:(13230001)(366004)(2616005)(66946007)(6512007)(5660300002)(82960400001)(26005)(8936002)(66556008)(54906003)(316002)(86362001)(2906002)(1076003)(38100700002)(44832011)(6486002)(508600001)(4326008)(8676002)(66476007)(186003)(6506007)(36756003);
+ SFS:(13230001)(366004)(6666004)(2616005)(66946007)(6512007)(5660300002)(107886003)(82960400001)(450100002)(26005)(8936002)(66556008)(54906003)(316002)(86362001)(2906002)(1076003)(38100700002)(44832011)(6486002)(508600001)(4326008)(8676002)(66476007)(83380400001)(186003)(6506007)(43170500006)(36756003);
  DIR:OUT; SFP:1102; 
 X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: =?us-ascii?Q?knJfWzQu06mI+Yr5JkHZjzrk1YokhhtJeUAzJwr6QwtF/hd/jNIfY94zAC04?=
- =?us-ascii?Q?9PC5iUgjAiv10xivFPTpPMgekCBvQswCjzfrRVIT8y3cjPR49AU7s/Oz8aMy?=
- =?us-ascii?Q?nlXbkLrUAjeI1WtzLDv7R2MbpSwmNXOeQe0xraGUmB/qPFt3xnBFlkaQO0s3?=
- =?us-ascii?Q?kHCXrPH7EhKFRQI9MWFCJOBIjQRDDxmrc+bWziNmzmfxRL0zVBd6YKCAj64D?=
- =?us-ascii?Q?EBclMkDXdJSBzZou2dnnR3ChtCa8Ps/jK62phpK6uXnO2D/cCiBUirA8dHPf?=
- =?us-ascii?Q?6I0P9vvo0bDuQeg/O4lhq3lA+e3i5BCzfNO9YIg0Lh2209Ml9JNLHVswVmCM?=
- =?us-ascii?Q?h1oiKDaOad/HpXRLiw1zQCejAEhnTLsbJUkTXeixDwrPZfGUZg8HrNqSVwTy?=
- =?us-ascii?Q?qBexGWj8kSShrEowLwFfHjLrZypEFt43RQZ9Oe+66AZBrBnt9p2vHcW+DtAy?=
- =?us-ascii?Q?XT4DJ2p6ieJNcLJNlZG/gsjq8dwvlc3ojhsn34Q0imkHI48fNJ3FNzT49hrf?=
- =?us-ascii?Q?+v5rQUMSH6wjyNfogogp2RD0GXsZRven7SP2kBeD24U1hOjqZ6dGgpwrlPo2?=
- =?us-ascii?Q?9Tsft0qaFjTgxIPSCeufwnE+xoZTIQJm1E7R1AJI4o5dKuOz0Eaflk8k62iN?=
- =?us-ascii?Q?/LxzhwhaiDZwgMrgoqhBQtaReFc9BPkJrMa/59xYfc/Z1e4q1v/+2Yvvv1QM?=
- =?us-ascii?Q?eGLNsPuvPSWZAc/CagrhUksC5uF7NwbQKB2NxI33SEqzs0ZtLHeqh9+rpQ4F?=
- =?us-ascii?Q?3jGHUGu2hpoK6V+wsJLA1WzJgxrNobrySGRDyHFzEqLYiM3lHu6UTbVa6UKV?=
- =?us-ascii?Q?X46T2I8vFaOM9OwXbGRSjOdHyfKK0hnzVlFYcYnt6wh54Wynocc6+pjPwz8h?=
- =?us-ascii?Q?9YTzc3bua+M0bg7dSVnBIdYH6vDLn7ph0UP7XMs0qwfyzOsWfUjvSebp08uR?=
- =?us-ascii?Q?ZjWTMVempcBN8FDUQQgXrGs44lOQMjZOsbAdiDV6BlWxiN/XBGgy+ak+l/IY?=
- =?us-ascii?Q?tKOtpY9HmynPTFrUni9Kg77kPUZRgw199wwys6/r57urWj4IWP3LR/MGhaaK?=
- =?us-ascii?Q?G36nlmqxDZp2PPJ02oM/2IsMUBMGxhWiSfAXY0NhR87pKxyCDTvWklIYQO1d?=
- =?us-ascii?Q?slzCeyefR+nNsirADZyhNGuAWvKDOKKNKOYXMkr2MJUFWKJyUYjBJwdbbRru?=
- =?us-ascii?Q?ZKj6PgyQtw19TueBjdcyAqiJKAXyTKjgH/ybEJSuVv9Tf6YHuoXnagiJJ4bJ?=
- =?us-ascii?Q?7WdhQKDUOYzbqoQpG0umkRm3dygxPlcB4UN6g/aYFwUWHwbaO0y085A6M17Q?=
- =?us-ascii?Q?K5rEc4ldYRxGIQf5OnzmdT+Ool+XWlT1F7iM5TfWxDXgd0sOf0HykcEFrNRP?=
- =?us-ascii?Q?HyLpT4Nw/dmU0Xw5R+Y044cKwJNVSrGeoO5OccB81C6CgZPIjOFNcaxbJvUT?=
- =?us-ascii?Q?mtwzNegu0+rMFFCKQOZP6pHzZvRWskhwKCa6L9xM268jTisBX0NhHZ5B3KkI?=
- =?us-ascii?Q?luyu5hcCmKNIegJCexIGLn3yF5aqD3MsOrDmUnucxQHkG2ClviEq68MPHrWF?=
- =?us-ascii?Q?jhWC5ZXst9zs6mhYKHhcPDH69DW62F9/57+einAyRjmgnJxI5hhB9Q2aoLLU?=
- =?us-ascii?Q?EUcte2yAdG32hPUcr6dM+RMq161BgBCeVyFVnOsuB8LdmhEs83glFVDx5GH6?=
- =?us-ascii?Q?in9c4L596thBt7mVqLaz90O8QeURb3KVWmy9g2LfaO2/avt38JcT/XINvKn6?=
- =?us-ascii?Q?uFt8LGtB7U8i692X6V3kEh212Xw9ytpFU3DuTmbgJDq65Xl7liqO?=
-X-MS-Exchange-CrossTenant-Network-Message-Id: cadacff5-030e-4320-0f51-08da27a4c1d6
+X-MS-Exchange-AntiSpam-MessageData-0: =?us-ascii?Q?DHaaxIf9tiwR+jbGnKv7GcE+0P7xkpnpHGDSVK2YhyFN2944Yq884o5ByKXB?=
+ =?us-ascii?Q?HotK1sz1OomJ+6t+duriI61YqdZAwAvaYQgckNLOFWxfdWXN4ETmXvomPBxk?=
+ =?us-ascii?Q?M5iWwvUYCD3/w0JfUjej4pVGb3SWQFy7a2BM+npcRh2aiQUL/5w9wy+4KiCq?=
+ =?us-ascii?Q?P1KsZp9mCPKxICOITdLp5f7lvPzxwqWXH4o91WCp0r03lC39lqeZ6Z8u2aeN?=
+ =?us-ascii?Q?kcJG6JOQeFuf23s/TvTq5soBAm7JfJYuYjoYWB5J+GPeiWDMKQrW4H8X7rik?=
+ =?us-ascii?Q?+M75dh0IQcGigqUhHPsrdge+PqitG8JEMRVXc2RejmONyR37fEMmd5bXkkgo?=
+ =?us-ascii?Q?JmKNvYia4mrpfXXMmZ5SduS4qUrSTlvVy2Ko+NO+4G8eLRT9m6wU0R6/vU1k?=
+ =?us-ascii?Q?FU0xO37TZOttxClzmoIgatMFCP4UG1MSDzuPvPF8HlP9Tgw+WjeQJHMZ+n5K?=
+ =?us-ascii?Q?FRGYfOy7949pfslgCoV/vuPIGvZ1jqTPx2gaZcRZvDnhoKEh2Ec9NvJZG8hY?=
+ =?us-ascii?Q?+m9AGkMx2fWPf4+doOZ+UOAo9zBFDpYBfdJ9lNfAlMDPDNjsT91uWFqUZmvn?=
+ =?us-ascii?Q?GxageubEJwGDwEmDJK0CaHp0fNlIe2Eo0Fjcm7fzXwvW7KhVpOzagySYUr5b?=
+ =?us-ascii?Q?b0oPWClXUuflo6sMI4mcJpk9WQ25+RlgLjz+ZbblHy0v11NJqaYK+w5jWcob?=
+ =?us-ascii?Q?jUtJXdW2I0Wxu/Td7+gLMrwJaDcpawmSaYMbauq5SqTPfYWtxVaP2f9buVUZ?=
+ =?us-ascii?Q?g8mDDTtmlrJHEeOBeKqszZXg1iYkrwfV/UDmQkpG+19nHJEMvyS04OYbi5ma?=
+ =?us-ascii?Q?B6N6PS157gHbl9IuV5Qixi/hl6WdYggahim6JIbM+gGTaKlksNHjoa/2uQJ+?=
+ =?us-ascii?Q?HfPmmpJgGRiUDwM6J41B8XUAMUTpzMjZGCHA826Jrxy8pOO58J/ar91jWVc7?=
+ =?us-ascii?Q?UC40uOZBtDygshW/KwpPhiPynnFqu4GiOGg4Vz8DCGMHqqE8MhpjuK2D9UVj?=
+ =?us-ascii?Q?eKz44ib/iNcvBTMSnPHL0mpNXMB2fpaenDL8sFa3OH9bUbGQLgqd0WJ9QbxJ?=
+ =?us-ascii?Q?6UuCf5cBlvj829IbiiyZZuVtFAyhztI+MWy0GM+fHW1W5LT48pjnuC9n2rlh?=
+ =?us-ascii?Q?2wKL89q1aG2F/f3gcDx8vMHB5XoBhZTxKGOtPZM2AFDRKxc9ZopKjuWtb/1/?=
+ =?us-ascii?Q?crs7Z2+XJyBv6hT1t6xYPGIRgSqsUIFT4qtYdzFSF97gMKfsQ11LqrgI97nv?=
+ =?us-ascii?Q?1cPE+1ah1ydqcRV+wT0La5OnV8dyJiDBWK3KpWrkYU4dWPz0KiNgYxUafJ65?=
+ =?us-ascii?Q?lGxWTU1LIPmoVgp0f9baW3Jvwhes5O9mZls1MBeva6jUrtyIDWHJAxxQbVk8?=
+ =?us-ascii?Q?ukvlkNVxusNAcbojPJ1YgMrrV15Pw+yneqSuQa2jVSZwUWDNOVTVGmYsmxWP?=
+ =?us-ascii?Q?KbLFkAqTQ1WexpeT4u1u3/xqnxwkIw7R6kG/dMStSHMopxjEdA0I533XqJae?=
+ =?us-ascii?Q?ppozN0L2qU3OZ9mOy6QW/jx+eNYdm/N47JA73AiJmH6XlEyLgOXmGnzS+NwF?=
+ =?us-ascii?Q?vp7m/2EeRycbjir1QCtWAqC39yYoGUD48/eYvJBWrjgvQ1QtCdEyoARbyyOw?=
+ =?us-ascii?Q?PMCBVS93ey2qnv/UgzhkX32z0A7yFHj2vXcpK/td3vWA8ksocQ6CK8Xwm1sj?=
+ =?us-ascii?Q?xvMoUT29YowjS5iwO/YlQ6T5ae1wo4C5J5e3bWsart0uO3F5pMQoTQ2ufTHs?=
+ =?us-ascii?Q?RZkM2Gicy6zeOkSBVqxFYSsNrOFDxooOhlcRz1dtCulR6Gda44cP?=
+X-MS-Exchange-CrossTenant-Network-Message-Id: ee18bad7-8745-43a7-26f8-08da27a4c645
 X-MS-Exchange-CrossTenant-AuthSource: SJ0PR11MB4894.namprd11.prod.outlook.com
 X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 26 Apr 2022 16:49:40.7745 (UTC)
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 26 Apr 2022 16:49:48.6054 (UTC)
 X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
 X-MS-Exchange-CrossTenant-Id: 46c98d88-e344-4ed4-8496-4ed7712e255d
 X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: uTfaag89zWrBxkcY7rBqjMrfyb2GhJ0TtSurSCNvieRk4LqqENiNmnJpL8uzT0CKHom8aGOEIb7NlvjCnsJIEvQkevvuy6AvvXyXy8WCqZLsSmpYrgXP+kp2BE6S7DVb
+X-MS-Exchange-CrossTenant-UserPrincipalName: q7J+NK2xgOoqVH/vOAtB3e7yppwEMviTm6gYmj7ynrfGrYLTAdDYEjCz7wv4P0vgh9jBGDk/I+0iBkB8dupB3K3vY5vIY1HwXulTFtFvfjVaqZXBzR3ZT75+yYmn3UdV
 X-MS-Exchange-Transport-CrossTenantHeadersStamped: MN2PR11MB4366
 X-OriginatorOrg: intel.com
 X-BeenThere: dri-devel@lists.freedesktop.org
@@ -151,132 +146,51 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Thomas Hellstr_m <thomas.hellstrom@linux.intel.com>,
+Cc: siva.mullati@intel.com, lucas.demarchi@intel.com,
  Balasubramani Vivekanandan <balasubramani.vivekanandan@intel.com>,
- David Airlie <airlied@linux.ie>, lucas.demarchi@intel.com,
- siva.mullati@intel.com, Thomas Zimmermann <tzimmermann@suse.de>,
  Nirmoy Das <nirmoy.das@intel.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Fast copy using non-temporal instructions for x86 currently exists at two
-locations. One is implemented in i915 driver at i915/i915_memcpy.c and
-another copy at drm_cache.c. The plan is to remove the duplicate
-implementation in i915 driver and use the functions from drm_cache.c.
+memcpy_from_wc functions in i915_memcpy.c will be removed and replaced
+by the implementation in drm_cache.c.
+Updated to use the functions provided by drm_cache.c.
 
-A variant of drm_memcpy_from_wc() is added in drm_cache.c which accepts
-address as argument instead of iosys_map for destination. It is a very
-common scenario in i915 to copy from a WC memory type, which may be an
-io memory or a system memory to a destination address pointing to system
-memory. To avoid the overhead of creating iosys_map type for the
-destination, new variant is created to accept the address directly.
-
-Also a new function is exported in drm_cache.c to find if the fast copy
-is supported by the platform or not. It is required for i915.
-
-v2: Added a new argument to drm_memcpy_from_wc_vaddr() which provides
-the offset into the src address to start copy from.
-
-Cc: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>
-Cc: Maxime Ripard <mripard@kernel.org>
-Cc: Thomas Zimmermann <tzimmermann@suse.de>
-Cc: David Airlie <airlied@linux.ie>
-Cc: Daniel Vetter <daniel@ffwll.ch>
-Cc: Thomas Hellstr_m <thomas.hellstrom@linux.intel.com>
+v2: Pass newly added src offset argument to the modified
+drm_memcpy_from_wc_vaddr() function.
 
 Signed-off-by: Balasubramani Vivekanandan <balasubramani.vivekanandan@intel.com>
 Reviewed-by: Lucas De Marchi <lucas.demarchi@intel.com>
 Reviewed-by: Nirmoy Das <nirmoy.das@intel.com>
 ---
- drivers/gpu/drm/drm_cache.c | 55 +++++++++++++++++++++++++++++++++++++
- include/drm/drm_cache.h     |  3 ++
- 2 files changed, 58 insertions(+)
+ drivers/gpu/drm/i915/gem/i915_gem_object.c | 8 ++++----
+ 1 file changed, 4 insertions(+), 4 deletions(-)
 
-diff --git a/drivers/gpu/drm/drm_cache.c b/drivers/gpu/drm/drm_cache.c
-index 2e2545df3310..8c7af755f7bc 100644
---- a/drivers/gpu/drm/drm_cache.c
-+++ b/drivers/gpu/drm/drm_cache.c
-@@ -358,6 +358,55 @@ void drm_memcpy_from_wc(struct iosys_map *dst,
- }
- EXPORT_SYMBOL(drm_memcpy_from_wc);
- 
-+/**
-+ * drm_memcpy_from_wc_vaddr - Perform the fastest available memcpy from a source
-+ * that may be WC to a destination in system memory.
-+ * @dst: The destination pointer
-+ * @src: The source pointer
-+ * @src_offset: The offset from which to copy
-+ * @len: The size of the area to transfer in bytes
-+ *
-+ * Same as drm_memcpy_from_wc except destination is accepted as system memory
-+ * address. Useful in situations where passing destination address as iosys_map
-+ * is simply an overhead and can be avoided.
-+ */
-+void drm_memcpy_from_wc_vaddr(void *dst, const struct iosys_map *src,
-+			      size_t src_offset, unsigned long len)
-+{
-+	const void *src_addr = src->is_iomem ?
-+				(void const __force *)src->vaddr_iomem :
-+				src->vaddr;
-+
-+	if (WARN_ON(in_interrupt())) {
-+		iosys_map_memcpy_from(dst, src, src_offset, len);
-+		return;
-+	}
-+
-+	if (static_branch_likely(&has_movntdqa)) {
-+		__drm_memcpy_from_wc(dst, src_addr + src_offset, len);
-+		return;
-+	}
-+
-+	iosys_map_memcpy_from(dst, src, src_offset, len);
-+}
-+EXPORT_SYMBOL(drm_memcpy_from_wc_vaddr);
-+
-+/*
-+ * drm_memcpy_fastcopy_supported - Returns if fast copy using non-temporal
-+ * instructions is supported
-+ *
-+ * Returns true if platform has support for fast copying from wc memory type
-+ * using non-temporal instructions. Else false.
-+ */
-+bool drm_memcpy_fastcopy_supported(void)
-+{
-+	if (static_branch_likely(&has_movntdqa))
-+		return true;
-+
-+	return false;
-+}
-+EXPORT_SYMBOL(drm_memcpy_fastcopy_supported);
-+
- /*
-  * drm_memcpy_init_early - One time initialization of the WC memcpy code
-  */
-@@ -382,6 +431,12 @@ void drm_memcpy_from_wc(struct iosys_map *dst,
- }
- EXPORT_SYMBOL(drm_memcpy_from_wc);
- 
-+bool drm_memcpy_fastcopy_supported(void)
-+{
-+	return false;
-+}
-+EXPORT_SYMBOL(drm_memcpy_fastcopy_supported);
-+
- void drm_memcpy_init_early(void)
+diff --git a/drivers/gpu/drm/i915/gem/i915_gem_object.c b/drivers/gpu/drm/i915/gem/i915_gem_object.c
+index 06b1b188ce5a..c1ff0a591a24 100644
+--- a/drivers/gpu/drm/i915/gem/i915_gem_object.c
++++ b/drivers/gpu/drm/i915/gem/i915_gem_object.c
+@@ -438,16 +438,16 @@ static void
+ i915_gem_object_read_from_page_iomap(struct drm_i915_gem_object *obj, u64 offset, void *dst, int size)
  {
+ 	void __iomem *src_map;
+-	void __iomem *src_ptr;
++	struct iosys_map src;
++
+ 	dma_addr_t dma = i915_gem_object_get_dma_address(obj, offset >> PAGE_SHIFT);
+ 
+ 	src_map = io_mapping_map_wc(&obj->mm.region->iomap,
+ 				    dma - obj->mm.region->region.start,
+ 				    PAGE_SIZE);
+ 
+-	src_ptr = src_map + offset_in_page(offset);
+-	if (!i915_memcpy_from_wc(dst, (void __force *)src_ptr, size))
+-		memcpy_fromio(dst, src_ptr, size);
++	iosys_map_set_vaddr_iomem(&src, src_map);
++	drm_memcpy_from_wc_vaddr(dst, &src, offset_in_page(offset), size);
+ 
+ 	io_mapping_unmap(src_map);
  }
-diff --git a/include/drm/drm_cache.h b/include/drm/drm_cache.h
-index 22deb216b59c..d1b57c84a659 100644
---- a/include/drm/drm_cache.h
-+++ b/include/drm/drm_cache.h
-@@ -77,4 +77,7 @@ void drm_memcpy_init_early(void);
- void drm_memcpy_from_wc(struct iosys_map *dst,
- 			const struct iosys_map *src,
- 			unsigned long len);
-+bool drm_memcpy_fastcopy_supported(void);
-+void drm_memcpy_from_wc_vaddr(void *dst, const struct iosys_map *src,
-+			      size_t src_offset, unsigned long len);
- #endif
 -- 
 2.25.1
 
