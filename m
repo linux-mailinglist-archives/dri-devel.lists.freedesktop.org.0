@@ -2,65 +2,64 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0D73E50ED7E
-	for <lists+dri-devel@lfdr.de>; Tue, 26 Apr 2022 02:18:31 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 8167B50ED85
+	for <lists+dri-devel@lfdr.de>; Tue, 26 Apr 2022 02:20:11 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id A6DDD10E821;
-	Tue, 26 Apr 2022 00:18:28 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 78D1E10EF10;
+	Tue, 26 Apr 2022 00:20:09 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-lf1-x129.google.com (mail-lf1-x129.google.com
- [IPv6:2a00:1450:4864:20::129])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 94C2C10E821
- for <dri-devel@lists.freedesktop.org>; Tue, 26 Apr 2022 00:18:27 +0000 (UTC)
-Received: by mail-lf1-x129.google.com with SMTP id j4so4598657lfh.8
- for <dri-devel@lists.freedesktop.org>; Mon, 25 Apr 2022 17:18:27 -0700 (PDT)
+Received: from mail-lj1-x22e.google.com (mail-lj1-x22e.google.com
+ [IPv6:2a00:1450:4864:20::22e])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id A5A7E10EF02
+ for <dri-devel@lists.freedesktop.org>; Tue, 26 Apr 2022 00:20:08 +0000 (UTC)
+Received: by mail-lj1-x22e.google.com with SMTP id 17so19916335lji.1
+ for <dri-devel@lists.freedesktop.org>; Mon, 25 Apr 2022 17:20:08 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=message-id:date:mime-version:user-agent:subject:content-language:to
  :cc:references:from:in-reply-to:content-transfer-encoding;
- bh=rDmMxzE7/oRsb0qaFEOlvz8JOsqHi+LAw4RhQM9srck=;
- b=Pgg7+8cdNN12HNZcp/0dr8fiMQmDozQt/G+Tj0odUh607a48PRjbPI0aFryb0ythTh
- tKxhL8jQA0o3JH+5rAPOiFmNsvi0unt4KqswN4zX9L8iWsJnxIrw6TZhjq5p0c6wd9NU
- wZCCfpFdIrx6vs/3S+IS3xRrdyh3lFeTRXzFjOnLDXOoA7rDbg01IBwQ2pXi64TgWPyx
- 4QViXHRRUdZXdEghcpwmHJtXYnLASMHuPwkB2Z9Bi7LYE1oAaGnU8jMcW68aQ7pHrbt3
- d2PJXVsFSkAx3yWBbSZt0ib8VLOh2IqLqOg7GO8tZuX5eMNLOaykv2tkjUVQEGCfO9pt
- FOvg==
+ bh=57bQ4tbDtrBsm9JA8qbG1UId0HN6kcUhI2t0zn8mFdI=;
+ b=l4bljSrE7nSWQ8sv1wwHLb2bmAUO2MLoIF4nzXQTKpKZJEYjAnab6rrZlaSm57E0BK
+ rUNmAutpYK4w+fT5CYN1ruOPVBTv1yW/2pgNr8VEmCZ+zLUxjDDNd7P75b99TKf0xyDq
+ mx0oPgI7OW88rAno4b2rZtvu0wlxFBd/N92W10DiHE6vhQ35wTceRX/X9GtayF/pW/Ak
+ WMnTyMkEFbJvMnUCvkindVpNRYzNCMy7EFuESINj3TgCOyzCgv/YgWXJ+kSlV//mOPv3
+ GcWskDWHMAQx0x1wx9T3kvWAuRUG4zZwKjHBSiLXcTVDjeD94BR5QIC6JuzkHCZHXKmU
+ 7PXg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
  :content-language:to:cc:references:from:in-reply-to
  :content-transfer-encoding;
- bh=rDmMxzE7/oRsb0qaFEOlvz8JOsqHi+LAw4RhQM9srck=;
- b=VU/JSbaDKS33TbK/g6rWuHZ3MZwQ2uADARjIQtWqMIh7J8GDH6Fi8w9upWw2aA5nFc
- cIHCO0RBC8Rb2vxv/GOWzFJ27dNpHaaa9Rws83Zi8fgZS53W86Gq9zu4V9vLhZUL/Jxu
- T63/X8pNQWRYV3Yq2yCvNHfxikwhwckOPPD73FMsL3cDOQq7BDe4Qo/OQ4S1llDX+SiD
- R35OpCw6THDSwpBkX9v4OuU0vtBp9VomxQJBA0CJkmwQMMXCyqJw5053YqHmwHQ2eEmj
- kgV9cWeEKzJCgYgxKWuJwk9HxqVTHPXKhJAfgK1OFcVfKPB2iFvatm0bdBXKyJDVqchB
- qqtg==
-X-Gm-Message-State: AOAM533qolTRJi7LAjTDGYz53CdWR8FgEcEijxzaMaLVuCc/RcEhDypr
- K5iFdSIRPrwGXqiYbjr4n2MuYA==
-X-Google-Smtp-Source: ABdhPJzNK1i4AdssI+B1vk/FW52WXZvyi0ztorYwDX1Osll9ToIqDcybU3jVl1BUnvvhUiO/rwziuQ==
-X-Received: by 2002:a05:6512:39cf:b0:471:ea64:70cb with SMTP id
- k15-20020a05651239cf00b00471ea6470cbmr12929025lfu.47.1650932305884; 
- Mon, 25 Apr 2022 17:18:25 -0700 (PDT)
+ bh=57bQ4tbDtrBsm9JA8qbG1UId0HN6kcUhI2t0zn8mFdI=;
+ b=0ZGXAG/O7guEfjVzdfan5wqFPY8vtpvI/CgJs0RQDPrmBmML/T4nSycQoysPzeDidl
+ 1SfoZNa6nGItTmIcHtQO13ab7cClBJjYuGd2aZGFw2zXZVg/bGLRjGQA0qaFrQgfou7H
+ p72Ffb+BAbTTmXkHpFdZJd/FGphlp3RHxxXSseLwTAPMaZCmuxxLfGaEQ0zweKaq8bwS
+ nrUD+qyXZtZrI6OfVYBL2WAtsOfA9RM5BSNjSctU0UvXPm31+Eg0hRwRyxI0nU2FhWue
+ Fm2acK2VdWEYmsGHDuYcyn2YZIod/u9tGSEdURt/X0UJV7RJN+ikEHgqm0j9GQkVN1gq
+ GABQ==
+X-Gm-Message-State: AOAM531/PULvj5RPbdZPEVdLfTQkRmy2EhZtM6jbHl9EZ5UohZz/VR3i
+ MWdoeHgNBIubc+SdgnCZVji2CQ==
+X-Google-Smtp-Source: ABdhPJzH7GfvcPfVU4Jc8k/dJyqKslOgVlVEOo7WVhX2E/b8pEahHX7aAn2j28gi1wtHihnoamJrdA==
+X-Received: by 2002:a2e:b5ba:0:b0:24d:d4ce:e120 with SMTP id
+ f26-20020a2eb5ba000000b0024dd4cee120mr12655216ljn.60.1650932406815; 
+ Mon, 25 Apr 2022 17:20:06 -0700 (PDT)
 Received: from [192.168.1.211] ([37.153.55.125])
  by smtp.gmail.com with ESMTPSA id
- r1-20020a19da01000000b004719d5a2de5sm1564070lfg.301.2022.04.25.17.18.24
+ n10-20020a196f4a000000b0047209a58a56sm483726lfk.104.2022.04.25.17.20.06
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Mon, 25 Apr 2022 17:18:25 -0700 (PDT)
-Message-ID: <6177d637-7389-b0a0-960c-ab4c94c47ac9@linaro.org>
-Date: Tue, 26 Apr 2022 03:18:24 +0300
+ Mon, 25 Apr 2022 17:20:06 -0700 (PDT)
+Message-ID: <9aaf3335-158d-71f9-32f4-426debba96e8@linaro.org>
+Date: Tue, 26 Apr 2022 03:20:05 +0300
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
  Thunderbird/91.8.0
-Subject: Re: [PATCH v4 11/20] drm/msm/dpu: make changes to dpu_encoder to
- support virtual encoder
+Subject: Re: [PATCH v5 14/19] drm/msm/dpu: add the writeback connector layer
 Content-Language: en-GB
 To: Abhinav Kumar <quic_abhinavk@quicinc.com>, freedreno@lists.freedesktop.org
-References: <1650668815-7048-1-git-send-email-quic_abhinavk@quicinc.com>
- <1650668815-7048-12-git-send-email-quic_abhinavk@quicinc.com>
+References: <1650846730-19226-1-git-send-email-quic_abhinavk@quicinc.com>
+ <1650846730-19226-15-git-send-email-quic_abhinavk@quicinc.com>
 From: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
-In-Reply-To: <1650668815-7048-12-git-send-email-quic_abhinavk@quicinc.com>
+In-Reply-To: <1650846730-19226-15-git-send-email-quic_abhinavk@quicinc.com>
 Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 7bit
 X-BeenThere: dri-devel@lists.freedesktop.org
@@ -82,242 +81,171 @@ Cc: markyacoub@chromium.org, liviu.dudau@arm.com,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 23/04/2022 02:06, Abhinav Kumar wrote:
-> Make changes to dpu_encoder to support virtual encoder needed
-> to support writeback for dpu.
+On 25/04/2022 03:32, Abhinav Kumar wrote:
+> Introduce the dpu_writeback module which serves as the
+> interface between dpu operations and the drm_writeback.
+> 
+> This module manages the connector related operations for
+> dpu writeback.
+> 
+> changes in v2:
+> 	- start using drm_writeback_connector_init_with_encoder()
+> 	- drop unnecessary arguments from dpu_writeback_init()
+> 	- rebase on msm-next tip and remove usage of priv->connectors
+> 
+> changes in v3:
+> 	- none
 > 
 > changes in v4:
-> 	- squash dpu_encoder pieces from [1]
+> 	- none
 > 
-> [1] https://patchwork.freedesktop.org/patch/483099/?series=102964&rev=2
+> changes in v5:
+> 	- store the drm_enc in the dpu_wb_conn to be used while
+> 	  using dpu_encoder APIs
 > 
 > Signed-off-by: Abhinav Kumar <quic_abhinavk@quicinc.com>
+
+Reviewed-by: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
+
 > ---
->   drivers/gpu/drm/msm/disp/dpu1/dpu_encoder.c      | 94 +++++++++++++++++++-----
->   drivers/gpu/drm/msm/disp/dpu1/dpu_encoder_phys.h |  7 ++
->   2 files changed, 83 insertions(+), 18 deletions(-)
+>   drivers/gpu/drm/msm/Makefile                  |  1 +
+>   drivers/gpu/drm/msm/disp/dpu1/dpu_writeback.c | 76 +++++++++++++++++++++++++++
+>   drivers/gpu/drm/msm/disp/dpu1/dpu_writeback.h | 31 +++++++++++
+>   3 files changed, 108 insertions(+)
+>   create mode 100644 drivers/gpu/drm/msm/disp/dpu1/dpu_writeback.c
+>   create mode 100644 drivers/gpu/drm/msm/disp/dpu1/dpu_writeback.h
 > 
-> diff --git a/drivers/gpu/drm/msm/disp/dpu1/dpu_encoder.c b/drivers/gpu/drm/msm/disp/dpu1/dpu_encoder.c
-> index 25c7eda..d1e92d89 100644
-> --- a/drivers/gpu/drm/msm/disp/dpu1/dpu_encoder.c
-> +++ b/drivers/gpu/drm/msm/disp/dpu1/dpu_encoder.c
-> @@ -1013,9 +1013,18 @@ static void dpu_encoder_virt_atomic_mode_set(struct drm_encoder *drm_enc,
->   		if (phys->intf_idx >= INTF_0 && phys->intf_idx < INTF_MAX)
->   			phys->hw_intf = dpu_rm_get_intf(&dpu_kms->rm, phys->intf_idx);
+> diff --git a/drivers/gpu/drm/msm/Makefile b/drivers/gpu/drm/msm/Makefile
+> index 0387f22..66395ee 100644
+> --- a/drivers/gpu/drm/msm/Makefile
+> +++ b/drivers/gpu/drm/msm/Makefile
+> @@ -80,6 +80,7 @@ msm-$(CONFIG_DRM_MSM_DPU) += \
+>   	disp/dpu1/dpu_plane.o \
+>   	disp/dpu1/dpu_rm.o \
+>   	disp/dpu1/dpu_vbif.o \
+> +	disp/dpu1/dpu_writeback.o
 >   
-> -		if (!phys->hw_intf) {
-> +		if (phys->wb_idx >= WB_0 && phys->wb_idx < WB_MAX)
-> +			phys->hw_wb = dpu_rm_get_wb(&dpu_kms->rm, phys->wb_idx);
+>   msm-$(CONFIG_DRM_MSM_MDSS) += \
+>   	msm_mdss.o \
+> diff --git a/drivers/gpu/drm/msm/disp/dpu1/dpu_writeback.c b/drivers/gpu/drm/msm/disp/dpu1/dpu_writeback.c
+> new file mode 100644
+> index 0000000..7620ffe
+> --- /dev/null
+> +++ b/drivers/gpu/drm/msm/disp/dpu1/dpu_writeback.c
+> @@ -0,0 +1,76 @@
+> +// SPDX-License-Identifier: GPL-2.0-only
+> +/*
+> + * Copyright (c) 2022 Qualcomm Innovation Center, Inc. All rights reserved.
+> + */
 > +
-> +		if (!phys->hw_intf && !phys->hw_wb) {
->   			DPU_ERROR_ENC(dpu_enc,
-> -				      "no intf block assigned at idx: %d\n", i);
-> +				      "no intf or wb block assigned at idx: %d\n", i);
-> +			return;
-> +		}
+> +#include "dpu_writeback.h"
 > +
-> +		if (phys->hw_intf && phys->hw_wb) {
-> +			DPU_ERROR_ENC(dpu_enc,
-> +					"invalid phys both intf and wb block at idx: %d\n", i);
->   			return;
->   		}
->   
-> @@ -1163,16 +1172,35 @@ static enum dpu_intf dpu_encoder_get_intf(struct dpu_mdss_cfg *catalog,
->   {
->   	int i = 0;
->   
-> -	for (i = 0; i < catalog->intf_count; i++) {
-> -		if (catalog->intf[i].type == type
-> -		    && catalog->intf[i].controller_id == controller_id) {
-> -			return catalog->intf[i].id;
-> +	if (type != INTF_WB) {
-> +		for (i = 0; i < catalog->intf_count; i++) {
-> +			if (catalog->intf[i].type == type
-> +				&& catalog->intf[i].controller_id == controller_id) {
-> +				return catalog->intf[i].id;
-> +			}
->   		}
->   	}
->   
->   	return INTF_MAX;
->   }
->   
-> +static enum dpu_wb dpu_encoder_get_wb(struct dpu_mdss_cfg *catalog,
-> +		enum dpu_intf_type type, u32 controller_id)
+> +static int dpu_wb_conn_get_modes(struct drm_connector *connector)
 > +{
-> +	int i = 0;
+> +	struct drm_device *dev = connector->dev;
 > +
-> +	if (type != INTF_WB)
-> +		goto end;
-> +
-> +	for (i = 0; i < catalog->wb_count; i++) {
-> +		if (catalog->wb[i].id == controller_id)
-> +			return catalog->wb[i].id;
-> +	}
-> +
-> +end:
-> +	return WB_MAX;
+> +	return drm_add_modes_noedid(connector, dev->mode_config.max_width,
+> +			dev->mode_config.max_height);
 > +}
 > +
->   static void dpu_encoder_vblank_callback(struct drm_encoder *drm_enc,
->   		struct dpu_encoder_phys *phy_enc)
->   {
-> @@ -1887,16 +1915,32 @@ void dpu_encoder_helper_phys_cleanup(struct dpu_encoder_phys *phys_enc)
->   
->   	dpu_encoder_helper_reset_mixers(phys_enc);
->   
-> -	for (i = 0; i < dpu_enc->num_phys_encs; i++) {
-> -		if (dpu_enc->phys_encs[i] && phys_enc->hw_intf->ops.bind_pingpong_blk)
-> -			phys_enc->hw_intf->ops.bind_pingpong_blk(
-> -					dpu_enc->phys_encs[i]->hw_intf, false,
-> -					dpu_enc->phys_encs[i]->hw_pp->idx);
-> -
-> -		/* mark INTF flush as pending */
-> -		if (phys_enc->hw_ctl->ops.update_pending_flush_intf)
-> -			phys_enc->hw_ctl->ops.update_pending_flush_intf(phys_enc->hw_ctl,
-> -					dpu_enc->phys_encs[i]->hw_intf->idx);
-> +	/*
-> +	 * TODO: move the once-only operation like CTL flush/trigger
-> +	 * into dpu_encoder_virt_disable() and all operations which need
-> +	 * to be done per phys encoder into the phys_disable() op.
+> +static const struct drm_connector_funcs dpu_wb_conn_funcs = {
+> +	.reset = drm_atomic_helper_connector_reset,
+> +	.fill_modes = drm_helper_probe_single_connector_modes,
+> +	.destroy = drm_connector_cleanup,
+> +	.atomic_duplicate_state = drm_atomic_helper_connector_duplicate_state,
+> +	.atomic_destroy_state = drm_atomic_helper_connector_destroy_state,
+> +};
+> +
+> +static int dpu_wb_conn_prepare_job(struct drm_writeback_connector *connector,
+> +		struct drm_writeback_job *job)
+> +{
+> +
+> +	struct dpu_wb_connector *dpu_wb_conn = to_dpu_wb_conn(connector);
+> +
+> +	if (!job->fb)
+> +		return 0;
+> +
+> +	dpu_encoder_prepare_wb_job(dpu_wb_conn->wb_enc, job);
+> +
+> +	return 0;
+> +}
+> +
+> +static void dpu_wb_conn_cleanup_job(struct drm_writeback_connector *connector,
+> +		struct drm_writeback_job *job)
+> +{
+> +	struct dpu_wb_connector *dpu_wb_conn = to_dpu_wb_conn(connector);
+> +
+> +	if (!job->fb)
+> +		return;
+> +
+> +	dpu_encoder_cleanup_wb_job(dpu_wb_conn->wb_enc, job);
+> +}
+> +
+> +static const struct drm_connector_helper_funcs dpu_wb_conn_helper_funcs = {
+> +	.get_modes = dpu_wb_conn_get_modes,
+> +	.prepare_writeback_job = dpu_wb_conn_prepare_job,
+> +	.cleanup_writeback_job = dpu_wb_conn_cleanup_job,
+> +};
+> +
+> +int dpu_writeback_init(struct drm_device *dev, struct drm_encoder *enc,
+> +		const u32 *format_list, u32 num_formats)
+> +{
+> +	struct dpu_wb_connector *dpu_wb_conn;
+> +	int rc = 0;
+> +
+> +	dpu_wb_conn = devm_kzalloc(dev->dev, sizeof(*dpu_wb_conn), GFP_KERNEL);
+> +
+> +	drm_connector_helper_add(&dpu_wb_conn->base.base, &dpu_wb_conn_helper_funcs);
+> +
+> +	/* DPU initializes the encoder and sets it up completely for writeback
+> +	 * cases and hence should use the new API drm_writeback_connector_init_with_encoder
+> +	 * to initialize the writeback connector
 > +	 */
-> +	if (phys_enc->hw_wb) {
-> +		/* disable the PP block */
-> +		if (phys_enc->hw_wb->ops.bind_pingpong_blk)
-> +			phys_enc->hw_wb->ops.bind_pingpong_blk(phys_enc->hw_wb, false,
-> +					phys_enc->hw_pp->idx);
+> +	rc = drm_writeback_connector_init_with_encoder(dev, &dpu_wb_conn->base, enc,
+> +			&dpu_wb_conn_funcs, format_list, num_formats);
 > +
-> +		/* mark WB flush as pending */
-> +		if (phys_enc->hw_ctl->ops.update_pending_flush_wb)
-> +			phys_enc->hw_ctl->ops.update_pending_flush_wb(ctl, phys_enc->hw_wb->idx);
-> +	} else {
-> +		for (i = 0; i < dpu_enc->num_phys_encs; i++) {
-> +			if (dpu_enc->phys_encs[i] && phys_enc->hw_intf->ops.bind_pingpong_blk)
-> +				phys_enc->hw_intf->ops.bind_pingpong_blk(
-> +						dpu_enc->phys_encs[i]->hw_intf, false,
-> +						dpu_enc->phys_encs[i]->hw_pp->idx);
+> +	if (!rc)
+> +		dpu_wb_conn->wb_enc = enc;
 > +
-> +			/* mark INTF flush as pending */
-> +			if (phys_enc->hw_ctl->ops.update_pending_flush_intf)
-> +				phys_enc->hw_ctl->ops.update_pending_flush_intf(phys_enc->hw_ctl,
-> +						dpu_enc->phys_encs[i]->hw_intf->idx);
-> +		}
->   	}
->   
->   	/* reset the merge 3D HW block */
-> @@ -2112,6 +2156,9 @@ static int dpu_encoder_setup_display(struct dpu_encoder_virt *dpu_enc,
->   	case DRM_MODE_ENCODER_TMDS:
->   		intf_type = INTF_DP;
->   		break;
-> +	case DRM_MODE_ENCODER_VIRTUAL:
-> +		intf_type = INTF_WB;
-> +		break;
->   	}
->   
->   	WARN_ON(disp_info->num_of_h_tiles < 1);
-> @@ -2149,8 +2196,19 @@ static int dpu_encoder_setup_display(struct dpu_encoder_virt *dpu_enc,
->   		phys_params.intf_idx = dpu_encoder_get_intf(dpu_kms->catalog,
->   													intf_type,
->   													controller_id);
-> -		if (phys_params.intf_idx == INTF_MAX) {
-> -			DPU_ERROR_ENC(dpu_enc, "could not get intf: type %d, id %d\n",
+> +	return rc;
+> +}
+> diff --git a/drivers/gpu/drm/msm/disp/dpu1/dpu_writeback.h b/drivers/gpu/drm/msm/disp/dpu1/dpu_writeback.h
+> new file mode 100644
+> index 0000000..5a75ea9
+> --- /dev/null
+> +++ b/drivers/gpu/drm/msm/disp/dpu1/dpu_writeback.h
+> @@ -0,0 +1,31 @@
+> +/* SPDX-License-Identifier: GPL-2.0-only */
+> +/*
+> + * Copyright (c) 2022 Qualcomm Innovation Center, Inc. All rights reserved.
+> + */
 > +
-> +		phys_params.wb_idx = dpu_encoder_get_wb(dpu_kms->catalog,
-> +				intf_type, controller_id);
-> +		/*
-> +		 * For boards which have no physical displays, having no interface
-> +		 * is fine because it can still be used with just writeback.
-> +		 * If we try without a display on a board which uses a DPU in which
-> +		 * writeback is not supported, then this will still fail as it will not
-> +		 * find any writeback in the catalog.
-> +		 */
-
-I think the comment is misleading. It is a phys_params, so it must have 
-etiher intf_idx or wb_idx, but not both of them, despite the board 
-having the interfaces or WB.
-
-So somthing like this might be more appropriate:
-
-/*
-  * The phys_params might represent either an INTF or a WB unit, but not
-  * both of them at the same time.
-  */
-
-if ((phys_params.intf_idx == INTF_MAX) && (phys_params.wb_idx == WB_MAX)) {
-  .... // error out
-}
-
-if ((phys_params.intf_idx != INTF_MAX) && (phys_params.wb_idx == WB_MAX)) {
-   ........ // error out
-}
-
-
-Looks good otherwise.
-
-
-> +		if ((phys_params.intf_idx == INTF_MAX) &&
-> +				(phys_params.wb_idx == WB_MAX)) {
-> +			DPU_ERROR_ENC(dpu_enc, "could not get intf or wb: type %d, id %d\n",
->   						  intf_type, controller_id);
->   			ret = -EINVAL;
->   		}
-> diff --git a/drivers/gpu/drm/msm/disp/dpu1/dpu_encoder_phys.h b/drivers/gpu/drm/msm/disp/dpu1/dpu_encoder_phys.h
-> index 544a9a4..c84b8e8 100644
-> --- a/drivers/gpu/drm/msm/disp/dpu1/dpu_encoder_phys.h
-> +++ b/drivers/gpu/drm/msm/disp/dpu1/dpu_encoder_phys.h
-> @@ -11,6 +11,7 @@
->   
->   #include "dpu_kms.h"
->   #include "dpu_hw_intf.h"
-> +#include "dpu_hw_wb.h"
->   #include "dpu_hw_pingpong.h"
->   #include "dpu_hw_ctl.h"
->   #include "dpu_hw_top.h"
-> @@ -165,12 +166,14 @@ enum dpu_intr_idx {
->    * @hw_ctl:		Hardware interface to the ctl registers
->    * @hw_pp:		Hardware interface to the ping pong registers
->    * @hw_intf:		Hardware interface to the intf registers
-> + * @hw_wb:		Hardware interface to the wb registers
->    * @dpu_kms:		Pointer to the dpu_kms top level
->    * @cached_mode:	DRM mode cached at mode_set time, acted on in enable
->    * @enabled:		Whether the encoder has enabled and running a mode
->    * @split_role:		Role to play in a split-panel configuration
->    * @intf_mode:		Interface mode
->    * @intf_idx:		Interface index on dpu hardware
-> + * @wb_idx:			Writeback index on dpu hardware
->    * @enc_spinlock:	Virtual-Encoder-Wide Spin Lock for IRQ purposes
->    * @enable_state:	Enable state tracking
->    * @vblank_refcount:	Reference count of vblank request
-> @@ -193,11 +196,13 @@ struct dpu_encoder_phys {
->   	struct dpu_hw_ctl *hw_ctl;
->   	struct dpu_hw_pingpong *hw_pp;
->   	struct dpu_hw_intf *hw_intf;
-> +	struct dpu_hw_wb *hw_wb;
->   	struct dpu_kms *dpu_kms;
->   	struct drm_display_mode cached_mode;
->   	enum dpu_enc_split_role split_role;
->   	enum dpu_intf_mode intf_mode;
->   	enum dpu_intf intf_idx;
-> +	enum dpu_wb wb_idx;
->   	spinlock_t *enc_spinlock;
->   	enum dpu_enc_enable_state enable_state;
->   	atomic_t vblank_refcount;
-> @@ -243,6 +248,7 @@ struct dpu_encoder_phys_cmd {
->    * @parent_ops:		Callbacks exposed by the parent to the phys_enc
->    * @split_role:		Role to play in a split-panel configuration
->    * @intf_idx:		Interface index this phys_enc will control
-> + * @wb_idx:			Writeback index this phys_enc will control
->    * @enc_spinlock:	Virtual-Encoder-Wide Spin Lock for IRQ purposes
->    */
->   struct dpu_enc_phys_init_params {
-> @@ -251,6 +257,7 @@ struct dpu_enc_phys_init_params {
->   	const struct dpu_encoder_virt_ops *parent_ops;
->   	enum dpu_enc_split_role split_role;
->   	enum dpu_intf intf_idx;
-> +	enum dpu_wb wb_idx;
->   	spinlock_t *enc_spinlock;
->   };
->   
+> +#ifndef _DPU_WRITEBACK_H
+> +#define _DPU_WRITEBACK_H
+> +
+> +#include <drm/drm_crtc.h>
+> +#include <drm/drm_file.h>
+> +#include <drm/drm_probe_helper.h>
+> +#include <drm/drm_writeback.h>
+> +
+> +#include "msm_drv.h"
+> +#include "dpu_kms.h"
+> +#include "dpu_encoder_phys.h"
+> +
+> +struct dpu_wb_connector {
+> +	struct drm_writeback_connector base;
+> +	struct drm_encoder *wb_enc;
+> +};
+> +
+> +static inline struct dpu_wb_connector *to_dpu_wb_conn(struct drm_writeback_connector *conn)
+> +{
+> +	return container_of(conn, struct dpu_wb_connector, base);
+> +}
+> +
+> +int dpu_writeback_init(struct drm_device *dev, struct drm_encoder *enc,
+> +		const u32 *format_list, u32 num_formats);
+> +
+> +#endif /*_DPU_WRITEBACK_H */
 
 
 -- 
