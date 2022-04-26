@@ -2,112 +2,63 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id BB02450FEC0
-	for <lists+dri-devel@lfdr.de>; Tue, 26 Apr 2022 15:21:55 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 506A250FEC5
+	for <lists+dri-devel@lfdr.de>; Tue, 26 Apr 2022 15:22:15 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id A57D010F144;
-	Tue, 26 Apr 2022 13:21:53 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 7CE0010F127;
+	Tue, 26 Apr 2022 13:22:13 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from APC01-SG2-obe.outbound.protection.outlook.com
- (mail-sgaapc01on2118.outbound.protection.outlook.com [40.107.215.118])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 7FBD710F12F;
- Tue, 26 Apr 2022 13:21:52 +0000 (UTC)
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=TJDSe0sgfr8I/HCZMsJLRcLtanhrldp4FOYrh7+iofdMZfYZW2JFlRfX+XAIxRI726bYmI5x4ZaPR5owKENYH+K+iJNzsPxqJOwXGszYuj/ylg7NqoNRU4cRnmrQz7kwKOwiqVCdUEVq+bLBW2rUAYzqQIOUosf1b4qQ1gY274BfiFkt8o8mbcG4oHcWFWTyRtjGo+QPWdpA4AsW6jkPq1lKNr613xLW0BPXjFcnqWC9IRmxurIwE1mUjl2y2bR7qsYxycXZFhS+W7p+mKxROUbbKTudtuwjlkBdGBu8CDdEd+xTTKR51+4Iqb8DStTq4xxxAxstD3D2YGK+EvJwMQ==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=MbH/hT7j4xY6emUZBWeVi5ms9E26ZhDvilsL1BNUG/w=;
- b=crIOQxU7AeSLD/eTONUKaGbwqbeCfL68+0M6oveuCoqx6ZYGOjBgShoaOzDx60WtnNwQdKYMqWYr72vVsRAA5aaH376kXf7QXsw5AB1WXGlJx8VuiY4VqmXrV6VaaPAcA2WHN5GqYTzkpK9FOftA9SVdEJPG0w3fe6zpGp+JMxO6JjznKjB3qV1FnCHUHlJPhc5Sdx5ubSP9MdaNDnSgYKZux4KBsrnx+y5qPwNUfkfS60IZEzMjONsg5ZB9NFTkyix6Tt5oVUNsUv5QCSQPlB/cgBd6Zhh+wxuDhlqTYAGq92Uci0m+W/fYW26LMZVHnH6dyRSm+CNvgZtsZjtUuA==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=vivo.com; dmarc=pass action=none header.from=vivo.com;
- dkim=pass header.d=vivo.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=vivo0.onmicrosoft.com; 
- s=selector2-vivo0-onmicrosoft-com;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=MbH/hT7j4xY6emUZBWeVi5ms9E26ZhDvilsL1BNUG/w=;
- b=hIKZvJNLk+VizGupm3U+8f8r+axoORGvhxdvCT/VHSh2sgg6uIMbTl4egi0bjEW+J1ixoLnoD/OawDI2jnK2dQBJZICUroVv544OFLGPzt51hhhNg1XwUBc+K1nOruF+wkonTMJJrsibDr6J5wLq4jeCe1HZYdtKZZ9xJsle6JE=
-Authentication-Results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=vivo.com;
-Received: from SG2PR06MB3367.apcprd06.prod.outlook.com (2603:1096:4:78::19) by
- KL1PR0601MB4939.apcprd06.prod.outlook.com (2603:1096:820:96::8) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.5186.14; Tue, 26 Apr
- 2022 13:21:46 +0000
-Received: from SG2PR06MB3367.apcprd06.prod.outlook.com
- ([fe80::4591:4f3e:f951:6c8c]) by SG2PR06MB3367.apcprd06.prod.outlook.com
- ([fe80::4591:4f3e:f951:6c8c%7]) with mapi id 15.20.5186.021; Tue, 26 Apr 2022
- 13:21:46 +0000
-From: Wan Jiabing <wanjiabing@vivo.com>
-To: Rob Clark <robdclark@gmail.com>, Sean Paul <sean@poorly.run>,
- Abhinav Kumar <quic_abhinavk@quicinc.com>, David Airlie <airlied@linux.ie>,
- Daniel Vetter <daniel@ffwll.ch>, linux-arm-msm@vger.kernel.org,
- dri-devel@lists.freedesktop.org, freedreno@lists.freedesktop.org,
- linux-kernel@vger.kernel.org
-Subject: [PATCH] drm/msm: Use div64_ul instead of do_div
-Date: Tue, 26 Apr 2022 21:21:26 +0800
-Message-Id: <20220426132126.686447-1-wanjiabing@vivo.com>
-X-Mailer: git-send-email 2.35.3
-Content-Transfer-Encoding: 8bit
-Content-Type: text/plain
-X-ClientProxiedBy: HK2PR02CA0127.apcprd02.prod.outlook.com
- (2603:1096:202:16::11) To SG2PR06MB3367.apcprd06.prod.outlook.com
- (2603:1096:4:78::19)
+Received: from mail-ej1-x631.google.com (mail-ej1-x631.google.com
+ [IPv6:2a00:1450:4864:20::631])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 5638710F127;
+ Tue, 26 Apr 2022 13:22:12 +0000 (UTC)
+Received: by mail-ej1-x631.google.com with SMTP id m20so15309933ejj.10;
+ Tue, 26 Apr 2022 06:22:12 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
+ h=from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=1KRrAvUHtWqCbci+1kggznPLZmodpkw3cORPlN6NxAk=;
+ b=ORNzmh3Avg27YBdlfP0CeDbOsgIQqfcwWLkDSlByVdgJjnO4A5xiRqnZPmmxT+foUk
+ odZdVdTv6j4qqSu/imCR0FMSXeccJHJttEcY+sReFlQGLmeEQTnFjAP3sa1efkKMt4nj
+ ViMKZXwNBh3bB6krRoTqPGy8kTGvqedcEoRVxXy7eylzYpZmBOjNyuVPE2T53DPMWoUq
+ YUO3oQjU4qt5eu/Q53seIzsPYCdrkINrvaaNKsRitDPhb3fQvKvrRF7zTMBYmjTjEVE/
+ 20jPfDRTs1UzHIAMDL8xKYV1meENnRukb4qwBNb+qd6bXMExnATpMSW7Lhv5Jf7Zq5tI
+ y/gA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=1KRrAvUHtWqCbci+1kggznPLZmodpkw3cORPlN6NxAk=;
+ b=hrXISOPpDRRUteoSsAkojeAB33qb+IrdL2CpdKfzavUggrtY8n1Ug0TSgzhA1Q8HhP
+ OgE1QG8StzqjmZ22wpiRVmpMBxvv4NsbQsskuu75CYiOBfE7CW6Y5XJhA5qMcbCtveKp
+ fnigOYR06O1J7ww9Q5wNiPk7yU7Yn2X0nvvisBS1RqTdP+tyrh04Q9I2zGWl17XSQSiM
+ rMhckjWPRLYoOAS9tUZOLcEpEgAEfpJCIVfz1h7N371rG+DY13uzL3C71jIRPXFCQQRK
+ lljSl5Apt3w0wOFUYYxZfRakaT8B+70sAQM3JLt12Uw1FQOvaSpSDcPNxpBMie8QhqSS
+ weTA==
+X-Gm-Message-State: AOAM531YIdj4lnoeAOe23J0EMgSHggDHNM+nmEXafNxySJYdcGfPGTIS
+ blutZjdRfVgh1+YPZLN6wfNnPA2ILeU=
+X-Google-Smtp-Source: ABdhPJxMFqnGqgGJE/SWDcREKSSe6Sh6Wz6YnkqkvEC7lFzDH1pf1Ze/+zgv73vHW5HB65yshb1W/Q==
+X-Received: by 2002:a17:907:1c06:b0:6df:b257:cbb3 with SMTP id
+ nc6-20020a1709071c0600b006dfb257cbb3mr21191396ejc.631.1650979330850; 
+ Tue, 26 Apr 2022 06:22:10 -0700 (PDT)
+Received: from able.fritz.box (p57b0b9e1.dip0.t-ipconnect.de. [87.176.185.225])
+ by smtp.gmail.com with ESMTPSA id
+ x1-20020a1709060ee100b006e8a49f215dsm4889914eji.73.2022.04.26.06.22.09
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Tue, 26 Apr 2022 06:22:10 -0700 (PDT)
+From: "=?UTF-8?q?Christian=20K=C3=B6nig?=" <ckoenig.leichtzumerken@gmail.com>
+X-Google-Original-From: =?UTF-8?q?Christian=20K=C3=B6nig?=
+ <christian.koenig@amd.com>
+To: dri-devel@lists.freedesktop.org,
+	amd-gfx@lists.freedesktop.org
+Subject: [RFC] Common DRM execution context
+Date: Tue, 26 Apr 2022 15:22:03 +0200
+Message-Id: <20220426132208.20801-1-christian.koenig@amd.com>
+X-Mailer: git-send-email 2.25.1
 MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-Office365-Filtering-Correlation-Id: d9901219-c31c-48c8-a267-08da2787b644
-X-MS-TrafficTypeDiagnostic: KL1PR0601MB4939:EE_
-X-Microsoft-Antispam-PRVS: <KL1PR0601MB4939232C8944BBFE8884EB45ABFB9@KL1PR0601MB4939.apcprd06.prod.outlook.com>
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: B61C6wkGkFp5xHgCf1jV1FJIJ5v+1ViMwkzdI6YKVsedAoDlzr8fY4mgrF2Z+vawS1fWAsj4huMOmbX96NWHdtkmiCCmaI2M2HHZkq2iC2pA4IVkse8prYRtV1ktCxWAFACio9Cz2EG7gDHjp1PiNqDfLtoaf0Q9SWt+3fZxyEwl6iRJkkK05UyXZJVFiScliJRICb4qwVnsk5OGFt3lxRE0rTAayW1wsaihrDQwTpcxU9EivdIF6to+4fTbGkxQo6ZT1fgG1etmGaR4wSwSS9svWP99GYfHEyt3HeGJUWKRrVlOMgNPgOaov2ZMolo9DaB1jZYbderYnnTwgnMtLDP1b2LO0fNkd6xPWtDl/h0IJT/5PApPbekBVjCY6JfxTTXav2dXZfiTbFEUpxAZGJxy6F+Mue05oQ2EobyRGsU0jBfw5M9vM2MHJRH8HPRNLQNE0nUwJx/kfar3sMXrcZlfoQZWhqWlHmhvNIRJ1fHKozxvp+x/fcZKvLX42g5/zCipFIW9Y+2dW9ybpB8fhQZaCs5JjEibHYytonIWEVP8A6S6V2+6jxCmjK305ny/vkjhwXRPmERvbsc0Rpo2U8jtk62sWjhQEBZXFZ2Zv8f94/fqWVAyAXAp/1F3JUBu1DfI+9PjUucosotx/BjCzahe5hyjactHsQJ468SlIoARifSDpCEBYDoixwxxgr+JGY4WEVbXQWk/06+1Qb3lng==
-X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
- IPV:NLI; SFV:NSPM; H:SG2PR06MB3367.apcprd06.prod.outlook.com; PTR:; CAT:NONE;
- SFS:(13230001)(4636009)(366004)(5660300002)(2906002)(52116002)(6506007)(6512007)(8936002)(2616005)(186003)(107886003)(1076003)(36756003)(4744005)(26005)(83380400001)(6666004)(4326008)(110136005)(508600001)(316002)(6486002)(66946007)(38100700002)(38350700002)(8676002)(66556008)(66476007)(86362001);
- DIR:OUT; SFP:1102; 
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: =?us-ascii?Q?Hf9BkgBRXsC0qRahiJ2F8AldYikTI6ADL5M13tfwfkv1OBFPj8UeKoRqCB6i?=
- =?us-ascii?Q?SZZE36j82j1eyLT8rQAokBvWugqStSwWGYkFoYWOlwYycmlQmehMhWkjPgG7?=
- =?us-ascii?Q?sR9SWKXbGb0cmYzU+LW4w/O7gk2YqGjdNauQYW48nATFyQFgkD/CxMhZWoyI?=
- =?us-ascii?Q?W9IMCwNcUEfbyrLsaEKsPJqO43bDxT3N5O2TuEJLByRaM5QT6tIpg8XmQTmW?=
- =?us-ascii?Q?29NLGZYtky6vA+MLPZ6WeXQPmgYtiVcGmlIzg0Vaxg69jUQswyTr2CZSj9EQ?=
- =?us-ascii?Q?GY3xxBj0m3LK8P8og0W6GdJyo9YyWnEaAXnsU18BQCsPJIv0LBYdEC4L+Lzx?=
- =?us-ascii?Q?MiEcIDHDkD2/rQZvmoQ0wMuAnj9sLHapX+/8zeBkRbcs8kJ+WXpMMKO+a95S?=
- =?us-ascii?Q?X6HdahQBCc3kejsldYCh9NRzp0JDlCtlbWjGq35nIfxNnL6xG5XV/65j1TyX?=
- =?us-ascii?Q?fWL1i2MuGMPn0+vi92x7RuAsp9T2/J80VmlJVL54v9oTUPLhlcv3NQtExorJ?=
- =?us-ascii?Q?lcVEQ92lZJTPcPX5QKysmbheeIcSLSjccvQUbCk3K9rCPJpv4uaZR2Z/ghJ4?=
- =?us-ascii?Q?dC4RebP/6FDezGVgBRip+iQApT31jMMokU0hRsDpUBL87uGtWfuM5Yx5GM6N?=
- =?us-ascii?Q?qg3hNcymjK/iLmTeVw8+CHoShQy4jjPoxz1Q/vQHAz/vldJsjiPts5CqYzrK?=
- =?us-ascii?Q?dSdtyt79clQojSt2owWCZnectfwzfoQcB2AmbJ7ruceMEvxatMWRkPTHVFk2?=
- =?us-ascii?Q?2CrbZ+gfJ7+isF25k0hT3ZZhnh4DVFiOmpMYYhapXGHt67TtFwfzM1smzesd?=
- =?us-ascii?Q?gL3GgzuGQAdOXSM86BRVnRxdBqKeSojawPsl7zk1YHxz/hiLXoHk0ZaPT1jb?=
- =?us-ascii?Q?XGHXQEMM5QtnsIEztJ3NTM9zORmLjpw7cgC+wdLxJ89yOd+crjYBiiCNJUBd?=
- =?us-ascii?Q?PHt8iLuVNfV5FI+LSg56PQiJE0P+sBC4OCKRZHv9LZ1Etn4vhdtYAECo6Tlo?=
- =?us-ascii?Q?8H5ejDWG27tbHoLjD9rsFt/ALtaapSVk9pWv4GV7oWZtIgVBoFmyfSqY5OfN?=
- =?us-ascii?Q?POSGoYy/dUXukf8ETi4XPs8dYkVMJZiziwtGZZlgkgDpnB6V7do+/+Ektltu?=
- =?us-ascii?Q?qOmLHWe5T9W29HrE8m0vVFWzcJsDRd0GtTRpll9v1Y51DQEvii0fZWU+Y4bY?=
- =?us-ascii?Q?4ES++j0+etmCQqPXR4pdbxHVtGffFsaYZPDuXBbgBfNNu43lehmGMH9gsoFM?=
- =?us-ascii?Q?14OZpuib/+wbZR/V84uyYN0PSYXjXQMbRK/JvEGEzilpGJqqnA5OCj5dEZLc?=
- =?us-ascii?Q?b5t4lrgs4HTsyGqo8PlFq+yhPevFcfENTB4E9sHkcxMYynHca9KdzLHkO3m/?=
- =?us-ascii?Q?/LAPwCXoYFJcKD/cJCMgqgnE6yYq+ZJ3GdoUuEpNegbhM4ToC3ai5Oom67Mq?=
- =?us-ascii?Q?keDgCoh/UQoanr0rUHGUJaxS5tur9s+LoaoE9evWrZ9hxejXlz3U0uk42xyd?=
- =?us-ascii?Q?daobb7qAM3/RyxX0GgC1z2arSdyNWrevVwpkDfaO1TPAHy/OxfmjrrdMaA8c?=
- =?us-ascii?Q?qACFfjO7fouZzgkRkd0cp+cx2Ii8ZjCP9XN1QD+6SjORSSW2/qywe1g/cZSg?=
- =?us-ascii?Q?7BM1vLveYdqPWIaU4RC6/0Dm80U8ry229PEwnGnRTaqW8R5X4EvU4R6+LHIT?=
- =?us-ascii?Q?ruQe8oXUVn14n/L2RR7iqJlxhADrpBGl86dTeY9+BXhSUox3iIXUdkusuXCT?=
- =?us-ascii?Q?KZyqN+zuoQ=3D=3D?=
-X-OriginatorOrg: vivo.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: d9901219-c31c-48c8-a267-08da2787b644
-X-MS-Exchange-CrossTenant-AuthSource: SG2PR06MB3367.apcprd06.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 26 Apr 2022 13:21:46.1022 (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 923e42dc-48d5-4cbe-b582-1a797a6412ed
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: kUArpZIYlIiStGHEeVO7m9Xop8ZqgrzhvFdMNwFQd4wMlnM8GWV5tlBkDDSyyImdHAEQwVsWS2Xu6SIDvZKfMw==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: KL1PR0601MB4939
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -120,33 +71,22 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Wan Jiabing <wanjiabing@vivo.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Fix following coccicheck warning:
-drivers/gpu/drm/msm/msm_gpu_devfreq.c:72:1-7: WARNING: do_div() does a 64-by-32 division, please consider using div64_ul instead.
+Hello everyone,
 
-Use div64_ul instead of do_div to avoid a possible truncation.
+as mentioned a couple of times in various discussions it would be rather helpful if DRM has an execution context component similar to TTMs execbuf util.
 
-Signed-off-by: Wan Jiabing <wanjiabing@vivo.com>
----
- drivers/gpu/drm/msm/msm_gpu_devfreq.c | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+In contrast to the TTM component this implementation works on the GEM level instead and also doesn't use a double linked list but rather an xarray to track all prepared GEM objects.
 
-diff --git a/drivers/gpu/drm/msm/msm_gpu_devfreq.c b/drivers/gpu/drm/msm/msm_gpu_devfreq.c
-index d2539ca78c29..c2ea978c8921 100644
---- a/drivers/gpu/drm/msm/msm_gpu_devfreq.c
-+++ b/drivers/gpu/drm/msm/msm_gpu_devfreq.c
-@@ -69,7 +69,7 @@ static void get_raw_dev_status(struct msm_gpu *gpu,
- 	df->time = time;
- 
- 	busy_time *= USEC_PER_SEC;
--	do_div(busy_time, sample_rate);
-+	busy_time = div64_ul(busy_time, sample_rate);
- 	if (WARN_ON(busy_time > ~0LU))
- 		busy_time = ~0LU;
- 
--- 
-2.35.3
+Additionally to that an object oriented approach is used to describe the state which makes initializing and cleaning up the object much easier to handle (no external state, just use init/fini and that's it).
+
+Since we now doesn't have nor need a linked list of all the objects to lock a bunch of macros are provided to aid driver developers to correctly prepare all the buffer objects. See the documentation in drm_exec.c for further details.
+
+As prove of concept the new component is then used inside amdgpu to replace TTMs execbuf util.
+
+Please comment and/or review,
+Christian.
+
 
