@@ -2,55 +2,54 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id DB3C25100DF
-	for <lists+dri-devel@lfdr.de>; Tue, 26 Apr 2022 16:48:14 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id CD4665100EE
+	for <lists+dri-devel@lfdr.de>; Tue, 26 Apr 2022 16:51:07 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 28BA510E3EA;
-	Tue, 26 Apr 2022 14:48:11 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 3217810E3FD;
+	Tue, 26 Apr 2022 14:51:03 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-oa1-x2e.google.com (mail-oa1-x2e.google.com
- [IPv6:2001:4860:4864:20::2e])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 1C43310E3B6;
- Tue, 26 Apr 2022 14:48:09 +0000 (UTC)
-Received: by mail-oa1-x2e.google.com with SMTP id
- 586e51a60fabf-e68392d626so14516062fac.4; 
- Tue, 26 Apr 2022 07:48:09 -0700 (PDT)
+Received: from mail-ot1-x32b.google.com (mail-ot1-x32b.google.com
+ [IPv6:2607:f8b0:4864:20::32b])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 3F84410E3B6;
+ Tue, 26 Apr 2022 14:51:02 +0000 (UTC)
+Received: by mail-ot1-x32b.google.com with SMTP id
+ t6-20020a056830224600b00605491a5cd7so13179557otd.13; 
+ Tue, 26 Apr 2022 07:51:02 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
  h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=DpnqB2AGxqyw3CoghEbJ2vm3YwFMuogHkt07765d/4Y=;
- b=h909C1DU4Y9hMLFITeZRFzhAHAaMyz19mocTiohQwpgkCha4ONej9EKuUPpjNZB+yo
- vu1EfhlAWA8mbuJTvlOdv3/80apueEWsh9Ub8i0+PKlnnRQEKJMqQE2ic1Hd3bZad047
- jri7ooT5HWOq1GlgFbyWHpX09AxYt5Wf5NtwB8uUZrH/VjcTyClTrWr7I6AtfaqGZrA8
- W2XP/6XZoMBke5EGQ4TGnV7x9AxEyrn4nfaMiBITpL+usINt+BxyHtAZJM2Zvl1lHIlA
- zLWDpjL6NwRBgB1MPOXXFodoJKzqea0k+A7d3Tbp13h6ZCPXh/hwNPke5X+4pjGJ82+k
- Ctmg==
+ :cc; bh=mjUtCSyBnFk8A3kTILIrriQceuNIreHcu/IG7ob7Yjw=;
+ b=eEihIfAYOPixN4pXa9pV6rApPJ/mm+Ff36ssgjFVVtp6lXlr8xUkUFSXFY2R5btYUh
+ e0bPxX4RJNBOBvjBM5mH0kDJOuNImtnNAUiqKNLl1ts5txepBbOJS0W+CxxJ7IqBj5VY
+ mWVQN8+pTokpaJ8lG7CWp+dPeEyOulLirq4omYYkDQxB24tGSJmjVU40upQrW4VZcu2s
+ ij4AqBttsogwiH4XU2M2l9Dw6xVQLoAc4G5knFHo3/TNUKhJTJgABL5kngE/mPK9Nnw9
+ TlL2svtdIEJAh7kW/Xseb/5gzLETsWfkAL0LcBCzi8v1JEEc8rtYynsAuItgiOfC+3gl
+ 7vYA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:mime-version:references:in-reply-to:from:date
  :message-id:subject:to:cc;
- bh=DpnqB2AGxqyw3CoghEbJ2vm3YwFMuogHkt07765d/4Y=;
- b=HdzC8g9+NlfAC51TYeayHizv0AENZHqlZahJ7+BahcbVhUw5ijEKhC6Uc08LDlh3gM
- 1SWu0Xr8rm6BcWUrRN/QiDKqGX4Sn/k0fHcMAkhAROY+a+ju2Wq1g8J30lv7KS5eiLQr
- vdBOog2EfoIFd3F2LqYSoJOW42cNq17JouEFTBqjMNslwFJq5kPSMAXGfNN/xWdXLtnN
- O9REUZTOlxmyoYcUQdapgxIyp0n9/HJ6LdFscfGbnFZ5JOsbIDxKLSYMQAZ0tqS+ZZaD
- JUr+RuzZH0oFWZG33gYY5HsqJCCSqH415YOVvHI0fOP7/ZYwx+hTn6e9AQcxoMuBv/ap
- 0Wdg==
-X-Gm-Message-State: AOAM533BrrAaA2xN1ypyoZFhlpanAGOR7jh2wb+4ZlxrCesVZWStFQTM
- /byTCXvILByaGYOJDRlQA3uvPRB6l2BYUNoonyQ=
-X-Google-Smtp-Source: ABdhPJxFZ1eTsOp1jW5ozMJ2r23INM9MidyGZO+m3ftYvOYdGMzSgXchHTKbRpG06n7GC5DcvbYoEu8DHzJ624Cw3u0=
-X-Received: by 2002:a05:6870:311d:b0:de:9b6c:362b with SMTP id
- v29-20020a056870311d00b000de9b6c362bmr12934047oaa.200.1650984488340; Tue, 26
- Apr 2022 07:48:08 -0700 (PDT)
+ bh=mjUtCSyBnFk8A3kTILIrriQceuNIreHcu/IG7ob7Yjw=;
+ b=goCWJG8vIRLR9o6x6IGivXoAJvlgzUdis/oXOe6Y5MZVBFigZjjEJaQI8qxSg3g8ir
+ LLuZiWMhRQ3PkZogc9E4wjKRYsu5NcJJb2oFgaALWYrS5eW9uDCSUKOlTx4EseROV6Id
+ TGszzppg8rI7QopEcnt8hIvS66s5x//GCUVL3OSgQeaqzyMBsUVRqXACaXuk0HW8EiGu
+ VTf96HJ6TA3ECtAFWp+8ADVYM2qXKEYWNKvmu2RMUkkUnrmqxbJlTYMwZLifi13I4F4F
+ po+e43kOerIdAX/E4AoTu8lpB41gY0CeoSXAs8lC1SzdWY0PelT5iis5EitFgzwKSp/Q
+ qW0A==
+X-Gm-Message-State: AOAM532d2FAk+w/09yO2PXDh+r4+N8OCzA2tC1r8YKPhgo/LowPs7i2M
+ IR2Nu6LopZMPaa6UhIYTtO41g6ZJvcuDM2jbxWk=
+X-Google-Smtp-Source: ABdhPJwQWZyiDHzcPHPthMVbpOd+wMn9jPepqdWib/QYV5CmxlYnXLUwO6hhH6jHp7CQeRHWTBjQ9784pbyYkooY4Hg=
+X-Received: by 2002:a9d:110:0:b0:605:a618:4a68 with SMTP id
+ 16-20020a9d0110000000b00605a6184a68mr4761422otu.357.1650984661559; Tue, 26
+ Apr 2022 07:51:01 -0700 (PDT)
 MIME-Version: 1.0
-References: <Ymexw96moFElQvqG@kili> <YmeyEF4djrguNMEF@kili>
-In-Reply-To: <YmeyEF4djrguNMEF@kili>
+References: <20220426100616.1411209-1-oushixiong@kylinos.cn>
+In-Reply-To: <20220426100616.1411209-1-oushixiong@kylinos.cn>
 From: Alex Deucher <alexdeucher@gmail.com>
-Date: Tue, 26 Apr 2022 10:47:57 -0400
-Message-ID: <CADnq5_PmoHWzJ9Mh=-ghMzOexv20h-Du2hGsoaR0owdDBnc8iw@mail.gmail.com>
-Subject: Re: [PATCH 2/2] drm/amdgpu: debugfs: fix NULL dereference in
- ta_if_invoke_debugfs_write()
-To: Dan Carpenter <dan.carpenter@oracle.com>
+Date: Tue, 26 Apr 2022 10:50:50 -0400
+Message-ID: <CADnq5_NC+LckMSBYXHGDohyTB6PbELwtYqAknBgRvR3q7N_LYw@mail.gmail.com>
+Subject: Re: [PATCH] drm/amd: Fix spelling typo in comment
+To: oushixiong <oushixiong@kylinos.cn>
 Content-Type: text/plain; charset="UTF-8"
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -64,52 +63,43 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Tao Zhou <tao.zhou1@amd.com>, David Airlie <airlied@linux.ie>, "Pan,
- Xinhui" <Xinhui.Pan@amd.com>, kernel-janitors@vger.kernel.org,
+Cc: xinhui pan <Xinhui.Pan@amd.com>, David Airlie <airlied@linux.ie>,
+ Jiawei Gu <Jiawei.Gu@amd.com>, LKML <linux-kernel@vger.kernel.org>,
  amd-gfx list <amd-gfx@lists.freedesktop.org>,
- Maling list - DRI developers <dri-devel@lists.freedesktop.org>,
- Alex Deucher <alexander.deucher@amd.com>, Candice Li <candice.li@amd.com>,
- John Clements <john.clements@amd.com>,
  =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>,
+ Fangzhi Zuo <Jerry.Zuo@amd.com>,
+ Maling list - DRI developers <dri-devel@lists.freedesktop.org>,
+ Alex Deucher <alexander.deucher@amd.com>,
+ John Clements <john.clements@amd.com>,
+ Nicholas Kazlauskas <nicholas.kazlauskas@amd.com>,
  Hawking Zhang <Hawking.Zhang@amd.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Applied the series.  Thanks!
+Applied.  Thanks.
 
 Alex
 
-On Tue, Apr 26, 2022 at 4:49 AM Dan Carpenter <dan.carpenter@oracle.com> wrote:
+On Tue, Apr 26, 2022 at 8:56 AM oushixiong <oushixiong@kylinos.cn> wrote:
 >
-> If the kzalloc() fails then this code will crash.  Return -ENOMEM instead.
->
-> Fixes: e50d9ba0d2cd ("drm/amdgpu: Add debugfs TA load/unload/invoke support")
-> Signed-off-by: Dan Carpenter <dan.carpenter@oracle.com>
+> Signed-off-by: oushixiong <oushixiong@kylinos.cn>
 > ---
-> This would look nicer as:
->
->         shared_buf = memdup_user(&buf[copy_pos], shared_buf_len);
->         if (IS_ERR(shared_buf))
->                 return PTR_ERR(shared_buf);
->
-> Probably eventually this will be sent as an automated Coccinelle patch?
->
->  drivers/gpu/drm/amd/amdgpu/amdgpu_psp_ta.c | 2 +-
+>  drivers/gpu/drm/amd/include/atomfirmware.h | 2 +-
 >  1 file changed, 1 insertion(+), 1 deletion(-)
 >
-> diff --git a/drivers/gpu/drm/amd/amdgpu/amdgpu_psp_ta.c b/drivers/gpu/drm/amd/amdgpu/amdgpu_psp_ta.c
-> index 32bcc20b9e3f..6806deb098d3 100644
-> --- a/drivers/gpu/drm/amd/amdgpu/amdgpu_psp_ta.c
-> +++ b/drivers/gpu/drm/amd/amdgpu/amdgpu_psp_ta.c
-> @@ -254,7 +254,7 @@ static ssize_t ta_if_invoke_debugfs_write(struct file *fp, const char *buf, size
->
->         shared_buf = kzalloc(shared_buf_len, GFP_KERNEL);
->         if (!shared_buf)
-> -               ret = -ENOMEM;
-> +               return -ENOMEM;
->         if (copy_from_user((void *)shared_buf, &buf[copy_pos], shared_buf_len)) {
->                 ret = -EFAULT;
->                 goto err_free_shared_buf;
+> diff --git a/drivers/gpu/drm/amd/include/atomfirmware.h b/drivers/gpu/drm/amd/include/atomfirmware.h
+> index 7bd763361d6e..b7a1e2116e7e 100644
+> --- a/drivers/gpu/drm/amd/include/atomfirmware.h
+> +++ b/drivers/gpu/drm/amd/include/atomfirmware.h
+> @@ -3,7 +3,7 @@
+>  *  File Name      atomfirmware.h
+>  *  Project        This is an interface header file between atombios and OS GPU drivers for SoC15 products
+>  *
+> -*  Description    header file of general definitions for OS nd pre-OS video drivers
+> +*  Description    header file of general definitions for OS and pre-OS video drivers
+>  *
+>  *  Copyright 2014 Advanced Micro Devices, Inc.
+>  *
 > --
-> 2.35.1
+> 2.25.1
 >
