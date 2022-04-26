@@ -2,53 +2,53 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5507650F70F
-	for <lists+dri-devel@lfdr.de>; Tue, 26 Apr 2022 11:24:17 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id BD67050F9A1
+	for <lists+dri-devel@lfdr.de>; Tue, 26 Apr 2022 12:08:48 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id F118310E1E1;
-	Tue, 26 Apr 2022 09:24:14 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id A11DA10F1AD;
+	Tue, 26 Apr 2022 10:08:42 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mailrelay2-1.pub.mailoutpod1-cph3.one.com
- (mailrelay2-1.pub.mailoutpod1-cph3.one.com [46.30.210.183])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 69AF110E2A4
- for <dri-devel@lists.freedesktop.org>; Tue, 26 Apr 2022 09:24:13 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ravnborg.org; s=rsa1;
- h=in-reply-to:content-type:mime-version:references:message-id:subject:cc:to:
- from:date:from;
- bh=HWQTHkWU8hW14i6ySV7w2ecXhgpPLS3QmMd6XOLJyuY=;
- b=eEsNF+nc8rO4J+ww7sgac+BFL0iaJjHU77yNpf+FjBT1n2K04XfMEq5E3iR9vr2KJ1ixJrVhqs5JO
- EYD2Y+yMA2c5LmglRUdp6yVn5f1Mskn3m/KwBaTK3YivviUROTFNGZN27LqqeKDCC3SpZ/S4wJMKHD
- Zklcq8QkMaBEsWSc672ti/1rOW8pGmyNLhzAovp3Kzj0AN6iK2tMYet0v9q7wNEXhm+JLEd83DGquv
- HoRxAStEmFRzxH7tZgqoVvPG0/7bLxNPUVteJFMNkGnU/nePgziNfkvqybfsVjeYYuvzlXZkOZmKzo
- E4NLu6mdQt/kYXcVQA9TI+Qfm37V4Ig==
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed;
- d=ravnborg.org; s=ed1;
- h=in-reply-to:content-type:mime-version:references:message-id:subject:cc:to:
- from:date:from;
- bh=HWQTHkWU8hW14i6ySV7w2ecXhgpPLS3QmMd6XOLJyuY=;
- b=KzzFQ6ixSL9hSckSuVuqzR2LiPupQjCAMX6MmkQFUJqhKLBTDrACG/YcImhJvNO4+POcFn98vmleh
- P2PvWAUDw==
-X-HalOne-Cookie: ffc3b99d8d8bdecf788ece33abd59ffc011ed197
-X-HalOne-ID: a0f938c5-c542-11ec-a907-d0431ea8a290
-Received: from mailproxy2.cst.dirpod3-cph3.one.com
- (80-162-45-141-cable.dk.customer.tdc.net [80.162.45.141])
- by mailrelay2.pub.mailoutpod1-cph3.one.com (Halon) with ESMTPSA
- id a0f938c5-c542-11ec-a907-d0431ea8a290;
- Tue, 26 Apr 2022 09:24:10 +0000 (UTC)
-Date: Tue, 26 Apr 2022 11:24:08 +0200
-From: Sam Ravnborg <sam@ravnborg.org>
-To: Thomas Zimmermann <tzimmermann@suse.de>
-Subject: Re: [PATCH v2 2/3] fbdev: Track deferred-I/O pages in pageref struct
-Message-ID: <Yme6ON/t6Vxawo2B@ravnborg.org>
-References: <20220425112751.25985-1-tzimmermann@suse.de>
- <20220425112751.25985-3-tzimmermann@suse.de>
- <Ymblo7nqB2i2SP7L@ravnborg.org>
- <cd5a70a8-0b35-66b6-5168-e5895c1ed3df@suse.de>
+Received: from mailgw02.mediatek.com (unknown [210.61.82.184])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 0783610F1AD
+ for <dri-devel@lists.freedesktop.org>; Tue, 26 Apr 2022 10:08:40 +0000 (UTC)
+X-UUID: 5d8f2d9f91cb4b38a8a823454d2cbfcd-20220426
+X-CID-P-RULE: Release_Ham
+X-CID-O-INFO: VERSION:1.1.4, REQID:da8296cb-00b4-4e49-a50e-02011575acaa, OB:0,
+ LO
+ B:0,IP:0,URL:8,TC:0,Content:-20,EDM:0,RT:0,SF:0,FILE:0,RULE:Release_Ham,AC
+ TION:release,TS:-12
+X-CID-META: VersionHash:faefae9, CLOUDID:1576bf2e-6199-437e-8ab4-9920b4bc5b76,
+ C
+ OID:IGNORED,Recheck:0,SF:nil,TC:nil,Content:0,EDM:-3,File:nil,QS:0,BEC:nil
+X-UUID: 5d8f2d9f91cb4b38a8a823454d2cbfcd-20220426
+Received: from mtkexhb01.mediatek.inc [(172.21.101.102)] by
+ mailgw02.mediatek.com (envelope-from <yunfei.dong@mediatek.com>)
+ (Generic MTA with TLSv1.2 ECDHE-RSA-AES256-SHA384 256/256)
+ with ESMTP id 1177833292; Tue, 26 Apr 2022 18:08:32 +0800
+Received: from mtkcas11.mediatek.inc (172.21.101.40) by
+ mtkmbs07n1.mediatek.inc (172.21.101.16) with Microsoft SMTP Server (TLS) id
+ 15.0.1497.2; Tue, 26 Apr 2022 18:08:31 +0800
+Received: from localhost.localdomain (10.17.3.154) by mtkcas11.mediatek.inc
+ (172.21.101.73) with Microsoft SMTP Server id 15.0.1497.2 via Frontend
+ Transport; Tue, 26 Apr 2022 18:08:29 +0800
+From: Yunfei Dong <yunfei.dong@mediatek.com>
+To: Yunfei Dong <yunfei.dong@mediatek.com>, Alexandre Courbot
+ <acourbot@chromium.org>, Nicolas Dufresne <nicolas@ndufresne.ca>, Hans
+ Verkuil <hverkuil-cisco@xs4all.nl>, AngeloGioacchino Del Regno
+ <angelogioacchino.delregno@collabora.com>, Benjamin Gaignard
+ <benjamin.gaignard@collabora.com>, Tiffany Lin <tiffany.lin@mediatek.com>,
+ Andrew-CT Chen <andrew-ct.chen@mediatek.com>, Mauro Carvalho Chehab
+ <mchehab@kernel.org>, Rob Herring <robh+dt@kernel.org>, Matthias Brugger
+ <matthias.bgg@gmail.com>, Tomasz Figa <tfiga@google.com>
+Subject: [PATCH v10, 00/15] media: mtk-vcodec: support for M8192 decoder
+Date: Tue, 26 Apr 2022 18:08:11 +0800
+Message-ID: <20220426100828.13429-1-yunfei.dong@mediatek.com>
+X-Mailer: git-send-email 2.25.1
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <cd5a70a8-0b35-66b6-5168-e5895c1ed3df@suse.de>
+Content-Transfer-Encoding: 8bit
+Content-Type: text/plain
+X-MTK: N
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -61,55 +61,133 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: linux-fbdev@vger.kernel.org, airlied@linux.ie, deller@gmx.de,
- javierm@redhat.com, dri-devel@lists.freedesktop.org
+Cc: Irui Wang <irui.wang@mediatek.com>, George Sun <george.sun@mediatek.com>,
+ Steve Cho <stevecho@chromium.org>, devicetree@vger.kernel.org,
+ Project_Global_Chrome_Upstream_Group@mediatek.com,
+ linux-kernel@vger.kernel.org, dri-devel <dri-devel@lists.freedesktop.org>,
+ Xiaoyong Lu <xiaoyong.lu@mediatek.com>, linux-mediatek@lists.infradead.org,
+ Hsin-Yi Wang <hsinyi@chromium.org>, Fritz Koenig <frkoenig@chromium.org>,
+ linux-arm-kernel@lists.infradead.org, linux-media@vger.kernel.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi Thomas,
+This series adds support for mt8192 h264/vp8/vp9 decoder drivers. Firstly, refactor
+power/clock/interrupt interfaces for mt8192 is lat and core architecture.
 
-> > > +
-> > >   /* this is to find and return the vmalloc-ed fb pages */
-> > >   static vm_fault_t fb_deferred_io_fault(struct vm_fault *vmf)
-> > >   {
-> > > @@ -59,7 +113,7 @@ static vm_fault_t fb_deferred_io_fault(struct vm_fault *vmf)
-> > >   		printk(KERN_ERR "no mapping available\n");
-> > >   	BUG_ON(!page->mapping);
-> > > -	page->index = vmf->pgoff;
-> > > +	page->index = vmf->pgoff; /* for page_mkclean() */
-> > >   	vmf->page = page;
-> > >   	return 0;
-> > > @@ -95,7 +149,11 @@ static vm_fault_t fb_deferred_io_mkwrite(struct vm_fault *vmf)
-> > >   	struct page *page = vmf->page;
-> > >   	struct fb_info *info = vmf->vma->vm_private_data;
-> > >   	struct fb_deferred_io *fbdefio = info->fbdefio;
-> > > -	struct list_head *pos = &fbdefio->pagelist;
-> > > +	struct fb_deferred_io_pageref *pageref;
-> > > +	unsigned long offset;
-> > > +	vm_fault_t ret;
-> > > +
-> > > +	offset = (vmf->address - vmf->vma->vm_start);
-> > >   	/* this is a callback we get when userspace first tries to
-> > >   	write to the page. we schedule a workqueue. that workqueue
-> > > @@ -112,6 +170,12 @@ static vm_fault_t fb_deferred_io_mkwrite(struct vm_fault *vmf)
-> > >   	if (fbdefio->first_io && list_empty(&fbdefio->pagelist))
-> > >   		fbdefio->first_io(info);
-> > > +	pageref = fb_deferred_io_pageref_get(info, offset, page);
-> > Compared to the old code we now do all the sorting and stuff without
-> > the page locked, which seem like a big change.
-> 
-> We never touch any of the page's fields in fb_deferred_io_pageref_get().
-> It's only used to initialize the pageref's page pointer. The pagerefs are
-> all protected by fbdev-internal locking.  Is there a reason why we should
-> further hold the page lock?
-I only commented because it was a change in scope of the lock, I did not
-see anything wrong in the locking, but then I do not understand locking
-so that does not say much.
+Secondly, add new functions to get frame buffer size and resolution according
+to decoder capability from scp side. Then add callback function to get/put
+capture buffer in order to enable lat and core decoder in parallel, need to
+adjust GStreamer at the same time. 
 
-> 
-> All sorting is done by the pageref addresses, which implicitly correspond to
-> 'offset'. After looking at the new function again, I'll change it to sort
-> directly by offset. It's clearer in its intend.
-Looks forward for the re-spin.
+Then add to support MT21C compressed mode and fix v4l2-compliance fail.
 
-	Sam
+Next, extract H264 request api driver to let mt8183 and mt8192 use the same
+code, and adds mt8192 frame based h264 driver for stateless decoder.
+
+Lastly, add vp8 and vp9 stateless decoder drivers.
+
+Patches 1 refactor power/clock/interrupt interface.
+Patches 2~4 get frame buffer size and resolution according to decoder capability.
+Patches 5 set capture queue bytesused.
+Patches 6 adjust GStreamer.
+Patch 7~11 add to support MT21C compressed mode and fix v4l2-compliance fail.
+patch 12 record capture queue format type.
+Patch 13~14 extract h264 driver and add mt8192 frame based driver for h264 decoder.
+Patch 15~16 add vp8 and vp9 stateless decoder drivers.
+Patch 17 prevent kernel crash when rmmod mtk-vcodec-dec.ko
+---
+changes compared with v9:
+- fix kernel robot build fail for patch 16
+changes compared with v8:
+- fix vp9 build error
+- fix kernel-doc fail
+changes compared with v7:
+- adjust GStreamer, separate src buffer done with v4l2_ctrl_request_complete for patch 6.
+- remove v4l2_m2m_set_dst_buffered.
+- add new patch to set each plane bytesused in buf prepare for patch 5.
+- using upstream interface to update vp9 prob tables for patch 16.
+- fix maintainer comments.
+- test the driver with chrome VD and GStreamer(H264/VP9/VP8/AV1).
+changes compared with v6:
+- rebase to the latest media stage and fix conficts
+- fix memcpy to memcpy_fromio or memcpy_toio
+- fix h264 crash when test field bitstream
+changes compared with v5:
+- fix vp9 comments for patch 15
+- fix vp8 comments for patch 14.
+- fix comments for patch 12.
+- fix build errors.
+changes compared with v4:
+- fix checkpatch.pl fail.
+- fix kernel-doc fail.
+- rebase to the latest media codec driver.
+changes compared with v3:
+- remove enum mtk_chip for patch 2.
+- add vp8 stateless decoder drivers for patch 14.
+- add vp9 stateless decoder drivers for patch 15.
+changes compared with v2:
+- add new patch 11 to record capture queue format type.
+- separate patch 4 according to tzung-bi's suggestion.
+- re-write commit message for patch 5 according to tzung-bi's suggestion.
+changes compared with v1:
+- rewrite commit message for patch 12.
+- rewrite cover-letter message.
+---
+Yunfei Dong (17):
+  media: mediatek: vcodec: Add vdec enable/disable hardware helpers
+  media: mediatek: vcodec: Using firmware type to separate different
+    firmware architecture
+  media: mediatek: vcodec: get capture queue buffer size from scp
+  media: mediatek: vcodec: Read max resolution from dec_capability
+  media: mediatek: vcodec: set each plane bytesused in buf prepare
+  media: mediatek: vcodec: Refactor get and put capture buffer flow
+  media: mediatek: vcodec: Refactor supported vdec formats and
+    framesizes
+  media: mediatek: vcodec: Getting supported decoder format types
+  media: mediatek: vcodec: Add format to support MT21C
+  media: mediatek: vcodec: disable vp8 4K capability
+  media: mediatek: vcodec: Fix v4l2-compliance fail
+  media: mediatek: vcodec: record capture queue format type
+  media: mediatek: vcodec: Extract H264 common code
+  media: mediatek: vcodec: support stateless H.264 decoding for mt8192
+  media: mediatek: vcodec: support stateless VP8 decoding
+  media: mediatek: vcodec: support stateless VP9 decoding
+  media: mediatek: vcodec: prevent kernel crash when rmmod
+    mtk-vcodec-dec.ko
+
+ .../media/platform/mediatek/vcodec/Makefile   |    4 +
+ .../platform/mediatek/vcodec/mtk_vcodec_dec.c |   62 +-
+ .../mediatek/vcodec/mtk_vcodec_dec_drv.c      |    8 +-
+ .../mediatek/vcodec/mtk_vcodec_dec_pm.c       |  166 +-
+ .../mediatek/vcodec/mtk_vcodec_dec_pm.h       |    6 +-
+ .../mediatek/vcodec/mtk_vcodec_dec_stateful.c |   19 +-
+ .../vcodec/mtk_vcodec_dec_stateless.c         |  257 ++-
+ .../platform/mediatek/vcodec/mtk_vcodec_drv.h |   41 +-
+ .../mediatek/vcodec/mtk_vcodec_enc_drv.c      |    5 -
+ .../platform/mediatek/vcodec/mtk_vcodec_fw.c  |    6 +
+ .../platform/mediatek/vcodec/mtk_vcodec_fw.h  |    1 +
+ .../vcodec/vdec/vdec_h264_req_common.c        |  310 +++
+ .../vcodec/vdec/vdec_h264_req_common.h        |  274 +++
+ .../mediatek/vcodec/vdec/vdec_h264_req_if.c   |  438 +---
+ .../vcodec/vdec/vdec_h264_req_multi_if.c      |  626 +++++
+ .../mediatek/vcodec/vdec/vdec_vp8_req_if.c    |  437 ++++
+ .../vcodec/vdec/vdec_vp9_req_lat_if.c         | 2031 +++++++++++++++++
+ .../platform/mediatek/vcodec/vdec_drv_if.c    |   37 +-
+ .../platform/mediatek/vcodec/vdec_drv_if.h    |    3 +
+ .../platform/mediatek/vcodec/vdec_ipi_msg.h   |   36 +
+ .../platform/mediatek/vcodec/vdec_msg_queue.c |    2 +
+ .../platform/mediatek/vcodec/vdec_msg_queue.h |    2 +
+ .../platform/mediatek/vcodec/vdec_vpu_if.c    |   53 +-
+ .../platform/mediatek/vcodec/vdec_vpu_if.h    |   15 +
+ .../platform/mediatek/vcodec/venc_vpu_if.c    |    2 +-
+ include/linux/remoteproc/mtk_scp.h            |    2 +
+ 26 files changed, 4242 insertions(+), 601 deletions(-)
+ create mode 100644 drivers/media/platform/mediatek/vcodec/vdec/vdec_h264_req_common.c
+ create mode 100644 drivers/media/platform/mediatek/vcodec/vdec/vdec_h264_req_common.h
+ create mode 100644 drivers/media/platform/mediatek/vcodec/vdec/vdec_h264_req_multi_if.c
+ create mode 100644 drivers/media/platform/mediatek/vcodec/vdec/vdec_vp8_req_if.c
+ create mode 100644 drivers/media/platform/mediatek/vcodec/vdec/vdec_vp9_req_lat_if.c
+
+-- 
+2.18.0
+
