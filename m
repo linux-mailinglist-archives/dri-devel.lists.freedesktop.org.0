@@ -1,125 +1,51 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id B46AC50F026
-	for <lists+dri-devel@lfdr.de>; Tue, 26 Apr 2022 07:20:59 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 901B550F064
+	for <lists+dri-devel@lfdr.de>; Tue, 26 Apr 2022 07:42:50 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 7CBDC112433;
-	Tue, 26 Apr 2022 05:20:57 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id D20BA10F342;
+	Tue, 26 Apr 2022 05:42:45 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from APC01-SG2-obe.outbound.protection.outlook.com
- (mail-sgaapc01on2134.outbound.protection.outlook.com [40.107.215.134])
- by gabe.freedesktop.org (Postfix) with ESMTPS id B1793112433
- for <dri-devel@lists.freedesktop.org>; Tue, 26 Apr 2022 05:20:55 +0000 (UTC)
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=kCnAWiExwVpdMjsyq7lWeQhrq1FEGesBUpxqQcrqnKKxtTCoVAj4XnsjGnKz50RicfffpsRIh4RgenDk7YAo5BWBVv7LrFAtf8dLSnPZGlrFTo6pC+0wm8em6Fc4T9pIW7cPanejuO4GOALNpNozUlSpTMXb0HLsUooIhCJrVYR87gQAUdgsu4Pal5J2WOZpIVlrDlMiNb4H1X29c4mw+PihgJOrb9psbBR4HXAx6tWmyMbIlDH05Jc2XyEHwd+dL9GO6vPrM2SMm/9vfPv7f7PsMZ4hvmYvp1M/7X8ldE/p9UtXX6JYcLoibGtEGdHoeqqu6hMEVMTaALfNv0PP4Q==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=rpqUOj5/AYskNGus184C0fYMvhSFrzVjm8ZIcgQMlj8=;
- b=bAb+YA+gbZdy/+7zUZw0ZxJherbUglSoBptVHuzLZnjnZKCEwaL16UeX7LitcwvBozacNdG/7/U2XR9sHDzVAXFgzzfqi1vtiyvTsZaf5OiCHd5H3Irql7rPfbl8phdhET8HfffP6MvxRrPp2DQf86w1mfg6qWu7SJOnF8RFX4rxzpiIL2k7y3hTzewYaXuA4UN1h3EEqY/3QQq6sTRdVKIAbQznT2DDSp3JA0frN6PnSw5wsebM7/kef9TwMQ6DmqWayTclQapSBiasf9SOsnzJVcgjz/1dxfs66Gp8AzhBEDRxC4yGvidZ0wmPo9xeFrKUKlvesIa8on6lnn2FHw==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=aspeedtech.com; dmarc=pass action=none
- header.from=aspeedtech.com; dkim=pass header.d=aspeedtech.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=aspeedtech.com;
- s=selector1;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=rpqUOj5/AYskNGus184C0fYMvhSFrzVjm8ZIcgQMlj8=;
- b=XawyGORXuR9KTIZLvBGAPd6+f2GggvdYwBA+FQD5my++18hf7bNJuyM+yU115k4wLq90aEvQ02/anOW+CmeqEY6W1j8hg7WXOsxblR3v194DH8nXFglUTK9unIlL0RW8tXI4+BV7wp9Z+HM3F7jslGN+3pGzQAJf+Nzg1TP+eSEN4BTFgbD6ElLfUPIluK+3DwWmz7DdlFAGLlOkv1VHI3gTXQ3Z/S61MI8yXqxTEOKym459qFE79K1bQ4rSaRWeXans6TwzVkdq+2AS84/NVCwX1nsb1tuwuW78OTmZXdg6/Lvz0FtlV03PTRYH8i7fEYXZFHY51T0cr2sVP7CmDQ==
-Received: from SG2PR06MB4818.apcprd06.prod.outlook.com (2603:1096:4:172::13)
- by KL1PR0601MB4210.apcprd06.prod.outlook.com (2603:1096:820:2c::13) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.5186.15; Tue, 26 Apr
- 2022 05:20:50 +0000
-Received: from SG2PR06MB4818.apcprd06.prod.outlook.com
- ([fe80::61ad:8a4f:fd13:b261]) by SG2PR06MB4818.apcprd06.prod.outlook.com
- ([fe80::61ad:8a4f:fd13:b261%9]) with mapi id 15.20.5186.021; Tue, 26 Apr 2022
- 05:20:50 +0000
-From: Tommy Huang <tommy_huang@aspeedtech.com>
-To: Joel Stanley <joel@jms.id.au>
-Subject: RE: [PATCH v1 2/2] drm/aspeed: Add 1024x768 mode for AST2600
-Thread-Topic: [PATCH v1 2/2] drm/aspeed: Add 1024x768 mode for AST2600
-Thread-Index: AQHYL5GJYwRSY7QFIkesAL2saXmbV60B2+mAgAAbIlA=
-Date: Tue, 26 Apr 2022 05:20:50 +0000
-Message-ID: <SG2PR06MB4818330BF3AB12D398BE73F6E1FB9@SG2PR06MB4818.apcprd06.prod.outlook.com>
-References: <20220304063137.12970-1-tommy_huang@aspeedtech.com>
- <20220304063137.12970-3-tommy_huang@aspeedtech.com>
- <CACPK8Xc92tStUOAgU9_XPGK7bQwJ_hutV16U+otUZkswrOumeA@mail.gmail.com>
-In-Reply-To: <CACPK8Xc92tStUOAgU9_XPGK7bQwJ_hutV16U+otUZkswrOumeA@mail.gmail.com>
-Accept-Language: zh-TW, en-US
-Content-Language: zh-TW
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-authentication-results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=aspeedtech.com;
-x-ms-publictraffictype: Email
-x-ms-office365-filtering-correlation-id: ff3c970a-ffda-4d47-ebfb-08da27448727
-x-ms-traffictypediagnostic: KL1PR0601MB4210:EE_
-x-microsoft-antispam-prvs: <KL1PR0601MB4210CC1E867F48869A155EABE1FB9@KL1PR0601MB4210.apcprd06.prod.outlook.com>
-x-ms-exchange-senderadcheck: 1
-x-ms-exchange-antispam-relay: 0
-x-microsoft-antispam: BCL:0;
-x-microsoft-antispam-message-info: gbnDEl5SVChwrWeD93VjLEHtpDgdauXBCssQQm4K3MLungsbkWvHz8d+6LtpodEHnNVL8nbPN6+impeHpfXHwLR7vTuqchavdCjbK8wmP7EYqCuGFHuXSODYmw0sqr/Qa/yS18NlRqusSHzXnDMZcv7mZmfcQGkhRnnR0Xfj6Pw+DxjzKFvwT1LO2tBJlkAXph1mljbZu346keVd9vgDf1b/rzYfWl5bBJq0iLwKt0oExl8Ty7FGQi+TSodDh1oVRj9qGGYpE3c0gSKP6N4obQKYs1PKE+DSgvrdGGYAejq68RP2ERlMvlxbqyO75fuotmHvEmIBOXfJL2W6hqLG+M8DXLKHn/Oza1jp0HpvhfZKa1x/zViElL4KENyl72qNXJBXw6pVYWWWfHZFbJkeVJjoS7XC5mEIl967vo+3hd8Kgvy6hGih6viqokq4FEinrbGZGI1F0iQBpbAQD2m1IMcOCCX5jQ8DLrB/zOpZipDGfmA0HEwUh1qQCZKQVy9RpVBn2N/qt99fJUScAvjG/+dwT3IBhYcrsIy7u/DFm1gRKfCC+iuZkfMhlX7Xtzo3rs+yv1YhCRiWcJDVN8FrxGCeadHA17lYZfilV8VdxxXwy+KqMl8C4AVJmo0qZGefO1pq287tn+TB11UsWWqMf3TOYzw0KsjxrpssStq86KF/vcvUElhr+fMhC8RXr2XUoQNMOBCXl3KZxCvlkSOS2w==
-x-forefront-antispam-report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
- IPV:NLI; SFV:NSPM; H:SG2PR06MB4818.apcprd06.prod.outlook.com; PTR:; CAT:NONE;
- SFS:(13230001)(396003)(346002)(376002)(366004)(39850400004)(136003)(8676002)(66446008)(4326008)(66476007)(186003)(316002)(86362001)(66946007)(66556008)(64756008)(55016003)(8936002)(5660300002)(7416002)(9686003)(26005)(52536014)(76116006)(6916009)(33656002)(83380400001)(54906003)(6506007)(53546011)(508600001)(71200400001)(7696005)(38070700005)(107886003)(38100700002)(2906002)(122000001);
- DIR:OUT; SFP:1102; 
-x-ms-exchange-antispam-messagedata-chunkcount: 1
-x-ms-exchange-antispam-messagedata-0: =?utf-8?B?L0s4b3F2THUwSTVlcThCOURRQmxSbDJsRm1ZNEFnbExDU2VnZW4yR05SOE1O?=
- =?utf-8?B?aUtyS292dmx1UklybER3SkFQS0F2MXMvQnZEaHlScHdSRCtzSEZCK1BLRmI3?=
- =?utf-8?B?b0RLdGJNU2N1dFpveGY3THZHemx5dHlTVzRoNGVyNnRwRGljV09nQzVPdnRF?=
- =?utf-8?B?c3p5R01sRDdOZDBhbTJyYXkvdFhVZGIzV053MVgvaTFOeDF4ZUhxMjFSUG8z?=
- =?utf-8?B?eFBIVmViMjVLNEFvU0pnem5SWEovVjR6Kzk4MG1mSU4vZ1dHbG5HWjJxUzdk?=
- =?utf-8?B?U016OHFxNklzdkdrQTl4cGRCTFQ0N29BalhvUnl3UGVsOE00KzNzcS91M3ZN?=
- =?utf-8?B?c1g3UXBzQy9FRDEreFdzRUhQMk9CaWRLYmJXNE1iaTRsUlNKb3Z4RzlBU29o?=
- =?utf-8?B?cGtDYUd6VzlybmUzTk9JaERCdW9HdHB4dklaSy9YZ1g3N2ZpQXZRVjF5dkVz?=
- =?utf-8?B?RzJraGRIYTA2c0g4cFdHdmxMbU9WUUVBVWk1SlRmT0hHSDMva21nWHZBTzdY?=
- =?utf-8?B?L1MrYVVPZklqRmIrWjh6TUE1cEhTRlZkT25PVUMwTXh0MDFUOTBnTE85U3Vh?=
- =?utf-8?B?QUxZRWlCSjZRYlFQb3BETldPZm9XSVg5Zi8yTTRWWElNK3A0NExGMlRJaHNn?=
- =?utf-8?B?TTdXWWJXRzFUMEdKaUh6WVVpQ3M5TEZFcm5HVFFnbkxiV0p5UTdWOGZiMGls?=
- =?utf-8?B?dDJGWUszLzhHL1BuUHppMjMvVXcycVRWMU5FLzh6R0tWTnJMdmZ1b0hKOUhK?=
- =?utf-8?B?OW5kNkU2QTdvRC82UmdtaDNCZUFRWUs1R3labHJzOVd1SUVpTXc3LzFnSFRR?=
- =?utf-8?B?MktzTFNmV3FMaVpuN2Z3ZkxyK1UrOFlGZmhPNlZ0cU8xdmUxb3FEaEI5K0ZL?=
- =?utf-8?B?UmdpaVh5L0tSMllnQ0dnZFRKSWpnNUZqZThwL3JBVUxiY2kyVDNDQ3VWNmdD?=
- =?utf-8?B?bWxRVmMvRFJoSTF0NHZFMWViVlBwYkFCSlZBVllPdVRoMlFGNTVSZHcwQUVy?=
- =?utf-8?B?ZWluYU9yMTBTVXQzU3lZS1YxdFZEUU5WYmxOOGlYR2NjeDIrVDJpV1FwNUpa?=
- =?utf-8?B?ZlVtQi93bzhjNm9NYWU0VnpHTGVtdmZhNGxlQ2h0MGN5OHB6dlNNWURHd0NQ?=
- =?utf-8?B?bWhxUkY4SE12cFlEOVhsQm53TC9RUU1ZcEhLVGpaQnBPYXJVTDBFRFZVdHlt?=
- =?utf-8?B?TUxMc1kycEVieHUwcmg0NURyeUVPdEE3N3VvdVVVN1FubUlEeE5ESndpdjQv?=
- =?utf-8?B?cGE4eHYrZkVvbUhXSXVtZHNaRjllb2ZDcC9GNUIwQjZXbjlBSldlUk9iWTJp?=
- =?utf-8?B?V053Y2wwQ0hRSlpwV1YxeTRsQ1RWYTdWSTlVQ0w5TjFYQllLeGJIZFIveDR2?=
- =?utf-8?B?TXhGQ3ZmNzhuc0k2dkhDckJ2TnJnaUdPMkkvcStEYnhhbVJlS2hFemRMRjNn?=
- =?utf-8?B?YnU4bVFWRDQ2WVNOMEVOSHZ5V0JCWHN0S3c1V2hzaThPMlJ1SU5sS3lONmlp?=
- =?utf-8?B?by9EZ3J4UEhyZ2lMSWU0RVhNUm90Q2FWdlFiZjlwRVR1K0s2NWtLNlFRd3hI?=
- =?utf-8?B?dmZyM0hOSlMzTnFpOUNDVVdZMi8wWGRiZ2F1Z01qeWp6THg1akF0c1c3V0oy?=
- =?utf-8?B?OXhuK0NCUmQvWWVPSnBBT1F6S1N3ZDdwN0crQ1d2dXRTSjZJeDdoTUIyR2Qw?=
- =?utf-8?B?ZFp6K3orR2R5cCtQQlZRUzhOUE1QemQwSzBnMmVqMUtHMENVSFJEcjFWQkhG?=
- =?utf-8?B?RlRjRk9pakZTclJZamVqUzJXMmJjUTgydHZGSGlXQm1wMEtpa3V6Q09MVWky?=
- =?utf-8?B?c0c2b24xS1VWYUtKeWMza0VqQ0J4b1l6YTRqSHBLbkM4WTlUVWZ1S1ArQmNu?=
- =?utf-8?B?c1hBQzZDNG1QSWRKWHhnTHJzaE5jSEV0N0xkUXp1MzFaZnhXR2tzVHBWdjZs?=
- =?utf-8?B?cXFER0dRSHZKMEpBTFBXcWR3K2E2R0lBcDJ4OUMxVVBEZ3NoekxPejQwYnBY?=
- =?utf-8?B?MW5RT1ZpdFJuaW5lSktscHBsSkpLYzdPRGNZZnZ6clUzTkR6T3FqYXIvNTI3?=
- =?utf-8?B?SjhLaEh4OXZCNkxSTnBNZFJwOTNWcEIzbW1pYm5ORlB2bnQySGdVT2h5d1k0?=
- =?utf-8?B?dExMazJxOHFiWDFBUzBoK3hNRStEQXZYdHN4UW5oSWp1RFdIKzlObHhHUnVS?=
- =?utf-8?B?TjZQaE13eGh5OHlQRTgvZmtPc2ZLblpLS2l0RzVIY1FBQmV4VXNSOG0yRUVu?=
- =?utf-8?B?dTlYMmNkZ01ReHE4VG5ObTEvQjF2TFIzaHZic0VQamlLWGNuTUlrcjBDdUkz?=
- =?utf-8?B?RlBmekxpTUFBLzA4dVgyOVpNUll0WDVRcW5wYlRJUkhDcVRsTXpZMGxSeEov?=
- =?utf-8?Q?8bhe7/LC/8+UrNU4=3D?=
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: base64
+Received: from mga04.intel.com (mga04.intel.com [192.55.52.120])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 3F4E710F347
+ for <dri-devel@lists.freedesktop.org>; Tue, 26 Apr 2022 05:42:45 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+ t=1650951765; x=1682487765;
+ h=date:from:to:cc:subject:message-id:mime-version:
+ content-transfer-encoding;
+ bh=ALBaSwqRZhkpzhIwROzHvqZY8s+vIra6wfKbbUAx7ww=;
+ b=EUNYMKgOG77kJb0LsHxMUJrDW5quCY48Opxg1ZKJwDIz5LGqS7GItCgx
+ e8zvnmHM1fch5Uczbn+baytxqaRksnLgfW6FoREmhptghEbQqkPBFDS9M
+ 7UNaPfNaRyxoVrvAKLX1xGfwwsYT6B/1bB4/WIEjBIISTvafyEl3aAsWy
+ P9hQDS2VFbUc6ohSuQ8cT45advkmM5PvklasuveirGgCPApm+NL6+VEOV
+ TJ81mdTAGvSGm80hwjmm8P6OwzHcCc6wTcUcivpZ1uU9LXqYOZuS966OR
+ FeUEGBTpVg4rXykkPIpMea4qXEyRvG6ZAPswRUgD7r8pa1OzyHijgxnHY A==;
+X-IronPort-AV: E=McAfee;i="6400,9594,10328"; a="264306713"
+X-IronPort-AV: E=Sophos;i="5.90,290,1643702400"; d="scan'208";a="264306713"
+Received: from fmsmga003.fm.intel.com ([10.253.24.29])
+ by fmsmga104.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 25 Apr 2022 22:42:44 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.90,290,1643702400"; d="scan'208";a="650031008"
+Received: from lkp-server01.sh.intel.com (HELO 5056e131ad90) ([10.239.97.150])
+ by FMSMGA003.fm.intel.com with ESMTP; 25 Apr 2022 22:42:39 -0700
+Received: from kbuild by 5056e131ad90 with local (Exim 4.95)
+ (envelope-from <lkp@intel.com>) id 1njDyA-0003G6-RK;
+ Tue, 26 Apr 2022 05:42:38 +0000
+Date: Tue, 26 Apr 2022 13:42:04 +0800
+From: kernel test robot <lkp@intel.com>
+To: Andrew Morton <akpm@linux-foundation.org>
+Subject: [linux-next:master] BUILD REGRESSION
+ e7d6987e09a328d4a949701db40ef63fbb970670
+Message-ID: <6267862c.xuehJN2IUHn8WMof%lkp@intel.com>
+User-Agent: Heirloom mailx 12.5 6/20/10
 MIME-Version: 1.0
-X-OriginatorOrg: aspeedtech.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-AuthSource: SG2PR06MB4818.apcprd06.prod.outlook.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: ff3c970a-ffda-4d47-ebfb-08da27448727
-X-MS-Exchange-CrossTenant-originalarrivaltime: 26 Apr 2022 05:20:50.4822 (UTC)
-X-MS-Exchange-CrossTenant-fromentityheader: Hosted
-X-MS-Exchange-CrossTenant-id: 43d4aa98-e35b-4575-8939-080e90d5a249
-X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
-X-MS-Exchange-CrossTenant-userprincipalname: naMqlynUmK7hOVBUMLYIdw9Arx9JYooRymk7EFXIMQzTibpdXpWKrySrW4f0nO+q5fqN4Q9jzL/rFo9wvuDKwb20IrFJfIHue3XZ818gXag=
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: KL1PR0601MB4210
+Content-Type: text/plain; charset=us-ascii
+Content-Transfer-Encoding: 7bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -132,172 +58,633 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: devicetree <devicetree@vger.kernel.org>,
- linux-aspeed <linux-aspeed@lists.ozlabs.org>, BMC-SW <BMC-SW@aspeedtech.com>,
- David Airlie <airlied@linux.ie>,
- Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
- "open list:DRM DRIVERS" <dri-devel@lists.freedesktop.org>,
- Andrew Jeffery <andrew@aj.id.au>, Rob Herring <robh+dt@kernel.org>,
- Linux ARM <linux-arm-kernel@lists.infradead.org>
+Cc: linux-arm-kernel@lists.infradead.org, linux-sh@vger.kernel.org,
+ netdev@vger.kernel.org, linux-mips@vger.kernel.org,
+ dri-devel@lists.freedesktop.org, ath11k@lists.infradead.org,
+ linaro-mm-sig@lists.linaro.org,
+ Linux Memory Management List <linux-mm@kvack.org>,
+ linux-crypto@vger.kernel.org, linux-arm-msm@vger.kernel.org,
+ bpf@vger.kernel.org, linux-edac@vger.kernel.org, io-uring@vger.kernel.org,
+ linux-btrfs@vger.kernel.org, linux-media@vger.kernel.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-SGkgSm9lbCwNCg0KPiAtLS0tLU9yaWdpbmFsIE1lc3NhZ2UtLS0tLQ0KPiBGcm9tOiBKb2VsIFN0
-YW5sZXkgPGpvZWxAam1zLmlkLmF1Pg0KPiBTZW50OiBUdWVzZGF5LCBBcHJpbCAyNiwgMjAyMiAx
-MToyNyBBTQ0KPiBUbzogVG9tbXkgSHVhbmcgPHRvbW15X2h1YW5nQGFzcGVlZHRlY2guY29tPg0K
-PiBDYzogRGF2aWQgQWlybGllIDxhaXJsaWVkQGxpbnV4LmllPjsgRGFuaWVsIFZldHRlciA8ZGFu
-aWVsQGZmd2xsLmNoPjsgUm9iDQo+IEhlcnJpbmcgPHJvYmgrZHRAa2VybmVsLm9yZz47IEFuZHJl
-dyBKZWZmZXJ5IDxhbmRyZXdAYWouaWQuYXU+Ow0KPiBsaW51eC1hc3BlZWQgPGxpbnV4LWFzcGVl
-ZEBsaXN0cy5vemxhYnMub3JnPjsgb3BlbiBsaXN0OkRSTSBEUklWRVJTDQo+IDxkcmktZGV2ZWxA
-bGlzdHMuZnJlZWRlc2t0b3Aub3JnPjsgZGV2aWNldHJlZSA8ZGV2aWNldHJlZUB2Z2VyLmtlcm5l
-bC5vcmc+Ow0KPiBMaW51eCBBUk0gPGxpbnV4LWFybS1rZXJuZWxAbGlzdHMuaW5mcmFkZWFkLm9y
-Zz47IExpbnV4IEtlcm5lbCBNYWlsaW5nIExpc3QNCj4gPGxpbnV4LWtlcm5lbEB2Z2VyLmtlcm5l
-bC5vcmc+OyBCTUMtU1cgPEJNQy1TV0Bhc3BlZWR0ZWNoLmNvbT4NCj4gU3ViamVjdDogUmU6IFtQ
-QVRDSCB2MSAyLzJdIGRybS9hc3BlZWQ6IEFkZCAxMDI0eDc2OCBtb2RlIGZvciBBU1QyNjAwDQo+
-IA0KPiBPbiBGcmksIDQgTWFyIDIwMjIgYXQgMDY6MzIsIFRvbW15IEhhdW5nIDx0b21teV9odWFu
-Z0Bhc3BlZWR0ZWNoLmNvbT4NCj4gd3JvdGU6DQo+ID4NCj4gPiBVcGRhdGUgdGhlIGFzcGVlZF9n
-Znhfc2V0X2NsayB3aXRoIGRpc3BsYXkgd2lkdGguDQo+ID4gQXQgQVNUMjYwMCwgdGhlIGRpc3Bs
-YXkgY2xvY2sgY291bGQgYmUgY29taW5nIGZyb20gSFBMTCBjbG9jayAvIDE2ID0NCj4gPiA3NU1I
-ei4gSXQgd291bGQgZml0IDEwMjR4NzY4QDcwSHouDQo+ID4gQW5vdGhlciBjaGlwIHdpbGwgc3Rp
-bGwga2VlcCA4MDB4NjAwLg0KPiA+DQo+ID4gU2lnbmVkLW9mZi1ieTogVG9tbXkgSGF1bmcgPHRv
-bW15X2h1YW5nQGFzcGVlZHRlY2guY29tPg0KPiA+IC0tLQ0KPiA+ICBkcml2ZXJzL2dwdS9kcm0v
-YXNwZWVkL2FzcGVlZF9nZnguaCAgICAgIHwgMTIgKysrKysrLS0tLQ0KPiA+ICBkcml2ZXJzL2dw
-dS9kcm0vYXNwZWVkL2FzcGVlZF9nZnhfY3J0Yy5jIHwgMjkNCj4gPiArKysrKysrKysrKysrKysr
-KysrKy0tLS0gIGRyaXZlcnMvZ3B1L2RybS9hc3BlZWQvYXNwZWVkX2dmeF9kcnYuYyAgfA0KPiA+
-IDE2ICsrKysrKysrKysrLS0gIGRyaXZlcnMvZ3B1L2RybS9hc3BlZWQvYXNwZWVkX2dmeF9vdXQu
-YyAgfCAxNA0KPiA+ICsrKysrKysrKysrLQ0KPiA+ICA0IGZpbGVzIGNoYW5nZWQsIDYwIGluc2Vy
-dGlvbnMoKyksIDExIGRlbGV0aW9ucygtKQ0KPiA+DQo+ID4gZGlmZiAtLWdpdCBhL2RyaXZlcnMv
-Z3B1L2RybS9hc3BlZWQvYXNwZWVkX2dmeC5oDQo+ID4gYi9kcml2ZXJzL2dwdS9kcm0vYXNwZWVk
-L2FzcGVlZF9nZnguaA0KPiA+IGluZGV4IGViNGMyNjdjZGU1ZS4uYzdhZWZlZTA2NTdhIDEwMDY0
-NA0KPiA+IC0tLSBhL2RyaXZlcnMvZ3B1L2RybS9hc3BlZWQvYXNwZWVkX2dmeC5oDQo+ID4gKysr
-IGIvZHJpdmVycy9ncHUvZHJtL2FzcGVlZC9hc3BlZWRfZ2Z4LmgNCj4gPiBAQCAtMTA5LDExICsx
-MDksMTUgQEAgaW50IGFzcGVlZF9nZnhfY3JlYXRlX291dHB1dChzdHJ1Y3QgZHJtX2RldmljZQ0K
-PiAqZHJtKTsNCj4gPiAgI2RlZmluZSBDUlRfVEhST0RfSElHSCh4KSAgICAgICAgICAgICAgKCh4
-KSA8PCA4KQ0KPiA+DQo+ID4gIC8qIFNDVSBjb250cm9sICovDQo+ID4gLSNkZWZpbmUgU0NVX0c2
-X0NMS19DT1VSQ0UgICAgICAgICAgICAgIDB4MzAwDQo+ID4gKyNkZWZpbmUgRzZfQ0xLX1NPVVJD
-RSAgICAgICAgICAgICAgICAgIDB4MzAwDQo+ID4gKyNkZWZpbmUgRzZfQ0xLX1NPVVJDRV9NQVNL
-ICAgICAgICAgICAgIChCSVQoOCkgfCBCSVQoOSkgfCBCSVQoMTApKQ0KPiA+ICsjZGVmaW5lIEc2
-X0NMS19TT1VSQ0VfSFBMTCAgICAgICAgICAgICAoQklUKDgpIHwgQklUKDkpIHwgQklUKDEwKSkN
-Cj4gPiArI2RlZmluZSBHNl9DTEtfU09VUkNFX1VTQiAgICAgICAgICAgICAgQklUKDkpDQo+ID4g
-KyNkZWZpbmUgRzZfQ0xLX1NFTDMgICAgICAgICAgICAgICAgICAgIDB4MzA4DQo+ID4gKyNkZWZp
-bmUgRzZfQ0xLX0RJVl9NQVNLICAgICAgICAgICAgICAgICAgICAgICAgMHgzRjAwMA0KPiA+ICsj
-ZGVmaW5lIEc2X0NMS19ESVZfMTYNCj4gKEJJVCgxNil8QklUKDE1KXxCSVQoMTMpfEJJVCgxMikp
-DQo+ID4gKyNkZWZpbmUgRzZfVVNCXzQwX0NMSyAgICAgICAgICAgICAgICAgIEJJVCg5KQ0KPiA+
-DQo+ID4gIC8qIEdGWCBGTEFHUyAqLw0KPiA+ICAjZGVmaW5lIENMS19NQVNLICAgICAgICAgICAg
-ICAgICAgICAgICBCSVQoMCkNCj4gPiAgI2RlZmluZSBDTEtfRzYgICAgICAgICAgICAgICAgICAg
-ICAgICAgQklUKDApDQo+ID4gLQ0KPiA+IC0jZGVmaW5lIEc2X0NMS19NQVNLICAgICAgICAgICAg
-ICAgICAgICAoQklUKDgpIHwgQklUKDkpIHwgQklUKDEwKSkNCj4gPiAtI2RlZmluZSBHNl9VU0Jf
-NDBfQ0xLICAgICAgICAgICAgICAgICAgQklUKDkpDQo+ID4gZGlmZiAtLWdpdCBhL2RyaXZlcnMv
-Z3B1L2RybS9hc3BlZWQvYXNwZWVkX2dmeF9jcnRjLmMNCj4gPiBiL2RyaXZlcnMvZ3B1L2RybS9h
-c3BlZWQvYXNwZWVkX2dmeF9jcnRjLmMNCj4gPiBpbmRleCBhMjRmYWIyMmVhYzQuLjU4MjliZTlj
-N2M2NyAxMDA2NDQNCj4gPiAtLS0gYS9kcml2ZXJzL2dwdS9kcm0vYXNwZWVkL2FzcGVlZF9nZnhf
-Y3J0Yy5jDQo+ID4gKysrIGIvZHJpdmVycy9ncHUvZHJtL2FzcGVlZC9hc3BlZWRfZ2Z4X2NydGMu
-Yw0KPiA+IEBAIC0yMyw2ICsyMywyOCBAQCBkcm1fcGlwZV90b19hc3BlZWRfZ2Z4KHN0cnVjdA0K
-PiBkcm1fc2ltcGxlX2Rpc3BsYXlfcGlwZSAqcGlwZSkNCj4gPiAgICAgICAgIHJldHVybiBjb250
-YWluZXJfb2YocGlwZSwgc3RydWN0IGFzcGVlZF9nZngsIHBpcGUpOyAgfQ0KPiA+DQo+ID4gK3N0
-YXRpYyB2b2lkIGFzcGVlZF9nZnhfc2V0X2Nsb2NrX3NvdXJjZShzdHJ1Y3QgYXNwZWVkX2dmeCAq
-cHJpdiwgaW50DQo+ID4gK21vZGVfd2lkdGgpIHsNCj4gPiArICAgICAgIHJlZ21hcF91cGRhdGVf
-Yml0cyhwcml2LT5zY3UsIEc2X0NMS19TT1VSQ0UsDQo+IEc2X0NMS19TT1VSQ0VfTUFTSywgMHgw
-KTsNCj4gPiArICAgICAgIHJlZ21hcF91cGRhdGVfYml0cyhwcml2LT5zY3UsIEc2X0NMS19TRUwz
-LCBHNl9DTEtfRElWX01BU0ssDQo+ID4gKzB4MCk7DQo+ID4gKw0KPiA+ICsgICAgICAgc3dpdGNo
-IChtb2RlX3dpZHRoKSB7DQo+ID4gKyAgICAgICBjYXNlIDEwMjQ6DQo+ID4gKyAgICAgICAgICAg
-ICAgIC8qIGhwbGwgZGl2IDE2ID0gNzVNaHogKi8NCj4gPiArICAgICAgICAgICAgICAgcmVnbWFw
-X3VwZGF0ZV9iaXRzKHByaXYtPnNjdSwgRzZfQ0xLX1NPVVJDRSwNCj4gPiArICAgICAgICAgICAg
-ICAgRzZfQ0xLX1NPVVJDRV9NQVNLLCBHNl9DTEtfU09VUkNFX0hQTEwpOw0KPiA+ICsgICAgICAg
-ICAgICAgICByZWdtYXBfdXBkYXRlX2JpdHMocHJpdi0+c2N1LCBHNl9DTEtfU0VMMywNCj4gPiAr
-ICAgICAgICAgICAgICAgRzZfQ0xLX0RJVl9NQVNLLCBHNl9DTEtfRElWXzE2KTsNCj4gPiArICAg
-ICAgICAgICAgICAgYnJlYWs7DQo+ID4gKyAgICAgICBjYXNlIDgwMDoNCj4gPiArICAgICAgIGRl
-ZmF1bHQ6DQo+ID4gKyAgICAgICAgICAgICAgIC8qIHVzYiA0ME1oeiAqLw0KPiA+ICsgICAgICAg
-ICAgICAgICByZWdtYXBfdXBkYXRlX2JpdHMocHJpdi0+c2N1LCBHNl9DTEtfU09VUkNFLA0KPiA+
-ICsgICAgICAgICAgICAgICBHNl9DTEtfU09VUkNFX01BU0ssIEc2X0NMS19TT1VSQ0VfVVNCKTsN
-Cj4gPiArICAgICAgICAgICAgICAgYnJlYWs7DQo+ID4gKyAgICAgICB9DQo+IA0KPiBJJ20gbm90
-IGZhbWlsaWFyIHdpdGggdGhpcyBhcmVhLCBidXQgSSB0aGluayB0aGlzIGJlbG9uZ3MgaW4gdGhl
-IGNsb2NrIGRyaXZlci4NCj4gDQo+IFdlIHdhbnQgdG8gYmUgYWJsZSB0byBjYWxsIGNsa19zZXRf
-cmF0ZSgpIGZyb20gdGhlIGRybSBkcml2ZXIgYW5kIGhhdmUgdGhlDQo+IGNsb2NrIGRyaXZlciB1
-cGRhdGUgdGhlIGNvcnJlY3QgYml0cyBpbiB0aGUgU0NVLg0KPiANCj4gSW5zdGVhZCBvZiBzcGVj
-aWFsaXNpbmcgdGhlIDI2MDAgdnMgb3RoZXJzLCBjb3VsZCBjbGtfc2V0X3JhdGUoKSBmYWlsIG9u
-IHRoZQ0KPiBvdGhlcnMsIGFuZCBjYXVzZSB0aGUgZHJpdmVyIHRvIHN0YXkgYXQgODAweDYwMC4g
-SWYgdGhlIHNldCBzdWNjZWVkcyBpdCBjYW4gdGhlbg0KPiBydW4gYXQgdGhlIGhpZ2hlciByZXNv
-bHV0aW9uLiBJZiB0aGlzIGlzIG5vdCBob3cgdGhlIEFQSXMgd29yaywgd2UgY291bGQgaW5zdGVh
-ZA0KPiBoYXZlIGEgY2xvY2tfcmF0ZSBpbiBzdHJ1Y3QgYXNwZWVkX2dmeCBhbmQgZWFjaCBwbGF0
-Zm9ybSBjYW4gZGVmaW5lIGl0cw0KPiBleHBlY3RlZCBjbG9jayByYXRlLiBJdCB3b3VsZCB0aGVu
-IG5lZWQgYSBjb3JyZXNwb25kaW5nIHJlc29sdXRpb24uDQo+IA0KPiBQbGVhc2UgdGFrZSBhIGxv
-b2sgYXQgb3RoZXIgZHJpdmVycyBhbmQgc2VlIHdoYXQgdGhleSBkby4NCg0KVGhhbmtzIGZvciB5
-b3VyIGNvbW1vbi4gVGhlIHBpeGVsIGNsb2NrIHNlbGVjdGlvbiBpcyB2ZXJ5IGxpbWl0IG9uIHNv
-YyBkaXNwbGF5Lg0KVW50aWwgbm93LCB0aGVyZSBhcmUganVzdCB0d28gcmVzb2x1dGlvbnMgKDgw
-MHg2MDBANjAgYW5kIDEwMjR4NzY4QDcwKWNvdWxkIGJlIHNlbGVjdGVkIGF0IGFzdDI2MDAuDQpB
-bmQgdGhlcmUgaXMganVzdCA4MDB4NjAwQDYwIGNvdWxkIGJlIHNlbGVjdGVkIGF0IGFzdDI1MDAg
-YW5kIGFzdDI0MDAuDQpBbHRob3VnaCBJIGFsc28gd2FudCB0byBoYXZlIGNsa19zZXRfcmF0ZSgp
-IGZ1bmN0aW9uIHRvIHNlbGVjdCBmbGV4aWJsZSBwaXhlbCBjbG9jayB3aXRoIGEgcHJvZ3JhbWFi
-bGUgcGxsLg0KV2UgbWlnaHQgZGVmaW5lIHN1cHBvcnQgY2xvY2sgcmF0ZSBpbiBldmVyeSBkZXZp
-Y2Ugc3RydWN0dXJlIGZvciB0aGlzIHNpdHVhdGlvbi4NCj4gDQo+IA0KPiANCj4gPiArfQ0KPiA+
-ICsNCj4gPiAgc3RhdGljIGludCBhc3BlZWRfZ2Z4X3NldF9waXhlbF9mbXQoc3RydWN0IGFzcGVl
-ZF9nZnggKnByaXYsIHUzMg0KPiA+ICpicHApICB7DQo+ID4gICAgICAgICBzdHJ1Y3QgZHJtX2Ny
-dGMgKmNydGMgPSAmcHJpdi0+cGlwZS5jcnRjOyBAQCAtNzcsMTIgKzk5LDExIEBADQo+ID4gc3Rh
-dGljIHZvaWQgYXNwZWVkX2dmeF9kaXNhYmxlX2NvbnRyb2xsZXIoc3RydWN0IGFzcGVlZF9nZngg
-KnByaXYpDQo+ID4gICAgICAgICByZWdtYXBfdXBkYXRlX2JpdHMocHJpdi0+c2N1LCBwcml2LT5k
-YWNfcmVnLCBCSVQoMTYpLCAwKTsgIH0NCj4gPg0KPiA+IC1zdGF0aWMgdm9pZCBhc3BlZWRfZ2Z4
-X3NldF9jbGsoc3RydWN0IGFzcGVlZF9nZnggKnByaXYpDQo+ID4gK3N0YXRpYyB2b2lkIGFzcGVl
-ZF9nZnhfc2V0X2NsayhzdHJ1Y3QgYXNwZWVkX2dmeCAqcHJpdiwgaW50DQo+ID4gK21vZGVfd2lk
-dGgpDQo+ID4gIHsNCj4gPiAgICAgICAgIHN3aXRjaCAocHJpdi0+ZmxhZ3MgJiBDTEtfTUFTSykg
-ew0KPiA+ICAgICAgICAgY2FzZSBDTEtfRzY6DQo+ID4gLSAgICAgICAgICAgICAgIHJlZ21hcF91
-cGRhdGVfYml0cyhwcml2LT5zY3UsIFNDVV9HNl9DTEtfQ09VUkNFLA0KPiBHNl9DTEtfTUFTSywg
-MHgwKTsNCj4gPiAtICAgICAgICAgICAgICAgcmVnbWFwX3VwZGF0ZV9iaXRzKHByaXYtPnNjdSwg
-U0NVX0c2X0NMS19DT1VSQ0UsDQo+IEc2X0NMS19NQVNLLCBHNl9VU0JfNDBfQ0xLKTsNCj4gPiAr
-ICAgICAgICAgICAgICAgYXNwZWVkX2dmeF9zZXRfY2xvY2tfc291cmNlKHByaXYsIG1vZGVfd2lk
-dGgpOw0KPiA+ICAgICAgICAgICAgICAgICBicmVhazsNCj4gPiAgICAgICAgIGRlZmF1bHQ6DQo+
-ID4gICAgICAgICAgICAgICAgIGJyZWFrOw0KPiA+IEBAIC05OSw3ICsxMjAsNyBAQCBzdGF0aWMg
-dm9pZCBhc3BlZWRfZ2Z4X2NydGNfbW9kZV9zZXRfbm9mYihzdHJ1Y3QNCj4gYXNwZWVkX2dmeCAq
-cHJpdikNCj4gPiAgICAgICAgIGlmIChlcnIpDQo+ID4gICAgICAgICAgICAgICAgIHJldHVybjsN
-Cj4gPg0KPiA+IC0gICAgICAgYXNwZWVkX2dmeF9zZXRfY2xrKHByaXYpOw0KPiA+ICsgICAgICAg
-YXNwZWVkX2dmeF9zZXRfY2xrKHByaXYsIG0tPmhkaXNwbGF5KTsNCj4gPg0KPiA+ICAjaWYgMA0K
-PiA+ICAgICAgICAgLyogVE9ETzogd2UgaGF2ZSBvbmx5IGJlZW4gYWJsZSB0byB0ZXN0IHdpdGgg
-dGhlIDQwTUh6IFVTQg0KPiA+IGNsb2NrLiBUaGUgZGlmZiAtLWdpdCBhL2RyaXZlcnMvZ3B1L2Ry
-bS9hc3BlZWQvYXNwZWVkX2dmeF9kcnYuYw0KPiA+IGIvZHJpdmVycy9ncHUvZHJtL2FzcGVlZC9h
-c3BlZWRfZ2Z4X2Rydi5jDQo+ID4gaW5kZXggYWY1NmZmZGNjYzY1Li5lMWE4MTRhZWJjMmQgMTAw
-NjQ0DQo+ID4gLS0tIGEvZHJpdmVycy9ncHUvZHJtL2FzcGVlZC9hc3BlZWRfZ2Z4X2Rydi5jDQo+
-ID4gKysrIGIvZHJpdmVycy9ncHUvZHJtL2FzcGVlZC9hc3BlZWRfZ2Z4X2Rydi5jDQo+ID4gQEAg
-LTExMCw2ICsxMTAsNyBAQCBzdGF0aWMgY29uc3Qgc3RydWN0IGRybV9tb2RlX2NvbmZpZ19mdW5j
-cw0KPiA+IGFzcGVlZF9nZnhfbW9kZV9jb25maWdfZnVuY3MgPSB7DQo+ID4NCj4gPiAgc3RhdGlj
-IGludCBhc3BlZWRfZ2Z4X3NldHVwX21vZGVfY29uZmlnKHN0cnVjdCBkcm1fZGV2aWNlICpkcm0p
-ICB7DQo+ID4gKyAgICAgICBzdHJ1Y3QgYXNwZWVkX2dmeCAqcHJpdiA9IHRvX2FzcGVlZF9nZngo
-ZHJtKTsNCj4gPiAgICAgICAgIGludCByZXQ7DQo+ID4NCj4gPiAgICAgICAgIHJldCA9IGRybW1f
-bW9kZV9jb25maWdfaW5pdChkcm0pOyBAQCAtMTE4LDggKzExOSwxOCBAQA0KPiBzdGF0aWMNCj4g
-PiBpbnQgYXNwZWVkX2dmeF9zZXR1cF9tb2RlX2NvbmZpZyhzdHJ1Y3QgZHJtX2RldmljZSAqZHJt
-KQ0KPiA+DQo+ID4gICAgICAgICBkcm0tPm1vZGVfY29uZmlnLm1pbl93aWR0aCA9IDA7DQo+ID4g
-ICAgICAgICBkcm0tPm1vZGVfY29uZmlnLm1pbl9oZWlnaHQgPSAwOw0KPiA+IC0gICAgICAgZHJt
-LT5tb2RlX2NvbmZpZy5tYXhfd2lkdGggPSA4MDA7DQo+ID4gLSAgICAgICBkcm0tPm1vZGVfY29u
-ZmlnLm1heF9oZWlnaHQgPSA2MDA7DQo+ID4gKw0KPiA+ICsgICAgICAgc3dpdGNoIChwcml2LT5m
-bGFncyAmIENMS19NQVNLKSB7DQo+ID4gKyAgICAgICBjYXNlIENMS19HNjoNCj4gPiArICAgICAg
-ICAgICAgICAgZHJtLT5tb2RlX2NvbmZpZy5tYXhfd2lkdGggPSAxMDI0Ow0KPiA+ICsgICAgICAg
-ICAgICAgICBkcm0tPm1vZGVfY29uZmlnLm1heF9oZWlnaHQgPSA3Njg7DQo+ID4gKyAgICAgICAg
-ICAgICAgIGJyZWFrOw0KPiA+ICsgICAgICAgZGVmYXVsdDoNCj4gPiArICAgICAgICAgICAgICAg
-ZHJtLT5tb2RlX2NvbmZpZy5tYXhfd2lkdGggPSA4MDA7DQo+ID4gKyAgICAgICAgICAgICAgIGRy
-bS0+bW9kZV9jb25maWcubWF4X2hlaWdodCA9IDYwMDsNCj4gPiArICAgICAgICAgICAgICAgYnJl
-YWs7DQo+ID4gKyAgICAgICB9DQo+ID4gKw0KPiA+ICAgICAgICAgZHJtLT5tb2RlX2NvbmZpZy5m
-dW5jcyA9ICZhc3BlZWRfZ2Z4X21vZGVfY29uZmlnX2Z1bmNzOw0KPiA+DQo+ID4gICAgICAgICBy
-ZXR1cm4gcmV0Ow0KPiA+IEBAIC0xNjcsNiArMTc4LDcgQEAgc3RhdGljIGludCBhc3BlZWRfZ2Z4
-X2xvYWQoc3RydWN0IGRybV9kZXZpY2UgKmRybSkNCj4gPiAgICAgICAgIHByaXYtPnZnYV9zY3Jh
-dGNoX3JlZyA9IGNvbmZpZy0+dmdhX3NjcmF0Y2hfcmVnOw0KPiA+ICAgICAgICAgcHJpdi0+dGhy
-b2RfdmFsID0gY29uZmlnLT50aHJvZF92YWw7DQo+ID4gICAgICAgICBwcml2LT5zY2FuX2xpbmVf
-bWF4ID0gY29uZmlnLT5zY2FuX2xpbmVfbWF4Ow0KPiA+ICsgICAgICAgcHJpdi0+ZmxhZ3MgPSBj
-b25maWctPmdmeF9mbGFnczsNCj4gPg0KPiA+ICAgICAgICAgcHJpdi0+c2N1ID0gc3lzY29uX3Jl
-Z21hcF9sb29rdXBfYnlfcGhhbmRsZShucCwgInN5c2NvbiIpOw0KPiA+ICAgICAgICAgaWYgKElT
-X0VSUihwcml2LT5zY3UpKSB7DQo+ID4gZGlmZiAtLWdpdCBhL2RyaXZlcnMvZ3B1L2RybS9hc3Bl
-ZWQvYXNwZWVkX2dmeF9vdXQuYw0KPiA+IGIvZHJpdmVycy9ncHUvZHJtL2FzcGVlZC9hc3BlZWRf
-Z2Z4X291dC5jDQo+ID4gaW5kZXggNjc1OWNiODg0MTVhLi41ZDVlMDRmMTVjNTkgMTAwNjQ0DQo+
-ID4gLS0tIGEvZHJpdmVycy9ncHUvZHJtL2FzcGVlZC9hc3BlZWRfZ2Z4X291dC5jDQo+ID4gKysr
-IGIvZHJpdmVycy9ncHUvZHJtL2FzcGVlZC9hc3BlZWRfZ2Z4X291dC5jDQo+ID4gQEAgLTEwLDcg
-KzEwLDE5IEBADQo+ID4NCj4gPiAgc3RhdGljIGludCBhc3BlZWRfZ2Z4X2dldF9tb2RlcyhzdHJ1
-Y3QgZHJtX2Nvbm5lY3RvciAqY29ubmVjdG9yKSAgew0KPiA+IC0gICAgICAgcmV0dXJuIGRybV9h
-ZGRfbW9kZXNfbm9lZGlkKGNvbm5lY3RvciwgODAwLCA2MDApOw0KPiA+ICsgICAgICAgc3RydWN0
-IGFzcGVlZF9nZnggKnByaXYgPSBjb250YWluZXJfb2YoY29ubmVjdG9yLCBzdHJ1Y3QNCj4gYXNw
-ZWVkX2dmeCwgY29ubmVjdG9yKTsNCj4gPiArICAgICAgIGludCBtb2RlX2NvdW50ID0gMDsNCj4g
-PiArDQo+ID4gKyAgICAgICBzd2l0Y2ggKHByaXYtPmZsYWdzICYgQ0xLX01BU0spIHsNCj4gPiAr
-ICAgICAgIGNhc2UgQ0xLX0c2Og0KPiA+ICsgICAgICAgICAgICAgICBtb2RlX2NvdW50ID0gZHJt
-X2FkZF9tb2Rlc19ub2VkaWQoY29ubmVjdG9yLCAxMDI0LA0KPiA3NjgpOw0KPiA+ICsgICAgICAg
-ICAgICAgICBicmVhazsNCj4gPiArICAgICAgIGRlZmF1bHQ6DQo+ID4gKyAgICAgICAgICAgICAg
-IG1vZGVfY291bnQgPSBkcm1fYWRkX21vZGVzX25vZWRpZChjb25uZWN0b3IsIDgwMCwNCj4gNjAw
-KTsNCj4gPiArICAgICAgICAgICAgICAgYnJlYWs7DQo+ID4gKyAgICAgICB9DQo+ID4gKw0KPiA+
-ICsgICAgICAgcmV0dXJuIG1vZGVfY291bnQ7DQo+ID4gIH0NCj4gPg0KPiA+ICBzdGF0aWMgY29u
-c3Qgc3RydWN0DQo+ID4gLS0NCj4gPiAyLjE3LjENCj4gPg0K
+tree/branch: https://git.kernel.org/pub/scm/linux/kernel/git/next/linux-next.git master
+branch HEAD: e7d6987e09a328d4a949701db40ef63fbb970670  Add linux-next specific files for 20220422
+
+Error/Warning reports:
+
+https://lore.kernel.org/linux-mm/202204081656.6x4pfen4-lkp@intel.com
+https://lore.kernel.org/linux-mm/202204231818.yVvV3Oxp-lkp@intel.com
+https://lore.kernel.org/linux-mm/202204240458.z2cymyl5-lkp@intel.com
+https://lore.kernel.org/linux-mm/202204241527.n36cr1e5-lkp@intel.com
+https://lore.kernel.org/llvm/202204230717.gJP3yZ5j-lkp@intel.com
+
+Error/Warning: (recently discovered and may have been fixed)
+
+ERROR: modpost: "omap_set_dma_priority" [drivers/video/fbdev/omap/omapfb.ko] undefined!
+arch/sh/include/asm/io.h:274:33: error: expected expression before 'do'
+drivers/bus/mhi/host/main.c:787:13: warning: parameter 'event_quota' set but not used [-Wunused-but-set-parameter]
+drivers/char/hw_random/mpfs-rng.c:49:9: error: call to undeclared function 'mpfs_blocking_transaction'; ISO C99 and later do not support implicit function declarations [-Wimplicit-function-declaration]
+drivers/char/hw_random/mpfs-rng.c:74:27: warning: incompatible integer to pointer conversion assigning to 'struct mpfs_sys_controller *' from 'int' [-Wint-conversion]
+drivers/char/hw_random/mpfs-rng.c:74:30: error: call to undeclared function 'mpfs_sys_controller_get'; ISO C99 and later do not support implicit function declarations [-Wimplicit-function-declaration]
+drivers/gpu/drm/solomon/ssd130x-spi.c:154:35: warning: unused variable 'ssd130x_spi_table' [-Wunused-const-variable]
+drivers/usb/atm/cxacru.c:259:9: warning: Call to function 'sprintf' is insecure as it does not provide bounding of the memory buffer or security checks introduced in the C11 standard. Replace with analogous functions that support length arguments or provides boundary checks such as 'sprintf_s' in case of C11 [clang-analyzer-security.insecureAPI.DeprecatedOrUnsafeBufferHandling]
+drivers/usb/atm/usbatm.c:739:10: warning: Call to function 'sprintf' is insecure as it does not provide bounding of the memory buffer or security checks introduced in the C11 standard. Replace with analogous functions that support length arguments or provides boundary checks such as 'sprintf_s' in case of C11 [clang-analyzer-security.insecureAPI.DeprecatedOrUnsafeBufferHandling]
+drivers/usb/chipidea/core.c:956:10: warning: Call to function 'sprintf' is insecure as it does not provide bounding of the memory buffer or security checks introduced in the C11 standard. Replace with analogous functions that support length arguments or provides boundary checks such as 'sprintf_s' in case of C11 [clang-analyzer-security.insecureAPI.DeprecatedOrUnsafeBufferHandling]
+drivers/usb/gadget/udc/core.c:1664:9: warning: Call to function 'sprintf' is insecure as it does not provide bounding of the memory buffer or security checks introduced in the C11 standard. Replace with analogous functions that support length arguments or provides boundary checks such as 'sprintf_s' in case of C11 [clang-analyzer-security.insecureAPI.DeprecatedOrUnsafeBufferHandling]
+mpfs-rng.c:(.data.rel.ro+0x20): undefined reference to `mpfs_sys_controller_get'
+mpfs-rng.c:(.data.rel.ro+0x8): undefined reference to `mpfs_blocking_transaction'
+omapfb_main.c:(.text+0x41ec): undefined reference to `omap_set_dma_priority'
+
+Unverified Error/Warning (likely false positive, please contact us if interested):
+
+Makefile:684: arch/h8300/Makefile: No such file or directory
+arch/Kconfig:10: can't open file "arch/h8300/Kconfig"
+arch/s390/include/asm/spinlock.h:81:3: error: unexpected token in '.rept' directive
+arch/s390/include/asm/spinlock.h:81:3: error: unknown directive
+arch/s390/include/asm/spinlock.h:81:3: error: unmatched '.endr' directive
+arch/s390/lib/spinlock.c:78:3: error: unexpected token in '.rept' directive
+arch/s390/lib/spinlock.c:78:3: error: unknown directive
+arch/s390/lib/spinlock.c:78:3: error: unmatched '.endr' directive
+crypto/sm3.c:246:1: internal compiler error: Segmentation fault
+csky-linux-ld: mpfs-rng.c:(.text+0x10c): undefined reference to `mpfs_sys_controller_get'
+csky-linux-ld: mpfs-rng.c:(.text+0x70): undefined reference to `mpfs_blocking_transaction'
+drivers/base/topology.c:158:17: warning: Value stored to 'dev' during its initialization is never read [clang-analyzer-deadcode.DeadStores]
+drivers/char/hw_random/mpfs-rng.c:49:23: error: implicit declaration of function 'mpfs_blocking_transaction' [-Werror=implicit-function-declaration]
+drivers/char/hw_random/mpfs-rng.c:74:34: warning: assignment to 'struct mpfs_sys_controller *' from 'int' makes pointer from integer without a cast [-Wint-conversion]
+drivers/char/hw_random/mpfs-rng.c:74:37: error: implicit declaration of function 'mpfs_sys_controller_get' [-Werror=implicit-function-declaration]
+drivers/dma-buf/st-dma-fence-unwrap.c:125:13: warning: variable 'err' set but not used [-Wunused-but-set-variable]
+drivers/edac/edac_device.c:79 edac_device_alloc_ctl_info() warn: Please consider using kcalloc instead
+drivers/edac/edac_mc.c:396:24: warning: Variable 'layer' is not assigned a value. [unassignedVariable]
+drivers/hid/wacom_wac.c:2411:42: warning: format specifies type 'unsigned short' but the argument has type 'int' [-Wformat]
+drivers/net/ethernet/mellanox/mlxsw/core_linecards.c:851:8: warning: Use of memory after it is freed [clang-analyzer-unix.Malloc]
+drivers/net/wireless/ath/ath11k/peer.c:520 ath11k_peer_rhash_id_tbl_init() warn: missing error code 'ret'
+drivers/net/wireless/ath/ath11k/peer.c:575 ath11k_peer_rhash_addr_tbl_init() warn: missing error code 'ret'
+drivers/pinctrl/pinctrl-ingenic.c:162 is_soc_or_above() warn: bitwise AND condition is false here
+fs/btrfs/ctree.c:1412:7: warning: Local variable 'unlock_up' shadows outer function [shadowFunction]
+fs/btrfs/send.c:6857:13: warning: Either the condition '*level==0' is redundant or the array 'path->nodes[8]' is accessed at index -1, which is out of bounds. [negativeIndex]
+fs/btrfs/send.c:6858:13: warning: Either the condition '*level==0' is redundant or the array 'path->slots[8]' is accessed at index -1, which is out of bounds. [negativeIndex]
+kernel/bpf/core.c:1667:3: warning: Syntax Error: AST broken, binary operator '=' doesn't have two operands. [internalAstError]
+kernel/bpf/syscall.c:4944:13: warning: no previous prototype for function 'unpriv_ebpf_notify' [-Wmissing-prototypes]
+kernel/module/kallsyms.c:157:24: warning: Redundant assignment of 'mod->init_layout.size' to itself. [selfAssignment]
+kernel/module/kallsyms.c:424:3: warning: Assignment of function parameter has no effect outside the function. [uselessAssignmentArg]
+kernel/module/main.c:2113:26: warning: Redundant assignment of 'mod->core_layout.size' to itself. [selfAssignment]
+kernel/module/main.c:2147:26: warning: Redundant assignment of 'mod->init_layout.size' to itself. [selfAssignment]
+kernel/module/main.c:2189:4: warning: Null pointer passed as 1st argument to memory copy function [clang-analyzer-unix.cstring.NullArg]
+kernel/module/main.c:2261:70: warning: Parameter 'debug' can be declared with const [constParameter]
+kernel/module/main.c:357:20: warning: Local variable 'arr' shadows outer variable [shadowVariable]
+kernel/module/main.c:924:9: warning: Call to function 'sprintf' is insecure as it does not provide bounding of the memory buffer or security checks introduced in the C11 standard. Replace with analogous functions that support length arguments or provides boundary checks such as 'sprintf_s' in case of C11 [clang-analyzer-security.insecureAPI.DeprecatedOrUnsafeBufferHandling]
+lib/iov_iter.c:1837:61: warning: Parameter 'old' can be declared with const [constParameter]
+lib/iov_iter.c:1884:6: warning: Redundant initialization for 'ret'. The initialized value is overwritten before it is read. [redundantInitialization]
+lib/vsprintf.c:588:41: warning: Parameter 'end' can be declared with const [constParameter]
+make[1]: *** No rule to make target 'arch/h8300/Makefile'.
+mm/memory.c: linux/mm_inline.h is included more than once.
+mm/sparse-vmemmap.c:740:17: warning: Value stored to 'next' during its initialization is never read [clang-analyzer-deadcode.DeadStores]
+mpfs-rng.c:(.text+0x3c): undefined reference to `mpfs_blocking_transaction'
+mpfs-rng.c:(.text+0x98): undefined reference to `mpfs_sys_controller_get'
+net/ipv4/tcp_cong.c:430:32: warning: Division by zero [clang-analyzer-core.DivideZero]
+{standard input}:1628: Error: operands mismatch -- statement `mulu.l 4(%a0),%d3:%d0' ignored
+{standard input}:1628: Error: operands mismatch -- statement `mulu.l 8(%a0),%d2:%d4' ignored
+{standard input}:2648: Error: operands mismatch -- statement `divu.l %d0,%d3:%d7' ignored
+{standard input}:2677: Error: operands mismatch -- statement `mulu.l %d3,%d2:%d7' ignored
+
+Error/Warning ids grouped by kconfigs:
+
+gcc_recent_errors
+|-- alpha-allmodconfig
+|   |-- drivers-dma-buf-st-dma-fence-unwrap.c:warning:variable-err-set-but-not-used
+|   |-- drivers-soc-qcom-smem.c:sparse:sparse:cast-to-restricted-__le32
+|   |-- drivers-soc-qcom-smem.c:sparse:sparse:incorrect-type-in-argument-(different-address-spaces)-expected-void-const-volatile-noderef-__iomem-addr-got-restricted-__le32
+|   |-- drivers-soc-qcom-smem.c:sparse:sparse:incorrect-type-in-assignment-(different-address-spaces)-expected-struct-smem_partition_header-phdr-got-void-noderef-__iomem-virt_base
+|   `-- fs-io_uring.c:sparse:sparse:marked-inline-but-without-a-definition
+|-- alpha-allyesconfig
+|   |-- drivers-dma-buf-st-dma-fence-unwrap.c:warning:variable-err-set-but-not-used
+|   |-- drivers-soc-qcom-smem.c:sparse:sparse:cast-to-restricted-__le32
+|   |-- drivers-soc-qcom-smem.c:sparse:sparse:incorrect-type-in-argument-(different-address-spaces)-expected-void-const-volatile-noderef-__iomem-addr-got-restricted-__le32
+|   |-- drivers-soc-qcom-smem.c:sparse:sparse:incorrect-type-in-assignment-(different-address-spaces)-expected-struct-smem_partition_header-phdr-got-void-noderef-__iomem-virt_base
+|   `-- fs-io_uring.c:sparse:sparse:marked-inline-but-without-a-definition
+|-- alpha-buildonly-randconfig-r004-20220421
+|   `-- drivers-dma-buf-st-dma-fence-unwrap.c:warning:variable-err-set-but-not-used
+|-- alpha-randconfig-r033-20220421
+|   `-- drivers-dma-buf-st-dma-fence-unwrap.c:warning:variable-err-set-but-not-used
+|-- arc-allmodconfig
+|   |-- drivers-dma-buf-st-dma-fence-unwrap.c:warning:variable-err-set-but-not-used
+|   |-- drivers-soc-qcom-smem.c:sparse:sparse:cast-to-restricted-__le32
+|   |-- drivers-soc-qcom-smem.c:sparse:sparse:incorrect-type-in-argument-(different-address-spaces)-expected-void-const-volatile-noderef-__iomem-addr-got-restricted-__le32
+|   |-- drivers-soc-qcom-smem.c:sparse:sparse:incorrect-type-in-assignment-(different-address-spaces)-expected-struct-smem_partition_header-phdr-got-void-noderef-__iomem-virt_base
+|   `-- fs-io_uring.c:sparse:sparse:marked-inline-but-without-a-definition
+|-- arc-allyesconfig
+|   |-- drivers-dma-buf-st-dma-fence-unwrap.c:warning:variable-err-set-but-not-used
+|   |-- drivers-soc-qcom-smem.c:sparse:sparse:cast-to-restricted-__le32
+|   |-- drivers-soc-qcom-smem.c:sparse:sparse:incorrect-type-in-argument-(different-address-spaces)-expected-void-const-volatile-noderef-__iomem-addr-got-restricted-__le32
+|   |-- drivers-soc-qcom-smem.c:sparse:sparse:incorrect-type-in-assignment-(different-address-spaces)-expected-struct-smem_partition_header-phdr-got-void-noderef-__iomem-virt_base
+|   `-- fs-io_uring.c:sparse:sparse:marked-inline-but-without-a-definition
+|-- arc-randconfig-p001-20220422
+|   `-- drivers-dma-buf-st-dma-fence-unwrap.c:warning:variable-err-set-but-not-used
+|-- arc-randconfig-r043-20220424
+|   |-- drivers-char-hw_random-mpfs-rng.c:error:implicit-declaration-of-function-mpfs_blocking_transaction
+|   |-- drivers-char-hw_random-mpfs-rng.c:error:implicit-declaration-of-function-mpfs_sys_controller_get
+|   `-- drivers-char-hw_random-mpfs-rng.c:warning:assignment-to-struct-mpfs_sys_controller-from-int-makes-pointer-from-integer-without-a-cast
+|-- arc-randconfig-s031-20220421
+|   |-- drivers-dma-buf-st-dma-fence-unwrap.c:warning:variable-err-set-but-not-used
+|   |-- drivers-soc-qcom-smem.c:sparse:sparse:cast-to-restricted-__le32
+|   |-- drivers-soc-qcom-smem.c:sparse:sparse:incorrect-type-in-argument-(different-address-spaces)-expected-void-const-volatile-noderef-__iomem-addr-got-restricted-__le32
+|   |-- drivers-soc-qcom-smem.c:sparse:sparse:incorrect-type-in-assignment-(different-address-spaces)-expected-struct-smem_partition_header-phdr-got-void-noderef-__iomem-virt_base
+|   `-- fs-io_uring.c:sparse:sparse:marked-inline-but-without-a-definition
+|-- arm-allmodconfig
+|   |-- ERROR:omap_set_dma_priority-drivers-video-fbdev-omap-omapfb.ko-undefined
+|   |-- drivers-dma-buf-st-dma-fence-unwrap.c:warning:variable-err-set-but-not-used
+|   |-- drivers-soc-qcom-smem.c:sparse:sparse:cast-to-restricted-__le32
+|   |-- drivers-soc-qcom-smem.c:sparse:sparse:incorrect-type-in-argument-(different-address-spaces)-expected-void-const-volatile-noderef-__iomem-addr-got-restricted-__le32
+|   |-- drivers-soc-qcom-smem.c:sparse:sparse:incorrect-type-in-assignment-(different-address-spaces)-expected-struct-smem_partition_header-phdr-got-void-noderef-__iomem-virt_base
+|   `-- fs-io_uring.c:sparse:sparse:marked-inline-but-without-a-definition
+|-- arm-allyesconfig
+|   |-- arch-arm-mach-omap2-sram.c:sparse:sparse:cast-removes-address-space-__iomem-of-expression
+|   |-- drivers-dma-buf-st-dma-fence-unwrap.c:warning:variable-err-set-but-not-used
+|   |-- drivers-soc-qcom-smem.c:sparse:sparse:cast-to-restricted-__le32
+|   |-- drivers-soc-qcom-smem.c:sparse:sparse:incorrect-type-in-argument-(different-address-spaces)-expected-void-const-volatile-noderef-__iomem-addr-got-restricted-__le32
+|   |-- drivers-soc-qcom-smem.c:sparse:sparse:incorrect-type-in-assignment-(different-address-spaces)-expected-struct-smem_partition_header-phdr-got-void-noderef-__iomem-virt_base
+|   |-- fs-io_uring.c:sparse:sparse:marked-inline-but-without-a-definition
+|   `-- omapfb_main.c:(.text):undefined-reference-to-omap_set_dma_priority
+|-- arm-randconfig-c002-20220421
+|   `-- drivers-dma-buf-st-dma-fence-unwrap.c:warning:variable-err-set-but-not-used
+|-- arm64-allmodconfig
+|   |-- drivers-dma-buf-st-dma-fence-unwrap.c:warning:variable-err-set-but-not-used
+|   |-- drivers-soc-qcom-smem.c:sparse:sparse:cast-to-restricted-__le32
+|   |-- drivers-soc-qcom-smem.c:sparse:sparse:incorrect-type-in-argument-(different-address-spaces)-expected-void-const-volatile-noderef-__iomem-addr-got-restricted-__le32
+|   |-- drivers-soc-qcom-smem.c:sparse:sparse:incorrect-type-in-assignment-(different-address-spaces)-expected-struct-smem_partition_header-phdr-got-void-noderef-__iomem-virt_base
+|   `-- fs-io_uring.c:sparse:sparse:marked-inline-but-without-a-definition
+|-- arm64-allyesconfig
+|   |-- drivers-dma-buf-st-dma-fence-unwrap.c:warning:variable-err-set-but-not-used
+|   |-- drivers-soc-qcom-smem.c:sparse:sparse:cast-to-restricted-__le32
+|   |-- drivers-soc-qcom-smem.c:sparse:sparse:incorrect-type-in-argument-(different-address-spaces)-expected-void-const-volatile-noderef-__iomem-addr-got-restricted-__le32
+|   |-- drivers-soc-qcom-smem.c:sparse:sparse:incorrect-type-in-assignment-(different-address-spaces)-expected-struct-smem_partition_header-phdr-got-void-noderef-__iomem-virt_base
+|   `-- fs-io_uring.c:sparse:sparse:marked-inline-but-without-a-definition
+|-- arm64-randconfig-c003-20220421
+|   `-- drivers-dma-buf-st-dma-fence-unwrap.c:warning:variable-err-set-but-not-used
+|-- csky-allmodconfig
+|   `-- drivers-dma-buf-st-dma-fence-unwrap.c:warning:variable-err-set-but-not-used
+|-- csky-allyesconfig
+|   `-- drivers-dma-buf-st-dma-fence-unwrap.c:warning:variable-err-set-but-not-used
+|-- csky-randconfig-r003-20220424
+|   |-- csky-linux-ld:mpfs-rng.c:(.text):undefined-reference-to-mpfs_blocking_transaction
+|   |-- csky-linux-ld:mpfs-rng.c:(.text):undefined-reference-to-mpfs_sys_controller_get
+|   |-- mpfs-rng.c:(.text):undefined-reference-to-mpfs_blocking_transaction
+|   `-- mpfs-rng.c:(.text):undefined-reference-to-mpfs_sys_controller_get
+|-- h8300-allmodconfig
+|   |-- Makefile:arch-h8300-Makefile:No-such-file-or-directory
+|   |-- arch-Kconfig:can-t-open-file-arch-h8300-Kconfig
+|   `-- make:No-rule-to-make-target-arch-h8300-Makefile-.
+|-- h8300-allyesconfig
+|   |-- Makefile:arch-h8300-Makefile:No-such-file-or-directory
+|   |-- arch-Kconfig:can-t-open-file-arch-h8300-Kconfig
+|   `-- make:No-rule-to-make-target-arch-h8300-Makefile-.
+|-- h8300-buildonly-randconfig-r006-20220421
+|   |-- Makefile:arch-h8300-Makefile:No-such-file-or-directory
+|   |-- arch-Kconfig:can-t-open-file-arch-h8300-Kconfig
+|   `-- make:No-rule-to-make-target-arch-h8300-Makefile-.
+|-- i386-allmodconfig
+|   |-- drivers-dma-buf-st-dma-fence-unwrap.c:warning:variable-err-set-but-not-used
+|   `-- fs-io_uring.c:sparse:sparse:marked-inline-but-without-a-definition
+|-- i386-allyesconfig
+|   |-- drivers-dma-buf-st-dma-fence-unwrap.c:warning:variable-err-set-but-not-used
+|   `-- fs-io_uring.c:sparse:sparse:marked-inline-but-without-a-definition
+|-- i386-randconfig-m021
+|   `-- drivers-edac-edac_device.c-edac_device_alloc_ctl_info()-warn:Please-consider-using-kcalloc-instead
+|-- i386-randconfig-s001
+|   `-- fs-io_uring.c:sparse:sparse:marked-inline-but-without-a-definition
+|-- ia64-allmodconfig
+|   |-- drivers-dma-buf-st-dma-fence-unwrap.c:warning:variable-err-set-but-not-used
+|   |-- drivers-soc-qcom-smem.c:sparse:sparse:cast-to-restricted-__le32
+|   |-- drivers-soc-qcom-smem.c:sparse:sparse:incorrect-type-in-argument-(different-address-spaces)-expected-void-const-volatile-noderef-__iomem-addr-got-restricted-__le32
+|   |-- drivers-soc-qcom-smem.c:sparse:sparse:incorrect-type-in-assignment-(different-address-spaces)-expected-struct-smem_partition_header-phdr-got-void-noderef-__iomem-virt_base
+|   `-- fs-io_uring.c:sparse:sparse:marked-inline-but-without-a-definition
+|-- ia64-allyesconfig
+|   |-- drivers-dma-buf-st-dma-fence-unwrap.c:warning:variable-err-set-but-not-used
+|   |-- drivers-soc-qcom-smem.c:sparse:sparse:cast-to-restricted-__le32
+|   |-- drivers-soc-qcom-smem.c:sparse:sparse:incorrect-type-in-argument-(different-address-spaces)-expected-void-const-volatile-noderef-__iomem-addr-got-restricted-__le32
+|   |-- drivers-soc-qcom-smem.c:sparse:sparse:incorrect-type-in-assignment-(different-address-spaces)-expected-struct-smem_partition_header-phdr-got-void-noderef-__iomem-virt_base
+|   `-- fs-io_uring.c:sparse:sparse:marked-inline-but-without-a-definition
+|-- ia64-randconfig-r032-20220421
+|   `-- drivers-dma-buf-st-dma-fence-unwrap.c:warning:variable-err-set-but-not-used
+|-- m68k-allmodconfig
+|   |-- drivers-dma-buf-st-dma-fence-unwrap.c:warning:variable-err-set-but-not-used
+|   |-- drivers-soc-qcom-smem.c:sparse:sparse:cast-to-restricted-__le32
+|   |-- drivers-soc-qcom-smem.c:sparse:sparse:incorrect-type-in-assignment-(different-address-spaces)-expected-struct-smem_partition_header-phdr-got-void-noderef-__iomem-virt_base
+|   `-- fs-io_uring.c:sparse:sparse:marked-inline-but-without-a-definition
+|-- m68k-allyesconfig
+|   |-- drivers-dma-buf-st-dma-fence-unwrap.c:warning:variable-err-set-but-not-used
+|   |-- drivers-soc-qcom-smem.c:sparse:sparse:cast-to-restricted-__le32
+|   |-- drivers-soc-qcom-smem.c:sparse:sparse:incorrect-type-in-assignment-(different-address-spaces)-expected-struct-smem_partition_header-phdr-got-void-noderef-__iomem-virt_base
+|   `-- fs-io_uring.c:sparse:sparse:marked-inline-but-without-a-definition
+|-- m68k-buildonly-randconfig-r005-20220422
+|   |-- drivers-char-hw_random-mpfs-rng.c:error:implicit-declaration-of-function-mpfs_blocking_transaction
+|   |-- drivers-char-hw_random-mpfs-rng.c:error:implicit-declaration-of-function-mpfs_sys_controller_get
+|   |-- drivers-char-hw_random-mpfs-rng.c:warning:assignment-to-struct-mpfs_sys_controller-from-int-makes-pointer-from-integer-without-a-cast
+|   |-- standard-input:Error:operands-mismatch-statement-divu.l-d0-d3:d7-ignored
+|   |-- standard-input:Error:operands-mismatch-statement-mulu.l-(-a0)-d2:d4-ignored
+|   |-- standard-input:Error:operands-mismatch-statement-mulu.l-(-a0)-d3:d0-ignored
+|   `-- standard-input:Error:operands-mismatch-statement-mulu.l-d3-d2:d7-ignored
+|-- m68k-randconfig-r011-20220421
+|   `-- drivers-dma-buf-st-dma-fence-unwrap.c:warning:variable-err-set-but-not-used
+|-- m68k-randconfig-r013-20220421
+|   `-- drivers-dma-buf-st-dma-fence-unwrap.c:warning:variable-err-set-but-not-used
+|-- m68k-randconfig-r026-20220421
+|   `-- drivers-dma-buf-st-dma-fence-unwrap.c:warning:variable-err-set-but-not-used
+|-- microblaze-randconfig-p002-20220422
+|   |-- fs-btrfs-ctree.c:warning:Local-variable-unlock_up-shadows-outer-function-shadowFunction
+|   |-- fs-btrfs-send.c:warning:Either-the-condition-level-is-redundant-or-the-array-path-nodes-is-accessed-at-index-which-is-out-of-bounds.-negativeIndex
+|   `-- fs-btrfs-send.c:warning:Either-the-condition-level-is-redundant-or-the-array-path-slots-is-accessed-at-index-which-is-out-of-bounds.-negativeIndex
+|-- mips-allmodconfig
+|   |-- drivers-dma-buf-st-dma-fence-unwrap.c:warning:variable-err-set-but-not-used
+|   |-- drivers-soc-qcom-smem.c:sparse:sparse:cast-to-restricted-__le32
+|   |-- drivers-soc-qcom-smem.c:sparse:sparse:incorrect-type-in-argument-(different-address-spaces)-expected-void-const-volatile-noderef-__iomem-mem-got-restricted-__le32
+|   |-- drivers-soc-qcom-smem.c:sparse:sparse:incorrect-type-in-assignment-(different-address-spaces)-expected-struct-smem_partition_header-phdr-got-void-noderef-__iomem-virt_base
+|   `-- fs-io_uring.c:sparse:sparse:marked-inline-but-without-a-definition
+|-- mips-allyesconfig
+|   |-- drivers-dma-buf-st-dma-fence-unwrap.c:warning:variable-err-set-but-not-used
+|   |-- drivers-soc-qcom-smem.c:sparse:sparse:cast-to-restricted-__le32
+|   |-- drivers-soc-qcom-smem.c:sparse:sparse:incorrect-type-in-argument-(different-address-spaces)-expected-void-const-volatile-noderef-__iomem-mem-got-restricted-__le32
+|   |-- drivers-soc-qcom-smem.c:sparse:sparse:incorrect-type-in-assignment-(different-address-spaces)-expected-struct-smem_partition_header-phdr-got-void-noderef-__iomem-virt_base
+|   `-- fs-io_uring.c:sparse:sparse:marked-inline-but-without-a-definition
+|-- nios2-allmodconfig
+|   |-- drivers-dma-buf-st-dma-fence-unwrap.c:warning:variable-err-set-but-not-used
+|   |-- drivers-soc-qcom-smem.c:sparse:sparse:cast-to-restricted-__le32
+|   |-- drivers-soc-qcom-smem.c:sparse:sparse:incorrect-type-in-argument-(different-address-spaces)-expected-void-const-volatile-noderef-__iomem-addr-got-restricted-__le32
+|   |-- drivers-soc-qcom-smem.c:sparse:sparse:incorrect-type-in-assignment-(different-address-spaces)-expected-struct-smem_partition_header-phdr-got-void-noderef-__iomem-virt_base
+|   `-- fs-io_uring.c:sparse:sparse:marked-inline-but-without-a-definition
+|-- nios2-allyesconfig
+|   |-- drivers-dma-buf-st-dma-fence-unwrap.c:warning:variable-err-set-but-not-used
+|   |-- drivers-soc-qcom-smem.c:sparse:sparse:cast-to-restricted-__le32
+|   |-- drivers-soc-qcom-smem.c:sparse:sparse:incorrect-type-in-argument-(different-address-spaces)-expected-void-const-volatile-noderef-__iomem-addr-got-restricted-__le32
+|   |-- drivers-soc-qcom-smem.c:sparse:sparse:incorrect-type-in-assignment-(different-address-spaces)-expected-struct-smem_partition_header-phdr-got-void-noderef-__iomem-virt_base
+|   `-- fs-io_uring.c:sparse:sparse:marked-inline-but-without-a-definition
+|-- nios2-randconfig-r005-20220421
+|   `-- drivers-dma-buf-st-dma-fence-unwrap.c:warning:variable-err-set-but-not-used
+|-- parisc-allmodconfig
+|   `-- drivers-dma-buf-st-dma-fence-unwrap.c:warning:variable-err-set-but-not-used
+|-- parisc-allyesconfig
+|   `-- drivers-dma-buf-st-dma-fence-unwrap.c:warning:variable-err-set-but-not-used
+|-- parisc-buildonly-randconfig-r004-20220422
+|   |-- mpfs-rng.c:(.data.rel.ro):undefined-reference-to-mpfs_blocking_transaction
+|   `-- mpfs-rng.c:(.data.rel.ro):undefined-reference-to-mpfs_sys_controller_get
+|-- powerpc-allmodconfig
+|   |-- drivers-dma-buf-st-dma-fence-unwrap.c:warning:variable-err-set-but-not-used
+|   |-- drivers-soc-qcom-smem.c:sparse:sparse:cast-to-restricted-__le32
+|   |-- drivers-soc-qcom-smem.c:sparse:sparse:incorrect-type-in-argument-(different-address-spaces)-expected-void-const-volatile-noderef-__iomem-addr-got-restricted-__le32
+|   |-- drivers-soc-qcom-smem.c:sparse:sparse:incorrect-type-in-assignment-(different-address-spaces)-expected-struct-smem_partition_header-phdr-got-void-noderef-__iomem-virt_base
+|   `-- fs-io_uring.c:sparse:sparse:marked-inline-but-without-a-definition
+|-- powerpc-allyesconfig
+|   |-- drivers-dma-buf-st-dma-fence-unwrap.c:warning:variable-err-set-but-not-used
+|   |-- drivers-soc-qcom-smem.c:sparse:sparse:cast-to-restricted-__le32
+|   |-- drivers-soc-qcom-smem.c:sparse:sparse:incorrect-type-in-argument-(different-address-spaces)-expected-void-const-volatile-noderef-__iomem-addr-got-restricted-__le32
+|   |-- drivers-soc-qcom-smem.c:sparse:sparse:incorrect-type-in-assignment-(different-address-spaces)-expected-struct-smem_partition_header-phdr-got-void-noderef-__iomem-virt_base
+|   `-- fs-io_uring.c:sparse:sparse:marked-inline-but-without-a-definition
+|-- powerpc-buildonly-randconfig-r005-20220421
+|   `-- drivers-dma-buf-st-dma-fence-unwrap.c:warning:variable-err-set-but-not-used
+|-- powerpc64-randconfig-p001-20220422
+|   |-- drivers-edac-edac_mc.c:warning:Variable-layer-is-not-assigned-a-value.-unassignedVariable
+|   |-- kernel-bpf-core.c:warning:Syntax-Error:AST-broken-binary-operator-doesn-t-have-two-operands.-internalAstError
+|   |-- kernel-module-kallsyms.c:warning:Assignment-of-function-parameter-has-no-effect-outside-the-function.-uselessAssignmentArg
+|   |-- kernel-module-kallsyms.c:warning:Redundant-assignment-of-mod-init_layout.size-to-itself.-selfAssignment
+|   |-- kernel-module-main.c:warning:Local-variable-arr-shadows-outer-variable-shadowVariable
+|   |-- kernel-module-main.c:warning:Parameter-debug-can-be-declared-with-const-constParameter
+|   |-- kernel-module-main.c:warning:Redundant-assignment-of-mod-core_layout.size-to-itself.-selfAssignment
+|   |-- kernel-module-main.c:warning:Redundant-assignment-of-mod-data_layout.size-to-itself.-selfAssignment
+|   |-- kernel-module-main.c:warning:Redundant-assignment-of-mod-init_layout.size-to-itself.-selfAssignment
+|   |-- lib-iov_iter.c:warning:Parameter-old-can-be-declared-with-const-constParameter
+|   |-- lib-iov_iter.c:warning:Redundant-initialization-for-ret-.-The-initialized-value-is-overwritten-before-it-is-read.-redundantInitialization
+|   `-- lib-vsprintf.c:warning:Parameter-end-can-be-declared-with-const-constParameter
+|-- powerpc64-randconfig-r021-20220421
+|   `-- drivers-dma-buf-st-dma-fence-unwrap.c:warning:variable-err-set-but-not-used
+|-- riscv-allmodconfig
+|   |-- drivers-dma-buf-st-dma-fence-unwrap.c:warning:variable-err-set-but-not-used
+|   |-- drivers-soc-qcom-smem.c:sparse:sparse:cast-to-restricted-__le32
+|   |-- drivers-soc-qcom-smem.c:sparse:sparse:incorrect-type-in-argument-(different-address-spaces)-expected-void-const-volatile-noderef-__iomem-addr-got-restricted-__le32
+|   |-- drivers-soc-qcom-smem.c:sparse:sparse:incorrect-type-in-assignment-(different-address-spaces)-expected-struct-smem_partition_header-phdr-got-void-noderef-__iomem-virt_base
+|   `-- fs-io_uring.c:sparse:sparse:marked-inline-but-without-a-definition
+|-- riscv-allyesconfig
+|   |-- drivers-dma-buf-st-dma-fence-unwrap.c:warning:variable-err-set-but-not-used
+|   |-- drivers-soc-qcom-smem.c:sparse:sparse:cast-to-restricted-__le32
+|   |-- drivers-soc-qcom-smem.c:sparse:sparse:incorrect-type-in-argument-(different-address-spaces)-expected-void-const-volatile-noderef-__iomem-addr-got-restricted-__le32
+|   |-- drivers-soc-qcom-smem.c:sparse:sparse:incorrect-type-in-assignment-(different-address-spaces)-expected-struct-smem_partition_header-phdr-got-void-noderef-__iomem-virt_base
+|   `-- fs-io_uring.c:sparse:sparse:marked-inline-but-without-a-definition
+|-- riscv-buildonly-randconfig-r001-20220421
+|   `-- drivers-dma-buf-st-dma-fence-unwrap.c:warning:variable-err-set-but-not-used
+|-- riscv-buildonly-randconfig-r003-20220421
+|   `-- drivers-dma-buf-st-dma-fence-unwrap.c:warning:variable-err-set-but-not-used
+|-- riscv-randconfig-r035-20220422
+|   `-- crypto-sm3.c:internal-compiler-error:Segmentation-fault
+|-- s390-allmodconfig
+|   |-- drivers-dma-buf-st-dma-fence-unwrap.c:warning:variable-err-set-but-not-used
+|   `-- fs-io_uring.c:sparse:sparse:marked-inline-but-without-a-definition
+|-- s390-allyesconfig
+|   |-- drivers-dma-buf-st-dma-fence-unwrap.c:warning:variable-err-set-but-not-used
+|   |-- drivers-soc-qcom-smem.c:sparse:sparse:cast-to-restricted-__le32
+|   |-- drivers-soc-qcom-smem.c:sparse:sparse:incorrect-type-in-argument-(different-address-spaces)-expected-void-const-volatile-noderef-__iomem-addr-got-restricted-__le32
+|   |-- drivers-soc-qcom-smem.c:sparse:sparse:incorrect-type-in-assignment-(different-address-spaces)-expected-struct-smem_partition_header-phdr-got-void-noderef-__iomem-virt_base
+|   `-- fs-io_uring.c:sparse:sparse:marked-inline-but-without-a-definition
+|-- s390-randconfig-r025-20220421
+|   `-- drivers-dma-buf-st-dma-fence-unwrap.c:warning:variable-err-set-but-not-used
+|-- sh-allmodconfig
+|   |-- arch-sh-include-asm-io.h:error:expected-expression-before-do
+|   `-- drivers-dma-buf-st-dma-fence-unwrap.c:warning:variable-err-set-but-not-used
+|-- sh-allyesconfig
+|   |-- arch-sh-include-asm-io.h:error:expected-expression-before-do
+|   `-- drivers-dma-buf-st-dma-fence-unwrap.c:warning:variable-err-set-but-not-used
+|-- sh-randconfig-c004-20220421
+|   `-- arch-sh-include-asm-io.h:error:expected-expression-before-do
+|-- sparc-allmodconfig
+|   |-- drivers-dma-buf-st-dma-fence-unwrap.c:warning:variable-err-set-but-not-used
+|   |-- drivers-soc-qcom-smem.c:sparse:sparse:cast-to-restricted-__le32
+|   |-- drivers-soc-qcom-smem.c:sparse:sparse:incorrect-type-in-argument-(different-address-spaces)-expected-void-const-volatile-noderef-__iomem-addr-got-restricted-__le32
+|   |-- drivers-soc-qcom-smem.c:sparse:sparse:incorrect-type-in-assignment-(different-address-spaces)-expected-struct-smem_partition_header-phdr-got-void-noderef-__iomem-virt_base
+|   `-- fs-io_uring.c:sparse:sparse:marked-inline-but-without-a-definition
+|-- sparc-allyesconfig
+|   |-- drivers-dma-buf-st-dma-fence-unwrap.c:warning:variable-err-set-but-not-used
+|   |-- drivers-soc-qcom-smem.c:sparse:sparse:cast-to-restricted-__le32
+|   |-- drivers-soc-qcom-smem.c:sparse:sparse:incorrect-type-in-argument-(different-address-spaces)-expected-void-const-volatile-noderef-__iomem-addr-got-restricted-__le32
+|   |-- drivers-soc-qcom-smem.c:sparse:sparse:incorrect-type-in-assignment-(different-address-spaces)-expected-struct-smem_partition_header-phdr-got-void-noderef-__iomem-virt_base
+|   `-- fs-io_uring.c:sparse:sparse:marked-inline-but-without-a-definition
+|-- um-i386_defconfig
+|   `-- fs-io_uring.c:sparse:sparse:marked-inline-but-without-a-definition
+|-- um-x86_64_defconfig
+|   `-- fs-io_uring.c:sparse:sparse:marked-inline-but-without-a-definition
+|-- x86_64-allmodconfig
+|   |-- drivers-dma-buf-st-dma-fence-unwrap.c:warning:variable-err-set-but-not-used
+|   `-- fs-io_uring.c:sparse:sparse:marked-inline-but-without-a-definition
+|-- x86_64-allnoconfig
+|   `-- mm-memory.c:linux-mm_inline.h-is-included-more-than-once.
+|-- x86_64-allyesconfig
+|   |-- drivers-dma-buf-st-dma-fence-unwrap.c:warning:variable-err-set-but-not-used
+|   `-- fs-io_uring.c:sparse:sparse:marked-inline-but-without-a-definition
+|-- x86_64-randconfig-m001
+|   `-- drivers-edac-edac_device.c-edac_device_alloc_ctl_info()-warn:Please-consider-using-kcalloc-instead
+|-- x86_64-randconfig-m001-20220418
+|   |-- drivers-net-wireless-ath-ath11k-peer.c-ath11k_peer_rhash_addr_tbl_init()-warn:missing-error-code-ret
+|   `-- drivers-net-wireless-ath-ath11k-peer.c-ath11k_peer_rhash_id_tbl_init()-warn:missing-error-code-ret
+|-- x86_64-randconfig-s021
+|   `-- fs-io_uring.c:sparse:sparse:marked-inline-but-without-a-definition
+|-- xtensa-allmodconfig
+|   `-- drivers-dma-buf-st-dma-fence-unwrap.c:warning:variable-err-set-but-not-used
+|-- xtensa-allyesconfig
+|   `-- drivers-dma-buf-st-dma-fence-unwrap.c:warning:variable-err-set-but-not-used
+|-- xtensa-randconfig-m031-20220422
+|   `-- drivers-pinctrl-pinctrl-ingenic.c-is_soc_or_above()-warn:bitwise-AND-condition-is-false-here
+`-- xtensa-randconfig-r002-20220421
+    `-- drivers-dma-buf-st-dma-fence-unwrap.c:warning:variable-err-set-but-not-used
+
+clang_recent_errors
+|-- arm-randconfig-c002-20220422
+|   |-- drivers-usb-atm-cxacru.c:warning:Call-to-function-sprintf-is-insecure-as-it-does-not-provide-bounding-of-the-memory-buffer-or-security-checks-introduced-in-the-C11-standard.-Replace-with-analogous-fun
+|   |-- drivers-usb-atm-usbatm.c:warning:Call-to-function-sprintf-is-insecure-as-it-does-not-provide-bounding-of-the-memory-buffer-or-security-checks-introduced-in-the-C11-standard.-Replace-with-analogous-fun
+|   |-- drivers-usb-chipidea-core.c:warning:Call-to-function-sprintf-is-insecure-as-it-does-not-provide-bounding-of-the-memory-buffer-or-security-checks-introduced-in-the-C11-standard.-Replace-with-analogous-
+|   |-- drivers-usb-gadget-udc-core.c:warning:Call-to-function-sprintf-is-insecure-as-it-does-not-provide-bounding-of-the-memory-buffer-or-security-checks-introduced-in-the-C11-standard.-Replace-with-analogou
+|   |-- kernel-module-main.c:warning:Call-to-function-sprintf-is-insecure-as-it-does-not-provide-bounding-of-the-memory-buffer-or-security-checks-introduced-in-the-C11-standard.-Replace-with-analogous-functio
+|   `-- kernel-module-main.c:warning:Null-pointer-passed-as-1st-argument-to-memory-copy-function-clang-analyzer-unix.cstring.NullArg
+|-- arm-randconfig-r015-20220421
+|   |-- drivers-bus-mhi-host-main.c:warning:parameter-event_quota-set-but-not-used
+|   `-- kernel-bpf-syscall.c:warning:no-previous-prototype-for-function-unpriv_ebpf_notify
+|-- arm64-buildonly-randconfig-r002-20220421
+|   `-- drivers-bus-mhi-host-main.c:warning:parameter-event_quota-set-but-not-used
+|-- arm64-randconfig-r021-20220422
+|   |-- drivers-char-hw_random-mpfs-rng.c:error:call-to-undeclared-function-mpfs_blocking_transaction-ISO-C99-and-later-do-not-support-implicit-function-declarations
+|   |-- drivers-char-hw_random-mpfs-rng.c:error:call-to-undeclared-function-mpfs_sys_controller_get-ISO-C99-and-later-do-not-support-implicit-function-declarations
+|   `-- drivers-char-hw_random-mpfs-rng.c:warning:incompatible-integer-to-pointer-conversion-assigning-to-struct-mpfs_sys_controller-from-int
+|-- arm64-randconfig-r035-20220421
+|   |-- drivers-bus-mhi-host-main.c:warning:parameter-event_quota-set-but-not-used
+|   `-- kernel-bpf-syscall.c:warning:no-previous-prototype-for-function-unpriv_ebpf_notify
+|-- hexagon-randconfig-r034-20220421
+|   `-- kernel-bpf-syscall.c:warning:no-previous-prototype-for-function-unpriv_ebpf_notify
+|-- hexagon-randconfig-r041-20220421
+|   `-- drivers-bus-mhi-host-main.c:warning:parameter-event_quota-set-but-not-used
+|-- hexagon-randconfig-r045-20220421
+|   `-- drivers-bus-mhi-host-main.c:warning:parameter-event_quota-set-but-not-used
+|-- hexagon-randconfig-r045-20220424
+|   |-- drivers-char-hw_random-mpfs-rng.c:error:call-to-undeclared-function-mpfs_blocking_transaction-ISO-C99-and-later-do-not-support-implicit-function-declarations
+|   |-- drivers-char-hw_random-mpfs-rng.c:error:call-to-undeclared-function-mpfs_sys_controller_get-ISO-C99-and-later-do-not-support-implicit-function-declarations
+|   `-- drivers-char-hw_random-mpfs-rng.c:warning:incompatible-integer-to-pointer-conversion-assigning-to-struct-mpfs_sys_controller-from-int
+|-- i386-randconfig-a002
+|   `-- kernel-bpf-syscall.c:warning:no-previous-prototype-for-function-unpriv_ebpf_notify
+|-- i386-randconfig-a004
+|   `-- kernel-bpf-syscall.c:warning:no-previous-prototype-for-function-unpriv_ebpf_notify
+|-- i386-randconfig-a011
+|   |-- drivers-bus-mhi-host-main.c:warning:parameter-event_quota-set-but-not-used
+|   `-- kernel-bpf-syscall.c:warning:no-previous-prototype-for-function-unpriv_ebpf_notify
+|-- i386-randconfig-a013
+|   |-- drivers-bus-mhi-host-main.c:warning:parameter-event_quota-set-but-not-used
+|   `-- kernel-bpf-syscall.c:warning:no-previous-prototype-for-function-unpriv_ebpf_notify
+|-- i386-randconfig-a015
+|   |-- drivers-bus-mhi-host-main.c:warning:parameter-event_quota-set-but-not-used
+|   `-- kernel-bpf-syscall.c:warning:no-previous-prototype-for-function-unpriv_ebpf_notify
+|-- i386-randconfig-c001
+|   |-- drivers-base-topology.c:warning:Value-stored-to-dev-during-its-initialization-is-never-read-clang-analyzer-deadcode.DeadStores
+|   |-- drivers-bus-mhi-host-main.c:warning:parameter-event_quota-set-but-not-used
+|   |-- kernel-bpf-syscall.c:warning:no-previous-prototype-for-function-unpriv_ebpf_notify
+|   |-- kernel-module-main.c:warning:Call-to-function-sprintf-is-insecure-as-it-does-not-provide-bounding-of-the-memory-buffer-or-security-checks-introduced-in-the-C11-standard.-Replace-with-analogous-functio
+|   |-- kernel-module-main.c:warning:Null-pointer-passed-as-1st-argument-to-memory-copy-function-clang-analyzer-unix.cstring.NullArg
+|   `-- net-ipv4-tcp_cong.c:warning:Division-by-zero-clang-analyzer-core.DivideZero
+|-- riscv-randconfig-c006-20220422
+|   `-- kernel-bpf-syscall.c:warning:no-previous-prototype-for-function-unpriv_ebpf_notify
+|-- riscv-randconfig-c006-20220424
+|   `-- drivers-net-ethernet-mellanox-mlxsw-core_linecards.c:warning:Use-of-memory-after-it-is-freed-clang-analyzer-unix.Malloc
+|-- riscv-randconfig-r004-20220421
+|   `-- drivers-bus-mhi-host-main.c:warning:parameter-event_quota-set-but-not-used
+|-- riscv-randconfig-r026-20220420
+|   `-- drivers-hid-wacom_wac.c:warning:format-specifies-type-unsigned-short-but-the-argument-has-type-int
+|-- s390-alldefconfig
+|   |-- arch-s390-include-asm-spinlock.h:error:unexpected-token-in-.rept-directive
+|   |-- arch-s390-include-asm-spinlock.h:error:unknown-directive
+|   |-- arch-s390-include-asm-spinlock.h:error:unmatched-.endr-directive
+|   |-- arch-s390-lib-spinlock.c:error:unexpected-token-in-.rept-directive
+|   |-- arch-s390-lib-spinlock.c:error:unknown-directive
+|   `-- arch-s390-lib-spinlock.c:error:unmatched-.endr-directive
+|-- s390-randconfig-c005-20220422
+|   |-- arch-s390-include-asm-spinlock.h:error:unexpected-token-in-.rept-directive
+|   |-- arch-s390-include-asm-spinlock.h:error:unknown-directive
+|   |-- arch-s390-include-asm-spinlock.h:error:unmatched-.endr-directive
+|   |-- arch-s390-lib-spinlock.c:error:unexpected-token-in-.rept-directive
+|   |-- arch-s390-lib-spinlock.c:error:unknown-directive
+|   `-- arch-s390-lib-spinlock.c:error:unmatched-.endr-directive
+|-- s390-randconfig-r003-20220421
+|   |-- arch-s390-include-asm-spinlock.h:error:unexpected-token-in-.rept-directive
+|   |-- arch-s390-include-asm-spinlock.h:error:unknown-directive
+|   |-- arch-s390-include-asm-spinlock.h:error:unmatched-.endr-directive
+|   |-- arch-s390-lib-spinlock.c:error:unexpected-token-in-.rept-directive
+|   |-- arch-s390-lib-spinlock.c:error:unknown-directive
+|   |-- arch-s390-lib-spinlock.c:error:unmatched-.endr-directive
+|   `-- drivers-bus-mhi-host-main.c:warning:parameter-event_quota-set-but-not-used
+|-- s390-randconfig-r006-20220421
+|   |-- arch-s390-include-asm-spinlock.h:error:unexpected-token-in-.rept-directive
+|   |-- arch-s390-include-asm-spinlock.h:error:unknown-directive
+|   |-- arch-s390-include-asm-spinlock.h:error:unmatched-.endr-directive
+|   |-- arch-s390-lib-spinlock.c:error:unexpected-token-in-.rept-directive
+|   |-- arch-s390-lib-spinlock.c:error:unknown-directive
+|   |-- arch-s390-lib-spinlock.c:error:unmatched-.endr-directive
+|   `-- drivers-bus-mhi-host-main.c:warning:parameter-event_quota-set-but-not-used
+|-- x86_64-allyesconfig
+|   `-- drivers-gpu-drm-solomon-ssd13-spi.c:warning:unused-variable-ssd13_spi_table
+|-- x86_64-randconfig-a001
+|   |-- drivers-bus-mhi-host-main.c:warning:parameter-event_quota-set-but-not-used
+|   `-- kernel-bpf-syscall.c:warning:no-previous-prototype-for-function-unpriv_ebpf_notify
+|-- x86_64-randconfig-a005
+|   `-- drivers-bus-mhi-host-main.c:warning:parameter-event_quota-set-but-not-used
+|-- x86_64-randconfig-a012
+|   |-- drivers-bus-mhi-host-main.c:warning:parameter-event_quota-set-but-not-used
+|   `-- kernel-bpf-syscall.c:warning:no-previous-prototype-for-function-unpriv_ebpf_notify
+|-- x86_64-randconfig-a014
+|   `-- drivers-bus-mhi-host-main.c:warning:parameter-event_quota-set-but-not-used
+|-- x86_64-randconfig-a016
+|   `-- drivers-bus-mhi-host-main.c:warning:parameter-event_quota-set-but-not-used
+`-- x86_64-randconfig-c007
+    |-- drivers-bus-mhi-host-main.c:warning:parameter-event_quota-set-but-not-used
+    |-- kernel-bpf-syscall.c:warning:no-previous-prototype-for-function-unpriv_ebpf_notify
+    |-- kernel-module-main.c:warning:Call-to-function-sprintf-is-insecure-as-it-does-not-provide-bounding-of-the-memory-buffer-or-security-checks-introduced-in-the-C11-standard.-Replace-with-analogous-functio
+    |-- kernel-module-main.c:warning:Null-pointer-passed-as-1st-argument-to-memory-copy-function-clang-analyzer-unix.cstring.NullArg
+    |-- mm-sparse-vmemmap.c:warning:Value-stored-to-next-during-its-initialization-is-never-read-clang-analyzer-deadcode.DeadStores
+    `-- net-ipv4-tcp_cong.c:warning:Division-by-zero-clang-analyzer-core.DivideZero
+
+elapsed time: 5684m
+
+configs tested: 130
+configs skipped: 3
+
+gcc tested configs:
+arm                              allmodconfig
+arm                              allyesconfig
+arm                                 defconfig
+arm64                               defconfig
+arm64                            allyesconfig
+ia64                             allmodconfig
+i386                             allyesconfig
+ia64                             allyesconfig
+x86_64                           allyesconfig
+mips                             allyesconfig
+riscv                            allyesconfig
+um                           x86_64_defconfig
+riscv                            allmodconfig
+um                             i386_defconfig
+mips                             allmodconfig
+powerpc                          allmodconfig
+m68k                             allyesconfig
+s390                             allmodconfig
+s390                             allyesconfig
+m68k                             allmodconfig
+powerpc                          allyesconfig
+i386                          randconfig-c001
+sparc                            allyesconfig
+parisc                           allyesconfig
+sh                               allmodconfig
+h8300                            allyesconfig
+xtensa                           allyesconfig
+arc                              allyesconfig
+alpha                            allyesconfig
+nios2                            allyesconfig
+mips                 decstation_r4k_defconfig
+powerpc                 mpc834x_mds_defconfig
+ia64                            zx1_defconfig
+mips                     decstation_defconfig
+arm                          exynos_defconfig
+arm                          simpad_defconfig
+mips                            gpr_defconfig
+m68k                        mvme147_defconfig
+sh                           se7722_defconfig
+sh                            hp6xx_defconfig
+xtensa                    xip_kc705_defconfig
+arm                          iop32x_defconfig
+parisc64                            defconfig
+sh                   rts7751r2dplus_defconfig
+arm                        mini2440_defconfig
+sparc                       sparc32_defconfig
+powerpc                  storcenter_defconfig
+arm                        keystone_defconfig
+sh                           se7343_defconfig
+powerpc                     sequoia_defconfig
+arc                                 defconfig
+xtensa                       common_defconfig
+sh                            shmin_defconfig
+sh                               alldefconfig
+powerpc                      ppc6xx_defconfig
+sh                     sh7710voipgw_defconfig
+sh                          rsk7269_defconfig
+sh                           se7750_defconfig
+arm                  randconfig-c002-20220421
+x86_64                        randconfig-c001
+ia64                                defconfig
+m68k                                defconfig
+alpha                               defconfig
+csky                                defconfig
+nios2                               defconfig
+parisc                              defconfig
+s390                                defconfig
+i386                   debian-10.3-kselftests
+i386                              debian-10.3
+i386                                defconfig
+sparc                               defconfig
+powerpc                           allnoconfig
+i386                          randconfig-a001
+i386                          randconfig-a003
+i386                          randconfig-a005
+x86_64                        randconfig-a013
+x86_64                        randconfig-a011
+x86_64                        randconfig-a015
+i386                          randconfig-a014
+i386                          randconfig-a012
+i386                          randconfig-a016
+x86_64                        randconfig-a004
+x86_64                        randconfig-a002
+x86_64                        randconfig-a006
+arc                  randconfig-r043-20220421
+riscv                randconfig-r042-20220421
+s390                 randconfig-r044-20220421
+riscv                    nommu_k210_defconfig
+riscv                    nommu_virt_defconfig
+riscv                             allnoconfig
+riscv                          rv32_defconfig
+riscv                               defconfig
+x86_64                          rhel-8.3-func
+x86_64                              defconfig
+x86_64                                  kexec
+x86_64                               rhel-8.3
+x86_64                         rhel-8.3-kunit
+x86_64                    rhel-8.3-kselftests
+
+clang tested configs:
+arm                  randconfig-c002-20220422
+powerpc              randconfig-c003-20220422
+s390                 randconfig-c005-20220422
+mips                 randconfig-c004-20220422
+x86_64                        randconfig-c007
+i386                          randconfig-c001
+riscv                randconfig-c006-20220422
+s390                             alldefconfig
+powerpc                      ppc64e_defconfig
+mips                           rs90_defconfig
+mips                        workpad_defconfig
+arm                           spitz_defconfig
+powerpc                 mpc8313_rdb_defconfig
+powerpc                 mpc836x_mds_defconfig
+powerpc                      obs600_defconfig
+powerpc                        fsp2_defconfig
+powerpc                     tqm8560_defconfig
+hexagon                          alldefconfig
+arm                     davinci_all_defconfig
+i386                          randconfig-a002
+i386                          randconfig-a006
+i386                          randconfig-a004
+x86_64                        randconfig-a016
+x86_64                        randconfig-a012
+x86_64                        randconfig-a014
+i386                          randconfig-a013
+i386                          randconfig-a011
+i386                          randconfig-a015
+x86_64                        randconfig-a005
+x86_64                        randconfig-a001
+x86_64                        randconfig-a003
+hexagon              randconfig-r041-20220421
+hexagon              randconfig-r045-20220421
+
+-- 
+0-DAY CI Kernel Test Service
+https://01.org/lkp
