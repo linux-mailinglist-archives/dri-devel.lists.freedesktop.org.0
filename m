@@ -1,56 +1,46 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 685DF50FC7D
-	for <lists+dri-devel@lfdr.de>; Tue, 26 Apr 2022 14:06:06 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 55A0A50FCD5
+	for <lists+dri-devel@lfdr.de>; Tue, 26 Apr 2022 14:25:02 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 3B8C910F3A7;
-	Tue, 26 Apr 2022 12:06:04 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 262D310F106;
+	Tue, 26 Apr 2022 12:25:00 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-pj1-x102b.google.com (mail-pj1-x102b.google.com
- [IPv6:2607:f8b0:4864:20::102b])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 00E8C10F3AF
- for <dri-devel@lists.freedesktop.org>; Tue, 26 Apr 2022 12:06:02 +0000 (UTC)
-Received: by mail-pj1-x102b.google.com with SMTP id
- l11-20020a17090a49cb00b001d923a9ca99so2352001pjm.1
- for <dri-devel@lists.freedesktop.org>; Tue, 26 Apr 2022 05:06:02 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=jnzdSi3Y2fRjDYepkMI15WioUna9jOJebVVCPfoxoDk=;
- b=i7gY7giHyXPmee5KAD7wbIyoXRSrmuP4WOM4T3+JXT1CV/rTBRi8oSce/BdEEWW58u
- NsSv58kUv0NANV6uHSoKWfhSpTctDX3iVmiSRjxwj/cgOvbozSxb7vt5W1kKKmNQmhko
- 9ttDn8xWOPCGknbwcKnxloyDoxr4meczx7bDrLyLF5ugB9Sxp2CWUS7oSlP/mPqcL/O3
- /ESx3oXN3yYEHobegS2CcvicYNepoTWV9S+V4azROgeEQrsJAvwfG7ZnCxhC0rtMIYMH
- 0eKm1ko1cdFvUjxbusUbziv3S+CDv/yB/KwuMiXZ1cDa/Vhkz6m4R6Yj4bdfcJuknLtH
- +e8Q==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=jnzdSi3Y2fRjDYepkMI15WioUna9jOJebVVCPfoxoDk=;
- b=LhH1vux3T/ioUKtwnzjfXE0pFdp62H09ANG4OncGn28AQGfWAIzU4ybd+SLfte+SIl
- 6AvmrH2KA9VtppKEzt4ZYx6Q72J/aiuRFya+mmlzBGjp6aAxdHGZ1elup2dvGOpRXsBP
- QTGS7p+XbeOy3ISzGixV6KsJhovBPEwQgrpnhZ7lGAYOC7s3j3hOZUuIyeTFWxHMNM72
- SolKYR1Y+4Y3ZsLB7SjyARg0sJUe+XVcbPP30Hlx8s/nj1cQYilUEgeHwIrDMl0X0lFs
- 5JioC7SGqxjOy+IQaB2ldVPxuoMhHnnxt8PAK2GQ74MAUrNZzuqX+hrkp4nWWyF7Tx5J
- WVfg==
-X-Gm-Message-State: AOAM533udDSFBm1tub8yqNaUshcYU2p+07ci93Ubh89pdoGCRbZ/bAlP
- M+TrTDhD89C00bQiwanq+EKS1MNYEu50mFEvvMpPJA==
-X-Google-Smtp-Source: ABdhPJxu9IBJC6octy0fX9i2qg8aewV72uAgxq0IVjwRTkCg/lZHlajKcq0m0zHjxoPJ5/yusWdFmBu9Ib5uViQWBUs=
-X-Received: by 2002:a17:902:8547:b0:15c:f02f:cd0b with SMTP id
- d7-20020a170902854700b0015cf02fcd0bmr15152656plo.117.1650974762489; Tue, 26
- Apr 2022 05:06:02 -0700 (PDT)
+Received: from out2.migadu.com (out2.migadu.com [IPv6:2001:41d0:2:aacc::])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 87B8E10F101
+ for <dri-devel@lists.freedesktop.org>; Tue, 26 Apr 2022 12:24:58 +0000 (UTC)
+Date: Tue, 26 Apr 2022 20:24:04 +0800
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linux.dev; s=key1;
+ t=1650975895;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=8ihWfybmQBLwWs2JDnc+H/HKvcZbSpd7+Ep5O3IrtFw=;
+ b=RxPE+S/KZdvXUPCvXIpza6SglxVNoMOI1kqQVJy2QL5+sq14mkJDaDXHCg/nbpzOaVBdPo
+ cdLL7xkr5NfPMQor8TaWV2iOB6XUiyoU2pPVh4qcxYVHHhhyP/Urq0MTP8JFi2VCXp7AFp
+ yyhYC5ykSb/j7hdEe6UsQcwRNo+WeYg=
+X-Report-Abuse: Please report any abuse attempt to abuse@migadu.com and
+ include these headers.
+From: Cai Huoqing <cai.huoqing@linux.dev>
+To: Arnd Bergmann <arnd@arndb.de>
+Subject: Re: [Linaro-mm-sig] Re: [PATCH v2 4/4] drm/nvdla/uapi: Add UAPI of
+ NVDLA driver
+Message-ID: <20220426122404.GA6788@chq-T47>
+References: <20220426060808.78225-1-cai.huoqing@linux.dev>
+ <20220426060808.78225-5-cai.huoqing@linux.dev>
+ <618a4f53-0998-1e6b-e32b-8bf2d3057cec@amd.com>
+ <CAK8P3a2w1t7Sk897u0ndD66Lwp5a4DuOqqQLN4yHSg=JmrpOHQ@mail.gmail.com>
 MIME-Version: 1.0
-References: <20220426011359.2861224-1-dmitry.baryshkov@linaro.org>
-In-Reply-To: <20220426011359.2861224-1-dmitry.baryshkov@linaro.org>
-From: Robert Foss <robert.foss@linaro.org>
-Date: Tue, 26 Apr 2022 14:05:51 +0200
-Message-ID: <CAG3jFyu3ZAHWzL2+zfzqxb0ohoDkEQRUiijcPVBVPecScBPr0A@mail.gmail.com>
-Subject: Re: [PATCH] drm/bridge: tc358762: drop connector field
-To: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <CAK8P3a2w1t7Sk897u0ndD66Lwp5a4DuOqqQLN4yHSg=JmrpOHQ@mail.gmail.com>
+X-Migadu-Flow: FLOW_OUT
+X-Migadu-Auth-User: linux.dev
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -63,40 +53,113 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Jonas Karlman <jonas@kwiboo.se>, David Airlie <airlied@linux.ie>,
- dri-devel@lists.freedesktop.org, Neil Armstrong <narmstrong@baylibre.com>,
- Jernej Skrabec <jernej.skrabec@gmail.com>,
- Laurent Pinchart <Laurent.pinchart@ideasonboard.com>,
- Andrzej Hajda <andrzej.hajda@intel.com>
+Cc: David Airlie <airlied@linux.ie>,
+ Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
+ Sumit Semwal <sumit.semwal@linaro.org>, linaro-mm-sig@lists.linaro.org,
+ dri-devel <dri-devel@lists.freedesktop.org>,
+ Thomas Zimmermann <tzimmermann@suse.de>,
+ Christian =?utf-8?B?S8O2bmln?= <christian.koenig@amd.com>,
+ Linux Media Mailing List <linux-media@vger.kernel.org>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Tue, 26 Apr 2022 at 03:14, Dmitry Baryshkov
-<dmitry.baryshkov@linaro.org> wrote:
->
-> The tc358762.connector field is unused. Remove it to save space.
->
-> Signed-off-by: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
-> ---
->  drivers/gpu/drm/bridge/tc358762.c | 1 -
->  1 file changed, 1 deletion(-)
->
-> diff --git a/drivers/gpu/drm/bridge/tc358762.c b/drivers/gpu/drm/bridge/tc358762.c
-> index 7104828024fd..5416e8bbf827 100644
-> --- a/drivers/gpu/drm/bridge/tc358762.c
-> +++ b/drivers/gpu/drm/bridge/tc358762.c
-> @@ -61,7 +61,6 @@
->  struct tc358762 {
->         struct device *dev;
->         struct drm_bridge bridge;
-> -       struct drm_connector connector;
->         struct regulator *regulator;
->         struct drm_bridge *panel_bridge;
->         bool pre_enabled;
-> --
-> 2.35.1
->
+On 26 4月 22 12:50:50, Arnd Bergmann wrote:
+> On Tue, Apr 26, 2022 at 8:31 AM Christian König
+> <christian.koenig@amd.com> wrote:
+> > Am 26.04.22 um 08:08 schrieb Cai Huoqing:
+> > > The NVIDIA Deep Learning Accelerator (NVDLA) is an open source IP
+> > > which is integrated into NVIDIA Jetson AGX Xavier,
+> > > so add UAPI of this driver.
+> > >
+> > > Signed-off-by: Cai Huoqing <cai.huoqing@linux.dev>
+> 
+> I saw the reply but no the original mail, so I'll comment here
+Hi, thanks for your reply
+The patches here:
+https://lore.kernel.org/lkml/20220426060808.78225-3-cai.huoqing@linux.dev/
+> 
+> > > +
+> > > +#if !defined(__KERNEL__)
+> > > +#define __user
+> > > +#endif
+> 
+> This is done in the 'make headers_install' step, no need to define it
+> separately.
+> 
+> > > +#define NVDLA_NO_TIMEOUT    (0xffffffff)
+> > > +     __u32 timeout;
+> >
+> > What format does that timeout value have?
+> >
+> > In general it is best practice to have absolute 64bit nanosecond
+> > timeouts (to be used with ktime inside the kernel) so that restarting
+> > interrupted IOCTLs works smooth.
+> 
+> When using absolute values, one also needs to decide whether this should be
+> realtime, monotonic or boottime and document the decision.
+> 
+> 
+> > > + * struct nvdla_submit_args structure for task submit
+> > > + *
+> > > + * @tasks            pointer to array of struct nvdla_ioctl_submit_task
+> > > + * @num_tasks                number of entries in tasks
+> > > + * @flags            flags for task submit, no flags defined yet
+> > > + * @version          version of task structure
+> > > + *
+> > > + */
+> > > +struct nvdla_submit_args {
+> > > +     __u64 tasks;
+> > > +     __u16 num_tasks;
+> > > +#define NVDLA_MAX_TASKS_PER_SUBMIT   24
+> > > +#define NVDLA_SUBMIT_FLAGS_ATOMIC    (1 << 0)
+> >
+> > Well that "no flags defined yet" from the comment above is probably
+> > outdated :)
+> 
+> > > +     __u16 flags;
+> > > +     __u32 version;
+> > > +};
+> 
+> Versioned interfaces are usually a bad idea. If you introduce an ioctl command,
+> it should generally keep working. If you ever need to change the interface, just
+> use a new command number for the new version.
+> 
+> > > +/**
+> > > + * struct nvdla_gem_create_args for allocating DMA buffer through GEM
+> > > + *
+> > > + * @handle           handle updated by kernel after allocation
+> > > + * @flags            implementation specific flags
+> > > + * @size             size of buffer to allocate
+> > > + */
+> > > +struct nvdla_gem_create_args {
+> > > +     __u32 handle;
+> > > +     __u32 flags;
+> > > +     __u64 size;
+> > > +};
+> > > +
+> > > +/**
+> > > + * struct nvdla_gem_map_offset_args for mapping DMA buffer
+> > > + *
+> > > + * @handle           handle of the buffer
+> > > + * @reserved         reserved for padding
+> > > + * @offset           offset updated by kernel after mapping
+> > > + */
+> > > +struct nvdla_gem_map_offset_args {
+> > > +     __u32 handle;
+> > > +     __u32 reserved;
+> > > +     __u64 offset;
+> > > +};
+> > > +
+> > > +#define DRM_NVDLA_SUBMIT             0x00
+> > > +#define DRM_NVDLA_GEM_CREATE 0x01
+> > > +#define DRM_NVDLA_GEM_MMAP           0x02
+> 
+> Is this an actual mmap() call, or something that needs to be done before the
+> mmap()? Is the 'handle' a file descriptor or some internal number?
+It's an gem object mmap which calls drm_gem_dumb_map_offset() inside and
+the handle is gem object handle.
 
-Reviewed-by: Robert Foss <robert.foss@linaro.org>
-
-Applied to drm-misc-next.
+Thanks,
+Cai
+> 
+>       Arnd
