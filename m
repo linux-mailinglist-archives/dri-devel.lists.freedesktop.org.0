@@ -2,59 +2,62 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 92AB850FA79
-	for <lists+dri-devel@lfdr.de>; Tue, 26 Apr 2022 12:28:45 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 87E0550FBA7
+	for <lists+dri-devel@lfdr.de>; Tue, 26 Apr 2022 13:03:57 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 915EF10E5A3;
-	Tue, 26 Apr 2022 10:28:41 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 0A71F10EAD8;
+	Tue, 26 Apr 2022 11:03:52 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mailgw01.mediatek.com (unknown [60.244.123.138])
- by gabe.freedesktop.org (Postfix) with ESMTPS id E289710E5A3
- for <dri-devel@lists.freedesktop.org>; Tue, 26 Apr 2022 10:28:39 +0000 (UTC)
-X-UUID: 162355498c0b48f2b1df6850e9fcc7b6-20220426
-X-CID-P-RULE: Release_Ham
-X-CID-O-INFO: VERSION:1.1.4, REQID:51a7fbd9-65de-4ec1-bb7b-d6919820e1e8, OB:0,
- LO
- B:0,IP:0,URL:8,TC:0,Content:0,EDM:0,RT:0,SF:53,FILE:0,RULE:Release_Ham,ACT
- ION:release,TS:61
-X-CID-INFO: VERSION:1.1.4, REQID:51a7fbd9-65de-4ec1-bb7b-d6919820e1e8, OB:0,
- LOB:
- 0,IP:0,URL:8,TC:0,Content:0,EDM:0,RT:0,SF:53,FILE:0,RULE:Spam_GS981B3D,ACT
- ION:quarantine,TS:61
-X-CID-META: VersionHash:faefae9, CLOUDID:bc09c02e-6199-437e-8ab4-9920b4bc5b76,
- C
- OID:01946d09fe8b,Recheck:0,SF:13|15|28|16|19|48,TC:nil,Content:0,EDM:-3,Fi
- le:nil,QS:0,BEC:nil
-X-UUID: 162355498c0b48f2b1df6850e9fcc7b6-20220426
-Received: from mtkcas10.mediatek.inc [(172.21.101.39)] by mailgw01.mediatek.com
- (envelope-from <nancy.lin@mediatek.com>)
- (Generic MTA with TLSv1.2 ECDHE-RSA-AES256-SHA384 256/256)
- with ESMTP id 1132310296; Tue, 26 Apr 2022 18:28:36 +0800
-Received: from mtkcas11.mediatek.inc (172.21.101.40) by
- mtkmbs07n2.mediatek.inc (172.21.101.141) with Microsoft SMTP Server (TLS) id
- 15.0.1497.2; Tue, 26 Apr 2022 18:28:34 +0800
-Received: from mtksdccf07 (172.21.84.99) by mtkcas11.mediatek.inc
- (172.21.101.73) with Microsoft SMTP Server id 15.0.1497.2 via Frontend
- Transport; Tue, 26 Apr 2022 18:28:34 +0800
-Message-ID: <2e336c54b07cf5b661fd4a613545a932bca792fb.camel@mediatek.com>
-Subject: Re: [PATCH v17 13/21] drm/mediatek: add display merge async reset
- control
-From: Nancy.Lin <nancy.lin@mediatek.com>
-To: Philipp Zabel <p.zabel@pengutronix.de>, Rob Herring <robh+dt@kernel.org>, 
- Matthias Brugger <matthias.bgg@gmail.com>, Chun-Kuang Hu
- <chunkuang.hu@kernel.org>, <wim@linux-watchdog.org>, AngeloGioacchino Del
- Regno <angelogioacchino.delregno@collabora.com>, <linux@roeck-us.net>
-Date: Tue, 26 Apr 2022 18:28:34 +0800
-In-Reply-To: <b4f438026fe208f8f6511de34c7e84c8c59d843c.camel@pengutronix.de>
-References: <20220416020749.29010-1-nancy.lin@mediatek.com>
- <20220416020749.29010-14-nancy.lin@mediatek.com>
- <b4f438026fe208f8f6511de34c7e84c8c59d843c.camel@pengutronix.de>
-Content-Type: text/plain; charset="UTF-8"
-X-Mailer: Evolution 3.28.5-0ubuntu0.18.04.2 
+X-Greylist: delayed 759 seconds by postgrey-1.36 at gabe;
+ Tue, 26 Apr 2022 11:03:49 UTC
+Received: from mout.kundenserver.de (mout.kundenserver.de [212.227.17.13])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id A81D510E818
+ for <dri-devel@lists.freedesktop.org>; Tue, 26 Apr 2022 11:03:49 +0000 (UTC)
+Received: from mail-wr1-f42.google.com ([209.85.221.42]) by
+ mrelayeu.kundenserver.de (mreue106 [213.165.67.113]) with ESMTPSA (Nemesis)
+ id 1N5W0q-1nxz9d40L4-0170IP for <dri-devel@lists.freedesktop.org>; Tue, 26
+ Apr 2022 12:51:07 +0200
+Received: by mail-wr1-f42.google.com with SMTP id d5so9671501wrb.6
+ for <dri-devel@lists.freedesktop.org>; Tue, 26 Apr 2022 03:51:07 -0700 (PDT)
+X-Gm-Message-State: AOAM530Gyk3HNlUesUEx+a1TsP6qsx24NzSWoS4CfTk9IHHC9b2MPiiP
+ FicUtAiwcln9E5PvJCU5KDq7hrO2v+3h2YpCl6g=
+X-Google-Smtp-Source: ABdhPJwv3pFB8WncbOOxlmqz6E+LrLV4NkQu/Q5kzsoMl03tzrGAbxuUPuNyuSoi1V3F1hRSCNe/pbMUxDHw00bd99I=
+X-Received: by 2002:a5d:64a3:0:b0:20a:7931:5b84 with SMTP id
+ m3-20020a5d64a3000000b0020a79315b84mr18372018wrp.407.1650970267164; Tue, 26
+ Apr 2022 03:51:07 -0700 (PDT)
 MIME-Version: 1.0
-Content-Transfer-Encoding: 7bit
-X-MTK: N
+References: <20220426060808.78225-1-cai.huoqing@linux.dev>
+ <20220426060808.78225-5-cai.huoqing@linux.dev>
+ <618a4f53-0998-1e6b-e32b-8bf2d3057cec@amd.com>
+In-Reply-To: <618a4f53-0998-1e6b-e32b-8bf2d3057cec@amd.com>
+From: Arnd Bergmann <arnd@arndb.de>
+Date: Tue, 26 Apr 2022 12:50:50 +0200
+X-Gmail-Original-Message-ID: <CAK8P3a2w1t7Sk897u0ndD66Lwp5a4DuOqqQLN4yHSg=JmrpOHQ@mail.gmail.com>
+Message-ID: <CAK8P3a2w1t7Sk897u0ndD66Lwp5a4DuOqqQLN4yHSg=JmrpOHQ@mail.gmail.com>
+Subject: Re: [Linaro-mm-sig] Re: [PATCH v2 4/4] drm/nvdla/uapi: Add UAPI of
+ NVDLA driver
+To: =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+X-Provags-ID: V03:K1:ewtDOTkFREGy3Sl3gtvHlzEn6Mp8IGT7/2580Q6DPiPvH2PRJ19
+ 9ZHFWRUzZ1fOJscM9gwVxYYCLrqDtAj+7nfYeC2eRqwpum+kyASW73j9BJir9QZsLXWKYhJ
+ 7gLi+fSCkwYTf/ddXMKsXJ5VaRHS/BUBa7BWNmQrRGjq/tAoOGo2MDCs2o3ZqFziSS8hPWa
+ wNBRT7h3N75rhQFIKVMuA==
+X-Spam-Flag: NO
+X-UI-Out-Filterresults: notjunk:1;V03:K0:T3YZI96juQ8=:6KC1rqARb7gcHFnQ4S0s5b
+ Qrg5D9SnpHBfXAHPqWNOm5S7DHm73masV0LW9khEx8BV/IH/TkHQkH8tsz5+tIHq5uFhyNXob
+ IvqHBLDV7UBrgs6A42G0bShHXiTyUMnLxlpH9broqwCrKLmDACUg5FIA50wvaqu7F3dILyG/9
+ 8VYvXfwl6JiLUMgsS9vXBCqrNHvxq3DEZsWI6HnC2/v8anzEPqpcokS3CIn++wPlSgi1MMHJF
+ OaApGw0TVQKhrqkC0fvvRxqD/EnuHbOiGd+sRmnBzd5xXV5HQvpuPeLzIzEnY6nof6qPgwvGg
+ Xz7Ecn+RE1SccvoLGOqelbdjwwXvuy15XXSkikUsCLybwDhRaiXTXx8C409cFTBwBhAvHDoOe
+ Rj74K8AgXdzvC3KYmG3xeLVoywk0PNLXg8pZTQ6fISYhIGCRbWc7N03tYc0aENTT7zRmR+eOf
+ hSQqsySyLD1qja8KIwDmEGh4Av389+ILBS/6qQWQe35MRoE3b0G6KwmDv2KyeJFxhcIukEhoP
+ XAqg8jqbsUekfVCU9M5GJ15v7KMj75JAIoBPSQuBH4eICfGgQiKgCKMK7SV+LrYPncd2QmHlV
+ BiPm87N5Gtzhwa7W8vNz8u1fCMxlrpQ9b2UQSe3KWhYPs1QozRIuO9EmIOXIEH8OvEhRwHEjb
+ Y3AIBAkpCMYgp1+/3F7Mu06un37iEQ+xcV0JeVA/4FTBR70C9H5w2M+EIgurxjwsJQ+7/+Kpj
+ If/e4oRjCfapsBrGXcoZxASwtkIAP3MD6Mbin2vh1/1DSaCsVcwaCxZLNsKnfc9tWZTD5cpbG
+ 0TKbQmIBXv6e9GmLCStHO89S587J7Of58Yi6A+1umzb7yj0HtY=
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -67,75 +70,107 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: devicetree@vger.kernel.org,
- Project_Global_Chrome_Upstream_Group@mediatek.com,
- David Airlie <airlied@linux.ie>, "jason-jh . lin" <jason-jh.lin@mediatek.com>,
- singo.chang@mediatek.com, llvm@lists.linux.dev,
- Nick Desaulniers <ndesaulniers@google.com>, linux-kernel@vger.kernel.org,
- dri-devel@lists.freedesktop.org, Nathan
- Chancellor <nathan@kernel.org>, linux-mediatek@lists.infradead.org,
- Yongqiang Niu <yongqiang.niu@mediatek.com>,
- linux-arm-kernel@lists.infradead.org
+Cc: Thomas Zimmermann <tzimmermann@suse.de>, David Airlie <airlied@linux.ie>,
+ Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
+ linaro-mm-sig@lists.linaro.org, Cai Huoqing <cai.huoqing@linux.dev>,
+ dri-devel <dri-devel@lists.freedesktop.org>,
+ Sumit Semwal <sumit.semwal@linaro.org>,
+ Linux Media Mailing List <linux-media@vger.kernel.org>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi Philipp,
+On Tue, Apr 26, 2022 at 8:31 AM Christian K=C3=B6nig
+<christian.koenig@amd.com> wrote:
+> Am 26.04.22 um 08:08 schrieb Cai Huoqing:
+> > The NVIDIA Deep Learning Accelerator (NVDLA) is an open source IP
+> > which is integrated into NVIDIA Jetson AGX Xavier,
+> > so add UAPI of this driver.
+> >
+> > Signed-off-by: Cai Huoqing <cai.huoqing@linux.dev>
 
-Thanks for the review.
+I saw the reply but no the original mail, so I'll comment here.
 
-On Mon, 2022-04-25 at 11:58 +0200, Philipp Zabel wrote:
-> On Sa, 2022-04-16 at 10:07 +0800, Nancy.Lin wrote:
-> > Add merge async reset control in mtk_merge_stop. Async hw doesn't
-> > do self
-> > reset on each sof signal(start of frame), so need to reset the
-> > async to
-> > clear the hw status for the next merge start.
-> > 
-> > Signed-off-by: Nancy.Lin <nancy.lin@mediatek.com>
-> > Reviewed-by: CK Hu <ck.hu@mediatek.com>
-> > Reviewed-by: AngeloGioacchino Del Regno <
-> > angelogioacchino.delregno@collabora.com>
-> > ---
-> >  drivers/gpu/drm/mediatek/mtk_disp_merge.c | 4 ++++
-> >  1 file changed, 4 insertions(+)
-> > 
-> > diff --git a/drivers/gpu/drm/mediatek/mtk_disp_merge.c
-> > b/drivers/gpu/drm/mediatek/mtk_disp_merge.c
-> > index 9dca145cfb71..177473fa8160 100644
-> > --- a/drivers/gpu/drm/mediatek/mtk_disp_merge.c
-> > +++ b/drivers/gpu/drm/mediatek/mtk_disp_merge.c
-> > @@ -8,6 +8,7 @@
-> >  #include <linux/of_device.h>
-> >  #include <linux/of_irq.h>
-> >  #include <linux/platform_device.h>
-> > +#include <linux/reset.h>
-> >  #include <linux/soc/mediatek/mtk-cmdq.h>
-> >  
-> > 
-> > 
-> > 
-> >  #include "mtk_drm_ddp_comp.h"
-> > @@ -79,6 +80,9 @@ void mtk_merge_stop(struct device *dev)
-> >  	struct mtk_disp_merge *priv = dev_get_drvdata(dev);
-> >  
-> > 
-> > 
-> > 
-> >  	mtk_merge_stop_cmdq(dev, NULL);
 > > +
-> > +	if (priv->async_clk)
-> > +		device_reset_optional(dev);
-> 
-> To avoid the overhead of looking up the reset control in the device
-> tree every time, it would be better to request a reset control during
-> probe using devm_reset_control_get_optional_exclusive(). Here you'd
-> just call reset_control_reset().
-> 
-> regards
-> Philipp
+> > +#if !defined(__KERNEL__)
+> > +#define __user
+> > +#endif
 
-OK. I will refine it in the next revision.
+This is done in the 'make headers_install' step, no need to define it
+separately.
 
-Regards,
-Nancy
+> > +#define NVDLA_NO_TIMEOUT    (0xffffffff)
+> > +     __u32 timeout;
+>
+> What format does that timeout value have?
+>
+> In general it is best practice to have absolute 64bit nanosecond
+> timeouts (to be used with ktime inside the kernel) so that restarting
+> interrupted IOCTLs works smooth.
 
+When using absolute values, one also needs to decide whether this should be
+realtime, monotonic or boottime and document the decision.
+
+
+> > + * struct nvdla_submit_args structure for task submit
+> > + *
+> > + * @tasks            pointer to array of struct nvdla_ioctl_submit_tas=
+k
+> > + * @num_tasks                number of entries in tasks
+> > + * @flags            flags for task submit, no flags defined yet
+> > + * @version          version of task structure
+> > + *
+> > + */
+> > +struct nvdla_submit_args {
+> > +     __u64 tasks;
+> > +     __u16 num_tasks;
+> > +#define NVDLA_MAX_TASKS_PER_SUBMIT   24
+> > +#define NVDLA_SUBMIT_FLAGS_ATOMIC    (1 << 0)
+>
+> Well that "no flags defined yet" from the comment above is probably
+> outdated :)
+
+> > +     __u16 flags;
+> > +     __u32 version;
+> > +};
+
+Versioned interfaces are usually a bad idea. If you introduce an ioctl comm=
+and,
+it should generally keep working. If you ever need to change the interface,=
+ just
+use a new command number for the new version.
+
+> > +/**
+> > + * struct nvdla_gem_create_args for allocating DMA buffer through GEM
+> > + *
+> > + * @handle           handle updated by kernel after allocation
+> > + * @flags            implementation specific flags
+> > + * @size             size of buffer to allocate
+> > + */
+> > +struct nvdla_gem_create_args {
+> > +     __u32 handle;
+> > +     __u32 flags;
+> > +     __u64 size;
+> > +};
+> > +
+> > +/**
+> > + * struct nvdla_gem_map_offset_args for mapping DMA buffer
+> > + *
+> > + * @handle           handle of the buffer
+> > + * @reserved         reserved for padding
+> > + * @offset           offset updated by kernel after mapping
+> > + */
+> > +struct nvdla_gem_map_offset_args {
+> > +     __u32 handle;
+> > +     __u32 reserved;
+> > +     __u64 offset;
+> > +};
+> > +
+> > +#define DRM_NVDLA_SUBMIT             0x00
+> > +#define DRM_NVDLA_GEM_CREATE 0x01
+> > +#define DRM_NVDLA_GEM_MMAP           0x02
+
+Is this an actual mmap() call, or something that needs to be done before th=
+e
+mmap()? Is the 'handle' a file descriptor or some internal number?
+
+      Arnd
