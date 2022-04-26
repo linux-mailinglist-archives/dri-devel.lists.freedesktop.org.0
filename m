@@ -1,55 +1,59 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 873FE51075B
-	for <lists+dri-devel@lfdr.de>; Tue, 26 Apr 2022 20:44:22 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 3648E510763
+	for <lists+dri-devel@lfdr.de>; Tue, 26 Apr 2022 20:47:15 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 1848110E2C6;
-	Tue, 26 Apr 2022 18:44:18 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 2417410E153;
+	Tue, 26 Apr 2022 18:47:12 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mga02.intel.com (mga02.intel.com [134.134.136.20])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 3D00E10E24E;
- Tue, 26 Apr 2022 18:44:16 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1650998656; x=1682534656;
- h=date:from:to:cc:subject:message-id:references:
- mime-version:content-transfer-encoding:in-reply-to;
- bh=4/sYc07gwmkGEzoLcHCp/35h3jTtFSB/R65vvdpWr0g=;
- b=QTNrVayenC2Ze0z3AdHQ4bWEJbLHS1IflOH7qaMyEOjDeWDJYxlrQi7T
- 21nyB2A0TV2noG/jfS38Qkk4A/JIjfm/4rgkzQ8HsdO7gboZJ5P7zm0cd
- UjaAV/jL+CSzDNiCOwZwjsEq09gUbxmUzQeBMTtHSajY1G2ySsOdXdwar
- L+uAgWIKtTozCg3CN3V7v8hfOS+uC+B2lHlzpKDSNFz4P85UzR8bH8EwY
- wHo4fW/YyZ/NM2LodDfoOra2wG6q+DSM7uuZIbpVlBchvpIfLK1Ew2+Y+
- JgfFmwIiRXAJIrv1L/uzz+SdoG8PQmwindDykJzxGxsKIQcDZzKvM1Lsm Q==;
-X-IronPort-AV: E=McAfee;i="6400,9594,10329"; a="253064013"
-X-IronPort-AV: E=Sophos;i="5.90,291,1643702400"; d="scan'208";a="253064013"
-Received: from fmsmga001.fm.intel.com ([10.253.24.23])
- by orsmga101.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 26 Apr 2022 11:44:15 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.90,291,1643702400"; d="scan'208";a="705180029"
-Received: from stinkpipe.fi.intel.com (HELO stinkbox) ([10.237.72.51])
- by fmsmga001.fm.intel.com with SMTP; 26 Apr 2022 11:44:12 -0700
-Received: by stinkbox (sSMTP sendmail emulation);
- Tue, 26 Apr 2022 21:44:12 +0300
-Date: Tue, 26 Apr 2022 21:44:12 +0300
-From: Ville =?iso-8859-1?Q?Syrj=E4l=E4?= <ville.syrjala@linux.intel.com>
-To: "Souza, Jose" <jose.souza@intel.com>
-Subject: Re: [PATCH 1/3] drm: Add infrastructure to allow seamless mode
- switches
-Message-ID: <Ymg9fHWZ1bG4bG35@intel.com>
-References: <20220421192205.32649-1-jose.souza@intel.com>
- <Ymg1MNwleCRmefYG@intel.com>
- <7bba2ab1056a3cfd8ff737470ba5d41884243bc4.camel@intel.com>
+Received: from mail-pg1-x533.google.com (mail-pg1-x533.google.com
+ [IPv6:2607:f8b0:4864:20::533])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 7E39810E153
+ for <dri-devel@lists.freedesktop.org>; Tue, 26 Apr 2022 18:47:11 +0000 (UTC)
+Received: by mail-pg1-x533.google.com with SMTP id s137so16793408pgs.5
+ for <dri-devel@lists.freedesktop.org>; Tue, 26 Apr 2022 11:47:11 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=chromium.org; s=google;
+ h=from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=iNPhuCT76qA1HQ8jsp8ivJVMa3tulsabXFtzJpJBhPs=;
+ b=d0R9Datgcjx0dtRH18O4eGeuP/02RmWwNyFLxcUk94GR9KyWIR5HHfvio5VldwlFY/
+ POd6UXcXZ3ABHMsIn954aXk19N1evea074yhvchiWA+N6RouViWkvoLmYWrzocY1sGMn
+ rL/XObfXzumEiwmDgAy6r3BNCbFRdLZqhpLBs=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=iNPhuCT76qA1HQ8jsp8ivJVMa3tulsabXFtzJpJBhPs=;
+ b=QWD92uRdEFmS5QsW1ce72yvP7zH/7/GNI+EpBIysxGcrUDK17Zj2fiIfbDFhqom19l
+ vXo8fP4bbN9dPW/DmK2DINtcq9l86EcUHvXD0xv9tsU1gdgR7kBXBHpEdV/6MlI0lxQV
+ yBKmokM21Klig3MwUcT8qFQe/IPRocuCpJ/UuQUL0zhhcy7Bm5FnvzFHFaQ6XSACMTL/
+ 9DwiEHfF/kgggRtZsrHk8ceTtrc8DXYK/nHVZUmDx6/6f5/DY6yad349GOiS6quxFgGJ
+ qJ2ngG2NSsyodw1TPnnd7HqMvJPp5CCMQw0bp4MiL46QDuSObRLEbay+W443lO7HNMRw
+ atqg==
+X-Gm-Message-State: AOAM532Z8/Jc8uNHyZUx6mo08UrGmIcHFf8yglAr1OsImcR3PHztzwWu
+ hp0nBo2ggutGbjRyInIA244730dP74D9C512b30+5w==
+X-Google-Smtp-Source: ABdhPJzpVJ4/P4pT54blJ/GUKBW2RU9EpDtmWHh7QkA9X5s7rM+Lwfc6H9IyqTdQUFnUIeJSkVZe7g==
+X-Received: by 2002:a65:6a16:0:b0:39d:4f3:67e6 with SMTP id
+ m22-20020a656a16000000b0039d04f367e6mr21199191pgu.84.1650998830924; 
+ Tue, 26 Apr 2022 11:47:10 -0700 (PDT)
+Received: from tictac2.mtv.corp.google.com
+ ([2620:15c:202:201:8e92:9f42:eda6:c0ee])
+ by smtp.gmail.com with ESMTPSA id
+ p185-20020a62d0c2000000b0050d1f7c515esm12584396pfg.219.2022.04.26.11.47.09
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Tue, 26 Apr 2022 11:47:10 -0700 (PDT)
+From: Douglas Anderson <dianders@chromium.org>
+To: dri-devel@lists.freedesktop.org
+Subject: [PATCH 1/2] drm/probe-helper: Add helper for
+ drm_helper_probe_single_connector_modes()
+Date: Tue, 26 Apr 2022 11:46:50 -0700
+Message-Id: <20220426114627.1.I2dd93486c6952bd52f2020904de0133970d11b29@changeid>
+X-Mailer: git-send-email 2.36.0.rc2.479.g8af0fa9b8e-goog
 MIME-Version: 1.0
-Content-Type: text/plain; charset=iso-8859-1
-Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
-In-Reply-To: <7bba2ab1056a3cfd8ff737470ba5d41884243bc4.camel@intel.com>
-X-Patchwork-Hint: comment
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -62,167 +66,158 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: "intel-gfx@lists.freedesktop.org" <intel-gfx@lists.freedesktop.org>,
- "seanpaul@chromium.org" <seanpaul@chromium.org>, "Srinivas,
- Vidya" <vidya.srinivas@intel.com>,
- "dri-devel@lists.freedesktop.org" <dri-devel@lists.freedesktop.org>
+Cc: quic_sbillaka@quicinc.com, Douglas Anderson <dianders@chromium.org>,
+ Thomas Zimmermann <tzimmermann@suse.de>, David Airlie <airlied@linux.ie>,
+ linux-arm-msm@vger.kernel.org, quic_abhinavk@quicinc.com,
+ quic_khsieh@quicinc.com, dmitry.baryshkov@linaro.org,
+ quic_aravindh@quicinc.com, swboyd@chromium.org, linux-kernel@vger.kernel.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Tue, Apr 26, 2022 at 06:32:01PM +0000, Souza, Jose wrote:
-> On Tue, 2022-04-26 at 21:08 +0300, Ville Syrjälä wrote:
-> > On Thu, Apr 21, 2022 at 12:22:03PM -0700, José Roberto de Souza wrote:
-> > > Intel hardware supports change between modes with different refresh
-> > > rates without any glitches or visual artifacts, that feature is called
-> > > seamless DRRS.
-> > > 
-> > > So far i915 driver was automatically changing between preferred panel
-> > > mode and lower refresh rate mode based on idleness but ChromeOS
-> > > compositor team is requesting to be in control of the mode switch.
-> > > So for a certain types of content it can switch to mode with a lower
-> > > refresh rate without user noticing a thing and saving power.
-> > > 
-> > > This seamless mode switch will be triggered when user-space dispatch
-> > > a atomic commit with the new mode and clears the
-> > > DRM_MODE_ATOMIC_ALLOW_MODESET flag.
-> > > 
-> > > A driver that don't implement atomic_seamless_mode_switch_check
-> > > function will continue to fail in the atomic check phase with
-> > > "[CRTC:%d:%s] requires full modeset" debug message.
-> > > While a driver that implements it and support the seamless change
-> > > between old and new mode will return 0 otherwise it should return the
-> > > appropried errno.
-> > > 
-> > > So here adding basic drm infrastructure to that be supported by i915
-> > > and other drivers.
-> > 
-> > I don't see the need for any extra infrastructure for this.
-> > 
-> > I think we just need:
-> > - fix the fastset code to not suck
-> 
-> How would it know that only mode changed and not all other things that causes mode_changed to be set?
-> For example: intel_digital_connector_atomic_check()
+The drm_helper_probe_single_connector_modes() is a bit long. Let's
+break a chunk off to update and validate modes. This helps avoid one
+goto and also will allow us to more easily call the helper a second
+time in a future patch without adding looping or another goto.
 
-That's what the fastset stuff does. It checks if anything changes
-that needs a full modeset or not.
+This change is intended to be a no-op change--just code movement.
 
-> 
-> > - reprogram M/N during fastset
-> > - calculate eDP link params using panel's highest refresh rate mode
-> >   to make sure we get the same link params for all refresh rates
-> > 
-> > > 
-> > > Cc: Vidya Srinivas <vidya.srinivas@intel.com>
-> > > Cc: Sean Paul <seanpaul@chromium.org>
-> > > Cc: Ville Syrjälä <ville.syrjala@linux.intel.com>
-> > > Signed-off-by: José Roberto de Souza <jose.souza@intel.com>
-> > > ---
-> > >  drivers/gpu/drm/drm_atomic.c              |  1 +
-> > >  drivers/gpu/drm/drm_atomic_helper.c       | 16 +++++++++++++++
-> > >  drivers/gpu/drm/drm_atomic_state_helper.c |  1 +
-> > >  include/drm/drm_crtc.h                    | 25 +++++++++++++++++++++++
-> > >  4 files changed, 43 insertions(+)
-> > > 
-> > > diff --git a/drivers/gpu/drm/drm_atomic.c b/drivers/gpu/drm/drm_atomic.c
-> > > index 58c0283fb6b0c..21525f9f4b4c1 100644
-> > > --- a/drivers/gpu/drm/drm_atomic.c
-> > > +++ b/drivers/gpu/drm/drm_atomic.c
-> > > @@ -437,6 +437,7 @@ static void drm_atomic_crtc_print_state(struct drm_printer *p,
-> > >  	drm_printf(p, "\tself_refresh_active=%d\n", state->self_refresh_active);
-> > >  	drm_printf(p, "\tplanes_changed=%d\n", state->planes_changed);
-> > >  	drm_printf(p, "\tmode_changed=%d\n", state->mode_changed);
-> > > +	drm_printf(p, "\tseamless_mode_changed=%d\n", state->seamless_mode_changed);
-> > >  	drm_printf(p, "\tactive_changed=%d\n", state->active_changed);
-> > >  	drm_printf(p, "\tconnectors_changed=%d\n", state->connectors_changed);
-> > >  	drm_printf(p, "\tcolor_mgmt_changed=%d\n", state->color_mgmt_changed);
-> > > diff --git a/drivers/gpu/drm/drm_atomic_helper.c b/drivers/gpu/drm/drm_atomic_helper.c
-> > > index 9603193d2fa13..e6f3a966f7b86 100644
-> > > --- a/drivers/gpu/drm/drm_atomic_helper.c
-> > > +++ b/drivers/gpu/drm/drm_atomic_helper.c
-> > > @@ -631,6 +631,22 @@ drm_atomic_helper_check_modeset(struct drm_device *dev,
-> > >  			drm_dbg_atomic(dev, "[CRTC:%d:%s] mode changed\n",
-> > >  				       crtc->base.id, crtc->name);
-> > >  			new_crtc_state->mode_changed = true;
-> > > +
-> > > +			if (!state->allow_modeset &&
-> > > +			    crtc->funcs->atomic_seamless_mode_switch_check) {
-> > > +				ret = crtc->funcs->atomic_seamless_mode_switch_check(state, crtc);
-> > > +				if (ret == -EOPNOTSUPP) {
-> > > +					drm_dbg_atomic(dev, "[CRTC:%d:%s] Seamless mode switch not supported\n",
-> > > +						       crtc->base.id, crtc->name);
-> > > +					return ret;
-> > > +				}
-> > > +
-> > > +				if (ret < 0)
-> > > +					return ret;
-> > > +
-> > > +				new_crtc_state->seamless_mode_changed = true;
-> > > +				new_crtc_state->mode_changed = false;
-> > > +			}
-> > >  		}
-> > >  
-> > >  		if (old_crtc_state->enable != new_crtc_state->enable) {
-> > > diff --git a/drivers/gpu/drm/drm_atomic_state_helper.c b/drivers/gpu/drm/drm_atomic_state_helper.c
-> > > index 3b6d3bdbd0996..c093073ea6e11 100644
-> > > --- a/drivers/gpu/drm/drm_atomic_state_helper.c
-> > > +++ b/drivers/gpu/drm/drm_atomic_state_helper.c
-> > > @@ -142,6 +142,7 @@ void __drm_atomic_helper_crtc_duplicate_state(struct drm_crtc *crtc,
-> > >  	if (state->gamma_lut)
-> > >  		drm_property_blob_get(state->gamma_lut);
-> > >  	state->mode_changed = false;
-> > > +	state->seamless_mode_changed = false;
-> > >  	state->active_changed = false;
-> > >  	state->planes_changed = false;
-> > >  	state->connectors_changed = false;
-> > > diff --git a/include/drm/drm_crtc.h b/include/drm/drm_crtc.h
-> > > index a70baea0636ca..b7ce378d679d3 100644
-> > > --- a/include/drm/drm_crtc.h
-> > > +++ b/include/drm/drm_crtc.h
-> > > @@ -140,6 +140,16 @@ struct drm_crtc_state {
-> > >  	 */
-> > >  	bool mode_changed : 1;
-> > >  
-> > > +	/**
-> > > +	 * @seamless_mode_changed: @mode has been changed but user-space
-> > > +	 * is requesting to change to the new mode with a fastset and driver
-> > > +	 * supports this request.
-> > > +	 * To be used by drivers to steer the atomic commit control flow to
-> > > +	 * appropriate paths to change mode without any visual corruption.
-> > > +	 * Never set together with @mode_changed.
-> > > +	 */
-> > > +	bool seamless_mode_changed : 1;
-> > > +
-> > >  	/**
-> > >  	 * @active_changed: @active has been toggled. Used by the atomic
-> > >  	 * helpers and drivers to steer the atomic commit control flow. See also
-> > > @@ -939,6 +949,21 @@ struct drm_crtc_funcs {
-> > >  				     int *max_error,
-> > >  				     ktime_t *vblank_time,
-> > >  				     bool in_vblank_irq);
-> > > +
-> > > +	/**
-> > > +	 * @atomic_seamless_mode_switch_check
-> > > +	 *
-> > > +	 * Called when user-space wants to change mode without do a modeset.
-> > > +	 * Drivers can optionally support do a mode switch without any visual
-> > > +	 * corruption when changing between certain modes.
-> > > +	 *
-> > > +	 * Returns:
-> > > +	 * Zero if possible to seamless switch mode, -EOPNOTSUPP if not
-> > > +	 * supported seamless mode change or appropriate errno if an error
-> > > +	 * happened.
-> > > +	 */
-> > > +	int (*atomic_seamless_mode_switch_check)(struct drm_atomic_state *state,
-> > > +						 struct drm_crtc *crtc);
-> > >  };
-> > >  
-> > >  /**
-> > > -- 
-> > > 2.36.0
-> > 
-> 
+Signed-off-by: Douglas Anderson <dianders@chromium.org>
+---
 
+ drivers/gpu/drm/drm_probe_helper.c | 105 ++++++++++++++++-------------
+ 1 file changed, 59 insertions(+), 46 deletions(-)
+
+diff --git a/drivers/gpu/drm/drm_probe_helper.c b/drivers/gpu/drm/drm_probe_helper.c
+index 682359512996..819225629010 100644
+--- a/drivers/gpu/drm/drm_probe_helper.c
++++ b/drivers/gpu/drm/drm_probe_helper.c
+@@ -354,6 +354,61 @@ drm_helper_probe_detect(struct drm_connector *connector,
+ }
+ EXPORT_SYMBOL(drm_helper_probe_detect);
+ 
++static bool _drm_helper_update_and_validate(struct drm_connector *connector,
++					    uint32_t maxX, uint32_t maxY,
++					    struct drm_modeset_acquire_ctx *ctx)
++{
++	struct drm_device *dev = connector->dev;
++	struct drm_display_mode *mode;
++	int mode_flags = 0;
++	int ret;
++
++	drm_connector_list_update(connector);
++
++	if (connector->interlace_allowed)
++		mode_flags |= DRM_MODE_FLAG_INTERLACE;
++	if (connector->doublescan_allowed)
++		mode_flags |= DRM_MODE_FLAG_DBLSCAN;
++	if (connector->stereo_allowed)
++		mode_flags |= DRM_MODE_FLAG_3D_MASK;
++
++	list_for_each_entry(mode, &connector->modes, head) {
++		if (mode->status != MODE_OK)
++			continue;
++
++		mode->status = drm_mode_validate_driver(dev, mode);
++		if (mode->status != MODE_OK)
++			continue;
++
++		mode->status = drm_mode_validate_size(mode, maxX, maxY);
++		if (mode->status != MODE_OK)
++			continue;
++
++		mode->status = drm_mode_validate_flag(mode, mode_flags);
++		if (mode->status != MODE_OK)
++			continue;
++
++		ret = drm_mode_validate_pipeline(mode, connector, ctx,
++						 &mode->status);
++		if (ret) {
++			drm_dbg_kms(dev,
++				    "drm_mode_validate_pipeline failed: %d\n",
++				    ret);
++
++			if (drm_WARN_ON_ONCE(dev, ret != -EDEADLK))
++				mode->status = MODE_ERROR;
++			else
++				return true;
++		}
++
++		if (mode->status != MODE_OK)
++			continue;
++		mode->status = drm_mode_validate_ycbcr420(mode, connector);
++	}
++
++	return false;
++}
++
+ /**
+  * drm_helper_probe_single_connector_modes - get complete set of display modes
+  * @connector: connector to probe
+@@ -421,7 +476,6 @@ int drm_helper_probe_single_connector_modes(struct drm_connector *connector,
+ 	const struct drm_connector_helper_funcs *connector_funcs =
+ 		connector->helper_private;
+ 	int count = 0, ret;
+-	int mode_flags = 0;
+ 	bool verbose_prune = true;
+ 	enum drm_connector_status old_status;
+ 	struct drm_modeset_acquire_ctx ctx;
+@@ -519,52 +573,11 @@ int drm_helper_probe_single_connector_modes(struct drm_connector *connector,
+ 			   connector->status == connector_status_unknown))
+ 		count = drm_add_modes_noedid(connector, 1024, 768);
+ 	count += drm_helper_probe_add_cmdline_mode(connector);
+-	if (count == 0)
+-		goto prune;
+-
+-	drm_connector_list_update(connector);
+-
+-	if (connector->interlace_allowed)
+-		mode_flags |= DRM_MODE_FLAG_INTERLACE;
+-	if (connector->doublescan_allowed)
+-		mode_flags |= DRM_MODE_FLAG_DBLSCAN;
+-	if (connector->stereo_allowed)
+-		mode_flags |= DRM_MODE_FLAG_3D_MASK;
+-
+-	list_for_each_entry(mode, &connector->modes, head) {
+-		if (mode->status != MODE_OK)
+-			continue;
+-
+-		mode->status = drm_mode_validate_driver(dev, mode);
+-		if (mode->status != MODE_OK)
+-			continue;
+-
+-		mode->status = drm_mode_validate_size(mode, maxX, maxY);
+-		if (mode->status != MODE_OK)
+-			continue;
+-
+-		mode->status = drm_mode_validate_flag(mode, mode_flags);
+-		if (mode->status != MODE_OK)
+-			continue;
+-
+-		ret = drm_mode_validate_pipeline(mode, connector, &ctx,
+-						 &mode->status);
+-		if (ret) {
+-			drm_dbg_kms(dev,
+-				    "drm_mode_validate_pipeline failed: %d\n",
+-				    ret);
+-
+-			if (drm_WARN_ON_ONCE(dev, ret != -EDEADLK)) {
+-				mode->status = MODE_ERROR;
+-			} else {
+-				drm_modeset_backoff(&ctx);
+-				goto retry;
+-			}
++	if (count != 0) {
++		if (_drm_helper_update_and_validate(connector, maxX, maxY, &ctx)) {
++			drm_modeset_backoff(&ctx);
++			goto retry;
+ 		}
+-
+-		if (mode->status != MODE_OK)
+-			continue;
+-		mode->status = drm_mode_validate_ycbcr420(mode, connector);
+ 	}
+ 
+ prune:
 -- 
-Ville Syrjälä
-Intel
+2.36.0.rc2.479.g8af0fa9b8e-goog
+
