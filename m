@@ -1,56 +1,144 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id D2F5050EE5D
-	for <lists+dri-devel@lfdr.de>; Tue, 26 Apr 2022 03:58:38 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 1D24450EE62
+	for <lists+dri-devel@lfdr.de>; Tue, 26 Apr 2022 03:59:09 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id CA94E10E17E;
-	Tue, 26 Apr 2022 01:58:35 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 301D710E356;
+	Tue, 26 Apr 2022 01:59:07 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mailgw02.mediatek.com (unknown [210.61.82.184])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 630F810E17E
- for <dri-devel@lists.freedesktop.org>; Tue, 26 Apr 2022 01:58:33 +0000 (UTC)
-X-UUID: 9195ffa0bb584458bdb89e262764789c-20220426
-X-CID-P-RULE: Release_Ham
-X-CID-O-INFO: VERSION:1.1.4, REQID:65318cd4-b088-48af-9168-170ab149b110, OB:0,
- LO
- B:0,IP:0,URL:0,TC:0,Content:0,EDM:0,RT:0,SF:0,FILE:0,RULE:Release_Ham,ACTI
- ON:release,TS:0
-X-CID-META: VersionHash:faefae9, CLOUDID:7be916f0-06b0-4305-bfbf-554bfc9d151a,
- C
- OID:IGNORED,Recheck:0,SF:nil,TC:nil,Content:0,EDM:-3,File:nil,QS:0,BEC:nil
-X-UUID: 9195ffa0bb584458bdb89e262764789c-20220426
-Received: from mtkexhb01.mediatek.inc [(172.21.101.102)] by
- mailgw02.mediatek.com (envelope-from <ck.hu@mediatek.com>)
- (Generic MTA with TLSv1.2 ECDHE-RSA-AES256-SHA384 256/256)
- with ESMTP id 1969511146; Tue, 26 Apr 2022 09:58:27 +0800
-Received: from mtkexhb02.mediatek.inc (172.21.101.103) by
- mtkmbs10n1.mediatek.inc (172.21.101.34) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_CBC_SHA384) id
- 15.2.792.15; Tue, 26 Apr 2022 09:58:26 +0800
-Received: from mtkcas10.mediatek.inc (172.21.101.39) by mtkexhb02.mediatek.inc
- (172.21.101.103) with Microsoft SMTP Server (TLS) id 15.0.1497.2;
- Tue, 26 Apr 2022 09:58:25 +0800
-Received: from mtksdccf07 (172.21.84.99) by mtkcas10.mediatek.inc
- (172.21.101.73) with Microsoft SMTP Server id 15.0.1497.2 via Frontend
- Transport; Tue, 26 Apr 2022 09:58:24 +0800
-Message-ID: <a9e026c2018668057b8482c27eeae991667c46d3.camel@mediatek.com>
-Subject: Re: [PATCH v1, 1/1] drm/mediatek: add lut diff flag for new gamma
- hardware support
-From: CK Hu <ck.hu@mediatek.com>
-To: Yongqiang Niu <yongqiang.niu@mediatek.com>, Chun-Kuang Hu
- <chunkuang.hu@kernel.org>
-Date: Tue, 26 Apr 2022 09:58:24 +0800
-In-Reply-To: <20220420130617.814-2-yongqiang.niu@mediatek.com>
-References: <20220420130617.814-1-yongqiang.niu@mediatek.com>
- <20220420130617.814-2-yongqiang.niu@mediatek.com>
-Content-Type: text/plain; charset="UTF-8"
-X-Mailer: Evolution 3.28.5-0ubuntu0.18.04.2 
+Received: from esa.hc3962-90.iphmx.com (esa.hc3962-90.iphmx.com
+ [216.71.142.165])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 1615910E92B;
+ Tue, 26 Apr 2022 01:59:06 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=quicinc.com; i=@quicinc.com; q=dns/txt; s=qccesdkim1;
+ t=1650938346; x=1651543146;
+ h=from:to:cc:subject:date:message-id:references:
+ in-reply-to:content-transfer-encoding:mime-version;
+ bh=oyFAu1dz9Vgmn0mnsFNqJ+duogmT17B23gUvlCmkcAY=;
+ b=vFSeikvyaNRjUKe1jWrKpNI+p88/dhYwuZYQsSTJvZpgVxt4BEdwT0Bf
+ e/4t8jFCpffc4/2jC1vbIZLAnmCfVSZBxMOCgpQ33IbE4ksLLGKNfsCnN
+ YVBFsIb7WV2dr/DVwK/I4OszvScpcdhIgU8yls4fLaPXlcLFNHp6VcT8E 8=;
+Received: from mail-dm6nam10lp2106.outbound.protection.outlook.com (HELO
+ NAM10-DM6-obe.outbound.protection.outlook.com) ([104.47.58.106])
+ by ob1.hc3962-90.iphmx.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 26 Apr 2022 01:59:03 +0000
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=dMdkHY+ezGNsYWyZTBXmUBdSBDZZY+vnc27js0PudRPXEVdXBnrfZiKgMZMx+3IEztkUdV3e2SWkG1OgLoQMesfF4ir4bH79eHBF/i6olGOKv8eZSVNboJUzW2S9aMXSP99KcILrHMe5tOeGVUxGh5il47Ak9wRekgyU/VEI/zp5RM8lsiM1D3Eemk11AbNSsE8mWUPg1m73wt2y1Nbmcdf8zlLfeCJOT0s5/alhfs+ROg0STu/Ks0v2HEyTUZzNRnZvltydKnHbpb2FhI+xy9/GfhI1bXIHNvM4bFlTbfrpTM01PMGXCiFCylvaYVUhWcOylZYU8ouzvNbLa8fOhg==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=oyFAu1dz9Vgmn0mnsFNqJ+duogmT17B23gUvlCmkcAY=;
+ b=UrqfklSf/Sp22s884FFIseRPvLfcZDLLu24E1s6X2GDo7NhEDAkHy9VjAXh20dDaB0yhy1mUOKLTPXFTisnWoTXus6lnYCYxZEQIYkIuPV0Lb8fgkOMB8TeUNbtyLzy9Rg8dlZDt02MQIHHLISstnosaCWAG0AZpN5idFqTVFk1uSPf3yK7ulUItvG+IU76JZEnzUP/LIYFW3Y9acfLGQIA5OCmNmhvSop2e9+sFLsVVGFDwWg6RYZETZXGu/HGEzUln/po7WOZY+ugLrpVetlkUPy3svIyBDMpctD9a0Q7aSp+D5+qsxhsL2okvzY04IUvNGaXXrHdiducKTVI1Jg==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=quicinc.com; dmarc=pass action=none header.from=quicinc.com;
+ dkim=pass header.d=quicinc.com; arc=none
+Received: from MW4PR02MB7186.namprd02.prod.outlook.com (2603:10b6:303:73::6)
+ by BYAPR02MB5831.namprd02.prod.outlook.com (2603:10b6:a03:118::16) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.5186.14; Tue, 26 Apr
+ 2022 01:58:59 +0000
+Received: from MW4PR02MB7186.namprd02.prod.outlook.com
+ ([fe80::1d18:abb7:c311:543f]) by MW4PR02MB7186.namprd02.prod.outlook.com
+ ([fe80::1d18:abb7:c311:543f%4]) with mapi id 15.20.5186.021; Tue, 26 Apr 2022
+ 01:58:59 +0000
+From: "Sankeerth Billakanti (QUIC)" <quic_sbillaka@quicinc.com>
+To: "dmitry.baryshkov@linaro.org" <dmitry.baryshkov@linaro.org>, Stephen Boyd
+ <swboyd@chromium.org>, "Sankeerth Billakanti (QUIC)"
+ <quic_sbillaka@quicinc.com>, "devicetree@vger.kernel.org"
+ <devicetree@vger.kernel.org>, "dri-devel@lists.freedesktop.org"
+ <dri-devel@lists.freedesktop.org>, "freedreno@lists.freedesktop.org"
+ <freedreno@lists.freedesktop.org>, "linux-arm-msm@vger.kernel.org"
+ <linux-arm-msm@vger.kernel.org>, "linux-kernel@vger.kernel.org"
+ <linux-kernel@vger.kernel.org>
+Subject: RE: [PATCH v9 1/4] drm/msm/dp: Add eDP support via aux_bus
+Thread-Topic: [PATCH v9 1/4] drm/msm/dp: Add eDP support via aux_bus
+Thread-Index: AQHYVij33cMqRc4msEyXGXlYd2OJw6z8oayAgAPCyMCAALSfgIAADOGAgABQGCA=
+Date: Tue, 26 Apr 2022 01:58:58 +0000
+Message-ID: <MW4PR02MB71867AB85F2F4911B5B86E9CE1FB9@MW4PR02MB7186.namprd02.prod.outlook.com>
+References: <1650618666-15342-1-git-send-email-quic_sbillaka@quicinc.com>
+ <1650618666-15342-2-git-send-email-quic_sbillaka@quicinc.com>
+ <CAE-0n51VBDmOOworjpuB1nqVD-7055yqvn2Er5H13qgFC5R2AQ@mail.gmail.com>
+ <MW4PR02MB7186108BA0131C8BFC46A219E1F89@MW4PR02MB7186.namprd02.prod.outlook.com>
+ <CAE-0n51oUFkYuZ5qd2CbnaUGo2xcAjU+F0M+Kptk8b=7curH0Q@mail.gmail.com>
+ <664de9f0-a9a1-9b5e-9612-06a051c85434@linaro.org>
+In-Reply-To: <664de9f0-a9a1-9b5e-9612-06a051c85434@linaro.org>
+Accept-Language: en-US
+Content-Language: en-US
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+authentication-results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=quicinc.com;
+x-ms-exchange-messagesentrepresentingtype: 1
+x-ms-publictraffictype: Email
+x-ms-office365-filtering-correlation-id: b9a888db-1c7a-4139-673c-08da27285412
+x-ms-traffictypediagnostic: BYAPR02MB5831:EE_
+x-ld-processed: 98e9ba89-e1a1-4e38-9007-8bdabc25de1d,ExtAddr
+x-microsoft-antispam-prvs: <BYAPR02MB5831F35189684CC60CE044F59DFB9@BYAPR02MB5831.namprd02.prod.outlook.com>
+x-ms-exchange-senderadcheck: 1
+x-ms-exchange-antispam-relay: 0
+x-microsoft-antispam: BCL:0;
+x-microsoft-antispam-message-info: qnRX66TQAqmWY2fCgPM6+fpvM4yIm+LBHuV9U6U60fjnQ5wPHfsTqOGc78+DDtrGfGCg9VGUEEgriOJ/lOJSnRC9PU0Iqzsf9B5haUU1W3f9dcTJcI8RX/E9mGCKCkYqMm7xki6olKLiGkdrFtpUtP0Etp2YDq3LebkFT2F/vT3S5ehUB0U/VKz5zpZ8RoHY/Cfb8ydpZEOM7T8f4rg7ESuR1On3894LHWWFmb3wSyWafdd7X2xiri02yMw4L1JvB8C4f/qp1Y8oFuHy/4RXTM7BZNfgEwEC/K1jUrmwA4GQu5f7hQ0T3fZ87FZbw/PiDU2v7Wtt9p+VHU0biWGmCy8uNTp0k83RXk/k/eo3T04c/W53bqjRCpSARQcbEuYIeMh0IOKfvN6Qsa+aHFWhGIbsH4vkpHR+nS68k+dWYOhrC5xP3ZmRjFHhrIDpSAb/JMwSNZLcIuf9l8hW/kvyQ49UtdqKOJRxmA9vwVQwYG7LUXj/Ir46L6VpYd90hQOEt3q/qtrymMn5rXeHxAy4YTqJXIcwA+FGt1o22v1BGCVoYMVZLrPSIxyX8s9C6qn+VRRXMdf0UkmiaWOrJc0ZLGUR1JvHzXKt2/jDXh2MTkVfuAXxOQRtUtXlNGhkb31enR0s8LqetWSOgtMsxQwH8QwWuVMFAu/byGXr1GMZVJb2Wq9yjtJtvN7ADTAv0rPLD9Mqe63rsBxRnHorbXdJ1Q==
+x-forefront-antispam-report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
+ IPV:NLI; SFV:NSPM; H:MW4PR02MB7186.namprd02.prod.outlook.com; PTR:; CAT:NONE;
+ SFS:(13230001)(4636009)(366004)(86362001)(4326008)(66446008)(71200400001)(38070700005)(5660300002)(38100700002)(66556008)(9686003)(26005)(6506007)(7696005)(2906002)(122000001)(52536014)(64756008)(66476007)(7416002)(33656002)(8676002)(8936002)(55016003)(508600001)(66946007)(316002)(186003)(76116006)(54906003)(110136005);
+ DIR:OUT; SFP:1102; 
+x-ms-exchange-antispam-messagedata-chunkcount: 1
+x-ms-exchange-antispam-messagedata-0: =?utf-8?B?Q3YvUDRJRVhBM1dDNytHOWF1MjRqZnloS0FZRWlHZlhvaUhZeDdrMy85MXpU?=
+ =?utf-8?B?TEwvcUU1V0FUZGxLTlVRVy8wcWUvSk0vbnJnU240NjdlRi80TFpZY0hNOWJ5?=
+ =?utf-8?B?UzVDUHZ5d01sOWVsYUVtaVgwbktJNEdIT1Vhemx0ektsNDVabzRDRE5wMGsz?=
+ =?utf-8?B?R3hmRGlPaXB5NjJhdXZKNnVBWnNKNDczYUlldXd3TmJVVThiQ2hLME1BUFNm?=
+ =?utf-8?B?Rm12YXZyUmEwemxnTDQwU3AxWmRpaTV6aUhjQVRSQjNtZmZabENHb0d2M2JR?=
+ =?utf-8?B?UExKemRoVSt1Y01ZUkJRNWtQNEJYNDF0cWRLVTV6bVgzVkdrUXZOVHZpWDdJ?=
+ =?utf-8?B?aUM0NXBmVjZ1ajRtU25XSnlmZ29ldjVlSDBia2Y3R1RONWtwcU41eEdhZms3?=
+ =?utf-8?B?YVcwRlhKQ1JDSUtHVk5iM2dvM0ZEYkxHa2tDdmtON2xnbzVJcEJOOTdFblpz?=
+ =?utf-8?B?K1hmdE9YdzVBdnZaaG4rRjVEWFRZT3A0eFdYNWR2Q1VRMkdBdXVtT3hmK0JZ?=
+ =?utf-8?B?alhBQzZIRjZBTnlZbm8xMHR5VElvblJIY2psYzZQRWlBZVZDN1g5YUE1OFhI?=
+ =?utf-8?B?SWJQUnpTeHliUDFqSDBhV0s5Tnl4RDFSN2NFRDhaNzcrY2UvMEJUT3M4RHgz?=
+ =?utf-8?B?OHdyQUgvcCt0YWtZSjdqcU5URURqMVk2NnpwNHYxaU0yUWNRODlxOEpDaERC?=
+ =?utf-8?B?K0RncHoxSUQxMU5XYVU3bitZZHU0V1JZdXhQOGV2dTJrSFpYVmovTkRoeVR3?=
+ =?utf-8?B?YVFodVVOeDUzaG5iUFUxN3NEL3lyRUdpUStjb1dva2lmMHUrWkZQeWdmcTVT?=
+ =?utf-8?B?L004QXk1eWoxcVp0djRpNTZtajVmWUc5SWRHVG9sWDdvMEFwSy9uZlpGSXBT?=
+ =?utf-8?B?bE5zc20vN203VmMyeUNSUmhlQm1uVDNiN2tLZmJBU2ltYnBEMmNWTzAxNTN5?=
+ =?utf-8?B?QXMxMEJmcmNLUHNWSVN0cXAwcnNJdWp0MFFRMU1TUjl1Q0hyOW5tZlVTSm41?=
+ =?utf-8?B?d3IvZG81bStveTFvdE5vZ0UrK2hJRVFPT2s2U2tGMWpoRjY5YU5MNmRwWnRU?=
+ =?utf-8?B?dFZoUGw3OUtlRm5kSkVmeUI1bXlKKzZGTkw4Y1ArQ1ZTNXE5TFd1NU5WeFVT?=
+ =?utf-8?B?K1hqYklaclQyaDBZWkdqV0VqaXk3eGQyTDhOamdmTFZwWGxsVDRpNitWbmgr?=
+ =?utf-8?B?am1EWWVtMFk4c0c4Smc1RS9pQ0hlelFBQnJxOCtsTXFhU2tubUJXSlRubFlJ?=
+ =?utf-8?B?NmVjL1JPNmFyelhXTWVucTBISzdFeGRsUVNQbDVSRS9oaXZQVmxzdHAzeTlE?=
+ =?utf-8?B?aExmazdsdE5MNzhYcWQ5VW5HQlNabnc1VjgrTlo3UHpxSUxNS0Y4a3hDU0F3?=
+ =?utf-8?B?TkFISmE3MTN2OEdjbUM5cmNPZkVqa0lIS1NZby82enRtNTk5MExjM0RuZThB?=
+ =?utf-8?B?K0ZLYXEwbkcrR0Vlck1SZ2ZFL2ptMStqWjVtaUhxOUc2TXBoeWZWbDdiZGZo?=
+ =?utf-8?B?bDVTUjZoSGxxcitHc2F4a3BDcDJObTJXbnd6ZU9WOFBrSjVOajJjRGpMWHFo?=
+ =?utf-8?B?cnRIeDJtcU1ENGgvMXhkM0pMaE9TdThHR21NY015d1ZBNWsrU0xtYVlEZzlF?=
+ =?utf-8?B?eVMyQ1BFdElzNitWVTREbkExSkNYQktGYmxUdlRiMFk1QnlNWFo5L3JlN1Zs?=
+ =?utf-8?B?c2lxWmdsYlJFcnlVZTdGUk9qTmQvb1N3c0NMZVdld0FsVlppRTRxUDlrdWdv?=
+ =?utf-8?B?dFhoc01nbHNBNHVjVlArRWFSdTFTOGdBUmVFSlpCR3NiN09qUWcrR3BwVDFo?=
+ =?utf-8?B?RkJ2L1o4b2Ywd1kvTWlaZlladlkzZUZRTktEU1UrNmpUMVlQNE45VG1pUWJq?=
+ =?utf-8?B?ZkZrOERHTENzVUVSZkxpVVZIU2U5WHNJcFdxZjQvWXRINTBuM3RtbUxYU2lW?=
+ =?utf-8?B?SVYzNTlvM3VqRFkwYzVUTklXYlh5M1lFaUNQM1JnRjlEZ2xsL0JtemFXQXZS?=
+ =?utf-8?B?M0VHWENrcE53REZTOCtFOXh4ODI3TjZ6Z1FCejlBdHN1SmJDSldBU0tqenlP?=
+ =?utf-8?B?T2NIbFVDVk5yMEhSOUhTRXFPYTR0K3d2YnpyNFZCVzdyWXdadHBtQnJrdVpt?=
+ =?utf-8?B?S2tDS1RkQi9pOGJmZ3NraEtYVDlnSU1FVkgxdG5QNS80elc5dFEwN1JvYjA1?=
+ =?utf-8?B?eTJSSkxBS21BUEpnNWxtMTFGazFFMFdpSkJIelArcHJzZ09UcExoS1BUN3cw?=
+ =?utf-8?B?OGF4dE9nL0xuYjFCOUpMQVlIQjFSYnJvQXlZTG9WMjRMQ3htWEJoUEZja2h1?=
+ =?utf-8?B?Q1hFTzVxS3J2VWVkMlZVMXlJUlMrUVBCanhkSEJDU0ozSExLL2UyZz09?=
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: base64
 MIME-Version: 1.0
-Content-Transfer-Encoding: 7bit
-X-MTK: N
+X-OriginatorOrg: quicinc.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-AuthSource: MW4PR02MB7186.namprd02.prod.outlook.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: b9a888db-1c7a-4139-673c-08da27285412
+X-MS-Exchange-CrossTenant-originalarrivaltime: 26 Apr 2022 01:58:58.8701 (UTC)
+X-MS-Exchange-CrossTenant-fromentityheader: Hosted
+X-MS-Exchange-CrossTenant-id: 98e9ba89-e1a1-4e38-9007-8bdabc25de1d
+X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
+X-MS-Exchange-CrossTenant-userprincipalname: 4JOatIiAsZsqWzaBc/VvknDdJeURGMOAtwob7BBCc5PbIMjbqqQFOEYcjgolEirC6dCRAjAH6AwX+ah/kNi0jXPJikkLn5IKOONGWHAeBg4=
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: BYAPR02MB5831
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -63,225 +151,43 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Yongqiang Niu <yongqiang.niu@mediatek.corp-partner.google.com>,
- devicetree@vger.kernel.org, David Airlie <airlied@linux.ie>, Dennis YC
- Hsieh <dennis-yc.hsieh@mediatek.com>, Jassi Brar <jassisinghbrar@gmail.com>,
- linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
- Project_Global_Chrome_Upstream_Group@mediatek.com,
- Fabien Parent <fparent@baylibre.com>, Rob Herring <robh+dt@kernel.org>,
- linux-mediatek@lists.infradead.org, Hsin-Yi Wang <hsinyi@chromium.org>,
- Matthias Brugger <matthias.bgg@gmail.com>,
- linux-arm-kernel@lists.infradead.org
+Cc: quic_kalyant <quic_kalyant@quicinc.com>,
+ "dianders@chromium.org" <dianders@chromium.org>,
+ quic_vproddut <quic_vproddut@quicinc.com>,
+ "airlied@linux.ie" <airlied@linux.ie>, "Abhinav
+ Kumar \(QUIC\)" <quic_abhinavk@quicinc.com>, "steev@kali.org" <steev@kali.org>,
+ "Kuogee Hsieh \(QUIC\)" <quic_khsieh@quicinc.com>,
+ "seanpaul@chromium.org" <seanpaul@chromium.org>, "Aravind
+ Venkateswaran \(QUIC\)" <quic_aravindh@quicinc.com>,
+ "bjorn.andersson@linaro.org" <bjorn.andersson@linaro.org>,
+ "sean@poorly.run" <sean@poorly.run>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi, Yongqiang:
-
-On Wed, 2022-04-20 at 21:06 +0800, Yongqiang Niu wrote:
-> From: Yongqiang Niu <yongqiang.niu@mediatek.corp-partner.google.com>
-> 
-> mt8183 gamma module usage is different with before soc,
-> gamma odd(index start from 0) lut value set to hardware
-> register should be
-> the difference of current lut value with last lut value.
-> 
-> gamma function support both increase and decrease lut.
-
-How to set decrease lut?
-
-Original lut:
-12 10 8 6 4 2
-
-Does diff lut look like this?
-12 [2] 8 [2] 4 [2]
-
-How does hardware know that this is increase lut or decrease lut?
-
-> chrome os app set increase lut normally.
-> 
-> for increase lut example, chrome os user space set lut
-> like this(only r chanel for example):
-> 2 4 6 8 10 12.
-> 1) mt8183 gamma driver should set the gamma lut to hardware
-> register like this:
-> 2 [2] 6 [8] 10 [2]
-
-2 [2] 6 [2] 10 [2]
-
-> the value with [] is the difference value
-> 2) gamma hardware will restore the lut when apply gamma
-> function to display
-
-I don't know why do you mention the 'restore', any modification is
-related to this?
-
-> 
-> Signed-off-by: Yongqiang Niu <
-> yongqiang.niu@mediatek.corp-partner.google.com>
-> ---
->  drivers/gpu/drm/mediatek/mtk_disp_aal.c   |  4 ++-
->  drivers/gpu/drm/mediatek/mtk_disp_drv.h   |  2 +-
->  drivers/gpu/drm/mediatek/mtk_disp_gamma.c | 34 +++++++++++++++++++
-> ----
->  3 files changed, 32 insertions(+), 8 deletions(-)
-> 
-> diff --git a/drivers/gpu/drm/mediatek/mtk_disp_aal.c
-> b/drivers/gpu/drm/mediatek/mtk_disp_aal.c
-> index f46d4ab73d6a..e6378b074a17 100644
-> --- a/drivers/gpu/drm/mediatek/mtk_disp_aal.c
-> +++ b/drivers/gpu/drm/mediatek/mtk_disp_aal.c
-> @@ -23,6 +23,7 @@
->  
->  struct mtk_disp_aal_data {
->  	bool has_gamma;
-> +	bool lut_diff;
->  };
->  
->  /**
-> @@ -66,7 +67,7 @@ void mtk_aal_gamma_set(struct device *dev, struct
-> drm_crtc_state *state)
->  	struct mtk_disp_aal *aal = dev_get_drvdata(dev);
->  
->  	if (aal->data && aal->data->has_gamma)
-> -		mtk_gamma_set_common(aal->regs, state);
-> +		mtk_gamma_set_common(aal->regs, state, aal->data-
-> >lut_diff);
-
-gamma in aal does not support diff lut, so this would make things
-simple.
-
-mtk_gamma_set_common(aal->regs, state, false);
-
-Regards,
-CK
-
->  }
->  
->  void mtk_aal_start(struct device *dev)
-> @@ -148,6 +149,7 @@ static int mtk_disp_aal_remove(struct
-> platform_device *pdev)
->  
->  static const struct mtk_disp_aal_data mt8173_aal_driver_data = {
->  	.has_gamma = true,
-> +	.lut_diff = false,
->  };
->  
->  static const struct of_device_id mtk_disp_aal_driver_dt_match[] = {
-> diff --git a/drivers/gpu/drm/mediatek/mtk_disp_drv.h
-> b/drivers/gpu/drm/mediatek/mtk_disp_drv.h
-> index 86c3068894b1..3380651c6707 100644
-> --- a/drivers/gpu/drm/mediatek/mtk_disp_drv.h
-> +++ b/drivers/gpu/drm/mediatek/mtk_disp_drv.h
-> @@ -51,7 +51,7 @@ void mtk_gamma_config(struct device *dev, unsigned
-> int w,
->  		      unsigned int h, unsigned int vrefresh,
->  		      unsigned int bpc, struct cmdq_pkt *cmdq_pkt);
->  void mtk_gamma_set(struct device *dev, struct drm_crtc_state
-> *state);
-> -void mtk_gamma_set_common(void __iomem *regs, struct drm_crtc_state
-> *state);
-> +void mtk_gamma_set_common(void __iomem *regs, struct drm_crtc_state
-> *state, bool lut_diff);
->  void mtk_gamma_start(struct device *dev);
->  void mtk_gamma_stop(struct device *dev);
->  
-> diff --git a/drivers/gpu/drm/mediatek/mtk_disp_gamma.c
-> b/drivers/gpu/drm/mediatek/mtk_disp_gamma.c
-> index 3a5815ab4079..fec2e9a5b60d 100644
-> --- a/drivers/gpu/drm/mediatek/mtk_disp_gamma.c
-> +++ b/drivers/gpu/drm/mediatek/mtk_disp_gamma.c
-> @@ -27,6 +27,7 @@
->  
->  struct mtk_disp_gamma_data {
->  	bool has_dither;
-> +	bool lut_diff;
->  };
->  
->  /*
-> @@ -53,12 +54,13 @@ void mtk_gamma_clk_disable(struct device *dev)
->  	clk_disable_unprepare(gamma->clk);
->  }
->  
-> -void mtk_gamma_set_common(void __iomem *regs, struct drm_crtc_state
-> *state)
-> +void mtk_gamma_set_common(void __iomem *regs, struct drm_crtc_state
-> *state, bool lut_diff)
->  {
->  	unsigned int i, reg;
->  	struct drm_color_lut *lut;
->  	void __iomem *lut_base;
->  	u32 word;
-> +	u32 diff[3] = {0};
->  
->  	if (state->gamma_lut) {
->  		reg = readl(regs + DISP_GAMMA_CFG);
-> @@ -67,9 +69,20 @@ void mtk_gamma_set_common(void __iomem *regs,
-> struct drm_crtc_state *state)
->  		lut_base = regs + DISP_GAMMA_LUT;
->  		lut = (struct drm_color_lut *)state->gamma_lut->data;
->  		for (i = 0; i < MTK_LUT_SIZE; i++) {
-> -			word = (((lut[i].red >> 6) & LUT_10BIT_MASK) <<
-> 20) +
-> -				(((lut[i].green >> 6) & LUT_10BIT_MASK)
-> << 10) +
-> -				((lut[i].blue >> 6) & LUT_10BIT_MASK);
-> +
-> +			if (!lut_diff || (i % 2 == 0)) {
-> +				word = (((lut[i].red >> 6) &
-> LUT_10BIT_MASK) << 20) +
-> +					(((lut[i].green >> 6) &
-> LUT_10BIT_MASK) << 10) +
-> +					((lut[i].blue >> 6) &
-> LUT_10BIT_MASK);
-> +			} else {
-> +				diff[0] = abs((lut[i].red >> 6) -
-> (lut[i - 1].red >> 6));
-> +				diff[1] = abs((lut[i].green >> 6) -
-> (lut[i - 1].green >> 6));
-> +				diff[2] = abs((lut[i].blue >> 6) -
-> (lut[i - 1].blue >> 6));
-> +
-> +				word = ((diff[0] & LUT_10BIT_MASK) <<
-> 20) +
-> +					((diff[1] & LUT_10BIT_MASK) <<
-> 10) +
-> +					(diff[2] & LUT_10BIT_MASK);
-> +			}
->  			writel(word, (lut_base + i * 4));
->  		}
->  	}
-> @@ -78,8 +91,12 @@ void mtk_gamma_set_common(void __iomem *regs,
-> struct drm_crtc_state *state)
->  void mtk_gamma_set(struct device *dev, struct drm_crtc_state *state)
->  {
->  	struct mtk_disp_gamma *gamma = dev_get_drvdata(dev);
-> +	bool lut_diff = false;
-> +
-> +	if (gamma->data)
-> +		lut_diff = gamma->data->lut_diff;
->  
-> -	mtk_gamma_set_common(gamma->regs, state);
-> +	mtk_gamma_set_common(gamma->regs, state, lut_diff);
->  }
->  
->  void mtk_gamma_config(struct device *dev, unsigned int w,
-> @@ -176,10 +193,15 @@ static const struct mtk_disp_gamma_data
-> mt8173_gamma_driver_data = {
->  	.has_dither = true,
->  };
->  
-> +static const struct mtk_disp_gamma_data mt8183_gamma_driver_data = {
-> +	.lut_diff = true,
-> +};
-> +
->  static const struct of_device_id mtk_disp_gamma_driver_dt_match[] =
-> {
->  	{ .compatible = "mediatek,mt8173-disp-gamma",
->  	  .data = &mt8173_gamma_driver_data},
-> -	{ .compatible = "mediatek,mt8183-disp-gamma"},
-> +	{ .compatible = "mediatek,mt8183-disp-gamma",
-> +	  .data = &mt8183_gamma_driver_data},
->  	{},
->  };
->  MODULE_DEVICE_TABLE(of, mtk_disp_gamma_driver_dt_match);
-
+SGkgU3RlcGhlbiwNCg0KPj4+PiBRdW90aW5nIFNhbmtlZXJ0aCBCaWxsYWthbnRpICgyMDIyLTA0
+LTIyIDAyOjExOjAzKQ0KPj4+Pj4gZGlmZiAtLWdpdCBhL2RyaXZlcnMvZ3B1L2RybS9tc20vZHAv
+ZHBfZGlzcGxheS5jDQo+Pj4+PiBiL2RyaXZlcnMvZ3B1L2RybS9tc20vZHAvZHBfZGlzcGxheS5j
+DQo+Pj4+PiBpbmRleCBkN2ExOWQ2Li4wNTU2ODFhIDEwMDY0NA0KPj4+Pj4gLS0tIGEvZHJpdmVy
+cy9ncHUvZHJtL21zbS9kcC9kcF9kaXNwbGF5LmMNCj4+Pj4+ICsrKyBiL2RyaXZlcnMvZ3B1L2Ry
+bS9tc20vZHAvZHBfZGlzcGxheS5jDQo+Pj4+DQo+Pj4+IFNvbWUgbml0cGlja3MNCj4+Pj4NCj4+
+Pj4gUmV2aWV3ZWQtYnk6IFN0ZXBoZW4gQm95ZCA8c3dib3lkQGNocm9taXVtLm9yZz4NCj4+Pj4N
+Cj4+Pj4+IEBAIC0xNTA4LDcgKzE1MDksOCBAQCB2b2lkIG1zbV9kcF9pcnFfcG9zdGluc3RhbGwo
+c3RydWN0IG1zbV9kcA0KPj4+Pj4gKmRwX2Rpc3BsYXkpDQo+Pj4+Pg0KPj4+Pj4gICAgICAgICAg
+ZHBfaHBkX2V2ZW50X3NldHVwKGRwKTsNCj4+Pj4+DQo+Pj4+PiAtICAgICAgIGRwX2FkZF9ldmVu
+dChkcCwgRVZfSFBEX0lOSVRfU0VUVVAsIDAsIDEwMCk7DQo+Pj4+PiArICAgICAgIGlmICghZHBf
+ZGlzcGxheS0+aXNfZWRwKQ0KPj4+Pj4gKyAgICAgICAgICAgICAgIGRwX2FkZF9ldmVudChkcCwg
+RVZfSFBEX0lOSVRfU0VUVVAsIDAsIDEwMCk7DQo+Pj4+DQo+Pj4+IERpZCBpdCB0dXJuIG91dCB0
+aGF0IGluIGZhY3QgRFAgaXNuJ3QgcmVhZHkgc3RpbGwgdG8gc2V0dXAgZXZlbg0KPj4+PiBhZnRl
+ciBkZWxheWluZyB0aGUgaXJxPw0KPj4+Pg0KPj4+DQo+Pj4gVGhlIGhvc3RfaW5pdCwgY29uZmln
+X2hwZCwgcGh5X2luaXQgYW5kIGVuYWJsZV9pcnEgYXJlIGhhcHBlbmluZyBpbg0KPm1vZGVzZXRf
+aW5pdCBhbHJlYWR5IGZvciBlRFAuDQo+Pj4gU28sIEkgYW0gbm90IHNjaGVkdWxpbmcgdGhlIEVW
+X0hQRF9JTklUX1NFVFVQIGV2ZW50IGZvciBlRFAuIEkgYW0gbm90DQo+bW9kaWZ5aW5nIHRoZSBk
+ZWxheSBmb3IgRFAuDQo+Pg0KPj4gQ29vbC4gVGhhdCBkaWRuJ3QgYW5zd2VyIG15IHF1ZXN0aW9u
+IHRob3VnaC4gV2h5IGRvZXMgRFAgc3RpbGwgbmVlZA0KPj4gdGhlIGRlbGF5PyBJIHRob3VnaHQg
+cmVjZW50IGNoYW5nZXMgbWFkZSBpdCB1bm5lY2Vzc2FyeS4NCj4NCj5JJ2Qgc2F5IHRoYXQgaWYg
+aXQgaXMgbm90IG5lY2Vzc2FyeSwgaXQgc2hvdWxkIGJlIGNoYW5nZWQgaW4gdGhlIHNlcGFyYXRl
+IGNvbW1pdC4NCj5UaGUgcXVlc3Rpb24gaXMgdmFsaWQgbmV2ZXJ0aGVsZXNzLg0KPg0KDQpZZXMs
+IHRoYXQgaXMgcmlnaHQuIFRoZSBkZWxheSBpcyB1bm5lY2Vzc2FyeSB3aXRoIHRoZSByZWNlbnQg
+Y2hhbmdlcy4NCkxpa2UgRG1pdHJ5IHJpZ2h0bHkgc3VnZ2VzdGVkLCB3ZSB3aWxsIHJlbW92ZSB0
+aGUgZGVsYXkgaW4gYSBzZXBhcmF0ZSBjb21taXQuDQoNCj4NCj4tLQ0KPldpdGggYmVzdCB3aXNo
+ZXMNCj5EbWl0cnkNCg==
