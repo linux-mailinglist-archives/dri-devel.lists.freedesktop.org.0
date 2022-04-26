@@ -1,47 +1,47 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1F3FB5103C6
-	for <lists+dri-devel@lfdr.de>; Tue, 26 Apr 2022 18:42:33 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 3839C5103C8
+	for <lists+dri-devel@lfdr.de>; Tue, 26 Apr 2022 18:42:41 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 8FC5110E886;
-	Tue, 26 Apr 2022 16:42:28 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 62F6510E89C;
+	Tue, 26 Apr 2022 16:42:36 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from us-smtp-delivery-124.mimecast.com
  (us-smtp-delivery-124.mimecast.com [170.10.133.124])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 56DFF10E88C
- for <dri-devel@lists.freedesktop.org>; Tue, 26 Apr 2022 16:42:24 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id B7B8410E88C
+ for <dri-devel@lists.freedesktop.org>; Tue, 26 Apr 2022 16:42:28 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1650991343;
+ s=mimecast20190719; t=1650991347;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=9oGD1aVOxPfwlxyUj/4d02qUR9rbo+0pTblnupMLJM0=;
- b=aMqWnuNrosx3FnIX/QCMDhOpZxXwF5/FgyLPVFNyJpZS5So7cRBHAvC9e1ZOizDbE8xwre
- U7cyY6okWjOxND9R89Acp7dFRp/u6VKgBUCuspuBOxceXaCuv0XxACEEmVHq3WMF1v70IN
- MGu5rRbGVEDKsU0Qkf3Dm98BBQ1V+7o=
-Received: from mimecast-mx02.redhat.com (mimecast-mx02.redhat.com
- [66.187.233.88]) by relay.mimecast.com with ESMTP with STARTTLS
+ bh=W/+N+QQ461ib+TvPRqG8FBgRVnzHvofaeIKEDBoj86U=;
+ b=Zz/AmE8oZeDORv4oxVwOPCzQqB/RoF+xvFzI3Bc9gYeBNjra3DH3lWR391rIbWp+8opMG2
+ ceeaW9ImyWUls0fCSQsesz5p6UyL49C/CFJ0hyXdTM7JnmM1NtmIv/q61cTv40fYHWCeao
+ vBmxyr1e6xJZv2lZQhpUA1gRs/w0VOY=
+Received: from mimecast-mx02.redhat.com (mx3-rdu2.redhat.com
+ [66.187.233.73]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-228-a1BwDHxAOomZEpu0CiXdBg-1; Tue, 26 Apr 2022 12:42:20 -0400
-X-MC-Unique: a1BwDHxAOomZEpu0CiXdBg-1
+ us-mta-342-0fFTS3_ZOYuURlS0evKuvg-1; Tue, 26 Apr 2022 12:42:24 -0400
+X-MC-Unique: 0fFTS3_ZOYuURlS0evKuvg-1
 Received: from smtp.corp.redhat.com (int-mx04.intmail.prod.int.rdu2.redhat.com
  [10.11.54.4])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx02.redhat.com (Postfix) with ESMTPS id CF8AF800B28;
- Tue, 26 Apr 2022 16:42:19 +0000 (UTC)
+ by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 2CDA83C01D9B;
+ Tue, 26 Apr 2022 16:42:24 +0000 (UTC)
 Received: from hydra.redhat.com (unknown [10.39.193.129])
- by smtp.corp.redhat.com (Postfix) with ESMTP id CB5502024CB8;
- Tue, 26 Apr 2022 16:42:18 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 169982024CB8;
+ Tue, 26 Apr 2022 16:42:19 +0000 (UTC)
 From: Jocelyn Falempe <jfalempe@redhat.com>
 To: dri-devel@lists.freedesktop.org
-Subject: [PATCH 3/4] mgag200: remove unused flag
-Date: Tue, 26 Apr 2022 18:41:07 +0200
-Message-Id: <20220426164108.1051295-4-jfalempe@redhat.com>
+Subject: [PATCH 4/4] mgag200: remove mgag200_probe_vram()
+Date: Tue, 26 Apr 2022 18:41:08 +0200
+Message-Id: <20220426164108.1051295-5-jfalempe@redhat.com>
 In-Reply-To: <20220426164108.1051295-1-jfalempe@redhat.com>
 References: <20220426164108.1051295-1-jfalempe@redhat.com>
 MIME-Version: 1.0
@@ -69,42 +69,93 @@ Cc: Jocelyn Falempe <jfalempe@redhat.com>, michel@daenzer.net,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-The flag MGAG200_FLAG_HW_BUG_NO_STARTADD is no more used, because
-the framebuffer is now always at offset 0.
+This function writes some pattern to video memory, to check for conflict.
+In case of conflicts, it returns a random memory capacity (offset of the
+conflict).
+Using devm_arch_io_reserve_memtype_wc() should garantee that no other
+driver is using this memory region.
+In case of real memory conflicts, as it is video memory, the user will
+notice it easily. So there is no need for this function.
 
 Signed-off-by: Jocelyn Falempe <jfalempe@redhat.com>
 ---
- drivers/gpu/drm/mgag200/mgag200_drv.c | 3 +--
- drivers/gpu/drm/mgag200/mgag200_drv.h | 3 ---
- 2 files changed, 1 insertion(+), 5 deletions(-)
+ drivers/gpu/drm/mgag200/mgag200_mm.c | 50 ++++------------------------
+ 1 file changed, 7 insertions(+), 43 deletions(-)
 
-diff --git a/drivers/gpu/drm/mgag200/mgag200_drv.c b/drivers/gpu/drm/mgag200/mgag200_drv.c
-index 217844d71ab5..8659e1ca8009 100644
---- a/drivers/gpu/drm/mgag200/mgag200_drv.c
-+++ b/drivers/gpu/drm/mgag200/mgag200_drv.c
-@@ -306,8 +306,7 @@ mgag200_device_create(struct pci_dev *pdev, enum mga_type type, unsigned long fl
- static const struct pci_device_id mgag200_pciidlist[] = {
- 	{ PCI_VENDOR_ID_MATROX, 0x520, PCI_ANY_ID, PCI_ANY_ID, 0, 0, G200_PCI },
- 	{ PCI_VENDOR_ID_MATROX, 0x521, PCI_ANY_ID, PCI_ANY_ID, 0, 0, G200_AGP },
--	{ PCI_VENDOR_ID_MATROX, 0x522, PCI_ANY_ID, PCI_ANY_ID, 0, 0,
--		G200_SE_A | MGAG200_FLAG_HW_BUG_NO_STARTADD},
-+	{ PCI_VENDOR_ID_MATROX, 0x522, PCI_ANY_ID, PCI_ANY_ID, 0, 0, G200_SE_A },
- 	{ PCI_VENDOR_ID_MATROX, 0x524, PCI_ANY_ID, PCI_ANY_ID, 0, 0, G200_SE_B },
- 	{ PCI_VENDOR_ID_MATROX, 0x530, PCI_ANY_ID, PCI_ANY_ID, 0, 0, G200_EV },
- 	{ PCI_VENDOR_ID_MATROX, 0x532, PCI_ANY_ID, PCI_ANY_ID, 0, 0, G200_WB },
-diff --git a/drivers/gpu/drm/mgag200/mgag200_drv.h b/drivers/gpu/drm/mgag200/mgag200_drv.h
-index 4368112023f7..c7b6dc771ab3 100644
---- a/drivers/gpu/drm/mgag200/mgag200_drv.h
-+++ b/drivers/gpu/drm/mgag200/mgag200_drv.h
-@@ -201,9 +201,6 @@ enum mga_type {
- 	G200_EW3,
- };
+diff --git a/drivers/gpu/drm/mgag200/mgag200_mm.c b/drivers/gpu/drm/mgag200/mgag200_mm.c
+index fa996d46feed..68299b560a98 100644
+--- a/drivers/gpu/drm/mgag200/mgag200_mm.c
++++ b/drivers/gpu/drm/mgag200/mgag200_mm.c
+@@ -32,48 +32,6 @@
  
--/* HW does not handle 'startadd' field correct. */
--#define MGAG200_FLAG_HW_BUG_NO_STARTADD	(1ul << 8)
+ #include "mgag200_drv.h"
+ 
+-static size_t mgag200_probe_vram(struct mga_device *mdev, void __iomem *mem,
+-				 size_t size)
+-{
+-	int offset;
+-	int orig;
+-	int test1, test2;
+-	int orig1, orig2;
+-	size_t vram_size;
 -
- #define MGAG200_TYPE_MASK	(0x000000ff)
- #define MGAG200_FLAG_MASK	(0x00ffff00)
+-	/* Probe */
+-	orig = ioread16(mem);
+-	iowrite16(0, mem);
+-
+-	vram_size = size;
+-
+-	if ((mdev->type == G200_EW3) && (vram_size >= 0x1000000))
+-		vram_size = vram_size - 0x400000;
+-
+-	for (offset = 0x100000; offset < vram_size; offset += 0x4000) {
+-		orig1 = ioread8(mem + offset);
+-		orig2 = ioread8(mem + offset + 0x100);
+-
+-		iowrite16(0xaa55, mem + offset);
+-		iowrite16(0xaa55, mem + offset + 0x100);
+-
+-		test1 = ioread16(mem + offset);
+-		test2 = ioread16(mem);
+-
+-		iowrite16(orig1, mem + offset);
+-		iowrite16(orig2, mem + offset + 0x100);
+-
+-		if (test1 != 0xaa55)
+-			break;
+-
+-		if (test2)
+-			break;
+-	}
+-
+-	iowrite16(orig, mem);
+-
+-	return offset - 65536;
+-}
+ 
+ int mgag200_mm_init(struct mga_device *mdev)
+ {
+@@ -81,6 +39,7 @@ int mgag200_mm_init(struct mga_device *mdev)
+ 	struct pci_dev *pdev = to_pci_dev(dev->dev);
+ 	u8 misc;
+ 	resource_size_t start, len;
++	size_t vram_size;
+ 
+ 	WREG_ECRT(0x04, 0x00);
+ 
+@@ -106,7 +65,12 @@ int mgag200_mm_init(struct mga_device *mdev)
+ 	if (!mdev->vram)
+ 		return -ENOMEM;
+ 
+-	mdev->mc.vram_size = mgag200_probe_vram(mdev, mdev->vram, len);
++	vram_size = len;
++	/* G200_EW3 has only 12MB of memory */
++	if ((mdev->type == G200_EW3) && (vram_size >= 0x1000000))
++		vram_size -= 0x400000;
++
++	mdev->mc.vram_size = vram_size;
+ 	mdev->mc.vram_base = start;
+ 	mdev->mc.vram_window = len;
  
 -- 
 2.35.1
