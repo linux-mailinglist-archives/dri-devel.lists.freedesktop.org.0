@@ -2,69 +2,55 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4C43350EDC7
-	for <lists+dri-devel@lfdr.de>; Tue, 26 Apr 2022 02:46:15 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 46D1A50EDD4
+	for <lists+dri-devel@lfdr.de>; Tue, 26 Apr 2022 02:49:57 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id EB80E10E9E9;
-	Tue, 26 Apr 2022 00:46:12 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 0679F10E607;
+	Tue, 26 Apr 2022 00:49:55 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-lj1-x234.google.com (mail-lj1-x234.google.com
- [IPv6:2a00:1450:4864:20::234])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 97DEA10E9E9
- for <dri-devel@lists.freedesktop.org>; Tue, 26 Apr 2022 00:46:11 +0000 (UTC)
-Received: by mail-lj1-x234.google.com with SMTP id s27so4231845ljd.2
- for <dri-devel@lists.freedesktop.org>; Mon, 25 Apr 2022 17:46:11 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=message-id:date:mime-version:user-agent:subject:content-language:to
- :cc:references:from:in-reply-to:content-transfer-encoding;
- bh=EwXSMtNwKY3OlJZVs3rgiyqAPsTCrN/oQb/CnYT5rWw=;
- b=tiGec78C3eX03CT8JxH+c+XalgymeLsxTp54cuUCuURW2bemq1IWKM9XFNBiTMyBer
- zhrDgGfv0vxb2Lwsg2afelz63OlixkyvefYP7g5DEYjqvPwcgrYMkwo4/WEcdULc4i7P
- H7jh8XUba0mpfDlZQ6bacL+nq3CknKUYKXWcfpPHL0AsjRMlOguDzn91ppu8QEYN/8Rr
- al62fw50tsE/u1UDBdwC5TAGptzKYaD4Rrf6XCzNHStoI1GHzBoATgBsARSQosBQWWao
- OQRq1oi7lHFdH+/5UdaE14f9b29kP8MYZg4f1vVlmmUYBOay+SJ2Lu29uQEqHrCRcBVz
- mMgA==
+Received: from mail-oa1-f42.google.com (mail-oa1-f42.google.com
+ [209.85.160.42])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 0A59910E607
+ for <dri-devel@lists.freedesktop.org>; Tue, 26 Apr 2022 00:49:54 +0000 (UTC)
+Received: by mail-oa1-f42.google.com with SMTP id
+ 586e51a60fabf-e93ff05b23so4774104fac.9
+ for <dri-devel@lists.freedesktop.org>; Mon, 25 Apr 2022 17:49:53 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
- :content-language:to:cc:references:from:in-reply-to
- :content-transfer-encoding;
- bh=EwXSMtNwKY3OlJZVs3rgiyqAPsTCrN/oQb/CnYT5rWw=;
- b=k9+X/rCTOS/R8IPoKQtgYKcfa9go9pk+QkCeiCUBa9G5gYbbEy01NzQVgAPYorNeum
- AcXAaasRNtNBJDWJs0Xe9xElLvukz72Q9ww2Gp+NJqwCIttV7wJp5qKUQVjMsPM2Ls6z
- YjBXhfV5vKR4XtI1DIJikq/RbdjknntiP4so0xRlkcB/WOlScdu6bYc/++iszkLO+Bqo
- C70wCBp9+pbTSejxAaVnULFTfBnGJHdpNFSnvtj5OoL6x/Ydm5johoRLC1KxZJKaPRqp
- /CU00IeBw6xzX5aNJjDWbImgzCOBsq3kS2sgG2Z1aq8uPXtbSHd9Ea3J3HIdUFohSd4P
- D5Iw==
-X-Gm-Message-State: AOAM532k5Q33iLzssByz73mDbyBquJcAQHaCFU1l9uL0dRqULjcn2Do+
- p7XiYA5QHni3IUhdFDhg+N5BNw==
-X-Google-Smtp-Source: ABdhPJyz4Bu/3GDyhabs3JMflUhlHeOVlQDMYcPeY+sQ01TVHnWNs1c6frZbozUAdv5q5PvJWbaymw==
-X-Received: by 2002:a2e:300a:0:b0:24d:b373:2d41 with SMTP id
- w10-20020a2e300a000000b0024db3732d41mr12468937ljw.486.1650933969871; 
- Mon, 25 Apr 2022 17:46:09 -0700 (PDT)
-Received: from [192.168.1.211] ([37.153.55.125])
- by smtp.gmail.com with ESMTPSA id
- p1-20020a056512328100b0046e8ccf696csm1566274lfe.58.2022.04.25.17.46.09
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Mon, 25 Apr 2022 17:46:09 -0700 (PDT)
-Message-ID: <7163d07e-3f5d-1587-6a4f-cf22ff4b910a@linaro.org>
-Date: Tue, 26 Apr 2022 03:46:08 +0300
+ h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+ :mime-version:content-disposition:in-reply-to;
+ bh=1fdKOZi8iNJSd576TwWH5REYRKg0ya45cIe36/rUVWc=;
+ b=p9jIv427BPFJc3WJtMB7YYU1wCfEc02KRmhC4j4SXemjQ74Jp19vyFekYaJVXFEsKh
+ gA/QBtJjn1b62qzQmsLLcw8g4DYYgp/OAzP+UIvHUG6gaC5oa4f98piZHQko1rUtDFh/
+ zltp3kg0xDAMVqDPmq0pIBxbPFWA8yvPkM/S6yIx3X96QyK2L65+h0n2qZ6IhNiRqJnt
+ KOGCzBDEySYC+Guxi8iMzvSZG+6g7+6RL4Uq69gDsR7aAzeTy+juSTKmpsm6xatRvE91
+ iUbQEAzBU5G33+5mghd9uJ58en7wFKp6ljNzYEwRvpPu3rdA/3NvUiiM+QbA+7gqJ3k7
+ bKnQ==
+X-Gm-Message-State: AOAM531lxz8Uq2cdjUTbxWAhd5C427Dkd8tOfLyDtzUU/T68bmtQZMkh
+ wF7OSHaun5A8HiTo07squw==
+X-Google-Smtp-Source: ABdhPJyZwC2gPyiHHF3DH1b0aGQSRbDAaw1NCgexRfV7+BT7QuhWm2DyDyquBIjIYVF/PgYajJlUYQ==
+X-Received: by 2002:a05:6870:248b:b0:e5:9d7d:8795 with SMTP id
+ s11-20020a056870248b00b000e59d7d8795mr8106656oaq.74.1650934193227; 
+ Mon, 25 Apr 2022 17:49:53 -0700 (PDT)
+Received: from robh.at.kernel.org (66-90-144-107.dyn.grandenetworks.net.
+ [66.90.144.107]) by smtp.gmail.com with ESMTPSA id
+ dw11-20020a056870770b00b000e686d13875sm285196oab.15.2022.04.25.17.49.52
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Mon, 25 Apr 2022 17:49:52 -0700 (PDT)
+Received: (nullmailer pid 648664 invoked by uid 1000);
+ Tue, 26 Apr 2022 00:49:51 -0000
+Date: Mon, 25 Apr 2022 19:49:51 -0500
+From: Rob Herring <robh@kernel.org>
+To: Marek Vasut <marex@denx.de>
+Subject: Re: [PATCH v3 1/2] dt-bindings: display: bridge: ldb: Implement
+ simple NXP i.MX8MP LDB bridge
+Message-ID: <YmdBr905SdaUmq0W@robh.at.kernel.org>
+References: <20220423021625.512380-1-marex@denx.de>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.8.0
-Subject: Re: [PATCH v5 10/19] drm/msm/dpu: make changes to dpu_encoder to
- support virtual encoder
-Content-Language: en-GB
-To: Abhinav Kumar <quic_abhinavk@quicinc.com>, freedreno@lists.freedesktop.org
-References: <1650846730-19226-1-git-send-email-quic_abhinavk@quicinc.com>
- <1650846730-19226-11-git-send-email-quic_abhinavk@quicinc.com>
- <14b4955d-459a-927c-7568-6770b73efdae@linaro.org>
- <4ace513f-26c5-ad95-f71e-c7d869f944a2@quicinc.com>
-From: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
-In-Reply-To: <4ace513f-26c5-ad95-f71e-c7d869f944a2@quicinc.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20220423021625.512380-1-marex@denx.de>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -77,284 +63,153 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: markyacoub@chromium.org, liviu.dudau@arm.com,
- dri-devel@lists.freedesktop.org, swboyd@chromium.org, seanpaul@chromium.org,
- laurent.pinchart@ideasonboard.com, quic_jesszhan@quicinc.com,
- quic_aravindh@quicinc.com
+Cc: devicetree@vger.kernel.org, Peng Fan <peng.fan@nxp.com>,
+ Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
+ dri-devel@lists.freedesktop.org, robert.foss@linaro.org,
+ Maxime Ripard <maxime@cerno.tech>, Thomas Zimmermann <tzimmermann@suse.de>,
+ Robby Cai <robby.cai@nxp.com>, Sam Ravnborg <sam@ravnborg.org>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 26/04/2022 03:44, Abhinav Kumar wrote:
-> Hi Dmitry
+On Sat, Apr 23, 2022 at 04:16:24AM +0200, Marek Vasut wrote:
+> The i.MX8MP contains two syscon registers which are responsible
+> for configuring the on-SoC DPI-to-LVDS serializer. Add DT binding
+> which represents this serializer as a bridge.
 > 
-> On 4/25/2022 5:21 PM, Dmitry Baryshkov wrote:
->> On 25/04/2022 03:32, Abhinav Kumar wrote:
->>> Make changes to dpu_encoder to support virtual encoder needed
->>> to support writeback for dpu.
->>>
->>> changes in v4:
->>>     - squash dpu_encoder pieces from [1]
->>>
->>> [1] https://patchwork.freedesktop.org/patch/483099/?series=102964&rev=2
->>>
->>> Signed-off-by: Abhinav Kumar <quic_abhinavk@quicinc.com>
->>> ---
->>>   drivers/gpu/drm/msm/disp/dpu1/dpu_encoder.c      | 94 
->>> +++++++++++++++++++-----
->>>   drivers/gpu/drm/msm/disp/dpu1/dpu_encoder_phys.h |  7 ++
->>>   2 files changed, 83 insertions(+), 18 deletions(-)
->>>
->>> diff --git a/drivers/gpu/drm/msm/disp/dpu1/dpu_encoder.c 
->>> b/drivers/gpu/drm/msm/disp/dpu1/dpu_encoder.c
->>> index 25c7eda..d1e92d89 100644
->>> --- a/drivers/gpu/drm/msm/disp/dpu1/dpu_encoder.c
->>> +++ b/drivers/gpu/drm/msm/disp/dpu1/dpu_encoder.c
->>> @@ -1013,9 +1013,18 @@ static void 
->>> dpu_encoder_virt_atomic_mode_set(struct drm_encoder *drm_enc,
->>>           if (phys->intf_idx >= INTF_0 && phys->intf_idx < INTF_MAX)
->>>               phys->hw_intf = dpu_rm_get_intf(&dpu_kms->rm, 
->>> phys->intf_idx);
->>> -        if (!phys->hw_intf) {
->>> +        if (phys->wb_idx >= WB_0 && phys->wb_idx < WB_MAX)
->>> +            phys->hw_wb = dpu_rm_get_wb(&dpu_kms->rm, phys->wb_idx);
->>> +
->>> +        if (!phys->hw_intf && !phys->hw_wb) {
->>>               DPU_ERROR_ENC(dpu_enc,
->>> -                      "no intf block assigned at idx: %d\n", i);
->>> +                      "no intf or wb block assigned at idx: %d\n", i);
->>> +            return;
->>> +        }
->>> +
->>> +        if (phys->hw_intf && phys->hw_wb) {
->>> +            DPU_ERROR_ENC(dpu_enc,
->>> +                    "invalid phys both intf and wb block at idx: 
->>> %d\n", i);
->>>               return;
->>>           }
->>> @@ -1163,16 +1172,35 @@ static enum dpu_intf 
->>> dpu_encoder_get_intf(struct dpu_mdss_cfg *catalog,
->>>   {
->>>       int i = 0;
->>> -    for (i = 0; i < catalog->intf_count; i++) {
->>> -        if (catalog->intf[i].type == type
->>> -            && catalog->intf[i].controller_id == controller_id) {
->>> -            return catalog->intf[i].id;
->>> +    if (type != INTF_WB) {
->>> +        for (i = 0; i < catalog->intf_count; i++) {
->>> +            if (catalog->intf[i].type == type
->>> +                && catalog->intf[i].controller_id == controller_id) {
->>> +                return catalog->intf[i].id;
->>> +            }
->>>           }
->>>       }
->>>       return INTF_MAX;
->>>   }
->>> +static enum dpu_wb dpu_encoder_get_wb(struct dpu_mdss_cfg *catalog,
->>> +        enum dpu_intf_type type, u32 controller_id)
->>> +{
->>> +    int i = 0;
->>> +
->>> +    if (type != INTF_WB)
->>> +        goto end;
->>> +
->>> +    for (i = 0; i < catalog->wb_count; i++) {
->>> +        if (catalog->wb[i].id == controller_id)
->>> +            return catalog->wb[i].id;
->>> +    }
->>> +
->>> +end:
->>> +    return WB_MAX;
->>> +}
->>> +
->>>   static void dpu_encoder_vblank_callback(struct drm_encoder *drm_enc,
->>>           struct dpu_encoder_phys *phy_enc)
->>>   {
->>> @@ -1887,16 +1915,32 @@ void dpu_encoder_helper_phys_cleanup(struct 
->>> dpu_encoder_phys *phys_enc)
->>>       dpu_encoder_helper_reset_mixers(phys_enc);
->>> -    for (i = 0; i < dpu_enc->num_phys_encs; i++) {
->>> -        if (dpu_enc->phys_encs[i] && 
->>> phys_enc->hw_intf->ops.bind_pingpong_blk)
->>> -            phys_enc->hw_intf->ops.bind_pingpong_blk(
->>> -                    dpu_enc->phys_encs[i]->hw_intf, false,
->>> -                    dpu_enc->phys_encs[i]->hw_pp->idx);
->>> -
->>> -        /* mark INTF flush as pending */
->>> -        if (phys_enc->hw_ctl->ops.update_pending_flush_intf)
->>> - phys_enc->hw_ctl->ops.update_pending_flush_intf(phys_enc->hw_ctl,
->>> -                    dpu_enc->phys_encs[i]->hw_intf->idx);
->>> +    /*
->>> +     * TODO: move the once-only operation like CTL flush/trigger
->>> +     * into dpu_encoder_virt_disable() and all operations which need
->>> +     * to be done per phys encoder into the phys_disable() op.
->>> +     */
->>> +    if (phys_enc->hw_wb) {
->>> +        /* disable the PP block */
->>> +        if (phys_enc->hw_wb->ops.bind_pingpong_blk)
->>> +            phys_enc->hw_wb->ops.bind_pingpong_blk(phys_enc->hw_wb, 
->>> false,
->>> +                    phys_enc->hw_pp->idx);
->>> +
->>> +        /* mark WB flush as pending */
->>> +        if (phys_enc->hw_ctl->ops.update_pending_flush_wb)
->>> +            phys_enc->hw_ctl->ops.update_pending_flush_wb(ctl, 
->>> phys_enc->hw_wb->idx);
->>> +    } else {
->>> +        for (i = 0; i < dpu_enc->num_phys_encs; i++) {
->>> +            if (dpu_enc->phys_encs[i] && 
->>> phys_enc->hw_intf->ops.bind_pingpong_blk)
->>> +                phys_enc->hw_intf->ops.bind_pingpong_blk(
->>> +                        dpu_enc->phys_encs[i]->hw_intf, false,
->>> +                        dpu_enc->phys_encs[i]->hw_pp->idx);
->>> +
->>> +            /* mark INTF flush as pending */
->>> +            if (phys_enc->hw_ctl->ops.update_pending_flush_intf)
->>> + phys_enc->hw_ctl->ops.update_pending_flush_intf(phys_enc->hw_ctl,
->>> +                        dpu_enc->phys_encs[i]->hw_intf->idx);
->>> +        }
->>>       }
->>>       /* reset the merge 3D HW block */
->>> @@ -2112,6 +2156,9 @@ static int dpu_encoder_setup_display(struct 
->>> dpu_encoder_virt *dpu_enc,
->>>       case DRM_MODE_ENCODER_TMDS:
->>>           intf_type = INTF_DP;
->>>           break;
->>> +    case DRM_MODE_ENCODER_VIRTUAL:
->>> +        intf_type = INTF_WB;
->>> +        break;
->>>       }
->>>       WARN_ON(disp_info->num_of_h_tiles < 1);
->>> @@ -2149,8 +2196,19 @@ static int dpu_encoder_setup_display(struct 
->>> dpu_encoder_virt *dpu_enc,
->>>           phys_params.intf_idx = dpu_encoder_get_intf(dpu_kms->catalog,
->>>                                                       intf_type,
->>>                                                       controller_id);
->>> -        if (phys_params.intf_idx == INTF_MAX) {
->>> -            DPU_ERROR_ENC(dpu_enc, "could not get intf: type %d, id 
->>> %d\n",
->>> +
->>> +        phys_params.wb_idx = dpu_encoder_get_wb(dpu_kms->catalog,
->>> +                intf_type, controller_id);
->>> +        /*
->>> +         * For boards which have no physical displays, having no 
->>> interface
->>> +         * is fine because it can still be used with just writeback.
->>> +         * If we try without a display on a board which uses a DPU 
->>> in which
->>> +         * writeback is not supported, then this will still fail as 
->>> it will not
->>> +         * find any writeback in the catalog.
->>> +         */
->>> +        if ((phys_params.intf_idx == INTF_MAX) &&
->>> +                (phys_params.wb_idx == WB_MAX)) {
->>> +            DPU_ERROR_ENC(dpu_enc, "could not get intf or wb: type 
->>> %d, id %d\n",
->>
->> I've commented the previous iteration by the mistake, but the comment 
->> still applies to this version too. Let's repeat it, so that we have 
->> all the comments in the single version.
->>
->> I think the comment is misleading. It is a phys_params, so it must have
->> etiher intf_idx or wb_idx, but not both of them, despite the board
->> having the interfaces or WB.
->>
->> So somthing like this might be more appropriate:
->>
->> /*
->>    * The phys_params might represent either an INTF or a WB unit, but not
->>    * both of them at the same time.
->>    */
->>
->> if ((phys_params.intf_idx == INTF_MAX) && (phys_params.wb_idx == 
->> WB_MAX)) {
->>    .... // error out
->> }
->>
->> if ((phys_params.intf_idx != INTF_MAX) && (phys_params.wb_idx == 
->> WB_MAX)) {
->>     ........ // error out
->> }
+> Acked-by: Sam Ravnborg <sam@ravnborg.org>
+> Signed-off-by: Marek Vasut <marex@denx.de>
+> Cc: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+> Cc: Lucas Stach <l.stach@pengutronix.de>
+> Cc: Maxime Ripard <maxime@cerno.tech>
+> Cc: Peng Fan <peng.fan@nxp.com>
+> Cc: Rob Herring <robh+dt@kernel.org>
+> Cc: Robby Cai <robby.cai@nxp.com>
+> Cc: Robert Foss <robert.foss@linaro.org>
+> Cc: Sam Ravnborg <sam@ravnborg.org>
+> Cc: Thomas Zimmermann <tzimmermann@suse.de>
+> Cc: devicetree@vger.kernel.org
+> To: dri-devel@lists.freedesktop.org
+> ---
+> V2: - Consistently use fsl,imx8mp-ldb as compatible
+>     - Drop items: from compatible:
+>     - Replace minItems with maxItems in clocks:
+>     - Drop quotes from clock-names const: ldb
+>     - Rename syscon to fsl,syscon
+>     - Use generic name of ldb-lvds in example
+> V3: - Add AB from Sam
+>     - Consistently use MX8MP
+> ---
+>  .../bindings/display/bridge/nxp,ldb.yaml      | 96 +++++++++++++++++++
+>  1 file changed, 96 insertions(+)
+>  create mode 100644 Documentation/devicetree/bindings/display/bridge/nxp,ldb.yaml
 > 
-> I didnt understand this condition. So if there is a valid intf but not 
-> valid wb intf, why is that an error.
+> diff --git a/Documentation/devicetree/bindings/display/bridge/nxp,ldb.yaml b/Documentation/devicetree/bindings/display/bridge/nxp,ldb.yaml
+> new file mode 100644
+> index 000000000000..9c1807f2ae43
+> --- /dev/null
+> +++ b/Documentation/devicetree/bindings/display/bridge/nxp,ldb.yaml
+> @@ -0,0 +1,96 @@
+> +# SPDX-License-Identifier: (GPL-2.0-only OR BSD-2-Clause)
+> +%YAML 1.2
+> +---
+> +$id: http://devicetree.org/schemas/display/bridge/nxp,ldb.yaml#
+> +$schema: http://devicetree.org/meta-schemas/core.yaml#
+> +
+> +title: NXP i.MX8MP DPI to LVDS bridge chip
+> +
+> +maintainers:
+> +  - Marek Vasut <marex@denx.de>
+> +
+> +description: |
+> +  The i.MX8MP contains two syscon registers which are responsible
+> +  for configuring the on-SoC DPI-to-LVDS serializer. This describes
+> +  those registers as bridge within the DT.
+> +
+> +properties:
+> +  compatible:
+> +    const: fsl,imx8mp-ldb
+> +
+> +  clocks:
+> +    maxItems: 1
+> +
+> +  clock-names:
+> +    const: ldb
+> +
+> +  fsl,syscon:
+> +    $ref: /schemas/types.yaml#/definitions/phandle
+> +    description: A phandle to media block controller.
+> +
+> +  ports:
+> +    $ref: /schemas/graph.yaml#/properties/ports
+> +
+> +    properties:
+> +      port@0:
+> +        $ref: /schemas/graph.yaml#/properties/port
+> +        description: Video port for DPI input.
+> +
+> +      port@1:
+> +        $ref: /schemas/graph.yaml#/properties/port
+> +        description: Video port for LVDS Channel-A output (panel or bridge).
+> +
+> +      port@2:
+> +        $ref: /schemas/graph.yaml#/properties/port
+> +        description: Video port for LVDS Channel-B output (panel or bridge).
+> +
+> +    required:
+> +      - port@0
+> +      - port@1
+> +
+> +required:
+> +  - compatible
+> +  - clocks
+> +  - fsl,syscon
+> +  - ports
+> +
+> +additionalProperties: false
+> +
+> +examples:
+> +  - |
+> +    #include <dt-bindings/clock/imx8mp-clock.h>
+> +
+> +    bridge {
+> +        compatible = "fsl,imx8mp-ldb";
+> +        clocks = <&clk IMX8MP_CLK_MEDIA_LDB>;
+> +        clock-names = "ldb";
+> +        fsl,syscon = <&media_blk_ctrl>;
+
+This binding should be a child of &media_blk_ctrl. And then do away with 
+this property.
+
+> +
+> +        ports {
+> +            #address-cells = <1>;
+> +            #size-cells = <0>;
+> +
+> +            port@0 {
+> +                reg = <0>;
+> +
+> +                ldb_from_lcdif2: endpoint {
+> +                    remote-endpoint = <&lcdif2_to_ldb>;
+> +                };
+> +            };
+> +
+> +            port@1 {
+> +                reg = <1>;
+> +
+> +                ldb_lvds_ch0: endpoint {
+> +                    remote-endpoint = <&ldb_to_lvdsx4panel>;
+> +                };
+> +            };
+> +
+> +            port@2 {
+> +                reg = <2>;
+> +
+> +                ldb_lvds_ch1: endpoint {
+> +                };
+> +            };
+> +        };
+> +    };
+> -- 
+> 2.35.1
 > 
-
-c&p error. of course:
-
-if ((intf_idx == INTF_MAX) && (wb_idx == INTF_MAX)) {...}
-
-if ((intf_idx != INTF_MAX) && (wb_idx != INTF_MAX)) {...}
-
-
->>
->>
->> Looks good otherwise.
->>
->>
->>>                             intf_type, controller_id);
->>>               ret = -EINVAL;
->>>           }
->>> diff --git a/drivers/gpu/drm/msm/disp/dpu1/dpu_encoder_phys.h 
->>> b/drivers/gpu/drm/msm/disp/dpu1/dpu_encoder_phys.h
->>> index 544a9a4..c84b8e8 100644
->>> --- a/drivers/gpu/drm/msm/disp/dpu1/dpu_encoder_phys.h
->>> +++ b/drivers/gpu/drm/msm/disp/dpu1/dpu_encoder_phys.h
->>> @@ -11,6 +11,7 @@
->>>   #include "dpu_kms.h"
->>>   #include "dpu_hw_intf.h"
->>> +#include "dpu_hw_wb.h"
->>>   #include "dpu_hw_pingpong.h"
->>>   #include "dpu_hw_ctl.h"
->>>   #include "dpu_hw_top.h"
->>> @@ -165,12 +166,14 @@ enum dpu_intr_idx {
->>>    * @hw_ctl:        Hardware interface to the ctl registers
->>>    * @hw_pp:        Hardware interface to the ping pong registers
->>>    * @hw_intf:        Hardware interface to the intf registers
->>> + * @hw_wb:        Hardware interface to the wb registers
->>>    * @dpu_kms:        Pointer to the dpu_kms top level
->>>    * @cached_mode:    DRM mode cached at mode_set time, acted on in 
->>> enable
->>>    * @enabled:        Whether the encoder has enabled and running a mode
->>>    * @split_role:        Role to play in a split-panel configuration
->>>    * @intf_mode:        Interface mode
->>>    * @intf_idx:        Interface index on dpu hardware
->>> + * @wb_idx:            Writeback index on dpu hardware
->>>    * @enc_spinlock:    Virtual-Encoder-Wide Spin Lock for IRQ purposes
->>>    * @enable_state:    Enable state tracking
->>>    * @vblank_refcount:    Reference count of vblank request
->>> @@ -193,11 +196,13 @@ struct dpu_encoder_phys {
->>>       struct dpu_hw_ctl *hw_ctl;
->>>       struct dpu_hw_pingpong *hw_pp;
->>>       struct dpu_hw_intf *hw_intf;
->>> +    struct dpu_hw_wb *hw_wb;
->>>       struct dpu_kms *dpu_kms;
->>>       struct drm_display_mode cached_mode;
->>>       enum dpu_enc_split_role split_role;
->>>       enum dpu_intf_mode intf_mode;
->>>       enum dpu_intf intf_idx;
->>> +    enum dpu_wb wb_idx;
->>>       spinlock_t *enc_spinlock;
->>>       enum dpu_enc_enable_state enable_state;
->>>       atomic_t vblank_refcount;
->>> @@ -243,6 +248,7 @@ struct dpu_encoder_phys_cmd {
->>>    * @parent_ops:        Callbacks exposed by the parent to the phys_enc
->>>    * @split_role:        Role to play in a split-panel configuration
->>>    * @intf_idx:        Interface index this phys_enc will control
->>> + * @wb_idx:            Writeback index this phys_enc will control
->>>    * @enc_spinlock:    Virtual-Encoder-Wide Spin Lock for IRQ purposes
->>>    */
->>>   struct dpu_enc_phys_init_params {
->>> @@ -251,6 +257,7 @@ struct dpu_enc_phys_init_params {
->>>       const struct dpu_encoder_virt_ops *parent_ops;
->>>       enum dpu_enc_split_role split_role;
->>>       enum dpu_intf intf_idx;
->>> +    enum dpu_wb wb_idx;
->>>       spinlock_t *enc_spinlock;
->>>   };
->>
->>
-
-
--- 
-With best wishes
-Dmitry
+> 
