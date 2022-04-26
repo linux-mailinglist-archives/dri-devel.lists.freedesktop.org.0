@@ -2,53 +2,57 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5850C50F080
-	for <lists+dri-devel@lfdr.de>; Tue, 26 Apr 2022 07:56:53 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 7CC8450F08D
+	for <lists+dri-devel@lfdr.de>; Tue, 26 Apr 2022 08:01:03 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 9C2FC11234D;
-	Tue, 26 Apr 2022 05:56:48 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id F22EF112544;
+	Tue, 26 Apr 2022 06:01:00 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from alexa-out-sd-01.qualcomm.com (alexa-out-sd-01.qualcomm.com
- [199.106.114.38])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 945EC11234D;
- Tue, 26 Apr 2022 05:56:46 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=quicinc.com; i=@quicinc.com; q=dns/txt; s=qcdkim;
- t=1650952606; x=1682488606;
- h=from:to:cc:subject:date:message-id:mime-version;
- bh=38t/nta1H6MGQ4gt0i5+PNH7paRV6Eex18Temwa+CZg=;
- b=h2/Q2+OPCS2jcvtWiS6uZF46ZnBzmvrma0CkEqcw6Rv+j3PV50f/jjQC
- FPcKGzWyWtxQ1lrjz41JPoipegMvdYCtj6bnXzZ562TW3z29m48p0lOq9
- RzmTxM3XrN+1gnpFtvavnCF5OzkYwABgtjA9K0y/1ZqqLaLDJsi0/qcW8 0=;
-Received: from unknown (HELO ironmsg01-sd.qualcomm.com) ([10.53.140.141])
- by alexa-out-sd-01.qualcomm.com with ESMTP; 25 Apr 2022 22:56:46 -0700
-X-QCInternal: smtphost
-Received: from nasanex01c.na.qualcomm.com ([10.47.97.222])
- by ironmsg01-sd.qualcomm.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 25 Apr 2022 22:56:44 -0700
-Received: from nalasex01a.na.qualcomm.com (10.47.209.196) by
- nasanex01c.na.qualcomm.com (10.47.97.222) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.2.986.22; Mon, 25 Apr 2022 22:56:44 -0700
-Received: from khsieh-linux1.qualcomm.com (10.80.80.8) by
- nalasex01a.na.qualcomm.com (10.47.209.196) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.2.986.22; Mon, 25 Apr 2022 22:56:43 -0700
-From: Kuogee Hsieh <quic_khsieh@quicinc.com>
-To: <robdclark@gmail.com>, <sean@poorly.run>, <swboyd@chromium.org>,
- <vkoul@kernel.org>, <daniel@ffwll.ch>, <airlied@linux.ie>,
- <agross@kernel.org>, <dmitry.baryshkov@linaro.org>,
- <bjorn.andersson@linaro.org>
-Subject: [PATCH v2] drm/msm/dp: remove fail safe mode related code
-Date: Mon, 25 Apr 2022 22:56:35 -0700
-Message-ID: <1650952595-27783-1-git-send-email-quic_khsieh@quicinc.com>
-X-Mailer: git-send-email 2.7.4
+Received: from mail-oi1-x234.google.com (mail-oi1-x234.google.com
+ [IPv6:2607:f8b0:4864:20::234])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 00DA311253B
+ for <dri-devel@lists.freedesktop.org>; Tue, 26 Apr 2022 06:00:58 +0000 (UTC)
+Received: by mail-oi1-x234.google.com with SMTP id a10so19583085oif.9
+ for <dri-devel@lists.freedesktop.org>; Mon, 25 Apr 2022 23:00:58 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=chromium.org; s=google;
+ h=mime-version:in-reply-to:references:from:user-agent:date:message-id
+ :subject:to:cc;
+ bh=Wit8rbTM2VYf6vUKmIHeUUnnIfDCsz7ar6R39GV+tas=;
+ b=hd8G4VjioxyMc+UVOw79VgBvFmlxIV9Rrpp7TbI0Jm9xKCVBT626QbjZZWuMzbv5Yz
+ lfeJ6mX8cUcw0K1GhHY7rD3pHXa718nrq/ZMx5IUZiFfW1T8RVVqTCvfb6+ik32HZP3/
+ SozL4gTAkcwxgVkNidGvX5xfNuLL4gxQVs3iQ=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=x-gm-message-state:mime-version:in-reply-to:references:from
+ :user-agent:date:message-id:subject:to:cc;
+ bh=Wit8rbTM2VYf6vUKmIHeUUnnIfDCsz7ar6R39GV+tas=;
+ b=H1TlYFdQhqqraFQTbzJoWzAuAFBei/0gW2RMY82yAjDiJLXDLVW9pNYzvX1U48mzuu
+ ckncqIkCqOaqK+Es3rTqQDXzwjIRoxI5uMc5SeIgG7Tnx7KH5ENm3k8b5ip9LVLaIEY/
+ 7N7bPi1+lU5JRqP5CCW2wb9coFGHC1pvN5B8Q1zmiZ0DGgaw2lPoQl07Eb1Jet3TGqBj
+ x2atO9Z63skqCMvM/JGlEtdfIgQRdoyErfEvvoifRzcuvG4iW3OpAtlvsO7UpibaiX3C
+ PwngveEbaSk+92rz7rDzJM87rZePgWuZhFNcH8K5RzvPXns7ZVH1jrZ58pl+KTuDicwI
+ vQoA==
+X-Gm-Message-State: AOAM530J7cyOG87flEPonStmQAN0vdEr9g6fST3Bs4eUTj5CyRWLpM69
+ 3Wgx3clDiCE4GGnRH6gyAK9bymbG79ebyWT5YJFAgQ==
+X-Google-Smtp-Source: ABdhPJx/DXIJPn9m/RMOSlqtJpPWvHURBqE5bubgiZvYTm/Xfs6dAKYq3jMp46vuisc1fF8p+9rweRvZlD4yuUw+gt0=
+X-Received: by 2002:aca:bd41:0:b0:2ec:ff42:814f with SMTP id
+ n62-20020acabd41000000b002ecff42814fmr10076037oif.63.1650952858263; Mon, 25
+ Apr 2022 23:00:58 -0700 (PDT)
+Received: from 753933720722 named unknown by gmailapi.google.com with
+ HTTPREST; Mon, 25 Apr 2022 23:00:57 -0700
 MIME-Version: 1.0
-Content-Type: text/plain
-X-Originating-IP: [10.80.80.8]
-X-ClientProxiedBy: nasanex01a.na.qualcomm.com (10.52.223.231) To
- nalasex01a.na.qualcomm.com (10.47.209.196)
+In-Reply-To: <1650952595-27783-1-git-send-email-quic_khsieh@quicinc.com>
+References: <1650952595-27783-1-git-send-email-quic_khsieh@quicinc.com>
+From: Stephen Boyd <swboyd@chromium.org>
+User-Agent: alot/0.10
+Date: Mon, 25 Apr 2022 23:00:57 -0700
+Message-ID: <CAE-0n53kv+NPJ-4Cpjy_FeJT5xOo7fLNz24fyGUcjy6ucccjbQ@mail.gmail.com>
+Subject: Re: [PATCH v2] drm/msm/dp: remove fail safe mode related code
+To: Kuogee Hsieh <quic_khsieh@quicinc.com>, agross@kernel.org, airlied@linux.ie,
+ bjorn.andersson@linaro.org, daniel@ffwll.ch, dmitry.baryshkov@linaro.org, 
+ robdclark@gmail.com, sean@poorly.run, vkoul@kernel.org
+Content-Type: text/plain; charset="UTF-8"
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -63,186 +67,34 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
 Cc: quic_sbillaka@quicinc.com, linux-arm-msm@vger.kernel.org,
  quic_abhinavk@quicinc.com, dri-devel@lists.freedesktop.org,
- quic_khsieh@quicinc.com, quic_aravindh@quicinc.com,
- freedreno@lists.freedesktop.org, linux-kernel@vger.kernel.org
+ linux-kernel@vger.kernel.org, quic_aravindh@quicinc.com,
+ freedreno@lists.freedesktop.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Current DP driver implementation has adding safe mode done at
-dp_hpd_plug_handle() which is expected to be executed under event
-thread context.
+Quoting Kuogee Hsieh (2022-04-25 22:56:35)
+> Current DP driver implementation has adding safe mode done at
+> dp_hpd_plug_handle() which is expected to be executed under event
+> thread context.
+>
+> However there is possible circular locking happen (see blow stack trace)
+> after edp driver call dp_hpd_plug_handle() from dp_bridge_enable() which
+> is executed under drm_thread context.
+>
+> After review all possibilities methods and as discussed on
+> https://patchwork.freedesktop.org/patch/483155/, supporting EDID
+> compliance tests in the driver is quite hacky. As seen with other
+> vendor drivers, supporting these will be much easier with IGT. Hence
+> removing all the related fail safe code for it so that no possibility
+> of circular lock will happen.
+[...]
+>
+> Changes in v2:
+> -- re text commit title
+> -- remove all fail safe mode
+>
+> Signed-off-by: Kuogee Hsieh <quic_khsieh@quicinc.com>
 
-However there is possible circular locking happen (see blow stack trace)
-after edp driver call dp_hpd_plug_handle() from dp_bridge_enable() which
-is executed under drm_thread context.
-
-After review all possibilities methods and as discussed on
-https://patchwork.freedesktop.org/patch/483155/, supporting EDID
-compliance tests in the driver is quite hacky. As seen with other
-vendor drivers, supporting these will be much easier with IGT. Hence
-removing all the related fail safe code for it so that no possibility
-of circular lock will happen.
-
-======================================================
- WARNING: possible circular locking dependency detected
- 5.15.35-lockdep #6 Tainted: G        W
- ------------------------------------------------------
- frecon/429 is trying to acquire lock:
- ffffff808dc3c4e8 (&dev->mode_config.mutex){+.+.}-{3:3}, at:
-dp_panel_add_fail_safe_mode+0x4c/0xa0
-
- but task is already holding lock:
- ffffff808dc441e0 (&kms->commit_lock[i]){+.+.}-{3:3}, at: lock_crtcs+0xb4/0x124
-
- which lock already depends on the new lock.
-
- the existing dependency chain (in reverse order) is:
-
- -> #3 (&kms->commit_lock[i]){+.+.}-{3:3}:
-        __mutex_lock_common+0x174/0x1a64
-        mutex_lock_nested+0x98/0xac
-        lock_crtcs+0xb4/0x124
-        msm_atomic_commit_tail+0x330/0x748
-        commit_tail+0x19c/0x278
-        drm_atomic_helper_commit+0x1dc/0x1f0
-        drm_atomic_commit+0xc0/0xd8
-        drm_atomic_helper_set_config+0xb4/0x134
-        drm_mode_setcrtc+0x688/0x1248
-        drm_ioctl_kernel+0x1e4/0x338
-        drm_ioctl+0x3a4/0x684
-        __arm64_sys_ioctl+0x118/0x154
-        invoke_syscall+0x78/0x224
-        el0_svc_common+0x178/0x200
-        do_el0_svc+0x94/0x13c
-        el0_svc+0x5c/0xec
-        el0t_64_sync_handler+0x78/0x108
-        el0t_64_sync+0x1a4/0x1a8
-
- -> #2 (crtc_ww_class_mutex){+.+.}-{3:3}:
-        __mutex_lock_common+0x174/0x1a64
-        ww_mutex_lock+0xb8/0x278
-        modeset_lock+0x304/0x4ac
-        drm_modeset_lock+0x4c/0x7c
-        drmm_mode_config_init+0x4a8/0xc50
-        msm_drm_init+0x274/0xac0
-        msm_drm_bind+0x20/0x2c
-        try_to_bring_up_master+0x3dc/0x470
-        __component_add+0x18c/0x3c0
-        component_add+0x1c/0x28
-        dp_display_probe+0x954/0xa98
-        platform_probe+0x124/0x15c
-        really_probe+0x1b0/0x5f8
-        __driver_probe_device+0x174/0x20c
-        driver_probe_device+0x70/0x134
-        __device_attach_driver+0x130/0x1d0
-        bus_for_each_drv+0xfc/0x14c
-        __device_attach+0x1bc/0x2bc
-        device_initial_probe+0x1c/0x28
-        bus_probe_device+0x94/0x178
-        deferred_probe_work_func+0x1a4/0x1f0
-        process_one_work+0x5d4/0x9dc
-        worker_thread+0x898/0xccc
-        kthread+0x2d4/0x3d4
-        ret_from_fork+0x10/0x20
-
- -> #1 (crtc_ww_class_acquire){+.+.}-{0:0}:
-        ww_acquire_init+0x1c4/0x2c8
-        drm_modeset_acquire_init+0x44/0xc8
-        drm_helper_probe_single_connector_modes+0xb0/0x12dc
-        drm_mode_getconnector+0x5dc/0xfe8
-        drm_ioctl_kernel+0x1e4/0x338
-        drm_ioctl+0x3a4/0x684
-        __arm64_sys_ioctl+0x118/0x154
-        invoke_syscall+0x78/0x224
-        el0_svc_common+0x178/0x200
-        do_el0_svc+0x94/0x13c
-        el0_svc+0x5c/0xec
-        el0t_64_sync_handler+0x78/0x108
-        el0t_64_sync+0x1a4/0x1a8
-
- -> #0 (&dev->mode_config.mutex){+.+.}-{3:3}:
-        __lock_acquire+0x2650/0x672c
-        lock_acquire+0x1b4/0x4ac
-        __mutex_lock_common+0x174/0x1a64
-        mutex_lock_nested+0x98/0xac
-        dp_panel_add_fail_safe_mode+0x4c/0xa0
-        dp_hpd_plug_handle+0x1f0/0x280
-        dp_bridge_enable+0x94/0x2b8
-        drm_atomic_bridge_chain_enable+0x11c/0x168
-        drm_atomic_helper_commit_modeset_enables+0x500/0x740
-        msm_atomic_commit_tail+0x3e4/0x748
-        commit_tail+0x19c/0x278
-        drm_atomic_helper_commit+0x1dc/0x1f0
-        drm_atomic_commit+0xc0/0xd8
-        drm_atomic_helper_set_config+0xb4/0x134
-        drm_mode_setcrtc+0x688/0x1248
-        drm_ioctl_kernel+0x1e4/0x338
-        drm_ioctl+0x3a4/0x684
-        __arm64_sys_ioctl+0x118/0x154
-        invoke_syscall+0x78/0x224
-        el0_svc_common+0x178/0x200
-        do_el0_svc+0x94/0x13c
-        el0_svc+0x5c/0xec
-        el0t_64_sync_handler+0x78/0x108
-        el0t_64_sync+0x1a4/0x1a8
-
-Changes in v2:
--- re text commit title
--- remove all fail safe mode
-
-Signed-off-by: Kuogee Hsieh <quic_khsieh@quicinc.com>
----
- drivers/gpu/drm/msm/dp/dp_display.c |  6 ------
- drivers/gpu/drm/msm/dp/dp_panel.c   | 11 -----------
- 2 files changed, 17 deletions(-)
-
-diff --git a/drivers/gpu/drm/msm/dp/dp_display.c b/drivers/gpu/drm/msm/dp/dp_display.c
-index 92cd50f..01453db 100644
---- a/drivers/gpu/drm/msm/dp/dp_display.c
-+++ b/drivers/gpu/drm/msm/dp/dp_display.c
-@@ -555,12 +555,6 @@ static int dp_hpd_plug_handle(struct dp_display_private *dp, u32 data)
- 
- 	mutex_unlock(&dp->event_mutex);
- 
--	/*
--	 * add fail safe mode outside event_mutex scope
--	 * to avoid potiential circular lock with drm thread
--	 */
--	dp_panel_add_fail_safe_mode(dp->dp_display.connector);
--
- 	/* uevent will complete connection part */
- 	return 0;
- };
-diff --git a/drivers/gpu/drm/msm/dp/dp_panel.c b/drivers/gpu/drm/msm/dp/dp_panel.c
-index 1aa9aa8c..8ff174a 100644
---- a/drivers/gpu/drm/msm/dp/dp_panel.c
-+++ b/drivers/gpu/drm/msm/dp/dp_panel.c
-@@ -151,15 +151,6 @@ static int dp_panel_update_modes(struct drm_connector *connector,
- 	return rc;
- }
- 
--void dp_panel_add_fail_safe_mode(struct drm_connector *connector)
--{
--	/* fail safe edid */
--	mutex_lock(&connector->dev->mode_config.mutex);
--	if (drm_add_modes_noedid(connector, 640, 480))
--		drm_set_preferred_mode(connector, 640, 480);
--	mutex_unlock(&connector->dev->mode_config.mutex);
--}
--
- int dp_panel_read_sink_caps(struct dp_panel *dp_panel,
- 	struct drm_connector *connector)
- {
-@@ -215,8 +206,6 @@ int dp_panel_read_sink_caps(struct dp_panel *dp_panel,
- 			rc = -ETIMEDOUT;
- 			goto end;
- 		}
--
--		dp_panel_add_fail_safe_mode(connector);
- 	}
- 
- 	if (panel->aux_cfg_update_done) {
--- 
-The Qualcomm Innovation Center, Inc. is a member of the Code Aurora Forum,
-a Linux Foundation Collaborative Project
-
+Should add some Fixes tags here, probably for the first introduction of
+this logic and the one that moved stuff around to try to avoid the
+lockdep warning.
