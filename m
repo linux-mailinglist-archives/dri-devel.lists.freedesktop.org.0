@@ -1,70 +1,56 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 265D45101E1
-	for <lists+dri-devel@lfdr.de>; Tue, 26 Apr 2022 17:28:07 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 06BCF5101E7
+	for <lists+dri-devel@lfdr.de>; Tue, 26 Apr 2022 17:29:34 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 71DBE10E750;
-	Tue, 26 Apr 2022 15:28:04 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id BD18F10E7A1;
+	Tue, 26 Apr 2022 15:29:30 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-wr1-x42c.google.com (mail-wr1-x42c.google.com
- [IPv6:2a00:1450:4864:20::42c])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 7FC3310E750
- for <dri-devel@lists.freedesktop.org>; Tue, 26 Apr 2022 15:28:03 +0000 (UTC)
-Received: by mail-wr1-x42c.google.com with SMTP id e24so6110550wrc.9
- for <dri-devel@lists.freedesktop.org>; Tue, 26 Apr 2022 08:28:03 -0700 (PDT)
+Received: from mail-pg1-x533.google.com (mail-pg1-x533.google.com
+ [IPv6:2607:f8b0:4864:20::533])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id BACE910E7A1
+ for <dri-devel@lists.freedesktop.org>; Tue, 26 Apr 2022 15:29:29 +0000 (UTC)
+Received: by mail-pg1-x533.google.com with SMTP id v10so5265701pgl.11
+ for <dri-devel@lists.freedesktop.org>; Tue, 26 Apr 2022 08:29:29 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=baylibre-com.20210112.gappssmtp.com; s=20210112;
- h=message-id:date:mime-version:user-agent:subject:content-language:to
- :cc:references:from:organization:in-reply-to
- :content-transfer-encoding;
- bh=VvHeXPeRp+l0umkp3zLFpUL9QE8qvJf0yCKCEof3gxA=;
- b=buq77vk5gnKXmPdRMlrIaECKUB6ReZFkK9jjEduILoQPFcZ4UqFbAXkY7sxvxnid+h
- Yo15E1M9u8FN1jC0h1MkDs4Q0tljFZaq3Mz1yFOgLwDZZoa6Y1nZDCxZOZxGOZ9emRRl
- tYKbeShhkMYMulIffkgOV2rF8qoWnjaUWGbftT8erqriq1GTfnH1SA7fdTKXpF4yLP7W
- DBgROt1/xsnPuby2ARGWEinPTWYZfZhv1M4Lqaril+1XRNnFxNi2gQYmPl9jxwnjdEs/
- B19jiHF/Rteq3osbm5IViD2jAJwIBy0iKAw5rJm55mKQrSmmOQiVc7DnBYCiMEHwXFj0
- gw5g==
+ d=fireburn-co-uk.20210112.gappssmtp.com; s=20210112;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc; bh=lZlT5pXPhHWSQcE2RTzBIz/G9KbrNns2EdBS7uY3x2A=;
+ b=A0wOIbREZiPNRR1QF0NoGkT8Pnea9QnGqzGpH7RIUvzWOmDWmYwlkJKTI1rYUxe2ql
+ lZD0v80/AgREwqwHoiSEd253EOQEtDoScWZ64Xaw4RffpeHpTAVYLTKkTeKp/c2artXO
+ sPUmXYYnIozzL2qkIO51PtOf1hj0ORfI92gpl0YPzSatmZd91Foq403vBAh288rE0TSp
+ jg5UyOzadMJXLUkBEFqOp4kH+RUweDN5DcNwel6bbmsZiseFz2aEnMYrLC6DEhWXFL34
+ 9soNzY/U7RhrjCk0SaNDJ/gWKsROUfivZMgxNTlj/XISyzKDIDfXQ/pa/ljWTXHdfGTY
+ f6Tg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
- :content-language:to:cc:references:from:organization:in-reply-to
- :content-transfer-encoding;
- bh=VvHeXPeRp+l0umkp3zLFpUL9QE8qvJf0yCKCEof3gxA=;
- b=vynMOom4oSPKs+7THfL5ah1qPh4wDotm0JxV5ofAivtd/xz+al2k9gAW9HfkWLt3uY
- ACp6GsVD+hy//FeM+65a1QVnO2m3rQxXDvTtpCpRrXM2/+bh1FQojaHXo0345w+gR2+S
- WrRrF1Q7efa7jHRLhGJpgxqfQiMzg3Q+e4Av4yA0EwcRmYEfA19u6758B5qoQeuOhk09
- AKv9ETwLFE61vj0cFF6JdgFkvCDSrDDe93ZWizrDr6dEUmGl108MthWZKR+xZyWmV1f+
- gYoHmZjMC/eiFpMPpFfohh7wle70bCzZ3IWXr+5ymUi2VjA+BdzB1w7dSkQQjnurZRON
- OySw==
-X-Gm-Message-State: AOAM533/PhUZOB3ya+qVFn+d5huxTPB63w7L8+FXm4nImk1Pu8yC64LN
- fU86+pODkvWoFs2nKw6hz+rWo85/ESMINw==
-X-Google-Smtp-Source: ABdhPJx9Uc6kKSe37g5dNJxiEA3I/nHqSTMZYaXUAKy2tRG8l+KXOhNYXNfBScM2Vq6X5f/eKAx6BA==
-X-Received: by 2002:a5d:584e:0:b0:20a:9034:e312 with SMTP id
- i14-20020a5d584e000000b0020a9034e312mr19433566wrf.518.1650986881965; 
- Tue, 26 Apr 2022 08:28:01 -0700 (PDT)
-Received: from ?IPV6:2001:861:44c0:66c0:5959:ca32:2e01:b6fc?
- ([2001:861:44c0:66c0:5959:ca32:2e01:b6fc])
- by smtp.gmail.com with ESMTPSA id
- a16-20020a056000051000b00207b5d9f51fsm11725738wrf.41.2022.04.26.08.27.59
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Tue, 26 Apr 2022 08:28:00 -0700 (PDT)
-Message-ID: <f946068e-4f97-b6e2-1671-6580aa1a0105@baylibre.com>
-Date: Tue, 26 Apr 2022 17:27:59 +0200
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=lZlT5pXPhHWSQcE2RTzBIz/G9KbrNns2EdBS7uY3x2A=;
+ b=PQXszfuBFEtUS95/R3+yIFAhlFyzZHlw1J4nHPEU7lzzm/AIniTPsuqkJ6P8SKuLAb
+ CBlh0HIv8tHagmztAPNCuBKD7zWleGe0rhdx5S79I4VWdJBjm0nC54OhMNAlilYX8woi
+ 1D8+G6mQv9cfYZDuhoyXX1Xbqnn1246HTrooJ7fW82szOhYrDYYQmPjhUYxBhm4mMzPr
+ DTW2HyFwa1qf2JMpW4sJq9lvRPufoB//OJiu1hfhxmjz+4O/wvMc6jYN5t1rSITQOzUo
+ blWgeUJoqT9aczRvrY3jEW1K/uT5Xe0O9TzhqbaGg1bOUVSaI1DiTdFKBpbbWMz06z5X
+ 2+DA==
+X-Gm-Message-State: AOAM5329up44CPP7+MtuDQ96AR8nCi1THITDQ7N8KTSmuxGYEGWxWqt3
+ aPqLZjA58AEGqsv3Vnt1NeZ2e++jPjK6bZ/SLYl4Cg==
+X-Google-Smtp-Source: ABdhPJwqACommhKnL7qSrJ6YAagLB0IEz2Ib+KMdLue5Akk8HtOkmOAXaz5YrH/P8tuhLsjVBcrMI1BMHIjw4rYj+eU=
+X-Received: by 2002:a63:7d04:0:b0:378:fb34:5162 with SMTP id
+ y4-20020a637d04000000b00378fb345162mr19713715pgc.487.1650986969341; Tue, 26
+ Apr 2022 08:29:29 -0700 (PDT)
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.7.0
-Subject: Re: [PATCH] drm/bridge: fix it6505 Kconfig terms
-Content-Language: en-US
-To: Randy Dunlap <rdunlap@infradead.org>, linux-kernel@vger.kernel.org
-References: <20220403151637.15546-1-rdunlap@infradead.org>
-From: Neil Armstrong <narmstrong@baylibre.com>
-Organization: Baylibre
-In-Reply-To: <20220403151637.15546-1-rdunlap@infradead.org>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
+References: <20220407054651.3924-1-Arunpravin.PaneerSelvam@amd.com>
+In-Reply-To: <20220407054651.3924-1-Arunpravin.PaneerSelvam@amd.com>
+From: Mike Lothian <mike@fireburn.co.uk>
+Date: Tue, 26 Apr 2022 16:29:17 +0100
+Message-ID: <CAHbf0-H5uE4RtZwY0L8Wz0VG6QnU1+E3yhg3fDFVc3n__=nrNQ@mail.gmail.com>
+Subject: Re: [PATCH v12] drm/amdgpu: add drm buddy support to amdgpu
+To: Arunpravin Paneer Selvam <Arunpravin.PaneerSelvam@amd.com>
+Content-Type: text/plain; charset="UTF-8"
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -77,55 +63,20 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Jernej Skrabec <jernej.skrabec@gmail.com>,
- kernel test robot <lkp@intel.com>, Jonas Karlman <jonas@kwiboo.se>,
- David Airlie <airlied@linux.ie>, Allen Chen <allen.chen@ite.com.tw>,
- dri-devel@lists.freedesktop.org, Robert Foss <robert.foss@linaro.org>,
- Hermes Wu <hermes.wu@ite.com.tw>,
- Laurent Pinchart <Laurent.pinchart@ideasonboard.com>,
- Andrzej Hajda <andrzej.hajda@intel.com>,
- AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>
+Cc: dri-devel@lists.freedesktop.org, intel-gfx@lists.freedesktop.org,
+ amd-gfx@lists.freedesktop.org, matthew.auld@intel.com,
+ alexander.deucher@amd.com, christian.koenig@amd.com
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi,
+Hi
 
-On 03/04/2022 17:16, Randy Dunlap wrote:
-> Fix around 50 undefined references when DRM_ITE_IT6505=y while
-> DRM_DP_AUX_BUS=m and DRM_DP_HELPER=m.
-> 
-> Fixes: b5c84a9edcd4 ("drm/bridge: add it6505 driver")
-> Signed-off-by: Randy Dunlap <rdunlap@infradead.org>
-> Reported-by: kernel test robot <lkp@intel.com>
-> Cc: Allen Chen <allen.chen@ite.com.tw>
-> Cc: Robert Foss <robert.foss@linaro.org>
-> Cc: Hermes Wu <hermes.wu@ite.com.tw>
-> Cc: AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>
-> Cc: Andrzej Hajda <andrzej.hajda@intel.com>
-> Cc: Neil Armstrong <narmstrong@baylibre.com>
-> Cc: Laurent Pinchart <Laurent.pinchart@ideasonboard.com>
-> Cc: Jonas Karlman <jonas@kwiboo.se>
-> Cc: Jernej Skrabec <jernej.skrabec@gmail.com>
-> Cc: David Airlie <airlied@linux.ie>
-> Cc: Daniel Vetter <daniel@ffwll.ch>
-> Cc: dri-devel@lists.freedesktop.org
-> ---
->   drivers/gpu/drm/bridge/Kconfig |    2 ++
->   1 file changed, 2 insertions(+)
-> 
-> --- linux-next-20220401.orig/drivers/gpu/drm/bridge/Kconfig
-> +++ linux-next-20220401/drivers/gpu/drm/bridge/Kconfig
-> @@ -78,6 +78,8 @@ config DRM_ITE_IT6505
->           tristate "ITE IT6505 DisplayPort bridge"
->           depends on OF
->           select DRM_KMS_HELPER
-> +	select DRM_DP_AUX_BUS
-> +	select DRM_DP_HELPER
+I'm having issues with this patch on my PRIME system and vulkan workloads
 
-The indentation is wrong here.
+https://gitlab.freedesktop.org/drm/amd/-/issues/1992
 
->           select EXTCON
->           help
->             ITE IT6505 DisplayPort bridge chip driver.
+Is there any chance you could take a look?
 
-Neil
+Cheers
+
+Mike
