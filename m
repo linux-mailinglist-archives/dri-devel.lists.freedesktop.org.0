@@ -2,47 +2,52 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 066D2510617
-	for <lists+dri-devel@lfdr.de>; Tue, 26 Apr 2022 19:59:18 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 0C17A51061F
+	for <lists+dri-devel@lfdr.de>; Tue, 26 Apr 2022 19:59:26 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id D4A3A10F032;
-	Tue, 26 Apr 2022 17:59:15 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id A81CA10F1B9;
+	Tue, 26 Apr 2022 17:59:21 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from alexa-out.qualcomm.com (alexa-out.qualcomm.com [129.46.98.28])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 0C0A710F032;
- Tue, 26 Apr 2022 17:59:13 +0000 (UTC)
+Received: from alexa-out-sd-02.qualcomm.com (alexa-out-sd-02.qualcomm.com
+ [199.106.114.39])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 369C010F064;
+ Tue, 26 Apr 2022 17:59:16 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=quicinc.com; i=@quicinc.com; q=dns/txt; s=qcdkim;
- t=1650995954; x=1682531954;
- h=from:to:cc:subject:date:message-id:mime-version;
- bh=9knLlEjOpl6r0INJCbRruNvLlalTOrFPYblaIwOz2os=;
- b=DOZiTifv9UZ4e3gVtecgk6LwbEMjO3uh8yAJ3z5IvpylHV1zHkMCUxTw
- Q9oYwvOZTPG47JT5rthaRkHOI9duRWZpKStbmLiLNFshYPZmC0BMRHbP4
- 4heidxasCcV5P41wXKjFEs6YDkkKT8foGNL9gFpTcGgQQItcSF+RSaCbN I=;
-Received: from ironmsg-lv-alpha.qualcomm.com ([10.47.202.13])
- by alexa-out.qualcomm.com with ESMTP; 26 Apr 2022 10:59:13 -0700
+ t=1650995956; x=1682531956;
+ h=from:to:cc:subject:date:message-id:in-reply-to:
+ references:mime-version;
+ bh=m5fPhw3FBDMc5cftNJazvleDhMAsutK9k4fYJn8DkoA=;
+ b=kUeORZWGDez5qFGyQ70imjEPltK6PtWOuC2qvMb+dVQxOgrafe/vs6Au
+ 5zhoHZ4Hd35L9SUP5IEBsXeHOVjjrozoFbWxADeNF4eJDzt8xmARKSeL3
+ b7jD0fBBi/PRhoxkY/SILsuOiwJ4skXmu8AphLBrt/OGsZ5NSWvqPtNXW 8=;
+Received: from unknown (HELO ironmsg03-sd.qualcomm.com) ([10.53.140.143])
+ by alexa-out-sd-02.qualcomm.com with ESMTP; 26 Apr 2022 10:59:15 -0700
 X-QCInternal: smtphost
 Received: from nasanex01c.na.qualcomm.com ([10.47.97.222])
- by ironmsg-lv-alpha.qualcomm.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 26 Apr 2022 10:59:12 -0700
+ by ironmsg03-sd.qualcomm.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 26 Apr 2022 10:59:15 -0700
 Received: from nalasex01a.na.qualcomm.com (10.47.209.196) by
  nasanex01c.na.qualcomm.com (10.47.97.222) with Microsoft SMTP Server
  (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.2.986.22; Tue, 26 Apr 2022 10:59:12 -0700
+ 15.2.986.22; Tue, 26 Apr 2022 10:59:15 -0700
 Received: from khsieh-linux1.qualcomm.com (10.80.80.8) by
  nalasex01a.na.qualcomm.com (10.47.209.196) with Microsoft SMTP Server
  (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.2.986.22; Tue, 26 Apr 2022 10:59:11 -0700
+ 15.2.986.22; Tue, 26 Apr 2022 10:59:14 -0700
 From: Kuogee Hsieh <quic_khsieh@quicinc.com>
 To: <dri-devel@lists.freedesktop.org>, <robdclark@gmail.com>,
  <sean@poorly.run>, <swboyd@chromium.org>, <vkoul@kernel.org>,
  <daniel@ffwll.ch>, <airlied@linux.ie>, <agross@kernel.org>,
  <dmitry.baryshkov@linaro.org>, <bjorn.andersson@linaro.org>
-Subject: [PATCH v3 0/2]  fix DP phy compliance test
-Date: Tue, 26 Apr 2022 10:58:57 -0700
-Message-ID: <1650995939-28467-1-git-send-email-quic_khsieh@quicinc.com>
+Subject: [PATCH v3 1/2] drm/msm/dp: reset DP controller before transmit phy
+ test pattern
+Date: Tue, 26 Apr 2022 10:58:58 -0700
+Message-ID: <1650995939-28467-2-git-send-email-quic_khsieh@quicinc.com>
 X-Mailer: git-send-email 2.7.4
+In-Reply-To: <1650995939-28467-1-git-send-email-quic_khsieh@quicinc.com>
+References: <1650995939-28467-1-git-send-email-quic_khsieh@quicinc.com>
 MIME-Version: 1.0
 Content-Type: text/plain
 X-Originating-IP: [10.80.80.8]
@@ -67,17 +72,36 @@ Cc: quic_sbillaka@quicinc.com, linux-arm-msm@vger.kernel.org,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Current DP phy compliance test failed due to test pattern generation was
-terminated premature.
+DP controller state can not switch from video ready state to
+transmit phy pattern state at run time. DP mainlink has to be
+teared down followed by reset controller to default state to have
+DP controller switch to transmit phy test pattern state and start
+generate specified phy test pattern to sinker once main link setup
+again.
 
-Kuogee Hsieh (2):
-  drm/msm/dp: reset DP controller before transmit phy test pattern
-  drm/msm/dp: do not stop transmitting phy test pattern during DP phy
-    compliance test
+Changes in v2:
+-- correct Fixes's commit id
 
- drivers/gpu/drm/msm/dp/dp_ctrl.c | 16 +++++++---------
- 1 file changed, 7 insertions(+), 9 deletions(-)
+Fixes: 52352fe2f866 ("drm/msm/dp: use dp_ctrl_off_link_stream during PHY compliance test run")
+Signed-off-by: Kuogee Hsieh <quic_khsieh@quicinc.com>
+Reviewed-by: Stephen Boyd <swboyd@chromium.org>
+---
+ drivers/gpu/drm/msm/dp/dp_ctrl.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
+diff --git a/drivers/gpu/drm/msm/dp/dp_ctrl.c b/drivers/gpu/drm/msm/dp/dp_ctrl.c
+index 5356856..193cc1a 100644
+--- a/drivers/gpu/drm/msm/dp/dp_ctrl.c
++++ b/drivers/gpu/drm/msm/dp/dp_ctrl.c
+@@ -1532,7 +1532,7 @@ static int dp_ctrl_process_phy_test_request(struct dp_ctrl_private *ctrl)
+ 	 * running. Add the global reset just before disabling the
+ 	 * link clocks and core clocks.
+ 	 */
+-	ret = dp_ctrl_off_link_stream(&ctrl->dp_ctrl);
++	ret = dp_ctrl_off(&ctrl->dp_ctrl);
+ 	if (ret) {
+ 		DRM_ERROR("failed to disable DP controller\n");
+ 		return ret;
 -- 
 The Qualcomm Innovation Center, Inc. is a member of the Code Aurora Forum,
 a Linux Foundation Collaborative Project
