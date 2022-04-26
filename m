@@ -1,139 +1,152 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id D4416510481
-	for <lists+dri-devel@lfdr.de>; Tue, 26 Apr 2022 18:50:27 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 992E651047F
+	for <lists+dri-devel@lfdr.de>; Tue, 26 Apr 2022 18:50:25 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 16AFA10E8C5;
-	Tue, 26 Apr 2022 16:50:25 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 6A43F10E8C1;
+	Tue, 26 Apr 2022 16:50:23 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mga17.intel.com (mga17.intel.com [192.55.52.151])
- by gabe.freedesktop.org (Postfix) with ESMTPS id CF29510E8C5;
- Tue, 26 Apr 2022 16:50:23 +0000 (UTC)
+Received: from mga02.intel.com (mga02.intel.com [134.134.136.20])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 48DAC10E8C1;
+ Tue, 26 Apr 2022 16:50:22 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1650991823; x=1682527823;
+ t=1650991822; x=1682527822;
  h=from:to:cc:subject:date:message-id:in-reply-to:
  references:content-transfer-encoding:mime-version;
- bh=kp9f1K84DUS2EQcnbOmchQ5uEL8S409tuqqTioPZs9Q=;
- b=U6iVr6fG+QwWfBjH71PQRROMjkRge1jm6DMOimb7Z0hzl6I9+6sntuMj
- ViNAQJp/YSmBFOBA0wLm9+glB1LhLxLaPViRAO5jsQt5/K75WSmYxfBh1
- QtFmthLFFqvIrsqpN19YXcEiUiw8Dt9CnYXUwfCVwwWNA1DVGfEiq5cCU
- 2rdL0u2XIG1xW7pKjFSVvzxqeX/4+Nim5AzIAW8XRZbqx84F3WRHX6F6a
- KwnXf8Se715/cPdlIgTYfjQQrTBacDsZVlj4DEpyoMqqDh8DqEio3ppTB
- a6BEEfDl6FVW4X0CKGA2nuOkZjTaMslxYv3rdc2uyLFl1On3WQ4ZRSmQ+ w==;
-X-IronPort-AV: E=McAfee;i="6400,9594,10329"; a="246216736"
-X-IronPort-AV: E=Sophos;i="5.90,291,1643702400"; d="scan'208";a="246216736"
-Received: from fmsmga008.fm.intel.com ([10.253.24.58])
- by fmsmga107.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 26 Apr 2022 09:50:14 -0700
+ bh=vsvsPqBsA2virfWAOHmkON3/lzwKrck4Co760IHJPro=;
+ b=P9yX2jnqQqCmZLutf0muFqGvQQh1QIMS2lyFDjShh4CrJIvEHXBVmML7
+ 107VLA/k7kzBRqkitJlB5xyJu2YlpF1MQYxuguVRBxgL1XD93sVP3rOXk
+ fTdQFjFnvrXH4scV3jRWadxle2DJJmzII3r//5BAJp2roHobuEF0+GCvz
+ vGfu7Q1Ihqu0k0fI8ZpnEoOelHloNs5SCxFN2GtA96z0vKTVznpc/Orik
+ lgLa5ZmsZQyVJm+eMCY1w5fd9G5YexO2kRlCQDq+KI9iYHY1wLWYsm6zH
+ Bj7dr62G2avJmMaVQW+sUsff/+E/gnDRJvHfGlaFYDqTPU6OHDQpPrP/h w==;
+X-IronPort-AV: E=McAfee;i="6400,9594,10329"; a="253028169"
+X-IronPort-AV: E=Sophos;i="5.90,291,1643702400"; d="scan'208";a="253028169"
+Received: from fmsmga003.fm.intel.com ([10.253.24.29])
+ by orsmga101.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 26 Apr 2022 09:50:21 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.90,291,1643702400"; d="scan'208";a="617085581"
-Received: from orsmsx604.amr.corp.intel.com ([10.22.229.17])
- by fmsmga008.fm.intel.com with ESMTP; 26 Apr 2022 09:50:13 -0700
-Received: from orsmsx603.amr.corp.intel.com (10.22.229.16) by
- ORSMSX604.amr.corp.intel.com (10.22.229.17) with Microsoft SMTP Server
+X-IronPort-AV: E=Sophos;i="5.90,291,1643702400"; d="scan'208";a="650292550"
+Received: from fmsmsx605.amr.corp.intel.com ([10.18.126.85])
+ by FMSMGA003.fm.intel.com with ESMTP; 26 Apr 2022 09:50:21 -0700
+Received: from fmsmsx610.amr.corp.intel.com (10.18.126.90) by
+ fmsmsx605.amr.corp.intel.com (10.18.126.85) with Microsoft SMTP Server
  (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2308.27; Tue, 26 Apr 2022 09:50:13 -0700
-Received: from orsedg603.ED.cps.intel.com (10.7.248.4) by
- orsmsx603.amr.corp.intel.com (10.22.229.16) with Microsoft SMTP Server
+ 15.1.2308.27; Tue, 26 Apr 2022 09:50:21 -0700
+Received: from fmsmsx603.amr.corp.intel.com (10.18.126.83) by
+ fmsmsx610.amr.corp.intel.com (10.18.126.90) with Microsoft SMTP Server
  (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2308.27 via Frontend Transport; Tue, 26 Apr 2022 09:50:13 -0700
-Received: from NAM12-MW2-obe.outbound.protection.outlook.com (104.47.66.44) by
- edgegateway.intel.com (134.134.137.100) with Microsoft SMTP Server
+ 15.1.2308.27; Tue, 26 Apr 2022 09:50:20 -0700
+Received: from FMSEDG603.ED.cps.intel.com (10.1.192.133) by
+ fmsmsx603.amr.corp.intel.com (10.18.126.83) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.2308.27 via Frontend Transport; Tue, 26 Apr 2022 09:50:20 -0700
+Received: from NAM04-BN8-obe.outbound.protection.outlook.com (104.47.74.42) by
+ edgegateway.intel.com (192.55.55.68) with Microsoft SMTP Server
  (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.1.2308.27; Tue, 26 Apr 2022 09:50:12 -0700
+ 15.1.2308.27; Tue, 26 Apr 2022 09:50:20 -0700
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=Ip3g2sxpJCIKyYpXCxJUl9r8SXLleH44KNgA94MbUcRfEB6mPqChNZ19eNbUxVufLsKUTU2hM1ZulBW5V1XsP0+HQ0Setjnl+Lg8kJJy5FcfkHHYx5dlC2y/XB44D/nOx44/s54YhDJBAhUdZ4b/vAsfztmCCwkv9Jd47zMT5/RGUMjaZ90uXi7FqVULY5HAq0XPGqRChHx9eALeaGVk3e4dAoWEckUffZHMzMQSBrwavj6VhZ8WP1PyF0rOdZudtUy4qexY8KCbWmq1eF/uBGxdMjIIFeYC0DPNi++cnZYKHQl1T+s6XataU1h22gniH3bKhmNTrgDFq1G3wEe8rQ==
+ b=GA+cBgvJucvXt247guIBIyq7tlOWu0xNwQwkU9VAUDwg1YZgcZ0J8Xs3xxbrLtoFtBsS3FMhCrZi2rOvinlzermI6MvXvzXL6Bq2Waj3wDJNOf2ogP/xXpSy9LzMJ8GKue3t7i1w/4hxadLt0thLzci73s2Sc8YCDWmD4GAm2YLuk3ryjGVgYlTqt/PGFJJN1dOrQYsXTqz2qnfy994lmTzA+K3rrqulsNQSgr0CTgf4ayA+iVU1+jt44J7zDSvfFtJJLVzwqPzb0z4DOq22nMAcqpChnXrZXYU0PpWwHQ//N4YTJns0ovDLIXxr1+roP4TqIMsW8XTKnO4SEcUYqQ==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
  s=arcselector9901;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=YrEShwNQQEkIHmiF3bdcCy5SeqDf+wQB9nQGIXfGjUM=;
- b=d6qH940hFM5+oaw23RtmpLch1T9FfY5BAVQr3P1xA4N7Zcc6dL6yXn0u7tVva3qtOrVUy+Jo3/6DTKhIpRPrxmhIANk4L2hnY3/sEIeuCHEzyR1PVDX8Bgcb2m1dOUHNjE8Qt59dzEXLDZ3U5lZUMxONQ4mFb3j/A1lfu8vzmaJ0n2MrPcpT/PHx3/RJaObEt+iHmHM/HcFfGus8jbUXme/hKDJMmZpCq5q0s+uRzI+/HepwmJKpr2JGMgIPEyEZBal9HicKwhH8OPxWOYCfRTNTI5HMJu2NuQyc+1CUJf6RYSZiuQxKGSQUb+J25lvkHokSKzCc8qkZMbFS5ir52w==
+ bh=zJJXTEs2YbxS0wDG/NHU5ZGxxcxvqXoiuZioj14kiL4=;
+ b=BtJJ6kRFB4jDHzSQOvHmcQrJwnIONwIgtizf52QKE1BZ1EOCSeXLghNWIW7Q0ELvydZKbfrXCiwglql2f7p3twGw2xAeiXczgd4JyQ8UjEplpv31cVqMgiPh1ubStPhAqmpTMOwYK++goYMono9Tym5CNdMQP3XakdFmQjjSrwDn9CLGegdmhc22gA/2jsI1K8gGs5FrcKiHvhs8jKtcr7JMFkwFpyz8q0WnIBIRAhwAErdWJY9Dq1BVN//iYhgnR1F7geFhOI/DgBvT9cCOkCPO6Nzu0s/s5V3iTGyCMkhTjuRA/dbi2sG3ClxYUiS448ff16ml23UpUE9jfhxvrQ==
 ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
  smtp.mailfrom=intel.com; dmarc=pass action=none header.from=intel.com;
  dkim=pass header.d=intel.com; arc=none
 Authentication-Results: dkim=none (message not signed)
  header.d=none;dmarc=none action=none header.from=intel.com;
 Received: from SJ0PR11MB4894.namprd11.prod.outlook.com (2603:10b6:a03:2d4::5)
- by DM6PR11MB3658.namprd11.prod.outlook.com (2603:10b6:5:142::24) with
- Microsoft SMTP Server (version=TLS1_2,
+ by MN2PR11MB4366.namprd11.prod.outlook.com (2603:10b6:208:190::17)
+ with Microsoft SMTP Server (version=TLS1_2,
  cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.5186.15; Tue, 26 Apr
- 2022 16:50:10 +0000
+ 2022 16:50:17 +0000
 Received: from SJ0PR11MB4894.namprd11.prod.outlook.com
  ([fe80::3d83:3af5:c95f:e062]) by SJ0PR11MB4894.namprd11.prod.outlook.com
  ([fe80::3d83:3af5:c95f:e062%7]) with mapi id 15.20.5186.021; Tue, 26 Apr 2022
- 16:50:10 +0000
+ 16:50:17 +0000
 From: Balasubramani Vivekanandan <balasubramani.vivekanandan@intel.com>
 To: <intel-gfx@lists.freedesktop.org>, <dri-devel@lists.freedesktop.org>
-Subject: [PATCH v3 5/7] drm/i915/selftests: use the memcpy_from_wc call from
- the drm
-Date: Tue, 26 Apr 2022 22:21:46 +0530
-Message-ID: <20220426165148.1784-6-balasubramani.vivekanandan@intel.com>
+Subject: [PATCH v3 6/7] drm/i915/gt: Avoid direct dereferencing of io memory
+Date: Tue, 26 Apr 2022 22:21:47 +0530
+Message-ID: <20220426165148.1784-7-balasubramani.vivekanandan@intel.com>
 X-Mailer: git-send-email 2.25.1
 In-Reply-To: <20220426165148.1784-1-balasubramani.vivekanandan@intel.com>
 References: <20220426165148.1784-1-balasubramani.vivekanandan@intel.com>
+Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: 8bit
-Content-Type: text/plain
-X-ClientProxiedBy: PN2PR01CA0122.INDPRD01.PROD.OUTLOOK.COM
- (2603:1096:c01:6::7) To SJ0PR11MB4894.namprd11.prod.outlook.com
+X-ClientProxiedBy: PN3PR01CA0074.INDPRD01.PROD.OUTLOOK.COM
+ (2603:1096:c01:9a::18) To SJ0PR11MB4894.namprd11.prod.outlook.com
  (2603:10b6:a03:2d4::5)
 MIME-Version: 1.0
 X-MS-PublicTrafficType: Email
-X-MS-Office365-Filtering-Correlation-Id: da8a7784-ebfa-4def-e702-08da27a4d372
-X-MS-TrafficTypeDiagnostic: DM6PR11MB3658:EE_
+X-MS-Office365-Filtering-Correlation-Id: 0a6a9d0c-0747-48bd-38b5-08da27a4d7cd
+X-MS-TrafficTypeDiagnostic: MN2PR11MB4366:EE_
 X-LD-Processed: 46c98d88-e344-4ed4-8496-4ed7712e255d,ExtFwd,ExtAddr
-X-Microsoft-Antispam-PRVS: <DM6PR11MB3658830B2E49B3A89D75A9759FFB9@DM6PR11MB3658.namprd11.prod.outlook.com>
+X-Microsoft-Antispam-PRVS: <MN2PR11MB43666773D109BCE89F7266969FFB9@MN2PR11MB4366.namprd11.prod.outlook.com>
 X-MS-Exchange-SenderADCheck: 1
 X-MS-Exchange-AntiSpam-Relay: 0
 X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: AUpIT/ndc79z+bWDVvVYYA0byr7foGE0TgQbkW38D+eWqXFXLSjp//RoR9xZgkTNeT9LL5VF89MvDrn0LPZoqVoHqb0LRnj7wiqtNpW8Mcgl9hOY05tM2hu1QX2njaDKmUza99K3yACZYN/GfUHMoYHqj/7375YwS4T9q2GDJFG9y50dCXa6GwRJWXAG6CxJAuDZcBgSRPyJ25qHlPl/jqcQowIPWRf9Wfzy7wETStB37FVQF2lZjAVIgzM+M5Vl9o2bvArdEHIwoLSvRorhNLtc1HNKkixY5zkBI1ScBgHtzDEz+D1AqPQ+/Z9bAq1AbxFuKQQOqh84bmrjErGVI0L1pz6JnZgfoiMHfqzi6Jjw7GSXws+iDFyUEjKpigyMIx9f57Tz+82WllC0qgx+WefixKv1DNXBMKaQZbttVeIwoZERyNrBLorF2c9zFCfsypyR9bNpZi3kdeQVhTHt0Xz8fAv9a0leuEk+o/OrqXxUAN05AsZwlsy8XYse87H6ZZzmTAFam7Y/4E2UE5cVP/HkJkkfjDmSyZbwZn0O86OgeLczJf28By3XZPrbclccYA+Zb2pp7dqHyWKmltON0sMhAE+IDl1QIZxOk6qAWd9NL9BuRBsizD07pfk2IFJiLJHb7h2Vws7+nJzmih9TIafouU4jxXP+fZjR7XE+rbYU7M1t3IJV4NpAK2GRomQjS7skQBuhlG85Jq+QbciJhw==
+X-Microsoft-Antispam-Message-Info: EoFwU3/nEIjnK1vc/tfx4jtEl9QjjRwIZ3LR/KlpzDDTRVD7GBCQUc3X5cA+7T7wjK+O22h+be56nZK3ROD83ckJN80kkYApC1lYnlwvrxSI05BuEdF1LrMvvhBTEaaKgmLlJ77Tyr4CIFPFkCASi5wGDuUm5siCkKrO1yn3+1cb2sZeLs+aOZuPLr4OkgTqzmEsqyy41v0AKvlMbW5Dj0kw0nQAwN0xNSu3dXUBr/OzsBjZOQMiDazmWPEBeIfpUhS4JbVyrEUz+1P4Ub1xQ7oog/+G+tWodc3KkkDmvxfWit3ZZAw1ljfeAxatbWRaSp1vVxlx10J2kmuJ/rk+oHEIYZ1rHHBPu16Zp8DzYdgShjjyURiwI8Z9+DkxdHco0jlMLEDFn4Ugq2CfEf8sKA8gZAmxgLKgj/zaKr4328ZJuCoD4eWGnpvqBQiRwRd8+Ozogp9dKHpTUZ559SZyNMtEBkyLsrMQ+Ml40uVARIcl4rfCea1WAWBTm7vymtvHe3Orm8wCCQkyabnLB/24Ah6yX2whWjqppAXQjDAQQcHLLwEtJnGDHg+Qv91AXU+0phcCr9gn9aYeptA3Og4XyQfoWSLqNATED90bU3whEZ3cUOAuQ84IgGcaVDQLUPtnTJv4cLGQmP899GJeGlWuvQ==
 X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
  IPV:NLI; SFV:NSPM; H:SJ0PR11MB4894.namprd11.prod.outlook.com; PTR:; CAT:NONE;
- SFS:(13230001)(366004)(6666004)(6506007)(6512007)(186003)(83380400001)(1076003)(2616005)(2906002)(316002)(54906003)(86362001)(82960400001)(36756003)(6486002)(43170500006)(508600001)(5660300002)(44832011)(4326008)(26005)(66556008)(8936002)(38100700002)(66476007)(8676002)(66946007);
+ SFS:(13230001)(366004)(6666004)(2616005)(66946007)(6512007)(5660300002)(107886003)(82960400001)(450100002)(26005)(8936002)(66556008)(54906003)(316002)(86362001)(2906002)(1076003)(38100700002)(44832011)(6486002)(508600001)(4326008)(8676002)(66476007)(83380400001)(186003)(6506007)(36756003);
  DIR:OUT; SFP:1102; 
 X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: =?us-ascii?Q?Hpof4k0YfHjs4atVuOCCDHY2k6bEqdXPl9xksMYKO3mTOz26wruKtbkO3127?=
- =?us-ascii?Q?ckm9ZqGbLD/5tOzxRzx2fbfk15hhEJ0iV1e08UyfOffLl79tTy+9ojLmBqmF?=
- =?us-ascii?Q?bgLXprH1hZwFAGZGKZUL0LJIxeYyOIK14yKnnVr6mUhsT7aPqjRyeJy4Ex8Z?=
- =?us-ascii?Q?TTzsFsyEC68PI4um6eO4mEE4KBMGL/BsRCp5M6CovQvZjvce0ExWw7pEBgy8?=
- =?us-ascii?Q?eppyq4KRTI3aW5UEoA7gaK+Mj6xTxg9wr04zM6/laIOWWWXKidNO8TyPI4Oy?=
- =?us-ascii?Q?yYHIGxLhFvvSYMWsjRlfwF1uCgyJkT1j4ZnrSZ4ov0Z9XjX5gS3Gk78DWuZz?=
- =?us-ascii?Q?DLWxEX4Ag3LjrGnHmWv8XM2B8MPx7sSOZImgbr/wkcRTCFQM46DHs8CrX2vi?=
- =?us-ascii?Q?k5F7pgr0rLhlveW3n6HjmMx1inxgcnq4CuULdVSDcvJYkys65cTndi2akJqe?=
- =?us-ascii?Q?1IzKrr2vgf4h3SCoMacFj/gzNHtzsJKYaHAWo4HhUqrViSdVPEcM49+m0C3P?=
- =?us-ascii?Q?9wXZN+zr19ZeO5JzHgltTWGuI/pnh505df2VXPKf1cGEa+IxB+fWCaeHbm9M?=
- =?us-ascii?Q?hFLbQ2cWCL085heT219Dr9NiaNxXQzUniF3VFYB5Hc148HpIcV/RkDVEtULM?=
- =?us-ascii?Q?d3nWwLVgyPhdlX7BSpJxQYEs+m7rugvw5O1+OLdeZ1jqSSVDNnyloHw3/N43?=
- =?us-ascii?Q?7KWbsqrC02tPxtYOc7A4w9Oy4zQr+4KvrOV0DXhNF1ITfll7/AUfMucCN2Hg?=
- =?us-ascii?Q?CpaqfWpK2avZ4E7PfKyc+3p2uBjSPumqF0Smco9OEN+rMjVOUD6OwMn1Ok6p?=
- =?us-ascii?Q?Rv3w5wVKszEXiYW1Bf/heRpyFhsK/xpRKRwfEmoOUVAv30XTrwRtK2RM+igA?=
- =?us-ascii?Q?IngAsJEDr3EaIlgmmO3slfz+FpDrWStpGPTm5AXAB3WOlzLTLzhbTSkBGRGN?=
- =?us-ascii?Q?tfNsmSDnXpgYu1YcAsmpJCz5c104twEndwz18hbIMKYuOzEOYw8IxHt2e2Wq?=
- =?us-ascii?Q?kdc4i0n4lxVWFh8ZnSQATAzlIrx8Ays/8g5rgwre6WK7nPAZRceaBJqbOf2s?=
- =?us-ascii?Q?VbCs3GINp6gGgqyZp7evln8GOt36dYULmf+j6JcFNfa5CRWtWE9zTamA46pF?=
- =?us-ascii?Q?DMrpDzmZ9NKmKZqIpWYReQOSoUO2JEaH/EvAF177FfuYAkS1OozxB6KxA7aK?=
- =?us-ascii?Q?a7pYbvFhJJMjL1tuYiK1CNlHFQ10eH+4ugU2YrLTDAZ078juv/izAaJB4mQS?=
- =?us-ascii?Q?u9hx6IM+wHLIpyCO+KTR32wMtRPnN17QUxoVWwkMeWAZfSVOFMoDrdV9ejMK?=
- =?us-ascii?Q?xfnjD5Kagb37XE/FrUJJc6MHPoKVDNy1F2+qKeoY/vV+rXmI0ouR5qyd83FC?=
- =?us-ascii?Q?7NiQSVHgWpAgS86J5JiLTd79enUBBUTWzz0yR02xiBHOZLHIFXJ2qE2MO25j?=
- =?us-ascii?Q?55cItPv7s7Jd744buuoxOcHGVkAMnYhevkK9WVEMZS6927Vpyi20kJljZWGx?=
- =?us-ascii?Q?AtxS9JvcLYae7FgF4PpQZB872mIMU7KnsiJTSds206HucWdrrOJN0d7AKbfQ?=
- =?us-ascii?Q?GKBLcw8YTG+i4GVCWvJ6excBKHpyh30o27HeFw1dqK3SA5X2dKeSRf1tD5yl?=
- =?us-ascii?Q?RPGZoQ+VgHZdzC15qmbxSUjiEdIOu5J9T+B1CXL1asYl3Wg/c2GIy3H88SWS?=
- =?us-ascii?Q?wmiUHODl0vMWJ5h8P1Muw/CN/p4oIBv5dKiJU+z/GzubuRyMfVpOB9tyqYN0?=
- =?us-ascii?Q?gwjZVBIwdjh8xv8DYPHczHMghDCRwNcSAUSrzMn4l/cTFLwNQHG0?=
-X-MS-Exchange-CrossTenant-Network-Message-Id: da8a7784-ebfa-4def-e702-08da27a4d372
+X-MS-Exchange-AntiSpam-MessageData-0: =?utf-8?B?WlpvOFZNMUZmbzhKN29aOEpGY0RhV1hGOStHSDVtditOQWxPMXdhdnM3a0Vu?=
+ =?utf-8?B?YlpVcjRKaGJkWW1pWE93RDZpRGx3NVZ5dWRwTVhNS3lwNmRVNVRuQ1BrbEVZ?=
+ =?utf-8?B?RC91UVlDVzA5eDl3VkpjdGd5bGJZSXp5UlppaXZCYWQ0VzZzMEJaVU9CeGo3?=
+ =?utf-8?B?R3JlTzYrc1hpdHZCWWIxdTBrallrYm9tSWFmamYxWlAzVG5uTFJaMHpLNzFy?=
+ =?utf-8?B?R1NBVTllY2pLQmxmT2FOVzF2WFpZTHJ1d01hNkhqOVlvMmRaYmhVUkEvK3Za?=
+ =?utf-8?B?SzZGQkxmcTM4SVFoUmdlWTh6ZjVBNE11WDd2SDRJYjlWeDF1Nm9leTJ1MDFP?=
+ =?utf-8?B?dDhYU0p0eVRRc3B0NmFZTWJOdW52M29yNHNneldnTnYwN1NLQnJZR2VCcnlI?=
+ =?utf-8?B?MDJESkNuQ1ZVSnF4VkdiU04vK0szSEdXWEJVL1JpQ2FYN0JpYitTdFg1Qk9W?=
+ =?utf-8?B?czVwS0dKUXhGOStjWjdLbmRuWE5OR20wSU5RbTFxNTlPK1JMZ1hXK2Z6M0VI?=
+ =?utf-8?B?S3VvSU9tM1FLYWt6amZJSWFHU3ZEYWF5KzVIVG5TcnZBREx6VmoxdUU3d2dG?=
+ =?utf-8?B?ZUplSk9UT2crU280U0ljWWhPZ2VhNnRFRTFJeWxmdlBUSHFvaTFXUWl2N3N5?=
+ =?utf-8?B?bGZyd2p1dzJWeEJTUFdkUTJLTXA5d3NXTUZ1MkZ3WTMyZy8xQmRjUlJkT1B0?=
+ =?utf-8?B?ZU1MSXFSNGJBSllBclJwS1VNN3UxS3NTeGtyNHNhTlBqSlBUMlBlMGR6Mm0v?=
+ =?utf-8?B?dHZXVzE2cE5ZVTB1Y1gxYlNEZnAvUVNUMVdONm9LZkIvcTc5SWxGbW9KNEhG?=
+ =?utf-8?B?YkpLOVlSS2ZBazJ2bG42QkhqcmJGQzRaeVRLYWYrSUVxOUNuZ1FNSjQxODFa?=
+ =?utf-8?B?M1lyenlxS1ZZblRxMmQzWU95Ulp5dlFablFud2tsUTVLMEJXbHA2bUUwSC9o?=
+ =?utf-8?B?dXBjZW9WOGFYay8zRzdHZUJWSUZRMGY4b0pYZ3ZsTFpHdGgzREJCQ0YxeUhY?=
+ =?utf-8?B?Mjh6cXJZYThLMVdpdzB5V2E3Uk5kNlk2dVZOU3dkSzdmall4Mm91SkQwbUts?=
+ =?utf-8?B?K2Yycmt4eFlrTWJVOHlxRUNORkZZQXRyMVNXdENnZDhiRnhEWmwzOTd0Uncr?=
+ =?utf-8?B?MkhBdGVBVDFzUkx2RW1RUHMydVhtdDBHYkVMalRHam9XalF0aW1KbWZ6bzlD?=
+ =?utf-8?B?Rm1USkFxZG05QVhLUy80dC9LT3VZTU9ScThmcTZGcTQ0UktzR1hDa2hJbEFW?=
+ =?utf-8?B?bFM2d2tRRTNmOGtaMVkzc0ZPeTkyNlNLVmhXS2tmWmpvVjBVOTNvamJEWVpZ?=
+ =?utf-8?B?VTJReGY3bnU1UmtOczlsMGZNTW5lNUtCZUQ0Y3JGYVZ0aGtIYUVveUFpeWJk?=
+ =?utf-8?B?ZkRrSEF5aEdVdmtxOHN6L3Q1UVNXZ2JjY2N3MlZWN3d3U014Mk9PN2pYbzAx?=
+ =?utf-8?B?YmRrRldsQWExbTY0MzYzdnpka0MvODJ5T3c4d1g1ZDBhcGlWQVd5UVFWOVNV?=
+ =?utf-8?B?NStPalZaY3BkNzB5RDJEb0ZYd3N3eTV4bk1oSFRyMDQzN0hob1I2VWhkTzdU?=
+ =?utf-8?B?bXRMTkFIRkora2FuZkcwUkJjM2ZrTnQyeXFxU2hmVGxxdkdZMUVOTnlBSStj?=
+ =?utf-8?B?azdiUTVHNkc1ZnpqZjUxM1JSVFpjYzFoSHdKdUJFVmNPVmZyTFk0WlBHc0gv?=
+ =?utf-8?B?cktUR21IV0xyQk5DQ3pPK2Zzdk1NTGRvUjFuUDFjd3pTcUF3UlFWZDNWUHpR?=
+ =?utf-8?B?M1cxSFFFQkV1dS9HT3dER21yMUQzeG9icEZHWVBDTnJwa0Y0eFhTbVlnRTU5?=
+ =?utf-8?B?cTZCL1NtMUZqbkhGRDRGVzdIMk50VDN2K3BhV2FwUktGYjZBN0lRSE1raFlh?=
+ =?utf-8?B?NXd4YW4rUHROMUNmR1RqOVJSV3I1eWxoeCtVV1loSFRZR09IcTdwTzRabGxB?=
+ =?utf-8?B?QTB5Y0NpUjRiVm5RNnREeXYyRlFmeHpwZ0puZHJRRFczUFRnMHNnN3ZqazFk?=
+ =?utf-8?B?WW80OCtMdDJ6bFBLaWlHTTljT1MwNkRORHlOZHpadk8xZ05ZNk1zRTU2Q0ZW?=
+ =?utf-8?B?MmpCKy80endjRXQ4MHo3NWJXd1pJTHhTWnh2UHl3M2hLSllYdGlaY2Q1MVk0?=
+ =?utf-8?B?L0hTcGxpVGNuN2NsU2ZKR1dHT0JFMy93RlR0c2c0VDJLRWhzaHFxcm1PZzFr?=
+ =?utf-8?B?WVhJbGZxbTVMNUhsYmt1MHBsa2NoVVZ0Sm52S08wY2hsWmIvVTBZRlJpZ2Er?=
+ =?utf-8?B?OVJwNVNjZlBZemRmVFhnU3dqZGE5V3lMNHZVK2ZnME9uT2tJdVNhem0rOEdQ?=
+ =?utf-8?B?M2QreDFUV3FOQUgxYjhRbnB6VGREQS9HYWYzSzZUSFV3ZTZqTG5Ya0lIcHpB?=
+ =?utf-8?Q?rqRxXdHCSaYlwKIb5Ri8yPN9okhDeRokfGR4q?=
+X-MS-Exchange-CrossTenant-Network-Message-Id: 0a6a9d0c-0747-48bd-38b5-08da27a4d7cd
 X-MS-Exchange-CrossTenant-AuthSource: SJ0PR11MB4894.namprd11.prod.outlook.com
 X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 26 Apr 2022 16:50:10.3082 (UTC)
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 26 Apr 2022 16:50:17.5954 (UTC)
 X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
 X-MS-Exchange-CrossTenant-Id: 46c98d88-e344-4ed4-8496-4ed7712e255d
 X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: s/+9itxgz2Z5ZuZ6gmFqjIdmGRoY2CGmKbSPCatmUzDRTiMyPkjBEjN/17JWgNXXgeS5PJUhDaXW02cpUk+PV/QbDACFrBPwzWSM1Lu9B9U/GWfGTbtnyVafk4/svtcA
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: DM6PR11MB3658
+X-MS-Exchange-CrossTenant-UserPrincipalName: wqaaQ+DoIZwEcatpzEmaZVM5D5XE3i91VVcic6SZxmH38fU/YbJ6uWeMR3cXh3j7B3W9nR75EmXVhDWs9pUIxmo0JwV5xuesLnCoVIY2PTqaIWAe8T4cEA5d51qPdG/C
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: MN2PR11MB4366
 X-OriginatorOrg: intel.com
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -147,142 +160,108 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Thomas Hellstr_m <thomas.hellstrom@linux.intel.com>,
+Cc: Matthew Brost <matthew.brost@intel.com>,
+ =?UTF-8?q?Micha=C5=82=20Winiarski?= <michal.winiarski@intel.com>,
  Balasubramani Vivekanandan <balasubramani.vivekanandan@intel.com>,
- Daniel Vetter <daniel.vetter@ffwll.ch>, lucas.demarchi@intel.com,
- siva.mullati@intel.com, Matthew Auld <matthew.auld@intel.com>,
- Thomas Zimmermann <tzimmermann@suse.de>, Nirmoy Das <nirmoy.das@intel.com>
+ lucas.demarchi@intel.com, siva.mullati@intel.com,
+ Nirmoy Das <nirmoy.das@intel.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-memcpy_from_wc functions in i915_memcpy.c will be removed and replaced
-by the implementation in drm_cache.c.
-Updated to use the functions provided by drm_cache.c.
+io mapped memory should not be directly dereferenced to ensure
+portability. io memory should be read/written/copied using helper
+functions.
+i915_memcpy_from_wc() function was used to copy the data from io memory to
+a temporary buffer and pointer to the temporary buffer was passed to CRC
+calculation function.
+But i915_memcpy_from_wc() only does a copy if the platform supports fast
+copy using non-temporal instructions. Otherwise the pointer to io memory
+was passed for CRC calculation. CRC function will directly dereference
+io memory and would not work properly on non-x86 platforms.
+To make it portable, it should be ensured always temporary buffer is
+used for CRC and not io memory.
+drm_memcpy_from_wc_vaddr() is now used for copying instead of
+i915_memcpy_from_wc() for 2 reasons.
+- i915_memcpy_from_wc() will be deprecated.
+- drm_memcpy_from_wc_vaddr() will not fail if the fast copy is not
+supported but uses memcpy_fromio as fallback for copying.
 
-v2: check if the source and destination memory address is from local
-    memory or system memory and initialize the iosys_map accordingly
-    (Lucas)
-
-Cc: Lucas De Marchi <lucas.demarchi@intel.com>
-Cc: Matthew Auld <matthew.auld@intel.com>
-Cc: Thomas Hellstr_m <thomas.hellstrom@linux.intel.com>
-Cc: Thomas Zimmermann <tzimmermann@suse.de>
-Cc: Daniel Vetter <daniel.vetter@ffwll.ch>
+Cc: Matthew Brost <matthew.brost@intel.com>
+Cc: Michał Winiarski <michal.winiarski@intel.com>
 
 Signed-off-by: Balasubramani Vivekanandan <balasubramani.vivekanandan@intel.com>
 Acked-by: Nirmoy Das <nirmoy.das@intel.com>
 ---
- .../drm/i915/selftests/intel_memory_region.c  | 41 +++++++++++++------
- 1 file changed, 28 insertions(+), 13 deletions(-)
+ drivers/gpu/drm/i915/gt/selftest_reset.c | 21 ++++++++++-----------
+ 1 file changed, 10 insertions(+), 11 deletions(-)
 
-diff --git a/drivers/gpu/drm/i915/selftests/intel_memory_region.c b/drivers/gpu/drm/i915/selftests/intel_memory_region.c
-index 73eb53edb8de..420210c20ad5 100644
---- a/drivers/gpu/drm/i915/selftests/intel_memory_region.c
-+++ b/drivers/gpu/drm/i915/selftests/intel_memory_region.c
-@@ -7,6 +7,7 @@
- #include <linux/sort.h>
+diff --git a/drivers/gpu/drm/i915/gt/selftest_reset.c b/drivers/gpu/drm/i915/gt/selftest_reset.c
+index 37c38bdd5f47..7a455583c687 100644
+--- a/drivers/gpu/drm/i915/gt/selftest_reset.c
++++ b/drivers/gpu/drm/i915/gt/selftest_reset.c
+@@ -3,6 +3,7 @@
+  * Copyright © 2018 Intel Corporation
+  */
  
- #include <drm/drm_buddy.h>
 +#include <drm/drm_cache.h>
+ #include <linux/crc32.h>
  
- #include "../i915_selftest.h"
+ #include "gem/i915_gem_stolen.h"
+@@ -82,7 +83,7 @@ __igt_reset_stolen(struct intel_gt *gt,
+ 	for (page = 0; page < num_pages; page++) {
+ 		dma_addr_t dma = (dma_addr_t)dsm->start + (page << PAGE_SHIFT);
+ 		void __iomem *s;
+-		void *in;
++		struct iosys_map src_map;
  
-@@ -1141,7 +1142,7 @@ static const char *repr_type(u32 type)
+ 		ggtt->vm.insert_page(&ggtt->vm, dma,
+ 				     ggtt->error_capture.start,
+@@ -98,10 +99,9 @@ __igt_reset_stolen(struct intel_gt *gt,
+ 					     ((page + 1) << PAGE_SHIFT) - 1))
+ 			memset_io(s, STACK_MAGIC, PAGE_SIZE);
  
- static struct drm_i915_gem_object *
- create_region_for_mapping(struct intel_memory_region *mr, u64 size, u32 type,
--			  void **out_addr)
-+			  struct iosys_map *out_addr)
- {
- 	struct drm_i915_gem_object *obj;
- 	void *addr;
-@@ -1161,7 +1162,11 @@ create_region_for_mapping(struct intel_memory_region *mr, u64 size, u32 type,
- 		return addr;
+-		in = (void __force *)s;
+-		if (i915_memcpy_from_wc(tmp, in, PAGE_SIZE))
+-			in = tmp;
+-		crc[page] = crc32_le(0, in, PAGE_SIZE);
++		iosys_map_set_vaddr_iomem(&src_map, s);
++		drm_memcpy_from_wc_vaddr(tmp, &src_map, 0, PAGE_SIZE);
++		crc[page] = crc32_le(0, tmp, PAGE_SIZE);
+ 
+ 		io_mapping_unmap(s);
  	}
+@@ -122,7 +122,7 @@ __igt_reset_stolen(struct intel_gt *gt,
+ 	for (page = 0; page < num_pages; page++) {
+ 		dma_addr_t dma = (dma_addr_t)dsm->start + (page << PAGE_SHIFT);
+ 		void __iomem *s;
+-		void *in;
++		struct iosys_map src_map;
+ 		u32 x;
  
--	*out_addr = addr;
-+	if (i915_gem_object_is_lmem(obj))
-+		iosys_map_set_vaddr_iomem(out_addr, (void __iomem *)addr);
-+	else
-+		iosys_map_set_vaddr(out_addr, addr);
-+
- 	return obj;
- }
+ 		ggtt->vm.insert_page(&ggtt->vm, dma,
+@@ -134,10 +134,9 @@ __igt_reset_stolen(struct intel_gt *gt,
+ 				      ggtt->error_capture.start,
+ 				      PAGE_SIZE);
  
-@@ -1172,24 +1177,33 @@ static int wrap_ktime_compare(const void *A, const void *B)
- 	return ktime_compare(*a, *b);
- }
+-		in = (void __force *)s;
+-		if (i915_memcpy_from_wc(tmp, in, PAGE_SIZE))
+-			in = tmp;
+-		x = crc32_le(0, in, PAGE_SIZE);
++		iosys_map_set_vaddr_iomem(&src_map, s);
++		drm_memcpy_from_wc_vaddr(tmp, &src_map, 0, PAGE_SIZE);
++		x = crc32_le(0, tmp, PAGE_SIZE);
  
--static void igt_memcpy_long(void *dst, const void *src, size_t size)
-+static void igt_memcpy_long(struct iosys_map *dst, struct iosys_map *src,
-+			    size_t size)
- {
--	unsigned long *tmp = dst;
--	const unsigned long *s = src;
-+	unsigned long *tmp = dst->is_iomem ?
-+				(unsigned long __force *)dst->vaddr_iomem :
-+				dst->vaddr;
-+	const unsigned long *s = src->is_iomem ?
-+				(unsigned long __force *)src->vaddr_iomem :
-+				src->vaddr;
+ 		if (x != crc[page] &&
+ 		    !__drm_mm_interval_first(&gt->i915->mm.stolen,
+@@ -146,7 +145,7 @@ __igt_reset_stolen(struct intel_gt *gt,
+ 			pr_debug("unused stolen page %pa modified by GPU reset\n",
+ 				 &page);
+ 			if (count++ == 0)
+-				igt_hexdump(in, PAGE_SIZE);
++				igt_hexdump(tmp, PAGE_SIZE);
+ 			max = page;
+ 		}
  
- 	size = size / sizeof(unsigned long);
- 	while (size--)
- 		*tmp++ = *s++;
- }
- 
--static inline void igt_memcpy(void *dst, const void *src, size_t size)
-+static inline void igt_memcpy(struct iosys_map *dst, struct iosys_map *src,
-+			      size_t size)
- {
--	memcpy(dst, src, size);
-+	memcpy(dst->is_iomem ? (void __force *)dst->vaddr_iomem : dst->vaddr,
-+	       src->is_iomem ? (void __force *)src->vaddr_iomem : src->vaddr,
-+	       size);
- }
- 
--static inline void igt_memcpy_from_wc(void *dst, const void *src, size_t size)
-+static inline void igt_memcpy_from_wc(struct iosys_map *dst, struct iosys_map *src,
-+				      size_t size)
- {
--	i915_memcpy_from_wc(dst, src, size);
-+	drm_memcpy_from_wc(dst, src, size);
- }
- 
- static int _perf_memcpy(struct intel_memory_region *src_mr,
-@@ -1199,7 +1213,8 @@ static int _perf_memcpy(struct intel_memory_region *src_mr,
- 	struct drm_i915_private *i915 = src_mr->i915;
- 	const struct {
- 		const char *name;
--		void (*copy)(void *dst, const void *src, size_t size);
-+		void (*copy)(struct iosys_map *dst, struct iosys_map *src,
-+			     size_t size);
- 		bool skip;
- 	} tests[] = {
- 		{
-@@ -1213,11 +1228,11 @@ static int _perf_memcpy(struct intel_memory_region *src_mr,
- 		{
- 			"memcpy_from_wc",
- 			igt_memcpy_from_wc,
--			!i915_has_memcpy_from_wc(),
-+			!drm_memcpy_fastcopy_supported(),
- 		},
- 	};
- 	struct drm_i915_gem_object *src, *dst;
--	void *src_addr, *dst_addr;
-+	struct iosys_map src_addr, dst_addr;
- 	int ret = 0;
- 	int i;
- 
-@@ -1245,7 +1260,7 @@ static int _perf_memcpy(struct intel_memory_region *src_mr,
- 
- 			t0 = ktime_get();
- 
--			tests[i].copy(dst_addr, src_addr, size);
-+			tests[i].copy(&dst_addr, &src_addr, size);
- 
- 			t1 = ktime_get();
- 			t[pass] = ktime_sub(t1, t0);
 -- 
 2.25.1
 
