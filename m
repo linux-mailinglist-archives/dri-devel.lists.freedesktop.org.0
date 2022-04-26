@@ -2,80 +2,61 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id EE366510562
-	for <lists+dri-devel@lfdr.de>; Tue, 26 Apr 2022 19:26:40 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id D663E51058E
+	for <lists+dri-devel@lfdr.de>; Tue, 26 Apr 2022 19:36:57 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id CD49F10E95C;
-	Tue, 26 Apr 2022 17:26:38 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id C403F10E2E0;
+	Tue, 26 Apr 2022 17:36:53 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from us-smtp-delivery-124.mimecast.com
- (us-smtp-delivery-124.mimecast.com [170.10.129.124])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 22BEA10E95C
- for <dri-devel@lists.freedesktop.org>; Tue, 26 Apr 2022 17:26:37 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1650993996;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=lIDKi1Fbqi03mYjNDUZNSZko/5hz16GhkjeizzJX6xo=;
- b=cS6xZAnJL7rnrxwoDa99MBrF5q4yHRrD0S4h2Sj8tAzjKzPAeG3fnK7yNEJhbbQ/3sXGkx
- 7EdU2w55OOA83EAGZ1t0lW2opxYonI790YZqusW2XDhawE9x62foi0KZZVkpcePwoYFnIr
- lC3rYf7L30knxILvOjcGTPkZiQ9zxWA=
-Received: from mail-vk1-f199.google.com (mail-vk1-f199.google.com
- [209.85.221.199]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-259-q0q4SJpVNuSABkR_Isf0kQ-1; Tue, 26 Apr 2022 13:26:27 -0400
-X-MC-Unique: q0q4SJpVNuSABkR_Isf0kQ-1
-Received: by mail-vk1-f199.google.com with SMTP id
- bk12-20020a0561220e0c00b0033ed0b2c1d8so1899985vkb.23
- for <dri-devel@lists.freedesktop.org>; Tue, 26 Apr 2022 10:26:27 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=x-gm-message-state:message-id:subject:from:to:cc:date:in-reply-to
- :references:organization:user-agent:mime-version
- :content-transfer-encoding;
- bh=lIDKi1Fbqi03mYjNDUZNSZko/5hz16GhkjeizzJX6xo=;
- b=74siyA+7/lynDwRsJdmKwnPjQNJYqVG1sBt4kFkzAjDc0/HqwnvU7lnNpnbVaK/aKL
- pzsy+klc35c+wD3U/peuE69jhN6YdrXDh9PCGN2XrLIjJoEzm6aY6KsW0KFE8Y7yKakB
- hMFsiOGM1hKpffNx/tSTHg5iYK0qyWjnWX87b9lRMCMhXvVpUvGFLitJEJfOOSP9BxkI
- 2IMWGxACvEFovv5+AG4odaskCqtFxtv7bB9VRxrjgoBT0LufbAQ7IJYU4WXFTn+t5NKP
- hqmG5FNTWOSd+UHsG9wn3Ke99FPEAlhEi19im/wTJXXP0I1NbTTWWNqZ42P0+3nZmYYp
- TpDQ==
-X-Gm-Message-State: AOAM533hTnRjYR7OXAJrtha+SPAEs8DR/DMKx3Jee6RFiUTdvRJsssrJ
- gXtdhXYfZiGx3kR1UNWcNF/a+XAAE7fx5V8bPjaQe82VFCmyXWWcLvG3KfCZkT/1ETZUGXdgV2U
- rPwF8d4L7RYyErrd1bUU8OwuVALr9
-X-Received: by 2002:a67:e9d1:0:b0:32c:eb44:efd6 with SMTP id
- q17-20020a67e9d1000000b0032ceb44efd6mr911050vso.16.1650993986820; 
- Tue, 26 Apr 2022 10:26:26 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJwpFGyTlNOnTHUlqHT3HOBW9kR28MQd1k1z2LvC85IOws5IevLAC/JD+KnrsGzp3VspUMHE+w==
-X-Received: by 2002:a67:e9d1:0:b0:32c:eb44:efd6 with SMTP id
- q17-20020a67e9d1000000b0032ceb44efd6mr911031vso.16.1650993986543; 
- Tue, 26 Apr 2022 10:26:26 -0700 (PDT)
-Received: from [192.168.8.138] (static-71-184-137-158.bstnma.ftas.verizon.net.
- [71.184.137.158]) by smtp.gmail.com with ESMTPSA id
- b206-20020a1f34d7000000b003452c5cc13csm1672864vka.41.2022.04.26.10.26.25
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 26 Apr 2022 10:26:25 -0700 (PDT)
-Message-ID: <a46595078332c8e0ad801f3f8eb03ca9c11db8dc.camel@redhat.com>
-Subject: Re: [PATCH] drm/nouveau/kms/gv100: use static for
- gv100_disp_core_mthd_[base|sor]
-From: Lyude Paul <lyude@redhat.com>
-To: Tom Rix <trix@redhat.com>, bskeggs@redhat.com, kherbst@redhat.com, 
- airlied@linux.ie, daniel@ffwll.ch
-Date: Tue, 26 Apr 2022 13:26:24 -0400
-In-Reply-To: <20220422185132.3163248-1-trix@redhat.com>
-References: <20220422185132.3163248-1-trix@redhat.com>
-Organization: Red Hat Inc.
-User-Agent: Evolution 3.42.4 (3.42.4-2.fc35)
+Received: from alexa-out-sd-02.qualcomm.com (alexa-out-sd-02.qualcomm.com
+ [199.106.114.39])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 037E010EF01;
+ Tue, 26 Apr 2022 17:36:51 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=quicinc.com; i=@quicinc.com; q=dns/txt; s=qcdkim;
+ t=1650994612; x=1682530612;
+ h=message-id:date:mime-version:subject:to:cc:references:
+ from:in-reply-to:content-transfer-encoding;
+ bh=LfeU+qR1LVCLWLHBR/AmkPZiH2YFo20bzm5nVGPB3CI=;
+ b=tIE9Qu3+twwSotcq7ZGeezK66q1oXN15gh979ZrgkQsOPD59xTwQmpxK
+ 0idat9zV1aJwB1l1xaqi9dEpvXrtdFGs51Tw5v9WuYT48tYB1u+QPhX/Z
+ 6I0C1U+gBO0dh1qRd0kV8CkifNGPjpSsWCNgE0UdlRUYqc8GbcYVdNBHP Q=;
+Received: from unknown (HELO ironmsg-SD-alpha.qualcomm.com) ([10.53.140.30])
+ by alexa-out-sd-02.qualcomm.com with ESMTP; 26 Apr 2022 10:36:51 -0700
+X-QCInternal: smtphost
+Received: from nasanex01c.na.qualcomm.com ([10.47.97.222])
+ by ironmsg-SD-alpha.qualcomm.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 26 Apr 2022 10:36:51 -0700
+Received: from nalasex01a.na.qualcomm.com (10.47.209.196) by
+ nasanex01c.na.qualcomm.com (10.47.97.222) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.2.986.22; Tue, 26 Apr 2022 10:36:50 -0700
+Received: from [10.111.160.161] (10.80.80.8) by nalasex01a.na.qualcomm.com
+ (10.47.209.196) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.986.22; Tue, 26 Apr
+ 2022 10:36:47 -0700
+Message-ID: <244db806-7afc-e8e9-a855-c592e0af8c44@quicinc.com>
+Date: Tue, 26 Apr 2022 10:36:45 -0700
 MIME-Version: 1.0
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=lyude@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: 8bit
+User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:91.0) Gecko/20100101
+ Thunderbird/91.6.2
+Subject: Re: [PATCH v2] drm/msm/dp: remove fail safe mode related code
+Content-Language: en-US
+To: Stephen Boyd <swboyd@chromium.org>, Kuogee Hsieh
+ <quic_khsieh@quicinc.com>, <agross@kernel.org>, <airlied@linux.ie>,
+ <bjorn.andersson@linaro.org>, <daniel@ffwll.ch>,
+ <dmitry.baryshkov@linaro.org>, <robdclark@gmail.com>, <sean@poorly.run>,
+ <vkoul@kernel.org>
+References: <1650952595-27783-1-git-send-email-quic_khsieh@quicinc.com>
+ <CAE-0n53kv+NPJ-4Cpjy_FeJT5xOo7fLNz24fyGUcjy6ucccjbQ@mail.gmail.com>
+From: Abhinav Kumar <quic_abhinavk@quicinc.com>
+In-Reply-To: <CAE-0n53kv+NPJ-4Cpjy_FeJT5xOo7fLNz24fyGUcjy6ucccjbQ@mail.gmail.com>
+Content-Type: text/plain; charset="UTF-8"; format=flowed
+Content-Transfer-Encoding: 7bit
+X-Originating-IP: [10.80.80.8]
+X-ClientProxiedBy: nasanex01a.na.qualcomm.com (10.52.223.231) To
+ nalasex01a.na.qualcomm.com (10.47.209.196)
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -88,56 +69,41 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: nouveau@lists.freedesktop.org, linux-kernel@vger.kernel.org,
- dri-devel@lists.freedesktop.org
+Cc: quic_sbillaka@quicinc.com, linux-arm-msm@vger.kernel.org,
+ linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
+ quic_aravindh@quicinc.com, freedreno@lists.freedesktop.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Reviewed-by: Lyude Paul <lyude@redhat.com>
 
-Will push to the appropriate branch in a bit
 
-On Fri, 2022-04-22 at 14:51 -0400, Tom Rix wrote:
-> Sparse reports these issues
-> coregv100.c:27:1: warning: symbol 'gv100_disp_core_mthd_base' was not
-> declared. Should it be static?
-> coregv100.c:43:1: warning: symbol 'gv100_disp_core_mthd_sor' was not
-> declared. Should it be static?
+On 4/25/2022 11:00 PM, Stephen Boyd wrote:
+> Quoting Kuogee Hsieh (2022-04-25 22:56:35)
+>> Current DP driver implementation has adding safe mode done at
+>> dp_hpd_plug_handle() which is expected to be executed under event
+>> thread context.
+>>
+>> However there is possible circular locking happen (see blow stack trace)
+>> after edp driver call dp_hpd_plug_handle() from dp_bridge_enable() which
+>> is executed under drm_thread context.
+>>
+>> After review all possibilities methods and as discussed on
+>> https://patchwork.freedesktop.org/patch/483155/, supporting EDID
+>> compliance tests in the driver is quite hacky. As seen with other
+>> vendor drivers, supporting these will be much easier with IGT. Hence
+>> removing all the related fail safe code for it so that no possibility
+>> of circular lock will happen.
+> [...]
+>>
+>> Changes in v2:
+>> -- re text commit title
+>> -- remove all fail safe mode
+>>
+>> Signed-off-by: Kuogee Hsieh <quic_khsieh@quicinc.com>
 > 
-> These variables are only used in coregv100.c.  Single file use
-> variables should be static, so add static to their storage-class specifier.
-> 
-> Signed-off-by: Tom Rix <trix@redhat.com>
-> ---
->  drivers/gpu/drm/nouveau/nvkm/engine/disp/coregv100.c | 4 ++--
->  1 file changed, 2 insertions(+), 2 deletions(-)
-> 
-> diff --git a/drivers/gpu/drm/nouveau/nvkm/engine/disp/coregv100.c
-> b/drivers/gpu/drm/nouveau/nvkm/engine/disp/coregv100.c
-> index 448a515057c7..1d333c484a49 100644
-> --- a/drivers/gpu/drm/nouveau/nvkm/engine/disp/coregv100.c
-> +++ b/drivers/gpu/drm/nouveau/nvkm/engine/disp/coregv100.c
-> @@ -23,7 +23,7 @@
->  
->  #include <subdev/timer.h>
->  
-> -const struct nv50_disp_mthd_list
-> +static const struct nv50_disp_mthd_list
->  gv100_disp_core_mthd_base = {
->         .mthd = 0x0000,
->         .addr = 0x000000,
-> @@ -39,7 +39,7 @@ gv100_disp_core_mthd_base = {
->         }
->  };
->  
-> -const struct nv50_disp_mthd_list
-> +static const struct nv50_disp_mthd_list
->  gv100_disp_core_mthd_sor = {
->         .mthd = 0x0020,
->         .addr = 0x000020,
+> Should add some Fixes tags here, probably for the first introduction of
+> this logic and the one that moved stuff around to try to avoid the
+> lockdep warning.
 
--- 
-Cheers,
- Lyude Paul (she/her)
- Software Engineer at Red Hat
-
+Fixes: 8b2c181 ("drm/msm/dp: add fail safe mode outside of event_mutex 
+context")
