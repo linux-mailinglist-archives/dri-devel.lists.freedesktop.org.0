@@ -1,54 +1,56 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id AB90B5100D0
-	for <lists+dri-devel@lfdr.de>; Tue, 26 Apr 2022 16:42:54 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id E7DFF5100D5
+	for <lists+dri-devel@lfdr.de>; Tue, 26 Apr 2022 16:45:24 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id A8E9E10E4AB;
-	Tue, 26 Apr 2022 14:42:45 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 24BA710E058;
+	Tue, 26 Apr 2022 14:45:22 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from alexa-out-sd-01.qualcomm.com (alexa-out-sd-01.qualcomm.com
- [199.106.114.38])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 4B99B10E3EA;
- Tue, 26 Apr 2022 14:42:31 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=quicinc.com; i=@quicinc.com; q=dns/txt; s=qcdkim;
- t=1650984151; x=1682520151;
- h=from:to:cc:subject:date:message-id:in-reply-to:
- references:mime-version;
- bh=yCds9Cxt1GX8xXNpD8IcO4JVELty97+cqwSD7bYr2JA=;
- b=l1yHA2nCS/QDsg28vzxUbiDM7Cm+nt6IjSGjcOl3ReUSLjM5zHfYkxC7
- M3GNMzCqWoU3BmxfzhrCsycETUO+6k7XC5K9/XmdiSIZjM+gBFseZj85a
- GlJb0Pol9aJY8epqqyPceEP0N5UQ5mLTZDFLm3gByW75HhRaM58FUFiXf 8=;
-Received: from unknown (HELO ironmsg02-sd.qualcomm.com) ([10.53.140.142])
- by alexa-out-sd-01.qualcomm.com with ESMTP; 26 Apr 2022 07:42:31 -0700
-X-QCInternal: smtphost
-Received: from nasanex01c.na.qualcomm.com ([10.47.97.222])
- by ironmsg02-sd.qualcomm.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 26 Apr 2022 07:42:30 -0700
-Received: from nalasex01a.na.qualcomm.com (10.47.209.196) by
- nasanex01c.na.qualcomm.com (10.47.97.222) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.2.986.22; Tue, 26 Apr 2022 07:42:26 -0700
-Received: from abhinavk-linux.qualcomm.com (10.80.80.8) by
- nalasex01a.na.qualcomm.com (10.47.209.196) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.2.986.22; Tue, 26 Apr 2022 07:42:26 -0700
-From: Abhinav Kumar <quic_abhinavk@quicinc.com>
-To: <freedreno@lists.freedesktop.org>
-Subject: [PATCH v6 19/19] drm/msm/dpu: add wb_idx to DRM traces in dpu_encoder
-Date: Tue, 26 Apr 2022 07:41:36 -0700
-Message-ID: <1650984096-9964-20-git-send-email-quic_abhinavk@quicinc.com>
-X-Mailer: git-send-email 2.7.4
-In-Reply-To: <1650984096-9964-1-git-send-email-quic_abhinavk@quicinc.com>
-References: <1650984096-9964-1-git-send-email-quic_abhinavk@quicinc.com>
+Received: from mail-oa1-x36.google.com (mail-oa1-x36.google.com
+ [IPv6:2001:4860:4864:20::36])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id AA2F210E084;
+ Tue, 26 Apr 2022 14:45:20 +0000 (UTC)
+Received: by mail-oa1-x36.google.com with SMTP id
+ 586e51a60fabf-e922e68b0fso8495440fac.1; 
+ Tue, 26 Apr 2022 07:45:20 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc; bh=OOtL5wcXcfwJhLOAEydGIIJp5UrBXd8LJmT1yWYvkhg=;
+ b=hg60SGGEIYf9LGl/ckHOj11ljvLU6FltdZryKK3hKyICRySODEM+Ts9UOEfpUno8x1
+ tvi2ettjfr7e11bCDm6tI65FtAcNtbaFVNwbO4ufUhHZMKQmiAkEnKFZRgYBgqjD+s3W
+ 5EcsKhiMpzd+jFYCkMFa8m4BVN6JcK+yFh7S8bsW/LU3CfsV5tZhE1MxXCZ1JYxO/pdZ
+ JpyqDAV4Fy5dZ0WWgpcPV1QmzKo57ASHxpcb8H+OxhJFKCHtYk65ukCsSGeH9TjPWYA5
+ 6abFyXwweAOLTtP4k9WW7DP67UVllayYGv132yUVtizUaJD2HR8V8sNAydzY1gxWSy7M
+ P8OA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=OOtL5wcXcfwJhLOAEydGIIJp5UrBXd8LJmT1yWYvkhg=;
+ b=j7y8fWL8IUXZkY8fCrzpTFMR/CH4yrDapZ3pRdRCXvB2hoC7/tcZerYU6pBPHU2lzq
+ uCFQpH0eyNkwcax3QyCL8B6VtsI1Vlbb6FT2twpWnBSbLEAvc1Q0PWKr9PBeofnOt/hl
+ 6Ob5OmydbTy3Jb8+VibvbV+d1lkyVam6usjhwEbIJCOLb/oaj0JsaqeZgxaX1x8/8VJL
+ OLeeULXMyjWAVZgykEqgxA95ISABBy1rMqZP1dYQQ6F0kGPyJ+cXAzFaccgfd32eQ8tv
+ B58fa8EMTSCmn6ZvAbSgttKwvXUCF6wX+mDHfWXfbd8DD5g0GDeHfbOXKQ+iLTCmZHxT
+ 1DtA==
+X-Gm-Message-State: AOAM530kOl5ht0p18EPGB2M1GbtmyQdwIH0NrTLcARW/k/O1YfQkIJ1P
+ kTYjdtflbeS8+cvjlzQCpp86WaEkw8nDMnh58nQ=
+X-Google-Smtp-Source: ABdhPJwHcWQUioAJE5Gzf7IrAv5O02o8R34v3YhNiHp4iz5J4jxvZx1WBL8DmYQhwimHz7+UeHiJbn/2VAy9Vof7z4U=
+X-Received: by 2002:a05:6870:d683:b0:de:eaa2:3550 with SMTP id
+ z3-20020a056870d68300b000deeaa23550mr9872967oap.253.1650984319966; Tue, 26
+ Apr 2022 07:45:19 -0700 (PDT)
 MIME-Version: 1.0
-Content-Type: text/plain
-X-Originating-IP: [10.80.80.8]
-X-ClientProxiedBy: nasanex01b.na.qualcomm.com (10.46.141.250) To
- nalasex01a.na.qualcomm.com (10.47.209.196)
+References: <20220426084959.3345358-1-lizhenneng@kylinos.cn>
+In-Reply-To: <20220426084959.3345358-1-lizhenneng@kylinos.cn>
+From: Alex Deucher <alexdeucher@gmail.com>
+Date: Tue, 26 Apr 2022 10:45:08 -0400
+Message-ID: <CADnq5_MoXnchJyB+VgXnv7RihXcmSCPuNcL8nE7GVfJW9KB34Q@mail.gmail.com>
+Subject: Re: [PATCH] gpu/drm/radeon: Fix typo in comments
+To: Zhenneng Li <lizhenneng@kylinos.cn>
+Content-Type: text/plain; charset="UTF-8"
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -61,129 +63,57 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: markyacoub@chromium.org, liviu.dudau@arm.com,
- Abhinav Kumar <quic_abhinavk@quicinc.com>, dri-devel@lists.freedesktop.org,
- swboyd@chromium.org, seanpaul@chromium.org, laurent.pinchart@ideasonboard.com,
- dmitry.baryshkov@linaro.org, quic_jesszhan@quicinc.com,
- quic_aravindh@quicinc.com
+Cc: David Airlie <airlied@linux.ie>, xinhui pan <Xinhui.Pan@amd.com>,
+ LKML <linux-kernel@vger.kernel.org>,
+ amd-gfx list <amd-gfx@lists.freedesktop.org>,
+ Maling list - DRI developers <dri-devel@lists.freedesktop.org>,
+ Alex Deucher <alexander.deucher@amd.com>,
+ =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Change the DRM traces to include both the intf_mode
-and wb_idx similar to the DRM prints in the previous change.
+Applied.  Thanks!
 
-Signed-off-by: Abhinav Kumar <quic_abhinavk@quicinc.com>
-Reviewed-by: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
----
- drivers/gpu/drm/msm/disp/dpu1/dpu_encoder.c | 13 ++++++++-----
- drivers/gpu/drm/msm/disp/dpu1/dpu_trace.h   | 26 ++++++++++++++++++--------
- 2 files changed, 26 insertions(+), 13 deletions(-)
+Alex
 
-diff --git a/drivers/gpu/drm/msm/disp/dpu1/dpu_encoder.c b/drivers/gpu/drm/msm/disp/dpu1/dpu_encoder.c
-index 35080c4..52516eb 100644
---- a/drivers/gpu/drm/msm/disp/dpu1/dpu_encoder.c
-+++ b/drivers/gpu/drm/msm/disp/dpu1/dpu_encoder.c
-@@ -1354,8 +1354,9 @@ static void dpu_encoder_frame_done_callback(
- 			 * suppress frame_done without waiter,
- 			 * likely autorefresh
- 			 */
--			trace_dpu_enc_frame_done_cb_not_busy(DRMID(drm_enc),
--					event, ready_phys->intf_idx);
-+			trace_dpu_enc_frame_done_cb_not_busy(DRMID(drm_enc), event,
-+					dpu_encoder_helper_get_intf_type(ready_phys->intf_mode),
-+					ready_phys->intf_idx, ready_phys->wb_idx);
- 			return;
- 		}
- 
-@@ -1433,9 +1434,11 @@ static void _dpu_encoder_trigger_flush(struct drm_encoder *drm_enc,
- 	if (ctl->ops.get_pending_flush)
- 		ret = ctl->ops.get_pending_flush(ctl);
- 
--	trace_dpu_enc_trigger_flush(DRMID(drm_enc), phys->intf_idx,
--				    pending_kickoff_cnt, ctl->idx,
--				    extra_flush_bits, ret);
-+	trace_dpu_enc_trigger_flush(DRMID(drm_enc),
-+			dpu_encoder_helper_get_intf_type(phys->intf_mode),
-+			phys->intf_idx, phys->wb_idx,
-+			pending_kickoff_cnt, ctl->idx,
-+			extra_flush_bits, ret);
- }
- 
- /**
-diff --git a/drivers/gpu/drm/msm/disp/dpu1/dpu_trace.h b/drivers/gpu/drm/msm/disp/dpu1/dpu_trace.h
-index 58b411f..1106d44 100644
---- a/drivers/gpu/drm/msm/disp/dpu1/dpu_trace.h
-+++ b/drivers/gpu/drm/msm/disp/dpu1/dpu_trace.h
-@@ -380,20 +380,26 @@ TRACE_EVENT(dpu_enc_rc,
- );
- 
- TRACE_EVENT(dpu_enc_frame_done_cb_not_busy,
--	TP_PROTO(uint32_t drm_id, u32 event, enum dpu_intf intf_idx),
--	TP_ARGS(drm_id, event, intf_idx),
-+	TP_PROTO(uint32_t drm_id, u32 event, char *intf_mode, enum dpu_intf intf_idx,
-+			enum dpu_wb wb_idx),
-+	TP_ARGS(drm_id, event, intf_mode, intf_idx, wb_idx),
- 	TP_STRUCT__entry(
- 		__field(	uint32_t,	drm_id		)
- 		__field(	u32,		event		)
-+		__string(	intf_mode_str,		intf_mode	)
- 		__field(	enum dpu_intf,	intf_idx	)
-+		__field(    enum dpu_wb,  wb_idx    )
- 	),
- 	TP_fast_assign(
- 		__entry->drm_id = drm_id;
- 		__entry->event = event;
-+		__assign_str(intf_mode_str, intf_mode);
- 		__entry->intf_idx = intf_idx;
-+		__entry->wb_idx = wb_idx;
- 	),
--	TP_printk("id=%u, event=%u, intf=%d", __entry->drm_id, __entry->event,
--		  __entry->intf_idx)
-+	TP_printk("id=%u, event=%u, intf_mode=%s intf=%d wb=%d", __entry->drm_id,
-+			__entry->event, __get_str(intf_mode_str),
-+			__entry->intf_idx, __entry->wb_idx)
- );
- 
- TRACE_EVENT(dpu_enc_frame_done_cb,
-@@ -415,14 +421,16 @@ TRACE_EVENT(dpu_enc_frame_done_cb,
- );
- 
- TRACE_EVENT(dpu_enc_trigger_flush,
--	TP_PROTO(uint32_t drm_id, enum dpu_intf intf_idx,
-+	TP_PROTO(uint32_t drm_id, char *intf_mode, enum dpu_intf intf_idx, enum dpu_wb wb_idx,
- 		 int pending_kickoff_cnt, int ctl_idx, u32 extra_flush_bits,
- 		 u32 pending_flush_ret),
--	TP_ARGS(drm_id, intf_idx, pending_kickoff_cnt, ctl_idx,
-+	TP_ARGS(drm_id, intf_mode, intf_idx, pending_kickoff_cnt, ctl_idx,
- 		extra_flush_bits, pending_flush_ret),
- 	TP_STRUCT__entry(
- 		__field(	uint32_t,	drm_id			)
-+		__string(	intf_mode_str,	intf_mode	)
- 		__field(	enum dpu_intf,	intf_idx		)
-+		__field(    enum dpu_wb,  wb_idx        )
- 		__field(	int,		pending_kickoff_cnt	)
- 		__field(	int,		ctl_idx			)
- 		__field(	u32,		extra_flush_bits	)
-@@ -430,15 +438,17 @@ TRACE_EVENT(dpu_enc_trigger_flush,
- 	),
- 	TP_fast_assign(
- 		__entry->drm_id = drm_id;
-+		__assign_str(intf_mode_str, intf_mode);
- 		__entry->intf_idx = intf_idx;
-+		__entry->wb_idx = wb_idx;
- 		__entry->pending_kickoff_cnt = pending_kickoff_cnt;
- 		__entry->ctl_idx = ctl_idx;
- 		__entry->extra_flush_bits = extra_flush_bits;
- 		__entry->pending_flush_ret = pending_flush_ret;
- 	),
--	TP_printk("id=%u, intf_idx=%d, pending_kickoff_cnt=%d ctl_idx=%d "
-+	TP_printk("id=%u, intf_mode=%s, intf_idx=%d, wb_idx=%d, pending_kickoff_cnt=%d ctl_idx=%d "
- 		  "extra_flush_bits=0x%x pending_flush_ret=0x%x",
--		  __entry->drm_id, __entry->intf_idx,
-+		  __entry->drm_id, __get_str(intf_mode_str), __entry->intf_idx, __entry->wb_idx,
- 		  __entry->pending_kickoff_cnt, __entry->ctl_idx,
- 		  __entry->extra_flush_bits, __entry->pending_flush_ret)
- );
--- 
-2.7.4
-
+On Tue, Apr 26, 2022 at 4:50 AM Zhenneng Li <lizhenneng@kylinos.cn> wrote:
+>
+> Signed-off-by: Zhenneng Li <lizhenneng@kylinos.cn>
+> ---
+>  drivers/gpu/drm/radeon/atombios.h | 6 +++---
+>  1 file changed, 3 insertions(+), 3 deletions(-)
+>
+> diff --git a/drivers/gpu/drm/radeon/atombios.h b/drivers/gpu/drm/radeon/atombios.h
+> index bd5dc09e860f..6ccc9f31689f 100644
+> --- a/drivers/gpu/drm/radeon/atombios.h
+> +++ b/drivers/gpu/drm/radeon/atombios.h
+> @@ -3599,7 +3599,7 @@ typedef struct  _ATOM_LCD_RTS_RECORD
+>    UCHAR     ucRTSValue;
+>  }ATOM_LCD_RTS_RECORD;
+>
+> -//!! If the record below exits, it shoud always be the first record for easy use in command table!!!
+> +//!! If the record below exits, it should always be the first record for easy use in command table!!!
+>  // The record below is only used when LVDS_Info is present. From ATOM_LVDS_INFO_V12, use ucLCDPanel_SpecialHandlingCap instead.
+>  typedef struct  _ATOM_LCD_MODE_CONTROL_CAP
+>  {
+> @@ -3823,7 +3823,7 @@ typedef struct _ATOM_DPCD_INFO
+>  // Note1: This table is filled by SetBiosReservationStartInFB in CoreCommSubs.asm
+>  //        at running time.
+>  // note2: From RV770, the memory is more than 32bit addressable, so we will change
+> -//        ucTableFormatRevision=1,ucTableContentRevision=4, the strcuture remains
+> +//        ucTableFormatRevision=1,ucTableContentRevision=4, the structure remains
+>  //        exactly same as 1.1 and 1.2 (1.3 is never in use), but ulStartAddrUsedByFirmware
+>  //        (in offset to start of memory address) is KB aligned instead of byte aligend.
+>  /***********************************************************************************/
+> @@ -3858,7 +3858,7 @@ typedef struct _ATOM_VRAM_USAGE_BY_FIRMWARE
+>    ATOM_FIRMWARE_VRAM_RESERVE_INFO      asFirmwareVramReserveInfo[ATOM_MAX_FIRMWARE_VRAM_USAGE_INFO];
+>  }ATOM_VRAM_USAGE_BY_FIRMWARE;
+>
+> -// change verion to 1.5, when allow driver to allocate the vram area for command table access.
+> +// change version to 1.5, when allow driver to allocate the vram area for command table access.
+>  typedef struct _ATOM_FIRMWARE_VRAM_RESERVE_INFO_V1_5
+>  {
+>    ULONG   ulStartAddrUsedByFirmware;
+> --
+> 2.25.1
+>
