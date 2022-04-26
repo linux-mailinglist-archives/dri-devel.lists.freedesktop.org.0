@@ -2,50 +2,50 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id E09FE50FD56
-	for <lists+dri-devel@lfdr.de>; Tue, 26 Apr 2022 14:42:01 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id BC63350FD5F
+	for <lists+dri-devel@lfdr.de>; Tue, 26 Apr 2022 14:42:41 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 7646010E6E3;
-	Tue, 26 Apr 2022 12:41:54 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id F047110E8CF;
+	Tue, 26 Apr 2022 12:42:38 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from out1-smtp.messagingengine.com (out1-smtp.messagingengine.com
  [66.111.4.25])
- by gabe.freedesktop.org (Postfix) with ESMTPS id A228B10E6DE
- for <dri-devel@lists.freedesktop.org>; Tue, 26 Apr 2022 12:41:51 +0000 (UTC)
-Received: from compute4.internal (compute4.nyi.internal [10.202.2.44])
- by mailout.nyi.internal (Postfix) with ESMTP id F3B995C0074;
- Tue, 26 Apr 2022 08:41:50 -0400 (EDT)
-Received: from mailfrontend2 ([10.202.2.163])
- by compute4.internal (MEProxy); Tue, 26 Apr 2022 08:41:51 -0400
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 71A2010E6C9
+ for <dri-devel@lists.freedesktop.org>; Tue, 26 Apr 2022 12:41:53 +0000 (UTC)
+Received: from compute5.internal (compute5.nyi.internal [10.202.2.45])
+ by mailout.nyi.internal (Postfix) with ESMTP id C1EDB5C0181;
+ Tue, 26 Apr 2022 08:41:52 -0400 (EDT)
+Received: from mailfrontend1 ([10.202.2.162])
+ by compute5.internal (MEProxy); Tue, 26 Apr 2022 08:41:52 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=cerno.tech; h=cc
  :cc:content-transfer-encoding:content-type:date:date:from:from
  :in-reply-to:in-reply-to:message-id:mime-version:references
- :reply-to:sender:subject:subject:to:to; s=fm3; t=1650976910; x=
- 1651063310; bh=SgI0L/1WlWgshKXX27UtUUvssrv2YQvwIA+VNKXKllA=; b=w
- cfv6dP/e+RxvqAtKVyrLaeVrUDKYdZuo3xtGvwK0d0fNQOGfoYNgfMjrKglV5WTy
- /P5gGh2eUI8ReAk3jF+kROFdTVAHKnkH42pr4uyPHF1zBriOz5WwLvWcdJIt/ESY
- 8F5uUyC0YE9uwPJRzkbr4AojXLTocHBjrSbEB0SX2D/pB5wYPPtOeoWZwGsHLzDr
- 9wV5JSrD2Hh4QKl/3ZmG8+ckOAzwka0QDKZHulP40E7fYnRYh6IlgfIcI6rZt81q
- tvZLKyoGCFimPskraYs7VsOMffZ8QCJmi8+ieLZd4xcqieQh+H0Kdomwr8YMJwhu
- hDInhCm3EYvwPszccPsWw==
+ :reply-to:sender:subject:subject:to:to; s=fm3; t=1650976912; x=
+ 1651063312; bh=oRWZWBSDnSSkUoo07sboRF+kzsesUviO3asAK3ko1d4=; b=W
+ u4rxTt/ucwRvMpRlQghB2CzuYUdchC9bNiLl6k9mTJ+te8N+4eDFKgnHEkcek+gS
+ shQunxx01zdB25HS7v8aphLGzYSkSDET1dxt/1YFEAUz6NLtms2R/CRxmizWyXoC
+ aB37AsKbKnb74TuKITTezlPnnLJR2YOvl4Jw/MtWuG78kVhWcdaU39IaNq/w6f1v
+ 2jBQtX5bBR9R9XYQfzhf5WstskcEwnnLR/9mmoLOSfGzRKsgdLQJahEoMjWMPbNX
+ uQxQX0GpMZLewYpMey8Z5oKTUoro57VNSxTVlApzTtZS8f7jf7dqBPAAqcWTSKQ2
+ 0cyjkbIzB0zs4MT8gEOmg==
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
  messagingengine.com; h=cc:cc:content-transfer-encoding
  :content-type:date:date:from:from:in-reply-to:in-reply-to
  :message-id:mime-version:references:reply-to:sender:subject
  :subject:to:to:x-me-proxy:x-me-proxy:x-me-sender:x-me-sender
- :x-sasl-enc; s=fm1; t=1650976910; x=1651063310; bh=SgI0L/1WlWgsh
- KXX27UtUUvssrv2YQvwIA+VNKXKllA=; b=cx3HRloJBuB08s8rREExdCU6YfzvK
- vvrpWPi+lZkdEYlYr0Lke42/1cF6nYvJ14wLr2Yo6UyQcmIJB7OD2uPwL3D+QneR
- yz4N1RZRwdmpG9xXCfd85fdspOlXgvFyXQn/Qd9dYhI2PlmliUhIPAALi91+M2Cn
- pMCMEs6/nCbJBti/I4VvJRhY+SCmGpAOmxkFUG0JSPSCNBNdQZ3Kv6E5/gJSaTpu
- VHIUXfy80IqijTzBOarLeGjSP50CGiK6ISvDLH40/qqt3H0cj25wzjZIA8CEcZS5
- ina1W/Evd2u6SddXbkyijQlKV9ad/MgH0NIPRxPIqt9ZIEA7Tes6byDnQ==
-X-ME-Sender: <xms:juhnYrum9ofuAVOWoI4dnecTSyJuYDi3cYkJrpBog2AOQwSgtg8i8w>
- <xme:juhnYscbK6RkAXrZ6hgMM0Fih1KWl5WCTmPnRFLwEmC0-e0K3HHezGzIamL7xxfN5
- Ea7SCqJLrbK8scxmZU>
-X-ME-Received: <xmr:juhnYuz1I8ZdNRgW8vAbaltv6tJarwgiVHi_jH4AlZlW8FfFttuBidNNiDPTjdMmSlCmF3PIWeAdMWcMw8pvpa-OhiKR9oheKIi8kWs>
-X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvfedrudefgdehvdcutefuodetggdotefrodftvf
+ :x-sasl-enc; s=fm1; t=1650976912; x=1651063312; bh=oRWZWBSDnSSkU
+ oo07sboRF+kzsesUviO3asAK3ko1d4=; b=qD72JznDaPnl6zQAntQ5fkM5nSOGm
+ rBb3Q+cFDGRyZgReKG1GWgLPpt9Eu10hurPGC7FV/ploPGWahehxIvPbKOlttBUg
+ efkNFpxhTlH/aCpSzthwZeiBuNNqpVlwCYrG14u9EZgu7mRRTktxo9qWEjiWWf8P
+ AGS6f4e0uesdT1VS09OrRsit/LqH13/rliS78e2Eq+PfEBChj1aK596V470k4qBe
+ 9x1kPyE8M4azLAMrpOgQ9OqS83PbmadvlGFNjr5GZQZYfl0Qfbqm9cYICwwsM1lC
+ MFpk/KTnsfabmXwIN2Wcj4SJa88LILjpO0HcFpmEkhIKomWAyyxiEStfA==
+X-ME-Sender: <xms:kOhnYktS2KxYpcMgLL9aadE-2PVLurVgXSJSk_dA_n5d-oapsUEVug>
+ <xme:kOhnYheIJCHM691StZ2Ane-ymET0S_co-WwCWY-40rZyUxHv-jkLsjMj9wag8wMfl
+ ftTcILWFFiKRbpehh8>
+X-ME-Received: <xmr:kOhnYvzzZk339wOkMMy2UghhW6dsSc2YKSPIdlr32OQzsM1U4dGw6HRxe7nMtPtmNM2ECk0qrzW4N6h6pb4whkswz_iaykMyUMP5cWI>
+X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvfedrudefgdehudcutefuodetggdotefrodftvf
  curfhrohhfihhlvgemucfhrghsthforghilhdpqfgfvfdpuffrtefokffrpgfnqfghnecu
  uegrihhlohhuthemuceftddtnecusecvtfgvtghiphhivghnthhsucdlqddutddtmdenuc
  fjughrpefhvfevufffkffojghfgggtgfesthekredtredtjeenucfhrhhomhepofgrgihi
@@ -53,24 +53,24 @@ X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvfedrudefgdehvdcutefuodetggdote
  htthgvrhhnpeeuieeggffhffffieefheduieeuvdetgeeufeffvefgtedvffehheekffev
  udefieenucevlhhushhtvghrufhiiigvpedunecurfgrrhgrmhepmhgrihhlfhhrohhmpe
  hmrgigihhmvgestggvrhhnohdrthgvtghh
-X-ME-Proxy: <xmx:juhnYqMptU7adTxfUEVCcb20Hry4TkDJ2FdgDSwtsinNkEo6leWb3g>
- <xmx:juhnYr_wEj8rONu7D0m5HnUUm-9--TvlY-GALkAv9mBynNbduBVYzg>
- <xmx:juhnYqW3VvLOzBuJehU-NbyrwEthlifmePZmzIBuQXaTEVR-aJ9fBw>
- <xmx:juhnYhdbVir_tQPX1k9Fa8K-lbvamQPkSLKpXGaNBnx5jLEeYRBbsw>
+X-ME-Proxy: <xmx:kOhnYnO2PS0Ey3hsclGX9QwbpdlxSTUpZj3tEhMI8RETIC8xmY05ew>
+ <xmx:kOhnYk_Fed0CrAEC3QEfYfS-LoUvvUSoUBsGWN-Y0X48fb6m5EbiSQ>
+ <xmx:kOhnYvWY2JsxnJP5sKTfDgkKnOHQajX-jvN3QGTQzZqVyafNofTyXw>
+ <xmx:kOhnYvVzilgTphkkE1te8YnYHIDKuz_GQhAMlK-yRyBaMFyIqB7ZVA>
 Received: by mail.messagingengine.com (Postfix) with ESMTPA; Tue,
- 26 Apr 2022 08:41:50 -0400 (EDT)
+ 26 Apr 2022 08:41:52 -0400 (EDT)
 From: Maxime Ripard <maxime@cerno.tech>
 To: Chen-Yu Tsai <wens@csie.org>, Maxime Ripard <mripard@kernel.org>,
  Samuel Holland <samuel@sholland.org>,
  Jernej Skrabec <jernej.skrabec@gmail.com>
-Subject: Re: (subset) [PATCH v3 04/14] drm/sun4i: hdmi: Use more portable I/O
- helpers
-Date: Tue, 26 Apr 2022 14:41:33 +0200
-Message-Id: <165097689885.514433.12561665113826982347.b4-ty@cerno.tech>
+Subject: Re: (subset) [PATCH v3 05/14] drm/sun4i: Allow building the driver on
+ RISC-V
+Date: Tue, 26 Apr 2022 14:41:34 +0200
+Message-Id: <165097689885.514433.10051703759938429783.b4-ty@cerno.tech>
 X-Mailer: git-send-email 2.35.1
-In-Reply-To: <20220424162633.12369-5-samuel@sholland.org>
+In-Reply-To: <20220424162633.12369-6-samuel@sholland.org>
 References: <20220424162633.12369-1-samuel@sholland.org>
- <20220424162633.12369-5-samuel@sholland.org>
+ <20220424162633.12369-6-samuel@sholland.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 8bit
@@ -86,18 +86,18 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: devicetree@vger.kernel.org, kernel test robot <lkp@intel.com>,
- David Airlie <airlied@linux.ie>, linux-kernel@vger.kernel.org,
- dri-devel@lists.freedesktop.org, Rob Herring <robh+dt@kernel.org>,
- Maxime Ripard <maxime@cerno.tech>, Krzysztof Kozlowski <krzk+dt@kernel.org>,
- linux-sunxi@lists.linux.dev, linux-arm-kernel@lists.infradead.org
+Cc: devicetree@vger.kernel.org, David Airlie <airlied@linux.ie>,
+ linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
+ Rob Herring <robh+dt@kernel.org>, Maxime Ripard <maxime@cerno.tech>,
+ Krzysztof Kozlowski <krzk+dt@kernel.org>, linux-sunxi@lists.linux.dev,
+ linux-arm-kernel@lists.infradead.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Sun, 24 Apr 2022 11:26:22 -0500, Samuel Holland wrote:
-> readsb/writesb are unavailable on some architectures. In preparation for
-> removing the Kconfig architecture dependency, switch to the equivalent
-> but more portable ioread/write8_rep helpers.
+On Sun, 24 Apr 2022 11:26:23 -0500, Samuel Holland wrote:
+> Allwinner D1 is a RISC-V SoC which contains a DE 2.0 engine. Let's
+> remove the dependency on a specific CPU architecture, so the driver can
+> be built wherever ARCH_SUNXI is selected.
 > 
 > 
 
