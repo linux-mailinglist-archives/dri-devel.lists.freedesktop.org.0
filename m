@@ -2,82 +2,112 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id E93E850FEB4
-	for <lists+dri-devel@lfdr.de>; Tue, 26 Apr 2022 15:19:51 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id BB02450FEC0
+	for <lists+dri-devel@lfdr.de>; Tue, 26 Apr 2022 15:21:55 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 97A5E10E797;
-	Tue, 26 Apr 2022 13:19:49 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id A57D010F144;
+	Tue, 26 Apr 2022 13:21:53 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from out1-smtp.messagingengine.com (out1-smtp.messagingengine.com
- [66.111.4.25])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 66C3E10E797
- for <dri-devel@lists.freedesktop.org>; Tue, 26 Apr 2022 13:19:48 +0000 (UTC)
-Received: from compute4.internal (compute4.nyi.internal [10.202.2.44])
- by mailout.nyi.internal (Postfix) with ESMTP id AD4795C0178;
- Tue, 26 Apr 2022 09:19:47 -0400 (EDT)
-Received: from mailfrontend2 ([10.202.2.163])
- by compute4.internal (MEProxy); Tue, 26 Apr 2022 09:19:47 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=cerno.tech; h=cc
- :cc:content-type:date:date:from:from:in-reply-to:in-reply-to
- :message-id:mime-version:references:reply-to:sender:subject
- :subject:to:to; s=fm3; t=1650979187; x=1651065587; bh=lFz5ybVQNG
- 7NA2bQK4ghrZXQUjs9p+HgINKjUniOd8Q=; b=PxlECZPGEo9Pa9HxMHqTFK77D1
- AJ5ZtX2UdSgX5pQf+f8HI+VFNCJXdPhoQDW9vyzZZr6+uj1HY1i+d90xRYkxQ7tT
- Y23sKgEQkll4MxtEp/8W/3fHHmAleBNeCLJJUNizXlLZFdVxmSgJDP+vL/lLh5JY
- /U96V63p+9m2ts1oHvB1DU20Um9ed0hdCOJQsogTRDqMRgpgzB0NEhYXS0M6zQQL
- k3R4JJYSMEG3mpJ8hMghJpFrdn1+06ZuhnSTAqsjxBpWtoi+a66QylAKw+ju2nuj
- jtjVz9TYgGCs+/WyX31kBKPb6r9Ys8YEeXsz53WityUCPmV2ju9qSyAm+reg==
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
- messagingengine.com; h=cc:cc:content-type:date:date:from:from
- :in-reply-to:in-reply-to:message-id:mime-version:references
- :reply-to:sender:subject:subject:to:to:x-me-proxy:x-me-proxy
- :x-me-sender:x-me-sender:x-sasl-enc; s=fm1; t=1650979187; x=
- 1651065587; bh=lFz5ybVQNG7NA2bQK4ghrZXQUjs9p+HgINKjUniOd8Q=; b=Y
- JUlYfj8tAZ0QWws4n0jr1axDdi3p0I8hD4cK7khvBazQ2q9zj1vDd+YSvutLjae+
- HAYbV0L7Yo5nDqtZhzPI1tiDV6pz1KEgSVzmlMialw41CCaQnVYcuQxDDR0Qlmm7
- O/lpwsayfhe5CLoG6C9JESATOvqTbiCAutjTmhHFWRiB8i+ZfijNEiJuFJlJSe5R
- 4BSCZFvAkZMX5zfk8nYGFcKw4jTcPTy4P1vrRJ/WAK7RMUoFzuc22rnO9OD3bxZc
- yoPqYhw/KPZX3qqXL0sUB8JsFTzqXhboWxmV+hLFKy82ieZki+MoXumCf38bI8cX
- IRbA78D7OGEdIPKsYYP+A==
-X-ME-Sender: <xms:cvFnYsvDl1hygx5Npw1Z2GUtLDHQdbOhn_5wwun6ICtLBPxY6ittLg>
- <xme:cvFnYpfboONyTz2h33kHvQl-R51D7a1MvtewmuX6ulL9U3sielXzxFA5U6WWCSHX3
- _VWbssbNJF6N4nwzR8>
-X-ME-Received: <xmr:cvFnYnyBW8n17fxZ7zkIw3idrLsX4viyDk_nH62TtHqTSR01kwoM4JhAE_yVnnmQFYWU0zLTV7XYLQW3q5Lc5Parf1II8B7t3wo6SA4>
-X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvfedrudefgdehlecutefuodetggdotefrodftvf
- curfhrohhfihhlvgemucfhrghsthforghilhdpqfgfvfdpuffrtefokffrpgfnqfghnecu
- uegrihhlohhuthemuceftddtnecusecvtfgvtghiphhivghnthhsucdlqddutddtmdenuc
- fjughrpeffhffvvefukfhfgggtuggjsehgtderredttddvnecuhfhrohhmpeforgigihhm
- vgcutfhiphgrrhguuceomhgrgihimhgvsegtvghrnhhordhtvggthheqnecuggftrfgrth
- htvghrnhepteefffefgfektdefgfeludfgtdejfeejvddttdekteeiffejvdfgheehfffh
- vedunecuvehluhhsthgvrhfuihiivgeptdenucfrrghrrghmpehmrghilhhfrhhomhepmh
- grgihimhgvsegtvghrnhhordhtvggthh
-X-ME-Proxy: <xmx:cvFnYvP1fh01Sn5fifYx0NbP6vt0EPlQgKV1RR7GRgsQzzp-rzNd7g>
- <xmx:cvFnYs_OTlJeqtQ5c41FxaQQzSX7h-1eb2k-pHFa9geumrLnYIKDoQ>
- <xmx:cvFnYnWkFoM3dE8iFkbPGvrr33KsVOZKeed8hYjStrXn2Ke0DcQCdA>
- <xmx:c_FnYmeQIZ2THvenUxb9hfJzQvNq7SnwW1drg_yegwCO8fi9a6iu5g>
-Received: by mail.messagingengine.com (Postfix) with ESMTPA; Tue,
- 26 Apr 2022 09:19:46 -0400 (EDT)
-Date: Tue, 26 Apr 2022 15:19:44 +0200
-From: Maxime Ripard <maxime@cerno.tech>
-To: Paul Kocialkowski <paul.kocialkowski@bootlin.com>
-Subject: Re: [PATCH 2/2] Revert "drm: of: Lookup if child node has panel or
- bridge"
-Message-ID: <20220426131944.b26rqqmk7gpcplbg@houat>
-References: <20220420231230.58499-2-bjorn.andersson@linaro.org>
- <CAMty3ZAw7DUSnBePC05qC8Gn6ESKiu+FHw4a-HPPc05VX1hqhg@mail.gmail.com>
- <20220421082358.ivpmtak3ednvddrc@houat>
- <YmEdAVwZuA7Wo1Ch@aptenodytes> <YmelPCcWCCjALtRU@aptenodytes>
- <YmfYi5G7hMKLAH3T@pendragon.ideasonboard.com>
- <YmfoiD0r8MD/kr1N@aptenodytes>
- <20220426125401.yyrhg6aeafdjw4ad@houat>
- <20220426125544.mroteu3hvyvlyb6g@houat>
- <Ymft0SM5GNHXjkVb@aptenodytes>
+Received: from APC01-SG2-obe.outbound.protection.outlook.com
+ (mail-sgaapc01on2118.outbound.protection.outlook.com [40.107.215.118])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 7FBD710F12F;
+ Tue, 26 Apr 2022 13:21:52 +0000 (UTC)
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=TJDSe0sgfr8I/HCZMsJLRcLtanhrldp4FOYrh7+iofdMZfYZW2JFlRfX+XAIxRI726bYmI5x4ZaPR5owKENYH+K+iJNzsPxqJOwXGszYuj/ylg7NqoNRU4cRnmrQz7kwKOwiqVCdUEVq+bLBW2rUAYzqQIOUosf1b4qQ1gY274BfiFkt8o8mbcG4oHcWFWTyRtjGo+QPWdpA4AsW6jkPq1lKNr613xLW0BPXjFcnqWC9IRmxurIwE1mUjl2y2bR7qsYxycXZFhS+W7p+mKxROUbbKTudtuwjlkBdGBu8CDdEd+xTTKR51+4Iqb8DStTq4xxxAxstD3D2YGK+EvJwMQ==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=MbH/hT7j4xY6emUZBWeVi5ms9E26ZhDvilsL1BNUG/w=;
+ b=crIOQxU7AeSLD/eTONUKaGbwqbeCfL68+0M6oveuCoqx6ZYGOjBgShoaOzDx60WtnNwQdKYMqWYr72vVsRAA5aaH376kXf7QXsw5AB1WXGlJx8VuiY4VqmXrV6VaaPAcA2WHN5GqYTzkpK9FOftA9SVdEJPG0w3fe6zpGp+JMxO6JjznKjB3qV1FnCHUHlJPhc5Sdx5ubSP9MdaNDnSgYKZux4KBsrnx+y5qPwNUfkfS60IZEzMjONsg5ZB9NFTkyix6Tt5oVUNsUv5QCSQPlB/cgBd6Zhh+wxuDhlqTYAGq92Uci0m+W/fYW26LMZVHnH6dyRSm+CNvgZtsZjtUuA==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=vivo.com; dmarc=pass action=none header.from=vivo.com;
+ dkim=pass header.d=vivo.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=vivo0.onmicrosoft.com; 
+ s=selector2-vivo0-onmicrosoft-com;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=MbH/hT7j4xY6emUZBWeVi5ms9E26ZhDvilsL1BNUG/w=;
+ b=hIKZvJNLk+VizGupm3U+8f8r+axoORGvhxdvCT/VHSh2sgg6uIMbTl4egi0bjEW+J1ixoLnoD/OawDI2jnK2dQBJZICUroVv544OFLGPzt51hhhNg1XwUBc+K1nOruF+wkonTMJJrsibDr6J5wLq4jeCe1HZYdtKZZ9xJsle6JE=
+Authentication-Results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=vivo.com;
+Received: from SG2PR06MB3367.apcprd06.prod.outlook.com (2603:1096:4:78::19) by
+ KL1PR0601MB4939.apcprd06.prod.outlook.com (2603:1096:820:96::8) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.5186.14; Tue, 26 Apr
+ 2022 13:21:46 +0000
+Received: from SG2PR06MB3367.apcprd06.prod.outlook.com
+ ([fe80::4591:4f3e:f951:6c8c]) by SG2PR06MB3367.apcprd06.prod.outlook.com
+ ([fe80::4591:4f3e:f951:6c8c%7]) with mapi id 15.20.5186.021; Tue, 26 Apr 2022
+ 13:21:46 +0000
+From: Wan Jiabing <wanjiabing@vivo.com>
+To: Rob Clark <robdclark@gmail.com>, Sean Paul <sean@poorly.run>,
+ Abhinav Kumar <quic_abhinavk@quicinc.com>, David Airlie <airlied@linux.ie>,
+ Daniel Vetter <daniel@ffwll.ch>, linux-arm-msm@vger.kernel.org,
+ dri-devel@lists.freedesktop.org, freedreno@lists.freedesktop.org,
+ linux-kernel@vger.kernel.org
+Subject: [PATCH] drm/msm: Use div64_ul instead of do_div
+Date: Tue, 26 Apr 2022 21:21:26 +0800
+Message-Id: <20220426132126.686447-1-wanjiabing@vivo.com>
+X-Mailer: git-send-email 2.35.3
+Content-Transfer-Encoding: 8bit
+Content-Type: text/plain
+X-ClientProxiedBy: HK2PR02CA0127.apcprd02.prod.outlook.com
+ (2603:1096:202:16::11) To SG2PR06MB3367.apcprd06.prod.outlook.com
+ (2603:1096:4:78::19)
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha512;
- protocol="application/pgp-signature"; boundary="4zjgg6sdvl66i23h"
-Content-Disposition: inline
-In-Reply-To: <Ymft0SM5GNHXjkVb@aptenodytes>
+X-MS-PublicTrafficType: Email
+X-MS-Office365-Filtering-Correlation-Id: d9901219-c31c-48c8-a267-08da2787b644
+X-MS-TrafficTypeDiagnostic: KL1PR0601MB4939:EE_
+X-Microsoft-Antispam-PRVS: <KL1PR0601MB4939232C8944BBFE8884EB45ABFB9@KL1PR0601MB4939.apcprd06.prod.outlook.com>
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: BCL:0;
+X-Microsoft-Antispam-Message-Info: B61C6wkGkFp5xHgCf1jV1FJIJ5v+1ViMwkzdI6YKVsedAoDlzr8fY4mgrF2Z+vawS1fWAsj4huMOmbX96NWHdtkmiCCmaI2M2HHZkq2iC2pA4IVkse8prYRtV1ktCxWAFACio9Cz2EG7gDHjp1PiNqDfLtoaf0Q9SWt+3fZxyEwl6iRJkkK05UyXZJVFiScliJRICb4qwVnsk5OGFt3lxRE0rTAayW1wsaihrDQwTpcxU9EivdIF6to+4fTbGkxQo6ZT1fgG1etmGaR4wSwSS9svWP99GYfHEyt3HeGJUWKRrVlOMgNPgOaov2ZMolo9DaB1jZYbderYnnTwgnMtLDP1b2LO0fNkd6xPWtDl/h0IJT/5PApPbekBVjCY6JfxTTXav2dXZfiTbFEUpxAZGJxy6F+Mue05oQ2EobyRGsU0jBfw5M9vM2MHJRH8HPRNLQNE0nUwJx/kfar3sMXrcZlfoQZWhqWlHmhvNIRJ1fHKozxvp+x/fcZKvLX42g5/zCipFIW9Y+2dW9ybpB8fhQZaCs5JjEibHYytonIWEVP8A6S6V2+6jxCmjK305ny/vkjhwXRPmERvbsc0Rpo2U8jtk62sWjhQEBZXFZ2Zv8f94/fqWVAyAXAp/1F3JUBu1DfI+9PjUucosotx/BjCzahe5hyjactHsQJ468SlIoARifSDpCEBYDoixwxxgr+JGY4WEVbXQWk/06+1Qb3lng==
+X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
+ IPV:NLI; SFV:NSPM; H:SG2PR06MB3367.apcprd06.prod.outlook.com; PTR:; CAT:NONE;
+ SFS:(13230001)(4636009)(366004)(5660300002)(2906002)(52116002)(6506007)(6512007)(8936002)(2616005)(186003)(107886003)(1076003)(36756003)(4744005)(26005)(83380400001)(6666004)(4326008)(110136005)(508600001)(316002)(6486002)(66946007)(38100700002)(38350700002)(8676002)(66556008)(66476007)(86362001);
+ DIR:OUT; SFP:1102; 
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0: =?us-ascii?Q?Hf9BkgBRXsC0qRahiJ2F8AldYikTI6ADL5M13tfwfkv1OBFPj8UeKoRqCB6i?=
+ =?us-ascii?Q?SZZE36j82j1eyLT8rQAokBvWugqStSwWGYkFoYWOlwYycmlQmehMhWkjPgG7?=
+ =?us-ascii?Q?sR9SWKXbGb0cmYzU+LW4w/O7gk2YqGjdNauQYW48nATFyQFgkD/CxMhZWoyI?=
+ =?us-ascii?Q?W9IMCwNcUEfbyrLsaEKsPJqO43bDxT3N5O2TuEJLByRaM5QT6tIpg8XmQTmW?=
+ =?us-ascii?Q?29NLGZYtky6vA+MLPZ6WeXQPmgYtiVcGmlIzg0Vaxg69jUQswyTr2CZSj9EQ?=
+ =?us-ascii?Q?GY3xxBj0m3LK8P8og0W6GdJyo9YyWnEaAXnsU18BQCsPJIv0LBYdEC4L+Lzx?=
+ =?us-ascii?Q?MiEcIDHDkD2/rQZvmoQ0wMuAnj9sLHapX+/8zeBkRbcs8kJ+WXpMMKO+a95S?=
+ =?us-ascii?Q?X6HdahQBCc3kejsldYCh9NRzp0JDlCtlbWjGq35nIfxNnL6xG5XV/65j1TyX?=
+ =?us-ascii?Q?fWL1i2MuGMPn0+vi92x7RuAsp9T2/J80VmlJVL54v9oTUPLhlcv3NQtExorJ?=
+ =?us-ascii?Q?lcVEQ92lZJTPcPX5QKysmbheeIcSLSjccvQUbCk3K9rCPJpv4uaZR2Z/ghJ4?=
+ =?us-ascii?Q?dC4RebP/6FDezGVgBRip+iQApT31jMMokU0hRsDpUBL87uGtWfuM5Yx5GM6N?=
+ =?us-ascii?Q?qg3hNcymjK/iLmTeVw8+CHoShQy4jjPoxz1Q/vQHAz/vldJsjiPts5CqYzrK?=
+ =?us-ascii?Q?dSdtyt79clQojSt2owWCZnectfwzfoQcB2AmbJ7ruceMEvxatMWRkPTHVFk2?=
+ =?us-ascii?Q?2CrbZ+gfJ7+isF25k0hT3ZZhnh4DVFiOmpMYYhapXGHt67TtFwfzM1smzesd?=
+ =?us-ascii?Q?gL3GgzuGQAdOXSM86BRVnRxdBqKeSojawPsl7zk1YHxz/hiLXoHk0ZaPT1jb?=
+ =?us-ascii?Q?XGHXQEMM5QtnsIEztJ3NTM9zORmLjpw7cgC+wdLxJ89yOd+crjYBiiCNJUBd?=
+ =?us-ascii?Q?PHt8iLuVNfV5FI+LSg56PQiJE0P+sBC4OCKRZHv9LZ1Etn4vhdtYAECo6Tlo?=
+ =?us-ascii?Q?8H5ejDWG27tbHoLjD9rsFt/ALtaapSVk9pWv4GV7oWZtIgVBoFmyfSqY5OfN?=
+ =?us-ascii?Q?POSGoYy/dUXukf8ETi4XPs8dYkVMJZiziwtGZZlgkgDpnB6V7do+/+Ektltu?=
+ =?us-ascii?Q?qOmLHWe5T9W29HrE8m0vVFWzcJsDRd0GtTRpll9v1Y51DQEvii0fZWU+Y4bY?=
+ =?us-ascii?Q?4ES++j0+etmCQqPXR4pdbxHVtGffFsaYZPDuXBbgBfNNu43lehmGMH9gsoFM?=
+ =?us-ascii?Q?14OZpuib/+wbZR/V84uyYN0PSYXjXQMbRK/JvEGEzilpGJqqnA5OCj5dEZLc?=
+ =?us-ascii?Q?b5t4lrgs4HTsyGqo8PlFq+yhPevFcfENTB4E9sHkcxMYynHca9KdzLHkO3m/?=
+ =?us-ascii?Q?/LAPwCXoYFJcKD/cJCMgqgnE6yYq+ZJ3GdoUuEpNegbhM4ToC3ai5Oom67Mq?=
+ =?us-ascii?Q?keDgCoh/UQoanr0rUHGUJaxS5tur9s+LoaoE9evWrZ9hxejXlz3U0uk42xyd?=
+ =?us-ascii?Q?daobb7qAM3/RyxX0GgC1z2arSdyNWrevVwpkDfaO1TPAHy/OxfmjrrdMaA8c?=
+ =?us-ascii?Q?qACFfjO7fouZzgkRkd0cp+cx2Ii8ZjCP9XN1QD+6SjORSSW2/qywe1g/cZSg?=
+ =?us-ascii?Q?7BM1vLveYdqPWIaU4RC6/0Dm80U8ry229PEwnGnRTaqW8R5X4EvU4R6+LHIT?=
+ =?us-ascii?Q?ruQe8oXUVn14n/L2RR7iqJlxhADrpBGl86dTeY9+BXhSUox3iIXUdkusuXCT?=
+ =?us-ascii?Q?KZyqN+zuoQ=3D=3D?=
+X-OriginatorOrg: vivo.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: d9901219-c31c-48c8-a267-08da2787b644
+X-MS-Exchange-CrossTenant-AuthSource: SG2PR06MB3367.apcprd06.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 26 Apr 2022 13:21:46.1022 (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 923e42dc-48d5-4cbe-b582-1a797a6412ed
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: kUArpZIYlIiStGHEeVO7m9Xop8ZqgrzhvFdMNwFQd4wMlnM8GWV5tlBkDDSyyImdHAEQwVsWS2Xu6SIDvZKfMw==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: KL1PR0601MB4939
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -90,174 +120,33 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: David Airlie <airlied@linux.ie>, Robert Foss <robert.foss@linaro.org>,
- linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
- Bjorn Andersson <bjorn.andersson@linaro.org>,
- Thierry Reding <thierry.reding@gmail.com>,
- Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
- Thomas Zimmermann <tzimmermann@suse.de>,
- Marek Szyprowski <m.szyprowski@samsung.com>,
- Jagan Teki <jagan@amarulasolutions.com>
+Cc: Wan Jiabing <wanjiabing@vivo.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
+Fix following coccicheck warning:
+drivers/gpu/drm/msm/msm_gpu_devfreq.c:72:1-7: WARNING: do_div() does a 64-by-32 division, please consider using div64_ul instead.
 
---4zjgg6sdvl66i23h
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+Use div64_ul instead of do_div to avoid a possible truncation.
 
-On Tue, Apr 26, 2022 at 03:04:17PM +0200, Paul Kocialkowski wrote:
-> On Tue 26 Apr 22, 14:55, Maxime Ripard wrote:
-> > On Tue, Apr 26, 2022 at 02:54:01PM +0200, Maxime Ripard wrote:
-> > > On Tue, Apr 26, 2022 at 02:41:44PM +0200, Paul Kocialkowski wrote:
-> > > > On Tue 26 Apr 22, 14:33, Laurent Pinchart wrote:
-> > > > > On Tue, Apr 26, 2022 at 09:54:36AM +0200, Paul Kocialkowski wrote:
-> > > > > > On Thu 21 Apr 22, 10:59, Paul Kocialkowski wrote:
-> > > > > > > On Thu 21 Apr 22, 10:23, Maxime Ripard wrote:
-> > > > > > > > On Thu, Apr 21, 2022 at 01:15:54PM +0530, Jagan Teki wrote:
-> > > > > > > > > + Linus
-> > > > > > > > > + Marek
-> > > > > > > > > + Laurent
-> > > > > > > > > + Robert
-> > > > > > > > >=20
-> > > > > > > > > On Thu, Apr 21, 2022 at 4:40 AM Bjorn Andersson wrote:
-> > > > > > > > > >
-> > > > > > > > > > Commit '80253168dbfd ("drm: of: Lookup if child node ha=
-s panel or
-> > > > > > > > > > bridge")' attempted to simplify the case of expressing =
-a simple panel
-> > > > > > > > > > under a DSI controller, by assuming that the first non-=
-graph child node
-> > > > > > > > > > was a panel or bridge.
-> > > > > > > > > >
-> > > > > > > > > > Unfortunately for non-trivial cases the first child nod=
-e might not be a
-> > > > > > > > > > panel or bridge.  Examples of this can be a aux-bus in =
-the case of
-> > > > > > > > > > DisplayPort, or an opp-table represented before the pan=
-el node.
-> > > > > > > > > >
-> > > > > > > > > > In these cases the reverted commit prevents the caller =
-=66rom ever finding
-> > > > > > > > > > a reference to the panel.
-> > > > > > > > > >
-> > > > > > > > > > This reverts commit '80253168dbfd ("drm: of: Lookup if =
-child node has
-> > > > > > > > > > panel or bridge")', in favor of using an explicit graph=
- reference to the
-> > > > > > > > > > panel in the trivial case as well.
-> > > > > > > > >=20
-> > > > > > > > > This eventually breaks many child-based devm_drm_of_get_b=
-ridge
-> > > > > > > > > switched drivers.  Do you have any suggestions on how to =
-proceed to
-> > > > > > > > > succeed in those use cases as well?
-> > > > > > > >=20
-> > > > > > > > I guess we could create a new helper for those, like
-> > > > > > > > devm_drm_of_get_bridge_with_panel, or something.
-> > > > > > >=20
-> > > > > > > Oh wow I feel stupid for not thinking about that.
-> > > > > > >=20
-> > > > > > > Yeah I agree that it seems like the best option.
-> > > > > >=20
-> > > > > > Should I prepare a patch with such a new helper?
-> > > > > >=20
-> > > > > > The idea would be to keep drm_of_find_panel_or_bridge only for =
-the of graph
-> > > > > > case and add one for the child node case, maybe:
-> > > > > > drm_of_find_child_panel_or_bridge.
-> > > > > >=20
-> > > > > > I really don't have a clear idea of which driver would need to =
-be switched
-> > > > > > over though. Could someone (Jagan?) let me know where it would =
-be needed?
-> > > > > >=20
-> > > > > > Are there cases where we could both expect of graph and child n=
-ode?
-> > > > > > (i.e. does the new helper also need to try via of graph?)
-> > > > >=20
-> > > > > I still think we should use OF graph uncondtionally, even in the =
-DSI
-> > > > > case. We need to ensure backward-compatibility, but I'd like new
-> > > > > bindings (and thus new drivers) to always use OF graph.
-> > > >=20
-> > > > I just went over the thread on "drm: of: Improve error handling in =
-bridge/panel
-> > > > detection" again and I'm no longer sure there's actually still an i=
-ssue that
-> > > > stands, with the fix that allows returning -ENODEV when possible.
-> > > >=20
-> > > > The remaining issue that was brought up was with a connector node, =
-but it should
-> > > > be up to the driver to detect that and avoid calling drm_of_find_pa=
-nel_or_bridge
-> > > > in such situations.
-> > > >=20
-> > > > So with that in mind it feels like the child node approach can be v=
-iable
-> > > > (and integrated in the same helper).
-> > > >=20
-> > > > We might still want to favor an explicit OF graph approach, but not=
-e that
-> > > > dsi-controller.yaml also specifies extra properties that are specif=
-ic to
-> > > > MIPI DSI and I'm not sure there are equivalent definitions for the =
-OF graph
-> > > > approach.
-> > > >=20
-> > > > What do you think?
-> > >=20
-> > > I don't think Laurent's point was to move the child node away from its
-> > > DSI controller, that part doesn't make much sense. The panel or bridge
-> > > is still accessed through the DSI bus, so it very much belongs there.
-> > >=20
-> > > What he meant I think was that we mandate the OF graph for all panels,
-> > > so for panels/bridges controlled through DCS, you would still list the
-> > > output through the graph.
-> >=20
-> > Also, we're already in a bit of a mess right now. I don't think rushing
-> > that kind of patches in a (late) rc is making much sense, but as I said,
-> > if you want to start working on this, then I'll take a revert for the
-> > next rc, and then we can work calmly on this.
->=20
-> As I understand it we either have some broken stuff because of the revert=
- of:
-> - drm: of: Lookup if child node has panel or bridge
-> - drm: of: Properly try all possible cases for bridge/panel detection
->=20
-> because the child node is already used in places, or we can have broken s=
-tuff
-> because with the patches because with these two patches -ENODEV is no lon=
-ger
-> returned.
->=20
-> Now with the extra patch that I sent:
-> - drm: of: Improve error handling in bridge/panel detection
->=20
-> we get -ENODEV back, except for the connector case but this one should be
-> handled in drivers directly and drm_of_find_panel_or_bridge should not be
-> called in that situation.
->=20
-> So all in all it seems that all the pieces are there, unless I'm missing
-> something.
->=20
-> What do you think?
+Signed-off-by: Wan Jiabing <wanjiabing@vivo.com>
+---
+ drivers/gpu/drm/msm/msm_gpu_devfreq.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-If Bjorn and Thierry can confirm that it indeeds work in their case,
-I'll be happy to apply those patches as well.
+diff --git a/drivers/gpu/drm/msm/msm_gpu_devfreq.c b/drivers/gpu/drm/msm/msm_gpu_devfreq.c
+index d2539ca78c29..c2ea978c8921 100644
+--- a/drivers/gpu/drm/msm/msm_gpu_devfreq.c
++++ b/drivers/gpu/drm/msm/msm_gpu_devfreq.c
+@@ -69,7 +69,7 @@ static void get_raw_dev_status(struct msm_gpu *gpu,
+ 	df->time = time;
+ 
+ 	busy_time *= USEC_PER_SEC;
+-	do_div(busy_time, sample_rate);
++	busy_time = div64_ul(busy_time, sample_rate);
+ 	if (WARN_ON(busy_time > ~0LU))
+ 		busy_time = ~0LU;
+ 
+-- 
+2.35.3
 
-Maxime
-
---4zjgg6sdvl66i23h
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iHUEABYKAB0WIQRcEzekXsqa64kGDp7j7w1vZxhRxQUCYmfxcAAKCRDj7w1vZxhR
-xXTnAQCJQL37aio+AW8MPPlWvueBRDrDrzKrkVZrXEjuVRKXpAEAvizvqXcfDOdu
-lW+hb+lWvkpwLOaOiUMk/M6tF73g4go=
-=5ld1
------END PGP SIGNATURE-----
-
---4zjgg6sdvl66i23h--
