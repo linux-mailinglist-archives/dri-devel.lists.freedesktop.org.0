@@ -1,60 +1,60 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 93B9D50FF0C
-	for <lists+dri-devel@lfdr.de>; Tue, 26 Apr 2022 15:28:34 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id C52E050FEC8
+	for <lists+dri-devel@lfdr.de>; Tue, 26 Apr 2022 15:22:24 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 87A8710E70A;
-	Tue, 26 Apr 2022 13:28:30 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 038FA10F17C;
+	Tue, 26 Apr 2022 13:22:22 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-wr1-x42f.google.com (mail-wr1-x42f.google.com
- [IPv6:2a00:1450:4864:20::42f])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 1DB9510E6F6;
- Tue, 26 Apr 2022 13:28:29 +0000 (UTC)
-Received: by mail-wr1-x42f.google.com with SMTP id e2so19203317wrh.7;
- Tue, 26 Apr 2022 06:28:29 -0700 (PDT)
+Received: from mail-ej1-x630.google.com (mail-ej1-x630.google.com
+ [IPv6:2a00:1450:4864:20::630])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 35EC810F12F;
+ Tue, 26 Apr 2022 13:22:20 +0000 (UTC)
+Received: by mail-ej1-x630.google.com with SMTP id dk23so12731244ejb.8;
+ Tue, 26 Apr 2022 06:22:20 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=oM30FhmQfO46n0r+P4uRf95ZE1vZtA1tsapmUJrgQ8A=;
- b=hjeULA6v7AO+OfpirGkChZwEWze7lBBMkTJdCjewPr+LT0dulQUbdo4JVtUInnm7Wh
- gJufLH2t4IwGYRTrcz/ia+m5jyUnjVmrQgkRXTLRTh9vDZpRmI7e/WefUHxZy30I2Mkf
- QwkufHZtlmX79+h+h8thJa6e7OMO5w/Eeocxudcfnuh3XCUHOY0gSgBmXjeOf3OP1xJB
- /j9WTnKFV91Qd+3tsRQGDT7ZeUOtMyOFHiJ2x4AKbBysSpKtT4MrXP4rQ37MwlpCJ8/a
- gUqbzQU/nMJS53VgMZLiddW02ZfSEv43GTZhUweOSYkPB338VW1KyIla8m1PsmIydb3B
- OKmw==
+ bh=E8Wag8mDZiGLpawz9aj7bJEn2udoJx894u4z01hsvFY=;
+ b=p8rawiD8nhhWApnBuPlzWAqIQf385zy+EAfKm/g6LXfz+KuUlVSO4BiPDGbp7eTnEJ
+ xZoG4I/1LgZowaBQSMKf0bmT0uyiHf831wBhMiC7dkX6z6XcyNlAfNJhgHbxU+6K1iKa
+ CEOojIz836r8SBy3/FM1BhVPSAvWl0cHXJXSrtB0ti0iTJfn86AwvCVbEG5vHd0PLbk8
+ J5OQHtTxPp9h48n4esNxB5GR1DKxWGUZg3WULdAqbhQpBUXR8LOlFQ3DfLcSdXpwgp/t
+ ec1yG/vxfHRr3KX/YAGe2ZrHwED8wTP6xUrA1fJVnAboMreANWBAmrzaVVJ1F4+wLXOv
+ KSWQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=oM30FhmQfO46n0r+P4uRf95ZE1vZtA1tsapmUJrgQ8A=;
- b=puSurghe7VQ3ASnWedQkrrmO+jJGjV9fpNjXXW1qAqlZnt9ac0YBdbU5ACbIlxb0js
- UQ1nt/jzT1ZCYmjXxlb3GkN4U/AdOYSyfIer8jvuadVzLdaIOXZaLTZI9s7D5ruiqx2b
- jcf2PbEr+bQvFVz4YsrIhV75IQobV9WkcRgecC0JyUiNEVE3xa4PjngR5INeLH02hsGJ
- 2NwcUbcsuA0BPbk87yspsNPk/V+WINGFmII7Y8hlhTupXNSF7RNE59Lc7R+YlWdMiycw
- wYECpLv1kosXifn6viaJGGCUy9yCtliRqBeQKDMGOQm7lumMKInTFbjO+nG+kZiTWgbO
- 3AoQ==
-X-Gm-Message-State: AOAM532ijE1AtLgG5KkzFUeJFTo1E750X8q7P0r+rHVuUJcEr5Qx3gb4
- wibMjluvON4grSWfbYLj20a8mBsVFAw=
-X-Google-Smtp-Source: ABdhPJyDS7rfZJaxl74taGBA576lUrnSXeNoWZZegk2tTljZl/bug8nSglYkZZZ8WyBRvfMx45qmDQ==
-X-Received: by 2002:a17:906:dc8f:b0:6e0:5ce7:d80e with SMTP id
- cs15-20020a170906dc8f00b006e05ce7d80emr21787118ejc.435.1650979334660; 
- Tue, 26 Apr 2022 06:22:14 -0700 (PDT)
+ bh=E8Wag8mDZiGLpawz9aj7bJEn2udoJx894u4z01hsvFY=;
+ b=AO6g/UYkCrGm3miONPQOK7zdJgBclKEHlYn2lr6klkMYPuPWzcqUnRW7i+cGEOjyLE
+ NtJMbhUmmYfxGKc2KwI6AyC672ufdHWLbTHB8u13pp+Yjqx3qqd1VINDACi3nMnUKuvV
+ aRYaXR6xXKviJCwvcjyuIWc50qsWD5lSpZ5i19L6/WCwJyjb/pVVzDz3j9h4l9sDFRzv
+ 5lh/wGA63bXV9xF1LCoJ/jOHoFMNfeYvsdrDrBgPJmQ8V/oaTZZy5hKTezByp/LdDlR6
+ 4dBkR27Bn36+UNFiMxn7OkJT+hcyQK2dB771e9s4TzpppNqrTXx3Nni8LqBoZTeXPhtf
+ R87w==
+X-Gm-Message-State: AOAM532H1GwIiBtC5fkqphSYxvyZb9DIPoK2+cd8X6OOfCbB5Nhh9WqH
+ Txe1HXwXD16yEnzSvYX6OX1OAMSRcyU=
+X-Google-Smtp-Source: ABdhPJx63kFhy88Hp9zOuHyVMHK9t2G/fB5eAuEgxChavL8apcAsHhRQY40n65BJHuKPIStauNVIkA==
+X-Received: by 2002:a17:907:16a6:b0:6f3:ad45:c778 with SMTP id
+ hc38-20020a17090716a600b006f3ad45c778mr4029517ejc.152.1650979338694; 
+ Tue, 26 Apr 2022 06:22:18 -0700 (PDT)
 Received: from able.fritz.box (p57b0b9e1.dip0.t-ipconnect.de. [87.176.185.225])
  by smtp.gmail.com with ESMTPSA id
- x1-20020a1709060ee100b006e8a49f215dsm4889914eji.73.2022.04.26.06.22.10
+ x1-20020a1709060ee100b006e8a49f215dsm4889914eji.73.2022.04.26.06.22.17
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 26 Apr 2022 06:22:11 -0700 (PDT)
+ Tue, 26 Apr 2022 06:22:18 -0700 (PDT)
 From: "=?UTF-8?q?Christian=20K=C3=B6nig?=" <ckoenig.leichtzumerken@gmail.com>
 X-Google-Original-From: =?UTF-8?q?Christian=20K=C3=B6nig?=
  <christian.koenig@amd.com>
 To: dri-devel@lists.freedesktop.org,
 	amd-gfx@lists.freedesktop.org
-Subject: [PATCH 1/5] drm: execution context for GEM buffers
-Date: Tue, 26 Apr 2022 15:22:04 +0200
-Message-Id: <20220426132208.20801-2-christian.koenig@amd.com>
+Subject: [PATCH 2/5] drm: add drm_exec selftests
+Date: Tue, 26 Apr 2022 15:22:05 +0200
+Message-Id: <20220426132208.20801-3-christian.koenig@amd.com>
 X-Mailer: git-send-email 2.25.1
 In-Reply-To: <20220426132208.20801-1-christian.koenig@amd.com>
 References: <20220426132208.20801-1-christian.koenig@amd.com>
@@ -77,481 +77,123 @@ Cc: =?UTF-8?q?Christian=20K=C3=B6nig?= <christian.koenig@amd.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-This adds the infrastructure for an execution context for GEM buffers
-which is similar to the existinc TTMs execbuf util and intended to replace
-it in the long term.
-
-The basic functionality is that we abstracts the necessary loop to lock
-many different GEM buffers with automated deadlock and duplicate handling.
+Largely just the initial skeleton.
 
 Signed-off-by: Christian König <christian.koenig@amd.com>
 ---
- Documentation/gpu/drm-mm.rst |  12 ++
- drivers/gpu/drm/Kconfig      |   7 +
- drivers/gpu/drm/Makefile     |   2 +
- drivers/gpu/drm/drm_exec.c   | 256 +++++++++++++++++++++++++++++++++++
- include/drm/drm_exec.h       | 128 ++++++++++++++++++
- 5 files changed, 405 insertions(+)
- create mode 100644 drivers/gpu/drm/drm_exec.c
- create mode 100644 include/drm/drm_exec.h
+ drivers/gpu/drm/selftests/Makefile            |  2 +-
+ .../gpu/drm/selftests/drm_exec_selftests.h    | 10 +++
+ drivers/gpu/drm/selftests/test-drm_exec.c     | 74 +++++++++++++++++++
+ 3 files changed, 85 insertions(+), 1 deletion(-)
+ create mode 100644 drivers/gpu/drm/selftests/drm_exec_selftests.h
+ create mode 100644 drivers/gpu/drm/selftests/test-drm_exec.c
 
-diff --git a/Documentation/gpu/drm-mm.rst b/Documentation/gpu/drm-mm.rst
-index f32ccce5722d..bf7dd2a78e9b 100644
---- a/Documentation/gpu/drm-mm.rst
-+++ b/Documentation/gpu/drm-mm.rst
-@@ -493,6 +493,18 @@ DRM Sync Objects
- .. kernel-doc:: drivers/gpu/drm/drm_syncobj.c
-    :export:
+diff --git a/drivers/gpu/drm/selftests/Makefile b/drivers/gpu/drm/selftests/Makefile
+index 5ba5f9138c95..0ab4b0f0642f 100644
+--- a/drivers/gpu/drm/selftests/Makefile
++++ b/drivers/gpu/drm/selftests/Makefile
+@@ -5,4 +5,4 @@ test-drm_modeset-y := test-drm_modeset_common.o test-drm_plane_helper.o \
+ 		      test-drm_rect.o
  
-+DRM Execution context
-+=====================
-+
-+.. kernel-doc:: drivers/gpu/drm/drm_exec.c
-+   :doc: Overview
-+
-+.. kernel-doc:: include/drm/drm_exec.h
-+   :internal:
-+
-+.. kernel-doc:: drivers/gpu/drm/drm_exec.c
-+   :export:
-+
- GPU Scheduler
- =============
- 
-diff --git a/drivers/gpu/drm/Kconfig b/drivers/gpu/drm/Kconfig
-index e88c497fa010..1b35c10df263 100644
---- a/drivers/gpu/drm/Kconfig
-+++ b/drivers/gpu/drm/Kconfig
-@@ -179,6 +179,12 @@ config DRM_TTM
- 	  GPU memory types. Will be enabled automatically if a device driver
- 	  uses it.
- 
-+config DRM_EXEC
-+	tristate
-+	depends on DRM
-+	help
-+	  Execution context for command submissions
-+
- config DRM_BUDDY
- 	tristate
- 	depends on DRM
-@@ -252,6 +258,7 @@ config DRM_AMDGPU
- 	select DRM_SCHED
- 	select DRM_TTM
- 	select DRM_TTM_HELPER
-+	select DRM_EXEC
- 	select POWER_SUPPLY
- 	select HWMON
- 	select BACKLIGHT_CLASS_DEVICE
-diff --git a/drivers/gpu/drm/Makefile b/drivers/gpu/drm/Makefile
-index 15fe3163f822..ee8573b683f3 100644
---- a/drivers/gpu/drm/Makefile
-+++ b/drivers/gpu/drm/Makefile
-@@ -37,6 +37,8 @@ obj-$(CONFIG_DRM_PANEL_ORIENTATION_QUIRKS) += drm_panel_orientation_quirks.o
- #
- # Memory-management helpers
- #
-+#
-+obj-$(CONFIG_DRM_EXEC) += drm_exec.o
- 
- obj-$(CONFIG_DRM_BUDDY) += drm_buddy.o
- 
-diff --git a/drivers/gpu/drm/drm_exec.c b/drivers/gpu/drm/drm_exec.c
+ obj-$(CONFIG_DRM_DEBUG_SELFTEST) += test-drm_mm.o test-drm_modeset.o test-drm_cmdline_parser.o \
+-				    test-drm_buddy.o
++				    test-drm_buddy.o test-drm_exec.o
+diff --git a/drivers/gpu/drm/selftests/drm_exec_selftests.h b/drivers/gpu/drm/selftests/drm_exec_selftests.h
 new file mode 100644
-index 000000000000..805fb4850cf9
+index 000000000000..d88ec9c85fe6
 --- /dev/null
-+++ b/drivers/gpu/drm/drm_exec.c
-@@ -0,0 +1,256 @@
-+/* SPDX-License-Identifier: GPL-2.0 OR MIT */
++++ b/drivers/gpu/drm/selftests/drm_exec_selftests.h
+@@ -0,0 +1,10 @@
++/* SPDX-License-Identifier: GPL-2.0 */
++/* List each unit test as selftest(name, function)
++ *
++ * The name is used as both an enum and expanded as igt__name to create
++ * a module parameter. It must be unique and legal for a C identifier.
++ *
++ * Tests are executed in order by igt/drm_exec
++ */
++selftest(sanitycheck, igt_sanitycheck) /* keep first (selfcheck for igt) */
++selftest(exec_lock1, igt_exec_lock1)
+diff --git a/drivers/gpu/drm/selftests/test-drm_exec.c b/drivers/gpu/drm/selftests/test-drm_exec.c
+new file mode 100644
+index 000000000000..de2c3d986828
+--- /dev/null
++++ b/drivers/gpu/drm/selftests/test-drm_exec.c
+@@ -0,0 +1,74 @@
++// SPDX-License-Identifier: MIT
++/*
++ * Copyright © 2019 Intel Corporation
++ */
++
++#define pr_fmt(fmt) "drm_exec: " fmt
++
++#include <linux/module.h>
++#include <linux/prime_numbers.h>
 +
 +#include <drm/drm_exec.h>
++#include <drm/drm_device.h>
 +#include <drm/drm_gem.h>
-+#include <linux/dma-resv.h>
 +
-+/**
-+ * DOC: Overview
-+ *
-+ * This component mainly abstracts the retry loop necessary for locking
-+ * multiple GEM objects while preparing hardware operations (e.g. command
-+ * submissions, page table updates etc..).
-+ *
-+ * If a contention is detected while locking a GEM object the cleanup procedure
-+ * unlocks all previously locked GEM objects and locks the contended one first
-+ * before locking any further objects.
-+ *
-+ * After an object is locked fences slots can optionally be reserved on the
-+ * dma_resv object inside the GEM object.
-+ *
-+ * A typical usage pattern should look like this::
-+ *
-+ *	struct drm_gem_object *obj;
-+ *	struct drm_exec exec;
-+ *	unsigned long index;
-+ *	int ret;
-+ *
-+ *	drm_exec_init(&exec, true);
-+ *	drm_exec_while_not_all_locked(&exec) {
-+ *		ret = drm_exec_prepare_obj(&exec, boA, 1);
-+ *		drm_exec_continue_on_contention(&exec);
-+ *		if (ret)
-+ *			goto error;
-+ *
-+ *		ret = drm_exec_lock(&exec, boB, 1);
-+ *		drm_exec_continue_on_contention(&exec);
-+ *		if (ret)
-+ *			goto error;
-+ *	}
-+ *
-+ *	drm_exec_for_each_locked_object(&exec, index, obj) {
-+ *		dma_resv_add_fence(obj->resv, fence, DMA_RESV_USAGE_READ);
-+ *		...
-+ *	}
-+ *	drm_exec_fini(&exec);
-+ *
-+ * See struct dma_exec for more details.
-+ */
++#include "../lib/drm_random.h"
 +
-+/* Dummy value used to initially enter the retry loop */
-+#define DRM_EXEC_DUMMY (void*)~0
++#define TESTS "drm_exec_selftests.h"
++#include "drm_selftest.h"
 +
-+/* Unlock all objects and drop references */
-+static void drm_exec_unlock_all(struct drm_exec *exec)
++static	struct drm_device dev;
++
++static int igt_sanitycheck(void *ignored)
 +{
-+	struct drm_gem_object *obj;
-+	unsigned long index;
++	struct drm_exec exec;
 +
-+	xa_for_each(&exec->duplicates, index, obj) {
-+		drm_gem_object_put(obj);
-+		xa_erase(&exec->duplicates, index);
-+	}
-+
-+	xa_for_each(&exec->locked, index, obj) {
-+		dma_resv_unlock(obj->resv);
-+		drm_gem_object_put(obj);
-+		xa_erase(&exec->locked, index);
-+	}
++	drm_exec_init(&exec, true);
++	drm_exec_fini(&exec);
++	pr_info("%s - ok!\n", __func__);
++	return 0;
 +}
 +
-+/**
-+ * drm_exec_init - initialize a drm_exec object
-+ * @exec: the drm_exec object to initialize
-+ * @interruptible: if locks should be acquired interruptible
-+ *
-+ * Initialize the object and make sure that we can track locked and duplicate
-+ * objects.
-+ */
-+void drm_exec_init(struct drm_exec *exec, bool interruptible)
++static int igt_exec_lock1(void *ignored)
 +{
-+	exec->interruptible = interruptible;
-+	ww_acquire_init(&exec->ticket, &reservation_ww_class);
-+	xa_init_flags(&exec->duplicates, XA_FLAGS_ALLOC);
-+	xa_init_flags(&exec->locked, XA_FLAGS_ALLOC);
-+	exec->contended = DRM_EXEC_DUMMY;
-+}
-+EXPORT_SYMBOL(drm_exec_init);
-+
-+/**
-+ * drm_exec_fini - finalize a drm_exec object
-+ * @exec: the drm_exec object to finilize
-+ *
-+ * Unlock all locked objects, drop the references to objects and free all memory
-+ * used for tracking the state.
-+ */
-+void drm_exec_fini(struct drm_exec *exec)
-+{
-+	if (exec->contended != DRM_EXEC_DUMMY)
-+		drm_gem_object_put(exec->contended);
-+	drm_exec_unlock_all(exec);
-+	xa_destroy(&exec->duplicates);
-+	xa_destroy(&exec->locked);
-+	ww_acquire_fini(&exec->ticket);
-+}
-+EXPORT_SYMBOL(drm_exec_fini);
-+
-+/**
-+ * drm_exec_cleanup - cleanup when contention is detected
-+ * @exec: the drm_exec object to cleanup
-+ *
-+ * Cleanup the current state and return true if we should stay inside the retry
-+ * loop, false if there wasn't any contention detected and we can keep the
-+ * objects locked.
-+ */
-+bool drm_exec_cleanup(struct drm_exec *exec)
-+{
-+	if (likely(!exec->contended)) {
-+		ww_acquire_done(&exec->ticket);
-+		return false;
-+	}
-+
-+	if (likely(exec->contended == DRM_EXEC_DUMMY)) {
-+		exec->contended = NULL;
-+		return true;
-+	}
-+
-+	drm_exec_unlock_all(exec);
-+	return true;
-+}
-+EXPORT_SYMBOL(drm_exec_cleanup);
-+
-+/* Track the locked object in the xa and reserve fences */
-+static int drm_exec_obj_locked(struct xarray *xa, struct drm_gem_object *obj,
-+			       unsigned int num_fences)
-+{
-+	uint32_t index = 0;
++	struct drm_gem_object gobj = { };
++	struct drm_exec exec;
 +	int ret;
 +
-+	if (xa) {
-+		ret = xa_alloc(xa, &index, obj, xa_limit_32b, GFP_KERNEL);
-+		if (ret)
++	drm_gem_private_object_init(&dev, &gobj, PAGE_SIZE);
++
++	drm_exec_init(&exec, true);
++	drm_exec_while_not_all_locked(&exec) {
++		ret = drm_exec_prepare_obj(&exec, &gobj, 1);
++		drm_exec_continue_on_contention(&exec);
++		if (ret) {
++			drm_exec_fini(&exec);
++			pr_err("%s - err %d!\n", __func__, ret);
 +			return ret;
++		}
 +	}
-+
-+	if (num_fences) {
-+		ret = dma_resv_reserve_fences(obj->resv, num_fences);
-+		if (ret)
-+			goto error_erase;
-+	}
-+
++	drm_exec_fini(&exec);
++	pr_info("%s - ok!\n", __func__);
 +	return 0;
-+
-+error_erase:
-+	if (xa)
-+		xa_erase(xa, index);
-+	return ret;
 +}
 +
-+/* Make sure the contended object is locked first */
-+static int drm_exec_lock_contended(struct drm_exec *exec)
++#include "drm_selftest.c"
++
++static int __init test_drm_exec_init(void)
 +{
-+	struct drm_gem_object *obj = exec->contended;
-+	int ret;
++	int err;
 +
-+	if (likely(!obj))
-+		return 0;
++	err = run_selftests(selftests, ARRAY_SIZE(selftests), NULL);
 +
-+	if (exec->interruptible) {
-+		ret = dma_resv_lock_slow_interruptible(obj->resv,
-+						       &exec->ticket);
-+		if (unlikely(ret))
-+			return ret;
-+	} else {
-+		dma_resv_lock_slow(obj->resv, &exec->ticket);
-+	}
-+
-+	ret = drm_exec_obj_locked(&exec->locked, obj, 0);
-+	if (unlikely(ret))
-+		goto error_unlock;
-+
-+	exec->contended = NULL;
-+	return 0;
-+
-+error_unlock:
-+	dma_resv_unlock(obj->resv);
-+	return ret;
++	return err > 0 ? 0 : err;
 +}
 +
-+/**
-+ * drm_exec_prepare_obj - prepare a GEM object for use
-+ * @exec: the drm_exec object with the state
-+ * @obj: the GEM object to prepare
-+ * @num_fences: how many fences to reserve
-+ *
-+ * Prepare a GEM object for use by locking it and reserving fence slots. All
-+ * succesfully locked objects are put into the locked container. Duplicates
-+ * detected as well and automatically moved into the duplicates container.
-+ *
-+ * Returns: -EDEADLK if a contention is detected, -ENOMEM when memory
-+ * allocation failed and zero for success.
-+ */
-+int drm_exec_prepare_obj(struct drm_exec *exec, struct drm_gem_object *obj,
-+			 unsigned int num_fences)
++static void __exit test_drm_exec_exit(void)
 +{
-+	int ret;
-+
-+	ret = drm_exec_lock_contended(exec);
-+	if (unlikely(ret))
-+		return ret;
-+
-+	if (exec->interruptible)
-+		ret = dma_resv_lock_interruptible(obj->resv, &exec->ticket);
-+	else
-+		ret = dma_resv_lock(obj->resv, &exec->ticket);
-+
-+	if (unlikely(ret == -EDEADLK)) {
-+		drm_gem_object_get(obj);
-+		exec->contended = obj;
-+		return -EDEADLK;
-+	}
-+
-+	if (unlikely(ret == -EALREADY)) {
-+		struct xarray *xa = &exec->duplicates;
-+
-+		/*
-+		 * If this is the first locked GEM object it was most likely
-+		 * just contended. So don't add it to the duplicates, just
-+		 * reserve the fence slots.
-+		 */
-+		if (xa_load(&exec->locked, 0) == obj)
-+			xa = NULL;
-+
-+		ret = drm_exec_obj_locked(&exec->duplicates, obj, num_fences);
-+		if (ret)
-+			return ret;
-+
-+	} else if (unlikely(ret)) {
-+		return ret;
-+
-+	} else {
-+		ret = drm_exec_obj_locked(&exec->locked, obj, num_fences);
-+		if (ret)
-+			goto error_unlock;
-+	}
-+
-+	drm_gem_object_get(obj);
-+	return 0;
-+
-+error_unlock:
-+	dma_resv_unlock(obj->resv);
-+	return ret;
-+}
-+EXPORT_SYMBOL(drm_exec_prepare_obj);
-+
-+MODULE_DESCRIPTION("DRM execution context");
-+MODULE_LICENSE("Dual MIT/GPL");
-diff --git a/include/drm/drm_exec.h b/include/drm/drm_exec.h
-new file mode 100644
-index 000000000000..48b6f9c24be5
---- /dev/null
-+++ b/include/drm/drm_exec.h
-@@ -0,0 +1,128 @@
-+/* SPDX-License-Identifier: GPL-2.0 OR MIT */
-+
-+#ifndef __DRM_EXEC_H__
-+#define __DRM_EXEC_H__
-+
-+#include <linux/ww_mutex.h>
-+#include <linux/xarray.h>
-+
-+struct drm_gem_object;
-+
-+/**
-+ * struct drm_exec - Execution context
-+ */
-+struct drm_exec {
-+	/**
-+	 * @interruptible: If locks should be taken interruptible
-+	 */
-+	bool			interruptible;
-+
-+	/**
-+	 * @ticket: WW ticket used for acquiring locks
-+	 */
-+	struct ww_acquire_ctx	ticket;
-+
-+	/**
-+	 * @locked: container for the locked GEM objects
-+	 */
-+	struct xarray		locked;
-+
-+	/**
-+	 * @duplicates: container for the duplicated GEM objects
-+	 */
-+	struct xarray		duplicates;
-+
-+	/**
-+	 * @contended: contended GEM object we backet of for.
-+	 */
-+	struct drm_gem_object	*contended;
-+};
-+
-+/**
-+ * drm_exec_for_each_locked_object - iterate over all the locked objects
-+ * @exec: drm_exec object
-+ * @index: unsigned long index for the iteration
-+ * @obj: the current GEM object
-+ *
-+ * Iterate over all the locked GEM objects inside the drm_exec object.
-+ */
-+#define drm_exec_for_each_locked_object(exec, index, obj)	\
-+	xa_for_each(&(exec)->locked, index, obj)
-+
-+/**
-+ * drm_exec_for_each_duplicate_object - iterate over all the duplicate objects
-+ * @exec: drm_exec object
-+ * @index: unsigned long index for the iteration
-+ * @obj: the current GEM object
-+ *
-+ * Iterate over all the duplicate GEM objects inside the drm_exec object.
-+ */
-+#define drm_exec_for_each_duplicate_object(exec, index, obj)	\
-+	xa_for_each(&(exec)->duplicates, index, obj)
-+
-+/**
-+ * drm_exec_while_not_all_locked - loop until all GEM objects are prepared
-+ * @exec: drm_exec object
-+ *
-+ * Core functionality of the drm_exec object. Loops until all GEM objects are
-+ * prepared and no more contention exists.
-+ *
-+ * At the beginning of the loop it is guaranteed that no GEM object is locked.
-+ */
-+#define drm_exec_while_not_all_locked(exec)	\
-+	while (drm_exec_cleanup(exec))
-+
-+/**
-+ * drm_exec_continue_on_contention - continue the loop when we need to cleanup
-+ * @exec: drm_exec object
-+ *
-+ * Control flow helper to continue when a contention was detected and we need to
-+ * clean up and re-start the loop to prepare all GEM objects.
-+ */
-+#define drm_exec_continue_on_contention(exec)		\
-+	if (unlikely(drm_exec_is_contended(exec)))	\
-+		continue
-+
-+/**
-+ * drm_exec_break_on_contention - break a subordinal loop on contention
-+ * @exec: drm_exec object
-+ *
-+ * Control flow helper to break a subordinal loop when a contention was detected
-+ * and we need to clean up and re-start the loop to prepare all GEM objects.
-+ */
-+#define drm_exec_break_on_contention(exec)		\
-+	if (unlikely(drm_exec_is_contended(exec)))	\
-+		break
-+
-+/**
-+ * drm_exec_is_contended - check for contention
-+ * @exec: drm_exec object
-+ *
-+ * Returns true if the drm_exec object has run into some contention while
-+ * locking a GEM object and needs to clean up.
-+ */
-+static inline bool drm_exec_is_contended(struct drm_exec *exec)
-+{
-+	return !!exec->contended;
 +}
 +
-+/**
-+ * drm_exec_has_duplicates - check for duplicated GEM object
-+ * @exec: drm_exec object
-+ *
-+ * Return true if the drm_exec object has encountered some already locked GEM
-+ * objects while trying to lock them. This can happen if multiple GEM objects
-+ * share the same underlying resv object.
-+ */
-+static inline bool drm_exec_has_duplicates(struct drm_exec *exec)
-+{
-+	return !xa_empty(&exec->duplicates);
-+}
++module_init(test_drm_exec_init);
++module_exit(test_drm_exec_exit);
 +
-+void drm_exec_init(struct drm_exec *exec, bool interruptible);
-+void drm_exec_fini(struct drm_exec *exec);
-+bool drm_exec_cleanup(struct drm_exec *exec);
-+int drm_exec_prepare_obj(struct drm_exec *exec, struct drm_gem_object *obj,
-+			 unsigned int num_fences);
-+
-+#endif
++MODULE_AUTHOR("AMD");
++MODULE_LICENSE("GPL and additional rights");
 -- 
 2.25.1
 
