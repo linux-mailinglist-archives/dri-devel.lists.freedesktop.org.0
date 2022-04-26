@@ -2,45 +2,46 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id BDC7D5100C7
-	for <lists+dri-devel@lfdr.de>; Tue, 26 Apr 2022 16:42:43 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 4EB105100CC
+	for <lists+dri-devel@lfdr.de>; Tue, 26 Apr 2022 16:42:50 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 8FDAA10E49F;
-	Tue, 26 Apr 2022 14:42:31 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id B408310E433;
+	Tue, 26 Apr 2022 14:42:36 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from alexa-out-sd-02.qualcomm.com (alexa-out-sd-02.qualcomm.com
- [199.106.114.39])
- by gabe.freedesktop.org (Postfix) with ESMTPS id E153610E3C2;
- Tue, 26 Apr 2022 14:42:29 +0000 (UTC)
+Received: from alexa-out-sd-01.qualcomm.com (alexa-out-sd-01.qualcomm.com
+ [199.106.114.38])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 8996F10E3FA;
+ Tue, 26 Apr 2022 14:42:30 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=quicinc.com; i=@quicinc.com; q=dns/txt; s=qcdkim;
- t=1650984149; x=1682520149;
+ t=1650984150; x=1682520150;
  h=from:to:cc:subject:date:message-id:in-reply-to:
  references:mime-version;
- bh=IeXADmYf51xXtzv+e1w6kyLTnDMw+BzLFXXWIGwYR7s=;
- b=iOjJer1PFgh8ObnA8qFoMcGkDty+M0824+kkLuMUnKAK5HBGu9GCnVG/
- ozJezML+t/1yDn/F0JQ4ZDdwIw9HkTCuRV5PjpDa3D7LyRWI4SsfbHNbE
- YPMpZUeaOWysq5EgL8C2xfBZtrAoQWDJipZQFUWTxCLjuf78CukSSVufj g=;
+ bh=HFT1Y0Yt/N9EyltEDts0fIAj9Oq3vPV2XF+/+vazm7w=;
+ b=eLo/2KRgcpnDWYGdN+h7xFmw3wVjdn/lCMwU17j9A2VtKbuLbRbX+YOi
+ 07aP2ulfypXg14OfM6c89dbHmlB2tyK1Sho6zYvA+p57DRXo5014g70Kc
+ nnK4yMtUhuFMPdevrJeaDMFS6YvCipAu57pOwcayeIYyMWyaypDkiXnJz 8=;
 Received: from unknown (HELO ironmsg02-sd.qualcomm.com) ([10.53.140.142])
- by alexa-out-sd-02.qualcomm.com with ESMTP; 26 Apr 2022 07:42:29 -0700
+ by alexa-out-sd-01.qualcomm.com with ESMTP; 26 Apr 2022 07:42:30 -0700
 X-QCInternal: smtphost
 Received: from nasanex01c.na.qualcomm.com ([10.47.97.222])
  by ironmsg02-sd.qualcomm.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 26 Apr 2022 07:42:27 -0700
+ 26 Apr 2022 07:42:28 -0700
 Received: from nalasex01a.na.qualcomm.com (10.47.209.196) by
  nasanex01c.na.qualcomm.com (10.47.97.222) with Microsoft SMTP Server
  (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.2.986.22; Tue, 26 Apr 2022 07:42:20 -0700
+ 15.2.986.22; Tue, 26 Apr 2022 07:42:21 -0700
 Received: from abhinavk-linux.qualcomm.com (10.80.80.8) by
  nalasex01a.na.qualcomm.com (10.47.209.196) with Microsoft SMTP Server
  (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.2.986.22; Tue, 26 Apr 2022 07:42:19 -0700
+ 15.2.986.22; Tue, 26 Apr 2022 07:42:20 -0700
 From: Abhinav Kumar <quic_abhinavk@quicinc.com>
 To: <freedreno@lists.freedesktop.org>
-Subject: [PATCH v6 14/19] drm/msm/dpu: add the writeback connector layer
-Date: Tue, 26 Apr 2022 07:41:31 -0700
-Message-ID: <1650984096-9964-15-git-send-email-quic_abhinavk@quicinc.com>
+Subject: [PATCH v6 15/19] drm/msm/dpu: initialize dpu encoder and connector
+ for writeback
+Date: Tue, 26 Apr 2022 07:41:32 -0700
+Message-ID: <1650984096-9964-16-git-send-email-quic_abhinavk@quicinc.com>
 X-Mailer: git-send-email 2.7.4
 In-Reply-To: <1650984096-9964-1-git-send-email-quic_abhinavk@quicinc.com>
 References: <1650984096-9964-1-git-send-email-quic_abhinavk@quicinc.com>
@@ -69,168 +70,210 @@ Cc: markyacoub@chromium.org, liviu.dudau@arm.com,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Introduce the dpu_writeback module which serves as the
-interface between dpu operations and the drm_writeback.
-
-This module manages the connector related operations for
-dpu writeback.
+Initialize dpu encoder and connector for writeback if the
+target supports it in the catalog.
 
 changes in v2:
-	- start using drm_writeback_connector_init_with_encoder()
-	- drop unnecessary arguments from dpu_writeback_init()
-	- rebase on msm-next tip and remove usage of priv->connectors
+	- start initialing the encoder for writeback since we
+	have migrated to using drm_writeback_connector_init_with_encoder()
+	- instead of checking for WB_2 inside _dpu_kms_initialize_writeback
+	call it only when its WB_2
+	- rebase on tip of msm-next and remove usage of priv->encoders
 
 changes in v3:
 	- none
 
 changes in v4:
-	- none
-
-changes in v5:
-	- store the drm_enc in the dpu_wb_conn to be used while
-	  using dpu_encoder APIs
+	- fix copyright years order
 
 Signed-off-by: Abhinav Kumar <quic_abhinavk@quicinc.com>
 Reviewed-by: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
 ---
- drivers/gpu/drm/msm/Makefile                  |  1 +
- drivers/gpu/drm/msm/disp/dpu1/dpu_writeback.c | 76 +++++++++++++++++++++++++++
- drivers/gpu/drm/msm/disp/dpu1/dpu_writeback.h | 31 +++++++++++
- 3 files changed, 108 insertions(+)
- create mode 100644 drivers/gpu/drm/msm/disp/dpu1/dpu_writeback.c
- create mode 100644 drivers/gpu/drm/msm/disp/dpu1/dpu_writeback.h
+ drivers/gpu/drm/msm/disp/dpu1/dpu_encoder.c | 27 +++++++++----
+ drivers/gpu/drm/msm/disp/dpu1/dpu_kms.c     | 61 ++++++++++++++++++++++++++++-
+ 2 files changed, 80 insertions(+), 8 deletions(-)
 
-diff --git a/drivers/gpu/drm/msm/Makefile b/drivers/gpu/drm/msm/Makefile
-index 0387f22..66395ee 100644
---- a/drivers/gpu/drm/msm/Makefile
-+++ b/drivers/gpu/drm/msm/Makefile
-@@ -80,6 +80,7 @@ msm-$(CONFIG_DRM_MSM_DPU) += \
- 	disp/dpu1/dpu_plane.o \
- 	disp/dpu1/dpu_rm.o \
- 	disp/dpu1/dpu_vbif.o \
-+	disp/dpu1/dpu_writeback.o
+diff --git a/drivers/gpu/drm/msm/disp/dpu1/dpu_encoder.c b/drivers/gpu/drm/msm/disp/dpu1/dpu_encoder.c
+index 36738cc..cdd5d95 100644
+--- a/drivers/gpu/drm/msm/disp/dpu1/dpu_encoder.c
++++ b/drivers/gpu/drm/msm/disp/dpu1/dpu_encoder.c
+@@ -2102,7 +2102,7 @@ static void dpu_encoder_early_unregister(struct drm_encoder *encoder)
+ }
  
- msm-$(CONFIG_DRM_MSM_MDSS) += \
- 	msm_mdss.o \
-diff --git a/drivers/gpu/drm/msm/disp/dpu1/dpu_writeback.c b/drivers/gpu/drm/msm/disp/dpu1/dpu_writeback.c
-new file mode 100644
-index 0000000..7620ffe
---- /dev/null
-+++ b/drivers/gpu/drm/msm/disp/dpu1/dpu_writeback.c
-@@ -0,0 +1,76 @@
-+// SPDX-License-Identifier: GPL-2.0-only
-+/*
+ static int dpu_encoder_virt_add_phys_encs(
+-		u32 display_caps,
++		struct msm_display_info *disp_info,
+ 		struct dpu_encoder_virt *dpu_enc,
+ 		struct dpu_enc_phys_init_params *params)
+ {
+@@ -2121,7 +2121,7 @@ static int dpu_encoder_virt_add_phys_encs(
+ 		return -EINVAL;
+ 	}
+ 
+-	if (display_caps & MSM_DISPLAY_CAP_VID_MODE) {
++	if (disp_info->capabilities & MSM_DISPLAY_CAP_VID_MODE) {
+ 		enc = dpu_encoder_phys_vid_init(params);
+ 
+ 		if (IS_ERR_OR_NULL(enc)) {
+@@ -2134,7 +2134,7 @@ static int dpu_encoder_virt_add_phys_encs(
+ 		++dpu_enc->num_phys_encs;
+ 	}
+ 
+-	if (display_caps & MSM_DISPLAY_CAP_CMD_MODE) {
++	if (disp_info->capabilities & MSM_DISPLAY_CAP_CMD_MODE) {
+ 		enc = dpu_encoder_phys_cmd_init(params);
+ 
+ 		if (IS_ERR_OR_NULL(enc)) {
+@@ -2147,6 +2147,19 @@ static int dpu_encoder_virt_add_phys_encs(
+ 		++dpu_enc->num_phys_encs;
+ 	}
+ 
++	if (disp_info->intf_type == DRM_MODE_ENCODER_VIRTUAL) {
++		enc = dpu_encoder_phys_wb_init(params);
++
++		if (IS_ERR_OR_NULL(enc)) {
++			DPU_ERROR_ENC(dpu_enc, "failed to init wb enc: %ld\n",
++					PTR_ERR(enc));
++			return enc == NULL ? -EINVAL : PTR_ERR(enc);
++		}
++
++		dpu_enc->phys_encs[dpu_enc->num_phys_encs] = enc;
++		++dpu_enc->num_phys_encs;
++	}
++
+ 	if (params->split_role == ENC_ROLE_SLAVE)
+ 		dpu_enc->cur_slave = enc;
+ 	else
+@@ -2252,9 +2265,8 @@ static int dpu_encoder_setup_display(struct dpu_encoder_virt *dpu_enc,
+ 		}
+ 
+ 		if (!ret) {
+-			ret = dpu_encoder_virt_add_phys_encs(disp_info->capabilities,
+-												 dpu_enc,
+-												 &phys_params);
++			ret = dpu_encoder_virt_add_phys_encs(disp_info,
++					dpu_enc, &phys_params);
+ 			if (ret)
+ 				DPU_ERROR_ENC(dpu_enc, "failed to add phys encs\n");
+ 		}
+@@ -2371,8 +2383,9 @@ struct drm_encoder *dpu_encoder_init(struct drm_device *dev,
+ 	if (!dpu_enc)
+ 		return ERR_PTR(-ENOMEM);
+ 
++
+ 	rc = drm_encoder_init(dev, &dpu_enc->base, &dpu_encoder_funcs,
+-			drm_enc_mode, NULL);
++							  drm_enc_mode, NULL);
+ 	if (rc) {
+ 		devm_kfree(dev->dev, dpu_enc);
+ 		return ERR_PTR(rc);
+diff --git a/drivers/gpu/drm/msm/disp/dpu1/dpu_kms.c b/drivers/gpu/drm/msm/disp/dpu1/dpu_kms.c
+index c683cab..9a406e1 100644
+--- a/drivers/gpu/drm/msm/disp/dpu1/dpu_kms.c
++++ b/drivers/gpu/drm/msm/disp/dpu1/dpu_kms.c
+@@ -1,7 +1,9 @@
+ // SPDX-License-Identifier: GPL-2.0-only
+ /*
+- * Copyright (c) 2014-2018, The Linux Foundation. All rights reserved.
+  * Copyright (C) 2013 Red Hat
++ * Copyright (c) 2014-2018, The Linux Foundation. All rights reserved.
 + * Copyright (c) 2022 Qualcomm Innovation Center, Inc. All rights reserved.
-+ */
-+
++ *
+  * Author: Rob Clark <robdclark@gmail.com>
+  */
+ 
+@@ -15,6 +17,7 @@
+ #include <drm/drm_crtc.h>
+ #include <drm/drm_file.h>
+ #include <drm/drm_vblank.h>
++#include <drm/drm_writeback.h>
+ 
+ #include "msm_drv.h"
+ #include "msm_mmu.h"
+@@ -29,6 +32,7 @@
+ #include "dpu_kms.h"
+ #include "dpu_plane.h"
+ #include "dpu_vbif.h"
 +#include "dpu_writeback.h"
-+
-+static int dpu_wb_conn_get_modes(struct drm_connector *connector)
+ 
+ #define CREATE_TRACE_POINTS
+ #include "dpu_trace.h"
+@@ -648,6 +652,45 @@ static int _dpu_kms_initialize_displayport(struct drm_device *dev,
+ 	return 0;
+ }
+ 
++static int _dpu_kms_initialize_writeback(struct drm_device *dev,
++		struct msm_drm_private *priv, struct dpu_kms *dpu_kms,
++		const u32 *wb_formats, int n_formats)
 +{
-+	struct drm_device *dev = connector->dev;
++	struct drm_encoder *encoder = NULL;
++	struct msm_display_info info;
++	int rc;
 +
-+	return drm_add_modes_noedid(connector, dev->mode_config.max_width,
-+			dev->mode_config.max_height);
-+}
++	encoder = dpu_encoder_init(dev, DRM_MODE_ENCODER_VIRTUAL);
++	if (IS_ERR(encoder)) {
++		DPU_ERROR("encoder init failed for dsi display\n");
++		return PTR_ERR(encoder);
++	}
 +
-+static const struct drm_connector_funcs dpu_wb_conn_funcs = {
-+	.reset = drm_atomic_helper_connector_reset,
-+	.fill_modes = drm_helper_probe_single_connector_modes,
-+	.destroy = drm_connector_cleanup,
-+	.atomic_duplicate_state = drm_atomic_helper_connector_duplicate_state,
-+	.atomic_destroy_state = drm_atomic_helper_connector_destroy_state,
-+};
++	memset(&info, 0, sizeof(info));
 +
-+static int dpu_wb_conn_prepare_job(struct drm_writeback_connector *connector,
-+		struct drm_writeback_job *job)
-+{
++	rc = dpu_writeback_init(dev, encoder, wb_formats,
++			n_formats);
++	if (rc) {
++		DPU_ERROR("dpu_writeback_init, rc = %d\n", rc);
++		drm_encoder_cleanup(encoder);
++		return rc;
++	}
 +
-+	struct dpu_wb_connector *dpu_wb_conn = to_dpu_wb_conn(connector);
++	info.num_of_h_tiles = 1;
++	/* use only WB idx 2 instance for DPU */
++	info.h_tile_instance[0] = WB_2;
++	info.intf_type = encoder->encoder_type;
 +
-+	if (!job->fb)
-+		return 0;
-+
-+	dpu_encoder_prepare_wb_job(dpu_wb_conn->wb_enc, job);
++	rc = dpu_encoder_setup(dev, encoder, &info);
++	if (rc) {
++		DPU_ERROR("failed to setup DPU encoder %d: rc:%d\n",
++				  encoder->base.id, rc);
++		return rc;
++	}
 +
 +	return 0;
 +}
 +
-+static void dpu_wb_conn_cleanup_job(struct drm_writeback_connector *connector,
-+		struct drm_writeback_job *job)
-+{
-+	struct dpu_wb_connector *dpu_wb_conn = to_dpu_wb_conn(connector);
+ /**
+  * _dpu_kms_setup_displays - create encoders, bridges and connectors
+  *                           for underlying displays
+@@ -661,6 +704,7 @@ static int _dpu_kms_setup_displays(struct drm_device *dev,
+ 				    struct dpu_kms *dpu_kms)
+ {
+ 	int rc = 0;
++	int i;
+ 
+ 	rc = _dpu_kms_initialize_dsi(dev, priv, dpu_kms);
+ 	if (rc) {
+@@ -674,6 +718,21 @@ static int _dpu_kms_setup_displays(struct drm_device *dev,
+ 		return rc;
+ 	}
+ 
++	/* Since WB isn't a driver check the catalog before initializing */
++	if (dpu_kms->catalog->wb_count) {
++		for (i = 0; i < dpu_kms->catalog->wb_count; i++) {
++			if (dpu_kms->catalog->wb[i].id == WB_2) {
++				rc = _dpu_kms_initialize_writeback(dev, priv, dpu_kms,
++						dpu_kms->catalog->wb[i].format_list,
++						dpu_kms->catalog->wb[i].num_formats);
++				if (rc) {
++					DPU_ERROR("initialize_WB failed, rc = %d\n", rc);
++					return rc;
++				}
++			}
++		}
++	}
 +
-+	if (!job->fb)
-+		return;
-+
-+	dpu_encoder_cleanup_wb_job(dpu_wb_conn->wb_enc, job);
-+}
-+
-+static const struct drm_connector_helper_funcs dpu_wb_conn_helper_funcs = {
-+	.get_modes = dpu_wb_conn_get_modes,
-+	.prepare_writeback_job = dpu_wb_conn_prepare_job,
-+	.cleanup_writeback_job = dpu_wb_conn_cleanup_job,
-+};
-+
-+int dpu_writeback_init(struct drm_device *dev, struct drm_encoder *enc,
-+		const u32 *format_list, u32 num_formats)
-+{
-+	struct dpu_wb_connector *dpu_wb_conn;
-+	int rc = 0;
-+
-+	dpu_wb_conn = devm_kzalloc(dev->dev, sizeof(*dpu_wb_conn), GFP_KERNEL);
-+
-+	drm_connector_helper_add(&dpu_wb_conn->base.base, &dpu_wb_conn_helper_funcs);
-+
-+	/* DPU initializes the encoder and sets it up completely for writeback
-+	 * cases and hence should use the new API drm_writeback_connector_init_with_encoder
-+	 * to initialize the writeback connector
-+	 */
-+	rc = drm_writeback_connector_init_with_encoder(dev, &dpu_wb_conn->base, enc,
-+			&dpu_wb_conn_funcs, format_list, num_formats);
-+
-+	if (!rc)
-+		dpu_wb_conn->wb_enc = enc;
-+
-+	return rc;
-+}
-diff --git a/drivers/gpu/drm/msm/disp/dpu1/dpu_writeback.h b/drivers/gpu/drm/msm/disp/dpu1/dpu_writeback.h
-new file mode 100644
-index 0000000..5a75ea9
---- /dev/null
-+++ b/drivers/gpu/drm/msm/disp/dpu1/dpu_writeback.h
-@@ -0,0 +1,31 @@
-+/* SPDX-License-Identifier: GPL-2.0-only */
-+/*
-+ * Copyright (c) 2022 Qualcomm Innovation Center, Inc. All rights reserved.
-+ */
-+
-+#ifndef _DPU_WRITEBACK_H
-+#define _DPU_WRITEBACK_H
-+
-+#include <drm/drm_crtc.h>
-+#include <drm/drm_file.h>
-+#include <drm/drm_probe_helper.h>
-+#include <drm/drm_writeback.h>
-+
-+#include "msm_drv.h"
-+#include "dpu_kms.h"
-+#include "dpu_encoder_phys.h"
-+
-+struct dpu_wb_connector {
-+	struct drm_writeback_connector base;
-+	struct drm_encoder *wb_enc;
-+};
-+
-+static inline struct dpu_wb_connector *to_dpu_wb_conn(struct drm_writeback_connector *conn)
-+{
-+	return container_of(conn, struct dpu_wb_connector, base);
-+}
-+
-+int dpu_writeback_init(struct drm_device *dev, struct drm_encoder *enc,
-+		const u32 *format_list, u32 num_formats);
-+
-+#endif /*_DPU_WRITEBACK_H */
+ 	return rc;
+ }
+ 
 -- 
 2.7.4
 
