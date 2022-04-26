@@ -1,54 +1,53 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 69F2051079C
-	for <lists+dri-devel@lfdr.de>; Tue, 26 Apr 2022 20:53:06 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 7EE7751088F
+	for <lists+dri-devel@lfdr.de>; Tue, 26 Apr 2022 21:07:05 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id E815D10E42B;
-	Tue, 26 Apr 2022 18:53:01 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 6FE8D10E468;
+	Tue, 26 Apr 2022 19:07:02 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mga12.intel.com (mga12.intel.com [192.55.52.136])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 8E1C210E42B;
- Tue, 26 Apr 2022 18:53:00 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1650999180; x=1682535180;
- h=date:from:to:cc:subject:message-id:references:
- mime-version:content-transfer-encoding:in-reply-to;
- bh=FJKMc/lYu6nm2RJBh6Fnpwy4iiyWCJ9XgCKkmL84ZA4=;
- b=mwKZiQxeQ2707eyAQGzGFkeRuQZ68CPjSWqgl57WtVsXLhlW3wgPOBFx
- 4mMTpQu71NcMYLjG8u6rDrUIbHetwGNFfFMAM2PjOSA05GfTXYaUvDh2/
- o5kjfrD0EqBlMMoCS15l+vWP1lo76GPuUeF1GsbnSdXz3WnkNb8BZegyc
- Um3Jc4iipm+Jx5Ikf2wrByKgakxDdca3O0Z1MjUPqXjt9x5+252cwChRu
- TEXwhNvI06vvQfV/6VZrsHsepcLxYNEaYe4xxXFRPwkrr50skeiS4Ykt4
- d97tJV95h0XrimuuTxBFGT+rcCRkxc72EYQZWnkZNK9svtvwGCaZRZWqD w==;
-X-IronPort-AV: E=McAfee;i="6400,9594,10329"; a="245612386"
-X-IronPort-AV: E=Sophos;i="5.90,291,1643702400"; d="scan'208";a="245612386"
-Received: from orsmga008.jf.intel.com ([10.7.209.65])
- by fmsmga106.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 26 Apr 2022 11:53:00 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.90,291,1643702400"; d="scan'208";a="580093662"
-Received: from stinkpipe.fi.intel.com (HELO stinkbox) ([10.237.72.51])
- by orsmga008.jf.intel.com with SMTP; 26 Apr 2022 11:52:57 -0700
-Received: by stinkbox (sSMTP sendmail emulation);
- Tue, 26 Apr 2022 21:52:56 +0300
-Date: Tue, 26 Apr 2022 21:52:56 +0300
-From: Ville =?iso-8859-1?Q?Syrj=E4l=E4?= <ville.syrjala@linux.intel.com>
-To: Jani Nikula <jani.nikula@intel.com>
-Subject: Re: [PATCH 01/19] drm/edid: reset display info in
- drm_add_edid_modes() for NULL edid
-Message-ID: <Ymg/iPJeQ2o9Zj2k@intel.com>
-References: <cover.1649948562.git.jani.nikula@intel.com>
- <595358f27ca2abb29ce6eaf855e106ff19df87fa.1649948562.git.jani.nikula@intel.com>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=iso-8859-1
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <595358f27ca2abb29ce6eaf855e106ff19df87fa.1649948562.git.jani.nikula@intel.com>
-X-Patchwork-Hint: comment
+Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 3D3F910E468
+ for <dri-devel@lists.freedesktop.org>; Tue, 26 Apr 2022 19:07:01 +0000 (UTC)
+Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
+ (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+ (No client certificate requested)
+ by dfw.source.kernel.org (Postfix) with ESMTPS id 463D4619A9;
+ Tue, 26 Apr 2022 19:07:00 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPS id AC0C4C385AA;
+ Tue, 26 Apr 2022 19:06:59 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+ s=k20201202; t=1651000019;
+ bh=oB0PfXfFNyYYN59yI+8k+hxgU+ymNaYK85FvevEPleU=;
+ h=Subject:From:In-Reply-To:References:Date:To:Cc:From;
+ b=c8+hQmuDBqba9roo9nMVxo1NRDvaMZRSuO5pgX33I1+QQBnB0eK/gulCpV0AOWeFH
+ XapDFiJa8ErKUjurLspATxV3WBJ/udblaWkLaXdFjevkfIsRNOMQG5t2lv5FRUiLr5
+ KsokaWPbIvct/yj6sYiGatpshUd4O50BdTXkT0APXFoaoBAec2uRiXqPlRZXLFkPsd
+ HJ0gp4Fo1ZSipUKj6wonapEaZG8ajj3dDecq1H+QguZRt1ZLaKnqm4dM2vqS2JFOu1
+ vRXtyhtO6Jt/ojZADq5vy31uE+ga3neJF9tRoOYSKLneMIxXerBzveJN/ZYCHAt89g
+ lXOlnKbVHS2lA==
+Received: from aws-us-west-2-korg-oddjob-1.ci.codeaurora.org
+ (localhost.localdomain [127.0.0.1])
+ by aws-us-west-2-korg-oddjob-1.ci.codeaurora.org (Postfix) with ESMTP id
+ 97714E8DD85; Tue, 26 Apr 2022 19:06:59 +0000 (UTC)
+Subject: Re: [GIT PULL] fbdev updates & fixes for v5.18-rc5
+From: pr-tracker-bot@kernel.org
+In-Reply-To: <YmgNUgK/FeNcX0MG@ls3530>
+References: <YmgNUgK/FeNcX0MG@ls3530>
+X-PR-Tracked-List-Id: <linux-fbdev.vger.kernel.org>
+X-PR-Tracked-Message-Id: <YmgNUgK/FeNcX0MG@ls3530>
+X-PR-Tracked-Remote: http://git.kernel.org/pub/scm/linux/kernel/git/deller/linux-fbdev.git
+ tags/for-5.18/fbdev-2
+X-PR-Tracked-Commit-Id: 6fbe0cc53a1b5f7abe2c44399c18e943adbebe2f
+X-PR-Merge-Tree: torvalds/linux.git
+X-PR-Merge-Refname: refs/heads/master
+X-PR-Merge-Commit-Id: cf424ef014ac30b0da27125dd1fbdf10b0d3a520
+Message-Id: <165100001961.21339.1776716463797926143.pr-tracker-bot@kernel.org>
+Date: Tue, 26 Apr 2022 19:06:59 +0000
+To: Helge Deller <deller@gmx.de>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -61,48 +60,20 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: intel-gfx@lists.freedesktop.org, dri-devel@lists.freedesktop.org
+Cc: linux-fbdev@vger.kernel.org, Linus Torvalds <torvalds@linux-foundation.org>,
+ linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Thu, Apr 14, 2022 at 06:06:44PM +0300, Jani Nikula wrote:
-> If a NULL edid gets passed to drm_add_edid_modes(), we should probably
-> also reset the display info.
+The pull request you sent on Tue, 26 Apr 2022 17:18:42 +0200:
 
-One concern I had with this is resetting of eg. {width,height}_mm
-which might have been populated by intel_panel_add_fixed_mode().
-But I think that might already happen anyway through one of the
-other codepaths that call drm_reset_display_info() so probably not
-something that is made any worse by this patch.
+> http://git.kernel.org/pub/scm/linux/kernel/git/deller/linux-fbdev.git tags/for-5.18/fbdev-2
 
-IIRC at one point I tried to startd cleaning up the display_info
-mess a bit but the patches got stuck in some silly bikeshed
-so I gave up.
+has been merged into torvalds/linux.git:
+https://git.kernel.org/torvalds/c/cf424ef014ac30b0da27125dd1fbdf10b0d3a520
 
-Reviewed-by: Ville Syrjälä <ville.syrjala@linux.intel.com>
-
-> 
-> Cc: Ville Syrjälä <ville.syrjala@linux.intel.com>
-> Signed-off-by: Jani Nikula <jani.nikula@intel.com>
-> ---
->  drivers/gpu/drm/drm_edid.c | 1 +
->  1 file changed, 1 insertion(+)
-> 
-> diff --git a/drivers/gpu/drm/drm_edid.c b/drivers/gpu/drm/drm_edid.c
-> index 324ce8467915..4758e78fad82 100644
-> --- a/drivers/gpu/drm/drm_edid.c
-> +++ b/drivers/gpu/drm/drm_edid.c
-> @@ -5721,6 +5721,7 @@ static int drm_edid_connector_update(struct drm_connector *connector,
->  	u32 quirks;
->  
->  	if (edid == NULL) {
-> +		drm_reset_display_info(connector);
->  		clear_eld(connector);
->  		return 0;
->  	}
-> -- 
-> 2.30.2
+Thank you!
 
 -- 
-Ville Syrjälä
-Intel
+Deet-doot-dot, I am a bot.
+https://korg.docs.kernel.org/prtracker.html
