@@ -1,51 +1,60 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0431F50F9F0
-	for <lists+dri-devel@lfdr.de>; Tue, 26 Apr 2022 12:14:05 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 92AB850FA79
+	for <lists+dri-devel@lfdr.de>; Tue, 26 Apr 2022 12:28:45 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id C36A210EE35;
-	Tue, 26 Apr 2022 10:14:02 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 915EF10E5A3;
+	Tue, 26 Apr 2022 10:28:41 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mga05.intel.com (mga05.intel.com [192.55.52.43])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 31B7C10EE35
- for <dri-devel@lists.freedesktop.org>; Tue, 26 Apr 2022 10:14:01 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1650968041; x=1682504041;
- h=date:from:to:cc:subject:message-id:references:
- mime-version:in-reply-to;
- bh=s3e2Mol8Q7Ae9bok6W3oQgnE6nys4q61z67ZOj7oV0U=;
- b=TPE/OvlPR+ZQP7IuhGEVk0sGp3fsOGhD16gg1WGhRI/lEM6JTNU8VppR
- QH6TiLquYVh0CNCNE24ZpHluehEAq9CwTVZiWOml1opA4CkRVIf9FpF3I
- uUc7ZoW+SH6S4dwygb2dYMwoFoesN+bdEgbQboqoTD3+FNlhAz1RJ4dEG
- 1gCaSmJkzlRXg79nwDcPkKlfHnt6Q+DPy75rZ9X0jsQiQYCwNUdptQ+8C
- dVQx3QbTsraXPb6eJHKoJaerjMgodKVBKablUPBkZtfBl5FFgSYbmk9Fj
- n/JIkvmtsoNMdmcupdLIm/49DfJh6emg1XIQtBS0j8+Iq4tr4hbujlmYK g==;
-X-IronPort-AV: E=McAfee;i="6400,9594,10328"; a="351972295"
-X-IronPort-AV: E=Sophos;i="5.90,290,1643702400"; d="scan'208";a="351972295"
-Received: from orsmga001.jf.intel.com ([10.7.209.18])
- by fmsmga105.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 26 Apr 2022 03:14:00 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.90,290,1643702400"; d="scan'208";a="595693115"
-Received: from lkp-server01.sh.intel.com (HELO 5056e131ad90) ([10.239.97.150])
- by orsmga001.jf.intel.com with ESMTP; 26 Apr 2022 03:13:56 -0700
-Received: from kbuild by 5056e131ad90 with local (Exim 4.95)
- (envelope-from <lkp@intel.com>) id 1njICh-0003Py-RN;
- Tue, 26 Apr 2022 10:13:55 +0000
-Date: Tue, 26 Apr 2022 18:12:58 +0800
-From: kernel test robot <lkp@intel.com>
-To: Cai Huoqing <cai.huoqing@linux.dev>
-Subject: Re: [PATCH v2 4/4] drm/nvdla/uapi: Add UAPI of NVDLA driver
-Message-ID: <202204261827.CMHZCsOI-lkp@intel.com>
-References: <20220426060808.78225-5-cai.huoqing@linux.dev>
+Received: from mailgw01.mediatek.com (unknown [60.244.123.138])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id E289710E5A3
+ for <dri-devel@lists.freedesktop.org>; Tue, 26 Apr 2022 10:28:39 +0000 (UTC)
+X-UUID: 162355498c0b48f2b1df6850e9fcc7b6-20220426
+X-CID-P-RULE: Release_Ham
+X-CID-O-INFO: VERSION:1.1.4, REQID:51a7fbd9-65de-4ec1-bb7b-d6919820e1e8, OB:0,
+ LO
+ B:0,IP:0,URL:8,TC:0,Content:0,EDM:0,RT:0,SF:53,FILE:0,RULE:Release_Ham,ACT
+ ION:release,TS:61
+X-CID-INFO: VERSION:1.1.4, REQID:51a7fbd9-65de-4ec1-bb7b-d6919820e1e8, OB:0,
+ LOB:
+ 0,IP:0,URL:8,TC:0,Content:0,EDM:0,RT:0,SF:53,FILE:0,RULE:Spam_GS981B3D,ACT
+ ION:quarantine,TS:61
+X-CID-META: VersionHash:faefae9, CLOUDID:bc09c02e-6199-437e-8ab4-9920b4bc5b76,
+ C
+ OID:01946d09fe8b,Recheck:0,SF:13|15|28|16|19|48,TC:nil,Content:0,EDM:-3,Fi
+ le:nil,QS:0,BEC:nil
+X-UUID: 162355498c0b48f2b1df6850e9fcc7b6-20220426
+Received: from mtkcas10.mediatek.inc [(172.21.101.39)] by mailgw01.mediatek.com
+ (envelope-from <nancy.lin@mediatek.com>)
+ (Generic MTA with TLSv1.2 ECDHE-RSA-AES256-SHA384 256/256)
+ with ESMTP id 1132310296; Tue, 26 Apr 2022 18:28:36 +0800
+Received: from mtkcas11.mediatek.inc (172.21.101.40) by
+ mtkmbs07n2.mediatek.inc (172.21.101.141) with Microsoft SMTP Server (TLS) id
+ 15.0.1497.2; Tue, 26 Apr 2022 18:28:34 +0800
+Received: from mtksdccf07 (172.21.84.99) by mtkcas11.mediatek.inc
+ (172.21.101.73) with Microsoft SMTP Server id 15.0.1497.2 via Frontend
+ Transport; Tue, 26 Apr 2022 18:28:34 +0800
+Message-ID: <2e336c54b07cf5b661fd4a613545a932bca792fb.camel@mediatek.com>
+Subject: Re: [PATCH v17 13/21] drm/mediatek: add display merge async reset
+ control
+From: Nancy.Lin <nancy.lin@mediatek.com>
+To: Philipp Zabel <p.zabel@pengutronix.de>, Rob Herring <robh+dt@kernel.org>, 
+ Matthias Brugger <matthias.bgg@gmail.com>, Chun-Kuang Hu
+ <chunkuang.hu@kernel.org>, <wim@linux-watchdog.org>, AngeloGioacchino Del
+ Regno <angelogioacchino.delregno@collabora.com>, <linux@roeck-us.net>
+Date: Tue, 26 Apr 2022 18:28:34 +0800
+In-Reply-To: <b4f438026fe208f8f6511de34c7e84c8c59d843c.camel@pengutronix.de>
+References: <20220416020749.29010-1-nancy.lin@mediatek.com>
+ <20220416020749.29010-14-nancy.lin@mediatek.com>
+ <b4f438026fe208f8f6511de34c7e84c8c59d843c.camel@pengutronix.de>
+Content-Type: text/plain; charset="UTF-8"
+X-Mailer: Evolution 3.28.5-0ubuntu0.18.04.2 
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20220426060808.78225-5-cai.huoqing@linux.dev>
+Content-Transfer-Encoding: 7bit
+X-MTK: N
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -58,53 +67,75 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: kbuild-all@lists.01.org, David Airlie <airlied@linux.ie>,
- llvm@lists.linux.dev, linux-kernel@vger.kernel.org,
- Christian =?iso-8859-1?Q?K=F6nig?= <christian.koenig@amd.com>,
- linaro-mm-sig@lists.linaro.org, dri-devel@lists.freedesktop.org,
- Thomas Zimmermann <tzimmermann@suse.de>,
- Sumit Semwal <sumit.semwal@linaro.org>, linux-media@vger.kernel.org
+Cc: devicetree@vger.kernel.org,
+ Project_Global_Chrome_Upstream_Group@mediatek.com,
+ David Airlie <airlied@linux.ie>, "jason-jh . lin" <jason-jh.lin@mediatek.com>,
+ singo.chang@mediatek.com, llvm@lists.linux.dev,
+ Nick Desaulniers <ndesaulniers@google.com>, linux-kernel@vger.kernel.org,
+ dri-devel@lists.freedesktop.org, Nathan
+ Chancellor <nathan@kernel.org>, linux-mediatek@lists.infradead.org,
+ Yongqiang Niu <yongqiang.niu@mediatek.com>,
+ linux-arm-kernel@lists.infradead.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi Cai,
+Hi Philipp,
 
-I love your patch! Yet something to improve:
+Thanks for the review.
 
-[auto build test ERROR on drm/drm-next]
-[also build test ERROR on linus/master linux/master v5.18-rc4 next-20220422]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch]
+On Mon, 2022-04-25 at 11:58 +0200, Philipp Zabel wrote:
+> On Sa, 2022-04-16 at 10:07 +0800, Nancy.Lin wrote:
+> > Add merge async reset control in mtk_merge_stop. Async hw doesn't
+> > do self
+> > reset on each sof signal(start of frame), so need to reset the
+> > async to
+> > clear the hw status for the next merge start.
+> > 
+> > Signed-off-by: Nancy.Lin <nancy.lin@mediatek.com>
+> > Reviewed-by: CK Hu <ck.hu@mediatek.com>
+> > Reviewed-by: AngeloGioacchino Del Regno <
+> > angelogioacchino.delregno@collabora.com>
+> > ---
+> >  drivers/gpu/drm/mediatek/mtk_disp_merge.c | 4 ++++
+> >  1 file changed, 4 insertions(+)
+> > 
+> > diff --git a/drivers/gpu/drm/mediatek/mtk_disp_merge.c
+> > b/drivers/gpu/drm/mediatek/mtk_disp_merge.c
+> > index 9dca145cfb71..177473fa8160 100644
+> > --- a/drivers/gpu/drm/mediatek/mtk_disp_merge.c
+> > +++ b/drivers/gpu/drm/mediatek/mtk_disp_merge.c
+> > @@ -8,6 +8,7 @@
+> >  #include <linux/of_device.h>
+> >  #include <linux/of_irq.h>
+> >  #include <linux/platform_device.h>
+> > +#include <linux/reset.h>
+> >  #include <linux/soc/mediatek/mtk-cmdq.h>
+> >  
+> > 
+> > 
+> > 
+> >  #include "mtk_drm_ddp_comp.h"
+> > @@ -79,6 +80,9 @@ void mtk_merge_stop(struct device *dev)
+> >  	struct mtk_disp_merge *priv = dev_get_drvdata(dev);
+> >  
+> > 
+> > 
+> > 
+> >  	mtk_merge_stop_cmdq(dev, NULL);
+> > +
+> > +	if (priv->async_clk)
+> > +		device_reset_optional(dev);
+> 
+> To avoid the overhead of looking up the reset control in the device
+> tree every time, it would be better to request a reset control during
+> probe using devm_reset_control_get_optional_exclusive(). Here you'd
+> just call reset_control_reset().
+> 
+> regards
+> Philipp
 
-url:    https://github.com/intel-lab-lkp/linux/commits/Cai-Huoqing/drm-nvdla-Add-driver-support-for-NVDLA/20220426-141148
-base:   git://anongit.freedesktop.org/drm/drm drm-next
-config: i386-randconfig-a003-20220425 (https://download.01.org/0day-ci/archive/20220426/202204261827.CMHZCsOI-lkp@intel.com/config)
-compiler: clang version 15.0.0 (https://github.com/llvm/llvm-project 1cddcfdc3c683b393df1a5c9063252eb60e52818)
-reproduce (this is a W=1 build):
-        wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbin/make.cross -O ~/bin/make.cross
-        chmod +x ~/bin/make.cross
-        # https://github.com/intel-lab-lkp/linux/commit/a54587f7637b8ee11ad624794af3b409e6306e07
-        git remote add linux-review https://github.com/intel-lab-lkp/linux
-        git fetch --no-tags linux-review Cai-Huoqing/drm-nvdla-Add-driver-support-for-NVDLA/20220426-141148
-        git checkout a54587f7637b8ee11ad624794af3b409e6306e07
-        # save the config file
-        mkdir build_dir && cp config build_dir/.config
-        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=clang make.cross W=1 O=build_dir ARCH=i386 prepare
+OK. I will refine it in the next revision.
 
-If you fix the issue, kindly add following tag as appropriate
-Reported-by: kernel test robot <lkp@intel.com>
+Regards,
+Nancy
 
-All errors (new ones prefixed by >>):
-
->> error: include/uapi/drm/nvdla_drm.h: missing "WITH Linux-syscall-note" for SPDX-License-Identifier
-   make[2]: *** [scripts/Makefile.headersinst:63: usr/include/drm/nvdla_drm.h] Error 1
-   make[2]: Target '__headers' not remade because of errors.
-   make[1]: *** [Makefile:1280: headers] Error 2
-   make[1]: Target 'prepare' not remade because of errors.
-   make: *** [Makefile:219: __sub-make] Error 2
-   make: Target 'prepare' not remade because of errors.
-
--- 
-0-DAY CI Kernel Test Service
-https://01.org/lkp
