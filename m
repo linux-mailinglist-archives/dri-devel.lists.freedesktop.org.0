@@ -1,70 +1,41 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0F72E50ED92
-	for <lists+dri-devel@lfdr.de>; Tue, 26 Apr 2022 02:26:23 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 3FAD050EDA1
+	for <lists+dri-devel@lfdr.de>; Tue, 26 Apr 2022 02:32:55 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 0FFEF10EFD4;
-	Tue, 26 Apr 2022 00:26:20 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id D151110F006;
+	Tue, 26 Apr 2022 00:32:52 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-ed1-x530.google.com (mail-ed1-x530.google.com
- [IPv6:2a00:1450:4864:20::530])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 7E26E10EFD4
- for <dri-devel@lists.freedesktop.org>; Tue, 26 Apr 2022 00:26:18 +0000 (UTC)
-Received: by mail-ed1-x530.google.com with SMTP id y21so13516687edo.2
- for <dri-devel@lists.freedesktop.org>; Mon, 25 Apr 2022 17:26:18 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=chromium.org; s=google;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=U2mI9B0DfTP2uJaUf7MfHZkBOtDU6w3Evg/FiCjtECs=;
- b=ZAo4i9aIizuB1KnSDalJWjACTpGuilueJpEkV0piPBXdQXeBiA4F/vMOJi3P0NvVT2
- M6ypuMb7IJ+ouM9JOTEwFx8F6OtikCUItbjWpL0JCM9ai2o7AIs7vbEJLvGF5VRD1VBE
- JSxTwSQXqnzwvHp1eKR/VGQ2tF9bVT89+LQ5I=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=U2mI9B0DfTP2uJaUf7MfHZkBOtDU6w3Evg/FiCjtECs=;
- b=AAdSpI3CxlwOErZ9ob35EzpepgvlL+FrRzLYCMF76Ylv+7EJlu3PDdO8nkm0p2dzxO
- itey38LTm2oM7pVrrobUWG2Mos9TA+2aGpvGToxQp37CjoKmdD//xV7ctqN/xwJJ9Y62
- mzChLihu5f2NdUFkVCmOcq4+HBKo58m8ZffQe599MZOVfTNuPMhSFSqcLGoHcuSvulTY
- FBUDdXchgp4id3SqHspabfq+ssfoMNO8Mz5BLsdrwshG/JC9V5PtTKGwW0YdtcX/99ZP
- Y6azl62ysA+/zxv57OyzJYv4jxg/Gc6rWB7r7Cs7KOfnf5MjlfBpNae10gyniY+1emvs
- 2B4w==
-X-Gm-Message-State: AOAM5300BZ+UVo1rznFiPEnkhZI5hPoqUcXR2JTngWjZtK8q4r4wSF50
- oWdYjoG2Emv0shg+g/ueoTTTc+KOXr7ZuzT7
-X-Google-Smtp-Source: ABdhPJw8X694lSBp7uNl/7QpFtheAAGe+jY0WKLh076fZmItGdW2H5uTVyKz9QN3Fe64FWu5tXswdg==
-X-Received: by 2002:a05:6402:26c9:b0:423:d545:9d49 with SMTP id
- x9-20020a05640226c900b00423d5459d49mr21868272edd.242.1650932776603; 
- Mon, 25 Apr 2022 17:26:16 -0700 (PDT)
-Received: from mail-wm1-f53.google.com (mail-wm1-f53.google.com.
- [209.85.128.53]) by smtp.gmail.com with ESMTPSA id
- tk22-20020a170907c29600b006de43e9605asm3925986ejc.181.2022.04.25.17.26.14
- for <dri-devel@lists.freedesktop.org>
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Mon, 25 Apr 2022 17:26:14 -0700 (PDT)
-Received: by mail-wm1-f53.google.com with SMTP id
- k16-20020a7bc410000000b00393faed9cf3so18661wmi.1
- for <dri-devel@lists.freedesktop.org>; Mon, 25 Apr 2022 17:26:14 -0700 (PDT)
-X-Received: by 2002:a05:600c:4f08:b0:391:fe3c:40e6 with SMTP id
- l8-20020a05600c4f0800b00391fe3c40e6mr27927924wmq.34.1650932773356; Mon, 25
- Apr 2022 17:26:13 -0700 (PDT)
-MIME-Version: 1.0
-References: <1650671124-14030-1-git-send-email-quic_khsieh@quicinc.com>
- <3b9588d2-d9f6-c96f-b316-953b56b59bfe@linaro.org>
- <73e2a37e-23db-d614-5f5c-8120f1869158@quicinc.com>
- <CAA8EJprjuzUrfwXodgKmbWxgK6t+bY601E_nS7CHNH_+4Tfn5Q@mail.gmail.com>
- <9b331b16-8d1b-4e74-8fee-d74c4041f8d7@quicinc.com>
-In-Reply-To: <9b331b16-8d1b-4e74-8fee-d74c4041f8d7@quicinc.com>
-From: Doug Anderson <dianders@chromium.org>
-Date: Mon, 25 Apr 2022 17:26:00 -0700
-X-Gmail-Original-Message-ID: <CAD=FV=VxEnbBypNYSq=iTUTwZUs_v620juSA6gsMW4h2_3HyBQ@mail.gmail.com>
-Message-ID: <CAD=FV=VxEnbBypNYSq=iTUTwZUs_v620juSA6gsMW4h2_3HyBQ@mail.gmail.com>
-Subject: Re: [PATCH] drm/msm/dp: move add fail safe mode to
- dp_connector_get_mode()
+Received: from perceval.ideasonboard.com (perceval.ideasonboard.com
+ [213.167.242.64])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 9AF0A10F006;
+ Tue, 26 Apr 2022 00:32:51 +0000 (UTC)
+Received: from pendragon.ideasonboard.com (62-78-145-57.bb.dnainternet.fi
+ [62.78.145.57])
+ by perceval.ideasonboard.com (Postfix) with ESMTPSA id 5EC95487;
+ Tue, 26 Apr 2022 02:32:49 +0200 (CEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
+ s=mail; t=1650933169;
+ bh=TAKAmerWSl4fnA/qgy1fIhyRv4qRi41lqmZjfpx8kZ0=;
+ h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+ b=h+mAfUMsBkDelS1I3BObPBfcw4xyxs3+yQvmSsNhbon9TSWCgm7HDNJgabSbsLDgq
+ dYBRV8ZC5kg8Km2iAdWr2QZkv25Ns3xCkLHsHcHn6NlfgQSkJ+Nwoz3Tj+ngUMkKnS
+ EjFce6Oaw8KFSnH6AfdqJgpKnnF5rlveoVuFhpQc=
+Date: Tue, 26 Apr 2022 03:32:49 +0300
+From: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
 To: Abhinav Kumar <quic_abhinavk@quicinc.com>
-Content-Type: text/plain; charset="UTF-8"
+Subject: Re: [PATCH v5 15/19] drm/msm/dpu: initialize dpu encoder and
+ connector for writeback
+Message-ID: <Ymc9sdtF0y0gvVeL@pendragon.ideasonboard.com>
+References: <1650846730-19226-1-git-send-email-quic_abhinavk@quicinc.com>
+ <1650846730-19226-16-git-send-email-quic_abhinavk@quicinc.com>
+MIME-Version: 1.0
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+In-Reply-To: <1650846730-19226-16-git-send-email-quic_abhinavk@quicinc.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -77,327 +48,228 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Sean Paul <sean@poorly.run>,
- Sankeerth Billakanti <quic_sbillaka@quicinc.com>,
- David Airlie <airlied@linux.ie>, linux-arm-msm <linux-arm-msm@vger.kernel.org>,
- Kuogee Hsieh <quic_khsieh@quicinc.com>, LKML <linux-kernel@vger.kernel.org>,
- dri-devel <dri-devel@lists.freedesktop.org>,
- Stephen Boyd <swboyd@chromium.org>, Vinod Koul <vkoul@kernel.org>,
- Andy Gross <agross@kernel.org>, Dmitry Baryshkov <dmitry.baryshkov@linaro.org>,
- "Aravind Venkateswaran \(QUIC\)" <quic_aravindh@quicinc.com>,
- Bjorn Andersson <bjorn.andersson@linaro.org>,
- freedreno <freedreno@lists.freedesktop.org>
+Cc: markyacoub@chromium.org, liviu.dudau@arm.com,
+ dri-devel@lists.freedesktop.org, swboyd@chromium.org, seanpaul@chromium.org,
+ dmitry.baryshkov@linaro.org, quic_jesszhan@quicinc.com,
+ quic_aravindh@quicinc.com, freedreno@lists.freedesktop.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi,
+Hi Abhinav,
 
-On Sat, Apr 23, 2022 at 8:34 AM Abhinav Kumar <quic_abhinavk@quicinc.com> wrote:
->
-> On 4/22/2022 11:25 PM, Dmitry Baryshkov wrote:
-> > On Sat, 23 Apr 2022 at 03:12, Abhinav Kumar <quic_abhinavk@quicinc.com> wrote:
-> >>
-> >>
-> >>
-> >> On 4/22/2022 5:07 PM, Dmitry Baryshkov wrote:
-> >>> On 23/04/2022 02:45, Kuogee Hsieh wrote:
-> >>>> Current DP driver implementation has adding safe mode done at
-> >>>> dp_hpd_plug_handle() which is expected to be executed under event
-> >>>> thread context.
-> >>>>
-> >>>> However there is possible circular locking happen (see blow stack trace)
-> >>>> after edp driver call dp_hpd_plug_handle() from dp_bridge_enable() which
-> >>>> is executed under drm_thread context.
-> >>>>
-> >>>> To break this circular locking, this patch have safe mode added at
-> >>>> dp_connector_get_mode() which is executed under drm thread context.
-> >>>> Therefore no lock acquired required for &dev->mode_config.mutex while
-> >>>> adding fail safe mode since it has been hold by drm thread already.
-> >>>>
-> >>>> ======================================================
-> >>>>    WARNING: possible circular locking dependency detected
-> >>>>    5.15.35-lockdep #6 Tainted: G        W
-> >>>>    ------------------------------------------------------
-> >>>>    frecon/429 is trying to acquire lock:
-> >>>>    ffffff808dc3c4e8 (&dev->mode_config.mutex){+.+.}-{3:3}, at:
-> >>>> dp_panel_add_fail_safe_mode+0x4c/0xa0
-> >>>>
-> >>>>    but task is already holding lock:
-> >>>>    ffffff808dc441e0 (&kms->commit_lock[i]){+.+.}-{3:3}, at:
-> >>>> lock_crtcs+0xb4/0x124
-> >>>>
-> >>>>    which lock already depends on the new lock.
-> >>>>
-> >>>>    the existing dependency chain (in reverse order) is:
-> >>>>
-> >>>>    -> #3 (&kms->commit_lock[i]){+.+.}-{3:3}:
-> >>>>           __mutex_lock_common+0x174/0x1a64
-> >>>>           mutex_lock_nested+0x98/0xac
-> >>>>           lock_crtcs+0xb4/0x124
-> >>>>           msm_atomic_commit_tail+0x330/0x748
-> >>>>           commit_tail+0x19c/0x278
-> >>>>           drm_atomic_helper_commit+0x1dc/0x1f0
-> >>>>           drm_atomic_commit+0xc0/0xd8
-> >>>>           drm_atomic_helper_set_config+0xb4/0x134
-> >>>>           drm_mode_setcrtc+0x688/0x1248
-> >>>>           drm_ioctl_kernel+0x1e4/0x338
-> >>>>           drm_ioctl+0x3a4/0x684
-> >>>>           __arm64_sys_ioctl+0x118/0x154
-> >>>>           invoke_syscall+0x78/0x224
-> >>>>           el0_svc_common+0x178/0x200
-> >>>>           do_el0_svc+0x94/0x13c
-> >>>>           el0_svc+0x5c/0xec
-> >>>>           el0t_64_sync_handler+0x78/0x108
-> >>>>           el0t_64_sync+0x1a4/0x1a8
-> >>>>
-> >>>>    -> #2 (crtc_ww_class_mutex){+.+.}-{3:3}:
-> >>>>           __mutex_lock_common+0x174/0x1a64
-> >>>>           ww_mutex_lock+0xb8/0x278
-> >>>>           modeset_lock+0x304/0x4ac
-> >>>>           drm_modeset_lock+0x4c/0x7c
-> >>>>           drmm_mode_config_init+0x4a8/0xc50
-> >>>>           msm_drm_init+0x274/0xac0
-> >>>>           msm_drm_bind+0x20/0x2c
-> >>>>           try_to_bring_up_master+0x3dc/0x470
-> >>>>           __component_add+0x18c/0x3c0
-> >>>>           component_add+0x1c/0x28
-> >>>>           dp_display_probe+0x954/0xa98
-> >>>>           platform_probe+0x124/0x15c
-> >>>>           really_probe+0x1b0/0x5f8
-> >>>>           __driver_probe_device+0x174/0x20c
-> >>>>           driver_probe_device+0x70/0x134
-> >>>>           __device_attach_driver+0x130/0x1d0
-> >>>>           bus_for_each_drv+0xfc/0x14c
-> >>>>           __device_attach+0x1bc/0x2bc
-> >>>>           device_initial_probe+0x1c/0x28
-> >>>>           bus_probe_device+0x94/0x178
-> >>>>           deferred_probe_work_func+0x1a4/0x1f0
-> >>>>           process_one_work+0x5d4/0x9dc
-> >>>>           worker_thread+0x898/0xccc
-> >>>>           kthread+0x2d4/0x3d4
-> >>>>           ret_from_fork+0x10/0x20
-> >>>>
-> >>>>    -> #1 (crtc_ww_class_acquire){+.+.}-{0:0}:
-> >>>>           ww_acquire_init+0x1c4/0x2c8
-> >>>>           drm_modeset_acquire_init+0x44/0xc8
-> >>>>           drm_helper_probe_single_connector_modes+0xb0/0x12dc
-> >>>>           drm_mode_getconnector+0x5dc/0xfe8
-> >>>>           drm_ioctl_kernel+0x1e4/0x338
-> >>>>           drm_ioctl+0x3a4/0x684
-> >>>>           __arm64_sys_ioctl+0x118/0x154
-> >>>>           invoke_syscall+0x78/0x224
-> >>>>           el0_svc_common+0x178/0x200
-> >>>>           do_el0_svc+0x94/0x13c
-> >>>>           el0_svc+0x5c/0xec
-> >>>>           el0t_64_sync_handler+0x78/0x108
-> >>>>           el0t_64_sync+0x1a4/0x1a8
-> >>>>
-> >>>>    -> #0 (&dev->mode_config.mutex){+.+.}-{3:3}:
-> >>>>           __lock_acquire+0x2650/0x672c
-> >>>>           lock_acquire+0x1b4/0x4ac
-> >>>>           __mutex_lock_common+0x174/0x1a64
-> >>>>           mutex_lock_nested+0x98/0xac
-> >>>>           dp_panel_add_fail_safe_mode+0x4c/0xa0
-> >>>>           dp_hpd_plug_handle+0x1f0/0x280
-> >>>>           dp_bridge_enable+0x94/0x2b8
-> >>>>           drm_atomic_bridge_chain_enable+0x11c/0x168
-> >>>>           drm_atomic_helper_commit_modeset_enables+0x500/0x740
-> >>>>           msm_atomic_commit_tail+0x3e4/0x748
-> >>>>           commit_tail+0x19c/0x278
-> >>>>           drm_atomic_helper_commit+0x1dc/0x1f0
-> >>>>           drm_atomic_commit+0xc0/0xd8
-> >>>>           drm_atomic_helper_set_config+0xb4/0x134
-> >>>>           drm_mode_setcrtc+0x688/0x1248
-> >>>>           drm_ioctl_kernel+0x1e4/0x338
-> >>>>           drm_ioctl+0x3a4/0x684
-> >>>>           __arm64_sys_ioctl+0x118/0x154
-> >>>>           invoke_syscall+0x78/0x224
-> >>>>           el0_svc_common+0x178/0x200
-> >>>>           do_el0_svc+0x94/0x13c
-> >>>>           el0_svc+0x5c/0xec
-> >>>>           el0t_64_sync_handler+0x78/0x108
-> >>>>           el0t_64_sync+0x1a4/0x1a8
-> >>>>
-> >>>> Signed-off-by: Kuogee Hsieh <quic_khsieh@quicinc.com>
-> >>>> ---
-> >>>>    drivers/gpu/drm/msm/dp/dp_display.c |  6 ------
-> >>>>    drivers/gpu/drm/msm/dp/dp_panel.c   | 23 +++++++++++++----------
-> >>>>    2 files changed, 13 insertions(+), 16 deletions(-)
-> >>>>
-> >>>> diff --git a/drivers/gpu/drm/msm/dp/dp_display.c
-> >>>> b/drivers/gpu/drm/msm/dp/dp_display.c
-> >>>> index 92cd50f..01453db 100644
-> >>>> --- a/drivers/gpu/drm/msm/dp/dp_display.c
-> >>>> +++ b/drivers/gpu/drm/msm/dp/dp_display.c
-> >>>> @@ -555,12 +555,6 @@ static int dp_hpd_plug_handle(struct
-> >>>> dp_display_private *dp, u32 data)
-> >>>>        mutex_unlock(&dp->event_mutex);
-> >>>> -    /*
-> >>>> -     * add fail safe mode outside event_mutex scope
-> >>>> -     * to avoid potiential circular lock with drm thread
-> >>>> -     */
-> >>>> -    dp_panel_add_fail_safe_mode(dp->dp_display.connector);
-> >>>> -
-> >>>>        /* uevent will complete connection part */
-> >>>>        return 0;
-> >>>>    };
-> >>>> diff --git a/drivers/gpu/drm/msm/dp/dp_panel.c
-> >>>> b/drivers/gpu/drm/msm/dp/dp_panel.c
-> >>>> index 1aa9aa8c..23fee42 100644
-> >>>> --- a/drivers/gpu/drm/msm/dp/dp_panel.c
-> >>>> +++ b/drivers/gpu/drm/msm/dp/dp_panel.c
-> >>>> @@ -151,15 +151,6 @@ static int dp_panel_update_modes(struct
-> >>>> drm_connector *connector,
-> >>>>        return rc;
-> >>>>    }
-> >>>> -void dp_panel_add_fail_safe_mode(struct drm_connector *connector)
-> >>>> -{
-> >>>> -    /* fail safe edid */
-> >>>> -    mutex_lock(&connector->dev->mode_config.mutex);
-> >>>> -    if (drm_add_modes_noedid(connector, 640, 480))
-> >>>> -        drm_set_preferred_mode(connector, 640, 480);
-> >>>> -    mutex_unlock(&connector->dev->mode_config.mutex);
-> >>>> -}
-> >>>> -
-> >>>>    int dp_panel_read_sink_caps(struct dp_panel *dp_panel,
-> >>>>        struct drm_connector *connector)
-> >>>>    {
-> >>>> @@ -216,7 +207,11 @@ int dp_panel_read_sink_caps(struct dp_panel
-> >>>> *dp_panel,
-> >>>>                goto end;
-> >>>>            }
-> >>>> -        dp_panel_add_fail_safe_mode(connector);
-> >>>> +        /* fail safe edid */
-> >>>> +        mutex_lock(&connector->dev->mode_config.mutex);
-> >>>> +        if (drm_add_modes_noedid(connector, 640, 480))
-> >>>> +            drm_set_preferred_mode(connector, 640, 480);
-> >>>> +        mutex_unlock(&connector->dev->mode_config.mutex);
-> >>>>        }
-> >>>>        if (panel->aux_cfg_update_done) {
-> >>>> @@ -266,6 +261,14 @@ int dp_panel_get_modes(struct dp_panel *dp_panel,
-> >>>>            return -EINVAL;
-> >>>>        }
-> >>>> +    /*
-> >>>> +     * add fail safe mode (640x480) here
-> >>>> +     * since we are executed in drm_thread context,
-> >>>> +     * no mode_config.mutex acquired required
-> >>>> +     */
-> >>>> +    if (drm_add_modes_noedid(connector, 640, 480))
-> >>>> +        drm_set_preferred_mode(connector, 640, 480);
-> >>>> +
-> >>>>        if (dp_panel->edid)
-> >>>>            return dp_panel_update_modes(connector, dp_panel->edid);
-> >>> Also, wouldn't calling get_modes() several times make cause adding more
-> >>> and more 640x480 modes to the modes list?
-> >>>
-> >>
-> >> Shouldnt DRM be blocking that here? Call should trickle down here only
-> >> if count_modes was 0
-> >>
-> >>      if (out_resp->count_modes == 0) {
-> >>           if (is_current_master)
-> >>               connector->funcs->fill_modes(connector,
-> >>                                dev->mode_config.max_width,
-> >>                                dev->mode_config.max_height);
-> >>           else
-> >>               drm_dbg_kms(dev, "User-space requested a forced probe on
-> >> [CONNECTOR:%d:%s] but is not the DRM master, demoting to read-only probe",
-> >>                       connector->base.id, connector->name);
-> >>       }
-> >>
-> >
-> > count_modes is set by userspace:
-> >          /*
-> >           * This ioctl is called twice, once to determine how much space is
-> >           * needed, and the 2nd time to fill it.
-> >           */
-> >
-> > So, nothing prevents userspace from passing zero count_mode more than once.
-> Ack, some non-optimized usermodes can do this.
-> >
-> > However drm_helper_probe_single_connector_modes() will set old modes
-> > to MODE_STALE and then will call get_modes().
-> > Then drm_mode_prune_invalid() will prune stale modes. So, this should be fine.
-> >
-> Got it.
-> > A more generic question is why do we need to add the mode in two places?
-> >
-> Answering behalf of kuogee but the two places are for different purposes:
->
-> 1) When there is no EDID read
->
-> if (!dp_panel->edid) {
->
-> That case we should add the fail-safe mode as otherwise display will be
-> blank for cases where there was nothing wrong with the monitor as such
-> but the EDID read from aux failed for some reason. Even DRM does this
-> but just not 640x480 here:
->
-> 518     if (count == 0 && (connector->status == connector_status_connected ||
-> 519                        connector->status == connector_status_unknown))
-> 520             count = drm_add_modes_noedid(connector, 1024, 768);
+On Sun, Apr 24, 2022 at 05:32:06PM -0700, Abhinav Kumar wrote:
+> Initialize dpu encoder and connector for writeback if the
+> target supports it in the catalog.
+> 
+> changes in v2:
+> 	- start initialing the encoder for writeback since we
+> 	have migrated to using drm_writeback_connector_init_with_encoder()
+> 	- instead of checking for WB_2 inside _dpu_kms_initialize_writeback
+> 	call it only when its WB_2
+> 	- rebase on tip of msm-next and remove usage of priv->encoders
+> 
+> changes in v3:
+> 	- none
+> 
+> changes in v4:
+> 	- fix copyright years order
+> 
+> Signed-off-by: Abhinav Kumar <quic_abhinavk@quicinc.com>
+> Reviewed-by: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
+> ---
+>  drivers/gpu/drm/msm/disp/dpu1/dpu_encoder.c | 27 +++++++++----
+>  drivers/gpu/drm/msm/disp/dpu1/dpu_kms.c     | 61 ++++++++++++++++++++++++++++-
+>  2 files changed, 80 insertions(+), 8 deletions(-)
+> 
+> diff --git a/drivers/gpu/drm/msm/disp/dpu1/dpu_encoder.c b/drivers/gpu/drm/msm/disp/dpu1/dpu_encoder.c
+> index 24870eb..2d79002 100644
+> --- a/drivers/gpu/drm/msm/disp/dpu1/dpu_encoder.c
+> +++ b/drivers/gpu/drm/msm/disp/dpu1/dpu_encoder.c
+> @@ -2102,7 +2102,7 @@ static void dpu_encoder_early_unregister(struct drm_encoder *encoder)
+>  }
+>  
+>  static int dpu_encoder_virt_add_phys_encs(
+> -		u32 display_caps,
+> +		struct msm_display_info *disp_info,
+>  		struct dpu_encoder_virt *dpu_enc,
+>  		struct dpu_enc_phys_init_params *params)
+>  {
+> @@ -2121,7 +2121,7 @@ static int dpu_encoder_virt_add_phys_encs(
+>  		return -EINVAL;
+>  	}
+>  
+> -	if (display_caps & MSM_DISPLAY_CAP_VID_MODE) {
+> +	if (disp_info->capabilities & MSM_DISPLAY_CAP_VID_MODE) {
+>  		enc = dpu_encoder_phys_vid_init(params);
+>  
+>  		if (IS_ERR_OR_NULL(enc)) {
+> @@ -2134,7 +2134,7 @@ static int dpu_encoder_virt_add_phys_encs(
+>  		++dpu_enc->num_phys_encs;
+>  	}
+>  
+> -	if (display_caps & MSM_DISPLAY_CAP_CMD_MODE) {
+> +	if (disp_info->capabilities & MSM_DISPLAY_CAP_CMD_MODE) {
+>  		enc = dpu_encoder_phys_cmd_init(params);
+>  
+>  		if (IS_ERR_OR_NULL(enc)) {
+> @@ -2147,6 +2147,19 @@ static int dpu_encoder_virt_add_phys_encs(
+>  		++dpu_enc->num_phys_encs;
+>  	}
+>  
+> +	if (disp_info->intf_type == DRM_MODE_ENCODER_VIRTUAL) {
+> +		enc = dpu_encoder_phys_wb_init(params);
+> +
+> +		if (IS_ERR_OR_NULL(enc)) {
+> +			DPU_ERROR_ENC(dpu_enc, "failed to init wb enc: %ld\n",
+> +					PTR_ERR(enc));
+> +			return enc == NULL ? -EINVAL : PTR_ERR(enc);
+> +		}
+> +
+> +		dpu_enc->phys_encs[dpu_enc->num_phys_encs] = enc;
+> +		++dpu_enc->num_phys_encs;
+> +	}
+> +
+>  	if (params->split_role == ENC_ROLE_SLAVE)
+>  		dpu_enc->cur_slave = enc;
+>  	else
+> @@ -2248,9 +2261,8 @@ static int dpu_encoder_setup_display(struct dpu_encoder_virt *dpu_enc,
+>  		}
+>  
+>  		if (!ret) {
+> -			ret = dpu_encoder_virt_add_phys_encs(disp_info->capabilities,
+> -												 dpu_enc,
+> -												 &phys_params);
+> +			ret = dpu_encoder_virt_add_phys_encs(disp_info,
+> +					dpu_enc, &phys_params);
+>  			if (ret)
+>  				DPU_ERROR_ENC(dpu_enc, "failed to add phys encs\n");
+>  		}
+> @@ -2367,8 +2379,9 @@ struct drm_encoder *dpu_encoder_init(struct drm_device *dev,
+>  	if (!dpu_enc)
+>  		return ERR_PTR(-ENOMEM);
+>  
+> +
+>  	rc = drm_encoder_init(dev, &dpu_enc->base, &dpu_encoder_funcs,
+> -			drm_enc_mode, NULL);
+> +							  drm_enc_mode, NULL);
+>  	if (rc) {
+>  		devm_kfree(dev->dev, dpu_enc);
+>  		return ERR_PTR(rc);
+> diff --git a/drivers/gpu/drm/msm/disp/dpu1/dpu_kms.c b/drivers/gpu/drm/msm/disp/dpu1/dpu_kms.c
+> index c683cab..9a406e1 100644
+> --- a/drivers/gpu/drm/msm/disp/dpu1/dpu_kms.c
+> +++ b/drivers/gpu/drm/msm/disp/dpu1/dpu_kms.c
+> @@ -1,7 +1,9 @@
+>  // SPDX-License-Identifier: GPL-2.0-only
+>  /*
+> - * Copyright (c) 2014-2018, The Linux Foundation. All rights reserved.
+>   * Copyright (C) 2013 Red Hat
+> + * Copyright (c) 2014-2018, The Linux Foundation. All rights reserved.
+> + * Copyright (c) 2022 Qualcomm Innovation Center, Inc. All rights reserved.
+> + *
+>   * Author: Rob Clark <robdclark@gmail.com>
+>   */
+>  
+> @@ -15,6 +17,7 @@
+>  #include <drm/drm_crtc.h>
+>  #include <drm/drm_file.h>
+>  #include <drm/drm_vblank.h>
+> +#include <drm/drm_writeback.h>
+>  
+>  #include "msm_drv.h"
+>  #include "msm_mmu.h"
+> @@ -29,6 +32,7 @@
+>  #include "dpu_kms.h"
+>  #include "dpu_plane.h"
+>  #include "dpu_vbif.h"
+> +#include "dpu_writeback.h"
+>  
+>  #define CREATE_TRACE_POINTS
+>  #include "dpu_trace.h"
+> @@ -648,6 +652,45 @@ static int _dpu_kms_initialize_displayport(struct drm_device *dev,
+>  	return 0;
+>  }
+>  
+> +static int _dpu_kms_initialize_writeback(struct drm_device *dev,
+> +		struct msm_drm_private *priv, struct dpu_kms *dpu_kms,
+> +		const u32 *wb_formats, int n_formats)
+> +{
+> +	struct drm_encoder *encoder = NULL;
+> +	struct msm_display_info info;
+> +	int rc;
+> +
+> +	encoder = dpu_encoder_init(dev, DRM_MODE_ENCODER_VIRTUAL);
 
-But drm_add_modes_noedid() _will_ add the 640x480 modes, won't it? It
-will add all "failsafe" modes that are less than or equal to 1024x768
-and 60Hz or less. See the table "drm_dmt_modes". I don't understand
-why the DRM core's call doesn't solve the problem for you in the first
-place?
+I'm puzzled. I thought the whole purpose of the
+drm_writeback_connector_init_with_encoder() function was to share an
+encoder between writeback and a real display output, but the encoder you
+create here seems to be specific to writeback. What am I missing ?
 
+> +	if (IS_ERR(encoder)) {
+> +		DPU_ERROR("encoder init failed for dsi display\n");
+> +		return PTR_ERR(encoder);
+> +	}
+> +
+> +	memset(&info, 0, sizeof(info));
+> +
+> +	rc = dpu_writeback_init(dev, encoder, wb_formats,
+> +			n_formats);
+> +	if (rc) {
+> +		DPU_ERROR("dpu_writeback_init, rc = %d\n", rc);
+> +		drm_encoder_cleanup(encoder);
+> +		return rc;
+> +	}
+> +
+> +	info.num_of_h_tiles = 1;
+> +	/* use only WB idx 2 instance for DPU */
+> +	info.h_tile_instance[0] = WB_2;
+> +	info.intf_type = encoder->encoder_type;
+> +
+> +	rc = dpu_encoder_setup(dev, encoder, &info);
+> +	if (rc) {
+> +		DPU_ERROR("failed to setup DPU encoder %d: rc:%d\n",
+> +				  encoder->base.id, rc);
+> +		return rc;
+> +	}
+> +
+> +	return 0;
+> +}
+> +
+>  /**
+>   * _dpu_kms_setup_displays - create encoders, bridges and connectors
+>   *                           for underlying displays
+> @@ -661,6 +704,7 @@ static int _dpu_kms_setup_displays(struct drm_device *dev,
+>  				    struct dpu_kms *dpu_kms)
+>  {
+>  	int rc = 0;
+> +	int i;
+>  
+>  	rc = _dpu_kms_initialize_dsi(dev, priv, dpu_kms);
+>  	if (rc) {
+> @@ -674,6 +718,21 @@ static int _dpu_kms_setup_displays(struct drm_device *dev,
+>  		return rc;
+>  	}
+>  
+> +	/* Since WB isn't a driver check the catalog before initializing */
+> +	if (dpu_kms->catalog->wb_count) {
+> +		for (i = 0; i < dpu_kms->catalog->wb_count; i++) {
+> +			if (dpu_kms->catalog->wb[i].id == WB_2) {
+> +				rc = _dpu_kms_initialize_writeback(dev, priv, dpu_kms,
+> +						dpu_kms->catalog->wb[i].format_list,
+> +						dpu_kms->catalog->wb[i].num_formats);
+> +				if (rc) {
+> +					DPU_ERROR("initialize_WB failed, rc = %d\n", rc);
+> +					return rc;
+> +				}
+> +			}
+> +		}
+> +	}
+> +
+>  	return rc;
+>  }
+>  
 
-> 2) When there was a valid EDID but no 640x480 mode
->
-> This is the equipment specific case and the one even I was a bit
-> surprised. There is a DP compliance equipment we have in-house and while
-> validation, it was found that in its list of modes , it did not have any
-> modes which chromebook supported ( due to 2 lanes ). But my
-> understanding was that, all sinks should have atleast 640x480 but
-> apparently this one did not have that. So to handle this DP compliance
-> equipment behavior, we had to do this.
+-- 
+Regards,
 
-That doesn't seem right. If there's a valid EDID and the valid EDID
-doesn't contain 640x480, are you _sure_ you're supposed to be adding
-640x480? That doesn't sound right to me. I've got a tiny display in
-front of me for testing that only has one mode:
-
-  #0 800x480 65.68 800 840 888 928 480 493 496 525 32000
-
-It wouldn't be correct to add a 640x480 mode to this panel... ...and,
-in fact, after applying ${SUBJECT} patch I see that DRM (incorrectly)
-thinks that my display supports 640x480. I see:
-
-  #0 800x480 65.68 800 840 888 928 480 493 496 525 32000
-  #1 640x480 59.94 640 656 752 800 480 490 492 525 25175
-
-So IMO we _shouldn't_ land ${SUBJECT} patch.
-
-Just for testing, I also tried a hack to make EDID reading fail
-(return -EIO in the MSM dp_aux_transfer() function if msg->request <
-8). Before ${SUBJECT} patch I'd see these modes:
-
-  #0 1024x768 60.00 1024 1048 1184 1344 768 771 777 806 65000
-  #1 800x600 60.32 800 840 968 1056 600 601 605 628 40000
-  #2 800x600 56.25 800 824 896 1024 600 601 603 625 36000
-  #3 848x480 60.00 848 864 976 1088 480 486 494 517 33750
-  #4 640x480 59.94 640 656 752 800 480 490 492 525 25175
-
-...and after ${SUBJECT} patch I'd see:
-
-  #0 640x480 59.94 640 656 752 800 480 490 492 525 25175
-  #1 1024x768 60.00 1024 1048 1184 1344 768 771 777 806 65000
-  #2 800x600 60.32 800 840 968 1056 600 601 605 628 40000
-  #3 800x600 56.25 800 824 896 1024 600 601 603 625 36000
-  #4 848x480 60.00 848 864 976 1088 480 486 494 517 33750
-
-...so your patch causes 640x480 to be prioritized. That also doesn't
-seem ideal. If it was ideal, the DRM core should have listed 640x480
-first.
-
-I'll repeat my refrain that I'm not a DRM expert, but if I were doing
-things, I'd rather revert commit 8b2c181e3dcf ("drm/msm/dp: add fail
-safe mode outside of event_mutex context") and commit d4aca422539c
-("drm/msm/dp: always add fail-safe mode into connector mode list") and
-then go back and look more carefully about what the problem was in the
-first place. Why didn't the failsafe modes added by the DRM core solve
-the problem for you in the first place?
-
--Doug
+Laurent Pinchart
