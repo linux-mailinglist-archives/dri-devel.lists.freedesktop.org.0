@@ -2,60 +2,67 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8D58750F172
-	for <lists+dri-devel@lfdr.de>; Tue, 26 Apr 2022 08:46:32 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 3438C50F173
+	for <lists+dri-devel@lfdr.de>; Tue, 26 Apr 2022 08:46:36 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id BAFD011217A;
+	by gabe.freedesktop.org (Postfix) with ESMTP id C3355112180;
 	Tue, 26 Apr 2022 06:46:28 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-pl1-x643.google.com (mail-pl1-x643.google.com
- [IPv6:2607:f8b0:4864:20::643])
- by gabe.freedesktop.org (Postfix) with ESMTPS id C343810E01F;
- Mon, 25 Apr 2022 08:36:56 +0000 (UTC)
-Received: by mail-pl1-x643.google.com with SMTP id u7so10059334plg.13;
- Mon, 25 Apr 2022 01:36:56 -0700 (PDT)
+Received: from mail-pf1-x444.google.com (mail-pf1-x444.google.com
+ [IPv6:2607:f8b0:4864:20::444])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id DBEAE10F1B7;
+ Tue, 26 Apr 2022 02:55:02 +0000 (UTC)
+Received: by mail-pf1-x444.google.com with SMTP id z16so16659305pfh.3;
+ Mon, 25 Apr 2022 19:55:02 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
- h=from:to:cc:subject:date:message-id:mime-version
- :content-transfer-encoding;
- bh=H6a9DJnLZoyjSQqOJbXpXtPYv+DY5RZMT8ENRg4/RRI=;
- b=g5zrZirvfr2sxgv+XDrJRRRSZcWaqfvFpzLqxrmEp7xkC39qL/RVOOXr69CMvQCGeV
- /gIrCbN+uEgn37C7qiUE3SHKxyg+dJk9odyEDO/Lakj7Pveh9RzJuNqUnzg/wQxFDw6E
- uaY6v7d9oJ+k3czUhRDUAGkU18PJd2xrPWA4gzHMn1zxjBdoiHDtfO3Up8fcpBGQhrlj
- tD2XyqZW1SiX90hLF/xqG9Rwgc8BZbPTaNGdtMAgkOoBzD+ug/+7AyZhStq7X6BE5Y0C
- klb7pyBiFLprePXeABQy1IT53YaY+r9Xqr2g1xCWAy3+eT8SHStdUuA6dzu0dcc1WG/L
- LFLQ==
+ h=message-id:date:mime-version:user-agent:subject:content-language:to
+ :cc:references:from:in-reply-to:content-transfer-encoding;
+ bh=1rN0QiDzAAW5o3UYZm7hzXV2kAazUl8u4ntaehl3IYY=;
+ b=CKlnpeBxCkY9/2r9tihE070O6O6esEOSK57Xpc3Vv1OspQXZ8FSAhNyk/0pzL1ThJB
+ 3SU0TgHPCKeme2NGx2ovXKg0Izevq7DXEe2+fvy4j3/gkZJCHIeerEyzFOLiZx5wJDgw
+ f1nPISkt7PaBSYcYTFexafRMHcr5BEfbeBIiuruBSTO1hksKz5omTtFlT0z/SnLf+jfo
+ d3vSZWLZKwBEYtc/HPJd+sGB0oSVU6N5Dxgn7TulHlucufpK9wMTdlbHacLiJ+GDPHB+
+ KHYtio7b85nDxECcvO6FrF0r7CaeVaAlF0+RFyds5homIAkTCvw4lAbpu1bzQzxVczhx
+ wsaw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+ h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
+ :content-language:to:cc:references:from:in-reply-to
  :content-transfer-encoding;
- bh=H6a9DJnLZoyjSQqOJbXpXtPYv+DY5RZMT8ENRg4/RRI=;
- b=B1Tj2d0d992Gs1edXwYGAsiBJjIypl0532e+hus5524W+KscS/6IS60pWvyRmg312d
- 72fG9kAiS1Ap3EexGgoL1seeiY0c9cYZCY1Pb4/q0e/O+JiWC340M2aKNpo0SdIYScDp
- LY/gsBUaGHqIkys2kGTbFk6veiTOj4vN9cmSFB6IHfqDqz9wuje9Yp7A2Mxv20Te8ggF
- YaCf8rwWdlof9CRtZCOlvzrZow0EeEzS56GsJwu8hnfzEePTShEIzwKGfAu0HmQ2Svs7
- JC3SOZ2D9WRoBXyZD+DFUhkrnjBz5pVROJPC6EjEwfX8EaY9VdlePs6DipTUYA/UUdlf
- Wzsw==
-X-Gm-Message-State: AOAM530QwRq3yG1tRMN3obZDF3zUeIPyxXtinB/HJCj6kHQBbowir/6q
- +ChEGle+wFhINUEityZH+NY=
-X-Google-Smtp-Source: ABdhPJxghzCfW0thhWYjfw24Amn1z8l+dauqX8/znkFHaiZCi6E5K5+kGscszYD9cjDbVz42ddGOVA==
-X-Received: by 2002:a17:902:7d83:b0:158:c7e9:1ff3 with SMTP id
- a3-20020a1709027d8300b00158c7e91ff3mr17117826plm.55.1650875816320; 
- Mon, 25 Apr 2022 01:36:56 -0700 (PDT)
-Received: from localhost.localdomain ([103.84.139.165])
+ bh=1rN0QiDzAAW5o3UYZm7hzXV2kAazUl8u4ntaehl3IYY=;
+ b=qnjm+akHAplBJWBnHJwy05Liyuq5cm7NTlMwu+EKBJ7Y8wdtzmX/4517fEC79gHOlU
+ sb1EO5ax7JD1xT7jw0itsVOY5140CdBH7S/neAt08hsmnNWl6IuXa6906VlVDIAvg5oD
+ gYRJLuzv4msldYslycNgZw600BSnhTNmyoQCFZAxkU/a48fJ8LfH4qEgtA1oZdoBnG7T
+ n/LQUSrPqlOsmj5LpYs/vQF8Yf5w4jcwj++9pfcibN/kGB6Ivlct/X0wtCiuOeWmgInN
+ 1FXW1GdBmDfFnBfaERn9UgOUGI5AESz0pMU7N04yKAIM3xmrFnTP7r+QlxIb6QpXea3G
+ SjsQ==
+X-Gm-Message-State: AOAM531ZKhy1UBaUR3Nn50/N1XuUd40M42SAVaUfahZS9Dwd356j5iyU
+ UgSPeZttgLvTfF+lbx2yqxKBbbhWkffqyA==
+X-Google-Smtp-Source: ABdhPJwNviYckUI/UNiow7E3FbeLHkwCCdm6a+W3VMy0VDCDXJZew/LWDZNamF9MAQ6ELIyCFePw9g==
+X-Received: by 2002:a05:6a00:b48:b0:50c:f2de:6811 with SMTP id
+ p8-20020a056a000b4800b0050cf2de6811mr18519968pfo.80.1650941702399; 
+ Mon, 25 Apr 2022 19:55:02 -0700 (PDT)
+Received: from [192.168.50.247] ([103.84.139.165])
  by smtp.gmail.com with ESMTPSA id
- b7-20020a056a00114700b004f7be3231d6sm10826176pfm.7.2022.04.25.01.36.54
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 25 Apr 2022 01:36:55 -0700 (PDT)
-From: Hangyu Hua <hbh25y@gmail.com>
-To: yuq825@gmail.com, airlied@linux.ie, daniel@ffwll.ch,
- andrey.grodzovsky@amd.com
-Subject: [PATCH] gpu: drm: remove redundant dma_fence_put() when
- drm_sched_job_add_dependency() fails
-Date: Mon, 25 Apr 2022 16:36:45 +0800
-Message-Id: <20220425083645.25922-1-hbh25y@gmail.com>
-X-Mailer: git-send-email 2.25.1
+ z8-20020a17090a540800b001d952b8f728sm780306pjh.2.2022.04.25.19.55.00
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Mon, 25 Apr 2022 19:55:02 -0700 (PDT)
+Message-ID: <79b198d0-eff2-d658-4b5e-9084a834fc93@gmail.com>
+Date: Tue, 26 Apr 2022 10:54:56 +0800
 MIME-Version: 1.0
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.7.0
+Subject: Re: [PATCH] gpu: drm: remove redundant dma_fence_put() when
+ drm_sched_job_add_dependency() fails
+Content-Language: en-US
+To: Andrey Grodzovsky <andrey.grodzovsky@amd.com>, yuq825@gmail.com,
+ airlied@linux.ie, daniel@ffwll.ch
+References: <20220425083645.25922-1-hbh25y@gmail.com>
+ <b7d8956e-5ac6-8200-d8b1-4ce828f04665@amd.com>
+From: Hangyu Hua <hbh25y@gmail.com>
+In-Reply-To: <b7d8956e-5ac6-8200-d8b1-4ce828f04665@amd.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 8bit
 X-Mailman-Approved-At: Tue, 26 Apr 2022 06:46:27 +0000
 X-BeenThere: dri-devel@lists.freedesktop.org
@@ -70,47 +77,85 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Hangyu Hua <hbh25y@gmail.com>, lima@lists.freedesktop.org,
- dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org
+Cc: lima@lists.freedesktop.org, dri-devel@lists.freedesktop.org,
+ linux-kernel@vger.kernel.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-When drm_sched_job_add_dependency() fails, dma_fence_put() will be called
-internally. Calling it again after drm_sched_job_add_dependency() finishes
-may result in a dangling pointer.
+On 2022/4/25 23:42, Andrey Grodzovsky wrote:
+> On 2022-04-25 04:36, Hangyu Hua wrote:
+> 
+>> When drm_sched_job_add_dependency() fails, dma_fence_put() will be called
+>> internally. Calling it again after drm_sched_job_add_dependency() 
+>> finishes
+>> may result in a dangling pointer.
+>>
+>> Fix this by removing redundant dma_fence_put().
+>>
+>> Signed-off-by: Hangyu Hua <hbh25y@gmail.com>
+>> ---
+>>   drivers/gpu/drm/lima/lima_gem.c        | 1 -
+>>   drivers/gpu/drm/scheduler/sched_main.c | 1 -
+>>   2 files changed, 2 deletions(-)
+>>
+>> diff --git a/drivers/gpu/drm/lima/lima_gem.c 
+>> b/drivers/gpu/drm/lima/lima_gem.c
+>> index 55bb1ec3c4f7..99c8e7f6bb1c 100644
+>> --- a/drivers/gpu/drm/lima/lima_gem.c
+>> +++ b/drivers/gpu/drm/lima/lima_gem.c
+>> @@ -291,7 +291,6 @@ static int lima_gem_add_deps(struct drm_file 
+>> *file, struct lima_submit *submit)
+>>           err = drm_sched_job_add_dependency(&submit->task->base, fence);
+>>           if (err) {
+>> -            dma_fence_put(fence);
+>>               return err;
+> 
+> 
+> Makes sense here
+> 
+> 
+>>           }
+>>       }
+>> diff --git a/drivers/gpu/drm/scheduler/sched_main.c 
+>> b/drivers/gpu/drm/scheduler/sched_main.c
+>> index b81fceb0b8a2..ebab9eca37a8 100644
+>> --- a/drivers/gpu/drm/scheduler/sched_main.c
+>> +++ b/drivers/gpu/drm/scheduler/sched_main.c
+>> @@ -708,7 +708,6 @@ int drm_sched_job_add_implicit_dependencies(struct 
+>> drm_sched_job *job,
+>>           dma_fence_get(fence);
+>>           ret = drm_sched_job_add_dependency(job, fence);
+>>           if (ret) {
+>> -            dma_fence_put(fence);
+> 
+> 
+> 
+> Not sure about this one since if you look at the relevant commits -
+> 'drm/scheduler: fix drm_sched_job_add_implicit_dependencies' and
+> 'drm/scheduler: fix drm_sched_job_add_implicit_dependencies harder'
+> You will see that the dma_fence_put here balances the extra dma_fence_get
+> above
+> 
+> Andrey
+> 
 
-Fix this by removing redundant dma_fence_put().
+I don't think so. I checked the call chain and found no additional 
+dma_fence_get(). But dma_fence_get() needs to be called before 
+drm_sched_job_add_dependency() to keep the counter balanced. On the 
+other hand, dma_fence_get() and dma_fence_put() are meaningless here if 
+threre is an extra dma_fence_get() beacause counter will not decrease to 
+0 during drm_sched_job_add_dependency().
 
-Signed-off-by: Hangyu Hua <hbh25y@gmail.com>
----
- drivers/gpu/drm/lima/lima_gem.c        | 1 -
- drivers/gpu/drm/scheduler/sched_main.c | 1 -
- 2 files changed, 2 deletions(-)
+I check the call chain as follows:
 
-diff --git a/drivers/gpu/drm/lima/lima_gem.c b/drivers/gpu/drm/lima/lima_gem.c
-index 55bb1ec3c4f7..99c8e7f6bb1c 100644
---- a/drivers/gpu/drm/lima/lima_gem.c
-+++ b/drivers/gpu/drm/lima/lima_gem.c
-@@ -291,7 +291,6 @@ static int lima_gem_add_deps(struct drm_file *file, struct lima_submit *submit)
- 
- 		err = drm_sched_job_add_dependency(&submit->task->base, fence);
- 		if (err) {
--			dma_fence_put(fence);
- 			return err;
- 		}
- 	}
-diff --git a/drivers/gpu/drm/scheduler/sched_main.c b/drivers/gpu/drm/scheduler/sched_main.c
-index b81fceb0b8a2..ebab9eca37a8 100644
---- a/drivers/gpu/drm/scheduler/sched_main.c
-+++ b/drivers/gpu/drm/scheduler/sched_main.c
-@@ -708,7 +708,6 @@ int drm_sched_job_add_implicit_dependencies(struct drm_sched_job *job,
- 		dma_fence_get(fence);
- 		ret = drm_sched_job_add_dependency(job, fence);
- 		if (ret) {
--			dma_fence_put(fence);
- 			return ret;
- 		}
- 	}
--- 
-2.25.1
+msm_ioctl_gem_submit()
+-> submit_fence_sync()
+-> drm_sched_job_add_implicit_dependencies()
 
+Thanks,
+Hangyu
+
+> 
+>>               return ret;
+>>           }
+>>       }
