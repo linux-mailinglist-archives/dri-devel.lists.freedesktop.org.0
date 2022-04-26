@@ -1,72 +1,79 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id A2C61510AF9
-	for <lists+dri-devel@lfdr.de>; Tue, 26 Apr 2022 23:08:18 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 4C690510AFF
+	for <lists+dri-devel@lfdr.de>; Tue, 26 Apr 2022 23:10:32 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 04FC910E6E7;
-	Tue, 26 Apr 2022 21:08:15 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id F40AA10E11E;
+	Tue, 26 Apr 2022 21:10:29 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-ot1-x32c.google.com (mail-ot1-x32c.google.com
- [IPv6:2607:f8b0:4864:20::32c])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 95F1E10E6E9
- for <dri-devel@lists.freedesktop.org>; Tue, 26 Apr 2022 21:08:13 +0000 (UTC)
-Received: by mail-ot1-x32c.google.com with SMTP id
- r14-20020a9d750e000000b00605446d683eso13912660otk.10
- for <dri-devel@lists.freedesktop.org>; Tue, 26 Apr 2022 14:08:13 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=date:from:to:cc:subject:message-id:references:mime-version
- :content-disposition:in-reply-to;
- bh=oOiTDP3iRudLqeNHeG0SSRW6WmEyHCfQv2s8km2VlTE=;
- b=WDTZ94gF93fjDziFhbGcTO4t4Fb/nL5VtVyHG6Ts5gCsTQhihFrg7+V1o9Sd/Jb6uj
- 0K926cPr51FkS2ZmVZI7JldZ7tV7kZleje8iOFZXRVrZ5zDen7sPH25Y+LMpVj938v7k
- LXWv3boI1jWsY3svbz09SJIiMfLXj1P/AYtuY+xeklmkK3LNKsO3ipZqISKdJ9fyqa79
- 2jIkctsiXnV2lnRwAP70rBzUqJFmQIqodJIW8E5iHPaHuVGy0yUnv83pAsawmbDM421r
- oHgVUK+7PsbamxlEVxbKVnCIjw0toSxdoxU/M4EjaiQzsba73CcdDD1vak0O1JTzCfHL
- Jdfw==
+Received: from us-smtp-delivery-124.mimecast.com
+ (us-smtp-delivery-124.mimecast.com [170.10.133.124])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id B82BA10E10D
+ for <dri-devel@lists.freedesktop.org>; Tue, 26 Apr 2022 21:10:27 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1651007426;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=d1xUmUaJR9nVwa8kwrC84DvO0esO5yMuCRE+UvNdUm4=;
+ b=f4rjVlR1lhbFcihgHttVrTaFqA0KWM6rsZm0Ork80H4kas/Q/gy6/GRxEMoD577XSsAXu6
+ EHh36VgL0GewVhjQXv8YitPCc2UYRa9MEoQuF+qUsX01syanjiNl6Nfq7w5sH0wJEc7+9T
+ o0LCOTcdb4NgV1Cuf07lJEKp/UPnp/M=
+Received: from mail-qv1-f70.google.com (mail-qv1-f70.google.com
+ [209.85.219.70]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ us-mta-270-f0Ljktx7MW6l2GwVbbQOOQ-1; Tue, 26 Apr 2022 17:10:25 -0400
+X-MC-Unique: f0Ljktx7MW6l2GwVbbQOOQ-1
+Received: by mail-qv1-f70.google.com with SMTP id
+ kj4-20020a056214528400b0044399a9bb4cso15759285qvb.15
+ for <dri-devel@lists.freedesktop.org>; Tue, 26 Apr 2022 14:10:25 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=x-gm-message-state:date:from:to:cc:subject:message-id:references
- :mime-version:content-disposition:in-reply-to;
- bh=oOiTDP3iRudLqeNHeG0SSRW6WmEyHCfQv2s8km2VlTE=;
- b=O1G1eVqE4OylCOWs2BtsptZGFexxzpebqPr4gpa+QYQkpgeJ4MxmunBp4cO9E6o5OR
- ksq8q1P0M0V2KdbNO/d93XbOR4naAw/Hbaz8ITe/yYm3jrY/8AgRxME+IV6k1jcDm+XS
- xdpWdsaGzSMsFW1dxWu1/gcdSDRYLdv/5feLXzzddNJhkY0UGqCVGaqlhBtvcRH/nKoS
- D90Q88rCCJa3KKK0w6xFypxb42vKiuSPNkrdogm406qwPDVF7bP9xnZO9S5uyFe2KI5G
- ZPtZ+pCp7MZScx7GZzZiVQXmwdGZmu+DmKvnyg68vEzVL471FI7Umjyi++oafrhvs971
- Xyrw==
-X-Gm-Message-State: AOAM530GVc1ZUTv8bdknjxBkpve2lr8NH3K9sOwylYLYocedMA2y6lx+
- yX0hToavmjRO/oLNy67rJ+Q/3XTKSZSH5TcC
-X-Google-Smtp-Source: ABdhPJxuUikNONG8mH33MVObRzni7bUGk5YoSD2Bver9T2lndjY1DS4aTsdLXeTx1lspBkANXd5yRw==
-X-Received: by 2002:a9d:6e83:0:b0:605:4a01:1d8c with SMTP id
- a3-20020a9d6e83000000b006054a011d8cmr8928613otr.174.1651007292783; 
- Tue, 26 Apr 2022 14:08:12 -0700 (PDT)
-Received: from ripper ([2600:1700:a0:3dc8:205:1bff:fec0:b9b3])
- by smtp.gmail.com with ESMTPSA id
- t28-20020a056808159c00b00325361c4fbesm2553898oiw.5.2022.04.26.14.08.11
+ h=x-gm-message-state:message-id:subject:from:to:cc:date:in-reply-to
+ :references:organization:user-agent:mime-version
+ :content-transfer-encoding;
+ bh=d1xUmUaJR9nVwa8kwrC84DvO0esO5yMuCRE+UvNdUm4=;
+ b=2D04p7fN45X3kfaZVzP2YHwf5hl5fsRBV8Uyc7p0cqNxlYrtc9TSCvTqPUFkZQnzXf
+ neUezSYVR9fUPA20AN8XPb6pn5T6AD8mZzSxnnOlF64A0ucZ/lGFzQp3D1zops3YiVLN
+ iBhzKXMHLzFf+YQixPA2bUx83E2MixDP95TWfKe5FkVoq7Rr3eU+Oi91Q0DxjtBsm8qk
+ TJAcO0G8Fg1Vj+Fzu8g4333F18rIN1da6F/R5/ugVqnrEGGUbOVUxeKcqL6voZjUhayy
+ eSPJ+/qJrm6pw869c+CXCAGTyGhDf4mJHVQVEFFPSzTDasesal3EdSfe42cJwL6wFRr+
+ U/5A==
+X-Gm-Message-State: AOAM5307LWR3Q4y9/bI4CcCcmwYkjNoTAFolaewqYJodGWLm7kpgAi3d
+ oo/ll9LromJQ/NQN38eDJvGW6r9WNhGu6xQTqUe4b535MyfCKW88KzuFYNevTOIuraL7tEwCqzU
+ 5S5kgJmXKcmTC8Ig4XJGWF1D3/jwe
+X-Received: by 2002:a0c:ab02:0:b0:443:a395:cc1c with SMTP id
+ h2-20020a0cab02000000b00443a395cc1cmr18111030qvb.72.1651007425055; 
+ Tue, 26 Apr 2022 14:10:25 -0700 (PDT)
+X-Google-Smtp-Source: ABdhPJxi3A2T7MWR5Ov5/naHijo/ad6sFHiC9WiLTVH6XaNlzZBPk9plxzH7h4pZkYSw6LXk2YZGYA==
+X-Received: by 2002:a0c:ab02:0:b0:443:a395:cc1c with SMTP id
+ h2-20020a0cab02000000b00443a395cc1cmr18111015qvb.72.1651007424883; 
+ Tue, 26 Apr 2022 14:10:24 -0700 (PDT)
+Received: from [192.168.8.138] (static-71-184-137-158.bstnma.ftas.verizon.net.
+ [71.184.137.158]) by smtp.gmail.com with ESMTPSA id
+ 22-20020ac85916000000b002f3402e34a3sm9049212qty.55.2022.04.26.14.10.23
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 26 Apr 2022 14:08:11 -0700 (PDT)
-Date: Tue, 26 Apr 2022 14:10:08 -0700
-From: Bjorn Andersson <bjorn.andersson@linaro.org>
-To: Paul Kocialkowski <paul.kocialkowski@bootlin.com>
-Subject: Re: [PATCH 2/2] Revert "drm: of: Lookup if child node has panel or
- bridge"
-Message-ID: <YmhfsGAJjSmSPs/l@ripper>
-References: <20220421082358.ivpmtak3ednvddrc@houat>
- <YmEdAVwZuA7Wo1Ch@aptenodytes> <YmelPCcWCCjALtRU@aptenodytes>
- <YmfYi5G7hMKLAH3T@pendragon.ideasonboard.com>
- <YmfoiD0r8MD/kr1N@aptenodytes>
- <20220426125401.yyrhg6aeafdjw4ad@houat>
- <20220426125544.mroteu3hvyvlyb6g@houat>
- <Ymft0SM5GNHXjkVb@aptenodytes>
- <20220426131944.b26rqqmk7gpcplbg@houat>
- <Ymf4nmQAkEciwyt/@aptenodytes>
+ Tue, 26 Apr 2022 14:10:24 -0700 (PDT)
+Message-ID: <cfc9bb52f5128ae35287da478ad88ddd9c8de5e7.camel@redhat.com>
+Subject: Re: [PATCH 0/4] mgag200: Improve damage handling
+From: Lyude Paul <lyude@redhat.com>
+To: Jocelyn Falempe <jfalempe@redhat.com>, dri-devel@lists.freedesktop.org
+Date: Tue, 26 Apr 2022 17:10:22 -0400
+In-Reply-To: <20220426164108.1051295-1-jfalempe@redhat.com>
+References: <20220426164108.1051295-1-jfalempe@redhat.com>
+Organization: Red Hat Inc.
+User-Agent: Evolution 3.42.4 (3.42.4-2.fc35)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <Ymf4nmQAkEciwyt/@aptenodytes>
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=lyude@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -79,142 +86,44 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
- David Airlie <airlied@linux.ie>, Robert Foss <robert.foss@linaro.org>,
- linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
- Thierry Reding <thierry.reding@gmail.com>,
- Jagan Teki <jagan@amarulasolutions.com>,
- Thomas Zimmermann <tzimmermann@suse.de>,
- Marek Szyprowski <m.szyprowski@samsung.com>, Maxime Ripard <maxime@cerno.tech>
+Cc: michel@daenzer.net, tzimmermann@suse.de
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Tue 26 Apr 06:50 PDT 2022, Paul Kocialkowski wrote:
+Nice work! For the whole series:
 
-> On Tue 26 Apr 22, 15:19, Maxime Ripard wrote:
-> > On Tue, Apr 26, 2022 at 03:04:17PM +0200, Paul Kocialkowski wrote:
-> > > On Tue 26 Apr 22, 14:55, Maxime Ripard wrote:
-> > > > On Tue, Apr 26, 2022 at 02:54:01PM +0200, Maxime Ripard wrote:
-> > > > > On Tue, Apr 26, 2022 at 02:41:44PM +0200, Paul Kocialkowski wrote:
-> > > > > > On Tue 26 Apr 22, 14:33, Laurent Pinchart wrote:
-> > > > > > > On Tue, Apr 26, 2022 at 09:54:36AM +0200, Paul Kocialkowski wrote:
-> > > > > > > > On Thu 21 Apr 22, 10:59, Paul Kocialkowski wrote:
-> > > > > > > > > On Thu 21 Apr 22, 10:23, Maxime Ripard wrote:
-> > > > > > > > > > On Thu, Apr 21, 2022 at 01:15:54PM +0530, Jagan Teki wrote:
-> > > > > > > > > > > + Linus
-> > > > > > > > > > > + Marek
-> > > > > > > > > > > + Laurent
-> > > > > > > > > > > + Robert
-> > > > > > > > > > > 
-> > > > > > > > > > > On Thu, Apr 21, 2022 at 4:40 AM Bjorn Andersson wrote:
-> > > > > > > > > > > >
-> > > > > > > > > > > > Commit '80253168dbfd ("drm: of: Lookup if child node has panel or
-> > > > > > > > > > > > bridge")' attempted to simplify the case of expressing a simple panel
-> > > > > > > > > > > > under a DSI controller, by assuming that the first non-graph child node
-> > > > > > > > > > > > was a panel or bridge.
-> > > > > > > > > > > >
-> > > > > > > > > > > > Unfortunately for non-trivial cases the first child node might not be a
-> > > > > > > > > > > > panel or bridge.  Examples of this can be a aux-bus in the case of
-> > > > > > > > > > > > DisplayPort, or an opp-table represented before the panel node.
-> > > > > > > > > > > >
-> > > > > > > > > > > > In these cases the reverted commit prevents the caller from ever finding
-> > > > > > > > > > > > a reference to the panel.
-> > > > > > > > > > > >
-> > > > > > > > > > > > This reverts commit '80253168dbfd ("drm: of: Lookup if child node has
-> > > > > > > > > > > > panel or bridge")', in favor of using an explicit graph reference to the
-> > > > > > > > > > > > panel in the trivial case as well.
-> > > > > > > > > > > 
-> > > > > > > > > > > This eventually breaks many child-based devm_drm_of_get_bridge
-> > > > > > > > > > > switched drivers.  Do you have any suggestions on how to proceed to
-> > > > > > > > > > > succeed in those use cases as well?
-> > > > > > > > > > 
-> > > > > > > > > > I guess we could create a new helper for those, like
-> > > > > > > > > > devm_drm_of_get_bridge_with_panel, or something.
-> > > > > > > > > 
-> > > > > > > > > Oh wow I feel stupid for not thinking about that.
-> > > > > > > > > 
-> > > > > > > > > Yeah I agree that it seems like the best option.
-> > > > > > > > 
-> > > > > > > > Should I prepare a patch with such a new helper?
-> > > > > > > > 
-> > > > > > > > The idea would be to keep drm_of_find_panel_or_bridge only for the of graph
-> > > > > > > > case and add one for the child node case, maybe:
-> > > > > > > > drm_of_find_child_panel_or_bridge.
-> > > > > > > > 
-> > > > > > > > I really don't have a clear idea of which driver would need to be switched
-> > > > > > > > over though. Could someone (Jagan?) let me know where it would be needed?
-> > > > > > > > 
-> > > > > > > > Are there cases where we could both expect of graph and child node?
-> > > > > > > > (i.e. does the new helper also need to try via of graph?)
-> > > > > > > 
-> > > > > > > I still think we should use OF graph uncondtionally, even in the DSI
-> > > > > > > case. We need to ensure backward-compatibility, but I'd like new
-> > > > > > > bindings (and thus new drivers) to always use OF graph.
-> > > > > > 
-> > > > > > I just went over the thread on "drm: of: Improve error handling in bridge/panel
-> > > > > > detection" again and I'm no longer sure there's actually still an issue that
-> > > > > > stands, with the fix that allows returning -ENODEV when possible.
-> > > > > > 
-> > > > > > The remaining issue that was brought up was with a connector node, but it should
-> > > > > > be up to the driver to detect that and avoid calling drm_of_find_panel_or_bridge
-> > > > > > in such situations.
-> > > > > > 
-> > > > > > So with that in mind it feels like the child node approach can be viable
-> > > > > > (and integrated in the same helper).
-> > > > > > 
-> > > > > > We might still want to favor an explicit OF graph approach, but note that
-> > > > > > dsi-controller.yaml also specifies extra properties that are specific to
-> > > > > > MIPI DSI and I'm not sure there are equivalent definitions for the OF graph
-> > > > > > approach.
-> > > > > > 
-> > > > > > What do you think?
-> > > > > 
-> > > > > I don't think Laurent's point was to move the child node away from its
-> > > > > DSI controller, that part doesn't make much sense. The panel or bridge
-> > > > > is still accessed through the DSI bus, so it very much belongs there.
-> > > > > 
-> > > > > What he meant I think was that we mandate the OF graph for all panels,
-> > > > > so for panels/bridges controlled through DCS, you would still list the
-> > > > > output through the graph.
-> > > > 
-> > > > Also, we're already in a bit of a mess right now. I don't think rushing
-> > > > that kind of patches in a (late) rc is making much sense, but as I said,
-> > > > if you want to start working on this, then I'll take a revert for the
-> > > > next rc, and then we can work calmly on this.
-> > > 
-> > > As I understand it we either have some broken stuff because of the revert of:
-> > > - drm: of: Lookup if child node has panel or bridge
-> > > - drm: of: Properly try all possible cases for bridge/panel detection
-> > > 
-> > > because the child node is already used in places, or we can have broken stuff
-> > > because with the patches because with these two patches -ENODEV is no longer
-> > > returned.
-> > > 
-> > > Now with the extra patch that I sent:
-> > > - drm: of: Improve error handling in bridge/panel detection
-> > > 
-> > > we get -ENODEV back, except for the connector case but this one should be
-> > > handled in drivers directly and drm_of_find_panel_or_bridge should not be
-> > > called in that situation.
-> > > 
-> > > So all in all it seems that all the pieces are there, unless I'm missing
-> > > something.
-> > > 
-> > > What do you think?
-> > 
-> > If Bjorn and Thierry can confirm that it indeeds work in their case,
-> > I'll be happy to apply those patches as well.
+Reviewed-by: Lyude Paul <lyude@redhat.com>
+
+Will probably let it sit on the ML for a little bit just to make sure that
+Thomas gets a chance to look at this
+
+On Tue, 2022-04-26 at 18:41 +0200, Jocelyn Falempe wrote:
+> This series improves the damage handling on Matrox gpu, and allows
+> Gnome/Wayland to run much better.
+> Also include some driver cleanup.
 > 
-> I still think we'd need a fix for Bjorn's connector case though.
-> Not sure I would be confident providing that one without the hardware
-> to test with.
+> Tested on a Dell T310 with Matrox MGA G200eW WPCM450 (rev 0a)
 > 
-> Bjorn, what do you think?
+> Thanks,
+> 
+> Jocelyn Falempe (4):
+>   mgag200: Add FB_DAMAGE_CLIPS support
+>   mgag200: Optimize damage clips
+>   mgag200: remove unused flag
+>   mgag200: remove mgag200_probe_vram()
+> 
+>  drivers/gpu/drm/mgag200/mgag200_drv.c  |  3 +-
+>  drivers/gpu/drm/mgag200/mgag200_drv.h  |  3 --
+>  drivers/gpu/drm/mgag200/mgag200_mm.c   | 50 ++++----------------------
+>  drivers/gpu/drm/mgag200/mgag200_mode.c | 17 ++++++---
+>  4 files changed, 20 insertions(+), 53 deletions(-)
+> 
+> -- 
+> 2.35.1
 > 
 
-I'm okay with the idea that it's up the driver to check that the output
-port references an usb-c-connector - either before the call or upon
-drm_of_find_panel_or_bridge() returning an error.
+-- 
+Cheers,
+ Lyude Paul (she/her)
+ Software Engineer at Red Hat
 
-Regards,
-Bjorn
