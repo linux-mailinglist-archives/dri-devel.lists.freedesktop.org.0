@@ -2,80 +2,52 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3E24D510647
-	for <lists+dri-devel@lfdr.de>; Tue, 26 Apr 2022 20:04:38 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id CF98C51064E
+	for <lists+dri-devel@lfdr.de>; Tue, 26 Apr 2022 20:08:58 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 41B5510E885;
-	Tue, 26 Apr 2022 18:04:36 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 5403010E3E9;
+	Tue, 26 Apr 2022 18:08:54 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-lj1-x229.google.com (mail-lj1-x229.google.com
- [IPv6:2a00:1450:4864:20::229])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 9927E10E65B
- for <dri-devel@lists.freedesktop.org>; Tue, 26 Apr 2022 18:04:34 +0000 (UTC)
-Received: by mail-lj1-x229.google.com with SMTP id l19so10416724ljb.7
- for <dri-devel@lists.freedesktop.org>; Tue, 26 Apr 2022 11:04:34 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=message-id:date:mime-version:user-agent:subject:content-language:to
- :cc:references:from:in-reply-to:content-transfer-encoding;
- bh=tufCt4byBk3LeEDKkh/mC8U5Nhou08h/BKoICMK0GmI=;
- b=crVYUnuh24mOkyUpx+qDImncBz6JWXkQ3hqw20FmjmtUUK9peW+IgUTJmIkj1My6KE
- xYZsNWQOlPqTrNPin/oqF52o10VfAD2KThjCsoaeJj2r0VWkI6H4p63p26qdZElVH6zh
- jc05H+QVNrFGia260RsvfnkGQukqL7AAjiUYBdHQ/mVDz5Baq9DvMCEFDyGfuHkJ6n2R
- ROtdWNksOVMKQ4Xin0hCp5XfHbMYiYH5Cu4+DFuYLLcvHM+yzMqMG7dc4uHOIDVd5Nyt
- fm0kixb1YeR96Yv8wCyaiZijW0dWrm9C4ZTxsYMpliTCesEsANRv+cbX3HXJoQTbx6hz
- FXoA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
- :content-language:to:cc:references:from:in-reply-to
- :content-transfer-encoding;
- bh=tufCt4byBk3LeEDKkh/mC8U5Nhou08h/BKoICMK0GmI=;
- b=hM8f2ehjIcocXlkT3jo1qdqUF8J8OXr0b3BApK2ebac6Ac7Tjnu7qsF//90jsy7dky
- saGfcTRWspCTiWFvL3WxAqHtSyWr1Jej57J1gTBhe78chIh3kIKZUX8XG1nyO0WMnJen
- KicT32/ao352emvZWmSS10KNI9zLEoH7ejLYULhS29czpt1zWtS7ZVFsBKW43AmYxgko
- Jda5Ih48hzTZeSP1drHIbe9BddUKORqAz4EHOVKAdv+qszsdSpo0gvKS/hqe1YYPJX9R
- Ngry0qRZK6X0x4UA11HbubfOHsZb0KCLYvcaMVf76lI+R85nYF0H530KWnv70wlyYrhw
- yuxg==
-X-Gm-Message-State: AOAM531lb/uqPbiV4mvnlasOYWHAcg+bzpLFrOYiULRJwvDrVfkNYX+h
- W3R4DL4cDdpx0gEro6WHn0+w9w==
-X-Google-Smtp-Source: ABdhPJw5RAklH7SXLgSYk+EhZIYU91zA9CkrW8NLL2lhc3YisU6DNjKb3w+8zwUEltnqjz9MSuwsuA==
-X-Received: by 2002:a2e:7f13:0:b0:247:ef72:9e8b with SMTP id
- a19-20020a2e7f13000000b00247ef729e8bmr15410498ljd.205.1650996272660; 
- Tue, 26 Apr 2022 11:04:32 -0700 (PDT)
-Received: from [192.168.1.211] ([37.153.55.125])
- by smtp.gmail.com with ESMTPSA id
- bi10-20020a05651c230a00b0024f13295d98sm593105ljb.63.2022.04.26.11.04.31
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Tue, 26 Apr 2022 11:04:32 -0700 (PDT)
-Message-ID: <a67dbe24-f15f-cc52-d2d8-22dca554caae@linaro.org>
-Date: Tue, 26 Apr 2022 21:04:31 +0300
+Received: from mga01.intel.com (mga01.intel.com [192.55.52.88])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id C580D10E3E9;
+ Tue, 26 Apr 2022 18:08:53 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+ t=1650996533; x=1682532533;
+ h=date:from:to:cc:subject:message-id:references:
+ mime-version:content-transfer-encoding:in-reply-to;
+ bh=1Mx+t8G7ucz3MZMG2PfHh1IJ0uyp2gUAethqCRSQUig=;
+ b=nvA0J8325QCZZhwZmyHHn4Gruo3GT7JvL2gzpTg5PnGHjgesFqDxtOZm
+ ++Kc9TLOs7px55Gxyyrj9x+M20Ou3sai6KGqL//MSZhgQNYj/MuNkQcas
+ Bhslh/iA+zrXJj4Rfg/KiRAhWIsDFoQi3tX/dumMaCwkhBT59aIWJXbXs
+ 52KWEtsgqLagZbOq7cZjJLSkWdAKgawd2eLRwcMkxB1ja3MxQXkEDDDfV
+ K4+UE3jpU5u+2CWgeZdiCf0PSHJVVv2A3pjEz7choGLKasAqylIRls4Bm
+ btEJRRfrHZenPFXzq1cgY8sgtwnQLQqrC5sabGCA726/hsE7wGKP+uic1 Q==;
+X-IronPort-AV: E=McAfee;i="6400,9594,10329"; a="290823696"
+X-IronPort-AV: E=Sophos;i="5.90,291,1643702400"; d="scan'208";a="290823696"
+Received: from orsmga006.jf.intel.com ([10.7.209.51])
+ by fmsmga101.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 26 Apr 2022 11:08:52 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.90,291,1643702400"; d="scan'208";a="532796388"
+Received: from stinkpipe.fi.intel.com (HELO stinkbox) ([10.237.72.51])
+ by orsmga006.jf.intel.com with SMTP; 26 Apr 2022 11:08:49 -0700
+Received: by stinkbox (sSMTP sendmail emulation);
+ Tue, 26 Apr 2022 21:08:49 +0300
+Date: Tue, 26 Apr 2022 21:08:48 +0300
+From: Ville =?iso-8859-1?Q?Syrj=E4l=E4?= <ville.syrjala@linux.intel.com>
+To: =?iso-8859-1?Q?Jos=E9?= Roberto de Souza <jose.souza@intel.com>
+Subject: Re: [PATCH 1/3] drm: Add infrastructure to allow seamless mode
+ switches
+Message-ID: <Ymg1MNwleCRmefYG@intel.com>
+References: <20220421192205.32649-1-jose.souza@intel.com>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.8.0
-Subject: Re: [Freedreno] [PATCH] drm/msm/dp: move add fail safe mode to
- dp_connector_get_mode()
-Content-Language: en-GB
-To: Doug Anderson <dianders@chromium.org>
-References: <1650671124-14030-1-git-send-email-quic_khsieh@quicinc.com>
- <3b9588d2-d9f6-c96f-b316-953b56b59bfe@linaro.org>
- <73e2a37e-23db-d614-5f5c-8120f1869158@quicinc.com>
- <CAA8EJprjuzUrfwXodgKmbWxgK6t+bY601E_nS7CHNH_+4Tfn5Q@mail.gmail.com>
- <9b331b16-8d1b-4e74-8fee-d74c4041f8d7@quicinc.com>
- <CAD=FV=VxEnbBypNYSq=iTUTwZUs_v620juSA6gsMW4h2_3HyBQ@mail.gmail.com>
- <9b4ccdef-c98a-b907-c7ee-a92456dc5bba@quicinc.com>
- <CAD=FV=U3MJ1W6CCVW0+Si8ZyAD+_ZBYsL1cT6Y8yhcTvWsCLUQ@mail.gmail.com>
- <d3d1d0d5-d3e0-0777-5b20-cdf24697742d@quicinc.com>
- <CAD=FV=W2WPdiY2zq6JC_-10kOqzDuiUYQOdYbyRyw2k-fbXFXQ@mail.gmail.com>
- <eaedbc40-f8cb-aaf8-f335-ef48e3cf82cc@quicinc.com>
- <87a921db-c4bb-eb43-96c5-0bdb757c7df9@linaro.org>
- <CAD=FV=XNWCLxEcGdDOarsY5j7wQDcPP__VsMhpe_G4N1kL-gHg@mail.gmail.com>
- <fa751163-78e8-18ee-4441-c50e016ee8bf@linaro.org>
- <CAD=FV=W7FyKeJ4h6uAjQFWg=-Cn9r1+js+RUm_niGexJmcDu6A@mail.gmail.com>
-From: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
-In-Reply-To: <CAD=FV=W7FyKeJ4h6uAjQFWg=-Cn9r1+js+RUm_niGexJmcDu6A@mail.gmail.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=iso-8859-1
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <20220421192205.32649-1-jose.souza@intel.com>
+X-Patchwork-Hint: comment
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -88,289 +60,153 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Sean Paul <sean@poorly.run>,
- Sankeerth Billakanti <quic_sbillaka@quicinc.com>,
- David Airlie <airlied@linux.ie>, linux-arm-msm <linux-arm-msm@vger.kernel.org>,
- Stephen Boyd <swboyd@chromium.org>, Abhinav Kumar <quic_abhinavk@quicinc.com>,
- dri-devel <dri-devel@lists.freedesktop.org>,
- LKML <linux-kernel@vger.kernel.org>, Vinod Koul <vkoul@kernel.org>,
- Andy Gross <agross@kernel.org>, Bjorn Andersson <bjorn.andersson@linaro.org>,
- "Aravind Venkateswaran \(QUIC\)" <quic_aravindh@quicinc.com>,
- Kuogee Hsieh <quic_khsieh@quicinc.com>,
- freedreno <freedreno@lists.freedesktop.org>
+Cc: intel-gfx@lists.freedesktop.org, Sean Paul <seanpaul@chromium.org>,
+ Vidya Srinivas <vidya.srinivas@intel.com>, dri-devel@lists.freedesktop.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 26/04/2022 20:56, Doug Anderson wrote:
-> Hi,
+On Thu, Apr 21, 2022 at 12:22:03PM -0700, José Roberto de Souza wrote:
+> Intel hardware supports change between modes with different refresh
+> rates without any glitches or visual artifacts, that feature is called
+> seamless DRRS.
 > 
-> On Tue, Apr 26, 2022 at 10:44 AM Dmitry Baryshkov
-> <dmitry.baryshkov@linaro.org> wrote:
->>
->> On 26/04/2022 20:11, Doug Anderson wrote:
->>> Hi,
->>>
->>> On Tue, Apr 26, 2022 at 10:01 AM Dmitry Baryshkov
->>> <dmitry.baryshkov@linaro.org> wrote:
->>>>
->>>> On 26/04/2022 18:37, Abhinav Kumar wrote:
->>>>> Hi Doug
->>>>>
->>>>> On 4/26/2022 8:20 AM, Doug Anderson wrote:
->>>>>> Hi,
->>>>>>
->>>>>> On Mon, Apr 25, 2022 at 8:35 PM Abhinav Kumar
->>>>>> <quic_abhinavk@quicinc.com> wrote:
->>>>>>>
->>>>>>> On 4/25/2022 7:18 PM, Doug Anderson wrote:
->>>>>>>> Hi,
->>>>>>>>
->>>>>>>> On Mon, Apr 25, 2022 at 6:42 PM Abhinav Kumar
->>>>>>>> <quic_abhinavk@quicinc.com> wrote:
->>>>>>>>>
->>>>>>>>>>> 2) When there was a valid EDID but no 640x480 mode
->>>>>>>>>>>
->>>>>>>>>>> This is the equipment specific case and the one even I was a bit
->>>>>>>>>>> surprised. There is a DP compliance equipment we have in-house
->>>>>>>>>>> and while
->>>>>>>>>>> validation, it was found that in its list of modes , it did not
->>>>>>>>>>> have any
->>>>>>>>>>> modes which chromebook supported ( due to 2 lanes ). But my
->>>>>>>>>>> understanding was that, all sinks should have atleast 640x480 but
->>>>>>>>>>> apparently this one did not have that. So to handle this DP
->>>>>>>>>>> compliance
->>>>>>>>>>> equipment behavior, we had to do this.
->>>>>>>>>>
->>>>>>>>>> That doesn't seem right. If there's a valid EDID and the valid EDID
->>>>>>>>>> doesn't contain 640x480, are you _sure_ you're supposed to be adding
->>>>>>>>>> 640x480? That doesn't sound right to me. I've got a tiny display in
->>>>>>>>>> front of me for testing that only has one mode:
->>>>>>>>>>
->>>>>>>>>>        #0 800x480 65.68 800 840 888 928 480 493 496 525 32000
->>>>>>>>>>
->>>>>>>>>
->>>>>>>>> As I had wrote, DRM core kicks in only when the count of modes is 0.
->>>>>>>>> Here what is happening is the count was not 0 but 640x480 was not
->>>>>>>>> present in the EDID. So we had to add it explicitly.
->>>>>>>>>
->>>>>>>>> Your tiny display is a display port display?
->>>>>>>>>
->>>>>>>>> I am referring to only display port monitors. If your tiny display is
->>>>>>>>> DP, it should have had 640x480 in its list of modes.
->>>>>>>>
->>>>>>>> My tiny display is actually a HDMI display hooked up to a HDMI to DP
->>>>>>>> (active) adapter.
->>>>>>>>
->>>>>>>> ...but this is a legal and common thing to have. I suppose possibly my
->>>>>>>> HDMI display is "illegal"?
->>>>>>>>
->>>>>>>> OK, so reading through the spec more carefully, I do see that the DP
->>>>>>>> spec makes numerous mentions of the fact that DP sinks _must_ support
->>>>>>>> 640x480. Even going back to DP 1.4, I see section "5.2.1.2 Video
->>>>>>>> Timing Format" says that we must support 640x480. It seems like that's
->>>>>>>> _intended_ to be used only if the EDID read fails, though or if we
->>>>>>>> somehow have to output video without knowledge of the EDID. It seems
->>>>>>>> hard to believe that there's a great reason to assume a display will
->>>>>>>> support 640x480 if we have more accurate knowledge.
->>>>>>>>
->>>>>>>> In any case, I guess I would still say that adding this mode belongs
->>>>>>>> in the DRM core. The core should notice that it's a DP connection
->>>>>>>> (bridge->type == DRM_MODE_CONNECTOR_DisplayPort) and that 640x480 was
->>>>>>>> left out and it should add it. We should also make sure it's not
->>>>>>>> "preferred" and is last in the list so we never accidentally pick it.
->>>>>>>> If DP truly says that we should always give the user 640x480 then
->>>>>>>> that's true for everyone, not just Qualcomm. We should add it in the
->>>>>>>> core. If, later, someone wants to hide this from the UI it would be
->>>>>>>> much easier if they only needed to modify one place.
->>>>>>>>
->>>>>>>
->>>>>>> So I debugged with kuogee just now using the DP compliance equipment.
->>>>>>> It turns out, the issue is not that 640x480 mode is not present.
->>>>>>>
->>>>>>> The issue is that it is not marked as preferred.
->>>>>>>
->>>>>>> Hence we missed this part during debugging this equipment failure.
->>>>>>>
->>>>>>> We still have to figure out the best way to either mark 640x480 as
->>>>>>> preferred or eliminate other modes during the test-case so that 640x480
->>>>>>> is actually picked by usermode.
->>>>>>>
->>>>>>> Now that being said, the fix still doesn't belong in the framework. It
->>>>>>> has to be in the msm/dp code.
->>>>>>>
->>>>>>> Different vendors handle this failure case differently looks like.
->>>>>>>
->>>>>>> Lets take below snippet from i915 as example.
->>>>>>>
->>>>>>> 3361    if (intel_connector->detect_edid == NULL ||
->>>>>>> 3362        connector->edid_corrupt ||
->>>>>>> 3363        intel_dp->aux.i2c_defer_count > 6) {
->>>>>>> 3364            /* Check EDID read for NACKs, DEFERs and corruption
->>>>>>> 3365             * (DP CTS 1.2 Core r1.1)
->>>>>>> 3366             *    4.2.2.4 : Failed EDID read, I2C_NAK
->>>>>>> 3367             *    4.2.2.5 : Failed EDID read, I2C_DEFER
->>>>>>> 3368             *    4.2.2.6 : EDID corruption detected
->>>>>>> 3369             * Use failsafe mode for all cases
->>>>>>> 3370             */
->>>>>>> 3371            if (intel_dp->aux.i2c_nack_count > 0 ||
->>>>>>> 3372                    intel_dp->aux.i2c_defer_count > 0)
->>>>>>> 3373                    drm_dbg_kms(&i915->drm,
->>>>>>> 3374                                "EDID read had %d NACKs, %d
->>>>>>> DEFERs\n",
->>>>>>> 3375                                intel_dp->aux.i2c_nack_count,
->>>>>>> 3376                                intel_dp->aux.i2c_defer_count);
->>>>>>> 3377            intel_dp->compliance.test_data.edid =
->>>>>>> INTEL_DP_RESOLUTION_FAILSAFE;
->>>>>>
->>>>>
->>>>> The reason I pointed to this code is to give an example of how other
->>>>> drivers handle this test-case.
->>>>>
->>>>> We added this patch for 4.2.2.1 and 4.2.2.6 EDID test cases.
->>>>>
->>>>> The challenge here as found out from our discussion here was to mark a
->>>>> particular mode as preferred so that the Chrome usermode can pick it.
->>>>>
->>>>> Now whats happening with that there was always a possibility of two
->>>>> modes being marked as preferred due to this and so-on.
->>>>>
->>>>> We had a pretty long discussion last night and thought of all possible
->>>>> solutions but all of them look like a hack to us in the driver because
->>>>> we end up breaking other things due to this.
->>>>>
->>>>> So we decided that driver is not the place to handle this test case.
->>>>> Since we do have IGT support for chromebooks, we will handle both these
->>>>> test cases there as other vendors do the same way and it works.
->>>>>
->>>>>
->>>>>> Just because Intel DRM has its own solution for something doesn't mean
->>>>>> everyone else should copy them and implement their own solution. Up
->>>>>> until recently DP AUX backlights were baked into different DRM
->>>>>> drivers. A recent effort was made to pull it out. I think the Intel
->>>>>> DRM code was the "first one" to the party and it wasn't clear how
->>>>>> things should be broken up to share with other drivers, so mostly it
->>>>>> did everything itself, but that's not the long term answer.
->>>>>>
->>>>>> I'm not saying that we need to block your change on a full re-design
->>>>>> or anything, but I'm just saying that:
->>>>>>
->>>>>> * You're trying to implement a generic DP rule, not something specific
->>>>>> to Qualcomm hardware. That implies that, if possible, it shouldn't be
->>>>>> in a Qualcomm driver.
->>>>>>
->>>>>> * It doesn't seem like it would be terrible to handle this in the core.
->>>>>>
->>>>>>
->>>>>>> This marks the fail safe mode and IGT test case reads this to set this
->>>>>>> mode and hence the test passes.
->>>>>>>
->>>>>>> We rely on the chromeOS usermode to output pixel data for this test-case
->>>>>>> and not IGT. We use IGT only for video pattern CTS today but this is a
->>>>>>> different test-case which is failing.
->>>>>>>
->>>>>>> ChromeOS usermode will not pick 640x480 unless we mark it as preferred
->>>>>>> or other modes are eliminated.
->>>>>>>
->>>>>>> So we have to come up with the right way for the usermode to pick
->>>>>>> 640x480.
->>>>>>>
->>>>>>> We will discuss this a bit more and come up with a different change.
->>>>>>
->>>>>> Can you provide the exact EDID from the failing test case? Maybe that
->>>>>> will help shed some light on what's going on. I looked at the original
->>>>>> commit and it just referred to 4.2.2.1, which I assume is "EDID Read
->>>>>> upon HPD Plug Event", but that doesn't give details that seem relevant
->>>>>> to the discussion here.
->>>>>
->>>>> Yes so it is 4.2.2.1 and 4.2.2.6.
->>>>>
->>>>> That alone wont give the full picture.
->>>>>
->>>>> So its a combination of things.
->>>>>
->>>>> While running the test, the test equipment published only one mode.
->>>>> But we could not support that mode because of 2 lanes.
->>>>> Equipment did not add 640x480 to the list of modes.
->>>>> DRM fwk will also not add it because count_modes is not 0 ( there was
->>>>> one mode ).
->>>>> So we ended up making these changes.
->>>>
->>>> I think a proper solution might be to rewrite
->>>> drm_helper_probe_single_connector_modes() in the following way:
->>>> - call get_modes()
->>>> - validate the result
->>>> - prune invalid
->>>>
->>>> - if the number of modes is 0, call drm_add_override_edid_modes()
->>>> - validate the result
->>>> - prune invalid
->>>>
->>>> - if the number of modes is still 0, call drm_add_modes_noedid()
->>>> - validate the result
->>>> - prune invalid
->>>>
->>>> [A separate change might happen here after all the checks: if the number
->>>> of modes is still 0 and if it is a DP, enforce adding 640x480 even w/o
->>>> validation. But generally I feel that this shouldn't be necessary
->>>> because the previous step should have added it.]
->>>>
->>>> This way we can be sure that all modes are validated, but still to do
->>>> our best to add something supported to the list of modes.
->>>
->>> I'm partway through implementing / testing something similar to this.
->>> ;-) My logic is slightly different than yours, though. In the very
->>> least I'm not convinced that we want to add the higher resolution
->>> modes (like 1024x768) if all the modes fail to validate. The DP spec
->>> only claims 640x480 is always supported. The higher resolution modes
->>> are for when the EDID fails to read I think. Similarly I'm not
->>> convinced that we should do pruning before deciding on
->>> drm_add_override_edid_modes().
->>
->>
->> I think pruning before drm_add_override_edid_modes() would allow one to
->> use override if the first read returned some modes which are invalid.
+> So far i915 driver was automatically changing between preferred panel
+> mode and lower refresh rate mode based on idleness but ChromeOS
+> compositor team is requesting to be in control of the mode switch.
+> So for a certain types of content it can switch to mode with a lower
+> refresh rate without user noticing a thing and saving power.
 > 
-> Yeah, I'm less certain about drm_add_override_edid_modes(), but as per
-> documented it's only to be used if the EDID failed to read.
+> This seamless mode switch will be triggered when user-space dispatch
+> a atomic commit with the new mode and clears the
+> DRM_MODE_ATOMIC_ALLOW_MODESET flag.
 > 
-> If someone has an actual use case where they need to add the override
-> modes for this specific case then we can, but I think it can be done
-> separately once someone has an actual use case.
+> A driver that don't implement atomic_seamless_mode_switch_check
+> function will continue to fail in the atomic check phase with
+> "[CRTC:%d:%s] requires full modeset" debug message.
+> While a driver that implements it and support the seamless change
+> between old and new mode will return 0 otherwise it should return the
+> appropried errno.
 > 
-> 
->> Regarding 1024 vs 640. For the restructure we shouldn't change this. And
->> I'd actually point to the following commit message:
->>
->> commit 9632b41f00cc2fb2846569cc99dbeef78e5c94a0
->> Author: Adam Jackson <ajax@redhat.com>
->> Date:   Mon Nov 23 14:23:07 2009 -0500
->>
->>       drm/modes: Fall back to 1024x768 instead of 800x600
->>
->>       This matches the X server's fallback modes when using RANDR 1.2.
->>
->>       See also: http://bugzilla.redhat.com/538761
->>
->>       Signed-off-by: Adam Jackson <ajax@redhat.com>
->>       Signed-off-by: Dave Airlie <airlied@redhat.com>
->>
->>
->> So I'd say, let's leave 1024 as is and just try them if all other modes
->> are invalid.
-> 
-> I'm pretty strongly against adding 1024x768 when all modes fail to
-> validate. Specifically:
-> 
-> If the EDID fully fails to read then adding these higher resolution
-> modes makes sense. We have no knowledge at all about the display in
-> this case and so we can guess that some standard higher resolutions
-> might make sense. In the case we're dealing with here, we have very
-> specific knowledge about what the display said it could handle and we
-> can't support any of them. The DP spec _only_ lists 640x480 as a
-> required mode so that's the only one we should add.
+> So here adding basic drm infrastructure to that be supported by i915
+> and other drivers.
 
-Then this should be a DP-specific override happening after all the pruning.
+I don't see the need for any extra infrastructure for this.
+
+I think we just need:
+- fix the fastset code to not suck
+- reprogram M/N during fastset
+- calculate eDP link params using panel's highest refresh rate mode
+  to make sure we get the same link params for all refresh rates
+
+> 
+> Cc: Vidya Srinivas <vidya.srinivas@intel.com>
+> Cc: Sean Paul <seanpaul@chromium.org>
+> Cc: Ville Syrjälä <ville.syrjala@linux.intel.com>
+> Signed-off-by: José Roberto de Souza <jose.souza@intel.com>
+> ---
+>  drivers/gpu/drm/drm_atomic.c              |  1 +
+>  drivers/gpu/drm/drm_atomic_helper.c       | 16 +++++++++++++++
+>  drivers/gpu/drm/drm_atomic_state_helper.c |  1 +
+>  include/drm/drm_crtc.h                    | 25 +++++++++++++++++++++++
+>  4 files changed, 43 insertions(+)
+> 
+> diff --git a/drivers/gpu/drm/drm_atomic.c b/drivers/gpu/drm/drm_atomic.c
+> index 58c0283fb6b0c..21525f9f4b4c1 100644
+> --- a/drivers/gpu/drm/drm_atomic.c
+> +++ b/drivers/gpu/drm/drm_atomic.c
+> @@ -437,6 +437,7 @@ static void drm_atomic_crtc_print_state(struct drm_printer *p,
+>  	drm_printf(p, "\tself_refresh_active=%d\n", state->self_refresh_active);
+>  	drm_printf(p, "\tplanes_changed=%d\n", state->planes_changed);
+>  	drm_printf(p, "\tmode_changed=%d\n", state->mode_changed);
+> +	drm_printf(p, "\tseamless_mode_changed=%d\n", state->seamless_mode_changed);
+>  	drm_printf(p, "\tactive_changed=%d\n", state->active_changed);
+>  	drm_printf(p, "\tconnectors_changed=%d\n", state->connectors_changed);
+>  	drm_printf(p, "\tcolor_mgmt_changed=%d\n", state->color_mgmt_changed);
+> diff --git a/drivers/gpu/drm/drm_atomic_helper.c b/drivers/gpu/drm/drm_atomic_helper.c
+> index 9603193d2fa13..e6f3a966f7b86 100644
+> --- a/drivers/gpu/drm/drm_atomic_helper.c
+> +++ b/drivers/gpu/drm/drm_atomic_helper.c
+> @@ -631,6 +631,22 @@ drm_atomic_helper_check_modeset(struct drm_device *dev,
+>  			drm_dbg_atomic(dev, "[CRTC:%d:%s] mode changed\n",
+>  				       crtc->base.id, crtc->name);
+>  			new_crtc_state->mode_changed = true;
+> +
+> +			if (!state->allow_modeset &&
+> +			    crtc->funcs->atomic_seamless_mode_switch_check) {
+> +				ret = crtc->funcs->atomic_seamless_mode_switch_check(state, crtc);
+> +				if (ret == -EOPNOTSUPP) {
+> +					drm_dbg_atomic(dev, "[CRTC:%d:%s] Seamless mode switch not supported\n",
+> +						       crtc->base.id, crtc->name);
+> +					return ret;
+> +				}
+> +
+> +				if (ret < 0)
+> +					return ret;
+> +
+> +				new_crtc_state->seamless_mode_changed = true;
+> +				new_crtc_state->mode_changed = false;
+> +			}
+>  		}
+>  
+>  		if (old_crtc_state->enable != new_crtc_state->enable) {
+> diff --git a/drivers/gpu/drm/drm_atomic_state_helper.c b/drivers/gpu/drm/drm_atomic_state_helper.c
+> index 3b6d3bdbd0996..c093073ea6e11 100644
+> --- a/drivers/gpu/drm/drm_atomic_state_helper.c
+> +++ b/drivers/gpu/drm/drm_atomic_state_helper.c
+> @@ -142,6 +142,7 @@ void __drm_atomic_helper_crtc_duplicate_state(struct drm_crtc *crtc,
+>  	if (state->gamma_lut)
+>  		drm_property_blob_get(state->gamma_lut);
+>  	state->mode_changed = false;
+> +	state->seamless_mode_changed = false;
+>  	state->active_changed = false;
+>  	state->planes_changed = false;
+>  	state->connectors_changed = false;
+> diff --git a/include/drm/drm_crtc.h b/include/drm/drm_crtc.h
+> index a70baea0636ca..b7ce378d679d3 100644
+> --- a/include/drm/drm_crtc.h
+> +++ b/include/drm/drm_crtc.h
+> @@ -140,6 +140,16 @@ struct drm_crtc_state {
+>  	 */
+>  	bool mode_changed : 1;
+>  
+> +	/**
+> +	 * @seamless_mode_changed: @mode has been changed but user-space
+> +	 * is requesting to change to the new mode with a fastset and driver
+> +	 * supports this request.
+> +	 * To be used by drivers to steer the atomic commit control flow to
+> +	 * appropriate paths to change mode without any visual corruption.
+> +	 * Never set together with @mode_changed.
+> +	 */
+> +	bool seamless_mode_changed : 1;
+> +
+>  	/**
+>  	 * @active_changed: @active has been toggled. Used by the atomic
+>  	 * helpers and drivers to steer the atomic commit control flow. See also
+> @@ -939,6 +949,21 @@ struct drm_crtc_funcs {
+>  				     int *max_error,
+>  				     ktime_t *vblank_time,
+>  				     bool in_vblank_irq);
+> +
+> +	/**
+> +	 * @atomic_seamless_mode_switch_check
+> +	 *
+> +	 * Called when user-space wants to change mode without do a modeset.
+> +	 * Drivers can optionally support do a mode switch without any visual
+> +	 * corruption when changing between certain modes.
+> +	 *
+> +	 * Returns:
+> +	 * Zero if possible to seamless switch mode, -EOPNOTSUPP if not
+> +	 * supported seamless mode change or appropriate errno if an error
+> +	 * happened.
+> +	 */
+> +	int (*atomic_seamless_mode_switch_check)(struct drm_atomic_state *state,
+> +						 struct drm_crtc *crtc);
+>  };
+>  
+>  /**
+> -- 
+> 2.36.0
 
 -- 
-With best wishes
-Dmitry
+Ville Syrjälä
+Intel
