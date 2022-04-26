@@ -2,52 +2,52 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7EE7751088F
-	for <lists+dri-devel@lfdr.de>; Tue, 26 Apr 2022 21:07:05 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 70180510894
+	for <lists+dri-devel@lfdr.de>; Tue, 26 Apr 2022 21:08:15 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 6FE8D10E468;
-	Tue, 26 Apr 2022 19:07:02 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 9F7F310E4C0;
+	Tue, 26 Apr 2022 19:08:12 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 3D3F910E468
- for <dri-devel@lists.freedesktop.org>; Tue, 26 Apr 2022 19:07:01 +0000 (UTC)
-Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
- (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
- (No client certificate requested)
- by dfw.source.kernel.org (Postfix) with ESMTPS id 463D4619A9;
- Tue, 26 Apr 2022 19:07:00 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPS id AC0C4C385AA;
- Tue, 26 Apr 2022 19:06:59 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1651000019;
- bh=oB0PfXfFNyYYN59yI+8k+hxgU+ymNaYK85FvevEPleU=;
- h=Subject:From:In-Reply-To:References:Date:To:Cc:From;
- b=c8+hQmuDBqba9roo9nMVxo1NRDvaMZRSuO5pgX33I1+QQBnB0eK/gulCpV0AOWeFH
- XapDFiJa8ErKUjurLspATxV3WBJ/udblaWkLaXdFjevkfIsRNOMQG5t2lv5FRUiLr5
- KsokaWPbIvct/yj6sYiGatpshUd4O50BdTXkT0APXFoaoBAec2uRiXqPlRZXLFkPsd
- HJ0gp4Fo1ZSipUKj6wonapEaZG8ajj3dDecq1H+QguZRt1ZLaKnqm4dM2vqS2JFOu1
- vRXtyhtO6Jt/ojZADq5vy31uE+ga3neJF9tRoOYSKLneMIxXerBzveJN/ZYCHAt89g
- lXOlnKbVHS2lA==
-Received: from aws-us-west-2-korg-oddjob-1.ci.codeaurora.org
- (localhost.localdomain [127.0.0.1])
- by aws-us-west-2-korg-oddjob-1.ci.codeaurora.org (Postfix) with ESMTP id
- 97714E8DD85; Tue, 26 Apr 2022 19:06:59 +0000 (UTC)
-Subject: Re: [GIT PULL] fbdev updates & fixes for v5.18-rc5
-From: pr-tracker-bot@kernel.org
-In-Reply-To: <YmgNUgK/FeNcX0MG@ls3530>
-References: <YmgNUgK/FeNcX0MG@ls3530>
-X-PR-Tracked-List-Id: <linux-fbdev.vger.kernel.org>
-X-PR-Tracked-Message-Id: <YmgNUgK/FeNcX0MG@ls3530>
-X-PR-Tracked-Remote: http://git.kernel.org/pub/scm/linux/kernel/git/deller/linux-fbdev.git
- tags/for-5.18/fbdev-2
-X-PR-Tracked-Commit-Id: 6fbe0cc53a1b5f7abe2c44399c18e943adbebe2f
-X-PR-Merge-Tree: torvalds/linux.git
-X-PR-Merge-Refname: refs/heads/master
-X-PR-Merge-Commit-Id: cf424ef014ac30b0da27125dd1fbdf10b0d3a520
-Message-Id: <165100001961.21339.1776716463797926143.pr-tracker-bot@kernel.org>
-Date: Tue, 26 Apr 2022 19:06:59 +0000
-To: Helge Deller <deller@gmx.de>
+Received: from mga09.intel.com (mga09.intel.com [134.134.136.24])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id EF22A10E48C;
+ Tue, 26 Apr 2022 19:08:10 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+ t=1651000091; x=1682536091;
+ h=date:from:to:cc:subject:message-id:references:
+ mime-version:content-transfer-encoding:in-reply-to;
+ bh=SlTZkvIJehQCtMOYAWcYJuhfxgwmu1ZTUJlhlyGBqeI=;
+ b=ZWq4azWxbCZ584+5yvqvu+3k5kCG5hc86nF7N3app2OHZQfebZ8yHMLz
+ MfKfY4quOmdbfI7HRu2gDNse9YxawD82NTbeTSCSe9nTWgiJd6vzdhH+r
+ wgZ96Y84NHMc1Gz0eKTyMX0tsP4LGdSTFpsYDKwQKleN0hrTW6HyiBZEI
+ /l7lY5CF2XiYwFsuymrXiOMcM9d3Ifht5u+b963cXvUkFgXkWuoQObrsn
+ kTHUf3FNn87MXIq8JGIgKMqF/RFn9xdNxqIyHL9za7HDZCeBR5Fkq52ZO
+ zIrd0WfewAv24ofgyxFbTKdMOTuQUSmc5Qy0N3DgZWIcZoZnZUtmL21oa g==;
+X-IronPort-AV: E=McAfee;i="6400,9594,10329"; a="265218213"
+X-IronPort-AV: E=Sophos;i="5.90,291,1643702400"; d="scan'208";a="265218213"
+Received: from fmsmga001.fm.intel.com ([10.253.24.23])
+ by orsmga102.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 26 Apr 2022 12:07:55 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.90,291,1643702400"; d="scan'208";a="705189688"
+Received: from stinkpipe.fi.intel.com (HELO stinkbox) ([10.237.72.51])
+ by fmsmga001.fm.intel.com with SMTP; 26 Apr 2022 12:07:52 -0700
+Received: by stinkbox (sSMTP sendmail emulation);
+ Tue, 26 Apr 2022 22:07:51 +0300
+Date: Tue, 26 Apr 2022 22:07:51 +0300
+From: Ville =?iso-8859-1?Q?Syrj=E4l=E4?= <ville.syrjala@linux.intel.com>
+To: Jani Nikula <jani.nikula@intel.com>
+Subject: Re: [PATCH 02/19] drm/edid: check for HF-SCDB block
+Message-ID: <YmhDB6LxHXJvBMRB@intel.com>
+References: <cover.1649948562.git.jani.nikula@intel.com>
+ <a372cec9ce98438a963d199ebb04c2de56152513.1649948562.git.jani.nikula@intel.com>
+MIME-Version: 1.0
+Content-Type: text/plain; charset=iso-8859-1
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <a372cec9ce98438a963d199ebb04c2de56152513.1649948562.git.jani.nikula@intel.com>
+X-Patchwork-Hint: comment
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -60,20 +60,83 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: linux-fbdev@vger.kernel.org, Linus Torvalds <torvalds@linux-foundation.org>,
- linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org
+Cc: intel-gfx@lists.freedesktop.org,
+ Ankit Nautiyal <ankit.k.nautiyal@intel.com>,
+ Lee Shawn C <shawn.c.lee@intel.com>, dri-devel@lists.freedesktop.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-The pull request you sent on Tue, 26 Apr 2022 17:18:42 +0200:
+On Thu, Apr 14, 2022 at 06:06:45PM +0300, Jani Nikula wrote:
+> From: Lee Shawn C <shawn.c.lee@intel.com>
+> 
+> Find HF-SCDB information in CEA extensions block. And retrieve
+> Max_TMDS_Character_Rate that support by sink device.
+> 
+> v2: HF-SCDB and HF-VSDBS carry the same SCDS data. Reuse
+>     drm_parse_hdmi_forum_vsdb() to parse this packet.
+> 
+> Cc: Jani Nikula <jani.nikula@linux.intel.com>
+> Cc: Ville Syrjala <ville.syrjala@linux.intel.com>
+> Cc: Ankit Nautiyal <ankit.k.nautiyal@intel.com>
+> Cc: intel-gfx <intel-gfx@lists.freedesktop.org>
+> Signed-off-by: Lee Shawn C <shawn.c.lee@intel.com>
+> Signed-off-by: Jani Nikula <jani.nikula@intel.com>
+> ---
+>  drivers/gpu/drm/drm_edid.c | 18 +++++++++++++++++-
+>  1 file changed, 17 insertions(+), 1 deletion(-)
+> 
+> diff --git a/drivers/gpu/drm/drm_edid.c b/drivers/gpu/drm/drm_edid.c
+> index 4758e78fad82..32ece9607b94 100644
+> --- a/drivers/gpu/drm/drm_edid.c
+> +++ b/drivers/gpu/drm/drm_edid.c
+> @@ -3495,6 +3495,7 @@ add_detailed_modes(struct drm_connector *connector, const struct edid *edid,
+>  #define EXT_VIDEO_CAPABILITY_BLOCK 0x00
+>  #define EXT_VIDEO_DATA_BLOCK_420	0x0E
+>  #define EXT_VIDEO_CAP_BLOCK_Y420CMDB 0x0F
+> +#define EXT_VIDEO_HF_SCDB_DATA_BLOCK	0x79
+>  #define EDID_BASIC_AUDIO	(1 << 6)
+>  #define EDID_CEA_YCRCB444	(1 << 5)
+>  #define EDID_CEA_YCRCB422	(1 << 4)
+> @@ -4426,6 +4427,20 @@ static bool cea_db_is_vcdb(const u8 *db)
+>  	return true;
+>  }
+>  
+> +static bool cea_db_is_hdmi_forum_scdb(const u8 *db)
+> +{
+> +	if (cea_db_tag(db) != USE_EXTENDED_TAG)
+> +		return false;
+> +
+> +	if (cea_db_payload_len(db) < 7)
+> +		return false;
+> +
+> +	if (cea_db_extended_tag(db) != EXT_VIDEO_HF_SCDB_DATA_BLOCK)
+> +		return false;
+> +
+> +	return true;
+> +}
+> +
+>  static bool cea_db_is_y420cmdb(const u8 *db)
+>  {
+>  	if (cea_db_tag(db) != USE_EXTENDED_TAG)
+> @@ -5387,7 +5402,8 @@ static void drm_parse_cea_ext(struct drm_connector *connector,
+>  
+>  		if (cea_db_is_hdmi_vsdb(db))
+>  			drm_parse_hdmi_vsdb_video(connector, db);
+> -		if (cea_db_is_hdmi_forum_vsdb(db))
+> +		if (cea_db_is_hdmi_forum_vsdb(db) ||
+> +		    cea_db_is_hdmi_forum_scdb(db))
+>  			drm_parse_hdmi_forum_vsdb(connector, db);
 
-> http://git.kernel.org/pub/scm/linux/kernel/git/deller/linux-fbdev.git tags/for-5.18/fbdev-2
+I'd do a s/parse_hdmi_forum_vsdb/parse_scds/ to keep up
+with the spec terminology.
 
-has been merged into torvalds/linux.git:
-https://git.kernel.org/torvalds/c/cf424ef014ac30b0da27125dd1fbdf10b0d3a520
+Reviewed-by: Ville Syrjälä <ville.syrjala@linux.intel.com>
 
-Thank you!
+>  		if (cea_db_is_microsoft_vsdb(db))
+>  			drm_parse_microsoft_vsdb(connector, db);
+> -- 
+> 2.30.2
 
 -- 
-Deet-doot-dot, I am a bot.
-https://korg.docs.kernel.org/prtracker.html
+Ville Syrjälä
+Intel
