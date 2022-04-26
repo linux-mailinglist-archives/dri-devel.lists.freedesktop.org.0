@@ -2,50 +2,44 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 84DF151091F
-	for <lists+dri-devel@lfdr.de>; Tue, 26 Apr 2022 21:33:25 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 24FF8510935
+	for <lists+dri-devel@lfdr.de>; Tue, 26 Apr 2022 21:37:12 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 5DD8B8903B;
-	Tue, 26 Apr 2022 19:33:20 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 2BB9F10E588;
+	Tue, 26 Apr 2022 19:37:05 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mga17.intel.com (mga17.intel.com [192.55.52.151])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 0F48F10E558;
- Tue, 26 Apr 2022 19:33:18 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1651001598; x=1682537598;
- h=from:to:cc:subject:date:message-id:in-reply-to:
- references:mime-version:content-transfer-encoding;
- bh=tB4uLRME3PUAds1LwM5IxIPN/1RmiiXuYmIUkg6WBGg=;
- b=ZvdnnJsyoLVi6Dz56j/zwy+oUoFXPTqLTZkmF0e49kHkY2ZLKFm0DpPp
- tEj6DUsFV2j6o5uctnhmrpgiZodV9LGzbutSD/tZpX67IepVw3jl5tEzB
- e6EVj1hYZCi+OUf76IySOE/btk8IZiqrGXnp5xmJecMlBXNVTMUz1hotD
- OOyrJD+04skZ/uo0/DyeyWT5+JpuY+gM8cjlX6MAfJgNaCQjtwOP/F8+S
- 0kNN3ro5CHAhaV4oBPdOSG0GVRxRuEZqYsWZhm5D3Gkt8H7Fw3Q0zNw33
- 5fobQQ99Nnupvl5JmWE5RTXQs7a1gznA/odNtNZT6h7Oj5qH0ahoRevaB Q==;
-X-IronPort-AV: E=McAfee;i="6400,9594,10329"; a="246264584"
-X-IronPort-AV: E=Sophos;i="5.90,291,1643702400"; d="scan'208";a="246264584"
-Received: from fmsmga007.fm.intel.com ([10.253.24.52])
- by fmsmga107.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 26 Apr 2022 12:33:17 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.90,291,1643702400"; d="scan'208";a="564733008"
-Received: from stinkpipe.fi.intel.com (HELO stinkbox) ([10.237.72.51])
- by fmsmga007.fm.intel.com with SMTP; 26 Apr 2022 12:33:15 -0700
-Received: by stinkbox (sSMTP sendmail emulation);
- Tue, 26 Apr 2022 22:33:14 +0300
-From: Ville Syrjala <ville.syrjala@linux.intel.com>
-To: intel-gfx@lists.freedesktop.org
-Subject: [PATCH v3 17/18] drm/edid: Extract drm_edid_decode_mfg_id()
-Date: Tue, 26 Apr 2022 22:32:21 +0300
-Message-Id: <20220426193222.3422-18-ville.syrjala@linux.intel.com>
+Received: from phobos.denx.de (phobos.denx.de
+ [IPv6:2a01:238:438b:c500:173d:9f52:ddab:ee01])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 1216E10E585
+ for <dri-devel@lists.freedesktop.org>; Tue, 26 Apr 2022 19:37:02 +0000 (UTC)
+Received: from tr.lan (ip-86-49-12-201.net.upcbroadband.cz [86.49.12.201])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits))
+ (No client certificate requested)
+ (Authenticated sender: marex@denx.de)
+ by phobos.denx.de (Postfix) with ESMTPSA id E7A1383B63;
+ Tue, 26 Apr 2022 21:36:59 +0200 (CEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=denx.de;
+ s=phobos-20191101; t=1651001820;
+ bh=DLpyodc0IH5QXZ+/4a9WOF+KrLBrMkntojqAv7H1l4U=;
+ h=From:To:Cc:Subject:Date:From;
+ b=np+jDBWg6xcMeYLovDbP43SdwZRF0TO57DQhrrqoa/hrVeUcFyKplGc1o7WaLBjpg
+ ICZ9NbE9T4cTT4fvm54GSB+dtH9SFrnKXA/ot+2o3EtcsHOYZPdAw0zT5BqaIWrp7n
+ TSzEHTb12VJMJcI9UwVfME3ucHu1qn4BcjLl2EB9ZHjSC6NPRL1P2FrEQ3YZSkS9LL
+ 9Y57xTvG7ACTGuwmdcv6L97vJRxMVrrJtj7OgxNVFTOnPghH+inIyARhcUxtkY1Y7T
+ 89g8RWWAylc2HlVZtgKbZNQbClGsrkoEZlOxac9qENoYag71CvutJontyEfOgS2Es0
+ YQCDPHn43jlkQ==
+From: Marek Vasut <marex@denx.de>
+To: dri-devel@lists.freedesktop.org
+Subject: [PATCH v4 1/2] dt-bindings: display: bridge: ldb: Implement simple
+ Freescale i.MX8MP LDB bridge
+Date: Tue, 26 Apr 2022 21:36:44 +0200
+Message-Id: <20220426193645.244792-1-marex@denx.de>
 X-Mailer: git-send-email 2.35.1
-In-Reply-To: <20220426193222.3422-1-ville.syrjala@linux.intel.com>
-References: <20220426193222.3422-1-ville.syrjala@linux.intel.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
+X-Virus-Scanned: clamav-milter 0.103.5 at phobos.denx.de
+X-Virus-Status: Clean
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -58,60 +52,146 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Jani Nikula <jani.nikula@intel.com>, dri-devel@lists.freedesktop.org
+Cc: Marek Vasut <marex@denx.de>, devicetree@vger.kernel.org,
+ Peng Fan <peng.fan@nxp.com>, robert.foss@linaro.org,
+ Rob Herring <robh+dt@kernel.org>, Maxime Ripard <maxime@cerno.tech>,
+ Thomas Zimmermann <tzimmermann@suse.de>, Sam Ravnborg <sam@ravnborg.org>,
+ Robby Cai <robby.cai@nxp.com>,
+ Laurent Pinchart <laurent.pinchart@ideasonboard.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-From: Ville Syrjälä <ville.syrjala@linux.intel.com>
+The i.MX8MP contains two syscon registers which are responsible
+for configuring the on-SoC DPI-to-LVDS serializer. Add DT binding
+which represents this serializer as a bridge.
 
-Make the PNPID decoding available for other users.
-
-Cc: dri-devel@lists.freedesktop.org
-Reviewed-by: Jani Nikula <jani.nikula@intel.com>
-Signed-off-by: Ville Syrjälä <ville.syrjala@linux.intel.com>
+Acked-by: Sam Ravnborg <sam@ravnborg.org>
+Signed-off-by: Marek Vasut <marex@denx.de>
+Cc: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+Cc: Lucas Stach <l.stach@pengutronix.de>
+Cc: Maxime Ripard <maxime@cerno.tech>
+Cc: Peng Fan <peng.fan@nxp.com>
+Cc: Rob Herring <robh+dt@kernel.org>
+Cc: Robby Cai <robby.cai@nxp.com>
+Cc: Robert Foss <robert.foss@linaro.org>
+Cc: Sam Ravnborg <sam@ravnborg.org>
+Cc: Thomas Zimmermann <tzimmermann@suse.de>
+Cc: devicetree@vger.kernel.org
+To: dri-devel@lists.freedesktop.org
 ---
- include/drm/drm_edid.h | 21 +++++++++++++++++----
- 1 file changed, 17 insertions(+), 4 deletions(-)
+V2: - Consistently use fsl,imx8mp-ldb as compatible
+    - Drop items: from compatible:
+    - Replace minItems with maxItems in clocks:
+    - Drop quotes from clock-names const: ldb
+    - Rename syscon to fsl,syscon
+    - Use generic name of ldb-lvds in example
+V3: - Add AB from Sam
+    - Consistently use MX8MP
+V4: - Rename to fsl-ldb all over the place
+    - Put the LDB node under media block controller in the example
+---
+ .../bindings/display/bridge/fsl,ldb.yaml      | 92 +++++++++++++++++++
+ 1 file changed, 92 insertions(+)
+ create mode 100644 Documentation/devicetree/bindings/display/bridge/fsl,ldb.yaml
 
-diff --git a/include/drm/drm_edid.h b/include/drm/drm_edid.h
-index c3204a58fb09..e92385a13d2a 100644
---- a/include/drm/drm_edid.h
-+++ b/include/drm/drm_edid.h
-@@ -496,6 +496,22 @@ static inline u8 drm_eld_get_conn_type(const uint8_t *eld)
- 	return eld[DRM_ELD_SAD_COUNT_CONN_TYPE] & DRM_ELD_CONN_TYPE_MASK;
- }
- 
-+/**
-+ * drm_edid_decode_mfg_id - Decode the manufacturer ID
-+ * @mfg_id: The manufacturer ID
-+ * @vend: A 4-byte buffer to store the 3-letter vendor string plus a '\0'
-+ *	  termination
-+ */
-+static inline const char *drm_edid_decode_mfg_id(u16 mfg_id, char vend[4])
-+{
-+	vend[0] = '@' + ((mfg_id >> 10) & 0x1f);
-+	vend[1] = '@' + ((mfg_id >> 5) & 0x1f);
-+	vend[2] = '@' + ((mfg_id >> 0) & 0x1f);
-+	vend[3] = '\0';
+diff --git a/Documentation/devicetree/bindings/display/bridge/fsl,ldb.yaml b/Documentation/devicetree/bindings/display/bridge/fsl,ldb.yaml
+new file mode 100644
+index 000000000000..77f174eee424
+--- /dev/null
++++ b/Documentation/devicetree/bindings/display/bridge/fsl,ldb.yaml
+@@ -0,0 +1,92 @@
++# SPDX-License-Identifier: (GPL-2.0-only OR BSD-2-Clause)
++%YAML 1.2
++---
++$id: http://devicetree.org/schemas/display/bridge/fsl,ldb.yaml#
++$schema: http://devicetree.org/meta-schemas/core.yaml#
 +
-+	return vend;
-+}
++title: Freescale i.MX8MP DPI to LVDS bridge chip
 +
- /**
-  * drm_edid_encode_panel_id - Encode an ID for matching against drm_edid_get_panel_id()
-  * @vend_chr_0: First character of the vendor string.
-@@ -536,10 +552,7 @@ static inline u8 drm_eld_get_conn_type(const uint8_t *eld)
- static inline void drm_edid_decode_panel_id(u32 panel_id, char vend[4], u16 *product_id)
- {
- 	*product_id = (u16)(panel_id & 0xffff);
--	vend[0] = '@' + ((panel_id >> 26) & 0x1f);
--	vend[1] = '@' + ((panel_id >> 21) & 0x1f);
--	vend[2] = '@' + ((panel_id >> 16) & 0x1f);
--	vend[3] = '\0';
-+	drm_edid_decode_mfg_id(panel_id >> 16, vend);
- }
- 
- bool drm_probe_ddc(struct i2c_adapter *adapter);
++maintainers:
++  - Marek Vasut <marex@denx.de>
++
++description: |
++  The i.MX8MP mediamix contains two registers which are responsible
++  for configuring the on-SoC DPI-to-LVDS serializer. This describes
++  those registers as bridge within the DT.
++
++properties:
++  compatible:
++    const: fsl,imx8mp-ldb
++
++  clocks:
++    maxItems: 1
++
++  clock-names:
++    const: ldb
++
++  ports:
++    $ref: /schemas/graph.yaml#/properties/ports
++
++    properties:
++      port@0:
++        $ref: /schemas/graph.yaml#/properties/port
++        description: Video port for DPI input.
++
++      port@1:
++        $ref: /schemas/graph.yaml#/properties/port
++        description: Video port for LVDS Channel-A output (panel or bridge).
++
++      port@2:
++        $ref: /schemas/graph.yaml#/properties/port
++        description: Video port for LVDS Channel-B output (panel or bridge).
++
++    required:
++      - port@0
++      - port@1
++
++required:
++  - compatible
++  - clocks
++  - ports
++
++additionalProperties: false
++
++examples:
++  - |
++    #include <dt-bindings/clock/imx8mp-clock.h>
++
++    blk-ctrl {
++        bridge {
++            compatible = "fsl,imx8mp-ldb";
++            clocks = <&clk IMX8MP_CLK_MEDIA_LDB>;
++            clock-names = "ldb";
++
++            ports {
++                #address-cells = <1>;
++                #size-cells = <0>;
++
++                port@0 {
++                    reg = <0>;
++
++                    ldb_from_lcdif2: endpoint {
++                        remote-endpoint = <&lcdif2_to_ldb>;
++                    };
++                };
++
++                port@1 {
++                    reg = <1>;
++
++                    ldb_lvds_ch0: endpoint {
++                        remote-endpoint = <&ldb_to_lvdsx4panel>;
++                    };
++                };
++
++                port@2 {
++                    reg = <2>;
++
++                    ldb_lvds_ch1: endpoint {
++                    };
++                };
++            };
++        };
++    };
 -- 
 2.35.1
 
