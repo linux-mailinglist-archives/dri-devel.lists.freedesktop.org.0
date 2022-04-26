@@ -2,70 +2,60 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0CACC50EEA2
-	for <lists+dri-devel@lfdr.de>; Tue, 26 Apr 2022 04:19:03 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id E04CE50EED8
+	for <lists+dri-devel@lfdr.de>; Tue, 26 Apr 2022 04:39:41 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id E748E10E513;
-	Tue, 26 Apr 2022 02:19:00 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 6231510E151;
+	Tue, 26 Apr 2022 02:39:39 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-ed1-x52c.google.com (mail-ed1-x52c.google.com
- [IPv6:2a00:1450:4864:20::52c])
- by gabe.freedesktop.org (Postfix) with ESMTPS id A914710E513
- for <dri-devel@lists.freedesktop.org>; Tue, 26 Apr 2022 02:18:59 +0000 (UTC)
-Received: by mail-ed1-x52c.google.com with SMTP id g20so20622436edw.6
- for <dri-devel@lists.freedesktop.org>; Mon, 25 Apr 2022 19:18:59 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=chromium.org; s=google;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=c4m32+fTXzvjrK8N2PTs9HFTY5JW2xcDekaDXCQn2Jo=;
- b=UJ31W5ZGcTMdSrRnKjrJV8Q7vQiCR0y48RG002zAPW0z545pWer/A2fTaArW9Is7Jy
- epp1b/Me9p6puYs3/q2r3o9R9bp2QEb09OKfTf/KJdjzwPFEPZZskrURVnLpaJZb54PZ
- foOuSGS/UEjxyzsKHE/tENb1LS77Wnf7POSVo=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=c4m32+fTXzvjrK8N2PTs9HFTY5JW2xcDekaDXCQn2Jo=;
- b=okskyhlhoidCYES7G1rb+6LUc9hCQzXuwUbRJADP8CoJL95qeqCRkHeIcDwu7JYSVk
- MDdf9mubHlDYycNjO1XEtE1RdoLRFaJ8L/OKsuvKOPhAGt8kVw6Il/kgYqhsWGMiwWGM
- RFzFRYDYJO0wdqtJPve+c9nHX8+GexoF4EkqTnzykPpcqt1oCxQeO5Q/YXweJogfapiL
- QzaHsdLSan5qGUUuzjJVFHnaCEAo7ItV7yA0jKTUML9y5l1oA+g8BSBVCkId8BASb5+4
- reGIqRNdj6tF9ulc09HGowCE/K0gq8DEaD0rkGiyci/qv7YPGZajKOAjrEsRPf/WivbM
- ukYQ==
-X-Gm-Message-State: AOAM533n1pFqSJ9peeESN5nBdNlOu6sEOAxmJ+9rI054GFsWRgS/OQk3
- u5NAGWKbTOiedg5UroXaksQDa1xNHmlbmkMN
-X-Google-Smtp-Source: ABdhPJyN/N/eeSZaDHuDplUq75jMFQLBrzdFi9tOOrGYd7Qs/F1IF+j+vtmd9CH1SNPYUOF+gfb4Lw==
-X-Received: by 2002:a05:6402:289a:b0:425:d682:105d with SMTP id
- eg26-20020a056402289a00b00425d682105dmr13633175edb.175.1650939537796; 
- Mon, 25 Apr 2022 19:18:57 -0700 (PDT)
-Received: from mail-wr1-f47.google.com (mail-wr1-f47.google.com.
- [209.85.221.47]) by smtp.gmail.com with ESMTPSA id
- ci21-20020a170906c35500b006f394323ccesm1751250ejb.34.2022.04.25.19.18.55
- for <dri-devel@lists.freedesktop.org>
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Mon, 25 Apr 2022 19:18:56 -0700 (PDT)
-Received: by mail-wr1-f47.google.com with SMTP id u3so23396779wrg.3
- for <dri-devel@lists.freedesktop.org>; Mon, 25 Apr 2022 19:18:55 -0700 (PDT)
-X-Received: by 2002:a05:6000:c7:b0:20a:d8c1:d044 with SMTP id
- q7-20020a05600000c700b0020ad8c1d044mr7719873wrx.422.1650939535168; Mon, 25
- Apr 2022 19:18:55 -0700 (PDT)
-MIME-Version: 1.0
-References: <1650671124-14030-1-git-send-email-quic_khsieh@quicinc.com>
- <3b9588d2-d9f6-c96f-b316-953b56b59bfe@linaro.org>
- <73e2a37e-23db-d614-5f5c-8120f1869158@quicinc.com>
- <CAA8EJprjuzUrfwXodgKmbWxgK6t+bY601E_nS7CHNH_+4Tfn5Q@mail.gmail.com>
- <9b331b16-8d1b-4e74-8fee-d74c4041f8d7@quicinc.com>
- <CAD=FV=VxEnbBypNYSq=iTUTwZUs_v620juSA6gsMW4h2_3HyBQ@mail.gmail.com>
- <9b4ccdef-c98a-b907-c7ee-a92456dc5bba@quicinc.com>
-In-Reply-To: <9b4ccdef-c98a-b907-c7ee-a92456dc5bba@quicinc.com>
-From: Doug Anderson <dianders@chromium.org>
-Date: Mon, 25 Apr 2022 19:18:43 -0700
-X-Gmail-Original-Message-ID: <CAD=FV=U3MJ1W6CCVW0+Si8ZyAD+_ZBYsL1cT6Y8yhcTvWsCLUQ@mail.gmail.com>
-Message-ID: <CAD=FV=U3MJ1W6CCVW0+Si8ZyAD+_ZBYsL1cT6Y8yhcTvWsCLUQ@mail.gmail.com>
-Subject: Re: [Freedreno] [PATCH] drm/msm/dp: move add fail safe mode to
- dp_connector_get_mode()
-To: Abhinav Kumar <quic_abhinavk@quicinc.com>
+Received: from mailgw01.mediatek.com (unknown [60.244.123.138])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 883B610E151
+ for <dri-devel@lists.freedesktop.org>; Tue, 26 Apr 2022 02:39:37 +0000 (UTC)
+X-UUID: ea0fc79d9a014ae5b95f86d9e0b1e67e-20220426
+X-CID-P-RULE: Release_Ham
+X-CID-O-INFO: VERSION:1.1.4, REQID:f65d499f-c152-463e-bab8-d267b7a784ef, OB:0,
+ LO
+ B:0,IP:0,URL:0,TC:0,Content:7,EDM:0,RT:0,SF:52,FILE:0,RULE:Release_Ham,ACT
+ ION:release,TS:59
+X-CID-INFO: VERSION:1.1.4, REQID:f65d499f-c152-463e-bab8-d267b7a784ef, OB:0,
+ LOB:
+ 0,IP:0,URL:0,TC:0,Content:7,EDM:0,RT:0,SF:52,FILE:0,RULE:Release_UHam,ACTI
+ ON:release,TS:59
+X-CID-META: VersionHash:faefae9, CLOUDID:d1b718f0-06b0-4305-bfbf-554bfc9d151a,
+ C
+ OID:74bb76e828d9,Recheck:0,SF:13|15|28|16|19|48,TC:nil,Content:4,EDM:-3,Fi
+ le:nil,QS:0,BEC:nil
+X-UUID: ea0fc79d9a014ae5b95f86d9e0b1e67e-20220426
+Received: from mtkmbs10n1.mediatek.inc [(172.21.101.34)] by
+ mailgw01.mediatek.com (envelope-from <yongqiang.niu@mediatek.com>)
+ (Generic MTA with TLSv1.2 ECDHE-RSA-AES256-GCM-SHA384 256/256)
+ with ESMTP id 249576948; Tue, 26 Apr 2022 10:39:32 +0800
+Received: from mtkexhb02.mediatek.inc (172.21.101.103) by
+ mtkmbs10n2.mediatek.inc (172.21.101.183) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_CBC_SHA384) id 15.2.792.3; 
+ Tue, 26 Apr 2022 10:39:31 +0800
+Received: from mtkcas11.mediatek.inc (172.21.101.40) by mtkexhb02.mediatek.inc
+ (172.21.101.103) with Microsoft SMTP Server (TLS) id 15.0.1497.2;
+ Tue, 26 Apr 2022 10:39:31 +0800
+Received: from mhfsdcap04 (10.17.3.154) by mtkcas11.mediatek.inc
+ (172.21.101.73) with Microsoft SMTP Server id 15.0.1497.2 via Frontend
+ Transport; Tue, 26 Apr 2022 10:39:29 +0800
+Message-ID: <48f4a8d3d447342eb952598d479028586caacedc.camel@mediatek.com>
+Subject: Re: [PATCH v1, 1/1] drm/mediatek: add lut diff flag for new gamma
+ hardware support
+From: yongqiang.niu <yongqiang.niu@mediatek.com>
+To: CK Hu <ck.hu@mediatek.com>, Chun-Kuang Hu <chunkuang.hu@kernel.org>
+Date: Tue, 26 Apr 2022 10:39:29 +0800
+In-Reply-To: <a9e026c2018668057b8482c27eeae991667c46d3.camel@mediatek.com>
+References: <20220420130617.814-1-yongqiang.niu@mediatek.com>
+ <20220420130617.814-2-yongqiang.niu@mediatek.com>
+ <a9e026c2018668057b8482c27eeae991667c46d3.camel@mediatek.com>
 Content-Type: text/plain; charset="UTF-8"
+X-Mailer: Evolution 3.28.5-0ubuntu0.18.04.2 
+MIME-Version: 1.0
+Content-Transfer-Encoding: 7bit
+X-MTK: N
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -78,103 +68,249 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: freedreno <freedreno@lists.freedesktop.org>,
- Sankeerth Billakanti <quic_sbillaka@quicinc.com>,
- David Airlie <airlied@linux.ie>, linux-arm-msm <linux-arm-msm@vger.kernel.org>,
- LKML <linux-kernel@vger.kernel.org>,
- dri-devel <dri-devel@lists.freedesktop.org>,
- Kuogee Hsieh <quic_khsieh@quicinc.com>, Vinod Koul <vkoul@kernel.org>,
- Andy Gross <agross@kernel.org>, Bjorn Andersson <bjorn.andersson@linaro.org>,
- Dmitry Baryshkov <dmitry.baryshkov@linaro.org>,
- "Aravind Venkateswaran \(QUIC\)" <quic_aravindh@quicinc.com>,
- Stephen Boyd <swboyd@chromium.org>, Sean Paul <sean@poorly.run>
+Cc: Yongqiang Niu <yongqiang.niu@mediatek.corp-partner.google.com>,
+ devicetree@vger.kernel.org, David Airlie <airlied@linux.ie>, Dennis YC
+ Hsieh <dennis-yc.hsieh@mediatek.com>, Jassi Brar <jassisinghbrar@gmail.com>,
+ linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
+ Project_Global_Chrome_Upstream_Group@mediatek.com,
+ Fabien Parent <fparent@baylibre.com>, Rob Herring <robh+dt@kernel.org>,
+ linux-mediatek@lists.infradead.org, Hsin-Yi Wang <hsinyi@chromium.org>,
+ Matthias Brugger <matthias.bgg@gmail.com>,
+ linux-arm-kernel@lists.infradead.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi,
+On Tue, 2022-04-26 at 09:58 +0800, CK Hu wrote:
+> Hi, Yongqiang:
+> 
+> On Wed, 2022-04-20 at 21:06 +0800, Yongqiang Niu wrote:
+> > From: Yongqiang Niu <yongqiang.niu@mediatek.corp-partner.google.com
+> > >
+> > 
+> > mt8183 gamma module usage is different with before soc,
+> > gamma odd(index start from 0) lut value set to hardware
+> > register should be
+> > the difference of current lut value with last lut value.
+> > 
+> > gamma function support both increase and decrease lut.
+> 
+> How to set decrease lut?
+> 
+> Original lut:
+> 12 10 8 6 4 2
+> 
+> Does diff lut look like this?
+> 12 [2] 8 [2] 4 [2]
+> 
+yes
 
-On Mon, Apr 25, 2022 at 6:42 PM Abhinav Kumar <quic_abhinavk@quicinc.com> wrote:
->
-> >> 2) When there was a valid EDID but no 640x480 mode
-> >>
-> >> This is the equipment specific case and the one even I was a bit
-> >> surprised. There is a DP compliance equipment we have in-house and while
-> >> validation, it was found that in its list of modes , it did not have any
-> >> modes which chromebook supported ( due to 2 lanes ). But my
-> >> understanding was that, all sinks should have atleast 640x480 but
-> >> apparently this one did not have that. So to handle this DP compliance
-> >> equipment behavior, we had to do this.
-> >
-> > That doesn't seem right. If there's a valid EDID and the valid EDID
-> > doesn't contain 640x480, are you _sure_ you're supposed to be adding
-> > 640x480? That doesn't sound right to me. I've got a tiny display in
-> > front of me for testing that only has one mode:
-> >
-> >    #0 800x480 65.68 800 840 888 928 480 493 496 525 32000
-> >
->
-> As I had wrote, DRM core kicks in only when the count of modes is 0.
-> Here what is happening is the count was not 0 but 640x480 was not
-> present in the EDID. So we had to add it explicitly.
->
-> Your tiny display is a display port display?
->
-> I am referring to only display port monitors. If your tiny display is
-> DP, it should have had 640x480 in its list of modes.
+> How does hardware know that this is increase lut or decrease lut?
 
-My tiny display is actually a HDMI display hooked up to a HDMI to DP
-(active) adapter.
+gamma register 0x20 , bit 2, 
+if this bit set to 1, hardware will know lut is decrease.
+this bit default is 0, that means lut is increase
 
-...but this is a legal and common thing to have. I suppose possibly my
-HDMI display is "illegal"?
+> 
+> > chrome os app set increase lut normally.
+> > 
+> > for increase lut example, chrome os user space set lut
+> > like this(only r chanel for example):
+> > 2 4 6 8 10 12.
+> > 1) mt8183 gamma driver should set the gamma lut to hardware
+> > register like this:
+> > 2 [2] 6 [8] 10 [2]
+> 
+> 2 [2] 6 [2] 10 [2]
+> 
+> > the value with [] is the difference value
+> > 2) gamma hardware will restore the lut when apply gamma
+> > function to display
+> 
+> I don't know why do you mention the 'restore', any modification is
+> related to this?
+> 
+that means gamma
+hardware process display data with original lut
+> > 
+> > Signed-off-by: Yongqiang Niu <
+> > yongqiang.niu@mediatek.corp-partner.google.com>
+> > ---
+> >  drivers/gpu/drm/mediatek/mtk_disp_aal.c   |  4 ++-
+> >  drivers/gpu/drm/mediatek/mtk_disp_drv.h   |  2 +-
+> >  drivers/gpu/drm/mediatek/mtk_disp_gamma.c | 34 +++++++++++++++++++
+> > ----
+> >  3 files changed, 32 insertions(+), 8 deletions(-)
+> > 
+> > diff --git a/drivers/gpu/drm/mediatek/mtk_disp_aal.c
+> > b/drivers/gpu/drm/mediatek/mtk_disp_aal.c
+> > index f46d4ab73d6a..e6378b074a17 100644
+> > --- a/drivers/gpu/drm/mediatek/mtk_disp_aal.c
+> > +++ b/drivers/gpu/drm/mediatek/mtk_disp_aal.c
+> > @@ -23,6 +23,7 @@
+> >  
+> >  struct mtk_disp_aal_data {
+> >  	bool has_gamma;
+> > +	bool lut_diff;
+> >  };
+> >  
+> >  /**
+> > @@ -66,7 +67,7 @@ void mtk_aal_gamma_set(struct device *dev, struct
+> > drm_crtc_state *state)
+> >  	struct mtk_disp_aal *aal = dev_get_drvdata(dev);
+> >  
+> >  	if (aal->data && aal->data->has_gamma)
+> > -		mtk_gamma_set_common(aal->regs, state);
+> > +		mtk_gamma_set_common(aal->regs, state, aal->data-
+> > > lut_diff);
+> 
+> gamma in aal does not support diff lut, so this would make things
+> simple.
+> 
+> mtk_gamma_set_common(aal->regs, state, false);
 
-OK, so reading through the spec more carefully, I do see that the DP
-spec makes numerous mentions of the fact that DP sinks _must_ support
-640x480. Even going back to DP 1.4, I see section "5.2.1.2 Video
-Timing Format" says that we must support 640x480. It seems like that's
-_intended_ to be used only if the EDID read fails, though or if we
-somehow have to output video without knowledge of the EDID. It seems
-hard to believe that there's a great reason to assume a display will
-support 640x480 if we have more accurate knowledge.
+fix next version
+> 
+> Regards,
+> CK
+> 
+> >  }
+> >  
+> >  void mtk_aal_start(struct device *dev)
+> > @@ -148,6 +149,7 @@ static int mtk_disp_aal_remove(struct
+> > platform_device *pdev)
+> >  
+> >  static const struct mtk_disp_aal_data mt8173_aal_driver_data = {
+> >  	.has_gamma = true,
+> > +	.lut_diff = false,
+> >  };
+> >  
+> >  static const struct of_device_id mtk_disp_aal_driver_dt_match[] =
+> > {
+> > diff --git a/drivers/gpu/drm/mediatek/mtk_disp_drv.h
+> > b/drivers/gpu/drm/mediatek/mtk_disp_drv.h
+> > index 86c3068894b1..3380651c6707 100644
+> > --- a/drivers/gpu/drm/mediatek/mtk_disp_drv.h
+> > +++ b/drivers/gpu/drm/mediatek/mtk_disp_drv.h
+> > @@ -51,7 +51,7 @@ void mtk_gamma_config(struct device *dev,
+> > unsigned
+> > int w,
+> >  		      unsigned int h, unsigned int vrefresh,
+> >  		      unsigned int bpc, struct cmdq_pkt *cmdq_pkt);
+> >  void mtk_gamma_set(struct device *dev, struct drm_crtc_state
+> > *state);
+> > -void mtk_gamma_set_common(void __iomem *regs, struct
+> > drm_crtc_state
+> > *state);
+> > +void mtk_gamma_set_common(void __iomem *regs, struct
+> > drm_crtc_state
+> > *state, bool lut_diff);
+> >  void mtk_gamma_start(struct device *dev);
+> >  void mtk_gamma_stop(struct device *dev);
+> >  
+> > diff --git a/drivers/gpu/drm/mediatek/mtk_disp_gamma.c
+> > b/drivers/gpu/drm/mediatek/mtk_disp_gamma.c
+> > index 3a5815ab4079..fec2e9a5b60d 100644
+> > --- a/drivers/gpu/drm/mediatek/mtk_disp_gamma.c
+> > +++ b/drivers/gpu/drm/mediatek/mtk_disp_gamma.c
+> > @@ -27,6 +27,7 @@
+> >  
+> >  struct mtk_disp_gamma_data {
+> >  	bool has_dither;
+> > +	bool lut_diff;
+> >  };
+> >  
+> >  /*
+> > @@ -53,12 +54,13 @@ void mtk_gamma_clk_disable(struct device *dev)
+> >  	clk_disable_unprepare(gamma->clk);
+> >  }
+> >  
+> > -void mtk_gamma_set_common(void __iomem *regs, struct
+> > drm_crtc_state
+> > *state)
+> > +void mtk_gamma_set_common(void __iomem *regs, struct
+> > drm_crtc_state
+> > *state, bool lut_diff)
+> >  {
+> >  	unsigned int i, reg;
+> >  	struct drm_color_lut *lut;
+> >  	void __iomem *lut_base;
+> >  	u32 word;
+> > +	u32 diff[3] = {0};
+> >  
+> >  	if (state->gamma_lut) {
+> >  		reg = readl(regs + DISP_GAMMA_CFG);
+> > @@ -67,9 +69,20 @@ void mtk_gamma_set_common(void __iomem *regs,
+> > struct drm_crtc_state *state)
+> >  		lut_base = regs + DISP_GAMMA_LUT;
+> >  		lut = (struct drm_color_lut *)state->gamma_lut->data;
+> >  		for (i = 0; i < MTK_LUT_SIZE; i++) {
+> > -			word = (((lut[i].red >> 6) & LUT_10BIT_MASK) <<
+> > 20) +
+> > -				(((lut[i].green >> 6) & LUT_10BIT_MASK)
+> > << 10) +
+> > -				((lut[i].blue >> 6) & LUT_10BIT_MASK);
+> > +
+> > +			if (!lut_diff || (i % 2 == 0)) {
+> > +				word = (((lut[i].red >> 6) &
+> > LUT_10BIT_MASK) << 20) +
+> > +					(((lut[i].green >> 6) &
+> > LUT_10BIT_MASK) << 10) +
+> > +					((lut[i].blue >> 6) &
+> > LUT_10BIT_MASK);
+> > +			} else {
+> > +				diff[0] = abs((lut[i].red >> 6) -
+> > (lut[i - 1].red >> 6));
+> > +				diff[1] = abs((lut[i].green >> 6) -
+> > (lut[i - 1].green >> 6));
+> > +				diff[2] = abs((lut[i].blue >> 6) -
+> > (lut[i - 1].blue >> 6));
+> > +
+> > +				word = ((diff[0] & LUT_10BIT_MASK) <<
+> > 20) +
+> > +					((diff[1] & LUT_10BIT_MASK) <<
+> > 10) +
+> > +					(diff[2] & LUT_10BIT_MASK);
+> > +			}
+> >  			writel(word, (lut_base + i * 4));
+> >  		}
+> >  	}
+> > @@ -78,8 +91,12 @@ void mtk_gamma_set_common(void __iomem *regs,
+> > struct drm_crtc_state *state)
+> >  void mtk_gamma_set(struct device *dev, struct drm_crtc_state
+> > *state)
+> >  {
+> >  	struct mtk_disp_gamma *gamma = dev_get_drvdata(dev);
+> > +	bool lut_diff = false;
+> > +
+> > +	if (gamma->data)
+> > +		lut_diff = gamma->data->lut_diff;
+> >  
+> > -	mtk_gamma_set_common(gamma->regs, state);
+> > +	mtk_gamma_set_common(gamma->regs, state, lut_diff);
+> >  }
+> >  
+> >  void mtk_gamma_config(struct device *dev, unsigned int w,
+> > @@ -176,10 +193,15 @@ static const struct mtk_disp_gamma_data
+> > mt8173_gamma_driver_data = {
+> >  	.has_dither = true,
+> >  };
+> >  
+> > +static const struct mtk_disp_gamma_data mt8183_gamma_driver_data =
+> > {
+> > +	.lut_diff = true,
+> > +};
+> > +
+> >  static const struct of_device_id mtk_disp_gamma_driver_dt_match[]
+> > =
+> > {
+> >  	{ .compatible = "mediatek,mt8173-disp-gamma",
+> >  	  .data = &mt8173_gamma_driver_data},
+> > -	{ .compatible = "mediatek,mt8183-disp-gamma"},
+> > +	{ .compatible = "mediatek,mt8183-disp-gamma",
+> > +	  .data = &mt8183_gamma_driver_data},
+> >  	{},
+> >  };
+> >  MODULE_DEVICE_TABLE(of, mtk_disp_gamma_driver_dt_match);
+> 
+> 
 
-In any case, I guess I would still say that adding this mode belongs
-in the DRM core. The core should notice that it's a DP connection
-(bridge->type == DRM_MODE_CONNECTOR_DisplayPort) and that 640x480 was
-left out and it should add it. We should also make sure it's not
-"preferred" and is last in the list so we never accidentally pick it.
-If DP truly says that we should always give the user 640x480 then
-that's true for everyone, not just Qualcomm. We should add it in the
-core. If, later, someone wants to hide this from the UI it would be
-much easier if they only needed to modify one place.
-
-
-> > So IMO we _shouldn't_ land ${SUBJECT} patch.
-> >
-> > Just for testing, I also tried a hack to make EDID reading fail
-> > (return -EIO in the MSM dp_aux_transfer() function if msg->request <
-> > 8). Before ${SUBJECT} patch I'd see these modes:
-> >
-> >    #0 1024x768 60.00 1024 1048 1184 1344 768 771 777 806 65000
-> >    #1 800x600 60.32 800 840 968 1056 600 601 605 628 40000
-> >    #2 800x600 56.25 800 824 896 1024 600 601 603 625 36000
-> >    #3 848x480 60.00 848 864 976 1088 480 486 494 517 33750
-> >    #4 640x480 59.94 640 656 752 800 480 490 492 525 25175
-> >
-> > ...and after ${SUBJECT} patch I'd see:
-> >
-> >    #0 640x480 59.94 640 656 752 800 480 490 492 525 25175
-> >    #1 1024x768 60.00 1024 1048 1184 1344 768 771 777 806 65000
-> >    #2 800x600 60.32 800 840 968 1056 600 601 605 628 40000
-> >    #3 800x600 56.25 800 824 896 1024 600 601 603 625 36000
-> >    #4 848x480 60.00 848 864 976 1088 480 486 494 517 33750
-> >
-> > ...so your patch causes 640x480 to be prioritized. That also doesn't
-> > seem ideal. If it was ideal, the DRM core should have listed 640x480
-> > first.
->
-> So this is a different display or these modes are coming due to the
-> drm_add_modes_noedid() call because of the EDID read fail right?
-
-Right, it's from the !edid case.
-
--Doug
