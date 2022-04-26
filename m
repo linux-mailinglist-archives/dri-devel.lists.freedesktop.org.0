@@ -2,36 +2,31 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0410B51121F
-	for <lists+dri-devel@lfdr.de>; Wed, 27 Apr 2022 09:12:39 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 9759251121D
+	for <lists+dri-devel@lfdr.de>; Wed, 27 Apr 2022 09:12:34 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id A0C7210E2E1;
+	by gabe.freedesktop.org (Postfix) with ESMTP id 07CA310E22D;
 	Wed, 27 Apr 2022 07:12:31 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-X-Greylist: delayed 303 seconds by postgrey-1.36 at gabe;
- Tue, 26 Apr 2022 10:18:32 UTC
 Received: from nksmu.kylinos.cn (mailgw.kylinos.cn [123.150.8.42])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 2F22D10E6F7;
- Tue, 26 Apr 2022 10:18:31 +0000 (UTC)
-X-UUID: 707c944599604674ad2c3d7813f3f551-20220426
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 39E8E10EA5B;
+ Tue, 26 Apr 2022 10:18:32 +0000 (UTC)
+X-UUID: 839b2cb5bfb342069a8d8897af33cbe3-20220426
 X-Spam-Fingerprint: 0
-X-GW-Reason: 11101
+X-GW-Reason: 11109
 X-Policy-Incident: 5pS25Lu25Lq66LaF6L+HMTDkurrpnIDopoHlrqHmoLg=
 X-Content-Feature: ica/max.line-size 106 audit/email.address 1 meta/cnt.alert 1
-X-UUID: 707c944599604674ad2c3d7813f3f551-20220426
-Received: from cs2c.com.cn [(172.17.111.24)] by nksmu.kylinos.cn
+X-UUID: 839b2cb5bfb342069a8d8897af33cbe3-20220426
+X-User: oushixiong@kylinos.cn
+Received: from localhost.localdomain [(116.128.244.169)] by nksmu.kylinos.cn
  (envelope-from <oushixiong@kylinos.cn>) (Generic MTA)
- with ESMTP id 707285290; Tue, 26 Apr 2022 18:04:59 +0800
-X-ns-mid: postfix-6267C422-7868788235
-Received: from localhost.localdomain (unknown [172.20.108.97])
- by cs2c.com.cn (NSMail) with ESMTPA id 6D4DB383B46C;
- Tue, 26 Apr 2022 10:06:26 +0000 (UTC)
+ with ESMTP id 1529660238; Tue, 26 Apr 2022 18:10:05 +0800
 From: oushixiong <oushixiong@kylinos.cn>
 To: Alex Deucher <alexander.deucher@amd.com>
 Subject: [PATCH] drm/amd: Fix spelling typo in comment
-Date: Tue, 26 Apr 2022 18:06:16 +0800
-Message-Id: <20220426100616.1411209-1-oushixiong@kylinos.cn>
+Date: Tue, 26 Apr 2022 18:11:26 +0800
+Message-Id: <20220426101126.1417207-1-oushixiong@kylinos.cn>
 X-Mailer: git-send-email 2.25.1
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
@@ -80,3 +75,6 @@ index 7bd763361d6e..b7a1e2116e7e 100644
 -- 
 2.25.1
 
+
+No virus found
+		Checked by Hillstone Network AntiVirus
