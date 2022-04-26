@@ -1,64 +1,78 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id B058E50FD32
-	for <lists+dri-devel@lfdr.de>; Tue, 26 Apr 2022 14:38:45 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 68AC550FD48
+	for <lists+dri-devel@lfdr.de>; Tue, 26 Apr 2022 14:41:36 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 43E5C10E36F;
-	Tue, 26 Apr 2022 12:38:42 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id AD54710E5C9;
+	Tue, 26 Apr 2022 12:41:33 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mout.kundenserver.de (mout.kundenserver.de [212.227.126.130])
- by gabe.freedesktop.org (Postfix) with ESMTPS id B2D4E10E36F
- for <dri-devel@lists.freedesktop.org>; Tue, 26 Apr 2022 12:38:40 +0000 (UTC)
-Received: from mail-yw1-f180.google.com ([209.85.128.180]) by
- mrelayeu.kundenserver.de (mreue010 [213.165.67.97]) with ESMTPSA (Nemesis) id
- 1MysiI-1o4aNQ30ew-00vw10 for <dri-devel@lists.freedesktop.org>; Tue, 26 Apr
- 2022 14:38:38 +0200
-Received: by mail-yw1-f180.google.com with SMTP id
- 00721157ae682-2f7d19cac0bso73606607b3.13
- for <dri-devel@lists.freedesktop.org>; Tue, 26 Apr 2022 05:38:38 -0700 (PDT)
-X-Gm-Message-State: AOAM5301sM6ar0O+1EgD5PmCJ02seysNiUlboLet5BJiZaeU676tkAnT
- LW+5TD+y374j7TMNTi1H86StKy41dvw7/evRmU0=
-X-Google-Smtp-Source: ABdhPJwgCuCUa4o+AgAH4pI2w9geQ9zGuYooiQu61gb9/bVoeW8aj/5quj9UKhljTouqCt64isUtADXX7teUyfMtQT0=
-X-Received: by 2002:a0d:d804:0:b0:2f4:e47d:1c2c with SMTP id
- a4-20020a0dd804000000b002f4e47d1c2cmr21230444ywe.320.1650976717282; Tue, 26
- Apr 2022 05:38:37 -0700 (PDT)
+Received: from out1-smtp.messagingengine.com (out1-smtp.messagingengine.com
+ [66.111.4.25])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id F300D10E678
+ for <dri-devel@lists.freedesktop.org>; Tue, 26 Apr 2022 12:41:31 +0000 (UTC)
+Received: from compute3.internal (compute3.nyi.internal [10.202.2.43])
+ by mailout.nyi.internal (Postfix) with ESMTP id 492345C0074;
+ Tue, 26 Apr 2022 08:41:29 -0400 (EDT)
+Received: from mailfrontend1 ([10.202.2.162])
+ by compute3.internal (MEProxy); Tue, 26 Apr 2022 08:41:29 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=cerno.tech; h=cc
+ :cc:content-transfer-encoding:content-type:date:date:from:from
+ :in-reply-to:in-reply-to:message-id:mime-version:references
+ :reply-to:sender:subject:subject:to:to; s=fm3; t=1650976889; x=
+ 1651063289; bh=AC3fXGBXmPXraihRLIM77w9frliDq7HqkQUBjuY+6ZM=; b=g
+ YFCyGxOW2D6uHceOc3OwhFvYxkQUfmrhYbBZViG9qtOP9Fci3L9JahnM0bShrlGj
+ ik0Unwn6qEPc+AwHVaf4kneMox0e4MiN4r7ixdDIu7mSle6bLznBHyp14ROdKNHP
+ 0bfrLhe3cK85z/hyTaThkGf6xgDjgI/XCwbCPKr0S1Ve8/n4D7/Td642e1vK/c/H
+ YmlXmMFXR8YorvL34Kn2gwRVe0zDYG1yRhFRs/uA6G7dvRyV973BRESAPZRhAOOi
+ IjZyyo+Yk2xrRLGrlahUiKZxI3GErmbkjDeyBb9bl+14BWPinjpL7bndA8sFRWsN
+ 5B6EZ1unPU4Z59BF+h4gw==
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
+ messagingengine.com; h=cc:cc:content-transfer-encoding
+ :content-type:date:date:from:from:in-reply-to:in-reply-to
+ :message-id:mime-version:references:reply-to:sender:subject
+ :subject:to:to:x-me-proxy:x-me-proxy:x-me-sender:x-me-sender
+ :x-sasl-enc; s=fm1; t=1650976889; x=1651063289; bh=AC3fXGBXmPXra
+ ihRLIM77w9frliDq7HqkQUBjuY+6ZM=; b=EaDO1lKq2CqgxpawH9zKOm5CgVnbK
+ mDDQrCsfkOgz1ebrEJSeg6urqSwJsCUjAUU+mhFNJqjSui/aq0MrxW+0R2Q2rAXR
+ 3P2FWg9VahGaSJI07boDtQ46OyUe+jA3gTIPsPsOzHjtJW3ScoLESjEbXJZwFxEh
+ ynfP32MIBckcr591xNs5Z1yxE+4sRhudFMkoCCUyFQVfOXorSt6IOCz/Wf2XCNGt
+ tC1zt6zGqtA9khdv6tl/Zxy4HL+zCI7b8idYGuopg3AYCtwx+wJZiYugWGO3IzHc
+ WdvV2P5m7sJAB48JisKDl3M+8gPUnUwhG5baHjzMjq6YcaHAYn6qe+NsQ==
+X-ME-Sender: <xms:eOhnYjvMYorkKsA77MWQO4fxGMke0WWzDVjMGT59CVYtBL7hlUBMYA>
+ <xme:eOhnYkcT6GeskyBpjsL-2Kw79X_sHO_gGf8hqnjAEtcC2VeBd2t41Bq70VY382xtb
+ AC7IOUOefFNnWI6hMI>
+X-ME-Received: <xmr:eOhnYmxX9g37oMqHCmZDkX-5BB__hycdC1UaNbGefIHn8DuzT0CYJsbnT-Hm5_WCZlvT6oyJbYy2lUKeOY5g1zb3IDP8IgwjifcpPcE>
+X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvfedrudefgdehvdcutefuodetggdotefrodftvf
+ curfhrohhfihhlvgemucfhrghsthforghilhdpqfgfvfdpuffrtefokffrpgfnqfghnecu
+ uegrihhlohhuthemuceftddtnecusecvtfgvtghiphhivghnthhsucdlqddutddtmdenuc
+ fjughrpefhvfevufffkffojghfgggtgfesthekredtredtjeenucfhrhhomhepofgrgihi
+ mhgvucftihhprghrugcuoehmrgigihhmvgestggvrhhnohdrthgvtghhqeenucggtffrrg
+ htthgvrhhnpeeuieeggffhffffieefheduieeuvdetgeeufeffvefgtedvffehheekffev
+ udefieenucevlhhushhtvghrufhiiigvpedtnecurfgrrhgrmhepmhgrihhlfhhrohhmpe
+ hmrgigihhmvgestggvrhhnohdrthgvtghh
+X-ME-Proxy: <xmx:eOhnYiOt4cgKwKfL-lFolxFwcboWqnuu9bRHsSbSl1ff-0GHDi9t1w>
+ <xmx:eOhnYj_uK3zthnQf0Cb90wGDUVzfzrgbY-Bk8xuTf3PZHWsdmuWX3g>
+ <xmx:eOhnYiWnuxuZfgD__pZjVlSzaLbyvLM_m9P7aazza1Wt2H2_BcUqSA>
+ <xmx:eehnYmUaVr1UECo73YZzJQ2xbMjsoj8kQNADB7Nfs6kKjE5LsFQn6Q>
+Received: by mail.messagingengine.com (Postfix) with ESMTPA; Tue,
+ 26 Apr 2022 08:41:27 -0400 (EDT)
+From: Maxime Ripard <maxime@cerno.tech>
+To: Chen-Yu Tsai <wens@csie.org>, Jernej Skrabec <jernej.skrabec@gmail.com>,
+ Samuel Holland <samuel@sholland.org>, Maxime Ripard <mripard@kernel.org>
+Subject: Re: (subset) [PATCH v3 03/14] drm/sun4i: Remove obsolete references
+ to PHYS_OFFSET
+Date: Tue, 26 Apr 2022 14:41:24 +0200
+Message-Id: <165097687063.513954.2708926846046765429.b4-ty@cerno.tech>
+X-Mailer: git-send-email 2.35.1
+In-Reply-To: <20220424162633.12369-4-samuel@sholland.org>
+References: <20220424162633.12369-1-samuel@sholland.org>
+ <20220424162633.12369-4-samuel@sholland.org>
 MIME-Version: 1.0
-References: <20220426060808.78225-1-cai.huoqing@linux.dev>
- <20220426060808.78225-5-cai.huoqing@linux.dev>
- <618a4f53-0998-1e6b-e32b-8bf2d3057cec@amd.com>
- <CAK8P3a2w1t7Sk897u0ndD66Lwp5a4DuOqqQLN4yHSg=JmrpOHQ@mail.gmail.com>
- <20220426122404.GA6788@chq-T47>
-In-Reply-To: <20220426122404.GA6788@chq-T47>
-From: Arnd Bergmann <arnd@arndb.de>
-Date: Tue, 26 Apr 2022 14:38:21 +0200
-X-Gmail-Original-Message-ID: <CAK8P3a2M=zw509HGRALmgbr+E6GjKoZqqkh9kCbyGB9hD_+3LA@mail.gmail.com>
-Message-ID: <CAK8P3a2M=zw509HGRALmgbr+E6GjKoZqqkh9kCbyGB9hD_+3LA@mail.gmail.com>
-Subject: Re: [Linaro-mm-sig] Re: [PATCH v2 4/4] drm/nvdla/uapi: Add UAPI of
- NVDLA driver
-To: Cai Huoqing <cai.huoqing@linux.dev>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-X-Provags-ID: V03:K1:OoNPhpqdBjt9eTCjL3A9vaBQj+V3L63v3TwdxeWY0Ob6Q1niE/8
- ZOm6+LOTwOV4W8V4uSli5DJzSIOcopHvy+Nej8K7lQUbizLvfGWnMxSb/9ZN7HwN2AW2V/G
- LaI4sUfY2OjuZpMmSz4X2UJhxO2vBy60kS5gTR0v7cFnd8Z7eXt/pEuUud11S4gS6KsG3Sg
- jaeTUA3tvFXKJpTcQesCg==
-X-Spam-Flag: NO
-X-UI-Out-Filterresults: notjunk:1;V03:K0:5+qokr0zPe8=:84W4BvMe7OMHWBpV1Pf4dU
- ncodm54nh/6hbJj3B1mlKNzDGlHPzOQnYjhCjRNKlj/zcmjx+EsxZ6mwQgwFP14rJchJlLHdG
- hmMsBNHykr7SwuGE/VtgoTVbshsw6bv+ob4snJcBpbYal9PobpTBABXU5/lH3Upd1TLtXAstP
- 1PBhaypV5mYi53oucMdGNJixIaiOs1tBHj4zuakht4YSyepsopyf/I1QlkVuTqASivumXXUav
- jYZQUUYsLPkydB9VNJx9WWF8FCNnJbYzjg6Kf3499vF5uwXOHs/9Fdtk9mnwNTHh6/8Bn6HhZ
- 1m9/vhQ2FM7A/5ZUUniEC3Y7/9jwY3hcoucoQd7HFqoqR7YvnjkNUeqrUUkwYuIeVnU0PmGB5
- isSvnVAU5wVphozHPC4thWDQsxjXtbVezOnzlX77C8PCYa35sE4AHsTAQuZEgG7smG++3ztbq
- 9e8gAQD+Zvu7g0rCnQAo38TNvi17PW0ktCxaAS5+X1QzZ3dAPUU+dH94r4mE/kby1Q2wkzoJN
- 3RZwdh3pJnGJSLTnzbd/0rnGtLebrsFDA3osuVc1YPwTM4wBLj7z9rqDckCU5zOl1RXDP/e/p
- hros3MpsRBydC2ni1PAFJ2a2Qq4rPiZhQIx6DHlYGhaldXdqI22mu7aeXbd9MdMABH73C/jWX
- 9+ku+jh8ifJ6BXXk21NZTdz/CTE6TLcc1rsZ5ei0mgvPgYQPEXlSG/OR1YeqW5ZQSjA++aer7
- +qjL2cKnSIYu+uLuga75fdJ+6gwdxRIpLj2yTzzFHuyu8SOXPpTGvwsU40F0IYQlTiz95b+t/
- qq+BzdB4EFI1TLtl8otdnc4cl7bTQOyErvkMq5Dfxz/5mrOWEI=
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -71,33 +85,27 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Arnd Bergmann <arnd@arndb.de>, David Airlie <airlied@linux.ie>,
- Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
- Sumit Semwal <sumit.semwal@linaro.org>, linaro-mm-sig@lists.linaro.org,
- dri-devel <dri-devel@lists.freedesktop.org>,
- Thomas Zimmermann <tzimmermann@suse.de>,
- =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>,
- Linux Media Mailing List <linux-media@vger.kernel.org>
+Cc: devicetree@vger.kernel.org, David Airlie <airlied@linux.ie>,
+ linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
+ Rob Herring <robh+dt@kernel.org>, Maxime Ripard <maxime@cerno.tech>,
+ Krzysztof Kozlowski <krzk+dt@kernel.org>, linux-sunxi@lists.linux.dev,
+ linux-arm-kernel@lists.infradead.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Tue, Apr 26, 2022 at 2:24 PM Cai Huoqing <cai.huoqing@linux.dev> wrote:
-> On 26 4=E6=9C=88 22 12:50:50, Arnd Bergmann wrote:
+On Sun, 24 Apr 2022 11:26:21 -0500, Samuel Holland wrote:
+> commit b4bdc4fbf8d0 ("soc: sunxi: Deal with the MBUS DMA offsets in a
+> central place") added a platform device notifier that sets the DMA
+> offset for all of the display engine frontend and backend devices.
+> 
+> The code applying the offset to DMA buffer physical addresses was then
+> removed from the backend driver in commit 756668ba682e ("drm/sun4i:
+> backend: Remove the MBUS quirks"), but the code subtracting PHYS_OFFSET
+> was left in the frontend driver.
+> 
+> [...]
 
-> > > > +#define DRM_NVDLA_SUBMIT             0x00
-> > > > +#define DRM_NVDLA_GEM_CREATE 0x01
-> > > > +#define DRM_NVDLA_GEM_MMAP           0x02
-> >
-> > Is this an actual mmap() call, or something that needs to be done befor=
-e the
-> > mmap()? Is the 'handle' a file descriptor or some internal number?
-> It's an gem object mmap which calls drm_gem_dumb_map_offset() inside and
-> the handle is gem object handle.
+Applied to drm/drm-misc (drm-misc-fixes).
 
-Ok, thanks for the clarification. I see that other drivers have the
-exact same thing,
-so I assume it's fine for drivers/gpu/ then, even if it would be a bit odd =
-for
-other subsystems.
-
-       Arnd
+Thanks!
+Maxime
