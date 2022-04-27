@@ -1,63 +1,64 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id A14BE511C2D
-	for <lists+dri-devel@lfdr.de>; Wed, 27 Apr 2022 18:03:41 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 0054E511C33
+	for <lists+dri-devel@lfdr.de>; Wed, 27 Apr 2022 18:07:22 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id A541610E661;
-	Wed, 27 Apr 2022 16:03:39 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id C1C2510F674;
+	Wed, 27 Apr 2022 16:07:18 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-ed1-x52c.google.com (mail-ed1-x52c.google.com
- [IPv6:2a00:1450:4864:20::52c])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 2AC7D10E679
- for <dri-devel@lists.freedesktop.org>; Wed, 27 Apr 2022 16:03:39 +0000 (UTC)
-Received: by mail-ed1-x52c.google.com with SMTP id a1so2495736edt.3
- for <dri-devel@lists.freedesktop.org>; Wed, 27 Apr 2022 09:03:39 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ffwll.ch; s=google;
- h=date:from:to:cc:subject:message-id:references:mime-version
- :content-disposition:content-transfer-encoding:in-reply-to;
- bh=GdfyouXRDzA84pdatMo8fg5d348psUg1qfhHrLVys0o=;
- b=I9FPYNRn/HQv0WevQ6dS1x79sOtOMyPqPqeoHcj/NjQO7MSIesGoL/1Ok5934RoupW
- jmVbgsWej1j4gH3uu+OZOk17zlRhZAI1vKof+4QXi3PoxtSRfBfNkF8lm20ahIWiM2+S
- qli5fiCJVWz3zvl81dMLDJPVUyoLSRKHNgecw=
+Received: from mail-pg1-x52d.google.com (mail-pg1-x52d.google.com
+ [IPv6:2607:f8b0:4864:20::52d])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 9057010F673
+ for <dri-devel@lists.freedesktop.org>; Wed, 27 Apr 2022 16:07:17 +0000 (UTC)
+Received: by mail-pg1-x52d.google.com with SMTP id v10so1787871pgl.11
+ for <dri-devel@lists.freedesktop.org>; Wed, 27 Apr 2022 09:07:17 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=chromium.org; s=google;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc:content-transfer-encoding;
+ bh=thh3b7rvFYMcWHBGJTfcjm7L4QV8/jt2EZrs9nTl3/s=;
+ b=nHvJcRQDvgnFH2mocyoYQgZtIrbsIsmTsZ74EguoCNewAbSODSdrwqhoxexS8tR/yh
+ hBYBW29wCw14+O+78B8pYxO/PeMyALOI0bQ46Nl3BgK4n56x6OF7xgpz0MHDdtlXed8M
+ DM9tNwEwzP500NWVah6UGtMlwOluQHybWUawI=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=x-gm-message-state:date:from:to:cc:subject:message-id:references
- :mime-version:content-disposition:content-transfer-encoding
- :in-reply-to;
- bh=GdfyouXRDzA84pdatMo8fg5d348psUg1qfhHrLVys0o=;
- b=hXI8m1OUqF6Pe/EEjQcck91M3jWUMHtCghbOAV6p1IL2PSLaWRM15xMXWvik174OCc
- aBEYXQIGZ5DFPfYkwFmSXS76aBxVjpX5L79j5PlbulXfM68SgOlb/0A4SYqTS8xPVLzD
- 4QbdarhqNOpJ8NeU0/0PBLoZiLUEfcCHd7V53Hh++mdNgaxHQci8wRumom7GKYr0QJIc
- VKhfiYDSqgaXLUCFFy2zZl9xrSBNzVlV0ufeiwBrLiUg3atbRZ/G5kkDXvdX8Preo6uC
- ZLz+vVMHoLJBPoSR6UGqv1ALIYO9V2K7PHJ4LCLISPeW1YB13Fiew1WIuYUQY+kG579L
- g1xQ==
-X-Gm-Message-State: AOAM533qSO8vsXT3WDQICLJIA5mDA1gfeBr5mjiPSIRHTRb7qi79VAqY
- xSiiwwehrNTFz0XgCqCOT2zvYw==
-X-Google-Smtp-Source: ABdhPJyxaHkIhNAHK3POhCoCw7rLvWhVsI0Zh1jTHKYHPv4ewXPpluu073ExuzUlLc/pwjA7ZGNJTw==
-X-Received: by 2002:a05:6402:5189:b0:425:d7ca:caa4 with SMTP id
- q9-20020a056402518900b00425d7cacaa4mr22069062edd.177.1651075417474; 
- Wed, 27 Apr 2022 09:03:37 -0700 (PDT)
-Received: from phenom.ffwll.local ([2a02:168:57f4:0:efd0:b9e5:5ae6:c2fa])
- by smtp.gmail.com with ESMTPSA id
- jl28-20020a17090775dc00b006e05cdf3a95sm7023909ejc.163.2022.04.27.09.03.36
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 27 Apr 2022 09:03:37 -0700 (PDT)
-Date: Wed, 27 Apr 2022 18:03:34 +0200
-From: Daniel Vetter <daniel@ffwll.ch>
-To: Christian =?iso-8859-1?Q?K=F6nig?= <ckoenig.leichtzumerken@gmail.com>
-Subject: Re: [PATCH] drm: handle kernel fences in
- drm_gem_plane_helper_prepare_fb
-Message-ID: <YmlpViYhgZF3+EHE@phenom.ffwll.local>
-References: <20220421191002.2251-1-christian.koenig@amd.com>
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc:content-transfer-encoding;
+ bh=thh3b7rvFYMcWHBGJTfcjm7L4QV8/jt2EZrs9nTl3/s=;
+ b=m0V1P/gQHMAFn/BXzFJPJOgmZMVqnSIBocZGwG3sX4pNpOu+VXHc2bIXJTEv8c9qJ6
+ PCGNuUdcTHTDyqPiJGM8lD/0ZzKjzmmWMwCMEz9XCrCgwzUt6zV+YePvyjHxFb1MXgVE
+ jnVEeHK9ODN7I9MaoqNhmcoHxSdGgV+u2Ogxot04lmxIKQPFQ00MCY1SNFBvCQgNXtaj
+ 9O8+r4zI1TC35CyzVKh39BLzJbZ9rXb3xzYLL1WesRWdwgxdMCWO4yhYxujgjw73xeCl
+ P8Sexi6H9VCpLHDM6w9Y9EcBKw6dAUCVpomnhUiSFr2CXolSM74Ksh51RXlyQ9Kcj3nP
+ EY9A==
+X-Gm-Message-State: AOAM533nnKB3Oucnwz1TSj2ZCG5Is8dahyo4cUGnaYJQJFXEL5O0SEB8
+ OcFxx+toRQ9mj0hPOHvGYeCC9qzGdICCMVDvgM+3DA==
+X-Google-Smtp-Source: ABdhPJx8fm8/yx+ZjmZhEV0V49ps4Zr4PYjpyXxyQlzPoHV3JUBxQd/ptdVWyyMngsed5HIFfmLvF6S+wXinkOQR8f4=
+X-Received: by 2002:a05:6a00:14c5:b0:50d:4871:3619 with SMTP id
+ w5-20020a056a0014c500b0050d48713619mr13516854pfu.12.1651075637181; Wed, 27
+ Apr 2022 09:07:17 -0700 (PDT)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=iso-8859-1
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <20220421191002.2251-1-christian.koenig@amd.com>
-X-Operating-System: Linux phenom 5.10.0-8-amd64 
+References: <20220412212558.827289-1-olvaffe@gmail.com>
+ <CAPaKu7Tv1Mxt7Ao8kH2-MZDBK7EB0D41COJD8Sjze76t_o-qmw@mail.gmail.com>
+ <ffe7dbc1-8a19-1e19-402d-27efc8e55b39@amd.com>
+ <CAJs_Fx7OQ2OJo3pQ-ETT1827PtfuFsvn984gg8GeDVrqy0Ucug@mail.gmail.com>
+ <215f55f6-97b8-5dd3-a2cc-fe42e19a2769@amd.com>
+ <CAJs_Fx69yhVQ6t1xdTqEs3kxiz1gZSZ2-qNA=Cq21j_BSaymrQ@mail.gmail.com>
+ <17fc1a68-747a-f707-364d-76f12a2b535a@amd.com>
+ <CAPaKu7Rny7pxsPA+cnow0d6PAD2YCb+b+j1_Di5gziyOVNLaYQ@mail.gmail.com>
+ <c32bf2de-0e48-e3b7-98ae-0bcd46933465@amd.com>
+ <CAPaKu7T2hTFnsSSdFvQRuGefhZHVmGO9KXKpO8Y_ZcLbe75rpA@mail.gmail.com>
+ <b587ca5f-eb8a-cf0c-5c07-9844c8794463@amd.com>
+In-Reply-To: <b587ca5f-eb8a-cf0c-5c07-9844c8794463@amd.com>
+From: Rob Clark <robdclark@chromium.org>
+Date: Wed, 27 Apr 2022 09:07:06 -0700
+Message-ID: <CAJs_Fx7Jq9VWy_Eux+hGoQTCTeKkFMQCdibY9gFQTqrvVob5fA@mail.gmail.com>
+Subject: Re: [PATCH v2] drm/msm: add trace_dma_fence_emit to msm_gpu_submit
+To: =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -70,231 +71,98 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: dri-devel@lists.freedesktop.org,
- Christian =?iso-8859-1?Q?K=F6nig?= <christian.koenig@amd.com>
+Cc: David Airlie <airlied@linux.ie>, freedreno@lists.freedesktop.org,
+ Abhinav Kumar <quic_abhinavk@quicinc.com>,
+ ML dri-devel <dri-devel@lists.freedesktop.org>,
+ Sumit Semwal <sumit.semwal@linaro.org>, linux-arm-msm@vger.kernel.org,
+ Dmitry Baryshkov <dmitry.baryshkov@linaro.org>, Sean Paul <sean@poorly.run>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Thu, Apr 21, 2022 at 09:10:02PM +0200, Christian König wrote:
-> drm_gem_plane_helper_prepare_fb() was using
-> drm_atomic_set_fence_for_plane() which ignores all implicit fences when an
-> explicit fence is already set. That's rather unfortunate when the fb still
-> has a kernel fence we need to wait for to avoid presenting garbage on the
-> screen.
-> 
-> So instead update the fence in the plane state directly. While at it also
-> take care of all potential GEM objects and not just the first one.
-> 
-> Also remove the now unused drm_atomic_set_fence_for_plane() function, new
-> drivers should probably use the atomic helpers directly.
-> 
-> Signed-off-by: Christian König <christian.koenig@amd.com>
+On Tue, Apr 26, 2022 at 11:20 PM Christian K=C3=B6nig
+<christian.koenig@amd.com> wrote:
+>
+> Am 26.04.22 um 20:50 schrieb Chia-I Wu:
+> > On Tue, Apr 26, 2022 at 11:02 AM Christian K=C3=B6nig
+> > <christian.koenig@amd.com> wrote:
+> >> Am 26.04.22 um 19:40 schrieb Chia-I Wu:
+> >>> [SNIP]
+> >>>>>> Well I just send a patch to completely remove the trace point.
+> >>>>>>
+> >>>>>> As I said it absolutely doesn't make sense to use this for
+> >>>>>> visualization, that's what the trace_dma_fence_init trace point is=
+ good for.
+> >>> I am a bit confused by this.  _emit and _signaled are a great way to
+> >>> see how many fences are pending from cpu's point of view.  How does
+> >>> _emit make no sense and _init is good instead?
+> >> We had exactly that confusion now multiple times and it's one of the
+> >> main reasons why I want to remove the _emit trace point.
+> >>
+> >> See the when you want to know how many fences are pending you need to
+> >> watch out for init/destroy and *NOT* emit.
+> >>
+> >> The reason is that in the special case where emit makes sense (e.g. th=
+e
+> >> GPU scheduler fences) emit comes later than init, but pending on the C=
+PU
+> >> and taking up resources are all fences and not just the one emitted to
+> >> the hardware.
+> > I am more interested in pending on the GPU.
+> >
+> >> On the other hand when you want to measure how much time each operatio=
+n
+> >> took on the hardware you need to take a look at the differences of the
+> >> signal events on each timeline.
+> > _signaled alone is not enough when the GPU is not always busy.  After
+> > the last pending fence signals but before the following _init/_emit,
+> > nothing is pending.
+>
+> Yeah, I'm perfectly aware of that.
+>
+> > For all drivers except virtio-gpu, _init and "ring head update" always
+> > happen close enough that I can see why _emit is redundant.  But I like
+> > having _emit as a generic tracepoint for timelines where _init and
+> > _emit can be apart, instead of requiring a special case tracepoint for
+> > each special case timeline.
+>
+> And I'm certainly not going to add _emit to all drivers just because of
+> that. As you said it is a special case for virtio-gpu and the GPU schedul=
+er.
+>
+> And as I explained before the difference between _init and _emit
+> shouldn't matter to your visualization. The background is that as soon
+> as an dma_fence is initialized with _init it is "live" regarding the
+> dependency and memory management and exactly that's what matters for the
+> visualization.
+>
+> The latency between _init and _emit is just interesting for debugging
+> the scheduler and surprisingly virtio-gpu as well, for all other use
+> cases it is irrelevant.
 
-Is this enough to have amdgpu (and well others using ttm) fully rely on
-this for atomic kms updates? Anything to clean up there? Would be neat to
-include that in this series too if there's anything.
+It might actually be *more* interesting for virtio-gpu.. unless there
+is some other way to link guest and host fences to see what the
+potential latency of guest->host is
 
+re: adding the tracepoint to other drivers, I'm fine with folks doing
+that as needed.  Unless you have a better proposal about how to
+visualize init vs emit latency, I think it's fine to have an extra
+tracepoint even if it is redundant in some cases.  The visualization
+tool is the customer here, we have to give it what it wants/needs.
 
-> ---
->  drivers/gpu/drm/drm_atomic_uapi.c       | 37 ---------------
->  drivers/gpu/drm/drm_gem_atomic_helper.c | 63 +++++++++++++++++++++----
->  include/drm/drm_atomic_uapi.h           |  2 -
->  include/drm/drm_plane.h                 |  4 +-
->  4 files changed, 54 insertions(+), 52 deletions(-)
-> 
-> diff --git a/drivers/gpu/drm/drm_atomic_uapi.c b/drivers/gpu/drm/drm_atomic_uapi.c
-> index c6394ba13b24..0f461261b3f3 100644
-> --- a/drivers/gpu/drm/drm_atomic_uapi.c
-> +++ b/drivers/gpu/drm/drm_atomic_uapi.c
-> @@ -254,43 +254,6 @@ drm_atomic_set_fb_for_plane(struct drm_plane_state *plane_state,
->  }
->  EXPORT_SYMBOL(drm_atomic_set_fb_for_plane);
->  
-> -/**
-> - * drm_atomic_set_fence_for_plane - set fence for plane
-> - * @plane_state: atomic state object for the plane
-> - * @fence: dma_fence to use for the plane
-> - *
-> - * Helper to setup the plane_state fence in case it is not set yet.
-> - * By using this drivers doesn't need to worry if the user choose
-> - * implicit or explicit fencing.
-> - *
-> - * This function will not set the fence to the state if it was set
-> - * via explicit fencing interfaces on the atomic ioctl. In that case it will
-> - * drop the reference to the fence as we are not storing it anywhere.
-> - * Otherwise, if &drm_plane_state.fence is not set this function we just set it
-> - * with the received implicit fence. In both cases this function consumes a
-> - * reference for @fence.
-> - *
-> - * This way explicit fencing can be used to overrule implicit fencing, which is
-> - * important to make explicit fencing use-cases work: One example is using one
-> - * buffer for 2 screens with different refresh rates. Implicit fencing will
-> - * clamp rendering to the refresh rate of the slower screen, whereas explicit
-> - * fence allows 2 independent render and display loops on a single buffer. If a
-> - * driver allows obeys both implicit and explicit fences for plane updates, then
-> - * it will break all the benefits of explicit fencing.
-> - */
-> -void
-> -drm_atomic_set_fence_for_plane(struct drm_plane_state *plane_state,
-> -			       struct dma_fence *fence)
+BR,
+-R
 
-I was a bit on the fence with ditching this, but the only offender not
-using the prepare_fb helpers is i915, and so just more reasons that i915
-needs to get off its hand-rolled atomic code with its own funky dependency
-handling and everything.
-
-> -{
-> -	if (plane_state->fence) {
-> -		dma_fence_put(fence);
-> -		return;
-> -	}
-> -
-> -	plane_state->fence = fence;
-> -}
-> -EXPORT_SYMBOL(drm_atomic_set_fence_for_plane);
-> -
->  /**
->   * drm_atomic_set_crtc_for_connector - set CRTC for connector
->   * @conn_state: atomic state object for the connector
-> diff --git a/drivers/gpu/drm/drm_gem_atomic_helper.c b/drivers/gpu/drm/drm_gem_atomic_helper.c
-> index a6d89aed0bda..8fc0b42acdff 100644
-> --- a/drivers/gpu/drm/drm_gem_atomic_helper.c
-> +++ b/drivers/gpu/drm/drm_gem_atomic_helper.c
-> @@ -1,6 +1,7 @@
->  // SPDX-License-Identifier: GPL-2.0-or-later
->  
->  #include <linux/dma-resv.h>
-> +#include <linux/dma-fence-chain.h>
->  
->  #include <drm/drm_atomic_state_helper.h>
->  #include <drm/drm_atomic_uapi.h>
-> @@ -141,25 +142,67 @@
->   * See drm_atomic_set_fence_for_plane() for a discussion of implicit and
-
-You forgot to update the kerneldoc here, and also the reference to the
-same function in the IN_FENCE_FD.
-
-I think it'd be best to put a reference to that DOC: section here, and
-adjust the uapi property doc to just state that the explicit fence will
-overrule implicit sync. And then maybe also mention here that USAGE_KERNEL
-fences are still obeyed.
-
-With these changes (which should make sure that all references to
-drm_atomic_set_fence_for_plane() are truly gone) this is
-
-Reviewed-by: Daniel Vetter <daniel.vetter@ffwll.ch>
-
-
-
->   * explicit fencing in atomic modeset updates.
->   */
-> -int drm_gem_plane_helper_prepare_fb(struct drm_plane *plane, struct drm_plane_state *state)
-> +int drm_gem_plane_helper_prepare_fb(struct drm_plane *plane,
-> +				    struct drm_plane_state *state)
->  {
-> +	struct dma_fence *fence = dma_fence_get(state->fence);
->  	struct drm_gem_object *obj;
-> -	struct dma_fence *fence;
-> +	enum dma_resv_usage usage;
-> +	size_t i;
->  	int ret;
->  
->  	if (!state->fb)
->  		return 0;
->  
-> -	obj = drm_gem_fb_get_obj(state->fb, 0);
-> -	ret = dma_resv_get_singleton(obj->resv, DMA_RESV_USAGE_WRITE, &fence);
-> -	if (ret)
-> -		return ret;
-> -
-> -	/* TODO: drm_atomic_set_fence_for_plane() should be changed to be able
-> -	 * to handle more fences in general for multiple BOs per fb.
-> +	/*
-> +	 * Only add the kernel fences here if there is already a fence set via
-> +	 * explicit fencing interfaces on the atomic ioctl.
-> +	 *
-> +	 * This way explicit fencing can be used to overrule implicit fencing,
-> +	 * which is important to make explicit fencing use-cases work: One
-> +	 * example is using one buffer for 2 screens with different refresh
-> +	 * rates. Implicit fencing will clamp rendering to the refresh rate of
-> +	 * the slower screen, whereas explicit fence allows 2 independent
-> +	 * render and display loops on a single buffer. If a driver allows
-> +	 * obeys both implicit and explicit fences for plane updates, then it
-> +	 * will break all the benefits of explicit fencing.
->  	 */
-> -	drm_atomic_set_fence_for_plane(state, fence);
-> +	usage = fence ? DMA_RESV_USAGE_KERNEL : DMA_RESV_USAGE_WRITE;
-> +
-> +	for (i = 0; i < ARRAY_SIZE(state->fb->obj); ++i) {
-> +		struct dma_fence *new;
-> +
-> +		obj = drm_gem_fb_get_obj(state->fb, i);
-> +		if (!obj)
-> +			continue;
-> +
-> +		ret = dma_resv_get_singleton(obj->resv, usage, &new);
-> +		if (ret)
-> +			goto error;
-> +
-> +		if (new && fence) {
-> +			struct dma_fence_chain *chain = dma_fence_chain_alloc();
-> +
-> +			if (!chain) {
-> +				ret = -ENOMEM;
-> +				goto error;
-> +			}
-> +
-> +			dma_fence_chain_init(chain, fence, new, 1);
-> +			fence = &chain->base;
-> +
-> +		} else if (new) {
-> +			fence = new;
-> +		}
-> +	}
-> +
-> +	dma_fence_put(state->fence);
-> +	state->fence = fence;
->  	return 0;
-> +
-> +error:
-> +	dma_fence_put(fence);
-> +	return ret;
->  }
->  EXPORT_SYMBOL_GPL(drm_gem_plane_helper_prepare_fb);
->  
-> diff --git a/include/drm/drm_atomic_uapi.h b/include/drm/drm_atomic_uapi.h
-> index 8cec52ad1277..4c6d39d7bdb2 100644
-> --- a/include/drm/drm_atomic_uapi.h
-> +++ b/include/drm/drm_atomic_uapi.h
-> @@ -49,8 +49,6 @@ drm_atomic_set_crtc_for_plane(struct drm_plane_state *plane_state,
->  			      struct drm_crtc *crtc);
->  void drm_atomic_set_fb_for_plane(struct drm_plane_state *plane_state,
->  				 struct drm_framebuffer *fb);
-> -void drm_atomic_set_fence_for_plane(struct drm_plane_state *plane_state,
-> -				    struct dma_fence *fence);
->  int __must_check
->  drm_atomic_set_crtc_for_connector(struct drm_connector_state *conn_state,
->  				  struct drm_crtc *crtc);
-> diff --git a/include/drm/drm_plane.h b/include/drm/drm_plane.h
-> index 2628c7cde2da..89ea54652e87 100644
-> --- a/include/drm/drm_plane.h
-> +++ b/include/drm/drm_plane.h
-> @@ -74,9 +74,7 @@ struct drm_plane_state {
->  	 *
->  	 * Optional fence to wait for before scanning out @fb. The core atomic
->  	 * code will set this when userspace is using explicit fencing. Do not
-> -	 * write this field directly for a driver's implicit fence, use
-> -	 * drm_atomic_set_fence_for_plane() to ensure that an explicit fence is
-> -	 * preserved.
-> +	 * write this field directly for a driver's implicit fence.
->  	 *
->  	 * Drivers should store any implicit fence in this from their
->  	 * &drm_plane_helper_funcs.prepare_fb callback. See drm_gem_plane_helper_prepare_fb()
-> -- 
-> 2.25.1
-> 
-
--- 
-Daniel Vetter
-Software Engineer, Intel Corporation
-http://blog.ffwll.ch
+>
+> Regards,
+> Christian.
+>
+> >> So there isn't really any use case for the emit trace point, except wh=
+en
+> >> you want to figure out how much latency the scheduler introduce. Then
+> >> you want to take a look at init and emit, but that isn't really that
+> >> interesting for performance analyses.
+> >>
+> >> Regards,
+> >> Christian.
+> >>
+>
