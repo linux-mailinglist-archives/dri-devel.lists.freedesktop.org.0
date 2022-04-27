@@ -1,48 +1,62 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id B213F51152B
-	for <lists+dri-devel@lfdr.de>; Wed, 27 Apr 2022 12:49:58 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 8C3DC511530
+	for <lists+dri-devel@lfdr.de>; Wed, 27 Apr 2022 12:53:14 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 00C4610E90D;
-	Wed, 27 Apr 2022 10:49:55 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 7425D10F16D;
+	Wed, 27 Apr 2022 10:53:12 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mga18.intel.com (mga18.intel.com [134.134.136.126])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 596CF10E442;
- Wed, 27 Apr 2022 10:49:53 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1651056593; x=1682592593;
- h=date:from:to:cc:subject:message-id:mime-version:
- content-transfer-encoding;
- bh=AiKFU50Ok4B6l1aBJjy3nAAFqQSnrzFUSuHQVujapuk=;
- b=KTgnBTnAL1WfyolWene5ZOkVCHKSbglZoZrdy6Yo9zrhmoXPfLIHjc4m
- 5bG+B9D3wNaa8RNma2FaXvbo9u08zrGmiXsDExBizfxNm7moneMTGJWSa
- FtSsE7ZKvF/ueEW0m1SYA9AHKDjrbrBE/uRHt13I/7MByEijuhwl26JD/
- nUucuvupKMIsWPTY5pbNOWTsWkz1e+gS/mMGHaZxR9fz14lfGgCWYMhXE
- t1LC9/EWZZOCvYRh4ppKdqrAYmiOWAhb4igQCmR6KNHgUdBXwmDR3Se71
- GIan4WX52r3D1/sOcuiFV9RLtrlYYgcBj0GyzI+wZbQA/I8Mz6w+cGxNw A==;
-X-IronPort-AV: E=McAfee;i="6400,9594,10329"; a="247819623"
-X-IronPort-AV: E=Sophos;i="5.90,292,1643702400"; d="scan'208";a="247819623"
-Received: from fmsmga008.fm.intel.com ([10.253.24.58])
- by orsmga106.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 27 Apr 2022 03:49:52 -0700
-X-IronPort-AV: E=Sophos;i="5.90,292,1643702400"; d="scan'208";a="617451248"
-Received: from jmwalsh-mobl.amr.corp.intel.com (HELO localhost)
- ([10.213.205.227])
- by fmsmga008-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 27 Apr 2022 03:49:49 -0700
-Date: Wed, 27 Apr 2022 11:49:47 +0100
-From: Tvrtko Ursulin <tvrtko.ursulin@linux.intel.com>
-To: Dave Airlie <airlied@gmail.com>, Daniel Vetter <daniel.vetter@ffwll.ch>
-Subject: [PULL] drm-intel-gt-next
-Message-ID: <Ymkfy8FjsG2JrodK@tursulin-mobl2>
+Received: from mail-lf1-x12b.google.com (mail-lf1-x12b.google.com
+ [IPv6:2a00:1450:4864:20::12b])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 46B2E10F16D
+ for <dri-devel@lists.freedesktop.org>; Wed, 27 Apr 2022 10:53:11 +0000 (UTC)
+Received: by mail-lf1-x12b.google.com with SMTP id g19so2460916lfv.2
+ for <dri-devel@lists.freedesktop.org>; Wed, 27 Apr 2022 03:53:11 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
+ h=date:from:to:cc:subject:message-id:in-reply-to:references
+ :mime-version; bh=vV73iH034mH8n9d5T9c+luo0V3AWxRqePd7wWoOzqOs=;
+ b=d6R99kV8smicIdWXg+6tt7qX3ig7LRmSBRFwBMCAVh+fGJo4fJ+mdxZ4ylSxSCD6vG
+ dyTpKX3IN3VGcs6/A2yvHFZ+FJXAmnlDmyvmZoowlaiIHhyOVR859Lk3J7ULg63uQNu2
+ oQqy6hVKxj8HH0km3TiUStFT7ajw9eTQ454IJ3JtKwt2Bu5WHAkIhOeciGMuRRQvzyZW
+ KEYywblQoqjwqiVwwi8tf5QPyDDUdQx0v3RKfepH0svGlx4F33rftQ0qe70Nf4mF0uW3
+ nIHexxNXW34pxNdQC+rWMrKE7yLQsICnfxoblszhALvtqCNadnZ8LpMZOkibPXAqgsd0
+ UOKw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=x-gm-message-state:date:from:to:cc:subject:message-id:in-reply-to
+ :references:mime-version;
+ bh=vV73iH034mH8n9d5T9c+luo0V3AWxRqePd7wWoOzqOs=;
+ b=UJKeDp7U8m14+FMHei4pqeYRDIjeMEv1FBIR518eOq26vA05Y9q7bNdRGlWpxa2Hiz
+ lcDAVV4ZbIqxCwyGYr8K1sb8e8vdMGYLlIbyqpK+20CCwmNCmoNq5wZ2aOAbTR7gP4R9
+ 6lZekiD6rYq9gSFJu4gXliuAR0peie8ejEby7zi47cA2ZbZGqh7HAoH+B61eh96GbunK
+ +7I+J4ojY0mG/r2POZU7mlKiB2iKnZ0R8IuRJe92pX47Hjod9LlSsIpl2MjeNHWDR1e7
+ jfw+ivEl43i8caP0IlKuMKVHceHuvG9kLk94tRWSPN0mRph0n6v83S1jlJmhwS9B4CXX
+ lUGg==
+X-Gm-Message-State: AOAM532fcCiFTnpwHlgNtEGXXqetX4pydEYoD9nx+gnQ7n2isAUWkjzO
+ gDIisFwDc+XwYBjXJLHGol4=
+X-Google-Smtp-Source: ABdhPJz4KWvhKrrVuFYzG6P4H1OqdTmMMHPzrYNs/UzBzIadmnYu59Jeb3ZCLEcypZMFtttVdS5MAw==
+X-Received: by 2002:a05:6512:a83:b0:472:1817:145b with SMTP id
+ m3-20020a0565120a8300b004721817145bmr5565114lfu.437.1651056789365; 
+ Wed, 27 Apr 2022 03:53:09 -0700 (PDT)
+Received: from eldfell ([194.136.85.206]) by smtp.gmail.com with ESMTPSA id
+ a5-20020a2e9805000000b0024f12f0eb37sm850432ljj.95.2022.04.27.03.53.08
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Wed, 27 Apr 2022 03:53:09 -0700 (PDT)
+Date: Wed, 27 Apr 2022 13:52:59 +0300
+From: Pekka Paalanen <ppaalanen@gmail.com>
+To: Ville =?UTF-8?B?U3lyasOkbMOk?= <ville.syrjala@linux.intel.com>
+Subject: Re: How should "max bpc" KMS property work?
+Message-ID: <20220427135259.5e615945@eldfell>
+In-Reply-To: <YmgyArRaJCh6JkQh@intel.com>
+References: <20220426113502.224d0a90@eldfell>
+	<YmgyArRaJCh6JkQh@intel.com>
+X-Mailer: Claws Mail 3.17.8 (GTK+ 2.24.33; x86_64-pc-linux-gnu)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=iso-8859-1
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
+Content-Type: multipart/signed; boundary="Sig_/CYeZHxKZOl4.bRF5CuwMYI.";
+ protocol="application/pgp-signature"; micalg=pgp-sha256
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -55,571 +69,185 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Tvrtko Ursulin <tvrtko.ursulin@linux.intel.com>,
- dim-tools@lists.freedesktop.org, dri-devel@lists.freedesktop.org,
- Rodrigo Vivi <rodrigo.vivi@intel.com>, Sean Paul <sean@poorly.run>,
- intel-gfx@lists.freedesktop.org
+Cc: Sebastian Wick <sebastian.wick@redhat.com>,
+ dri-devel <dri-devel@lists.freedesktop.org>,
+ Jonas =?UTF-8?B?w4VkYWhs?= <jadahl@redhat.com>,
+ Vitaly Prosyak <vitaly.prosyak@amd.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-
-Hi Dave, Daniel,
-
-Here goes the first drm-intel-gt-next PR towards 5.19.
-
-A lot of stuff here across the board in terms of new features, new platform
-support and bug fixes. For bug fixes the most interesting are:
-
- * a fix for out of bounds kernel access in mmap ops due incorrect object bound
-   checking;
- * a fix for a GPU hang triggered by usage, of multiple media engines on
-   Tigerlake and above;
- * correcting the sequence for doing engine resets on Tigerlake;
- * fix for split frame workloads in GuC mode;
- * fix for mmap of prime imported local memory objects;
- * fix for a VM refcounting bug;
- * fix fbdev setup to avoid potential out of bounds access.
-
-Another two nice user visible improvements are one in frame buffer pinning logic
-which enables Weston to reach 60fps on 8K displays and resurrection of the
-ability to monitor per client GPU usage using intel_gpu_top (consuming data
-exported via proc fdinfo). The latter contains a common DRM format specification
-and is hopeful of gaining more wide spread adoption in the future.
-
-GuC backend has finally achieved feature parity in terms of being able to
-provide error capture state after GPU hangs. The captured data is compatible
-with existing error parsing tools (IGT and Mesa) and also contains a new GuC
-log segment which does not currently have an open source parser.
-
-Also in the GuC area there was a bunch of refactoring to prepare for new
-firmware API and also lay the ground work for supporting new platforms like DG2.
-
-For the latter a buch of GuC based workarounds were added, together with support
-for small PCI BAR setups, eviction of compressed objects and general platform
-bring-up like code refactoring to deal with steered register writes.
-
-DG2 also needs two new bits of UAPI. One is the hwconfig query which is a new
-way of obtaining a binary table describing the GPU configuration directly from
-the firmware blob. Second is a new query enabling query of geometry subslices
-needed to support the fact geometry and compute slice configuration is no longer
-uniform.
-
-Also on the UAPI front there is sysfs support for multi-tile platforms which
-exports the existing controls such as frequency and similar but duplicated for
-each tile.
-
-Graphics System Controller (GSC) support was added for discrete platforms as
-well, which is required both for firmware management and protected media path.
-Access to this is via the existing MEI character device.
-
-Work has also started refactoring the codebase to allow driver builds outside
-x86.
-
-Finally, there were two drm-next backmerges to unblock feature development.
-
-Regards,
-
-Tvrtko
-
-drm-intel-gt-next-2022-04-27:
-UAPI Changes:
-
-- GuC hwconfig support and query (John Harrison, Rodrigo Vivi, Tvrtko Ursulin)
-- Sysfs support for multi-tile devices (Andi Shyti, Sujaritha Sundaresan)
-- Per client GPU utilisation via fdinfo (Tvrtko Ursulin, Ashutosh Dixit)
-- Add DRM_I915_QUERY_GEOMETRY_SUBSLICES (Matt Atwood)
-
-Cross-subsystem Changes:
-
-- Add GSC as a MEI auxiliary device (Tomas Winkler, Alexander Usyskin)
-
-Core Changes:
-
-- Document fdinfo format specification (Tvrtko Ursulin)
-
-Driver Changes:
-
-- Fix prime_mmap to work when using LMEM (Gwan-gyeong Mun)
-- Fix vm open count and remove vma refcount (Thomas Hellström)
-- Fixup setting screen_size (Matthew Auld)
-- Opportunistically apply ALLOC_CONTIGIOUS (Matthew Auld)
-- Limit where we apply TTM_PL_FLAG_CONTIGUOUS (Matthew Auld)
-- Drop aux table invalidation on FlatCCS platforms (Matt Roper)
-- Add missing boundary check in vm_access (Mastan Katragadda)
-- Update topology dumps for Xe_HP (Matt Roper)
-- Add support for steered register writes (Matt Roper)
-- Add steering info to GuC register save/restore list (Daniele Ceraolo Spurio)
-- Small PCI BAR enabling (Matthew Auld, Akeem G Abodunrin, CQ Tang)
-- Add preemption changes for Wa_14015141709 (Akeem G Abodunrin)
-- Add logical mapping for video decode engines (Matthew Brost)
-- Don't evict unmappable VMAs when pinning with PIN_MAPPABLE (v2) (Vivek Kasireddy)
-- GuC error capture support (Alan Previn, Daniele Ceraolo Spurio)
-- avoid concurrent writes to aux_inv (Fei Yang)
-- Add Wa_22014226127 (José Roberto de Souza)
-- Sunset igpu legacy mmap support based on GRAPHICS_VER_FULL (Matt Roper)
-- Evict and restore of compressed objects (Ramalingam C)
-- Update to GuC version 70.1.1 (John Harrison)
-- Add Wa_22011802037 force cs halt (Tilak Tangudu)
-- Enable Wa_22011802037 for gen12 GuC based platforms (Umesh Nerlige Ramappa)
-- GuC based workarounds for DG2 (Vinay Belgaumkar, John Harrison, Matthew Brost, José Roberto de Souza)
-- consider min_page_size when migrating (Matthew Auld)
-
-- Prep work for next GuC firmware release (John Harrison)
-- Support platforms with CCS engines but no RCS (Matt Roper, Stuart Summers)
-- Don't overallocate subslice storage (Matt Roper)
-- Reduce stack usage in debugfs due to SSEU (John Harrison)
-- Report steering details in debugfs (Matt Roper)
-- Refactor some x86-ism out to prepare for non-x86 builds (Michael Cheng)
-- add lmem_size modparam (CQ Tang)
-- Refactor for non-x86 driver builds (Casey Bowman)
-- Centralize computation of freq caps (Ashutosh Dixit)
-
-- Update dma_buf_ops.unmap_dma_buf callback to use drm_gem_unmap_dma_buf() (Gwan-gyeong Mun)
-- Limit the async bind to bind_async_flags (Matthew Auld)
-- Stop checking for NULL vma->obj (Matthew Auld)
-- Reduce overzealous alignment constraints for GGTT (Matthew Auld)
-- Remove GEN12_SFC_DONE_MAX from register defs header (Matt Roper)
-- Fix renamed struct field (Lucas De Marchi)
-- Do not return '0' if there is nothing to return (Andi Shyti)
-- fix i915_reg_t initialization (Jani Nikula)
-- move the migration sanity check (Matthew Auld)
-- handle more rounding in selftests (Matthew Auld)
-- Perf and i915 query kerneldoc updates (Matt Roper)
-- Use i915_probe_error instead of drm_err (Vinay Belgaumkar)
-- sanity check object size in the buddy allocator (Matthew Auld)
-- fixup selftests min_alignment usage (Matthew Auld)
-- tweak selftests misaligned_case (Matthew Auld)
-The following changes since commit c54b39a565227538c52ead2349eb17d54aadd6f7:
-
-  Merge tag 'drm-intel-next-2022-04-13-1' of git://anongit.freedesktop.org/drm/drm-intel into drm-next (2022-04-14 12:03:09 +1000)
-
-are available in the Git repository at:
-
-  git://anongit.freedesktop.org/drm/drm-intel tags/drm-intel-gt-next-2022-04-27
-
-for you to fetch changes up to f15856d7de914595d0daa2c706f53a693b48e228:
-
-  drm/i915/dg2: add gsc with special gsc bar offsets (2022-04-21 11:34:39 -0700)
-
-----------------------------------------------------------------
-UAPI Changes:
-
-- GuC hwconfig support and query (John Harrison, Rodrigo Vivi, Tvrtko Ursulin)
-- Sysfs support for multi-tile devices (Andi Shyti, Sujaritha Sundaresan)
-- Per client GPU utilisation via fdinfo (Tvrtko Ursulin, Ashutosh Dixit)
-- Add DRM_I915_QUERY_GEOMETRY_SUBSLICES (Matt Atwood)
-
-Cross-subsystem Changes:
-
-- Add GSC as a MEI auxiliary device (Tomas Winkler, Alexander Usyskin)
-
-Core Changes:
-
-- Document fdinfo format specification (Tvrtko Ursulin)
-
-Driver Changes:
-
-- Fix prime_mmap to work when using LMEM (Gwan-gyeong Mun)
-- Fix vm open count and remove vma refcount (Thomas Hellström)
-- Fixup setting screen_size (Matthew Auld)
-- Opportunistically apply ALLOC_CONTIGIOUS (Matthew Auld)
-- Limit where we apply TTM_PL_FLAG_CONTIGUOUS (Matthew Auld)
-- Drop aux table invalidation on FlatCCS platforms (Matt Roper)
-- Add missing boundary check in vm_access (Mastan Katragadda)
-- Update topology dumps for Xe_HP (Matt Roper)
-- Add support for steered register writes (Matt Roper)
-- Add steering info to GuC register save/restore list (Daniele Ceraolo Spurio)
-- Small PCI BAR enabling (Matthew Auld, Akeem G Abodunrin, CQ Tang)
-- Add preemption changes for Wa_14015141709 (Akeem G Abodunrin)
-- Add logical mapping for video decode engines (Matthew Brost)
-- Don't evict unmappable VMAs when pinning with PIN_MAPPABLE (v2) (Vivek Kasireddy)
-- GuC error capture support (Alan Previn, Daniele Ceraolo Spurio)
-- avoid concurrent writes to aux_inv (Fei Yang)
-- Add Wa_22014226127 (José Roberto de Souza)
-- Sunset igpu legacy mmap support based on GRAPHICS_VER_FULL (Matt Roper)
-- Evict and restore of compressed objects (Ramalingam C)
-- Update to GuC version 70.1.1 (John Harrison)
-- Add Wa_22011802037 force cs halt (Tilak Tangudu)
-- Enable Wa_22011802037 for gen12 GuC based platforms (Umesh Nerlige Ramappa)
-- GuC based workarounds for DG2 (Vinay Belgaumkar, John Harrison, Matthew Brost, José Roberto de Souza)
-- consider min_page_size when migrating (Matthew Auld)
-
-- Prep work for next GuC firmware release (John Harrison)
-- Support platforms with CCS engines but no RCS (Matt Roper, Stuart Summers)
-- Don't overallocate subslice storage (Matt Roper)
-- Reduce stack usage in debugfs due to SSEU (John Harrison)
-- Report steering details in debugfs (Matt Roper)
-- Refactor some x86-ism out to prepare for non-x86 builds (Michael Cheng)
-- add lmem_size modparam (CQ Tang)
-- Refactor for non-x86 driver builds (Casey Bowman)
-- Centralize computation of freq caps (Ashutosh Dixit)
-
-- Update dma_buf_ops.unmap_dma_buf callback to use drm_gem_unmap_dma_buf() (Gwan-gyeong Mun)
-- Limit the async bind to bind_async_flags (Matthew Auld)
-- Stop checking for NULL vma->obj (Matthew Auld)
-- Reduce overzealous alignment constraints for GGTT (Matthew Auld)
-- Remove GEN12_SFC_DONE_MAX from register defs header (Matt Roper)
-- Fix renamed struct field (Lucas De Marchi)
-- Do not return '0' if there is nothing to return (Andi Shyti)
-- fix i915_reg_t initialization (Jani Nikula)
-- move the migration sanity check (Matthew Auld)
-- handle more rounding in selftests (Matthew Auld)
-- Perf and i915 query kerneldoc updates (Matt Roper)
-- Use i915_probe_error instead of drm_err (Vinay Belgaumkar)
-- sanity check object size in the buddy allocator (Matthew Auld)
-- fixup selftests min_alignment usage (Matthew Auld)
-- tweak selftests misaligned_case (Matthew Auld)
-
-----------------------------------------------------------------
-Akeem G Abodunrin (2):
-      drm/i915/stolen: don't treat small BAR as an error
-      drm/i915/dg2: Add preemption changes for Wa_14015141709
-
-Alan Previn (13):
-      drm/i915/guc: Update GuC ADS size for error capture lists
-      drm/i915/guc: Add XE_LP static registers for GuC error capture.
-      drm/i915/guc: Add XE_LP steered register lists support
-      drm/i915/guc: Add DG2 registers for GuC error state capture.
-      drm/i915/guc: Add Gen9 registers for GuC error state capture.
-      drm/i915/guc: Add GuC's error state capture output structures.
-      drm/i915/guc: Update GuC-log relay function names
-      drm/i915/guc: Add capture region into intel_guc_log
-      drm/i915/guc: Check sizing of guc_capture output
-      drm/i915/guc: Extract GuC error capture lists on G2H notification.
-      drm/i915/guc: Pre-allocate output nodes for extraction
-      drm/i915/guc: Plumb GuC-capture into gpu_coredump
-      drm/i915/guc: Print the GuC error capture output register list.
-
-Alexander Usyskin (2):
-      mei: gsc: setup char driver alive in spite of firmware handshake failure
-      mei: gsc: retrieve the firmware version
-
-Andi Shyti (6):
-      drm/i915: Rename INTEL_REGION_LMEM with INTEL_REGION_LMEM_0
-      drm/i915/gt: add gt_is_root() helper
-      drm/i915/gt: create per-tile sysfs interface
-      drm/i915/gt: Create per-tile RC6 sysfs interface
-      drm/i915/gt: Create per-tile RPS sysfs interfaces
-      drm/i915/debugfs: Do not return '0' if there is nothing to return
-
-Ashutosh Dixit (2):
-      drm/i915/rps: Centralize computation of freq caps
-      drm/i915: Don't show engine information in fdinfo with GuC submission
-
-CQ Tang (2):
-      drm/i915/display: Check mappable aperture when pinning preallocated vma
-      drm/i915: add lmem_size modparam
-
-Casey Bowman (2):
-      drm/i915/gt: Split intel-gtt functions by arch
-      drm/i915: Require INTEL_GTT to depend on X86
-
-Daniele Ceraolo Spurio (2):
-      drm/i915/guc: add steering info to GuC register save/restore list
-      drm/i915/guc: Correctly free guc capture struct on error
-
-Fei Yang (1):
-      drm/i915: avoid concurrent writes to aux_inv
-
-Gwan-gyeong Mun (2):
-      drm/i915/dmabuf: Update dma_buf_ops.unmap_dma_buf callback to use drm_gem_unmap_dma_buf()
-      drm/i915/dmabuf: Fix prime_mmap to work when using LMEM
-
-Jani Nikula (1):
-      drm/i915/gt: fix i915_reg_t initialization
-
-John Harrison (13):
-      drm/i915/guc: Do not conflate lrc_desc with GuC id for registration
-      drm/i915/guc: Add an explicit 'submission_initialized' flag
-      drm/i915/guc: Better name for context id limit
-      drm/i915/guc: Split guc_lrc_desc_pin apart
-      drm/i915/guc: Move lrc desc setup to where it is needed
-      drm/i915/guc: Rename desc_idx to ctx_id
-      drm/i915/guc: Drop obsolete H2G definitions
-      drm/i915/guc: Fix potential invalid pointer dereferences when decoding G2Hs
-      drm/i915: Reduce stack usage in debugfs due to SSEU
-      drm/i915/guc: Add fetch of hwconfig blob
-      drm/i915/guc: Update to GuC version 70.1.1
-      drm/i915/guc: Enable GuC based workarounds for DG2
-      drm/i915/dg2: Enable Wa_22012727170/Wa_22012727685
-
-Joonas Lahtinen (1):
-      Merge drm/drm-next into drm-intel-gt-next
-
-José Roberto de Souza (2):
-      drm/i915/dg2: Add Wa_22014226127
-      drm/i915/dg2: Add workaround 18019627453
-
-Lucas De Marchi (1):
-      drm/i915: Fix renamed struct field
-
-Mastan Katragadda (1):
-      drm/i915/gem: add missing boundary check in vm_access
-
-Matt Atwood (1):
-      drm/i915/uapi: Add DRM_I915_QUERY_GEOMETRY_SUBSLICES
-
-Matt Roper (11):
-      drm/i915/xehp: Support platforms with CCS engines but no RCS
-      drm/i915/xehp: Drop aux table invalidation on FlatCCS platforms
-      drm/i915/gt: Remove GEN12_SFC_DONE_MAX from register defs header
-      drm/i915/sseu: Don't overallocate subslice storage
-      drm/i915/xehp: Update topology dumps for Xe_HP
-      drm/i915: Report steering details in debugfs
-      drm/i915: Add support for steered register writes
-      drm/i915: Sunset igpu legacy mmap support based on GRAPHICS_VER_FULL
-      drm/i915/doc: Convert drm_i915_query_topology_info comment to kerneldoc
-      drm/i915/doc: Convert perf UAPI comments to kerneldoc
-      drm/i915/doc: Link query items to their uapi structs
-
-Matthew Auld (17):
-      drm/i915/fbdev: fixup setting screen_size
-      drm/i915: limit the async bind to bind_async_flags
-      drm/i915: stop checking for NULL vma->obj
-      drm/i915/gtt: reduce overzealous alignment constraints for GGTT
-      drm/i915: opportunistically apply ALLOC_CONTIGIOUS
-      drm/i915/lmem: don't treat small BAR as an error
-      drm/i915/stolen: consider I915_BO_ALLOC_GPU_ONLY
-      drm/i915: add i915_gem_object_create_region_at()
-      drm/i915/ttm: wire up the object offset
-      drm/i915: fixup the initial fb base on DGFX
-      drm/i915/ttm: limit where we apply TTM_PL_FLAG_CONTIGUOUS
-      drm/i915/migrate: move the sanity check
-      drm/i915/selftests: handle more rounding
-      drm/i915: consider min_page_size when migrating
-      drm/i915/buddy: sanity check the size
-      drm/i915/selftests: fixup min_alignment usage
-      drm/i915/selftests: tweak the misaligned_case
-
-Matthew Brost (2):
-      drm/i915: Add logical mapping for video decode engines
-      drm/i915/dg2: Enable Wa_14014475959 - RCS / CCS context exit
-
-Michael Cheng (5):
-      drm/i915/gt: Re-work intel_write_status_page
-      drm/i915/gt: Drop invalidate_csb_entries
-      drm/i915/gt: Re-work reset_csb
-      drm/i915/: Re-work clflush_write32
-      drm/i915/gt: replace cache_clflush_range
-
-Ramalingam C (9):
-      drm/i915/gt: use engine instance directly for offset
-      drm/i915/gt: Use XY_FAST_COLOR_BLT to clear obj on graphics ver 12+
-      drm/i915/gt: Optimize the migration and clear loop
-      drm/i915/gt: Pass the -EINVAL when emit_pte doesn't update any PTE
-      drm/i915/gt: Clear compress metadata for Flat-ccs objects
-      drm/i915/selftest_migrate: Consider the possible roundup of size
-      drm/i915/selftest_migrate: Check CCS meta data clear
-      drm/i915/gem: Add extra pages in ttm_tt for ccs data
-      drm/i915/migrate: Evict and restore the flatccs capable lmem obj
-
-Rodrigo Vivi (3):
-      drm/i915/uapi: Add query for hwconfig blob
-      drm/i915/hwconfig: Add DG2 support
-      Merge drm/drm-next into drm-intel-gt-next
-
-Stuart Summers (1):
-      drm/i915: Add RCS mask to GuC ADS params
-
-Sujaritha Sundaresan (1):
-      drm/i915/gt: Add sysfs throttle frequency interfaces
-
-Thomas Hellström (3):
-      drm/i915: Remove the vm open count
-      drm/i915: Remove the vma refcount
-      drm/i915/gem: Remove some unnecessary code
-
-Tilak Tangudu (1):
-      drm/i915: Add Wa_22011802037 force cs halt
-
-Tomas Winkler (4):
-      drm/i915/gsc: add gsc as a mei auxiliary device
-      mei: add support for graphics system controller (gsc) devices
-      mei: gsc: add runtime pm handlers
-      drm/i915/dg2: add gsc with special gsc bar offsets
-
-Tvrtko Ursulin (11):
-      drm/i915: Prepare for multiple GTs
-      drm/i915/uapi: Document DRM_I915_QUERY_HWCONFIG_BLOB
-      drm/i915: Explicitly track DRM clients
-      drm/i915: Make GEM contexts track DRM clients
-      drm/i915: Track runtime spent in closed and unreachable GEM contexts
-      drm/i915: Track all user contexts per client
-      drm/i915: Track context current active time
-      drm: Document fdinfo format specification
-      drm/i915: Count engine instances per uabi class
-      drm/i915: Expose client engine utilisation via fdinfo
-      drm/i915: Fixup kerneldoc in struct i915_gem_context
-
-Umesh Nerlige Ramappa (1):
-      drm/i915/guc: Enable Wa_22011802037 for gen12 GuC based platforms
-
-Vinay Belgaumkar (2):
-      drm/i915/guc/slpc: Use i915_probe_error instead of drm_err
-      drm/i915/guc: Apply Wa_16011777198
-
-Vivek Kasireddy (1):
-      drm/i915/gem: Don't evict unmappable VMAs when pinning with PIN_MAPPABLE (v2)
-
- Documentation/gpu/drm-usage-stats.rst              |  112 ++
- Documentation/gpu/i915.rst                         |   28 +
- Documentation/gpu/index.rst                        |    1 +
- MAINTAINERS                                        |    1 +
- drivers/gpu/drm/i915/Kconfig                       |    3 +-
- drivers/gpu/drm/i915/Makefile                      |   10 +
- drivers/gpu/drm/i915/display/intel_dpt.c           |    2 +-
- drivers/gpu/drm/i915/display/intel_fb.c            |    2 +-
- drivers/gpu/drm/i915/display/intel_fb_pin.c        |    2 +-
- drivers/gpu/drm/i915/display/intel_fbdev.c         |    4 +-
- drivers/gpu/drm/i915/display/intel_plane_initial.c |   56 +-
- drivers/gpu/drm/i915/gem/i915_gem_context.c        |   70 +-
- drivers/gpu/drm/i915/gem/i915_gem_context_types.h  |    6 +
- drivers/gpu/drm/i915/gem/i915_gem_create.c         |    2 +-
- drivers/gpu/drm/i915/gem/i915_gem_dmabuf.c         |   15 +-
- drivers/gpu/drm/i915/gem/i915_gem_execbuffer.c     |   14 +-
- drivers/gpu/drm/i915/gem/i915_gem_lmem.c           |    4 +-
- drivers/gpu/drm/i915/gem/i915_gem_mman.c           |    2 +-
- drivers/gpu/drm/i915/gem/i915_gem_object.c         |    3 +
- drivers/gpu/drm/i915/gem/i915_gem_object_types.h   |    2 +
- drivers/gpu/drm/i915/gem/i915_gem_region.c         |   50 +-
- drivers/gpu/drm/i915/gem/i915_gem_region.h         |    7 +
- drivers/gpu/drm/i915/gem/i915_gem_shmem.c          |    1 +
- drivers/gpu/drm/i915/gem/i915_gem_stolen.c         |  144 +-
- drivers/gpu/drm/i915/gem/i915_gem_stolen.h         |    4 -
- drivers/gpu/drm/i915/gem/i915_gem_ttm.c            |   52 +-
- drivers/gpu/drm/i915/gem/i915_gem_ttm.h            |    1 +
- .../gpu/drm/i915/gem/selftests/i915_gem_dmabuf.c   |    6 +-
- .../gpu/drm/i915/gem/selftests/i915_gem_migrate.c  |   12 +-
- drivers/gpu/drm/i915/gem/selftests/mock_context.c  |    5 +-
- drivers/gpu/drm/i915/gt/gen6_ppgtt.c               |    2 +-
- drivers/gpu/drm/i915/gt/gen8_engine_cs.c           |  113 +-
- drivers/gpu/drm/i915/gt/gen8_engine_cs.h           |    4 +-
- drivers/gpu/drm/i915/gt/gen8_ppgtt.c               |   12 +-
- drivers/gpu/drm/i915/gt/intel_context.c            |   29 +-
- drivers/gpu/drm/i915/gt/intel_context.h            |   15 +-
- drivers/gpu/drm/i915/gt/intel_context_types.h      |   24 +-
- drivers/gpu/drm/i915/gt/intel_engine.h             |   13 +-
- drivers/gpu/drm/i915/gt/intel_engine_cs.c          |   40 +-
- drivers/gpu/drm/i915/gt/intel_engine_regs.h        |    1 +
- drivers/gpu/drm/i915/gt/intel_engine_types.h       |   13 +-
- drivers/gpu/drm/i915/gt/intel_engine_user.c        |   11 +-
- .../gpu/drm/i915/gt/intel_execlists_submission.c   |   49 +-
- drivers/gpu/drm/i915/gt/intel_ggtt.c               |  693 +-------
- drivers/gpu/drm/i915/gt/intel_gpu_commands.h       |   29 +
- drivers/gpu/drm/i915/gt/intel_gsc.c                |  224 +++
- drivers/gpu/drm/i915/gt/intel_gsc.h                |   37 +
- drivers/gpu/drm/i915/gt/intel_gt.c                 |  223 ++-
- drivers/gpu/drm/i915/gt/intel_gt.h                 |   41 +-
- drivers/gpu/drm/i915/gt/intel_gt_clock_utils.c     |    4 +
- drivers/gpu/drm/i915/gt/intel_gt_debugfs.c         |   20 +-
- drivers/gpu/drm/i915/gt/intel_gt_debugfs.h         |    2 +-
- drivers/gpu/drm/i915/gt/intel_gt_gmch.c            |  654 ++++++++
- drivers/gpu/drm/i915/gt/intel_gt_gmch.h            |   46 +
- drivers/gpu/drm/i915/gt/intel_gt_irq.c             |   13 +
- drivers/gpu/drm/i915/gt/intel_gt_pm.c              |   18 +-
- drivers/gpu/drm/i915/gt/intel_gt_pm_debugfs.c      |   40 +-
- drivers/gpu/drm/i915/gt/intel_gt_pm_debugfs.h      |    4 +-
- drivers/gpu/drm/i915/gt/intel_gt_regs.h            |   21 +
- drivers/gpu/drm/i915/gt/intel_gt_sysfs.c           |  122 ++
- drivers/gpu/drm/i915/gt/intel_gt_sysfs.h           |   34 +
- drivers/gpu/drm/i915/gt/intel_gt_sysfs_pm.c        |  601 +++++++
- drivers/gpu/drm/i915/gt/intel_gt_sysfs_pm.h        |   15 +
- drivers/gpu/drm/i915/gt/intel_gt_types.h           |   18 +
- drivers/gpu/drm/i915/gt/intel_gtt.c                |   56 +-
- drivers/gpu/drm/i915/gt/intel_gtt.h                |   65 +-
- drivers/gpu/drm/i915/gt/intel_hwconfig.h           |   21 +
- drivers/gpu/drm/i915/gt/intel_lrc.c                |   39 +-
- drivers/gpu/drm/i915/gt/intel_lrc.h                |   27 +-
- drivers/gpu/drm/i915/gt/intel_migrate.c            |  390 ++++-
- drivers/gpu/drm/i915/gt/intel_ppgtt.c              |    2 +-
- drivers/gpu/drm/i915/gt/intel_rc6.c                |    8 +-
- drivers/gpu/drm/i915/gt/intel_region_lmem.c        |   10 +-
- drivers/gpu/drm/i915/gt/intel_reset.c              |    7 +-
- drivers/gpu/drm/i915/gt/intel_ring_submission.c    |    2 +-
- drivers/gpu/drm/i915/gt/intel_rps.c                |  126 +-
- drivers/gpu/drm/i915/gt/intel_rps.h                |    6 +-
- drivers/gpu/drm/i915/gt/intel_rps_types.h          |   15 +
- drivers/gpu/drm/i915/gt/intel_sseu.c               |   54 +-
- drivers/gpu/drm/i915/gt/intel_sseu.h               |   50 +-
- drivers/gpu/drm/i915/gt/intel_sseu_debugfs.c       |   30 +-
- drivers/gpu/drm/i915/gt/intel_workarounds.c        |   21 +-
- drivers/gpu/drm/i915/gt/selftest_execlists.c       |   86 +-
- drivers/gpu/drm/i915/gt/selftest_lrc.c             |   10 +-
- drivers/gpu/drm/i915/gt/selftest_migrate.c         |  259 ++-
- drivers/gpu/drm/i915/gt/uc/abi/guc_actions_abi.h   |   14 +-
- drivers/gpu/drm/i915/gt/uc/abi/guc_errors_abi.h    |    4 +
- drivers/gpu/drm/i915/gt/uc/abi/guc_klvs_abi.h      |   15 +
- drivers/gpu/drm/i915/gt/uc/guc_capture_fwif.h      |  218 +++
- drivers/gpu/drm/i915/gt/uc/intel_guc.c             |   48 +-
- drivers/gpu/drm/i915/gt/uc/intel_guc.h             |   19 +-
- drivers/gpu/drm/i915/gt/uc/intel_guc_ads.c         |  185 ++-
- drivers/gpu/drm/i915/gt/uc/intel_guc_capture.c     | 1657 ++++++++++++++++++++
- drivers/gpu/drm/i915/gt/uc/intel_guc_capture.h     |   33 +
- drivers/gpu/drm/i915/gt/uc/intel_guc_fwif.h        |   92 +-
- drivers/gpu/drm/i915/gt/uc/intel_guc_hwconfig.c    |  164 ++
- drivers/gpu/drm/i915/gt/uc/intel_guc_log.c         |  125 +-
- drivers/gpu/drm/i915/gt/uc/intel_guc_log.h         |    7 +-
- drivers/gpu/drm/i915/gt/uc/intel_guc_slpc.c        |   56 +-
- drivers/gpu/drm/i915/gt/uc/intel_guc_submission.c  |  645 +++++---
- drivers/gpu/drm/i915/gt/uc/intel_uc_fw.c           |   30 +-
- drivers/gpu/drm/i915/gt/uc/selftest_guc.c          |    2 +-
- drivers/gpu/drm/i915/i915_debugfs.c                |   12 +-
- drivers/gpu/drm/i915/i915_driver.c                 |   37 +-
- drivers/gpu/drm/i915/i915_drm_client.c             |  158 ++
- drivers/gpu/drm/i915/i915_drm_client.h             |   68 +
- drivers/gpu/drm/i915/i915_drv.h                    |   25 +
- drivers/gpu/drm/i915/i915_file_private.h           |    3 +
- drivers/gpu/drm/i915/i915_gem.c                    |   89 +-
- drivers/gpu/drm/i915/i915_gpu_error.c              |  297 ++--
- drivers/gpu/drm/i915/i915_gpu_error.h              |   37 +-
- drivers/gpu/drm/i915/i915_params.c                 |    3 +
- drivers/gpu/drm/i915/i915_params.h                 |    1 +
- drivers/gpu/drm/i915/i915_pci.c                    |    4 +-
- drivers/gpu/drm/i915/i915_query.c                  |   94 +-
- drivers/gpu/drm/i915/i915_reg.h                    |   18 +
- drivers/gpu/drm/i915/i915_reg_defs.h               |    2 -
- drivers/gpu/drm/i915/i915_sysfs.c                  |  310 +---
- drivers/gpu/drm/i915/i915_sysfs.h                  |    3 +
- drivers/gpu/drm/i915/i915_ttm_buddy_manager.c      |    4 +-
- drivers/gpu/drm/i915/i915_vma.c                    |   98 +-
- drivers/gpu/drm/i915/i915_vma.h                    |   14 -
- drivers/gpu/drm/i915/i915_vma_resource.c           |    2 +-
- drivers/gpu/drm/i915/i915_vma_resource.h           |    6 +
- drivers/gpu/drm/i915/i915_vma_types.h              |    8 +-
- drivers/gpu/drm/i915/intel_device_info.h           |    2 +
- drivers/gpu/drm/i915/intel_memory_region.c         |    2 +-
- drivers/gpu/drm/i915/intel_memory_region.h         |    8 +-
- drivers/gpu/drm/i915/intel_region_ttm.c            |    7 +-
- drivers/gpu/drm/i915/intel_region_ttm.h            |    1 +
- drivers/gpu/drm/i915/intel_uncore.c                |   86 +-
- drivers/gpu/drm/i915/intel_uncore.h                |    7 +-
- drivers/gpu/drm/i915/selftests/i915_gem_gtt.c      |   18 +-
- drivers/gpu/drm/i915/selftests/mock_gem_device.c   |   13 +-
- drivers/gpu/drm/i915/selftests/mock_region.c       |    4 +
- drivers/misc/mei/Kconfig                           |   14 +
- drivers/misc/mei/Makefile                          |    3 +
- drivers/misc/mei/bus-fixup.c                       |   25 +
- drivers/misc/mei/gsc-me.c                          |  259 +++
- drivers/misc/mei/hw-me.c                           |   29 +-
- drivers/misc/mei/hw-me.h                           |    2 +
- include/linux/mei_aux.h                            |   19 +
- include/uapi/drm/i915_drm.h                        |  291 +++-
- 143 files changed, 8161 insertions(+), 2326 deletions(-)
- create mode 100644 Documentation/gpu/drm-usage-stats.rst
- create mode 100644 drivers/gpu/drm/i915/gt/intel_gsc.c
- create mode 100644 drivers/gpu/drm/i915/gt/intel_gsc.h
- create mode 100644 drivers/gpu/drm/i915/gt/intel_gt_gmch.c
- create mode 100644 drivers/gpu/drm/i915/gt/intel_gt_gmch.h
- create mode 100644 drivers/gpu/drm/i915/gt/intel_gt_sysfs.c
- create mode 100644 drivers/gpu/drm/i915/gt/intel_gt_sysfs.h
- create mode 100644 drivers/gpu/drm/i915/gt/intel_gt_sysfs_pm.c
- create mode 100644 drivers/gpu/drm/i915/gt/intel_gt_sysfs_pm.h
- create mode 100644 drivers/gpu/drm/i915/gt/intel_hwconfig.h
- create mode 100644 drivers/gpu/drm/i915/gt/uc/guc_capture_fwif.h
- create mode 100644 drivers/gpu/drm/i915/gt/uc/intel_guc_capture.c
- create mode 100644 drivers/gpu/drm/i915/gt/uc/intel_guc_capture.h
- create mode 100644 drivers/gpu/drm/i915/gt/uc/intel_guc_hwconfig.c
- create mode 100644 drivers/gpu/drm/i915/i915_drm_client.c
- create mode 100644 drivers/gpu/drm/i915/i915_drm_client.h
- create mode 100644 drivers/misc/mei/gsc-me.c
- create mode 100644 include/linux/mei_aux.h
+--Sig_/CYeZHxKZOl4.bRF5CuwMYI.
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: quoted-printable
+
+Hi Ville and Alex,
+
+thanks for the replies. More below.
+
+TL;DR:
+
+My take-away from this is that I should slam 'max bpc' to the max by
+default, and offer a knob for the user in case they want to lower it.
+
+
+On Tue, 26 Apr 2022 20:55:14 +0300
+Ville Syrj=C3=A4l=C3=A4 <ville.syrjala@linux.intel.com> wrote:
+
+> On Tue, Apr 26, 2022 at 11:35:02AM +0300, Pekka Paalanen wrote:
+> > Hi all,
+> >=20
+> > I'm working on setting HDR & WCG video modes in Weston, and I thought
+> > setting "max bpc" KMS property on the connector would be a good idea.
+> > I'm confused about how it works though.
+> >=20
+> > I did some digging in https://gitlab.freedesktop.org/wayland/weston/-/i=
+ssues/612
+> >=20
+> > Summary:
+> >=20
+> > - Apparently the property was originally added as a manual workaround
+> >   for sink hardware behaving badly with high depth. A simple end user
+> >   setting for "max bpc" would suffice for this use.
+> >=20
+> > - Drivers will sometimes automatically choose a lower bpc than the "max
+> >   bpc" value, but never bigger.
+> >=20
+> > - amdgpu seems to (did?) default "max bpc" to 8, meaning that I
+> >   definitely want to raise it. =20
+>=20
+> I've occasionally pondered about doing the same for i915, just to have
+> the safest default possible. But I'd hate to lose the deep color testing
+> coverage knowing very few people would in practice raise the limit.
+> Also the number of systems where deep color doesn't work reliably
+> (or can't be made to work by not using a crap cable) seems to be quite
+> low.
+
+I think when HDR and WCG get into display servers, setting 'max bpc'
+will become a standard action.
+
+It's bit moot to e.g. render everything in electrical 10 bit RGB, if
+the link is just going to squash that into electrical 8 bit RGB, right?
+
+So even 10 bit color would require setting 'max bpc' to at least 10 to
+be able to actually see it, source-side dithering aside.
+
+> >=20
+> > If I always slam "max bpc" to the highest supported value for that
+> > property, do I lose more than workarounds for bad sink hardware? =20
+>=20
+> We don't have any workarounds implemented like this in the kernel.
+> Or should not have at least. "max bpc" exists purely for the user
+> to have a say in the matter in addition to whatever the EDID/quirks
+> say. Ie. if the kernel knows for sure that deep color won't work on
+> a particular setup then it should just not allow deep color at all
+> despite what the prop value says.
+>=20
+> So the only danger is fighting with the user's wishes which I guess
+> you can overcome with some kind of user visible knob.
+
+Right, good.
+
+Furthermore, as a KMS client cannot make much assumptions about the KMS
+state it inherits from some other KMS client, it should know and
+program all possible KMS properties according to its own desires
+anyway. That, and the DRM master concept make sure that there cannot be
+any "third party" KMS configuration programs, like V4L2 has.
+
+> > Do I lose the ability to set video modes that take too much bandwidth
+> > at uncapped driver-selected bpc while capping the bpc lower would allow
+> > me to use those video modes?
+> >=20
+> > Or, are drivers required to choose a lower-than-usual but highest
+> > usable bpc to make the requested video mode squeeze through the
+> > connector and link? =20
+>=20
+> IMO drivers should implement the "reduce bpc until it fits"
+> fallback. We have that in i915, except for MST where we'd need
+> to potentially involve multiple streams in the fallback. That
+> is something we intend to remedy eventually but it's not an
+> entirely trivial thing to implement so will take some actual
+> work. ATM we just cap MST to <=3D8bpc to avoid users getting into
+> this situation so often.
+
+Excellent, but judging from what Alex said, this is also not what
+amdgpu does. We have two drivers doing different things then?
+
+So with Weston I probably have to document, that if you can't get the
+video mode you want working, try turning the 'max bpc' knob down and
+try again.
+
+Or, I could cap 'max bpc' based on my framebuffer depth. If I have an
+electrical 8 bit FB (default in Weston), then there is not much use for
+having 'max bpc' > 8. This ignores the KMS color pipeline a bit. Does
+that make sense?
+
+Does KMS use dithering automatically, btw?
+
+The only mention of dithering in KMS docs is some nouveau-specific KMS
+properties and another for radeon.
+
+> >=20
+> > Do I need to implement a fallback strategy in a display server,
+> > starting from the highest possible "max bpc" value, and if my modeset
+> > is rejected, repeatedly try with lower "max bpc" setting until it works
+> > or I'm out of bpc options? =20
+>=20
+> IMO the bpc part should be handled by the kernel since we already
+> had this behaviour even before the "max bpc" prop was introduced
+> and we didn't add an explicit "use this bpc or fail" prop. But of
+> course you should have some kind of sensible fallback strategy for
+> things that just fail for other reasons.
+
+Right, but this means that I don't have to add 'max bpc' as yet another
+dimension in the combinatorial explosion of KMS parameters I would need
+to search to find a working setup. That's really good.
+
+The one thing missing is seeing what format and bpc we actually got on
+the link.
+
+> The one problem we have in the kernel is that we have no way to
+> ask the user if the display we tried to light up is actually
+> working. So our policy decisions can't really involve user input.
+> Userspace should not generally have that problem.
+
+Indeed.
+
+Also like Alex said, the kernel does not know if the user prefers high
+color depth or high refresh rate either. One way to solve that is to
+light up the requested video mode any way the kernel can, and then
+report what the resulting color depth is. Another way is to have
+explicit "use this bpc or fail" KMS property, maybe in the form of 'min
+bpc' as I recall being discussed in the past, and let userspace guess
+what might work. The former is easier to light up, but probing requires
+actually setting the modes. The latter may require a lot of
+trial-and-error from userspace to find anything that works, but it
+takes only time and not blinking - as far as things can be detected
+with TEST_ONLY commits. Then one still has to ask the user if it
+actually worked.
+
+
+Thanks,
+pq
+
+--Sig_/CYeZHxKZOl4.bRF5CuwMYI.
+Content-Type: application/pgp-signature
+Content-Description: OpenPGP digital signature
+
+-----BEGIN PGP SIGNATURE-----
+
+iQIzBAEBCAAdFiEEJQjwWQChkWOYOIONI1/ltBGqqqcFAmJpIIsACgkQI1/ltBGq
+qqck6w/9ENRvKOQ++hI2+Gvq5j3QAWC6w8t6DLdGymX9dy7B6WGhm0P4NZADHtLZ
+hdK1QDpstIKIly1gPYVfX2H2qt5uCyrAvKFE0+UzA8aIfLGnabC0KC9fOz8qEfKB
+yw2uNSQ7HsndXzED3MUZyXncJvViLlhUJzQ836lhZM/82Vt7h30WcvsWhDtzhftA
+cWhWdnrNnVeuPYhaGXdy2KYUnknDEQoI+4OG2wBSmBygpB3bVM5EC+tMe0mrQhCl
+efkQaplpN7G9/tZJ5CLNl2zY8hjYYKpzao/DXWN2YQR2ga+iRJXBoi4F9pmFKu1h
+UM39Ci3xUWhjv57NrePipV930C+Bw1AZ+XHkgPXvMKW30cS9pL6dhzntXTEZHDU0
+oXgqMdWvM2sN0k437bzTH6g6Ib7hbJ3xbRGKxihahsihvheMBHesol9BWsf7I6zc
+VBtuLlMuQAn54t7MQPsYtJ4X5gKTd0emIGaBYq01cJuali0JKRggeIcijgoVWkLN
+wGtPedETGcm3TGdCpv8ad45J9yIzjIHmZIkWPNKl1Z25l57XOrCH17snaWIWOzm9
+W8aC/GbhnwpbCccPPAxLFWYpMFHyVqYAumSJvg5LhHmoApcTFPk0kjyaGQXbXhL0
+WRPBMZWUEcj8Xmto+bCMrED2B9H6HRAJgtp6PSUnvmuxFsXIIFw=
+=H7P9
+-----END PGP SIGNATURE-----
+
+--Sig_/CYeZHxKZOl4.bRF5CuwMYI.--
