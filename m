@@ -1,130 +1,55 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 03EC451110B
-	for <lists+dri-devel@lfdr.de>; Wed, 27 Apr 2022 08:20:13 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 5A2ED511138
+	for <lists+dri-devel@lfdr.de>; Wed, 27 Apr 2022 08:35:37 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 8DF3F10E3BA;
-	Wed, 27 Apr 2022 06:20:10 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id D899C10E100;
+	Wed, 27 Apr 2022 06:35:32 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from NAM04-MW2-obe.outbound.protection.outlook.com
- (mail-mw2nam08on2063.outbound.protection.outlook.com [40.107.101.63])
- by gabe.freedesktop.org (Postfix) with ESMTPS id ABC2210E05F;
- Wed, 27 Apr 2022 06:20:09 +0000 (UTC)
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=O6YsIgcAFfVnsORTmVHSDuZLEb80L2yCpoc6n61vnmBR0YOmVAVBhb/fIwIUg1nbazgVgVExZkFsTiUoeCK8+zCh5q5vH9z4oduKxh/dH8f963Wl+sNUiTfcKi0qbEQjFRLsH9fcbmQRLYhcxG5Qgbyyw4az1iPcu4zK/UwoMFfUe+8C9LVkNAD7Lsr//LKnwUmMoJzCm5M5WPz1AuX+CUCbry3GWdXq8lNSwqrVMhotA99khuBz++H1/1HX/6SrYDIhTdlag82vrlzdAhIeuzSguynMlcgyCZfp35ap6Jv/k4rWMpCB6LhYRBWcu1WTnXaHlFqi5Eh/Hgate/RAAQ==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=jCGOh0n5/Pe83hLYx/5J5lnU8o4tLgJa2GP+CMU8ZoQ=;
- b=AVJtzjVD7rIunGZjGOgxoArzAPG70YGzAN9fh5xkyUgjuf9PCULzZdgAe+81bCirOhbaOjS+3HJRSdXF5JlCy5OsAjWJOWHsYqKD8C/wOu44ozzN4Fjwz+LpkQCFkkgNB7WAHIMrgi4lENxADyQD344e0lD1Fj75QZYnQ/AuioU+DL6PHVpZnwOSKAlNPSz60yC6LIXFqtbLyTBbo0FmWuUHccjh2iBS0FodPBPeaLsrnHFvAhuaIVw6wTnkHeZMyRC88pzAZapFqtbtI0RNRyNyQDRodRSiO6GdN0Losgns6njFU/auhy+vCFMLlb8IADR/QBTVmIPxnX15aT8ysw==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=amd.com; dmarc=pass action=none header.from=amd.com; dkim=pass
- header.d=amd.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1; 
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=jCGOh0n5/Pe83hLYx/5J5lnU8o4tLgJa2GP+CMU8ZoQ=;
- b=YztX+eiBA2AVdUzve9P8f2wi7iXIbS9AR2gA0fXOigXbyrWy9VBidh0LScKYIKZb3dWI2BMwddd8x178YAR8rG7rpcUSdPX76EIfwKQ10HeHAvHpIaW+u5MQqQTQZDtEnRs95qjyEb2TMlbIE6kYZUW2/spN20FK+3UnmYd4h0g=
-Authentication-Results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=amd.com;
-Received: from BN8PR12MB3587.namprd12.prod.outlook.com (2603:10b6:408:43::13)
- by DM6PR12MB4810.namprd12.prod.outlook.com (2603:10b6:5:1f7::15) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.5186.15; Wed, 27 Apr
- 2022 06:20:05 +0000
-Received: from BN8PR12MB3587.namprd12.prod.outlook.com
- ([fe80::a5fb:7137:5e64:cf8]) by BN8PR12MB3587.namprd12.prod.outlook.com
- ([fe80::a5fb:7137:5e64:cf8%5]) with mapi id 15.20.5186.021; Wed, 27 Apr 2022
- 06:20:05 +0000
-Message-ID: <b587ca5f-eb8a-cf0c-5c07-9844c8794463@amd.com>
-Date: Wed, 27 Apr 2022 08:19:58 +0200
+Received: from mga12.intel.com (mga12.intel.com [192.55.52.136])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id CA86A10E060;
+ Wed, 27 Apr 2022 06:35:31 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+ t=1651041331; x=1682577331;
+ h=message-id:date:mime-version:subject:to:cc:references:
+ from:in-reply-to:content-transfer-encoding;
+ bh=jvyo2+U+/aw5Bs5XAlsrpkB9dlFy9bUM371AjnlbG5A=;
+ b=i6V5RvNu20Tn1lkTSgPJJ+DAeA9vShXHhMLl/SIwy438I+uJ2Hf4yP4u
+ fPXGRmb3yA3jNpo/RDAkFqO2ywGBlWDiVrkWRUqiCT43XpcWRXq2/cxk0
+ rB01NF5a3kWJDtyYwPmmQ9QXY1d6Apb/R+c6ds4lpczXdZH41+n+RKUKx
+ wgpVlz8BkB26ssWcsWHNKDogqgmjcwYeCH/T0rUIsmsZ7S0lVpoH9WXYz
+ MsMatPcn0Sm9kgKYT67Yp9QNYUrLbQF92u4vkCf1YAoDV+57mtADWOK4n
+ urfPk0L/Bodw02dD9AxgVq0ighH4hn4wPdh2G+G6PV9hep0JMiGe1Qh5h g==;
+X-IronPort-AV: E=McAfee;i="6400,9594,10329"; a="245755307"
+X-IronPort-AV: E=Sophos;i="5.90,292,1643702400"; d="scan'208";a="245755307"
+Received: from fmsmga008.fm.intel.com ([10.253.24.58])
+ by fmsmga106.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 26 Apr 2022 23:35:31 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.90,292,1643702400"; d="scan'208";a="617371716"
+Received: from linux.intel.com ([10.54.29.200])
+ by fmsmga008.fm.intel.com with ESMTP; 26 Apr 2022 23:35:30 -0700
+Received: from [10.249.132.123] (bpingot-mobl1.ger.corp.intel.com
+ [10.249.132.123])
+ by linux.intel.com (Postfix) with ESMTP id 909FA5808A1;
+ Tue, 26 Apr 2022 23:35:27 -0700 (PDT)
+Message-ID: <5553382d-2674-76f0-ab6e-408b99111a62@intel.com>
+Date: Wed, 27 Apr 2022 09:35:26 +0300
+MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
  Thunderbird/91.7.0
-Subject: Re: [PATCH v2] drm/msm: add trace_dma_fence_emit to msm_gpu_submit
+Subject: Re: [PATCH v2] drm/doc: add rfc section for small BAR uapi
 Content-Language: en-US
-To: Chia-I Wu <olvaffe@gmail.com>
-References: <20220412212558.827289-1-olvaffe@gmail.com>
- <CAPaKu7Tv1Mxt7Ao8kH2-MZDBK7EB0D41COJD8Sjze76t_o-qmw@mail.gmail.com>
- <ffe7dbc1-8a19-1e19-402d-27efc8e55b39@amd.com>
- <CAJs_Fx7OQ2OJo3pQ-ETT1827PtfuFsvn984gg8GeDVrqy0Ucug@mail.gmail.com>
- <215f55f6-97b8-5dd3-a2cc-fe42e19a2769@amd.com>
- <CAJs_Fx69yhVQ6t1xdTqEs3kxiz1gZSZ2-qNA=Cq21j_BSaymrQ@mail.gmail.com>
- <17fc1a68-747a-f707-364d-76f12a2b535a@amd.com>
- <CAPaKu7Rny7pxsPA+cnow0d6PAD2YCb+b+j1_Di5gziyOVNLaYQ@mail.gmail.com>
- <c32bf2de-0e48-e3b7-98ae-0bcd46933465@amd.com>
- <CAPaKu7T2hTFnsSSdFvQRuGefhZHVmGO9KXKpO8Y_ZcLbe75rpA@mail.gmail.com>
-From: =?UTF-8?Q?Christian_K=c3=b6nig?= <christian.koenig@amd.com>
-In-Reply-To: <CAPaKu7T2hTFnsSSdFvQRuGefhZHVmGO9KXKpO8Y_ZcLbe75rpA@mail.gmail.com>
+To: Matthew Auld <matthew.auld@intel.com>, intel-gfx@lists.freedesktop.org
+References: <20220420171328.57253-1-matthew.auld@intel.com>
+From: Lionel Landwerlin <lionel.g.landwerlin@intel.com>
+In-Reply-To: <20220420171328.57253-1-matthew.auld@intel.com>
 Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 8bit
-X-ClientProxiedBy: AM6P191CA0074.EURP191.PROD.OUTLOOK.COM
- (2603:10a6:209:8a::15) To BN8PR12MB3587.namprd12.prod.outlook.com
- (2603:10b6:408:43::13)
-MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-Office365-Filtering-Correlation-Id: 1c928d98-3be1-4cbe-5df1-08da2815f7fe
-X-MS-TrafficTypeDiagnostic: DM6PR12MB4810:EE_
-X-Microsoft-Antispam-PRVS: <DM6PR12MB481046AB2D0C16DD2A7CFE9083FA9@DM6PR12MB4810.namprd12.prod.outlook.com>
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: CtRcP/xTgkcN6peCZSom0ORdSqpf+6yquqvtvj4+iojoIdDpO/WexSobWGF83AhRoNEbN2Phr0L5cERe1beMK+uV4XeMrhPZ4QZVai8mCEvHTYjuOnnHjwAHqGKegqa7S3bWVC8JoirrxXVDCTzzCZuTMH1LQ8iQdKL1fh8xBCLp7OcDhnHFzAROKLfBnOkCx1MBajXbmqJ3bhw9aGXchFrkbl9OFkrq2XRdXW5lLFTfv2sv3G/10HWICj2VrHr3cB3F08cya/ktU7cEYBj+vva+MRBGyZA1CvGoH53ms9JaBDhZg01X7tmHCoJzt5wAfsbx1yHicSqpFLgfFM0hnDWHmtrLcUGUIAyd7mwdM+MFSuK1rGAjvA4vUm5YNyvMyRi064R0fzkPTZiTb/jv0cEEWJKaLOksbNuAeWJm5JHNDbDDQrYok4v9ISAa1cWb4v7hqz0LoUEwcNn7qtp+4BlnqZdiq3vZ+blLuO+NX4SXl/03sb5xbS/CVYkgXhsPm/HV43wFbGFIio3erbeXx85LyrGNfp6wePk++ZTctMkBvQHW52gorlZfP9c/4Rz6IE6JUs47HdjIdI2Ss8r5Q6KR+7g/AAsq+B4NA0LKluO4cJB7ooCN4qjJK4sNO3QKkQGk4yJqg3xuTptvxo4sDlMg7PriX7RfLVc60aCgmjusZnVefqCkQ+LN1wN0KNh6QA+rVl7mBTNel/toEO5kCGuymqcH1qK3k1AvnccSbHc=
-X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
- IPV:NLI; SFV:NSPM; H:BN8PR12MB3587.namprd12.prod.outlook.com; PTR:; CAT:NONE;
- SFS:(13230001)(4636009)(366004)(6916009)(54906003)(6506007)(508600001)(53546011)(6486002)(31696002)(83380400001)(6666004)(2906002)(86362001)(38100700002)(4326008)(8676002)(66476007)(31686004)(316002)(2616005)(186003)(36756003)(66946007)(66556008)(66574015)(7416002)(8936002)(5660300002)(6512007)(26005)(43740500002)(45980500001);
- DIR:OUT; SFP:1101; 
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: =?utf-8?B?a1RjQzJWdk5ZOGtLSTlJVUNuYUtvQXlwOTBrdGRzVXZFUU51czFPeW84RHRO?=
- =?utf-8?B?aWFnU2JMU3hHQjJtd0RrV20rZGM5WnYvamR1SStBcW9BbXZJcHFjSDczN3gr?=
- =?utf-8?B?eHNtUzJBNGxOdnRLR2N2b0JIak5hRTJSYllyTXJBaGp2OTBYTnNRSEtYaFRr?=
- =?utf-8?B?bVJBUG92cjB4VU05NzIyQndNbGg4V2h5RjE0SFNYbTJqSEVTL1U3NThrRnRO?=
- =?utf-8?B?dXZ3a25za0tOdUhEVlZ6S0tYaFo2eGZVczZwN2t2WmFZVDRTMnpMeVNDcjJI?=
- =?utf-8?B?WXNnQXg4N1BXd2ZJM0pEWXE4Z0djb2twN3N6RWZnM3V0T3dsY1FLVjl6QWFj?=
- =?utf-8?B?eVM3WjB3citoa0RwTFlLMG9rMkhQbDJ4eGthL05Sd2NrNkQ0U1drOWlHb1Uz?=
- =?utf-8?B?Q05TSXpwdzNPazBQYjA3Y2M2UjNnSHp1c0xDeU1oQy9YUjdlYkh3RmptR3Zz?=
- =?utf-8?B?cU8wcDEzbzg5K05Mc0JaVWZDR2xzMFpadEl3Z0F2Qjl1RHE5TXJ2NFlwdDB4?=
- =?utf-8?B?eDZuVlZoZnM0bnNrZDR0YTFhNTd6aHFsdnVlUExUMEI1UWJmNGttUXRzWlVN?=
- =?utf-8?B?REh0dzZqV0dYMFdSekRySE81NkY0QmRCR0t5SDZablFrazlucERJTmYrcUF0?=
- =?utf-8?B?ODFVSjcwaXR0cyt6TlRPRWNJMEZzRFNzYTR4dWduYzdoa2kvV3NWb2JLV1Rk?=
- =?utf-8?B?R2dQOXVsUTc4ZkVnbGVpRThIeTBqbzl3VFJyZy9nOVhBVGczVmlIQ2pFS2hm?=
- =?utf-8?B?c3BXYnFqbjZDMThVQW9tUkxhV3JueHpxdEE0bTdzV3FRbmFsSmU5ZFhpRTdG?=
- =?utf-8?B?M1o3U0RVQjJnbWtybE1ja0hteFI0Y2Y1enBIMkVDazRFek1EdzFxUzg1bjVJ?=
- =?utf-8?B?SnhiQTl3dkR3YmQ1ZUQrWjllRGlnOVk2ejk5R202b09vQXNBMFNWd0VkWlFJ?=
- =?utf-8?B?OC9Yb1YxYlFMbkNtMGJ4YnVYREZDK3phVysrOHRBaWVmMXNOUU1rMyt0QnZU?=
- =?utf-8?B?WG5KdXN1TUhYZ25wTmlJMjlSd3F0K1JlSklPOWFIMU9EempyOWtCNDg2dCtR?=
- =?utf-8?B?SjlWNjZjUHZXYmE3OXRlcW5CT3Bic3poZU56cERwYjI4R1VTTm5vTFRHSXJE?=
- =?utf-8?B?QWpVdnlBMXk3aWNKSmZlSWZ2RWxDT3Zqenh0MVgxNzNYU2hXNm1TY0dkNVBh?=
- =?utf-8?B?Y2g1eFB0eFlpdlhKRTR3WlV1Ti8vZnlOZ1ViS1hMcmN5RXZBV1lYTVVKRmZX?=
- =?utf-8?B?UHFCeGxWYUtFTHZtNmxHYjJ2Nis3L2VBeXlpSkhLcWJ0OTkzSXpvVE1FMDEr?=
- =?utf-8?B?OFJ2MzJKZHp1UFdYeEI1SXFKNXVKYzUyZ08wVmo2L05vZ3RQSG4xZ2F6TkVt?=
- =?utf-8?B?bzlLc3VDYVF3RmF5K25iWUs5Q2Z2ZXZDOTgyT1hrUXp2Uk4xM0hBSWxrdkxs?=
- =?utf-8?B?cTc2c1l3K2FvNlF5UjJjcHNYaXVkTUlPTThjSzNiZ0F6S0JvU2FiVUNSaTho?=
- =?utf-8?B?NkphVVV4K3BsQ2xNaFF1eUFTcXAxZWc1Y05hRm1vTGxFcTNaNUNwUFpYTFRU?=
- =?utf-8?B?V1NEU3c2Si85YkoxWU9WTDY3N0FGakIwaW1COS9MWnM1OU9rSURhclJVTHhk?=
- =?utf-8?B?RkkxcHFGRS80UmIyV2o0TnFqTll4ejhXUmdCOVhyK2lOS2ZFbDdYNmcyNSto?=
- =?utf-8?B?ekZGUGthUXhoVUExUWIwRGFUNjE4RGg3R2NCbFNjSDA2MVFmNGIrZHhDTTc1?=
- =?utf-8?B?bXA0R2JNUm5MNThzV29qK1ZTRFNsQmZ6enRNRmUyZ0NvQ0gzd29ieTlyOE1D?=
- =?utf-8?B?UnBpSzcyZ2JOVXlxVk9UQUxJR2ZaOWJhcXFwZnc4bDFsOUZHYTY3ZWs0c054?=
- =?utf-8?B?UVFhbmtVaGJUSThhc1NWK29wVWVmWEZTQ25nNTh4ZzJ2NGp5VGVaT0tIVG9L?=
- =?utf-8?B?WnJEKytLa0hFYi8rY2dOdFhUMzJuMDA2a3krRXNqbmRQeitNYS9oRGtlNkoz?=
- =?utf-8?B?c0RNMnd4RW8wWk4vTThVdzZtVnVQWXN4QmlpalUzYXM1c0lQUzRuS25QVkNt?=
- =?utf-8?B?ZzVHSXFPRWhvblNiQjUvMmU4Qjl2elJVeFlWaklseFpod2tQZU9OQnRYL2VV?=
- =?utf-8?B?bmFtTDZyOHRoU2k2RmR0bU9aZmxmeDVLWXVqMURML2p1OCt0QVNsZWFxb3hC?=
- =?utf-8?B?dmpRd1o0cHpmdndmRUVjMmFnSlB0OEFwbWpPZnVzajNodjNVbHJDcEJHYm11?=
- =?utf-8?B?d2RmWDBBTHFhTXZiYm9uQkVacmFtNEVJQ2RZK01RU3ZnVUFySjl5TDdXaU1B?=
- =?utf-8?B?RVpaMkxiQ3hOT3E5L1UvczZaQWUwQ3MzK0RaRlRkK0xtcEIzZ0s4QT09?=
-X-OriginatorOrg: amd.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 1c928d98-3be1-4cbe-5df1-08da2815f7fe
-X-MS-Exchange-CrossTenant-AuthSource: BN8PR12MB3587.namprd12.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 27 Apr 2022 06:20:04.9538 (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: ZXZX9idvIeju+wJVbmCdJkqTv9IoSWN0SI4hCEvLYN/HU9GNrBsWh/zGKUI7u2bu
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: DM6PR12MB4810
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -137,75 +62,322 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Rob Clark <robdclark@chromium.org>, David Airlie <airlied@linux.ie>,
- freedreno@lists.freedesktop.org, Abhinav Kumar <quic_abhinavk@quicinc.com>,
- ML dri-devel <dri-devel@lists.freedesktop.org>, linux-arm-msm@vger.kernel.org,
- Dmitry Baryshkov <dmitry.baryshkov@linaro.org>, Sean Paul <sean@poorly.run>,
- Sumit Semwal <sumit.semwal@linaro.org>
+Cc: =?UTF-8?Q?Thomas_Hellstr=c3=b6m?= <thomas.hellstrom@linux.intel.com>,
+ Jordan Justen <jordan.l.justen@intel.com>, dri-devel@lists.freedesktop.org,
+ Kenneth Graunke <kenneth@whitecape.org>,
+ Jon Bloomfield <jon.bloomfield@intel.com>,
+ Daniel Vetter <daniel.vetter@ffwll.ch>, mesa-dev@lists.freedesktop.org,
+ Akeem G Abodunrin <akeem.g.abodunrin@intel.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Am 26.04.22 um 20:50 schrieb Chia-I Wu:
-> On Tue, Apr 26, 2022 at 11:02 AM Christian König
-> <christian.koenig@amd.com> wrote:
->> Am 26.04.22 um 19:40 schrieb Chia-I Wu:
->>> [SNIP]
->>>>>> Well I just send a patch to completely remove the trace point.
->>>>>>
->>>>>> As I said it absolutely doesn't make sense to use this for
->>>>>> visualization, that's what the trace_dma_fence_init trace point is good for.
->>> I am a bit confused by this.  _emit and _signaled are a great way to
->>> see how many fences are pending from cpu's point of view.  How does
->>> _emit make no sense and _init is good instead?
->> We had exactly that confusion now multiple times and it's one of the
->> main reasons why I want to remove the _emit trace point.
->>
->> See the when you want to know how many fences are pending you need to
->> watch out for init/destroy and *NOT* emit.
->>
->> The reason is that in the special case where emit makes sense (e.g. the
->> GPU scheduler fences) emit comes later than init, but pending on the CPU
->> and taking up resources are all fences and not just the one emitted to
->> the hardware.
-> I am more interested in pending on the GPU.
+Hi Matt,
+
+
+The proposal looks good to me.
+
+Looking forward to try it on drm-tip.
+
+
+-Lionel
+
+On 20/04/2022 20:13, Matthew Auld wrote:
+> Add an entry for the new uapi needed for small BAR on DG2+.
 >
->> On the other hand when you want to measure how much time each operation
->> took on the hardware you need to take a look at the differences of the
->> signal events on each timeline.
-> _signaled alone is not enough when the GPU is not always busy.  After
-> the last pending fence signals but before the following _init/_emit,
-> nothing is pending.
+> v2:
+>    - Some spelling fixes and other small tweaks. (Akeem & Thomas)
+>    - Rework error capture interactions, including no longer needing
+>      NEEDS_CPU_ACCESS for objects marked for capture. (Thomas)
+>    - Add probed_cpu_visible_size. (Lionel)
+>
+> Signed-off-by: Matthew Auld <matthew.auld@intel.com>
+> Cc: Thomas Hellström <thomas.hellstrom@linux.intel.com>
+> Cc: Lionel Landwerlin <lionel.g.landwerlin@intel.com>
+> Cc: Jon Bloomfield <jon.bloomfield@intel.com>
+> Cc: Daniel Vetter <daniel.vetter@ffwll.ch>
+> Cc: Jordan Justen <jordan.l.justen@intel.com>
+> Cc: Kenneth Graunke <kenneth@whitecape.org>
+> Cc: Akeem G Abodunrin <akeem.g.abodunrin@intel.com>
+> Cc: mesa-dev@lists.freedesktop.org
+> ---
+>   Documentation/gpu/rfc/i915_small_bar.h   | 190 +++++++++++++++++++++++
+>   Documentation/gpu/rfc/i915_small_bar.rst |  58 +++++++
+>   Documentation/gpu/rfc/index.rst          |   4 +
+>   3 files changed, 252 insertions(+)
+>   create mode 100644 Documentation/gpu/rfc/i915_small_bar.h
+>   create mode 100644 Documentation/gpu/rfc/i915_small_bar.rst
+>
+> diff --git a/Documentation/gpu/rfc/i915_small_bar.h b/Documentation/gpu/rfc/i915_small_bar.h
+> new file mode 100644
+> index 000000000000..7bfd0cf44d35
+> --- /dev/null
+> +++ b/Documentation/gpu/rfc/i915_small_bar.h
+> @@ -0,0 +1,190 @@
+> +/**
+> + * struct __drm_i915_memory_region_info - Describes one region as known to the
+> + * driver.
+> + *
+> + * Note this is using both struct drm_i915_query_item and struct drm_i915_query.
+> + * For this new query we are adding the new query id DRM_I915_QUERY_MEMORY_REGIONS
+> + * at &drm_i915_query_item.query_id.
+> + */
+> +struct __drm_i915_memory_region_info {
+> +	/** @region: The class:instance pair encoding */
+> +	struct drm_i915_gem_memory_class_instance region;
+> +
+> +	/** @rsvd0: MBZ */
+> +	__u32 rsvd0;
+> +
+> +	/** @probed_size: Memory probed by the driver (-1 = unknown) */
+> +	__u64 probed_size;
+> +
+> +	/** @unallocated_size: Estimate of memory remaining (-1 = unknown) */
+> +	__u64 unallocated_size;
+> +
+> +	union {
+> +		/** @rsvd1: MBZ */
+> +		__u64 rsvd1[8];
+> +		struct {
+> +			/**
+> +			 * @probed_cpu_visible_size: Memory probed by the driver
+> +			 * that is CPU accessible. (-1 = unknown).
+> +			 *
+> +			 * This will be always be <= @probed_size, and the
+> +			 * remainder(if there is any) will not be CPU
+> +			 * accessible.
+> +			 */
+> +			__u64 probed_cpu_visible_size;
+> +		};
+> +	};
+> +};
+> +
+> +/**
+> + * struct __drm_i915_gem_create_ext - Existing gem_create behaviour, with added
+> + * extension support using struct i915_user_extension.
+> + *
+> + * Note that new buffer flags should be added here, at least for the stuff that
+> + * is immutable. Previously we would have two ioctls, one to create the object
+> + * with gem_create, and another to apply various parameters, however this
+> + * creates some ambiguity for the params which are considered immutable. Also in
+> + * general we're phasing out the various SET/GET ioctls.
+> + */
+> +struct __drm_i915_gem_create_ext {
+> +	/**
+> +	 * @size: Requested size for the object.
+> +	 *
+> +	 * The (page-aligned) allocated size for the object will be returned.
+> +	 *
+> +	 * Note that for some devices we have might have further minimum
+> +	 * page-size restrictions(larger than 4K), like for device local-memory.
+> +	 * However in general the final size here should always reflect any
+> +	 * rounding up, if for example using the I915_GEM_CREATE_EXT_MEMORY_REGIONS
+> +	 * extension to place the object in device local-memory.
+> +	 */
+> +	__u64 size;
+> +	/**
+> +	 * @handle: Returned handle for the object.
+> +	 *
+> +	 * Object handles are nonzero.
+> +	 */
+> +	__u32 handle;
+> +	/**
+> +	 * @flags: Optional flags.
+> +	 *
+> +	 * Supported values:
+> +	 *
+> +	 * I915_GEM_CREATE_EXT_FLAG_NEEDS_CPU_ACCESS - Signal to the kernel that
+> +	 * the object will need to be accessed via the CPU.
+> +	 *
+> +	 * Only valid when placing objects in I915_MEMORY_CLASS_DEVICE, and
+> +	 * only strictly required on platforms where only some of the device
+> +	 * memory is directly visible or mappable through the CPU, like on DG2+.
+> +	 *
+> +	 * One of the placements MUST also be I915_MEMORY_CLASS_SYSTEM, to
+> +	 * ensure we can always spill the allocation to system memory, if we
+> +	 * can't place the object in the mappable part of
+> +	 * I915_MEMORY_CLASS_DEVICE.
+> +	 *
+> +	 * Note that since the kernel only supports flat-CCS on objects that can
+> +	 * *only* be placed in I915_MEMORY_CLASS_DEVICE, we therefore don't
+> +	 * support I915_GEM_CREATE_EXT_FLAG_NEEDS_CPU_ACCESS together with
+> +	 * flat-CCS.
+> +	 *
+> +	 * Without this hint, the kernel will assume that non-mappable
+> +	 * I915_MEMORY_CLASS_DEVICE is preferred for this object. Note that the
+> +	 * kernel can still migrate the object to the mappable part, as a last
+> +	 * resort, if userspace ever CPU faults this object, but this might be
+> +	 * expensive, and so ideally should be avoided.
+> +	 */
+> +#define I915_GEM_CREATE_EXT_FLAG_NEEDS_CPU_ACCESS (1 << 0)
+> +	__u32 flags;
+> +	/**
+> +	 * @extensions: The chain of extensions to apply to this object.
+> +	 *
+> +	 * This will be useful in the future when we need to support several
+> +	 * different extensions, and we need to apply more than one when
+> +	 * creating the object. See struct i915_user_extension.
+> +	 *
+> +	 * If we don't supply any extensions then we get the same old gem_create
+> +	 * behaviour.
+> +	 *
+> +	 * For I915_GEM_CREATE_EXT_MEMORY_REGIONS usage see
+> +	 * struct drm_i915_gem_create_ext_memory_regions.
+> +	 *
+> +	 * For I915_GEM_CREATE_EXT_PROTECTED_CONTENT usage see
+> +	 * struct drm_i915_gem_create_ext_protected_content.
+> +	 */
+> +#define I915_GEM_CREATE_EXT_MEMORY_REGIONS 0
+> +#define I915_GEM_CREATE_EXT_PROTECTED_CONTENT 1
+> +	__u64 extensions;
+> +};
+> +
+> +#define DRM_I915_QUERY_VMA_INFO	5
+> +
+> +/**
+> + * struct __drm_i915_query_vma_info
+> + *
+> + * Given a vm and GTT address, lookup the corresponding vma, returning its set
+> + * of attributes.
+> + *
+> + * .. code-block:: C
+> + *
+> + *	struct drm_i915_query_vma_info info = {};
+> + *	struct drm_i915_query_item item = {
+> + *		.data_ptr = (uintptr_t)&info,
+> + *		.query_id = DRM_I915_QUERY_VMA_INFO,
+> + *	};
+> + *	struct drm_i915_query query = {
+> + *		.num_items = 1,
+> + *		.items_ptr = (uintptr_t)&item,
+> + *	};
+> + *	int err;
+> + *
+> + *	// Unlike some other types of queries, there is no need to first query
+> + *	// the size of the data_ptr blob here, since we already know ahead of
+> + *	// time how big this needs to be.
+> + *	item.length = sizeof(info);
+> + *
+> + *	// Next we fill in the vm_id and ppGTT address of the vma we wish
+> + *	// to query, before then firing off the query.
+> + *	info.vm_id = vm_id;
+> + *	info.offset = gtt_address;
+> + *	err = ioctl(fd, DRM_IOCTL_I915_QUERY, &query);
+> + *	if (err || item.length < 0) ...
+> + *
+> + *	// If all went well we can now inspect the returned attributes.
+> + *	if (info.attributes & DRM_I915_QUERY_VMA_INFO_CPU_VISIBLE) ...
+> + */
+> +struct __drm_i915_query_vma_info {
+> +	/**
+> +	 * @vm_id: The given vm id that contains the vma. The id is the value
+> +	 * returned by the DRM_I915_GEM_VM_CREATE. See struct
+> +	 * drm_i915_gem_vm_control.vm_id.
+> +	 */
+> +	__u32 vm_id;
+> +	/** @pad: MBZ. */
+> +	__u32 pad;
+> +	/**
+> +	 * @offset: The corresponding ppGTT address of the vma which the kernel
+> +	 * will use to perform the lookup.
+> +	 */
+> +	__u64 offset;
+> +	/**
+> +	 * @attributes: The returned attributes for the given vma.
+> +	 *
+> +	 * Possible values:
+> +	 *
+> +	 * DRM_I915_QUERY_VMA_INFO_CPU_VISIBLE - Set if the pages backing the
+> +	 * vma are currently CPU accessible. If this is not set then the vma is
+> +	 * currently backed by I915_MEMORY_CLASS_DEVICE memory, which the CPU
+> +	 * cannot directly access(this is only possible on discrete devices with
+> +	 * a small BAR). Attempting to MMAP and fault such an object will
+> +	 * require the kernel first synchronising any GPU work tied to the
+> +	 * object, before then migrating the pages, either to the CPU accessible
+> +	 * part of I915_MEMORY_CLASS_DEVICE, or I915_MEMORY_CLASS_SYSTEM, if the
+> +	 * placements permit it. See I915_GEM_CREATE_EXT_FLAG_NEEDS_CPU_ACCESS.
+> +	 *
+> +	 * Note that this is inherently racy.
+> +	 */
+> +#define DRM_I915_QUERY_VMA_INFO_CPU_VISIBLE (1<<0)
+> +	__u64 attributes;
+> +	/** @rsvd: MBZ */
+> +	__u32 rsvd[4];
+> +};
+> diff --git a/Documentation/gpu/rfc/i915_small_bar.rst b/Documentation/gpu/rfc/i915_small_bar.rst
+> new file mode 100644
+> index 000000000000..be3d9bcdd86d
+> --- /dev/null
+> +++ b/Documentation/gpu/rfc/i915_small_bar.rst
+> @@ -0,0 +1,58 @@
+> +==========================
+> +I915 Small BAR RFC Section
+> +==========================
+> +Starting from DG2 we will have resizable BAR support for device local-memory(i.e
+> +I915_MEMORY_CLASS_DEVICE), but in some cases the final BAR size might still be
+> +smaller than the total probed_size. In such cases, only some subset of
+> +I915_MEMORY_CLASS_DEVICE will be CPU accessible(for example the first 256M),
+> +while the remainder is only accessible via the GPU.
+> +
+> +I915_GEM_CREATE_EXT_FLAG_NEEDS_CPU_ACCESS flag
+> +----------------------------------------------
+> +New gem_create_ext flag to tell the kernel that a BO will require CPU access.
+> +This becomes important when placing an object in I915_MEMORY_CLASS_DEVICE, where
+> +underneath the device has a small BAR, meaning only some portion of it is CPU
+> +accessible. Without this flag the kernel will assume that CPU access is not
+> +required, and prioritize using the non-CPU visible portion of
+> +I915_MEMORY_CLASS_DEVICE.
+> +
+> +.. kernel-doc:: Documentation/gpu/rfc/i915_small_bar.h
+> +   :functions: __drm_i915_gem_create_ext
+> +
+> +probed_cpu_visible_size attribute
+> +---------------------------------
+> +New struct__drm_i915_memory_region attribute which returns the total size of the
+> +CPU accessible portion, for the particular region. This should only be
+> +applicable for I915_MEMORY_CLASS_DEVICE.
+> +
+> +Vulkan will need this as part of creating a separate VkMemoryHeap with the
+> +VK_MEMORY_PROPERTY_HOST_VISIBLE_BIT set, to represent the CPU visible portion,
+> +where the total size of the heap needs to be known.
+> +
+> +.. kernel-doc:: Documentation/gpu/rfc/i915_small_bar.h
+> +   :functions: __drm_i915_memory_region_info
+> +
+> +DRM_I915_QUERY_VMA_INFO query
+> +-----------------------------
+> +Query the attributes of some vma. Given a vm and GTT offset, find the
+> +respective vma, and return its set of attributes. For now we only support
+> +DRM_I915_QUERY_VMA_INFO_CPU_VISIBLE, which is set if the object/vma is
+> +currently placed in memory that is accessible by the CPU. This should always be
+> +set on devices where the CPU probed_cpu_visible_size of I915_MEMORY_CLASS_DEVICE
+> +matches the probed_size. If this is not set then CPU faulting the object will
+> +likely first require migrating the pages.
+> +
+> +.. kernel-doc:: Documentation/gpu/rfc/i915_small_bar.h
+> +   :functions: __drm_i915_query_vma_info
+> +
+> +Error Capture restrictions
+> +--------------------------
+> +With error capture we have two new restrictions:
+> +
+> +    1) Error capture is best effort on small BAR systems; if the pages are not
+> +    CPU accessible, at the time of capture, then the kernel is free to skip
+> +    trying to capture them.
+> +
+> +    2) On discrete we now reject error capture on recoverable contexts. In the
+> +    future the kernel may want to blit during error capture, when for example
+> +    something is not currently CPU accessible.
+> diff --git a/Documentation/gpu/rfc/index.rst b/Documentation/gpu/rfc/index.rst
+> index 91e93a705230..5a3bd3924ba6 100644
+> --- a/Documentation/gpu/rfc/index.rst
+> +++ b/Documentation/gpu/rfc/index.rst
+> @@ -23,3 +23,7 @@ host such documentation:
+>   .. toctree::
+>   
+>       i915_scheduler.rst
+> +
+> +.. toctree::
+> +
+> +    i915_small_bar.rst
 
-Yeah, I'm perfectly aware of that.
-
-> For all drivers except virtio-gpu, _init and "ring head update" always
-> happen close enough that I can see why _emit is redundant.  But I like
-> having _emit as a generic tracepoint for timelines where _init and
-> _emit can be apart, instead of requiring a special case tracepoint for
-> each special case timeline.
-
-And I'm certainly not going to add _emit to all drivers just because of 
-that. As you said it is a special case for virtio-gpu and the GPU scheduler.
-
-And as I explained before the difference between _init and _emit 
-shouldn't matter to your visualization. The background is that as soon 
-as an dma_fence is initialized with _init it is "live" regarding the 
-dependency and memory management and exactly that's what matters for the 
-visualization.
-
-The latency between _init and _emit is just interesting for debugging 
-the scheduler and surprisingly virtio-gpu as well, for all other use 
-cases it is irrelevant.
-
-Regards,
-Christian.
-
->> So there isn't really any use case for the emit trace point, except when
->> you want to figure out how much latency the scheduler introduce. Then
->> you want to take a look at init and emit, but that isn't really that
->> interesting for performance analyses.
->>
->> Regards,
->> Christian.
->>
 
