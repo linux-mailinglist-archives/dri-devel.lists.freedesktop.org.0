@@ -1,60 +1,64 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4A506510E58
-	for <lists+dri-devel@lfdr.de>; Wed, 27 Apr 2022 04:06:21 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 52222510EB4
+	for <lists+dri-devel@lfdr.de>; Wed, 27 Apr 2022 04:23:52 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id A4FC510E18D;
-	Wed, 27 Apr 2022 02:06:16 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 3776E10EB7A;
+	Wed, 27 Apr 2022 02:23:49 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from alexa-out-sd-01.qualcomm.com (alexa-out-sd-01.qualcomm.com
- [199.106.114.38])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 6802810E18C;
- Wed, 27 Apr 2022 02:06:15 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=quicinc.com; i=@quicinc.com; q=dns/txt; s=qcdkim;
- t=1651025175; x=1682561175;
- h=message-id:date:mime-version:subject:to:cc:references:
- from:in-reply-to:content-transfer-encoding;
- bh=0m+dY10uYolN81K4/2jJLNtkRZYeucyRLbTsObn7+EE=;
- b=mrfrRZf5rU0DS7xF9WtiY/ggE05aozdXJPTag/h3Mzj9+50yKwbMA88z
- o+Ss0724vsTb8gZpyaaxlnwE5KfUbsAvIn0Mih/NGLpyTe4o7+89iHToQ
- YANFPDWSzo6Is3mybxwmn8ulDWVOXE91BoVA19khXyQVWtH6H80r43kpX w=;
-Received: from unknown (HELO ironmsg05-sd.qualcomm.com) ([10.53.140.145])
- by alexa-out-sd-01.qualcomm.com with ESMTP; 26 Apr 2022 19:06:15 -0700
-X-QCInternal: smtphost
-Received: from nasanex01c.na.qualcomm.com ([10.47.97.222])
- by ironmsg05-sd.qualcomm.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 26 Apr 2022 19:06:14 -0700
-Received: from nalasex01a.na.qualcomm.com (10.47.209.196) by
- nasanex01c.na.qualcomm.com (10.47.97.222) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.2.986.22; Tue, 26 Apr 2022 19:06:13 -0700
-Received: from [10.111.160.161] (10.80.80.8) by nalasex01a.na.qualcomm.com
- (10.47.209.196) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.986.22; Tue, 26 Apr
- 2022 19:06:11 -0700
-Message-ID: <0b3245d7-1d1e-4e34-004e-821be59451f1@quicinc.com>
-Date: Tue, 26 Apr 2022 19:06:09 -0700
+Received: from sin.source.kernel.org (sin.source.kernel.org [145.40.73.55])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 8B92810EB87
+ for <dri-devel@lists.freedesktop.org>; Wed, 27 Apr 2022 02:23:47 +0000 (UTC)
+Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
+ (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+ (No client certificate requested)
+ by sin.source.kernel.org (Postfix) with ESMTPS id 12D40CE2289
+ for <dri-devel@lists.freedesktop.org>; Wed, 27 Apr 2022 02:23:45 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPS id 5CD50C385AD
+ for <dri-devel@lists.freedesktop.org>; Wed, 27 Apr 2022 02:23:43 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+ s=k20201202; t=1651026223;
+ bh=895imvyrTert8i8n6YOoTUAfopYVZ8ZPL639KEGVzTM=;
+ h=From:To:Subject:Date:From;
+ b=M1AOykMvpXnK9sEU+luumQKeZDGTb2x+S6MO7tcJBuQr63g1QXTlwtfoLufQsuSae
+ et4KssiqzNzxGWVG5vCuq+FyXIp69u/9JX2c6XF8FpRRt5QdFos5WALr4DN8QUAV9E
+ 2KvADmhVqZqEcT37T4FiJP3r2P+x1MpNOY5YNB8eQWYvSf3d8tJZnjSRKFtMUJNmLE
+ 48FkR4r8xpuy6f63Vp7EobSq4sMBMk51qsd6LcbkkLy2FA7HQBZMlDCz3EVe8VNjW+
+ pJK+YoAdeFLj4G/66W1TQW+FBTKz1XFCj+ZUsGoenYv2X4C/o8ZVFsH1E3/j0qYE/9
+ dR3dBjVHGZcjw==
+Received: by aws-us-west-2-korg-bugzilla-1.web.codeaurora.org (Postfix,
+ from userid 48) id 3F78AC05FD2; Wed, 27 Apr 2022 02:23:43 +0000 (UTC)
+From: bugzilla-daemon@kernel.org
+To: dri-devel@lists.freedesktop.org
+Subject: [Bug 215892] New: 6500XT [drm:amdgpu_dm_init.isra.0.cold [amdgpu]]
+ *ERROR* Failed to register vline0 irq 30!
+Date: Wed, 27 Apr 2022 02:23:42 +0000
+X-Bugzilla-Reason: None
+X-Bugzilla-Type: new
+X-Bugzilla-Watch-Reason: AssignedTo drivers_video-dri@kernel-bugs.osdl.org
+X-Bugzilla-Product: Drivers
+X-Bugzilla-Component: Video(DRI - non Intel)
+X-Bugzilla-Version: 2.5
+X-Bugzilla-Keywords: 
+X-Bugzilla-Severity: normal
+X-Bugzilla-Who: ulatec@gmail.com
+X-Bugzilla-Status: NEW
+X-Bugzilla-Resolution: 
+X-Bugzilla-Priority: P1
+X-Bugzilla-Assigned-To: drivers_video-dri@kernel-bugs.osdl.org
+X-Bugzilla-Flags: 
+X-Bugzilla-Changed-Fields: bug_id short_desc product version
+ cf_kernel_version rep_platform op_sys cf_tree bug_status bug_severity
+ priority component assigned_to reporter cf_regression attachments.created
+Message-ID: <bug-215892-2300@https.bugzilla.kernel.org/>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+X-Bugzilla-URL: https://bugzilla.kernel.org/
+Auto-Submitted: auto-generated
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:91.0) Gecko/20100101
- Thunderbird/91.6.2
-Subject: Re: [PATCH 03/25] drm/msm/dpu: add support for SSPP allocation to RM
-Content-Language: en-US
-To: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>, Bjorn Andersson
- <bjorn.andersson@linaro.org>, Rob Clark <robdclark@gmail.com>, Sean Paul
- <sean@poorly.run>
-References: <20220209172520.3719906-1-dmitry.baryshkov@linaro.org>
- <20220209172520.3719906-4-dmitry.baryshkov@linaro.org>
-From: Abhinav Kumar <quic_abhinavk@quicinc.com>
-In-Reply-To: <20220209172520.3719906-4-dmitry.baryshkov@linaro.org>
-Content-Type: text/plain; charset="UTF-8"; format=flowed
-Content-Transfer-Encoding: 7bit
-X-Originating-IP: [10.80.80.8]
-X-ClientProxiedBy: nasanex01b.na.qualcomm.com (10.46.141.250) To
- nalasex01a.na.qualcomm.com (10.47.209.196)
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -67,267 +71,125 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: David Airlie <airlied@linux.ie>, linux-arm-msm@vger.kernel.org,
- dri-devel@lists.freedesktop.org, Stephen Boyd <swboyd@chromium.org>,
- freedreno@lists.freedesktop.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
+https://bugzilla.kernel.org/show_bug.cgi?id=3D215892
+
+            Bug ID: 215892
+           Summary: 6500XT [drm:amdgpu_dm_init.isra.0.cold [amdgpu]]
+                    *ERROR* Failed to register vline0 irq 30!
+           Product: Drivers
+           Version: 2.5
+    Kernel Version: 5.18-rc4
+          Hardware: All
+                OS: Linux
+              Tree: Mainline
+            Status: NEW
+          Severity: normal
+          Priority: P1
+         Component: Video(DRI - non Intel)
+          Assignee: drivers_video-dri@kernel-bugs.osdl.org
+          Reporter: ulatec@gmail.com
+        Regression: No
+
+Created attachment 300811
+  --> https://bugzilla.kernel.org/attachment.cgi?id=3D300811&action=3Dedit
+New PowerColor board with chip that produces kernel errors
+
+Hello!
+
+This is my first time submitted a bug here. I apologize if I make any mista=
+kes
+here, but I am going to do my best to describe the efforts that I have gone
+through to attempt to resolve this issue on my own. As well, I hope not to
+overload with information, but just wish to help with skipping over the bas=
+ic
+questions.
+
+I have numerous PowerColor RX 6500XT graphics cards, and all of them with a
+specific chip package (picture attached) have the same issue. Any PowerColo=
+r RX
+6500XT with 2152 printed at the top of the package, and "TFTB43.00" at the
+bottom of the package suffers the same kernel errors. Previously (up until a
+few weeks ago) PowerColor was shipping 6500XT boards with chips that were
+stamped with 2146 and "TFAW62.T5" at the top and bottom of the package
+respectively. Boards with those chips have zero kernel errors and work
+flawlessly. As well, I have tested various 6500XT and 6400 boards from
+different AIB partners of AMD and have not had any issues other than this
+specific variant from PowerColor.
 
 
-On 2/9/2022 9:24 AM, Dmitry Baryshkov wrote:
-> Add support for handling and allocting SSPP blocks through the resource
-> manager. Handling code is not converted to use it though.
-> 
-> Signed-off-by: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
-> ---
->   drivers/gpu/drm/msm/disp/dpu1/dpu_hw_sspp.h | 10 +++
->   drivers/gpu/drm/msm/disp/dpu1/dpu_kms.h     |  1 +
->   drivers/gpu/drm/msm/disp/dpu1/dpu_plane.c   | 18 ++---
->   drivers/gpu/drm/msm/disp/dpu1/dpu_rm.c      | 81 +++++++++++++++++++++
->   drivers/gpu/drm/msm/disp/dpu1/dpu_rm.h      |  6 ++
->   5 files changed, 104 insertions(+), 12 deletions(-)
-> 
-> diff --git a/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_sspp.h b/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_sspp.h
-> index 1b18de957500..f805c30643b1 100644
-> --- a/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_sspp.h
-> +++ b/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_sspp.h
-> @@ -388,6 +388,16 @@ struct dpu_hw_pipe {
->   };
->   
->   struct dpu_kms;
-> +/**
-> + * to_dpu_hw_pipe - convert base object dpu_hw_base to container
-> + * @hw: Pointer to base hardware block
-> + * return: Pointer to hardware block container
-> + */
-> +static inline struct dpu_hw_pipe *to_dpu_hw_pipe(struct dpu_hw_blk *hw)
-> +{
-> +	return container_of(hw, struct dpu_hw_pipe, base);
-> +}
-> +
->   /**
->    * dpu_hw_sspp_init - initializes the sspp hw driver object.
->    * Should be called once before accessing every pipe.
-> diff --git a/drivers/gpu/drm/msm/disp/dpu1/dpu_kms.h b/drivers/gpu/drm/msm/disp/dpu1/dpu_kms.h
-> index 2d385b4b7f5e..824495ad2392 100644
-> --- a/drivers/gpu/drm/msm/disp/dpu1/dpu_kms.h
-> +++ b/drivers/gpu/drm/msm/disp/dpu1/dpu_kms.h
-> @@ -146,6 +146,7 @@ struct dpu_global_state {
->   	uint32_t ctl_to_enc_id[CTL_MAX - CTL_0];
->   	uint32_t intf_to_enc_id[INTF_MAX - INTF_0];
->   	uint32_t dspp_to_enc_id[DSPP_MAX - DSPP_0];
-> +	uint32_t pipe_to_plane_id[SSPP_MAX - SSPP_NONE];
->   };
->   
->   struct dpu_global_state
-> diff --git a/drivers/gpu/drm/msm/disp/dpu1/dpu_plane.c b/drivers/gpu/drm/msm/disp/dpu1/dpu_plane.c
-> index c04c3be16d85..146dbccd79cd 100644
-> --- a/drivers/gpu/drm/msm/disp/dpu1/dpu_plane.c
-> +++ b/drivers/gpu/drm/msm/disp/dpu1/dpu_plane.c
-> @@ -1235,8 +1235,6 @@ static void dpu_plane_destroy(struct drm_plane *plane)
->   		/* this will destroy the states as well */
->   		drm_plane_cleanup(plane);
->   
-> -		dpu_hw_sspp_destroy(pdpu->pipe_hw);
-> -
->   		kfree(pdpu);
->   	}
->   }
-> @@ -1445,14 +1443,13 @@ struct drm_plane *dpu_plane_init(struct drm_device *dev,
->   	pdpu->pipe = pipe;
->   
->   	/* initialize underlying h/w driver */
-> -	pdpu->pipe_hw = dpu_hw_sspp_init(pipe, kms->mmio, kms->catalog);
-> -	if (IS_ERR(pdpu->pipe_hw)) {
-> -		DPU_ERROR("[%u]SSPP init failed\n", pipe);
-> -		ret = PTR_ERR(pdpu->pipe_hw);
-> +	if (!kms->rm.sspp_blks[pipe - SSPP_NONE])
->   		goto clean_plane;
-> -	} else if (!pdpu->pipe_hw->cap || !pdpu->pipe_hw->cap->sblk) {
-> +	pdpu->pipe_hw = to_dpu_hw_pipe(kms->rm.sspp_blks[pipe - SSPP_NONE]);
-> +
-> +	if (!pdpu->pipe_hw->cap || !pdpu->pipe_hw->cap->sblk) {
->   		DPU_ERROR("[%u]SSPP init returned invalid cfg\n", pipe);
-> -		goto clean_sspp;
-> +		goto clean_plane;
->   	}
->   
->   	format_list = pdpu->pipe_hw->cap->sblk->format_list;
-> @@ -1462,7 +1459,7 @@ struct drm_plane *dpu_plane_init(struct drm_device *dev,
->   				format_list, num_formats,
->   				supported_format_modifiers, type, NULL);
->   	if (ret)
-> -		goto clean_sspp;
-> +		goto clean_plane;
->   
->   	pdpu->catalog = kms->catalog;
->   
-> @@ -1494,9 +1491,6 @@ struct drm_plane *dpu_plane_init(struct drm_device *dev,
->   					pipe, plane->base.id);
->   	return plane;
->   
-> -clean_sspp:
-> -	if (pdpu && pdpu->pipe_hw)
-> -		dpu_hw_sspp_destroy(pdpu->pipe_hw);
->   clean_plane:
->   	kfree(pdpu);
->   	return ERR_PTR(ret);
-> diff --git a/drivers/gpu/drm/msm/disp/dpu1/dpu_rm.c b/drivers/gpu/drm/msm/disp/dpu1/dpu_rm.c
-> index f9c83d6e427a..21c9e513f1f6 100644
-> --- a/drivers/gpu/drm/msm/disp/dpu1/dpu_rm.c
-> +++ b/drivers/gpu/drm/msm/disp/dpu1/dpu_rm.c
-> @@ -8,6 +8,7 @@
->   #include "dpu_hw_lm.h"
->   #include "dpu_hw_ctl.h"
->   #include "dpu_hw_pingpong.h"
-> +#include "dpu_hw_sspp.h"
->   #include "dpu_hw_intf.h"
->   #include "dpu_hw_dspp.h"
->   #include "dpu_hw_merge3d.h"
-> @@ -35,6 +36,14 @@ int dpu_rm_destroy(struct dpu_rm *rm)
->   {
->   	int i;
->   
-> +	for (i = 0; i < ARRAY_SIZE(rm->sspp_blks); i++) {
-> +		struct dpu_hw_pipe *hw;
-> +
-> +		if (rm->sspp_blks[i]) {
-> +			hw = to_dpu_hw_pipe(rm->sspp_blks[i]);
-> +			dpu_hw_sspp_destroy(hw);
-> +		}
-> +	}
->   	for (i = 0; i < ARRAY_SIZE(rm->pingpong_blks); i++) {
->   		struct dpu_hw_pingpong *hw;
->   
-> @@ -166,6 +175,24 @@ int dpu_rm_init(struct dpu_rm *rm,
->   		rm->pingpong_blks[pp->id - PINGPONG_0] = &hw->base;
->   	}
->   
-> +	for (i = 0; i < cat->sspp_count; i++) {
-> +		struct dpu_hw_pipe *hw;
-> +		const struct dpu_sspp_cfg *sspp = &cat->sspp[i];
-> +
-> +		if (sspp->id <= SSPP_NONE || sspp->id >= SSPP_MAX) {
-> +			DPU_ERROR("skip sspp %d with invalid id\n", sspp->id);
-> +			continue;
-> +		}
-> +		hw = dpu_hw_sspp_init(sspp->id, mmio, cat);
-> +		if (IS_ERR_OR_NULL(hw)) {
-> +			rc = PTR_ERR(hw);
-> +			DPU_ERROR("failed sspp object creation: err %d\n",
-> +				rc);
-> +			goto fail;
-> +		}
-> +		rm->sspp_blks[sspp->id - SSPP_NONE] = &hw->base;
-> +	}
-> +
->   	for (i = 0; i < cat->intf_count; i++) {
->   		struct dpu_hw_intf *hw;
->   		const struct dpu_intf_cfg *intf = &cat->intf[i];
-> @@ -660,3 +687,57 @@ int dpu_rm_get_assigned_resources(struct dpu_rm *rm,
->   
->   	return num_blks;
->   }
-> +
-> +enum dpu_sspp dpu_rm_get_sspp(struct dpu_rm *rm, struct dpu_global_state *global_state, uint32_t plane_id, bool yuv, bool scale)
-> +{
+To be honest, I am not sure if the root of the problem is in pcieport or in
+amdgpu, but the amdgpu error throws first.=20
 
-Right now we have only yuv and scale as requirements for the incoming 
-plane. But these requirements can expand.
+I have attached the full dmesg output but to save some time here are some
+highlighted lines of issue:
 
-Do you think a enum req_mask will be a good addition here?
-You can start with having 2 masks for YUV and Scale but atleast that way 
-its expandable cleanly rather than just increasing function parameters here.
+[    5.506718] [drm:amdgpu_dm_init.isra.0.cold [amdgpu]] *ERROR* Failed to
+register vline0 irq 30!
+[   14.368915] pcieport 0000:01:00.0: can't change power state from D0 to D=
+3hot
+(config space inaccessible)
+[   15.270778] pcieport 0000:01:00.0: can't change power state from D3cold =
+to
+D0 (config space inaccessible)
+[   15.270799] pcieport 0000:02:00.0: can't change power state from D3cold =
+to
+D0 (config space inaccessible)
+[   25.478689] pcieport 0000:01:00.0: can't change power state from D3cold =
+to
+D0 (config space inaccessible)
+[   25.478696] pcieport 0000:02:00.0: can't change power state from D3cold =
+to
+D0 (config space inaccessible)
+[   25.722619] amdgpu 0000:03:00.0: can't change power state from D3cold to=
+ D0
+(config space inaccessible)
+[   35.833714] [drm:gmc_v10_0_flush_vm_hub.constprop.0 [amdgpu]] *ERROR*
+Timeout waiting for VM flush hub: 0!
+[   35.941450] [drm:gmc_v10_0_flush_vm_hub.constprop.0 [amdgpu]] *ERROR*
+Timeout waiting for sem acquire in VM flush!
+[   36.048999] [drm:gmc_v10_0_flush_vm_hub.constprop.0 [amdgpu]] *ERROR*
+Timeout waiting for VM flush hub: 1!
+[   36.156835] [drm:gmc_v10_0_flush_vm_hub.constprop.0 [amdgpu]] *ERROR*
+Timeout waiting for sem acquire in VM flush!
+[   36.264770] [drm:gmc_v10_0_flush_vm_hub.constprop.0 [amdgpu]] *ERROR*
+Timeout waiting for VM flush hub: 1!
+[   36.372616] [drm:gmc_v10_0_flush_vm_hub.constprop.0 [amdgpu]] *ERROR*
+Timeout waiting for VM flush hub: 0!
 
 
-> +	int i;
-> +	enum dpu_sspp pipe = SSPP_NONE;
-> +	struct dpu_hw_pipe *pipe_hw;
-> +	bool retry = false;
-> +
-> +retry_loop:
-> +	for (i = 0; i < ARRAY_SIZE(rm->sspp_blks) && pipe == SSPP_NONE; i++) {
-> +		if (!rm->sspp_blks[i])
-> +			continue;
-> +		if (reserved_by_other(global_state->pipe_to_plane_id, i, plane_id))
-> +			continue;
-> +
-> +		pipe_hw = to_dpu_hw_pipe(rm->sspp_blks[i]);
-> +
-> +		/* skip incompatible planes */
-> +		if (scale && !(pipe_hw->cap->features & DPU_SSPP_SCALER))
-> +			continue;
-> +
-> +		if (yuv && (!(pipe_hw->cap->features & DPU_SSPP_SCALER) ||
-> +			    !(pipe_hw->cap->features & DPU_SSPP_CSC_ANY)))
-> +			continue;
-> +
-> +		/* For non-yuv, non-scaled planes try to find simple (DMA)
-> +		 * plane, fallback to VIG on a second try.
-> +		 *
-> +		 * This way we'd leave VIG pipes to be later used for YUV formats.
-> +		 */
-> +
+What I have attempted so far:
 
-this strategy should work. I just think we need to validate this quite a 
-bit with some real world cases such as video playback with UI layers, 
-opening and closing video players, browsers etc.
+Results were the same for the following kernels: 5.4.190, 5.10.111, 5.15.34,
+5.17.4 and now 5.18-rc4.
 
-I am yet to review the usage of this in the next patches, but yes if 
-even this wont kick in for small layers, we are protected.
+Many different motherboards with varying chipsets (B250, H510, X370, B550).
+Same result.
+
+Enabling/Disabling clock gating, ASPM, extended synch control for PCIE. Same
+result.
+
+The problematic cards from PowerColor indeed do work in Windows without iss=
+ue.
+This leads me to believe that something may have changed with TUL's
+implementation of the 6500XT from one production run to another. Hopefully
+someone from the amdgpu team can help here.
 
 
-> +		if (!scale && !yuv && !retry &&
-> +		    (pipe_hw->cap->features & (DPU_SSPP_SCALER | DPU_SSPP_CSC_ANY)))
-> +			continue;
-> +
-> +		pipe = i + SSPP_NONE;
-> +	};
-> +
-> +	if (!scale && !yuv && !retry && pipe == SSPP_NONE) {
-> +		retry = true;
-> +		goto retry_loop;
-> +	}
-> +
-> +	if (pipe != SSPP_NONE)
-> +		global_state->pipe_to_plane_id[pipe - SSPP_NONE] = plane_id;
-> +
-> +	return pipe;
-> +}
-> +
-> +void dpu_rm_release_sspp(struct dpu_rm *rm, struct dpu_global_state *global_state, uint32_t plane_id)
-> +{
-> +	_dpu_rm_clear_mapping(global_state->pipe_to_plane_id,
-> +			ARRAY_SIZE(global_state->pipe_to_plane_id), plane_id);
-> +}
-> diff --git a/drivers/gpu/drm/msm/disp/dpu1/dpu_rm.h b/drivers/gpu/drm/msm/disp/dpu1/dpu_rm.h
-> index 1f12c8d5b8aa..b759fe39f6d6 100644
-> --- a/drivers/gpu/drm/msm/disp/dpu1/dpu_rm.h
-> +++ b/drivers/gpu/drm/msm/disp/dpu1/dpu_rm.h
-> @@ -16,6 +16,7 @@ struct dpu_global_state;
->   /**
->    * struct dpu_rm - DPU dynamic hardware resource manager
->    * @pingpong_blks: array of pingpong hardware resources
-> + * @sspp_blks: array of sspp hardware resources
->    * @mixer_blks: array of layer mixer hardware resources
->    * @ctl_blks: array of ctl hardware resources
->    * @intf_blks: array of intf hardware resources
-> @@ -25,6 +26,7 @@ struct dpu_global_state;
->    */
->   struct dpu_rm {
->   	struct dpu_hw_blk *pingpong_blks[PINGPONG_MAX - PINGPONG_0];
-> +	struct dpu_hw_blk *sspp_blks[SSPP_MAX - SSPP_NONE];
->   	struct dpu_hw_blk *mixer_blks[LM_MAX - LM_0];
->   	struct dpu_hw_blk *ctl_blks[CTL_MAX - CTL_0];
->   	struct dpu_hw_blk *intf_blks[INTF_MAX - INTF_0];
-> @@ -88,5 +90,9 @@ void dpu_rm_release(struct dpu_global_state *global_state,
->   int dpu_rm_get_assigned_resources(struct dpu_rm *rm,
->   	struct dpu_global_state *global_state, uint32_t enc_id,
->   	enum dpu_hw_blk_type type, struct dpu_hw_blk **blks, int blks_size);
-> +
-> +enum dpu_sspp dpu_rm_get_sspp(struct dpu_rm *rm, struct dpu_global_state *global_state, uint32_t plane_id, bool yuv, bool scale);
-> +void dpu_rm_release_sspp(struct dpu_rm *rm, struct dpu_global_state *global_state, uint32_t plane_id);
-> +
->   #endif /* __DPU_RM_H__ */
->   
+To summarize, PowerColor's prior 6500XT production worked flawlessly with t=
+he
+drivers in the mainline kernel. New production for some reason is no longer
+usable. New cards work in Windows, but now throw the errors above. Not an
+isolated issue of one card, as I have tested 12 identical ones with the same
+chip and all have the same result regardless of motherboard, cpu, power,
+kernel, OS, etc. Cards (6500XT and 6400s) from other partners have not had =
+any
+issues.
+
+--=20
+You may reply to this email to add a comment.
+
+You are receiving this mail because:
+You are watching the assignee of the bug.=
