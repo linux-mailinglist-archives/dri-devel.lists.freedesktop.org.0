@@ -1,64 +1,59 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id CEB27510F02
-	for <lists+dri-devel@lfdr.de>; Wed, 27 Apr 2022 04:52:13 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 77628511058
+	for <lists+dri-devel@lfdr.de>; Wed, 27 Apr 2022 06:58:30 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id EA00F10F19E;
-	Wed, 27 Apr 2022 02:52:09 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 7119489CB9;
+	Wed, 27 Apr 2022 04:58:22 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from ams.source.kernel.org (ams.source.kernel.org [145.40.68.75])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 9847A10F19E
- for <dri-devel@lists.freedesktop.org>; Wed, 27 Apr 2022 02:52:08 +0000 (UTC)
-Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
- (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
- (No client certificate requested)
- by ams.source.kernel.org (Postfix) with ESMTPS id 2C1B6B823A1
- for <dri-devel@lists.freedesktop.org>; Wed, 27 Apr 2022 02:52:07 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPS id DE85EC385A4
- for <dri-devel@lists.freedesktop.org>; Wed, 27 Apr 2022 02:52:05 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1651027925;
- bh=iLSj+OEnql/VF2LDUelAYRJpaxyZ1dUS+28EXMrsx9U=;
- h=From:To:Subject:Date:In-Reply-To:References:From;
- b=hK0MLFfCz4ULpvhVuLJVNxakzFPpEN+uPFPjg3afdZlN7U51CFACbWNmfVrrkTYvP
- IIT9wI+UTWYym73JbVeYwbAzYE/ib6NLZFOEuoZRdx1RoBnlHhwGkQ6JozjqLC9wnT
- XDtFTL7bAxYs1fZ9dyBV3QizBWp2zp/E2ewzICet9z8xiHm2r05z/nf9PA7ZZt0uZ3
- J90Amxc92AEQ3TAYPr+Md0bXucHidpD+CxjjPObs3mDatgyaSUA8SmR+l67tEC6SRx
- 7JOvI7UdWms8Py0CBd1r7sHEu4hvcXZFDEeK3tUiBcjxVzWWUM611j3nRtkkpAKBuf
- WjVyJtzQo6DlQ==
-Received: by aws-us-west-2-korg-bugzilla-1.web.codeaurora.org (Postfix,
- from userid 48) id C83B3C05FD5; Wed, 27 Apr 2022 02:52:05 +0000 (UTC)
-From: bugzilla-daemon@kernel.org
-To: dri-devel@lists.freedesktop.org
-Subject: [Bug 215892] 6500XT [drm:amdgpu_dm_init.isra.0.cold [amdgpu]]
- *ERROR* Failed to register vline0 irq 30!
-Date: Wed, 27 Apr 2022 02:52:05 +0000
-X-Bugzilla-Reason: None
-X-Bugzilla-Type: changed
-X-Bugzilla-Watch-Reason: AssignedTo drivers_video-dri@kernel-bugs.osdl.org
-X-Bugzilla-Product: Drivers
-X-Bugzilla-Component: Video(DRI - non Intel)
-X-Bugzilla-Version: 2.5
-X-Bugzilla-Keywords: 
-X-Bugzilla-Severity: normal
-X-Bugzilla-Who: ulatec@gmail.com
-X-Bugzilla-Status: NEW
-X-Bugzilla-Resolution: 
-X-Bugzilla-Priority: P1
-X-Bugzilla-Assigned-To: drivers_video-dri@kernel-bugs.osdl.org
-X-Bugzilla-Flags: 
-X-Bugzilla-Changed-Fields: attachments.created
-Message-ID: <bug-215892-2300-X45PlJNfQR@https.bugzilla.kernel.org/>
-In-Reply-To: <bug-215892-2300@https.bugzilla.kernel.org/>
-References: <bug-215892-2300@https.bugzilla.kernel.org/>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-X-Bugzilla-URL: https://bugzilla.kernel.org/
-Auto-Submitted: auto-generated
+Received: from ste-pvt-msa1.bahnhof.se (ste-pvt-msa1.bahnhof.se
+ [213.80.101.70])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 852C6887AE
+ for <dri-devel@lists.freedesktop.org>; Wed, 27 Apr 2022 04:58:20 +0000 (UTC)
+Received: from localhost (localhost [127.0.0.1])
+ by ste-pvt-msa1.bahnhof.se (Postfix) with ESMTP id 002C9400F0;
+ Wed, 27 Apr 2022 06:58:17 +0200 (CEST)
+X-Virus-Scanned: Debian amavisd-new at bahnhof.se
+X-Spam-Flag: NO
+X-Spam-Score: -3.956
+X-Spam-Level: 
+X-Spam-Status: No, score=-3.956 tagged_above=-999 required=6.31
+ tests=[BAYES_00=-1.9, DKIM_SIGNED=0.1, DKIM_VALID=-0.1,
+ DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-1.857,
+ URIBL_BLOCKED=0.001] autolearn=ham autolearn_force=no
+Authentication-Results: ste-pvt-msa1.bahnhof.se (amavisd-new);
+ dkim=pass (1024-bit key) header.d=shipmail.org
+Received: from ste-pvt-msa1.bahnhof.se ([127.0.0.1])
+ by localhost (ste-pvt-msa1.bahnhof.se [127.0.0.1]) (amavisd-new, port 10024)
+ with ESMTP id 5b08ezDtEk9k; Wed, 27 Apr 2022 06:58:17 +0200 (CEST)
+Received: by ste-pvt-msa1.bahnhof.se (Postfix) with ESMTPA id B2079400D6;
+ Wed, 27 Apr 2022 06:58:16 +0200 (CEST)
+Received: from [192.168.0.209] (h-155-4-205-35.A357.priv.bahnhof.se
+ [155.4.205.35])
+ by mail1.shipmail.org (Postfix) with ESMTPSA id 1070336018C;
+ Wed, 27 Apr 2022 06:58:16 +0200 (CEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple; d=shipmail.org; s=mail;
+ t=1651035496; bh=okFCXwH5q3BGcy/4PEl6Dzf1/lPAJDOhGnddiU28/Bk=;
+ h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
+ b=ans1GR8ex3L5/YIDD2X/P3Xdz7udqOQznNWBBtY6XVgnHms06o40PcLioY3SUrEdK
+ MSxdqiX9xv1tZzYZyQK+jJC7pL2Y2+i6XO0cwXtt0up45S5wkAXow0kb2DIs8NLUrS
+ 6Zo5DQljA94be5Xoajzv6DxT5z1GKnBJQZSMk16M=
+Message-ID: <0c57c6a1-be61-81ad-c7a2-cadbd82bf88b@shipmail.org>
+Date: Wed, 27 Apr 2022 06:58:15 +0200
 MIME-Version: 1.0
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.7.0
+Subject: Re: [PATCH 1/2] drm/vmwgfx: Remove unused hugepage support
+Content-Language: en-US
+To: Zack Rusin <zackr@vmware.com>, dri-devel@lists.freedesktop.org
+References: <20220425203152.1314211-1-zack@kde.org>
+From: =?UTF-8?Q?Thomas_Hellstr=c3=b6m_=28Intel=29?= <thomas_os@shipmail.org>
+In-Reply-To: <20220425203152.1314211-1-zack@kde.org>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -71,18 +66,61 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
+Cc: krastevm@vmware.com, mombasawalam@vmware.com
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-https://bugzilla.kernel.org/show_bug.cgi?id=3D215892
 
---- Comment #4 from Mark Johnston (ulatec@gmail.com) ---
-Created attachment 300815
-  --> https://bugzilla.kernel.org/attachment.cgi?id=3D300815&action=3Dedit
-acpidump summary
+On 4/25/22 22:31, Zack Rusin wrote:
+> From: Zack Rusin <zackr@vmware.com>
+>
+> There's no point in explicitly trying to align virtual memory to
+> facilitate huge page table entries or huge page memory in buffer objects
+> given that they're not being used.
+>
+> Transparent hugepages support for vram allocations has been gradually
+> retired over the last two years making alignment of unmapped areas
+> unneeded and pointless.
+>
+> Signed-off-by: Zack Rusin <zackr@vmware.com>
 
---=20
-You may reply to this email to add a comment.
+For the series:
 
-You are receiving this mail because:
-You are watching the assignee of the bug.=
+Reviewed-by: Thomas Hellström <thomas.hellstrom@linux.intel.com>
+
+
+> ---
+>   drivers/gpu/drm/vmwgfx/vmwgfx_drv.c | 13 -------------
+>   1 file changed, 13 deletions(-)
+>
+> diff --git a/drivers/gpu/drm/vmwgfx/vmwgfx_drv.c b/drivers/gpu/drm/vmwgfx/vmwgfx_drv.c
+> index 5dc02fd806db..45028e25d490 100644
+> --- a/drivers/gpu/drm/vmwgfx/vmwgfx_drv.c
+> +++ b/drivers/gpu/drm/vmwgfx/vmwgfx_drv.c
+> @@ -1423,18 +1423,6 @@ static void vmw_debugfs_resource_managers_init(struct vmw_private *vmw)
+>   					    root, "system_mob_ttm");
+>   }
+>   
+> -static unsigned long
+> -vmw_get_unmapped_area(struct file *file, unsigned long uaddr,
+> -		      unsigned long len, unsigned long pgoff,
+> -		      unsigned long flags)
+> -{
+> -	struct drm_file *file_priv = file->private_data;
+> -	struct vmw_private *dev_priv = vmw_priv(file_priv->minor->dev);
+> -
+> -	return drm_get_unmapped_area(file, uaddr, len, pgoff, flags,
+> -				     dev_priv->drm.vma_offset_manager);
+> -}
+> -
+>   static int vmwgfx_pm_notifier(struct notifier_block *nb, unsigned long val,
+>   			      void *ptr)
+>   {
+> @@ -1601,7 +1589,6 @@ static const struct file_operations vmwgfx_driver_fops = {
+>   	.compat_ioctl = vmw_compat_ioctl,
+>   #endif
+>   	.llseek = noop_llseek,
+> -	.get_unmapped_area = vmw_get_unmapped_area,
+>   };
+>   
+>   static const struct drm_driver driver = {
