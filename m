@@ -1,47 +1,45 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2E82C51256C
-	for <lists+dri-devel@lfdr.de>; Thu, 28 Apr 2022 00:44:16 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 15F3F51275C
+	for <lists+dri-devel@lfdr.de>; Thu, 28 Apr 2022 01:08:05 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 7B59710F722;
-	Wed, 27 Apr 2022 22:44:13 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 77DBB10E6A8;
+	Wed, 27 Apr 2022 23:07:54 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from ams.source.kernel.org (ams.source.kernel.org [145.40.68.75])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 1BFC410F74C;
- Wed, 27 Apr 2022 22:44:12 +0000 (UTC)
-Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
- (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
- (No client certificate requested)
- by ams.source.kernel.org (Postfix) with ESMTPS id 4D806B82708;
- Wed, 27 Apr 2022 22:44:10 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id F29B5C385AA;
- Wed, 27 Apr 2022 22:44:05 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1651099449;
- bh=OeoXLpSjFFW6YXYpM+6X1nCwuoz/C5wuMa1J1bJYg/o=;
- h=Date:From:To:Cc:Subject:From;
- b=mZYO1TnlG1jhH6wwXv7uGnA2tmATzmBfcvQCkMPaaVVojbu0+4O11HvMgieSLnNBn
- HnBBftQJkegNqvIOJUYFoWDLGkphWjYeC3WQLhPxgzZL0v31oYwCTaIrdVZyGHqJbk
- gJFYxMNz2uAuUDyX3oaBo0n12t/eCT9bZoishwc++Nj+ah4IKroF4rp6UbUlY4sZb8
- 7RAiCxJR7ZmvO0n7II3qcrjSRnPb7mWxpeDBwrerc8qIXHzgXmKXNBldulrRKEO3zO
- aaqGKJ8IcGX+Id2sF+ARH6ByQ3V2ZHjk+tJQAqBGaC9eRs5OZ6NEfnrYyu9frrF7kB
- ufYknbLSKYW+A==
-Date: Wed, 27 Apr 2022 17:53:01 -0500
-From: "Gustavo A. R. Silva" <gustavoars@kernel.org>
-To: Jani Nikula <jani.nikula@linux.intel.com>,
- Joonas Lahtinen <joonas.lahtinen@linux.intel.com>,
- Rodrigo Vivi <rodrigo.vivi@intel.com>,
- Tvrtko Ursulin <tvrtko.ursulin@linux.intel.com>,
- David Airlie <airlied@linux.ie>, Daniel Vetter <daniel@ffwll.ch>
-Subject: [PATCH][next] drm/i915: Fix -Wstringop-overflow warning in call to
- intel_read_wm_latency()
-Message-ID: <20220427225301.GA24406@embeddedor>
+Received: from mga03.intel.com (mga03.intel.com [134.134.136.65])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 33BEC10E6A8;
+ Wed, 27 Apr 2022 23:07:53 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+ t=1651100873; x=1682636873;
+ h=from:to:cc:subject:date:message-id:mime-version:
+ content-transfer-encoding;
+ bh=5EzU/vQ+Fd4YfPf9jrwU6rxkgBokFXvfwB52Y8fELjo=;
+ b=IvYBrop9u2xLsgfwqjDGFUHn7FL9MHVciGTi9OneJ978vFSNdFZG1lHM
+ P7atupJ01wTGpvKIiJ9R7uzon0ZCmvPChP0OGLnTj3w7uEya5kMQ8Z0tv
+ 6h+Fs7qw3QrG7yyx1gb2zGHHbsdSxBdczRfJRVMx1ZP+c+T9lYVkzX8GW
+ 2GDD26DVyq5cfY1YQvhwatSjvj+qjoc1TQBhAtYh49uaAR4tcmJvHOvXj
+ 1uS5T1rXx7Ua4mQccCqaLh6VNTHpR1Gpb3S4sgjmeh3myVaICil8ysL1V
+ xARwhk8E5JElwodI7/vR9jHadnveaf/tS+Uh+RDxBGnK2uH5XzA8CnCUw A==;
+X-IronPort-AV: E=McAfee;i="6400,9594,10330"; a="265912012"
+X-IronPort-AV: E=Sophos;i="5.90,294,1643702400"; d="scan'208";a="265912012"
+Received: from orsmga006.jf.intel.com ([10.7.209.51])
+ by orsmga103.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 27 Apr 2022 16:07:52 -0700
+X-IronPort-AV: E=Sophos;i="5.90,294,1643702400"; d="scan'208";a="533495677"
+Received: from mdroper-desk1.fm.intel.com ([10.1.27.134])
+ by orsmga006-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 27 Apr 2022 16:07:52 -0700
+From: Matt Roper <matthew.d.roper@intel.com>
+To: intel-gfx@lists.freedesktop.org
+Subject: [PATCH 0/5] i915: SSEU handling updates
+Date: Wed, 27 Apr 2022 16:07:42 -0700
+Message-Id: <20220427230747.906625-1-matthew.d.roper@intel.com>
+X-Mailer: git-send-email 2.35.1
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -55,50 +53,76 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: intel-gfx@lists.freedesktop.org, linux-hardening@vger.kernel.org,
- linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
- "Gustavo A. R. Silva" <gustavoars@kernel.org>
+Cc: tvrtko.ursulin@linux.intel.com, dri-devel@lists.freedesktop.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Fix the following -Wstringop-overflow warnings when building with GCC-11:
+This series makes a handful of updates to i915's internal handling of
+slice/subslice/EU (SSEU) data to handle recent platforms like Xe_HP in a
+more natural manner and to prepare for some additional upcoming
+platforms we have in the pipeline (the first of which I'll probably
+start sending patches for in the next week or two).  One key idea of
+this series is that although we have a fixed ABI to convey SSEU data to
+userspace (i.e., multiple u8[] arrays with data stored at different
+strides), we don't need to use this cumbersome format for the driver's
+own internal storage.  As long as we can convert into the uapi form
+properly when responding to the I915_QUERY ioctl, it's preferable to use
+an internal storage format that's easier for the driver to work with.
+Doing so can also save us some storage space on modern platforms since
+we don't always need to replicate a bunch of data that's architecturally
+guaranteed to be identical.
 
-drivers/gpu/drm/i915/intel_pm.c:3106:9: warning: ‘intel_read_wm_latency’ accessing 16 bytes in a region of size 10 [-Wstringop-overflow=]
- 3106 |         intel_read_wm_latency(dev_priv, dev_priv->wm.pri_latency);
-      |         ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-drivers/gpu/drm/i915/intel_pm.c:3106:9: note: referencing argument 2 of type ‘u16 *’ {aka ‘short unsigned int *’}
-drivers/gpu/drm/i915/intel_pm.c:2861:13: note: in a call to function ‘intel_read_wm_latency’
- 2861 | static void intel_read_wm_latency(struct drm_i915_private *dev_priv,
-      |             ^~~~~~~~~~~~~~~~~~~~~
+Another key point here is that Xe_HP platforms today have subslice (DSS)
+masks that are 32 bits, which maxes out the storage of a u32.  On future
+platforms the architecture design is going to start spreading their DSS
+masks over multiple 32-bit fuse registers.  So even for platforms where
+the total number of DSS doesn't actually go up, we're going to need
+larger storage than just a u32 to express the mask properly.  To
+accomodate this, we start storing our subslice mask in a new typedef
+that can be processed by the linux/bitmap.h operations.
 
-by removing the over-specified array size from the argument declarations.
+Finally, since no userspace for Xe_HP or beyond is using the legacy
+I915_GETPARAM ioctl lookups for I915_PARAM_SLICE_MASK and
+I915_PARAM_SUBSLICE_MASK (since they've migrated to the more flexible
+I915_QUERY ioctl that can return more than a simple u32 value), we take
+the opportunity to officially drop support for those GETPARAM lookups on
+modern platforms.  Maintaining support for these GETPARAM lookups don't
+make sense for a number of reasons:
 
-It seems that this code is actually safe because the size of the
-array depends on the hardware generation, and the function checks
-for that.
+ * Traditional slices no longer exist, and newer ideas like gslices,
+   cslices, mslices, etc. aren't something userspace needs to query
+   since it can be inferred from other information.
+ * The GETPARAM ioctl doesn't have a way to distinguish between geometry
+   subslice masks and compute subslice masks, which are distinct on
+   Xe_HP and beyond.
+ * The I915_GETPARAM ioctl is limited to returning a 32-bit value, so
+   when subslice masks begin to exceed 32-bits, it simply can't return
+   the entire mask.
+ * The GETPARAM ioctl doesn't have a way to give sensible information
+   for multi-tile devices.
 
-This helps with the ongoing efforts to globally enable
--Wstringop-overflow.
 
-Link: https://github.com/KSPP/linux/issues/181
-Signed-off-by: Gustavo A. R. Silva <gustavoars@kernel.org>
----
- drivers/gpu/drm/i915/intel_pm.c | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+Cc: Tvrtko Ursulin <tvrtko.ursulin@linux.intel.com>
 
-diff --git a/drivers/gpu/drm/i915/intel_pm.c b/drivers/gpu/drm/i915/intel_pm.c
-index ee0047fdc95d..5735915facc5 100644
---- a/drivers/gpu/drm/i915/intel_pm.c
-+++ b/drivers/gpu/drm/i915/intel_pm.c
-@@ -2862,7 +2862,7 @@ static void ilk_compute_wm_level(const struct drm_i915_private *dev_priv,
- }
- 
- static void intel_read_wm_latency(struct drm_i915_private *dev_priv,
--				  u16 wm[8])
-+				  u16 wm[])
- {
- 	struct intel_uncore *uncore = &dev_priv->uncore;
- 
+Matt Roper (5):
+  drm/i915/sseu: Don't try to store EU mask internally in UAPI format
+  drm/i915/xehp: Drop GETPARAM lookups of I915_PARAM_[SUB]SLICE_MASK
+  drm/i915/xehp: Use separate sseu init function
+  drm/i915/sseu: Simplify gen11+ SSEU handling
+  drm/i915/sseu: Disassociate internal subslice mask representation from
+    uapi
+
+ drivers/gpu/drm/i915/gem/i915_gem_context.c  |   4 +-
+ drivers/gpu/drm/i915/gt/intel_engine_cs.c    |   2 +-
+ drivers/gpu/drm/i915/gt/intel_gt.c           |  14 +-
+ drivers/gpu/drm/i915/gt/intel_sseu.c         | 371 +++++++++++--------
+ drivers/gpu/drm/i915/gt/intel_sseu.h         |  69 ++--
+ drivers/gpu/drm/i915/gt/intel_sseu_debugfs.c |  28 +-
+ drivers/gpu/drm/i915/gt/intel_workarounds.c  |  28 +-
+ drivers/gpu/drm/i915/i915_getparam.c         |  10 +-
+ drivers/gpu/drm/i915/i915_query.c            |  16 +-
+ 9 files changed, 323 insertions(+), 219 deletions(-)
+
 -- 
-2.27.0
+2.35.1
 
