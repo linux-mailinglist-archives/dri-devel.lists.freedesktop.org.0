@@ -1,57 +1,85 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8D56C511B93
-	for <lists+dri-devel@lfdr.de>; Wed, 27 Apr 2022 17:02:40 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 46C9F511B97
+	for <lists+dri-devel@lfdr.de>; Wed, 27 Apr 2022 17:04:06 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id BD24410EA04;
-	Wed, 27 Apr 2022 15:02:37 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 878B010EB4A;
+	Wed, 27 Apr 2022 15:04:04 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mga07.intel.com (mga07.intel.com [134.134.136.100])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 8623410EA04;
- Wed, 27 Apr 2022 15:02:36 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1651071756; x=1682607756;
- h=message-id:date:mime-version:subject:to:cc:references:
- from:in-reply-to:content-transfer-encoding;
- bh=jpsqDB1/fEhJY+GLqV3r8EzaXQZ6QVpMwYpYsbuNhc8=;
- b=UyJ1/OKOXZkPllnBCq7GyjSFJcDQyuspM/2QpbmdN3y5KmTaxatCyTGZ
- TenLRSX728xhm6og1zvFk9fy/fBbZYrCASaacSYZKGDxhqJupQ5tmnGrx
- DAcE6nrjvLU7gRgYEehRkJZ32oIjwx/Xj8x4DpAV4t9XC3jv90iNj8TJB
- lXZfBRy+kgNHbbZ1tntgwcV41exWjpcc9h8c+E3drrONKKhrcO1wPbuY7
- XqMN0xMnV8IATpE3AuZmzLjd2jabUyjBCV5QQdVO5jvNaLayqTccN+6Ap
- dpGA0tbBm9ZhG87oHHjuLoZgVMRSDe+Cm9uYKlImHNRc89WMtMWBqvrD2 A==;
-X-IronPort-AV: E=McAfee;i="6400,9594,10330"; a="328897426"
-X-IronPort-AV: E=Sophos;i="5.90,293,1643702400"; d="scan'208";a="328897426"
-Received: from orsmga004.jf.intel.com ([10.7.209.38])
- by orsmga105.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 27 Apr 2022 08:02:30 -0700
-X-IronPort-AV: E=Sophos;i="5.90,293,1643702400"; d="scan'208";a="680809007"
-Received: from konishi-mobl.gar.corp.intel.com (HELO [10.252.6.183])
- ([10.252.6.183])
- by orsmga004-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 27 Apr 2022 08:02:27 -0700
-Message-ID: <2b7b8193-a6ab-70a8-2102-3e7ac51548cb@intel.com>
-Date: Wed, 27 Apr 2022 16:02:25 +0100
+Received: from mail-ej1-x629.google.com (mail-ej1-x629.google.com
+ [IPv6:2a00:1450:4864:20::629])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 9E05610E676
+ for <dri-devel@lists.freedesktop.org>; Wed, 27 Apr 2022 15:04:02 +0000 (UTC)
+Received: by mail-ej1-x629.google.com with SMTP id dk23so3982757ejb.8
+ for <dri-devel@lists.freedesktop.org>; Wed, 27 Apr 2022 08:04:02 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ffwll.ch; s=google;
+ h=date:from:to:cc:subject:message-id:mail-followup-to:references
+ :mime-version:content-disposition:content-transfer-encoding
+ :in-reply-to; bh=9Itb0glNjLzsda2ha8Sg4vczWB8285tOkwDDoPJtWk8=;
+ b=L0ydeR/2rcnWI7IC+FLalVfL5PrFO0wiIWSUmlTuFGoqbiX1PxEDzpqqF8NOitaTY6
+ AJe7ePcHH60qzdiVbDk5gPhR2BTMdXJa4EMexGYPsLBdmg3Zf13+4BOSifpxn4jxBlhr
+ UUzhzaqaeNoaNq7RaJ1t2XVN42jf1+tQKcmpI=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=x-gm-message-state:date:from:to:cc:subject:message-id
+ :mail-followup-to:references:mime-version:content-disposition
+ :content-transfer-encoding:in-reply-to;
+ bh=9Itb0glNjLzsda2ha8Sg4vczWB8285tOkwDDoPJtWk8=;
+ b=ueHjXZuRj3wcEHVcOCVc6iR3KqS+sqioclw7yR0QwrRl9eFa97C357dW+UhHT2do9n
+ 7NuAMA19p8qMgCQtqkPqZWKSpPypgP2pkeYFcrTB3RaYFByaixgcaokrXxPM/3KkYyDn
+ E7IIrdv7EB/lbnXKEVAmAdFDhM5q0Wc/kHlnmRvsWbpj5A+5l8JEh7Bk5V2QevEA6hyq
+ gUUDXzMIZCOxW9Ytwz3xZ+RGd6gP7T2l4RKhkgor0/OqG7EhOpYDfCSeD1it2xhesIOB
+ z+2+dWsEtzcaO5L2jvhQQDJiXPxgKu/AYdqM1L5VeGCzpBXYXX3JjRzwyFPeznMZ5ivt
+ W34w==
+X-Gm-Message-State: AOAM531I38SDlA63hTk6wxO5yhYPXstlOtk+C49pudLI7o9UH28vlAJf
+ u37U0CcttqANU48UdPD7K8inIQ==
+X-Google-Smtp-Source: ABdhPJxn3J1YOjf7N2ftgkiOzZwCbB1eDMKJ2IPMJQ0cUJ4r8LLbOyG5qJSje406PmcIBG+D3tyDog==
+X-Received: by 2002:a17:907:2daa:b0:6da:924e:955 with SMTP id
+ gt42-20020a1709072daa00b006da924e0955mr26796476ejc.1.1651071841010; 
+ Wed, 27 Apr 2022 08:04:01 -0700 (PDT)
+Received: from phenom.ffwll.local ([2a02:168:57f4:0:efd0:b9e5:5ae6:c2fa])
+ by smtp.gmail.com with ESMTPSA id
+ u6-20020a170906124600b006e843964f9asm6811575eja.55.2022.04.27.08.03.59
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Wed, 27 Apr 2022 08:04:00 -0700 (PDT)
+Date: Wed, 27 Apr 2022 17:03:58 +0200
+From: Daniel Vetter <daniel@ffwll.ch>
+To: Dmitry Osipenko <dmitry.osipenko@collabora.com>
+Subject: Re: [PATCH v4 11/15] drm/shmem-helper: Add generic memory shrinker
+Message-ID: <YmlbXoeaVds/bjYn@phenom.ffwll.local>
+Mail-Followup-To: Dmitry Osipenko <dmitry.osipenko@collabora.com>,
+ Thomas Zimmermann <tzimmermann@suse.de>,
+ David Airlie <airlied@linux.ie>, Gerd Hoffmann <kraxel@redhat.com>,
+ Gurchetan Singh <gurchetansingh@chromium.org>,
+ Chia-I Wu <olvaffe@gmail.com>,
+ Daniel Almeida <daniel.almeida@collabora.com>,
+ Gert Wollny <gert.wollny@collabora.com>,
+ Gustavo Padovan <gustavo.padovan@collabora.com>,
+ Daniel Stone <daniel@fooishbar.org>,
+ Tomeu Vizoso <tomeu.vizoso@collabora.com>,
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+ Maxime Ripard <mripard@kernel.org>, Rob Herring <robh@kernel.org>,
+ Steven Price <steven.price@arm.com>,
+ Alyssa Rosenzweig <alyssa.rosenzweig@collabora.com>,
+ Rob Clark <robdclark@gmail.com>,
+ Emil Velikov <emil.l.velikov@gmail.com>,
+ Robin Murphy <robin.murphy@arm.com>,
+ Dmitry Osipenko <digetx@gmail.com>, linux-kernel@vger.kernel.org,
+ dri-devel@lists.freedesktop.org,
+ virtualization@lists.linux-foundation.org
+References: <20220417223707.157113-1-dmitry.osipenko@collabora.com>
+ <20220417223707.157113-12-dmitry.osipenko@collabora.com>
+ <ebe3dfdb-04ac-9ab1-64ff-9d54f96afe57@suse.de>
+ <7f497f99-f4c1-33d6-46cf-95bd90188fe3@collabora.com>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.7.0
-Subject: Re: [PATCH v2] drm/doc: add rfc section for small BAR uapi
-Content-Language: en-GB
-To: =?UTF-8?Q?Christian_K=c3=b6nig?= <ckoenig.leichtzumerken@gmail.com>,
- Lionel Landwerlin <lionel.g.landwerlin@intel.com>,
- intel-gfx@lists.freedesktop.org
-References: <20220420171328.57253-1-matthew.auld@intel.com>
- <5553382d-2674-76f0-ab6e-408b99111a62@intel.com>
- <a667ccc4-fd5e-7e15-cffc-d5a65a834825@intel.com>
- <dbc758bd-1fc6-45cf-9fcd-366a35e26808@gmail.com>
-From: Matthew Auld <matthew.auld@intel.com>
-In-Reply-To: <dbc758bd-1fc6-45cf-9fcd-366a35e26808@gmail.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Type: text/plain; charset=iso-8859-1
+Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
+In-Reply-To: <7f497f99-f4c1-33d6-46cf-95bd90188fe3@collabora.com>
+X-Operating-System: Linux phenom 5.10.0-8-amd64 
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -64,429 +92,302 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: =?UTF-8?Q?Thomas_Hellstr=c3=b6m?= <thomas.hellstrom@linux.intel.com>,
- Daniel Vetter <daniel.vetter@ffwll.ch>, dri-devel@lists.freedesktop.org,
- Kenneth Graunke <kenneth@whitecape.org>,
- Jon Bloomfield <jon.bloomfield@intel.com>, mesa-dev@lists.freedesktop.org,
- Akeem G Abodunrin <akeem.g.abodunrin@intel.com>
+Cc: David Airlie <airlied@linux.ie>, dri-devel@lists.freedesktop.org,
+ Gurchetan Singh <gurchetansingh@chromium.org>,
+ Gerd Hoffmann <kraxel@redhat.com>, Dmitry Osipenko <digetx@gmail.com>,
+ Steven Price <steven.price@arm.com>,
+ Gustavo Padovan <gustavo.padovan@collabora.com>,
+ Alyssa Rosenzweig <alyssa.rosenzweig@collabora.com>,
+ virtualization@lists.linux-foundation.org,
+ Daniel Almeida <daniel.almeida@collabora.com>,
+ Tomeu Vizoso <tomeu.vizoso@collabora.com>,
+ Gert Wollny <gert.wollny@collabora.com>,
+ Emil Velikov <emil.l.velikov@gmail.com>, linux-kernel@vger.kernel.org,
+ Thomas Zimmermann <tzimmermann@suse.de>, Robin Murphy <robin.murphy@arm.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 27/04/2022 07:55, Christian KÃ¶nig wrote:
-> Well usually we increment the drm minor version when adding some new 
-> flags on amdgpu.
-> 
-> Additional to that just one comment from our experience with that: You 
-> don't just need one flag, but two. The first one is a hint which says 
-> "CPU access needed" and the second is a promise which says "CPU access 
-> never needed".
-> 
-> The background is that on a whole bunch of buffers you can 100% certain 
-> say that you will never ever need CPU access.
-> 
-> Then at least we have a whole bunch of buffers where we might need CPU 
-> access, but can't tell for sure.
-> 
-> And last we have stuff like transfer buffers you can be 100% sure that 
-> you need CPU access.
-> 
-> Separating it like this helped a lot with performance on small BAR systems.
+On Tue, Apr 19, 2022 at 11:40:41PM +0300, Dmitry Osipenko wrote:
+> On 4/19/22 10:22, Thomas Zimmermann wrote:
+> > Hi
+> > 
+> > Am 18.04.22 um 00:37 schrieb Dmitry Osipenko:
+> >> Introduce a common DRM SHMEM shrinker. It allows to reduce code
+> >> duplication among DRM drivers that implement theirs own shrinkers.
+> >> This is initial version of the shrinker that covers basic needs of
+> >> GPU drivers, both purging and eviction of shmem objects are supported.
+> >>
+> >> This patch is based on a couple ideas borrowed from Rob's Clark MSM
+> >> shrinker and Thomas' Zimmermann variant of SHMEM shrinker.
+> >>
+> >> In order to start using DRM SHMEM shrinker drivers should:
+> >>
+> >> 1. Implement new purge(), evict() + swap_in() GEM callbacks.
+> >> 2. Register shrinker using drm_gem_shmem_shrinker_register(drm_device).
+> >> 3. Use drm_gem_shmem_set_purgeable_and_evictable(shmem) and alike API
+> >>     functions to activate shrinking of GEMs.
+> >>
+> >> Signed-off-by: Daniel Almeida <daniel.almeida@collabora.com>
+> >> Signed-off-by: Dmitry Osipenko <dmitry.osipenko@collabora.com>
+> >> ---
+> >>   drivers/gpu/drm/drm_gem_shmem_helper.c | 765 ++++++++++++++++++++++++-
+> >>   include/drm/drm_device.h               |   4 +
+> >>   include/drm/drm_gem.h                  |  35 ++
+> >>   include/drm/drm_gem_shmem_helper.h     | 105 +++-
+> >>   4 files changed, 877 insertions(+), 32 deletions(-)
+> ...
+> >> @@ -172,6 +172,41 @@ struct drm_gem_object_funcs {
+> >>        * This is optional but necessary for mmap support.
+> >>        */
+> >>       const struct vm_operations_struct *vm_ops;
+> >> +
+> >> +    /**
+> >> +     * @purge:
+> >> +     *
+> >> +     * Releases the GEM object's allocated backing storage to the
+> >> system.
+> >> +     *
+> >> +     * Returns the number of pages that have been freed by purging
+> >> the GEM object.
+> >> +     *
+> >> +     * This callback is used by the GEM shrinker.
+> >> +     */
+> >> +    unsigned long (*purge)(struct drm_gem_object *obj);
 
-Thanks for the comments. For the "CPU access never needed" flag, what 
-extra stuff does that do on the kernel side vs not specifying any 
-flag/hint? I assume it still prioritizes using the non-CPU visible 
-portion first? What else does it do?
+Hm I feel like drivers shouldn't need to know the difference here?
+
+Like shmem helpers can track what's purgeable, and for eviction/purging
+the driver callback should do the same?
+
+The only difference is when we try to re-reserve the backing storage. When
+the object has been evicted that should suceed, but when the object is
+purged that will fail.
+
+That's the difference between evict and purge for drivers?
+
+> >> +
+> >> +    /**
+> >> +     * @evict:
+> >> +     *
+> >> +     * Unpins the GEM object's allocated backing storage, allowing
+> >> shmem pages
+> >> +     * to be swapped out.
+> > 
+> > What's the difference to the existing unpin() callback?
+> 
+> Drivers need to do more than just unpinning pages when GEMs are evicted.
+> Unpinning is only a part of the eviction process. I'll improve the
+> doc-comment in v5.
+> 
+> For example, for VirtIO-GPU driver we need to to detach host from the
+> guest's memory before pages are evicted [1].
+> 
+> [1]
+> https://gitlab.collabora.com/dmitry.osipenko/linux-kernel-rd/-/blob/932eb03198bce3a21353b09ab71e95f1c19b84c2/drivers/gpu/drm/virtio/virtgpu_object.c#L145
+> 
+> In case of Panfrost driver, we will need to remove mappings before pages
+> are evicted.
+
+It might be good to align this with ttm, otoh that all works quite a bit
+differently for ttm since ttm supports buffer moves and a lot more fancy
+stuff.
+
+I'm bringing this up since I have this fancy idea that eventually we could
+glue shmem helpers into ttm in some cases for managing buffers when they
+sit in system memory (as opposed to vram).
+
+> >> +     *
+> >> +     * Returns the number of pages that have been unpinned.
+> >> +     *
+> >> +     * This callback is used by the GEM shrinker.
+> >> +     */
+> >> +    unsigned long (*evict)(struct drm_gem_object *obj);
+> >> +
+> >> +    /**
+> >> +     * @swap_in:
+> >> +     *
+> >> +     * Pins GEM object's allocated backing storage if it was
+> >> previously evicted,
+> >> +     * moving swapped out pages back to memory.
+> >> +     *
+> >> +     * Returns 0 on success, or -errno on error.
+> >> +     *
+> >> +     * This callback is used by the GEM shrinker.
+> >> +     */
+> >> +    int (*swap_in)(struct drm_gem_object *obj);
+> > 
+> > Why do you need swap_in()? This can be done on-demand as part of a pin
+> > or vmap operation.
+> 
+> Similarly to the unpinning, the pining of pages is only a part of what
+> needs to be done for GPU drivers. Besides of returning pages back to
+> memory, we also need to make them accessible to GPU and this is a
+> driver-specific process. This why we need the additional callbacks.
+
+This is a bit much midlayer. The way this works in ttm is you reserve all
+the objects you need (which makes sure they're physically available
+again), and then the driver goes through and makes sure the page tables
+are all set up again.
+
+Once you get towards gpu vm that's really the only approach, since your
+swap_in has no idea for which vm it needs to restore pagetables (and
+restoring it for all is a bit meh).
+
+If drivers want to optimize this they can adjust/set any tracking
+information from their evict callback as needed.
 
 > 
-> Regards,
-> Christian.
+> >>   };
+> >>     /**
+> >> diff --git a/include/drm/drm_gem_shmem_helper.h
+> >> b/include/drm/drm_gem_shmem_helper.h
+> >> index 70889533962a..a65557b446e6 100644
+> >> --- a/include/drm/drm_gem_shmem_helper.h
+> >> +++ b/include/drm/drm_gem_shmem_helper.h
+> >> @@ -6,6 +6,7 @@
+> >>   #include <linux/fs.h>
+> >>   #include <linux/mm.h>
+> >>   #include <linux/mutex.h>
+> >> +#include <linux/shrinker.h>
+> >>     #include <drm/drm_file.h>
+> >>   #include <drm/drm_gem.h>
+> >> @@ -15,8 +16,18 @@
+> >>   struct dma_buf_attachment;
+> >>   struct drm_mode_create_dumb;
+> >>   struct drm_printer;
+> >> +struct drm_device;
+> >>   struct sg_table;
+> >>   +enum drm_gem_shmem_pages_state {
+> >> +    DRM_GEM_SHMEM_PAGES_STATE_PURGED = -2,
+> >> +    DRM_GEM_SHMEM_PAGES_STATE_EVICTED = -1,
+> >> +    DRM_GEM_SHMEM_PAGES_STATE_UNPINNED = 0,
+> >> +    DRM_GEM_SHMEM_PAGES_STATE_PINNED = 1,
+> >> +    DRM_GEM_SHMEM_PAGES_STATE_EVICTABLE = 2,
+> >> +    DRM_GEM_SHMEM_PAGES_STATE_PURGEABLE = 3,
+> >> +};
+> > 
+> > These states can be detected by looking at the vmap and pin refcounts.
+> > No need to store them explicitly.
 > 
-> Am 27.04.22 um 08:48 schrieb Lionel Landwerlin:
->> One question though, how do we detect that this flag 
->> (I915_GEM_CREATE_EXT_FLAG_NEEDS_CPU_ACCESS) is accepted on a given 
->> kernel?
->> I assume older kernels are going to reject object creation if we use 
->> this flag?
->>
->> I didn't plan to use __drm_i915_query_vma_info, but isn't it 
->> inconsistent to select the placement on the GEM object and then query 
->> whether it's mappable by address?
->> You made a comment stating this is racy, wouldn't querying on the GEM 
->> object prevent this?
->>
->> Thanks,
->>
->> -Lionel
->>
->> On 27/04/2022 09:35, Lionel Landwerlin wrote:
->>> Hi Matt,
->>>
->>>
->>> The proposal looks good to me.
->>>
->>> Looking forward to try it on drm-tip.
->>>
->>>
->>> -Lionel
->>>
->>> On 20/04/2022 20:13, Matthew Auld wrote:
->>>> Add an entry for the new uapi needed for small BAR on DG2+.
->>>>
->>>> v2:
->>>> Â Â  - Some spelling fixes and other small tweaks. (Akeem & Thomas)
->>>> Â Â  - Rework error capture interactions, including no longer needing
->>>> Â Â Â Â  NEEDS_CPU_ACCESS for objects marked for capture. (Thomas)
->>>> Â Â  - Add probed_cpu_visible_size. (Lionel)
->>>>
->>>> Signed-off-by: Matthew Auld <matthew.auld@intel.com>
->>>> Cc: Thomas HellstrÃ¶m <thomas.hellstrom@linux.intel.com>
->>>> Cc: Lionel Landwerlin <lionel.g.landwerlin@intel.com>
->>>> Cc: Jon Bloomfield <jon.bloomfield@intel.com>
->>>> Cc: Daniel Vetter <daniel.vetter@ffwll.ch>
->>>> Cc: Jordan Justen <jordan.l.justen@intel.com>
->>>> Cc: Kenneth Graunke <kenneth@whitecape.org>
->>>> Cc: Akeem G Abodunrin <akeem.g.abodunrin@intel.com>
->>>> Cc: mesa-dev@lists.freedesktop.org
->>>> ---
->>>> Â  Documentation/gpu/rfc/i915_small_bar.hÂ Â  | 190 
->>>> +++++++++++++++++++++++
->>>> Â  Documentation/gpu/rfc/i915_small_bar.rst |Â  58 +++++++
->>>> Â  Documentation/gpu/rfc/index.rstÂ Â Â Â Â Â Â Â Â  |Â Â  4 +
->>>> Â  3 files changed, 252 insertions(+)
->>>> Â  create mode 100644 Documentation/gpu/rfc/i915_small_bar.h
->>>> Â  create mode 100644 Documentation/gpu/rfc/i915_small_bar.rst
->>>>
->>>> diff --git a/Documentation/gpu/rfc/i915_small_bar.h 
->>>> b/Documentation/gpu/rfc/i915_small_bar.h
->>>> new file mode 100644
->>>> index 000000000000..7bfd0cf44d35
->>>> --- /dev/null
->>>> +++ b/Documentation/gpu/rfc/i915_small_bar.h
->>>> @@ -0,0 +1,190 @@
->>>> +/**
->>>> + * struct __drm_i915_memory_region_info - Describes one region as 
->>>> known to the
->>>> + * driver.
->>>> + *
->>>> + * Note this is using both struct drm_i915_query_item and struct 
->>>> drm_i915_query.
->>>> + * For this new query we are adding the new query id 
->>>> DRM_I915_QUERY_MEMORY_REGIONS
->>>> + * at &drm_i915_query_item.query_id.
->>>> + */
->>>> +struct __drm_i915_memory_region_info {
->>>> +Â Â Â  /** @region: The class:instance pair encoding */
->>>> +Â Â Â  struct drm_i915_gem_memory_class_instance region;
->>>> +
->>>> +Â Â Â  /** @rsvd0: MBZ */
->>>> +Â Â Â  __u32 rsvd0;
->>>> +
->>>> +Â Â Â  /** @probed_size: Memory probed by the driver (-1 = unknown) */
->>>> +Â Â Â  __u64 probed_size;
->>>> +
->>>> +Â Â Â  /** @unallocated_size: Estimate of memory remaining (-1 = 
->>>> unknown) */
->>>> +Â Â Â  __u64 unallocated_size;
->>>> +
->>>> +Â Â Â  union {
->>>> +Â Â Â Â Â Â Â  /** @rsvd1: MBZ */
->>>> +Â Â Â Â Â Â Â  __u64 rsvd1[8];
->>>> +Â Â Â Â Â Â Â  struct {
->>>> +Â Â Â Â Â Â Â Â Â Â Â  /**
->>>> +Â Â Â Â Â Â Â Â Â Â Â Â  * @probed_cpu_visible_size: Memory probed by the driver
->>>> +Â Â Â Â Â Â Â Â Â Â Â Â  * that is CPU accessible. (-1 = unknown).
->>>> +Â Â Â Â Â Â Â Â Â Â Â Â  *
->>>> +Â Â Â Â Â Â Â Â Â Â Â Â  * This will be always be <= @probed_size, and the
->>>> +Â Â Â Â Â Â Â Â Â Â Â Â  * remainder(if there is any) will not be CPU
->>>> +Â Â Â Â Â Â Â Â Â Â Â Â  * accessible.
->>>> +Â Â Â Â Â Â Â Â Â Â Â Â  */
->>>> +Â Â Â Â Â Â Â Â Â Â Â  __u64 probed_cpu_visible_size;
->>>> +Â Â Â Â Â Â Â  };
->>>> +Â Â Â  };
->>>> +};
->>>> +
->>>> +/**
->>>> + * struct __drm_i915_gem_create_ext - Existing gem_create 
->>>> behaviour, with added
->>>> + * extension support using struct i915_user_extension.
->>>> + *
->>>> + * Note that new buffer flags should be added here, at least for 
->>>> the stuff that
->>>> + * is immutable. Previously we would have two ioctls, one to create 
->>>> the object
->>>> + * with gem_create, and another to apply various parameters, 
->>>> however this
->>>> + * creates some ambiguity for the params which are considered 
->>>> immutable. Also in
->>>> + * general we're phasing out the various SET/GET ioctls.
->>>> + */
->>>> +struct __drm_i915_gem_create_ext {
->>>> +Â Â Â  /**
->>>> +Â Â Â Â  * @size: Requested size for the object.
->>>> +Â Â Â Â  *
->>>> +Â Â Â Â  * The (page-aligned) allocated size for the object will be 
->>>> returned.
->>>> +Â Â Â Â  *
->>>> +Â Â Â Â  * Note that for some devices we have might have further minimum
->>>> +Â Â Â Â  * page-size restrictions(larger than 4K), like for device 
->>>> local-memory.
->>>> +Â Â Â Â  * However in general the final size here should always reflect 
->>>> any
->>>> +Â Â Â Â  * rounding up, if for example using the 
->>>> I915_GEM_CREATE_EXT_MEMORY_REGIONS
->>>> +Â Â Â Â  * extension to place the object in device local-memory.
->>>> +Â Â Â Â  */
->>>> +Â Â Â  __u64 size;
->>>> +Â Â Â  /**
->>>> +Â Â Â Â  * @handle: Returned handle for the object.
->>>> +Â Â Â Â  *
->>>> +Â Â Â Â  * Object handles are nonzero.
->>>> +Â Â Â Â  */
->>>> +Â Â Â  __u32 handle;
->>>> +Â Â Â  /**
->>>> +Â Â Â Â  * @flags: Optional flags.
->>>> +Â Â Â Â  *
->>>> +Â Â Â Â  * Supported values:
->>>> +Â Â Â Â  *
->>>> +Â Â Â Â  * I915_GEM_CREATE_EXT_FLAG_NEEDS_CPU_ACCESS - Signal to the 
->>>> kernel that
->>>> +Â Â Â Â  * the object will need to be accessed via the CPU.
->>>> +Â Â Â Â  *
->>>> +Â Â Â Â  * Only valid when placing objects in I915_MEMORY_CLASS_DEVICE, 
->>>> and
->>>> +Â Â Â Â  * only strictly required on platforms where only some of the 
->>>> device
->>>> +Â Â Â Â  * memory is directly visible or mappable through the CPU, like 
->>>> on DG2+.
->>>> +Â Â Â Â  *
->>>> +Â Â Â Â  * One of the placements MUST also be I915_MEMORY_CLASS_SYSTEM, to
->>>> +Â Â Â Â  * ensure we can always spill the allocation to system memory, 
->>>> if we
->>>> +Â Â Â Â  * can't place the object in the mappable part of
->>>> +Â Â Â Â  * I915_MEMORY_CLASS_DEVICE.
->>>> +Â Â Â Â  *
->>>> +Â Â Â Â  * Note that since the kernel only supports flat-CCS on objects 
->>>> that can
->>>> +Â Â Â Â  * *only* be placed in I915_MEMORY_CLASS_DEVICE, we therefore 
->>>> don't
->>>> +Â Â Â Â  * support I915_GEM_CREATE_EXT_FLAG_NEEDS_CPU_ACCESS together with
->>>> +Â Â Â Â  * flat-CCS.
->>>> +Â Â Â Â  *
->>>> +Â Â Â Â  * Without this hint, the kernel will assume that non-mappable
->>>> +Â Â Â Â  * I915_MEMORY_CLASS_DEVICE is preferred for this object. Note 
->>>> that the
->>>> +Â Â Â Â  * kernel can still migrate the object to the mappable part, as 
->>>> a last
->>>> +Â Â Â Â  * resort, if userspace ever CPU faults this object, but this 
->>>> might be
->>>> +Â Â Â Â  * expensive, and so ideally should be avoided.
->>>> +Â Â Â Â  */
->>>> +#define I915_GEM_CREATE_EXT_FLAG_NEEDS_CPU_ACCESS (1 << 0)
->>>> +Â Â Â  __u32 flags;
->>>> +Â Â Â  /**
->>>> +Â Â Â Â  * @extensions: The chain of extensions to apply to this object.
->>>> +Â Â Â Â  *
->>>> +Â Â Â Â  * This will be useful in the future when we need to support 
->>>> several
->>>> +Â Â Â Â  * different extensions, and we need to apply more than one when
->>>> +Â Â Â Â  * creating the object. See struct i915_user_extension.
->>>> +Â Â Â Â  *
->>>> +Â Â Â Â  * If we don't supply any extensions then we get the same old 
->>>> gem_create
->>>> +Â Â Â Â  * behaviour.
->>>> +Â Â Â Â  *
->>>> +Â Â Â Â  * For I915_GEM_CREATE_EXT_MEMORY_REGIONS usage see
->>>> +Â Â Â Â  * struct drm_i915_gem_create_ext_memory_regions.
->>>> +Â Â Â Â  *
->>>> +Â Â Â Â  * For I915_GEM_CREATE_EXT_PROTECTED_CONTENT usage see
->>>> +Â Â Â Â  * struct drm_i915_gem_create_ext_protected_content.
->>>> +Â Â Â Â  */
->>>> +#define I915_GEM_CREATE_EXT_MEMORY_REGIONS 0
->>>> +#define I915_GEM_CREATE_EXT_PROTECTED_CONTENT 1
->>>> +Â Â Â  __u64 extensions;
->>>> +};
->>>> +
->>>> +#define DRM_I915_QUERY_VMA_INFOÂ Â Â  5
->>>> +
->>>> +/**
->>>> + * struct __drm_i915_query_vma_info
->>>> + *
->>>> + * Given a vm and GTT address, lookup the corresponding vma, 
->>>> returning its set
->>>> + * of attributes.
->>>> + *
->>>> + * .. code-block:: C
->>>> + *
->>>> + *Â Â Â  struct drm_i915_query_vma_info info = {};
->>>> + *Â Â Â  struct drm_i915_query_item item = {
->>>> + *Â Â Â Â Â Â Â  .data_ptr = (uintptr_t)&info,
->>>> + *Â Â Â Â Â Â Â  .query_id = DRM_I915_QUERY_VMA_INFO,
->>>> + *Â Â Â  };
->>>> + *Â Â Â  struct drm_i915_query query = {
->>>> + *Â Â Â Â Â Â Â  .num_items = 1,
->>>> + *Â Â Â Â Â Â Â  .items_ptr = (uintptr_t)&item,
->>>> + *Â Â Â  };
->>>> + *Â Â Â  int err;
->>>> + *
->>>> + *Â Â Â  // Unlike some other types of queries, there is no need to 
->>>> first query
->>>> + *Â Â Â  // the size of the data_ptr blob here, since we already know 
->>>> ahead of
->>>> + *Â Â Â  // time how big this needs to be.
->>>> + *Â Â Â  item.length = sizeof(info);
->>>> + *
->>>> + *Â Â Â  // Next we fill in the vm_id and ppGTT address of the vma we 
->>>> wish
->>>> + *Â Â Â  // to query, before then firing off the query.
->>>> + *Â Â Â  info.vm_id = vm_id;
->>>> + *Â Â Â  info.offset = gtt_address;
->>>> + *Â Â Â  err = ioctl(fd, DRM_IOCTL_I915_QUERY, &query);
->>>> + *Â Â Â  if (err || item.length < 0) ...
->>>> + *
->>>> + *Â Â Â  // If all went well we can now inspect the returned attributes.
->>>> + *Â Â Â  if (info.attributes & DRM_I915_QUERY_VMA_INFO_CPU_VISIBLE) ...
->>>> + */
->>>> +struct __drm_i915_query_vma_info {
->>>> +Â Â Â  /**
->>>> +Â Â Â Â  * @vm_id: The given vm id that contains the vma. The id is the 
->>>> value
->>>> +Â Â Â Â  * returned by the DRM_I915_GEM_VM_CREATE. See struct
->>>> +Â Â Â Â  * drm_i915_gem_vm_control.vm_id.
->>>> +Â Â Â Â  */
->>>> +Â Â Â  __u32 vm_id;
->>>> +Â Â Â  /** @pad: MBZ. */
->>>> +Â Â Â  __u32 pad;
->>>> +Â Â Â  /**
->>>> +Â Â Â Â  * @offset: The corresponding ppGTT address of the vma which 
->>>> the kernel
->>>> +Â Â Â Â  * will use to perform the lookup.
->>>> +Â Â Â Â  */
->>>> +Â Â Â  __u64 offset;
->>>> +Â Â Â  /**
->>>> +Â Â Â Â  * @attributes: The returned attributes for the given vma.
->>>> +Â Â Â Â  *
->>>> +Â Â Â Â  * Possible values:
->>>> +Â Â Â Â  *
->>>> +Â Â Â Â  * DRM_I915_QUERY_VMA_INFO_CPU_VISIBLE - Set if the pages 
->>>> backing the
->>>> +Â Â Â Â  * vma are currently CPU accessible. If this is not set then 
->>>> the vma is
->>>> +Â Â Â Â  * currently backed by I915_MEMORY_CLASS_DEVICE memory, which 
->>>> the CPU
->>>> +Â Â Â Â  * cannot directly access(this is only possible on discrete 
->>>> devices with
->>>> +Â Â Â Â  * a small BAR). Attempting to MMAP and fault such an object will
->>>> +Â Â Â Â  * require the kernel first synchronising any GPU work tied to the
->>>> +Â Â Â Â  * object, before then migrating the pages, either to the CPU 
->>>> accessible
->>>> +Â Â Â Â  * part of I915_MEMORY_CLASS_DEVICE, or 
->>>> I915_MEMORY_CLASS_SYSTEM, if the
->>>> +Â Â Â Â  * placements permit it. See 
->>>> I915_GEM_CREATE_EXT_FLAG_NEEDS_CPU_ACCESS.
->>>> +Â Â Â Â  *
->>>> +Â Â Â Â  * Note that this is inherently racy.
->>>> +Â Â Â Â  */
->>>> +#define DRM_I915_QUERY_VMA_INFO_CPU_VISIBLE (1<<0)
->>>> +Â Â Â  __u64 attributes;
->>>> +Â Â Â  /** @rsvd: MBZ */
->>>> +Â Â Â  __u32 rsvd[4];
->>>> +};
->>>> diff --git a/Documentation/gpu/rfc/i915_small_bar.rst 
->>>> b/Documentation/gpu/rfc/i915_small_bar.rst
->>>> new file mode 100644
->>>> index 000000000000..be3d9bcdd86d
->>>> --- /dev/null
->>>> +++ b/Documentation/gpu/rfc/i915_small_bar.rst
->>>> @@ -0,0 +1,58 @@
->>>> +==========================
->>>> +I915 Small BAR RFC Section
->>>> +==========================
->>>> +Starting from DG2 we will have resizable BAR support for device 
->>>> local-memory(i.e
->>>> +I915_MEMORY_CLASS_DEVICE), but in some cases the final BAR size 
->>>> might still be
->>>> +smaller than the total probed_size. In such cases, only some subset of
->>>> +I915_MEMORY_CLASS_DEVICE will be CPU accessible(for example the 
->>>> first 256M),
->>>> +while the remainder is only accessible via the GPU.
->>>> +
->>>> +I915_GEM_CREATE_EXT_FLAG_NEEDS_CPU_ACCESS flag
->>>> +----------------------------------------------
->>>> +New gem_create_ext flag to tell the kernel that a BO will require 
->>>> CPU access.
->>>> +This becomes important when placing an object in 
->>>> I915_MEMORY_CLASS_DEVICE, where
->>>> +underneath the device has a small BAR, meaning only some portion of 
->>>> it is CPU
->>>> +accessible. Without this flag the kernel will assume that CPU 
->>>> access is not
->>>> +required, and prioritize using the non-CPU visible portion of
->>>> +I915_MEMORY_CLASS_DEVICE.
->>>> +
->>>> +.. kernel-doc:: Documentation/gpu/rfc/i915_small_bar.h
->>>> +Â Â  :functions: __drm_i915_gem_create_ext
->>>> +
->>>> +probed_cpu_visible_size attribute
->>>> +---------------------------------
->>>> +New struct__drm_i915_memory_region attribute which returns the 
->>>> total size of the
->>>> +CPU accessible portion, for the particular region. This should only be
->>>> +applicable for I915_MEMORY_CLASS_DEVICE.
->>>> +
->>>> +Vulkan will need this as part of creating a separate VkMemoryHeap 
->>>> with the
->>>> +VK_MEMORY_PROPERTY_HOST_VISIBLE_BIT set, to represent the CPU 
->>>> visible portion,
->>>> +where the total size of the heap needs to be known.
->>>> +
->>>> +.. kernel-doc:: Documentation/gpu/rfc/i915_small_bar.h
->>>> +Â Â  :functions: __drm_i915_memory_region_info
->>>> +
->>>> +DRM_I915_QUERY_VMA_INFO query
->>>> +-----------------------------
->>>> +Query the attributes of some vma. Given a vm and GTT offset, find the
->>>> +respective vma, and return its set of attributes. For now we only 
->>>> support
->>>> +DRM_I915_QUERY_VMA_INFO_CPU_VISIBLE, which is set if the object/vma is
->>>> +currently placed in memory that is accessible by the CPU. This 
->>>> should always be
->>>> +set on devices where the CPU probed_cpu_visible_size of 
->>>> I915_MEMORY_CLASS_DEVICE
->>>> +matches the probed_size. If this is not set then CPU faulting the 
->>>> object will
->>>> +likely first require migrating the pages.
->>>> +
->>>> +.. kernel-doc:: Documentation/gpu/rfc/i915_small_bar.h
->>>> +Â Â  :functions: __drm_i915_query_vma_info
->>>> +
->>>> +Error Capture restrictions
->>>> +--------------------------
->>>> +With error capture we have two new restrictions:
->>>> +
->>>> +Â Â Â  1) Error capture is best effort on small BAR systems; if the 
->>>> pages are not
->>>> +Â Â Â  CPU accessible, at the time of capture, then the kernel is free 
->>>> to skip
->>>> +Â Â Â  trying to capture them.
->>>> +
->>>> +Â Â Â  2) On discrete we now reject error capture on recoverable 
->>>> contexts. In the
->>>> +Â Â Â  future the kernel may want to blit during error capture, when 
->>>> for example
->>>> +Â Â Â  something is not currently CPU accessible.
->>>> diff --git a/Documentation/gpu/rfc/index.rst 
->>>> b/Documentation/gpu/rfc/index.rst
->>>> index 91e93a705230..5a3bd3924ba6 100644
->>>> --- a/Documentation/gpu/rfc/index.rst
->>>> +++ b/Documentation/gpu/rfc/index.rst
->>>> @@ -23,3 +23,7 @@ host such documentation:
->>>> Â  .. toctree::
->>>> Â  Â Â Â Â Â  i915_scheduler.rst
->>>> +
->>>> +.. toctree::
->>>> +
->>>> +Â Â Â  i915_small_bar.rst
->>>
->>>
->>
+> I'll try to revisit this, but I was finding that it's much more
+> difficult to follow and debug code without the explicit states.
+
+purgeable/purged needs some state, but pinned shouldn't be duplicated, so
+I concur here a bit.
+
+> > In your patch, they also come with a
+> > big zoo of trivial helpers. None of that seems necessary AFAICT.
 > 
+> There are couple functions which could be squashed, although this may
+> hurt readability of the code a tad. I'll try to take another look at
+> this for v5.
+> 
+> > What's the difference between purge and evict BTW?
+> 
+> The evicted pages are moved out from memory to a SWAP partition or file.
+> 
+> The purged pages are destroyed permanently.
+> 
+> >> +
+> >>   /**
+> >>    * struct drm_gem_shmem_object - GEM object backed by shmem
+> >>    */
+> >> @@ -43,8 +54,8 @@ struct drm_gem_shmem_object {
+> >>        * @madv: State for madvise
+> >>        *
+> >>        * 0 is active/inuse.
+> >> +     * 1 is not-needed/can-be-purged
+> >>        * A negative value is the object is purged.
+> >> -     * Positive values are driver specific and not used by the helpers.
+> >>        */
+> >>       int madv;
+> >>   @@ -91,6 +102,40 @@ struct drm_gem_shmem_object {
+> >>        * @map_wc: map object write-combined (instead of using shmem
+> >> defaults).
+> >>        */
+> >>       bool map_wc;
+> >> +
+> >> +    /**
+> >> +     * @eviction_disable_count:
+> >> +     *
+> >> +     * The shmem pages are disallowed to be evicted by the memory
+> >> shrinker
+> >> +     * while count is non-zero. Used internally by memory shrinker.
+> >> +     */
+> >> +    unsigned int eviction_disable_count;
+> >> +
+> >> +    /**
+> >> +     * @purging_disable_count:
+> >> +     *
+> >> +     * The shmem pages are disallowed to be purged by the memory
+> >> shrinker
+> >> +     * while count is non-zero. Used internally by memory shrinker.
+> >> +     */
+> >> +    unsigned int purging_disable_count;
+
+What are these disable counts for?
+
+The way purgeable works in other drivers is that userspace sets purgeable
+or not, and it's up to userspace to not make a mess of this.
+
+There's also some interactions, and I guess a bunch of drivers get this
+wrong in funny ways. Not sure how to best clean this up.
+
+- Once you have a shrinker/dynamic memory management you should _not_ pin
+  pages, except when it's truly permanent like for scanout. Instead
+  drivers should attach dma_fence to the dma_resv to denote in-flight
+  access.
+
+- A pinned buffer object is not allowed to be put into purgeable state,
+  and a bo in purgeable state should not be allowed to be pinned.
+
+- Drivers need to hold dma_resv_lock for long enough in their command
+  submission, i.e. from the point where the reserve the buffers and make
+  sure that mappings exists, to the point where the request is submitted
+  to hw or drm/sched and fences are installed.
+
+But I think a lot of current shmem users just pin as part of execbuf, so
+this won't work quite so well right out of the box.
+
+Anyway with that design I don't think there should ever be a need to
+disable shrinking.
+
+> >> +
+> >> +    /**
+> >> +     * @pages_state: Current state of shmem pages. Used internally by
+> >> +     * memory shrinker.
+> >> +     */
+> >> +    enum drm_gem_shmem_pages_state pages_state;
+> >> +
+> >> +    /**
+> >> +     * @evicted: True if shmem pages were evicted by the memory
+> >> shrinker.
+> >> +     * Used internally by memory shrinker.
+> >> +     */
+> >> +    bool evicted;
+> >> +
+> >> +    /**
+> >> +     * @pages_shrinkable: True if shmem pages can be evicted or purged
+> >> +     * by the memory shrinker. Used internally by memory shrinker.
+> >> +     */
+> >> +    bool pages_shrinkable;
+> > 
+> > As commented before, this state can be foundby looking at existing
+> > fields. No need to store it separately.
+> 
+> When we're transitioning from "evictable" to a "purgeable" state, we
+> must not add pages twice to the "shrinkable_count" variable. Hence this
+> is not a state, but a variable which prevents the double accounting of
+> the pages. Please see drm_gem_shmem_add_pages_to_shrinker() in this patch.
+> 
+> Perhaps something like "pages_accounted_by_shrinker" could be a better
+> name for the variable. I'll revisit this for v5.
+
+Hm not sure we need to account this? Usually the shrinker just counts when
+it's asked to do so, not practively maintain that count. Once you start
+shrinking burning cpu time is generally not too terrible.
+-Daniel
+-- 
+Daniel Vetter
+Software Engineer, Intel Corporation
+http://blog.ffwll.ch
