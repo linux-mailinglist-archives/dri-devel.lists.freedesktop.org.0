@@ -2,55 +2,43 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id EC475511C5C
-	for <lists+dri-devel@lfdr.de>; Wed, 27 Apr 2022 18:29:34 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 826F2511C63
+	for <lists+dri-devel@lfdr.de>; Wed, 27 Apr 2022 18:36:42 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 94B2F10E0F5;
-	Wed, 27 Apr 2022 16:29:32 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 824B610E9AE;
+	Wed, 27 Apr 2022 16:36:39 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mga05.intel.com (mga05.intel.com [192.55.52.43])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 51CA410E0F5;
- Wed, 27 Apr 2022 16:29:31 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1651076971; x=1682612971;
- h=message-id:date:mime-version:subject:to:cc:references:
- from:in-reply-to:content-transfer-encoding;
- bh=pgAtQIHKgQvms1790Zb68KHmRMOlx1KWZAco7KvWs64=;
- b=U62Jb4fHehxcZlPPZwrX1cTIAHZv0uppFgtBB3wXEAbDP8w2VyeC8Chi
- dWnYfrf9w23jz1FYb/VN56BervYXFmeldDXIZGy7gCFlXbUDytmeo/O7l
- 8mSiePe3BLGEhUXmiy0IJFT9PrjllUt/3NmelWxyj/R/fZAUSd4GZwFY8
- tYhMluw8e0KFnkeijzwEGkRIIlOjfIofWlvfBMI/6fRDODeV+1wVEragp
- pRef98AkWlhWR23w67/kL19HsI03G9ZUAV9xsmUyTvIl1ulCuoi3rp3WB
- WmD+pLYDYBjp+4qRNIosDTCEGNIsrkT8+/NjEXcINfksCpsrt1evkeQJP w==;
-X-IronPort-AV: E=McAfee;i="6400,9594,10330"; a="352428667"
-X-IronPort-AV: E=Sophos;i="5.90,293,1643702400"; d="scan'208";a="352428667"
-Received: from orsmga004.jf.intel.com ([10.7.209.38])
- by fmsmga105.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 27 Apr 2022 09:29:30 -0700
-X-IronPort-AV: E=Sophos;i="5.90,293,1643702400"; d="scan'208";a="680886278"
-Received: from konishi-mobl.gar.corp.intel.com (HELO [10.252.6.183])
- ([10.252.6.183])
- by orsmga004-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 27 Apr 2022 09:29:29 -0700
-Message-ID: <c866374b-46cc-87fb-4529-7aa1f2dfb130@intel.com>
-Date: Wed, 27 Apr 2022 17:29:27 +0100
+Received: from metis.ext.pengutronix.de (metis.ext.pengutronix.de
+ [IPv6:2001:67c:670:201:290:27ff:fe1d:cc33])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 79DC510EAEF
+ for <dri-devel@lists.freedesktop.org>; Wed, 27 Apr 2022 16:36:38 +0000 (UTC)
+Received: from gallifrey.ext.pengutronix.de
+ ([2001:67c:670:201:5054:ff:fe8d:eefb] helo=[IPv6:::1])
+ by metis.ext.pengutronix.de with esmtps
+ (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256) (Exim 4.92)
+ (envelope-from <l.stach@pengutronix.de>)
+ id 1njkeT-0000r5-57; Wed, 27 Apr 2022 18:36:29 +0200
+Message-ID: <635905f16b2ddf1d16f36e3c0e592eb492b1faf1.camel@pengutronix.de>
+Subject: Re: [RESEND PATCH v3] drm/cma-helper: Describe what a "contiguous
+ chunk" actually means
+From: Lucas Stach <l.stach@pengutronix.de>
+To: Daniel Thompson <daniel.thompson@linaro.org>, Maarten Lankhorst
+ <maarten.lankhorst@linux.intel.com>, Maxime Ripard <mripard@kernel.org>, 
+ Thomas Zimmermann <tzimmermann@suse.de>, David Airlie <airlied@linux.ie>,
+ Daniel Vetter <daniel@ffwll.ch>
+Date: Wed, 27 Apr 2022 18:36:27 +0200
+In-Reply-To: <20220427140910.1735188-1-daniel.thompson@linaro.org>
+References: <20220427140910.1735188-1-daniel.thompson@linaro.org>
+Content-Type: text/plain; charset="UTF-8"
+User-Agent: Evolution 3.40.4 (3.40.4-1.fc34) 
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.7.0
-Subject: Re: [PATCH v2 3/4] drm/i915/gt: Document the eviction of the Flat-CCS
- objects
-Content-Language: en-GB
-To: Ramalingam C <ramalingam.c@intel.com>,
- intel-gfx <intel-gfx@lists.freedesktop.org>,
- dri-devel <dri-devel@lists.freedesktop.org>
-References: <20220425162430.28844-1-ramalingam.c@intel.com>
- <20220425162430.28844-4-ramalingam.c@intel.com>
-From: Matthew Auld <matthew.auld@intel.com>
-In-Reply-To: <20220425162430.28844-4-ramalingam.c@intel.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 7bit
+X-SA-Exim-Connect-IP: 2001:67c:670:201:5054:ff:fe8d:eefb
+X-SA-Exim-Mail-From: l.stach@pengutronix.de
+X-SA-Exim-Scanned: No (on metis.ext.pengutronix.de);
+ SAEximRunCond expanded to false
+X-PTX-Original-Recipient: dri-devel@lists.freedesktop.org
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -63,69 +51,120 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Thomas Hellstrom <thomas.hellstrom@linux.intel.com>,
- Hellstrom Thomas <thomas.hellstrom@intel.com>
+Cc: linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 25/04/2022 17:24, Ramalingam C wrote:
-> Capture the eviction details for Flat-CCS capable, lmem objects.
+Am Mittwoch, dem 27.04.2022 um 15:09 +0100 schrieb Daniel Thompson:
+> Since it's inception in 2012 it has been understood that the DRM GEM CMA
+> helpers do not depend on CMA as the backend allocator. In fact the first
+> bug fix to ensure the cma-helpers work correctly with an IOMMU backend
+> appeared in 2014. However currently the documentation for
+> drm_gem_cma_create() talks about "a contiguous chunk of memory" without
+> making clear which address space it will be a contiguous part of.
+> Additionally the CMA introduction is actively misleading because it only
+> contemplates the CMA backend.
 > 
-> v2:
->    Fix the Flat-ccs capbility of lmem obj with smem residency
->    possibility [Thomas]
+> This matters because when the device accesses the bus through an IOMMU
+> (and don't use the CMA backend) then the allocated memory is contiguous
+> only in the IOVA space. This is a significant difference compared to the
+> CMA backend and the behaviour can be a surprise even to someone who does
+> a reasonable level of code browsing (but doesn't find all the relevant
+> function pointers ;-) ).
 > 
-> Signed-off-by: Ramalingam C <ramalingam.c@intel.com>
-> cc: Thomas Hellstrom <thomas.hellstrom@linux.intel.com>
-> cc: Matthew Auld <matthew.auld@intel.com>
+> Improve the kernel doc comments accordingly.
+> 
+> Signed-off-by: Daniel Thompson <daniel.thompson@linaro.org>
+
+Reviewed-by: Lucas Stach <l.stach@pengutronix.de>
+
 > ---
->   drivers/gpu/drm/i915/gt/intel_migrate.c | 23 ++++++++++++++---------
->   1 file changed, 14 insertions(+), 9 deletions(-)
 > 
-> diff --git a/drivers/gpu/drm/i915/gt/intel_migrate.c b/drivers/gpu/drm/i915/gt/intel_migrate.c
-> index 463a6a14b5f9..930e0fd9795f 100644
-> --- a/drivers/gpu/drm/i915/gt/intel_migrate.c
-> +++ b/drivers/gpu/drm/i915/gt/intel_migrate.c
-> @@ -485,16 +485,21 @@ static bool wa_1209644611_applies(int ver, u32 size)
->    * And CCS data can be copied in and out of CCS region through
->    * XY_CTRL_SURF_COPY_BLT. CPU can't access the CCS data directly.
->    *
-> - * When we exhaust the lmem, if the object's placements support smem, then we can
-> - * directly decompress the compressed lmem object into smem and start using it
-> - * from smem itself.
-> + * I915 supports Flat-CCS on lmem only objects. When an objects has the smem in
-
-"When an object has smem in"
-
-> + * its preference list, on memory pressure, i915 needs to migarte the lmem
-
-"migrate"
-
-> + * content into smem. If the lmem object is Flat-CCS compressed by userspace,
-> + * then i915 needs to decompress it. But I915 lack the required information
-> + * for such decompression. Hence I915 supports Flat-CCS only on lmem only objects.
->    *
-> - * But when we need to swapout the compressed lmem object into a smem region
-> - * though objects' placement doesn't support smem, then we copy the lmem content
-> - * as it is into smem region along with ccs data (using XY_CTRL_SURF_COPY_BLT).
-> - * When the object is referred, lmem content will be swaped in along with
-> - * restoration of the CCS data (using XY_CTRL_SURF_COPY_BLT) at corresponding
-> - * location.
-> + * when we exhaust the lmem, Flat-CCS capable objects' lmem backing memory can
-
-"When"
-
-Otherwise,
-Reviewed-by: Matthew Auld <matthew.auld@intel.com>
-
-> + * be temporarily evicted to smem, along with the auxiliary CCS state, where
-> + * it can be potentially swapped-out at a later point, if required.
-> + * If userspace later touches the evicted pages, then we always move
-> + * the backing memory back to lmem, which includes restoring the saved CCS state,
-> + * and potentially performing any required swap-in.
+> Notes:
+>     RESEND is unaltered but rebased on v5.18-rc3.
+>     
+>     Changes in v3:
+>     - Rebased on v5.17-rc2
+>     - Minor improvements to wording.
+>     
+>     Changes in v2:
+>     - Oops. I did a final proof read and accidentally committed these
+>       changes as a seperate patch. This means that v1 contains only
+>       one tenth of the actual patch. This is fixed in v2. Many apologies
+>       for the noise!
+> 
+>  drivers/gpu/drm/drm_gem_cma_helper.c | 39 +++++++++++++++++++++-------
+>  1 file changed, 29 insertions(+), 10 deletions(-)
+> 
+> diff --git a/drivers/gpu/drm/drm_gem_cma_helper.c b/drivers/gpu/drm/drm_gem_cma_helper.c
+> index f36734c2c9e1..42abee9a0f4f 100644
+> --- a/drivers/gpu/drm/drm_gem_cma_helper.c
+> +++ b/drivers/gpu/drm/drm_gem_cma_helper.c
+> @@ -26,12 +26,22 @@
+>  /**
+>   * DOC: cma helpers
+>   *
+> - * The Contiguous Memory Allocator reserves a pool of memory at early boot
+> - * that is used to service requests for large blocks of contiguous memory.
+> + * The DRM GEM/CMA helpers are a means to provide buffer objects that are
+> + * presented to the device as a contiguous chunk of memory. This is useful
+> + * for devices that do not support scatter-gather DMA (either directly or
+> + * by using an intimately attached IOMMU).
+>   *
+> - * The DRM GEM/CMA helpers use this allocator as a means to provide buffer
+> - * objects that are physically contiguous in memory. This is useful for
+> - * display drivers that are unable to map scattered buffers via an IOMMU.
+> + * Despite the name, the DRM GEM/CMA helpers are not hardwired to use the
+> + * Contiguous Memory Allocator (CMA).
 > + *
-> + * For the migration of the lmem objects with smem in placement list, such as
-> + * {lmem, smem}, objects are treated as non Flat-CCS capable objects.
->    */
->   
->   static inline u32 *i915_flush_dw(u32 *cmd, u32 flags)
+> + * For devices that access the memory bus through an (external) IOMMU then
+> + * the buffer objects are allocated using a traditional page-based
+> + * allocator and may be scattered through physical memory. However they
+> + * are contiguous in the IOVA space so appear contiguous to devices using
+> + * them.
+> + *
+> + * For other devices then the helpers rely on CMA to provide buffer
+> + * objects that are physically contiguous in memory.
+>   *
+>   * For GEM callback helpers in struct &drm_gem_object functions, see likewise
+>   * named functions with an _object_ infix (e.g., drm_gem_cma_object_vmap() wraps
+> @@ -111,8 +121,14 @@ __drm_gem_cma_create(struct drm_device *drm, size_t size, bool private)
+>   * @drm: DRM device
+>   * @size: size of the object to allocate
+>   *
+> - * This function creates a CMA GEM object and allocates a contiguous chunk of
+> - * memory as backing store.
+> + * This function creates a CMA GEM object and allocates memory as backing store.
+> + * The allocated memory will occupy a contiguous chunk of bus address space.
+> + *
+> + * For devices that are directly connected to the memory bus then the allocated
+> + * memory will be physically contiguous. For devices that access through an
+> + * IOMMU, then the allocated memory is not expected to be physically contiguous
+> + * because having contiguous IOVAs is sufficient to meet a devices DMA
+> + * requirements.
+>   *
+>   * Returns:
+>   * A struct drm_gem_cma_object * on success or an ERR_PTR()-encoded negative
+> @@ -162,9 +178,12 @@ EXPORT_SYMBOL_GPL(drm_gem_cma_create);
+>   * @size: size of the object to allocate
+>   * @handle: return location for the GEM handle
+>   *
+> - * This function creates a CMA GEM object, allocating a physically contiguous
+> - * chunk of memory as backing store. The GEM object is then added to the list
+> - * of object associated with the given file and a handle to it is returned.
+> + * This function creates a CMA GEM object, allocating a chunk of memory as
+> + * backing store. The GEM object is then added to the list of object associated
+> + * with the given file and a handle to it is returned.
+> + *
+> + * The allocated memory will occupy a contiguous chunk of bus address space.
+> + * See drm_gem_cma_create() for more details.
+>   *
+>   * Returns:
+>   * A struct drm_gem_cma_object * on success or an ERR_PTR()-encoded negative
+> 
+> base-commit: b2d229d4ddb17db541098b83524d901257e93845
+> --
+> 2.35.1
+> 
+
+
