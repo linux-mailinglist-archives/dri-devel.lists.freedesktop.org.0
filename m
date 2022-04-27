@@ -1,68 +1,72 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id A8F18510D72
-	for <lists+dri-devel@lfdr.de>; Wed, 27 Apr 2022 02:53:29 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 5E337510D98
+	for <lists+dri-devel@lfdr.de>; Wed, 27 Apr 2022 03:03:22 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 1A1F289F2E;
-	Wed, 27 Apr 2022 00:53:25 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 899C010E10A;
+	Wed, 27 Apr 2022 01:03:16 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-ot1-x32b.google.com (mail-ot1-x32b.google.com
- [IPv6:2607:f8b0:4864:20::32b])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 3CBDD89DC7
- for <dri-devel@lists.freedesktop.org>; Wed, 27 Apr 2022 00:53:24 +0000 (UTC)
-Received: by mail-ot1-x32b.google.com with SMTP id
- e15-20020a9d63cf000000b006054e65aaecso145365otl.0
- for <dri-devel@lists.freedesktop.org>; Tue, 26 Apr 2022 17:53:24 -0700 (PDT)
+Received: from mail-oi1-x22b.google.com (mail-oi1-x22b.google.com
+ [IPv6:2607:f8b0:4864:20::22b])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 0A46510E10A
+ for <dri-devel@lists.freedesktop.org>; Wed, 27 Apr 2022 01:03:15 +0000 (UTC)
+Received: by mail-oi1-x22b.google.com with SMTP id s131so513772oie.1
+ for <dri-devel@lists.freedesktop.org>; Tue, 26 Apr 2022 18:03:14 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
- h=message-id:date:mime-version:user-agent:subject:content-language:to
- :cc:references:from:in-reply-to:content-transfer-encoding;
- bh=AkHUokfeTuQKfF06t8SlHP5Kddf67tm2yi9QYwqi+nU=;
- b=Uz+dQ9nsZs0dKpP9rNzVEHeKZKpxF5mU4q66Dsr3hhib/E5M45dAe7jNz48cPfjRxH
- UkMU93kOlqZ/Y/IFDkcpVTcTuZ6qRipP65pN0D3xHd75iTKS+AiwFr9YeQf4RSLNwaxM
- lg7TYEKqFwZMyGzw+f1/AMsvpzp4QhUCu+HMEll5T0Ov6oRTv8TbqjLPHbejjy7sMiwC
- PX22n535YPU7drEQ4i+ypxZg0LN4xos5lIth7tVkGS/jh6kzmRokCGZF5oI0oLHMUpzh
- lM3JbVMWda/U/DiiTNnhWXbYEJqJ4XqN51tm+JvPgKueyEa0fuPl7b0IRpIa6RdeZbHg
- dIqg==
+ h=message-id:date:mime-version:user-agent:subject:content-language
+ :from:to:cc:references:in-reply-to:content-transfer-encoding;
+ bh=4wCF1QVmmgiTefvkzHoq1cOgV6USHBa/fYKUPu+PAeY=;
+ b=eZiBzx9c/tbAYDJU3+QcUKxklsYJG12qAm08YXmfV/XBecMYvT/iWM+m7qvk3yLODY
+ 6zDMz4Vi03slpX/t+56u9+GYSUkY/D/i1GMvg7GXny/Yv3JTVB5zounmMAKm9TpgYm0C
+ WCWbaI35Z6r584DLgMJexveF3YcSEIo+CRl+1I/MBb6bScDslrxnB+1TwXdcjqwWWtbB
+ WUD8ILu16YsvvpKone/3K5dv/AKbBna/aOjwKoMG32vPHphBejFbBBGdjH4JnQiYBzXN
+ O/Xs6xU0Iyj6FL2wJiETQqMxsBEncOulsiRkuTRSdioB6ywzF+Ebu4qTqpWNXtZ77qDa
+ im5w==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
- :content-language:to:cc:references:from:in-reply-to
+ :content-language:from:to:cc:references:in-reply-to
  :content-transfer-encoding;
- bh=AkHUokfeTuQKfF06t8SlHP5Kddf67tm2yi9QYwqi+nU=;
- b=VepCpd0PWNMUj65HH+eUyFmSc5U4EdgB8tBX/xjxYeiOja10ZAX7hojQvJM+D+Clwr
- sQpG2V7MSIrtyPnRjyJWx6ZFHSjVUAOsE308Sq/QzW5MsYcS/9q+rpRB7lGvwlaTp9D3
- 5tmwGy5IjITC/sb6qAV7oXy5Mm9olCexKohQ+ne84SewcBJ9xUfY4m6FtgQQh35RX0bx
- AI7HgSnVAkiPUZ1b6i3NmhhwoYivi/FP+eYNNBwei12d233OaG00rptVd073MfBtp+BH
- 2G5Bgm7xe3vrJuzgFXVu91BzBj1A/x0pB2M85Ce82TJjbmBUZXZdrsZKBQP0GZFbyRKs
- du9A==
-X-Gm-Message-State: AOAM5322KaqEaYW83FWRpSziFCklWWgHY88omiuGqrzF8pV5Ki7ss5/8
- A2SjWja1hZkmElwZiR/6l58=
-X-Google-Smtp-Source: ABdhPJyDiu+jqFB7kw5YgcQk2I286MNgEWov46vQDoDx1cx5jkgMigWCg0cRrOAKGK9T4Vd/Gp13LQ==
-X-Received: by 2002:a9d:6648:0:b0:605:4e84:c0b with SMTP id
- q8-20020a9d6648000000b006054e840c0bmr9084569otm.3.1651020803408; 
- Tue, 26 Apr 2022 17:53:23 -0700 (PDT)
+ bh=4wCF1QVmmgiTefvkzHoq1cOgV6USHBa/fYKUPu+PAeY=;
+ b=I9tymomkr+7IgBNKe2inDFdea25CtIxm2gPgI9YB2wkaCcKeECZ/TaqPEzp0RmBLLb
+ GIGeB9JoqHP5nrWmtzL4Q+UsQdBmBAhZ60rpDjo8ud6zQFAaCTRpIPjVd0ke9BgnM6vE
+ 9G9kEHQ070FRsWltfblOXRjCsgaRc8UE5xflXXLIXVQx7PYSqPwT3AIS06GAgbMXTcf/
+ S6xHcrSQkv1boYcMbz1BDH+rXJbj0cdJ0YwUiWFnlKTnn3kX7tovOvZOYwjuAU2QdHEC
+ xvUvEENmSVKVjE8G2ENkKDK/LoyT7wLo1FN7FURghdkv0UsI1Ll796CuLZ6Qhhq8w5Ck
+ sa3A==
+X-Gm-Message-State: AOAM532ktgA8zKtU1H6wYubOI3r/XJu1RvXpDcax1Ohf3AqQ9tB1fDSh
+ ruK4odU600EV2IuXlowLoCI=
+X-Google-Smtp-Source: ABdhPJy0EledSqq8/UyzQS8bkKKUDV9YfU8ZOaD0jt0JMpQ400FZzfQVmVV+721vYeadMcQF46UpsQ==
+X-Received: by 2002:a05:6808:e8f:b0:2f7:6c1a:c1a with SMTP id
+ k15-20020a0568080e8f00b002f76c1a0c1amr15679608oil.129.1651021394196; 
+ Tue, 26 Apr 2022 18:03:14 -0700 (PDT)
 Received: from ?IPV6:2804:431:c7f5:ffc4:8a9b:6b71:54e4:4c48?
  ([2804:431:c7f5:ffc4:8a9b:6b71:54e4:4c48])
  by smtp.gmail.com with ESMTPSA id
- c4-20020a056870a58400b000e686d13870sm73459oam.10.2022.04.26.17.53.20
+ e26-20020a056820061a00b0035e46250f56sm5534452oow.13.2022.04.26.18.03.10
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Tue, 26 Apr 2022 17:53:23 -0700 (PDT)
-Message-ID: <5143c749-55bc-c6d8-59af-55ee931d8639@gmail.com>
-Date: Tue, 26 Apr 2022 21:53:19 -0300
+ Tue, 26 Apr 2022 18:03:13 -0700 (PDT)
+Message-ID: <5c2a80f5-5107-4fab-4df9-b0be633fd576@gmail.com>
+Date: Tue, 26 Apr 2022 22:03:09 -0300
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
  Thunderbird/91.8.0
-Subject: Re: [PATCH v5 9/9] drm: vkms: Add support to the RGB565 format
+Subject: Re: [PATCH v5 6/9] drm: vkms: Refactor the plane composer to accept
+ new formats
 Content-Language: en-US
+From: Igor Torrente <igormtorrente@gmail.com>
 To: Pekka Paalanen <ppaalanen@gmail.com>
 References: <20220404204515.42144-1-igormtorrente@gmail.com>
- <20220404204515.42144-10-igormtorrente@gmail.com>
- <20220421135859.3403f0ce@eldfell>
-From: Igor Torrente <igormtorrente@gmail.com>
-In-Reply-To: <20220421135859.3403f0ce@eldfell>
+ <20220404204515.42144-7-igormtorrente@gmail.com>
+ <20220420153628.0a91fcb6@eldfell>
+ <6d9acb8b-8b1c-957e-8dd1-1d5ed99b08a6@gmail.com>
+ <03105fb1-4f4c-9f8a-f99a-045458ba4e37@gmail.com>
+ <20220425111026.485cba66@eldfell>
+ <caa885ed-208a-3810-bd3e-e497e2c9ba93@gmail.com>
+In-Reply-To: <caa885ed-208a-3810-bd3e-e497e2c9ba93@gmail.com>
 Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 7bit
 X-BeenThere: dri-devel@lists.freedesktop.org
@@ -84,243 +88,423 @@ Cc: hamohammed.sa@gmail.com, tzimmermann@suse.de, rodrigosiqueiramelo@gmail.com,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi Pekka,
 
-On 4/21/22 07:58, Pekka Paalanen wrote:
-> On Mon,  4 Apr 2022 17:45:15 -0300
-> Igor Torrente <igormtorrente@gmail.com> wrote:
+
+On 4/25/22 22:54, Igor Torrente wrote:
+> Hi Pekka,
 > 
->> Adds this common format to vkms.
+> On 4/25/22 05:10, Pekka Paalanen wrote:
+>> On Sat, 23 Apr 2022 15:53:20 -0300
+>> Igor Torrente <igormtorrente@gmail.com> wrote:
 >>
->> This commit also adds new helper macros to deal with fixed-point
->> arithmetic.
+>>> I forgot to respond some points from your review.
+>>>
+>>> On 4/23/22 13:04, Igor Torrente wrote:
+>>>> Hi Pekka,
+>>>>
+>>>> On 4/20/22 09:36, Pekka Paalanen wrote:
+>>>>> On Mon,  4 Apr 2022 17:45:12 -0300
+>>>>> Igor Torrente <igormtorrente@gmail.com> wrote:
+>>>>>    
+>>>>>> Currently the blend function only accepts XRGB_8888 and ARGB_8888
+>>>>>> as a color input.
+>>>>>>
+>>>>>> This patch refactors all the functions related to the plane composition
+>>>>>> to overcome this limitation.
+>>>>>>
+>>>>>> A new internal format(`struct pixel`) is introduced to deal with all
+>>>>>
+>>>>> Hi,
+>>>>>
+>>>>> struct pixel_argb_u16 was added in the previous patch.
+>>>>
+>>>> I will fix it. Thanks!
 >>
->> It was done to improve the precision of the conversion to ARGB16161616
->> since the "conversion ratio" is not an integer.
+>> ...
 >>
->> V3: Adapt the handlers to the new format introduced in patch 7 V3.
->> V5: Minor improvements
+>>>>>> +static int compose_active_planes(struct vkms_writeback_job *active_wb,
+>>>>>> +				 struct vkms_crtc_state *crtc_state,
+>>>>>> +				 u32 *crc32)
+>>>>>>      {
+>>>>>> +	int line_width, ret = 0, pixel_size = sizeof(struct pixel_argb_u16);
+>>>>>> +	struct vkms_frame_info *primary_plane_info = NULL;
+>>>>>> +	struct line_buffer output_buffer, stage_buffer;
+>>>>>> +	struct vkms_plane_state *act_plane = NULL;
+>>>>>> +	u32 wb_format;
+>>>>>>      
+>>>>>> +	if (WARN_ON(pixel_size != 8))
+>>>>>
+>>>>> Isn't there a compile-time assert macro for this? Having to actually
+>>>>> run VKMS to check for this reduces the chances of finding it early.
+>>>>> What's the reason for this check anyway?
+>>>
+>>> Yes, it exists.
+>>>
+>>> include/linux/build_bug.h:1:#define static_assert(expr, ...)
+>>> __static_assert(expr, ##__VA_ARGS__, #expr)
+>>>
+>>> I didn't add it because I can imagine some people very mad if the kernel
+>>> did not compile because of vkms.
 >>
->> Signed-off-by: Igor Torrente <igormtorrente@gmail.com>
->> ---
->>   drivers/gpu/drm/vkms/vkms_formats.c   | 70 +++++++++++++++++++++++++++
->>   drivers/gpu/drm/vkms/vkms_plane.c     |  6 ++-
->>   drivers/gpu/drm/vkms/vkms_writeback.c |  3 +-
->>   3 files changed, 76 insertions(+), 3 deletions(-)
+>> But that would mean that VKMS is broken on those platforms. You'd
+>> better know which platforms VKMS is broken, so the Kconfig can stop
+>> VKMS from being built there at all. Or better, fix it before anyone
+>> needs VKMS there.
+> 
+> Right. Makes sense. I will add it then.
+> 
 >>
->> diff --git a/drivers/gpu/drm/vkms/vkms_formats.c b/drivers/gpu/drm/vkms/vkms_formats.c
->> index 8d913fa7dbde..4af8b295f31e 100644
->> --- a/drivers/gpu/drm/vkms/vkms_formats.c
->> +++ b/drivers/gpu/drm/vkms/vkms_formats.c
->> @@ -5,6 +5,23 @@
->>   
->>   #include "vkms_formats.h"
->>   
->> +/* The following macros help doing fixed point arithmetic. */
->> +/*
->> + * With Fixed-Point scale 15 we have 17 and 15 bits of integer and fractional
->> + * parts respectively.
->> + *  | 0000 0000 0000 0000 0.000 0000 0000 0000 |
->> + * 31                                          0
->> + */
->> +#define FIXED_SCALE 15
+>>> This check exists so we can call `crc32_le` for the entire line instead
+>>> doing it for each channel of each pixel in case `struct `pixel_argb_u16`
+>>> had any gap added by the compiler between the struct fields.
+>>
+>> Oh the CRC computation. Good point.
+>>
+>> Can you add a comment about that with the check?
 > 
-> I think this would usually be called a "shift" since it's used in
-> bit-shifts.
+> Yeah, np.
+> 
+> I will copy the explanation above :)
+> 
+>>
+>>>>>    
+>>>>>> +		return -EINVAL;
+>>>>>> +
+>>>>>> +	if (crtc_state->num_active_planes >= 1) {
+>>>>>> +		act_plane = crtc_state->active_planes[0];
+>>>>>> +		if (act_plane->base.base.plane->type == DRM_PLANE_TYPE_PRIMARY)
+>>>>>> +			primary_plane_info = act_plane->frame_info;
+>>>>>
+>>>>> After the next patch, do you even need the primary plane for anything
+>>>>> specifically?
+>>>
+>>> Yeah, I will not need it anymore.
+>>>
+>>>>> There is the map_is_null check below, but that should be
+>>>>> done on all planes in the array, right?
+>>>
+>>> Yes, I guess so. And I don't know why it only checks for the
+>>> primary_plane TBH.
+>>
+>> Maybe a left-over from times when it didn't have anything but a primary
+>> plane?
+> 
+> Maybe.
+> 
+> Anyway, I have added this verification to all active planes in the  next
+> version.
+> 
+>>
+>>>>>
+>>>>> I suspect the next patch, or another patch in this series, should just
+>>>>> delete this chunk.
+>>> I should, and I will in the V6 of next patch.
+>>>
+>>>>
+>>>>
+>>>>     
+>>>>>    
+>>>>>>      	}
+>>>>>>      
+>>>>>> +	if (!primary_plane_info)
+>>>>>> +		return -EINVAL;
+>>>>>> +
+>>>>>>      	if (WARN_ON(dma_buf_map_is_null(&primary_plane_info->map[0])))
+>>>>>>      		return -EINVAL;
+>>>>>>      
+>>>>>> +	if (WARN_ON(check_format_funcs(crtc_state, active_wb)))
+>>>>>> +		return -EINVAL;
+>>>>>>      
+>>>>>> +	line_width = drm_rect_width(&primary_plane_info->dst);
+>>>>>> +	stage_buffer.n_pixels = line_width;
+>>>>>> +	output_buffer.n_pixels = line_width;
+>>>>>>      
+>>>>>> +	stage_buffer.pixels = kvmalloc(line_width * pixel_size, GFP_KERNEL);
+>>>>>> +	if (!stage_buffer.pixels) {
+>>>>>> +		DRM_ERROR("Cannot allocate memory for the output line buffer");
+>>>>>> +		return -ENOMEM;
+>>>>>> +	}
+>>>>>>      
+>>>>>> +	output_buffer.pixels = kvmalloc(line_width * pixel_size, GFP_KERNEL);
+>>>>>> +	if (!output_buffer.pixels) {
+>>>>>> +		DRM_ERROR("Cannot allocate memory for intermediate line buffer");
+>>>>>> +		ret = -ENOMEM;
+>>>>>> +		goto free_stage_buffer;
+>>>>>> +	}
+>>>>>> +
+>>>>>> +	if (active_wb) {
+>>>>>> +		struct vkms_frame_info *wb_frame_info = &active_wb->frame_info;
+>>>>>> +
+>>>>>> +		wb_format = wb_frame_info->fb->format->format;
+>>>>>
+>>>>> I don't see wb_format being used, is it?
+>>>>
+>>>> This is probably a leftover from the last versions. Thanks for catching
+>>>> it.
+>>>>     
+>>>>>    
+>>>>>> +		wb_frame_info->src = primary_plane_info->src;
+>>>>>> +		wb_frame_info->dst = primary_plane_info->dst;
+>>>>>> +	}
+>>>>>> +
+>>>>>> +	blend(active_wb, crtc_state, crc32, &stage_buffer,
+>>>>>> +	      &output_buffer, (s64)line_width * pixel_size);
+>>>>>
+>>>>> What's the (s64) doing here?
+>>>>>
+>>>>> Are byte sizes not usually expressed with size_t or ssize_t types, or
+>>>>> is the kernel convention to use u64 and s64?
+>>>>>
+>>>>> This makes me suspect that pixel_offset() and friends in vkms_format.c
+>>>>> are going to need fixing as well. int type overflows at 2G.
+>>>>
+>>>>
+>>>> Yeah, I should be using size_t in all these places.
+>>>>     
+>>>>>    
+>>>>>> +
+>>>>>> +	kvfree(output_buffer.pixels);
+>>>>>> +free_stage_buffer:
+>>>>>> +	kvfree(stage_buffer.pixels);
+>>>>>> +can
+>>>>>> +	return ret;
+>>>>>>      }
+>>>>>>      
+>>>>>>      /**
+>>>>>> @@ -222,13 +204,11 @@ void vkms_composer_worker(struct work_struct *work)
+>>>>>>      						struct vkms_crtc_state,
+>>>>>>      						composer_work);
+>>>>>>      	struct drm_crtc *crtc = crtc_state->base.crtc;
+>>>>>> +	struct vkms_writeback_job *active_wb = crtc_state->active_writeback;
+>>>>>>      	struct vkms_output *out = drm_crtc_to_vkms_output(crtc);
+>>>>>>      	bool crc_pending, wb_pending;
+>>>>>>      	u64 frame_start, frame_end;
+>>>>>> +	u32 crc32 = 0;
+>>>>>>      	int ret;
+>>>>>>      
+>>>>>>      	spin_lock_irq(&out->composer_lock);
+>>>>>> @@ -248,35 +228,19 @@ void vkms_composer_worker(struct work_struct *work)
+>>>>>>      	if (!crc_pending)
+>>>>>>      		return;
+>>>>>>      
+>>>>>>      	if (wb_pending)
+>>>>>> +		ret = compose_active_planes(active_wb, crtc_state, &crc32);
+>>>>>> +	else
+>>>>>> +		ret = compose_active_planes(NULL, crtc_state, &crc32);
+>>>>>>      
+>>>>>> +	if (ret)
+>>>>>>      		return;
+>>>>>>      
+>>>>>>      	if (wb_pending) {
+>>>>>>      		drm_writeback_signal_completion(&out->wb_connector, 0);
+>>>>>>      		spin_lock_irq(&out->composer_lock);
+>>>>>>      		crtc_state->wb_pending = false;
+>>>>>>      		spin_unlock_irq(&out->composer_lock);
+>>>>>>      	}
+>>>>>>      
+>>>>>>      	/*
+>>>>>> diff --git a/drivers/gpu/drm/vkms/vkms_formats.c b/drivers/gpu/drm/vkms/vkms_formats.c
+>>>>>> new file mode 100644
+>>>>>> index 000000000000..931a61405d6a
+>>>>>> --- /dev/null
+>>>>>> +++ b/drivers/gpu/drm/vkms/vkms_formats.c
+>>>>>> @@ -0,0 +1,151 @@
+>>>>>> +// SPDX-License-Identifier: GPL-2.0+
+>>>>>> +
+>>>>>> +#include <drm/drm_rect.h>
+>>>>>> +#include <linux/minmax.h>
+>>>>>> +
+>>>>>> +#include "vkms_formats.h"
+>>>>>> +
+>>>>>> +static int pixel_offset(const struct vkms_frame_info *frame_info, int x, int y)
+>>>>>> +{
+>>>>>> +	return frame_info->offset + (y * frame_info->pitch)
+>>>>>> +				  + (x * frame_info->cpp);
+>>>>>> +}
+>>>>>> +
+>>>>>> +/*
+>>>>>> + * packed_pixels_addr - Get the pointer to pixel of a given pair of coordinates
+>>>>>> + *
+>>>>>> + * @frame_info: Buffer metadata
+>>>>>> + * @x: The x(width) coordinate of the 2D buffer
+>>>>>> + * @y: The y(Heigth) coordinate of the 2D buffercan
+>>>>>> + *
+>>>>>> + * Takes the information stored in the frame_info, a pair of coordinates, and
+>>>>>> + * returns the address of the first color channel.
+>>>>>> + * This function assumes the channels are packed together, i.e. a color channel
+>>>>>> + * comes immediately after another in the memory. And therefore, this function
+>>>>>> + * doesn't work for YUV with chroma subsampling (e.g. YUV420 and NV21).
+>>>>>> + */
+>>>>>> +static void *packed_pixels_addr(const struct vkms_frame_info *frame_info,
+>>>>>> +				int x, int y)
+>>>>>> +{
+>>>>>> +	int offset = pixel_offset(frame_info, x, y);
+>>>>>> +
+>>>>>> +	return (u8 *)frame_info->map[0].vaddr + offset;
+>>>>>> +}
+>>>>>> +
+>>>>>> +static void *get_packed_src_addr(const struct vkms_frame_info *frame_info, int y)
+>>>>>> +{
+>>>>>> +	int x_src = frame_info->src.x1 >> 16;
+>>>>>> +	int y_src = y - frame_info->dst.y1 + (frame_info->src.y1 >> 16);
+>>>>>> +
+>>>>>> +	return packed_pixels_addr(frame_info, x_src, y_src);
+>>>>>> +}
+>>>>>> +
+>>>>>> +static void ARGB8888_to_argb_u16(struct line_buffer *stage_buffer,
+>>>>>> +				 const struct vkms_frame_info *frame_info, int y)
+>>>>>> +{
+>>>>>> +	struct pixel_argb_u16 *out_pixels = stage_buffer->pixels;
+>>>>>> +	u8 *src_pixels = get_packed_src_addr(frame_info, y);
+>>>>>> +	int x, x_limit = min_t(size_t, drm_rect_width(&frame_info->dst),
+>>>>>> +			       stage_buffer->n_pixels);
+>>>>>> +
+>>>>>> +	for (x = 0; x < x_limit; x++, src_pixels += 4) {
+>>>>>> +		/*
+>>>>>> +		 * The 257 is the "conversion ratio". This number is obtained by the
+>>>>>> +		 * (2^16 - 1) / (2^8 - 1) division. Which, in this case, tries to get
+>>>>>> +		 * the best color value in a pixel format with more possibilities.
+>>>>>> +		 * A similar idea applies to others RGB color conversions.
+>>>>>> +		 */
+>>>>>> +		out_pixels[x].a = (u16)src_pixels[3] * 257;
+>>>>>> +		out_pixels[x].r = (u16)src_pixels[2] * 257;
+>>>>>> +		out_pixels[x].g = (u16)src_pixels[1] * 257;
+>>>>>> +		out_pixels[x].b = (u16)src_pixels[0] * 257;
+>>>>>> +	}
+>>>>>> +}
+>>>>>> +
+>>>>>> +static void XRGB8888_to_argb_u16(struct line_buffer *stage_buffer,
+>>>>>> +				 const struct vkms_frame_info *frame_info, int y)
+>>>>>> +{
+>>>>>> +	struct pixel_argb_u16 *out_pixels = stage_buffer->pixels;
+>>>>>> +	u8 *src_pixels = get_packed_src_addr(frame_info, y);
+>>>>>> +	int x, x_limit = min_t(size_t, drm_rect_width(&frame_info->dst),
+>>>>>> +			       stage_buffer->n_pixels);
+>>>>>> +
+>>>>>> +	for (x = 0; x < x_limit; x++, src_pixels += 4) {
+>>>>>> +		out_pixels[x].a = (u16)0xffff;
+>>>>>> +		out_pixels[x].r = (u16)src_pixels[2] * 257;
+>>>>>> +		out_pixels[x].g = (u16)src_pixels[1] * 257;
+>>>>>> +		out_pixels[x].b = (u16)src_pixels[0] * 257;
+>>>>>> +	}
+>>>>>> +}
+>>>>>> +
+>>>>>> +/*
+>>>>>> + * The following  functions take an line of argb_u16 pixels from the
+>>>>>> + * src_buffer, convert them to a specific format, and store them in the
+>>>>>> + * destination.
+>>>>>> + *
+>>>>>> + * They are used in the `compose_active_planes` to convert and store a line
+>>>>>> + * from the src_buffer to the writeback buffer.
+>>>>>> + */
+>>>>>> +static void argb_u16_to_ARGB8888(struct vkms_frame_info *frame_info,
+>>>>>> +				 const struct line_buffer *src_buffer, int y)
+>>>>>> +{
+>>>>>> +	int x, x_dst = frame_info->dst.x1;
+>>>>>> +	u8 *dst_pixels = packed_pixels_addr(frame_info, x_dst, y);
+>>>>>> +	struct pixel_argb_u16 *in_pixels = src_buffer->pixels;
+>>>>>> +	int x_limit = min_t(size_t, drm_rect_width(&frame_info->dst),
+>>>>>> +			    src_buffer->n_pixels);
+>>>>>> +
+>>>>>> +	for (x = 0; x < x_limit; x++, dst_pixels += 4) {
+>>>>>> +		/*
+>>>>>> +		 * This sequence below is important because the format's byte order is
+>>>>>> +		 * in little-endian. In the case of the ARGB8888 the memory is
+>>>>>> +		 * organized this way:
+>>>>>> +		 *
+>>>>>> +		 * | Addr     | = blue channel
+>>>>>> +		 * | Addr + 1 | = green channel
+>>>>>> +		 * | Addr + 2 | = Red channel
+>>>>>> +		 * | Addr + 3 | = Alpha channel
+>>>>>> +		 */
+>>>>>> +		dst_pixels[3] = DIV_ROUND_CLOSEST(in_pixels[x].a, 257);
+>>>>>> +		dst_pixels[2] = DIV_ROUND_CLOSEST(in_pixels[x].r, 257);
+>>>>>> +		dst_pixels[1] = DIV_ROUND_CLOSEST(in_pixels[x].g, 257);
+>>>>>> +		dst_pixels[0] = DIV_ROUND_CLOSEST(in_pixels[x].b, 257);
+>>>>>> +	}
+>>>>>> +}
+>>>>>> +
+>>>>>> +static void argb_u16_to_XRGB8888(struct vkms_frame_info *frame_info,
+>>>>>> +				 const struct line_buffer *src_buffer, int y)
+>>>>>> +{
+>>>>>> +	int x, x_dst = frame_info->dst.x1;
+>>>>>> +	u8 *dst_pixels = packed_pixels_addr(frame_info, x_dst, y);
+>>>>>> +	struct pixel_argb_u16 *in_pixels = src_buffer->pixels;
+>>>>>> +	int x_limit = min_t(size_t, drm_rect_width(&frame_info->dst),
+>>>>>> +			    src_buffer->n_pixels);
+>>>>>> +
+>>>>>> +	for (x = 0; x < x_limit; x++, dst_pixels += 4) {
+>>>>>> +		dst_pixels[3] = (u8)0xff;
+>>>>>
+>>>>> When writing to XRGB, it's not necessary to ensure the X channel has
+>>>>> any sensible value. Anyone reading from XRGB must ignore that value
+>>>>> anyway. So why not write something wacky here, like 0xa1, that is far
+>>>>> enough from both 0x00 or 0xff to not be confused with them even
+>>>>> visually? Also not 0x7f or 0x80 which are close to half of 0xff.
+>>>>>
+>>>>> Or, you could save a whole function and just use argb_u16_to_ARGBxxxx()
+>>>>> instead, even for XRGB destination.
+>>>>
+>>>>
+>>>> Right. Maybe I could just leave the channel untouched.
+>>
+>> Untouched may not be a good idea. Leaving anything untouched always has
+>> the risk of leaking information through uninitialized memory. Maybe not
+>> in this case because the destination is allocated by userspace already,
+>> but nothing beats being obviously correct.
+> 
+> Makes sense.
+> 
+>>
+>> Whatever you decide here, be prepared for it becoming de-facto kernel
+>> UABI, because it is easy for userspace to (accidentally) rely on the
+>> value, no matter what you pick.
+> 
+> I hope to make the right decision then.
 
-Ok, I will rename this.
+The de-facto UABI seems to be already in place for {A, X}RGB8888.
+
+I changed from 0xff to 0xbe and the `writeback-check-output` started to 
+fail.
 
 > 
->> +
->> +#define INT_TO_FIXED(a) ((a) << FIXED_SCALE)
->> +#define FIXED_MUL(a, b) ((s32)(((s64)(a) * (b)) >> FIXED_SCALE))
->> +#define FIXED_DIV(a, b) ((s32)(((s64)(a) << FIXED_SCALE) / (b)))
-> 
-> A truncating div, ok.
-> 
->> +/* This macro converts a fixed point number to int, and round half up it */
->> +#define FIXED_TO_INT_ROUND(a) (((a) + (1 << (FIXED_SCALE - 1))) >> FIXED_SCALE)
-> 
-> Yes.
-> 
->> +/* Convert divisor and dividend to Fixed-Point and performs the division */
->> +#define INT_TO_FIXED_DIV(a, b) (FIXED_DIV(INT_TO_FIXED(a), INT_TO_FIXED(b)))
-> 
-> Ok, this is obvious to read, even though it's the same as FIXED_DIV()
-> alone. Not sure the compiler would optimize that extra bit-shift away...
-> 
-> If one wanted to, it would be possible to write type-safe functions for
-> these so that fixed and integer could not be mixed up.
-
-Ok, I will move to a function.
-
-> 
->> +
->>   static int pixel_offset(const struct vkms_frame_info *frame_info, int x, int y)
->>   {
->>   	return frame_info->offset + (y * frame_info->pitch)
->> @@ -112,6 +129,30 @@ static void XRGB16161616_to_argb_u16(struct line_buffer *stage_buffer,
->>   	}
->>   }
->>   
->> +static void RGB565_to_argb_u16(struct line_buffer *stage_buffer,
->> +			       const struct vkms_frame_info *frame_info, int y)
->> +{
->> +	struct pixel_argb_u16 *out_pixels = stage_buffer->pixels;
->> +	u16 *src_pixels = get_packed_src_addr(frame_info, y);
->> +	int x, x_limit = min_t(size_t, drm_rect_width(&frame_info->dst),
->> +			       stage_buffer->n_pixels);
->> +
->> +	for (x = 0; x < x_limit; x++, src_pixels++) {
->> +		u16 rgb_565 = le16_to_cpu(*src_pixels);
->> +		int fp_r = INT_TO_FIXED((rgb_565 >> 11) & 0x1f);
->> +		int fp_g = INT_TO_FIXED((rgb_565 >> 5) & 0x3f);
->> +		int fp_b = INT_TO_FIXED(rgb_565 & 0x1f);
->> +
->> +		int fp_rb_ratio = INT_TO_FIXED_DIV(65535, 31);
->> +		int fp_g_ratio = INT_TO_FIXED_DIV(65535, 63);
-> 
-> These two should be outside of the loop since they are constants.
-> Likely no difference for performance because the compiler is probably
-> doing that already, but I think it would read better.
-
-I will move it.
-
-> 
->> +
->> +		out_pixels[x].a = (u16)0xffff;
->> +		out_pixels[x].r = FIXED_TO_INT_ROUND(FIXED_MUL(fp_r, fp_rb_ratio));
->> +		out_pixels[x].g = FIXED_TO_INT_ROUND(FIXED_MUL(fp_g, fp_g_ratio));
->> +		out_pixels[x].b = FIXED_TO_INT_ROUND(FIXED_MUL(fp_b, fp_rb_ratio));
-> 
-> Looks good.
-> 
->> +	}
->> +}
->> +
->>   
->>   /*
->>    * The following  functions take an line of argb_u16 pixels from the
->> @@ -199,6 +240,31 @@ static void argb_u16_to_XRGB16161616(struct vkms_frame_info *frame_info,
->>   	}
->>   }
->>   
->> +static void argb_u16_to_RGB565(struct vkms_frame_info *frame_info,
->> +			       const struct line_buffer *src_buffer, int y)
->> +{
->> +	int x, x_dst = frame_info->dst.x1;
->> +	u16 *dst_pixels = packed_pixels_addr(frame_info, x_dst, y);
->> +	struct pixel_argb_u16 *in_pixels = src_buffer->pixels;
->> +	int x_limit = min_t(size_t, drm_rect_width(&frame_info->dst),
->> +			    src_buffer->n_pixels);
->> +
->> +	for (x = 0; x < x_limit; x++, dst_pixels++) {
->> +		int fp_r = INT_TO_FIXED(in_pixels[x].r);
->> +		int fp_g = INT_TO_FIXED(in_pixels[x].g);
->> +		int fp_b = INT_TO_FIXED(in_pixels[x].b);
->> +
->> +		int fp_rb_ratio = INT_TO_FIXED_DIV(65535, 31);
->> +		int fp_g_ratio = INT_TO_FIXED_DIV(65535, 63);
-> 
-> Move these out of the loop.
-> 
->> +
->> +		u16 r = FIXED_TO_INT_ROUND(FIXED_DIV(fp_r, fp_rb_ratio));
->> +		u16 g = FIXED_TO_INT_ROUND(FIXED_DIV(fp_g, fp_g_ratio));
->> +		u16 b = FIXED_TO_INT_ROUND(FIXED_DIV(fp_b, fp_rb_ratio));
->> +
->> +		*dst_pixels = cpu_to_le16(r << 11 | g << 5 | b);
-> 
-> Looks good.
-> 
-> You are using signed variables (int, s64, s32) when negative values
-> should never occur. It doesn't seem wrong, just unexpected.
-
-I left the signal so I can reuse them in the YUV formats.
-
-> 
-> The use of int in code vs. s32 in the macros is a bit inconsistent as
-> well.
-
-Right. I think I will stick with s32 and s64 then.
-
-> 
->> +	}
->> +}
->> +
->>   plane_format_transform_func get_plane_fmt_transform_function(u32 format)
->>   {
->>   	if (format == DRM_FORMAT_ARGB8888)
->> @@ -209,6 +275,8 @@ plane_format_transform_func get_plane_fmt_transform_function(u32 format)
->>   		return &ARGB16161616_to_argb_u16;
->>   	else if (format == DRM_FORMAT_XRGB16161616)
->>   		return &XRGB16161616_to_argb_u16;
->> +	else if (format == DRM_FORMAT_RGB565)
->> +		return &RGB565_to_argb_u16;
->>   	else
->>   		return NULL;
->>   }
->> @@ -223,6 +291,8 @@ wb_format_transform_func get_wb_fmt_transform_function(u32 format)
->>   		return &argb_u16_to_ARGB16161616;
->>   	else if (format == DRM_FORMAT_XRGB16161616)
->>   		return &argb_u16_to_XRGB16161616;
->> +	else if (format == DRM_FORMAT_RGB565)
->> +		return &argb_u16_to_RGB565;
-> 
-> Now it's starting to become clear that a switch statement would be nice.
-> 
->>   	else
->>   		return NULL;
->>   }
->> diff --git a/drivers/gpu/drm/vkms/vkms_plane.c b/drivers/gpu/drm/vkms/vkms_plane.c
->> index 60054a85204a..94a8e412886f 100644
->> --- a/drivers/gpu/drm/vkms/vkms_plane.c
->> +++ b/drivers/gpu/drm/vkms/vkms_plane.c
->> @@ -14,14 +14,16 @@
->>   
->>   static const u32 vkms_formats[] = {
->>   	DRM_FORMAT_XRGB8888,
->> -	DRM_FORMAT_XRGB16161616
->> +	DRM_FORMAT_XRGB16161616,
->> +	DRM_FORMAT_RGB565
->>   };
->>   
->>   static const u32 vkms_plane_formats[] = {
->>   	DRM_FORMAT_ARGB8888,
->>   	DRM_FORMAT_XRGB8888,
->>   	DRM_FORMAT_XRGB16161616,
->> -	DRM_FORMAT_ARGB16161616
->> +	DRM_FORMAT_ARGB16161616,
->> +	DRM_FORMAT_RGB565
->>   };
->>   
->>   static struct drm_plane_state *
->> diff --git a/drivers/gpu/drm/vkms/vkms_writeback.c b/drivers/gpu/drm/vkms/vkms_writeback.c
->> index cb63a5da9af1..98da7bee0f4b 100644
->> --- a/drivers/gpu/drm/vkms/vkms_writeback.c
->> +++ b/drivers/gpu/drm/vkms/vkms_writeback.c
->> @@ -16,7 +16,8 @@
->>   static const u32 vkms_wb_formats[] = {
->>   	DRM_FORMAT_XRGB8888,
->>   	DRM_FORMAT_XRGB16161616,
->> -	DRM_FORMAT_ARGB16161616
->> +	DRM_FORMAT_ARGB16161616,
->> +	DRM_FORMAT_RGB565
->>   };
->>   
->>   static const struct drm_connector_funcs vkms_wb_connector_funcs = {
-> 
-> I wonder, would it be possible to add a unit test to make sure that
-> get_plane_fmt_transform_function() or get_wb_fmt_transform_function()
-> does not return NULL for any of the listed formats, respectively?
-> Or is that too paranoid?
-
-I'm not opposed to it. But I also don't think it needs to be in this 
-series of patches either.
-
-A new todo maybe?
-
-> 
-> 
-> Thanks,
-> pq
+>>
+>>
+>> Thanks,
+>> pq
+>>
+>>
+>>>>     
+>>>>>    
+>>>>>> +		dst_pixels[2] = DIV_ROUND_CLOSEST(in_pixels[x].r, 257);
+>>>>>> +		dst_pixels[1] = DIV_ROUND_CLOSEST(in_pixels[x].g, 257);
+>>>>>> +		dst_pixels[0] = DIV_ROUND_CLOSEST(in_pixels[x].b, 257);
+>>>>>> +	}
+>>>>>> +}
+>>>>>> +
+>>>>>> +plane_format_transform_func get_plane_fmt_transform_function(u32 format)
+>>>>>> +{
+>>>>>> +	if (format == DRM_FORMAT_ARGB8888)
+>>>>>> +		return &ARGB8888_to_argb_u16;
+>>>>>> +	else if (format == DRM_FORMAT_XRGB8888)
+>>>>>> +		return &XRGB8888_to_argb_u16;
+>>>>>> +	else
+>>>>>> +		return NULL;
+>>>>>
+>>>>> This works for now, but when more formats are added, I'd think a switch
+>>>>> statement would look better.
+>>>>
+>>>> ok.
+>>>>     
+>>>>>    
+>>>>>> +}
+>>>>>> +
+>>>>>> +wb_format_transform_func get_wb_fmt_transform_function(u32 format)
+>>>>>> +{
+>>>>>> +	if (format == DRM_FORMAT_ARGB8888)
+>>>>>> +		return &argb_u16_to_ARGB8888;
+>>>>>> +	else if (format == DRM_FORMAT_XRGB8888)
+>>>>>> +		return &argb_u16_to_XRGB8888;
+>>>>>> +	else
+>>>>>> +		return NULL;
+>>>>>> +}
