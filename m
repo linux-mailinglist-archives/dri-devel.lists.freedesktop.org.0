@@ -2,104 +2,59 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 49CA2510E52
-	for <lists+dri-devel@lfdr.de>; Wed, 27 Apr 2022 04:00:21 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 4A506510E58
+	for <lists+dri-devel@lfdr.de>; Wed, 27 Apr 2022 04:06:21 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id C90CD10E0FC;
-	Wed, 27 Apr 2022 02:00:18 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id A4FC510E18D;
+	Wed, 27 Apr 2022 02:06:16 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from NAM12-MW2-obe.outbound.protection.outlook.com
- (mail-mw2nam12on2084.outbound.protection.outlook.com [40.107.244.84])
- by gabe.freedesktop.org (Postfix) with ESMTPS id D45C210E0FC;
- Wed, 27 Apr 2022 02:00:17 +0000 (UTC)
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=n3nGWVS8PNa5DDJ5u+dH9r4KMDvGH4oN1jYX8EFqb/3PVWfC3Q7zPYuAormtUulBo+0PoIphbxB8Yfq9uPMv/VOWroaGU3hrOwvMgpZDgi0l/lHS6RNj/qU28w/ube4jp86+lqQVwNJ6QIY6vRSlHbz6jnNgAwhQy/hIpf8mF7FTI2w2hRc8bpNeSnqZBKTi+fuqBnva23idzgi8HBYlXNu0JsULag+c5HV59uQwtWyU6XFYKJylWEocDVZJ5f1eZL4EzzXHZzdGcHQWebTVelfht1RKIBpYxJ/gR2Nt7M1NTjx9kWTZ4MlmYZHiXlQiZTXbznLjcZioLMzkjlI5qQ==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=OIFiiBGpN52HtOdpfrnyo/94HWew5wUk9JbGJv3rDFc=;
- b=fM+7eoyHIqqzj0C97UtCzdgZHdrW/ixCGRw6+m3sild+PDwtUNyxv2znI/m6kOFYbm8nN1AtVO1pnDNbTmA+kAlqkUlGGbWe9Hli0UJmI550T5QY8iF4NkU5jfmHs6nlh6zgXLWUmBpk7usNN1x9hveP/zM35df8o/vrSCOKLKSQ5j93uGAsknYwS1/z1AjEOHzUfyZ9S7RVx89xqOHTIjiJd4GYaP0mGFaHvzQNOweZX0uolBURt0Y2AL87v1TIf6jCS5uOOtDujhsd9Ro8gjYOiPyU2YOJHLLT4I9BcB3O5VJ3MC0RsskfzhkqSgrTy+DosgDLsLcAoWa6ru3fYQ==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass (sender ip is
- 165.204.84.17) smtp.rcpttodomain=linux.ie smtp.mailfrom=amd.com; dmarc=pass
- (p=quarantine sp=quarantine pct=100) action=none header.from=amd.com;
- dkim=none (message not signed); arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1; 
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=OIFiiBGpN52HtOdpfrnyo/94HWew5wUk9JbGJv3rDFc=;
- b=cIgqXRiRDcoIxhSQ8aF9KU21JIRCPY4c3gW0zEi+bD1As9GdPI7vdoR/1lplXt7+/iTohe6Bqn8VZXqYznQF1DJZdoEesw/AIvkDt10d6Kh5l77GiRoYHP5Z4YrG8zEDXm2q4sdDG/bD3ywESi3yyIniblngeSeuCLdZRBd1n/w=
-Received: from MW4PR04CA0318.namprd04.prod.outlook.com (2603:10b6:303:82::23)
- by DM5PR1201MB2537.namprd12.prod.outlook.com (2603:10b6:3:eb::22)
- with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.5186.14; Wed, 27 Apr
- 2022 02:00:15 +0000
-Received: from CO1NAM11FT059.eop-nam11.prod.protection.outlook.com
- (2603:10b6:303:82:cafe::76) by MW4PR04CA0318.outlook.office365.com
- (2603:10b6:303:82::23) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.5206.12 via Frontend
- Transport; Wed, 27 Apr 2022 02:00:15 +0000
-X-MS-Exchange-Authentication-Results: spf=pass (sender IP is 165.204.84.17)
- smtp.mailfrom=amd.com; dkim=none (message not signed)
- header.d=none;dmarc=pass action=none header.from=amd.com;
-Received-SPF: Pass (protection.outlook.com: domain of amd.com designates
- 165.204.84.17 as permitted sender) receiver=protection.outlook.com;
- client-ip=165.204.84.17; helo=SATLEXMB03.amd.com;
-Received: from SATLEXMB03.amd.com (165.204.84.17) by
- CO1NAM11FT059.mail.protection.outlook.com (10.13.174.160) with Microsoft SMTP
- Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.20.5206.12 via Frontend Transport; Wed, 27 Apr 2022 02:00:15 +0000
-Received: from SATLEXMB04.amd.com (10.181.40.145) by SATLEXMB03.amd.com
- (10.181.40.144) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2375.24; Tue, 26 Apr
- 2022 21:00:11 -0500
-Received: from Ryan-AMD.amd.com (10.180.168.240) by SATLEXMB04.amd.com
- (10.181.40.145) with Microsoft SMTP Server id 15.1.2375.24 via Frontend
- Transport; Tue, 26 Apr 2022 21:00:04 -0500
-From: Ryan Lin <tsung-hua.lin@amd.com>
-To: <leon.li@amd.com>, <ching-shih.li@amd.com>, <tsung-hua.lin@amd.com>,
- <alexander.deucher@amd.com>, <christian.koenig@amd.com>,
- <Xinhui.Pan@amd.com>, <airlied@linux.ie>, <daniel@ffwll.ch>,
- <harry.wentland@amd.com>, <sunpeng.li@amd.com>, <seanpaul@chromium.org>,
- <Pratik.Vishwakarma@amd.com>, <lijo.lazar@amd.com>,
- <sathishkumar.sundararaju@amd.com>, <rdunlap@infradead.org>,
- <linux-patches-robot@chromeos-missing-patches.google.com.iam.gserviceaccount.com>,
- <Hawking.Zhang@amd.com>, <andrey.grodzovsky@amd.com>, <shaoyun.liu@amd.com>,
- <Jack.Zhang1@amd.com>, <horace.chen@amd.com>, <haonan.wang2@amd.com>,
- <Anthony.Koo@amd.com>, <qingqing.zhuo@amd.com>, <wyatt.wood@amd.com>,
- <robin.chen@amd.com>, <amd-gfx@lists.freedesktop.org>,
- <dri-devel@lists.freedesktop.org>, <linux-kernel@vger.kernel.org>
-Subject: [PATCH v3] drm/amdgpu: Disable ABM when AC mode
-Date: Wed, 27 Apr 2022 09:50:14 +0800
-Message-ID: <20220427015014.1574848-1-tsung-hua.lin@amd.com>
-X-Mailer: git-send-email 2.25.1
-In-Reply-To: <20220324231000.4072275-1-tsung-hua.lin@amd.com>
-References: <20220324231000.4072275-1-tsung-hua.lin@amd.com>
+Received: from alexa-out-sd-01.qualcomm.com (alexa-out-sd-01.qualcomm.com
+ [199.106.114.38])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 6802810E18C;
+ Wed, 27 Apr 2022 02:06:15 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=quicinc.com; i=@quicinc.com; q=dns/txt; s=qcdkim;
+ t=1651025175; x=1682561175;
+ h=message-id:date:mime-version:subject:to:cc:references:
+ from:in-reply-to:content-transfer-encoding;
+ bh=0m+dY10uYolN81K4/2jJLNtkRZYeucyRLbTsObn7+EE=;
+ b=mrfrRZf5rU0DS7xF9WtiY/ggE05aozdXJPTag/h3Mzj9+50yKwbMA88z
+ o+Ss0724vsTb8gZpyaaxlnwE5KfUbsAvIn0Mih/NGLpyTe4o7+89iHToQ
+ YANFPDWSzo6Is3mybxwmn8ulDWVOXE91BoVA19khXyQVWtH6H80r43kpX w=;
+Received: from unknown (HELO ironmsg05-sd.qualcomm.com) ([10.53.140.145])
+ by alexa-out-sd-01.qualcomm.com with ESMTP; 26 Apr 2022 19:06:15 -0700
+X-QCInternal: smtphost
+Received: from nasanex01c.na.qualcomm.com ([10.47.97.222])
+ by ironmsg05-sd.qualcomm.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 26 Apr 2022 19:06:14 -0700
+Received: from nalasex01a.na.qualcomm.com (10.47.209.196) by
+ nasanex01c.na.qualcomm.com (10.47.97.222) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.2.986.22; Tue, 26 Apr 2022 19:06:13 -0700
+Received: from [10.111.160.161] (10.80.80.8) by nalasex01a.na.qualcomm.com
+ (10.47.209.196) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.986.22; Tue, 26 Apr
+ 2022 19:06:11 -0700
+Message-ID: <0b3245d7-1d1e-4e34-004e-821be59451f1@quicinc.com>
+Date: Tue, 26 Apr 2022 19:06:09 -0700
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-Content-Type: text/plain
-X-EOPAttributedMessage: 0
-X-MS-PublicTrafficType: Email
-X-MS-Office365-Filtering-Correlation-Id: f6202813-9432-4767-7566-08da27f1ac0c
-X-MS-TrafficTypeDiagnostic: DM5PR1201MB2537:EE_
-X-Microsoft-Antispam-PRVS: <DM5PR1201MB2537B0A845F498983B6A8F0AB2FA9@DM5PR1201MB2537.namprd12.prod.outlook.com>
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: dLLre3jFLjLbtd2l9zL/GFOi9XQfeb2so8VTWl6w//rb84SVB9ohFatdA/Y5luBOH7ce4PwpBmPhm3W2ZPyVZ1Vrwq0l9coSfVYkdz8r30+7zg7uN8BzA0wsxiKg0ZxhtVfpYc+tutEK+OsJooF7ydmnK65C7Ca4OcvMb2dM0gngSpsBr7IZCWTVQ0q+Vf8d5XFtqaqBx+bFvfUflW7TF/TdbfwCQ7rfNZnRNQwxPIPM9P0BhGdwf7/6oeboUSJHtyoVzrxBFgzN7PemeVIZi/radQDFj5y5jSXge68GH9lIlR/khsqE6BqagpoAV0DwAOD8ySf0pmHlvJo0jLKiEic86eS2g0EWipc/aek55baS6KH2+T511mHVPaxL3nHIKE3nTnpc41R22reqk5xw+cyNM40UJuRqzTdzCHytrOa8hkVbNhyuiKMtIFhmo03K+Hv4w42lvUWjVWyG2VsxOMR/Ax/fQOhpi5unI8wPbZrPKT3Fv9qSO5zKq6Z44f9pv0e5FesiPl4NSeF0ufma0O8wRL+851aaP23NR2qJI9gd9DWyP1wPTXPoGT399aGtIStag+vxxY3DZ7emSKjB7Chsm7QvOOKuCj4+qEo1aBHF0XQPpT8+5+rAAzDL43iFx4t0AFqQfCgrlbpHe3EGdZpBQ4YRIkmnqhg34rn5mirD/p0JOjBV/IjnklAHgrURvKMi19nPk0wdzrHPz3cLT/eMnhdTuX1uEdCFrgT1NXiPub68PlOIgZFY5jHl8ZzSwqEhhMHueL1R7nw7fa5Bug==
-X-Forefront-Antispam-Report: CIP:165.204.84.17; CTRY:US; LANG:en; SCL:1; SRV:;
- IPV:CAL; SFV:NSPM; H:SATLEXMB03.amd.com; PTR:InfoDomainNonexistent; CAT:NONE;
- SFS:(13230001)(4636009)(40470700004)(36840700001)(46966006)(70206006)(508600001)(81166007)(2616005)(86362001)(7696005)(921005)(2906002)(356005)(6666004)(83380400001)(5660300002)(336012)(1076003)(426003)(47076005)(8676002)(70586007)(186003)(26005)(82310400005)(40460700003)(8936002)(36860700001)(110136005)(36756003)(316002)(36900700001)(2101003)(83996005);
- DIR:OUT; SFP:1101; 
-X-OriginatorOrg: amd.com
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 27 Apr 2022 02:00:15.1570 (UTC)
-X-MS-Exchange-CrossTenant-Network-Message-Id: f6202813-9432-4767-7566-08da27f1ac0c
-X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
-X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: TenantId=3dd8961f-e488-4e60-8e11-a82d994e183d; Ip=[165.204.84.17];
- Helo=[SATLEXMB03.amd.com]
-X-MS-Exchange-CrossTenant-AuthSource: CO1NAM11FT059.eop-nam11.prod.protection.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Anonymous
-X-MS-Exchange-CrossTenant-FromEntityHeader: HybridOnPrem
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: DM5PR1201MB2537
+User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:91.0) Gecko/20100101
+ Thunderbird/91.6.2
+Subject: Re: [PATCH 03/25] drm/msm/dpu: add support for SSPP allocation to RM
+Content-Language: en-US
+To: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>, Bjorn Andersson
+ <bjorn.andersson@linaro.org>, Rob Clark <robdclark@gmail.com>, Sean Paul
+ <sean@poorly.run>
+References: <20220209172520.3719906-1-dmitry.baryshkov@linaro.org>
+ <20220209172520.3719906-4-dmitry.baryshkov@linaro.org>
+From: Abhinav Kumar <quic_abhinavk@quicinc.com>
+In-Reply-To: <20220209172520.3719906-4-dmitry.baryshkov@linaro.org>
+Content-Type: text/plain; charset="UTF-8"; format=flowed
+Content-Transfer-Encoding: 7bit
+X-Originating-IP: [10.80.80.8]
+X-ClientProxiedBy: nasanex01b.na.qualcomm.com (10.46.141.250) To
+ nalasex01a.na.qualcomm.com (10.47.209.196)
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -112,163 +67,267 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
+Cc: David Airlie <airlied@linux.ie>, linux-arm-msm@vger.kernel.org,
+ dri-devel@lists.freedesktop.org, Stephen Boyd <swboyd@chromium.org>,
+ freedreno@lists.freedesktop.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Disable ABM feature when the system is running on AC mode to get the more
-perfect contrast of the display.
 
-v2: remove "UPSTREAM" from the subject.
 
-v3: adv->pm.ac_power updating by amd gpu_acpi_event_handler.
+On 2/9/2022 9:24 AM, Dmitry Baryshkov wrote:
+> Add support for handling and allocting SSPP blocks through the resource
+> manager. Handling code is not converted to use it though.
+> 
+> Signed-off-by: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
+> ---
+>   drivers/gpu/drm/msm/disp/dpu1/dpu_hw_sspp.h | 10 +++
+>   drivers/gpu/drm/msm/disp/dpu1/dpu_kms.h     |  1 +
+>   drivers/gpu/drm/msm/disp/dpu1/dpu_plane.c   | 18 ++---
+>   drivers/gpu/drm/msm/disp/dpu1/dpu_rm.c      | 81 +++++++++++++++++++++
+>   drivers/gpu/drm/msm/disp/dpu1/dpu_rm.h      |  6 ++
+>   5 files changed, 104 insertions(+), 12 deletions(-)
+> 
+> diff --git a/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_sspp.h b/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_sspp.h
+> index 1b18de957500..f805c30643b1 100644
+> --- a/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_sspp.h
+> +++ b/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_sspp.h
+> @@ -388,6 +388,16 @@ struct dpu_hw_pipe {
+>   };
+>   
+>   struct dpu_kms;
+> +/**
+> + * to_dpu_hw_pipe - convert base object dpu_hw_base to container
+> + * @hw: Pointer to base hardware block
+> + * return: Pointer to hardware block container
+> + */
+> +static inline struct dpu_hw_pipe *to_dpu_hw_pipe(struct dpu_hw_blk *hw)
+> +{
+> +	return container_of(hw, struct dpu_hw_pipe, base);
+> +}
+> +
+>   /**
+>    * dpu_hw_sspp_init - initializes the sspp hw driver object.
+>    * Should be called once before accessing every pipe.
+> diff --git a/drivers/gpu/drm/msm/disp/dpu1/dpu_kms.h b/drivers/gpu/drm/msm/disp/dpu1/dpu_kms.h
+> index 2d385b4b7f5e..824495ad2392 100644
+> --- a/drivers/gpu/drm/msm/disp/dpu1/dpu_kms.h
+> +++ b/drivers/gpu/drm/msm/disp/dpu1/dpu_kms.h
+> @@ -146,6 +146,7 @@ struct dpu_global_state {
+>   	uint32_t ctl_to_enc_id[CTL_MAX - CTL_0];
+>   	uint32_t intf_to_enc_id[INTF_MAX - INTF_0];
+>   	uint32_t dspp_to_enc_id[DSPP_MAX - DSPP_0];
+> +	uint32_t pipe_to_plane_id[SSPP_MAX - SSPP_NONE];
+>   };
+>   
+>   struct dpu_global_state
+> diff --git a/drivers/gpu/drm/msm/disp/dpu1/dpu_plane.c b/drivers/gpu/drm/msm/disp/dpu1/dpu_plane.c
+> index c04c3be16d85..146dbccd79cd 100644
+> --- a/drivers/gpu/drm/msm/disp/dpu1/dpu_plane.c
+> +++ b/drivers/gpu/drm/msm/disp/dpu1/dpu_plane.c
+> @@ -1235,8 +1235,6 @@ static void dpu_plane_destroy(struct drm_plane *plane)
+>   		/* this will destroy the states as well */
+>   		drm_plane_cleanup(plane);
+>   
+> -		dpu_hw_sspp_destroy(pdpu->pipe_hw);
+> -
+>   		kfree(pdpu);
+>   	}
+>   }
+> @@ -1445,14 +1443,13 @@ struct drm_plane *dpu_plane_init(struct drm_device *dev,
+>   	pdpu->pipe = pipe;
+>   
+>   	/* initialize underlying h/w driver */
+> -	pdpu->pipe_hw = dpu_hw_sspp_init(pipe, kms->mmio, kms->catalog);
+> -	if (IS_ERR(pdpu->pipe_hw)) {
+> -		DPU_ERROR("[%u]SSPP init failed\n", pipe);
+> -		ret = PTR_ERR(pdpu->pipe_hw);
+> +	if (!kms->rm.sspp_blks[pipe - SSPP_NONE])
+>   		goto clean_plane;
+> -	} else if (!pdpu->pipe_hw->cap || !pdpu->pipe_hw->cap->sblk) {
+> +	pdpu->pipe_hw = to_dpu_hw_pipe(kms->rm.sspp_blks[pipe - SSPP_NONE]);
+> +
+> +	if (!pdpu->pipe_hw->cap || !pdpu->pipe_hw->cap->sblk) {
+>   		DPU_ERROR("[%u]SSPP init returned invalid cfg\n", pipe);
+> -		goto clean_sspp;
+> +		goto clean_plane;
+>   	}
+>   
+>   	format_list = pdpu->pipe_hw->cap->sblk->format_list;
+> @@ -1462,7 +1459,7 @@ struct drm_plane *dpu_plane_init(struct drm_device *dev,
+>   				format_list, num_formats,
+>   				supported_format_modifiers, type, NULL);
+>   	if (ret)
+> -		goto clean_sspp;
+> +		goto clean_plane;
+>   
+>   	pdpu->catalog = kms->catalog;
+>   
+> @@ -1494,9 +1491,6 @@ struct drm_plane *dpu_plane_init(struct drm_device *dev,
+>   					pipe, plane->base.id);
+>   	return plane;
+>   
+> -clean_sspp:
+> -	if (pdpu && pdpu->pipe_hw)
+> -		dpu_hw_sspp_destroy(pdpu->pipe_hw);
+>   clean_plane:
+>   	kfree(pdpu);
+>   	return ERR_PTR(ret);
+> diff --git a/drivers/gpu/drm/msm/disp/dpu1/dpu_rm.c b/drivers/gpu/drm/msm/disp/dpu1/dpu_rm.c
+> index f9c83d6e427a..21c9e513f1f6 100644
+> --- a/drivers/gpu/drm/msm/disp/dpu1/dpu_rm.c
+> +++ b/drivers/gpu/drm/msm/disp/dpu1/dpu_rm.c
+> @@ -8,6 +8,7 @@
+>   #include "dpu_hw_lm.h"
+>   #include "dpu_hw_ctl.h"
+>   #include "dpu_hw_pingpong.h"
+> +#include "dpu_hw_sspp.h"
+>   #include "dpu_hw_intf.h"
+>   #include "dpu_hw_dspp.h"
+>   #include "dpu_hw_merge3d.h"
+> @@ -35,6 +36,14 @@ int dpu_rm_destroy(struct dpu_rm *rm)
+>   {
+>   	int i;
+>   
+> +	for (i = 0; i < ARRAY_SIZE(rm->sspp_blks); i++) {
+> +		struct dpu_hw_pipe *hw;
+> +
+> +		if (rm->sspp_blks[i]) {
+> +			hw = to_dpu_hw_pipe(rm->sspp_blks[i]);
+> +			dpu_hw_sspp_destroy(hw);
+> +		}
+> +	}
+>   	for (i = 0; i < ARRAY_SIZE(rm->pingpong_blks); i++) {
+>   		struct dpu_hw_pingpong *hw;
+>   
+> @@ -166,6 +175,24 @@ int dpu_rm_init(struct dpu_rm *rm,
+>   		rm->pingpong_blks[pp->id - PINGPONG_0] = &hw->base;
+>   	}
+>   
+> +	for (i = 0; i < cat->sspp_count; i++) {
+> +		struct dpu_hw_pipe *hw;
+> +		const struct dpu_sspp_cfg *sspp = &cat->sspp[i];
+> +
+> +		if (sspp->id <= SSPP_NONE || sspp->id >= SSPP_MAX) {
+> +			DPU_ERROR("skip sspp %d with invalid id\n", sspp->id);
+> +			continue;
+> +		}
+> +		hw = dpu_hw_sspp_init(sspp->id, mmio, cat);
+> +		if (IS_ERR_OR_NULL(hw)) {
+> +			rc = PTR_ERR(hw);
+> +			DPU_ERROR("failed sspp object creation: err %d\n",
+> +				rc);
+> +			goto fail;
+> +		}
+> +		rm->sspp_blks[sspp->id - SSPP_NONE] = &hw->base;
+> +	}
+> +
+>   	for (i = 0; i < cat->intf_count; i++) {
+>   		struct dpu_hw_intf *hw;
+>   		const struct dpu_intf_cfg *intf = &cat->intf[i];
+> @@ -660,3 +687,57 @@ int dpu_rm_get_assigned_resources(struct dpu_rm *rm,
+>   
+>   	return num_blks;
+>   }
+> +
+> +enum dpu_sspp dpu_rm_get_sspp(struct dpu_rm *rm, struct dpu_global_state *global_state, uint32_t plane_id, bool yuv, bool scale)
+> +{
 
-Signed-off-by: Ryan Lin <tsung-hua.lin@amd.com>
+Right now we have only yuv and scale as requirements for the incoming 
+plane. But these requirements can expand.
 
----
- drivers/gpu/drm/amd/amdgpu/amdgpu_acpi.c      |  3 +-
- drivers/gpu/drm/amd/amdgpu/amdgpu_device.c    |  1 +
- drivers/gpu/drm/amd/display/dc/dce/dmub_abm.c | 61 +++++++++++--------
- drivers/gpu/drm/amd/include/amd_acpi.h        |  1 +
- 4 files changed, 41 insertions(+), 25 deletions(-)
+Do you think a enum req_mask will be a good addition here?
+You can start with having 2 masks for YUV and Scale but atleast that way 
+its expandable cleanly rather than just increasing function parameters here.
 
-diff --git a/drivers/gpu/drm/amd/amdgpu/amdgpu_acpi.c b/drivers/gpu/drm/amd/amdgpu/amdgpu_acpi.c
-index 4811b0faafd9a..6ac331ee4255d 100644
---- a/drivers/gpu/drm/amd/amdgpu/amdgpu_acpi.c
-+++ b/drivers/gpu/drm/amd/amdgpu/amdgpu_acpi.c
-@@ -822,7 +822,8 @@ static int amdgpu_acpi_event(struct notifier_block *nb,
- 	struct amdgpu_device *adev = container_of(nb, struct amdgpu_device, acpi_nb);
- 	struct acpi_bus_event *entry = (struct acpi_bus_event *)data;
- 
--	if (strcmp(entry->device_class, ACPI_AC_CLASS) == 0) {
-+	if (strcmp(entry->device_class, ACPI_AC_CLASS) == 0 ||
-+	    strcmp(entry->device_class, ACPI_BATTERY_CLASS) == 0) {
- 		if (power_supply_is_system_supplied() > 0)
- 			DRM_DEBUG_DRIVER("pm: AC\n");
- 		else
-diff --git a/drivers/gpu/drm/amd/amdgpu/amdgpu_device.c b/drivers/gpu/drm/amd/amdgpu/amdgpu_device.c
-index abfcc1304ba0c..3a0afe7602727 100644
---- a/drivers/gpu/drm/amd/amdgpu/amdgpu_device.c
-+++ b/drivers/gpu/drm/amd/amdgpu/amdgpu_device.c
-@@ -3454,6 +3454,7 @@ int amdgpu_device_init(struct amdgpu_device *adev,
- 
- 	adev->gfx.gfx_off_req_count = 1;
- 	adev->pm.ac_power = power_supply_is_system_supplied() > 0;
-+	adev->pm.old_ac_power = true;
- 
- 	atomic_set(&adev->throttling_logging_enabled, 1);
- 	/*
-diff --git a/drivers/gpu/drm/amd/display/dc/dce/dmub_abm.c b/drivers/gpu/drm/amd/display/dc/dce/dmub_abm.c
-index 54a1408c8015c..090bd23410b45 100644
---- a/drivers/gpu/drm/amd/display/dc/dce/dmub_abm.c
-+++ b/drivers/gpu/drm/amd/display/dc/dce/dmub_abm.c
-@@ -22,7 +22,8 @@
-  * Authors: AMD
-  *
-  */
--
-+#include <linux/power_supply.h>
-+#include "amdgpu.h"
- #include "dmub_abm.h"
- #include "dce_abm.h"
- #include "dc.h"
-@@ -50,7 +51,7 @@
- 
- #define DISABLE_ABM_IMMEDIATELY 255
- 
--
-+extern uint amdgpu_dm_abm_level;
- 
- static void dmub_abm_enable_fractional_pwm(struct dc_context *dc)
- {
-@@ -117,28 +118,6 @@ static void dmub_abm_init(struct abm *abm, uint32_t backlight)
- 	dmub_abm_enable_fractional_pwm(abm->ctx);
- }
- 
--static unsigned int dmub_abm_get_current_backlight(struct abm *abm)
--{
--	struct dce_abm *dce_abm = TO_DMUB_ABM(abm);
--	unsigned int backlight = REG_READ(BL1_PWM_CURRENT_ABM_LEVEL);
--
--	/* return backlight in hardware format which is unsigned 17 bits, with
--	 * 1 bit integer and 16 bit fractional
--	 */
--	return backlight;
--}
--
--static unsigned int dmub_abm_get_target_backlight(struct abm *abm)
--{
--	struct dce_abm *dce_abm = TO_DMUB_ABM(abm);
--	unsigned int backlight = REG_READ(BL1_PWM_TARGET_ABM_LEVEL);
--
--	/* return backlight in hardware format which is unsigned 17 bits, with
--	 * 1 bit integer and 16 bit fractional
--	 */
--	return backlight;
--}
--
- static bool dmub_abm_set_level(struct abm *abm, uint32_t level)
- {
- 	union dmub_rb_cmd cmd;
-@@ -147,6 +126,10 @@ static bool dmub_abm_set_level(struct abm *abm, uint32_t level)
- 	int i;
- 	int edp_num;
- 	uint8_t panel_mask = 0;
-+	struct amdgpu_device *dev = dc->driver_context;
-+
-+	if (dev->pm.ac_power)
-+		level = 0;
- 
- 	get_edp_links(dc->dc, edp_links, &edp_num);
- 
-@@ -170,6 +153,36 @@ static bool dmub_abm_set_level(struct abm *abm, uint32_t level)
- 	return true;
- }
- 
-+static unsigned int dmub_abm_get_current_backlight(struct abm *abm)
-+{
-+	struct dce_abm *dce_abm = TO_DMUB_ABM(abm);
-+	unsigned int backlight = REG_READ(BL1_PWM_CURRENT_ABM_LEVEL);
-+	struct dc_context *dc = abm->ctx;
-+	struct amdgpu_device *adev = dc->driver_context;
-+
-+	if (adev->pm.ac_power != adev->pm.old_ac_power) {
-+		dmub_abm_set_level(abm, amdgpu_dm_abm_level);
-+		adev->pm.ac_power = power_supply_is_system_supplied() > 0;
-+		adev->pm.old_ac_power = adev->pm.ac_power;
-+	}
-+
-+	/* return backlight in hardware format which is unsigned 17 bits, with
-+	 * 1 bit integer and 16 bit fractional
-+	 */
-+	return backlight;
-+}
-+
-+static unsigned int dmub_abm_get_target_backlight(struct abm *abm)
-+{
-+	struct dce_abm *dce_abm = TO_DMUB_ABM(abm);
-+	unsigned int backlight = REG_READ(BL1_PWM_TARGET_ABM_LEVEL);
-+
-+	/* return backlight in hardware format which is unsigned 17 bits, with
-+	 * 1 bit integer and 16 bit fractional
-+	 */
-+	return backlight;
-+}
-+
- static bool dmub_abm_init_config(struct abm *abm,
- 	const char *src,
- 	unsigned int bytes,
-diff --git a/drivers/gpu/drm/amd/include/amd_acpi.h b/drivers/gpu/drm/amd/include/amd_acpi.h
-index 2d089d30518f3..5a62e580668e4 100644
---- a/drivers/gpu/drm/amd/include/amd_acpi.h
-+++ b/drivers/gpu/drm/amd/include/amd_acpi.h
-@@ -25,6 +25,7 @@
- #define AMD_ACPI_H
- 
- #define ACPI_AC_CLASS           "ac_adapter"
-+#define ACPI_BATTERY_CLASS  "battery"
- 
- struct atif_verify_interface {
- 	u16 size;		/* structure size in bytes (includes size field) */
--- 
-2.25.1
 
+> +	int i;
+> +	enum dpu_sspp pipe = SSPP_NONE;
+> +	struct dpu_hw_pipe *pipe_hw;
+> +	bool retry = false;
+> +
+> +retry_loop:
+> +	for (i = 0; i < ARRAY_SIZE(rm->sspp_blks) && pipe == SSPP_NONE; i++) {
+> +		if (!rm->sspp_blks[i])
+> +			continue;
+> +		if (reserved_by_other(global_state->pipe_to_plane_id, i, plane_id))
+> +			continue;
+> +
+> +		pipe_hw = to_dpu_hw_pipe(rm->sspp_blks[i]);
+> +
+> +		/* skip incompatible planes */
+> +		if (scale && !(pipe_hw->cap->features & DPU_SSPP_SCALER))
+> +			continue;
+> +
+> +		if (yuv && (!(pipe_hw->cap->features & DPU_SSPP_SCALER) ||
+> +			    !(pipe_hw->cap->features & DPU_SSPP_CSC_ANY)))
+> +			continue;
+> +
+> +		/* For non-yuv, non-scaled planes try to find simple (DMA)
+> +		 * plane, fallback to VIG on a second try.
+> +		 *
+> +		 * This way we'd leave VIG pipes to be later used for YUV formats.
+> +		 */
+> +
+
+this strategy should work. I just think we need to validate this quite a 
+bit with some real world cases such as video playback with UI layers, 
+opening and closing video players, browsers etc.
+
+I am yet to review the usage of this in the next patches, but yes if 
+even this wont kick in for small layers, we are protected.
+
+
+> +		if (!scale && !yuv && !retry &&
+> +		    (pipe_hw->cap->features & (DPU_SSPP_SCALER | DPU_SSPP_CSC_ANY)))
+> +			continue;
+> +
+> +		pipe = i + SSPP_NONE;
+> +	};
+> +
+> +	if (!scale && !yuv && !retry && pipe == SSPP_NONE) {
+> +		retry = true;
+> +		goto retry_loop;
+> +	}
+> +
+> +	if (pipe != SSPP_NONE)
+> +		global_state->pipe_to_plane_id[pipe - SSPP_NONE] = plane_id;
+> +
+> +	return pipe;
+> +}
+> +
+> +void dpu_rm_release_sspp(struct dpu_rm *rm, struct dpu_global_state *global_state, uint32_t plane_id)
+> +{
+> +	_dpu_rm_clear_mapping(global_state->pipe_to_plane_id,
+> +			ARRAY_SIZE(global_state->pipe_to_plane_id), plane_id);
+> +}
+> diff --git a/drivers/gpu/drm/msm/disp/dpu1/dpu_rm.h b/drivers/gpu/drm/msm/disp/dpu1/dpu_rm.h
+> index 1f12c8d5b8aa..b759fe39f6d6 100644
+> --- a/drivers/gpu/drm/msm/disp/dpu1/dpu_rm.h
+> +++ b/drivers/gpu/drm/msm/disp/dpu1/dpu_rm.h
+> @@ -16,6 +16,7 @@ struct dpu_global_state;
+>   /**
+>    * struct dpu_rm - DPU dynamic hardware resource manager
+>    * @pingpong_blks: array of pingpong hardware resources
+> + * @sspp_blks: array of sspp hardware resources
+>    * @mixer_blks: array of layer mixer hardware resources
+>    * @ctl_blks: array of ctl hardware resources
+>    * @intf_blks: array of intf hardware resources
+> @@ -25,6 +26,7 @@ struct dpu_global_state;
+>    */
+>   struct dpu_rm {
+>   	struct dpu_hw_blk *pingpong_blks[PINGPONG_MAX - PINGPONG_0];
+> +	struct dpu_hw_blk *sspp_blks[SSPP_MAX - SSPP_NONE];
+>   	struct dpu_hw_blk *mixer_blks[LM_MAX - LM_0];
+>   	struct dpu_hw_blk *ctl_blks[CTL_MAX - CTL_0];
+>   	struct dpu_hw_blk *intf_blks[INTF_MAX - INTF_0];
+> @@ -88,5 +90,9 @@ void dpu_rm_release(struct dpu_global_state *global_state,
+>   int dpu_rm_get_assigned_resources(struct dpu_rm *rm,
+>   	struct dpu_global_state *global_state, uint32_t enc_id,
+>   	enum dpu_hw_blk_type type, struct dpu_hw_blk **blks, int blks_size);
+> +
+> +enum dpu_sspp dpu_rm_get_sspp(struct dpu_rm *rm, struct dpu_global_state *global_state, uint32_t plane_id, bool yuv, bool scale);
+> +void dpu_rm_release_sspp(struct dpu_rm *rm, struct dpu_global_state *global_state, uint32_t plane_id);
+> +
+>   #endif /* __DPU_RM_H__ */
+>   
