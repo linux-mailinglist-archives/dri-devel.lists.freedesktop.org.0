@@ -2,69 +2,63 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 80FB351189D
-	for <lists+dri-devel@lfdr.de>; Wed, 27 Apr 2022 16:03:55 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 342775118A2
+	for <lists+dri-devel@lfdr.de>; Wed, 27 Apr 2022 16:09:26 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id E4A7410F36C;
-	Wed, 27 Apr 2022 14:03:52 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 3484C10E7C9;
+	Wed, 27 Apr 2022 14:09:24 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-ed1-x532.google.com (mail-ed1-x532.google.com
- [IPv6:2a00:1450:4864:20::532])
- by gabe.freedesktop.org (Postfix) with ESMTPS id B9D8810F36C
- for <dri-devel@lists.freedesktop.org>; Wed, 27 Apr 2022 14:03:50 +0000 (UTC)
-Received: by mail-ed1-x532.google.com with SMTP id k27so2071494edk.4
- for <dri-devel@lists.freedesktop.org>; Wed, 27 Apr 2022 07:03:50 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ffwll.ch; s=google;
- h=date:from:to:cc:subject:message-id:references:mime-version
- :content-disposition:in-reply-to;
- bh=RvX/r4pt6aQy0zVF3aw2Z9bBVmBZNadWlBuG4oFd9K8=;
- b=MnCn1bTUFSvI51NYq+HFuE+fBKxg7yMPK0wOYii8IGNaAxpDS4k2To8pLBUPdOqa5P
- +OhrR0g6tfmnczs8AdtgUsOgiH+XnylpQ8desQ+Cggb3ddrqnhfgP3LLiBV6HPAprXEQ
- xzxr4yVafwsFYId5eAu548pLXT0i9X2b1tcKU=
+Received: from mail-wr1-x430.google.com (mail-wr1-x430.google.com
+ [IPv6:2a00:1450:4864:20::430])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 5128C10E7C9
+ for <dri-devel@lists.freedesktop.org>; Wed, 27 Apr 2022 14:09:23 +0000 (UTC)
+Received: by mail-wr1-x430.google.com with SMTP id d5so2689860wrb.6
+ for <dri-devel@lists.freedesktop.org>; Wed, 27 Apr 2022 07:09:23 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=w6MIU62TYksZWfBnvqlAQQAOrtOE9xpl7EDu9WVwdGc=;
+ b=DYYHPev7usMe37yDVn5rCV6Kxws3GlY7tSGUDtnzkUrf5nsvozh9CqCWA6fWWX2zM9
+ pcLAZSxt5+XSccxZx4IjnUX9MbluDu5oA6HwMzvWm+P9IC1fbSuRrWF7I+HgV9WEkM4r
+ mOjnzk+j5ymUmOcaKxCXMnM+uCCCK5AQgE1fEoomXLaklNIYvbQWFS1JW8Fy4oaeb2RD
+ odZRk8INXz+Cd1vwGhba3F2tnNErpLnM7ERbGIX/NZiHCvOWQCXy7P9Z0E1WgC0vf4fJ
+ M9xtHXq5r9N4orwL1WnCdSwZEbgxerg9sLRxHOP6m0yJ3RAxTvjDR3ylRZLSI/gOFmgp
+ pkfg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=x-gm-message-state:date:from:to:cc:subject:message-id:references
- :mime-version:content-disposition:in-reply-to;
- bh=RvX/r4pt6aQy0zVF3aw2Z9bBVmBZNadWlBuG4oFd9K8=;
- b=IYoRHLRNNCGaAuBxJSXd2PkXRdG1J+nwrwS0jViv8sNwDZaXWWnWsarkRsLw1f2I6O
- 3PfJdIXJgAW+oT+yz8XFjPlGDXRwWYtU37dWEGRzhNEcH+QeeNyfpCposb6j+pVC55xd
- rkCIMfWrhbvlDahtSTb5a2KIRvShiIv14WPuhc4oCDlA7sJ+vzUzd7C6q3l7tKkOjXp0
- a8oyJ+FfwdW5NdslZnlDxqNCmsIkMsvXOu6KjDXpB9G1xQ+JHO+cnkDFNoqM+HB9z4a7
- 9/FgEq4HcV4Ugr+lhOT74GQUkzYN3Y40C6d93rE2Mz7mrzJXBg9CHCstSKkQQiIaVqDw
- 6L8w==
-X-Gm-Message-State: AOAM531tlztnQ/AtS1yET69qvw91A6xBcN/wcpP/5ow1LALMU2b/QM2q
- zbLfGzUoQWQgppaks/AheNbLEA==
-X-Google-Smtp-Source: ABdhPJwzeehJooy8CKIouDuwkvnFMBnOdjGIMuj9sdlCEV9eLroBV/ufQQec0n3W/ghrc76+RvNleg==
-X-Received: by 2002:a05:6402:84c:b0:423:e5a2:3655 with SMTP id
- b12-20020a056402084c00b00423e5a23655mr30768457edz.28.1651068229090; 
- Wed, 27 Apr 2022 07:03:49 -0700 (PDT)
-Received: from phenom.ffwll.local ([2a02:168:57f4:0:efd0:b9e5:5ae6:c2fa])
- by smtp.gmail.com with ESMTPSA id
- k14-20020a170906128e00b006e4b67514a1sm6879728ejb.179.2022.04.27.07.03.47
+ h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=w6MIU62TYksZWfBnvqlAQQAOrtOE9xpl7EDu9WVwdGc=;
+ b=qahP6Bh+g/c7H43DHROxIRHJPxh+37mTbp7xNAgpBP+gm3GED57kLWszULBLnM1rC5
+ zJrj+rSIqL/GcuEFGDwXZswlv0LdFhvAsBnTeaLaICJcYlXqyutFjfsSK/aWl8R75F+2
+ rhWmWvXJuwv3ap8WMA1ISn1v4VAb6A6mc2ZEeUE/dz26eTV9RJywLo+mAem6QbvL7Vt8
+ 13Rm0K+HfmqIKKewHQ01fv2MKXjf8zgwZI81nTNBy/4ApWx/sxwwwJV2hAlf0E/oMWV5
+ 90C/IEoxOjQtLzJpmRBIE0fl8aXYdEVma9rR301fu+ltMylfs2gBUCbXoNhI8YI8hWTA
+ YDlA==
+X-Gm-Message-State: AOAM5316F9IT5pEs8XgVjkFEs4GXfjyfw5nWGA+e1YM8n+a+svHTN/mJ
+ 8/PLcopHr5afmQ6LdQZqKFngi7g/bNno4EaM
+X-Google-Smtp-Source: ABdhPJx/N+hPRow/KIghfV1v359Zgeg0Nq19B5KVFxgMbSb7LhSDyBq95ktk1O7bDXKfdtLnWqMSUA==
+X-Received: by 2002:a5d:54c4:0:b0:20a:d2ea:1f7f with SMTP id
+ x4-20020a5d54c4000000b0020ad2ea1f7fmr17036040wrv.306.1651068561724; 
+ Wed, 27 Apr 2022 07:09:21 -0700 (PDT)
+Received: from maple.lan (cpc141216-aztw34-2-0-cust174.18-1.cable.virginm.net.
+ [80.7.220.175]) by smtp.gmail.com with ESMTPSA id
+ e30-20020adf9bde000000b0020ad8ffb0f9sm8723818wrc.69.2022.04.27.07.09.20
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 27 Apr 2022 07:03:48 -0700 (PDT)
-Date: Wed, 27 Apr 2022 16:03:46 +0200
-From: Daniel Vetter <daniel@ffwll.ch>
-To: Jani Nikula <jani.nikula@linux.intel.com>
-Subject: Re: [RFC] drm/kms: control display brightness through drm_connector
- properties
-Message-ID: <YmlNQgaxU7fYnTh6@phenom.ffwll.local>
-References: <dP36CeeNjDVKgcJzbBAdkNM0HzB3N5Uzd6cgBcmrb5mA6xzWs9AKMmRdMKG2y6c1geMhZ1i8hONKQmxYYHN-ZhRLGT_TXz5IhtqnJSWBD9Q=@emersion.fr>
- <0e1cffc1-e8b6-dc58-56ff-53f911f33e60@redhat.com>
- <CADnq5_OGtERRYUPLskgjVD4eLbb2PxKdzcr+xmR2mRMAK73Log@mail.gmail.com>
- <Yk/tOG+iga/wj/Gt@phenom.ffwll.local>
- <CADnq5_NT=pSZwvMN_0_S4duk-StRxh0JcsraJo+erPDkq+GyJg@mail.gmail.com>
- <4a3cf9b6-1e08-c08c-bebd-ec2ca648059c@redhat.com>
- <CADnq5_M2zLedFmAS+udyg1zRavv-aCm1hRY+t=qW7wD33JEALg@mail.gmail.com>
- <a42f03bf-bf85-b08e-fa4f-e36a226922bc@redhat.com>
- <CADnq5_MAx47Ju7_cOt-8rn3V0zRyH5MZNG_4GY+nUiVw6-+h-A@mail.gmail.com>
- <875yncezdt.fsf@intel.com>
+ Wed, 27 Apr 2022 07:09:21 -0700 (PDT)
+From: Daniel Thompson <daniel.thompson@linaro.org>
+To: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+ Maxime Ripard <mripard@kernel.org>,
+ Thomas Zimmermann <tzimmermann@suse.de>, David Airlie <airlied@linux.ie>,
+ Daniel Vetter <daniel@ffwll.ch>
+Subject: [RESEND PATCH v3] drm/cma-helper: Describe what a "contiguous chunk"
+ actually means
+Date: Wed, 27 Apr 2022 15:09:10 +0100
+Message-Id: <20220427140910.1735188-1-daniel.thompson@linaro.org>
+X-Mailer: git-send-email 2.35.1
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <875yncezdt.fsf@intel.com>
-X-Operating-System: Linux phenom 5.10.0-8-amd64 
+Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -77,299 +71,115 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Sebastian Wick <sebastian.wick@redhat.com>,
- Martin Roukala <martin.roukala@mupuf.org>,
- "dri-devel@lists.freedesktop.org" <dri-devel@lists.freedesktop.org>,
- wayland <wayland-devel@lists.freedesktop.org>,
- Hans de Goede <hdegoede@redhat.com>,
- Christoph Grenz <christophg+lkml@grenz-bonn.de>,
- Yusuf Khan <yusisamerican@gmail.com>
+Cc: Daniel Thompson <daniel.thompson@linaro.org>, linux-kernel@vger.kernel.org,
+ dri-devel@lists.freedesktop.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Thu, Apr 14, 2022 at 01:24:30PM +0300, Jani Nikula wrote:
-> On Mon, 11 Apr 2022, Alex Deucher <alexdeucher@gmail.com> wrote:
-> > On Mon, Apr 11, 2022 at 6:18 AM Hans de Goede <hdegoede@redhat.com> wrote:
-> >>
-> >> Hi,
-> >>
-> >> On 4/8/22 17:11, Alex Deucher wrote:
-> >> > On Fri, Apr 8, 2022 at 10:56 AM Hans de Goede <hdegoede@redhat.com> wrote:
-> >> >>
-> >> >> Hi,
-> >> >>
-> >> >> On 4/8/22 16:08, Alex Deucher wrote:
-> >> >>> On Fri, Apr 8, 2022 at 4:07 AM Daniel Vetter <daniel@ffwll.ch> wrote:
-> >> >>>>
-> >> >>>> On Thu, Apr 07, 2022 at 05:05:52PM -0400, Alex Deucher wrote:
-> >> >>>>> On Thu, Apr 7, 2022 at 1:43 PM Hans de Goede <hdegoede@redhat.com> wrote:
-> >> >>>>>>
-> >> >>>>>> Hi Simon,
-> >> >>>>>>
-> >> >>>>>> On 4/7/22 18:51, Simon Ser wrote:
-> >> >>>>>>> Very nice plan! Big +1 for the overall approach.
-> >> >>>>>>
-> >> >>>>>> Thanks.
-> >> >>>>>>
-> >> >>>>>>> On Thursday, April 7th, 2022 at 17:38, Hans de Goede <hdegoede@redhat.com> wrote:
-> >> >>>>>>>
-> >> >>>>>>>> The drm_connector brightness properties
-> >> >>>>>>>> =======================================
-> >> >>>>>>>>
-> >> >>>>>>>> bl_brightness: rw 0-int32_max property controlling the brightness setting
-> >> >>>>>>>> of the connected display. The actual maximum of this will be less then
-> >> >>>>>>>> int32_max and is given in bl_brightness_max.
-> >> >>>>>>>
-> >> >>>>>>> Do we need to split this up into two props for sw/hw state? The privacy screen
-> >> >>>>>>> stuff needed this, but you're pretty familiar with that. :)
-> >> >>>>>>
-> >> >>>>>> Luckily that won't be necessary, since the privacy-screen is a security
-> >> >>>>>> feature the firmware/embedded-controller may refuse our requests
-> >> >>>>>> (may temporarily lock-out changes) and/or may make changes without
-> >> >>>>>> us requesting them itself. Neither is really the case with the
-> >> >>>>>> brightness setting of displays.
-> >> >>>>>>
-> >> >>>>>>>> bl_brightness_max: ro 0-int32_max property giving the actual maximum
-> >> >>>>>>>> of the display's brightness setting. This will report 0 when brightness
-> >> >>>>>>>> control is not available (yet).
-> >> >>>>>>>
-> >> >>>>>>> I don't think we actually need that one. Integer KMS props all have a
-> >> >>>>>>> range which can be fetched via drmModeGetProperty. The max can be
-> >> >>>>>>> exposed via this range. Example with the existing alpha prop:
-> >> >>>>>>>
-> >> >>>>>>>     "alpha": range [0, UINT16_MAX] = 65535
-> >> >>>>>>
-> >> >>>>>> Right, I already knew that, which is why I explicitly added a range
-> >> >>>>>> to the props already. The problem is that the range must be set
-> >> >>>>>> before registering the connector and when the backlight driver
-> >> >>>>>> only shows up (much) later during boot then we don't know the
-> >> >>>>>> range when registering the connector. I guess we could "patch-up"
-> >> >>>>>> the range later. But AFAIK that would be a bit of abuse of the
-> >> >>>>>> property API as the range is intended to never change, not
-> >> >>>>>> even after hotplug uevents. At least atm there is no infra
-> >> >>>>>> in the kernel to change the range later.
-> >> >>>>>>
-> >> >>>>>> Which is why I added an explicit bl_brightness_max property
-> >> >>>>>> of which the value gives the actual effective maximum of the
-> >> >>>>>> brightness.
-> >> >>>>
-> >> >>>> Uh ... I'm not a huge fan tbh. The thing is, if we allow hotplugging
-> >> >>>> brightness control later on then we just perpetuate the nonsense we have
-> >> >>>> right now, forever.
-> >> >>>>
-> >> >>>> Imo we should support two kinds of drivers:
-> >> >>>>
-> >> >>>> - drivers which are non-crap, and make sure their backlight driver is
-> >> >>>>   loaded before they register the drm_device (or at least the
-> >> >>>>   drm_connector). For those we want the drm_connector->backlight pointer
-> >> >>>>   to bit static over the lifetime of the connector, and then we can also
-> >> >>>>   set up the brightness range correctly.
-> >> >>>>
-> >> >>>> - funny drivers which implement the glorious fallback dance which
-> >> >>>>   libbacklight implements currently in userspace. Imo for these drivers we
-> >> >>>>   should have a libbacklight_heuristics_backlight, which normalizes or
-> >> >>>>   whatever, and is also ways there. And then internally handles the
-> >> >>>>   fallback mess to the "right" backlight driver.
-> >> >>>>
-> >> >>>> We might have some gaps on acpi systems to make sure the drm driver can
-> >> >>>> wait for the backlight driver to show up, but that's about it.
-> >> >>>>
-> >> >>>> Hotplugging random pieces later on is really not how drivers work nowadays
-> >> >>>> with deferred probe and component framework and all that.
-> >> >>>>
-> >> >>>>>> I did consider using the range for this and updating it
-> >> >>>>>> on the fly I think nothing is really preventing us from
-> >> >>>>>> doing so, but it very much feels like abusing the generic
-> >> >>>>>> properties API.
-> >> >>>>>>
-> >> >>>>>>>> bl_brightness_0_is_min_brightness: ro, boolean
-> >> >>>>>>>> When this is set to true then it is safe to set brightness to 0
-> >> >>>>>>>> without worrying that this completely turns the backlight off causing
-> >> >>>>>>>> the screen to become unreadable. When this is false setting brightness
-> >> >>>>>>>> to 0 may turn the backlight off, but this is not guaranteed.
-> >> >>>>>>>> This will e.g. be true when directly driving a PWM and the video-BIOS
-> >> >>>>>>>> has provided a minimum (non 0) duty-cycle below which the driver will
-> >> >>>>>>>> never go.
-> >> >>>>>>>
-> >> >>>>>>> Hm. It's quite unfortunate that it's impossible to have strong guarantees
-> >> >>>>>>> here.
-> >> >>>>>>>
-> >> >>>>>>> Is there any way we can avoid this prop?
-> >> >>>>>>
-> >> >>>>>> Not really, the problem is that we really don't know if 0 is off
-> >> >>>>>> or min-brightness. In the given example where we actually never go
-> >> >>>>>> down to a duty-cycle of 0% because the video BIOS tables tell us
-> >> >>>>>> not to, we can be certain that setting the brightness prop to 0
-> >> >>>>>> will not turn of the backlight, since we then set the duty-cycle
-> >> >>>>>> to the VBT provided minimum. Note the intend here is to only set
-> >> >>>>>> the boolean to true if the VBT provided minimum is _not_ 0, 0
-> >> >>>>>> just means the vendor did not bother to provide a minimum.
-> >> >>>>>>
-> >> >>>>>> Currently e.g. GNOME never goes lower then something like 5%
-> >> >>>>>> of brightness_max to avoid accidentally turning the screen off.
-> >> >>>>>>
-> >> >>>>>> Turning the screen off is quite bad to do on e.g. tablets where
-> >> >>>>>> the GUI is the only way to undo the brightness change and now
-> >> >>>>>> the user can no longer see the GUI.
-> >> >>>>>>
-> >> >>>>>> The idea behind this boolean is to give e.g. GNOME a way to
-> >> >>>>>> know that it is safe to go down to 0% and for it to use
-> >> >>>>>> the entire range.
-> >> >>>>>
-> >> >>>>> Why not just make it policy that 0 is defined as minimum brightness,
-> >> >>>>> not off, and have all drivers conform to that?
-> >> >>>>
-> >> >>>> Because the backlight subsystem isn't as consistent on this, and it's been
-> >> >>>> an epic source of confusion since forever.
-> >> >>>>
-> >> >>>> What's worse, there's both userspace out there which assumes brightness =
-> >> >>>> 0 is a really fast dpms off _and_ userspace that assumes that brightness =
-> >> >>>> 0 is the lowest setting. Of course on different sets of machines.
-> >> >>>>
-> >> >>>> So yeah we're screwed. I have no idea how to get out of this.
-> >> >>>
-> >> >>> Yes, but this is a new API.  So can't we do better?  Sure the old
-> >> >>> backlight interface is broken, but why carry around clunky workarounds
-> >> >>> for new interfaces?
-> >> >>
-> >> >> Right we certainly need to define the behavior of the new API
-> >> >> clearly, so that userspace does not misuse / misinterpret it.
-> >> >>
-> >> >> The intend is for brightness=0 to mean minimum brightness
-> >> >> to still be able to see what is on the screen. But the problem
-> >> >> is that in many cases the GPU driver directly controls a PWM
-> >> >> output, no minimum PWM value is given in the video BIOS tables
-> >> >> and actually setting the PWM to 0% dutycycle turns off the
-> >> >> screen.
-> >> >
-> >> > Sure.  So have the GPU driver map 0 to some valid minimum if that is
-> >> > the case or might be the case.  If bugs come up, we can add quirks in
-> >> > the GPU drivers.
-> >>
-> >> The problem is that when 0% duty-cycle is not off, but minimum
-> >> brightness because there is some smart backlight-controller involved
-> >> downstream of the pwm, then of we limit it to say min 5% then we
-> >> have just limited the range of the brightness. GNOME already does
-> >> this in userspace now and it is already receiving bug-reports
-> >> from users that GNOME does not allow the brightness to go as low
-> >> as they like to have it in a dark(ish) room.
-> >>
-> >> And in some cases 5% is likely not enough for the backlight to
-> >> actually turn on. So it will be wrong in one direction on some
-> >> devices and wrong in the other direction in other devices.
-> >>
-> >> Which means that to satisfy everyone here we will need a ton
-> >> of quirks, much too many to maintain in the kernel IMHO.
-> >>
-> >>
-> >> >> So we can only promise a best-effort to make brightness=0
-> >> >> mean minimum brightness, combined with documenting that it
-> >> >> may turn off the backlight and that userspace _must_ never
-> >> >> depend on it turning off the backlight.
-> >> >>
-> >> >> Also note that setting a direct PWM output to duty-cycle 0%
-> >> >> does not guarantee that the backlight goes off, this may be
-> >> >> an input for a special backlight LED driver IC like the
-> >> >> TI LP855x series which can have an internal lookup
-> >> >> table causing it to actually output a minimum brightness
-> >> >> when its PWM input is at 0% dutycycle.  So this is a case
-> >> >> where we just don't get enough info from the fw/hw to be able
-> >> >> to offer the guarantees which we would like to guarantee.
-> >> >
-> >> > So set it to a level we can guarantee can call it 0.  If we have the
-> >> > flag we are just punting on the problem in my opinion.
-> >>
-> >> Right this an impossible problem to solve so the intent is indeed
-> >> to punt this to userspace, which IMHO is the best thing we can do
-> >> here.  The idea behind the "bl_brightness_0_is_min_brightness:
-> >> ro, boolean" property is to provide a hint to userspace to help
-> >> userspace deal with this (and if userspace ends up using e.g.
-> >> systemd's hwdb for this to avoid unnecessary entries in hwdb).
-> >>
-> >> >  The kernel
-> >> > driver would seem to have a better idea what is a valid minimum than
-> >> > some arbitrary userspace application.
-> >>
-> >> If the kernel driver knows the valid minimum then it can make 0
-> >> actually be that valid minimum as you suggest and it can set the
-> >> hint flag to let userspace know this. OTOH there are many cases
-> >> where the kernel's guess is just as bad as userspace's guess and
-> >> there are too many laptops where this is the case to quirk
-> >> ourselves out of this situation.
-> >>
-> >> > Plus then if we need a
-> >> > workaround for what is the minimum valid brightness, we can fix it one
-> >> > place rather than letting every application try and fix it.
-> >>
-> >> I wish we could solve this in the kernel, but at least on
-> >> laptops with Intel integrated gfx many vendors don't bother
-> >> to put a non 0 value in the minimum duty-cycle field of the
-> >> VBT, so there really is no good way to solve this.
-> >
-> > We have similar issues with AMD platforms.  Some platforms don't
-> > populate the min value tables, but in the driver we set the minimum
-> > safe value as the default min value when that happens.  It may not
-> > always go as low as the platform may be capable of, but at least we
-> > have consistent behavior and it's all controlled in one place.
-> >
-> >>
-> >> If the userspace folks ever want to do a database for this,
-> >> I would expect them to do something with hwdb + udev which
-> >> can then be shared between the different desktop-environments.
-> >
-> > So why not do it in the kernel?  At least that way everyone will get
-> > it the fixes as they happen.  A big user database may or may not
-> > happen and behavior will be inconsistent across desktop environments
-> > until that does.  I don't really see any value in having the flag.
-> > There will be cases where the flag is wrong and will require kernel
-> > fixes anyway (e.g., OEM switches panel due to supply chain issues and
-> > forgets to update the vbios, etc.), so why not just define 0 as
-> > minimum safe backlight value?  If it's too low and flickers or turns
-> > the backlight off, we quirk it.  If a particular platform can go
-> > lower, we can quirk it.  If we add the flag then we need to not only
-> > add quirks for the minimum value, but we also have to deal with quirks
-> > for when the flag is set wrong.  So now we are maintaining two quirks
-> > instead of one.
-> 
-> Just chiming in, there are certainly plenty of panels and designs where
-> 0 PWM duty cycle is physically not possible, and thus 0 brightness
-> simply can't universally mean off.
-> 
-> Daniel referred to a case where 0 brightness was used as fast mini dpms
-> off, and I think it's fundamentally a broken use case. We can't
-> guarantee to be able to support that. I think the appeal was partly in
-> being able to do it without access to kms api, quick and dirty via
-> sysfs.
-> 
-> Please let's just make 0 the minimum but not off. If you want off, you
-> do modeset, and the driver can follow panel timings etc.
-> 
-> I think that's also something the kernel can actually guarantee, while
-> we can't guarantee 0 is off.
+Since it's inception in 2012 it has been understood that the DRM GEM CMA
+helpers do not depend on CMA as the backend allocator. In fact the first
+bug fix to ensure the cma-helpers work correctly with an IOMMU backend
+appeared in 2014. However currently the documentation for
+drm_gem_cma_create() talks about "a contiguous chunk of memory" without
+making clear which address space it will be a contiguous part of.
+Additionally the CMA introduction is actively misleading because it only
+contemplates the CMA backend.
 
-Yes.
+This matters because when the device accesses the bus through an IOMMU
+(and don't use the CMA backend) then the allocated memory is contiguous
+only in the IOVA space. This is a significant difference compared to the
+CMA backend and the behaviour can be a surprise even to someone who does
+a reasonable level of code browsing (but doesn't find all the relevant
+function pointers ;-) ).
 
-The trouble is that we have platforms where it works like this, and so
-retroactively redefining what brightness 0 means would be a regression. I
-guess just another reason for why we should roll this out step by step,
-with latest platforms first.
+Improve the kernel doc comments accordingly.
 
-Or we shrug and decide to break things like that and redefine the
-backlight semantics a bit. Or well define them properly to begin with :-)
--Daniel
+Signed-off-by: Daniel Thompson <daniel.thompson@linaro.org>
+---
 
-> 
-> 
-> BR,
-> Jani.
-> 
-> 
-> 
-> 
-> -- 
-> Jani Nikula, Intel Open Source Graphics Center
+Notes:
+    RESEND is unaltered but rebased on v5.18-rc3.
+    
+    Changes in v3:
+    - Rebased on v5.17-rc2
+    - Minor improvements to wording.
+    
+    Changes in v2:
+    - Oops. I did a final proof read and accidentally committed these
+      changes as a seperate patch. This means that v1 contains only
+      one tenth of the actual patch. This is fixed in v2. Many apologies
+      for the noise!
 
--- 
-Daniel Vetter
-Software Engineer, Intel Corporation
-http://blog.ffwll.ch
+ drivers/gpu/drm/drm_gem_cma_helper.c | 39 +++++++++++++++++++++-------
+ 1 file changed, 29 insertions(+), 10 deletions(-)
+
+diff --git a/drivers/gpu/drm/drm_gem_cma_helper.c b/drivers/gpu/drm/drm_gem_cma_helper.c
+index f36734c2c9e1..42abee9a0f4f 100644
+--- a/drivers/gpu/drm/drm_gem_cma_helper.c
++++ b/drivers/gpu/drm/drm_gem_cma_helper.c
+@@ -26,12 +26,22 @@
+ /**
+  * DOC: cma helpers
+  *
+- * The Contiguous Memory Allocator reserves a pool of memory at early boot
+- * that is used to service requests for large blocks of contiguous memory.
++ * The DRM GEM/CMA helpers are a means to provide buffer objects that are
++ * presented to the device as a contiguous chunk of memory. This is useful
++ * for devices that do not support scatter-gather DMA (either directly or
++ * by using an intimately attached IOMMU).
+  *
+- * The DRM GEM/CMA helpers use this allocator as a means to provide buffer
+- * objects that are physically contiguous in memory. This is useful for
+- * display drivers that are unable to map scattered buffers via an IOMMU.
++ * Despite the name, the DRM GEM/CMA helpers are not hardwired to use the
++ * Contiguous Memory Allocator (CMA).
++ *
++ * For devices that access the memory bus through an (external) IOMMU then
++ * the buffer objects are allocated using a traditional page-based
++ * allocator and may be scattered through physical memory. However they
++ * are contiguous in the IOVA space so appear contiguous to devices using
++ * them.
++ *
++ * For other devices then the helpers rely on CMA to provide buffer
++ * objects that are physically contiguous in memory.
+  *
+  * For GEM callback helpers in struct &drm_gem_object functions, see likewise
+  * named functions with an _object_ infix (e.g., drm_gem_cma_object_vmap() wraps
+@@ -111,8 +121,14 @@ __drm_gem_cma_create(struct drm_device *drm, size_t size, bool private)
+  * @drm: DRM device
+  * @size: size of the object to allocate
+  *
+- * This function creates a CMA GEM object and allocates a contiguous chunk of
+- * memory as backing store.
++ * This function creates a CMA GEM object and allocates memory as backing store.
++ * The allocated memory will occupy a contiguous chunk of bus address space.
++ *
++ * For devices that are directly connected to the memory bus then the allocated
++ * memory will be physically contiguous. For devices that access through an
++ * IOMMU, then the allocated memory is not expected to be physically contiguous
++ * because having contiguous IOVAs is sufficient to meet a devices DMA
++ * requirements.
+  *
+  * Returns:
+  * A struct drm_gem_cma_object * on success or an ERR_PTR()-encoded negative
+@@ -162,9 +178,12 @@ EXPORT_SYMBOL_GPL(drm_gem_cma_create);
+  * @size: size of the object to allocate
+  * @handle: return location for the GEM handle
+  *
+- * This function creates a CMA GEM object, allocating a physically contiguous
+- * chunk of memory as backing store. The GEM object is then added to the list
+- * of object associated with the given file and a handle to it is returned.
++ * This function creates a CMA GEM object, allocating a chunk of memory as
++ * backing store. The GEM object is then added to the list of object associated
++ * with the given file and a handle to it is returned.
++ *
++ * The allocated memory will occupy a contiguous chunk of bus address space.
++ * See drm_gem_cma_create() for more details.
+  *
+  * Returns:
+  * A struct drm_gem_cma_object * on success or an ERR_PTR()-encoded negative
+
+base-commit: b2d229d4ddb17db541098b83524d901257e93845
+--
+2.35.1
+
