@@ -1,62 +1,56 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id ACAD55118A7
-	for <lists+dri-devel@lfdr.de>; Wed, 27 Apr 2022 16:12:19 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 259CF5118AB
+	for <lists+dri-devel@lfdr.de>; Wed, 27 Apr 2022 16:14:18 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 3AF0810F4AF;
-	Wed, 27 Apr 2022 14:12:17 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id BBED410E00D;
+	Wed, 27 Apr 2022 14:14:15 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-ed1-x530.google.com (mail-ed1-x530.google.com
- [IPv6:2a00:1450:4864:20::530])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 4EC6110F4AF
- for <dri-devel@lists.freedesktop.org>; Wed, 27 Apr 2022 14:12:16 +0000 (UTC)
-Received: by mail-ed1-x530.google.com with SMTP id z99so2098471ede.5
- for <dri-devel@lists.freedesktop.org>; Wed, 27 Apr 2022 07:12:16 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ffwll.ch; s=google;
- h=date:from:to:cc:subject:message-id:references:mime-version
- :content-disposition:content-transfer-encoding:in-reply-to;
- bh=11Ehteq4IMxQiJPEAvQ0GJFJcB0Vx+nhzT9rMTdF62k=;
- b=QF3G9fLMgv8G/oXNKkd4GDP5NWz2waO7sDY4PO/cTtUGRGllF8p1t7kpMLLgNJ0CX9
- enKU60/wL6m3m7mzlczohGqKtJelB7GCuJDfaaVraG8mh/xhS+Tyk6xdD/0q8JLCl2sv
- 9KwpunEOeZpfBI8oAZD5LrHQgfAYqMCxOpNQY=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=x-gm-message-state:date:from:to:cc:subject:message-id:references
- :mime-version:content-disposition:content-transfer-encoding
- :in-reply-to;
- bh=11Ehteq4IMxQiJPEAvQ0GJFJcB0Vx+nhzT9rMTdF62k=;
- b=WtmFjUZGRR1YcHOJrcAU3UakD6zVd7uA0YP9VbNugj/vhuKPoMknCdabJF6rft4cJR
- Gmqao+72RELSG8vk8TMVZzyR0phjctYuAVKrtGy7at15oTQDMDRKKqziaGMr3DuRCkh6
- TDUL2bYXSGjeuQUwvrbAR63/ARlC6iskQW+NjvCHjHd6TMgQZuCoFc67DiISpVcyDhTI
- yHk0LVAvib01HmIARxewHydoUvipj8nSZVw7uYZuTTrgTOzUr4s00ZF1y9dVfax+t5fs
- 8bNqsoe2B/qWxt7Lba60Mrqu4H4VMuF+c26jknH84PgT4JSMrY4YnVipNtCicaUJ/zGT
- BRKg==
-X-Gm-Message-State: AOAM530TwP7cGnlhaYtyx0RK8IVUWDimh+JxThQFwM1TqF3KESJNs7Uq
- 1/QBdQivabRS07laBlIljoncKoz1rELGI8rn
-X-Google-Smtp-Source: ABdhPJzCb4UFfXZb/lSePgQFoouOvEjD5kyOPL/2slbGY02bkLk0DvoToYrQuRAByxQFD7v/Eu6zXg==
-X-Received: by 2002:a05:6402:17c7:b0:425:d52c:8907 with SMTP id
- s7-20020a05640217c700b00425d52c8907mr22237794edy.15.1651068734818; 
- Wed, 27 Apr 2022 07:12:14 -0700 (PDT)
-Received: from phenom.ffwll.local ([2a02:168:57f4:0:efd0:b9e5:5ae6:c2fa])
- by smtp.gmail.com with ESMTPSA id
- n10-20020a170906700a00b006efdb748e8dsm6842956ejj.88.2022.04.27.07.12.14
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 27 Apr 2022 07:12:14 -0700 (PDT)
-Date: Wed, 27 Apr 2022 16:12:12 +0200
-From: Daniel Vetter <daniel@ffwll.ch>
-To: Michel =?iso-8859-1?Q?D=E4nzer?= <michel@daenzer.net>
-Subject: Re: [PATCH] drm/bochs: Explicitly include linux/module.h
-Message-ID: <YmlPPM93q04uNnlU@phenom.ffwll.local>
-References: <20220413161259.1854270-1-michel@daenzer.net>
+Received: from smtp-out2.suse.de (smtp-out2.suse.de [195.135.220.29])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id BE42710E00D
+ for <dri-devel@lists.freedesktop.org>; Wed, 27 Apr 2022 14:14:14 +0000 (UTC)
+Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+ key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
+ (No client certificate requested)
+ by smtp-out2.suse.de (Postfix) with ESMTPS id 2123A1F74E;
+ Wed, 27 Apr 2022 14:14:13 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+ t=1651068853; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+ mime-version:mime-version: content-transfer-encoding:content-transfer-encoding;
+ bh=aWVWlZng8KhEr+s9ddPi0v6kT6qXBazXYdQRlsPtTOw=;
+ b=ll6FJGMio4NldMmknayocoaJUuHhwrSn1ybDOdy6Ibm2vqso6P6eG61bIqgFiDfa26kvq8
+ 1Ml4EHw2oGYiYBq5PeCk3jS8IJoBlGJ8bxkgsEfB4xZcV+AwkGazIRpy0JgZcC6JFjytGD
+ fc8Nw7oRdNMr2DKQZmjyWz7H2MU5QTE=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+ s=susede2_ed25519; t=1651068853;
+ h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+ mime-version:mime-version: content-transfer-encoding:content-transfer-encoding;
+ bh=aWVWlZng8KhEr+s9ddPi0v6kT6qXBazXYdQRlsPtTOw=;
+ b=4JSGZ1Xka8i9fDGYT2Jykuxl++slpcGK0PqM2kPNclm0Tag+TSdIZfmYEu4bCdUzoL76iE
+ iDFKQzkxUHySx1CA==
+Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+ key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
+ (No client certificate requested)
+ by imap2.suse-dmz.suse.de (Postfix) with ESMTPS id E0B2613A39;
+ Wed, 27 Apr 2022 14:14:12 +0000 (UTC)
+Received: from dovecot-director2.suse.de ([192.168.254.65])
+ by imap2.suse-dmz.suse.de with ESMTPSA id oreXNbRPaWLfbwAAMHmgww
+ (envelope-from <tzimmermann@suse.de>); Wed, 27 Apr 2022 14:14:12 +0000
+From: Thomas Zimmermann <tzimmermann@suse.de>
+To: javierm@redhat.com, maarten.lankhorst@linux.intel.com, mripard@kernel.org,
+ airlied@linux.ie, daniel@ffwll.ch
+Subject: [PATCH 0/4] drm/format-helper: Share common code among conversion
+ helpers
+Date: Wed, 27 Apr 2022 16:14:05 +0200
+Message-Id: <20220427141409.22842-1-tzimmermann@suse.de>
+X-Mailer: git-send-email 2.36.0
 MIME-Version: 1.0
-Content-Type: text/plain; charset=iso-8859-1
-Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
-In-Reply-To: <20220413161259.1854270-1-michel@daenzer.net>
-X-Operating-System: Linux phenom 5.10.0-8-amd64 
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -69,40 +63,24 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Gerd Hoffmann <kraxel@redhat.com>, dri-devel@lists.freedesktop.org,
- virtualization@lists.linux-foundation.org
+Cc: Thomas Zimmermann <tzimmermann@suse.de>, dri-devel@lists.freedesktop.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Wed, Apr 13, 2022 at 06:12:59PM +0200, Michel Dänzer wrote:
-> From: Michel Dänzer <mdaenzer@redhat.com>
-> 
-> Instead of relying on it getting pulled in indirectly.
-> 
-> Signed-off-by: Michel Dänzer <mdaenzer@redhat.com>
+Move all format-specific handling in per-line conversion functions and
+share the overall loop among conversion helpers. This is another step
+towards composable format conversion. 
 
-Reviewed-by: Daniel Vetter <daniel.vetter@ffwll.ch>
+Thomas Zimmermann (4):
+  drm/format-helper: Implement drm_fb_swab() with per-line helpers
+  drm/format-helper: Remove optional byte-swap from line convertion
+  drm/format-helper: Unify the parameters of all per-line conversion
+    helpers
+  drm/format-helper: Share implementation among conversion helpers
 
-> ---
->  drivers/gpu/drm/tiny/bochs.c | 1 +
->  1 file changed, 1 insertion(+)
-> 
-> diff --git a/drivers/gpu/drm/tiny/bochs.c b/drivers/gpu/drm/tiny/bochs.c
-> index ed971c8bb446..4f8bf86633df 100644
-> --- a/drivers/gpu/drm/tiny/bochs.c
-> +++ b/drivers/gpu/drm/tiny/bochs.c
-> @@ -1,5 +1,6 @@
->  // SPDX-License-Identifier: GPL-2.0-or-later
->  
-> +#include <linux/module.h>
->  #include <linux/pci.h>
->  
->  #include <drm/drm_aperture.h>
-> -- 
-> 2.35.1
-> 
+ drivers/gpu/drm/drm_format_helper.c | 479 ++++++++++++----------------
+ 1 file changed, 198 insertions(+), 281 deletions(-)
 
 -- 
-Daniel Vetter
-Software Engineer, Intel Corporation
-http://blog.ffwll.ch
+2.36.0
+
