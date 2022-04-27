@@ -2,63 +2,55 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0054E511C33
-	for <lists+dri-devel@lfdr.de>; Wed, 27 Apr 2022 18:07:22 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id EC475511C5C
+	for <lists+dri-devel@lfdr.de>; Wed, 27 Apr 2022 18:29:34 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id C1C2510F674;
-	Wed, 27 Apr 2022 16:07:18 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 94B2F10E0F5;
+	Wed, 27 Apr 2022 16:29:32 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-pg1-x52d.google.com (mail-pg1-x52d.google.com
- [IPv6:2607:f8b0:4864:20::52d])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 9057010F673
- for <dri-devel@lists.freedesktop.org>; Wed, 27 Apr 2022 16:07:17 +0000 (UTC)
-Received: by mail-pg1-x52d.google.com with SMTP id v10so1787871pgl.11
- for <dri-devel@lists.freedesktop.org>; Wed, 27 Apr 2022 09:07:17 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=chromium.org; s=google;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc:content-transfer-encoding;
- bh=thh3b7rvFYMcWHBGJTfcjm7L4QV8/jt2EZrs9nTl3/s=;
- b=nHvJcRQDvgnFH2mocyoYQgZtIrbsIsmTsZ74EguoCNewAbSODSdrwqhoxexS8tR/yh
- hBYBW29wCw14+O+78B8pYxO/PeMyALOI0bQ46Nl3BgK4n56x6OF7xgpz0MHDdtlXed8M
- DM9tNwEwzP500NWVah6UGtMlwOluQHybWUawI=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc:content-transfer-encoding;
- bh=thh3b7rvFYMcWHBGJTfcjm7L4QV8/jt2EZrs9nTl3/s=;
- b=m0V1P/gQHMAFn/BXzFJPJOgmZMVqnSIBocZGwG3sX4pNpOu+VXHc2bIXJTEv8c9qJ6
- PCGNuUdcTHTDyqPiJGM8lD/0ZzKjzmmWMwCMEz9XCrCgwzUt6zV+YePvyjHxFb1MXgVE
- jnVEeHK9ODN7I9MaoqNhmcoHxSdGgV+u2Ogxot04lmxIKQPFQ00MCY1SNFBvCQgNXtaj
- 9O8+r4zI1TC35CyzVKh39BLzJbZ9rXb3xzYLL1WesRWdwgxdMCWO4yhYxujgjw73xeCl
- P8Sexi6H9VCpLHDM6w9Y9EcBKw6dAUCVpomnhUiSFr2CXolSM74Ksh51RXlyQ9Kcj3nP
- EY9A==
-X-Gm-Message-State: AOAM533nnKB3Oucnwz1TSj2ZCG5Is8dahyo4cUGnaYJQJFXEL5O0SEB8
- OcFxx+toRQ9mj0hPOHvGYeCC9qzGdICCMVDvgM+3DA==
-X-Google-Smtp-Source: ABdhPJx8fm8/yx+ZjmZhEV0V49ps4Zr4PYjpyXxyQlzPoHV3JUBxQd/ptdVWyyMngsed5HIFfmLvF6S+wXinkOQR8f4=
-X-Received: by 2002:a05:6a00:14c5:b0:50d:4871:3619 with SMTP id
- w5-20020a056a0014c500b0050d48713619mr13516854pfu.12.1651075637181; Wed, 27
- Apr 2022 09:07:17 -0700 (PDT)
+Received: from mga05.intel.com (mga05.intel.com [192.55.52.43])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 51CA410E0F5;
+ Wed, 27 Apr 2022 16:29:31 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+ t=1651076971; x=1682612971;
+ h=message-id:date:mime-version:subject:to:cc:references:
+ from:in-reply-to:content-transfer-encoding;
+ bh=pgAtQIHKgQvms1790Zb68KHmRMOlx1KWZAco7KvWs64=;
+ b=U62Jb4fHehxcZlPPZwrX1cTIAHZv0uppFgtBB3wXEAbDP8w2VyeC8Chi
+ dWnYfrf9w23jz1FYb/VN56BervYXFmeldDXIZGy7gCFlXbUDytmeo/O7l
+ 8mSiePe3BLGEhUXmiy0IJFT9PrjllUt/3NmelWxyj/R/fZAUSd4GZwFY8
+ tYhMluw8e0KFnkeijzwEGkRIIlOjfIofWlvfBMI/6fRDODeV+1wVEragp
+ pRef98AkWlhWR23w67/kL19HsI03G9ZUAV9xsmUyTvIl1ulCuoi3rp3WB
+ WmD+pLYDYBjp+4qRNIosDTCEGNIsrkT8+/NjEXcINfksCpsrt1evkeQJP w==;
+X-IronPort-AV: E=McAfee;i="6400,9594,10330"; a="352428667"
+X-IronPort-AV: E=Sophos;i="5.90,293,1643702400"; d="scan'208";a="352428667"
+Received: from orsmga004.jf.intel.com ([10.7.209.38])
+ by fmsmga105.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 27 Apr 2022 09:29:30 -0700
+X-IronPort-AV: E=Sophos;i="5.90,293,1643702400"; d="scan'208";a="680886278"
+Received: from konishi-mobl.gar.corp.intel.com (HELO [10.252.6.183])
+ ([10.252.6.183])
+ by orsmga004-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 27 Apr 2022 09:29:29 -0700
+Message-ID: <c866374b-46cc-87fb-4529-7aa1f2dfb130@intel.com>
+Date: Wed, 27 Apr 2022 17:29:27 +0100
 MIME-Version: 1.0
-References: <20220412212558.827289-1-olvaffe@gmail.com>
- <CAPaKu7Tv1Mxt7Ao8kH2-MZDBK7EB0D41COJD8Sjze76t_o-qmw@mail.gmail.com>
- <ffe7dbc1-8a19-1e19-402d-27efc8e55b39@amd.com>
- <CAJs_Fx7OQ2OJo3pQ-ETT1827PtfuFsvn984gg8GeDVrqy0Ucug@mail.gmail.com>
- <215f55f6-97b8-5dd3-a2cc-fe42e19a2769@amd.com>
- <CAJs_Fx69yhVQ6t1xdTqEs3kxiz1gZSZ2-qNA=Cq21j_BSaymrQ@mail.gmail.com>
- <17fc1a68-747a-f707-364d-76f12a2b535a@amd.com>
- <CAPaKu7Rny7pxsPA+cnow0d6PAD2YCb+b+j1_Di5gziyOVNLaYQ@mail.gmail.com>
- <c32bf2de-0e48-e3b7-98ae-0bcd46933465@amd.com>
- <CAPaKu7T2hTFnsSSdFvQRuGefhZHVmGO9KXKpO8Y_ZcLbe75rpA@mail.gmail.com>
- <b587ca5f-eb8a-cf0c-5c07-9844c8794463@amd.com>
-In-Reply-To: <b587ca5f-eb8a-cf0c-5c07-9844c8794463@amd.com>
-From: Rob Clark <robdclark@chromium.org>
-Date: Wed, 27 Apr 2022 09:07:06 -0700
-Message-ID: <CAJs_Fx7Jq9VWy_Eux+hGoQTCTeKkFMQCdibY9gFQTqrvVob5fA@mail.gmail.com>
-Subject: Re: [PATCH v2] drm/msm: add trace_dma_fence_emit to msm_gpu_submit
-To: =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.7.0
+Subject: Re: [PATCH v2 3/4] drm/i915/gt: Document the eviction of the Flat-CCS
+ objects
+Content-Language: en-GB
+To: Ramalingam C <ramalingam.c@intel.com>,
+ intel-gfx <intel-gfx@lists.freedesktop.org>,
+ dri-devel <dri-devel@lists.freedesktop.org>
+References: <20220425162430.28844-1-ramalingam.c@intel.com>
+ <20220425162430.28844-4-ramalingam.c@intel.com>
+From: Matthew Auld <matthew.auld@intel.com>
+In-Reply-To: <20220425162430.28844-4-ramalingam.c@intel.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -71,98 +63,69 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: David Airlie <airlied@linux.ie>, freedreno@lists.freedesktop.org,
- Abhinav Kumar <quic_abhinavk@quicinc.com>,
- ML dri-devel <dri-devel@lists.freedesktop.org>,
- Sumit Semwal <sumit.semwal@linaro.org>, linux-arm-msm@vger.kernel.org,
- Dmitry Baryshkov <dmitry.baryshkov@linaro.org>, Sean Paul <sean@poorly.run>
+Cc: Thomas Hellstrom <thomas.hellstrom@linux.intel.com>,
+ Hellstrom Thomas <thomas.hellstrom@intel.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Tue, Apr 26, 2022 at 11:20 PM Christian K=C3=B6nig
-<christian.koenig@amd.com> wrote:
->
-> Am 26.04.22 um 20:50 schrieb Chia-I Wu:
-> > On Tue, Apr 26, 2022 at 11:02 AM Christian K=C3=B6nig
-> > <christian.koenig@amd.com> wrote:
-> >> Am 26.04.22 um 19:40 schrieb Chia-I Wu:
-> >>> [SNIP]
-> >>>>>> Well I just send a patch to completely remove the trace point.
-> >>>>>>
-> >>>>>> As I said it absolutely doesn't make sense to use this for
-> >>>>>> visualization, that's what the trace_dma_fence_init trace point is=
- good for.
-> >>> I am a bit confused by this.  _emit and _signaled are a great way to
-> >>> see how many fences are pending from cpu's point of view.  How does
-> >>> _emit make no sense and _init is good instead?
-> >> We had exactly that confusion now multiple times and it's one of the
-> >> main reasons why I want to remove the _emit trace point.
-> >>
-> >> See the when you want to know how many fences are pending you need to
-> >> watch out for init/destroy and *NOT* emit.
-> >>
-> >> The reason is that in the special case where emit makes sense (e.g. th=
-e
-> >> GPU scheduler fences) emit comes later than init, but pending on the C=
-PU
-> >> and taking up resources are all fences and not just the one emitted to
-> >> the hardware.
-> > I am more interested in pending on the GPU.
-> >
-> >> On the other hand when you want to measure how much time each operatio=
-n
-> >> took on the hardware you need to take a look at the differences of the
-> >> signal events on each timeline.
-> > _signaled alone is not enough when the GPU is not always busy.  After
-> > the last pending fence signals but before the following _init/_emit,
-> > nothing is pending.
->
-> Yeah, I'm perfectly aware of that.
->
-> > For all drivers except virtio-gpu, _init and "ring head update" always
-> > happen close enough that I can see why _emit is redundant.  But I like
-> > having _emit as a generic tracepoint for timelines where _init and
-> > _emit can be apart, instead of requiring a special case tracepoint for
-> > each special case timeline.
->
-> And I'm certainly not going to add _emit to all drivers just because of
-> that. As you said it is a special case for virtio-gpu and the GPU schedul=
-er.
->
-> And as I explained before the difference between _init and _emit
-> shouldn't matter to your visualization. The background is that as soon
-> as an dma_fence is initialized with _init it is "live" regarding the
-> dependency and memory management and exactly that's what matters for the
-> visualization.
->
-> The latency between _init and _emit is just interesting for debugging
-> the scheduler and surprisingly virtio-gpu as well, for all other use
-> cases it is irrelevant.
+On 25/04/2022 17:24, Ramalingam C wrote:
+> Capture the eviction details for Flat-CCS capable, lmem objects.
+> 
+> v2:
+>    Fix the Flat-ccs capbility of lmem obj with smem residency
+>    possibility [Thomas]
+> 
+> Signed-off-by: Ramalingam C <ramalingam.c@intel.com>
+> cc: Thomas Hellstrom <thomas.hellstrom@linux.intel.com>
+> cc: Matthew Auld <matthew.auld@intel.com>
+> ---
+>   drivers/gpu/drm/i915/gt/intel_migrate.c | 23 ++++++++++++++---------
+>   1 file changed, 14 insertions(+), 9 deletions(-)
+> 
+> diff --git a/drivers/gpu/drm/i915/gt/intel_migrate.c b/drivers/gpu/drm/i915/gt/intel_migrate.c
+> index 463a6a14b5f9..930e0fd9795f 100644
+> --- a/drivers/gpu/drm/i915/gt/intel_migrate.c
+> +++ b/drivers/gpu/drm/i915/gt/intel_migrate.c
+> @@ -485,16 +485,21 @@ static bool wa_1209644611_applies(int ver, u32 size)
+>    * And CCS data can be copied in and out of CCS region through
+>    * XY_CTRL_SURF_COPY_BLT. CPU can't access the CCS data directly.
+>    *
+> - * When we exhaust the lmem, if the object's placements support smem, then we can
+> - * directly decompress the compressed lmem object into smem and start using it
+> - * from smem itself.
+> + * I915 supports Flat-CCS on lmem only objects. When an objects has the smem in
 
-It might actually be *more* interesting for virtio-gpu.. unless there
-is some other way to link guest and host fences to see what the
-potential latency of guest->host is
+"When an object has smem in"
 
-re: adding the tracepoint to other drivers, I'm fine with folks doing
-that as needed.  Unless you have a better proposal about how to
-visualize init vs emit latency, I think it's fine to have an extra
-tracepoint even if it is redundant in some cases.  The visualization
-tool is the customer here, we have to give it what it wants/needs.
+> + * its preference list, on memory pressure, i915 needs to migarte the lmem
 
-BR,
--R
+"migrate"
 
->
-> Regards,
-> Christian.
->
-> >> So there isn't really any use case for the emit trace point, except wh=
-en
-> >> you want to figure out how much latency the scheduler introduce. Then
-> >> you want to take a look at init and emit, but that isn't really that
-> >> interesting for performance analyses.
-> >>
-> >> Regards,
-> >> Christian.
-> >>
->
+> + * content into smem. If the lmem object is Flat-CCS compressed by userspace,
+> + * then i915 needs to decompress it. But I915 lack the required information
+> + * for such decompression. Hence I915 supports Flat-CCS only on lmem only objects.
+>    *
+> - * But when we need to swapout the compressed lmem object into a smem region
+> - * though objects' placement doesn't support smem, then we copy the lmem content
+> - * as it is into smem region along with ccs data (using XY_CTRL_SURF_COPY_BLT).
+> - * When the object is referred, lmem content will be swaped in along with
+> - * restoration of the CCS data (using XY_CTRL_SURF_COPY_BLT) at corresponding
+> - * location.
+> + * when we exhaust the lmem, Flat-CCS capable objects' lmem backing memory can
+
+"When"
+
+Otherwise,
+Reviewed-by: Matthew Auld <matthew.auld@intel.com>
+
+> + * be temporarily evicted to smem, along with the auxiliary CCS state, where
+> + * it can be potentially swapped-out at a later point, if required.
+> + * If userspace later touches the evicted pages, then we always move
+> + * the backing memory back to lmem, which includes restoring the saved CCS state,
+> + * and potentially performing any required swap-in.
+> + *
+> + * For the migration of the lmem objects with smem in placement list, such as
+> + * {lmem, smem}, objects are treated as non Flat-CCS capable objects.
+>    */
+>   
+>   static inline u32 *i915_flush_dw(u32 *cmd, u32 flags)
