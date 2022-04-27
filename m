@@ -2,68 +2,158 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id BBD9C5118BF
-	for <lists+dri-devel@lfdr.de>; Wed, 27 Apr 2022 16:26:43 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id EA2335118C3
+	for <lists+dri-devel@lfdr.de>; Wed, 27 Apr 2022 16:29:44 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id C929810F4C8;
-	Wed, 27 Apr 2022 14:26:40 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 350BF10F4D8;
+	Wed, 27 Apr 2022 14:29:42 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-ej1-x631.google.com (mail-ej1-x631.google.com
- [IPv6:2a00:1450:4864:20::631])
- by gabe.freedesktop.org (Postfix) with ESMTPS id D654D10F4C8
- for <dri-devel@lists.freedesktop.org>; Wed, 27 Apr 2022 14:26:39 +0000 (UTC)
-Received: by mail-ej1-x631.google.com with SMTP id g6so3796656ejw.1
- for <dri-devel@lists.freedesktop.org>; Wed, 27 Apr 2022 07:26:39 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ffwll.ch; s=google;
- h=date:from:to:cc:subject:message-id:references:mime-version
- :content-disposition:in-reply-to;
- bh=s/xoBqlPnf981010nRLcAM6ft457sCJZ4c8d2ZascDo=;
- b=ipMqOg6ulsU+/Bb9aZaJ5QJbLSoqNI+rGYo9SWY+ypFhT0sZcPG6G47pWEVvvxIV1W
- Bc6CpROX2Em60kCYQL9iFxBuH1yXx0wDcaIY/DbZmehP59vC5ptLaeRVZ9H8gmANLL0B
- Xz/csC7fjb+tmGid4aTYhKx4kE5eE5d1A+v/A=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=x-gm-message-state:date:from:to:cc:subject:message-id:references
- :mime-version:content-disposition:in-reply-to;
- bh=s/xoBqlPnf981010nRLcAM6ft457sCJZ4c8d2ZascDo=;
- b=IHSZ5yGi5b2QijPKje0L+WMiVIctoT/7YwmEUCMby1XJ7YLMx9mzXjh4FL4Y1Hydku
- q9ImzN4WTkrKMPCCpEOj4oBD1ehAu1KS99r/fkaoL2mN/0OEZ906G9cGFen6xAm+avej
- zxjRUa2yB1MTBnnADm+wdrx5/8C10hrxw4rjdFTs7MP7JJCbr2CRw23FjdWwjcpjC7aU
- eXHs5dul3FMJCjNkkVSHEKBrDkDDjFuFM+UEvXloTHa9SimUHoYze0zGIcHS5rZ45A7X
- y624Bmpgx0zXqa+maahBzT6NrveP28JJRjTTLpTbJVbZhBM/+RESz30Zvxm+kf6JEdTn
- XDtA==
-X-Gm-Message-State: AOAM532bNNzvSiLLtneC5pd4dm0bOlVD8c2xl3hhuNmjfCLoBCDzJlLu
- bRc/tEtJKXuoETYwAxOO7XdGcQ==
-X-Google-Smtp-Source: ABdhPJyKl+REErkY/w0pnRdeLxFvHDeAK+aZ3TUOpLpr/PJ/s76WxqB1dCPmUxNQvFBZh4hr9WNqVA==
-X-Received: by 2002:a17:906:49d4:b0:6d6:e5ec:9a23 with SMTP id
- w20-20020a17090649d400b006d6e5ec9a23mr26865625ejv.79.1651069598183; 
- Wed, 27 Apr 2022 07:26:38 -0700 (PDT)
-Received: from phenom.ffwll.local ([2a02:168:57f4:0:efd0:b9e5:5ae6:c2fa])
- by smtp.gmail.com with ESMTPSA id
- i19-20020a1709061cd300b006f38920dbeesm4829274ejh.134.2022.04.27.07.26.37
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 27 Apr 2022 07:26:37 -0700 (PDT)
-Date: Wed, 27 Apr 2022 16:26:35 +0200
-From: Daniel Vetter <daniel@ffwll.ch>
-To: Jani Nikula <jani.nikula@linux.intel.com>
-Subject: Re: [RFC] drm/kms: control display brightness through drm_connector
- properties
-Message-ID: <YmlSm/TC1a/0V00S@phenom.ffwll.local>
-References: <CADnq5_OGtERRYUPLskgjVD4eLbb2PxKdzcr+xmR2mRMAK73Log@mail.gmail.com>
- <Yk/tOG+iga/wj/Gt@phenom.ffwll.local>
- <CADnq5_NT=pSZwvMN_0_S4duk-StRxh0JcsraJo+erPDkq+GyJg@mail.gmail.com>
- <4a3cf9b6-1e08-c08c-bebd-ec2ca648059c@redhat.com>
- <CADnq5_M2zLedFmAS+udyg1zRavv-aCm1hRY+t=qW7wD33JEALg@mail.gmail.com>
- <a42f03bf-bf85-b08e-fa4f-e36a226922bc@redhat.com>
- <CADnq5_MAx47Ju7_cOt-8rn3V0zRyH5MZNG_4GY+nUiVw6-+h-A@mail.gmail.com>
- <875yncezdt.fsf@intel.com> <YmlNQgaxU7fYnTh6@phenom.ffwll.local>
- <87fslytxk5.fsf@intel.com>
+Received: from mga17.intel.com (mga17.intel.com [192.55.52.151])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 98F2310E9B4;
+ Wed, 27 Apr 2022 14:29:40 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+ t=1651069780; x=1682605780;
+ h=message-id:date:subject:to:cc:references:from:
+ in-reply-to:content-transfer-encoding:mime-version;
+ bh=8bLy3I5AFwiT150Gx1aue4P6XL1EKRUcsUkJo0rZ9YU=;
+ b=EvlhnJ3iH4TVBNMDi43NBKWKpqUUXdwv90eQxC+uBfLKwQ5weLj/7xBW
+ ++ZzrQ/NCBPrc7id89J+UZ6LPfuQfPz5h+75cUZhFfftJoEn9OIFAqoUH
+ nO+LQBDnPZdlQIwzfn6Xq23qmt5ftxPMV1RuT2ilP7Al4uVNsd9fmTyjy
+ eRm1HjCaZ9kPcG5mK/wyAatixefqmhVhFH1SCyo19Y9OkuTIzPCd+7W9r
+ zQVphEloAgXcioUK/dqiDEvpD26f42S+Nbz9VAZU9H9jGY0Xcfk2EQWDP
+ IwZvlwvFEZJDbYIj74mtWkj8wk6dPHRo91c0NtGxlDS5g/pWEnOV3p+XN w==;
+X-IronPort-AV: E=McAfee;i="6400,9594,10330"; a="246506726"
+X-IronPort-AV: E=Sophos;i="5.90,293,1643702400"; d="scan'208";a="246506726"
+Received: from orsmga004.jf.intel.com ([10.7.209.38])
+ by fmsmga107.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 27 Apr 2022 07:29:35 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.90,293,1643702400"; d="scan'208";a="680773749"
+Received: from fmsmsx604.amr.corp.intel.com ([10.18.126.84])
+ by orsmga004.jf.intel.com with ESMTP; 27 Apr 2022 07:29:35 -0700
+Received: from fmsmsx611.amr.corp.intel.com (10.18.126.91) by
+ fmsmsx604.amr.corp.intel.com (10.18.126.84) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.2308.27; Wed, 27 Apr 2022 07:29:34 -0700
+Received: from fmsmsx611.amr.corp.intel.com (10.18.126.91) by
+ fmsmsx611.amr.corp.intel.com (10.18.126.91) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.2308.27; Wed, 27 Apr 2022 07:29:34 -0700
+Received: from FMSEDG603.ED.cps.intel.com (10.1.192.133) by
+ fmsmsx611.amr.corp.intel.com (10.18.126.91) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.2308.27 via Frontend Transport; Wed, 27 Apr 2022 07:29:34 -0700
+Received: from NAM10-DM6-obe.outbound.protection.outlook.com (104.47.58.105)
+ by edgegateway.intel.com (192.55.55.68) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.1.2308.27; Wed, 27 Apr 2022 07:29:34 -0700
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=Sf6bZxu39wKEjTW7TPEri+oa+3zMKqAQy2x9SCJvNYMpRZwxwZxeHkl11f03kdYE9ZH6fiYU38dBxLGLVBGmfFhST7nIJ1wqvpJ3Obl69vyPbupigg5yg06PTW6prVy7/Ea/B/mBkJydULA32sk3jNh3q2bge8Hgy7dsFIuxhr90/K2sCOGwRFaLQUUydYRxg3jw1eV3G6HM6a2gvo881yz6V06XyAQ13oYggstsGckA/jv9PvxiGFBsMKWwbamqefmY0mRozXtv1OA77Pp8WM7k7PgzOAlXJl2tD0+ADzaCuBUtiATYbUpiiU2IOrt1CIm6nyUKJdunyRJyXK2RWw==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=ZkgcM7YO/b2mFL71d4zbHZN2Pc+SEgwLVXilbZqGJv0=;
+ b=Ze6s+ywa4jR5XNkg5vZqHJT9GFR9j6VnUPY3gBGC3ZYnVViDDQMM/nS3DVEBl9Me1W7QMvPUBuCQHZsYaHiWtG6wQO6pzQmZvzNRckN+e2QUsYZd0G/5C3GNcMscszV73l9EHPSCO4ACUDHaGPzc8skBvKjvFMYg6w8Z+vKrTkr9Z1r3zB3o1EAEIihW9nw/y+VegPosgkcnDA8Nf0rs61I+NwyWhRKb7iM4FZQ1052RqlPR63Y4eUmL1SGK5qH29odh/m1xDi8XNal4tQSbflu+lhdPABgkKszUnfTp8+ZLQxC9oYQJ19fBqNTFE+ygh+DHBWtW2sqK4uG4YNBSvg==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=intel.com; dmarc=pass action=none header.from=intel.com;
+ dkim=pass header.d=intel.com; arc=none
+Authentication-Results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=intel.com;
+Received: from DM4PR11MB5231.namprd11.prod.outlook.com (2603:10b6:5:38a::19)
+ by CH2PR11MB4245.namprd11.prod.outlook.com (2603:10b6:610:44::11) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.5186.14; Wed, 27 Apr
+ 2022 14:29:32 +0000
+Received: from DM4PR11MB5231.namprd11.prod.outlook.com
+ ([fe80::5027:4735:1a5b:a083]) by DM4PR11MB5231.namprd11.prod.outlook.com
+ ([fe80::5027:4735:1a5b:a083%4]) with mapi id 15.20.5206.013; Wed, 27 Apr 2022
+ 14:29:32 +0000
+Message-ID: <9934f4de-9f25-2422-092c-e8e2fe1d796e@intel.com>
+Date: Wed, 27 Apr 2022 19:59:22 +0530
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.7.0
+Subject: Re: [PATCH] drm/i915/uc: use io memcpy functions for device memory
+ copy
+Content-Language: en-US
+To: "Vivekanandan, Balasubramani" <balasubramani.vivekanandan@intel.com>,
+ "intel-gfx@lists.freedesktop.org" <intel-gfx@lists.freedesktop.org>,
+ "dri-devel@lists.freedesktop.org" <dri-devel@lists.freedesktop.org>
+References: <20220406091809.746969-1-balasubramani.vivekanandan@intel.com>
+From: Siva Mullati <siva.mullati@intel.com>
+In-Reply-To: <20220406091809.746969-1-balasubramani.vivekanandan@intel.com>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 7bit
+X-ClientProxiedBy: PN0PR01CA0042.INDPRD01.PROD.OUTLOOK.COM
+ (2603:1096:c01:49::13) To DM4PR11MB5231.namprd11.prod.outlook.com
+ (2603:10b6:5:38a::19)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <87fslytxk5.fsf@intel.com>
-X-Operating-System: Linux phenom 5.10.0-8-amd64 
+X-MS-PublicTrafficType: Email
+X-MS-Office365-Filtering-Correlation-Id: 2ff6ed47-d594-4c91-2c54-08da285a5867
+X-MS-TrafficTypeDiagnostic: CH2PR11MB4245:EE_
+X-LD-Processed: 46c98d88-e344-4ed4-8496-4ed7712e255d,ExtAddr
+X-Microsoft-Antispam-PRVS: <CH2PR11MB42455E955C522B868D4E93A988FA9@CH2PR11MB4245.namprd11.prod.outlook.com>
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: BCL:0;
+X-Microsoft-Antispam-Message-Info: g5Lr7nuuP9zCAgViM2spUkVmOLZtH/sQcBB6TTA1YtP/YtAlWTuKYjpdCyPMxv7qardsVMeN0H2lFJhvyoDZhpBxzY6I/rSHoInbVmHGZQdFwiHanDHCeY2d/loHl5N2BmoHC/fYMe517IPnkusjruuVX6RTcUp6rCkhWxxDhAPzi5UN+mIdwH+XmQbNNHpO0ighfCaJbXs7n971SPgpmJ3m0PaoKDBhzan+3we39CnpkGldWHfvDP3lqGK3G5zzJhEhLt7UJSbkJFopJECA5hETIqtB0g9yod03325a3fL4YdtESQ1CF3O6fN+Il29dC4D7O3yt3bGrXOdRhYR3vspUarQjK6PFRiXO/5dOAHW6rlQ0WTxFR5Dhm9uYj6p2YCIMuur0eG5m6sOxWlfkPQs56EgDkyd1rnF7su4UM1QkyUPCoL5yypO0BUG5TDQqUnlizYZu72H4nOmqZoi3wdzb0ac/w/loMJQLaGH8VyKzBbti1Q8AQkK+fD27shXJyLn/BL8Q+wkkBsGeMuIrcCQHMgK2RO9sPejNUgV3HvGv11l1AS0cnJTMC295Tt+iyexbF2zVgV45EOMngi8966JOS5AK1Gul96YHtVRMz3oAD8QWNSY1IbU3bX2yNVQThTr90HYkErsPYBpFQXg4uofYX2DP5vJZmbXwjdt1JUZYyLy0oJ6dV52n8F2vsYVQ+XJxRrrZJUVwvJSMzV1ZfVVL61xH+qez/MR5/DNGlfwqpHpAitA3X2KjvDOIOGwEuzB2887mIAWbOQUBBC7/+SIgzfCNWO6mnl/zX7Cpx1M=
+X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
+ IPV:NLI; SFV:NSPM; H:DM4PR11MB5231.namprd11.prod.outlook.com; PTR:; CAT:NONE;
+ SFS:(13230001)(366004)(6512007)(8936002)(31696002)(5660300002)(44832011)(66476007)(66556008)(6666004)(4326008)(66946007)(86362001)(6486002)(316002)(2906002)(8676002)(82960400001)(508600001)(36756003)(450100002)(2616005)(107886003)(53546011)(31686004)(83380400001)(38100700002)(110136005)(186003)(54906003)(6506007)(43740500002)(45980500001);
+ DIR:OUT; SFP:1102; 
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 2
+X-MS-Exchange-AntiSpam-MessageData-0: =?utf-8?B?VGNrb1k2RHFha2EyTHJCcVAxcUJGdDI0KzdhODRJcG9EY0dRZk0zY3F0MExJ?=
+ =?utf-8?B?Z0RPWXp6ZnlwSytYZlJUUUNBNVp3U1pUWGJpUCt2NHJOeGtVbldrK1pyWVFY?=
+ =?utf-8?B?U2E2YTNvcUY1OEVuc2NVYUgyQzU5aHozK3VUbkRzM3pMVDlpTUhwV254MFVY?=
+ =?utf-8?B?eVlQRzBMcko2cGJCeTFjTWhyczkyM0NCRmVKQ045Qy84dGVjYTNGYXhsTmh6?=
+ =?utf-8?B?QUFYU0ZkUTk1ampodTRCZHhSUUNpV2oyOG1pWGJvbGpONWJOQzdiWFRBY1A0?=
+ =?utf-8?B?cUJaZ1RiR2Q0cmJLUG83ZDhNemdjeGFIWVF4S3FUTWxHNVkzOHlXQlVBdDVC?=
+ =?utf-8?B?YllZSGYxVnhSVGhHcmJpYkI1dG90VUFXUCtMakJQL2YySmx0ZENtVzIzb0xH?=
+ =?utf-8?B?cEJtdnNmQ2UrbzVGZEQ3S2ZsVXp1ckhibitJQVhhdHVrcVRpUGV4SjRHWm9F?=
+ =?utf-8?B?VnJDekkrVmlsSThaZzlJN1dPMjFuaWxkR2tleFJuRm83eHg0TkVOenJtQTAy?=
+ =?utf-8?B?Z3V5YVJlUUFlck1adDFZNTNFc1lIenk4K1ZlR1hBM1dTN3FjZE1PWVhWZnUv?=
+ =?utf-8?B?QitpdjQ4NTRoSFQ0ZldqKy9MOVl3TCs1NW5IM3NYMllDRGgycEJmTmtaM0lx?=
+ =?utf-8?B?cHRSQStHSEgvYTljelZnZGs3WDRRUk9taWxLQzZ6c0Z6ckJ3cnA4UDJlMXp0?=
+ =?utf-8?B?RldiTjF0L0NkL2lLY0d3VzhLV1dMRnl1SVRRdEg1bzI4K1Q5NFR2OEtzdy9R?=
+ =?utf-8?B?Z0ZJeU5IOGY1akxGU0FNRE1MY28xbDU0Y3VpVUIwamxNaEFqZUR2T1RrNlIx?=
+ =?utf-8?B?RUlmeXlqMlc2SEhjOU9FdlVLL1MrYTJKOU56TndzTXVNUnNBQnMvMmtRVUNE?=
+ =?utf-8?B?ZktDRFc0c1VpOUN4ZEROTER1VVZxbThxNGFqQm9pR1RscmJCbHVhdjlkbDFx?=
+ =?utf-8?B?VHZ0TDh3dHRrMkZrazNwdS9hUjI5azhwZ0xVdjJSSFd3SGZ5VlJQK1Q1QW1M?=
+ =?utf-8?B?RW1qak1yQ2xNVkc2eW1aeW5JT3pldEdUYmZ1MEx2ejlRN1pjOVp0bHFsNVVJ?=
+ =?utf-8?B?TUw0THFSMFZLUFRNd3FSbit6bHZETWtEU05naTY5WDNTTmZTMGlmbStvcyta?=
+ =?utf-8?B?dEptUjdCdDdPb2g4RUx1blFRdkpsa0sxVXYrNk1hcitIK0lobW1QWkVIdThT?=
+ =?utf-8?B?ajh2aFZoaXQ4aEVoZ1lWL01kQmhFL285aTd0TFBJSjRtL0tQdDNOTHlaZEFG?=
+ =?utf-8?B?YlZiK0ttSStyRFQ4Nndmb2pVVmo1RjhOcHNlRjlrNzUyRytLVGRCQzVpTld4?=
+ =?utf-8?B?WnZ1V2FrZVBnRzFOTjRQaUlrT1MxTGdhOXdnZWZCRlJqbUZJdUM4T21iZW4z?=
+ =?utf-8?B?VFRKSjAyclRhdExuUXNKOHpnaWVWNm5CdDJCSyt4YnVnUEtBOFZpYXRNdGFQ?=
+ =?utf-8?B?bm5ObXFiSDVKem9sSUV1eG9ab3VaWlNYNC9XdWNpNS9tTDR5bW1xTk1FQm85?=
+ =?utf-8?B?NXRPOUdQU3JaTjdtdUJmQnJuNGpxSUptT0w1WmduWVFhUE13NVU4aDdEQWh6?=
+ =?utf-8?B?YllpeXJsU3lWTGRwbHI3TGRLSjVaTnNDWGlpeVQ3VmllRkVCbzNqOXJMM2ZD?=
+ =?utf-8?B?VFJzL0hlbkZhQjUvUUFnRHR6MmxkVThUMC9OZmJQb01mbGxpeDlqSnpaSnhj?=
+ =?utf-8?B?VzVGaWkxcW5zbElCQ05qNVA3Rm9nVk5WWWhWT0xJdUJ3TEJpUHNCcldMVmIr?=
+ =?utf-8?B?SFdoU1FUMlVXVi9wRHd6ZnkyT3Z0VW5Ibm1CTGNlempIb05seVBzdm9wZDlk?=
+ =?utf-8?B?aXZvZ2QyTi9QYzUzS0QvTU94SlFuL3cvZ3M4cXI2VjBsaFBKaUlKNnVBQVM0?=
+ =?utf-8?B?UUFPelNuYnh3b2htV0tYSkMycDZ0UTNxU2czVTNBbHYwYzVEZGJGQmxjM0Rq?=
+ =?utf-8?B?eC9uZ29iZU9vTWsvT0x5czlaVDQxRmo5ZWQ2UUlDN1U5U2s4K21aTkhHVkZT?=
+ =?utf-8?B?M21EcFQ4R1VCM3VFeVhXRGV5ejFjczYyV1NNVmduSm1ieWtpYnl2NmlPMzVw?=
+ =?utf-8?B?Q3krblh5UjFORUZ1eUgxSVpUdzdXNVF6ZjNqRUY0MlRySy9ZSGM5c1ZQaGRX?=
+ =?utf-8?B?S2VieCtuaWRCd082SmpwT0hWK2NEYXpXZzNTRlhnSFJqYnE0S01qYzNwRkRJ?=
+ =?utf-8?B?M2xMT3JSQkpQZHlPbUNxWDVNbWI1T2VBOFdJaTZ5TUhUWS9LckZqZUI1OGZw?=
+ =?utf-8?B?TGRaRVZIT2hqYVBZWmFyK2ltV2dQR3JCWFEyQmE1ZWZDOXY1c3VzOFNSYStz?=
+ =?utf-8?B?VGczTW9XeG5Qbjk2VUd2YXNxVHZzR2VmL1A3dHN2Y01MYjFlV0R4bFc4bTF5?=
+ =?utf-8?Q?mr7q87Re0mYhX+GxYR2WaoSPbLv88YYjc/LycxS9UbFoP?=
+X-MS-Exchange-AntiSpam-MessageData-1: i1Xih4U147AfBTuzuTGHIF3HRW71dBS5Y7I=
+X-MS-Exchange-CrossTenant-Network-Message-Id: 2ff6ed47-d594-4c91-2c54-08da285a5867
+X-MS-Exchange-CrossTenant-AuthSource: DM4PR11MB5231.namprd11.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 27 Apr 2022 14:29:32.5751 (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 46c98d88-e344-4ed4-8496-4ed7712e255d
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: QEOoWwD0VuFqPn82BkU9127AyTaAmqWgyLOx+tPc4Apd+w9Ap4YH/Ap7BHt79EYFANR2f3gdGb3PiWsEA0BWGQ==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: CH2PR11MB4245
+X-OriginatorOrg: intel.com
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -76,326 +166,68 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Sebastian Wick <sebastian.wick@redhat.com>,
- Martin Roukala <martin.roukala@mupuf.org>,
- "dri-devel@lists.freedesktop.org" <dri-devel@lists.freedesktop.org>,
- wayland <wayland-devel@lists.freedesktop.org>,
- Hans de Goede <hdegoede@redhat.com>,
- Christoph Grenz <christophg+lkml@grenz-bonn.de>,
- Yusuf Khan <yusisamerican@gmail.com>
+Cc: "Ceraolo Spurio, Daniele" <daniele.ceraolospurio@intel.com>, "De Marchi,
+ Lucas" <lucas.demarchi@intel.com>, "Harrison,
+ John C" <john.c.harrison@intel.com>, "Wajdeczko,
+ Michal" <Michal.Wajdeczko@intel.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Wed, Apr 27, 2022 at 05:23:22PM +0300, Jani Nikula wrote:
-> On Wed, 27 Apr 2022, Daniel Vetter <daniel@ffwll.ch> wrote:
-> > On Thu, Apr 14, 2022 at 01:24:30PM +0300, Jani Nikula wrote:
-> >> On Mon, 11 Apr 2022, Alex Deucher <alexdeucher@gmail.com> wrote:
-> >> > On Mon, Apr 11, 2022 at 6:18 AM Hans de Goede <hdegoede@redhat.com> wrote:
-> >> >>
-> >> >> Hi,
-> >> >>
-> >> >> On 4/8/22 17:11, Alex Deucher wrote:
-> >> >> > On Fri, Apr 8, 2022 at 10:56 AM Hans de Goede <hdegoede@redhat.com> wrote:
-> >> >> >>
-> >> >> >> Hi,
-> >> >> >>
-> >> >> >> On 4/8/22 16:08, Alex Deucher wrote:
-> >> >> >>> On Fri, Apr 8, 2022 at 4:07 AM Daniel Vetter <daniel@ffwll.ch> wrote:
-> >> >> >>>>
-> >> >> >>>> On Thu, Apr 07, 2022 at 05:05:52PM -0400, Alex Deucher wrote:
-> >> >> >>>>> On Thu, Apr 7, 2022 at 1:43 PM Hans de Goede <hdegoede@redhat.com> wrote:
-> >> >> >>>>>>
-> >> >> >>>>>> Hi Simon,
-> >> >> >>>>>>
-> >> >> >>>>>> On 4/7/22 18:51, Simon Ser wrote:
-> >> >> >>>>>>> Very nice plan! Big +1 for the overall approach.
-> >> >> >>>>>>
-> >> >> >>>>>> Thanks.
-> >> >> >>>>>>
-> >> >> >>>>>>> On Thursday, April 7th, 2022 at 17:38, Hans de Goede <hdegoede@redhat.com> wrote:
-> >> >> >>>>>>>
-> >> >> >>>>>>>> The drm_connector brightness properties
-> >> >> >>>>>>>> =======================================
-> >> >> >>>>>>>>
-> >> >> >>>>>>>> bl_brightness: rw 0-int32_max property controlling the brightness setting
-> >> >> >>>>>>>> of the connected display. The actual maximum of this will be less then
-> >> >> >>>>>>>> int32_max and is given in bl_brightness_max.
-> >> >> >>>>>>>
-> >> >> >>>>>>> Do we need to split this up into two props for sw/hw state? The privacy screen
-> >> >> >>>>>>> stuff needed this, but you're pretty familiar with that. :)
-> >> >> >>>>>>
-> >> >> >>>>>> Luckily that won't be necessary, since the privacy-screen is a security
-> >> >> >>>>>> feature the firmware/embedded-controller may refuse our requests
-> >> >> >>>>>> (may temporarily lock-out changes) and/or may make changes without
-> >> >> >>>>>> us requesting them itself. Neither is really the case with the
-> >> >> >>>>>> brightness setting of displays.
-> >> >> >>>>>>
-> >> >> >>>>>>>> bl_brightness_max: ro 0-int32_max property giving the actual maximum
-> >> >> >>>>>>>> of the display's brightness setting. This will report 0 when brightness
-> >> >> >>>>>>>> control is not available (yet).
-> >> >> >>>>>>>
-> >> >> >>>>>>> I don't think we actually need that one. Integer KMS props all have a
-> >> >> >>>>>>> range which can be fetched via drmModeGetProperty. The max can be
-> >> >> >>>>>>> exposed via this range. Example with the existing alpha prop:
-> >> >> >>>>>>>
-> >> >> >>>>>>>     "alpha": range [0, UINT16_MAX] = 65535
-> >> >> >>>>>>
-> >> >> >>>>>> Right, I already knew that, which is why I explicitly added a range
-> >> >> >>>>>> to the props already. The problem is that the range must be set
-> >> >> >>>>>> before registering the connector and when the backlight driver
-> >> >> >>>>>> only shows up (much) later during boot then we don't know the
-> >> >> >>>>>> range when registering the connector. I guess we could "patch-up"
-> >> >> >>>>>> the range later. But AFAIK that would be a bit of abuse of the
-> >> >> >>>>>> property API as the range is intended to never change, not
-> >> >> >>>>>> even after hotplug uevents. At least atm there is no infra
-> >> >> >>>>>> in the kernel to change the range later.
-> >> >> >>>>>>
-> >> >> >>>>>> Which is why I added an explicit bl_brightness_max property
-> >> >> >>>>>> of which the value gives the actual effective maximum of the
-> >> >> >>>>>> brightness.
-> >> >> >>>>
-> >> >> >>>> Uh ... I'm not a huge fan tbh. The thing is, if we allow hotplugging
-> >> >> >>>> brightness control later on then we just perpetuate the nonsense we have
-> >> >> >>>> right now, forever.
-> >> >> >>>>
-> >> >> >>>> Imo we should support two kinds of drivers:
-> >> >> >>>>
-> >> >> >>>> - drivers which are non-crap, and make sure their backlight driver is
-> >> >> >>>>   loaded before they register the drm_device (or at least the
-> >> >> >>>>   drm_connector). For those we want the drm_connector->backlight pointer
-> >> >> >>>>   to bit static over the lifetime of the connector, and then we can also
-> >> >> >>>>   set up the brightness range correctly.
-> >> >> >>>>
-> >> >> >>>> - funny drivers which implement the glorious fallback dance which
-> >> >> >>>>   libbacklight implements currently in userspace. Imo for these drivers we
-> >> >> >>>>   should have a libbacklight_heuristics_backlight, which normalizes or
-> >> >> >>>>   whatever, and is also ways there. And then internally handles the
-> >> >> >>>>   fallback mess to the "right" backlight driver.
-> >> >> >>>>
-> >> >> >>>> We might have some gaps on acpi systems to make sure the drm driver can
-> >> >> >>>> wait for the backlight driver to show up, but that's about it.
-> >> >> >>>>
-> >> >> >>>> Hotplugging random pieces later on is really not how drivers work nowadays
-> >> >> >>>> with deferred probe and component framework and all that.
-> >> >> >>>>
-> >> >> >>>>>> I did consider using the range for this and updating it
-> >> >> >>>>>> on the fly I think nothing is really preventing us from
-> >> >> >>>>>> doing so, but it very much feels like abusing the generic
-> >> >> >>>>>> properties API.
-> >> >> >>>>>>
-> >> >> >>>>>>>> bl_brightness_0_is_min_brightness: ro, boolean
-> >> >> >>>>>>>> When this is set to true then it is safe to set brightness to 0
-> >> >> >>>>>>>> without worrying that this completely turns the backlight off causing
-> >> >> >>>>>>>> the screen to become unreadable. When this is false setting brightness
-> >> >> >>>>>>>> to 0 may turn the backlight off, but this is not guaranteed.
-> >> >> >>>>>>>> This will e.g. be true when directly driving a PWM and the video-BIOS
-> >> >> >>>>>>>> has provided a minimum (non 0) duty-cycle below which the driver will
-> >> >> >>>>>>>> never go.
-> >> >> >>>>>>>
-> >> >> >>>>>>> Hm. It's quite unfortunate that it's impossible to have strong guarantees
-> >> >> >>>>>>> here.
-> >> >> >>>>>>>
-> >> >> >>>>>>> Is there any way we can avoid this prop?
-> >> >> >>>>>>
-> >> >> >>>>>> Not really, the problem is that we really don't know if 0 is off
-> >> >> >>>>>> or min-brightness. In the given example where we actually never go
-> >> >> >>>>>> down to a duty-cycle of 0% because the video BIOS tables tell us
-> >> >> >>>>>> not to, we can be certain that setting the brightness prop to 0
-> >> >> >>>>>> will not turn of the backlight, since we then set the duty-cycle
-> >> >> >>>>>> to the VBT provided minimum. Note the intend here is to only set
-> >> >> >>>>>> the boolean to true if the VBT provided minimum is _not_ 0, 0
-> >> >> >>>>>> just means the vendor did not bother to provide a minimum.
-> >> >> >>>>>>
-> >> >> >>>>>> Currently e.g. GNOME never goes lower then something like 5%
-> >> >> >>>>>> of brightness_max to avoid accidentally turning the screen off.
-> >> >> >>>>>>
-> >> >> >>>>>> Turning the screen off is quite bad to do on e.g. tablets where
-> >> >> >>>>>> the GUI is the only way to undo the brightness change and now
-> >> >> >>>>>> the user can no longer see the GUI.
-> >> >> >>>>>>
-> >> >> >>>>>> The idea behind this boolean is to give e.g. GNOME a way to
-> >> >> >>>>>> know that it is safe to go down to 0% and for it to use
-> >> >> >>>>>> the entire range.
-> >> >> >>>>>
-> >> >> >>>>> Why not just make it policy that 0 is defined as minimum brightness,
-> >> >> >>>>> not off, and have all drivers conform to that?
-> >> >> >>>>
-> >> >> >>>> Because the backlight subsystem isn't as consistent on this, and it's been
-> >> >> >>>> an epic source of confusion since forever.
-> >> >> >>>>
-> >> >> >>>> What's worse, there's both userspace out there which assumes brightness =
-> >> >> >>>> 0 is a really fast dpms off _and_ userspace that assumes that brightness =
-> >> >> >>>> 0 is the lowest setting. Of course on different sets of machines.
-> >> >> >>>>
-> >> >> >>>> So yeah we're screwed. I have no idea how to get out of this.
-> >> >> >>>
-> >> >> >>> Yes, but this is a new API.  So can't we do better?  Sure the old
-> >> >> >>> backlight interface is broken, but why carry around clunky workarounds
-> >> >> >>> for new interfaces?
-> >> >> >>
-> >> >> >> Right we certainly need to define the behavior of the new API
-> >> >> >> clearly, so that userspace does not misuse / misinterpret it.
-> >> >> >>
-> >> >> >> The intend is for brightness=0 to mean minimum brightness
-> >> >> >> to still be able to see what is on the screen. But the problem
-> >> >> >> is that in many cases the GPU driver directly controls a PWM
-> >> >> >> output, no minimum PWM value is given in the video BIOS tables
-> >> >> >> and actually setting the PWM to 0% dutycycle turns off the
-> >> >> >> screen.
-> >> >> >
-> >> >> > Sure.  So have the GPU driver map 0 to some valid minimum if that is
-> >> >> > the case or might be the case.  If bugs come up, we can add quirks in
-> >> >> > the GPU drivers.
-> >> >>
-> >> >> The problem is that when 0% duty-cycle is not off, but minimum
-> >> >> brightness because there is some smart backlight-controller involved
-> >> >> downstream of the pwm, then of we limit it to say min 5% then we
-> >> >> have just limited the range of the brightness. GNOME already does
-> >> >> this in userspace now and it is already receiving bug-reports
-> >> >> from users that GNOME does not allow the brightness to go as low
-> >> >> as they like to have it in a dark(ish) room.
-> >> >>
-> >> >> And in some cases 5% is likely not enough for the backlight to
-> >> >> actually turn on. So it will be wrong in one direction on some
-> >> >> devices and wrong in the other direction in other devices.
-> >> >>
-> >> >> Which means that to satisfy everyone here we will need a ton
-> >> >> of quirks, much too many to maintain in the kernel IMHO.
-> >> >>
-> >> >>
-> >> >> >> So we can only promise a best-effort to make brightness=0
-> >> >> >> mean minimum brightness, combined with documenting that it
-> >> >> >> may turn off the backlight and that userspace _must_ never
-> >> >> >> depend on it turning off the backlight.
-> >> >> >>
-> >> >> >> Also note that setting a direct PWM output to duty-cycle 0%
-> >> >> >> does not guarantee that the backlight goes off, this may be
-> >> >> >> an input for a special backlight LED driver IC like the
-> >> >> >> TI LP855x series which can have an internal lookup
-> >> >> >> table causing it to actually output a minimum brightness
-> >> >> >> when its PWM input is at 0% dutycycle.  So this is a case
-> >> >> >> where we just don't get enough info from the fw/hw to be able
-> >> >> >> to offer the guarantees which we would like to guarantee.
-> >> >> >
-> >> >> > So set it to a level we can guarantee can call it 0.  If we have the
-> >> >> > flag we are just punting on the problem in my opinion.
-> >> >>
-> >> >> Right this an impossible problem to solve so the intent is indeed
-> >> >> to punt this to userspace, which IMHO is the best thing we can do
-> >> >> here.  The idea behind the "bl_brightness_0_is_min_brightness:
-> >> >> ro, boolean" property is to provide a hint to userspace to help
-> >> >> userspace deal with this (and if userspace ends up using e.g.
-> >> >> systemd's hwdb for this to avoid unnecessary entries in hwdb).
-> >> >>
-> >> >> >  The kernel
-> >> >> > driver would seem to have a better idea what is a valid minimum than
-> >> >> > some arbitrary userspace application.
-> >> >>
-> >> >> If the kernel driver knows the valid minimum then it can make 0
-> >> >> actually be that valid minimum as you suggest and it can set the
-> >> >> hint flag to let userspace know this. OTOH there are many cases
-> >> >> where the kernel's guess is just as bad as userspace's guess and
-> >> >> there are too many laptops where this is the case to quirk
-> >> >> ourselves out of this situation.
-> >> >>
-> >> >> > Plus then if we need a
-> >> >> > workaround for what is the minimum valid brightness, we can fix it one
-> >> >> > place rather than letting every application try and fix it.
-> >> >>
-> >> >> I wish we could solve this in the kernel, but at least on
-> >> >> laptops with Intel integrated gfx many vendors don't bother
-> >> >> to put a non 0 value in the minimum duty-cycle field of the
-> >> >> VBT, so there really is no good way to solve this.
-> >> >
-> >> > We have similar issues with AMD platforms.  Some platforms don't
-> >> > populate the min value tables, but in the driver we set the minimum
-> >> > safe value as the default min value when that happens.  It may not
-> >> > always go as low as the platform may be capable of, but at least we
-> >> > have consistent behavior and it's all controlled in one place.
-> >> >
-> >> >>
-> >> >> If the userspace folks ever want to do a database for this,
-> >> >> I would expect them to do something with hwdb + udev which
-> >> >> can then be shared between the different desktop-environments.
-> >> >
-> >> > So why not do it in the kernel?  At least that way everyone will get
-> >> > it the fixes as they happen.  A big user database may or may not
-> >> > happen and behavior will be inconsistent across desktop environments
-> >> > until that does.  I don't really see any value in having the flag.
-> >> > There will be cases where the flag is wrong and will require kernel
-> >> > fixes anyway (e.g., OEM switches panel due to supply chain issues and
-> >> > forgets to update the vbios, etc.), so why not just define 0 as
-> >> > minimum safe backlight value?  If it's too low and flickers or turns
-> >> > the backlight off, we quirk it.  If a particular platform can go
-> >> > lower, we can quirk it.  If we add the flag then we need to not only
-> >> > add quirks for the minimum value, but we also have to deal with quirks
-> >> > for when the flag is set wrong.  So now we are maintaining two quirks
-> >> > instead of one.
-> >> 
-> >> Just chiming in, there are certainly plenty of panels and designs where
-> >> 0 PWM duty cycle is physically not possible, and thus 0 brightness
-> >> simply can't universally mean off.
-> >> 
-> >> Daniel referred to a case where 0 brightness was used as fast mini dpms
-> >> off, and I think it's fundamentally a broken use case. We can't
-> >> guarantee to be able to support that. I think the appeal was partly in
-> >> being able to do it without access to kms api, quick and dirty via
-> >> sysfs.
-> >> 
-> >> Please let's just make 0 the minimum but not off. If you want off, you
-> >> do modeset, and the driver can follow panel timings etc.
-> >> 
-> >> I think that's also something the kernel can actually guarantee, while
-> >> we can't guarantee 0 is off.
-> >
-> > Yes.
-> >
-> > The trouble is that we have platforms where it works like this, and so
-> > retroactively redefining what brightness 0 means would be a regression. I
-> > guess just another reason for why we should roll this out step by step,
-> > with latest platforms first.
-> >
-> > Or we shrug and decide to break things like that and redefine the
-> > backlight semantics a bit. Or well define them properly to begin with :-)
-> 
-> I say it's a new interface, and does not have to follow old interface
-> semantics. When userspace switches over, it has to adapt. Just shrug off
-> any "regression" reports where the comparison is against the old
-> interface.
+LGTM
 
-Not sure we can fix the new interface without changing the old one. Like
-when we specifiy that 0 means lowest setting, people will be annoyed when
-it's actually off, and then fixing the backlight driver would break the
-old stuff.
+Acked-by: Siva Mullati <siva.mullati@intel.com>
 
-I'm leaning towards breaking the old stuff a bit and making this clean :-)
-The regression is just power usage when you close the lid and stuff like
-that, should be ok-ish for these older machines with funny userspace that
-doesn't do a dpms off.
--Daniel
-
-> 
-> BR,
-> Jani.
-> 
-> 
-> > -Daniel
-> >
-> >> 
-> >> 
-> >> BR,
-> >> Jani.
-> >> 
-> >> 
-> >> 
-> >> 
-> >> -- 
-> >> Jani Nikula, Intel Open Source Graphics Center
-> 
-> -- 
-> Jani Nikula, Intel Open Source Graphics Center
-
--- 
-Daniel Vetter
-Software Engineer, Intel Corporation
-http://blog.ffwll.ch
+On 06/04/22 14:48, Vivekanandan, Balasubramani wrote:
+> When copying RSA use io memcpy functions if the destination address
+> contains a GPU local memory address. Considering even the source
+> address can be on local memory, a bounce buffer is used to copy from io
+> to io.
+> The intention of this patch is to make i915 portable outside x86 mainly
+> on ARM64.
+>
+> Signed-off-by: Balasubramani Vivekanandan <balasubramani.vivekanandan@intel.com>
+> ---
+>  drivers/gpu/drm/i915/gt/uc/intel_uc_fw.c | 23 +++++++++++++++++++++--
+>  1 file changed, 21 insertions(+), 2 deletions(-)
+>
+> diff --git a/drivers/gpu/drm/i915/gt/uc/intel_uc_fw.c b/drivers/gpu/drm/i915/gt/uc/intel_uc_fw.c
+> index bb864655c495..06d30670e15c 100644
+> --- a/drivers/gpu/drm/i915/gt/uc/intel_uc_fw.c
+> +++ b/drivers/gpu/drm/i915/gt/uc/intel_uc_fw.c
+> @@ -589,7 +589,7 @@ static int uc_fw_rsa_data_create(struct intel_uc_fw *uc_fw)
+>  	struct intel_gt *gt = __uc_fw_to_gt(uc_fw);
+>  	struct i915_vma *vma;
+>  	size_t copied;
+> -	void *vaddr;
+> +	void *vaddr, *bounce;
+>  	int err;
+>  
+>  	err = i915_inject_probe_error(gt->i915, -ENXIO);
+> @@ -621,7 +621,26 @@ static int uc_fw_rsa_data_create(struct intel_uc_fw *uc_fw)
+>  		goto unpin_out;
+>  	}
+>  
+> -	copied = intel_uc_fw_copy_rsa(uc_fw, vaddr, vma->size);
+> +	if (i915_gem_object_is_lmem(vma->obj)) {
+> +		/* When vma is allocated from the GPU local memmory, it means
+> +		 * the destination address contains an io memory and we need to
+> +		 * use memcpy function for io memory for copying, to ensure
+> +		 * i915 portability outside x86. It is most likely the RSA will
+> +		 * also be on local memory and so the source of copy will also
+> +		 * be an io address. Since we cannot directly copy from io to
+> +		 * io, we use a bounce buffer to copy.
+> +		 */
+> +		copied = 0;
+> +		bounce = kmalloc(vma->size, GFP_KERNEL);
+> +		if (likely(bounce)) {
+> +			copied = intel_uc_fw_copy_rsa(uc_fw, bounce, vma->size);
+> +			memcpy_toio((void __iomem *)vaddr, bounce, copied);
+> +			kfree(bounce);
+> +		}
+> +	} else {
+> +		copied = intel_uc_fw_copy_rsa(uc_fw, vaddr, vma->size);
+> +	}
+> +
+>  	i915_gem_object_unpin_map(vma->obj);
+>  
+>  	if (copied < uc_fw->rsa_size) {
