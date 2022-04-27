@@ -1,62 +1,60 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6848B5118AF
-	for <lists+dri-devel@lfdr.de>; Wed, 27 Apr 2022 16:14:29 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 7FEFE5118B7
+	for <lists+dri-devel@lfdr.de>; Wed, 27 Apr 2022 16:21:22 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id F344510F4DC;
-	Wed, 27 Apr 2022 14:14:24 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id ED57D10E9C4;
+	Wed, 27 Apr 2022 14:21:19 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from smtp-out2.suse.de (smtp-out2.suse.de [195.135.220.29])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 60E0310F4B0
- for <dri-devel@lists.freedesktop.org>; Wed, 27 Apr 2022 14:14:16 +0000 (UTC)
-Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
- key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
- (No client certificate requested)
- by smtp-out2.suse.de (Postfix) with ESMTPS id DE3421F753;
- Wed, 27 Apr 2022 14:14:13 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
- t=1651068853; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
- mime-version:mime-version:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=fy4SPdblz7yBijwS5aS0LPTS25UCN1LQ+KbGdfQzUTk=;
- b=M1sDXYpVcTWCLfXtKAYqR1eEK5IXRWf3910EssWmGerOyGwCnyf9r4+7tHfgHADQhJPVKS
- 4Z4f+/1ABIkRt6xZNMZ8ngnRcwTDF3S9HPAZaKQ6rb9dOuybrWa2QoqPppPzE3ZK0sFdPR
- XMx+xmInxLkEL6mumoSjL8B9GO0dkKw=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
- s=susede2_ed25519; t=1651068853;
- h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
- mime-version:mime-version:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=fy4SPdblz7yBijwS5aS0LPTS25UCN1LQ+KbGdfQzUTk=;
- b=EA8Sp5L7C9kdKfzCEhDGEkYS6mQ4x91tbq2aPWnUqP0DLSx5SkF2ace2IZDzajU8N2xX/F
- ObQ79SbaFJQT73DA==
-Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
- key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
- (No client certificate requested)
- by imap2.suse-dmz.suse.de (Postfix) with ESMTPS id B2FCD13AED;
- Wed, 27 Apr 2022 14:14:13 +0000 (UTC)
-Received: from dovecot-director2.suse.de ([192.168.254.65])
- by imap2.suse-dmz.suse.de with ESMTPSA id mBHqKrVPaWLfbwAAMHmgww
- (envelope-from <tzimmermann@suse.de>); Wed, 27 Apr 2022 14:14:13 +0000
-From: Thomas Zimmermann <tzimmermann@suse.de>
-To: javierm@redhat.com, maarten.lankhorst@linux.intel.com, mripard@kernel.org,
- airlied@linux.ie, daniel@ffwll.ch
-Subject: [PATCH 4/4] drm/format-helper: Share implementation among conversion
- helpers
-Date: Wed, 27 Apr 2022 16:14:09 +0200
-Message-Id: <20220427141409.22842-5-tzimmermann@suse.de>
-X-Mailer: git-send-email 2.36.0
-In-Reply-To: <20220427141409.22842-1-tzimmermann@suse.de>
-References: <20220427141409.22842-1-tzimmermann@suse.de>
+Received: from mail-ej1-x629.google.com (mail-ej1-x629.google.com
+ [IPv6:2a00:1450:4864:20::629])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 97B5F10E9C4
+ for <dri-devel@lists.freedesktop.org>; Wed, 27 Apr 2022 14:21:19 +0000 (UTC)
+Received: by mail-ej1-x629.google.com with SMTP id m20so3691701ejj.10
+ for <dri-devel@lists.freedesktop.org>; Wed, 27 Apr 2022 07:21:19 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ffwll.ch; s=google;
+ h=date:from:to:cc:subject:message-id:references:mime-version
+ :content-disposition:in-reply-to;
+ bh=jBmFdo+EpPmujhmTmGtxoyUWpgyu6cfuoFJjRqtxiOA=;
+ b=W5INljCWeWJF9MFkZkWUGd1SdYK4KmOXAP3cP6JmepywfWPRn73wV7xSNiKgUzJ3Qk
+ hQe8hoTh3bEUEqxOtYINeazzWxSvMgnOuH9JWcnMK+bMGl8TUPh0g5V1OG3hZIxGbwvg
+ uskbkMZqi9iLQHRlQlrrno+uU32lrNW69iWMk=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+ :mime-version:content-disposition:in-reply-to;
+ bh=jBmFdo+EpPmujhmTmGtxoyUWpgyu6cfuoFJjRqtxiOA=;
+ b=RKJfPocOrtq4ulAUDt8Oto0xBDhnFmQVmM52DIp085r9/ZKv6UPukHcVY/uNy6bvFf
+ Lq46lTv5DyC/A1qHbtmJJUI828eyRBM0ur2BLN+KWzBUEOBkIKdGlacXShlPA+8sP9g1
+ 2ELPnY03Sr43RMLsz92caLomM/c0rRlHhApYsI58poEYU+EOMN3Pfc9SuS9yplK0cjrC
+ gCBfycoj6gXFp2m8krv8cBz4IewIYqoB06W8cp6E9esNgyknwO1/cK6j+VB0jpjBQWUs
+ cJPCE/lWxzLGDZ8F2BAjerFwjAxkTVejRRDDcJuFw2C5skAQf877BNQ+oROnHXJAoi5Z
+ y4pw==
+X-Gm-Message-State: AOAM530ZesYWnblN7OXptjLIvYaPY2zHXMOiIV/REc4EE10mtFdd4LBr
+ JZ1ZHFMgHElEC1RYagNn4pJ48A==
+X-Google-Smtp-Source: ABdhPJw2gZ+GIMPilmZXcEDDjYVeTh7sRJrZyOP3JMsVinZUkmshLZ7JQZ2hO83UghHV9x5ZuP9muQ==
+X-Received: by 2002:a17:907:728c:b0:6e8:a052:4f03 with SMTP id
+ dt12-20020a170907728c00b006e8a0524f03mr26028860ejc.344.1651069278065; 
+ Wed, 27 Apr 2022 07:21:18 -0700 (PDT)
+Received: from phenom.ffwll.local ([2a02:168:57f4:0:efd0:b9e5:5ae6:c2fa])
+ by smtp.gmail.com with ESMTPSA id
+ kx5-20020a170907774500b006e1382b8192sm7134212ejc.147.2022.04.27.07.21.17
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Wed, 27 Apr 2022 07:21:17 -0700 (PDT)
+Date: Wed, 27 Apr 2022 16:21:15 +0200
+From: Daniel Vetter <daniel@ffwll.ch>
+To: Helge Deller <deller@gmx.de>
+Subject: Re: dim question: How to revert patches?
+Message-ID: <YmlRW2fAabBqWc+0@phenom.ffwll.local>
+References: <c79789fb-642d-ee9e-32a6-fc7f79d9e3b4@gmx.de>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <c79789fb-642d-ee9e-32a6-fc7f79d9e3b4@gmx.de>
+X-Operating-System: Linux phenom 5.10.0-8-amd64 
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -73,472 +71,51 @@ Cc: Thomas Zimmermann <tzimmermann@suse.de>, dri-devel@lists.freedesktop.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Provide format-independent conversion helpers for system and I/O
-memory. Implement most existing helpers on top of it. The source and
-destination formats of each conversion is handled by a per-line
-helper that is given to the generic implementation.
+On Thu, Apr 14, 2022 at 10:37:55PM +0200, Helge Deller wrote:
+> Hello dri-devel & dim users,
 
-Signed-off-by: Thomas Zimmermann <tzimmermann@suse.de>
----
- drivers/gpu/drm/drm_format_helper.c | 370 ++++++++++------------------
- 1 file changed, 124 insertions(+), 246 deletions(-)
+Apologies for late reply, I'm way behind on stuff.
 
-diff --git a/drivers/gpu/drm/drm_format_helper.c b/drivers/gpu/drm/drm_format_helper.c
-index 21d0d282c6a1..6f8030ebb56d 100644
---- a/drivers/gpu/drm/drm_format_helper.c
-+++ b/drivers/gpu/drm/drm_format_helper.c
-@@ -40,6 +40,95 @@ unsigned int drm_fb_clip_offset(unsigned int pitch, const struct drm_format_info
- }
- EXPORT_SYMBOL(drm_fb_clip_offset);
- 
-+/* TODO: Make this functon work with multi-plane formats. */
-+static int drm_fb_xfrm(void *dst, unsigned long dst_pitch, unsigned long dst_pixsize,
-+		       const void *vaddr, const struct drm_framebuffer *fb,
-+		       const struct drm_rect *clip, bool vaddr_cached_hint,
-+		       void (*xfrm_line)(void *dbuf, const void *sbuf, unsigned int npixels))
-+{
-+	unsigned long linepixels = drm_rect_width(clip);
-+	unsigned long lines = drm_rect_height(clip);
-+	size_t sbuf_len = linepixels * fb->format->cpp[0];
-+	void *stmp = NULL;
-+	unsigned long i;
-+	const void *sbuf;
-+
-+	/*
-+	 * Some source buffers, such as CMA memory, use write-combine
-+	 * caching, so reads are uncached. Speed up access by fetching
-+	 * one line at a time.
-+	 */
-+	if (!vaddr_cached_hint) {
-+		stmp = kmalloc(sbuf_len, GFP_KERNEL);
-+		if (!stmp)
-+			return -ENOMEM;
-+	}
-+
-+	if (!dst_pitch)
-+		dst_pitch = drm_rect_width(clip) * dst_pixsize;
-+	vaddr += clip_offset(clip, fb->pitches[0], fb->format->cpp[0]);
-+
-+	for (i = 0; i < lines; ++i) {
-+		if (stmp)
-+			sbuf = memcpy(stmp, vaddr, sbuf_len);
-+		else
-+			sbuf = vaddr;
-+		xfrm_line(dst, sbuf, linepixels);
-+		vaddr += fb->pitches[0];
-+		dst += dst_pitch;
-+	}
-+
-+	kfree(stmp);
-+
-+	return 0;
-+}
-+
-+/* TODO: Make this functon work with multi-plane formats. */
-+static int drm_fb_xfrm_toio(void __iomem *dst, unsigned long dst_pitch, unsigned long dst_pixsize,
-+			    const void *vaddr, const struct drm_framebuffer *fb,
-+			    const struct drm_rect *clip, bool vaddr_cached_hint,
-+			    void (*xfrm_line)(void *dbuf, const void *sbuf, unsigned int npixels))
-+{
-+	unsigned long linepixels = drm_rect_width(clip);
-+	unsigned long lines = drm_rect_height(clip);
-+	size_t dbuf_len = linepixels * dst_pixsize;
-+	size_t stmp_off = round_up(dbuf_len, ARCH_KMALLOC_MINALIGN); /* for sbuf alignment */
-+	size_t sbuf_len = linepixels * fb->format->cpp[0];
-+	void *stmp = NULL;
-+	unsigned long i;
-+	const void *sbuf;
-+	void *dbuf;
-+
-+	if (vaddr_cached_hint) {
-+		dbuf = kmalloc(dbuf_len, GFP_KERNEL);
-+	} else {
-+		dbuf = kmalloc(stmp_off + sbuf_len, GFP_KERNEL);
-+		stmp = dbuf + stmp_off;
-+	}
-+	if (!dbuf)
-+		return -ENOMEM;
-+
-+	if (!dst_pitch)
-+		dst_pitch = linepixels * dst_pixsize;
-+	vaddr += clip_offset(clip, fb->pitches[0], fb->format->cpp[0]);
-+
-+	for (i = 0; i < lines; ++i) {
-+		if (stmp)
-+			sbuf = memcpy(stmp, vaddr, sbuf_len);
-+		else
-+			sbuf = vaddr;
-+		xfrm_line(dbuf, sbuf, linepixels);
-+		memcpy_toio(dst, dbuf, dbuf_len);
-+		vaddr += fb->pitches[0];
-+		dst += dst_pitch;
-+	}
-+
-+	kfree(dbuf);
-+
-+	return 0;
-+}
-+
-+
- /**
-  * drm_fb_memcpy - Copy clip buffer
-  * @dst: Destination buffer
-@@ -140,45 +229,23 @@ void drm_fb_swab(void *dst, unsigned int dst_pitch, const void *src,
- 		 bool cached)
- {
- 	u8 cpp = fb->format->cpp[0];
--	unsigned long linepixels = drm_rect_width(clip);
--	size_t len = linepixels * cpp;
--	const void *sbuf;
--	void *dbuf;
--	unsigned int y;
--	void *buf = NULL;
--
--	if (WARN_ON_ONCE(cpp != 2 && cpp != 4))
--		return;
--
--	if (!dst_pitch)
--		dst_pitch = len;
--	src += clip_offset(clip, fb->pitches[0], cpp);
--
--	if (!cached)
--		buf = kmalloc(len, GFP_KERNEL);
- 
--	for (y = clip->y1; y < clip->y2; y++) {
--		if (buf)
--			sbuf = memcpy(buf, src, len);
--		else
--			sbuf = src;
--		dbuf = dst + clip->x1 * cpp;
--
--		if (cpp == 4)
--			drm_fb_swab32_line(dbuf, sbuf, linepixels);
--		else
--			drm_fb_swab16_line(dbuf, sbuf, linepixels);
--
--		src += fb->pitches[0];
--		dst += dst_pitch;
-+	switch (cpp) {
-+	case 4:
-+		drm_fb_xfrm(dst, dst_pitch, cpp, src, fb, clip, cached, drm_fb_swab32_line);
-+		break;
-+	case 2:
-+		drm_fb_xfrm(dst, dst_pitch, cpp, src, fb, clip, cached, drm_fb_swab16_line);
-+		break;
-+	default:
-+		drm_warn_once(fb->dev, "Format %p4cc has unsupported pixel size.\n",
-+			      &fb->format->format);
-+		break;
- 	}
--
--	kfree(buf);
- }
- EXPORT_SYMBOL(drm_fb_swab);
- 
--static void drm_fb_xrgb8888_to_rgb332_line(void *dbuf, const void *sbuf, unsigned int pixels,
--					   bool swab)
-+static void drm_fb_xrgb8888_to_rgb332_line(void *dbuf, const void *sbuf, unsigned int pixels)
- {
- 	u8 *dbuf8 = dbuf;
- 	const __le32 *sbuf32 = sbuf;
-@@ -206,28 +273,7 @@ static void drm_fb_xrgb8888_to_rgb332_line(void *dbuf, const void *sbuf, unsigne
- void drm_fb_xrgb8888_to_rgb332(void *dst, unsigned int dst_pitch, const void *src,
- 			       const struct drm_framebuffer *fb, const struct drm_rect *clip)
- {
--	size_t width = drm_rect_width(clip);
--	size_t src_len = width * sizeof(u32);
--	unsigned int y;
--	void *sbuf;
--
--	if (!dst_pitch)
--		dst_pitch = width;
--
--	/* Use a buffer to speed up access on buffers with uncached read mapping (i.e. WC) */
--	sbuf = kmalloc(src_len, GFP_KERNEL);
--	if (!sbuf)
--		return;
--
--	src += clip_offset(clip, fb->pitches[0], sizeof(u32));
--	for (y = 0; y < drm_rect_height(clip); y++) {
--		memcpy(sbuf, src, src_len);
--		drm_fb_xrgb8888_to_rgb332_line(dst, sbuf, width, false);
--		src += fb->pitches[0];
--		dst += dst_pitch;
--	}
--
--	kfree(sbuf);
-+	drm_fb_xfrm(dst, dst_pitch, 1, src, fb, clip, false, drm_fb_xrgb8888_to_rgb332_line);
- }
- EXPORT_SYMBOL(drm_fb_xrgb8888_to_rgb332);
- 
-@@ -278,35 +324,12 @@ void drm_fb_xrgb8888_to_rgb565(void *dst, unsigned int dst_pitch, const void *va
- 			       const struct drm_framebuffer *fb, const struct drm_rect *clip,
- 			       bool swab)
- {
--	size_t linepixels = clip->x2 - clip->x1;
--	size_t src_len = linepixels * sizeof(u32);
--	size_t dst_len = linepixels * sizeof(u16);
--	unsigned y, lines = clip->y2 - clip->y1;
--	void *sbuf;
--
--	if (!dst_pitch)
--		dst_pitch = dst_len;
--
--	/*
--	 * The cma memory is write-combined so reads are uncached.
--	 * Speed up by fetching one line at a time.
--	 */
--	sbuf = kmalloc(src_len, GFP_KERNEL);
--	if (!sbuf)
--		return;
--
--	vaddr += clip_offset(clip, fb->pitches[0], sizeof(u32));
--	for (y = 0; y < lines; y++) {
--		memcpy(sbuf, vaddr, src_len);
--		if (swab)
--			drm_fb_xrgb8888_to_rgb565_swab_line(dst, sbuf, linepixels);
--		else
--			drm_fb_xrgb8888_to_rgb565_line(dst, sbuf, linepixels);
--		vaddr += fb->pitches[0];
--		dst += dst_pitch;
--	}
--
--	kfree(sbuf);
-+	if (swab)
-+		drm_fb_xfrm(dst, dst_pitch, 2, vaddr, fb, clip, false,
-+			    drm_fb_xrgb8888_to_rgb565_swab_line);
-+	else
-+		drm_fb_xfrm(dst, dst_pitch, 2, vaddr, fb, clip, false,
-+			    drm_fb_xrgb8888_to_rgb565_line);
- }
- EXPORT_SYMBOL(drm_fb_xrgb8888_to_rgb565);
- 
-@@ -326,30 +349,12 @@ void drm_fb_xrgb8888_to_rgb565_toio(void __iomem *dst, unsigned int dst_pitch,
- 				    const void *vaddr, const struct drm_framebuffer *fb,
- 				    const struct drm_rect *clip, bool swab)
- {
--	size_t linepixels = clip->x2 - clip->x1;
--	size_t dst_len = linepixels * sizeof(u16);
--	unsigned y, lines = clip->y2 - clip->y1;
--	void *dbuf;
--
--	if (!dst_pitch)
--		dst_pitch = dst_len;
--
--	dbuf = kmalloc(dst_len, GFP_KERNEL);
--	if (!dbuf)
--		return;
--
--	vaddr += clip_offset(clip, fb->pitches[0], sizeof(u32));
--	for (y = 0; y < lines; y++) {
--		if (swab)
--			drm_fb_xrgb8888_to_rgb565_swab_line(dbuf, vaddr, linepixels);
--		else
--			drm_fb_xrgb8888_to_rgb565_line(dbuf, vaddr, linepixels);
--		memcpy_toio(dst, dbuf, dst_len);
--		vaddr += fb->pitches[0];
--		dst += dst_pitch;
--	}
--
--	kfree(dbuf);
-+	if (swab)
-+		drm_fb_xfrm_toio(dst, dst_pitch, 2, vaddr, fb, clip, false,
-+				 drm_fb_xrgb8888_to_rgb565_swab_line);
-+	else
-+		drm_fb_xfrm_toio(dst, dst_pitch, 2, vaddr, fb, clip, false,
-+				 drm_fb_xrgb8888_to_rgb565_line);
- }
- EXPORT_SYMBOL(drm_fb_xrgb8888_to_rgb565_toio);
- 
-@@ -380,28 +385,7 @@ static void drm_fb_xrgb8888_to_rgb888_line(void *dbuf, const void *sbuf, unsigne
- void drm_fb_xrgb8888_to_rgb888(void *dst, unsigned int dst_pitch, const void *src,
- 			       const struct drm_framebuffer *fb, const struct drm_rect *clip)
- {
--	size_t width = drm_rect_width(clip);
--	size_t src_len = width * sizeof(u32);
--	unsigned int y;
--	void *sbuf;
--
--	if (!dst_pitch)
--		dst_pitch = width * 3;
--
--	/* Use a buffer to speed up access on buffers with uncached read mapping (i.e. WC) */
--	sbuf = kmalloc(src_len, GFP_KERNEL);
--	if (!sbuf)
--		return;
--
--	src += clip_offset(clip, fb->pitches[0], sizeof(u32));
--	for (y = 0; y < drm_rect_height(clip); y++) {
--		memcpy(sbuf, src, src_len);
--		drm_fb_xrgb8888_to_rgb888_line(dst, sbuf, width);
--		src += fb->pitches[0];
--		dst += dst_pitch;
--	}
--
--	kfree(sbuf);
-+	drm_fb_xfrm(dst, dst_pitch, 3, src, fb, clip, false, drm_fb_xrgb8888_to_rgb888_line);
- }
- EXPORT_SYMBOL(drm_fb_xrgb8888_to_rgb888);
- 
-@@ -420,27 +404,8 @@ void drm_fb_xrgb8888_to_rgb888_toio(void __iomem *dst, unsigned int dst_pitch,
- 				    const void *vaddr, const struct drm_framebuffer *fb,
- 				    const struct drm_rect *clip)
- {
--	size_t linepixels = clip->x2 - clip->x1;
--	size_t dst_len = linepixels * 3;
--	unsigned y, lines = clip->y2 - clip->y1;
--	void *dbuf;
--
--	if (!dst_pitch)
--		dst_pitch = dst_len;
--
--	dbuf = kmalloc(dst_len, GFP_KERNEL);
--	if (!dbuf)
--		return;
--
--	vaddr += clip_offset(clip, fb->pitches[0], sizeof(u32));
--	for (y = 0; y < lines; y++) {
--		drm_fb_xrgb8888_to_rgb888_line(dbuf, vaddr, linepixels);
--		memcpy_toio(dst, dbuf, dst_len);
--		vaddr += fb->pitches[0];
--		dst += dst_pitch;
--	}
--
--	kfree(dbuf);
-+	drm_fb_xfrm_toio(dst, dst_pitch, 3, vaddr, fb, clip, false,
-+			 drm_fb_xrgb8888_to_rgb888_line);
- }
- EXPORT_SYMBOL(drm_fb_xrgb8888_to_rgb888_toio);
- 
-@@ -464,27 +429,8 @@ static void drm_fb_rgb565_to_xrgb8888_toio(void __iomem *dst, unsigned int dst_p
- 					   const void *vaddr, const struct drm_framebuffer *fb,
- 					   const struct drm_rect *clip)
- {
--	size_t linepixels = drm_rect_width(clip);
--	size_t dst_len = linepixels * 4;
--	unsigned int y, lines = drm_rect_height(clip);
--	void *dbuf;
--
--	if (!dst_pitch)
--		dst_pitch = dst_len;
--
--	dbuf = kmalloc(dst_len, GFP_KERNEL);
--	if (!dbuf)
--		return;
--
--	vaddr += clip_offset(clip, fb->pitches[0], 2);
--	for (y = 0; y < lines; y++) {
--		drm_fb_rgb565_to_xrgb8888_line(dbuf, vaddr, linepixels);
--		memcpy_toio(dst, dbuf, dst_len);
--		vaddr += fb->pitches[0];
--		dst += dst_pitch;
--	}
--
--	kfree(dbuf);
-+	drm_fb_xfrm_toio(dst, dst_pitch, 4, vaddr, fb, clip, false,
-+			 drm_fb_rgb565_to_xrgb8888_line);
- }
- 
- static void drm_fb_rgb888_to_xrgb8888_line(void *dbuf, const void *sbuf, unsigned int pixels)
-@@ -505,27 +451,8 @@ static void drm_fb_rgb888_to_xrgb8888_toio(void __iomem *dst, unsigned int dst_p
- 					   const void *vaddr, const struct drm_framebuffer *fb,
- 					   const struct drm_rect *clip)
- {
--	size_t linepixels = drm_rect_width(clip);
--	size_t dst_len = linepixels * 4;
--	unsigned int y, lines = drm_rect_height(clip);
--	void *dbuf;
--
--	if (!dst_pitch)
--		dst_pitch = dst_len;
--
--	dbuf = kmalloc(dst_len, GFP_KERNEL);
--	if (!dbuf)
--		return;
--
--	vaddr += clip_offset(clip, fb->pitches[0], 3);
--	for (y = 0; y < lines; y++) {
--		drm_fb_rgb888_to_xrgb8888_line(dbuf, vaddr, linepixels);
--		memcpy_toio(dst, dbuf, dst_len);
--		vaddr += fb->pitches[0];
--		dst += dst_pitch;
--	}
--
--	kfree(dbuf);
-+	drm_fb_xfrm_toio(dst, dst_pitch, 4, vaddr, fb, clip, false,
-+			 drm_fb_rgb888_to_xrgb8888_line);
- }
- 
- static void drm_fb_xrgb8888_to_xrgb2101010_line(void *dbuf, const void *sbuf, unsigned int pixels)
-@@ -560,27 +487,8 @@ void drm_fb_xrgb8888_to_xrgb2101010_toio(void __iomem *dst,
- 					 const struct drm_framebuffer *fb,
- 					 const struct drm_rect *clip)
- {
--	size_t linepixels = clip->x2 - clip->x1;
--	size_t dst_len = linepixels * sizeof(u32);
--	unsigned int y, lines = clip->y2 - clip->y1;
--	void *dbuf;
--
--	if (!dst_pitch)
--		dst_pitch = dst_len;
--
--	dbuf = kmalloc(dst_len, GFP_KERNEL);
--	if (!dbuf)
--		return;
--
--	vaddr += clip_offset(clip, fb->pitches[0], sizeof(u32));
--	for (y = 0; y < lines; y++) {
--		drm_fb_xrgb8888_to_xrgb2101010_line(dbuf, vaddr, linepixels);
--		memcpy_toio(dst, dbuf, dst_len);
--		vaddr += fb->pitches[0];
--		dst += dst_pitch;
--	}
--
--	kfree(dbuf);
-+	drm_fb_xfrm_toio(dst, dst_pitch, 4, vaddr, fb, clip, false,
-+			 drm_fb_xrgb8888_to_xrgb2101010_line);
- }
- EXPORT_SYMBOL(drm_fb_xrgb8888_to_xrgb2101010_toio);
- 
-@@ -621,37 +529,7 @@ static void drm_fb_xrgb8888_to_gray8_line(void *dbuf, const void *sbuf, unsigned
- void drm_fb_xrgb8888_to_gray8(void *dst, unsigned int dst_pitch, const void *vaddr,
- 			      const struct drm_framebuffer *fb, const struct drm_rect *clip)
- {
--	unsigned int linepixels = clip->x2 - clip->x1;
--	unsigned int len = linepixels * sizeof(u32);
--	unsigned int y;
--	void *buf;
--	u8 *dst8;
--	u32 *src32;
--
--	if (WARN_ON(fb->format->format != DRM_FORMAT_XRGB8888))
--		return;
--
--	if (!dst_pitch)
--		dst_pitch = drm_rect_width(clip);
--
--	/*
--	 * The cma memory is write-combined so reads are uncached.
--	 * Speed up by fetching one line at a time.
--	 */
--	buf = kmalloc(len, GFP_KERNEL);
--	if (!buf)
--		return;
--
--	vaddr += clip_offset(clip, fb->pitches[0], sizeof(u32));
--	for (y = clip->y1; y < clip->y2; y++) {
--		dst8 = dst;
--		src32 = memcpy(buf, vaddr, len);
--		drm_fb_xrgb8888_to_gray8_line(dst8, src32, linepixels);
--		vaddr += fb->pitches[0];
--		dst += dst_pitch;
--	}
--
--	kfree(buf);
-+	drm_fb_xfrm(dst, dst_pitch, 1, vaddr, fb, clip, false, drm_fb_xrgb8888_to_gray8_line);
- }
- EXPORT_SYMBOL(drm_fb_xrgb8888_to_gray8);
- 
+> I committed this patch to the drm-misc-next branch:
+> 
+> commit d6cd978f7e6b6f6895f8d0c4ce6e5d2c8e979afe
+>     video: fbdev: fbmem: fix pointer reference to null device field
+> 
+> then I noticed that it was fixed already in another branch which led to this error:
+> 
+> Merging drm-misc/drm-misc-next... dim:
+> dim: FAILURE: Could not merge drm-misc/drm-misc-next
+> dim: See the section "Resolving Conflicts when Rebuilding drm-tip"
+> dim: in the drm-tip.rst documentation for how to handle this situation.
+> 
+> I fixed it by reverting that patch above with this new commit in the drm-misc-next branch:
+> 
+> commit cabfa2bbe617ddf0a0cc4d01f72b584dae4939ad (HEAD -> drm-misc-next, drm-misc/for-linux-next, drm-misc/drm-misc-next)
+> Author: Helge Deller <deller@gmx.de>
+>     Revert "video: fbdev: fbmem: fix pointer reference to null device field"
+> 
+> My question (as "dim" newbie):
+> Was that the right solution?
+
+The patch wasn't really broken, so revert feels a bit silly. The hint was
+to look at the documentation referenced by the error message - the issue
+was only in rebuilding the integration tree:
+
+https://drm.pages.freedesktop.org/maintainer-tools/drm-tip.html#resolving-conflicts-when-rebuilding-drm-tip
+
+This should cover you even for really rare conflict situations.
+
+> Is there a possibility to drop those two patches from the drm-misc-next branch before it gets pushed upstream?
+
+It's a shared tree, mistakes are forever. The only time we did a forced
+push ever is when someone managed to push their local pile of hacks or
+something, and we're catching those pretty well now with a server-side
+test to make sure you're using dim to push.
+
+It's also no big deal, and next time you get a conflict just resolve it
+in drm-tip per the docs and it's all fine.
+-Daniel
 -- 
-2.36.0
-
+Daniel Vetter
+Software Engineer, Intel Corporation
+http://blog.ffwll.ch
