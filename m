@@ -2,122 +2,52 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id B762C511BFF
-	for <lists+dri-devel@lfdr.de>; Wed, 27 Apr 2022 17:41:45 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 00760511C12
+	for <lists+dri-devel@lfdr.de>; Wed, 27 Apr 2022 17:56:33 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 99A6B10F61B;
-	Wed, 27 Apr 2022 15:41:43 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 45FB210F68B;
+	Wed, 27 Apr 2022 15:56:30 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from NAM11-DM6-obe.outbound.protection.outlook.com
- (mail-dm6nam11on2072.outbound.protection.outlook.com [40.107.223.72])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 7319D10F61B
- for <dri-devel@lists.freedesktop.org>; Wed, 27 Apr 2022 15:41:42 +0000 (UTC)
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=lAxfUZMdtnVuSN+achHn5OrR546o6NC+CEUg4kACmwT731X/kQuBbW1ttPRxLUF0H/CvJyGEpx4MoEmxXmiCncbZXl2c9hUlI5m2DRGwxqOd2HkY80YcXRoOv1Y/RCOCqTqPSzRpkZMya+XjaVeVBL1JuMPLj/LIV7DI0upO/cgwgVP2/cGOV7C4w7vCiLFsZtRsVGem+QipFCTbUC1qoF1y9KOoBsYo2ww6CUgl9DMFBSI1am0teTQNTGAfoF5jfUlSu3vMoxgQU3egY1F8SblPN6vltoYy/IkKE89Qt/ijb7Q2UO7uKQ/aq/SlvYXdD6+Szi01kWBGMpqGuAiL8Q==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=t2dqHY85Xkwj+/296r8TmqqHgQdExEq+nSnJKxRJBRM=;
- b=Ojpc3KlbHDyDwDJ1QjtQdth04h5oin6kt6Z6Xm+kBjO2shD62uaLiXO1c/HBDJf4uprjXLmyGVroF7V/QgOjhv1tSN63dfMXmIVtzloFEVfA4mZwgLFgiaJRGV7wZe0YXfVpXAgmaP0MSjZm2yC7C3RxaLQEdbFDUoP3NY+Bn2FKeheL4s0dCFZNe8jvGycu0v6d8pmnfH/Ad+JsnQSa4X23Gin1mEgYlDAG0BrbsTEY8ejeS8r9C44xA2UlenltDFSdoULu67W68tCm0tAyjuFU0X925Ny58M0RjP/mTyY2PofhsmK3yFn/+Pjf0SibA5B+LDv92Whsl5jF5Dx0dw==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=amd.com; dmarc=pass action=none header.from=amd.com; dkim=pass
- header.d=amd.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1; 
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=t2dqHY85Xkwj+/296r8TmqqHgQdExEq+nSnJKxRJBRM=;
- b=oAtMBo1YSCg9Z/5d1KSFjjVMpA8A5mUv/vkq5SUOTmlXlEhktszle4CEYWGkHlPs29LfBj61GaTii/m3286PA6bdUNRFIQRaIEyi5gyoLdVBuu7TwXUZJmGCFb4d2amB9dWebUjGof022LV2MUv0WZ+cG5VinNgZBcbph0TjERM=
-Authentication-Results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=amd.com;
-Received: from SJ0PR12MB5438.namprd12.prod.outlook.com (2603:10b6:a03:3ba::23)
- by DM6PR12MB3596.namprd12.prod.outlook.com (2603:10b6:5:3e::27) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.5186.14; Wed, 27 Apr
- 2022 15:41:40 +0000
-Received: from SJ0PR12MB5438.namprd12.prod.outlook.com
- ([fe80::9181:b3c9:478c:751c]) by SJ0PR12MB5438.namprd12.prod.outlook.com
- ([fe80::9181:b3c9:478c:751c%7]) with mapi id 15.20.5186.021; Wed, 27 Apr 2022
- 15:41:39 +0000
-Message-ID: <4ceca4d9-c58c-9e33-36a6-dbf0c4bb82a7@amd.com>
-Date: Wed, 27 Apr 2022 11:41:29 -0400
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.8.1
-Subject: Re: How should "max bpc" KMS property work?
-Content-Language: en-US
-To: Pekka Paalanen <ppaalanen@gmail.com>,
- =?UTF-8?B?VmlsbGUgU3lyasOkbMOk?= <ville.syrjala@linux.intel.com>
-References: <20220426113502.224d0a90@eldfell> <YmgyArRaJCh6JkQh@intel.com>
- <20220427135259.5e615945@eldfell>
-From: Harry Wentland <harry.wentland@amd.com>
-In-Reply-To: <20220427135259.5e615945@eldfell>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
-X-ClientProxiedBy: YT3PR01CA0137.CANPRD01.PROD.OUTLOOK.COM
- (2603:10b6:b01:83::11) To SJ0PR12MB5438.namprd12.prod.outlook.com
- (2603:10b6:a03:3ba::23)
+Received: from mga11.intel.com (mga11.intel.com [192.55.52.93])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id B4B9310F658;
+ Wed, 27 Apr 2022 15:56:28 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+ t=1651074988; x=1682610988;
+ h=date:from:to:cc:subject:message-id:references:
+ mime-version:content-transfer-encoding:in-reply-to;
+ bh=CSAwKl+Kc8+rrr20mayCi5HvXoCgBvHhwVkhFjaq3BQ=;
+ b=JizOpWXOX86Nk6yZxLto76OKzYIq/lNmVVgBfkcf7m3/QFyhWTgg/Ja1
+ rwjzaTb7xNMy8yhrf9zVJlimzMOCSMu46YfIe0LdsEI+myPuTihd9+mTc
+ XstD20P08uXbJJ0ZF0xE9sHGqs9LQyFhQHmC2eNx+rFgOjjGQV5Bk31wR
+ qvXfzCpwpMks0DPkEmbcaAdgcyMxOs60W6ALcm1ZU61dVEKDz/qju4c48
+ 9mSFre50BQfV8Gyk+y9UVjZl2tt7msHxc9GwEStVs1YXr13pjXHq5S2am
+ 84r0y1Cob6I+9zBZIIzlif47xo1BRgwopRLchS85Wmy8OQ53OqwnuVw2O w==;
+X-IronPort-AV: E=McAfee;i="6400,9594,10330"; a="263561970"
+X-IronPort-AV: E=Sophos;i="5.90,293,1643702400"; d="scan'208";a="263561970"
+Received: from orsmga002.jf.intel.com ([10.7.209.21])
+ by fmsmga102.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 27 Apr 2022 08:41:37 -0700
+X-IronPort-AV: E=Sophos;i="5.90,293,1643702400"; d="scan'208";a="540146156"
+Received: from nvishwa1-desk.sc.intel.com (HELO nvishwa1-DESK) ([172.25.29.76])
+ by orsmga002-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 27 Apr 2022 08:41:36 -0700
+Date: Wed, 27 Apr 2022 08:41:35 -0700
+From: Niranjana Vishwanathapura <niranjana.vishwanathapura@intel.com>
+To: Daniel Vetter <daniel@ffwll.ch>
+Subject: Re: [RFC v2 1/2] drm/doc/rfc: VM_BIND feature design document
+Message-ID: <20220427154133.GZ2273@nvishwa1-DESK>
+References: <20220307203146.648-1-niranjana.vishwanathapura@intel.com>
+ <20220307203146.648-2-niranjana.vishwanathapura@intel.com>
+ <CAKMK7uE=2=SEEsXnq0fnJD35E52X_C3RjV=w9WNfe-i7UWf0ZQ@mail.gmail.com>
+ <20220420224523.GS2273@nvishwa1-DESK>
 MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-Office365-Filtering-Correlation-Id: 308d6be0-7cdb-4765-f8a3-08da28646bd0
-X-MS-TrafficTypeDiagnostic: DM6PR12MB3596:EE_
-X-Microsoft-Antispam-PRVS: <DM6PR12MB35968EAAFF9E8EBB12C607B78CFA9@DM6PR12MB3596.namprd12.prod.outlook.com>
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: 5NgIThuOUOJq6OGPSTo8j60TUQ4sYIFeuKalNufVrd7b6AhksxwRa2NQFvViejNq2nSricU7aSg/AqC7TSvuWDXw4J/zpLrIhqrVs9Pi9Xt0tkJvEj0xZXxBmfjO5KhanZ1RWIAp9uGU+gVYgx8SSVUocEyTaKmDej10zVKVexm78vqsPCUu5iSpICtH39q/YyslyuUQXV7c+idFe4hNLc435jVmd2wlIhAY0YdVnh0u/aFuQdDisShUM67mDYZUq4va3zmPvG4XsaFkE09WoPALyQ+zEELKbAO5b4mxWwIzFGKZa2vZwTwjlq3OBuAjAknPhJvr9M9xR6/gaPdNLFEG86HkEzdoHaycUgnSExFQDPXTePqWXtiOC5/8YYOtjucw1a/2puzsRAGtBHdvftlXLkrtITw9VKt+N7GjVwZ9OHnWPOGuGJp5pNE99nLj4OlbuiHyk0nh/qeHYi3A1SVMvv9HxAsSNCoJV946oeJTSbkzh51F+tU3qH2QOKwugBosXgCEc+7HOpASS9TzsbcRBCSVD/vrccJKazvOdOs5qpQ1cio4H24cu6HF8TjA4HVrxIgmt5ltyBL7stzZCrzMOvqq4tFBCj/FJmDQBSDSl4LdUnJnQBNsSU/TxYlO6hHIifwAXAi2MGXq7XuZSEWwNjRtHfVsb6R+W571+4KBvZ2PHN8ls8mMcjcoVn0MK7VTqL3iBHtpx+UrVzbIY/AmlkiSU59lvAiHeEW0WVTVWjJC8a983OCueGLT0zcW
-X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
- IPV:NLI; SFV:NSPM; H:SJ0PR12MB5438.namprd12.prod.outlook.com; PTR:; CAT:NONE;
- SFS:(13230001)(4636009)(366004)(186003)(2616005)(66574015)(54906003)(5660300002)(66476007)(66556008)(36756003)(6666004)(6512007)(6506007)(26005)(53546011)(31686004)(83380400001)(44832011)(66946007)(8676002)(8936002)(4326008)(316002)(508600001)(2906002)(110136005)(38100700002)(31696002)(86362001)(966005)(6486002)(43740500002)(45980500001);
- DIR:OUT; SFP:1101; 
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: =?utf-8?B?K3dHUzNyMlFqVHdaTFVjSHM3V0lHdDV2VXBDTDF5M2RzdnBBYnB5aS9QMDVI?=
- =?utf-8?B?RGlSSXBxOWwzOTc5T3Z6NmhKQmttYjRTeTMxNWhFV1M0cnEvczVrU0ZOUTJU?=
- =?utf-8?B?TStLTEMyQWhLdkxlSWplalprajBkZTVDZVdQR2ZQVVI5ejM1eHNDRzlBZS9T?=
- =?utf-8?B?WlZYaEMrMTVra0x1YldSZW9RS21tVm5iYVV4eGdkd3kxY01zT1lza3VJZk45?=
- =?utf-8?B?TXA3SWlTRVpKU3B5dlZsSFpacHZnNTVISmxYR1JsOGZGY2JQL0hsRVkrVEh4?=
- =?utf-8?B?RXE2Yjd4NEQ0MjZZamFxZFZJdmQ2Vnk1T0lVcHpsbnVnZFVIWkdscGJ2MnRt?=
- =?utf-8?B?eHVJQy9JdW9LQzFRcjRBbnhZT1RkWjhzRVo4alJoN2NMVWpjNDg0eVU0UnBR?=
- =?utf-8?B?Z0VVVEg2aWFtU2prSEJFT1dxTncwQzd6MmQrV0JQZTJWL3VDT1ZpU3FQbVRW?=
- =?utf-8?B?eTZsV0xDemZTdHBrVExoZ3RBSE9TSGluZ2orOEZkdWlDTWxpQlQwU2pJOE1s?=
- =?utf-8?B?MjdBaDhyMmpWdWhzNlRLM3NRTnJ2eEJPTk8wSERDOGxaa3NhVi80aXJMZmJs?=
- =?utf-8?B?TVNCZjExVzNPQ2dPb2VLYlFia0MzMUxkZkVoWmoyRlIvMWhtbjVRR1pBcEhZ?=
- =?utf-8?B?TXVSakR5dENIVkt0WWhCd2kxQ0JJNE5aWWxJOXhXUDkvVWowTW5HUm1uWG50?=
- =?utf-8?B?NytLWTE3ajVWWDYxdDFFVWg2b0kzWVV6RGwzR3VjTEJlU1VmQmxyckIyOUpn?=
- =?utf-8?B?NTJ6VkROalVtY1NoUlNxeGhzVTEydlBPU2MzaUJDRnFqanBFaytRbGw3Umx2?=
- =?utf-8?B?Y3NuQXl4WFNBZkN0a1g0S2Z1VFg2VkpnK1FIZUs5d1pDSkFzd093OEVWNEdm?=
- =?utf-8?B?SkNpVmVLSU44QWV0V3dIdlNqMjdzeWtITytjSm1tZ1VQUEtlMXQxRmpjUnhB?=
- =?utf-8?B?Rndsai8zeXdyK2tDWTFiZUdCdlpzY3hmZVQyQmQ1QVRFU3d6K3BhTHdxSjh3?=
- =?utf-8?B?RnFDS3hPRjAzdmEvdXdGOUxvVUJQSHoxMUNpVjRCM2tjcmNJckRIbTFaVmlK?=
- =?utf-8?B?cHQ1VnRuZ0ljZ0R3Sk1IZUZodlR3K081c2phMHdFTmVFK2VwZ0YxUGdjVmJy?=
- =?utf-8?B?cW9SdjFhZ0c3NUVxYnVRYi9FRWdjQitoMUlaeSsyYWYzdE40bnBEUVBwNk5n?=
- =?utf-8?B?ZUlIOUh1aTJ0Q1MzTEEzZU9iRWF3THNKUWxPOE5SQlh1d3Q2SENnRHl1TXJF?=
- =?utf-8?B?NjczRVBFSlB3M1BUUWJodzNSVmF5RTdkMS9uWTNiSW9WS0FtK0ZhR0lGSlhy?=
- =?utf-8?B?aUM0Y1cwa0xSWEh6T3RTZTFUZ2docm84MGY3UzlwWWd3VkN3dWZFcUhSQnhm?=
- =?utf-8?B?eTcvQytUWXRvMllUeHhyR2NGSTRyRW1EUk42dWV6d3pXR2s5cXllVlV6ZWEw?=
- =?utf-8?B?VWpjdWU1SklpYXpGT2pha1RycHJmNVZ6MGlYc0IzL2tjT2lqTWwvaGdjaXRR?=
- =?utf-8?B?aWl1WjNJNHpzdWpvMzJoL21PL1J4RmJlN2k1WWgyejRoeUlzWUJrRFFkak5V?=
- =?utf-8?B?c1p2TGxxVjd4Z2N0Z1VldHNkR1ZBQ2VGdkpyam5wanpEZ3pET1hnUm53MWFL?=
- =?utf-8?B?aXZkb01adTY0MWJaNHFZNWhUNE55MjUxYVczY3AxTDM2aVowQUxGcTdGU0RU?=
- =?utf-8?B?SW9PTmRHVVlPdnJRNFZpVFk2eFlZQ3N3RndVM0xKZE5jZlcwTDBzUWNFQUw5?=
- =?utf-8?B?eEFkeWZPMjZvWFgyYXNaR2pCSmJiOFA0a2xGQVdyV0V3MVI5TXN3STdhSm9B?=
- =?utf-8?B?RlM5cUNkWTgvYkUwNnI4YTBZdHNOY2NKNUdnSUs1QTJCcnIyd2MyeEczMENy?=
- =?utf-8?B?dXA0TGFvZzZPUFJRMmhCZTZ5ZDh3dEFlTXdrancwNTNaNThDWjk3MkZ2cTZN?=
- =?utf-8?B?eWUyRFdVaFJJcXhpUUFFTEF5Um5sa0o2eWxnVVNLZ2pwNm9RK1NoWUVCREhB?=
- =?utf-8?B?dllUYUZyZ0p3RnQwTmZTVlZPb0NRelhramZwbWxuNHVoMGN6UlZ0NTNpR2dD?=
- =?utf-8?B?UDN3b2tDM3JzUDI3Wm9VWjJGRjdYRC9XeUpZMm1XNTdyeGNocnlIQjhtdWNh?=
- =?utf-8?B?eXFPQ1NKTHdBd2xqbVpKLzl6cEJPS211NytXT05yOGZiNGxCL0tpQnRENFJU?=
- =?utf-8?B?L1dDNkViV25maC8wSmhqeDRzeTZrVlYzNFRNSTY1MFVSdm1QbHMwMHgydklC?=
- =?utf-8?B?OXBXd2Q2aE5JbVhsTWIxb21idmlZTlY3eDhLL3Y2SkE3VFFGR2Rndmw3dzU3?=
- =?utf-8?B?MFZwdjVTL01acERyMWIwUFl5OVBhSDREdmlBZlFNSVpaWHpka09pZz09?=
-X-OriginatorOrg: amd.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 308d6be0-7cdb-4765-f8a3-08da28646bd0
-X-MS-Exchange-CrossTenant-AuthSource: SJ0PR12MB5438.namprd12.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 27 Apr 2022 15:41:39.8762 (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: vZ5kgCWpq2Wa0uvYOkefin882P9oKUdX2EDkKf5rsYbcsm+WIvefCCUR73IiqmWaWvZpg0pNFpvGJryCE0Yu6w==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: DM6PR12MB3596
+Content-Type: text/plain; charset=iso-8859-1; format=flowed
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <20220420224523.GS2273@nvishwa1-DESK>
+User-Agent: Mutt/1.5.24 (2015-08-30)
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -130,186 +60,654 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Sebastian Wick <sebastian.wick@redhat.com>,
- dri-devel <dri-devel@lists.freedesktop.org>,
- =?UTF-8?Q?Jonas_=c3=85dahl?= <jadahl@redhat.com>,
- Vitaly Prosyak <vitaly.prosyak@amd.com>
+Cc: Dave Airlie <airlied@linux.ie>, intel-gfx@lists.freedesktop.org,
+ dri-devel@lists.freedesktop.org, "Bloomfield, Jon" <jon.bloomfield@intel.com>,
+ chris.p.wilson@intel.com, Jason Ekstrand <jason@jlekstrand.net>,
+ daniel.vetter@intel.com, thomas.hellstrom@intel.com,
+ Christian =?iso-8859-1?Q?K=F6nig?= <christian.koenig@amd.com>,
+ Ben Skeggs <bskeggs@redhat.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-
-
-On 2022-04-27 06:52, Pekka Paalanen wrote:
-> Hi Ville and Alex,
-> 
-> thanks for the replies. More below.
-> 
-> TL;DR:
-> 
-> My take-away from this is that I should slam 'max bpc' to the max by
-> default, and offer a knob for the user in case they want to lower it.
-> 
-> 
-> On Tue, 26 Apr 2022 20:55:14 +0300
-> Ville Syrj√§l√§ <ville.syrjala@linux.intel.com> wrote:
-> 
->> On Tue, Apr 26, 2022 at 11:35:02AM +0300, Pekka Paalanen wrote:
->>> Hi all,
->>>
->>> I'm working on setting HDR & WCG video modes in Weston, and I thought
->>> setting "max bpc" KMS property on the connector would be a good idea.
->>> I'm confused about how it works though.
->>>
->>> I did some digging in https://gitlab.freedesktop.org/wayland/weston/-/issues/612
->>>
->>> Summary:
->>>
->>> - Apparently the property was originally added as a manual workaround
->>>   for sink hardware behaving badly with high depth. A simple end user
->>>   setting for "max bpc" would suffice for this use.
->>>
->>> - Drivers will sometimes automatically choose a lower bpc than the "max
->>>   bpc" value, but never bigger.
->>>
->>> - amdgpu seems to (did?) default "max bpc" to 8, meaning that I
->>>   definitely want to raise it.  
+On Wed, Apr 20, 2022 at 03:45:25PM -0700, Niranjana Vishwanathapura wrote:
+>On Thu, Mar 31, 2022 at 10:28:48AM +0200, Daniel Vetter wrote:
+>>Adding a pile of people who've expressed interest in vm_bind for their
+>>drivers.
 >>
-
-I've wanted to remove the 8 bpc limitations for a while now but it
-looks like we never did for anything other than eDP.
-
-The original problem we solved was that some monitors default timing
-couldn't be driven at a high bpc. Therefore users were faced with black
-displays. On some displays you also can't drive high refresh rate modes
-with a higher bpc.
-
->> I've occasionally pondered about doing the same for i915, just to have
->> the safest default possible. But I'd hate to lose the deep color testing
->> coverage knowing very few people would in practice raise the limit.
->> Also the number of systems where deep color doesn't work reliably
->> (or can't be made to work by not using a crap cable) seems to be quite
->> low.
-> 
-> I think when HDR and WCG get into display servers, setting 'max bpc'
-> will become a standard action.
-> 
-> It's bit moot to e.g. render everything in electrical 10 bit RGB, if
-> the link is just going to squash that into electrical 8 bit RGB, right?
-> 
-> So even 10 bit color would require setting 'max bpc' to at least 10 to
-> be able to actually see it, source-side dithering aside.
-> 
+>>Also note to the intel folks: This is largely written with me having my
+>>subsystem co-maintainer hat on, i.e. what I think is the right thing to do
+>>here for the subsystem at large. There is substantial rework involved
+>>here, but it's not any different from i915 adopting ttm or i915 adpoting
+>>drm/sched, and I do think this stuff needs to happen in one form or
+>>another.
+>>
+>>On Mon, Mar 07, 2022 at 12:31:45PM -0800, Niranjana Vishwanathapura wrote:
+>>>VM_BIND design document with description of intended use cases.
 >>>
->>> If I always slam "max bpc" to the highest supported value for that
->>> property, do I lose more than workarounds for bad sink hardware?  
->>
->> We don't have any workarounds implemented like this in the kernel.
->> Or should not have at least. "max bpc" exists purely for the user
->> to have a say in the matter in addition to whatever the EDID/quirks
->> say. Ie. if the kernel knows for sure that deep color won't work on
->> a particular setup then it should just not allow deep color at all
->> despite what the prop value says.
->>
->> So the only danger is fighting with the user's wishes which I guess
->> you can overcome with some kind of user visible knob.
-> 
-> Right, good.
-> 
-> Furthermore, as a KMS client cannot make much assumptions about the KMS
-> state it inherits from some other KMS client, it should know and
-> program all possible KMS properties according to its own desires
-> anyway. That, and the DRM master concept make sure that there cannot be
-> any "third party" KMS configuration programs, like V4L2 has.
-> 
->>> Do I lose the ability to set video modes that take too much bandwidth
->>> at uncapped driver-selected bpc while capping the bpc lower would allow
->>> me to use those video modes?
+>>>Signed-off-by: Niranjana Vishwanathapura <niranjana.vishwanathapura@intel.com>
+>>>---
+>>> Documentation/gpu/rfc/i915_vm_bind.rst | 210 +++++++++++++++++++++++++
+>>> Documentation/gpu/rfc/index.rst        |   4 +
+>>> 2 files changed, 214 insertions(+)
+>>> create mode 100644 Documentation/gpu/rfc/i915_vm_bind.rst
 >>>
->>> Or, are drivers required to choose a lower-than-usual but highest
->>> usable bpc to make the requested video mode squeeze through the
->>> connector and link?  
+>>>diff --git a/Documentation/gpu/rfc/i915_vm_bind.rst b/Documentation/gpu/rfc/i915_vm_bind.rst
+>>>new file mode 100644
+>>>index 000000000000..cdc6bb25b942
+>>>--- /dev/null
+>>>+++ b/Documentation/gpu/rfc/i915_vm_bind.rst
+>>>@@ -0,0 +1,210 @@
+>>>+==========================================
+>>>+I915 VM_BIND feature design and use cases
+>>>+==========================================
+>>>+
+>>>+VM_BIND feature
+>>>+================
+>>>+DRM_I915_GEM_VM_BIND/UNBIND ioctls allows UMD to bind/unbind GEM buffer
+>>>+objects (BOs) or sections of a BOs at specified GPU virtual addresses on
+>>>+a specified address space (VM).
+>>>+
+>>>+These mappings (also referred to as persistent mappings) will be persistent
+>>>+across multiple GPU submissions (execbuff) issued by the UMD, without user
+>>>+having to provide a list of all required mappings during each submission
+>>>+(as required by older execbuff mode).
+>>>+
+>>>+VM_BIND ioctl deferes binding the mappings until next execbuff submission
+>>>+where it will be required, or immediately if I915_GEM_VM_BIND_IMMEDIATE
+>>>+flag is set (useful if mapping is required for an active context).
 >>
->> IMO drivers should implement the "reduce bpc until it fits"
->> fallback. We have that in i915, except for MST where we'd need
->> to potentially involve multiple streams in the fallback. That
->> is something we intend to remedy eventually but it's not an
->> entirely trivial thing to implement so will take some actual
->> work. ATM we just cap MST to <=8bpc to avoid users getting into
->> this situation so often.
-> 
-> Excellent, but judging from what Alex said, this is also not what
-> amdgpu does. We have two drivers doing different things then?
-> > So with Weston I probably have to document, that if you can't get the
-> video mode you want working, try turning the 'max bpc' knob down and
-> try again.
-> 
-> Or, I could cap 'max bpc' based on my framebuffer depth. If I have an
-> electrical 8 bit FB (default in Weston), then there is not much use for
-> having 'max bpc' > 8. This ignores the KMS color pipeline a bit. Does
-> that make sense?
-> 
+>>So this is a screw-up I've done, and for upstream I think we need to fix
+>>it: Implicit sync is bad, and it's also still a bad idea for vm_bind, and
+>>I was wrong suggesting we should do this a few years back when we kicked
+>>this off internally :-(
+>>
+>>What I think we need is just always VM_BIND_IMMEDIATE mode, and then a few
+>>things on top:
+>>- in and out fences, like with execbuf, to allow userspace to sync with
+>> execbuf as needed
+>>- for compute-mode context this means userspace memory fences
+>>- for legacy context this means a timeline syncobj in drm_syncobj
+>>
+>>No sync_file or anything else like this at all. This means a bunch of
+>>work, but also it'll have benefits because it means we should be able to
+>>use exactly the same code paths and logic for both compute and for legacy
+>>context, because drm_syncobj support future fence semantics.
+>>
+>
+>Thanks Daniel,
+>Ok, will update
+>
 
-I think both of those options make sense. I'll need to think about the
-automatic fallback if we don't have enough bandwidth for max_bpc.
+I had a long conversation with Daniel on some of the points discussed here.
+Thanks to Daniel for clarifying many points here.
 
-If a KMS driver falls back automatically we probably want some way
-for a (color managed) compositor to know if the output bpc is reduced.
+Here is the summary of the discussion.
 
-> Does KMS use dithering automatically, btw?
-> 
+1) A prep patch is needed to update documentation of some existing uapi and this
+   new VM_BIND uapi can update/refer to that.
+   I will include this prep patch in the next revision of this RFC series.
+   Will also include the uapi header file in the rst file so that it gets rendered.
 
-amdgpu's display driver does.
+2) Will update documentation here with proper use of dma_resv_usage while adding
+   fences to vm_bind objects. It is going to be, DMA_RESV_USAGE_BOOKKEEP by default
+   if not override with execlist in execbuff path.
 
-> The only mention of dithering in KMS docs is some nouveau-specific KMS
-> properties and another for radeon.
-> 
+3) Add extension to execbuff ioctl to specify batch buffer as GPU virtual address
+   instead of having to pass it as a BO handle in execlist. This will also make the
+   execlist usage solely for implicit sync setting which is further discussed below.
+
+4) Need to look into when will Jason's dma-buf fence import/export ioctl support will
+   land and whether it will be used both for vl and gl. Need to sync with Jason on this.
+   Probably the better option here would be to not support execlist in execbuff path in
+   vm_bind mode for initial vm_bind support (hoping Jason's dma-buf fence import/export
+   ioctl will be enough). We can add support for execlist in execbuff for vm_bind mode
+   later if required (say for gl).
+
+5) There are lot of things in execbuff path that doesn't apply in VM_BIND mode (like
+   relocations, implicit sync etc). Separate them out by using function pointers wherever
+   the functionality differs between current design and the newer VM_BIND design.
+
+6) Separate out i915_vma active reference counting in execbuff path and do not use it in
+   VM_BIND mode. Instead use dma-resv fence checking for VM_BIND mode. This should be easier
+   to get it working with the current TTM backend (which initial VM_BIND support will use).
+   And remove i915_vma active reference counting fully while supporting TTM backend for igfx.
+
+7) As we support compute mode contexts only with GuC scheduler backend and compute mode requires
+   support for suspend and resume of contexts, it will have a dependency on i915 drm scheduler
+   conversion.
+
+Will revise this series accordingly.
+
+Thanks,
+Niranjana
+
+>>Also on the implementation side we still need to install dma_fence to the
+>>various dma_resv, and for this we need the new dma_resv_usage series from
+>>Christian Kˆnig first. vm_bind fences can then use the USAGE_BOOKKEEPING
+>>flag to make sure they never result in an oversync issue with execbuf. I
+>>don't think trying to land vm_bind without that prep work in
+>>dma_resv_usage makes sense.
+>>
+>
+>Ok, but that is not a dependency for this VM_BIND design RFC patch right?
+>I will add this to the documentation here.
+>
+>>Also as soon as dma_resv_usage has landed there's a few cleanups we should
+>>do in i915:
+>>- ttm bo moving code should probably simplify a bit (and maybe more of the
+>> code should be pushed as helpers into ttm)
+>>- clflush code should be moved over to using USAGE_KERNEL and the various
+>> hacks and special cases should be ditched. See df94fd05e69e ("drm/i915:
+>> expand on the kernel-doc for cache_dirty") for a bit more context
+>>
+>>This is still not yet enough, since if a vm_bind races with an eviction we
+>>might stall on the new buffers being readied first before the context can
+>>continue. This needs some care to make sure that vma which aren't fully
+>>bound yet are on a separate list, and vma which are marked for unbinding
+>>are removed from the main working set list as soon as possible.
+>>
+>>All of these things are relevant for the uapi semantics, which means
+>>- they need to be documented in the uapi kerneldoc, ideally with example
+>> flows
+>>- umd need to ack this
+>>
+>
+>Ok
+>
+>>The other thing here is the async/nonblocking path. I think we still need
+>>that one, but again it should not sync with anything going on in execbuf,
+>>but simply execute the ioctl code in a kernel thread. The idea here is
+>>that this works like a special gpu engine, so that compute and vk can
+>>schedule bindings interleaved with rendering. This should be enough to get
+>>a performant vk sparse binding/textures implementation.
+>>
+>>But I'm not entirely sure on this one, so this definitely needs acks from
+>>umds.
+>>
+>>>+VM_BIND feature is advertised to user via I915_PARAM_HAS_VM_BIND.
+>>>+User has to opt-in for VM_BIND mode of binding for an address space (VM)
+>>>+during VM creation time via I915_VM_CREATE_FLAGS_USE_VM_BIND extension.
+>>>+A VM in VM_BIND mode will not support older execbuff mode of binding.
+>>>+
+>>>+UMDs can still send BOs of these persistent mappings in execlist of execbuff
+>>>+for specifying BO dependencies (implicit fencing) and to use BO as a batch,
+>>>+but those BOs should be mapped ahead via vm_bind ioctl.
+>>
+>>should or must?
+>>
+>
+>Must, will fix.
+>
+>>Also I'm not really sure that's a great interface. The batchbuffer really
+>>only needs to be an address, so maybe all we need is an extension to
+>>supply an u64 batchbuffer address instead of trying to retrofit this into
+>>an unfitting current uapi.
+>>
+>
+>Yah, this was considered, but was decided to do it as later optimization.
+>But if we were to remove execlist entries completely (ie., no implicit
+>sync also), then we need to do this from the beginning.
+>
+>>And for implicit sync there's two things:
+>>- for vk I think the right uapi is the dma-buf fence import/export ioctls
+>> from Jason Ekstrand. I think we should land that first instead of
+>> hacking funny concepts together
+>
+>I did not understand fully, can you point to it?
+>
+>>- for gl the dma-buf import/export might not be fast enough, since gl
+>> needs to do a _lot_ of implicit sync. There we might need to use the
+>> execbuffer buffer list, but then we should have extremely clear uapi
+>> rules which disallow _everything_ except setting the explicit sync uapi
+>>
+>
+>Ok, so then, we still need to support implicit sync in vm_bind mode. Right?
+>
+>>Again all this stuff needs to be documented in detail in the kerneldoc
+>>uapi spec.
+>>
+>
+>ok
+>
+>>>+VM_BIND features include,
+>>>+- Multiple Virtual Address (VA) mappings can map to the same physical pages
+>>>+  of an object (aliasing).
+>>>+- VA mapping can map to a partial section of the BO (partial binding).
+>>>+- Support capture of persistent mappings in the dump upon GPU error.
+>>>+- TLB is flushed upon unbind completion. Batching of TLB flushes in some
+>>>+  usecases will be helpful.
+>>>+- Asynchronous vm_bind and vm_unbind support.
+>>>+- VM_BIND uses user/memory fence mechanism for signaling bind completion
+>>>+  and for signaling batch completion in long running contexts (explained
+>>>+  below).
+>>
+>>This should all be in the kerneldoc.
+>>
+>
+>ok
+>
+>>>+VM_PRIVATE objects
+>>>+------------------
+>>>+By default, BOs can be mapped on multiple VMs and can also be dma-buf
+>>>+exported. Hence these BOs are referred to as Shared BOs.
+>>>+During each execbuff submission, the request fence must be added to the
+>>>+dma-resv fence list of all shared BOs mapped on the VM.
+>>>+
+>>>+VM_BIND feature introduces an optimization where user can create BO which
+>>>+is private to a specified VM via I915_GEM_CREATE_EXT_VM_PRIVATE flag during
+>>>+BO creation. Unlike Shared BOs, these VM private BOs can only be mapped on
+>>>+the VM they are private to and can't be dma-buf exported.
+>>>+All private BOs of a VM share the dma-resv object. Hence during each execbuff
+>>>+submission, they need only one dma-resv fence list updated. Thus the fast
+>>>+path (where required mappings are already bound) submission latency is O(1)
+>>>+w.r.t the number of VM private BOs.
+>>
+>>Two things:
+>>
+>>- I think the above is required to for initial vm_bind for vk, it kinda
+>> doesn't make much sense without that, and will allow us to match amdgpu
+>> and radeonsi
+>>
+>>- Christian Kˆnig just landed ttm bulk lru helpers, and I think we need to
+>> use those. This means vm_bind will only work with the ttm backend, but
+>> that's what we have for the big dgpu where vm_bind helps more in terms
+>> of performance, and the igfx conversion to ttm is already going on.
+>>
+>
+>ok
+>
+>>Furthermore the i915 shrinker lru has stopped being an lru, so I think
+>>that should also be moved over to the ttm lru in some fashion to make sure
+>>we once again have a reasonable and consistent memory aging and reclaim
+>>architecture. The current code is just too much of a complete mess.
+>>
+>>And since this is all fairly integral to how the code arch works I don't
+>>think merging a different version which isn't based on ttm bulk lru
+>>helpers makes sense.
+>>
+>>Also I do think the page table lru handling needs to be included here,
+>>because that's another complete hand-rolled separate world for not much
+>>good reasons. I guess that can happen in parallel with the initial vm_bind
+>>bring-up, but it needs to be completed by the time we add the features
+>>beyond the initial support needed for vk.
+>>
+>
+>Ok
+>
+>>>+VM_BIND locking hirarchy
+>>>+-------------------------
+>>>+VM_BIND locking order is as below.
+>>>+
+>>>+1) A vm_bind mutex will protect vm_bind lists. This lock is taken in vm_bind/
+>>>+   vm_unbind ioctl calls, in the execbuff path and while releasing the mapping.
+>>>+
+>>>+   In future, when GPU page faults are supported, we can potentially use a
+>>>+   rwsem instead, so that multiple pagefault handlers can take the read side
+>>>+   lock to lookup the mapping and hence can run in parallel.
+>>>+
+>>>+2) The BO's dma-resv lock will protect i915_vma state and needs to be held
+>>>+   while binding a vma and while updating dma-resv fence list of a BO.
+>>>+   The private BOs of a VM will all share a dma-resv object.
+>>>+
+>>>+   This lock is held in vm_bind call for immediate binding, during vm_unbind
+>>>+   call for unbinding and during execbuff path for binding the mapping and
+>>>+   updating the dma-resv fence list of the BO.
+>>>+
+>>>+3) Spinlock/s to protect some of the VM's lists.
+>>>+
+>>>+We will also need support for bluk LRU movement of persistent mapping to
+>>>+avoid additional latencies in execbuff path.
+>>
+>>This needs more detail and explanation of how each level is required. Also
+>>the shared dma_resv for VM_PRIVATE objects is kinda important to explain.
+>>
+>>Like "some of the VM's lists" explains pretty much nothing.
+>>
+>
+>Ok, will explain.
+>
+>>>+
+>>>+GPU page faults
+>>>+----------------
+>>>+Both older execbuff mode and the newer VM_BIND mode of binding will require
+>>>+using dma-fence to ensure residency.
+>>>+In future when GPU page faults are supported, no dma-fence usage is required
+>>>+as residency is purely managed by installing and removing/invalidating ptes.
+>>
+>>This is a bit confusing. I think one part of this should be moved into the
+>>section with future vm_bind use-cases (we're not going to support page
+>>faults with legacy softpin or even worse, relocations). The locking
+>>discussion should be part of the much longer list of uses cases that
+>>motivate the locking design.
+>>
+>
+>Ok, will move.
+>
+>>>+
+>>>+
+>>>+User/Memory Fence
+>>>+==================
+>>>+The idea is to take a user specified virtual address and install an interrupt
+>>>+handler to wake up the current task when the memory location passes the user
+>>>+supplied filter.
+>>>+
+>>>+User/Memory fence is a <address, value> pair. To signal the user fence,
+>>>+specified value will be written at the specified virtual address and
+>>>+wakeup the waiting process. User can wait on an user fence with the
+>>>+gem_wait_user_fence ioctl.
+>>>+
+>>>+It also allows the user to emit their own MI_FLUSH/PIPE_CONTROL notify
+>>>+interrupt within their batches after updating the value to have sub-batch
+>>>+precision on the wakeup. Each batch can signal an user fence to indicate
+>>>+the completion of next level batch. The completion of very first level batch
+>>>+needs to be signaled by the command streamer. The user must provide the
+>>>+user/memory fence for this via the DRM_I915_GEM_EXECBUFFER_EXT_USER_FENCE
+>>>+extension of execbuff ioctl, so that KMD can setup the command streamer to
+>>>+signal it.
+>>>+
+>>>+User/Memory fence can also be supplied to the kernel driver to signal/wake up
+>>>+the user process after completion of an asynchronous operation.
+>>>+
+>>>+When VM_BIND ioctl was provided with a user/memory fence via the
+>>>+I915_VM_BIND_EXT_USER_FENCE extension, it will be signaled upon the completion
+>>>+of binding of that mapping. All async binds/unbinds are serialized, hence
+>>>+signaling of user/memory fence also indicate the completion of all previous
+>>>+binds/unbinds.
+>>>+
+>>>+This feature will be derived from the below original work:
+>>>+https://patchwork.freedesktop.org/patch/349417/
+>>
+>>This is 1:1 tied to long running compute mode contexts (which in the uapi
+>>doc must reference the endless amounts of bikeshed summary we have in the
+>>docs about indefinite fences).
+>>
+>
+>Ok, will check and add reference.
+>
+>>I'd put this into a new section about compute and userspace memory fences
+>>support, with this and the next chapter ...
+>
+>ok
+>
+>>>+
+>>>+
+>>>+VM_BIND use cases
+>>>+==================
+>>
+>>... and then make this section here focus entirely on additional vm_bind
+>>use-cases that we'll be adding later on. Which doesn't need to go into any
+>>details, it's just justification for why we want to build the world on top
+>>of vm_bind.
+>>
+>
+>ok
+>
+>>>+
+>>>+Long running Compute contexts
+>>>+------------------------------
+>>>+Usage of dma-fence expects that they complete in reasonable amount of time.
+>>>+Compute on the other hand can be long running. Hence it is appropriate for
+>>>+compute to use user/memory fence and dma-fence usage will be limited to
+>>>+in-kernel consumption only. This requires an execbuff uapi extension to pass
+>>>+in user fence. Compute must opt-in for this mechanism with
+>>>+I915_CONTEXT_CREATE_FLAGS_LONG_RUNNING flag during context creation.
+>>>+
+>>>+The dma-fence based user interfaces like gem_wait ioctl, execbuff out fence
+>>>+and implicit dependency setting is not allowed on long running contexts.
+>>>+
+>>>+Where GPU page faults are not available, kernel driver upon buffer invalidation
+>>>+will initiate a suspend (preemption) of long running context with a dma-fence
+>>>+attached to it. And upon completion of that suspend fence, finish the
+>>>+invalidation, revalidate the BO and then resume the compute context. This is
+>>>+done by having a per-context fence (called suspend fence) proxying as
+>>>+i915_request fence. This suspend fence is enabled when there is a wait on it,
+>>>+which triggers the context preemption.
+>>>+
+>>>+This is much easier to support with VM_BIND compared to the current heavier
+>>>+execbuff path resource attachment.
+>>
+>>There's a bunch of tricky code around compute mode context support, like
+>>the preempt ctx fence (or suspend fence or whatever you want to call it),
+>>and the resume work. And I think that code should be shared across
+>>drivers.
+>>
+>>I think the right place to put this is into drm/sched, somewhere attached
+>>to the drm_sched_entity structure. I expect i915 folks to collaborate with
+>>amd and ideally also get amdkfd to adopt the same thing if possible. At
+>>least Christian has mentioned in the past that he's a bit unhappy about
+>>how this works.
+>>
+>>Also drm/sched has dependency tracking, which will be needed to pipeline
+>>context resume operations. That needs to be used instead of i915-gem
+>>inventing yet another dependency tracking data structure (it already has 3
+>>and that's roughly 3 too many).
+>>
+>>This means compute mode support and userspace memory fences are blocked on
+>>the drm/sched conversion, but *eh* add it to the list of reasons for why
+>>drm/sched needs to happen.
+>>
+>>Also since we only have support for compute mode ctx in our internal tree
+>>with the guc scheduler backend anyway, and the first conversion target is
+>>the guc backend, I don't think this actually holds up a lot of the code.
+>>
+>
+>Hmm...ok. Currently, the context suspend and resume operations in out
+>internal tree is through an orthogonal guc interface (not through scheduler).
+>So, I need to look more into this part.
+>
+>>>+Low Latency Submission
+>>>+-----------------------
+>>>+Allows compute UMD to directly submit GPU jobs instead of through execbuff
+>>>+ioctl. VM_BIND allows map/unmap of BOs required for directly submitted jobs.
+>>
+>>This is really just a special case of compute mode contexts, I think I'd
+>>include that in there, but explain better what it requires (i.e. vm_bind
+>>not being synchronized against execbuf).
+>>
+>
+>ok
+>
+>>>+
+>>>+Debugger
+>>>+---------
+>>>+With debug event interface user space process (debugger) is able to keep track
+>>>+of and act upon resources created by another process (debuggee) and attached
+>>>+to GPU via vm_bind interface.
+>>>+
+>>>+Mesa/Valkun
+>>>+------------
+>>>+VM_BIND can potentially reduce the CPU-overhead in Mesa thus improving
+>>>+performance. For Vulkan it should be straightforward to use VM_BIND.
+>>>+For Iris implicit buffer tracking must be implemented before we can harness
+>>>+VM_BIND benefits. With increasing GPU hardware performance reducing CPU
+>>>+overhead becomes more important.
+>>
+>>Just to clarify, I don't think we can land vm_bind into upstream if it
+>>doesn't work 100% for vk. There's a bit much "can" instead of "will in
+>>this section".
+>>
+>
+>ok, will explain better.
+>
+>>>+
+>>>+Page level hints settings
+>>>+--------------------------
+>>>+VM_BIND allows any hints setting per mapping instead of per BO.
+>>>+Possible hints include read-only, placement and atomicity.
+>>>+Sub-BO level placement hint will be even more relevant with
+>>>+upcoming GPU on-demand page fault support.
+>>>+
+>>>+Page level Cache/CLOS settings
+>>>+-------------------------------
+>>>+VM_BIND allows cache/CLOS settings per mapping instead of per BO.
+>>>+
+>>>+Shared Virtual Memory (SVM) support
+>>>+------------------------------------
+>>>+VM_BIND interface can be used to map system memory directly (without gem BO
+>>>+abstraction) using the HMM interface.
+>>
+>>Userptr is absent here (and it's not the same as svm, at least on
+>>discrete), and this is needed for the initial version since otherwise vk
+>>can't use it because we're not at feature parity.
+>>
+>
+>userptr gem objects are supported in initial version (and yes it is not
+>same as SVM). I did not add it here as there is no additional uapi
+>change required to support that.
+>
+>>Irc discussions by Maarten and Dave came up with the idea that maybe
+>>userptr for vm_bind should work _without_ any gem bo as backing storage,
+>>since that guarantees that people don't come up with funny ideas like
+>>trying to share such bo across process or mmap it and other nonsense which
+>>just doesn't work.
+>>
+>
+>Hmm...there is no plan to support userptr _without_ gem bo not atleast in
+>the initial vm_bind support. Is it Ok to put it in the 'futues' section?
+>
+>>>+
+>>>+
+>>>+Broder i915 cleanups
+>>>+=====================
+>>>+Supporting this whole new vm_bind mode of binding which comes with its own
+>>>+usecases to support and the locking requirements requires proper integration
+>>>+with the existing i915 driver. This calls for some broader i915 driver
+>>>+cleanups/simplifications for maintainability of the driver going forward.
+>>>+Here are few things identified and are being looked into.
+>>>+
+>>>+- Make pagetable allocations evictable and manage them similar to VM_BIND
+>>>+  mapped objects. Page table pages are similar to persistent mappings of a
+>>>+  VM (difference here are that the page table pages will not
+>>>+  have an i915_vma structure and after swapping pages back in, parent page
+>>>+  link needs to be updated).
+>>
+>>See above, but I think this should be included as part of the initial
+>>vm_bind push.
+>>
+>
+>Ok, as you mentioned above, we can do it soon after initial vm_bind support
+>lands, but before we add any new vm_bind features.
+>
+>>>+- Remove vma lookup cache (eb->gem_context->handles_vma). VM_BIND feature
+>>>+  do not use it and complexity it brings in is probably more than the
+>>>+  performance advantage we get in legacy execbuff case.
+>>>+- Remove vma->open_count counting
+>>>+- Remove i915_vma active reference tracking. Instead use underlying BO's
+>>>+  dma-resv fence list to determine if a i915_vma is active or not.
+>>
+>>So this is a complete mess, and really should not exist. I think it needs
+>>to be removed before we try to make i915_vma even more complex by adding
+>>vm_bind.
+>>
+>
+>Hmm...Need to look into this. I am not sure how much of an effort it is going
+>to be to remove i915_vma active reference tracking and instead use dma_resv
+>fences for activeness tracking.
+>
+>>The other thing I've been pondering here is that vm_bind is really
+>>completely different from legacy vm structures for a lot of reasons:
+>>- no relocation or softpin handling, which means vm_bind has no reason to
+>> ever look at the i915_vma structure in execbuf code. Unfortunately
+>> execbuf has been rewritten to be vma instead of obj centric, so it's a
+>> 100% mismatch
+>>
+>>- vm_bind never has to manage any vm lru. Legacy execbuf has to maintain
+>> that because the kernel manages the virtual address space fully. Again
+>> ideally that entire vma_move_to_active code and everything related to it
+>> would simply not exist.
+>>
+>>- similar on the eviction side, the rules are quite different: For vm_bind
+>> we never tear down the vma, instead it's just moved to the list of
+>> evicted vma. Legacy vm have no need for all these additional lists, so
+>> another huge confusion.
+>>
+>>- if the refcount is done correctly for vm_bind we wouldn't need the
+>> tricky code in the bo close paths. Unfortunately legacy vm with
+>> relocations and softpin require that vma are only a weak reference, so
+>> that cannot be removed.
+>>
+>>- there's also a ton of special cases for ggtt handling, like the
+>> different views (for display, partial views for mmap), but also the
+>> gen2/3 alignment and padding requirements which vm_bind never needs.
+>>
+>>I think the right thing here is to massively split the implementation
+>>behind some solid vm/vma abstraction, with a base clase for vm and vma
+>>which _only_ has the pieces which both vm_bind and the legacy vm stuff
+>>needs. But it's a bit tricky to get there. I think a workable path would
+>>be:
+>>- Add a new base class to both i915_address_space and i915_vma, which
+>> starts out empty.
+>>
+>>- As vm_bind code lands, move things that vm_bind code needs into these
+>> base classes
+>>
+>
+>Ok
+>
+>>- The goal should be that these base classes are a stand-alone library
+>> that other drivers could reuse. Like we've done with the buddy
+>> allocator, which first moved from i915-gem to i915-ttm, and which amd
+>> now moved to drm/ttm for reuse by amdgpu. Ideally other drivers
+>> interested in adding something like vm_bind should be involved from the
+>> start (or maybe the entire thing reused in amdgpu, they're looking at
+>> vk sparse binding support too or at least have perf issues I think).
+>>
+>>- Locking must be the same across all implemntations, otherwise it's
+>> really not an abstract. i915 screwed this up terribly by having
+>> different locking rules for ppgtt and ggtt, which is just nonsense.
+>>
+>>- The legacy specific code needs to be extracted as much as possible and
+>> shoved into separate files. In execbuf this means we need to get back to
+>> object centric flow, and the slowpaths need to become a lot simpler
+>> again (Maarten has cleaned up some of this, but there's still a silly
+>> amount of hacks in there with funny layering).
+>>
+>
+>This also, we can do soon after vm_bind code lands right?
+>
+>>- I think if stuff like the vma eviction details (list movement and
+>> locking and refcounting of the underlying object)
+>>
+>>>+
+>>>+These can be worked upon after intitial vm_bind support is added.
+>>
+>>I don't think that works, given how badly i915-gem team screwed up in
+>>other places. And those places had to be fixed by adopting shared code
+>>like ttm. Plus there's already a huge unfulffiled promise pending with the
+>>drm/sched conversion, i915-gem team is clearly deeply in the red here :-/
+>>
+>
+>Hmmm ok. As I mentioned above, I need to look into how to remove i915_vma
+>active reference tracking code from i915 driver. Wonder if there is any
+>middle ground here like not using that in vm_bind mode?
+>
+>Niranjana
+>
+>>Cheers, Daniel
+>>
+>>>+
+>>>+
+>>>+UAPI
+>>>+=====
+>>>+Uapi definiton can be found here:
+>>>+.. kernel-doc:: Documentation/gpu/rfc/i915_vm_bind.h
+>>>diff --git a/Documentation/gpu/rfc/index.rst b/Documentation/gpu/rfc/index.rst
+>>>index 91e93a705230..7d10c36b268d 100644
+>>>--- a/Documentation/gpu/rfc/index.rst
+>>>+++ b/Documentation/gpu/rfc/index.rst
+>>>@@ -23,3 +23,7 @@ host such documentation:
+>>> .. toctree::
 >>>
->>> Do I need to implement a fallback strategy in a display server,
->>> starting from the highest possible "max bpc" value, and if my modeset
->>> is rejected, repeatedly try with lower "max bpc" setting until it works
->>> or I'm out of bpc options?  
+>>>     i915_scheduler.rst
+>>>+
+>>>+.. toctree::
+>>>+
+>>>+    i915_vm_bind.rst
+>>>--
+>>>2.21.0.rc0.32.g243a4c7e27
+>>>
 >>
->> IMO the bpc part should be handled by the kernel since we already
->> had this behaviour even before the "max bpc" prop was introduced
->> and we didn't add an explicit "use this bpc or fail" prop. But of
->> course you should have some kind of sensible fallback strategy for
->> things that just fail for other reasons.
-> 
-> Right, but this means that I don't have to add 'max bpc' as yet another
-> dimension in the combinatorial explosion of KMS parameters I would need
-> to search to find a working setup. That's really good.
-> 
-> The one thing missing is seeing what format and bpc we actually got on
-> the link.
-> 
->> The one problem we have in the kernel is that we have no way to
->> ask the user if the display we tried to light up is actually
->> working. So our policy decisions can't really involve user input.
->> Userspace should not generally have that problem.
-> 
-> Indeed.
-> 
-> Also like Alex said, the kernel does not know if the user prefers high
-> color depth or high refresh rate either. One way to solve that is to
-> light up the requested video mode any way the kernel can, and then
-> report what the resulting color depth is. Another way is to have
-> explicit "use this bpc or fail" KMS property, maybe in the form of 'min
-> bpc' as I recall being discussed in the past, and let userspace guess
-> what might work. The former is easier to light up, but probing requires
-> actually setting the modes. The latter may require a lot of
-> trial-and-error from userspace to find anything that works, but it
-> takes only time and not blinking - as far as things can be detected
-> with TEST_ONLY commits. Then one still has to ask the user if it
-> actually worked.
-> 
-
-min_bpc sounds like something we might want for HDR use-cases, unless
-the compositor has a way to confirm the output box (and format). min_bpc
-would allow the KMS driver to pick the lowest required bpc so the
-compositor always has a guarantee of quality.
-
-Harry
-
-> 
-> Thanks,
-> pq
+>>--
+>>Daniel Vetter
+>>Software Engineer, Intel Corporation
+>>http://blog.ffwll.ch
