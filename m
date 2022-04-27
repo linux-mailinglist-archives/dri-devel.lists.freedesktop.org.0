@@ -2,79 +2,63 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 32B275121D9
-	for <lists+dri-devel@lfdr.de>; Wed, 27 Apr 2022 20:57:31 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 3D48951227B
+	for <lists+dri-devel@lfdr.de>; Wed, 27 Apr 2022 21:21:10 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id AE9D710E28C;
-	Wed, 27 Apr 2022 18:57:27 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id DB86F10E09E;
+	Wed, 27 Apr 2022 19:21:06 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from us-smtp-delivery-124.mimecast.com
- (us-smtp-delivery-124.mimecast.com [170.10.133.124])
- by gabe.freedesktop.org (Postfix) with ESMTPS id A48F310E28C
- for <dri-devel@lists.freedesktop.org>; Wed, 27 Apr 2022 18:57:25 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1651085844;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=Zpp2S9nE8V2+s6ZhFGuHdo2pIcOg69sKmnVSy6YdZ1I=;
- b=AsZ0J6OyPg0ZNsadvf5Y1+dnJP1jXfYCGGMk5WIGZDMJYiDzhow7YVI2XiM65hdQkzIKmD
- SDDIuc532c5etEmvkiQHzEuRyK3RIsgLJ49zi/HWL2MoPdiqj+YDBunGZW+EO2DGimEVkU
- DzSVQBS/3PaYcF0WAtOcEatQOc83S2s=
-Received: from mail-qt1-f198.google.com (mail-qt1-f198.google.com
- [209.85.160.198]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-608-bo2NdxQgPyKXJqL4WknvlA-1; Wed, 27 Apr 2022 14:57:20 -0400
-X-MC-Unique: bo2NdxQgPyKXJqL4WknvlA-1
-Received: by mail-qt1-f198.google.com with SMTP id
- x5-20020a05622a000500b002f37cb8b803so1735323qtw.9
- for <dri-devel@lists.freedesktop.org>; Wed, 27 Apr 2022 11:57:20 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=x-gm-message-state:message-id:subject:from:to:cc:date:in-reply-to
- :references:organization:user-agent:mime-version
- :content-transfer-encoding;
- bh=Zpp2S9nE8V2+s6ZhFGuHdo2pIcOg69sKmnVSy6YdZ1I=;
- b=47w2p7cd8+nPOlNq/ie7uci4vSPV/8NUw5oJQT1/QYXSl890kKFfMcOjimmEbqGlls
- JFUAyMgRqBzUell3f1XEbdLyRWAxnLNV1NZn9A+zU1y3j9GnUPkkylHkT/ApBsqCx0lL
- G+z8If4cwtS7GpcbG05cFxf1fL88s5BcSyjZjkGBj1Frb51SpzBJun/P3WDI4aGAOqM9
- +OlDL8tig/+bi2UFuQ+f9/JDdK73oB1C44KdYK+PdIqlo/+p7zxhhuqZ51tRwpXdrYdb
- JYhGXCy+oGTORSlTWariUW7hRs+Y/yEO1fAWy+1BlqWrwX93vL8ITwo2lH/tIpEsy44d
- vZhQ==
-X-Gm-Message-State: AOAM531rDN74yNw4Y94A2HTyRgvqPSGhj4V9fB/yMHswPqPaV7SchhEq
- LQYMpVFPUjAbum/FVbCdIFo3aC7AdipOUjBUzYHAWG/KB7M2mMLRfFWvpkpg9g+dgM7Eli6P+xI
- GG+oJqFsqkDirC/Bt4Rz2ooYSpLaI
-X-Received: by 2002:a05:620a:244b:b0:69f:5870:424a with SMTP id
- h11-20020a05620a244b00b0069f5870424amr9961107qkn.500.1651085840074; 
- Wed, 27 Apr 2022 11:57:20 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJxaiae/dPv6LZvS2OF4G9gBDKqeb1QhbmEzqSpZGV7qY+EsycgRZnSiqp+ywhItqUcRu7SzDA==
-X-Received: by 2002:a05:620a:244b:b0:69f:5870:424a with SMTP id
- h11-20020a05620a244b00b0069f5870424amr9961098qkn.500.1651085839832; 
- Wed, 27 Apr 2022 11:57:19 -0700 (PDT)
-Received: from [192.168.8.138] (static-71-184-137-158.bstnma.ftas.verizon.net.
- [71.184.137.158]) by smtp.gmail.com with ESMTPSA id
- t22-20020a05620a451600b0069f4d952f8esm5781334qkp.0.2022.04.27.11.57.18
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 27 Apr 2022 11:57:19 -0700 (PDT)
-Message-ID: <b005492aeda1324727c6caf946da1e5670297878.camel@redhat.com>
-Subject: Re: [PATCH 0/3] HDR aux backlight range calculation
-From: Lyude Paul <lyude@redhat.com>
-To: Jouni =?ISO-8859-1?Q?H=F6gander?= <jouni.hogander@intel.com>, 
- dri-devel@lists.freedesktop.org
-Date: Wed, 27 Apr 2022 14:57:17 -0400
-In-Reply-To: <20220426123044.320415-1-jouni.hogander@intel.com>
-References: <20220426123044.320415-1-jouni.hogander@intel.com>
-Organization: Red Hat Inc.
-User-Agent: Evolution 3.42.4 (3.42.4-2.fc35)
+Received: from mout.gmx.net (mout.gmx.net [212.227.17.20])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 0EF9610E09E
+ for <dri-devel@lists.freedesktop.org>; Wed, 27 Apr 2022 19:21:04 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=gmx.net;
+ s=badeba3b8450; t=1651087261;
+ bh=9Hdg20mmtvV0ZaedIPIzy1RVv7ErdbV8i+JXudPDtOo=;
+ h=X-UI-Sender-Class:Date:Subject:To:Cc:References:From:In-Reply-To;
+ b=QU3Y1g8Poxle71TYaAJVBpPT/lhpXMs9GiaCbcbs0qhBrYkKfF2WNZg/f9mn3piTN
+ wM0WdfmNawsZCoS7cobMGpuIUwFtnhXjo6QJ4PLo/FKySF39t6ep8mEsbxlKcWWkED
+ 0iHXKo5ltSOTY+57klpTOTybz85cx9mnJ1UDMC2U=
+X-UI-Sender-Class: 01bb95c1-4bf8-414a-932a-4f6e2808ef9c
+Received: from [192.168.20.60] ([92.116.160.126]) by mail.gmx.net (mrgmx104
+ [212.227.17.168]) with ESMTPSA (Nemesis) id 1M8QS8-1noAvt0Ne4-004WhU; Wed, 27
+ Apr 2022 21:21:01 +0200
+Message-ID: <3d4f3cf5-c3d0-7398-abab-aa3643296bbd@gmx.de>
+Date: Wed, 27 Apr 2022 21:20:59 +0200
 MIME-Version: 1.0
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=lyude@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: 8bit
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.8.0
+Subject: Re: dim question: How to revert patches?
+Content-Language: en-US
+To: Daniel Vetter <daniel@ffwll.ch>
+References: <c79789fb-642d-ee9e-32a6-fc7f79d9e3b4@gmx.de>
+ <YmlRW2fAabBqWc+0@phenom.ffwll.local>
+From: Helge Deller <deller@gmx.de>
+In-Reply-To: <YmlRW2fAabBqWc+0@phenom.ffwll.local>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: quoted-printable
+X-Provags-ID: V03:K1:7Q2L06uDkLDax6Urc8C7i7XcNQsCvJWimSBlTkpvboXZCuzMHLE
+ KBn67MX4ynC+YVRgZzmkjMw+qSAlJfE22oRRQIZLxy7VA1n/4uuxenL5m0nAUZG7RmFy9Au
+ SIUZib3/jLQPo3XctXZoi4+VECvUt6VHviSElOxfxltpQs/b83OGbmbllOlDp4RQXtE9Yxr
+ f+3SIiMvuTFV3+kgRHdXA==
+X-Spam-Flag: NO
+X-UI-Out-Filterresults: notjunk:1;V03:K0:anuV85jfNYg=:KweH/QyrME369RJDSavUQV
+ jumJz84aOYS2LPKT7TJ8Q5eLCbrAc8dc3vzsl/Yse1f26OCx3l+zrtehNfkEBISn0mZtAq4yK
+ LdOIp+V9NoO04eUjEJlU8bddDExQHVVZ0DFWMvZeYkgMZSnMbjN3ziNzeyVWvzbyAQKhZKxD9
+ QGhvzv2JfYiuM8FCMyVI5YVoPQ7cifpi5retg4UJf1/sI8HFxccxA52G89+g4osTGdSsnyWd4
+ DEVqnGcGaS1oJ2L6uXahwtx8dQtRnMAEeFVB1fGgGVLrnmY6wdL+2VbMsx2SXmW2CUP95TUeY
+ VGrICpuKM0Us0+t7FEKlUChgVrKsiQjlKw0f9ysMk8CzXnmqsYhWjULrmQk1BdVFjF/MYbQud
+ 86wfJB/YOMuV00et6XHnGFgUTu7TMe9aCq5S1usWJRNCGXi88pj1yGD4l+u8Jud2ziw6q9fVD
+ mmapuaZ/gwqdYE5yAJfJBaCmXLWO+kzjDPSERzD/IMxf4EApJhNkZuTIsd6ZSwTXXjfjsvh+/
+ cxL6kDGg0HtSUiB2x5mq0fyJDuueh9MChP7FvLoQ6Si5PFOFlUfBdCm5JG9vt1Em1vSRchQ9o
+ dg13iPVk7AWHGDwDejiG51/75ZUXoE/pmOF3h/0dWO9DBjG/PZye7P5eW3EbSrVHmRXu2dXRa
+ VNcpkyAyKeSivq8YQmuekkHCO+vA6zIST5xDzvJl/R2471wkQvKmG3eLen24Hpnt8nRsD0ACF
+ UHuKUkIH4pPiEvRY0Z2es2oi9728Ml3eyjzHRrlx6puSQRVMQwj/okE8tkAnK5PkmFE7Bz8Rs
+ zvpImF0bjjFkIQleQZ8vmtve9ePeBu2VyAN0sjylaFsNKgQ1mtyTQcTowWIjF37a2iKFyClDd
+ juGTeH0vW95xv/HoHZCy+cJrmww6Y63775sulzFkoOVW1UO3tHiPc4L91A3jvZZHfJIfftKyu
+ KqDIZIF9Q7vjo4O7PUw3otrcajqFdluWuoppMiba3zmqYgE4jsuTx8jSSw9HJuO/ek5nFlKkM
+ 8M9e73Hzud87orTd/HhSPhXRWAasb4BYnicHEVMUWk2d6IAiFof0sMUjDl3FTNdWx4ZtQ4TvD
+ GxJjpAqCzstGwU=
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -87,42 +71,69 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Jani Nikula <jani.nikula@intel.com>,
- Rodrigo Siqueira <Rodrigo.Siqueira@amd.com>,
- Mika Kahola <mika.kahola@intel.com>
+Cc: Thomas Zimmermann <tzimmermann@suse.de>, dri-devel@lists.freedesktop.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hey! I will try to test this out ASAP on all of the HDR backlight machines I
-have (so, many :) at some point this week, will let you know when
+Hi Daniel,
 
-On Tue, 2022-04-26 at 15:30 +0300, Jouni Högander wrote:
-> This patch set splits out static hdr metadata backlight range parsing
-> from gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.c into gpu/drm/drm-edid.c as
-> a new function. This new function is then used in admgpu_dm.c and
-> intel_dp_aux_backlight.c
-> 
-> Cc: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>
-> Cc: Rodrigo Siqueira <Rodrigo.Siqueira@amd.com>
-> Cc: Harry Wentland <harry.wentland@amd.com>
-> Cc: Lyude Paul <lyude@redhat.com>
-> Cc: Mika Kahola <mika.kahola@intel.com>
-> Cc: Jani Nikula <jani.nikula@intel.com>
-> 
-> Jouni Högander (3):
->   drm: New function to get luminance range based on static hdr metadata
->   drm/amdgpu_dm: Use split out luminance calculation function
->   drm/i915: Use luminance range from static hdr metadata
-> 
->  .../gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.c | 35 ++----------
->  drivers/gpu/drm/drm_edid.c                    | 55 +++++++++++++++++++
->  .../drm/i915/display/intel_dp_aux_backlight.c |  9 ++-
->  include/drm/drm_edid.h                        |  4 ++
->  4 files changed, 70 insertions(+), 33 deletions(-)
-> 
+On 4/27/22 16:21, Daniel Vetter wrote:
+> On Thu, Apr 14, 2022 at 10:37:55PM +0200, Helge Deller wrote:
+>> Hello dri-devel & dim users,
+>
+> Apologies for late reply, I'm way behind on stuff.
+>
+>> I committed this patch to the drm-misc-next branch:
+>>
+>> commit d6cd978f7e6b6f6895f8d0c4ce6e5d2c8e979afe
+>>     video: fbdev: fbmem: fix pointer reference to null device field
+>>
+>> then I noticed that it was fixed already in another branch which led to=
+ this error:
+>>
+>> Merging drm-misc/drm-misc-next... dim:
+>> dim: FAILURE: Could not merge drm-misc/drm-misc-next
+>> dim: See the section "Resolving Conflicts when Rebuilding drm-tip"
+>> dim: in the drm-tip.rst documentation for how to handle this situation.
+>>
+>> I fixed it by reverting that patch above with this new commit in the dr=
+m-misc-next branch:
+>>
+>> commit cabfa2bbe617ddf0a0cc4d01f72b584dae4939ad (HEAD -> drm-misc-next,=
+ drm-misc/for-linux-next, drm-misc/drm-misc-next)
+>> Author: Helge Deller <deller@gmx.de>
+>>     Revert "video: fbdev: fbmem: fix pointer reference to null device f=
+ield"
+>>
+>> My question (as "dim" newbie):
+>> Was that the right solution?
+>
+> The patch wasn't really broken, so revert feels a bit silly. The hint wa=
+s
+> to look at the documentation referenced by the error message - the issue
+> was only in rebuilding the integration tree:
+>
+> https://drm.pages.freedesktop.org/maintainer-tools/drm-tip.html#resolvin=
+g-conflicts-when-rebuilding-drm-tip
+>
+> This should cover you even for really rare conflict situations.
+>
+>> Is there a possibility to drop those two patches from the drm-misc-next=
+ branch before it gets pushed upstream?
+>
+> It's a shared tree, mistakes are forever. The only time we did a forced
+> push ever is when someone managed to push their local pile of hacks or
+> something, and we're catching those pretty well now with a server-side
+> test to make sure you're using dim to push.
+>
+> It's also no big deal, and next time you get a conflict just resolve it
+> in drm-tip per the docs and it's all fine.
 
--- 
-Cheers,
- Lyude Paul (she/her)
- Software Engineer at Red Hat
+Thanks for the feedback!
+So, basically I think I did the right thing (although a revert isn't nice)=
+.
+There was no other useful fixup I could have come up with, because the oth=
+er conflicting
+patch had the right & better solution already pushed.
 
+Helge
