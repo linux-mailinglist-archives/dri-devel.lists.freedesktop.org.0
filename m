@@ -1,55 +1,133 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 86217511C05
-	for <lists+dri-devel@lfdr.de>; Wed, 27 Apr 2022 17:45:40 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id C47EB511BD5
+	for <lists+dri-devel@lfdr.de>; Wed, 27 Apr 2022 17:22:03 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 1251A10F638;
-	Wed, 27 Apr 2022 15:45:32 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 2546910F59F;
+	Wed, 27 Apr 2022 15:22:01 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mga11.intel.com (mga11.intel.com [192.55.52.93])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 30B2410E682;
- Wed, 27 Apr 2022 15:45:30 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1651074330; x=1682610330;
- h=message-id:date:mime-version:subject:to:cc:references:
- from:in-reply-to:content-transfer-encoding;
- bh=Im+NSjKMQgAE9FzhLEGzkq2imzK7YOO4CS8DoMQy0RQ=;
- b=XxP3I4WY/295wvxf7FZ0HlWvxdeOMbuV/IvV16MjBbkzgryJc49b07yd
- ZlYXsbD7rkUdCROQzyciqm5lZEmtUQ6wbiAsLPYWo4AhXcYykI9Dt6E3B
- N/SwtqfMzfEhQPUp+Vn70FLVDC5qUjREzgB4FFPYgm7f0zFN1uYR+Z6vS
- JPR1qWXnsYW8aD0Kn1vOIwQ36HOMLj65e6guglHw06JTcKGWSm5F1qnp4
- Fk+QHOQbHqrwTVdDyUg3d07R+PcN+czJcTZmRuZjt4VpmPcsymQ2akGZL
- v58RZV8nux9J9xPMW5hIRfo5J/WdZ3ltgKKzULMKlnQa0lw02XPCRxqBY g==;
-X-IronPort-AV: E=McAfee;i="6400,9594,10330"; a="263556199"
-X-IronPort-AV: E=Sophos;i="5.90,293,1643702400"; d="scan'208";a="263556199"
-Received: from orsmga004.jf.intel.com ([10.7.209.38])
- by fmsmga102.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 27 Apr 2022 08:18:05 -0700
-X-IronPort-AV: E=Sophos;i="5.90,293,1643702400"; d="scan'208";a="680829751"
-Received: from konishi-mobl.gar.corp.intel.com (HELO [10.252.6.183])
- ([10.252.6.183])
- by orsmga004-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 27 Apr 2022 08:18:02 -0700
-Message-ID: <2430708a-22b1-6280-407e-79aefc31be94@intel.com>
-Date: Wed, 27 Apr 2022 16:18:00 +0100
-MIME-Version: 1.0
+Received: from NAM12-DM6-obe.outbound.protection.outlook.com
+ (mail-dm6nam12on2068.outbound.protection.outlook.com [40.107.243.68])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 88B1910F59F;
+ Wed, 27 Apr 2022 15:21:59 +0000 (UTC)
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=hgqBAcd3+IGbszu6GXr9t+Hev+dC9J3DEpC4bjmXFkpeqQB3NtjvqAH8NBG9G2qWoUAngG0Vm+50rb1cwwCNg3WEwKgaf+9BwGuSI1TmZ2sS709xQis2tTM8PvLOzNfFZNSUO6I3U/8/6BQVRx8+Uwi1qTl54et4Zoh6/FpRnD6eOHX/haodv743k8WGml7+kG6pP72Cl+QXSjTUQ4k/1U2B4DeDHxMKfLgFenLUybRTvsmkhWHN8vjQTxoXhmV/z3Ffig7f33iVZnjOalumfo3o3SgBwZIXc4ygKZe0Wqcmk5P+pGC0LebMozccbKp/QNGxWhRhBkSDS8sYHIfzJA==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=MS6bjCDe6CuEB1U1SQ8kkjTv4g2ATyQtp+yY1/MBAeQ=;
+ b=B6svgXlpiWNNBp2ChNJF1/4y18livkBNZBNPEbVBBEANDkb0a8PNXMIU7HVLWbuTBtWhDR+IHxu5z3gTRfc3nRqK4FcgKF1cMZRerDBLTNQbEvjmFYL0BBIFZA+tFI/uaRAiwg5fl7dZTSAbkJc+U0DC91no9+5mlbuxT3DpUBEBMUJvioegDGEm/FzCOgNGoMYhPIOjiPYrqumUpR313Wu9vEY8WkNm9kQmWmRpFS3CIERAVkuMNZJ5EDBNXZVDdTI58e+8F3rz5vL5mJO55HML+ZyxlqXfiUxGwbGlOKHLYe9Xl6UXxYN91MCWWAum8qqDKB5a5Op+aJrqDf4zKw==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=amd.com; dmarc=pass action=none header.from=amd.com; dkim=pass
+ header.d=amd.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1; 
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=MS6bjCDe6CuEB1U1SQ8kkjTv4g2ATyQtp+yY1/MBAeQ=;
+ b=auNU73gVcD/PBNE6pW68A0c4fYh2HZsqIcsUS9ENpkP4ZcG7IC9GC9U8oxr8Au59EaYCjDjx6tHgzAnLy+VScbuPpw+kOVZb8j+d3ylmDFT1RJzUAKcCcyxHzMQjUfZoEJ9P4Q91OIRs2DZf/4V72FFzYc015h0iuU6Wmo0gonQ=
+Authentication-Results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=amd.com;
+Received: from SJ0PR12MB5438.namprd12.prod.outlook.com (2603:10b6:a03:3ba::23)
+ by BN8PR12MB3315.namprd12.prod.outlook.com (2603:10b6:408:41::19)
+ with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.5186.14; Wed, 27 Apr
+ 2022 15:21:53 +0000
+Received: from SJ0PR12MB5438.namprd12.prod.outlook.com
+ ([fe80::9181:b3c9:478c:751c]) by SJ0PR12MB5438.namprd12.prod.outlook.com
+ ([fe80::9181:b3c9:478c:751c%7]) with mapi id 15.20.5186.021; Wed, 27 Apr 2022
+ 15:21:53 +0000
+Message-ID: <fe946a4d-c427-a13a-b1a3-df8ae37cb554@amd.com>
+Date: Wed, 27 Apr 2022 11:21:39 -0400
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.7.0
-Subject: Re: [PATCH v2] drm/doc: add rfc section for small BAR uapi
-Content-Language: en-GB
-To: Lionel Landwerlin <lionel.g.landwerlin@intel.com>,
- intel-gfx@lists.freedesktop.org
-References: <20220420171328.57253-1-matthew.auld@intel.com>
- <5553382d-2674-76f0-ab6e-408b99111a62@intel.com>
- <a667ccc4-fd5e-7e15-cffc-d5a65a834825@intel.com>
-From: Matthew Auld <matthew.auld@intel.com>
-In-Reply-To: <a667ccc4-fd5e-7e15-cffc-d5a65a834825@intel.com>
+ Thunderbird/91.8.1
+Subject: Re: [PATCH v4] drm/amdgpu: Disable ABM when AC mode
+Content-Language: en-US
+To: Ryan Lin <tsung-hua.lin@amd.com>, leon.li@amd.com, ching-shih.li@amd.com, 
+ alexander.deucher@amd.com, christian.koenig@amd.com, Xinhui.Pan@amd.com,
+ airlied@linux.ie, daniel@ffwll.ch, sunpeng.li@amd.com,
+ seanpaul@chromium.org, Pratik.Vishwakarma@amd.com, lijo.lazar@amd.com,
+ sathishkumar.sundararaju@amd.com, rdunlap@infradead.org,
+ linux-patches-robot@chromeos-missing-patches.google.com.iam.gserviceaccount.com,
+ Hawking.Zhang@amd.com, andrey.grodzovsky@amd.com, shaoyun.liu@amd.com,
+ Jack.Zhang1@amd.com, horace.chen@amd.com, haonan.wang2@amd.com,
+ Anthony.Koo@amd.com, qingqing.zhuo@amd.com, wyatt.wood@amd.com,
+ robin.chen@amd.com, amd-gfx@lists.freedesktop.org,
+ dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org
+References: <20220324231000.4072275-1-tsung-hua.lin@amd.com>
+ <20220427080802.1687117-1-tsung-hua.lin@amd.com>
+From: Harry Wentland <harry.wentland@amd.com>
+In-Reply-To: <20220427080802.1687117-1-tsung-hua.lin@amd.com>
 Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
+Content-Transfer-Encoding: 7bit
+X-ClientProxiedBy: YQBPR0101CA0348.CANPRD01.PROD.OUTLOOK.COM
+ (2603:10b6:c01:6b::25) To SJ0PR12MB5438.namprd12.prod.outlook.com
+ (2603:10b6:a03:3ba::23)
+MIME-Version: 1.0
+X-MS-PublicTrafficType: Email
+X-MS-Office365-Filtering-Correlation-Id: 837f82fe-6cc8-4412-2615-08da2861a8b0
+X-MS-TrafficTypeDiagnostic: BN8PR12MB3315:EE_
+X-LD-Processed: 3dd8961f-e488-4e60-8e11-a82d994e183d,ExtAddr
+X-Microsoft-Antispam-PRVS: <BN8PR12MB3315E7EF10F2188CE5171B088CFA9@BN8PR12MB3315.namprd12.prod.outlook.com>
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: BCL:0;
+X-Microsoft-Antispam-Message-Info: m2lxUoG5qkejfEM/iLhy3P80g5P/N402kjhHjz2G17Un/EQ674U8kQ/kEI3Q99aOYsj7VYWJWmkiwmGSrqQBE3pSzJhxg0IgC5tzKCvCWNVCwFbo1MyqzI1ZS2cYR2NOgXyVV6k28xYeG0n8GOv7H+q/ngIgEYjDYodO+oJ0IP5B048dbfF90ELsM3xbThRlfRM0zKcRdiGntPhHjg7xlJfW8r2qbWCXVOPTVbPRkCSZZMWeOefEVJm16tIUeatykmk/yUFh60n+HYmlYTCkb/2byMe39S1Rz5EHeFzfWSfh8PSLcbfXro8MRlzfHVH7c600DJLaSYe2jyQdbSXEE0blAFW95RsTD3CCOGblBD+wYoQ2sXrlw+JWuT0XE2Yc/ZRch03E3mM5xKlfXaO0hRkUbERV01voFWAoDQEqG30RecCiKUtnkusItK619VuEkZ66l3LVTHCiWfF2EH22+81+OAd1/i+XHEtz1vTqjIPa2Kv478vkd8Q+ycekxeWufxSc4wKpIY/b9poY36ZwMY63T2PPFTA8GF94bpU0cdqWYZQXoPdkoNeGT1sfYJczdBd2phPozMu+yLDKcinuJCvco6dRwi0h4EixXd8e+wUWapuANLy73hGjBv/DsKRUWXSVV7M+HC7DU7Kq+TDoGf83g0nqH4dMn63SOlcjfsueV353uuW45NbLEPPGbjtOBaLfUPeEtYrpUP2n10jlxnMfn+7noJl0piE2McTEj1N90GWzws9esSt1hpkrXS8A
+X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
+ IPV:NLI; SFV:NSPM; H:SJ0PR12MB5438.namprd12.prod.outlook.com; PTR:; CAT:NONE;
+ SFS:(13230001)(4636009)(366004)(36756003)(44832011)(6486002)(2616005)(6506007)(8936002)(5660300002)(53546011)(186003)(31686004)(83380400001)(921005)(86362001)(26005)(38100700002)(31696002)(6512007)(6666004)(8676002)(508600001)(66556008)(2906002)(66946007)(66476007)(316002)(43740500002)(45980500001);
+ DIR:OUT; SFP:1101; 
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0: =?utf-8?B?dHZ1cklVOTBCTTdFaHFGQmVWNUNCYUFDNEJYL0xqMDZZQis2anVpaE5IV2NG?=
+ =?utf-8?B?SGl5T0JOeUVMb1dkbS93MVE0L0FmVjV0c2pmcEZ4RkdpNlF5Z3ZqUWFBWFh1?=
+ =?utf-8?B?d0o3bmRXUjcwMzZXN0Q0R2ljZHRnY0hqTjhtWXV1UTIwMG9jVURCNnM4eE8v?=
+ =?utf-8?B?c2x6SCt0YjZDOHVtWTNTTnR6Zld2eFNtWWpWMktYR1hvdDNOU2pkOEFycjFT?=
+ =?utf-8?B?M045azRtbFFYUlNoanp0YlBtVWRHQTlNOENaTEZXYTUvbXNGZU1RMkNwQ0xk?=
+ =?utf-8?B?bWJDTUVIbFBnMnRqZW1aUjBST3E4c1RXUVIwdkpFU3BoTGhxZDRPRVIrL2dx?=
+ =?utf-8?B?MXNUejdwZlF6WHNGNFVoVnRrVklnL3VFT0ZjSCtqWDczT29sdTZEam1pRkJW?=
+ =?utf-8?B?MElSVXR2WGpGQTRFeEFQaG5lYVh4SEFCNnhkNnB3OGVuTnNleHNNTUdnZTRv?=
+ =?utf-8?B?LzNIZllrR3ZLb0ROS2NpNG1PLzZUYTRXbXg5K2c3TmQ3U1VLdzNKN2tqZ1M0?=
+ =?utf-8?B?RDFxNTR0NGpVY0RDd0s3Tlk5R05jN0lCcTZyT1pCbytVaGM4RE5Bd3NRNGlM?=
+ =?utf-8?B?emVENjBuVkxlT2lCTFcrVjhESGpHL2F3UC9JaVZsVUxSV2R6TW5pTW0vN2Nu?=
+ =?utf-8?B?UG1jVkdEZGhrVENjbm83Y0lPVSszdFhPem1vUWFxY2dPMFFBQjUwOTg5cGE2?=
+ =?utf-8?B?RkVmdW91alUzeWRzQ1dGdnhwakg1RXo3T1NMUFhGUzRwVDNXdmlLZEZaSFhR?=
+ =?utf-8?B?bHBJTGM0YlYwNmhSRytuckF2eGl1dGEyOGNEaHJDa3U1bmJRSEwzUmtNVXV6?=
+ =?utf-8?B?akZLVUtlTHpNM1VtMll6MHlxMlY0OUNmYXdvaGliOE5lbGlsSzdpQ2l0YjBL?=
+ =?utf-8?B?WmZ5dnhtOVZPREN0bzM0UjhwR1lBV0hBckVXeTZHempadmFnU1Fjd0lUYUVY?=
+ =?utf-8?B?bXRyQ2NjUlF4aUhZQXZoTlRhNlBxUEdER2NFWFNaQ21UR2wwZ3lzbkFrWkJO?=
+ =?utf-8?B?ZFZFdUgrU21wTFF4Q0tuUmhxSUtUaXYxQ0Q4ZDlaU2JKMVhyWGtzVzA5V25G?=
+ =?utf-8?B?SHJqY0ZRalI1bC9ZSFZOQmFDU2ZLeEFhNjJwMHJrV2EyUXJ5c21XeDlvZTIr?=
+ =?utf-8?B?V2xzRVQ1Sm9zNDdReGgzSXVaRXpQS3NwakNQZ0xPSzI3bG5sZ25pK0RlVmh6?=
+ =?utf-8?B?WmFGM0lBdGdZblQyQmRVNnV2K0RUZHdMVWFVRlUwK29CdzI3TitwdlZnMEdo?=
+ =?utf-8?B?Q0FUK3RpS3p1S2JrRWN0M3NnTmgwK1p4dkt5dWhKbGFPVzd6MjVOalNETDlu?=
+ =?utf-8?B?OVFyQkdWNXh1cnJCQjQ2RitWOGM4cHRzTUw1bVNXcjgxb2ZRY25kQ2ZOdjdX?=
+ =?utf-8?B?VXlBUTFrWDZYaWVETWJySGxuRUp2UG9pWmpRWWRLdTUzdmg1Q2dkakVRWHYx?=
+ =?utf-8?B?VFlBUXRkN0Q4KzdQamVnZXgxSjRkL2V3dERlb1lNSmV1TkFobEZtTEd5Uy9r?=
+ =?utf-8?B?emY5bEdCQUJBV0RtdTVvczl4TEVuUlM0Zm00N0ExdDg5eDZKQVZhcWlZZzla?=
+ =?utf-8?B?RHNpSVY0eWVoTkV4YzRNZ0V5ZTUxUHVYSE51SGJqbnY0eHY0WmU1eUhKVGI4?=
+ =?utf-8?B?Rm1rL2V2aWo2VWhvenpNSFUvZG5DOWk5K2VPRlVzQkdrQVlWQUp0ZGdVbXFj?=
+ =?utf-8?B?RGRYVDlNb0RNem8rbEM1b3FiOGJwdkNXMnQyMmtwaCtkc0NpSHJHTVhyTkJS?=
+ =?utf-8?B?RnYxblRsOTNidEZqbjRwQ0ZhRTB1c1dWYnBvcThFbDk3bE8zYWxTM1VIWWxE?=
+ =?utf-8?B?Sk42V0Zsd3prcXo0aDF5Vk1JV0VQNHh2bzdqT2doYmhtKzJweFhUc0dhMXYr?=
+ =?utf-8?B?WG5ZYXZMVlp6c3RFMDRiZGRTUUM5KzBwZFdLSEJUcktGM1NuZ09YN3lWblQz?=
+ =?utf-8?B?eGZFczB3ZDJaakpmRTFjU294Y0NkVVQ2bTB0VWhqOEZXVmlVc2dSOUsxTEo2?=
+ =?utf-8?B?LzlPVTVnb3NNL0FCNm1VcGFyVWFpRFFlckczZHh3NEFSMDEyZ3owK2prZm5P?=
+ =?utf-8?B?Vk5FeG9ZSElPQkVkUEFLOVd4UURoWVhJb0dwQzBGMytaWmhKSU5VdTBtUUl3?=
+ =?utf-8?B?YlU3UUxTQlpOZmYvMmpyK1ZITnducFQ5Yk9DOVkrMW5mTSt3OTdHcDJ3clJW?=
+ =?utf-8?B?bUdVamh2N0RkTHBUc2lROXd0TUljQUw2MEg1Vk9vcTJMcENjbGYvREZRQld4?=
+ =?utf-8?B?bWFWOTYzYU8yUzNPZGZMVkgxL1NMNEpMQTR3RXBMdkt6NVhwOVpUYjdwL3dl?=
+ =?utf-8?B?YVVxQzBBdlJqWHlpeVBpRmUyZmVwU3JhVm0rZERkL0M5QXhobXFldz09?=
+X-OriginatorOrg: amd.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 837f82fe-6cc8-4412-2615-08da2861a8b0
+X-MS-Exchange-CrossTenant-AuthSource: SJ0PR12MB5438.namprd12.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 27 Apr 2022 15:21:53.6369 (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: KnZRfkrUPhPltaTaxX57hSZBnzA6YqBTN9BwKG3yNQGYDaagRsBrq8Kq8n7wpeRqlkBC0uX3acymUhdWgxxJgA==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: BN8PR12MB3315
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -62,404 +140,215 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: =?UTF-8?Q?Thomas_Hellstr=c3=b6m?= <thomas.hellstrom@linux.intel.com>,
- Jordan Justen <jordan.l.justen@intel.com>, dri-devel@lists.freedesktop.org,
- Kenneth Graunke <kenneth@whitecape.org>,
- Jon Bloomfield <jon.bloomfield@intel.com>,
- Daniel Vetter <daniel.vetter@ffwll.ch>, mesa-dev@lists.freedesktop.org,
- Akeem G Abodunrin <akeem.g.abodunrin@intel.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 27/04/2022 07:48, Lionel Landwerlin wrote:
-> One question though, how do we detect that this flag 
-> (I915_GEM_CREATE_EXT_FLAG_NEEDS_CPU_ACCESS) is accepted on a given kernel?
-> I assume older kernels are going to reject object creation if we use 
-> this flag?
 
- From some offline discussion with Lionel, the plan here is to just do a 
-dummy gem_create_ext to check if the kernel throws an error with the new 
-flag or not.
 
+On 2022-04-27 04:08, Ryan Lin wrote:
+> Disable ABM feature when the system is running on AC mode to get the more
+> perfect contrast of the display.
 > 
-> I didn't plan to use __drm_i915_query_vma_info, but isn't it 
-> inconsistent to select the placement on the GEM object and then query 
-> whether it's mappable by address?
-> You made a comment stating this is racy, wouldn't querying on the GEM 
-> object prevent this?
+> v2: remove "UPSTREAM" from the subject.
+> 
+> v3: adv->pm.ac_power updating by amd gpu_acpi_event_handler.
+> 
+> V4: Add the file I lost to fix the build error.
+> 
+> Signed-off-by: Ryan Lin <tsung-hua.lin@amd.com>
+> 
+> ---
+>   drivers/gpu/drm/amd/amdgpu/amdgpu_acpi.c      |  3 +-
+>   drivers/gpu/drm/amd/amdgpu/amdgpu_device.c    |  1 +
+>   drivers/gpu/drm/amd/display/dc/dce/dmub_abm.c | 61 +++++++++++--------
+>   drivers/gpu/drm/amd/include/amd_acpi.h        |  1 +
+>   drivers/gpu/drm/amd/pm/inc/amdgpu_dpm.h       |  1 +
+>   5 files changed, 42 insertions(+), 25 deletions(-)
+> 
+> diff --git a/drivers/gpu/drm/amd/amdgpu/amdgpu_acpi.c b/drivers/gpu/drm/amd/amdgpu/amdgpu_acpi.c
+> index 4811b0faafd9a..6ac331ee4255d 100644
+> --- a/drivers/gpu/drm/amd/amdgpu/amdgpu_acpi.c
+> +++ b/drivers/gpu/drm/amd/amdgpu/amdgpu_acpi.c
+> @@ -822,7 +822,8 @@ static int amdgpu_acpi_event(struct notifier_block *nb,
+>   	struct amdgpu_device *adev = container_of(nb, struct amdgpu_device, acpi_nb);
+>   	struct acpi_bus_event *entry = (struct acpi_bus_event *)data;
+>   
+> -	if (strcmp(entry->device_class, ACPI_AC_CLASS) == 0) {
+> +	if (strcmp(entry->device_class, ACPI_AC_CLASS) == 0 ||
+> +	    strcmp(entry->device_class, ACPI_BATTERY_CLASS) == 0) {
+>   		if (power_supply_is_system_supplied() > 0)
+>   			DRM_DEBUG_DRIVER("pm: AC\n");
+>   		else
+> diff --git a/drivers/gpu/drm/amd/amdgpu/amdgpu_device.c b/drivers/gpu/drm/amd/amdgpu/amdgpu_device.c
+> index abfcc1304ba0c..3a0afe7602727 100644
+> --- a/drivers/gpu/drm/amd/amdgpu/amdgpu_device.c
+> +++ b/drivers/gpu/drm/amd/amdgpu/amdgpu_device.c
+> @@ -3454,6 +3454,7 @@ int amdgpu_device_init(struct amdgpu_device *adev,
+>   
+>   	adev->gfx.gfx_off_req_count = 1;
+>   	adev->pm.ac_power = power_supply_is_system_supplied() > 0;
+> +	adev->pm.old_ac_power = true;
+>   
+>   	atomic_set(&adev->throttling_logging_enabled, 1);
+>   	/*
+> diff --git a/drivers/gpu/drm/amd/display/dc/dce/dmub_abm.c b/drivers/gpu/drm/amd/display/dc/dce/dmub_abm.c
+> index 54a1408c8015c..090bd23410b45 100644
+> --- a/drivers/gpu/drm/amd/display/dc/dce/dmub_abm.c
+> +++ b/drivers/gpu/drm/amd/display/dc/dce/dmub_abm.c
+> @@ -22,7 +22,8 @@
+>    * Authors: AMD
+>    *
+>    */
+> -
+> +#include <linux/power_supply.h>
+> +#include "amdgpu.h"
+>   #include "dmub_abm.h"
+>   #include "dce_abm.h"
+>   #include "dc.h"
+> @@ -50,7 +51,7 @@
+>   
+>   #define DISABLE_ABM_IMMEDIATELY 255
+>   
+> -
+> +extern uint amdgpu_dm_abm_level;
+>   
+>   static void dmub_abm_enable_fractional_pwm(struct dc_context *dc)
+>   {
+> @@ -117,28 +118,6 @@ static void dmub_abm_init(struct abm *abm, uint32_t backlight)
+>   	dmub_abm_enable_fractional_pwm(abm->ctx);
+>   }
+>   
+> -static unsigned int dmub_abm_get_current_backlight(struct abm *abm)
+> -{
+> -	struct dce_abm *dce_abm = TO_DMUB_ABM(abm);
+> -	unsigned int backlight = REG_READ(BL1_PWM_CURRENT_ABM_LEVEL);
+> -
+> -	/* return backlight in hardware format which is unsigned 17 bits, with
+> -	 * 1 bit integer and 16 bit fractional
+> -	 */
+> -	return backlight;
+> -}
+> -
+> -static unsigned int dmub_abm_get_target_backlight(struct abm *abm)
+> -{
+> -	struct dce_abm *dce_abm = TO_DMUB_ABM(abm);
+> -	unsigned int backlight = REG_READ(BL1_PWM_TARGET_ABM_LEVEL);
+> -
+> -	/* return backlight in hardware format which is unsigned 17 bits, with
+> -	 * 1 bit integer and 16 bit fractional
+> -	 */
+> -	return backlight;
+> -}
+> -
+>   static bool dmub_abm_set_level(struct abm *abm, uint32_t level)
+>   {
+>   	union dmub_rb_cmd cmd;
+> @@ -147,6 +126,10 @@ static bool dmub_abm_set_level(struct abm *abm, uint32_t level)
+>   	int i;
+>   	int edp_num;
+>   	uint8_t panel_mask = 0;
+> +	struct amdgpu_device *dev = dc->driver_context;
 
-Since mesa at this time doesn't currently have a use for this one, then 
-I guess we should maybe just drop this part of the uapi, in this version 
-at least, if no objections.
+NAK. We can't access amdgpu_device in DC. This is code that's
+shared with other OSes.
 
-> 
-> Thanks,
-> 
-> -Lionel
-> 
-> On 27/04/2022 09:35, Lionel Landwerlin wrote:
->> Hi Matt,
+I've mentioned this in my previous review a month ago.
+
+What happened to the other suggestion I had? I never saw
+a follow-up.
+
+My previous comments, copy-pasted here again. Please address
+or answer why you disagree:
+
 >>
+>> This patch still has the problem of accessing adev from within DC.
+>> That'll break things on other platforms. This information needs to
+>> come in through the DC interface if we want to enable/disable ABM in
+>> this function.
 >>
->> The proposal looks good to me.
+>> After a closer look I also don't think that amdgpu is the right place
+>> to control the logic to disable ABM in AC mode, i.e. to switch between
+>> ABM levels. Take a look at dm_connector_state.abm_level and the
+>> abm_level_property. It's exposed to userspace as "abm level".
 >>
->> Looking forward to try it on drm-tip.
->>
->>
->> -Lionel
->>
->> On 20/04/2022 20:13, Matthew Auld wrote:
->>> Add an entry for the new uapi needed for small BAR on DG2+.
->>>
->>> v2:
->>>    - Some spelling fixes and other small tweaks. (Akeem & Thomas)
->>>    - Rework error capture interactions, including no longer needing
->>>      NEEDS_CPU_ACCESS for objects marked for capture. (Thomas)
->>>    - Add probed_cpu_visible_size. (Lionel)
->>>
->>> Signed-off-by: Matthew Auld <matthew.auld@intel.com>
->>> Cc: Thomas Hellström <thomas.hellstrom@linux.intel.com>
->>> Cc: Lionel Landwerlin <lionel.g.landwerlin@intel.com>
->>> Cc: Jon Bloomfield <jon.bloomfield@intel.com>
->>> Cc: Daniel Vetter <daniel.vetter@ffwll.ch>
->>> Cc: Jordan Justen <jordan.l.justen@intel.com>
->>> Cc: Kenneth Graunke <kenneth@whitecape.org>
->>> Cc: Akeem G Abodunrin <akeem.g.abodunrin@intel.com>
->>> Cc: mesa-dev@lists.freedesktop.org
->>> ---
->>>   Documentation/gpu/rfc/i915_small_bar.h   | 190 +++++++++++++++++++++++
->>>   Documentation/gpu/rfc/i915_small_bar.rst |  58 +++++++
->>>   Documentation/gpu/rfc/index.rst          |   4 +
->>>   3 files changed, 252 insertions(+)
->>>   create mode 100644 Documentation/gpu/rfc/i915_small_bar.h
->>>   create mode 100644 Documentation/gpu/rfc/i915_small_bar.rst
->>>
->>> diff --git a/Documentation/gpu/rfc/i915_small_bar.h 
->>> b/Documentation/gpu/rfc/i915_small_bar.h
->>> new file mode 100644
->>> index 000000000000..7bfd0cf44d35
->>> --- /dev/null
->>> +++ b/Documentation/gpu/rfc/i915_small_bar.h
->>> @@ -0,0 +1,190 @@
->>> +/**
->>> + * struct __drm_i915_memory_region_info - Describes one region as 
->>> known to the
->>> + * driver.
->>> + *
->>> + * Note this is using both struct drm_i915_query_item and struct 
->>> drm_i915_query.
->>> + * For this new query we are adding the new query id 
->>> DRM_I915_QUERY_MEMORY_REGIONS
->>> + * at &drm_i915_query_item.query_id.
->>> + */
->>> +struct __drm_i915_memory_region_info {
->>> +    /** @region: The class:instance pair encoding */
->>> +    struct drm_i915_gem_memory_class_instance region;
->>> +
->>> +    /** @rsvd0: MBZ */
->>> +    __u32 rsvd0;
->>> +
->>> +    /** @probed_size: Memory probed by the driver (-1 = unknown) */
->>> +    __u64 probed_size;
->>> +
->>> +    /** @unallocated_size: Estimate of memory remaining (-1 = 
->>> unknown) */
->>> +    __u64 unallocated_size;
->>> +
->>> +    union {
->>> +        /** @rsvd1: MBZ */
->>> +        __u64 rsvd1[8];
->>> +        struct {
->>> +            /**
->>> +             * @probed_cpu_visible_size: Memory probed by the driver
->>> +             * that is CPU accessible. (-1 = unknown).
->>> +             *
->>> +             * This will be always be <= @probed_size, and the
->>> +             * remainder(if there is any) will not be CPU
->>> +             * accessible.
->>> +             */
->>> +            __u64 probed_cpu_visible_size;
->>> +        };
->>> +    };
->>> +};
->>> +
->>> +/**
->>> + * struct __drm_i915_gem_create_ext - Existing gem_create behaviour, 
->>> with added
->>> + * extension support using struct i915_user_extension.
->>> + *
->>> + * Note that new buffer flags should be added here, at least for the 
->>> stuff that
->>> + * is immutable. Previously we would have two ioctls, one to create 
->>> the object
->>> + * with gem_create, and another to apply various parameters, however 
->>> this
->>> + * creates some ambiguity for the params which are considered 
->>> immutable. Also in
->>> + * general we're phasing out the various SET/GET ioctls.
->>> + */
->>> +struct __drm_i915_gem_create_ext {
->>> +    /**
->>> +     * @size: Requested size for the object.
->>> +     *
->>> +     * The (page-aligned) allocated size for the object will be 
->>> returned.
->>> +     *
->>> +     * Note that for some devices we have might have further minimum
->>> +     * page-size restrictions(larger than 4K), like for device 
->>> local-memory.
->>> +     * However in general the final size here should always reflect any
->>> +     * rounding up, if for example using the 
->>> I915_GEM_CREATE_EXT_MEMORY_REGIONS
->>> +     * extension to place the object in device local-memory.
->>> +     */
->>> +    __u64 size;
->>> +    /**
->>> +     * @handle: Returned handle for the object.
->>> +     *
->>> +     * Object handles are nonzero.
->>> +     */
->>> +    __u32 handle;
->>> +    /**
->>> +     * @flags: Optional flags.
->>> +     *
->>> +     * Supported values:
->>> +     *
->>> +     * I915_GEM_CREATE_EXT_FLAG_NEEDS_CPU_ACCESS - Signal to the 
->>> kernel that
->>> +     * the object will need to be accessed via the CPU.
->>> +     *
->>> +     * Only valid when placing objects in I915_MEMORY_CLASS_DEVICE, and
->>> +     * only strictly required on platforms where only some of the 
->>> device
->>> +     * memory is directly visible or mappable through the CPU, like 
->>> on DG2+.
->>> +     *
->>> +     * One of the placements MUST also be I915_MEMORY_CLASS_SYSTEM, to
->>> +     * ensure we can always spill the allocation to system memory, 
->>> if we
->>> +     * can't place the object in the mappable part of
->>> +     * I915_MEMORY_CLASS_DEVICE.
->>> +     *
->>> +     * Note that since the kernel only supports flat-CCS on objects 
->>> that can
->>> +     * *only* be placed in I915_MEMORY_CLASS_DEVICE, we therefore don't
->>> +     * support I915_GEM_CREATE_EXT_FLAG_NEEDS_CPU_ACCESS together with
->>> +     * flat-CCS.
->>> +     *
->>> +     * Without this hint, the kernel will assume that non-mappable
->>> +     * I915_MEMORY_CLASS_DEVICE is preferred for this object. Note 
->>> that the
->>> +     * kernel can still migrate the object to the mappable part, as 
->>> a last
->>> +     * resort, if userspace ever CPU faults this object, but this 
->>> might be
->>> +     * expensive, and so ideally should be avoided.
->>> +     */
->>> +#define I915_GEM_CREATE_EXT_FLAG_NEEDS_CPU_ACCESS (1 << 0)
->>> +    __u32 flags;
->>> +    /**
->>> +     * @extensions: The chain of extensions to apply to this object.
->>> +     *
->>> +     * This will be useful in the future when we need to support 
->>> several
->>> +     * different extensions, and we need to apply more than one when
->>> +     * creating the object. See struct i915_user_extension.
->>> +     *
->>> +     * If we don't supply any extensions then we get the same old 
->>> gem_create
->>> +     * behaviour.
->>> +     *
->>> +     * For I915_GEM_CREATE_EXT_MEMORY_REGIONS usage see
->>> +     * struct drm_i915_gem_create_ext_memory_regions.
->>> +     *
->>> +     * For I915_GEM_CREATE_EXT_PROTECTED_CONTENT usage see
->>> +     * struct drm_i915_gem_create_ext_protected_content.
->>> +     */
->>> +#define I915_GEM_CREATE_EXT_MEMORY_REGIONS 0
->>> +#define I915_GEM_CREATE_EXT_PROTECTED_CONTENT 1
->>> +    __u64 extensions;
->>> +};
->>> +
->>> +#define DRM_I915_QUERY_VMA_INFO    5
->>> +
->>> +/**
->>> + * struct __drm_i915_query_vma_info
->>> + *
->>> + * Given a vm and GTT address, lookup the corresponding vma, 
->>> returning its set
->>> + * of attributes.
->>> + *
->>> + * .. code-block:: C
->>> + *
->>> + *    struct drm_i915_query_vma_info info = {};
->>> + *    struct drm_i915_query_item item = {
->>> + *        .data_ptr = (uintptr_t)&info,
->>> + *        .query_id = DRM_I915_QUERY_VMA_INFO,
->>> + *    };
->>> + *    struct drm_i915_query query = {
->>> + *        .num_items = 1,
->>> + *        .items_ptr = (uintptr_t)&item,
->>> + *    };
->>> + *    int err;
->>> + *
->>> + *    // Unlike some other types of queries, there is no need to 
->>> first query
->>> + *    // the size of the data_ptr blob here, since we already know 
->>> ahead of
->>> + *    // time how big this needs to be.
->>> + *    item.length = sizeof(info);
->>> + *
->>> + *    // Next we fill in the vm_id and ppGTT address of the vma we wish
->>> + *    // to query, before then firing off the query.
->>> + *    info.vm_id = vm_id;
->>> + *    info.offset = gtt_address;
->>> + *    err = ioctl(fd, DRM_IOCTL_I915_QUERY, &query);
->>> + *    if (err || item.length < 0) ...
->>> + *
->>> + *    // If all went well we can now inspect the returned attributes.
->>> + *    if (info.attributes & DRM_I915_QUERY_VMA_INFO_CPU_VISIBLE) ...
->>> + */
->>> +struct __drm_i915_query_vma_info {
->>> +    /**
->>> +     * @vm_id: The given vm id that contains the vma. The id is the 
->>> value
->>> +     * returned by the DRM_I915_GEM_VM_CREATE. See struct
->>> +     * drm_i915_gem_vm_control.vm_id.
->>> +     */
->>> +    __u32 vm_id;
->>> +    /** @pad: MBZ. */
->>> +    __u32 pad;
->>> +    /**
->>> +     * @offset: The corresponding ppGTT address of the vma which the 
->>> kernel
->>> +     * will use to perform the lookup.
->>> +     */
->>> +    __u64 offset;
->>> +    /**
->>> +     * @attributes: The returned attributes for the given vma.
->>> +     *
->>> +     * Possible values:
->>> +     *
->>> +     * DRM_I915_QUERY_VMA_INFO_CPU_VISIBLE - Set if the pages 
->>> backing the
->>> +     * vma are currently CPU accessible. If this is not set then the 
->>> vma is
->>> +     * currently backed by I915_MEMORY_CLASS_DEVICE memory, which 
->>> the CPU
->>> +     * cannot directly access(this is only possible on discrete 
->>> devices with
->>> +     * a small BAR). Attempting to MMAP and fault such an object will
->>> +     * require the kernel first synchronising any GPU work tied to the
->>> +     * object, before then migrating the pages, either to the CPU 
->>> accessible
->>> +     * part of I915_MEMORY_CLASS_DEVICE, or 
->>> I915_MEMORY_CLASS_SYSTEM, if the
->>> +     * placements permit it. See 
->>> I915_GEM_CREATE_EXT_FLAG_NEEDS_CPU_ACCESS.
->>> +     *
->>> +     * Note that this is inherently racy.
->>> +     */
->>> +#define DRM_I915_QUERY_VMA_INFO_CPU_VISIBLE (1<<0)
->>> +    __u64 attributes;
->>> +    /** @rsvd: MBZ */
->>> +    __u32 rsvd[4];
->>> +};
->>> diff --git a/Documentation/gpu/rfc/i915_small_bar.rst 
->>> b/Documentation/gpu/rfc/i915_small_bar.rst
->>> new file mode 100644
->>> index 000000000000..be3d9bcdd86d
->>> --- /dev/null
->>> +++ b/Documentation/gpu/rfc/i915_small_bar.rst
->>> @@ -0,0 +1,58 @@
->>> +==========================
->>> +I915 Small BAR RFC Section
->>> +==========================
->>> +Starting from DG2 we will have resizable BAR support for device 
->>> local-memory(i.e
->>> +I915_MEMORY_CLASS_DEVICE), but in some cases the final BAR size 
->>> might still be
->>> +smaller than the total probed_size. In such cases, only some subset of
->>> +I915_MEMORY_CLASS_DEVICE will be CPU accessible(for example the 
->>> first 256M),
->>> +while the remainder is only accessible via the GPU.
->>> +
->>> +I915_GEM_CREATE_EXT_FLAG_NEEDS_CPU_ACCESS flag
->>> +----------------------------------------------
->>> +New gem_create_ext flag to tell the kernel that a BO will require 
->>> CPU access.
->>> +This becomes important when placing an object in 
->>> I915_MEMORY_CLASS_DEVICE, where
->>> +underneath the device has a small BAR, meaning only some portion of 
->>> it is CPU
->>> +accessible. Without this flag the kernel will assume that CPU access 
->>> is not
->>> +required, and prioritize using the non-CPU visible portion of
->>> +I915_MEMORY_CLASS_DEVICE.
->>> +
->>> +.. kernel-doc:: Documentation/gpu/rfc/i915_small_bar.h
->>> +   :functions: __drm_i915_gem_create_ext
->>> +
->>> +probed_cpu_visible_size attribute
->>> +---------------------------------
->>> +New struct__drm_i915_memory_region attribute which returns the total 
->>> size of the
->>> +CPU accessible portion, for the particular region. This should only be
->>> +applicable for I915_MEMORY_CLASS_DEVICE.
->>> +
->>> +Vulkan will need this as part of creating a separate VkMemoryHeap 
->>> with the
->>> +VK_MEMORY_PROPERTY_HOST_VISIBLE_BIT set, to represent the CPU 
->>> visible portion,
->>> +where the total size of the heap needs to be known.
->>> +
->>> +.. kernel-doc:: Documentation/gpu/rfc/i915_small_bar.h
->>> +   :functions: __drm_i915_memory_region_info
->>> +
->>> +DRM_I915_QUERY_VMA_INFO query
->>> +-----------------------------
->>> +Query the attributes of some vma. Given a vm and GTT offset, find the
->>> +respective vma, and return its set of attributes. For now we only 
->>> support
->>> +DRM_I915_QUERY_VMA_INFO_CPU_VISIBLE, which is set if the object/vma is
->>> +currently placed in memory that is accessible by the CPU. This 
->>> should always be
->>> +set on devices where the CPU probed_cpu_visible_size of 
->>> I915_MEMORY_CLASS_DEVICE
->>> +matches the probed_size. If this is not set then CPU faulting the 
->>> object will
->>> +likely first require migrating the pages.
->>> +
->>> +.. kernel-doc:: Documentation/gpu/rfc/i915_small_bar.h
->>> +   :functions: __drm_i915_query_vma_info
->>> +
->>> +Error Capture restrictions
->>> +--------------------------
->>> +With error capture we have two new restrictions:
->>> +
->>> +    1) Error capture is best effort on small BAR systems; if the 
->>> pages are not
->>> +    CPU accessible, at the time of capture, then the kernel is free 
->>> to skip
->>> +    trying to capture them.
->>> +
->>> +    2) On discrete we now reject error capture on recoverable 
->>> contexts. In the
->>> +    future the kernel may want to blit during error capture, when 
->>> for example
->>> +    something is not currently CPU accessible.
->>> diff --git a/Documentation/gpu/rfc/index.rst 
->>> b/Documentation/gpu/rfc/index.rst
->>> index 91e93a705230..5a3bd3924ba6 100644
->>> --- a/Documentation/gpu/rfc/index.rst
->>> +++ b/Documentation/gpu/rfc/index.rst
->>> @@ -23,3 +23,7 @@ host such documentation:
->>>   .. toctree::
->>>         i915_scheduler.rst
->>> +
->>> +.. toctree::
->>> +
->>> +    i915_small_bar.rst
->>
+>> The "abm level" defaults to "0" unless userspace sets the "abm level"
+>> to something else. The same component that sets the "abm level"
+>> initially is the one that should set it to "0" when in AC mode.
 >>
 > 
+> It might be that the ABM level is controlled via the abmlevel module
+> parameter. If that's the case and there isn't a userspace that sets the
+> "abm level" property then the easiest way to handle this is to switch
+> between 0 and amdgpu_dm_abm_level inside amdgpu_dm when there is a
+> AC/DC switch. Either way we shouldn't need to change DC.
+
+Thanks,
+Harry
+
+> +
+> +	if (dev->pm.ac_power)
+> +		level = 0;
+>   
+>   	get_edp_links(dc->dc, edp_links, &edp_num);
+>   
+> @@ -170,6 +153,36 @@ static bool dmub_abm_set_level(struct abm *abm, uint32_t level)
+>   	return true;
+>   }
+>   
+> +static unsigned int dmub_abm_get_current_backlight(struct abm *abm)
+> +{
+> +	struct dce_abm *dce_abm = TO_DMUB_ABM(abm);
+> +	unsigned int backlight = REG_READ(BL1_PWM_CURRENT_ABM_LEVEL);
+> +	struct dc_context *dc = abm->ctx;
+> +	struct amdgpu_device *adev = dc->driver_context;
+> +
+> +	if (adev->pm.ac_power != adev->pm.old_ac_power) {
+> +		dmub_abm_set_level(abm, amdgpu_dm_abm_level);
+> +		adev->pm.ac_power = power_supply_is_system_supplied() > 0;
+> +		adev->pm.old_ac_power = adev->pm.ac_power;
+> +	}
+> +
+> +	/* return backlight in hardware format which is unsigned 17 bits, with
+> +	 * 1 bit integer and 16 bit fractional
+> +	 */
+> +	return backlight;
+> +}
+> +
+> +static unsigned int dmub_abm_get_target_backlight(struct abm *abm)
+> +{
+> +	struct dce_abm *dce_abm = TO_DMUB_ABM(abm);
+> +	unsigned int backlight = REG_READ(BL1_PWM_TARGET_ABM_LEVEL);
+> +
+> +	/* return backlight in hardware format which is unsigned 17 bits, with
+> +	 * 1 bit integer and 16 bit fractional
+> +	 */
+> +	return backlight;
+> +}
+> +
+>   static bool dmub_abm_init_config(struct abm *abm,
+>   	const char *src,
+>   	unsigned int bytes,
+> diff --git a/drivers/gpu/drm/amd/include/amd_acpi.h b/drivers/gpu/drm/amd/include/amd_acpi.h
+> index 2d089d30518f3..5a62e580668e4 100644
+> --- a/drivers/gpu/drm/amd/include/amd_acpi.h
+> +++ b/drivers/gpu/drm/amd/include/amd_acpi.h
+> @@ -25,6 +25,7 @@
+>   #define AMD_ACPI_H
+>   
+>   #define ACPI_AC_CLASS           "ac_adapter"
+> +#define ACPI_BATTERY_CLASS  "battery"
+>   
+>   struct atif_verify_interface {
+>   	u16 size;		/* structure size in bytes (includes size field) */
+> diff --git a/drivers/gpu/drm/amd/pm/inc/amdgpu_dpm.h b/drivers/gpu/drm/amd/pm/inc/amdgpu_dpm.h
+> index f6e0e7d8a0077..de459411a0e83 100644
+> --- a/drivers/gpu/drm/amd/pm/inc/amdgpu_dpm.h
+> +++ b/drivers/gpu/drm/amd/pm/inc/amdgpu_dpm.h
+> @@ -445,6 +445,7 @@ struct amdgpu_pm {
+>   	uint32_t                smu_prv_buffer_size;
+>   	struct amdgpu_bo        *smu_prv_buffer;
+>   	bool ac_power;
+> +	bool old_ac_power;
+>   	/* powerplay feature */
+>   	uint32_t pp_feature;
+>   
