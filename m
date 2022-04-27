@@ -2,63 +2,70 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id EE1A6510EB9
-	for <lists+dri-devel@lfdr.de>; Wed, 27 Apr 2022 04:28:20 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id DCF29510ECF
+	for <lists+dri-devel@lfdr.de>; Wed, 27 Apr 2022 04:31:26 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id B645710EE90;
-	Wed, 27 Apr 2022 02:28:16 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 6DC2C10EECA;
+	Wed, 27 Apr 2022 02:31:22 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
- by gabe.freedesktop.org (Postfix) with ESMTPS id CC73610EE8F
- for <dri-devel@lists.freedesktop.org>; Wed, 27 Apr 2022 02:28:14 +0000 (UTC)
-Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
- (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
- (No client certificate requested)
- by dfw.source.kernel.org (Postfix) with ESMTPS id 3E8F861C30
- for <dri-devel@lists.freedesktop.org>; Wed, 27 Apr 2022 02:28:14 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPS id A12F3C385A4
- for <dri-devel@lists.freedesktop.org>; Wed, 27 Apr 2022 02:28:13 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1651026493;
- bh=elfUudpiucd463cM17zNdzlgypwFu1LjCnsGZbuqI8o=;
- h=From:To:Subject:Date:In-Reply-To:References:From;
- b=ogYRQ128EHIg3tDxJBNa2XElCu/A9jmEejxHJCjIQu9RT71N3prYxMvQ/1f80MOpX
- YXrgEUxtS/6xLbmmf1aOOA+DkHNZZjTqIgnEFGda6z2IziMKgRzJFi5TOs+YB7n5M2
- 5QWlnoQOJwjy9FyK2MLo6o9O+MqA6eMNvNjQMOIHhAdXlSz7iuGd2+b921IaeIlom+
- ozuwNTMBMTrHZQT7C9IfdgaFXZDFCBYzq1Ax3dWkv/foqNiAWu+MJDbomSGutmUQu3
- oYxlqDV7e5mAFlIPMJDgZrHG2qyeuPshcNgypI0WFSulxsQMqiyYaIJqU7N6BegkbW
- ktz+PloD4r/Gg==
-Received: by aws-us-west-2-korg-bugzilla-1.web.codeaurora.org (Postfix,
- from userid 48) id 82534C05FD5; Wed, 27 Apr 2022 02:28:13 +0000 (UTC)
-From: bugzilla-daemon@kernel.org
-To: dri-devel@lists.freedesktop.org
-Subject: [Bug 215892] 6500XT [drm:amdgpu_dm_init.isra.0.cold [amdgpu]]
- *ERROR* Failed to register vline0 irq 30!
-Date: Wed, 27 Apr 2022 02:28:13 +0000
-X-Bugzilla-Reason: None
-X-Bugzilla-Type: changed
-X-Bugzilla-Watch-Reason: AssignedTo drivers_video-dri@kernel-bugs.osdl.org
-X-Bugzilla-Product: Drivers
-X-Bugzilla-Component: Video(DRI - non Intel)
-X-Bugzilla-Version: 2.5
-X-Bugzilla-Keywords: 
-X-Bugzilla-Severity: normal
-X-Bugzilla-Who: ulatec@gmail.com
-X-Bugzilla-Status: NEW
-X-Bugzilla-Resolution: 
-X-Bugzilla-Priority: P1
-X-Bugzilla-Assigned-To: drivers_video-dri@kernel-bugs.osdl.org
-X-Bugzilla-Flags: 
-X-Bugzilla-Changed-Fields: attachments.created
-Message-ID: <bug-215892-2300-NOabTbWZBU@https.bugzilla.kernel.org/>
-In-Reply-To: <bug-215892-2300@https.bugzilla.kernel.org/>
-References: <bug-215892-2300@https.bugzilla.kernel.org/>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-X-Bugzilla-URL: https://bugzilla.kernel.org/
-Auto-Submitted: auto-generated
+Received: from mail-pf1-x442.google.com (mail-pf1-x442.google.com
+ [IPv6:2607:f8b0:4864:20::442])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id D2C6010EEC3;
+ Wed, 27 Apr 2022 02:31:20 +0000 (UTC)
+Received: by mail-pf1-x442.google.com with SMTP id b15so419474pfm.5;
+ Tue, 26 Apr 2022 19:31:20 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
+ h=message-id:date:mime-version:user-agent:subject:content-language:to
+ :cc:references:from:in-reply-to:content-transfer-encoding;
+ bh=SUw0dCnPO7y6e5RUbB+GKQ8bQH8cCrbwkwfSFkbqu5I=;
+ b=Hpc94eKFtmZClq+hZrqw07xHQpckayyJLKAM8ectf7kKKMZQpCTjK3Wph34N0co8Bz
+ S8LZB1fVCqpkzBSTiOliEcYgSsmfaqlf9k3/ObLfsDkw8K5lqydJ78Zxc1ltrUsdFbPi
+ 3b2KqZgpD2UBAK3NNgdix1VkFYSEZLweDDrc3KsQGfmJ2hrQ6fZpG/IPqhxSitw8UlB1
+ is/Q5z02vPD4Knum9Ouz4gt+jqSgX2jfpSlLtbVbY/HkCzUZ/fw9JqTdv1Gitc8IbZne
+ yqBb3c1+bToWOxqVkouLQ56ThDKK/ZlQSSAuYWHULgdea1shFmE4m+2cRMCRNjy1x2tW
+ 0CYg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
+ :content-language:to:cc:references:from:in-reply-to
+ :content-transfer-encoding;
+ bh=SUw0dCnPO7y6e5RUbB+GKQ8bQH8cCrbwkwfSFkbqu5I=;
+ b=dVphaC328zfd4Bj/jYm9D4AypJowl88ZWB/a44a6DnGSFnXJyK74MdJEuQs7ZfKThv
+ wDrTgGxIRr0kkPrHGPNa7QWSye6OiZ7e7jm+GeiG6R8WHO/VwJXfjiY+jlaubMtRNOy1
+ xxxpv8KNS898sGa04t3I2QU2nDKCs706QmqKAH4nH77HY5wLegfDKfSZqlZ8DbNE7u06
+ 1UHac1GovTcOSa9FA/tNIBu4RaiwCCxJg2uTJzRjKJ1xHfMpVCeKEWTvgl2ccXxmV55R
+ UTThonXNJTyg1eP5IZFlhokgSsGzBZrDpLMzzwrbYINEcwJ+d1A6wlnnN/I6ujx3BgIG
+ 0ntw==
+X-Gm-Message-State: AOAM531WtHfnSsDdWsiflaPI9KTOszMUfa1FXBsPDnMmg97bozDusYh8
+ pjWK63PoOx8675BLe+czz5o=
+X-Google-Smtp-Source: ABdhPJxyKMjbsMnSMJM9V3ecZeu+u/jxOr1pWdhnBMaxbakRco0eTr0d3jqwmjLnob4SmvCQPmltdQ==
+X-Received: by 2002:aa7:970f:0:b0:50d:301e:e6ce with SMTP id
+ a15-20020aa7970f000000b0050d301ee6cemr17759185pfg.61.1651026680269; 
+ Tue, 26 Apr 2022 19:31:20 -0700 (PDT)
+Received: from [192.168.50.247] ([103.84.139.165])
+ by smtp.gmail.com with ESMTPSA id
+ a8-20020a17090a6d8800b001cd4c118b07sm389936pjk.16.2022.04.26.19.31.17
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Tue, 26 Apr 2022 19:31:19 -0700 (PDT)
+Message-ID: <88dd5d67-7dd5-2f58-5254-adaa941deb0f@gmail.com>
+Date: Wed, 27 Apr 2022 10:31:15 +0800
 MIME-Version: 1.0
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.7.0
+Subject: Re: [PATCH] gpu: drm: remove redundant dma_fence_put() when
+ drm_sched_job_add_dependency() fails
+Content-Language: en-US
+To: Andrey Grodzovsky <andrey.grodzovsky@amd.com>, yuq825@gmail.com,
+ airlied@linux.ie, daniel@ffwll.ch
+References: <20220425083645.25922-1-hbh25y@gmail.com>
+ <b7d8956e-5ac6-8200-d8b1-4ce828f04665@amd.com>
+ <79b198d0-eff2-d658-4b5e-9084a834fc93@gmail.com>
+ <e26e6ef8-6665-0b9d-804f-cf107f1788d4@amd.com>
+From: Hangyu Hua <hbh25y@gmail.com>
+In-Reply-To: <e26e6ef8-6665-0b9d-804f-cf107f1788d4@amd.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -71,18 +78,159 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
+Cc: lima@lists.freedesktop.org, dri-devel@lists.freedesktop.org,
+ linux-kernel@vger.kernel.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-https://bugzilla.kernel.org/show_bug.cgi?id=3D215892
+On 2022/4/26 22:55, Andrey Grodzovsky wrote:
+> 
+> On 2022-04-25 22:54, Hangyu Hua wrote:
+>> On 2022/4/25 23:42, Andrey Grodzovsky wrote:
+>>> On 2022-04-25 04:36, Hangyu Hua wrote:
+>>>
+>>>> When drm_sched_job_add_dependency() fails, dma_fence_put() will be 
+>>>> called
+>>>> internally. Calling it again after drm_sched_job_add_dependency() 
+>>>> finishes
+>>>> may result in a dangling pointer.
+>>>>
+>>>> Fix this by removing redundant dma_fence_put().
+>>>>
+>>>> Signed-off-by: Hangyu Hua <hbh25y@gmail.com>
+>>>> ---
+>>>>   drivers/gpu/drm/lima/lima_gem.c        | 1 -
+>>>>   drivers/gpu/drm/scheduler/sched_main.c | 1 -
+>>>>   2 files changed, 2 deletions(-)
+>>>>
+>>>> diff --git a/drivers/gpu/drm/lima/lima_gem.c 
+>>>> b/drivers/gpu/drm/lima/lima_gem.c
+>>>> index 55bb1ec3c4f7..99c8e7f6bb1c 100644
+>>>> --- a/drivers/gpu/drm/lima/lima_gem.c
+>>>> +++ b/drivers/gpu/drm/lima/lima_gem.c
+>>>> @@ -291,7 +291,6 @@ static int lima_gem_add_deps(struct drm_file 
+>>>> *file, struct lima_submit *submit)
+>>>>           err = drm_sched_job_add_dependency(&submit->task->base, 
+>>>> fence);
+>>>>           if (err) {
+>>>> -            dma_fence_put(fence);
+>>>>               return err;
+>>>
+>>>
+>>> Makes sense here
+>>>
+>>>
+>>>>           }
+>>>>       }
+>>>> diff --git a/drivers/gpu/drm/scheduler/sched_main.c 
+>>>> b/drivers/gpu/drm/scheduler/sched_main.c
+>>>> index b81fceb0b8a2..ebab9eca37a8 100644
+>>>> --- a/drivers/gpu/drm/scheduler/sched_main.c
+>>>> +++ b/drivers/gpu/drm/scheduler/sched_main.c
+>>>> @@ -708,7 +708,6 @@ int 
+>>>> drm_sched_job_add_implicit_dependencies(struct drm_sched_job *job,
+>>>>           dma_fence_get(fence);
+>>>>           ret = drm_sched_job_add_dependency(job, fence);
+>>>>           if (ret) {
+>>>> -            dma_fence_put(fence);
+>>>
+>>>
+>>>
+>>> Not sure about this one since if you look at the relevant commits -
+>>> 'drm/scheduler: fix drm_sched_job_add_implicit_dependencies' and
+>>> 'drm/scheduler: fix drm_sched_job_add_implicit_dependencies harder'
+>>> You will see that the dma_fence_put here balances the extra 
+>>> dma_fence_get
+>>> above
+>>>
+>>> Andrey
+>>>
+>>
+>> I don't think so. I checked the call chain and found no additional 
+>> dma_fence_get(). But dma_fence_get() needs to be called before 
+>> drm_sched_job_add_dependency() to keep the counter balanced. 
+> 
+> 
+> I don't say there is an additional get, I just say that 
+> drm_sched_job_add_dependency doesn't grab an extra reference to the 
+> fences it stores so this needs to be done outside and for that
+> drm_sched_job_add_implicit_dependencies->dma_fence_get is called and, if 
+> this addition fails you just call dma_fence_put to keep the counter 
+> balanced.
+> 
 
---- Comment #2 from Mark Johnston (ulatec@gmail.com) ---
-Created attachment 300813
-  --> https://bugzilla.kernel.org/attachment.cgi?id=3D300813&action=3Dedit
-Prior PowerColor (6500XT) board with chip that does not produce error
+drm_sched_job_add_implicit_dependencies() will call 
+drm_sched_job_add_dependency(). And drm_sched_job_add_dependency() 
+already call dma_fence_put() when it fails. Calling dma_fence_put() 
+twice doesn't make sense.
 
---=20
-You may reply to this email to add a comment.
+dma_fence_get() is in [2]. But dma_fence_put() will be called in [1] and 
+[3] when xa_alloc() fails.
 
-You are receiving this mail because:
-You are watching the assignee of the bug.=
+
+int drm_sched_job_add_dependency(struct drm_sched_job *job,
+				 struct dma_fence *fence)
+{
+	...
+	ret = xa_alloc(&job->dependencies, &id, fence, xa_limit_32b, GFP_KERNEL);
+	if (ret != 0)
+		dma_fence_put(fence);	<--- [1]
+
+	return ret;
+}
+EXPORT_SYMBOL(drm_sched_job_add_dependency);
+
+
+int drm_sched_job_add_implicit_dependencies(struct drm_sched_job *job,
+					    struct drm_gem_object *obj,
+					    bool write)
+{
+	struct dma_resv_iter cursor;
+	struct dma_fence *fence;
+	int ret;
+
+	dma_resv_for_each_fence(&cursor, obj->resv, write, fence) {
+		/* Make sure to grab an additional ref on the added fence */
+		dma_fence_get(fence);	<--- [2]
+		ret = drm_sched_job_add_dependency(job, fence);
+		if (ret) {
+			dma_fence_put(fence);	<--- [3]
+			return ret;
+		}
+	}
+	return 0;
+}
+
+
+> 
+>> On the other hand, dma_fence_get() and dma_fence_put() are meaningless 
+>> here if threre is an extra dma_fence_get() beacause counter will not 
+>> decrease to 0 during drm_sched_job_add_dependency().
+>>
+>> I check the call chain as follows:
+>>
+>> msm_ioctl_gem_submit()
+>> -> submit_fence_sync()
+>> -> drm_sched_job_add_implicit_dependencies()
+> 
+> 
+> Can you maybe trace or print one such example of problematic refcount 
+> that you are trying to fix ? I still don't see where is the problem.
+> 
+> Andrey
+> 
+
+I also wish I could. System logs can make this easy. But i don't have a 
+corresponding GPU physical device. 
+drm_sched_job_add_implicit_dependencies is only used in a few devices.
+
+Thanks.
+> 
+>>
+>> Thanks,
+>> Hangyu
+>>
+>>>
+>>>>               return ret;
+>>>>           }
+>>>>       }
