@@ -1,60 +1,68 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id C8F085114BE
-	for <lists+dri-devel@lfdr.de>; Wed, 27 Apr 2022 12:14:11 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 2EA0A5114E9
+	for <lists+dri-devel@lfdr.de>; Wed, 27 Apr 2022 12:43:48 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id EFF8B10EB29;
-	Wed, 27 Apr 2022 10:14:08 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id D16D310F161;
+	Wed, 27 Apr 2022 10:43:44 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mga14.intel.com (mga14.intel.com [192.55.52.115])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 1CF3A10EB25;
- Wed, 27 Apr 2022 10:14:08 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1651054448; x=1682590448;
- h=message-id:subject:from:to:cc:date:in-reply-to:
- references:mime-version:content-transfer-encoding;
- bh=4o0UHgvGu8OD3M/sb8BWbyJCu2+OXfzKJRyCZAr6T9Q=;
- b=blpeQIrjnQV9LdJdy2hLiNjQHVL1LApl5RYh0wEOWNlUk2JewS79Fnpx
- ZF6f7AYZDzBfcLNe9cim+SUZ5+QCuNgl8AqIzI6hb29DQBdb9CCHCc4Uz
- Bp63HbOLKxidKgrOSwbs2WlPsC5INNDuCwUrkAGkhDhWeH5zp4Tph2CLa
- NVhJs0/G6OWfOLiZ3GyTmRzyWj6LvJr2h87Q7WCe9M2QREaFuGg7oswcV
- 82dbmw5hrY7vcoAdwYQVWlRU5yFZECTs0eJ+QpCJC6cwPMMGcxTZsb7oh
- 53T5Ltpbc/GHQNhgzjueOa6g80+Y4pel/gY9unt+nO8Ww1K2CrE4wYbht g==;
-X-IronPort-AV: E=McAfee;i="6400,9594,10329"; a="266044010"
-X-IronPort-AV: E=Sophos;i="5.90,292,1643702400"; d="scan'208";a="266044010"
-Received: from orsmga001.jf.intel.com ([10.7.209.18])
- by fmsmga103.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 27 Apr 2022 03:14:07 -0700
-X-IronPort-AV: E=Sophos;i="5.90,292,1643702400"; d="scan'208";a="596214496"
-Received: from apiotrox-mobl.ger.corp.intel.com (HELO [10.249.254.91])
- ([10.249.254.91])
- by orsmga001-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 27 Apr 2022 03:14:02 -0700
-Message-ID: <8c4494b2b4c0d1017219d1d75f98fcbba4c6f72d.camel@linux.intel.com>
-Subject: Re: [PATCH v2 4/5] drm/i915: ttm backend dont provide mmap_offset
- for kernel buffers
-From: Thomas =?ISO-8859-1?Q?Hellstr=F6m?= <thomas.hellstrom@linux.intel.com>
-To: Robert Beckett <bob.beckett@collabora.com>, 
- dri-devel@lists.freedesktop.org, intel-gfx@lists.freedesktop.org, Jani
- Nikula <jani.nikula@linux.intel.com>, Joonas Lahtinen
- <joonas.lahtinen@linux.intel.com>,  Rodrigo Vivi <rodrigo.vivi@intel.com>,
- Tvrtko Ursulin <tvrtko.ursulin@linux.intel.com>, David Airlie
- <airlied@linux.ie>, Daniel Vetter <daniel@ffwll.ch>
-Date: Wed, 27 Apr 2022 12:14:00 +0200
-In-Reply-To: <cc56e644-f20f-27ae-7a21-e40c173dfe1e@collabora.com>
-References: <20220412151838.1298956-1-bob.beckett@collabora.com>
- <20220412151838.1298956-5-bob.beckett@collabora.com>
- <07e5b1dc442e0b318ee0314f90a433216ed38dcb.camel@linux.intel.com>
- <cc56e644-f20f-27ae-7a21-e40c173dfe1e@collabora.com>
-Organization: Intel Sweden AB, Registration Number: 556189-6027
-Content-Type: text/plain; charset="UTF-8"
-User-Agent: Evolution 3.40.4 (3.40.4-3.fc34) 
+Received: from mail-lf1-x131.google.com (mail-lf1-x131.google.com
+ [IPv6:2a00:1450:4864:20::131])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 2DA1710F161
+ for <dri-devel@lists.freedesktop.org>; Wed, 27 Apr 2022 10:43:44 +0000 (UTC)
+Received: by mail-lf1-x131.google.com with SMTP id t25so2382673lfg.7
+ for <dri-devel@lists.freedesktop.org>; Wed, 27 Apr 2022 03:43:44 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=message-id:date:mime-version:user-agent:subject:content-language:to
+ :cc:references:from:in-reply-to:content-transfer-encoding;
+ bh=d0j66OsdbjktC0pIK4Abp5IiaQ6Az9JyPiTPoioUGo4=;
+ b=hLAMJlckLf2EuLG3HjZqOn+kyLaIxO2mqaj7/1VdEglnobcaQURsb9maJNne/ZKHi6
+ Nzc+9jpkrWmmYHo5KVcLqhlcSqK/gRKwXoYt9EOP/PEwSJi7gSTNTxCbdP6rh96ZQtZ1
+ 7zM3oPmMcst+G0AYxvfJ3J8y9HrhccQe2cJrQ9YjOdxnb2jjpxYnURxNH8oKloewVLvS
+ Yi14sOSUd47++pHHuyKZzNnZm6WduVMZMkjyJ1ok2ibgVwScPRYj/h8RWwfWSUKIcA/M
+ Sm52peJZfyrsMTc9tnk+PI9D5dU21dnCtbt8hz2mmEJ4pN3+bqeOM1Gw2S1M3SBIhTS8
+ C2Qw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
+ :content-language:to:cc:references:from:in-reply-to
+ :content-transfer-encoding;
+ bh=d0j66OsdbjktC0pIK4Abp5IiaQ6Az9JyPiTPoioUGo4=;
+ b=Gjm5KwfJ49B1Viv7vVwaSkL+PuIJQeBOIhzv9kwyPKheh2J5eRYUHRVZJfj7kMcJTN
+ ykh7tMfuTSeJAJ4pYiyODC4bxMAdmmXY13zjg7+GF9FUqIe34VpVVCDZ0uGiyFE2lMvx
+ mlAT2dHj7xN5D5+oRq7ZEgeUIp/It+vdv56cW1bXnyoA8MxzDOm2ZeGBmvmhQ4bfEJ3r
+ htk9husK17jKzekPM4/BPPSbHcQg5lKuRiF9p/W0Ah35uL230RyTK4DoU1JatLfR32ry
+ 2LHSlRzVJGKwqezfZTZDsZUGZYkCeGgpGQ6hz1XBAV6j7E/fbjmsZtwpPkoJk/x+dJdh
+ V1Lg==
+X-Gm-Message-State: AOAM530TCfZ7mwQpn1cgpkkffYC0mHaWuBJwKuWxkp4JSa11ZuQbKUzY
+ Nbxt7nUSlmOlMcIi5lLAtNKEJQ==
+X-Google-Smtp-Source: ABdhPJzvBrbT2SOToIfl1e3NwDilgheeKxsjX9VHmgRODO1bx6aCWqIuEsoYwo574PUXPiItp8vqww==
+X-Received: by 2002:ac2:5b1e:0:b0:472:2c9f:5891 with SMTP id
+ v30-20020ac25b1e000000b004722c9f5891mr1652357lfn.534.1651056222325; 
+ Wed, 27 Apr 2022 03:43:42 -0700 (PDT)
+Received: from [192.168.1.211] ([37.153.55.125])
+ by smtp.gmail.com with ESMTPSA id
+ f23-20020a2e9e97000000b0024921bcf06bsm1777371ljk.57.2022.04.27.03.43.40
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Wed, 27 Apr 2022 03:43:41 -0700 (PDT)
+Message-ID: <2a12a6c7-aff2-b364-a653-80630e4710e5@linaro.org>
+Date: Wed, 27 Apr 2022 13:43:40 +0300
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.8.0
+Subject: Re: [PATCH v6 19/19] drm/msm/dpu: add wb_idx to DRM traces in
+ dpu_encoder
+Content-Language: en-GB
+To: Abhinav Kumar <quic_abhinavk@quicinc.com>, freedreno@lists.freedesktop.org
+References: <1650984096-9964-1-git-send-email-quic_abhinavk@quicinc.com>
+ <1650984096-9964-20-git-send-email-quic_abhinavk@quicinc.com>
+From: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
+In-Reply-To: <1650984096-9964-20-git-send-email-quic_abhinavk@quicinc.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -67,160 +75,143 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Matthew Auld <matthew.auld@intel.com>, linux-kernel@vger.kernel.org
+Cc: markyacoub@chromium.org, liviu.dudau@arm.com,
+ dri-devel@lists.freedesktop.org, swboyd@chromium.org, seanpaul@chromium.org,
+ laurent.pinchart@ideasonboard.com, quic_jesszhan@quicinc.com,
+ quic_aravindh@quicinc.com
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Sorry for late reply,
+On 26/04/2022 17:41, Abhinav Kumar wrote:
+> Change the DRM traces to include both the intf_mode
+> and wb_idx similar to the DRM prints in the previous change.
+> 
+> Signed-off-by: Abhinav Kumar <quic_abhinavk@quicinc.com>
+> Reviewed-by: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
 
-On Thu, 2022-04-14 at 17:13 +0100, Robert Beckett wrote:
-> 
-> 
-> On 14/04/2022 15:05, Thomas Hellström wrote:
-> > On Tue, 2022-04-12 at 15:18 +0000, Robert Beckett wrote:
-> > > stolen/kernel buffers should not be mmapable by userland.
-> > > do not provide callbacks to facilitate this for these buffers.
-> > > 
-> > > Signed-off-by: Robert Beckett <bob.beckett@collabora.com>
-> > > ---
-> > >   drivers/gpu/drm/i915/gem/i915_gem_ttm.c | 32
-> > > +++++++++++++++++++++--
-> > > --
-> > >   1 file changed, 27 insertions(+), 5 deletions(-)
-> > > 
-> > > diff --git a/drivers/gpu/drm/i915/gem/i915_gem_ttm.c
-> > > b/drivers/gpu/drm/i915/gem/i915_gem_ttm.c
-> > > index a878910a563c..b20f81836c54 100644
-> > > --- a/drivers/gpu/drm/i915/gem/i915_gem_ttm.c
-> > > +++ b/drivers/gpu/drm/i915/gem/i915_gem_ttm.c
-> > > @@ -1092,8 +1092,8 @@ static void i915_ttm_unmap_virtual(struct
-> > > drm_i915_gem_object *obj)
-> > >          ttm_bo_unmap_virtual(i915_gem_to_ttm(obj));
-> > >   }
-> > >   
-> > > -static const struct drm_i915_gem_object_ops i915_gem_ttm_obj_ops
-> > > = {
-> > > -       .name = "i915_gem_object_ttm",
-> > > +static const struct drm_i915_gem_object_ops
-> > > i915_gem_ttm_user_obj_ops = {
-> > > +       .name = "i915_gem_object_ttm_user",
-> > >          .flags = I915_GEM_OBJECT_IS_SHRINKABLE |
-> > >                   I915_GEM_OBJECT_SELF_MANAGED_SHRINK_LIST,
-> > >   
-> > > @@ -1111,6 +1111,21 @@ static const struct
-> > > drm_i915_gem_object_ops
-> > > i915_gem_ttm_obj_ops = {
-> > >          .mmap_ops = &vm_ops_ttm,
-> > >   };
-> > >   
-> > > +static const struct drm_i915_gem_object_ops
-> > > i915_gem_ttm_kern_obj_ops = {
-> > > +       .name = "i915_gem_object_ttm_kern",
-> > > +       .flags = I915_GEM_OBJECT_IS_SHRINKABLE |
-> > > +                I915_GEM_OBJECT_SELF_MANAGED_SHRINK_LIST,
-> > > +
-> > > +       .get_pages = i915_ttm_get_pages,
-> > > +       .put_pages = i915_ttm_put_pages,
-> > > +       .truncate = i915_ttm_truncate,
-> > > +       .shrink = i915_ttm_shrink,
-> > > +
-> > > +       .adjust_lru = i915_ttm_adjust_lru,
-> > > +       .delayed_free = i915_ttm_delayed_free,
-> > > +       .migrate = i915_ttm_migrate,
-> > > +};
-> > 
-> > Do we really need two different ops here?
-> > 
-> > Since if we don't have mmap ops, basically that tells GEM it should
-> > do
-> > the mmapping rather than TTM.
-> > 
-> > That might of course come in handy for the shmem backend, but I
-> > don't
-> > fully follow why we need this for stolen.
-> 
-> the main rationale for doing this was to avoid 
-> drivers/gpu/drm/i915/gem/selftests/i915_gem_mman.c:can_mmap()
-> presuming 
-> that is can use I915_MMAP_TYPE_FIXED
-> 
-> As the original backend also did not have mmap_offset handlers for 
-> stolen, this seemed like a reasonable design.
-> 
-> If desired, we could add a special case for the testing logic, but
-> those 
-> special cases have tendency to multiply.
-> 
-> > 
-> > Also for the framebuffer handed over from BIOS to fbdev, Does that
-> > need
-> > mmapping and if so, how do we handle that?
-> > 
-> 
-> I'm not sure of the usecase there. Do you know of any igt test that 
-> tests this? I can investigate further if you do not.
+This commit got traces broken. I'm going to apply a fix.
 
-It would be if we the fbdev driver at startup inherits some image that
-bios has preloaded into stolen, and then a client tries to write into
-it. Not sure that this is a real use case though, or whether, in that
-case, that takes a separate path for user-space mappings.
-
-/Thomas
-
-
-
+> ---
+>   drivers/gpu/drm/msm/disp/dpu1/dpu_encoder.c | 13 ++++++++-----
+>   drivers/gpu/drm/msm/disp/dpu1/dpu_trace.h   | 26 ++++++++++++++++++--------
+>   2 files changed, 26 insertions(+), 13 deletions(-)
 > 
-> > 
-> > /Thomas
-> > 
-> > 
-> > 
-> > 
-> > > +
-> > >   void i915_ttm_bo_destroy(struct ttm_buffer_object *bo)
-> > >   {
-> > >          struct drm_i915_gem_object *obj = i915_ttm_to_gem(bo);
-> > > @@ -1165,10 +1180,19 @@ int __i915_gem_ttm_object_init(struct
-> > > intel_memory_region *mem,
-> > >                  .no_wait_gpu = false,
-> > >          };
-> > >          enum ttm_bo_type bo_type;
-> > > +       const struct drm_i915_gem_object_ops *ops;
-> > >          int ret;
-> > >   
-> > >          drm_gem_private_object_init(&i915->drm, &obj->base,
-> > > size);
-> > > -       i915_gem_object_init(obj, &i915_gem_ttm_obj_ops,
-> > > &lock_class,
-> > > flags);
-> > > +
-> > > +       if (flags & I915_BO_ALLOC_USER &&
-> > > intel_region_to_ttm_type(mem) != I915_PL_STOLEN) {
-> > > +               bo_type = ttm_bo_type_device;
-> > > +               ops = &i915_gem_ttm_user_obj_ops;
-> > > +       } else {
-> > > +               bo_type = ttm_bo_type_kernel;
-> > > +               ops = &i915_gem_ttm_kern_obj_ops;
-> > > +       }
-> > > +       i915_gem_object_init(obj, ops, &lock_class, flags);
-> > >   
-> > >          obj->bo_offset = offset;
-> > >   
-> > > @@ -1178,8 +1202,6 @@ int __i915_gem_ttm_object_init(struct
-> > > intel_memory_region *mem,
-> > >   
-> > >          INIT_RADIX_TREE(&obj->ttm.get_io_page.radix, GFP_KERNEL
-> > > |
-> > > __GFP_NOWARN);
-> > >          mutex_init(&obj->ttm.get_io_page.lock);
-> > > -       bo_type = (obj->flags & I915_BO_ALLOC_USER) ?
-> > > ttm_bo_type_device :
-> > > -               ttm_bo_type_kernel;
-> > >   
-> > >          obj->base.vma_node.driver_private =
-> > > i915_gem_to_ttm(obj);
-> > >   
-> > 
-> > 
+> diff --git a/drivers/gpu/drm/msm/disp/dpu1/dpu_encoder.c b/drivers/gpu/drm/msm/disp/dpu1/dpu_encoder.c
+> index 35080c4..52516eb 100644
+> --- a/drivers/gpu/drm/msm/disp/dpu1/dpu_encoder.c
+> +++ b/drivers/gpu/drm/msm/disp/dpu1/dpu_encoder.c
+> @@ -1354,8 +1354,9 @@ static void dpu_encoder_frame_done_callback(
+>   			 * suppress frame_done without waiter,
+>   			 * likely autorefresh
+>   			 */
+> -			trace_dpu_enc_frame_done_cb_not_busy(DRMID(drm_enc),
+> -					event, ready_phys->intf_idx);
+> +			trace_dpu_enc_frame_done_cb_not_busy(DRMID(drm_enc), event,
+> +					dpu_encoder_helper_get_intf_type(ready_phys->intf_mode),
+> +					ready_phys->intf_idx, ready_phys->wb_idx);
+>   			return;
+>   		}
+>   
+> @@ -1433,9 +1434,11 @@ static void _dpu_encoder_trigger_flush(struct drm_encoder *drm_enc,
+>   	if (ctl->ops.get_pending_flush)
+>   		ret = ctl->ops.get_pending_flush(ctl);
+>   
+> -	trace_dpu_enc_trigger_flush(DRMID(drm_enc), phys->intf_idx,
+> -				    pending_kickoff_cnt, ctl->idx,
+> -				    extra_flush_bits, ret);
+> +	trace_dpu_enc_trigger_flush(DRMID(drm_enc),
+> +			dpu_encoder_helper_get_intf_type(phys->intf_mode),
+> +			phys->intf_idx, phys->wb_idx,
+> +			pending_kickoff_cnt, ctl->idx,
+> +			extra_flush_bits, ret);
+>   }
+>   
+>   /**
+> diff --git a/drivers/gpu/drm/msm/disp/dpu1/dpu_trace.h b/drivers/gpu/drm/msm/disp/dpu1/dpu_trace.h
+> index 58b411f..1106d44 100644
+> --- a/drivers/gpu/drm/msm/disp/dpu1/dpu_trace.h
+> +++ b/drivers/gpu/drm/msm/disp/dpu1/dpu_trace.h
+> @@ -380,20 +380,26 @@ TRACE_EVENT(dpu_enc_rc,
+>   );
+>   
+>   TRACE_EVENT(dpu_enc_frame_done_cb_not_busy,
+> -	TP_PROTO(uint32_t drm_id, u32 event, enum dpu_intf intf_idx),
+> -	TP_ARGS(drm_id, event, intf_idx),
+> +	TP_PROTO(uint32_t drm_id, u32 event, char *intf_mode, enum dpu_intf intf_idx,
+> +			enum dpu_wb wb_idx),
+> +	TP_ARGS(drm_id, event, intf_mode, intf_idx, wb_idx),
+>   	TP_STRUCT__entry(
+>   		__field(	uint32_t,	drm_id		)
+>   		__field(	u32,		event		)
+> +		__string(	intf_mode_str,		intf_mode	)
+>   		__field(	enum dpu_intf,	intf_idx	)
+> +		__field(    enum dpu_wb,  wb_idx    )
+
+Nit: indentation broken. Please use tabs.
+
+>   	),
+>   	TP_fast_assign(
+>   		__entry->drm_id = drm_id;
+>   		__entry->event = event;
+> +		__assign_str(intf_mode_str, intf_mode);
+>   		__entry->intf_idx = intf_idx;
+> +		__entry->wb_idx = wb_idx;
+>   	),
+> -	TP_printk("id=%u, event=%u, intf=%d", __entry->drm_id, __entry->event,
+> -		  __entry->intf_idx)
+> +	TP_printk("id=%u, event=%u, intf_mode=%s intf=%d wb=%d", __entry->drm_id,
+> +			__entry->event, __get_str(intf_mode_str),
+> +			__entry->intf_idx, __entry->wb_idx)
+>   );
+>   
+>   TRACE_EVENT(dpu_enc_frame_done_cb,
+> @@ -415,14 +421,16 @@ TRACE_EVENT(dpu_enc_frame_done_cb,
+>   );
+>   
+>   TRACE_EVENT(dpu_enc_trigger_flush,
+> -	TP_PROTO(uint32_t drm_id, enum dpu_intf intf_idx,
+> +	TP_PROTO(uint32_t drm_id, char *intf_mode, enum dpu_intf intf_idx, enum dpu_wb wb_idx,
+>   		 int pending_kickoff_cnt, int ctl_idx, u32 extra_flush_bits,
+>   		 u32 pending_flush_ret),
+> -	TP_ARGS(drm_id, intf_idx, pending_kickoff_cnt, ctl_idx,
+> +	TP_ARGS(drm_id, intf_mode, intf_idx, pending_kickoff_cnt, ctl_idx,
+>   		extra_flush_bits, pending_flush_ret),
+
+wb_idx is missing from the TP_ARGS, so compilation fails.
+
+>   	TP_STRUCT__entry(
+>   		__field(	uint32_t,	drm_id			)
+> +		__string(	intf_mode_str,	intf_mode	)
+>   		__field(	enum dpu_intf,	intf_idx		)
+> +		__field(    enum dpu_wb,  wb_idx        )
+
+Nit: indentation broken. Please use tabs.
+
+>   		__field(	int,		pending_kickoff_cnt	)
+>   		__field(	int,		ctl_idx			)
+>   		__field(	u32,		extra_flush_bits	)
+> @@ -430,15 +438,17 @@ TRACE_EVENT(dpu_enc_trigger_flush,
+>   	),
+>   	TP_fast_assign(
+>   		__entry->drm_id = drm_id;
+> +		__assign_str(intf_mode_str, intf_mode);
+>   		__entry->intf_idx = intf_idx;
+> +		__entry->wb_idx = wb_idx;
+>   		__entry->pending_kickoff_cnt = pending_kickoff_cnt;
+>   		__entry->ctl_idx = ctl_idx;
+>   		__entry->extra_flush_bits = extra_flush_bits;
+>   		__entry->pending_flush_ret = pending_flush_ret;
+>   	),
+> -	TP_printk("id=%u, intf_idx=%d, pending_kickoff_cnt=%d ctl_idx=%d "
+> +	TP_printk("id=%u, intf_mode=%s, intf_idx=%d, wb_idx=%d, pending_kickoff_cnt=%d ctl_idx=%d "
+>   		  "extra_flush_bits=0x%x pending_flush_ret=0x%x",
+> -		  __entry->drm_id, __entry->intf_idx,
+> +		  __entry->drm_id, __get_str(intf_mode_str), __entry->intf_idx, __entry->wb_idx,
+>   		  __entry->pending_kickoff_cnt, __entry->ctl_idx,
+>   		  __entry->extra_flush_bits, __entry->pending_flush_ret)
+>   );
 
 
+-- 
+With best wishes
+Dmitry
