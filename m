@@ -1,51 +1,70 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1336E51129B
-	for <lists+dri-devel@lfdr.de>; Wed, 27 Apr 2022 09:34:52 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 4EC995112BE
+	for <lists+dri-devel@lfdr.de>; Wed, 27 Apr 2022 09:43:12 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 27F3810E856;
-	Wed, 27 Apr 2022 07:34:50 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 134EE10EE8C;
+	Wed, 27 Apr 2022 07:43:08 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from relay4-d.mail.gandi.net (relay4-d.mail.gandi.net
- [217.70.183.196])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 428B610E89A
- for <dri-devel@lists.freedesktop.org>; Wed, 27 Apr 2022 07:34:48 +0000 (UTC)
-Received: (Authenticated sender: paul.kocialkowski@bootlin.com)
- by mail.gandi.net (Postfix) with ESMTPSA id 12AD3E0004;
- Wed, 27 Apr 2022 07:34:41 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bootlin.com; s=gm1;
- t=1651044886;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- in-reply-to:in-reply-to:references:references;
- bh=glbYfZqUavVGHNnqJks+ijb5S8BE7L21xINkDb3m644=;
- b=aARddhOA4gpGItvv8rgUmLqeIkG2mFWwOJyOrJdkHOjJKb9c3Kj8vbvDelNZ9LZktcz3Fb
- zb6K2r/Ur4pfkbGijSwBx0MjIpxag+jyyPR41Z5qw2kdzwbkSuSLiDacx+GjFseF1WdGkA
- QqWPTovEeeV8f9yVkvdrPzg/aJjZzxwK1hnAV5deo1mfS/wGtK/0zQNAZG8FtUtjb3Cy31
- 6rd3XWOhd5DEMGArYFnfUddX1U6Rh37BoFC49Rf+owVanBPXpFVBhkkccXSbMZgiR5Or4z
- VVu4lTz1ywAiTsJFJQn1RKEDTFvkfviLgFFJV5hsBMTxtlhHzpgG4tApmblWbw==
-Date: Wed, 27 Apr 2022 09:34:41 +0200
-From: Paul Kocialkowski <paul.kocialkowski@bootlin.com>
-To: Bjorn Andersson <bjorn.andersson@linaro.org>
-Subject: Re: [PATCH 2/2] Revert "drm: of: Lookup if child node has panel or
- bridge"
-Message-ID: <YmjyEZs0ND2D9Yki@aptenodytes>
-References: <YmEdAVwZuA7Wo1Ch@aptenodytes> <YmelPCcWCCjALtRU@aptenodytes>
- <YmfYi5G7hMKLAH3T@pendragon.ideasonboard.com>
- <YmfoiD0r8MD/kr1N@aptenodytes>
- <20220426125401.yyrhg6aeafdjw4ad@houat>
- <20220426125544.mroteu3hvyvlyb6g@houat>
- <Ymft0SM5GNHXjkVb@aptenodytes>
- <20220426131944.b26rqqmk7gpcplbg@houat>
- <Ymf4nmQAkEciwyt/@aptenodytes> <YmhfsGAJjSmSPs/l@ripper>
+Received: from mail-lj1-x22f.google.com (mail-lj1-x22f.google.com
+ [IPv6:2a00:1450:4864:20::22f])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 3369410EE8E
+ for <dri-devel@lists.freedesktop.org>; Wed, 27 Apr 2022 07:43:07 +0000 (UTC)
+Received: by mail-lj1-x22f.google.com with SMTP id y19so1533838ljd.4
+ for <dri-devel@lists.freedesktop.org>; Wed, 27 Apr 2022 00:43:07 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
+ h=date:from:to:cc:subject:message-id:in-reply-to:references
+ :mime-version; bh=QHvsXNhIFddzpM/Dqc1XTmfwoRNiRNrjNY+wTZeSQ+k=;
+ b=ZUeACo7unkKoUU62uRsgnU6jsT6V33FIT/8khFrhUIRKo1OBTNwErnR5xNTDaalSwR
+ InNEC5nMkMA0tkhnvjFT7b05WYOFot38dA3eqG9yzs685cA43YoeLzAS00jBkriIHQQ9
+ r0R0liRGhw80hSkYvMOLSvZ2FWTc9UyXfUJvVEnIxgHLixMQ/OnKmZ3rMnCDFo1y9Z/I
+ zhnxFLJ+Jz6VQQ7amqG91ReupinsaYvCYnNkEJbPdlm96v5YEaCEfxJHLYlPeXolDryy
+ fDk2SDaBOkiyQnTPkwVxHfgpo+1ej6Eat7cN5NmpRoti6t290VXBE5mHhmjH2gIHLHFR
+ 1V6g==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=x-gm-message-state:date:from:to:cc:subject:message-id:in-reply-to
+ :references:mime-version;
+ bh=QHvsXNhIFddzpM/Dqc1XTmfwoRNiRNrjNY+wTZeSQ+k=;
+ b=sMtWeFhG0TNh+j/xWo237i38Mp5lRPFFmLjIa1CUluUKcjhxtmOgujNGpcdmZtu81p
+ D2s5lgZJkEzJc2XWlWtZ304UugnYQ2sdngUoFxuYcMWEQ9LGHKtweWO7K5TVlk8gAD1E
+ P6FCmKwt+6Gr17gbB4Vhg6kglsJ5cUPQrHKmb8kdShBxHiO8nLQQiIS3uOQ8YBLhDtvI
+ FpvzUFAv7ECe2NwuiTcGdVhnaoGIMPmjlRcfR7HO8mJcyeIXjNY2oLuxh/56cb7h49wm
+ NI81lyC+v6lp1A/geXOx9EKL+gBhrMUgGisPcHWKWN4WW42j2o/m6XhfR1QEMvrqQtU1
+ IzEA==
+X-Gm-Message-State: AOAM532MUhJ8aLQaXSucIqiPcJgFbECFV8uZPgDtDWS/rR4DAiZmxY6G
+ RdK3Lat0QPs7iTGfQOFOlVs=
+X-Google-Smtp-Source: ABdhPJxNDIkXnf0hnpxvhwGPWDXYMypokB8529rOxUI9SOFiPpNp0gvRcBGzkaLthfHh9D/J0Mt9QQ==
+X-Received: by 2002:a2e:8942:0:b0:24b:405d:ce6d with SMTP id
+ b2-20020a2e8942000000b0024b405dce6dmr16990716ljk.270.1651045385227; 
+ Wed, 27 Apr 2022 00:43:05 -0700 (PDT)
+Received: from eldfell ([194.136.85.206]) by smtp.gmail.com with ESMTPSA id
+ j7-20020a196e07000000b004720dd5fd54sm751963lfc.170.2022.04.27.00.43.04
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Wed, 27 Apr 2022 00:43:04 -0700 (PDT)
+Date: Wed, 27 Apr 2022 10:43:02 +0300
+From: Pekka Paalanen <ppaalanen@gmail.com>
+To: Igor Torrente <igormtorrente@gmail.com>
+Subject: Re: [PATCH v5 6/9] drm: vkms: Refactor the plane composer to accept
+ new formats
+Message-ID: <20220427104302.3082584b@eldfell>
+In-Reply-To: <4313DC33-E81A-4972-90AD-7B9DD42145B8@gmail.com>
+References: <20220404204515.42144-1-igormtorrente@gmail.com>
+ <20220404204515.42144-7-igormtorrente@gmail.com>
+ <20220420153628.0a91fcb6@eldfell>
+ <6d9acb8b-8b1c-957e-8dd1-1d5ed99b08a6@gmail.com>
+ <03105fb1-4f4c-9f8a-f99a-045458ba4e37@gmail.com>
+ <20220425111026.485cba66@eldfell>
+ <caa885ed-208a-3810-bd3e-e497e2c9ba93@gmail.com>
+ <5c2a80f5-5107-4fab-4df9-b0be633fd576@gmail.com>
+ <4313DC33-E81A-4972-90AD-7B9DD42145B8@gmail.com>
+X-Mailer: Claws Mail 3.17.8 (GTK+ 2.24.33; x86_64-pc-linux-gnu)
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha256;
- protocol="application/pgp-signature"; boundary="ijcDL19LA/Jv/8hr"
-Content-Disposition: inline
-In-Reply-To: <YmhfsGAJjSmSPs/l@ripper>
+Content-Type: multipart/signed; boundary="Sig_/Rq.UKVm=pEeIayRlj0Tn80+";
+ protocol="application/pgp-signature"; micalg=pgp-sha256
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -58,223 +77,127 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
- David Airlie <airlied@linux.ie>, Robert Foss <robert.foss@linaro.org>,
- linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
- Thierry Reding <thierry.reding@gmail.com>,
- Jagan Teki <jagan@amarulasolutions.com>,
- Thomas Zimmermann <tzimmermann@suse.de>,
- Marek Szyprowski <m.szyprowski@samsung.com>, Maxime Ripard <maxime@cerno.tech>
+Cc: hamohammed.sa@gmail.com, tzimmermann@suse.de, rodrigosiqueiramelo@gmail.com,
+ airlied@linux.ie, leandro.ribeiro@collabora.com, melissa.srw@gmail.com,
+ dri-devel@lists.freedesktop.org, tales.aparecida@gmail.com,
+ ~lkcamp/patches@lists.sr.ht
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-
---ijcDL19LA/Jv/8hr
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
+--Sig_/Rq.UKVm=pEeIayRlj0Tn80+
+Content-Type: text/plain; charset=US-ASCII
 Content-Transfer-Encoding: quoted-printable
 
-Hi Bjorn,
+On Tue, 26 Apr 2022 22:22:22 -0300
+Igor Torrente <igormtorrente@gmail.com> wrote:
 
-On Tue 26 Apr 22, 14:10, Bjorn Andersson wrote:
-> On Tue 26 Apr 06:50 PDT 2022, Paul Kocialkowski wrote:
+> On April 26, 2022 10:03:09 PM GMT-03:00, Igor Torrente <igormtorrente@gma=
+il.com> wrote:
+> >
+> >
+> >On 4/25/22 22:54, Igor Torrente wrote: =20
+> >> Hi Pekka,
+> >>=20
+> >> On 4/25/22 05:10, Pekka Paalanen wrote: =20
+> >>> On Sat, 23 Apr 2022 15:53:20 -0300
+> >>> Igor Torrente <igormtorrente@gmail.com> wrote:
+> >>>  =20
+
+...
+
+> >>>>>>> +static void argb_u16_to_XRGB8888(struct vkms_frame_info *frame_i=
+nfo,
+> >>>>>>> +				 const struct line_buffer *src_buffer, int y)
+> >>>>>>> +{
+> >>>>>>> +	int x, x_dst =3D frame_info->dst.x1;
+> >>>>>>> +	u8 *dst_pixels =3D packed_pixels_addr(frame_info, x_dst, y);
+> >>>>>>> +	struct pixel_argb_u16 *in_pixels =3D src_buffer->pixels;
+> >>>>>>> +	int x_limit =3D min_t(size_t, drm_rect_width(&frame_info->dst),
+> >>>>>>> +			    src_buffer->n_pixels);
+> >>>>>>> +
+> >>>>>>> +	for (x =3D 0; x < x_limit; x++, dst_pixels +=3D 4) {
+> >>>>>>> +		dst_pixels[3] =3D (u8)0xff; =20
+> >>>>>>=20
+> >>>>>> When writing to XRGB, it's not necessary to ensure the X channel h=
+as
+> >>>>>> any sensible value. Anyone reading from XRGB must ignore that value
+> >>>>>> anyway. So why not write something wacky here, like 0xa1, that is =
+far
+> >>>>>> enough from both 0x00 or 0xff to not be confused with them even
+> >>>>>> visually? Also not 0x7f or 0x80 which are close to half of 0xff.
+> >>>>>>=20
+> >>>>>> Or, you could save a whole function and just use argb_u16_to_ARGBx=
+xxx()
+> >>>>>> instead, even for XRGB destination. =20
+> >>>>>=20
+> >>>>>=20
+> >>>>> Right. Maybe I could just leave the channel untouched. =20
+> >>>=20
+> >>> Untouched may not be a good idea. Leaving anything untouched always h=
+as
+> >>> the risk of leaking information through uninitialized memory. Maybe n=
+ot
+> >>> in this case because the destination is allocated by userspace alread=
+y,
+> >>> but nothing beats being obviously correct. =20
+> >>=20
+> >> Makes sense.
+> >>  =20
+> >>>=20
+> >>> Whatever you decide here, be prepared for it becoming de-facto kernel
+> >>> UABI, because it is easy for userspace to (accidentally) rely on the
+> >>> value, no matter what you pick. =20
+> >>=20
+> >> I hope to make the right decision then. =20
+> >
+> >The de-facto UABI seems to be already in place for {A, X}RGB8888. =20
 >=20
-> > On Tue 26 Apr 22, 15:19, Maxime Ripard wrote:
-> > > On Tue, Apr 26, 2022 at 03:04:17PM +0200, Paul Kocialkowski wrote:
-> > > > On Tue 26 Apr 22, 14:55, Maxime Ripard wrote:
-> > > > > On Tue, Apr 26, 2022 at 02:54:01PM +0200, Maxime Ripard wrote:
-> > > > > > On Tue, Apr 26, 2022 at 02:41:44PM +0200, Paul Kocialkowski wro=
-te:
-> > > > > > > On Tue 26 Apr 22, 14:33, Laurent Pinchart wrote:
-> > > > > > > > On Tue, Apr 26, 2022 at 09:54:36AM +0200, Paul Kocialkowski=
- wrote:
-> > > > > > > > > On Thu 21 Apr 22, 10:59, Paul Kocialkowski wrote:
-> > > > > > > > > > On Thu 21 Apr 22, 10:23, Maxime Ripard wrote:
-> > > > > > > > > > > On Thu, Apr 21, 2022 at 01:15:54PM +0530, Jagan Teki =
-wrote:
-> > > > > > > > > > > > + Linus
-> > > > > > > > > > > > + Marek
-> > > > > > > > > > > > + Laurent
-> > > > > > > > > > > > + Robert
-> > > > > > > > > > > >=20
-> > > > > > > > > > > > On Thu, Apr 21, 2022 at 4:40 AM Bjorn Andersson wro=
-te:
-> > > > > > > > > > > > >
-> > > > > > > > > > > > > Commit '80253168dbfd ("drm: of: Lookup if child n=
-ode has panel or
-> > > > > > > > > > > > > bridge")' attempted to simplify the case of expre=
-ssing a simple panel
-> > > > > > > > > > > > > under a DSI controller, by assuming that the firs=
-t non-graph child node
-> > > > > > > > > > > > > was a panel or bridge.
-> > > > > > > > > > > > >
-> > > > > > > > > > > > > Unfortunately for non-trivial cases the first chi=
-ld node might not be a
-> > > > > > > > > > > > > panel or bridge.  Examples of this can be a aux-b=
-us in the case of
-> > > > > > > > > > > > > DisplayPort, or an opp-table represented before t=
-he panel node.
-> > > > > > > > > > > > >
-> > > > > > > > > > > > > In these cases the reverted commit prevents the c=
-aller from ever finding
-> > > > > > > > > > > > > a reference to the panel.
-> > > > > > > > > > > > >
-> > > > > > > > > > > > > This reverts commit '80253168dbfd ("drm: of: Look=
-up if child node has
-> > > > > > > > > > > > > panel or bridge")', in favor of using an explicit=
- graph reference to the
-> > > > > > > > > > > > > panel in the trivial case as well.
-> > > > > > > > > > > >=20
-> > > > > > > > > > > > This eventually breaks many child-based devm_drm_of=
-_get_bridge
-> > > > > > > > > > > > switched drivers.  Do you have any suggestions on h=
-ow to proceed to
-> > > > > > > > > > > > succeed in those use cases as well?
-> > > > > > > > > > >=20
-> > > > > > > > > > > I guess we could create a new helper for those, like
-> > > > > > > > > > > devm_drm_of_get_bridge_with_panel, or something.
-> > > > > > > > > >=20
-> > > > > > > > > > Oh wow I feel stupid for not thinking about that.
-> > > > > > > > > >=20
-> > > > > > > > > > Yeah I agree that it seems like the best option.
-> > > > > > > > >=20
-> > > > > > > > > Should I prepare a patch with such a new helper?
-> > > > > > > > >=20
-> > > > > > > > > The idea would be to keep drm_of_find_panel_or_bridge onl=
-y for the of graph
-> > > > > > > > > case and add one for the child node case, maybe:
-> > > > > > > > > drm_of_find_child_panel_or_bridge.
-> > > > > > > > >=20
-> > > > > > > > > I really don't have a clear idea of which driver would ne=
-ed to be switched
-> > > > > > > > > over though. Could someone (Jagan?) let me know where it =
-would be needed?
-> > > > > > > > >=20
-> > > > > > > > > Are there cases where we could both expect of graph and c=
-hild node?
-> > > > > > > > > (i.e. does the new helper also need to try via of graph?)
-> > > > > > > >=20
-> > > > > > > > I still think we should use OF graph uncondtionally, even i=
-n the DSI
-> > > > > > > > case. We need to ensure backward-compatibility, but I'd lik=
-e new
-> > > > > > > > bindings (and thus new drivers) to always use OF graph.
-> > > > > > >=20
-> > > > > > > I just went over the thread on "drm: of: Improve error handli=
-ng in bridge/panel
-> > > > > > > detection" again and I'm no longer sure there's actually stil=
-l an issue that
-> > > > > > > stands, with the fix that allows returning -ENODEV when possi=
-ble.
-> > > > > > >=20
-> > > > > > > The remaining issue that was brought up was with a connector =
-node, but it should
-> > > > > > > be up to the driver to detect that and avoid calling drm_of_f=
-ind_panel_or_bridge
-> > > > > > > in such situations.
-> > > > > > >=20
-> > > > > > > So with that in mind it feels like the child node approach ca=
-n be viable
-> > > > > > > (and integrated in the same helper).
-> > > > > > >=20
-> > > > > > > We might still want to favor an explicit OF graph approach, b=
-ut note that
-> > > > > > > dsi-controller.yaml also specifies extra properties that are =
-specific to
-> > > > > > > MIPI DSI and I'm not sure there are equivalent definitions fo=
-r the OF graph
-> > > > > > > approach.
-> > > > > > >=20
-> > > > > > > What do you think?
-> > > > > >=20
-> > > > > > I don't think Laurent's point was to move the child node away f=
-rom its
-> > > > > > DSI controller, that part doesn't make much sense. The panel or=
- bridge
-> > > > > > is still accessed through the DSI bus, so it very much belongs =
-there.
-> > > > > >=20
-> > > > > > What he meant I think was that we mandate the OF graph for all =
-panels,
-> > > > > > so for panels/bridges controlled through DCS, you would still l=
-ist the
-> > > > > > output through the graph.
-> > > > >=20
-> > > > > Also, we're already in a bit of a mess right now. I don't think r=
-ushing
-> > > > > that kind of patches in a (late) rc is making much sense, but as =
-I said,
-> > > > > if you want to start working on this, then I'll take a revert for=
- the
-> > > > > next rc, and then we can work calmly on this.
-> > > >=20
-> > > > As I understand it we either have some broken stuff because of the =
-revert of:
-> > > > - drm: of: Lookup if child node has panel or bridge
-> > > > - drm: of: Properly try all possible cases for bridge/panel detecti=
-on
-> > > >=20
-> > > > because the child node is already used in places, or we can have br=
-oken stuff
-> > > > because with the patches because with these two patches -ENODEV is =
-no longer
-> > > > returned.
-> > > >=20
-> > > > Now with the extra patch that I sent:
-> > > > - drm: of: Improve error handling in bridge/panel detection
-> > > >=20
-> > > > we get -ENODEV back, except for the connector case but this one sho=
-uld be
-> > > > handled in drivers directly and drm_of_find_panel_or_bridge should =
-not be
-> > > > called in that situation.
-> > > >=20
-> > > > So all in all it seems that all the pieces are there, unless I'm mi=
-ssing
-> > > > something.
-> > > >=20
-> > > > What do you think?
-> > >=20
-> > > If Bjorn and Thierry can confirm that it indeeds work in their case,
-> > > I'll be happy to apply those patches as well.
-> >=20
-> > I still think we'd need a fix for Bjorn's connector case though.
-> > Not sure I would be confident providing that one without the hardware
-> > to test with.
-> >=20
-> > Bjorn, what do you think?
-> >=20
+> "Only XRGB_8888
+
+If that's only IGT, then you should raise an issue with IGT about this,
+to figure out if IGT is wrong by accident or if it is deliberate, and
+are we stuck with it.
+
+This is why I would want to fill X with garbage, to make the
+expectations clear before the "obvious and logical constant value for X"
+makes a mess by making XRGB indistinguishable from ARGB. Then the next
+question is, do we need a special function to write out XRGB values, or
+can we simply re-use the ARGB function.
+
+Do the tests expect X channel to be filled with 0xff or with the actual
+A values? This question will matter when all planes have ARGB
+framebuffers and no background color. Then even more questions will
+arise about what should actually happen with A values (blending
+equation).
+
 >=20
-> I'm okay with the idea that it's up the driver to check that the output
-> port references an usb-c-connector - either before the call or upon
-> drm_of_find_panel_or_bridge() returning an error.
+> >
+> >I changed from 0xff to 0xbe and the `writeback-check-output` started to =
+fail.
 
-Actually I'm starting to think might be wrong on this one: there's a
-display-connector bridge driver that should register a bridge, so
-drm_of_find_panel_or_bridge should work. Did you have that driver enabled?
 
-Cheers,
+Thanks,
+pq
 
-Paul
-
---=20
-Paul Kocialkowski, Bootlin
-Embedded Linux and kernel engineering
-https://bootlin.com
-
---ijcDL19LA/Jv/8hr
-Content-Type: application/pgp-signature; name="signature.asc"
+--Sig_/Rq.UKVm=pEeIayRlj0Tn80+
+Content-Type: application/pgp-signature
+Content-Description: OpenPGP digital signature
 
 -----BEGIN PGP SIGNATURE-----
 
-iQEzBAEBCAAdFiEEJZpWjZeIetVBefti3cLmz3+fv9EFAmJo8hEACgkQ3cLmz3+f
-v9E86wf/SnM+F9tYjlethb+pRfx719VPchCudFwI84lublqHhwrWka/PI2cali7O
-CIelAwhDiBePaRO9OI41gXg0hzw23JTfcfUXABhAjNDmtKu7VdjQJ05RhDjajisy
-X0m96izR97WzXBR+to0sRKuCQaDBLHuJQ+I7udFqC0nCM84tAhxVpMotA1NypiCX
-AugjOQWuUFEaugxLu0wmnGSz8j/k5rrHx73tb7LcZBbk9c3d/NeXjUkDB9TCe8wh
-OXSgU9ijO10Wmms4OXuQRos4yUKI6H1KgV+BHJiOReSbG0ErFtfgpwu55DzkNS5s
-z1qORXdzgTBERDcUhxSI4insQB1xVA==
-=nuGp
+iQIzBAEBCAAdFiEEJQjwWQChkWOYOIONI1/ltBGqqqcFAmJo9AYACgkQI1/ltBGq
+qqdlCBAAlgRtFEOlIvJMr9K2rNeK8kJlGc9VAyEZxrDnyBZd8qVgg3Qea/4oAdee
+ctvgoybd/mSfXCAID+fZsRwyRUGkf6egq8XmFhx+MjGxJSR0itnUAqHdBK3uiuwK
+V7li9V8+Aqqw3eGOtmQBCJJFDK43Blw3H890pYdIWZX9M3esRFxkFpbDFKi2rWMJ
+qNHorv6lR2ZUPqVPrgAtHS00jLkIJHN4qnyzK3u2CEPTzDY72pazt6ckElCHO58/
+XiVSVSV6bYjYjCPt+X+76mSWzIgzzTwAneKZfFVXleHPwB77CZKVxSnL5I2zVMz4
+eRmjV94wPvxvvpXkIkgs21WpU76yKQqJv/nfsz5Fi2CshRAq3j+db3NLxl+4jmhr
+UKotILAwUUrjNwm8U+tHFDAYVrQ3N0NoZlErTflkCTr70NIinWs46THyAr77MkCF
+iOryiANF9NEymqFa1ynZTye4eL/DEHhswIkxtgs6noAiLcD/qhVO3+Hb+GPR7JUc
+lrYzIctkin4bK+mONrgCZQHr5FRDvXcf8XDwepoUmE7f8tqIa0+4NssRe66elyO0
+FpyOoZPdWlKGfHJ5vo5M5n/UviuU11ifGBl17grS2sDZZ5LyPotYUPFRpfTKdHp/
+z36YQ6pNSo2gVBCO7/JOb5FRsy6J5Ijab7bmOaXvskh/SbMCX9Q=
+=I6L8
 -----END PGP SIGNATURE-----
 
---ijcDL19LA/Jv/8hr--
+--Sig_/Rq.UKVm=pEeIayRlj0Tn80+--
