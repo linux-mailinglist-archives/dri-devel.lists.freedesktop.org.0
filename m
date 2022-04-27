@@ -2,28 +2,28 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id D4EE7511542
-	for <lists+dri-devel@lfdr.de>; Wed, 27 Apr 2022 13:26:01 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 9C20C511545
+	for <lists+dri-devel@lfdr.de>; Wed, 27 Apr 2022 13:26:12 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id B981A10EF5E;
-	Wed, 27 Apr 2022 11:25:59 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 4AF0410EFA2;
+	Wed, 27 Apr 2022 11:26:06 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from foss.arm.com (foss.arm.com [217.140.110.172])
- by gabe.freedesktop.org (Postfix) with ESMTP id 780BF10EF5E
- for <dri-devel@lists.freedesktop.org>; Wed, 27 Apr 2022 11:25:58 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTP id 0976010EFA2
+ for <dri-devel@lists.freedesktop.org>; Wed, 27 Apr 2022 11:26:00 +0000 (UTC)
 Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
- by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id C93FAED1;
- Wed, 27 Apr 2022 04:25:57 -0700 (PDT)
+ by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 59A7B143D;
+ Wed, 27 Apr 2022 04:25:59 -0700 (PDT)
 Received: from donnerap.arm.com (donnerap.cambridge.arm.com [10.1.197.42])
- by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id 758EE3F5A1;
- Wed, 27 Apr 2022 04:25:56 -0700 (PDT)
+ by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id 092BA3F5A1;
+ Wed, 27 Apr 2022 04:25:57 -0700 (PDT)
 From: Andre Przywara <andre.przywara@arm.com>
 To: Rob Herring <robh+dt@kernel.org>,
  Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>
-Subject: [PATCH 08/11] dt-bindings: display: convert PL110/PL111 to DT schema
-Date: Wed, 27 Apr 2022 12:25:25 +0100
-Message-Id: <20220427112528.4097815-9-andre.przywara@arm.com>
+Subject: [PATCH 09/11] dt-bindings: display: convert Arm HDLCD to DT schema
+Date: Wed, 27 Apr 2022 12:25:26 +0100
+Message-Id: <20220427112528.4097815-10-andre.przywara@arm.com>
 X-Mailer: git-send-email 2.25.1
 In-Reply-To: <20220427112528.4097815-1-andre.przywara@arm.com>
 References: <20220427112528.4097815-1-andre.przywara@arm.com>
@@ -47,209 +47,144 @@ Cc: devicetree@vger.kernel.org, David Airlie <airlied@linux.ie>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-The Arm PL110 and PL111 are IP blocks that provide a display engine with
-an LCD interface, being able to drive a variety of LC panels.
+The Arm HDLCD is a display controller that scans out a framebuffer and
+hands a signal to a digital encoder to generate a DVI or HDMI signal.
 
-Convert the binding over to DT schema, to the DTs can be automatically
-checked.
-This still contains the deprecated "arm,pl11x,tft-r0g0b0-pads" property,
-because this is used by several DTs in the tree.
+Convert the existing DT binding to DT schema.
 
 Signed-off-by: Andre Przywara <andre.przywara@arm.com>
 ---
- .../devicetree/bindings/display/arm,pl11x.txt | 110 -----------
- .../bindings/display/arm,pl11x.yaml           | 174 ++++++++++++++++++
- 2 files changed, 174 insertions(+), 110 deletions(-)
- delete mode 100644 Documentation/devicetree/bindings/display/arm,pl11x.txt
- create mode 100644 Documentation/devicetree/bindings/display/arm,pl11x.yaml
+ .../devicetree/bindings/display/arm,hdlcd.txt | 79 ----------------
+ .../bindings/display/arm,hdlcd.yaml           | 91 +++++++++++++++++++
+ 2 files changed, 91 insertions(+), 79 deletions(-)
+ delete mode 100644 Documentation/devicetree/bindings/display/arm,hdlcd.txt
+ create mode 100644 Documentation/devicetree/bindings/display/arm,hdlcd.yaml
 
-diff --git a/Documentation/devicetree/bindings/display/arm,pl11x.txt b/Documentation/devicetree/bindings/display/arm,pl11x.txt
+diff --git a/Documentation/devicetree/bindings/display/arm,hdlcd.txt b/Documentation/devicetree/bindings/display/arm,hdlcd.txt
 deleted file mode 100644
-index 3f977e72a2005..0000000000000
---- a/Documentation/devicetree/bindings/display/arm,pl11x.txt
+index 78bc24296f3e4..0000000000000
+--- a/Documentation/devicetree/bindings/display/arm,hdlcd.txt
 +++ /dev/null
-@@ -1,110 +0,0 @@
--* ARM PrimeCell Color LCD Controller PL110/PL111
+@@ -1,79 +0,0 @@
+-ARM HDLCD
 -
--See also Documentation/devicetree/bindings/arm/primecell.yaml
+-This is a display controller found on several development platforms produced
+-by ARM Ltd and in more modern of its' Fast Models. The HDLCD is an RGB
+-streamer that reads the data from a framebuffer and sends it to a single
+-digital encoder (DVI or HDMI).
 -
 -Required properties:
--
--- compatible: must be one of:
--	"arm,pl110", "arm,primecell"
--	"arm,pl111", "arm,primecell"
--
--- reg: base address and size of the control registers block
--
--- interrupt-names: either the single entry "combined" representing a
--	combined interrupt output (CLCDINTR), or the four entries
--	"mbe", "vcomp", "lnbu", "fuf" representing the individual
--	CLCDMBEINTR, CLCDVCOMPINTR, CLCDLNBUINTR, CLCDFUFINTR interrupts
--
--- interrupts: contains an interrupt specifier for each entry in
--	interrupt-names
--
--- clock-names: should contain "clcdclk" and "apb_pclk"
--
--- clocks: contains phandle and clock specifier pairs for the entries
--	in the clock-names property. See
--	Documentation/devicetree/bindings/clock/clock-bindings.txt
--
--Optional properties:
--
--- memory-region: phandle to a node describing memory (see
--	Documentation/devicetree/bindings/reserved-memory/reserved-memory.txt)
--	to be used for the framebuffer; if not present, the framebuffer
--	may be located anywhere in the memory
--
--- max-memory-bandwidth: maximum bandwidth in bytes per second that the
--	cell's memory interface can handle; if not present, the memory
--	interface is fast enough to handle all possible video modes
+-  - compatible: "arm,hdlcd"
+-  - reg: Physical base address and length of the controller's registers.
+-  - interrupts: One interrupt used by the display controller to notify the
+-    interrupt controller when any of the interrupt sources programmed in
+-    the interrupt mask register have activated.
+-  - clocks: A list of phandle + clock-specifier pairs, one for each
+-    entry in 'clock-names'.
+-  - clock-names: A list of clock names. For HDLCD it should contain:
+-      - "pxlclk" for the clock feeding the output PLL of the controller.
 -
 -Required sub-nodes:
+-  - port: The HDLCD connection to an encoder chip. The connection is modeled
+-    using the OF graph bindings specified in
+-    Documentation/devicetree/bindings/graph.txt.
 -
--- port: describes LCD panel signals, following the common binding
--	for video transmitter interfaces; see
--	Documentation/devicetree/bindings/media/video-interfaces.txt
--
--Deprecated properties:
--	The port's endbpoint subnode had this, now deprecated property
--	in the past. Drivers should be able to survive without it:
--
--	- arm,pl11x,tft-r0g0b0-pads: an array of three 32-bit values,
--		defining the way CLD pads are wired up; first value
--		contains index of the "CLD" external pin (pad) used
--		as R0 (first bit of the red component), second value
--	        index of the pad used as G0, third value index of the
--		pad used as B0, see also "LCD panel signal multiplexing
--		details" paragraphs in the PL110/PL111 Technical
--		Reference Manuals; this implicitly defines available
--		color modes, for example:
--		- PL111 TFT 4:4:4 panel:
--			arm,pl11x,tft-r0g0b0-pads = <4 15 20>;
--		- PL110 TFT (1:)5:5:5 panel:
--			arm,pl11x,tft-r0g0b0-pads = <1 7 13>;
--		- PL111 TFT (1:)5:5:5 panel:
--			arm,pl11x,tft-r0g0b0-pads = <3 11 19>;
--		- PL111 TFT 5:6:5 panel:
--			arm,pl11x,tft-r0g0b0-pads = <3 10 19>;
--		- PL110 and PL111 TFT 8:8:8 panel:
--			arm,pl11x,tft-r0g0b0-pads = <0 8 16>;
--		- PL110 and PL111 TFT 8:8:8 panel, R & B components swapped:
--			arm,pl11x,tft-r0g0b0-pads = <16 8 0>;
+-Optional properties:
+-  - memory-region: phandle to a node describing memory (see
+-    Documentation/devicetree/bindings/reserved-memory/reserved-memory.txt) to be
+-    used for the framebuffer; if not present, the framebuffer may be located
+-    anywhere in memory.
 -
 -
 -Example:
 -
--	clcd@10020000 {
--		compatible = "arm,pl111", "arm,primecell";
--		reg = <0x10020000 0x1000>;
--		interrupt-names = "combined";
--		interrupts = <0 44 4>;
--		clocks = <&oscclk1>, <&oscclk2>;
--		clock-names = "clcdclk", "apb_pclk";
--		max-memory-bandwidth = <94371840>; /* Bps, 1024x768@60 16bpp */
+-/ {
+-	...
 -
+-	hdlcd@2b000000 {
+-		compatible = "arm,hdlcd";
+-		reg = <0 0x2b000000 0 0x1000>;
+-		interrupts = <GIC_SPI 85 IRQ_TYPE_LEVEL_HIGH>;
+-		clocks = <&oscclk5>;
+-		clock-names = "pxlclk";
 -		port {
--			clcd_pads: endpoint {
--				remote-endpoint = <&clcd_panel>;
+-			hdlcd_output: endpoint@0 {
+-				remote-endpoint = <&hdmi_enc_input>;
+-			};
+-		};
+-	};
+-
+-	/* HDMI encoder on I2C bus */
+-	i2c@7ffa0000 {
+-		....
+-		hdmi-transmitter@70 {
+-			compatible = ".....";
+-			reg = <0x70>;
+-			port@0 {
+-				hdmi_enc_input: endpoint {
+-					remote-endpoint = <&hdlcd_output>;
+-				};
+-
+-				hdmi_enc_output: endpoint {
+-					remote-endpoint = <&hdmi_1_port>;
+-				};
 -			};
 -		};
 -
 -	};
 -
--	panel {
--		compatible = "panel-dpi";
--
+-	hdmi1: connector@1 {
+-		compatible = "hdmi-connector";
+-		type = "a";
 -		port {
--			clcd_panel: endpoint {
--				remote-endpoint = <&clcd_pads>;
+-			hdmi_1_port: endpoint {
+-				remote-endpoint = <&hdmi_enc_output>;
 -			};
 -		};
--
--		panel-timing {
--			clock-frequency = <25175000>;
--			hactive = <640>;
--			hback-porch = <40>;
--			hfront-porch = <24>;
--			hsync-len = <96>;
--			vactive = <480>;
--			vback-porch = <32>;
--			vfront-porch = <11>;
--			vsync-len = <2>;
--		};
 -	};
-diff --git a/Documentation/devicetree/bindings/display/arm,pl11x.yaml b/Documentation/devicetree/bindings/display/arm,pl11x.yaml
+-
+-	...
+-};
+diff --git a/Documentation/devicetree/bindings/display/arm,hdlcd.yaml b/Documentation/devicetree/bindings/display/arm,hdlcd.yaml
 new file mode 100644
-index 0000000000000..43b86c2827723
+index 0000000000000..1fe8e07334152
 --- /dev/null
-+++ b/Documentation/devicetree/bindings/display/arm,pl11x.yaml
-@@ -0,0 +1,174 @@
++++ b/Documentation/devicetree/bindings/display/arm,hdlcd.yaml
+@@ -0,0 +1,91 @@
 +# SPDX-License-Identifier: (GPL-2.0-only OR BSD-2-Clause)
 +%YAML 1.2
 +---
-+$id: http://devicetree.org/schemas/display/arm,pl11x.yaml#
++$id: http://devicetree.org/schemas/display/arm,hdlcd.yaml#
 +$schema: http://devicetree.org/meta-schemas/core.yaml#
 +
-+title: Arm PrimeCell Color LCD Controller PL110/PL111
++title: Arm HDLCD display controller binding
 +
 +maintainers:
 +  - Liviu Dudau <Liviu.Dudau@arm.com>
 +  - Andre Przywara <andre.przywara@arm.com>
 +
 +description: |+
-+  The Arm Primcell PL010/PL111 is an LCD controller IP, than scans out
-+  a framebuffer region in system memory, and creates timed signals for
-+  a variety of LCD panels.
-+
-+# We need a select here so we don't match all nodes with 'arm,primecell'
-+select:
-+  properties:
-+    compatible:
-+      contains:
-+        enum:
-+          - arm,pl110
-+          - arm,pl111
-+  required:
-+    - compatible
++  The Arm HDLCD is a display controller found on several development platforms
++  produced by ARM Ltd and in more modern of its Fast Models. The HDLCD is an
++  RGB streamer that reads the data from a framebuffer and sends it to a single
++  digital encoder (DVI or HDMI).
 +
 +properties:
 +  compatible:
-+    items:
-+      - enum:
-+          - arm,pl110
-+          - arm,pl111
-+      - const: arm,primecell
++    const: arm,hdlcd
 +
 +  reg:
 +    maxItems: 1
 +
-+  interrupt-names:
-+    oneOf:
-+      - const: combined
-+        description:
-+          The IP provides four individual interrupt lines, but also one
-+          combined line. If the integration only connects this line to the
-+          interrupt controller, this single interrupt is noted here.
-+      - items:
-+          - const: mbe        # CLCDMBEINTR
-+          - const: vcomp      # CLCDVCOMPINTR
-+          - const: lnbu       # CLCDLNBUINTR
-+          - const: fuf        # CLCDFUFINTR
-+
 +  interrupts:
-+    minItems: 1
-+    maxItems: 4
++    maxItems: 1
 +
 +  clock-names:
-+    items:
-+      - const: clcdclk
-+      - const: apb_pclk
++    const: pxlclk
 +
 +  clocks:
-+    items:
-+      - description: The CLCDCLK reference clock for the controller.
-+      - description: The HCLK AHB slave clock for the register access.
++    maxItems: 1
++    description: The input reference for the pixel clock.
 +
 +  memory-region:
 +    maxItems: 1
@@ -257,107 +192,55 @@ index 0000000000000..43b86c2827723
 +      Phandle to a node describing memory to be used for the framebuffer.
 +      If not present, the framebuffer may be located anywhere in memory.
 +
-+  max-memory-bandwidth:
-+    $ref: /schemas/types.yaml#/definitions/uint32
-+    description:
-+      Maximum bandwidth in bytes per second that the cell's memory interface
-+      can handle.
-+      If not present, the memory interface is fast enough to handle all
-+      possible video modes.
++  iommus:
++    maxItems: 1
 +
 +  port:
 +    $ref: /schemas/graph.yaml#/$defs/port-base
-+    additionalProperties: false
-+
++    unevaluatedProperties: false
 +    description:
 +      Output endpoint of the controller, connecting the LCD panel signals.
-+
-+    properties:
-+      endpoint:
-+        $ref: /schemas/graph.yaml#/$defs/endpoint-base
-+        unevaluatedProperties: false
-+
-+        properties:
-+          arm,pl11x,tft-r0g0b0-pads:
-+            $ref: /schemas/types.yaml#/definitions/uint32-array
-+            items:
-+              - description: index of CLD pad used for first red bit (R0)
-+              - description: index of CLD pad used for first green bit (G0)
-+              - description: index of CLD pad used for first blue bit (G0)
-+            deprecated: true
-+            description: |
-+              DEPRECATED. An array of three 32-bit values, defining the way
-+              CLD[23:0] pads are wired up.
-+              The first value contains the index of the "CLD" external pin (pad)
-+              used as R0 (first bit of the red component), the second value for
-+              green, the third value for blue.
-+              See also "LCD panel signal multiplexing details" paragraphs in the
-+              PL110/PL111 Technical Reference Manuals.
-+              This implicitly defines available color modes, for example:
-+              - PL111 TFT 4:4:4 panel:
-+                  arm,pl11x,tft-r0g0b0-pads = <4 15 20>;
-+              - PL110 TFT (1:)5:5:5 panel:
-+                  arm,pl11x,tft-r0g0b0-pads = <1 7 13>;
-+              - PL111 TFT (1:)5:5:5 panel:
-+                  arm,pl11x,tft-r0g0b0-pads = <3 11 19>;
-+              - PL111 TFT 5:6:5 panel:
-+                  arm,pl11x,tft-r0g0b0-pads = <3 10 19>;
-+              - PL110 and PL111 TFT 8:8:8 panel:
-+                  arm,pl11x,tft-r0g0b0-pads = <0 8 16>;
-+              - PL110 and PL111 TFT 8:8:8 panel, R & B components swapped:
-+                  arm,pl11x,tft-r0g0b0-pads = <16 8 0>;
 +
 +additionalProperties: false
 +
 +required:
 +  - compatible
 +  - reg
-+  - interrupt-names
 +  - interrupts
-+  - clock-names
 +  - clocks
 +  - port
 +
 +examples:
 +  - |
-+    clcd@10020000 {
-+            compatible = "arm,pl111", "arm,primecell";
-+            reg = <0x10020000 0x1000>;
-+            interrupt-names = "combined";
-+            interrupts = <44>;
-+            clocks = <&oscclk1>, <&oscclk2>;
-+            clock-names = "clcdclk", "apb_pclk";
-+            max-memory-bandwidth = <94371840>; /* Bps, 1024x768@60 16bpp */
-+
++    hdlcd@2b000000 {
++            compatible = "arm,hdlcd";
++            reg = <0x2b000000 0x1000>;
++            interrupts = <0 85 4>;
++            clocks = <&oscclk5>;
++            clock-names = "pxlclk";
 +            port {
-+                    clcd_pads: endpoint {
-+                            remote-endpoint = <&clcd_panel>;
++                    hdlcd_output: endpoint {
++                            remote-endpoint = <&hdmi_enc_input>;
 +                    };
 +            };
 +    };
 +
-+    panel {
-+            compatible = "arm,rtsm-display", "panel-dpi";
-+            power-supply = <&vcc_supply>;
-+
-+            port {
-+                    clcd_panel: endpoint {
-+                            remote-endpoint = <&clcd_pads>;
++    /* HDMI encoder on I2C bus */
++    i2c {
++            #address-cells = <1>;
++            #size-cells = <0>;
++            hdmi-transmitter@70 {
++                    compatible = "nxp,tda998x";
++                    reg = <0x70>;
++                    port {
++                            hdmi_enc_input: endpoint {
++                                    remote-endpoint = <&hdlcd_output>;
++                            };
 +                    };
 +            };
 +
-+            panel-timing {
-+                    clock-frequency = <25175000>;
-+                    hactive = <640>;
-+                    hback-porch = <40>;
-+                    hfront-porch = <24>;
-+                    hsync-len = <96>;
-+                    vactive = <480>;
-+                    vback-porch = <32>;
-+                    vfront-porch = <11>;
-+                    vsync-len = <2>;
-+            };
 +    };
++
 +...
 -- 
 2.25.1
