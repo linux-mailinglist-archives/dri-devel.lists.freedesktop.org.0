@@ -1,37 +1,40 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3ED89513319
-	for <lists+dri-devel@lfdr.de>; Thu, 28 Apr 2022 13:58:01 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 4842E51334C
+	for <lists+dri-devel@lfdr.de>; Thu, 28 Apr 2022 14:02:25 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 4C83A10F8C2;
-	Thu, 28 Apr 2022 11:57:57 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 327DC10F97F;
+	Thu, 28 Apr 2022 12:02:21 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from foss.arm.com (foss.arm.com [217.140.110.172])
- by gabe.freedesktop.org (Postfix) with ESMTP id DBE7910F8C2
- for <dri-devel@lists.freedesktop.org>; Thu, 28 Apr 2022 11:57:56 +0000 (UTC)
-Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
- by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 4A3661474;
- Thu, 28 Apr 2022 04:57:56 -0700 (PDT)
-Received: from [10.1.31.24] (e122027.cambridge.arm.com [10.1.31.24])
- by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id BC3FB3F73B;
- Thu, 28 Apr 2022 04:57:54 -0700 (PDT)
-Message-ID: <0b3136fa-8fd1-5496-812e-c03e430da84a@arm.com>
-Date: Thu, 28 Apr 2022 12:57:52 +0100
+Received: from perceval.ideasonboard.com (perceval.ideasonboard.com
+ [213.167.242.64])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id B70C210F97C;
+ Thu, 28 Apr 2022 12:02:19 +0000 (UTC)
+Received: from pendragon.ideasonboard.com (62-78-145-57.bb.dnainternet.fi
+ [62.78.145.57])
+ by perceval.ideasonboard.com (Postfix) with ESMTPSA id 869CD496;
+ Thu, 28 Apr 2022 14:02:17 +0200 (CEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
+ s=mail; t=1651147337;
+ bh=cVI336YmUrYwwUHMi1fMd1u88MApPL0/OQgHEF3kT50=;
+ h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+ b=SlvcSSVGGtj2+MAaT/V6mKkvQe7Y++kGytpI60fFp4JMMDUwO92tXukcKZesFWcIN
+ vq/ImynoHNN5qjtPJj8iweEYRZjM6dHvD04RalFM3rPt96N8QOzUItiYyZfnAZ4oKG
+ 9/2TZzLH4+qC98TzCqo4oB2Fjf6hp0acN3T0sAs0=
+Date: Thu, 28 Apr 2022 15:02:16 +0300
+From: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+To: "Kandpal, Suraj" <suraj.kandpal@intel.com>
+Subject: Re: [RFC PATCH 0/3] i915 writeback private framework
+Message-ID: <YmqCSDYfWawBcOU5@pendragon.ideasonboard.com>
+References: <20220421050756.2036609-1-suraj.kandpal@intel.com>
+ <DM5PR11MB1739991ACAEF173E24B53CCAE3FD9@DM5PR11MB1739.namprd11.prod.outlook.com>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.7.0
-Subject: Re: [PATCH] drm/plane: Move range check for format_count earlier
-Content-Language: en-GB
-To: Liviu Dudau <liviu.dudau@arm.com>
-References: <20211203102815.38624-1-steven.price@arm.com>
- <YaoWxOk0hCuVZpoz@e110455-lin.cambridge.arm.com>
-From: Steven Price <steven.price@arm.com>
-In-Reply-To: <YaoWxOk0hCuVZpoz@e110455-lin.cambridge.arm.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+In-Reply-To: <DM5PR11MB1739991ACAEF173E24B53CCAE3FD9@DM5PR11MB1739.namprd11.prod.outlook.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -44,77 +47,80 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: David Airlie <airlied@linux.ie>, linux-kernel@vger.kernel.org,
- dri-devel@lists.freedesktop.org, Thomas Zimmermann <tzimmermann@suse.de>
+Cc: "Nikula, Jani" <jani.nikula@intel.com>,
+ "intel-gfx@lists.freedesktop.org" <intel-gfx@lists.freedesktop.org>,
+ Abhinav Kumar <quic_abhinavk@quicinc.com>,
+ "dri-devel@lists.freedesktop.org" <dri-devel@lists.freedesktop.org>,
+ Dmitry Baryshkov <dmitry.baryshkov@linaro.org>, "Murthy,
+ Arun R" <arun.r.murthy@intel.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 03/12/2021 13:08, Liviu Dudau wrote:
-> On Fri, Dec 03, 2021 at 10:28:15AM +0000, Steven Price wrote:
->> While the check for format_count > 64 in __drm_universal_plane_init()
->> shouldn't be hit (it's a WARN_ON), in its current position it will then
->> leak the plane->format_types array and fail to call
->> drm_mode_object_unregister() leaking the modeset identifier. Move it to
->> the start of the function to avoid allocating those resources in the
->> first place.
->>
->> Signed-off-by: Steven Price <steven.price@arm.com>
-> 
-> Well spotted!
-> 
-> Reviewed-by: Liviu Dudau <liviu.dudau@arm.com>
-> 
-> I'm going to wait to see if anyone else has any comments before I'll merge this into
-> drm-misc-fixes (or should it be drm-misc-next-fixes?)
+Hi Suraj,
 
-Gentle ping! I think we've probably waited long enough. Are you going to
-merge this or would you like me to?
-
-Thanks,
-
-Steve
-
-> Best regards,
-> Liviu
+On Thu, Apr 28, 2022 at 05:51:47AM +0000, Kandpal, Suraj wrote:
+> ++Laurent ,Dmitry, and Abhinav
 > 
->> ---
->>  drivers/gpu/drm/drm_plane.c | 14 +++++++-------
->>  1 file changed, 7 insertions(+), 7 deletions(-)
->>
->> diff --git a/drivers/gpu/drm/drm_plane.c b/drivers/gpu/drm/drm_plane.c
->> index 82afb854141b..fd0bf90fb4c2 100644
->> --- a/drivers/gpu/drm/drm_plane.c
->> +++ b/drivers/gpu/drm/drm_plane.c
->> @@ -249,6 +249,13 @@ static int __drm_universal_plane_init(struct drm_device *dev,
->>  	if (WARN_ON(config->num_total_plane >= 32))
->>  		return -EINVAL;
->>  
->> +	/*
->> +	 * First driver to need more than 64 formats needs to fix this. Each
->> +	 * format is encoded as a bit and the current code only supports a u64.
->> +	 */
->> +	if (WARN_ON(format_count > 64))
->> +		return -EINVAL;
->> +
->>  	WARN_ON(drm_drv_uses_atomic_modeset(dev) &&
->>  		(!funcs->atomic_destroy_state ||
->>  		 !funcs->atomic_duplicate_state));
->> @@ -270,13 +277,6 @@ static int __drm_universal_plane_init(struct drm_device *dev,
->>  		return -ENOMEM;
->>  	}
->>  
->> -	/*
->> -	 * First driver to need more than 64 formats needs to fix this. Each
->> -	 * format is encoded as a bit and the current code only supports a u64.
->> -	 */
->> -	if (WARN_ON(format_count > 64))
->> -		return -EINVAL;
->> -
->>  	if (format_modifiers) {
->>  		const uint64_t *temp_modifiers = format_modifiers;
->>  
->> -- 
->> 2.25.1
->>
-> 
+> Hi,
+> Can you have a look at the private implementation i915 is currently going with till
+> we can figure out how  to work with drm core .
 
+No, sorry, I barely have time to follow up on core DRM changes, I can't
+help with private i915 topics in my spare time.
+
+> > A patch series was floated in the drm mailing list which aimed to change the
+> > drm_connector and drm_encoder fields to pointer in the
+> > drm_connector_writeback structure, this received a huge pushback from the
+> > community but since i915 expects each connector present in the drm_device
+> > list to be a intel_connector but drm_writeback framework.
+> > [1] https://patchwork.kernel.org/project/dri-
+> > devel/patch/20220202081702.22119-1-suraj.kandpal@intel.com/
+> > [2] https://patchwork.kernel.org/project/dri-
+> > devel/patch/20220202085429.22261-6-suraj.kandpal@intel.com/
+> > This forces us to use a drm_connector which is not embedded in
+> > intel_connector the current drm_writeback framework becomes very
+> > unfeasible to us as it would mean a lot of checks at a lot of places to take into
+> > account the above issue.Since no one had an issue with encoder field being
+> > changed into a pointer it was decided to break the connector and encoder
+> > pointer changes into two different series.The encoder field changes is
+> > currently being worked upon by Abhinav Kumar
+> > [3]https://patchwork.kernel.org/project/dri-devel/list/?series=633565
+> > In the meantime for i915 to start using the writeback functionality we came
+> > up with a interim solution to own writeback pipeline bypassing one provided
+> > by drm which is what these patches do.
+> > Note: these are temp patches till we figure out how we can either change
+> > drm core writeback to work with our intel_connector structure or find a
+> > different solution which allows us to work with the current drm_writeback
+> > framework
+> > 
+> > Suraj Kandpal (3):
+> >   drm/i915: Creating writeback pipeline to bypass drm_writeback
+> >     framework
+> >   drm/i915: Define WD trancoder for i915
+> >   drm/i915: Enabling WD Transcoder
+> > 
+> >  drivers/gpu/drm/i915/Makefile                 |   2 +
+> >  drivers/gpu/drm/i915/display/intel_acpi.c     |   1 +
+> >  drivers/gpu/drm/i915/display/intel_display.c  |  89 +-
+> > drivers/gpu/drm/i915/display/intel_display.h  |  15 +
+> >  .../drm/i915/display/intel_display_types.h    |  18 +
+> >  drivers/gpu/drm/i915/display/intel_dpll.c     |   3 +
+> >  drivers/gpu/drm/i915/display/intel_opregion.c |   3 +
+> >  .../gpu/drm/i915/display/intel_wb_connector.c | 296 ++++++
+> > .../gpu/drm/i915/display/intel_wb_connector.h |  99 ++
+> >  drivers/gpu/drm/i915/display/intel_wd.c       | 978 ++++++++++++++++++
+> >  drivers/gpu/drm/i915/display/intel_wd.h       |  82 ++
+> >  drivers/gpu/drm/i915/i915_drv.h               |   5 +
+> >  drivers/gpu/drm/i915/i915_irq.c               |   8 +-
+> >  drivers/gpu/drm/i915/i915_pci.c               |   7 +-
+> >  drivers/gpu/drm/i915/i915_reg.h               | 139 +++
+> >  15 files changed, 1742 insertions(+), 3 deletions(-)  create mode 100644
+> > drivers/gpu/drm/i915/display/intel_wb_connector.c
+> >  create mode 100644 drivers/gpu/drm/i915/display/intel_wb_connector.h
+> >  create mode 100644 drivers/gpu/drm/i915/display/intel_wd.c
+> >  create mode 100644 drivers/gpu/drm/i915/display/intel_wd.h
+
+-- 
+Regards,
+
+Laurent Pinchart
