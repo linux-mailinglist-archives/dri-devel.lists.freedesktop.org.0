@@ -2,106 +2,54 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 080EF513189
-	for <lists+dri-devel@lfdr.de>; Thu, 28 Apr 2022 12:43:49 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 81E2D5131A6
+	for <lists+dri-devel@lfdr.de>; Thu, 28 Apr 2022 12:54:23 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id B93CD10F889;
-	Thu, 28 Apr 2022 10:43:46 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id C19DA10E91B;
+	Thu, 28 Apr 2022 10:54:19 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mailout1.w1.samsung.com (mailout1.w1.samsung.com
- [210.118.77.11])
- by gabe.freedesktop.org (Postfix) with ESMTPS id A210010F889
- for <dri-devel@lists.freedesktop.org>; Thu, 28 Apr 2022 10:43:45 +0000 (UTC)
-Received: from eucas1p2.samsung.com (unknown [182.198.249.207])
- by mailout1.w1.samsung.com (KnoxPortal) with ESMTP id
- 20220428104343euoutp01498358266e41931a3e76d667b50b33db~qCXfV0waX0335703357euoutp01u
- for <dri-devel@lists.freedesktop.org>; Thu, 28 Apr 2022 10:43:43 +0000 (GMT)
-DKIM-Filter: OpenDKIM Filter v2.11.0 mailout1.w1.samsung.com
- 20220428104343euoutp01498358266e41931a3e76d667b50b33db~qCXfV0waX0335703357euoutp01u
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=samsung.com;
- s=mail20170921; t=1651142623;
- bh=tll8Rq1cOZaova2yjcZmkl23SUCnnMy91esfSOJ+DO4=;
- h=Date:Subject:To:Cc:From:In-Reply-To:References:From;
- b=tK9FG0aSr2V20zA2il7iEJHw6sgL61k8VrCWqhuu6/Oz9Ndh+fk3ambACoMINFydx
- fX4FSHggiPV/6S+LaMTQ04rItwADATrDNtswvvzBaKhDGOGUu8pYuDJKRWdclh9T6L
- QEIa5BWonFrNr+ZVpSRW7Rl6x+ygO5iIxSluUo3U=
-Received: from eusmges2new.samsung.com (unknown [203.254.199.244]) by
- eucas1p1.samsung.com (KnoxPortal) with ESMTP id
- 20220428104343eucas1p1adcf0acd6963dc4f809edf4e48857a8d~qCXfMpBWi1566815668eucas1p1F;
- Thu, 28 Apr 2022 10:43:43 +0000 (GMT)
-Received: from eucas1p2.samsung.com ( [182.198.249.207]) by
- eusmges2new.samsung.com (EUCPMTA) with SMTP id 67.E0.09887.FDF6A626; Thu, 28
- Apr 2022 11:43:43 +0100 (BST)
-Received: from eusmtrp2.samsung.com (unknown [182.198.249.139]) by
- eucas1p1.samsung.com (KnoxPortal) with ESMTPA id
- 20220428104343eucas1p1338eded8d1319afbb154aa6f094df817~qCXexa12H0911509115eucas1p19;
- Thu, 28 Apr 2022 10:43:43 +0000 (GMT)
-Received: from eusmgms2.samsung.com (unknown [182.198.249.180]) by
- eusmtrp2.samsung.com (KnoxPortal) with ESMTP id
- 20220428104343eusmtrp2b22d9fa7283790c70ab58fda32babfd4~qCXewc1Nm0452304523eusmtrp2E;
- Thu, 28 Apr 2022 10:43:43 +0000 (GMT)
-X-AuditID: cbfec7f4-471ff7000000269f-29-626a6fdf86dc
-Received: from eusmtip1.samsung.com ( [203.254.199.221]) by
- eusmgms2.samsung.com (EUCPMTA) with SMTP id 34.17.09404.EDF6A626; Thu, 28
- Apr 2022 11:43:42 +0100 (BST)
-Received: from [106.210.134.192] (unknown [106.210.134.192]) by
- eusmtip1.samsung.com (KnoxPortal) with ESMTPA id
- 20220428104342eusmtip10c90c10c97459b459ce50e33b1e3c115~qCXeRX5mr0253002530eusmtip1R;
- Thu, 28 Apr 2022 10:43:42 +0000 (GMT)
-Message-ID: <9db6de88-dfe0-79af-cb1c-eb996e297f3d@samsung.com>
-Date: Thu, 28 Apr 2022 12:43:42 +0200
+Received: from mailgw01.mediatek.com (unknown [60.244.123.138])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 751E510E771
+ for <dri-devel@lists.freedesktop.org>; Thu, 28 Apr 2022 10:54:17 +0000 (UTC)
+X-UUID: d68b178686d84747ba2f949ab738f533-20220428
+X-CID-P-RULE: Release_Ham
+X-CID-O-INFO: VERSION:1.1.4, REQID:a64161e5-2533-4961-bd16-edab1724ef59, OB:0,
+ LO
+ B:0,IP:0,URL:0,TC:0,Content:0,EDM:0,RT:0,SF:-3,FILE:0,RULE:Release_Ham,ACT
+ ION:release,TS:-3
+X-CID-INFO: VERSION:1.1.4, REQID:a64161e5-2533-4961-bd16-edab1724ef59, OB:0,
+ LOB:
+ 0,IP:0,URL:0,TC:0,Content:0,EDM:0,RT:0,SF:-3,FILE:0,RULE:Release_Ham,ACTIO
+ N:release,TS:-3
+X-CID-META: VersionHash:faefae9, CLOUDID:4afbd2c6-85ee-4ac1-ac05-bd3f1e72e732,
+ C
+ OID:IGNORED,Recheck:0,SF:28|100|17|19|48|101|20,TC:nil,Content:0,EDM:-3,Fi
+ le:nil,QS:0,BEC:nil
+X-UUID: d68b178686d84747ba2f949ab738f533-20220428
+Received: from mtkcas10.mediatek.inc [(172.21.101.39)] by mailgw01.mediatek.com
+ (envelope-from <nancy.lin@mediatek.com>)
+ (Generic MTA with TLSv1.2 ECDHE-RSA-AES256-SHA384 256/256)
+ with ESMTP id 655557507; Thu, 28 Apr 2022 18:54:13 +0800
+Received: from mtkcas10.mediatek.inc (172.21.101.39) by
+ mtkmbs10n2.mediatek.inc (172.21.101.183) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_CBC_SHA384) id 15.2.792.3; 
+ Thu, 28 Apr 2022 18:54:11 +0800
+Received: from mtksdccf07.mediatek.inc (172.21.84.99) by mtkcas10.mediatek.inc
+ (172.21.101.73) with Microsoft SMTP Server id 15.0.1497.2 via
+ Frontend Transport; Thu, 28 Apr 2022 18:54:11 +0800
+From: Nancy.Lin <nancy.lin@mediatek.com>
+To: Rob Herring <robh+dt@kernel.org>, Matthias Brugger
+ <matthias.bgg@gmail.com>, Chun-Kuang Hu <chunkuang.hu@kernel.org>, "Philipp
+ Zabel" <p.zabel@pengutronix.de>, <wim@linux-watchdog.org>, "AngeloGioacchino
+ Del Regno" <angelogioacchino.delregno@collabora.com>, <linux@roeck-us.net>
+Subject: [PATCH v18 00/21] Add MediaTek SoC DRM (vdosys1) support for mt8195
+Date: Thu, 28 Apr 2022 18:53:47 +0800
+Message-ID: <20220428105408.11189-1-nancy.lin@mediatek.com>
+X-Mailer: git-send-email 2.18.0
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:91.0)
- Gecko/20100101 Thunderbird/91.8.0
-Subject: Re: [PATCH] drm: exynos: dsi: Use child panel or bridge find helpers
-Content-Language: en-US
-To: Jagan Teki <jagan@amarulasolutions.com>, Maxime Ripard
- <maxime@cerno.tech>, Inki Dae <inki.dae@samsung.com>,
- dri-devel@lists.freedesktop.org, linux-samsung-soc@vger.kernel.org
-From: Marek Szyprowski <m.szyprowski@samsung.com>
-In-Reply-To: <20220428094808.782938-1-jagan@amarulasolutions.com>
-Content-Transfer-Encoding: 7bit
-X-Brightmail-Tracker: H4sIAAAAAAAAA+NgFprGKsWRmVeSWpSXmKPExsWy7djP87r387OSDOY8lLG48vU9m8Wk+xNY
- LL5smsBmsXzCPjaLGef3MVnM+PGP0YHNY+3H+6wed86dZ/O4332cyaNvyypGj8+b5AJYo7hs
- UlJzMstSi/TtErgy7p58xlTwSbDi2KRfbA2Mj/m6GDk5JARMJFZ838rUxcjFISSwglFiys7r
- 7BDOF0aJNVdOM0M4nxkltszbwALTMuHrFKiq5YwSBzd2sEA4HxklGmetA2rh4OAVsJPYej4T
- pIFFQFVi0sHfTCA2r4CgxMmZT8AGiQokSczddw+sXFjAX+LXcS+QMLOAuMStJ/PBThIR2A50
- UusvJoiEmsSSjo9gNpuAoUTX2y42EJtTwFHibVc3C0SNvMT2t3PArpYQuMMhMflkP9TVLhIb
- z89ihLCFJV4d38IOYctI/N8Jso0DyM6X+DvDGCJcIXHt9RpmCNta4s65X2wgJcwCmhLrd+lD
- hB0lmo7MYIHo5JO48VYQ4gI+iUnbpjNDhHklOtqEIKrVJGYdXwe38+CFS8wTGJVmIYXJLCTP
- z0LyyyyEvQsYWVYxiqeWFuempxYb5aWW6xUn5haX5qXrJefnbmIEJp3T/45/2cG4/NVHvUOM
- TByMhxglOJiVRHi/7M5IEuJNSaysSi3Kjy8qzUktPsQozcGiJM6bnLkhUUggPbEkNTs1tSC1
- CCbLxMEp1cAkn29+cYVbSoBmws207XIC3Ktl4l3+6q6OuXvR2Oe19wbHt8fWB6wu4Qs7FRp7
- 61PzHreOWQfXFh3O0FoevVa4rOaO7jzhqmjhK3t97NX7GOTqn1x9tHfa47dPJ11MVtKqmz9n
- 7qXpm49/Pj9Fc/I0DzeHGjmftXc5q+tW/TLi7y2Rk5m8dbvkhRPPZulPt9+r6HCRKeMzh0hm
- 4LL9q8UPx/yZkrj219rM2r9HEj8d3nuqddknT/Evi8ysLvv7TndLK5jMtfifjL2Uq4P1zrPm
- /1M0A/YsWq3NdIbb8Z56W//FdYcidZoO8D824vh0eVOdtLnCyR09tRd3lJySKlujybbBTZeJ
- sfFdZ367yw9RJZbijERDLeai4kQA9Vk+p6kDAAA=
-X-Brightmail-Tracker: H4sIAAAAAAAAA+NgFlrDIsWRmVeSWpSXmKPExsVy+t/xu7r38rOSDBZ8s7S48vU9m8Wk+xNY
- LL5smsBmsXzCPjaLGef3MVnM+PGP0YHNY+3H+6wed86dZ/O4332cyaNvyypGj8+b5AJYo/Rs
- ivJLS1IVMvKLS2yVog0tjPQMLS30jEws9QyNzWOtjEyV9O1sUlJzMstSi/TtEvQy7p58xlTw
- SbDi2KRfbA2Mj/m6GDk5JARMJCZ8ncLexcjFISSwlFHi7c3FrBAJGYmT0xqgbGGJP9e62CCK
- 3jNKXJm2hamLkYODV8BOYuv5TJAaFgFViUkHfzOB2LwCghInZz5hAbFFBZIkXmx7zghiCwv4
- SlzYPJ8NxGYWEJe49WQ+E8hMEYHtjBInli9hgkioSSzp+MgEsWwKo8S8aa/BOtgEDCW63naB
- 2ZwCjhJvu7pZIBrMJLq2djFC2PIS29/OYZ7AKDQLySGzkCychaRlFpKWBYwsqxhFUkuLc9Nz
- i430ihNzi0vz0vWS83M3MQKjbduxn1t2MK589VHvECMTB+MhRgkOZiUR3i+7M5KEeFMSK6tS
- i/Lji0pzUosPMZoCQ2Mis5Rocj4w3vNK4g3NDEwNTcwsDUwtzYyVxHk9CzoShQTSE0tSs1NT
- C1KLYPqYODilGpj4VCasflp3aGVps557idqajrNtnZ94tHbJy69YV/1yQeOyE/e4qkOWv0n4
- L+ubbHHDLk7CPfykrm8GM99x60u/ZDYcLPA20Yt+Vu2lnaFwprbH5Pf15fvfxfUePL8icDJn
- yrdjBno2u8w2yizZffBLqTivz6Edsrs91tfpBmgUr/tpp3H1w932V692r2RVOt8T1VFXaTwv
- kY/rK1eFyqalU4Rehp99+3tW+Enf52fvfKw483Ly6RVH5D6rdKV2X4pf1HKC60hk44vNj+et
- Vtj9wvDqlO6O7jYPVaFztkFVKo9P3fPatFtR59S9Ey17TnEJqjxnvF/H/vnvluZz64sK59e4
- /vo/6fCNo6enGvXdU2Ipzkg01GIuKk4EACO61s4/AwAA
-X-CMS-MailID: 20220428104343eucas1p1338eded8d1319afbb154aa6f094df817
-X-Msg-Generator: CA
-Content-Type: text/plain; charset="utf-8"
-X-RootMTR: 20220428094854eucas1p2c7252b3e6aba5c55a25aef398e8517d4
-X-EPHeader: CA
-CMS-TYPE: 201P
-X-CMS-RootMailID: 20220428094854eucas1p2c7252b3e6aba5c55a25aef398e8517d4
-References: <CGME20220428094854eucas1p2c7252b3e6aba5c55a25aef398e8517d4@eucas1p2.samsung.com>
- <20220428094808.782938-1-jagan@amarulasolutions.com>
+Content-Type: text/plain
+X-MTK: N
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -114,69 +62,201 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: linux-amarula@amarulasolutions.com
+Cc: devicetree@vger.kernel.org,
+ Project_Global_Chrome_Upstream_Group@mediatek.com,
+ Yongqiang Niu <yongqiang.niu@mediatek.com>, David Airlie <airlied@linux.ie>,
+ "jason-jh . lin" <jason-jh.lin@mediatek.com>, singo.chang@mediatek.com,
+ llvm@lists.linux.dev, Nick Desaulniers <ndesaulniers@google.com>,
+ linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org, Nathan
+ Chancellor <nathan@kernel.org>, "Nancy . Lin" <nancy.lin@mediatek.com>,
+ linux-mediatek@lists.infradead.org, linux-arm-kernel@lists.infradead.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 28.04.2022 11:48, Jagan Teki wrote:
-> commit <711c7adc4687> ("drm: exynos: dsi: Use drm panel_bridge API")
-> added devm_drm_of_get_bridge for looking up if child node has panel
-> or bridge.
->
-> However commit <b089c0a9b14c> ("Revert "drm: of: Lookup if child node
-> has panel or bridge") has reverted panel or bridge child node lookup
-> from devm_drm_of_get_bridge which eventually failed to find the DSI
-> devices in exynos drm dsi driver.
->
-> So, use the conventional child panel bridge lookup helpers like it
-> does before.
->
-> Signed-off-by: Jagan Teki <jagan@amarulasolutions.com>
+The hardware path of vdosys1 with DPTx output need to go through by several modules, such as, OVL_ADAPTOR and MERGE.
 
-This restores Exynos DSI driver operation in linux-next after the 
-mentioned commits went via drm-misc-fixes tree.
+Add DRM and these modules support by the patches below:
 
-Tested-by: Marek Szyprowski <m.szyprowski@samsung.com>
+Changes in v18:
+- fix reviewer comment
+  - fix rdma binding doc
+  - fix ethdr binding doc
+  - refine mmsys config cmdq support
+  - refine merge reset control flow, get reset control in probe function
+  - add ethdr reset control error handling and remove dbg log
+- rebase to vdosys0 series v20 (ref [5])
 
-> ---
->   drivers/gpu/drm/exynos/exynos_drm_dsi.c | 12 +++++++++++-
->   1 file changed, 11 insertions(+), 1 deletion(-)
->
-> diff --git a/drivers/gpu/drm/exynos/exynos_drm_dsi.c b/drivers/gpu/drm/exynos/exynos_drm_dsi.c
-> index f067c86b0b12..ec673223d6b7 100644
-> --- a/drivers/gpu/drm/exynos/exynos_drm_dsi.c
-> +++ b/drivers/gpu/drm/exynos/exynos_drm_dsi.c
-> @@ -25,6 +25,7 @@
->   #include <drm/drm_atomic_helper.h>
->   #include <drm/drm_bridge.h>
->   #include <drm/drm_mipi_dsi.h>
-> +#include <drm/drm_panel.h>
->   #include <drm/drm_print.h>
->   #include <drm/drm_probe_helper.h>
->   #include <drm/drm_simple_kms_helper.h>
-> @@ -1451,9 +1452,18 @@ static int exynos_dsi_host_attach(struct mipi_dsi_host *host,
->   	struct device *dev = dsi->dev;
->   	struct drm_encoder *encoder = &dsi->encoder;
->   	struct drm_device *drm = encoder->dev;
-> +	struct drm_panel *panel;
->   	int ret;
->   
-> -	dsi->out_bridge = devm_drm_of_get_bridge(dev, dev->of_node, 1, 0);
-> +	panel = of_drm_find_panel(device->dev.of_node);
-> +	if (!IS_ERR(panel)) {
-> +		dsi->out_bridge = devm_drm_panel_bridge_add(dev, panel);
-> +	} else {
-> +		dsi->out_bridge = of_drm_find_bridge(device->dev.of_node);
-> +		if (!dsi->out_bridge)
-> +			dsi->out_bridge = ERR_PTR(-EINVAL);
-> +	}
-> +
->   	if (IS_ERR(dsi->out_bridge)) {
->   		ret = PTR_ERR(dsi->out_bridge);
->   		DRM_DEV_ERROR(dev, "failed to find the bridge: %d\n", ret);
+Changes in v17:
+- fix reviewer comment in v16
+  - separate ovl adaptor comp in mtk-mmsys and mtk-mutex
+  - separate mmsys config API
+  - move mdp_rdma binding yaml
+- fix ovl adaptor pm runtime get sync timing issue
+- rebase to vdosys0 series v19 (ref [5])
+- rebase to [7] for modify vblank register change
 
-Best regards
+Changes in v16:
+- fix reviewer comment in v 15
+  - fix mtk_drm_ddp_comp.c alignment
+  - fix vdosys0 mmsys num before adding vdosys1 patch
+
+Changes in v15:
+- fix ethdr uppercase hex number in dts
+
+Changes in v14:
+- remove MTK_MMSYS 64 bit dependency
+- add ethdr.yaml back and fix dt_schema check fail
+
+Resend v13
+- add related maintainer in maillist
+
+Changes in v13:
+- fix reviewer comment in v12
+  - fix rdma dt-binding format
+  - fix dts node naming
+- fix 32 bit build error
+  - modify 64bit dependency for mtk-mmsys
+- rebase to vdosys0 series v16. (ref [5])
+
+Changes in v12:
+- fix reviewer comment in v11
+  - modify mbox index
+  - refine dma dev for ovl_adaptor sub driver
+
+Changes in v11:
+- remove ethdr vblank spin lock
+- refine ovl_adaptor print message
+
+Changes in v10:
+- refine ethdr reset control using devm_reset_control_array_get_optional_exclusive
+- fix ovl_adaptor mtk_ovl_adaptor_clk_enable error handle issue
+
+Changes in v9:
+- rebase on kernel-5.16-rc1
+- rebase on vdosys0 series v13. (ref [5])
+- fix ovl_adaptor sub driver is brought up unintentionally
+- fix clang build test fail- duplicate ethdr/mdp_rdma init_module/cleanup_module symbol issue 
+
+Changes in v8:
+- separate merge async reset to new patch.
+- separate drm ovl_adaptor sub driver to new patch.
+- fix reviewer comment in v7.
+
+Changes in v7:
+- rebase on vdosys0 series v12 (ref[5])
+- add dma description in ethdr binding document.
+- refine vdosys1 bit definition of mmsys routing table.
+- separate merge modification into 3 pathces.
+- separate mutex modification into 2 patches.
+- add plane color coding for mdp_rdma csc.
+- move mdp_rdma pm control to ovl_adaptor.
+- fix reviewer comment in v6.
+
+Changes in v6:
+- rebase on kernel-5.15-rc1.
+- change mbox label to gce0 for dts node of vdosys1.
+- modify mmsys reset num for mt8195.
+- rebase on vdosys0 series v10. (ref [5])
+- use drm to bring up ovl_adaptor driver.
+- move drm iommu/mutex check from kms init to drm bind.
+- modify rdma binding doc location. (Documentation/devicetree/bindings/arm/)
+- modify for reviewer's comment in v5.
+
+Changes in v5:
+- add mmsys reset controller reference.
+
+Changes in v4:
+- use merge common driver for merge1~4.
+- refine ovl_adaptor rdma driver.
+- use ovl_adaptor ddp_comp function instead of ethdr.
+- modify for reviewer's comment in v3.
+
+Changes in v3:
+- modify for reviewer's comment in v2.
+- add vdosys1 2 pixels align limit.
+- add mixer odd offset support.
+
+Changes in v2:
+- Merge PSEUDO_OVL and ETHDR into one DRM component.
+- Add mmsys config API for vdosys1 hardware setting.
+- Add mmsys reset control using linux reset framework.
+
+Signed-off-by: Nancy.Lin <nancy.lin@mediatek.com>
+
+This series are based on the following patch:
+[1] arm64: dts: Add mediatek SoC mt8195 and evaluation board
+    20220112114724.1953-4-tinghan.shen@mediatek.com
+[2] arm64: dts: mt8195: add IOMMU and smi nodes
+    20210615173233.26682-15-tinghan.shen@mediatek.com
+[3] arm64: dts: mt8195: add gce node
+    20220126090109.32143-1-jason-jh.lin@mediatek.com
+[4] [v2] arm64: dts: mt8195: add display node for vdosys0
+    20220225021535.2655-1-jason-jh.lin@mediatek.com
+[5] Add MediaTek SoC DRM (vdosys0) support for mt8195 - v20 series
+    20220419094143.9561-1-jason-jh.lin@mediatek.com
+[6] dt-bindings: mediatek: mt8195: Add binding for MM IOMMU
+    20220407075726.17771-2-yong.wu@mediatek.com
+[7] [V2] drm/mediatek: Add vblank register/unregister callback functions
+    20220321072320.15019-1-rex-bc.chen@mediatek.com
+
+Nancy.Lin (21):
+  dt-bindings: mediatek: add vdosys1 RDMA definition for mt8195
+  dt-bindings: reset: mt8195: add vdosys1 reset control bit
+  dt-bindings: mediatek: add ethdr definition for mt8195
+  soc: mediatek: add mtk-mmsys support for mt8195 vdosys1
+  soc: mediatek: add mtk-mmsys config API for mt8195 vdosys1
+  soc: mediatek: add cmdq support of mtk-mmsys config API for mt8195
+    vdosys1
+  soc: mediatek: mmsys: modify reset controller for MT8195 vdosys1
+  soc: mediatek: add mtk-mutex support for mt8195 vdosys1
+  drm/mediatek: add display MDP RDMA support for MT8195
+  drm/mediatek: add display merge advance config API for MT8195
+  drm/mediatek: add display merge start/stop API for cmdq support
+  drm/mediatek: add display merge mute/unmute support for MT8195
+  drm/mediatek: add display merge async reset control
+  drm/mediatek: add ETHDR support for MT8195
+  drm/mediatek: add mediatek-drm plane color encoding info
+  drm/mediatek: add ovl_adaptor support for MT8195
+  drm/mediatek: add dma dev get function
+  drm/mediatek: modify mediatek-drm for mt8195 multi mmsys support
+  drm/mediatek: add drm ovl_adaptor sub driver for MT8195
+  drm/mediatek: add mediatek-drm of vdosys1 support for MT8195
+  arm64: dts: mt8195: add display node for vdosys1
+
+ .../display/mediatek/mediatek,ethdr.yaml      | 191 +++++++
+ .../display/mediatek/mediatek,mdp-rdma.yaml   |  94 ++++
+ arch/arm64/boot/dts/mediatek/mt8195.dtsi      | 227 +++++++-
+ drivers/gpu/drm/mediatek/Makefile             |   5 +-
+ drivers/gpu/drm/mediatek/mtk_disp_drv.h       |  38 ++
+ drivers/gpu/drm/mediatek/mtk_disp_merge.c     |  94 +++-
+ .../gpu/drm/mediatek/mtk_disp_ovl_adaptor.c   | 514 ++++++++++++++++++
+ drivers/gpu/drm/mediatek/mtk_drm_crtc.c       |  96 ++--
+ drivers/gpu/drm/mediatek/mtk_drm_crtc.h       |   6 +-
+ drivers/gpu/drm/mediatek/mtk_drm_ddp_comp.c   | 125 +++--
+ drivers/gpu/drm/mediatek/mtk_drm_ddp_comp.h   |  58 +-
+ drivers/gpu/drm/mediatek/mtk_drm_drv.c        | 351 ++++++++----
+ drivers/gpu/drm/mediatek/mtk_drm_drv.h        |  25 +-
+ drivers/gpu/drm/mediatek/mtk_drm_plane.c      |   1 +
+ drivers/gpu/drm/mediatek/mtk_drm_plane.h      |   1 +
+ drivers/gpu/drm/mediatek/mtk_ethdr.c          | 369 +++++++++++++
+ drivers/gpu/drm/mediatek/mtk_ethdr.h          |  26 +
+ drivers/gpu/drm/mediatek/mtk_mdp_rdma.c       | 315 +++++++++++
+ drivers/gpu/drm/mediatek/mtk_mdp_rdma.h       |  20 +
+ drivers/soc/mediatek/mt8195-mmsys.h           | 143 +++++
+ drivers/soc/mediatek/mtk-mmsys.c              | 104 +++-
+ drivers/soc/mediatek/mtk-mmsys.h              |   1 +
+ drivers/soc/mediatek/mtk-mutex.c              |  37 ++
+ include/dt-bindings/reset/mt8195-resets.h     |  12 +
+ include/linux/soc/mediatek/mtk-mmsys.h        |  25 +
+ 25 files changed, 2661 insertions(+), 217 deletions(-)
+ create mode 100644 Documentation/devicetree/bindings/display/mediatek/mediatek,ethdr.yaml
+ create mode 100644 Documentation/devicetree/bindings/display/mediatek/mediatek,mdp-rdma.yaml
+ create mode 100644 drivers/gpu/drm/mediatek/mtk_disp_ovl_adaptor.c
+ create mode 100644 drivers/gpu/drm/mediatek/mtk_ethdr.c
+ create mode 100644 drivers/gpu/drm/mediatek/mtk_ethdr.h
+ create mode 100644 drivers/gpu/drm/mediatek/mtk_mdp_rdma.c
+ create mode 100644 drivers/gpu/drm/mediatek/mtk_mdp_rdma.h
+
 -- 
-Marek Szyprowski, PhD
-Samsung R&D Institute Poland
+2.18.0
 
