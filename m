@@ -1,40 +1,50 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 22DC8513B33
-	for <lists+dri-devel@lfdr.de>; Thu, 28 Apr 2022 20:08:11 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id DF38A513B46
+	for <lists+dri-devel@lfdr.de>; Thu, 28 Apr 2022 20:16:58 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id D2CA610E9AA;
-	Thu, 28 Apr 2022 18:08:08 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 1B71F10E9B5;
+	Thu, 28 Apr 2022 18:16:55 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from perceval.ideasonboard.com (perceval.ideasonboard.com
- [213.167.242.64])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 3598710E964
- for <dri-devel@lists.freedesktop.org>; Thu, 28 Apr 2022 18:08:07 +0000 (UTC)
-Received: from pendragon.ideasonboard.com (62-78-145-57.bb.dnainternet.fi
- [62.78.145.57])
- by perceval.ideasonboard.com (Postfix) with ESMTPSA id 02CE1496;
- Thu, 28 Apr 2022 20:08:04 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
- s=mail; t=1651169285;
- bh=oVmunpLDDKj9ibXyiY0f03qTsvurtWKBg7vpbuvLUNQ=;
- h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
- b=PJ6ybfpLjTJnVJqDewl16LwmQ6xSNd7FC8KJCj9iO56ZH7zGVaaP2ffZgDBlFMXhM
- xzC9GJCGfdz3GzsRv0movWt2qf9HJJasHGgSiIdMcHh69VbLe3+KvcF1Ej9wL+IOTq
- bMBCLv+v93YM7qD7MrrhK9u9dnmKsCErQO4jDYVc=
-Date: Thu, 28 Apr 2022 21:08:03 +0300
-From: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-To: Uwe =?utf-8?Q?Kleine-K=C3=B6nig?= <u.kleine-koenig@pengutronix.de>
-Subject: Re: [PATCH] drm/bridge: tfp410: Make tfp410_fini() return void
-Message-ID: <YmrYAwNqDDOd26Jn@pendragon.ideasonboard.com>
-References: <20220428162803.185275-1-u.kleine-koenig@pengutronix.de>
+Received: from alexa-out.qualcomm.com (alexa-out.qualcomm.com [129.46.98.28])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id CDBD710E1A9;
+ Thu, 28 Apr 2022 18:16:53 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=quicinc.com; i=@quicinc.com; q=dns/txt; s=qcdkim;
+ t=1651169813; x=1682705813;
+ h=from:to:cc:subject:date:message-id:mime-version;
+ bh=S4ej8cAaExSyWS0YJOGhu3zdFKhnoSxnIcZpa0GFhkE=;
+ b=fheTdMqD+Lt3tXv7z5lp8wGlj/KJFPZQePKVdsz9WYOypbChbsP8/B0r
+ VVkLaSs/YBxL6yCf6QuWA/z/8JBDGD79G1bvgI6sm4KfmYFnuIqoB3yMX
+ wjxA/arNzkNTmuL8VhTvOa0tX7vtWzy81Sp1T3QzLrt0cyLnyVuXxJftc k=;
+Received: from ironmsg08-lv.qualcomm.com ([10.47.202.152])
+ by alexa-out.qualcomm.com with ESMTP; 28 Apr 2022 11:16:53 -0700
+X-QCInternal: smtphost
+Received: from nasanex01c.na.qualcomm.com ([10.47.97.222])
+ by ironmsg08-lv.qualcomm.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 28 Apr 2022 11:16:53 -0700
+Received: from nalasex01a.na.qualcomm.com (10.47.209.196) by
+ nasanex01c.na.qualcomm.com (10.47.97.222) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.2.986.22; Thu, 28 Apr 2022 11:16:12 -0700
+Received: from abhinavk-linux.qualcomm.com (10.80.80.8) by
+ nalasex01a.na.qualcomm.com (10.47.209.196) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.2.986.22; Thu, 28 Apr 2022 11:16:12 -0700
+From: Abhinav Kumar <quic_abhinavk@quicinc.com>
+To: <freedreno@lists.freedesktop.org>
+Subject: [PATCH v2] drm/msm/dpu: remove unused refcount for encoder_phys_wb
+Date: Thu, 28 Apr 2022 11:15:59 -0700
+Message-ID: <1651169759-29760-1-git-send-email-quic_abhinavk@quicinc.com>
+X-Mailer: git-send-email 2.7.4
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <20220428162803.185275-1-u.kleine-koenig@pengutronix.de>
+Content-Type: text/plain
+X-Originating-IP: [10.80.80.8]
+X-ClientProxiedBy: nasanex01b.na.qualcomm.com (10.46.141.250) To
+ nalasex01a.na.qualcomm.com (10.47.209.196)
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -47,78 +57,56 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: kernel@pengutronix.de, Jonas Karlman <jonas@kwiboo.se>,
- Robert Foss <robert.foss@linaro.org>, Neil Armstrong <narmstrong@baylibre.com>,
- dri-devel@lists.freedesktop.org, Jernej Skrabec <jernej.skrabec@gmail.com>,
- Andrzej Hajda <andrzej.hajda@intel.com>
+Cc: Abhinav Kumar <quic_abhinavk@quicinc.com>, dri-devel@lists.freedesktop.org,
+ swboyd@chromium.org, seanpaul@chromium.org, dmitry.baryshkov@linaro.org,
+ quic_jesszhan@quicinc.com, quic_aravindh@quicinc.com
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi Uwe,
+Remove the unused local variable refcount for encoder_phys_wb
+as the one part of wb_enc is used directly.
 
-Thank you for the patch.
+changes in v2:
+	- remove usage of ret variable also
+	- remove the if (ret) code as it was dead-code anyway
 
-On Thu, Apr 28, 2022 at 06:28:03PM +0200, Uwe Kleine-König wrote:
-> tfp410_fini() always returns zero. Make it return no value which makes it
-> easier to see in the callers that there is no error to handle.
-> 
-> Also the return value of i2c and platform driver remove callbacks is
-> ignored anyway. This prepares making i2c and platform remove callbacks
-> return void, too.
-> 
-> Signed-off-by: Uwe Kleine-König <u.kleine-koenig@pengutronix.de>
+Fixes: 0ce51f19453e ("drm/msm/dpu: introduce the dpu_encoder_phys_* for writeback")
+Reported-by: kernel test robot <lkp@intel.com>
+Signed-off-by: Abhinav Kumar <quic_abhinavk@quicinc.com>
+---
+ drivers/gpu/drm/msm/disp/dpu1/dpu_encoder_phys_wb.c | 15 +++------------
+ 1 file changed, 3 insertions(+), 12 deletions(-)
 
-Reviewed-by: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-
-> ---
->  drivers/gpu/drm/bridge/ti-tfp410.c | 12 +++++++-----
->  1 file changed, 7 insertions(+), 5 deletions(-)
-> 
-> diff --git a/drivers/gpu/drm/bridge/ti-tfp410.c b/drivers/gpu/drm/bridge/ti-tfp410.c
-> index ba3fa2a9b8a4..756b3e6e776b 100644
-> --- a/drivers/gpu/drm/bridge/ti-tfp410.c
-> +++ b/drivers/gpu/drm/bridge/ti-tfp410.c
-> @@ -341,13 +341,11 @@ static int tfp410_init(struct device *dev, bool i2c)
->  	return 0;
->  }
->  
-> -static int tfp410_fini(struct device *dev)
-> +static void tfp410_fini(struct device *dev)
->  {
->  	struct tfp410 *dvi = dev_get_drvdata(dev);
->  
->  	drm_bridge_remove(&dvi->bridge);
-> -
-> -	return 0;
->  }
->  
->  static int tfp410_probe(struct platform_device *pdev)
-> @@ -357,7 +355,9 @@ static int tfp410_probe(struct platform_device *pdev)
->  
->  static int tfp410_remove(struct platform_device *pdev)
->  {
-> -	return tfp410_fini(&pdev->dev);
-> +	tfp410_fini(&pdev->dev);
-> +
-> +	return 0;
->  }
->  
->  static const struct of_device_id tfp410_match[] = {
-> @@ -394,7 +394,9 @@ static int tfp410_i2c_probe(struct i2c_client *client,
->  
->  static int tfp410_i2c_remove(struct i2c_client *client)
->  {
-> -	return tfp410_fini(&client->dev);
-> +	tfp410_fini(&client->dev);
-> +
-> +	return 0;
->  }
->  
->  static const struct i2c_device_id tfp410_i2c_ids[] = {
-> 
-> base-commit: 3123109284176b1532874591f7c81f3837bbdc17
-
+diff --git a/drivers/gpu/drm/msm/disp/dpu1/dpu_encoder_phys_wb.c b/drivers/gpu/drm/msm/disp/dpu1/dpu_encoder_phys_wb.c
+index cb5c7da53c29..f4a79715a02e 100644
+--- a/drivers/gpu/drm/msm/disp/dpu1/dpu_encoder_phys_wb.c
++++ b/drivers/gpu/drm/msm/disp/dpu1/dpu_encoder_phys_wb.c
+@@ -406,22 +406,13 @@ static void dpu_encoder_phys_wb_irq_ctrl(
+ {
+ 
+ 	struct dpu_encoder_phys_wb *wb_enc = to_dpu_encoder_phys_wb(phys);
+-	int ret = 0;
+-	int refcount;
+-
+-	refcount = atomic_read(&wb_enc->wbirq_refcount);
+ 
+-	if (enable && atomic_inc_return(&wb_enc->wbirq_refcount) == 1) {
++	if (enable && atomic_inc_return(&wb_enc->wbirq_refcount) == 1)
+ 		dpu_core_irq_register_callback(phys->dpu_kms,
+ 				phys->irq[INTR_IDX_WB_DONE], dpu_encoder_phys_wb_done_irq, phys);
+-		if (ret)
+-			atomic_dec_return(&wb_enc->wbirq_refcount);
+-	} else if (!enable &&
+-			atomic_dec_return(&wb_enc->wbirq_refcount) == 0) {
++	else if (!enable &&
++			atomic_dec_return(&wb_enc->wbirq_refcount) == 0)
+ 		dpu_core_irq_unregister_callback(phys->dpu_kms, phys->irq[INTR_IDX_WB_DONE]);
+-		if (ret)
+-			atomic_inc_return(&wb_enc->wbirq_refcount);
+-	}
+ }
+ 
+ static void dpu_encoder_phys_wb_atomic_mode_set(
 -- 
-Regards,
+2.7.4
 
-Laurent Pinchart
