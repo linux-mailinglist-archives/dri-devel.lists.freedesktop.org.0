@@ -1,51 +1,46 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 64FD0512A25
-	for <lists+dri-devel@lfdr.de>; Thu, 28 Apr 2022 05:44:19 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id D4036512A63
+	for <lists+dri-devel@lfdr.de>; Thu, 28 Apr 2022 06:19:55 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 3440310E381;
-	Thu, 28 Apr 2022 03:44:14 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 1F23810E344;
+	Thu, 28 Apr 2022 04:19:45 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mga09.intel.com (mga09.intel.com [134.134.136.24])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 8AC7610E370;
- Thu, 28 Apr 2022 03:44:12 +0000 (UTC)
+Received: from mga06.intel.com (mga06b.intel.com [134.134.136.31])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id F096C10E16E;
+ Thu, 28 Apr 2022 04:19:42 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1651117452; x=1682653452;
- h=date:from:to:cc:subject:message-id:references:
- mime-version:in-reply-to;
- bh=VCb8zpOLUspRvAY42v8rO2zLGX6/0ngqsK7vLtmJ8XA=;
- b=Du5cLsdFAxv4jihxCS4bmoYhhR3tM5a/g7U4qdrkZLkanwSpgvbMPMFP
- rWfrU469jh/v5oa6WVrm6RqZhDh1qc5zciI/ewxJXm9xPj7vNgK7MFDid
- yuVuvimV99dt79Yhx+1hlRLJ9vZ9pLSdst7L+K9QqTtSWzN6/m1HELviF
- RnPCotrPf9bKMg72Dg5DUTjT5XcX6j7eqPS19tyuVmWnry/7P4TBGBqj6
- HlTsBzoutQi8RkxFTMxgxs23BzYW2MagDD9MNnuTB1O24nhCciSJ5XgeP
- KU1XD6EeZoW4FwAeLtOsrJMgSGDF/xnhr14l0P5OASQST99tmyV+cptaA w==;
-X-IronPort-AV: E=McAfee;i="6400,9594,10330"; a="265674202"
-X-IronPort-AV: E=Sophos;i="5.90,295,1643702400"; d="scan'208";a="265674202"
+ t=1651119583; x=1682655583;
+ h=from:to:cc:subject:date:message-id:mime-version:
+ content-transfer-encoding;
+ bh=/UzZiwvL/dsHVvmgIGNXphh4x/ft7iXHPNUUPwBsVpo=;
+ b=Csvjech6PJWFo41mZMdPucuJNh3ee/hFpWHg4JpgrhghsBGvkr2sb490
+ vOJdufPLvcpCvsPiKM07XVx9JXwf5RYKrE2QaNOZ/hzx130UIvgKsXp/i
+ r64tuWtqRNCv+Ezw2Z6QMIAoyXpSyHrU0bhmgs7oFv4EF+4TTWKKJFCwh
+ prp7O/QOkHu5RToFpxRZai6QU//QW8FE8uwLt55qYWiNVReaiQtVBaMgU
+ 1bwEihzKINnLy3IOb22TDtz5xKkxsEcAO6QxRPl6f3Zb/EbV/boggfAMC
+ 3UkD2TvUkTMjz2r4ZHHebirWQTXR5qQ6PCff9MItKwv746Xt0xWCzzK7X g==;
+X-IronPort-AV: E=McAfee;i="6400,9594,10330"; a="326645777"
+X-IronPort-AV: E=Sophos;i="5.90,295,1643702400"; d="scan'208";a="326645777"
 Received: from orsmga007.jf.intel.com ([10.7.209.58])
- by orsmga102.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 27 Apr 2022 20:44:12 -0700
-X-IronPort-AV: E=Sophos;i="5.90,295,1643702400"; d="scan'208";a="559391365"
-Received: from mdroper-desk1.fm.intel.com (HELO
- mdroper-desk1.amr.corp.intel.com) ([10.1.27.134])
+ by orsmga104.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 27 Apr 2022 21:19:42 -0700
+X-IronPort-AV: E=Sophos;i="5.90,295,1643702400"; d="scan'208";a="559403034"
+Received: from mdroper-desk1.fm.intel.com ([10.1.27.134])
  by orsmga007-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 27 Apr 2022 20:44:11 -0700
-Date: Wed, 27 Apr 2022 20:44:10 -0700
+ 27 Apr 2022 21:19:42 -0700
 From: Matt Roper <matthew.d.roper@intel.com>
-To: Tvrtko Ursulin <tvrtko.ursulin@linux.intel.com>
-Subject: Re: [PATCH 1/2] drm/i915/xehp: Add compute engine ABI
-Message-ID: <YmoNisg69eZDZL7V@mdroper-desk1.amr.corp.intel.com>
-References: <20220422195007.4019661-1-matthew.d.roper@intel.com>
- <20220422195007.4019661-2-matthew.d.roper@intel.com>
- <643c0538-dc2a-a99b-aa53-73693ace6e38@linux.intel.com>
+To: intel-gfx@lists.freedesktop.org
+Subject: [PATCH v2 0/4] i915: Turn on compute engine support
+Date: Wed, 27 Apr 2022 21:19:22 -0700
+Message-Id: <20220428041926.1483683-1-matthew.d.roper@intel.com>
+X-Mailer: git-send-email 2.35.1
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <643c0538-dc2a-a99b-aa53-73693ace6e38@linux.intel.com>
+Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -58,53 +53,59 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Szymon Morek <szymon.morek@intel.com>, intel-gfx@lists.freedesktop.org,
- dri-devel@lists.freedesktop.org,
- Daniele Ceraolo Spurio <daniele.ceraolospurio@intel.com>,
- Jordan Justen <jordan.l.justen@intel.com>,
- Vinay Belgaumkar <vinay.belgaumkar@intel.com>
+Cc: Lucas De Marchi <lucas.demarchi@intel.com>, dri-devel@lists.freedesktop.org,
+ Tvrtko Ursulin <tvrtko.ursulin@linux.intel.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Mon, Apr 25, 2022 at 11:41:36AM +0100, Tvrtko Ursulin wrote:
-> 
-> On 22/04/2022 20:50, Matt Roper wrote:
-> > We're now ready to start exposing compute engines to userspace.
-> > 
-> > While we're at it, let's extend the kerneldoc description for the other
-> > engine types as well.
-> > 
-> > Cc: Daniele Ceraolo Spurio <daniele.ceraolospurio@intel.com>
-> > Cc: Tvrtko Ursulin <tvrtko.ursulin@linux.intel.com>
-> > Cc: Vinay Belgaumkar <vinay.belgaumkar@intel.com>
-> > Cc: Jordan Justen <jordan.l.justen@intel.com>
-> > Cc: Szymon Morek <szymon.morek@intel.com>
-> > UMD (mesa): https://gitlab.freedesktop.org/mesa/mesa/-/merge_requests/14395
-> > UMD (compute): https://github.com/intel/compute-runtime/pull/451
-> 
-> The compute one points to a commit named "Add compute engine class for xehp"
-> but content of which seems more about engine query, including the yet
-> non-existent distance query (and more)?! I certainly does not appear to be
-> adding a definition of I915_ENGINE_CLASS_COMPUTE. This needs clarifying.
-> 
+Now that the necessary GuC-based hardware workarounds have landed, we're
+finally ready to actually enable compute engines for use by userspace.
+All of the "under-the-hood" heavy lifting already landed a while back in
+other series so all that remains now is to add I915_ENGINE_CLASS_COMPUTE
+to the uapi enum and add the CCS engines to the engine lists for the
+Xe_HP SDV and DG2.
 
-Hi Syzmon, any updates on the compute UMD merge request here?  Is there
-a different merge request we should reference for now that just uses the
-I915_ENGINE_CLASS_COMPUTE without also relying on the
-DRM_I915_QUERY_DISTANCE_INFO that we aren't upstreaming just yet?
+Userspace (Mesa) is linked in the ABI patch.  Existing IGT tests (e.g.,
+i915_hangman) provide test coverage for general engine behavior since compute
+engines should follow the same general rules as other engines.  We've also
+recently added some additional subtests like
+igt@gem_reset_stats@shared-reset-domain to cover the user-visible impacts of
+the compute engines sharing the same hardware reset domain as the render
+engine.
 
-I believe distance info is only useful for multi-tile platforms and
-isn't necessary for general use of compute engines on a single tile
-platform.
+v2:
+ - Update TLB invalidation register for compute engines and move it to a
+   separate patch since it isn't related to the new uapi.  (Tvrtko,
+   Prathap)
+ - Move new kerneldoc for pre-existing engine classes to a separate
+   patch.  (Andi)
+ - Drop the compute UMD merge request link for now because it also
+   included some additional multi-tile uapi that we're not ready to
+   upstream just yet.  Even if they don't have a disentangled MR ready
+   for reference, we still have the Mesa MR as a key userspace consumer.
+   (Tvrtko)
 
-Thanks.
+Cc: Lucas De Marchi <lucas.demarchi@intel.com>
+Cc: Tvrtko Ursulin <tvrtko.ursulin@linux.intel.com>
 
+Daniele Ceraolo Spurio (1):
+  drm/i915: Xe_HP SDV and DG2 have up to 4 CCS engines
 
-Matt
+Matt Roper (3):
+  drm/i915/uapi: Add kerneldoc for engine class enum
+  drm/i915/xehp: Add register for compute engine's MMIO-based TLB
+    invalidation
+  drm/i915/xehp: Add compute engine ABI
+
+ drivers/gpu/drm/i915/gt/intel_engine_user.c |  2 +-
+ drivers/gpu/drm/i915/gt/intel_gt.c          |  1 +
+ drivers/gpu/drm/i915/gt/intel_gt_regs.h     |  1 +
+ drivers/gpu/drm/i915/i915_drm_client.c      |  1 +
+ drivers/gpu/drm/i915/i915_drm_client.h      |  2 +-
+ drivers/gpu/drm/i915/i915_pci.c             |  6 +-
+ include/uapi/drm/i915_drm.h                 | 62 +++++++++++++++++++--
+ 7 files changed, 65 insertions(+), 10 deletions(-)
 
 -- 
-Matt Roper
-Graphics Software Engineer
-VTT-OSGC Platform Enablement
-Intel Corporation
-(916) 356-2795
+2.35.1
+
