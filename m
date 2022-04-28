@@ -1,59 +1,59 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6D8CA513BB2
-	for <lists+dri-devel@lfdr.de>; Thu, 28 Apr 2022 20:38:20 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 833C7513BBC
+	for <lists+dri-devel@lfdr.de>; Thu, 28 Apr 2022 20:41:34 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 5E24A10E34B;
-	Thu, 28 Apr 2022 18:38:17 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 830F610E37E;
+	Thu, 28 Apr 2022 18:41:32 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from bhuna.collabora.co.uk (bhuna.collabora.co.uk [46.235.227.227])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 6525B10E34B
- for <dri-devel@lists.freedesktop.org>; Thu, 28 Apr 2022 18:38:16 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 58A6F10E37E
+ for <dri-devel@lists.freedesktop.org>; Thu, 28 Apr 2022 18:41:31 +0000 (UTC)
 Received: from [127.0.0.1] (localhost [127.0.0.1])
- (Authenticated sender: dmitry.osipenko) with ESMTPSA id 26DAB1F45BA6
+ (Authenticated sender: dmitry.osipenko) with ESMTPSA id 1DB581F45BA9
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
- s=mail; t=1651171094;
- bh=LUoHkp961qm9ko1OBtouQWFIA8PMdZVSkHc/jw1XS44=;
- h=Date:Subject:To:References:From:In-Reply-To:From;
- b=Gfq++VVz0zfr6JFt1ax6Utc5gsxcHoJIm5n0+6KpdFYaHipbvdGcXdvSCeE4iToqp
- du8kN1/0uHwQg8uWiF4B+RQF5Sww9YSZq5/uKMtVA/iMrJpoVHRwu4GzEK3pbolvUJ
- jg1ZmnkE/osv2uVCh8aVrQt6C9IQJD2ZKuWW/JoS9vAPlelhwOMVOvLFQLl7P1FcXo
- 5BjvLzIPrhmEhbIj7WYtdUGHWEGPE3rQG5GyqHDmwLWPDVIdQ4bc52/kZKjn1F1+7s
- 0Yigqu3B//kV5MYZE6/sAzQ/uWp1VvY/pqlAFb2lGpLqAc3b5QYXQLKoaz7OW+Muev
- m55mWpLIa2xKQ==
-Message-ID: <9cb2e7fb-1597-999e-59b8-586b5fd7f04d@collabora.com>
-Date: Thu, 28 Apr 2022 21:38:10 +0300
+ s=mail; t=1651171290;
+ bh=HSr1KCZ5LnslRjGdE29dDFgwDJWDw5RpI+XCM1ThDIE=;
+ h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
+ b=bfLldcJ+mxw6WfTtItLTOjLcjf0DYyzsn4duwT4V65y2wh/auNP5VbaKcF1uLtb0B
+ iB/cky4I5BR35dO0sBsMH/IMcS2hQcrcukVUN2Se+PPS1Acf+cYw0aWDojUZPfuPr6
+ lry0gDJpMS6Znk7q4EgkKajPlWGFIbW3IQSsLO06kQYS5k5BW2+iwu3TyC1kW+eE2T
+ ltrTAD36FgqZAog2GI8KGWD5k8oX5TmtV/lGfBCUjyzIl3wf69EgFqlvTSr7MWV/Rl
+ O+vG2kloLrPb0rbCPCkO+207H8MSE6C8OYDbpOG/crx11Q8yVrBAc1ev3YHC1FTzVZ
+ Ke2HvHpsR9S0A==
+Message-ID: <9647245d-b0b5-12d1-fef2-7a5f759f908b@collabora.com>
+Date: Thu, 28 Apr 2022 21:41:25 +0300
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
  Thunderbird/91.7.0
-Subject: Re: [PATCH v5 15/17] drm/shmem-helper: Make drm_gem_shmem_get_pages()
- private
+Subject: Re: [PATCH v5 01/17] drm/panfrost: Put mapping instead of shmem obj
+ on panfrost_mmu_map_fault_addr() error
 Content-Language: en-US
-To: David Airlie <airlied@linux.ie>, Gerd Hoffmann <kraxel@redhat.com>,
+To: Steven Price <steven.price@arm.com>, David Airlie <airlied@linux.ie>,
+ Gerd Hoffmann <kraxel@redhat.com>,
  Gurchetan Singh <gurchetansingh@chromium.org>, Chia-I Wu
- <olvaffe@gmail.com>, Daniel Almeida <daniel.almeida@collabora.com>,
+ <olvaffe@gmail.com>, Daniel Vetter <daniel@ffwll.ch>,
+ Daniel Almeida <daniel.almeida@collabora.com>,
  Gert Wollny <gert.wollny@collabora.com>,
  Gustavo Padovan <gustavo.padovan@collabora.com>,
  Daniel Stone <daniel@fooishbar.org>,
  Tomeu Vizoso <tomeu.vizoso@collabora.com>,
  Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
  Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>,
- Rob Herring <robh@kernel.org>, Steven Price <steven.price@arm.com>,
+ Rob Herring <robh@kernel.org>,
  Alyssa Rosenzweig <alyssa.rosenzweig@collabora.com>,
  Rob Clark <robdclark@gmail.com>, Emil Velikov <emil.l.velikov@gmail.com>,
  Robin Murphy <robin.murphy@arm.com>, Qiang Yu <yuq825@gmail.com>,
  Sumit Semwal <sumit.semwal@linaro.org>,
- =?UTF-8?Q?Christian_K=c3=b6nig?= <christian.koenig@amd.com>,
- dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org,
- virtualization@lists.linux-foundation.org, Dmitry Osipenko <digetx@gmail.com>
+ =?UTF-8?Q?Christian_K=c3=b6nig?= <christian.koenig@amd.com>
 References: <20220424190424.540501-1-dmitry.osipenko@collabora.com>
- <20220424190424.540501-16-dmitry.osipenko@collabora.com>
- <YmqJsxHYB2DNBzX0@phenom.ffwll.local>
+ <20220424190424.540501-2-dmitry.osipenko@collabora.com>
+ <37dae9fa-dadf-4b80-fbea-689472fd7dce@arm.com>
 From: Dmitry Osipenko <dmitry.osipenko@collabora.com>
-In-Reply-To: <YmqJsxHYB2DNBzX0@phenom.ffwll.local>
+In-Reply-To: <37dae9fa-dadf-4b80-fbea-689472fd7dce@arm.com>
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
@@ -68,34 +68,24 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
+Cc: Dmitry Osipenko <digetx@gmail.com>, linux-kernel@vger.kernel.org,
+ dri-devel@lists.freedesktop.org, virtualization@lists.linux-foundation.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-28.04.2022 15:33, Daniel Vetter пишет:
-> On Sun, Apr 24, 2022 at 10:04:22PM +0300, Dmitry Osipenko wrote:
->> VirtIO-GPU driver was the only user of drm_gem_shmem_get_pages()
->> and it now uses drm_gem_shmem_get_pages_sgt(). Make the get_pages()
->> private to drm_gem_shmem_helper.
+28.04.2022 16:19, Steven Price пишет:
+> On 24/04/2022 20:04, Dmitry Osipenko wrote:
+>> When panfrost_mmu_map_fault_addr() fails, the BO's mapping should be
+>> unreferenced and not the shmem object that backs that mapping.
 >>
+>> Cc: stable@vger.kernel.org
 >> Signed-off-by: Dmitry Osipenko <dmitry.osipenko@collabora.com>
->> ---
->>  drivers/gpu/drm/drm_gem_shmem_helper.c | 3 +--
->>  include/drm/drm_gem_shmem_helper.h     | 1 -
->>  2 files changed, 1 insertion(+), 3 deletions(-)
->>
->> diff --git a/drivers/gpu/drm/drm_gem_shmem_helper.c b/drivers/gpu/drm/drm_gem_shmem_helper.c
->> index 25e9bc2803ee..7ec5f8002f68 100644
->> --- a/drivers/gpu/drm/drm_gem_shmem_helper.c
->> +++ b/drivers/gpu/drm/drm_gem_shmem_helper.c
->> @@ -490,7 +490,7 @@ static int drm_gem_shmem_get_pages_locked(struct drm_gem_shmem_object *shmem)
->>   * Returns:
->>   * 0 on success or a negative error code on failure.
->>   */
 > 
-> We also delete the kerneldoc for functions not exported (kerneldoc is
-> geared towards driver writes). If there's anything critical the comment
-> explains about the internals, you can keep that as a normal C style
-> comment without the /** but generally there's no need for these anymore.
+> Fixes: bdefca2d8dc0 ("drm/panfrost: Add the panfrost_gem_mapping concept")
+> 
+> Reviewed-by: Steven Price <steven.price@arm.com>
 
-Noted for v6.
+Thank you for the fixes tag. It appeared to me that this problem existed
+since the first addition of the srinker when I was looking up the
+offending commit, my bad :)
 
