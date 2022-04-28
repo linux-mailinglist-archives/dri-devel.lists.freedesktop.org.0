@@ -2,65 +2,56 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id B1A7251393E
-	for <lists+dri-devel@lfdr.de>; Thu, 28 Apr 2022 17:58:58 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id A5B635139D2
+	for <lists+dri-devel@lfdr.de>; Thu, 28 Apr 2022 18:28:44 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 89FDE10E75D;
-	Thu, 28 Apr 2022 15:58:56 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 62A7D10E760;
+	Thu, 28 Apr 2022 16:28:41 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-lj1-x22c.google.com (mail-lj1-x22c.google.com
- [IPv6:2a00:1450:4864:20::22c])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 1D56D10E74C
- for <dri-devel@lists.freedesktop.org>; Thu, 28 Apr 2022 15:58:55 +0000 (UTC)
-Received: by mail-lj1-x22c.google.com with SMTP id v4so7263777ljd.10
- for <dri-devel@lists.freedesktop.org>; Thu, 28 Apr 2022 08:58:55 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=message-id:date:mime-version:user-agent:subject:content-language:to
- :cc:references:from:in-reply-to:content-transfer-encoding;
- bh=UIG7QfsSHAl3PyOileeC1vkbpeul6vxhfK0AnKiH0N0=;
- b=PX5PmB8wgnwExSmFKR9M8r+1wv8Svna0JzAzAo0Ak3lq1sJo9YpUutlZ088t3huhyD
- iuT/jMsdcy/BQgvuKCR+GEei3sOwVpVLAo8kYQgijpzpWJILUHXTqktWEhi7GEC15jFF
- 3NmM4f88blGLHYGCaH9qxHHoTBXPx6rb8SkH8fmFRrfcZjPTs/Olma0zD9i0xU5KAwmt
- +EMEA4yw1HfziYAEh2/qvDhBpM1BS+vLZSAZr9Nsxdegf5OezdogpyYEZl4GKb18c+Bm
- xix7mgWVpMOsFTCFy0WWCt8z79oQ6d+91N0dbZkhWqfb+v98GyGPcUp7zJv4EgqjPSzZ
- SDAg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
- :content-language:to:cc:references:from:in-reply-to
- :content-transfer-encoding;
- bh=UIG7QfsSHAl3PyOileeC1vkbpeul6vxhfK0AnKiH0N0=;
- b=6V6yBxCPoWs1rBdYeVaFJg2NXeKKKxeNHeyFOxeJ0Sl7ZCKm8uWQ2Bo3268xtjXX+S
- pv5KZ8n68sJwY0cxUgJpnWvFDrwuEATJTcJnIKMGWos8DHh61i9v6byZnqhQHnwbmGSw
- H3b4NM3hCva6ITwn/mO9fHjpFXwBEN6XBFjbH5JljNbFaC+T+FmlosXHmkZz1fJvQjku
- Q539hw/HkoFv1ipcPxjBeuVDSRcHLYOPnp1rmuwE5DK3mnJBfajNqf3G2gGtdYNzi3EK
- fQzUeF9PRKTGegUTEzieLy7yeUnbV5D6fQLSklObJ7Q39+8McchPBe9gWeyyjkziDbmI
- PK8g==
-X-Gm-Message-State: AOAM533VJggWR8j8gc5SYnbER8J/EtxtR2S+gwPAQA6CvDoE0yJnghDm
- Zj/f1vrht95ctx4yN663ZNzQqg==
-X-Google-Smtp-Source: ABdhPJyKCoZQa2T0UeY6R/3MJ4jYyifIvJ/DMD+qCDiIJWOriX59bMzJkolyqfS4+ved5eRC5IeNRw==
-X-Received: by 2002:a2e:9c02:0:b0:24d:bcbd:1c77 with SMTP id
- s2-20020a2e9c02000000b0024dbcbd1c77mr22080525lji.19.1651161533331; 
- Thu, 28 Apr 2022 08:58:53 -0700 (PDT)
-Received: from [192.168.43.7] ([188.162.64.61])
- by smtp.gmail.com with ESMTPSA id
- i18-20020ac25b52000000b004722a9966b3sm32603lfp.298.2022.04.28.08.58.52
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Thu, 28 Apr 2022 08:58:52 -0700 (PDT)
-Message-ID: <c1f46c3a-4b89-3d6d-06af-242b859f1cab@linaro.org>
-Date: Thu, 28 Apr 2022 18:58:51 +0300
+Received: from metis.ext.pengutronix.de (metis.ext.pengutronix.de
+ [IPv6:2001:67c:670:201:290:27ff:fe1d:cc33])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id AA5FE10E79A
+ for <dri-devel@lists.freedesktop.org>; Thu, 28 Apr 2022 16:28:40 +0000 (UTC)
+Received: from drehscheibe.grey.stw.pengutronix.de ([2a0a:edc0:0:c01:1d::a2])
+ by metis.ext.pengutronix.de with esmtps
+ (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256) (Exim 4.92)
+ (envelope-from <ukl@pengutronix.de>)
+ id 1nk70K-0001Y2-F4; Thu, 28 Apr 2022 18:28:32 +0200
+Received: from [2a0a:edc0:0:900:1d::77] (helo=ptz.office.stw.pengutronix.de)
+ by drehscheibe.grey.stw.pengutronix.de with esmtp (Exim 4.94.2)
+ (envelope-from <ukl@pengutronix.de>)
+ id 1nk70I-005mui-Sr; Thu, 28 Apr 2022 18:28:29 +0200
+Received: from ukl by ptz.office.stw.pengutronix.de with local (Exim 4.94.2)
+ (envelope-from <ukl@pengutronix.de>)
+ id 1nk70G-006F09-GD; Thu, 28 Apr 2022 18:28:28 +0200
+From: =?UTF-8?q?Uwe=20Kleine-K=C3=B6nig?= <u.kleine-koenig@pengutronix.de>
+To: Andrzej Hajda <andrzej.hajda@intel.com>,
+ Neil Armstrong <narmstrong@baylibre.com>,
+ Robert Foss <robert.foss@linaro.org>
+Subject: [PATCH] drm/bridge: tfp410: Make tfp410_fini() return void
+Date: Thu, 28 Apr 2022 18:28:03 +0200
+Message-Id: <20220428162803.185275-1-u.kleine-koenig@pengutronix.de>
+X-Mailer: git-send-email 2.35.1
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.8.0
-Subject: Re: [PATCH] drm/msm/dpu: remove unused refcount for encoder_phys_wb
-Content-Language: en-GB
-To: Abhinav Kumar <quic_abhinavk@quicinc.com>, freedreno@lists.freedesktop.org
-References: <1651160067-26431-1-git-send-email-quic_abhinavk@quicinc.com>
-From: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
-In-Reply-To: <1651160067-26431-1-git-send-email-quic_abhinavk@quicinc.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=UTF-8
+X-Developer-Signature: v=1; a=openpgp-sha256; l=1686; h=from:subject;
+ bh=LqKEfNPMZFMzdcty2G0GRBdBuQ1jVztWwrSQlUu4Nno=;
+ b=owEBbQGS/pANAwAKAcH8FHityuwJAcsmYgBiasCOMgeuA64uhk13zYlWdLVCCuxhYATo16BEJaE4
+ P77IMYGJATMEAAEKAB0WIQR+cioWkBis/z50pAvB/BR4rcrsCQUCYmrAjgAKCRDB/BR4rcrsCUINCA
+ CR29j5bTT9ubxj9twZzU6bSTQV7esTAPhLhTSrogUV3NDH6spZl5SVCUSBfCeh8u6KMiqJMbsWsagX
+ gA5FUqqt4s9pWoyC5lPOOZ0TiancJs/Qq3I7veCybFZMJ8KC7k6e7eqLGM0ovutZX2gJIa+gKnUpZr
+ gcXw2MZyDeN1nLV8CZsngob6JUW+Wlp0xLZ1RF83is7LiO9vQaANdpDEbRWcKXfph6CXbVZqouMgiY
+ s7K9V2NC92s3jgnO/GHIrSFnVPGhBVuYnWLb8DqyY+gKHgHLZWSU9UL3+JItHSqiCsd0ZVIhK7SL6x
+ W8kcTc5hFDoETThCGcTKnCJhXMZ6Cu
+X-Developer-Key: i=u.kleine-koenig@pengutronix.de; a=openpgp;
+ fpr=0D2511F322BFAB1C1580266BE2DCDD9132669BD6
+Content-Transfer-Encoding: 8bit
+X-SA-Exim-Connect-IP: 2a0a:edc0:0:c01:1d::a2
+X-SA-Exim-Mail-From: ukl@pengutronix.de
+X-SA-Exim-Scanned: No (on metis.ext.pengutronix.de);
+ SAEximRunCond expanded to false
+X-PTX-Original-Recipient: dri-devel@lists.freedesktop.org
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -73,41 +64,67 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: dri-devel@lists.freedesktop.org, swboyd@chromium.org, seanpaul@chromium.org,
- quic_jesszhan@quicinc.com, quic_aravindh@quicinc.com
+Cc: kernel@pengutronix.de, dri-devel@lists.freedesktop.org,
+ Laurent Pinchart <Laurent.pinchart@ideasonboard.com>,
+ Jernej Skrabec <jernej.skrabec@gmail.com>, Jonas Karlman <jonas@kwiboo.se>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 28/04/2022 18:34, Abhinav Kumar wrote:
-> Remove the unused local variable refcount for encoder_phys_wb
-> as the one part of wb_enc is used directly.
-> 
-> Fixes: 0ce51f19453e ("drm/msm/dpu: introduce the dpu_encoder_phys_* for writeback")
-> Reported-by: kernel test robot <lkp@intel.com>
-> Signed-off-by: Abhinav Kumar <quic_abhinavk@quicinc.com>
-> ---
->   drivers/gpu/drm/msm/disp/dpu1/dpu_encoder_phys_wb.c | 3 ---
->   1 file changed, 3 deletions(-)
-> 
-> diff --git a/drivers/gpu/drm/msm/disp/dpu1/dpu_encoder_phys_wb.c b/drivers/gpu/drm/msm/disp/dpu1/dpu_encoder_phys_wb.c
-> index cb5c7da53c29..904124a3477e 100644
-> --- a/drivers/gpu/drm/msm/disp/dpu1/dpu_encoder_phys_wb.c
-> +++ b/drivers/gpu/drm/msm/disp/dpu1/dpu_encoder_phys_wb.c
-> @@ -407,9 +407,6 @@ static void dpu_encoder_phys_wb_irq_ctrl(
->   
->   	struct dpu_encoder_phys_wb *wb_enc = to_dpu_encoder_phys_wb(phys);
->   	int ret = 0;
-> -	int refcount;
-> -
-> -	refcount = atomic_read(&wb_enc->wbirq_refcount);
->   
->   	if (enable && atomic_inc_return(&wb_enc->wbirq_refcount) == 1) {
->   		dpu_core_irq_register_callback(phys->dpu_kms,
+tfp410_fini() always returns zero. Make it return no value which makes it
+easier to see in the callers that there is no error to handle.
 
-As I glanced onto this function, it seems you miss updating `ret` here. 
-Could you please fix that too?
+Also the return value of i2c and platform driver remove callbacks is
+ignored anyway. This prepares making i2c and platform remove callbacks
+return void, too.
 
+Signed-off-by: Uwe Kleine-König <u.kleine-koenig@pengutronix.de>
+---
+ drivers/gpu/drm/bridge/ti-tfp410.c | 12 +++++++-----
+ 1 file changed, 7 insertions(+), 5 deletions(-)
 
+diff --git a/drivers/gpu/drm/bridge/ti-tfp410.c b/drivers/gpu/drm/bridge/ti-tfp410.c
+index ba3fa2a9b8a4..756b3e6e776b 100644
+--- a/drivers/gpu/drm/bridge/ti-tfp410.c
++++ b/drivers/gpu/drm/bridge/ti-tfp410.c
+@@ -341,13 +341,11 @@ static int tfp410_init(struct device *dev, bool i2c)
+ 	return 0;
+ }
+ 
+-static int tfp410_fini(struct device *dev)
++static void tfp410_fini(struct device *dev)
+ {
+ 	struct tfp410 *dvi = dev_get_drvdata(dev);
+ 
+ 	drm_bridge_remove(&dvi->bridge);
+-
+-	return 0;
+ }
+ 
+ static int tfp410_probe(struct platform_device *pdev)
+@@ -357,7 +355,9 @@ static int tfp410_probe(struct platform_device *pdev)
+ 
+ static int tfp410_remove(struct platform_device *pdev)
+ {
+-	return tfp410_fini(&pdev->dev);
++	tfp410_fini(&pdev->dev);
++
++	return 0;
+ }
+ 
+ static const struct of_device_id tfp410_match[] = {
+@@ -394,7 +394,9 @@ static int tfp410_i2c_probe(struct i2c_client *client,
+ 
+ static int tfp410_i2c_remove(struct i2c_client *client)
+ {
+-	return tfp410_fini(&client->dev);
++	tfp410_fini(&client->dev);
++
++	return 0;
+ }
+ 
+ static const struct i2c_device_id tfp410_i2c_ids[] = {
+
+base-commit: 3123109284176b1532874591f7c81f3837bbdc17
 -- 
-With best wishes
-Dmitry
+2.35.1
+
