@@ -1,55 +1,144 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id F12D1513374
-	for <lists+dri-devel@lfdr.de>; Thu, 28 Apr 2022 14:18:52 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id F317A5133A6
+	for <lists+dri-devel@lfdr.de>; Thu, 28 Apr 2022 14:26:55 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id A3A0710E41E;
-	Thu, 28 Apr 2022 12:18:47 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 730EB10E3B4;
+	Thu, 28 Apr 2022 12:26:52 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mga06.intel.com (mga06b.intel.com [134.134.136.31])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 841D510E41E;
- Thu, 28 Apr 2022 12:18:46 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1651148326; x=1682684326;
- h=message-id:date:mime-version:subject:to:cc:references:
- from:in-reply-to:content-transfer-encoding;
- bh=29jUtUYvp8xSll4fLTIbvcR4N79OObLaljDkLThRrlY=;
- b=CiFky0JZVlQCWTBDsxQIHfR8iYiSi61T25UO2k0hmqbpyGEY3KwMzwqF
- byih7bjd9jSxlxZ30FdFkv6Z/kG3ucj1yy4Ppd10eZstKnHUGyX2yqpId
- dKe/Ve0sQOIG+iwmDfAYaYcBiEXH5iaM+SmsZUPGrnERAFOjEF1vXbKHt
- BLjkTfAl4yMAi2ms+HRhFzwIQtCuQ6zIiYBFEkQpPY/QiuKhqIt6Hqhcl
- gn0nnEkJgheGbzBMLe28TCIIkLdAt2crcAbvu6vXv4AlldTfv+l4pQT2p
- 646v0D3eFRb6HWHCKhf9j1jAbo1nFHJNj2Nk5IRLgOmso7BZwJxfasM1p g==;
-X-IronPort-AV: E=McAfee;i="6400,9594,10330"; a="326765813"
-X-IronPort-AV: E=Sophos;i="5.90,295,1643702400"; d="scan'208";a="326765813"
-Received: from orsmga003.jf.intel.com ([10.7.209.27])
- by orsmga104.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 28 Apr 2022 05:18:45 -0700
-X-IronPort-AV: E=Sophos;i="5.90,295,1643702400"; d="scan'208";a="514254727"
-Received: from wdries-mobl1.ger.corp.intel.com (HELO [10.213.210.166])
- ([10.213.210.166])
- by orsmga003-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 28 Apr 2022 05:18:44 -0700
-Message-ID: <7b7f2128-7dd8-ae5a-be61-e450dec1e917@linux.intel.com>
-Date: Thu, 28 Apr 2022 13:18:42 +0100
+Received: from mx0a-00069f02.pphosted.com (mx0a-00069f02.pphosted.com
+ [205.220.165.32])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 5129610E38F
+ for <dri-devel@lists.freedesktop.org>; Thu, 28 Apr 2022 12:26:51 +0000 (UTC)
+Received: from pps.filterd (m0246627.ppops.net [127.0.0.1])
+ by mx0b-00069f02.pphosted.com (8.17.1.5/8.17.1.5) with ESMTP id 23SB1k2q015535;
+ Thu, 28 Apr 2022 12:26:38 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=oracle.com;
+ h=date : from : to : cc
+ : subject : message-id : content-type : mime-version; s=corp-2021-07-09;
+ bh=1hvGKSvzYzszlPQmMSg4O4pQKOYaD/9ul/dAoxiyltQ=;
+ b=APJaIzRMvYuKpkI5UJHyDhDT2LEhCu1+YSlGm/MlWOuaZFZ99Zg6uEcXcX3kaFN1EPwn
+ 5gHeM5wcnO+n/wsEWXB4Qc54N0HR0LmXLwOtRYvWNJNeo/xLrN4wazu0aRrZ4k68Hc3U
+ FJkCAys2d8OD9k3FZI4pNgNBI+T1qRVezfXhbkmUOKPVI4UjgeT0uX3KvmEU29phh7Ud
+ SHVIKqFMuscti6YNMqeV551sO2XBJKodA5l5oRGeQlOAYwCyfMPvUOqYVbnAW1dAq9aC
+ Zlh5uWsSfjQdq5/PzaRVcHmuPw7v7amGNiKatI0axVbgBcnmtDTUzJhuSV7YG59H2hqB Eg== 
+Received: from iadpaimrmta02.imrmtpd1.prodappiadaev1.oraclevcn.com
+ (iadpaimrmta02.appoci.oracle.com [147.154.18.20])
+ by mx0b-00069f02.pphosted.com (PPS) with ESMTPS id 3fmb9aus6k-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+ Thu, 28 Apr 2022 12:26:38 +0000
+Received: from pps.filterd
+ (iadpaimrmta02.imrmtpd1.prodappiadaev1.oraclevcn.com [127.0.0.1])
+ by iadpaimrmta02.imrmtpd1.prodappiadaev1.oraclevcn.com (8.16.1.2/8.16.1.2)
+ with SMTP id 23SCANwj020419; Thu, 28 Apr 2022 12:26:36 GMT
+Received: from nam10-mw2-obe.outbound.protection.outlook.com
+ (mail-mw2nam10lp2107.outbound.protection.outlook.com [104.47.55.107])
+ by iadpaimrmta02.imrmtpd1.prodappiadaev1.oraclevcn.com with ESMTP id
+ 3fm7w6hpj1-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+ Thu, 28 Apr 2022 12:26:36 +0000
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=nDNmxwwGf4oewM0PYCD1psBYZwlosgRdchll/u1FVHIzuFCLV/SP/kBLlY/TFLORcVqeZOvHQqlsZGeV4qFvmN/u/vm4BnKSo5aEeNbHFY1VMXfYcFM0l2Cd09I1Ej+CldKblykP0CMYocJdGQnL7Bz+0oLjVmlRT2Xjogx6x4a0t7AeFZdDAMxCU2fwe4yeZ/fM4qCW5DDiEjUDAWA66P/P57OFMYw8eJ21a2DmyQXjGaMRl8SzNJ8pfpVN+pBMJRI0pgo3ETle9ZTTCqG/p7keYpT1bzfGBJGxv4GeL2aaDpL85v2lwDUQXsy2153Qvo4H0j/pCHWS9l58hYvt6w==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=1hvGKSvzYzszlPQmMSg4O4pQKOYaD/9ul/dAoxiyltQ=;
+ b=Ogl6gzzEfyYYDqDuO0+O/AfypYn8AGJTjB1To5OarZ4NmXzOhHP4gumTB3HmY+HgXvUZAcz5YOrXvNe+ehEmRoIAHmV/EPd6s6snv6ioiTeK5pT3JxDkgv128cf6chkdx4KnVXQe4hluBge4QsrWq2ha0qhs6E69+qzG6w2JtEsEWwivM7HNxcOZpplN8m1JMV9cNzAw3qOE8eJ4EQIWjE2JjVD8SIoxALjQ/8yTjzjAy/pH6v5fKghoV0pasK9WUBUAliXWB2UTlpkyHnENTPS8OwhsRhoHbqJPu9Z24UnZj10zdqa5rD5fgRbjiF+QCZQlS5EtA2BePfTFJIAhkA==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=oracle.com; dmarc=pass action=none header.from=oracle.com;
+ dkim=pass header.d=oracle.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=oracle.onmicrosoft.com; s=selector2-oracle-onmicrosoft-com;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=1hvGKSvzYzszlPQmMSg4O4pQKOYaD/9ul/dAoxiyltQ=;
+ b=CChoQG88CF1E4SY+nfa5ac61LehKUZE6y6WyOinw1eZH1rA4wtzP1tTIb1aUGZg8o95eXIn6530QC2MRvSTq4gAktcdh0jny4fk924TvrBp3YZYMJ8ru6bKHkuUpdECY3hE2CMtPPXTAUJzOw1/7S+vhAqIaH1jwyrdLnTyDNqI=
+Received: from MWHPR1001MB2365.namprd10.prod.outlook.com
+ (2603:10b6:301:2d::28) by SN4PR10MB5800.namprd10.prod.outlook.com
+ (2603:10b6:806:20f::19) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.5186.15; Thu, 28 Apr
+ 2022 12:26:34 +0000
+Received: from MWHPR1001MB2365.namprd10.prod.outlook.com
+ ([fe80::b5d5:7b39:ca2d:1b87]) by MWHPR1001MB2365.namprd10.prod.outlook.com
+ ([fe80::b5d5:7b39:ca2d:1b87%5]) with mapi id 15.20.5164.025; Thu, 28 Apr 2022
+ 12:26:34 +0000
+Date: Thu, 28 Apr 2022 15:26:23 +0300
+From: Dan Carpenter <dan.carpenter@oracle.com>
+To: Maxime Ripard <mripard@kernel.org>
+Subject: [PATCH] drm/sun4i: dsi: delete unnecessary IS_ERR() checks
+Message-ID: <YmqH71MtoGn2AXUg@kili>
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+X-Mailer: git-send-email haha only kidding
+X-ClientProxiedBy: ZR0P278CA0041.CHEP278.PROD.OUTLOOK.COM
+ (2603:10a6:910:1d::10) To MWHPR1001MB2365.namprd10.prod.outlook.com
+ (2603:10b6:301:2d::28)
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.7.0
-Subject: Re: [PATCH 5/5] drm/i915/sseu: Disassociate internal subslice mask
- representation from uapi
-Content-Language: en-US
-To: Matt Roper <matthew.d.roper@intel.com>, intel-gfx@lists.freedesktop.org
-References: <20220427230747.906625-1-matthew.d.roper@intel.com>
- <20220427230747.906625-6-matthew.d.roper@intel.com>
-From: Tvrtko Ursulin <tvrtko.ursulin@linux.intel.com>
-Organization: Intel Corporation UK Plc
-In-Reply-To: <20220427230747.906625-6-matthew.d.roper@intel.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
+X-MS-PublicTrafficType: Email
+X-MS-Office365-Filtering-Correlation-Id: 680f1a99-de5e-4410-b0c7-08da291254fa
+X-MS-TrafficTypeDiagnostic: SN4PR10MB5800:EE_
+X-Microsoft-Antispam-PRVS: <SN4PR10MB5800660F5A96B21ACD5C72528EFD9@SN4PR10MB5800.namprd10.prod.outlook.com>
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: BCL:0;
+X-Microsoft-Antispam-Message-Info: 4P6Yj7BFJphN5uDDGqRvHtACX+Ox3lrkGX2tVPwIxP2skOeLK3r6R1Jj+6EH1DE9brM66fYwbtecYu5D1Q+k5aGk7UYDKC/A7Vn5KLvMLWWCevNmrMH18JVLVWoMpJFrd1JV2LVaW52QyIc1hmcgekCZdxyXmNfUXi7WzfmFzYakRezEokyt3Q7sCv5oJkwJqKRMQCMxi926GZzjHo1Rp+gCuSaASBgh8RfcqOWI1+AfwKFg241SHMwe5FZL1G+E2umytCPygOvyruFhLAzX7NS0bYXMvtbN+4NzDSJNP1a7N79KGk3unMx6knjOuDyK0S9kYa6H2wjzBL9V64Z6mSWXP3ovXMxRWK+dV2UGPMyV3nnvM+nNRD2Moi20Nsjs5MNqdEkGwScv7EOZU5CiUxcWXujT5qB9Ng324S+uKNUGdQLiNu9NX0i1d1fgt8PERXT4RRO482sV890VGQm6LTmcbGOBQN8/AKRlT8OfObLaP7e6aVBo8mVp2OEGhS2eSbh/pYRZaWDVmhuup/lEWdeHYLaT0cCKnRu1YnminN3dRI4RVTld5WeGK2lJfMNyj8ftX8v7k4xiHwAPdM9Kj8ECRg/n7Vmv/kjp4c6D9l+OlxDOqPkKCP8uxOuO0MVmbYdcxVRZbxlEAalTkY6k8rqKSB90uPaqcbmGr/u69t/vXMb8z1oLWYlg5jfaFBd0ZRqPrnwU0nw1KhpdfWk9tA==
+X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
+ IPV:NLI; SFV:NSPM; H:MWHPR1001MB2365.namprd10.prod.outlook.com; PTR:; CAT:NONE;
+ SFS:(13230001)(7916004)(366004)(83380400001)(33716001)(6916009)(54906003)(8936002)(4326008)(316002)(186003)(66946007)(8676002)(66556008)(66476007)(26005)(6486002)(52116002)(44832011)(38350700002)(38100700002)(508600001)(2906002)(86362001)(6512007)(9686003)(6506007)(5660300002)(6666004);
+ DIR:OUT; SFP:1101; 
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0: =?us-ascii?Q?5vFcU5q7u5/KaScfmzC+tKHNVrVgFqShgOAdSdzU5CgnAMXYdk3d245zC+1L?=
+ =?us-ascii?Q?p7eVOlnUf1O6dDmBWGickizibaFqG2XxB4nkAraNMFiXdUxt+d+Sy4/11ufK?=
+ =?us-ascii?Q?7gqQb7gT1LtaGEBQ3bonKGxKepYP6tgHQVwvrglPJNGh7I5NqitBAV5pvuxT?=
+ =?us-ascii?Q?1F1v/SsfmD7ZBhsEXeo3QyZIMQZSiZ1XYFj4PkPa7MdI/+ItXVf02Ky0RiWZ?=
+ =?us-ascii?Q?6wE2V08U9oIZprOL69EEYBs5tU1M1qqQbzOyBDwHQLuVtQvqdWuy5eMBWwQQ?=
+ =?us-ascii?Q?VmEeqq4hAQaN8Wv224AO0H3VIB8Ov7LC52KNxNeWV/aVv1oqjVmoIZks7NZw?=
+ =?us-ascii?Q?YHStRifonboQav7K7tm7FDcXjca3a/JjZFnXBMv4x4mqUA659FdKKgDjgLJg?=
+ =?us-ascii?Q?nR9xOe3s0nAu/Kgn2L80GITECsLmYJPRd6qD0lBD87NW6dVRrVIETe54Bp/I?=
+ =?us-ascii?Q?drbgdhrFqDkQbnMeF9IOndcMxYPD0ijTNiLRJeyz0X39evMTAqFugXAZaHbb?=
+ =?us-ascii?Q?JK0AcTqetD6SLp6VQC8etAa3dAOwBMUNLxo54PdT87lZV1TW6+H+HAzPq6rh?=
+ =?us-ascii?Q?r5GIADpoBmBli+9ycH+dU8ueLMTwnfZaRHcVt4IuClQ5CrVZVGV648yak1WT?=
+ =?us-ascii?Q?ro2vyGAX3r5lqgw9TvqSUj1ZyLjSzKN7ZzfhMn4YVHjNsCS5iTktgTiS8JZw?=
+ =?us-ascii?Q?oNMDg9kf933hdpoNmN/OFd+KFUoyX0EM0mmGlqi/ybdXIr8nCAYTj+Pagyom?=
+ =?us-ascii?Q?efys1Y8IXT5xI+fk+6QJvs/IKQO/q6zNZ9ftDIBNCKgnGdNYa9FTRz+2eGaT?=
+ =?us-ascii?Q?gAACBsaThp0rCkG23bIa3G1UcPAJCvcQZ4dg0/B3MrTRxle4HdTS7ptC/2X/?=
+ =?us-ascii?Q?tA/MiC+b+QtIY40ZHWkILPm5tCgUs8BDgA26pz1upDLmogRTc3uUfmRYTKF7?=
+ =?us-ascii?Q?W08X0qmOJPOvtj/26BURyDdS3dL3lupeU9JcV7J7WCGnUp0+xAd0L0d3vUCG?=
+ =?us-ascii?Q?cBRJLzRj8U9JN7jXoYdiTTHgl42wh4jZPGlXsiUNSAY73jUEgcT047CUA3hw?=
+ =?us-ascii?Q?+ueMVCpDFH13BvRF/KY0ZZF0GElUqjdfPV+YQeAnNfZzhd9/2AB2pnEhIVKL?=
+ =?us-ascii?Q?g0aiYgNLoWdN23DXJsjqVQx28UAxCH/LjCMIoc/pA6zd+xNyZHo+Mr/gsiwZ?=
+ =?us-ascii?Q?jOxPEsBViJOSxH13jzcmTkQYK7oXd5OtHhhYQxuBZD4VfJFvY7+demq0T0lZ?=
+ =?us-ascii?Q?BVm18MbsyQillrtQQBUT9Y/4QCM5iqsMSd0u/T3lbM4cVZ5uofWWkuAa+QGS?=
+ =?us-ascii?Q?VRGVh5msT9byEVLd6Cktk+XIYJ4Kd7D3UzUIKWpipkM2QxOt/JtN7eXnTyXK?=
+ =?us-ascii?Q?3VLHiO1369XD+HDxMf3U4riqfxTp9YIio/WdVh1IoVpK8nbJokippe6lbS+Y?=
+ =?us-ascii?Q?ox1UjjjAo0Jgs44guHii8+e8o8uXcF+TWX0jrlpzaq2C7gwkv8gaICpLCKoU?=
+ =?us-ascii?Q?g/CVTb+xljtOzOnJZjwGs3JXjCQ2Hik7Npdpw7f3UOEzyGWmh1H3ZJXWgZkB?=
+ =?us-ascii?Q?9WILRI4/x8KuInyRKa2zz7doq2gRP5QVfJkIjRa+Zgr0nT3objoC7jj0EIZ6?=
+ =?us-ascii?Q?4/VEagqxBmiNZ6gOdQnhP5/cd4bIj8waMqG1EnlFg2mb2Tn2GTJL5rFKXuZD?=
+ =?us-ascii?Q?Y39JMgf4d70i3GsbrDQyFUNjXjS7BlmWKBb7NV4JsrGZyrl2hotty4876Mc2?=
+ =?us-ascii?Q?8g0nbAxAmjARhlSWHKFsrr4+g3yAiOQ=3D?=
+X-OriginatorOrg: oracle.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 680f1a99-de5e-4410-b0c7-08da291254fa
+X-MS-Exchange-CrossTenant-AuthSource: MWHPR1001MB2365.namprd10.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 28 Apr 2022 12:26:34.0868 (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 4e2c6054-71cb-48f1-bd6c-3a9705aca71b
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: sAZkDT29rG01I9sOqUDmNs9ZJLCvI9tHW4/Hs5FH/UbbSx9XK4UF9+GugDWhUrLvQ3cMONI8G6RXZh+DyYbS1xf/6NXfmhSxeQIkTsmpNTQ=
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: SN4PR10MB5800
+X-Proofpoint-Virus-Version: vendor=fsecure engine=2.50.10434:6.0.486, 18.0.858
+ definitions=2022-04-28_01:2022-04-28,
+ 2022-04-28 signatures=0
+X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 spamscore=0
+ mlxlogscore=999
+ malwarescore=0 mlxscore=0 phishscore=0 bulkscore=0 adultscore=0
+ suspectscore=0 classifier=spam adjust=0 reason=mlx scancount=1
+ engine=8.12.0-2202240000 definitions=main-2204280076
+X-Proofpoint-ORIG-GUID: 7Tt377KX9KIUe1DC4xRixdziz07vARtP
+X-Proofpoint-GUID: 7Tt377KX9KIUe1DC4xRixdziz07vARtP
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -62,838 +151,46 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: dri-devel@lists.freedesktop.org
+Cc: Samuel Holland <samuel@sholland.org>, David Airlie <airlied@linux.ie>,
+ kernel-janitors@vger.kernel.org, dri-devel@lists.freedesktop.org,
+ Chen-Yu Tsai <wens@csie.org>, Jernej Skrabec <jernej.skrabec@gmail.com>,
+ linux-sunxi@lists.linux.dev
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
+The "dsi->bus_clk" pointer cannot be an error pointer at this point.
+The check is confusing and unnecessary.  Delete it.
 
-Hi,
+Signed-off-by: Dan Carpenter <dan.carpenter@oracle.com>
+---
+ drivers/gpu/drm/sun4i/sun6i_mipi_dsi.c | 7 +++----
+ 1 file changed, 3 insertions(+), 4 deletions(-)
 
-On 28/04/2022 00:07, Matt Roper wrote:
-> Rather than storing subslice masks internally as u8[] (inside the sseu
-> structure) and u32 (everywhere else), let's move over to using an
-> intel_sseu_ss_mask_t typedef compatible with the operations in
-> linux/bitmap.h.  We're soon going to start adding code for a new
-> platform where subslice masks are spread across two 32-bit registers
-> (requiring 64 bits to represent), and we expect future platforms will
-> likely take this even farther, requiring bitmask storage larger than a
-> simple u64 can hold.
+diff --git a/drivers/gpu/drm/sun4i/sun6i_mipi_dsi.c b/drivers/gpu/drm/sun4i/sun6i_mipi_dsi.c
+index 527c7b2474da..b4dfa166eccd 100644
+--- a/drivers/gpu/drm/sun4i/sun6i_mipi_dsi.c
++++ b/drivers/gpu/drm/sun4i/sun6i_mipi_dsi.c
+@@ -1193,8 +1193,8 @@ static int sun6i_dsi_probe(struct platform_device *pdev)
+ err_unprotect_clk:
+ 	clk_rate_exclusive_put(dsi->mod_clk);
+ err_attach_clk:
+-	if (!IS_ERR(dsi->bus_clk))
+-		regmap_mmio_detach_clk(dsi->regs);
++	regmap_mmio_detach_clk(dsi->regs);
++
+ 	return ret;
+ }
+ 
+@@ -1207,8 +1207,7 @@ static int sun6i_dsi_remove(struct platform_device *pdev)
+ 	mipi_dsi_host_unregister(&dsi->host);
+ 	clk_rate_exclusive_put(dsi->mod_clk);
+ 
+-	if (!IS_ERR(dsi->bus_clk))
+-		regmap_mmio_detach_clk(dsi->regs);
++	regmap_mmio_detach_clk(dsi->regs);
+ 
+ 	return 0;
+ }
+-- 
+2.35.1
 
-I won't have time to look into this in a detailed way for a few days. Until then a couple questions comments only.
-
-First, out of curiousity, were you able to end up with less code after your series? With my bitmap conversion I think actually ended up with couple KB smaller text which was a good sign eliminating the internal layout complications was a good approach.
-
-For your series I am not convinced by sseu->has_common_ss_eumask. Why the duality, just to save a few u32 at runtime?
-
-I am also not convinced with leaving the eu_mask and subslice_mask being manually indexed with stride, calculcated by the driver. In my approach I simply went with multi-dimensional arrays which I think ends up with simpler code.
-
-For all bitmap API call sites and *pb printk format sites, I suggest not hard-coding the widths from SSEU defines by querying the type itsef via wrappers. (See my BITMAP_BITS macro and helpers which wrap it for fields.)
-
-Ie instead:
-
-bitmap_shift_left(to_mask->b, to_mask->b, offset, I915_MAX_SS_FUSE_BITS);
-
-I suggest:
-
-bitmap_zero(slices.b, BITMAP_BITS(slices.b));
-
-Also, all accesses to the bitmap type from outside intel_sse*.c|h should use intel_sseu wrappers and not embed knowledge of the typedef (that it has an member named .b etc).
-
-And finally I would also use the opportunity to clean up the pointless u8 types for counts and such since I think they just result in worse code generation.
-
-You can of course counter with what you did not like in my attempt. :) I know I did not finish the wrappers and possibly made an overkill by converting the slice mask to bitmap.
-
-Regards,
-
-Tvrtko
-  
-> Signed-off-by: Matt Roper <matthew.d.roper@intel.com>
-> ---
->   drivers/gpu/drm/i915/gem/i915_gem_context.c  |   4 +-
->   drivers/gpu/drm/i915/gt/intel_engine_cs.c    |   2 +-
->   drivers/gpu/drm/i915/gt/intel_gt.c           |  14 +-
->   drivers/gpu/drm/i915/gt/intel_sseu.c         | 197 +++++++++++--------
->   drivers/gpu/drm/i915/gt/intel_sseu.h         |  48 ++---
->   drivers/gpu/drm/i915/gt/intel_sseu_debugfs.c |  28 +--
->   drivers/gpu/drm/i915/gt/intel_workarounds.c  |  28 ++-
->   drivers/gpu/drm/i915/i915_getparam.c         |   2 +-
->   drivers/gpu/drm/i915/i915_query.c            |   8 +-
->   9 files changed, 183 insertions(+), 148 deletions(-)
-> 
-> diff --git a/drivers/gpu/drm/i915/gem/i915_gem_context.c b/drivers/gpu/drm/i915/gem/i915_gem_context.c
-> index ab4c5ab28e4d..ea012ee3a8de 100644
-> --- a/drivers/gpu/drm/i915/gem/i915_gem_context.c
-> +++ b/drivers/gpu/drm/i915/gem/i915_gem_context.c
-> @@ -1901,7 +1901,7 @@ i915_gem_user_to_context_sseu(struct intel_gt *gt,
->   	if (user->slice_mask & ~device->slice_mask)
->   		return -EINVAL;
->   
-> -	if (user->subslice_mask & ~device->subslice_mask[0])
-> +	if (user->subslice_mask & ~device->subslice_mask.b[0])
->   		return -EINVAL;
->   
->   	if (user->max_eus_per_subslice > device->max_eus_per_subslice)
-> @@ -1915,7 +1915,7 @@ i915_gem_user_to_context_sseu(struct intel_gt *gt,
->   	/* Part specific restrictions. */
->   	if (GRAPHICS_VER(i915) == 11) {
->   		unsigned int hw_s = hweight8(device->slice_mask);
-> -		unsigned int hw_ss_per_s = hweight8(device->subslice_mask[0]);
-> +		unsigned int hw_ss_per_s = hweight8(device->subslice_mask.b[0]);
->   		unsigned int req_s = hweight8(context->slice_mask);
->   		unsigned int req_ss = hweight8(context->subslice_mask);
->   
-> diff --git a/drivers/gpu/drm/i915/gt/intel_engine_cs.c b/drivers/gpu/drm/i915/gt/intel_engine_cs.c
-> index 14c6ddbbfde8..39c09963b3c7 100644
-> --- a/drivers/gpu/drm/i915/gt/intel_engine_cs.c
-> +++ b/drivers/gpu/drm/i915/gt/intel_engine_cs.c
-> @@ -610,7 +610,7 @@ static void engine_mask_apply_compute_fuses(struct intel_gt *gt)
->   	if (GRAPHICS_VER_FULL(i915) < IP_VER(12, 50))
->   		return;
->   
-> -	ccs_mask = intel_slicemask_from_dssmask(intel_sseu_get_compute_subslices(&info->sseu),
-> +	ccs_mask = intel_slicemask_from_dssmask(info->sseu.compute_subslice_mask,
->   						ss_per_ccs);
->   	/*
->   	 * If all DSS in a quadrant are fused off, the corresponding CCS
-> diff --git a/drivers/gpu/drm/i915/gt/intel_gt.c b/drivers/gpu/drm/i915/gt/intel_gt.c
-> index 92394f13b42f..cc03512d59ba 100644
-> --- a/drivers/gpu/drm/i915/gt/intel_gt.c
-> +++ b/drivers/gpu/drm/i915/gt/intel_gt.c
-> @@ -133,13 +133,6 @@ static const struct intel_mmio_range dg2_lncf_steering_table[] = {
->   	{},
->   };
->   
-> -static u16 slicemask(struct intel_gt *gt, int count)
-> -{
-> -	u64 dss_mask = intel_sseu_get_subslices(&gt->info.sseu, 0);
-> -
-> -	return intel_slicemask_from_dssmask(dss_mask, count);
-> -}
-> -
->   int intel_gt_init_mmio(struct intel_gt *gt)
->   {
->   	struct drm_i915_private *i915 = gt->i915;
-> @@ -153,11 +146,14 @@ int intel_gt_init_mmio(struct intel_gt *gt)
->   	 * An mslice is unavailable only if both the meml3 for the slice is
->   	 * disabled *and* all of the DSS in the slice (quadrant) are disabled.
->   	 */
-> -	if (HAS_MSLICES(i915))
-> +	if (HAS_MSLICES(i915)) {
->   		gt->info.mslice_mask =
-> -			slicemask(gt, GEN_DSS_PER_MSLICE) |
-> +			intel_slicemask_from_dssmask(gt->info.sseu.subslice_mask,
-> +						     GEN_DSS_PER_MSLICE);
-> +		gt->info.mslice_mask |=
->   			(intel_uncore_read(gt->uncore, GEN10_MIRROR_FUSE3) &
->   			 GEN12_MEML3_EN_MASK);
-> +	}
->   
->   	if (IS_DG2(i915)) {
->   		gt->steering_table[MSLICE] = xehpsdv_mslice_steering_table;
-> diff --git a/drivers/gpu/drm/i915/gt/intel_sseu.c b/drivers/gpu/drm/i915/gt/intel_sseu.c
-> index f7ff6a9f67b0..466505d6bd18 100644
-> --- a/drivers/gpu/drm/i915/gt/intel_sseu.c
-> +++ b/drivers/gpu/drm/i915/gt/intel_sseu.c
-> @@ -28,56 +28,49 @@ void intel_sseu_set_info(struct sseu_dev_info *sseu, u8 max_slices,
->   unsigned int
->   intel_sseu_subslice_total(const struct sseu_dev_info *sseu)
->   {
-> -	unsigned int i, total = 0;
-> -
-> -	for (i = 0; i < ARRAY_SIZE(sseu->subslice_mask); i++)
-> -		total += hweight8(sseu->subslice_mask[i]);
-> -
-> -	return total;
-> +	return bitmap_weight(sseu->subslice_mask.b, I915_MAX_SS_FUSE_BITS);
->   }
->   
-> -static u32
-> -sseu_get_subslices(const struct sseu_dev_info *sseu,
-> -		   const u8 *subslice_mask, u8 slice)
-> +static intel_sseu_ss_mask_t
-> +get_ss_mask_for_slice(const struct sseu_dev_info *sseu,
-> +		      intel_sseu_ss_mask_t all_ss,
-> +		      int slice)
->   {
-> -	int i, offset = slice * sseu->ss_stride;
-> -	u32 mask = 0;
-> +	intel_sseu_ss_mask_t mask = {}, slice_ss = {};
-> +	int offset = slice * sseu->max_subslices;
->   
->   	GEM_BUG_ON(slice >= sseu->max_slices);
->   
-> -	for (i = 0; i < sseu->ss_stride; i++)
-> -		mask |= (u32)subslice_mask[offset + i] << i * BITS_PER_BYTE;
-> +	if (sseu->max_slices == 1)
-> +		return all_ss;
->   
-> -	return mask;
-> -}
-> +	bitmap_set(mask.b, offset, sseu->max_subslices);
-> +	bitmap_and(slice_ss.b, all_ss.b, mask.b, I915_MAX_SS_FUSE_BITS);
-> +	bitmap_shift_right(slice_ss.b, slice_ss.b, offset, I915_MAX_SS_FUSE_BITS);
->   
-> -u32 intel_sseu_get_subslices(const struct sseu_dev_info *sseu, u8 slice)
-> -{
-> -	return sseu_get_subslices(sseu, sseu->subslice_mask, slice);
-> +	return slice_ss;
->   }
->   
-> -static u32 sseu_get_geometry_subslices(const struct sseu_dev_info *sseu)
-> +intel_sseu_ss_mask_t
-> +intel_sseu_get_subslices(const struct sseu_dev_info *sseu, u8 slice)
->   {
-> -	return sseu_get_subslices(sseu, sseu->geometry_subslice_mask, 0);
-> +	return get_ss_mask_for_slice(sseu, sseu->subslice_mask, slice);
->   }
->   
-> -u32 intel_sseu_get_compute_subslices(const struct sseu_dev_info *sseu)
-> -{
-> -	return sseu_get_subslices(sseu, sseu->compute_subslice_mask, 0);
-> -}
-> -
-> -void intel_sseu_set_subslices(struct sseu_dev_info *sseu, int slice,
-> -			      u8 *subslice_mask, u32 ss_mask)
-> -{
-> -	int offset = slice * sseu->ss_stride;
-> -
-> -	memcpy(&subslice_mask[offset], &ss_mask, sseu->ss_stride);
-> -}
-> -
-> -unsigned int
-> -intel_sseu_subslices_per_slice(const struct sseu_dev_info *sseu, u8 slice)
-> +/*
-> + * Set the subslice mask associated with a specific slice.  Only needed on
-> + * pre-gen11 platforms that have multiple slices.
-> + */
-> +static void set_subslices(struct sseu_dev_info *sseu, int slice, u32 ss_mask)
->   {
-> -	return hweight32(intel_sseu_get_subslices(sseu, slice));
-> +	intel_sseu_ss_mask_t mask = {}, newbits = {};
-> +	int offset = slice * sseu->max_subslices;
-> +
-> +	bitmap_set(mask.b, offset, sseu->max_subslices);
-> +	bitmap_from_arr32(newbits.b, &ss_mask, 32);
-> +	bitmap_shift_left(newbits.b, newbits.b, offset, I915_MAX_SS_FUSE_BITS);
-> +	bitmap_replace(sseu->subslice_mask.b, sseu->subslice_mask.b,
-> +		       newbits.b, mask.b, I915_MAX_SS_FUSE_BITS);
->   }
->   
->   static int sseu_eu_idx(const struct sseu_dev_info *sseu, int slice,
-> @@ -115,7 +108,7 @@ static u16 compute_eu_total(const struct sseu_dev_info *sseu)
->   	u16 i, total = 0;
->   
->   	if (sseu->has_common_ss_eumask)
-> -		return intel_sseu_subslices_per_slice(sseu, 0) *
-> +		return bitmap_weight(sseu->subslice_mask.b, I915_MAX_SS_FUSE_BITS) *
->   			hweight16(sseu->eu_mask[0]);
->   
->   	for (i = 0; i < ARRAY_SIZE(sseu->eu_mask); i++)
-> @@ -155,11 +148,42 @@ int intel_sseu_copy_eumask_to_user(void __user *to,
->   	return copy_to_user(to, eu_mask, len);
->   }
->   
-> -static void gen11_compute_sseu_info(struct sseu_dev_info *sseu,
-> -				    u32 g_ss_en, u32 c_ss_en, u16 eu_en)
-> +/**
-> + * intel_sseu_copy_ssmask_to_user - Copy subslice mask into a userspace buffer
-> + * @to: Pointer to userspace buffer to copy to
-> + * @sseu: SSEU structure containing subslice mask to copy
-> + *
-> + * Copies the subslice mask to a userspace buffer in the format expected by
-> + * the query ioctl's topology queries.
-> + *
-> + * Returns the result of the copy_to_user() operation.
-> + */
-> +int intel_sseu_copy_ssmask_to_user(void __user *to,
-> +				   const struct sseu_dev_info *sseu)
->   {
-> -	u32 valid_ss_mask = GENMASK(sseu->max_subslices - 1, 0);
-> +	u8 ss_mask[GEN_SS_MASK_SIZE] = {};
-> +	int len = sseu->max_slices * sseu->ss_stride;
-> +	int s, ss, i;
->   
-> +	for (s = 0; s < sseu->max_slices; s++) {
-> +		for (ss = 0; ss < sseu->max_subslices; ss++) {
-> +			i = s * sseu->ss_stride + ss;
-> +
-> +			if (!intel_sseu_has_subslice(sseu, s, ss))
-> +				continue;
-> +
-> +			ss_mask[i / BITS_PER_BYTE] |= BIT(i % BITS_PER_BYTE);
-> +		}
-> +	}
-> +
-> +	return copy_to_user(to, ss_mask, len);
-> +}
-> +
-> +static void gen11_compute_sseu_info(struct sseu_dev_info *sseu,
-> +				    intel_sseu_ss_mask_t g_ss_en,
-> +				    intel_sseu_ss_mask_t c_ss_en,
-> +				    u16 eu_en)
-> +{
->   	/* g_ss_en/c_ss_en represent entire subslice mask across all slices */
->   	GEM_BUG_ON(sseu->max_slices * sseu->max_subslices >
->   		   sizeof(g_ss_en) * BITS_PER_BYTE);
-> @@ -174,12 +198,12 @@ static void gen11_compute_sseu_info(struct sseu_dev_info *sseu,
->   	 * enabled subslice count for the purposes of selecting subslices to
->   	 * use in a particular GEM context.
->   	 */
-> -	intel_sseu_set_subslices(sseu, 0, sseu->compute_subslice_mask,
-> -				 c_ss_en & valid_ss_mask);
-> -	intel_sseu_set_subslices(sseu, 0, sseu->geometry_subslice_mask,
-> -				 g_ss_en & valid_ss_mask);
-> -	intel_sseu_set_subslices(sseu, 0, sseu->subslice_mask,
-> -				 (g_ss_en | c_ss_en) & valid_ss_mask);
-> +	bitmap_copy(sseu->compute_subslice_mask.b, c_ss_en.b, I915_MAX_SS_FUSE_BITS);
-> +	bitmap_copy(sseu->geometry_subslice_mask.b, g_ss_en.b, I915_MAX_SS_FUSE_BITS);
-> +	bitmap_or(sseu->subslice_mask.b,
-> +		  sseu->compute_subslice_mask.b,
-> +		  sseu->geometry_subslice_mask.b,
-> +		  I915_MAX_SS_FUSE_BITS);
->   
->   	sseu->has_common_ss_eumask = 1;
->   	sseu->eu_mask[0] = eu_en;
-> @@ -191,7 +215,8 @@ static void xehp_sseu_info_init(struct intel_gt *gt)
->   {
->   	struct sseu_dev_info *sseu = &gt->info.sseu;
->   	struct intel_uncore *uncore = gt->uncore;
-> -	u32 g_dss_en, c_dss_en = 0;
-> +	intel_sseu_ss_mask_t g_dss_en = {}, c_dss_en = {};
-> +	u32 val;
->   	u16 eu_en = 0;
->   	u8 eu_en_fuse;
->   	int eu;
-> @@ -204,8 +229,11 @@ static void xehp_sseu_info_init(struct intel_gt *gt)
->   	 */
->   	intel_sseu_set_info(sseu, 1, 32, 16);
->   
-> -	g_dss_en = intel_uncore_read(uncore, GEN12_GT_GEOMETRY_DSS_ENABLE);
-> -	c_dss_en = intel_uncore_read(uncore, GEN12_GT_COMPUTE_DSS_ENABLE);
-> +	val = intel_uncore_read(uncore, GEN12_GT_GEOMETRY_DSS_ENABLE);
-> +	bitmap_from_arr32(g_dss_en.b, &val, 32);
-> +
-> +	val = intel_uncore_read(uncore, GEN12_GT_COMPUTE_DSS_ENABLE);
-> +	bitmap_from_arr32(c_dss_en.b, &val, 32);
->   
->   	eu_en_fuse = intel_uncore_read(uncore, XEHP_EU_ENABLE) & XEHP_EU_ENA_MASK;
->   
-> @@ -220,7 +248,8 @@ static void gen12_sseu_info_init(struct intel_gt *gt)
->   {
->   	struct sseu_dev_info *sseu = &gt->info.sseu;
->   	struct intel_uncore *uncore = gt->uncore;
-> -	u32 g_dss_en;
-> +	intel_sseu_ss_mask_t g_dss_en = {}, empty_mask = {};
-> +	u32 val;
->   	u16 eu_en = 0;
->   	u8 eu_en_fuse;
->   	u8 s_en;
-> @@ -243,7 +272,8 @@ static void gen12_sseu_info_init(struct intel_gt *gt)
->   		drm_dbg(&gt->i915->drm, "Slice mask %#x is not the expected 0x1!\n",
->   			s_en);
->   
-> -	g_dss_en = intel_uncore_read(uncore, GEN12_GT_GEOMETRY_DSS_ENABLE);
-> +	val = intel_uncore_read(uncore, GEN12_GT_GEOMETRY_DSS_ENABLE);
-> +	bitmap_from_arr32(g_dss_en.b, &val, 32);
->   
->   	/* one bit per pair of EUs */
->   	eu_en_fuse = ~(intel_uncore_read(uncore, GEN11_EU_DISABLE) &
-> @@ -253,7 +283,7 @@ static void gen12_sseu_info_init(struct intel_gt *gt)
->   		if (eu_en_fuse & BIT(eu))
->   			eu_en |= BIT(eu * 2) | BIT(eu * 2 + 1);
->   
-> -	gen11_compute_sseu_info(sseu, g_dss_en, 0, eu_en);
-> +	gen11_compute_sseu_info(sseu, g_dss_en, empty_mask, eu_en);
->   
->   	/* TGL only supports slice-level power gating */
->   	sseu->has_slice_pg = 1;
-> @@ -263,7 +293,8 @@ static void gen11_sseu_info_init(struct intel_gt *gt)
->   {
->   	struct sseu_dev_info *sseu = &gt->info.sseu;
->   	struct intel_uncore *uncore = gt->uncore;
-> -	u32 ss_en;
-> +	intel_sseu_ss_mask_t ss_en = {}, empty_mask = {};
-> +	u32 val;
->   	u8 eu_en;
->   	u8 s_en;
->   
-> @@ -282,12 +313,13 @@ static void gen11_sseu_info_init(struct intel_gt *gt)
->   		drm_dbg(&gt->i915->drm, "Slice mask %#x is not the expected 0x1!\n",
->   			s_en);
->   
-> -	ss_en = ~intel_uncore_read(uncore, GEN11_GT_SUBSLICE_DISABLE);
-> +	val = ~intel_uncore_read(uncore, GEN11_GT_SUBSLICE_DISABLE);
-> +	bitmap_from_arr32(ss_en.b, &val, 32);
->   
->   	eu_en = ~(intel_uncore_read(uncore, GEN11_EU_DISABLE) &
->   		  GEN11_EU_DIS_MASK);
->   
-> -	gen11_compute_sseu_info(sseu, ss_en, 0, eu_en);
-> +	gen11_compute_sseu_info(sseu, ss_en, empty_mask, eu_en);
->   
->   	/* ICL has no power gating restrictions. */
->   	sseu->has_slice_pg = 1;
-> @@ -328,7 +360,7 @@ static void cherryview_sseu_info_init(struct intel_gt *gt)
->   		sseu_set_eus(sseu, 0, 1, ~disabled_mask);
->   	}
->   
-> -	intel_sseu_set_subslices(sseu, 0, sseu->subslice_mask, subslice_mask);
-> +	set_subslices(sseu, 0, subslice_mask);
->   
->   	sseu->eu_total = compute_eu_total(sseu);
->   
-> @@ -384,8 +416,7 @@ static void gen9_sseu_info_init(struct intel_gt *gt)
->   			/* skip disabled slice */
->   			continue;
->   
-> -		intel_sseu_set_subslices(sseu, s, sseu->subslice_mask,
-> -					 subslice_mask);
-> +		set_subslices(sseu, s, subslice_mask);
->   
->   		eu_disable = intel_uncore_read(uncore, GEN9_EU_DISABLE(s));
->   		for (ss = 0; ss < sseu->max_subslices; ss++) {
-> @@ -442,8 +473,8 @@ static void gen9_sseu_info_init(struct intel_gt *gt)
->   	sseu->has_eu_pg = sseu->eu_per_subslice > 2;
->   
->   	if (IS_GEN9_LP(i915)) {
-> -#define IS_SS_DISABLED(ss)	(!(sseu->subslice_mask[0] & BIT(ss)))
-> -		info->has_pooled_eu = hweight8(sseu->subslice_mask[0]) == 3;
-> +#define IS_SS_DISABLED(ss)	test_bit(ss, sseu->subslice_mask.b)
-> +		info->has_pooled_eu = hweight8(sseu->subslice_mask.b[0]) == 3;
->   
->   		sseu->min_eu_in_pool = 0;
->   		if (info->has_pooled_eu) {
-> @@ -497,8 +528,7 @@ static void bdw_sseu_info_init(struct intel_gt *gt)
->   			/* skip disabled slice */
->   			continue;
->   
-> -		intel_sseu_set_subslices(sseu, s, sseu->subslice_mask,
-> -					 subslice_mask);
-> +		set_subslices(sseu, s, subslice_mask);
->   
->   		for (ss = 0; ss < sseu->max_subslices; ss++) {
->   			u8 eu_disabled_mask;
-> @@ -595,8 +625,7 @@ static void hsw_sseu_info_init(struct intel_gt *gt)
->   			    sseu->eu_per_subslice);
->   
->   	for (s = 0; s < sseu->max_slices; s++) {
-> -		intel_sseu_set_subslices(sseu, s, sseu->subslice_mask,
-> -					 subslice_mask);
-> +		set_subslices(sseu, s, subslice_mask);
->   
->   		for (ss = 0; ss < sseu->max_subslices; ss++) {
->   			sseu_set_eus(sseu, s, ss,
-> @@ -685,7 +714,7 @@ u32 intel_sseu_make_rpcs(struct intel_gt *gt,
->   	 */
->   	if (GRAPHICS_VER(i915) == 11 &&
->   	    slices == 1 &&
-> -	    subslices > min_t(u8, 4, hweight8(sseu->subslice_mask[0]) / 2)) {
-> +	    subslices > min_t(u8, 4, hweight8(sseu->subslice_mask.b[0]) / 2)) {
->   		GEM_BUG_ON(subslices & 1);
->   
->   		subslice_pg = false;
-> @@ -755,9 +784,11 @@ void intel_sseu_dump(const struct sseu_dev_info *sseu, struct drm_printer *p)
->   		   hweight8(sseu->slice_mask), sseu->slice_mask);
->   	drm_printf(p, "subslice total: %u\n", intel_sseu_subslice_total(sseu));
->   	for (s = 0; s < sseu->max_slices; s++) {
-> -		drm_printf(p, "slice%d: %u subslices, mask=%08x\n",
-> -			   s, intel_sseu_subslices_per_slice(sseu, s),
-> -			   intel_sseu_get_subslices(sseu, s));
-> +		intel_sseu_ss_mask_t ssmask = intel_sseu_get_subslices(sseu, s);
-> +
-> +		drm_printf(p, "slice%d: %u subslices, mask=%*pb\n",
-> +			   s, bitmap_weight(ssmask.b, I915_MAX_SS_FUSE_BITS),
-> +			   I915_MAX_SS_FUSE_BITS, ssmask.b);
->   	}
->   	drm_printf(p, "EU total: %u\n", sseu->eu_total);
->   	drm_printf(p, "EU per subslice: %u\n", sseu->eu_per_subslice);
-> @@ -775,9 +806,11 @@ static void sseu_print_hsw_topology(const struct sseu_dev_info *sseu,
->   	int s, ss;
->   
->   	for (s = 0; s < sseu->max_slices; s++) {
-> -		drm_printf(p, "slice%d: %u subslice(s) (0x%08x):\n",
-> -			   s, intel_sseu_subslices_per_slice(sseu, s),
-> -			   intel_sseu_get_subslices(sseu, s));
-> +		intel_sseu_ss_mask_t ssmask = intel_sseu_get_subslices(sseu, s);
-> +
-> +		drm_printf(p, "slice%d: %u subslice(s) (0x%*pb):\n",
-> +			   s, bitmap_weight(ssmask.b, I915_MAX_SS_FUSE_BITS),
-> +			   I915_MAX_SS_FUSE_BITS, ssmask.b);
->   
->   		for (ss = 0; ss < sseu->max_subslices; ss++) {
->   			u16 enabled_eus = sseu_get_eus(sseu, s, ss);
-> @@ -791,16 +824,14 @@ static void sseu_print_hsw_topology(const struct sseu_dev_info *sseu,
->   static void sseu_print_xehp_topology(const struct sseu_dev_info *sseu,
->   				     struct drm_printer *p)
->   {
-> -	u32 g_dss_mask = sseu_get_geometry_subslices(sseu);
-> -	u32 c_dss_mask = intel_sseu_get_compute_subslices(sseu);
->   	int dss;
->   
->   	for (dss = 0; dss < sseu->max_subslices; dss++) {
->   		u16 enabled_eus = sseu_get_eus(sseu, 0, dss);
->   
->   		drm_printf(p, "DSS_%02d: G:%3s C:%3s, %2u EUs (0x%04hx)\n", dss,
-> -			   str_yes_no(g_dss_mask & BIT(dss)),
-> -			   str_yes_no(c_dss_mask & BIT(dss)),
-> +			   str_yes_no(test_bit(dss, sseu->geometry_subslice_mask.b)),
-> +			   str_yes_no(test_bit(dss, sseu->compute_subslice_mask.b)),
->   			   hweight16(enabled_eus), enabled_eus);
->   	}
->   }
-> @@ -818,20 +849,24 @@ void intel_sseu_print_topology(struct drm_i915_private *i915,
->   	}
->   }
->   
-> -u16 intel_slicemask_from_dssmask(u64 dss_mask, int dss_per_slice)
-> +u16 intel_slicemask_from_dssmask(intel_sseu_ss_mask_t dss_mask,
-> +				 int dss_per_slice)
->   {
-> +	intel_sseu_ss_mask_t per_slice_mask = {};
->   	u16 slice_mask = 0;
->   	int i;
->   
-> -	WARN_ON(sizeof(dss_mask) * 8 / dss_per_slice > 8 * sizeof(slice_mask));
-> +	WARN_ON(DIV_ROUND_UP(I915_MAX_SS_FUSE_BITS, dss_per_slice) >
-> +		8 * sizeof(slice_mask));
->   
-> -	for (i = 0; dss_mask; i++) {
-> -		if (dss_mask & GENMASK(dss_per_slice - 1, 0))
-> +	bitmap_fill(per_slice_mask.b, dss_per_slice);
-> +	for (i = 0; !bitmap_empty(dss_mask.b, I915_MAX_SS_FUSE_BITS); i++) {
-> +		if (bitmap_intersects(dss_mask.b, per_slice_mask.b, dss_per_slice))
->   			slice_mask |= BIT(i);
->   
-> -		dss_mask >>= dss_per_slice;
-> +		bitmap_shift_right(dss_mask.b, dss_mask.b, dss_per_slice,
-> +				   I915_MAX_SS_FUSE_BITS);
->   	}
->   
->   	return slice_mask;
->   }
-> -
-> diff --git a/drivers/gpu/drm/i915/gt/intel_sseu.h b/drivers/gpu/drm/i915/gt/intel_sseu.h
-> index 106726a2244e..455f085093ae 100644
-> --- a/drivers/gpu/drm/i915/gt/intel_sseu.h
-> +++ b/drivers/gpu/drm/i915/gt/intel_sseu.h
-> @@ -52,11 +52,22 @@ struct drm_printer;
->   #define GEN_MAX_GSLICES		(GEN_MAX_DSS / GEN_DSS_PER_GSLICE)
->   #define GEN_MAX_CSLICES		(GEN_MAX_DSS / GEN_DSS_PER_CSLICE)
->   
-> +/*
-> + * Maximum number of 32-bit registers used by hardware to express the
-> + * enabled/disabled subslices.
-> + */
-> +#define I915_MAX_SS_FUSE_REGS	1
-> +#define I915_MAX_SS_FUSE_BITS	(I915_MAX_SS_FUSE_REGS * 32)
-> +
-> +typedef struct {
-> +	unsigned long b[BITS_TO_LONGS(I915_MAX_SS_FUSE_BITS)];
-> +} intel_sseu_ss_mask_t;
-> +
->   struct sseu_dev_info {
->   	u8 slice_mask;
-> -	u8 subslice_mask[GEN_SS_MASK_SIZE];
-> -	u8 geometry_subslice_mask[GEN_SS_MASK_SIZE];
-> -	u8 compute_subslice_mask[GEN_SS_MASK_SIZE];
-> +	intel_sseu_ss_mask_t subslice_mask;
-> +	intel_sseu_ss_mask_t geometry_subslice_mask;
-> +	intel_sseu_ss_mask_t compute_subslice_mask;
->   
->   	/*
->   	 * EU masks.  Use has_common_ss_eumask to determine how the field
-> @@ -107,7 +118,7 @@ intel_sseu_from_device_info(const struct sseu_dev_info *sseu)
->   {
->   	struct intel_sseu value = {
->   		.slice_mask = sseu->slice_mask,
-> -		.subslice_mask = sseu->subslice_mask[0],
-> +		.subslice_mask = sseu->subslice_mask.b[0],
->   		.min_eus_per_subslice = sseu->max_eus_per_subslice,
->   		.max_eus_per_subslice = sseu->max_eus_per_subslice,
->   	};
-> @@ -119,18 +130,8 @@ static inline bool
->   intel_sseu_has_subslice(const struct sseu_dev_info *sseu, int slice,
->   			int subslice)
->   {
-> -	u8 mask;
-> -	int ss_idx = subslice / BITS_PER_BYTE;
-> -
-> -	if (slice >= sseu->max_slices ||
-> -	    subslice >= sseu->max_subslices)
-> -		return false;
-> -
-> -	GEM_BUG_ON(ss_idx >= sseu->ss_stride);
-> -
-> -	mask = sseu->subslice_mask[slice * sseu->ss_stride + ss_idx];
-> -
-> -	return mask & BIT(subslice % BITS_PER_BYTE);
-> +	return test_bit(slice * sseu->ss_stride + subslice,
-> +			sseu->subslice_mask.b);
->   }
->   
->   void intel_sseu_set_info(struct sseu_dev_info *sseu, u8 max_slices,
-> @@ -139,15 +140,14 @@ void intel_sseu_set_info(struct sseu_dev_info *sseu, u8 max_slices,
->   unsigned int
->   intel_sseu_subslice_total(const struct sseu_dev_info *sseu);
->   
-> -unsigned int
-> -intel_sseu_subslices_per_slice(const struct sseu_dev_info *sseu, u8 slice);
-> +intel_sseu_ss_mask_t
-> +intel_sseu_get_subslices(const struct sseu_dev_info *sseu, u8 slice);
->   
-> -u32 intel_sseu_get_subslices(const struct sseu_dev_info *sseu, u8 slice);
-> -
-> -u32 intel_sseu_get_compute_subslices(const struct sseu_dev_info *sseu);
-> +intel_sseu_ss_mask_t
-> +intel_sseu_get_compute_subslices(const struct sseu_dev_info *sseu);
->   
->   void intel_sseu_set_subslices(struct sseu_dev_info *sseu, int slice,
-> -			      u8 *subslice_mask, u32 ss_mask);
-> +			      u32 ss_mask);
->   
->   void intel_sseu_info_init(struct intel_gt *gt);
->   
-> @@ -159,9 +159,11 @@ void intel_sseu_print_topology(struct drm_i915_private *i915,
->   			       const struct sseu_dev_info *sseu,
->   			       struct drm_printer *p);
->   
-> -u16 intel_slicemask_from_dssmask(u64 dss_mask, int dss_per_slice);
-> +u16 intel_slicemask_from_dssmask(intel_sseu_ss_mask_t dss_mask, int dss_per_slice);
->   
->   int intel_sseu_copy_eumask_to_user(void __user *to,
->   				   const struct sseu_dev_info *sseu);
-> +int intel_sseu_copy_ssmask_to_user(void __user *to,
-> +				   const struct sseu_dev_info *sseu);
->   
->   #endif /* __INTEL_SSEU_H__ */
-> diff --git a/drivers/gpu/drm/i915/gt/intel_sseu_debugfs.c b/drivers/gpu/drm/i915/gt/intel_sseu_debugfs.c
-> index 2d5d011e01db..1f77bd52a3a6 100644
-> --- a/drivers/gpu/drm/i915/gt/intel_sseu_debugfs.c
-> +++ b/drivers/gpu/drm/i915/gt/intel_sseu_debugfs.c
-> @@ -4,6 +4,7 @@
->    * Copyright © 2020 Intel Corporation
->    */
->   
-> +#include <linux/bitmap.h>
->   #include <linux/string_helpers.h>
->   
->   #include "i915_drv.h"
-> @@ -12,11 +13,15 @@
->   #include "intel_sseu_debugfs.h"
->   
->   static void sseu_copy_subslices(const struct sseu_dev_info *sseu,
-> -				int slice, u8 *to_mask)
-> +				int slice,
-> +				intel_sseu_ss_mask_t *to_mask)
->   {
-> -	int offset = slice * sseu->ss_stride;
-> +	int offset = slice * sseu->max_subslices;
->   
-> -	memcpy(&to_mask[offset], &sseu->subslice_mask[offset], sseu->ss_stride);
-> +	bitmap_fill(to_mask->b, sseu->max_subslices);
-> +	bitmap_shift_left(to_mask->b, to_mask->b, offset, I915_MAX_SS_FUSE_BITS);
-> +	bitmap_and(to_mask->b, to_mask->b, sseu->subslice_mask.b, I915_MAX_SS_FUSE_BITS);
-> +	bitmap_shift_right(to_mask->b, to_mask->b, offset, I915_MAX_SS_FUSE_BITS);
->   }
->   
->   static void cherryview_sseu_device_status(struct intel_gt *gt,
-> @@ -41,7 +46,7 @@ static void cherryview_sseu_device_status(struct intel_gt *gt,
->   			continue;
->   
->   		sseu->slice_mask = BIT(0);
-> -		sseu->subslice_mask[0] |= BIT(ss);
-> +		set_bit(0, sseu->subslice_mask.b);
->   		eu_cnt = ((sig1[ss] & CHV_EU08_PG_ENABLE) ? 0 : 2) +
->   			 ((sig1[ss] & CHV_EU19_PG_ENABLE) ? 0 : 2) +
->   			 ((sig1[ss] & CHV_EU210_PG_ENABLE) ? 0 : 2) +
-> @@ -92,7 +97,7 @@ static void gen11_sseu_device_status(struct intel_gt *gt,
->   			continue;
->   
->   		sseu->slice_mask |= BIT(s);
-> -		sseu_copy_subslices(&info->sseu, s, sseu->subslice_mask);
-> +		sseu_copy_subslices(&info->sseu, s, &sseu->subslice_mask);
->   
->   		for (ss = 0; ss < info->sseu.max_subslices; ss++) {
->   			unsigned int eu_cnt;
-> @@ -148,20 +153,17 @@ static void gen9_sseu_device_status(struct intel_gt *gt,
->   
->   		if (IS_GEN9_BC(gt->i915))
->   			sseu_copy_subslices(&info->sseu, s,
-> -					    sseu->subslice_mask);
-> +					    &sseu->subslice_mask);
->   
->   		for (ss = 0; ss < info->sseu.max_subslices; ss++) {
->   			unsigned int eu_cnt;
-> -			u8 ss_idx = s * info->sseu.ss_stride +
-> -				    ss / BITS_PER_BYTE;
->   
->   			if (IS_GEN9_LP(gt->i915)) {
->   				if (!(s_reg[s] & (GEN9_PGCTL_SS_ACK(ss))))
->   					/* skip disabled subslice */
->   					continue;
->   
-> -				sseu->subslice_mask[ss_idx] |=
-> -					BIT(ss % BITS_PER_BYTE);
-> +				set_bit(ss, sseu->subslice_mask.b);
->   			}
->   
->   			eu_cnt = eu_reg[2 * s + ss / 2] & eu_mask[ss % 2];
-> @@ -189,7 +191,7 @@ static void bdw_sseu_device_status(struct intel_gt *gt,
->   		sseu->eu_per_subslice = info->sseu.eu_per_subslice;
->   		for (s = 0; s < fls(sseu->slice_mask); s++)
->   			sseu_copy_subslices(&info->sseu, s,
-> -					    sseu->subslice_mask);
-> +					    &sseu->subslice_mask);
->   		sseu->eu_total = sseu->eu_per_subslice *
->   				 intel_sseu_subslice_total(sseu);
->   
-> @@ -217,8 +219,10 @@ static void i915_print_sseu_info(struct seq_file *m,
->   	seq_printf(m, "  %s Subslice Total: %u\n", type,
->   		   intel_sseu_subslice_total(sseu));
->   	for (s = 0; s < fls(sseu->slice_mask); s++) {
-> +		intel_sseu_ss_mask_t ssmask = intel_sseu_get_subslices(sseu, s);
-> +
->   		seq_printf(m, "  %s Slice%i subslices: %u\n", type,
-> -			   s, intel_sseu_subslices_per_slice(sseu, s));
-> +			   s, bitmap_weight(ssmask.b, I915_MAX_SS_FUSE_BITS));
->   	}
->   	seq_printf(m, "  %s EU Total: %u\n", type,
->   		   sseu->eu_total);
-> diff --git a/drivers/gpu/drm/i915/gt/intel_workarounds.c b/drivers/gpu/drm/i915/gt/intel_workarounds.c
-> index a05c4b99b3fb..5db492072f99 100644
-> --- a/drivers/gpu/drm/i915/gt/intel_workarounds.c
-> +++ b/drivers/gpu/drm/i915/gt/intel_workarounds.c
-> @@ -931,6 +931,7 @@ static void
->   gen9_wa_init_mcr(struct drm_i915_private *i915, struct i915_wa_list *wal)
->   {
->   	const struct sseu_dev_info *sseu = &to_gt(i915)->info.sseu;
-> +	intel_sseu_ss_mask_t ssmask;
->   	unsigned int slice, subslice;
->   	u32 mcr, mcr_mask;
->   
-> @@ -948,9 +949,9 @@ gen9_wa_init_mcr(struct drm_i915_private *i915, struct i915_wa_list *wal)
->   	 * on s/ss combo, the read should be done with read_subslice_reg.
->   	 */
->   	slice = ffs(sseu->slice_mask) - 1;
-> -	GEM_BUG_ON(slice >= ARRAY_SIZE(sseu->subslice_mask));
-> -	subslice = ffs(intel_sseu_get_subslices(sseu, slice));
-> -	GEM_BUG_ON(!subslice);
-> +	ssmask = intel_sseu_get_subslices(sseu, slice);
-> +	subslice = find_first_bit(ssmask.b, I915_MAX_SS_FUSE_BITS);
-> +	GEM_BUG_ON(subslice == I915_MAX_SS_FUSE_BITS);
->   	subslice--;
->   
->   	/*
-> @@ -1087,11 +1088,10 @@ static void
->   icl_wa_init_mcr(struct intel_gt *gt, struct i915_wa_list *wal)
->   {
->   	const struct sseu_dev_info *sseu = &gt->info.sseu;
-> -	unsigned int slice, subslice;
-> +	unsigned int subslice;
->   
->   	GEM_BUG_ON(GRAPHICS_VER(gt->i915) < 11);
->   	GEM_BUG_ON(hweight8(sseu->slice_mask) > 1);
-> -	slice = 0;
->   
->   	/*
->   	 * Although a platform may have subslices, we need to always steer
-> @@ -1102,7 +1102,7 @@ icl_wa_init_mcr(struct intel_gt *gt, struct i915_wa_list *wal)
->   	 * one of the higher subslices, we run the risk of reading back 0's or
->   	 * random garbage.
->   	 */
-> -	subslice = __ffs(intel_sseu_get_subslices(sseu, slice));
-> +	subslice = find_first_bit(sseu->subslice_mask.b, I915_MAX_SS_FUSE_BITS);
->   
->   	/*
->   	 * If the subslice we picked above also steers us to a valid L3 bank,
-> @@ -1112,7 +1112,7 @@ icl_wa_init_mcr(struct intel_gt *gt, struct i915_wa_list *wal)
->   	if (gt->info.l3bank_mask & BIT(subslice))
->   		gt->steering_table[L3BANK] = NULL;
->   
-> -	__add_mcr_wa(gt, wal, slice, subslice);
-> +	__add_mcr_wa(gt, wal, 0, subslice);
->   }
->   
->   static void
-> @@ -1120,7 +1120,6 @@ xehp_init_mcr(struct intel_gt *gt, struct i915_wa_list *wal)
->   {
->   	const struct sseu_dev_info *sseu = &gt->info.sseu;
->   	unsigned long slice, subslice = 0, slice_mask = 0;
-> -	u64 dss_mask = 0;
->   	u32 lncf_mask = 0;
->   	int i;
->   
-> @@ -1151,8 +1150,8 @@ xehp_init_mcr(struct intel_gt *gt, struct i915_wa_list *wal)
->   	 */
->   
->   	/* Find the potential gslice candidates */
-> -	dss_mask = intel_sseu_get_subslices(sseu, 0);
-> -	slice_mask = intel_slicemask_from_dssmask(dss_mask, GEN_DSS_PER_GSLICE);
-> +	slice_mask = intel_slicemask_from_dssmask(sseu->subslice_mask,
-> +						  GEN_DSS_PER_GSLICE);
->   
->   	/*
->   	 * Find the potential LNCF candidates.  Either LNCF within a valid
-> @@ -1177,9 +1176,9 @@ xehp_init_mcr(struct intel_gt *gt, struct i915_wa_list *wal)
->   	}
->   
->   	slice = __ffs(slice_mask);
-> -	subslice = __ffs(dss_mask >> (slice * GEN_DSS_PER_GSLICE));
-> +	subslice = find_next_bit(sseu->subslice_mask.b, I915_MAX_SS_FUSE_BITS,
-> +				 slice * GEN_DSS_PER_GSLICE);
->   	WARN_ON(subslice > GEN_DSS_PER_GSLICE);
-> -	WARN_ON(dss_mask >> (slice * GEN_DSS_PER_GSLICE) == 0);
->   
->   	__add_mcr_wa(gt, wal, slice, subslice);
->   
-> @@ -2012,9 +2011,8 @@ engine_fake_wa_init(struct intel_engine_cs *engine, struct i915_wa_list *wal)
->   
->   static bool needs_wa_1308578152(struct intel_engine_cs *engine)
->   {
-> -	u64 dss_mask = intel_sseu_get_subslices(&engine->gt->info.sseu, 0);
-> -
-> -	return (dss_mask & GENMASK(GEN_DSS_PER_GSLICE - 1, 0)) == 0;
-> +	return find_first_bit(engine->gt->info.sseu.subslice_mask.b,
-> +			      I915_MAX_SS_FUSE_BITS) >= GEN_DSS_PER_GSLICE;
->   }
->   
->   static void
-> diff --git a/drivers/gpu/drm/i915/i915_getparam.c b/drivers/gpu/drm/i915/i915_getparam.c
-> index ac9767c56619..349d496d164a 100644
-> --- a/drivers/gpu/drm/i915/i915_getparam.c
-> +++ b/drivers/gpu/drm/i915/i915_getparam.c
-> @@ -162,7 +162,7 @@ int i915_getparam_ioctl(struct drm_device *dev, void *data,
->   			return -EINVAL;
->   
->   		/* Only copy bits from the first slice */
-> -		memcpy(&value, sseu->subslice_mask,
-> +		memcpy(&value, sseu->subslice_mask.b,
->   		       min(sseu->ss_stride, (u8)sizeof(value)));
->   		if (!value)
->   			return -ENODEV;
-> diff --git a/drivers/gpu/drm/i915/i915_query.c b/drivers/gpu/drm/i915/i915_query.c
-> index 16f43bf32a05..9afa6d1eaf95 100644
-> --- a/drivers/gpu/drm/i915/i915_query.c
-> +++ b/drivers/gpu/drm/i915/i915_query.c
-> @@ -31,7 +31,7 @@ static int copy_query_item(void *query_hdr, size_t query_sz,
->   
->   static int fill_topology_info(const struct sseu_dev_info *sseu,
->   			      struct drm_i915_query_item *query_item,
-> -			      const u8 *subslice_mask)
-> +			      intel_sseu_ss_mask_t subslice_mask)
->   {
->   	struct drm_i915_query_topology_info topo;
->   	u32 slice_length, subslice_length, eu_length, total_length;
-> @@ -71,9 +71,9 @@ static int fill_topology_info(const struct sseu_dev_info *sseu,
->   			 &sseu->slice_mask, slice_length))
->   		return -EFAULT;
->   
-> -	if (copy_to_user(u64_to_user_ptr(query_item->data_ptr +
-> -					 sizeof(topo) + slice_length),
-> -			 subslice_mask, subslice_length))
-> +	if (intel_sseu_copy_ssmask_to_user(u64_to_user_ptr(query_item->data_ptr +
-> +							   sizeof(topo) + slice_length),
-> +					   sseu))
->   		return -EFAULT;
->   
->   	if (intel_sseu_copy_eumask_to_user(u64_to_user_ptr(query_item->data_ptr +
