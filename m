@@ -2,52 +2,71 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8DC66512F19
-	for <lists+dri-devel@lfdr.de>; Thu, 28 Apr 2022 10:55:42 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 8F2B3512F1B
+	for <lists+dri-devel@lfdr.de>; Thu, 28 Apr 2022 10:56:22 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 474DF10F92F;
-	Thu, 28 Apr 2022 08:55:38 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 5A78D10F943;
+	Thu, 28 Apr 2022 08:56:20 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mga05.intel.com (mga05.intel.com [192.55.52.43])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 8663610F935;
- Thu, 28 Apr 2022 08:55:37 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1651136137; x=1682672137;
- h=message-id:date:mime-version:subject:to:cc:references:
- from:in-reply-to:content-transfer-encoding;
- bh=Fpw0i6xvUgZW/GN6YtXTzbX90L63ikbeS0tvGH1O6lk=;
- b=HDJ9+4jTaYtBrwDOqLE7ptazVOYmq+Mn9lC2HYdiazixYD271uB6/REA
- 7ektZK2bSJ2wHi/AH23SwAS4LrAoAiPfV56p3IHWOR9C0t0mb6Ud17UPq
- MhQfdN0jPsN/cyKmYrEk34GD5AHfdNXw8OySDRjE6gN7xFt5h0VlR0x51
- OwyblQ6c1ObMw1r6iMrHpAELU/P4KtzaYkkYzsmVoPctdeSCQuDalJudE
- bzmc7vRtu3EQ3FOFn7uNeiRgloSfEAkW5hSQuZeERrt0opDl4YLCtLh/i
- pi9KSLR40u40AD8/dFqRk+dIvmFb1luNseRFrBoa2ior9dfBGuT12BfRH A==;
-X-IronPort-AV: E=McAfee;i="6400,9594,10330"; a="352647379"
-X-IronPort-AV: E=Sophos;i="5.90,295,1643702400"; d="scan'208";a="352647379"
-Received: from orsmga003.jf.intel.com ([10.7.209.27])
- by fmsmga105.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 28 Apr 2022 01:55:14 -0700
-X-IronPort-AV: E=Sophos;i="5.90,295,1643702400"; d="scan'208";a="514166917"
-Received: from wdries-mobl1.ger.corp.intel.com (HELO [10.213.210.166])
- ([10.213.210.166])
- by orsmga003-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 28 Apr 2022 01:55:12 -0700
-Message-ID: <effe7753-8948-a287-bbc6-db4675cba017@linux.intel.com>
-Date: Thu, 28 Apr 2022 09:55:10 +0100
+Received: from mail-pj1-x1042.google.com (mail-pj1-x1042.google.com
+ [IPv6:2607:f8b0:4864:20::1042])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 4CB7710F93A;
+ Thu, 28 Apr 2022 08:56:19 +0000 (UTC)
+Received: by mail-pj1-x1042.google.com with SMTP id
+ cx11-20020a17090afd8b00b001d9fe5965b3so5193262pjb.3; 
+ Thu, 28 Apr 2022 01:56:19 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
+ h=message-id:date:mime-version:user-agent:subject:content-language:to
+ :cc:references:from:in-reply-to:content-transfer-encoding;
+ bh=jVj6mBk3PN/ulzA3y0GywA8gTFf3UaQbkuhEKHdty7M=;
+ b=iUtOY9E03pptMcMmUSXzSwFTV8y3BtT8BxtTRSAyjExpIZIMK1O3ZKxe2m62Ri46Tb
+ t08dBb2ojvXrP8BsfKTfAAZCHkrWCii2XwV1cksnSmnI79RqbOlRTtUwPm+aYLYLAX1w
+ EiWe1IrV6pPRpr0E0YM4Jy/nUcRERyxaIDiJhPNja1bgQIT8/roEfuCEq/gFlhEwEkuw
+ lV6rmiZB4GBTNB1j8iJ81jHEpWciCIBDv2EeV72uyG46tRj9RelEaw1LdNkRjODVFwSR
+ O6h7/rX7f34IDMMzLTqdf5uR27o2qkCFuYktJvDLzKYPGj+YafBDFnjAQmRPQO/XvDlp
+ k+fQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
+ :content-language:to:cc:references:from:in-reply-to
+ :content-transfer-encoding;
+ bh=jVj6mBk3PN/ulzA3y0GywA8gTFf3UaQbkuhEKHdty7M=;
+ b=k79sE3bzlNTn2A2oeA4ykSGphrydtgQbeD7+uSYKNOae/IdDck+5qHCdm9UYka2zrG
+ 8BeJJS+sSdCQpkIScCCN+VnAiCsysnutRfygHQblh8LA+EXgTt/tCb1svNrF6u1vSmat
+ QvRHVj/xp0c3IfC6OkhNYmcsUIpMxcrgXh6Tk6ep/5hxtmWZOMtAjqulGjwFvRjZB6F4
+ dzHZuJicL0jwaqgOO/wMG1gGSENjlBtq4PDYZnNDrbXJaS1QDOGVVoT8JxBj8dQEZW+R
+ zrjAu7HTiD/T+VSBJ5pWLMaJxTigs6hxGKtuN5tt5HefwrffNKAXjdsbiXCLPbp64TPj
+ TGhA==
+X-Gm-Message-State: AOAM533WcdCRZ2/cVRSp8BmCy1bZuWdWRQDvbfAFf2i65YeXXv1tFZ7X
+ H6h8Q1/8px7S6jih1a40OX4=
+X-Google-Smtp-Source: ABdhPJzkY3q0ECIyz2JkXDD6VgO3mpfuxQjWsGAkQXEJ2vE4iCnW+THtIl6ozuiFk/d95P/0KmmmNQ==
+X-Received: by 2002:a17:90a:4581:b0:1bc:d215:8722 with SMTP id
+ v1-20020a17090a458100b001bcd2158722mr48144334pjg.149.1651136178752; 
+ Thu, 28 Apr 2022 01:56:18 -0700 (PDT)
+Received: from [192.168.50.247] ([103.84.139.165])
+ by smtp.gmail.com with ESMTPSA id
+ u19-20020a63b553000000b003c14af50616sm1915916pgo.46.2022.04.28.01.56.16
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Thu, 28 Apr 2022 01:56:18 -0700 (PDT)
+Message-ID: <d0790635-4b2e-cd58-0a51-36427800b39c@gmail.com>
+Date: Thu, 28 Apr 2022 16:56:14 +0800
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
  Thunderbird/91.7.0
-Subject: Re: [Intel-gfx] [PATCH v2] drm/doc: add rfc section for small BAR uapi
+Subject: Re: [PATCH] gpu: drm: remove redundant dma_fence_put() when
+ drm_sched_job_add_dependency() fails
 Content-Language: en-US
-To: Matthew Auld <matthew.auld@intel.com>, intel-gfx@lists.freedesktop.org
-References: <20220420171328.57253-1-matthew.auld@intel.com>
- <c8875f46-c0f7-1e3e-d48c-165dbc9d8b55@linux.intel.com>
- <896cba53-4c94-6de2-e8a3-ace648386576@intel.com>
-From: Tvrtko Ursulin <tvrtko.ursulin@linux.intel.com>
-Organization: Intel Corporation UK Plc
-In-Reply-To: <896cba53-4c94-6de2-e8a3-ace648386576@intel.com>
+To: Andrey Grodzovsky <andrey.grodzovsky@amd.com>, yuq825@gmail.com,
+ airlied@linux.ie, daniel@ffwll.ch
+References: <20220425083645.25922-1-hbh25y@gmail.com>
+ <b7d8956e-5ac6-8200-d8b1-4ce828f04665@amd.com>
+ <79b198d0-eff2-d658-4b5e-9084a834fc93@gmail.com>
+ <e26e6ef8-6665-0b9d-804f-cf107f1788d4@amd.com>
+ <88dd5d67-7dd5-2f58-5254-adaa941deb0f@gmail.com>
+ <65b6cc23-1a77-7df0-5768-f81cd03b6514@amd.com>
+From: Hangyu Hua <hbh25y@gmail.com>
+In-Reply-To: <65b6cc23-1a77-7df0-5768-f81cd03b6514@amd.com>
 Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
@@ -62,425 +81,254 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: =?UTF-8?Q?Thomas_Hellstr=c3=b6m?= <thomas.hellstrom@linux.intel.com>,
- Kenneth Graunke <kenneth@whitecape.org>, mesa-dev@lists.freedesktop.org,
- dri-devel@lists.freedesktop.org, Daniel Vetter <daniel.vetter@ffwll.ch>
+Cc: lima@lists.freedesktop.org, dri-devel@lists.freedesktop.org,
+ linux-kernel@vger.kernel.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-
-On 27/04/2022 18:36, Matthew Auld wrote:
-> On 27/04/2022 09:36, Tvrtko Ursulin wrote:
->>
->> On 20/04/2022 18:13, Matthew Auld wrote:
->>> Add an entry for the new uapi needed for small BAR on DG2+.
+On 2022/4/27 22:43, Andrey Grodzovsky wrote:
+> 
+> On 2022-04-26 22:31, Hangyu Hua wrote:
+>> On 2022/4/26 22:55, Andrey Grodzovsky wrote:
 >>>
->>> v2:
->>>    - Some spelling fixes and other small tweaks. (Akeem & Thomas)
->>>    - Rework error capture interactions, including no longer needing
->>>      NEEDS_CPU_ACCESS for objects marked for capture. (Thomas)
->>>    - Add probed_cpu_visible_size. (Lionel)
+>>> On 2022-04-25 22:54, Hangyu Hua wrote:
+>>>> On 2022/4/25 23:42, Andrey Grodzovsky wrote:
+>>>>> On 2022-04-25 04:36, Hangyu Hua wrote:
+>>>>>
+>>>>>> When drm_sched_job_add_dependency() fails, dma_fence_put() will be 
+>>>>>> called
+>>>>>> internally. Calling it again after drm_sched_job_add_dependency() 
+>>>>>> finishes
+>>>>>> may result in a dangling pointer.
+>>>>>>
+>>>>>> Fix this by removing redundant dma_fence_put().
+>>>>>>
+>>>>>> Signed-off-by: Hangyu Hua <hbh25y@gmail.com>
+>>>>>> ---
+>>>>>>   drivers/gpu/drm/lima/lima_gem.c        | 1 -
+>>>>>>   drivers/gpu/drm/scheduler/sched_main.c | 1 -
+>>>>>>   2 files changed, 2 deletions(-)
+>>>>>>
+>>>>>> diff --git a/drivers/gpu/drm/lima/lima_gem.c 
+>>>>>> b/drivers/gpu/drm/lima/lima_gem.c
+>>>>>> index 55bb1ec3c4f7..99c8e7f6bb1c 100644
+>>>>>> --- a/drivers/gpu/drm/lima/lima_gem.c
+>>>>>> +++ b/drivers/gpu/drm/lima/lima_gem.c
+>>>>>> @@ -291,7 +291,6 @@ static int lima_gem_add_deps(struct drm_file 
+>>>>>> *file, struct lima_submit *submit)
+>>>>>>           err = drm_sched_job_add_dependency(&submit->task->base, 
+>>>>>> fence);
+>>>>>>           if (err) {
+>>>>>> -            dma_fence_put(fence);
+>>>>>>               return err;
+>>>>>
+>>>>>
+>>>>> Makes sense here
+>>>>>
+>>>>>
+>>>>>>           }
+>>>>>>       }
+>>>>>> diff --git a/drivers/gpu/drm/scheduler/sched_main.c 
+>>>>>> b/drivers/gpu/drm/scheduler/sched_main.c
+>>>>>> index b81fceb0b8a2..ebab9eca37a8 100644
+>>>>>> --- a/drivers/gpu/drm/scheduler/sched_main.c
+>>>>>> +++ b/drivers/gpu/drm/scheduler/sched_main.c
+>>>>>> @@ -708,7 +708,6 @@ int 
+>>>>>> drm_sched_job_add_implicit_dependencies(struct drm_sched_job *job,
+>>>>>>           dma_fence_get(fence);
+>>>>>>           ret = drm_sched_job_add_dependency(job, fence);
+>>>>>>           if (ret) {
+>>>>>> -            dma_fence_put(fence);
+>>>>>
+>>>>>
+>>>>>
+>>>>> Not sure about this one since if you look at the relevant commits -
+>>>>> 'drm/scheduler: fix drm_sched_job_add_implicit_dependencies' and
+>>>>> 'drm/scheduler: fix drm_sched_job_add_implicit_dependencies harder'
+>>>>> You will see that the dma_fence_put here balances the extra 
+>>>>> dma_fence_get
+>>>>> above
+>>>>>
+>>>>> Andrey
+>>>>>
+>>>>
+>>>> I don't think so. I checked the call chain and found no additional 
+>>>> dma_fence_get(). But dma_fence_get() needs to be called before 
+>>>> drm_sched_job_add_dependency() to keep the counter balanced. 
 >>>
->>> Signed-off-by: Matthew Auld <matthew.auld@intel.com>
->>> Cc: Thomas Hellström <thomas.hellstrom@linux.intel.com>
->>> Cc: Lionel Landwerlin <lionel.g.landwerlin@intel.com>
->>> Cc: Jon Bloomfield <jon.bloomfield@intel.com>
->>> Cc: Daniel Vetter <daniel.vetter@ffwll.ch>
->>> Cc: Jordan Justen <jordan.l.justen@intel.com>
->>> Cc: Kenneth Graunke <kenneth@whitecape.org>
->>> Cc: Akeem G Abodunrin <akeem.g.abodunrin@intel.com>
->>> Cc: mesa-dev@lists.freedesktop.org
->>> ---
->>>   Documentation/gpu/rfc/i915_small_bar.h   | 190 +++++++++++++++++++++++
->>>   Documentation/gpu/rfc/i915_small_bar.rst |  58 +++++++
->>>   Documentation/gpu/rfc/index.rst          |   4 +
->>>   3 files changed, 252 insertions(+)
->>>   create mode 100644 Documentation/gpu/rfc/i915_small_bar.h
->>>   create mode 100644 Documentation/gpu/rfc/i915_small_bar.rst
 >>>
->>> diff --git a/Documentation/gpu/rfc/i915_small_bar.h 
->>> b/Documentation/gpu/rfc/i915_small_bar.h
->>> new file mode 100644
->>> index 000000000000..7bfd0cf44d35
->>> --- /dev/null
->>> +++ b/Documentation/gpu/rfc/i915_small_bar.h
->>> @@ -0,0 +1,190 @@
->>> +/**
->>> + * struct __drm_i915_memory_region_info - Describes one region as 
->>> known to the
->>> + * driver.
->>> + *
->>> + * Note this is using both struct drm_i915_query_item and struct 
->>> drm_i915_query.
->>> + * For this new query we are adding the new query id 
->>> DRM_I915_QUERY_MEMORY_REGIONS
->>> + * at &drm_i915_query_item.query_id.
->>> + */
->>> +struct __drm_i915_memory_region_info {
->>> +    /** @region: The class:instance pair encoding */
->>> +    struct drm_i915_gem_memory_class_instance region;
->>> +
->>> +    /** @rsvd0: MBZ */
->>> +    __u32 rsvd0;
->>> +
->>> +    /** @probed_size: Memory probed by the driver (-1 = unknown) */
->>> +    __u64 probed_size;
->>> +
->>> +    /** @unallocated_size: Estimate of memory remaining (-1 = 
->>> unknown) */
->>> +    __u64 unallocated_size;
->>> +
->>> +    union {
->>> +        /** @rsvd1: MBZ */
->>> +        __u64 rsvd1[8];
->>> +        struct {
->>> +            /**
->>> +             * @probed_cpu_visible_size: Memory probed by the driver
->>> +             * that is CPU accessible. (-1 = unknown).
->>> +             *
->>> +             * This will be always be <= @probed_size, and the
->>> +             * remainder(if there is any) will not be CPU
->>> +             * accessible.
->>> +             */
->>> +            __u64 probed_cpu_visible_size;
+>>> I don't say there is an additional get, I just say that 
+>>> drm_sched_job_add_dependency doesn't grab an extra reference to the 
+>>> fences it stores so this needs to be done outside and for that
+>>> drm_sched_job_add_implicit_dependencies->dma_fence_get is called and, 
+>>> if this addition fails you just call dma_fence_put to keep the 
+>>> counter balanced.
+>>>
 >>
->> Would unallocated_cpu_visible_size be useful, to follow the total 
->> unallocated_size?
+>> drm_sched_job_add_implicit_dependencies() will call 
+>> drm_sched_job_add_dependency(). And drm_sched_job_add_dependency() 
+>> already call dma_fence_put() when it fails. Calling dma_fence_put() 
+>> twice doesn't make sense.
+>>
+>> dma_fence_get() is in [2]. But dma_fence_put() will be called in [1] 
+>> and [3] when xa_alloc() fails.
 > 
-> Make sense. But I don't think unallocated_size has actually been 
-> properly wired up yet. It still just gives the same value as 
-> probed_size. IIRC for unallocated_size we still need a real 
-> user/usecase/umd, before wiring that up for real with the existing avail 
-> tracking. Once we have that we can also add unallocated_cpu_visible_size.
-
-So this does nothing at the moment:
-
-  info.unallocated_size = mr->avail;
-
-Right, it is set to "mem->avail = mem->total;" at region init time and I 
-indeed can't find it ever getting modified. Okay.
-
->> Btw, have we ever considered whether unallocated_size should require 
->> CAP_SYS_ADMIN/PERFMON or something?
 > 
-> Note sure. But just in case we do add it for real at some point, why the 
-> added restriction?
-
-To avoid a side channel, albeit perhaps a very weak one. For engine 
-utilization we require CAP_SYS_PERFMON, but that is implied by the perf 
-core API. It's open for discussion. I guess it may make sense to limit 
-it also because it is questionable the field(s) are even useful.
-
+> The way I see it, [2] and [3] are mat matching *get* and *put* 
+> respectively. [1] *put* is against the original 
+> dma_fence_init->kref_init of the fence which always set the refcount at 1.
+> Also in support of this see commit 'drm/scheduler: fix 
+> drm_sched_job_add_implicit_dependencies harder' - it says there 
+> "drm_sched_job_add_dependency() could drop the last ref"  - this last 
+> ref is the original refcount set by dma_fence_init->kref
 > 
->>
->>> +        };
->>> +    };
->>> +};
->>> +
->>> +/**
->>> + * struct __drm_i915_gem_create_ext - Existing gem_create behaviour, 
->>> with added
->>> + * extension support using struct i915_user_extension.
->>> + *
->>> + * Note that new buffer flags should be added here, at least for the 
->>> stuff that
->>> + * is immutable. Previously we would have two ioctls, one to create 
->>> the object
->>> + * with gem_create, and another to apply various parameters, however 
->>> this
->>> + * creates some ambiguity for the params which are considered 
->>> immutable. Also in
->>> + * general we're phasing out the various SET/GET ioctls.
->>> + */
->>> +struct __drm_i915_gem_create_ext {
->>> +    /**
->>> +     * @size: Requested size for the object.
->>> +     *
->>> +     * The (page-aligned) allocated size for the object will be 
->>> returned.
->>> +     *
->>> +     * Note that for some devices we have might have further minimum
->>> +     * page-size restrictions(larger than 4K), likefor device 
->>> local-memory.
->>> +     * However in general the final size here should always reflect any
->>> +     * rounding up, if for example using the 
->>> I915_GEM_CREATE_EXT_MEMORY_REGIONS
->>> +     * extension to place the object in device local-memory.
->>> +     */
->>> +    __u64 size;
->>> +    /**
->>> +     * @handle: Returned handle for the object.
->>> +     *
->>> +     * Object handles are nonzero.
->>> +     */
->>> +    __u32 handle;
->>> +    /**
->>> +     * @flags: Optional flags.
->>> +     *
->>> +     * Supported values:
->>> +     *
->>> +     * I915_GEM_CREATE_EXT_FLAG_NEEDS_CPU_ACCESS - Signal to the 
->>> kernel that
->>> +     * the object will need to be accessed via the CPU.
->>> +     *
->>> +     * Only valid when placing objects in I915_MEMORY_CLASS_DEVICE, and
->>> +     * only strictly required on platforms where only some of the 
->>> device
->>> +     * memory is directly visible or mappable through the CPU, like 
->>> on DG2+.
->>> +     *
->>> +     * One of the placements MUST also be I915_MEMORY_CLASS_SYSTEM, to
->>> +     * ensure we can always spill the allocation tosystem memory, if we
->>> +     * can't place the object in the mappable part of
->>> +     * I915_MEMORY_CLASS_DEVICE.
->>> +     *
->>> +     * Note that since the kernel only supports flat-CCS on objects 
->>> that can
->>> +     * *only* be placed in I915_MEMORY_CLASS_DEVICE, we therefore don't
->>> +     * support I915_GEM_CREATE_EXT_FLAG_NEEDS_CPU_ACCESS together with
->>> +     * flat-CCS.
->>> +     *
->>> +     * Without this hint, the kernel will assume that non-mappable
->>> +     * I915_MEMORY_CLASS_DEVICE is preferred for this object. Note 
->>> that the
->>> +     * kernel can still migrate the object to the mappable part, as 
->>> a last
->>> +     * resort, if userspace ever CPU faults this object, but this 
->>> might be
->>> +     * expensive, and so ideally should be avoided.
->>> +     */
->>
->> So "needs_cpu_access" flag could almost be viewed as a sub-region 
->> placement priority? What I mean is this:
->>
->> 1)
->> placements=device,system flags=
->>
->> This results in placement priorities: device, device_cpu_mappable, 
->> system.
-> 
-> Yup.
+> Andrey
+
+
+You can see that drm_sched_job_add_dependency() has three return paths 
+they are [4], [5] and [1]. [4] and [5] will return 0. [1] will return error.
+
+There will be three weird problems if you're right:
+
+1. [5] path will triger a refcount leak beacause ret is 0 in *if*[6]. 
+Otherwise [2] and [5] are matching *get* and *put* in here.
+
+2. [4] path need a additional dma_fence_get() to adds the fence as a job 
+dependency. fence is from obj->resv. Taking msm as an example obj->resv 
+is from etnaviv_ioctl_gem_submit()->submit_lookup_objects(). It is not 
+possible that an object has *refcount == 1* but is referenced in two 
+places. So dma_fence_get() called in [2] is for [4]. By the way, [3] 
+don't execute in this case.
+
+3. This one is a doubt. You can see in "[PATCH] drm/scheduler: fix 
+drm_sched_job_add_implicit_dependencies harder". 
+drm_sched_job_add_dependency() could drop the last ref, so we need to do
+the dma_fence_get() first. But the last ref still will drop in [3] if 
+drm_sched_job_add_dependency() go path [1]. And there is only a *return* 
+between [1] and [3]. Is this necessary? I think Rob Clark wants to avoid 
+the last ref being dropped in drm_sched_job_add_implicit_dependencies() 
+because fence is still used by obj->resv.
+
+
+int drm_sched_job_add_dependency(struct drm_sched_job *job,
+                                  struct dma_fence *fence)
+{
+         ...
+         xa_for_each(&job->dependencies, index, entry) {
+                 if (entry->context != fence->context)
+                         continue;
+
+                 if (dma_fence_is_later(fence, entry)) {
+                         dma_fence_put(entry);
+                         xa_store(&job->dependencies, index, fence, 
+GFP_KERNEL);	<---- [4]
+                 } else {
+                         dma_fence_put(fence);	<---- [5]
+                 }
+                 return 0;
+         }
+
+         ret = xa_alloc(&job->dependencies, &id, fence, xa_limit_32b, 
+GFP_KERNEL);
+         if (ret != 0)
+                 dma_fence_put(fence);   <---- [1]
+
+         return ret;
+}
+
+
+int drm_sched_job_add_implicit_dependencies(struct drm_sched_job *job,
+                                             struct drm_gem_object *obj,
+                                             bool write)
+{
+         struct dma_resv_iter cursor;
+         struct dma_fence *fence;
+         int ret;
+
+         dma_resv_for_each_fence(&cursor, obj->resv, write, fence) {
+                 /* Make sure to grab an additional ref on the added 
+fence */
+                 dma_fence_get(fence);   <---- [2]
+                 ret = drm_sched_job_add_dependency(job, fence);
+                 if (ret) {      <---- [6]
+                         dma_fence_put(fence);   <---- [3]
+
+                         return ret;
+                 }
+         }
+         return 0;
+}
+
+Thanks,
+hangyu
+
 > 
 >>
->> 2)
->> placements=device,system flags=needs_cpu_access
 >>
->> This results in placement priorities: device_cpu_mappable, device, 
->> system.
-> 
-> Here it would only be: device_cpu_mappable, system. We would completely 
-> ignore "device" in this case.
-> 
+>> int drm_sched_job_add_dependency(struct drm_sched_job *job,
+>>                  struct dma_fence *fence)
+>> {
+>>     ...
+>>     ret = xa_alloc(&job->dependencies, &id, fence, xa_limit_32b, 
+>> GFP_KERNEL);
+>>     if (ret != 0)
+>>         dma_fence_put(fence);    <--- [1]
 >>
->> Is this correct?
+>>     return ret;
+>> }
+>> EXPORT_SYMBOL(drm_sched_job_add_dependency);
 >>
->> The benefit of the flag is that i915 can place the object to the right 
->> place from the start instead of on the first CPU access? Is that worth 
->> it or is there more to it?
-> 
-> Yeah, the object will only be placed somewhere that is also CPU 
-> mappable, with the flag set.
-
-Hm, wouldn't it be more efficient to be able to migrate it over to 
-non-mappable in cases when mappable is over-subscribed?
-
->>> +#define I915_GEM_CREATE_EXT_FLAG_NEEDS_CPU_ACCESS (1 << 0)
->>> +    __u32 flags;
->>> +    /**
->>> +     * @extensions: The chain of extensions to apply to this object.
->>> +     *
->>> +     * This will be useful in the future when we need to support 
->>> several
->>> +     * different extensions, and we need to apply more than one when
->>> +     * creating the object. See struct i915_user_extension.
->>> +     *
->>> +     * If we don't supply any extensions then we get the same old 
->>> gem_create
->>> +     * behaviour.
->>> +     *
->>> +     * For I915_GEM_CREATE_EXT_MEMORY_REGIONS usagesee
->>> +     * struct drm_i915_gem_create_ext_memory_regions.
->>> +     *
->>> +     * For I915_GEM_CREATE_EXT_PROTECTED_CONTENT usage see
->>> +     * struct drm_i915_gem_create_ext_protected_content.
->>> +     */
->>> +#define I915_GEM_CREATE_EXT_MEMORY_REGIONS 0
->>> +#define I915_GEM_CREATE_EXT_PROTECTED_CONTENT 1
->>> +    __u64 extensions;
->>> +};
->>> +
->>> +#define DRM_I915_QUERY_VMA_INFO    5
->>> +
->>> +/**
->>> + * struct __drm_i915_query_vma_info
->>> + *
->>> + * Given a vm and GTT address, lookup the corresponding vma, 
->>> returning its set
->>> + * of attributes.
->>> + *
->>> + * .. code-block:: C
->>> + *
->>> + *    struct drm_i915_query_vma_info info = {};
->>> + *    struct drm_i915_query_item item = {
->>> + *        .data_ptr = (uintptr_t)&info,
->>> + *        .query_id = DRM_I915_QUERY_VMA_INFO,
->>> + *    };
->>> + *    struct drm_i915_query query = {
->>> + *        .num_items = 1,
->>> + *        .items_ptr = (uintptr_t)&item,
->>> + *    };
->>> + *    int err;
->>> + *
->>> + *    // Unlike some other types of queries, there is noneed to 
->>> first query
->>> + *    // the size of the data_ptr blob here, since we already know 
->>> ahead of
->>> + *    // time how big this needs to be.
->>> + *    item.length = sizeof(info);
->>> + *
->>> + *    // Next we fill in the vm_id and ppGTT address of the vma we wish
->>> + *    // to query, before then firing off the query.
->>> + *    info.vm_id = vm_id;
->>> + *    info.offset = gtt_address;
->>> + *    err = ioctl(fd, DRM_IOCTL_I915_QUERY, &query);
->>> + *    if (err || item.length < 0) ...
->>> + *
->>> + *    // If all went well we can now inspect the returned attributes.
->>> + *    if (info.attributes & DRM_I915_QUERY_VMA_INFO_CPU_VISIBLE) ...
->>> + */
->>> +struct __drm_i915_query_vma_info {
->>> +    /**
->>> +     * @vm_id: The given vm id that contains the vma. The id is the 
->>> value
->>> +     * returned by the DRM_I915_GEM_VM_CREATE. See struct
->>> +     * drm_i915_gem_vm_control.vm_id.
->>> +     */
->>> +    __u32 vm_id;
->>> +    /** @pad: MBZ. */
->>> +    __u32 pad;
->>> +    /**
->>> +     * @offset: The corresponding ppGTT address of the vma which the 
->>> kernel
->>> +     * will use to perform the lookup.
->>> +     */
->>> +    __u64 offset;
->>> +    /**
->>> +     * @attributes: The returned attributes for thegiven vma.
->>> +     *
->>> +     * Possible values:
->>> +     *
->>> +     * DRM_I915_QUERY_VMA_INFO_CPU_VISIBLE - Set ifthe pages backing 
->>> the
->>> +     * vma are currently CPU accessible. If this isnot set then the 
->>> vma is
->>> +     * currently backed by I915_MEMORY_CLASS_DEVICEmemory, which the 
->>> CPU
->>> +     * cannot directly access(this is only possibleon discrete 
->>> devices with
->>> +     * a small BAR). Attempting to MMAP and fault such an object will
->>> +     * require the kernel first synchronising any GPU work tied to the
->>> +     * object, before then migrating the pages, either to the CPU 
->>> accessible
->>> +     * part of I915_MEMORY_CLASS_DEVICE, or 
->>> I915_MEMORY_CLASS_SYSTEM, if the
->>> +     * placements permit it. See 
->>> I915_GEM_CREATE_EXT_FLAG_NEEDS_CPU_ACCESS.
->>> +     *
->>> +     * Note that this is inherently racy.
->>> +     */
->>> +#define DRM_I915_QUERY_VMA_INFO_CPU_VISIBLE (1<<0)
->>> +    __u64 attributes;
->>> +    /** @rsvd: MBZ */
->>> +    __u32 rsvd[4];
->>> +};
->>> diff --git a/Documentation/gpu/rfc/i915_small_bar.rst 
->>> b/Documentation/gpu/rfc/i915_small_bar.rst
->>> new file mode 100644
->>> index 000000000000..be3d9bcdd86d
->>> --- /dev/null
->>> +++ b/Documentation/gpu/rfc/i915_small_bar.rst
->>> @@ -0,0 +1,58 @@
->>> +==========================
->>> +I915 Small BAR RFC Section
->>> +==========================
->>> +Starting from DG2 we will have resizable BAR support for device 
->>> local-memory(i.e
->>> +I915_MEMORY_CLASS_DEVICE), but in some cases the final BAR size 
->>> might still be
->>> +smaller than the total probed_size. In such cases, only some subset of
->>> +I915_MEMORY_CLASS_DEVICE will be CPU accessible(for example the 
->>> first 256M),
->>> +while the remainder is only accessible via the GPU.
->>> +
->>> +I915_GEM_CREATE_EXT_FLAG_NEEDS_CPU_ACCESS flag
->>> +----------------------------------------------
->>> +New gem_create_ext flag to tell the kernel that a BO will require 
->>> CPU access.
->>> +This becomes important when placing an object in 
->>> I915_MEMORY_CLASS_DEVICE, where
->>> +underneath the device has a small BAR, meaning only some portion of 
->>> it is CPU
->>> +accessible. Without this flag the kernel will assume that CPU access 
->>> is not
->>> +required, and prioritize using the non-CPU visible portion of
->>> +I915_MEMORY_CLASS_DEVICE.
->>> +
->>> +.. kernel-doc:: Documentation/gpu/rfc/i915_small_bar.h
->>> +   :functions: __drm_i915_gem_create_ext
->>> +
->>> +probed_cpu_visible_size attribute
->>> +---------------------------------
->>> +New struct__drm_i915_memory_region attribute which returns the total 
->>> size of the
->>> +CPU accessible portion, for the particular region. This should only be
->>> +applicable for I915_MEMORY_CLASS_DEVICE.
->>> +
->>> +Vulkan will need this as part of creating a separate VkMemoryHeap 
->>> with the
->>> +VK_MEMORY_PROPERTY_HOST_VISIBLE_BIT set, to represent the CPU 
->>> visible portion,
->>> +where the total size of the heap needs to be known.
->>> +
->>> +.. kernel-doc:: Documentation/gpu/rfc/i915_small_bar.h
->>> +   :functions: __drm_i915_memory_region_info
->>> +
->>> +DRM_I915_QUERY_VMA_INFO query
->>> +-----------------------------
->>> +Query the attributes of some vma. Given a vm and GTT offset, find the
->>> +respective vma, and return its set of attributes. For now we only 
->>> support
->>> +DRM_I915_QUERY_VMA_INFO_CPU_VISIBLE, which is set if the object/vma is
->>> +currently placed in memory that is accessible by the CPU. This 
->>> should always be
->>> +set on devices where the CPU probed_cpu_visible_size of 
->>> I915_MEMORY_CLASS_DEVICE
->>> +matches the probed_size. If this is not set then CPU faulting the 
->>> object will
->>> +likely first require migrating the pages.
 >>
->> I think there should be justification for the new query documented as 
->> well. (Why on top of what.)
-> 
-> Yeah, I'm wondering now if we can just drop this part of the uapi, for 
-> now at least, and focus on landing the new flag stuff first.
-> 
+>> int drm_sched_job_add_implicit_dependencies(struct drm_sched_job *job,
+>>                         struct drm_gem_object *obj,
+>>                         bool write)
+>> {
+>>     struct dma_resv_iter cursor;
+>>     struct dma_fence *fence;
+>>     int ret;
 >>
->> Without it personally I can't immediately understand why the 
->> disconnect between the object based and VMA based API. Userspace has 
->> to do some intervening operations like either execbuf, or vm bind in 
->> the future, to make this query usable after object creation. So 
->> question is why wouldn't it know already which placements it allowed 
->> and so would i915 auto-migrate or not for this particular object. No? 
->> Or in other words why this wouldn't be an object based query since the 
->> question it is answering is about the object backing store and not the 
->> VMA.
-> 
-> Yeah, just using the object handle or so I guess would also work. Thanks 
-> for the comments.
-
-I saw other folks have said the same so omitting for now sounds good to 
-me indeed.
-
-Regards,
-
-Tvrtko
+>>     dma_resv_for_each_fence(&cursor, obj->resv, write, fence) {
+>>         /* Make sure to grab an additional ref on the added fence */
+>>         dma_fence_get(fence);    <--- [2]
+>>         ret = drm_sched_job_add_dependency(job, fence);
+>>         if (ret) {
+>>             dma_fence_put(fence);    <--- [3]
+>>             return ret;
+>>         }
+>>     }
+>>     return 0;
+>> }
+>>
+>>
+>>>
+>>>> On the other hand, dma_fence_get() and dma_fence_put() are 
+>>>> meaningless here if threre is an extra dma_fence_get() beacause 
+>>>> counter will not decrease to 0 during drm_sched_job_add_dependency().
+>>>>
+>>>> I check the call chain as follows:
+>>>>
+>>>> msm_ioctl_gem_submit()
+>>>> -> submit_fence_sync()
+>>>> -> drm_sched_job_add_implicit_dependencies()
+>>>
+>>>
+>>> Can you maybe trace or print one such example of problematic refcount 
+>>> that you are trying to fix ? I still don't see where is the problem.
+>>>
+>>> Andrey
+>>>
+>>
+>> I also wish I could. System logs can make this easy. But i don't have 
+>> a corresponding GPU physical device. 
+>> drm_sched_job_add_implicit_dependencies is only used in a few devices.
+>>
+>> Thanks.
+>>>
+>>>>
+>>>> Thanks,
+>>>> Hangyu
+>>>>
+>>>>>
+>>>>>>               return ret;
+>>>>>>           }
+>>>>>>       }
