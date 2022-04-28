@@ -2,60 +2,59 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7FDEC512E95
-	for <lists+dri-devel@lfdr.de>; Thu, 28 Apr 2022 10:35:16 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 586C1512EB5
+	for <lists+dri-devel@lfdr.de>; Thu, 28 Apr 2022 10:39:59 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 4096310E4CE;
-	Thu, 28 Apr 2022 08:35:14 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 0C5B410E5C2;
+	Thu, 28 Apr 2022 08:39:57 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mailgw01.mediatek.com (unknown [60.244.123.138])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 7921310E4CE
- for <dri-devel@lists.freedesktop.org>; Thu, 28 Apr 2022 08:35:12 +0000 (UTC)
-X-UUID: 22aa700bbc8f42cdad76b7e94ed4cb45-20220428
-X-CID-P-RULE: Release_Ham
-X-CID-O-INFO: VERSION:1.1.4, REQID:a0f55379-6682-4395-aacb-e874b3451f40, OB:0,
- LO
- B:0,IP:0,URL:8,TC:0,Content:0,EDM:0,RT:0,SF:45,FILE:0,RULE:Release_Ham,ACT
- ION:release,TS:53
-X-CID-INFO: VERSION:1.1.4, REQID:a0f55379-6682-4395-aacb-e874b3451f40, OB:0,
- LOB:
- 0,IP:0,URL:8,TC:0,Content:0,EDM:0,RT:0,SF:45,FILE:0,RULE:Release_Ham,ACTIO
- N:release,TS:53
-X-CID-META: VersionHash:faefae9, CLOUDID:aea1cdc6-85ee-4ac1-ac05-bd3f1e72e732,
- C
- OID:9cbc6567da5d,Recheck:0,SF:28|17|19|48,TC:nil,Content:0,EDM:-3,File:nil
- ,QS:0,BEC:nil
-X-UUID: 22aa700bbc8f42cdad76b7e94ed4cb45-20220428
-Received: from mtkmbs10n2.mediatek.inc [(172.21.101.183)] by
- mailgw01.mediatek.com (envelope-from <ck.hu@mediatek.com>)
- (Generic MTA with TLSv1.2 ECDHE-RSA-AES256-GCM-SHA384 256/256)
- with ESMTP id 136905147; Thu, 28 Apr 2022 16:35:05 +0800
-Received: from mtkmbs07n1.mediatek.inc (172.21.101.16) by
- mtkmbs10n2.mediatek.inc (172.21.101.183) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_CBC_SHA384) id 15.2.792.3; 
- Thu, 28 Apr 2022 16:35:04 +0800
-Received: from mtkcas10.mediatek.inc (172.21.101.39) by
- mtkmbs07n1.mediatek.inc (172.21.101.16) with Microsoft SMTP Server (TLS) id
- 15.0.1497.2; Thu, 28 Apr 2022 16:35:02 +0800
-Received: from mtksdccf07 (172.21.84.99) by mtkcas10.mediatek.inc
- (172.21.101.73) with Microsoft SMTP Server id 15.0.1497.2 via Frontend
- Transport; Thu, 28 Apr 2022 16:35:02 +0800
-Message-ID: <ca8309f7fcfe0a307ec465f082361a3d9842d1ec.camel@mediatek.com>
-Subject: Re: [PATCH v3, 1/1] drm/mediatek: add lut diff flag for new gamma
- hardware support
-From: CK Hu <ck.hu@mediatek.com>
-To: Yongqiang Niu <yongqiang.niu@mediatek.com>, Chun-Kuang Hu
- <chunkuang.hu@kernel.org>
-Date: Thu, 28 Apr 2022 16:35:02 +0800
-In-Reply-To: <20220428070403.12968-2-yongqiang.niu@mediatek.com>
-References: <20220428070403.12968-1-yongqiang.niu@mediatek.com>
- <20220428070403.12968-2-yongqiang.niu@mediatek.com>
-Content-Type: text/plain; charset="UTF-8"
-X-Mailer: Evolution 3.28.5-0ubuntu0.18.04.2 
+Received: from mail-ej1-x630.google.com (mail-ej1-x630.google.com
+ [IPv6:2a00:1450:4864:20::630])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 4045510E5C2
+ for <dri-devel@lists.freedesktop.org>; Thu, 28 Apr 2022 08:39:55 +0000 (UTC)
+Received: by mail-ej1-x630.google.com with SMTP id gh6so8190315ejb.0
+ for <dri-devel@lists.freedesktop.org>; Thu, 28 Apr 2022 01:39:55 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=amarulasolutions.com; s=google;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc; bh=ZM0I9FLBdxBfWI01gte4uSiEvRTRl5rH8dWQh+u9ogY=;
+ b=KJgxND+xFH2/Fv+kdMQsSCcy25Pzjbh6piMm1sj3fR70l6wTR9IVRFcZe4VBp+emiz
+ 7W5JxEnwX1Vv+DC8tO5Dnb93wrEij4Jx1BvrKUmt8XXOz0h88f1l6qZ3beJ9vGxKGywg
+ EN6yzr2/5nKQFn0fSrxU2ECF8JsqbC1bh/DKA=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=ZM0I9FLBdxBfWI01gte4uSiEvRTRl5rH8dWQh+u9ogY=;
+ b=uV5+GsGwgX1tQIUA4LpGo8LfGi8cdYKHvLSIcS6wEHMIsx7dym4Kp7UuL17WGrR0Ra
+ U1D3SntM2/j5NXmGr0llhunQebEdOe0FkVGs5gmPqOFC5pwGVb1P1L+zTBHhrBZQwv1M
+ /Aq1C7Gw9KWBFFTK5wcTBV1tQ/ndkAY3lU7s3YWPCrUsa85i8W9GUFmbJQTrJ14USqRA
+ GUK3ymwJIC+OauDnhB/Kr7wWk9H57eJBJzhJIfw7vTBLJVGiFomiBDjPbqN8cK7CHAw5
+ ZIp3h5Dwu/dXWNTOzVDSrfxHwBhIWGFbLyubXGTB8aN2kfcjQc0/2xI797/8jABblJFN
+ /Rbw==
+X-Gm-Message-State: AOAM530t960nV5eclk56IAMCLFWTFnfAtmaPCW17HB3szSBDlXg2jp02
+ siQTGhGFd+g33/6K+ETMvpqv15HCdcirZNoQesKv+E+X0tEMXw==
+X-Google-Smtp-Source: ABdhPJzUmAY96r8FtHibCf5TcAZdtnOrMcrJPS+A/mNw7Y0uXCa9uh6e3O6f2Ylzq57ttVAt2Bcw3RxA9GhXp5BTfMw=
+X-Received: by 2002:a17:906:1315:b0:6ef:5903:c5d1 with SMTP id
+ w21-20020a170906131500b006ef5903c5d1mr30082332ejb.537.1651135193813; Thu, 28
+ Apr 2022 01:39:53 -0700 (PDT)
 MIME-Version: 1.0
-Content-Transfer-Encoding: 7bit
-X-MTK: N
+References: <20220420231230.58499-1-bjorn.andersson@linaro.org>
+ <20220420231230.58499-2-bjorn.andersson@linaro.org>
+ <CAMty3ZAw7DUSnBePC05qC8Gn6ESKiu+FHw4a-HPPc05VX1hqhg@mail.gmail.com>
+ <20220421082358.ivpmtak3ednvddrc@houat> <YmEdAVwZuA7Wo1Ch@aptenodytes>
+ <YmelPCcWCCjALtRU@aptenodytes>
+ <CAMty3ZBwguzvC8A9xA5c0enfoFRGS=4wWCzpfakTUXrsRS9GyA@mail.gmail.com>
+ <20220427143410.bectqumq62qmlv5x@houat>
+In-Reply-To: <20220427143410.bectqumq62qmlv5x@houat>
+From: Jagan Teki <jagan@amarulasolutions.com>
+Date: Thu, 28 Apr 2022 14:09:42 +0530
+Message-ID: <CAMty3ZDk-M3hW97_GY4-z=f+cKs1Sg4Jbq5L7L4zHgXURhFuZA@mail.gmail.com>
+Subject: Re: [PATCH 2/2] Revert "drm: of: Lookup if child node has panel or
+ bridge"
+To: Maxime Ripard <maxime@cerno.tech>
+Content-Type: text/plain; charset="UTF-8"
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -68,185 +67,88 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Yongqiang Niu <yongqiang.niu@mediatek.corp-partner.google.com>,
- devicetree@vger.kernel.org, David Airlie <airlied@linux.ie>, Dennis YC
- Hsieh <dennis-yc.hsieh@mediatek.com>, Jassi Brar <jassisinghbrar@gmail.com>,
- linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
- Project_Global_Chrome_Upstream_Group@mediatek.com,
- Fabien Parent <fparent@baylibre.com>, Rob Herring <robh+dt@kernel.org>,
- linux-mediatek@lists.infradead.org, Hsin-Yi Wang <hsinyi@chromium.org>,
- Matthias Brugger <matthias.bgg@gmail.com>,
- linux-arm-kernel@lists.infradead.org
+Cc: Thomas Zimmermann <tzimmermann@suse.de>, David Airlie <airlied@linux.ie>,
+ Robert Foss <robert.foss@linaro.org>, linux-kernel@vger.kernel.org,
+ dri-devel@lists.freedesktop.org, Bjorn Andersson <bjorn.andersson@linaro.org>,
+ Paul Kocialkowski <paul.kocialkowski@bootlin.com>,
+ Thierry Reding <thierry.reding@gmail.com>,
+ Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
+ Marek Szyprowski <m.szyprowski@samsung.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi, Yongqiang:
+On Wed, Apr 27, 2022 at 8:04 PM Maxime Ripard <maxime@cerno.tech> wrote:
+>
+> On Tue, Apr 26, 2022 at 01:40:31PM +0530, Jagan Teki wrote:
+> > On Tue, Apr 26, 2022 at 1:24 PM Paul Kocialkowski
+> > <paul.kocialkowski@bootlin.com> wrote:
+> > >
+> > > Hi,
+> > >
+> > > On Thu 21 Apr 22, 10:59, Paul Kocialkowski wrote:
+> > > > Hi Maxime,
+> > > >
+> > > > On Thu 21 Apr 22, 10:23, Maxime Ripard wrote:
+> > > > > On Thu, Apr 21, 2022 at 01:15:54PM +0530, Jagan Teki wrote:
+> > > > > > + Linus
+> > > > > > + Marek
+> > > > > > + Laurent
+> > > > > > + Robert
+> > > > > >
+> > > > > > On Thu, Apr 21, 2022 at 4:40 AM Bjorn Andersson
+> > > > > > <bjorn.andersson@linaro.org> wrote:
+> > > > > > >
+> > > > > > > Commit '80253168dbfd ("drm: of: Lookup if child node has panel or
+> > > > > > > bridge")' attempted to simplify the case of expressing a simple panel
+> > > > > > > under a DSI controller, by assuming that the first non-graph child node
+> > > > > > > was a panel or bridge.
+> > > > > > >
+> > > > > > > Unfortunately for non-trivial cases the first child node might not be a
+> > > > > > > panel or bridge.  Examples of this can be a aux-bus in the case of
+> > > > > > > DisplayPort, or an opp-table represented before the panel node.
+> > > > > > >
+> > > > > > > In these cases the reverted commit prevents the caller from ever finding
+> > > > > > > a reference to the panel.
+> > > > > > >
+> > > > > > > This reverts commit '80253168dbfd ("drm: of: Lookup if child node has
+> > > > > > > panel or bridge")', in favor of using an explicit graph reference to the
+> > > > > > > panel in the trivial case as well.
+> > > > > >
+> > > > > > This eventually breaks many child-based devm_drm_of_get_bridge
+> > > > > > switched drivers.  Do you have any suggestions on how to proceed to
+> > > > > > succeed in those use cases as well?
+> > > > >
+> > > > > I guess we could create a new helper for those, like
+> > > > > devm_drm_of_get_bridge_with_panel, or something.
+> > > >
+> > > > Oh wow I feel stupid for not thinking about that.
+> > > >
+> > > > Yeah I agree that it seems like the best option.
+> > >
+> > > Should I prepare a patch with such a new helper?
+> > >
+> > > The idea would be to keep drm_of_find_panel_or_bridge only for the of graph
+> > > case and add one for the child node case, maybe:
+> > > drm_of_find_child_panel_or_bridge.
+> > >
+> > > I really don't have a clear idea of which driver would need to be switched
+> > > over though. Could someone (Jagan?) let me know where it would be needed?
+> >
+> > sun6i_mipi_dsi
+>
+> It doesn't look like sun6i_mipi_dsi is using devm_drm_of_get_bridge at all?
 
-On Thu, 2022-04-28 at 15:04 +0800, Yongqiang Niu wrote:
-> From: Yongqiang Niu <yongqiang.niu@mediatek.corp-partner.google.com>
-> 
-> mt8183 gamma module usage is different with before soc,
-> gamma odd(index start from 0) lut value set to hardware
-> register should be
-> the difference of current lut value with last lut value.
-> 
-> for example, chrome os user space set lut
-> like this(only r chanel for example):
-> 2 4 6 8 10 12.
-> 1) mt8183 gamma driver should set the gamma lut to hardware
-> register like this:
-> 2 [2] 6 [8] 10 [2]
+Correct, patch for this on the mailing list.
 
-I don't know why you do not modify this to
+>
+> > exynos_drm_dsi
+>
+> If you reference 711c7adc4687, I don't see why we would need to switch
+> it back to the old behaviour. It wasn't iterating over its child node
+> before, so what does the switch to drm_of_get_bridge broke exactly?
 
-2 [2] 6 [2] 10 [2]
+Exynos bindings have a child node (unlike OF-graph), the old code is
+checking panel and bridge individually so it broke once switch to
+devm_drm_of_get_bridge
 
-With this modification,
-
-Reviewed-by: CK Hu <ck.hu@mediatek.com>
-
-
-> the value with [] is the difference value
-> 2)gamma hardware process display data with original lut
-> 
-> Signed-off-by: Yongqiang Niu <yongqiang.niu@mediatek.com>
-> ---
->  drivers/gpu/drm/mediatek/mtk_disp_aal.c   |  2 +-
->  drivers/gpu/drm/mediatek/mtk_disp_drv.h   |  2 +-
->  drivers/gpu/drm/mediatek/mtk_disp_gamma.c | 34 +++++++++++++++++++
-> ----
->  3 files changed, 30 insertions(+), 8 deletions(-)
-> 
-> diff --git a/drivers/gpu/drm/mediatek/mtk_disp_aal.c
-> b/drivers/gpu/drm/mediatek/mtk_disp_aal.c
-> index f46d4ab73d6a..0f9d7efb61d7 100644
-> --- a/drivers/gpu/drm/mediatek/mtk_disp_aal.c
-> +++ b/drivers/gpu/drm/mediatek/mtk_disp_aal.c
-> @@ -66,7 +66,7 @@ void mtk_aal_gamma_set(struct device *dev, struct
-> drm_crtc_state *state)
->  	struct mtk_disp_aal *aal = dev_get_drvdata(dev);
->  
->  	if (aal->data && aal->data->has_gamma)
-> -		mtk_gamma_set_common(aal->regs, state);
-> +		mtk_gamma_set_common(aal->regs, state, false);
->  }
->  
->  void mtk_aal_start(struct device *dev)
-> diff --git a/drivers/gpu/drm/mediatek/mtk_disp_drv.h
-> b/drivers/gpu/drm/mediatek/mtk_disp_drv.h
-> index 86c3068894b1..3380651c6707 100644
-> --- a/drivers/gpu/drm/mediatek/mtk_disp_drv.h
-> +++ b/drivers/gpu/drm/mediatek/mtk_disp_drv.h
-> @@ -51,7 +51,7 @@ void mtk_gamma_config(struct device *dev, unsigned
-> int w,
->  		      unsigned int h, unsigned int vrefresh,
->  		      unsigned int bpc, struct cmdq_pkt *cmdq_pkt);
->  void mtk_gamma_set(struct device *dev, struct drm_crtc_state
-> *state);
-> -void mtk_gamma_set_common(void __iomem *regs, struct drm_crtc_state
-> *state);
-> +void mtk_gamma_set_common(void __iomem *regs, struct drm_crtc_state
-> *state, bool lut_diff);
->  void mtk_gamma_start(struct device *dev);
->  void mtk_gamma_stop(struct device *dev);
->  
-> diff --git a/drivers/gpu/drm/mediatek/mtk_disp_gamma.c
-> b/drivers/gpu/drm/mediatek/mtk_disp_gamma.c
-> index 3a5815ab4079..bbd558a036ec 100644
-> --- a/drivers/gpu/drm/mediatek/mtk_disp_gamma.c
-> +++ b/drivers/gpu/drm/mediatek/mtk_disp_gamma.c
-> @@ -27,6 +27,7 @@
->  
->  struct mtk_disp_gamma_data {
->  	bool has_dither;
-> +	bool lut_diff;
->  };
->  
->  /*
-> @@ -53,12 +54,13 @@ void mtk_gamma_clk_disable(struct device *dev)
->  	clk_disable_unprepare(gamma->clk);
->  }
->  
-> -void mtk_gamma_set_common(void __iomem *regs, struct drm_crtc_state
-> *state)
-> +void mtk_gamma_set_common(void __iomem *regs, struct drm_crtc_state
-> *state, bool lut_diff)
->  {
->  	unsigned int i, reg;
->  	struct drm_color_lut *lut;
->  	void __iomem *lut_base;
->  	u32 word;
-> +	u32 diff[3] = {0};
->  
->  	if (state->gamma_lut) {
->  		reg = readl(regs + DISP_GAMMA_CFG);
-> @@ -67,9 +69,20 @@ void mtk_gamma_set_common(void __iomem *regs,
-> struct drm_crtc_state *state)
->  		lut_base = regs + DISP_GAMMA_LUT;
->  		lut = (struct drm_color_lut *)state->gamma_lut->data;
->  		for (i = 0; i < MTK_LUT_SIZE; i++) {
-> -			word = (((lut[i].red >> 6) & LUT_10BIT_MASK) <<
-> 20) +
-> -				(((lut[i].green >> 6) & LUT_10BIT_MASK)
-> << 10) +
-> -				((lut[i].blue >> 6) & LUT_10BIT_MASK);
-> +
-> +			if (!lut_diff || (i % 2 == 0)) {
-> +				word = (((lut[i].red >> 6) &
-> LUT_10BIT_MASK) << 20) +
-> +					(((lut[i].green >> 6) &
-> LUT_10BIT_MASK) << 10) +
-> +					((lut[i].blue >> 6) &
-> LUT_10BIT_MASK);
-> +			} else {
-> +				diff[0] = (lut[i].red >> 6) - (lut[i -
-> 1].red >> 6);
-> +				diff[1] = (lut[i].green >> 6) - (lut[i
-> - 1].green >> 6);
-> +				diff[2] = (lut[i].blue >> 6) - (lut[i -
-> 1].blue >> 6);
-> +
-> +				word = ((diff[0] & LUT_10BIT_MASK) <<
-> 20) +
-> +					((diff[1] & LUT_10BIT_MASK) <<
-> 10) +
-> +					(diff[2] & LUT_10BIT_MASK);
-> +			}
->  			writel(word, (lut_base + i * 4));
->  		}
->  	}
-> @@ -78,8 +91,12 @@ void mtk_gamma_set_common(void __iomem *regs,
-> struct drm_crtc_state *state)
->  void mtk_gamma_set(struct device *dev, struct drm_crtc_state *state)
->  {
->  	struct mtk_disp_gamma *gamma = dev_get_drvdata(dev);
-> +	bool lut_diff = false;
-> +
-> +	if (gamma->data)
-> +		lut_diff = gamma->data->lut_diff;
->  
-> -	mtk_gamma_set_common(gamma->regs, state);
-> +	mtk_gamma_set_common(gamma->regs, state, lut_diff);
->  }
->  
->  void mtk_gamma_config(struct device *dev, unsigned int w,
-> @@ -176,10 +193,15 @@ static const struct mtk_disp_gamma_data
-> mt8173_gamma_driver_data = {
->  	.has_dither = true,
->  };
->  
-> +static const struct mtk_disp_gamma_data mt8183_gamma_driver_data = {
-> +	.lut_diff = true,
-> +};
-> +
->  static const struct of_device_id mtk_disp_gamma_driver_dt_match[] =
-> {
->  	{ .compatible = "mediatek,mt8173-disp-gamma",
->  	  .data = &mt8173_gamma_driver_data},
-> -	{ .compatible = "mediatek,mt8183-disp-gamma"},
-> +	{ .compatible = "mediatek,mt8183-disp-gamma",
-> +	  .data = &mt8183_gamma_driver_data},
->  	{},
->  };
->  MODULE_DEVICE_TABLE(of, mtk_disp_gamma_driver_dt_match);
-
+Jagan.
