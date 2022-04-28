@@ -2,74 +2,61 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id DB286512E2B
-	for <lists+dri-devel@lfdr.de>; Thu, 28 Apr 2022 10:22:54 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 30390512E34
+	for <lists+dri-devel@lfdr.de>; Thu, 28 Apr 2022 10:25:35 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 024ED10F53F;
-	Thu, 28 Apr 2022 08:22:53 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 0434A10F793;
+	Thu, 28 Apr 2022 08:25:33 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from us-smtp-delivery-124.mimecast.com
- (us-smtp-delivery-124.mimecast.com [170.10.129.124])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 6BE2610F53F
- for <dri-devel@lists.freedesktop.org>; Thu, 28 Apr 2022 08:22:51 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1651134170;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding;
- bh=R9+SPpuY/53xWbtQcQ19Ca0p6As0qKIDguvyi3xRKuA=;
- b=bwkvI8+G+/8dFrmlm21Ozb/rCmRnjpdEeKYOWTrk2iSsHZbCqZhVsQQfH9DexMEU0QP+rc
- sgdLBtP4s0esBU8PgjjMHiLuioDH7pxcuRutSZsNaKGjSR9BjMx8ojHGx+xtd63CElRAWQ
- BUfsBXt/toZy+cNBIcuc8skt/Yvmh8E=
-Received: from mail-wm1-f71.google.com (mail-wm1-f71.google.com
- [209.85.128.71]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-617-6VhELRsEMdqPqPLxVopbYQ-1; Thu, 28 Apr 2022 04:22:49 -0400
-X-MC-Unique: 6VhELRsEMdqPqPLxVopbYQ-1
-Received: by mail-wm1-f71.google.com with SMTP id
- y11-20020a7bc18b000000b0038eac019fc0so1247554wmi.9
- for <dri-devel@lists.freedesktop.org>; Thu, 28 Apr 2022 01:22:48 -0700 (PDT)
+Received: from mail-ej1-x62f.google.com (mail-ej1-x62f.google.com
+ [IPv6:2a00:1450:4864:20::62f])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 8230810F793
+ for <dri-devel@lists.freedesktop.org>; Thu, 28 Apr 2022 08:25:31 +0000 (UTC)
+Received: by mail-ej1-x62f.google.com with SMTP id l18so8013518ejc.7
+ for <dri-devel@lists.freedesktop.org>; Thu, 28 Apr 2022 01:25:31 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=amarulasolutions.com; s=google;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc; bh=GBFLXMdrqZoM8pTN9XOZZVLOcyL+2U8hpcEKfTTlXlY=;
+ b=acPfvYBo2zGMcnL/ebZtDurllXBYVvGnQWuYbMdEyr/qKgqwEyxoxvyTBSgGBJRepN
+ 576veejTCJPrq5g0WnVeEqMKfXhzQy9BrtyfSMjgpZ299k+IXH5ISoEUe3gZsd0S4135
+ 94XlelFYgIROHiCxNIMcPrWG5fGhxOUK7zwS0=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
- :content-transfer-encoding;
- bh=R9+SPpuY/53xWbtQcQ19Ca0p6As0qKIDguvyi3xRKuA=;
- b=rZ3Ml5wdh8yXn/7QohO4221bn5+5YR1mNmlq5JxQKgmsqUseXOApOMhtB0IyriZHTK
- ElPYCHropzdB9Yn90DMWe2hjZhqJpgh3PmbwyZb3eHgoN2X50x/OOt+VPOyaIhuFQ+/Q
- 6ycL/Z3r/cHDcGiXCRc3cXEQVGHrai3kjA59ixpg4tPM7tVt10aYqjAjIn5gUYEdDpde
- 6Tyl+JHg2h6WvKGI8Wyn73ug7eUmCfwSziSJoh/NQo/xp6goYBRHkl0dgqkQcoyYhuX9
- dq7AtXQP+L8uvR7KAKs4blQKB8gjrXHAifk38KAVX0TVXH9FymQi6H7xtrB40cr9yp6f
- IPWg==
-X-Gm-Message-State: AOAM530qOBpKIxdrskMZ5UNNdd68hMEMKA7SRoPL45QJLJkV+lZViqit
- SOpV6uXjV/7IpkS8FTydoziq74CWDO3eUQ1tthET4tLgTCFKCWfDMpypGymQQN6X/eEYs6ITOpY
- Swb8BDLIQeE1UnI1/8FwusjLd9XLS
-X-Received: by 2002:a5d:6085:0:b0:20a:d53f:4b82 with SMTP id
- w5-20020a5d6085000000b0020ad53f4b82mr19218156wrt.179.1651134167702; 
- Thu, 28 Apr 2022 01:22:47 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJwAOxNIujfjjGnE4mnlBE81yQgSXJdlVH3vXVmWZHIbbWYWf867nQI0LV9aNfKV3cxaxvCXtA==
-X-Received: by 2002:a5d:6085:0:b0:20a:d53f:4b82 with SMTP id
- w5-20020a5d6085000000b0020ad53f4b82mr19218142wrt.179.1651134167439; 
- Thu, 28 Apr 2022 01:22:47 -0700 (PDT)
-Received: from minerva.home ([92.176.231.205])
- by smtp.gmail.com with ESMTPSA id
- i11-20020a5d584b000000b0020a8d859e5fsm16468356wrf.10.2022.04.28.01.22.46
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 28 Apr 2022 01:22:47 -0700 (PDT)
-From: Javier Martinez Canillas <javierm@redhat.com>
-To: linux-kernel@vger.kernel.org
-Subject: [PATCH v3] drm/display: Select DP helper for DRM_DP_AUX_CHARDEV and
- DRM_DP_CEC
-Date: Thu, 28 Apr 2022 10:22:44 +0200
-Message-Id: <20220428082244.390859-1-javierm@redhat.com>
-X-Mailer: git-send-email 2.35.1
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=GBFLXMdrqZoM8pTN9XOZZVLOcyL+2U8hpcEKfTTlXlY=;
+ b=Je9pmbGWVvyi/Rh7PR+mj64XcflCUf43BWFK3rglN12Y67Gt8UHpJreFS+Nl12YEpj
+ m7r9K+ws9HsRJyFOBXzxYN8O/Ru7/zuIC1bBbx98FzX1MhnFr5SV+pdTLwu0TpP0Sk8O
+ A2/CUf3KKxrwMnZriiDnGp7UF5tN1kRQU7N5npvlLzTIm2VDCJR7lRwLySQ7D2n+7qtF
+ rySGqwsygYwcf7BRjZAMKbbR6jqLe4eT2U4Bn010PaZeptA2dyBDu4f6wLXyAd0NdgOo
+ 1R5VhGUUbsj1/JdfFUStBjpzjV5WDJedL+IpbOiM4ehbd1kUKPQ9XisvKcdDbr23ShAI
+ yXKw==
+X-Gm-Message-State: AOAM530PXNpZWzh5PAEf02HFtyYPB/ccw0lzjfTPf7wwcTtF87iKuv7v
+ q0K6zlR+3+iJLm6rwF3IMVCPDUBSBdrEtnf76vQ2iw==
+X-Google-Smtp-Source: ABdhPJyyqoaJEPIXQO48nP32E2pidZpyto+Tp7PAetnqqtbxUKQnW+q5FcYhfABf4qMQZGVhvMLBniJjkCWi7+KbQWQ=
+X-Received: by 2002:a17:906:1315:b0:6ef:5903:c5d1 with SMTP id
+ w21-20020a170906131500b006ef5903c5d1mr30037607ejb.537.1651134329995; Thu, 28
+ Apr 2022 01:25:29 -0700 (PDT)
 MIME-Version: 1.0
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=javierm@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Transfer-Encoding: 8bit
-Content-Type: text/plain; charset="US-ASCII"; x-default=true
+References: <20220420231230.58499-1-bjorn.andersson@linaro.org>
+ <20220420231230.58499-2-bjorn.andersson@linaro.org>
+ <CAMty3ZAw7DUSnBePC05qC8Gn6ESKiu+FHw4a-HPPc05VX1hqhg@mail.gmail.com>
+ <20220421082358.ivpmtak3ednvddrc@houat> <YmEdAVwZuA7Wo1Ch@aptenodytes>
+ <YmelPCcWCCjALtRU@aptenodytes>
+ <CAMty3ZBwguzvC8A9xA5c0enfoFRGS=4wWCzpfakTUXrsRS9GyA@mail.gmail.com>
+ <CGME20220427143420eucas1p1aa7dff284512e1c48c3db414633237ea@eucas1p1.samsung.com>
+ <20220427143410.bectqumq62qmlv5x@houat>
+ <8cc97a1b-f03a-3303-4357-fc26abe58fcd@samsung.com>
+In-Reply-To: <8cc97a1b-f03a-3303-4357-fc26abe58fcd@samsung.com>
+From: Jagan Teki <jagan@amarulasolutions.com>
+Date: Thu, 28 Apr 2022 13:55:18 +0530
+Message-ID: <CAMty3ZDFCJyXxM1__H=XTupLy-npDwJVbBf2k1H=Yo7LFf82rQ@mail.gmail.com>
+Subject: Re: [PATCH 2/2] Revert "drm: of: Lookup if child node has panel or
+ bridge"
+To: Marek Szyprowski <m.szyprowski@samsung.com>
+Content-Type: text/plain; charset="UTF-8"
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -82,89 +69,84 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Thomas Zimmermann <tzimmermann@suse.de>, David Airlie <airlied@linux.ie>,
- Javier Martinez Canillas <javierm@redhat.com>, dri-devel@lists.freedesktop.org
+Cc: David Airlie <airlied@linux.ie>, Robert Foss <robert.foss@linaro.org>,
+ linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
+ Bjorn Andersson <bjorn.andersson@linaro.org>,
+ Paul Kocialkowski <paul.kocialkowski@bootlin.com>,
+ Thierry Reding <thierry.reding@gmail.com>, Maxime Ripard <maxime@cerno.tech>,
+ Thomas Zimmermann <tzimmermann@suse.de>,
+ Laurent Pinchart <laurent.pinchart@ideasonboard.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-The DRM_DP_AUX_CHARDEV and DRM_DP_CEC Kconfig symbols enable code that use
-DP helper functions, that are only present if CONFIG_DRM_DISPLAY_DP_HELPER
-is also enabled.
+Hi Marek,
 
-But these don't select the DRM_DISPLAY_DP_HELPER symbol, meaning that it
-is possible to enable any of them without CONFIG_DRM_DISPLAY_DP_HELPER.
+On Thu, Apr 28, 2022 at 11:47 AM Marek Szyprowski
+<m.szyprowski@samsung.com> wrote:
+>
+> Hi Maxime,
+>
+> On 27.04.2022 16:34, Maxime Ripard wrote:
+> > On Tue, Apr 26, 2022 at 01:40:31PM +0530, Jagan Teki wrote:
+> >> On Tue, Apr 26, 2022 at 1:24 PM Paul Kocialkowski
+> >> <paul.kocialkowski@bootlin.com> wrote:
+> >>> On Thu 21 Apr 22, 10:59, Paul Kocialkowski wrote:
+> >>>> On Thu 21 Apr 22, 10:23, Maxime Ripard wrote:
+> >>>>> On Thu, Apr 21, 2022 at 01:15:54PM +0530, Jagan Teki wrote:
+> >>>>>> + Linus
+> >>>>>> + Marek
+> >>>>>> + Laurent
+> >>>>>> + Robert
+> >>>>>>
+> >>>>>> On Thu, Apr 21, 2022 at 4:40 AM Bjorn Andersson
+> >>>>>> <bjorn.andersson@linaro.org> wrote:
+> >>>>>>> Commit '80253168dbfd ("drm: of: Lookup if child node has panel or
+> >>>>>>> bridge")' attempted to simplify the case of expressing a simple panel
+> >>>>>>> under a DSI controller, by assuming that the first non-graph child node
+> >>>>>>> was a panel or bridge.
+> >>>>>>>
+> >>>>>>> Unfortunately for non-trivial cases the first child node might not be a
+> >>>>>>> panel or bridge.  Examples of this can be a aux-bus in the case of
+> >>>>>>> DisplayPort, or an opp-table represented before the panel node.
+> >>>>>>>
+> >>>>>>> In these cases the reverted commit prevents the caller from ever finding
+> >>>>>>> a reference to the panel.
+> >>>>>>>
+> >>>>>>> This reverts commit '80253168dbfd ("drm: of: Lookup if child node has
+> >>>>>>> panel or bridge")', in favor of using an explicit graph reference to the
+> >>>>>>> panel in the trivial case as well.
+> >>>>>> This eventually breaks many child-based devm_drm_of_get_bridge
+> >>>>>> switched drivers.  Do you have any suggestions on how to proceed to
+> >>>>>> succeed in those use cases as well?
+> >>>>> I guess we could create a new helper for those, like
+> >>>>> devm_drm_of_get_bridge_with_panel, or something.
+> >>>> Oh wow I feel stupid for not thinking about that.
+> >>>>
+> >>>> Yeah I agree that it seems like the best option.
+> >>> Should I prepare a patch with such a new helper?
+> >>>
+> >>> The idea would be to keep drm_of_find_panel_or_bridge only for the of graph
+> >>> case and add one for the child node case, maybe:
+> >>> drm_of_find_child_panel_or_bridge.
+> >>>
+> >>> I really don't have a clear idea of which driver would need to be switched
+> >>> over though. Could someone (Jagan?) let me know where it would be needed?
+> >> sun6i_mipi_dsi
+> > It doesn't look like sun6i_mipi_dsi is using devm_drm_of_get_bridge at all?
+> >
+> >> exynos_drm_dsi
+> > If you reference 711c7adc4687, I don't see why we would need to switch
+> > it back to the old behaviour. It wasn't iterating over its child node
+> > before, so what does the switch to drm_of_get_bridge broke exactly?
+>
+> It broke getting the panel if it is a direct child of the DSI device
+> node. It worked before because it used following code:
+>
+> dsi->panel = of_drm_find_panel(device->dev.of_node);
+>
+> which got replaced by devm_drm_of_get_bridge().
 
-That will lead to the following linking errors with the mentioned config:
+Yes, we need to revert that change back to find the individual panel
+and bridge. I'm preparing a patch for it.
 
-  LD      vmlinux.o
-  MODPOST vmlinux.symvers
-  MODINFO modules.builtin.modinfo
-  GEN     modules.builtin
-  LD      .tmp_vmlinux.kallsyms1
-  KSYMS   .tmp_vmlinux.kallsyms1.S
-  AS      .tmp_vmlinux.kallsyms1.S
-  LD      .tmp_vmlinux.kallsyms2
-  KSYMS   .tmp_vmlinux.kallsyms2.S
-  AS      .tmp_vmlinux.kallsyms2.S
-  LD      vmlinux
-  SYSMAP  System.map
-  SORTTAB vmlinux
-  OBJCOPY arch/arm64/boot/Image
-  MODPOST modules-only.symvers
-ERROR: modpost: "drm_dp_dpcd_write" [drivers/gpu/drm/display/drm_display_helper.ko] undefined!
-ERROR: modpost: "drm_dp_read_desc" [drivers/gpu/drm/display/drm_display_helper.ko] undefined!
-ERROR: modpost: "drm_dp_dpcd_read" [drivers/gpu/drm/display/drm_display_helper.ko] undefined!
-make[1]: *** [scripts/Makefile.modpost:134: modules-only.symvers] Error 1
-make[1]: *** Deleting file 'modules-only.symvers'
-make: *** [Makefile:1749: modules] Error 2
-
-Besides making these symbols to select CONFIG_DRM_DISPLAY_DP_HELPER, make
-them to depend on DRM_DISPLAY_HELPER, since can't be enabled without it.
-
-Note: It seems this has been an issue for a long time but was made easier
-to reproduce after the commit 1e0f66420b13 ("drm/display: Introduce a DRM
-display-helper module"). Adding a Fixes: tag just to make sure that this
-fix will be picked for stable once the mentioned change also lands there.
-
-Fixes: 1e0f66420b13 ("drm/display: Introduce a DRM display-helper module")
-Signed-off-by: Javier Martinez Canillas <javierm@redhat.com>
----
-
-Changes in v3:
-- Also make DRM_DP_AUX_CHARDEV and DRM_DP_CEC depend on DRM_DISPLAY_HELPER
-  (Thomas Zimmermann).
-
-Changes in v2:
-- Explain better the issue in the change description.
-- Only select DRM_DISPLAY_DP_HELPER and not DRM_DISPLAY_HELPER.
-
- drivers/gpu/drm/display/Kconfig | 6 ++++--
- 1 file changed, 4 insertions(+), 2 deletions(-)
-
-diff --git a/drivers/gpu/drm/display/Kconfig b/drivers/gpu/drm/display/Kconfig
-index f84f1b0cd23f..1b6e6af37546 100644
---- a/drivers/gpu/drm/display/Kconfig
-+++ b/drivers/gpu/drm/display/Kconfig
-@@ -31,7 +31,8 @@ config DRM_DISPLAY_HDMI_HELPER
- 
- config DRM_DP_AUX_CHARDEV
- 	bool "DRM DP AUX Interface"
--	depends on DRM
-+	depends on DRM && DRM_DISPLAY_HELPER
-+	select DRM_DISPLAY_DP_HELPER
- 	help
- 	  Choose this option to enable a /dev/drm_dp_auxN node that allows to
- 	  read and write values to arbitrary DPCD registers on the DP aux
-@@ -39,7 +40,8 @@ config DRM_DP_AUX_CHARDEV
- 
- config DRM_DP_CEC
- 	bool "Enable DisplayPort CEC-Tunneling-over-AUX HDMI support"
--	depends on DRM
-+	depends on DRM && DRM_DISPLAY_HELPER
-+	select DRM_DISPLAY_DP_HELPER
- 	select CEC_CORE
- 	help
- 	  Choose this option if you want to enable HDMI CEC support for
--- 
-2.35.1
-
+Jagan.
