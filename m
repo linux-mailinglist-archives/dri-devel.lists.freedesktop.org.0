@@ -2,56 +2,36 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6C54751374D
-	for <lists+dri-devel@lfdr.de>; Thu, 28 Apr 2022 16:50:12 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id B67D2513796
+	for <lists+dri-devel@lfdr.de>; Thu, 28 Apr 2022 17:00:51 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 351A510E0EB;
-	Thu, 28 Apr 2022 14:50:10 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id F164810E06C;
+	Thu, 28 Apr 2022 15:00:48 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mga12.intel.com (mga12.intel.com [192.55.52.136])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 4FDAD10E469
- for <dri-devel@lists.freedesktop.org>; Thu, 28 Apr 2022 14:50:08 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1651157408; x=1682693408;
- h=date:from:to:cc:subject:message-id:references:
- mime-version:content-transfer-encoding:in-reply-to;
- bh=HsRVKin80lU0w5MLnigmTmeBngi9P8iWKJn6RekzHE0=;
- b=ie5eUKUs1aRGWuAxcxL1rMBmvRhch1FdlzQV46SIZJnsshvtP2UsV3Di
- YZk1xQ5oynLg4387L8NYNYywZdhokC3qTa2RYpTU95u4VlFxG7BlP8PD8
- 0h5HXCgFpDEa0q223hqQhefoKuwvCE9F9Li6E1AUAGWFA+9OyCJz5KVyv
- 8qFVtPo+xG5gaxGaceDaa/CvO3hONmQ7oICylhm8+Pt0QMgff7bVBrcXp
- iXMDoYzGqQ7g0LAZIrK+l2OCJl4cWOROvy5lUI2CT18lST8YC8IoEvG4J
- l9oi3RphcFqw/PhjAzfS8W7r7OASmDy1pxARue8vZHTc2Of+hirJvBbvR w==;
-X-IronPort-AV: E=McAfee;i="6400,9594,10330"; a="246228195"
-X-IronPort-AV: E=Sophos;i="5.91,295,1647327600"; d="scan'208";a="246228195"
-Received: from fmsmga003.fm.intel.com ([10.253.24.29])
- by fmsmga106.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 28 Apr 2022 07:50:07 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.91,295,1647327600"; d="scan'208";a="651250034"
-Received: from stinkpipe.fi.intel.com (HELO stinkbox) ([10.237.72.51])
- by FMSMGA003.fm.intel.com with SMTP; 28 Apr 2022 07:50:04 -0700
-Received: by stinkbox (sSMTP sendmail emulation);
- Thu, 28 Apr 2022 17:50:03 +0300
-Date: Thu, 28 Apr 2022 17:50:03 +0300
-From: Ville =?iso-8859-1?Q?Syrj=E4l=E4?= <ville.syrjala@linux.intel.com>
-To: Simon Ser <contact@emersion.fr>
-Subject: Re: How should "max bpc" KMS property work?
-Message-ID: <YmqpmzBrJLX6Xowq@intel.com>
-References: <20220426113502.224d0a90@eldfell> <YmgyArRaJCh6JkQh@intel.com>
- <20220427135259.5e615945@eldfell>
- <4ceca4d9-c58c-9e33-36a6-dbf0c4bb82a7@amd.com>
- <CA+hFU4ykm-8difozGJ5QtAYc=5RGQTUDiagBNmNccf06sGYGZQ@mail.gmail.com>
- <20220428105017.75d9aefe@eldfell>
- <LN_QB3Nb1GNVmbIVpDUJ4ZVnK3WVHlLKwEYxIqEMYJYc2BohK-7VrtEXJF7iDytYws4tiq2RnimS1QsqwERDdReixBshVTVzNyAMOcWsE3M=@emersion.fr>
+Received: from foss.arm.com (foss.arm.com [217.140.110.172])
+ by gabe.freedesktop.org (Postfix) with ESMTP id 4EF3710E06C
+ for <dri-devel@lists.freedesktop.org>; Thu, 28 Apr 2022 15:00:47 +0000 (UTC)
+Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
+ by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 8C59E1477
+ for <dri-devel@lists.freedesktop.org>; Thu, 28 Apr 2022 08:00:46 -0700 (PDT)
+Received: from e110455-lin.cambridge.arm.com (usa-sjc-imap-foss1.foss.arm.com
+ [10.121.207.14])
+ by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPA id 4FA143F774
+ for <dri-devel@lists.freedesktop.org>; Thu, 28 Apr 2022 08:00:46 -0700 (PDT)
+Date: Thu, 28 Apr 2022 16:00:42 +0100
+From: Liviu Dudau <liviu.dudau@arm.com>
+To: Steven Price <steven.price@arm.com>
+Subject: Re: [PATCH] drm/plane: Move range check for format_count earlier
+Message-ID: <YmqsGhEzaZsdZs3u@e110455-lin.cambridge.arm.com>
+References: <20211203102815.38624-1-steven.price@arm.com>
+ <YaoWxOk0hCuVZpoz@e110455-lin.cambridge.arm.com>
+ <0b3136fa-8fd1-5496-812e-c03e430da84a@arm.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=iso-8859-1
+Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
-In-Reply-To: <LN_QB3Nb1GNVmbIVpDUJ4ZVnK3WVHlLKwEYxIqEMYJYc2BohK-7VrtEXJF7iDytYws4tiq2RnimS1QsqwERDdReixBshVTVzNyAMOcWsE3M=@emersion.fr>
-X-Patchwork-Hint: comment
+In-Reply-To: <0b3136fa-8fd1-5496-812e-c03e430da84a@arm.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -64,66 +44,94 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Sebastian Wick <sebastian.wick@redhat.com>,
- Jonas =?iso-8859-1?Q?=C5dahl?= <jadahl@redhat.com>,
- dri-devel <dri-devel@lists.freedesktop.org>,
- Pekka Paalanen <ppaalanen@gmail.com>, Vitaly Prosyak <vitaly.prosyak@amd.com>
+Cc: David Airlie <airlied@linux.ie>, Thomas Zimmermann <tzimmermann@suse.de>,
+ linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Thu, Apr 28, 2022 at 07:52:58AM +0000, Simon Ser wrote:
-> On Thursday, April 28th, 2022 at 09:50, Pekka Paalanen <ppaalanen@gmail.com> wrote:
+On Thu, Apr 28, 2022 at 12:57:52PM +0100, Steven Price wrote:
+> On 03/12/2021 13:08, Liviu Dudau wrote:
+> > On Fri, Dec 03, 2021 at 10:28:15AM +0000, Steven Price wrote:
+> >> While the check for format_count > 64 in __drm_universal_plane_init()
+> >> shouldn't be hit (it's a WARN_ON), in its current position it will then
+> >> leak the plane->format_types array and fail to call
+> >> drm_mode_object_unregister() leaking the modeset identifier. Move it to
+> >> the start of the function to avoid allocating those resources in the
+> >> first place.
+> >>
+> >> Signed-off-by: Steven Price <steven.price@arm.com>
+> > 
+> > Well spotted!
+> > 
+> > Reviewed-by: Liviu Dudau <liviu.dudau@arm.com>
+> > 
+> > I'm going to wait to see if anyone else has any comments before I'll merge this into
+> > drm-misc-fixes (or should it be drm-misc-next-fixes?)
 > 
-> > > > > Also like Alex said, the kernel does not know if the user prefers high
-> > > > > color depth or high refresh rate either. One way to solve that is to
-> > > > > light up the requested video mode any way the kernel can, and then
-> > > > > report what the resulting color depth is. Another way is to have
-> > > > > explicit "use this bpc or fail" KMS property, maybe in the form of 'min
-> > > > > bpc' as I recall being discussed in the past, and let userspace guess
-> > > > > what might work. The former is easier to light up, but probing requires
-> > > > > actually setting the modes. The latter may require a lot of
-> > > > > trial-and-error from userspace to find anything that works, but it
-> > > > > takes only time and not blinking - as far as things can be detected
-> > > > > with TEST_ONLY commits. Then one still has to ask the user if it
-> > > > > actually worked.
-> > > >
-> > > > min_bpc sounds like something we might want for HDR use-cases, unless
-> > > > the compositor has a way to confirm the output box (and format). min_bpc
-> > > > would allow the KMS driver to pick the lowest required bpc so the
-> > > > compositor always has a guarantee of quality.
-> > >
-> > > IMO that would be ideal. The driver should try to reduce bandwidth by lowering
-> > > the bpc down to the min_bpc if the hardware can't drive the selected mode at a
-> > > higher bpc. User space usually knows which bpc is sufficient for the use case
-> > > but will never complain about too much bpc. Drivers which don't support
-> > > lowering the bpc dynamically can then still go with the min_bpc and user space
-> > > still gets all the modes which work with the minimum required bpc.
-> >
-> >
-> > This would be nice, yes.
-> >
-> > I'm fairly sure 'min bpc' was discussed here on the dri-devel mailing
-> > list in the past, but I don't remember when or by whom.
+> Gentle ping! I think we've probably waited long enough. Are you going to
+> merge this or would you like me to?
+
+Apologies for dropping this! I will push this one today.
+
+Best regards,
+Liviu
+
 > 
-> Yup. I explained there that I'd prefer "current bpc" + "user bpc" props
-> and let user-space deal with the fallback logic just like it does for
-> modes, modifiers, etc.
-
-The main problem is that the bpc is not really al that well defined.
-We have stuff like 4:2:0 subsampling, DSC (compression), etc. muddying
-the waters. Of course max_bpc already suffers a bit from those issues,
-but at least it can still claim to do what it says on the tin.
-Guaranteeing any kind of minimum bpc is not possible without first
-defining what that actually means.
-
-Oh and the various processing blocks in the pipeline might also have
-varying input/output precision. So those can also degrade the quality
-regardless of how many bits are coming out the end of the pipe.
-
-I suspect trying to exose all that explicitly would result in an API
-that just has too many knobs and interactions between the knobs. So
-likely no one would be able to succesfully use it.
+> Thanks,
+> 
+> Steve
+> 
+> > Best regards,
+> > Liviu
+> > 
+> >> ---
+> >>  drivers/gpu/drm/drm_plane.c | 14 +++++++-------
+> >>  1 file changed, 7 insertions(+), 7 deletions(-)
+> >>
+> >> diff --git a/drivers/gpu/drm/drm_plane.c b/drivers/gpu/drm/drm_plane.c
+> >> index 82afb854141b..fd0bf90fb4c2 100644
+> >> --- a/drivers/gpu/drm/drm_plane.c
+> >> +++ b/drivers/gpu/drm/drm_plane.c
+> >> @@ -249,6 +249,13 @@ static int __drm_universal_plane_init(struct drm_device *dev,
+> >>  	if (WARN_ON(config->num_total_plane >= 32))
+> >>  		return -EINVAL;
+> >>  
+> >> +	/*
+> >> +	 * First driver to need more than 64 formats needs to fix this. Each
+> >> +	 * format is encoded as a bit and the current code only supports a u64.
+> >> +	 */
+> >> +	if (WARN_ON(format_count > 64))
+> >> +		return -EINVAL;
+> >> +
+> >>  	WARN_ON(drm_drv_uses_atomic_modeset(dev) &&
+> >>  		(!funcs->atomic_destroy_state ||
+> >>  		 !funcs->atomic_duplicate_state));
+> >> @@ -270,13 +277,6 @@ static int __drm_universal_plane_init(struct drm_device *dev,
+> >>  		return -ENOMEM;
+> >>  	}
+> >>  
+> >> -	/*
+> >> -	 * First driver to need more than 64 formats needs to fix this. Each
+> >> -	 * format is encoded as a bit and the current code only supports a u64.
+> >> -	 */
+> >> -	if (WARN_ON(format_count > 64))
+> >> -		return -EINVAL;
+> >> -
+> >>  	if (format_modifiers) {
+> >>  		const uint64_t *temp_modifiers = format_modifiers;
+> >>  
+> >> -- 
+> >> 2.25.1
+> >>
+> > 
+> 
 
 -- 
-Ville Syrjälä
-Intel
+====================
+| I would like to |
+| fix the world,  |
+| but they're not |
+| giving me the   |
+ \ source code!  /
+  ---------------
+    Â¯\_(ãƒ„)_/Â¯
