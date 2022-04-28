@@ -2,50 +2,77 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1191C512800
-	for <lists+dri-devel@lfdr.de>; Thu, 28 Apr 2022 02:27:08 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 179EB512846
+	for <lists+dri-devel@lfdr.de>; Thu, 28 Apr 2022 02:44:44 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 3584710E147;
-	Thu, 28 Apr 2022 00:27:04 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 014F710E038;
+	Thu, 28 Apr 2022 00:44:42 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mga01.intel.com (mga01.intel.com [192.55.52.88])
- by gabe.freedesktop.org (Postfix) with ESMTPS id CB2A810E132;
- Thu, 28 Apr 2022 00:27:02 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1651105622; x=1682641622;
- h=date:from:to:cc:subject:message-id:references:
- mime-version:in-reply-to;
- bh=f6ZaTuuR+UzWiPTqh0xEZwrIHw6AZefyLxY6L1mKgBM=;
- b=SyMVGsYnSxm4o2pIcOi4dJ6Z4hshDDULwU2Er+J6lvbnonYvUCCAtDHz
- T4q10V1JLFlfY5HOyNHfzrdrJ3XDvga5db3OdNfMc0PIGL0ejVtkNwnBQ
- NJ9gMlSTFePZDwk4on6WyRnpIHDBBpTlNLMt1z2Msk4YX+78iA//9lndz
- xgm3ReE34HCP8nNhtDsKvyVcYaSRu0Epkeakmlfs9SyOrhzVJCHZLYGmH
- sg1TEn0suNgbmy80xxOSKA7UQCydl4sENYD6IG6Z86NKq8DSH6x+Ndk8A
- WWEdDL6mkJhNJauDKLlO5E9pA2IvTUCtep8sz6TuWXPYaEytyqFnPyUgv Q==;
-X-IronPort-AV: E=McAfee;i="6400,9594,10330"; a="291272325"
-X-IronPort-AV: E=Sophos;i="5.90,294,1643702400"; d="scan'208";a="291272325"
-Received: from orsmga007.jf.intel.com ([10.7.209.58])
- by fmsmga101.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 27 Apr 2022 17:27:02 -0700
-X-IronPort-AV: E=Sophos;i="5.90,294,1643702400"; d="scan'208";a="559308797"
-Received: from pkumarva-server.jf.intel.com (HELO intel.com) ([10.165.21.200])
- by orsmga007-auth.jf.intel.com with
- ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 27 Apr 2022 17:27:01 -0700
-Date: Wed, 27 Apr 2022 20:27:01 -0400
-From: "Kumar Valsan, Prathap" <prathap.kumar.valsan@intel.com>
-To: Tvrtko Ursulin <tvrtko.ursulin@linux.intel.com>
-Subject: Re: [Intel-gfx] [PATCH 1/2] drm/i915/xehp: Add compute engine ABI
-Message-ID: <20220428002701.GH384@intel.com>
-References: <20220422195007.4019661-1-matthew.d.roper@intel.com>
- <20220422195007.4019661-2-matthew.d.roper@intel.com>
- <643c0538-dc2a-a99b-aa53-73693ace6e38@linux.intel.com>
+Received: from mail-oa1-x32.google.com (mail-oa1-x32.google.com
+ [IPv6:2001:4860:4864:20::32])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id E1E5A10E038
+ for <dri-devel@lists.freedesktop.org>; Thu, 28 Apr 2022 00:44:40 +0000 (UTC)
+Received: by mail-oa1-x32.google.com with SMTP id
+ 586e51a60fabf-e5e433d66dso3744857fac.5
+ for <dri-devel@lists.freedesktop.org>; Wed, 27 Apr 2022 17:44:40 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
+ h=message-id:date:mime-version:user-agent:subject:content-language:to
+ :cc:references:from:in-reply-to:content-transfer-encoding;
+ bh=Cs/qIUm50bD5E28nXsBBlicTWfhE4KBHVyVjAvs5x0k=;
+ b=pAkU8BOu+5OIBdG47RWFaMEFj76pGvxzc09V3srgDkLutcS8VUWvOxKNlzSkz6vkuV
+ E0sE2apzGXHdLvBuNpj9T/D/TcNgqoX6zeH8DEhmUe4lssJvqzEjQDLB+s8AN97Mf6qQ
+ xd8BIXW+UGvlbXKFyfD7vcKHkWaVuXGTEmIrBCm1OsDS6508qierI4hShNL1Agm7zi/8
+ mQMcfsz+8jmR4VmIajDnog6Ku6k8brMiOEptFai6yiSFfzSWCG2YhQKTl/xG6yAZB6+C
+ 9Ri9Ps+Dib/X7hNXw5b2MjloYVRAalsutvrCL1dwTd+MTWUTKQg0sfKQagCABCvGijE1
+ cJcw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
+ :content-language:to:cc:references:from:in-reply-to
+ :content-transfer-encoding;
+ bh=Cs/qIUm50bD5E28nXsBBlicTWfhE4KBHVyVjAvs5x0k=;
+ b=PJAZb5qx9anBzFJfmlKmVUEzHf40ytm1jMjt13amBhjMT0r18NvANCvgtmKwAoSOTs
+ /RhQqPs8PeFMLA1QPEbJ+WuYuVYDQCGiT+1Qaa5u2bfTjXq+yeDv1m/TVvB2YQ/BMVYm
+ +6frau1RcsqOUNNUdt7C4Rglnf9sExeV8xv/PjXxTwg69aIX5XrfDRpT4+LOfQop0AWo
+ D38rN1B6lJX2kLhlUzy/G/AjKV7yz4LyIoML6mhQLAAohRD+N2RH+ITklQBw7v4uUFlD
+ 719SZ4Lc9qUy+AgICsLTVBYUuhBzbRgwWdD26YXI8TpOrrZGE3k6CNw1sWh0KG8o8/Ll
+ fU0Q==
+X-Gm-Message-State: AOAM533AT8gGmF7LnrgJDgb6OrGFMA9ZpPXkKu77IFjjM1a3iLNU7eoc
+ 5o8+asyLJ9Pn187usxJM0rE=
+X-Google-Smtp-Source: ABdhPJyYSVA006Sc7IkgR/e+TIU5ljmwO8fYGH99ZM0qSnFlVwpwMmORyxMn+zGh1eI2ioMO+CeIPg==
+X-Received: by 2002:a05:6870:8907:b0:e2:a4fd:7539 with SMTP id
+ i7-20020a056870890700b000e2a4fd7539mr17367050oao.56.1651106680067; 
+ Wed, 27 Apr 2022 17:44:40 -0700 (PDT)
+Received: from ?IPV6:2804:431:c7f5:ffc4:8a9b:6b71:54e4:4c48?
+ ([2804:431:c7f5:ffc4:8a9b:6b71:54e4:4c48])
+ by smtp.gmail.com with ESMTPSA id
+ bk3-20020a0568081a0300b003257eb687bbsm1089184oib.31.2022.04.27.17.44.35
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Wed, 27 Apr 2022 17:44:38 -0700 (PDT)
+Message-ID: <5095c372-f326-03cf-5229-69e2aac72a02@gmail.com>
+Date: Wed, 27 Apr 2022 21:44:34 -0300
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-In-Reply-To: <643c0538-dc2a-a99b-aa53-73693ace6e38@linux.intel.com>
-User-Agent: Mutt/1.12.1 (2019-06-15)
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.8.0
+Subject: Re: [PATCH v5 6/9] drm: vkms: Refactor the plane composer to accept
+ new formats
+Content-Language: en-US
+To: Pekka Paalanen <ppaalanen@gmail.com>
+References: <20220404204515.42144-1-igormtorrente@gmail.com>
+ <20220404204515.42144-7-igormtorrente@gmail.com>
+ <20220420153628.0a91fcb6@eldfell>
+ <6d9acb8b-8b1c-957e-8dd1-1d5ed99b08a6@gmail.com>
+ <03105fb1-4f4c-9f8a-f99a-045458ba4e37@gmail.com>
+ <20220425111026.485cba66@eldfell>
+ <caa885ed-208a-3810-bd3e-e497e2c9ba93@gmail.com>
+ <5c2a80f5-5107-4fab-4df9-b0be633fd576@gmail.com>
+ <4313DC33-E81A-4972-90AD-7B9DD42145B8@gmail.com>
+ <20220427104302.3082584b@eldfell>
+From: Igor Torrente <igormtorrente@gmail.com>
+In-Reply-To: <20220427104302.3082584b@eldfell>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -58,179 +85,102 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Szymon Morek <szymon.morek@intel.com>, intel-gfx@lists.freedesktop.org,
- dri-devel@lists.freedesktop.org
+Cc: hamohammed.sa@gmail.com, tzimmermann@suse.de, rodrigosiqueiramelo@gmail.com,
+ airlied@linux.ie, leandro.ribeiro@collabora.com, melissa.srw@gmail.com,
+ dri-devel@lists.freedesktop.org, tales.aparecida@gmail.com,
+ ~lkcamp/patches@lists.sr.ht
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Mon, Apr 25, 2022 at 11:41:36AM +0100, Tvrtko Ursulin wrote:
-> 
-> On 22/04/2022 20:50, Matt Roper wrote:
-> > We're now ready to start exposing compute engines to userspace.
-> > 
-> > While we're at it, let's extend the kerneldoc description for the other
-> > engine types as well.
-> > 
-> > Cc: Daniele Ceraolo Spurio <daniele.ceraolospurio@intel.com>
-> > Cc: Tvrtko Ursulin <tvrtko.ursulin@linux.intel.com>
-> > Cc: Vinay Belgaumkar <vinay.belgaumkar@intel.com>
-> > Cc: Jordan Justen <jordan.l.justen@intel.com>
-> > Cc: Szymon Morek <szymon.morek@intel.com>
-> > UMD (mesa): https://gitlab.freedesktop.org/mesa/mesa/-/merge_requests/14395
-> > UMD (compute): https://github.com/intel/compute-runtime/pull/451
-> 
-> The compute one points to a commit named "Add compute engine class for xehp"
-> but content of which seems more about engine query, including the yet
-> non-existent distance query (and more)?! I certainly does not appear to be
-> adding a definition of I915_ENGINE_CLASS_COMPUTE. This needs clarifying.
-> 
-> > Signed-off-by: Matt Roper <matthew.d.roper@intel.com>
-> > ---
-> >   drivers/gpu/drm/i915/gt/intel_engine_user.c |  2 +-
-> >   drivers/gpu/drm/i915/gt/intel_gt.c          |  1 +
-> >   drivers/gpu/drm/i915/i915_drm_client.c      |  1 +
-> >   drivers/gpu/drm/i915/i915_drm_client.h      |  2 +-
-> >   include/uapi/drm/i915_drm.h                 | 62 +++++++++++++++++++--
-> >   5 files changed, 60 insertions(+), 8 deletions(-)
-> > 
-> > diff --git a/drivers/gpu/drm/i915/gt/intel_engine_user.c b/drivers/gpu/drm/i915/gt/intel_engine_user.c
-> > index 0f6cd96b459f..46a174f8aa00 100644
-> > --- a/drivers/gpu/drm/i915/gt/intel_engine_user.c
-> > +++ b/drivers/gpu/drm/i915/gt/intel_engine_user.c
-> > @@ -47,7 +47,7 @@ static const u8 uabi_classes[] = {
-> >   	[COPY_ENGINE_CLASS] = I915_ENGINE_CLASS_COPY,
-> >   	[VIDEO_DECODE_CLASS] = I915_ENGINE_CLASS_VIDEO,
-> >   	[VIDEO_ENHANCEMENT_CLASS] = I915_ENGINE_CLASS_VIDEO_ENHANCE,
-> > -	/* TODO: Add COMPUTE_CLASS mapping once ABI is available */
-> > +	[COMPUTE_CLASS] = I915_ENGINE_CLASS_COMPUTE,
-> >   };
-> >   static int engine_cmp(void *priv, const struct list_head *A,
-> > diff --git a/drivers/gpu/drm/i915/gt/intel_gt.c b/drivers/gpu/drm/i915/gt/intel_gt.c
-> > index 92394f13b42f..c96e123496a5 100644
-> > --- a/drivers/gpu/drm/i915/gt/intel_gt.c
-> > +++ b/drivers/gpu/drm/i915/gt/intel_gt.c
-> > @@ -1175,6 +1175,7 @@ void intel_gt_invalidate_tlbs(struct intel_gt *gt)
-> >   		[VIDEO_DECODE_CLASS]		= GEN12_VD_TLB_INV_CR,
-> >   		[VIDEO_ENHANCEMENT_CLASS]	= GEN12_VE_TLB_INV_CR,
-> >   		[COPY_ENGINE_CLASS]		= GEN12_BLT_TLB_INV_CR,
-> > +		[COMPUTE_CLASS]			= GEN12_GFX_TLB_INV_CR,
-> 
-> Do you know what 0xcf04 is?
-The mmio 0xcf04 is the one we should use for compute class. 
-And the context bit in 0xcf04 represents engine instance.
 
-GEN12_GFX_TLB_INV_CR is for render class.
 
-Thanks,
-Prathap
+On 4/27/22 04:43, Pekka Paalanen wrote:
+> On Tue, 26 Apr 2022 22:22:22 -0300
+> Igor Torrente <igormtorrente@gmail.com> wrote:
 > 
-> Or if GEN12_GFX_TLB_INV_CR is correct then I think get_reg_and_bit() might
-> need adjusting to always select bit 0 for any compute engine instance. Not
-> sure how hardware would behave if value other than '1' would be written into
-> 0xced8.
+>> On April 26, 2022 10:03:09 PM GMT-03:00, Igor Torrente <igormtorrente@gmail.com> wrote:
+>>>
+>>>
+>>> On 4/25/22 22:54, Igor Torrente wrote:
+>>>> Hi Pekka,
+>>>>
+>>>> On 4/25/22 05:10, Pekka Paalanen wrote:
+>>>>> On Sat, 23 Apr 2022 15:53:20 -0300
+>>>>> Igor Torrente <igormtorrente@gmail.com> wrote:
+>>>>>    
 > 
-> Regards,
+> ...
 > 
-> Tvrtko
+>>>>>>>>> +static void argb_u16_to_XRGB8888(struct vkms_frame_info *frame_info,
+>>>>>>>>> +				 const struct line_buffer *src_buffer, int y)
+>>>>>>>>> +{
+>>>>>>>>> +	int x, x_dst = frame_info->dst.x1;
+>>>>>>>>> +	u8 *dst_pixels = packed_pixels_addr(frame_info, x_dst, y);
+>>>>>>>>> +	struct pixel_argb_u16 *in_pixels = src_buffer->pixels;
+>>>>>>>>> +	int x_limit = min_t(size_t, drm_rect_width(&frame_info->dst),
+>>>>>>>>> +			    src_buffer->n_pixels);
+>>>>>>>>> +
+>>>>>>>>> +	for (x = 0; x < x_limit; x++, dst_pixels += 4) {
+>>>>>>>>> +		dst_pixels[3] = (u8)0xff;
+>>>>>>>>
+>>>>>>>> When writing to XRGB, it's not necessary to ensure the X channel has
+>>>>>>>> any sensible value. Anyone reading from XRGB must ignore that value
+>>>>>>>> anyway. So why not write something wacky here, like 0xa1, that is far
+>>>>>>>> enough from both 0x00 or 0xff to not be confused with them even
+>>>>>>>> visually? Also not 0x7f or 0x80 which are close to half of 0xff.
+>>>>>>>>
+>>>>>>>> Or, you could save a whole function and just use argb_u16_to_ARGBxxxx()
+>>>>>>>> instead, even for XRGB destination.
+>>>>>>>
+>>>>>>>
+>>>>>>> Right. Maybe I could just leave the channel untouched.
+>>>>>
+>>>>> Untouched may not be a good idea. Leaving anything untouched always has
+>>>>> the risk of leaking information through uninitialized memory. Maybe not
+>>>>> in this case because the destination is allocated by userspace already,
+>>>>> but nothing beats being obviously correct.
+>>>>
+>>>> Makes sense.
+>>>>    
+>>>>>
+>>>>> Whatever you decide here, be prepared for it becoming de-facto kernel
+>>>>> UABI, because it is easy for userspace to (accidentally) rely on the
+>>>>> value, no matter what you pick.
+>>>>
+>>>> I hope to make the right decision then.
+>>>
+>>> The de-facto UABI seems to be already in place for {A, X}RGB8888.
+>>
+>> "Only XRGB_8888
 > 
-> >   	};
-> >   	struct drm_i915_private *i915 = gt->i915;
-> >   	struct intel_uncore *uncore = gt->uncore;
-> > diff --git a/drivers/gpu/drm/i915/i915_drm_client.c b/drivers/gpu/drm/i915/i915_drm_client.c
-> > index 475a6f824cad..18d38cb59923 100644
-> > --- a/drivers/gpu/drm/i915/i915_drm_client.c
-> > +++ b/drivers/gpu/drm/i915/i915_drm_client.c
-> > @@ -81,6 +81,7 @@ static const char * const uabi_class_names[] = {
-> >   	[I915_ENGINE_CLASS_COPY] = "copy",
-> >   	[I915_ENGINE_CLASS_VIDEO] = "video",
-> >   	[I915_ENGINE_CLASS_VIDEO_ENHANCE] = "video-enhance",
-> > +	[I915_ENGINE_CLASS_COMPUTE] = "compute",
-> >   };
-> >   static u64 busy_add(struct i915_gem_context *ctx, unsigned int class)
-> > diff --git a/drivers/gpu/drm/i915/i915_drm_client.h b/drivers/gpu/drm/i915/i915_drm_client.h
-> > index 5f5b02b01ba0..f796c5e8e060 100644
-> > --- a/drivers/gpu/drm/i915/i915_drm_client.h
-> > +++ b/drivers/gpu/drm/i915/i915_drm_client.h
-> > @@ -13,7 +13,7 @@
-> >   #include "gt/intel_engine_types.h"
-> > -#define I915_LAST_UABI_ENGINE_CLASS I915_ENGINE_CLASS_VIDEO_ENHANCE
-> > +#define I915_LAST_UABI_ENGINE_CLASS I915_ENGINE_CLASS_COMPUTE
-> >   struct drm_i915_private;
-> > diff --git a/include/uapi/drm/i915_drm.h b/include/uapi/drm/i915_drm.h
-> > index 35ca528803fd..a2def7b27009 100644
-> > --- a/include/uapi/drm/i915_drm.h
-> > +++ b/include/uapi/drm/i915_drm.h
-> > @@ -154,21 +154,71 @@ enum i915_mocs_table_index {
-> >   	I915_MOCS_CACHED,
-> >   };
-> > -/*
-> > +/**
-> > + * enum drm_i915_gem_engine_class - uapi engine type enumeration
-> > + *
-> >    * Different engines serve different roles, and there may be more than one
-> > - * engine serving each role. enum drm_i915_gem_engine_class provides a
-> > - * classification of the role of the engine, which may be used when requesting
-> > - * operations to be performed on a certain subset of engines, or for providing
-> > - * information about that group.
-> > + * engine serving each role.  This enum provides a classification of the role
-> > + * of the engine, which may be used when requesting operations to be performed
-> > + * on a certain subset of engines, or for providing information about that
-> > + * group.
-> >    */
-> >   enum drm_i915_gem_engine_class {
-> > +	/**
-> > +	 * @I915_ENGINE_CLASS_RENDER:
-> > +	 *
-> > +	 * Render engines support instructions used for 3D, Compute (GPGPU),
-> > +	 * and programmable media workloads.  These instructions fetch data and
-> > +	 * dispatch individual work items to threads that operate in parallel.
-> > +	 * The threads run small programs (called "kernels" or "shaders") on
-> > +	 * the GPU's execution units (EUs).
-> > +	 */
-> >   	I915_ENGINE_CLASS_RENDER	= 0,
-> > +
-> > +	/**
-> > +	 * @I915_ENGINE_CLASS_COPY:
-> > +	 *
-> > +	 * Copy engines (also referred to as "blitters") support instructions
-> > +	 * that move blocks of data from one location in memory to another,
-> > +	 * or that fill a specified location of memory with fixed data.
-> > +	 * Copy engines can perform pre-defined logical or bitwise operations
-> > +	 * on the source, destination, or pattern data.
-> > +	 */
-> >   	I915_ENGINE_CLASS_COPY		= 1,
-> > +
-> > +	/**
-> > +	 * @I915_ENGINE_CLASS_VIDEO:
-> > +	 *
-> > +	 * Video engines (also referred to as "bit stream decode" (BSD) or
-> > +	 * "vdbox") support instructions that perform fixed-function media
-> > +	 * decode and encode.
-> > +	 */
-> >   	I915_ENGINE_CLASS_VIDEO		= 2,
-> > +
-> > +	/**
-> > +	 * @I915_ENGINE_CLASS_VIDEO_ENHANCE:
-> > +	 *
-> > +	 * Video enhancement engines (also referred to as "vebox") support
-> > +	 * instructions related to image enhancement.
-> > +	 */
-> >   	I915_ENGINE_CLASS_VIDEO_ENHANCE	= 3,
-> > -	/* should be kept compact */
-> > +	/**
-> > +	 * @I915_ENGINE_CLASS_COMPUTE:
-> > +	 *
-> > +	 * Compute engines support a subset of the instructions available
-> > +	 * on render engines:  compute engines support Compute (GPGPU) and
-> > +	 * programmable media workloads, but do not support the 3D pipeline.
-> > +	 */
-> > +	I915_ENGINE_CLASS_COMPUTE	= 4,
-> > +
-> > +	/* Values in this enum should be kept compact. */
-> > +	/**
-> > +	 * @I915_ENGINE_CLASS_INVALID:
-> > +	 *
-> > +	 * Placeholder value to represent an invalid engine class assignment.
-> > +	 */
-> >   	I915_ENGINE_CLASS_INVALID	= -1
-> >   };
+> If that's only IGT, then you should raise an issue with IGT about this,
+> to figure out if IGT is wrong by accident or if it is deliberate, and
+> are we stuck with it.
+> 
+> This is why I would want to fill X with garbage, to make the
+> expectations clear before the "obvious and logical constant value for X"
+> makes a mess by making XRGB indistinguishable from ARGB. Then the next
+> question is, do we need a special function to write out XRGB values, or
+> can we simply re-use the ARGB function.
+> 
+> Do the tests expect X channel to be filled with 0xff or with the actual
+> A values? This question will matter when all planes have ARGB
+> framebuffers and no background color. Then even more questions will
+> arise about what should actually happen with A values (blending
+> equation).
+
+I dig into the igt code a little bit and found that it's waiting for the 
+channel to not be changed.
+It fills all the pixels in the line with a value and calculates the CRC 
+of the entire buffer, including the alpha.
+
+I will crate an issue asking if this is intended.
+
+> 
+>>
+>>>
+>>> I changed from 0xff to 0xbe and the `writeback-check-output` started to fail.
+> 
+> 
+> Thanks,
+> pq
