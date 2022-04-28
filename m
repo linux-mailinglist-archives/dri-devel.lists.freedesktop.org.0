@@ -1,67 +1,64 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8F015512D53
-	for <lists+dri-devel@lfdr.de>; Thu, 28 Apr 2022 09:50:06 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id F327D512D54
+	for <lists+dri-devel@lfdr.de>; Thu, 28 Apr 2022 09:50:31 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 4DBDB10E94E;
-	Thu, 28 Apr 2022 07:50:04 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 014A610EA26;
+	Thu, 28 Apr 2022 07:50:30 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from smtp-out2.suse.de (smtp-out2.suse.de [195.135.220.29])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 6CF5010E963
- for <dri-devel@lists.freedesktop.org>; Thu, 28 Apr 2022 07:50:02 +0000 (UTC)
-Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
- key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
- (No client certificate requested)
- by smtp-out2.suse.de (Postfix) with ESMTPS id 200811F37F;
- Thu, 28 Apr 2022 07:50:01 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
- t=1651132201; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:
- mime-version:mime-version:content-type:content-type:
- in-reply-to:in-reply-to:references:references;
- bh=3AzBjIADUsSsiOtN9diAfWlBu0xxHsdY7KdH0cVpOkY=;
- b=bnYmrSfBosRU1uB3eQ3/Lq1SlMbfk6Yca2rFUCo5GbnIeTjMrQkWIcuiiJWkBcDp/o4CLb
- b5bvaUYqadzyoK6hrNtG+m88tGp2EpoLwxZFwE86R61tToHOVFpecFYLcQQjssLL9hBuB2
- bj2BiX9cLsi58A7023K1NlgRPpKtMCo=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
- s=susede2_ed25519; t=1651132201;
- h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:
- mime-version:mime-version:content-type:content-type:
- in-reply-to:in-reply-to:references:references;
- bh=3AzBjIADUsSsiOtN9diAfWlBu0xxHsdY7KdH0cVpOkY=;
- b=n7WkukpPwI52bz6JlFYf/1kVmexsL31vim3JK0//Hv0vLV2nJkFooeJO6cXoKn/Q+/STds
- R9EOgvqat63r6cCg==
-Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
- key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
- (No client certificate requested)
- by imap2.suse-dmz.suse.de (Postfix) with ESMTPS id 04DCD13AF8;
- Thu, 28 Apr 2022 07:50:00 +0000 (UTC)
-Received: from dovecot-director2.suse.de ([192.168.254.65])
- by imap2.suse-dmz.suse.de with ESMTPSA id ITt4OyhHamJaGgAAMHmgww
- (envelope-from <tzimmermann@suse.de>); Thu, 28 Apr 2022 07:50:00 +0000
-Message-ID: <a2dfa927-966f-167d-be92-fb3dd9bea80f@suse.de>
-Date: Thu, 28 Apr 2022 09:50:00 +0200
+Received: from mail-lf1-x136.google.com (mail-lf1-x136.google.com
+ [IPv6:2a00:1450:4864:20::136])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 8F60410EA26
+ for <dri-devel@lists.freedesktop.org>; Thu, 28 Apr 2022 07:50:29 +0000 (UTC)
+Received: by mail-lf1-x136.google.com with SMTP id p12so7138575lfs.5
+ for <dri-devel@lists.freedesktop.org>; Thu, 28 Apr 2022 00:50:29 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
+ h=date:from:to:cc:subject:message-id:in-reply-to:references
+ :mime-version; bh=q7tZPRTrlEMSuUDGPsOL1eQlqJGaqpGkpxLKP/+ie1M=;
+ b=NuwVz3Q9baAYk791/gfY86DegvKVu1B276LaEMID7CzFYUG/ZrLJ22a54i24CRnCcH
+ 9MycNfWOhTZb4eGltKkNRUYrChp1Gf/E5T/+HgS2eD1tlI9Pt/+bYbY39VRrNQv+ZQN2
+ R3fbhahUR4jpeSLoauj+LgA0Cmues+baL2EId9aYxHbCsUBSbsO9Gz+DYVgEr51lRgfA
+ bC/wntyXY5E46vQmlAs/zEVAiumwdlipI9f2/mkWuDx9mcXB9lOA2ZAHWz9VZGnSyre1
+ DVVKOl98geUzM/OhjfnwGH2sStMhWrB7duNmRi/n41N+kWkgtRjP/yhhSdhN9n6dp5Ul
+ Ki4Q==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=x-gm-message-state:date:from:to:cc:subject:message-id:in-reply-to
+ :references:mime-version;
+ bh=q7tZPRTrlEMSuUDGPsOL1eQlqJGaqpGkpxLKP/+ie1M=;
+ b=QyhF91MRnyUSHDromXKGem3lggo3UtVlPocFbUFXIO+X1yVooJGKnO3QJRYUGfG3oe
+ Kx70FhXHDziWqFtQxUQIe5DpAkD0BlM3w8UTuvem5uJ6ew4d3fZ9RcuDu9GlCz+xcF1u
+ pM9J+ux9AIqjO1dZ7InmZKMtOdWgzSdZw3I0XtVXsHu5c68hMeiXsmkpIb+kevaJaQfC
+ qBpRJiQ7szeA3yxlBaQsGP/tHcrUqTzj0wEGJAFAxsbdBCZBZS0YfT/2k9MMRS+sFzCl
+ w92yf9vC/FGGQZ8A2bufEhcVAkGtWSK8X7vQ27Y2LYH0Zo/RxRnmuPSBfWoKh/ED3yYl
+ vTtQ==
+X-Gm-Message-State: AOAM532CYmAAuw49nWJSTj+C2R0+mVUlAPsw+ede1tHI9XpTfVS9S5yr
+ YbUGpYCIHFNILF79bplvR78=
+X-Google-Smtp-Source: ABdhPJwAZOQCdli720xS5WK56Ixz9/6o4u0GoC02laPlwNxLdmMgts8aGNpHzyaiUlwJ0+N3GF4J4w==
+X-Received: by 2002:a05:6512:3b83:b0:472:28c3:cac4 with SMTP id
+ g3-20020a0565123b8300b0047228c3cac4mr5720544lfv.238.1651132227470; 
+ Thu, 28 Apr 2022 00:50:27 -0700 (PDT)
+Received: from eldfell ([194.136.85.206]) by smtp.gmail.com with ESMTPSA id
+ f11-20020ac2498b000000b0047223ff0224sm570059lfl.169.2022.04.28.00.50.26
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Thu, 28 Apr 2022 00:50:27 -0700 (PDT)
+Date: Thu, 28 Apr 2022 10:50:17 +0300
+From: Pekka Paalanen <ppaalanen@gmail.com>
+To: Sebastian Wick <sebastian.wick@redhat.com>
+Subject: Re: How should "max bpc" KMS property work?
+Message-ID: <20220428105017.75d9aefe@eldfell>
+In-Reply-To: <CA+hFU4ykm-8difozGJ5QtAYc=5RGQTUDiagBNmNccf06sGYGZQ@mail.gmail.com>
+References: <20220426113502.224d0a90@eldfell> <YmgyArRaJCh6JkQh@intel.com>
+ <20220427135259.5e615945@eldfell>
+ <4ceca4d9-c58c-9e33-36a6-dbf0c4bb82a7@amd.com>
+ <CA+hFU4ykm-8difozGJ5QtAYc=5RGQTUDiagBNmNccf06sGYGZQ@mail.gmail.com>
+X-Mailer: Claws Mail 3.17.8 (GTK+ 2.24.33; x86_64-pc-linux-gnu)
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.8.1
-Subject: Re: [PATCH] drm: handle kernel fences in
- drm_gem_plane_helper_prepare_fb
-Content-Language: en-US
-To: =?UTF-8?Q?Christian_K=c3=b6nig?= <christian.koenig@amd.com>,
- =?UTF-8?Q?Christian_K=c3=b6nig?= <ckoenig.leichtzumerken@gmail.com>,
- daniel@ffwll.ch, dri-devel@lists.freedesktop.org
-References: <20220421191002.2251-1-christian.koenig@amd.com>
- <877dc0d9-c6c6-022c-20d8-14b33e863934@suse.de>
- <69a2da78-0325-c412-6b37-03d4242e5a5e@amd.com>
-From: Thomas Zimmermann <tzimmermann@suse.de>
-In-Reply-To: <69a2da78-0325-c412-6b37-03d4242e5a5e@amd.com>
-Content-Type: multipart/signed; micalg=pgp-sha256;
- protocol="application/pgp-signature";
- boundary="------------s3YQTAOEE0UfxvbpYz20FLhi"
+Content-Type: multipart/signed; boundary="Sig_/D3rdefWZ.d47hF9rjY1zxV_";
+ protocol="application/pgp-signature"; micalg=pgp-sha256
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -74,137 +71,268 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
+Cc: dri-devel <dri-devel@lists.freedesktop.org>,
+ Jonas =?UTF-8?B?w4VkYWhs?= <jadahl@redhat.com>,
+ Vitaly Prosyak <vitaly.prosyak@amd.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-This is an OpenPGP/MIME signed message (RFC 4880 and 3156)
---------------s3YQTAOEE0UfxvbpYz20FLhi
-Content-Type: multipart/mixed; boundary="------------HjQbeBpnDHFt7Zp96U0xD4rQ";
- protected-headers="v1"
-From: Thomas Zimmermann <tzimmermann@suse.de>
-To: =?UTF-8?Q?Christian_K=c3=b6nig?= <christian.koenig@amd.com>,
- =?UTF-8?Q?Christian_K=c3=b6nig?= <ckoenig.leichtzumerken@gmail.com>,
- daniel@ffwll.ch, dri-devel@lists.freedesktop.org
-Message-ID: <a2dfa927-966f-167d-be92-fb3dd9bea80f@suse.de>
-Subject: Re: [PATCH] drm: handle kernel fences in
- drm_gem_plane_helper_prepare_fb
-References: <20220421191002.2251-1-christian.koenig@amd.com>
- <877dc0d9-c6c6-022c-20d8-14b33e863934@suse.de>
- <69a2da78-0325-c412-6b37-03d4242e5a5e@amd.com>
-In-Reply-To: <69a2da78-0325-c412-6b37-03d4242e5a5e@amd.com>
+--Sig_/D3rdefWZ.d47hF9rjY1zxV_
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: quoted-printable
 
---------------HjQbeBpnDHFt7Zp96U0xD4rQ
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: base64
+On Wed, 27 Apr 2022 23:29:02 +0200
+Sebastian Wick <sebastian.wick@redhat.com> wrote:
 
-SGkNCg0KQW0gMjguMDQuMjIgdW0gMDk6MzIgc2NocmllYiBDaHJpc3RpYW4gS8O2bmlnOg0K
-PiBBbSAyOC4wNC4yMiB1bSAwOToyMyBzY2hyaWViIFRob21hcyBaaW1tZXJtYW5uOg0KPj4g
-W1NOSVBdDQo+Pj4gZGlmZiAtLWdpdCBhL2RyaXZlcnMvZ3B1L2RybS9kcm1fZ2VtX2F0b21p
-Y19oZWxwZXIuYyANCj4+PiBiL2RyaXZlcnMvZ3B1L2RybS9kcm1fZ2VtX2F0b21pY19oZWxw
-ZXIuYw0KPj4+IGluZGV4IGE2ZDg5YWVkMGJkYS4uOGZjMGI0MmFjZGZmIDEwMDY0NA0KPj4+
-IC0tLSBhL2RyaXZlcnMvZ3B1L2RybS9kcm1fZ2VtX2F0b21pY19oZWxwZXIuYw0KPj4+ICsr
-KyBiL2RyaXZlcnMvZ3B1L2RybS9kcm1fZ2VtX2F0b21pY19oZWxwZXIuYw0KPj4+IEBAIC0x
-LDYgKzEsNyBAQA0KPj4+IMKgIC8vIFNQRFgtTGljZW5zZS1JZGVudGlmaWVyOiBHUEwtMi4w
-LW9yLWxhdGVyDQo+Pj4gwqAgwqAgI2luY2x1ZGUgPGxpbnV4L2RtYS1yZXN2Lmg+DQo+Pj4g
-KyNpbmNsdWRlIDxsaW51eC9kbWEtZmVuY2UtY2hhaW4uaD4NCj4+PiDCoCDCoCAjaW5jbHVk
-ZSA8ZHJtL2RybV9hdG9taWNfc3RhdGVfaGVscGVyLmg+DQo+Pj4gwqAgI2luY2x1ZGUgPGRy
-bS9kcm1fYXRvbWljX3VhcGkuaD4NCj4+PiBAQCAtMTQxLDI1ICsxNDIsNjcgQEANCj4+PiDC
-oMKgICogU2VlIGRybV9hdG9taWNfc2V0X2ZlbmNlX2Zvcl9wbGFuZSgpIGZvciBhIGRpc2N1
-c3Npb24gb2YgDQo+Pj4gaW1wbGljaXQgYW5kDQo+Pg0KPj4gVGhpcyBjb21tZW50IHN0aWxs
-IHJlZmVycyB0byB0aGUgZnVuY3Rpb24geW91IGp1c3QgZGVsZXRlZC4gTWF5YmUgdGhlIA0K
-Pj4gZGVsZXRlZCBkb2NzIGNvdWxkIGJlIGludGVncmF0ZWQgaGVyZSBzb21laG93LCBpZiBz
-dGlsbCByZWxldmFudD8NCj4gDQo+IFllYWgsIERhbmllbCBwb2ludCB0aGF0IG91dCBhcyB3
-ZWxsLg0KPiANCj4+DQo+Pj4gwqDCoCAqIGV4cGxpY2l0IGZlbmNpbmcgaW4gYXRvbWljIG1v
-ZGVzZXQgdXBkYXRlcy4NCj4+PiDCoMKgICovDQo+Pj4gLWludCBkcm1fZ2VtX3BsYW5lX2hl
-bHBlcl9wcmVwYXJlX2ZiKHN0cnVjdCBkcm1fcGxhbmUgKnBsYW5lLCBzdHJ1Y3QgDQo+Pj4g
-ZHJtX3BsYW5lX3N0YXRlICpzdGF0ZSkNCj4+PiAraW50IGRybV9nZW1fcGxhbmVfaGVscGVy
-X3ByZXBhcmVfZmIoc3RydWN0IGRybV9wbGFuZSAqcGxhbmUsDQo+Pj4gK8KgwqDCoMKgwqDC
-oMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgIHN0cnVjdCBkcm1fcGxhbmVfc3RhdGUgKnN0
-YXRlKQ0KPj4NCj4+IFdlIGhhdmUgYSAxMDAtY2hhcmFjdGVyIGxpbWl0LiBQbGVhc2UgbGVh
-dmUgdGhpcyBvbiB0aGUgc2FtZSBsaW5lLg0KPiANCj4gRGVzcGl0ZSBzb21lIGVmZm9ydHMg
-dG8gY2hhbmdlIHRoaXMgdGhhdCBpcyBzdGlsbCBkb2N1bWVudGVkIGFzIA0KPiA4MC1jaGFy
-YWN0ZXIgbGltaXQ6IA0KPiBodHRwczovL3d3dy5rZXJuZWwub3JnL2RvYy9odG1sL3Y1LjE4
-LXJjNC9wcm9jZXNzL2NvZGluZy1zdHlsZS5odG1sI2JyZWFraW5nLWxvbmctbGluZXMtYW5k
-LXN0cmluZ3MgDQoNCkJ1dCBkaWRuJ3QgY2hlY2twYXRjaCBzdG9wIHdhcm5pbmcgYWJvdXQg
-dGhlIDgwLWNoYXIgbGltaXQ/DQoNCj4gDQo+IA0KPj4NCj4+PiDCoCB7DQo+Pj4gK8KgwqDC
-oCBzdHJ1Y3QgZG1hX2ZlbmNlICpmZW5jZSA9IGRtYV9mZW5jZV9nZXQoc3RhdGUtPmZlbmNl
-KTsNCj4+PiDCoMKgwqDCoMKgIHN0cnVjdCBkcm1fZ2VtX29iamVjdCAqb2JqOw0KPj4NCj4+
-IEknZCBkZWNsYXJlIHRoaXMgdmFyaWFibGUgd2l0aGluIHRoZSBmb3IgbG9vcC4NCj4+DQo+
-Pj4gLcKgwqDCoCBzdHJ1Y3QgZG1hX2ZlbmNlICpmZW5jZTsNCj4+PiArwqDCoMKgIGVudW0g
-ZG1hX3Jlc3ZfdXNhZ2UgdXNhZ2U7DQo+Pj4gK8KgwqDCoCBzaXplX3QgaTsNCj4+PiDCoMKg
-wqDCoMKgIGludCByZXQ7DQo+Pj4gwqAgwqDCoMKgwqDCoCBpZiAoIXN0YXRlLT5mYikNCj4+
-PiDCoMKgwqDCoMKgwqDCoMKgwqAgcmV0dXJuIDA7DQo+Pj4gwqAgLcKgwqDCoCBvYmogPSBk
-cm1fZ2VtX2ZiX2dldF9vYmooc3RhdGUtPmZiLCAwKTsNCj4+PiAtwqDCoMKgIHJldCA9IGRt
-YV9yZXN2X2dldF9zaW5nbGV0b24ob2JqLT5yZXN2LCBETUFfUkVTVl9VU0FHRV9XUklURSwg
-DQo+Pj4gJmZlbmNlKTsNCj4+PiAtwqDCoMKgIGlmIChyZXQpDQo+Pj4gLcKgwqDCoMKgwqDC
-oMKgIHJldHVybiByZXQ7DQo+Pj4gLQ0KPj4+IC3CoMKgwqAgLyogVE9ETzogZHJtX2F0b21p
-Y19zZXRfZmVuY2VfZm9yX3BsYW5lKCkgc2hvdWxkIGJlIGNoYW5nZWQgdG8gDQo+Pj4gYmUg
-YWJsZQ0KPj4+IC3CoMKgwqDCoCAqIHRvIGhhbmRsZSBtb3JlIGZlbmNlcyBpbiBnZW5lcmFs
-IGZvciBtdWx0aXBsZSBCT3MgcGVyIGZiLg0KPj4+ICvCoMKgwqAgLyoNCj4+PiArwqDCoMKg
-wqAgKiBPbmx5IGFkZCB0aGUga2VybmVsIGZlbmNlcyBoZXJlIGlmIHRoZXJlIGlzIGFscmVh
-ZHkgYSBmZW5jZSANCj4+PiBzZXQgdmlhDQo+Pj4gK8KgwqDCoMKgICogZXhwbGljaXQgZmVu
-Y2luZyBpbnRlcmZhY2VzIG9uIHRoZSBhdG9taWMgaW9jdGwuDQo+Pj4gK8KgwqDCoMKgICoN
-Cj4+PiArwqDCoMKgwqAgKiBUaGlzIHdheSBleHBsaWNpdCBmZW5jaW5nIGNhbiBiZSB1c2Vk
-IHRvIG92ZXJydWxlIGltcGxpY2l0IA0KPj4+IGZlbmNpbmcsDQo+Pj4gK8KgwqDCoMKgICog
-d2hpY2ggaXMgaW1wb3J0YW50IHRvIG1ha2UgZXhwbGljaXQgZmVuY2luZyB1c2UtY2FzZXMg
-d29yazogT25lDQo+Pj4gK8KgwqDCoMKgICogZXhhbXBsZSBpcyB1c2luZyBvbmUgYnVmZmVy
-IGZvciAyIHNjcmVlbnMgd2l0aCBkaWZmZXJlbnQgcmVmcmVzaA0KPj4+ICvCoMKgwqDCoCAq
-IHJhdGVzLiBJbXBsaWNpdCBmZW5jaW5nIHdpbGwgY2xhbXAgcmVuZGVyaW5nIHRvIHRoZSBy
-ZWZyZXNoIA0KPj4+IHJhdGUgb2YNCj4+PiArwqDCoMKgwqAgKiB0aGUgc2xvd2VyIHNjcmVl
-biwgd2hlcmVhcyBleHBsaWNpdCBmZW5jZSBhbGxvd3MgMiBpbmRlcGVuZGVudA0KPj4+ICvC
-oMKgwqDCoCAqIHJlbmRlciBhbmQgZGlzcGxheSBsb29wcyBvbiBhIHNpbmdsZSBidWZmZXIu
-IElmIGEgZHJpdmVyIGFsbG93cw0KPj4+ICvCoMKgwqDCoCAqIG9iZXlzIGJvdGggaW1wbGlj
-aXQgYW5kIGV4cGxpY2l0IGZlbmNlcyBmb3IgcGxhbmUgdXBkYXRlcywgDQo+Pj4gdGhlbiBp
-dA0KPj4+ICvCoMKgwqDCoCAqIHdpbGwgYnJlYWsgYWxsIHRoZSBiZW5lZml0cyBvZiBleHBs
-aWNpdCBmZW5jaW5nLg0KPj4+IMKgwqDCoMKgwqDCoCAqLw0KPj4+IC3CoMKgwqAgZHJtX2F0
-b21pY19zZXRfZmVuY2VfZm9yX3BsYW5lKHN0YXRlLCBmZW5jZSk7DQo+Pj4gK8KgwqDCoCB1
-c2FnZSA9IGZlbmNlID8gRE1BX1JFU1ZfVVNBR0VfS0VSTkVMIDogRE1BX1JFU1ZfVVNBR0Vf
-V1JJVEU7DQo+Pj4gKw0KPj4+ICvCoMKgwqAgZm9yIChpID0gMDsgaSA8IEFSUkFZX1NJWkUo
-c3RhdGUtPmZiLT5vYmopOyArK2kpIHsNCj4+DQo+PiBJbnN0ZWFkIG9mIEFSUkFZX1NJWkUs
-IHJhdGhlciB1c2Ugc3RhdGUtPmZiLT5mb3JtYXQtPm51bV9wbGFuZXMuIEl0J3MgDQo+PiB0
-aGUgbnVtYmVyIG9mIHBsYW5lcyAoaS5lLiwgR0VNIG9iamVjdHMpIGluIHRoZSBmcmFtZWJ1
-ZmZlci4NCj4+DQo+Pj4gK8KgwqDCoMKgwqDCoMKgIHN0cnVjdCBkbWFfZmVuY2UgKm5ldzsN
-Cj4+PiArDQo+Pj4gK8KgwqDCoMKgwqDCoMKgIG9iaiA9IGRybV9nZW1fZmJfZ2V0X29iaihz
-dGF0ZS0+ZmIsIGkpOw0KPj4+ICvCoMKgwqDCoMKgwqDCoCBpZiAoIW9iaikNCj4+DQo+PiBX
-aXRoIHRoZSB1c2Ugb2YgbnVtX3BsYW5lcyBpbiB0aGUgZm9yIGxvb3AsIHRoZXJlIHNob3Vs
-ZCBwcm9iYWJseSBiZSBhIA0KPj4gZHJtX1dBUk5fT05fT05DRSgpIGFyb3VuZCB0aGlzIHRl
-c3QuDQo+Pg0KPj4+ICvCoMKgwqDCoMKgwqDCoMKgwqDCoMKgIGNvbnRpbnVlOw0KPj4NCj4+
-IGdvdG8gZXJyb3IgaGFuZGxpbmcuDQo+Pg0KPj4gT3IgaXMgdGhlcmUgYSB1c2UgY2FzZSBm
-b3IgZnJhbWVidWZmZXJzIHdpdGggZW1wdHkgcGxhbmVzPyBBdCBsZWFzdCANCj4+IGl0J3Mg
-bm90IHBvc3NpYmxlIHRvIGluc3RhbnRpYXRlIG9uZSB2aWEgZHJtX2dlbV9mYl9pbml0X3dp
-dGhfZnVuY3MoKS4NCj4+DQo+IA0KPiBJIHdhcyBhc2tpbmcgbXlzZWxmIHRoZSBzYW1lIHRo
-aW5nLCBidXQgZm91bmQgdGhpcyBoYW5kbGluZyBiZSB1c2VkIGF0IA0KPiBvdGhlciBwbGFj
-ZXMgYXMgd2VsbC4NCg0KSSd2ZSBncmFkdWFsbHkgY2hhbmdlZCB0aGUgY29kZSB0b3dhcmRz
-IHRoZSB1c2Ugb2YgbnVtX3BsYW5lcyBhbmQgDQpzdHJpY3RlciBlcnJvciByZXBvcnRpbmcu
-ICBJTUhPIGF0IHNvbWUgcG9pbnQsIHdlIHNob3VsZCB3YXJuIGFib3V0IA0KZW1wdHkgcGxh
-bmUgQk9zIGRpcmVjdGx5IHdpdGhpbiBkcm1fZ2VtX2ZiX2dldF9vYmooKS4NCg0KQmVzdCBy
-ZWdhcmRzDQpUaG9tYXMNCg0KPiANCj4gVGhhbmtzIGZvciB0YWtpbmcgYSBsb29rLA0KPiBD
-aHJpc3RpYW4uDQoNCi0tIA0KVGhvbWFzIFppbW1lcm1hbm4NCkdyYXBoaWNzIERyaXZlciBE
-ZXZlbG9wZXINClNVU0UgU29mdHdhcmUgU29sdXRpb25zIEdlcm1hbnkgR21iSA0KTWF4ZmVs
-ZHN0ci4gNSwgOTA0MDkgTsO8cm5iZXJnLCBHZXJtYW55DQooSFJCIDM2ODA5LCBBRyBOw7xy
-bmJlcmcpDQpHZXNjaMOkZnRzZsO8aHJlcjogSXZvIFRvdGV2DQo=
+> On Wed, Apr 27, 2022 at 5:41 PM Harry Wentland <harry.wentland@amd.com> w=
+rote:
+> >
+> >
+> >
+> > On 2022-04-27 06:52, Pekka Paalanen wrote: =20
+> > > Hi Ville and Alex,
+> > >
+> > > thanks for the replies. More below.
+> > >
+> > > TL;DR:
+> > >
+> > > My take-away from this is that I should slam 'max bpc' to the max by
+> > > default, and offer a knob for the user in case they want to lower it.
+> > >
+> > >
+> > > On Tue, 26 Apr 2022 20:55:14 +0300
+> > > Ville Syrj=C3=A4l=C3=A4 <ville.syrjala@linux.intel.com> wrote:
+> > > =20
+> > >> On Tue, Apr 26, 2022 at 11:35:02AM +0300, Pekka Paalanen wrote: =20
+> > >>> Hi all,
+> > >>>
+> > >>> I'm working on setting HDR & WCG video modes in Weston, and I thoug=
+ht
+> > >>> setting "max bpc" KMS property on the connector would be a good ide=
+a.
+> > >>> I'm confused about how it works though.
+> > >>>
+> > >>> I did some digging in https://gitlab.freedesktop.org/wayland/weston=
+/-/issues/612
+> > >>>
+> > >>> Summary:
+> > >>>
+> > >>> - Apparently the property was originally added as a manual workarou=
+nd
+> > >>>   for sink hardware behaving badly with high depth. A simple end us=
+er
+> > >>>   setting for "max bpc" would suffice for this use.
+> > >>>
+> > >>> - Drivers will sometimes automatically choose a lower bpc than the =
+"max
+> > >>>   bpc" value, but never bigger.
+> > >>>
+> > >>> - amdgpu seems to (did?) default "max bpc" to 8, meaning that I
+> > >>>   definitely want to raise it. =20
+> > >> =20
+> >
+> > I've wanted to remove the 8 bpc limitations for a while now but it
+> > looks like we never did for anything other than eDP.
+> >
+> > The original problem we solved was that some monitors default timing
+> > couldn't be driven at a high bpc. Therefore users were faced with black
+> > displays. On some displays you also can't drive high refresh rate modes
+> > with a higher bpc.
 
---------------HjQbeBpnDHFt7Zp96U0xD4rQ--
+Aha, so there was nothing that the driver could have checked in order
+to avoid those practical failures with high bpc. That makes sense.
 
---------------s3YQTAOEE0UfxvbpYz20FLhi
-Content-Type: application/pgp-signature; name="OpenPGP_signature.asc"
+I mean, link training succeeded fine and all looked good from the
+source-side, but the sink just malfunctioned?
+
+Rather than display servers not handling 'link-status' changes at all.
+
+> > >> I've occasionally pondered about doing the same for i915, just to ha=
+ve
+> > >> the safest default possible. But I'd hate to lose the deep color tes=
+ting
+> > >> coverage knowing very few people would in practice raise the limit.
+> > >> Also the number of systems where deep color doesn't work reliably
+> > >> (or can't be made to work by not using a crap cable) seems to be qui=
+te
+> > >> low. =20
+> > >
+> > > I think when HDR and WCG get into display servers, setting 'max bpc'
+> > > will become a standard action.
+> > >
+> > > It's bit moot to e.g. render everything in electrical 10 bit RGB, if
+> > > the link is just going to squash that into electrical 8 bit RGB, righ=
+t?
+> > >
+> > > So even 10 bit color would require setting 'max bpc' to at least 10 to
+> > > be able to actually see it, source-side dithering aside.
+> > > =20
+> > >>>
+> > >>> If I always slam "max bpc" to the highest supported value for that
+> > >>> property, do I lose more than workarounds for bad sink hardware? =20
+> > >>
+> > >> We don't have any workarounds implemented like this in the kernel.
+> > >> Or should not have at least. "max bpc" exists purely for the user
+> > >> to have a say in the matter in addition to whatever the EDID/quirks
+> > >> say. Ie. if the kernel knows for sure that deep color won't work on
+> > >> a particular setup then it should just not allow deep color at all
+> > >> despite what the prop value says.
+> > >>
+> > >> So the only danger is fighting with the user's wishes which I guess
+> > >> you can overcome with some kind of user visible knob. =20
+> > >
+> > > Right, good.
+> > >
+> > > Furthermore, as a KMS client cannot make much assumptions about the K=
+MS
+> > > state it inherits from some other KMS client, it should know and
+> > > program all possible KMS properties according to its own desires
+> > > anyway. That, and the DRM master concept make sure that there cannot =
+be
+> > > any "third party" KMS configuration programs, like V4L2 has.
+> > > =20
+> > >>> Do I lose the ability to set video modes that take too much bandwid=
+th
+> > >>> at uncapped driver-selected bpc while capping the bpc lower would a=
+llow
+> > >>> me to use those video modes?
+> > >>>
+> > >>> Or, are drivers required to choose a lower-than-usual but highest
+> > >>> usable bpc to make the requested video mode squeeze through the
+> > >>> connector and link? =20
+> > >>
+> > >> IMO drivers should implement the "reduce bpc until it fits"
+> > >> fallback. We have that in i915, except for MST where we'd need
+> > >> to potentially involve multiple streams in the fallback. That
+> > >> is something we intend to remedy eventually but it's not an
+> > >> entirely trivial thing to implement so will take some actual
+> > >> work. ATM we just cap MST to <=3D8bpc to avoid users getting into
+> > >> this situation so often. =20
+> > >
+> > > Excellent, but judging from what Alex said, this is also not what
+> > > amdgpu does. We have two drivers doing different things then? =20
+> > > > So with Weston I probably have to document, that if you can't get t=
+he =20
+> > > video mode you want working, try turning the 'max bpc' knob down and
+> > > try again.
+> > >
+> > > Or, I could cap 'max bpc' based on my framebuffer depth. If I have an
+> > > electrical 8 bit FB (default in Weston), then there is not much use f=
+or
+> > > having 'max bpc' > 8. This ignores the KMS color pipeline a bit. Does
+> > > that make sense?
+> > > =20
+> >
+> > I think both of those options make sense. I'll need to think about the
+> > automatic fallback if we don't have enough bandwidth for max_bpc.
+> >
+> > If a KMS driver falls back automatically we probably want some way
+> > for a (color managed) compositor to know if the output bpc is reduced.
+
+The notion of 'max bpc' already implies that KMS drivers will
+automatically fall back to lower bpc under some conditions, or at least
+that the link bpc is chosen by the driver.
+
+
+> > =20
+> > > Does KMS use dithering automatically, btw?
+> > > =20
+> >
+> > amdgpu's display driver does.
+> > =20
+> > > The only mention of dithering in KMS docs is some nouveau-specific KMS
+> > > properties and another for radeon.
+> > > =20
+> > >>>
+> > >>> Do I need to implement a fallback strategy in a display server,
+> > >>> starting from the highest possible "max bpc" value, and if my modes=
+et
+> > >>> is rejected, repeatedly try with lower "max bpc" setting until it w=
+orks
+> > >>> or I'm out of bpc options? =20
+> > >>
+> > >> IMO the bpc part should be handled by the kernel since we already
+> > >> had this behaviour even before the "max bpc" prop was introduced
+> > >> and we didn't add an explicit "use this bpc or fail" prop. But of
+> > >> course you should have some kind of sensible fallback strategy for
+> > >> things that just fail for other reasons. =20
+> > >
+> > > Right, but this means that I don't have to add 'max bpc' as yet anoth=
+er
+> > > dimension in the combinatorial explosion of KMS parameters I would ne=
+ed
+> > > to search to find a working setup. That's really good.
+> > >
+> > > The one thing missing is seeing what format and bpc we actually got on
+> > > the link.
+> > > =20
+> > >> The one problem we have in the kernel is that we have no way to
+> > >> ask the user if the display we tried to light up is actually
+> > >> working. So our policy decisions can't really involve user input.
+> > >> Userspace should not generally have that problem. =20
+> > >
+> > > Indeed.
+> > >
+> > > Also like Alex said, the kernel does not know if the user prefers high
+> > > color depth or high refresh rate either. One way to solve that is to
+> > > light up the requested video mode any way the kernel can, and then
+> > > report what the resulting color depth is. Another way is to have
+> > > explicit "use this bpc or fail" KMS property, maybe in the form of 'm=
+in
+> > > bpc' as I recall being discussed in the past, and let userspace guess
+> > > what might work. The former is easier to light up, but probing requir=
+es
+> > > actually setting the modes. The latter may require a lot of
+> > > trial-and-error from userspace to find anything that works, but it
+> > > takes only time and not blinking - as far as things can be detected
+> > > with TEST_ONLY commits. Then one still has to ask the user if it
+> > > actually worked.
+> > > =20
+> >
+> > min_bpc sounds like something we might want for HDR use-cases, unless
+> > the compositor has a way to confirm the output box (and format). min_bpc
+> > would allow the KMS driver to pick the lowest required bpc so the
+> > compositor always has a guarantee of quality. =20
+>=20
+> IMO that would be ideal. The driver should try to reduce bandwidth by low=
+ering
+> the bpc down to the min_bpc if the hardware can't drive the selected mode=
+ at a
+> higher bpc. User space usually knows which bpc is sufficient for the use =
+case
+> but will never complain about too much bpc. Drivers which don't support
+> lowering the bpc dynamically can then still go with the min_bpc and user =
+space
+> still gets all the modes which work with the minimum required bpc.
+
+This would be nice, yes.
+
+I'm fairly sure 'min bpc' was discussed here on the dri-devel mailing
+list in the past, but I don't remember when or by whom.
+
+
+Thanks,
+pq
+
+--Sig_/D3rdefWZ.d47hF9rjY1zxV_
+Content-Type: application/pgp-signature
 Content-Description: OpenPGP digital signature
-Content-Disposition: attachment; filename="OpenPGP_signature"
 
 -----BEGIN PGP SIGNATURE-----
 
-wsF5BAABCAAjFiEExndm/fpuMUdwYFFolh/E3EQov+AFAmJqRygFAwAAAAAACgkQlh/E3EQov+CP
-6w//X/atSGPs0hFOgPIunkKVVU1epgAmXrbHBLSULuVqeDzRW9XNXaI7FONP2qQk+rFekRppDDAn
-RWiZdzawLcFxEcx0fuITVRjVqblv0832IiAgFgML9A1GA5uzadAmZqZfYH/Rk9Cy4ro3+XFPneiT
-zvSfXIedtL+G+BDxO2F1zJQaO+wKgfz9t6EUDGcHnE/MuM2EluLMnOZp62lkl7g03r31GylECpUV
-/j0NeJH4YnUadIlHn7pcuhKfM4+Cwm2SO9wLJED4ne/ETwf5Sz/P7D3abGAKQwXnHOofFW6uH7tS
-lMJrHdgZQdP1Q7pJJf6jBns7LxiKLxwxa1C3cbLZ1di40nXibhz3fPyhj/xO0eZ/3sSO1p1Mm+VD
-hgQBSXLcadpimXv66WOYhwp5MP7+V2Kb8hx4torXGLKc0BlhAZMNOtWwCLIPcmFxCtVRC7fcwUjz
-m4ZssVh3nbjg1QyWqQAvnyjkNoJaRWk7c+DWC4XV/7+RD3WQKynLkpDQF5drGqlEyMY5FTk5cgb3
-gnfQGlwtVswZTlzH3DGuZTg1vtImReTDcHXVzNjCXxJOj6tm4rozEKyYCqqtkDuPMVVhZ43DUqi1
-dcLaYhYrDYnr3MCmcpQFGur/ESH70kjX9beM+iN4uRcwh302JcSig9ZlQOodNEpJacH1BRHY6/Rt
-sBg=
-=+0v4
+iQIzBAEBCAAdFiEEJQjwWQChkWOYOIONI1/ltBGqqqcFAmJqRzkACgkQI1/ltBGq
+qqdjJQ/6AgpSkTCS4kisk30u5v9DFs+6VwT6qC+m8n/Pj7nGerqdOoIZQ5hd16D8
+z6PRiYpVbrKBUHjAwuH2EUiNC5FZYn0v6a+xII0UnibD0aePaWIPszF+e9Ej7o98
+hou0QCRlS7+5e408fO4Vcxc69NKz+MsHjt6ZZgshJNyG5yfXVv5EmohEU4V3oo16
+iFh6NIOqD26aK7tVqj4kzy99FT1zgFDQpq2LHwPJKuzsa8UJujZuR3y0KMZFK1aB
+vO1DlDtd9riWftrTQ8XFOKtbMp7H94jQ5xxv37NH+/vnbLysNSrBLkiosE3yibWq
+pQ2k0VSJaZ5R++f4wxVW0oXKA79yIyavpHdcWAjp7QUk9jsOzlivYApsNxYS++Yb
++2uHRlQSKfsaFgXi0uy2v/oP60HY6wj8BfrnPe91uD61/8Z9UY1jkZBtfi07A4vW
+X1r7+MAfCMihMUYcl1cE5WkCpspa51nXdbGNWbmK1yr4x6sFBlDdl9uaEqMSifxv
+BgSA996xGfFD/A2fHdto8iLcblpUXf/pAxR/JmPKZceWpV2EfAwYcv5jDiwgXeNu
++DQnHb/hmAXkA5hAMfnwspFUPbnO1SnZV0czyiil1ofeuIUcvCgh+lTUb7EUPZbc
+nbd+Jhjt0e6PycX3c7WDWneSAoJUImnAeV6yInYw5YwKOHDSi18=
+=Kk7q
 -----END PGP SIGNATURE-----
 
---------------s3YQTAOEE0UfxvbpYz20FLhi--
+--Sig_/D3rdefWZ.d47hF9rjY1zxV_--
