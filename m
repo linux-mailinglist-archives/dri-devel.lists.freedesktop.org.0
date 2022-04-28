@@ -1,79 +1,79 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 58721513A45
-	for <lists+dri-devel@lfdr.de>; Thu, 28 Apr 2022 18:45:41 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id C8B21513A56
+	for <lists+dri-devel@lfdr.de>; Thu, 28 Apr 2022 18:49:45 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 591AF10E48A;
-	Thu, 28 Apr 2022 16:45:38 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 0C68A10E610;
+	Thu, 28 Apr 2022 16:49:43 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from us-smtp-delivery-124.mimecast.com
- (us-smtp-delivery-124.mimecast.com [170.10.129.124])
- by gabe.freedesktop.org (Postfix) with ESMTPS id BAC6010E48A
- for <dri-devel@lists.freedesktop.org>; Thu, 28 Apr 2022 16:45:36 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1651164335;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=H4A0DVfkP3xKjUiu9Qd/IqxcEQnmDFxo7bw14RVMI0g=;
- b=OSTYnJevZjaQEMeE4sj7Tu0DXPYwJSjLX4TF75o3TLyxIs4DOfSlWbzS8qi+sWWorkkCXv
- Dh3Bg5WWXfu2EW8DKf/VGhtKofiFXChLWEMAgAdLXgITl7LyYzwsW43L2POPEpKgNraDua
- 20faekiLdcYkWgzKzxghK7onyrxVNCU=
-Received: from mail-qv1-f69.google.com (mail-qv1-f69.google.com
- [209.85.219.69]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-665-qc7pfrOlMo6PyR1b6CwZhQ-1; Thu, 28 Apr 2022 12:45:34 -0400
-X-MC-Unique: qc7pfrOlMo6PyR1b6CwZhQ-1
-Received: by mail-qv1-f69.google.com with SMTP id
- kd3-20020a056214400300b004563804b906so4104226qvb.20
- for <dri-devel@lists.freedesktop.org>; Thu, 28 Apr 2022 09:45:34 -0700 (PDT)
+Received: from mail-oa1-x2f.google.com (mail-oa1-x2f.google.com
+ [IPv6:2001:4860:4864:20::2f])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id B0C0810E610
+ for <dri-devel@lists.freedesktop.org>; Thu, 28 Apr 2022 16:49:41 +0000 (UTC)
+Received: by mail-oa1-x2f.google.com with SMTP id
+ 586e51a60fabf-e922e68b0fso5736356fac.1
+ for <dri-devel@lists.freedesktop.org>; Thu, 28 Apr 2022 09:49:41 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
+ h=sender:message-id:date:mime-version:user-agent:content-language:to
+ :cc:references:from:subject:in-reply-to:content-transfer-encoding;
+ bh=XISky4EfFFruGvnkmI6B4SFkxFQ52ohN9Fu2cRfYJfw=;
+ b=OkCy3r1S0ZpJd0xw0VfvdODlVptYGtGD/s68vjFfu+cv5VfksDwVTELspFMjzyqn2l
+ o3HoJm03XsZQdwbEbRWjI+Lb63jSRMQLNDN7FFeOkhyetGmz/gAbkEhkV3TcaKgGRG82
+ vuwvRZEQI4XV6kVyb9AK1+aJWoE9PIAQbe2raaE3M+WY6coymTsE71a+p721Tp/oJ1tu
+ En+rQbHzGa1KawncckJtHDkTWA14zP+YTiLHoNAAclpt3pPZZQzCVaSg0pgbdjB43usw
+ AxIfxdOHjkKVb6pAsbdhR1cE59eZyAmq6cI4Gd58mfC+2jQzc1Zta0D378ut2yf8lfbd
+ NqrQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=x-gm-message-state:message-id:subject:from:to:cc:date:in-reply-to
- :references:organization:user-agent:mime-version
+ h=x-gm-message-state:sender:message-id:date:mime-version:user-agent
+ :content-language:to:cc:references:from:subject:in-reply-to
  :content-transfer-encoding;
- bh=H4A0DVfkP3xKjUiu9Qd/IqxcEQnmDFxo7bw14RVMI0g=;
- b=fH8GxaKJ/YOKsu/Ey3it8T+TTpERSIo8ooSC4HhZ5tE1N0RwTHRVJpL+su5Y6A3o4t
- 61nJHiXBVU/Ngsu/NJBH5ngV7a37nMI1K8rxSoVzJjlYS7i8WoTdSKGZPJ8FkC9zIRy3
- ycAHQjT6/jCSrNzoqs+1uqhkDAvqS5bdUEVLWkAiq2QlGk+7wA3WlQTpSvHXFiYAgBfC
- 6ysLi3dwEEh3gpr0UnKV/YDk8R0MEABQ2fNydDWGb24bzogDbh+KG2eN/+Tii2MV+MlZ
- eRbSINs9ezGXz8spgPgG1VsD5z22w8iaBow0MijvFDqCSbjYXL6FlHnW6FJ8NXhAfqh2
- 4B9Q==
-X-Gm-Message-State: AOAM5324IcmLKoi9N0db32wFijmnoAISzg3rAbYmFDyFyZLh4b7DEey6
- sxSnaSvu5cEtit02JMm5z3g92O+rT6Gu+T6sPjLu0HttTH+9VeCIubarCNlwiv8q/uKYHxIvbgr
- xAwB5G/qQkhO9vE8knob6TgejMSHj
-X-Received: by 2002:a05:622a:412:b0:2e1:de3b:d110 with SMTP id
- n18-20020a05622a041200b002e1de3bd110mr23802492qtx.420.1651164333830; 
- Thu, 28 Apr 2022 09:45:33 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJwJHR0JZ5BoBDr62uWaw9chIGJQeGTR0PGKbivpXiaN5X2ck1EqcgIEcMCnt87hcmVT39WWWQ==
-X-Received: by 2002:a05:622a:412:b0:2e1:de3b:d110 with SMTP id
- n18-20020a05622a041200b002e1de3bd110mr23802470qtx.420.1651164333589; 
- Thu, 28 Apr 2022 09:45:33 -0700 (PDT)
-Received: from [192.168.8.138] (static-71-184-137-158.bstnma.ftas.verizon.net.
- [71.184.137.158]) by smtp.gmail.com with ESMTPSA id
- y18-20020ac85f52000000b002ed08a7dc8dsm271886qta.13.2022.04.28.09.45.31
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 28 Apr 2022 09:45:32 -0700 (PDT)
-Message-ID: <274af067a52ce665def00170c35adb5002d500b2.camel@redhat.com>
-Subject: Re: [PATCH] drm/dp_mst: Lower down debug info level when receive NAK
-From: Lyude Paul <lyude@redhat.com>
-To: Wayne Lin <Wayne.Lin@amd.com>, dri-devel@lists.freedesktop.org
-Date: Thu, 28 Apr 2022 12:45:31 -0400
-In-Reply-To: <20220428124944.1683680-1-Wayne.Lin@amd.com>
-References: <20220428124944.1683680-1-Wayne.Lin@amd.com>
-Organization: Red Hat Inc.
-User-Agent: Evolution 3.42.4 (3.42.4-2.fc35)
+ bh=XISky4EfFFruGvnkmI6B4SFkxFQ52ohN9Fu2cRfYJfw=;
+ b=Oid3m0/Gw8yQ5K9LXegGo1rCIAFjU3AvRlxeAqBl7caKH2CQ8Wdho1R4Wpctbar3Yx
+ CuyS604yp9Rb2A9oSpdBv8P3KAJoI9Ld477Of0hymk+PFYnhphqGs5fBp/91WuoYLFc3
+ T699MaFPCG5WmzvZQq5hmfWGLgn44ymQUj2P2UlEZpgD0C7nKdQ0NbHpVlFfEa4+Dx3X
+ D+U/L+RT61gOHGeurfVh5xMmNn5SXPPYut1kOyATft32mlPmzKrbptGKga8VjXyTuqYg
+ TYTgepLMuP4WXlmhLNf57u2Liucv3wx63S+fzJku1NdZntN6dSgautNhrLAat4N/XzYQ
+ OYLQ==
+X-Gm-Message-State: AOAM533iknpP0w0eQuL35mXTXaQWT5JjNn/NXzSRFjm3P0XDDnxouD1K
+ nltUtVgCHQzmJzQ5PqkxhQU=
+X-Google-Smtp-Source: ABdhPJzrsKYpUtqCt/iZ06NVVnsLxq83abuM+0rz/PmqCRR+0Jas/OQpo6w5mfl9KOVI8b7KjTk3bw==
+X-Received: by 2002:a05:6870:3289:b0:e9:1a82:c010 with SMTP id
+ q9-20020a056870328900b000e91a82c010mr11417956oac.25.1651164580861; 
+ Thu, 28 Apr 2022 09:49:40 -0700 (PDT)
+Received: from ?IPV6:2600:1700:e321:62f0:329c:23ff:fee3:9d7c?
+ ([2600:1700:e321:62f0:329c:23ff:fee3:9d7c])
+ by smtp.gmail.com with ESMTPSA id
+ p17-20020a4a3651000000b0035d9b838f21sm205539ooe.10.2022.04.28.09.49.37
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Thu, 28 Apr 2022 09:49:40 -0700 (PDT)
+Message-ID: <dd3ac1fa-67c2-8bdf-f275-9210a9e23054@roeck-us.net>
+Date: Thu, 28 Apr 2022 09:49:36 -0700
 MIME-Version: 1.0
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=lyude@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: 8bit
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.7.0
+Content-Language: en-US
+To: Arnd Bergmann <arnd@arndb.de>
+References: <20220419163810.2118169-1-arnd@kernel.org>
+ <20220422170530.GA2338209@roeck-us.net>
+ <CAK8P3a3V=qxUqYT3Yt=dpXVv58-Y+HVi952wO6D4LPN5NNphGA@mail.gmail.com>
+ <8b36d3a4-ec85-2f9f-e4b7-734d8ddd3d8f@roeck-us.net>
+ <CAK8P3a0R9cpEb1d2=e9KnGSbi_uRv48RWfCu_J4DDak_cGZSuw@mail.gmail.com>
+ <20220422234150.GA3442771@roeck-us.net>
+ <CAK8P3a3qZdEqnJ2nTOKwDMossngOgCpEvZq4cQMPQjSsUoU=6g@mail.gmail.com>
+ <3b4046ed-fd75-13ea-fac3-06469172806c@roeck-us.net>
+ <CAK8P3a1LzEG1vo+5nMrnL3TOMcbSKJ3u=StcfY8dajV2raUBjA@mail.gmail.com>
+ <3df135a2-17f5-d6c6-b4a8-e1a60e254297@roeck-us.net>
+ <CAK8P3a2EHMQPN4ny9sXXuReFG0jN0hyRV7h9v_AR_0pqpOU41w@mail.gmail.com>
+ <CAK8P3a09+nFS3g1rgvTW9da3tMiAhHjkjZVs1QOJOj8TJ-9MDg@mail.gmail.com>
+From: Guenter Roeck <linux@roeck-us.net>
+Subject: Re: [PATCH v2 00/48] ARM: PXA multiplatform support
+In-Reply-To: <CAK8P3a09+nFS3g1rgvTW9da3tMiAhHjkjZVs1QOJOj8TJ-9MDg@mail.gmail.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -86,65 +86,71 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: rodrigo.siqueira@amd.com, jerry.zuo@amd.com
+Cc: Ulf Hansson <ulf.hansson@linaro.org>, USB list <linux-usb@vger.kernel.org>,
+ "Rafael J. Wysocki" <rafael@kernel.org>,
+ Viresh Kumar <viresh.kumar@linaro.org>,
+ Linux Fbdev development list <linux-fbdev@vger.kernel.org>,
+ Dominik Brodowski <linux@dominikbrodowski.net>,
+ "open list:BROADCOM NVRAM DRIVER" <linux-mips@vger.kernel.org>,
+ IDE-ML <linux-ide@vger.kernel.org>, linux-mtd <linux-mtd@lists.infradead.org>,
+ Robert Jarzmik <robert.jarzmik@free.fr>, linux-clk <linux-clk@vger.kernel.org>,
+ linux-leds@vger.kernel.org, linux-rtc@vger.kernel.org,
+ Helge Deller <deller@gmx.de>, Marek Vasut <marek.vasut@gmail.com>,
+ Paul Parsons <lost.distance@yahoo.com>, Sergey Lapin <slapin@ossfans.org>,
+ ALSA Development Mailing List <alsa-devel@alsa-project.org>,
+ Linux PM list <linux-pm@vger.kernel.org>,
+ "open list:HID CORE LAYER" <linux-input@vger.kernel.org>,
+ Haojian Zhuang <haojian.zhuang@gmail.com>, Lubomir Rintel <lkundrak@v3.sk>,
+ Mark Brown <broonie@kernel.org>, dri-devel <dri-devel@lists.freedesktop.org>,
+ Linux ARM <linux-arm-kernel@lists.infradead.org>,
+ Thomas Bogendoerfer <tsbogend@alpha.franken.de>,
+ Stephen Boyd <sboyd@kernel.org>, patches@opensource.cirrus.com,
+ Dmitry Torokhov <dmitry.torokhov@gmail.com>,
+ linux-mmc <linux-mmc@vger.kernel.org>,
+ Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
+ Michael Turquette <mturquette@baylibre.com>, Daniel Mack <daniel@zonque.org>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Reviewed-by: Lyude Paul <lyude@redhat.com>
+On 4/28/22 06:44, Arnd Bergmann wrote:
+> On Sun, Apr 24, 2022 at 8:48 PM Arnd Bergmann <arnd@kernel.org> wrote:
+>> On Sun, Apr 24, 2022 at 5:28 PM Guenter Roeck <linux@roeck-us.net> wrote:
+>>> On 4/24/22 01:52, Arnd Bergmann wrote:
+>>>> On Sun, Apr 24, 2022 at 4:09 AM Guenter Roeck <linux@roeck-us.net> wrote:
+>>>> into the defconfig file, otherwise the multiplatform target defaults to
+>>>> an ARMv7 instead of ARMv5 build. For an OMAP15xx as in the SX1,
+>>>> you also need to enable CONFIG_ARCH_MULTI_V4T.
+>>>>
+>>>> This is slightly unfortunate, but I don't see any way to avoid it, and the
+>>>> modified defconfig will still work fine with older kernel trees.
+>>>>
+>>>
+>>> Yes, that works. I changed it in my configuration.
+>>
+>> Ok, great!. I managed to boot the z2 machine with PCMCIA support
+>> and it gets around the issue with my patch, correctly detecting the
+>> CF card.
+> 
+> Hi Guenter,
+> 
+> I have now sent out a fix that I'm happy with, and applied it to the
+> pxa-multiplatform-5.18 branch of the soc tree as well as the
+> combined arm/multiplatform tree.
+> 
+> I have not merged this new version into the for-next branch
+> since I would like to see if there are any other regressions first.
+> 
+> Can you run your boot tests on the arm/multiplatform branch
+> and let me know if that fixes everything you found? If that
+> takes a lot of manual steps on your side, I'd just wait for the
+> build bots and merge it after all there are no new compile-time
+> issues.
+> 
 
-Will push to drm-misc-next in a bit
+-next is pretty badly broken right now due to a series of less than
+perfect mm patches, so testing there won't do any good.
 
-On Thu, 2022-04-28 at 20:49 +0800, Wayne Lin wrote:
-> [Why]
-> It's reasonable that we receive NAK while doing DP_REMOTE_DPCD_READ.
-> Downstream device might reply NAK with the reason and source should
-> react accordingly.
-> 
-> e.g.
-> 1. When downstream device can't handle corresponding message in time,
-> it then replies NAK as reason been set as DEFER.
-> 2. When multi-function branch-sink device doesn't enumerate virtual
-> DP peer devices for those multi-function down facing ports. Without
-> virtual DPCD, branch device might reply NAK with reason as BAD_PARAM
-> indicating this port can't do aux DPCD read.
-> 
-> It's expected result. Not an error.
-> 
-> [How]
-> Use drm_dbg_kms() to replace drm_err() when receive NAK.
-> 
-> Changes since v1:
-> * drm_dp_mst_topology.c file path changed. Folder was rename from
->  'dp' to 'display'
-> 
-> Signed-off-by: Wayne Lin <Wayne.Lin@amd.com>
-> Reviewed-by: Harry Wentland <harry.wentland@amd.com>
-> ---
->  drivers/gpu/drm/display/drm_dp_mst_topology.c | 3 +--
->  1 file changed, 1 insertion(+), 2 deletions(-)
-> 
-> diff --git a/drivers/gpu/drm/display/drm_dp_mst_topology.c
-> b/drivers/gpu/drm/display/drm_dp_mst_topology.c
-> index 8526aae75c6d..f27aa0b95bea 100644
-> --- a/drivers/gpu/drm/display/drm_dp_mst_topology.c
-> +++ b/drivers/gpu/drm/display/drm_dp_mst_topology.c
-> @@ -3557,9 +3557,8 @@ static int drm_dp_send_dpcd_read(struct
-> drm_dp_mst_topology_mgr *mgr,
->         if (ret < 0)
->                 goto fail_free;
->  
-> -       /* DPCD read should never be NACKed */
->         if (txmsg->reply.reply_type == 1) {
-> -               drm_err(mgr->dev, "mstb %p port %d: DPCD read on addr 0x%x
-> for %d bytes NAKed\n",
-> +               drm_dbg_kms(mgr->dev, "mstb %p port %d: DPCD read on addr
-> 0x%x for %d bytes NAKed\n",
->                         mstb, port->port_num, offset, size);
->                 ret = -EIO;
->                 goto fail_free;
+I'll see if I can dig up the multiplatform branch and push it into
+my 'testing' branch.
 
--- 
-Cheers,
- Lyude Paul (she/her)
- Software Engineer at Red Hat
-
+Guenter
