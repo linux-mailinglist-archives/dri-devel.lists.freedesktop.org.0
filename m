@@ -1,79 +1,59 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id C8B21513A56
-	for <lists+dri-devel@lfdr.de>; Thu, 28 Apr 2022 18:49:45 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id F261A513B1F
+	for <lists+dri-devel@lfdr.de>; Thu, 28 Apr 2022 19:50:42 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 0C68A10E610;
-	Thu, 28 Apr 2022 16:49:43 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 9703310E961;
+	Thu, 28 Apr 2022 17:50:40 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-oa1-x2f.google.com (mail-oa1-x2f.google.com
- [IPv6:2001:4860:4864:20::2f])
- by gabe.freedesktop.org (Postfix) with ESMTPS id B0C0810E610
- for <dri-devel@lists.freedesktop.org>; Thu, 28 Apr 2022 16:49:41 +0000 (UTC)
-Received: by mail-oa1-x2f.google.com with SMTP id
- 586e51a60fabf-e922e68b0fso5736356fac.1
- for <dri-devel@lists.freedesktop.org>; Thu, 28 Apr 2022 09:49:41 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
- h=sender:message-id:date:mime-version:user-agent:content-language:to
- :cc:references:from:subject:in-reply-to:content-transfer-encoding;
- bh=XISky4EfFFruGvnkmI6B4SFkxFQ52ohN9Fu2cRfYJfw=;
- b=OkCy3r1S0ZpJd0xw0VfvdODlVptYGtGD/s68vjFfu+cv5VfksDwVTELspFMjzyqn2l
- o3HoJm03XsZQdwbEbRWjI+Lb63jSRMQLNDN7FFeOkhyetGmz/gAbkEhkV3TcaKgGRG82
- vuwvRZEQI4XV6kVyb9AK1+aJWoE9PIAQbe2raaE3M+WY6coymTsE71a+p721Tp/oJ1tu
- En+rQbHzGa1KawncckJtHDkTWA14zP+YTiLHoNAAclpt3pPZZQzCVaSg0pgbdjB43usw
- AxIfxdOHjkKVb6pAsbdhR1cE59eZyAmq6cI4Gd58mfC+2jQzc1Zta0D378ut2yf8lfbd
- NqrQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=x-gm-message-state:sender:message-id:date:mime-version:user-agent
- :content-language:to:cc:references:from:subject:in-reply-to
- :content-transfer-encoding;
- bh=XISky4EfFFruGvnkmI6B4SFkxFQ52ohN9Fu2cRfYJfw=;
- b=Oid3m0/Gw8yQ5K9LXegGo1rCIAFjU3AvRlxeAqBl7caKH2CQ8Wdho1R4Wpctbar3Yx
- CuyS604yp9Rb2A9oSpdBv8P3KAJoI9Ld477Of0hymk+PFYnhphqGs5fBp/91WuoYLFc3
- T699MaFPCG5WmzvZQq5hmfWGLgn44ymQUj2P2UlEZpgD0C7nKdQ0NbHpVlFfEa4+Dx3X
- D+U/L+RT61gOHGeurfVh5xMmNn5SXPPYut1kOyATft32mlPmzKrbptGKga8VjXyTuqYg
- TYTgepLMuP4WXlmhLNf57u2Liucv3wx63S+fzJku1NdZntN6dSgautNhrLAat4N/XzYQ
- OYLQ==
-X-Gm-Message-State: AOAM533iknpP0w0eQuL35mXTXaQWT5JjNn/NXzSRFjm3P0XDDnxouD1K
- nltUtVgCHQzmJzQ5PqkxhQU=
-X-Google-Smtp-Source: ABdhPJzrsKYpUtqCt/iZ06NVVnsLxq83abuM+0rz/PmqCRR+0Jas/OQpo6w5mfl9KOVI8b7KjTk3bw==
-X-Received: by 2002:a05:6870:3289:b0:e9:1a82:c010 with SMTP id
- q9-20020a056870328900b000e91a82c010mr11417956oac.25.1651164580861; 
- Thu, 28 Apr 2022 09:49:40 -0700 (PDT)
-Received: from ?IPV6:2600:1700:e321:62f0:329c:23ff:fee3:9d7c?
- ([2600:1700:e321:62f0:329c:23ff:fee3:9d7c])
- by smtp.gmail.com with ESMTPSA id
- p17-20020a4a3651000000b0035d9b838f21sm205539ooe.10.2022.04.28.09.49.37
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Thu, 28 Apr 2022 09:49:40 -0700 (PDT)
-Message-ID: <dd3ac1fa-67c2-8bdf-f275-9210a9e23054@roeck-us.net>
-Date: Thu, 28 Apr 2022 09:49:36 -0700
+Received: from alexa-out-sd-02.qualcomm.com (alexa-out-sd-02.qualcomm.com
+ [199.106.114.39])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id EB9D710E961;
+ Thu, 28 Apr 2022 17:50:38 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=quicinc.com; i=@quicinc.com; q=dns/txt; s=qcdkim;
+ t=1651168239; x=1682704239;
+ h=message-id:date:mime-version:subject:to:cc:references:
+ from:in-reply-to:content-transfer-encoding;
+ bh=YxhDw5hji39ZPEoEywi63scy2Fs/i+DDswaqHMU96cM=;
+ b=gpLaGSB/NyBM1ER950V7hBfeZoWdA/R+g3J/+3BpAtm268QEV6tg2i8K
+ FaN9a+XfOEnxbpXjKjlsQJ6iuGiLjkFrs7/c0XAlYonyQ9i6l/OojjONE
+ Xj910k1EWVZOBtTi+RA4f8wXjigqb7u5zaDY9FXP9wegHNoyyv7dbWbpe 4=;
+Received: from unknown (HELO ironmsg02-sd.qualcomm.com) ([10.53.140.142])
+ by alexa-out-sd-02.qualcomm.com with ESMTP; 28 Apr 2022 10:50:38 -0700
+X-QCInternal: smtphost
+Received: from nasanex01c.na.qualcomm.com ([10.47.97.222])
+ by ironmsg02-sd.qualcomm.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 28 Apr 2022 10:50:38 -0700
+Received: from nalasex01a.na.qualcomm.com (10.47.209.196) by
+ nasanex01c.na.qualcomm.com (10.47.97.222) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.2.986.22; Thu, 28 Apr 2022 10:50:37 -0700
+Received: from [10.111.160.161] (10.80.80.8) by nalasex01a.na.qualcomm.com
+ (10.47.209.196) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.986.22; Thu, 28 Apr
+ 2022 10:50:35 -0700
+Message-ID: <dd0f0d52-05a4-df49-630e-e6d2a9749b24@quicinc.com>
+Date: Thu, 28 Apr 2022 10:50:33 -0700
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.7.0
+User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:91.0) Gecko/20100101
+ Thunderbird/91.6.2
+Subject: Re: [PATCH] drm/msm/dpu: remove unused refcount for encoder_phys_wb
 Content-Language: en-US
-To: Arnd Bergmann <arnd@arndb.de>
-References: <20220419163810.2118169-1-arnd@kernel.org>
- <20220422170530.GA2338209@roeck-us.net>
- <CAK8P3a3V=qxUqYT3Yt=dpXVv58-Y+HVi952wO6D4LPN5NNphGA@mail.gmail.com>
- <8b36d3a4-ec85-2f9f-e4b7-734d8ddd3d8f@roeck-us.net>
- <CAK8P3a0R9cpEb1d2=e9KnGSbi_uRv48RWfCu_J4DDak_cGZSuw@mail.gmail.com>
- <20220422234150.GA3442771@roeck-us.net>
- <CAK8P3a3qZdEqnJ2nTOKwDMossngOgCpEvZq4cQMPQjSsUoU=6g@mail.gmail.com>
- <3b4046ed-fd75-13ea-fac3-06469172806c@roeck-us.net>
- <CAK8P3a1LzEG1vo+5nMrnL3TOMcbSKJ3u=StcfY8dajV2raUBjA@mail.gmail.com>
- <3df135a2-17f5-d6c6-b4a8-e1a60e254297@roeck-us.net>
- <CAK8P3a2EHMQPN4ny9sXXuReFG0jN0hyRV7h9v_AR_0pqpOU41w@mail.gmail.com>
- <CAK8P3a09+nFS3g1rgvTW9da3tMiAhHjkjZVs1QOJOj8TJ-9MDg@mail.gmail.com>
-From: Guenter Roeck <linux@roeck-us.net>
-Subject: Re: [PATCH v2 00/48] ARM: PXA multiplatform support
-In-Reply-To: <CAK8P3a09+nFS3g1rgvTW9da3tMiAhHjkjZVs1QOJOj8TJ-9MDg@mail.gmail.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
+To: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>,
+ <freedreno@lists.freedesktop.org>
+References: <1651160067-26431-1-git-send-email-quic_abhinavk@quicinc.com>
+ <c1f46c3a-4b89-3d6d-06af-242b859f1cab@linaro.org>
+From: Abhinav Kumar <quic_abhinavk@quicinc.com>
+In-Reply-To: <c1f46c3a-4b89-3d6d-06af-242b859f1cab@linaro.org>
+Content-Type: text/plain; charset="UTF-8"; format=flowed
+Content-Transfer-Encoding: 8bit
+X-Originating-IP: [10.80.80.8]
+X-ClientProxiedBy: nasanex01b.na.qualcomm.com (10.46.141.250) To
+ nalasex01a.na.qualcomm.com (10.47.209.196)
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -86,71 +66,46 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Ulf Hansson <ulf.hansson@linaro.org>, USB list <linux-usb@vger.kernel.org>,
- "Rafael J. Wysocki" <rafael@kernel.org>,
- Viresh Kumar <viresh.kumar@linaro.org>,
- Linux Fbdev development list <linux-fbdev@vger.kernel.org>,
- Dominik Brodowski <linux@dominikbrodowski.net>,
- "open list:BROADCOM NVRAM DRIVER" <linux-mips@vger.kernel.org>,
- IDE-ML <linux-ide@vger.kernel.org>, linux-mtd <linux-mtd@lists.infradead.org>,
- Robert Jarzmik <robert.jarzmik@free.fr>, linux-clk <linux-clk@vger.kernel.org>,
- linux-leds@vger.kernel.org, linux-rtc@vger.kernel.org,
- Helge Deller <deller@gmx.de>, Marek Vasut <marek.vasut@gmail.com>,
- Paul Parsons <lost.distance@yahoo.com>, Sergey Lapin <slapin@ossfans.org>,
- ALSA Development Mailing List <alsa-devel@alsa-project.org>,
- Linux PM list <linux-pm@vger.kernel.org>,
- "open list:HID CORE LAYER" <linux-input@vger.kernel.org>,
- Haojian Zhuang <haojian.zhuang@gmail.com>, Lubomir Rintel <lkundrak@v3.sk>,
- Mark Brown <broonie@kernel.org>, dri-devel <dri-devel@lists.freedesktop.org>,
- Linux ARM <linux-arm-kernel@lists.infradead.org>,
- Thomas Bogendoerfer <tsbogend@alpha.franken.de>,
- Stephen Boyd <sboyd@kernel.org>, patches@opensource.cirrus.com,
- Dmitry Torokhov <dmitry.torokhov@gmail.com>,
- linux-mmc <linux-mmc@vger.kernel.org>,
- Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
- Michael Turquette <mturquette@baylibre.com>, Daniel Mack <daniel@zonque.org>
+Cc: dri-devel@lists.freedesktop.org, swboyd@chromium.org, seanpaul@chromium.org,
+ quic_jesszhan@quicinc.com, quic_aravindh@quicinc.com
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 4/28/22 06:44, Arnd Bergmann wrote:
-> On Sun, Apr 24, 2022 at 8:48 PM Arnd Bergmann <arnd@kernel.org> wrote:
->> On Sun, Apr 24, 2022 at 5:28 PM Guenter Roeck <linux@roeck-us.net> wrote:
->>> On 4/24/22 01:52, Arnd Bergmann wrote:
->>>> On Sun, Apr 24, 2022 at 4:09 AM Guenter Roeck <linux@roeck-us.net> wrote:
->>>> into the defconfig file, otherwise the multiplatform target defaults to
->>>> an ARMv7 instead of ARMv5 build. For an OMAP15xx as in the SX1,
->>>> you also need to enable CONFIG_ARCH_MULTI_V4T.
->>>>
->>>> This is slightly unfortunate, but I don't see any way to avoid it, and the
->>>> modified defconfig will still work fine with older kernel trees.
->>>>
->>>
->>> Yes, that works. I changed it in my configuration.
+
+
+On 4/28/2022 8:58 AM, Dmitry Baryshkov wrote:
+> On 28/04/2022 18:34, Abhinav Kumar wrote:
+>> Remove the unused local variable refcount for encoder_phys_wb
+>> as the one part of wb_enc is used directly.
 >>
->> Ok, great!. I managed to boot the z2 machine with PCMCIA support
->> and it gets around the issue with my patch, correctly detecting the
->> CF card.
+>> Fixes: 0ce51f19453e ("drm/msm/dpu: introduce the dpu_encoder_phys_* 
+>> for writeback")
+>> Reported-by: kernel test robot <lkp@intel.com>
+>> Signed-off-by: Abhinav Kumar <quic_abhinavk@quicinc.com>
+>> ---
+>>   drivers/gpu/drm/msm/disp/dpu1/dpu_encoder_phys_wb.c | 3 ---
+>>   1 file changed, 3 deletions(-)
+>>
+>> diff --git a/drivers/gpu/drm/msm/disp/dpu1/dpu_encoder_phys_wb.c 
+>> b/drivers/gpu/drm/msm/disp/dpu1/dpu_encoder_phys_wb.c
+>> index cb5c7da53c29..904124a3477e 100644
+>> --- a/drivers/gpu/drm/msm/disp/dpu1/dpu_encoder_phys_wb.c
+>> +++ b/drivers/gpu/drm/msm/disp/dpu1/dpu_encoder_phys_wb.c
+>> @@ -407,9 +407,6 @@ static void dpu_encoder_phys_wb_irq_ctrl(
+>>       struct dpu_encoder_phys_wb *wb_enc = to_dpu_encoder_phys_wb(phys);
+>>       int ret = 0;
+>> -    int refcount;
+>> -
+>> -    refcount = atomic_read(&wb_enc->wbirq_refcount);
+>>       if (enable && atomic_inc_return(&wb_enc->wbirq_refcount) == 1) {
+>>           dpu_core_irq_register_callback(phys->dpu_kms,
 > 
-> Hi Guenter,
-> 
-> I have now sent out a fix that I'm happy with, and applied it to the
-> pxa-multiplatform-5.18 branch of the soc tree as well as the
-> combined arm/multiplatform tree.
-> 
-> I have not merged this new version into the for-next branch
-> since I would like to see if there are any other regressions first.
-> 
-> Can you run your boot tests on the arm/multiplatform branch
-> and let me know if that fixes everything you found? If that
-> takes a lot of manual steps on your side, I'd just wait for the
-> build bots and merge it after all there are no new compile-time
-> issues.
+> As I glanced onto this function, it seems you miss updating `ret` here. 
+> Could you please fix that too?
 > 
 
--next is pretty badly broken right now due to a series of less than
-perfect mm patches, so testing there won't do any good.
+Yes, we dont need ret here, its a void function.
+So we dont need to handle the if (ret) cases as we would never hit them.
 
-I'll see if I can dig up the multiplatform branch and push it into
-my 'testing' branch.
-
-Guenter
+I will update this and post v2. I have re-tested this too.
+> 
