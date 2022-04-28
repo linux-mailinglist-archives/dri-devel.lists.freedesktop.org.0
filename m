@@ -2,61 +2,50 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 30390512E34
-	for <lists+dri-devel@lfdr.de>; Thu, 28 Apr 2022 10:25:35 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id A1DC5512E44
+	for <lists+dri-devel@lfdr.de>; Thu, 28 Apr 2022 10:27:52 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 0434A10F793;
-	Thu, 28 Apr 2022 08:25:33 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 6120610F849;
+	Thu, 28 Apr 2022 08:27:50 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-ej1-x62f.google.com (mail-ej1-x62f.google.com
- [IPv6:2a00:1450:4864:20::62f])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 8230810F793
- for <dri-devel@lists.freedesktop.org>; Thu, 28 Apr 2022 08:25:31 +0000 (UTC)
-Received: by mail-ej1-x62f.google.com with SMTP id l18so8013518ejc.7
- for <dri-devel@lists.freedesktop.org>; Thu, 28 Apr 2022 01:25:31 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=amarulasolutions.com; s=google;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=GBFLXMdrqZoM8pTN9XOZZVLOcyL+2U8hpcEKfTTlXlY=;
- b=acPfvYBo2zGMcnL/ebZtDurllXBYVvGnQWuYbMdEyr/qKgqwEyxoxvyTBSgGBJRepN
- 576veejTCJPrq5g0WnVeEqMKfXhzQy9BrtyfSMjgpZ299k+IXH5ISoEUe3gZsd0S4135
- 94XlelFYgIROHiCxNIMcPrWG5fGhxOUK7zwS0=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=GBFLXMdrqZoM8pTN9XOZZVLOcyL+2U8hpcEKfTTlXlY=;
- b=Je9pmbGWVvyi/Rh7PR+mj64XcflCUf43BWFK3rglN12Y67Gt8UHpJreFS+Nl12YEpj
- m7r9K+ws9HsRJyFOBXzxYN8O/Ru7/zuIC1bBbx98FzX1MhnFr5SV+pdTLwu0TpP0Sk8O
- A2/CUf3KKxrwMnZriiDnGp7UF5tN1kRQU7N5npvlLzTIm2VDCJR7lRwLySQ7D2n+7qtF
- rySGqwsygYwcf7BRjZAMKbbR6jqLe4eT2U4Bn010PaZeptA2dyBDu4f6wLXyAd0NdgOo
- 1R5VhGUUbsj1/JdfFUStBjpzjV5WDJedL+IpbOiM4ehbd1kUKPQ9XisvKcdDbr23ShAI
- yXKw==
-X-Gm-Message-State: AOAM530PXNpZWzh5PAEf02HFtyYPB/ccw0lzjfTPf7wwcTtF87iKuv7v
- q0K6zlR+3+iJLm6rwF3IMVCPDUBSBdrEtnf76vQ2iw==
-X-Google-Smtp-Source: ABdhPJyyqoaJEPIXQO48nP32E2pidZpyto+Tp7PAetnqqtbxUKQnW+q5FcYhfABf4qMQZGVhvMLBniJjkCWi7+KbQWQ=
-X-Received: by 2002:a17:906:1315:b0:6ef:5903:c5d1 with SMTP id
- w21-20020a170906131500b006ef5903c5d1mr30037607ejb.537.1651134329995; Thu, 28
- Apr 2022 01:25:29 -0700 (PDT)
+Received: from smtp-out1.suse.de (smtp-out1.suse.de [195.135.220.28])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 3BD1B10F849
+ for <dri-devel@lists.freedesktop.org>; Thu, 28 Apr 2022 08:27:49 +0000 (UTC)
+Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+ key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
+ (No client certificate requested)
+ by smtp-out1.suse.de (Postfix) with ESMTPS id CDEBA2186F;
+ Thu, 28 Apr 2022 08:27:47 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.com; s=susede1;
+ t=1651134467; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+ mime-version:mime-version: content-transfer-encoding:content-transfer-encoding;
+ bh=uHWa92vFc0VKwXbjUTC1XMh188o1HlT0uQD6qb0vP48=;
+ b=ptsNFLPN4AOJ9HLpo2aUFC1C35GqsbNQmwQwd/cc0fkX9rwV4HLRJVj0WiG+95oGxsBYyw
+ 5reFV928fpI3wng15ZZWSf2aMaxIkut0k3dO9MjlmOJ7aHFGqGsaFIzVlip6U6aXsYeVwo
+ KQjHMdo/P4x1VKzfCdDMkbEiS1Pfu8Q=
+Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+ key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
+ (No client certificate requested)
+ by imap2.suse-dmz.suse.de (Postfix) with ESMTPS id EF6F413491;
+ Thu, 28 Apr 2022 08:27:46 +0000 (UTC)
+Received: from dovecot-director2.suse.de ([192.168.254.65])
+ by imap2.suse-dmz.suse.de with ESMTPSA id ApxEOAJQamIBLgAAMHmgww
+ (envelope-from <jgross@suse.com>); Thu, 28 Apr 2022 08:27:46 +0000
+From: Juergen Gross <jgross@suse.com>
+To: xen-devel@lists.xenproject.org, linux-block@vger.kernel.org,
+ linux-kernel@vger.kernel.org, netdev@vger.kernel.org,
+ linux-scsi@vger.kernel.org, linux-usb@vger.kernel.org,
+ dri-devel@lists.freedesktop.org, linux-integrity@vger.kernel.org,
+ linux-pci@vger.kernel.org
+Subject: [PATCH v2 00/19] xen: simplify frontend side ring setup
+Date: Thu, 28 Apr 2022 10:27:24 +0200
+Message-Id: <20220428082743.16593-1-jgross@suse.com>
+X-Mailer: git-send-email 2.34.1
 MIME-Version: 1.0
-References: <20220420231230.58499-1-bjorn.andersson@linaro.org>
- <20220420231230.58499-2-bjorn.andersson@linaro.org>
- <CAMty3ZAw7DUSnBePC05qC8Gn6ESKiu+FHw4a-HPPc05VX1hqhg@mail.gmail.com>
- <20220421082358.ivpmtak3ednvddrc@houat> <YmEdAVwZuA7Wo1Ch@aptenodytes>
- <YmelPCcWCCjALtRU@aptenodytes>
- <CAMty3ZBwguzvC8A9xA5c0enfoFRGS=4wWCzpfakTUXrsRS9GyA@mail.gmail.com>
- <CGME20220427143420eucas1p1aa7dff284512e1c48c3db414633237ea@eucas1p1.samsung.com>
- <20220427143410.bectqumq62qmlv5x@houat>
- <8cc97a1b-f03a-3303-4357-fc26abe58fcd@samsung.com>
-In-Reply-To: <8cc97a1b-f03a-3303-4357-fc26abe58fcd@samsung.com>
-From: Jagan Teki <jagan@amarulasolutions.com>
-Date: Thu, 28 Apr 2022 13:55:18 +0530
-Message-ID: <CAMty3ZDFCJyXxM1__H=XTupLy-npDwJVbBf2k1H=Yo7LFf82rQ@mail.gmail.com>
-Subject: Re: [PATCH 2/2] Revert "drm: of: Lookup if child node has panel or
- bridge"
-To: Marek Szyprowski <m.szyprowski@samsung.com>
-Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -69,84 +58,72 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: David Airlie <airlied@linux.ie>, Robert Foss <robert.foss@linaro.org>,
- linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
- Bjorn Andersson <bjorn.andersson@linaro.org>,
- Paul Kocialkowski <paul.kocialkowski@bootlin.com>,
- Thierry Reding <thierry.reding@gmail.com>, Maxime Ripard <maxime@cerno.tech>,
- Thomas Zimmermann <tzimmermann@suse.de>,
- Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+Cc: Juergen Gross <jgross@suse.com>, Jens Axboe <axboe@kernel.dk>,
+ alsa-devel@alsa-project.org, Stefano Stabellini <sstabellini@kernel.org>,
+ "Martin K. Petersen" <martin.petersen@oracle.com>,
+ Oleksandr Andrushchenko <oleksandr_andrushchenko@epam.com>,
+ David Airlie <airlied@linux.ie>,
+ Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+ "James E.J. Bottomley" <jejb@linux.ibm.com>, Takashi Iwai <tiwai@suse.com>,
+ Jaroslav Kysela <perex@perex.cz>, Jason Gunthorpe <jgg@ziepe.ca>,
+ Jarkko Sakkinen <jarkko@kernel.org>, Bjorn Helgaas <bhelgaas@google.com>,
+ Jakub Kicinski <kuba@kernel.org>, Boris Ostrovsky <boris.ostrovsky@oracle.com>,
+ Paolo Abeni <pabeni@redhat.com>, "David S. Miller" <davem@davemloft.net>,
+ Peter Huewe <peterhuewe@gmx.de>,
+ =?UTF-8?q?Roger=20Pau=20Monn=C3=A9?= <roger.pau@citrix.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi Marek,
+Many Xen PV frontends share similar code for setting up a ring page
+(allocating and granting access for the backend) and for tearing it
+down.
 
-On Thu, Apr 28, 2022 at 11:47 AM Marek Szyprowski
-<m.szyprowski@samsung.com> wrote:
->
-> Hi Maxime,
->
-> On 27.04.2022 16:34, Maxime Ripard wrote:
-> > On Tue, Apr 26, 2022 at 01:40:31PM +0530, Jagan Teki wrote:
-> >> On Tue, Apr 26, 2022 at 1:24 PM Paul Kocialkowski
-> >> <paul.kocialkowski@bootlin.com> wrote:
-> >>> On Thu 21 Apr 22, 10:59, Paul Kocialkowski wrote:
-> >>>> On Thu 21 Apr 22, 10:23, Maxime Ripard wrote:
-> >>>>> On Thu, Apr 21, 2022 at 01:15:54PM +0530, Jagan Teki wrote:
-> >>>>>> + Linus
-> >>>>>> + Marek
-> >>>>>> + Laurent
-> >>>>>> + Robert
-> >>>>>>
-> >>>>>> On Thu, Apr 21, 2022 at 4:40 AM Bjorn Andersson
-> >>>>>> <bjorn.andersson@linaro.org> wrote:
-> >>>>>>> Commit '80253168dbfd ("drm: of: Lookup if child node has panel or
-> >>>>>>> bridge")' attempted to simplify the case of expressing a simple panel
-> >>>>>>> under a DSI controller, by assuming that the first non-graph child node
-> >>>>>>> was a panel or bridge.
-> >>>>>>>
-> >>>>>>> Unfortunately for non-trivial cases the first child node might not be a
-> >>>>>>> panel or bridge.  Examples of this can be a aux-bus in the case of
-> >>>>>>> DisplayPort, or an opp-table represented before the panel node.
-> >>>>>>>
-> >>>>>>> In these cases the reverted commit prevents the caller from ever finding
-> >>>>>>> a reference to the panel.
-> >>>>>>>
-> >>>>>>> This reverts commit '80253168dbfd ("drm: of: Lookup if child node has
-> >>>>>>> panel or bridge")', in favor of using an explicit graph reference to the
-> >>>>>>> panel in the trivial case as well.
-> >>>>>> This eventually breaks many child-based devm_drm_of_get_bridge
-> >>>>>> switched drivers.  Do you have any suggestions on how to proceed to
-> >>>>>> succeed in those use cases as well?
-> >>>>> I guess we could create a new helper for those, like
-> >>>>> devm_drm_of_get_bridge_with_panel, or something.
-> >>>> Oh wow I feel stupid for not thinking about that.
-> >>>>
-> >>>> Yeah I agree that it seems like the best option.
-> >>> Should I prepare a patch with such a new helper?
-> >>>
-> >>> The idea would be to keep drm_of_find_panel_or_bridge only for the of graph
-> >>> case and add one for the child node case, maybe:
-> >>> drm_of_find_child_panel_or_bridge.
-> >>>
-> >>> I really don't have a clear idea of which driver would need to be switched
-> >>> over though. Could someone (Jagan?) let me know where it would be needed?
-> >> sun6i_mipi_dsi
-> > It doesn't look like sun6i_mipi_dsi is using devm_drm_of_get_bridge at all?
-> >
-> >> exynos_drm_dsi
-> > If you reference 711c7adc4687, I don't see why we would need to switch
-> > it back to the old behaviour. It wasn't iterating over its child node
-> > before, so what does the switch to drm_of_get_bridge broke exactly?
->
-> It broke getting the panel if it is a direct child of the DSI device
-> node. It worked before because it used following code:
->
-> dsi->panel = of_drm_find_panel(device->dev.of_node);
->
-> which got replaced by devm_drm_of_get_bridge().
+Create new service functions doing all needed steps in one go.
 
-Yes, we need to revert that change back to find the individual panel
-and bridge. I'm preparing a patch for it.
+This requires all frontends to use a common value for an invalid
+grant reference in order to make the functions idempotent.
 
-Jagan.
+Changes in V2:
+- new patch 9 and related changes in patches 10-18
+
+Juergen Gross (19):
+  xen/blkfront: switch blkfront to use INVALID_GRANT_REF
+  xen/netfront: switch netfront to use INVALID_GRANT_REF
+  xen/scsifront: remove unused GRANT_INVALID_REF definition
+  xen/usb: switch xen-hcd to use INVALID_GRANT_REF
+  xen/drm: switch xen_drm_front to use INVALID_GRANT_REF
+  xen/sound: switch xen_snd_front to use INVALID_GRANT_REF
+  xen/dmabuf: switch gntdev-dmabuf to use INVALID_GRANT_REF
+  xen/shbuf: switch xen-front-pgdir-shbuf to use INVALID_GRANT_REF
+  xen: update ring.h
+  xen/xenbus: add xenbus_setup_ring() service function
+  xen/blkfront: use xenbus_setup_ring() and xenbus_teardown_ring()
+  xen/netfront: use xenbus_setup_ring() and xenbus_teardown_ring()
+  xen/tpmfront: use xenbus_setup_ring() and xenbus_teardown_ring()
+  xen/drmfront: use xenbus_setup_ring() and xenbus_teardown_ring()
+  xen/pcifront: use xenbus_setup_ring() and xenbus_teardown_ring()
+  xen/scsifront: use xenbus_setup_ring() and xenbus_teardown_ring()
+  xen/usbfront: use xenbus_setup_ring() and xenbus_teardown_ring()
+  xen/sndfront: use xenbus_setup_ring() and xenbus_teardown_ring()
+  xen/xenbus: eliminate xenbus_grant_ring()
+
+ drivers/block/xen-blkfront.c                | 57 +++++---------
+ drivers/char/tpm/xen-tpmfront.c             | 18 +----
+ drivers/gpu/drm/xen/xen_drm_front.h         |  9 ---
+ drivers/gpu/drm/xen/xen_drm_front_evtchnl.c | 43 +++--------
+ drivers/net/xen-netfront.c                  | 85 +++++++--------------
+ drivers/pci/xen-pcifront.c                  | 19 +----
+ drivers/scsi/xen-scsifront.c                | 31 ++------
+ drivers/usb/host/xen-hcd.c                  | 65 ++++------------
+ drivers/xen/gntdev-dmabuf.c                 | 13 +---
+ drivers/xen/xen-front-pgdir-shbuf.c         | 17 +----
+ drivers/xen/xenbus/xenbus_client.c          | 82 +++++++++++++++-----
+ include/xen/interface/io/ring.h             | 19 +++--
+ include/xen/xenbus.h                        |  4 +-
+ sound/xen/xen_snd_front_evtchnl.c           | 44 +++--------
+ sound/xen/xen_snd_front_evtchnl.h           |  9 ---
+ 15 files changed, 179 insertions(+), 336 deletions(-)
+
+-- 
+2.34.1
+
