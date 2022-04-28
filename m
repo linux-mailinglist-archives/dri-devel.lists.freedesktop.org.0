@@ -1,44 +1,54 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id B9CD0512D62
-	for <lists+dri-devel@lfdr.de>; Thu, 28 Apr 2022 09:53:09 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id DA38F512D89
+	for <lists+dri-devel@lfdr.de>; Thu, 28 Apr 2022 09:58:15 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 6FF0F10ECC1;
-	Thu, 28 Apr 2022 07:53:07 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id A226E10F3EE;
+	Thu, 28 Apr 2022 07:58:10 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-40136.proton.ch (mail-40136.proton.ch [185.70.40.136])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 50EEF10ECD4
- for <dri-devel@lists.freedesktop.org>; Thu, 28 Apr 2022 07:53:06 +0000 (UTC)
-Date: Thu, 28 Apr 2022 07:52:58 +0000
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=emersion.fr;
- s=protonmail2; t=1651132384;
- bh=ritceg9PElRUAJIYHZcCIAq7zGrcZEqANbgGFRhXGEA=;
- h=Date:To:From:Cc:Reply-To:Subject:Message-ID:In-Reply-To:
- References:Feedback-ID:From:To:Cc:Date:Subject:Reply-To:
- Feedback-ID:Message-ID;
- b=XQz63u/t2wvXbh587mGyYRXHZSaYAYObiDAMExM9H+w9+veVd72sAmsDFZmTQCMr1
- 0sGkwwNgXWHDW15Jnj4CVBkJg0q4ItSnm68RD/LvkA/1Al/TdQJCppld5LEc23HXGK
- +x6XnupcOfT/CVfds9ioafLncVMPc625aQNei/Eh1CnL8S4DesOtzhw+6XMU8XegQm
- fMTYsedpQPudNlUZXG7DsJATLXmN81M7Q7lpALOex9u3Y6ZJOCFXE7EP3F/ST08YUg
- 44lr1OhjNcVqnUUSoILDds3j52KRPRgmyAPf+sfVj3BQ0lbIJhQUIbG2mO6iPCuxk/
- NhfykZ4zU6cLg==
-To: Pekka Paalanen <ppaalanen@gmail.com>
-From: Simon Ser <contact@emersion.fr>
-Subject: Re: How should "max bpc" KMS property work?
-Message-ID: <LN_QB3Nb1GNVmbIVpDUJ4ZVnK3WVHlLKwEYxIqEMYJYc2BohK-7VrtEXJF7iDytYws4tiq2RnimS1QsqwERDdReixBshVTVzNyAMOcWsE3M=@emersion.fr>
-In-Reply-To: <20220428105017.75d9aefe@eldfell>
-References: <20220426113502.224d0a90@eldfell> <YmgyArRaJCh6JkQh@intel.com>
- <20220427135259.5e615945@eldfell>
- <4ceca4d9-c58c-9e33-36a6-dbf0c4bb82a7@amd.com>
- <CA+hFU4ykm-8difozGJ5QtAYc=5RGQTUDiagBNmNccf06sGYGZQ@mail.gmail.com>
- <20220428105017.75d9aefe@eldfell>
-Feedback-ID: 1358184:user:proton
+Received: from mga09.intel.com (mga09.intel.com [134.134.136.24])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id B9B6C10F2C5;
+ Thu, 28 Apr 2022 07:58:08 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+ t=1651132688; x=1682668688;
+ h=message-id:date:mime-version:subject:to:cc:references:
+ from:in-reply-to:content-transfer-encoding;
+ bh=qlXIojBuA4nQ8BcOAn+vlOpYi2RoWKk0pt8TTEDyHNQ=;
+ b=frEP4uSNE8P7qxnnZOzeeUyv8vpCK7k+eSG073MSHpLgkwSSixeu+33q
+ pdhFb1b4dWUgHrh4GPPmcnvU7DsseqoEbbH2S3k0gKn0u03MKh/6LNs+7
+ sqBJM3/i751F5IxMUuOZGB3GUSMEsUGjV3RVKESSr8obmwKzwxZlOusK5
+ sJe5nmQbyPGykZUGM42Fn+BUPREHLtAGzjCyZbTxvgIMNY2lyOIaiWSw/
+ IpoGh4jnvzWtgHR4LyrXixAEbv2511l1nsl77yJvEAp7qK2lVWLK70SgL
+ 4HtCVPhXKE3W3GZnSfFDGLksWmijjoE96ziw/eRbW2m4nwILVcJkaX+3V A==;
+X-IronPort-AV: E=McAfee;i="6400,9594,10330"; a="265722875"
+X-IronPort-AV: E=Sophos;i="5.90,295,1643702400"; d="scan'208";a="265722875"
+Received: from orsmga007.jf.intel.com ([10.7.209.58])
+ by orsmga102.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 28 Apr 2022 00:58:08 -0700
+X-IronPort-AV: E=Sophos;i="5.90,295,1643702400"; d="scan'208";a="559521616"
+Received: from wdries-mobl1.ger.corp.intel.com (HELO [10.213.210.166])
+ ([10.213.210.166])
+ by orsmga007-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 28 Apr 2022 00:58:06 -0700
+Message-ID: <a55f18bb-0837-aa67-042b-afd0cbe0c124@linux.intel.com>
+Date: Thu, 28 Apr 2022 08:58:04 +0100
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: quoted-printable
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.7.0
+Subject: Re: [PATCH v2 3/4] drm/i915/xehp: Add compute engine ABI
+Content-Language: en-US
+To: Matt Roper <matthew.d.roper@intel.com>, intel-gfx@lists.freedesktop.org
+References: <20220428041926.1483683-1-matthew.d.roper@intel.com>
+ <20220428041926.1483683-4-matthew.d.roper@intel.com>
+From: Tvrtko Ursulin <tvrtko.ursulin@linux.intel.com>
+Organization: Intel Corporation UK Plc
+In-Reply-To: <20220428041926.1483683-4-matthew.d.roper@intel.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -51,58 +61,102 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Reply-To: Simon Ser <contact@emersion.fr>
-Cc: Sebastian Wick <sebastian.wick@redhat.com>,
- dri-devel <dri-devel@lists.freedesktop.org>,
- =?utf-8?Q?Jonas_=C3=85dahl?= <jadahl@redhat.com>,
- Vitaly Prosyak <vitaly.prosyak@amd.com>
+Cc: Vinay Belgaumkar <vinay.belgaumkar@intel.com>,
+ Daniele Ceraolo Spurio <daniele.ceraolospurio@intel.com>,
+ Szymon Morek <szymon.morek@intel.com>, dri-devel@lists.freedesktop.org,
+ Jordan Justen <jordan.l.justen@intel.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Thursday, April 28th, 2022 at 09:50, Pekka Paalanen <ppaalanen@gmail.com=
-> wrote:
 
-> > > > Also like Alex said, the kernel does not know if the user prefers h=
-igh
-> > > > color depth or high refresh rate either. One way to solve that is t=
-o
-> > > > light up the requested video mode any way the kernel can, and then
-> > > > report what the resulting color depth is. Another way is to have
-> > > > explicit "use this bpc or fail" KMS property, maybe in the form of =
-'min
-> > > > bpc' as I recall being discussed in the past, and let userspace gue=
-ss
-> > > > what might work. The former is easier to light up, but probing requ=
-ires
-> > > > actually setting the modes. The latter may require a lot of
-> > > > trial-and-error from userspace to find anything that works, but it
-> > > > takes only time and not blinking - as far as things can be detected
-> > > > with TEST_ONLY commits. Then one still has to ask the user if it
-> > > > actually worked.
-> > >
-> > > min_bpc sounds like something we might want for HDR use-cases, unless
-> > > the compositor has a way to confirm the output box (and format). min_=
-bpc
-> > > would allow the KMS driver to pick the lowest required bpc so the
-> > > compositor always has a guarantee of quality.
-> >
-> > IMO that would be ideal. The driver should try to reduce bandwidth by l=
-owering
-> > the bpc down to the min_bpc if the hardware can't drive the selected mo=
-de at a
-> > higher bpc. User space usually knows which bpc is sufficient for the us=
-e case
-> > but will never complain about too much bpc. Drivers which don't support
-> > lowering the bpc dynamically can then still go with the min_bpc and use=
-r space
-> > still gets all the modes which work with the minimum required bpc.
->
->
-> This would be nice, yes.
->
-> I'm fairly sure 'min bpc' was discussed here on the dri-devel mailing
-> list in the past, but I don't remember when or by whom.
+On 28/04/2022 05:19, Matt Roper wrote:
+> We're now ready to start exposing compute engines to userspace.
+> 
+> v2:
+>   - Move kerneldoc for other engine classes to a separate patch.  (Andi)
+> 
+> Cc: Daniele Ceraolo Spurio <daniele.ceraolospurio@intel.com>
+> Cc: Tvrtko Ursulin <tvrtko.ursulin@linux.intel.com>
+> Cc: Vinay Belgaumkar <vinay.belgaumkar@intel.com>
+> Cc: Jordan Justen <jordan.l.justen@intel.com>
+> Cc: Szymon Morek <szymon.morek@intel.com>
+> UMD (mesa): https://gitlab.freedesktop.org/mesa/mesa/-/merge_requests/14395
 
-Yup. I explained there that I'd prefer "current bpc" + "user bpc" props
-and let user-space deal with the fallback logic just like it does for
-modes, modifiers, etc.
+If in doubt cut it out. :) Works for me.
+
+The rest looks complete.
+
+Acked-by: Tvrtko Ursulin <tvrtko.ursulin@intel.com>
+
+Anyone cares to smoke test and update intel_gpu_top to display a nice name?
+
+Regards,
+
+Tvrtko
+
+> Signed-off-by: Matt Roper <matthew.d.roper@intel.com>
+> ---
+>   drivers/gpu/drm/i915/gt/intel_engine_user.c | 2 +-
+>   drivers/gpu/drm/i915/i915_drm_client.c      | 1 +
+>   drivers/gpu/drm/i915/i915_drm_client.h      | 2 +-
+>   include/uapi/drm/i915_drm.h                 | 9 +++++++++
+>   4 files changed, 12 insertions(+), 2 deletions(-)
+> 
+> diff --git a/drivers/gpu/drm/i915/gt/intel_engine_user.c b/drivers/gpu/drm/i915/gt/intel_engine_user.c
+> index 0f6cd96b459f..46a174f8aa00 100644
+> --- a/drivers/gpu/drm/i915/gt/intel_engine_user.c
+> +++ b/drivers/gpu/drm/i915/gt/intel_engine_user.c
+> @@ -47,7 +47,7 @@ static const u8 uabi_classes[] = {
+>   	[COPY_ENGINE_CLASS] = I915_ENGINE_CLASS_COPY,
+>   	[VIDEO_DECODE_CLASS] = I915_ENGINE_CLASS_VIDEO,
+>   	[VIDEO_ENHANCEMENT_CLASS] = I915_ENGINE_CLASS_VIDEO_ENHANCE,
+> -	/* TODO: Add COMPUTE_CLASS mapping once ABI is available */
+> +	[COMPUTE_CLASS] = I915_ENGINE_CLASS_COMPUTE,
+>   };
+>   
+>   static int engine_cmp(void *priv, const struct list_head *A,
+> diff --git a/drivers/gpu/drm/i915/i915_drm_client.c b/drivers/gpu/drm/i915/i915_drm_client.c
+> index 475a6f824cad..18d38cb59923 100644
+> --- a/drivers/gpu/drm/i915/i915_drm_client.c
+> +++ b/drivers/gpu/drm/i915/i915_drm_client.c
+> @@ -81,6 +81,7 @@ static const char * const uabi_class_names[] = {
+>   	[I915_ENGINE_CLASS_COPY] = "copy",
+>   	[I915_ENGINE_CLASS_VIDEO] = "video",
+>   	[I915_ENGINE_CLASS_VIDEO_ENHANCE] = "video-enhance",
+> +	[I915_ENGINE_CLASS_COMPUTE] = "compute",
+>   };
+>   
+>   static u64 busy_add(struct i915_gem_context *ctx, unsigned int class)
+> diff --git a/drivers/gpu/drm/i915/i915_drm_client.h b/drivers/gpu/drm/i915/i915_drm_client.h
+> index 5f5b02b01ba0..f796c5e8e060 100644
+> --- a/drivers/gpu/drm/i915/i915_drm_client.h
+> +++ b/drivers/gpu/drm/i915/i915_drm_client.h
+> @@ -13,7 +13,7 @@
+>   
+>   #include "gt/intel_engine_types.h"
+>   
+> -#define I915_LAST_UABI_ENGINE_CLASS I915_ENGINE_CLASS_VIDEO_ENHANCE
+> +#define I915_LAST_UABI_ENGINE_CLASS I915_ENGINE_CLASS_COMPUTE
+>   
+>   struct drm_i915_private;
+>   
+> diff --git a/include/uapi/drm/i915_drm.h b/include/uapi/drm/i915_drm.h
+> index ec000fc6c879..a2def7b27009 100644
+> --- a/include/uapi/drm/i915_drm.h
+> +++ b/include/uapi/drm/i915_drm.h
+> @@ -203,6 +203,15 @@ enum drm_i915_gem_engine_class {
+>   	 */
+>   	I915_ENGINE_CLASS_VIDEO_ENHANCE	= 3,
+>   
+> +	/**
+> +	 * @I915_ENGINE_CLASS_COMPUTE:
+> +	 *
+> +	 * Compute engines support a subset of the instructions available
+> +	 * on render engines:  compute engines support Compute (GPGPU) and
+> +	 * programmable media workloads, but do not support the 3D pipeline.
+> +	 */
+> +	I915_ENGINE_CLASS_COMPUTE	= 4,
+> +
+>   	/* Values in this enum should be kept compact. */
+>   
+>   	/**
