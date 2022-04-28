@@ -1,45 +1,52 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id B37295134DA
-	for <lists+dri-devel@lfdr.de>; Thu, 28 Apr 2022 15:19:52 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 76D07513552
+	for <lists+dri-devel@lfdr.de>; Thu, 28 Apr 2022 15:38:11 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id B9C8E10E9E6;
-	Thu, 28 Apr 2022 13:19:50 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 7F3A910EBB8;
+	Thu, 28 Apr 2022 13:38:03 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from bhuna.collabora.co.uk (bhuna.collabora.co.uk [46.235.227.227])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 1883F10E9E6
- for <dri-devel@lists.freedesktop.org>; Thu, 28 Apr 2022 13:19:49 +0000 (UTC)
-Received: from [127.0.0.1] (localhost [127.0.0.1])
- (Authenticated sender: kholk11) with ESMTPSA id A8C9A1F4536D
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
- s=mail; t=1651151987;
- bh=Y6r9EqSsbh3Dq7eavxiGIUP0pwnIFPvRrJcfm6QBnE8=;
- h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
- b=HEe0sCPkAkBWKZhzzUzZdry5WIJSxY16gc5VTbcu1Iyil/jW5t1lblH6ZqHf2Lt8C
- tiuM8VRrJwFmYeZkQN2rfaI6SPqlYGF6+1F2S2pOkpVBM8ovivkkJNQco9jS8F3BM5
- 3YxtmrigFaC8xRHW1vhw9UdHMzkzmj7oiUTSvUD5ov/B/RhGRkOnZRIN4qOogvE6S2
- Cxun4IVDrPxULNPup5cydHWqsrr61aCcOX208KEOdAfFsGonglKjlezDsgnTQpXH7i
- sdlrxLr7Lw8QEkT/MmxCyRu6PrYFUEYJY5ou/byucvEqeX5chpKT/5PtuQF+m5UJdj
- KTe6P5o2Fpz3Q==
-Message-ID: <88ddf1ba-9395-cd40-53f5-25d1d2f9ef9e@collabora.com>
-Date: Thu, 28 Apr 2022 15:19:44 +0200
+Received: from mailgw01.mediatek.com (unknown [60.244.123.138])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id F348A10E329
+ for <dri-devel@lists.freedesktop.org>; Thu, 28 Apr 2022 13:38:01 +0000 (UTC)
+X-UUID: d309ffee3c9b4fbb96e6eb8d27b5a8e6-20220428
+X-CID-P-RULE: Release_Ham
+X-CID-O-INFO: VERSION:1.1.4, REQID:11fd026f-1d19-46a7-895e-072e0acfe536, OB:0,
+ LO
+ B:0,IP:0,URL:0,TC:0,Content:0,EDM:0,RT:0,SF:0,FILE:0,RULE:Release_Ham,ACTI
+ ON:release,TS:0
+X-CID-META: VersionHash:faefae9, CLOUDID:ee51d6c6-85ee-4ac1-ac05-bd3f1e72e732,
+ C
+ OID:IGNORED,Recheck:0,SF:nil,TC:nil,Content:0,EDM:-3,File:nil,QS:0,BEC:nil
+X-UUID: d309ffee3c9b4fbb96e6eb8d27b5a8e6-20220428
+Received: from mtkexhb01.mediatek.inc [(172.21.101.102)] by
+ mailgw01.mediatek.com (envelope-from <rex-bc.chen@mediatek.com>)
+ (Generic MTA with TLSv1.2 ECDHE-RSA-AES256-SHA384 256/256)
+ with ESMTP id 1992065373; Thu, 28 Apr 2022 21:37:55 +0800
+Received: from mtkmbs07n1.mediatek.inc (172.21.101.16) by
+ mtkmbs10n2.mediatek.inc (172.21.101.183) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_CBC_SHA384) id 15.2.792.3; 
+ Thu, 28 Apr 2022 21:37:54 +0800
+Received: from mtkcas10.mediatek.inc (172.21.101.39) by
+ mtkmbs07n1.mediatek.inc (172.21.101.16) with Microsoft SMTP Server (TLS) id
+ 15.0.1497.2; Thu, 28 Apr 2022 21:37:54 +0800
+Received: from mtksdccf07.mediatek.inc (172.21.84.99) by mtkcas10.mediatek.inc
+ (172.21.101.73) with Microsoft SMTP Server id 15.0.1497.2 via
+ Frontend Transport; Thu, 28 Apr 2022 21:37:54 +0800
+From: Rex-BC Chen <rex-bc.chen@mediatek.com>
+To: <robh+dt@kernel.org>, <krzysztof.kozlowski+dt@linaro.org>,
+ <chunkuang.hu@kernel.org>, <p.zabel@pengutronix.de>
+Subject: [PATCH v5 0/4] Add mt8186 dsi compatoble & Convert dsi_dtbinding to
+ .yaml
+Date: Thu, 28 Apr 2022 21:37:49 +0800
+Message-ID: <20220428133753.8348-1-rex-bc.chen@mediatek.com>
+X-Mailer: git-send-email 2.18.0
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.7.0
-Subject: Re: [PATCH v4, 1/1] drm/mediatek: add lut diff flag for new gamma
- hardware support
-Content-Language: en-US
-To: Yongqiang Niu <yongqiang.niu@mediatek.com>,
- Chun-Kuang Hu <chunkuang.hu@kernel.org>
-References: <20220428085829.15855-1-yongqiang.niu@mediatek.com>
- <20220428085829.15855-2-yongqiang.niu@mediatek.com>
-From: AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>
-In-Reply-To: <20220428085829.15855-2-yongqiang.niu@mediatek.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain
+X-MTK: N
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -52,37 +59,47 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Yongqiang Niu <yongqiang.niu@mediatek.corp-partner.google.com>,
- devicetree@vger.kernel.org, Project_Global_Chrome_Upstream_Group@mediatek.com,
- David Airlie <airlied@linux.ie>, Jassi Brar <jassisinghbrar@gmail.com>,
- linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
- Dennis YC Hsieh <dennis-yc.hsieh@mediatek.com>,
- Fabien Parent <fparent@baylibre.com>, Rob Herring <robh+dt@kernel.org>,
- linux-mediatek@lists.infradead.org, Hsin-Yi Wang <hsinyi@chromium.org>,
- Matthias Brugger <matthias.bgg@gmail.com>,
+Cc: devicetree@vger.kernel.org, jitao.shi@mediatek.com, xinlei.lee@mediatek.com,
+ airlied@linux.ie, linux-kernel@vger.kernel.org,
+ dri-devel@lists.freedesktop.org, Rex-BC Chen <rex-bc.chen@mediatek.com>,
+ linux-mediatek@lists.infradead.org, matthias.bgg@gmail.com,
  linux-arm-kernel@lists.infradead.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Il 28/04/22 10:58, Yongqiang Niu ha scritto:
-> From: Yongqiang Niu <yongqiang.niu@mediatek.corp-partner.google.com>
-> 
-> mt8183 gamma module usage is different with before soc,
-> gamma odd(index start from 0) lut value set to hardware
-> register should be
-> the difference of current lut value with last lut value.
-> 
-> for example, chrome os user space set lut
-> like this(only r chanel for example):
-> 2 4 6 8 10 12.
-> 1) mt8183 gamma driver should set the gamma lut to hardware
-> register like this:
-> 2 [2] 6 [2] 10 [2]
-> the value with [] is the difference value
-> 2)gamma hardware process display data with original lut
-> 
-> Signed-off-by: Yongqiang Niu <yongqiang.niu@mediatek.com>
+Changes since v4:
+1. Modify DSI dt-binding.
+2. Add support for MT8186 DSI in mtk_drm_drv.c.
 
-Reviewed-by: AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>
+Changes since v3:
+1. Add dsi port property.
+2. Fix some formatting.
 
+Changes since v2:
+1. Added #address-cells, #size-cells two properties.
+2. Fix some formatting issues.
+
+Changes since v1:
+1. Delete the mediatek,dsi.txt & Add the mediatek,dsi.yaml.
+2. Ignore the Move the getting bridge node function patch for V1.
+
+Rex-BC Chen (1):
+  drm/mediatek: Add MT8186 DSI compatible for mtk_drm_drv.c
+
+Xinlei Lee (3):
+  dt-bindings: display: mediatek: dsi: Convert dsi_dtbinding to .yaml
+  dt-bindings: display: mediatek: dsi: Add compatible for MediaTek
+    MT8186
+  drm/mediatek: Add mt8186 dsi compatible to mtk_dsi.c
+
+ .../display/mediatek/mediatek,dsi.txt         |  62 ---------
+ .../display/mediatek/mediatek,dsi.yaml        | 123 ++++++++++++++++++
+ drivers/gpu/drm/mediatek/mtk_drm_drv.c        |   2 +
+ drivers/gpu/drm/mediatek/mtk_dsi.c            |   8 ++
+ 4 files changed, 133 insertions(+), 62 deletions(-)
+ delete mode 100644 Documentation/devicetree/bindings/display/mediatek/mediatek,dsi.txt
+ create mode 100644 Documentation/devicetree/bindings/display/mediatek/mediatek,dsi.yaml
+
+-- 
+2.18.0
 
