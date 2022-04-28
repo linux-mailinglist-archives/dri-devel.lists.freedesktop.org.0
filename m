@@ -1,84 +1,44 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1A815512D63
-	for <lists+dri-devel@lfdr.de>; Thu, 28 Apr 2022 09:53:12 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id B9CD0512D62
+	for <lists+dri-devel@lfdr.de>; Thu, 28 Apr 2022 09:53:09 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id DE15010ECD2;
+	by gabe.freedesktop.org (Postfix) with ESMTP id 6FF0F10ECC1;
 	Thu, 28 Apr 2022 07:53:07 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from us-smtp-delivery-124.mimecast.com
- (us-smtp-delivery-124.mimecast.com [170.10.133.124])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 77C9410ECC1
- for <dri-devel@lists.freedesktop.org>; Thu, 28 Apr 2022 07:52:57 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1651132376;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=fwpLwYRRl15FISsOjXyGpPG6h0phY4GTTlpFR9suoQg=;
- b=NN6yJnvM33yuTekllCPuiQonV9kJ7Vv0amFz3Vam8gok+/u6gEpzVETXKwJ/qq+fxxzivo
- ZwFl3NkXul6AvaDLpVoPFRCFzT+9q9Gx5BEJtSujo9cleHxShCLj8bBbk6DD7rm8hFFZji
- goK9PaP2Uu+nj8OR89K8md40tXgqozU=
-Received: from mail-wr1-f70.google.com (mail-wr1-f70.google.com
- [209.85.221.70]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-78-uIOSGdE3MT-Yp6WeZVmmgQ-1; Thu, 28 Apr 2022 03:52:55 -0400
-X-MC-Unique: uIOSGdE3MT-Yp6WeZVmmgQ-1
-Received: by mail-wr1-f70.google.com with SMTP id
- t15-20020adfdc0f000000b001ef93643476so1611415wri.2
- for <dri-devel@lists.freedesktop.org>; Thu, 28 Apr 2022 00:52:55 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
- :content-language:to:cc:references:from:in-reply-to
- :content-transfer-encoding;
- bh=fwpLwYRRl15FISsOjXyGpPG6h0phY4GTTlpFR9suoQg=;
- b=y700QK22P7AIxhxzlD5RwImXo5cJlHQNIkd3+ZwrhxhaEEx2Jpuz3vtpzRLQlnwmcN
- VQN2of5HCdqfub19SzNzKH9Gh+suZD4A4YQ7eZ1oQix6VMk7bj6IZ8XGy3++N04H+W9w
- S0+dJe8sAdTT3wiq1XLQLL+Y7famcO7mUl11oDocHF9tdqUXmujLKSnc7VaG23M0ea7r
- UnU4BlLWFyzEwZFl2sC3QPFXUSdyA+kEDkLW3TNkKxHfDuaHMT9LRuEblj7UwzuCTWaw
- LAjVWse+MvSGftazmuJCb+fD3EM84CP0qiP6CIPRg1gvXDRh+HEzA2EW6DNLtNtsbLNN
- iS8w==
-X-Gm-Message-State: AOAM530YRwU1KH1qv/08kpdyPctgB5mg+XwS9iEQy/22FHohHdOWMGjB
- tSHcp1zISLfMh3+JHwrrBAuVyMWDwmGIyuxhZEPkGSNK12d+5e/q4syCRhst+hZSAE+w1LXUnh3
- 9Zp2dAl7gv1Pc21QoBi1uTY1EhTwc
-X-Received: by 2002:adf:db05:0:b0:20a:dbf1:fdf8 with SMTP id
- s5-20020adfdb05000000b0020adbf1fdf8mr14784251wri.404.1651132374000; 
- Thu, 28 Apr 2022 00:52:54 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJy4nP57a8g94sEy+weZhg736sd16pvG88YCpRY4VbB3lBBzq0jKK+zIIYv2kWADbstM5n+KNA==
-X-Received: by 2002:adf:db05:0:b0:20a:dbf1:fdf8 with SMTP id
- s5-20020adfdb05000000b0020adbf1fdf8mr14784239wri.404.1651132373697; 
- Thu, 28 Apr 2022 00:52:53 -0700 (PDT)
-Received: from [192.168.1.129] ([92.176.231.205])
- by smtp.gmail.com with ESMTPSA id
- 17-20020a05600c021100b00393faf12859sm3826617wmi.18.2022.04.28.00.52.53
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Thu, 28 Apr 2022 00:52:53 -0700 (PDT)
-Message-ID: <1d456654-6d06-ef35-b9a0-519db7d5b35e@redhat.com>
-Date: Thu, 28 Apr 2022 09:52:51 +0200
+Received: from mail-40136.proton.ch (mail-40136.proton.ch [185.70.40.136])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 50EEF10ECD4
+ for <dri-devel@lists.freedesktop.org>; Thu, 28 Apr 2022 07:53:06 +0000 (UTC)
+Date: Thu, 28 Apr 2022 07:52:58 +0000
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=emersion.fr;
+ s=protonmail2; t=1651132384;
+ bh=ritceg9PElRUAJIYHZcCIAq7zGrcZEqANbgGFRhXGEA=;
+ h=Date:To:From:Cc:Reply-To:Subject:Message-ID:In-Reply-To:
+ References:Feedback-ID:From:To:Cc:Date:Subject:Reply-To:
+ Feedback-ID:Message-ID;
+ b=XQz63u/t2wvXbh587mGyYRXHZSaYAYObiDAMExM9H+w9+veVd72sAmsDFZmTQCMr1
+ 0sGkwwNgXWHDW15Jnj4CVBkJg0q4ItSnm68RD/LvkA/1Al/TdQJCppld5LEc23HXGK
+ +x6XnupcOfT/CVfds9ioafLncVMPc625aQNei/Eh1CnL8S4DesOtzhw+6XMU8XegQm
+ fMTYsedpQPudNlUZXG7DsJATLXmN81M7Q7lpALOex9u3Y6ZJOCFXE7EP3F/ST08YUg
+ 44lr1OhjNcVqnUUSoILDds3j52KRPRgmyAPf+sfVj3BQ0lbIJhQUIbG2mO6iPCuxk/
+ NhfykZ4zU6cLg==
+To: Pekka Paalanen <ppaalanen@gmail.com>
+From: Simon Ser <contact@emersion.fr>
+Subject: Re: How should "max bpc" KMS property work?
+Message-ID: <LN_QB3Nb1GNVmbIVpDUJ4ZVnK3WVHlLKwEYxIqEMYJYc2BohK-7VrtEXJF7iDytYws4tiq2RnimS1QsqwERDdReixBshVTVzNyAMOcWsE3M=@emersion.fr>
+In-Reply-To: <20220428105017.75d9aefe@eldfell>
+References: <20220426113502.224d0a90@eldfell> <YmgyArRaJCh6JkQh@intel.com>
+ <20220427135259.5e615945@eldfell>
+ <4ceca4d9-c58c-9e33-36a6-dbf0c4bb82a7@amd.com>
+ <CA+hFU4ykm-8difozGJ5QtAYc=5RGQTUDiagBNmNccf06sGYGZQ@mail.gmail.com>
+ <20220428105017.75d9aefe@eldfell>
+Feedback-ID: 1358184:user:proton
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.8.0
-Subject: Re: [PATCH v2] drm/display: Select DP helper for DRM_DP_AUX_CHARDEV
- and DRM_DP_CEC
-To: Thomas Zimmermann <tzimmermann@suse.de>, linux-kernel@vger.kernel.org
-References: <20220427215528.237861-1-javierm@redhat.com>
- <46446e78-60a6-1b8c-1bb6-1c005489d58c@suse.de>
- <6f3b8d37-0a70-a035-e87b-5aa72926fff9@redhat.com>
- <af31d343-202b-ffaa-c6a9-b20247938dfd@suse.de>
-From: Javier Martinez Canillas <javierm@redhat.com>
-In-Reply-To: <af31d343-202b-ffaa-c6a9-b20247938dfd@suse.de>
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=javierm@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Language: en-US
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: quoted-printable
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -91,77 +51,58 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: David Airlie <airlied@linux.ie>, dri-devel@lists.freedesktop.org
+Reply-To: Simon Ser <contact@emersion.fr>
+Cc: Sebastian Wick <sebastian.wick@redhat.com>,
+ dri-devel <dri-devel@lists.freedesktop.org>,
+ =?utf-8?Q?Jonas_=C3=85dahl?= <jadahl@redhat.com>,
+ Vitaly Prosyak <vitaly.prosyak@amd.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 4/28/22 09:45, Thomas Zimmermann wrote:
+On Thursday, April 28th, 2022 at 09:50, Pekka Paalanen <ppaalanen@gmail.com=
+> wrote:
 
-[snip]
-
->>> You cannot select DISPLAY_DP_HELPER without DISPLAY_HELPER.
->>>
->>
->> That was my original thought as well and what did in v1, but then I noticed
->> that doing that it would force DRM_DISPLAY_HELPER to be set as built-in and
->> not allow to be built as a module.
-> 
-> It was a rhetorical only. I didn't mean to actually set DISPLAY_HELPER.
-> 
-
-Ah, sorry for misunderstanding.
-
->>   
->>> Can't you simply make it depend on DISPLAY_DP_HELPER.  The menu entry
->>> will show up as soon as there's a driver that selcets DISPLAY_DP_HELPER.
->>>
->>
->> I could but then that means that once won't be able to select these two config
->> options unless some enable symbol selects DRM_DISPLAY_DP_HELPER.
->>
->> In my opinion, DRM_DP_AUX_CHARDEV and DRM_DP_CEC are different than all other
->> options that select DRM_DISPLAY_DP_HELPER, since those are drivers and want to
->> have both DRM_DISPLAY_DP_HELPER and DRM_DISPLAY_HELPER set.
->>
->> But DRM_DP_AUX_CHARDEV and DRM_DP_CEC are just included in drm_display_helper.o
->> if enabled, and depend on symbols that are present if CONFIG_DRM_DISPLAY_DP_HELPER
->> is enabled. So just need the latter, if DRM_DISPLAY_HELPER is not enabled then it
->> will just be a no-op.
->>
->> Having written that though I noticed that a "depends on DRM_DISPLAY_HELPER" makes
->> sense. If you agree I can add it and post a v3.
-> 
-> Yes please.  These options enable features of the DP code. If there's no 
-> driver with DP, it doesn't make sense to allow them.
-> 
-> I know that there could be an odd situation where userspace might not 
-> have DP, but still wants the chardev file of aux bus.  But that 
-> situation existed already when the code was located within KMS helpers.
-> 
-
-Agreed.
-
->>
->> Now, pondering more about this issue, probably the most correct thing to do is for
->> the drivers that make use of the symbols exported by DRM_DP_{AUX_CHARDEV,CEC} to
->> select these. What do you think ?
-> 
-> That's not considered good style. Select should not be used for anything 
-> that is user-configurable. [1]
+> > > > Also like Alex said, the kernel does not know if the user prefers h=
+igh
+> > > > color depth or high refresh rate either. One way to solve that is t=
+o
+> > > > light up the requested video mode any way the kernel can, and then
+> > > > report what the resulting color depth is. Another way is to have
+> > > > explicit "use this bpc or fail" KMS property, maybe in the form of =
+'min
+> > > > bpc' as I recall being discussed in the past, and let userspace gue=
+ss
+> > > > what might work. The former is easier to light up, but probing requ=
+ires
+> > > > actually setting the modes. The latter may require a lot of
+> > > > trial-and-error from userspace to find anything that works, but it
+> > > > takes only time and not blinking - as far as things can be detected
+> > > > with TEST_ONLY commits. Then one still has to ask the user if it
+> > > > actually worked.
+> > >
+> > > min_bpc sounds like something we might want for HDR use-cases, unless
+> > > the compositor has a way to confirm the output box (and format). min_=
+bpc
+> > > would allow the KMS driver to pick the lowest required bpc so the
+> > > compositor always has a guarantee of quality.
+> >
+> > IMO that would be ideal. The driver should try to reduce bandwidth by l=
+owering
+> > the bpc down to the min_bpc if the hardware can't drive the selected mo=
+de at a
+> > higher bpc. User space usually knows which bpc is sufficient for the us=
+e case
+> > but will never complain about too much bpc. Drivers which don't support
+> > lowering the bpc dynamically can then still go with the min_bpc and use=
+r space
+> > still gets all the modes which work with the minimum required bpc.
 >
+>
+> This would be nice, yes.
+>
+> I'm fairly sure 'min bpc' was discussed here on the dri-devel mailing
+> list in the past, but I don't remember when or by whom.
 
-Right. So giving even more thought to this, now I think that we should just include
-drm_dp_aux_dev.o, drm_dp_cec.o (and probably drm_dp_aux_bus.o?) unconditionally to
-drm_display_helper-$(CONFIG_DRM_DISPLAY_DP_HELPER).
-
-After all, these are not big objects and drm_display_helper can now be built as module.
-
-I don't see that much value to have separate user-configurable config options...
-
--- 
-Best regards,
-
-Javier Martinez Canillas
-Linux Engineering
-Red Hat
-
+Yup. I explained there that I'd prefer "current bpc" + "user bpc" props
+and let user-space deal with the fallback logic just like it does for
+modes, modifiers, etc.
