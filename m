@@ -2,52 +2,43 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3E1245134D9
-	for <lists+dri-devel@lfdr.de>; Thu, 28 Apr 2022 15:19:11 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id B37295134DA
+	for <lists+dri-devel@lfdr.de>; Thu, 28 Apr 2022 15:19:52 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id F297710EB06;
-	Thu, 28 Apr 2022 13:19:08 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id B9C8E10E9E6;
+	Thu, 28 Apr 2022 13:19:50 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from foss.arm.com (foss.arm.com [217.140.110.172])
- by gabe.freedesktop.org (Postfix) with ESMTP id 56D7210EB06
- for <dri-devel@lists.freedesktop.org>; Thu, 28 Apr 2022 13:19:08 +0000 (UTC)
-Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
- by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id EF6831477;
- Thu, 28 Apr 2022 06:19:07 -0700 (PDT)
-Received: from [10.1.31.24] (e122027.cambridge.arm.com [10.1.31.24])
- by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id D568D3F73B;
- Thu, 28 Apr 2022 06:19:02 -0700 (PDT)
-Message-ID: <37dae9fa-dadf-4b80-fbea-689472fd7dce@arm.com>
-Date: Thu, 28 Apr 2022 14:19:00 +0100
+Received: from bhuna.collabora.co.uk (bhuna.collabora.co.uk [46.235.227.227])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 1883F10E9E6
+ for <dri-devel@lists.freedesktop.org>; Thu, 28 Apr 2022 13:19:49 +0000 (UTC)
+Received: from [127.0.0.1] (localhost [127.0.0.1])
+ (Authenticated sender: kholk11) with ESMTPSA id A8C9A1F4536D
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
+ s=mail; t=1651151987;
+ bh=Y6r9EqSsbh3Dq7eavxiGIUP0pwnIFPvRrJcfm6QBnE8=;
+ h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
+ b=HEe0sCPkAkBWKZhzzUzZdry5WIJSxY16gc5VTbcu1Iyil/jW5t1lblH6ZqHf2Lt8C
+ tiuM8VRrJwFmYeZkQN2rfaI6SPqlYGF6+1F2S2pOkpVBM8ovivkkJNQco9jS8F3BM5
+ 3YxtmrigFaC8xRHW1vhw9UdHMzkzmj7oiUTSvUD5ov/B/RhGRkOnZRIN4qOogvE6S2
+ Cxun4IVDrPxULNPup5cydHWqsrr61aCcOX208KEOdAfFsGonglKjlezDsgnTQpXH7i
+ sdlrxLr7Lw8QEkT/MmxCyRu6PrYFUEYJY5ou/byucvEqeX5chpKT/5PtuQF+m5UJdj
+ KTe6P5o2Fpz3Q==
+Message-ID: <88ddf1ba-9395-cd40-53f5-25d1d2f9ef9e@collabora.com>
+Date: Thu, 28 Apr 2022 15:19:44 +0200
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
  Thunderbird/91.7.0
-Subject: Re: [PATCH v5 01/17] drm/panfrost: Put mapping instead of shmem obj
- on panfrost_mmu_map_fault_addr() error
-Content-Language: en-GB
-To: Dmitry Osipenko <dmitry.osipenko@collabora.com>,
- David Airlie <airlied@linux.ie>, Gerd Hoffmann <kraxel@redhat.com>,
- Gurchetan Singh <gurchetansingh@chromium.org>, Chia-I Wu
- <olvaffe@gmail.com>, Daniel Vetter <daniel@ffwll.ch>,
- Daniel Almeida <daniel.almeida@collabora.com>,
- Gert Wollny <gert.wollny@collabora.com>,
- Gustavo Padovan <gustavo.padovan@collabora.com>,
- Daniel Stone <daniel@fooishbar.org>,
- Tomeu Vizoso <tomeu.vizoso@collabora.com>,
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>,
- Rob Herring <robh@kernel.org>,
- Alyssa Rosenzweig <alyssa.rosenzweig@collabora.com>,
- Rob Clark <robdclark@gmail.com>, Emil Velikov <emil.l.velikov@gmail.com>,
- Robin Murphy <robin.murphy@arm.com>, Qiang Yu <yuq825@gmail.com>,
- Sumit Semwal <sumit.semwal@linaro.org>,
- =?UTF-8?Q?Christian_K=c3=b6nig?= <christian.koenig@amd.com>
-References: <20220424190424.540501-1-dmitry.osipenko@collabora.com>
- <20220424190424.540501-2-dmitry.osipenko@collabora.com>
-From: Steven Price <steven.price@arm.com>
-In-Reply-To: <20220424190424.540501-2-dmitry.osipenko@collabora.com>
-Content-Type: text/plain; charset=UTF-8
+Subject: Re: [PATCH v4, 1/1] drm/mediatek: add lut diff flag for new gamma
+ hardware support
+Content-Language: en-US
+To: Yongqiang Niu <yongqiang.niu@mediatek.com>,
+ Chun-Kuang Hu <chunkuang.hu@kernel.org>
+References: <20220428085829.15855-1-yongqiang.niu@mediatek.com>
+ <20220428085829.15855-2-yongqiang.niu@mediatek.com>
+From: AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>
+In-Reply-To: <20220428085829.15855-2-yongqiang.niu@mediatek.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 7bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -61,41 +52,37 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Dmitry Osipenko <digetx@gmail.com>, linux-kernel@vger.kernel.org,
- dri-devel@lists.freedesktop.org, virtualization@lists.linux-foundation.org
+Cc: Yongqiang Niu <yongqiang.niu@mediatek.corp-partner.google.com>,
+ devicetree@vger.kernel.org, Project_Global_Chrome_Upstream_Group@mediatek.com,
+ David Airlie <airlied@linux.ie>, Jassi Brar <jassisinghbrar@gmail.com>,
+ linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
+ Dennis YC Hsieh <dennis-yc.hsieh@mediatek.com>,
+ Fabien Parent <fparent@baylibre.com>, Rob Herring <robh+dt@kernel.org>,
+ linux-mediatek@lists.infradead.org, Hsin-Yi Wang <hsinyi@chromium.org>,
+ Matthias Brugger <matthias.bgg@gmail.com>,
+ linux-arm-kernel@lists.infradead.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 24/04/2022 20:04, Dmitry Osipenko wrote:
-> When panfrost_mmu_map_fault_addr() fails, the BO's mapping should be
-> unreferenced and not the shmem object that backs that mapping.
+Il 28/04/22 10:58, Yongqiang Niu ha scritto:
+> From: Yongqiang Niu <yongqiang.niu@mediatek.corp-partner.google.com>
 > 
-> Cc: stable@vger.kernel.org
-> Signed-off-by: Dmitry Osipenko <dmitry.osipenko@collabora.com>
-
-Fixes: bdefca2d8dc0 ("drm/panfrost: Add the panfrost_gem_mapping concept")
-
-Reviewed-by: Steven Price <steven.price@arm.com>
-
-Thanks,
-
-Steve
-
-> ---
->  drivers/gpu/drm/panfrost/panfrost_mmu.c | 2 +-
->  1 file changed, 1 insertion(+), 1 deletion(-)
+> mt8183 gamma module usage is different with before soc,
+> gamma odd(index start from 0) lut value set to hardware
+> register should be
+> the difference of current lut value with last lut value.
 > 
-> diff --git a/drivers/gpu/drm/panfrost/panfrost_mmu.c b/drivers/gpu/drm/panfrost/panfrost_mmu.c
-> index d3f82b26a631..b285a8001b1d 100644
-> --- a/drivers/gpu/drm/panfrost/panfrost_mmu.c
-> +++ b/drivers/gpu/drm/panfrost/panfrost_mmu.c
-> @@ -518,7 +518,7 @@ static int panfrost_mmu_map_fault_addr(struct panfrost_device *pfdev, int as,
->  err_pages:
->  	drm_gem_shmem_put_pages(&bo->base);
->  err_bo:
-> -	drm_gem_object_put(&bo->base.base);
-> +	panfrost_gem_mapping_put(bomapping);
->  	return ret;
->  }
->  
+> for example, chrome os user space set lut
+> like this(only r chanel for example):
+> 2 4 6 8 10 12.
+> 1) mt8183 gamma driver should set the gamma lut to hardware
+> register like this:
+> 2 [2] 6 [2] 10 [2]
+> the value with [] is the difference value
+> 2)gamma hardware process display data with original lut
+> 
+> Signed-off-by: Yongqiang Niu <yongqiang.niu@mediatek.com>
+
+Reviewed-by: AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>
+
 
