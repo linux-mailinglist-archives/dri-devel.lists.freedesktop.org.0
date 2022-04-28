@@ -1,42 +1,42 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 79A7F5131AB
-	for <lists+dri-devel@lfdr.de>; Thu, 28 Apr 2022 12:54:34 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 2EBE05131BC
+	for <lists+dri-devel@lfdr.de>; Thu, 28 Apr 2022 12:55:32 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 4662810E927;
-	Thu, 28 Apr 2022 10:54:21 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 7726B10F847;
+	Thu, 28 Apr 2022 10:55:23 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mailgw02.mediatek.com (unknown [210.61.82.184])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 5F99D10E773
- for <dri-devel@lists.freedesktop.org>; Thu, 28 Apr 2022 10:54:18 +0000 (UTC)
-X-UUID: f7300bb10bfc4b5491ddfdf78aae4eed-20220428
+Received: from mailgw01.mediatek.com (unknown [60.244.123.138])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 74D3710E771
+ for <dri-devel@lists.freedesktop.org>; Thu, 28 Apr 2022 10:54:19 +0000 (UTC)
+X-UUID: 034ee50cf6cc4f489e879199b02dd65f-20220428
 X-CID-P-RULE: Release_Ham
-X-CID-O-INFO: VERSION:1.1.4, REQID:7d0dd636-a820-403b-858f-b6a8c3bd3cb8, OB:0,
- LO
- B:0,IP:0,URL:25,TC:0,Content:-20,EDM:0,RT:0,SF:95,FILE:0,RULE:Release_Ham,
- ACTION:release,TS:100
-X-CID-INFO: VERSION:1.1.4, REQID:7d0dd636-a820-403b-858f-b6a8c3bd3cb8, OB:0,
- LOB:
- 0,IP:0,URL:25,TC:0,Content:-20,EDM:0,RT:0,SF:95,FILE:0,RULE:Spam_GS981B3D,
- ACTION:quarantine,TS:100
-X-CID-META: VersionHash:faefae9, CLOUDID:6fed0a2f-6199-437e-8ab4-9920b4bc5b76,
+X-CID-O-INFO: VERSION:1.1.4, REQID:3a2c1fdb-fa43-4b6d-a50c-7c362df8fda0, OB:10,
+ L
+ OB:0,IP:0,URL:0,TC:0,Content:0,EDM:0,RT:0,SF:95,FILE:0,RULE:Release_Ham,AC
+ TION:release,TS:95
+X-CID-INFO: VERSION:1.1.4, REQID:3a2c1fdb-fa43-4b6d-a50c-7c362df8fda0, OB:10,
+ LOB
+ :0,IP:0,URL:0,TC:0,Content:0,EDM:0,RT:0,SF:95,FILE:0,RULE:Spam_GS981B3D,AC
+ TION:quarantine,TS:95
+X-CID-META: VersionHash:faefae9, CLOUDID:56fbd2c6-85ee-4ac1-ac05-bd3f1e72e732,
  C
  OID:7a1401192542,Recheck:0,SF:28|17|19|48,TC:nil,Content:0,EDM:-3,File:nil
  ,QS:0,BEC:nil
-X-UUID: f7300bb10bfc4b5491ddfdf78aae4eed-20220428
-Received: from mtkcas10.mediatek.inc [(172.21.101.39)] by mailgw02.mediatek.com
+X-UUID: 034ee50cf6cc4f489e879199b02dd65f-20220428
+Received: from mtkcas10.mediatek.inc [(172.21.101.39)] by mailgw01.mediatek.com
  (envelope-from <nancy.lin@mediatek.com>)
  (Generic MTA with TLSv1.2 ECDHE-RSA-AES256-SHA384 256/256)
- with ESMTP id 1869954493; Thu, 28 Apr 2022 18:54:12 +0800
-Received: from mtkmbs07n1.mediatek.inc (172.21.101.16) by
- mtkmbs10n1.mediatek.inc (172.21.101.34) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_CBC_SHA384) id
- 15.2.792.15; Thu, 28 Apr 2022 18:54:12 +0800
+ with ESMTP id 759593766; Thu, 28 Apr 2022 18:54:13 +0800
+Received: from MTKMBS07N2.mediatek.inc (172.21.101.141) by
+ mtkmbs10n2.mediatek.inc (172.21.101.183) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_CBC_SHA384) id 15.2.792.3; 
+ Thu, 28 Apr 2022 18:54:13 +0800
 Received: from mtkcas10.mediatek.inc (172.21.101.39) by
- mtkmbs07n1.mediatek.inc (172.21.101.16) with Microsoft SMTP Server (TLS) id
+ mtkmbs07n2.mediatek.inc (172.21.101.141) with Microsoft SMTP Server (TLS) id
  15.0.1497.2; Thu, 28 Apr 2022 18:54:11 +0800
 Received: from mtksdccf07.mediatek.inc (172.21.84.99) by mtkcas10.mediatek.inc
  (172.21.101.73) with Microsoft SMTP Server id 15.0.1497.2 via
@@ -46,10 +46,10 @@ To: Rob Herring <robh+dt@kernel.org>, Matthias Brugger
  <matthias.bgg@gmail.com>, Chun-Kuang Hu <chunkuang.hu@kernel.org>, "Philipp
  Zabel" <p.zabel@pengutronix.de>, <wim@linux-watchdog.org>, "AngeloGioacchino
  Del Regno" <angelogioacchino.delregno@collabora.com>, <linux@roeck-us.net>
-Subject: [PATCH v18 03/21] dt-bindings: mediatek: add ethdr definition for
- mt8195
-Date: Thu, 28 Apr 2022 18:53:50 +0800
-Message-ID: <20220428105408.11189-4-nancy.lin@mediatek.com>
+Subject: [PATCH v18 04/21] soc: mediatek: add mtk-mmsys support for mt8195
+ vdosys1
+Date: Thu, 28 Apr 2022 18:53:51 +0800
+Message-ID: <20220428105408.11189-5-nancy.lin@mediatek.com>
 X-Mailer: git-send-email 2.18.0
 In-Reply-To: <20220428105408.11189-1-nancy.lin@mediatek.com>
 References: <20220428105408.11189-1-nancy.lin@mediatek.com>
@@ -79,213 +79,205 @@ Cc: devicetree@vger.kernel.org,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Add vdosys1 ETHDR definition.
+Add mt8195 vdosys1 routing table to the driver data of mtk-mmsys.
 
 Signed-off-by: Nancy.Lin <nancy.lin@mediatek.com>
-Reviewed-by: Chun-Kuang Hu <chunkuang.hu@kernel.org>
 Reviewed-by: AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>
+Reviewed-by: Rex-BC Chen <rex-bc.chen@mediatek.com>
 ---
- .../display/mediatek/mediatek,ethdr.yaml      | 191 ++++++++++++++++++
- 1 file changed, 191 insertions(+)
- create mode 100644 Documentation/devicetree/bindings/display/mediatek/mediatek,ethdr.yaml
+ drivers/soc/mediatek/mt8195-mmsys.h    | 136 +++++++++++++++++++++++++
+ drivers/soc/mediatek/mtk-mmsys.c       |   2 +
+ include/linux/soc/mediatek/mtk-mmsys.h |   9 ++
+ 3 files changed, 147 insertions(+)
 
-diff --git a/Documentation/devicetree/bindings/display/mediatek/mediatek,ethdr.yaml b/Documentation/devicetree/bindings/display/mediatek/mediatek,ethdr.yaml
-new file mode 100644
-index 000000000000..65f22fba9fed
---- /dev/null
-+++ b/Documentation/devicetree/bindings/display/mediatek/mediatek,ethdr.yaml
-@@ -0,0 +1,191 @@
-+# SPDX-License-Identifier: (GPL-2.0-only OR BSD-2-Clause)
-+%YAML 1.2
-+---
-+$id: http://devicetree.org/schemas/display/mediatek/mediatek,ethdr.yaml#
-+$schema: http://devicetree.org/meta-schemas/core.yaml#
+diff --git a/drivers/soc/mediatek/mt8195-mmsys.h b/drivers/soc/mediatek/mt8195-mmsys.h
+index abfe94a30248..51031d75e81e 100644
+--- a/drivers/soc/mediatek/mt8195-mmsys.h
++++ b/drivers/soc/mediatek/mt8195-mmsys.h
+@@ -75,6 +75,70 @@
+ #define MT8195_SOUT_DSC_WRAP1_OUT_TO_SINA_VIRTUAL0		(2 << 16)
+ #define MT8195_SOUT_DSC_WRAP1_OUT_TO_VPP_MERGE			(3 << 16)
+ 
++#define MT8195_VDO1_VPP_MERGE0_P0_SEL_IN			0xf04
++#define MT8195_VPP_MERGE0_P0_SEL_IN_FROM_MDP_RDMA0			1
 +
-+title: MediaTek Ethdr Device Tree Bindings
++#define MT8195_VDO1_VPP_MERGE0_P1_SEL_IN			0xf08
++#define MT8195_VPP_MERGE0_P1_SEL_IN_FROM_MDP_RDMA1			1
 +
-+maintainers:
-+  - Chun-Kuang Hu <chunkuang.hu@kernel.org>
-+  - Philipp Zabel <p.zabel@pengutronix.de>
++#define MT8195_VDO1_DISP_DPI1_SEL_IN				0xf10
++#define MT8195_DISP_DPI1_SEL_IN_FROM_VPP_MERGE4_MOUT			0
 +
-+description:
-+  ETHDR is designed for HDR video and graphics conversion in the external display path.
-+  It handles multiple HDR input types and performs tone mapping, color space/color
-+  format conversion, and then combine different layers, output the required HDR or
-+  SDR signal to the subsequent display path. This engine is composed of two video
-+  frontends, two graphic frontends, one video backend and a mixer. ETHDR has two
-+  DMA function blocks, DS and ADL. These two function blocks read the pre-programmed
-+  registers from DRAM and set them to HW in the v-blanking period.
++#define MT8195_VDO1_DISP_DP_INTF0_SEL_IN			0xf14
++#define MT8195_DISP_DP_INTF0_SEL_IN_FROM_VPP_MERGE4_MOUT		0
 +
-+properties:
-+  compatible:
-+    items:
-+      - const: mediatek,mt8195-disp-ethdr
++#define MT8195_VDO1_MERGE4_SOUT_SEL				0xf18
++#define MT8195_MERGE4_SOUT_TO_DPI1_SEL					2
++#define MT8195_MERGE4_SOUT_TO_DP_INTF0_SEL				3
 +
-+  reg:
-+    maxItems: 7
++#define MT8195_VDO1_MIXER_IN1_SEL_IN				0xf24
++#define MT8195_MIXER_IN1_SEL_IN_FROM_MERGE0_ASYNC_SOUT			1
 +
-+  reg-names:
-+    items:
-+      - const: mixer
-+      - const: vdo_fe0
-+      - const: vdo_fe1
-+      - const: gfx_fe0
-+      - const: gfx_fe1
-+      - const: vdo_be
-+      - const: adl_ds
++#define MT8195_VDO1_MIXER_IN2_SEL_IN				0xf28
++#define MT8195_MIXER_IN2_SEL_IN_FROM_MERGE1_ASYNC_SOUT			1
 +
-+  interrupts:
-+    maxItems: 1
++#define MT8195_VDO1_MIXER_IN3_SEL_IN				0xf2c
++#define MT8195_MIXER_IN3_SEL_IN_FROM_MERGE2_ASYNC_SOUT			1
 +
-+  iommus:
-+    description: The compatible property is DMA function blocks.
-+      Should point to the respective IOMMU block with master port as argument,
-+      see Documentation/devicetree/bindings/iommu/mediatek,iommu.yaml for
-+      details.
-+    minItems: 1
-+    maxItems: 2
++#define MT8195_VDO1_MIXER_IN4_SEL_IN				0xf30
++#define MT8195_MIXER_IN4_SEL_IN_FROM_MERGE3_ASYNC_SOUT			1
 +
-+  clocks:
-+    items:
-+      - description: mixer clock
-+      - description: video frontend 0 clock
-+      - description: video frontend 1 clock
-+      - description: graphic frontend 0 clock
-+      - description: graphic frontend 1 clock
-+      - description: video backend clock
-+      - description: autodownload and menuload clock
-+      - description: video frontend 0 async clock
-+      - description: video frontend 1 async clock
-+      - description: graphic frontend 0 async clock
-+      - description: graphic frontend 1 async clock
-+      - description: video backend async clock
-+      - description: ethdr top clock
++#define MT8195_VDO1_MIXER_OUT_SOUT_SEL				0xf34
++#define MT8195_MIXER_SOUT_TO_MERGE4_ASYNC_SEL				1
 +
-+  clock-names:
-+    items:
-+      - const: mixer
-+      - const: vdo_fe0
-+      - const: vdo_fe1
-+      - const: gfx_fe0
-+      - const: gfx_fe1
-+      - const: vdo_be
-+      - const: adl_ds
-+      - const: vdo_fe0_async
-+      - const: vdo_fe1_async
-+      - const: gfx_fe0_async
-+      - const: gfx_fe1_async
-+      - const: vdo_be_async
-+      - const: ethdr_top
++#define MT8195_VDO1_VPP_MERGE1_P0_SEL_IN			0xf3c
++#define MT8195_VPP_MERGE1_P0_SEL_IN_FROM_MDP_RDMA2			1
 +
-+  power-domains:
-+    maxItems: 1
++#define MT8195_VDO1_MERGE0_ASYNC_SOUT_SEL			0xf40
++#define MT8195_SOUT_TO_MIXER_IN1_SEL					1
 +
-+  resets:
-+    items:
-+      - description: video frontend 0 async reset
-+      - description: video frontend 1 async reset
-+      - description: graphic frontend 0 async reset
-+      - description: graphic frontend 1 async reset
-+      - description: video backend async reset
++#define MT8195_VDO1_MERGE1_ASYNC_SOUT_SEL			0xf44
++#define MT8195_SOUT_TO_MIXER_IN2_SEL					1
 +
-+  reset-names:
-+    items:
-+      - const: vdo_fe0_async
-+      - const: vdo_fe1_async
-+      - const: gfx_fe0_async
-+      - const: gfx_fe1_async
-+      - const: vdo_be_async
++#define MT8195_VDO1_MERGE2_ASYNC_SOUT_SEL			0xf48
++#define MT8195_SOUT_TO_MIXER_IN3_SEL					1
 +
-+  mediatek,gce-client-reg:
-+    $ref: /schemas/types.yaml#/definitions/phandle-array
-+    description: The register of display function block to be set by gce.
-+      There are 4 arguments in this property, gce node, subsys id, offset and
-+      register size. The subsys id is defined in the gce header of each chips
-+      include/include/dt-bindings/gce/<chip>-gce.h, mapping to the register of
-+      display function block.
-+    items:
-+      items:
-+        - description: phandle of GCE
-+        - description: GCE subsys id
-+        - description: register offset
-+        - description: register size
-+    minItems: 7
-+    maxItems: 7
++#define MT8195_VDO1_MERGE3_ASYNC_SOUT_SEL			0xf4c
++#define MT8195_SOUT_TO_MIXER_IN4_SEL					1
 +
-+required:
-+  - compatible
-+  - reg
-+  - clocks
-+  - clock-names
-+  - interrupts
-+  - power-domains
-+  - resets
-+  - mediatek,gce-client-reg
++#define MT8195_VDO1_MERGE4_ASYNC_SEL_IN				0xf50
++#define MT8195_MERGE4_ASYNC_SEL_IN_FROM_MIXER_OUT_SOUT			1
 +
-+additionalProperties: false
++#define MT8195_VDO1_MIXER_IN1_SOUT_SEL				0xf58
++#define MT8195_MIXER_IN1_SOUT_TO_DISP_MIXER				0
 +
-+examples:
-+  - |
-+    #include <dt-bindings/interrupt-controller/arm-gic.h>
-+    #include <dt-bindings/clock/mt8195-clk.h>
-+    #include <dt-bindings/gce/mt8195-gce.h>
-+    #include <dt-bindings/memory/mt8195-memory-port.h>
-+    #include <dt-bindings/power/mt8195-power.h>
-+    #include <dt-bindings/reset/mt8195-resets.h>
++#define MT8195_VDO1_MIXER_IN2_SOUT_SEL				0xf5c
++#define MT8195_MIXER_IN2_SOUT_TO_DISP_MIXER				0
 +
-+    soc {
-+        #address-cells = <2>;
-+        #size-cells = <2>;
++#define MT8195_VDO1_MIXER_IN3_SOUT_SEL				0xf60
++#define MT8195_MIXER_IN3_SOUT_TO_DISP_MIXER				0
 +
-+        disp_ethdr@1c114000 {
-+                compatible = "mediatek,mt8195-disp-ethdr";
-+                reg = <0 0x1c114000 0 0x1000>,
-+                      <0 0x1c115000 0 0x1000>,
-+                      <0 0x1c117000 0 0x1000>,
-+                      <0 0x1c119000 0 0x1000>,
-+                      <0 0x1c11a000 0 0x1000>,
-+                      <0 0x1c11b000 0 0x1000>,
-+                      <0 0x1c11b000 0 0x1000>;
-+                reg-names = "mixer", "vdo_fe0", "vdo_fe1", "gfx_fe0", "gfx_fe1",
-+                            "vdo_be", "adl_ds";
-+                mediatek,gce-client-reg = <&gce0 SUBSYS_1c11XXXX 0x4000 0x1000>,
-+                                          <&gce0 SUBSYS_1c11XXXX 0x5000 0x1000>,
-+                                          <&gce0 SUBSYS_1c11XXXX 0x7000 0x1000>,
-+                                          <&gce0 SUBSYS_1c11XXXX 0x9000 0x1000>,
-+                                          <&gce0 SUBSYS_1c11XXXX 0xa000 0x1000>,
-+                                          <&gce0 SUBSYS_1c11XXXX 0xb000 0x1000>,
-+                                          <&gce0 SUBSYS_1c11XXXX 0xc000 0x1000>;
-+                clocks = <&vdosys1 CLK_VDO1_DISP_MIXER>,
-+                         <&vdosys1 CLK_VDO1_HDR_VDO_FE0>,
-+                         <&vdosys1 CLK_VDO1_HDR_VDO_FE1>,
-+                         <&vdosys1 CLK_VDO1_HDR_GFX_FE0>,
-+                         <&vdosys1 CLK_VDO1_HDR_GFX_FE1>,
-+                         <&vdosys1 CLK_VDO1_HDR_VDO_BE>,
-+                         <&vdosys1 CLK_VDO1_26M_SLOW>,
-+                         <&vdosys1 CLK_VDO1_HDR_VDO_FE0_DL_ASYNC>,
-+                         <&vdosys1 CLK_VDO1_HDR_VDO_FE1_DL_ASYNC>,
-+                         <&vdosys1 CLK_VDO1_HDR_GFX_FE0_DL_ASYNC>,
-+                         <&vdosys1 CLK_VDO1_HDR_GFX_FE1_DL_ASYNC>,
-+                         <&vdosys1 CLK_VDO1_HDR_VDO_BE_DL_ASYNC>,
-+                         <&topckgen CLK_TOP_ETHDR>;
-+                clock-names = "mixer", "vdo_fe0", "vdo_fe1", "gfx_fe0", "gfx_fe1",
-+                              "vdo_be", "adl_ds", "vdo_fe0_async", "vdo_fe1_async",
-+                              "gfx_fe0_async", "gfx_fe1_async","vdo_be_async",
-+                              "ethdr_top";
-+                power-domains = <&spm MT8195_POWER_DOMAIN_VDOSYS1>;
-+                iommus = <&iommu_vpp M4U_PORT_L3_HDR_DS>,
-+                         <&iommu_vpp M4U_PORT_L3_HDR_ADL>;
-+                interrupts = <GIC_SPI 517 IRQ_TYPE_LEVEL_HIGH 0>; /* disp mixer */
-+                resets = <&vdosys1 MT8195_VDOSYS1_SW1_RST_B_HDR_VDO_FE0_DL_ASYNC>,
-+                         <&vdosys1 MT8195_VDOSYS1_SW1_RST_B_HDR_VDO_FE1_DL_ASYNC>,
-+                         <&vdosys1 MT8195_VDOSYS1_SW1_RST_B_HDR_GFX_FE0_DL_ASYNC>,
-+                         <&vdosys1 MT8195_VDOSYS1_SW1_RST_B_HDR_GFX_FE1_DL_ASYNC>,
-+                         <&vdosys1 MT8195_VDOSYS1_SW1_RST_B_HDR_VDO_BE_DL_ASYNC>;
-+                reset-names = "vdo_fe0_async", "vdo_fe1_async", "gfx_fe0_async",
-+                              "gfx_fe1_async", "vdo_be_async";
-+        };
-+    };
-+...
++#define MT8195_VDO1_MIXER_IN4_SOUT_SEL				0xf64
++#define MT8195_MIXER_IN4_SOUT_TO_DISP_MIXER				0
++
++#define MT8195_VDO1_MIXER_SOUT_SEL_IN				0xf68
++#define MT8195_MIXER_SOUT_SEL_IN_FROM_DISP_MIXER			0
++
+ static const struct mtk_mmsys_routes mmsys_mt8195_routing_table[] = {
+ 	{
+ 		DDP_COMPONENT_OVL0, DDP_COMPONENT_RDMA0,
+@@ -364,6 +428,78 @@ static const struct mtk_mmsys_routes mmsys_mt8195_routing_table[] = {
+ 		DDP_COMPONENT_DSC1, DDP_COMPONENT_MERGE0,
+ 		MT8195_VDO0_SEL_OUT, MT8195_SOUT_DSC_WRAP1_OUT_TO_MASK,
+ 		MT8195_SOUT_DSC_WRAP1_OUT_TO_VPP_MERGE
++	}, {
++		DDP_COMPONENT_MDP_RDMA0, DDP_COMPONENT_MERGE1,
++		MT8195_VDO1_VPP_MERGE0_P0_SEL_IN, GENMASK(0, 0),
++		MT8195_VPP_MERGE0_P0_SEL_IN_FROM_MDP_RDMA0
++	}, {
++		DDP_COMPONENT_MDP_RDMA1, DDP_COMPONENT_MERGE1,
++		MT8195_VDO1_VPP_MERGE0_P1_SEL_IN, GENMASK(0, 0),
++		MT8195_VPP_MERGE0_P1_SEL_IN_FROM_MDP_RDMA1
++	}, {
++		DDP_COMPONENT_MDP_RDMA2, DDP_COMPONENT_MERGE2,
++		MT8195_VDO1_VPP_MERGE1_P0_SEL_IN, GENMASK(0, 0),
++		MT8195_VPP_MERGE1_P0_SEL_IN_FROM_MDP_RDMA2
++	}, {
++		DDP_COMPONENT_MERGE1, DDP_COMPONENT_ETHDR_MIXER,
++		MT8195_VDO1_MERGE0_ASYNC_SOUT_SEL, GENMASK(1, 0),
++		MT8195_SOUT_TO_MIXER_IN1_SEL
++	}, {
++		DDP_COMPONENT_MERGE2, DDP_COMPONENT_ETHDR_MIXER,
++		MT8195_VDO1_MERGE1_ASYNC_SOUT_SEL, GENMASK(1, 0),
++		MT8195_SOUT_TO_MIXER_IN2_SEL
++	}, {
++		DDP_COMPONENT_MERGE3, DDP_COMPONENT_ETHDR_MIXER,
++		MT8195_VDO1_MERGE2_ASYNC_SOUT_SEL, GENMASK(1, 0),
++		MT8195_SOUT_TO_MIXER_IN3_SEL
++	}, {
++		DDP_COMPONENT_MERGE4, DDP_COMPONENT_ETHDR_MIXER,
++		MT8195_VDO1_MERGE3_ASYNC_SOUT_SEL, GENMASK(1, 0),
++		MT8195_SOUT_TO_MIXER_IN4_SEL
++	}, {
++		DDP_COMPONENT_ETHDR_MIXER, DDP_COMPONENT_MERGE5,
++		MT8195_VDO1_MIXER_OUT_SOUT_SEL, GENMASK(0, 0),
++		MT8195_MIXER_SOUT_TO_MERGE4_ASYNC_SEL
++	}, {
++		DDP_COMPONENT_MERGE1, DDP_COMPONENT_ETHDR_MIXER,
++		MT8195_VDO1_MIXER_IN1_SEL_IN, GENMASK(0, 0),
++		MT8195_MIXER_IN1_SEL_IN_FROM_MERGE0_ASYNC_SOUT
++	}, {
++		DDP_COMPONENT_MERGE2, DDP_COMPONENT_ETHDR_MIXER,
++		MT8195_VDO1_MIXER_IN2_SEL_IN, GENMASK(0, 0),
++		MT8195_MIXER_IN2_SEL_IN_FROM_MERGE1_ASYNC_SOUT
++	}, {
++		DDP_COMPONENT_MERGE3, DDP_COMPONENT_ETHDR_MIXER,
++		MT8195_VDO1_MIXER_IN3_SEL_IN, GENMASK(0, 0),
++		MT8195_MIXER_IN3_SEL_IN_FROM_MERGE2_ASYNC_SOUT
++	}, {
++		DDP_COMPONENT_MERGE4, DDP_COMPONENT_ETHDR_MIXER,
++		MT8195_VDO1_MIXER_IN4_SEL_IN, GENMASK(0, 0),
++		MT8195_MIXER_IN4_SEL_IN_FROM_MERGE3_ASYNC_SOUT
++	}, {
++		DDP_COMPONENT_ETHDR_MIXER, DDP_COMPONENT_MERGE5,
++		MT8195_VDO1_MIXER_SOUT_SEL_IN, GENMASK(2, 0),
++		MT8195_MIXER_SOUT_SEL_IN_FROM_DISP_MIXER
++	}, {
++		DDP_COMPONENT_ETHDR_MIXER, DDP_COMPONENT_MERGE5,
++		MT8195_VDO1_MERGE4_ASYNC_SEL_IN, GENMASK(2, 0),
++		MT8195_MERGE4_ASYNC_SEL_IN_FROM_MIXER_OUT_SOUT
++	}, {
++		DDP_COMPONENT_MERGE5, DDP_COMPONENT_DPI1,
++		MT8195_VDO1_DISP_DPI1_SEL_IN, GENMASK(1, 0),
++		MT8195_DISP_DPI1_SEL_IN_FROM_VPP_MERGE4_MOUT
++	}, {
++		DDP_COMPONENT_MERGE5, DDP_COMPONENT_DPI1,
++		MT8195_VDO1_MERGE4_SOUT_SEL, GENMASK(1, 0),
++		MT8195_MERGE4_SOUT_TO_DPI1_SEL
++	}, {
++		DDP_COMPONENT_MERGE5, DDP_COMPONENT_DP_INTF1,
++		MT8195_VDO1_DISP_DP_INTF0_SEL_IN, GENMASK(1, 0),
++		MT8195_DISP_DP_INTF0_SEL_IN_FROM_VPP_MERGE4_MOUT
++	}, {
++		DDP_COMPONENT_MERGE5, DDP_COMPONENT_DP_INTF1,
++		MT8195_VDO1_MERGE4_SOUT_SEL, GENMASK(1, 0),
++		MT8195_MERGE4_SOUT_TO_DP_INTF0_SEL
+ 	}
+ };
+ 
+diff --git a/drivers/soc/mediatek/mtk-mmsys.c b/drivers/soc/mediatek/mtk-mmsys.c
+index 548efed8dc1c..03c75a82c8d3 100644
+--- a/drivers/soc/mediatek/mtk-mmsys.c
++++ b/drivers/soc/mediatek/mtk-mmsys.c
+@@ -146,6 +146,8 @@ static const struct mtk_mmsys_driver_data mt8195_vdosys0_driver_data = {
+ static const struct mtk_mmsys_driver_data mt8195_vdosys1_driver_data = {
+ 	.io_start = 0x1c100000,
+ 	.clk_driver = "clk-mt8195-vdo1",
++	.routes = mmsys_mt8195_routing_table,
++	.num_routes = ARRAY_SIZE(mmsys_mt8195_routing_table),
+ };
+ 
+ static const struct mtk_mmsys_match_data mt8195_mmsys_match_data = {
+diff --git a/include/linux/soc/mediatek/mtk-mmsys.h b/include/linux/soc/mediatek/mtk-mmsys.h
+index fb719fd1281c..b4388ba43341 100644
+--- a/include/linux/soc/mediatek/mtk-mmsys.h
++++ b/include/linux/soc/mediatek/mtk-mmsys.h
+@@ -28,7 +28,16 @@ enum mtk_ddp_comp_id {
+ 	DDP_COMPONENT_DSI1,
+ 	DDP_COMPONENT_DSI2,
+ 	DDP_COMPONENT_DSI3,
++	DDP_COMPONENT_ETHDR_MIXER,
+ 	DDP_COMPONENT_GAMMA,
++	DDP_COMPONENT_MDP_RDMA0,
++	DDP_COMPONENT_MDP_RDMA1,
++	DDP_COMPONENT_MDP_RDMA2,
++	DDP_COMPONENT_MDP_RDMA3,
++	DDP_COMPONENT_MDP_RDMA4,
++	DDP_COMPONENT_MDP_RDMA5,
++	DDP_COMPONENT_MDP_RDMA6,
++	DDP_COMPONENT_MDP_RDMA7,
+ 	DDP_COMPONENT_MERGE0,
+ 	DDP_COMPONENT_MERGE1,
+ 	DDP_COMPONENT_MERGE2,
 -- 
 2.18.0
 
