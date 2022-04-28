@@ -1,124 +1,63 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9152E512BC4
-	for <lists+dri-devel@lfdr.de>; Thu, 28 Apr 2022 08:41:43 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 1E108512C28
+	for <lists+dri-devel@lfdr.de>; Thu, 28 Apr 2022 09:02:41 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id A2D1E10E27C;
-	Thu, 28 Apr 2022 06:41:36 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 9D62910E345;
+	Thu, 28 Apr 2022 07:02:36 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from NAM04-MW2-obe.outbound.protection.outlook.com
- (mail-mw2nam08on2040.outbound.protection.outlook.com [40.107.101.40])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 637E810E27C
- for <dri-devel@lists.freedesktop.org>; Thu, 28 Apr 2022 06:41:35 +0000 (UTC)
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=OHOBeZRGvxuX2Mz3CWiybDgMpVKaj4ZO4Cn3bDqlPIMQjvZ9Q09Lkhm+vSxrhqeLzIx7uqdq9jYKzkW0xJunWeGQPY/Q8O4A2ersesLjY55OdD+tSJrUlqGokqC9sdOGTjgrKKxJnFZ0PVLljVFSgnwgKh+b7qZddzrB1Mc2fsGgg8KfzWAAxICOMsNgDVhV27tM4LjvtyZmOopj5wm4/NjTAE2Oih0r9el2Um5zFRLGpnAEVwo2OADDPDW4Iz65BgaKGJKtG0RMQLPu362TzUpOjDOnJfrlE+gYARZwLtOqrv733Hl9Kt+qQPoNRB8o09WW4yqsm3/pO/9Yj2Atdg==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=TtU2Q6mut1QeDI6sGageJjOQYbUbcncExj/wYTyawoQ=;
- b=HBn2V/t2HcLSJDTPPSGuph1uyjQVU3oBWVcuLX8N/Pk19vhdCa2kBZCfMRAFi5AUn+KQjfkiug4tQUDh6US5VZn5fwbxSGg9Zl/Hgwyu7+nCqCvJKskz46jFrkqA96THVT+kfKXVtb9nqAyJr7ZQdYhftbtvfURYLtuMFe4wapuUlxKlc90NkBF8m1IkxHt+6052DQRwQA6e8VHDLiKblU9yFCO/z8qu8ek7Vn72bhzwo4Lq6LjaNLBM0MIXkP5UGShzrTGLSWgQDJ+k2OVwcb4GuJ+wLgIza8sFbrrbHvMWWqh1td1O0JTXkfCYZRd13McONOMMOHr73pCXW4Ev2Q==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=amd.com; dmarc=pass action=none header.from=amd.com; dkim=pass
- header.d=amd.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1; 
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=TtU2Q6mut1QeDI6sGageJjOQYbUbcncExj/wYTyawoQ=;
- b=qN/Lz9+yYJ0tWu9istEFA+8LyZ1MRQ/4R3z88FNrqvkWbnw0Ek0MGGAq6CCtkVNyoVyvi8lMmF30Fd0MvCWptZHqChTLeNUCXwTeeGstRmYegZJORhda7IAHTi6jh/iBuFbxPjzhZuF97DI1tr2eepvJjNRTdqXNR4vR1YEietk=
-Authentication-Results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=amd.com;
-Received: from BN8PR12MB3587.namprd12.prod.outlook.com (2603:10b6:408:43::13)
- by CY4PR1201MB2471.namprd12.prod.outlook.com (2603:10b6:903:d0::10)
- with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.5186.18; Thu, 28 Apr
- 2022 06:41:33 +0000
-Received: from BN8PR12MB3587.namprd12.prod.outlook.com
- ([fe80::a5fb:7137:5e64:cf8]) by BN8PR12MB3587.namprd12.prod.outlook.com
- ([fe80::a5fb:7137:5e64:cf8%5]) with mapi id 15.20.5186.021; Thu, 28 Apr 2022
- 06:41:33 +0000
-Message-ID: <4bea78f5-2a09-55de-264a-aec9bc7c4678@amd.com>
-Date: Thu, 28 Apr 2022 08:41:28 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.7.0
-Subject: Re: [PATCH] drm: handle kernel fences in
- drm_gem_plane_helper_prepare_fb
-Content-Language: en-US
-To: Daniel Vetter <daniel@ffwll.ch>,
- =?UTF-8?Q?Christian_K=c3=b6nig?= <ckoenig.leichtzumerken@gmail.com>
-References: <20220421191002.2251-1-christian.koenig@amd.com>
- <YmlpViYhgZF3+EHE@phenom.ffwll.local>
-From: =?UTF-8?Q?Christian_K=c3=b6nig?= <christian.koenig@amd.com>
-In-Reply-To: <YmlpViYhgZF3+EHE@phenom.ffwll.local>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
-X-ClientProxiedBy: AM6PR02CA0006.eurprd02.prod.outlook.com
- (2603:10a6:20b:6e::19) To BN8PR12MB3587.namprd12.prod.outlook.com
- (2603:10b6:408:43::13)
+Received: from smtp-out2.suse.de (smtp-out2.suse.de [195.135.220.29])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id B120110E345
+ for <dri-devel@lists.freedesktop.org>; Thu, 28 Apr 2022 07:02:34 +0000 (UTC)
+Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+ key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
+ (No client certificate requested)
+ by smtp-out2.suse.de (Postfix) with ESMTPS id 2831D1F37F;
+ Thu, 28 Apr 2022 07:02:33 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+ t=1651129353; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+ mime-version:mime-version:content-type:content-type:
+ in-reply-to:in-reply-to:references:references;
+ bh=yv/GAIx/8nETe4kCc4L+SSgXvQ1n5epRd4fqCoWrYmc=;
+ b=dYe3x0GhIPZUxYzZbcTFFZ1VHjZHgMKRNndSeEd8Q8mupCdL0wWgX439hmAFWveOFpTFdj
+ mu63IwYtdrbXJJGOZALoZgoApGOq9flonip7Ot4yUp1g97jHw511Y/ULpiOqxOtPj8my6I
+ DdO9QK5hbSEtFLP2k6RFS7Zm6ebhgHs=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+ s=susede2_ed25519; t=1651129353;
+ h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+ mime-version:mime-version:content-type:content-type:
+ in-reply-to:in-reply-to:references:references;
+ bh=yv/GAIx/8nETe4kCc4L+SSgXvQ1n5epRd4fqCoWrYmc=;
+ b=zctHkSC7I1dtYLurWhPSL97e6MapO2UTCMWlvoXyikxIFXl6yg8xvQ7T0zH/rS0bPs8RuF
+ ckciGSUzvIwsYMCw==
+Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+ key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
+ (No client certificate requested)
+ by imap2.suse-dmz.suse.de (Postfix) with ESMTPS id 0079E13A8C;
+ Thu, 28 Apr 2022 07:02:32 +0000 (UTC)
+Received: from dovecot-director2.suse.de ([192.168.254.65])
+ by imap2.suse-dmz.suse.de with ESMTPSA id BkiiOgg8amJKXQAAMHmgww
+ (envelope-from <tzimmermann@suse.de>); Thu, 28 Apr 2022 07:02:32 +0000
+Message-ID: <46446e78-60a6-1b8c-1bb6-1c005489d58c@suse.de>
+Date: Thu, 28 Apr 2022 09:02:32 +0200
 MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-Office365-Filtering-Correlation-Id: c92d94eb-445c-4451-f1ec-08da28e2225e
-X-MS-TrafficTypeDiagnostic: CY4PR1201MB2471:EE_
-X-Microsoft-Antispam-PRVS: <CY4PR1201MB2471A8CD8154ACCAFB8E9D1C83FD9@CY4PR1201MB2471.namprd12.prod.outlook.com>
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: of+McYLkgqH3oDRLiJj6OBtga/1c0hup0JM8j0hvkXPFajecFABEhImIKZkiU7JHeFp0MHYhjwK6fleAO54Jyqi+1HsaPR51K1IIW2m0cpB8jOpvnNn+/I268bsaEnzio2pJtybaeB2Wz7VGuk1pTvutjdNFoIFgI/+MhmBtiA+Xg6Hcz1nlHqBg4xXD0PbaDIO98+FLqWXSD6T8P7+tTu87gbFSA4kyLwQS0z1gMhra/13tnn6QJVrROdmkMLLWTwXVxgGXS7bYJQxwMsgYN4wh8RijlQpLCoK+vSxE7nhjyr+6AMUyl+oixDDfxk+etqkFBw0aGCoYoFJYS9VytlzHkqSA5Ae21+VN5RkO8IQqrlTaPpVaOkM+/UmOKsszNF9UqTpS/zOo4pTzhI1QEIMZVE1YBZ54sFIT9ZmEKuyWLEydo2rMXOdax4qGjVMXA1Ler3fD/0A9VNDX4+kNNPnqC82KrF0pTttnDwrE5uLq9/zHgLfg8+q64qfbH23fyZV9UqShyF0o6hC6v+fW+idPsjDnZ6iylLcfRZcBHMEDTN5PE+Ramj/6W8YFwWR+O4ny4qpk4wurpS+1Gau0K+zCbtVOYolClm+EdYJbIhzjBkGQzty2PGgR02+GdpwtEMS4FMafjgZm92mGtD42GAMl4syWhIua2Lzr6IUyvJJGg4jAhWm9Jq98s1Gr7OB3u4w9iJ5Yde3APzek7//HNxDH3K/nmoSQ3479/i0uBZRV+5R3kYS6ASnfNMCgxOkT
-X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
- IPV:NLI; SFV:NSPM; H:BN8PR12MB3587.namprd12.prod.outlook.com; PTR:; CAT:NONE;
- SFS:(13230001)(4636009)(366004)(26005)(8936002)(6506007)(6512007)(2616005)(6666004)(36756003)(66574015)(5660300002)(83380400001)(31686004)(186003)(110136005)(2906002)(8676002)(316002)(508600001)(66476007)(66556008)(4326008)(38100700002)(86362001)(66946007)(6486002)(31696002)(45980500001)(43740500002);
- DIR:OUT; SFP:1101; 
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: =?utf-8?B?bjZCWGowTWhySzR0dk1PeG93Z3ViUk5wNFlQUmZEd2lUY09OVTFhckNlYVJo?=
- =?utf-8?B?ckdYRlRvdlFmd2dpNUhXL2wxM0ZNamVBL0NMRTlpNkxQeXJzSHJ3R3NwbG1K?=
- =?utf-8?B?Y3FDbjJUMXJJU2ZRUWlVRFZoYkZzRkNTamY1NVV3c2JBeDVBZFFFcmhzL0ps?=
- =?utf-8?B?c3lRZnNaUVp2Rm9QekEydjBMRkllMG5nUnIyYnFhTXRBMDk5WkhyWmVwUi9y?=
- =?utf-8?B?a21yNThHdWRvdmNOV0hYbEV2OHE0cGFHVWdwejJmMFJtR21QR1V3QmE1Mkdh?=
- =?utf-8?B?WDhjTmdsVTl6QnZISEFJb0hHSDdVT3dkUktTa0trN21idGpwNGY0aEI2RVlW?=
- =?utf-8?B?Mm1JT01aQzJia1VQUkdsWVIwcEdFckVHWjd5dFF6cXZZN1dBRzFQVlY0dXN1?=
- =?utf-8?B?eG0rZzRBTG5Tb3dSdmhNZEZlbHB1U3EydUx3Vks0Uy9GZVhlR21wNlJuMGFL?=
- =?utf-8?B?NmVSQnF5MWF3YmRraGFQZ2pVdXlpMjl0M0lXSW1lMythNHpVVVVtU0Iwam9r?=
- =?utf-8?B?VlBSeHpQYmpvL09XR0RuZEFZMUh5U2hWOFBvKzg5WGVTQkxMQWU4MGZLS1V0?=
- =?utf-8?B?MnJ6MmYvdzRFWFc2MjRmekxjWTB4VmIyaG1oUGMwaEd3MlRWWWx1YTBsenBm?=
- =?utf-8?B?UGdBZjVNL2MyVHFKdDQ5Y1Bsc3JYaXE3bkM2cDU1bnlKR1BPWUFPcFhZSEFH?=
- =?utf-8?B?cEdBbFZQbjc5V3dFMmRFd0x3N1Z4dk5KRW5FTmIyeUgxUkdGYTdpZnZYckt1?=
- =?utf-8?B?MjB4dDhzZGpwVm8yM2RZUkoyRml0YkpVZjZtZmZwRDIzQy9CTnhGcUN5d1pC?=
- =?utf-8?B?UVpwZ3psVHpKaTBwWGt3SWdZaEpXNTlmWVAzRHpOdXBRVXpGM29VSEVnNWg5?=
- =?utf-8?B?bUpRMjJQSy9Cd08xMnEydi8xcEUwLzV4QmRzNStEaHhKU2tMSFBVUkpRVmVN?=
- =?utf-8?B?aUY3cDRTcWd1ODlsYmF0bDJGVFB5cHVmZUdsdjNoUmluRnEyWmZ0bGgxdWpJ?=
- =?utf-8?B?QklRR2U0empWVzdkSE5WTUg3OVk1bnFROGlNMHo0Sm1uNmNLU2ZNSnhPSDVi?=
- =?utf-8?B?VmYwcU44S05mY3FhT0pKRTJJQ3o3T2lVQTdhRXFSeTlUS3RDc2FaaTViREFQ?=
- =?utf-8?B?NFQwbmV0MlU1VW9lUXFlSVRIMWc2OVMyLzkrVjBrREFyYmU1MjFPYTNjNWlO?=
- =?utf-8?B?VUlGRUk4VGZKMU1lYnNtZDZlbWsrRVZzVHJwZW02TlZ5SGJtbERqMGorVmg2?=
- =?utf-8?B?VmxRSll6UlVIL00yRzRHcHl3Qmh5ZWNKdWEydGJkU2pWV1FyTG4rTlIyenhm?=
- =?utf-8?B?WUFTSUZIdFRoYWg1ODVxSTllTHhSLzJHTExZOEZoMWRIZGxERURoTlBPendY?=
- =?utf-8?B?ZU5hRGxsZS8wa2VqNlM1UitXeTcyRnc0Zm5iTXhlb3RQSTVEQ3A0VGJvdHM4?=
- =?utf-8?B?NTdMNXU2SFhzVGVlYU4yZ25FYW8wcEg0MXNyaW1adnVPMGNrNlJ5VTdGUFlO?=
- =?utf-8?B?cUxQVUJtQWZqMjdrditiZHNXbEdpWXE3ZjJtSUpMbnJ4WXJMZHdRZEFIVWZX?=
- =?utf-8?B?eTZUK1NjNDQrODFnTVMrSzJlSGpHMVhYRHA0ZHFpSGNLQWtBeFQ2eHNzdDcr?=
- =?utf-8?B?UllrakswVWZ0MFJtQWhiRWVPeUp5LzRqa3c0bTcxVWhhTWZzeXNyMmZ1VFJD?=
- =?utf-8?B?ak1tNTNOMEJpMXM0aHdFc3NtTW5iV1JUbWZObEFTQWF4M01salhnM1EwcmVa?=
- =?utf-8?B?S2kxTEtMNEdCTnk0SUErbTA4MFc1bzRJeWxkaUhkVkdDaGdVYmQvZkRUK00v?=
- =?utf-8?B?L3grY0lkaTFrSG8xWWZBakF2VTFHQ2tDZmwvdVRRQWpVdFFvczlRQ0VZaHAw?=
- =?utf-8?B?OHQyb3daY0FMaUpua2lRNENkZEZaSFMvemVacjI5aW1Yb1NoUnBVT2J5ekox?=
- =?utf-8?B?YmVnT3NSajBqN0VNdlVqRXRCWWNQRlAwanYvdXIvM0UxMS84VU1OL09vUkZ6?=
- =?utf-8?B?UGxaQnYyVm5qOFEvc2hvQUEydUJHUDF2cWpPNG5qQ2ZhVXdqVytmdUFmNWVQ?=
- =?utf-8?B?S1B3cG5jeHhTZElyVWpvcDZmZWpQd1BNMGo4bjlucVRSQ1VuWHhmRlB3VGl4?=
- =?utf-8?B?RGNzLzJwWEQrVUw5VytzV0NKZnEvOUJjdVRoczZmUjIzVkRUaUZCbTRQUnRy?=
- =?utf-8?B?a2VrZVdudWNsV3hEU2ZCQVRTL2VuTmQ3MWE0Qkl0dVFTSWY4Z0JHYU91YUM2?=
- =?utf-8?B?dU9MTmxBSTZEWVRmMithV2VGV1NaZUs2OFhjQnp3NWVMVlcwTHRCRGRQdWVy?=
- =?utf-8?B?U1pOei9IR0U2L2pDZ3YrZmpOQ1RYdk9nR2FsdHJlTE9ZdldsMDBjQT09?=
-X-OriginatorOrg: amd.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: c92d94eb-445c-4451-f1ec-08da28e2225e
-X-MS-Exchange-CrossTenant-AuthSource: BN8PR12MB3587.namprd12.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 28 Apr 2022 06:41:33.1807 (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: w1v9BJ+x/uECVNtR0JwYe5FSS220ZmeW29TpcgRRDMaKRHh0ilLbEamgP+MGsYi5
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: CY4PR1201MB2471
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.8.1
+Subject: Re: [PATCH v2] drm/display: Select DP helper for DRM_DP_AUX_CHARDEV
+ and DRM_DP_CEC
+Content-Language: en-US
+To: Javier Martinez Canillas <javierm@redhat.com>, linux-kernel@vger.kernel.org
+References: <20220427215528.237861-1-javierm@redhat.com>
+From: Thomas Zimmermann <tzimmermann@suse.de>
+In-Reply-To: <20220427215528.237861-1-javierm@redhat.com>
+Content-Type: multipart/signed; micalg=pgp-sha256;
+ protocol="application/pgp-signature";
+ boundary="------------fWDwLqO6HwfernA4whKEzwFE"
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -131,237 +70,115 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: dri-devel@lists.freedesktop.org
+Cc: David Airlie <airlied@linux.ie>, dri-devel@lists.freedesktop.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Am 27.04.22 um 18:03 schrieb Daniel Vetter:
-> On Thu, Apr 21, 2022 at 09:10:02PM +0200, Christian König wrote:
->> drm_gem_plane_helper_prepare_fb() was using
->> drm_atomic_set_fence_for_plane() which ignores all implicit fences when an
->> explicit fence is already set. That's rather unfortunate when the fb still
->> has a kernel fence we need to wait for to avoid presenting garbage on the
->> screen.
->>
->> So instead update the fence in the plane state directly. While at it also
->> take care of all potential GEM objects and not just the first one.
->>
->> Also remove the now unused drm_atomic_set_fence_for_plane() function, new
->> drivers should probably use the atomic helpers directly.
->>
->> Signed-off-by: Christian König <christian.koenig@amd.com>
-> Is this enough to have amdgpu (and well others using ttm) fully rely on
-> this for atomic kms updates? Anything to clean up there? Would be neat to
-> include that in this series too if there's anything.
+This is an OpenPGP/MIME signed message (RFC 4880 and 3156)
+--------------fWDwLqO6HwfernA4whKEzwFE
+Content-Type: multipart/mixed; boundary="------------UvUZ02dQorqjjUjIPmecZju0";
+ protected-headers="v1"
+From: Thomas Zimmermann <tzimmermann@suse.de>
+To: Javier Martinez Canillas <javierm@redhat.com>,
+ linux-kernel@vger.kernel.org
+Cc: Lyude Paul <lyude@redhat.com>, Jani Nikula <jani.nikula@linux.intel.com>,
+ Daniel Vetter <daniel@ffwll.ch>, David Airlie <airlied@linux.ie>,
+ dri-devel@lists.freedesktop.org
+Message-ID: <46446e78-60a6-1b8c-1bb6-1c005489d58c@suse.de>
+Subject: Re: [PATCH v2] drm/display: Select DP helper for DRM_DP_AUX_CHARDEV
+ and DRM_DP_CEC
+References: <20220427215528.237861-1-javierm@redhat.com>
+In-Reply-To: <20220427215528.237861-1-javierm@redhat.com>
 
-At least I strongly think so. I just haven't removed the 
-dma_resv_wait_timeout() from amdgpu_dm_commit_planes() because that is 
-simply not code I'm very familiar with.
+--------------UvUZ02dQorqjjUjIPmecZju0
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: base64
 
->> ---
->>   drivers/gpu/drm/drm_atomic_uapi.c       | 37 ---------------
->>   drivers/gpu/drm/drm_gem_atomic_helper.c | 63 +++++++++++++++++++++----
->>   include/drm/drm_atomic_uapi.h           |  2 -
->>   include/drm/drm_plane.h                 |  4 +-
->>   4 files changed, 54 insertions(+), 52 deletions(-)
->>
->> diff --git a/drivers/gpu/drm/drm_atomic_uapi.c b/drivers/gpu/drm/drm_atomic_uapi.c
->> index c6394ba13b24..0f461261b3f3 100644
->> --- a/drivers/gpu/drm/drm_atomic_uapi.c
->> +++ b/drivers/gpu/drm/drm_atomic_uapi.c
->> @@ -254,43 +254,6 @@ drm_atomic_set_fb_for_plane(struct drm_plane_state *plane_state,
->>   }
->>   EXPORT_SYMBOL(drm_atomic_set_fb_for_plane);
->>   
->> -/**
->> - * drm_atomic_set_fence_for_plane - set fence for plane
->> - * @plane_state: atomic state object for the plane
->> - * @fence: dma_fence to use for the plane
->> - *
->> - * Helper to setup the plane_state fence in case it is not set yet.
->> - * By using this drivers doesn't need to worry if the user choose
->> - * implicit or explicit fencing.
->> - *
->> - * This function will not set the fence to the state if it was set
->> - * via explicit fencing interfaces on the atomic ioctl. In that case it will
->> - * drop the reference to the fence as we are not storing it anywhere.
->> - * Otherwise, if &drm_plane_state.fence is not set this function we just set it
->> - * with the received implicit fence. In both cases this function consumes a
->> - * reference for @fence.
->> - *
->> - * This way explicit fencing can be used to overrule implicit fencing, which is
->> - * important to make explicit fencing use-cases work: One example is using one
->> - * buffer for 2 screens with different refresh rates. Implicit fencing will
->> - * clamp rendering to the refresh rate of the slower screen, whereas explicit
->> - * fence allows 2 independent render and display loops on a single buffer. If a
->> - * driver allows obeys both implicit and explicit fences for plane updates, then
->> - * it will break all the benefits of explicit fencing.
->> - */
->> -void
->> -drm_atomic_set_fence_for_plane(struct drm_plane_state *plane_state,
->> -			       struct dma_fence *fence)
-> I was a bit on the fence with ditching this, but the only offender not
-> using the prepare_fb helpers is i915, and so just more reasons that i915
-> needs to get off its hand-rolled atomic code with its own funky dependency
-> handling and everything.
+SGkNCg0KQW0gMjcuMDQuMjIgdW0gMjM6NTUgc2NocmllYiBKYXZpZXIgTWFydGluZXogQ2Fu
+aWxsYXM6DQo+IFRoZSBEUk1fRFBfQVVYX0NIQVJERVYgYW5kIERSTV9EUF9DRUMgS2NvbmZp
+ZyBzeW1ib2xzIGVuYWJsZSBjb2RlIHRoYXQgdXNlDQo+IERQIGhlbHBlciBmdW5jdGlvbnMs
+IHRoYXQgYXJlIG9ubHkgcHJlc2VudCBpZiBDT05GSUdfRFJNX0RJU1BMQVlfRFBfSEVMUEVS
+DQo+IGlzIGFsc28gZW5hYmxlZC4NCj4gDQo+IEJ1dCB0aGVzZSBkb24ndCBzZWxlY3QgdGhl
+IERSTV9ESVNQTEFZX0RQX0hFTFBFUiBzeW1ib2wsIG1lYW5pbmcgdGhhdCBpdA0KPiBpcyBw
+b3NzaWJsZSB0byBlbmFibGUgYW55IG9mIHRoZW0gd2l0aG91dCBDT05GSUdfRFJNX0RJU1BM
+QVlfRFBfSEVMUEVSLg0KPiANCj4gVGhhdCB3aWxsIGxlYWQgdG8gdGhlIGZvbGxvd2luZyBs
+aW5raW5nIGVycm9ycyB3aXRoIHRoZSBtZW50aW9uZWQgY29uZmlnOg0KPiANCj4gICAgTEQg
+ICAgICB2bWxpbnV4Lm8NCj4gICAgTU9EUE9TVCB2bWxpbnV4LnN5bXZlcnMNCj4gICAgTU9E
+SU5GTyBtb2R1bGVzLmJ1aWx0aW4ubW9kaW5mbw0KPiAgICBHRU4gICAgIG1vZHVsZXMuYnVp
+bHRpbg0KPiAgICBMRCAgICAgIC50bXBfdm1saW51eC5rYWxsc3ltczENCj4gICAgS1NZTVMg
+ICAudG1wX3ZtbGludXgua2FsbHN5bXMxLlMNCj4gICAgQVMgICAgICAudG1wX3ZtbGludXgu
+a2FsbHN5bXMxLlMNCj4gICAgTEQgICAgICAudG1wX3ZtbGludXgua2FsbHN5bXMyDQo+ICAg
+IEtTWU1TICAgLnRtcF92bWxpbnV4LmthbGxzeW1zMi5TDQo+ICAgIEFTICAgICAgLnRtcF92
+bWxpbnV4LmthbGxzeW1zMi5TDQo+ICAgIExEICAgICAgdm1saW51eA0KPiAgICBTWVNNQVAg
+IFN5c3RlbS5tYXANCj4gICAgU09SVFRBQiB2bWxpbnV4DQo+ICAgIE9CSkNPUFkgYXJjaC9h
+cm02NC9ib290L0ltYWdlDQo+ICAgIE1PRFBPU1QgbW9kdWxlcy1vbmx5LnN5bXZlcnMNCj4g
+RVJST1I6IG1vZHBvc3Q6ICJkcm1fZHBfZHBjZF93cml0ZSIgW2RyaXZlcnMvZ3B1L2RybS9k
+aXNwbGF5L2RybV9kaXNwbGF5X2hlbHBlci5rb10gdW5kZWZpbmVkIQ0KPiBFUlJPUjogbW9k
+cG9zdDogImRybV9kcF9yZWFkX2Rlc2MiIFtkcml2ZXJzL2dwdS9kcm0vZGlzcGxheS9kcm1f
+ZGlzcGxheV9oZWxwZXIua29dIHVuZGVmaW5lZCENCj4gRVJST1I6IG1vZHBvc3Q6ICJkcm1f
+ZHBfZHBjZF9yZWFkIiBbZHJpdmVycy9ncHUvZHJtL2Rpc3BsYXkvZHJtX2Rpc3BsYXlfaGVs
+cGVyLmtvXSB1bmRlZmluZWQhDQo+IG1ha2VbMV06ICoqKiBbc2NyaXB0cy9NYWtlZmlsZS5t
+b2Rwb3N0OjEzNDogbW9kdWxlcy1vbmx5LnN5bXZlcnNdIEVycm9yIDENCj4gbWFrZVsxXTog
+KioqIERlbGV0aW5nIGZpbGUgJ21vZHVsZXMtb25seS5zeW12ZXJzJw0KPiBtYWtlOiAqKiog
+W01ha2VmaWxlOjE3NDk6IG1vZHVsZXNdIEVycm9yIDINCj4gDQo+IE5vdGU6IEl0IHNlZW1z
+IHRoaXMgaGFzIGJlZW4gYW4gaXNzdWUgZm9yIGEgbG9uZyB0aW1lIGJ1dCB3YXMgbWFkZSBl
+YXNpZXINCj4gdG8gcmVwcm9kdWNlIGFmdGVyIHRoZSBjb21taXQgMWUwZjY2NDIwYjEzICgi
+ZHJtL2Rpc3BsYXk6IEludHJvZHVjZSBhIERSTQ0KPiBkaXNwbGF5LWhlbHBlciBtb2R1bGUi
+KS4gQWRkaW5nIGEgRml4ZXM6IHRhZyBqdXN0IHRvIG1ha2Ugc3VyZSB0aGF0IHRoaXMNCj4g
+Zml4IHdpbGwgYmUgcGlja2VkIGZvciBzdGFibGUgb25jZSB0aGUgbWVudGlvbmVkIGNoYW5n
+ZSBhbHNvIGxhbmRzIHRoZXJlLg0KPiANCj4gRml4ZXM6IDFlMGY2NjQyMGIxMyAoImRybS9k
+aXNwbGF5OiBJbnRyb2R1Y2UgYSBEUk0gZGlzcGxheS1oZWxwZXIgbW9kdWxlIikNCj4gU2ln
+bmVkLW9mZi1ieTogSmF2aWVyIE1hcnRpbmV6IENhbmlsbGFzIDxqYXZpZXJtQHJlZGhhdC5j
+b20+DQo+IC0tLQ0KPiANCj4gQ2hhbmdlcyBpbiB2MjoNCj4gLSBFeHBsYWluIGJldHRlciB0
+aGUgaXNzdWUgaW4gdGhlIGNoYW5nZSBkZXNjcmlwdGlvbi4NCj4gLSBPbmx5IHNlbGVjdCBE
+Uk1fRElTUExBWV9EUF9IRUxQRVIgYW5kIG5vdCBEUk1fRElTUExBWV9IRUxQRVIuDQo+IA0K
+PiAgIGRyaXZlcnMvZ3B1L2RybS9kaXNwbGF5L0tjb25maWcgfCAyICsrDQo+ICAgMSBmaWxl
+IGNoYW5nZWQsIDIgaW5zZXJ0aW9ucygrKQ0KPiANCj4gZGlmZiAtLWdpdCBhL2RyaXZlcnMv
+Z3B1L2RybS9kaXNwbGF5L0tjb25maWcgYi9kcml2ZXJzL2dwdS9kcm0vZGlzcGxheS9LY29u
+ZmlnDQo+IGluZGV4IGY4NGYxYjBjZDIzZi4uOWZlODBjNGU1NTVjIDEwMDY0NA0KPiAtLS0g
+YS9kcml2ZXJzL2dwdS9kcm0vZGlzcGxheS9LY29uZmlnDQo+ICsrKyBiL2RyaXZlcnMvZ3B1
+L2RybS9kaXNwbGF5L0tjb25maWcNCj4gQEAgLTMyLDYgKzMyLDcgQEAgY29uZmlnIERSTV9E
+SVNQTEFZX0hETUlfSEVMUEVSDQo+ICAgY29uZmlnIERSTV9EUF9BVVhfQ0hBUkRFVg0KPiAg
+IAlib29sICJEUk0gRFAgQVVYIEludGVyZmFjZSINCj4gICAJZGVwZW5kcyBvbiBEUk0NCj4g
+KwlzZWxlY3QgRFJNX0RJU1BMQVlfRFBfSEVMUEVSDQoNCllvdSBjYW5ub3Qgc2VsZWN0IERJ
+U1BMQVlfRFBfSEVMUEVSIHdpdGhvdXQgRElTUExBWV9IRUxQRVIuDQoNCkNhbid0IHlvdSBz
+aW1wbHkgbWFrZSBpdCBkZXBlbmQgb24gRElTUExBWV9EUF9IRUxQRVIuICBUaGUgbWVudSBl
+bnRyeSANCndpbGwgc2hvdyB1cCBhcyBzb29uIGFzIHRoZXJlJ3MgYSBkcml2ZXIgdGhhdCBz
+ZWxjZXRzIERJU1BMQVlfRFBfSEVMUEVSLg0KDQpCZXN0IHJlZ2FyZHMNClRob21hcw0KDQo+
+ICAgCWhlbHANCj4gICAJICBDaG9vc2UgdGhpcyBvcHRpb24gdG8gZW5hYmxlIGEgL2Rldi9k
+cm1fZHBfYXV4TiBub2RlIHRoYXQgYWxsb3dzIHRvDQo+ICAgCSAgcmVhZCBhbmQgd3JpdGUg
+dmFsdWVzIHRvIGFyYml0cmFyeSBEUENEIHJlZ2lzdGVycyBvbiB0aGUgRFAgYXV4DQo+IEBA
+IC00MCw2ICs0MSw3IEBAIGNvbmZpZyBEUk1fRFBfQVVYX0NIQVJERVYNCj4gICBjb25maWcg
+RFJNX0RQX0NFQw0KPiAgIAlib29sICJFbmFibGUgRGlzcGxheVBvcnQgQ0VDLVR1bm5lbGlu
+Zy1vdmVyLUFVWCBIRE1JIHN1cHBvcnQiDQo+ICAgCWRlcGVuZHMgb24gRFJNDQo+ICsJc2Vs
+ZWN0IERSTV9ESVNQTEFZX0RQX0hFTFBFUg0KPiAgIAlzZWxlY3QgQ0VDX0NPUkUNCj4gICAJ
+aGVscA0KPiAgIAkgIENob29zZSB0aGlzIG9wdGlvbiBpZiB5b3Ugd2FudCB0byBlbmFibGUg
+SERNSSBDRUMgc3VwcG9ydCBmb3INCg0KLS0gDQpUaG9tYXMgWmltbWVybWFubg0KR3JhcGhp
+Y3MgRHJpdmVyIERldmVsb3Blcg0KU1VTRSBTb2Z0d2FyZSBTb2x1dGlvbnMgR2VybWFueSBH
+bWJIDQpNYXhmZWxkc3RyLiA1LCA5MDQwOSBOw7xybmJlcmcsIEdlcm1hbnkNCihIUkIgMzY4
+MDksIEFHIE7DvHJuYmVyZykNCkdlc2Now6RmdHNmw7xocmVyOiBJdm8gVG90ZXYNCg==
 
-Yeah, agree totally. amdgpu should now also work out of the box, I just 
-didn't dared to actually enable it in the same patch.
+--------------UvUZ02dQorqjjUjIPmecZju0--
 
->
->> -{
->> -	if (plane_state->fence) {
->> -		dma_fence_put(fence);
->> -		return;
->> -	}
->> -
->> -	plane_state->fence = fence;
->> -}
->> -EXPORT_SYMBOL(drm_atomic_set_fence_for_plane);
->> -
->>   /**
->>    * drm_atomic_set_crtc_for_connector - set CRTC for connector
->>    * @conn_state: atomic state object for the connector
->> diff --git a/drivers/gpu/drm/drm_gem_atomic_helper.c b/drivers/gpu/drm/drm_gem_atomic_helper.c
->> index a6d89aed0bda..8fc0b42acdff 100644
->> --- a/drivers/gpu/drm/drm_gem_atomic_helper.c
->> +++ b/drivers/gpu/drm/drm_gem_atomic_helper.c
->> @@ -1,6 +1,7 @@
->>   // SPDX-License-Identifier: GPL-2.0-or-later
->>   
->>   #include <linux/dma-resv.h>
->> +#include <linux/dma-fence-chain.h>
->>   
->>   #include <drm/drm_atomic_state_helper.h>
->>   #include <drm/drm_atomic_uapi.h>
->> @@ -141,25 +142,67 @@
->>    * See drm_atomic_set_fence_for_plane() for a discussion of implicit and
-> You forgot to update the kerneldoc here, and also the reference to the
-> same function in the IN_FENCE_FD.
->
-> I think it'd be best to put a reference to that DOC: section here, and
-> adjust the uapi property doc to just state that the explicit fence will
-> overrule implicit sync. And then maybe also mention here that USAGE_KERNEL
-> fences are still obeyed.
->
-> With these changes (which should make sure that all references to
-> drm_atomic_set_fence_for_plane() are truly gone) this is
->
-> Reviewed-by: Daniel Vetter <daniel.vetter@ffwll.ch>
+--------------fWDwLqO6HwfernA4whKEzwFE
+Content-Type: application/pgp-signature; name="OpenPGP_signature.asc"
+Content-Description: OpenPGP digital signature
+Content-Disposition: attachment; filename="OpenPGP_signature"
 
-Ok, going to update the doc and push this if nobody objects.
+-----BEGIN PGP SIGNATURE-----
 
-Thanks,
-Christian.
+wsF5BAABCAAjFiEExndm/fpuMUdwYFFolh/E3EQov+AFAmJqPAgFAwAAAAAACgkQlh/E3EQov+BG
+xQ/+JwljMIuuALeoCzPPjawd7nDTJj/mORV1W7b6JwFTAsQHHnvzPLOPUpTkPKx9noMpN/hGH64P
+oNhTFSz8ZYaOnI2KjKUejbq4n6l8XayijZZqOYNAC5HIBaeLe2Bpo87CDBQG3VV5xDW9DPQ9PyFE
+lf28sIEhyuT/TOcMd7AYRuUtundTRUEKLkeCzyelzFjtRJFI5S8U00eIRbVJPNJkAWSDXZ1fuO3w
+Pad68Ki3AxZMJCECRwq1zkRsWSxEzE2h5rNWowrwgR4Fma2VmqYZcQwVxDkOPbm+6TbWGIC9tqSW
+AaqPx1cwW4aAnCEyWtTVFCcGN910nug7BUqovWYmhv/AGls69Y4QjvdiJcOD0V5W4Gy6mM2A47an
+qJoWNEkUUedhCeQWAgPUttCB0Ouo71vmFqa0l12k4kd+CxpKXMG0UdpN6/teii4W5t3k1t4RTQO6
+iQy8zgFU9vF1xLUsfn/TtDdYsbRIgOUnr/iWoQMZQFCbOi1qgu6apnGtPkEZE+ySV1qxHK5ClGui
+tDB9KvfsGdkWvIji/mD/L80CCiu8a+5KW3AR5EyrPnvRieq0mV70Ok8tJE+MP5dUEOafD4Fq5/U/
+M4eyVFs82qrOwoNvPfiqXLESZWMCAjhLGgqogazqumC3bSNMMpPGmEonLAXtqsVLOGOQQKu7BoQF
+Zmo=
+=0UbS
+-----END PGP SIGNATURE-----
 
->
->
->
->>    * explicit fencing in atomic modeset updates.
->>    */
->> -int drm_gem_plane_helper_prepare_fb(struct drm_plane *plane, struct drm_plane_state *state)
->> +int drm_gem_plane_helper_prepare_fb(struct drm_plane *plane,
->> +				    struct drm_plane_state *state)
->>   {
->> +	struct dma_fence *fence = dma_fence_get(state->fence);
->>   	struct drm_gem_object *obj;
->> -	struct dma_fence *fence;
->> +	enum dma_resv_usage usage;
->> +	size_t i;
->>   	int ret;
->>   
->>   	if (!state->fb)
->>   		return 0;
->>   
->> -	obj = drm_gem_fb_get_obj(state->fb, 0);
->> -	ret = dma_resv_get_singleton(obj->resv, DMA_RESV_USAGE_WRITE, &fence);
->> -	if (ret)
->> -		return ret;
->> -
->> -	/* TODO: drm_atomic_set_fence_for_plane() should be changed to be able
->> -	 * to handle more fences in general for multiple BOs per fb.
->> +	/*
->> +	 * Only add the kernel fences here if there is already a fence set via
->> +	 * explicit fencing interfaces on the atomic ioctl.
->> +	 *
->> +	 * This way explicit fencing can be used to overrule implicit fencing,
->> +	 * which is important to make explicit fencing use-cases work: One
->> +	 * example is using one buffer for 2 screens with different refresh
->> +	 * rates. Implicit fencing will clamp rendering to the refresh rate of
->> +	 * the slower screen, whereas explicit fence allows 2 independent
->> +	 * render and display loops on a single buffer. If a driver allows
->> +	 * obeys both implicit and explicit fences for plane updates, then it
->> +	 * will break all the benefits of explicit fencing.
->>   	 */
->> -	drm_atomic_set_fence_for_plane(state, fence);
->> +	usage = fence ? DMA_RESV_USAGE_KERNEL : DMA_RESV_USAGE_WRITE;
->> +
->> +	for (i = 0; i < ARRAY_SIZE(state->fb->obj); ++i) {
->> +		struct dma_fence *new;
->> +
->> +		obj = drm_gem_fb_get_obj(state->fb, i);
->> +		if (!obj)
->> +			continue;
->> +
->> +		ret = dma_resv_get_singleton(obj->resv, usage, &new);
->> +		if (ret)
->> +			goto error;
->> +
->> +		if (new && fence) {
->> +			struct dma_fence_chain *chain = dma_fence_chain_alloc();
->> +
->> +			if (!chain) {
->> +				ret = -ENOMEM;
->> +				goto error;
->> +			}
->> +
->> +			dma_fence_chain_init(chain, fence, new, 1);
->> +			fence = &chain->base;
->> +
->> +		} else if (new) {
->> +			fence = new;
->> +		}
->> +	}
->> +
->> +	dma_fence_put(state->fence);
->> +	state->fence = fence;
->>   	return 0;
->> +
->> +error:
->> +	dma_fence_put(fence);
->> +	return ret;
->>   }
->>   EXPORT_SYMBOL_GPL(drm_gem_plane_helper_prepare_fb);
->>   
->> diff --git a/include/drm/drm_atomic_uapi.h b/include/drm/drm_atomic_uapi.h
->> index 8cec52ad1277..4c6d39d7bdb2 100644
->> --- a/include/drm/drm_atomic_uapi.h
->> +++ b/include/drm/drm_atomic_uapi.h
->> @@ -49,8 +49,6 @@ drm_atomic_set_crtc_for_plane(struct drm_plane_state *plane_state,
->>   			      struct drm_crtc *crtc);
->>   void drm_atomic_set_fb_for_plane(struct drm_plane_state *plane_state,
->>   				 struct drm_framebuffer *fb);
->> -void drm_atomic_set_fence_for_plane(struct drm_plane_state *plane_state,
->> -				    struct dma_fence *fence);
->>   int __must_check
->>   drm_atomic_set_crtc_for_connector(struct drm_connector_state *conn_state,
->>   				  struct drm_crtc *crtc);
->> diff --git a/include/drm/drm_plane.h b/include/drm/drm_plane.h
->> index 2628c7cde2da..89ea54652e87 100644
->> --- a/include/drm/drm_plane.h
->> +++ b/include/drm/drm_plane.h
->> @@ -74,9 +74,7 @@ struct drm_plane_state {
->>   	 *
->>   	 * Optional fence to wait for before scanning out @fb. The core atomic
->>   	 * code will set this when userspace is using explicit fencing. Do not
->> -	 * write this field directly for a driver's implicit fence, use
->> -	 * drm_atomic_set_fence_for_plane() to ensure that an explicit fence is
->> -	 * preserved.
->> +	 * write this field directly for a driver's implicit fence.
->>   	 *
->>   	 * Drivers should store any implicit fence in this from their
->>   	 * &drm_plane_helper_funcs.prepare_fb callback. See drm_gem_plane_helper_prepare_fb()
->> -- 
->> 2.25.1
->>
-
+--------------fWDwLqO6HwfernA4whKEzwFE--
